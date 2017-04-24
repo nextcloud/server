@@ -183,7 +183,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		app.firstExperimental = firstExperimental;
 
 		if (!app.preview) {
-			app.preview = OC.imagePath('core', 'filetypes/image');
+			app.preview = OC.imagePath('core', 'places/default-app-icon');
 			app.previewAsIcon = true;
 		}
 
@@ -235,9 +235,16 @@ OC.Settings.Apps = OC.Settings.Apps || {
 			currentImage.src = app.preview;
 
 			currentImage.onload = function() {
-				page.find('.app-image')
-					.append(OC.Settings.Apps.imageUrl(app.preview, app.fromAppStore))
-					.removeClass('icon-loading');
+				/* Trigger color inversion for placeholder image too */
+				if(app.previewAsIcon) {
+					page.find('.app-image')
+						.append(OC.Settings.Apps.imageUrl(app.preview, false))
+						.removeClass('icon-loading');
+				} else {
+					page.find('.app-image')
+						.append(OC.Settings.Apps.imageUrl(app.preview, app.fromAppStore))
+						.removeClass('icon-loading');
+				}
 			};
 		}
 
