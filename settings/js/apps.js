@@ -237,7 +237,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 			currentImage.onload = function() {
 				page.find('.app-image')
 					.append(OC.Settings.Apps.imageUrl(app.preview, app.fromAppStore))
-					.fadeIn();
+					.removeClass('icon-loading');
 			};
 		}
 
