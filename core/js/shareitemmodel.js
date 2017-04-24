@@ -179,6 +179,10 @@
 				url: this._getUrl('shares'),
 				data: attributes,
 				dataType: 'json'
+			}).always(function() {
+				if (_.isFunction(options.complete)) {
+					options.complete(self);
+				}
 			}).done(function() {
 				self.fetch().done(function() {
 					if (_.isFunction(options.success)) {
