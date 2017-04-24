@@ -476,7 +476,7 @@
 		_getContacts: function(searchTerm) {
 			var url = OC.generateUrl('/contactsmenu/contacts');
 			return Promise.resolve($.ajax(url, {
-				method: 'GET',
+				method: 'POST',
 				data: {
 					filter: searchTerm
 				}
