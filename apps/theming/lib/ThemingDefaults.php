@@ -144,10 +144,10 @@ class ThemingDefaults extends \OC_Defaults {
 		$cacheBusterCounter = $this->config->getAppValue('theming', 'cachebuster', '0');
 
 		if(!$logo || !$logoExists) {
-			return $this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core','logo.svg') . '?v=' . $cacheBusterCounter);
+			return $this->urlGenerator->imagePath('core','logo.svg') . '?v=' . $cacheBusterCounter;
 		}
 
-		return $this->urlGenerator->linkToRouteAbsolute('theming.Theming.getLogo') . '?v=' . $cacheBusterCounter;
+		return $this->urlGenerator->linkToRoute('theming.Theming.getLogo') . '?v=' . $cacheBusterCounter;
 	}
 
 	/**
@@ -169,7 +169,7 @@ class ThemingDefaults extends \OC_Defaults {
 			return $this->urlGenerator->imagePath('core','background.jpg');
 		}
 
-		return $this->urlGenerator->linkToRouteAbsolute('theming.Theming.getLoginBackground');
+		return $this->urlGenerator->linkToRoute('theming.Theming.getLoginBackground');
 	}
 
 
@@ -186,8 +186,8 @@ class ThemingDefaults extends \OC_Defaults {
 			'theming-cachebuster' => "'" . $this->config->getAppValue('theming', 'cachebuster', '0') . "'",
 		];
 
-		$variables['image-logo'] = "'".$this->getLogo()."'";
-		$variables['image-login-background'] = "'".$this->getBackground()."'";
+		$variables['image-logo'] = "'".$this->urlGenerator->getAbsoluteURL($this->getLogo())."'";
+		$variables['image-login-background'] = "'".$this->urlGenerator->getAbsoluteURL($this->getBackground())."'";
 
 		if ($this->config->getAppValue('theming', 'color', null) !== null) {
 			if ($this->util->invertTextColor($this->getColorPrimary())) {
