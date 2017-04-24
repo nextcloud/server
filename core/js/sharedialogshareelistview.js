@@ -408,7 +408,7 @@
 				var shareId = parseInt(this._menuOpen, 10);
 				if(!_.isNaN(shareId)) {
 					var liSelector = 'li[data-share-id=' + shareId + ']';
-					OC.showMenu(null, this.$(liSelector + ' .popovermenu'));
+					OC.showMenu(null, this.$(liSelector + '.sharingOptionsGroup .popovermenu'));
 				}
 			}
 
@@ -485,7 +485,7 @@
 			event.stopPropagation();
 			var $element = $(event.target);
 			var $li = $element.closest('li[data-share-id]');
-			var $menu = $li.find('.popovermenu');
+			var $menu = $li.find('.sharingOptionsGroup .popovermenu');
 
 			OC.showMenu(null, $menu);
 			this._menuOpen = $li.data('share-id');
