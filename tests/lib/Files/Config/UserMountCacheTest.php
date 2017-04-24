@@ -47,6 +47,7 @@ class UserMountCacheTest extends TestCase {
 		$userBackend = new Dummy();
 		$userBackend->createUser('u1', '');
 		$userBackend->createUser('u2', '');
+		$userBackend->createUser('u3', '');
 		$this->userManager->registerBackend($userBackend);
 		$this->cache = new \OC\Files\Config\UserMountCache($this->connection, $this->userManager, $this->createMock(Log::class));
 	}
@@ -211,6 +212,7 @@ class UserMountCacheTest extends TestCase {
 	public function testGetMountsForUser() {
 		$user1 = $this->userManager->get('u1');
 		$user2 = $this->userManager->get('u2');
+		$user3 = $this->userManager->get('u3');
 
 		list($storage1, $id1) = $this->getStorage(1);
 		list($storage2, $id2) = $this->getStorage(2);
@@ -219,8 +221,11 @@ class UserMountCacheTest extends TestCase {
 
 		$this->cache->registerMounts($user1, [$mount1, $mount2]);
 		$this->cache->registerMounts($user2, [$mount2]);
+		$this->cache->registerMounts($user3, [$mount2]);
 
 		$this->clearCache();
+
+		$user3->delete();
 
 		$cachedMounts = $this->cache->getMountsForUser($user1);
 
@@ -234,6 +239,9 @@ class UserMountCacheTest extends TestCase {
 		$this->assertEquals($user1, $cachedMounts[1]->getUser());
 		$this->assertEquals($id2, $cachedMounts[1]->getRootId());
 		$this->assertEquals(2, $cachedMounts[1]->getStorageId());
+
+		$cachedMounts = $this->cache->getMountsForUser($user3);
+		$this->assertEmpty($cachedMounts);
 	}
 
 	public function testGetMountsByStorageId() {
@@ -430,5 +438,21 @@ class UserMountCacheTest extends TestCase {
 		$cachedMounts = $this->cache->getMountsForFileId($fileId);
 
 		$this->assertCount(0, $cachedMounts);
+	}
+
+
+	public function testGetMountsForFileIdDeletedUser() {
+		$user1 = $this->userManager->get('u1');
+
+		list($storage1, $rootId) = $this->getStorage(2);
+		$rootId = $this->createCacheEntry('', 2);
+		$mount1 = new MountPoint($storage1, '/foo/');
+		$this->cache->registerMounts($user1, [$mount1]);
+
+		$user1->delete();
+		$this->clearCache();
+
+		$cachedMounts = $this->cache->getMountsForFileId($rootId);
+		$this->assertEmpty($cachedMounts);
 	}
 }
