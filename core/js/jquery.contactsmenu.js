@@ -90,8 +90,8 @@
 		});
 
 		$(document).click(function(event) {
-			var clickedList = $.contains($list, event.target);
-			var clickedTarget = $.contains($div, event.target);
+			var clickedList = ($list.has(event.target).length > 0);
+			var clickedTarget = ($div.has(event.target).length > 0);
 
 			$div.each(function() {
 				if ($(this).is(event.target)) {
