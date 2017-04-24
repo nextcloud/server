@@ -169,7 +169,7 @@ class ThemingDefaults extends \OC_Defaults {
 			return $this->urlGenerator->imagePath('core','background.jpg');
 		}
 
-		return $this->urlGenerator->linkToRoute('theming.Theming.getLoginBackground');
+		return $this->urlGenerator->linkToRouteAbsolute('theming.Theming.getLoginBackground');
 	}
 
 

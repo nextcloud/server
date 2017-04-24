@@ -421,26 +421,17 @@ class ThemingDefaultsTest extends TestCase {
 	public function testGetBackgroundCustom() {
 		$folder = $this->createMock(ISimpleFolder::class);
 		$file = $this->createMock(ISimpleFile::class);
-		$folder->expects($this->once())->method('getFile')->willReturn($file);
+		$folder->expects($this->once())
+			->method('getFile')
+			->willReturn($file);
 		$this->appData->expects($this->once())
 			->method('getFolder')
 			->willReturn($folder);
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
-			->with('theming', 'backgroundMime')
+			->with('theming', 'backgroundMime', false)
 			->willReturn('image/svg+xml');
-		$simpleFolder = $this->createMock(ISimpleFolder::class);
-		$this->appData
-			->expects($this->once())
-			->method('getFolder')
-			->with('images')
-			->willReturn($simpleFolder);
-		$simpleFolder
-			->expects($this->once())
-			->method('getFile')
-			->with('background')
-			->willReturn('');
 		$expected = $this->urlGenerator->linkToRouteAbsolute('theming.Theming.getLoginBackground');
 		$this->assertEquals($expected, $this->template->getBackground());
 	}
@@ -471,31 +462,22 @@ class ThemingDefaultsTest extends TestCase {
 	public function testGetLogoCustom() {
 		$folder = $this->createMock(ISimpleFolder::class);
 		$file = $this->createMock(ISimpleFile::class);
-		$folder->expects($this->once())->method('getFile')->willReturn($file);
+		$folder->expects($this->once())
+			->method('getFile')
+			->willReturn($file);
 		$this->appData->expects($this->once())
 			->method('getFolder')
 			->willReturn($folder);
 		$this->config
 			->expects($this->at(0))
 			->method('getAppValue')
-			->with('theming', 'logoMime')
+			->with('theming', 'logoMime', false)
 			->willReturn('image/svg+xml');
 		$this->config
 			->expects($this->at(1))
 			->method('getAppValue')
 			->with('theming', 'cachebuster', '0')
 			->willReturn('0');
-		$simpleFolder = $this->createMock(ISimpleFolder::class);
-		$this->appData
-			->expects($this->once())
-			->method('getFolder')
-			->with('images')
-			->willReturn($simpleFolder);
-		$simpleFolder
-			->expects($this->once())
-			->method('getFile')
-			->with('logo')
-			->willReturn('');
 		$expected = $this->urlGenerator->getAbsoluteURL('index.php/apps/theming/logo') . '?v=0';
 		$this->assertEquals($expected, $this->template->getLogo());
 	}
@@ -508,10 +490,11 @@ class ThemingDefaultsTest extends TestCase {
 	public function testGetScssVariables() {
 		$this->config->expects($this->at(0))->method('getAppValue')->with('theming', 'cachebuster', '0')->willReturn('0');
 		$this->config->expects($this->at(1))->method('getAppValue')->with('theming', 'logoMime', false)->willReturn('jpeg');
-		$this->config->expects($this->at(2))->method('getAppValue')->with('theming', 'backgroundMime', false)->willReturn('jpeg');
-		$this->config->expects($this->at(3))->method('getAppValue')->with('theming', 'color', null)->willReturn('#000000');
-		$this->config->expects($this->at(4))->method('getAppValue')->with('theming', 'color', '#000')->willReturn('#000000');
+		$this->config->expects($this->at(2))->method('getAppValue')->with('theming', 'cachebuster', '0')->willReturn('0');
+		$this->config->expects($this->at(3))->method('getAppValue')->with('theming', 'backgroundMime', false)->willReturn('jpeg');
+		$this->config->expects($this->at(4))->method('getAppValue')->with('theming', 'color', null)->willReturn('#000000');
 		$this->config->expects($this->at(5))->method('getAppValue')->with('theming', 'color', '#000')->willReturn('#000000');
+		$this->config->expects($this->at(6))->method('getAppValue')->with('theming', 'color', '#000')->willReturn('#000000');
 
 		$this->util->expects($this->any())->method('invertTextColor')->with('#000000')->willReturn(false);
 		$this->cache->expects($this->once())->method('get')->with('getScssVariables')->willReturn(null);
