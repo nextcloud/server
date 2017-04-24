@@ -28,7 +28,6 @@
 namespace OC\AppFramework;
 
 use OC\AppFramework\Http\Dispatcher;
-use OC_App;
 use OC\AppFramework\DependencyInjection\DIContainer;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\QueryException;

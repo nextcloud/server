@@ -23,11 +23,6 @@
 namespace OCA\DAV\Command;
 
 use OCA\DAV\CardDAV\CardDavBackend;
-use OCA\DAV\Connector\Sabre\Principal;
-use OCP\IConfig;
-use OCP\IDBConnection;
-use OCP\IGroupManager;
-use OCP\ILogger;
 use OCP\IUserManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;

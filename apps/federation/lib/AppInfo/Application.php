@@ -24,17 +24,13 @@
 
 namespace OCA\Federation\AppInfo;
 
-use OCA\Federation\API\OCSAuthAPI;
 use OCA\Federation\Controller\SettingsController;
 use OCA\Federation\DAV\FedAuth;
 use OCA\Federation\DbHandler;
 use OCA\Federation\Hooks;
 use OCA\Federation\Middleware\AddServerMiddleware;
 use OCA\Federation\SyncFederationAddressBooks;
-use OCA\Federation\SyncJob;
 use OCA\Federation\TrustedServers;
-use OCP\API;
-use OCP\App;
 use OCP\AppFramework\IAppContainer;
 use OCP\SabrePluginEvent;
 use OCP\Util;

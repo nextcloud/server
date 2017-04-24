@@ -26,7 +26,6 @@
 
 namespace OCP\AppFramework;
 
-use OCP\AppFramework\IApi;
 use OCP\IContainer;
 
 /**

@@ -29,7 +29,6 @@ use OCA\DAV\CardDAV\Converter;
 use OCP\IDBConnection;
 use OCP\IImage;
 use OCP\IUser;
-use OpenCloud\ObjectStore\Resource\Account;
 use PHPUnit_Framework_MockObject_MockObject;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Test\TestCase;

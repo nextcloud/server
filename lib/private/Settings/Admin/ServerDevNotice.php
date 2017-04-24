@@ -22,16 +22,7 @@
  */
 namespace OC\Settings\Admin;
 
-use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\DBALException;
-use Doctrine\DBAL\Platforms\SqlitePlatform;
-use OC\Lock\DBLockingProvider;
-use OC\Lock\NoopLockingProvider;
 use OCP\AppFramework\Http\TemplateResponse;
-use OCP\IConfig;
-use OCP\IDBConnection;
-use OCP\IL10N;
-use OCP\Lock\ILockingProvider;
 use OCP\Settings\ISettings;
 
 class ServerDevNotice implements ISettings {

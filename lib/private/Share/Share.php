@@ -43,7 +43,6 @@
 namespace OC\Share;
 
 use OC\Files\Filesystem;
-use OCA\FederatedFileSharing\DiscoveryManager;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\ILogger;
 use OCP\IUserManager;

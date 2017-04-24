@@ -24,7 +24,6 @@
 
 namespace OCA\Files_Trashbin\BackgroundJob;
 
-use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCA\Files_Trashbin\AppInfo\Application;

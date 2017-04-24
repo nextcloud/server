@@ -23,7 +23,6 @@
 namespace OCA\Testing\Locking;
 
 use OC\Lock\DBLockingProvider;
-use OC\Lock\MemcacheLockingProvider;
 use OC\User\NoUserException;
 use OCP\AppFramework\Http;
 use OCP\Files\NotFoundException;

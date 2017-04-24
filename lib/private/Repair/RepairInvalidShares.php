@@ -27,7 +27,6 @@ namespace OC\Repair;
 
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
-use Doctrine\DBAL\Platforms\OraclePlatform;
 
 /**
  * Repairs shares with invalid data

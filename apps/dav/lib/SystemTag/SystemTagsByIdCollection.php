@@ -27,13 +27,11 @@ use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\ICollection;
-
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\TagNotFoundException;
 use OCP\IGroupManager;
 use OCP\IUserSession;
-use OC\User\NoUserException;
 
 class SystemTagsByIdCollection implements ICollection {
 

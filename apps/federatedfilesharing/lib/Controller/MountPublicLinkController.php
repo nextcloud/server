@@ -29,7 +29,6 @@ use OC\Files\Filesystem;
 use OC\HintException;
 use OC\Share\Helper;
 use OCA\FederatedFileSharing\AddressHandler;
-use OCA\FederatedFileSharing\DiscoveryManager;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Files_Sharing\External\Manager;
 use OCP\AppFramework\Controller;

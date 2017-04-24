@@ -28,7 +28,6 @@ namespace OCA\Provisioning_API\Controller;
 use \OC_App;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
-use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCSController;

@@ -31,14 +31,11 @@
 
 namespace OCA\Files_External\Lib\Storage;
 
-use Icewind\SMB\Change;
 use Icewind\SMB\Exception\ConnectException;
 use Icewind\SMB\Exception\Exception;
 use Icewind\SMB\Exception\ForbiddenException;
 use Icewind\SMB\Exception\NotFoundException;
-use Icewind\SMB\INotifyHandler;
 use Icewind\SMB\IFileInfo;
-use Icewind\SMB\IShare;
 use Icewind\SMB\NativeServer;
 use Icewind\SMB\Server;
 use Icewind\Streams\CallbackWrapper;

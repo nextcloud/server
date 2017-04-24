@@ -30,7 +30,6 @@
 
 namespace OC\Core\Controller;
 
-use OCA\Encryption\Exceptions\PrivateKeyMissingException;
 use \OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
 use \OCP\AppFramework\Http\TemplateResponse;

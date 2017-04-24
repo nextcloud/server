@@ -23,10 +23,8 @@
 
 namespace OC\Updater;
 
-use OC_Util;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
-use OC\Setup;
 use OCP\Util;
 
 class VersionCheck {

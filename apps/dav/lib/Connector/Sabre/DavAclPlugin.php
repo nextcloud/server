@@ -25,14 +25,8 @@ namespace OCA\DAV\Connector\Sabre;
 
 use Sabre\CalDAV\Principal\User;
 use Sabre\DAV\Exception\NotFound;
-use Sabre\DAV\IFile;
 use Sabre\DAV\INode;
 use \Sabre\DAV\PropFind;
-use \Sabre\DAV\PropPatch;
-use Sabre\DAVACL\Exception\NeedPrivileges;
-use \Sabre\HTTP\RequestInterface;
-use \Sabre\HTTP\ResponseInterface;
-use Sabre\HTTP\URLUtil;
 
 /**
  * Class DavAclPlugin is a wrapper around \Sabre\DAVACL\Plugin that returns 404

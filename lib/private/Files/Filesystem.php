@@ -64,7 +64,6 @@ use OC\Files\Mount\MountPoint;
 use OC\Files\Storage\StorageFactory;
 use OC\Lockdown\Filesystem\NullStorage;
 use OCP\Files\Config\IMountProvider;
-use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
 use OCP\IUserManager;
 

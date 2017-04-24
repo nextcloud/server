@@ -29,7 +29,6 @@ namespace OCA\Files_Sharing;
 
 use OC\Files\Cache\Wrapper\CacheJail;
 use OCP\Files\Cache\ICacheEntry;
-use OCP\Files\Storage\IStorage;
 
 /**
  * Metadata cache for shared files

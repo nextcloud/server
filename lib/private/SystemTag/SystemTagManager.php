@@ -31,7 +31,6 @@ use OCP\SystemTag\ManagerEvent;
 use OCP\SystemTag\TagAlreadyExistsException;
 use OCP\SystemTag\TagNotFoundException;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use OCP\IUserManager;
 use OCP\IGroupManager;
 use OCP\SystemTag\ISystemTag;
 use OCP\IUser;

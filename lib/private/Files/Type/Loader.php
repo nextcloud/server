@@ -24,7 +24,6 @@ namespace OC\Files\Type;
 
 use OCP\Files\IMimeTypeLoader;
 use OCP\IDBConnection;
-
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 
 /**

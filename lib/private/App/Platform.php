@@ -24,7 +24,6 @@
 
 namespace OC\App;
 
-use OC_Util;
 use OCP\IConfig;
 
 /**

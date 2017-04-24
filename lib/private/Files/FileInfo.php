@@ -32,8 +32,6 @@ namespace OC\Files;
 
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Mount\IMountPoint;
-use OCP\Files\Storage\IStorage;
-use OCP\Files\IHomeStorage;
 use OCP\IUser;
 
 class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {

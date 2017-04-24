@@ -23,7 +23,6 @@
 
 namespace OCA\DAV\Tests\unit\DAV;
 
-use OCA\DAV\CalDAV\BirthdayService;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\CardDAV\SyncService;
@@ -31,7 +30,7 @@ use OCA\DAV\HookManager;
 use OCP\IL10N;
 use OCP\IUser;
 use OCP\IUserManager;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Test\TestCase;
 
 class HookManagerTest extends TestCase {

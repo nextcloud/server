@@ -25,7 +25,6 @@
 namespace OC\Comments;
 
 use Doctrine\DBAL\Exception\DriverException;
-use Doctrine\DBAL\Platforms\MySqlPlatform;
 use OCP\Comments\CommentsEvent;
 use OCP\Comments\IComment;
 use OCP\Comments\ICommentsEventHandler;

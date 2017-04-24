@@ -24,7 +24,6 @@
 namespace OC\Share20;
 
 use OC\Files\Cache\Cache;
-use OC\Files\Cache\CacheEntry;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Share\IShareProvider;

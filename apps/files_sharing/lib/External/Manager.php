@@ -30,7 +30,6 @@
 namespace OCA\Files_Sharing\External;
 
 use OC\Files\Filesystem;
-use OCA\FederatedFileSharing\DiscoveryManager;
 use OCP\Files;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\Http\Client\IClientService;

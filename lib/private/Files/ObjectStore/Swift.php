@@ -28,7 +28,6 @@ use Guzzle\Http\Exception\ClientErrorResponseException;
 use OCP\Files\ObjectStore\IObjectStore;
 use OCP\Files\StorageAuthException;
 use OCP\Files\StorageNotAvailableException;
-use OpenCloud\Common\Exceptions\EndpointError;
 use OpenCloud\Common\Service\Catalog;
 use OpenCloud\Common\Service\CatalogItem;
 use OpenCloud\Identity\Resource\Token;
