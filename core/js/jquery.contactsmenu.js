@@ -78,9 +78,15 @@
 				if (actions.length === 0) {
 
 				}
+			}, function() {
+				$list.find('ul').find('li').addClass('hidden');
+
+				var template = Handlebars.compile(ENTRY);
+				$list.find('ul').append(template({
+					hyperlink: '#',
+					title: t('core', 'Error fetching contact actions')
+				}));
 			});
-		}).catch(function(reason) {
-			// TODO
 		});
 
 		$(document).click(function(event) {
