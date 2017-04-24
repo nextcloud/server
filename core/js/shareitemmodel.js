@@ -208,6 +208,10 @@
 				url: this._getUrl('shares/' + encodeURIComponent(shareId)),
 				data: attrs,
 				dataType: 'json'
+			}).always(function() {
+				if (_.isFunction(options.complete)) {
+					options.complete(self);
+				}
 			}).done(function() {
 				self.fetch({
 					success: function() {
