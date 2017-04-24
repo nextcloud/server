@@ -121,7 +121,7 @@ describe('OC.Share.ShareDialogLinkShareView', function () {
 			expect($workingIcon.hasClass('hidden')).toBeFalsy();
 			expect(shareModel.saveLinkShare.withArgs({ password: 'myPassword' }).calledOnce).toBeTruthy();
 
-			shareModel.saveLinkShare.yieldTo("success", [shareModel]);
+			shareModel.saveLinkShare.yieldTo("complete", [shareModel]);
 
 			expect($workingIcon.hasClass('hidden')).toBeTruthy();
 		});
@@ -132,6 +132,7 @@ describe('OC.Share.ShareDialogLinkShareView', function () {
 			expect($workingIcon.hasClass('hidden')).toBeFalsy();
 			expect(shareModel.saveLinkShare.withArgs({ password: 'myPassword' }).calledOnce).toBeTruthy();
 
+			shareModel.saveLinkShare.yieldTo("complete", [shareModel]);
 			shareModel.saveLinkShare.yieldTo("error", [shareModel, "The error message"]);
 
 			expect($workingIcon.hasClass('hidden')).toBeTruthy();
