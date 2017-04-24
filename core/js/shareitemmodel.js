@@ -104,7 +104,14 @@
 		/**
 		 * Saves the current link share information.
 		 *
-		 * This will trigger an ajax call and refetch the model afterwards.
+		 * This will trigger an ajax call and, if successful, refetch the model
+		 * afterwards. Callbacks "success", "error" and "complete" can be given
+		 * in the options object; "success" is called after a successful save
+		 * once the model is refetch, "error" is called after a failed save, and
+		 * "complete" is called both after a successful save and after a failed
+		 * save. Note that "complete" is called before "success" and "error" are
+		 * called (unlike in jQuery, in which it is called after them); this
+		 * ensures that "complete" is called even if refetching the model fails.
 		 *
 		 * TODO: this should be a separate model
 		 */
