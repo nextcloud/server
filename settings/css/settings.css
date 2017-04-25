@@ -518,6 +518,12 @@ input.userFilter {width: 200px;}
 
 
 /* APPS */
+#apps-list > h2 {
+	display: block;
+	width: 100%;
+	margin-top: 50px;
+	padding-left: 30px;
+}
 
 #app-content > svg.app-filter {
 	float: left;

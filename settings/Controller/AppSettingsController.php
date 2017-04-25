@@ -370,6 +370,7 @@ class AppSettingsController extends Controller {
 							if($app['id'] === $identifier) {
 								if($newCategory) {
 									$app['newCategory'] = true;
+									$app['bundleId'] = $bundle->getIdentifier();
 									$app['categoryName'] = $bundle->getName();
 								}
 								$newCategory = false;

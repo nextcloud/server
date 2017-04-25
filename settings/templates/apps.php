@@ -74,7 +74,7 @@ script(
 
 <script id="app-template" type="text/x-handlebars">
 	{{#if newCategory}}
-	<br/><h2>{{categoryName}}</h2>
+	<h2>{{categoryName}} <input class="enable" type="submit" data-bundleid="{{bundleId}}" data-active="true" value="<?php p($l->t('Enable all'));?>"/></h2>
 	{{/if}}
 	<div class="section" id="app-{{id}}">
 	{{#if preview}}
