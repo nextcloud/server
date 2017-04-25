@@ -19,13 +19,16 @@
  *
  */
 script('core', 'login/redirect');
+style('core', 'login/authpicker');
 
 /** @var array $_ */
 /** @var \OCP\IURLGenerator $urlGenerator */
 $urlGenerator = $_['urlGenerator'];
 ?>
 
-<?php p($l->t('Redirecting…')) ?>
+<div class="picker-window">
+	<p class="info"><?php p($l->t('Redirecting …')) ?></p>
+</div>
 
 <form method="POST" action="<?php p($urlGenerator->linkToRouteAbsolute('core.ClientFlowLogin.generateAppPassword')) ?>">
 	<input type="hidden" name="requesttoken" value="<?php p($_['requesttoken']) ?>" />
