@@ -385,7 +385,7 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface {
 				$limit,
 				$offset
 			);
-			return $this->access->ownCloudUserNames($users);
+			return $this->access->nextcloudUserNames($users);
 		} catch (\Exception $e) {
 			return [];
 		}
