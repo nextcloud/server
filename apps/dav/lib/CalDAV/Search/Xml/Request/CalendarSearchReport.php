@@ -20,7 +20,6 @@
  */
 namespace OCA\DAV\CalDAV\Search\Xml\Request;
 
-use Sabre\CalDAV\Plugin;
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\Xml\Reader;
 use Sabre\Xml\XmlDeserializable;
@@ -107,24 +106,21 @@ class CalendarSearchReport implements XmlDeserializable {
 			switch ($elem['name']) {
 				case '{DAV:}prop':
 					$newProps['properties'] = array_keys($elem['value']);
-					if (isset($elem['value']['{' . Plugin::NS_CALDAV . '}calendar-data'])) {
-						$newProps += $elem['value']['{' . Plugin::NS_CALDAV . '}calendar-data'];
-					}
 					break;
 				case '{' . SearchPlugin::NS_Nextcloud . '}filter':
 					foreach ($elem['value'] as $subElem) {
 						if ($subElem['name'] === '{' . SearchPlugin::NS_Nextcloud . '}comp-filter') {
-							if (!is_array($newProps['filters']['comps'])) {
+							if (!isset($newProps['filters']['comps']) || !is_array($newProps['filters']['comps'])) {
 								$newProps['filters']['comps'] = [];
 							}
 							$newProps['filters']['comps'][] = $subElem['value'];
 						} elseif ($subElem['name'] === '{' . SearchPlugin::NS_Nextcloud . '}prop-filter') {
-							if (!is_array($newProps['filters']['props'])) {
+							if (!isset($newProps['filters']['props']) || !is_array($newProps['filters']['props'])) {
 								$newProps['filters']['props'] = [];
 							}
 							$newProps['filters']['props'][] = $subElem['value'];
 						} elseif ($subElem['name'] === '{' . SearchPlugin::NS_Nextcloud . '}param-filter') {
-							if (!is_array($newProps['filters']['params'])) {
+							if (!isset($newProps['filters']['params']) || !is_array($newProps['filters']['params'])) {
 								$newProps['filters']['params'] = [];
 							}
 							$newProps['filters']['params'][] = $subElem['value'];
@@ -151,6 +147,10 @@ class CalendarSearchReport implements XmlDeserializable {
 		$noCompsDefined = empty($newProps['filters']['comps']);
 		if ($propsOrParamsDefined && $noCompsDefined) {
 			throw new BadRequest('{' . SearchPlugin::NS_Nextcloud . '}prop-filter or {' . SearchPlugin::NS_Nextcloud . '}param-filter given without any {' . SearchPlugin::NS_Nextcloud . '}comp-filter');
+		}
+
+		if (!isset($newProps['filters']['search-term'])) {
+			throw new BadRequest('{' . SearchPlugin::NS_Nextcloud . '}search-term is required for this request');
 		}
 
 
