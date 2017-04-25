@@ -5,6 +5,7 @@
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Roger Szabo <roger.szabo@web.de>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -96,6 +97,8 @@ class AuditLogger {
 		$groupActions = new GroupManagement($this->logger);
 		$this->groupManager->listen('\OC\Group', 'postRemoveUser',  [$groupActions, 'removeUser']);
 		$this->groupManager->listen('\OC\Group', 'postAddUser',  [$groupActions, 'addUser']);
+		$this->groupManager->listen('\OC\Group', 'postDelete',  [$groupActions, 'deleteGroup']);
+		$this->groupManager->listen('\OC\Group', 'postCreate',  [$groupActions, 'createGroup']);
 	}
 
 	/**
