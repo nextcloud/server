@@ -1,11 +1,13 @@
 <?php
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright Copyright (c) 2017 Georg Ehrke
  *
  * @author Joas Schilling <coding@schilljs.com>
  * @author Stefan Weil <sw@weilnetz.de>
  * @author Thomas Citharel <tcit@tcit.fr>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Georg Ehrke <oc.list@georgehrke.com>
  *
  * @license AGPL-3.0
  *
@@ -1256,51 +1258,57 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			$compExpr = call_user_func_array([$query->expr(), 'orX'], $compExpressions);
 		}
 
-		$propExpressions = [];
+		if (!isset($filters['props'])) {
+			$filters['props'] = [];
+		}
+		if (!isset($filters['params'])) {
+			$filters['params'] = [];
+		}
+
+		$propParamExpressions = [];
 		foreach($filters['props'] as $prop) {
-			$propExpressions[] = $query->expr()->andX(
+			$propParamExpressions[] = $query->expr()->andX(
 				$query->expr()->eq('i.name', $query->createNamedParameter($prop)),
 				$query->expr()->isNull('i.parameter')
 			);
 		}
-
-		if (count($propExpressions) === 1) {
-			$propExpr = $propExpressions[0];
-		} else {
-			$propExpr = call_user_func_array([$query->expr(), 'orX'], $propExpressions);
-		}
-
-		$paramExpressions = [];
 		foreach($filters['params'] as $param) {
-			$paramExpressions[] = $query->expr()->andX(
+			$propParamExpressions[] = $query->expr()->andX(
 				$query->expr()->eq('i.name', $query->createNamedParameter($param['property'])),
 				$query->expr()->eq('i.parameter', $query->createNamedParameter($param['parameter']))
 			);
 		}
 
-		if (count($paramExpressions) === 1) {
-			$paramExpr = $paramExpressions[0];
+		if (count($propParamExpressions) === 1) {
+			$propParamExpr = $propParamExpressions[0];
 		} else {
-			$paramExpr = call_user_func_array([$query->expr(), 'orX'], $paramExpressions);
+			$propParamExpr = call_user_func_array([$query->expr(), 'orX'], $propParamExpressions);
 		}
-
-		$offset = 0;
 
 		$query->select(['c.calendarid', 'c.uri'])
 			->from('calendarobjects_properties', 'i')
 			->join('i', 'calendarobjects', 'c', $query->expr()->eq('i.objectid', 'c.id'))
 			->where($calExpr)
 			->andWhere($compExpr)
-			->andWhere($query->expr()->orX($propExpr, $paramExpr))
-			->andWhere($query->expr()->like('i.value', $query->createNamedParameter($filters['search-term'])))
-			->setFirstResult($offset)
-			->setMaxResults($limit);
+			->andWhere($propParamExpr)
+			->andWhere($query->expr()->iLike('i.value',
+				$query->createNamedParameter('%'.$this->db->escapeLikeParameter($filters['search-term']).'%')));
+
+		if ($offset) {
+			$query->setFirstResult($offset);
+		}
+		if ($limit) {
+			$query->setMaxResults($limit);
+		}
 
 		$stmt = $query->execute();
 
 		$result = [];
 		while($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
-			$result[] = $uriMapper[$row['calendarid']] . '/' . $row['uri'];
+			$path = $uriMapper[$row['calendarid']] . '/' . $row['uri'];
+			if (!in_array($path, $result)) {
+				$result[] = $path;
+			}
 		}
 
 		return $result;

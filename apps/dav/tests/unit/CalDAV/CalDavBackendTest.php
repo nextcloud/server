@@ -1,10 +1,12 @@
 <?php
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright Copyright (c) 2017 Georg Ehrke
  *
  * @author Joas Schilling <coding@schilljs.com>
  * @author Thomas Citharel <tcit@tcit.fr>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Georg Ehrke <oc.list@georgehrke.com>
  *
  * @license AGPL-3.0
  *
@@ -488,5 +490,135 @@ EOD;
 			'no class set -> public' => [CalDavBackend::CLASSIFICATION_PUBLIC, 'classification', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//dmfs.org//mimedir.icalendar//EN\r\nBEGIN:VTIMEZONE\r\nTZID:Europe/Berlin\r\nX-LIC-LOCATION:Europe/Berlin\r\nBEGIN:DAYLIGHT\r\nTZOFFSETFROM:+0100\r\nTZOFFSETTO:+0200\r\nTZNAME:CEST\r\nDTSTART:19700329T020000\r\nRRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU\r\nEND:DAYLIGHT\r\nBEGIN:STANDARD\r\nTZOFFSETFROM:+0200\r\nTZOFFSETTO:+0100\r\nTZNAME:CET\r\nDTSTART:19701025T030000\r\nRRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU\r\nEND:STANDARD\r\nEND:VTIMEZONE\r\nBEGIN:VEVENT\r\nDTSTART;TZID=Europe/Berlin:20160419T130000\r\nSUMMARY:Test\r\nTRANSP:OPAQUE\r\nDTEND;TZID=Europe/Berlin:20160419T140000\r\nLAST-MODIFIED:20160419T074202Z\r\nDTSTAMP:20160419T074202Z\r\nCREATED:20160419T074202Z\r\nUID:2e468c48-7860-492e-bc52-92fa0daeeccf.1461051722310\r\nEND:VEVENT\r\nEND:VCALENDAR"],
 			'unknown class -> private' => [CalDavBackend::CLASSIFICATION_PRIVATE, 'classification', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//dmfs.org//mimedir.icalendar//EN\r\nBEGIN:VTIMEZONE\r\nTZID:Europe/Berlin\r\nX-LIC-LOCATION:Europe/Berlin\r\nBEGIN:DAYLIGHT\r\nTZOFFSETFROM:+0100\r\nTZOFFSETTO:+0200\r\nTZNAME:CEST\r\nDTSTART:19700329T020000\r\nRRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU\r\nEND:DAYLIGHT\r\nBEGIN:STANDARD\r\nTZOFFSETFROM:+0200\r\nTZOFFSETTO:+0100\r\nTZNAME:CET\r\nDTSTART:19701025T030000\r\nRRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU\r\nEND:STANDARD\r\nEND:VTIMEZONE\r\nBEGIN:VEVENT\r\nDTSTART;TZID=Europe/Berlin:20160419T130000\r\nSUMMARY:Test\r\nCLASS:VERTRAULICH\r\nTRANSP:OPAQUE\r\nSTATUS:CONFIRMED\r\nDTEND;TZID=Europe/Berlin:20160419T140000\r\nLAST-MODIFIED:20160419T074202Z\r\nDTSTAMP:20160419T074202Z\r\nCREATED:20160419T074202Z\r\nUID:2e468c48-7860-492e-bc52-92fa0daeeccf.1461051722310\r\nEND:VEVENT\r\nEND:VCALENDAR"],
 		];
+	}
+
+	public function testCalendarSearch() {
+		$calendarId = $this->createTestCalendar();
+
+		$uri = static::getUniqueID('calobj');
+		$calData = <<<EOD
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:ownCloud Calendar
+BEGIN:VEVENT
+CREATED;VALUE=DATE-TIME:20130910T125139Z
+UID:47d15e3ec8
+LAST-MODIFIED;VALUE=DATE-TIME:20130910T125139Z
+DTSTAMP;VALUE=DATE-TIME:20130910T125139Z
+SUMMARY:Test Event
+DTSTART;VALUE=DATE-TIME:20130912T130000Z
+DTEND;VALUE=DATE-TIME:20130912T140000Z
+CLASS:PUBLIC
+END:VEVENT
+END:VCALENDAR
+EOD;
+
+		$this->backend->createCalendarObject($calendarId, $uri, $calData);
+
+		$search1 = $this->backend->calendarSearch(self::UNIT_TEST_USER, [
+			'comps' => [
+				'VEVENT',
+				'VTODO'
+			],
+			'props' => [
+				'SUMMARY',
+				'LOCATION'
+			],
+			'search-term' => 'Test',
+		]);
+		$this->assertEquals(count($search1), 1);
+
+
+		// update the card
+		$calData = <<<'EOD'
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:ownCloud Calendar
+BEGIN:VEVENT
+CREATED;VALUE=DATE-TIME:20130910T125139Z
+UID:47d15e3ec8
+LAST-MODIFIED;VALUE=DATE-TIME:20130910T125139Z
+DTSTAMP;VALUE=DATE-TIME:20130910T125139Z
+SUMMARY:123 Event
+DTSTART;VALUE=DATE-TIME:20130912T130000Z
+DTEND;VALUE=DATE-TIME:20130912T140000Z
+ATTENDEE;CN=test:mailto:foo@bar.com
+END:VEVENT
+END:VCALENDAR
+EOD;
+		$this->backend->updateCalendarObject($calendarId, $uri, $calData);
+
+		$search2 = $this->backend->calendarSearch(self::UNIT_TEST_USER, [
+			'comps' => [
+				'VEVENT',
+				'VTODO'
+			],
+			'props' => [
+				'SUMMARY',
+				'LOCATION'
+			],
+			'search-term' => 'Test',
+		]);
+		$this->assertEquals(count($search2), 0);
+
+		$search3 = $this->backend->calendarSearch(self::UNIT_TEST_USER, [
+			'comps' => [
+				'VEVENT',
+				'VTODO'
+			],
+			'props' => [
+				'SUMMARY',
+				'LOCATION'
+			],
+			'params' => [
+				[
+					'property' => 'ATTENDEE',
+					'parameter' => 'CN'
+				]
+			],
+			'search-term' => 'Test',
+		]);
+		$this->assertEquals(count($search3), 1);
+
+		// t matches both summary and attendee's CN, but we want unique results
+		$search4 = $this->backend->calendarSearch(self::UNIT_TEST_USER, [
+			'comps' => [
+				'VEVENT',
+				'VTODO'
+			],
+			'props' => [
+				'SUMMARY',
+				'LOCATION'
+			],
+			'params' => [
+				[
+					'property' => 'ATTENDEE',
+					'parameter' => 'CN'
+				]
+			],
+			'search-term' => 't',
+		]);
+		$this->assertEquals(count($search4), 1);
+
+		$this->backend->deleteCalendarObject($calendarId, $uri);
+
+		$search5 = $this->backend->calendarSearch(self::UNIT_TEST_USER, [
+			'comps' => [
+				'VEVENT',
+				'VTODO'
+			],
+			'props' => [
+				'SUMMARY',
+				'LOCATION'
+			],
+			'params' => [
+				[
+					'property' => 'ATTENDEE',
+					'parameter' => 'CN'
+				]
+			],
+			'search-term' => 't',
+		]);
+		$this->assertEquals(count($search5), 0);
 	}
 }

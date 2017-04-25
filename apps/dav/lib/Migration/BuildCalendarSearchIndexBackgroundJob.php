@@ -93,7 +93,7 @@ class BuildCalendarSearchIndexBackgroundJob extends QueuedJob {
 		$startTime = $this->timeFactory->getTime();
 
 		$query = $this->db->getQueryBuilder();
-		$query->select(['id', 'calendarid', 'objecturi', 'calendardata'])
+		$query->select(['id', 'calendarid', 'uri', 'calendardata'])
 			->from('calendarobjects')
 			->where($query->expr()->lte('id', $query->createNamedParameter($stopAt)))
 			->andWhere($query->expr()->gt('id', $query->createNamedParameter($offset)))
