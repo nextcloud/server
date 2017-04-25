@@ -107,6 +107,23 @@ class RepairMimeTypesTest extends \Test\TestCase {
 	}
 
 	/**
+	 * Test renaming the additional image mime types
+	 */
+	public function testRenameImageTypes() {
+		$currentMimeTypes = [
+			['test.jp2', 'application/octet-stream'],
+			['test.webp', 'application/octet-stream'],
+		];
+
+		$fixedMimeTypes = [
+			['test.jp2', 'image/jp2'],
+			['test.webp', 'image/webp'],
+		];
+
+		$this->renameMimeTypes($currentMimeTypes, $fixedMimeTypes);
+	}
+
+	/**
 	 * Test renaming the richdocuments additional office mime types
 	 */
 	public function testRenameWindowsProgramTypes() {
@@ -163,8 +180,10 @@ class RepairMimeTypesTest extends \Test\TestCase {
 			['test.sr2', 'image/x-dcraw'],
 			['test.xrf', 'image/x-dcraw'],
 			['test.DNG', 'image/x-dcraw'],
+			['test.jp2', 'image/jp2'],
 			['test.jps', 'image/jpeg'],
 			['test.MPO', 'image/jpeg'],
+			['test.webp', 'image/webp'],
 			['test.conf', 'text/plain'],
 			['test.cnf', 'text/plain'],
 			['test.yaml', 'application/yaml'],
@@ -215,8 +234,10 @@ class RepairMimeTypesTest extends \Test\TestCase {
 			['test.sr2', 'image/x-dcraw'],
 			['test.xrf', 'image/x-dcraw'],
 			['test.DNG', 'image/x-dcraw'],
+			['test.jp2', 'image/jp2'],
 			['test.jps', 'image/jpeg'],
 			['test.MPO', 'image/jpeg'],
+			['test.webp', 'image/webp'],
 			['test.conf', 'text/plain'],
 			['test.cnf', 'text/plain'],
 			['test.yaml', 'application/yaml'],
