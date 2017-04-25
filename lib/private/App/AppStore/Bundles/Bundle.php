@@ -51,13 +51,6 @@ abstract class Bundle {
 	public abstract function getName();
 
 	/**
-	 * Get the description of the bundle
-	 *
-	 * @return string
-	 */
-	public abstract function getDescription();
-
-	/**
 	 * Get the list of app identifiers in the bundle
 	 *
 	 * @return array

@@ -33,13 +33,6 @@ class GroupwareBundle extends Bundle {
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getDescription() {
-		return (string)$this->l10n->t('Apps for groupware functionalities.');
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getAppIdentifiers() {
 		return [
 			'calendar',

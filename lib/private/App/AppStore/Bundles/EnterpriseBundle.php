@@ -33,13 +33,6 @@ class EnterpriseBundle extends Bundle {
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getDescription() {
-		return (string)$this->l10n->t('Apps for the Enterprise.');
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getAppIdentifiers() {
 		return [
 			'admin_audit',
