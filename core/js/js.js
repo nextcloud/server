@@ -1398,6 +1398,7 @@ function initCore() {
 		// toggle the navigation
 		var $toggle = $('#header .header-appname-container');
 		var $navigation = $('#navigation');
+		var $appmenu = $('#appmenu');
 
 		// init the menu
 		OC.registerMenu($toggle, $navigation);
@@ -1424,6 +1425,20 @@ function initCore() {
 			if(event.which === 2) {
 				// Close navigation when opening app in
 				// a new tab via middle click
+				OC.hideMenus(function(){return false});
+			}
+		});
+
+		$appmenu.delegate('a', 'click', function(event) {
+			var $app = $(event.target);
+			if(!$app.is('a')) {
+				$app = $app.closest('a');
+			}
+			if(event.which === 1 && !event.ctrlKey && !event.metaKey) {
+				$app.addClass('app-loading');
+			} else {
+				// Close navigation when opening app in
+				// a new tab
 				OC.hideMenus(function(){return false});
 			}
 		});

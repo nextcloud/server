@@ -294,19 +294,21 @@ nav {
 		max-height: 32px;
 		max-width: 32px;
 	}
-	/* loading feedback for apps */
-	.app-loading {
-		.icon-loading-small-dark {
-			display: inline !important;
-			position: absolute;
-			left: 12px;
-			width: 16px;
-			height: 16px;
-		}
-		.app-icon {
-			-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=0)';
-			opacity: 0;
-		}
+
+}
+
+/* loading feedback for apps */
+.app-loading {
+	.icon-loading-small-dark {
+		display: inline !important;
+		position: absolute;
+		left: 12px;
+		width: 16px;
+		height: 16px;
+	}
+	.app-icon {
+		-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=0)';
+		opacity: 0;
 	}
 }
 
@@ -466,6 +468,9 @@ nav {
 			vertical-align: top !important;
 			opacity: .6;
 		}
+	}
+	.app-loading .icon-loading-small-dark {
+		top:12px;
 	}
 
 
