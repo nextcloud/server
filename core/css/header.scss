@@ -191,17 +191,18 @@
 
 /* NAVIGATION --------------------------------------------------------------- */
 nav {
-	margin-top: auto;
+	display: inline-block;
+	width: 44px;
+	height: 44px;
+	margin-left: -54px;
 }
 
 #navigation {
 	position: relative;
 	top: 45px;
 	left: -100%;
-	width: 265px;
-	max-height: 85%;
+	width: 160px;
 	margin-top: 0;
-	padding-bottom: 10px;
 	background-color: $color-main-background;
 	box-shadow: 0 1px 10px $color-box-shadow;
 	border-radius: 3px;
@@ -242,12 +243,6 @@ nav {
 	margin-left: -10px;
 }
 
-/* position of dropdown arrow */
-
-#navigation:after {
-	left: 242px;
-}
-
 #navigation {
 	box-sizing: border-box;
 	* {
@@ -258,18 +253,14 @@ nav {
 	}
 	a {
 		position: relative;
-		width: 80px;
-		height: 80px;
-		display: inline-block;
-		text-align: center;
-		padding: 20px 0;
+		display: block;
+		padding: 10px 12px;
+		height:40px;
+		vertical-align: text-bottom;
 		span {
 			display: inline-block;
-			font-size: 13px;
 			padding-bottom: 0;
-			padding-left: 0;
-			width: 80px;
-			text-align: center;
+			padding-left: 10px;
 			color: $color-main-text;
 			white-space: nowrap;
 			overflow: hidden;
@@ -279,6 +270,9 @@ nav {
 		span {
 			-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=50)';
 			opacity: .5;
+		}
+		svg {
+			margin-bottom: 2px;
 		}
 		&:hover svg,
 		&:focus svg,
@@ -300,20 +294,21 @@ nav {
 		max-height: 32px;
 		max-width: 32px;
 	}
-	/* loading feedback for apps */
-	.app-loading {
-		.icon-loading-dark {
-			display: inline !important;
-			position: absolute;
-			top: 20px;
-			left: 24px;
-			width: 32px;
-			height: 32px;
-		}
-		.app-icon {
-			-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=0)';
-			opacity: 0;
-		}
+
+}
+
+/* loading feedback for apps */
+.app-loading {
+	.icon-loading-small-dark {
+		display: inline !important;
+		position: absolute;
+		left: 12px;
+		width: 16px;
+		height: 16px;
+	}
+	.app-icon {
+		-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=0)';
+		opacity: 0;
 	}
 }
 
@@ -454,10 +449,13 @@ nav {
 	width: auto;
 	clear: both;
 	height: 44px;
-	flex-shrink: 0;
 
 	li {
 		float: left;
+		display: inline-block;
+		position: relative;
+		vertical-align: top !important;
+		height: 45px;
 		cursor: pointer;
 
 		a {
@@ -471,11 +469,14 @@ nav {
 			opacity: .6;
 		}
 	}
+	.app-loading .icon-loading-small-dark {
+		top:12px;
+	}
+
 
 	li:hover a,
 	li a.active {
 		opacity: 1;
-
 	}
 
 	li img,
@@ -541,31 +542,4 @@ nav {
 	li.hidden {
 		display: none;
 	}
-
-}
-
-/* use popover menu on mobile and small screens */
-@media only screen and (max-width: 680px) {
-
-	#header .header-appname-container {
-		display: inline-block !important;
-	}
-
-	#appmenu {
-		display: none;
-	}
-
-	#apps .in-header {
-		display: inline-block;
-	}
-
-	#navigation {
-		position: fixed;
-		top: 45px;
-		left: 10px;
-		&:after {
-			left: 214px;
-		}
-	}
-
 }

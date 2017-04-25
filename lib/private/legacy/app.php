@@ -468,68 +468,15 @@ class OC_App {
 			}
 		});
 
-		$activeAppIndex = -1;
 		$activeApp = OC::$server->getNavigationManager()->getActiveEntry();
 		foreach ($list as $index => &$navEntry) {
-			$navEntry['showInHeader'] = true;
 			if ($navEntry['id'] == $activeApp) {
 				$navEntry['active'] = true;
-				$activeAppIndex = $index;
 			} else {
 				$navEntry['active'] = false;
 			}
 		}
 		unset($navEntry);
-
-		if (count($list) <= 8) {
-			return $list;
-		}
-
-		$headerIconCount = 7;
-		if($activeAppIndex > ($headerIconCount-1)) {
-			$active = $list[$activeAppIndex];
-			$lastInHeader = $list[$headerIconCount-1];
-			$list[$headerIconCount-1] = $active;
-			$list[$activeAppIndex] = $lastInHeader;
-		}
-
-		foreach ($list as $index => &$navEntry) {
-			if($index >= $headerIconCount) {
-				$navEntry['showInHeader'] = false;
-			}
-		}
-
-		return $list;
-	}
-
-	public static function proceedAppNavigation($entries) {
-		$activeAppIndex = -1;
-		$list = self::proceedNavigation($entries);
-
-		$activeApp = OC::$server->getNavigationManager()->getActiveEntry();
-		foreach ($list as $index => &$navEntry) {
-			if ($navEntry['id'] == $activeApp) {
-				$navEntry['active'] = true;
-				$activeAppIndex = $index;
-			} else {
-				$navEntry['active'] = false;
-			}
-		}
-
-
-		if (count($list) <= 8) {
-			return $list;
-		}
-
-		$headerIconCount = 7;
-		// move active item to last position
-		if($activeAppIndex > ($headerIconCount-1)) {
-			$active = $list[$activeAppIndex];
-			$lastInHeader = $list[$headerIconCount-1];
-			$list[$headerIconCount-1] = $active;
-			$list[$activeAppIndex] = $lastInHeader;
-		}
-		$list = array_slice($list, 0, $headerIconCount);
 
 		return $list;
 	}
@@ -720,21 +667,6 @@ class OC_App {
 	public static function getNavigation() {
 		$entries = OC::$server->getNavigationManager()->getAll();
 		return self::proceedNavigation($entries);
-	}
-
-	/**
-	 * Returns the navigation inside the header bar
-	 *
-	 * @return array
-	 *
-	 * This function returns an array containing all entries added. The
-	 * entries are sorted by the key 'order' ascending. Additional to the keys
-	 * given for each app the following keys exist:
-	 *   - active: boolean, signals if the user is on this navigation entry
-	 */
-	public static function getHeaderNavigation() {
-		$entries = OC::$server->getNavigationManager()->getAll();
-		return self::proceedAppNavigation($entries);
 	}
 
 	/**

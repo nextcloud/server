@@ -60,54 +60,51 @@
 					<div class="icon-caret"></div>
 				</a>
 
-				<div id="appmenu">
-					<ul>
-						<?php foreach($_['headernavigation'] as $entry): ?>
-							<li data-id="<?php p($entry['id']); ?>">
-								<a href="<?php print_unescaped($entry['href']); ?>" tabindex="3"
-									<?php if( $entry['active'] ): ?> class="active"<?php endif; ?>>
-									<img src="<?php print_unescaped($entry['icon'] . '?v=' . $_['versionHash']); ?>"  class="app-icon" />
-									<div class="icon-loading-dark" style="display:none;"></div>
-									<span>
+				<ul id="appmenu">
+					<?php foreach ($_['navigation'] as $entry): ?>
+						<li data-id="<?php p($entry['id']); ?>" class="hidden">
+							<a href="<?php print_unescaped($entry['href']); ?>"
+							   tabindex="3"
+								<?php if ($entry['active']): ?> class="active"<?php endif; ?>>
+								<img src="<?php print_unescaped($entry['icon'] . '?v=' . $_['versionHash']); ?>"
+									 class="app-icon"/>
+								<div class="icon-loading-small-dark"
+									 style="display:none;"></div>
+								<span>
 								<?php p($entry['name']); ?>
 							</span>
-								</a>
-							</li>
-						<?php endforeach; ?>
-							<li id="more-apps" class="menutoggle<?php if (count($_['navigation']) <= 8): ?> hidden<?php endif; ?>">
-								<a href="#">
-									<div class="icon-more-white"></div>
-									<span><?php p($l->t('More apps')); ?></span>
-								</a>
-							</li>
-					</ul>
-				</div>
+							</a>
+						</li>
+					<?php endforeach; ?>
+					<li id="more-apps" class="menutoggle">
+						<a href="#">
+							<div class="icon-more-white"></div>
+							<span><?php p($l->t('More apps')); ?></span>
+						</a>
+					</li>
+				</ul>
 
-				<nav role="navigation"><div id="navigation">
+				<nav role="navigation">
+					<div id="navigation">
 						<div id="apps">
 							<ul>
 								<?php foreach($_['navigation'] as $entry): ?>
-									<?php if($entry['showInHeader']): ?>
-										<li data-id="<?php p($entry['id']); ?>" class="in-header">
-									<?php else: ?>
-										<li data-id="<?php p($entry['id']); ?>">
-									<?php endif; ?>
+									<li data-id="<?php p($entry['id']); ?>">
 									<a href="<?php print_unescaped($entry['href']); ?>" tabindex="3"
 										<?php if( $entry['active'] ): ?> class="active"<?php endif; ?>>
-										<svg width="32" height="32" viewBox="0 0 32 32">
+										<svg width="16" height="16" viewBox="0 0 16 16">
 											<defs><filter id="invert-<?php p($entry['id']); ?>"><feColorMatrix in="SourceGraphic" type="matrix" values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0"></feColorMatrix></filter></defs>
-											<image x="0" y="0" width="32" height="32" preserveAspectRatio="xMinYMin meet" filter="url(#invert-<?php p($entry['id']); ?>)" xlink:href="<?php print_unescaped($entry['icon'] . '?v=' . $_['versionHash']); ?>"  class="app-icon"></image>
+											<image x="0" y="0" width="16" height="16" preserveAspectRatio="xMinYMin meet" filter="url(#invert-<?php p($entry['id']); ?>)" xlink:href="<?php print_unescaped($entry['icon'] . '?v=' . $_['versionHash']); ?>"  class="app-icon"></image>
 										</svg>
-										<div class="icon-loading-dark" style="display:none;"></div>
-										<span>
-								<?php p($entry['name']); ?>
-							</span>
+										<div class="icon-loading-small-dark" style="display:none;"></div>
+										<span><?php p($entry['name']); ?></span>
 									</a>
 									</li>
 								<?php endforeach; ?>
 							</ul>
 						</div>
-					</div></nav>
+					</div>
+				</nav>
 
 			</div>
 

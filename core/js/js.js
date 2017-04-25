@@ -1398,6 +1398,7 @@ function initCore() {
 		// toggle the navigation
 		var $toggle = $('#header .header-appname-container');
 		var $navigation = $('#navigation');
+		var $appmenu = $('#appmenu');
 
 		// init the menu
 		OC.registerMenu($toggle, $navigation);
@@ -1424,6 +1425,20 @@ function initCore() {
 			if(event.which === 2) {
 				// Close navigation when opening app in
 				// a new tab via middle click
+				OC.hideMenus(function(){return false});
+			}
+		});
+
+		$appmenu.delegate('a', 'click', function(event) {
+			var $app = $(event.target);
+			if(!$app.is('a')) {
+				$app = $app.closest('a');
+			}
+			if(event.which === 1 && !event.ctrlKey && !event.metaKey) {
+				$app.addClass('app-loading');
+			} else {
+				// Close navigation when opening app in
+				// a new tab
 				OC.hideMenus(function(){return false});
 			}
 		});
@@ -1481,6 +1496,53 @@ function initCore() {
 			}
 		});
 	}
+
+	var resizeMenu = function() {
+		var maxApps = 8;
+		var appList = $('#appmenu li');
+		var availableWidth = $('#header-left').width() - $('#nextcloud').width() - 44;
+		var appCount = Math.floor((availableWidth)/44);
+		console.log(appCount);
+		// show a maximum of 8 apps
+		if(appCount >= maxApps) {
+			appCount = maxApps;
+		}
+		// show at least 2 apps in the popover
+		if(appList.length-1-appCount >= 1) {
+			appCount--;
+		}
+
+		$('#more-apps a').removeClass('active');
+		var lastShownApp;
+		for (var k = 0; k < appList.length-1; k++) {
+			var name = $(appList[k]).data('id');
+			if(k < appCount) {
+				$(appList[k]).removeClass('hidden');
+				$('#apps li[data-id=' + name + ']').addClass('in-header');
+				lastShownApp = appList[k];
+			} else {
+				$(appList[k]).addClass('hidden');
+				$('#apps li[data-id=' + name + ']').removeClass('in-header');
+				// move active app to last position if it is active
+				if(appCount > 0 && $(appList[k]).children('a').hasClass('active')) {
+					$(lastShownApp).addClass('hidden');
+					$('#apps li[data-id=' + $(lastShownApp).data('id') + ']').removeClass('in-header');
+					$(appList[k]).removeClass('hidden');
+					$('#apps li[data-id=' + name + ']').addClass('in-header');
+				}
+			}
+		}
+
+		// show/hide more apps icon
+		if($('#apps li:not(.in-header)').length === 0) {
+			$('#more-apps').hide();
+			$('#navigation').hide();
+		} else {
+			$('#more-apps').show();
+		}
+	};
+	$(window).resize(resizeMenu);
+	resizeMenu();
 
 	// just add snapper for logged in users
 	if($('#app-navigation').length && !$('html').hasClass('lte9')) {
