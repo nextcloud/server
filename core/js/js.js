@@ -1502,7 +1502,6 @@ function initCore() {
 		var appList = $('#appmenu li');
 		var availableWidth = $('#header-left').width() - $('#nextcloud').width() - 44;
 		var appCount = Math.floor((availableWidth)/44);
-		console.log(appCount);
 		// show a maximum of 8 apps
 		if(appCount >= maxApps) {
 			appCount = maxApps;
