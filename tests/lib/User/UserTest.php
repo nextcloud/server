@@ -705,7 +705,55 @@ class UserTest extends TestCase {
 				'false'
 			);
 
-		$user = new User('foo', $backend, null, $config);
+		$user = $this->getMockBuilder(User::class)
+			->setConstructorArgs([
+				'foo',
+				$backend,
+				null,
+				$config,
+			])
+			->setMethods(['isEnabled', 'triggerChange'])
+			->getMock();
+
+		$user->expects($this->once())
+			->method('isEnabled')
+			->willReturn(true);
+		$user->expects($this->once())
+			->method('triggerChange')
+			->with(
+				'enabled',
+				'false'
+			);
+
+		$user->setEnabled(false);
+	}
+
+	public function testSetDisabledAlreadyDisabled() {
+		/**
+		 * @var Backend | \PHPUnit_Framework_MockObject_MockObject $backend
+		 */
+		$backend = $this->createMock(\Test\Util\User\Dummy::class);
+
+		$config = $this->createMock(IConfig::class);
+		$config->expects($this->never())
+			->method('setUserValue');
+
+		$user = $this->getMockBuilder(User::class)
+			->setConstructorArgs([
+				'foo',
+				$backend,
+				null,
+				$config,
+			])
+			->setMethods(['isEnabled', 'triggerChange'])
+			->getMock();
+
+		$user->expects($this->once())
+			->method('isEnabled')
+			->willReturn(false);
+		$user->expects($this->never())
+			->method('triggerChange');
+
 		$user->setEnabled(false);
 	}
 
