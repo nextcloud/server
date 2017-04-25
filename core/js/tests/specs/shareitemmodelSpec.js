@@ -670,6 +670,83 @@ describe('OC.Share.ShareItemModel', function() {
 				shareWith: 'group1'
 			});
 		});
+		it('calls complete handler before refreshing the model', function() {
+			var completeStub = sinon.stub();
+			model.addShare({
+				shareType: OC.Share.SHARE_TYPE_GROUP,
+				shareWith: 'group1'
+			}, {
+				complete: completeStub
+			});
+
+			expect(fakeServer.requests.length).toEqual(1);
+			fakeServer.requests[0].respond(
+				200,
+				{ 'Content-Type': 'application/json' },
+				JSON.stringify({ })
+			);
+
+			expect(completeStub.calledOnce).toEqual(true);
+			expect(completeStub.lastCall.args[0]).toEqual(model);
+
+			fetchReshareDeferred.resolve(makeOcsResponse([]));
+			fetchSharesDeferred.resolve(makeOcsResponse([]));
+
+			expect(completeStub.calledOnce).toEqual(true);
+		});
+		it('calls success handler after refreshing the model', function() {
+			var successStub = sinon.stub();
+			model.addShare({
+				shareType: OC.Share.SHARE_TYPE_GROUP,
+				shareWith: 'group1'
+			}, {
+				success: successStub
+			});
+
+			expect(fakeServer.requests.length).toEqual(1);
+			fakeServer.requests[0].respond(
+				200,
+				{ 'Content-Type': 'application/json' },
+				JSON.stringify({ })
+			);
+
+			expect(successStub.called).toEqual(false);
+
+			fetchReshareDeferred.resolve(makeOcsResponse([]));
+			fetchSharesDeferred.resolve(makeOcsResponse([]));
+
+			expect(successStub.calledOnce).toEqual(true);
+			expect(successStub.lastCall.args[0]).toEqual(model);
+		});
+		it('calls complete handler before error handler', function() {
+			var completeStub = sinon.stub();
+			var errorStub = sinon.stub();
+			model.addShare({
+				shareType: OC.Share.SHARE_TYPE_GROUP,
+				shareWith: 'group1'
+			}, {
+				complete: completeStub,
+				error: errorStub
+			});
+
+			expect(fakeServer.requests.length).toEqual(1);
+			fakeServer.requests[0].respond(
+				400,
+				{ 'Content-Type': 'application/json' },
+				JSON.stringify({
+					ocs: {
+						meta: {
+							message: 'Some error message'
+						}
+					}
+				})
+			);
+
+			expect(completeStub.calledOnce).toEqual(true);
+			expect(completeStub.lastCall.args[0]).toEqual(model);
+			expect(errorStub.calledOnce).toEqual(true);
+			expect(completeStub.calledBefore(errorStub)).toEqual(true);
+		});
 		it('calls error handler with error message', function() {
 			var errorStub = sinon.stub();
 			model.addShare({
@@ -693,6 +770,7 @@ describe('OC.Share.ShareItemModel', function() {
 			);
 
 			expect(errorStub.calledOnce).toEqual(true);
+			expect(errorStub.lastCall.args[0]).toEqual(model);
 			expect(errorStub.lastCall.args[1]).toEqual('Some error message');
 		});
 	});
@@ -711,6 +789,80 @@ describe('OC.Share.ShareItemModel', function() {
 			expect(OC.parseQueryString(fakeServer.requests[0].requestBody)).toEqual({
 				permissions: '' + (OC.PERMISSION_READ | OC.PERMISSION_SHARE)
 			});
+		});
+		it('calls complete handler before refreshing the model', function() {
+			var completeStub = sinon.stub();
+			model.updateShare(123, {
+				permissions: OC.PERMISSION_READ | OC.PERMISSION_SHARE
+			}, {
+				complete: completeStub
+			});
+
+			expect(fakeServer.requests.length).toEqual(1);
+			fakeServer.requests[0].respond(
+				200,
+				{ 'Content-Type': 'application/json' },
+				JSON.stringify({ })
+			);
+
+			expect(completeStub.calledOnce).toEqual(true);
+			expect(completeStub.lastCall.args[0]).toEqual(model);
+
+			fetchReshareDeferred.resolve(makeOcsResponse([]));
+			fetchSharesDeferred.resolve(makeOcsResponse([]));
+
+			expect(completeStub.calledOnce).toEqual(true);
+		});
+		it('calls success handler after refreshing the model', function() {
+			var successStub = sinon.stub();
+			model.updateShare(123, {
+				permissions: OC.PERMISSION_READ | OC.PERMISSION_SHARE
+			}, {
+				success: successStub
+			});
+
+			expect(fakeServer.requests.length).toEqual(1);
+			fakeServer.requests[0].respond(
+				200,
+				{ 'Content-Type': 'application/json' },
+				JSON.stringify({ })
+			);
+
+			expect(successStub.called).toEqual(false);
+
+			fetchReshareDeferred.resolve(makeOcsResponse([]));
+			fetchSharesDeferred.resolve(makeOcsResponse([]));
+
+			expect(successStub.calledOnce).toEqual(true);
+			expect(successStub.lastCall.args[0]).toEqual(model);
+		});
+		it('calls complete handler before error handler', function() {
+			var completeStub = sinon.stub();
+			var errorStub = sinon.stub();
+			model.updateShare(123, {
+				permissions: OC.PERMISSION_READ | OC.PERMISSION_SHARE
+			}, {
+				complete: completeStub,
+				error: errorStub
+			});
+
+			expect(fakeServer.requests.length).toEqual(1);
+			fakeServer.requests[0].respond(
+				400,
+				{ 'Content-Type': 'application/json' },
+				JSON.stringify({
+					ocs: {
+						meta: {
+							message: 'Some error message'
+						}
+					}
+				})
+			);
+
+			expect(completeStub.calledOnce).toEqual(true);
+			expect(completeStub.lastCall.args[0]).toEqual(model);
+			expect(errorStub.calledOnce).toEqual(true);
+			expect(completeStub.calledBefore(errorStub)).toEqual(true);
 		});
 		it('calls error handler with error message', function() {
 			var errorStub = sinon.stub();
@@ -734,6 +886,7 @@ describe('OC.Share.ShareItemModel', function() {
 			);
 
 			expect(errorStub.calledOnce).toEqual(true);
+			expect(errorStub.lastCall.args[0]).toEqual(model);
 			expect(errorStub.lastCall.args[1]).toEqual('Some error message');
 		});
 	});

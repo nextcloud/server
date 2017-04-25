@@ -54,6 +54,11 @@ class ActorContext extends RawMinkContext {
 	private $actors;
 
 	/**
+	 * @var array
+	 */
+	private $sharedNotebook;
+
+	/**
 	 * @var Actor
 	 */
 	private $currentActor;
@@ -102,8 +107,9 @@ class ActorContext extends RawMinkContext {
 	 */
 	public function initializeActors() {
 		$this->actors = array();
+		$this->sharedNotebook = array();
 
-		$this->actors["default"] = new Actor($this->getSession(), $this->getMinkParameter("base_url"));
+		$this->actors["default"] = new Actor($this->getSession(), $this->getMinkParameter("base_url"), $this->sharedNotebook);
 		$this->actors["default"]->setFindTimeoutMultiplier($this->actorFindTimeoutMultiplier);
 
 		$this->currentActor = $this->actors["default"];
@@ -127,7 +133,7 @@ class ActorContext extends RawMinkContext {
 	 */
 	public function iActAs($actorName) {
 		if (!array_key_exists($actorName, $this->actors)) {
-			$this->actors[$actorName] = new Actor($this->getSession($actorName), $this->getMinkParameter("base_url"));
+			$this->actors[$actorName] = new Actor($this->getSession($actorName), $this->getMinkParameter("base_url"), $this->sharedNotebook);
 			$this->actors[$actorName]->setFindTimeoutMultiplier($this->actorFindTimeoutMultiplier);
 		}
 

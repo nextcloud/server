@@ -713,36 +713,17 @@ class Manager implements IManager {
 		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK) {
 			$this->linkCreateChecks($share);
 
-			// Password updated.
-			if ($share->getPassword() !== $originalShare->getPassword()) {
-				//Verify the password
-				$this->verifyPassword($share->getPassword());
-
-				// If a password is set. Hash it!
-				if ($share->getPassword() !== null) {
-					$share->setPassword($this->hasher->hash($share->getPassword()));
-				}
-			}
+			$this->updateSharePasswordIfNeeded($share, $originalShare);
 
 			if ($share->getExpirationDate() != $originalShare->getExpirationDate()) {
 				//Verify the expiration date
 				$this->validateExpirationDate($share);
 				$expirationDateUpdated = true;
 			}
-		}
-
-		$plainTextPassword = null;
-		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK || $share->getShareType() === \OCP\Share::SHARE_TYPE_EMAIL) {
-			// Password updated.
-			if ($share->getPassword() !== $originalShare->getPassword()) {
-				//Verify the password
-				$this->verifyPassword($share->getPassword());
-
-				// If a password is set. Hash it!
-				if ($share->getPassword() !== null) {
-					$plainTextPassword = $share->getPassword();
-					$share->setPassword($this->hasher->hash($plainTextPassword));
-				}
+		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_EMAIL) {
+			$plainTextPassword = $share->getPassword();
+			if (!$this->updateSharePasswordIfNeeded($share, $originalShare)) {
+				$plainTextPassword = null;
 			}
 		}
 
@@ -793,6 +774,32 @@ class Manager implements IManager {
 		}
 
 		return $share;
+	}
+
+	/**
+	 * Updates the password of the given share if it is not the same as the
+	 * password of the original share.
+	 *
+	 * @param \OCP\Share\IShare $share the share to update its password.
+	 * @param \OCP\Share\IShare $originalShare the original share to compare its
+	 *        password with.
+	 * @return boolean whether the password was updated or not.
+	 */
+	private function updateSharePasswordIfNeeded(\OCP\Share\IShare $share, \OCP\Share\IShare $originalShare) {
+		// Password updated.
+		if ($share->getPassword() !== $originalShare->getPassword()) {
+			//Verify the password
+			$this->verifyPassword($share->getPassword());
+
+			// If a password is set. Hash it!
+			if ($share->getPassword() !== null) {
+				$share->setPassword($this->hasher->hash($share->getPassword()));
+
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**

@@ -48,6 +48,10 @@
  * before giving up without modifying the tests themselves. Note that the
  * multiplier affects the timeout, but not the timeout step; the rate at which
  * find() will try again to find the element does not change.
+ *
+ * All actors share a notebook in which data can be annotated. This makes
+ * possible to share data between different test steps, no matter which Actor
+ * performs them.
  */
 class Actor {
 
@@ -67,15 +71,22 @@ class Actor {
 	private $findTimeoutMultiplier;
 
 	/**
+	 * @var array
+	 */
+	private $sharedNotebook;
+
+	/**
 	 * Creates a new Actor.
 	 *
 	 * @param \Behat\Mink\Session $session the Mink Session used to control its
 	 *        web browser.
 	 * @param string $baseUrl the base URL used when solving relative URLs.
+	 * @param array $sharedNotebook the notebook shared between all actors.
 	 */
-	public function __construct(\Behat\Mink\Session $session, $baseUrl) {
+	public function __construct(\Behat\Mink\Session $session, $baseUrl, &$sharedNotebook) {
 		$this->session = $session;
 		$this->baseUrl = $baseUrl;
+		$this->sharedNotebook = &$sharedNotebook;
 		$this->findTimeoutMultiplier = 1;
 	}
 
@@ -219,6 +230,15 @@ class Actor {
 		}
 
 		return $ancestorElement;
+	}
+
+	/**
+	 * Returns the shared notebook of the Actors.
+	 *
+	 * @return array the shared notebook of the Actors.
+	 */
+	public function &getSharedNotebook() {
+		return $this->sharedNotebook;
 	}
 
 }

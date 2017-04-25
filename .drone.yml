@@ -485,6 +485,13 @@ pipeline:
       when:
         matrix:
           TESTS-ACCEPTANCE: access-levels
+  acceptance-app-files:
+      image: nextcloudci/php7.0:php7.0-7
+      commands:
+        - tests/acceptance/run-local.sh allow-git-repository-modifications features/app-files.feature
+      when:
+        matrix:
+          TESTS-ACCEPTANCE: app-files
   acceptance-login:
       image: nextcloudci/php7.0:php7.0-7
       commands:
@@ -567,6 +574,8 @@ matrix:
     - TESTS: integration-trashbin
     - TESTS: acceptance
       TESTS-ACCEPTANCE: access-levels
+    - TESTS: acceptance
+      TESTS-ACCEPTANCE: app-files
     - TESTS: acceptance
       TESTS-ACCEPTANCE: login
     - TESTS: jsunit
