@@ -17,6 +17,8 @@ OC.L10N.register(
     "Group already exists." : "Η ομάδα υπάρχει ήδη.",
     "Unable to add group." : "Αδυναμία προσθήκης ομάδας.",
     "Unable to delete group." : "Αδυναμία διαγραφής ομάδας.",
+    "Invalid SMTP password." : "Μη έγκυρο συνθηματικό SMTP.",
+    "Email setting test" : "Δοκιμή ρυθμίσεων email",
     "A problem occurred while sending the email. Please revise your settings. (Error: %s)" : "Παρουσιάστηκε σφάλμα κατά την αποστολή e-mail. Παρακαλώ ελέγξτε τις ρυθμίσεις σας.(Error: %s)",
     "You need to set your user email before being able to send test emails." : "Πρέπει να ορίσετε το email του χρήστη πριν να είστε σε θέση να στείλετε δοκιμαστικά emails.",
     "Invalid request" : "Μη έγκυρο αίτημα",
