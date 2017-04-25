@@ -24,7 +24,9 @@
  */
 namespace OCA\Theming\Tests\Controller;
 
+use OC\Files\AppData\Factory;
 use OC\L10N\L10N;
+use OC\Template\SCSSCacher;
 use OCA\Theming\Controller\ThemingController;
 use OCA\Theming\Util;
 use OCP\App\IAppManager;
@@ -38,8 +40,10 @@ use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IConfig;
 use OCP\IL10N;
+use OCP\ILogger;
 use OCP\IRequest;
 use OCP\ITempManager;
+use OCP\IURLGenerator;
 use Test\TestCase;
 use OCA\Theming\ThemingDefaults;
 
@@ -49,7 +53,7 @@ class ThemingControllerTest extends TestCase {
 	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
 	private $config;
 	/** @var ThemingDefaults|\PHPUnit_Framework_MockObject_MockObject */
-	private $template;
+	private $themingDefaults;
 	/** @var Util */
 	private $util;
 	/** @var \OCP\AppFramework\Utility\ITimeFactory */
@@ -66,11 +70,13 @@ class ThemingControllerTest extends TestCase {
 	private $appManager;
 	/** @var IAppData|\PHPUnit_Framework_MockObject_MockObject */
 	private $appData;
+	/** @var SCSSCacher */
+	private $scssCacher;
 
 	public function setUp() {
 		$this->request = $this->createMock(IRequest::class);
 		$this->config = $this->createMock(IConfig::class);
-		$this->template = $this->createMock(ThemingDefaults::class);
+		$this->themingDefaults = $this->createMock(ThemingDefaults::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->l10n = $this->createMock(L10N::class);
 		$this->rootFolder = $this->createMock(IRootFolder::class);
@@ -81,17 +87,19 @@ class ThemingControllerTest extends TestCase {
 			->willReturn(123);
 		$this->tempManager = \OC::$server->getTempManager();
 		$this->appData = $this->createMock(IAppData::class);
+		$this->scssCacher = $this->createMock(SCSSCacher::class);
 
 		$this->themingController = new ThemingController(
 			'theming',
 			$this->request,
 			$this->config,
-			$this->template,
+			$this->themingDefaults,
 			$this->util,
 			$this->timeFactory,
 			$this->l10n,
 			$this->tempManager,
-			$this->appData
+			$this->appData,
+			$this->scssCacher
 		);
 
 		return parent::setUp();
@@ -122,7 +130,7 @@ class ThemingControllerTest extends TestCase {
 	 * @param string $message
 	 */
 	public function testUpdateStylesheet($setting, $value, $status, $message) {
-		$this->template
+		$this->themingDefaults
 			->expects($status === 'success' ? $this->once() : $this->never())
 			->method('set')
 			->with($setting, $value);
@@ -358,7 +366,7 @@ class ThemingControllerTest extends TestCase {
 			->method('t')
 			->with('Saved')
 			->willReturn('Saved');
-		$this->template
+		$this->themingDefaults
 			->expects($this->once())
 			->method('undo')
 			->with('MySetting')
@@ -455,533 +463,53 @@ class ThemingControllerTest extends TestCase {
 		@$this->assertEquals($expected, $this->themingController->getLoginBackground());
 	}
 
-	public function testGetStylesheetWithOnlyColor() {
 
-		$color = '#000';
+	public function testGetStylesheet() {
 
-		$this->config
-			->expects($this->at(0))
-			->method('getAppValue')
-			->with('theming', 'cachebuster', '0')
-			->willReturn('0');
-		$this->config
-			->expects($this->at(1))
-			->method('getAppValue')
-			->with('theming', 'color', '')
-			->willReturn($color);
-		$this->config
-			->expects($this->at(2))
-			->method('getAppValue')
-			->with('theming', 'logoMime', '')
-			->willReturn('');
-		$this->config
-			->expects($this->at(3))
-			->method('getAppValue')
-			->with('theming', 'backgroundMime', '')
-			->willReturn('');
+		$file = $this->createMock(ISimpleFile::class);
+		$file->expects($this->any())->method('getName')->willReturn('theming.css');
+		$file->expects($this->any())->method('getContent')->willReturn('compiled');
+		$this->scssCacher->expects($this->once())->method('process')->willReturn(true);
+		$this->scssCacher->expects($this->once())->method('getCachedCSS')->willReturn($file);
 
-		$expectedData = sprintf(
-			'#body-user #header,#body-settings #header,#body-public #header,#body-login,.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid {background-color: %s}' . "\n",
-			$color
-		);
-		$expectedData .= sprintf('input[type="checkbox"].checkbox:checked:enabled:not(.checkbox--white) + label:before {' .
-			'background-image:url(\'%s/core/img/actions/checkmark-white.svg\');' .
-			'background-color: %s; background-position: center center; background-size:contain;' .
-			'width:12px; height:12px; padding:0; margin:2px 6px 6px 2px; border-radius:1px;' .
-			"}\n",
-			\OC::$WEBROOT,
-			$color
-		);
-		$expectedData .= 'input[type="radio"].radio:checked:not(.radio--white):not(:disabled) + label:before {' .
-			'background-image: url(\'data:image/svg+xml;base64,'.$this->util->generateRadioButton($color).'\');' .
-			"}\n";
-		$expectedData .= '.primary, input[type="submit"].primary, input[type="button"].primary, button.primary, .button.primary,' .
-			'.primary:active, input[type="submit"].primary:active, input[type="button"].primary:active, button.primary:active, .button.primary:active {' .
-			'border: 1px solid '.$color.';'.
-			'background-color: '.$color.';'.
-			'color: #ffffff;'.
-			"}\n" .
-			'.primary:hover, input[type="submit"].primary:hover, input[type="button"].primary:hover, button.primary:hover, .button.primary:hover,' .
-			'.primary:focus, input[type="submit"].primary:focus, input[type="button"].primary:focus, button.primary:focus, .button.primary:focus {' .
-			'border: 1px solid '.$color.';'.
-			'background-color: '.$color.';'.
-			'color: #ffffff;'.
-			"}\n" .
-			'.primary:disabled, input[type="submit"].primary:disabled, input[type="button"].primary:disabled, button.primary:disabled, .button.primary:disabled,' .
-			'.primary:disabled:hover, input[type="submit"].primary:disabled:hover, input[type="button"].primary:disabled:hover, button.primary:disabled:hover, .button.primary:disabled:hover,' .
-			'.primary:disabled:focus, input[type="submit"].primary:disabled:focus, input[type="button"].primary:disabled:focus, button.primary:disabled:focus, .button.primary:disabled:focus {' .
-			'border: 1px solid '.$color.';'.
-			'background-color: '.$color.';'.
-			'opacity: 0.4;' .
-			'color: #ffffff;'.
-			"}\n";
-		$expectedData .= '.ui-widget-header { border: 1px solid ' . $color . '; background: '. $color . '; color: #ffffff;' . "}\n";
-		$expectedData .= '.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {' .
-			'border: 1px solid ' . $color . ';' .
-			'color: ' . $color . ';' .
-			"}\n";
-		$expectedData .= '.ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited {' .
-			'color: ' . $color . ';' .
-			"}\n";
-		$expectedData .= '
-				#firstrunwizard .firstrunwizard-header {
-					background-color: ' . $color . ';
-				}
-				#firstrunwizard p a {
-					color: ' . $color . ';
-				}
-				';
-		$expectedData .= sprintf('.nc-theming-main-background {background-color: %s}' . "\n", $color);
-		$expectedData .= sprintf('.nc-theming-main-text {color: %s}' . "\n", $color);
-		$expectedData .= sprintf('#app-navigation li:hover > a, #app-navigation li:focus > a, #app-navigation a:focus, #app-navigation .selected, #app-navigation .selected a, #app-navigation .active, #app-navigation .active a {box-shadow: inset 2px 0 %s}' . "\n", $color);
-		$expectedData .= '.nc-theming-contrast {color: #ffffff}' . "\n";
-		$expectedData .= '.icon-file,.icon-filetype-text {' .
-			'background-image: url(\'./img/core/filetypes/text.svg?v=0\');' . "}\n" .
-			'.icon-folder, .icon-filetype-folder {' .
-			'background-image: url(\'./img/core/filetypes/folder.svg?v=0\');' . "}\n" .
-			'.icon-filetype-folder-drag-accept {' .
-			'background-image: url(\'./img/core/filetypes/folder-drag-accept.svg?v=0\')!important;' . "}\n";
+		$response = new Http\FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => 'text/css']);
+		$response->cacheFor(86400);
+		$expires = new \DateTime();
+		$expires->setTimestamp($this->timeFactory->getTime());
+		$expires->add(new \DateInterval('PT24H'));
+		$response->addHeader('Expires', $expires->format(\DateTime::RFC1123));
+		$response->addHeader('Pragma', 'cache');
 
-		$expected = new Http\DataDownloadResponse($expectedData, 'style', 'text/css');
-
-		$expected->cacheFor(3600);
-		$expected->addHeader('Expires', date(\DateTime::RFC2822, 123));
-		$expected->addHeader('Pragma', 'cache');
-		@$this->assertEquals($expected, $this->themingController->getStylesheet());
+		$actual = $this->themingController->getStylesheet();
+		$this->assertEquals($response, $actual);
 	}
 
-	public function testGetStylesheetWithOnlyColorInvert() {
+	public function testGetStylesheetFails() {
+		$file = $this->createMock(ISimpleFile::class);
+		$file->expects($this->any())->method('getName')->willReturn('theming.css');
+		$file->expects($this->any())->method('getContent')->willReturn('compiled');
+		$this->scssCacher->expects($this->once())->method('process')->willReturn(true);
+		$this->scssCacher->expects($this->once())->method('getCachedCSS')->willThrowException(new NotFoundException());
+		$response = new Http\NotFoundResponse();
 
-		$color = '#fff';
-		$elementColor = '#555555';
-
-		$this->config
-			->expects($this->at(0))
-			->method('getAppValue')
-			->with('theming', 'cachebuster', '0')
-			->willReturn('0');
-		$this->config
-			->expects($this->at(1))
-			->method('getAppValue')
-			->with('theming', 'color', '')
-			->willReturn($color);
-		$this->config
-			->expects($this->at(2))
-			->method('getAppValue')
-			->with('theming', 'logoMime', '')
-			->willReturn('');
-		$this->config
-			->expects($this->at(3))
-			->method('getAppValue')
-			->with('theming', 'backgroundMime', '')
-			->willReturn('');
-
-		$expectedData = sprintf(
-			'#body-user #header,#body-settings #header,#body-public #header,#body-login,.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid {background-color: %s}' . "\n",
-			$color
-		);
-		$expectedData .= sprintf('input[type="checkbox"].checkbox:checked:enabled:not(.checkbox--white) + label:before {' .
-			'background-image:url(\'%s/core/img/actions/checkmark-white.svg\');' .
-			'background-color: #555555; background-position: center center; background-size:contain;' .
-			'width:12px; height:12px; padding:0; margin:2px 6px 6px 2px; border-radius:1px;' .
-			"}\n",
-			\OC::$WEBROOT
-		);
-		$expectedData .= 'input[type="radio"].radio:checked:not(.radio--white):not(:disabled) + label:before {' .
-			'background-image: url(\'data:image/svg+xml;base64,'.$this->util->generateRadioButton('#555555').'\');' .
-			"}\n";
-		$expectedData .= '.primary, input[type="submit"].primary, input[type="button"].primary, button.primary, .button.primary,' .
-			'.primary:active, input[type="submit"].primary:active, input[type="button"].primary:active, button.primary:active, .button.primary:active {' .
-			'border: 1px solid '.$elementColor.';'.
-			'background-color: '.$elementColor.';'.
-			'color: #000000;'.
-			"}\n" .
-			'.primary:hover, input[type="submit"].primary:hover, input[type="button"].primary:hover, button.primary:hover, .button.primary:hover,' .
-			'.primary:focus, input[type="submit"].primary:focus, input[type="button"].primary:focus, button.primary:focus, .button.primary:focus {' .
-			'border: 1px solid '.$elementColor.';'.
-			'background-color: '.$elementColor.';'.
-			'color: #000000;'.
-			"}\n" .
-			'.primary:disabled, input[type="submit"].primary:disabled, input[type="button"].primary:disabled, button.primary:disabled, .button.primary:disabled,' .
-			'.primary:disabled:hover, input[type="submit"].primary:disabled:hover, input[type="button"].primary:disabled:hover, button.primary:disabled:hover, .button.primary:disabled:hover,' .
-			'.primary:disabled:focus, input[type="submit"].primary:disabled:focus, input[type="button"].primary:disabled:focus, button.primary:disabled:focus, .button.primary:disabled:focus {' .
-			'border: 1px solid '.$elementColor.';'.
-			'background-color: '.$elementColor.';'.
-			'opacity: 0.4;' .
-			'color: #000000;'.
-			"}\n";
-		$expectedData .= '.ui-widget-header { border: 1px solid ' . $color . '; background: '. $color . '; color: #ffffff;' . "}\n";
-		$expectedData .= '.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {' .
-			'border: 1px solid ' . $color . ';' .
-			'color: ' . $elementColor . ';' .
-			"}\n";
-		$expectedData .= '.ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited {' .
-			'color: ' . $elementColor . ';' .
-			"}\n";
-		$expectedData .= '
-				#firstrunwizard .firstrunwizard-header {
-					background-color: ' . $color . ';
-				}
-				#firstrunwizard p a {
-					color: ' . $color . ';
-				}
-				';
-		$expectedData .= sprintf('.nc-theming-main-background {background-color: %s}' . "\n", $color);
-		$expectedData .= sprintf('.nc-theming-main-text {color: %s}' . "\n", $color);
-		$expectedData .= sprintf('#app-navigation li:hover > a, #app-navigation li:focus > a, #app-navigation a:focus, #app-navigation .selected, #app-navigation .selected a, #app-navigation .active, #app-navigation .active a {box-shadow: inset 2px 0 %s}' . "\n", $color);
-		$expectedData .= '#header .header-appname, #expandDisplayName { color: #000000; }' . "\n";
-		$expectedData .= '#header .icon-caret { background-image: url(\'' . \OC::$WEBROOT . '/core/img/actions/caret-dark.svg\'); }' . "\n";
-		$expectedData .= '.searchbox input[type="search"] { background: transparent url(\'' . \OC::$WEBROOT . '/core/img/actions/search.svg\') no-repeat 6px center; color: #000; }' . "\n";
-		$expectedData .= '.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid { color: #000; border: 1px solid rgba(0, 0, 0, .5); }' . "\n";
-		$expectedData .= '#body-login input.login { background-image: url(\'' . \OC::$WEBROOT . '/core/img/actions/confirm.svg?v=2\'); }' . "\n";
-		$expectedData .= '.nc-theming-contrast {color: #000000}' . "\n";
-		$expectedData .= '.ui-widget-header { color: #000000; }' . "\n";
-		$expectedData .= '.icon-file,.icon-filetype-text {' .
-			'background-image: url(\'./img/core/filetypes/text.svg?v=0\');' . "}\n" .
-			'.icon-folder, .icon-filetype-folder {' .
-			'background-image: url(\'./img/core/filetypes/folder.svg?v=0\');' . "}\n" .
-			'.icon-filetype-folder-drag-accept {' .
-			'background-image: url(\'./img/core/filetypes/folder-drag-accept.svg?v=0\')!important;' . "}\n";
-
-
-		$expected = new Http\DataDownloadResponse($expectedData, 'style', 'text/css');
-
-		$expected->cacheFor(3600);
-		$expected->addHeader('Expires', date(\DateTime::RFC2822, 123));
-		$expected->addHeader('Pragma', 'cache');
-		@$this->assertEquals($expected, $this->themingController->getStylesheet());
-	}
-
-	public function testGetStylesheetWithOnlyHeaderLogo() {
-		$this->config
-			->expects($this->at(0))
-			->method('getAppValue')
-			->with('theming', 'cachebuster', '0')
-			->willReturn('0');
-		$this->config
-			->expects($this->at(1))
-			->method('getAppValue')
-			->with('theming', 'color', '')
-			->willReturn('');
-		$this->config
-			->expects($this->at(2))
-			->method('getAppValue')
-			->with('theming', 'logoMime', '')
-			->willReturn('image/png');
-		$this->config
-			->expects($this->at(3))
-			->method('getAppValue')
-			->with('theming', 'backgroundMime', '')
-			->willReturn('');
-
-		$expectedData = '#header .logo {' .
-			'background-image: url(\'./logo?v=0\');' .
-			'background-size: contain;' .
-			'}' . "\n" .
-			'#header .logo-icon {' .
-			'background-image: url(\'./logo?v=0\');' .
-			'background-size: contain;' .
-			'}' . "\n" .
-			'#firstrunwizard .firstrunwizard-header .logo {' .
-			'background-image: url(\'./logo?v=0\');' .
-			'background-size: contain;' .
-			'}' . "\n";
-		$expectedData .= '.nc-theming-contrast {color: #ffffff}' . "\n";
-		$expectedData .= '.icon-file,.icon-filetype-text {' .
-			'background-image: url(\'./img/core/filetypes/text.svg?v=0\');' . "}\n" .
-			'.icon-folder, .icon-filetype-folder {' .
-			'background-image: url(\'./img/core/filetypes/folder.svg?v=0\');' . "}\n" .
-			'.icon-filetype-folder-drag-accept {' .
-			'background-image: url(\'./img/core/filetypes/folder-drag-accept.svg?v=0\')!important;' . "}\n";
-
-		$expected = new Http\DataDownloadResponse($expectedData, 'style', 'text/css');
-
-		$expected->cacheFor(3600);
-		$expected->addHeader('Expires', date(\DateTime::RFC2822, 123));
-		$expected->addHeader('Pragma', 'cache');
-		@$this->assertEquals($expected, $this->themingController->getStylesheet());
-	}
-
-	public function testGetStylesheetWithOnlyBackgroundLogin() {
-		$this->config
-			->expects($this->at(0))
-			->method('getAppValue')
-			->with('theming', 'cachebuster', '0')
-			->willReturn('0');
-		$this->config
-			->expects($this->at(1))
-			->method('getAppValue')
-			->with('theming', 'color', '')
-			->willReturn('');
-		$this->config
-			->expects($this->at(2))
-			->method('getAppValue')
-			->with('theming', 'logoMime', '')
-			->willReturn('');
-		$this->config
-			->expects($this->at(3))
-			->method('getAppValue')
-			->with('theming', 'backgroundMime', '')
-			->willReturn('text/svg');
-
-		$expectedData = '#body-login {background-image: url(\'./loginbackground?v=0\');}' . "\n";
-		$expectedData .= '#firstrunwizard .firstrunwizard-header {' .
-			'background-image: url(\'./loginbackground?v=0\');' .
-			'}' . "\n";
-		$expectedData .= '.nc-theming-contrast {color: #ffffff}' . "\n";
-
-		$expected = new Http\DataDownloadResponse($expectedData, 'style', 'text/css');
-
-		$expected->cacheFor(3600);
-		$expected->addHeader('Expires', date(\DateTime::RFC2822, 123));
-		$expected->addHeader('Pragma', 'cache');
-		@$this->assertEquals($expected, $this->themingController->getStylesheet());
-	}
-
-	public function testGetStylesheetWithAllCombined() {
-
-		$color = '#000';
-
-		$this->config
-			->expects($this->at(0))
-			->method('getAppValue')
-			->with('theming', 'cachebuster', '0')
-			->willReturn('0');
-		$this->config
-			->expects($this->at(1))
-			->method('getAppValue')
-			->with('theming', 'color', '')
-			->willReturn($color);
-		$this->config
-			->expects($this->at(2))
-			->method('getAppValue')
-			->with('theming', 'logoMime', '')
-			->willReturn('text/svg');
-		$this->config
-			->expects($this->at(3))
-			->method('getAppValue')
-			->with('theming', 'backgroundMime', '')
-			->willReturn('image/png');
-
-		$expectedData = sprintf(
-			'#body-user #header,#body-settings #header,#body-public #header,#body-login,.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid {background-color: %s}' . "\n",
-			$color);
-
-		$expectedData .= sprintf('input[type="checkbox"].checkbox:checked:enabled:not(.checkbox--white) + label:before {' .
-			'background-image:url(\'%s/core/img/actions/checkmark-white.svg\');' .
-			'background-color: %s; background-position: center center; background-size:contain;' .
-			'width:12px; height:12px; padding:0; margin:2px 6px 6px 2px; border-radius:1px;' .
-			"}\n",
-			\OC::$WEBROOT,
-			$color
-		);
-		$expectedData .= 'input[type="radio"].radio:checked:not(.radio--white):not(:disabled) + label:before {' .
-			'background-image: url(\'data:image/svg+xml;base64,'.$this->util->generateRadioButton($color).'\');' .
-			"}\n";
-		$expectedData .= '.primary, input[type="submit"].primary, input[type="button"].primary, button.primary, .button.primary,' .
-			'.primary:active, input[type="submit"].primary:active, input[type="button"].primary:active, button.primary:active, .button.primary:active {' .
-			'border: 1px solid '.$color.';'.
-			'background-color: '.$color.';'.
-			'color: #ffffff;'.
-			"}\n" .
-			'.primary:hover, input[type="submit"].primary:hover, input[type="button"].primary:hover, button.primary:hover, .button.primary:hover,' .
-			'.primary:focus, input[type="submit"].primary:focus, input[type="button"].primary:focus, button.primary:focus, .button.primary:focus {' .
-			'border: 1px solid '.$color.';'.
-			'background-color: '.$color.';'.
-			'color: #ffffff;'.
-			"}\n" .
-			'.primary:disabled, input[type="submit"].primary:disabled, input[type="button"].primary:disabled, button.primary:disabled, .button.primary:disabled,' .
-			'.primary:disabled:hover, input[type="submit"].primary:disabled:hover, input[type="button"].primary:disabled:hover, button.primary:disabled:hover, .button.primary:disabled:hover,' .
-			'.primary:disabled:focus, input[type="submit"].primary:disabled:focus, input[type="button"].primary:disabled:focus, button.primary:disabled:focus, .button.primary:disabled:focus {' .
-			'border: 1px solid '.$color.';'.
-			'background-color: '.$color.';'.
-			'opacity: 0.4;' .
-			'color: #ffffff;'.
-			"}\n";
-		$expectedData .= '.ui-widget-header { border: 1px solid ' . $color . '; background: '. $color . '; color: #ffffff;' . "}\n";
-		$expectedData .= '.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {' .
-			'border: 1px solid ' . $color . ';' .
-			'color: ' . $color . ';' .
-			"}\n";
-		$expectedData .= '.ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited {' .
-			'color: ' . $color . ';' .
-			"}\n";
-		$expectedData .= '
-				#firstrunwizard .firstrunwizard-header {
-					background-color: ' . $color . ';
-				}
-				#firstrunwizard p a {
-					color: ' . $color . ';
-				}
-				';
-		$expectedData .= sprintf('.nc-theming-main-background {background-color: %s}' . "\n", $color);
-		$expectedData .= sprintf('.nc-theming-main-text {color: %s}' . "\n", $color);
-		$expectedData .= sprintf('#app-navigation li:hover > a, #app-navigation li:focus > a, #app-navigation a:focus, #app-navigation .selected, #app-navigation .selected a, #app-navigation .active, #app-navigation .active a {box-shadow: inset 2px 0 %s}' . "\n", $color);
-		$expectedData .= sprintf(
-			'#header .logo {' .
-			'background-image: url(\'./logo?v=0\');' .
-			'background-size: contain;' .
-			'}' . "\n" .
-			'#header .logo-icon {' .
-			'background-image: url(\'./logo?v=0\');' .
-			'background-size: contain;' .
-			'}' . "\n" .
-			'#firstrunwizard .firstrunwizard-header .logo {' .
-			'background-image: url(\'./logo?v=0\');' .
-			'background-size: contain;' .
-			'}' . "\n"
-		);
-		$expectedData .= '#body-login {background-image: url(\'./loginbackground?v=0\');}' . "\n";
-		$expectedData .= '#firstrunwizard .firstrunwizard-header {' .
-			'background-image: url(\'./loginbackground?v=0\');' .
-			'}' . "\n";
-		$expectedData .= '.nc-theming-contrast {color: #ffffff}' . "\n";
-		$expectedData .= '.icon-file,.icon-filetype-text {' .
-			'background-image: url(\'./img/core/filetypes/text.svg?v=0\');' . "}\n" .
-			'.icon-folder, .icon-filetype-folder {' .
-			'background-image: url(\'./img/core/filetypes/folder.svg?v=0\');' . "}\n" .
-			'.icon-filetype-folder-drag-accept {' .
-			'background-image: url(\'./img/core/filetypes/folder-drag-accept.svg?v=0\')!important;' . "}\n";
-		$expected = new Http\DataDownloadResponse($expectedData, 'style', 'text/css');
-
-		$expected->cacheFor(3600);
-		$expected->addHeader('Expires', date(\DateTime::RFC2822, 123));
-		$expected->addHeader('Pragma', 'cache');
-		@$this->assertEquals($expected, $this->themingController->getStylesheet());
-	}
-
-	public function testGetStylesheetWithAllCombinedInverted() {
-
-		$color = '#fff';
-		$elementColor = '#555555';
-
-		$this->config
-			->expects($this->at(0))
-			->method('getAppValue')
-			->with('theming', 'cachebuster', '0')
-			->willReturn('0');
-		$this->config
-			->expects($this->at(1))
-			->method('getAppValue')
-			->with('theming', 'color', '')
-			->willReturn('#fff');
-		$this->config
-			->expects($this->at(2))
-			->method('getAppValue')
-			->with('theming', 'logoMime', '')
-			->willReturn('text/svg');
-		$this->config
-			->expects($this->at(3))
-			->method('getAppValue')
-			->with('theming', 'backgroundMime', '')
-			->willReturn('image/png');
-
-		$expectedData = sprintf(
-			'#body-user #header,#body-settings #header,#body-public #header,#body-login,.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid {background-color: %s}' . "\n",
-			$color);
-
-		$expectedData .= sprintf('input[type="checkbox"].checkbox:checked:enabled:not(.checkbox--white) + label:before {' .
-			'background-image:url(\'%s/core/img/actions/checkmark-white.svg\');' .
-			'background-color: #555555; background-position: center center; background-size:contain;' .
-			'width:12px; height:12px; padding:0; margin:2px 6px 6px 2px; border-radius:1px;' .
-			"}\n",
-			\OC::$WEBROOT
-		);
-		$expectedData .= 'input[type="radio"].radio:checked:not(.radio--white):not(:disabled) + label:before {' .
-			'background-image: url(\'data:image/svg+xml;base64,'.$this->util->generateRadioButton('#555555').'\');' .
-			"}\n";
-		$expectedData .= '.primary, input[type="submit"].primary, input[type="button"].primary, button.primary, .button.primary,' .
-			'.primary:active, input[type="submit"].primary:active, input[type="button"].primary:active, button.primary:active, .button.primary:active {' .
-			'border: 1px solid '.$elementColor.';'.
-			'background-color: '.$elementColor.';'.
-			'color: #000000;'.
-			"}\n" .
-			'.primary:hover, input[type="submit"].primary:hover, input[type="button"].primary:hover, button.primary:hover, .button.primary:hover,' .
-			'.primary:focus, input[type="submit"].primary:focus, input[type="button"].primary:focus, button.primary:focus, .button.primary:focus {' .
-			'border: 1px solid '.$elementColor.';'.
-			'background-color: '.$elementColor.';'.
-			'color: #000000;'.
-			"}\n" .
-			'.primary:disabled, input[type="submit"].primary:disabled, input[type="button"].primary:disabled, button.primary:disabled, .button.primary:disabled,' .
-			'.primary:disabled:hover, input[type="submit"].primary:disabled:hover, input[type="button"].primary:disabled:hover, button.primary:disabled:hover, .button.primary:disabled:hover,' .
-			'.primary:disabled:focus, input[type="submit"].primary:disabled:focus, input[type="button"].primary:disabled:focus, button.primary:disabled:focus, .button.primary:disabled:focus {' .
-			'border: 1px solid '.$elementColor.';'.
-			'background-color: '.$elementColor.';'.
-			'opacity: 0.4;' .
-			'color: #000000;'.
-			"}\n";
-		$expectedData .= '.ui-widget-header { border: 1px solid ' . $color . '; background: '. $color . '; color: #ffffff;' . "}\n";
-		$expectedData .= '.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {' .
-			'border: 1px solid ' . $color . ';' .
-			'color: ' . $elementColor . ';' .
-			"}\n";
-		$expectedData .= '.ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited {' .
-			'color: ' . $elementColor . ';' .
-			"}\n";
-		$expectedData .= '
-				#firstrunwizard .firstrunwizard-header {
-					background-color: ' . $color . ';
-				}
-				#firstrunwizard p a {
-					color: ' . $color . ';
-				}
-				';
-		$expectedData .= sprintf('.nc-theming-main-background {background-color: %s}' . "\n", $color);
-		$expectedData .= sprintf('.nc-theming-main-text {color: %s}' . "\n", $color);
-		$expectedData .= sprintf('#app-navigation li:hover > a, #app-navigation li:focus > a, #app-navigation a:focus, #app-navigation .selected, #app-navigation .selected a, #app-navigation .active, #app-navigation .active a {box-shadow: inset 2px 0 %s}' . "\n", $color);
-		$expectedData .= sprintf(
-			'#header .logo {' .
-			'background-image: url(\'./logo?v=0\');' .
-			'background-size: contain;' .
-			'}' . "\n" .
-			'#header .logo-icon {' .
-			'background-image: url(\'./logo?v=0\');' .
-			'background-size: contain;' .
-			'}' . "\n" .
-			'#firstrunwizard .firstrunwizard-header .logo {' .
-			'background-image: url(\'./logo?v=0\');' .
-			'background-size: contain;' .
-			'}' . "\n"
-		);
-		$expectedData .= '#body-login {background-image: url(\'./loginbackground?v=0\');}' . "\n";
-		$expectedData .= '#firstrunwizard .firstrunwizard-header {' .
-			'background-image: url(\'./loginbackground?v=0\');' .
-			'}' . "\n";
-		$expectedData .= '#header .header-appname, #expandDisplayName { color: #000000; }' . "\n";
-		$expectedData .= '#header .icon-caret { background-image: url(\'' . \OC::$WEBROOT . '/core/img/actions/caret-dark.svg\'); }' . "\n";
-		$expectedData .= '.searchbox input[type="search"] { background: transparent url(\'' . \OC::$WEBROOT . '/core/img/actions/search.svg\') no-repeat 6px center; color: #000; }' . "\n";
-		$expectedData .= '.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid { color: #000; border: 1px solid rgba(0, 0, 0, .5); }' . "\n";
-		$expectedData .= '#body-login input.login { background-image: url(\'' . \OC::$WEBROOT . '/core/img/actions/confirm.svg?v=2\'); }' . "\n";
-		$expectedData .= '.nc-theming-contrast {color: #000000}' . "\n";
-		$expectedData .= '.ui-widget-header { color: #000000; }' . "\n";
-		$expectedData .= '.icon-file,.icon-filetype-text {' .
-			'background-image: url(\'./img/core/filetypes/text.svg?v=0\');' . "}\n" .
-			'.icon-folder, .icon-filetype-folder {' .
-			'background-image: url(\'./img/core/filetypes/folder.svg?v=0\');' . "}\n" .
-			'.icon-filetype-folder-drag-accept {' .
-			'background-image: url(\'./img/core/filetypes/folder-drag-accept.svg?v=0\')!important;' . "}\n";
-
-		$expected = new Http\DataDownloadResponse($expectedData, 'style', 'text/css');
-		$expected->cacheFor(3600);
-		$expected->addHeader('Expires', date(\DateTime::RFC2822, 123));
-		$expected->addHeader('Pragma', 'cache');
-		@$this->assertEquals($expected, $this->themingController->getStylesheet());
+		$actual = $this->themingController->getStylesheet();
+		$this->assertEquals($response, $actual);
 	}
 
 	public function testGetJavascript() {
-		$this->template
+		$this->themingDefaults
 			->expects($this->at(0))
 			->method('getName')
 			->willReturn("");
-		$this->template
+		$this->themingDefaults
 			->expects($this->at(1))
 			->method('getBaseUrl')
 			->willReturn("");
-		$this->template
+		$this->themingDefaults
 			->expects($this->at(2))
 			->method('getSlogan')
 			->willReturn("");
-		$this->template
+		$this->themingDefaults
 			->expects($this->at(3))
 			->method('getColorPrimary')
 			->willReturn("#000");
@@ -1004,19 +532,19 @@ class ThemingControllerTest extends TestCase {
 		@$this->assertEquals($expected, $this->themingController->getJavascript());
 	}
 	public function testGetJavascriptInverted() {
-		$this->template
+		$this->themingDefaults
 			->expects($this->at(0))
 			->method('getName')
 			->willReturn("Nextcloud");
-		$this->template
+		$this->themingDefaults
 			->expects($this->at(1))
 			->method('getBaseUrl')
 			->willReturn("nextcloudurl");
-		$this->template
+		$this->themingDefaults
 			->expects($this->at(2))
 			->method('getSlogan')
 			->willReturn("awesome");
-		$this->template
+		$this->themingDefaults
 			->expects($this->any())
 			->method('getColorPrimary')
 			->willReturn("#ffffff");

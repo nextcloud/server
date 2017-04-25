@@ -290,6 +290,16 @@ class OC_Defaults {
 		return $this->defaultColorPrimary;
 	}
 
+	/**
+	 * @return array scss variables to overwrite
+	 */
+	public function getScssVariables() {
+		if($this->themeExist('getScssVariables')) {
+			return $this->theme->getScssVariables();
+		}
+		return [];
+	}
+
 	public function shouldReplaceIcons() {
 		return false;
 	}

@@ -1,0 +1,64 @@
+.nc-theming-main-background {
+	background-color: $color-primary;
+}
+
+.nc-theming-main-text {
+	color: $color-primary-text;
+}
+
+.nc-theming-contrast {
+	color: $color-primary-text;
+}
+
+/* invert header icons on bright background */
+@if (lightness($color-primary) > 50) {
+	#header .icon-caret {
+		background-image: url(../../../core/img/actions/caret-dark.svg);
+	}
+	.searchbox input[type="search"] {
+		background: transparent url(../../../core/img/actions/search.svg) no-repeat 6px center;
+	}
+	#appmenu li a img {
+		-webkit-filter: invert(1);
+		filter: invert(1);
+		filter: progid:DXImageTransform.Microsoft.BasicImage(invert='1');
+	}
+}
+
+/* Colorized svg images */
+.icon-file, .icon-filetype-text {
+	background-image: url(../img/core/filetypes/text.svg?v=#{$theming-cachebuster});
+}
+
+.icon-folder, .icon-filetype-folder {
+	background-image: url(./img/core/filetypes/folder.svg?v=#{$theming-cachebuster});
+}
+
+.icon-filetype-folder-drag-accept {
+	background-image: url(./img/core/filetypes/folder-drag-accept.svg?v=#{$theming-cachebuster}) !important;
+}
+
+/* override styles for login screen in guest.css */
+#header .logo,
+#header .logo-icon {
+	background-size: contain;
+	background-image: url(#{$image-logo}?v=#{$theming-cachebuster});
+}
+
+#body-login,
+#firstrunwizard .firstrunwizard-header {
+	background-image: url(#{$image-login-background}?v=#{$theming-cachebuster});
+	background-color: $color-primary;
+}
+
+input.primary {
+	background-color: nc-lighten($color-primary, .9);
+	border: 1px solid $color-primary;
+	color: $color-primary-text;
+}
+
+@if (lightness($color-primary) > 50) {
+	#body-login input.login {
+		background-image: url(../../../core/img/actions/confirm.svg);
+	}
+}
