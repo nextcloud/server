@@ -49,8 +49,18 @@ abstract class Job implements IJob {
 	 */
 	public function execute($jobList, ILogger $logger = null) {
 		$jobList->setLastRun($this);
+		if ($logger === null) {
+			$logger = \OC::$server->getLogger();
+		}
+
 		try {
+			$jobStartTime = time();
+			$logger->debug('Run ' . get_class($this) . ' job with ID ' . $this->getId(), ['app' => 'cron']);
 			$this->run($this->argument);
+			$timeTaken = time() - $jobStartTime;
+
+			$logger->debug('Finished ' . get_class($this) . ' job with ID ' . $this->getId() . ' in ' . $timeTaken . ' seconds', ['app' => 'cron']);
+			$jobList->setExecutionTime($this, $timeTaken);
 		} catch (\Exception $e) {
 			if ($logger) {
 				$logger->logException($e, [
