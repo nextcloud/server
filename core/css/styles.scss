@@ -1081,9 +1081,7 @@ span.ui-icon {
 	.emptycontent {
 		margin-top: 5vh !important;
 		margin-bottom: 2vh;
-		.icon-loading {
-			position: inherit;
-		}
+		.icon-loading,
 		.icon-search {
 			display: inline-block;
 		}
