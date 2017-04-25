@@ -518,11 +518,19 @@ input.userFilter {width: 200px;}
 
 
 /* APPS */
+
+/* Bundle header */
 #apps-list > h2 {
 	display: block;
 	width: 100%;
 	margin-top: 50px;
-	padding-left: 30px;
+	margin-left: 50px;
+	font-weight: 600;
+}
+#apps-list > h2 .enable {
+	position: relative;
+	top: -1px;
+	margin-left: 12px;
 }
 
 #app-content > svg.app-filter {
