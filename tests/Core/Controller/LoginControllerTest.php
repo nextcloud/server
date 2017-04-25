@@ -23,7 +23,6 @@ namespace Tests\Core\Controller;
 
 use OC\Authentication\TwoFactorAuth\Manager;
 use OC\Core\Controller\LoginController;
-use OC\Security\Bruteforce\Throttler;
 use OC\User\Session;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -281,7 +280,7 @@ class LoginControllerTest extends TestCase {
 	public function testLoginWithInvalidCredentials() {
 		$user = 'MyUserName';
 		$password = 'secret';
-		$loginPageUrl = 'some url';
+		$loginPageUrl = '/login?redirect_url=/apps/files';
 
 		$this->request
 			->expects($this->once())
@@ -292,7 +291,10 @@ class LoginControllerTest extends TestCase {
 			->will($this->returnValue(false));
 		$this->urlGenerator->expects($this->once())
 			->method('linkToRoute')
-			->with('core.login.showLoginForm')
+			->with('core.login.showLoginForm', [
+				'user' => 'MyUserName',
+				'redirect_url' => '/apps/files',
+			])
 			->will($this->returnValue($loginPageUrl));
 
 		$this->userSession->expects($this->never())
@@ -304,7 +306,7 @@ class LoginControllerTest extends TestCase {
 
 		$expected = new \OCP\AppFramework\Http\RedirectResponse($loginPageUrl);
 		$expected->throttle();
-		$this->assertEquals($expected, $this->loginController->tryLogin($user, $password, ''));
+		$this->assertEquals($expected, $this->loginController->tryLogin($user, $password, '/apps/files'));
 	}
 
 	public function testLoginWithValidCredentials() {
