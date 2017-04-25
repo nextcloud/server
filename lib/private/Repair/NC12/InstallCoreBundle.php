@@ -71,7 +71,7 @@ class InstallCoreBundle implements IRepairStep {
 				$this->installer->installAppBundle($bundle);
 				$output->info('Successfully installed core app bundle.');
 			} catch (\Exception $e) {
-				$output->warning('Could not install core app bundle:' . $e->getMessage());
+				$output->warning('Could not install core app bundle: ' . $e->getMessage());
 			}
 		}
 	}
