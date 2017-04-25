@@ -4,6 +4,7 @@
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Roger Szabo <roger.szabo@web.de>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -72,5 +73,36 @@ class GroupManagement extends Action {
 			]
 		);
 	}
+	
+	/**
+	 * log create group to group event
+	 *
+	 * @param IGroup $group
+	 */
+	public function createGroup(IGroup $group) {
+		$this->log('Group created: "%s"',
+			[
+				'group' => $group->getGID()
+			],
+			[
+				'group'
+			]
+		);
+	}
 
+	/**
+	 * log delete group to group event
+	 *
+	 * @param IGroup $group
+	 */
+	public function deleteGroup(IGroup $group) {
+		$this->log('Group deleted: "%s"',
+			[
+				'group' => $group->getGID()
+			],
+			[
+				'group'
+			]
+		);
+	}
 }
