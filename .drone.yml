@@ -26,6 +26,13 @@ pipeline:
     when:
       matrix:
         TESTS: check-mergejs
+  translation-check:
+    image: nextcloudci/php7.0:php7.0-7
+    commands:
+      - php ./build/translation-checker.php
+    when:
+      matrix:
+        TESTS: translation-check
   app-check-code:
     image: nextcloudci/php7.0:php7.0-7
     commands:
