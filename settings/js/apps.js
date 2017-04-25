@@ -109,17 +109,19 @@ OC.Settings.Apps = OC.Settings.Apps || {
 				var template = Handlebars.compile(source);
 
 				if (appList.length) {
-					appList.sort(function(a,b) {
-						if (a.active !== b.active) {
-							return (a.active ? -1 : 1)
-						} else {
-							var levelDiff = b.level - a.level;
-							if (levelDiff === 0) {
-								return OC.Util.naturalSortCompare(a.name, b.name);
+					if(categoryId !== 'app-bundles') {
+						appList.sort(function (a, b) {
+							if (a.active !== b.active) {
+								return (a.active ? -1 : 1)
+							} else {
+								var levelDiff = b.level - a.level;
+								if (levelDiff === 0) {
+									return OC.Util.naturalSortCompare(a.name, b.name);
+								}
+								return levelDiff;
 							}
-							return levelDiff;
-						}
-					});
+						});
+					}
 
 					var firstExperimental = false;
 					_.each(appList, function(app) {
