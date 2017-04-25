@@ -240,6 +240,9 @@ class LoginController extends Controller {
 		if ($loginResult === false) {
 			// Read current user and append if possible - we need to return the unmodified user otherwise we will leak the login name
 			$args = !is_null($user) ? ['user' => $originalUser] : [];
+			if (!is_null($redirect_url)) {
+				$args['redirect_url'] = $redirect_url;
+			}
 			$response = new RedirectResponse($this->urlGenerator->linkToRoute('core.login.showLoginForm', $args));
 			$response->throttle();
 			$this->session->set('loginMessages', [
