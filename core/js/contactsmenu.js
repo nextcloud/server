@@ -32,7 +32,7 @@
 	var CONTACTS_LIST_TEMPLATE = ''
 			+ '{{#unless contacts.length}}'
 			+ '<div class="emptycontent">'
-			+ '    <a class="icon-search"></a>'
+			+ '    <div class="icon-search"></div>'
 			+ '    <h2>' + t('core', 'No contacts found') + '</h2>'
 			+ '</div>'
 			+ '{{/unless}}'
@@ -40,12 +40,13 @@
 			+ '{{#if contactsAppEnabled}}<div class="footer"><a href="{{contactsAppURL}}">' + t('core', 'Show all contacts …') + '</a></div>{{/if}}';
 	var LOADING_TEMPLATE = ''
 			+ '<div class="emptycontent">'
-			+ '    <a class="icon-loading"></a>'
+			+ '    <div class="icon-loading"></div>'
 			+ '    <h2>{{loadingText}}</h2>'
 			+ '</div>';
 	var ERROR_TEMPLATE = ''
 			+ '<div class="emptycontent">'
-			+ '    <h2>' + t('core', 'Could not load your contacts.') + '</h2>'
+			+ '    <div class="icon-search"></div>'
+			+ '    <h2>' + t('core', 'There was an error loading your contacts') + '</h2>'
 			+ '</div>';
 	var CONTACT_TEMPLATE = ''
 			+ '{{#if contact.avatar}}'
@@ -508,7 +509,7 @@
 				self._view.showContacts(data, searchTerm);
 			}, function(e) {
 				self._view.showError();
-				console.error('could not load contacts', e);
+				console.error('There was an error loading your contacts', e);
 			}).then(function() {
 				// Delete promise, so that contacts are fetched again when the
 				// menu is opened the next time.
