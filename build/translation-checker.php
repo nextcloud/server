@@ -22,28 +22,16 @@
 $directories = [
 	__DIR__ . '/../core/l10n',
 	__DIR__ . '/../settings/l10n',
-	__DIR__ . '/../apps/admin_audit/l10n',
-	__DIR__ . '/../apps/comments/l10n',
-	__DIR__ . '/../apps/dav/l10n',
-	__DIR__ . '/../apps/encryption/l10n',
-	__DIR__ . '/../apps/federatedfilesharing/l10n',
-	__DIR__ . '/../apps/federation/l10n',
-	__DIR__ . '/../apps/files/l10n',
-	__DIR__ . '/../apps/files_external/l10n',
-	__DIR__ . '/../apps/files_sharing/l10n',
-	__DIR__ . '/../apps/files_trashbin/l10n',
-	__DIR__ . '/../apps/files_versions/l10n',
-	__DIR__ . '/../apps/lookup_server_connector/l10n',
-	__DIR__ . '/../apps/provisioning_api/l10n',
-	__DIR__ . '/../apps/sharebymail/l10n',
-	__DIR__ . '/../apps/systemtags/l10n',
-	__DIR__ . '/../apps/testing/l10n',
-	__DIR__ . '/../apps/theming/l10n',
-	__DIR__ . '/../apps/twofactor_backupcodes/l10n',
-	__DIR__ . '/../apps/updatenotification/l10n',
-	__DIR__ . '/../apps/user_ldap/l10n',
-	__DIR__ . '/../apps/workflowengine/l10n',
 ];
+
+$apps = new \DirectoryIterator(__DIR__ . '/../apps');
+foreach ($apps as $app) {
+	if (!file_exists($app->getPathname() . '/l10n')) {
+		continue;
+	}
+
+	$directories[] = $app->getPathname() . '/l10n';
+}
 
 $errors = [];
 foreach ($directories as $dir) {
@@ -73,9 +61,9 @@ foreach ($directories as $dir) {
 echo "\n\n";
 if (count($errors) > 0) {
 	echo sprintf('ERROR: There were %d errors:', count($errors)) . "\n";
-	echo implode("\n", $errors);
+	echo implode("\n", $errors) . "\n";
 	exit(1);
 }
 
-echo 'OK: all files parse';
+echo 'OK: all files parse' . "\n";
 exit(0);

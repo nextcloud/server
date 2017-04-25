@@ -543,6 +543,7 @@ pipeline:
 matrix:
   include:
     - TESTS: signed-off-check
+    - TESTS: translation-check
     - TESTS: htaccess-checker
     - TESTS: nodb-codecov
     - TESTS: db-codecov
