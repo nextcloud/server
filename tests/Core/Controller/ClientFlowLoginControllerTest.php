@@ -310,7 +310,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 		$this->random
 			->expects($this->once())
 			->method('generate')
-			->with(60)
+			->with(72)
 			->willReturn('MyGeneratedToken');
 		$user = $this->createMock(IUser::class);
 		$user
@@ -374,7 +374,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 		$this->random
 			->expects($this->once())
 			->method('generate')
-			->with(60)
+			->with(72)
 			->willReturn('MyGeneratedToken');
 		$user = $this->createMock(IUser::class);
 		$user
