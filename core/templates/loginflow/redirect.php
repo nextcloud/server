@@ -29,6 +29,6 @@ $urlGenerator = $_['urlGenerator'];
 
 <form method="POST" action="<?php p($urlGenerator->linkToRouteAbsolute('core.ClientFlowLogin.generateAppPassword')) ?>">
 	<input type="hidden" name="requesttoken" value="<?php p($_['requesttoken']) ?>" />
-	<input type="hidden" name="statetoken" value="<?php p($_['stateToken']) ?>" />
+	<input type="hidden" name="stateToken" value="<?php p($_['stateToken']) ?>" />
 	<input id="submit-redirect-form" type="submit" class="hidden "/>
 </form>
