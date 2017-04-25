@@ -443,6 +443,43 @@ class Group_LDAPTest extends \Test\TestCase {
 			->will($this->returnCallback(function($dn, $attr) {
 				if($attr === 'primaryGroupToken') {
 					return array(1337);
+				} else if($attr === 'gidNumber') {
+					return [4211];
+				}
+				return array();
+			}));
+
+		$access->expects($this->any())
+			->method('groupname2dn')
+			->will($this->returnValue('cn=foobar,dc=foo,dc=bar'));
+
+		$access->expects($this->exactly(2))
+			->method('nextcloudUserNames')
+			->willReturnOnConsecutiveCalls(['lisa', 'bart', 'kira', 'brad'], ['walle', 'dino', 'xenia']);
+
+		$groupBackend = new GroupLDAP($access);
+		$users = $groupBackend->usersInGroup('foobar');
+
+		$this->assertSame(7, count($users));
+	}
+
+	/**
+	 * tests that a user listing is complete, if all it's members have the group
+	 * as their primary.
+	 */
+	public function testUsersInGroupPrimaryAndUnixMembers() {
+		$access = $this->getAccessMock();
+		$this->enableGroups($access);
+
+		$access->connection->expects($this->any())
+			->method('getFromCache')
+			->will($this->returnValue(null));
+
+		$access->expects($this->any())
+			->method('readAttribute')
+			->will($this->returnCallback(function($dn, $attr) {
+				if($attr === 'primaryGroupToken') {
+					return array(1337);
 				}
 				return array();
 			}));

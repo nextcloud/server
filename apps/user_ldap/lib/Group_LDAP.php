@@ -804,16 +804,9 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface {
 		}
 
 		$primaryUsers = $this->getUsersInPrimaryGroup($groupDN, $search, $limit, $offset);
-		$members = array_keys($this->_groupMembers($groupDN));
-		if(!$members && empty($primaryUsers)) {
-			//in case users could not be retrieved, return empty result set
-			$this->access->connection->writeToCache($cacheKey, array());
-			return array();
-		}
-
 		$posixGroupUsers = $this->getUsersInGidNumber($groupDN, $search, $limit, $offset);
 		$members = array_keys($this->_groupMembers($groupDN));
-		if(!$members && empty($posixGroupUsers)) {
+		if(!$members && empty($posixGroupUsers) && empty($primaryUsers)) {
 			//in case users could not be retrieved, return empty result set
 			$this->access->connection->writeToCache($cacheKey, []);
 			return [];
@@ -850,12 +843,7 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface {
 			}
 		}
 
-		$groupUsers = array_unique(array_merge($groupUsers, $primaryUsers));
-		natsort($groupUsers);
-		$this->access->connection->writeToCache('usersInGroup-'.$gid.'-'.$search, $groupUsers);
-		$groupUsers = array_slice($groupUsers, $offset, $limit);
-
-		$groupUsers = array_unique(array_merge($groupUsers, $posixGroupUsers));
+		$groupUsers = array_unique(array_merge($groupUsers, $primaryUsers, $posixGroupUsers));
 		natsort($groupUsers);
 		$this->access->connection->writeToCache('usersInGroup-'.$gid.'-'.$search, $groupUsers);
 		$groupUsers = array_slice($groupUsers, $offset, $limit);
