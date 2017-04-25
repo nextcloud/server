@@ -182,7 +182,7 @@
 	   title="<?php p($l->t('Open documentation'));?>"
 	   href="<?php p(link_to_docs('admin-background-jobs')); ?>"></a>
 
-	<p class="settings-hint"><?php p($l->t('For the optimal performance it\'s important to configure background jobs correctly. For bigger instances \'Cron\' is the recommended setting. Please see the documentation for more information.'));?></p>
+	<p class="settings-hint"><?php p($l->t('For optimal performance it\'s important to configure background jobs correctly. For bigger instances \'Cron\' is the recommended setting. Please see the documentation for more information.'));?></p>
 	<p>
 		<input type="radio" name="mode" value="ajax" class="radio"
 			   id="backgroundjobs_ajax" <?php if ($_['backgroundjobs_mode'] === "ajax") {

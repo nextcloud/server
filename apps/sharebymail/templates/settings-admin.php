@@ -8,7 +8,7 @@ style('sharebymail', 'settings-admin');
 ?>
 <div id="ncShareByMailSettings" class="section">
 	<h2><?php p($l->t('Share by mail')); ?></h2>
-	<p class="settings-hint"><?php p($l->t('Send a personalized link to a file or folder by mail.')); ?></p>
+	<p class="settings-hint"><?php p($l->t('Allows users to share a personalized link to a file or folder by putting in an email address.')); ?></p>
 
 	<p>
 		<input id="sendPasswordMail" type="checkbox" class="checkbox" <?php if($_['sendPasswordMail']) p('checked'); ?> />
@@ -18,4 +18,3 @@ style('sharebymail', 'settings-admin');
 	</p>
 
 </div>
-
