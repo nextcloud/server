@@ -50,6 +50,7 @@ use OC\AppFramework\Utility\SimpleContainer;
 use OC\AppFramework\Utility\TimeFactory;
 use OC\Authentication\LoginCredentials\Store;
 use OC\Command\AsyncBus;
+use OC\Contacts\ContactsMenu\ActionFactory;
 use OC\Diagnostics\EventLogger;
 use OC\Diagnostics\NullEventLogger;
 use OC\Diagnostics\NullQueryLogger;
@@ -108,6 +109,8 @@ use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\IServerContainer;
 use OCP\ITempManager;
+use OCP\Contacts\ContactsMenu\IActionFactory;
+use OCP\IURLGenerator;
 use OCP\RichObjectStrings\IValidator;
 use OCP\Security\IContentSecurityPolicyManager;
 use OCP\Share\IShareHelper;
@@ -133,8 +136,16 @@ class Server extends ServerContainer implements IServerContainer {
 		parent::__construct();
 		$this->webRoot = $webRoot;
 
+		$this->registerService(\OCP\IServerContainer::class, function(IServerContainer $c) {
+			return $c;
+		});
+
 		$this->registerAlias(\OCP\Contacts\IManager::class, \OC\ContactsManager::class);
 		$this->registerAlias('ContactsManager', \OCP\Contacts\IManager::class);
+
+		$this->registerAlias(IActionFactory::class, ActionFactory::class);
+
+
 
 		$this->registerService(\OCP\IPreview::class, function (Server $c) {
 			return new PreviewManager(

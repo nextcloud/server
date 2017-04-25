@@ -654,8 +654,13 @@ var OCP = {},
 	/**
 	 * For menu toggling
 	 * @todo Write documentation
+	 *
+	 * @param {jQuery} $toggle
+	 * @param {jQuery} $menuEl
+	 * @param {function|undefined} toggle callback invoked everytime the menu is opened
+	 * @returns {undefined}
 	 */
-	registerMenu: function($toggle, $menuEl) {
+	registerMenu: function($toggle, $menuEl, toggle) {
 		var self = this;
 		$menuEl.addClass('menu');
 		$toggle.on('click.menu', function(event) {
@@ -671,7 +676,7 @@ var OCP = {},
 				// close it
 				self.hideMenus();
 			}
-			$menuEl.slideToggle(OC.menuSpeed);
+			$menuEl.slideToggle(OC.menuSpeed, toggle);
 			OC._currentMenu = $menuEl;
 			OC._currentMenuToggle = $toggle;
 		});
@@ -1473,8 +1478,16 @@ function initCore() {
 		});
 	}
 
+	function setupContactsMenu() {
+		new OC.ContactsMenu({
+			el: $('#contactsmenu .menu'),
+			trigger: $('#contactsmenu .menutoggle')
+		});
+	}
+
 	setupMainMenu();
 	setupUserMenu();
+	setupContactsMenu();
 
 	// move triangle of apps dropdown to align with app name triangle
 	// 2 is the additional offset between the triangles

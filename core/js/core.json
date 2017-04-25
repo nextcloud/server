@@ -40,6 +40,7 @@
 		"sharedialogresharerinfoview.js",
 		"sharedialogshareelistview.js",
 		"octemplate.js",
+		"contactsmenu.js",
 		"eventsource.js",
 		"config.js",
 		"public/appconfig.js",
