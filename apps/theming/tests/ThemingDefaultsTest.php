@@ -58,9 +58,9 @@ class ThemingDefaultsTest extends TestCase {
 
 	public function setUp() {
 		parent::setUp();
-		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
-		$this->l10n = $this->getMockBuilder(IL10N::class)->getMock();
-		$this->urlGenerator = \OC::$server->query(IURLGenerator::class);
+		$this->config = $this->createMock(IConfig::class);
+		$this->l10n = $this->createMock(IL10N::class);
+		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->appData = $this->createMock(IAppData::class);
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->cache = $this->createMock(ICache::class);
@@ -399,8 +399,6 @@ class ThemingDefaultsTest extends TestCase {
 	}
 
 	public function testGetBackgroundDefault() {
-		$folder = $this->createMock(ISimpleFolder::class);
-		$file = $this->createMock(ISimpleFile::class);
 		$this->appData->expects($this->once())
 			->method('getFolder')
 			->willThrowException(new NotFoundException());
@@ -414,8 +412,11 @@ class ThemingDefaultsTest extends TestCase {
 			->method('getFolder')
 			->with('images')
 			->willThrowException(new \Exception());
-		$expected = $this->urlGenerator->imagePath('core','background.jpg');
-		$this->assertEquals($expected, $this->template->getBackground());
+		$this->urlGenerator->expects($this->once())
+			->method('imagePath')
+			->with('core', 'background.jpg')
+			->willReturn('core-background');
+		$this->assertEquals('core-background', $this->template->getBackground());
 	}
 
 	public function testGetBackgroundCustom() {
@@ -432,7 +433,11 @@ class ThemingDefaultsTest extends TestCase {
 			->method('getAppValue')
 			->with('theming', 'backgroundMime', false)
 			->willReturn('image/svg+xml');
-		$this->assertEquals('/index.php/apps/theming/loginbackground', $this->template->getBackground());
+		$this->urlGenerator->expects($this->once())
+			->method('linkToRoute')
+			->with('theming.Theming.getLoginBackground')
+			->willReturn('custom-background');
+		$this->assertEquals('custom-background', $this->template->getBackground());
 	}
 
 	public function testGetLogoDefault() {
@@ -454,7 +459,11 @@ class ThemingDefaultsTest extends TestCase {
 			->method('getFolder')
 			->with('images')
 			->willThrowException(new \Exception());
-		$this->assertEquals('/core/img/logo.svg?v=0', $this->template->getLogo());
+		$this->urlGenerator->expects($this->once())
+			->method('imagePath')
+			->with('core', 'logo.svg')
+			->willReturn('core-logo');
+		$this->assertEquals('core-logo' . '?v=0', $this->template->getLogo());
 	}
 
 	public function testGetLogoCustom() {
@@ -476,7 +485,11 @@ class ThemingDefaultsTest extends TestCase {
 			->method('getAppValue')
 			->with('theming', 'cachebuster', '0')
 			->willReturn('0');
-		$this->assertEquals('/index.php/apps/theming/logo?v=0', $this->template->getLogo());
+		$this->urlGenerator->expects($this->once())
+			->method('linkToRoute')
+			->with('theming.Theming.getLogo')
+			->willReturn('custom-logo');
+		$this->assertEquals('custom-logo' . '?v=0', $this->template->getLogo());
 	}
 
 	public function testGetScssVariablesCached() {
@@ -501,10 +514,24 @@ class ThemingDefaultsTest extends TestCase {
 		$this->appData->expects($this->any())
 			->method('getFolder')
 			->willReturn($folder);
+
+		$this->urlGenerator->expects($this->exactly(2))
+			->method('linkToRoute')
+			->willReturnMap([
+				['theming.Theming.getLogo', [], 'custom-logo'],
+				['theming.Theming.getLoginBackground', [], 'custom-background'],
+			]);
+
+		$this->urlGenerator->expects($this->exactly(2))
+			->method('getAbsoluteURL')
+			->willReturnCallback(function ($path) {
+				return 'absolute-' . $path;
+			});
+
 		$expected = [
 			'theming-cachebuster' => '\'0\'',
-			'image-logo' => '\'' . $this->urlGenerator->getAbsoluteURL('index.php/apps/theming/logo') . '?v=0\'',
-			'image-login-background' => '\'' . $this->urlGenerator->getAbsoluteURL('index.php/apps/theming/loginbackground') . '\'',
+			'image-logo' => "'absolute-custom-logo?v=0'",
+			'image-login-background' => "'absolute-custom-background'",
 			'color-primary' => '#000000',
 			'color-primary-text' => '#ffffff'
 
