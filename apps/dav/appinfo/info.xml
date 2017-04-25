@@ -24,6 +24,7 @@
 		<post-migration>
 			<step>OCA\DAV\Migration\FixBirthdayCalendarComponent</step>
 			<step>OCA\DAV\Migration\CalDAVRemoveEmptyValue</step>
+			<step>OCA\DAV\Migration\BuildCalendarSearchIndex</step>
 		</post-migration>
 	</repair-steps>
 	<commands>

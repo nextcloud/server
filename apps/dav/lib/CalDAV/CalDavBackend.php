@@ -1968,7 +1968,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @param string $objectUri
 	 * @param string $calendarData
 	 */
-	protected function updateProperties($calendarId, $objectUri, $calendarData) {
+	public function updateProperties($calendarId, $objectUri, $calendarData) {
 		$objectId = $this->getCalendarObjectId($calendarId, $objectUri);
 		$vCalendar = $this->readCalendarData($calendarData);
 
