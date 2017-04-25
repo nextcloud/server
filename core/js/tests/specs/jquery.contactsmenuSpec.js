@@ -184,6 +184,21 @@ describe('jquery.contactsMenu tests', function() {
 
 			expect($appendTo.html()).toEqual('<div class="menu popovermenu bubble contactsmenu-popover loaded" style="display: block;">    <ul>        <li class="hidden">            <a>                <span class="icon-loading-small"></span>            </a>        </li>    <li>    <a href="#">                <span>Error fetching contact actions</span>    </a></li></ul></div>');
 		});
+
+		it('should handle 404', function() {
+			$('#selector1, #selector2').contactsMenu('user', 0, $appendTo);
+			$selector1.click();
+
+			fakeServer.requests[0].respond(
+				404,
+				{ 'Content-Type': 'application/json; charset=utf-8' },
+				JSON.stringify([])
+			);
+			expect(fakeServer.requests[0].method).toEqual('POST');
+			expect(fakeServer.requests[0].url).toEqual('http://localhost/index.php/contactsmenu/findOne');
+
+			expect($appendTo.html()).toEqual('<div class="menu popovermenu bubble contactsmenu-popover loaded" style="display: block;">    <ul>        <li class="hidden">            <a>                <span class="icon-loading-small"></span>            </a>        </li>    <li>    <a href="#">                <span>No action available</span>    </a></li></ul></div>');
+		});
 	});
 
 	it('click anywhere else to close the menu', function() {

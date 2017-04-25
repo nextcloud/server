@@ -78,13 +78,20 @@
 				if (actions.length === 0) {
 
 				}
-			}, function() {
+			}, function(jqXHR) {
 				$list.find('ul').find('li').addClass('hidden');
+
+				var title;
+				if (jqXHR.status === 404) {
+					title = t('core', 'No action available');
+				} else {
+					title = t('core', 'Error fetching contact actions');
+				}
 
 				var template = Handlebars.compile(ENTRY);
 				$list.find('ul').append(template({
 					hyperlink: '#',
-					title: t('core', 'Error fetching contact actions')
+					title: title
 				}));
 			});
 		});
