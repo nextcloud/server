@@ -202,6 +202,10 @@ XML;
 		$result = $this->parse($xml);
 	}
 
+	/**
+	 * @expectedException \Sabre\DAV\Exception\BadRequest
+	 * @expectedExceptionMessage At least one{http://nextcloud.com/ns}prop-filter or {http://nextcloud.com/ns}param-filter is required for this request
+	 */
 	public function testCompOnly() {
 		$xml = <<<XML
 <?xml version="1.0" encoding="UTF-8"?>

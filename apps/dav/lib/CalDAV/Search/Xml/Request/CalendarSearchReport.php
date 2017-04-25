@@ -143,7 +143,7 @@ class CalendarSearchReport implements XmlDeserializable {
 			throw new BadRequest('The {' . SearchPlugin::NS_Nextcloud . '}filter element is required for this request');
 		}
 
-		$propsOrParamsDefined = (!empty($newProps['filters']['props']) || !empty($newProps['filters']));
+		$propsOrParamsDefined = (!empty($newProps['filters']['props']) || !empty($newProps['filters']['params']));
 		$noCompsDefined = empty($newProps['filters']['comps']);
 		if ($propsOrParamsDefined && $noCompsDefined) {
 			throw new BadRequest('{' . SearchPlugin::NS_Nextcloud . '}prop-filter or {' . SearchPlugin::NS_Nextcloud . '}param-filter given without any {' . SearchPlugin::NS_Nextcloud . '}comp-filter');
@@ -151,6 +151,10 @@ class CalendarSearchReport implements XmlDeserializable {
 
 		if (!isset($newProps['filters']['search-term'])) {
 			throw new BadRequest('{' . SearchPlugin::NS_Nextcloud . '}search-term is required for this request');
+		}
+
+		if (empty($newProps['filters']['props']) && empty($newProps['filters']['params'])) {
+			throw new BadRequest('At least one{' . SearchPlugin::NS_Nextcloud . '}prop-filter or {' . SearchPlugin::NS_Nextcloud . '}param-filter is required for this request');
 		}
 
 
