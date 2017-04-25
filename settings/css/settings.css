@@ -525,6 +525,10 @@ input.userFilter {width: 200px;}
 	width: 0;
 }
 
+#app-category-disabled {
+	margin-bottom: 20px;
+}
+
 .appinfo { margin: 1em 40px; }
 #app-navigation .appwarning {
 	background: #fcc;
@@ -541,9 +545,7 @@ span.version {
 
 #app-navigation .app-external,
 .app-version {
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
-	filter: alpha(opacity=50);
-	opacity: .5;
+	color: rgba(85,85,85,.5);
 }
 
 .app-level {
@@ -566,6 +568,7 @@ span.version {
 .app-score {
 	position: relative;
 	top: 4px;
+	opacity: .5;
 }
 
 #apps-list {
@@ -638,16 +641,22 @@ span.version {
 	}
 }
 
-@media (max-width: 600px), (min-width: 771px) and (max-width: 900px) {
-	#apps-list .section {
-		width: 100%;
-		box-sizing: border-box;
+/* hide app version and level on narrower screens */
+@media only screen and (max-width: 768px) {
+	#apps-list.installed .app-version,
+	#apps-list.installed .app-level {
+		display: none !important;
+	}
+}
+@media only screen and (max-width: 700px) {
+	#apps-list.installed .app-groups {
+		display: none !important;
 	}
 }
 
 .section h2.app-name {
-	margin-bottom: 8px;
-	display: inline;
+	display: block;
+	margin: 8px 0;
 }
 form.section {
 	position: relative;
@@ -661,11 +670,10 @@ form.section {
 	position: relative;
 }
 .app-image {
-	float: left;
-	padding-right: 10px;
-	width: 80px;
-	height: 80px;
-	opacity: 0.8;
+	position: relative;
+	height: 150px;
+	opacity: 1;
+	overflow: hidden;
 }
 .app-name,
 .app-version,
@@ -725,6 +733,59 @@ form.section {
 	margin-bottom: 1em;
 }
 
+#apps-list.installed {
+	display: table;
+	width: 100%;
+	height: auto;
+}
+
+#apps-list.installed .section {
+	display: table-row;
+	padding: 0;
+	margin: 0;
+}
+
+#apps-list.installed .section > *{
+	display: table-cell;
+	height: initial;
+	vertical-align: middle;
+	float: none;
+	border-bottom: 1px solid #eee;
+	padding: 6px;
+	box-sizing: border-box;
+}
+
+#apps-list.installed .app-image {
+	width: 44px;
+	text-align: right;
+}
+
+#apps-list.installed .app-image-icon svg {
+	margin-top: 5px;
+	width: 20px;
+	height: 20px;
+	opacity: .5;
+}
+
+#apps-list:not(.installed) .app-image-icon svg {
+	position: absolute;
+	bottom: 43px; /* position halfway vertically */
+	width: 64px;
+	height: 64px;
+	opacity: .1;
+}
+
+.installed .actions {
+	text-align: right;
+}
+
+#apps-list.installed .groups-enable {
+	margin-top: 0;
+}
+
+#apps-list.installed .groups-enable label {
+    margin-right: 3px;
+}
 
 /* LOG */
 #log {

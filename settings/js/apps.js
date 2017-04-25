@@ -40,8 +40,9 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		}
 
 		var categories = [
-			{displayName: t('settings', 'Enabled'), ident: 'enabled', id: '0'},
-			{displayName: t('settings', 'Not enabled'), ident: 'disabled', id: '1'}
+			{displayName: t('settings', 'Enabled apps'), ident: 'enabled', id: '0'},
+			{displayName: t('settings', 'Disabled apps'), ident: 'disabled', id: '1'},
+			{displayName: t('settings', 'Your apps'), ident: 'installed', id: '2'}
 		];
 
 		var source   = $("#categories-template").html();
@@ -73,8 +74,9 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		if (this._loadCategoryCall) {
 			this._loadCategoryCall.abort();
 		}
+
+		$('#app-content').addClass('icon-loading');
 		$('#apps-list')
-			.addClass('icon-loading')
 			.removeClass('hidden')
 			.html('');
 		$('#apps-list-empty').addClass('hidden');
@@ -94,16 +96,27 @@ OC.Settings.Apps = OC.Settings.Apps || {
 					// default values for missing fields
 					return _.extend({level: 0}, app);
 				});
-				var source   = $("#app-template").html();
+				var source
+				if (categoryId === 'enabled' || categoryId === 'disabled' || categoryId === 'installed') {
+					source = $("#app-template-installed").html();
+					$('#apps-list').addClass('installed');
+				} else {
+					source = $("#app-template").html();
+					$('#apps-list').removeClass('installed');
+				}
 				var template = Handlebars.compile(source);
 
 				if (appList.length) {
 					appList.sort(function(a,b) {
-						var levelDiff = b.level - a.level;
-						if (levelDiff === 0) {
-							return OC.Util.naturalSortCompare(a.name, b.name);
+						if (a.active !== b.active) {
+							return (a.active ? -1 : 1)
+						} else {
+							var levelDiff = b.level - a.level;
+							if (levelDiff === 0) {
+								return OC.Util.naturalSortCompare(a.name, b.name);
+							}
+							return levelDiff;
 						}
-						return levelDiff;
 					});
 
 					var firstExperimental = false;
@@ -154,7 +167,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 				});
 			},
 			complete: function() {
-				$('#apps-list').removeClass('icon-loading');
+				$('#app-content').removeClass('icon-loading');
 			}
 		});
 	},
@@ -170,7 +183,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		app.firstExperimental = firstExperimental;
 
 		if (!app.preview) {
-			app.preview = OC.imagePath('core', 'default-app-icon');
+			app.preview = OC.imagePath('core', 'places/default-app-icon');
 			app.previewAsIcon = true;
 		}
 
@@ -222,9 +235,16 @@ OC.Settings.Apps = OC.Settings.Apps || {
 			currentImage.src = app.preview;
 
 			currentImage.onload = function() {
-				page.find('.app-image')
-					.append(OC.Settings.Apps.imageUrl(app.preview, app.fromAppStore))
-					.fadeIn();
+				/* Trigger color inversion for placeholder image too */
+				if(app.previewAsIcon) {
+					page.find('.app-image')
+						.append(OC.Settings.Apps.imageUrl(app.preview, false))
+						.removeClass('icon-loading');
+				} else {
+					page.find('.app-image')
+						.append(OC.Settings.Apps.imageUrl(app.preview, app.fromAppStore))
+						.removeClass('icon-loading');
+				}
 			};
 		}
 
@@ -257,12 +277,13 @@ OC.Settings.Apps = OC.Settings.Apps || {
 	 */
 
 	imageUrl : function (url, appfromstore) {
-		var img = '<svg width="72" height="72" viewBox="0 0 72 72">';
-
+		var img;
 		if (appfromstore) {
+			img = '<svg viewBox="0 0 72 72">';
 			img += '<image x="0" y="0" width="72" height="72" preserveAspectRatio="xMinYMin meet" xlink:href="' + url  + '"  class="app-icon" /></svg>';
 		} else {
-			img += '<image x="0" y="0" width="72" height="72" preserveAspectRatio="xMinYMin meet" filter="url(#invertIcon)" xlink:href="' + url + '?v=' + oc_config.version + '" class="app-icon"></image></svg>';
+			img = '<svg width="32" height="32" viewBox="0 0 32 32">';
+			img += '<image x="0" y="0" width="32" height="32" preserveAspectRatio="xMinYMin meet" filter="url(#invertIcon)" xlink:href="' + url + '?v=' + oc_config.version + '" class="app-icon"></image></svg>';
 		}
 		return img;
 	},
@@ -435,15 +456,15 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		}
 
 		OC.Settings.Apps.hideErrorMessage(appId);
-		element.val(t('settings','Uninstalling …'));
+		element.val(t('settings','Removing …'));
 		$.post(OC.filePath('settings','ajax','uninstallapp.php'),{appid:appId},function(result) {
 			if(!result || result.status !== 'success') {
-				OC.Settings.Apps.showErrorMessage(appId, t('settings','Error while uninstalling app'));
-				element.val(t('settings','Uninstall'));
+				OC.Settings.Apps.showErrorMessage(appId, t('settings','Error while removing app'));
+				element.val(t('settings','Remove'));
 			} else {
 				OC.Settings.Apps.rebuildNavigation();
-				element.parent().fadeOut(function() {
-					element.remove();
+				element.parents('#apps-list > .section').fadeOut(function() {
+					this.remove();
 				});
 			}
 		},'json');
