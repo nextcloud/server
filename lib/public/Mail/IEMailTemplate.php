@@ -84,11 +84,15 @@ interface IEMailTemplate {
 	 * Adds a list item to the body of the email
 	 *
 	 * @param string $text
+	 * @param string $metaInfo
+	 * @param string $icon Absolute path, must be 16*16 pixels
 	 * @param string $plainText Text that is used in the plain text email
-	 *   if empty the $text is used
+	 *   if empty the $text is used, if false none will be used
+	 * @param string $plainMetaInfo Meta info that is used in the plain text email
+	 *   if empty the $metaInfo is used, if false none will be used
 	 * @since 12.0.0
 	 */
-	public function addBodyListItem($text, $plainText = '');
+	public function addBodyListItem($text, $metaInfo = '', $icon = '', $plainText = '', $plainMetaInfo = '');
 
 	/**
 	 * Adds a button group of two buttons to the body of the email
