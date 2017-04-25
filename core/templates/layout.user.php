@@ -39,9 +39,6 @@
 	</head>
 	<body id="<?php p($_['bodyid']);?>">
 	<?php include('layout.noscript.warning.php'); ?>
-	<div id="notification-container">
-		<div id="notification"></div>
-	</div>
 	<header role="banner"><div id="header">
 			<div id="header-left">
 				<a href="<?php print_unescaped(link_to('', 'index.php')); ?>"
@@ -107,10 +104,14 @@
 								<?php endforeach; ?>
 							</ul>
 						</div>
-					</div></nav>
-
+					</div>
+				</nav>
 			</div>
-
+			<div id="header-center">
+				<div id="notification-container">
+					<div id="notification"></div>
+				</div>
+			</div>
 			<div id="header-right">
 				<form class="searchbox" action="#" method="post" role="search" novalidate>
 					<label for="searchbox" class="hidden-visually">

@@ -124,17 +124,28 @@
 	}
 
 	#header-left,
+	#header-center,
 	#header-right {
 		display: inline-flex;
 		align-items: center;
+		background:red;
 	}
 
 	#header-left {
-		flex: 0 0;
-		flex-grow: 1;
+		flex: 0 0 auto;
+		justify-content: flex-start;
+		background:green;
+	}
+
+	#header-center {
+		flex: 1 1 auto;
+		justify-content: center;
+		align-items: flex-start;
+		background:yellow;
 	}
 
 	#header-right {
+		flex: 0 0 auto;
 		justify-content: flex-end;
 	}
 }

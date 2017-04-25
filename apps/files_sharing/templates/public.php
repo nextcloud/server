@@ -7,9 +7,7 @@
 	<link rel="image_src" href="<?php p($_['previewImage']); ?>" />
 <?php endif; ?>
 
-<div id="notification-container">
-	<div id="notification" style="display: none;"></div>
-</div>
+
 
 <input type="hidden" id="sharingUserId" value="<?php p($_['owner']) ?>">
 <input type="hidden" id="filesApp" name="filesApp" value="1">
@@ -44,7 +42,11 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 				</h1>
 			</a>
 		</div>
-
+		<div id="header-center">
+			<div id="notification-container">
+				<div id="notification" style="display: none;"></div>
+			</div>
+		</div>
 		<div id="logo-claim" style="display:none;"><?php p($theme->getLogoClaim()); ?></div>
 		<div id="header-right">
 			<?php if (!isset($_['hideFileList']) || (isset($_['hideFileList']) && $_['hideFileList'] === false)) {
