@@ -90,6 +90,7 @@ class AuditLogger {
 
 		Util::connectHook('OC_User', 'post_createUser',	$userActions, 'create');
 		Util::connectHook('OC_User', 'post_deleteUser',	$userActions, 'delete');
+		Util::connectHook('OC_User', 'changeUser',	$userActions, 'change');
 		$this->userSession->listen('\OC\User', 'postSetPassword', [$userActions, 'setPassword']);
 	}
 	
