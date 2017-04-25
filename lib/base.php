@@ -935,14 +935,15 @@ class OC {
 		// emergency app disabling
 		if ($requestPath === '/disableapp'
 			&& $request->getMethod() === 'POST'
-			&& ((string)$request->getParam('appid')) !== ''
+			&& ((array)$request->getParam('appid')) !== ''
 		) {
 			\OCP\JSON::callCheck();
 			\OCP\JSON::checkAdminUser();
-			$appId = (string)$request->getParam('appid');
-			$appId = \OC_App::cleanAppId($appId);
-
-			\OC_App::disable($appId);
+			$appIds = (array)$request->getParam('appid');
+			foreach($appIds as $appId) {
+				$appId = \OC_App::cleanAppId($appId);
+				\OC_App::disable($appId);
+			}
 			\OC_JSON::success();
 			exit();
 		}
