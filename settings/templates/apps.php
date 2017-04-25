@@ -29,7 +29,6 @@ script(
 <?php endif; ?>
 </script>
 
-
 <script id="app-template-installed" type="text/x-handlebars">
 <div class="section" id="app-{{id}}">
 	<div class="app-image app-image-icon"></div>
@@ -74,6 +73,9 @@ script(
 </script>
 
 <script id="app-template" type="text/x-handlebars">
+	{{#if newCategory}}
+	<br/><h2>{{categoryName}}</h2>
+	{{/if}}
 	<div class="section" id="app-{{id}}">
 	{{#if preview}}
 	<div class="app-image{{#if previewAsIcon}} app-image-icon{{/if}} icon-loading">

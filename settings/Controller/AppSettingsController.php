@@ -127,12 +127,7 @@ class AppSettingsController extends Controller {
 		return $templateResponse;
 	}
 
-	/**
-	 * Get all available categories
-	 *
-	 * @return JSONResponse
-	 */
-	public function listCategories() {
+	private function getAllCategories() {
 		$currentLanguage = substr($this->l10nFactory->findLanguage(), 0, 2);
 
 		$formattedCategories = [
@@ -150,7 +145,16 @@ class AppSettingsController extends Controller {
 			];
 		}
 
-		return new JSONResponse($formattedCategories);
+		return $formattedCategories;
+	}
+
+	/**
+	 * Get all available categories
+	 *
+	 * @return JSONResponse
+	 */
+	public function listCategories() {
+		return new JSONResponse($this->getAllCategories());
 	}
 
 	/**
@@ -346,17 +350,34 @@ class AppSettingsController extends Controller {
 				$bundles = $this->bundleFetcher->getBundles();
 				$apps = [];
 				foreach($bundles as $bundle) {
-					$apps[] = [
-						'id' => $bundle->getIdentifier(),
-						'author' => 'Nextcloud',
-						'name' => $bundle->getName() . ' (' . $bundle->getDescription() .')',
-						'description' => '',
-						'internal' => true,
-						'active' => false,
-						'removable' => false,
-						'groups' => [],
-						'apps' => $bundle->getAppIdentifiers(),
-					];
+					$newCategory = true;
+					$allApps = $appClass->listAllApps();
+					$categories = $this->getAllCategories();
+					foreach($categories as $singleCategory) {
+						$newApps = $this->getAppsForCategory($singleCategory['id']);
+						foreach($allApps as $app) {
+							foreach($newApps as $key => $newApp) {
+								if($app['id'] === $newApp['id']) {
+									unset($newApps[$key]);
+								}
+							}
+						}
+						$allApps = array_merge($allApps, $newApps);
+					}
+
+					foreach($bundle->getAppIdentifiers() as $identifier) {
+						foreach($allApps as $app) {
+							if($app['id'] === $identifier) {
+								if($newCategory) {
+									$app['newCategory'] = true;
+									$app['categoryName'] = $bundle->getName();
+								}
+								$newCategory = false;
+								$apps[] = $app;
+								continue;
+							}
+						}
+					}
 				}
 				break;
 			default:

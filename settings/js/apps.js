@@ -99,7 +99,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 					return _.extend({level: 0}, app);
 				});
 				var source;
-				if (categoryId === 'enabled' || categoryId === 'disabled' || categoryId === 'installed' || categoryId === 'app-bundles') {
+				if (categoryId === 'enabled' || categoryId === 'disabled' || categoryId === 'installed') {
 					source = $("#app-template-installed").html();
 					$('#apps-list').addClass('installed');
 				} else {
