@@ -456,6 +456,7 @@ return array(
     'OC\\Core\\Command\\User\\ResetPassword' => $baseDir . '/core/Command/User/ResetPassword.php',
     'OC\\Core\\Command\\User\\Setting' => $baseDir . '/core/Command/User/Setting.php',
     'OC\\Core\\Controller\\AvatarController' => $baseDir . '/core/Controller/AvatarController.php',
+    'OC\\Core\\Controller\\ClientFlowLoginController' => $baseDir . '/core/Controller/ClientFlowLoginController.php',
     'OC\\Core\\Controller\\ContactsMenuController' => $baseDir . '/core/Controller/ContactsMenuController.php',
     'OC\\Core\\Controller\\CssController' => $baseDir . '/core/Controller/CssController.php',
     'OC\\Core\\Controller\\JsController' => $baseDir . '/core/Controller/JsController.php',
