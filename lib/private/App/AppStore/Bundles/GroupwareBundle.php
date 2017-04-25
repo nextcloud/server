@@ -37,6 +37,7 @@ class GroupwareBundle extends Bundle {
 		return [
 			'calendar',
 			'contacts',
+			'spreed',
 		];
 	}
 
