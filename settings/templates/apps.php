@@ -30,6 +30,9 @@ script(
 </script>
 
 <script id="app-template-installed" type="text/x-handlebars">
+{{#if newCategory}}
+<h2>{{categoryName}} <input class="enable" type="submit" data-bundleid="{{bundleId}}" data-active="true" value="<?php p($l->t('Enable all'));?>"/></h2>
+{{/if}}
 <div class="section" id="app-{{id}}">
 	<div class="app-image app-image-icon"></div>
 	<div class="app-name">
@@ -73,9 +76,6 @@ script(
 </script>
 
 <script id="app-template" type="text/x-handlebars">
-	{{#if newCategory}}
-	<h2>{{categoryName}} <input class="enable" type="submit" data-bundleid="{{bundleId}}" data-active="true" value="<?php p($l->t('Enable all'));?>"/></h2>
-	{{/if}}
 	<div class="section" id="app-{{id}}">
 	{{#if preview}}
 	<div class="app-image{{#if previewAsIcon}} app-image-icon{{/if}} icon-loading">
