@@ -3,13 +3,9 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Morris Jobke <hey@morrisjobke.de>
-<<<<<<< HEAD
  * @author Robin Appelman <robin@icewind.nl>
-=======
- * @author Robin Appelman <icewind@owncloud.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Piotr Mrowczynski <piotr@owncloud.com>
->>>>>>> a5095447b7... Adjust query/event logging code in favour of more complex owncloud/diagnostics (#27643)
  *
  * @license AGPL-3.0
  *
