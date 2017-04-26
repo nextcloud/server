@@ -187,7 +187,7 @@
 				</div>
 			</div>
 			<input type="text" name="website" id="website" value="<?php p($_['website']); ?>"
-			       placeholder="<?php p($l->t('Your website')); ?>"
+			       placeholder="<?php p($l->t('Link https://…')); ?>"
 			       autocomplete="on" autocapitalize="none" autocorrect="off" />
 			<span class="icon-checkmark hidden"/>
 			<input type="hidden" id="websitescope" value="<?php p($_['websiteScope']) ?>">
@@ -221,7 +221,7 @@
 				</div>
 			</div>
 			<input type="text" name="twitter" id="twitter" value="<?php p($_['twitter']); ?>"
-				   placeholder="<?php p($l->t('Your Twitter handle')); ?>"
+				   placeholder="<?php p($l->t('Twitter handle @…')); ?>"
 				   autocomplete="on" autocapitalize="none" autocorrect="off" />
 			<span class="icon-checkmark hidden"/>
 			<input type="hidden" id="twitterscope" value="<?php p($_['twitterScope']) ?>">
