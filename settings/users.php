@@ -45,6 +45,7 @@ $groupManager = \OC::$server->getGroupManager();
 // Set the sort option: SORT_USERCOUNT or SORT_GROUPNAME
 $sortGroupsBy = \OC\Group\MetaData::SORT_USERCOUNT;
 
+$isLDAPUsed = false;
 if (\OC_App::isEnabled('user_ldap')) {
 	$isLDAPUsed =
 		   $groupManager->isBackendUsed('\OCA\User_LDAP\Group_LDAP')
@@ -95,17 +96,13 @@ if($isAdmin) {
 	}
 	$subAdmins = false;
 }
-$disabledUsers = 0;
-foreach (OC_User::getUsers() as $uid) {
-	if(!$userManager->get($uid)->isEnabled()) {
-		$disabledUsers++;
-	}
-}
-$disabledUsersGroup = array(
+
+$disabledUsers = $isLDAPUsed ? 0 : $userManager->countDisabledUsers();
+$disabledUsersGroup = [
 	'id' => '_disabledUsers',
 	'name' => '_disabledUsers',
 	'usercount' => $disabledUsers
-);
+];
 
 // load preset quotas
 $quotaPreset=$config->getAppValue('files', 'quota_preset', '1 GB, 5 GB, 10 GB');
