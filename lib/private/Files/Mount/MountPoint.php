@@ -274,4 +274,8 @@ class MountPoint implements IMountPoint {
 	public function getMountId() {
 		return $this->mountId;
 	}
+
+	public function getMountType() {
+		return '';
+	}
 }

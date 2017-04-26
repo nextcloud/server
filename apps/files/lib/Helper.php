@@ -157,12 +157,9 @@ class Helper {
 			$entry['isShareMountPoint'] = $i['is_share_mount_point'];
 		}
 		$mountType = null;
-		if ($i->isShared()) {
-			$mountType = 'shared';
-		} else if ($i->isMounted()) {
-			$mountType = 'external';
-		}
-		if ($mountType !== null) {
+		$mount = $i->getMountPoint();
+		$mountType = $mount->getMountType();
+		if ($mountType !== '') {
 			if ($i->getInternalPath() === '') {
 				$mountType .= '-root';
 			}
