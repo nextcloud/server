@@ -145,9 +145,12 @@ input#openid, input#webdav { width:20em; }
 	padding: 12px 6px;
 	float: right;
 }
-
+#personal-settings-container .verify,
 #personal-settings-container .verify-action {
 	cursor: pointer;
+}
+#emailform .verify {
+    cursor: initial;
 }
 .verification-dialog {
 	display: none;
