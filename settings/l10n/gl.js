@@ -1,8 +1,6 @@
 OC.L10N.register(
     "settings",
     {
-    "Enabled" : "Activado",
-    "Not enabled" : "Non activado",
     "Wrong password" : "Contrasinal incorrecto",
     "Saved" : "Gardado",
     "No user supplied" : "Non subministrado polo usuario",
@@ -50,8 +48,6 @@ OC.L10N.register(
     "Updating...." : "Actualizando...",
     "Error while updating app" : "Produciuse un erro mentres actualizaba a aplicación",
     "Updated" : "Actualizado",
-    "Error while uninstalling app" : "Produciuse un erro ao desinstalar o aplicatvo",
-    "Uninstall" : "Desinstalar",
     "Approved" : "Aprobado",
     "Experimental" : "Experimental",
     "An error occurred. Please upload an ASCII-encoded PEM certificate." : "Produciuse un erro. Envíe un certificado PEM codificado en ASCII.",
@@ -203,6 +199,8 @@ OC.L10N.register(
     "set new password" : "estabelecer un novo contrasinal",
     "change email address" : "cambiar o enderezo de correo",
     "Default" : "Predeterminado",
+    "Enabled" : "Activado",
+    "Not enabled" : "Non activado",
     "Please provide an admin recovery password, otherwise all user data will be lost" : "Forneza un contrasinal de recuperación do administrador de recuperación, senón perderanse todos os datos do usuario",
     "Backend doesn't support password change, but the user's encryption key was successfully updated." : "A infraestrutura non admite o cambio de contrasinal, mais a chave de cifrado do usuario foi actualizada correctamente.",
     "test email settings" : "correo de proba dos axustes",
@@ -211,6 +209,8 @@ OC.L10N.register(
     "Unable to remove user from group %s" : "Non é posíbel eliminar o usuario do grupo %s",
     "Sending..." : "Enviando...",
     "Uninstalling ...." : "Desinstalando ...",
+    "Error while uninstalling app" : "Produciuse un erro ao desinstalar o aplicatvo",
+    "Uninstall" : "Desinstalar",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "Non se atopou o módulo de PHP «fileinfo». É recomendábel activar este módulo para obter os mellores resultados coa detección do tipo MIME.",
     "Cheers!" : "Saúdos!",
     "Show last log in" : "Amosar a última conexión"

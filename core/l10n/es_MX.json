@@ -160,6 +160,8 @@
     "{sharee} (email)" : "{sharee} (correo electrónico)",
     "{sharee} ({type}, {owner})" : "{sharee} ({type}, {owner})",
     "Share" : "Compartir",
+    "Name or email address..." : "Nombre o dirección de correo electrónico",
+    "Name..." : "Nombre...",
     "Error removing share" : "Se presentó un error al dejar de compartir",
     "Non-existing tag #{tag}" : "Etiqueta #{tag} no-existente",
     "restricted" : "restringido",

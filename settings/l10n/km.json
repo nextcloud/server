@@ -1,5 +1,4 @@
 { "translations": {
-    "Enabled" : "បាន​បើក",
     "Wrong password" : "ខុស​ពាក្យ​សម្ងាត់",
     "Saved" : "បាន​រក្សាទុក",
     "Authentication error" : "កំហុស​ការ​ផ្ទៀង​ផ្ទាត់​ភាព​ត្រឹម​ត្រូវ",
@@ -64,6 +63,7 @@
     "Other" : "ផ្សេងៗ",
     "set new password" : "កំណត់​ពាក្យ​សម្ងាត់​ថ្មី",
     "Default" : "លំនាំ​ដើម",
+    "Enabled" : "បាន​បើក",
     "test email settings" : "សាក​ល្បង​ការ​កំណត់​អ៊ីមែល",
     "Admins can't remove themself from the admin group" : "អ្នក​គ្រប់​គ្រង​មិន​អាច​លុប​ខ្លួន​ឯង​ចេញ​ពី​ក្រុម​អ្នក​គ្រប់​គ្រង​ឡើយ",
     "Unable to add user to group %s" : "មិន​អាច​បន្ថែម​អ្នក​ប្រើ​ទៅ​ក្រុម %s",

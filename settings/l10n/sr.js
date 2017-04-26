@@ -1,8 +1,6 @@
 OC.L10N.register(
     "settings",
     {
-    "Enabled" : "Укључено",
-    "Not enabled" : "Искључено",
     "Wrong password" : "Погрешна лозинка",
     "Saved" : "Сачувано",
     "No user supplied" : "Није наведен корисник",
@@ -48,8 +46,6 @@ OC.L10N.register(
     "Updating...." : "Ажурирам…",
     "Error while updating app" : "Грешка при ажурирању апликације",
     "Updated" : "Ажурирано",
-    "Error while uninstalling app" : "Грешка при деинсталацији апликације",
-    "Uninstall" : "Деинсталирај",
     "Approved" : "Одобрене",
     "Experimental" : "Експерименталне",
     "An error occurred. Please upload an ASCII-encoded PEM certificate." : "Дошло је до грешке. Отпремите АСКИ кодирани ПЕМ сертификат.",
@@ -201,6 +197,8 @@ OC.L10N.register(
     "set new password" : "постави нову лозинку",
     "change email address" : "измени е-адресу",
     "Default" : "Подразумевано",
+    "Enabled" : "Укључено",
+    "Not enabled" : "Искључено",
     "Please provide an admin recovery password, otherwise all user data will be lost" : "Наведите администраторску лозинку опоравка. У супротном, сви кориснички подаци биће изгубљени.",
     "Backend doesn't support password change, but the user's encryption key was successfully updated." : "Позадина не подржава измеу лозинке али кориснички шифрарски кључеви су успешно ажурирани.",
     "test email settings" : "тестирајте поставке е-поште",
@@ -209,6 +207,8 @@ OC.L10N.register(
     "Unable to remove user from group %s" : "Не могу да уклоним корисника из групе %s",
     "Sending..." : "Шаљем...",
     "Uninstalling ...." : "Деинсталирам ...",
+    "Error while uninstalling app" : "Грешка при деинсталацији апликације",
+    "Uninstall" : "Деинсталирај",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "Недостаје ПХП модул „fileinfo“. Препоручујемо вам да га укључите да бисте добили најбоље резултате с откривањем МИМЕ врста.",
     "Cheers!" : "Здраво!",
     "Show last log in" : "Прикажи последњу пријаву"

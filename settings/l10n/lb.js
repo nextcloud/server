@@ -1,7 +1,6 @@
 OC.L10N.register(
     "settings",
     {
-    "Enabled" : "Aktivéiert",
     "Wrong password" : "Falscht Passwuert",
     "Saved" : "Gespäichert",
     "Authentication error" : "Authentifikatioun's Fehler",
@@ -14,7 +13,6 @@ OC.L10N.register(
     "Disable" : "Ofschalten",
     "Enable" : "Aschalten",
     "Error while enabling app" : "Fehler beim Aktivéieren vun der App",
-    "Error while uninstalling app" : "Fehler beim Deinstalléieren vun der App",
     "Delete" : "Läschen",
     "Groups" : "Gruppen",
     "undo" : "réckgängeg man",
@@ -49,8 +47,10 @@ OC.L10N.register(
     "Create" : "Erstellen",
     "Other" : "Aner",
     "Quota" : "Quota",
+    "Enabled" : "Aktivéiert",
     "Admins can't remove themself from the admin group" : "Admins kennen sech selwer net aus enger Admin Group läschen.",
     "Unable to add user to group %s" : "Onmeiglech User an Grupp ze sätzen %s",
+    "Error while uninstalling app" : "Fehler beim Deinstalléieren vun der App",
     "Cheers!" : "Prost!"
 },
 "nplurals=2; plural=(n != 1);");

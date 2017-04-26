@@ -153,6 +153,8 @@ OC.L10N.register(
     "{sharee} (email)" : "{sharee} (email)",
     "{sharee} ({type}, {owner})" : "{sharee} ({type}, {owner})",
     "Share" : "Del",
+    "Name or email address..." : "Navn eller e-postadresse…",
+    "Name..." : "Navn…",
     "Error removing share" : "Feil ved fjerning av deling",
     "Non-existing tag #{tag}" : "Ikke-eksisterende merkelapp #{tag}",
     "restricted" : "begrenset",

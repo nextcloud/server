@@ -1,8 +1,6 @@
 OC.L10N.register(
     "settings",
     {
-    "Enabled" : "Овозможен",
-    "Not enabled" : "Не е овозможено",
     "Wrong password" : "Погрешна лозинка",
     "Saved" : "Снимено",
     "No user supplied" : "Нема корисничко име",
@@ -44,8 +42,6 @@ OC.L10N.register(
     "Updating...." : "Надградувам ...",
     "Error while updating app" : "Грешка додека ја надградувам апликацијата",
     "Updated" : "Надграден",
-    "Error while uninstalling app" : "Грешка при деинсталација на апликацијата",
-    "Uninstall" : "Деинсталирај",
     "App update" : "Надградба на апликацијата",
     "Approved" : "Одобрен",
     "Experimental" : "Експериментален",
@@ -152,6 +148,8 @@ OC.L10N.register(
     "change full name" : "промена на целото име",
     "set new password" : "постави нова лозинка",
     "Default" : "Предефиниран",
+    "Enabled" : "Овозможен",
+    "Not enabled" : "Не е овозможено",
     "Please provide an admin recovery password, otherwise all user data will be lost" : "Ве молам дадете лозинка за поврат на администраторот, или сите кориснички податоци ќе бидат изгубени",
     "Backend doesn't support password change, but the user's encryption key was successfully updated." : "Позадината не подржува промена на лозинката, но корисничкиот клуч за енкрипција беше успешно ажуриран.",
     "test email settings" : "провери ги нагодувањата за електронска пошта",
@@ -160,6 +158,8 @@ OC.L10N.register(
     "Unable to remove user from group %s" : "Неможе да избришам корисник од група %s",
     "Sending..." : "Испраќам...",
     "Uninstalling ...." : "Деинсталирам ...",
+    "Error while uninstalling app" : "Грешка при деинсталација на апликацијата",
+    "Uninstall" : "Деинсталирај",
     "Cheers!" : "Поздрав!"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

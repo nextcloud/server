@@ -1,8 +1,6 @@
 OC.L10N.register(
     "settings",
     {
-    "Enabled" : "Увімкнено",
-    "Not enabled" : "Вимкнено",
     "Wrong password" : "Невірний пароль",
     "Saved" : "Збережено",
     "No user supplied" : "Користувача не вказано",
@@ -50,8 +48,6 @@ OC.L10N.register(
     "Updating...." : "Оновлюється...",
     "Error while updating app" : "Помилка при оновленні додатку",
     "Updated" : "Оновлено",
-    "Error while uninstalling app" : "Помилка видалення додатка",
-    "Uninstall" : "Видалити",
     "App update" : "Оновлення додатку",
     "Approved" : "Схвалені",
     "Experimental" : "Експериментальні",
@@ -205,6 +201,8 @@ OC.L10N.register(
     "set new password" : "встановити новий пароль",
     "change email address" : "Змінити адресу електронної пошти",
     "Default" : "За замовчуванням",
+    "Enabled" : "Увімкнено",
+    "Not enabled" : "Вимкнено",
     "Please provide an admin recovery password, otherwise all user data will be lost" : "Будь ласка введіть пароль відновлення адміністратора, інакше всі дані будуть втрачені",
     "Backend doesn't support password change, but the user's encryption key was successfully updated." : "Backend не підтримує зміну паролів, але користувацький ключ шифрування було успішно змінено",
     "test email settings" : "тест налаштувань електронної пошти",
@@ -213,6 +211,8 @@ OC.L10N.register(
     "Unable to remove user from group %s" : "Не вдалося видалити користувача із групи %s",
     "Sending..." : "Надсилання...",
     "Uninstalling ...." : "Видалення...",
+    "Error while uninstalling app" : "Помилка видалення додатка",
+    "Uninstall" : "Видалити",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "PHP модуль 'fileinfo' відсутній. Ми наполегливо рекомендуємо увімкнути цей модуль, щоб отримати кращі результати при виявленні MIME-типів.",
     "Cheers!" : "Будьмо!",
     "Show last log in" : "Показати останній вхід в систему"

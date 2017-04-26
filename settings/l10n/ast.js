@@ -1,8 +1,6 @@
 OC.L10N.register(
     "settings",
     {
-    "Enabled" : "Habilitar",
-    "Not enabled" : "Desactiváu",
     "Wrong password" : "Contraseña incorreuta",
     "Saved" : "Guardáu",
     "No user supplied" : "Nun s'especificó un usuariu",
@@ -26,8 +24,6 @@ OC.L10N.register(
     "Updating...." : "Anovando....",
     "Error while updating app" : "Fallu mientres s'anovaba l'aplicación",
     "Updated" : "Anováu",
-    "Error while uninstalling app" : "Fallu mientres se desinstalaba l'aplicación",
-    "Uninstall" : "Desinstalar",
     "Valid until {date}" : "Válidu fasta {date}",
     "Delete" : "Desaniciar",
     "Select a profile picture" : "Esbillar una imaxe de perfil",
@@ -121,6 +117,8 @@ OC.L10N.register(
     "change full name" : "camudar el nome completu",
     "set new password" : "afitar nueva contraseña",
     "Default" : "Predetermináu",
+    "Enabled" : "Habilitar",
+    "Not enabled" : "Desactiváu",
     "Please provide an admin recovery password, otherwise all user data will be lost" : "Facilita una contraseña de recuperación d'alministrador, sinón podríen perdese tolos datos d'usuariu",
     "test email settings" : "probar configuración de corréu",
     "Admins can't remove themself from the admin group" : "Los alministradores nun puen desaniciase a ellos mesmos del grupu d'alministrador",
@@ -128,6 +126,8 @@ OC.L10N.register(
     "Unable to remove user from group %s" : "Nun pudo desaniciase al usuariu del grupu %s",
     "Sending..." : "Unviando...",
     "Uninstalling ...." : "Desinstalando ...",
+    "Error while uninstalling app" : "Fallu mientres se desinstalaba l'aplicación",
+    "Uninstall" : "Desinstalar",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "Nun s'atopó'l módulu PHP 'fileinfo'. Encamentámoste qu'habilites esti módulu pa obtener meyores resultaos cola deteición de tribes MIME.",
     "Cheers!" : "¡Salú!"
 },

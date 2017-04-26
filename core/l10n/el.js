@@ -162,6 +162,7 @@ OC.L10N.register(
     "{sharee} (email)" : "{sharee} (email)",
     "{sharee} ({type}, {owner})" : "{sharee} ({type}, {owner})",
     "Share" : "Διαμοιρασμός",
+    "Name..." : "Όνομα...",
     "Error removing share" : "Σφάλμα αφαίρεσης κοινόχρηστου",
     "Non-existing tag #{tag}" : "Μη υπάρχουσα ετικέτα #{tag}",
     "restricted" : "περιορισμένο",
