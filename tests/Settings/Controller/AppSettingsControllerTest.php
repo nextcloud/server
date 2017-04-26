@@ -107,14 +107,14 @@ class AppSettingsControllerTest extends TestCase {
 				'displayName' => 'Enabled apps',
 			],
 			[
-				'id' => 3,
-				'ident' => 'app-bundles',
-				'displayName' => 'App bundles',
-			],
-			[
 				'id' => 1,
 				'ident' => 'disabled',
 				'displayName' => 'Disabled apps',
+			],
+			[
+				'id' => 3,
+				'ident' => 'app-bundles',
+				'displayName' => 'App bundles',
 			],
 			[
 				'id' => 'auth',
