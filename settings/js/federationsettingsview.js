@@ -163,7 +163,7 @@
 
 			// change verification buttons from 'verify' to 'verifying...' on value change
 			if (verifyAvailable) {
-				if (field === 'twitter' || field === 'webpage') {
+				if (field === 'twitter' || field === 'website') {
 					var verifyStatus = this.$('#' + field + 'form > .verify > #verify-' + field);
 					verifyStatus.attr('title', t('core', 'Verify'));
 					verifyStatus.attr('src', OC.imagePath('core', 'actions/verify.svg'));
