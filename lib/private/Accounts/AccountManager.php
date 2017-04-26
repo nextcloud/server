@@ -284,7 +284,7 @@ class AccountManager {
 				[
 					'value' => $user->getDisplayName(),
 					'scope' => self::VISIBILITY_CONTACTS_ONLY,
-					'verified' => '0',
+					'verified' => self::NOT_VERIFIED,
 				],
 			self::PROPERTY_ADDRESS =>
 				[

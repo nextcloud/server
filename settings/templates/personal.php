@@ -12,9 +12,9 @@
 
 	<!-- dialog used to verify personal information such as the users website, email address, etc -->
 	<div class="verification-dialog-content">
-		<p class="explainVerification">How to verify your account details</p>
-		<p class="verificationCode">Verification code</p>
-		<p>It can take up to 24 hours before the account is displayed as verified.</p>
+		<p class="explainVerification"></p>
+		<p class="verificationCode"></p>
+		<p><?php p(\OC::$server->getL10N('settings')->t('It can take up to 24 hours before the account is displayed as verified.'));?></p>
 	</div>
 
 </div>
@@ -114,13 +114,13 @@
 				<img id="verify-email" class="verify-action" <?php
 				switch($_['emailVerification']) {
 					case \OC\Accounts\AccountManager::VERIFICATION_IN_PROGRESS:
-						print_unescaped('src="' . image_path('core', 'actions/verifying.svg') . '" title="Verifying …"');
+						print_unescaped('src="' . image_path('core', 'actions/verifying.svg') . '" title="' . \OC::$server->getL10N()->t('Verifying …') . '"');
 						break;
 					case \OC\Accounts\AccountManager::VERIFIED:
-						print_unescaped('src="' . image_path('core', 'actions/verified.svg') . '" title="Verified"');
+						print_unescaped('src="' . image_path('core', 'actions/verified.svg') . '"' . \OC::$server->getL10N()->t('Verified') . '"');
 						break;
 					default:
-						print_unescaped('src="' . image_path('core', 'actions/verify.svg') . '" title="Verify"');
+						print_unescaped('src="' . image_path('core', 'actions/verify.svg') . '" title="' . \OC::$server->getL10N()->t('Verify') . '"');
 				}
 				?>>
 			</div>
@@ -180,13 +180,13 @@
 				<img id="verify-website" <?php
 				switch($_['websiteVerification']) {
 					case \OC\Accounts\AccountManager::VERIFICATION_IN_PROGRESS:
-						print_unescaped('src="' . image_path('core', 'actions/verifying.svg') . '" title="Verifying …"');
+						print_unescaped('src="' . image_path('core', 'actions/verifying.svg') . '" title="' . \OC::$server->getL10N()->t('Verifying …') . '"');
 						break;
 					case \OC\Accounts\AccountManager::VERIFIED:
-						print_unescaped('src="' . image_path('core', 'actions/verified.svg') . '" title="Verified"');
+						print_unescaped('src="' . image_path('core', 'actions/verified.svg') . '"' . \OC::$server->getL10N()->t('Verified') . '"');
 						break;
 					default:
-						print_unescaped('src="' . image_path('core', 'actions/verify.svg') . '" title="Verify" class="verify-action"');
+						print_unescaped('src="' . image_path('core', 'actions/verify.svg') . '" title="' . \OC::$server->getL10N()->t('Verify') . '" class="verify-action"');
 				}
 				?>>
 			</div>
@@ -207,13 +207,13 @@
 				<img id="verify-twitter" <?php
 				switch($_['twitterVerification']) {
 					case \OC\Accounts\AccountManager::VERIFICATION_IN_PROGRESS:
-						print_unescaped('src="' . image_path('core', 'actions/verifying.svg') . '" title="Verifying …"');
+						print_unescaped('src="' . image_path('core', 'actions/verifying.svg') . '" title="' . \OC::$server->getL10N()->t('Verifying …') . '"');
 						break;
 					case \OC\Accounts\AccountManager::VERIFIED:
-						print_unescaped('src="' . image_path('core', 'actions/verified.svg') . '" title="Verified"');
+						print_unescaped('src="' . image_path('core', 'actions/verified.svg') . '"' . \OC::$server->getL10N()->t('Verified') . '"');
 						break;
 					default:
-						print_unescaped('src="' . image_path('core', 'actions/verify.svg') . '" title="Verify" class="verify-action"');
+						print_unescaped('src="' . image_path('core', 'actions/verify.svg') . '" title="' . \OC::$server->getL10N()->t('Verify') . '" class="verify-action"');
 				}
 				?>>
 			</div>

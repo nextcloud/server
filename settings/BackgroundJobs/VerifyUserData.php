@@ -62,27 +62,25 @@ class VerifyUserData extends Job {
 	/**
 	 * VerifyUserData constructor.
 	 *
-	 * @param AccountManager|null $accountManager
-	 * @param IUserManager|null $userManager
-	 * @param IClientService|null $clientService
-	 * @param IConfig|null $config
+	 * @param AccountManager $accountManager
+	 * @param IUserManager $userManager
+	 * @param IClientService $clientService
+	 * @param ILogger $logger
+	 * @param IConfig $config
 	 */
-	public function __construct(AccountManager $accountManager = null,
-								IUserManager $userManager = null,
-								IClientService $clientService = null,
-								ILogger $logger = null,
-								IConfig $config = null
+	public function __construct(AccountManager $accountManager,
+								IUserManager $userManager,
+								IClientService $clientService,
+								ILogger $logger,
+								IConfig $config
 	) {
-		$this->accountManager = $accountManager !== null ? $accountManager : \OC::$server->query(AccountManager::class);
-		$this->userManager = $userManager !== null ? $userManager : \OC::$server->getUserManager();
-		$this->httpClientService = $clientService !== null ? $clientService : \OC::$server->getHTTPClientService();
-		$this->logger = $logger !== null ? $logger : \OC::$server->getLogger();
+		$this->accountManager = $accountManager;
+		$this->userManager = $userManager;
+		$this->httpClientService = $clientService;
+		$this->logger = $logger;
 
-		if ($config !== null) {
-			$this->lookupServerUrl = $config->getSystemValue('lookup_server', 'https://lookup.nextcloud.com');
-		} else {
-			$this->lookupServerUrl = \OC::$server->getConfig()->getSystemValue('lookup_server', 'https://lookup.nextcloud.com');
-		}
+		$lookupServerUrl = $config->getSystemValue('lookup_server', 'https://lookup.nextcloud.com');
+		$this->lookupServerUrl = rtrim($lookupServerUrl, '/');
 	}
 
 	/**

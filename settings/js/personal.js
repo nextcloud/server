@@ -211,13 +211,12 @@ $(document).ready(function () {
 	$(".verify-action").click(function () {
 		var account = $(this);
 		var accountId = $(this).attr('id');
-
 		$.ajax(
 			OC.generateUrl('/settings/users/{account}/verify', {account: accountId}),
 			{method: 'GET'}
 		).done(function(data) {
 			showVerifyDialog(data.msg, data.code);
-			account.attr('title', 'Verifying...');
+			account.attr('title', t('core', 'Verifying …'));
 			account.attr('src', OC.imagePath('core', 'actions/verifying.svg'));
 			account.removeClass('verify-action');
 		});
