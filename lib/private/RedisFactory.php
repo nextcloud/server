@@ -39,32 +39,54 @@ class RedisFactory {
 	}
 
 	private function create() {
-		$this->instance = new \Redis();
-		// TODO allow configuring a RedisArray, see https://github.com/nicolasff/phpredis/blob/master/arrays.markdown#redis-arrays
-		$config = $this->config->getValue('redis', array());
-		if (isset($config['host'])) {
-			$host = $config['host'];
-		} else {
-			$host = '127.0.0.1';
-		}
-		if (isset($config['port'])) {
-			$port = $config['port'];
-		} else {
-			$port = 6379;
-		}
-		if (isset($config['timeout'])) {
-			$timeout = $config['timeout'];
-		} else {
-			$timeout = 0.0; // unlimited
-		}
+		if ($config = $this->config->getValue('redis.cluster', [])) {
+			if (!class_exists('RedisCluster')) {
+				throw new \Exception('Redis Cluster support is not available');
+			}
+			// cluster config
+			if (isset($config['timeout'])) {
+				$timeout = $config['timeout'];
+			} else {
+				$timeout = null;
+			}
+			if (isset($config['read_timeout'])) {
+				$readTimeout = $config['read_timeout'];
+			} else {
+				$readTimeout = null;
+			}
+			$this->instance = new \RedisCluster(null, $config['seeds'], $timeout, $readTimeout);
 
-		$this->instance->connect($host, $port, $timeout);
-		if (isset($config['password']) && $config['password'] !== '') {
-			$this->instance->auth($config['password']);
-		}
+			if (isset($config['failover_mode'])) {
+				$this->instance->setOption(\RedisCluster::OPT_SLAVE_FAILOVER, $config['failover_mode']);
+			}
+		} else {
 
-		if (isset($config['dbindex'])) {
-			$this->instance->select($config['dbindex']);
+			$this->instance = new \Redis();
+			$config = $this->config->getValue('redis', []);
+			if (isset($config['host'])) {
+				$host = $config['host'];
+			} else {
+				$host = '127.0.0.1';
+			}
+			if (isset($config['port'])) {
+				$port = $config['port'];
+			} else {
+				$port = 6379;
+			}
+			if (isset($config['timeout'])) {
+				$timeout = $config['timeout'];
+			} else {
+				$timeout = 0.0; // unlimited
+			}
+
+			$this->instance->connect($host, $port, $timeout);
+			if (isset($config['password']) && $config['password'] !== '') {
+				$this->instance->auth($config['password']);
+			}
+
+			if (isset($config['dbindex'])) {
+				$this->instance->select($config['dbindex']);
+			}
 		}
 	}
 
