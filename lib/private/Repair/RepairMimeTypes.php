@@ -110,6 +110,15 @@ class RepairMimeTypes implements IRepairStep {
 		}
 	}
 
+	private function introduceImageTypes() {
+		$updatedMimetypes = array(
+			'jp2' => 'image/jp2',
+			'webp' => 'image/webp',
+		);
+
+		$this->updateMimetypes($updatedMimetypes);
+	}
+
 	private function introduceWindowsProgramTypes() {
 		$updatedMimetypes = array(
 			'htaccess' => 'text/plain',
@@ -129,6 +138,10 @@ class RepairMimeTypes implements IRepairStep {
 
 		// NOTE TO DEVELOPERS: when adding new mime types, please make sure to
 		// add a version comparison to avoid doing it every time
+
+		if (version_compare($ocVersionFromBeforeUpdate, '12.0.0.14', '<') && $this->introduceImageTypes()) {
+			$out->info('Fixed image mime types');
+		}
 
 		if (version_compare($ocVersionFromBeforeUpdate, '12.0.0.13', '<') && $this->introduceWindowsProgramTypes()) {
 			$out->info('Fixed windows program mime types');
