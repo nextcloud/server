@@ -145,7 +145,7 @@ input#openid, input#webdav { width:20em; }
 	float: right;
 }
 #personal-settings-container .verify img {
-	padding: 12px 7px;
+	padding: 12px 7px 6px;
 }
 /* only show pointer cursor when popup will be there */
 #personal-settings-container .verify-action {
