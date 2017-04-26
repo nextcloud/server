@@ -512,6 +512,7 @@ class File extends Node implements IFile {
 		// TODO: in the future use ChunkHandler provided by storage
 		return !$storage->instanceOfStorage('OCA\Files_Sharing\External\Storage') &&
 			!$storage->instanceOfStorage('OC\Files\Storage\OwnCloud') &&
+			!$storage->instanceOfStorage('OC\Files\ObjectStore\ObjectStoreStorage') &&
 			$storage->needsPartFile();
 	}
 
