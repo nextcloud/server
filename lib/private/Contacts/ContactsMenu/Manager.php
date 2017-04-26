@@ -51,7 +51,7 @@ class Manager {
 	}
 
 	/**
-	 * @param string $user
+	 * @param IUser $user
 	 * @param string $filter
 	 * @return array
 	 */
@@ -67,6 +67,21 @@ class Manager {
 			'contacts' => $topEntries,
 			'contactsAppEnabled' => $contactsEnabled,
 		];
+	}
+
+	/**
+	 * @param IUser $user
+	 * @param integer $shareType
+	 * @param string $shareWith
+	 * @return IEntry
+	 */
+	public function findOne(IUser $user, $shareType, $shareWith) {
+		$entry = $this->store->findOne($user, $shareType, $shareWith);
+		if ($entry) {
+			$this->processEntries([$entry], $user);
+		}
+
+		return $entry;
 	}
 
 	/**

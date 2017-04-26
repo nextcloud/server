@@ -153,7 +153,7 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 			expect($comment.find('strong:first').text()).toEqual('Thane of Cawdor');
 
 			expect($comment.find('.avatar[data-user=banquo]').length).toEqual(1);
-			expect($comment.find('strong:last-child').text()).toEqual('Lord Banquo');
+			expect($comment.find('.avatar-name-wrapper:last-child strong').text()).toEqual('Lord Banquo');
 		});
 
 	});

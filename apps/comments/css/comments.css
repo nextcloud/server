@@ -54,7 +54,6 @@
 
 #commentsTabView .comment {
 	position: relative;
-	z-index: 1;
 	margin-bottom: 30px;
 }
 
@@ -108,6 +107,11 @@
 	vertical-align: middle;
 }
 
+#commentsTabView .authorRow>div.hidden {
+	display: none !important;
+}
+
+#commentsTabView .comments li .message .avatar-name-wrapper,
 #commentsTabView .comment .authorRow {
 	position: relative;
 }

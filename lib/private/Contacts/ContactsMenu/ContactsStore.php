@@ -60,6 +60,50 @@ class ContactsStore {
 	}
 
 	/**
+	 * @param IUser $user
+	 * @param integer $shareType
+	 * @param string $shareWith
+	 * @return IEntry|null
+	 */
+	public function findOne(IUser $user, $shareType, $shareWith) {
+		switch($shareType) {
+			case 0:
+			case 6:
+				$filter = ['UID'];
+				break;
+			case 4:
+				$filter = ['EMAIL'];
+				break;
+			default:
+				return null;
+		}
+
+		$userId = $user->getUID();
+		$allContacts = $this->contactsManager->search($shareWith, $filter);
+		$contacts = array_filter($allContacts, function($contact) use ($userId) {
+			return $contact['UID'] !== $userId;
+		});
+		$match = null;
+
+		foreach ($contacts as $contact) {
+			if ($shareType === 4 && isset($contact['EMAIL'])) {
+				if (in_array($shareWith, $contact['EMAIL'])) {
+					$match = $contact;
+					break;
+				}
+			}
+			if ($shareType === 0 || $shareType === 6) {
+				if ($contact['UID'] === $shareWith && $contact['isLocalSystemBook'] === true) {
+					$match = $contact;
+					break;
+				}
+			}
+		}
+
+		return $match ? $this->contactArrayToEntry($match) : null;
+	}
+
+	/**
 	 * @param array $contact
 	 * @return Entry
 	 */

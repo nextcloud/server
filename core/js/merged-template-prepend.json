@@ -13,5 +13,6 @@
   "mimetypelist.js",
   "oc-backbone.js",
   "placeholder.js",
-  "jquery.avatar.js"
+  "jquery.avatar.js",
+  "jquery.contactsmenu.js"
 ]

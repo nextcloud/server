@@ -232,6 +232,21 @@
 				var $this = $(this);
 				$this.avatar($this.attr('data-username'), 32);
 			});
+
+			var username = $el.find('.avatar').data('username');
+			if (username !== oc_current_user) {
+				$el.find('.authorRow .avatar, .authorRow .author').contactsMenu(
+					username, 0, $el.find('.authorRow'));
+			}
+
+			var message = $el.find('.message');
+			message.find('.avatar').each(function() {
+				var avatar = $(this);
+				var strong = $(this).next();
+				var appendTo = $(this).parent();
+
+				$.merge(avatar, strong).contactsMenu(avatar.data('user'), 0, appendTo);
+			});
 		},
 
 		/**
@@ -251,7 +266,10 @@
 
 				// escape possible regex characters in the name
 				mention = mention.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-				var displayName = avatar + ' <strong>'+ _.escape(mentions[i].mentionDisplayName)+'</strong>';
+				var displayName = ''
+					+ '<span class="avatar-name-wrapper">'
+					+ avatar + ' <strong>'+ _.escape(mentions[i].mentionDisplayName)+'</strong>'
+					+ '</span>';
 
 				// replace every mention either at the start of the input or after a whitespace
 				// followed by a non-word character.

@@ -76,4 +76,35 @@ class ContactsMenuControllerTest extends TestCase {
 		$this->assertEquals($entries, $response);
 	}
 
+	public function testFindOne() {
+		$user = $this->createMock(IUser::class);
+		$entry = $this->createMock(IEntry::class);
+		$this->userSession->expects($this->once())
+			->method('getUser')
+			->willReturn($user);
+		$this->contactsManager->expects($this->once())
+			->method('findOne')
+			->with($this->equalTo($user), $this->equalTo(42), $this->equalTo('test-search-phrase'))
+			->willReturn($entry);
+
+		$response = $this->controller->findOne(42, 'test-search-phrase');
+
+		$this->assertEquals($entry, $response);
+	}
+
+	public function testFindOne404() {
+		$user = $this->createMock(IUser::class);
+		$this->userSession->expects($this->once())
+			->method('getUser')
+			->willReturn($user);
+		$this->contactsManager->expects($this->once())
+			->method('findOne')
+			->with($this->equalTo($user), $this->equalTo(42), $this->equalTo('test-search-phrase'))
+			->willReturn(null);
+
+		$response = $this->controller->findOne(42, 'test-search-phrase');
+
+		$this->assertEquals([], $response->getData());
+		$this->assertEquals(404, $response->getStatus());
+	}
 }
