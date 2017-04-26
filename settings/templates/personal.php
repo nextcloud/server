@@ -112,13 +112,6 @@
 						print_unescaped('src="' . image_path('core', 'actions/verify.svg') . '" title="' . \OC::$server->getL10N()->t('Verify') . '"');
 				}
 				?>>
-				<div class="verification-dialog popovermenu bubble menu">
-					<div class="verification-dialog-content">
-						<p class="explainVerification"></p>
-						<p class="verificationCode"></p>
-						<p><?php p(\OC::$server->getL10N('settings')->t('It can take up to 24 hours before the account is displayed as verified.'));?></p>
-					</div>
-				</div>
 			</div>
 			<input type="email" name="email" id="email" value="<?php p($_['email']); ?>"
 				<?php if(!$_['displayNameChangeSupported']) { print_unescaped('class="hidden"'); } ?>
