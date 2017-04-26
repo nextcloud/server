@@ -9,6 +9,8 @@ script('federatedfilesharing', 'settings-admin');
 	<a target="_blank" rel="noreferrer" class="icon-info svg"
 		title="<?php p($l->t('Open documentation'));?>"
 		href="<?php p(link_to_docs('admin-sharing-federated')); ?>"></a>
+	<p class="settings-hint"><?php p($l->t('Adjust how people can share between servers.')); ?></p>
+
 	<p>
 		<input type="checkbox" name="outgoing_server2server_share_enabled" id="outgoingServer2serverShareEnabled" class="checkbox"
 			   value="1" <?php if ($_['outgoingServer2serverShareEnabled']) print_unescaped('checked="checked"'); ?> />

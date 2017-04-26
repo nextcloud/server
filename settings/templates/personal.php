@@ -273,7 +273,7 @@ if($_['passwordChangeSupported']) {
 
 <div id="sessions" class="section">
 	<h2><?php p($l->t('Sessions'));?></h2>
-	<span class="hidden-when-empty"><?php p($l->t('Web, desktop and mobile clients currently logged in to your account.'));?></span>
+	<p class="settings-hint hidden-when-empty"><?php p($l->t('Web, desktop and mobile clients currently logged in to your account.'));?></span>
 	<table class="icon-loading">
 		<thead class="token-list-header">
 			<tr>
@@ -289,7 +289,7 @@ if($_['passwordChangeSupported']) {
 
 <div id="apppasswords" class="section">
 	<h2><?php p($l->t('App passwords'));?></h2>
-	<p><?php p($l->t('Passcodes that give an app or device permissions to access your account.'));?></p>
+	<p class="settings-hint"><?php p($l->t('Here you can generate individual passwords for apps so you don’t have to give out your password. You can revoke them individually too.'));?></p>
 	<table class="icon-loading">
 		<thead class="hidden-when-empty">
 			<tr>
