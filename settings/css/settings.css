@@ -139,13 +139,27 @@ input#openid, input#webdav { width:20em; }
 	pointer-events: none;
 }
 
+/* verify accounts */
 #personal-settings-container .verify {
+	position: relative;
 	padding: 10px;
 	float: right;
 }
-
+#personal-settings-container .verify,
 #personal-settings-container .verify-action {
 	cursor: pointer;
+}
+#verification-dialog {
+	right: 0;
+	top: 0;
+}
+#verification-dialog p {
+	padding: 10px;
+}
+#verification-dialog .verificationCode {
+	font-family: monospace;
+	white-space: nowrap;
+	display: block;
 }
 
 .federationScopeMenu {
@@ -1026,20 +1040,4 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 	margin-top: -12px;
 	margin-bottom: 12px;
 	opacity: .7;
-}
-
-/* verify accounts */
-#verification-dialog {
-	right: 0;
-	top: 0;
-}
-
-#verification-dialog p {
-	padding: 10px;
-}
-
-#verification-dialog .verificationCode {
-	font-family: monospace;
-	white-space: nowrap;
-	display: block;
 }
