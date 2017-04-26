@@ -38,6 +38,7 @@ use OCP\IUser;
 use OCP\IUserBackend;
 use OCP\IUserManager;
 use OCP\IConfig;
+use OCP\UserInterface;
 
 /**
  * Class Manager
@@ -321,7 +322,24 @@ class Manager extends PublicEmitter implements IUserManager {
 				return $user;
 			}
 		}
+
 		return false;
+	}
+
+	/**
+	 * @param string $uid
+	 * @param string $password
+	 * @param UserInterface $backend
+	 * @return IUser|null
+	 */
+	public function createUserFromBackend($uid, $password, UserInterface $backend) {
+		$this->emit('\OC\User', 'preCreateUser', [$uid, $password]);
+		$backend->createUser($uid, $password);
+		$user = $this->getUserObject($uid, $backend);
+		if ($user instanceof IUser) {
+			$this->emit('\OC\User', 'postCreateUser', [$user, $password]);
+		}
+		return $user;
 	}
 
 	/**

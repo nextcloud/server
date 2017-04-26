@@ -130,6 +130,15 @@ interface IUserManager {
 	public function createUser($uid, $password);
 
 	/**
+	 * @param string $uid
+	 * @param string $password
+	 * @param UserInterface $backend
+	 * @return IUser|null
+	 * @since 12.0.0
+	 */
+	public function createUserFromBackend($uid, $password, UserInterface $backend);
+
+	/**
 	 * returns how many users per backend exist (if supported by backend)
 	 *
 	 * @return array an array of backend class as key and count number as value
