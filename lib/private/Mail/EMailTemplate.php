@@ -54,6 +54,8 @@ class EMailTemplate implements IEMailTemplate {
 	protected $headerAdded = false;
 	/** @var bool indicated if the body is already opened */
 	protected $bodyOpened = false;
+	/** @var bool indicated if there is a list open in the body */
+	protected $bodyListOpened = false;
 	/** @var bool indicated if the footer is added */
 	protected $footerAdded = false;
 
@@ -167,6 +169,34 @@ EOF;
 					</th>
 					<th class="expander" style="Margin:0;color:#0a0a0a;font-family:Lucida Grande,Geneva,Verdana,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0!important;text-align:left;visibility:hidden;width:0"></th>
 				</tr>
+			</table>
+		</th>
+	</tr>
+	</tbody>
+</table>
+EOF;
+
+	protected $listBegin = <<<EOF
+<table class="row description" style="border-collapse:collapse;border-spacing:0;display:table;padding:0;position:relative;text-align:left;vertical-align:top;width:100%%">
+	<tbody>
+	<tr style="padding:0;text-align:left;vertical-align:top">
+		<th class="small-12 large-12 columns first last" style="Margin:0 auto;color:#0a0a0a;font-family:Lucida Grande,Geneva,Verdana,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0 auto;padding:0;padding-bottom:30px;padding-left:30px;padding-right:30px;text-align:left;width:550px">
+			<table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%%">
+EOF;
+
+	protected $listItem = <<<EOF
+				<tr style="padding:0;text-align:left;vertical-align:top">
+					<td style="Margin:0;color:#0a0a0a;font-family:Lucida Grande,Geneva,Verdana,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left;width:15px;">
+						<p class="text-left" style="Margin:0;Margin-bottom:10px;color:#777;font-family:Lucida Grande,Geneva,Verdana,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;margin-bottom:10px;padding:0;padding-left:10px;text-align:left">%s</p>
+					</td>
+					<td style="Margin:0;color:#0a0a0a;font-family:Lucida Grande,Geneva,Verdana,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left">
+						<p class="text-left" style="Margin:0;Margin-bottom:10px;color:#555;font-family:Lucida Grande,Geneva,Verdana,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;margin-bottom:10px;padding:0;padding-left:10px;text-align:left">%s</p>
+					</td>
+					<td class="expander" style="Margin:0;color:#0a0a0a;font-family:Lucida Grande,Geneva,Verdana,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0!important;text-align:left;visibility:hidden;width:0"></td>
+				</tr>
+EOF;
+
+	protected $listEnd = <<<EOF
 			</table>
 		</th>
 	</tr>
@@ -353,6 +383,18 @@ EOF;
 	}
 
 	/**
+	 * Open the HTML body when it is not already
+	 */
+	protected function ensureBodyIsOpened() {
+		if ($this->bodyOpened) {
+			return;
+		}
+
+		$this->htmlBody .= $this->bodyBegin;
+		$this->bodyOpened = true;
+	}
+
+	/**
 	 * Adds a paragraph to the body of the email
 	 *
 	 * @param string $text
@@ -367,15 +409,72 @@ EOF;
 			$plainText = $text;
 		}
 
-		if (!$this->bodyOpened) {
-			$this->htmlBody .= $this->bodyBegin;
-			$this->bodyOpened = true;
-		}
+		$this->ensureBodyIsOpened();
 
 		$this->htmlBody .= vsprintf($this->bodyText, [htmlspecialchars($text)]);
 		if ($plainText !== false) {
 			$this->plainBody .= $plainText . PHP_EOL . PHP_EOL;
 		}
+	}
+
+	/**
+	 * Adds a list item to the body of the email
+	 *
+	 * @param string $text
+	 * @param string $metaInfo
+	 * @param string $icon Absolute path, must be 16*16 pixels
+	 * @param string $plainText Text that is used in the plain text email
+	 *   if empty the $text is used, if false none will be used
+	 * @param string $plainMetaInfo Meta info that is used in the plain text email
+	 *   if empty the $metaInfo is used, if false none will be used
+	 * @since 12.0.0
+	 */
+	public function addBodyListItem($text, $metaInfo = '', $icon = '', $plainText = '', $plainMetaInfo = '') {
+		$this->ensureBodyListOpened();
+
+		if ($plainText === '') {
+			$plainText = $text;
+		}
+		if ($plainMetaInfo === '') {
+			$plainMetaInfo = $metaInfo;
+		}
+
+		$htmlText = htmlspecialchars($text);
+		if ($metaInfo) {
+			$htmlText = '<em style="color:#777;">' . htmlspecialchars($metaInfo) . '</em><br>' . $htmlText;
+		}
+		if ($icon !== '') {
+			$icon = '<img src="' . htmlspecialchars($icon) . '" alt="&bull;">';
+		} else {
+			$icon = '&bull;';
+		}
+		$this->htmlBody .= vsprintf($this->listItem, [$icon, $htmlText]);
+		if ($plainText !== false) {
+			$this->plainBody .= '  * ' . $plainText;
+			if ($plainMetaInfo !== false) {
+				$this->plainBody .= ' (' . $plainMetaInfo . ')';
+			}
+			$this->plainBody .= PHP_EOL;
+		}
+	}
+
+	protected function ensureBodyListOpened() {
+		if ($this->bodyListOpened) {
+			return;
+		}
+
+		$this->ensureBodyIsOpened();
+		$this->bodyListOpened = true;
+		$this->htmlBody .= $this->listBegin;
+	}
+
+	protected function ensureBodyListClosed() {
+		if (!$this->bodyListOpened) {
+			return;
+		}
+
+		$this->bodyListOpened = false;
+		$this->htmlBody .= $this->listEnd;
 	}
 
 	/**
@@ -405,10 +504,8 @@ EOF;
 			$plainTextRight = $textRight;
 		}
 
-		if (!$this->bodyOpened) {
-			$this->htmlBody .= $this->bodyBegin;
-			$this->bodyOpened = true;
-		}
+		$this->ensureBodyIsOpened();
+		$this->ensureBodyListClosed();
 
 		$color = $this->themingDefaults->getColorPrimary();
 
@@ -433,10 +530,8 @@ EOF;
 			return;
 		}
 
-		if (!$this->bodyOpened) {
-			$this->htmlBody .= $this->bodyBegin;
-			$this->bodyOpened = true;
-		}
+		$this->ensureBodyIsOpened();
+		$this->ensureBodyListClosed();
 
 		if ($plainText === '') {
 			$plainText = $text;
@@ -454,6 +549,20 @@ EOF;
 	}
 
 	/**
+	 * Close the HTML body when it is open
+	 */
+	protected function ensureBodyIsClosed() {
+		if (!$this->bodyOpened) {
+			return;
+		}
+
+		$this->ensureBodyListClosed();
+
+		$this->htmlBody .= $this->bodyEnd;
+		$this->bodyOpened = false;
+	}
+
+	/**
 	 * Adds a logo and a text to the footer. <br> in the text will be replaced by new lines in the plain text email
 	 *
 	 * @param string $text If the text is empty the default "Name - Slogan<br>This is an automatically sent email" will be used
@@ -468,10 +577,7 @@ EOF;
 		}
 		$this->footerAdded = true;
 
-		if ($this->bodyOpened) {
-			$this->htmlBody .= $this->bodyEnd;
-			$this->bodyOpened = false;
-		}
+		$this->ensureBodyIsClosed();
 
 		$this->htmlBody .= vsprintf($this->footer, [$text]);
 		$this->htmlBody .= $this->tail;
@@ -487,9 +593,7 @@ EOF;
 	public function renderHtml() {
 		if (!$this->footerAdded) {
 			$this->footerAdded = true;
-			if ($this->bodyOpened) {
-				$this->htmlBody .= $this->bodyEnd;
-			}
+			$this->ensureBodyIsClosed();
 			$this->htmlBody .= $this->tail;
 		}
 		return $this->htmlBody;
@@ -503,9 +607,7 @@ EOF;
 	public function renderText() {
 		if (!$this->footerAdded) {
 			$this->footerAdded = true;
-			if ($this->bodyOpened) {
-				$this->htmlBody .= $this->bodyEnd;
-			}
+			$this->ensureBodyIsClosed();
 			$this->htmlBody .= $this->tail;
 		}
 		return $this->plainBody;
