@@ -201,11 +201,11 @@ $(document).ready(function () {
 		}
 	});
 
-	var showVerifyDialog = function(howToVerify, verificationCode) {
-		var dialog = document.getElementById('verification-dialog');
-		$(".verification-dialog-content .explainVerification").text(howToVerify);
-		$(".verification-dialog-content .verificationCode").text(verificationCode);
-		dialog.style.display = "block";
+	var showVerifyDialog = function(dialog, howToVerify, verificationCode) {
+		var dialogContent = dialog.children('.verification-dialog-content');
+		dialogContent.children(".explainVerification").text(howToVerify);
+		dialogContent.children(".verificationCode").text(verificationCode);
+		dialog.css('display', 'block');
 	};
 
 	$(".verify-action").click(function () {
@@ -215,18 +215,19 @@ $(document).ready(function () {
 			OC.generateUrl('/settings/users/{account}/verify', {account: accountId}),
 			{method: 'GET'}
 		).done(function(data) {
-			showVerifyDialog(data.msg, data.code);
+			var dialog = account.closest('.verify').children('.verification-dialog');
+			showVerifyDialog(dialog, data.msg, data.code);
 			account.attr('title', t('core', 'Verifying …'));
 			account.attr('src', OC.imagePath('core', 'actions/verifying.svg'));
 			account.removeClass('verify-action');
+
 		});
 
 	});
 
-	// When the user clicks on <span> (x), close the modal
-	$("#verify-dialog-close").click(function() {
-		var dialog = document.getElementById('verification-dialog');
-		dialog.style.display = "none";
+	$("body").click(function(){
+		var page = $(this);
+		page.find('.verification-dialog').css('display', 'none');
 	});
 
 	// When the user clicks anywhere outside of the modal, close it
