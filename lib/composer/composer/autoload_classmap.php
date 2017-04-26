@@ -511,8 +511,6 @@ return array(
     'OC\\DateTimeZone' => $baseDir . '/lib/private/DateTimeZone.php',
     'OC\\Diagnostics\\Event' => $baseDir . '/lib/private/Diagnostics/Event.php',
     'OC\\Diagnostics\\EventLogger' => $baseDir . '/lib/private/Diagnostics/EventLogger.php',
-    'OC\\Diagnostics\\NullEventLogger' => $baseDir . '/lib/private/Diagnostics/NullEventLogger.php',
-    'OC\\Diagnostics\\NullQueryLogger' => $baseDir . '/lib/private/Diagnostics/NullQueryLogger.php',
     'OC\\Diagnostics\\Query' => $baseDir . '/lib/private/Diagnostics/Query.php',
     'OC\\Diagnostics\\QueryLogger' => $baseDir . '/lib/private/Diagnostics/QueryLogger.php',
     'OC\\Encryption\\DecryptAll' => $baseDir . '/lib/private/Encryption/DecryptAll.php',
