@@ -91,6 +91,7 @@ class SMB extends Common implements INotifyStorage {
 			throw new \Exception('Invalid configuration');
 		}
 		$this->statCache = new CappedMemoryCache();
+		parent::__construct($params);
 	}
 
 	/**
@@ -187,16 +188,17 @@ class SMB extends Common implements INotifyStorage {
 			return false;
 		}
 
+		$absoluteSource = $this->buildPath($source);
+		$absoluteTarget = $this->buildPath($target);
 		try {
-			$result = $this->share->rename($this->root . $source, $this->root . $target);
-			unset($this->statCache[$this->root . $source], $this->statCache[$this->root . $target]);
+			$result = $this->share->rename($absoluteSource, $absoluteTarget);
 		} catch (AlreadyExistsException $e) {
-			$this->unlink($target);
-			$result = $this->share->rename($this->root . $source, $this->root . $target);
-			unset($this->statCache[$this->root . $source], $this->statCache[$this->root . $target]);
+			$this->remove($target);
+			$result = $this->share->rename($absoluteSource, $absoluteTarget);
 		} catch (\Exception $e) {
-			$result = false;
+			return false;
 		}
+		unset($this->statCache[$absoluteSource], $this->statCache[$absoluteTarget]);
 		return $result;
 	}
 
@@ -265,26 +267,6 @@ class SMB extends Common implements INotifyStorage {
 				$this->share->del($path);
 				return true;
 			}
-		} catch (NotFoundException $e) {
-			return false;
-		} catch (ForbiddenException $e) {
-			return false;
-		} catch (ConnectException $e) {
-			throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
-		}
-	}
-
-	/**
-	 * @param string $path1 the old name
-	 * @param string $path2 the new name
-	 * @return bool
-	 */
-	public function rename($path1, $path2) {
-		try {
-			$this->remove($path2);
-			$path1 = $this->buildPath($path1);
-			$path2 = $this->buildPath($path2);
-			return $this->share->rename($path1, $path2);
 		} catch (NotFoundException $e) {
 			return false;
 		} catch (ForbiddenException $e) {
