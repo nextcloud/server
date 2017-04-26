@@ -225,18 +225,17 @@ $(document).ready(function () {
 
 	});
 
-	$("body").click(function(){
-		var page = $(this);
-		page.find('.verification-dialog').css('display', 'none');
-	});
-
-	// When the user clicks anywhere outside of the modal, close it
-	window.onclick = function(event) {
-		var dialog = document.getElementById('verification-dialog');
-		if (event.target === dialog) {
-			dialog.style.display = "none";
+	// When the user clicks anywhere outside of the verification dialog we close it
+	$(document).click(function(event){
+		var element = event.target;
+		var isDialog = $(element).hasClass('verificationCode')
+			|| $(element).hasClass('explainVerification')
+			|| $(element).hasClass('verification-dialog-content')
+			|| $(element).hasClass('verification-dialog');
+		if (!isDialog) {
+			$(document).find('.verification-dialog').css('display', 'none');
 		}
-	};
+	});
 
 
 	var federationSettingsView = new OC.Settings.FederationSettingsView({
