@@ -29,8 +29,17 @@ script(
 <?php endif; ?>
 </script>
 
-
 <script id="app-template-installed" type="text/x-handlebars">
+{{#if newCategory}}
+<div class="apps-header">
+	<div class="app-image"></div>
+	<h2>{{categoryName}} <input class="enable" type="submit" data-bundleid="{{bundleId}}" data-active="true" value="<?php p($l->t('Enable all'));?>"/></h2>
+	<div class="app-version"></div>
+	<div class="app-level"></div>
+	<div class="app-groups"></div>
+	<div class="actions">&nbsp;</div>
+</div>
+{{/if}}
 <div class="section" id="app-{{id}}">
 	<div class="app-image app-image-icon"></div>
 	<div class="app-name">

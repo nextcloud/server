@@ -44,7 +44,8 @@ try {
 		\OC::$server->getAppFetcher(),
 		\OC::$server->getHTTPClientService(),
 		\OC::$server->getTempManager(),
-		\OC::$server->getLogger()
+		\OC::$server->getLogger(),
+		\OC::$server->getConfig()
 	);
 	$result = $installer->updateAppstoreApp($appId);
 	$config->setSystemValue('maintenance', false);

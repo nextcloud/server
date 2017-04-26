@@ -36,13 +36,20 @@ if ($lastConfirm < (time() - 30 * 60 + 15)) { // allow 15 seconds delay
 }
 
 $groups = isset($_POST['groups']) ? (array)$_POST['groups'] : null;
+$appIds = isset($_POST['appIds']) ? (array)$_POST['appIds'] : [];
 
 try {
-	$app = new OC_App();
-	$appId = (string)$_POST['appid'];
-	$appId = OC_App::cleanAppId($appId);
-	$app->enable($appId, $groups);
-	OC_JSON::success(['data' => ['update_required' => \OC_App::shouldUpgrade($appId)]]);
+	$updateRequired = false;
+	foreach($appIds as $appId) {
+		$app = new OC_App();
+		$appId = OC_App::cleanAppId($appId);
+		$app->enable($appId, $groups);
+		if(\OC_App::shouldUpgrade($appId)) {
+			$updateRequired = true;
+		}
+	}
+
+	OC_JSON::success(['data' => ['update_required' => $updateRequired]]);
 } catch (Exception $e) {
 	\OCP\Util::writeLog('core', $e->getMessage(), \OCP\Util::ERROR);
 	OC_JSON::error(array("data" => array("message" => $e->getMessage()) ));

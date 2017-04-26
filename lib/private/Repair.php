@@ -30,12 +30,14 @@
 
 namespace OC;
 
+use OC\App\AppStore\Bundles\BundleFetcher;
 use OC\Repair\CleanTags;
 use OC\Repair\Collation;
 use OC\Repair\MoveUpdaterStepFile;
 use OC\Repair\NC11\CleanPreviews;
 use OC\Repair\NC11\FixMountStorages;
 use OC\Repair\NC11\MoveAvatars;
+use OC\Repair\NC12\InstallCoreBundle;
 use OC\Repair\NC12\UpdateLanguageCodes;
 use OC\Repair\OldGroupMembershipShares;
 use OC\Repair\RemoveRootShares;
@@ -136,6 +138,11 @@ class Repair implements IOutput{
 			),
 			new FixMountStorages(\OC::$server->getDatabaseConnection()),
 			new UpdateLanguageCodes(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig()),
+			new InstallCoreBundle(
+				\OC::$server->query(BundleFetcher::class),
+				\OC::$server->getConfig(),
+				\OC::$server->query(Installer::class)
+			)
 		];
 	}
 

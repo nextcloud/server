@@ -43,6 +43,7 @@ namespace OC;
 
 use bantu\IniGetWrapper\IniGetWrapper;
 use OC\App\AppManager;
+use OC\App\AppStore\Bundles\BundleFetcher;
 use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\App\AppStore\Fetcher\CategoryFetcher;
 use OC\AppFramework\Http\Request;
@@ -816,7 +817,12 @@ class Server extends ServerContainer implements IServerContainer {
 			);
 		});
 		$this->registerAlias('MimeTypeLoader', \OCP\Files\IMimeTypeLoader::class);
-
+		$this->registerService(BundleFetcher::class, function () {
+			return new BundleFetcher($this->getL10N('lib'));
+		});
+		$this->registerService(AppFetcher::class, function() {
+			return $this->getAppFetcher();
+		});
 		$this->registerService(\OCP\Notification\IManager::class, function (Server $c) {
 			return new Manager(
 				$c->query(IValidator::class)

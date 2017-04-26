@@ -365,7 +365,8 @@ class OC_App {
 			\OC::$server->getAppFetcher(),
 			\OC::$server->getHTTPClientService(),
 			\OC::$server->getTempManager(),
-			\OC::$server->getLogger()
+			\OC::$server->getLogger(),
+			\OC::$server->getConfig()
 		);
 		$isDownloaded = $installer->isDownloaded($appId);
 
@@ -427,7 +428,8 @@ class OC_App {
 			\OC::$server->getAppFetcher(),
 			\OC::$server->getHTTPClientService(),
 			\OC::$server->getTempManager(),
-			\OC::$server->getLogger()
+			\OC::$server->getLogger(),
+			\OC::$server->getConfig()
 		);
 		return $installer->removeApp($app);
 	}

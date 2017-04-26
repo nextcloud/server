@@ -22,6 +22,7 @@
 
 namespace Tests\Settings\Controller;
 
+use OC\App\AppStore\Bundles\BundleFetcher;
 use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\App\AppStore\Fetcher\CategoryFetcher;
 use OC\Settings\Controller\AppSettingsController;
@@ -60,6 +61,8 @@ class AppSettingsControllerTest extends TestCase {
 	private $appFetcher;
 	/** @var IFactory|\PHPUnit_Framework_MockObject_MockObject */
 	private $l10nFactory;
+	/** @var BundleFetcher|\PHPUnit_Framework_MockObject_MockObject */
+	private $bundleFetcher;
 
 	public function setUp() {
 		parent::setUp();
@@ -75,6 +78,7 @@ class AppSettingsControllerTest extends TestCase {
 		$this->categoryFetcher = $this->createMock(CategoryFetcher::class);
 		$this->appFetcher = $this->createMock(AppFetcher::class);
 		$this->l10nFactory = $this->createMock(IFactory::class);
+		$this->bundleFetcher = $this->createMock(BundleFetcher::class);
 
 		$this->appSettingsController = new AppSettingsController(
 			'settings',
@@ -85,7 +89,8 @@ class AppSettingsControllerTest extends TestCase {
 			$this->appManager,
 			$this->categoryFetcher,
 			$this->appFetcher,
-			$this->l10nFactory
+			$this->l10nFactory,
+			$this->bundleFetcher
 		);
 	}
 
@@ -105,6 +110,11 @@ class AppSettingsControllerTest extends TestCase {
 				'id' => 1,
 				'ident' => 'disabled',
 				'displayName' => 'Disabled apps',
+			],
+			[
+				'id' => 3,
+				'ident' => 'app-bundles',
+				'displayName' => 'App bundles',
 			],
 			[
 				'id' => 'auth',

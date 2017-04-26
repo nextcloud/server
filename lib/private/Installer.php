@@ -42,6 +42,8 @@
 namespace OC;
 
 use Doctrine\DBAL\Exception\TableExistsException;
+use OC\App\AppManager;
+use OC\App\AppStore\Bundles\Bundle;
 use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\App\CodeChecker\CodeChecker;
 use OC\App\CodeChecker\EmptyCheck;
@@ -50,7 +52,9 @@ use OC\Archive\TAR;
 use OC_App;
 use OC_DB;
 use OC_Helper;
+use OCP\App\IAppManager;
 use OCP\Http\Client\IClientService;
+use OCP\IConfig;
 use OCP\ILogger;
 use OCP\ITempManager;
 use phpseclib\File\X509;
@@ -67,21 +71,26 @@ class Installer {
 	private $tempManager;
 	/** @var ILogger */
 	private $logger;
+	/** @var IConfig */
+	private $config;
 
 	/**
 	 * @param AppFetcher $appFetcher
 	 * @param IClientService $clientService
 	 * @param ITempManager $tempManager
 	 * @param ILogger $logger
+	 * @param IConfig $config
 	 */
 	public function __construct(AppFetcher $appFetcher,
 								IClientService $clientService,
 								ITempManager $tempManager,
-								ILogger $logger) {
+								ILogger $logger,
+								IConfig $config) {
 		$this->appFetcher = $appFetcher;
 		$this->clientService = $clientService;
 		$this->tempManager = $tempManager;
 		$this->logger = $logger;
+		$this->config = $config;
 	}
 
 	/**
@@ -109,6 +118,7 @@ class Installer {
 			}
 		}
 
+		\OC_App::registerAutoloading($appId, $basedir);
 		\OC_App::setupBackgroundJobs($info['background-jobs']);
 
 		//run appinfo/install.php
@@ -417,6 +427,27 @@ class Installer {
 			return false;
 		}
 
+	}
+
+	/**
+	 * Installs the app within the bundle and marks the bundle as installed
+	 *
+	 * @param Bundle $bundle
+	 * @throws \Exception If app could not get installed
+	 */
+	public function installAppBundle(Bundle $bundle) {
+		$appIds = $bundle->getAppIdentifiers();
+		foreach($appIds as $appId) {
+			if(!$this->isDownloaded($appId)) {
+				$this->downloadApp($appId);
+			}
+			$this->installApp($appId);
+			$app = new OC_App();
+			$app->enable($appId);
+		}
+		$bundles = json_decode($this->config->getAppValue('core', 'installed.bundles', json_encode([])), true);
+		$bundles[] = $bundle->getIdentifier();
+		$this->config->setAppValue('core', 'installed.bundles', json_encode($bundles));
 	}
 
 	/**

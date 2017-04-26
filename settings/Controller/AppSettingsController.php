@@ -27,6 +27,7 @@
 
 namespace OC\Settings\Controller;
 
+use OC\App\AppStore\Bundles\BundleFetcher;
 use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\App\AppStore\Fetcher\CategoryFetcher;
 use OC\App\AppStore\Version\VersionParser;
@@ -50,6 +51,7 @@ class AppSettingsController extends Controller {
 	const CAT_ENABLED = 0;
 	const CAT_DISABLED = 1;
 	const CAT_ALL_INSTALLED = 2;
+	const CAT_APP_BUNDLES = 3;
 
 	/** @var \OCP\IL10N */
 	private $l10n;
@@ -65,6 +67,8 @@ class AppSettingsController extends Controller {
 	private $appFetcher;
 	/** @var IFactory */
 	private $l10nFactory;
+	/** @var BundleFetcher */
+	private $bundleFetcher;
 
 	/**
 	 * @param string $appName
@@ -76,6 +80,7 @@ class AppSettingsController extends Controller {
 	 * @param CategoryFetcher $categoryFetcher
 	 * @param AppFetcher $appFetcher
 	 * @param IFactory $l10nFactory
+	 * @param BundleFetcher $bundleFetcher
 	 */
 	public function __construct($appName,
 								IRequest $request,
@@ -85,7 +90,8 @@ class AppSettingsController extends Controller {
 								IAppManager $appManager,
 								CategoryFetcher $categoryFetcher,
 								AppFetcher $appFetcher,
-								IFactory $l10nFactory) {
+								IFactory $l10nFactory,
+								BundleFetcher $bundleFetcher) {
 		parent::__construct($appName, $request);
 		$this->l10n = $l10n;
 		$this->config = $config;
@@ -94,6 +100,7 @@ class AppSettingsController extends Controller {
 		$this->categoryFetcher = $categoryFetcher;
 		$this->appFetcher = $appFetcher;
 		$this->l10nFactory = $l10nFactory;
+		$this->bundleFetcher = $bundleFetcher;
 	}
 
 	/**
@@ -120,18 +127,14 @@ class AppSettingsController extends Controller {
 		return $templateResponse;
 	}
 
-	/**
-	 * Get all available categories
-	 *
-	 * @return JSONResponse
-	 */
-	public function listCategories() {
+	private function getAllCategories() {
 		$currentLanguage = substr($this->l10nFactory->findLanguage(), 0, 2);
 
 		$formattedCategories = [
 			['id' => self::CAT_ALL_INSTALLED, 'ident' => 'installed', 'displayName' => (string)$this->l10n->t('Your apps')],
 			['id' => self::CAT_ENABLED, 'ident' => 'enabled', 'displayName' => (string)$this->l10n->t('Enabled apps')],
 			['id' => self::CAT_DISABLED, 'ident' => 'disabled', 'displayName' => (string)$this->l10n->t('Disabled apps')],
+			['id' => self::CAT_APP_BUNDLES, 'ident' => 'app-bundles', 'displayName' => (string)$this->l10n->t('App bundles')],
 		];
 		$categories = $this->categoryFetcher->get();
 		foreach($categories as $category) {
@@ -142,7 +145,16 @@ class AppSettingsController extends Controller {
 			];
 		}
 
-		return new JSONResponse($formattedCategories);
+		return $formattedCategories;
+	}
+
+	/**
+	 * Get all available categories
+	 *
+	 * @return JSONResponse
+	 */
+	public function listCategories() {
+		return new JSONResponse($this->getAllCategories());
 	}
 
 	/**
@@ -333,6 +345,41 @@ class AppSettingsController extends Controller {
 					}
 					return ($a < $b) ? -1 : 1;
 				});
+				break;
+			case 'app-bundles':
+				$bundles = $this->bundleFetcher->getBundles();
+				$apps = [];
+				foreach($bundles as $bundle) {
+					$newCategory = true;
+					$allApps = $appClass->listAllApps();
+					$categories = $this->getAllCategories();
+					foreach($categories as $singleCategory) {
+						$newApps = $this->getAppsForCategory($singleCategory['id']);
+						foreach($allApps as $app) {
+							foreach($newApps as $key => $newApp) {
+								if($app['id'] === $newApp['id']) {
+									unset($newApps[$key]);
+								}
+							}
+						}
+						$allApps = array_merge($allApps, $newApps);
+					}
+
+					foreach($bundle->getAppIdentifiers() as $identifier) {
+						foreach($allApps as $app) {
+							if($app['id'] === $identifier) {
+								if($newCategory) {
+									$app['newCategory'] = true;
+									$app['categoryName'] = $bundle->getName();
+								}
+								$app['bundleId'] = $bundle->getIdentifier();
+								$newCategory = false;
+								$apps[] = $app;
+								continue;
+							}
+						}
+					}
+				}
 				break;
 			default:
 				$apps = $this->getAppsForCategory($category);
