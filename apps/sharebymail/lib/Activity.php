@@ -173,17 +173,17 @@ class Activity implements IProvider {
 				->setRichSubject($this->l->t('{actor} shared {file} with {email} by mail'), $parsedParameters)
 				->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/share.svg')));
 		} else if ($event->getSubject() === self::SUBJECT_SHARED_EMAIL_PASSWORD_SEND) {
-			$event->setParsedSubject($this->l->t('Password to access %1$s was send to %2s', [
+			$event->setParsedSubject($this->l->t('Password to access %1$s was sent to %2s', [
 				$parsedParameters['file']['path'],
 				$parsedParameters['email']['name']
 			]))
-				->setRichSubject($this->l->t('Password to access {file} was send to {email}'), $parsedParameters)
+				->setRichSubject($this->l->t('Password to access {file} was sent to {email}'), $parsedParameters)
 				->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/share.svg')));
 		} else if ($event->getSubject() === self::SUBJECT_SHARED_EMAIL_PASSWORD_SEND_SELF) {
 			$event->setParsedSubject(
-				$this->l->t('Password to access %1$s was send to you',
+				$this->l->t('Password to access %1$s was sent to you',
 					[$parsedParameters['file']['path']]))
-				->setRichSubject($this->l->t('Password to access {file} was send to you'), $parsedParameters)
+				->setRichSubject($this->l->t('Password to access {file} was sent to you'), $parsedParameters)
 				->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/share.svg')));
 
 		} else {
