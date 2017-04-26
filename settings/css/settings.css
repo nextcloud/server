@@ -155,14 +155,13 @@ input#openid, input#webdav { width:20em; }
 	display: none;
 	right: -9px;
 	top: 40px;
-	width: 650px;
+	width: 275px;
 }
 .verification-dialog p {
 	padding: 10px;
 }
 .verification-dialog .verificationCode {
 	font-family: monospace;
-	white-space: nowrap;
 	display: block;
 }
 
