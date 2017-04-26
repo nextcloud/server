@@ -31,6 +31,7 @@
 
 namespace OCA\Files_External\Lib\Storage;
 
+use Icewind\SMB\Exception\AlreadyExistsException;
 use Icewind\SMB\Exception\ConnectException;
 use Icewind\SMB\Exception\Exception;
 use Icewind\SMB\Exception\ForbiddenException;
@@ -182,28 +183,21 @@ class SMB extends Common implements INotifyStorage {
 	 * @return bool true if the rename is successful, false otherwise
 	 */
 	public function rename($source, $target) {
-		$this->log("enter: rename('$source', '$target')", Util::DEBUG);
-
 		if ($this->isRootDir($source) || $this->isRootDir($target)) {
-			$this->log("refusing to rename \"$source\" to \"$target\"");
-			return $this->leave(__FUNCTION__, false);
+			return false;
 		}
 
 		try {
 			$result = $this->share->rename($this->root . $source, $this->root . $target);
-			$this->removeFromCache($this->root . $source);
-			$this->removeFromCache($this->root . $target);
+			unset($this->statCache[$this->root . $source], $this->statCache[$this->root . $target]);
 		} catch (AlreadyExistsException $e) {
 			$this->unlink($target);
 			$result = $this->share->rename($this->root . $source, $this->root . $target);
-			$this->removeFromCache($this->root . $source);
-			$this->removeFromCache($this->root . $target);
-			$this->swallow(__FUNCTION__, $e);
+			unset($this->statCache[$this->root . $source], $this->statCache[$this->root . $target]);
 		} catch (\Exception $e) {
-			$this->swallow(__FUNCTION__, $e);
 			$result = false;
 		}
-		return $this->leave(__FUNCTION__, $result);
+		return $result;
 	}
 
 	/**
@@ -258,11 +252,8 @@ class SMB extends Common implements INotifyStorage {
 	 * @return bool
 	 */
 	public function unlink($path) {
-		$this->log('enter: '.__FUNCTION__."($path)");
-
 		if ($this->isRootDir($path)) {
-			$this->log("refusing to unlink \"$path\"");
-			return $this->leave(__FUNCTION__, false);
+			return false;
 		}
 
 		try {
@@ -311,7 +302,7 @@ class SMB extends Common implements INotifyStorage {
 	 * @return bool
 	 */
 	public function hasUpdated($path, $time) {
-		if (!$path and $this->root == '/') {
+		if (!$path and $this->root === '/') {
 			// mtime doesn't work for shares, but giving the nature of the backend,
 			// doing a full update is still just fast enough
 			return true;
@@ -388,11 +379,8 @@ class SMB extends Common implements INotifyStorage {
 	}
 
 	public function rmdir($path) {
-		$this->log('enter: '.__FUNCTION__."($path)");
-
 		if ($this->isRootDir($path)) {
-			$this->log("refusing to delete \"$path\"");
-			return $this->leave(__FUNCTION__, false);
+			return false;
 		}
 
 		try {
@@ -491,8 +479,6 @@ class SMB extends Common implements INotifyStorage {
 	}
 
 	public function isUpdatable($path) {
-		$this->log('enter: '.__FUNCTION__."($path)");
-		$result = false;
 		try {
 			$info = $this->getFileInfo($path);
 			// following windows behaviour for read-only folders: they can be written into
@@ -503,12 +489,9 @@ class SMB extends Common implements INotifyStorage {
 		} catch (ForbiddenException $e) {
 			return false;
 		}
-		return $this->leave(__FUNCTION__, $result);
 	}
 
 	public function isDeletable($path) {
-		$this->log('enter: '.__FUNCTION__."($path)");
-		$result = false;
 		try {
 			$info = $this->getFileInfo($path);
 			return !$info->isHidden() && !$info->isReadOnly();
