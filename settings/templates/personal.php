@@ -8,17 +8,6 @@
 /** @var \OCP\Defaults $theme */
 ?>
 
-<div id="verification-dialog" class="popovermenu bubble menu hidden">
-
-	<!-- dialog used to verify personal information such as the users website, email address, etc -->
-	<div class="verification-dialog-content">
-		<p class="explainVerification"></p>
-		<p class="verificationCode"></p>
-		<p><?php p(\OC::$server->getL10N('settings')->t('It can take up to 24 hours before the account is displayed as verified.'));?></p>
-	</div>
-
-</div>
-
 <div id="app-navigation">
 	<ul class="with-icon">
 	<?php foreach($_['forms'] as $form) {
@@ -123,6 +112,13 @@
 						print_unescaped('src="' . image_path('core', 'actions/verify.svg') . '" title="' . \OC::$server->getL10N()->t('Verify') . '"');
 				}
 				?>>
+				<div class="verification-dialog popovermenu bubble menu">
+					<div class="verification-dialog-content">
+						<p class="explainVerification"></p>
+						<p class="verificationCode"></p>
+						<p><?php p(\OC::$server->getL10N('settings')->t('It can take up to 24 hours before the account is displayed as verified.'));?></p>
+					</div>
+				</div>
 			</div>
 			<input type="email" name="email" id="email" value="<?php p($_['email']); ?>"
 				<?php if(!$_['displayNameChangeSupported']) { print_unescaped('class="hidden"'); } ?>
@@ -189,6 +185,13 @@
 						print_unescaped('src="' . image_path('core', 'actions/verify.svg') . '" title="' . \OC::$server->getL10N()->t('Verify') . '" class="verify-action"');
 				}
 				?>>
+				<div class="verification-dialog popovermenu bubble menu">
+					<div class="verification-dialog-content">
+						<p class="explainVerification"></p>
+						<p class="verificationCode"></p>
+						<p><?php p(\OC::$server->getL10N('settings')->t('It can take up to 24 hours before the account is displayed as verified.'));?></p>
+					</div>
+				</div>
 			</div>
 			<input type="text" name="website" id="website" value="<?php p($_['website']); ?>"
 			       placeholder="<?php p($l->t('Your website')); ?>"
@@ -216,6 +219,13 @@
 						print_unescaped('src="' . image_path('core', 'actions/verify.svg') . '" title="' . \OC::$server->getL10N()->t('Verify') . '" class="verify-action"');
 				}
 				?>>
+				<div class="verification-dialog popovermenu bubble menu">
+					<div class="verification-dialog-content">
+						<p class="explainVerification"></p>
+						<p class="verificationCode"></p>
+						<p><?php p(\OC::$server->getL10N('settings')->t('It can take up to 24 hours before the account is displayed as verified.'));?></p>
+					</div>
+				</div>
 			</div>
 			<input type="text" name="twitter" id="twitter" value="<?php p($_['twitter']); ?>"
 				   placeholder="<?php p($l->t('Your Twitter handle')); ?>"

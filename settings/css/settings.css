@@ -142,21 +142,23 @@ input#openid, input#webdav { width:20em; }
 /* verify accounts */
 #personal-settings-container .verify {
 	position: relative;
-	padding: 10px;
+	padding: 12px 6px;
 	float: right;
 }
 #personal-settings-container .verify,
 #personal-settings-container .verify-action {
 	cursor: pointer;
 }
-#verification-dialog {
-	right: 0;
-	top: 0;
+.verification-dialog {
+	display: none;
+	right: -9px;
+	top: 40px;
+	width: 200px;
 }
-#verification-dialog p {
+.verification-dialog p {
 	padding: 10px;
 }
-#verification-dialog .verificationCode {
+.verification-dialog .verificationCode {
 	font-family: monospace;
 	white-space: nowrap;
 	display: block;
