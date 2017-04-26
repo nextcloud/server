@@ -924,5 +924,66 @@ describe('OC.Share.ShareItemModel', function() {
 			expect(errorStub.lastCall.args[1]).toEqual('Some error message');
 		});
 	});
+
+	describe('getShareTypes', function() {
+
+		var dataProvider = [
+			[
+			],
+			[
+				OC.Share.SHARE_TYPE_USER,
+				OC.Share.SHARE_TYPE_USER,
+			],
+			[
+				OC.Share.SHARE_TYPE_USER,
+				OC.Share.SHARE_TYPE_GROUP,
+				OC.Share.SHARE_TYPE_LINK,
+				OC.Share.SHARE_TYPE_REMOTE
+			],
+			[
+				OC.Share.SHARE_TYPE_USER,
+				OC.Share.SHARE_TYPE_GROUP,
+				OC.Share.SHARE_TYPE_GROUP,
+				OC.Share.SHARE_TYPE_LINK,
+				OC.Share.SHARE_TYPE_LINK,
+				OC.Share.SHARE_TYPE_REMOTE,
+				OC.Share.SHARE_TYPE_REMOTE,
+				OC.Share.SHARE_TYPE_REMOTE
+			],
+			[
+				OC.Share.SHARE_TYPE_LINK,
+				OC.Share.SHARE_TYPE_LINK,
+				OC.Share.SHARE_TYPE_USER
+			]
+		];
+
+		_.each(dataProvider, function testCase(shareTypes, i) {
+			it('returns set of share types for case ' + i, function() {
+				/* jshint camelcase: false */
+				fetchReshareDeferred.resolve(makeOcsResponse([]));
+
+				var id = 100;
+				var shares = _.map(shareTypes, function(shareType) {
+					return {
+						id: id++,
+						item_source: 123,
+						permissions: 31,
+						share_type: shareType,
+						uid_owner: 'root'
+					};
+				});
+
+				var expectedResult = _.uniq(shareTypes).sort();
+
+				fetchSharesDeferred.resolve(makeOcsResponse(shares));
+
+				OC.currentUser = 'root';
+
+				model.fetch();
+
+				expect(model.getShareTypes().sort()).toEqual(expectedResult);
+			});
+		});
+	});
 });
 

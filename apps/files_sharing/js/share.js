@@ -189,13 +189,16 @@
 					// remove icon, if applicable
 					OC.Share.markFileAsShared($tr, false, false);
 				}
-				var newIcon = $tr.attr('data-icon');
-				// in case markFileAsShared decided to change the icon,
-				// we need to modify the model
-				// (FIXME: yes, this is hacky)
-				if (fileInfoModel.get('icon') !== newIcon) {
-					fileInfoModel.set('icon', newIcon);
-				}
+
+				// FIXME: this is too convoluted. We need to get rid of the above updates
+				// and only ever update the model and let the events take care of rerendering
+				fileInfoModel.set({
+					shareTypes: shareModel.getShareTypes(),
+					// in case markFileAsShared decided to change the icon,
+					// we need to modify the model
+					// (FIXME: yes, this is hacky)
+					icon: $tr.attr('data-icon')
+				});
 			});
 			fileList.registerTabView(shareTab);
 
