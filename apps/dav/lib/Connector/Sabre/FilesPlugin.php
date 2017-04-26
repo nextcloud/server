@@ -386,24 +386,21 @@ class FilesPlugin extends ServerPlugin {
 	 * @return void
 	 */
 	public function handleUpdateProperties($path, PropPatch $propPatch) {
-		$propPatch->handle(self::LASTMODIFIED_PROPERTYNAME, function($time) use ($path) {
+		$node = $this->tree->getNodeForPath($path);
+		if (!($node instanceof \OCA\DAV\Connector\Sabre\Node)) {
+			return;
+		}
+
+		$propPatch->handle(self::LASTMODIFIED_PROPERTYNAME, function($time) use ($node) {
 			if (empty($time)) {
 				return false;
-			}
-			$node = $this->tree->getNodeForPath($path);
-			if (is_null($node)) {
-				return 404;
 			}
 			$node->touch($time);
 			return true;
 		});
-		$propPatch->handle(self::GETETAG_PROPERTYNAME, function($etag) use ($path) {
+		$propPatch->handle(self::GETETAG_PROPERTYNAME, function($etag) use ($node) {
 			if (empty($etag)) {
 				return false;
-			}
-			$node = $this->tree->getNodeForPath($path);
-			if (is_null($node)) {
-				return 404;
 			}
 			if ($node->setEtag($etag) !== -1) {
 				return true;
