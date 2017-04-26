@@ -144,7 +144,7 @@ input#openid, input#webdav { width:20em; }
 	padding-top: 10px;
 }
 
-#personal-settings-container .verify:hover {
+#personal-settings-container .verify-action {
 	cursor: pointer;
 }
 

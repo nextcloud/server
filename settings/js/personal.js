@@ -208,15 +208,16 @@ $(document).ready(function () {
 		dialog.style.display = "block";
 	};
 
-	$(".verify").click(function () {
-		var account = $(this).attr('id');
-
-		// Add: make call to get content for verify dialog
+	$(".verify-action").click(function () {
+		var account = $(this);
+		var accountId = $(this).attr('id');
 
 		$.ajax(
-			OC.generateUrl('/settings/users/{account}/verify', {account: account}),
+			OC.generateUrl('/settings/users/{account}/verify', {account: accountId}),
 			{method: 'GET'}
 		).done(function(data) {
+			account.attr('title', 'Verifying...');
+			account.attr('src', OC.imagePath('core', 'actions/verifying.svg'));
 			showVerifyDialog(data.msg, data.code);
 		});
 

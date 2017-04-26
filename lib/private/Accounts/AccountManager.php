@@ -196,15 +196,21 @@ class AccountManager {
 
 		// keep old verification status if we don't have a new one
 		if(!isset($newData[self::PROPERTY_TWITTER]['verified'])) {
-			$newData[self::PROPERTY_TWITTER]['verified'] = isset($oldData[self::PROPERTY_TWITTER]['verified']) ? $oldData[self::PROPERTY_TWITTER]['verified'] : self::NOT_VERIFIED;
+			// keep old verification status if value didn't changed and an old value exists
+			$keepOldStatus = $newData[self::PROPERTY_TWITTER]['value'] === $oldData[self::PROPERTY_TWITTER]['value'] && isset($oldData[self::PROPERTY_TWITTER]['verified']);
+			$newData[self::PROPERTY_TWITTER]['verified'] = $keepOldStatus ? $oldData[self::PROPERTY_TWITTER]['verified'] : self::NOT_VERIFIED;
 		}
 
 		if(!isset($newData[self::PROPERTY_WEBSITE]['verified'])) {
-			$newData[self::PROPERTY_WEBSITE]['verified'] = isset($oldData[self::PROPERTY_WEBSITE]['verified']) ? $oldData[self::PROPERTY_WEBSITE]['verified'] : self::NOT_VERIFIED;
+			// keep old verification status if value didn't changed and an old value exists
+			$keepOldStatus = $newData[self::PROPERTY_WEBSITE]['value'] === $oldData[self::PROPERTY_WEBSITE]['value'] && isset($oldData[self::PROPERTY_WEBSITE]['verified']);
+			$newData[self::PROPERTY_WEBSITE]['verified'] = $keepOldStatus ? $oldData[self::PROPERTY_WEBSITE]['verified'] : self::NOT_VERIFIED;
 		}
 
 		if(!isset($newData[self::PROPERTY_EMAIL]['verified'])) {
-			$newData[self::PROPERTY_EMAIL]['verified'] = isset($oldData[self::PROPERTY_WEBSITE]['verified']) ? $oldData[self::PROPERTY_EMAIL]['verified'] : self::VERIFICATION_IN_PROGRESS;
+			// keep old verification status if value didn't changed and an old value exists
+			$keepOldStatus = $newData[self::PROPERTY_EMAIL]['value'] === $oldData[self::PROPERTY_EMAIL]['value'] && isset($oldData[self::PROPERTY_EMAIL]['verified']);
+			$newData[self::PROPERTY_EMAIL]['verified'] = $keepOldStatus ? $oldData[self::PROPERTY_EMAIL]['verified'] : self::VERIFICATION_IN_PROGRESS;
 		}
 
 		// reset verification status if a value from a previously verified data was changed
