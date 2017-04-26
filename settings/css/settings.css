@@ -1026,6 +1026,8 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 	margin-top: -12px;
 	margin-bottom: 12px;
 	opacity: .7;
+}
+
 /* verify accounts */
 #verification-dialog {
     display: none; /* Hidden by default */
