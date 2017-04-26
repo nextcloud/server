@@ -33,8 +33,9 @@ script('systemtags', 'admin');
 
 <form id="systemtags" class="section" data-systemtag-id="">
 	<h2><?php p($l->t('Collaborative tags')); ?></h2>
+	<p class="settings-hint"><?php p($l->t('Create and edit collaborative tags. These tags affect all users.')); ?></p>
 
-	<input type="hidden" name="systemtag" id="systemtag" placeholder="<?php p($l->t('Select tag…')); ?>" style="width: 400px;" />
+	<input type="hidden" name="systemtag" id="systemtag" placeholder="<?php p($l->t('Select tag …')); ?>" style="width: 400px;" />
 
 	<br><br>
 

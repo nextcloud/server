@@ -1,9 +1,9 @@
 #ocFederationSettings p {
-	padding-top: 10px;
+	padding-bottom: 10px;
 }
 
 #listOfTrustedServers li {
-	padding-top: 10px;
+	padding-bottom: 10px;
 }
 
 .removeTrustedServer {

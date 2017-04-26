@@ -7,21 +7,14 @@ script('federation', 'settings-admin');
 style('federation', 'settings-admin')
 ?>
 <div id="ocFederationSettings" class="section">
-	<h2><?php p($l->t('Federation')); ?></h2>
-	<em><?php p($l->t('Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing.')); ?></em>
+	<h2><?php p($l->t('Trusted servers')); ?></h2>
+	<p class="settings-hint"><?php p($l->t('Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing.')); ?></p>
 
 	<p>
 		<input id="autoAddServers" type="checkbox" class="checkbox" <?php if($_['autoAddServers']) p('checked'); ?> />
 		<label for="autoAddServers"><?php p($l->t('Add server automatically once a federated share was created successfully')); ?></label>
 	</p>
 
-	<h3><?php p($l->t('Trusted servers')); ?></h3>
-	<p id="ocFederationAddServer">
-		<button id="ocFederationAddServerButton" class=""><?php p($l->t('+ Add trusted server')); ?></button>
-		<input id="serverUrl" class="hidden" type="text" value="" placeholder="<?php p($l->t('Trusted server')); ?>" name="server_url"/>
-		<button id="ocFederationSubmit" class="hidden"><?php p($l->t('Add')); ?></button>
-		<span class="msg"></span>
-	</p>
 	<ul id="listOfTrustedServers">
 		<?php foreach($_['trustedServers'] as $trustedServer) { ?>
 			<li id="<?php p($trustedServer['id']); ?>">
@@ -41,6 +34,11 @@ style('federation', 'settings-admin')
 			</li>
 		<?php } ?>
 	</ul>
+	<p id="ocFederationAddServer">
+		<button id="ocFederationAddServerButton" class=""><?php p($l->t('+ Add trusted server')); ?></button>
+		<input id="serverUrl" class="hidden" type="text" value="" placeholder="<?php p($l->t('Trusted server')); ?>" name="server_url"/>
+		<button id="ocFederationSubmit" class="hidden"><?php p($l->t('Add')); ?></button>
+		<span class="msg"></span>
+	</p>
 
 </div>
-

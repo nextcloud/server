@@ -979,3 +979,9 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 #warning {
 	color: red;
 }
+
+.settings-hint {
+	margin-top: -12px;
+	margin-bottom: 12px;
+	opacity: .7;
+}
