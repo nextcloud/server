@@ -216,9 +216,10 @@ $(document).ready(function () {
 			OC.generateUrl('/settings/users/{account}/verify', {account: accountId}),
 			{method: 'GET'}
 		).done(function(data) {
+			showVerifyDialog(data.msg, data.code);
 			account.attr('title', 'Verifying...');
 			account.attr('src', OC.imagePath('core', 'actions/verifying.svg'));
-			showVerifyDialog(data.msg, data.code);
+			account.removeClass('verify-action');
 		});
 
 	});
