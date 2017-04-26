@@ -164,6 +164,7 @@ input#openid, input#webdav { width:20em; }
 .verification-dialog .verificationCode {
 	font-family: monospace;
 	display: block;
+	overflow-wrap: break-word;
 }
 
 .federationScopeMenu {
