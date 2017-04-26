@@ -526,13 +526,13 @@ input.userFilter {width: 200px;}
 }
 #apps-list .apps-header div {
 	display: table-cell;
-	height: 50px;
+	height: 70px;
 }
 #apps-list .apps-header h2 {
 	display: table-cell;
 	position: absolute;
-	bottom: 0;
 	padding-left: 6px;
+	padding-top: 15px;
 }
 #apps-list .apps-header h2 .enable {
 	position: relative;
