@@ -41,6 +41,7 @@ class BundleFetcher {
 		return [
 			new EnterpriseBundle($this->l10n),
 			new GroupwareBundle($this->l10n),
+			new SocialSharingBundle($this->l10n),
 		];
 	}
 
