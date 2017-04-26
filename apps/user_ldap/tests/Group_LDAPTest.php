@@ -9,6 +9,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Xuanwo <xuanwo@yunify.com>
  *
  * @license AGPL-3.0
  *
@@ -140,6 +141,107 @@ class Group_LDAPTest extends \Test\TestCase {
 		$users = $groupBackend->countUsersInGroup('group', '3');
 
 		$this->assertSame(2, $users);
+	}
+
+	public function testGidNumber2NameSuccess() {
+		$access = $this->getAccessMock();
+		$this->enableGroups($access);
+
+		$userDN = 'cn=alice,cn=foo,dc=barfoo,dc=bar';
+
+		$access->expects($this->once())
+			->method('searchGroups')
+			->will($this->returnValue([['dn' => ['cn=foo,dc=barfoo,dc=bar']]]));
+
+		$access->expects($this->once())
+			->method('dn2groupname')
+			->with('cn=foo,dc=barfoo,dc=bar')
+			->will($this->returnValue('MyGroup'));
+
+		$groupBackend = new GroupLDAP($access);
+
+		$group = $groupBackend->gidNumber2Name('3117', $userDN);
+
+		$this->assertSame('MyGroup', $group);
+	}
+
+	public function testGidNumberID2NameNoGroup() {
+		$access = $this->getAccessMock();
+		$this->enableGroups($access);
+
+		$userDN = 'cn=alice,cn=foo,dc=barfoo,dc=bar';
+
+		$access->expects($this->once())
+			->method('searchGroups')
+			->will($this->returnValue(array()));
+
+		$access->expects($this->never())
+			->method('dn2groupname');
+
+		$groupBackend = new GroupLDAP($access);
+
+		$group = $groupBackend->gidNumber2Name('3117', $userDN);
+
+		$this->assertSame(false, $group);
+	}
+
+	public function testGidNumberID2NameNoName() {
+		$access = $this->getAccessMock();
+		$this->enableGroups($access);
+
+		$userDN = 'cn=alice,cn=foo,dc=barfoo,dc=bar';
+
+		$access->expects($this->once())
+			->method('searchGroups')
+			->will($this->returnValue([['dn' => ['cn=foo,dc=barfoo,dc=bar']]]));
+
+		$access->expects($this->once())
+			->method('dn2groupname')
+			->will($this->returnValue(false));
+
+		$groupBackend = new GroupLDAP($access);
+
+		$group = $groupBackend->gidNumber2Name('3117', $userDN);
+
+		$this->assertSame(false, $group);
+	}
+
+	public function testGetEntryGidNumberValue() {
+		$access = $this->getAccessMock();
+		$this->enableGroups($access);
+
+		$dn = 'cn=foobar,cn=foo,dc=barfoo,dc=bar';
+		$attr = 'gidNumber';
+
+		$access->expects($this->once())
+			->method('readAttribute')
+			->with($dn, $attr)
+			->will($this->returnValue(array('3117')));
+
+		$groupBackend = new GroupLDAP($access);
+
+		$gid = $groupBackend->getGroupGidNumber($dn);
+
+		$this->assertSame('3117', $gid);
+	}
+
+	public function testGetEntryGidNumberNoValue() {
+		$access = $this->getAccessMock();
+		$this->enableGroups($access);
+
+		$dn = 'cn=foobar,cn=foo,dc=barfoo,dc=bar';
+		$attr = 'gidNumber';
+
+		$access->expects($this->once())
+			->method('readAttribute')
+			->with($dn, $attr)
+			->will($this->returnValue(false));
+
+		$groupBackend = new GroupLDAP($access);
+
+		$gid = $groupBackend->getGroupGidNumber($dn);
+
+		$this->assertSame(false, $gid);
 	}
 
 	public function testPrimaryGroupID2NameSuccess() {
@@ -341,6 +443,43 @@ class Group_LDAPTest extends \Test\TestCase {
 			->will($this->returnCallback(function($dn, $attr) {
 				if($attr === 'primaryGroupToken') {
 					return array(1337);
+				} else if($attr === 'gidNumber') {
+					return [4211];
+				}
+				return array();
+			}));
+
+		$access->expects($this->any())
+			->method('groupname2dn')
+			->will($this->returnValue('cn=foobar,dc=foo,dc=bar'));
+
+		$access->expects($this->exactly(2))
+			->method('nextcloudUserNames')
+			->willReturnOnConsecutiveCalls(['lisa', 'bart', 'kira', 'brad'], ['walle', 'dino', 'xenia']);
+
+		$groupBackend = new GroupLDAP($access);
+		$users = $groupBackend->usersInGroup('foobar');
+
+		$this->assertSame(7, count($users));
+	}
+
+	/**
+	 * tests that a user listing is complete, if all it's members have the group
+	 * as their primary.
+	 */
+	public function testUsersInGroupPrimaryAndUnixMembers() {
+		$access = $this->getAccessMock();
+		$this->enableGroups($access);
+
+		$access->connection->expects($this->any())
+			->method('getFromCache')
+			->will($this->returnValue(null));
+
+		$access->expects($this->any())
+			->method('readAttribute')
+			->will($this->returnCallback(function($dn, $attr) {
+				if($attr === 'primaryGroupToken') {
+					return array(1337);
 				}
 				return array();
 			}));
@@ -401,6 +540,7 @@ class Group_LDAPTest extends \Test\TestCase {
 		$dn = 'cn=userX,dc=foobar';
 
 		$access->connection->hasPrimaryGroups = false;
+		$access->connection->hasGidNumber = false;
 
 		$access->expects($this->any())
 			->method('username2dn')
@@ -441,6 +581,7 @@ class Group_LDAPTest extends \Test\TestCase {
 		$dn = 'cn=userX,dc=foobar';
 
 		$access->connection->hasPrimaryGroups = false;
+		$access->connection->hasGidNumber = false;
 
 		$access->expects($this->once())
 			->method('username2dn')
@@ -477,6 +618,7 @@ class Group_LDAPTest extends \Test\TestCase {
 		$dn = 'cn=userX,dc=foobar';
 
 		$access->connection->hasPrimaryGroups = false;
+		$access->connection->hasGidNumber = false;
 
 		$access->expects($this->exactly(2))
 			->method('username2dn')
