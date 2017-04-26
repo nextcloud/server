@@ -140,11 +140,11 @@ input#openid, input#webdav { width:20em; }
 }
 
 #personal-settings-container .verify {
+	padding: 10px;
 	float: right;
 }
 
 #personal-settings-container .verify-action {
-	padding: 10px;
 	cursor: pointer;
 }
 

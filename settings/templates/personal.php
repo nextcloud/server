@@ -111,7 +111,7 @@
 				<span class="icon-password"/>
 			</h2>
 			<div class="verify">
-				<img id="verify-email" class="verify-action" <?php
+				<img id="verify-email" <?php
 				switch($_['emailVerification']) {
 					case \OC\Accounts\AccountManager::VERIFICATION_IN_PROGRESS:
 						print_unescaped('src="' . image_path('core', 'actions/verifying.svg') . '" title="' . \OC::$server->getL10N()->t('Verifying …') . '"');
