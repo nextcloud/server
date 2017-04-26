@@ -130,6 +130,25 @@
 			// TODO: user loading/success feedback
 			this._config.save();
 			this._setFieldScopeIcon(field, scope);
+			this._updateVerifyButton(field, scope);
+		},
+
+		_updateVerifyButton: function(field, scope) {
+			// show verification button if the value is set and the scope is 'public'
+			if (field === 'twitter' || field === 'website'|| field === 'email') {
+				var verify = this.$('#' + field + 'form > .verify');
+				var scope = this.$('#' + field + 'scope').val();
+				var value = this.$('#' + field).val();
+
+				if (scope === 'public' && value !== '') {
+					verify.removeClass('hidden');
+					return true;
+				} else {
+					verify.addClass('hidden');
+				}
+			}
+
+			return false;
 		},
 
 		_showInputChangeSuccess: function(field) {
@@ -139,16 +158,21 @@
 				$icon.fadeOut(300);
 			}, 2000);
 
-			if (field === 'twitter' || field === 'webpage')
-			{
-				var verifyStatus = this.$('#' + field + 'form > .verify > #verify-' + field);
-				verifyStatus.attr('title', t('core', 'Verify'));
-				verifyStatus.attr('src', OC.imagePath('core', 'actions/verify.svg'));
-				verifyStatus.addClass('verify-action');
-			} else if (field === 'email') {
-				var verifyStatus = this.$('#' + field + 'form > .verify > #verify-' + field);
-				verifyStatus.attr('title', t('core', 'Verifying …'));
-				verifyStatus.attr('src', OC.imagePath('core', 'actions/verifying.svg'));
+			var scope = this.$('#' + field + 'scope').val();
+			var verifyAvailable = this._updateVerifyButton(field, scope);
+
+			// change verification buttons from 'verify' to 'verifying...' on value change
+			if (verifyAvailable) {
+				if (field === 'twitter' || field === 'webpage') {
+					var verifyStatus = this.$('#' + field + 'form > .verify > #verify-' + field);
+					verifyStatus.attr('title', t('core', 'Verify'));
+					verifyStatus.attr('src', OC.imagePath('core', 'actions/verify.svg'));
+					verifyStatus.addClass('verify-action');
+				} else if (field === 'email') {
+					var verifyStatus = this.$('#' + field + 'form > .verify > #verify-' + field);
+					verifyStatus.attr('title', t('core', 'Verifying …'));
+					verifyStatus.attr('src', OC.imagePath('core', 'actions/verifying.svg'));
+				}
 			}
 		},
 
