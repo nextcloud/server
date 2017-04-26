@@ -142,15 +142,14 @@ input#openid, input#webdav { width:20em; }
 /* verify accounts */
 #personal-settings-container .verify {
 	position: relative;
-	padding: 12px 6px;
 	float: right;
 }
-#personal-settings-container .verify,
+#personal-settings-container .verify img {
+	padding: 12px 7px;
+}
+/* only show pointer cursor when popup will be there */
 #personal-settings-container .verify-action {
 	cursor: pointer;
-}
-#emailform .verify {
-    cursor: initial;
 }
 .verification-dialog {
 	display: none;
