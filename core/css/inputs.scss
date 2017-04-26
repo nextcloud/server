@@ -206,7 +206,6 @@ input {
 			height: 1px;
 			overflow: hidden;
 			+ label {
-				padding: 6px 0;
 				user-select: none;
 			}
 			&:disabled + label,
@@ -220,8 +219,8 @@ input {
 				width: 12px;
 				vertical-align: middle;
 				border-radius: 50%;
-				margin: 6px;
-				margin-top: -2px;
+				margin: 3px;
+				margin-top: 1px;
 				border: 1px solid nc-lighten($color-main-text, 53%);
 			}
 			&:not(:disabled):not(:checked) + label:hover:before,
