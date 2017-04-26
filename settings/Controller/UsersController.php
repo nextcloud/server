@@ -539,14 +539,14 @@ class UsersController extends Controller {
 		switch ($account) {
 			case 'verify-twitter':
 				$accountData[AccountManager::PROPERTY_TWITTER]['verified'] = AccountManager::VERIFICATION_IN_PROGRESS;
-				$msg = $this->l10n->t('In order to verify your Twitter account post following tweet on Twitter:');
+				$msg = $this->l10n->t('In order to verify your Twitter account post following tweet on Twitter (please make sure to post it without any line breaks):');
 				$code = $codeMd5;
 				$type = AccountManager::PROPERTY_TWITTER;
 				$data = $accountData[AccountManager::PROPERTY_TWITTER]['value'];
 				break;
 			case 'verify-website':
 				$accountData[AccountManager::PROPERTY_WEBSITE]['verified'] = AccountManager::VERIFICATION_IN_PROGRESS;
-				$msg = $this->l10n->t('In order to verify your Website store following content in your web-root at \'CloudIdVerificationCode.txt\':');
+				$msg = $this->l10n->t('In order to verify your Website store following content in your web-root at \'CloudIdVerificationCode.txt\' (please make sure that the complete text is in one line):');
 				$type = AccountManager::PROPERTY_WEBSITE;
 				$data = $accountData[AccountManager::PROPERTY_WEBSITE]['value'];
 				break;
