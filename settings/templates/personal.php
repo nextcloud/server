@@ -99,7 +99,7 @@
 				<label for="email"><?php p($l->t('Email')); ?></label>
 				<span class="icon-password"/>
 			</h2>
-			<div class="verify">
+			<div class="verify <?php if ($_['email'] === ''  || $_['emailScope'] !== 'public') p('hidden'); ?>">
 				<img id="verify-email" <?php
 				switch($_['emailVerification']) {
 					case \OC\Accounts\AccountManager::VERIFICATION_IN_PROGRESS:
@@ -165,7 +165,7 @@
 				<label for="website"><?php p($l->t('Website')); ?></label>
 				<span class="icon-password"/>
 			</h2>
-			<div class="verify">
+			<div class="verify <?php if ($_['website'] === ''  || $_['websiteScope'] !== 'public') p('hidden'); ?>">
 				<img id="verify-website" <?php
 				switch($_['websiteVerification']) {
 					case \OC\Accounts\AccountManager::VERIFICATION_IN_PROGRESS:
@@ -199,7 +199,7 @@
 				<label for="twitter"><?php p($l->t('Twitter')); ?></label>
 				<span class="icon-password"/>
 			</h2>
-			<div class="verify">
+			<div class="verify <?php if ($_['twitter'] === ''  || $_['twitterScope'] !== 'public') p('hidden'); ?>">
 				<img id="verify-twitter" <?php
 				switch($_['twitterVerification']) {
 					case \OC\Accounts\AccountManager::VERIFICATION_IN_PROGRESS:
