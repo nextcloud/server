@@ -1388,6 +1388,12 @@ class OC_Util {
 		if (\OC\Files\Filesystem::isIgnoredDir($trimmed)) {
 			return false;
 		}
+
+		// detect part files
+		if (preg_match('/' . \OCP\Files\FileInfo::BLACKLIST_FILES_REGEX . '/', $trimmed) !== 0) {
+			return false;
+		}
+
 		foreach (str_split($trimmed) as $char) {
 			if (strpos(\OCP\Constants::FILENAME_INVALID_CHARS, $char) !== false) {
 				return false;
