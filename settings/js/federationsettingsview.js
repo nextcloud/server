@@ -133,11 +133,23 @@
 		},
 
 		_showInputChangeSuccess: function(field) {
-			var $icon = this.$('#' + field + 'form > span');
+			var $icon = this.$('#' + field + 'form > .icon-checkmark');
 			$icon.fadeIn(200);
 			setTimeout(function() {
 				$icon.fadeOut(300);
 			}, 2000);
+
+			if (field === 'twitter' || field === 'webpage')
+			{
+				var verifyStatus = this.$('#' + field + 'form > .verify > #verify-' + field);
+				verifyStatus.attr('title', 'Verify');
+				verifyStatus.attr('src', OC.imagePath('core', 'actions/verify.svg'));
+				verifyStatus.addClass('verify-action');
+			} else if (field === 'email') {
+				var verifyStatus = this.$('#' + field + 'form > .verify > #verify-' + field);
+				verifyStatus.attr('title', 'Verifying...');
+				verifyStatus.attr('src', OC.imagePath('core', 'actions/verifying.svg'));
+			}
 		},
 
 		_setFieldScopeIcon: function(field, scope) {
