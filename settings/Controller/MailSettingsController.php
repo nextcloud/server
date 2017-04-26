@@ -160,7 +160,7 @@ class MailSettingsController extends Controller {
 				$message->setPlainBody($template->renderText());
 				$errors = $this->mailer->send($message);
 				if (!empty($errors)) {
-					throw new \RuntimeException($this->l10n->t('Mail could not be sent. Check your mail server log'));
+					throw new \RuntimeException($this->l10n->t('Email could not be sent. Check your mail server log'));
 				}
 				return new DataResponse();
 			} catch (\Exception $e) {
