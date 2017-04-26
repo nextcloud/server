@@ -520,17 +520,27 @@ input.userFilter {width: 200px;}
 /* APPS */
 
 /* Bundle header */
-#apps-list > h2 {
-	display: block;
-	width: 100%;
-	margin-top: 50px;
-	margin-left: 50px;
-	font-weight: 600;
+#apps-list .apps-header {
+	display: table-row;
+	position: relative;
 }
-#apps-list > h2 .enable {
+#apps-list .apps-header div {
+	display: table-cell;
+	height: 50px;
+}
+#apps-list .apps-header h2 {
+	display: table-cell;
+	position: absolute;
+	bottom: 0;
+	padding-left: 6px;
+}
+#apps-list .apps-header h2 .enable {
 	position: relative;
 	top: -1px;
 	margin-left: 12px;
+}
+#apps-list .apps-header h2 + .section {
+	margin-top: 50px;
 }
 
 #app-content > svg.app-filter {
@@ -539,7 +549,7 @@ input.userFilter {width: 200px;}
 	width: 0;
 }
 
-#app-category-disabled {
+#app-category-app-bundles {
 	margin-bottom: 20px;
 }
 
@@ -571,6 +581,10 @@ span.version {
 	border: 1px solid #555;
 	border-radius: 3px;
 	padding: 3px 6px;
+}
+.app-level a {
+	padding: 10px;
+	white-space: nowrap;
 }
 .app-level .official {
 	border-color: #37ce02;
@@ -751,6 +765,7 @@ form.section {
 	display: table;
 	width: 100%;
 	height: auto;
+	margin-bottom: 100px;
 }
 
 #apps-list.installed .section {
