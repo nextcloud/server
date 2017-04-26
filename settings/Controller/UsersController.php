@@ -519,9 +519,17 @@ class UsersController extends Controller {
 	 * @NoAdminRequired
 	 *
 	 * @param string $id
+	 * @param int $enabled
 	 * @return DataResponse
 	 */
-	public function disable($id) {
+	public function setEnabled($id, $enabled) {
+		$enabled = (bool)$enabled;
+		if($enabled) {
+			$errorMsgGeneral = (string) $this->l10n->t('Error while enabling user.');
+		} else {
+			$errorMsgGeneral = (string) $this->l10n->t('Error while disabling user.');
+		}
+
 		$userId = $this->userSession->getUser()->getUID();
 		$user = $this->userManager->get($id);
 
@@ -530,67 +538,9 @@ class UsersController extends Controller {
 				[
 					'status' => 'error',
 					'data' => [
-						'message' => (string) $this->l10n->t('Error while disabling user.')
+						'message' => $errorMsgGeneral
 					]
 				], Http::STATUS_FORBIDDEN
-			);
-		}
-
-		if ($user) {
-			if(!$this->isAdmin && !$this->groupManager->getSubAdmin()->isUserAccessible($this->userSession->getUser(), $user)) {
-				return new DataResponse(
-					[
-						'status' => 'error',
-						'data' => [
-							'message' => (string) $this->l10n->t('Authentication error')
-						]
-					],
-					Http::STATUS_FORBIDDEN
-				);
-			}
-
-			$user->setEnabled(false);
-			return new DataResponse(
-				[
-					'status' => 'success',
-					'data' => [
-						'username' => $id,
-						'enabled' => 0
-					]
-				]
-			);
-		} else {
-			return new DataResponse(
-				[
-					'status' => 'error',
-					'data' => [
-						'message' => (string) $this->l10n->t('Error while disabling user.')
-					]
-				],
-				Http::STATUS_FORBIDDEN
-			);
-		}
-	}
-
-	/**
-	 * @NoAdminRequired
-	 *
-	 * @param string $id
-	 * @return DataResponse
-	 */
-	public function enable($id) {
-		$userId = $this->userSession->getUser()->getUID();
-		$user = $this->userManager->get($id);
-
-		if ($userId === $id) {
-			return new DataResponse(
-				[
-					'status' => 'error',
-					'data' => [
-						'message' => (string) $this->l10n->t('Error while enabling user.')
-				]
-				],
-				Http::STATUS_FORBIDDEN
 			);
 		}
 
@@ -607,13 +557,13 @@ class UsersController extends Controller {
 				);
 			}
 
-			$user->setEnabled(true);
+			$user->setEnabled($enabled);
 			return new DataResponse(
 				[
 					'status' => 'success',
 					'data' => [
 						'username' => $id,
-						'enabled' => 1
+						'enabled' => $enabled
 					]
 				]
 			);
@@ -622,27 +572,13 @@ class UsersController extends Controller {
 				[
 					'status' => 'error',
 					'data' => [
-						'message' => (string) $this->l10n->t('Error while enabling user.')
+						'message' => $errorMsgGeneral
 					]
 				],
 				Http::STATUS_FORBIDDEN
 			);
 		}
-	}
 
-	/**
-	 * @NoAdminRequired
-	 *
-	 * @param string $id
-	 * @param int $enabled
-	 * @return DataResponse
-	 */
-	public function setEnabled($id, $enabled) {
-		if ((bool) $enabled) {
-			return $this->enable($id);
-		} else {
-			return $this->disable($id);
-		}
 	}
 
 	/**
