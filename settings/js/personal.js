@@ -203,8 +203,8 @@ $(document).ready(function () {
 
 	var showVerifyDialog = function(howToVerify, verificationCode) {
 		var dialog = document.getElementById('verification-dialog');
-		$(".verification-dialog-content span.explainVerification").text(howToVerify);
-		$(".verification-dialog-content span.verificationCode").text(verificationCode);
+		$(".verification-dialog-content .explainVerification").text(howToVerify);
+		$(".verification-dialog-content .verificationCode").text(verificationCode);
 		dialog.style.display = "block";
 	};
 

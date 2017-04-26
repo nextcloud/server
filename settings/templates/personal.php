@@ -8,13 +8,12 @@
 /** @var \OCP\Defaults $theme */
 ?>
 
-<div id="verification-dialog">
+<div id="verification-dialog" class="popovermenu bubble menu hidden">
 
 	<!-- dialog used to verify personal information such as the users website, email address, etc -->
 	<div class="verification-dialog-content">
-		<button id="verify-dialog-close" class="icon-close svg"></button>
-		<span class="explainVerification">How to verify your account details</span><br />
-		<span class="verificationCode">verification code</span>
+		<p class="explainVerification">How to verify your account details</p>
+		<p class="verificationCode">Verification code</p>
 		<p>It can take up to 24 hours before the account is displayed as verified.</p>
 	</div>
 
@@ -111,11 +110,11 @@
 				<label for="email"><?php p($l->t('Email')); ?></label>
 				<span class="icon-password"/>
 			</h2>
-			<span class="verify">
-				<img id="verify-email" <?php
+			<div class="verify">
+				<img id="verify-email" class="verify-action" <?php
 				switch($_['emailVerification']) {
 					case \OC\Accounts\AccountManager::VERIFICATION_IN_PROGRESS:
-						print_unescaped('src="' . image_path('core', 'actions/verifying.svg') . '" title="Verifying..."');
+						print_unescaped('src="' . image_path('core', 'actions/verifying.svg') . '" title="Verifying …"');
 						break;
 					case \OC\Accounts\AccountManager::VERIFIED:
 						print_unescaped('src="' . image_path('core', 'actions/verified.svg') . '" title="Verified"');
@@ -124,7 +123,7 @@
 						print_unescaped('src="' . image_path('core', 'actions/verify.svg') . '" title="Verify"');
 				}
 				?>>
-			</span>
+			</div>
 			<input type="email" name="email" id="email" value="<?php p($_['email']); ?>"
 				<?php if(!$_['displayNameChangeSupported']) { print_unescaped('class="hidden"'); } ?>
 				placeholder="<?php p($l->t('Your email address')); ?>"
@@ -177,11 +176,11 @@
 				<label for="website"><?php p($l->t('Website')); ?></label>
 				<span class="icon-password"/>
 			</h2>
-			<span class="verify">
+			<div class="verify">
 				<img id="verify-website" <?php
 				switch($_['websiteVerification']) {
 					case \OC\Accounts\AccountManager::VERIFICATION_IN_PROGRESS:
-						print_unescaped('src="' . image_path('core', 'actions/verifying.svg') . '" title="Verifying..."');
+						print_unescaped('src="' . image_path('core', 'actions/verifying.svg') . '" title="Verifying …"');
 						break;
 					case \OC\Accounts\AccountManager::VERIFIED:
 						print_unescaped('src="' . image_path('core', 'actions/verified.svg') . '" title="Verified"');
@@ -190,7 +189,7 @@
 						print_unescaped('src="' . image_path('core', 'actions/verify.svg') . '" title="Verify" class="verify-action"');
 				}
 				?>>
-			</span>
+			</div>
 			<input type="text" name="website" id="website" value="<?php p($_['website']); ?>"
 			       placeholder="<?php p($l->t('Your website')); ?>"
 			       autocomplete="on" autocapitalize="none" autocorrect="off" />
@@ -204,11 +203,11 @@
 				<label for="twitter"><?php p($l->t('Twitter')); ?></label>
 				<span class="icon-password"/>
 			</h2>
-			<span class="verify">
+			<div class="verify">
 				<img id="verify-twitter" <?php
 				switch($_['twitterVerification']) {
 					case \OC\Accounts\AccountManager::VERIFICATION_IN_PROGRESS:
-						print_unescaped('src="' . image_path('core', 'actions/verifying.svg') . '" title="Verifying..."');
+						print_unescaped('src="' . image_path('core', 'actions/verifying.svg') . '" title="Verifying …"');
 						break;
 					case \OC\Accounts\AccountManager::VERIFIED:
 						print_unescaped('src="' . image_path('core', 'actions/verified.svg') . '" title="Verified"');
@@ -217,6 +216,7 @@
 						print_unescaped('src="' . image_path('core', 'actions/verify.svg') . '" title="Verify" class="verify-action"');
 				}
 				?>>
+			</div>
 			<input type="text" name="twitter" id="twitter" value="<?php p($_['twitter']); ?>"
 				   placeholder="<?php p($l->t('Your Twitter handle')); ?>"
 				   autocomplete="on" autocapitalize="none" autocorrect="off" />
