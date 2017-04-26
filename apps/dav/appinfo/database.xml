@@ -671,7 +671,7 @@ CREATE TABLE calendarobjects (
 	</table>
 
 	<table>
-		<name>*dbprefix*calendarobjects_properties</name>
+		<name>*dbprefix*calendarobjects_props</name>
 		<declaration>
 			<field>
 				<name>id</name>

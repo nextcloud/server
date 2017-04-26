@@ -149,7 +149,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	private $legacyEndpoint;
 
 	/** @var string */
-	private $dbObjectPropertiesTable = 'calendarobjects_properties';
+	private $dbObjectPropertiesTable = 'calendarobjects_props';
 
 	/**
 	 * CalDavBackend constructor.
@@ -1286,7 +1286,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		}
 
 		$query->select(['c.calendarid', 'c.uri'])
-			->from('calendarobjects_properties', 'i')
+			->from($this->dbObjectPropertiesTable, 'i')
 			->join('i', 'calendarobjects', 'c', $query->expr()->eq('i.objectid', 'c.id'))
 			->where($calExpr)
 			->andWhere($compExpr)
