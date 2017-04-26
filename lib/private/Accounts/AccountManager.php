@@ -97,7 +97,7 @@ class AccountManager {
 		if (empty($userData)) {
 			$this->insertNewUser($user, $data);
 		} elseif ($userData !== $data) {
-			$this->checkEmailVerification($userData, $data, $user);
+			$data = $this->checkEmailVerification($userData, $data, $user);
 			$data = $this->updateVerifyStatus($userData, $data);
 			$this->updateExistingUser($user, $data);
 		} else {
@@ -147,6 +147,7 @@ class AccountManager {
 	 * @param $oldData
 	 * @param $newData
 	 * @param IUser $user
+	 * @return array
 	 */
 	protected function checkEmailVerification($oldData, $newData, IUser $user) {
 		if ($oldData[self::PROPERTY_EMAIL]['value'] !== $newData[self::PROPERTY_EMAIL]['value']) {
@@ -160,7 +161,10 @@ class AccountManager {
 					'lastRun' => time()
 				]
 			);
+			$newData[AccountManager::PROPERTY_EMAIL]['verified'] = AccountManager::VERIFICATION_IN_PROGRESS;
 		}
+
+		return $newData;
 	}
 
 	/**

@@ -95,7 +95,7 @@ class AccountsManagerTest extends TestCase {
 
 		if ($updateExisting) {
 			$accountManager->expects($this->once())->method('checkEmailVerification')
-				->with($oldData, $newData, $user);
+				->with($oldData, $newData, $user)->willReturn($newData);
 			$accountManager->expects($this->once())->method('updateVerifyStatus')
 				->with($oldData, $newData)->willReturn($newData);
 			$accountManager->expects($this->once())->method('updateExistingUser')
