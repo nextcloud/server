@@ -683,7 +683,7 @@ class User {
 								->setUser($uid)
 								->setDateTime($currentDateTime)
 								->setObject('pwd_exp_warn', $uid) 
-								->setSubject('pwd_exp_warn_days', [strval(ceil($secondsToExpiry / 60 / 60 / 24))])
+								->setSubject('pwd_exp_warn_days', [(int) ceil($secondsToExpiry / 60 / 60 / 24)])
 							;
 							$this->notificationManager->notify($notification);
 						}
