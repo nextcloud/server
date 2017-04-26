@@ -10,7 +10,7 @@ OC.L10N.register(
     "Edit comment" : "Editar comentário",
     "[Deleted user]" : "[Usuário excluído]",
     "No comments yet, start the conversation!" : "Nenhum comentário ainda, inicie uma conversa!",
-    "More comments …" : "Mais comentários ...",
+    "More comments …" : "Mais comentários...",
     "Save" : "Salvar",
     "Allowed characters {count} of {max}" : "{count} de {max} caracteres permitidos",
     "Error occurred while retrieving comment with id {id}" : "Ocorreu um erro durante a recuperação do comentário com id {id}",

@@ -1,7 +1,6 @@
 OC.L10N.register(
     "settings",
     {
-    "Enabled" : "Kapabligita",
     "Wrong password" : "Malĝusta pasvorto",
     "Saved" : "Konservita",
     "Unable to change password" : "Ne eblis ŝanĝi la pasvorton",
@@ -22,8 +21,6 @@ OC.L10N.register(
     "Updating...." : "Ĝisdatigata...",
     "Error while updating app" : "Eraris ĝisdatigo de la aplikaĵo",
     "Updated" : "Ĝisdatigita",
-    "Error while uninstalling app" : "Eraris malinstalo de aplikaĵo",
-    "Uninstall" : "Malinstali",
     "Delete" : "Forigi",
     "Select a profile picture" : "Elekti profilan bildon",
     "Very weak password" : "Tre malforta pasvorto",
@@ -116,12 +113,15 @@ OC.L10N.register(
     "set new password" : "agordi novan pasvorton",
     "change email address" : "ŝanĝi retpoŝtadreson",
     "Default" : "Defaŭlta",
+    "Enabled" : "Kapabligita",
     "Backend doesn't support password change, but the user's encryption key was successfully updated." : "Motoro ne subtenas ŝanĝi pasvorton, sed la ĉifroŝlosilo de la uzanto sukcese ĝisdatiĝis.",
     "Admins can't remove themself from the admin group" : "Administrantoj ne povas forigi sin mem el la administra grupo.",
     "Unable to add user to group %s" : "Ne eblis aldoni la uzanton al la grupo %s",
     "Unable to remove user from group %s" : "Ne eblis forigi la uzantan el la grupo %s",
     "Sending..." : "Sendante...",
     "Uninstalling ...." : "Malinstalante...",
+    "Error while uninstalling app" : "Eraris malinstalo de aplikaĵo",
+    "Uninstall" : "Malinstali",
     "Show last log in" : "Montri lastan ensaluton"
 },
 "nplurals=2; plural=(n != 1);");

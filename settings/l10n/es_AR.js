@@ -1,7 +1,6 @@
 OC.L10N.register(
     "settings",
     {
-    "Enabled" : "Habilitado",
     "Wrong password" : "Clave incorrecta",
     "Saved" : "Guardado",
     "No user supplied" : "No se ha indicado el usuario",
@@ -94,6 +93,7 @@ OC.L10N.register(
     "change full name" : "Cambiar nombre completo",
     "set new password" : "Configurar nueva contraseña",
     "Default" : "Predeterminado",
+    "Enabled" : "Habilitado",
     "Please provide an admin recovery password, otherwise all user data will be lost" : "Por favor provea de una contraseña de recuperación administrativa, sino se perderá todos los datos del usuario",
     "test email settings" : "Configuración de correo de prueba.",
     "Admins can't remove themself from the admin group" : "Los administradores no se pueden quitar a si mismos del grupo administrador. ",

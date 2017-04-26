@@ -1,8 +1,6 @@
 OC.L10N.register(
     "settings",
     {
-    "Enabled" : "İşə salınıb",
-    "Not enabled" : "İşə salınıb",
     "Wrong password" : "Yalnış şifrə",
     "Saved" : "Saxlanıldı",
     "No user supplied" : "Heç bir istifadəçiyə mənimsədilmir",
@@ -41,8 +39,6 @@ OC.L10N.register(
     "Updating...." : "Yenilənir...",
     "Error while updating app" : "Proqram təminatı yeniləndikdə səhv baş verdi",
     "Updated" : "Yeniləndi",
-    "Error while uninstalling app" : "Proqram təminatını sildikdə səhv baş verdi",
-    "Uninstall" : "Sil",
     "Valid until {date}" : "Müddətədək keçərlidir {date}",
     "Delete" : "Sil",
     "Select a profile picture" : "Profil üçün şəkli seç",
@@ -171,6 +167,8 @@ OC.L10N.register(
     "set new password" : "yeni şifrə təyin et",
     "change email address" : "email ünvanını dəyiş",
     "Default" : "Susmaya görə",
+    "Enabled" : "İşə salınıb",
+    "Not enabled" : "İşə salınıb",
     "Please provide an admin recovery password, otherwise all user data will be lost" : "Xahış olunur inzibatçı geriyə qayıdış şifrəsini təqdim edəsiniz, əks halda bütün istfadəçi datası itəcək.",
     "Backend doesn't support password change, but the user's encryption key was successfully updated." : "Arxa sonluq şifrənin dəyişdirilməsini dəstəkləmir ancaq, istifadəçi şifrələmə açarı uğurla yeniləndi.",
     "test email settings" : "sınaq məktubu quraşdırmaları",
@@ -179,6 +177,8 @@ OC.L10N.register(
     "Unable to remove user from group %s" : "İstifadəçini %s qrupundan silmək mümkün olmadı",
     "Sending..." : "Göndərilir...",
     "Uninstalling ...." : "Silinir...",
+    "Error while uninstalling app" : "Proqram təminatını sildikdə səhv baş verdi",
+    "Uninstall" : "Sil",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "PHP-nin modulu 'fileinfo' mövcud deyil. Mime-type təyin edilməsi üçün,  modulun aktivləşdirilməsini təkidlə məsləhət görürük.",
     "Cheers!" : "Şərəfə!",
     "Show last log in" : "Son girişi göstər"

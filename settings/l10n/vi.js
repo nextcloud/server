@@ -1,7 +1,6 @@
 OC.L10N.register(
     "settings",
     {
-    "Enabled" : "Bật",
     "Saved" : "Đã lưu",
     "Authentication error" : "Lỗi xác thực",
     "Invalid request" : "Yêu cầu không hợp lệ",
@@ -57,6 +56,7 @@ OC.L10N.register(
     "change full name" : "Đổi họ và t",
     "set new password" : "đặt mật khẩu mới",
     "Default" : "Mặc định",
+    "Enabled" : "Bật",
     "Admins can't remove themself from the admin group" : "Quản trị viên không thể loại bỏ chính họ khỏi nhóm quản lý",
     "Unable to add user to group %s" : "Không thể thêm người dùng vào nhóm %s",
     "Unable to remove user from group %s" : "Không thể xóa người dùng từ nhóm %s",

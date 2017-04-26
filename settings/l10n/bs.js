@@ -1,8 +1,6 @@
 OC.L10N.register(
     "settings",
     {
-    "Enabled" : "Aktivirano",
-    "Not enabled" : "Nije aktivirano",
     "Wrong password" : "Pogrešna lozinka",
     "Saved" : "Spremljeno",
     "No user supplied" : "Nijedan korisnik nije dostavljen",
@@ -37,8 +35,6 @@ OC.L10N.register(
     "Updating...." : "Ažuriranje...",
     "Error while updating app" : "Greška pri ažuriranju aplikacije",
     "Updated" : "Ažurirano",
-    "Error while uninstalling app" : "Greška pri deinstaliranju aplikacije",
-    "Uninstall" : "Deinstaliraj",
     "Valid until {date}" : "Validno do {date}",
     "Delete" : "Izbriši",
     "Select a profile picture" : "Odaberi sliku profila",
@@ -147,6 +143,8 @@ OC.L10N.register(
     "set new password" : "postavi novu lozinku",
     "change email address" : "promjeni adresu e-pošte",
     "Default" : "Zadano",
+    "Enabled" : "Aktivirano",
+    "Not enabled" : "Nije aktivirano",
     "Please provide an admin recovery password, otherwise all user data will be lost" : "Molim navedite admin lozinku za povratak, u protivnom će svi korisnički podaci biti izgubljeni",
     "test email settings" : "testiraj postavke e-pošte",
     "Admins can't remove themself from the admin group" : "Administratori ne mogu sami sebe ukloniti iz admin grupe",
@@ -154,6 +152,8 @@ OC.L10N.register(
     "Unable to remove user from group %s" : "Uklanjanje korisnika iz grupe %s nije moguće",
     "Sending..." : "Slanje...",
     "Uninstalling ...." : "Deinstaliranje....",
+    "Error while uninstalling app" : "Greška pri deinstaliranju aplikacije",
+    "Uninstall" : "Deinstaliraj",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "PHP modul 'fileinfo' nedostaje. Strogo vam preporučjem da taj modul omogućite kako biste dobili najbolje rezultate u detekciji mime vrste.",
     "Cheers!" : "Cheers!",
     "Show last log in" : "Prikaži zadnju prijavu"

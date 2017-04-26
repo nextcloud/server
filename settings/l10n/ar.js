@@ -1,7 +1,6 @@
 OC.L10N.register(
     "settings",
     {
-    "Enabled" : "مفعلة",
     "Wrong password" : "كلمة مرور خاطئة",
     "Saved" : "حفظ",
     "No user supplied" : "لم يتم توفير مستخدم ",
@@ -22,7 +21,6 @@ OC.L10N.register(
     "Updating...." : "جاري التحديث ...",
     "Error while updating app" : "حصل خطأ أثناء تحديث التطبيق",
     "Updated" : "تم التحديث بنجاح",
-    "Uninstall" : "ألغاء التثبيت",
     "Delete" : "إلغاء",
     "Select a profile picture" : "اختر صورة الملف الشخصي ",
     "Very weak password" : "كلمة السر ضعيفة جدا",
@@ -86,6 +84,7 @@ OC.L10N.register(
     "change full name" : "تغيير اسمك الكامل",
     "set new password" : "اعداد كلمة مرور جديدة",
     "Default" : "افتراضي",
+    "Enabled" : "مفعلة",
     "Please provide an admin recovery password, otherwise all user data will be lost" : "يرجى توفير كلمة مرور المسؤول المستردة, وإلا سيتم فقد جميع بيانات المستخدم ",
     "test email settings" : "إعدادات البريد التجريبي",
     "Admins can't remove themself from the admin group" : "لا يستطيع المدير إزالة حسابه من مجموعة المديرين",
@@ -93,6 +92,7 @@ OC.L10N.register(
     "Unable to remove user from group %s" : "فشل إزالة المستخدم من المجموعة %s",
     "Sending..." : "جاري الارسال ...",
     "Uninstalling ...." : "جاري إلغاء التثبيت ...",
+    "Uninstall" : "ألغاء التثبيت",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "موديل  'fileinfo' الخاص بالـPHP  مفقود . نوصي بتفعيل هذا الموديل للحصول على أفضل النتائج مع خاصية التحقق "
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

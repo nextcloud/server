@@ -1,8 +1,6 @@
 OC.L10N.register(
     "settings",
     {
-    "Enabled" : "فعال شده",
-    "Not enabled" : "غیر فعال",
     "Wrong password" : "رمز عبور اشتباه است",
     "Saved" : "ذخیره شد",
     "No user supplied" : "هیچ کاربری تعریف نشده است",
@@ -41,8 +39,6 @@ OC.L10N.register(
     "Updating...." : "در حال بروز رسانی...",
     "Error while updating app" : "خطا در هنگام بهنگام سازی برنامه",
     "Updated" : "بروز رسانی انجام شد",
-    "Error while uninstalling app" : "خطا در هنگام حذف برنامه....",
-    "Uninstall" : "حذف",
     "App update" : "به روز رسانی برنامه",
     "Approved" : "تایید شده",
     "Experimental" : "آزمایشی",
@@ -178,6 +174,8 @@ OC.L10N.register(
     "set new password" : "تنظیم کلمه عبور جدید",
     "change email address" : "تغییر آدرس ایمیل ",
     "Default" : "پیش فرض",
+    "Enabled" : "فعال شده",
+    "Not enabled" : "غیر فعال",
     "Please provide an admin recovery password, otherwise all user data will be lost" : "لطفاً یک رمز مدیریتی برای بازیابی کردن تعریف نمایید. در غیر اینصورت اطلاعات تمامی کاربران از دست خواهند رفت.",
     "test email settings" : "تنظیمات ایمیل آزمایشی",
     "Admins can't remove themself from the admin group" : "مدیران نمی توانند خود را از گروه مدیریت حذف کنند",
@@ -185,6 +183,8 @@ OC.L10N.register(
     "Unable to remove user from group %s" : "امکان حذف کاربر از گروه %s نیست",
     "Sending..." : "در حال ارسال...",
     "Uninstalling ...." : "در حال حذف...",
+    "Error while uninstalling app" : "خطا در هنگام حذف برنامه....",
+    "Uninstall" : "حذف",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "ماژول 'fileinfo' PHP از کار افتاده است.ما اکیدا توصیه می کنیم که این ماژول را فعال کنید تا نتایج بهتری به وسیله ی mime-type detection دریافت کنید.",
     "Cheers!" : "سلامتی!",
     "Show last log in" : "نمایش اخرین ورود"

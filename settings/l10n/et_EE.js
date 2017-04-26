@@ -1,8 +1,6 @@
 OC.L10N.register(
     "settings",
     {
-    "Enabled" : "Sisse lülitatud",
-    "Not enabled" : "Pole sisse lülitatud",
     "Wrong password" : "Vale parool",
     "Saved" : "Salvestatud",
     "No user supplied" : "Kasutajat ei sisestatud",
@@ -43,8 +41,6 @@ OC.L10N.register(
     "Updating...." : "Uuendamine...",
     "Error while updating app" : "Viga rakenduse uuendamisel",
     "Updated" : "Uuendatud",
-    "Error while uninstalling app" : "Viga rakendi eemaldamisel",
-    "Uninstall" : "Eemalda",
     "App update" : "Rakenduse uuendus",
     "Approved" : "Heaks kiidetud",
     "Experimental" : "Katsetusjärgus",
@@ -186,6 +182,8 @@ OC.L10N.register(
     "set new password" : "määra uus parool",
     "change email address" : "muuda e-posti aadressi",
     "Default" : "Vaikeväärtus",
+    "Enabled" : "Sisse lülitatud",
+    "Not enabled" : "Pole sisse lülitatud",
     "Please provide an admin recovery password, otherwise all user data will be lost" : "Palun sisesta administraatori taasteparool, muidu kaotad kõik kasutajate andmed",
     "test email settings" : "testi e-posti seadeid",
     "Admins can't remove themself from the admin group" : "Administraatorid ei saa ise end admin grupist eemaldada",
@@ -193,6 +191,8 @@ OC.L10N.register(
     "Unable to remove user from group %s" : "Kasutajat ei saa eemaldada grupist %s",
     "Sending..." : "Saadan...",
     "Uninstalling ...." : "Eemaldan...",
+    "Error while uninstalling app" : "Viga rakendi eemaldamisel",
+    "Uninstall" : "Eemalda",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "PHP moodul 'fileinfo' puudub. Soovitame tungivalt see lisada saavutamaks parimaid tulemusi failitüüpide tuvastamisel.",
     "Cheers!" : "Terekest!",
     "Show last log in" : "Viimane sisselogimine"
