@@ -141,8 +141,9 @@ input#openid, input#webdav { width:20em; }
 
 /* verify accounts */
 #personal-settings-container .verify {
-	position: relative;
-	float: right;
+	position: absolute;
+	right: 14px;
+	top: 70px;
 }
 #personal-settings-container .verify img {
 	padding: 12px 7px 6px;
