@@ -232,7 +232,7 @@ $(document).ready(function () {
 			).done(function (data) {
 				var dialog = verify.children('.verification-dialog');
 				showVerifyDialog($(dialog), data.msg, data.code);
-				indicator.attr('title', t('core', 'Verifying …'));
+				indicator.attr('data-origin-title', t('core', 'Verifying …'));
 				indicator.attr('src', OC.imagePath('core', 'actions/verifying.svg'));
 				indicator.data('status', '1');
 			});

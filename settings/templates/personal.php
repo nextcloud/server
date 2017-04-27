@@ -100,18 +100,19 @@
 				<span class="icon-password"/>
 			</h2>
 			<div class="verify <?php if ($_['email'] === ''  || $_['emailScope'] !== 'public') p('hidden'); ?>">
-				<img id="verify-email" <?php
+				<img id="verify-email" title="<?php p($_['emailMessage']); ?>" data-status="<?php p($_['emailVerification']) ?>" src="
+				<?php
 				switch($_['emailVerification']) {
 					case \OC\Accounts\AccountManager::VERIFICATION_IN_PROGRESS:
-						print_unescaped('src="' . image_path('core', 'actions/verifying.svg') . '"');
+						p(image_path('core', 'actions/verifying.svg'));
 						break;
 					case \OC\Accounts\AccountManager::VERIFIED:
-						print_unescaped('src="' . image_path('core', 'actions/verified.svg') . '"');
+						p(image_path('core', 'actions/verified.svg'));
 						break;
 					default:
-						print_unescaped('src="' . image_path('core', 'actions/verify.svg') . '"');
+						p(image_path('core', 'actions/verify.svg'));
 				}
-				?> title="<?php p($_['emailMessage']); ?>">
+				?>">
 			</div>
 			<input type="email" name="email" id="email" value="<?php p($_['email']); ?>"
 				<?php if(!$_['displayNameChangeSupported']) { print_unescaped('class="hidden"'); } ?>
@@ -166,18 +167,21 @@
 				<span class="icon-password"/>
 			</h2>
 			<div class="verify <?php if ($_['website'] === ''  || $_['websiteScope'] !== 'public') p('hidden'); ?>">
-				<img id="verify-website" data-status="<?php p($_['websiteVerification']) ?>" <?php
+				<img id="verify-website" title="<?php p($_['websiteMessage']); ?>" data-status="<?php p($_['websiteVerification']) ?>" src="
+				<?php
 				switch($_['websiteVerification']) {
 					case \OC\Accounts\AccountManager::VERIFICATION_IN_PROGRESS:
-						print_unescaped('src="' . image_path('core', 'actions/verifying.svg') . '" class="verify-action"');
+						p(image_path('core', 'actions/verifying.svg'));
 						break;
 					case \OC\Accounts\AccountManager::VERIFIED:
-						print_unescaped('src="' . image_path('core', 'actions/verified.svg') . '"');
+						p(image_path('core', 'actions/verified.svg'));
 						break;
 					default:
-						print_unescaped('src="' . image_path('core', 'actions/verify.svg') . '" class="verify-action"');
+						p(image_path('core', 'actions/verify.svg'));
 				}
-				?> title="<?php p($_['websiteMessage']); ?>">
+				?>"
+				<?php if($_['websiteVerification'] === \OC\Accounts\AccountManager::VERIFICATION_IN_PROGRESS || $_['websiteVerification'] === \OC\Accounts\AccountManager::NOT_VERIFIED) print_unescaped(' class="verify-action"') ?>
+				>
 				<div class="verification-dialog popovermenu bubble menu">
 					<div class="verification-dialog-content">
 						<p class="explainVerification"></p>
@@ -200,18 +204,21 @@
 				<span class="icon-password"/>
 			</h2>
 			<div class="verify <?php if ($_['twitter'] === ''  || $_['twitterScope'] !== 'public') p('hidden'); ?>">
-				<img id="verify-twitter" <?php
+				<img id="verify-twitter" title="<?php p($_['twitterMessage']); ?>" data-status="<?php p($_['twitterVerification']) ?>" src="
+				<?php
 				switch($_['twitterVerification']) {
 					case \OC\Accounts\AccountManager::VERIFICATION_IN_PROGRESS:
-						print_unescaped('src="' . image_path('core', 'actions/verifying.svg') . '" class="verify-action"');
+						p(image_path('core', 'actions/verifying.svg'));
 						break;
 					case \OC\Accounts\AccountManager::VERIFIED:
-						print_unescaped('src="' . image_path('core', 'actions/verified.svg') . '"');
+						p(image_path('core', 'actions/verified.svg'));
 						break;
 					default:
-						print_unescaped('src="' . image_path('core', 'actions/verify.svg') . '" class="verify-action"');
+						p(image_path('core', 'actions/verify.svg'));
 				}
-				?> title="<?php p($_['twitterMessage']); ?>">
+				?>"
+				<?php if($_['twitterVerification'] === \OC\Accounts\AccountManager::VERIFICATION_IN_PROGRESS || $_['twitterVerification'] === \OC\Accounts\AccountManager::NOT_VERIFIED) print_unescaped(' class="verify-action"') ?>
+				>
 				<div class="verification-dialog popovermenu bubble menu">
 					<div class="verification-dialog-content">
 						<p class="explainVerification"></p>
