@@ -1012,6 +1012,14 @@
 				<notnull>false</notnull>
 			</field>
 
+			<field>
+				<!-- time for execution of the job -->
+				<name>execution_duration</name>
+				<type>integer</type>
+				<default></default>
+				<notnull>true</notnull>
+			</field>
+
 			<index>
 				<name>job_class_index</name>
 				<field>

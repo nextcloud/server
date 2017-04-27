@@ -7,6 +7,7 @@
  */
 
 namespace Test\BackgroundJob;
+use OCP\BackgroundJob\IJob;
 
 /**
  * Class DummyJobList
@@ -15,7 +16,7 @@ namespace Test\BackgroundJob;
  */
 class DummyJobList extends \OC\BackgroundJob\JobList {
 	/**
-	 * @var \OC\BackgroundJob\Job[]
+	 * @var IJob[]
 	 */
 	private $jobs = array();
 
@@ -25,7 +26,7 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 	}
 
 	/**
-	 * @param \OC\BackgroundJob\Job|string $job
+	 * @param IJob|string $job
 	 * @param mixed $argument
 	 */
 	public function add($job, $argument = null) {
@@ -40,7 +41,7 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 	}
 
 	/**
-	 * @param \OC\BackgroundJob\Job|string $job
+	 * @param IJob|string $job
 	 * @param mixed $argument
 	 */
 	public function remove($job, $argument = null) {
@@ -64,7 +65,7 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 	/**
 	 * get all jobs in the list
 	 *
-	 * @return \OC\BackgroundJob\Job[]
+	 * @return IJob[]
 	 */
 	public function getAll() {
 		return $this->jobs;
@@ -73,7 +74,7 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 	/**
 	 * get the next job in the list
 	 *
-	 * @return \OC\BackgroundJob\Job
+	 * @return IJob|null
 	 */
 	public function getNext() {
 		if (count($this->jobs) > 0) {
@@ -93,7 +94,7 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 	 *
 	 * @param \OC\BackgroundJob\Job $job
 	 */
-	public function setLastJob($job) {
+	public function setLastJob(IJob $job) {
 		$i = array_search($job, $this->jobs);
 		if ($i !== false) {
 			$this->last = $i;
@@ -104,7 +105,7 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 
 	/**
 	 * @param int $id
-	 * @return Job
+	 * @return IJob
 	 */
 	public function getById($id) {
 		foreach ($this->jobs as $job) {
@@ -127,9 +128,12 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 	/**
 	 * set the lastRun of $job to now
 	 *
-	 * @param \OC\BackgroundJob\Job $job
+	 * @param IJob $job
 	 */
-	public function setLastRun($job) {
+	public function setLastRun(IJob $job) {
 		$job->setLastRun(time());
+	}
+
+	public function setExecutionTime(IJob $job, $timeTaken) {
 	}
 }
