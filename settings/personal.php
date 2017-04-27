@@ -189,6 +189,24 @@ $tmpl->assign('websiteVerification', $userData[\OC\Accounts\AccountManager::PROP
 $tmpl->assign('twitterVerification', $userData[\OC\Accounts\AccountManager::PROPERTY_TWITTER]['verified']);
 $tmpl->assign('emailVerification', $userData[\OC\Accounts\AccountManager::PROPERTY_EMAIL]['verified']);
 
+$needVerifyMessage = [\OC\Accounts\AccountManager::PROPERTY_EMAIL, \OC\Accounts\AccountManager::PROPERTY_WEBSITE, \OC\Accounts\AccountManager::PROPERTY_TWITTER];
+
+foreach ($needVerifyMessage as $property) {
+
+	switch ($userData[$property]['verified']) {
+		case \OC\Accounts\AccountManager::VERIFIED:
+			$message = $l->t('Verifying');
+			break;
+		case \OC\Accounts\AccountManager::VERIFICATION_IN_PROGRESS:
+			$message = $l->t('Verifying …');
+			break;
+		default:
+			$message = $l->t('Verify');
+	}
+
+	$tmpl->assign($property . 'Message', $message);
+}
+
 $tmpl->assign('avatarChangeSupported', OC_User::canUserChangeAvatar(OC_User::getUser()));
 $tmpl->assign('certs', $certificateManager->listCertificates());
 $tmpl->assign('showCertificates', $enableCertImport);

@@ -103,14 +103,15 @@
 				<img id="verify-email" <?php
 				switch($_['emailVerification']) {
 					case \OC\Accounts\AccountManager::VERIFICATION_IN_PROGRESS:
-						print_unescaped('src="' . image_path('core', 'actions/verifying.svg') . '" title="' . \OC::$server->getL10N()->t('Verifying …') . '"');
+						print_unescaped('src="' . image_path('core', 'actions/verifying.svg') . '"');
 						break;
 					case \OC\Accounts\AccountManager::VERIFIED:
-						print_unescaped('src="' . image_path('core', 'actions/verified.svg') . '"' . \OC::$server->getL10N()->t('Verified') . '"');
+						print_unescaped('src="' . image_path('core', 'actions/verified.svg') . '""');
 						break;
 					default:
-						print_unescaped('src="' . image_path('core', 'actions/verify.svg') . '" title="' . \OC::$server->getL10N()->t('Verify') . '"');
+						print_unescaped('src="' . image_path('core', 'actions/verify.svg') . '"');
 				}
+				print_unescaped(' title="' . $_['websiteMessage'] . '""');
 				?>>
 			</div>
 			<input type="email" name="email" id="email" value="<?php p($_['email']); ?>"
@@ -169,14 +170,15 @@
 				<img id="verify-website" <?php
 				switch($_['websiteVerification']) {
 					case \OC\Accounts\AccountManager::VERIFICATION_IN_PROGRESS:
-						print_unescaped('src="' . image_path('core', 'actions/verifying.svg') . '" title="' . \OC::$server->getL10N()->t('Verifying …') . '"');
+						print_unescaped('src="' . image_path('core', 'actions/verifying.svg') . '"');
 						break;
 					case \OC\Accounts\AccountManager::VERIFIED:
-						print_unescaped('src="' . image_path('core', 'actions/verified.svg') . '"' . \OC::$server->getL10N()->t('Verified') . '"');
+						print_unescaped('src="' . image_path('core', 'actions/verified.svg') . '"');
 						break;
 					default:
-						print_unescaped('src="' . image_path('core', 'actions/verify.svg') . '" title="' . \OC::$server->getL10N()->t('Verify') . '" class="verify-action"');
+						print_unescaped('src="' . image_path('core', 'actions/verify.svg') . '" class="verify-action"');
 				}
+				print_unescaped(' title="' . $_['websiteMessage'] . '""');
 				?>>
 				<div class="verification-dialog popovermenu bubble menu">
 					<div class="verification-dialog-content">
@@ -203,14 +205,15 @@
 				<img id="verify-twitter" <?php
 				switch($_['twitterVerification']) {
 					case \OC\Accounts\AccountManager::VERIFICATION_IN_PROGRESS:
-						print_unescaped('src="' . image_path('core', 'actions/verifying.svg') . '" title="' . \OC::$server->getL10N()->t('Verifying …') . '"');
+						print_unescaped('src="' . image_path('core', 'actions/verifying.svg') . '"');
 						break;
 					case \OC\Accounts\AccountManager::VERIFIED:
-						print_unescaped('src="' . image_path('core', 'actions/verified.svg') . '"' . \OC::$server->getL10N()->t('Verified') . '"');
+						print_unescaped('src="' . image_path('core', 'actions/verified.svg') . '"');
 						break;
 					default:
-						print_unescaped('src="' . image_path('core', 'actions/verify.svg') . '" title="' . \OC::$server->getL10N()->t('Verify') . '" class="verify-action"');
+						print_unescaped('src="' . image_path('core', 'actions/verify.svg') . '" class="verify-action"');
 				}
+				print_unescaped(' title="' . $_['twitterMessage'] . '""');
 				?>>
 				<div class="verification-dialog popovermenu bubble menu">
 					<div class="verification-dialog-content">
