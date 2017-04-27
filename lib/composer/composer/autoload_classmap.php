@@ -488,6 +488,7 @@ return array(
     'OC\\DB\\MigrationException' => $baseDir . '/lib/private/DB/MigrationException.php',
     'OC\\DB\\Migrator' => $baseDir . '/lib/private/DB/Migrator.php',
     'OC\\DB\\MySQLMigrator' => $baseDir . '/lib/private/DB/MySQLMigrator.php',
+    'OC\\DB\\MySqlTools' => $baseDir . '/lib/private/DB/MySqlTools.php',
     'OC\\DB\\NoCheckMigrator' => $baseDir . '/lib/private/DB/NoCheckMigrator.php',
     'OC\\DB\\OCSqlitePlatform' => $baseDir . '/lib/private/DB/OCSqlitePlatform.php',
     'OC\\DB\\OracleConnection' => $baseDir . '/lib/private/DB/OracleConnection.php',
