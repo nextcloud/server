@@ -87,12 +87,6 @@ class Upgrade extends Command {
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output) {
 
-		$skip3rdPartyAppsDisable = false;
-
-		if ($input->getOption('no-app-disable')) {
-			$skip3rdPartyAppsDisable = true;
-		}
-
 		if(\OC::checkUpgrade(false)) {
 			if (OutputInterface::VERBOSITY_NORMAL < $output->getVerbosity()) {
 				// Prepend each line with a little timestamp
@@ -107,7 +101,9 @@ class Upgrade extends Command {
 					$this->logger
 			);
 
-			$updater->setSkip3rdPartyAppsDisable($skip3rdPartyAppsDisable);
+			if ($input->getOption('no-app-disable')) {
+				$updater->setSkip3rdPartyAppsDisable(true);
+			}
 			$dispatcher = \OC::$server->getEventDispatcher();
 			$progress = new ProgressBar($output);
 			$progress->setFormat(" %message%\n %current%/%max% [%bar%] %percent:3s%%");
