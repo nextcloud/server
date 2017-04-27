@@ -38,6 +38,7 @@ use OCP\IUser;
 use OCP\IUserBackend;
 use OCP\IUserManager;
 use OCP\IConfig;
+use OCP\UserInterface;
 
 /**
  * Class Manager
@@ -279,49 +280,64 @@ class Manager extends PublicEmitter implements IUserManager {
 	/**
 	 * @param string $uid
 	 * @param string $password
-	 * @throws \Exception
-	 * @return bool|\OC\User\User the created user or false
+	 * @throws \InvalidArgumentException
+	 * @return bool|IUser the created user or false
 	 */
 	public function createUser($uid, $password) {
+		foreach ($this->backends as $backend) {
+			if ($backend->implementsActions(Backend::CREATE_USER)) {
+				return $this->createUserFromBackend($uid, $password, $backend);
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * @param string $uid
+	 * @param string $password
+	 * @param UserInterface $backend
+	 * @return IUser|null
+	 * @throws \InvalidArgumentException
+	 */
+	public function createUserFromBackend($uid, $password, UserInterface $backend) {
 		$l = \OC::$server->getL10N('lib');
+
 		// Check the name for bad characters
 		// Allowed are: "a-z", "A-Z", "0-9" and "_.@-'"
 		if (preg_match('/[^a-zA-Z0-9 _\.@\-\']/', $uid)) {
-			throw new \Exception($l->t('Only the following characters are allowed in a username:'
+			throw new \InvalidArgumentException($l->t('Only the following characters are allowed in a username:'
 				. ' "a-z", "A-Z", "0-9", and "_.@-\'"'));
 		}
 		// No empty username
-		if (trim($uid) == '') {
-			throw new \Exception($l->t('A valid username must be provided'));
+		if (trim($uid) === '') {
+			throw new \InvalidArgumentException($l->t('A valid username must be provided'));
 		}
 		// No whitespace at the beginning or at the end
 		if (trim($uid) !== $uid) {
-			throw new \Exception($l->t('Username contains whitespace at the beginning or at the end'));
+			throw new \InvalidArgumentException($l->t('Username contains whitespace at the beginning or at the end'));
 		}
 		// Username only consists of 1 or 2 dots (directory traversal)
 		if ($uid === '.' || $uid === '..') {
-			throw new \Exception($l->t('Username must not consist of dots only'));
+			throw new \InvalidArgumentException($l->t('Username must not consist of dots only'));
 		}
 		// No empty password
-		if (trim($password) == '') {
-			throw new \Exception($l->t('A valid password must be provided'));
+		if (trim($password) === '') {
+			throw new \InvalidArgumentException($l->t('A valid password must be provided'));
 		}
 
 		// Check if user already exists
 		if ($this->userExists($uid)) {
-			throw new \Exception($l->t('The username is already being used'));
+			throw new \InvalidArgumentException($l->t('The username is already being used'));
 		}
 
-		$this->emit('\OC\User', 'preCreateUser', array($uid, $password));
-		foreach ($this->backends as $backend) {
-			if ($backend->implementsActions(Backend::CREATE_USER)) {
-				$backend->createUser($uid, $password);
-				$user = $this->getUserObject($uid, $backend);
-				$this->emit('\OC\User', 'postCreateUser', array($user, $password));
-				return $user;
-			}
+		$this->emit('\OC\User', 'preCreateUser', [$uid, $password]);
+		$backend->createUser($uid, $password);
+		$user = $this->getUserObject($uid, $backend);
+		if ($user instanceof IUser) {
+			$this->emit('\OC\User', 'postCreateUser', [$user, $password]);
 		}
-		return false;
+		return $user;
 	}
 
 	/**

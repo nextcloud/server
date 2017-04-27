@@ -291,10 +291,18 @@ class ManagerTest extends TestCase {
 	 * @dataProvider dataCreateUserInvalid
 	 */
 	public function testCreateUserInvalid($uid, $password, $exception) {
+		/** @var \Test\Util\User\Dummy|\PHPUnit_Framework_MockObject_MockObject $backend */
+		$backend = $this->createMock(\Test\Util\User\Dummy::class);
+		$backend->expects($this->once())
+			->method('implementsActions')
+			->with(\OC\User\Backend::CREATE_USER)
+			->willReturn(true);
 
-		$this->setExpectedException(\Exception::class, $exception);
 
 		$manager = new \OC\User\Manager($this->config);
+		$manager->registerBackend($backend);
+
+		$this->setExpectedException(\InvalidArgumentException::class, $exception);
 		$manager->createUser($uid, $password);
 
 	}
@@ -362,10 +370,8 @@ class ManagerTest extends TestCase {
 		$backend->expects($this->never())
 			->method('createUser');
 
-		$backend->expects($this->once())
-			->method('userExists')
-			->with($this->equalTo('foo'))
-			->will($this->returnValue(false));
+		$backend->expects($this->never())
+			->method('userExists');
 
 		$manager = new \OC\User\Manager($this->config);
 		$manager->registerBackend($backend);

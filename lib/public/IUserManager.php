@@ -123,11 +123,21 @@ interface IUserManager {
 	/**
 	 * @param string $uid
 	 * @param string $password
-	 * @throws \Exception
+	 * @throws \InvalidArgumentException
 	 * @return bool|\OCP\IUser the created user of false
 	 * @since 8.0.0
 	 */
 	public function createUser($uid, $password);
+
+	/**
+	 * @param string $uid
+	 * @param string $password
+	 * @param UserInterface $backend
+	 * @return IUser|null
+	 * @throws \InvalidArgumentException
+	 * @since 12.0.0
+	 */
+	public function createUserFromBackend($uid, $password, UserInterface $backend);
 
 	/**
 	 * returns how many users per backend exist (if supported by backend)
