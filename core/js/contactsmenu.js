@@ -64,7 +64,7 @@
 			+ '</a>'
 			+ '{{/if}}'
 			+ '{{#if contact.hasTwoActions}}'
-			+ '<a class="second-action" href="{{contact.secondAction.hyperlink}}">'
+			+ '<a class="second-action" href="{{contact.secondAction.hyperlink}}" title="{{contact.secondAction.title}}">'
 			+ '    <img src="{{contact.secondAction.icon}}">'
 			+ '</a>'
 			+ '{{/if}}'
@@ -228,6 +228,8 @@
 
 			// Show tooltip for top action
 			this.$('.top-action').tooltip({placement: 'left'});
+			// Show tooltip for second action
+			this.$('.second-action').tooltip({placement: 'left'});
 
 			return this;
 		},
