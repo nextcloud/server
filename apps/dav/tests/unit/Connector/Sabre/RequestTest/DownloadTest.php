@@ -34,7 +34,7 @@ use OCP\Lock\ILockingProvider;
  *
  * @package OCA\DAV\Tests\unit\Connector\Sabre\RequestTest
  */
-class DownloadTest extends RequestTest {
+class DownloadTest extends RequestTestCase {
 	public function testDownload() {
 		$user = $this->getUniqueID();
 		$view = $this->setupUser($user, 'pass');
