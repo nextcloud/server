@@ -41,6 +41,8 @@ OC.L10N.register(
     "Open documentation" : "Opna hjálparskjöl",
     "Allow users on this server to send shares to other servers" : "Leyfa notendum á þessum þjóni að senda sameignir til annarra þjóna",
     "Allow users on this server to receive shares from other servers" : "Leyfa notendum á þessum þjóni að taka á móti sameignum frá öðrum þjónum",
+    "Search global and public address book for users and let local users publish their data" : "Leita að notendum í víðværri og opinberri vistfangaskrá og leyfa staðværum notendum að birta gögnin sín",
+    "Allow users to publish their data to a global and public address book" : "Leifa notendum að birta gögnin sín í víðværri og opinberri vistfangaskrá",
     "Federated Cloud" : "Skýjasamband (federated)",
     "Your Federated Cloud ID:" : "Skýjasambandsauðkennið þitt (Federated Cloud ID):",
     "Share it:" : "Deila því:",

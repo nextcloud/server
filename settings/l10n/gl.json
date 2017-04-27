@@ -78,7 +78,6 @@
     "NT LAN Manager" : "Xestor NT LAN",
     "Email server" : "Servidor de correo",
     "Open documentation" : "Abrir a documentación",
-    "This is used for sending out notifications." : "Isto utilizase para o envío de notificacións.",
     "Send mode" : "Modo de envío",
     "Encryption" : "Cifrado",
     "From address" : "Desde o enderezo",
@@ -209,6 +208,7 @@
     "Uninstalling ...." : "Desinstalando ...",
     "Error while uninstalling app" : "Produciuse un erro ao desinstalar o aplicatvo",
     "Uninstall" : "Desinstalar",
+    "This is used for sending out notifications." : "Isto utilizase para o envío de notificacións.",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "Non se atopou o módulo de PHP «fileinfo». É recomendábel activar este módulo para obter os mellores resultados coa detección do tipo MIME.",
     "Cheers!" : "Saúdos!",
     "Show last log in" : "Amosar a última conexión"

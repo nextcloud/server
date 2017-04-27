@@ -81,7 +81,6 @@ OC.L10N.register(
     "NT LAN Manager" : "Менеджер NT LAN",
     "Email server" : "Сервер електронної пошти",
     "Open documentation" : "Відкрити документацію",
-    "This is used for sending out notifications." : "Використовується для відсилання повідомлень.",
     "Send mode" : "Режим надсилання",
     "Encryption" : "Шифрування",
     "From address" : "Адреса відправника",
@@ -213,6 +212,7 @@ OC.L10N.register(
     "Uninstalling ...." : "Видалення...",
     "Error while uninstalling app" : "Помилка видалення додатка",
     "Uninstall" : "Видалити",
+    "This is used for sending out notifications." : "Використовується для відсилання повідомлень.",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "PHP модуль 'fileinfo' відсутній. Ми наполегливо рекомендуємо увімкнути цей модуль, щоб отримати кращі результати при виявленні MIME-типів.",
     "Cheers!" : "Будьмо!",
     "Show last log in" : "Показати останній вхід в систему"

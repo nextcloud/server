@@ -72,7 +72,6 @@ OC.L10N.register(
     "NT LAN Manager" : "NT LAN Manager",
     "Email server" : "E-kirjade server",
     "Open documentation" : "Ava dokumentatsioon",
-    "This is used for sending out notifications." : "Seda kasutatakse teadete välja saatmiseks.",
     "Send mode" : "Saatmise viis",
     "Encryption" : "Krüpteerimine",
     "From address" : "Saatja aadress",
@@ -193,6 +192,7 @@ OC.L10N.register(
     "Uninstalling ...." : "Eemaldan...",
     "Error while uninstalling app" : "Viga rakendi eemaldamisel",
     "Uninstall" : "Eemalda",
+    "This is used for sending out notifications." : "Seda kasutatakse teadete välja saatmiseks.",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "PHP moodul 'fileinfo' puudub. Soovitame tungivalt see lisada saavutamaks parimaid tulemusi failitüüpide tuvastamisel.",
     "Cheers!" : "Terekest!",
     "Show last log in" : "Viimane sisselogimine"

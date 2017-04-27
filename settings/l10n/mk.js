@@ -75,7 +75,6 @@ OC.L10N.register(
     "NT LAN Manager" : "NT LAN Менаџер",
     "Email server" : "Сервер за е-пошта",
     "Open documentation" : "Отвори ја документацијата",
-    "This is used for sending out notifications." : "Ова се користи за испраќање на известувања.",
     "Send mode" : "Мод на испраќање",
     "Encryption" : "Енкрипција",
     "From address" : "Од адреса",
@@ -160,6 +159,7 @@ OC.L10N.register(
     "Uninstalling ...." : "Деинсталирам ...",
     "Error while uninstalling app" : "Грешка при деинсталација на апликацијата",
     "Uninstall" : "Деинсталирај",
+    "This is used for sending out notifications." : "Ова се користи за испраќање на известувања.",
     "Cheers!" : "Поздрав!"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

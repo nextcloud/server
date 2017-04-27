@@ -122,7 +122,6 @@
     "STARTTLS" : "STARTTLS",
     "Email server" : "E-pasta serveris",
     "Open documentation" : "Atvērt dokumentāciju",
-    "This is used for sending out notifications." : "Tas tiek izmantots, izsūtot paziņojumus.",
     "Send mode" : "Sūtīšanas metode",
     "Encryption" : "Šifrēšana",
     "From address" : "No adreses",
@@ -237,7 +236,6 @@
     "Username" : "Lietotājvārds",
     "Done" : "Pabeigts",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Izstrādātās {communityopen}Nextcloud kopiena {linkclose},  {githubopen} avota kods {linkclose} licencēts saskaņā ar {licenseopen}AGPL{linkclose}.",
-    "Follow us on Google Plus!" : "Seko mums Google Plus!",
     "Subscribe to our newsletter!" : "Abonēt mūsu jaunumus!",
     "Show storage location" : "Rādīt krātuves atrašanās vietu",
     "Show email address" : "Rādīt e-pasta adreses",
@@ -272,11 +270,13 @@
     "Uninstalling ...." : "Atinstalē ....",
     "Error while uninstalling app" : "Kļūda, atinstalējot programmu",
     "Uninstall" : "Atinstalēt",
+    "This is used for sending out notifications." : "Tas tiek izmantots, izsūtot paziņojumus.",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "Trūkst PHP modulis “fileinfo”. Mēs iesakām to aktivēt, lai pēc iespējas labāk noteiktu mime tipus.",
     "Uninstall app" : "Atinstalēt programmu",
     "Cheers!" : "Priekā!",
     "Hey there,\n\njust letting you know that you now have a %s account.\n\nYour username: %s\nAccess it: %s\n\n" : "Hei,\n\nvienkārši Jūsu zināšanai, ka Jums tagad ir %s konts.\n\nJūsu lietotājvārds: %s\nPiekļuve: %s\n\n",
     "For password recovery and notifications" : "Paroles atjaunošanai un paziņojumiem",
+    "Follow us on Google Plus!" : "Seko mums Google Plus!",
     "Show last log in" : "Rādīt pēdējo autorizāciju"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);"
 }

@@ -47,7 +47,6 @@ OC.L10N.register(
     "Login" : "Entamar sesión",
     "Plain" : "Planu",
     "NT LAN Manager" : "Xestor de NT LAN",
-    "This is used for sending out notifications." : "Esto úsase pa unviar notificaciones.",
     "Send mode" : "Mou d'unviu",
     "Encryption" : "Cifráu",
     "From address" : "Dende la direición",
@@ -128,6 +127,7 @@ OC.L10N.register(
     "Uninstalling ...." : "Desinstalando ...",
     "Error while uninstalling app" : "Fallu mientres se desinstalaba l'aplicación",
     "Uninstall" : "Desinstalar",
+    "This is used for sending out notifications." : "Esto úsase pa unviar notificaciones.",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "Nun s'atopó'l módulu PHP 'fileinfo'. Encamentámoste qu'habilites esti módulu pa obtener meyores resultaos cola deteición de tribes MIME.",
     "Cheers!" : "¡Salú!"
 },

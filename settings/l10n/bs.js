@@ -59,7 +59,6 @@ OC.L10N.register(
     "Login" : "Prijava",
     "Plain" : "Čisti tekst",
     "NT LAN Manager" : "NT LAN menedžer",
-    "This is used for sending out notifications." : "Ovo se koristi za slanje notifikacija.",
     "Send mode" : "Način rada za slanje",
     "Encryption" : "Šifriranje",
     "From address" : "S adrese",
@@ -154,6 +153,7 @@ OC.L10N.register(
     "Uninstalling ...." : "Deinstaliranje....",
     "Error while uninstalling app" : "Greška pri deinstaliranju aplikacije",
     "Uninstall" : "Deinstaliraj",
+    "This is used for sending out notifications." : "Ovo se koristi za slanje notifikacija.",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "PHP modul 'fileinfo' nedostaje. Strogo vam preporučjem da taj modul omogućite kako biste dobili najbolje rezultate u detekciji mime vrste.",
     "Cheers!" : "Cheers!",
     "Show last log in" : "Prikaži zadnju prijavu"

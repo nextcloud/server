@@ -55,7 +55,6 @@ OC.L10N.register(
     "The group box was disabled, because the LDAP / AD server does not support memberOf." : "Les groupes sont désactivés car le serveur LDAP / AD ne prend pas en charge memberOf.",
     "Password change rejected. Hint: " : "La modification du mot de passe a été rejetée. Indice :",
     "Please login with the new password" : "Veuillez vous connecter avec le nouveau mot de passe",
-    "Your password will expire within %s day(s)." : "Votre mot de passe va expirer dans %s jour(s).",
     "LDAP / AD integration" : "Intégration LDAP/AD",
     "_%s group found_::_%s groups found_" : ["%s groupe trouvé","%s groupes trouvés"],
     "_%s user found_::_%s users found_" : ["%s utilisateur trouvé","%s utilisateurs trouvés"],

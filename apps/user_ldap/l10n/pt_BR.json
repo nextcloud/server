@@ -54,7 +54,6 @@
     "The group box was disabled, because the LDAP / AD server does not support memberOf." : "A caixa do grupo foi desativada pois o servidor LDAP / AD não suporta memberOf.",
     "Password change rejected. Hint: " : "Troca de senha rejeitada. Dica:",
     "Please login with the new password" : "Logue-se com a nova senha",
-    "Your password will expire within %s day(s)." : "Sua senha vai expirar dentro de %s dia(s).",
     "LDAP / AD integration" : "Integração LDAP / AD",
     "_%s group found_::_%s groups found_" : ["grupo% s encontrado","grupos% s encontrado"],
     "_%s user found_::_%s users found_" : ["usuário %s encontrado","%s usuários encontrados"],

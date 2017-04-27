@@ -40,7 +40,6 @@ OC.L10N.register(
     "Login" : "Ingresar",
     "Plain" : "Plano",
     "NT LAN Manager" : "Administrador NT LAN",
-    "This is used for sending out notifications." : "Esto es usado para enviar notificaciones.",
     "Send mode" : "Modo de envio",
     "Encryption" : "Encriptación",
     "From address" : "Dirección remitente",
@@ -100,6 +99,7 @@ OC.L10N.register(
     "Unable to add user to group %s" : "No fue posible agregar el usuario al grupo %s",
     "Unable to remove user from group %s" : "No es posible borrar al usuario del grupo %s",
     "Sending..." : "Enviando...",
+    "This is used for sending out notifications." : "Esto es usado para enviar notificaciones.",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "El módulo PHP 'fileinfo' no existe. Es recomendable que actives este módulo para obtener mejores resultados con la detección mime-type",
     "Cheers!" : "¡Saludos!"
 },

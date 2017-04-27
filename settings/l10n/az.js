@@ -67,7 +67,6 @@ OC.L10N.register(
     "Plain" : "Adi",
     "NT LAN Manager" : "NT LAN Manager",
     "Open documentation" : "Sənədləri aç",
-    "This is used for sending out notifications." : "Kənara xəbərdarlıqları ötürmək üçün bu istifadə edilir.",
     "Send mode" : "Göndərmə rejimi",
     "Encryption" : "Şifrələnmə",
     "From address" : "Ünvandan",
@@ -179,6 +178,7 @@ OC.L10N.register(
     "Uninstalling ...." : "Silinir...",
     "Error while uninstalling app" : "Proqram təminatını sildikdə səhv baş verdi",
     "Uninstall" : "Sil",
+    "This is used for sending out notifications." : "Kənara xəbərdarlıqları ötürmək üçün bu istifadə edilir.",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "PHP-nin modulu 'fileinfo' mövcud deyil. Mime-type təyin edilməsi üçün,  modulun aktivləşdirilməsini təkidlə məsləhət görürük.",
     "Cheers!" : "Şərəfə!",
     "Show last log in" : "Son girişi göstər"

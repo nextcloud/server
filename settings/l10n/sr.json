@@ -76,7 +76,6 @@
     "NT LAN Manager" : "НТ ЛАН менаџер",
     "Email server" : "Сервер е-поште",
     "Open documentation" : "Отвори документацију",
-    "This is used for sending out notifications." : "Ово се користи за слање обавештења.",
     "Send mode" : "Режим слања",
     "Encryption" : "Шифровање",
     "From address" : "Са адресе",
@@ -207,6 +206,7 @@
     "Uninstalling ...." : "Деинсталирам ...",
     "Error while uninstalling app" : "Грешка при деинсталацији апликације",
     "Uninstall" : "Деинсталирај",
+    "This is used for sending out notifications." : "Ово се користи за слање обавештења.",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "Недостаје ПХП модул „fileinfo“. Препоручујемо вам да га укључите да бисте добили најбоље резултате с откривањем МИМЕ врста.",
     "Cheers!" : "Здраво!",
     "Show last log in" : "Прикажи последњу пријаву"

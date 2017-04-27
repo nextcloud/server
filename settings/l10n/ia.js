@@ -126,7 +126,6 @@ OC.L10N.register(
     "STARTTLS" : "STARTTLS",
     "Email server" : "Servitor de e-posta",
     "Open documentation" : "Aperir documentation",
-    "This is used for sending out notifications." : "Isto es usate pro inviar notificationes.",
     "Send mode" : "Modo de invio",
     "Encryption" : "Cryptographia",
     "From address" : "De adresse",
@@ -221,9 +220,6 @@ OC.L10N.register(
     "Use the credentials below to configure your app or device." : "Usa le datos de authentication infra pro configurar tu application o dispositivo.",
     "Username" : "Nomine de usator",
     "Done" : "Preste",
-    "Follow us on Google Plus!" : "Seque nos in Google Plus!",
-    "Subscribe to our twitter channel!" : "Subscribe a nostre canal Twitter!",
-    "Subscribe to our news feed!" : "Subscribe a nostre syndication de novas!",
     "Show storage location" : "Monstrar loco de immagazinage",
     "Show email address" : "Monstrar adresse de e-posta",
     "Send email to new user" : "Inviar message de e-posta a nove usator",
@@ -246,7 +242,11 @@ OC.L10N.register(
     "Uninstalling ...." : "De-installante...",
     "Error while uninstalling app" : "Error durante de-installation del application",
     "Uninstall" : "De-installar",
+    "This is used for sending out notifications." : "Isto es usate pro inviar notificationes.",
     "Uninstall app" : "De-installar application",
-    "Cheers!" : "Congratulationes!"
+    "Cheers!" : "Congratulationes!",
+    "Follow us on Google Plus!" : "Seque nos in Google Plus!",
+    "Subscribe to our twitter channel!" : "Subscribe a nostre canal Twitter!",
+    "Subscribe to our news feed!" : "Subscribe a nostre syndication de novas!"
 },
 "nplurals=2; plural=(n != 1);");

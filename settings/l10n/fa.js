@@ -71,7 +71,6 @@ OC.L10N.register(
     "NT LAN Manager" : "مدیر NT LAN",
     "Email server" : "سرور ایمیل",
     "Open documentation" : "بازکردن مستند",
-    "This is used for sending out notifications." : "این برای ارسال هشدار ها استفاده می شود",
     "Send mode" : "حالت ارسال",
     "Encryption" : "رمزگذاری",
     "From address" : "آدرس فرستنده",
@@ -185,6 +184,7 @@ OC.L10N.register(
     "Uninstalling ...." : "در حال حذف...",
     "Error while uninstalling app" : "خطا در هنگام حذف برنامه....",
     "Uninstall" : "حذف",
+    "This is used for sending out notifications." : "این برای ارسال هشدار ها استفاده می شود",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "ماژول 'fileinfo' PHP از کار افتاده است.ما اکیدا توصیه می کنیم که این ماژول را فعال کنید تا نتایج بهتری به وسیله ی mime-type detection دریافت کنید.",
     "Cheers!" : "سلامتی!",
     "Show last log in" : "نمایش اخرین ورود"
