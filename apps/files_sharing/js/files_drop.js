@@ -72,18 +72,25 @@
 			return true;
 		},
 		
+		setFileIcon: function (fileName,fileIcon) {
+			$('#public-upload ul li[data-name="' + fileName + '"]').html(fileIcon);
+			$('[data-toggle="tooltip"]').tooltip();
+		},
+		
 		initialize: function () {
 			$(document).bind('drop dragover', function (e) {
 				// Prevent the default browser drop action:
 				e.preventDefault();
 			});
 			var output = this.template();
+			var fileName = undefined;
 			$('#public-upload').fileupload({
 				type: 'PUT',
 				dropZone: $('#public-upload'),
 				sequentialUploads: true,
 				add: function(e, data) {
 					Drop.addFileToUpload(e, data);
+					fileName = escapeHTML(data.files[0].name);
 					//we return true to keep trying to upload next file even
 					//if addFileToUpload did not like the privious one
 					return true;
@@ -91,14 +98,17 @@
 				done: function(e, data) {
 					// Created
 					var mimeTypeUrl = OC.MimeType.getIconUrl(data.files[0].type);
-					$('#public-upload ul li[data-name="' + escapeHTML(data.files[0].name) + '"]').html('<img src="' + escapeHTML(mimeTypeUrl) + '"/> ' + escapeHTML(data.files[0].name));
-					$('[data-toggle="tooltip"]').tooltip();
+					var fileIcon = '<img src="' + escapeHTML(mimeTypeUrl) + '"/> ' + fileName;
+					Drop.setFileIcon(fileName,fileIcon);
 				},
 				fail: function(e, data, errorThrown) {
-					var name = data.files[0].name;
-					OC.Notification.showTemporary(OC.L10N.translate('files_sharing', 'Could not upload "{filename}"', {filename: name}));
-					$('#public-upload ul li[data-name="' + escapeHTML(name) + '"]').html(output({isUploading: false, name: escapeHTML(name)}));
-					$('[data-toggle="tooltip"]').tooltip();
+					OC.Notification.showTemporary(OC.L10N.translate(
+							'files_sharing',
+							'Could not upload "{filename}"',
+							{filename: fileName}
+							));
+					var fileIcon = output({isUploading: false, name: fileName});
+					Drop.setFileIcon(fileName,fileIcon);
 				},
 				progressall: function (e, data) {
 					var progress = parseInt(data.loaded / data.total * 100, 10);
