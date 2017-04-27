@@ -90,16 +90,15 @@
 				},
 				done: function(e, data) {
 					// Created
-					if (data.jqXHR.status === 201) {
-						var mimeTypeUrl = OC.MimeType.getIconUrl(data.files[0].type);
-						$('#public-upload ul li[data-name="' + escapeHTML(data.files[0].name) + '"]').html('<img src="' + escapeHTML(mimeTypeUrl) + '"/> ' + escapeHTML(data.files[0].name));
-						$('[data-toggle="tooltip"]').tooltip();
-					} else {
-						var name = data.files[0].name;
-						OC.Notification.showTemporary(OC.L10N.translate('files_sharing', 'Could not upload "{filename}"', {filename: name}));
-						$('#public-upload ul li[data-name="' + escapeHTML(name) + '"]').html(output({isUploading: false, name: escapeHTML(name)}));
-						$('[data-toggle="tooltip"]').tooltip();
-					}
+					var mimeTypeUrl = OC.MimeType.getIconUrl(data.files[0].type);
+					$('#public-upload ul li[data-name="' + escapeHTML(data.files[0].name) + '"]').html('<img src="' + escapeHTML(mimeTypeUrl) + '"/> ' + escapeHTML(data.files[0].name));
+					$('[data-toggle="tooltip"]').tooltip();
+				},
+				fail: function(e, data, errorThrown) {
+					var name = data.files[0].name;
+					OC.Notification.showTemporary(OC.L10N.translate('files_sharing', 'Could not upload "{filename}"', {filename: name}));
+					$('#public-upload ul li[data-name="' + escapeHTML(name) + '"]').html(output({isUploading: false, name: escapeHTML(name)}));
+					$('[data-toggle="tooltip"]').tooltip();
 				},
 				progressall: function (e, data) {
 					var progress = parseInt(data.loaded / data.total * 100, 10);
