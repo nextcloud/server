@@ -81,7 +81,7 @@ class DirectoryTest extends \Test\TestCase {
 		$this->info = $this->createMock('OC\Files\FileInfo');
 		$this->info->expects($this->any())
 			->method('isReadable')
-			->will($this->returnValue(true));
+			->willReturn(true);
 	}
 
 	private function getDir($path = '/') {
@@ -221,11 +221,12 @@ class DirectoryTest extends \Test\TestCase {
 	 * @expectedException \Sabre\DAV\Exception\Forbidden
 	 */
 	public function testGetChildrenNoPermission() {
-		$this->info->expects($this->any())
+		$info = $this->createMock(FileInfo::class);
+		$info->expects($this->any())
 			->method('isReadable')
 			->will($this->returnValue(false));
 
-		$dir = new Directory($this->view, $this->info);
+		$dir = new Directory($this->view, $info);
 		$dir->getChildren();
 	}
 
