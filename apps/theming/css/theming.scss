@@ -12,22 +12,25 @@
 
 /* invert header icons on bright background */
 @if (lightness($color-primary) > 50) {
-	#header .icon-caret {
-		background-image: url(../../../core/img/actions/caret-dark.svg);
-	}
 	.searchbox input[type="search"] {
-		background: transparent url(../../../core/img/actions/search.svg) no-repeat 6px center;
+		background: transparent url('../../../core/img/actions/search.svg') no-repeat 6px center;
 	}
 	#appmenu li a img {
 		-webkit-filter: invert(1);
 		filter: invert(1);
 		filter: progid:DXImageTransform.Microsoft.BasicImage(invert='1');
 	}
+	#contactsmenu .icon-contacts {
+		background-image: url('../../../core/img/places/contacts-dark.svg');
+	}
+	#settings .icon-settings-white {
+		background-image: url('../../../core/img/actions/settings-dark.svg');
+	}
 }
 
 /* Colorized svg images */
 .icon-file, .icon-filetype-text {
-	background-image: url(../img/core/filetypes/text.svg?v=#{$theming-cachebuster});
+	background-image: url(./img/core/filetypes/text.svg?v=#{$theming-cachebuster});
 }
 
 .icon-folder, .icon-filetype-folder {
@@ -59,6 +62,6 @@ input.primary {
 
 @if (lightness($color-primary) > 50) {
 	#body-login input.login {
-		background-image: url(../../../core/img/actions/confirm.svg);
+		background-image: url('../../../core/img/actions/confirm.svg');
 	}
 }
