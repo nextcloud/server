@@ -30,7 +30,7 @@ use OCP\Files\ForbiddenException;
 use OC\Files\FileInfo;
 use OCA\DAV\Connector\Sabre\Directory;
 
-class TestDoubleFileView extends \OC\Files\View {
+class TestViewDirectory extends \OC\Files\View {
 
 	private $updatables;
 	private $deletables;
@@ -386,7 +386,7 @@ class DirectoryTest extends \Test\TestCase {
 	 * @param $updatables
 	 */
 	private function moveTest($source, $destination, $updatables, $deletables) {
-		$view = new TestDoubleFileView($updatables, $deletables);
+		$view = new TestViewDirectory($updatables, $deletables);
 
 		$sourceInfo = new FileInfo($source, null, null, [], null);
 		$targetInfo = new FileInfo(dirname($destination), null, null, [], null);
@@ -412,7 +412,7 @@ class DirectoryTest extends \Test\TestCase {
 		$updatables = ['a' => true, 'a/b' => true, 'b' => true, 'c/b' => false];
 		$deletables = ['a/b' => true];
 
-		$view = new TestDoubleFileView($updatables, $deletables);
+		$view = new TestViewDirectory($updatables, $deletables);
 
 		$sourceInfo = new FileInfo($source, null, null, [], null);
 		$targetInfo = new FileInfo(dirname($destination), null, null, [], null);

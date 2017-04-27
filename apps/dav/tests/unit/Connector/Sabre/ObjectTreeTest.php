@@ -36,7 +36,7 @@ use OC\Files\View;
 use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\ObjectTree;
 
-class TestDoubleFileView extends \OC\Files\View {
+class TestViewObjectTree extends \OC\Files\View {
 
 	public function __construct($creatables, $updatables, $deletables, $canRename = true) {
 		$this->creatables = $creatables;
@@ -163,7 +163,7 @@ class ObjectTreeTest extends \Test\TestCase {
 	 * @param $throwsBeforeGetNode
 	 */
 	private function moveTest($source, $destination, $creatables, $updatables, $deletables, $throwsBeforeGetNode = false) {
-		$view = new TestDoubleFileView($creatables, $updatables, $deletables);
+		$view = new TestViewObjectTree($creatables, $updatables, $deletables);
 
 		$info = new FileInfo('', null, null, array(), null);
 
@@ -460,7 +460,7 @@ class ObjectTreeTest extends \Test\TestCase {
 		$updatables = array('a' => true, 'a/b' => true, 'b' => true, 'b/b' => false);
 		$deletables = array('a/b' => true);
 
-		$view = new TestDoubleFileView($updatables, $updatables, $deletables);
+		$view = new TestViewObjectTree($updatables, $updatables, $deletables);
 
 		$info = new FileInfo('', null, null, array(), null);
 
