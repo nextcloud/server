@@ -327,6 +327,7 @@
 			this.$fileList.on('click','td.filename>a.name, td.filesize, td.date', _.bind(this._onClickFile, this));
 
 			this.$fileList.on('change', 'td.filename>.selectCheckBox', _.bind(this._onClickFileCheckbox, this));
+			this.$el.on('show', _.bind(this._onShow, this));
 			this.$el.on('urlChanged', _.bind(this._onUrlChanged, this));
 			this.$el.find('.select-all').click(_.bind(this._onClickSelectAll, this));
 			this.$el.find('.download').click(_.bind(this._onClickDownloadSelected, this));
@@ -550,6 +551,13 @@
 			this.breadcrumb.setMaxWidth(containerWidth - actionsWidth - 10);
 
 			this.$table.find('>thead').width($('#app-content').width() - OC.Util.getScrollBarWidth());
+		},
+
+		/**
+		 * Event handler when leaving previously hidden state
+		 */
+		_onShow: function(e) {
+			this.reload();
 		},
 
 		/**

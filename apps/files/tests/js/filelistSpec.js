@@ -1507,6 +1507,12 @@ describe('OCA.Files.FileList tests', function() {
 			$('#app-content-files').trigger(new $.Event('urlChanged', {view: 'files', dir: '/somedir'}));
 			expect(fileList.getCurrentDirectory()).toEqual('/somedir');
 		});
+		it('reloads the list when leaving hidden state', function() {
+			var reloadStub = sinon.stub(fileList, 'reload');
+			$('#app-content-files').trigger(new $.Event('show'));
+			expect(reloadStub.calledOnce).toEqual(true);
+			reloadStub.restore();
+		});
 		it('refreshes breadcrumb after update', function() {
 			var setDirSpy = sinon.spy(fileList.breadcrumb, 'setDirectory');
 			fileList.changeDirectory('/anothersubdir');
