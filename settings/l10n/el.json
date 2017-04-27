@@ -126,7 +126,6 @@
     "STARTTLS" : "STARTTLS",
     "Email server" : "Διακομιστής Email",
     "Open documentation" : "Άνοιγμα τεκμηρίωσης.",
-    "This is used for sending out notifications." : "Χρησιμοποιείται για αποστολή ειδοποιήσεων.",
     "Send mode" : "Κατάσταση αποστολής",
     "Encryption" : "Κρυπτογράφηση",
     "From address" : "Από τη διεύθυνση",
@@ -260,10 +259,7 @@
     "For security reasons this password will only be shown once." : "Για λόγους ασφαλείας αυτό το συνθηματικό θα εμφανιστεί μόνο μια φορά.",
     "Username" : "Όνομα χρήστη",
     "Done" : "Ολοκληρώθηκε",
-    "Follow us on Google Plus!" : "Ακολουθήστε μας στο Google Plus!",
     "Like our facebook page!" : "Ακολουθήστε μας στην σελίδα μας στο facebook!",
-    "Subscribe to our twitter channel!" : "Εγγραφείτε στο κανάλι μας στο twitter!",
-    "Subscribe to our news feed!" : "Εγγραφείτε στην ροή των νέων μας!",
     "Settings" : "Ρυθμίσεις",
     "Show storage location" : "Εμφάνιση τοποθεσίας αποθήκευσης",
     "Show user backend" : "Εμφάνιση χρήστη συστήματος υποστήριξης",
@@ -300,10 +296,14 @@
     "Uninstalling ...." : "Απεγκατάσταση ....",
     "Error while uninstalling app" : "Σφάλμα κατά την απεγκατάσταση της εφαρμογής",
     "Uninstall" : "Απεγκατάσταση",
+    "This is used for sending out notifications." : "Χρησιμοποιείται για αποστολή ειδοποιήσεων.",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "Η PHP ενοτητα 'fileinfo' λειπει. Σας συνιστούμε να ενεργοποιήσετε αυτή την ενότητα για να έχετε καλύτερα αποτελέσματα με τον εντοπισμό τύπου MIME. ",
     "Uninstall app" : "Απεγκατάσταση εφαρμογης",
     "Cheers!" : "Χαιρετισμούς!",
     "For password recovery and notifications" : "Η ανάκτηση του συνθηματικού και οι ειδοποιήσεις",
+    "Follow us on Google Plus!" : "Ακολουθήστε μας στο Google Plus!",
+    "Subscribe to our twitter channel!" : "Εγγραφείτε στο κανάλι μας στο twitter!",
+    "Subscribe to our news feed!" : "Εγγραφείτε στην ροή των νέων μας!",
     "Show last log in" : "Εμφάνιση τελευταίας εισόδου"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

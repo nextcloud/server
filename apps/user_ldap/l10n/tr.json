@@ -54,7 +54,6 @@
     "The group box was disabled, because the LDAP / AD server does not support memberOf." : "LDAP / AD sunucusu memberOf parametresini desteklemediğinden grup kutusu devre dışı.",
     "Password change rejected. Hint: " : "Parola değişimi reddedildi. İpucu:",
     "Please login with the new password" : "Lütfen yeni parolanız ile oturum açın",
-    "Your password will expire within %s day(s)." : "Parolanızın süresi %s gün içinde dolacak.",
     "LDAP / AD integration" : "LDAP / AD bütünleştirmesi",
     "_%s group found_::_%s groups found_" : ["%s grup bulundu","%s grup bulundu"],
     "_%s user found_::_%s users found_" : ["%s kullanıcı bulundu","%s kullanıcı bulundu"],
