@@ -182,7 +182,7 @@
 					<div class="verification-dialog-content">
 						<p class="explainVerification"></p>
 						<p class="verificationCode"></p>
-						<p><?php p(\OC::$server->getL10N('settings')->t('It can take up to 24 hours before the account is displayed as verified.'));?></p>
+						<p><?php p($l->t('It can take up to 24 hours before the account is displayed as verified.'));?></p>
 					</div>
 				</div>
 			</div>
@@ -216,7 +216,7 @@
 					<div class="verification-dialog-content">
 						<p class="explainVerification"></p>
 						<p class="verificationCode"></p>
-						<p><?php p(\OC::$server->getL10N('settings')->t('It can take up to 24 hours before the account is displayed as verified.'));?></p>
+						<p><?php p($l->t('It can take up to 24 hours before the account is displayed as verified.'));?></p>
 					</div>
 				</div>
 			</div>
