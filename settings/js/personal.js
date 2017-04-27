@@ -208,20 +208,27 @@ $(document).ready(function () {
 		dialog.css('display', 'block');
 	};
 
-	$(".verify-action").click(function () {
-		var account = $(this);
-		var accountId = $(this).attr('id');
-		$.ajax(
-			OC.generateUrl('/settings/users/{account}/verify', {account: accountId}),
-			{method: 'GET'}
-		).done(function(data) {
-			var dialog = account.closest('.verify').children('.verification-dialog');
-			showVerifyDialog(dialog, data.msg, data.code);
-			account.attr('title', t('core', 'Verifying …'));
-			account.attr('src', OC.imagePath('core', 'actions/verifying.svg'));
-			account.removeClass('verify-action');
+	$(".verify").click(function (event) {
 
-		});
+		event.stopPropagation();
+
+		var verify = $(this);
+		var indicator = $(this).children('img');
+		var accountId = indicator.attr('id');
+
+		if (indicator.hasClass('verify-action')) {
+			$.ajax(
+				OC.generateUrl('/settings/users/{account}/verify', {account: accountId}),
+				{method: 'GET'}
+			).done(function (data) {
+				var dialog = verify.children('.verification-dialog');
+				showVerifyDialog($(dialog), data.msg, data.code);
+				indicator.attr('title', t('core', 'Verifying …'));
+				indicator.attr('src', OC.imagePath('core', 'actions/verifying.svg'));
+				indicator.removeClass('verify-action');
+
+			});
+		}
 
 	});
 
