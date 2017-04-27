@@ -1,5 +1,7 @@
 <div class="section">
-	<h2><?php p($l->t('SSL Root Certificates')); ?></h2>
+	<h2><?php p($l->t('SSL root certificates')); ?></h2>
+	<p class="settings-hint"><?php p($l->t('Explanation text.')); ?></p>
+
 	<table id="sslCertificate" class="grid" data-type="<?php p($_['type']); ?>">
 		<thead>
 			<tr>
