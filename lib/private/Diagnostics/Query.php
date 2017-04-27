@@ -67,7 +67,14 @@ class Query implements IQuery {
 	}
 
 	/**
-	 * @return int
+	 * @return float
+	 */
+	public function getStart() {
+		return $this->start;
+	}
+	
+	/**
+	 * @return float
 	 */
 	public function getDuration() {
 		return $this->end - $this->start;

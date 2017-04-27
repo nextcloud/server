@@ -547,8 +547,6 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\DateTimeZone' => __DIR__ . '/../../..' . '/lib/private/DateTimeZone.php',
         'OC\\Diagnostics\\Event' => __DIR__ . '/../../..' . '/lib/private/Diagnostics/Event.php',
         'OC\\Diagnostics\\EventLogger' => __DIR__ . '/../../..' . '/lib/private/Diagnostics/EventLogger.php',
-        'OC\\Diagnostics\\NullEventLogger' => __DIR__ . '/../../..' . '/lib/private/Diagnostics/NullEventLogger.php',
-        'OC\\Diagnostics\\NullQueryLogger' => __DIR__ . '/../../..' . '/lib/private/Diagnostics/NullQueryLogger.php',
         'OC\\Diagnostics\\Query' => __DIR__ . '/../../..' . '/lib/private/Diagnostics/Query.php',
         'OC\\Diagnostics\\QueryLogger' => __DIR__ . '/../../..' . '/lib/private/Diagnostics/QueryLogger.php',
         'OC\\Encryption\\DecryptAll' => __DIR__ . '/../../..' . '/lib/private/Encryption/DecryptAll.php',
