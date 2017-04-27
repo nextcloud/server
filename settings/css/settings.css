@@ -26,6 +26,9 @@ input#openid, input#webdav { width:20em; }
 .nav-icon-second-factor-backup-codes {
 	background-image: url('../img/password.svg?v=1');
 }
+.nav-icon-ssl-root-certificate {
+	background-image: url('../img/password.svg?v=1');
+}
 
 #avatarform {
 	min-width: 145px;
