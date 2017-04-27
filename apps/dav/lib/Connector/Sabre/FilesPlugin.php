@@ -360,7 +360,7 @@ class FilesPlugin extends ServerPlugin {
 			});
 
 			$propFind->handle(self::CHECKSUMS_PROPERTYNAME, function() use ($node) {
-				$checksum = $node->getChecksum();
+				$checksum = $node->getChecksum('sha1');
 				if ($checksum === NULL || $checksum === '') {
 					return null;
 				}
