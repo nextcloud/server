@@ -134,7 +134,7 @@ class VerifyUserData extends Job {
 
 		$result = false;
 
-		$url = rtrim($argument['data'], '/') . '/well-known/' . 'CloudIdVerificationCode.txt';
+		$url = rtrim($argument['data'], '/') . '/.well-known/' . 'CloudIdVerificationCode.txt';
 
 		$client = $this->httpClientService->newClient();
 		try {

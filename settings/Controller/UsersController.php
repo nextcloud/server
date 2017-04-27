@@ -547,7 +547,7 @@ class UsersController extends Controller {
 				break;
 			case 'verify-website':
 				$accountData[AccountManager::PROPERTY_WEBSITE]['verified'] = AccountManager::VERIFICATION_IN_PROGRESS;
-				$msg = $this->l10n->t('In order to verify your Website store following content in your web-root at \'CloudIdVerificationCode.txt\' (please make sure that the complete text is in one line):');
+				$msg = $this->l10n->t('In order to verify your Website store following content in your web-root at \'.well-known/CloudIdVerificationCode.txt\' (please make sure that the complete text is in one line):');
 				$type = AccountManager::PROPERTY_WEBSITE;
 				$data = $accountData[AccountManager::PROPERTY_WEBSITE]['value'];
 				break;
