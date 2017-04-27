@@ -215,18 +215,26 @@ $(document).ready(function () {
 		var verify = $(this);
 		var indicator = $(this).children('img');
 		var accountId = indicator.attr('id');
+		var status = indicator.data('status');
+
+		var onlyVerificationCode = false;
+		if (parseInt(status) === 1) {
+			onlyVerificationCode = true;
+		}
 
 		if (indicator.hasClass('verify-action')) {
 			$.ajax(
 				OC.generateUrl('/settings/users/{account}/verify', {account: accountId}),
-				{method: 'GET'}
+				{
+					method: 'GET',
+					data: {onlyVerificationCode: onlyVerificationCode}
+				}
 			).done(function (data) {
 				var dialog = verify.children('.verification-dialog');
 				showVerifyDialog($(dialog), data.msg, data.code);
 				indicator.attr('title', t('core', 'Verifying …'));
 				indicator.attr('src', OC.imagePath('core', 'actions/verifying.svg'));
-				indicator.removeClass('verify-action');
-
+				indicator.data('status', '1');
 			});
 		}
 

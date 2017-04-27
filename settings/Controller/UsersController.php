@@ -518,9 +518,10 @@ class UsersController extends Controller {
 	 * @PasswordConfirmationRequired
 	 *
 	 * @param string $account
+	 * @param bool $onlyVerificationCode only return verification code without updating the data
 	 * @return DataResponse
 	 */
-	public function getVerificationCode($account) {
+	public function getVerificationCode($account, $onlyVerificationCode) {
 
 		$user = $this->userSession->getUser();
 
@@ -554,19 +555,20 @@ class UsersController extends Controller {
 				return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
 
-		$this->accountManager->updateUser($user, $accountData);
+		if ($onlyVerificationCode === false) {
+			$this->accountManager->updateUser($user, $accountData);
 
-
-		$this->jobList->add('OC\Settings\BackgroundJobs\VerifyUserData',
-			[
-				'verificationCode' => $code,
-				'data' => $data,
-				'type' => $type,
-				'uid' => $user->getUID(),
-				'try' => 0,
-				'lastRun' => $this->getCurrentTime()
-			]
-		);
+			$this->jobList->add('OC\Settings\BackgroundJobs\VerifyUserData',
+				[
+					'verificationCode' => $code,
+					'data' => $data,
+					'type' => $type,
+					'uid' => $user->getUID(),
+					'try' => 0,
+					'lastRun' => $this->getCurrentTime()
+				]
+			);
+		}
 
 		return new DataResponse(['msg' => $msg, 'code' => $code]);
 	}

@@ -167,10 +167,12 @@
 					var verifyStatus = this.$('#' + field + 'form > .verify > #verify-' + field);
 					verifyStatus.attr('title', t('core', 'Verify'));
 					verifyStatus.attr('src', OC.imagePath('core', 'actions/verify.svg'));
+					verifyStatus.data('status', '0');
 					verifyStatus.addClass('verify-action');
 				} else if (field === 'email') {
 					var verifyStatus = this.$('#' + field + 'form > .verify > #verify-' + field);
 					verifyStatus.attr('title', t('core', 'Verifying …'));
+					verifyStatus.data('status', '1');
 					verifyStatus.attr('src', OC.imagePath('core', 'actions/verifying.svg'));
 				}
 			}
