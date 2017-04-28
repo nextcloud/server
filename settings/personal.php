@@ -220,8 +220,13 @@ $formsMap = array_map(function($form){
 	if (preg_match('%(<h2(?P<class>[^>]*)>.*?</h2>)%i', $form, $regs)) {
 		$sectionName = str_replace('<h2'.$regs['class'].'>', '', $regs[0]);
 		$sectionName = str_replace('</h2>', '', $sectionName);
-		$anchor = strtolower($sectionName);
-		$anchor = str_replace(' ', '-', $anchor);
+		if (strpos($regs['class'], 'data-anchor-name') !== false) {
+			preg_match('%.*data-anchor-name="(?P<anchor>[^"]*)"%i', $regs['class'], $matches);
+			$anchor = $matches['anchor'];
+		} else {
+			$anchor = strtolower($sectionName);
+			$anchor = str_replace(' ', '-', $anchor);
+		}
 
 		return array(
 			'anchor' => $anchor,

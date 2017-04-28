@@ -1,5 +1,5 @@
 <div class="section">
-	<h2><?php p($l->t('SSL Root Certificates')); ?></h2>
+	<h2 data-anchor-name="ssl-root-certificate"><?php p($l->t('SSL Root Certificates')); ?></h2>
 	<table id="sslCertificate" class="grid" data-type="<?php p($_['type']); ?>">
 		<thead>
 			<tr>
