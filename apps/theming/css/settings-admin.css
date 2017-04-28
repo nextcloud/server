@@ -1,5 +1,10 @@
 #theming input {
-    width: 17em;
+    width: 230px;
+}
+
+#theming input:focus,
+#theming input:active {
+    padding-right: 30px;
 }
 
 #theming .upload-logo-field {

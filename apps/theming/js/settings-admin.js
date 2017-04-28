@@ -19,14 +19,16 @@
  *
  */
 
-function setThemingValue(setting, value) {
+function startLoading() {
 	OC.msg.startSaving('#theming_settings_msg');
 	$('#theming_settings_loading').show();
+}
+
+function setThemingValue(setting, value) {
+	startLoading();
 	$.post(
 		OC.generateUrl('/apps/theming/ajax/updateStylesheet'), {'setting' : setting, 'value' : value}
 	).done(function(response) {
-		//OC.msg.finishedSaving('#theming_settings_msg', response);
-		OC.msg.startAction('#theming_settings_msg', t('theming', 'Loading preview…'));
 		hideUndoButton(setting, value);
 		preview(setting, value);
 	}).fail(function(response) {
@@ -35,24 +37,8 @@ function setThemingValue(setting, value) {
 	});
 }
 
-function calculateLuminance(rgb) {
-	var hexValue = rgb.replace(/[^0-9A-Fa-f]/, '');
-	var r,g,b;
-	if (hexValue.length === 3) {
-		hexValue = hexValue[0] + hexValue[0] + hexValue[1] + hexValue[1] + hexValue[2] + hexValue[2];
-	}
-	if (hexValue.length !== 6) {
-		return 0;
-	}
-	r = parseInt(hexValue.substring(0,2), 16);
-	g = parseInt(hexValue.substring(2,4), 16);
-	b = parseInt(hexValue.substring(4,6), 16);
-	return (0.299*r + 0.587*g + 0.114*b)/255;
-}
-
-
 function preview(setting, value) {
-
+	OC.msg.startAction('#theming_settings_msg', t('theming', 'Loading preview…'));
 	var stylesheetsLoaded = 2;
 	var reloadStylesheets = function(cssFile) {
 		var queryString = '?reload=' + new Date().getTime();
@@ -78,17 +64,13 @@ function preview(setting, value) {
 	reloadStylesheets('/css/core/server.css');
 	reloadStylesheets('/apps/theming/styles');
 
+	// Preview images
 	var timestamp = new Date().getTime();
 	if (setting === 'logoMime') {
-		var logos = document.getElementsByClassName('logo-icon');
 		var previewImageLogo = document.getElementById('theming-preview-logo');
 		if (value !== '') {
-			logos[0].style.backgroundImage = "url('" + OC.generateUrl('/apps/theming/logo') + "?v" + timestamp + "')";
-			logos[0].style.backgroundSize = "contain";
 			previewImageLogo.src = OC.generateUrl('/apps/theming/logo') + "?v" + timestamp;
 		} else {
-			logos[0].style.backgroundImage = "url('" + OC.getRootPath() + '/core/img/logo-icon.svg?v' + timestamp + "')";
-			logos[0].style.backgroundSize = "contain";
 			previewImageLogo.src = OC.getRootPath() + '/core/img/logo-icon.svg?v' + timestamp;
 		}
 	}
@@ -99,8 +81,8 @@ function preview(setting, value) {
 		} else {
 			previewImage.style.backgroundImage = "url('" + OC.getRootPath() + '/core/img/background.jpg?v' + timestamp + "')";
 		}
-
 	}
+
 	if (setting === 'name') {
 		window.document.title = t('core', 'Admin') + " - " + value;
 	}
@@ -126,8 +108,6 @@ function hideUndoButton(setting, value) {
 $(document).ready(function () {
 	$('#theming [data-toggle="tooltip"]').tooltip();
 
-	$('html > head').append($('<style type="text/css" id="previewStyles"></style>'));
-
 	$('#theming .theme-undo').each(function() {
 		var setting = $(this).data('setting');
 		var value = $('#theming-'+setting).val();
@@ -146,7 +126,7 @@ $(document).ready(function () {
 			$('.theme-undo[data-setting=logoMime]').show();
 		},
 		submit: function(e, response) {
-			OC.msg.startSaving('#theming_settings_msg');
+			startLoading();
 			$('label#uploadlogo').removeClass('icon-upload').addClass('icon-loading-small');
 		},
 		fail: function (e, response){
@@ -164,7 +144,7 @@ $(document).ready(function () {
 			$('.theme-undo[data-setting=backgroundMime]').show();
 		},
 		submit: function(e, response) {
-			OC.msg.startSaving('#theming_settings_msg');
+			startLoading();
 			$('label#upload-login-background').removeClass('icon-upload').addClass('icon-loading-small');
 		},
 		fail: function (e, response){
@@ -212,7 +192,7 @@ $(document).ready(function () {
 
 	$('.theme-undo').click(function (e) {
 		var setting = $(this).data('setting');
-		OC.msg.startSaving('#theming_settings_msg');
+		startLoading();
 		$('.theme-undo[data-setting=' + setting + ']').hide();
 		$.post(
 			OC.generateUrl('/apps/theming/ajax/undoChanges'), {'setting' : setting}
@@ -225,9 +205,7 @@ $(document).ready(function () {
 				var input = document.getElementById('theming-'+setting);
 				input.value = response.data.value;
 			}
-
 			preview(setting, response.data.value);
-			OC.msg.finishedSaving('#theming_settings_msg', response);
 		});
 	});
 });
