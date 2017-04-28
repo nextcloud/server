@@ -38,19 +38,39 @@
 
 #theming label span {
     display: inline-block;
-    min-width: 90px;
+    min-width: 120px;
     padding: 8px 0px;
+    vertical-align: top;
 }
 
-#theming .icon-upload,
 #theming .icon-loading-small {
     display: inline-flex;
     padding: 8px;
     margin: 2px 0px;
 }
 
+#theming .icon-upload {
+    padding: 8px 20px;
+    width: 20px;
+    margin: 2px 0px;
+    min-height: 32px;
+    display: inline-block;
+}
+
+#theming_settings_status {
+    height: 26px;
+    margin: 10px;
+
+}
+#theming_settings_loading.icon-loading-small {
+    float: left;
+    padding: 0;
+    margin-right: 10px;
+}
 div#theming_settings_msg {
-    margin-left: 10px;
+    margin: 8px;
+    margin-left:20px;
+    display: inline-block;
 }
 
 #theming-preview {
@@ -59,7 +79,8 @@ div#theming_settings_msg {
     background-size: cover;
     background-position: center center;
     text-align: center;
-    margin-left: 93px;
+    margin-left: 123px;
+    margin-top: 10px;
 }
 
 #theming-preview img {
