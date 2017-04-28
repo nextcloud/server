@@ -32,6 +32,7 @@ use Sabre\DAV\PropPatch;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 use Test\TestCase;
+use OCP\Files\FileInfo;
 
 /**
  * Copyright (c) 2015 Vincent Petry <pvince81@owncloud.com>
@@ -147,6 +148,15 @@ class FilesPluginTest extends TestCase {
 				->disableOriginalConstructor()
 				->getMock()
 			));
+
+		$fileInfo = $this->createMock(FileInfo::class);
+		$fileInfo->expects($this->any())
+			->method('isReadable')
+			->willReturn(true);
+
+		$node->expects($this->any())
+			->method('getFileInfo')
+			->willReturn($fileInfo);
 
 		return $node;
 	}
@@ -305,6 +315,15 @@ class FilesPluginTest extends TestCase {
 			->getMock();
 		$node->expects($this->any())->method('getPath')->willReturn('/');
 
+		$fileInfo = $this->createMock(FileInfo::class);
+		$fileInfo->expects($this->any())
+			->method('isReadable')
+			->willReturn(true);
+
+		$node->expects($this->any())
+			->method('getFileInfo')
+			->willReturn($fileInfo);
+
 		$propFind = new PropFind(
 			'/',
 			[
@@ -319,6 +338,39 @@ class FilesPluginTest extends TestCase {
 		);
 
 		$this->assertEquals('my_fingerprint', $propFind->get(self::DATA_FINGERPRINT_PROPERTYNAME));
+	}
+
+	/**
+	 * @expectedException \Sabre\DAV\Exception\NotFound
+	 */
+	public function testGetPropertiesWhenNoPermission() {
+		/** @var \OCA\DAV\Connector\Sabre\Directory | \PHPUnit_Framework_MockObject_MockObject $node */
+		$node = $this->getMockBuilder('\OCA\DAV\Connector\Sabre\Directory')
+			->disableOriginalConstructor()
+			->getMock();
+		$node->expects($this->any())->method('getPath')->willReturn('/');
+
+		$fileInfo = $this->createMock(FileInfo::class);
+		$fileInfo->expects($this->any())
+			->method('isReadable')
+			->willReturn(false);
+
+		$node->expects($this->any())
+			->method('getFileInfo')
+			->willReturn($fileInfo);
+
+		$propFind = new PropFind(
+			'/test',
+			[
+				self::DATA_FINGERPRINT_PROPERTYNAME,
+			],
+			0
+		);
+
+		$this->plugin->handleGetProperties(
+			$propFind,
+			$node
+		);
 	}
 
 	public function testUpdateProps() {
