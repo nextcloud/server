@@ -97,8 +97,8 @@ class UsersControllerTest extends \Test\TestCase {
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->crypto = $this->createMock(ICrypto::class);
 		$this->newUserMailHelper = $this->createMock(NewUserMailHelper::class);
-		$this->timeFactory = $this->getMock(ITimeFactory::class);
-		$this->crypto = $this->getMock(ICrypto::class);
+		$this->timeFactory = $this->createMock(ITimeFactory::class);
+		$this->crypto = $this->createMock(ICrypto::class);
 		$this->securityManager = $this->getMockBuilder(\OC\Security\IdentityProof\Manager::class)->disableOriginalConstructor()->getMock();
 		$this->jobList = $this->createMock(IJobList::class);
 		$this->l = $this->createMock(IL10N::class);
@@ -2294,7 +2294,7 @@ class UsersControllerTest extends \Test\TestCase {
 	 *
 	 * @dataProvider dataTestGetVerificationCode
 	 */
-	public function testGetVerificationCode($account, $type, $dataBefore, $expectedData) {
+	public function testGetVerificationCode($account, $type, $dataBefore, $expectedData, $onlyVerificationCode) {
 
 		$message = 'Use my Federated Cloud ID to share with me: user@nextcloud.com';
 		$signature = 'theSignature';
@@ -2306,28 +2306,29 @@ class UsersControllerTest extends \Test\TestCase {
 
 		$controller = $this->getController(false, ['signMessage', 'getCurrentTime']);
 
-		$user = $this->getMock(IUser::class);
+		$user = $this->createMock(IUser::class);
 		$this->userSession->expects($this->once())->method('getUser')->willReturn($user);
 		$this->accountManager->expects($this->once())->method('getUser')->with($user)->willReturn($dataBefore);
 		$user->expects($this->any())->method('getCloudId')->willReturn('user@nextcloud.com');
 		$user->expects($this->any())->method('getUID')->willReturn('uid');
 		$controller->expects($this->once())->method('signMessage')->with($user, $message)->willReturn($signature);
-		$controller->expects($this->once())->method('getCurrentTime')->willReturn(1234567);
+		$controller->expects($this->any())->method('getCurrentTime')->willReturn(1234567);
 
-		$this->accountManager->expects($this->once())->method('updateUser')->with($user, $expectedData);
-		$this->jobList->expects($this->once())->method('add')
-			->with('OC\Settings\BackgroundJobs\VerifyUserData',
-				[
-					'verificationCode' => $code,
-					'data' => $dataBefore[$type]['value'],
-					'type' => $type,
-					'uid' => 'uid',
-					'try' => 0,
-					'lastRun' => 1234567
-				]);
+		if ($onlyVerificationCode === false) {
+			$this->accountManager->expects($this->once())->method('updateUser')->with($user, $expectedData);
+			$this->jobList->expects($this->once())->method('add')
+				->with('OC\Settings\BackgroundJobs\VerifyUserData',
+					[
+						'verificationCode' => $code,
+						'data' => $dataBefore[$type]['value'],
+						'type' => $type,
+						'uid' => 'uid',
+						'try' => 0,
+						'lastRun' => 1234567
+					]);
+		}
 
-
-		$result = $controller->getVerificationCode($account);
+		$result = $controller->getVerificationCode($account, $onlyVerificationCode);
 
 		$data = $result->getData();
 		$this->assertSame(Http::STATUS_OK, $result->getStatus());
@@ -2352,8 +2353,10 @@ class UsersControllerTest extends \Test\TestCase {
 		];
 
 		return [
-			['verify-twitter', AccountManager::PROPERTY_TWITTER, $accountDataBefore, $accountDataAfterTwitter],
-			['verify-website', AccountManager::PROPERTY_WEBSITE, $accountDataBefore, $accountDataAfterWebsite],
+			['verify-twitter', AccountManager::PROPERTY_TWITTER, $accountDataBefore, $accountDataAfterTwitter, false],
+			['verify-website', AccountManager::PROPERTY_WEBSITE, $accountDataBefore, $accountDataAfterWebsite, false],
+			['verify-twitter', AccountManager::PROPERTY_TWITTER, $accountDataBefore, $accountDataAfterTwitter, true],
+			['verify-website', AccountManager::PROPERTY_WEBSITE, $accountDataBefore, $accountDataAfterWebsite, true],
 		];
 	}
 
@@ -2364,7 +2367,7 @@ class UsersControllerTest extends \Test\TestCase {
 
 		$controller = $this->getController();
 		$this->userSession->expects($this->once())->method('getUser')->willReturn(null);
-		$result = $controller->getVerificationCode('account');
+		$result = $controller->getVerificationCode('account', false);
 
 		$this->assertSame(Http::STATUS_BAD_REQUEST ,$result->getStatus());
 
