@@ -102,6 +102,8 @@ class UpdateLookupServer {
 			$dataArray['website'] = isset($publicData[AccountManager::PROPERTY_WEBSITE]) ? $publicData[AccountManager::PROPERTY_WEBSITE]['value'] : '';
 			$dataArray['twitter'] = isset($publicData[AccountManager::PROPERTY_TWITTER]) ? $publicData[AccountManager::PROPERTY_TWITTER]['value'] : '';
 			$dataArray['phone'] = isset($publicData[AccountManager::PROPERTY_PHONE]) ? $publicData[AccountManager::PROPERTY_PHONE]['value'] : '';
+			$dataArray['twitter_signature'] = isset($publicData[AccountManager::PROPERTY_TWITTER]['signature']) ? $publicData[AccountManager::PROPERTY_TWITTER]['signature'] : '';
+			$dataArray['website_signature'] = isset($publicData[AccountManager::PROPERTY_WEBSITE]['signature']) ? $publicData[AccountManager::PROPERTY_WEBSITE]['signature'] : '';
 			$dataArray['verificationStatus'] =
 				[
 					AccountManager::PROPERTY_WEBSITE => isset($publicData[AccountManager::PROPERTY_WEBSITE]) ? $publicData[AccountManager::PROPERTY_WEBSITE]['verified'] : '',

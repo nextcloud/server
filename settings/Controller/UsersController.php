@@ -544,12 +544,14 @@ class UsersController extends Controller {
 				$code = $codeMd5;
 				$type = AccountManager::PROPERTY_TWITTER;
 				$data = $accountData[AccountManager::PROPERTY_TWITTER]['value'];
+				$accountData[AccountManager::PROPERTY_TWITTER]['signature'] = $signature;
 				break;
 			case 'verify-website':
 				$accountData[AccountManager::PROPERTY_WEBSITE]['verified'] = AccountManager::VERIFICATION_IN_PROGRESS;
 				$msg = $this->l10n->t('In order to verify your Website store following content in your web-root at \'.well-known/CloudIdVerificationCode.txt\' (please make sure that the complete text is in one line):');
 				$type = AccountManager::PROPERTY_WEBSITE;
 				$data = $accountData[AccountManager::PROPERTY_WEBSITE]['value'];
+				$accountData[AccountManager::PROPERTY_WEBSITE]['signature'] = $signature;
 				break;
 			default:
 				return new DataResponse([], Http::STATUS_BAD_REQUEST);
