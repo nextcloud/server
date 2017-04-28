@@ -1069,7 +1069,7 @@
 					return OC.MimeType.getIconUrl('dir-shared');
 				} else if (fileInfo.mountType === 'external-root') {
 					return OC.MimeType.getIconUrl('dir-external');
-				} else if (fileInfo.mountType !== '') {
+				} else if (fileInfo.mountType !== undefined && fileInfo.mountType !== '') {
 					return OC.MimeType.getIconUrl('dir-' + fileInfo.mountType);
 				}
 				return OC.MimeType.getIconUrl('dir');
