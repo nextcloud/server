@@ -505,6 +505,7 @@ span.usersLastLoginTooltip { white-space: nowrap; }
 .bubble {
 	z-index:1;
 	right: -6px;
+	top: auto;
 }
 .bubble:after {
 	right: 5px;
