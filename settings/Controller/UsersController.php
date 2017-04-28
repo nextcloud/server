@@ -383,7 +383,7 @@ class UsersController extends Controller {
 				array(
 					'message' => (string) $message,
 				),
-				Http::STATUS_FORBIDDEN
+				Http::STATUS_BAD_REQUEST
 			);
 		}
 
@@ -423,7 +423,7 @@ class UsersController extends Controller {
 			array(
 				'message' => (string)$this->l10n->t('Unable to create user.')
 			),
-			Http::STATUS_FORBIDDEN
+			Http::STATUS_BAD_REQUEST
 		);
 
 	}
