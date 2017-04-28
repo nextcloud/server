@@ -34,7 +34,7 @@ use Test\TestCase;
 use Test\Traits\MountProviderTrait;
 use Test\Traits\UserTrait;
 
-abstract class RequestTest extends TestCase {
+abstract class RequestTestCase extends TestCase {
 	use UserTrait;
 	use MountProviderTrait;
 

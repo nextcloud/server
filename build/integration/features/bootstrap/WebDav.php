@@ -45,8 +45,10 @@ trait WebDav {
 	private $usingOldDavPath = true;
 	/** @var ResponseInterface */
 	private $response;
-	/** @var map with user as key and another map as value, which has path as key and etag as value */
-	private $storedETAG = NULL;
+	/** @var array map with user as key and another map as value, which has path as key and etag as value */
+	private $storedETAG = null;
+	/** @var int */
+	private $storedFileID = null;
 
 	/**
 	 * @Given /^using dav path "([^"]*)"$/
@@ -749,4 +751,33 @@ trait WebDav {
 	}
 
 
+	/**
+	 * @param string $user
+	 * @param string $path
+	 * @return int
+	 */
+	private function getFileIdForPath($user, $path) {
+		$propertiesTable = new \Behat\Gherkin\Node\TableNode([["{http://owncloud.org/ns}fileid"]]);
+		$this->asGetsPropertiesOfFolderWith($user, 'file', $path, $propertiesTable);
+		return (int) $this->response['{http://owncloud.org/ns}fileid'];
+	}
+
+	/**
+	 * @Given /^User "([^"]*)" stores id of file "([^"]*)"$/
+	 * @param string $user
+	 * @param string $path
+	 */
+	public function userStoresFileIdForPath($user, $path) {
+		$this->storedFileID = $this->getFileIdForPath($user, $path);
+	}
+
+	/**
+	 * @Given /^User "([^"]*)" checks id of file "([^"]*)"$/
+	 * @param string $user
+	 * @param string $path
+	 */
+	public function userChecksFileIdForPath($user, $path) {
+		$currentFileID = $this->getFileIdForPath($user, $path);
+		PHPUnit_Framework_Assert::assertEquals($currentFileID, $this->storedFileID);
+	}
 }

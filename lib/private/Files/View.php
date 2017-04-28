@@ -88,7 +88,7 @@ class View {
 	/**
 	 * @var \OCP\Lock\ILockingProvider
 	 */
-	private $lockingProvider;
+	protected $lockingProvider;
 
 	private $lockingEnabled;
 
