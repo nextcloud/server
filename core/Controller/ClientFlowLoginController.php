@@ -232,7 +232,7 @@ class ClientFlowLoginController extends Controller {
 			IToken::DO_NOT_REMEMBER
 		);
 
-		return new Http\RedirectResponse('nc://' . urlencode($loginName) . ':' . urlencode($token) . '@' . $this->request->getServerHost());
+		return new Http\RedirectResponse('nc://login/server:' . $this->request->getServerHost() . '&user:' . urlencode($loginName) . '&password:' . urlencode($token));
 	}
 
 }
