@@ -270,7 +270,6 @@ OC.L10N.register(
     "Web, desktop and mobile clients currently logged in to your account." : "Web-gune, mahaigain eta mugikorrean zure kontuan saioa hasita dago.",
     "Device" : "Gailu",
     "Last activity" : "Azken jarduera",
-    "Passcodes that give an app or device permissions to access your account." : "Zure kontuan sartzeko aplikazio edo gailuei baimena ematen dien pasahitzak.",
     "Name" : "Izena",
     "App name" : "Aplikazioaren izena",
     "Create new app password" : "Sortu app pasahitza berria",
@@ -318,6 +317,7 @@ OC.L10N.register(
     "Uninstall app" : "Desinstalatu aplikazioa",
     "Cheers!" : "Ongi izan!",
     "Hey there,\n\njust letting you know that you now have a %s account.\n\nYour username: %s\nAccess it: %s\n\n" : "Kaixo,\n\nJakinarazi nahi dizugu, badaukazula %s kontua.\n\nZure erabiltzaile izena: %s \nSar zaitez: %s\n",
+    "Passcodes that give an app or device permissions to access your account." : "Zure kontuan sartzeko aplikazio edo gailuei baimena ematen dien pasahitzak.",
     "Show last log in" : "Erakutsi azkeneko saio hasiera"
 },
 "nplurals=2; plural=(n != 1);");

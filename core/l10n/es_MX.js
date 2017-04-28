@@ -57,6 +57,8 @@ OC.L10N.register(
     "Loading your contacts …" : "Cargando sus contactos ... ",
     "Looking for {term} …" : "Buscando {term} ...",
     "<a href=\"{docUrl}\">There were problems with the code integrity check. More information…</a>" : "<a href=\"{docUrl}\">Se presentaron problemas con la verificación de integridad del código. Mayor información ...</a>",
+    "No action available" : "No hay acciones disponibles",
+    "Error fetching contact actions" : "Se presentó un error al traer las acciónes de contatos",
     "Settings" : "Ajustes",
     "Connection to server lost" : "Se ha perdido la conexión con el servidor",
     "_Problem loading page, reloading in %n second_::_Problem loading page, reloading in %n seconds_" : ["Se presentó un erorr al cargar la página, recargando en %n segundo","Se presentó un erorr al cargar la página, recargando en %n segundo"],

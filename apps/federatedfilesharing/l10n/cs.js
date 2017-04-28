@@ -43,10 +43,10 @@ OC.L10N.register(
     "Allow users on this server to receive shares from other servers" : "Povolit uživatelům na tomto serveru přijímat sdílení z jiných serverů",
     "Federated Cloud" : "Sdružený cloud",
     "Your Federated Cloud ID:" : "Vaše sdružené cloud ID:",
-    "Share it:" : "Sdílet:",
     "Add to your website" : "Přidat na svou webovou stránku",
     "Share with me via Nextcloud" : "Sdíleno se mnou přes Nextcloud",
     "HTML Code:" : "HTML kód:",
-    "Search global and public address book for users" : "Hledat uživatele v globálním a veřejném adresáři"
+    "Search global and public address book for users" : "Hledat uživatele v globálním a veřejném adresáři",
+    "Share it:" : "Sdílet:"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

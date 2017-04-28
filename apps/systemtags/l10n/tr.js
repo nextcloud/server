@@ -42,6 +42,8 @@ OC.L10N.register(
     "%s (invisible)" : "%s (gizli)",
     "<strong>System tags</strong> for a file have been modified" : "Bir dosyanın <strong>sistem etiketleri</strong> değiştirildi",
     "Collaborative tags" : "İşbirliği etiketleri",
+    "Create and edit collaborative tags. These tags affect all users." : "İşbirliği etiketlerini oluşturun ve düzenleyin. Bu etiketler tüm kullanıcıları etkiler.",
+    "Select tag …" : "Etiket seçin...",
     "Name" : "Ad",
     "Delete" : "Sil",
     "Public" : "Herkese açık",

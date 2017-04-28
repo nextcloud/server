@@ -263,7 +263,6 @@ OC.L10N.register(
     "Web, desktop and mobile clients currently logged in to your account." : "Weboví, desktopoví, alebo mobilní klienti práve prihlásení na váš účet.",
     "Device" : "Zariadenie",
     "Last activity" : "Posledná aktivita",
-    "Passcodes that give an app or device permissions to access your account." : "Prístupové heslá, ktoré dovolia aplikáciam alebo zariadeniam prístup na váš účet.",
     "Name" : "Názov",
     "App name" : "Názov aplikácie",
     "Create new app password" : "Vytvoriť nové heslo aplikácie",
@@ -315,6 +314,7 @@ OC.L10N.register(
     "Cheers!" : "Pekný deň!",
     "Hey there,\n\njust letting you know that you now have a %s account.\n\nYour username: %s\nAccess it: %s\n\n" : "Dobrý deň,\n\ntoto je oznámenie o novo vytvorenom účte %s.\n\nVaše používateľské meno: %s\nPrihlásiť sa môžete tu: %s\n\n",
     "For password recovery and notifications" : "Pre obnovu hesla a oznámenia",
+    "Passcodes that give an app or device permissions to access your account." : "Prístupové heslá, ktoré dovolia aplikáciam alebo zariadeniam prístup na váš účet.",
     "Follow us on Google Plus!" : "Sleduj nás na Google Plus!",
     "Show last log in" : "Zobraziť posledné prihlásenie"
 },

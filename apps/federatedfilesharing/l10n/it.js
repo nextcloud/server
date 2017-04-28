@@ -43,10 +43,10 @@ OC.L10N.register(
     "Allow users on this server to receive shares from other servers" : "Consenti agli utenti su questo server di ricevere condivisioni da altri server",
     "Federated Cloud" : "Cloud federata",
     "Your Federated Cloud ID:" : "Il tuo ID di cloud federata:",
-    "Share it:" : "Condividilo:",
     "Add to your website" : "Aggiungi al tuo sito web",
     "Share with me via Nextcloud" : "Condividi con me tramite Nextcloud",
     "HTML Code:" : "Codice HTML:",
-    "Search global and public address book for users" : "Cerca gli utenti nella rubrica globale e pubblica"
+    "Search global and public address book for users" : "Cerca gli utenti nella rubrica globale e pubblica",
+    "Share it:" : "Condividilo:"
 },
 "nplurals=2; plural=(n != 1);");

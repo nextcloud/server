@@ -55,6 +55,8 @@
     "Loading your contacts …" : "Lade Deine Adressen...",
     "Looking for {term} …" : "Suche nach {term} …",
     "<a href=\"{docUrl}\">There were problems with the code integrity check. More information…</a>" : "<a href=\"{docUrl}\">Bei der Code-Integritätsprüfung sind Fehler aufgetreten. Mehr Informationen…</a>",
+    "No action available" : "Keine Aktion verfügbar",
+    "Error fetching contact actions" : "Fehler beim Einlesen der Adress-Aktionen",
     "Settings" : "Einstellungen",
     "Connection to server lost" : "Verbindung zum Server verloren",
     "_Problem loading page, reloading in %n second_::_Problem loading page, reloading in %n seconds_" : ["Problem beim Laden der Seite, Seite wird in %n Sekunde nochmals geladen","Problem beim Laden der Seite, Seite wird in %n Sekunden nochmals geladen"],

@@ -43,10 +43,10 @@
     "Allow users to publish their data to a global and public address book" : "Leifa notendum að birta gögnin sín í víðværri og opinberri vistfangaskrá",
     "Federated Cloud" : "Skýjasamband (federated)",
     "Your Federated Cloud ID:" : "Skýjasambandsauðkennið þitt (Federated Cloud ID):",
-    "Share it:" : "Deila því:",
     "Add to your website" : "Bæta við vefsvæðið þitt",
     "Share with me via Nextcloud" : "Deila með mér í gegnum Nextcloud",
     "HTML Code:" : "HTML-kóði:",
-    "Search global and public address book for users" : "Leita að notendum í víðværri og opinberri vistfangaskrá"
+    "Search global and public address book for users" : "Leita að notendum í víðværri og opinberri vistfangaskrá",
+    "Share it:" : "Deila því:"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

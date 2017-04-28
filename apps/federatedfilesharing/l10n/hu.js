@@ -43,10 +43,10 @@ OC.L10N.register(
     "Allow users on this server to receive shares from other servers" : "Engedélyezze ezen szerver felhasználóinak, hogy megosztásokat fogadjanak más szerverektől",
     "Federated Cloud" : "Egyesített felhő",
     "Your Federated Cloud ID:" : "Egyesített felhő azonosító:",
-    "Share it:" : "Oszd meg:",
     "Add to your website" : "Adja hozzá saját weboldalához",
     "Share with me via Nextcloud" : "Ossza meg velem Nextcloud-on keresztül",
     "HTML Code:" : "HTML kód:",
-    "Search global and public address book for users" : "Felhasználók keresése a globális és a nyilvános névjegyekben"
+    "Search global and public address book for users" : "Felhasználók keresése a globális és a nyilvános névjegyekben",
+    "Share it:" : "Oszd meg:"
 },
 "nplurals=2; plural=(n != 1);");

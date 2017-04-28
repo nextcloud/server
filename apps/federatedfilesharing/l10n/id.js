@@ -43,10 +43,10 @@ OC.L10N.register(
     "Allow users on this server to receive shares from other servers" : "Izinkan para pengguna di server ini untuk menerima berbagi ke server lainnya.",
     "Federated Cloud" : "Federated Cloud",
     "Your Federated Cloud ID:" : "Federated Cloud ID Anda:",
-    "Share it:" : "Bagikan:",
     "Add to your website" : "Tambahkan pada situs web Anda",
     "Share with me via Nextcloud" : "Dibagikan pada saya via Nextcloud",
     "HTML Code:" : "Kode HTML:",
-    "Search global and public address book for users" : "Cari alamat buku global dan alamat publik untuk pengguna"
+    "Search global and public address book for users" : "Cari alamat buku global dan alamat publik untuk pengguna",
+    "Share it:" : "Bagikan:"
 },
 "nplurals=1; plural=0;");

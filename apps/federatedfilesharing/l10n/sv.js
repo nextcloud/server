@@ -43,10 +43,10 @@ OC.L10N.register(
     "Allow users on this server to receive shares from other servers" : "Tillåt användare på denna servern att ta emot utdelningar från andra servrar",
     "Federated Cloud" : "Federerat Moln",
     "Your Federated Cloud ID:" : "Ditt Federerade Moln-ID:",
-    "Share it:" : "Dela detta:",
     "Add to your website" : "Lägg till på din hemsida",
     "Share with me via Nextcloud" : "Dela med mig via Nextcloud",
     "HTML Code:" : "HTML Kod:",
-    "Search global and public address book for users" : "Sök global och offentlig adressbok för användare"
+    "Search global and public address book for users" : "Sök global och offentlig adressbok för användare",
+    "Share it:" : "Dela detta:"
 },
 "nplurals=2; plural=(n != 1);");

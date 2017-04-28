@@ -45,10 +45,10 @@ OC.L10N.register(
     "Allow users to publish their data to a global and public address book" : "Salli käyttäjien julkaista tietojaan maailmanlaajuisessa ja julkisessa osoitekirjassa",
     "Federated Cloud" : "Federoitu pilvi",
     "Your Federated Cloud ID:" : "Federoidun pilvesi tunniste:",
-    "Share it:" : "Jaa se:",
     "Add to your website" : "Lisää verkkosivuillesi",
     "Share with me via Nextcloud" : "Jaa kanssani Nextcloudin kautta",
     "HTML Code:" : "HTML-koodi:",
-    "Search global and public address book for users" : "Etsi käyttäjiä maailmanlaajuisesta ja julkisesta osoitekirjasta"
+    "Search global and public address book for users" : "Etsi käyttäjiä maailmanlaajuisesta ja julkisesta osoitekirjasta",
+    "Share it:" : "Jaa se:"
 },
 "nplurals=2; plural=(n != 1);");
