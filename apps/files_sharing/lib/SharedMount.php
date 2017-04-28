@@ -258,4 +258,8 @@ class SharedMount extends MountPoint implements MoveableMount {
 			return -1;
 		}
 	}
+
+	public function getMountType() {
+		return 'shared';
+	}
 }

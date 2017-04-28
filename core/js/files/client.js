@@ -114,7 +114,11 @@
 		/**
 		 * Preview availability
 		 */
-		[Client.NS_NEXTCLOUD, 'has-preview']
+		[Client.NS_NEXTCLOUD, 'has-preview'],
+		/**
+		 * Mount type
+		 */
+		[Client.NS_NEXTCLOUD, 'mount-type'],
 	];
 
 	/**
@@ -359,6 +363,11 @@
 							break;
 					}
 				}
+			}
+
+			var mounTypeProp = props['{' + Client.NS_NEXTCLOUD + '}mount-type'];
+			if (!_.isUndefined(mounTypeProp)) {
+				data.mountType = mounTypeProp;
 			}
 
 			// extend the parsed data using the custom parsers

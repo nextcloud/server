@@ -65,6 +65,7 @@ class FilesPlugin extends ServerPlugin {
 	const CHECKSUMS_PROPERTYNAME = '{http://owncloud.org/ns}checksums';
 	const DATA_FINGERPRINT_PROPERTYNAME = '{http://owncloud.org/ns}data-fingerprint';
 	const HAS_PREVIEW_PROPERTYNAME = '{http://nextcloud.org/ns}has-preview';
+	const MOUNT_TYPE_PROPERTYNAME = '{http://nextcloud.org/ns}mount-type';
 
 	/**
 	 * Reference to main server object
@@ -159,6 +160,7 @@ class FilesPlugin extends ServerPlugin {
 		$server->protectedProperties[] = self::CHECKSUMS_PROPERTYNAME;
 		$server->protectedProperties[] = self::DATA_FINGERPRINT_PROPERTYNAME;
 		$server->protectedProperties[] = self::HAS_PREVIEW_PROPERTYNAME;
+		$server->protectedProperties[] = self::MOUNT_TYPE_PROPERTYNAME;
 
 		// normally these cannot be changed (RFC4918), but we want them modifiable through PROPPATCH
 		$allowedProperties = ['{DAV:}getetag'];
@@ -381,6 +383,10 @@ class FilesPlugin extends ServerPlugin {
 				return $node->getSize();
 			});
 		}
+
+		$propFind->handle(self::MOUNT_TYPE_PROPERTYNAME, function () use ($node) {
+			return $node->getFileInfo()->getMountPoint()->getMountType();
+		});
 	}
 
 	/**

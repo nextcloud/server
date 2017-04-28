@@ -119,4 +119,13 @@ interface IMountPoint {
 	 * @since 9.1.0
 	 */
 	public function getMountId();
+
+	/**
+	 * Get the type of mount point, used to distinguish things like shares and external storages
+	 * in the web interface
+	 *
+	 * @return string
+	 * @since 12.0.0
+	 */
+	public function getMountType();
 }
