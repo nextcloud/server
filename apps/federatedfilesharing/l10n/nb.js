@@ -45,10 +45,10 @@ OC.L10N.register(
     "Allow users to publish their data to a global and public address book" : "Tillat brukere å offentliggjøre deres data til en verdensomspennende og offentlig adressebok",
     "Federated Cloud" : "Sammenknyttet sky",
     "Your Federated Cloud ID:" : "Din ID for sammenknyttet sky:",
-    "Share it:" : "Del den:",
     "Add to your website" : "Legg på nettsiden din",
     "Share with me via Nextcloud" : "Del med meg via Nextcloud",
     "HTML Code:" : "HTML-kode:",
-    "Search global and public address book for users" : "Søk global og offentlige adressebøker etter brukere"
+    "Search global and public address book for users" : "Søk global og offentlige adressebøker etter brukere",
+    "Share it:" : "Del den:"
 },
 "nplurals=2; plural=(n != 1);");

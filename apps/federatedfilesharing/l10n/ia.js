@@ -43,10 +43,10 @@ OC.L10N.register(
     "Allow users on this server to receive shares from other servers" : "Permitter usatores in iste servitor a reciper elementos compartite ex altere servitores",
     "Federated Cloud" : "Nube Federate",
     "Your Federated Cloud ID:" : "Tu ID de Nube Federate:",
-    "Share it:" : "Comparti lo:",
     "Add to your website" : "Adde a tu sito web",
     "Share with me via Nextcloud" : "Comparti con me via Nextcloud",
     "HTML Code:" : "Codice HTML:",
-    "Search global and public address book for users" : "Cercar pro usatores in adressarios global e public"
+    "Search global and public address book for users" : "Cercar pro usatores in adressarios global e public",
+    "Share it:" : "Comparti lo:"
 },
 "nplurals=2; plural=(n != 1);");

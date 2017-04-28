@@ -45,10 +45,10 @@ OC.L10N.register(
     "Allow users to publish their data to a global and public address book" : "Kullanıcıların bilgilerini genel ve herkese açık bir adres defterinde paylaşabilsin",
     "Federated Cloud" : "Birleşmiş Bulut",
     "Your Federated Cloud ID:" : "Birleşmiş Bulut Kimliğiniz:",
-    "Share it:" : "Paylaşın:",
     "Add to your website" : "Web sitenize ekleyin",
     "Share with me via Nextcloud" : "Benimle Nextcloud üzerinden paylaşın",
     "HTML Code:" : "HTML Kodu:",
-    "Search global and public address book for users" : "Genel ve herkese açık adres defterinde kullanıcı ara"
+    "Search global and public address book for users" : "Genel ve herkese açık adres defterinde kullanıcı ara",
+    "Share it:" : "Paylaşın:"
 },
 "nplurals=2; plural=(n > 1);");

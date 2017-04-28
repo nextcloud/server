@@ -213,7 +213,6 @@ OC.L10N.register(
     "Show First Run Wizard again" : "Monstrar le Assistente del Prime Execution de novo",
     "Device" : "Dispositivo",
     "Last activity" : "Ultime activitate",
-    "Passcodes that give an app or device permissions to access your account." : "Contrasignos que dona a tu application o dispositivo le permissiones pro acceder a tu conto.",
     "Name" : "Nomine",
     "App name" : "Nomine del application",
     "Create new app password" : "Crear un nove contrasigno pro application",
@@ -245,6 +244,7 @@ OC.L10N.register(
     "This is used for sending out notifications." : "Isto es usate pro inviar notificationes.",
     "Uninstall app" : "De-installar application",
     "Cheers!" : "Congratulationes!",
+    "Passcodes that give an app or device permissions to access your account." : "Contrasignos que dona a tu application o dispositivo le permissiones pro acceder a tu conto.",
     "Follow us on Google Plus!" : "Seque nos in Google Plus!",
     "Subscribe to our twitter channel!" : "Subscribe a nostre canal Twitter!",
     "Subscribe to our news feed!" : "Subscribe a nostre syndication de novas!"

@@ -42,6 +42,8 @@ OC.L10N.register(
     "%s (invisible)" : "%s (unsichtbar)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>System-Tags</strong> für eine Datei wurden geändert",
     "Collaborative tags" : "Zusammenarbeits-Tags",
+    "Create and edit collaborative tags. These tags affect all users." : "Ersttele und bearbeite Zusammenarbeits-Tags. Diese Tags betreffen alle Benutzer.",
+    "Select tag …" : "Tag wählen ...",
     "Name" : "Name",
     "Delete" : "Löschen",
     "Public" : "Öffentlich",

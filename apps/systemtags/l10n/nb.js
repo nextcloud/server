@@ -42,6 +42,8 @@ OC.L10N.register(
     "%s (invisible)" : "%s (usynlig)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>System-merkelapper</strong> for en fil er endret",
     "Collaborative tags" : "Felles merkelapper",
+    "Create and edit collaborative tags. These tags affect all users." : "Opprett og rediger samarbeidsmessige merkelapper. Disse har innvirkning på alle brukere.",
+    "Select tag …" : "Velg merkelapp…",
     "Name" : "Navn",
     "Delete" : "Slett",
     "Public" : "Offentlig",

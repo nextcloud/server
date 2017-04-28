@@ -45,10 +45,10 @@ OC.L10N.register(
     "Allow users to publish their data to a global and public address book" : "Erlaube Benutzern ihre Daten an ein globales und öffentliches Adressbuche zu veröffentlichen",
     "Federated Cloud" : "Federated Cloud",
     "Your Federated Cloud ID:" : "Ihre Federated-Cloud-ID:",
-    "Share it:" : "Teilen:",
     "Add to your website" : "Zu Ihrer Web-Seite hinzufügen",
     "Share with me via Nextcloud" : "Teilen Sie mit mir über Nextcloud",
     "HTML Code:" : "HTML-Code:",
-    "Search global and public address book for users" : "Durchsuche globales und öffentliches Adressbuch nach Nutzern"
+    "Search global and public address book for users" : "Durchsuche globales und öffentliches Adressbuch nach Nutzern",
+    "Share it:" : "Teilen:"
 },
 "nplurals=2; plural=(n != 1);");

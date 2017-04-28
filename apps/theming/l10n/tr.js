@@ -12,6 +12,7 @@ OC.L10N.register(
     "Unsupported image type" : "Görsel türü desteklenmiyor",
     "You are already using a custom theme" : "Zaten özel bir tema kullanıyorsunuz",
     "Theming" : "Tema",
+    "Theming makes it possible to easily customize the look and feel of your instance. This will be visible for all users." : "Temalar genel görünümün kolayca değiştirilmesini sağlar. Tüm kullanıcılara görüntülenir.",
     "Name" : "Ad",
     "reset to default" : "varsayılana dön",
     "Web address" : "Web adresi",

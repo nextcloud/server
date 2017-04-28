@@ -242,7 +242,6 @@ OC.L10N.register(
     "Web, desktop and mobile clients currently logged in to your account." : "Klien web, desktop dan mobile yang sedang login di akun Anda.",
     "Device" : "Perangkat",
     "Last activity" : "Aktivitas terakhir",
-    "Passcodes that give an app or device permissions to access your account." : "Kode kunci yang memberikan aplikasi atau perangkat izin untuk mengakses akun Anda.",
     "Name" : "Nama",
     "App name" : "Nama aplikasi",
     "Create new app password" : "Buat sandi aplikasi baru",
@@ -289,6 +288,7 @@ OC.L10N.register(
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "Module 'fileinfo' pada PHP tidak ada. Kami sangat menyarankan untuk mengaktifkan modul ini untuk mendapatkan hasil terbaik pada proses pendeteksian mime-type.",
     "Cheers!" : "Horee!",
     "For password recovery and notifications" : "Untuk pemulihan sandi dan pemberitahuan",
+    "Passcodes that give an app or device permissions to access your account." : "Kode kunci yang memberikan aplikasi atau perangkat izin untuk mengakses akun Anda.",
     "Show last log in" : "Tampilkan masuk terakhir"
 },
 "nplurals=1; plural=0;");

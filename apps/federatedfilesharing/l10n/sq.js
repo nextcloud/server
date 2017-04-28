@@ -37,9 +37,9 @@ OC.L10N.register(
     "Allow users on this server to receive shares from other servers" : "Lejoju përdoruesve në këtë shërbyes të marrin ndarje nga shërbyes të tjerë",
     "Federated Cloud" : "Re e Federuar",
     "Your Federated Cloud ID:" : "ID-ja juaj për Re të Federuar:",
-    "Share it:" : "Ndajeni:",
     "Add to your website" : "Shtojeni te sajti juaj",
     "Share with me via Nextcloud" : "Ndani me mua përmes Nextcloud-it",
-    "HTML Code:" : "Kod HTML:"
+    "HTML Code:" : "Kod HTML:",
+    "Share it:" : "Ndajeni:"
 },
 "nplurals=2; plural=(n != 1);");

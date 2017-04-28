@@ -45,10 +45,10 @@ OC.L10N.register(
     "Allow users to publish their data to a global and public address book" : "Резрешить пользователям публиковать свои данные в глобальной и общедосупной адресной книге",
     "Federated Cloud" : "Федерация облачных хранилищ",
     "Your Federated Cloud ID:" : "Ваш ID в федерации облачных хранилищ:",
-    "Share it:" : "Поделиться:",
     "Add to your website" : "Добавить к себе на сайт",
     "Share with me via Nextcloud" : "Поделитесь со мной через Nextcloud",
     "HTML Code:" : "HTML код:",
-    "Search global and public address book for users" : "Искать пользователей в глобальной и открытой адресной книге"
+    "Search global and public address book for users" : "Искать пользователей в глобальной и открытой адресной книге",
+    "Share it:" : "Поделиться:"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");
