@@ -789,6 +789,7 @@ return array(
     'OC\\Settings\\Admin\\Sharing' => $baseDir . '/lib/private/Settings/Admin/Sharing.php',
     'OC\\Settings\\Admin\\TipsTricks' => $baseDir . '/lib/private/Settings/Admin/TipsTricks.php',
     'OC\\Settings\\Application' => $baseDir . '/settings/Application.php',
+    'OC\\Settings\\BackgroundJobs\\VerifyUserData' => $baseDir . '/settings/BackgroundJobs/VerifyUserData.php',
     'OC\\Settings\\Controller\\AdminSettingsController' => $baseDir . '/settings/Controller/AdminSettingsController.php',
     'OC\\Settings\\Controller\\AppSettingsController' => $baseDir . '/settings/Controller/AppSettingsController.php',
     'OC\\Settings\\Controller\\AuthSettingsController' => $baseDir . '/settings/Controller/AuthSettingsController.php',
