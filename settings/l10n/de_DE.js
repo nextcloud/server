@@ -343,6 +343,7 @@ OC.L10N.register(
     "Web, desktop and mobile clients currently logged in to your account." : "Aktuell in Ihrem Konto eingeloggte Web-, Desktop- und Mobil-Clients.",
     "Device" : "Gerät",
     "Last activity" : "Letzte Aktivität",
+    "Here you can generate individual passwords for apps so you don’t have to give out your password. You can revoke them individually too." : "Hier können individuelle Passwörter for Apps erzeugt werden. So müssen Sie nicht Ihr Passwort verteilen. Jedes Passwort kann individuell widerrufen werden.",
     "Name" : "Name",
     "App name" : "App-Name",
     "Create new app password" : "Neues App-Passwort erstellen",
