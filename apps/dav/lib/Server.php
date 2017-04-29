@@ -216,6 +216,7 @@ class Server {
 					\OC::$server->getCommentsManager(),
 					$userSession
 				));
+				$this->server->addPlugin(new \OCA\DAV\CalDAV\Search\SearchPlugin());
 				if ($view !== null) {
 					$this->server->addPlugin(new FilesReportPlugin(
 						$this->server->tree,
