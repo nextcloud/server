@@ -332,7 +332,7 @@ OC.L10N.register(
     "The update was successful. Redirecting you to Nextcloud now." : "A atualização terminou com sucesso. Redirecionando para Nextcloud agora.",
     "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Olá,\n\napenas para avisar que %s compartilhou %s com você.\nVeja isto: %s\n\n",
     "The share will expire on %s." : "O compartilhamento irá expirar em %s.",
-    "Cheers!" : "Saúde!",
+    "Cheers!" : "Saudações!",
     "Use the following link to reset your password: {link}" : "Use o seguinte link para redefinir sua senha: {link}",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Olá,<br><br>só para avisar que %s compartilhou <strong>%s</strong> com você. <br><a href=\"%s\">Visualize-o!</a><br><br>"
 },

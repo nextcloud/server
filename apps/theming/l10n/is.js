@@ -12,7 +12,6 @@ OC.L10N.register(
     "Unsupported image type" : "Óstudd gerð myndar",
     "You are already using a custom theme" : "Þú ert nú þegar að nota sérsniðið þema",
     "Theming" : "Þemu",
-    "Theming makes it possible to easily customize the look and feel of your instance. This will be visible for all users." : "Þemu gera þér kleift að breyta útliti og hegðun þíns eintaks af umhverfinu. Það verður sýnilegt öllum notendum.",
     "Name" : "Heiti",
     "reset to default" : "endurstilla á sjálfgefið",
     "Web address" : "Veffang",

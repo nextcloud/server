@@ -341,6 +341,7 @@
     "Web, desktop and mobile clients currently logged in to your account." : "Følgende nett, skrivebord og mobile klienter er for øyeblikket logget på din konto.",
     "Device" : "Enhet",
     "Last activity" : "Seneste aktivitet",
+    "Here you can generate individual passwords for apps so you don’t have to give out your password. You can revoke them individually too." : "Her kan du opprette egne passord for programmer slik at du ikke trenger å gi dem ditt passord. Du kan tilbakekalle dem individuelt også.",
     "Name" : "Navn",
     "App name" : "App navn",
     "Create new app password" : "Lag nytt app passord",

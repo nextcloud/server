@@ -41,7 +41,7 @@
     "Failed to create the E-mail" : "Falhou ao criar o email",
     "Hey there,\n\n%s shared »%s« with you on behalf of %s.\n\n%s\n\n" : "Olá,\n%s compartilhou »%s« com você em nome de %s.\n%s\n\n",
     "Hey there,\n\n%s shared »%s« with you.\n\n%s\n\n" : "Olá,\n%s compartilhou »%s« com você.\n%s\n",
-    "Cheers!" : "Saúde!",
+    "Cheers!" : "Saudações!",
     "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you on behalf of %s.<br><br>" : "Olá,<br><br>%s compartilhou <a href=\"%s\">%s</a> com você em nome de %s.<br><br>",
     "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you.<br><br>" : "Olá,<br><br>%s compartilhou <a href=\"%s\">%s</a> com você.<br><br>"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"

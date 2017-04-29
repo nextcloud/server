@@ -12,7 +12,6 @@ OC.L10N.register(
     "Unsupported image type" : "Tipo de imagem não suportado",
     "You are already using a custom theme" : "Você já está usando um tema personalizado",
     "Theming" : "Personalização",
-    "Theming makes it possible to easily customize the look and feel of your instance. This will be visible for all users." : "Usar temas torna possível personalizar facilmente a aparência da sua instância. Isso será visível para todos os usuários.",
     "Name" : "Nome",
     "reset to default" : "restaurar ao padrão",
     "Web address" : "Endereço da Web",
