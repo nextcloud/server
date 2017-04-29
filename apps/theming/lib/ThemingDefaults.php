@@ -66,11 +66,11 @@ class ThemingDefaults extends \OC_Defaults {
 	public function __construct(IConfig $config,
 								IL10N $l,
 								IURLGenerator $urlGenerator,
-								\OC_Defaults $defaults,
 								IAppData $appData,
 								ICacheFactory $cacheFactory,
 								Util $util
 	) {
+		parent::__construct();
 		$this->config = $config;
 		$this->l = $l;
 		$this->urlGenerator = $urlGenerator;
@@ -78,10 +78,10 @@ class ThemingDefaults extends \OC_Defaults {
 		$this->cacheFactory = $cacheFactory;
 		$this->util = $util;
 
-		$this->name = $defaults->getName();
-		$this->url = $defaults->getBaseUrl();
-		$this->slogan = $defaults->getSlogan();
-		$this->color = $defaults->getColorPrimary();
+		$this->name = parent::getName();
+		$this->url = parent::getBaseUrl();
+		$this->slogan = parent::getSlogan();
+		$this->color = parent::getColorPrimary();
 	}
 
 	public function getName() {

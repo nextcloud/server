@@ -163,6 +163,10 @@ class ThemingController extends Controller {
 		}
 
 		$this->themingDefaults->set($setting, $value);
+
+		// reprocess server scss for preview
+		$cssCached = $this->scssCacher->process(\OC::$SERVERROOT, '/core/css/server.scss', 'core');
+
 		return new DataResponse(
 			[
 				'data' =>
@@ -259,6 +263,8 @@ class ThemingController extends Controller {
 	 */
 	public function undo($setting) {
 		$value = $this->themingDefaults->undo($setting);
+		// reprocess server scss for preview
+		$cssCached = $this->scssCacher->process(\OC::$SERVERROOT, '/core/css/server.scss', 'core');
 		return new DataResponse(
 			[
 				'data' =>

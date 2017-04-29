@@ -65,25 +65,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->cache = $this->createMock(ICache::class);
 		$this->util = $this->createMock(Util::class);
-		$this->defaults = $this->getMockBuilder(\OC_Defaults::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->defaults
-			->expects($this->at(0))
-			->method('getName')
-			->willReturn('Nextcloud');
-		$this->defaults
-			->expects($this->at(1))
-			->method('getBaseUrl')
-			->willReturn('https://nextcloud.com/');
-		$this->defaults
-			->expects($this->at(2))
-			->method('getSlogan')
-			->willReturn('Safe Data');
-		$this->defaults
-			->expects($this->at(3))
-			->method('getColorPrimary')
-			->willReturn('#000');
+		$this->defaults = new \OC_Defaults();
 		$this->cacheFactory
 			->expects($this->any())
 			->method('create')
@@ -93,7 +75,6 @@ class ThemingDefaultsTest extends TestCase {
 			$this->config,
 			$this->l10n,
 			$this->urlGenerator,
-			$this->defaults,
 			$this->appData,
 			$this->cacheFactory,
 			$this->util
@@ -185,17 +166,17 @@ class ThemingDefaultsTest extends TestCase {
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
-			->with('theming', 'url', 'https://nextcloud.com/')
-			->willReturn('https://nextcloud.com/');
+			->with('theming', 'url', $this->defaults->getBaseUrl())
+			->willReturn($this->defaults->getBaseUrl());
 
-		$this->assertEquals('https://nextcloud.com/', $this->template->getBaseUrl());
+		$this->assertEquals($this->defaults->getBaseUrl(), $this->template->getBaseUrl());
 	}
 
 	public function testGetBaseUrlWithCustom() {
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
-			->with('theming', 'url', 'https://nextcloud.com/')
+			->with('theming', 'url', $this->defaults->getBaseUrl())
 			->willReturn('https://example.com/');
 
 		$this->assertEquals('https://example.com/', $this->template->getBaseUrl());
@@ -205,17 +186,17 @@ class ThemingDefaultsTest extends TestCase {
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
-			->with('theming', 'slogan', 'Safe Data')
-			->willReturn('Safe Data');
+			->with('theming', 'slogan', $this->defaults->getSlogan())
+			->willReturn($this->defaults->getSlogan());
 
-		$this->assertEquals('Safe Data', $this->template->getSlogan());
+		$this->assertEquals($this->defaults->getSlogan(), $this->template->getSlogan());
 	}
 
 	public function testGetSloganWithCustom() {
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
-			->with('theming', 'slogan', 'Safe Data')
+			->with('theming', 'slogan', $this->defaults->getSlogan())
 			->willReturn('My custom Slogan');
 
 		$this->assertEquals('My custom Slogan', $this->template->getSlogan());
@@ -226,9 +207,9 @@ class ThemingDefaultsTest extends TestCase {
 			->expects($this->exactly(3))
 			->method('getAppValue')
 			->willReturnMap([
-				['theming', 'url', 'https://nextcloud.com/', 'url'],
+				['theming', 'url', $this->defaults->getBaseUrl(), 'url'],
 				['theming', 'name', 'Nextcloud', 'Name'],
-				['theming', 'slogan', 'Safe Data', 'Slogan'],
+				['theming', 'slogan', $this->defaults->getSlogan(), 'Slogan'],
 			]);
 
 		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer">Name</a> – Slogan', $this->template->getShortFooter());
@@ -239,9 +220,9 @@ class ThemingDefaultsTest extends TestCase {
 			->expects($this->exactly(3))
 			->method('getAppValue')
 			->willReturnMap([
-				['theming', 'url', 'https://nextcloud.com/', 'url'],
+				['theming', 'url', $this->defaults->getBaseUrl(), 'url'],
 				['theming', 'name', 'Nextcloud', 'Name'],
-				['theming', 'slogan', 'Safe Data', ''],
+				['theming', 'slogan', $this->defaults->getSlogan(), ''],
 			]);
 
 		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer">Name</a>', $this->template->getShortFooter());
@@ -251,17 +232,17 @@ class ThemingDefaultsTest extends TestCase {
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
-			->with('theming', 'color', '#000')
-			->willReturn('#000');
+			->with('theming', 'color', $this->defaults->getColorPrimary())
+			->willReturn($this->defaults->getColorPrimary());
 
-		$this->assertEquals('#000', $this->template->getColorPrimary());
+		$this->assertEquals($this->defaults->getColorPrimary(), $this->template->getColorPrimary());
 	}
 
 	public function testgetColorPrimaryWithCustom() {
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
-			->with('theming', 'color', '#000')
+			->with('theming', 'color', $this->defaults->getColorPrimary())
 			->willReturn('#fff');
 
 		$this->assertEquals('#fff', $this->template->getColorPrimary());
@@ -328,10 +309,10 @@ class ThemingDefaultsTest extends TestCase {
 		$this->config
 			->expects($this->at(3))
 			->method('getAppValue')
-			->with('theming', 'url', 'https://nextcloud.com/')
-			->willReturn('https://nextcloud.com/');
+			->with('theming', 'url', $this->defaults->getBaseUrl())
+			->willReturn($this->defaults->getBaseUrl());
 
-		$this->assertSame('https://nextcloud.com/', $this->template->undo('url'));
+		$this->assertSame($this->defaults->getBaseUrl(), $this->template->undo('url'));
 	}
 
 	public function testUndoSlogan() {
@@ -351,10 +332,10 @@ class ThemingDefaultsTest extends TestCase {
 		$this->config
 			->expects($this->at(3))
 			->method('getAppValue')
-			->with('theming', 'slogan', 'Safe Data')
-			->willReturn('Safe Data');
+			->with('theming', 'slogan', $this->defaults->getSlogan())
+			->willReturn($this->defaults->getSlogan());
 
-		$this->assertSame('Safe Data', $this->template->undo('slogan'));
+		$this->assertSame($this->defaults->getSlogan(), $this->template->undo('slogan'));
 	}
 
 	public function testUndoColor() {
@@ -374,10 +355,10 @@ class ThemingDefaultsTest extends TestCase {
 		$this->config
 			->expects($this->at(3))
 			->method('getAppValue')
-			->with('theming', 'color', '#000')
-			->willReturn('#000');
+			->with('theming', 'color', $this->defaults->getColorPrimary())
+			->willReturn($this->defaults->getColorPrimary());
 
-		$this->assertSame('#000', $this->template->undo('color'));
+		$this->assertSame($this->defaults->getColorPrimary(), $this->template->undo('color'));
 	}
 
 	public function testUndoDefaultAction() {
@@ -502,11 +483,11 @@ class ThemingDefaultsTest extends TestCase {
 		$this->config->expects($this->at(1))->method('getAppValue')->with('theming', 'logoMime', false)->willReturn('jpeg');
 		$this->config->expects($this->at(2))->method('getAppValue')->with('theming', 'cachebuster', '0')->willReturn('0');
 		$this->config->expects($this->at(3))->method('getAppValue')->with('theming', 'backgroundMime', false)->willReturn('jpeg');
-		$this->config->expects($this->at(4))->method('getAppValue')->with('theming', 'color', null)->willReturn('#000000');
-		$this->config->expects($this->at(5))->method('getAppValue')->with('theming', 'color', '#000')->willReturn('#000000');
-		$this->config->expects($this->at(6))->method('getAppValue')->with('theming', 'color', '#000')->willReturn('#000000');
+		$this->config->expects($this->at(4))->method('getAppValue')->with('theming', 'color', null)->willReturn($this->defaults->getColorPrimary());
+		$this->config->expects($this->at(5))->method('getAppValue')->with('theming', 'color', $this->defaults->getColorPrimary())->willReturn($this->defaults->getColorPrimary());
+		$this->config->expects($this->at(6))->method('getAppValue')->with('theming', 'color', $this->defaults->getColorPrimary())->willReturn($this->defaults->getColorPrimary());
 
-		$this->util->expects($this->any())->method('invertTextColor')->with('#000000')->willReturn(false);
+		$this->util->expects($this->any())->method('invertTextColor')->with($this->defaults->getColorPrimary())->willReturn(false);
 		$this->cache->expects($this->once())->method('get')->with('getScssVariables')->willReturn(null);
 		$folder = $this->createMock(ISimpleFolder::class);
 		$file = $this->createMock(ISimpleFile::class);
@@ -532,7 +513,7 @@ class ThemingDefaultsTest extends TestCase {
 			'theming-cachebuster' => '\'0\'',
 			'image-logo' => "'absolute-custom-logo?v=0'",
 			'image-login-background' => "'absolute-custom-background'",
-			'color-primary' => '#000000',
+			'color-primary' => $this->defaults->getColorPrimary(),
 			'color-primary-text' => '#ffffff'
 
 		];
