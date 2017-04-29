@@ -819,6 +819,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Settings\\Admin\\Sharing' => __DIR__ . '/../../..' . '/lib/private/Settings/Admin/Sharing.php',
         'OC\\Settings\\Admin\\TipsTricks' => __DIR__ . '/../../..' . '/lib/private/Settings/Admin/TipsTricks.php',
         'OC\\Settings\\Application' => __DIR__ . '/../../..' . '/settings/Application.php',
+        'OC\\Settings\\BackgroundJobs\\VerifyUserData' => __DIR__ . '/../../..' . '/settings/BackgroundJobs/VerifyUserData.php',
         'OC\\Settings\\Controller\\AdminSettingsController' => __DIR__ . '/../../..' . '/settings/Controller/AdminSettingsController.php',
         'OC\\Settings\\Controller\\AppSettingsController' => __DIR__ . '/../../..' . '/settings/Controller/AppSettingsController.php',
         'OC\\Settings\\Controller\\AuthSettingsController' => __DIR__ . '/../../..' . '/settings/Controller/AuthSettingsController.php',

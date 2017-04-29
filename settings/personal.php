@@ -40,7 +40,11 @@ OC_Util::checkLoggedIn();
 
 $defaults = \OC::$server->getThemingDefaults();
 $certificateManager = \OC::$server->getCertificateManager();
-$accountManager = new \OC\Accounts\AccountManager(\OC::$server->getDatabaseConnection(), \OC::$server->getEventDispatcher());
+$accountManager = new \OC\Accounts\AccountManager(
+	\OC::$server->getDatabaseConnection(),
+	\OC::$server->getEventDispatcher(),
+	\OC::$server->getJobList()
+);
 $config = \OC::$server->getConfig();
 $urlGenerator = \OC::$server->getURLGenerator();
 
@@ -180,6 +184,28 @@ $tmpl->assign('emailScope', $userData[\OC\Accounts\AccountManager::PROPERTY_EMAI
 $tmpl->assign('websiteScope', $userData[\OC\Accounts\AccountManager::PROPERTY_WEBSITE]['scope']);
 $tmpl->assign('twitterScope', $userData[\OC\Accounts\AccountManager::PROPERTY_TWITTER]['scope']);
 $tmpl->assign('addressScope', $userData[\OC\Accounts\AccountManager::PROPERTY_ADDRESS]['scope']);
+
+$tmpl->assign('websiteVerification', $userData[\OC\Accounts\AccountManager::PROPERTY_WEBSITE]['verified']);
+$tmpl->assign('twitterVerification', $userData[\OC\Accounts\AccountManager::PROPERTY_TWITTER]['verified']);
+$tmpl->assign('emailVerification', $userData[\OC\Accounts\AccountManager::PROPERTY_EMAIL]['verified']);
+
+$needVerifyMessage = [\OC\Accounts\AccountManager::PROPERTY_EMAIL, \OC\Accounts\AccountManager::PROPERTY_WEBSITE, \OC\Accounts\AccountManager::PROPERTY_TWITTER];
+
+foreach ($needVerifyMessage as $property) {
+
+	switch ($userData[$property]['verified']) {
+		case \OC\Accounts\AccountManager::VERIFIED:
+			$message = $l->t('Verifying');
+			break;
+		case \OC\Accounts\AccountManager::VERIFICATION_IN_PROGRESS:
+			$message = $l->t('Verifying …');
+			break;
+		default:
+			$message = $l->t('Verify');
+	}
+
+	$tmpl->assign($property . 'Message', $message);
+}
 
 $tmpl->assign('avatarChangeSupported', OC_User::canUserChangeAvatar(OC_User::getUser()));
 $tmpl->assign('certs', $certificateManager->listCertificates());

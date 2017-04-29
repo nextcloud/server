@@ -26,6 +26,7 @@ namespace OCA\LookupServerConnector\BackgroundJobs;
 use OC\BackgroundJob\Job;
 use OCP\BackgroundJob\IJobList;
 use OCP\Http\Client\IClientService;
+use OCP\ILogger;
 
 class RetryJob extends Job {
 	/** @var IClientService */
@@ -36,21 +37,28 @@ class RetryJob extends Job {
 	private $lookupServer = 'https://lookup.nextcloud.com/users';
 
 	/**
-	 * @param IClientService|null $clientService
-	 * @param IJobList|null $jobList
+	 * @param IClientService $clientService
+	 * @param IJobList $jobList
 	 */
-	public function __construct(IClientService $clientService = null,
-								IJobList $jobList = null) {
-		if($clientService !== null) {
-			$this->clientService = $clientService;
-		} else {
-			$this->clientService = \OC::$server->getHTTPClientService();
+	public function __construct(IClientService $clientService,
+								IJobList $jobList) {
+		$this->clientService = $clientService;
+		$this->jobList = $jobList;
+	}
+
+	/**
+	 * run the job, then remove it from the jobList
+	 *
+	 * @param JobList $jobList
+	 * @param ILogger $logger
+	 */
+	public function execute($jobList, ILogger $logger = null) {
+
+		if ($this->shouldRun($this->argument)) {
+			parent::execute($jobList, $logger);
+			$jobList->remove($this, $this->argument);
 		}
-		if($jobList !== null) {
-			$this->jobList = $jobList;
-		} else {
-			$this->jobList = \OC::$server->getJobList();
-		}
+
 	}
 
 	protected function run($argument) {

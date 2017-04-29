@@ -1515,4 +1515,9 @@ $CONFIG = array(
  */
 'copied_sample_config' => true,
 
+/**
+ * use a custom lookup server to publish user data
+ */
+'lookup_server' => 'https://lookup.nextcloud.com',
+
 );

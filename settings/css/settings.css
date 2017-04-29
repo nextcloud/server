@@ -138,6 +138,35 @@ input#openid, input#webdav { width:20em; }
 	top: 82px;
 	pointer-events: none;
 }
+
+/* verify accounts */
+#personal-settings-container .verify {
+	position: absolute;
+	right: 14px;
+	top: 70px;
+}
+#personal-settings-container .verify img {
+	padding: 12px 7px 6px;
+}
+/* only show pointer cursor when popup will be there */
+#personal-settings-container .verify-action {
+	cursor: pointer;
+}
+.verification-dialog {
+	display: none;
+	right: -9px;
+	top: 40px;
+	width: 275px;
+}
+.verification-dialog p {
+	padding: 10px;
+}
+.verification-dialog .verificationCode {
+	font-family: monospace;
+	display: block;
+	overflow-wrap: break-word;
+}
+
 .federationScopeMenu {
 	top: 44px;
 	margin: -5px 0px 0;

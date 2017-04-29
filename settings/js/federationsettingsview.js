@@ -130,14 +130,52 @@
 			// TODO: user loading/success feedback
 			this._config.save();
 			this._setFieldScopeIcon(field, scope);
+			this._updateVerifyButton(field, scope);
+		},
+
+		_updateVerifyButton: function(field, scope) {
+			// show verification button if the value is set and the scope is 'public'
+			if (field === 'twitter' || field === 'website'|| field === 'email') {
+				var verify = this.$('#' + field + 'form > .verify');
+				var scope = this.$('#' + field + 'scope').val();
+				var value = this.$('#' + field).val();
+
+				if (scope === 'public' && value !== '') {
+					verify.removeClass('hidden');
+					return true;
+				} else {
+					verify.addClass('hidden');
+				}
+			}
+
+			return false;
 		},
 
 		_showInputChangeSuccess: function(field) {
-			var $icon = this.$('#' + field + 'form > span');
+			var $icon = this.$('#' + field + 'form > .icon-checkmark');
 			$icon.fadeIn(200);
 			setTimeout(function() {
 				$icon.fadeOut(300);
 			}, 2000);
+
+			var scope = this.$('#' + field + 'scope').val();
+			var verifyAvailable = this._updateVerifyButton(field, scope);
+
+			// change verification buttons from 'verify' to 'verifying...' on value change
+			if (verifyAvailable) {
+				if (field === 'twitter' || field === 'website') {
+					var verifyStatus = this.$('#' + field + 'form > .verify > #verify-' + field);
+					verifyStatus.attr('data-origin-title', t('core', 'Verify'));
+					verifyStatus.attr('src', OC.imagePath('core', 'actions/verify.svg'));
+					verifyStatus.data('status', '0');
+					verifyStatus.addClass('verify-action');
+				} else if (field === 'email') {
+					var verifyStatus = this.$('#' + field + 'form > .verify > #verify-' + field);
+					verifyStatus.attr('data-origin-title', t('core', 'Verifying …'));
+					verifyStatus.data('status', '1');
+					verifyStatus.attr('src', OC.imagePath('core', 'actions/verifying.svg'));
+				}
+			}
 		},
 
 		_setFieldScopeIcon: function(field, scope) {

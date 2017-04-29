@@ -20,6 +20,9 @@ $(document).ready(function() {
 		}
 	});
 
+	/* Verification icon tooltip */
+	$('#personal-settings-container .verify img').tooltip({placement: 'bottom', trigger: 'hover'});
+
 	$('#fileSharingSettings .clipboardButton').tooltip({placement: 'bottom', title: t('core', 'Copy'), trigger: 'hover'});
 
 	// Clipboard!

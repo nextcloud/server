@@ -201,6 +201,58 @@ $(document).ready(function () {
 		}
 	});
 
+	var showVerifyDialog = function(dialog, howToVerify, verificationCode) {
+		var dialogContent = dialog.children('.verification-dialog-content');
+		dialogContent.children(".explainVerification").text(howToVerify);
+		dialogContent.children(".verificationCode").text(verificationCode);
+		dialog.css('display', 'block');
+	};
+
+	$(".verify").click(function (event) {
+
+		event.stopPropagation();
+
+		var verify = $(this);
+		var indicator = $(this).children('img');
+		var accountId = indicator.attr('id');
+		var status = indicator.data('status');
+
+		var onlyVerificationCode = false;
+		if (parseInt(status) === 1) {
+			onlyVerificationCode = true;
+		}
+
+		if (indicator.hasClass('verify-action')) {
+			$.ajax(
+				OC.generateUrl('/settings/users/{account}/verify', {account: accountId}),
+				{
+					method: 'GET',
+					data: {onlyVerificationCode: onlyVerificationCode}
+				}
+			).done(function (data) {
+				var dialog = verify.children('.verification-dialog');
+				showVerifyDialog($(dialog), data.msg, data.code);
+				indicator.attr('data-origin-title', t('core', 'Verifying …'));
+				indicator.attr('src', OC.imagePath('core', 'actions/verifying.svg'));
+				indicator.data('status', '1');
+			});
+		}
+
+	});
+
+	// When the user clicks anywhere outside of the verification dialog we close it
+	$(document).click(function(event){
+		var element = event.target;
+		var isDialog = $(element).hasClass('verificationCode')
+			|| $(element).hasClass('explainVerification')
+			|| $(element).hasClass('verification-dialog-content')
+			|| $(element).hasClass('verification-dialog');
+		if (!isDialog) {
+			$(document).find('.verification-dialog').css('display', 'none');
+		}
+	});
+
+
 	var federationSettingsView = new OC.Settings.FederationSettingsView({
 		el: '#personal-settings'
 	});
@@ -334,7 +386,7 @@ $(document).ready(function () {
 			$('#removeavatar').removeClass('hidden').addClass('inlineblock');
 		}
 	});
-	
+
 
 	// Show token views
 	var collection = new OC.Settings.AuthTokenCollection();

@@ -34,9 +34,12 @@ use OC\Accounts\AccountManager;
 use OC\AppFramework\Http;
 use OC\ForbiddenException;
 use OC\Settings\Mailer\NewUserMailHelper;
+use OC\Security\IdentityProof\Manager;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\IJobList;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
@@ -48,6 +51,7 @@ use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Mail\IMailer;
 use OCP\IAvatarManager;
+use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 
 /**
@@ -82,6 +86,14 @@ class UsersController extends Controller {
 	private $secureRandom;
 	/** @var NewUserMailHelper */
 	private $newUserMailHelper;
+	/** @var ITimeFactory */
+	private $timeFactory;
+	/** @var ICrypto */
+	private $crypto;
+	/** @var Manager */
+	private $keyManager;
+	/** @var IJobList */
+	private $jobList;
 
 	/**
 	 * @param string $appName
@@ -100,6 +112,10 @@ class UsersController extends Controller {
 	 * @param AccountManager $accountManager
 	 * @param ISecureRandom $secureRandom
 	 * @param NewUserMailHelper $newUserMailHelper
+	 * @param ITimeFactory $timeFactory
+	 * @param ICrypto $crypto
+	 * @param Manager $keyManager
+	 * @param IJobList $jobList
 	 */
 	public function __construct($appName,
 								IRequest $request,
@@ -116,7 +132,11 @@ class UsersController extends Controller {
 								IAvatarManager $avatarManager,
 								AccountManager $accountManager,
 								ISecureRandom $secureRandom,
-								NewUserMailHelper $newUserMailHelper) {
+								NewUserMailHelper $newUserMailHelper,
+								ITimeFactory $timeFactory,
+								ICrypto $crypto,
+								Manager $keyManager,
+								IJobList $jobList) {
 		parent::__construct($appName, $request);
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
@@ -130,6 +150,10 @@ class UsersController extends Controller {
 		$this->accountManager = $accountManager;
 		$this->secureRandom = $secureRandom;
 		$this->newUserMailHelper = $newUserMailHelper;
+		$this->timeFactory = $timeFactory;
+		$this->crypto = $crypto;
+		$this->keyManager = $keyManager;
+		$this->jobList = $jobList;
 
 		// check for encryption state - TODO see formatUserForIndex
 		$this->isEncryptionAppEnabled = $appManager->isEnabledForUser('encryption');
@@ -486,6 +510,94 @@ class UsersController extends Controller {
 			),
 			Http::STATUS_FORBIDDEN
 		);
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoSubadminRequired
+	 * @PasswordConfirmationRequired
+	 *
+	 * @param string $account
+	 * @param bool $onlyVerificationCode only return verification code without updating the data
+	 * @return DataResponse
+	 */
+	public function getVerificationCode($account, $onlyVerificationCode) {
+
+		$user = $this->userSession->getUser();
+
+		if ($user === null) {
+			return new DataResponse([], Http::STATUS_BAD_REQUEST);
+		}
+
+		$accountData = $this->accountManager->getUser($user);
+		$cloudId = $user->getCloudId();
+		$message = "Use my Federated Cloud ID to share with me: " . $cloudId;
+		$signature = $this->signMessage($user, $message);
+
+		$code = $message . ' ' . $signature;
+		$codeMd5 = $message . ' ' . md5($signature);
+
+		switch ($account) {
+			case 'verify-twitter':
+				$accountData[AccountManager::PROPERTY_TWITTER]['verified'] = AccountManager::VERIFICATION_IN_PROGRESS;
+				$msg = $this->l10n->t('In order to verify your Twitter account post following tweet on Twitter (please make sure to post it without any line breaks):');
+				$code = $codeMd5;
+				$type = AccountManager::PROPERTY_TWITTER;
+				$data = $accountData[AccountManager::PROPERTY_TWITTER]['value'];
+				$accountData[AccountManager::PROPERTY_TWITTER]['signature'] = $signature;
+				break;
+			case 'verify-website':
+				$accountData[AccountManager::PROPERTY_WEBSITE]['verified'] = AccountManager::VERIFICATION_IN_PROGRESS;
+				$msg = $this->l10n->t('In order to verify your Website store following content in your web-root at \'.well-known/CloudIdVerificationCode.txt\' (please make sure that the complete text is in one line):');
+				$type = AccountManager::PROPERTY_WEBSITE;
+				$data = $accountData[AccountManager::PROPERTY_WEBSITE]['value'];
+				$accountData[AccountManager::PROPERTY_WEBSITE]['signature'] = $signature;
+				break;
+			default:
+				return new DataResponse([], Http::STATUS_BAD_REQUEST);
+		}
+
+		if ($onlyVerificationCode === false) {
+			$this->accountManager->updateUser($user, $accountData);
+
+			$this->jobList->add('OC\Settings\BackgroundJobs\VerifyUserData',
+				[
+					'verificationCode' => $code,
+					'data' => $data,
+					'type' => $type,
+					'uid' => $user->getUID(),
+					'try' => 0,
+					'lastRun' => $this->getCurrentTime()
+				]
+			);
+		}
+
+		return new DataResponse(['msg' => $msg, 'code' => $code]);
+	}
+
+	/**
+	 * get current timestamp
+	 *
+	 * @return int
+	 */
+	protected function getCurrentTime() {
+		return time();
+	}
+
+	/**
+	 * sign message with users private key
+	 *
+	 * @param IUser $user
+	 * @param string $message
+	 *
+	 * @return string base64 encoded signature
+	 */
+	protected function signMessage(IUser $user, $message) {
+		$privateKey = $this->keyManager->getKey($user)->getPrivate();
+		openssl_sign(json_encode($message), $signature, $privateKey, OPENSSL_ALGO_SHA512);
+		$signatureBase64 = base64_encode($signature);
+
+		return $signatureBase64;
 	}
 
 	/**
