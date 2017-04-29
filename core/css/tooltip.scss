@@ -13,12 +13,12 @@
 .tooltip {
 	position: absolute;
 	display: block;
-	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-family: 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif;
 	font-style: normal;
-	font-weight: normal;
+	font-weight: 400;
 	letter-spacing: normal;
 	line-break: auto;
-	line-height: 1.42857143;
+	line-height: 1.6;
 	text-align: left;
 	text-align: start;
 	text-decoration: none;
@@ -39,22 +39,22 @@
 
 	&.top {
 		margin-top: -3px;
-		padding: 5px 0;
+		padding: 10px 0;
 	}
 	&.bottom {
 		margin-top: 3px;
-		padding: 5px 0;
+		padding: 10px 0;
 	}
 
 	&.right {
 		margin-left: 3px;
-		padding: 0 5px;
+		padding: 0 10px;
 		.tooltip-arrow {
 			top: 50%;
 			left: 0;
-			margin-top: -5px;
-			border-width: 5px 5px 5px 0;
-			border-right-color: $color-main-text;
+			margin-top: -10px;
+			border-width: 10px 10px 10px 0;
+			border-right-color: $color-main-background;
 		}
 	}
 	&.left {
@@ -63,9 +63,9 @@
 		.tooltip-arrow {
 			top: 50%;
 			right: 0;
-			margin-top: -5px;
-			border-width: 5px 0 5px 5px;
-			border-left-color: $color-main-text;
+			margin-top: -10px;
+			border-width: 10px 0 10px 10px;
+			border-left-color: $color-main-background;
 		}
 	}
 
@@ -74,20 +74,20 @@
 	&.top-left .tooltip-arrow,
 	&.top-right .tooltip-arrow  {
 		bottom: 0;
-		border-width: 5px 5px 0;
-		border-top-color: $color-main-text;
+		border-width: 10px 10px 0;
+		border-top-color: $color-main-background;
 	}
 	&.top .tooltip-arrow {
 		left: 50%;
-		margin-left: -5px;
+		margin-left: -10px;
 	}
 	&.top-left .tooltip-arrow {
-		right: 5px;
-		margin-bottom: -5px;
+		right: 10px;
+		margin-bottom: -10px;
 	}
 	&.top-right .tooltip-arrow {
-		left: 5px;
-		margin-bottom: -5px;
+		left: 10px;
+		margin-bottom: -10px;
 	}
 
 	/* BOTTOM */
@@ -95,30 +95,31 @@
 	&.bottom-left .tooltip-arrow,
 	&.bottom-right .tooltip-arrow  {
 		top: 0;
-		border-width: 0 5px 5px;
-		border-bottom-color: $color-main-text;
+		border-width: 0 10px 10px;
+		border-bottom-color: $color-main-background;
 	}
 	&.bottom .tooltip-arrow {
 		left: 50%;
-		margin-left: -5px;
+		margin-left: -10px;
 	}
 	&.bottom-left .tooltip-arrow {
-		right: 5px;
-		margin-top: -5px;
+		right: 10px;
+		margin-top: -10px;
 	}
 	&.bottom-right .tooltip-arrow {
-		left: 5px;
-		margin-top: -5px;
+		left: 10px;
+		margin-top: -10px;
 	}
 }
 
 .tooltip-inner {
 	max-width: 350px;
-	padding: 3px 8px;
-	color: $color-main-background;
+	padding: 5px 8px;
+	background-color: $color-main-background;
+	color: $color-main-text;
+	box-shadow: 0 1px 10px rgba(150, 150, 150, .75);
 	text-align: center;
-	background-color: $color-main-text;
-	border-radius: 4px;
+	border-radius: 3px;
 }
 
 .tooltip-arrow {
