@@ -397,7 +397,7 @@
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "O módulo PHP 'fileinfo' está faltando. Recomendamos que ative este módulo para obter melhores resultados com a detecção de mime-type.",
     "Uninstall app" : "Desinstalar aplicativo",
     "Hey there,<br><br>just letting you know that you now have a %s account.<br><br>Your username: <strong>%s</strong><br>Access it: <strong><a href=\"%s\">%s</a></strong><br><br>" : "Olá,<br><br>só para lhe informar que agora você tem uma %s conta.<br><br>Nome de usuário: <strong>%s</strong><br>Acesse: <strong><a href=\"%s\">%s</a></strong><br><br>",
-    "Cheers!" : "Saúde!",
+    "Cheers!" : "Saudações!",
     "Hey there,\n\njust letting you know that you now have a %s account.\n\nYour username: %s\nAccess it: %s\n\n" : "Olá,\n\nsó para lhe informar que você agora tem uma conta %s.\n\nNome de Usuário: %s\nAcesse: %s\n\n",
     "For password recovery and notifications" : "Para recuperação de senha e notificações",
     "Passcodes that give an app or device permissions to access your account." : "Códigos de acesso que fornecem permissões a um aplicativo ou dispositivo para acessar sua conta.",
