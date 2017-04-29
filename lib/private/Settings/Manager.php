@@ -271,7 +271,7 @@ class Manager implements IManager {
 	public function getAdminSections() {
 		// built-in sections
 		$sections = [
-			0 => [new Section('server', $this->l->t('Server settings'), 0, $this->url->imagePath('settings', 'admin.svg'))],
+			0 => [new Section('server', $this->l->t('General'), 0, $this->url->imagePath('settings', 'admin.svg'))],
 			5 => [new Section('sharing', $this->l->t('Sharing'), 0, $this->url->imagePath('core', 'actions/share.svg'))],
 			10 => [new Section('security', $this->l->t('Security'), 0, $this->url->imagePath('core', 'actions/password.svg'))],
 			45 => [new Section('encryption', $this->l->t('Encryption'), 0, $this->url->imagePath('core', 'actions/password.svg'))],
