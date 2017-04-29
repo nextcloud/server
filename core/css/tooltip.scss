@@ -33,8 +33,8 @@
 	z-index: 100000;
 	filter: alpha(opacity = 0);
 	&.in {
-		opacity: 0.9;
-		filter: alpha(opacity = 90);
+		opacity: 1;
+		filter: alpha(opacity = 100);
 	}
 
 	&.top {
