@@ -160,6 +160,14 @@ interface IUserManager {
 	 * @return int
 	 * @since 11.0.0
 	 */
+	public function countDisabledUsers();
+
+	/**
+	 * returns how many users have logged in once
+	 *
+	 * @return int
+	 * @since 11.0.0
+	 */
 	public function countSeenUsers();
 
 	/**

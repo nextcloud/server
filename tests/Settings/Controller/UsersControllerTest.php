@@ -211,6 +211,9 @@ class UsersControllerTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('getBackendClassName')
 			->will($this->returnValue('OC_User_Database'));
+		$foo->expects($this->any())
+			->method('isEnabled')
+			->willReturn(true);
 		$admin = $this->createMock(User::class);
 		$admin
 			->expects($this->exactly(2))
@@ -240,6 +243,9 @@ class UsersControllerTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('getBackendClassName')
 			->willReturn(Dummy::class);
+		$admin->expects($this->any())
+			->method('isEnabled')
+			->willReturn(true);
 		$bar = $this->createMock(User::class);
 		$bar
 			->expects($this->exactly(2))
@@ -267,6 +273,15 @@ class UsersControllerTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('getBackendClassName')
 			->willReturn(Dummy::class);
+		$bar->expects($this->at(0))
+			->method('isEnabled')
+			->willReturn(true);
+		$bar->expects($this->at(1))
+			->method('isEnabled')
+			->willReturn(true);
+		$bar->expects($this->at(2))
+			->method('isEnabled')
+			->willReturn(false);
 
 		$this->groupManager
 			->expects($this->once())
@@ -330,6 +345,7 @@ class UsersControllerTest extends \Test\TestCase {
 					'email' => 'foo@bar.com',
 					'isRestoreDisabled' => false,
 					'isAvatarAvailable' => true,
+					'isEnabled' => true,
 				),
 				1 => array(
 					'name' => 'admin',
@@ -343,6 +359,7 @@ class UsersControllerTest extends \Test\TestCase {
 					'email' => 'admin@bar.com',
 					'isRestoreDisabled' => false,
 					'isAvatarAvailable' => false,
+					'isEnabled' => true,
 				),
 				2 => array(
 					'name' => 'bar',
@@ -356,6 +373,7 @@ class UsersControllerTest extends \Test\TestCase {
 					'email' => 'bar@dummy.com',
 					'isRestoreDisabled' => false,
 					'isAvatarAvailable' => true,
+					'isEnabled' => false,
 				),
 			)
 		);
@@ -399,6 +417,9 @@ class UsersControllerTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('getBackendClassName')
 			->will($this->returnValue('OC_User_Database'));
+		$foo->expects($this->any())
+			->method('isEnabled')
+			->willReturn(true);
 		$admin = $this->createMock(User::class);
 		$admin
 			->expects($this->exactly(2))
@@ -428,6 +449,9 @@ class UsersControllerTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('getBackendClassName')
 			->willReturn(Dummy::class);
+		$admin->expects($this->any())
+			->method('isEnabled')
+			->willReturn(true);
 		$bar = $this->createMock(User::class);
 		$bar
 			->expects($this->exactly(2))
@@ -455,6 +479,9 @@ class UsersControllerTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('getBackendClassName')
 			->willReturn(Dummy::class);
+		$bar->expects($this->any())
+			->method('isEnabled')
+			->willReturn(true);
 
 		$this->groupManager
 			->expects($this->at(2))
@@ -532,6 +559,7 @@ class UsersControllerTest extends \Test\TestCase {
 					'email' => 'bar@dummy.com',
 					'isRestoreDisabled' => false,
 					'isAvatarAvailable' => true,
+					'isEnabled' => true,
 				],
 				1=> [
 					'name' => 'foo',
@@ -545,6 +573,7 @@ class UsersControllerTest extends \Test\TestCase {
 					'email' => 'foo@bar.com',
 					'isRestoreDisabled' => false,
 					'isAvatarAvailable' => true,
+					'isEnabled' => true,
 				],
 				2 => [
 					'name' => 'admin',
@@ -558,6 +587,7 @@ class UsersControllerTest extends \Test\TestCase {
 					'email' => 'admin@bar.com',
 					'isRestoreDisabled' => false,
 					'isAvatarAvailable' => false,
+					'isEnabled' => true,
 				],
 			]
 		);
@@ -600,6 +630,9 @@ class UsersControllerTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('getBackendClassName')
 			->will($this->returnValue('OC_User_Database'));
+		$foo->expects($this->any())
+			->method('isEnabled')
+			->willReturn(true);
 		$admin = $this->createMock(User::class);
 		$admin
 			->expects($this->exactly(2))
@@ -629,6 +662,9 @@ class UsersControllerTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('getBackendClassName')
 			->willReturn(Dummy::class);
+		$admin->expects($this->any())
+			->method('isEnabled')
+			->willReturn(true);
 		$bar = $this->createMock(User::class);
 		$bar
 			->expects($this->exactly(2))
@@ -656,6 +692,9 @@ class UsersControllerTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('getBackendClassName')
 			->willReturn(Dummy::class);
+		$bar->expects($this->any())
+			->method('isEnabled')
+			->willReturn(true);
 
 		$this->userManager
 			->expects($this->once())
@@ -692,6 +731,7 @@ class UsersControllerTest extends \Test\TestCase {
 					'email' => 'foo@bar.com',
 					'isRestoreDisabled' => false,
 					'isAvatarAvailable' => true,
+					'isEnabled' => true,
 				),
 				1 => array(
 					'name' => 'admin',
@@ -705,6 +745,7 @@ class UsersControllerTest extends \Test\TestCase {
 					'email' => 'admin@bar.com',
 					'isRestoreDisabled' => false,
 					'isAvatarAvailable' => false,
+					'isEnabled' => true,
 				),
 				2 => array(
 					'name' => 'bar',
@@ -718,6 +759,7 @@ class UsersControllerTest extends \Test\TestCase {
 					'email' => 'bar@dummy.com',
 					'isRestoreDisabled' => false,
 					'isAvatarAvailable' => true,
+					'isEnabled' => true,
 				),
 			)
 		);
@@ -755,6 +797,10 @@ class UsersControllerTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('getBackendClassName')
 			->will($this->returnValue('OC_User_Database'));
+		$user->expects($this->any())
+			->method('isEnabled')
+			->willReturn(true);
+
 		$this->userManager
 			->expects($this->once())
 			->method('getBackends')
@@ -793,6 +839,7 @@ class UsersControllerTest extends \Test\TestCase {
 					'email' => null,
 					'isRestoreDisabled' => false,
 					'isAvatarAvailable' => true,
+					'isEnabled' => true,
 				)
 			)
 		);
@@ -832,6 +879,9 @@ class UsersControllerTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('getBackendClassName')
 			->will($this->returnValue('bar'));
+		$user->expects($this->any())
+			->method('isEnabled')
+			->willReturn(true);
 
 		$this->userManager
 			->expects($this->once())
@@ -864,6 +914,7 @@ class UsersControllerTest extends \Test\TestCase {
 				'email' => null,
 				'isRestoreDisabled' => false,
 				'isAvatarAvailable' => true,
+				'isEnabled' => true,
 			),
 			Http::STATUS_CREATED
 		);
@@ -888,6 +939,9 @@ class UsersControllerTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('getBackendClassName')
 			->will($this->returnValue('bar'));
+		$user->expects($this->any())
+			->method('isEnabled')
+			->willReturn(true);
 		$existingGroup = $this->getMockBuilder('\OCP\IGroup')
 			->disableOriginalConstructor()->getMock();
 		$existingGroup
@@ -946,6 +1000,7 @@ class UsersControllerTest extends \Test\TestCase {
 				'email' => null,
 				'isRestoreDisabled' => false,
 				'isAvatarAvailable' => true,
+				'isEnabled' => true,
 			),
 			Http::STATUS_CREATED
 		);
@@ -975,6 +1030,9 @@ class UsersControllerTest extends \Test\TestCase {
 			->method('getBackendClassName')
 			->will($this->returnValue('bar'));
 		$subGroup1 = $this->createMock(IGroup::class);
+		$newUser->expects($this->any())
+			->method('isEnabled')
+			->willReturn(true);
 		$subGroup1
 			->expects($this->any())
 			->method('getGID')
@@ -1034,6 +1092,7 @@ class UsersControllerTest extends \Test\TestCase {
 				'email' => null,
 				'isRestoreDisabled' => false,
 				'isAvatarAvailable' => true,
+				'isEnabled' => true,
 			),
 			Http::STATUS_CREATED
 		);
@@ -1463,7 +1522,8 @@ class UsersControllerTest extends \Test\TestCase {
 	}
 
 	private function mockUser($userId = 'foo', $displayName = 'M. Foo',
-							  $lastLogin = 500, $home = '/home/foo', $backend = 'OC_User_Database') {
+							  $lastLogin = 500, $home = '/home/foo',
+							  $backend = 'OC_User_Database', $enabled = true) {
 		$user = $this->createMock(User::class);
 		$user
 			->expects($this->any())
@@ -1483,6 +1543,9 @@ class UsersControllerTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('getBackendClassName')
 			->will($this->returnValue($backend));
+		$user->expects($this->any())
+			->method('isEnabled')
+			->willReturn($enabled);
 
 		$result = [
 			'name' => $userId,
@@ -1496,6 +1559,7 @@ class UsersControllerTest extends \Test\TestCase {
 			'email' => null,
 			'isRestoreDisabled' => false,
 			'isAvatarAvailable' => true,
+			'isEnabled' => $enabled,
 		];
 
 		return [$user, $result];
@@ -2159,6 +2223,11 @@ class UsersControllerTest extends \Test\TestCase {
 	/**
 	 * @dataProvider setEmailAddressData
 	 *
+	 * @param string $mailAddress
+	 * @param bool $isValid
+	 * @param bool $expectsUpdate
+	 * @param bool $canChangeDisplayName
+	 * @param int $responseCode
 	 */
 	public function testSetEMailAddress($mailAddress, $isValid, $expectsUpdate, $canChangeDisplayName, $responseCode) {
 		$user = $this->createMock(User::class);
@@ -2230,6 +2299,9 @@ class UsersControllerTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('getBackendClassName')
 			->willReturn('bar');
+		$user
+			->method('isEnabled')
+			->willReturn(true);
 
 		$this->userManager
 			->expects($this->once())
@@ -2279,6 +2351,7 @@ class UsersControllerTest extends \Test\TestCase {
 				'email' => 'abc@example.org',
 				'isRestoreDisabled' => false,
 				'isAvatarAvailable' => true,
+				'isEnabled' => true,
 			],
 			Http::STATUS_CREATED
 		);
@@ -2369,7 +2442,428 @@ class UsersControllerTest extends \Test\TestCase {
 		$this->userSession->expects($this->once())->method('getUser')->willReturn(null);
 		$result = $controller->getVerificationCode('account', false);
 
-		$this->assertSame(Http::STATUS_BAD_REQUEST ,$result->getStatus());
+		$this->assertSame(Http::STATUS_BAD_REQUEST, $result->getStatus());
+	}
 
+	public function testDisableUserFailsDueSameUser() {
+		$user = $this->getMockBuilder('\OC\User\User')
+			->disableOriginalConstructor()->getMock();
+		$user->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('abc'));
+		$this->userSession
+			->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($user));
+		$expectedResponse = new DataResponse(
+			[
+				'status' => 'error',
+				'data' => [
+					'message' => 'Error while disabling user.',
+				],
+			],
+			Http::STATUS_FORBIDDEN
+		);
+		$response = $this->getController(true)->setEnabled('abc', false);
+		$this->assertEquals($expectedResponse, $response);
+	}
+
+	public function testDisableUserFailsDueNoAdminAndNoSubadmin() {
+		$user = $this->getMockBuilder('\OC\User\User')
+			->disableOriginalConstructor()->getMock();
+		$user->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('def'));
+		$this->userSession
+			->expects($this->exactly(2))
+			->method('getUser')
+			->will($this->returnValue($user));
+		$user2 = $this->getMockBuilder('\OC\User\User')
+			->disableOriginalConstructor()->getMock();
+		$user2->expects($this->never())
+			->method('setEnabled');
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('abc')
+			->willReturn($user2);
+
+		$subadmin = $this->createMock('\OC\SubAdmin');
+		$subadmin->expects($this->once())
+			->method('isUserAccessible')
+			->will($this->returnValue(false));
+		$this->groupManager
+			->expects($this->once())
+			->method('getSubAdmin')
+			->willReturn($subadmin);
+
+		$expectedResponse = new DataResponse(
+			[
+				'status' => 'error',
+				'data' => [
+					'message' => 'Authentication error',
+				],
+			],
+			Http::STATUS_FORBIDDEN
+		);
+		$response = $this->getController(false)->setEnabled('abc', false);
+		$this->assertEquals($expectedResponse, $response);
+	}
+
+	public function testDisableUserFailsDueNoUser() {
+		$user = $this->getMockBuilder('\OC\User\User')
+			->disableOriginalConstructor()->getMock();
+		$user->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('def'));
+		$this->userSession
+			->expects($this->exactly(1))
+			->method('getUser')
+			->will($this->returnValue($user));
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('abc')
+			->willReturn(null);
+
+		$this->groupManager
+			->expects($this->never())
+			->method('getSubAdmin');
+
+		$expectedResponse = new DataResponse(
+			[
+				'status' => 'error',
+				'data' => [
+					'message' => 'Error while disabling user.',
+				],
+			],
+			Http::STATUS_FORBIDDEN
+		);
+		$response = $this->getController(true)->setEnabled('abc', false);
+		$this->assertEquals($expectedResponse, $response);
+	}
+
+	public function testDisableUserFailsDueNoUserForSubAdmin() {
+		$user = $this->getMockBuilder('\OC\User\User')
+			->disableOriginalConstructor()->getMock();
+		$user->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('def'));
+		$this->userSession
+			->expects($this->exactly(1))
+			->method('getUser')
+			->will($this->returnValue($user));
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('abc')
+			->willReturn(null);
+
+		$this->groupManager
+			->expects($this->never())
+			->method('getSubAdmin');
+
+		$expectedResponse = new DataResponse(
+			[
+				'status' => 'error',
+				'data' => [
+					'message' => 'Error while disabling user.',
+				],
+			],
+			Http::STATUS_FORBIDDEN
+		);
+		$response = $this->getController(false)->setEnabled('abc', false);
+		$this->assertEquals($expectedResponse, $response);
+	}
+
+	public function testDisableUserSuccessForAdmin() {
+		$user = $this->getMockBuilder('\OC\User\User')
+			->disableOriginalConstructor()->getMock();
+		$user->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('def'));
+		$this->userSession
+			->expects($this->exactly(1))
+			->method('getUser')
+			->will($this->returnValue($user));
+		$user2 = $this->getMockBuilder('\OC\User\User')
+			->disableOriginalConstructor()->getMock();
+		$user2->expects($this->once())
+			->method('setEnabled')
+			->with(false);
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('abc')
+			->willReturn($user2);
+
+		$this->groupManager
+			->expects($this->never())
+			->method('getSubAdmin');
+
+		$expectedResponse = new DataResponse(
+			[
+				'status' => 'success',
+				'data' => [
+					'username' => 'abc',
+					'enabled' => 0,
+				],
+			]
+		);
+		$response = $this->getController(true)->setEnabled('abc', false);
+		$this->assertEquals($expectedResponse, $response);
+	}
+
+	public function testDisableUserSuccessForSubAdmin() {
+		$user = $this->getMockBuilder('\OC\User\User')
+			->disableOriginalConstructor()->getMock();
+		$user->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('def'));
+		$this->userSession
+			->expects($this->exactly(2))
+			->method('getUser')
+			->will($this->returnValue($user));
+		$user2 = $this->getMockBuilder('\OC\User\User')
+			->disableOriginalConstructor()->getMock();
+		$user2->expects($this->once())
+			->method('setEnabled');
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('abc')
+			->willReturn($user2);
+
+		$subadmin = $this->createMock('\OC\SubAdmin');
+		$subadmin->expects($this->once())
+			->method('isUserAccessible')
+			->will($this->returnValue(true));
+		$this->groupManager
+			->expects($this->once())
+			->method('getSubAdmin')
+			->willReturn($subadmin);
+
+		$expectedResponse = new DataResponse(
+			[
+				'status' => 'success',
+				'data' => [
+					'username' => 'abc',
+					'enabled' => 0,
+				],
+			]
+		);
+		$response = $this->getController(false)->setEnabled('abc', false);
+		$this->assertEquals($expectedResponse, $response);
+	}
+
+	public function testEnableUserFailsDueSameUser() {
+		$user = $this->getMockBuilder('\OC\User\User')
+			->disableOriginalConstructor()->getMock();
+		$user->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('abc'));
+		$this->userSession
+			->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($user));
+		$expectedResponse = new DataResponse(
+			[
+				'status' => 'error',
+				'data' => [
+					'message' => 'Error while enabling user.',
+				],
+			],
+			Http::STATUS_FORBIDDEN
+		);
+		$response = $this->getController(true)->setEnabled('abc', true);
+		$this->assertEquals($expectedResponse, $response);
+	}
+
+	public function testEnableUserFailsDueNoAdminAndNoSubadmin() {
+		$user = $this->getMockBuilder('\OC\User\User')
+			->disableOriginalConstructor()->getMock();
+		$user->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('def'));
+		$this->userSession
+			->expects($this->exactly(2))
+			->method('getUser')
+			->will($this->returnValue($user));
+		$user2 = $this->getMockBuilder('\OC\User\User')
+			->disableOriginalConstructor()->getMock();
+		$user2->expects($this->never())
+			->method('setEnabled');
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('abc')
+			->willReturn($user2);
+
+		$subadmin = $this->createMock('\OC\SubAdmin');
+		$subadmin->expects($this->once())
+			->method('isUserAccessible')
+			->will($this->returnValue(false));
+		$this->groupManager
+			->expects($this->once())
+			->method('getSubAdmin')
+			->willReturn($subadmin);
+
+		$expectedResponse = new DataResponse(
+			[
+				'status' => 'error',
+				'data' => [
+					'message' => 'Authentication error',
+				],
+			],
+			Http::STATUS_FORBIDDEN
+		);
+		$response = $this->getController(false)->setEnabled('abc', true);
+		$this->assertEquals($expectedResponse, $response);
+	}
+
+	public function testEnableUserFailsDueNoUser() {
+		$user = $this->getMockBuilder('\OC\User\User')
+			->disableOriginalConstructor()->getMock();
+		$user->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('def'));
+		$this->userSession
+			->expects($this->exactly(1))
+			->method('getUser')
+			->will($this->returnValue($user));
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('abc')
+			->willReturn(null);
+
+		$this->groupManager
+			->expects($this->never())
+			->method('getSubAdmin');
+
+		$expectedResponse = new DataResponse(
+			[
+				'status' => 'error',
+				'data' => [
+					'message' => 'Error while enabling user.',
+				],
+			],
+			Http::STATUS_FORBIDDEN
+		);
+		$response = $this->getController(true)->setEnabled('abc', true);
+		$this->assertEquals($expectedResponse, $response);
+	}
+
+	public function testEnableUserFailsDueNoUserForSubAdmin() {
+		$user = $this->getMockBuilder('\OC\User\User')
+			->disableOriginalConstructor()->getMock();
+		$user->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('def'));
+		$this->userSession
+			->expects($this->exactly(1))
+			->method('getUser')
+			->will($this->returnValue($user));
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('abc')
+			->willReturn(null);
+
+		$this->groupManager
+			->expects($this->never())
+			->method('getSubAdmin');
+
+		$expectedResponse = new DataResponse(
+			[
+				'status' => 'error',
+				'data' => [
+					'message' => 'Error while enabling user.',
+				],
+			],
+			Http::STATUS_FORBIDDEN
+		);
+		$response = $this->getController(false)->setEnabled('abc', true);
+		$this->assertEquals($expectedResponse, $response);
+	}
+
+	public function testEnableUserSuccessForAdmin() {
+		$user = $this->getMockBuilder('\OC\User\User')
+			->disableOriginalConstructor()->getMock();
+		$user->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('def'));
+		$this->userSession
+			->expects($this->exactly(1))
+			->method('getUser')
+			->will($this->returnValue($user));
+		$user2 = $this->getMockBuilder('\OC\User\User')
+			->disableOriginalConstructor()->getMock();
+		$user2->expects($this->once())
+			->method('setEnabled');
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('abc')
+			->willReturn($user2);
+
+		$this->groupManager
+			->expects($this->never())
+			->method('getSubAdmin');
+
+		$expectedResponse = new DataResponse(
+			[
+				'status' => 'success',
+				'data' => [
+					'username' => 'abc',
+					'enabled' => 1,
+				],
+			]
+		);
+		$response = $this->getController(true)->setEnabled('abc', true);
+		$this->assertEquals($expectedResponse, $response);
+	}
+
+	public function testEnableUserSuccessForSubAdmin() {
+		$user = $this->getMockBuilder('\OC\User\User')
+			->disableOriginalConstructor()->getMock();
+		$user->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('def'));
+		$this->userSession
+			->expects($this->exactly(2))
+			->method('getUser')
+			->will($this->returnValue($user));
+		$user2 = $this->getMockBuilder('\OC\User\User')
+			->disableOriginalConstructor()->getMock();
+		$user2->expects($this->once())
+			->method('setEnabled')
+			->with(true);
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('abc')
+			->willReturn($user2);
+
+		$subadmin = $this->createMock('\OC\SubAdmin');
+		$subadmin->expects($this->once())
+			->method('isUserAccessible')
+			->will($this->returnValue(true));
+		$this->groupManager
+			->expects($this->once())
+			->method('getSubAdmin')
+			->willReturn($subadmin);
+
+		$expectedResponse = new DataResponse(
+			[
+				'status' => 'success',
+				'data' => [
+					'username' => 'abc',
+					'enabled' => 1,
+				],
+			]
+		);
+		$response = $this->getController(false)->setEnabled('abc', true);
+		$this->assertEquals($expectedResponse, $response);
 	}
 }

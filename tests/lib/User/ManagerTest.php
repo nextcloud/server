@@ -510,6 +510,31 @@ class ManagerTest extends TestCase {
 		$this->assertEquals(7 + 16, $users);
 	}
 
+	public function testCountUsersOnlyDisabled() {
+		$manager = \OC::$server->getUserManager();
+		// count other users in the db before adding our own
+		$countBefore = $manager->countDisabledUsers();
+
+		//Add test users
+		$user1 = $manager->createUser('testdisabledcount1', 'testdisabledcount1');
+
+		$user2 = $manager->createUser('testdisabledcount2', 'testdisabledcount2');
+		$user2->setEnabled(false);
+
+		$user3 = $manager->createUser('testdisabledcount3', 'testdisabledcount3');
+
+		$user4 = $manager->createUser('testdisabledcount4', 'testdisabledcount4');
+		$user4->setEnabled(false);
+
+		$this->assertEquals($countBefore + 2, $manager->countDisabledUsers());
+
+		//cleanup
+		$user1->delete();
+		$user2->delete();
+		$user3->delete();
+		$user4->delete();
+	}
+
 	public function testCountUsersOnlySeen() {
 		$manager = \OC::$server->getUserManager();
 		// count other users in the db before adding our own

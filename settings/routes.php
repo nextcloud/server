@@ -53,6 +53,7 @@ $application->registerRoutes($this, [
 		['name' => 'Users#setEMailAddress', 'url' => '/settings/users/{id}/mailAddress', 'verb' => 'PUT'],
 		['name' => 'Users#setUserSettings', 'url' => '/settings/users/{username}/settings', 'verb' => 'PUT'],
 		['name' => 'Users#getVerificationCode', 'url' => '/settings/users/{account}/verify', 'verb' => 'GET'],
+		['name' => 'Users#setEnabled', 'url' => '/settings/users/{id}/setEnabled', 'verb' => 'POST'],
 		['name' => 'Users#stats', 'url' => '/settings/users/stats', 'verb' => 'GET'],
 		['name' => 'LogSettings#setLogLevel', 'url' => '/settings/admin/log/level', 'verb' => 'POST'],
 		['name' => 'LogSettings#getEntries', 'url' => '/settings/admin/log/entries', 'verb' => 'GET'],

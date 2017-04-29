@@ -412,6 +412,28 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * returns how many users have logged in once
 	 *
 	 * @return int
+	 * @since 12.0.0
+	 */
+	public function countDisabledUsers() {
+		$queryBuilder = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$queryBuilder->select($queryBuilder->createFunction('COUNT(*)'))
+			->from('preferences')
+			->where($queryBuilder->expr()->eq('appid', $queryBuilder->createNamedParameter('core')))
+			->andWhere($queryBuilder->expr()->eq('configkey', $queryBuilder->createNamedParameter('enabled')))
+			->andWhere($queryBuilder->expr()->eq('configvalue', $queryBuilder->createNamedParameter('false')));
+
+		$query = $queryBuilder->execute();
+
+		$result = (int)$query->fetchColumn();
+		$query->closeCursor();
+
+		return $result;
+	}
+
+	/**
+	 * returns how many users have logged in once
+	 *
+	 * @return int
 	 * @since 11.0.0
 	 */
 	public function countSeenUsers() {
