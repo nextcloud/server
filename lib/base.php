@@ -806,6 +806,8 @@ class OC {
 				} catch (\OC\ServerNotAvailableException $e) {
 					// not a GC exception, pass it on
 					throw $e;
+				} catch (\OC\ForbiddenException $e) {
+					// filesystem blocked for this request, ignore
 				} catch (\Exception $e) {
 					// a GC exception should not prevent users from using OC,
 					// so log the exception
