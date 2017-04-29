@@ -157,7 +157,7 @@ class ManagerTest extends TestCase {
 			]);
 
 		$this->assertEquals([
-			0 => [new Section('server', 'Server settings', 0, '1')],
+			0 => [new Section('server', 'Basic settings', 0, '1')],
 			5 => [new Section('sharing', 'Sharing', 0, '2')],
 			10 => [new Section('security', 'Security', 0, '3')],
 			45 => [new Section('encryption', 'Encryption', 0, '3')],
@@ -189,7 +189,7 @@ class ManagerTest extends TestCase {
 			]);
 
 		$this->assertEquals([
-			0 => [new Section('server', 'Server settings', 0, '1')],
+			0 => [new Section('server', 'Basic settings', 0, '1')],
 			5 => [new Section('sharing', 'Sharing', 0, '2')],
 			10 => [new Section('security', 'Security', 0, '3')],
 			45 => [new Section('encryption', 'Encryption', 0, '3')],
