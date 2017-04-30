@@ -1,13 +1,13 @@
 OC.L10N.register(
     "theming",
     {
+    "Saved" : "Enregistré",
     "Admin" : "Administration",
     "a safe home for all your data" : "un endroit sûr pour toutes vos données",
     "The given name is too long" : "Le nom donné est trop long",
     "The given web address is too long" : "L'adresse web donnée est trop longue",
     "The given slogan is too long" : "Le slogan donné est trop long",
     "The given color is invalid" : "La couleur donnée est invalide",
-    "Saved" : "Enregistré",
     "No file uploaded" : "Aucun fichier téléversé",
     "Unsupported image type" : "Ce type d'image n'est pas pris en charge",
     "You are already using a custom theme" : "Vous utilisez déjà un thème personnalisé",

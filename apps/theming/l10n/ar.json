@@ -1,11 +1,11 @@
 { "translations": {
+    "Saved" : "تم الحفظ",
     "Admin" : "ادارة",
     "a safe home for all your data" : "مكان آمن لكل معلوماتك",
     "The given name is too long" : "هذا الاسم أطول مما يجب",
     "The given web address is too long" : "هذا العنوان أطول مما يجب",
     "The given slogan is too long" : "هذا الشعار أطول مما يجب",
     "The given color is invalid" : "هناك خطأ في اللون",
-    "Saved" : "تم الحفظ",
     "No file uploaded" : "لم يتم رفع الملف",
     "Unsupported image type" : "صيغة الصورة غير مقبولة",
     "You are already using a custom theme" : "انت تستعمل قالب مخصص",

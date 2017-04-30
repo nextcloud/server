@@ -200,7 +200,6 @@ OC.L10N.register(
     "Address" : "Adreça",
     "Your postal address" : "La teva adreça postal",
     "Website" : "Lloc web",
-    "Your website" : "El teu lloc web",
     "Twitter" : "Twitter",
     "You are member of the following groups:" : "Vostè és membre dels següents grups:",
     "Password" : "Contrasenya",
@@ -257,6 +256,7 @@ OC.L10N.register(
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "El mòdul de PHP 'fileinfo' no s'ha trobat. Us recomanem que habiliteu aquest mòdul per obtenir millors resultats amb la detecció mime-type.",
     "Uninstall app" : "Desinstala la app",
     "Cheers!" : "Salut!",
+    "Your website" : "El teu lloc web",
     "Show last log in" : "Mostrar l'últim accés"
 },
 "nplurals=2; plural=(n != 1);");

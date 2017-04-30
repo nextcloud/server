@@ -1,11 +1,11 @@
 { "translations": {
+    "Saved" : "Salvato",
     "Admin" : "Amministratore",
     "a safe home for all your data" : "una casa sicura per i tuoi dati",
     "The given name is too long" : "Questo nome è troppo lungo",
     "The given web address is too long" : "Questo indirizzo web è troppo lungo",
     "The given slogan is too long" : "Questo slogan è troppo lungo",
     "The given color is invalid" : "Questo colore non è valido",
-    "Saved" : "Salvato",
     "No file uploaded" : "Nessun file caricato",
     "Unsupported image type" : "Tipo di immagine non supportato",
     "You are already using a custom theme" : "Stai già usando un tema personalizzato",

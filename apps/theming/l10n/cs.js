@@ -1,13 +1,13 @@
 OC.L10N.register(
     "theming",
     {
+    "Saved" : "Uloženo",
     "Admin" : "Administrace",
     "a safe home for all your data" : "bezpečný domov pro všechna vaše data",
     "The given name is too long" : "Zadaný název je příliš dlouhý",
     "The given web address is too long" : "Zadaná webová adresa je příliš dlouhá",
     "The given slogan is too long" : "Zadaný slogan je příliš dlouhý",
     "The given color is invalid" : "Zadaná barva je neplatná",
-    "Saved" : "Uloženo",
     "No file uploaded" : "Nenahrán žádný soubor",
     "Unsupported image type" : "Nepodporovaný typ obrázku",
     "You are already using a custom theme" : "Již používáte vlastní motiv",

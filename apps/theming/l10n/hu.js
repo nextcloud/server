@@ -1,13 +1,13 @@
 OC.L10N.register(
     "theming",
     {
+    "Saved" : "Mentve!",
     "Admin" : "Adminisztrátor",
     "a safe home for all your data" : "biztonságos hely az adataid számára",
     "The given name is too long" : "A bevitt név túl hosszú",
     "The given web address is too long" : "A bevitt webcím túl hosszú",
     "The given slogan is too long" : "A bevitt szlogen túl hosszú",
     "The given color is invalid" : "A bevitt szín érvénytelen",
-    "Saved" : "Mentve!",
     "No file uploaded" : "Nincs fájl feltöltve",
     "Unsupported image type" : "Nem támogatott képtípus",
     "You are already using a custom theme" : "Már egyedi témát használ",
