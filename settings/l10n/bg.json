@@ -178,7 +178,6 @@
     "Address" : "Адрес",
     "Your postal address" : "Вашия пощенски код",
     "Website" : "Уеб страница",
-    "Your website" : "Вашата уеб страница",
     "Twitter" : "Twitter",
     "You are member of the following groups:" : "Член сте на следните групи:",
     "Password" : "Парола",
@@ -237,6 +236,7 @@
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "PHP модулът 'fileinfo' липсва. Силно препоръчваме този модъл да бъде добавен, за да бъдат постигнати най-добри резултати при mime-type откриването.",
     "Uninstall app" : "Премахване на приложението",
     "Cheers!" : "Поздрави!",
+    "Your website" : "Вашата уеб страница",
     "Show last log in" : "Покажи последно вписване"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

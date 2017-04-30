@@ -252,9 +252,7 @@ OC.L10N.register(
     "Address" : "Helbidea",
     "Your postal address" : "Zure helbidea",
     "Website" : "Web orria",
-    "Your website" : "Zure web orria",
     "Twitter" : "Twitter",
-    "Your Twitter handle" : "Zure Twitter erabiltzailea",
     "You are member of the following groups:" : "Zuk honako talde kide zara:",
     "Password" : "Pasahitza",
     "Current password" : "Uneko pasahitza",
@@ -317,6 +315,8 @@ OC.L10N.register(
     "Uninstall app" : "Desinstalatu aplikazioa",
     "Cheers!" : "Ongi izan!",
     "Hey there,\n\njust letting you know that you now have a %s account.\n\nYour username: %s\nAccess it: %s\n\n" : "Kaixo,\n\nJakinarazi nahi dizugu, badaukazula %s kontua.\n\nZure erabiltzaile izena: %s \nSar zaitez: %s\n",
+    "Your website" : "Zure web orria",
+    "Your Twitter handle" : "Zure Twitter erabiltzailea",
     "Passcodes that give an app or device permissions to access your account." : "Zure kontuan sartzeko aplikazio edo gailuei baimena ematen dien pasahitzak.",
     "Show last log in" : "Erakutsi azkeneko saio hasiera"
 },

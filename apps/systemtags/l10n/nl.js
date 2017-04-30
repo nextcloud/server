@@ -42,6 +42,7 @@ OC.L10N.register(
     "%s (invisible)" : "%s (onzichtbaar)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>Systeemmarkeringen</strong> voor een bestand zijn gewijzigd",
     "Collaborative tags" : "Samenwerk markeringen",
+    "Select tag …" : "Selecteer tag …",
     "Name" : "Naam",
     "Delete" : "Verwijder",
     "Public" : "Openbaar",

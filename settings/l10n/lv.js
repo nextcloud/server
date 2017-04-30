@@ -214,7 +214,6 @@ OC.L10N.register(
     "Address" : "Adrese",
     "Your postal address" : "Jūsu pasta adrese",
     "Website" : "Mājaslapa",
-    "Your website" : "Jūsu mājaslapa",
     "Twitter" : "Twitter",
     "You are member of the following groups:" : "Jūs esat šādu grupu biedrs:",
     "Password" : "Parole",
@@ -278,6 +277,7 @@ OC.L10N.register(
     "Cheers!" : "Priekā!",
     "Hey there,\n\njust letting you know that you now have a %s account.\n\nYour username: %s\nAccess it: %s\n\n" : "Hei,\n\nvienkārši Jūsu zināšanai, ka Jums tagad ir %s konts.\n\nJūsu lietotājvārds: %s\nPiekļuve: %s\n\n",
     "For password recovery and notifications" : "Paroles atjaunošanai un paziņojumiem",
+    "Your website" : "Jūsu mājaslapa",
     "Follow us on Google Plus!" : "Seko mums Google Plus!",
     "Show last log in" : "Rādīt pēdējo autorizāciju"
 },

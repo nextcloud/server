@@ -242,9 +242,7 @@
     "Address" : "Adresa",
     "Your postal address" : "Vaša poštová adresa",
     "Website" : "Webstránka",
-    "Your website" : "Vaša webstránka",
     "Twitter" : "Twitter",
-    "Your Twitter handle" : "Vaša stránka na Twitteri",
     "You are member of the following groups:" : "Ste členom nasledovných skupín:",
     "Password" : "Heslo",
     "Current password" : "Aktuálne heslo",
@@ -312,6 +310,8 @@
     "Cheers!" : "Pekný deň!",
     "Hey there,\n\njust letting you know that you now have a %s account.\n\nYour username: %s\nAccess it: %s\n\n" : "Dobrý deň,\n\ntoto je oznámenie o novo vytvorenom účte %s.\n\nVaše používateľské meno: %s\nPrihlásiť sa môžete tu: %s\n\n",
     "For password recovery and notifications" : "Pre obnovu hesla a oznámenia",
+    "Your website" : "Vaša webstránka",
+    "Your Twitter handle" : "Vaša stránka na Twitteri",
     "Passcodes that give an app or device permissions to access your account." : "Prístupové heslá, ktoré dovolia aplikáciam alebo zariadeniam prístup na váš účet.",
     "Follow us on Google Plus!" : "Sleduj nás na Google Plus!",
     "Show last log in" : "Zobraziť posledné prihlásenie"

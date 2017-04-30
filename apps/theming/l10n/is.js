@@ -1,13 +1,13 @@
 OC.L10N.register(
     "theming",
     {
+    "Saved" : "Vistað",
     "Admin" : "Stjórnandi",
     "a safe home for all your data" : "öruggur staður fyrir öll gögnin þín",
     "The given name is too long" : "Uppgefið nafn er of langt",
     "The given web address is too long" : "Uppgefið veffang er of langt",
     "The given slogan is too long" : "Uppgefið slagorð er of langt",
     "The given color is invalid" : "Uppgefinn litur er ógildur",
-    "Saved" : "Vistað",
     "No file uploaded" : "Engin skrá var send inn",
     "Unsupported image type" : "Óstudd gerð myndar",
     "You are already using a custom theme" : "Þú ert nú þegar að nota sérsniðið þema",

@@ -1,13 +1,13 @@
 OC.L10N.register(
     "theming",
     {
+    "Saved" : "Kaydedildi",
     "Admin" : "Yönetici",
     "a safe home for all your data" : "verileriniz için güvenli bir barınak",
     "The given name is too long" : "Belirtilen ad çok uzun",
     "The given web address is too long" : "Belirtilen web adresi çok uzun",
     "The given slogan is too long" : "Belirtilen slogan çok uzun",
     "The given color is invalid" : "Belirtilen renk geçersiz",
-    "Saved" : "Kaydedildi",
     "No file uploaded" : "Herhangi bir dosya yüklenmemiş",
     "Unsupported image type" : "Görsel türü desteklenmiyor",
     "You are already using a custom theme" : "Zaten özel bir tema kullanıyorsunuz",
