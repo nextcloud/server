@@ -134,7 +134,7 @@
 
 	$(document).ready(function() {
 		if($('#upload-only-interface').val() === "1") {
-			$('.avatardiv').avatar($('#sharingUserId').val(), 128, true);
+			$('.avatardiv').avatar($('#sharingUserId').val(), 128, true, true);
 		}
 
 		OCA.FilesSharingDrop.initialize();
