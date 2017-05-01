@@ -133,6 +133,10 @@ class Throttler {
 	 * @return bool
 	 */
 	private function isIPWhitelisted($ip) {
+		if($this->config->getSystemValue('auth.bruteforce.protection.enabled', true) === false) {
+			return true;
+		}
+
 		$keys = $this->config->getAppKeys('bruteForce');
 		$keys = array_filter($keys, function($key) {
 			$regex = '/^whitelist_/S';

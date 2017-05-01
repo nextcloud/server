@@ -54,19 +54,19 @@ class ThrottlerTest extends TestCase {
 			$this->logger,
 			$this->config
 		);
-		return parent::setUp();
+		parent::setUp();
 	}
 
 	public function testCutoff() {
 		// precisely 31 second shy of 12 hours
-		$cutoff = $this->invokePrivate($this->throttler, 'getCutoff', [43169]);
+		$cutoff = self::invokePrivate($this->throttler, 'getCutoff', [43169]);
 		$this->assertSame(0, $cutoff->y);
 		$this->assertSame(0, $cutoff->m);
 		$this->assertSame(0, $cutoff->d);
 		$this->assertSame(11, $cutoff->h);
 		$this->assertSame(59, $cutoff->i);
 		$this->assertSame(29, $cutoff->s);
-		$cutoff = $this->invokePrivate($this->throttler, 'getCutoff', [86401]);
+		$cutoff = self::invokePrivate($this->throttler, 'getCutoff', [86401]);
 		$this->assertSame(0, $cutoff->y);
 		$this->assertSame(0, $cutoff->m);
 		$this->assertSame(1, $cutoff->d);
@@ -136,16 +136,23 @@ class ThrottlerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataIsIPWhitelisted
-	 *
 	 * @param string $ip
-	 * @param string[] $whitelists
+	 * @param string[]$whitelists
 	 * @param bool $isWhiteListed
+	 * @param bool $enabled
 	 */
-	public function testIsIPWhitelisted($ip, $whitelists, $isWhiteListed) {
+	private function isIpWhiteListedHelper($ip,
+										 $whitelists,
+										 $isWhiteListed,
+										 $enabled) {
 		$this->config->method('getAppKeys')
 			->with($this->equalTo('bruteForce'))
 			->willReturn(array_keys($whitelists));
+		$this->config
+			->expects($this->once())
+			->method('getSystemValue')
+			->with('auth.bruteforce.protection.enabled', true)
+			->willReturn($enabled);
 
 		$this->config->method('getAppValue')
 			->will($this->returnCallback(function($app, $key, $default) use ($whitelists) {
@@ -159,8 +166,44 @@ class ThrottlerTest extends TestCase {
 			}));
 
 		$this->assertSame(
+			($enabled === false) ? true : $isWhiteListed,
+			self::invokePrivate($this->throttler, 'isIPWhitelisted', [$ip])
+		);
+	}
+
+	/**
+	 * @dataProvider dataIsIPWhitelisted
+	 *
+	 * @param string $ip
+	 * @param string[] $whitelists
+	 * @param bool $isWhiteListed
+	 */
+	public function testIsIpWhiteListedWithEnabledProtection($ip,
+															 $whitelists,
+															 $isWhiteListed) {
+		$this->isIpWhiteListedHelper(
+			$ip,
+			$whitelists,
 			$isWhiteListed,
-			$this->invokePrivate($this->throttler, 'isIPWhitelisted', [$ip])
+			true
+		);
+	}
+
+	/**
+	 * @dataProvider dataIsIPWhitelisted
+	 *
+	 * @param string $ip
+	 * @param string[] $whitelists
+	 * @param bool $isWhiteListed
+	 */
+	public function testIsIpWhiteListedWithDisabledProtection($ip,
+															 $whitelists,
+															 $isWhiteListed) {
+		$this->isIpWhiteListedHelper(
+			$ip,
+			$whitelists,
+			$isWhiteListed,
+			false
 		);
 	}
 }
