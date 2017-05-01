@@ -303,6 +303,10 @@ class Generator {
 	private function generatePreview(ISimpleFolder $previewFolder, ISimpleFile $maxPreview, $width, $height, $crop, $maxWidth, $maxHeight) {
 		$preview = $this->helper->getImage($maxPreview);
 
+		if (!$preview->valid()) {
+			throw new \InvalidArgumentException('Failed to generate preview, failed to load image');
+		}
+
 		if ($crop) {
 			if ($height !== $preview->height() && $width !== $preview->width()) {
 				//Resize
@@ -324,6 +328,7 @@ class Generator {
 		} else {
 			$preview->resize(max($width, $height));
 		}
+
 
 		$path = $this->generatePath($width, $height, $crop);
 		try {
