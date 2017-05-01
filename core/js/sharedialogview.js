@@ -183,15 +183,13 @@
 						var groups  = result.ocs.data.exact.groups.concat(result.ocs.data.groups);
 						var remotes = result.ocs.data.exact.remotes.concat(result.ocs.data.remotes);
 						var lookup = result.ocs.data.lookup;
+						var emails = [],
+							circles = [];
 						if (typeof(result.ocs.data.emails) !== 'undefined') {
-							var emails = result.ocs.data.exact.emails.concat(result.ocs.data.emails);
-						} else {
-							var emails = [];
+							emails = result.ocs.data.exact.emails.concat(result.ocs.data.emails);
 						}
 						if (typeof(result.ocs.data.circles) !== 'undefined') {
-							var circles = result.ocs.data.exact.circles.concat(result.ocs.data.circles);
-						} else {
-							var circles = [];
+							circles = result.ocs.data.exact.circles.concat(result.ocs.data.circles);
 						}
 
 						var usersLength;
@@ -199,7 +197,6 @@
 						var remotesLength;
 						var emailsLength;
 						var circlesLength;
-						var lookupLength;
 
 						var i, j;
 
