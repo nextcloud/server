@@ -17,8 +17,8 @@
          showPassword: function(c) {	
             
             // Setup callback object
-			var callback 	= {'fn':null,'args':{}}
-				callback.fn = c;
+			var callback 	= {'fn':null,'args':{}};
+			callback.fn = c;
 			
 			// Clones passwords and turn the clones into text inputs
 			var cloneElement = function( element ) {
@@ -90,7 +90,7 @@
 				});
 				
 				$input.bind('keyup', function() {
-					update( $input, $clone )
+					update( $input, $clone );
 				});
 				
 				$clone.bind('keyup', function(){ 

@@ -369,7 +369,7 @@
 					var shareType = $this.data('share-type');
 
 					$this.find('div.avatar, span.username').contactsMenu(shareWith, shareType, $this);
-				})
+				});
 			} else {
 				var permissionChangeShareId = parseInt(this._renderPermissionChange, 10);
 				var shareWithIndex = this.model.findShareWithIndex(permissionChangeShareId);
