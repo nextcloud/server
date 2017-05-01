@@ -1060,7 +1060,7 @@ OC.Uploader.prototype = _.extend({
 					// dropping a folder in firefox doesn't cause a drop event
 					// this is simulated by simply invoke disabling all classes
 					// once no dragover event isn't noticed anymore
-					if ($.browser['mozilla']) {
+					if (/Firefox/i.test(navigator.userAgent)) {
 						disableClassOnFirefox();
 					}
 					$('#emptycontent .icon-folder').addClass('icon-filetype-folder-drag-accept');
