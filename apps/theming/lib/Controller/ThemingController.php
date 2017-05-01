@@ -40,6 +40,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\File;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\ILogger;
@@ -265,6 +266,24 @@ class ThemingController extends Controller {
 		$value = $this->themingDefaults->undo($setting);
 		// reprocess server scss for preview
 		$cssCached = $this->scssCacher->process(\OC::$SERVERROOT, '/core/css/server.scss', 'core');
+
+		if($setting === 'logoMime') {
+			try {
+				$file = $this->appData->getFolder('images')->getFile('logo');
+				$file->delete();
+			} catch (NotFoundException $e) {
+			} catch (NotPermittedException $e) {
+			}
+		}
+		if($setting === 'backgroundMime') {
+			try {
+				$file = $this->appData->getFolder('images')->getFile('background');
+				$file->delete();
+			} catch (NotFoundException $e) {
+			} catch (NotPermittedException $e) {
+			}
+		}
+
 		return new DataResponse(
 			[
 				'data' =>

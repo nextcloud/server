@@ -385,6 +385,56 @@ class ThemingControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->themingController->undo('MySetting'));
 	}
 
+	public function dataUndoDelete() {
+		return [
+			[ 'backgroundMime', 'background' ],
+			[ 'logoMime', 'logo' ]
+		];
+	}
+
+	/** @dataProvider dataUndoDelete */
+	public function testUndoDelete($value, $filename) {
+		$this->l10n
+			->expects($this->once())
+			->method('t')
+			->with('Saved')
+			->willReturn('Saved');
+		$this->themingDefaults
+			->expects($this->once())
+			->method('undo')
+			->with($value)
+			->willReturn($value);
+		$folder = $this->createMock(ISimpleFolder::class);
+		$file = $this->createMock(ISimpleFile::class);
+		$this->appData
+			->expects($this->once())
+			->method('getFolder')
+			->with('images')
+			->willReturn($folder);
+		$folder
+			->expects($this->once())
+			->method('getFile')
+			->with($filename)
+			->willReturn($file);
+		$file
+			->expects($this->once())
+			->method('delete');
+
+		$expected = new DataResponse(
+			[
+				'data' =>
+					[
+						'value' => $value,
+						'message' => 'Saved',
+					],
+				'status' => 'success'
+			]
+		);
+		$this->assertEquals($expected, $this->themingController->undo($value));
+	}
+
+
+
 	public function testGetLogoNotExistent() {
 		$this->appData->method('getFolder')
 			->with($this->equalTo('images'))
