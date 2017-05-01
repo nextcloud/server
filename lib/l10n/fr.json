@@ -49,6 +49,7 @@
     "Admin" : "Administration",
     "APCu" : "APCu",
     "Redis" : "Redis",
+    "Basic settings" : "Paramètres de base",
     "Sharing" : "Partage",
     "Security" : "Sécurité",
     "Encryption" : "Chiffrement",

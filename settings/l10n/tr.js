@@ -42,6 +42,8 @@ OC.L10N.register(
     "To send a password link to the user an email address is required." : "Kullanıcı e-posta adresi parola bağlantısının gönderilebilmesi için gereklidir.",
     "Unable to create user." : "Kullanıcı oluşturulamadı.",
     "Unable to delete user." : "Kullanıcı silinemedi.",
+    "Error while enabling user." : "Kullanıcı etkinleştirilirken sorun çıktı",
+    "Error while disabling user." : "Kullanıcı devre dışı bırakılırken sorun çıktı",
     "Settings saved" : "Ayarlar kaydedildi",
     "Unable to change full name" : "Tam adınız değiştirilemedi",
     "Unable to change email address" : "E-posta adresi değiştirilemedi",

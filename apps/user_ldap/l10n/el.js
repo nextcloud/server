@@ -95,6 +95,8 @@ OC.L10N.register(
     "Saving" : "Αποθήκευση",
     "Back" : "Επιστροφή",
     "Continue" : "Συνέχεια",
+    "Current password" : "Τρέχον συνθηματικό",
+    "New password" : "Νέο συνθηματικό",
     "LDAP" : "LDAP",
     "Server" : "Διακομιστής",
     "Users" : "Χρήστες",

@@ -56,6 +56,7 @@
     "Please login with the new password" : "Login met je nieuwe wachtwoord",
     "Your password will expire tomorrow." : "Je wachtwoord vervalt morgen.",
     "Your password will expire today." : "Je wachtwoord vervalt vandaag.",
+    "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["Je wachtwoord verloopt binnen %n dag.","Je wachtwoord verloopt binnen %n dagen."],
     "LDAP / AD integration" : "LDAP / AD integratie",
     "_%s group found_::_%s groups found_" : ["%s groep gevonden","%s groepen gevonden"],
     "_%s user found_::_%s users found_" : ["%s gebruiker gevonden","%s gebruikers gevonden"],

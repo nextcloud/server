@@ -37,6 +37,7 @@
     "Share with me through my #Nextcloud Federated Cloud ID" : "Partagez avec moi grâce à mon identifiant Federated Cloud #Nextcloud",
     "Federated Cloud Sharing" : "Federated Cloud Sharing",
     "Open documentation" : "Voir la documentation",
+    "Adjust how people can share between servers." : "Réglez comment les personnes peuvent partager entre les serveurs.",
     "Allow users on this server to send shares to other servers" : "Autoriser les utilisateurs de ce serveur à envoyer des partages vers d'autres serveurs",
     "Allow users on this server to receive shares from other servers" : "Autoriser les utilisateurs de ce serveur à recevoir des partages d'autres serveurs",
     "Search global and public address book for users and let local users publish their data" : "Rechercher dans le carnet d'adresse global et public pour les utilisateurs et laisser les utilisateurs publier leurs données",
