@@ -1,6 +1,7 @@
 OC.L10N.register(
     "theming",
     {
+    "Loading preview…" : "Laden voorbeeld...",
     "Saved" : "Opgeslagen",
     "Admin" : "Beheer",
     "a safe home for all your data" : "een veilige plek voor al je gegevens",

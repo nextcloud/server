@@ -1,6 +1,7 @@
 OC.L10N.register(
     "theming",
     {
+    "Loading preview…" : "Chargement de la prévisualisation...",
     "Saved" : "Enregistré",
     "Admin" : "Administration",
     "a safe home for all your data" : "un endroit sûr pour toutes vos données",
@@ -12,6 +13,7 @@ OC.L10N.register(
     "Unsupported image type" : "Ce type d'image n'est pas pris en charge",
     "You are already using a custom theme" : "Vous utilisez déjà un thème personnalisé",
     "Theming" : "Personnaliser l'apparence",
+    "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Cet extension permet de personnaliser facilement l'apparence de votre instance et des clients supportés. Cela sera visible pour tous les utilisateurs.",
     "Name" : "Nom",
     "reset to default" : "Restaurer les valeurs par défaut",
     "Web address" : "Adresse web",

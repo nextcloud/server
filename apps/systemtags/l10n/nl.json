@@ -40,6 +40,7 @@
     "%s (invisible)" : "%s (onzichtbaar)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>Systeemmarkeringen</strong> voor een bestand zijn gewijzigd",
     "Collaborative tags" : "Samenwerk markeringen",
+    "Create and edit collaborative tags. These tags affect all users." : "Maak en bewerk samenwerkingstags. Deze tags gelden voor alle gebruikers.",
     "Select tag …" : "Selecteer tag …",
     "Name" : "Naam",
     "Delete" : "Verwijder",

@@ -1,7 +1,9 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Saved" : "Uloženo",
     "Saving failed:" : "Ukládání selhalo:",
+    "File MIME type" : "MIME typ souboru",
     "is" : "je",
     "is not" : "není",
     "matches" : "odpovídá",

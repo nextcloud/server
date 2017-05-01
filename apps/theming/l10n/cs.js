@@ -1,6 +1,7 @@
 OC.L10N.register(
     "theming",
     {
+    "Loading preview…" : "Načítání náhledu…",
     "Saved" : "Uloženo",
     "Admin" : "Administrace",
     "a safe home for all your data" : "bezpečný domov pro všechna vaše data",

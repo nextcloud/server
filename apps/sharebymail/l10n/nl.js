@@ -13,6 +13,7 @@ OC.L10N.register(
     "%3$s shared %1$s with %2$s by mail" : "%3$s deelde %1$s met %2$s via e-mail",
     "{actor} shared {file} with {email} by mail" : "{actor} deelde {file} met {email} via e-mail",
     "Password to access %1$s was sent to %2s" : "Wachtwoord voor toegang tot %1$s is gestuurd naar %2s",
+    "Password to access {file} was sent to {email}" : "Wachtwoord voor toegang tot {file} is gestuurd naar {email}",
     "Password to access %1$s was sent to you" : "Wachtwoord voor toegang tot %1$s is naar jou gestuurd",
     "Password to access {file} was sent to you" : "Wachtwoord voor toegang tot {file} is naar jou gestuurd",
     "Sharing %s failed, this item is already shared with %s" : "Delen van %s is mislukt, omdat dit al gedeeld wordt met %s",
