@@ -8,6 +8,8 @@ jQuery(document).ready(function() {
 
 	$('#submit-app-token-login').click(function(e) {
 		e.preventDefault();
-		window.location.href = 'nc://' + encodeURIComponent($('#user').val()) + ':' + encodeURIComponent($('#password').val()) + '@' + encodeURIComponent($('#serverHost').val());
+		window.location.href = 'nc://'
+			+ encodeURIComponent($('#user').val()) + ':' + encodeURIComponent($('#password').val())
+			+ '@' + encodeURIComponent($('#serverHost').val());
 	});
 });
