@@ -32,7 +32,7 @@
 			headers = headers || {};
 
 			if (this.userName) {
-				headers['Authorization'] = 'Basic ' + btoa(this.userName + ':' + this.password);
+				headers.Authorization = 'Basic ' + btoa(this.userName + ':' + this.password);
 				// xhr.open(method, this.resolveUrl(url), true, this.userName, this.password);
 			}
 			xhr.open(method, this.resolveUrl(url), true);

@@ -2366,10 +2366,10 @@ jQuery.fn.tipsy = function(argument) {
 			options.trigger = argument.trigger;
 		}
 		if(argument.delayIn) {
-			options.delay["show"] = argument.delayIn;
+			options.delay.show = argument.delayIn;
 		}
 		if(argument.delayOut) {
-			options.delay["hide"] = argument.delayOut;
+			options.delay.hide = argument.delayOut;
 		}
 		if(argument.html) {
 			options.html = true;
