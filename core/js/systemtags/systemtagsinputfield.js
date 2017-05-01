@@ -240,7 +240,11 @@
 							self.collection.fetch({
 								success: function(collection) {
 									// find the tag in the collection
-									var model = collection.where({name: e.object.name.trim(), userVisible: true, userAssignable: true});
+									var model = collection.where({
+										name: e.object.name.trim(),
+										userVisible: true,
+										userAssignable: true
+									});
 									if (model.length) {
 										model = model[0];
 										// the tag already exists or was already assigned,
