@@ -126,6 +126,8 @@ class PreviewController extends Controller {
 			return $response;
 		} catch (NotFoundException $e) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
+		} catch (\InvalidArgumentException $e) {
+			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
 
 	}
