@@ -85,7 +85,7 @@
 				</ul>
 
 				<nav role="navigation">
-					<div id="navigation">
+					<div id="navigation" style="display: none;">
 						<div id="apps">
 							<ul>
 								<?php foreach($_['navigation'] as $entry): ?>
@@ -134,7 +134,7 @@
 						</div>
 						<div id="expandDisplayName" class="icon-settings-white"></div>
 					</div>
-					<div id="expanddiv">
+					<div id="expanddiv" style="display:none;">
 					<ul>
 					<?php foreach($_['settingsnavigation'] as $entry):?>
 						<li>
