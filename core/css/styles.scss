@@ -1072,6 +1072,7 @@ span.ui-icon {
 	/* show ~4.5 entries */
 	height: 278px;
 	width: 350px;
+	max-width: 90%;
 	right: 13px;
 
 	&::after {
