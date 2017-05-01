@@ -150,7 +150,7 @@ var OCP = {},
 		_.defaults(allOptions, defaultOptions);
 
 		var _build = function (text, vars) {
-			var vars = vars || [];
+			vars = vars || [];
 			return text.replace(/{([^{}]*)}/g,
 				function (a, b) {
 					var r = (vars[b]);
