@@ -99,7 +99,8 @@ class UpdaterTest extends TestCase {
 		$view->mkdir("localFolder");
 		$view->file_put_contents("localFolder/localFile.txt", "local file");
 
-		$view->rename($this->folder, 'localFolder/' . $this->folder);
+		$result = $view->rename($this->folder, 'localFolder/' . $this->folder);
+		$this->assertTrue($result, 'Rename should succeed');
 
 		// share mount point should now be moved to the subfolder
 		$this->assertFalse($view->file_exists($this->folder));
