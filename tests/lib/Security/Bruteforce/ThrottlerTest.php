@@ -137,7 +137,7 @@ class ThrottlerTest extends TestCase {
 
 	/**
 	 * @param string $ip
-	 * @param string[]$whitelists
+	 * @param string[] $whitelists
 	 * @param bool $isWhiteListed
 	 * @param bool $enabled
 	 */
