@@ -145,11 +145,16 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 			];
 		}
 
-		if ($this->isShared()) {
+		$acl = $this->caldavBackend->applyShareAcl($this->getResourceId(), $acl);
+
+		if (!$this->isShared()) {
 			return $acl;
 		}
 
-		return $this->caldavBackend->applyShareAcl($this->getResourceId(), $acl);
+		$allowedPrincipals = [$this->getOwner(), parent::getOwner(), 'principals/system/public'];
+		return array_filter($acl, function($rule) use ($allowedPrincipals) {
+			return in_array($rule['principal'], $allowedPrincipals);
+		});
 	}
 
 	public function getChildACL() {
