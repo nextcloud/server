@@ -66,7 +66,7 @@ $(document).ready(function() {
 		$('.strengthify-wrapper, .tipsy')
 			.css('-ms-filter', '"progid:DXImageTransform.Microsoft.Alpha(Opacity=30)"')
 			.css('filter', 'alpha(opacity=30)')
-			.css('opacity', .3);
+			.css('opacity', 0.3);
 
 		// Create the form
 		var form = $('<form>');
