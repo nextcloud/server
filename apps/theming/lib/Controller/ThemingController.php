@@ -185,7 +185,7 @@ class ThemingController extends Controller {
 	 * @return DataResponse
 	 */
 	public function updateLogo() {
-		$backgroundColor = $this->request->getParam('backgroundColor');
+		$backgroundColor = $this->request->getParam('backgroundColor', false);
 		if($backgroundColor) {
 			$this->themingDefaults->set('backgroundMime', 'backgroundColor');
 			return new DataResponse(
