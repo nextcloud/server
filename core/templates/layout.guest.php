@@ -10,6 +10,10 @@
 		<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0">
 		<meta name="apple-itunes-app" content="app-id=<?php p($theme->getiTunesAppId()); ?>">
 		<meta name="theme-color" content="<?php p($theme->getColorPrimary()); ?>">
+		
+		<meta property="og:description" content="<?php p($theme->getTitle()); p(" - ");  p($theme->getSlogan()); ?>"/>
+		<meta property="og:image" content="<?php print_unescaped(image_path('', 'favicon-fb.png')); ?>" />
+
 		<link rel="icon" href="<?php print_unescaped(image_path('', 'favicon.ico')); /* IE11+ supports png */ ?>">
 		<link rel="apple-touch-icon-precomposed" href="<?php print_unescaped(image_path('', 'favicon-touch.png')); ?>">
 		<link rel="mask-icon" sizes="any" href="<?php print_unescaped(image_path('', 'favicon-mask.svg')); ?>" color="<?php p($theme->getColorPrimary()); ?>">
