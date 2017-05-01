@@ -132,4 +132,23 @@ class SmbTest extends \Test\Files\Storage\Storage {
 
 		$this->assertEquals(new Change(IChange::ADDED, 'newfile.txt'), $result);
 	}
+
+	public function testRenameRoot() {
+		// root can't be renamed
+		$this->assertFalse($this->instance->rename('', 'foo1'));
+
+		$this->instance->mkdir('foo2');
+		$this->assertFalse($this->instance->rename('foo2', ''));
+		$this->instance->rmdir('foo2');
+	}
+
+	public function testUnlinkRoot() {
+		// root can't be deleted
+		$this->assertFalse($this->instance->unlink(''));
+	}
+
+	public function testRmdirRoot() {
+		// root can't be deleted
+		$this->assertFalse($this->instance->rmdir(''));
+	}
 }
