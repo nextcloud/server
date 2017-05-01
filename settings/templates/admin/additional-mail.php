@@ -61,7 +61,7 @@ if ($_['mail_smtpmode'] === 'qmail') {
 
 		<p>
 			<label for="mail_smtpmode"><?php p($l->t('Send mode')); ?></label>
-			<select name="mail_smtpmode" id="mail_smtpmode'>
+			<select name="mail_smtpmode" id="mail_smtpmode">
 				<?php foreach ($mail_smtpmode as $smtpmode):
 					$selected = '';
 					if ($smtpmode[0] == $_['mail_smtpmode']):
