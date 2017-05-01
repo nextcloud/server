@@ -94,7 +94,7 @@
 	};
 
 	$.fn.octemplate = function(vars, options) {
-		var vars = vars ? vars : {};
+		vars = vars || {};
 		if(this.length) {
 			var _template = Object.create(Template);
 			return _template.init(vars, options, this);
