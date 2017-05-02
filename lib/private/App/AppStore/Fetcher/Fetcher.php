@@ -125,19 +125,19 @@ abstract class Fetcher {
 			$file = $rootFolder->getFile($this->fileName);
 			$jsonBlob = json_decode($file->getContent(), true);
 			if (is_array($jsonBlob)) {
-				/*
-				 * If the timestamp is older than 300 seconds request the files new
-				 * If the version changed (update!) also refresh
-				 */
-				if ((int)$jsonBlob['timestamp'] > ($this->timeFactory->getTime() - self::INVALIDATE_AFTER_SECONDS) &&
-					isset($jsonBlob['ncversion']) && $jsonBlob['ncversion'] === $this->config->getSystemValue('version', '0.0.0')
-				) {
-					return $jsonBlob['data'];
-				}
 
-				if (isset($jsonBlob['ETag'])) {
-					$ETag = $jsonBlob['ETag'];
-					$content = json_encode($jsonBlob['data']);
+				// No caching when the version has been updated
+				if (isset($jsonBlob['ncversion']) && $jsonBlob['ncversion'] === $this->config->getSystemValue('version', '0.0.0')) {
+
+					// If the timestamp is older than 300 seconds request the files new
+					if ((int)$jsonBlob['timestamp'] > ($this->timeFactory->getTime() - self::INVALIDATE_AFTER_SECONDS)) {
+						return $jsonBlob['data'];
+					}
+
+					if (isset($jsonBlob['ETag'])) {
+						$ETag = $jsonBlob['ETag'];
+						$content = json_encode($jsonBlob['data']);
+					}
 				}
 			}
 		} catch (NotFoundException $e) {
