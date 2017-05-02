@@ -102,6 +102,8 @@ class ImageExportPluginTest extends TestCase {
 		$this->request->expects($this->once())->method('getPath')->willReturn('/files/welcome.txt');
 
 		$card = $this->getMockBuilder('Sabre\CardDAV\Card')->disableOriginalConstructor()->getMock();
+		$card->method('getETag')
+			->willReturn('"myEtag"');
 		$this->tree->expects($this->once())->method('getNodeForPath')->with('/files/welcome.txt')->willReturn($card);
 
 		$this->plugin->expects($this->once())->method('getPhoto')->willReturn($getPhotoResult);
@@ -110,9 +112,21 @@ class ImageExportPluginTest extends TestCase {
 			$this->response
 				->expects($this->at(0))
 				->method('setHeader')
-				->with('Content-Type', $getPhotoResult['Content-Type']);
+				->with('Cache-Control', 'private, max-age=3600, must-revalidate');
 			$this->response
 				->expects($this->at(1))
+				->method('setHeader')
+				->with('Etag', '"myEtag"');
+			$this->response
+				->expects($this->at(2))
+				->method('setHeader')
+				->with('Pragma', 'public');
+			$this->response
+				->expects($this->at(3))
+				->method('setHeader')
+				->with('Content-Type', $getPhotoResult['Content-Type']);
+			$this->response
+				->expects($this->at(4))
 				->method('setHeader')
 				->with('Content-Disposition', 'attachment');
 			$this->response
