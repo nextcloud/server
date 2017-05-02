@@ -71,14 +71,14 @@ h3 {
 	background-position: center;
 	width: 252px;
 	min-height: 120px;
-	max-height: 300px;
+	max-height: 200px;
 	margin: 0 auto;
 }
 
 #header .logo img {
 	opacity: 0;
 	max-width: 100%;
-	max-height: 300px;
+	max-height: 200px;
 }
 .wrapper {
 	min-height: 100%;
