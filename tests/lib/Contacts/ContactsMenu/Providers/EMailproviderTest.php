@@ -79,4 +79,28 @@ class EMailproviderTest extends TestCase {
 		$this->provider->process($entry);
 	}
 
+	public function testProcessEmptyAddress() {
+		$entry = $this->createMock(IEntry::class);
+		$action = $this->createMock(ILinkAction::class);
+		$iconUrl = 'https://example.com/img/actions/icon.svg';
+		$this->urlGenerator->expects($this->once())
+			->method('imagePath')
+			->willReturn('img/actions/icon.svg');
+		$this->urlGenerator->expects($this->once())
+			->method('getAbsoluteURL')
+			->with('img/actions/icon.svg')
+			->willReturn($iconUrl);
+		$entry->expects($this->once())
+			->method('getEMailAddresses')
+			->willReturn([
+				'',
+		]);
+		$this->actionFactory->expects($this->never())
+			->method('newEMailAction');
+		$entry->expects($this->never())
+			->method('addAction');
+
+		$this->provider->process($entry);
+	}
+
 }
