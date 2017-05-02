@@ -420,7 +420,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService('AppHelper', function ($c) {
 			return new \OC\AppHelper();
 		});
-		$this->registerService('AppFetcher', function ($c) {
+		$this->registerService(AppFetcher::class, function ($c) {
 			return new AppFetcher(
 				$this->getAppDataDir('appstore'),
 				$this->getHTTPClientService(),
@@ -428,6 +428,8 @@ class Server extends ServerContainer implements IServerContainer {
 				$this->getConfig()
 			);
 		});
+		$this->registerAlias('AppFetcher', AppFetcher::class);
+
 		$this->registerService('CategoryFetcher', function ($c) {
 			return new CategoryFetcher(
 				$this->getAppDataDir('appstore'),
@@ -820,9 +822,6 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias('MimeTypeLoader', \OCP\Files\IMimeTypeLoader::class);
 		$this->registerService(BundleFetcher::class, function () {
 			return new BundleFetcher($this->getL10N('lib'));
-		});
-		$this->registerService(AppFetcher::class, function() {
-			return $this->getAppFetcher();
 		});
 		$this->registerService(\OCP\Notification\IManager::class, function (Server $c) {
 			return new Manager(

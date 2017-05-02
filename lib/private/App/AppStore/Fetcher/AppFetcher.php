@@ -46,14 +46,7 @@ class AppFetcher extends Fetcher {
 		);
 
 		$this->fileName = 'apps.json';
-
-		$versionArray = explode('.', $this->config->getSystemValue('version'));
-		$this->endpointUrl = sprintf(
-			'https://apps.nextcloud.com/api/v1/platform/%d.%d.%d/apps.json',
-			$versionArray[0],
-			$versionArray[1],
-			$versionArray[2]
-		);
+		$this->setEndpoint();
 	}
 
 	/**
@@ -68,7 +61,7 @@ class AppFetcher extends Fetcher {
 		/** @var mixed[] $response */
 		$response = parent::fetch($ETag, $content);
 
-		$ncVersion = $this->config->getSystemValue('version');
+		$ncVersion = $this->getVersion();
 		$ncMajorVersion = explode('.', $ncVersion)[0];
 		foreach($response['data'] as $dataKey => $app) {
 			$releases = [];
@@ -117,5 +110,23 @@ class AppFetcher extends Fetcher {
 
 		$response['data'] = array_values($response['data']);
 		return $response;
+	}
+
+	private function setEndpoint() {
+		$versionArray = explode('.', $this->getVersion());
+		$this->endpointUrl = sprintf(
+			'https://apps.nextcloud.com/api/v1/platform/%d.%d.%d/apps.json',
+			$versionArray[0],
+			$versionArray[1],
+			$versionArray[2]
+		);
+	}
+
+	/**
+	 * @param string $version
+	 */
+	public function setVersion($version) {
+		parent::setVersion($version);
+		$this->setEndpoint();
 	}
 }

@@ -32,6 +32,7 @@
 
 namespace OC;
 
+use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\Hooks\BasicEmitter;
 use OC\IntegrityCheck\Checker;
 use OC_App;
@@ -245,6 +246,9 @@ class Updater extends BasicEmitter {
 		// update all shipped apps
 		$this->checkAppsRequirements();
 		$this->doAppUpgrade();
+
+		// Update the appfetchers version so it downloads the correct list from the appstore
+		\OC::$server->getAppFetcher()->setVersion($currentVersion);
 
 		// upgrade appstore apps
 		$this->upgradeAppStoreApps(\OC::$server->getAppManager()->getInstalledApps());
