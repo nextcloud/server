@@ -61,7 +61,8 @@ class SettingsMenuContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	private static function menuItemFor($itemText) {
-		return Locator::forThe()->content($itemText)->descendantOf(self::settingsMenu())->
+		return Locator::forThe()->xpath("//a[normalize-space() = '$itemText']")->
+				descendantOf(self::settingsMenu())->
 				describedAs($itemText . " item in Settings menu");
 	}
 

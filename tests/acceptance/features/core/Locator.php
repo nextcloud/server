@@ -173,14 +173,6 @@ class LocatorBuilder {
 	 * @param string $value
 	 * @return LocatorBuilderSecondStep
 	 */
-	public function content($value) {
-		return $this->customSelector("named", array("content", $value));
-	}
-
-	/**
-	 * @param string $value
-	 * @return LocatorBuilderSecondStep
-	 */
 	public function field($value) {
 		return $this->customSelector("named", array("field", $value));
 	}

@@ -106,7 +106,11 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function shareLinkCheckbox() {
-		return Locator::forThe()->content("Share link")->descendantOf(self::currentSectionDetailsView())->
+		// forThe()->checkbox("Share link") can not be used here; that would
+		// return the checkbox itself, but the element that the user interacts
+		// with is the label.
+		return Locator::forThe()->xpath("//label[normalize-space() = 'Share link']")->
+				descendantOf(self::currentSectionDetailsView())->
 				describedAs("Share link checkbox in the details view in Files app");
 	}
 
@@ -122,7 +126,11 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function passwordProtectCheckbox() {
-		return Locator::forThe()->content("Password protect")->descendantOf(self::currentSectionDetailsView())->
+		// forThe()->checkbox("Password protect") can not be used here; that
+		// would return the checkbox itself, but the element that the user
+		// interacts with is the label.
+		return Locator::forThe()->xpath("//label[normalize-space() = 'Password protect']")->
+				descendantOf(self::currentSectionDetailsView())->
 				describedAs("Password protect checkbox in the details view in Files app");
 	}
 
@@ -163,7 +171,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function favoritedStateIconForFile($fileName) {
-		return Locator::forThe()->content("Favorited")->descendantOf(self::favoriteActionForFile($fileName))->
+		return Locator::forThe()->css(".icon-starred")->descendantOf(self::favoriteActionForFile($fileName))->
 				describedAs("Favorited state icon for file $fileName in Files app");
 	}
 
@@ -210,7 +218,8 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	private static function fileActionsMenuItemFor($itemText) {
-		return Locator::forThe()->content($itemText)->descendantOf(self::fileActionsMenu())->
+		return Locator::forThe()->xpath("//a[normalize-space() = '$itemText']")->
+				descendantOf(self::fileActionsMenu())->
 				describedAs($itemText . " item in file actions menu in Files app");
 	}
 
