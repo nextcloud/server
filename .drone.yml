@@ -311,6 +311,15 @@ pipeline:
     when:
       matrix:
         TESTS: integration-sharing-v1-part2
+  integration-sharing-v1-part3:
+    image: nextcloudci/integration-php7.0:integration-php7.0-3
+    commands:
+      - ./occ maintenance:install --admin-pass=admin
+      - cd build/integration
+      - ./run.sh features/sharing-v1-part3.feature
+    when:
+      matrix:
+        TESTS: integration-sharing-v1-part3
   integration-checksums-v1:
     image: nextcloudci/integration-php7.0:integration-php7.0-3
     commands:
@@ -535,6 +544,7 @@ matrix:
     - TESTS: integration-ocs-v1
     - TESTS: integration-sharing-v1
     - TESTS: integration-sharing-v1-part2
+    - TESTS: integration-sharing-v1-part3
     - TESTS: integration-checksums
     - TESTS: integration-external-storage
     - TESTS: integration-provisioning-v1
