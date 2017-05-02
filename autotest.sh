@@ -143,6 +143,10 @@ function cleanup_config {
 	if [ -f config/autotest-storage-swift.config.php ]; then
 		rm config/autotest-storage-swift.config.php
 	fi
+	# Remove autotest redis config
+	if [ -f config/redis.config.php ]; then
+		rm config/redis.config.php
+	fi
 	# Remove mysqlmb4.config.php
 	rm -f config/mysqlmb4.config.php
 }
@@ -177,6 +181,10 @@ function execute_tests {
 		cp tests/objectstore/swift.config.php config/autotest-storage-swift.config.php
 	fi
 	cp tests/preseed-config.php config/config.php
+
+	if [ "$ENABLE_REDIS" == "true" ] ; then
+		cp tests/redis.config.php config/redis.config.php
+	fi
 
 	_DB=$DB
 
