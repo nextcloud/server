@@ -725,7 +725,7 @@
 			};
 
 			if (!allowOverwrite) {
-				headers['Overwrite'] = 'F';
+				headers.Overwrite = 'F';
 			}
 
 			this._client.request(

@@ -22,8 +22,8 @@ OC.Lostpassword = {
 		if (!$('#user').val().length){
 			$('#submit').trigger('click');
 		} else {
-			if (OC.config['lost_password_link']) {
-				window.location = OC.config['lost_password_link'];
+			if (OC.config.lost_password_link) {
+				window.location = OC.config.lost_password_link;
 			} else {
 				$.post(
 					OC.generateUrl('/lostpassword/email'),
