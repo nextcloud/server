@@ -526,6 +526,16 @@ pipeline:
     when:
       matrix:
         TEST: memcache-memcached
+  memcache-redis-cluster:
+    image: nextcloudci/php7.0:php7.0-7
+    commands:
+      - ./autotest.sh sqlite tests/lib/Memcache/RedisTest.php
+      - wget https://codecov.io/bash -O codecov.sh
+      - sh -c "if [ '$DRONE_BUILD_EVENT' = 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -P $DRONE_PULL_REQUEST -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-clover-sqlite.xml; fi"
+      - sh -c "if [ '$DRONE_BUILD_EVENT' != 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-clover-sqlite.xml; fi"
+    when:
+      matrix:
+        TEST: memcache-redis-cluster
 matrix:
   include:
     - TESTS: checkers
@@ -582,6 +592,8 @@ matrix:
     - TESTS: sqlite-php7.0-samba-native
     - TESTS: sqlite-php7.0-samba-non-native
     - TEST: memcache-memcached
+    - TEST: memcache-redis-cluster
+      ENABLE_REDIS_CLUSTER: true
     - TESTS: sqlite-php7.0-webdav-apache
       ENABLE_REDIS: true
     - DB: NODB
@@ -618,6 +630,11 @@ services:
     when:
       matrix:
        ENABLE_REDIS: true
+  cache-cluster:
+    image: grokzen/redis-cluster
+    when:
+      matrix:
+       ENABLE_REDIS_CLUSTER: true
   postgres:
     image: postgres
     environment:

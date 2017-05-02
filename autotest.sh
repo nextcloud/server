@@ -184,6 +184,8 @@ function execute_tests {
 
 	if [ "$ENABLE_REDIS" == "true" ] ; then
 		cp tests/redis.config.php config/redis.config.php
+	elif [ "$ENABLE_REDIS_CLUSTER" == "true" ] ; then
+		cp tests/redis-cluster.config.php config/redis.config.php
 	fi
 
 	_DB=$DB
