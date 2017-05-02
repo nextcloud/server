@@ -86,6 +86,11 @@ class ImageExportPlugin extends ServerPlugin {
 		}
 
 		if ($result = $this->getPhoto($node)) {
+			// Allow caching
+			$response->setHeader('Cache-Control', 'private, max-age=3600, must-revalidate');
+			$response->setHeader('Etag', $node->getETag() );
+			$response->setHeader('Pragma', 'public');
+
 			$response->setHeader('Content-Type', $result['Content-Type']);
 			$response->setHeader('Content-Disposition', 'attachment');
 			$response->setStatus(200);
