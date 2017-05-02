@@ -47,7 +47,7 @@ class FilesSharingAppContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function wrongPasswordMessage() {
-		return Locator::forThe()->content("The password is wrong. Try again.")->
+		return Locator::forThe()->xpath("//*[@class = 'warning' and normalize-space() = 'The password is wrong. Try again.']")->
 				describedAs("Wrong password message in Authenticate page");
 	}
 

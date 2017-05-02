@@ -31,7 +31,8 @@ class NotificationContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function notificationMessage($message) {
-		return Locator::forThe()->content($message)->descendantOf(self::notificationContainer())->
+		return Locator::forThe()->xpath("//*[@class = 'row' and normalize-space() = '$message']")->
+				descendantOf(self::notificationContainer())->
 				describedAs("$message notification");
 	}
 
