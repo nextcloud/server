@@ -553,11 +553,14 @@ matrix:
     - TESTS: translation-check
     - TESTS: htaccess-checker
     - TESTS: nodb-codecov
+      ENABLE_REDIS: true
     - TESTS: db-codecov
+      ENABLE_REDIS: true
     - TESTS: integration-capabilities_features
     - TESTS: integration-federation_features
     - TESTS: integration-maintenance-mode
     - TESTS: integration-ratelimiting
+      ENABLE_REDIS: true
     - TESTS: integration-auth
     - TESTS: integration-carddav
     - TESTS: integration-dav-v2
@@ -605,28 +608,41 @@ matrix:
     - TESTS: sqlite-php7.0-samba-non-native
     - TEST: memcache-memcached
     - TESTS: sqlite-php7.0-webdav-apache
+      ENABLE_REDIS: true
     - DB: NODB
       PHP: 5.6
+      ENABLE_REDIS: true
     - DB: NODB
       PHP: 7.0
+      ENABLE_REDIS: true
     - DB: NODB
       PHP: 7.1
+      ENABLE_REDIS: true
     - DB: sqlite
       PHP: 5.6
+      ENABLE_REDIS: true
     - DB: sqlite
       PHP: 7.0
+      ENABLE_REDIS: true
     - DB: sqlite
       PHP: 7.1
+      ENABLE_REDIS: true
     - DB: mysql
       PHP: 5.6
+      ENABLE_REDIS: true
     - DB: postgres
       PHP: 5.6
+      ENABLE_REDIS: true
     - DB: mysqlmb4
       PHP: 5.6
+      ENABLE_REDIS: true
 
 services:
   cache:
     image: redis
+    when:
+      matrix:
+       ENABLE_REDIS: true
   postgres:
     image: postgres
     environment:
