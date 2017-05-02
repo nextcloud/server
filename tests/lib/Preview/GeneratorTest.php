@@ -169,6 +169,7 @@ class GeneratorTest extends \Test\TestCase {
 		$image = $this->createMock(IImage::class);
 		$image->method('width')->willReturn(2048);
 		$image->method('height')->willReturn(2048);
+		$image->method('valid')->willReturn(true);
 
 		$this->helper->method('getThumbnail')
 			->will($this->returnCallback(function ($provider, $file, $x, $y) use ($invalidProvider, $validProvider, $image) {
@@ -217,6 +218,7 @@ class GeneratorTest extends \Test\TestCase {
 			->with(128);
 		$image->method('data')
 			->willReturn('my resized data');
+		$image->method('valid')->willReturn(true);
 
 		$previewFile->expects($this->once())
 			->method('putContent')
@@ -379,6 +381,7 @@ class GeneratorTest extends \Test\TestCase {
 			->willReturn($image);
 		$image->method('height')->willReturn($maxY);
 		$image->method('width')->willReturn($maxX);
+		$image->method('valid')->willReturn(true);
 
 		$preview = $this->createMock(ISimpleFile::class);
 		$previewFolder->method('newFile')
