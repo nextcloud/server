@@ -72,26 +72,16 @@ EOD;
 	}
 
 	public function testGetWithFilter() {
-		$this->config
-			->expects($this->at(0))
-			->method('getSystemValue')
-			->with('appstoreenabled', true)
-			->willReturn(true);
-		$this->config
-			->expects($this->at(1))
-			->method('getSystemValue')
-			->with('appstoreenabled', true)
-			->willReturn(true);
-		$this->config
-			->expects($this->at(2))
-			->method('getSystemValue')
-			->with('version')
-			->willReturn('11.0.0.2');
-		$this->config
-			->expects($this->at(3))
-			->method('getSystemValue')
-			->with('version')
-			->willReturn('11.0.0.2');
+		$this->config->method('getSystemValue')
+			->willReturnCallback(function($key, $default) {
+				if ($key === 'appstoreenabled') {
+					return true;
+				} else if ($key === 'version') {
+					return '11.0.0.2';
+				} else {
+					return $default;
+				}
+			});
 
 		$file = $this->createMock(ISimpleFile::class);
 		$folder = $this->createMock(ISimpleFolder::class);
