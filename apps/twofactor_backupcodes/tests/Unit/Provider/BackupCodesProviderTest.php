@@ -22,14 +22,19 @@
 
 namespace OCA\TwoFactorBackupCodes\Tests\Unit\Provider;
 
+use OC\App\AppManager;
 use OCA\TwoFactorBackupCodes\Provider\BackupCodesProvider;
 use OCA\TwoFactorBackupCodes\Service\BackupCodeStorage;
 use OCP\IL10N;
 use OCP\IUser;
 use OCP\Template;
+use PHPUnit_Framework_MockObject_MockObject;
 use Test\TestCase;
 
 class BackupCodesProviderTest extends TestCase {
+
+	/** @var string */
+	private $appName;
 
 	/** @var BackupCodeStorage|PHPUnit_Framework_MockObject_MockObject */
 	private $storage;
@@ -37,17 +42,21 @@ class BackupCodesProviderTest extends TestCase {
 	/** @var IL10N|PHPUnit_Framework_MockObject_MockObject */
 	private $l10n;
 
+	/** @var AppManager|PHPUnit_Framework_MockObject_MockObject */
+	private $appManager;
+
 	/** @var BackupCodesProvider */
 	private $provider;
 
 	protected function setUp() {
 		parent::setUp();
 
-		$this->storage = $this->getMockBuilder(BackupCodeStorage::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->l10n = $this->getMockBuilder(IL10N::class)->getMock();
-		$this->provider = new BackupCodesProvider($this->storage, $this->l10n);
+		$this->appName = "twofactor_backupcodes";
+		$this->storage = $this->createMock(BackupCodeStorage::class);
+		$this->l10n = $this->createMock(IL10N::class);
+		$this->appManager = $this->createMock(AppManager::class);
+
+		$this->provider = new BackupCodesProvider($this->appName, $this->storage, $this->l10n, $this->appManager);
 	}
 
 	public function testGetId() {
@@ -98,6 +107,48 @@ class BackupCodesProviderTest extends TestCase {
 			->will($this->returnValue(true));
 
 		$this->assertTrue($this->provider->isTwoFactorAuthEnabledForUser($user));
+	}
+
+	public function testIsActiveNoProviders() {
+		$user = $this->getMockBuilder(IUser::class)->getMock();
+
+		$this->appManager->expects($this->once())
+			->method('getEnabledAppsForUser')
+			->with($user)
+			->willReturn([
+				'twofactor_backupcodes',
+				'mail',
+		]);
+		$this->appManager->expects($this->once())
+			->method('getAppInfo')
+			->with('mail')
+			->willReturn([
+				'two-factor-providers' => [],
+		]);
+
+		$this->assertFalse($this->provider->isActive($user));
+	}
+
+	public function testIsActiveWithProviders() {
+		$user = $this->getMockBuilder(IUser::class)->getMock();
+
+		$this->appManager->expects($this->once())
+			->method('getEnabledAppsForUser')
+			->with($user)
+			->willReturn([
+				'twofactor_backupcodes',
+				'twofactor_u2f',
+		]);
+		$this->appManager->expects($this->once())
+			->method('getAppInfo')
+			->with('twofactor_u2f')
+			->willReturn([
+				'two-factor-providers' => [
+					'OCA\TwoFactorU2F\Provider\U2FProvider',
+				],
+		]);
+
+		$this->assertTrue($this->provider->isActive($user));
 	}
 
 }
