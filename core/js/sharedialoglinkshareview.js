@@ -177,9 +177,6 @@
 
 			var clipboard = new Clipboard('.clipboardButton');
 			clipboard.on('success', function(e) {
-				event.preventDefault();
-				event.stopPropagation();
-
 				var $input = $(e.trigger);
 				$input.tooltip('hide')
 					.attr('data-original-title', t('core', 'Copied!'))
