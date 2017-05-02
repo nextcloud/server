@@ -84,6 +84,7 @@ class Generator {
 	 * @param string $mimeType
 	 * @return ISimpleFile
 	 * @throws NotFoundException
+	 * @throws \InvalidArgumentException if the preview would be invalid (in case the original image is invalid)
 	 */
 	public function getPreview(File $file, $width = -1, $height = -1, $crop = false, $mode = IPreview::MODE_FILL, $mimeType = null) {
 		$this->eventDispatcher->dispatch(
@@ -299,9 +300,14 @@ class Generator {
 	 * @param int $maxHeight
 	 * @return ISimpleFile
 	 * @throws NotFoundException
+	 * @throws \InvalidArgumentException if the preview would be invalid (in case the original image is invalid)
 	 */
 	private function generatePreview(ISimpleFolder $previewFolder, ISimpleFile $maxPreview, $width, $height, $crop, $maxWidth, $maxHeight) {
 		$preview = $this->helper->getImage($maxPreview);
+
+		if (!$preview->valid()) {
+			throw new \InvalidArgumentException('Failed to generate preview, failed to load image');
+		}
 
 		if ($crop) {
 			if ($height !== $preview->height() && $width !== $preview->width()) {
@@ -324,6 +330,7 @@ class Generator {
 		} else {
 			$preview->resize(max($width, $height));
 		}
+
 
 		$path = $this->generatePath($width, $height, $crop);
 		try {

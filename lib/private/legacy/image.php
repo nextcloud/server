@@ -563,7 +563,7 @@ class OC_Image implements \OCP\IImage {
 			case IMAGETYPE_JPEG:
 				if (imagetypes() & IMG_JPG) {
 					if (getimagesize($imagePath) !== false) {
-						$this->resource = imagecreatefromjpeg($imagePath);
+						$this->resource = @imagecreatefromjpeg($imagePath);
 					} else {
 						$this->logger->debug('OC_Image->loadFromFile, JPG image not valid: ' . $imagePath, array('app' => 'core'));
 					}
@@ -573,7 +573,7 @@ class OC_Image implements \OCP\IImage {
 				break;
 			case IMAGETYPE_PNG:
 				if (imagetypes() & IMG_PNG) {
-					$this->resource = imagecreatefrompng($imagePath);
+					$this->resource = @imagecreatefrompng($imagePath);
 					// Preserve transparency
 					imagealphablending($this->resource, true);
 					imagesavealpha($this->resource, true);
@@ -583,14 +583,14 @@ class OC_Image implements \OCP\IImage {
 				break;
 			case IMAGETYPE_XBM:
 				if (imagetypes() & IMG_XPM) {
-					$this->resource = imagecreatefromxbm($imagePath);
+					$this->resource = @imagecreatefromxbm($imagePath);
 				} else {
 					$this->logger->debug('OC_Image->loadFromFile, XBM/XPM images not supported: ' . $imagePath, array('app' => 'core'));
 				}
 				break;
 			case IMAGETYPE_WBMP:
 				if (imagetypes() & IMG_WBMP) {
-					$this->resource = imagecreatefromwbmp($imagePath);
+					$this->resource = @imagecreatefromwbmp($imagePath);
 				} else {
 					$this->logger->debug('OC_Image->loadFromFile, WBMP images not supported: ' . $imagePath, array('app' => 'core'));
 				}
