@@ -42,6 +42,8 @@ OC.L10N.register(
     "%s (invisible)" : "%s (neviditelný)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>Systémové tagy</strong> souboru byly upraveny",
     "Collaborative tags" : "Značky pro spolupráci",
+    "Create and edit collaborative tags. These tags affect all users." : "Vytvářejte a upravujte značky pro spolupráci. Tyto značky ovlivní všechny uživatele.",
+    "Select tag …" : "Vyberte značku …",
     "Name" : "Název",
     "Delete" : "Smazat",
     "Public" : "Veřejné",

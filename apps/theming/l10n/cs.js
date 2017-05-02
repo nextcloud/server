@@ -13,6 +13,7 @@ OC.L10N.register(
     "Unsupported image type" : "Nepodporovaný typ obrázku",
     "You are already using a custom theme" : "Již používáte vlastní motiv",
     "Theming" : "Motivy",
+    "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Motivy umožňují jednoduché přizpůsobení vzhledu vaší instance a podporovaných klientů. Uvidí to všichni uživatelé.",
     "Name" : "Název",
     "reset to default" : "obnovit výchozí",
     "Web address" : "Webová adresa",
