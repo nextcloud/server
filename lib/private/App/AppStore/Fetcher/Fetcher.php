@@ -43,6 +43,8 @@ abstract class Fetcher {
 	protected $fileName;
 	/** @var string */
 	protected $endpointUrl;
+	/** @var string */
+	protected $version;
 
 	/**
 	 * @param IAppData $appData
@@ -95,7 +97,7 @@ abstract class Fetcher {
 		}
 
 		$responseJson['timestamp'] = $this->timeFactory->getTime();
-		$responseJson['ncversion'] = $this->config->getSystemValue('version');
+		$responseJson['ncversion'] = $this->getVersion();
 		if ($ETag !== '') {
 			$responseJson['ETag'] = $ETag;
 		}
@@ -127,7 +129,7 @@ abstract class Fetcher {
 			if (is_array($jsonBlob)) {
 
 				// No caching when the version has been updated
-				if (isset($jsonBlob['ncversion']) && $jsonBlob['ncversion'] === $this->config->getSystemValue('version', '0.0.0')) {
+				if (isset($jsonBlob['ncversion']) && $jsonBlob['ncversion'] === $this->getVersion()) {
 
 					// If the timestamp is older than 300 seconds request the files new
 					if ((int)$jsonBlob['timestamp'] > ($this->timeFactory->getTime() - self::INVALIDATE_AFTER_SECONDS)) {
@@ -153,5 +155,24 @@ abstract class Fetcher {
 		} catch (\Exception $e) {
 			return [];
 		}
+	}
+
+	/**
+	 * Get the currently Nextcloud version
+	 * @return string
+	 */
+	protected function getVersion() {
+		if ($this->version === null) {
+			$this->version = $this->config->getSystemValue('version', '0.0.0');
+		}
+		return $this->version;
+	}
+
+	/**
+	 * Set the current Nextcloud version
+	 * @param string $version
+	 */
+	public function setVersion($version) {
+		$this->version = $version;
 	}
 }
