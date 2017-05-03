@@ -39,7 +39,7 @@ use Behat\MinkExtension\Context\RawMinkContext;
  * propagates its inherited "base_url" Mink parameter to the Actors as needed.
  *
  * By default no multiplier for the find timeout is set in the Actors. However,
- * it can be customized using the "actorFindTimeoutMultiplier" parameter of the
+ * it can be customized using the "actorTimeoutMultiplier" parameter of the
  * ActorContext in "behat.yml".
  *
  * Every actor used in the scenarios must have a corresponding Mink session
@@ -66,16 +66,16 @@ class ActorContext extends RawMinkContext {
 	/**
 	 * @var float
 	 */
-	private $actorFindTimeoutMultiplier;
+	private $actorTimeoutMultiplier;
 
 	/**
 	 * Creates a new ActorContext.
 	 *
-	 * @param float $actorFindTimeoutMultiplier the find timeout multiplier to
-	 *        set in the Actors.
+	 * @param float $actorTimeoutMultiplier the timeout multiplier for Actor
+	 *        related timeouts.
 	 */
-	public function __construct($actorFindTimeoutMultiplier = 1) {
-		$this->actorFindTimeoutMultiplier = $actorFindTimeoutMultiplier;
+	public function __construct($actorTimeoutMultiplier = 1) {
+		$this->actorTimeoutMultiplier = $actorTimeoutMultiplier;
 	}
 
 	/**
@@ -110,7 +110,7 @@ class ActorContext extends RawMinkContext {
 		$this->sharedNotebook = array();
 
 		$this->actors["default"] = new Actor($this->getSession(), $this->getMinkParameter("base_url"), $this->sharedNotebook);
-		$this->actors["default"]->setFindTimeoutMultiplier($this->actorFindTimeoutMultiplier);
+		$this->actors["default"]->setFindTimeoutMultiplier($this->actorTimeoutMultiplier);
 
 		$this->currentActor = $this->actors["default"];
 	}
@@ -134,7 +134,7 @@ class ActorContext extends RawMinkContext {
 	public function iActAs($actorName) {
 		if (!array_key_exists($actorName, $this->actors)) {
 			$this->actors[$actorName] = new Actor($this->getSession($actorName), $this->getMinkParameter("base_url"), $this->sharedNotebook);
-			$this->actors[$actorName]->setFindTimeoutMultiplier($this->actorFindTimeoutMultiplier);
+			$this->actors[$actorName]->setFindTimeoutMultiplier($this->actorTimeoutMultiplier);
 		}
 
 		$this->currentActor = $this->actors[$actorName];
