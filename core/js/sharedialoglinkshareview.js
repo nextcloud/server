@@ -39,7 +39,7 @@
 				'<div>' +
 					'<span class="icon-loading-small hidden"></span>' +
 					'<input type="radio" name="publicUpload" value="{{publicUploadRValue}}" id="sharingDialogAllowPublicUpload-r-{{cid}}" class="publicUploadRadio" {{{publicUploadRChecked}}} />' +
-					'<label for="sharingDialogAllowPublicUpload-rw-{{cid}}">{{publicUploadRLabel}}</label>' +
+					'<label for="sharingDialogAllowPublicUpload-r-{{cid}}">{{publicUploadRLabel}}</label>' +
 				'</div>' +
 				'<div>' +
 					'<span class="icon-loading-small hidden"></span>' +
