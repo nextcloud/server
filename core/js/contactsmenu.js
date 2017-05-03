@@ -50,7 +50,8 @@
 			+ '</div>';
 	var CONTACT_TEMPLATE = ''
 			+ '{{#if contact.avatar}}'
-			+ '<img src="{{contact.avatar}}" class="avatar">'
+			+ '<img src="{{contact.avatar}}&size=32" class="avatar"'
+			+ 'srcset="{{contact.avatar}}&size=32 1x, {{contact.avatar}}&size=64 2x, {{contact.avatar}}&size=128 4x">'
 			+ '{{else}}'
 			+ '<div class="avatar"></div>'
 			+ '{{/if}}'

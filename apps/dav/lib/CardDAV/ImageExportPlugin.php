@@ -29,9 +29,6 @@ use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
-use Sabre\VObject\Parameter;
-use Sabre\VObject\Property\Binary;
-use Sabre\VObject\Reader;
 
 class ImageExportPlugin extends ServerPlugin {
 
@@ -124,74 +121,5 @@ class ImageExportPlugin extends ServerPlugin {
 		}
 
 		return false;
-	}
-
-	function getPhoto(Card $node) {
-		// TODO: this is kind of expensive - load carddav data from database and parse it
-		//       we might want to build up a cache one day
-		try {
-			$vObject = $this->readCard($node->get());
-			if (!$vObject->PHOTO) {
-				return false;
-			}
-
-			$photo = $vObject->PHOTO;
-			$type = $this->getType($photo);
-
-			$val = $photo->getValue();
-			if ($photo->getValueType() === 'URI') {
-				$parsed = \Sabre\URI\parse($val);
-				//only allow data://
-				if ($parsed['scheme'] !== 'data') {
-					return false;
-				}
-				if (substr_count($parsed['path'], ';') === 1) {
-					list($type,) = explode(';', $parsed['path']);
-				}
-				$val = file_get_contents($val);
-			}
-
-			$allowedContentTypes = [
-				'image/png',
-				'image/jpeg',
-				'image/gif',
-			];
-
-			if(!in_array($type, $allowedContentTypes, true)) {
-				$type = 'application/octet-stream';
-			}
-
-			return [
-				'Content-Type' => $type,
-				'body' => $val
-			];
-		} catch(\Exception $ex) {
-			$this->logger->logException($ex);
-		}
-		return false;
-	}
-
-	private function readCard($cardData) {
-		return Reader::read($cardData);
-	}
-
-	/**
-	 * @param Binary $photo
-	 * @return Parameter
-	 */
-	private function getType($photo) {
-		$params = $photo->parameters();
-		if (isset($params['TYPE']) || isset($params['MEDIATYPE'])) {
-			/** @var Parameter $typeParam */
-			$typeParam = isset($params['TYPE']) ? $params['TYPE'] : $params['MEDIATYPE'];
-			$type = $typeParam->getValue();
-
-			if (strpos($type, 'image/') === 0) {
-				return $type;
-			} else {
-				return 'image/' . strtolower($type);
-			}
-		}
-		return '';
 	}
 }

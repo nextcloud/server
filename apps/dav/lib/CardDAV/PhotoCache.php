@@ -109,6 +109,13 @@ class PhotoCache {
 			/** @var ISimpleFile $file */
 			$file = $folder->getFile('photo.' . $ext);
 			$photo->loadFromData($file->getContent());
+
+			$ratio = $photo->width() / $photo->height();
+			if ($ratio < 1) {
+				$ratio = 1/$ratio;
+			}
+			$size = (int)($size * $ratio);
+
 			if ($size !== -1) {
 				$photo->resize($size);
 			}
