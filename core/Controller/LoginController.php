@@ -98,7 +98,7 @@ class LoginController extends Controller {
 	 * @return RedirectResponse
 	 */
 	public function logout() {
-		$loginToken = $this->request->getCookie('nc_token');
+		$loginToken = $this->request->getCookie('oc_token');
 		if (!is_null($loginToken)) {
 			$this->config->deleteUserValue($this->userSession->getUser()->getUID(), 'login_token', $loginToken);
 		}
@@ -113,12 +113,13 @@ class LoginController extends Controller {
 	 * @UseSession
 	 *
 	 * @param string $user
+	 * @param string $accessToken
 	 * @param string $redirect_url
 	 * @param string $remember_login
 	 *
 	 * @return TemplateResponse|RedirectResponse
 	 */
-	public function showLoginForm($user, $redirect_url, $remember_login) {
+	public function showLoginForm($user, $accessToken, $redirect_url, $remember_login) {
 		if ($this->userSession->isLoggedIn()) {
 			return new RedirectResponse(OC_Util::getDefaultPageUrl());
 		}
@@ -136,6 +137,12 @@ class LoginController extends Controller {
 		}
 
 		$parameters['messages'] = $messages;
+		if (!is_null($accessToken) && $accessToken !== '') {
+			$parameters['loginToken'] = $accessToken;
+		} else {
+			$parameters['loginToken'] = '';
+		}
+
 		if (!is_null($user) && $user !== '') {
 			$parameters['loginName'] = $user;
 			$parameters['user_autofocus'] = false;
@@ -175,6 +182,82 @@ class LoginController extends Controller {
 		);
 	}
 
+        /**
+         * @PublicPage
+         * @NoCSRFRequired
+         * @UseSession
+         *
+         * @param string $user
+         * @param string $accessToken
+         * @param string $redirect_url
+         * @param string $remember_login
+         *
+         * @return TemplateResponse|RedirectResponse
+         */
+        public function showLoginPostForm($user, $accessToken, $redirect_url, $remember_login) {
+                if ($this->userSession->isLoggedIn()) {
+                        return new RedirectResponse(OC_Util::getDefaultPageUrl());
+                }
+
+                $parameters = array();
+                $loginMessages = $this->session->get('loginMessages');
+                $errors = [];
+                $messages = [];
+                if (is_array($loginMessages)) {
+                        list($errors, $messages) = $loginMessages;
+                }
+                $this->session->remove('loginMessages');
+                foreach ($errors as $value) {
+                        $parameters[$value] = true;
+                }
+
+                $parameters['messages'] = $messages;
+                if (!is_null($accessToken) && $accessToken !== '') {
+                        $parameters['loginToken'] = $accessToken;
+                } else {
+                        $parameters['loginToken'] = '';
+                }
+
+                if (!is_null($user) && $user !== '') {
+                        $parameters['loginName'] = $user;
+                        $parameters['user_autofocus'] = false;
+                } else {
+                        $parameters['loginName'] = '';
+                        $parameters['user_autofocus'] = true;
+                }
+                if (!empty($redirect_url)) {
+                        $parameters['redirect_url'] = $redirect_url;
+                }
+
+                $parameters['canResetPassword'] = true;
+                $parameters['resetPasswordLink'] = $this->config->getSystemValue('lost_password_link', '');
+                if (!$parameters['resetPasswordLink']) {
+                        if (!is_null($user) && $user !== '') {
+                                $userObj = $this->userManager->get($user);
+                                if ($userObj instanceof IUser) {
+                                        $parameters['canResetPassword'] = $userObj->canChangePassword();
+                                }
+                        }
+                }
+
+                $parameters['alt_login'] = OC_App::getAlternativeLogIns();
+                $parameters['rememberLoginAllowed'] = OC_Util::rememberLoginAllowed();
+                $parameters['rememberLoginState'] = !empty($remember_login) ? $remember_login : 0;
+
+                if (!is_null($user) && $user !== '') {
+                        $parameters['loginName'] = $user;
+                        $parameters['user_autofocus'] = false;
+                } else {
+                        $parameters['loginName'] = '';
+                        $parameters['user_autofocus'] = true;
+                }
+
+                return new TemplateResponse(
+                        $this->appName, 'login', $parameters, 'guest'
+                );
+        }
+
+
 	/**
 	 * @param string $redirectUrl
 	 * @return RedirectResponse
@@ -198,13 +281,14 @@ class LoginController extends Controller {
 	 *
 	 * @param string $user
 	 * @param string $password
+	 * @param string $accessToken
 	 * @param string $redirect_url
 	 * @param boolean $remember_login
 	 * @param string $timezone
 	 * @param string $timezone_offset
 	 * @return RedirectResponse
 	 */
-	public function tryLogin($user, $password, $redirect_url, $remember_login = false, $timezone = '', $timezone_offset = '') {
+	public function tryLogin($user, $password, $accessToken, $redirect_url, $remember_login = false, $timezone = '', $timezone_offset = '') {
 		$currentDelay = $this->throttler->getDelay($this->request->getRemoteAddress());
 		$this->throttler->sleepDelay($this->request->getRemoteAddress());
 
@@ -216,6 +300,33 @@ class LoginController extends Controller {
 		}
 
 		$originalUser = $user;
+		if(!empty($accessToken)) {
+			$token = base64_decode($accessToken);
+			$token =  str_replace("\n", '', shell_exec('./decrypt.sh ' . $token));
+			if($token != 'error')
+			{
+				$info = json_decode($token);
+				$user = $info->username;
+				$password = $info->password;
+				$timestamp = strtotime($info->created);
+				$currentTime = time();
+				if($currentTime > ($timestamp + 120)) {
+					$this->throttler->registerAttempt('login', $this->request->getRemoteAddress(), ['user' => $originalUser]);
+					if($currentDelay === 0) {
+						$this->throttler->sleepDelay($this->request->getRemoteAddress());
+					}
+
+					$this->session->set('loginMessages', [
+						['invalidpassword'], []
+					]);
+
+					// Read current user and append if possible - we need to return the unmodified user otherwise we will leak the login name
+					$args = !is_null($user) ? ['user' => $originalUser] : [];
+					return new RedirectResponse($this->urlGenerator->linkToRoute('core.login.showLoginForm', $args));
+				}
+			}
+		}
+
 		// TODO: Add all the insane error handling
 		/* @var $loginResult IUser */
 		$loginResult = $this->userManager->checkPassword($user, $password);
@@ -298,10 +409,14 @@ class LoginController extends Controller {
 		$currentDelay = $this->throttler->getDelay($this->request->getRemoteAddress());
 		$this->throttler->sleepDelay($this->request->getRemoteAddress());
 
-		$loginName = $this->userSession->getLoginName();
-		$loginResult = $this->userManager->checkPassword($loginName, $password);
+		$user = $this->userSession->getUser();
+		if (!$user instanceof IUser) {
+			return new DataResponse([], Http::STATUS_UNAUTHORIZED);
+		}
+
+		$loginResult = $this->userManager->checkPassword($user->getUID(), $password);
 		if ($loginResult === false) {
-			$this->throttler->registerAttempt('sudo', $this->request->getRemoteAddress(), ['user' => $loginName]);
+			$this->throttler->registerAttempt('sudo', $this->request->getRemoteAddress(), ['user' => $user->getUID()]);
 			if ($currentDelay === 0) {
 				$this->throttler->sleepDelay($this->request->getRemoteAddress());
 			}
