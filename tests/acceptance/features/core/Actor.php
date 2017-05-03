@@ -165,6 +165,18 @@ class Actor {
 	public function find($elementLocator, $timeout = 0, $timeoutStep = 0.5) {
 		$timeout = $timeout * $this->findTimeoutMultiplier;
 
+		return $this->findInternal($elementLocator, $timeout, $timeoutStep);
+	}
+
+	/**
+	 * Finds an element in the Mink Session of this Actor.
+	 *
+	 * The timeout is not affected by the multiplier set using
+	 * setFindTimeoutMultiplier().
+	 *
+	 * @see find($elementLocator, $timeout, $timeoutStep)
+	 */
+	private function findInternal($elementLocator, $timeout, $timeoutStep) {
 		$element = null;
 		$selector = $elementLocator->getSelector();
 		$locator = $elementLocator->getLocator();
@@ -211,7 +223,7 @@ class Actor {
 		$ancestorElement = $elementLocator->getAncestor();
 		if ($ancestorElement instanceof Locator) {
 			try {
-				$ancestorElement = $this->find($ancestorElement, $timeout, $timeoutStep);
+				$ancestorElement = $this->findInternal($ancestorElement, $timeout, $timeoutStep);
 			} catch (NoSuchElementException $exception) {
 				// Little hack to show the stack of ancestor elements that could
 				// not be found, as Behat only shows the message of the last
