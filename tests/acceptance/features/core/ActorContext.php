@@ -40,7 +40,8 @@ use Behat\MinkExtension\Context\RawMinkContext;
  *
  * By default no multiplier for the find timeout is set in the Actors. However,
  * it can be customized using the "actorTimeoutMultiplier" parameter of the
- * ActorContext in "behat.yml".
+ * ActorContext in "behat.yml". This parameter also affects the overall timeout
+ * to start a session for an Actor before giving up.
  *
  * Every actor used in the scenarios must have a corresponding Mink session
  * declared in "behat.yml" with the same name as the actor. All used sessions
@@ -95,6 +96,31 @@ class ActorContext extends RawMinkContext {
 				$actor->setBaseUrl($value);
 			}
 		}
+	}
+
+	/**
+	 * Returns the session with the given name.
+	 *
+	 * If the session is not started it is started before returning it; if the
+	 * session fails to start (typically due to a timeout connecting with the
+	 * web browser) it will be tried again up to $actorTimeoutMultiplier times
+	 * in total (rounded up to the next integer) before giving up.
+	 *
+	 * @param string|null $sname the name of the session to get, or null for the
+	 *        default session.
+	 * @return \Behat\Mink\Session the session.
+	 */
+	public function getSession($name = null) {
+		for ($i = 0; $i < ($this->actorTimeoutMultiplier - 1); $i++) {
+			try {
+				return parent::getSession($name);
+			} catch (\Behat\Mink\Exception\DriverException $exception) {
+				echo "Exception when getting " . ($name == null? "default session": "session '$name'") . ": " . $exception->getMessage() . "\n";
+				echo "Trying again\n";
+			}
+		}
+
+		return parent::getSession($name);
 	}
 
 	/**
