@@ -22,6 +22,7 @@
 
 namespace OCA\DAV\CardDAV;
 
+use OCP\Files\NotFoundException;
 use OCP\ILogger;
 use Sabre\CardDAV\Card;
 use Sabre\DAV\Server;
@@ -38,9 +39,18 @@ class ImageExportPlugin extends ServerPlugin {
 	protected $server;
 	/** @var ILogger */
 	private $logger;
+	/** @var PhotoCache */
+	private $cache;
 
-	public function __construct(ILogger $logger) {
+	/**
+	 * ImageExportPlugin constructor.
+	 *
+	 * @param ILogger $logger
+	 * @param PhotoCache $cache
+	 */
+	public function __construct(ILogger $logger, PhotoCache $cache) {
 		$this->logger = $logger;
+		$this->cache = $cache;
 	}
 
 	/**
@@ -49,8 +59,7 @@ class ImageExportPlugin extends ServerPlugin {
 	 * @param Server $server
 	 * @return void
 	 */
-	function initialize(Server $server) {
-
+	public function initialize(Server $server) {
 		$this->server = $server;
 		$this->server->on('method:GET', [$this, 'httpGet'], 90);
 	}
@@ -60,14 +69,19 @@ class ImageExportPlugin extends ServerPlugin {
 	 *
 	 * @param RequestInterface $request
 	 * @param ResponseInterface $response
-	 * @return bool|void
+	 * @return bool
 	 */
-	function httpGet(RequestInterface $request, ResponseInterface $response) {
+	public function httpGet(RequestInterface $request, ResponseInterface $response) {
 
 		$queryParams = $request->getQueryParameters();
 		// TODO: in addition to photo we should also add logo some point in time
 		if (!array_key_exists('photo', $queryParams)) {
 			return true;
+		}
+
+		$size = -1;
+		if (isset($queryParams['size'])) {
+			$size = (int)$queryParams['size'];
 		}
 
 		$path = $request->getPath();
@@ -85,22 +99,31 @@ class ImageExportPlugin extends ServerPlugin {
 			$aclPlugin->checkPrivileges($path, '{DAV:}read');
 		}
 
-		if ($result = $this->getPhoto($node)) {
-			// Allow caching
-			$response->setHeader('Cache-Control', 'private, max-age=3600, must-revalidate');
-			$response->setHeader('Etag', $node->getETag() );
-			$response->setHeader('Pragma', 'public');
+		// Fetch addressbook
+		$addressbookpath = explode('/', $path);
+		array_pop($addressbookpath);
+		$addressbookpath = implode('/', $addressbookpath);
+		/** @var AddressBook $addressbook */
+		$addressbook = $this->server->tree->getNodeForPath($addressbookpath);
 
-			$response->setHeader('Content-Type', $result['Content-Type']);
-			$response->setHeader('Content-Disposition', 'attachment');
+		$hash = md5($addressbook->getResourceId() . $node->getName());
+
+		$response->setHeader('Cache-Control', 'private, max-age=3600, must-revalidate');
+		$response->setHeader('Etag', $node->getETag() );
+		$response->setHeader('Pragma', 'public');
+
+		try {
+			$file = $this->cache->get($hash, $size, $node);
+			$response->setHeader('Content-Type', $file->getMimeType());
+			$response->setHeader('Content-Disposition', 'inline');
 			$response->setStatus(200);
 
-			$response->setBody($result['body']);
-
-			// Returning false to break the event chain
-			return false;
+			$response->setBody($file->getContent());
+		} catch (NotFoundException $e) {
+			$response->setStatus(404);
 		}
-		return true;
+
+		return false;
 	}
 
 	function getPhoto(Card $node) {

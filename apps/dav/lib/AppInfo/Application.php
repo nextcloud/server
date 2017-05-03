@@ -24,11 +24,13 @@
  */
 namespace OCA\DAV\AppInfo;
 
+use OC\AppFramework\Utility\SimpleContainer;
 use OCA\DAV\CalDAV\Activity\Backend;
 use OCA\DAV\CalDAV\Activity\Provider\Event;
 use OCA\DAV\CalDAV\BirthdayService;
 use OCA\DAV\Capabilities;
 use OCA\DAV\CardDAV\ContactsManager;
+use OCA\DAV\CardDAV\PhotoCache;
 use OCA\DAV\CardDAV\SyncService;
 use OCA\DAV\HookManager;
 use \OCP\AppFramework\App;
@@ -44,10 +46,19 @@ class Application extends App {
 	public function __construct() {
 		parent::__construct('dav');
 
+		$container = $this->getContainer();
+		$server = $container->getServer();
+
+		$container->registerService(PhotoCache::class, function(SimpleContainer $s) use ($server) {
+			return new PhotoCache(
+				$server->getAppDataDir('dav-photocache')
+			);
+		});
+
 		/*
 		 * Register capabilities
 		 */
-		$this->getContainer()->registerCapability(Capabilities::class);
+		$container->registerCapability(Capabilities::class);
 	}
 
 	/**
