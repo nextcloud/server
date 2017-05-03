@@ -24,6 +24,7 @@ class RedisTest extends Cache {
 			},
 			E_WARNING
 		);
+		$instance = null;
 		try {
 			$instance = new \OC\Memcache\Redis(self::getUniqueID());
 		} catch (\RuntimeException $e) {
@@ -32,6 +33,10 @@ class RedisTest extends Cache {
 		restore_error_handler();
 		if ($errorOccurred !== false) {
 			self::markTestSkipped($errorOccurred);
+		}
+
+		if ($instance === null) {
+			throw new \Exception('redis server is not reachable');
 		}
 
 		if ($instance->set(self::getUniqueID(), self::getUniqueID()) === false) {

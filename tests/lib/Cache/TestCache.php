@@ -53,21 +53,48 @@ abstract class TestCache extends \Test\TestCase {
 
 	function testClear() {
 		$value='ipsum lorum';
-		$this->instance->set('1_value1', $value);
-		$this->instance->set('1_value2', $value);
-		$this->instance->set('2_value1', $value);
-		$this->instance->set('3_value1', $value);
+		$this->instance->set('1_value1', $value . '1');
+		$this->instance->set('1_value2', $value . '2');
+		$this->instance->set('2_value1', $value . '3');
+		$this->instance->set('3_value1', $value . '4');
 
+		$this->assertEquals([
+			'1_value1' => 'ipsum lorum1',
+			'1_value2' => 'ipsum lorum2',
+			'2_value1' => 'ipsum lorum3',
+			'3_value1' => 'ipsum lorum4',
+		], [
+			'1_value1' => $this->instance->get('1_value1'),
+			'1_value2' => $this->instance->get('1_value2'),
+			'2_value1' => $this->instance->get('2_value1'),
+			'3_value1' => $this->instance->get('3_value1'),
+		]);
 		$this->assertTrue($this->instance->clear('1_'));
-		$this->assertFalse($this->instance->hasKey('1_value1'));
-		$this->assertFalse($this->instance->hasKey('1_value2'));
-		$this->assertTrue($this->instance->hasKey('2_value1'));
-		$this->assertTrue($this->instance->hasKey('3_value1'));
+
+		$this->assertEquals([
+			'1_value1' => null,
+			'1_value2' => null,
+			'2_value1' => 'ipsum lorum3',
+			'3_value1' => 'ipsum lorum4',
+		], [
+			'1_value1' => $this->instance->get('1_value1'),
+			'1_value2' => $this->instance->get('1_value2'),
+			'2_value1' => $this->instance->get('2_value1'),
+			'3_value1' => $this->instance->get('3_value1'),
+		]);
 
 		$this->assertTrue($this->instance->clear());
-		$this->assertFalse($this->instance->hasKey('1_value1'));
-		$this->assertFalse($this->instance->hasKey('1_value2'));
-		$this->assertFalse($this->instance->hasKey('2_value1'));
-		$this->assertFalse($this->instance->hasKey('3_value1'));
+
+		$this->assertEquals([
+			'1_value1' => null,
+			'1_value2' => null,
+			'2_value1' => null,
+			'3_value1' => null,
+		], [
+			'1_value1' => $this->instance->get('1_value1'),
+			'1_value2' => $this->instance->get('1_value2'),
+			'2_value1' => $this->instance->get('2_value1'),
+			'3_value1' => $this->instance->get('3_value1'),
+		]);
 	}
 }
