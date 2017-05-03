@@ -1,7 +1,9 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Saved" : "Zapisano",
     "Saving failed:" : "Zapis się nie udał:",
+    "File MIME type" : "Typy plików MIME",
     "is" : "jest",
     "is not" : "nie jest",
     "matches" : "pasuje",

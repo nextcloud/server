@@ -1,6 +1,7 @@
 OC.L10N.register(
     "theming",
     {
+    "Loading preview…" : "Ładowanie podglądu...",
     "Saved" : "Zapisano",
     "Admin" : "Admin",
     "a safe home for all your data" : "bezpieczna schowek dla wszystkich twoich danych",
