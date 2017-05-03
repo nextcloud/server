@@ -103,14 +103,12 @@ class ImageExportPlugin extends ServerPlugin {
 		/** @var AddressBook $addressbook */
 		$addressbook = $this->server->tree->getNodeForPath($addressbookpath);
 
-		$hash = md5($addressbook->getResourceId() . $node->getName());
-
 		$response->setHeader('Cache-Control', 'private, max-age=3600, must-revalidate');
 		$response->setHeader('Etag', $node->getETag() );
 		$response->setHeader('Pragma', 'public');
 
 		try {
-			$file = $this->cache->get($hash, $size, $node);
+			$file = $this->cache->get($addressbook->getResourceId(), $node->getName(), $size, $node);
 			$response->setHeader('Content-Type', $file->getMimeType());
 			$response->setHeader('Content-Disposition', 'inline');
 			$response->setStatus(200);

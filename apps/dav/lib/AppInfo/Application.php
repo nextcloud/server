@@ -112,6 +112,19 @@ class Application extends App {
 			}
 		});
 
+		$clearPhotoCache = function($event) {
+			if ($event instanceof GenericEvent) {
+				/** @var PhotoCache $p */
+				$p = $this->getContainer()->query(PhotoCache::class);
+				$p->delete(
+					$event->getArgument('addressBookId'),
+					$event->getArgument('cardUri')
+				);
+			}
+		};
+		$dispatcher->addListener('\OCA\DAV\CardDAV\CardDavBackend::updateCard', $clearPhotoCache);
+		$dispatcher->addListener('\OCA\DAV\CardDAV\CardDavBackend::deleteCard', $clearPhotoCache);
+
 		$dispatcher->addListener('OC\AccountManager::userUpdated', function(GenericEvent $event) {
 			$user = $event->getSubject();
 			$syncService = $this->getContainer()->query(SyncService::class);

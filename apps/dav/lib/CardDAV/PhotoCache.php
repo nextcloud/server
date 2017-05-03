@@ -26,15 +26,16 @@ class PhotoCache {
 	}
 
 	/**
-	 * @param string $hash
+	 * @param int $addressBookId
+	 * @param string $cardUri
 	 * @param int $size
 	 * @param Card $card
 	 *
 	 * @return ISimpleFile
 	 * @throws NotFoundException
 	 */
-	public function get($hash, $size, Card $card) {
-		$folder = $this->getFolder($hash);
+	public function get($addressBookId, $cardUri, $size, Card $card) {
+		$folder = $this->getFolder($addressBookId, $cardUri);
 
 		if ($this->isEmpty($folder)) {
 			$this->init($folder, $card);
@@ -132,10 +133,12 @@ class PhotoCache {
 
 
 	/**
-	 * @param $hash
+	 * @param int $addressBookId
+	 * @param string $cardUri
 	 * @return ISimpleFolder
 	 */
-	private function getFolder($hash) {
+	private function getFolder($addressBookId, $cardUri) {
+		$hash = md5($addressBookId . ' ' . $cardUri);
 		try {
 			return $this->appData->getFolder($hash);
 		} catch (NotFoundException $e) {
@@ -230,5 +233,14 @@ class PhotoCache {
 			}
 		}
 		return '';
+	}
+
+	/**
+	 * @param int $addressBookId
+	 * @param string $cardUri
+	 */
+	public function delete($addressBookId, $cardUri) {
+		$folder = $this->getFolder($addressBookId, $cardUri);
+		$folder->delete();
 	}
 }
