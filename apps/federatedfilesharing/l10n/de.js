@@ -43,7 +43,7 @@ OC.L10N.register(
     "Allow users on this server to send shares to other servers" : "Benutzern auf diesem Server das Senden von Freigaben an andere Server erlauben",
     "Allow users on this server to receive shares from other servers" : "Benutzern auf diesem Server das Empfangen von Freigaben von anderen Servern erlauben",
     "Search global and public address book for users and let local users publish their data" : "Globales und öffentliches Adressbuch nach Nutzern durchsuchen und lokale Nutzer ihre Daten veröffentlichen lassen",
-    "Allow users to publish their data to a global and public address book" : "Erlaube Benutzern ihre Daten an ein globales und öffentliches Adressbuche zu veröffentlichen",
+    "Allow users to publish their data to a global and public address book" : "Erlaube Benutzern ihre Daten an ein globales und öffentliches Adressbuch zu veröffentlichen",
     "Federated Cloud" : "Federated Cloud",
     "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Du kannst mit allen Leuten teilen, welche Nextcloud, ownCloud oder Pydio nutzen! Gebe  einfach deren Federated Cloud ID in den Teilen-Dialog ein. Diese sieht wie folgt aus person@cloud.example.com",
     "Your Federated Cloud ID:" : "Deine Federated-Cloud-ID:",

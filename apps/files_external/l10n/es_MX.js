@@ -112,7 +112,7 @@ OC.L10N.register(
     "Storage type" : "Tipo de almacenamiento",
     "Scope" : "Alcance",
     "Enable encryption" : "Habilitar encripción",
-    "Enable previews" : "Habilitar previsualizaciones",
+    "Enable previews" : "Habilitar vistas previas",
     "Enable sharing" : "Habilitar compartir",
     "Check for changes" : "Verificar si hay cambios",
     "Never" : "Nunca",
