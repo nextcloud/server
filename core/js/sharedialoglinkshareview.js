@@ -38,17 +38,17 @@
 			'{{#if publicUpload}}' +
 				'<div>' +
 					'<span class="icon-loading-small hidden"></span>' +
-					'<input type="radio" class="radio" name="publicUpload" value="{{publicUploadRValue}}" id="sharingDialogAllowPublicUpload-r-{{cid}}" class="publicUploadRadio" {{{publicUploadRChecked}}} />' +
+					'<input type="radio" name="publicUpload" value="{{publicUploadRValue}}" id="sharingDialogAllowPublicUpload-r-{{cid}}" class="radio publicUploadRadio" {{{publicUploadRChecked}}} />' +
 					'<label for="sharingDialogAllowPublicUpload-r-{{cid}}">{{publicUploadRLabel}}</label>' +
 				'</div>' +
 				'<div>' +
 					'<span class="icon-loading-small hidden"></span>' +
-					'<input type="radio" class="radio" name="publicUpload" value="{{publicUploadRWValue}}" id="sharingDialogAllowPublicUpload-rw-{{cid}}" class="publicUploadRadio" {{{publicUploadRWChecked}}} />' +
+					'<input type="radio" name="publicUpload" value="{{publicUploadRWValue}}" id="sharingDialogAllowPublicUpload-rw-{{cid}}" class="radio publicUploadRadio" {{{publicUploadRWChecked}}} />' +
 					'<label for="sharingDialogAllowPublicUpload-rw-{{cid}}">{{publicUploadRWLabel}}</label>' +
 				'</div>' +
 				'<div>' +
 					'<span class="icon-loading-small hidden"></span>' +
-					'<input type="radio" class="radio" name="publicUpload" value="{{publicUploadWValue}}" id="sharingDialogAllowPublicUpload-w-{{cid}}" class="publicUploadRadio" {{{publicUploadWChecked}}} />' +
+					'<input type="radio" name="publicUpload" value="{{publicUploadWValue}}" id="sharingDialogAllowPublicUpload-w-{{cid}}" class="radio publicUploadRadio" {{{publicUploadWChecked}}} />' +
 					'<label for="sharingDialogAllowPublicUpload-w-{{cid}}">{{publicUploadWLabel}}</label>' +
 				'</div>' +
 			'{{/if}}' +
