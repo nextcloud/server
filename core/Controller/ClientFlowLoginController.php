@@ -252,7 +252,7 @@ class ClientFlowLoginController extends Controller {
 			return $response;
 		}
 
-		$token = $this->random->generate(72);
+		$token = $this->random->generate(72, ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_DIGITS);
 		$uid = $this->userSession->getUser()->getUID();
 		$generatedToken = $this->tokenProvider->generateToken(
 			$token,
