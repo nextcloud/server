@@ -162,7 +162,7 @@ class Actor {
 	 * @throws NoSuchElementException if the element, or its ancestor, can not
 	 *         be found.
 	 */
-	public function find($elementLocator, $timeout = 0, $timeoutStep = 0.5) {
+	public function find(Locator $elementLocator, $timeout = 0, $timeoutStep = 0.5) {
 		$timeout = $timeout * $this->findTimeoutMultiplier;
 
 		return $this->findInternal($elementLocator, $timeout, $timeoutStep);
@@ -176,7 +176,7 @@ class Actor {
 	 *
 	 * @see find($elementLocator, $timeout, $timeoutStep)
 	 */
-	private function findInternal($elementLocator, $timeout, $timeoutStep) {
+	private function findInternal(Locator $elementLocator, $timeout, $timeoutStep) {
 		$element = null;
 		$selector = $elementLocator->getSelector();
 		$locator = $elementLocator->getLocator();
@@ -219,7 +219,7 @@ class Actor {
 	 * @return \Behat\Mink\Element\Element the ancestor element found.
 	 * @throws NoSuchElementException if the ancestor element can not be found.
 	 */
-	private function findAncestorElement($elementLocator, $timeout, $timeoutStep) {
+	private function findAncestorElement(Locator $elementLocator, $timeout, $timeoutStep) {
 		$ancestorElement = $elementLocator->getAncestor();
 		if ($ancestorElement instanceof Locator) {
 			try {
