@@ -22,6 +22,7 @@
 namespace OCA\DAV\Files;
 
 use OCA\DAV\Connector\Sabre\Directory;
+use OCP\Files\FileInfo;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\HTTP\URLUtil;
 
@@ -41,6 +42,9 @@ class FilesHome extends Directory {
 		$this->principalInfo = $principalInfo;
 		$view = \OC\Files\Filesystem::getView();
 		$rootInfo = $view->getFileInfo('');
+		if (!($rootInfo instanceof FileInfo)) {
+			throw new \Exception('Home does not exist');
+		}
 		parent::__construct($view, $rootInfo);
 	}
 
