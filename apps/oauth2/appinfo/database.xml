@@ -72,7 +72,7 @@
 				<name>encrypted_token</name>
 				<type>text</type>
 				<notnull>true</notnull>
-				<length>255</length>
+				<length>786</length>
 			</field>
 		</declaration>
 	</table>

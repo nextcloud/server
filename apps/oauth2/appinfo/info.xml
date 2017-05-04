@@ -6,7 +6,7 @@
 	<licence>AGPL</licence>
 	<author>Lukas Reschke</author>
 	<namespace>OAuth2</namespace>
-	<version>1.0.3</version>
+	<version>1.0.4</version>
 	<default_enable/>
 	<types>
 		<authentication/>
