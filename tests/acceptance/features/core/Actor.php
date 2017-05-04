@@ -165,85 +165,9 @@ class Actor {
 	public function find(Locator $elementLocator, $timeout = 0, $timeoutStep = 0.5) {
 		$timeout = $timeout * $this->findTimeoutMultiplier;
 
-		return self::findInternal($this->session, $elementLocator, $timeout, $timeoutStep);
-	}
+		$elementFinder = new ElementFinder($this->session, $elementLocator, $timeout, $timeoutStep);
 
-	/**
-	 * Finds an element in the given Mink Session.
-	 *
-	 * The timeout is not affected by the multiplier set using
-	 * setFindTimeoutMultiplier().
-	 *
-	 * @see find($session, $elementLocator, $timeout, $timeoutStep)
-	 */
-	private static function findInternal(\Behat\Mink\Session $session, Locator $elementLocator, $timeout, $timeoutStep) {
-		$element = null;
-		$selector = $elementLocator->getSelector();
-		$locator = $elementLocator->getLocator();
-		$ancestorElement = self::findAncestorElement($session, $elementLocator, $timeout, $timeoutStep);
-
-		$findCallback = function() use (&$element, $selector, $locator, $ancestorElement) {
-			$element = $ancestorElement->find($selector, $locator);
-
-			return $element !== null;
-		};
-		if (!Utils::waitFor($findCallback, $timeout, $timeoutStep)) {
-			$message = $elementLocator->getDescription() . " could not be found";
-			if ($timeout > 0) {
-				$message = $message . " after $timeout seconds";
-			}
-			throw new NoSuchElementException($message);
-		}
-
-		return $element;
-	}
-
-	/**
-	 * Returns the ancestor element from which the given locator will be looked
-	 * for.
-	 *
-	 * If the ancestor of the given locator is another locator the element for
-	 * the ancestor locator is found and returned. If the ancestor of the given
-	 * locator is already an element that element is the one returned. If the
-	 * given locator has no ancestor then the base document element is returned.
-	 *
-	 * The timeout is used only when finding the element for the ancestor
-	 * locator; if the timeout expires a NoSuchElementException is thrown.
-	 *
-	 * @param \Behat\Mink\Session $session the Mink Session to get the ancestor
-	 *        element from.
-	 * @param Locator $elementLocator the locator for the element to get its
-	 *        ancestor.
-	 * @param float $timeout the number of seconds (decimals allowed) to wait at
-	 *        most for the ancestor element to appear.
-	 * @param float $timeoutStep the number of seconds (decimals allowed) to
-	 *        wait before trying to find the ancestor element again.
-	 * @return \Behat\Mink\Element\Element the ancestor element found.
-	 * @throws NoSuchElementException if the ancestor element can not be found.
-	 */
-	private static function findAncestorElement(\Behat\Mink\Session $session, Locator $elementLocator, $timeout, $timeoutStep) {
-		$ancestorElement = $elementLocator->getAncestor();
-		if ($ancestorElement instanceof Locator) {
-			try {
-				$ancestorElement = self::findInternal($session, $ancestorElement, $timeout, $timeoutStep);
-			} catch (NoSuchElementException $exception) {
-				// Little hack to show the stack of ancestor elements that could
-				// not be found, as Behat only shows the message of the last
-				// exception in the chain.
-				$message = $exception->getMessage() . "\n" .
-						   $elementLocator->getDescription() . " could not be found";
-				if ($timeout > 0) {
-					$message = $message . " after $timeout seconds";
-				}
-				throw new NoSuchElementException($message, $exception);
-			}
-		}
-
-		if ($ancestorElement === null) {
-			$ancestorElement = $session->getPage();
-		}
-
-		return $ancestorElement;
+		return $elementFinder->find();
 	}
 
 	/**
