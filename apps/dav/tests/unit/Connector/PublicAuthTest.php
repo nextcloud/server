@@ -33,7 +33,7 @@ use OCP\Share\IManager;
  * Class PublicAuthTest
  *
  * @group DB
- * 
+ *
  * @package OCA\DAV\Tests\unit\Connector
  */
 class PublicAuthTest extends \Test\TestCase {
@@ -163,6 +163,28 @@ class PublicAuthTest extends \Test\TestCase {
 		$this->assertTrue($result);
 	}
 
+	public function testSharePasswordMailValidPassword() {
+		$share = $this->getMockBuilder('OCP\Share\IShare')
+			->disableOriginalConstructor()
+			->getMock();
+		$share->method('getPassword')->willReturn('password');
+		$share->method('getShareType')->willReturn(\OCP\Share::SHARE_TYPE_EMAIL);
+
+		$this->shareManager->expects($this->once())
+			->method('getShareByToken')
+			->willReturn($share);
+
+		$this->shareManager->expects($this->once())
+			->method('checkPassword')->with(
+				$this->equalTo($share),
+				$this->equalTo('password')
+			)->willReturn(true);
+
+		$result = $this->invokePrivate($this->auth, 'validateUserPass', ['username', 'password']);
+
+		$this->assertTrue($result);
+	}
+
 	public function testSharePasswordLinkValidSession() {
 		$share = $this->getMockBuilder('OCP\Share\IShare')
 			->disableOriginalConstructor()
@@ -214,4 +236,32 @@ class PublicAuthTest extends \Test\TestCase {
 
 		$this->assertFalse($result);
 	}
+
+
+	public function testSharePasswordMailInvalidSession() {
+		$share = $this->getMockBuilder('OCP\Share\IShare')
+			->disableOriginalConstructor()
+			->getMock();
+		$share->method('getPassword')->willReturn('password');
+		$share->method('getShareType')->willReturn(\OCP\Share::SHARE_TYPE_EMAIL);
+		$share->method('getId')->willReturn('42');
+
+		$this->shareManager->expects($this->once())
+			->method('getShareByToken')
+			->willReturn($share);
+
+		$this->shareManager->method('checkPassword')
+			->with(
+				$this->equalTo($share),
+				$this->equalTo('password')
+			)->willReturn(false);
+
+		$this->session->method('exists')->with('public_link_authenticated')->willReturn(true);
+		$this->session->method('get')->with('public_link_authenticated')->willReturn('43');
+
+		$result = $this->invokePrivate($this->auth, 'validateUserPass', ['username', 'password']);
+
+		$this->assertFalse($result);
+	}
+
 }
