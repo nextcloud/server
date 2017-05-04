@@ -210,6 +210,19 @@ class Auth extends AbstractBasic {
 	 */
 	private function auth(RequestInterface $request, ResponseInterface $response) {
 		$forcedLogout = false;
+
+		$authHeader = $request->getHeader('Authorization');
+		if (strpos($authHeader, 'Bearer ') !== false) {
+			if($this->userSession->tryTokenLogin($this->request)) {
+				$this->session->set(self::DAV_AUTHENTICATED, $this->userSession->getUser()->getUID());
+				$user = $this->userSession->getUser()->getUID();
+				\OC_Util::setupFS($user);
+				$this->currentUser = $user;
+				$this->session->close();
+				return [true, $this->principalPrefix . $user];
+			}
+		}
+
 		if(!$this->request->passesCSRFCheck() &&
 			$this->requiresCSRFCheck()) {
 			// In case of a fail with POST we need to recheck the credentials

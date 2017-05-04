@@ -18,22 +18,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-script('core', 'login/redirect');
-style('core', 'login/authpicker');
 
-/** @var array $_ */
-/** @var \OCP\IURLGenerator $urlGenerator */
-$urlGenerator = $_['urlGenerator'];
-?>
-
-<div class="picker-window">
-	<p class="info"><?php p($l->t('Redirecting …')) ?></p>
-</div>
-
-<form method="POST" action="<?php p($urlGenerator->linkToRouteAbsolute('core.ClientFlowLogin.generateAppPassword')) ?>">
-	<input type="hidden" name="clientIdentifier" value="<?php p($_['clientIdentifier']) ?>" />
-	<input type="hidden" name="requesttoken" value="<?php p($_['requesttoken']) ?>" />
-	<input type="hidden" name="stateToken" value="<?php p($_['stateToken']) ?>" />
-	<input type="hidden" name="oauthState" value="<?php p($_['oauthState']) ?>" />
-	<input id="submit-redirect-form" type="submit" class="hidden "/>
-</form>
+return [
+	'routes' => [
+		[
+			'name' => 'Settings#addClient',
+			'url' => '/settings',
+			'verb' => 'POST',
+		],
+		[
+			'name' => 'Settings#deleteClient',
+			'url' => '/clients/{id}/delete',
+			'verb' => 'POST'
+		],
+		[
+			'name' => 'LoginRedirector#authorize',
+			'url' => '/authorize',
+			'verb' => 'GET',
+		],
+		[
+			'name' => 'OauthApi#getToken',
+			'url' => '/api/v1/token',
+			// TODO: POST!
+			'verb' => 'GET'
+		],
+	],
+];

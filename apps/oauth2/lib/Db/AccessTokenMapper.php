@@ -18,22 +18,32 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-script('core', 'login/redirect');
-style('core', 'login/authpicker');
 
-/** @var array $_ */
-/** @var \OCP\IURLGenerator $urlGenerator */
-$urlGenerator = $_['urlGenerator'];
-?>
+namespace OCA\OAuth2\Db;
 
-<div class="picker-window">
-	<p class="info"><?php p($l->t('Redirecting …')) ?></p>
-</div>
+use OCP\AppFramework\Db\Mapper;
+use OCP\IDBConnection;
 
-<form method="POST" action="<?php p($urlGenerator->linkToRouteAbsolute('core.ClientFlowLogin.generateAppPassword')) ?>">
-	<input type="hidden" name="clientIdentifier" value="<?php p($_['clientIdentifier']) ?>" />
-	<input type="hidden" name="requesttoken" value="<?php p($_['requesttoken']) ?>" />
-	<input type="hidden" name="stateToken" value="<?php p($_['stateToken']) ?>" />
-	<input type="hidden" name="oauthState" value="<?php p($_['oauthState']) ?>" />
-	<input id="submit-redirect-form" type="submit" class="hidden "/>
-</form>
+class AccessTokenMapper extends Mapper {
+
+	/**
+	 * @param IDBConnection $db
+	 */
+	public function __construct(IDBConnection $db) {
+		parent::__construct($db, 'oauth2_access_tokens');
+	}
+
+	/**
+	 * @param string $code
+	 * @return AccessToken
+	 */
+	public function getByCode($code) {
+		$qb = $this->db->getQueryBuilder();
+		$qb
+			->select('*')
+			->from($this->tableName)
+			->where($qb->expr()->eq('hashed_code', $qb->createParameter('hashedCode')));
+
+		return $this->findEntity($qb->getSQL(), [hash('sha512', $code)]);
+	}
+}

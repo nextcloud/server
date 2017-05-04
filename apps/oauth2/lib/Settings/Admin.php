@@ -18,22 +18,50 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-script('core', 'login/redirect');
-style('core', 'login/authpicker');
 
-/** @var array $_ */
-/** @var \OCP\IURLGenerator $urlGenerator */
-$urlGenerator = $_['urlGenerator'];
-?>
+namespace OCA\OAuth2\Settings;
 
-<div class="picker-window">
-	<p class="info"><?php p($l->t('Redirecting …')) ?></p>
-</div>
+use OCA\OAuth2\Db\ClientMapper;
+use OCP\AppFramework\Http\TemplateResponse;
+use OCP\IConfig;
+use OCP\Settings\ISettings;
 
-<form method="POST" action="<?php p($urlGenerator->linkToRouteAbsolute('core.ClientFlowLogin.generateAppPassword')) ?>">
-	<input type="hidden" name="clientIdentifier" value="<?php p($_['clientIdentifier']) ?>" />
-	<input type="hidden" name="requesttoken" value="<?php p($_['requesttoken']) ?>" />
-	<input type="hidden" name="stateToken" value="<?php p($_['stateToken']) ?>" />
-	<input type="hidden" name="oauthState" value="<?php p($_['oauthState']) ?>" />
-	<input id="submit-redirect-form" type="submit" class="hidden "/>
-</form>
+class Admin implements ISettings {
+	/** @var ClientMapper */
+	private $clientMapper;
+
+	/**
+	 * @param ClientMapper $clientMapper
+	 */
+	public function __construct(ClientMapper $clientMapper) {
+		$this->clientMapper = $clientMapper;
+	}
+
+	/**
+	 * @return TemplateResponse
+	 */
+	public function getForm() {
+		return new TemplateResponse(
+			'oauth2',
+			'admin',
+			[
+				'clients' => $this->clientMapper->getClients(),
+			],
+			''
+		);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getSection() {
+		return 'security';
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getPriority() {
+		return 0;
+	}
+}

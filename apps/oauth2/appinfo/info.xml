@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<info>
+	<id>oauth2</id>
+	<name>OAuth 2.0</name>
+	<description>The OAuth2 app allows administrators to configure the built-in authentication workflow to also allow OAuth2 compatible authentication from other web applications.</description>
+	<licence>AGPL</licence>
+	<author>Lukas Reschke</author>
+	<namespace>OAuth2</namespace>
+	<version>1.0.3</version>
+	<default_enable/>
+	<types>
+		<authentication/>
+	</types>
+
+	<settings>
+		<admin>OCA\OAuth2\Settings\Admin</admin>
+	</settings>
+</info>
