@@ -165,22 +165,22 @@ class Actor {
 	public function find(Locator $elementLocator, $timeout = 0, $timeoutStep = 0.5) {
 		$timeout = $timeout * $this->findTimeoutMultiplier;
 
-		return $this->findInternal($elementLocator, $timeout, $timeoutStep);
+		return self::findInternal($this->session, $elementLocator, $timeout, $timeoutStep);
 	}
 
 	/**
-	 * Finds an element in the Mink Session of this Actor.
+	 * Finds an element in the given Mink Session.
 	 *
 	 * The timeout is not affected by the multiplier set using
 	 * setFindTimeoutMultiplier().
 	 *
-	 * @see find($elementLocator, $timeout, $timeoutStep)
+	 * @see find($session, $elementLocator, $timeout, $timeoutStep)
 	 */
-	private function findInternal(Locator $elementLocator, $timeout, $timeoutStep) {
+	private static function findInternal(\Behat\Mink\Session $session, Locator $elementLocator, $timeout, $timeoutStep) {
 		$element = null;
 		$selector = $elementLocator->getSelector();
 		$locator = $elementLocator->getLocator();
-		$ancestorElement = $this->findAncestorElement($elementLocator, $timeout, $timeoutStep);
+		$ancestorElement = self::findAncestorElement($session, $elementLocator, $timeout, $timeoutStep);
 
 		$findCallback = function() use (&$element, $selector, $locator, $ancestorElement) {
 			$element = $ancestorElement->find($selector, $locator);
@@ -210,6 +210,8 @@ class Actor {
 	 * The timeout is used only when finding the element for the ancestor
 	 * locator; if the timeout expires a NoSuchElementException is thrown.
 	 *
+	 * @param \Behat\Mink\Session $session the Mink Session to get the ancestor
+	 *        element from.
 	 * @param Locator $elementLocator the locator for the element to get its
 	 *        ancestor.
 	 * @param float $timeout the number of seconds (decimals allowed) to wait at
@@ -219,11 +221,11 @@ class Actor {
 	 * @return \Behat\Mink\Element\Element the ancestor element found.
 	 * @throws NoSuchElementException if the ancestor element can not be found.
 	 */
-	private function findAncestorElement(Locator $elementLocator, $timeout, $timeoutStep) {
+	private static function findAncestorElement(\Behat\Mink\Session $session, Locator $elementLocator, $timeout, $timeoutStep) {
 		$ancestorElement = $elementLocator->getAncestor();
 		if ($ancestorElement instanceof Locator) {
 			try {
-				$ancestorElement = $this->findInternal($ancestorElement, $timeout, $timeoutStep);
+				$ancestorElement = self::findInternal($session, $ancestorElement, $timeout, $timeoutStep);
 			} catch (NoSuchElementException $exception) {
 				// Little hack to show the stack of ancestor elements that could
 				// not be found, as Behat only shows the message of the last
@@ -238,7 +240,7 @@ class Actor {
 		}
 
 		if ($ancestorElement === null) {
-			$ancestorElement = $this->getSession()->getPage();
+			$ancestorElement = $session->getPage();
 		}
 
 		return $ancestorElement;
