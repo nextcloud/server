@@ -1351,12 +1351,8 @@ class View {
 				return false;
 			}
 
-			if ($internalPath === '') {
-				if ($mount instanceof MoveableMount) {
-					$data['permissions'] = $data['permissions'] | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_DELETE;
-				} else {
-					$data['permissions'] = $data['permissions'] & (\OCP\Constants::PERMISSION_ALL - (\OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_DELETE));
-				}
+			if ($mount instanceof MoveableMount && $internalPath === '') {
+				$data['permissions'] |= \OCP\Constants::PERMISSION_DELETE;
 			}
 
 			$owner = $this->getUserObjectForOwner($storage->getOwner($internalPath));
