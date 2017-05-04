@@ -44,11 +44,9 @@ class ClientMapper extends Mapper {
 			->from($this->tableName)
 			->where($qb->expr()->eq('client_identifier', $qb->createNamedParameter($clientIdentifier)));
 		$result = $qb->execute();
-		$rows = $result->fetchAll();
+		$row = $result->fetch();
 		$result->closeCursor();
-		return array_map(function ($row) {
-			return Client::fromRow($row);
-		}, $rows);
+		return Client::fromRow($row);
 	}
 
 	/**
