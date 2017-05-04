@@ -39,8 +39,7 @@ return [
 		[
 			'name' => 'OauthApi#getToken',
 			'url' => '/api/v1/token',
-			// TODO: POST!
-			'verb' => 'GET'
+			'verb' => 'POST'
 		],
 	],
 ];
