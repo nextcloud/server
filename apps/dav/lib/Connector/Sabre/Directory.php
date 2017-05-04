@@ -30,9 +30,11 @@
  */
 namespace OCA\DAV\Connector\Sabre;
 
+use OC\Files\View;
 use OCA\DAV\Connector\Sabre\Exception\Forbidden;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
 use OCA\DAV\Connector\Sabre\Exception\FileLocked;
+use OCP\Files\FileInfo;
 use OCP\Files\ForbiddenException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\StorageNotAvailableException;
@@ -76,7 +78,7 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node
 	 * @param ObjectTree|null $tree
 	 * @param \OCP\Share\IManager $shareManager
 	 */
-	public function __construct($view, $info, $tree = null, $shareManager = null) {
+	public function __construct(View $view, FileInfo $info, $tree = null, $shareManager = null) {
 		parent::__construct($view, $info, $shareManager);
 		$this->tree = $tree;
 	}

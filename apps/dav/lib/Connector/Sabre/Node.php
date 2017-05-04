@@ -34,7 +34,9 @@
 namespace OCA\DAV\Connector\Sabre;
 
 use OC\Files\Mount\MoveableMount;
+use OC\Files\View;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
+use OCP\Files\FileInfo;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 
@@ -77,7 +79,7 @@ abstract class Node implements \Sabre\DAV\INode {
 	 * @param \OCP\Files\FileInfo $info
 	 * @param IManager $shareManager
 	 */
-	public function __construct($view, $info, IManager $shareManager = null) {
+	public function __construct(View $view, FileInfo $info, IManager $shareManager = null) {
 		$this->fileView = $view;
 		$this->path = $this->fileView->getRelativePath($info->getPath());
 		$this->info = $info;
