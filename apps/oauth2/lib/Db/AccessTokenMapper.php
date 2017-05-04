@@ -42,8 +42,12 @@ class AccessTokenMapper extends Mapper {
 		$qb
 			->select('*')
 			->from($this->tableName)
-			->where($qb->expr()->eq('hashed_code', $qb->createParameter('hashedCode')));
-
-		return $this->findEntity($qb->getSQL(), [hash('sha512', $code)]);
+			->where($qb->expr()->eq('hashed_code', $qb->createNamedParameter(hash('sha512', $code))));
+		$result = $qb->execute();
+		$rows = $result->fetchAll();
+		$result->closeCursor();
+		return array_map(function ($row) {
+			return AccessToken::fromRow($row);
+		}, $rows);
 	}
 }
