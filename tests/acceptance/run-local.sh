@@ -39,6 +39,21 @@ set -o errexit
 # Behat through Composer or running Behat) expect that.
 cd "$(dirname $0)"
 
+# "--timeout-multiplier N" option can be provided before any other parameter to
+# set the timeout multiplier to be used in ActorContext.
+TIMEOUT_MULTIPLIER=""
+if [ "$1" = "--timeout-multiplier" ]; then
+	if [[ ! "$2" =~ ^[0-9]+$ ]]; then
+		echo "--timeout-multiplier must be followed by a positive integer"
+
+		exit 1
+	fi
+
+	TIMEOUT_MULTIPLIER=$2
+
+	shift 2
+fi
+
 # Safety parameter to prevent executing this script by mistake and messing with
 # the Git repository.
 if [ "$1" != "allow-git-repository-modifications" ]; then
@@ -48,6 +63,22 @@ if [ "$1" != "allow-git-repository-modifications" ]; then
 fi
 
 SCENARIO_TO_RUN=$2
+
+if [ "$TIMEOUT_MULTIPLIER" != "" ]; then
+	# Although Behat documentation states that using the BEHAT_PARAMS
+	# environment variable "You can set any value for any option that is
+	# available in a behat.yml file" this is currently not true for the
+	# constructor parameters of contexts (see
+	# https://github.com/Behat/Behat/issues/983). Thus, the default "behat.yml"
+	# configuration file has to be adjusted to provide the appropriate
+	# parameters for ActorContext.
+	ORIGINAL="\
+        - ActorContext"
+	REPLACEMENT="\
+        - ActorContext:\n\
+            actorTimeoutMultiplier: $TIMEOUT_MULTIPLIER"
+	sed --in-place "s/$ORIGINAL/$REPLACEMENT/" config/behat.yml
+fi
 
 composer install
 

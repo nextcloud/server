@@ -197,6 +197,22 @@ trap cleanUp EXIT
 # the Git working directory to the container) expect that.
 cd "$(dirname $0)"
 
+# "--timeout-multiplier N" option can be provided before the specific scenario
+# to run, if any, to set the timeout multiplier to be used in the acceptance
+# tests.
+TIMEOUT_MULTIPLIER_OPTION=""
+if [ "$1" = "--timeout-multiplier" ]; then
+	if [[ ! "$2" =~ ^[0-9]+$ ]]; then
+		echo "--timeout-multiplier must be followed by a positive integer"
+
+		exit 1
+	fi
+
+	TIMEOUT_MULTIPLIER_OPTION="--timeout-multiplier $2"
+
+	shift 2
+fi
+
 # If no parameter is provided to this script all the acceptance tests are run.
 SCENARIO_TO_RUN=$1
 
@@ -206,4 +222,4 @@ prepareSelenium
 prepareDocker
 
 echo "Running tests"
-docker exec $NEXTCLOUD_LOCAL_CONTAINER bash -c "cd nextcloud && tests/acceptance/run-local.sh allow-git-repository-modifications $SCENARIO_TO_RUN"
+docker exec $NEXTCLOUD_LOCAL_CONTAINER bash -c "cd nextcloud && tests/acceptance/run-local.sh $TIMEOUT_MULTIPLIER_OPTION allow-git-repository-modifications $SCENARIO_TO_RUN"

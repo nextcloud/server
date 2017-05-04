@@ -39,8 +39,9 @@ use Behat\MinkExtension\Context\RawMinkContext;
  * propagates its inherited "base_url" Mink parameter to the Actors as needed.
  *
  * By default no multiplier for the find timeout is set in the Actors. However,
- * it can be customized using the "actorFindTimeoutMultiplier" parameter of the
- * ActorContext in "behat.yml".
+ * it can be customized using the "actorTimeoutMultiplier" parameter of the
+ * ActorContext in "behat.yml". This parameter also affects the overall timeout
+ * to start a session for an Actor before giving up.
  *
  * Every actor used in the scenarios must have a corresponding Mink session
  * declared in "behat.yml" with the same name as the actor. All used sessions
@@ -66,16 +67,16 @@ class ActorContext extends RawMinkContext {
 	/**
 	 * @var float
 	 */
-	private $actorFindTimeoutMultiplier;
+	private $actorTimeoutMultiplier;
 
 	/**
 	 * Creates a new ActorContext.
 	 *
-	 * @param float $actorFindTimeoutMultiplier the find timeout multiplier to
-	 *        set in the Actors.
+	 * @param float $actorTimeoutMultiplier the timeout multiplier for Actor
+	 *        related timeouts.
 	 */
-	public function __construct($actorFindTimeoutMultiplier = 1) {
-		$this->actorFindTimeoutMultiplier = $actorFindTimeoutMultiplier;
+	public function __construct($actorTimeoutMultiplier = 1) {
+		$this->actorTimeoutMultiplier = $actorTimeoutMultiplier;
 	}
 
 	/**
@@ -98,6 +99,31 @@ class ActorContext extends RawMinkContext {
 	}
 
 	/**
+	 * Returns the session with the given name.
+	 *
+	 * If the session is not started it is started before returning it; if the
+	 * session fails to start (typically due to a timeout connecting with the
+	 * web browser) it will be tried again up to $actorTimeoutMultiplier times
+	 * in total (rounded up to the next integer) before giving up.
+	 *
+	 * @param string|null $sname the name of the session to get, or null for the
+	 *        default session.
+	 * @return \Behat\Mink\Session the session.
+	 */
+	public function getSession($name = null) {
+		for ($i = 0; $i < ($this->actorTimeoutMultiplier - 1); $i++) {
+			try {
+				return parent::getSession($name);
+			} catch (\Behat\Mink\Exception\DriverException $exception) {
+				echo "Exception when getting " . ($name == null? "default session": "session '$name'") . ": " . $exception->getMessage() . "\n";
+				echo "Trying again\n";
+			}
+		}
+
+		return parent::getSession($name);
+	}
+
+	/**
 	 * @BeforeScenario
 	 *
 	 * Initializes the Actors for the new Scenario with the default Actor.
@@ -110,7 +136,7 @@ class ActorContext extends RawMinkContext {
 		$this->sharedNotebook = array();
 
 		$this->actors["default"] = new Actor($this->getSession(), $this->getMinkParameter("base_url"), $this->sharedNotebook);
-		$this->actors["default"]->setFindTimeoutMultiplier($this->actorFindTimeoutMultiplier);
+		$this->actors["default"]->setFindTimeoutMultiplier($this->actorTimeoutMultiplier);
 
 		$this->currentActor = $this->actors["default"];
 	}
@@ -134,7 +160,7 @@ class ActorContext extends RawMinkContext {
 	public function iActAs($actorName) {
 		if (!array_key_exists($actorName, $this->actors)) {
 			$this->actors[$actorName] = new Actor($this->getSession($actorName), $this->getMinkParameter("base_url"), $this->sharedNotebook);
-			$this->actors[$actorName]->setFindTimeoutMultiplier($this->actorFindTimeoutMultiplier);
+			$this->actors[$actorName]->setFindTimeoutMultiplier($this->actorTimeoutMultiplier);
 		}
 
 		$this->currentActor = $this->actors[$actorName];
