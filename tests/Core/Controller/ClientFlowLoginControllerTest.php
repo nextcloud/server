@@ -338,7 +338,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 			->method('getServerHost')
 			->willReturn('example.com');
 
-		$expected = new Http\RedirectResponse('nc://MyLoginName:MyGeneratedToken@example.com');
+		$expected = new Http\RedirectResponse('nc://login/server:example.com&user:MyLoginName&password:MyGeneratedToken');
 		$this->assertEquals($expected, $this->clientFlowLoginController->generateAppPassword('MyStateToken'));
 	}
 
@@ -402,7 +402,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 			->method('getServerHost')
 			->willReturn('example.com');
 
-		$expected = new Http\RedirectResponse('nc://MyLoginName:MyGeneratedToken@example.com');
+		$expected = new Http\RedirectResponse('nc://login/server:example.com&user:MyLoginName&password:MyGeneratedToken');
 		$this->assertEquals($expected, $this->clientFlowLoginController->generateAppPassword('MyStateToken'));
 	}
 }
