@@ -92,6 +92,12 @@
 		initialized: false,
 
 		/**
+		 * Wheater the file list was already shown once
+		 * @type boolean
+		 */
+		shown: false,
+
+		/**
 		 * Number of files per page
 		 *
 		 * @return {int} page size
@@ -557,7 +563,10 @@
 		 * Event handler when leaving previously hidden state
 		 */
 		_onShow: function(e) {
-			this.reload();
+			if (this.shown) {
+				this.reload();
+			}
+			this.shown = true;
 		},
 
 		/**

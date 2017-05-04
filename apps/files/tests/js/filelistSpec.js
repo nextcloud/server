@@ -1509,6 +1509,12 @@ describe('OCA.Files.FileList tests', function() {
 		});
 		it('reloads the list when leaving hidden state', function() {
 			var reloadStub = sinon.stub(fileList, 'reload');
+
+			// First show should not trigger
+			$('#app-content-files').trigger(new $.Event('show'));
+			expect(reloadStub.calledOnce).toEqual(false);
+
+			// Second show should!
 			$('#app-content-files').trigger(new $.Event('show'));
 			expect(reloadStub.calledOnce).toEqual(true);
 			reloadStub.restore();
