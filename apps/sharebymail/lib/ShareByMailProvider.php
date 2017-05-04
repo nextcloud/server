@@ -345,7 +345,6 @@ class ShareByMailProvider implements IShareProvider {
 			$this->sendMailNotification(
 				$share->getNode()->getName(),
 				$link,
-				$share->getShareOwner(),
 				$share->getSharedBy(),
 				$share->getSharedWith()
 			);
@@ -367,37 +366,26 @@ class ShareByMailProvider implements IShareProvider {
 	/**
 	 * @param string $filename
 	 * @param string $link
-	 * @param string $owner
 	 * @param string $initiator
 	 * @param string $shareWith
 	 * @throws \Exception If mail couldn't be sent
 	 */
 	protected function sendMailNotification($filename,
 											$link,
-											$owner,
 											$initiator,
 											$shareWith) {
-		$ownerUser = $this->userManager->get($owner);
 		$initiatorUser = $this->userManager->get($initiator);
-		$ownerDisplayName = ($ownerUser instanceof IUser) ? $ownerUser->getDisplayName() : $owner;
 		$initiatorDisplayName = ($initiatorUser instanceof IUser) ? $initiatorUser->getDisplayName() : $initiator;
-		if ($owner === $initiator) {
-			$subject = (string)$this->l->t('%s shared »%s« with you', array($ownerDisplayName, $filename));
-		} else {
-			$subject = (string)$this->l->t('%s shared »%s« with you on behalf of %s', array($ownerDisplayName, $filename, $initiatorDisplayName));
-		}
+		$subject = (string)$this->l->t('%s shared »%s« with you', array($initiatorDisplayName, $filename));
 
 		$message = $this->mailer->createMessage();
 
 		$emailTemplate = $this->mailer->createEMailTemplate();
 
 		$emailTemplate->addHeader();
-		$emailTemplate->addHeading($this->l->t('%s shared »%s« with you', [$ownerDisplayName, $filename]), false);
-		if ($owner === $initiator) {
-			$text = $this->l->t('%s shared »%s« with you.', [$ownerDisplayName, $filename]);
-		} else {
-			$text= $this->l->t('%s shared »%s« with you on behalf of %s.', [$ownerDisplayName, $filename, $initiator]);
-		}
+		$emailTemplate->addHeading($this->l->t('%s shared »%s« with you', [$initiatorDisplayName, $filename]), false);
+		$text = $this->l->t('%s shared »%s« with you.', [$initiatorDisplayName, $filename]);
+
 		$emailTemplate->addBodyText(
 			$text . ' ' . $this->l->t('Click the button below to open it.'),
 			$text
@@ -414,7 +402,7 @@ class ShareByMailProvider implements IShareProvider {
 		$senderName = $this->l->t(
 			'%s via %s',
 			[
-				$ownerDisplayName,
+				$initiatorDisplayName,
 				$instanceName
 			]
 		);
@@ -422,9 +410,9 @@ class ShareByMailProvider implements IShareProvider {
 
 		// The "Reply-To" is set to the sharer if an mail address is configured
 		// also the default footer contains a "Do not reply" which needs to be adjusted.
-		$ownerEmail = $ownerUser->getEMailAddress();
-		if($ownerEmail !== null) {
-			$message->setReplyTo([$ownerEmail => $ownerDisplayName]);
+		$initiatorEmail = $initiatorUser->getEMailAddress();
+		if($initiatorEmail !== null) {
+			$message->setReplyTo([$initiatorEmail => $initiatorDisplayName]);
 			$emailTemplate->addFooter($instanceName . ' - ' . $this->defaults->getSlogan());
 		} else {
 			$emailTemplate->addFooter();
