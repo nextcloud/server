@@ -1,6 +1,7 @@
 OC.L10N.register(
     "theming",
     {
+    "Loading preview…" : "Cargando previsualización...",
     "Saved" : "Guardado",
     "Admin" : "Administración",
     "a safe home for all your data" : "un hogar seguro para todos tus datos",
@@ -12,6 +13,7 @@ OC.L10N.register(
     "Unsupported image type" : "Tipo de imagen no soportado",
     "You are already using a custom theme" : "Usted ya usa un tema personalizado",
     "Theming" : "Tema",
+    "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Los temas hacen posible personalizar fácilmente la apariencia de tu instancia y los clientes soportados. Esto será visible para todos los usuarios.",
     "Name" : "Nombre",
     "reset to default" : "restaurar a configuración inicial",
     "Web address" : "Dirección web",

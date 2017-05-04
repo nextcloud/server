@@ -42,6 +42,7 @@ OC.L10N.register(
     "%s (invisible)" : "%s (niewidoczny)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>Etykieta systemowa</strong> dla pliku została zmieniona",
     "Collaborative tags" : "Wspólne etykiety",
+    "Create and edit collaborative tags. These tags affect all users." : "Utwórz i edytuj tagi współpracy. Te tagi mają wpływ na wszystkich użytkowników.",
     "Select tag …" : "Wybierz tag ...",
     "Name" : "Nazwa",
     "Delete" : "Usuń",

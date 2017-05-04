@@ -121,6 +121,7 @@ OC.L10N.register(
     "Select all" : "すべて選択",
     "Upload too large" : "アップロードには大きすぎます。",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "アップロードしようとしているファイルは、サーバーで規定された最大サイズを超えています。",
+    "No favorites yet" : "まだお気に入りはありません",
     "Files and folders you mark as favorite will show up here" : "お気に入りに登録されたファイルやフォルダーは、ここに表示されます。",
     "Shared with you" : "他ユーザーがあなたと共有中",
     "Shared with others" : "他ユーザーと共有中",
