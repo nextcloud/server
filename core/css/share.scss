@@ -43,6 +43,9 @@
 		font-weight: 400;
 		white-space: nowrap;
 	}
+	input[type='radio'].radio + label {
+		margin-left: -1px;
+	}
 	input[type='checkbox'] {
 		margin: 0 3px 0 8px;
 		vertical-align: middle;
