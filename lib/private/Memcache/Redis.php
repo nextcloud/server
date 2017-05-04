@@ -70,7 +70,7 @@ class Redis extends Cache implements IMemcacheTTL {
 	}
 
 	public function remove($key) {
-		if (self::$cache->delete($this->getNameSpace() . $key)) {
+		if (self::$cache->del($this->getNameSpace() . $key)) {
 			return true;
 		} else {
 			return false;
@@ -82,7 +82,7 @@ class Redis extends Cache implements IMemcacheTTL {
 		$it = null;
 		self::$cache->setOption(\Redis::OPT_SCAN, \Redis::SCAN_RETRY);
 		while ($keys = self::$cache->scan($it, $prefix)) {
-			self::$cache->delete($keys);
+			self::$cache->del($keys);
 		}
 		return true;
 	}
