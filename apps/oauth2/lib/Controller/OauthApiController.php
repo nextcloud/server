@@ -78,7 +78,7 @@ class OauthApiController extends Controller {
 		return new JSONResponse(
 			[
 				'access_token' => $decryptedToken,
-				'token_type' => 'token',
+				'token_type' => 'Bearer',
 				'expires_in' => 3600,
 				'refresh_token' => $newCode,
 				'user_id' => ($this->defaultTokenMapper->getTokenById($accessToken->getTokenId()))->getUID(),
