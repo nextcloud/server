@@ -165,11 +165,13 @@ class ThemingDefaults extends \OC_Defaults {
 			$backgroundExists = false;
 		}
 
+		$cacheBusterCounter = $this->config->getAppValue('theming', 'cachebuster', '0');
+
 		if(!$backgroundLogo || !$backgroundExists) {
-			return $this->urlGenerator->imagePath('core','background.jpg');
+			return $this->urlGenerator->imagePath('core','background.jpg') . '?v=' . $cacheBusterCounter;
 		}
 
-		return $this->urlGenerator->linkToRoute('theming.Theming.getLoginBackground');
+		return $this->urlGenerator->linkToRoute('theming.Theming.getLoginBackground') . '?v=' . $cacheBusterCounter;
 	}
 
 
