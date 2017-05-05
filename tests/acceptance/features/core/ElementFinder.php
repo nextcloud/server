@@ -159,6 +159,35 @@ class ElementFinder {
 	}
 
 	/**
+	 * Returns the description of the element to find.
+	 *
+	 * @return string the description of the element to find.
+	 */
+	public function getDescription() {
+		return $this->elementLocator->getDescription();
+	}
+
+	/**
+	 * Returns the timeout.
+	 *
+	 * @return float the number of seconds (decimals allowed) to wait at most
+	 *         for the element to appear.
+	 */
+	public function getTimeout() {
+		return $this->timeout;
+	}
+
+	/**
+	 * Returns the timeout step.
+	 *
+	 * @return float the number of seconds (decimals allowed) to  wait before
+	 *         trying to find the element again.
+	 */
+	public function getTimeoutStep() {
+		return $this->timeoutStep;
+	}
+
+	/**
 	 * Finds an element using the parameters set in the constructor of this
 	 * ElementFinder.
 	 *

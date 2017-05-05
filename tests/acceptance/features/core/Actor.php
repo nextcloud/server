@@ -42,6 +42,11 @@
  * exception is thrown if the element is not found, and, optionally, it is
  * possible to try again to find the element several times before giving up.
  *
+ * The returned object is also a wrapper over the element itself that
+ * automatically handles common causes of failed commands, like clicking on a
+ * hidden element; in this case, the wrapper would wait for the element to be
+ * visible up to the timeout set to find the element.
+ *
  * The amount of time to wait before giving up is specified in each call to
  * find(). However, a general multiplier to be applied to every timeout can be
  * set using setFindTimeoutMultiplier(); this makes possible to retry longer
@@ -150,6 +155,10 @@ class Actor {
 	 * before retrying is half a second. If the timeout is not 0 it will be
 	 * affected by the multiplier set using setFindTimeoutMultiplier(), if any.
 	 *
+	 * When found, the element is returned wrapped in an ElementWrapper; the
+	 * ElementWrapper handles common causes of failures when executing commands
+	 * in an element, like clicking on a hidden element.
+	 *
 	 * In any case, if the element, or its ancestors, can not be found a
 	 * NoSuchElementException is thrown.
 	 *
@@ -158,7 +167,7 @@ class Actor {
 	 *        most for the element to appear.
 	 * @param float $timeoutStep the number of seconds (decimals allowed) to
 	 *        wait before trying to find the element again.
-	 * @return \Behat\Mink\Element\Element the element found.
+	 * @return ElementWrapper an ElementWrapper object for the element.
 	 * @throws NoSuchElementException if the element, or its ancestor, can not
 	 *         be found.
 	 */
@@ -167,7 +176,7 @@ class Actor {
 
 		$elementFinder = new ElementFinder($this->session, $elementLocator, $timeout, $timeoutStep);
 
-		return $elementFinder->find();
+		return new ElementWrapper($elementFinder);
 	}
 
 	/**
