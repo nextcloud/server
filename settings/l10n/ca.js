@@ -100,7 +100,7 @@ OC.L10N.register(
     "Unlimited" : "Il·limitat",
     "Personal info" : "Informació personal",
     "Sessions" : "Sessions",
-    "App passwords" : "Contrasenyes de l'Apliació",
+    "App passwords" : "Contrasenyes de l'Aplicació",
     "Sync clients" : "Sincronitzar clients",
     "None" : "Cap",
     "Login" : "Inici de sessió",

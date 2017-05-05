@@ -42,6 +42,8 @@ OC.L10N.register(
     "%s (invisible)" : "%s (невидимые)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>Системные метки</strong> файла были изменены",
     "Collaborative tags" : "Совместные метки",
+    "Create and edit collaborative tags. These tags affect all users." : "Создание и изменение меток совместной работы. Эти метки влияют на всех пользователей.",
+    "Select tag …" : "Выберите метку…",
     "Name" : "Имя",
     "Delete" : "Удалить",
     "Public" : "Открытый",
