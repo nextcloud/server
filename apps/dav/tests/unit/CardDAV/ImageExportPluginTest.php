@@ -25,9 +25,13 @@
 namespace OCA\DAV\Tests\unit\CardDAV;
 
 
+use OCA\DAV\CardDAV\AddressBook;
 use OCA\DAV\CardDAV\ImageExportPlugin;
-use OCP\ILogger;
+use OCA\DAV\CardDAV\PhotoCache;
+use OCP\Files\NotFoundException;
+use OCP\Files\SimpleFS\ISimpleFile;
 use Sabre\CardDAV\Card;
+use Sabre\DAV\Node;
 use Sabre\DAV\Server;
 use Sabre\DAV\Tree;
 use Sabre\HTTP\RequestInterface;
@@ -36,32 +40,32 @@ use Test\TestCase;
 
 class ImageExportPluginTest extends TestCase {
 
-	/** @var ResponseInterface | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var ResponseInterface|\PHPUnit_Framework_MockObject_MockObject */
 	private $response;
-	/** @var RequestInterface | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var RequestInterface|\PHPUnit_Framework_MockObject_MockObject */
 	private $request;
-	/** @var ImageExportPlugin | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var ImageExportPlugin|\PHPUnit_Framework_MockObject_MockObject */
 	private $plugin;
 	/** @var Server */
 	private $server;
-	/** @var Tree | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var Tree|\PHPUnit_Framework_MockObject_MockObject */
 	private $tree;
-	/** @var ILogger | \PHPUnit_Framework_MockObject_MockObject */
-	private $logger;
+	/** @var PhotoCache|\PHPUnit_Framework_MockObject_MockObject */
+	private $cache;
 
 	function setUp() {
 		parent::setUp();
 
-		$this->request = $this->getMockBuilder('Sabre\HTTP\RequestInterface')->getMock();
-		$this->response = $this->getMockBuilder('Sabre\HTTP\ResponseInterface')->getMock();
-		$this->server = $this->getMockBuilder('Sabre\DAV\Server')->getMock();
-		$this->tree = $this->getMockBuilder('Sabre\DAV\Tree')->disableOriginalConstructor()->getMock();
+		$this->request = $this->createMock(RequestInterface::class);
+		$this->response = $this->createMock(ResponseInterface::class);
+		$this->server = $this->createMock(Server::class);
+		$this->tree = $this->createMock(Tree::class);
 		$this->server->tree = $this->tree;
-		$this->logger = $this->getMockBuilder('\OCP\ILogger')->getMock();
+		$this->cache = $this->createMock(PhotoCache::class);
 
-		$this->plugin = $this->getMockBuilder('OCA\DAV\CardDAV\ImageExportPlugin')
+		$this->plugin = $this->getMockBuilder(ImageExportPlugin::class)
 			->setMethods(['getPhoto'])
-			->setConstructorArgs([$this->logger])
+			->setConstructorArgs([$this->cache])
 			->getMock();
 		$this->plugin->initialize($this->server);
 	}
@@ -84,126 +88,115 @@ class ImageExportPluginTest extends TestCase {
 		];
 	}
 
-	public function testNotACard() {
-		$this->request->expects($this->once())->method('getQueryParameters')->willReturn(['photo' => true]);
-		$this->request->expects($this->once())->method('getPath')->willReturn('/files/welcome.txt');
-		$this->tree->expects($this->once())->method('getNodeForPath')->with('/files/welcome.txt')->willReturn(null);
+	public function testNoCard() {
+		$this->request->method('getQueryParameters')
+			->willReturn([
+				'photo'
+			]);
+		$this->request->method('getPath')
+			->willReturn('user/book/card');
+
+		$node = $this->createMock(Node::class);
+		$this->tree->method('getNodeForPath')
+			->with('user/book/card')
+			->willReturn($node);
+
 		$result = $this->plugin->httpGet($this->request, $this->response);
 		$this->assertTrue($result);
 	}
 
-	/**
-	 * @dataProvider providesCardWithOrWithoutPhoto
-	 * @param bool $expected
-	 * @param array $getPhotoResult
-	 */
-	public function testCardWithOrWithoutPhoto($expected, $getPhotoResult) {
-		$this->request->expects($this->once())->method('getQueryParameters')->willReturn(['photo' => true]);
-		$this->request->expects($this->once())->method('getPath')->willReturn('/files/welcome.txt');
+	public function dataTestCard() {
+		return [
+			[null, false],
+			[null, true],
+			[32, false],
+			[32, true],
+		];
+	}
 
-		$card = $this->getMockBuilder('Sabre\CardDAV\Card')->disableOriginalConstructor()->getMock();
+	/**
+	 * @dataProvider dataTestCard
+	 *
+	 * @param $size
+	 * @param bool $photo
+	 */
+	public function testCard($size, $photo) {
+		$query = ['photo' => null];
+		if ($size !== null) {
+			$query['size'] = $size;
+		}
+
+		$this->request->method('getQueryParameters')
+			->willReturn($query);
+		$this->request->method('getPath')
+			->willReturn('user/book/card');
+
+		$card = $this->createMock(Card::class);
 		$card->method('getETag')
 			->willReturn('"myEtag"');
-		$this->tree->expects($this->once())->method('getNodeForPath')->with('/files/welcome.txt')->willReturn($card);
+		$card->method('getName')
+			->willReturn('card');
+		$book = $this->createMock(AddressBook::class);
+		$book->method('getResourceId')
+			->willReturn(1);
 
-		$this->plugin->expects($this->once())->method('getPhoto')->willReturn($getPhotoResult);
+		$this->tree->method('getNodeForPath')
+			->willReturnCallback(function($path) use ($card, $book) {
+				if ($path === 'user/book/card') {
+					return $card;
+				} else if ($path === 'user/book') {
+					return $book;
+				}
+				$this->fail();
+			});
 
-		if (!$expected) {
-			$this->response
-				->expects($this->at(0))
+		$this->response->expects($this->at(0))
+			->method('setHeader')
+			->with('Cache-Control', 'private, max-age=3600, must-revalidate');
+		$this->response->expects($this->at(1))
+			->method('setHeader')
+			->with('Etag', '"myEtag"');
+		$this->response->expects($this->at(2))
+			->method('setHeader')
+			->with('Pragma', 'public');
+
+		$size = $size === null ? -1 : $size;
+
+		if ($photo) {
+			$file = $this->createMock(ISimpleFile::class);
+			$file->method('getMimeType')
+				->willReturn('imgtype');
+			$file->method('getContent')
+				->willReturn('imgdata');
+
+			$this->cache->method('get')
+				->with(1, 'card', $size, $card)
+				->willReturn($file);
+
+			$this->response->expects($this->at(3))
 				->method('setHeader')
-				->with('Cache-Control', 'private, max-age=3600, must-revalidate');
-			$this->response
-				->expects($this->at(1))
-				->method('setHeader')
-				->with('Etag', '"myEtag"');
-			$this->response
-				->expects($this->at(2))
-				->method('setHeader')
-				->with('Pragma', 'public');
-			$this->response
-				->expects($this->at(3))
-				->method('setHeader')
-				->with('Content-Type', $getPhotoResult['Content-Type']);
-			$this->response
-				->expects($this->at(4))
+				->with('Content-Type', 'imgtype');
+			$this->response->expects($this->at(4))
 				->method('setHeader')
 				->with('Content-Disposition', 'attachment');
-			$this->response
-				->expects($this->once())
-				->method('setStatus');
-			$this->response
-				->expects($this->once())
-				->method('setBody');
+
+			$this->response->expects($this->once())
+				->method('setStatus')
+				->with(200);
+			$this->response->expects($this->once())
+				->method('setBody')
+				->with('imgdata');
+
+		} else {
+			$this->cache->method('get')
+				->with(1, 'card', $size, $card)
+				->willThrowException(new NotFoundException());
+			$this->response->expects($this->once())
+				->method('setStatus')
+				->with(404);
 		}
 
 		$result = $this->plugin->httpGet($this->request, $this->response);
-		$this->assertEquals($expected, $result);
-	}
-
-	public function providesCardWithOrWithoutPhoto() {
-		return [
-			[true, null],
-			[false, ['Content-Type' => 'image/jpeg', 'body' => '1234']],
-		];
-	}
-
-	/**
-	 * @dataProvider providesPhotoData
-	 * @param $expected
-	 * @param $cardData
-	 */
-	public function testGetPhoto($expected, $cardData) {
-		/** @var Card | \PHPUnit_Framework_MockObject_MockObject $card */
-		$card = $this->getMockBuilder('Sabre\CardDAV\Card')->disableOriginalConstructor()->getMock();
-		$card->expects($this->once())->method('get')->willReturn($cardData);
-
-		$this->plugin = new ImageExportPlugin($this->logger);
-		$this->plugin->initialize($this->server);
-
-		$result = $this->plugin->getPhoto($card);
-		$this->assertEquals($expected, $result);
-	}
-
-	public function providesPhotoData() {
-		return [
-			'empty vcard' => [
-				false,
-				''
-			],
-			'vcard without PHOTO' => [
-				false,
-				"BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nEND:VCARD\r\n"
-			],
-			'vcard 3 with PHOTO' => [
-				[
-					'Content-Type' => 'image/jpeg',
-					'body' => '12345'
-				],
-				"BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nPHOTO;ENCODING=b;TYPE=JPEG:MTIzNDU=\r\nEND:VCARD\r\n"
-			],
-			'vcard 3 with PHOTO URL' => [
-				false,
-				"BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nPHOTO;TYPE=JPEG;VALUE=URI:http://example.com/photo.jpg\r\nEND:VCARD\r\n"
-			],
-			'vcard 4 with PHOTO' => [
-				[
-					'Content-Type' => 'image/jpeg',
-					'body' => '12345'
-				],
-				"BEGIN:VCARD\r\nVERSION:4.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nPHOTO:data:image/jpeg;base64,MTIzNDU=\r\nEND:VCARD\r\n"
-			],
-			'vcard 4 with PHOTO URL' => [
-				false,
-				"BEGIN:VCARD\r\nVERSION:4.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nPHOTO;MEDIATYPE=image/jpeg:http://example.org/photo.jpg\r\nEND:VCARD\r\n"
-			],
-			'vcard 4 with PHOTO AND INVALID MIMEtYPE' => [
-				[
-					'Content-Type' => 'application/octet-stream',
-					'body' => '12345'
-				],
-				"BEGIN:VCARD\r\nVERSION:4.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nPHOTO:data:image/svg;base64,MTIzNDU=\r\nEND:VCARD\r\n"
-			],
-		];
+		$this->assertFalse($result);
 	}
 }

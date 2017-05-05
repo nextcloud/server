@@ -34,19 +34,15 @@ class ImageExportPlugin extends ServerPlugin {
 
 	/** @var Server */
 	protected $server;
-	/** @var ILogger */
-	private $logger;
 	/** @var PhotoCache */
 	private $cache;
 
 	/**
 	 * ImageExportPlugin constructor.
 	 *
-	 * @param ILogger $logger
 	 * @param PhotoCache $cache
 	 */
-	public function __construct(ILogger $logger, PhotoCache $cache) {
-		$this->logger = $logger;
+	public function __construct(PhotoCache $cache) {
 		$this->cache = $cache;
 	}
 
@@ -76,10 +72,7 @@ class ImageExportPlugin extends ServerPlugin {
 			return true;
 		}
 
-		$size = -1;
-		if (isset($queryParams['size'])) {
-			$size = (int)$queryParams['size'];
-		}
+		$size = isset($queryParams['size']) ? (int)$queryParams['size'] : -1;
 
 		$path = $request->getPath();
 		$node = $this->server->tree->getNodeForPath($path);
