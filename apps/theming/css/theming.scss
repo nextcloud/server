@@ -45,12 +45,12 @@
 #header .logo,
 #header .logo-icon {
 	background-size: contain;
-	background-image: url(#{$image-logo}?v=#{$theming-cachebuster});
+	background-image: url(#{$image-logo});
 }
 
 #body-login,
 #firstrunwizard .firstrunwizard-header {
-	background-image: url(#{$image-login-background}?v=#{$theming-cachebuster});
+	background-image: url(#{$image-login-background});
 	background-color: $color-primary;
 }
 
