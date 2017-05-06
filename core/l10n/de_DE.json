@@ -137,6 +137,7 @@
     "Email link to person" : "Link per E-Mail verschicken",
     "Send" : "Senden",
     "Allow upload and editing" : "Hochladen und Bearbeiten erlauben",
+    "Read only" : "Schreibgeschützt",
     "Secure drop (upload only)" : "Sicheres ablegen (nur Hochladen)",
     "Shared with you and the group {group} by {owner}" : "Von {owner} mit Ihnen und der Gruppe {group} geteilt.",
     "Shared with you by {owner}" : "Von {owner} mit Ihnen geteilt.",

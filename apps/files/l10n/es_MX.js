@@ -52,7 +52,7 @@ OC.L10N.register(
     "_%n folder_::_%n folders_" : ["%n carpeta","%n carpetas"],
     "_%n file_::_%n files_" : ["%n archivo","%n archivos"],
     "{dirs} and {files}" : "{dirs} y {files}",
-    "_including %n hidden_::_including %n hidden_" : ["incluyendo %n escondido","incluyendo %n escondidos"],
+    "_including %n hidden_::_including %n hidden_" : ["incluyendo %n escondido","incluyendo %n ocultos"],
     "You don’t have permission to upload or create files here" : "Usted no cuenta con los permisos para cargar o crear archivos aquí",
     "_Uploading %n file_::_Uploading %n files_" : ["Subiendo %n archivo","Cargando %n archivos"],
     "New" : "Nuevo",

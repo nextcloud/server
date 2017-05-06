@@ -40,6 +40,8 @@
     "%s (invisible)" : "%s (invisible)",
     "<strong>System tags</strong> for a file have been modified" : "Se han modificado las <strong>etiquetas de sistema</strong> de un archivo",
     "Collaborative tags" : "Etiquetas colaborativas",
+    "Create and edit collaborative tags. These tags affect all users." : "Crea y edita etiquetas colaborativas. Estas etiquetas afectan a todos los usuarios.",
+    "Select tag …" : "Selecciona etiqueta...",
     "Name" : "Nombre",
     "Delete" : "Borrar",
     "Public" : "Público",
