@@ -139,6 +139,7 @@ OC.L10N.register(
     "Email link to person" : "Отправить ссылку по электронной почте",
     "Send" : "Отправить",
     "Allow upload and editing" : "Разрешить загрузку и редактирование",
+    "Read only" : "Только чтение",
     "Secure drop (upload only)" : "Безопасное хранилище (только для приема файлов)",
     "Shared with you and the group {group} by {owner}" : "{owner} поделился с вами и группой {group} ",
     "Shared with you by {owner}" : "С вами поделился {owner} ",

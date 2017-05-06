@@ -36,6 +36,7 @@ OC.L10N.register(
     "You can choose a different password at any time in the share dialog." : "Możesz zmienić hasło w okienku współdzielenia w dowolnym momencie.",
     "Could not find share" : "Nie można odnaleźć współdzielonego obiektu",
     "Share by mail" : "Współdzielone e-mailem",
+    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Umożliwia współdzielenie spersonalizowanego linku do pliku lub folderu, umieszczając go w wiadomości e-mail.",
     "Send password by mail" : "Wyślij hasło e-mailem",
     "Enforce password protection" : "Wymuś zabezpieczenie hasłem",
     "Failed to create the E-mail" : "Nie udało się utworzyć e-maila",

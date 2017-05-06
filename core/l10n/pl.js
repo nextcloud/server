@@ -139,6 +139,7 @@ OC.L10N.register(
     "Email link to person" : "Wyślij osobie odnośnik poprzez e-mail",
     "Send" : "Wyślij",
     "Allow upload and editing" : "Pozwól na przesyłanie i edycję",
+    "Read only" : "Tylko do odczytu",
     "Secure drop (upload only)" : "Bezpieczny zrzut (tylko wysyłanie)",
     "Shared with you and the group {group} by {owner}" : "Udostępnione tobie i grupie {group} przez {owner}",
     "Shared with you by {owner}" : "Udostępnione tobie przez {owner}",

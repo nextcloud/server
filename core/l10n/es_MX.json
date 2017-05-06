@@ -137,6 +137,7 @@
     "Email link to person" : "Enviar la liga por correo electrónico a una persona",
     "Send" : "Enviar",
     "Allow upload and editing" : "Permitir cargar y editar",
+    "Read only" : "Solo lectura",
     "Secure drop (upload only)" : "Depósito seguro (sólo carga de archivos)",
     "Shared with you and the group {group} by {owner}" : "Compartido con usted y el grupo {group} por {owner}",
     "Shared with you by {owner}" : "Compartido con usted por {owner}",

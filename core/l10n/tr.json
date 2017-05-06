@@ -137,6 +137,7 @@
     "Email link to person" : "Bağlantıyı e-posta ile gönder",
     "Send" : "Gönder",
     "Allow upload and editing" : "Yükleme ve düzenleme yapılabilsin",
+    "Read only" : "Salt okunur",
     "Secure drop (upload only)" : "Güvenli bırakma (yalnız yükleme)",
     "Shared with you and the group {group} by {owner}" : "{owner} tarafından sizinle ve {group} ile paylaşılmış",
     "Shared with you by {owner}" : "{owner} tarafından sizinle paylaşılmış",

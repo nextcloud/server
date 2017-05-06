@@ -134,6 +134,7 @@
     "Email link to person" : "Envoyer le lien par courriel",
     "Send" : "Envoyer",
     "Allow upload and editing" : "Autoriser l'envoi et l'édition",
+    "Read only" : "Lecture seule",
     "Secure drop (upload only)" : "Dépôt sécurisé (téléversement uniquement)",
     "Shared with you and the group {group} by {owner}" : "Partagé avec vous et le groupe {group} par {owner}",
     "Shared with you by {owner}" : "Partagé avec vous par {owner}",
