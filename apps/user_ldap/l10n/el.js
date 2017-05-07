@@ -12,6 +12,8 @@ OC.L10N.register(
     "No data specified" : "Δεν προσδιορίστηκαν δεδομένα",
     " Could not set configuration %s" : "Αδυναμία ρύθμισης %s",
     "Action does not exist" : "Η ενέργεια δεν υπάρχει",
+    "Renewing …" : "Ανανέωση ...",
+    "Very weak password" : "Πολύ αδύναμος κωδικός πρόσβασης",
     "Weak password" : "Ασθενές συνηματικό",
     "Good password" : "Καλό συνθηματικό",
     "Strong password" : "Ισχυρό συνθηματικό",

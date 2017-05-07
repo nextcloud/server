@@ -1,6 +1,7 @@
 OC.L10N.register(
     "theming",
     {
+    "Loading preview…" : "Φόρτωση προεπισκόπησης ...",
     "Saved" : "Αποθηκεύτηκαν",
     "Admin" : "Διαχειριστής",
     "a safe home for all your data" : "μια ασφαλής τοποθεσία για όλα σας τα δεδομένα",

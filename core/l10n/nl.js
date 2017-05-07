@@ -139,6 +139,7 @@ OC.L10N.register(
     "Email link to person" : "E-mail link naar persoon",
     "Send" : "Versturen",
     "Allow upload and editing" : "Toestaan uploaden en bewerken",
+    "Read only" : "Alleen lezen",
     "Secure drop (upload only)" : "Veilige drop (alleen uploaden)",
     "Shared with you and the group {group} by {owner}" : "Gedeeld met jou en de groep {group} door {owner}",
     "Shared with you by {owner}" : "Gedeeld met jou door {owner}",
