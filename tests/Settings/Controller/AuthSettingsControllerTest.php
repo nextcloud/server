@@ -133,11 +133,11 @@ class AuthSettingsControllerTest extends TestCase {
 			->method('getLoginName')
 			->will($this->returnValue('User13'));
 
-		$this->secureRandom->expects($this->exactly(4))
+		$this->secureRandom->expects($this->exactly(5))
 			->method('generate')
-			->with(5, implode('', range('A', 'Z')))
+			->with(5, ISecureRandom::CHAR_HUMAN_READABLE)
 			->will($this->returnValue('XXXXX'));
-		$newToken = 'XXXXX-XXXXX-XXXXX-XXXXX';
+		$newToken = 'XXXXX-XXXXX-XXXXX-XXXXX-XXXXX';
 
 		$this->tokenProvider->expects($this->once())
 			->method('generateToken')

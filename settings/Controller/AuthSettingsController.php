@@ -154,16 +154,16 @@ class AuthSettingsController extends Controller {
 	}
 
 	/**
-	 * Return a 20 digit device password
+	 * Return a 25 digit device password
 	 *
-	 * Example: ABCDE-FGHIJ-KLMNO-PQRST
+	 * Example: AbCdE-fGhIj-KlMnO-pQrSt-12345
 	 *
 	 * @return string
 	 */
 	private function generateRandomDeviceToken() {
 		$groups = [];
-		for ($i = 0; $i < 4; $i++) {
-			$groups[] = $this->random->generate(5, implode('', range('A', 'Z')));
+		for ($i = 0; $i < 5; $i++) {
+			$groups[] = $this->random->generate(5, ISecureRandom::CHAR_HUMAN_READABLE);
 		}
 		return implode('-', $groups);
 	}

@@ -343,7 +343,7 @@ table.nostyle td { padding: 0.2em 0; }
 
 #new-app-login-name,
 #new-app-password {
-	width: 186px;
+	width: 245px;
 	font-family: monospace;
 	background-color: lightyellow;
 }
