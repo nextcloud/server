@@ -263,6 +263,8 @@
     "Stay logged in" : "Rester connecté",
     "Alternative Logins" : "Identifiants alternatifs",
     "You are about to grant \"%s\" access to your %s account." : "Vous êtes sur le point d'accorder à \"%s\" l'accès à votre compte \"%s\".",
+    "App token" : "Jeton d'application",
+    "Alternative login using app token" : "Authentification alternative utilisant un jeton d'application",
     "Redirecting …" : "Redirection en cours...",
     "New password" : "Nouveau mot de passe",
     "New Password" : "Nouveau mot de passe",

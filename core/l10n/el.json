@@ -12,6 +12,7 @@
     "No crop data provided" : "Δεν δόθηκαν δεδομένα περικοπής",
     "No valid crop data provided" : "Έχουν δοθεί μη έγκυρα δεδομένα περικοπής",
     "Crop is not square" : "Η περικοπή δεν εχει τετραγωνικό σχήμα",
+    "State token does not match" : "Το αναγνωριστικό κατάστασης δεν ταιριάζει",
     "Couldn't reset password because the token is invalid" : "Αδυναμία επαναφοράς συνθηματικού λόγω μη έγκυρου διακριτικού",
     "Couldn't reset password because the token is expired" : "Αδυναμία επαναφοράς συνθηματικού επειδή το διακριτικό έχει λήξει",
     "Could not send reset email because there is no email address for this username. Please contact your administrator." : "Αδυναμία αποστολής ηλεκτρονικού μηνύματος επαναφοράς διότι δεν υπάρχει διεύθυνση ηλεκτρινικής αλληλογραφίας για αυτόν τον χρήστη. Παρακαλώ επικοινωνήστε με το διαχειριστή.",

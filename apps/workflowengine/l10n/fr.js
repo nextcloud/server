@@ -26,7 +26,7 @@ OC.L10N.register(
     "Request time" : "Temps de requête",
     "between" : "entre",
     "not between" : "en dehors de",
-    "Start" : "Commencer",
+    "Start" : "Démarrer",
     "End" : "Fin",
     "Select timezone…" : "Sélectionner le fuseau horaire...",
     "Request URL" : "Demande d'URL",

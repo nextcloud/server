@@ -3,6 +3,7 @@
     "Shared with {email}" : "Διαμοιράστηκε με {email}",
     "Shared with %1$s by %2$s" : "Διαμοιράστηκε με  %1$s από %2$s",
     "Shared with {email} by {actor}" : "Διαμοιράστηκε με {email} από {actor}",
+    "Password for mail share sent to %1$s" : "Το συνθηματικό για το διαμοιρασμό μέσου ηλ. αλληλογραφίας έχει αποσταλλεί  %1$s",
     "You shared %1$s with %2$s by mail" : "Διαμοιραστήκατε το %1$s με %2$s μέσω mail",
     "You shared {file} with {email} by mail" : "Διαμοιραστήκατε {file} με {email} μέσω mail",
     "%3$s shared %1$s with %2$s by mail" : "%3$s Διαμοιραστηκε %1$s με %2$s μέσω mail",
