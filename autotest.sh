@@ -306,6 +306,12 @@ function execute_tests {
 
 			echo "Postgres is up."
 		else
+			echo "Waiting for Postgres to be available ..."
+			if ! apps/files_external/tests/env/wait-for-connection $DATABASEHOST 5432 60; then
+				echo "[ERROR] Waited 60 seconds, no response" >&2
+				exit 1
+			fi
+
 			if [ -z "$DRONE" ] ; then # no need to drop the DB when we are on CI
 				dropdb -U "$DATABASEUSER" "$DATABASENAME" || true
 			fi
