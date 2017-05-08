@@ -239,8 +239,12 @@
 					username, 0, $el.find('.authorRow'));
 			}
 
-			var message = $el.find('.message');
-			message.find('.avatar').each(function() {
+			var $message = $el.find('.message');
+			this._postRenderMessage($message);
+		},
+
+		_postRenderMessage: function($el) {
+			$el.find('.avatar').each(function() {
 				var avatar = $(this);
 				var strong = $(this).next();
 				var appendTo = $(this).parent();
@@ -419,10 +423,13 @@
 						$textArea.val('').prop('disabled', false);
 					}
 
-					$target.find('.message')
+					var $message = $target.find('.message');
+					$message
 						.html(self._formatMessage(model.get('message'), model.get('mentions')))
 						.find('.avatar')
 						.each(function () { $(this).avatar(); });
+
+					self._postRenderMessage($message);
 				},
 				error: function () {
 					self._onSubmitError($form, commentId);

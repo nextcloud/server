@@ -154,9 +154,11 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 			expect($comment.length).toEqual(1);
 			expect($comment.find('.avatar[data-user=macbeth]').length).toEqual(1);
 			expect($comment.find('strong:first').text()).toEqual('Thane of Cawdor');
+			expect($comment.find('.avatar[data-user=macbeth] ~ .contactsmenu-popover').length).toEqual(1);
 
 			expect($comment.find('.avatar[data-user=banquo]').length).toEqual(1);
 			expect($comment.find('.avatar-name-wrapper:last-child strong').text()).toEqual('Lord Banquo');
+			expect($comment.find('.avatar[data-user=banquo] ~ .contactsmenu-popover').length).toEqual(1);
 		});
 
 	});
@@ -292,6 +294,7 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 			expect($message.find('.avatar').length).toEqual(1);
 			expect($message.find('.avatar[data-user=anotheruser]').length).toEqual(1);
 			expect($message.find('.avatar[data-user=anotheruser] ~ strong').text()).toEqual('Another User');
+			expect($message.find('.avatar[data-user=anotheruser] ~ .contactsmenu-popover').length).toEqual(1);
 		});
 		it('does not create a comment if the field is empty', function() {
 			view.$el.find('.message').val('   ');
@@ -502,6 +505,7 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 			expect($message.find('.avatar').length).toEqual(1);
 			expect($message.find('.avatar[data-user=anotheruser]').length).toEqual(1);
 			expect($message.find('.avatar[data-user=anotheruser] ~ strong').text()).toEqual('Another User');
+			expect($message.find('.avatar[data-user=anotheruser] ~ .contactsmenu-popover').length).toEqual(1);
 
 			// form row is gone
 			$formRow = view.$el.find('.newCommentRow.comment[data-id=3]');
