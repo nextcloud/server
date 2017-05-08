@@ -431,7 +431,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->assertEquals('custom-background?v=0', $this->template->getBackground());
 	}
 
-	public function testGetLogoDefault() {
+	private function getLogoHelper($withName, $useSvg) {
 		$this->appData->expects($this->once())
 			->method('getFolder')
 			->willThrowException(new NotFoundException());
@@ -452,9 +452,17 @@ class ThemingDefaultsTest extends TestCase {
 			->willThrowException(new \Exception());
 		$this->urlGenerator->expects($this->once())
 			->method('imagePath')
-			->with('core', 'logo.svg')
+			->with('core', $withName)
 			->willReturn('core-logo');
-		$this->assertEquals('core-logo?v=0', $this->template->getLogo());
+		$this->assertEquals('core-logo?v=0', $this->template->getLogo($useSvg));
+	}
+
+	public function testGetLogoDefaultWithSvg() {
+		$this->getLogoHelper('logo.svg', true);
+	}
+
+	public function testGetLogoDefaultWithoutSvg() {
+		$this->getLogoHelper('logo.png', false);
 	}
 
 	public function testGetLogoCustom() {

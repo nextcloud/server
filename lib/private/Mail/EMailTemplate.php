@@ -357,7 +357,7 @@ EOF;
 		}
 		$this->headerAdded = true;
 
-		$logoUrl = $this->urlGenerator->getAbsoluteURL($this->themingDefaults->getLogo());
+		$logoUrl = $this->urlGenerator->getAbsoluteURL($this->themingDefaults->getLogo(false));
 		$this->htmlBody .= vsprintf($this->header, [$this->themingDefaults->getColorPrimary(), $logoUrl, $this->themingDefaults->getName()]);
 	}
 

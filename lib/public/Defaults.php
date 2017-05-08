@@ -178,11 +178,12 @@ class Defaults {
 	/**
 	 * Themed logo url
 	 *
+	 * @param bool $useSvg Whether to point to the SVG image or a fallback
 	 * @return string
 	 * @since 12.0.0
 	 */
-	public function getLogo() {
-		return $this->defaults->getLogo();
+	public function getLogo($useSvg = true) {
+		return $this->defaults->getLogo($useSvg);
 	}
 
 	/**
