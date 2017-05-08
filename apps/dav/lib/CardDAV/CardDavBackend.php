@@ -93,7 +93,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	public function __construct(IDBConnection $db,
 								Principal $principalBackend,
 								IUserManager $userManager,
-								EventDispatcherInterface $dispatcher = null) {
+								EventDispatcherInterface $dispatcher) {
 		$this->db = $db;
 		$this->principalBackend = $principalBackend;
 		$this->userManager = $userManager;
@@ -612,13 +612,11 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		$this->addChange($addressBookId, $cardUri, 1);
 		$this->updateProperties($addressBookId, $cardUri, $cardData);
 
-		if (!is_null($this->dispatcher)) {
-			$this->dispatcher->dispatch('\OCA\DAV\CardDAV\CardDavBackend::createCard',
-				new GenericEvent(null, [
-					'addressBookId' => $addressBookId,
-					'cardUri' => $cardUri,
-					'cardData' => $cardData]));
-		}
+		$this->dispatcher->dispatch('\OCA\DAV\CardDAV\CardDavBackend::createCard',
+			new GenericEvent(null, [
+				'addressBookId' => $addressBookId,
+				'cardUri' => $cardUri,
+				'cardData' => $cardData]));
 
 		return '"' . $etag . '"';
 	}
@@ -664,13 +662,11 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		$this->addChange($addressBookId, $cardUri, 2);
 		$this->updateProperties($addressBookId, $cardUri, $cardData);
 
-		if (!is_null($this->dispatcher)) {
-			$this->dispatcher->dispatch('\OCA\DAV\CardDAV\CardDavBackend::updateCard',
-				new GenericEvent(null, [
-					'addressBookId' => $addressBookId,
-					'cardUri' => $cardUri,
-					'cardData' => $cardData]));
-		}
+		$this->dispatcher->dispatch('\OCA\DAV\CardDAV\CardDavBackend::updateCard',
+			new GenericEvent(null, [
+				'addressBookId' => $addressBookId,
+				'cardUri' => $cardUri,
+				'cardData' => $cardData]));
 
 		return '"' . $etag . '"';
 	}
@@ -696,12 +692,10 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 		$this->addChange($addressBookId, $cardUri, 3);
 
-		if (!is_null($this->dispatcher)) {
-			$this->dispatcher->dispatch('\OCA\DAV\CardDAV\CardDavBackend::deleteCard',
-				new GenericEvent(null, [
-					'addressBookId' => $addressBookId,
-					'cardUri' => $cardUri]));
-		}
+		$this->dispatcher->dispatch('\OCA\DAV\CardDAV\CardDavBackend::deleteCard',
+			new GenericEvent(null, [
+				'addressBookId' => $addressBookId,
+				'cardUri' => $cardUri]));
 
 		if ($ret === 1) {
 			if ($cardId !== null) {

@@ -48,7 +48,7 @@ $principalBackend = new Principal(
 	'principals/'
 );
 $db = \OC::$server->getDatabaseConnection();
-$cardDavBackend = new CardDavBackend($db, $principalBackend, \OC::$server->getUserManager());
+$cardDavBackend = new CardDavBackend($db, $principalBackend, \OC::$server->getUserManager(), \OC::$server->getEventDispatcher());
 
 $debugging = \OC::$server->getConfig()->getSystemValue('debug', false);
 
@@ -81,7 +81,7 @@ if ($debugging) {
 
 $server->addPlugin(new \Sabre\DAV\Sync\Plugin());
 $server->addPlugin(new \Sabre\CardDAV\VCFExportPlugin());
-$server->addPlugin(new \OCA\DAV\CardDAV\ImageExportPlugin(\OC::$server->getLogger()));
+$server->addPlugin(new \OCA\DAV\CardDAV\ImageExportPlugin(new \OCA\DAV\CardDAV\PhotoCache(\OC::$server->getAppDataDir('dav-photocache'))));
 $server->addPlugin(new ExceptionLoggerPlugin('carddav', \OC::$server->getLogger()));
 
 // And off we go!

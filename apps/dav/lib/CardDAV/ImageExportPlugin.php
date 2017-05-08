@@ -22,25 +22,28 @@
 
 namespace OCA\DAV\CardDAV;
 
+use OCP\Files\NotFoundException;
 use OCP\ILogger;
 use Sabre\CardDAV\Card;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
-use Sabre\VObject\Parameter;
-use Sabre\VObject\Property\Binary;
-use Sabre\VObject\Reader;
 
 class ImageExportPlugin extends ServerPlugin {
 
 	/** @var Server */
 	protected $server;
-	/** @var ILogger */
-	private $logger;
+	/** @var PhotoCache */
+	private $cache;
 
-	public function __construct(ILogger $logger) {
-		$this->logger = $logger;
+	/**
+	 * ImageExportPlugin constructor.
+	 *
+	 * @param PhotoCache $cache
+	 */
+	public function __construct(PhotoCache $cache) {
+		$this->cache = $cache;
 	}
 
 	/**
@@ -49,8 +52,7 @@ class ImageExportPlugin extends ServerPlugin {
 	 * @param Server $server
 	 * @return void
 	 */
-	function initialize(Server $server) {
-
+	public function initialize(Server $server) {
 		$this->server = $server;
 		$this->server->on('method:GET', [$this, 'httpGet'], 90);
 	}
@@ -60,15 +62,17 @@ class ImageExportPlugin extends ServerPlugin {
 	 *
 	 * @param RequestInterface $request
 	 * @param ResponseInterface $response
-	 * @return bool|void
+	 * @return bool
 	 */
-	function httpGet(RequestInterface $request, ResponseInterface $response) {
+	public function httpGet(RequestInterface $request, ResponseInterface $response) {
 
 		$queryParams = $request->getQueryParameters();
 		// TODO: in addition to photo we should also add logo some point in time
 		if (!array_key_exists('photo', $queryParams)) {
 			return true;
 		}
+
+		$size = isset($queryParams['size']) ? (int)$queryParams['size'] : -1;
 
 		$path = $request->getPath();
 		$node = $this->server->tree->getNodeForPath($path);
@@ -85,90 +89,28 @@ class ImageExportPlugin extends ServerPlugin {
 			$aclPlugin->checkPrivileges($path, '{DAV:}read');
 		}
 
-		if ($result = $this->getPhoto($node)) {
-			// Allow caching
-			$response->setHeader('Cache-Control', 'private, max-age=3600, must-revalidate');
-			$response->setHeader('Etag', $node->getETag() );
-			$response->setHeader('Pragma', 'public');
+		// Fetch addressbook
+		$addressbookpath = explode('/', $path);
+		array_pop($addressbookpath);
+		$addressbookpath = implode('/', $addressbookpath);
+		/** @var AddressBook $addressbook */
+		$addressbook = $this->server->tree->getNodeForPath($addressbookpath);
 
-			$response->setHeader('Content-Type', $result['Content-Type']);
+		$response->setHeader('Cache-Control', 'private, max-age=3600, must-revalidate');
+		$response->setHeader('Etag', $node->getETag() );
+		$response->setHeader('Pragma', 'public');
+
+		try {
+			$file = $this->cache->get($addressbook->getResourceId(), $node->getName(), $size, $node);
+			$response->setHeader('Content-Type', $file->getMimeType());
 			$response->setHeader('Content-Disposition', 'attachment');
 			$response->setStatus(200);
 
-			$response->setBody($result['body']);
-
-			// Returning false to break the event chain
-			return false;
+			$response->setBody($file->getContent());
+		} catch (NotFoundException $e) {
+			$response->setStatus(404);
 		}
-		return true;
-	}
 
-	function getPhoto(Card $node) {
-		// TODO: this is kind of expensive - load carddav data from database and parse it
-		//       we might want to build up a cache one day
-		try {
-			$vObject = $this->readCard($node->get());
-			if (!$vObject->PHOTO) {
-				return false;
-			}
-
-			$photo = $vObject->PHOTO;
-			$type = $this->getType($photo);
-
-			$val = $photo->getValue();
-			if ($photo->getValueType() === 'URI') {
-				$parsed = \Sabre\URI\parse($val);
-				//only allow data://
-				if ($parsed['scheme'] !== 'data') {
-					return false;
-				}
-				if (substr_count($parsed['path'], ';') === 1) {
-					list($type,) = explode(';', $parsed['path']);
-				}
-				$val = file_get_contents($val);
-			}
-
-			$allowedContentTypes = [
-				'image/png',
-				'image/jpeg',
-				'image/gif',
-			];
-
-			if(!in_array($type, $allowedContentTypes, true)) {
-				$type = 'application/octet-stream';
-			}
-
-			return [
-				'Content-Type' => $type,
-				'body' => $val
-			];
-		} catch(\Exception $ex) {
-			$this->logger->logException($ex);
-		}
 		return false;
-	}
-
-	private function readCard($cardData) {
-		return Reader::read($cardData);
-	}
-
-	/**
-	 * @param Binary $photo
-	 * @return Parameter
-	 */
-	private function getType($photo) {
-		$params = $photo->parameters();
-		if (isset($params['TYPE']) || isset($params['MEDIATYPE'])) {
-			/** @var Parameter $typeParam */
-			$typeParam = isset($params['TYPE']) ? $params['TYPE'] : $params['MEDIATYPE'];
-			$type = $typeParam->getValue();
-
-			if (strpos($type, 'image/') === 0) {
-				return $type;
-			} else {
-				return 'image/' . strtolower($type);
-			}
-		}
-		return '';
 	}
 }
