@@ -42,8 +42,6 @@
     "Unable to delete user." : "사용자를 삭제할 수 없습니다.",
     "Error while enabling user." : "사용자를 활성화할 수 없습니다.",
     "Error while disabling user." : "사용자를 비활성화할 수 없습니다.",
-    "In order to verify your Twitter account post following tweet on Twitter (please make sure to post it without any line breaks):" : "내 트위터 계정을 확인하려면 다음 트윗을 트위터에 올리십시오 (빈 줄이 있으면 안 됩니다):",
-    "In order to verify your Website store following content in your web-root at '.well-known/CloudIdVerificationCode.txt' (please make sure that the complete text is in one line):" : "내 웹 사이트를 확인하려면 웹 사이트 루트의 '.well-known/CloudIdVerificationCode.txt' 파일에 다음 내용을 올리십시오(전체 텍스트가 한 줄에 있어야 합니다):",
     "Settings saved" : "설정 저장됨",
     "Unable to change full name" : "전체 이름을 변경할 수 없음",
     "Unable to change email address" : "이메일 주소를 변경할 수 없음",

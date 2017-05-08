@@ -44,8 +44,6 @@ OC.L10N.register(
     "Unable to delete user." : "No se pudo eliminar el usuario.",
     "Error while enabling user." : "Error al habilitar usuario.",
     "Error while disabling user." : "Error al deshabilitar usuario.",
-    "In order to verify your Twitter account post following tweet on Twitter (please make sure to post it without any line breaks):" : "Para verificar tu cuenta de Twitter escribe en ella el siguiente tuit (por favor, asegúrate de escribirlo sin saltos de línea):",
-    "In order to verify your Website store following content in your web-root at '.well-known/CloudIdVerificationCode.txt' (please make sure that the complete text is in one line):" : "Para verificar tu sutio web, guarda e lsiguiente contenido en la raíz de la web en '.well-known/CloudIdVerificationCode.txt' (por favor, asegúrate de que el texto completo aparece en una línea):",
     "Settings saved" : "Ajustes guardados",
     "Unable to change full name" : "No se puede cambiar el nombre completo",
     "Unable to change email address" : "No se pudo cambiar la dirección de correo",

@@ -23,6 +23,7 @@ OC.L10N.register(
     "Upload new logo" : "Μεταφόρτωση νέου λογοτύπου",
     "Login image" : "Εικόνα εισόδου",
     "Upload new login background" : "Μεταφόρτωση νέου φόντου εισόδου",
+    "Remove background image" : "Αφαίρεση εικόνας παρασκηνίου",
     "Log in image" : "Εικόνα εισόδου"
 },
 "nplurals=2; plural=(n != 1);");
