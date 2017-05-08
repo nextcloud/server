@@ -138,7 +138,7 @@ class Server {
 		// addressbook plugins
 		$this->server->addPlugin(new \OCA\DAV\CardDAV\Plugin());
 		$this->server->addPlugin(new VCFExportPlugin());
-		$this->server->addPlugin(new ImageExportPlugin(\OC::$server->getLogger(), new PhotoCache(\OC::$server->getAppDataDir('dav-photocache'))));
+		$this->server->addPlugin(new ImageExportPlugin(new PhotoCache(\OC::$server->getAppDataDir('dav-photocache'))));
 
 		// system tags plugins
 		$this->server->addPlugin(new SystemTagPlugin(
