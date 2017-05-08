@@ -343,6 +343,9 @@ class FilesPlugin extends ServerPlugin {
 			$propFind->handle(self::SIZE_PROPERTYNAME, function() use ($node) {
 				return $node->getSize();
 			});
+			$propFind->handle(self::MOUNT_TYPE_PROPERTYNAME, function () use ($node) {
+				return $node->getFileInfo()->getMountPoint()->getMountType();
+			});
 		}
 
 		if ($node instanceof \OCA\DAV\Connector\Sabre\Node) {
@@ -383,10 +386,6 @@ class FilesPlugin extends ServerPlugin {
 				return $node->getSize();
 			});
 		}
-
-		$propFind->handle(self::MOUNT_TYPE_PROPERTYNAME, function () use ($node) {
-			return $node->getFileInfo()->getMountPoint()->getMountType();
-		});
 	}
 
 	/**
