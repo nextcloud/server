@@ -525,7 +525,8 @@ class ThemingDefaultsTest extends TestCase {
 			'image-logo' => "'absolute-custom-logo?v=0'",
 			'image-login-background' => "'absolute-custom-background?v=0'",
 			'color-primary' => $this->defaults->getColorPrimary(),
-			'color-primary-text' => '#ffffff'
+			'color-primary-text' => '#ffffff',
+			'image-login-plain' => 'false'
 
 		];
 		$this->assertEquals($expected, $this->template->getScssVariables());

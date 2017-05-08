@@ -35,6 +35,7 @@ function setThemingValue(setting, value) {
 		OC.msg.finishedSaving('#theming_settings_msg', response);
 		$('#theming_settings_loading').hide();
 	});
+
 }
 
 function preview(setting, value) {
@@ -74,18 +75,13 @@ function preview(setting, value) {
 			previewImageLogo.src = OC.getRootPath() + '/core/img/logo-icon.svg?v' + timestamp;
 		}
 	}
-	if (setting === 'backgroundMime') {
-		var previewImage = document.getElementById('theming-preview');
-		if (value !== '') {
-			previewImage.style.backgroundImage = "url('" + OC.generateUrl('/apps/theming/loginbackground') + "?v" + timestamp + "')";
-		} else {
-			previewImage.style.backgroundImage = "url('" + OC.getRootPath() + '/core/img/background.jpg?v' + timestamp + "')";
-		}
-	}
 
 	if (setting === 'name') {
 		window.document.title = t('core', 'Admin') + " - " + value;
 	}
+
+	hideUndoButton(setting, value);
+
 }
 
 function hideUndoButton(setting, value) {
@@ -103,6 +99,14 @@ function hideUndoButton(setting, value) {
 	} else {
 		$('.theme-undo[data-setting=' + setting + ']').show();
 	}
+
+	if(setting === 'backgroundMime' && value !== 'backgroundColor')  {
+		$('.theme-remove-bg').show();
+	}
+	if(setting === 'backgroundMime' && value === 'backgroundColor')  {
+		$('.theme-remove-bg').hide();
+		$('.theme-undo[data-setting=backgroundMime]').show();
+	}
 }
 
 $(document).ready(function () {
@@ -116,6 +120,7 @@ $(document).ready(function () {
 		}
 		hideUndoButton(setting, value);
 	});
+
 	var uploadParamsLogo = {
 		pasteZone: null,
 		dropZone: null,
@@ -208,4 +213,16 @@ $(document).ready(function () {
 			preview(setting, response.data.value);
 		});
 	});
+
+	$('.theme-remove-bg').click(function() {
+		startLoading();
+		$.post(
+			OC.generateUrl('/apps/theming/ajax/updateLogo'), {'backgroundColor' : true}
+		).done(function(response) {
+			preview('backgroundMime', 'backgroundColor');
+		}).fail(function(response) {
+			OC.msg.finishedSaving('#theming_settings_msg', response);
+		});
+	});
+	
 });

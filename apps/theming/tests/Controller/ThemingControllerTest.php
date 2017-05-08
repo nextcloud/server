@@ -152,11 +152,16 @@ class ThemingControllerTest extends TestCase {
 	public function testUpdateLogoNoData() {
 		$this->request
 			->expects($this->at(0))
+			->method('getParam')
+			->with('backgroundColor')
+			->willReturn(false);
+		$this->request
+			->expects($this->at(1))
 			->method('getUploadedFile')
 			->with('uploadlogo')
 			->willReturn(null);
 		$this->request
-			->expects($this->at(1))
+			->expects($this->at(2))
 			->method('getUploadedFile')
 			->with('upload-login-background')
 			->willReturn(null);
@@ -179,6 +184,29 @@ class ThemingControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->themingController->updateLogo());
 	}
 
+	public function testUpdateBackgroundColor() {
+		$this->request
+			->expects($this->at(0))
+			->method('getParam')
+			->with('backgroundColor')
+			->willReturn(true);
+		$this->themingDefaults
+			->expects($this->once())
+			->method('set')
+			->with('backgroundMime', 'backgroundColor');
+		$expected = new DataResponse(
+			[
+				'data' =>
+					[
+						'name' => 'backgroundColor',
+						'message' => $this->l10n->t('Saved')
+					],
+				'status' => 'success'
+			]
+		);
+		$this->assertEquals($expected, $this->themingController->updateLogo());
+	}
+
 	public function dataUpdateImages() {
 		return [
 			[false],
@@ -194,6 +222,11 @@ class ThemingControllerTest extends TestCase {
 		touch($tmpLogo);
 		$this->request
 			->expects($this->at(0))
+			->method('getParam')
+			->with('backgroundColor')
+			->willReturn(false);
+		$this->request
+			->expects($this->at(1))
 			->method('getUploadedFile')
 			->with('uploadlogo')
 			->willReturn([
@@ -202,7 +235,7 @@ class ThemingControllerTest extends TestCase {
 				'name' => 'logo.svg',
 			]);
 		$this->request
-			->expects($this->at(1))
+			->expects($this->at(2))
 			->method('getUploadedFile')
 			->with('upload-login-background')
 			->willReturn(null);
@@ -259,11 +292,16 @@ class ThemingControllerTest extends TestCase {
 		file_put_contents($tmpLogo, file_get_contents(__DIR__  . '/../../../../tests/data/desktopapp.png'));
 		$this->request
 			->expects($this->at(0))
+			->method('getParam')
+			->with('backgroundColor')
+			->willReturn(false);
+		$this->request
+			->expects($this->at(1))
 			->method('getUploadedFile')
 			->with('uploadlogo')
 			->willReturn(null);
 		$this->request
-			->expects($this->at(1))
+			->expects($this->at(2))
 			->method('getUploadedFile')
 			->with('upload-login-background')
 			->willReturn([
@@ -322,11 +360,16 @@ class ThemingControllerTest extends TestCase {
 		file_put_contents($tmpLogo, file_get_contents(__DIR__  . '/../../../../tests/data/data.zip'));
 		$this->request
 			->expects($this->at(0))
+			->method('getParam')
+			->with('backgroundColor')
+			->willReturn(false);
+		$this->request
+			->expects($this->at(1))
 			->method('getUploadedFile')
 			->with('uploadlogo')
 			->willReturn(null);
 		$this->request
-			->expects($this->at(1))
+			->expects($this->at(2))
 			->method('getUploadedFile')
 			->with('upload-login-background')
 			->willReturn([

@@ -190,6 +190,7 @@ class ThemingDefaults extends \OC_Defaults {
 
 		$variables['image-logo'] = "'".$this->urlGenerator->getAbsoluteURL($this->getLogo())."'";
 		$variables['image-login-background'] = "'".$this->urlGenerator->getAbsoluteURL($this->getBackground())."'";
+		$variables['image-login-plain'] = 'false';
 
 		if ($this->config->getAppValue('theming', 'color', null) !== null) {
 			if ($this->util->invertTextColor($this->getColorPrimary())) {
@@ -199,6 +200,10 @@ class ThemingDefaults extends \OC_Defaults {
 			}
 			$variables['color-primary'] = $this->getColorPrimary();
 			$variables['color-primary-text'] = $colorPrimaryText;
+		}
+
+		if ($this->config->getAppValue('theming', 'backgroundMime', null) === 'backgroundColor') {
+			$variables['image-login-plain'] = 'true';
 		}
 		$cache->set('getScssVariables', $variables);
 		return $variables;
