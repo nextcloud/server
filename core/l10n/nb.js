@@ -139,6 +139,7 @@ OC.L10N.register(
     "Email link to person" : "Send lenke til person via e-post",
     "Send" : "Send",
     "Allow upload and editing" : "Tillatt opplasting og redigering",
+    "Read only" : "Kun lesetilgang",
     "Secure drop (upload only)" : "Sikret filkasse (bare opplasting)",
     "Shared with you and the group {group} by {owner}" : "Delt med deg og gruppen {group} av {owner}",
     "Shared with you by {owner}" : "Delt med deg av {owner}",

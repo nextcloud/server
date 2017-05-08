@@ -52,6 +52,7 @@
     "Admin" : "Admin",
     "APCu" : "APCu",
     "Redis" : "Redis",
+    "Basic settings" : "Basisinnstillinger",
     "Sharing" : "Deling",
     "Security" : "Sikkerhet",
     "Encryption" : "Kryptering",

@@ -44,8 +44,6 @@ OC.L10N.register(
     "Unable to delete user." : "Kan ikke slette bruker.",
     "Error while enabling user." : "Feil ved påslag av brukerkonto.",
     "Error while disabling user." : "Feil ved avslag av brukerkonto.",
-    "In order to verify your Twitter account post following tweet on Twitter (please make sure to post it without any line breaks):" : "For å bekrefte din Twitter-konto, post følgende tweet på Twitter (husk å ikke få med noen linjeskift):",
-    "In order to verify your Website store following content in your web-root at '.well-known/CloudIdVerificationCode.txt' (please make sure that the complete text is in one line):" : "For å bekrefte din nettside, lagre følgende innhold på roten av din nettjener på '.well-known/CloudIdVerificationCode.txt' (forsikre deg om at hele teksten er på ei linje):",
     "Settings saved" : "Innstillinger lagret",
     "Unable to change full name" : "Klarte ikke å endre fullt navn",
     "Unable to change email address" : "Klarer ikke å endre epostadresse",

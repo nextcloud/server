@@ -44,8 +44,6 @@ OC.L10N.register(
     "Unable to delete user." : "Kullanıcı silinemedi.",
     "Error while enabling user." : "Kullanıcı etkinleştirilirken sorun çıktı",
     "Error while disabling user." : "Kullanıcı devre dışı bırakılırken sorun çıktı",
-    "In order to verify your Twitter account post following tweet on Twitter (please make sure to post it without any line breaks):" : "Twitter hesabı iletinizi doğrulamak için şu iletiyi Twitter üzerine gönderin (satır sonu olmadan gönderdiğinizden emin olun):",
-    "In order to verify your Website store following content in your web-root at '.well-known/CloudIdVerificationCode.txt' (please make sure that the complete text is in one line):" : "Web sitesi depolamınızı doğrulamak için şu içeriği web sitenizin kök klasörüne '.well-known/CloudIdVerificationCode.txt' dosyası içine ekleyin (tüm içeriğin tek bir satır olarak eklendiğinden emin olun):",
     "Settings saved" : "Ayarlar kaydedildi",
     "Unable to change full name" : "Tam adınız değiştirilemedi",
     "Unable to change email address" : "E-posta adresi değiştirilemedi",
