@@ -227,6 +227,49 @@ class Definitions {
 				],
 			],
 		],
+		'open-graph' => [
+			'author' => 'Nextcloud',
+			'app' => 'mood',
+			'since' => '12.0.0',
+			'parameters' => [
+				'id' => [
+					'since' => '12.0.0',
+					'required' => true,
+					'description' => 'The id used to identify the open graph data on the instance',
+					'example' => '42',
+				],
+				'thumb' => [
+					'since' => '12.0.0',
+					'required' => false,
+					'description' => 'The full URL of the open graph thumbnail',
+					'example' => 'http://localhost/index.php/apps/mood/data/image?url=https%3A%2F%2Fthumb.example.com%2Fimage.png',
+				],
+				'title' => [
+					'since' => '12.0.0',
+					'required' => true,
+					'description' => 'The open graph title from the website',
+					'example' => 'This is a website',
+				],
+				'description' => [
+					'since' => '12.0.0',
+					'required' => false,
+					'description' => 'The open graph description from the website',
+					'example' => 'This is the description of the website',
+				],
+				'website' => [
+					'since' => '12.0.0',
+					'required' => false,
+					'description' => 'The name of the described website',
+					'example' => 'Nextcloud - App Store',
+				],
+				'link' => [
+					'since' => '12.0.0',
+					'required' => false,
+					'description' => 'The full link to the website',
+					'example' => 'https://apps.nextcloud.com/apps/mood',
+				],
+			],
+		],
 		'pending-federated-share' => [
 			'author' => 'Nextcloud',
 			'app' => 'dav',
