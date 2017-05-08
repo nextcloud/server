@@ -22,6 +22,7 @@
 describe('OCA.Comments.CommentsTabView tests', function() {
 	var view, fileInfoModel;
 	var fetchStub;
+	var avatarStub;
 	var testComments;
 	var clock;
 
@@ -42,6 +43,7 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 	beforeEach(function() {
 		clock = sinon.useFakeTimers(Date.UTC(2016, 1, 3, 10, 5, 9));
 		fetchStub = sinon.stub(OCA.Comments.CommentCollection.prototype, 'fetchNext');
+		avatarStub = sinon.stub($.fn, 'avatar');
 		view = new OCA.Comments.CommentsTabView();
 		fileInfoModel = new OCA.Files.FileInfoModel({
 			id: 5,
@@ -102,6 +104,7 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 		view.remove();
 		view = undefined;
 		fetchStub.restore();
+		avatarStub.restore();
 		clock.restore();
 	});
 	describe('rendering', function() {
@@ -223,6 +226,10 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 				uid: 'testuser',
 				displayName: 'Test User'
 			});
+
+			// Required for the absolute selector used to find the new comment
+			// after a successful creation in _onSubmitSuccess.
+			$('#testArea').append(view.$el);
 		});
 		afterEach(function() {
 			createStub.restore();
@@ -242,6 +249,49 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 				message: 'New message',
 				creationDateTime: new Date(Date.UTC(2016, 1, 3, 10, 5, 9)).toUTCString()
 			});
+		});
+		it('creates a new comment with mentions when clicking post button', function() {
+			view.$el.find('.message').val('New message @anotheruser');
+			view.$el.find('form').submit();
+
+			var createStubExpectedData = {
+				actorId: 'testuser',
+				actorDisplayName: 'Test User',
+				actorType: 'users',
+				verb: 'comment',
+				message: 'New message @anotheruser',
+				creationDateTime: new Date(Date.UTC(2016, 1, 3, 10, 5, 9)).toUTCString()
+			};
+
+			expect(createStub.calledOnce).toEqual(true);
+			expect(createStub.lastCall.args[0]).toEqual(createStubExpectedData);
+
+			var model = new OCA.Comments.CommentModel(_.extend({id: 4}, createStubExpectedData));
+			var fetchStub = sinon.stub(model, 'fetch');
+			// simulate the fact that create adds the model to the collection
+			view.collection.add(model, {at: 0});
+			createStub.yieldTo('success', model);
+
+			expect(fetchStub.calledOnce).toEqual(true);
+
+			// simulate the fact that fetch sets the attribute
+			model.set('mentions', {
+				0: {
+					mentionDisplayName: "Another User",
+					mentionId: "anotheruser",
+					mentionTye: "user"
+				}
+			});
+			fetchStub.yieldTo('success', model);
+
+			// comment was added to the list
+			var $comment = view.$el.find('.comment[data-id=4]');
+			expect($comment.length).toEqual(1);
+			var $message = $comment.find('.message');
+			expect($message.html()).toContain('New message');
+			expect($message.find('.avatar').length).toEqual(1);
+			expect($message.find('.avatar[data-user=anotheruser]').length).toEqual(1);
+			expect($message.find('.avatar[data-user=anotheruser] ~ strong').text()).toEqual('Another User');
 		});
 		it('does not create a comment if the field is empty', function() {
 			view.$el.find('.message').val('   ');
@@ -302,13 +352,11 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 	describe('editing comments', function() {
 		var saveStub;
 		var fetchStub;
-		var avatarStub;
 		var currentUserStub;
 
 		beforeEach(function() {
 			saveStub = sinon.stub(OCA.Comments.CommentModel.prototype, 'save');
 			fetchStub = sinon.stub(OCA.Comments.CommentModel.prototype, 'fetch');
-			avatarStub = sinon.stub($.fn, 'avatar');
 			currentUserStub = sinon.stub(OC, 'getCurrentUser');
 			currentUserStub.returns({
 				uid: 'testuser',
@@ -332,11 +380,31 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 				message: 'New message from another user',
 				creationDateTime: new Date(Date.UTC(2016, 1, 3, 10, 5, 9)).toUTCString(),
 			});
+			view.collection.add({
+				id: 3,
+				actorId: 'testuser',
+				actorDisplayName: 'Test User',
+				actorType: 'users',
+				verb: 'comment',
+				message: 'Hail to thee, @macbeth. Yours faithfully, @banquo',
+				creationDateTime: new Date(Date.UTC(2016, 1, 3, 10, 5, 9)).toUTCString(),
+				mentions: {
+					0: {
+						mentionDisplayName: "Thane of Cawdor",
+						mentionId: "macbeth",
+						mentionTye: "user"
+					},
+					1: {
+						mentionDisplayName: "Lord Banquo",
+						mentionId: "banquo",
+						mentionTye: "user"
+					}
+				}
+			});
 		});
 		afterEach(function() {
 			saveStub.restore();
 			fetchStub.restore();
-			avatarStub.restore();
 			currentUserStub.restore();
 		});
 
@@ -391,6 +459,52 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 
 			// form row is gone
 			$formRow = view.$el.find('.newCommentRow.comment[data-id=1]');
+			expect($formRow.length).toEqual(0);
+		});
+
+		it('saves message and updates comment item with mentions when clicking save', function() {
+			var $comment = view.$el.find('.comment[data-id=3]');
+			$comment.find('.action.edit').click();
+
+			var $formRow = view.$el.find('.newCommentRow.comment[data-id=3]');
+			expect($formRow.length).toEqual(1);
+
+			$formRow.find('textarea').val('modified\nmessage @anotheruser');
+			$formRow.find('form').submit();
+
+			expect(saveStub.calledOnce).toEqual(true);
+			expect(saveStub.lastCall.args[0]).toEqual({
+				message: 'modified\nmessage @anotheruser'
+			});
+
+			var model = view.collection.get(3);
+			// simulate the fact that save sets the attribute
+			model.set('message', 'modified\nmessage @anotheruser');
+			saveStub.yieldTo('success', model);
+
+			expect(fetchStub.calledOnce).toEqual(true);
+
+			// simulate the fact that fetch sets the attribute
+			model.set('mentions', {
+				0: {
+					mentionDisplayName: "Another User",
+					mentionId: "anotheruser",
+					mentionTye: "user"
+				}
+			});
+			fetchStub.yieldTo('success', model);
+
+			// original comment element is visible again
+			expect($comment.hasClass('hidden')).toEqual(false);
+			// and its message was updated
+			var $message = $comment.find('.message');
+			expect($message.html()).toContain('modified<br>message');
+			expect($message.find('.avatar').length).toEqual(1);
+			expect($message.find('.avatar[data-user=anotheruser]').length).toEqual(1);
+			expect($message.find('.avatar[data-user=anotheruser] ~ strong').text()).toEqual('Another User');
+
+			// form row is gone
+			$formRow = view.$el.find('.newCommentRow.comment[data-id=3]');
 			expect($formRow.length).toEqual(0);
 		});
 
