@@ -370,7 +370,7 @@ class Share extends AbstractShare {
 	 * @return bool
 	 */
 	protected function parseOutput($lines, $path = '') {
-		$this->parser->checkForError($lines, $path);
+		return $this->parser->checkForError($lines, $path);
 	}
 
 	/**
