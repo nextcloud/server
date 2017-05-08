@@ -27,6 +27,7 @@
  */
 namespace OC\Setup;
 
+use OC\DB\MySqlTools;
 use OCP\IDBConnection;
 
 class MySQL extends AbstractDatabase {
@@ -35,6 +36,13 @@ class MySQL extends AbstractDatabase {
 	public function setupDatabase($username) {
 		//check if the database user has admin right
 		$connection = $this->connect(['dbname' => null]);
+
+		// detect mb4
+		$tools = new MySqlTools();
+		if ($tools->supports4ByteCharset($connection)) {
+			$this->config->setValue('mysql.utf8mb4', true);
+			$connection = $this->connect();
+		}
 
 		$this->createSpecificUser($username, $connection);
 

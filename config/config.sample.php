@@ -1235,16 +1235,23 @@ $CONFIG = array(
 'sqlite.journal_mode' => 'DELETE',
 
 /**
- * If this setting is set to true MySQL can handle 4 byte characters instead of
- * 3 byte characters
+ * During setup, if requirements are met (see below), this setting is set to true
+ * and MySQL can handle 4 byte characters instead of 3 byte characters.
  *
+ * If you want to convert an existing 3-byte setup into a 4-byte setup please 
+ * set the parameters in MySQL as mentioned below and run the migration command:
+ *  ./occ db:convert-mysql-charset
+ * The config setting will be set automatically after a successful run.
+ * 
+ * Consult the documentation for more details.
+ * 
  * MySQL requires a special setup for longer indexes (> 767 bytes) which are
  * needed:
  *
  * [mysqld]
- * innodb_large_prefix=true
- * innodb_file_format=barracuda
- * innodb_file_per_table=true
+ * innodb_large_prefix=ON
+ * innodb_file_format=Barracuda
+ * innodb_file_per_table=ON
  *
  * Tables will be created with
  *  * character set: utf8mb4
@@ -1257,8 +1264,6 @@ $CONFIG = array(
  * https://mariadb.com/kb/en/mariadb/xtradbinnodb-server-system-variables/#innodb_large_prefix
  * http://www.tocker.ca/2013/10/31/benchmarking-innodb-page-compression-performance.html
  * http://mechanics.flite.com/blog/2014/07/29/using-innodb-large-prefix-to-avoid-error-1071/
- *
- * WARNING: EXPERIMENTAL
  */
 'mysql.utf8mb4' => false,
 
