@@ -45,6 +45,13 @@ interface ISecureRandom {
 	const CHAR_SYMBOLS = '!\"#$%&\\\'()* +,-./:;<=>?@[\]^_`{|}~';
 
 	/**
+	 * Characters that can be used for <code>generate($length, $characters)</code>, to
+	 * generate human readable random strings. Lower- and upper-case characters and digits 
+	 * are included. Characters which are ambiguous are excluded, such as I, l, and 1 and so on.
+	 */
+	const CHAR_HUMAN_READABLE = "abcdefgijkmnopqrstwxyzABCDEFGHJKLMNPQRSTWXYZ23456789";
+
+	/**
 	 * Convenience method to get a low strength random number generator.
 	 *
 	 * Low Strength should be used anywhere that random strings are needed
