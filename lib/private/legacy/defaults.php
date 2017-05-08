@@ -47,9 +47,8 @@ class OC_Defaults {
 	private $defaultSlogan;
 	private $defaultLogoClaim;
 	private $defaultColorPrimary;
-	private $defaultLogoUrl;
 
-	function __construct() {
+	public function __construct() {
 		$this->l = \OC::$server->getL10N('lib');
 
 		$this->defaultEntity = 'Nextcloud'; /* e.g. company name, used for footers and copyright notices */
@@ -65,8 +64,6 @@ class OC_Defaults {
 		$this->defaultSlogan = $this->l->t('a safe home for all your data');
 		$this->defaultLogoClaim = '';
 		$this->defaultColorPrimary = '#0082c9';
-		$this->defaultLogoUrl = \OC::$server->getURLGenerator()->imagePath('core','logo.svg');
-		$this->defaultLogoUrl .=  '?v=' . hash('sha1', implode('.', \OCP\Util::getVersion()));
 
 		$themePath = OC::$SERVERROOT . '/themes/' . OC_Util::getTheme() . '/defaults.php';
 		if (file_exists($themePath)) {
@@ -307,13 +304,19 @@ class OC_Defaults {
 	/**
 	 * Themed logo url
 	 *
+	 * @param bool $useSvg Whether to point to the SVG image or a fallback
 	 * @return string
 	 */
-	public function getLogo() {
+	public function getLogo($useSvg = true) {
 		if ($this->themeExist('getLogo')) {
-			return $this->theme->getLogo();
+			return $this->theme->getLogo($useSvg);
 		}
 
-		return $this->defaultLogoUrl;
+		if($useSvg) {
+			$logo = \OC::$server->getURLGenerator()->imagePath('core', 'logo.svg');
+		} else {
+			$logo = \OC::$server->getURLGenerator()->imagePath('core', 'logo.png');
+		}
+	    return $logo . '?v=' . hash('sha1', implode('.', \OCP\Util::getVersion()));
 	}
 }

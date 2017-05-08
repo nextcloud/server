@@ -129,9 +129,10 @@ class ThemingDefaults extends \OC_Defaults {
 	/**
 	 * Themed logo url
 	 *
+	 * @param bool $useSvg Whether to point to the SVG image or a fallback
 	 * @return string
 	 */
-	public function getLogo() {
+	public function getLogo($useSvg = true) {
 		$logo = $this->config->getAppValue('theming', 'logoMime', false);
 
 		$logoExists = true;
@@ -144,7 +145,12 @@ class ThemingDefaults extends \OC_Defaults {
 		$cacheBusterCounter = $this->config->getAppValue('theming', 'cachebuster', '0');
 
 		if(!$logo || !$logoExists) {
-			return $this->urlGenerator->imagePath('core','logo.svg') . '?v=' . $cacheBusterCounter;
+			if($useSvg) {
+				$logo = $this->urlGenerator->imagePath('core', 'logo.svg');
+			} else {
+				$logo = $this->urlGenerator->imagePath('core', 'logo.png');
+			}
+			return $logo . '?v=' . $cacheBusterCounter;
 		}
 
 		return $this->urlGenerator->linkToRoute('theming.Theming.getLogo') . '?v=' . $cacheBusterCounter;
