@@ -51,6 +51,7 @@ class PublicCalendarTest extends CalendarTest {
 			]);
 		$backend->expects($this->any())->method('getCalendarObject')
 			->willReturn($calObject2)->with(666, 'event-2');
+		$backend->expects($this->any())->method('applyShareAcl')->willReturnArgument(1);
 
 		$calendarInfo = [
 			'{http://owncloud.org/ns}owner-principal' => 'user2',
@@ -135,6 +136,7 @@ EOD;
 			]);
 		$backend->expects($this->any())->method('getCalendarObject')
 			->willReturn($calObject1)->with(666, 'event-1');
+		$backend->expects($this->any())->method('applyShareAcl')->willReturnArgument(1);
 
 		$calendarInfo = [
 			'{http://owncloud.org/ns}owner-principal' => 'user1',
