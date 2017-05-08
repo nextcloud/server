@@ -96,6 +96,8 @@ class VerifyUserData extends Job {
 			$jobList->remove($this, $this->argument);
 			if ($this->retainJob) {
 				$this->reAddJob($jobList, $this->argument);
+			} else {
+				$this->resetVerificationState();
 			}
 		}
 
@@ -268,6 +270,19 @@ class VerifyUserData extends Job {
 	protected function shouldRun(array $argument) {
 		$lastRun = (int)$argument['lastRun'];
 		return ((time() - $lastRun) > $this->interval);
+	}
+
+
+	/**
+	 * reset verification state after max tries are reached
+	 */
+	protected function resetVerificationState() {
+		$user = $this->userManager->get($this->argument['uid']);
+		if ($user !== null) {
+			$accountData = $this->accountManager->getUser($user);
+			$accountData[$this->argument['type']]['verified'] = AccountManager::NOT_VERIFIED;
+			$this->accountManager->updateUser($user, $accountData);
+		}
 	}
 
 }
