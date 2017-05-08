@@ -766,12 +766,12 @@ class ShareByMailProviderTest extends TestCase {
 		$provider = $this->getInstance();
 		$user = $this->createMock(IUser::class);
 		$this->userManager
-			->expects($this->exactly(2))
+			->expects($this->once())
 			->method('get')
 			->with('OwnerUser')
 			->willReturn($user);
 		$user
-			->expects($this->exactly(2))
+			->expects($this->once())
 			->method('getDisplayName')
 			->willReturn('Mrs. Owner User');
 		$message = $this->createMock(Message::class);
@@ -867,29 +867,18 @@ class ShareByMailProviderTest extends TestCase {
 				'file.txt',
 				'https://example.com/file.txt',
 				'OwnerUser',
-				'OwnerUser',
 				'john@doe.com',
 			]);
 	}
 
 	public function testSendMailNotificationWithDifferentUserAndNoUserEmail() {
 		$provider = $this->getInstance();
-		$ownerUser = $this->createMock(IUser::class);
 		$initiatorUser = $this->createMock(IUser::class);
 		$this->userManager
-			->expects($this->at(0))
-			->method('get')
-			->with('OwnerUser')
-			->willReturn($ownerUser);
-		$this->userManager
-			->expects($this->at(1))
+			->expects($this->once())
 			->method('get')
 			->with('InitiatorUser')
 			->willReturn($initiatorUser);
-		$ownerUser
-			->expects($this->once())
-			->method('getDisplayName')
-			->willReturn('Mrs. Owner User');
 		$initiatorUser
 			->expects($this->once())
 			->method('getDisplayName')
@@ -910,13 +899,13 @@ class ShareByMailProviderTest extends TestCase {
 		$template
 			->expects($this->once())
 			->method('addHeading')
-			->with('Mrs. Owner User shared »file.txt« with you');
+			->with('Mr. Initiator User shared »file.txt« with you');
 		$template
 			->expects($this->once())
 			->method('addBodyText')
 			->with(
-				'Mrs. Owner User shared »file.txt« with you on behalf of InitiatorUser. Click the button below to open it.',
-				'Mrs. Owner User shared »file.txt« with you on behalf of InitiatorUser.'
+				'Mr. Initiator User shared »file.txt« with you. Click the button below to open it.',
+				'Mr. Initiator User shared »file.txt« with you.'
 			);
 		$template
 			->expects($this->once())
@@ -937,12 +926,8 @@ class ShareByMailProviderTest extends TestCase {
 			->expects($this->once())
 			->method('setFrom')
 			->with([
-				\OCP\Util::getDefaultEmailAddress('UnitTestCloud') => 'Mrs. Owner User via UnitTestCloud'
+				\OCP\Util::getDefaultEmailAddress('UnitTestCloud') => 'Mr. Initiator User via UnitTestCloud'
 			]);
-		$ownerUser
-			->expects($this->once())
-			->method('getEMailAddress')
-			->willReturn(null);
 		$message
 			->expects($this->never())
 			->method('setReplyTo');
@@ -953,7 +938,7 @@ class ShareByMailProviderTest extends TestCase {
 		$message
 			->expects($this->once())
 			->method('setSubject')
-			->willReturn('Mrs. Owner User shared »file.txt« with you');
+			->willReturn('Mr. Initiator User shared »file.txt« with you');
 		$template
 			->expects($this->once())
 			->method('renderText')
@@ -981,7 +966,6 @@ class ShareByMailProviderTest extends TestCase {
 			[
 				'file.txt',
 				'https://example.com/file.txt',
-				'OwnerUser',
 				'InitiatorUser',
 				'john@doe.com',
 			]);
