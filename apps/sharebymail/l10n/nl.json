@@ -35,6 +35,7 @@
     "You can choose a different password at any time in the share dialog." : "Je kunt in de Delen-dialoog altijd een ander wachtwoord kiezen.",
     "Could not find share" : "Kon gedeeld niet vinden",
     "Share by mail" : "Gedeeld via een E-mail",
+    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Staat gebruikers toe om een gepersonaliseerde link of map te delen door een e-mailadres in te voegen.",
     "Send password by mail" : "Wachtwoord per E-mail verzenden",
     "Enforce password protection" : "Afdwingenwachtwoordbeveiliging",
     "Failed to create the E-mail" : "Opmaken van de e-mail is mislukt",
