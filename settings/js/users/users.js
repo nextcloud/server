@@ -908,21 +908,24 @@ $(document).ready(function () {
 		event.stopPropagation();
 		var $td = $(this).closest('td');
 		var $tr = $($td).closest('tr');
-		var menudiv = $td.find('.popovermenu');
+		var menudiv = $tr.find('.popovermenu');
 
-		if(menudiv.is(':visible')) {
-			menudiv.fadeOut(100);
+		if($tr.is('.active')) {
+			$tr.removeClass('active');
 			return;
 		}
+		$('#userlist tr.active').removeClass('active');
 		menudiv.find('.action-togglestate').empty();
 		if($tr.data('userEnabled')) {
 			$('.action-togglestate', $td).html('<span class="icon icon-close"></span><span>'+t('settings', 'Disable')+'</span>');
 		} else {
 			$('.action-togglestate', $td).html('<span class="icon icon-add"></span><span>'+t('settings', 'Enable')+'</span>');
 		}
-		menudiv.click(function() { menudiv.fadeOut(100); });
-		menudiv.hover('', function() { menudiv.fadeOut(100); });
-		menudiv.fadeIn(100);
+		$tr.addClass('active');
+	});
+
+	$(document.body).click(function() {
+		$('#userlist tr.active').removeClass('active');
 	});
 
 	$userListBody.on('click', '.action-togglestate', function (event) {
