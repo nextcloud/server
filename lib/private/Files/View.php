@@ -1081,7 +1081,11 @@ class View {
 	 */
 	public function free_space($path = '/') {
 		$this->assertPathLength($path);
-		return $this->basicOperation('free_space', $path);
+		$result = $this->basicOperation('free_space', $path);
+		if ($result === null) {
+			throw new InvalidPathException();
+		}
+		return $result;
 	}
 
 	/**
