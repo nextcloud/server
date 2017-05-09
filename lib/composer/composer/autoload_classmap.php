@@ -332,6 +332,7 @@ return array(
     'OC\\App\\AppStore\\Version\\VersionParser' => $baseDir . '/lib/private/App/AppStore/Version/VersionParser.php',
     'OC\\App\\CodeChecker\\AbstractCheck' => $baseDir . '/lib/private/App/CodeChecker/AbstractCheck.php',
     'OC\\App\\CodeChecker\\CodeChecker' => $baseDir . '/lib/private/App/CodeChecker/CodeChecker.php',
+    'OC\\App\\CodeChecker\\DatabaseSchemaChecker' => $baseDir . '/lib/private/App/CodeChecker/DatabaseSchemaChecker.php',
     'OC\\App\\CodeChecker\\DeprecationCheck' => $baseDir . '/lib/private/App/CodeChecker/DeprecationCheck.php',
     'OC\\App\\CodeChecker\\EmptyCheck' => $baseDir . '/lib/private/App/CodeChecker/EmptyCheck.php',
     'OC\\App\\CodeChecker\\ICheck' => $baseDir . '/lib/private/App/CodeChecker/ICheck.php',

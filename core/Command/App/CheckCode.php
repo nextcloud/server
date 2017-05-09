@@ -26,6 +26,7 @@
 namespace OC\Core\Command\App;
 
 use OC\App\CodeChecker\CodeChecker;
+use OC\App\CodeChecker\DatabaseSchemaChecker;
 use OC\App\CodeChecker\EmptyCheck;
 use OC\App\CodeChecker\InfoChecker;
 use OC\App\CodeChecker\LanguageParseChecker;
@@ -181,6 +182,18 @@ class CheckCode extends Command implements CompletionAwareInterface  {
 			}
 
 			$errors = array_merge($errors, $languageErrors);
+
+			$databaseSchema = new DatabaseSchemaChecker();
+			$schemaErrors = $databaseSchema->analyse($appId);
+
+			foreach ($schemaErrors['errors'] as $schemaError) {
+				$output->writeln("<error>$schemaError</error>");
+			}
+			foreach ($schemaErrors['warnings'] as $schemaWarning) {
+				$output->writeln("<comment>$schemaWarning</comment>");
+			}
+
+			$errors = array_merge($errors, $schemaErrors['errors']);
 		}
 
 		$this->analyseUpdateFile($appId, $output);
