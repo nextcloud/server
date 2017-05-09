@@ -120,6 +120,8 @@ if( $task eq 'read' ){
 		my @temp = split( /\//, $dir );
 		my $app = pop( @temp );
 		chdir( $dir );
+		# parses the app info and creates an dummy file specialAppInfoFakeDummyForL10nScript.php
+		`php $whereami/../build/l10nParseAppInfo.php`;
 		my @totranslate = crawlFiles('.');
 		my %ignore = readIgnorelist();
 		my $output = "${whereami}/templates/$app.pot";
@@ -139,6 +141,7 @@ if( $task eq 'read' ){
 			print "    Reading $file\n";
 			`xgettext --output="$output" $joinexisting $keywords --language=$language "$file" --add-comments=TRANSLATORS --from-code=UTF-8 --package-version="8.0.0" --package-name="ownCloud Core" --msgid-bugs-address="translations\@owncloud.org"`;
 		}
+		rmtree( "specialAppInfoFakeDummyForL10nScript.php" );
 		chdir( $whereami );
 	}
 }
