@@ -107,6 +107,12 @@
 		width: 252px;
 		height: 120px;
 		margin: 0 auto;
+
+		img {
+			opacity: 0;
+			max-width: 100%;
+			max-height: 200px;
+		}
 	}
 	.logo-icon {
 		/* display logo so appname can be shown next to it */
