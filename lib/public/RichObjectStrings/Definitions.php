@@ -238,16 +238,10 @@ class Definitions {
 					'description' => 'The id used to identify the open graph data on the instance',
 					'example' => '42',
 				],
-				'thumb' => [
-					'since' => '12.0.0',
-					'required' => false,
-					'description' => 'The full URL of the open graph thumbnail',
-					'example' => 'http://localhost/index.php/apps/mood/data/image?url=https%3A%2F%2Fthumb.example.com%2Fimage.png',
-				],
-				'title' => [
+				'name' => [
 					'since' => '12.0.0',
 					'required' => true,
-					'description' => 'The open graph title from the website',
+					'description' => 'The open graph title of the website',
 					'example' => 'This is a website',
 				],
 				'description' => [
@@ -255,6 +249,12 @@ class Definitions {
 					'required' => false,
 					'description' => 'The open graph description from the website',
 					'example' => 'This is the description of the website',
+				],
+				'thumb' => [
+					'since' => '12.0.0',
+					'required' => false,
+					'description' => 'The full URL of the open graph thumbnail',
+					'example' => 'http://localhost/index.php/apps/mood/data/image?url=https%3A%2F%2Fthumb.example.com%2Fimage.png',
 				],
 				'website' => [
 					'since' => '12.0.0',
