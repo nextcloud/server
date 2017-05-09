@@ -249,8 +249,7 @@ class Config {
 			$url = \OC::$server->getURLGenerator()->linkToDocs('admin-dir_permissions');
 			throw new HintException(
 				"Can't write into config directory!",
-				'This can usually be fixed by '
-				.'<a href="' . $url . '" target="_blank" rel="noreferrer">giving the webserver write access to the config directory</a>.');
+				'This can usually be fixed by giving the webserver write access to the config directory. See ' . $url);
 		}
 
 		// Try to acquire a file lock

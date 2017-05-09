@@ -669,9 +669,8 @@ class OC_Util {
 			if (!is_writable(OC::$configDir) or !is_readable(OC::$configDir)) {
 				$errors[] = array(
 					'error' => $l->t('Cannot write into "config" directory'),
-					'hint' => $l->t('This can usually be fixed by '
-						. '%sgiving the webserver write access to the config directory%s.',
-						array('<a href="' . $urlGenerator->linkToDocs('admin-dir_permissions') . '" target="_blank" rel="noreferrer">', '</a>'))
+					'hint' => $l->t('This can usually be fixed by giving the webserver write access to the config directory. See %s',
+						[$urlGenerator->linkToDocs('admin-dir_permissions')])
 				);
 			}
 		}
@@ -684,10 +683,9 @@ class OC_Util {
 			) {
 				$errors[] = array(
 					'error' => $l->t('Cannot write into "apps" directory'),
-					'hint' => $l->t('This can usually be fixed by '
-						. '%sgiving the webserver write access to the apps directory%s'
-						. ' or disabling the appstore in the config file.',
-						array('<a href="' . $urlGenerator->linkToDocs('admin-dir_permissions') . '" target="_blank" rel="noreferrer">', '</a>'))
+					'hint' => $l->t('This can usually be fixed by giving the webserver write access to the apps directory'
+						. ' or disabling the appstore in the config file. See %s',
+						[$urlGenerator->linkToDocs('admin-dir_permissions')])
 				);
 			}
 		}
@@ -700,16 +698,14 @@ class OC_Util {
 				} else {
 					$errors[] = [
 						'error' => $l->t('Cannot create "data" directory'),
-						'hint' => $l->t('This can usually be fixed by '
-							. '<a href="%s" target="_blank" rel="noreferrer">giving the webserver write access to the root directory</a>.',
+						'hint' => $l->t('This can usually be fixed by giving the webserver write access to the root directory. See %s',
 							[$urlGenerator->linkToDocs('admin-dir_permissions')])
 					];
 				}
 			} else if (!is_writable($CONFIG_DATADIRECTORY) or !is_readable($CONFIG_DATADIRECTORY)) {
 				//common hint for all file permissions error messages
-				$permissionsHint = $l->t('Permissions can usually be fixed by '
-					. '%sgiving the webserver write access to the root directory%s.',
-					['<a href="' . $urlGenerator->linkToDocs('admin-dir_permissions') . '" target="_blank" rel="noreferrer">', '</a>']);
+				$permissionsHint = $l->t('Permissions can usually be fixed by giving the webserver write access to the root directory. See %.',
+					[$urlGenerator->linkToDocs('admin-dir_permissions')]);
 				$errors[] = [
 					'error' => 'Your data directory is not writable',
 					'hint' => $permissionsHint
