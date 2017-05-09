@@ -35,6 +35,10 @@ class LanguageParseChecker {
 			throw new \RuntimeException("No app with given id <$appId> known.");
 		}
 
+		if (!is_dir($appPath . '/l10n/')) {
+			return [];
+		}
+
 		$errors = [];
 		$directory = new \DirectoryIterator($appPath . '/l10n/');
 
