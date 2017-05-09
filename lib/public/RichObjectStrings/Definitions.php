@@ -177,6 +177,31 @@ class Definitions {
 				],
 			],
 		],
+		'circle' => [
+			'author' => 'Maxence Lange',
+			'app' => 'circles',
+			'since' => '12.0.0',
+			'parameters' => [
+				'id' => [
+					'since' => '12.0.0',
+					'required' => true,
+					'description' => 'The id used to identify the circle on the instance',
+					'example' => '42',
+				],
+				'name' => [
+					'since' => '12.0.0',
+					'required' => true,
+					'description' => 'The display name of the circle which should be used in the visual representation',
+					'example' => 'My friends',
+				],
+				'link' => [
+					'since' => '12.0.0',
+					'required' => true,
+					'description' => 'The full URL to the circle',
+					'example' => 'http://localhost/index.php/apps/circles/#42',
+				],
+			],
+		],
 		'email' => [
 			'author' => 'Nextcloud',
 			'app' => 'sharebymail',
