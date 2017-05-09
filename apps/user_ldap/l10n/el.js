@@ -97,6 +97,7 @@ OC.L10N.register(
     "Saving" : "Αποθήκευση",
     "Back" : "Επιστροφή",
     "Continue" : "Συνέχεια",
+    "An internal error occurred." : "Παρουσιάστηκε ένα εσωτερικό σφάλμα.",
     "Current password" : "Τρέχον συνθηματικό",
     "New password" : "Νέο συνθηματικό",
     "Renew password" : "Ανανέωση συνθηματικού",
