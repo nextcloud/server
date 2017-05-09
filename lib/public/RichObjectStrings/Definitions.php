@@ -228,7 +228,7 @@ class Definitions {
 			],
 		],
 		'open-graph' => [
-			'author' => 'Nextcloud',
+			'author' => 'Maxence Lange',
 			'app' => 'mood',
 			'since' => '12.0.0',
 			'parameters' => [
