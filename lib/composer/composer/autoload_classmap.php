@@ -336,6 +336,7 @@ return array(
     'OC\\App\\CodeChecker\\EmptyCheck' => $baseDir . '/lib/private/App/CodeChecker/EmptyCheck.php',
     'OC\\App\\CodeChecker\\ICheck' => $baseDir . '/lib/private/App/CodeChecker/ICheck.php',
     'OC\\App\\CodeChecker\\InfoChecker' => $baseDir . '/lib/private/App/CodeChecker/InfoChecker.php',
+    'OC\\App\\CodeChecker\\LanguageParseChecker' => $baseDir . '/lib/private/App/CodeChecker/LanguageParseChecker.php',
     'OC\\App\\CodeChecker\\NodeVisitor' => $baseDir . '/lib/private/App/CodeChecker/NodeVisitor.php',
     'OC\\App\\CodeChecker\\PrivateCheck' => $baseDir . '/lib/private/App/CodeChecker/PrivateCheck.php',
     'OC\\App\\CodeChecker\\StrongComparisonCheck' => $baseDir . '/lib/private/App/CodeChecker/StrongComparisonCheck.php',

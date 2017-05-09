@@ -28,6 +28,7 @@ namespace OC\Core\Command\App;
 use OC\App\CodeChecker\CodeChecker;
 use OC\App\CodeChecker\EmptyCheck;
 use OC\App\CodeChecker\InfoChecker;
+use OC\App\CodeChecker\LanguageParseChecker;
 use OC\App\InfoParser;
 use Stecman\Component\Symfony\Console\BashCompletion\Completion\CompletionAwareInterface;
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
@@ -171,6 +172,15 @@ class CheckCode extends Command implements CompletionAwareInterface  {
 			$infoErrors = $infoChecker->analyse($appId);
 
 			$errors = array_merge($errors, $infoErrors);
+
+			$languageParser = new LanguageParseChecker();
+			$languageErrors = $languageParser->analyse($appId);
+
+			foreach ($languageErrors as $languageError) {
+				$output->writeln("<error>$languageError</error>");
+			}
+
+			$errors = array_merge($errors, $languageErrors);
 		}
 
 		$this->analyseUpdateFile($appId, $output);
