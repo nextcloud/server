@@ -119,7 +119,8 @@ class CertificateManager implements ICertificateManager {
 			return;
 		}
 
-		$fhCerts = $this->view->fopen($path . '/rootcerts.crt', 'w');
+		$certPath = $path . 'rootcerts.crt';
+		$fhCerts = $this->view->fopen($certPath, 'w');
 
 		// Write user certificates
 		foreach ($certs as $cert) {
@@ -136,7 +137,7 @@ class CertificateManager implements ICertificateManager {
 
 		// Append the system certificate bundle
 		$systemBundle = $this->getCertificateBundle(null);
-		if ($this->view->file_exists($systemBundle)) {
+		if ($systemBundle !== $certPath && $this->view->file_exists($systemBundle)) {
 			$systemCertificates = $this->view->file_get_contents($systemBundle);
 			fwrite($fhCerts, $systemCertificates);
 		}
