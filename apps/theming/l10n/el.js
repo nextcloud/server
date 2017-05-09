@@ -12,7 +12,8 @@ OC.L10N.register(
     "No file uploaded" : "Δεν έχει μεταφορτωθεί αρχείο",
     "Unsupported image type" : "Μη υποστηριζόμενος τύπος εικόνας",
     "You are already using a custom theme" : "Χρησιμοποιείτε ήδη προσαρμοσμένο θέμα",
-    "Theming" : "Θεματοποίηση",
+    "Theming" : "Προσαρμογή θέματος",
+    "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Η προσαρμογή θέματος καθιστά δυνατή την εύκολη προσαρμογή της εμφάνισης της εμφάνισης της εγκατάστασής σας καθώς και των υποστηριζόμενων πελατών. Αυτή θα είναι ορατή για όλους τους χρήστες.",
     "Name" : "Όνομα",
     "reset to default" : "επαναφορά στα προεπιλεγμένα",
     "Web address" : "Διεύθυση ιστοσελίδας",
@@ -22,7 +23,7 @@ OC.L10N.register(
     "Logo" : "Λογότυπο",
     "Upload new logo" : "Μεταφόρτωση νέου λογοτύπου",
     "Login image" : "Εικόνα εισόδου",
-    "Upload new login background" : "Μεταφόρτωση νέου φόντου εισόδου",
+    "Upload new login background" : "Μεταφόρτωση νέου παρασκηνίου εισόδου",
     "Remove background image" : "Αφαίρεση εικόνας παρασκηνίου",
     "Log in image" : "Εικόνα εισόδου"
 },

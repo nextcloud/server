@@ -42,6 +42,8 @@
     "Unable to delete user." : "No fue posible eliminar el usuario.",
     "Error while enabling user." : "Se presentó un error al habilitar el usuario. ",
     "Error while disabling user." : "Se presentó un error al deshabilitar el usuario.",
+    "In order to verify your Twitter account, post the following tweet on Twitter (please make sure to post it without any line breaks):" : "Para poder verificar su cuenta de Twitter, publique el siguiente tweet en Twitter (favor de asegurarse de publicar sin ninguna línea en blanco):",
+    "In order to verify your Website, store the following content in your web-root at '.well-known/CloudIdVerificationCode.txt' (please make sure that the complete text is in one line):" : "Para poder verficiar si sitio Web, agrege el siguiente contendio a su web-root en '.well-known/CloudIdVerificationCode.txt' (favor de asegurarse de que el texto completo este en una sóla línea):",
     "Settings saved" : "Se han guardado los ajustes",
     "Unable to change full name" : "No fue posible cambiar el nombre completo",
     "Unable to change email address" : "No fue posible cambiar la dirección de correo electrónico",
