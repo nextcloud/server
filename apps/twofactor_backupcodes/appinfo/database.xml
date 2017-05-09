@@ -5,7 +5,7 @@
 	<overwrite>false</overwrite>
 	<charset>utf8</charset>
 	<table>
-		<name>*dbprefix*twofactor_backup_codes</name>
+		<name>*dbprefix*twofactor_backupcodes</name>
 		<declaration>
 			<field>
 				<name>id</name>
