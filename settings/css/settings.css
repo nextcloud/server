@@ -613,17 +613,17 @@ span.usersLastLoginTooltip {
 	display: none;
 }
 
-.bubble {
+#userlist .bubble {
 	z-index: 1;
 	right: -6px;
 	top: auto;
 }
 
-.bubble:after {
+#userlist .bubble:after {
 	right: 5px;
 }
 
-.popovermenu a.menuitem {
+#userlist .popovermenu a.menuitem {
 	height: 20px;
 	margin: 0;
 	padding: 0;
