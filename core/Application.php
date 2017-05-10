@@ -30,7 +30,6 @@
 
 namespace OC\Core;
 
-use OC\Core\Controller\JsController;
 use OC\Security\IdentityProof\Manager;
 use OCP\AppFramework\App;
 use OC\Core\Controller\CssController;
@@ -64,14 +63,6 @@ class Application extends App {
 				$container->query('appName'),
 				$container->query(IRequest::class),
 				\OC::$server->getAppDataDir('css'),
-				$container->query(ITimeFactory::class)
-			);
-		});
-		$container->registerService(JsController::class, function () use ($container) {
-			return new JsController(
-				$container->query('AppName'),
-				$container->query(IRequest::class),
-				$container->getServer()->getAppDataDir('js'),
 				$container->query(ITimeFactory::class)
 			);
 		});

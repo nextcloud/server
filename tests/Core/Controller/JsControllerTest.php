@@ -23,6 +23,7 @@
 namespace Tests\Core\Controller;
 
 use OC\Core\Controller\JsController;
+use OC\Files\AppData\Factory;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
@@ -48,8 +49,15 @@ class JsControllerTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
+		/** @var Factory|\PHPUnit_Framework_MockObject_MockObject $factory */
+		$factory = $this->createMock(Factory::class);
 		$this->appData = $this->createMock(IAppData::class);
+		$factory->expects($this->once())
+			->method('get')
+			->with('js')
+			->willReturn($this->appData);
 
+		/** @var ITimeFactory|\PHPUnit_Framework_MockObject_MockObject $timeFactory */
 		$timeFactory = $this->createMock(ITimeFactory::class);
 		$timeFactory->method('getTime')
 			->willReturn(1337);
@@ -59,7 +67,7 @@ class JsControllerTest extends TestCase {
 		$this->controller = new JsController(
 			'core',
 			$this->request,
-			$this->appData,
+			$factory,
 			$timeFactory
 		);
 	}

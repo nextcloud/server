@@ -22,6 +22,7 @@
  */
 namespace OC\Core\Controller;
 
+use OC\Files\AppData\Factory;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\NotFoundResponse;
@@ -44,13 +45,13 @@ class JsController extends Controller {
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
-	 * @param IAppData $appData
+	 * @param Factory $appDataFactory
 	 * @param ITimeFactory $timeFactory
 	 */
-	public function __construct($appName, IRequest $request, IAppData $appData, ITimeFactory $timeFactory) {
+	public function __construct($appName, IRequest $request, Factory $appDataFactory, ITimeFactory $timeFactory) {
 		parent::__construct($appName, $request);
 
-		$this->appData = $appData;
+		$this->appData = $appDataFactory->get('js');
 		$this->timeFactory = $timeFactory;
 	}
 
