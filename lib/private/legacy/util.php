@@ -704,7 +704,7 @@ class OC_Util {
 				}
 			} else if (!is_writable($CONFIG_DATADIRECTORY) or !is_readable($CONFIG_DATADIRECTORY)) {
 				//common hint for all file permissions error messages
-				$permissionsHint = $l->t('Permissions can usually be fixed by giving the webserver write access to the root directory. See %.',
+				$permissionsHint = $l->t('Permissions can usually be fixed by giving the webserver write access to the root directory. See %s.',
 					[$urlGenerator->linkToDocs('admin-dir_permissions')]);
 				$errors[] = [
 					'error' => 'Your data directory is not writable',
