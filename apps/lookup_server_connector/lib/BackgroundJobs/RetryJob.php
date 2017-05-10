@@ -19,11 +19,11 @@
  *
  */
 
-
 namespace OCA\LookupServerConnector\BackgroundJobs;
 
 
 use OC\BackgroundJob\Job;
+use OC\BackgroundJob\JobList;
 use OCP\BackgroundJob\IJobList;
 use OCP\Http\Client\IClientService;
 use OCP\ILogger;
@@ -35,6 +35,8 @@ class RetryJob extends Job {
 	private $jobList;
 	/** @var string */
 	private $lookupServer = 'https://lookup.nextcloud.com/users';
+	/** @var int how much time should be between two tries (10 minutes) */
+	private $interval = 600;
 
 	/**
 	 * @param IClientService $clientService
@@ -53,12 +55,10 @@ class RetryJob extends Job {
 	 * @param ILogger $logger
 	 */
 	public function execute($jobList, ILogger $logger = null) {
-
 		if ($this->shouldRun($this->argument)) {
 			parent::execute($jobList, $logger);
 			$jobList->remove($this, $this->argument);
 		}
-
 	}
 
 	protected function run($argument) {
@@ -81,9 +81,20 @@ class RetryJob extends Job {
 				[
 					'dataArray' => $argument['dataArray'],
 					'retryNo' => $argument['retryNo'] + 1,
+					'lastRun' => time(),
 				]
 			);
 
 		}
+	}
+
+	/**
+	 * test if it is time for the next run
+	 *
+	 * @param array $argument
+	 * @return bool
+	 */
+	protected function shouldRun($argument) {
+		return !isset($argument['lastRun']) || ((time() - $argument['lastRun']) > $this->interval);
 	}
 }
