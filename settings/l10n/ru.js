@@ -44,6 +44,8 @@ OC.L10N.register(
     "Unable to delete user." : "Невозможно удалить пользователя.",
     "Error while enabling user." : "Ошибка разблокировки пользователя ",
     "Error while disabling user." : "Ошибка блокировки пользователя",
+    "In order to verify your Twitter account, post the following tweet on Twitter (please make sure to post it without any line breaks):" : "Для подтверждения владения аккаунтом Twitter, опубликуйте следующий твит (убедитесь, что разместили его без разрыва строки):",
+    "In order to verify your Website, store the following content in your web-root at '.well-known/CloudIdVerificationCode.txt' (please make sure that the complete text is in one line):" : "Для подтверждения владения сайтом поместите в корневом каталоге по пути  «.well-known/CloudIdVerificationCode.txt» следующее содержимое (убедитесь, что разместили весь текст в одну строку): ",
     "Settings saved" : "Настройки сохранены",
     "Unable to change full name" : "Невозможно изменить полное имя",
     "Unable to change email address" : "Невозможно изменить адрес электронной почты",

@@ -22,6 +22,7 @@
     "Upload new logo" : "Enviar novo logotipo",
     "Login image" : "Imagem de login",
     "Upload new login background" : "Enviar nova imagem de fundo para o login",
+    "Remove background image" : "Excluir a imagem de fundo",
     "Log in image" : "Imagem de fundo do login"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

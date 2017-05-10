@@ -16,6 +16,7 @@ OC.L10N.register(
     "You created two-factor backup codes for your account" : "İki aşamalı kimlik doğrulama için yedek kodlarınızı oluşturdunuz",
     "Backup code" : "Yedek kod",
     "Use backup code" : "Yedek kodu kullan",
-    "Second-factor backup codes" : "İki aşamalı yedek kodları"
+    "Two factor backup codes" : "İki aşamalı kimlik doğrulama yedek kodları",
+    "Second-factor backup codes" : "İki aşamalı kimlik doğrulama yedek kodları"
 },
 "nplurals=2; plural=(n > 1);");

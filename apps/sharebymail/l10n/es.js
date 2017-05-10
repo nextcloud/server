@@ -25,6 +25,7 @@ OC.L10N.register(
     "Open »%s«" : "Abrir »%s«",
     "%s via %s" : "%s por %s",
     "Password to access »%s« shared to you by %s" : "Contraseña para acceder »%s« compartido con usted por %s",
+    "%s shared »%s« with you.\nYou should have already received a separate mail with a link to access it.\n" : "%s compartió »%s« contigo.\nDeberías haber recibido ya un correo por separado con un enlace para acceder.\n",
     "%s shared »%s« with you. You should have already received a separate mail with a link to access it." : "%s compartió »%s« con usted. Debería haber recibido un mensaje de correo separado con un enlace para abrirlo.",
     "Password to access »%s«" : "Contraseña para acceder »%s«",
     "It is protected with the following password: %s" : "Está protegido con la siguiente contraseña: %s",

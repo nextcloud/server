@@ -24,6 +24,7 @@ OC.L10N.register(
     "Upload new logo" : "Téléverser un nouveau logo",
     "Login image" : "Image de connexion",
     "Upload new login background" : "Téléverser un nouvel arrière-plan de connexion",
+    "Remove background image" : "Supprimer l'image en arrière-plan",
     "Log in image" : "Image de connexion"
 },
 "nplurals=2; plural=(n > 1);");

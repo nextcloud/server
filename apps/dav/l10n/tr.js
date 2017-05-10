@@ -42,6 +42,7 @@ OC.L10N.register(
     "Contact birthdays" : "Kişi doğum günleri",
     "Personal" : "Kişisel",
     "Contacts" : "Kişiler",
+    "WebDAV" : "WebDAV",
     "Technical details" : "Teknik ayrıntılar",
     "Remote Address: %s" : "Uzak Adres: %s",
     "Request ID: %s" : "İstek Kodu: %s"
