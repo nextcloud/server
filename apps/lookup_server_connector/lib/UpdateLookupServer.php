@@ -27,6 +27,7 @@ use OC\Security\IdentityProof\Signer;
 use OCA\LookupServerConnector\BackgroundJobs\RetryJob;
 use OCP\BackgroundJob\IJobList;
 use OCP\Http\Client\IClientService;
+use OCP\IConfig;
 use OCP\IUser;
 
 /**
@@ -44,27 +45,26 @@ class UpdateLookupServer {
 	/** @var IJobList */
 	private $jobList;
 	/** @var string URL point to lookup server */
-	private $lookupServer = 'https://lookup.nextcloud.com';
+	private $lookupServer;
 
 	/**
 	 * @param AccountManager $accountManager
 	 * @param IClientService $clientService
 	 * @param Signer $signer
 	 * @param IJobList $jobList
-	 * @param string $lookupServer if nothing is given we use the default lookup server
+	 * @param IConfig $config
 	 */
 	public function __construct(AccountManager $accountManager,
 								IClientService $clientService,
 								Signer $signer,
 								IJobList $jobList,
-								$lookupServer = '') {
+								IConfig $config) {
 		$this->accountManager = $accountManager;
 		$this->clientService = $clientService;
 		$this->signer = $signer;
 		$this->jobList = $jobList;
-		if ($lookupServer !== '') {
-			$this->lookupServer = $lookupServer;
-		}
+
+		$this->lookupServer = $config->getSystemValue('lookup_server', 'https://lookup.nextcloud.com');
 		$this->lookupServer = rtrim($this->lookupServer, '/');
 		$this->lookupServer .= '/users';
 	}
