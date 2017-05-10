@@ -884,7 +884,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getConfig(),
 				$c->getThemingDefaults(),
 				\OC::$SERVERROOT,
-				$cacheFactory->createLocal('SCSS')
+				$cacheFactory->create('SCSS')
 			);
 		});
 		$this->registerService(EventDispatcher::class, function () {
