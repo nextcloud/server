@@ -1019,7 +1019,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			}
 			$preferred = 0;
 			foreach($property->parameters as $parameter) {
-				if ($parameter->name == 'TYPE' && strtoupper($parameter->getValue()) == 'PREF') {
+				if ($parameter->name === 'TYPE' && strtoupper($parameter->getValue()) === 'PREF') {
 					$preferred = 1;
 					break;
 				}
