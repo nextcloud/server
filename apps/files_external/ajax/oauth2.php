@@ -46,8 +46,8 @@ if (isset($_POST['client_id']) && isset($_POST['client_secret']) && isset($_POST
 	$client->setApprovalPrompt('force');
 	$client->setAccessType('offline');
 	if (isset($_POST['step'])) {
-		$step = $_POST['step'];
-		if ($step == 1) {
+		$step = (int) $_POST['step'];
+		if ($step === 1) {
 			try {
 				$authUrl = $client->createAuthUrl();
 				OCP\JSON::success(array('data' => array(
@@ -58,7 +58,7 @@ if (isset($_POST['client_id']) && isset($_POST['client_secret']) && isset($_POST
 					'message' => $l->t('Step 1 failed. Exception: %s', array($exception->getMessage()))
 				)));
 			}
-		} else if ($step == 2 && isset($_POST['code'])) {
+		} else if ($step === 2 && isset($_POST['code'])) {
 			try {
 				$token = $client->authenticate((string)$_POST['code']);
 				OCP\JSON::success(array('data' => array(

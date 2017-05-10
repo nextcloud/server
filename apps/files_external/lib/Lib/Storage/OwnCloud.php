@@ -40,10 +40,10 @@ class OwnCloud extends \OC\Files\Storage\DAV{
 		// (owncloud install path on host)
 		$host = $params['host'];
 		// strip protocol
-		if (substr($host, 0, 8) == "https://") {
+		if (substr($host, 0, 8) === "https://") {
 			$host = substr($host, 8);
 			$params['secure'] = true;
-		} else if (substr($host, 0, 7) == "http://") {
+		} else if (substr($host, 0, 7) === "http://") {
 			$host = substr($host, 7);
 			$params['secure'] = false;
 		}
