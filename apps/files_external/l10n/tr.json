@@ -103,6 +103,7 @@
     "The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "PHP cURL desteği kurulmamış ya da etkinleştirilmemiş. %s bağlanamaz. Lütfen kurulum için sistem yöneticinizle görüşün.",
     "The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "PHP FTP desteği kuurlmamış ya da etkinleştirilmemiş. %s bağlanamaz. Lütfen kurulum için sistem yöneticinizle görüşün.",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "%s kurulmamış. %s bağlanamaz. Lütfen kurulum için sistem yöneticinizle görüşün.",
+    "External storage support" : "Dış depolama desteği",
     "No external storage configured" : "Herhangi bir dış depolama yapılandırılmamış",
     "You can add external storages in the personal settings" : "Kişisel ayarlar bölümünden dış depolamaları ekleyebilirsiniz",
     "Name" : "Ad",

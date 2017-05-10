@@ -42,6 +42,7 @@ OC.L10N.register(
     "Contact birthdays" : "Aniversário dos contatos",
     "Personal" : "Pessoal",
     "Contacts" : "Contatos",
+    "WebDAV" : "WebDAV",
     "Technical details" : "Detalhes técnicos",
     "Remote Address: %s" : "Endereço remoto: %s",
     "Request ID: %s" : "ID do solicitante: %s"

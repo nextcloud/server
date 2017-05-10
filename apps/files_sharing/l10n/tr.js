@@ -89,6 +89,7 @@ OC.L10N.register(
     "Cannot increase permissions" : "Erişim izinleri yükseltilemez",
     "%s is publicly shared" : "%s herkese açık olarak paylaşıldı",
     "Share API is disabled" : "Paylaşım API arayüzü devre dışı",
+    "File sharing" : "Dosya paylaşımı",
     "This share is password-protected" : "Bu paylaşım parola korumalı",
     "The password is wrong. Try again." : "Parola hatalı. Yeniden deneyin.",
     "Password" : "Parola",

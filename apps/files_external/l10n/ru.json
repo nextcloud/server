@@ -103,6 +103,7 @@
     "The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "Поддержка cURL в PHP не включена и/или не установлена, монтирование %s невозможно. Обратитесь к вашему системному администратору.",
     "The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "Поддержка FTP в PHP не включена и/или не установлена, монтирование %s невозможно. Обратитесь к вашему системному администратору.",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" не установлен, монтирование %s невозможно. Обратитесь к вашему системному администратору.",
+    "External storage support" : "Поддержка внешних хранилищ",
     "No external storage configured" : "Нет внешних хранилищ",
     "You can add external storages in the personal settings" : "Вы можете добавить внешние накопители в личных настройках",
     "Name" : "Имя",

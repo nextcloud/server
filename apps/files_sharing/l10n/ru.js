@@ -89,6 +89,7 @@ OC.L10N.register(
     "Cannot increase permissions" : "Нельзя увеличить права",
     "%s is publicly shared" : "%s опубликован ",
     "Share API is disabled" : "API общего доступа отключён",
+    "File sharing" : "Обмен файлами",
     "This share is password-protected" : "Общий ресурс защищен паролем",
     "The password is wrong. Try again." : "Неверный пароль. Попробуйте еще раз.",
     "Password" : "Пароль",

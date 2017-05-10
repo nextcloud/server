@@ -24,6 +24,7 @@ OC.L10N.register(
     "Upload new logo" : "Yeni logo yükle",
     "Login image" : "Oturum açma görseli",
     "Upload new login background" : "Yeni oturum açma art alanı yükle",
+    "Remove background image" : "Art alan görselini kaldır",
     "Log in image" : "Oturum açma görseli"
 },
 "nplurals=2; plural=(n > 1);");

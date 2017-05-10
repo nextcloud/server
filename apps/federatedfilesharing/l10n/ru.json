@@ -35,6 +35,7 @@
     "Decline" : "Отклонить",
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Поделитесь со мной через мой #Nextcloud ID в федерации облачных хранилищ, смотрите %s",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Поделитесь со мной через мой #Nextcloud ID в федерации облачных хранилищ",
+    "Federated file sharing" : "Федеративный обмен файлами",
     "Federated Cloud Sharing" : "Федерация облачных хранилищ",
     "Open documentation" : "Открыть документацию",
     "Adjust how people can share between servers." : "Настройте общий доступ между серверами.",
