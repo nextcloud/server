@@ -26,6 +26,7 @@ use OC\BackgroundJob\Job;
 use OC\BackgroundJob\JobList;
 use OCP\BackgroundJob\IJobList;
 use OCP\Http\Client\IClientService;
+use OCP\IConfig;
 use OCP\ILogger;
 
 class RetryJob extends Job {
@@ -34,18 +35,24 @@ class RetryJob extends Job {
 	/** @var IJobList */
 	private $jobList;
 	/** @var string */
-	private $lookupServer = 'https://lookup.nextcloud.com/users';
+	private $lookupServer;
 	/** @var int how much time should be between two tries (10 minutes) */
 	private $interval = 600;
 
 	/**
 	 * @param IClientService $clientService
 	 * @param IJobList $jobList
+	 * @param IConfig $config
 	 */
 	public function __construct(IClientService $clientService,
-								IJobList $jobList) {
+								IJobList $jobList,
+								IConfig $config) {
 		$this->clientService = $clientService;
 		$this->jobList = $jobList;
+
+		$this->lookupServer = $config->getSystemValue('lookup_server', 'https://lookup.nextcloud.com');
+		$this->lookupServer = rtrim($this->lookupServer, '/');
+		$this->lookupServer .= '/users';
 	}
 
 	/**
