@@ -21,6 +21,7 @@
 
 namespace Test\Security\IdentityProof;
 
+use OC\Files\AppData\Factory;
 use OC\Security\IdentityProof\Key;
 use OC\Security\IdentityProof\Manager;
 use OCP\Files\IAppData;
@@ -31,6 +32,8 @@ use OCP\Security\ICrypto;
 use Test\TestCase;
 
 class ManagerTest extends TestCase  {
+	/** @var Factory|\PHPUnit_Framework_MockObject_MockObject */
+	private $factory;
 	/** @var IAppData|\PHPUnit_Framework_MockObject_MockObject */
 	private $appData;
 	/** @var ICrypto|\PHPUnit_Framework_MockObject_MockObject */
@@ -40,11 +43,19 @@ class ManagerTest extends TestCase  {
 
 	public function setUp() {
 		parent::setUp();
+
+		/** @var Factory|\PHPUnit_Framework_MockObject_MockObject $factory */
+		$this->factory = $this->createMock(Factory::class);
 		$this->appData = $this->createMock(IAppData::class);
+		$this->factory->expects($this->any())
+			->method('get')
+			->with('identityproof')
+			->willReturn($this->appData);
+
 		$this->crypto = $this->createMock(ICrypto::class);
 		$this->manager = $this->getMockBuilder(Manager::class)
 			->setConstructorArgs([
-				$this->appData,
+				$this->factory,
 				$this->crypto
 			])
 			->setMethods(['generateKeyPair'])
@@ -151,12 +162,12 @@ class ManagerTest extends TestCase  {
 
 	public function testGenerateKeyPair() {
 		$manager = new Manager(
-			$this->appData,
+			$this->factory,
 			$this->crypto
 		);
 		$data = 'MyTestData';
 
-		list($resultPublicKey, $resultPrivateKey) = $this->invokePrivate($manager, 'generateKeyPair');
+		list($resultPublicKey, $resultPrivateKey) = self::invokePrivate($manager, 'generateKeyPair');
 		openssl_sign($data, $signature, $resultPrivateKey);
 		$details = openssl_pkey_get_details(openssl_pkey_get_public($resultPublicKey));
 

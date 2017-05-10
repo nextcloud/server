@@ -23,7 +23,7 @@
 namespace Tests\Core\Controller;
 
 use OC\Core\Controller\CssController;
-use OC\HintException;
+use OC\Files\AppData\Factory;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
@@ -40,7 +40,7 @@ class CssControllerTest extends TestCase {
 	/** @var IAppData|\PHPUnit_Framework_MockObject_MockObject */
 	private $appData;
 
-	/** @var IRequests|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
 	private $request;
 
 	/** @var CssController */
@@ -49,8 +49,15 @@ class CssControllerTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
+		/** @var Factory|\PHPUnit_Framework_MockObject_MockObject $factory */
+		$factory = $this->createMock(Factory::class);
 		$this->appData = $this->createMock(IAppData::class);
+		$factory->expects($this->once())
+			->method('get')
+			->with('css')
+			->willReturn($this->appData);
 
+		/** @var ITimeFactory|\PHPUnit_Framework_MockObject_MockObject $timeFactory */
 		$timeFactory = $this->createMock(ITimeFactory::class);
 		$timeFactory->method('getTime')
 			->willReturn(1337);
@@ -60,7 +67,7 @@ class CssControllerTest extends TestCase {
 		$this->controller = new CssController(
 			'core',
 			$this->request,
-			$this->appData,
+			$factory,
 			$timeFactory
 		);
 	}

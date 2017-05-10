@@ -22,30 +22,10 @@
 $dispatcher = \OC::$server->getEventDispatcher();
 
 $dispatcher->addListener('OC\AccountManager::userUpdated', function(\Symfony\Component\EventDispatcher\GenericEvent $event) {
+	/** @var \OCP\IUser $user */
 	$user = $event->getSubject();
 
-	$keyManager = new \OC\Security\IdentityProof\Manager(
-		\OC::$server->getAppDataDir('identityproof'),
-		\OC::$server->getCrypto()
-	);
-
-	$config = \OC::$server->getConfig();
-	$lookupServer = $config->getSystemValue('lookup_server', '');
-
-	$updateLookupServer = new \OCA\LookupServerConnector\UpdateLookupServer(
-		new \OC\Accounts\AccountManager(
-			\OC::$server->getDatabaseConnection(),
-			\OC::$server->getEventDispatcher(),
-			\OC::$server->getJobList()
-		),
-		\OC::$server->getHTTPClientService(),
-		new \OC\Security\IdentityProof\Signer(
-			$keyManager,
-			new \OC\AppFramework\Utility\TimeFactory(),
-			\OC::$server->getUserManager()
-		),
-		\OC::$server->getJobList(),
-		$lookupServer
-	);
+	/** @var \OCA\LookupServerConnector\UpdateLookupServer $updateLookupServer */
+	$updateLookupServer = \OC::$server->query(\OCA\LookupServerConnector\UpdateLookupServer::class);
 	$updateLookupServer->userUpdated($user);
 });

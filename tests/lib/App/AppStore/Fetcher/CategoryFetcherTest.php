@@ -23,14 +23,14 @@ namespace Test\App\AppStore\Fetcher;
 
 use OC\App\AppStore\Fetcher\CategoryFetcher;
 
-class CategoryFetcherTest extends FetcherBase  {
+class CategoryFetcherTest extends FetcherBase {
 	public function setUp() {
 		parent::setUp();
 		$this->fileName = 'categories.json';
 		$this->endpoint = 'https://apps.nextcloud.com/api/v1/categories.json';
 
 		$this->fetcher = new CategoryFetcher(
-			$this->appData,
+			$this->appDataFactory,
 			$this->clientService,
 			$this->timeFactory,
 			$this->config

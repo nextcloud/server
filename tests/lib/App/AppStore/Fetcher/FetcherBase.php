@@ -22,6 +22,7 @@
 namespace Test\App\AppStore\Fetcher;
 
 use OC\App\AppStore\Fetcher\Fetcher;
+use OC\Files\AppData\Factory;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
@@ -34,6 +35,8 @@ use OCP\IConfig;
 use Test\TestCase;
 
 abstract class FetcherBase extends TestCase {
+	/** @var Factory|\PHPUnit_Framework_MockObject_MockObject */
+	protected $appDataFactory;
 	/** @var IAppData|\PHPUnit_Framework_MockObject_MockObject */
 	protected $appData;
 	/** @var IClientService|\PHPUnit_Framework_MockObject_MockObject */
@@ -51,7 +54,12 @@ abstract class FetcherBase extends TestCase {
 
 	public function setUp() {
 		parent::setUp();
+		$this->appDataFactory = $this->createMock(Factory::class);
 		$this->appData = $this->createMock(IAppData::class);
+		$this->appDataFactory->expects($this->once())
+			->method('get')
+			->with('appstore')
+			->willReturn($this->appData);
 		$this->clientService = $this->createMock(IClientService::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->config = $this->createMock(IConfig::class);

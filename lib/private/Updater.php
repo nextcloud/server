@@ -32,7 +32,6 @@
 
 namespace OC;
 
-use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\Hooks\BasicEmitter;
 use OC\IntegrityCheck\Checker;
 use OC_App;

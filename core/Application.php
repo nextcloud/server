@@ -30,12 +30,7 @@
 
 namespace OC\Core;
 
-use OC\Core\Controller\JsController;
-use OC\Security\IdentityProof\Manager;
 use OCP\AppFramework\App;
-use OC\Core\Controller\CssController;
-use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\IRequest;
 use OCP\Util;
 
 /**
@@ -52,28 +47,6 @@ class Application extends App {
 
 		$container->registerService('defaultMailAddress', function () {
 			return Util::getDefaultEmailAddress('lostpassword-noreply');
-		});
-		$container->registerService(Manager::class, function () {
-			return new Manager(
-				\OC::$server->getAppDataDir('identityproof'),
-				\OC::$server->getCrypto()
-			);
-		});
-		$container->registerService(CssController::class, function () use ($container) {
-			return new CssController(
-				$container->query('appName'),
-				$container->query(IRequest::class),
-				\OC::$server->getAppDataDir('css'),
-				$container->query(ITimeFactory::class)
-			);
-		});
-		$container->registerService(JsController::class, function () use ($container) {
-			return new JsController(
-				$container->query('AppName'),
-				$container->query(IRequest::class),
-				$container->getServer()->getAppDataDir('js'),
-				$container->query(ITimeFactory::class)
-			);
 		});
 	}
 }

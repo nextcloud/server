@@ -420,24 +420,8 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService('AppHelper', function ($c) {
 			return new \OC\AppHelper();
 		});
-		$this->registerService(AppFetcher::class, function ($c) {
-			return new AppFetcher(
-				$this->getAppDataDir('appstore'),
-				$this->getHTTPClientService(),
-				$this->query(TimeFactory::class),
-				$this->getConfig()
-			);
-		});
 		$this->registerAlias('AppFetcher', AppFetcher::class);
-
-		$this->registerService('CategoryFetcher', function ($c) {
-			return new CategoryFetcher(
-				$this->getAppDataDir('appstore'),
-				$this->getHTTPClientService(),
-				$this->query(TimeFactory::class),
-				$this->getConfig()
-			);
-		});
+		$this->registerAlias('CategoryFetcher', CategoryFetcher::class);
 
 		$this->registerService(\OCP\ICache::class, function ($c) {
 			return new Cache\File();
@@ -1290,7 +1274,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * @return AppFetcher
 	 */
 	public function getAppFetcher() {
-		return $this->query('AppFetcher');
+		return $this->query(AppFetcher::class);
 	}
 
 	/**
