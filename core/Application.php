@@ -30,7 +30,6 @@
 
 namespace OC\Core;
 
-use OC\Security\IdentityProof\Manager;
 use OCP\AppFramework\App;
 use OCP\Util;
 
@@ -48,12 +47,6 @@ class Application extends App {
 
 		$container->registerService('defaultMailAddress', function () {
 			return Util::getDefaultEmailAddress('lostpassword-noreply');
-		});
-		$container->registerService(Manager::class, function () {
-			return new Manager(
-				\OC::$server->getAppDataDir('identityproof'),
-				\OC::$server->getCrypto()
-			);
 		});
 	}
 }

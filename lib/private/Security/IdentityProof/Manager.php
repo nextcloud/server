@@ -21,6 +21,7 @@
 
 namespace OC\Security\IdentityProof;
 
+use OC\Files\AppData\Factory;
 use OCP\Files\IAppData;
 use OCP\IUser;
 use OCP\Security\ICrypto;
@@ -32,12 +33,12 @@ class Manager {
 	private $crypto;
 
 	/**
-	 * @param IAppData $appData
+	 * @param Factory $appDataFactory
 	 * @param ICrypto $crypto
 	 */
-	public function __construct(IAppData $appData,
+	public function __construct(Factory $appDataFactory,
 								ICrypto $crypto) {
-		$this->appData = $appData;
+		$this->appData = $appDataFactory->get('identityproof');
 		$this->crypto = $crypto;
 	}
 
