@@ -14,7 +14,7 @@
 		'<div class="file-details-container">' +
 		'<div class="fileName">' +
 			'<h3 title="{{name}}" class="ellipsis">{{name}}</h3>' +
-			'<a class="permalink" href="{{permalink}}" title="{{permalinkTitle}}">' +
+			'<a class="permalink" href="{{permalink}}" title="{{permalinkTitle}}" data-clipboard-text="{{permalink}}">' +
 				'<span class="icon icon-clippy"></span>' +
 				'<span class="hidden-visually">{{permalinkTitle}}</span>' +
 			'</a>' +
@@ -86,16 +86,37 @@
 				throw 'Missing required parameter "fileActions"';
 			}
 			this._previewManager = new OCA.Files.SidebarPreviewManager(this._fileList);
+
+			this._setupClipboard();
 		},
 
-		_onClickPermalink: function() {
-			var $row = this.$('.permalink-field');
-			$row.toggleClass('hidden');
-			if (!$row.hasClass('hidden')) {
-				$row.find('>input').focus();
-			}
-			// cancel click, user must right-click + copy or middle click
-			return false;
+		_setupClipboard: function() {
+			var clipboard = new Clipboard('.permalink');
+			clipboard.on('success', function(e) {
+				var $el = $(e.trigger);
+				$el.tooltip('hide')
+					.attr('data-original-title', t('core', 'Copied!'))
+					.tooltip('fixTitle')
+					.tooltip({placement: 'bottom', trigger: 'manual'})
+					.tooltip('show');
+				_.delay(function() {
+					$el.tooltip('hide');
+					$el.attr('data-original-title', t('files', 'Copy direct link (only works for users who have access to this file/folder)'))
+						.tooltip('fixTitle');
+				}, 3000);
+			});
+			clipboard.on('error', function(e) {
+				var $row = this.$('.permalink-field');
+				$row.toggleClass('hidden');
+				if (!$row.hasClass('hidden')) {
+					$row.find('>input').focus();
+				}
+			});
+		},
+
+		_onClickPermalink: function(e) {
+			e.preventDefault();
+			return;
 		},
 
 		_onFocusPermalink: function() {
