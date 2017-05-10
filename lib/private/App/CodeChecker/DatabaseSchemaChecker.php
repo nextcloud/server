@@ -88,14 +88,12 @@ class DatabaseSchemaChecker {
 
 			// Index names
 			foreach ($table->declaration->index as $index) {
-				if (strpos($index->name, '*dbprefix*') !== 0) {
-					$warnings[] = 'Database schema warning: name of index ' . $index->name . ' on table ' . $table->name . ' does not start with *dbprefix*';
-				}
-				$indexName = substr($index->name, strlen('*dbprefix*'));
-				if (strpos($indexName, '*dbprefix*') !== false) {
-					$warnings[] = 'Database schema warning: *dbprefix* should only appear once in name of index ' . $index->name . ' on table ' . $table->name;
+				$hasPrefix = strpos($index->name, '*dbprefix*');
+				if ($hasPrefix !== false && $hasPrefix !== 0) {
+					$warnings[] = 'Database schema warning: *dbprefix* should only appear at the beginning in name of index ' . $index->name . ' on table ' . $table->name;
 				}
 
+				$indexName = $hasPrefix === 0 ? substr($index->name, strlen('*dbprefix*')) : $index->name;
 				if (strlen($indexName) > 27) {
 					$errors[] = 'Database schema error: Name of index ' . $index->name . ' on table ' . $table->name . ' is too long (' . strlen($tableName) . '), max. 27 characters + *dbprefix* allowed';
 				}
