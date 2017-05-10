@@ -51,7 +51,7 @@ if(isset($_GET['downloadStartSecret'])
 	setcookie('ocDownloadStarted', $_GET['downloadStartSecret'], time() + 20, '/');
 }
 
-$server_params = array( 'head' => \OC::$server->getRequest()->getMethod() == 'HEAD' );
+$server_params = array( 'head' => \OC::$server->getRequest()->getMethod() === 'HEAD' );
 
 /**
  * Http range requests support
