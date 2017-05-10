@@ -120,6 +120,46 @@ class OC_Util {
 	}
 
 	/**
+	 * mounting an object storage as the root fs will in essence remove the
+	 * necessity of a data folder being present.
+	 *
+	 * @param array $config containing 'class' and optional 'arguments'
+	 */
+	private static function initObjectStoreMultibucketRootFS($config) {
+		// check misconfiguration
+		if (empty($config['class'])) {
+			\OCP\Util::writeLog('files', 'No class given for objectstore', \OCP\Util::ERROR);
+		}
+		if (!isset($config['arguments'])) {
+			$config['arguments'] = array();
+		}
+
+		// instantiate object store implementation
+		$name = $config['class'];
+		if (strpos($name, 'OCA\\') === 0 && substr_count($name, '\\') >= 2) {
+			$segments = explode('\\', $name);
+			OC_App::loadApp(strtolower($segments[1]));
+		}
+
+		if (!isset($config['arguments']['bucket'])) {
+			$config['arguments']['bucket'] = '';
+		}
+		// put the root FS always in first bucket for multibucket configuration
+		$config['arguments']['bucket'] .= '0';
+
+		$config['arguments']['objectstore'] = new $config['class']($config['arguments']);
+		// mount with plain / root object store implementation
+		$config['class'] = '\OC\Files\ObjectStore\ObjectStoreStorage';
+
+		// mount object storage as root
+		\OC\Files\Filesystem::initMountManager();
+		if (!self::$rootMounted) {
+			\OC\Files\Filesystem::mount($config['class'], $config['arguments'], '/');
+			self::$rootMounted = true;
+		}
+	}
+
+	/**
 	 * Can be set up
 	 *
 	 * @param string $user
@@ -215,7 +255,12 @@ class OC_Util {
 
 		//check if we are using an object storage
 		$objectStore = \OC::$server->getSystemConfig()->getValue('objectstore', null);
-		if (isset($objectStore)) {
+		$objectStoreMultibucket = \OC::$server->getSystemConfig()->getValue('objectstore_multibucket', null);
+
+		// use the same order as in ObjectHomeMountProvider
+		if (isset($objectStoreMultibucket)) {
+			self::initObjectStoreMultibucketRootFS($objectStoreMultibucket);
+		} elseif (isset($objectStore)) {
 			self::initObjectStoreRootFS($objectStore);
 		} else {
 			self::initLocalStorageRootFS();
