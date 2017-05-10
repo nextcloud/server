@@ -32,6 +32,13 @@ $(document).ready(function(){
 						var body = $('body');
 						$('head').remove();
 						body.html(data);
+
+						// Eval the script elements in the response
+						var dom = $(data);
+						dom.filter('script').each(function() {
+							eval(this.text || this.textContent || this.innerHTML || '');
+						});
+
 						body.removeAttr('id');
 						body.attr('id', 'body-settings');
 					}
