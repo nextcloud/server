@@ -21,6 +21,7 @@
 
 namespace OC\App\AppStore\Fetcher;
 
+use OC\Files\AppData\Factory;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\IAppData;
@@ -47,16 +48,16 @@ abstract class Fetcher {
 	protected $version;
 
 	/**
-	 * @param IAppData $appData
+	 * @param Factory $appDataFactory
 	 * @param IClientService $clientService
 	 * @param ITimeFactory $timeFactory
 	 * @param IConfig $config
 	 */
-	public function __construct(IAppData $appData,
+	public function __construct(Factory $appDataFactory,
 								IClientService $clientService,
 								ITimeFactory $timeFactory,
 								IConfig $config) {
-		$this->appData = $appData;
+		$this->appData = $appDataFactory->get('appstore');
 		$this->clientService = $clientService;
 		$this->timeFactory = $timeFactory;
 		$this->config = $config;

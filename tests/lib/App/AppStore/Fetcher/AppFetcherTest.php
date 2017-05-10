@@ -22,6 +22,7 @@
 namespace Test\App\AppStore\Fetcher;
 
 use OC\App\AppStore\Fetcher\AppFetcher;
+use OC\Files\AppData\Factory;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
@@ -53,7 +54,13 @@ EOD;
 	public function setUp() {
 		parent::setUp();
 
+		/** @var Factory|\PHPUnit_Framework_MockObject_MockObject $factory */
+		$factory = $this->createMock(Factory::class);
 		$this->appData = $this->createMock(IAppData::class);
+		$factory->expects($this->once())
+			->method('get')
+			->with('appstore')
+			->willReturn($this->appData);
 		$this->clientService = $this->createMock(IClientService::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->config = $this->createMock(IConfig::class);
@@ -64,7 +71,7 @@ EOD;
 			->with('version')
 			->willReturn('11.0.0.2');
 		$this->fetcher = new AppFetcher(
-			$this->appData,
+			$factory,
 			$this->clientService,
 			$this->timeFactory,
 			$this->config

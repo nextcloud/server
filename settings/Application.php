@@ -30,8 +30,6 @@
 
 namespace OC\Settings;
 
-use OC\App\AppStore\Fetcher\AppFetcher;
-use OC\App\AppStore\Fetcher\CategoryFetcher;
 use OC\AppFramework\Utility\TimeFactory;
 use OC\Authentication\Token\IProvider;
 use OC\Server;
@@ -108,26 +106,6 @@ class Application extends App {
 				$server->getConfig(),
 				$server->getCrypto(),
 				Util::getDefaultEmailAddress('no-reply')
-			);
-		});
-		$container->registerService(AppFetcher::class, function (IContainer $c) {
-			/** @var Server $server */
-			$server = $c->query('ServerContainer');
-			return new AppFetcher(
-				$server->getAppDataDir('appstore'),
-				$server->getHTTPClientService(),
-				$server->query(TimeFactory::class),
-				$server->getConfig()
-			);
-		});
-		$container->registerService(CategoryFetcher::class, function (IContainer $c) {
-			/** @var Server $server */
-			$server = $c->query('ServerContainer');
-			return new CategoryFetcher(
-				$server->getAppDataDir('appstore'),
-				$server->getHTTPClientService(),
-				$server->query(TimeFactory::class),
-				$server->getConfig()
 			);
 		});
 	}

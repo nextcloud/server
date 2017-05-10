@@ -21,24 +21,24 @@
 
 namespace OC\App\AppStore\Fetcher;
 
+use OC\Files\AppData\Factory;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\Files\IAppData;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 
 class CategoryFetcher extends Fetcher {
 	/**
-	 * @param IAppData $appData
+	 * @param Factory $appDataFactory
 	 * @param IClientService $clientService
 	 * @param ITimeFactory $timeFactory
 	 * @param IConfig $config
 	 */
-	public function __construct(IAppData $appData,
+	public function __construct(Factory $appDataFactory,
 								IClientService $clientService,
 								ITimeFactory $timeFactory,
 								IConfig $config) {
 		parent::__construct(
-			$appData,
+			$appDataFactory,
 			$clientService,
 			$timeFactory,
 			$config
