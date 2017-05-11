@@ -313,7 +313,29 @@ class OC {
 		$tooBig = false;
 		if (!$disableWebUpdater) {
 			$apps = \OC::$server->getAppManager();
-			$tooBig = $apps->isInstalled('user_ldap') || $apps->isInstalled('user_shibboleth');
+			$tooBig = false;
+			if ($apps->isInstalled('user_ldap')) {
+				$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+
+				$result = $qb->selectAlias($qb->createFunction('COUNT(*)'), 'user_count')
+					->from('ldap_user_mapping')
+					->execute();
+				$row = $result->fetch();
+				$result->closeCursor();
+
+				$tooBig = ($row['user_count'] > 50);
+			}
+			if (!$tooBig && $apps->isInstalled('user_saml')) {
+				$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+
+				$result = $qb->selectAlias($qb->createFunction('COUNT(*)'), 'user_count')
+					->from('user_saml_users')
+					->execute();
+				$row = $result->fetch();
+				$result->closeCursor();
+
+				$tooBig = ($row['user_count'] > 50);
+			}
 			if (!$tooBig) {
 				// count users
 				$stats = \OC::$server->getUserManager()->countUsers();

@@ -3,7 +3,7 @@
 		<h2 class="title"><?php p($l->t('Update needed')) ?></h2>
 		<div class="infogroup">
 			<?php if ($_['tooBig']) {
-				p($l->t('Please use the command line updater because you have a big instance.'));
+				p($l->t('Please use the command line updater because you have a big instance with more than 50 users.'));
 			} else {
 				p($l->t('Please use the command line updater because automatic updating is disabled in the config.php.'));
 			} ?><br><br>
