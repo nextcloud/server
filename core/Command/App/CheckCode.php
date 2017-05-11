@@ -72,6 +72,12 @@ class CheckCode extends Command implements CompletionAwareInterface  {
 				[ 'private', 'deprecation', 'strong-comparison' ]
 			)
 			->addOption(
+				'--skip-checkers',
+				null,
+				InputOption::VALUE_NONE,
+				'skips the the code checkers to only check info.xml, language and database schema'
+			)
+			->addOption(
 				'--skip-validate-info',
 				null,
 				InputOption::VALUE_NONE,

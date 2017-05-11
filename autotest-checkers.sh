@@ -29,7 +29,7 @@ for app in $(find "apps/" -mindepth 1 -maxdepth 1 -type d -printf '%f\n'); do
         [ "$app" == "updatenotification" ] || \
         [ "$app" == "user_ldap" ]
     then
-        ./occ app:check-code -c strong-comparison "$app"
+        ./occ app:check-code --skip-checkers "$app"
     else
         ./occ app:check-code "$app"
     fi
