@@ -1,6 +1,7 @@
 OC.L10N.register(
     "theming",
     {
+    "Loading preview…" : "正在加载预览...",
     "Saved" : "已保存",
     "Admin" : "管理",
     "a safe home for all your data" : "给您所有的数据一个安全的家",
@@ -22,6 +23,7 @@ OC.L10N.register(
     "Upload new logo" : "上传新标志",
     "Login image" : "登录图片",
     "Upload new login background" : "上传新登录背景",
+    "Remove background image" : "删除背景图片",
     "Log in image" : "登录图片"
 },
 "nplurals=1; plural=0;");

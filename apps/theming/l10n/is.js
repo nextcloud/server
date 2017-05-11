@@ -1,6 +1,7 @@
 OC.L10N.register(
     "theming",
     {
+    "Loading preview…" : "Hleð inn forskoðun...",
     "Saved" : "Vistað",
     "Admin" : "Stjórnandi",
     "a safe home for all your data" : "öruggur staður fyrir öll gögnin þín",
@@ -12,6 +13,7 @@ OC.L10N.register(
     "Unsupported image type" : "Óstudd gerð myndar",
     "You are already using a custom theme" : "Þú ert nú þegar að nota sérsniðið þema",
     "Theming" : "Þemu",
+    "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Þemu gera þér kleift að breyta útliti og hegðun þíns eintaks af viðmótinu auk studdra biðlaraforrita. Það verður sýnilegt öllum notendum.",
     "Name" : "Heiti",
     "reset to default" : "endurstilla á sjálfgefið",
     "Web address" : "Veffang",
@@ -22,6 +24,7 @@ OC.L10N.register(
     "Upload new logo" : "Senda inn nýtt táknmerki",
     "Login image" : "Innskráningarmynd",
     "Upload new login background" : "Senda inn nýjan bakgrunn innskráningar",
+    "Remove background image" : "Fjarlægja bakgrunnsmynd",
     "Log in image" : "Innskráningarmynd"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

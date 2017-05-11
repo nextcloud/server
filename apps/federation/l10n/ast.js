@@ -7,7 +7,8 @@ OC.L10N.register(
     "Could not add server" : "Nun pudo amestase'l sirvidor",
     "Federation" : "Federación",
     "Trusted servers" : "Sirvidores d'enfotu",
-    "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "La federación permite coneutate con otros sirvidores d'enfotu pa intercambiar el direutoriu d'usuarios. Por exemplu, esto usaráse p'auto-completar usuarios esternos y compatir de mou federáu.",
+    "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "La federación permítete coneutar con otros sirvidores d'enfotu pa intercambiar el direutoriu d'usuarios. Por exemplu, esto usaráse p'auto-completar usuarios esternos y compatir de mou federáu.",
+    "+ Add trusted server" : "+ Amestar sirvidor d'enfotu",
     "Trusted server" : "Sirvidor d'enfotu",
     "Add" : "Amestar"
 },

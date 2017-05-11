@@ -103,6 +103,7 @@
     "The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "Stuðningur við cURL í PHP er ekki virkjaður eða ekki uppsettur. Tenging %s í skráakerfi er ekki möguleg. Biddu kerfisstjórann þinn um að setja þetta upp.",
     "The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "Stuðningur við FTP í PHP er ekki virkjaður eða ekki uppsettur. Tenging %s í skráakerfi er ekki möguleg. Biddu kerfisstjórann þinn um að setja þetta upp.",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" er ekki uppsett. Tenging %s í skráakerfi er ekki möguleg. Biddu kerfisstjórann þinn um að setja þetta upp.",
+    "External storage support" : "Stuðningur við utanáliggjandi gagnageymslur",
     "No external storage configured" : "Engin ytri-gagnageymsla stillt",
     "You can add external storages in the personal settings" : "Þú getur bætt við ytri gagnageymslum í einkastillingunum þínum",
     "Name" : "Nafn",
