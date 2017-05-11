@@ -447,10 +447,12 @@ class Updater extends BasicEmitter {
 					$this->log,
 					\OC::$server->getConfig()
 				);
+				$this->emit('\OC\Updater', 'checkAppStoreAppBefore', [$app]);
 				if (Installer::isUpdateAvailable($app, \OC::$server->getAppFetcher())) {
 					$this->emit('\OC\Updater', 'upgradeAppStoreApp', [$app]);
 					$installer->updateAppstoreApp($app);
 				}
+				$this->emit('\OC\Updater', 'checkAppStoreApp', [$app]);
 			} catch (\Exception $ex) {
 				$this->log->logException($ex, ['app' => 'core']);
 			}
@@ -578,8 +580,14 @@ class Updater extends BasicEmitter {
 		$this->listen('\OC\Updater', 'thirdPartyAppDisabled', function ($app) use ($log) {
 			$log->info('\OC\Updater::thirdPartyAppDisabled: Disabled 3rd-party app: ' . $app, ['app' => 'updater']);
 		});
+		$this->listen('\OC\Updater', 'checkAppStoreAppBefore', function ($app) use($log) {
+			$log->info('\OC\Updater::checkAppStoreAppBefore: Checking for update of app "' . $app . '" in appstore', ['app' => 'updater']);
+		});
 		$this->listen('\OC\Updater', 'upgradeAppStoreApp', function ($app) use($log) {
-			$log->info('\OC\Updater::upgradeAppStoreApp: Update 3rd-party app: ' . $app, ['app' => 'updater']);
+			$log->info('\OC\Updater::upgradeAppStoreApp: Update app "' . $app . '" from appstore', ['app' => 'updater']);
+		});
+		$this->listen('\OC\Updater', 'checkAppStoreApp', function ($app) use($log) {
+			$log->info('\OC\Updater::checkAppStoreApp: Checked for update of app "' . $app . '" in appstore', ['app' => 'updater']);
 		});
 		$this->listen('\OC\Updater', 'appUpgradeCheckBefore', function () use ($log) {
 			$log->info('\OC\Updater::appUpgradeCheckBefore: Checking updates of apps', ['app' => 'updater']);
