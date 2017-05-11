@@ -311,6 +311,8 @@ function execute_tests {
 				echo "[ERROR] Waited 60 seconds, no response" >&2
 				exit 1
 			fi
+			echo "Give it 10 additional seconds ..."
+			sleep 10
 
 			if [ -z "$DRONE" ] ; then # no need to drop the DB when we are on CI
 				dropdb -U "$DATABASEUSER" "$DATABASENAME" || true
