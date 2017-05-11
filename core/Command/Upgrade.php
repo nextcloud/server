@@ -220,8 +220,14 @@ class Upgrade extends Command {
 			$updater->listen('\OC\Updater', 'thirdPartyAppDisabled', function ($app) use ($output) {
 				$output->writeln('<comment>Disabled 3rd-party app: ' . $app . '</comment>');
 			});
+			$updater->listen('\OC\Updater', 'checkAppStoreAppBefore', function ($app) use($output) {
+				$output->writeln('<info>Checking for update of app ' . $app . ' in appstore</info>');
+			});
 			$updater->listen('\OC\Updater', 'upgradeAppStoreApp', function ($app) use($output) {
-				$output->writeln('<info>Update 3rd-party app: ' . $app . '</info>');
+				$output->writeln('<info>Update app ' . $app . ' from appstore</info>');
+			});
+			$updater->listen('\OC\Updater', 'checkAppStoreApp', function ($app) use($output) {
+				$output->writeln('<info>Checked for update of app "' . $app . '" in appstore </info>');
 			});
 			$updater->listen('\OC\Updater', 'appUpgradeCheckBefore', function () use ($output) {
 				$output->writeln('<info>Checking updates of apps</info>');
