@@ -738,6 +738,7 @@ return array(
     'OC\\Repair\\NC12\\InstallCoreBundle' => $baseDir . '/lib/private/Repair/NC12/InstallCoreBundle.php',
     'OC\\Repair\\NC12\\UpdateLanguageCodes' => $baseDir . '/lib/private/Repair/NC12/UpdateLanguageCodes.php',
     'OC\\Repair\\OldGroupMembershipShares' => $baseDir . '/lib/private/Repair/OldGroupMembershipShares.php',
+    'OC\\Repair\\Owncloud\\SaveAccountsTableData' => $baseDir . '/lib/private/Repair/Owncloud/SaveAccountsTableData.php',
     'OC\\Repair\\RemoveRootShares' => $baseDir . '/lib/private/Repair/RemoveRootShares.php',
     'OC\\Repair\\RepairInvalidShares' => $baseDir . '/lib/private/Repair/RepairInvalidShares.php',
     'OC\\Repair\\RepairMimeTypes' => $baseDir . '/lib/private/Repair/RepairMimeTypes.php',
