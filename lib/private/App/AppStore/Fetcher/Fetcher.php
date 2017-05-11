@@ -22,12 +22,14 @@
 namespace OC\App\AppStore\Fetcher;
 
 use OC\Files\AppData\Factory;
+use GuzzleHttp\Exception\ConnectException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
+use OCP\ILogger;
 
 abstract class Fetcher {
 	const INVALIDATE_AFTER_SECONDS = 300;
@@ -40,6 +42,8 @@ abstract class Fetcher {
 	protected $timeFactory;
 	/** @var IConfig */
 	protected $config;
+	/** @var Ilogger */
+	protected $logger;
 	/** @var string */
 	protected $fileName;
 	/** @var string */
@@ -52,15 +56,18 @@ abstract class Fetcher {
 	 * @param IClientService $clientService
 	 * @param ITimeFactory $timeFactory
 	 * @param IConfig $config
+	 * @param ILogger $logger
 	 */
 	public function __construct(Factory $appDataFactory,
 								IClientService $clientService,
 								ITimeFactory $timeFactory,
-								IConfig $config) {
+								IConfig $config,
+								ILogger $logger) {
 		$this->appData = $appDataFactory->get('appstore');
 		$this->clientService = $clientService;
 		$this->timeFactory = $timeFactory;
 		$this->config = $config;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -153,6 +160,9 @@ abstract class Fetcher {
 			$responseJson = $this->fetch($ETag, $content);
 			$file->putContent(json_encode($responseJson));
 			return json_decode($file->getContent(), true)['data'];
+		} catch (ConnectException $e) {
+			$this->logger->logException($e, ['app' => 'appstoreFetcher']);
+			return [];
 		} catch (\Exception $e) {
 			return [];
 		}
