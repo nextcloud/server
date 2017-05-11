@@ -178,6 +178,17 @@ input.updateButton,
 input.update-continue {
 	padding: 10px 20px; /* larger log in and installation buttons */
 }
+.updateAnyways a.updateAnywaysButton {
+	font-size: 14px;
+	padding: 10px 20px;
+	color: #666 !important;
+	display: inline-block;
+	border-radius: 3px;
+	margin: 15px 5px;
+}
+.updateAnyways a.updateAnywaysButton:hover {
+	color: #222 !important;
+}
 input.primary,
 button.primary {
 	border: 1px solid #0082c9;
@@ -441,6 +452,9 @@ form #selectDbType label.ui-state-active {
 	text-align: left;
 	border-radius: 3px;
 	cursor: default;
+}
+.warning.updateAnyways {
+	text-align: center;
 }
 .warning legend,
 .warning a,

@@ -343,7 +343,10 @@ class OC {
 				$tooBig = ($totalUsers > 50);
 			}
 		}
-		if ($disableWebUpdater || $tooBig) {
+		$ignoreTooBigWarning = isset($_GET['IKnowThatThisIsABigInstanceAndTheUpdateRequestCouldRunIntoATimeoutAndHowToRestoreABackup']) &&
+			$_GET['IKnowThatThisIsABigInstanceAndTheUpdateRequestCouldRunIntoATimeoutAndHowToRestoreABackup'] === 'IAmSuperSureToDoThis';
+
+		if ($disableWebUpdater || ($tooBig && !$ignoreTooBigWarning)) {
 			// send http status 503
 			header('HTTP/1.1 503 Service Temporarily Unavailable');
 			header('Status: 503 Service Temporarily Unavailable');
