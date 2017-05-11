@@ -1062,8 +1062,16 @@ $CONFIG = array(
  *
  * Available failover modes:
  *  - \RedisCluster::FAILOVER_NONE - only send commands to master nodes (default)
- *  - \RedisCluster::FAILOVER_ERROR - failover to slaves for read commands if master is unavailable
+ *  - \RedisCluster::FAILOVER_ERROR - failover to slaves for read commands if master is unavailable (recommended)
  *  - \RedisCluster::FAILOVER_DISTRIBUTE - randomly distribute read commands across master and slaves
+ *
+ * WARNING: FAILOVER_DISTRIBUTE is a not recommended setting and we strongly
+ * suggest to not use it if you use Redis for file locking. Due to the way Redis
+ * is synchronised it could happen, that the read for an existing lock is
+ * scheduled to a slave that is not fully synchronised with the connected master
+ * which then causes a FileLocked exception.
+ *
+ * See https://redis.io/topics/cluster-spec for details about the Redis cluster
  */
 'redis.cluster' => [
 	'seeds' => [ // provide some/all of the cluster servers to bootstrap discovery, port required
@@ -1072,7 +1080,7 @@ $CONFIG = array(
 	],
 	'timeout' => 0.0,
 	'read_timeout' => 0.0,
-	'failover_mode' => \RedisCluster::FAILOVER_DISTRIBUTE
+	'failover_mode' => \RedisCluster::FAILOVER_ERROR
 ],
 
 
