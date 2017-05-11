@@ -1,7 +1,9 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Saved" : "已保存",
     "Saving failed:" : "保存失败:",
+    "File MIME type" : "文件MIME类型",
     "is" : "是",
     "is not" : "不是",
     "matches" : "匹配",
@@ -57,6 +59,7 @@ OC.L10N.register(
     "Check %s is invalid" : "检查%s是不可用",
     "Check #%s does not exist" : "检查#%s是不存在",
     "Workflow" : "数据流",
+    "Files workflow engine" : "文件工作流引擎",
     "Open documentation" : "打开文档",
     "Add rule group" : "添加规则组",
     "Short rule description" : "短规则说明",

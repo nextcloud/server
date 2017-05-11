@@ -42,6 +42,7 @@ OC.L10N.register(
     "Contact birthdays" : "Afmælisdagar tengiliðar",
     "Personal" : "Einka",
     "Contacts" : "Tengiliðir",
+    "WebDAV" : "WebDAV",
     "Technical details" : "Tæknilegar upplýsingar",
     "Remote Address: %s" : "Fjartengt vistfang: %s",
     "Request ID: %s" : "Beiðni um auðkenni: %s"

@@ -63,7 +63,7 @@ OC.L10N.register(
     "Tenant name" : "Όνομα \"ένοικου\"",
     "Identity endpoint URL" : "URL τελικού σημείου ταυτοποίησης",
     "Rackspace" : "Rackspace",
-    "API key" : "Κλειδί Google API",
+    "API key" : "Κλειδί API",
     "Global credentials" : "Παγκόσμια διαπιστευτήρια",
     "Log-in credentials, save in database" : "Διαπιστευτήρια εισόδου, αποθηκεύστε στην βάση δεδομέων",
     "Username and password" : "Όνομα χρήστη και κωδικός πρόσβασης",

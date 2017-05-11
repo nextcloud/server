@@ -23,6 +23,7 @@ OC.L10N.register(
     "Private key password successfully updated." : "Sandi kunci privat berhasil diperbarui.",
     "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Anda perlu mengganti kunci enkripsi Anda dari enkripsi lama (ownCloud <= 8.0) ke yang baru. Mohon jalankan 'occ encryption:migrate' atau hubungi administrator Anda",
     "Invalid private key for encryption app. Please update your private key password in your personal settings to recover access to your encrypted files." : "Kunci privat tidak sah untuk aplikasi enkripsi. Silakan perbarui sandi kunci privat anda pada pengaturan pribadi untuk memulihkan akses ke berkas anda yang dienkripsi.",
+    "Encryption App is enabled, but your keys are not initialized. Please log-out and log-in again." : "Apl Enkripsi telah aktif, tapi kunci anda tidak diinisialisasikan. Harap keluar-log dan masuk-log kembali.",
     "Encryption app is enabled and ready" : "Apl enkripsi aktif dan siap",
     "Bad Signature" : "Tanda salah",
     "Missing Signature" : "Tanda hilang",

@@ -55,6 +55,7 @@ OC.L10N.register(
     "Password confirmation is required" : "Απαιτείται επιβεβαίωση συνθηματικού",
     "Couldn't remove app." : "Αδυναμία αφαίρεσης εφαρμογής.",
     "Couldn't update app." : "Αδυναμία ενημέρωσης εφαρμογής",
+    "Are you really sure you want add {domain} as trusted domain?" : "Θέλετε σίγουρα να προσθέσετε τον τομέα {domain} ως έμπιστο τομέα;",
     "Add trusted domain" : "Προσθέστε αξιόπιστη περιοχή",
     "Migration in progress. Please wait until the migration is finished" : "Μετάβαση σε εξέλιξη. Παρακαλούμε περιμένετε μέχρι να ολοκληρωθεί η μετάβαση",
     "Migration started …" : "Η μετάβαση ξεκίνησε ...",
