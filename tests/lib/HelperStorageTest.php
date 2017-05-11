@@ -158,9 +158,9 @@ class HelperStorageTest extends \Test\TestCase {
 		$config->setSystemValue('quota_include_external_storage', 'true');
 
 		$storageInfo = \OC_Helper::getStorageInfo('');
-		$this->assertEquals(12, $storageInfo['free']);
-		$this->assertEquals(5, $storageInfo['used']);
-		$this->assertEquals(17, $storageInfo['total']);
+		$this->assertEquals(12, $storageInfo['free'], '12 bytes free in home storage');
+		$this->assertEquals(22, $storageInfo['used'], '5 bytes of home storage and 17 bytes of the temporary storage are used');
+		$this->assertEquals(34, $storageInfo['total'], '5 bytes used and 12 bytes free in home storage as well as 17 bytes used in temporary storage');
 
 		$config->setSystemValue('quota_include_external_storage', $oldConfig);
 	}
