@@ -249,7 +249,7 @@ $CONFIG = array(
 ),
 
 /**
- * If your user backend does not allow to reset the password (e.g. when it's a
+ * If your user backend does not allow password resets (e.g. when it's a
  * read-only user backend like LDAP), you can specify a custom link, where the
  * user is redirected to, when clicking the "reset password" link after a failed
  * login-attempt.
@@ -435,12 +435,12 @@ $CONFIG = array(
  * the correct value would most likely be "/nextcloud". If Nextcloud is running
  * under "https://mycloud.org/" then it would be "/".
  *
- * Note that above rule is not valid in every case, there are some rare setup
+ * Note that the above rule is not valid in every case, as there are some rare setup
  * cases where this may not apply. However, to avoid any update problems this
  * configuration value is explicitly opt-in.
  *
- * After setting this value run `occ maintenance:update:htaccess` and when following
- * conditions are met Nextcloud uses URLs without index.php in it:
+ * After setting this value run `occ maintenance:update:htaccess`. Now, when the
+ * following conditions are met Nextcloud URLs won't contain `index.php`:
  *
  * - `mod_rewrite` is installed
  * - `mod_env` is installed
@@ -1161,7 +1161,7 @@ $CONFIG = array(
 'objectstore' => [
 	'class' => 'OC\\Files\\ObjectStore\\Swift',
 	'arguments' => [
-		// trystack will user your facebook id as the user name
+		// trystack will use your facebook id as the user name
 		'username' => 'facebook100000123456789',
 		// in the trystack dashboard go to user -> settings -> API Password to
 		// generate a password
@@ -1195,7 +1195,7 @@ $CONFIG = array(
 
 /**
  * Replaces the default Share Provider Factory. This can be utilized if
- * own or 3rdParty Share Providers be used that – for instance – uses the
+ * own or 3rdParty Share Providers are used that – for instance – use the
  * filesystem instead of the database to keep the share information.
  *
  * Defaults to ``\OC\Share20\ProviderFactory``
@@ -1452,7 +1452,7 @@ $CONFIG = array(
 'filelocking.enabled' => true,
 
 /**
- * Set the time-to-live for locks in secconds.
+ * Set the lock's time-to-live in seconds.
  *
  * Any lock older than this will be automatically cleaned up.
  *
