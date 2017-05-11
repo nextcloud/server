@@ -131,6 +131,14 @@ class LostController extends Controller {
 	 * @return TemplateResponse
 	 */
 	public function resetform($token, $userId) {
+		if ($this->config->getSystemValue('lost_password_link', '') !== '') {
+			return new TemplateResponse('core', 'error', [
+					'errors' => [['error' => $this->l10n->t('Password reset is disabled')]]
+				],
+				'guest'
+			);
+		}
+
 		try {
 			$this->checkPasswordResetToken($token, $userId);
 		} catch (\Exception $e) {
@@ -211,6 +219,10 @@ class LostController extends Controller {
 	 * @return JSONResponse
 	 */
 	public function email($user){
+		if ($this->config->getSystemValue('lost_password_link', '') !== '') {
+			return new JSONResponse($this->error($this->l10n->t('Password reset is disabled')));
+		}
+
 		// FIXME: use HTTP error codes
 		try {
 			$this->sendEmail($user);
@@ -234,6 +246,10 @@ class LostController extends Controller {
 	 * @return array
 	 */
 	public function setPassword($token, $userId, $password, $proceed) {
+		if ($this->config->getSystemValue('lost_password_link', '') !== '') {
+			return $this->error($this->l10n->t('Password reset is disabled'));
+		}
+
 		if ($this->encryptionManager->isEnabled() && !$proceed) {
 			return $this->error('', array('encryption' => true));
 		}
