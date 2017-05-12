@@ -89,6 +89,10 @@ div#theming_settings_msg {
     display: inline-block;
 }
 
+#theming-preview-logo {
+    cursor: pointer;
+}
+
 #theming-preview {
     width: 230px;
     height: 140px;
@@ -97,6 +101,7 @@ div#theming_settings_msg {
     text-align: center;
     margin-left: 123px;
     margin-top: 10px;
+    cursor: pointer;
 }
 
 #theming-preview img {
