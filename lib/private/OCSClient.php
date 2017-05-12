@@ -155,7 +155,7 @@ class OCSClient {
 		$cats = [];
 
 		foreach ($tmp->category as $value) {
-			$id = (int)$value->id;
+			$id = (string)$value->id;
 			$name = (string)$value->name;
 			$cats[$id] = $name;
 		}
@@ -286,7 +286,7 @@ class OCSClient {
 		}
 
 		$app = [];
-		$app['id'] = (int)$id;
+		$app['id'] = (string)$id;
 		$app['name'] = (string)$tmp->name;
 		$app['version'] = (string)$tmp->version;
 		$app['type'] = (string)$tmp->typeid;
