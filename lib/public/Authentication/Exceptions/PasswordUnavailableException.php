@@ -1,9 +1,9 @@
 <?php
 
 /**
- * @copyright 2016 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @copyright 2017 Morris Jobke <hey@morrisjobke.de>
  *
- * @author 2016 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author 2017 Morris Jobke <hey@morrisjobke.de>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -22,40 +22,13 @@
  *
  */
 
-namespace OCP\Authentication\LoginCredentials;
+namespace OCP\Authentication\Exceptions;
 
-use OCP\Authentication\Exceptions\PasswordUnavailableException;
+use Exception;
 
 /**
  * @since 12
  */
-interface ICredentials {
+class PasswordUnavailableException extends Exception {
 
-	/**
-	 * Get the user UID
-	 *
-	 * @since 12
-	 *
-	 * @return string
-	 */
-	public function getUID();
-
-	/**
-	 * Get the login name the users used to login
-	 *
-	 * @since 12
-	 *
-	 * @return string
-	 */
-	public function getLoginName();
-
-	/**
-	 * Get the password
-	 *
-	 * @since 12
-	 *
-	 * @return string
-	 * @throws PasswordUnavailableException
-	 */
-	public function getPassword();
 }
