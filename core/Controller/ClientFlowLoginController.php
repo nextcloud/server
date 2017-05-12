@@ -271,6 +271,14 @@ class ClientFlowLoginController extends Controller {
 			return $response;
 		}
 
+		$clientName = $this->getClientName();
+		$oAuthClient = false;
+		if($clientIdentifier !== '') {
+			$client = $this->clientMapper->getByIdentifier($clientIdentifier);
+			$clientName = $client->getName();
+			$oAuthClient = true;
+		}
+
 		$token = $this->random->generate(72, ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_DIGITS);
 		$uid = $this->userSession->getUser()->getUID();
 		$generatedToken = $this->tokenProvider->generateToken(
@@ -278,12 +286,12 @@ class ClientFlowLoginController extends Controller {
 			$uid,
 			$loginName,
 			$password,
-			$this->getClientName(),
+			$clientName,
 			IToken::PERMANENT_TOKEN,
 			IToken::DO_NOT_REMEMBER
 		);
 
-		if($clientIdentifier !== '') {
+		if($oAuthClient) {
 			$client = $this->clientMapper->getByIdentifier($clientIdentifier);
 
 			$code = $this->random->generate(128);
