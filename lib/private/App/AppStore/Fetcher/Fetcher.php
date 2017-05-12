@@ -85,7 +85,9 @@ abstract class Fetcher {
 			return [];
 		}
 
-		$options = [];
+		$options = [
+			'timeout' => 10,
+		];
 
 		if ($ETag !== '') {
 			$options['headers'] = [

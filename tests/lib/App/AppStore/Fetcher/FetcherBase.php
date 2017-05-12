@@ -514,6 +514,7 @@ abstract class FetcherBase extends TestCase {
 			->with(
 				$this->equalTo($this->endpoint),
 				$this->equalTo([
+					'timeout' => 10,
 					'headers' => [
 						'If-None-Match' => '"myETag"'
 					]
@@ -585,6 +586,7 @@ abstract class FetcherBase extends TestCase {
 			->with(
 				$this->equalTo($this->endpoint),
 				$this->equalTo([
+					'timeout' => 10,
 					'headers' => [
 						'If-None-Match' => '"myETag"',
 					]
@@ -670,7 +672,9 @@ abstract class FetcherBase extends TestCase {
 			->method('get')
 			->with(
 				$this->equalTo($this->endpoint),
-				$this->equalTo([])
+				$this->equalTo([
+					'timeout' => 10,
+				])
 			)
 			->willReturn($response);
 		$response->method('getStatusCode')
