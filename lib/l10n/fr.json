@@ -182,6 +182,7 @@
     "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file. See %s" : "Ce problème est généralement résolu en donnant au serveur web un accès en écriture au répertoire \"apps\" ou en désactivant l'appstore dans le fichier de configuration. Voir %s",
     "Cannot create \"data\" directory" : "Impossible de créer le dossier \"data\"",
     "This can usually be fixed by giving the webserver write access to the root directory. See %s" : "Ce problème est généralement résolu en donnant au serveur web un accès en écriture au répertoire racine. Voir %s",
+    "Permissions can usually be fixed by giving the webserver write access to the root directory. See %s." : "Le problème de permissions peut généralement être résolu en donnant au serveur web un accès en écriture au répertoire racine. Voir %s.",
     "Setting locale to %s failed" : "Echec de la spécification des paramètres régionaux à %s",
     "Please install one of these locales on your system and restart your webserver." : "Veuillez installer l'un de ces paramètres régionaux sur votre système et redémarrer votre serveur web.",
     "Please ask your server administrator to install the module." : "Veuillez demander à votre administrateur d’installer le module.",

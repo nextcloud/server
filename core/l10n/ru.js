@@ -298,7 +298,6 @@ OC.L10N.register(
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Чтобы избежать тайм-аутов в крупных установках, вместо этого можно выполнить следующую команду в каталоге установки:",
     "Detailed logs" : "Подробные журналы",
     "Update needed" : "Требуется обновление",
-    "Please use the command line updater because you have a big instance." : "Пожалуйста, используйте обновление через командную строку, так как данная установка имеет большой размер.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Для помощи, ознакомьтесь с  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">документацией</a>.",
     "This %s instance is currently in maintenance mode, which may take a while." : "Этот сервер %s находится в режиме технического обслуживания, которое может занять некоторое время.",
     "This page will refresh itself when the %s instance is available again." : "Эта страница автоматически обновится, когда сервер %s снова станет доступен.",
@@ -334,6 +333,7 @@ OC.L10N.register(
     "The share will expire on %s." : "Доступ будет закрыт %s",
     "Cheers!" : "Всего наилучшего!",
     "Use the following link to reset your password: {link}" : "Используйте следующую ссылку чтобы сбросить пароль: {link}",
-    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Здравствуйте,<br><br>%s поделился с вами <strong>%s</strong>.<br>Перейдите по <a href=\"%s\">ссылке</a>, чтобы посмотреть<br><br>"
+    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Здравствуйте,<br><br>%s поделился с вами <strong>%s</strong>.<br>Перейдите по <a href=\"%s\">ссылке</a>, чтобы посмотреть<br><br>",
+    "Please use the command line updater because you have a big instance." : "Пожалуйста, используйте обновление через командную строку, так как данная установка имеет большой размер."
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

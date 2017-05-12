@@ -296,7 +296,6 @@
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Zur Vermeidung von Zeitüberschreitungen bei größeren Installationen kannst Du stattdessen den folgenden Befehl in deinem Installationsverzeichnis ausführen:",
     "Detailed logs" : "Detaillierte Protokollmeldungen",
     "Update needed" : "Update wird benötigt",
-    "Please use the command line updater because you have a big instance." : "Da Du eine große Instanz nutzt, verwende bitte das Aktualisierungsprogramm über die Kommandozeile.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Für weitere Hilfen, schaue bitte in die <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">Dokumentation</a>.",
     "This %s instance is currently in maintenance mode, which may take a while." : "Diese %s-Instanz befindet sich gerade im Wartungsmodus, was eine Weile dauern kann.",
     "This page will refresh itself when the %s instance is available again." : "Diese Seite aktualisiert sich automatisch, wenn die %s-Instanz wieder verfügbar ist.",
@@ -332,6 +331,7 @@
     "The share will expire on %s." : "Die Freigabe wird am %s ablaufen.",
     "Cheers!" : "Noch einen schönen Tag!",
     "Use the following link to reset your password: {link}" : "Verwende den folgenden Link, um dein Passwort zurückzusetzen: {link}",
-    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hallo,<br><br>hier nur kurz die Mitteilung, dass %s <strong>%s</strong> mit dir geteilt hat.<br><a href=\"%s\">Sieh es Dir an!</a><br><br>"
+    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hallo,<br><br>hier nur kurz die Mitteilung, dass %s <strong>%s</strong> mit dir geteilt hat.<br><a href=\"%s\">Sieh es Dir an!</a><br><br>",
+    "Please use the command line updater because you have a big instance." : "Da Du eine große Instanz nutzt, verwende bitte das Aktualisierungsprogramm über die Kommandozeile."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

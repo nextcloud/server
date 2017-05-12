@@ -251,7 +251,6 @@ OC.L10N.register(
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Instalazio handien itxarote-denbora saihesteko, ondoko komandoa exekuta dezakezu instalazio direktoriotik:",
     "Detailed logs" : "Log xehea",
     "Update needed" : "Eguneratzea beharrezkoa da",
-    "Please use the command line updater because you have a big instance." : "Mesedez, erabili komando lerroa eguneratzeko, instantzia handi duzulako.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Laguntza lortzeko, ikusi <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">dokumentazioa</a>.",
     "This %s instance is currently in maintenance mode, which may take a while." : "Instantzia hau %s mantenu-moduan dago, honek denbora tarte bat iraun dezake.",
     "This page will refresh itself when the %s instance is available again." : "Orri honek bere burua eguneratuko du %s instantzia berriz prest dagoenean.",
@@ -287,6 +286,7 @@ OC.L10N.register(
     "The share will expire on %s." : "Elkarbanaketa %s-n iraungiko da.",
     "Cheers!" : "Ongi izan!",
     "Use the following link to reset your password: {link}" : "Eribili hurrengo lotura zure pasahitza berrezartzeko: {link}",
-    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Kaixo<br><br>%s-ek %s zurekin partekatu duela jakin dezazun.\nIkusi ezazu: %s"
+    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Kaixo<br><br>%s-ek %s zurekin partekatu duela jakin dezazun.\nIkusi ezazu: %s",
+    "Please use the command line updater because you have a big instance." : "Mesedez, erabili komando lerroa eguneratzeko, instantzia handi duzulako."
 },
 "nplurals=2; plural=(n != 1);");

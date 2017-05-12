@@ -252,7 +252,6 @@
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Pentru a evita timeout-uri la instalări de mari dimensiuni, poți rula în schimb următoarea comandă în folderul de instalare:",
     "Detailed logs" : "Loguri detaliate",
     "Update needed" : "E necesară actualizarea",
-    "Please use the command line updater because you have a big instance." : "Folosește actualizarea din linia de comandă deoarece ai o instanță mare.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Pentru ajutor, verifică <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentația</a>.",
     "This %s instance is currently in maintenance mode, which may take a while." : "Instanța %s este acum în modul de mentenanță, ceea ce ar putea dura o vreme.",
     "This page will refresh itself when the %s instance is available again." : "Această pagină se va reîmprospăta atunci când %s instance e disponibil din nou.",
@@ -288,6 +287,7 @@
     "The share will expire on %s." : "Partajarea va expira în data de %s.",
     "Cheers!" : "Noroc!",
     "Use the following link to reset your password: {link}" : "Folosește următorul link pentru a reseta parola: {link}",
-    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Salutare,<br><br>te anunțăm pe această cale că %s a partajat <strong>%s</strong> cu tine.<br><a href=\"%s\">Accesează!</a><br><br>"
+    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Salutare,<br><br>te anunțăm pe această cale că %s a partajat <strong>%s</strong> cu tine.<br><a href=\"%s\">Accesează!</a><br><br>",
+    "Please use the command line updater because you have a big instance." : "Folosește actualizarea din linia de comandă deoarece ai o instanță mare."
 },"pluralForm" :"nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));"
 }

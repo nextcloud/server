@@ -288,7 +288,6 @@
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Til að forðast að falla á tímamörkum með stærri uppsetningar, getur þú í staðinn keyrt eftirfarandi skipun úr uppsetningarmöppunni:",
     "Detailed logs" : "Ítarlegir annálar",
     "Update needed" : "Þarfnast uppfærslu",
-    "Please use the command line updater because you have a big instance." : "Endilega notaðu uppfærslutólið af skipanalínu, því þú ert með mjög stóra uppsetningu.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Til að fá hjálp er best að skoða fyrst  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">hjálparskjölin</a>.",
     "This %s instance is currently in maintenance mode, which may take a while." : "Þessi %s er nú í viðhaldsham, sem getur tekið smá stund.",
     "This page will refresh itself when the %s instance is available again." : "Þessi síða mun uppfæra sig þegar %s er í boði á ný.",
@@ -324,6 +323,7 @@
     "The share will expire on %s." : "Gildistími sameignar rennur út %s.",
     "Cheers!" : "Skál!",
     "Use the following link to reset your password: {link}" : "Notað eftirfarandi veftengil til að endursetja lykilorðið þitt: {link}",
-    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hæ þú,<br><br>bara að láta þig vita að %s deildi <strong>%s</strong> með þér.<br><a href=\"%s\">Skoðaðu það!</a><br><br>"
+    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hæ þú,<br><br>bara að láta þig vita að %s deildi <strong>%s</strong> með þér.<br><a href=\"%s\">Skoðaðu það!</a><br><br>",
+    "Please use the command line updater because you have a big instance." : "Endilega notaðu uppfærslutólið af skipanalínu, því þú ert með mjög stóra uppsetningu."
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

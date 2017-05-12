@@ -296,7 +296,6 @@
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Para evitar que la expiración de tiempo en instalaciones grandes, usted puede ejeuctar el siguiente comando desde su directorio de instalación:",
     "Detailed logs" : "Bitácoras detalladas",
     "Update needed" : "Actualización requerida",
-    "Please use the command line updater because you have a big instance." : "Favor de usar el actualizador de línea de comando porque usted tiene una instancia grande. ",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Para más ayuda, consulte la <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">doccumentación</a>.",
     "This %s instance is currently in maintenance mode, which may take a while." : "Esta instancia %s se encuentra actualmente en modo mantenimiento, que podría tomar algo de tiempo. ",
     "This page will refresh itself when the %s instance is available again." : "Esta página se actualizará sola cuando la instancia %s esté disponible de nuevo. ",
@@ -332,6 +331,7 @@
     "The share will expire on %s." : "El recurso dejará de ser compartido el %s.",
     "Cheers!" : "¡Saludos!",
     "Use the following link to reset your password: {link}" : "Use la siguiente liga para restablecer su contraseña: {link}",
-    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hola,<br><br> sólo queremos informarle que %s ha compartido <strong>%s</strong> con usted. <br><a href=\"%s\">¡Véalo!</a><br><br>"
+    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hola,<br><br> sólo queremos informarle que %s ha compartido <strong>%s</strong> con usted. <br><a href=\"%s\">¡Véalo!</a><br><br>",
+    "Please use the command line updater because you have a big instance." : "Favor de usar el actualizador de línea de comando porque usted tiene una instancia grande. "
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -296,7 +296,6 @@
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Afin d'éviter les timeouts avec les installations de volume conséquent, vous pouvez exécuter la commande suivante depuis le répertoire d'installation :",
     "Detailed logs" : "Journaux détaillés",
     "Update needed" : "Mise à jour nécessaire",
-    "Please use the command line updater because you have a big instance." : "Veuillez utiliser la mise à jour en ligne de commande car votre instance est volumineuse.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Pour obtenir de l'aide, lisez la <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>.",
     "This %s instance is currently in maintenance mode, which may take a while." : "Cette instance de %s est en cours de maintenance, cela peut prendre du temps.",
     "This page will refresh itself when the %s instance is available again." : "Cette page se rafraîchira d'elle-même lorsque l'instance %s sera à nouveau disponible.",
@@ -332,6 +331,7 @@
     "The share will expire on %s." : "Le partage expirera le %s.",
     "Cheers!" : "À bientôt !",
     "Use the following link to reset your password: {link}" : "Utilisez le lien suivant pour réinitialiser votre mot de passe : {link}",
-    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Bonjour,<br><br>Nous vous informons que %s a partagé <strong>%s</strong> avec vous.<br><a href=\"%s\">Cliquez ici pour y accéder !</a><br><br>"
+    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Bonjour,<br><br>Nous vous informons que %s a partagé <strong>%s</strong> avec vous.<br><a href=\"%s\">Cliquez ici pour y accéder !</a><br><br>",
+    "Please use the command line updater because you have a big instance." : "Veuillez utiliser la mise à jour en ligne de commande car votre instance est volumineuse."
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

@@ -250,7 +250,6 @@ OC.L10N.register(
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Për të shmangur çaste bllokimi pune me instalime të mëdha, mundeni të ekzekutoni urdhrin vijues që nga drejtoria juaj e instalimit:",
     "Detailed logs" : "Regjistrime të hollësishme",
     "Update needed" : "Lyp përditësim",
-    "Please use the command line updater because you have a big instance." : "Ju lutemi, përdorni përditësuesin e rreshtit të urdhrave, sepse keni një instalim të madh.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Për ndihmë, shihni  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">dokumentimin</a>.",
     "This %s instance is currently in maintenance mode, which may take a while." : "Kjo instancë %s hëpërhë gjendet nën mënyrën mirëmbajtje, çka mund të zgjasë ca.",
     "This page will refresh itself when the %s instance is available again." : "Kjo faqe do të rifreskohet vetiu, sapo instanca %s të jetë sërish gati.",
@@ -286,6 +285,7 @@ OC.L10N.register(
     "The share will expire on %s." : "Ndarja do të skadojë më %s.",
     "Cheers!" : "Gëzuar!",
     "Use the following link to reset your password: {link}" : "Që të ricaktoni fjalëkalimin tuaj, përdorni lidhjen vijuese: {link}",
-    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Njatjeta,<br><br>thjesht po ju bëjmë të ditur që %s ndau me ju <strong>%s</strong>.<br><a href=\"%s\">Shiheni!</a><br><br>"
+    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Njatjeta,<br><br>thjesht po ju bëjmë të ditur që %s ndau me ju <strong>%s</strong>.<br><a href=\"%s\">Shiheni!</a><br><br>",
+    "Please use the command line updater because you have a big instance." : "Ju lutemi, përdorni përditësuesin e rreshtit të urdhrave, sepse keni një instalim të madh."
 },
 "nplurals=2; plural=(n != 1);");

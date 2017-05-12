@@ -269,7 +269,6 @@ OC.L10N.register(
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Para evitar tempos expirados com instalações maiores, em vez disso, pode executar o seguinte comando a partir da diretoria de instalação:",
     "Detailed logs" : "Registos detalhados",
     "Update needed" : "É necessário atualizar",
-    "Please use the command line updater because you have a big instance." : "Por favor, utilize o atualizador de linha de comando porque a sua instância é grande.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Para obter ajuda, consulte a <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentação</a>.",
     "This %s instance is currently in maintenance mode, which may take a while." : "Esta instância %s está atualmente no modo de manutenção, o que poderá demorar algum tempo.",
     "This page will refresh itself when the %s instance is available again." : "Esta página irá ser atualizada quando a instância %s ficar novamente disponível.",
@@ -305,6 +304,7 @@ OC.L10N.register(
     "The share will expire on %s." : "Esta partilha irá expirar em %s.",
     "Cheers!" : "Parabéns!",
     "Use the following link to reset your password: {link}" : "Utilize a seguinte hiperligação para repor a sua palavra-passe: {link}",
-    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Olá,<br><br>apenas para informar que %s partilhou <strong>%s</strong> consigo.<br><a href=\"%s\">Consulte aqui!</a><br><br>"
+    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Olá,<br><br>apenas para informar que %s partilhou <strong>%s</strong> consigo.<br><a href=\"%s\">Consulte aqui!</a><br><br>",
+    "Please use the command line updater because you have a big instance." : "Por favor, utilize o atualizador de linha de comando porque a sua instância é grande."
 },
 "nplurals=2; plural=(n != 1);");

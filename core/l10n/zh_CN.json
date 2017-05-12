@@ -288,7 +288,6 @@
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "为避免较大安装时的超时, 您可以在安装目录下执行下述的命令:",
     "Detailed logs" : "详细日志",
     "Update needed" : "需要更新",
-    "Please use the command line updater because you have a big instance." : "由于您的实例较大, 请使用命令行更新.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "获取更多帮助, 请查看 <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">文档</a>.",
     "This %s instance is currently in maintenance mode, which may take a while." : "该实例 %s 当前处于维护模式, 这将花费一些时间.",
     "This page will refresh itself when the %s instance is available again." : "当实例 %s 再次可用时此页面将刷新.",
@@ -324,6 +323,7 @@
     "The share will expire on %s." : "此分享将在 %s 过期.",
     "Cheers!" : "干杯！",
     "Use the following link to reset your password: {link}" : "使用以下链接重置您的密码: {link}",
-    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "嗨、你好,<br><br>只想让你知道 %s 分享了 <strong>%s</strong> 给你。<br><a href=\"%s\">现在查看！</a><br><br>"
+    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "嗨、你好,<br><br>只想让你知道 %s 分享了 <strong>%s</strong> 给你。<br><a href=\"%s\">现在查看！</a><br><br>",
+    "Please use the command line updater because you have a big instance." : "由于您的实例较大, 请使用命令行更新."
 },"pluralForm" :"nplurals=1; plural=0;"
 }
