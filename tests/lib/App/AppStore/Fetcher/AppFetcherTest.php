@@ -32,6 +32,7 @@ use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
 use OCP\IConfig;
+use OCP\ILogger;
 use Test\TestCase;
 
 class AppFetcherTest extends TestCase  {
@@ -43,6 +44,8 @@ class AppFetcherTest extends TestCase  {
 	protected $timeFactory;
 	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
 	protected $config;
+	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	protected $logger;
 	/** @var AppFetcher */
 	protected $fetcher;
 	/** @var string */
@@ -64,6 +67,7 @@ EOD;
 		$this->clientService = $this->createMock(IClientService::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->config = $this->createMock(IConfig::class);
+		$this->logger = $this->createMock(ILogger::class);
 
 		$this->config
 			->expects($this->at(0))
@@ -74,7 +78,8 @@ EOD;
 			$factory,
 			$this->clientService,
 			$this->timeFactory,
-			$this->config
+			$this->config,
+			$this->logger
 		);
 	}
 
