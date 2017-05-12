@@ -33,7 +33,8 @@ class CategoryFetcherTest extends FetcherBase {
 			$this->appDataFactory,
 			$this->clientService,
 			$this->timeFactory,
-			$this->config
+			$this->config,
+			$this->logger
 		);
 	}
 

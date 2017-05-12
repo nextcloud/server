@@ -26,23 +26,27 @@ use OC\Files\AppData\Factory;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
+use OCP\ILogger;
 
 class AppFetcher extends Fetcher {
 	/**
 	 * @param Factory $appDataFactory
 	 * @param IClientService $clientService
 	 * @param ITimeFactory $timeFactory
-	 * @param IConfig $config;
+	 * @param IConfig $config
+	 * @param ILogger $logger
 	 */
 	public function __construct(Factory $appDataFactory,
 								IClientService $clientService,
 								ITimeFactory $timeFactory,
-								IConfig $config) {
+								IConfig $config,
+								ILogger $logger) {
 		parent::__construct(
 			$appDataFactory,
 			$clientService,
 			$timeFactory,
-			$config
+			$config,
+			$logger
 		);
 
 		$this->fileName = 'apps.json';
