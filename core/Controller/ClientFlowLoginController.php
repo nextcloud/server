@@ -151,17 +151,36 @@ class ClientFlowLoginController extends Controller {
 	 */
 	public function showAuthPickerPage($clientIdentifier = '',
 									   $oauthState = '') {
+
+
+		$clientName = $this->getClientName();
+		$client = null;
+		if($clientIdentifier !== '') {
+			$client = $this->clientMapper->getByIdentifier($clientIdentifier);
+			$clientName = $client->getName();
+		}
+
+		$validClient = $client !== null && $client->getClientIdentifier() !== null;
+		$cookieCheckSuccessful = $this->request->passesStrictCookieCheck();
+
+		// no valid clientIdentifier given and no valid API Request (APIRequest header not set)
+		if ($cookieCheckSuccessful === false && $validClient === false) {
+			return new TemplateResponse(
+				$this->appName,
+				'error',
+				['errors' =>
+					[
+						['error' => 'Access Forbidden', 'hint' => 'Invalid request']
+					]
+				]
+			);
+		}
+
 		$stateToken = $this->random->generate(
 			64,
 			ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_DIGITS
 		);
 		$this->session->set(self::stateName, $stateToken);
-
-		$clientName = $this->getClientName();
-		if($clientIdentifier !== '') {
-			$client = $this->clientMapper->getByIdentifier($clientIdentifier);
-			$clientName = $client->getName();
-		}
 
 		return new TemplateResponse(
 			$this->appName,
