@@ -160,6 +160,13 @@ $(document).ready(function () {
 
 	$('#uploadlogo').fileupload(uploadParamsLogo);
 	$('#upload-login-background').fileupload(uploadParamsLogin);
+	// clicking preview should also trigger file upload dialog
+	$('#theming-preview-logo').on('click', function() {
+		$('#uploadlogo').click();
+	});
+	$('#theming-preview').on('click', function() {
+		$('#upload-login-background').click();
+	});
 
 	$('#theming-name').change(function(e) {
 		var el = $(this);
