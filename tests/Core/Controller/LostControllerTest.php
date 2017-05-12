@@ -86,9 +86,13 @@ class LostControllerTest extends \Test\TestCase {
 			->willReturn('ExistingUser');
 
 		$this->config = $this->createMock(IConfig::class);
-		$this->config->method('getSystemValue')
-			->with('secret', null)
-			->willReturn('SECRET');
+		$this->config->expects($this->any())
+			->method('getSystemValue')
+			->willReturnMap([
+				['secret', null, 'SECRET'],
+				['secret', '', 'SECRET'],
+				['lost_password_link', '', ''],
+			]);
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->l10n
 			->expects($this->any())
@@ -347,10 +351,6 @@ class LostControllerTest extends \Test\TestCase {
 			->method('send')
 			->with($message);
 
-		$this->config->method('getSystemValue')
-			->with('secret', '')
-			->willReturn('SECRET');
-
 		$this->crypto->method('encrypt')
 			->with(
 				$this->equalTo('12348:ThisIsMaybeANotSoSecretToken!'),
@@ -434,10 +434,6 @@ class LostControllerTest extends \Test\TestCase {
 			->method('send')
 			->with($message);
 
-		$this->config->method('getSystemValue')
-			->with('secret', '')
-			->willReturn('SECRET');
-
 		$this->crypto->method('encrypt')
 			->with(
 				$this->equalTo('12348:ThisIsMaybeANotSoSecretToken!'),
@@ -515,10 +511,6 @@ class LostControllerTest extends \Test\TestCase {
 			->method('send')
 			->with($message)
 			->will($this->throwException(new \Exception()));
-
-		$this->config->method('getSystemValue')
-			->with('secret', '')
-			->willReturn('SECRET');
 
 		$this->crypto->method('encrypt')
 			->with(
