@@ -298,7 +298,6 @@ OC.L10N.register(
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "For å unngå tidsavbrudd ved store installasjoner, kan du i stedet kjøre følgende kommando fra installasjonsmappen:",
     "Detailed logs" : "Detaljerte logger",
     "Update needed" : "Oppdatering er nødvendig",
-    "Please use the command line updater because you have a big instance." : "Vennligst oppdater ved hjelp av kommandolinjen ettersom du har en stor installasjon.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "For hjelp, se i  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">dokumentasjonen</a>.",
     "This %s instance is currently in maintenance mode, which may take a while." : "Denne %s-instansen er for øyeblikket i vedlikeholdsmodus, noe som kan vare en stund.",
     "This page will refresh itself when the %s instance is available again." : "Denne siden vil bli lastet på nytt når %s-instansen er tilgjengelig igjen.",
@@ -334,6 +333,7 @@ OC.L10N.register(
     "The share will expire on %s." : "Delingen vil opphøre %s.",
     "Cheers!" : "Ha det!",
     "Use the following link to reset your password: {link}" : "Bruk følgende lenke for å tilbakestille passordet ditt: {link}",
-    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hei,<br><br>Dette er en beskjed om at %s delte <strong>%s</strong> med deg.<br><a href=\"%s\">Vis den!</a><br><br>"
+    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hei,<br><br>Dette er en beskjed om at %s delte <strong>%s</strong> med deg.<br><a href=\"%s\">Vis den!</a><br><br>",
+    "Please use the command line updater because you have a big instance." : "Vennligst oppdater ved hjelp av kommandolinjen ettersom du har en stor installasjon."
 },
 "nplurals=2; plural=(n != 1);");

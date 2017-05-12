@@ -45,6 +45,7 @@ OC.L10N.register(
     "Unable to change mail address" : "Αδυναμία αλλαγής διεύθυνσης αλληλογραφίας",
     "Email saved" : "Το email αποθηκεύτηκε ",
     "Password changed for %s" : "Το συνθηματικό άλλαξε για τον %s",
+    "If you did not request this, please contact an administrator." : "Εάν δεν το αιτηθήκατε, παρακαλούμε επικοινωνήστε με τον διαχειριστή.",
     "The new email address is %s" : "Η νέα διεύθυνση ηλεκτρονικής αλληλογραφίας είναι %s",
     "Welcome aboard" : "Καλώς ήλθατε",
     "Welcome aboard %s" : "Καλώς ήλθατε %s",

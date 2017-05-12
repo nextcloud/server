@@ -298,7 +298,6 @@ OC.L10N.register(
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Om time-outs tijdens grotere installaties te voorkomen, kun je in plaats hiervan de volgende opdracht geven vanaf je installatiedirectory:",
     "Detailed logs" : "Gedetailleerde logs",
     "Update needed" : "Update vereist",
-    "Please use the command line updater because you have a big instance." : "Gebruik de commandoregel updater, omdat je een grote Nextcloud hebt.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Voor hulp, lees de <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentatie</a>.",
     "This %s instance is currently in maintenance mode, which may take a while." : "Deze %s staat momenteel in de onderhoudsstand, dat kan enige tijd duren.",
     "This page will refresh itself when the %s instance is available again." : "Deze pagina wordt ververst als de %s-installatie weer beschikbaar is.",
@@ -334,6 +333,7 @@ OC.L10N.register(
     "The share will expire on %s." : "Het gedeelde vervalt op %s.",
     "Cheers!" : "Proficiat!",
     "Use the following link to reset your password: {link}" : "Gebruik de volgende link om je wachtwoord te resetten: {link}",
-    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hallo daar,<br><br>%s deelde <strong>%s</strong> met je.<br><a href=\"%s\">Bekijk het hier!</a><br><br>"
+    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hallo daar,<br><br>%s deelde <strong>%s</strong> met je.<br><a href=\"%s\">Bekijk het hier!</a><br><br>",
+    "Please use the command line updater because you have a big instance." : "Gebruik de commandoregel updater, omdat je een grote Nextcloud hebt."
 },
 "nplurals=2; plural=(n != 1);");

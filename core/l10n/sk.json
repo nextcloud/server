@@ -234,7 +234,6 @@
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Aby nedošlo k vypršaniu časového limitu vo väčších inštaláciách, môžete namiesto toho použiť nasledujúci príkaz z inštalačného priečinka:",
     "Detailed logs" : "Podrobné záznamy",
     "Update needed" : "Aktualizácia je potrebná",
-    "Please use the command line updater because you have a big instance." : "Vaša inštancia je veľká, použite prosím aktualizáciu cez príkazový riadok.",
     "This %s instance is currently in maintenance mode, which may take a while." : "Táto %s inštancia je v súčasnej dobe v režime údržby. Počkajte prosím.",
     "This page will refresh itself when the %s instance is available again." : "Táto stránka sa obnoví sama hneď ako bude %s inštancia znovu dostupná.",
     "Problem loading page, reloading in 5 seconds" : "Nastal problém pri načítaní stránky, pokus sa zopakuje o 5 sekúnd",
@@ -266,6 +265,7 @@
     "The share will expire on %s." : "Sprístupnenie vyprší %s.",
     "Cheers!" : "Pekný deň!",
     "Use the following link to reset your password: {link}" : "Použite nasledujúci odkaz pre obnovenie vášho hesla: {link}",
-    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Dobrý deň,<br><br>používateľ %s Vám sprístupnil položku s názvom »%s«.<br><a href=\"%s\">Zobraziť!</a><br><br>"
+    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Dobrý deň,<br><br>používateľ %s Vám sprístupnil položku s názvom »%s«.<br><a href=\"%s\">Zobraziť!</a><br><br>",
+    "Please use the command line updater because you have a big instance." : "Vaša inštancia je veľká, použite prosím aktualizáciu cez príkazový riadok."
 },"pluralForm" :"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;"
 }

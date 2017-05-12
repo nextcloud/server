@@ -260,7 +260,6 @@ OC.L10N.register(
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Nagyobb telepítések esetén úgy kerülhetők el az időtúllépések, hogy inkább a következő parancsot adja ki a telepítési alkönyvtárban:",
     "Detailed logs" : "Részletezett naplók",
     "Update needed" : "Frissítés szükséges",
-    "Please use the command line updater because you have a big instance." : "Kérjük, a frissítéshez a parancssort használja, mert nagyobb frissítést készül telepíteni.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Segítségért keresse fel a <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">dokumentációt</a>.",
     "This %s instance is currently in maintenance mode, which may take a while." : "Ez a %s folyamat éppen karbantartó üzemmódban van, ami eltarthat egy darabig.",
     "This page will refresh itself when the %s instance is available again." : "Ez az oldal frissíteni fogja magát amint a(z) %s példány ismét elérhető.",
@@ -296,6 +295,7 @@ OC.L10N.register(
     "The share will expire on %s." : "A megosztás lejár ekkor: %s.",
     "Cheers!" : "Üdv.",
     "Use the following link to reset your password: {link}" : "Használja ezt a hivatkozást a jelszó ismételt beállításához: {link}",
-    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Üdv!<br /><br />\n\nÉrtesítünk, hogy %s megosztotta veled a következőt: <strong>%s</strong><br />\n<a href=\"%s\">Itt nézheted meg.</a><br /><br />"
+    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Üdv!<br /><br />\n\nÉrtesítünk, hogy %s megosztotta veled a következőt: <strong>%s</strong><br />\n<a href=\"%s\">Itt nézheted meg.</a><br /><br />",
+    "Please use the command line updater because you have a big instance." : "Kérjük, a frissítéshez a parancssort használja, mert nagyobb frissítést készül telepíteni."
 },
 "nplurals=2; plural=(n != 1);");

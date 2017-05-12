@@ -252,7 +252,6 @@
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Untuk menghindari waktu habis dengan instalasi yang lebih besar, Anda bisa menjalankan perintah berikut dari direktori instalasi Anda:",
     "Detailed logs" : "Log detail",
     "Update needed" : "Pembaruan dibutuhkan",
-    "Please use the command line updater because you have a big instance." : "Gunakan pembaruan command-line karena Anda mempunyai instansi yang besar.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Untuk bantuan, lihat <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">dokumentasi</a>.",
     "This %s instance is currently in maintenance mode, which may take a while." : "Instansi %s ini sedang dalam modus pemeliharaan, mungkin memerlukan beberapa saat.",
     "This page will refresh itself when the %s instance is available again." : "Halaman ini akan disegarkan dengan sendiri saat instansi %s tersebut tersedia kembali.",
@@ -288,6 +287,7 @@
     "The share will expire on %s." : "Pembagian akan berakhir pada %s.",
     "Cheers!" : "Horee!",
     "Use the following link to reset your password: {link}" : "Gunakan tautan berikut untuk menyetel ulang sandi Anda: {link}",
-    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hai,<br><br>hanya memberi tahu jika %s membagikan <strong>%s</strong> dengan Anda.<br><a href=\"%s\">Lihat!</a><br><br>"
+    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hai,<br><br>hanya memberi tahu jika %s membagikan <strong>%s</strong> dengan Anda.<br><a href=\"%s\">Lihat!</a><br><br>",
+    "Please use the command line updater because you have a big instance." : "Gunakan pembaruan command-line karena Anda mempunyai instansi yang besar."
 },"pluralForm" :"nplurals=1; plural=0;"
 }

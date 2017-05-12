@@ -296,7 +296,6 @@
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Para evitar tiempos de espera en grandes instalaciones, en su lugar puede ejecutar el siguiente comando desde el directorio de instalación:",
     "Detailed logs" : "Registros detallados",
     "Update needed" : "Se necesita actualización",
-    "Please use the command line updater because you have a big instance." : "Por favor utilice la actualización mediante la linea de comandos porque tiene pendiente una gran actualización.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Para ayuda, mirar  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\"> la documentación</a>.",
     "This %s instance is currently in maintenance mode, which may take a while." : "Está instancia %s está en modo mantenimiento, por lo que puede llevar un tiempo.",
     "This page will refresh itself when the %s instance is available again." : "La página se refrescará cuando la instalación %s vuelva a estar disponible.",
@@ -332,6 +331,7 @@
     "The share will expire on %s." : "El objeto dejará de ser compartido el %s.",
     "Cheers!" : "¡Saludos!",
     "Use the following link to reset your password: {link}" : "Utilice el siguiente enlace para restablecer su contraseña: {link}",
-    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hola:<br><br>Te comentamos que %s compartió <strong>%s</strong> contigo.<br><a href=\"%s\">¡Échale un vistazo!</a><br><br>"
+    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hola:<br><br>Te comentamos que %s compartió <strong>%s</strong> contigo.<br><a href=\"%s\">¡Échale un vistazo!</a><br><br>",
+    "Please use the command line updater because you have a big instance." : "Por favor utilice la actualización mediante la linea de comandos porque tiene pendiente una gran actualización."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

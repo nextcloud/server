@@ -287,7 +287,6 @@ OC.L10N.register(
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Välttääksesi aikakatkaisuja suurikokoisten asennusten kanssa, voit suorittaa vaihtoehtoisesti seuraavan komennon asennushakemistossa:",
     "Detailed logs" : "Yksityiskohtainen loki",
     "Update needed" : "Päivitys vaaditaan",
-    "Please use the command line updater because you have a big instance." : "Käytä komentorivipäivitintä, koska käyttämäsi Nextcloud on sen verran suuri.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Apua saat <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">dokumentaatiosta</a>.",
     "This %s instance is currently in maintenance mode, which may take a while." : "Tämä %s-instanssi on parhaillaan huoltotilassa, huollossa saattaa kestää hetki.",
     "This page will refresh itself when the %s instance is available again." : "Tämä sivu päivittää itsensä, kun %s on jälleen käytettävissä.",
@@ -323,6 +322,7 @@ OC.L10N.register(
     "The share will expire on %s." : "Jakaminen päättyy %s.",
     "Cheers!" : "Kiitos!",
     "Use the following link to reset your password: {link}" : "Voit palauttaa salasanasi seuraavassa osoitteessa: {link}",
-    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hei,<br><br>%s jakoi kanssasi kohteen <strong>%s</strong>.<br><a href=\"%s\">Tutustu siihen!</a><br><br>"
+    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hei,<br><br>%s jakoi kanssasi kohteen <strong>%s</strong>.<br><a href=\"%s\">Tutustu siihen!</a><br><br>",
+    "Please use the command line updater because you have a big instance." : "Käytä komentorivipäivitintä, koska käyttämäsi Nextcloud on sen verran suuri."
 },
 "nplurals=2; plural=(n != 1);");

@@ -294,7 +294,6 @@
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Για να αποφύγετε τη λήξη χρόνου με μεγαλύτερες εγκαταστάσεις, μπορείτε αντί αυτού να εκτελέσετε την ακόλουθη εντολή στον κατάλογο εγκατάστασης:",
     "Detailed logs" : "Λεπτομερές ιστορικό",
     "Update needed" : "Απαιτείται ενημέρωση",
-    "Please use the command line updater because you have a big instance." : "Παρακαλούμε χρησιμοποιήστε την ενημέρωση μέσω γραμμής εντολών διότι έχετε μεγάλη εγκατάσταση.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Για βοήθεια, δείτε στην  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">τεκμηρίωση</a>.",
     "This %s instance is currently in maintenance mode, which may take a while." : "Αυτή %s η εγκατάσταση είναι σε λειτουργία συντήρησης, η οποία μπορεί να διαρκέσει κάποιο χρόνο.",
     "This page will refresh itself when the %s instance is available again." : "Αυτή η σελίδα θα ανανεωθεί από μόνη της όταν η %s εγκατάσταση είναι διαθέσιμη ξανά.",
@@ -330,6 +329,7 @@
     "The share will expire on %s." : "Ο διαμοιρασμός θα λήξει σε %s.",
     "Cheers!" : "Με εκτίμηση!",
     "Use the following link to reset your password: {link}" : "Χρησιμοποιήστε τον ακόλουθο σύνδεσμο για να επαναφέρετε το συνθηματικό: {link}",
-    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Γεια χαρά,<br><br>απλά σας ενημερώνω πως ο %s μοιράστηκε το<strong>%s</strong> με εσάς.<br><a href=\"%s\">Δείτε το!</a><br><br>"
+    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Γεια χαρά,<br><br>απλά σας ενημερώνω πως ο %s μοιράστηκε το<strong>%s</strong> με εσάς.<br><a href=\"%s\">Δείτε το!</a><br><br>",
+    "Please use the command line updater because you have a big instance." : "Παρακαλούμε χρησιμοποιήστε την ενημέρωση μέσω γραμμής εντολών διότι έχετε μεγάλη εγκατάσταση."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

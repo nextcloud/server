@@ -298,7 +298,6 @@ OC.L10N.register(
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Aby uniknąć timeout-ów przy większych instalacjach, możesz zamiast tego uruchomić następującą komendę w katalogu Twojej instalacji:",
     "Detailed logs" : "Szczegółowe logi",
     "Update needed" : "Wymagana aktualizacja",
-    "Please use the command line updater because you have a big instance." : "Ze względu na rozmiar Twojej instalacji użyj programu do aktualizacji z linii poleceń.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Aby uzyskać pomoc, zajrzyj do <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">dokumentacji</a>.",
     "This %s instance is currently in maintenance mode, which may take a while." : "Ta instalacja %s działa obecnie w trybie konserwacji. Może to potrwać jakiś czas.",
     "This page will refresh itself when the %s instance is available again." : "Strona odświeży się gdy instancja %s będzie ponownie dostępna.",
@@ -334,6 +333,7 @@ OC.L10N.register(
     "The share will expire on %s." : "Ten zasób wygaśnie %s",
     "Cheers!" : "Pozdrawiam!",
     "Use the following link to reset your password: {link}" : "Użyj tego odnośnika by zresetować hasło: {link}",
-    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Witam, <br><br>informuję, że %s udostępnianych zasobów <strong>%s</strong> jest z Tobą.<br><a href=\"%s\">Zobacz!</a><br><br>"
+    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Witam, <br><br>informuję, że %s udostępnianych zasobów <strong>%s</strong> jest z Tobą.<br><a href=\"%s\">Zobacz!</a><br><br>",
+    "Please use the command line updater because you have a big instance." : "Ze względu na rozmiar Twojej instalacji użyj programu do aktualizacji z linii poleceń."
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>=14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

@@ -296,7 +296,6 @@
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Para evitar tempos de espera com instalações maiores, você pode em vez disso executar o seguinte comando a partir do diretório de instalação:",
     "Detailed logs" : "Logs detalhados",
     "Update needed" : "Atualização necessária",
-    "Please use the command line updater because you have a big instance." : "Por favor, use a atualização de linha de comando, porque você tem muitos dados em sua instância.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Para obter ajuda, consulte a  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentação</a>.",
     "This %s instance is currently in maintenance mode, which may take a while." : "Esta instância %s está em modo de manutenção, o que pode demorar um pouco.",
     "This page will refresh itself when the %s instance is available again." : "Esta página será atualizada automaticamente quando a instância %s estiver disponível novamente.",
@@ -332,6 +331,7 @@
     "The share will expire on %s." : "O compartilhamento irá expirar em %s.",
     "Cheers!" : "Saudações!",
     "Use the following link to reset your password: {link}" : "Use o seguinte link para redefinir sua senha: {link}",
-    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Olá,<br><br>só para avisar que %s compartilhou <strong>%s</strong> com você. <br><a href=\"%s\">Visualize-o!</a><br><br>"
+    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Olá,<br><br>só para avisar que %s compartilhou <strong>%s</strong> com você. <br><a href=\"%s\">Visualize-o!</a><br><br>",
+    "Please use the command line updater because you have a big instance." : "Por favor, use a atualização de linha de comando, porque você tem muitos dados em sua instância."
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

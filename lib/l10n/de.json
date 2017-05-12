@@ -182,6 +182,7 @@
     "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file. See %s" : "Dies kann zumeist behoben werden, indem dem Web-Server Schreibzugriff auf das App-Verzeichnis eingeräumt wird. Siehe auch %s",
     "Cannot create \"data\" directory" : "Kann das \"Daten\"-Verzeichnis nicht erstellen",
     "This can usually be fixed by giving the webserver write access to the root directory. See %s" : "Dies kann zumeist behoben werden, indem dem Web-Server Schreibzugriff auf das Wurzel-Verzeichnis eingeräumt wird. Siehe auch %s",
+    "Permissions can usually be fixed by giving the webserver write access to the root directory. See %s." : "Berechtigungen können zumeist korrigiert werden indem dem Web-Server Schreibzugriff auf das Wurzel-Verzeichnis eingeräumt wird. Siehe auch %s.",
     "Setting locale to %s failed" : "Das Setzen der Umgebungslokale auf %s fehlgeschlagen",
     "Please install one of these locales on your system and restart your webserver." : "Bitte installiere eine dieser Sprachen auf Deinem System und starte den Webserver neu.",
     "Please ask your server administrator to install the module." : "Bitte für die Installation des Moduls Ihren Server-Administrator anfragen.",

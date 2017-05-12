@@ -298,7 +298,6 @@ OC.L10N.register(
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Daha büyük kurulumlarda zaman aşımlarının önüne geçmek için, kurulum klasörünüzden şu komutu da çalıştırabilirsiniz:",
     "Detailed logs" : "Ayrıntılı günlükler",
     "Update needed" : "Güncelleme gerekiyor",
-    "Please use the command line updater because you have a big instance." : "Kopyanız oldukça büyük olduğundan güncelleme için komut satırını kullanın.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Yardım almak için, <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">belgelere</a> bakın.",
     "This %s instance is currently in maintenance mode, which may take a while." : "Bu %s kopyası şu anda bakım kipinde, bu işlem biraz zaman alabilir.",
     "This page will refresh itself when the %s instance is available again." : "Bu sayfa, %s kopyası yeniden kullanılabilir olduğunda kendini yenileyecek.",
@@ -334,6 +333,7 @@ OC.L10N.register(
     "The share will expire on %s." : "Bu paylaşım %s tarihinde sona erecek.",
     "Cheers!" : "Hoşça kalın!",
     "Use the following link to reset your password: {link}" : "Parolanızı sıfırlamak için şu bağlantıyı kullanın: {link}",
-    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Merhaba, <br><br>%s kullanıcısının sizinle <strong>%s</strong> paylaşımında bulunduğunu bildirmek istedik.<br><a href=\"%s\">Paylaşımı şuradan görebilirsiniz!</a><br><br>"
+    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Merhaba, <br><br>%s kullanıcısının sizinle <strong>%s</strong> paylaşımında bulunduğunu bildirmek istedik.<br><a href=\"%s\">Paylaşımı şuradan görebilirsiniz!</a><br><br>",
+    "Please use the command line updater because you have a big instance." : "Kopyanız oldukça büyük olduğundan güncelleme için komut satırını kullanın."
 },
 "nplurals=2; plural=(n > 1);");
