@@ -281,7 +281,48 @@ class LostControllerTest extends \Test\TestCase {
 		$this->assertEquals($expectedResponse, $response);
 	}
 
+	public function testSpamEmail() {
+		$user = 'ExistingUser';
+		$this->userManager
+			->expects($this->once())
+			->method('userExists')
+			->with($user)
+			->will($this->returnValue(true));
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with($user)
+			->will($this->returnValue($this->existingUser));
+		$this->config
+			->expects($this->once())
+			->method('getUserValue')
+			->with($user, 'core', 'lostpassword')
+			->will($this->returnValue('gibberish'));
+		$this->crypto->method('decrypt')
+			->with(
+				$this->equalTo('gibberish'),
+				$this->equalTo('test@example.comSECRET')
+			)->willReturn('12000:AVerySecretToken');
+		$this->timeFactory
+			->expects($this->any())
+			->method('getTime')
+			->willReturnOnConsecutiveCalls(12001, 12348);
+
+		$expectedResponse = ['status' => 'error', 'msg' => 'The email is not sent because a password reset email was sent recently.'];
+		$response = $this->lostController->email($user);
+		$this->assertSame($expectedResponse, $response);
+	}
+
 	public function testEmailSuccessful() {
+		$this->config
+			->expects($this->once())
+			->method('getUserValue')
+			->with('ExistingUser', 'core', 'lostpassword')
+			->will($this->returnValue('gibberish'));
+		$this->timeFactory
+			->expects($this->any())
+			->method('getTime')
+			->willReturnOnConsecutiveCalls(12301, 12348);
 		$this->secureRandom
 			->expects($this->once())
 			->method('generate')
@@ -292,10 +333,7 @@ class LostControllerTest extends \Test\TestCase {
 				->method('get')
 				->with('ExistingUser')
 				->willReturn($this->existingUser);
-		$this->timeFactory
-			->expects($this->once())
-			->method('getTime')
-			->will($this->returnValue(12348));
+
 		$this->config
 			->expects($this->once())
 			->method('setUserValue')
@@ -351,7 +389,16 @@ class LostControllerTest extends \Test\TestCase {
 			->with('secret', '')
 			->willReturn('SECRET');
 
-		$this->crypto->method('encrypt')
+		$this->crypto
+			->expects($this->once())
+			->method('decrypt')
+			->with(
+				$this->equalTo('gibberish'),
+				$this->equalTo('test@example.comSECRET')
+			)->willReturn('12001:ThisIsMaybeANotSoSecretToken!2'); // 12001 is at least 5 minutes before 12301
+		$this->crypto
+			->expects($this->once())
+			->method('encrypt')
 			->with(
 				$this->equalTo('12348:ThisIsMaybeANotSoSecretToken!'),
 				$this->equalTo('test@example.comSECRET')
