@@ -54,6 +54,10 @@ input#openid, input#webdav {
 	width: 100%;
 }
 
+#avatarform .jcrop-keymgr {
+	display:none !important;
+}
+
 #displayavatar {
 	text-align: center;
 }
