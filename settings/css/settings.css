@@ -1133,7 +1133,7 @@ table.grid td.date {
 }
 
 #shareAPI input#shareapiExpireAfterNDays {
-	width: 25px;
+	width: 40px;
 }
 
 #shareAPI .indent {
