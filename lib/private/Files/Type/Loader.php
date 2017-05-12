@@ -166,12 +166,12 @@ class Loader implements IMimeTypeLoader {
 			->where($update->expr()->neq(
 				'mimetype', $update->createNamedParameter($mimetypeId)
 			))
-			->andwhere($update->expr()->neq(
+			->andWhere($update->expr()->neq(
 				'mimetype', $update->createNamedParameter($isFolderId)
 			))
 			->andWhere($update->expr()->like(
 				$update->createFunction('LOWER(' . $update->getColumnName('name') . ')'),
-				'%' . $this->dbConnection->escapeLikeParameter($update->createNamedParameter('.' . $ext))
+				$update->createNamedParameter('%' . $this->dbConnection->escapeLikeParameter('.' . $ext))
 			));
 		return $update->execute();
 	}
