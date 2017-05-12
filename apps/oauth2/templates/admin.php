@@ -22,6 +22,9 @@
 $urlGenerator = \OC::$server->getURLGenerator();
 $themingDefaults = \OC::$server->getThemingDefaults();
 
+script('oauth2', 'setting-admin');
+style('oauth2', 'setting-admin');
+
 /** @var array $_ */
 /** @var \OCA\OAuth2\Db\Client[] $clients */
 $clients = $_['clients'];
@@ -47,7 +50,7 @@ $clients = $_['clients'];
 				<td><?php p($client->getName()); ?></td>
 				<td><?php p($client->getRedirectUri()); ?></td>
 				<td><code><?php p($client->getClientIdentifier()); ?></code></td>
-				<td><code><?php p($client->getSecret()); ?></code></td>
+				<td data-value="<?php p($client->getSecret()); ?>"><code>****</code><img class='show-oauth-credentials' src="<?php p($urlGenerator->imagePath('core', 'actions/toggle.svg'));?>"/></td>
 				<td>
 					<form id="form-inline" class="delete" action="<?php p($urlGenerator->linkToRoute('oauth2.Settings.deleteClient', ['id' => $client->getId()])); ?>" method="POST">
 						<input type="hidden" name="requesttoken" value="<?php p($_['requesttoken']) ?>" />
