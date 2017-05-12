@@ -46,6 +46,11 @@ class ClientMapper extends Mapper {
 		$result = $qb->execute();
 		$row = $result->fetch();
 		$result->closeCursor();
+
+		if (!is_array($row)) {
+			$row = [];
+		}
+
 		return Client::fromRow($row);
 	}
 
