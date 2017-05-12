@@ -1,7 +1,7 @@
 .picker-window {
 	display: block;
 	padding: 10px;
-	margin-bottom: 20px;
+	margin: 20px 0;
 	background-color: rgba(0,0,0,.3);
 	color: #fff;
 	border-radius: 3px;
