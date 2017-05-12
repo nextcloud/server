@@ -22,6 +22,7 @@
 namespace OCA\OAuth2\Db;
 
 use OCP\AppFramework\Db\Mapper;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 
 class AccessTokenMapper extends Mapper {
@@ -47,5 +48,18 @@ class AccessTokenMapper extends Mapper {
 		$row = $result->fetch();
 		$result->closeCursor();
 		return AccessToken::fromRow($row);
+	}
+
+	/**
+	 * delete all access token from a given client
+	 *
+	 * @param int $id
+	 */
+	public function deleteByClientId($id) {
+		$qb = $this->db->getQueryBuilder();
+		$qb
+			->delete($this->tableName)
+			->where($qb->expr()->eq('client_id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
+		$qb->execute();
 	}
 }

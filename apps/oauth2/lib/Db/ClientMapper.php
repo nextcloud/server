@@ -22,6 +22,7 @@
 namespace OCA\OAuth2\Db;
 
 use OCP\AppFramework\Db\Mapper;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 
 class ClientMapper extends Mapper {
@@ -43,6 +44,27 @@ class ClientMapper extends Mapper {
 			->select('*')
 			->from($this->tableName)
 			->where($qb->expr()->eq('client_identifier', $qb->createNamedParameter($clientIdentifier)));
+		$result = $qb->execute();
+		$row = $result->fetch();
+		$result->closeCursor();
+
+		if (!is_array($row)) {
+			$row = [];
+		}
+
+		return Client::fromRow($row);
+	}
+
+	/**
+	 * @param string $uid internal uid of the client
+	 * @return Client
+	 */
+	public function getByUid($uid) {
+		$qb = $this->db->getQueryBuilder();
+		$qb
+			->select('*')
+			->from($this->tableName)
+			->where($qb->expr()->eq('id', $qb->createNamedParameter($uid, IQueryBuilder::PARAM_INT)));
 		$result = $qb->execute();
 		$row = $result->fetch();
 		$result->closeCursor();

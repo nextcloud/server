@@ -31,7 +31,7 @@ use OCP\IUser;
 class DefaultTokenMapper extends Mapper {
 
 	public function __construct(IDBConnection $db) {
-		parent::__construct($db, 'authtoken');
+		parent::__construct($db, 'AuthToken');
 	}
 
 	/**
@@ -42,7 +42,7 @@ class DefaultTokenMapper extends Mapper {
 	public function invalidate($token) {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
-		$qb->delete('authtoken')
+		$qb->delete('AuthToken')
 			->where($qb->expr()->eq('token', $qb->createParameter('token')))
 			->setParameter('token', $token)
 			->execute();
@@ -55,7 +55,7 @@ class DefaultTokenMapper extends Mapper {
 	public function invalidateOld($olderThan, $remember = IToken::DO_NOT_REMEMBER) {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
-		$qb->delete('authtoken')
+		$qb->delete('AuthToken')
 			->where($qb->expr()->lt('last_activity', $qb->createNamedParameter($olderThan, IQueryBuilder::PARAM_INT)))
 			->andWhere($qb->expr()->eq('type', $qb->createNamedParameter(IToken::TEMPORARY_TOKEN, IQueryBuilder::PARAM_INT)))
 			->andWhere($qb->expr()->eq('remember', $qb->createNamedParameter($remember, IQueryBuilder::PARAM_INT)))
@@ -73,7 +73,7 @@ class DefaultTokenMapper extends Mapper {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
 		$result = $qb->select('id', 'uid', 'login_name', 'password', 'name', 'type', 'remember', 'token', 'last_activity', 'last_check', 'scope')
-			->from('authtoken')
+			->from('AuthToken')
 			->where($qb->expr()->eq('token', $qb->createNamedParameter($token)))
 			->execute();
 
@@ -97,7 +97,7 @@ class DefaultTokenMapper extends Mapper {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
 		$result = $qb->select('id', 'uid', 'login_name', 'password', 'name', 'type', 'token', 'last_activity', 'last_check', 'scope')
-			->from('authtoken')
+			->from('AuthToken')
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)))
 			->execute();
 
@@ -122,7 +122,7 @@ class DefaultTokenMapper extends Mapper {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('id', 'uid', 'login_name', 'password', 'name', 'type', 'remember', 'token', 'last_activity', 'last_check', 'scope')
-			->from('authtoken')
+			->from('AuthToken')
 			->where($qb->expr()->eq('uid', $qb->createNamedParameter($user->getUID())))
 			->setMaxResults(1000);
 		$result = $qb->execute();
@@ -143,9 +143,21 @@ class DefaultTokenMapper extends Mapper {
 	public function deleteById(IUser $user, $id) {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
-		$qb->delete('authtoken')
+		$qb->delete('AuthToken')
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)))
 			->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter($user->getUID())));
+		$qb->execute();
+	}
+
+	/**
+	 * delete all auth token which belong to a specific client if the client was deleted
+	 *
+	 * @param string $name
+	 */
+	public function deleteByName($name) {
+		$qb = $this->db->getQueryBuilder();
+		$qb->delete('AuthToken')
+			->where($qb->expr()->eq('name', $qb->createNamedParameter($name)));
 		$qb->execute();
 	}
 

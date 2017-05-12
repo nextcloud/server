@@ -23,7 +23,6 @@ namespace OCA\OAuth2\Settings;
 
 use OCA\OAuth2\Db\ClientMapper;
 use OCP\AppFramework\Http\TemplateResponse;
-use OCP\IConfig;
 use OCP\Settings\ISettings;
 
 class Admin implements ISettings {
