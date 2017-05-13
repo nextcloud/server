@@ -103,6 +103,7 @@
     "The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "Obsługa cURL w PHP jest wyłączona lub nie jest zainstalowana. Zamontowanie %s jest niemożliwe. Proszę poprosić swojego administratora systemu, żeby ją zainstalował.",
     "The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "Obsługa FTP w PHP jest wyłączona lub nie jest zainstalowana. Zamontowanie %s jest niemożliwe. Proszę poprosić swojego administratora systemu, żeby ją zainstalował.",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" nie jest zainstalowane. Zamontowanie %s jest niemożliwe. Proszę poprosić swojego administratora systemu, żeby dokonał instalacji.",
+    "External storage support" : "Wsparcie dla zewnętrznego magazynu",
     "No external storage configured" : "Nie skonfigurowano żadnego zewnętrznego nośnika",
     "You can add external storages in the personal settings" : "W ustawieniach osobistych możesz dodać zewnętrzne magazyny przechowywania",
     "Name" : "Nazwa",
