@@ -24,6 +24,10 @@ namespace OCA\Theming\Tests;
 
 use OCA\Theming\Util;
 use OCP\App\IAppManager;
+use OCP\Files\IAppData;
+use OCP\Files\NotFoundException;
+use OCP\Files\SimpleFS\ISimpleFile;
+use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IConfig;
 use OCP\Files\IRootFolder;
 use Test\TestCase;
@@ -34,17 +38,17 @@ class UtilTest extends TestCase {
 	protected $util;
 	/** @var IConfig */
 	protected $config;
-	/** @var IRootFolder */
-	protected $rootFolder;
+	/** @var IAppData */
+	protected $appData;
 	/** @var IAppManager */
 	protected $appManager;
 
 	protected function setUp() {
 		parent::setUp();
-		$this->config = $this->getMockBuilder('\OCP\IConfig')->getMock();
-		$this->rootFolder = $this->getMockBuilder('OCP\Files\IRootFolder')->getMock();
-		$this->appManager = $this->getMockBuilder('OCP\App\IAppManager')->getMock();
-		$this->util = new Util($this->config, $this->rootFolder, $this->appManager);
+		$this->config = $this->createMock(IConfig::class);
+		$this->appData = $this->createMock(IAppData::class);
+		$this->appManager = $this->createMock(IAppManager::class);
+		$this->util = new Util($this->config, $this->appManager, $this->appData);
 	}
 
 	public function testInvertTextColorLight() {
@@ -112,6 +116,10 @@ class UtilTest extends TestCase {
 	 * @dataProvider dataGetAppIcon
 	 */
 	public function testGetAppIcon($app, $expected) {
+		$this->appData->expects($this->any())
+			->method('getFolder')
+			->with('images')
+			->willThrowException(new NotFoundException());
 		$this->appManager->expects($this->once())
 			->method('getAppPath')
 			->with($app)
@@ -129,13 +137,18 @@ class UtilTest extends TestCase {
 	}
 
 	public function testGetAppIconThemed() {
-		$this->rootFolder->expects($this->once())
-			->method('nodeExists')
-			->with('/themedinstancelogo')
-			->willReturn(true);
-		$expected = '/themedinstancelogo';
+		$file = $this->createMock(ISimpleFile::class);
+		$folder = $this->createMock(ISimpleFolder::class);
+		$folder->expects($this->once())
+			->method('getFile')
+			->with('logo')
+			->willReturn($file);
+		$this->appData->expects($this->once())
+			->method('getFolder')
+			->with('images')
+			->willReturn($folder);
 		$icon = $this->util->getAppIcon('noapplikethis');
-		$this->assertEquals($expected, $icon);
+		$this->assertEquals($file, $icon);
 	}
 
 	/**
