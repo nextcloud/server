@@ -14,6 +14,7 @@
     "Crop is not square" : "Zuschnitt ist nicht quadratisch",
     "State token does not match" : "Status-Token stimmen nicht überein",
     "Auth flow can only be started unauthenticated." : "Der Authentifizierungs-Ablauf kann nur als \"nicht angemeldet\" gestartet werden.",
+    "Password reset is disabled" : "Passwort-Reset ist deaktiviert",
     "Couldn't reset password because the token is invalid" : "Das Passwort konnte aufgrund eines ungültigen Tokens nicht zurückgesetzt werden",
     "Couldn't reset password because the token is expired" : "Das Passwort konnte nicht zurückgesetzt werden, da der Token abgelaufen ist",
     "Could not send reset email because there is no email address for this username. Please contact your administrator." : "Es konnte keine E-Mail verschickt werden um das Passwort zurückzusetzten, da keine E-Mail im Benutzerkonto hinterlegt ist. Bitte kontaktiere deinen Administrator.",

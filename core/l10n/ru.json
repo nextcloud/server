@@ -14,6 +14,7 @@
     "Crop is not square" : "Кадр не является квадратом",
     "State token does not match" : "Токен состояния не соответствует",
     "Auth flow can only be started unauthenticated." : "Процесс аутентификации может быть запущен только неаутентифицированным.",
+    "Password reset is disabled" : "Сброс пароля отключен",
     "Couldn't reset password because the token is invalid" : "Не удалось сбросить пароль, неверный токен",
     "Couldn't reset password because the token is expired" : "Не удалось сбросить пароль, срок действия токена истёк",
     "Could not send reset email because there is no email address for this username. Please contact your administrator." : "Не удалось отправить письмо сброса так как у данного пользователя не задан адрес электронной почты. Пожалуйста, обратитесь к администратору.",

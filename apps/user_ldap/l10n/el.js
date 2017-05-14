@@ -105,6 +105,7 @@ OC.L10N.register(
     "Current password" : "Τρέχον συνθηματικό",
     "New password" : "Νέο συνθηματικό",
     "Renew password" : "Ανανέωση συνθηματικού",
+    "Wrong password. Reset it?" : "Λάθος συνθηματικο. Επαναφορά;",
     "Wrong password." : "Εσφαλμένο συνθηματικό.",
     "Cancel" : "Ακύρωση",
     "LDAP" : "LDAP",
