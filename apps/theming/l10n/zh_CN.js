@@ -13,6 +13,7 @@ OC.L10N.register(
     "Unsupported image type" : "不支持图片格式",
     "You are already using a custom theme" : "你已经在使用自定义主题",
     "Theming" : "主题",
+    "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "主题使得方便地定制你的实例的外观和体验成为可能。所有用户都可以使用。",
     "Name" : "名字",
     "reset to default" : "重置默认",
     "Web address" : "网址",

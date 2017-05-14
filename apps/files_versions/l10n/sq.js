@@ -6,6 +6,7 @@ OC.L10N.register(
     "Failed to revert {file} to revision {timestamp}." : "Dështoi në rikthimin e {file} te rishikimi {timestamp}.",
     "_%n byte_::_%n bytes_" : ["%n bajte","%n bajte"],
     "Restore" : "Riktheje",
+    "No earlier versions available" : "Nuk ka versione të tjera të gatshme",
     "No versions available" : "Ska versione të gatshme",
     "More versions..." : "Më shumë versione…"
 },
