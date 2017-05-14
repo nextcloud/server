@@ -22,6 +22,7 @@
  */
 namespace OCA\Theming\Controller;
 
+use OC\IntegrityCheck\Helpers\FileAccessHelper;
 use OCA\Theming\IconBuilder;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ThemingDefaults;
@@ -29,6 +30,7 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
+use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\NotFoundException;
 use OCP\IRequest;
@@ -120,9 +122,10 @@ class IconController extends Controller {
 	 * @NoCSRFRequired
 	 *
 	 * @param $app string app name
-	 * @return FileDisplayResponse|NotFoundResponse
+	 * @return FileDisplayResponse|DataDisplayResponse
 	 */
 	public function getFavicon($app = "core") {
+		$response = null;
 		if ($this->themingDefaults->shouldReplaceIcons()) {
 			try {
 				$iconFile = $this->imageManager->getCachedImage('favIcon-' . $app);
@@ -132,16 +135,21 @@ class IconController extends Controller {
 			}
 			if ($iconFile !== false) {
 				$response = new FileDisplayResponse($iconFile, Http::STATUS_OK, ['Content-Type' => 'image/x-icon']);
-				$response->cacheFor(86400);
-				$expires = new \DateTime();
-				$expires->setTimestamp($this->timeFactory->getTime());
-				$expires->add(new \DateInterval('PT24H'));
-				$response->addHeader('Expires', $expires->format(\DateTime::RFC2822));
-				$response->addHeader('Pragma', 'cache');
-				return $response;
 			}
 		}
-		return new NotFoundResponse();
+		if($response === null) {
+			$fallbackLogo = \OC::$SERVERROOT . '/core/img/favicon.png';
+			/** @var FileAccessHelper */
+			$fileAccessHelper = \OC::$server->query(FileAccessHelper::class);
+			$response = new DataDisplayResponse($fileAccessHelper->file_get_contents($fallbackLogo));
+		}
+		$response->cacheFor(86400);
+		$expires = new \DateTime();
+		$expires->setTimestamp($this->timeFactory->getTime());
+		$expires->add(new \DateInterval('PT24H'));
+		$response->addHeader('Expires', $expires->format(\DateTime::RFC2822));
+		$response->addHeader('Pragma', 'cache');
+		return $response;
 	}
 
 	/**
@@ -154,6 +162,7 @@ class IconController extends Controller {
 	 * @return FileDisplayResponse|NotFoundResponse
 	 */
 	public function getTouchIcon($app = "core") {
+		$response = null;
 		if ($this->themingDefaults->shouldReplaceIcons()) {
 			try {
 				$iconFile = $this->imageManager->getCachedImage('touchIcon-' . $app);
@@ -163,15 +172,20 @@ class IconController extends Controller {
 			}
 			if ($iconFile !== false) {
 				$response = new FileDisplayResponse($iconFile, Http::STATUS_OK, ['Content-Type' => 'image/png']);
-				$response->cacheFor(86400);
-				$expires = new \DateTime();
-				$expires->setTimestamp($this->timeFactory->getTime());
-				$expires->add(new \DateInterval('PT24H'));
-				$response->addHeader('Expires', $expires->format(\DateTime::RFC2822));
-				$response->addHeader('Pragma', 'cache');
-				return $response;
 			}
 		}
-		return new NotFoundResponse();
+		if($response === null) {
+			$fallbackLogo = \OC::$SERVERROOT . '/core/img/favicon-touch.png';
+			/** @var FileAccessHelper */
+			$fileAccessHelper = \OC::$server->query(FileAccessHelper::class);
+			$response = new DataDisplayResponse($fileAccessHelper->file_get_contents($fallbackLogo));
+		}
+		$response->cacheFor(86400);
+		$expires = new \DateTime();
+		$expires->setTimestamp($this->timeFactory->getTime());
+		$expires->add(new \DateInterval('PT24H'));
+		$response->addHeader('Expires', $expires->format(\DateTime::RFC2822));
+		$response->addHeader('Pragma', 'cache');
+		return $response;
 	}
 }

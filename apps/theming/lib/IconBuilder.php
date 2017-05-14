@@ -52,14 +52,18 @@ class IconBuilder {
 	 * @return string|false image blob
 	 */
 	public function getFavicon($app) {
-		$icon = $this->renderAppIcon($app, 32);
-		if($icon === false) {
+		try {
+			$icon = $this->renderAppIcon($app, 32);
+			if ($icon === false) {
+				return false;
+			}
+			$icon->setImageFormat("png24");
+			$data = $icon->getImageBlob();
+			$icon->destroy();
+			return $data;
+		} catch (\ImagickException $e) {
 			return false;
 		}
-		$icon->setImageFormat("png24");
-		$data = $icon->getImageBlob();
-		$icon->destroy();
-		return $data;
 	}
 
 	/**
@@ -67,14 +71,18 @@ class IconBuilder {
 	 * @return string|false image blob
 	 */
 	public function getTouchIcon($app) {
-		$icon = $this->renderAppIcon($app, 512);
-		if($icon === false) {
+		try {
+			$icon = $this->renderAppIcon($app, 512);
+			if ($icon === false) {
+				return false;
+			}
+			$icon->setImageFormat("png24");
+			$data = $icon->getImageBlob();
+			$icon->destroy();
+			return $data;
+		} catch (\ImagickException $e) {
 			return false;
 		}
-		$icon->setImageFormat("png24");
-		$data = $icon->getImageBlob();
-		$icon->destroy();
-		return $data;
 	}
 
 	/**

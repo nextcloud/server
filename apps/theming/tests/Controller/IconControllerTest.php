@@ -28,6 +28,7 @@ use OCA\Theming\IconBuilder;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ThemingDefaults;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
@@ -150,11 +151,15 @@ class IconControllerTest extends TestCase {
 		$this->themingDefaults->expects($this->any())
 			->method('shouldReplaceIcons')
 			->willReturn(false);
-		$expected = new Http\Response();
-		$expected->setStatus(Http::STATUS_NOT_FOUND);
-		$expected->cacheFor(0);
-		$expected->setLastModified(new \DateTime('now', new \DateTimeZone('GMT')));
-		$this->assertInstanceOf(NotFoundResponse::class, $this->iconController->getFavicon());
+		$fallbackLogo = \OC::$SERVERROOT . '/core/img/favicon.png';
+		$expected = new DataDisplayResponse(file_get_contents($fallbackLogo), Http::STATUS_OK);
+		$expected->cacheFor(86400);
+		$expires = new \DateTime();
+		$expires->setTimestamp($this->timeFactory->getTime());
+		$expires->add(new \DateInterval('PT24H'));
+		$expected->addHeader('Expires', $expires->format(\DateTime::RFC2822));
+		$expected->addHeader('Pragma', 'cache');
+		$this->assertEquals($expected, $this->iconController->getFavicon());
 	}
 
 	public function testGetTouchIconDefault() {
@@ -195,7 +200,15 @@ class IconControllerTest extends TestCase {
 		$this->themingDefaults->expects($this->any())
 			->method('shouldReplaceIcons')
 			->willReturn(false);
-		$this->assertInstanceOf(NotFoundResponse::class, $this->iconController->getTouchIcon());
+		$fallbackLogo = \OC::$SERVERROOT . '/core/img/favicon-touch.png';
+		$expected = new DataDisplayResponse(file_get_contents($fallbackLogo), Http::STATUS_OK);
+		$expected->cacheFor(86400);
+		$expires = new \DateTime();
+		$expires->setTimestamp($this->timeFactory->getTime());
+		$expires->add(new \DateInterval('PT24H'));
+		$expected->addHeader('Expires', $expires->format(\DateTime::RFC2822));
+		$expected->addHeader('Pragma', 'cache');
+		$this->assertEquals($expected, $this->iconController->getTouchIcon());
 	}
 
 }
