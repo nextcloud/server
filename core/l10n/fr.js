@@ -16,6 +16,7 @@ OC.L10N.register(
     "Crop is not square" : "Le recadrage n'est pas carré",
     "State token does not match" : "Les jetons de statut ne correspondent pas",
     "Auth flow can only be started unauthenticated." : "Le processus d'authentification peut seulement démarrer en mode \"non connectée\".",
+    "Password reset is disabled" : "La réinitialisation du mot de passe est désactivée",
     "Couldn't reset password because the token is invalid" : "Impossible de réinitialiser le mot de passe car le jeton n'est pas valable",
     "Couldn't reset password because the token is expired" : "Impossible de réinitialiser le mot de passe car le jeton a expiré",
     "Could not send reset email because there is no email address for this username. Please contact your administrator." : "Impossible d'envoyer le courriel de réinitialisation car il n'y a aucune adresse de courriel pour cet utilisateur. Veuillez contacter votre administrateur.",
