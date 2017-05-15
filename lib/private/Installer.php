@@ -98,7 +98,7 @@ class Installer {
 	 *
 	 * @param string $appId App to install
 	 * @throws \Exception
-	 * @return integer
+	 * @return string app ID
 	 */
 	public function installApp($appId) {
 		$app = \OC_App::findAppInDirectories($appId);
@@ -108,6 +108,29 @@ class Installer {
 
 		$basedir = $app['path'].'/'.$appId;
 		$info = OC_App::getAppInfo($basedir.'/appinfo/info.xml', true);
+
+		$l = \OC::$server->getL10N('core');
+
+		if(!is_array($info)) {
+			throw new \Exception(
+				$l->t('App "%s" cannot be installed because appinfo file cannot be read.',
+					[$info['name']]
+				)
+			);
+		}
+
+		$version = \OCP\Util::getVersion();
+		if (!\OC_App::isAppCompatible($version, $info)) {
+			throw new \Exception(
+				// TODO $l
+				$l->t('App "%s" cannot be installed because it is not compatible with this version of the server.',
+					[$info['name']]
+				)
+			);
+		}
+
+		// check for required dependencies
+		\OC_App::checkAppDependencies($this->config, $l, $info);
 
 		//install the database
 		if(is_file($basedir.'/appinfo/database.xml')) {
@@ -120,6 +143,9 @@ class Installer {
 
 		\OC_App::registerAutoloading($appId, $basedir);
 		\OC_App::setupBackgroundJobs($info['background-jobs']);
+		if(isset($info['settings']) && is_array($info['settings'])) {
+			\OC::$server->getSettingsManager()->setupSettings($info['settings']);
+		}
 
 		//run appinfo/install.php
 		if((!isset($data['noinstall']) or $data['noinstall']==false)) {
