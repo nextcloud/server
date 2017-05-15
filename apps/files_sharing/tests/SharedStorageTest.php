@@ -207,10 +207,11 @@ class SharedStorageTest extends TestCase {
 		$this->assertTrue(\OC\Files\Filesystem::is_dir($this->folder));
 
 		// for the share root we expect:
-		// the read permissions (1)
-		// the delete permission (8), to enable unshare
+		// the read permissions
+		// the delete permission, to enable unshare
+		// the update permission, to enable moving the share
 		$rootInfo = \OC\Files\Filesystem::getFileInfo($this->folder);
-		$this->assertSame(9, $rootInfo->getPermissions());
+		$this->assertSame(\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_DELETE | \OCP\Constants::PERMISSION_UPDATE, $rootInfo->getPermissions());
 
 		// for the file within the shared folder we expect:
 		// the read permissions (1)
