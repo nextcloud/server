@@ -114,6 +114,19 @@ class AccountManager {
 	}
 
 	/**
+	 * delete user from accounts table
+	 *
+	 * @param IUser $user
+	 */
+	public function deleteUser(IUser $user) {
+		$uid = $user->getUID();
+		$query = $this->connection->getQueryBuilder();
+		$query->delete($this->table)
+			->where($query->expr()->eq('uid', $query->createNamedParameter($uid)))
+			->execute();
+	}
+
+	/**
 	 * get stored data from a given user
 	 *
 	 * @param IUser $user
