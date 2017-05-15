@@ -30,6 +30,7 @@
 
 namespace OC\User;
 
+use OC\Accounts\AccountManager;
 use OC\Files\Cache\Storage;
 use OC\Hooks\Emitter;
 use OC_Helper;
@@ -234,6 +235,10 @@ class User implements IUser {
 			$notification = \OC::$server->getNotificationManager()->createNotification();
 			$notification->setUser($this->uid);
 			\OC::$server->getNotificationManager()->markProcessed($notification);
+
+			/** @var AccountManager $accountManager */
+			$accountManager = \OC::$server->query(AccountManager::class);
+			$accountManager->deleteUser($this);
 
 			if ($this->emitter) {
 				$this->emitter->emit('\OC\User', 'postDelete', array($this));

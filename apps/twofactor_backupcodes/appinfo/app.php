@@ -1,7 +1,8 @@
 <?php
-
 /**
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @copyright Copyright (c) 2017 Joas Schilling <coding@schilljs.com>
+ *
+ * @author Joas Schilling <coding@schilljs.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -20,6 +21,5 @@
  *
  */
 
-// @codeCoverageIgnoreStart
-OC_App::registerPersonal('twofactor_backupcodes', 'settings/personal');
-// @codeCoverageIgnoreEnd
+$app = new \OCA\TwoFactorBackupCodes\AppInfo\Application();
+$app->register();
