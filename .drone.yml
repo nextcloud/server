@@ -17,7 +17,6 @@ pipeline:
     commands:
       - bash ./build/autoloaderchecker.sh
       - bash ./build/mergejschecker.sh
-      - php ./build/signed-off-checker.php
       - php ./build/translation-checker.php
       - php ./build/htaccess-checker.php
       - ./occ app:check-code admin_audit
@@ -27,6 +26,7 @@ pipeline:
       - ./occ app:check-code systemtags
       - ./occ app:check-code theming
       - ./occ app:check-code workflowengine
+      - php ./build/signed-off-checker.php
     when:
       matrix:
         TESTS: checkers
