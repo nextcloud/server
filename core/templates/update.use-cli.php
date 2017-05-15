@@ -11,4 +11,13 @@
 			print_unescaped($l->t('For help, see the  <a target="_blank" rel="noreferrer" href="%s">documentation</a>.', [link_to_docs('admin-cli-upgrade')])); ?><br><br>
 		</div>
 	</div>
+
+	<?php if ($_['tooBig']) { ?>
+		<div class="warning updateAnyways">
+			<?php p($l->t('I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure.' )); ?>
+			<a href="?IKnowThatThisIsABigInstanceAndTheUpdateRequestCouldRunIntoATimeoutAndHowToRestoreABackup=IAmSuperSureToDoThis" class="button updateAnywaysButton"><?php p($l->t('Upgrade via web on my own risk' )); ?></a>
+		</div>
+	<?php } ?>
+
+
 </div>
