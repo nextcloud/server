@@ -154,19 +154,19 @@ class Loader implements IMimeTypeLoader {
 	 * Update filecache mimetype based on file extension
 	 *
 	 * @param string $ext file extension
-	 * @param int $mimetypeId
+	 * @param int $mimeTypeId
 	 * @return int number of changed rows
 	 */
-	public function updateFilecache($ext, $mimetypeId) {
-		$isFolderId = $this->getId('httpd/unix-directory');
+	public function updateFilecache($ext, $mimeTypeId) {
+		$folderMimeTypeId = $this->getId('httpd/unix-directory');
 		$update = $this->dbConnection->getQueryBuilder();
 		$update->update('filecache')
-			->set('mimetype', $update->createNamedParameter($mimetypeId))
+			->set('mimetype', $update->createNamedParameter($mimeTypeId))
 			->where($update->expr()->neq(
-				'mimetype', $update->createNamedParameter($mimetypeId)
+				'mimetype', $update->createNamedParameter($mimeTypeId)
 			))
 			->andWhere($update->expr()->neq(
-				'mimetype', $update->createNamedParameter($isFolderId)
+				'mimetype', $update->createNamedParameter($folderMimeTypeId)
 			))
 			->andWhere($update->expr()->like(
 				$update->createFunction('LOWER(' . $update->getColumnName('name') . ')'),
