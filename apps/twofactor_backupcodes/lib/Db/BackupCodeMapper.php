@@ -52,12 +52,22 @@ class BackupCodeMapper extends Mapper {
 		}, $rows);
 	}
 
+	/**
+	 * @param IUser $user
+	 */
 	public function deleteCodes(IUser $user) {
+		$this->deleteCodesByUserId($user->getUID());
+	}
+
+	/**
+	 * @param string $uid
+	 */
+	public function deleteCodesByUserId($uid) {
 		/* @var IQueryBuilder $qb */
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->delete('twofactor_backup_codes')
-			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($user->getUID())));
+			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($uid)));
 		$qb->execute();
 	}
 
