@@ -132,7 +132,7 @@ class OC {
 
 		OC::$SUBURI = str_replace("\\", "/", substr(realpath($_SERVER["SCRIPT_FILENAME"]), strlen(OC::$SERVERROOT)));
 		/**
-		 * FIXME: The following lines are required because we can't yet instantiiate
+		 * FIXME: The following lines are required because we can't yet instantiate
 		 *        \OC::$server->getRequest() since \OC::$server does not yet exist.
 		 */
 		$params = [
@@ -174,7 +174,7 @@ class OC {
 
 			// Resolve /nextcloud to /nextcloud/ to ensure to always have a trailing
 			// slash which is required by URL generation.
-			if($_SERVER['REQUEST_URI'] === \OC::$WEBROOT &&
+			if (isset($_SERVER['REQUEST_URI']) && $_SERVER['REQUEST_URI'] === \OC::$WEBROOT &&
 					substr($_SERVER['REQUEST_URI'], -1) !== '/') {
 				header('Location: '.\OC::$WEBROOT.'/');
 				exit();
@@ -1005,7 +1005,7 @@ class OC {
 		}
 
 		// Handle WebDAV
-		if ($_SERVER['REQUEST_METHOD'] == 'PROPFIND') {
+		if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'PROPFIND') {
 			// not allowed any more to prevent people
 			// mounting this root directly.
 			// Users need to mount remote.php/webdav instead.
