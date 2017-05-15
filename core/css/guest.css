@@ -632,6 +632,10 @@ footer,
 	height: 70px;
 }
 
+footer .info a {
+	font-weight: 600;
+}
+
 .hidden {
 	display: none;
 }
