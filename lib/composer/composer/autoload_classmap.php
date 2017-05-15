@@ -55,6 +55,7 @@ return array(
     'OCP\\App\\IAppManager' => $baseDir . '/lib/public/App/IAppManager.php',
     'OCP\\App\\ManagerEvent' => $baseDir . '/lib/public/App/ManagerEvent.php',
     'OCP\\Authentication\\Exceptions\\CredentialsUnavailableException' => $baseDir . '/lib/public/Authentication/Exceptions/CredentialsUnavailableException.php',
+    'OCP\\Authentication\\Exceptions\\PasswordUnavailableException' => $baseDir . '/lib/public/Authentication/Exceptions/PasswordUnavailableException.php',
     'OCP\\Authentication\\IApacheBackend' => $baseDir . '/lib/public/Authentication/IApacheBackend.php',
     'OCP\\Authentication\\LoginCredentials\\ICredentials' => $baseDir . '/lib/public/Authentication/LoginCredentials/ICredentials.php',
     'OCP\\Authentication\\LoginCredentials\\IStore' => $baseDir . '/lib/public/Authentication/LoginCredentials/IStore.php',
