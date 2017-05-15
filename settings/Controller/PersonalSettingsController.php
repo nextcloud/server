@@ -1,9 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @copyright Copyright (c) 2017 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Lukas Reschke <lukas@statuscode.ch>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -29,25 +28,15 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\Settings\IManager as ISettingsManager;
-use OCP\Template;
 
-/**
- * @package OC\Settings\Controller
- */
-class AdminSettingsController extends Controller {
-	use CommonSettingsTrait;
+class PersonalSettingsController extends Controller {
+	use CommonSettingsTrait {
+		getSettings as private;
+	}
 
 	/** @var INavigationManager */
 	private $navigationManager;
-	/** @var ISettingsManager */
-	private $settingsManager;
 
-	/**
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param INavigationManager $navigationManager
-	 * @param ISettingsManager $settingsManager
-	 */
 	public function __construct(
 		$appName,
 		IRequest $request,
@@ -64,9 +53,11 @@ class AdminSettingsController extends Controller {
 	 * @return TemplateResponse
 	 *
 	 * @NoCSRFRequired
+	 * @NoAdminRequired
+	 * @NoSubadminRequired
 	 */
 	public function index($section) {
-		$this->navigationManager->setActiveEntry('admin');
+		$this->navigationManager->setActiveEntry('personal');
 		return $this->getIndexResponse($section);
 	}
 
@@ -76,43 +67,7 @@ class AdminSettingsController extends Controller {
 	 */
 	private function getSettings($section) {
 		// PhpStorm shows this as unused, but is required by CommonSettingsTrait
-		$settings = $this->settingsManager->getAdminSettings($section);
-		$formatted = $this->formatSettings($settings);
-		if($section === 'additional') {
-			$formatted['content'] .= $this->getLegacyForms();
-		}
-		return $formatted;
+		$settings = $this->settingsManager->getPersonalSettings($section);
+		return $this->formatSettings($settings);
 	}
-
-	/**
-	 * @return bool|string
-	 */
-	private function getLegacyForms() {
-		$forms = \OC_App::getForms('admin');
-
-		$forms = array_map(function ($form) {
-			if (preg_match('%(<h2(?P<class>[^>]*)>.*?</h2>)%i', $form, $regs)) {
-				$sectionName = str_replace('<h2' . $regs['class'] . '>', '', $regs[0]);
-				$sectionName = str_replace('</h2>', '', $sectionName);
-				$anchor = strtolower($sectionName);
-				$anchor = str_replace(' ', '-', $anchor);
-
-				return array(
-					'anchor' => $anchor,
-					'section-name' => $sectionName,
-					'form' => $form
-				);
-			}
-			return array(
-				'form' => $form
-			);
-		}, $forms);
-
-		$out = new Template('settings', 'admin/additional');
-		$out->assign('forms', $forms);
-
-		return $out->fetchPage();
-	}
-
-
 }
