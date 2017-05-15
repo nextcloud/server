@@ -812,7 +812,7 @@ class Share extends Constants {
 				\OCP\Util::writeLog('OCP\Share', sprintf($message, $itemSourceName, $shareWith), \OCP\Util::DEBUG);
 				throw new \Exception($message_t);
 			}
-			if ($shareWithinGroupOnly && !\OC_Group::inGroup($uidOwner, $shareWith)) {
+			if ($shareWithinGroupOnly) {
 				$group = \OC::$server->getGroupManager()->get($shareWith);
 				$user = \OC::$server->getUserManager()->get($uidOwner);
 				if (!$group || !$user || !$group->inGroup($user)) {
