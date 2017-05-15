@@ -10,6 +10,7 @@ OC.L10N.register(
     "Update to %1$s is available." : "Aktualizacja do %1$s jest dostępna.",
     "Update for %1$s to version %2$s is available." : "Jest dostępna aktualizacja dla %1$s do wersji %2$s",
     "Update for {app} to version %s is available." : "aktualizacja dla {app} do wersji %s jest dostępna.",
+    "Update notification" : "Powiadomienie o aktualizacji",
     "A new version is available: %s" : "Dostępna jest nowa wersja: %s",
     "Open updater" : "Otwórz aktualizator",
     "Download now" : "Pobierz teraz",
