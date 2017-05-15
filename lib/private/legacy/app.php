@@ -357,8 +357,6 @@ class OC_App {
 	public function enable($appId,
 						   $groups = null) {
 		self::$enabledAppsCache = []; // flush
-		$l = \OC::$server->getL10N('core');
-		$config = \OC::$server->getConfig();
 
 		// Check if app is already downloaded
 		$installer = new Installer(
@@ -374,23 +372,7 @@ class OC_App {
 			$installer->downloadApp($appId);
 		}
 
-		if (!Installer::isInstalled($appId)) {
-			$appId = self::installApp(
-				$appId,
-				$config,
-				$l
-			);
-			$appPath = self::getAppPath($appId);
-			self::registerAutoloading($appId, $appPath);
-			$installer->installApp($appId);
-		} else {
-			// check for required dependencies
-			$info = self::getAppInfo($appId);
-			self::checkAppDependencies($config, $l, $info);
-			$appPath = self::getAppPath($appId);
-			self::registerAutoloading($appId, $appPath);
-			$installer->installApp($appId);
-		}
+		$installer->installApp($appId);
 
 		$appManager = \OC::$server->getAppManager();
 		if (!is_null($groups)) {
@@ -405,13 +387,6 @@ class OC_App {
 			$appManager->enableAppForGroups($appId, $groupsList);
 		} else {
 			$appManager->enableApp($appId);
-		}
-
-		$info = self::getAppInfo($appId);
-		if(isset($info['settings']) && is_array($info['settings'])) {
-			$appPath = self::getAppPath($appId);
-			self::registerAutoloading($appId, $appPath);
-			\OC::$server->getSettingsManager()->setupSettings($info['settings']);
 		}
 	}
 
@@ -1258,7 +1233,7 @@ class OC_App {
 	 * @param array $info
 	 * @throws \Exception
 	 */
-	protected static function checkAppDependencies($config, $l, $info) {
+	public static function checkAppDependencies($config, $l, $info) {
 		$dependencyAnalyzer = new DependencyAnalyzer(new Platform($config), $l);
 		$missing = $dependencyAnalyzer->analyze($info);
 		if (!empty($missing)) {
