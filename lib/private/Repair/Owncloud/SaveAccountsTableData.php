@@ -144,7 +144,8 @@ class SaveAccountsTableData implements IRepairStep {
 	 * @throws \UnexpectedValueException
 	 */
 	protected function migrateUserInfo(IQueryBuilder $update, $userdata) {
-		if ($userdata['state'] === '3') {
+		$state = (int) $userdata['state'];
+		if ($state === 3) {
 			// Deleted user, ignore
 			return;
 		}
@@ -158,10 +159,9 @@ class SaveAccountsTableData implements IRepairStep {
 		if ($userdata['last_login'] !== null) {
 			$this->config->setUserValue($userdata['user_id'], 'login', 'lastLogin', $userdata['last_login']);
 		}
-		if ($userdata['state'] === '1') {
+		if ($state === 1) {
 			$this->config->setUserValue($userdata['user_id'], 'core', 'enabled', 'true');
-		}
-		if ($userdata['state'] === '2') {
+		} else if ($state === 2) {
 			$this->config->setUserValue($userdata['user_id'], 'core', 'enabled', 'false');
 		}
 
