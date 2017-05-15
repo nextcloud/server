@@ -338,6 +338,24 @@ class Manager implements IManager {
 	}
 
 	/**
+	 * @param string $section
+	 * @return ISection[]
+	 */
+	private function getBuiltInPersonalSettings($section) {
+		$forms = [];
+		try {
+			if ($section === 'personal-info') {
+				/** @var ISettings $form */
+				$form = new Personal\PersonalInfo();
+				$forms[$form->getPriority()] = [$form];
+			}
+		} catch (QueryException $e) {
+			// skip
+		}
+		return $forms;
+	}
+
+	/**
 	 * @inheritdoc
 	 */
 	public function getAdminSettings($section) {
@@ -356,6 +374,24 @@ class Manager implements IManager {
 		}
 
 		ksort($settings);
+		return $settings;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getPersonalSections() {
+		$sections = [
+			0 => [new Section('personal-info', $this->l->t('Personal info'), 0, $this->url->imagePath('core', 'actions/info.svg'))],
+		];
+		return $sections;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getPersonalSettings($section) {
+		$settings = $this->getBuiltInPersonalSettings($section);
 		return $settings;
 	}
 }

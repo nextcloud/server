@@ -88,6 +88,14 @@ interface IManager {
 	public function getAdminSections();
 
 	/**
+	 * returns a list of the personal sections
+	 *
+	 * @return array array of ISection[] where key is the priority
+	 * @since 12.0.0
+	 */
+	public function getPersonalSections();
+
+	/**
 	 * returns a list of the admin settings
 	 *
 	 * @param string $section the section id for which to load the settings
@@ -95,4 +103,13 @@ interface IManager {
 	 * @since 9.1.0
 	 */
 	public function getAdminSettings($section);
+
+	/**
+	 * returns a list of the personal  settings
+	 *
+	 * @param string $section the section id for which to load the settings
+	 * @return array array of IPersonal[] where key is the priority
+	 * @since 12.0.0
+	 */
+	public function getPersonalSettings($section);
 }
