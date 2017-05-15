@@ -77,10 +77,8 @@ class SaveAccountsTableData implements IRepairStep {
 			$numUsers = $this->runStep($offset);
 		}
 
-		// Clear the table
-		$query = $this->db->getQueryBuilder();
-		$query->delete('accounts');
-		$query->execute();
+		// Remove the table
+		$this->db->dropTable('accounts');
 	}
 
 	/**
