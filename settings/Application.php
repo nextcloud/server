@@ -34,6 +34,9 @@ use OC\AppFramework\Utility\TimeFactory;
 use OC\Authentication\Token\IProvider;
 use OC\Server;
 use OC\Settings\Activity\Provider;
+use OC\Settings\Activity\SecurityFilter;
+use OC\Settings\Activity\SecurityProvider;
+use OC\Settings\Activity\SecuritySetting;
 use OC\Settings\Activity\Setting;
 use OC\Settings\Mailer\NewUserMailHelper;
 use OC\Settings\Middleware\SubadminMiddleware;
@@ -114,6 +117,9 @@ class Application extends App {
 		$activityManager = $this->getContainer()->getServer()->getActivityManager();
 		$activityManager->registerSetting(Setting::class); // FIXME move to info.xml
 		$activityManager->registerProvider(Provider::class); // FIXME move to info.xml
+		$activityManager->registerFilter(SecurityFilter::class); // FIXME move to info.xml
+		$activityManager->registerSetting(SecuritySetting::class); // FIXME move to info.xml
+		$activityManager->registerProvider(SecurityProvider::class); // FIXME move to info.xml
 
 		Util::connectHook('OC_User', 'post_setPassword', $this, 'onChangePassword');
 		Util::connectHook('OC_User', 'changeUser', $this, 'onChangeInfo');

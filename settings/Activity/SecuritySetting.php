@@ -20,12 +20,12 @@
  *
  */
 
-namespace OCA\TwoFactorBackupCodes\Activity;
+namespace OC\Settings\Activity;
 
 use OCP\Activity\ISetting;
 use OCP\IL10N;
 
-class GenericSetting implements ISetting {
+class SecuritySetting implements ISetting {
 
 	/** @var IL10N */
 	private $l10n;
@@ -43,11 +43,11 @@ class GenericSetting implements ISetting {
 	}
 
 	public function getIdentifier() {
-		return 'twofactor';
+		return 'security';
 	}
 
 	public function getName() {
-		return $this->l10n->t('Two-factor authentication');
+		return $this->l10n->t('Security');
 	}
 
 	public function getPriority() {

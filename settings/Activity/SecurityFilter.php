@@ -20,13 +20,13 @@
  *
  */
 
-namespace OCA\TwoFactorBackupCodes\Activity;
+namespace OC\Settings\Activity;
 
 use OCP\Activity\IFilter;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 
-class GenericFilter implements IFilter {
+class SecurityFilter implements IFilter {
 
 	/** @var IURLGenerator */
 	private $urlGenerator;
@@ -44,7 +44,7 @@ class GenericFilter implements IFilter {
 	}
 
 	public function filterTypes(array $types) {
-		return array_intersect(['twofactor'], $types);
+		return array_intersect(['security'], $types);
 	}
 
 	public function getIcon() {
@@ -52,11 +52,11 @@ class GenericFilter implements IFilter {
 	}
 
 	public function getIdentifier() {
-		return 'twofactor';
+		return 'security';
 	}
 
 	public function getName() {
-		return $this->l10n->t('Two-factor authentication');
+		return $this->l10n->t('Security');
 	}
 
 	public function getPriority() {

@@ -20,7 +20,7 @@
  *
  */
 
-namespace OCA\TwoFactorBackupCodes\Activity;
+namespace OC\Settings\Activity;
 
 use InvalidArgumentException;
 use OCP\Activity\IEvent;
@@ -29,7 +29,7 @@ use OCP\ILogger;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory as L10nFactory;
 
-class GenericProvider implements IProvider {
+class SecurityProvider implements IProvider {
 
 	/** @var L10nFactory */
 	private $l10n;
@@ -47,7 +47,7 @@ class GenericProvider implements IProvider {
 	}
 
 	public function parse($language, IEvent $event, IEvent $previousEvent = null) {
-		if ($event->getType() !== 'twofactor') {
+		if ($event->getType() !== 'security') {
 			throw new InvalidArgumentException();
 		}
 
