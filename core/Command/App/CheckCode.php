@@ -26,8 +26,10 @@
 namespace OC\Core\Command\App;
 
 use OC\App\CodeChecker\CodeChecker;
+use OC\App\CodeChecker\DatabaseSchemaChecker;
 use OC\App\CodeChecker\EmptyCheck;
 use OC\App\CodeChecker\InfoChecker;
+use OC\App\CodeChecker\LanguageParseChecker;
 use OC\App\InfoParser;
 use Stecman\Component\Symfony\Console\BashCompletion\Completion\CompletionAwareInterface;
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
@@ -68,6 +70,12 @@ class CheckCode extends Command implements CompletionAwareInterface  {
 				InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
 				'enable the specified checker(s)',
 				[ 'private', 'deprecation', 'strong-comparison' ]
+			)
+			->addOption(
+				'--skip-checkers',
+				null,
+				InputOption::VALUE_NONE,
+				'skips the the code checkers to only check info.xml, language and database schema'
 			)
 			->addOption(
 				'--skip-validate-info',
@@ -117,7 +125,10 @@ class CheckCode extends Command implements CompletionAwareInterface  {
 				$output->writeln("    <error>line $line: {$p['disallowedToken']} - {$p['reason']}</error>");
 			}
 		});
-		$errors = $codeChecker->analyse($appId);
+		$errors = [];
+		if(!$input->getOption('skip-checkers')) {
+			$errors = $codeChecker->analyse($appId);
+		}
 
 		if(!$input->getOption('skip-validate-info')) {
 			$infoChecker = new InfoChecker($this->infoParser);
@@ -171,6 +182,27 @@ class CheckCode extends Command implements CompletionAwareInterface  {
 			$infoErrors = $infoChecker->analyse($appId);
 
 			$errors = array_merge($errors, $infoErrors);
+
+			$languageParser = new LanguageParseChecker();
+			$languageErrors = $languageParser->analyse($appId);
+
+			foreach ($languageErrors as $languageError) {
+				$output->writeln("<error>$languageError</error>");
+			}
+
+			$errors = array_merge($errors, $languageErrors);
+
+			$databaseSchema = new DatabaseSchemaChecker();
+			$schemaErrors = $databaseSchema->analyse($appId);
+
+			foreach ($schemaErrors['errors'] as $schemaError) {
+				$output->writeln("<error>$schemaError</error>");
+			}
+			foreach ($schemaErrors['warnings'] as $schemaWarning) {
+				$output->writeln("<comment>$schemaWarning</comment>");
+			}
+
+			$errors = array_merge($errors, $schemaErrors['errors']);
 		}
 
 		$this->analyseUpdateFile($appId, $output);
