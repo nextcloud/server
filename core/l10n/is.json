@@ -13,6 +13,7 @@
     "No valid crop data provided" : "Enginn gild gögn um utanskurð gefin",
     "Crop is not square" : "Utanskurður er ekki ferningslaga",
     "State token does not match" : "Stöðuteikn samsvarar ekki",
+    "Auth flow can only be started unauthenticated." : "Aðeins er hægt að ræsa auðkenningarflæði á þess að vera auðkenndur.",
     "Password reset is disabled" : "Endurstilling lykilorðs er óvirk",
     "Couldn't reset password because the token is invalid" : "Gat ekki endurstillt lykilorðið vegna þess að teiknið er ógilt",
     "Couldn't reset password because the token is expired" : "Gat ekki endurstillt lykilorðið vegna þess að teiknið er útrunnið",

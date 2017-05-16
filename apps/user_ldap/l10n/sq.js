@@ -12,6 +12,7 @@ OC.L10N.register(
     "No data specified" : "S’u treguan të dhëna",
     " Could not set configuration %s" : "S’vuri dot në punë formësimin %s",
     "Action does not exist" : "Veprimi s’ekziston",
+    "Very weak password" : "Fjalëkalim shumë i dobët",
     "The Base DN appears to be wrong" : "DN-ja Bazë duket se është e gabuar",
     "Testing configuration…" : "Po provohet formësimi…",
     "Configuration incorrect" : "Formësim i pasaktë",

@@ -1,6 +1,9 @@
 OC.L10N.register(
     "settings",
     {
+    "You changed your password" : "Ju ndëruat fjalëkalimin",
+    "You changed your email address" : "Ju ndryshuat  adresën e emailit tuaj",
+    "Your email address was changed by an administrator" : "Adresa juaj e email-it është ndryshuar nga një administrator",
     "Wrong password" : "Fjalëkalim i gabuar",
     "Saved" : "U ruajt",
     "No user supplied" : "S’u dha përdorues",
