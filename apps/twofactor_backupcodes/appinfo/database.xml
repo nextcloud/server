@@ -5,7 +5,7 @@
 	<overwrite>false</overwrite>
 	<charset>utf8</charset>
 	<table>
-		<name>*dbprefix*twofactor_backup_codes</name>
+		<name>*dbprefix*twofactor_backupcodes</name>
 		<declaration>
 			<field>
 				<name>id</name>
@@ -37,7 +37,7 @@
 			</field>
 
 			<index>
-				<name>two_factor_backupcodes_user_id</name>
+				<name>twofactor_backupcodes_uid</name>
 				<field>
 					<name>user_id</name>
 					<sorting>ascending</sorting>

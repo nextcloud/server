@@ -22,13 +22,14 @@
 namespace OCA\TwoFactorBackupCodes\Db;
 
 use OCP\AppFramework\Db\Mapper;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IUser;
 
 class BackupCodeMapper extends Mapper {
 
 	public function __construct(IDBConnection $db) {
-		parent::__construct($db, 'twofactor_backup_codes');
+		parent::__construct($db, 'twofactor_backupcodes');
 	}
 
 	/**
@@ -40,7 +41,7 @@ class BackupCodeMapper extends Mapper {
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->select('id', 'user_id', 'code', 'used')
-			->from('twofactor_backup_codes')
+			->from('twofactor_backupcodes')
 			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($user->getUID())));
 		$result = $qb->execute();
 
@@ -66,7 +67,7 @@ class BackupCodeMapper extends Mapper {
 		/* @var IQueryBuilder $qb */
 		$qb = $this->db->getQueryBuilder();
 
-		$qb->delete('twofactor_backup_codes')
+		$qb->delete('twofactor_backupcodes')
 			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($uid)));
 		$qb->execute();
 	}
