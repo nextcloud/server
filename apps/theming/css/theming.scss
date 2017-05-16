@@ -44,7 +44,6 @@
 /* override styles for login screen in guest.css */
 #header .logo,
 #header .logo-icon {
-	background-size: contain;
 	background-image: url(#{$image-logo});
 }
 
