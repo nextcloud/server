@@ -155,7 +155,7 @@
 </div>
 
 <div class="section" id="backgroundjobs">
-	<h2 class="inlineblock"><?php p($l->t('Cron'));?></h2>
+	<h2 class="inlineblock"><?php p($l->t('Background jobs'));?></h2>
 	<?php if ($_['cron_log']): ?>
 		<p class="cronlog inlineblock">
 			<?php if ($_['lastcron'] !== false):
@@ -164,17 +164,17 @@
 				if (time() - $_['lastcron'] <= 3600): ?>
 					<span class="status success"></span>
 					<span class="crondate" title="<?php p($absolute_time);?>">
-					<?php p($l->t("Last cron job execution: %s.", [$relative_time]));?>
+					<?php p($l->t("Last job ran %s.", [$relative_time]));?>
 				</span>
 				<?php else: ?>
 					<span class="status error"></span>
 					<span class="crondate" title="<?php p($absolute_time);?>">
-					<?php p($l->t("Last cron job execution: %s. Something seems wrong.", [$relative_time]));?>
+					<?php p($l->t("Last job execution ran %s. Something seems wrong.", [$relative_time]));?>
 				</span>
 				<?php endif;
 			else: ?>
 				<span class="status error"></span>
-				<?php p($l->t("Cron was not executed yet!"));
+				<?php p($l->t("Background job didn’t run yet!"));
 			endif; ?>
 		</p>
 	<?php endif; ?>
@@ -208,7 +208,7 @@
 			print_unescaped('disabled');
 		}?>>
 		<label for="backgroundjobs_cron">Cron</label><br/>
-		<em><?php p($l->t("Use system's cron service to call the cron.php file every 15 minutes.")); ?>
+		<em><?php p($l->t("Use system cron service to call the cron.php file every 15 minutes.")); ?>
 			<?php if($_['cli_based_cron_possible']) {
 				p($l->t('The cron.php needs to be executed by the system user "%s".', [$_['cli_based_cron_user']]));
 			} else {
