@@ -792,7 +792,13 @@ class Session implements IUserSession, Emitter {
 		$this->setToken($token->getId());
 		$this->lockdownManager->setToken($token);
 		$user->updateLastLoginTimestamp();
-		$this->manager->emit('\OC\User', 'postRememberedLogin', [$user]);
+		$password = null;
+		try {
+			$password = $this->tokenProvider->getPassword($token, $sessionId);
+		} catch (PasswordlessTokenException $ex) {
+			// Ignore
+		}
+		$this->manager->emit('\OC\User', 'postRememberedLogin', [$user, $password]);
 		return true;
 	}
 
