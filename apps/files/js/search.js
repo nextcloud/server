@@ -67,7 +67,7 @@
 				$row.find('td.info div.name').after($pathDiv).text(result.name);
 
 				$row.find('td.result a').attr('href', result.link);
-				$row.find('td.icon').css('background-image', 'url(' + OC.imagePath('core', 'filetypes/folder') + ')');
+				$row.find('td.icon').css('background-image', 'url(' +  OC.MimeType.getIconUrl(result.mime) + ')');
 				return $row;
 			};
 
@@ -96,7 +96,7 @@
 				} else {
 					// FIXME how to get mime icon if not in files app
 					var mimeicon = result.mime.replace('/', '-');
-					$row.find('td.icon').css('background-image', 'url(' + OC.imagePath('core', 'filetypes/' + mimeicon) + ')');
+					$row.find('td.icon').css('background-image', 'url(' + OC.MimeType.getIconUrl(result.mime) + ')');
 					var dir = OC.dirname(result.path);
 					if (dir === '') {
 						dir = '/';
@@ -104,28 +104,6 @@
 					$row.find('td.info a').attr('href',
 						OC.generateUrl('/apps/files/?dir={dir}&scrollto={scrollto}', {dir: dir, scrollto: result.name})
 					);
-				}
-				return $row;
-			};
-
-			this.renderAudioResult = function($row, result) {
-				/*render preview icon, show path beneath filename,
-				 show size and last modified date on the right
-				 show Artist and Album */
-				$row = this.renderFileResult($row, result);
-				if ($row) {
-					$row.find('td.icon').css('background-image', 'url(' + OC.imagePath('core', 'filetypes/audio') + ')');
-				}
-				return $row;
-			};
-
-			this.renderImageResult = function($row, result) {
-				/*render preview icon, show path beneath filename,
-				 show size and last modified date on the right
-				 show width and height */
-				$row = this.renderFileResult($row, result);
-				if ($row && !self.fileAppLoaded()) {
-					$row.find('td.icon').css('background-image', 'url(' + OC.imagePath('core', 'filetypes/image') + ')');
 				}
 				return $row;
 			};
@@ -179,8 +157,8 @@
 
 			search.setRenderer('folder', this.renderFolderResult.bind(this));
 			search.setRenderer('file',   this.renderFileResult.bind(this));
-			search.setRenderer('audio',  this.renderAudioResult.bind(this));
-			search.setRenderer('image',  this.renderImageResult.bind(this));
+			search.setRenderer('image',   this.renderFileResult.bind(this));
+			search.setRenderer('audio',   this.renderFileResult.bind(this));
 
 			search.setHandler('folder',  this.handleFolderClick.bind(this));
 			search.setHandler(['file', 'audio', 'image'], this.handleFileClick.bind(this));
