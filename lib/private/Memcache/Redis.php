@@ -79,12 +79,10 @@ class Redis extends Cache implements IMemcacheTTL {
 
 	public function clear($prefix = '') {
 		$prefix = $this->getNameSpace() . $prefix . '*';
-		$it = null;
-		self::$cache->setOption(\Redis::OPT_SCAN, \Redis::SCAN_RETRY);
-		while ($keys = self::$cache->scan($it, $prefix)) {
-			self::$cache->del($keys);
-		}
-		return true;
+		$keys = self::$cache->keys($prefix);
+		$deleted = self::$cache->del($keys);
+
+		return count($keys) === $deleted;
 	}
 
 	/**
