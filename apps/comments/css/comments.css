@@ -114,6 +114,7 @@
 #commentsTabView .comments li .message .avatar-name-wrapper,
 #commentsTabView .comment .authorRow {
 	position: relative;
+	cursor: pointer;
 }
 
 #commentsTabView .comment .author,
