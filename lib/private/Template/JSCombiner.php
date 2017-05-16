@@ -101,7 +101,6 @@ class JSCombiner {
 			if ($deps === null || $deps === '') {
 				$depFile = $folder->getFile($fileName);
 				$deps = $depFile->getContent();
-				$this->depsCache->set($folder->getName() . '-' . $fileName, $deps);
 			}
 			$deps = json_decode($deps, true);
 
@@ -162,8 +161,11 @@ class JSCombiner {
 
 		try {
 			$cachedfile->putContent($res);
-			$depFile->putContent(json_encode($deps));
+			$deps = json_encode($deps);
+			$depFile->putContent($deps);
+			$this->depsCache->set($folder->getName() . '-' . $depFileName, $deps);
 			$gzipFile->putContent(gzencode($res, 9));
+
 			return true;
 		} catch (NotPermittedException $e) {
 			return false;
