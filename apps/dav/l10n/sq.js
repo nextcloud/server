@@ -2,6 +2,7 @@ OC.L10N.register(
     "dav",
     {
     "Calendar" : "Kalendar",
+    "Todos" : "Për tu bërë",
     "{actor} created calendar {calendar}" : "{actor} krijoj kalendarin {calendar}",
     "You created calendar {calendar}" : "Ju krijuat kalendarin {calendar}",
     "{actor} deleted calendar {calendar}" : "{actor} fshiu kalendarin {calendar}",

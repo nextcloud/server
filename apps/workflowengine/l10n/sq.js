@@ -1,6 +1,7 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Saved" : "E ruajtur",
     "Saving failed:" : "Ruajtja dështoi:",
     "is" : "është",
     "is not" : "nuk është",
