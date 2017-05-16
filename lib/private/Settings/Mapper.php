@@ -143,10 +143,10 @@ class Mapper {
 	}
 
 	/**
-	 * @param $table Mapper::TABLE_ADMIN_SECTIONS or Mapper::TABLE_ADMIN_SETTINGS
-	 * @param $idCol
-	 * @param $id
-	 * @param $values
+	 * @param string $table Mapper::TABLE_ADMIN_SECTIONS or Mapper::TABLE_ADMIN_SETTINGS
+	 * @param string $idCol
+	 * @param string $id
+	 * @param array $values
 	 */
 	public function update($table, $idCol, $id, $values) {
 		$query = $this->dbc->getQueryBuilder();

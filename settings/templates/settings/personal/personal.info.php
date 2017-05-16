@@ -24,6 +24,22 @@
 /** @var \OCP\IL10N $l */
 /** @var array $_ */
 
+script('settings', [
+	'usersettings',
+	'federationsettingsview',
+	'federationscopemenu',
+	'settings/personalInfo',
+]);
+style('settings', 'settings');
+vendor_script('strengthify/jquery.strengthify');
+vendor_style('strengthify/strengthify');
+script('files', 'jquery.fileupload');
+vendor_script('jcrop/js/jquery.Jcrop');
+vendor_style('jcrop/css/jquery.Jcrop');
+
+//TODO: delete js/personal.js once the Encryption and AuthToken things are,
+// where they belong
+
 ?>
 
 <div id="personal-settings">

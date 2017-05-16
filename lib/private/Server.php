@@ -42,6 +42,7 @@
 namespace OC;
 
 use bantu\IniGetWrapper\IniGetWrapper;
+use OC\Accounts\AccountManager;
 use OC\App\AppManager;
 use OC\App\AppStore\Bundles\BundleFetcher;
 use OC\App\AppStore\Fetcher\AppFetcher;
@@ -970,7 +971,11 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getLockingProvider(),
 				$c->getRequest(),
 				new \OC\Settings\Mapper($c->getDatabaseConnection()),
-				$c->getURLGenerator()
+				$c->getURLGenerator(),
+				$c->query(AccountManager::class),
+				$c->getGroupManager(),
+				$c->getL10NFactory(),
+				$c->getThemingDefaults()
 			);
 			return $manager;
 		});

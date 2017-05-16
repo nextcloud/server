@@ -23,15 +23,18 @@
 
 namespace OC\Settings;
 
+use OC\Accounts\AccountManager;
 use OCP\AppFramework\QueryException;
 use OCP\Encryption\IManager as EncryptionManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
+use OCP\L10N\IFactory;
 use OCP\Lock\ILockingProvider;
 use OCP\Settings\ISettings;
 use OCP\Settings\IManager;
@@ -61,6 +64,14 @@ class Manager implements IManager {
 	private $request;
 	/** @var IURLGenerator */
 	private $url;
+	/** @var AccountManager */
+	private $accountManager;
+	/** @var IGroupManager */
+	private $groupManager;
+	/** @var IFactory */
+	private $l10nFactory;
+	/** @var \OC_Defaults */
+	private $defaults;
 
 	/**
 	 * @param ILogger $log
@@ -73,6 +84,9 @@ class Manager implements IManager {
 	 * @param IRequest $request
 	 * @param Mapper $mapper
 	 * @param IURLGenerator $url
+	 * @param AccountManager $accountManager
+	 * @param IGroupManager $groupManager
+	 * @param IFactory $l10nFactory
 	 */
 	public function __construct(
 		ILogger $log,
@@ -84,7 +98,11 @@ class Manager implements IManager {
 		ILockingProvider $lockingProvider,
 		IRequest $request,
 		Mapper $mapper,
-		IURLGenerator $url
+		IURLGenerator $url,
+		AccountManager $accountManager,
+		IGroupManager $groupManager,
+		IFactory $l10nFactory,
+		\OC_Defaults $defaults
 	) {
 		$this->log = $log;
 		$this->dbc = $dbc;
@@ -96,6 +114,10 @@ class Manager implements IManager {
 		$this->lockingProvider = $lockingProvider;
 		$this->request = $request;
 		$this->url = $url;
+		$this->accountManager = $accountManager;
+		$this->groupManager = $groupManager;
+		$this->l10nFactory = $l10nFactory;
+		$this->defaults = $defaults;
 	}
 
 	/**
@@ -346,7 +368,7 @@ class Manager implements IManager {
 		try {
 			if ($section === 'personal-info') {
 				/** @var ISettings $form */
-				$form = new Personal\PersonalInfo();
+				$form = new Personal\PersonalInfo($this->config, $this->userManager, $this->groupManager, $this->accountManager, $this->l10nFactory, $this->defaults);
 				$forms[$form->getPriority()] = [$form];
 			}
 		} catch (QueryException $e) {
