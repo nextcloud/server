@@ -20,17 +20,17 @@
  *
  */
 
-namespace OCA\TwoFactorBackupCodes\Test\Unit\Activity;
+namespace Tests\Settings\Activity;
 
-use OCA\TwoFactorBackupCodes\Activity\GenericSetting;
+use OC\Settings\Activity\SecuritySetting;
 use OCP\IL10N;
 use Test\TestCase;
 
-class SettingTest extends TestCase {
+class SecuritySettingTest extends TestCase {
 
 	private $l10n;
 
-	/** @var GenericSetting */
+	/** @var SecuritySetting */
 	private $setting;
 
 	protected function setUp() {
@@ -38,7 +38,7 @@ class SettingTest extends TestCase {
 
 		$this->l10n = $this->createMock(IL10N::class);
 
-		$this->setting = new GenericSetting($this->l10n);
+		$this->setting = new SecuritySetting($this->l10n);
 	}
 
 	public function testCanChangeMail() {
@@ -50,15 +50,15 @@ class SettingTest extends TestCase {
 	}
 
 	public function testGetIdentifier() {
-		$this->assertEquals('twofactor', $this->setting->getIdentifier());
+		$this->assertEquals('security', $this->setting->getIdentifier());
 	}
 
 	public function testGetName() {
 		$this->l10n->expects($this->once())
 			->method('t')
-			->with('Two-factor authentication')
-			->will($this->returnValue('Zwei-Faktor-Authentifizierung'));
-		$this->assertEquals('Zwei-Faktor-Authentifizierung', $this->setting->getName());
+			->with('Security')
+			->will($this->returnValue('Sicherheit'));
+		$this->assertEquals('Sicherheit', $this->setting->getName());
 	}
 
 	public function testGetPriority() {

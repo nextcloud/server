@@ -20,19 +20,19 @@
  *
  */
 
-namespace OCA\TwoFactorBackupCodes\Test\Unit\Activity;
+namespace Tests\Settings\Activity;
 
-use OCA\TwoFactorBackupCodes\Activity\GenericFilter;
+use OC\Settings\Activity\SecurityFilter;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use Test\TestCase;
 
-class GenericFilterTest extends TestCase {
+class SecurityFilterTest extends TestCase {
 
 	private $urlGenerator;
 	private $l10n;
 
-	/** @var GenericFilter */
+	/** @var SecurityFilter */
 	private $filter;
 
 	protected function setUp() {
@@ -41,7 +41,7 @@ class GenericFilterTest extends TestCase {
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->l10n = $this->createMock(IL10N::class);
 
-		$this->filter = new GenericFilter($this->urlGenerator, $this->l10n);
+		$this->filter = new SecurityFilter($this->urlGenerator, $this->l10n);
 	}
 
 	public function testAllowedApps() {
@@ -49,7 +49,7 @@ class GenericFilterTest extends TestCase {
 	}
 
 	public function testFilterTypes() {
-		$this->assertEquals(['twofactor'], $this->filter->filterTypes(['comments', 'twofactor']));
+		$this->assertEquals(['security'], $this->filter->filterTypes(['comments', 'security']));
 	}
 
 	public function testGetIcon() {
@@ -65,13 +65,13 @@ class GenericFilterTest extends TestCase {
 	}
 
 	public function testGetIdentifier() {
-		$this->assertEquals('twofactor', $this->filter->getIdentifier());
+		$this->assertEquals('security', $this->filter->getIdentifier());
 	}
 
 	public function testGetName() {
 		$this->l10n->expects($this->once())
 			->method('t')
-			->with('Two-factor authentication')
+			->with('Security')
 			->will($this->returnValue('translated'));
 		$this->assertEquals('translated', $this->filter->getName());
 	}
