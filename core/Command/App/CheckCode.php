@@ -125,7 +125,10 @@ class CheckCode extends Command implements CompletionAwareInterface  {
 				$output->writeln("    <error>line $line: {$p['disallowedToken']} - {$p['reason']}</error>");
 			}
 		});
-		$errors = $codeChecker->analyse($appId);
+		$errors = [];
+		if(!$input->getOption('skip-checkers')) {
+			$errors = $codeChecker->analyse($appId);
+		}
 
 		if(!$input->getOption('skip-validate-info')) {
 			$infoChecker = new InfoChecker($this->infoParser);

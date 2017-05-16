@@ -12,7 +12,8 @@ php ./build/htaccess-checker.php
 RESULT=$(($RESULT+$?))
 
 
-for app in $(find "apps/" -mindepth 1 -maxdepth 1 -type d -printf '%f\n'); do
+for app in $(find "apps/" -mindepth 1 -maxdepth 1 -type d -exec basename {} \;); do
+    echo "Testing $app"
     if
         [ "$app" == "dav" ] || \
         [ "$app" == "encryption" ] || \
