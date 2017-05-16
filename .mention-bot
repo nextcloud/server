@@ -26,5 +26,7 @@
     "scrutinizer-auto-fixer",
     "th3fallen",
     "zander"
-  ]
+  ],
+   "createReviewRequest": true,
+   "createComment": false
 }
