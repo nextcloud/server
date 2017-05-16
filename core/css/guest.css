@@ -347,8 +347,18 @@ form .warning input[type='checkbox']+label {
 }
 .two-factor-link {
 	display: inline-block;
-	padding: 12px;
 	color: rgba(255, 255, 255, 0.75);
+	width: 100%;
+}
+.two-factor-link .button {
+	padding: 10px;
+	border-radius: 3px;
+	color: #555 !important;
+	display: inline-block;
+	margin: 5px 0;
+	text-align: center;
+	width: 100%;
+	box-sizing: border-box
 }
 
 /* Additional login options */
@@ -452,6 +462,9 @@ form #selectDbType label.ui-state-active {
 	text-align: left;
 	border-radius: 3px;
 	cursor: default;
+}
+.warning {
+	margin-top: 15px;
 }
 .warning.updateAnyways {
 	text-align: center;
