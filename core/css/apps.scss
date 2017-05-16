@@ -601,11 +601,7 @@ kbd {
 	margin: 5px;
 	margin-top: -5px;
 	right: 0;
-	-webkit-filter: drop-shadow(0 0 5px $color-box-shadow);
-	-moz-filter: drop-shadow(0 0 5px $color-box-shadow);
-	-ms-filter: drop-shadow(0 0 5px $color-box-shadow);
-	-o-filter: drop-shadow(0 0 5px $color-box-shadow);
-	filter: drop-shadow(0 0 5px $color-box-shadow);
+	box-shadow: 0 1px 10px $color-box-shadow;
 	display: none;
 
 	&:after {
