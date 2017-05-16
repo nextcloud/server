@@ -65,7 +65,7 @@
 
 			this._menuItems = [{
 				id: 'folder',
-				displayName: t('files', 'Folder'),
+				displayName: t('files', 'New folder'),
 				templateName: t('files', 'New folder'),
 				iconClass: 'icon-folder',
 				fileType: 'folder',
@@ -223,7 +223,7 @@
 		render: function() {
 			this.$el.html(this.template({
 				uploadMaxHumanFileSize: 'TODO',
-				uploadLabel: t('files', 'Upload'),
+				uploadLabel: t('files', 'Upload file'),
 				items: this._menuItems
 			}));
 			OC.Util.scaleFixForIE8(this.$('.svg'));
