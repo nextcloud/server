@@ -376,6 +376,11 @@ class Manager implements IManager {
 				$form = new Personal\Sessions();
 				$forms[$form->getPriority()] = [$form];
 			}
+			if($section === 'app-passwords') {
+				/** @var ISettings $form */
+				$form = new Personal\AppPasswords();
+				$forms[$form->getPriority()] = [$form];
+			}
 		} catch (QueryException $e) {
 			// skip
 		}
@@ -410,7 +415,8 @@ class Manager implements IManager {
 	public function getPersonalSections() {
 		$sections = [
 			0 => [new Section('personal-info', $this->l->t('Personal info'), 0, $this->url->imagePath('core', 'actions/info.svg'))],
-			1 => [new Section('sessions', $this->l->t('Sessions'), 0, $this->url->imagePath('settings', 'admin.svg'))],
+			5 => [new Section('sessions', $this->l->t('Sessions'), 0, $this->url->imagePath('settings', 'admin.svg'))],
+			10 => [new Section('app-passwords', $this->l->t('App passwords'), 0, $this->url->imagePath('settings', 'password.svg'))],
 
 		];
 		return $sections;

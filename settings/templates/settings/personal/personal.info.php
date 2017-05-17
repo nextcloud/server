@@ -30,10 +30,8 @@ script('settings', [
 	'federationscopemenu',
 	'settings/personalInfo',
 ]);
-style('settings', 'settings');
 vendor_script('strengthify/jquery.strengthify');
 vendor_style('strengthify/strengthify');
-script('files', 'jquery.fileupload');
 vendor_script('jcrop/js/jquery.Jcrop');
 vendor_style('jcrop/css/jquery.Jcrop');
 
