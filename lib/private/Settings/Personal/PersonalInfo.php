@@ -26,9 +26,11 @@ namespace OC\Settings\Personal;
 
 use OC\Accounts\AccountManager;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\Files\FileInfo;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
+use OCP\IL10N;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
@@ -52,6 +54,8 @@ class PersonalInfo implements ISettings {
 	];
 	/** @var \OC_Defaults */
 	private $defaults;
+	/** @var IL10N */
+	private $l;
 
 	/**
 	 * @param IConfig $config
@@ -60,6 +64,7 @@ class PersonalInfo implements ISettings {
 	 * @param AccountManager $accountManager
 	 * @param IFactory $l10nFactory
 	 * @param \OC_Defaults $defaults
+	 * @param IL10N $l
 	 */
 	public function __construct(
 		IConfig $config,
@@ -67,7 +72,8 @@ class PersonalInfo implements ISettings {
 		IGroupManager $groupManager,
 		AccountManager $accountManager,
 		IFactory $l10nFactory,
-		\OC_Defaults $defaults
+		\OC_Defaults $defaults,
+		IL10N $l
 	) {
 		$this->config = $config;
 		$this->userManager = $userManager;
@@ -75,6 +81,7 @@ class PersonalInfo implements ISettings {
 		$this->groupManager = $groupManager;
 		$this->l10nFactory = $l10nFactory;
 		$this->defaults = $defaults;
+		$this->l = $l;
 	}
 
 	/**
@@ -89,9 +96,20 @@ class PersonalInfo implements ISettings {
 		$user = $this->userManager->get($uid);
 		$userData = $this->accountManager->getUser($user);
 
+		$storageInfo = \OC_Helper::getStorageInfo('/');
+		if ($storageInfo['quota'] === FileInfo::SPACE_UNLIMITED) {
+			$totalSpace = $this->l->t('Unlimited');
+		} else {
+			$totalSpace = \OC_Helper::humanFileSize($storageInfo['total']);
+		}
+
 		list($activeLanguage, $commonLanguages, $languages) = $this->getLanguages($user);
 
 		$parameters = [
+			'total_space' => $totalSpace,
+			'usage' => \OC_Helper::humanFileSize($storageInfo['used']),
+			'usage_relative' => $storageInfo['relative'],
+			'quota' => $storageInfo['quota'],
 			'avatarChangeSupported' => \OC_User::canUserChangeAvatar($uid),
 			'lookupServerUploadEnabled' => $lookupServerUploadEnabled,
 			'avatar_scope' => $userData[AccountManager::PROPERTY_AVATAR]['scope'],

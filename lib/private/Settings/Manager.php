@@ -368,7 +368,7 @@ class Manager implements IManager {
 		try {
 			if ($section === 'personal-info') {
 				/** @var ISettings $form */
-				$form = new Personal\PersonalInfo($this->config, $this->userManager, $this->groupManager, $this->accountManager, $this->l10nFactory, $this->defaults);
+				$form = new Personal\PersonalInfo($this->config, $this->userManager, $this->groupManager, $this->accountManager, $this->l10nFactory, $this->defaults, $this->l);
 				$forms[$form->getPriority()] = [$form];
 			}
 		} catch (QueryException $e) {
