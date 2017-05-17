@@ -152,7 +152,7 @@ class IconControllerTest extends TestCase {
 			->method('shouldReplaceIcons')
 			->willReturn(false);
 		$fallbackLogo = \OC::$SERVERROOT . '/core/img/favicon.png';
-		$expected = new DataDisplayResponse(file_get_contents($fallbackLogo), Http::STATUS_OK);
+		$expected = new DataDisplayResponse(file_get_contents($fallbackLogo), Http::STATUS_OK, ['Content-Type' => 'image/x-icon']);
 		$expected->cacheFor(86400);
 		$expires = new \DateTime();
 		$expires->setTimestamp($this->timeFactory->getTime());
@@ -201,7 +201,7 @@ class IconControllerTest extends TestCase {
 			->method('shouldReplaceIcons')
 			->willReturn(false);
 		$fallbackLogo = \OC::$SERVERROOT . '/core/img/favicon-touch.png';
-		$expected = new DataDisplayResponse(file_get_contents($fallbackLogo), Http::STATUS_OK);
+		$expected = new DataDisplayResponse(file_get_contents($fallbackLogo), Http::STATUS_OK, ['Content-Type' => 'image/png']);
 		$expected->cacheFor(86400);
 		$expires = new \DateTime();
 		$expires->setTimestamp($this->timeFactory->getTime());

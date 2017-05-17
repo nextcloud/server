@@ -141,7 +141,7 @@ class IconController extends Controller {
 			$fallbackLogo = \OC::$SERVERROOT . '/core/img/favicon.png';
 			/** @var FileAccessHelper */
 			$fileAccessHelper = \OC::$server->query(FileAccessHelper::class);
-			$response = new DataDisplayResponse($fileAccessHelper->file_get_contents($fallbackLogo));
+			$response = new DataDisplayResponse($fileAccessHelper->file_get_contents($fallbackLogo), Http::STATUS_OK, ['Content-Type' => 'image/x-icon']);
 		}
 		$response->cacheFor(86400);
 		$expires = new \DateTime();
@@ -178,7 +178,7 @@ class IconController extends Controller {
 			$fallbackLogo = \OC::$SERVERROOT . '/core/img/favicon-touch.png';
 			/** @var FileAccessHelper */
 			$fileAccessHelper = \OC::$server->query(FileAccessHelper::class);
-			$response = new DataDisplayResponse($fileAccessHelper->file_get_contents($fallbackLogo));
+			$response = new DataDisplayResponse($fileAccessHelper->file_get_contents($fallbackLogo), Http::STATUS_OK, ['Content-Type' => 'image/png']);
 		}
 		$response->cacheFor(86400);
 		$expires = new \DateTime();
