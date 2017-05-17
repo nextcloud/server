@@ -302,6 +302,8 @@
     "Update needed" : "Mise à jour nécessaire",
     "Please use the command line updater because you have a big instance with more than 50 users." : "Veuillez utiliser la mise à jour en ligne de commande car votre instance est volumineuse avec plus de 50 utilisateurs.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Pour obtenir de l'aide, lisez la <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>.",
+    "I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure." : "Je sais que si je continue à faire la mise à jour via le navigateur web, il existe le risque que la requête se heurte à un délai d'expiration et peut causer une perte de données, mais j'ai une copie de sauvegarde et je sais comment restaurer mon instance en cas d'échec.",
+    "Upgrade via web on my own risk" : "Mettre à jour via le navigateur web à mes propres risques",
     "This %s instance is currently in maintenance mode, which may take a while." : "Cette instance de %s est en cours de maintenance, cela peut prendre du temps.",
     "This page will refresh itself when the %s instance is available again." : "Cette page se rafraîchira d'elle-même lorsque l'instance %s sera à nouveau disponible.",
     "Problem loading page, reloading in 5 seconds" : "Problème de chargement de la page, actualisation dans 5 secondes",

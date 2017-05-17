@@ -302,6 +302,8 @@
     "Update needed" : "Требуется обновление",
     "Please use the command line updater because you have a big instance with more than 50 users." : "У вас система более чем с 50 пользователями, для обновления используйте инструмент командной строки.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Для помощи, ознакомьтесь с  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">документацией</a>.",
+    "I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure." : "Я знаю, что в случае продолжения обновления через веб-интерфейс возникает риск тайм-аута запроса, который может привести к потере данных. У меня есть резервная копия, и я знаю, как восстановить систему в случае сбоя.",
+    "Upgrade via web on my own risk" : "Обновить через веб на мой страх и риск.",
     "This %s instance is currently in maintenance mode, which may take a while." : "Этот сервер %s находится в режиме технического обслуживания, которое может занять некоторое время.",
     "This page will refresh itself when the %s instance is available again." : "Эта страница автоматически обновится, когда сервер %s снова станет доступен.",
     "Problem loading page, reloading in 5 seconds" : "Возникла проблема при загрузке страницы, повторная попытка через 5 секунд",
