@@ -1,10 +1,13 @@
-<ul class="error-wide">
+<div class="error">
+	<h2><?php p($l->t('Error')) ?></h2>
+	<ul>
 	<?php foreach($_["errors"] as $error):?>
-		<li class='error'>
-			<?php p($error['error']) ?><br>
+		<li>
+			<p><?php p($error['error']) ?></p>
 			<?php if(isset($error['hint']) && $error['hint']): ?>
 				<p class='hint'><?php p($error['hint']) ?></p>
 			<?php endif;?>
 		</li>
 	<?php endforeach ?>
-</ul>
+	</ul>
+</div>

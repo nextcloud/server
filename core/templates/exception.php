@@ -4,14 +4,13 @@
 
 style('core', ['styles', 'header']);
 ?>
-<span class="error error-wide">
-	<h2><strong><?php p($l->t('Internal Server Error')) ?></strong></h2>
-		<p><?php p($l->t('The server encountered an internal error and was unable to complete your request.')) ?></p>
-		<p><?php p($l->t('Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report.')) ?></p>
-		<p><?php p($l->t('More details can be found in the server log.')) ?></p>
-	<br>
+<div class="error error-wide">
+	<h2><?php p($l->t('Internal Server Error')) ?></h2>
+	<p><?php p($l->t('The server encountered an internal error and was unable to complete your request.')) ?></p>
+	<p><?php p($l->t('Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report.')) ?></p>
+	<p><?php p($l->t('More details can be found in the server log.')) ?></p>
 
-	<h2><strong><?php p($l->t('Technical details')) ?></strong></h2>
+	<h3><?php p($l->t('Technical details')) ?></h3>
 	<ul>
 		<li><?php p($l->t('Remote Address: %s', $_['remoteAddr'])) ?></li>
 		<li><?php p($l->t('Request ID: %s', $_['requestID'])) ?></li>
@@ -29,4 +28,4 @@ style('core', ['styles', 'header']);
 		<h2><strong><?php p($l->t('Trace')) ?></strong></h2>
 		<pre><?php p($_['trace']) ?></pre>
 	<?php endif; ?>
-</span>
+</div>
