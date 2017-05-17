@@ -24,6 +24,7 @@
 namespace OCA\Theming;
 
 use OCP\Capabilities\ICapability;
+use OCP\IConfig;
 use OCP\IURLGenerator;
 
 /**
@@ -36,17 +37,21 @@ class Capabilities implements ICapability {
 	/** @var ThemingDefaults */
 	protected $theming;
 
-
 	/** @var IURLGenerator */
 	protected $url;
+
+	/** @var IConfig */
+	protected $config;
 
 	/**
 	 * @param ThemingDefaults $theming
 	 * @param IURLGenerator $url
+	 * @param IConfig $config
 	 */
-	public function __construct(ThemingDefaults $theming, IURLGenerator $url) {
+	public function __construct(ThemingDefaults $theming, IURLGenerator $url, IConfig $config) {
 		$this->theming = $theming;
 		$this->url = $url;
+		$this->config = $config;
 	}
 
 	/**
@@ -55,6 +60,8 @@ class Capabilities implements ICapability {
 	 * @return array
 	 */
 	public function getCapabilities() {
+		$backgroundLogo = $this->config->getAppValue('theming', 'backgroundMime', false);
+
 		return [
 			'theming' => [
 				'name' => $this->theming->getName(),
@@ -62,7 +69,9 @@ class Capabilities implements ICapability {
 				'slogan' => $this->theming->getSlogan(),
 				'color' => $this->theming->getColorPrimary(),
 				'logo' => $this->url->getAbsoluteURL($this->theming->getLogo()),
-				'background' => $this->url->getAbsoluteURL($this->theming->getBackground()),
+				'background' => $backgroundLogo === 'backgroundColor' ?
+					$this->theming->getColorPrimary() :
+					$this->url->getAbsoluteURL($this->theming->getBackground()),
 			],
 		];
 	}
