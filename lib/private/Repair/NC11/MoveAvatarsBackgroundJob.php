@@ -94,7 +94,7 @@ class MoveAvatarsBackgroundJob extends QueuedJob {
 				}
 			}
 			$counter++;
-			if ($counter % 100) {
+			if ($counter % 100 === 0) {
 				$this->logger->info('{amount} avatars migrated', ['amount' => $counter]);
 			}
 		});
