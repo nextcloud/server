@@ -194,6 +194,12 @@ class Updater extends BasicEmitter {
 		// Vendor was not set correctly on install, so we have to white-list known versions
 		if ($currentVendor === '') {
 			if (in_array($oldVersion, [
+				'11.0.2.7',
+				'11.0.1.2',
+				'11.0.0.10',
+			], true)) {
+				$currentVendor = 'nextcloud';
+			} else if (in_array($oldVersion, [
 					'10.0.0.12',
 				], true)) {
 				$currentVendor = 'owncloud';
