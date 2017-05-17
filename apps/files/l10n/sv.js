@@ -70,9 +70,7 @@ OC.L10N.register(
     "Favorited" : "Favoriserad",
     "Favorite" : "Favorit",
     "Copy direct link (only works for users who have access to this file/folder)" : "Kopiera direktlänk (fungerar endast för de användare som har tillgång till denna fil eller mapp)",
-    "Folder" : "Mapp",
     "New folder" : "Ny mapp",
-    "Upload" : "Ladda upp",
     "An error occurred while trying to update the tags" : "Ett fel uppstod när uppdatera taggarna",
     "Added to favorites" : "Lades till i favoriter",
     "Removed from favorites" : "Togs bort från favoriter",
@@ -140,6 +138,8 @@ OC.L10N.register(
     "Soon..." : "Snart...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Filuppladdning pågår. Lämnar du sidan så avbryts uppladdningen.",
     "Copy local link" : "Kopiera den lokala länken",
+    "Folder" : "Mapp",
+    "Upload" : "Ladda upp",
     "No favorites" : "Inga favoriter"
 },
 "nplurals=2; plural=(n != 1);");

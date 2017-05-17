@@ -69,9 +69,7 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["%n bajt","%n bajty","%n bajtov"],
     "Favorited" : "Pridané k obľúbeným",
     "Favorite" : "Obľúbené",
-    "Folder" : "Priečinok",
     "New folder" : "Nový priečinok",
-    "Upload" : "Nahrať",
     "An error occurred while trying to update the tags" : "Pri pokuse o aktualizáciu štítkov došlo k chybe",
     "Added to favorites" : "Pridané do obľúbených",
     "Removed from favorites" : "Odstránené z obľúbených",
@@ -138,6 +136,8 @@ OC.L10N.register(
     "Soon..." : "Čoskoro…",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Opustenie stránky zruší práve prebiehajúce odosielanie súboru.",
     "Copy local link" : "Kopíruj lokálny odkaz",
+    "Folder" : "Priečinok",
+    "Upload" : "Nahrať",
     "No favorites" : "Žiadne obľúbené"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

@@ -37,6 +37,7 @@ OC.L10N.register(
     "Decline" : "Afwijzen",
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Deel met mij via mijn #Nextcloud federated Cloud ID, zie %s",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Deel met mij via mijn #Nextcloud federated Cloud ID",
+    "Federated file sharing" : "Gefedereerd bestand delen",
     "Federated Cloud Sharing" : "Federated Cloud Sharing",
     "Open documentation" : "Open documentatie",
     "Adjust how people can share between servers." : "Aanpassen hoe mensen tussen servers kunnen delen.",

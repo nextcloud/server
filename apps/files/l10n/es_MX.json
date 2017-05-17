@@ -68,9 +68,7 @@
     "Favorited" : "Marcado como favorito",
     "Favorite" : "Favorito",
     "Copy direct link (only works for users who have access to this file/folder)" : "Copiar liga directa (sólo funciona para usuarios que tienen acceso a este archivo/carpeta)",
-    "Folder" : "Carpeta",
     "New folder" : "Carpeta nueva",
-    "Upload" : "Cargar",
     "An error occurred while trying to update the tags" : "Se presentó un error al intentar actualizar la etiqueta",
     "Added to favorites" : "Agregado a los favoritos",
     "Removed from favorites" : "Eliminado de los favoritos",
@@ -138,6 +136,8 @@
     "Soon..." : "Pronto...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "La carga del archivo está en curso. El salir de la página ahora, la cancelará. ",
     "Copy local link" : "Copiar liga local",
+    "Folder" : "Carpeta",
+    "Upload" : "Cargar",
     "No favorites" : "No hay favoritos"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

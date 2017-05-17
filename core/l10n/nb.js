@@ -1,7 +1,7 @@
 OC.L10N.register(
     "core",
     {
-    "Please select a file." : "Velg en fil.",
+    "Please select a file." : "Velg ei fil.",
     "File is too big" : "Filen er for stor",
     "The selected file is not an image." : "Den valgte filen er ikke et bilde.",
     "The selected file cannot be read." : "Den valgte filen kan ikke leses.",
@@ -243,7 +243,7 @@ OC.L10N.register(
     "Database name" : "Databasenavn",
     "Database tablespace" : "Database-tabellområde",
     "Database host" : "Databasevert",
-    "Please specify the port number along with the host name (e.g., localhost:5432)." : "Vennligst spesifiser portnr. sammen med tjenernavnet (eks., localhost:5432).",
+    "Please specify the port number along with the host name (e.g., localhost:5432)." : "Spesifiser portnr. sammen med tjenernavnet (eks., localhost:5432).",
     "Performance warning" : "Ytelsesadvarsel",
     "SQLite will be used as database." : "SQLite vil bli brukt som database.",
     "For larger installations we recommend to choose a different database backend." : "For større installasjoner anbefaler vi å velge en annen database.",
@@ -253,7 +253,7 @@ OC.L10N.register(
     "Need help?" : "Trenger du hjelp?",
     "See the documentation" : "Se dokumentasjonen",
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Denne applikasjonen krever JavaScript for å fungere korrekt. {linkstart}Aktiver JavaScript{linkend} og last siden på nytt.",
-    "More apps" : "Flere apper",
+    "More apps" : "Flere programmer",
     "Search" : "Søk",
     "This action requires you to confirm your password:" : "Denne handlingen krever at du bekrefter ditt passord:",
     "Confirm your password" : "Bekreft ditt passord",

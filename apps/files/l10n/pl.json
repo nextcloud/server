@@ -68,9 +68,7 @@
     "Favorited" : "Ulubiony",
     "Favorite" : "Ulubione",
     "Copy direct link (only works for users who have access to this file/folder)" : "Skopiuj link bezpośredni (działa tylko dla użytkowników, którzy mają dostęp do pliku/folderu)",
-    "Folder" : "Folder",
     "New folder" : "Nowy folder",
-    "Upload" : "Wyślij",
     "An error occurred while trying to update the tags" : "Wystąpił błąd podczas aktualizacji tagów",
     "Added to favorites" : "Dodano do ulubionych",
     "Removed from favorites" : "Usunięto z ulubionych",
@@ -138,6 +136,8 @@
     "Soon..." : "Wkrótce...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Wysyłanie pliku jest w toku. Jeśli opuścisz tę stronę, wysyłanie zostanie przerwane.",
     "Copy local link" : "Kopiowanie lokalnego linku",
+    "Folder" : "Folder",
+    "Upload" : "Wyślij",
     "No favorites" : "Brak ulubionych"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>=14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

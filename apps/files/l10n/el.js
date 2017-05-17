@@ -70,9 +70,7 @@ OC.L10N.register(
     "Favorited" : "Προτιμώμενα",
     "Favorite" : "Αγαπημένο",
     "Copy direct link (only works for users who have access to this file/folder)" : "Αντιγραφή άμεσου συνδέσμου (λειτουργεί μόνο για χρήστες που έχουν πρόσβαση στο αρχείο/φάκελο)",
-    "Folder" : "Φάκελος",
     "New folder" : "Νέος φάκελος",
-    "Upload" : "Μεταφόρτωση",
     "An error occurred while trying to update the tags" : "Ένα σφάλμα προέκυψε κατά τη διάρκεια ενημέρωσης των ετικετών",
     "Added to favorites" : "Προσθήκη στα αγαπημένα",
     "Removed from favorites" : "Αφαίρεση από τα αγαπημένα",
@@ -140,6 +138,8 @@ OC.L10N.register(
     "Soon..." : "Σύντομα...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Η αποστολή του αρχείου βρίσκεται σε εξέλιξη. Το κλείσιμο της σελίδας θα ακυρώσει την αποστολή.",
     "Copy local link" : "Αντιγραφή τοπικού συνδέσμου",
+    "Folder" : "Φάκελος",
+    "Upload" : "Μεταφόρτωση",
     "No favorites" : "Δεν υπάρχουν αγαπημένα"
 },
 "nplurals=2; plural=(n != 1);");

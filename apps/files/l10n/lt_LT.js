@@ -69,9 +69,7 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["%n baitas","%n baitai","%n baitų"],
     "Favorited" : "Pažymėta mėgstamu",
     "Favorite" : "Mėgiamas",
-    "Folder" : "Aplankas",
     "New folder" : "Naujas aplankas",
-    "Upload" : "Įkelti",
     "An error occurred while trying to update the tags" : "Bandant atnaujinti žymes įvyko klaida",
     "Added to favorites" : "Pridėta prie mėgstamųjų",
     "Removed from favorites" : "Pašalinta iš mėgstamųjų",
@@ -138,6 +136,8 @@ OC.L10N.register(
     "Soon..." : "Netrukus...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Failo įkėlimas yra eigoje. Jei išeisite iš šio puslapio, įkėlimo bus atsisakyta.",
     "Copy local link" : "Kopijuoti vietinę nuorodą",
+    "Folder" : "Aplankas",
+    "Upload" : "Įkelti",
     "No favorites" : "Nėra mėgstamiausių"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);");

@@ -67,9 +67,7 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["%n bytes"],
     "Favorited" : "Được ưa thích",
     "Favorite" : "Ưu thích",
-    "Folder" : "Thư mục",
     "New folder" : "Tạo thư mục",
-    "Upload" : "Tải lên",
     "An error occurred while trying to update the tags" : "Đã xảy ra lỗi khi cố gắng cập nhật tags",
     "Added to favorites" : "Đã thêm vào mục yêu thích",
     "Removed from favorites" : "Đã xóa khỏi mục ưa thích",
@@ -128,6 +126,8 @@ OC.L10N.register(
     "Soon..." : "Sớm thôi...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Tập tin tải lên đang được xử lý. Nếu bạn rời khỏi trang bây giờ sẽ hủy quá trình này.",
     "Copy local link" : "Sao chép liên kết cục bộ",
+    "Folder" : "Thư mục",
+    "Upload" : "Tải lên",
     "No favorites" : "Không có mục ưa thích nào"
 },
 "nplurals=1; plural=0;");

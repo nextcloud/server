@@ -67,9 +67,7 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["%n byte","%n bytes"],
     "Favorited" : "Gogokoa",
     "Favorite" : "Gogokoa",
-    "Folder" : "Karpeta",
     "New folder" : "Karpeta berria",
-    "Upload" : "Igo",
     "An error occurred while trying to update the tags" : "Errore bat gertatu da etiketak eguneratzerakoan",
     "Added to favorites" : "Gogokoetan gehitu da",
     "Removed from favorites" : "Gogokoetatik kendu da",
@@ -136,6 +134,8 @@ OC.L10N.register(
     "Soon..." : "Laster...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Fitxategien igoera martxan da. Orria orain uzteak igoera ezeztatutko du.",
     "Copy local link" : "Kopiatu tokiko esteka",
+    "Folder" : "Karpeta",
+    "Upload" : "Igo",
     "No favorites" : "Gogokorik ez"
 },
 "nplurals=2; plural=(n != 1);");

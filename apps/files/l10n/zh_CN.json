@@ -68,9 +68,7 @@
     "Favorited" : "已收藏",
     "Favorite" : "收藏",
     "Copy direct link (only works for users who have access to this file/folder)" : "复制直接链接(仅适用于有权访问此文件/文件夹的用户)",
-    "Folder" : "文件夹",
     "New folder" : "新建文件夹",
-    "Upload" : "上传",
     "An error occurred while trying to update the tags" : "更新标签时出错",
     "Added to favorites" : "添加到收藏",
     "Removed from favorites" : "取消收藏",
@@ -138,6 +136,8 @@
     "Soon..." : "很快...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "文件正在上传中. 离开此页将会取消上传.",
     "Copy local link" : "复制本地链接",
+    "Folder" : "文件夹",
+    "Upload" : "上传",
     "No favorites" : "无收藏"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

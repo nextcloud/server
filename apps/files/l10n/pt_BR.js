@@ -70,9 +70,7 @@ OC.L10N.register(
     "Favorited" : "Favoritado",
     "Favorite" : "Favorito",
     "Copy direct link (only works for users who have access to this file/folder)" : "Copiar link direto (somente funciona para usuários que tem acesso a este arquivo/pasta)",
-    "Folder" : "Pasta",
     "New folder" : "Nova pasta",
-    "Upload" : "Enviar",
     "An error occurred while trying to update the tags" : "Ocorreu um erro enquanto tentava atualizar as etiquetas",
     "Added to favorites" : "Adicionado aos favoritos",
     "Removed from favorites" : "Excluído dos favoritos",
@@ -140,6 +138,8 @@ OC.L10N.register(
     "Soon..." : "Logo...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Envio de arquivo em andamento. Sair da página agora cancelará o envio.",
     "Copy local link" : "Copiar link local",
+    "Folder" : "Pasta",
+    "Upload" : "Enviar",
     "No favorites" : "Sem favoritos"
 },
 "nplurals=2; plural=(n > 1);");

@@ -70,9 +70,7 @@ OC.L10N.register(
     "Favorited" : "Избранное",
     "Favorite" : "Избранное",
     "Copy direct link (only works for users who have access to this file/folder)" : "Копировать прямую ссылку (работает только для пользователей с правами доступа к этому файлу или каталогу)",
-    "Folder" : "Каталог",
     "New folder" : "Новый каталог",
-    "Upload" : "Загрузить",
     "An error occurred while trying to update the tags" : "Во время обновления тегов возникла ошибка",
     "Added to favorites" : "Добавлено в избранное",
     "Removed from favorites" : "Удалено из избранного",
@@ -140,6 +138,8 @@ OC.L10N.register(
     "Soon..." : "Скоро...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Идёт загрузка файла. Покинув страницу, вы прервёте загрузку.",
     "Copy local link" : "Копировать локальную ссылку",
+    "Folder" : "Каталог",
+    "Upload" : "Загрузить",
     "No favorites" : "Нет избранного"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

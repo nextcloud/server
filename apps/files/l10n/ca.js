@@ -63,9 +63,7 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["%n byte","%n bytes"],
     "Favorited" : "Agregat a favorits",
     "Favorite" : "Preferits",
-    "Folder" : "Carpeta",
     "New folder" : "Carpeta nova",
-    "Upload" : "Puja",
     "An error occurred while trying to update the tags" : "S'ha produït un error en tractar d'actualitzar les etiquetes",
     "Added to favorites" : "Afegit a favorits",
     "Removed from favorites" : "Esborra de preferits",
@@ -115,6 +113,8 @@ OC.L10N.register(
     "Soon..." : "Aviat...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Hi ha una pujada en curs. Si abandoneu la pàgina la pujada es cancel·larà.",
     "Copy local link" : "C",
+    "Folder" : "Carpeta",
+    "Upload" : "Puja",
     "No favorites" : "No hi ha favorits"
 },
 "nplurals=2; plural=(n != 1);");

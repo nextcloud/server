@@ -70,9 +70,7 @@ OC.L10N.register(
     "Favorited" : "Sık kullanılanlara eklendi",
     "Favorite" : "Sık kullanılanlara ekle",
     "Copy direct link (only works for users who have access to this file/folder)" : "Doğrudan bağlantıyı kopyala (yalnız bu dosya ya da klasöre erişim izni olan kullanıcılar için)",
-    "Folder" : "Klasör",
     "New folder" : "Yeni klasör",
-    "Upload" : "Yükle",
     "An error occurred while trying to update the tags" : "Etiketler güncellenirken bir sorun çıktı",
     "Added to favorites" : "Sık kullanılanlara eklendi",
     "Removed from favorites" : "Sık kullanılanlardan çıkarıldı",
@@ -140,6 +138,8 @@ OC.L10N.register(
     "Soon..." : "Yakında...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Dosya yükleme işlemi sürüyor. Sayfadan ayrılırsanız yükleme işlemi iptal edilir.",
     "Copy local link" : "Bağlantıyı kopyala",
+    "Folder" : "Klasör",
+    "Upload" : "Yükle",
     "No favorites" : "Sık kullanılan bir öge yok"
 },
 "nplurals=2; plural=(n > 1);");
