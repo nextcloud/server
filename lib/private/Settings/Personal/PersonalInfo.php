@@ -27,6 +27,7 @@ namespace OC\Settings\Personal;
 use OC\Accounts\AccountManager;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
+use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -58,6 +59,7 @@ class PersonalInfo implements ISettings {
 	 * @param IGroupManager $groupManager
 	 * @param AccountManager $accountManager
 	 * @param IFactory $l10nFactory
+	 * @param \OC_Defaults $defaults
 	 */
 	public function __construct(
 		IConfig $config,
@@ -85,16 +87,9 @@ class PersonalInfo implements ISettings {
 
 		$uid = \OC_User::getUser();
 		$user = $this->userManager->get($uid);
-
 		$userData = $this->accountManager->getUser($user);
-		list($activeLanguage, $commonLanguages, $languages) = $this->getLanguages($user);
 
-		//links to clients
-		$clients = [
-			'desktop' => $this->config->getSystemValue('customclient_desktop', $this->defaults->getSyncClientUrl()),
-			'android' => $this->config->getSystemValue('customclient_android', $this->defaults->getAndroidClientUrl()),
-			'ios'     => $this->config->getSystemValue('customclient_ios', $this->defaults->getiOSClientUrl())
-		];
+		list($activeLanguage, $commonLanguages, $languages) = $this->getLanguages($user);
 
 		$parameters = [
 			'avatarChangeSupported' => \OC_User::canUserChangeAvatar($uid),
@@ -116,12 +111,12 @@ class PersonalInfo implements ISettings {
 			'twitter' => $userData[AccountManager::PROPERTY_TWITTER]['value'],
 			'twitterScope' => $userData[AccountManager::PROPERTY_TWITTER]['scope'],
 			'twitterVerification' => $userData[AccountManager::PROPERTY_TWITTER]['verified'],
-			'groups' => $this->groupManager->getUserGroups($user),
+			'groups' => $this->getGroups($user),
 			'passwordChangeSupported' => \OC_User::canUserChangePassword($uid),
 			'activelanguage' => $activeLanguage,
 			'commonlanguages' => $commonLanguages,
 			'languages' => $languages,
-			'clients' => $clients,
+			'clients' => $this->getClientLinks(),
 		];
 
 
@@ -148,6 +143,31 @@ class PersonalInfo implements ISettings {
 		return 10;
 	}
 
+	/**
+	 * returns a sorted list of the user's group GIDs
+	 *
+	 * @param IUser $user
+	 * @return array
+	 */
+	private function getGroups(IUser $user) {
+		$groups = array_map(
+			function(IGroup $group) {
+				return $group->getGID();
+			},
+			$this->groupManager->getUserGroups($user)
+		);
+		sort($groups);
+
+		return $groups;
+	}
+
+	/**
+	 * returns the user language, common language and other languages in an
+	 * associative array
+	 *
+	 * @param IUser $user
+	 * @return array
+	 */
 	private function getLanguages(IUser $user) {
 		$uid = $user->getUID();
 
@@ -202,5 +222,19 @@ class PersonalInfo implements ISettings {
 		});
 
 		return [$userLang, $commonLanguages, $languages];
+	}
+
+	/**
+	 * returns an array containing links to the various clients
+	 *
+	 * @return array
+	 */
+	private function getClientLinks() {
+		$clients = [
+			'desktop' => $this->config->getSystemValue('customclient_desktop', $this->defaults->getSyncClientUrl()),
+			'android' => $this->config->getSystemValue('customclient_android', $this->defaults->getAndroidClientUrl()),
+			'ios' => $this->config->getSystemValue('customclient_ios', $this->defaults->getiOSClientUrl())
+		];
+		return $clients;
 	}
 }
