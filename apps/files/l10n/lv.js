@@ -67,9 +67,7 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["%n baiti","%n baits","%n baiti"],
     "Favorited" : "Favorīti",
     "Favorite" : "Iecienītais",
-    "Folder" : "Mape",
     "New folder" : "Jauna mape",
-    "Upload" : "Augšupielādēt",
     "An error occurred while trying to update the tags" : "Notika kļūda atjaunojot atzīmi",
     "Added to favorites" : "Pievienot izlasei",
     "Removed from favorites" : "Noņemt no izlases",
@@ -136,6 +134,8 @@ OC.L10N.register(
     "Soon..." : "Drīz...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Notiek augšupielāde. Pametot lapu tagad, tiks atcelta augšupielāde.",
     "Copy local link" : "Kopēt lokālo saiti",
+    "Folder" : "Mape",
+    "Upload" : "Augšupielādēt",
     "No favorites" : "Nav favorītu"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

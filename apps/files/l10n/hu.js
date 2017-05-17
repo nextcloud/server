@@ -70,9 +70,7 @@ OC.L10N.register(
     "Favorited" : "Kedvenc",
     "Favorite" : "Kedvenc",
     "Copy direct link (only works for users who have access to this file/folder)" : "Közvetlen hivatkozás másolása (csak azoknál a felhasználóknál működik akiknek hozzáférése van a fájlhoz/mappához)",
-    "Folder" : "Mappa",
     "New folder" : "Új mappa",
-    "Upload" : "Feltöltés",
     "An error occurred while trying to update the tags" : "Hiba történt, miközben megpróbálta frissíteni a címkéket",
     "Added to favorites" : "Hozzáadva a kedvencekhez",
     "Removed from favorites" : "Eltávolítva a kedvencekből",
@@ -140,6 +138,8 @@ OC.L10N.register(
     "Soon..." : "Hamarosan...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Fájlfeltöltés van folyamatban. Az oldal elhagyása megszakítja a feltöltést.",
     "Copy local link" : "Helyi hivatkozás másolása",
+    "Folder" : "Mappa",
+    "Upload" : "Feltöltés",
     "No favorites" : "Nincsenek kedvencek"
 },
 "nplurals=2; plural=(n != 1);");

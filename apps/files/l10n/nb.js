@@ -70,9 +70,7 @@ OC.L10N.register(
     "Favorited" : "Er favoritt",
     "Favorite" : "Gjør til favoritt",
     "Copy direct link (only works for users who have access to this file/folder)" : "Kopier direkte lenke (virker bare for brukere som har tilgang til denne fila/mappa)",
-    "Folder" : "Mappe",
     "New folder" : "Ny mappe",
-    "Upload" : "Last opp",
     "An error occurred while trying to update the tags" : "En feil oppstod under oppdatering av merkelappene",
     "Added to favorites" : "Lagt til i favoritter",
     "Removed from favorites" : "Fjernet fra favoritter",
@@ -140,6 +138,8 @@ OC.L10N.register(
     "Soon..." : "Snart...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Filopplasting pågår. Forlater du siden nå avbrytes opplastingen.",
     "Copy local link" : "Kopier lokal lenke",
+    "Folder" : "Mappe",
+    "Upload" : "Last opp",
     "No favorites" : "Ingen favoritter"
 },
 "nplurals=2; plural=(n != 1);");

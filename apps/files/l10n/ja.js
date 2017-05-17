@@ -70,9 +70,7 @@ OC.L10N.register(
     "Favorited" : "お気に入り済",
     "Favorite" : "お気に入り",
     "Copy direct link (only works for users who have access to this file/folder)" : "ダイレクトリンクをコピー (このファイル/フォルダにアクセスできるユーザーのみ)",
-    "Folder" : "フォルダー",
     "New folder" : "新しいフォルダー",
-    "Upload" : "アップロード",
     "An error occurred while trying to update the tags" : "タグを更新する際にエラーが発生しました",
     "Added to favorites" : "お気に入りに追加",
     "Removed from favorites" : "お気に入りから削除",
@@ -140,6 +138,8 @@ OC.L10N.register(
     "Soon..." : "まもなく…",
     "File upload is in progress. Leaving the page now will cancel the upload." : "ファイル転送を実行中です。今このページから移動するとアップロードが中止されます。",
     "Copy local link" : "ローカルリンクをコピー",
+    "Folder" : "フォルダー",
+    "Upload" : "アップロード",
     "No favorites" : "お気に入りなし"
 },
 "nplurals=1; plural=0;");

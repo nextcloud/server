@@ -67,9 +67,7 @@
     "_%n byte_::_%n bytes_" : ["%n byte","%n bytes"],
     "Favorited" : "Favorite",
     "Favorite" : "Favorite",
-    "Folder" : "Dossier",
     "New folder" : "Nove dossier",
-    "Upload" : "Incargar",
     "An error occurred while trying to update the tags" : "Un error occurreva durante le actualisation del etiquettas",
     "Added to favorites" : "Addite al favoritos",
     "Removed from favorites" : "Removite del favoritos",
@@ -136,6 +134,8 @@
     "Soon..." : "Proximemente...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Incarga de un file es in progresso. Quitar le pagina ora cancellara le incarga.",
     "Copy local link" : "Copiar ligamine local",
+    "Folder" : "Dossier",
+    "Upload" : "Incargar",
     "No favorites" : "Nulle favoritos"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

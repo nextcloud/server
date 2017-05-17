@@ -66,9 +66,7 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["%n байт","%n байта"],
     "Favorited" : "Отбелязано в любими",
     "Favorite" : "Любими",
-    "Folder" : "Папка",
     "New folder" : "Нова папка",
-    "Upload" : "Качване",
     "An error occurred while trying to update the tags" : "Възникна грешка при опита за промяна на тагове",
     "Added to favorites" : "Добавено към предпочитани",
     "Removed from favorites" : "Премахнато от предпочитани",
@@ -132,6 +130,8 @@ OC.L10N.register(
     "Soon..." : "Скоро...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Извършва се качване на файлове. Затварянето на тази страница ще прекъсне качването.",
     "Copy local link" : "Копиране на локална връзка",
+    "Folder" : "Папка",
+    "Upload" : "Качване",
     "No favorites" : "Няма любими"
 },
 "nplurals=2; plural=(n != 1);");

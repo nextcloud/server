@@ -70,9 +70,7 @@ OC.L10N.register(
     "Favorited" : "Sett í eftirlæti",
     "Favorite" : "Eftirlæti",
     "Copy direct link (only works for users who have access to this file/folder)" : "Afrita beinan tengil (virkar bara fyrir notendur sem eiga aðgang að þessari skrá/möppu)",
-    "Folder" : "Mappa",
     "New folder" : "Ný mappa",
-    "Upload" : "Senda inn",
     "An error occurred while trying to update the tags" : "Villa kom upp við að reyna að uppfæra merkin",
     "Added to favorites" : "Bætt í eftirlæti",
     "Removed from favorites" : "Fjarlægt úr eftirlætum",
@@ -140,6 +138,8 @@ OC.L10N.register(
     "Soon..." : "Bráðum...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Innsending í gangi. Ef þú ferð af þessari síðu mun innsending hætta.",
     "Copy local link" : "Afrita staðværan tengil",
+    "Folder" : "Mappa",
+    "Upload" : "Senda inn",
     "No favorites" : "Engin eftirlæti"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

@@ -69,9 +69,7 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["¦%n Byte","¦%n Byte"],
     "Favorited" : "Favoriséiert",
     "Favorite" : "Favorit",
-    "Folder" : "Dossier",
     "New folder" : "Neien Dossier",
-    "Upload" : "Eroplueden",
     "An error occurred while trying to update the tags" : "Beim Updaten vun den Tags ass e Fehler entstaanen",
     "Added to favorites" : "Zu den Favoriten dobaigesat",
     "Removed from favorites" : "Vun den Favoriten eweggeholl",
@@ -138,6 +136,8 @@ OC.L10N.register(
     "Soon..." : "Geschwënn",
     "File upload is in progress. Leaving the page now will cancel the upload." : "File Upload am gaang. Wann's de des Säit verléiss gëtt den Upload ofgebrach.",
     "Copy local link" : "Lokale Link kopéiert",
+    "Folder" : "Dossier",
+    "Upload" : "Eroplueden",
     "No favorites" : "Keng Favoriten"
 },
 "nplurals=2; plural=(n != 1);");

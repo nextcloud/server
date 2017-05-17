@@ -70,9 +70,7 @@ OC.L10N.register(
     "Favorited" : "즐겨찾기에 추가됨",
     "Favorite" : "즐겨찾기",
     "Copy direct link (only works for users who have access to this file/folder)" : "직접 링크 복사(이 파일/폴더에 접근 권한이 있는 사람만)",
-    "Folder" : "폴더",
     "New folder" : "새 폴더",
-    "Upload" : "업로드",
     "An error occurred while trying to update the tags" : "태그를 업데이트하는 중 오류 발생",
     "Added to favorites" : "즐겨찾기에 추가됨",
     "Removed from favorites" : "즐겨찾기에서 삭제됨",
@@ -140,6 +138,8 @@ OC.L10N.register(
     "Soon..." : "곧...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "파일 업로드가 진행 중입니다. 이 페이지를 벗어나면 업로드가 취소됩니다.",
     "Copy local link" : "로컬 링크 복사",
+    "Folder" : "폴더",
+    "Upload" : "업로드",
     "No favorites" : "즐겨찾는 항목 없음"
 },
 "nplurals=1; plural=0;");

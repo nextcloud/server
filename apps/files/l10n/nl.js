@@ -70,9 +70,7 @@ OC.L10N.register(
     "Favorited" : "Favoriet",
     "Favorite" : "Favoriet",
     "Copy direct link (only works for users who have access to this file/folder)" : "Kopieer de link direct (werkt alleen voor gebruikers met toegang tot map/bestand)",
-    "Folder" : "Map",
     "New folder" : "Nieuwe map",
-    "Upload" : "Uploaden",
     "An error occurred while trying to update the tags" : "Er trad een fout op bij jouw poging om de markeringen bij te werken",
     "Added to favorites" : "Toevoegen aan favorieten",
     "Removed from favorites" : "Verwijderen uit favorieten",
@@ -140,6 +138,8 @@ OC.L10N.register(
     "Soon..." : "Binnenkort...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Bestandsupload is bezig. Wanneer de pagina nu verlaten wordt, stopt de upload.",
     "Copy local link" : "Kopiëren lokale link",
+    "Folder" : "Map",
+    "Upload" : "Uploaden",
     "No favorites" : "Geen favorieten"
 },
 "nplurals=2; plural=(n != 1);");
