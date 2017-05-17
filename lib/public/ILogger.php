@@ -132,7 +132,7 @@ interface ILogger {
 	 *
 	 * <code>
 	 * $logger->logException($ex, [
-	 *     'message' => 'Exception during cron job execution'
+	 *     'message' => 'Exception during background job execution'
 	 * ]);
 	 * </code>
 	 *
