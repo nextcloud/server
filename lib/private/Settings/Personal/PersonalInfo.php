@@ -52,8 +52,7 @@ class PersonalInfo implements ISettings {
 		'en', 'es', 'fr', 'de', 'de_DE', 'ja', 'ar', 'ru', 'nl', 'it',
 		'pt_BR', 'pt_PT', 'da', 'fi_FI', 'nb_NO', 'sv', 'tr', 'zh_CN', 'ko'
 	];
-	/** @var \OC_Defaults */
-	private $defaults;
+
 	/** @var IL10N */
 	private $l;
 
@@ -63,7 +62,6 @@ class PersonalInfo implements ISettings {
 	 * @param IGroupManager $groupManager
 	 * @param AccountManager $accountManager
 	 * @param IFactory $l10nFactory
-	 * @param \OC_Defaults $defaults
 	 * @param IL10N $l
 	 */
 	public function __construct(
@@ -72,7 +70,6 @@ class PersonalInfo implements ISettings {
 		IGroupManager $groupManager,
 		AccountManager $accountManager,
 		IFactory $l10nFactory,
-		\OC_Defaults $defaults,
 		IL10N $l
 	) {
 		$this->config = $config;
@@ -80,7 +77,6 @@ class PersonalInfo implements ISettings {
 		$this->accountManager = $accountManager;
 		$this->groupManager = $groupManager;
 		$this->l10nFactory = $l10nFactory;
-		$this->defaults = $defaults;
 		$this->l = $l;
 	}
 
@@ -134,7 +130,6 @@ class PersonalInfo implements ISettings {
 			'activelanguage' => $activeLanguage,
 			'commonlanguages' => $commonLanguages,
 			'languages' => $languages,
-			'clients' => $this->getClientLinks(),
 		];
 
 
@@ -242,17 +237,4 @@ class PersonalInfo implements ISettings {
 		return [$userLang, $commonLanguages, $languages];
 	}
 
-	/**
-	 * returns an array containing links to the various clients
-	 *
-	 * @return array
-	 */
-	private function getClientLinks() {
-		$clients = [
-			'desktop' => $this->config->getSystemValue('customclient_desktop', $this->defaults->getSyncClientUrl()),
-			'android' => $this->config->getSystemValue('customclient_android', $this->defaults->getAndroidClientUrl()),
-			'ios' => $this->config->getSystemValue('customclient_ios', $this->defaults->getiOSClientUrl())
-		];
-		return $clients;
-	}
 }

@@ -368,7 +368,7 @@ class Manager implements IManager {
 		try {
 			if ($section === 'personal-info') {
 				/** @var ISettings $form */
-				$form = new Personal\PersonalInfo($this->config, $this->userManager, $this->groupManager, $this->accountManager, $this->l10nFactory, $this->defaults, $this->l);
+				$form = new Personal\PersonalInfo($this->config, $this->userManager, $this->groupManager, $this->accountManager, $this->l10nFactory, $this->l);
 				$forms[$form->getPriority()] = [$form];
 			}
 			if($section === 'sessions') {
@@ -379,6 +379,11 @@ class Manager implements IManager {
 			if($section === 'app-passwords') {
 				/** @var ISettings $form */
 				$form = new Personal\AppPasswords();
+				$forms[$form->getPriority()] = [$form];
+			}
+			if($section === 'sync-clients') {
+				/** @var ISettings $form */
+				$form = new Personal\SyncClients($this->config, $this->defaults);
 				$forms[$form->getPriority()] = [$form];
 			}
 		} catch (QueryException $e) {
@@ -417,6 +422,7 @@ class Manager implements IManager {
 			0 => [new Section('personal-info', $this->l->t('Personal info'), 0, $this->url->imagePath('core', 'actions/info.svg'))],
 			5 => [new Section('sessions', $this->l->t('Sessions'), 0, $this->url->imagePath('settings', 'admin.svg'))],
 			10 => [new Section('app-passwords', $this->l->t('App passwords'), 0, $this->url->imagePath('settings', 'password.svg'))],
+			15 => [new Section('sync-clients', $this->l->t('Sync clients'), 0, $this->url->imagePath('settings', 'change.svg'))],
 
 		];
 		return $sections;

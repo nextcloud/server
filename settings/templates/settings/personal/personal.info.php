@@ -315,39 +315,3 @@ if($_['passwordChangeSupported']) {
 		<em><?php p($l->t('Help translate'));?></em>
 	</a>
 </form>
-
-
-<div id="clientsbox" class="section clientsbox">
-	<h2><?php p($l->t('Get the apps to sync your files'));?></h2>
-	<a href="<?php p($_['clients']['desktop']); ?>" rel="noreferrer" target="_blank">
-		<img src="<?php print_unescaped(image_path('core', 'desktopapp.svg')); ?>"
-			 alt="<?php p($l->t('Desktop client'));?>" />
-	</a>
-	<a href="<?php p($_['clients']['android']); ?>" rel="noreferrer" target="_blank">
-		<img src="<?php print_unescaped(image_path('core', 'googleplay.png')); ?>"
-			 alt="<?php p($l->t('Android app'));?>" />
-	</a>
-	<a href="<?php p($_['clients']['ios']); ?>" rel="noreferrer" target="_blank">
-		<img src="<?php print_unescaped(image_path('core', 'appstore.svg')); ?>"
-			 alt="<?php p($l->t('iOS app'));?>" />
-	</a>
-
-	<p>
-		<?php print_unescaped(str_replace(
-			[
-				'{contributeopen}',
-				'{linkclose}',
-			],
-			[
-				'<a href="https://nextcloud.com/contribute" target="_blank" rel="noreferrer">',
-				'</a>',
-			],
-			$l->t('If you want to support the project {contributeopen}join development{linkclose} or {contributeopen}spread the word{linkclose}!'))); ?>
-	</p>
-
-	<?php if(OC_APP::isEnabled('firstrunwizard')) {?>
-		<p><a class="button" href="#" id="showWizard"><?php p($l->t('Show First Run Wizard again'));?></a></p>
-	<?php }?>
-</div>
-
-
