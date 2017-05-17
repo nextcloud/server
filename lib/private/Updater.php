@@ -190,6 +190,16 @@ class Updater extends BasicEmitter {
 		$majorMinor = $version[0] . '.' . $version[1];
 
 		$currentVendor = $this->config->getAppValue('core', 'vendor', '');
+
+		// Vendor was not set correctly on install, so we have to white-list known versions
+		if ($currentVendor === '') {
+			if (in_array($oldVersion, [
+					'10.0.0.12',
+				], true)) {
+				$currentVendor = 'owncloud';
+			}
+		}
+
 		if ($currentVendor === 'nextcloud') {
 			return isset($allowedPreviousVersions[$currentVendor][$majorMinor])
 				&& (version_compare($oldVersion, $newVersion, '<=') ||
@@ -197,7 +207,8 @@ class Updater extends BasicEmitter {
 		}
 
 		// Check if the instance can be migrated
-		return isset($allowedPreviousVersions[$currentVendor][$majorMinor]);
+		return isset($allowedPreviousVersions[$currentVendor][$majorMinor]) ||
+			isset($allowedPreviousVersions[$currentVendor][$oldVersion]);
 	}
 
 	/**
