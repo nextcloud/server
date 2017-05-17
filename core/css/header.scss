@@ -27,7 +27,7 @@
 	position: absolute;
 	top: 45px;
 	background-color: #fff;
-	box-shadow: 0 1px 10px rgba(150, 150, 150, 0.75);
+	box-shadow: 0 1px 10px $color-box-shadow;
 	border-radius: 0 0 3px 3px;
 	display: none;
 	box-sizing: border-box;
@@ -508,11 +508,7 @@ nav {
 		top: 45px;
 		transform: translateX(-50%);
 		padding: 4px 10px;
-		-webkit-filter: drop-shadow(0 0 5px rgba(150, 150, 150, .75));
-		-moz-filter: drop-shadow(0 0 5px rgba(150, 150, 150, .75));
-		-ms-filter: drop-shadow(0 0 5px rgba(150, 150, 150, .75));
-		-o-filter: drop-shadow(0 0 5px rgba(150, 150, 150, .75));
-		filter: drop-shadow(0 0 5px rgba(150, 150, 150, .75));
+		box-shadow: 0 1px 10px $color-box-shadow;
 	}
 
 	li:hover span {
