@@ -304,6 +304,8 @@ OC.L10N.register(
     "Update needed" : "Güncelleme gerekiyor",
     "Please use the command line updater because you have a big instance with more than 50 users." : "50 üzerinde kullanıcısı olan bir kopya kullandığınız için lütfen komut satırı güncelleyiciyi kullanın.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Yardım almak için, <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">belgelere</a> bakın.",
+    "I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure." : "Güncellemeyi web arayüzü üzerinden yapmanın zaman aşımına neden olarak veri kaybına neden olabileceğini biliyorum. Ancak bir yedeğim var ve sorun çıkması durumunda nasıl geri yükleyebileceğimi biliyorum.",
+    "Upgrade via web on my own risk" : "Riski alıyorum web üzerinden güncelle",
     "This %s instance is currently in maintenance mode, which may take a while." : "Bu %s kopyası şu anda bakım kipinde, bu işlem biraz zaman alabilir.",
     "This page will refresh itself when the %s instance is available again." : "Bu sayfa, %s kopyası yeniden kullanılabilir olduğunda kendini yenileyecek.",
     "Problem loading page, reloading in 5 seconds" : "Sayfa yüklenirken bir sorun çıktı, Sayfa 5 saniye içinde yeniden yüklenecek",
