@@ -371,6 +371,11 @@ class Manager implements IManager {
 				$form = new Personal\PersonalInfo($this->config, $this->userManager, $this->groupManager, $this->accountManager, $this->l10nFactory, $this->defaults, $this->l);
 				$forms[$form->getPriority()] = [$form];
 			}
+			if($section === 'sessions') {
+				/** @var ISettings $form */
+				$form = new Personal\Sessions();
+				$forms[$form->getPriority()] = [$form];
+			}
 		} catch (QueryException $e) {
 			// skip
 		}
@@ -405,6 +410,8 @@ class Manager implements IManager {
 	public function getPersonalSections() {
 		$sections = [
 			0 => [new Section('personal-info', $this->l->t('Personal info'), 0, $this->url->imagePath('core', 'actions/info.svg'))],
+			1 => [new Section('sessions', $this->l->t('Sessions'), 0, $this->url->imagePath('settings', 'admin.svg'))],
+
 		];
 		return $sections;
 	}
