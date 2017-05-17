@@ -26,6 +26,7 @@ namespace OCA\Theming;
 use Imagick;
 use ImagickPixel;
 use OCP\App\AppPathNotFoundException;
+use OCP\Files\SimpleFS\ISimpleFile;
 
 class IconBuilder {
 	/** @var ThemingDefaults */
@@ -86,19 +87,23 @@ class IconBuilder {
 	 * @return Imagick|false
 	 */
 	public function renderAppIcon($app, $size) {
-		try {
-			$appIcon = $this->util->getAppIcon($app);
-			$appIconContent = file_get_contents($appIcon);
-		} catch (AppPathNotFoundException $e) {
+		$appIcon = $this->util->getAppIcon($app);
+		if($appIcon === false) {
 			return false;
 		}
+		if ($appIcon instanceof ISimpleFile) {
+			$appIconContent = $appIcon->getContent();
+			$mime = $appIcon->getMimeType();
+		} else {
+			$appIconContent = file_get_contents($appIcon);
+			$mime = mime_content_type($appIcon);
+		}
 
-		if($appIconContent === false) {
+		if($appIconContent === false || $appIconContent === "") {
 			return false;
 		}
 
 		$color = $this->themingDefaults->getColorPrimary();
-		$mime = mime_content_type($appIcon);
 
 		// generate background image with rounded corners
 		$background = '<?xml version="1.0" encoding="UTF-8"?>' .
@@ -136,10 +141,9 @@ class IconBuilder {
 		} else {
 			$appIconFile = new Imagick();
 			$appIconFile->setBackgroundColor(new ImagickPixel('transparent'));
-			$appIconFile->readImageBlob(file_get_contents($appIcon));
+			$appIconFile->readImageBlob($appIconContent);
 			$appIconFile->scaleImage(512, 512, true);
 		}
-
 		// offset for icon positioning
 		$border_w = (int)($appIconFile->getImageWidth() * 0.05);
 		$border_h = (int)($appIconFile->getImageHeight() * 0.05);

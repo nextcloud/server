@@ -853,7 +853,7 @@ class Server extends ServerContainer implements IServerContainer {
 					$c->getURLGenerator(),
 					$c->getAppDataDir('theming'),
 					$c->getMemCacheFactory(),
-					new Util($c->getConfig(), $this->getRootFolder(), $this->getAppManager())
+					new Util($c->getConfig(), $this->getAppManager(), $this->getAppDataDir('theming'))
 				);
 			}
 			return new \OC_Defaults();
