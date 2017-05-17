@@ -62,8 +62,6 @@ class ThemingControllerTest extends TestCase {
 	private $l10n;
 	/** @var ThemingController */
 	private $themingController;
-	/** @var IRootFolder|\PHPUnit_Framework_MockObject_MockObject */
-	private $rootFolder;
 	/** @var ITempManager */
 	private $tempManager;
 	/** @var IAppManager|\PHPUnit_Framework_MockObject_MockObject */
@@ -79,14 +77,13 @@ class ThemingControllerTest extends TestCase {
 		$this->themingDefaults = $this->createMock(ThemingDefaults::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->l10n = $this->createMock(L10N::class);
-		$this->rootFolder = $this->createMock(IRootFolder::class);
+		$this->appData = $this->createMock(IAppData::class);
 		$this->appManager = $this->createMock(IAppManager::class);
-		$this->util = new Util($this->config, $this->rootFolder, $this->appManager);
+		$this->util = new Util($this->config, $this->appManager, $this->appData);
 		$this->timeFactory->expects($this->any())
 			->method('getTime')
 			->willReturn(123);
 		$this->tempManager = \OC::$server->getTempManager();
-		$this->appData = $this->createMock(IAppData::class);
 		$this->scssCacher = $this->createMock(SCSSCacher::class);
 
 		$this->themingController = new ThemingController(
