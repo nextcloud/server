@@ -20,10 +20,10 @@
  *
  */
 
-namespace OCA\TwoFactorBackupCodes\Test\Unit\Activity;
+namespace Tests\Settings\Activity;
 
 use InvalidArgumentException;
-use OCA\TwoFactorBackupCodes\Activity\GenericProvider;
+use OC\Settings\Activity\SecurityProvider;
 use OCP\Activity\IEvent;
 use OCP\IL10N;
 use OCP\ILogger;
@@ -32,7 +32,7 @@ use OCP\L10N\IFactory;
 use PHPUnit_Framework_MockObject_MockObject;
 use Test\TestCase;
 
-class GenericProviderTest extends TestCase {
+class SecurityProviderTest extends TestCase {
 
 	/** @var IL10N|PHPUnit_Framework_MockObject_MockObject */
 	private $l10n;
@@ -43,7 +43,7 @@ class GenericProviderTest extends TestCase {
 	/** @var ILogger|PHPUnit_Framework_MockObject_MockObject */
 	private $logger;
 
-	/** @var GenericProvider */
+	/** @var SecurityProvider */
 	private $provider;
 
 	protected function setUp() {
@@ -53,7 +53,7 @@ class GenericProviderTest extends TestCase {
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->logger = $this->createMock(ILogger::class);
 
-		$this->provider = new GenericProvider($this->l10n, $this->urlGenerator, $this->logger);
+		$this->provider = new SecurityProvider($this->l10n, $this->urlGenerator, $this->logger);
 	}
 
 	public function testParseUnrelated() {
@@ -84,7 +84,7 @@ class GenericProviderTest extends TestCase {
 
 		$event->expects($this->once())
 			->method('getType')
-			->willReturn('twofactor');
+			->willReturn('security');
 		$this->l10n->expects($this->once())
 			->method('get')
 			->with('core', $lang)
@@ -116,7 +116,7 @@ class GenericProviderTest extends TestCase {
 
 		$event->expects($this->once())
 			->method('getType')
-			->willReturn('twofactor');
+			->willReturn('security');
 		$this->l10n->expects($this->once())
 			->method('get')
 			->with('core', $lang)

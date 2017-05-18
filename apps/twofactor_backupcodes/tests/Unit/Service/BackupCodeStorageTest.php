@@ -98,7 +98,7 @@ class BackupCodeStorageTest extends TestCase {
 			->will($this->returnSelf());
 		$event->expects($this->once())
 			->method('setType')
-			->with('twofactor')
+			->with('security')
 			->will($this->returnSelf());
 		$event->expects($this->once())
 			->method('setAuthor')

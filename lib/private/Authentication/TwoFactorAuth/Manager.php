@@ -23,6 +23,7 @@
 
 namespace OC\Authentication\TwoFactorAuth;
 
+use BadMethodCallException;
 use Exception;
 use OC;
 use OC\App\AppManager;
@@ -218,16 +219,16 @@ class Manager {
 	 */
 	private function publishEvent(IUser $user, $event, array $params) {
 		$activity = $this->activityManager->generateEvent();
-		$activity->setApp('twofactor_generic')
-			->setType('twofactor')
+		$activity->setApp('core')
+			->setType('security')
 			->setAuthor($user->getUID())
 			->setAffectedUser($user->getUID())
 			->setSubject($event, $params);
 		try {
 			$this->activityManager->publish($activity);
-		} catch (Exception $e) {
-			$this->logger->warning('could not publish backup code creation activity', ['app' => 'twofactor_backupcodes']);
-			$this->logger->logException($e, ['app' => 'twofactor_backupcodes']);
+		} catch (BadMethodCallException $e) {
+			$this->logger->warning('could not publish backup code creation activity', ['app' => 'core']);
+			$this->logger->logException($e, ['app' => 'core']);
 		}
 	}
 
