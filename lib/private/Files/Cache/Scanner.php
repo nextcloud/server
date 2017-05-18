@@ -266,6 +266,9 @@ class Scanner extends BasicEmitter implements IScanner {
 	 * @return int the id of the added file
 	 */
 	protected function addToCache($path, $data, $fileId = -1) {
+		if (isset($data['scan_permissions'])) {
+			$data['permissions'] = $data['scan_permissions'];
+		}
 		\OC_Hook::emit('Scanner', 'addToCache', array('file' => $path, 'data' => $data));
 		$this->emit('\OC\Files\Cache\Scanner', 'addToCache', array($path, $this->storageId, $data));
 		if ($this->cacheActive) {
