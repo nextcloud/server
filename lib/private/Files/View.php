@@ -564,7 +564,7 @@ class View {
 				$mtime = time();
 			}
 			//if native touch fails, we emulate it by changing the mtime in the cache
-			$this->putFileInfo($path, array('mtime' => $mtime));
+			$this->putFileInfo($path, array('mtime' => floor($mtime)));
 		}
 		return true;
 	}
