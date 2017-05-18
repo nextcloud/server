@@ -49,6 +49,7 @@ class AccessTokenMapperTest extends TestCase {
 
 		$result = $this->accessTokenMapper->getByCode('MyAwesomeToken');
 		$this->assertEquals($token, $result);
+		$this->accessTokenMapper->delete($token);
 	}
 
 	/**
