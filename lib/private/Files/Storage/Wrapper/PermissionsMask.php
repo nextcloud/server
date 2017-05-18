@@ -143,7 +143,8 @@ class PermissionsMask extends Wrapper {
 		$data = parent::getMetaData($path);
 
 		if ($data && isset($data['permissions'])) {
-			$data['permissions'] = $data['permissions'] & $this->mask;
+			$data['scan_permissions'] = $data['permissions'];
+			$data['permissions'] &= $this->mask;
 		}
 		return $data;
 	}

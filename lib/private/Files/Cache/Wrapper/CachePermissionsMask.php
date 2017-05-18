@@ -40,6 +40,7 @@ class CachePermissionsMask extends CacheWrapper {
 
 	protected function formatCacheEntry($entry) {
 		if (isset($entry['permissions'])) {
+			$entry['scan_permissions'] = $entry['permissions'];
 			$entry['permissions'] &= $this->mask;
 		}
 		return $entry;
