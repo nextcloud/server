@@ -922,6 +922,14 @@
 				<length>1</length>
 			</field>
 
+			<field>
+				<name>share_name</name>
+				<type>text</type>
+				<default></default>
+				<notnull>false</notnull>
+				<length>64</length>
+			</field>
+
 			<index>
 				<name>item_share_type_index</name>
 				<field>
