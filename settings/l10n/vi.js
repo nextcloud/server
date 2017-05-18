@@ -28,7 +28,6 @@ OC.L10N.register(
     "Port" : "Cổng",
     "Credentials" : "Giấy chứng nhận",
     "Security & setup warnings" : "Bảo mật và thiết lập cảnh báo",
-    "Cron" : "Cron",
     "Execute one task with each page loaded" : "Thực thi tác vụ mỗi khi trang được tải",
     "Version" : "Phiên bản",
     "Sharing" : "Chia sẻ",
@@ -60,6 +59,7 @@ OC.L10N.register(
     "Admins can't remove themself from the admin group" : "Quản trị viên không thể loại bỏ chính họ khỏi nhóm quản lý",
     "Unable to add user to group %s" : "Không thể thêm người dùng vào nhóm %s",
     "Unable to remove user from group %s" : "Không thể xóa người dùng từ nhóm %s",
+    "Cron" : "Cron",
     "Cheers!" : "Chúc mừng!"
 },
 "nplurals=1; plural=0;");

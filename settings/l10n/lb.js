@@ -24,7 +24,6 @@ OC.L10N.register(
     "Authentication required" : "Authentifizéierung néideg",
     "Server address" : "Server Adress",
     "Port" : "Port",
-    "Cron" : "Cron",
     "Sharing" : "Gedeelt",
     "Allow apps to use the Share API" : "Erlab Apps d'Share API ze benotzen",
     "days" : "Deeg",
@@ -51,6 +50,7 @@ OC.L10N.register(
     "Admins can't remove themself from the admin group" : "Admins kennen sech selwer net aus enger Admin Group läschen.",
     "Unable to add user to group %s" : "Onmeiglech User an Grupp ze sätzen %s",
     "Error while uninstalling app" : "Fehler beim Deinstalléieren vun der App",
+    "Cron" : "Cron",
     "Cheers!" : "Prost!"
 },
 "nplurals=2; plural=(n != 1);");

@@ -26,7 +26,6 @@ OC.L10N.register(
     "Server address" : "სერვერის მისამართი",
     "Port" : "პორტი",
     "Credentials" : "იუზერ/პაროლი",
-    "Cron" : "Cron–ი",
     "Execute one task with each page loaded" : "გაუშვი თითო მოქმედება ყველა ჩატვირთულ გვერდზე",
     "Version" : "ვერსია",
     "Sharing" : "გაზიარება",
@@ -54,6 +53,7 @@ OC.L10N.register(
     "Admins can't remove themself from the admin group" : "ადმინისტრატორებს არ შეუძლიათ საკუთარი თავის წაშლა ადმინ ჯგუფიდან",
     "Unable to add user to group %s" : "მომხმარებლის დამატება ვერ მოხეხდა ჯგუფში %s",
     "Unable to remove user from group %s" : "მომხმარებლის წაშლა ვერ მოხეხდა ჯგუფიდან %s",
-    "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "PHP მოდული 'fileinfo' არ არსებობს. ჩვენ გირჩევთ რომ აუცილებლად ჩართოთ ეს მოდული, რომ მიიღოთ კარგი შედეგები mime-type–ს აღმოჩენისას."
+    "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "PHP მოდული 'fileinfo' არ არსებობს. ჩვენ გირჩევთ რომ აუცილებლად ჩართოთ ეს მოდული, რომ მიიღოთ კარგი შედეგები mime-type–ს აღმოჩენისას.",
+    "Cron" : "Cron–ი"
 },
 "nplurals=1; plural=0;");

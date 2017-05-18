@@ -35,7 +35,6 @@ OC.L10N.register(
     "Login" : "Logg inn",
     "Encryption" : "Kryptering",
     "Server address" : "Tenaradresse",
-    "Cron" : "Cron",
     "Execute one task with each page loaded" : "Utfør éi oppgåve for kvar sidelasting",
     "Version" : "Utgåve",
     "Sharing" : "Deling",
@@ -70,6 +69,7 @@ OC.L10N.register(
     "Admins can't remove themself from the admin group" : "Administratorar kan ikkje fjerna seg sjølve frå admin-gruppa",
     "Unable to add user to group %s" : "Klarte ikkje leggja til brukaren til gruppa %s",
     "Unable to remove user from group %s" : "Klarte ikkje fjerna brukaren frå gruppa %s",
-    "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "PHP-modulen «fileinfo» manglar. Me rår sterkt til å slå på denne modulen for å best mogleg oppdaga MIME-typar."
+    "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "PHP-modulen «fileinfo» manglar. Me rår sterkt til å slå på denne modulen for å best mogleg oppdaga MIME-typar.",
+    "Cron" : "Cron"
 },
 "nplurals=2; plural=(n != 1);");

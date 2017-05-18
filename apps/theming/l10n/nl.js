@@ -24,6 +24,7 @@ OC.L10N.register(
     "Upload new logo" : "Upload nieuw logo",
     "Login image" : "Inlog afbeelding",
     "Upload new login background" : "Uploaden nieuwe inlog achtergrond",
+    "Remove background image" : "Achtergrond beeld verwijderen",
     "Log in image" : "Inlog afbeelding"
 },
 "nplurals=2; plural=(n != 1);");

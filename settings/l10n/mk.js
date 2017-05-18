@@ -94,7 +94,6 @@ OC.L10N.register(
     "Start migration" : "Започни ја миграцијата",
     "Security & setup warnings" : "Предупредувања за сигурност и подесувања",
     "All checks passed." : "Сите проверки се поминати.",
-    "Cron" : "Крон",
     "Execute one task with each page loaded" : "Изврши по една задача со секоја вчитана страница",
     "Version" : "Верзија",
     "Sharing" : "Споделување",
@@ -160,6 +159,7 @@ OC.L10N.register(
     "Error while uninstalling app" : "Грешка при деинсталација на апликацијата",
     "Uninstall" : "Деинсталирај",
     "This is used for sending out notifications." : "Ова се користи за испраќање на известувања.",
+    "Cron" : "Крон",
     "Cheers!" : "Поздрав!"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");
