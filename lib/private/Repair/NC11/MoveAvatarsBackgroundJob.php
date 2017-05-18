@@ -28,6 +28,7 @@ use OCP\Files\Folder;
 use OCP\Files\IAppData;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
+use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -63,8 +64,14 @@ class MoveAvatarsBackgroundJob extends QueuedJob {
 	}
 
 	private function moveAvatars() {
+		try {
+			$ownCloudAvatars = $this->rootFolder->get('avatars');
+		} catch (NotFoundException $e) {
+			$ownCloudAvatars = null;
+		}
+
 		$counter = 0;
-		$this->userManager->callForSeenUsers(function (IUser $user) use ($counter) {
+		$this->userManager->callForSeenUsers(function (IUser $user) use ($counter, $ownCloudAvatars) {
 			$uid = $user->getUID();
 
 			\OC\Files\Filesystem::initMountPoints($uid);
@@ -77,26 +84,61 @@ class MoveAvatarsBackgroundJob extends QueuedJob {
 				$userData = $this->appData->newFolder($uid);
 			}
 
+			$foundAvatars = $this->copyAvatarsFromFolder($userFolder, $userData);
 
-			$regex = '/^avatar\.([0-9]+\.)?(jpg|png)$/';
-			$avatars = $userFolder->getDirectoryListing();
-
-			foreach ($avatars as $avatar) {
-				/** @var File $avatar */
-				if (preg_match($regex, $avatar->getName())) {
-					/*
-					 * This is not the most effective but it is the most abstract way
-					 * to handle this. Avatars should be small anyways.
-					 */
-					$newAvatar = $userData->newFile($avatar->getName());
-					$newAvatar->putContent($avatar->getContent());
-					$avatar->delete();
+			// ownCloud migration?
+			if ($foundAvatars === 0 && $ownCloudAvatars instanceof Folder) {
+				$parts = $this->buildOwnCloudAvatarPath($uid);
+				$userOwnCloudAvatar = $ownCloudAvatars;
+				foreach ($parts as $part) {
+					try {
+						$userOwnCloudAvatar = $userOwnCloudAvatar->get($part);
+					} catch (NotFoundException $e) {
+						return;
+					}
 				}
+
+				$this->copyAvatarsFromFolder($userOwnCloudAvatar, $userData);
 			}
+
 			$counter++;
-			if ($counter % 100) {
+			if ($counter % 100 === 0) {
 				$this->logger->info('{amount} avatars migrated', ['amount' => $counter]);
 			}
 		});
+	}
+
+	/**
+	 * @param Folder $source
+	 * @param ISimpleFolder $target
+	 * @return int
+	 * @throws \OCP\Files\NotPermittedException
+	 * @throws NotFoundException
+	 */
+	protected function copyAvatarsFromFolder(Folder $source, ISimpleFolder $target) {
+		$foundAvatars = 0;
+		$avatars = $source->getDirectoryListing();
+		$regex = '/^avatar\.([0-9]+\.)?(jpg|png)$/';
+
+		foreach ($avatars as $avatar) {
+			/** @var File $avatar */
+			if (preg_match($regex, $avatar->getName())) {
+				/*
+				 * This is not the most effective but it is the most abstract way
+				 * to handle this. Avatars should be small anyways.
+				 */
+				$newAvatar = $target->newFile($avatar->getName());
+				$newAvatar->putContent($avatar->getContent());
+				$avatar->delete();
+				$foundAvatars++;
+			}
+		}
+
+		return $foundAvatars;
+	}
+
+	protected function buildOwnCloudAvatarPath($userId) {
+		$avatar = substr_replace(substr_replace(md5($userId), '/', 4, 0), '/', 2, 0);
+		return explode('/', $avatar);
 	}
 }

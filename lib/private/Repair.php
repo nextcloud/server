@@ -40,6 +40,7 @@ use OC\Repair\NC11\MoveAvatars;
 use OC\Repair\NC12\InstallCoreBundle;
 use OC\Repair\NC12\UpdateLanguageCodes;
 use OC\Repair\OldGroupMembershipShares;
+use OC\Repair\Owncloud\SaveAccountsTableData;
 use OC\Repair\RemoveRootShares;
 use OC\Repair\SqliteAutoincrement;
 use OC\Repair\RepairMimeTypes;
@@ -166,9 +167,11 @@ class Repair implements IOutput{
 	 */
 	public static function getBeforeUpgradeRepairSteps() {
 		$connection = \OC::$server->getDatabaseConnection();
+		$config = \OC::$server->getConfig();
 		$steps = [
 			new Collation(\OC::$server->getConfig(), \OC::$server->getLogger(), $connection, true),
 			new SqliteAutoincrement($connection),
+			new SaveAccountsTableData($connection, $config),
 		];
 
 		return $steps;
