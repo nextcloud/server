@@ -45,12 +45,15 @@ $clients = $_['clients'];
 		</tr>
 		</thead>
 		<tbody>
-		<?php foreach ($clients as $client) { ?>
+		<?php
+		$imageUrl = $urlGenerator->imagePath('core', 'actions/toggle.svg');
+		foreach ($clients as $client) {
+		?>
 			<tr>
 				<td><?php p($client->getName()); ?></td>
 				<td><?php p($client->getRedirectUri()); ?></td>
 				<td><code><?php p($client->getClientIdentifier()); ?></code></td>
-				<td data-value="<?php p($client->getSecret()); ?>"><code>****</code><img class='show-oauth-credentials' src="<?php p($urlGenerator->imagePath('core', 'actions/toggle.svg'));?>"/></td>
+				<td data-value="<?php p($client->getSecret()); ?>"><code>****</code><img class='show-oauth-credentials' src="<?php p($imageUrl); ?>"/></td>
 				<td>
 					<form id="form-inline" class="delete" action="<?php p($urlGenerator->linkToRoute('oauth2.Settings.deleteClient', ['id' => $client->getId()])); ?>" method="POST">
 						<input type="hidden" name="requesttoken" value="<?php p($_['requesttoken']) ?>" />

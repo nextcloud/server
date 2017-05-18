@@ -81,7 +81,7 @@ class OauthApiController extends Controller {
 				'token_type' => 'Bearer',
 				'expires_in' => 3600,
 				'refresh_token' => $newCode,
-				'user_id' => ($this->defaultTokenMapper->getTokenById($accessToken->getTokenId()))->getUID(),
+				'user_id' => $this->defaultTokenMapper->getTokenById($accessToken->getTokenId())->getUID(),
 			]
 		);
 	}
