@@ -342,6 +342,7 @@ Feature: provisioning
 			| updatenotification |
 			| workflowengine |
 			| files_external |
+			| oauth2 |
 
 	Scenario: get app info
 		Given As an "admin"
