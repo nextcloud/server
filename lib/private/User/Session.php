@@ -725,7 +725,7 @@ class Session implements IUserSession, Emitter {
 	 */
 	public function tryTokenLogin(IRequest $request) {
 		$authHeader = $request->getHeader('Authorization');
-		if (strpos($authHeader, 'token ') === false) {
+		if (strpos($authHeader, 'Bearer ') === false) {
 			// No auth header, let's try session id
 			try {
 				$token = $this->session->getId();
@@ -733,7 +733,7 @@ class Session implements IUserSession, Emitter {
 				return false;
 			}
 		} else {
-			$token = substr($authHeader, 6);
+			$token = substr($authHeader, 7);
 		}
 
 		if (!$this->loginWithToken($token)) {

@@ -52,9 +52,17 @@ $authBackend = new \OCA\DAV\Connector\Sabre\Auth(
 	\OC::$server->getBruteForceThrottler(),
 	'principals/'
 );
+$authPlugin = new \Sabre\DAV\Auth\Plugin($authBackend);
+$bearerAuthPlugin = new \OCA\DAV\Connector\Sabre\BearerAuth(
+	\OC::$server->getUserSession(),
+	\OC::$server->getSession(),
+	\OC::$server->getRequest()
+);
+$authPlugin->addBackend($bearerAuthPlugin);
+
 $requestUri = \OC::$server->getRequest()->getRequestUri();
 
-$server = $serverFactory->createServer($baseuri, $requestUri, $authBackend, function() {
+$server = $serverFactory->createServer($baseuri, $requestUri, $authPlugin, function() {
 	// use the view for the logged in user
 	return \OC\Files\Filesystem::getView();
 });

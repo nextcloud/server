@@ -40,6 +40,7 @@ use OCP\IRequest;
 use OCP\ITagManager;
 use OCP\IUserSession;
 use Sabre\DAV\Auth\Backend\BackendInterface;
+use Sabre\DAV\Auth\Plugin;
 
 class ServerFactory {
 	/** @var IConfig */
@@ -92,13 +93,13 @@ class ServerFactory {
 	/**
 	 * @param string $baseUri
 	 * @param string $requestUri
-	 * @param BackendInterface $authBackend
+	 * @param Plugin $authPlugin
 	 * @param callable $viewCallBack callback that should return the view for the dav endpoint
 	 * @return Server
 	 */
 	public function createServer($baseUri,
 								 $requestUri,
-								 BackendInterface $authBackend,
+								 Plugin $authPlugin,
 								 callable $viewCallBack) {
 		// Fire up server
 		$objectTree = new \OCA\DAV\Connector\Sabre\ObjectTree();
@@ -110,7 +111,7 @@ class ServerFactory {
 		// Load plugins
 		$server->addPlugin(new \OCA\DAV\Connector\Sabre\MaintenancePlugin($this->config));
 		$server->addPlugin(new \OCA\DAV\Connector\Sabre\BlockLegacyClientPlugin($this->config));
-		$server->addPlugin(new \Sabre\DAV\Auth\Plugin($authBackend));
+		$server->addPlugin($authPlugin);
 		// FIXME: The following line is a workaround for legacy components relying on being able to send a GET to /
 		$server->addPlugin(new \OCA\DAV\Connector\Sabre\DummyGetResponsePlugin());
 		$server->addPlugin(new \OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin('webdav', $this->logger));

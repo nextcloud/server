@@ -53,6 +53,14 @@ Feature: auth
 		When requesting "/remote.php/webdav" with "PROPFIND" using restricted basic token auth
 		Then the HTTP status code should be "207"
 
+	Scenario: using old WebDAV endpoint with unrestricted client token
+		When requesting "/remote.php/webdav" with "PROPFIND" using an unrestricted client token
+		Then the HTTP status code should be "207"
+
+	Scenario: using new WebDAV endpoint with unrestricted client token
+		When requesting "/remote.php/dav/" with "PROPFIND" using an unrestricted client token
+		Then the HTTP status code should be "207"
+
 	Scenario: using WebDAV with browser session
 		Given a new browser session is started
 		When requesting "/remote.php/webdav" with "PROPFIND" using browser session

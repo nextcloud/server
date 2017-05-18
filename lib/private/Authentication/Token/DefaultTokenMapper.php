@@ -149,4 +149,16 @@ class DefaultTokenMapper extends Mapper {
 		$qb->execute();
 	}
 
+	/**
+	 * delete all auth token which belong to a specific client if the client was deleted
+	 *
+	 * @param string $name
+	 */
+	public function deleteByName($name) {
+		$qb = $this->db->getQueryBuilder();
+		$qb->delete('authtoken')
+			->where($qb->expr()->eq('name', $qb->createNamedParameter($name)));
+		$qb->execute();
+	}
+
 }

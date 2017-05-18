@@ -25,6 +25,9 @@ use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
+use OCA\OAuth2\Db\AccessToken;
+use OCA\OAuth2\Db\AccessTokenMapper;
+use OCA\OAuth2\Db\ClientMapper;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Response;
@@ -35,6 +38,7 @@ use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
+use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 
@@ -53,6 +57,12 @@ class ClientFlowLoginController extends Controller {
 	private $random;
 	/** @var IURLGenerator */
 	private $urlGenerator;
+	/** @var ClientMapper */
+	private $clientMapper;
+	/** @var AccessTokenMapper */
+	private $accessTokenMapper;
+	/** @var ICrypto */
+	private $crypto;
 
 	const stateName = 'client.flow.state.token';
 
@@ -66,6 +76,9 @@ class ClientFlowLoginController extends Controller {
 	 * @param IProvider $tokenProvider
 	 * @param ISecureRandom $random
 	 * @param IURLGenerator $urlGenerator
+	 * @param ClientMapper $clientMapper
+	 * @param AccessTokenMapper $accessTokenMapper
+	 * @param ICrypto $crypto
 	 */
 	public function __construct($appName,
 								IRequest $request,
@@ -75,7 +88,10 @@ class ClientFlowLoginController extends Controller {
 								ISession $session,
 								IProvider $tokenProvider,
 								ISecureRandom $random,
-								IURLGenerator $urlGenerator) {
+								IURLGenerator $urlGenerator,
+								ClientMapper $clientMapper,
+								AccessTokenMapper $accessTokenMapper,
+								ICrypto $crypto) {
 		parent::__construct($appName, $request);
 		$this->userSession = $userSession;
 		$this->l10n = $l10n;
@@ -84,13 +100,17 @@ class ClientFlowLoginController extends Controller {
 		$this->tokenProvider = $tokenProvider;
 		$this->random = $random;
 		$this->urlGenerator = $urlGenerator;
+		$this->clientMapper = $clientMapper;
+		$this->accessTokenMapper = $accessTokenMapper;
+		$this->crypto = $crypto;
 	}
 
 	/**
 	 * @return string
 	 */
 	private function getClientName() {
-		return $this->request->getHeader('USER_AGENT') !== null ? $this->request->getHeader('USER_AGENT') : 'unknown';
+		$userAgent = $this->request->getHeader('USER_AGENT');
+		return $userAgent !== null ? $userAgent : 'unknown';
 	}
 
 	/**
@@ -126,15 +146,32 @@ class ClientFlowLoginController extends Controller {
 	 * @NoCSRFRequired
 	 * @UseSession
 	 *
+	 * @param string $clientIdentifier
+	 *
 	 * @return TemplateResponse
 	 */
-	public function showAuthPickerPage() {
-		if($this->userSession->isLoggedIn()) {
+	public function showAuthPickerPage($clientIdentifier = '') {
+		$clientName = $this->getClientName();
+		$client = null;
+		if($clientIdentifier !== '') {
+			$client = $this->clientMapper->getByIdentifier($clientIdentifier);
+			$clientName = $client->getName();
+		}
+
+		// No valid clientIdentifier given and no valid API Request (APIRequest header not set)
+		$clientRequest = $this->request->getHeader('OCS-APIREQUEST');
+		if ($clientRequest !== 'true' && $client === null) {
 			return new TemplateResponse(
 				$this->appName,
-				'403',
+				'error',
 				[
-					'file' => $this->l10n->t('Auth flow can only be started unauthenticated.'),
+					'errors' =>
+					[
+						[
+							'error' => 'Access Forbidden',
+							'hint' => 'Invalid request',
+						],
+					],
 				],
 				'guest'
 			);
@@ -150,7 +187,8 @@ class ClientFlowLoginController extends Controller {
 			$this->appName,
 			'loginflow/authpicker',
 			[
-				'client' => $this->getClientName(),
+				'client' => $clientName,
+				'clientIdentifier' => $clientIdentifier,
 				'instanceName' => $this->defaults->getName(),
 				'urlGenerator' => $this->urlGenerator,
 				'stateToken' => $stateToken,
@@ -166,9 +204,11 @@ class ClientFlowLoginController extends Controller {
 	 * @UseSession
 	 *
 	 * @param string $stateToken
+	 * @param string $clientIdentifier
 	 * @return TemplateResponse
 	 */
-	public function redirectPage($stateToken = '') {
+	public function redirectPage($stateToken = '',
+								 $clientIdentifier = '') {
 		if(!$this->isValidToken($stateToken)) {
 			return $this->stateTokenForbiddenResponse();
 		}
@@ -179,6 +219,8 @@ class ClientFlowLoginController extends Controller {
 			[
 				'urlGenerator' => $this->urlGenerator,
 				'stateToken' => $stateToken,
+				'clientIdentifier' => $clientIdentifier,
+				'oauthState' => $this->session->get('oauth.state'),
 			],
 			'empty'
 		);
@@ -189,9 +231,11 @@ class ClientFlowLoginController extends Controller {
 	 * @UseSession
 	 *
 	 * @param string $stateToken
+	 * @param string $clientIdentifier
 	 * @return Http\RedirectResponse|Response
 	 */
-	public function generateAppPassword($stateToken) {
+	public function generateAppPassword($stateToken,
+										$clientIdentifier = '') {
 		if(!$this->isValidToken($stateToken)) {
 			$this->session->remove(self::stateName);
 			return $this->stateTokenForbiddenResponse();
@@ -221,18 +265,45 @@ class ClientFlowLoginController extends Controller {
 			return $response;
 		}
 
-		$token = $this->random->generate(72);
-		$this->tokenProvider->generateToken(
+		$clientName = $this->getClientName();
+		$client = false;
+		if($clientIdentifier !== '') {
+			$client = $this->clientMapper->getByIdentifier($clientIdentifier);
+			$clientName = $client->getName();
+		}
+
+		$token = $this->random->generate(72, ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_DIGITS);
+		$uid = $this->userSession->getUser()->getUID();
+		$generatedToken = $this->tokenProvider->generateToken(
 			$token,
-			$this->userSession->getUser()->getUID(),
+			$uid,
 			$loginName,
 			$password,
-			$this->getClientName(),
+			$clientName,
 			IToken::PERMANENT_TOKEN,
 			IToken::DO_NOT_REMEMBER
 		);
 
-		return new Http\RedirectResponse('nc://login/server:' . $this->request->getServerHost() . '&user:' . urlencode($loginName) . '&password:' . urlencode($token));
-	}
+		if($client) {
+			$code = $this->random->generate(128);
+			$accessToken = new AccessToken();
+			$accessToken->setClientId($client->getId());
+			$accessToken->setEncryptedToken($this->crypto->encrypt($token, $code));
+			$accessToken->setHashedCode(hash('sha512', $code));
+			$accessToken->setTokenId($generatedToken->getId());
+			$this->accessTokenMapper->insert($accessToken);
 
+			$redirectUri = sprintf(
+				'%s?state=%s&code=%s',
+				$client->getRedirectUri(),
+				urlencode($this->session->get('oauth.state')),
+				urlencode($code)
+			);
+			$this->session->remove('oauth.state');
+		} else {
+			$redirectUri = 'nc://login/server:' . $this->request->getServerHost() . '&user:' . urlencode($loginName) . '&password:' . urlencode($token);
+		}
+
+		return new Http\RedirectResponse($redirectUri);
+	}
 }

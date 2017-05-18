@@ -30,6 +30,7 @@
 				<directory suffix=".php">../apps/files_sharing/tests</directory>
 				<directory suffix=".php">../apps/files_trashbin/tests</directory>
 				<directory suffix=".php">../apps/files_versions/tests</directory>
+				<directory suffix=".php">../apps/oauth2/tests</directory>
 				<directory suffix=".php">../apps/provisioning_api/tests</directory>
 				<directory suffix=".php">../apps/systemtags/tests</directory>
 				<directory suffix=".php">../apps/theming/tests</directory>

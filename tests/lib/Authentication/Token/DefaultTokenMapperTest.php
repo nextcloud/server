@@ -190,6 +190,7 @@ class DefaultTokenMapperTest extends TestCase {
 	}
 
 	public function testGetTokenByUser() {
+		/** @var IUser|\PHPUnit_Framework_MockObject_MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->once())
 			->method('getUID')
@@ -199,6 +200,7 @@ class DefaultTokenMapperTest extends TestCase {
 	}
 
 	public function testGetTokenByUserNotFound() {
+		/** @var IUser|\PHPUnit_Framework_MockObject_MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->once())
 			->method('getUID')
@@ -208,6 +210,7 @@ class DefaultTokenMapperTest extends TestCase {
 	}
 
 	public function testDeleteById() {
+		/** @var IUser|\PHPUnit_Framework_MockObject_MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->select('id')
@@ -224,6 +227,7 @@ class DefaultTokenMapperTest extends TestCase {
 	}
 
 	public function testDeleteByIdWrongUser() {
+		/** @var IUser|\PHPUnit_Framework_MockObject_MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$id = 33;
 		$user->expects($this->once())
@@ -232,6 +236,17 @@ class DefaultTokenMapperTest extends TestCase {
 
 		$this->mapper->deleteById($user, $id);
 		$this->assertEquals(3, $this->getNumberOfTokens());
+	}
+
+	public function testDeleteByName() {
+		$qb = $this->dbConnection->getQueryBuilder();
+		$qb->select('name')
+			->from('authtoken')
+			->where($qb->expr()->eq('token', $qb->createNamedParameter('9c5a2e661482b65597408a6bb6c4a3d1af36337381872ac56e445a06cdb7fea2b1039db707545c11027a4966919918b19d875a8b774840b18c6cbb7ae56fe206')));
+		$result = $qb->execute();
+		$name = $result->fetch()['name'];
+		$this->mapper->deleteByName($name);
+		$this->assertEquals(2, $this->getNumberOfTokens());
 	}
 
 }

@@ -35,7 +35,7 @@ $urlGenerator = $_['urlGenerator'];
 	<br/>
 
 	<p id="redirect-link">
-		<a href="<?php p($urlGenerator->linkToRouteAbsolute('core.ClientFlowLogin.redirectPage', ['stateToken' => $_['stateToken']])) ?>">
+		<a href="<?php p($urlGenerator->linkToRouteAbsolute('core.ClientFlowLogin.redirectPage', ['stateToken' => $_['stateToken'], 'clientIdentifier' => $_['clientIdentifier'], 'oauthState' => $_['oauthState']])) ?>">
 			<input type="submit" class="login primary icon-confirm-white" value="<?php p('Grant access') ?>">
 		</a>
 	</p>
@@ -54,4 +54,6 @@ $urlGenerator = $_['urlGenerator'];
 	</fieldset>
 </div>
 
+<?php if(empty($_['oauthState'])): ?>
 <a id="app-token-login" class="warning" href="#"><?php p($l->t('Alternative login using app token')) ?></a>
+<?php endif; ?>

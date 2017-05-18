@@ -956,7 +956,7 @@ class SessionTest extends \Test\TestCase {
 		$request->expects($this->once())
 			->method('getHeader')
 			->with('Authorization')
-			->will($this->returnValue('token xxxxx'));
+			->will($this->returnValue('Bearer xxxxx'));
 		$this->tokenProvider->expects($this->once())
 			->method('getToken')
 			->with('xxxxx')

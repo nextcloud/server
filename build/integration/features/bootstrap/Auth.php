@@ -187,7 +187,7 @@ trait Auth {
 	 * @param string $method
 	 */
 	public function requestingWithUsingAnUnrestrictedClientToken($url, $method) {
-		$this->sendRequest($url, $method, 'token ' . $this->unrestrictedClientToken);
+		$this->sendRequest($url, $method, 'Bearer ' . $this->unrestrictedClientToken);
 	}
 
 	/**
@@ -197,7 +197,7 @@ trait Auth {
 	 * @param string $method
 	 */
 	public function requestingWithUsingARestrictedClientToken($url, $method) {
-		$this->sendRequest($url, $method, 'token ' . $this->restrictedClientToken);
+		$this->sendRequest($url, $method, 'Bearer ' . $this->restrictedClientToken);
 	}
 
 	/**

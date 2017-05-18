@@ -210,6 +210,7 @@ class Auth extends AbstractBasic {
 	 */
 	private function auth(RequestInterface $request, ResponseInterface $response) {
 		$forcedLogout = false;
+
 		if(!$this->request->passesCSRFCheck() &&
 			$this->requiresCSRFCheck()) {
 			// In case of a fail with POST we need to recheck the credentials
