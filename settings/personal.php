@@ -49,7 +49,7 @@ $config = \OC::$server->getConfig();
 $urlGenerator = \OC::$server->getURLGenerator();
 
 // Highlight navigation entry
-OC_Util::addScript('settings', 'AuthToken');
+OC_Util::addScript('settings', 'authtoken');
 OC_Util::addScript('settings', 'authtoken_collection');
 OC_Util::addScript('settings', 'authtoken_view');
 OC_Util::addScript('settings', 'usersettings');
