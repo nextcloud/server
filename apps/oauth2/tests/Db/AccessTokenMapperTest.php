@@ -56,7 +56,7 @@ class AccessTokenMapperTest extends TestCase {
 	 * @expectedException \OCA\OAuth2\Exceptions\AccessTokenNotFoundException
 	 */
 	public function testDeleteByClientId() {
-		$this->accessTokenMapper->deleteByClientId('TestId');
+		$this->accessTokenMapper->deleteByClientId(1234);
 		$token = new AccessToken();
 		$token->setClientId(1234);
 		$token->setTokenId((string)time());
