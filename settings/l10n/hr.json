@@ -62,11 +62,8 @@
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Uzrok tome je vjerojatno neki ubrzivač predmemoriranja kao što je Zend OPcache ilieAccelerator.",
     "System locale can not be set to a one which supports UTF-8." : "Regionalnu shemu sustava nemoguće je postaviti na neku koja podržava UTF-8.",
     "This means that there might be problems with certain characters in file names." : "To znači da se mogu javiti problemi s određenim znakovima u datoteci.",
-    "Cron" : "Cron",
-    "Cron was not executed yet!" : "Cron još nije izvršen!",
     "Execute one task with each page loaded" : "Izvršite jedan zadatak sa svakom učitanom stranicom",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.php je registriran na webcron usluzi da poziva cron.php svakih 15 minuta preko http.",
-    "Use system's cron service to call the cron.php file every 15 minutes." : "Koristite cron uslugu sustava za pozivanje cron.php datoteke svakih 15 minuta.",
     "Version" : "Verzija",
     "Sharing" : "Dijeljenje zajedničkih resursa",
     "Allow apps to use the Share API" : "Dopustite apps korištenje Share API",
@@ -128,6 +125,9 @@
     "Uninstall" : "Deinstalirajte",
     "This is used for sending out notifications." : "Ovo se koristi za slanje notifikacija.",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "PHP modul 'fileinfo' nedostaje. Tolo vam preporučjemo da taj modul omogućitekako biste dobili najbolje rezultate u detekciji mime vrste.",
+    "Cron" : "Cron",
+    "Cron was not executed yet!" : "Cron još nije izvršen!",
+    "Use system's cron service to call the cron.php file every 15 minutes." : "Koristite cron uslugu sustava za pozivanje cron.php datoteke svakih 15 minuta.",
     "Cheers!" : "Cheers!",
     "Show last log in" : "Prikaži zadnje spajanje"
 },"pluralForm" :"nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;"

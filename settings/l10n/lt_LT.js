@@ -120,7 +120,6 @@ OC.L10N.register(
     "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please enable the \"Default encryption module\" and run 'occ encryption:migrate'" : "Jūs turite perkelti savo šifravimo raktus iš senojo šifravimo (ownCloud <= 8.0) į naująjį. Prašome įjungti \"Numatytąjį šifravimo modulį\" ir vykdyti \"occ encryption:migrate\"",
     "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one." : "Jūs turite perkelti savo šifravimo raktus iš senojo šifravimo (ownCloud <= 8.0) į naująjį.",
     "Security & setup warnings" : "Saugos ir diegimo perspėjimai",
-    "Cron" : "Cron",
     "Execute one task with each page loaded" : "Įvykdyti vieną užduotį su kiekvieno puslapio įkėlimu",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.php yra registruotas tinklapio suplanuotų užduočių paslaugose, kad iškviesti cron.php kas 15 minučių per http.",
     "Version" : "Versija",
@@ -198,6 +197,7 @@ OC.L10N.register(
     "Error while uninstalling app" : "Klaida, šalinant programėlę",
     "Uninstall" : "Šalinti",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "Trūksta PHP modulio „fileinfo“. Labai rekomenduojame įjungti šį modulį, kad gauti geriausius rezultatus nustatant mime-tipą.",
+    "Cron" : "Cron",
     "Cheers!" : "Sveikinimai!",
     "For password recovery and notifications" : "Skirtas slaptažodžio atkūrimui ir pranešimams",
     "Your website" : "Jūsų svetainė"

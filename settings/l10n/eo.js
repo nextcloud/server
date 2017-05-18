@@ -58,7 +58,6 @@ OC.L10N.register(
     "Send email" : "Sendi retpoŝton",
     "This is the final warning: Do you really want to enable encryption?" : "Jen la fina averto: ĉu vi certe volas kapabligi ĉifradon?",
     "Enable encryption" : "Kapabligi ĉifradon",
-    "Cron" : "Cron",
     "Version" : "Eldono",
     "Sharing" : "Kunhavigo",
     "Allow apps to use the Share API" : "Kapabligi aplikaĵojn uzi la API-on pri Kunhavigo",
@@ -122,6 +121,7 @@ OC.L10N.register(
     "Uninstalling ...." : "Malinstalante...",
     "Error while uninstalling app" : "Eraris malinstalo de aplikaĵo",
     "Uninstall" : "Malinstali",
+    "Cron" : "Cron",
     "Show last log in" : "Montri lastan ensaluton"
 },
 "nplurals=2; plural=(n != 1);");

@@ -71,6 +71,7 @@ OC.L10N.register(
     "Favorite" : "Favoriet",
     "Copy direct link (only works for users who have access to this file/folder)" : "Kopieer de link direct (werkt alleen voor gebruikers met toegang tot map/bestand)",
     "New folder" : "Nieuwe map",
+    "Upload file" : "Bestand uploaden",
     "An error occurred while trying to update the tags" : "Er trad een fout op bij jouw poging om de markeringen bij te werken",
     "Added to favorites" : "Toevoegen aan favorieten",
     "Removed from favorites" : "Verwijderen uit favorieten",

@@ -71,6 +71,7 @@ OC.L10N.register(
     "Favorite" : "Favoris",
     "Copy direct link (only works for users who have access to this file/folder)" : "Copier lien direct (fonctionne seulement pour les utilisateurs qui ont accès a ce fichier/dossier)",
     "New folder" : "Nouveau dossier",
+    "Upload file" : "Téléverser un fichier",
     "An error occurred while trying to update the tags" : "Une erreur est survenue lors de la mise à jour des étiquettes",
     "Added to favorites" : "Ajouté aux favoris",
     "Removed from favorites" : "Retiré des favoris",

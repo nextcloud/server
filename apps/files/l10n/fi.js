@@ -71,6 +71,7 @@ OC.L10N.register(
     "Favorite" : "Suosikki",
     "Copy direct link (only works for users who have access to this file/folder)" : "Kopioi suora linkki (toimii vain käyttäjillä, joilla on pääsyoikeus tähän tiedostoon/kansioon)",
     "New folder" : "Uusi kansio",
+    "Upload file" : "Lähetä tiedosto",
     "An error occurred while trying to update the tags" : "Tunnisteiden päivitystä yrittäessä tapahtui virhe",
     "Added to favorites" : "Lisätty suosikkeihin",
     "Removed from favorites" : "Poistettu suosikeista",

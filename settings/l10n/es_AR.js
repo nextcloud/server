@@ -54,7 +54,6 @@ OC.L10N.register(
     "Send email" : "Enviar correo",
     "System locale can not be set to a one which supports UTF-8." : "La localización del sistema no puede cambiarse a una que soporta UTF-8",
     "This means that there might be problems with certain characters in file names." : "Esto significa que puede haber problemas con ciertos caracteres en los nombres de archivos.",
-    "Cron" : "Cron",
     "Execute one task with each page loaded" : "Ejecutá una tarea con cada pagina cargada.",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.php está registrado en el servicio webcron para llamarlo cada 15 minutos usando http.",
     "Version" : "Versión",
@@ -101,6 +100,7 @@ OC.L10N.register(
     "Sending..." : "Enviando...",
     "This is used for sending out notifications." : "Esto es usado para enviar notificaciones.",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "El módulo PHP 'fileinfo' no existe. Es recomendable que actives este módulo para obtener mejores resultados con la detección mime-type",
+    "Cron" : "Cron",
     "Cheers!" : "¡Saludos!"
 },
 "nplurals=2; plural=(n != 1);");

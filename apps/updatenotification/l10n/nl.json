@@ -8,6 +8,7 @@
     "Update to %1$s is available." : "Update naar %1$s is beschikbaar.",
     "Update for %1$s to version %2$s is available." : "Update voor %1$s naar versie %2$s is beschikbaar.",
     "Update for {app} to version %s is available." : "Update voor {app} naar versie %s is beschikbaar.",
+    "Update notification" : "Update melding",
     "A new version is available: %s" : "Er is een nieuwe versie beschikbaar: %s",
     "Open updater" : "Open updater",
     "Download now" : "Download nu",

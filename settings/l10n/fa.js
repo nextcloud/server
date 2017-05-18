@@ -94,8 +94,6 @@ OC.L10N.register(
     "Start migration" : "شروع مهاجرت",
     "Security & setup warnings" : "اخطارهای نصب و امنیتی",
     "All checks passed." : "تمامی موارد با موفقیت چک شدند.",
-    "Cron" : "زمانبند",
-    "Cron was not executed yet!" : "کران هنوز اجرا نشده است!",
     "Execute one task with each page loaded" : "اجرای یک وظیفه با هر بار بارگذاری صفحه",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.php در یک سرویس webcron ثبت شده است که هر 15 دقیقه یک بار بر روی بستر http فراخوانی شود.",
     "Version" : "نسخه",
@@ -186,6 +184,8 @@ OC.L10N.register(
     "Uninstall" : "حذف",
     "This is used for sending out notifications." : "این برای ارسال هشدار ها استفاده می شود",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "ماژول 'fileinfo' PHP از کار افتاده است.ما اکیدا توصیه می کنیم که این ماژول را فعال کنید تا نتایج بهتری به وسیله ی mime-type detection دریافت کنید.",
+    "Cron" : "زمانبند",
+    "Cron was not executed yet!" : "کران هنوز اجرا نشده است!",
     "Cheers!" : "سلامتی!",
     "Show last log in" : "نمایش اخرین ورود"
 },
