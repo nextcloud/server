@@ -441,7 +441,7 @@
 				popoverMenu: popover,
 				publicUploadRWLabel: t('core', 'Allow upload and editing'),
 				publicUploadRLabel: t('core', 'Read only'),
-				publicUploadWLabel: t('core', 'Secure drop (upload only)'),
+				publicUploadWLabel: t('core', 'File drop (upload only)'),
 				publicUploadRWValue: OC.PERMISSION_UPDATE | OC.PERMISSION_CREATE | OC.PERMISSION_READ | OC.PERMISSION_DELETE,
 				publicUploadRValue: OC.PERMISSION_READ,
 				publicUploadWValue: OC.PERMISSION_CREATE,
