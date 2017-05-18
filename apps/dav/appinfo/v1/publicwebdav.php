@@ -42,6 +42,7 @@ $authBackend = new OCA\DAV\Connector\PublicAuth(
 	\OC::$server->getShareManager(),
 	\OC::$server->getSession()
 );
+$authPlugin = new \Sabre\DAV\Auth\Plugin($authBackend);
 
 $serverFactory = new OCA\DAV\Connector\Sabre\ServerFactory(
 	\OC::$server->getConfig(),
@@ -59,7 +60,7 @@ $requestUri = \OC::$server->getRequest()->getRequestUri();
 $linkCheckPlugin = new \OCA\DAV\Files\Sharing\PublicLinkCheckPlugin();
 $filesDropPlugin = new \OCA\DAV\Files\Sharing\FilesDropPlugin();
 
-$server = $serverFactory->createServer($baseuri, $requestUri, $authBackend, function (\Sabre\DAV\Server $server) use ($authBackend, $linkCheckPlugin, $filesDropPlugin) {
+$server = $serverFactory->createServer($baseuri, $requestUri, $authPlugin, function (\Sabre\DAV\Server $server) use ($authBackend, $linkCheckPlugin, $filesDropPlugin) {
 	$isAjax = (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest');
 	$federatedSharingApp = new \OCA\FederatedFileSharing\AppInfo\Application();
 	$federatedShareProvider = $federatedSharingApp->getFederatedShareProvider();
