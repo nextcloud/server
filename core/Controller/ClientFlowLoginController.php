@@ -149,10 +149,7 @@ class ClientFlowLoginController extends Controller {
 	 *
 	 * @return TemplateResponse
 	 */
-	public function showAuthPickerPage($clientIdentifier = '',
-									   $oauthState = '') {
-
-
+	public function showAuthPickerPage($clientIdentifier = '') {
 		$clientName = $this->getClientName();
 		$client = null;
 		if($clientIdentifier !== '') {
@@ -160,19 +157,22 @@ class ClientFlowLoginController extends Controller {
 			$clientName = $client->getName();
 		}
 
-		$validClient = $client !== null && $client->getClientIdentifier() !== null;
-		$cookieCheckSuccessful = $this->request->passesStrictCookieCheck();
-
-		// no valid clientIdentifier given and no valid API Request (APIRequest header not set)
-		if ($cookieCheckSuccessful === false && $validClient === false) {
+		// No valid clientIdentifier given and no valid API Request (APIRequest header not set)
+		$clientRequest = $this->request->getHeader('OCS-APIREQUEST');
+		if ($clientRequest !== 'true' && $client === null) {
 			return new TemplateResponse(
 				$this->appName,
 				'error',
-				['errors' =>
+				[
+					'errors' =>
 					[
-						['error' => 'Access Forbidden', 'hint' => 'Invalid request']
-					]
-				]
+						[
+							'error' => 'Access Forbidden',
+							'hint' => 'Invalid request',
+						],
+					],
+				],
+				'guest'
 			);
 		}
 
@@ -188,7 +188,6 @@ class ClientFlowLoginController extends Controller {
 			[
 				'client' => $clientName,
 				'clientIdentifier' => $clientIdentifier,
-				'oauthState' => $oauthState,
 				'instanceName' => $this->defaults->getName(),
 				'urlGenerator' => $this->urlGenerator,
 				'stateToken' => $stateToken,
@@ -205,12 +204,10 @@ class ClientFlowLoginController extends Controller {
 	 *
 	 * @param string $stateToken
 	 * @param string $clientIdentifier
-	 * @param string $oauthState
 	 * @return TemplateResponse
 	 */
 	public function redirectPage($stateToken = '',
-								 $clientIdentifier = '',
-								 $oauthState = '') {
+								 $clientIdentifier = '') {
 		if(!$this->isValidToken($stateToken)) {
 			return $this->stateTokenForbiddenResponse();
 		}
@@ -222,7 +219,7 @@ class ClientFlowLoginController extends Controller {
 				'urlGenerator' => $this->urlGenerator,
 				'stateToken' => $stateToken,
 				'clientIdentifier' => $clientIdentifier,
-				'oauthState' => $oauthState,
+				'oauthState' => $this->session->get('oauth.state'),
 			],
 			'empty'
 		);
@@ -234,14 +231,10 @@ class ClientFlowLoginController extends Controller {
 	 *
 	 * @param string $stateToken
 	 * @param string $clientIdentifier
-	 * @param string $state
-	 * @param string $oauthState
 	 * @return Http\RedirectResponse|Response
 	 */
 	public function generateAppPassword($stateToken,
-										$clientIdentifier = '',
-										$state = '',
-										$oauthState = '') {
+										$clientIdentifier = '') {
 		if(!$this->isValidToken($stateToken)) {
 			$this->session->remove(self::stateName);
 			return $this->stateTokenForbiddenResponse();
@@ -305,9 +298,10 @@ class ClientFlowLoginController extends Controller {
 			$redirectUri = sprintf(
 				'%s?state=%s&code=%s',
 				$client->getRedirectUri(),
-				urlencode($oauthState),
+				urlencode($this->session->get('oauth.state')),
 				urlencode($code)
 			);
+			$this->session->remove('oauth.state');
 		} else {
 			$redirectUri = 'nc://login/server:' . $this->request->getServerHost() . '&user:' . urlencode($loginName) . '&password:' . urlencode($token);
 		}

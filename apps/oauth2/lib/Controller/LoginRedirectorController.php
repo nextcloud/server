@@ -25,6 +25,7 @@ use OCA\OAuth2\Db\ClientMapper;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\IRequest;
+use OCP\ISession;
 use OCP\IURLGenerator;
 
 class LoginRedirectorController extends Controller {
@@ -32,45 +33,45 @@ class LoginRedirectorController extends Controller {
 	private $urlGenerator;
 	/** @var ClientMapper */
 	private $clientMapper;
+	/** @var ISession */
+	private $session;
 
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
 	 * @param IURLGenerator $urlGenerator
 	 * @param ClientMapper $clientMapper
+	 * @param ISession $session
 	 */
 	public function __construct($appName,
 								IRequest $request,
 								IURLGenerator $urlGenerator,
-								ClientMapper $clientMapper) {
+								ClientMapper $clientMapper,
+								ISession $session) {
 		parent::__construct($appName, $request);
 		$this->urlGenerator = $urlGenerator;
 		$this->clientMapper = $clientMapper;
+		$this->session = $session;
 	}
 
 	/**
 	 * @PublicPage
 	 * @NoCSRFRequired
+	 * @UseSession
 	 *
 	 * @param string $client_id
-	 * @param string $redirect_uri
 	 * @param string $state
 	 * @return RedirectResponse
 	 */
 	public function authorize($client_id,
-							  $redirect_uri,
 							  $state) {
 		$client = $this->clientMapper->getByIdentifier($client_id);
-
-		if($client->getRedirectUri() !== $redirect_uri) {
-			throw new \Exception('Redirect URI does not match');
-		}
+		$this->session->set('oauth.state', $state);
 
 		$targetUrl = $this->urlGenerator->linkToRouteAbsolute(
 			'core.ClientFlowLogin.showAuthPickerPage',
 			[
 				'clientIdentifier' => $client->getClientIdentifier(),
-				'oauthState' => $state,
 			]
 		);
 		return new RedirectResponse($targetUrl);
