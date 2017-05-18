@@ -50,6 +50,8 @@ class IconController extends Controller {
 	private $iconBuilder;
 	/** @var ImageManager */
 	private $imageManager;
+	/** @var FileAccessHelper */
+	private $fileAccessHelper;
 
 	/**
 	 * IconController constructor.
@@ -71,7 +73,8 @@ class IconController extends Controller {
 		ITimeFactory $timeFactory,
 		IConfig $config,
 		IconBuilder $iconBuilder,
-		ImageManager $imageManager
+		ImageManager $imageManager,
+		FileAccessHelper $fileAccessHelper
 	) {
 		parent::__construct($appName, $request);
 
@@ -81,6 +84,7 @@ class IconController extends Controller {
 		$this->config = $config;
 		$this->iconBuilder = $iconBuilder;
 		$this->imageManager = $imageManager;
+		$this->fileAccessHelper = $fileAccessHelper;
 	}
 
 	/**
@@ -139,9 +143,7 @@ class IconController extends Controller {
 		}
 		if($response === null) {
 			$fallbackLogo = \OC::$SERVERROOT . '/core/img/favicon.png';
-			/** @var FileAccessHelper */
-			$fileAccessHelper = \OC::$server->query(FileAccessHelper::class);
-			$response = new DataDisplayResponse($fileAccessHelper->file_get_contents($fallbackLogo), Http::STATUS_OK, ['Content-Type' => 'image/x-icon']);
+			$response = new DataDisplayResponse($this->fileAccessHelper->file_get_contents($fallbackLogo), Http::STATUS_OK, ['Content-Type' => 'image/x-icon']);
 		}
 		$response->cacheFor(86400);
 		$expires = new \DateTime();
@@ -176,9 +178,7 @@ class IconController extends Controller {
 		}
 		if($response === null) {
 			$fallbackLogo = \OC::$SERVERROOT . '/core/img/favicon-touch.png';
-			/** @var FileAccessHelper */
-			$fileAccessHelper = \OC::$server->query(FileAccessHelper::class);
-			$response = new DataDisplayResponse($fileAccessHelper->file_get_contents($fallbackLogo), Http::STATUS_OK, ['Content-Type' => 'image/png']);
+			$response = new DataDisplayResponse($this->fileAccessHelper->file_get_contents($fallbackLogo), Http::STATUS_OK, ['Content-Type' => 'image/png']);
 		}
 		$response->cacheFor(86400);
 		$expires = new \DateTime();

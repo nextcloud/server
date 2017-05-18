@@ -24,6 +24,7 @@ namespace OCA\Theming\Tests\Controller;
 
 
 use OC\Files\SimpleFS\SimpleFile;
+use OC\IntegrityCheck\Helpers\FileAccessHelper;
 use OCA\Theming\IconBuilder;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ThemingDefaults;
@@ -54,6 +55,8 @@ class IconControllerTest extends TestCase {
 	private $config;
 	/** @var IconBuilder|\PHPUnit_Framework_MockObject_MockObject */
 	private $iconBuilder;
+	/** @var FileAccessHelper|\PHPUnit_Framework_MockObject_MockObject */
+	private $fileAccessHelper;
 	/** @var ImageManager */
 	private $imageManager;
 
@@ -70,6 +73,7 @@ class IconControllerTest extends TestCase {
 		$this->iconBuilder = $this->getMockBuilder('OCA\Theming\IconBuilder')
 			->disableOriginalConstructor()->getMock();
 		$this->imageManager = $this->getMockBuilder('OCA\Theming\ImageManager')->disableOriginalConstructor()->getMock();
+		$this->fileAccessHelper = $this->createMock(FileAccessHelper::class);
 		$this->timeFactory->expects($this->any())
 			->method('getTime')
 			->willReturn(123);
@@ -82,7 +86,8 @@ class IconControllerTest extends TestCase {
 			$this->timeFactory,
 			$this->config,
 			$this->iconBuilder,
-			$this->imageManager
+			$this->imageManager,
+			$this->fileAccessHelper
 		);
 
 		parent::setUp();
@@ -152,6 +157,10 @@ class IconControllerTest extends TestCase {
 			->method('shouldReplaceIcons')
 			->willReturn(false);
 		$fallbackLogo = \OC::$SERVERROOT . '/core/img/favicon.png';
+		$this->fileAccessHelper->expects($this->once())
+			->method('file_get_contents')
+			->with($fallbackLogo)
+			->willReturn(file_get_contents($fallbackLogo));
 		$expected = new DataDisplayResponse(file_get_contents($fallbackLogo), Http::STATUS_OK, ['Content-Type' => 'image/x-icon']);
 		$expected->cacheFor(86400);
 		$expires = new \DateTime();
@@ -201,6 +210,10 @@ class IconControllerTest extends TestCase {
 			->method('shouldReplaceIcons')
 			->willReturn(false);
 		$fallbackLogo = \OC::$SERVERROOT . '/core/img/favicon-touch.png';
+		$this->fileAccessHelper->expects($this->once())
+			->method('file_get_contents')
+			->with($fallbackLogo)
+			->willReturn(file_get_contents($fallbackLogo));
 		$expected = new DataDisplayResponse(file_get_contents($fallbackLogo), Http::STATUS_OK, ['Content-Type' => 'image/png']);
 		$expected->cacheFor(86400);
 		$expires = new \DateTime();
