@@ -260,11 +260,11 @@ class ManagerTest extends TestCase {
 			->willReturn('jos');
 		$event->expects($this->once())
 			->method('setApp')
-			->with($this->equalTo('twofactor_generic'))
+			->with($this->equalTo('core'))
 			->willReturnSelf();
 		$event->expects($this->once())
 			->method('setType')
-			->with($this->equalTo('twofactor'))
+			->with($this->equalTo('security'))
 			->willReturnSelf();
 		$event->expects($this->once())
 			->method('setAuthor')
@@ -319,11 +319,11 @@ class ManagerTest extends TestCase {
 			->willReturn('jos');
 		$event->expects($this->once())
 			->method('setApp')
-			->with($this->equalTo('twofactor_generic'))
+			->with($this->equalTo('core'))
 			->willReturnSelf();
 		$event->expects($this->once())
 			->method('setType')
-			->with($this->equalTo('twofactor'))
+			->with($this->equalTo('security'))
 			->willReturnSelf();
 		$event->expects($this->once())
 			->method('setAuthor')
