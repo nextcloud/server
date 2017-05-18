@@ -50,6 +50,10 @@ class BearerAuth extends AbstractBearer {
 		$this->session = $session;
 		$this->request = $request;
 		$this->principalPrefix = $principalPrefix;
+
+		// setup realm
+		$defaults = new \OCP\Defaults();
+		$this->realm = $defaults->getName();
 	}
 
 	private function setupUserFs($userId) {
