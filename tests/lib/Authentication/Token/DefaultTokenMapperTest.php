@@ -238,4 +238,15 @@ class DefaultTokenMapperTest extends TestCase {
 		$this->assertEquals(3, $this->getNumberOfTokens());
 	}
 
+	public function testDeleteByName() {
+		$qb = $this->dbConnection->getQueryBuilder();
+		$qb->select('name')
+			->from('authtoken')
+			->where($qb->expr()->eq('token', $qb->createNamedParameter('9c5a2e661482b65597408a6bb6c4a3d1af36337381872ac56e445a06cdb7fea2b1039db707545c11027a4966919918b19d875a8b774840b18c6cbb7ae56fe206')));
+		$result = $qb->execute();
+		$name = $result->fetch()['name'];
+		$this->mapper->deleteByName($name);
+		$this->assertEquals(2, $this->getNumberOfTokens());
+	}
+
 }
