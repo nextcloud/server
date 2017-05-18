@@ -16,7 +16,7 @@ Feature: webdav-related
 		Then the HTTP status code should be "401"
 		And there are no duplicate headers
 		And The following headers should be set
-			|WWW-Authenticate|Basic realm="Nextcloud", Bearer realm="Nextcloud"|
+			|WWW-Authenticate|Bearer realm="Nextcloud", Basic realm="Nextcloud"|
 
 	Scenario: Moving a file
 		Given using old dav path
