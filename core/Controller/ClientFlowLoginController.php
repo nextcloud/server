@@ -109,7 +109,8 @@ class ClientFlowLoginController extends Controller {
 	 * @return string
 	 */
 	private function getClientName() {
-		return $this->request->getHeader('USER_AGENT') !== null ? $this->request->getHeader('USER_AGENT') : 'unknown';
+		$userAgent = $this->request->getHeader('USER_AGENT');
+		return $userAgent !== null ? $userAgent : 'unknown';
 	}
 
 	/**
@@ -265,11 +266,10 @@ class ClientFlowLoginController extends Controller {
 		}
 
 		$clientName = $this->getClientName();
-		$oAuthClient = false;
+		$client = false;
 		if($clientIdentifier !== '') {
 			$client = $this->clientMapper->getByIdentifier($clientIdentifier);
 			$clientName = $client->getName();
-			$oAuthClient = true;
 		}
 
 		$token = $this->random->generate(72, ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_DIGITS);
@@ -284,9 +284,7 @@ class ClientFlowLoginController extends Controller {
 			IToken::DO_NOT_REMEMBER
 		);
 
-		if($oAuthClient) {
-			$client = $this->clientMapper->getByIdentifier($clientIdentifier);
-
+		if($client) {
 			$code = $this->random->generate(128);
 			$accessToken = new AccessToken();
 			$accessToken->setClientId($client->getId());
