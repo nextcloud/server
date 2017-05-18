@@ -21,6 +21,7 @@
 
 namespace OCA\OAuth2\Db;
 
+use OCA\OAuth2\Exceptions\ClientNotFoundException;
 use OCP\AppFramework\Db\Mapper;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
@@ -37,6 +38,7 @@ class ClientMapper extends Mapper {
 	/**
 	 * @param string $clientIdentifier
 	 * @return Client
+	 * @throws ClientNotFoundException
 	 */
 	public function getByIdentifier($clientIdentifier) {
 		$qb = $this->db->getQueryBuilder();
@@ -47,17 +49,16 @@ class ClientMapper extends Mapper {
 		$result = $qb->execute();
 		$row = $result->fetch();
 		$result->closeCursor();
-
-		if (!is_array($row)) {
-			$row = [];
+		if($row === false) {
+			throw new ClientNotFoundException();
 		}
-
 		return Client::fromRow($row);
 	}
 
 	/**
 	 * @param string $uid internal uid of the client
 	 * @return Client
+	 * @throws ClientNotFoundException
 	 */
 	public function getByUid($uid) {
 		$qb = $this->db->getQueryBuilder();
@@ -68,11 +69,9 @@ class ClientMapper extends Mapper {
 		$result = $qb->execute();
 		$row = $result->fetch();
 		$result->closeCursor();
-
-		if (!is_array($row)) {
-			$row = [];
+		if($row === false) {
+			throw new ClientNotFoundException();
 		}
-
 		return Client::fromRow($row);
 	}
 

@@ -21,6 +21,7 @@
 
 namespace OCA\OAuth2\Db;
 
+use OCA\OAuth2\Exceptions\AccessTokenNotFoundException;
 use OCP\AppFramework\Db\Mapper;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
@@ -37,6 +38,7 @@ class AccessTokenMapper extends Mapper {
 	/**
 	 * @param string $code
 	 * @return AccessToken
+	 * @throws AccessTokenNotFoundException
 	 */
 	public function getByCode($code) {
 		$qb = $this->db->getQueryBuilder();
@@ -47,6 +49,9 @@ class AccessTokenMapper extends Mapper {
 		$result = $qb->execute();
 		$row = $result->fetch();
 		$result->closeCursor();
+		if($row === false) {
+			throw new AccessTokenNotFoundException();
+		}
 		return AccessToken::fromRow($row);
 	}
 
