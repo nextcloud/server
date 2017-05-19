@@ -15,7 +15,6 @@ OC.L10N.register(
     "No valid crop data provided" : "올바른 잘라내기 데이터가 지정되지 않음",
     "Crop is not square" : "잘라내는 영역이 사각형이 아님",
     "State token does not match" : "상태 토크인 일치하지 않음",
-    "Auth flow can only be started unauthenticated." : "인증 과정을 시작하려면 인증되어 있지 않아야 합니다.",
     "Couldn't reset password because the token is invalid" : "토큰이 잘못되었기 때문에 암호를 초기화할 수 없습니다",
     "Couldn't reset password because the token is expired" : "토큰이 만료되어 암호를 초기화할 수 없습니다",
     "Could not send reset email because there is no email address for this username. Please contact your administrator." : "이 사용자 이름과 연결된 이메일 주소가 없어서 초기화 메일을 보낼 수 없습니다. 시스템 관리자에게 연락하십시오.",

@@ -15,7 +15,6 @@ OC.L10N.register(
     "No valid crop data provided" : "Не указаны корректные данные о кадрировании",
     "Crop is not square" : "Кадр не является квадратом",
     "State token does not match" : "Токен состояния не соответствует",
-    "Auth flow can only be started unauthenticated." : "Процесс аутентификации может быть запущен только неаутентифицированным.",
     "Password reset is disabled" : "Сброс пароля отключен",
     "Couldn't reset password because the token is invalid" : "Не удалось сбросить пароль, неверный токен",
     "Couldn't reset password because the token is expired" : "Не удалось сбросить пароль, срок действия токена истёк",

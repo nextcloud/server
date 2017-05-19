@@ -13,7 +13,6 @@
     "No valid crop data provided" : "Aucune donnée valide de recadrage fournie",
     "Crop is not square" : "Le recadrage n'est pas carré",
     "State token does not match" : "Les jetons de statut ne correspondent pas",
-    "Auth flow can only be started unauthenticated." : "Le processus d'authentification peut seulement démarrer en mode \"non connectée\".",
     "Password reset is disabled" : "La réinitialisation du mot de passe est désactivée",
     "Couldn't reset password because the token is invalid" : "Impossible de réinitialiser le mot de passe car le jeton n'est pas valable",
     "Couldn't reset password because the token is expired" : "Impossible de réinitialiser le mot de passe car le jeton a expiré",

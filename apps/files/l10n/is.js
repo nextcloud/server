@@ -71,6 +71,7 @@ OC.L10N.register(
     "Favorite" : "Eftirlæti",
     "Copy direct link (only works for users who have access to this file/folder)" : "Afrita beinan tengil (virkar bara fyrir notendur sem eiga aðgang að þessari skrá/möppu)",
     "New folder" : "Ný mappa",
+    "Upload file" : "Senda inn skrá",
     "An error occurred while trying to update the tags" : "Villa kom upp við að reyna að uppfæra merkin",
     "Added to favorites" : "Bætt í eftirlæti",
     "Removed from favorites" : "Fjarlægt úr eftirlætum",

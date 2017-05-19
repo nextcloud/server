@@ -15,7 +15,6 @@ OC.L10N.register(
     "No valid crop data provided" : "没有提供有效的裁剪数据",
     "Crop is not square" : "裁剪的不是正方形",
     "State token does not match" : "状态令牌无法匹配",
-    "Auth flow can only be started unauthenticated." : "验证流程只能在未经身份验证的情况下启动。",
     "Password reset is disabled" : "密码重置不可用",
     "Couldn't reset password because the token is invalid" : "令牌无效, 无法重置密码",
     "Couldn't reset password because the token is expired" : "令牌已过期, 无法重置密码",

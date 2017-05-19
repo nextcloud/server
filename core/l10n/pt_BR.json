@@ -13,7 +13,6 @@
     "No valid crop data provided" : "Nenhum dado recortado válido",
     "Crop is not square" : "Recorte não é quadrado",
     "State token does not match" : "O estado do token não coincide",
-    "Auth flow can only be started unauthenticated." : "O fluxo de autenticação só pode ser iniciado como não autenticado.",
     "Password reset is disabled" : "A redefinição de senha está desabilitada",
     "Couldn't reset password because the token is invalid" : "Não foi possível redefinir a senha porque o token é inválido",
     "Couldn't reset password because the token is expired" : "Não foi possível redefinir a senha porque o token expirou",

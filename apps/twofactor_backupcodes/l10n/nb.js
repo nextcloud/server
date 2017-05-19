@@ -10,12 +10,10 @@ OC.L10N.register(
     "If you regenerate backup codes, you automatically invalidate old codes." : "Hvis du regenererer nye sikkerhetskopi-koder, vil du automatisk gjøre de gamle kodene ugyldige.",
     "An error occurred while generating your backup codes" : "En feil oppstod under generering av sikkerhetskopi-kodene",
     "Nextcloud backup codes" : "Nextcloud sikkerhetskopi-koder",
-    "Two-factor authentication" : "To-trinns bekreftelse",
-    "You successfully logged in using two-factor authentication (%1$s)" : "Din innlogging med to-trinns bekreftelse var velykket (%1$s)",
-    "A login attempt using two-factor authentication failed (%1$s)" : "En innlogging med to-trinns bekreftelse mislyktes (%1$s)",
     "You created two-factor backup codes for your account" : "Du opprettet to-trinns bekreftelse sikkerhetskopi-koder",
     "Backup code" : "Sikkerhetskopi-kode",
     "Use backup code" : "Bruker sikkerhetskopi-kode",
+    "Two factor backup codes" : "Sikkerhetskopikoder for tofaktor",
     "Second-factor backup codes" : "To-trinns bekreftelse sikkerhetskopi-koder"
 },
 "nplurals=2; plural=(n != 1);");
