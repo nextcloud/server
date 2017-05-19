@@ -86,6 +86,12 @@ source_file = templates/federation.pot
 source_lang = en
 type = PO
 
+[nextcloud.oauth2]
+file_filter = <lang>/oauth2.po
+source_file = templates/oauth2.pot
+source_lang = en
+type = PO
+
 [nextcloud.sharebymail]
 file_filter = <lang>/sharebymail.po
 source_file = templates/sharebymail.pot
