@@ -259,10 +259,10 @@ OC.Settings.Apps = OC.Settings.Apps || {
 			page.find(".groups-enable").hide();
 			page.find(".groups-enable__checkbox").prop('checked', false);
 		} else {
-			page.find('#group_select').val((app.groups || []).join('|'));
+			page.find('.group_select').val((app.groups || []).join('|'));
 			if (app.active) {
 				if (app.groups.length) {
-					OC.Settings.Apps.setupGroupsSelect(page.find('#group_select'));
+					OC.Settings.Apps.setupGroupsSelect(page.find('.group_select'));
 					page.find(".groups-enable__checkbox").prop('checked', true);
 				} else {
 					page.find(".groups-enable__checkbox").prop('checked', false);
@@ -390,7 +390,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 					elements.forEach(function(element) {
 						element.val(t('settings', 'Enable'));
 						element.parent().find(".groups-enable").hide();
-						element.parent().find('#group_select').hide().val(null);
+						element.parent().find('.group_select').hide().val(null);
 					});
 					OC.Settings.Apps.State.apps[appId].active = false;
 				}
@@ -458,7 +458,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 							elements.forEach(function(element) {
 								element.parent().find(".groups-enable").prop('checked', true);
 								element.parent().find(".groups-enable").hide();
-								element.parent().find('#group_select').hide().val(null);
+								element.parent().find('.group_select').hide().val(null);
 							});
 						} else {
 							elements.forEach(function(element) {
@@ -905,8 +905,8 @@ OC.Settings.Apps = OC.Settings.Apps || {
 			OC.Settings.Apps.updateApp(appId, element);
 		});
 
-		$(document).on('change', '#group_select', function() {
-			var element = $(this).parent().find('input.enable');
+		$(document).on('change', '.group_select', function() {
+			var element = $(this).closest('.section').find('input.enable');
 			var groups = $(this).val();
 			if (groups && groups !== '') {
 				groups = groups.split('|');
@@ -922,7 +922,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		});
 
 		$(document).on('change', ".groups-enable__checkbox", function() {
-			var $select = $(this).closest('.section').find('#group_select');
+			var $select = $(this).closest('.section').find('.group_select');
 			$select.val('');
 
 			if (this.checked) {
