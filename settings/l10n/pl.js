@@ -241,6 +241,7 @@ OC.L10N.register(
     "It was not possible to execute the cronjob via CLI. The following technical errors have appeared:" : "Nie było możliwe do wykonania przez cron CLI. Pojawiły się następujące błędy techniczne:",
     "Please double check the <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%s\">log</a>." : "Proszę sprawdzić dokładnie <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">przewodniki instalacji ↗</a> oraz błędy i ostrzeżenia w <a href=\"%s\">logu</a>.",
     "All checks passed." : "Wszystkie testy konfiguracji zakończyły się pomyślnie.",
+    "Background jobs" : "Procesy w tle",
     "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "Dla optymalnej wydajności należy poprawnie skonfigurować zadania w tle. Dla większych instancji zalecane jest użycie usługi 'Cron'. Więcej informacji można znaleźć w dokumentacji.",
     "Execute one task with each page loaded" : "Wykonuj jedno zadanie wraz z każdą wczytaną stroną.",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "Cron.php jest zarejestrowany w usłudze webcron do uruchamiania cron.php raz na 15 minut przez http.",

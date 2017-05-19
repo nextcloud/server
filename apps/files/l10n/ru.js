@@ -71,6 +71,7 @@ OC.L10N.register(
     "Favorite" : "Избранное",
     "Copy direct link (only works for users who have access to this file/folder)" : "Копировать прямую ссылку (работает только для пользователей с правами доступа к этому файлу или каталогу)",
     "New folder" : "Новый каталог",
+    "Upload file" : "Выгрузить файл",
     "An error occurred while trying to update the tags" : "Во время обновления тегов возникла ошибка",
     "Added to favorites" : "Добавлено в избранное",
     "Removed from favorites" : "Удалено из избранного",

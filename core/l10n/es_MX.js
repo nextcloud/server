@@ -15,7 +15,6 @@ OC.L10N.register(
     "No valid crop data provided" : "No se han proporcionado datos válidos del recorte",
     "Crop is not square" : "El recorte no está cuadrado",
     "State token does not match" : "La ficha de estado no corresponde",
-    "Auth flow can only be started unauthenticated." : "El flujo de autenticación solo se puede iniciar sin encontrarse autenticado. ",
     "Password reset is disabled" : "Restablecer contraseña se encuentra deshabilitado",
     "Couldn't reset password because the token is invalid" : "No ha sido posible restablecer la contraseña porque la ficha es inválida",
     "Couldn't reset password because the token is expired" : "No ha sido posible restablecer la contraseña porque la ficha ha expirado",
