@@ -192,6 +192,8 @@ class ThemingDefaults extends \OC_Defaults {
 
 		$variables = [
 			'theming-cachebuster' => "'" . $this->config->getAppValue('theming', 'cachebuster', '0') . "'",
+			'theming-logo-mime' => "'" . $this->config->getAppValue('theming', 'logoMime', '') . "'",
+			'theming-background-mime' => "'" . $this->config->getAppValue('theming', 'backgroundMime', '') . "'"
 		];
 
 		$variables['image-logo'] = "'".$this->urlGenerator->getAbsoluteURL($this->getLogo())."'";
