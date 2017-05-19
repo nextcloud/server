@@ -59,7 +59,7 @@ script(
 		<div class="groups-enable">
 			<input type="checkbox" class="groups-enable__checkbox checkbox" id="groups_enable-{{id}}"/>
 			<label for="groups_enable-{{id}}"><?php p($l->t('Limit to groups')); ?></label>
-			<input type="hidden" id="group_select" title="<?php p($l->t('All')); ?>">
+			<input type="hidden" class="group_select" title="<?php p($l->t('All')); ?>">
 		</div>
 		{{/if}}
 	</div>
@@ -182,7 +182,7 @@ script(
 		<input type="checkbox" class="groups-enable__checkbox checkbox" id="groups_enable-{{id}}"/>
 		<label for="groups_enable-{{id}}"><?php p($l->t('Enable only for specific groups')); ?></label>
 	</div>
-	<input type="hidden" id="group_select" title="<?php p($l->t('All')); ?>" style="width: 200px">
+	<input type="hidden" class="group_select" title="<?php p($l->t('All')); ?>" style="width: 200px">
 	{{else}}
 	<input class="enable{{#if needsDownload}} needs-download{{/if}}" type="submit" data-appid="{{id}}" data-active="false" {{#unless canInstall}}disabled="disabled"{{/unless}} value="<?php p($l->t("Enable"));?>"/>
 	{{/if}}
