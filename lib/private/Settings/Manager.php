@@ -464,6 +464,22 @@ class Manager implements IManager {
 			15 => [new Section('sync-clients', $this->l->t('Sync clients'), 0, $this->url->imagePath('settings', 'change.svg'))],
 			98 => [new Section('additional', $this->l->t('Additional settings'), 0, $this->url->imagePath('core', 'actions/settings-dark.svg'))],
 		];
+
+		$rows = $this->mapper->getPersonalSectionsFromDB();
+
+		foreach ($rows as $row) {
+			if (!isset($sections[$row['priority']])) {
+				$sections[$row['priority']] = [];
+			}
+			try {
+				$sections[$row['priority']][] = $this->query($row['class']);
+			} catch (QueryException $e) {
+				// skip
+			}
+		}
+
+		ksort($sections);
+
 		return $sections;
 	}
 
@@ -472,6 +488,20 @@ class Manager implements IManager {
 	 */
 	public function getPersonalSettings($section) {
 		$settings = $this->getBuiltInPersonalSettings($section);
+		$dbRows = $this->mapper->getPersonalSettingsFromDB($section);
+
+		foreach ($dbRows as $row) {
+			if (!isset($settings[$row['priority']])) {
+				$settings[$row['priority']] = [];
+			}
+			try {
+				$settings[$row['priority']][] = $this->query($row['class']);
+			} catch (QueryException $e) {
+				// skip
+			}
+		}
+
+		ksort($settings);
 		return $settings;
 	}
 }

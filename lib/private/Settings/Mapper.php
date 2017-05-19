@@ -85,11 +85,39 @@ class Mapper {
 	 * @return array[] [['class' => string, 'priority' => int], ...]
 	 */
 	public function getAdminSectionsFromDB() {
+		return $this->getSectionsFromDB('admin');
+	}
+
+	/**
+	 * Get the configured admin sections from the database
+	 *
+	 * @return array[] [['class' => string, 'priority' => int], ...]
+	 */
+	public function getPersonalSectionsFromDB() {
+		return $this->getSectionsFromDB('personal');
+	}
+
+	/**
+	 * Get the configured sections from the database by table
+	 *
+	 * @param string $type either 'personal' or 'admin'
+	 * @return array[] [['class' => string, 'priority' => int], ...]
+	 */
+	public function getSectionsFromDB($type) {
+		if($type === 'personal') {
+			$sectionsTable = self::TABLE_ADMIN_SECTIONS;
+			$settingsTable = self::TABLE_ADMIN_SETTINGS;
+		} else if($type === 'admin') {
+			$sectionsTable = self::TABLE_PERSONAL_SECTIONS;
+			$settingsTable = self::TABLE_PERSONAL_SETTINGS;
+		} else {
+			throw new \InvalidArgumentException('"admin" or "personal" expected');
+		}
 		$query = $this->dbc->getQueryBuilder();
 		$query->selectDistinct('s.class')
 			->addSelect('s.priority')
-			->from(self::TABLE_ADMIN_SECTIONS, 's')
-			->from(self::TABLE_ADMIN_SETTINGS, 'f')
+			->from($sectionsTable, 's')
+			->from($settingsTable, 'f')
 			->where($query->expr()->eq('s.id', 'f.section'));
 		$result = $query->execute();
 		return array_map(function ($row) {
