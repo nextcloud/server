@@ -117,6 +117,9 @@ kbd {
 		width: 100%;
 		box-sizing: border-box;
 	}
+	&.hidden {
+		display: none;
+	}
 	&.without-app-settings {
 		padding-bottom: 0;
 	}
