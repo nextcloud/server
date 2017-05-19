@@ -80,6 +80,15 @@ class JSResourceLocator extends ResourceLocator {
 			$this->appendIfExist($app_path, $script . '.js', $app_url);
 			return;
 		}
+
+		if ($app_path === false && $app_url === false) {
+			$this->logger->error('Could not find resource {resource} to load', [
+				'resource' => $app . '/' . $script . '.js',
+				'app' => 'jsresourceloader',
+			]);
+			return;
+		}
+
 		if (!$this->cacheAndAppendCombineJsonIfExist($app_path, $script.'.json', $app)) {
 			$this->append($app_path, $script . '.js', $app_url);
 		}
