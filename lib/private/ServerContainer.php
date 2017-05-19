@@ -38,6 +38,9 @@ class ServerContainer extends SimpleContainer {
 	protected $appContainers;
 
 	/** @var string[] */
+	protected $hasNoAppContainer;
+
+	/** @var string[] */
 	protected $namespaces;
 
 	/**
@@ -47,6 +50,7 @@ class ServerContainer extends SimpleContainer {
 		parent::__construct();
 		$this->appContainers = [];
 		$this->namespaces = [];
+		$this->hasNoAppContainer = [];
 	}
 
 	/**
@@ -69,15 +73,27 @@ class ServerContainer extends SimpleContainer {
 
 	/**
 	 * @param string $namespace
+	 * @param string $sensitiveNamespace
 	 * @return DIContainer
 	 * @throws QueryException
 	 */
-	protected function getAppContainer($namespace) {
+	protected function getAppContainer($namespace, $sensitiveNamespace) {
 		if (isset($this->appContainers[$namespace])) {
 			return $this->appContainers[$namespace];
 		}
 
 		if (isset($this->namespaces[$namespace])) {
+			if (!isset($this->hasNoAppContainer[$namespace])) {
+				$applicationClassName = 'OCA\\' . $sensitiveNamespace . '\\AppInfo\\Application';
+				if (class_exists($applicationClassName)) {
+					new $applicationClassName();
+					if (isset($this->appContainers[$namespace])) {
+						return $this->appContainers[$namespace];
+					}
+				}
+				$this->hasNoAppContainer[$namespace] = true;
+			}
+
 			return new DIContainer($this->namespaces[$namespace]);
 		}
 		throw new QueryException();
@@ -96,7 +112,7 @@ class ServerContainer extends SimpleContainer {
 		if (strpos($name, 'OCA\\') === 0 && substr_count($name, '\\') >= 2) {
 			$segments = explode('\\', $name);
 			try {
-				$appContainer = $this->getAppContainer(strtolower($segments[1]));
+				$appContainer = $this->getAppContainer(strtolower($segments[1]), $segments[1]);
 				return $appContainer->queryNoFallback($name);
 			} catch (QueryException $e) {
 				// Didn't find the service or the respective app container,
