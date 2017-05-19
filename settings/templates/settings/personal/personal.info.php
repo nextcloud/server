@@ -35,9 +35,6 @@ vendor_style('strengthify/strengthify');
 vendor_script('jcrop/js/jquery.Jcrop');
 vendor_style('jcrop/css/jquery.Jcrop');
 
-//TODO: delete js/personal.js once the Encryption and AuthToken things are,
-// where they belong
-
 ?>
 
 <div id="quota" class="section">
