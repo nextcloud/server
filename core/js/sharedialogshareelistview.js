@@ -262,7 +262,7 @@
 				createPermissionLabel: t('core', 'Can create'),
 				updatePermissionLabel: t('core', 'Can change'),
 				deletePermissionLabel: t('core', 'Can delete'),
-				secureDropLabel: t('core', 'Secure drop (upload only)'),
+				secureDropLabel: t('core', 'File drop (upload only)'),
 				expireDateLabel: t('core', 'Set expiration date'),
 				passwordLabel: t('core', 'Password protect'),
 				crudsLabel: t('core', 'Access control'),
