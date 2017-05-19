@@ -31,6 +31,7 @@ use OC\Files\Filesystem;
 use OCP\ICertificateManager;
 use OCP\IConfig;
 use OCP\ILogger;
+use OCP\Security\ISecureRandom;
 
 /**
  * Manage trusted certificates for users
@@ -56,17 +57,26 @@ class CertificateManager implements ICertificateManager {
 	 */
 	protected $logger;
 
+	/** @var ISecureRandom */
+	protected $random;
+
 	/**
 	 * @param string $uid
 	 * @param \OC\Files\View $view relative to data/
 	 * @param IConfig $config
 	 * @param ILogger $logger
+	 * @param ISecureRandom $random
 	 */
-	public function __construct($uid, \OC\Files\View $view, IConfig $config, ILogger $logger) {
+	public function __construct($uid,
+								\OC\Files\View $view,
+								IConfig $config,
+								ILogger $logger,
+								ISecureRandom $random) {
 		$this->uid = $uid;
 		$this->view = $view;
 		$this->config = $config;
 		$this->logger = $logger;
+		$this->random = $random;
 	}
 
 	/**
@@ -120,7 +130,8 @@ class CertificateManager implements ICertificateManager {
 		}
 
 		$certPath = $path . 'rootcerts.crt';
-		$fhCerts = $this->view->fopen($certPath, 'w');
+		$tmpPath = $certPath . '.tmp' . $this->random->generate(10, ISecureRandom::CHAR_DIGITS);
+		$fhCerts = $this->view->fopen($tmpPath, 'w');
 
 		// Write user certificates
 		foreach ($certs as $cert) {
@@ -143,6 +154,8 @@ class CertificateManager implements ICertificateManager {
 		}
 
 		fclose($fhCerts);
+
+		$this->view->rename($tmpPath, $certPath);
 	}
 
 	/**
@@ -218,7 +231,7 @@ class CertificateManager implements ICertificateManager {
 		}
 		if ($this->needsRebundling($uid)) {
 			if (is_null($uid)) {
-				$manager = new CertificateManager(null, $this->view, $this->config, $this->logger);
+				$manager = new CertificateManager(null, $this->view, $this->config, $this->logger, $this->random);
 				$manager->createCertificateBundle();
 			} else {
 				$this->createCertificateBundle();

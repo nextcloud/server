@@ -589,7 +589,13 @@ class Server extends ServerContainer implements IServerContainer {
 			$uid = $user ? $user : null;
 			return new ClientService(
 				$c->getConfig(),
-				new \OC\Security\CertificateManager($uid, new View(), $c->getConfig(), $c->getLogger())
+				new \OC\Security\CertificateManager(
+					$uid,
+					new View(),
+					$c->getConfig(),
+					$c->getLogger(),
+					$c->getSecureRandom()
+				)
 			);
 		});
 		$this->registerAlias('HttpClientService', \OCP\Http\Client\IClientService::class);
@@ -1426,7 +1432,13 @@ class Server extends ServerContainer implements IServerContainer {
 			}
 			$userId = $user->getUID();
 		}
-		return new CertificateManager($userId, new View(), $this->getConfig(), $this->getLogger());
+		return new CertificateManager(
+			$userId,
+			new View(),
+			$this->getConfig(),
+			$this->getLogger(),
+			$this->getSecureRandom()
+		);
 	}
 
 	/**
