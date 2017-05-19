@@ -28,6 +28,7 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\Settings\IManager as ISettingsManager;
+use OCP\Template;
 
 class PersonalSettingsController extends Controller {
 	use CommonSettingsTrait {
@@ -68,6 +69,40 @@ class PersonalSettingsController extends Controller {
 	private function getSettings($section) {
 		// PhpStorm shows this as unused, but is required by CommonSettingsTrait
 		$settings = $this->settingsManager->getPersonalSettings($section);
-		return $this->formatSettings($settings);
+		$formatted = $this->formatSettings($settings);
+		if($section === 'additional') {
+			$formatted['content'] .= $this->getLegacyForms();
+		}
+		return $formatted;
+	}
+
+	/**
+	 * @return bool|string
+	 */
+	private function getLegacyForms() {
+		$forms = \OC_App::getForms('personal');
+
+		$forms = array_map(function ($form) {
+			if (preg_match('%(<h2(?P<class>[^>]*)>.*?</h2>)%i', $form, $regs)) {
+				$sectionName = str_replace('<h2' . $regs['class'] . '>', '', $regs[0]);
+				$sectionName = str_replace('</h2>', '', $sectionName);
+				$anchor = strtolower($sectionName);
+				$anchor = str_replace(' ', '-', $anchor);
+
+				return array(
+					'anchor' => $anchor,
+					'section-name' => $sectionName,
+					'form' => $form
+				);
+			}
+			return array(
+				'form' => $form
+			);
+		}, $forms);
+
+		$out = new Template('settings', 'settings/additional');
+		$out->assign('forms', $forms);
+
+		return $out->fetchPage();
 	}
 }

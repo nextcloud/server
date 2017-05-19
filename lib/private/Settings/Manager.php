@@ -420,6 +420,11 @@ class Manager implements IManager {
 				$form = new Personal\SyncClients($this->config, $this->defaults);
 				$forms[$form->getPriority()] = [$form];
 			}
+			if ($section === 'additional') {
+				/** @var ISettings $form */
+				$form = new Personal\Additional($this->config);
+				$forms[$form->getPriority()] = [$form];
+			}
 		} catch (QueryException $e) {
 			// skip
 		}

@@ -108,7 +108,7 @@ class AdminSettingsController extends Controller {
 			);
 		}, $forms);
 
-		$out = new Template('settings', 'admin/additional');
+		$out = new Template('settings', 'settings/additional');
 		$out->assign('forms', $forms);
 
 		return $out->fetchPage();
