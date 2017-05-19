@@ -13,7 +13,6 @@
     "No valid crop data provided" : "Recorte inválido",
     "Crop is not square" : "El recorte no es cuadrado",
     "State token does not match" : "El token dado no coincide",
-    "Auth flow can only be started unauthenticated." : "El flujo de autorización solo puede comenzar sin estar identificado",
     "Couldn't reset password because the token is invalid" : "No se puede restablecer la contraseña porque el vale de identificación es inválido.",
     "Couldn't reset password because the token is expired" : "No se puede restablecer la contraseña porque el vale de identificación ha caducado.",
     "Could not send reset email because there is no email address for this username. Please contact your administrator." : "No se pudo enviar el correo electrónico de restablecimiento porque no hay una dirección de correo electrónico para este nombre de usuario. Póngase en contacto con un administrador.",

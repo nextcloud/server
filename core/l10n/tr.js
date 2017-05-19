@@ -15,7 +15,6 @@ OC.L10N.register(
     "No valid crop data provided" : "Geçerli bir kırpma verisi belirtilmemiş",
     "Crop is not square" : "Kırpma kare şeklinde değil",
     "State token does not match" : "Durum kodu eşleşmiyor",
-    "Auth flow can only be started unauthenticated." : "Kimlik doğrulama işlemi yalnız kimlik doğrulanmamışken başlatılabilir.",
     "Password reset is disabled" : "Parola sıfırlama devre dışı bırakılmış",
     "Couldn't reset password because the token is invalid" : "Kod geçersiz olduğundan parola sıfırlanamadı",
     "Couldn't reset password because the token is expired" : "Kodun süresi geçtiğinden parola sıfırlanamadı",

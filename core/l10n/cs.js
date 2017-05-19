@@ -15,7 +15,6 @@ OC.L10N.register(
     "No valid crop data provided" : "Nebyla poskytnuta platná data pro oříznutí obrázku",
     "Crop is not square" : "Ořez není čtvercový",
     "State token does not match" : "Stavový token neodpovídá",
-    "Auth flow can only be started unauthenticated." : "Sekvence autentizace může být zahájena pouze jako neautentizovaný.",
     "Password reset is disabled" : "Reset hesla je vypnut",
     "Couldn't reset password because the token is invalid" : "Heslo nebylo změněno kvůli neplatnému tokenu",
     "Couldn't reset password because the token is expired" : "Heslo nebylo změněno z důvodu vypršení tokenu",

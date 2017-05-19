@@ -184,10 +184,13 @@
     "Storage connection error. %s" : "Villa í tengingu við gagnageymslu. %s",
     "Storage is temporarily not available" : "Gagnageymsla ekki tiltæk í augnablikinu",
     "Storage connection timeout. %s" : "Gagnageymsla féll á tíma. %s",
+    "This can usually be fixed by %sgiving the webserver write access to the config directory%s." : "Þetta er venjulega hægt að laga ef %sgefur vefþjóninum skrifréttindi í stillingamöppuna%s.",
     "Server settings" : "Stillingar þjóns",
     "%s shared »%s« with you" : "%s deildi »%s« með þér",
     "%s via %s" : "%s með %s",
     "Cannot create \"data\" directory (%s)" : "Get ekki búið til \"data\" möppu (%s)",
+    "This can usually be fixed by <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">giving the webserver write access to the root directory</a>." : "Þetta er venjulega hægt að laga ef <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">gefur vefþjóninum skrifréttindi í rótarmöppuna </a>.",
+    "Permissions can usually be fixed by %sgiving the webserver write access to the root directory%s." : "Heimildir er venjulega hægt að laga ef %sgefur vefþjóninum skrifréttindi í rótarmöppuna %s.",
     "Data directory (%s) is readable by other users" : "Gagnamappa (%s) er lesanleg fyrir aðra notendur",
     "Data directory (%s) must be an absolute path" : "Gagnamappan (%s) verður að vera algild slóð",
     "Data directory (%s) is invalid" : "Gagnamappa (%s) er ógild"

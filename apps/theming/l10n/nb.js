@@ -13,6 +13,7 @@ OC.L10N.register(
     "Unsupported image type" : "Filtypen støttes ikke",
     "You are already using a custom theme" : "Du bruker allerede en egendefinert drakt",
     "Theming" : "Draktvalg",
+    "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Draktvalg gjør det enkelt å tilpasse utseende og følelsen av din installasjon og støttede klienter. Dette vil bli synlig for alle brukere.",
     "Name" : "Navn",
     "reset to default" : "tilbakestill",
     "Web address" : "Nettadresse",
@@ -23,6 +24,7 @@ OC.L10N.register(
     "Upload new logo" : "Last opp ny logo",
     "Login image" : "Innloggingsbilde",
     "Upload new login background" : "Last opp ny innloggingsbakgrunn",
+    "Remove background image" : "Fjern bakgrunnsbilde",
     "Log in image" : "Innloggingsbilde"
 },
 "nplurals=2; plural=(n != 1);");
