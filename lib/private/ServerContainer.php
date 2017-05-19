@@ -121,7 +121,7 @@ class ServerContainer extends SimpleContainer {
 		} else if (strpos($name, 'OC\\Settings\\') === 0 && substr_count($name, '\\') >= 3) {
 			$segments = explode('\\', $name);
 			try {
-				$appContainer = $this->getAppContainer(strtolower($segments[1]));
+				$appContainer = $this->getAppContainer(strtolower($segments[1]), $segments[1]);
 				return $appContainer->queryNoFallback($name);
 			} catch (QueryException $e) {
 				// Didn't find the service or the respective app container,
