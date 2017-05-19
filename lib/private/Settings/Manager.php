@@ -41,9 +41,6 @@ use OCP\Settings\IManager;
 use OCP\Settings\ISection;
 
 class Manager implements IManager {
-	const TABLE_ADMIN_SETTINGS = 'admin_settings';
-	const TABLE_ADMIN_SECTIONS = 'admin_sections';
-
 	/** @var ILogger */
 	private $log;
 	/** @var IDBConnection */
@@ -87,6 +84,7 @@ class Manager implements IManager {
 	 * @param AccountManager $accountManager
 	 * @param IGroupManager $groupManager
 	 * @param IFactory $l10nFactory
+	 * @param \OC_Defaults $defaults
 	 */
 	public function __construct(
 		ILogger $log,
@@ -125,10 +123,17 @@ class Manager implements IManager {
 	 */
 	public function setupSettings(array $settings) {
 		if (isset($settings[IManager::KEY_ADMIN_SECTION])) {
-			$this->setupAdminSection($settings[IManager::KEY_ADMIN_SECTION]);
+			$this->setupSectionEntry($settings[IManager::KEY_ADMIN_SECTION], 'admin');
 		}
 		if (isset($settings[IManager::KEY_ADMIN_SETTINGS])) {
-			$this->setupAdminSettings($settings[IManager::KEY_ADMIN_SETTINGS]);
+			$this->setupSettingsEntry($settings[IManager::KEY_ADMIN_SETTINGS], 'admin');
+		}
+
+		if (isset($settings[IManager::KEY_PERSONAL_SECTION])) {
+			$this->setupSectionEntry($settings[IManager::KEY_PERSONAL_SECTION], 'personal');
+		}
+		if (isset($settings[IManager::KEY_PERSONAL_SETTINGS])) {
+			$this->setupSettingsEntry($settings[IManager::KEY_PERSONAL_SETTINGS], 'personal');
 		}
 	}
 
@@ -144,15 +149,22 @@ class Manager implements IManager {
 		$appInfo = \OC_App::getAppInfo($appId); // hello static legacy
 
 		if (isset($appInfo['settings'][IManager::KEY_ADMIN_SECTION])) {
-			$this->mapper->remove(self::TABLE_ADMIN_SECTIONS, trim($appInfo['settings'][IManager::KEY_ADMIN_SECTION], '\\'));
+			$this->mapper->remove(Mapper::TABLE_ADMIN_SECTIONS, trim($appInfo['settings'][IManager::KEY_ADMIN_SECTION], '\\'));
 		}
 		if (isset($appInfo['settings'][IManager::KEY_ADMIN_SETTINGS])) {
-			$this->mapper->remove(self::TABLE_ADMIN_SETTINGS, trim($appInfo['settings'][IManager::KEY_ADMIN_SETTINGS], '\\'));
+			$this->mapper->remove(Mapper::TABLE_ADMIN_SETTINGS, trim($appInfo['settings'][IManager::KEY_ADMIN_SETTINGS], '\\'));
+		}
+
+		if (isset($appInfo['settings'][IManager::KEY_PERSONAL_SECTION])) {
+			$this->mapper->remove(Mapper::TABLE_PERSONAL_SECTIONS, trim($appInfo['settings'][IManager::KEY_PERSONAL_SECTION], '\\'));
+		}
+		if (isset($appInfo['settings'][IManager::KEY_PERSONAL_SETTINGS])) {
+			$this->mapper->remove(Mapper::TABLE_PERSONAL_SETTINGS, trim($appInfo['settings'][IManager::KEY_PERSONAL_SETTINGS], '\\'));
 		}
 	}
 
 	public function checkForOrphanedClassNames() {
-		$tables = [self::TABLE_ADMIN_SECTIONS, self::TABLE_ADMIN_SETTINGS];
+		$tables = [Mapper::TABLE_ADMIN_SECTIONS, Mapper::TABLE_ADMIN_SETTINGS, Mapper::TABLE_PERSONAL_SECTIONS, Mapper::TABLE_PERSONAL_SETTINGS];
 		foreach ($tables as $table) {
 			$classes = $this->mapper->getClasses($table);
 			foreach ($classes as $className) {
@@ -167,10 +179,11 @@ class Manager implements IManager {
 
 	/**
 	 * @param string $sectionClassName
+	 * @param string $type either 'admin' or 'personal'
 	 */
-	private function setupAdminSection($sectionClassName) {
+	private function setupSectionEntry($sectionClassName, $type) {
 		if (!class_exists($sectionClassName)) {
-			$this->log->debug('Could not find admin section class ' . $sectionClassName);
+			$this->log->debug('Could not find ' . ucfirst($type) . ' section class ' . $sectionClassName);
 			return;
 		}
 		try {
@@ -182,37 +195,38 @@ class Manager implements IManager {
 
 		if (!$section instanceof ISection) {
 			$this->log->error(
-				'Admin section instance must implement \OCP\ISection. Invalid class: {class}',
+				ucfirst($type) .' section instance must implement \OCP\ISection. Invalid class: {class}',
 				['class' => $sectionClassName]
 			);
 			return;
 		}
-		if (!$this->hasAdminSection(get_class($section))) {
-			$this->addAdminSection($section);
+		$table = $this->getSectionTableForType($type);
+		if(!$this->hasSection(get_class($section), $table)) {
+			$this->addSection($section, $table);
 		} else {
-			$this->updateAdminSection($section);
+			$this->updateSection($section, $table);
 		}
 	}
 
-	private function addAdminSection(ISection $section) {
-		$this->mapper->add(self::TABLE_ADMIN_SECTIONS, [
+	private function addSection(ISection $section, $table) {
+		$this->mapper->add($table, [
 			'id' => $section->getID(),
 			'class' => get_class($section),
 			'priority' => $section->getPriority(),
 		]);
 	}
 
-	private function addAdminSettings(ISettings $settings) {
-		$this->mapper->add(self::TABLE_ADMIN_SETTINGS, [
+	private function addSettings(ISettings $settings, $table) {
+		$this->mapper->add($table, [
 			'class' => get_class($settings),
 			'section' => $settings->getSection(),
 			'priority' => $settings->getPriority(),
 		]);
 	}
 
-	private function updateAdminSettings(ISettings $settings) {
+	private function updateSettings(ISettings $settings, $table) {
 		$this->mapper->update(
-			self::TABLE_ADMIN_SETTINGS,
+			$table,
 			'class',
 			get_class($settings),
 			[
@@ -222,9 +236,9 @@ class Manager implements IManager {
 		);
 	}
 
-	private function updateAdminSection(ISection $section) {
+	private function updateSection(ISection $section, $table) {
 		$this->mapper->update(
-			self::TABLE_ADMIN_SECTIONS,
+			$table,
 			'class',
 			get_class($section),
 			[
@@ -236,23 +250,24 @@ class Manager implements IManager {
 
 	/**
 	 * @param string $className
+	 * @param string $table
 	 * @return bool
 	 */
-	private function hasAdminSection($className) {
-		return $this->mapper->has(self::TABLE_ADMIN_SECTIONS, $className);
+	private function hasSection($className, $table) {
+		return $this->mapper->has($table, $className);
 	}
 
 	/**
 	 * @param string $className
 	 * @return bool
 	 */
-	private function hasAdminSettings($className) {
-		return $this->mapper->has(self::TABLE_ADMIN_SETTINGS, $className);
+	private function hasSettings($className, $table) {
+		return $this->mapper->has($table, $className);
 	}
 
-	private function setupAdminSettings($settingsClassName) {
+	private function setupSettingsEntry($settingsClassName, $type) {
 		if (!class_exists($settingsClassName)) {
-			$this->log->debug('Could not find admin section class ' . $settingsClassName);
+			$this->log->debug('Could not find ' . $type . ' section class ' . $settingsClassName);
 			return;
 		}
 
@@ -266,16 +281,35 @@ class Manager implements IManager {
 
 		if (!$settings instanceof ISettings) {
 			$this->log->error(
-				'Admin section instance must implement \OCP\Settings\ISection. Invalid class: {class}',
+				ucfirst($type) . ' section instance must implement \OCP\Settings\ISettings. Invalid class: {class}',
 				['class' => $settingsClassName]
 			);
 			return;
 		}
-		if (!$this->hasAdminSettings(get_class($settings))) {
-			$this->addAdminSettings($settings);
+		$table = $this->getSettingsTableForType($type);
+		if (!$this->hasSettings(get_class($settings), $table)) {
+			$this->addSettings($settings, $table);
 		} else {
-			$this->updateAdminSettings($settings);
+			$this->updateSettings($settings, $table);
 		}
+	}
+
+	private function getSectionTableForType($type) {
+		if($type === 'admin') {
+			return Mapper::TABLE_ADMIN_SECTIONS;
+		} else if($type === 'personal') {
+			return Mapper::TABLE_PERSONAL_SECTIONS;
+		}
+		throw new \InvalidArgumentException('"admin" or "personal" expected');
+	}
+
+	private function getSettingsTableForType($type) {
+		if($type === 'admin') {
+			return Mapper::TABLE_ADMIN_SETTINGS;
+		} else if($type === 'personal') {
+			return Mapper::TABLE_PERSONAL_SETTINGS;
+		}
+		throw new \InvalidArgumentException('"admin" or "personal" expected');
 	}
 
 	private function query($className) {
@@ -423,7 +457,7 @@ class Manager implements IManager {
 			5 => [new Section('sessions', $this->l->t('Sessions'), 0, $this->url->imagePath('settings', 'admin.svg'))],
 			10 => [new Section('app-passwords', $this->l->t('App passwords'), 0, $this->url->imagePath('settings', 'password.svg'))],
 			15 => [new Section('sync-clients', $this->l->t('Sync clients'), 0, $this->url->imagePath('settings', 'change.svg'))],
-
+			98 => [new Section('additional', $this->l->t('Additional settings'), 0, $this->url->imagePath('core', 'actions/settings-dark.svg'))],
 		];
 		return $sections;
 	}

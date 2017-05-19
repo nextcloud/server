@@ -38,6 +38,16 @@ interface IManager {
 	const KEY_ADMIN_SECTION  = 'admin-section';
 
 	/**
+	 * @since 12.0.0
+	 */
+	const KEY_PERSONAL_SETTINGS = 'personal';
+
+	/**
+	 * @since 12.0.0
+	 */
+	const KEY_PERSONAL_SECTION  = 'personal-section';
+
+	/**
 	 * sets up settings according to data specified by an apps info.xml, within
 	 * the <settings> element.
 	 *

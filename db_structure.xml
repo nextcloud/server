@@ -2136,6 +2136,127 @@
 	</table>
 
 	<table>
+		<!-- Extra personal settings sections -->
+		<name>*dbprefix*personal_sections</name>
+
+		<declaration>
+
+			<field>
+				<name>id</name>
+				<type>text</type>
+				<default></default>
+				<notnull>false</notnull>
+				<length>64</length>
+			</field>
+
+			<field>
+				<name>class</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>255</length>
+			</field>
+
+			<field>
+				<name>priority</name>
+				<type>integer</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>1</length>
+			</field>
+
+			<index>
+				<name>personal_sections_id_index</name>
+				<primary>true</primary>
+				<field>
+					<name>id</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<name>personal_sections_class</name>
+				<unique>true</unique>
+				<field>
+					<name>class</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+		</declaration>
+	</table>
+
+	<table>
+		<!-- Extra personal settings -->
+		<name>*dbprefix*personal_settings</name>
+
+		<declaration>
+
+			<field>
+				<name>id</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<autoincrement>1</autoincrement>
+				<length>4</length>
+			</field>
+
+			<field>
+				<name>class</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>255</length>
+			</field>
+
+			<!-- id of the section, foreign key: admin_sections.id -->
+			<field>
+				<name>section</name>
+				<type>text</type>
+				<default></default>
+				<notnull>false</notnull>
+				<length>64</length>
+			</field>
+
+			<field>
+				<name>priority</name>
+				<type>integer</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>1</length>
+			</field>
+
+			<index>
+				<name>personal_settings_id_index</name>
+				<primary>true</primary>
+				<field>
+					<name>id</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<name>personal_settings_class</name>
+				<unique>true</unique>
+				<field>
+					<name>class</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<name>personal_settings_section</name>
+				<unique>false</unique>
+				<field>
+					<name>section</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+		</declaration>
+	</table>
+
+	<table>
 
 		<name>*dbprefix*accounts</name>
 
