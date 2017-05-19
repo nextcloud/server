@@ -62,6 +62,15 @@ class CSSResourceLocator extends ResourceLocator {
 		$style = substr($style, strpos($style, '/')+1);
 		$app_path = \OC_App::getAppPath($app);
 		$app_url = \OC_App::getAppWebPath($app);
+
+		if ($app_path === false && $app_url === false) {
+			$this->logger->error('Could not find resource {resource} to load', [
+				'resource' => $app . '/' . $style . '.css',
+				'app' => 'cssresourceloader',
+			]);
+			return;
+		}
+
 		if(!$this->cacheAndAppendScssIfExist($app_path, $style.'.scss', $app)) {
 			$this->append($app_path, $style.'.css', $app_url);
 		}
