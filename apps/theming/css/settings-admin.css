@@ -47,10 +47,6 @@ form.uploadButton {
     visibility: visible;
 }
 
-#theming .icon-loading-small:after {
-    margin: -10px 0 0 -10px;
-}
-
 #theming label span {
     display: inline-block;
     min-width: 120px;
@@ -73,9 +69,13 @@ form.uploadButton {
 
 }
 #theming_settings_loading.icon-loading-small {
-    float: left;
-    padding: 0;
+    display: inline-block;
+    vertical-align: middle;
     margin-right: 10px;
+}
+
+#theming_settings_msg {
+    vertical-align: middle;
 }
 
 #theming-preview-logo {
