@@ -193,6 +193,7 @@ class Manager {
 		$share = $this->getShare($id);
 
 		if ($share) {
+			\OC_Util::setupFS($this->uid);
 			$mountPoint = Files::buildNotExistingFileName('/', $share['name']);
 			$mountPoint = Filesystem::normalizePath('/' . $mountPoint);
 			$hash = md5($mountPoint);
