@@ -7,6 +7,7 @@
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Michael Letzgus <develope@michael-letzgus.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -35,6 +36,42 @@
  */
 function p($string) {
 	print(\OCP\Util::sanitizeHTML($string));
+}
+
+/**
+ * Prints a <script> tag with nonce and defer depending on config
+ * @param string $src the source URL, ignored when empty
+ * @param string $script_content the inline script content, ignored when empty
+ * @param bool $defer_flag deferred loading or not
+*/
+function emit_script_tag($src, $script_content) {
+	$defer_str=' defer';
+	$s='<script nonce="' . \OC::$server->getContentSecurityPolicyNonceManager()->getNonce() . '"';
+	if (!empty($src)) {
+		 // emit script tag for deferred loading from $src
+		$s.=$defer_str.' src="' . $src .'">';
+	} else if (!empty($script_content)) {
+		// emit script tag for inline script from $script_content without defer (see MDN)
+		$s.=">\n".$script_content."\n";
+	} else {
+		// no $src nor $src_content, really useless empty tag
+		$s.='>';
+	}
+	$s.='</script>';
+	print_unescaped($s."\n");
+}
+
+/**
+ * Print all <script> tags for loading JS
+ * @param hash $obj all the script information from template
+*/
+function emit_script_loading_tags($obj) {
+	if (!empty($obj['inline_ocjs'])) {
+		emit_script_tag('', $obj['inline_ocjs']);
+	}
+	foreach($obj['jsfiles'] as $jsfile) {
+		emit_script_tag($jsfile, '');
+	}
 }
 
 /**
