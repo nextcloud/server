@@ -140,7 +140,7 @@ class AppManagerTest extends TestCase {
 		$this->assertEquals('no', $this->appConfig->getValue(
 			'some_random_name_which_i_hope_is_not_an_app', 'enabled', 'no'
 		));
-  	}
+	}
 
 	public function testEnableAppForGroups() {
 		$groups = array(
@@ -333,6 +333,7 @@ class AppManagerTest extends TestCase {
 			'federatedfilesharing',
 			'files',
 			'lookup_server_connector',
+			'oauth2',
 			'provisioning_api',
 			'test1',
 			'test3',
@@ -358,11 +359,12 @@ class AppManagerTest extends TestCase {
 			'federatedfilesharing',
 			'files',
 			'lookup_server_connector',
+			'oauth2',
 			'provisioning_api',
 			'test1',
 			'test3',
 			'twofactor_backupcodes',
-			'workflowengine'
+			'workflowengine',
 		];
 		$this->assertEquals($enabled, $this->manager->getEnabledAppsForUser($user));
 	}
@@ -387,6 +389,7 @@ class AppManagerTest extends TestCase {
 			'testnoversion' => ['id' => 'testnoversion', 'requiremin' => '8.2.0'],
 			'twofactor_backupcodes' => ['id' => 'twofactor_backupcodes'],
 			'workflowengine' => ['id' => 'workflowengine'],
+			'oauth2' => ['id' => 'oauth2'],
 		];
 
 		$manager->expects($this->any())
@@ -395,7 +398,7 @@ class AppManagerTest extends TestCase {
 				function($appId) use ($appInfos) {
 					return $appInfos[$appId];
 				}
-		));
+			));
 
 		$this->appConfig->setValue('test1', 'enabled', 'yes');
 		$this->appConfig->setValue('test1', 'installed_version', '1.0.0');
@@ -432,6 +435,7 @@ class AppManagerTest extends TestCase {
 			'testnoversion' => ['id' => 'testnoversion', 'requiremin' => '8.2.0'],
 			'twofactor_backupcodes' => ['id' => 'twofactor_backupcodes'],
 			'workflowengine' => ['id' => 'workflowengine'],
+			'oauth2' => ['id' => 'oauth2'],
 		];
 
 		$manager->expects($this->any())
@@ -440,7 +444,7 @@ class AppManagerTest extends TestCase {
 				function($appId) use ($appInfos) {
 					return $appInfos[$appId];
 				}
-		));
+			));
 
 		$this->appConfig->setValue('test1', 'enabled', 'yes');
 		$this->appConfig->setValue('test2', 'enabled', 'yes');
