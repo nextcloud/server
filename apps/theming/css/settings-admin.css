@@ -69,7 +69,7 @@ form.uploadButton {
     margin: 10px;
 
 }
-#theming_settings_loading.icon-loading-small {
+#theming_settings_loading {
     display: inline-block;
     vertical-align: middle;
     margin-right: 10px;
