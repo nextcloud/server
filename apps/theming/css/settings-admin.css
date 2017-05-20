@@ -60,8 +60,7 @@ form.uploadButton {
     vertical-align: top;
 }
 
-#theming .icon-upload,
-#theming .icon-loading-small {
+#theming .icon-upload {
     padding: 8px 20px;
     width: 20px;
     margin: 2px 0px;
