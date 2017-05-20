@@ -60,12 +60,6 @@ form.uploadButton {
     vertical-align: top;
 }
 
-#theming .icon-loading-small {
-    display: inline-flex;
-    padding: 8px;
-    margin: 2px 0px;
-}
-
 #theming .icon-upload,
 #theming .icon-loading-small {
     padding: 8px 20px;
@@ -84,11 +78,6 @@ form.uploadButton {
     float: left;
     padding: 0;
     margin-right: 10px;
-}
-div#theming_settings_msg {
-    margin: 8px;
-    margin-left:20px;
-    display: inline-block;
 }
 
 #theming-preview-logo {
