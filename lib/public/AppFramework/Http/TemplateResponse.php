@@ -61,6 +61,7 @@ class TemplateResponse extends Response {
 	 */
 	protected $appName;
 
+
 	/**
 	 * constructor of TemplateResponse
 	 * @param string $appName the name of the app to load the template from
@@ -68,7 +69,9 @@ class TemplateResponse extends Response {
 	 * @param array $params an array of parameters which should be passed to the
 	 * template
 	 * @param string $renderAs how the page should be rendered, defaults to user
-	 * @since 6.0.0 - parameters $params and $renderAs were added in 7.0.0
+	 * @param array $styles an array of styles which sould be added to the template
+	 * @param array $scripts an array of scripts which should be added to the template
+	 * @since 6.0.0 - parameters $params and $renderAs were added in 7.0.0 - parameters $styles and $scripts were added in 11.0.0
 	 */
 	public function __construct($appName, $templateName, array $params=array(),
 	                            $renderAs='user') {
@@ -136,6 +139,57 @@ class TemplateResponse extends Response {
 	 */
 	public function getRenderAs(){
 		return $this->renderAs;
+	}
+
+	/** Sets the required vendor scripts
+	 * @param array $scripts - should contain items of format 'vendorName/scriptName'
+	 * 						  for example: array('select2/select2');
+	 * @since 11.0.0
+	 */
+	public function setVendorScripts(array $scripts){
+		foreach ($scripts as $application){
+			\OC_Util::addVendorScript($application);
+		}
+	}
+
+	/**
+	 * Sets the required app scripts
+	 * @param array $scripts - should contain items of format 'appName' => array('scriptNameOne', 'scriptNameTwo')
+	 * 						 for example: array('activity' => array('script'));
+	 * @since 11.0.0
+	 */
+	public function setAppScripts(array $scripts){
+		foreach ($scripts as $appName => $files) {
+			foreach ($files as $file) {
+				\OC_Util::addScript($appName, $file);
+			}
+		}
+	}
+
+	/**
+	 * Sets the required vendor styles
+	 * @param array $styles - should contain items of format 'vendorName/styleName'
+	 * 						  for example: array('select2/select2');
+	 * @since 11.0.0
+	 */
+	public function setVendorStyles(array $styles){
+		foreach ($styles as $application) {
+			\OC_Util::addVendorStyle($application);
+		}
+	}
+
+	/**
+	 * Sets the required app styles
+	 * @param array $styles - should contain items of format 'appName' => array('styleNameOne', 'styleNameTwo')
+	 * 						 for example: array('activity' => array('style'));
+	 * @since 11.0.0
+	 */
+	public function setAppStyles(array $styles){
+		foreach ($styles as $appName => $files) {
+			foreach ($files as $file) {
+				\OC_Util::addStyle($appName, $file);
+			}
+		}
 	}
 
 
