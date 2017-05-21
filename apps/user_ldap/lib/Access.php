@@ -169,6 +169,12 @@ class Access extends LDAPUtility implements IUserTools {
 				\OCP\Util::WARN);
 			return false;
 		}
+		$cr = $this->connection->getConnectionResource();
+		if(!$this->ldap->isResource($cr)) {
+			//LDAP not available
+			\OCP\Util::writeLog('user_ldap', 'LDAP resource not available.', \OCP\Util::DEBUG);
+			return false;
+		}
 		//Cancel possibly running Paged Results operation, otherwise we run in
 		//LDAP protocol errors
 		$this->abandonPagedSearch();
@@ -180,7 +186,7 @@ class Access extends LDAPUtility implements IUserTools {
 		$maxResults = $pagingSize > 20 ? $pagingSize : 500;
 		$this->initPagedSearch($filter, array($dn), array($attr), $maxResults, 0);
 		$dn = $this->helper->DNasBaseParameter($dn);
-		$rr = @$this->invokeLDAPMethod('read', $dn, $filter, array($attr));
+		$rr = @$this->invokeLDAPMethod('read', $cr, $dn, $filter, array($attr));
 		if(!$this->ldap->isResource($rr)) {
 			if ($attr !== '') {
 				//do not throw this message on userExists check, irritates
@@ -189,18 +195,18 @@ class Access extends LDAPUtility implements IUserTools {
 			//in case an error occurs , e.g. object does not exist
 			return false;
 		}
-		if ($attr === '' && ($filter === 'objectclass=*' || $this->invokeLDAPMethod('countEntries', $rr) === 1)) {
+		if ($attr === '' && ($filter === 'objectclass=*' || $this->invokeLDAPMethod('countEntries', $cr, $rr) === 1)) {
 			\OCP\Util::writeLog('user_ldap', 'readAttribute: '.$dn.' found', \OCP\Util::DEBUG);
 			return array();
 		}
-		$er = $this->invokeLDAPMethod('firstEntry', $rr);
+		$er = $this->invokeLDAPMethod('firstEntry', $cr, $rr);
 		if(!$this->ldap->isResource($er)) {
 			//did not match the filter, return false
 			return false;
 		}
 		//LDAP attributes are not case sensitive
 		$result = \OCP\Util::mb_array_change_key_case(
-			$this->invokeLDAPMethod('getAttributes', $er), MB_CASE_LOWER, 'UTF-8');
+			$this->invokeLDAPMethod('getAttributes', $cr, $er), MB_CASE_LOWER, 'UTF-8');
 		$attr = mb_strtolower($attr, 'UTF-8');
 
 		if(isset($result[$attr]) && $result[$attr]['count'] > 0) {
@@ -233,8 +239,14 @@ class Access extends LDAPUtility implements IUserTools {
 		if(intval($this->connection->turnOnPasswordChange) !== 1) {
 			throw new \Exception('LDAP password changes are disabled.');
 		}
+		$cr = $this->connection->getConnectionResource();
+		if(!$this->ldap->isResource($cr)) {
+			//LDAP not available
+			\OCP\Util::writeLog('user_ldap', 'LDAP resource not available.', \OCP\Util::DEBUG);
+			return false;
+		}
 		try {
-			return $this->invokeLDAPMethod('modReplace', $userDN, $password);
+			return $this->invokeLDAPMethod('modReplace', $cr, $userDN, $password);
 		} catch(ConstraintViolationException $e) {
 			throw new HintException('Password change rejected.', \OC::$server->getL10N('user_ldap')->t('Password change rejected. Hint: ').$e->getMessage(), $e->getCode());
 		}
@@ -824,19 +836,20 @@ class Access extends LDAPUtility implements IUserTools {
 	}
 
 	/**
+	 * Returns the LDAP handler
+	 * @throws \OC\ServerNotAvailableException
+	 */
+
+	/**
 	 * @return mixed
+	 * @throws \OC\ServerNotAvailableException
 	 */
 	private function invokeLDAPMethod() {
 		$arguments = func_get_args();
 		$command = array_shift($arguments);
+		$cr = array_shift($arguments);
 		if (!method_exists($this->ldap, $command)) {
 			return null;
-		}
-		$cr = $this->connection->getConnectionResource();
-		if(!$this->ldap->isResource($cr)) {
-			// Seems like we didn't find any resource.
-			\OCP\Util::writeLog('user_ldap', "Could not $command, because resource is missing.", \OCP\Util::DEBUG);
-			return false;
 		}
 		array_unshift($arguments, $cr);
 		// php no longer supports call-time pass-by-reference
@@ -875,6 +888,7 @@ class Access extends LDAPUtility implements IUserTools {
 	 * @param int $offset optional, a starting point
 	 * @return array|false array with the search result as first value and pagedSearchOK as
 	 * second | false if not successful
+	 * @throws \OC\ServerNotAvailableException
 	 */
 	private function executeSearch($filter, $base, &$attr = null, $limit = null, $offset = null) {
 		if(!is_null($attr) && !is_array($attr)) {
@@ -894,23 +908,7 @@ class Access extends LDAPUtility implements IUserTools {
 		$pagedSearchOK = $this->initPagedSearch($filter, $base, $attr, intval($limit), $offset);
 
 		$linkResources = array_pad(array(), count($base), $cr);
-		try {
-			$sr = $this->ldap->search($linkResources, $base, $filter, $attr);
-		} catch (ServerNotAvailableException $e) {
-			/* Server connection lost, attempt to reestablish it
-			 * According to MS docs, LDAP cookies survive reconnects
-			 */
-			\OCP\Util::writeLog('user_ldap', "Connection lost on search, attempting to reestablish.", \OCP\Util::DEBUG);
-			$this->connection = clone $this->connection;
-			$cr = $this->connection->getConnectionResource();
-			if(!$this->ldap->isResource($cr)) {
-				// Seems like we didn't find any resource.
-				\OCP\Util::writeLog('user_ldap', "Could not search, because resource is missing.", \OCP\Util::DEBUG);
-				return false;
-			}
-			$linkResources = array_pad(array(), count($base), $cr);
-			$sr = $this->ldap->search($linkResources, $base, $filter, $attr);
-		}
+		$sr = $this->invokeLDAPMethod('search', $linkResources, $base, $filter, $attr);
 		$error = $this->ldap->errno($cr);
 		if(!is_array($sr) || $error !== 0) {
 			\OCP\Util::writeLog('user_ldap', 'Attempt for Paging?  '.print_r($pagedSearchOK, true), \OCP\Util::ERROR);
@@ -938,7 +936,7 @@ class Access extends LDAPUtility implements IUserTools {
 		if($pagedSearchOK) {
 			$cr = $this->connection->getConnectionResource();
 			foreach($sr as $key => $res) {
-				if($this->invokeLDAPMethod('controlPagedResultResponse', $res, $cookie)) {
+				if($this->invokeLDAPMethod('controlPagedResultResponse', $cr, $res, $cookie)) {
 					$this->setPagedResultCookie($base[$key], $filter, $limit, $offset, $cookie);
 				}
 			}
@@ -1027,7 +1025,7 @@ class Access extends LDAPUtility implements IUserTools {
 		$counter = 0;
 
 		foreach($searchResults as $res) {
-			$count = intval($this->invokeLDAPMethod('countEntries', $res));
+			$count = intval($this->invokeLDAPMethod('countEntries', $cr, $res));
 			$counter += $count;
 		}
 
@@ -1077,7 +1075,7 @@ class Access extends LDAPUtility implements IUserTools {
 			}
 
 			foreach($sr as $res) {
-				$findings = array_merge($findings, $this->invokeLDAPMethod('getEntries', $res));
+				$findings = array_merge($findings, $this->invokeLDAPMethod('getEntries', $cr, $res));
 			}
 
 			$continue = $this->processPagedSearchStatus($sr, $filter, $base, $findings['count'],
@@ -1639,7 +1637,8 @@ class Access extends LDAPUtility implements IUserTools {
 	 */
 	private function abandonPagedSearch() {
 		if($this->connection->hasPagedResultSupport) {
-			$this->invokeLDAPMethod('controlPagedResult', 0, false, $this->lastCookie);
+			$cr = $this->connection->getConnectionResource();
+			$this->invokeLDAPMethod('controlPagedResult', $cr, 0, false, $this->lastCookie);
 			$this->getPagedSearchResultState();
 			$this->lastCookie = '';
 			$this->cookies = array();
@@ -1765,7 +1764,9 @@ class Access extends LDAPUtility implements IUserTools {
 				if(!is_null($cookie)) {
 					//since offset = 0, this is a new search. We abandon other searches that might be ongoing.
 					$this->abandonPagedSearch();
-					$pagedSearchOK = $this->invokeLDAPMethod('controlPagedResult', $limit, false, $cookie);
+					$pagedSearchOK = $this->invokeLDAPMethod('controlPagedResult',
+						$this->connection->getConnectionResource(), $limit,
+						false, $cookie);
 					if(!$pagedSearchOK) {
 						return false;
 					}
@@ -1791,7 +1792,9 @@ class Access extends LDAPUtility implements IUserTools {
 			// in case someone set it to 0 … use 500, otherwise no results will
 			// be returned.
 			$pageSize = intval($this->connection->ldapPagingSize) > 0 ? intval($this->connection->ldapPagingSize) : 500;
-			$pagedSearchOK = $this->invokeLDAPMethod('controlPagedResult', $pageSize, false, '');
+			$pagedSearchOK = $this->invokeLDAPMethod('controlPagedResult',
+				$this->connection->getConnectionResource(),
+				$pageSize, false, '');
 		}
 
 		return $pagedSearchOK;
