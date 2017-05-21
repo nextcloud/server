@@ -6,7 +6,7 @@
     "You changed your email address" : "Você alterou seu e-mail",
     "Your email address was changed by an administrator" : "Seu e-mail foi alterado pelo administrador",
     "Security" : "Segurança",
-    "You successfully logged in using two-factor authentication (%1$s)" : "Você conectou com êxito usando q autenticação de dois fatores (%1$s)",
+    "You successfully logged in using two-factor authentication (%1$s)" : "Você conectou com êxito usando a autenticação de dois fatores (%1$s)",
     "A login attempt using two-factor authentication failed (%1$s)" : "A tentativa de login usando a autenticação de dois fatores falhou (%1$s)",
     "Your <strong>password</strong> or <strong>email</strong> was modified" : "Sua <strong>senha</strong> ou <strong>e-mail</strong> foram alterados",
     "Your apps" : "Seus aplicativos",
