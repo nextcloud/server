@@ -113,7 +113,7 @@ OC.L10N.register(
     "App update" : "Programoppdatering",
     "Approved" : "Godkjent",
     "Experimental" : "Eksperimentell",
-    "No apps found for {query}" : "Ingen programmet funnet for \"{query}\"",
+    "No apps found for {query}" : "Ingen programmer funnet for {query}",
     "Enable all" : "Skru på alle",
     "Allow filesystem access" : "Tillatt filsystem tilgang",
     "Disconnect" : "Koble fra",
