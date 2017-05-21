@@ -210,6 +210,13 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
+	public static function detailsMenuItem() {
+		return self::fileActionsMenuItemFor("Details");
+	}
+
+	/**
+	 * @return Locator
+	 */
 	public static function viewFileInFolderMenuItem() {
 		return self::fileActionsMenuItemFor("View in folder");
 	}
@@ -234,7 +241,9 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @Given I open the details view for :fileName
 	 */
 	public function iOpenTheDetailsViewFor($fileName) {
-		$this->actor->find(self::mainLinkForFile($fileName), 10)->click();
+		$this->actor->find(self::fileActionsMenuButtonForFile($fileName), 10)->click();
+
+		$this->actor->find(self::detailsMenuItem(), 2)->click();
 	}
 
 	/**
