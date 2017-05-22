@@ -7,7 +7,7 @@
 	<author>Joas Schilling</author>
 	<version>1.2.0</version>
 	<dependencies>
-		<nextcloud min-version="12" max-version="12" />
+		<nextcloud min-version="13" max-version="13" />
 	</dependencies>
 	<types>
 		<authentication/>

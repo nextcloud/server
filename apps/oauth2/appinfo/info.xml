@@ -11,6 +11,9 @@
 	<types>
 		<authentication/>
 	</types>
+	<dependencies>
+		<nextcloud min-version="13" max-version="13" />
+	</dependencies>
 
 	<settings>
 		<admin>OCA\OAuth2\Settings\Admin</admin>

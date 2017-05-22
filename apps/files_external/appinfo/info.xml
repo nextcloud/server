@@ -21,7 +21,7 @@ External storage can be configured using the GUI or at the command line. This se
 	<namespace>Files_External</namespace>
 
 	<dependencies>
-		<nextcloud min-version="12" max-version="12" />
+		<nextcloud min-version="13" max-version="13" />
 	</dependencies>
 
 	<settings>

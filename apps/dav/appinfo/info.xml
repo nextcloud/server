@@ -15,7 +15,7 @@
 		<webdav>appinfo/v1/publicwebdav.php</webdav>
 	</public>
 	<dependencies>
-		<nextcloud min-version="12" max-version="12" />
+		<nextcloud min-version="13" max-version="13" />
 	</dependencies>
 	<background-jobs>
 		<job>OCA\DAV\CardDAV\SyncJob</job>

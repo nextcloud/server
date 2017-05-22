@@ -9,7 +9,7 @@
     <namespace>FederatedFileSharing</namespace>
     <category>other</category>
     <dependencies>
-        <nextcloud min-version="12" max-version="12" />
+        <nextcloud min-version="13" max-version="13" />
     </dependencies>
     <settings>
         <admin>OCA\FederatedFileSharing\Settings\Admin</admin>

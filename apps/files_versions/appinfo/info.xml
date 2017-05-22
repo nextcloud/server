@@ -14,7 +14,7 @@ In addition to the expiry of versions, the versions app makes certain never to u
 	</types>
 	<namespace>Files_Versions</namespace>
 	<dependencies>
-		<nextcloud min-version="12" max-version="12" />
+		<nextcloud min-version="13" max-version="13" />
 	</dependencies>
 	<documentation>
 		<user>user-versions</user>

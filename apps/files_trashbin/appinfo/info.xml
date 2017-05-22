@@ -16,7 +16,7 @@ To prevent a user from running out of disk space, the Deleted files app will not
 	</types>
 	<namespace>Files_Trashbin</namespace>
 	<dependencies>
-		<nextcloud min-version="12" max-version="12" />
+		<nextcloud min-version="13" max-version="13" />
 	</dependencies>
 	<documentation>
 		<user>user-trashbin</user>

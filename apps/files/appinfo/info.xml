@@ -11,7 +11,7 @@
 		<filesystem/>
 	</types>
 	<dependencies>
-		<nextcloud min-version="12" max-version="12" />
+		<nextcloud min-version="13" max-version="13" />
 	</dependencies>
 	<documentation>
 		<user>user-files</user>

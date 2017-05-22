@@ -18,7 +18,7 @@ A user logs into Nextcloud with their LDAP or AD credentials, and is granted acc
 	</documentation>
 	<dependencies>
 		<lib>ldap</lib>
-		<nextcloud min-version="12" max-version="12" />
+		<nextcloud min-version="13" max-version="13" />
 	</dependencies>
 
 	<namespace>User_LDAP</namespace>

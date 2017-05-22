@@ -9,7 +9,7 @@
 	<namespace>UpdateNotification</namespace>
 	<default_enable/>
 	<dependencies>
-		<nextcloud min-version="12" max-version="12" />
+		<nextcloud min-version="13" max-version="13" />
 	</dependencies>
 
 	<background-jobs>
