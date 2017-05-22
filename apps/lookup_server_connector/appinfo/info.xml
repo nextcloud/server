@@ -6,7 +6,7 @@
 	<licence>AGPL</licence>
 	<author>Bjoern Schiessle</author>
 	<namespace>LookupServerConnector</namespace>
-	<version>1.0.0</version>
+	<version>1.1.0</version>
 	<category>other</category>
 	<dependencies>
 		<nextcloud min-version="13" max-version="13" />
