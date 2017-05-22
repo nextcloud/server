@@ -13,7 +13,8 @@
 	</description>
 	<name>Default encryption module</name>
 	<licence>AGPL</licence>
-	<author>Bjoern Schiessle, Clark Tomlinson</author>
+	<author>Bjoern Schiessle</author>
+	<author>Clark Tomlinson</author>
 	<documentation>
 		<user>user-encryption</user>
 		<admin>admin-encryption</admin>

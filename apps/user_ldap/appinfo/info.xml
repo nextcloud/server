@@ -8,7 +8,8 @@ A user logs into Nextcloud with their LDAP or AD credentials, and is granted acc
 
 	</description>
 	<licence>AGPL</licence>
-	<author>Dominik Schmidt and Arthur Schiwon</author>
+	<author>Dominik Schmidt</author>
+	<author>Arthur Schiwon</author>
 	<version>1.3.0</version>
 	<types>
 		<authentication/>

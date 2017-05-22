@@ -4,7 +4,8 @@
 	<name>Files</name>
 	<description>File Management</description>
 	<licence>AGPL</licence>
-	<author>Robin Appelman, Vincent Petry</author>
+	<author>Robin Appelman</author>
+	<author>Vincent Petry</author>
 	<default_enable/>
 	<version>1.8.0</version>
 	<types>
