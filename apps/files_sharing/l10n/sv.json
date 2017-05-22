@@ -87,6 +87,7 @@
     "Cannot increase permissions" : "Kan inte utöka behörigheter",
     "%s is publicly shared" : "%s är offentligt delad",
     "Share API is disabled" : "Delning av API är inaktiverad",
+    "File sharing" : "Fildelning",
     "This share is password-protected" : "Den här delningen är lösenordsskyddad",
     "The password is wrong. Try again." : "Lösenordet är fel. Försök igen.",
     "Password" : "Lösenord",

@@ -12,6 +12,7 @@ OC.L10N.register(
     "No data specified" : "Nie określono danych",
     " Could not set configuration %s" : "Nie można ustawić konfiguracji %s",
     "Action does not exist" : "Akcja nie istnieje",
+    "LDAP user and group backend" : "Zaplecze użytkowników i grup LDAP",
     "Renewing …" : "Odnawianie ...",
     "Very weak password" : "Bardzo słabe hasło",
     "Weak password" : "Słabe hasło",

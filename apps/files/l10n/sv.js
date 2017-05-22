@@ -71,6 +71,7 @@ OC.L10N.register(
     "Favorite" : "Favorit",
     "Copy direct link (only works for users who have access to this file/folder)" : "Kopiera direktlänk (fungerar endast för de användare som har tillgång till denna fil eller mapp)",
     "New folder" : "Ny mapp",
+    "Upload file" : "Ladda upp fil",
     "An error occurred while trying to update the tags" : "Ett fel uppstod när uppdatera taggarna",
     "Added to favorites" : "Lades till i favoriter",
     "Removed from favorites" : "Togs bort från favoriter",
