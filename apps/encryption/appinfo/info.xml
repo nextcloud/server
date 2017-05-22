@@ -13,18 +13,19 @@
 	</description>
 	<name>Default encryption module</name>
 	<licence>AGPL</licence>
-	<author>Bjoern Schiessle, Clark Tomlinson</author>
+	<author>Bjoern Schiessle</author>
+	<author>Clark Tomlinson</author>
 	<documentation>
 		<user>user-encryption</user>
 		<admin>admin-encryption</admin>
 	</documentation>
-	<version>1.6.0</version>
+	<version>1.7.0</version>
 	<types>
 		<filesystem/>
 	</types>
 	<dependencies>
 		<lib>openssl</lib>
-		<nextcloud min-version="12" max-version="12" />
+		<nextcloud min-version="13" max-version="13" />
 	</dependencies>
 	<settings>
 		<admin>OCA\Encryption\Settings\Admin</admin>

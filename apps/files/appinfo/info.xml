@@ -4,14 +4,15 @@
 	<name>Files</name>
 	<description>File Management</description>
 	<licence>AGPL</licence>
-	<author>Robin Appelman, Vincent Petry</author>
+	<author>Robin Appelman</author>
+	<author>Vincent Petry</author>
 	<default_enable/>
-	<version>1.7.2</version>
+	<version>1.8.0</version>
 	<types>
 		<filesystem/>
 	</types>
 	<dependencies>
-		<nextcloud min-version="12" max-version="12" />
+		<nextcloud min-version="13" max-version="13" />
 	</dependencies>
 	<documentation>
 		<user>user-files</user>

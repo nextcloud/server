@@ -5,7 +5,7 @@
 	<description>A two-factor auth backup codes provider</description>
 	<licence>agpl</licence>
 	<author>Christoph Wurst</author>
-	<version>1.1.1</version>
+	<version>1.2.0</version>
 	<namespace>TwoFactorBackupCodes</namespace>
 	<category>other</category>
 
@@ -14,7 +14,7 @@
 	</two-factor-providers>
 
 	<dependencies>
-		<nextcloud min-version="12" max-version="12" />
+		<nextcloud min-version="13" max-version="13" />
 	</dependencies>
 
 	<activity>

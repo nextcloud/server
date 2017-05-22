@@ -5,12 +5,12 @@
 	<description>Adjust the Nextcloud theme</description>
 	<licence>AGPL</licence>
 	<author>Nextcloud</author>
-	<version>1.3.0</version>
+	<version>1.4.0</version>
 	<namespace>Theming</namespace>
 	<category>other</category>
 
 	<dependencies>
-		<nextcloud min-version="12" max-version="12" />
+		<nextcloud min-version="13" max-version="13" />
 	</dependencies>
 
 	<types>

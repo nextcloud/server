@@ -6,11 +6,14 @@
 	<licence>agpl</licence>
 	<author>Lukas Reschke</author>
 	<namespace>OAuth2</namespace>
-	<version>1.0.5</version>
+	<version>1.1.0</version>
 	<default_enable/>
 	<types>
 		<authentication/>
 	</types>
+	<dependencies>
+		<nextcloud min-version="13" max-version="13" />
+	</dependencies>
 
 	<settings>
 		<admin>OCA\OAuth2\Settings\Admin</admin>
