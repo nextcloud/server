@@ -105,7 +105,7 @@ class DBConfigService {
 				),
 				$builder->expr()->andX( // mounts for group
 					$builder->expr()->eq('a.type', $builder->createNamedParameter(self::APPLICABLE_TYPE_GROUP, IQueryBuilder::PARAM_INT)),
-					$builder->expr()->in('a.value', $builder->createNamedParameter($groupIds, IQueryBuilder::PARAM_INT_ARRAY))
+					$builder->expr()->in('a.value', $builder->createNamedParameter($groupIds, IQueryBuilder::PARAM_STR_ARRAY))
 				)
 			));
 
