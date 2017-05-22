@@ -1,6 +1,8 @@
 OC.L10N.register(
     "settings",
     {
+    "{actor} changed your password" : "{actor} vaše geslo je spremenjeno",
+    "You changed your password" : "Spremenili ste vaše geslo",
     "Wrong password" : "Napačno geslo",
     "Saved" : "Shranjeno",
     "No user supplied" : "Ni navedenega uporabnika",

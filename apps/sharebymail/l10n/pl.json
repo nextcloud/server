@@ -28,6 +28,7 @@
     "Password to access »%s«" : "Hasło do dostępu »%s«",
     "It is protected with the following password: %s" : "To jest chronione z nstępującym hasłem: %s",
     "Password to access »%s« shared with %s" : "Hasło dostępu do »%s« zostało udostępnione %s",
+    "You just shared »%s« with %s. The share was already send to the recipient. Due to the security policies defined by the administrator of %s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Właśnie udostępniłeś »%s« użytkownikowi %s. Udostępniony udział został już wysłany do odbiorcy, jednak zgodnie z polityką bezpieczeństwa ustanowioną przez administratora %s każdy udział musi zostać zabezpieczony hasłem. Wysyłanie hasła bezpośrednio do odbiorcy jest zabronione, dlatego też musisz mu je przekazać w klasyczny sposób.",
     "This is the password: %s" : "To jest hasło: %s",
     "You can choose a different password at any time in the share dialog." : "Możesz zmienić hasło w okienku współdzielenia w dowolnym momencie.",
     "Could not find share" : "Nie można odnaleźć współdzielonego obiektu",
