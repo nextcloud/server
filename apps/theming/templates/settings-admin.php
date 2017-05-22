@@ -42,28 +42,28 @@ style('theming', 'settings-admin');
 		<label>
 			<span><?php p($l->t('Name')) ?></span>
 			<input id="theming-name" type="text" placeholder="<?php p($l->t('Name')); ?>" value="<?php p($_['name']) ?>" maxlength="250" />
-			<div data-setting="name" data-toggle="tooltip" data-original-title="<?php p($l->t('reset to default')); ?>" class="theme-undo icon icon-history"></div>
+			<div data-setting="name" data-toggle="tooltip" data-original-title="<?php p($l->t('Reset to default')); ?>" class="theme-undo icon icon-history"></div>
 		</label>
 	</div>
 	<div>
 		<label>
 			<span><?php p($l->t('Web address')) ?></span>
 			<input id="theming-url" type="text" placeholder="<?php p($l->t('Web address https://…')); ?>" value="<?php p($_['url']) ?>" maxlength="500" />
-			<div data-setting="url" data-toggle="tooltip" data-original-title="<?php p($l->t('reset to default')); ?>" class="theme-undo icon icon-history"></div>
+			<div data-setting="url" data-toggle="tooltip" data-original-title="<?php p($l->t('Reset to default')); ?>" class="theme-undo icon icon-history"></div>
 		</label>
 	</div>
 	<div>
 		<label>
 			<span><?php p($l->t('Slogan')) ?></span>
 			<input id="theming-slogan" type="text" placeholder="<?php p($l->t('Slogan')); ?>" value="<?php p($_['slogan']) ?>" maxlength="500" />
-			<div data-setting="slogan" data-toggle="tooltip" data-original-title="<?php p($l->t('reset to default')); ?>" class="theme-undo icon icon-history"></div>
+			<div data-setting="slogan" data-toggle="tooltip" data-original-title="<?php p($l->t('Reset to default')); ?>" class="theme-undo icon icon-history"></div>
 		</label>
 	</div>
 	<div>
 		<label>
 			<span><?php p($l->t('Color')) ?></span>
 			<input id="theming-color" type="text" class="jscolor" maxlength="6" value="<?php p($_['color']) ?>" />
-			<div data-setting="color" data-toggle="tooltip" data-original-title="<?php p($l->t('reset to default')); ?>" class="theme-undo icon icon-history"></div>
+			<div data-setting="color" data-toggle="tooltip" data-original-title="<?php p($l->t('Reset to default')); ?>" class="theme-undo icon icon-history"></div>
 		</label>
 	</div>
 	<div>
@@ -72,7 +72,7 @@ style('theming', 'settings-admin');
 			<label for="uploadlogo"><span><?php p($l->t('Logo')) ?></span></label>
 			<input id="uploadlogo" class="upload-logo-field" name="uploadlogo" type="file" />
 			<label for="uploadlogo" class="button icon-upload svg" id="uploadlogo" title="<?php p($l->t('Upload new logo')) ?>"></label>
-			<div data-setting="logoMime" data-toggle="tooltip" data-original-title="<?php p($l->t('reset to default')); ?>" class="theme-undo icon icon-history"></div>
+			<div data-setting="logoMime" data-toggle="tooltip" data-original-title="<?php p($l->t('Reset to default')); ?>" class="theme-undo icon icon-history"></div>
 		</form>
 	</div>
 	<div>
@@ -81,7 +81,7 @@ style('theming', 'settings-admin');
 			<label for="upload-login-background"><span><?php p($l->t('Login image')) ?></span></label>
 			<input id="upload-login-background" class="upload-logo-field" name="upload-login-background" type="file">
 			<label for="upload-login-background" class="button icon-upload svg" id="upload-login-background" title="<?php p($l->t("Upload new login background")) ?>"></label>
-			<div data-setting="backgroundMime" data-toggle="tooltip" data-original-title="<?php p($l->t('reset to default')); ?>" class="theme-undo icon icon-history"></div>
+			<div data-setting="backgroundMime" data-toggle="tooltip" data-original-title="<?php p($l->t('Reset to default')); ?>" class="theme-undo icon icon-history"></div>
 			<div class="theme-remove-bg icon icon-delete" data-toggle="tooltip" data-original-title="<?php p($l->t('Remove background image')); ?>"></div>
 		</form>
 	</div>
