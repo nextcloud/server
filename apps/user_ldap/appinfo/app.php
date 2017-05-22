@@ -36,7 +36,7 @@ if(count($configPrefixes) === 1) {
 	$userManager = new OCA\User_LDAP\User\Manager($ocConfig,
 		new OCA\User_LDAP\FilesystemHelper(),
 		new OCA\User_LDAP\LogWrapper(),
-		\OC::$server->getAvatarManager(),
+		function() {return \OC::$server->getAvatarManager(); },
 		new \OCP\Image(),
 		$dbc,
 		\OC::$server->getUserManager()

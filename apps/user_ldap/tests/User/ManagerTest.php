@@ -42,7 +42,7 @@ class ManagerTest extends \Test\TestCase {
 		$config = $this->getMock('\OCP\IConfig');
 		$filesys = $this->getMock('\OCA\User_LDAP\FilesystemHelper');
 		$log = $this->getMock('\OCA\User_LDAP\LogWrapper');
-		$avaMgr = $this->getMock('\OCP\IAvatarManager');
+		$avaMgr = function() { return $this->getMock('\OCP\IAvatarManager'); };
 		$image = $this->getMock('\OCP\Image');
 		$dbc = $this->getMock('\OCP\IDBConnection');
 		$userMgr = $this->getMock('\OCP\IUserManager');
@@ -82,7 +82,7 @@ class ManagerTest extends \Test\TestCase {
 
 		$manager = new Manager($config, $filesys, $log, $avaMgr, $image, $dbc, $userMgr);
 		$manager->setLdapAccess($access);
-		$user = $manager->get($inputDN);
+		$manager->get($inputDN);
 
 		// Now we fetch the user again. If this leads to a failing test,
 		// runtime caching the manager is broken.

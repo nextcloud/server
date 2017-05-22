@@ -60,8 +60,8 @@ class Manager {
 	/** @var Image */
 	protected $image;
 
-	/** @param \OCP\IAvatarManager */
-	protected $avatarManager;
+	/** @param \Closure */
+	protected $avatarManagerClosure;
 
 	/**
 	 * @var CappedMemoryCache $usersByDN
@@ -77,25 +77,25 @@ class Manager {
 	 * @param \OCA\User_LDAP\FilesystemHelper $ocFilesystem object that
 	 * gives access to necessary functions from the OC filesystem
 	 * @param  \OCA\User_LDAP\LogWrapper $ocLog
-	 * @param IAvatarManager $avatarManager
+	 * @param \Closure $avatarManagerClosure
 	 * @param Image $image an empty image instance
 	 * @param IDBConnection $db
 	 * @throws \Exception when the methods mentioned above do not exist
 	 */
 	public function __construct(IConfig $ocConfig,
 								FilesystemHelper $ocFilesystem, LogWrapper $ocLog,
-								IAvatarManager $avatarManager, Image $image,
+								\Closure $avatarManagerClosure, Image $image,
 								IDBConnection $db, IUserManager $userManager) {
 
-		$this->ocConfig      = $ocConfig;
-		$this->ocFilesystem  = $ocFilesystem;
-		$this->ocLog         = $ocLog;
-		$this->avatarManager = $avatarManager;
-		$this->image         = $image;
-		$this->db            = $db;
-		$this->userManager   = $userManager;
-		$this->usersByDN     = new CappedMemoryCache();
-		$this->usersByUid    = new CappedMemoryCache();
+		$this->ocConfig             = $ocConfig;
+		$this->ocFilesystem         = $ocFilesystem;
+		$this->ocLog                = $ocLog;
+		$this->avatarManagerClosure = $avatarManagerClosure;
+		$this->image                = $image;
+		$this->db                   = $db;
+		$this->userManager          = $userManager;
+		$this->usersByDN            = new CappedMemoryCache();
+		$this->usersByUid           = new CappedMemoryCache();
 	}
 
 	/**
@@ -118,7 +118,7 @@ class Manager {
 		$this->checkAccess();
 		$user = new User($uid, $dn, $this->access, $this->ocConfig,
 			$this->ocFilesystem, clone $this->image, $this->ocLog,
-			$this->avatarManager, $this->userManager);
+			$this->avatarManagerClosure, $this->userManager);
 		$this->usersByDN[$dn]   = $user;
 		$this->usersByUid[$uid] = $user;
 		return $user;

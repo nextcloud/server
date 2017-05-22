@@ -183,7 +183,7 @@ class UpdateGroups extends \OC\BackgroundJob\TimedJob {
 				\OC::$server->getConfig(),
 				new FilesystemHelper(),
 				new LogWrapper(),
-				\OC::$server->getAvatarManager(),
+				function() { return \OC::$server->getAvatarManager(); },
 				new \OCP\Image(),
 				$dbc,
 				\OC::$server->getUserManager());
