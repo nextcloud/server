@@ -304,7 +304,7 @@
     "I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure." : "Sei que se continuar atualizando pela interface web, há o risco de ocorrer um timeout e perda de dados mas eu tenho um cópia de backup e sei como restaurar meu sistema se isso ocorrer.",
     "Upgrade via web on my own risk" : "Atualizar via web por minha conta e risco",
     "This %s instance is currently in maintenance mode, which may take a while." : "Esta instância %s está em modo de manutenção, o que pode demorar um pouco.",
-    "This page will refresh itself when the %s instance is available again." : "Esta página será atualizada automaticamente quando a instância %s estiver disponível novamente.",
+    "This page will refresh itself when the %s instance is available again." : "Esta página será atualizada automaticamente quando o %s estiver disponível novamente.",
     "Problem loading page, reloading in 5 seconds" : "Problema no carregamento da página, recarregando em 5 segundos",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Seus arquivos estão criptografados. Se você não ativou a chave de recuperação, não haverá maneira de obter seus dados de volta após a sua senha ser redefinida.<br/>Se não tiver certeza do que deve fazer, contate o administrador antes de continuar. <br/>Deseja realmente continuar?",
     "Ok" : "Ok",

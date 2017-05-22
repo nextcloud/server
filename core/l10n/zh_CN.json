@@ -301,6 +301,8 @@
     "Update needed" : "需要更新",
     "Please use the command line updater because you have a big instance with more than 50 users." : "请使用命令行更新，因为您有一个超过50个用户的大型实例。",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "获取更多帮助, 请查看 <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">文档</a>.",
+    "I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure." : "我知道继续通过Web UI进行更新的风险，请求超时运行，并可能导致数据丢失，但我有一个备份，并知道如何恢复。",
+    "Upgrade via web on my own risk" : "通过网络升级的风险",
     "This %s instance is currently in maintenance mode, which may take a while." : "该实例 %s 当前处于维护模式, 这将花费一些时间.",
     "This page will refresh itself when the %s instance is available again." : "当实例 %s 再次可用时此页面将刷新.",
     "Problem loading page, reloading in 5 seconds" : "加载页面出现问题, 在 5 秒内重新加载",
