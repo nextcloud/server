@@ -42,6 +42,7 @@ OC.L10N.register(
     "Contact birthdays" : "Födelsedagar",
     "Personal" : "Privat",
     "Contacts" : "Kontakter",
+    "WebDAV" : "WebDAV",
     "Technical details" : "Tekniska detaljer",
     "Remote Address: %s" : "Extern adress: %s",
     "Request ID: %s" : "Begär ID: %s"

@@ -15,7 +15,6 @@ OC.L10N.register(
     "Theming" : "Þemu",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Þemu gera þér kleift að breyta útliti og hegðun þíns eintaks af viðmótinu auk studdra biðlaraforrita. Það verður sýnilegt öllum notendum.",
     "Name" : "Heiti",
-    "reset to default" : "endurstilla á sjálfgefið",
     "Web address" : "Veffang",
     "Web address https://…" : "Veffang https://…",
     "Slogan" : "Slagorð",
@@ -25,6 +24,7 @@ OC.L10N.register(
     "Login image" : "Innskráningarmynd",
     "Upload new login background" : "Senda inn nýjan bakgrunn innskráningar",
     "Remove background image" : "Fjarlægja bakgrunnsmynd",
+    "reset to default" : "endurstilla á sjálfgefið",
     "Log in image" : "Innskráningarmynd"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

@@ -105,6 +105,7 @@ OC.L10N.register(
     "The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "PHPでのcURLのサポートが有効になっていないか、インストールされていません。 %s のマウントは不可能です。システム管理者にインストールを依頼してください。",
     "The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "PHPのFTPサポートが有効になっていないか、インストールされていません。%s のマウントは不可能です。システム管理者にインストールを依頼してください。",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\"はインストールされていません。 %s のマウントは不可能です。システム管理者にインストールを依頼してください。",
+    "External storage support" : "外部ストレージのサポート",
     "No external storage configured" : "外部ストレージは設定されていません",
     "You can add external storages in the personal settings" : "個人設定で外部ストレージを設定することができます。",
     "Name" : "名前",

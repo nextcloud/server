@@ -15,7 +15,6 @@ OC.L10N.register(
     "Theming" : "Προσαρμογή θέματος",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Η προσαρμογή θέματος καθιστά δυνατή την εύκολη προσαρμογή της εμφάνισης της εμφάνισης της εγκατάστασής σας καθώς και των υποστηριζόμενων πελατών. Αυτή θα είναι ορατή για όλους τους χρήστες.",
     "Name" : "Όνομα",
-    "reset to default" : "επαναφορά στα προεπιλεγμένα",
     "Web address" : "Διεύθυση ιστοσελίδας",
     "Web address https://…" : "Διεύθυνση ιστοσελίδας https://...",
     "Slogan" : "Ρητό",
@@ -25,6 +24,7 @@ OC.L10N.register(
     "Login image" : "Εικόνα εισόδου",
     "Upload new login background" : "Μεταφόρτωση νέου παρασκηνίου εισόδου",
     "Remove background image" : "Αφαίρεση εικόνας παρασκηνίου",
+    "reset to default" : "επαναφορά στα προεπιλεγμένα",
     "Log in image" : "Εικόνα εισόδου"
 },
 "nplurals=2; plural=(n != 1);");

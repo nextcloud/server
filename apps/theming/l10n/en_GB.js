@@ -15,7 +15,6 @@ OC.L10N.register(
     "Theming" : "Theming",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Theming makes it possible to easily customise the look and feel of your instance and supported clients. This will be visible for all users.",
     "Name" : "Name",
-    "reset to default" : "reset to default",
     "Web address" : "Web address",
     "Web address https://…" : "Web address https://…",
     "Slogan" : "Slogan",
@@ -24,6 +23,7 @@ OC.L10N.register(
     "Upload new logo" : "Upload new logo",
     "Login image" : "Login image",
     "Upload new login background" : "Upload new login background",
+    "reset to default" : "reset to default",
     "Log in image" : "Log in image"
 },
 "nplurals=2; plural=(n != 1);");

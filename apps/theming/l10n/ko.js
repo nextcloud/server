@@ -15,7 +15,6 @@ OC.L10N.register(
     "Theming" : "테마",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "테마를 사용하여 내 인스턴스와 지원하는 클라이언트의 모습을 변경할 수 있습니다. 테마는 모든 사용자에게 적용됩니다.",
     "Name" : "이름",
-    "reset to default" : "기본값으로 초기화",
     "Web address" : "웹 주소",
     "Web address https://…" : "웹 주소 https://…",
     "Slogan" : "슬로건",
@@ -24,6 +23,7 @@ OC.L10N.register(
     "Upload new logo" : "새 로고 업로드",
     "Login image" : "로그인 그림",
     "Upload new login background" : "새 로그인 배경 업로드",
+    "reset to default" : "기본값으로 초기화",
     "Log in image" : "로그인 그림"
 },
 "nplurals=1; plural=0;");

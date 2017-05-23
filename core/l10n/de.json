@@ -1,5 +1,5 @@
 { "translations": {
-    "Please select a file." : "Bitte eine Datei wählen.",
+    "Please select a file." : "Bitte eine Datei wählen. latest",
     "File is too big" : "Datei ist zu groß",
     "The selected file is not an image." : "Die ausgewählte Datei ist kein Bild.",
     "The selected file cannot be read." : "Die ausgewählte Datei konnte nicht gelesen werden.",

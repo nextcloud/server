@@ -15,7 +15,6 @@ OC.L10N.register(
     "Theming" : "Thema's",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Thematiseren maakt het mogelijk om uiterlijk en gevoel van je systeem en ondersteunde clients aan te passen. Dit wordt zichtbaar voor alle gebruikers.",
     "Name" : "Naam",
-    "reset to default" : "herstellen naar standaard",
     "Web address" : "Webadres",
     "Web address https://…" : "Webadres https://…",
     "Slogan" : "Slagzin",
@@ -25,6 +24,7 @@ OC.L10N.register(
     "Login image" : "Inlog afbeelding",
     "Upload new login background" : "Uploaden nieuwe inlog achtergrond",
     "Remove background image" : "Achtergrond beeld verwijderen",
+    "reset to default" : "herstellen naar standaard",
     "Log in image" : "Inlog afbeelding"
 },
 "nplurals=2; plural=(n != 1);");

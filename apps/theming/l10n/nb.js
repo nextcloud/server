@@ -15,7 +15,6 @@ OC.L10N.register(
     "Theming" : "Draktvalg",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Draktvalg gjør det enkelt å tilpasse utseende og følelsen av din installasjon og støttede klienter. Dette vil bli synlig for alle brukere.",
     "Name" : "Navn",
-    "reset to default" : "tilbakestill",
     "Web address" : "Nettadresse",
     "Web address https://…" : "Nettadresse https://",
     "Slogan" : "Slagord",
@@ -25,6 +24,7 @@ OC.L10N.register(
     "Login image" : "Innloggingsbilde",
     "Upload new login background" : "Last opp ny innloggingsbakgrunn",
     "Remove background image" : "Fjern bakgrunnsbilde",
+    "reset to default" : "tilbakestill",
     "Log in image" : "Innloggingsbilde"
 },
 "nplurals=2; plural=(n != 1);");
