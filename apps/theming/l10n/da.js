@@ -15,7 +15,6 @@ OC.L10N.register(
     "Theming" : "Temaer",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Theming gør det muligt nemt at tilpasse udseendet på din installation og understøttede klienter. Dette vil være synlig for alle brugere.",
     "Name" : "Navn",
-    "reset to default" : "nulstil til standardindstillinger ",
     "Web address" : "Web adresse",
     "Web address https://…" : "Web adresse http://...",
     "Slogan" : "Slogan",
@@ -25,6 +24,7 @@ OC.L10N.register(
     "Login image" : "Login billede",
     "Upload new login background" : "Upload nyt login billede",
     "Remove background image" : "Fjern baggrundsbillede",
+    "reset to default" : "nulstil til standardindstillinger ",
     "Log in image" : "Log ind billede"
 },
 "nplurals=2; plural=(n != 1);");

@@ -15,7 +15,6 @@ OC.L10N.register(
     "Theming" : "Tema",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Temalar kullandığınız kopyanın ve desteklenen istemcilerin genel görünümün kolayca değiştirilmesini sağlar. Tüm kullanıcılara görüntülenir.",
     "Name" : "Ad",
-    "reset to default" : "varsayılana dön",
     "Web address" : "Web adresi",
     "Web address https://…" : "Web adresi https://...",
     "Slogan" : "Slogan",
@@ -25,6 +24,7 @@ OC.L10N.register(
     "Login image" : "Oturum açma görseli",
     "Upload new login background" : "Yeni oturum açma art alanı yükle",
     "Remove background image" : "Art alan görselini kaldır",
+    "reset to default" : "varsayılana dön",
     "Log in image" : "Oturum açma görseli"
 },
 "nplurals=2; plural=(n > 1);");

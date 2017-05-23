@@ -13,7 +13,6 @@ OC.L10N.register(
     "You are already using a custom theme" : "Már egyedi témát használ",
     "Theming" : "Témázás",
     "Name" : "Név",
-    "reset to default" : "Visszaállítás alapértelmezettre",
     "Web address" : "Webcím",
     "Web address https://…" : "Webcím https://...",
     "Slogan" : "Szlogen",
@@ -22,6 +21,7 @@ OC.L10N.register(
     "Upload new logo" : "Új logó feltöltése",
     "Login image" : "Bejelentkező kép",
     "Upload new login background" : "Új bejelentkező kép feltöltése",
+    "reset to default" : "Visszaállítás alapértelmezettre",
     "Log in image" : "Bejelentkező kép"
 },
 "nplurals=2; plural=(n != 1);");

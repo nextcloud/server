@@ -12,7 +12,6 @@ OC.L10N.register(
     "Unsupported image type" : "Triba non sofitada d'imaxe",
     "You are already using a custom theme" : "Yá tas usando un tema personalizáu",
     "Name" : "Nome",
-    "reset to default" : "reafitar",
     "Web address" : "Direición web",
     "Web address https://…" : "Direición web https://…",
     "Slogan" : "Conseña",
@@ -22,6 +21,7 @@ OC.L10N.register(
     "Login image" : "Imaxe d'aniciu de sesión",
     "Upload new login background" : "Xubir fondu nuevu d'aniciu de sesión",
     "Remove background image" : "Desaniciar imaxe de fondu",
+    "reset to default" : "reafitar",
     "Log in image" : "Imaxe d'aniciu de sesión"
 },
 "nplurals=2; plural=(n != 1);");

@@ -66,8 +66,8 @@ OC.L10N.register(
     "Add rule" : "Regel hinzufügen",
     "Reset" : "Zurücksetzen",
     "Save" : "Speichern",
-    "Saving…" : "Speichere...",
-    "Loading…" : "Lade...",
+    "Saving…" : "Speichere …",
+    "Loading…" : "Lade …",
     "Successfully saved" : "Erfolgreich gespeichert",
     "File mime type" : "Datei MIME-Typ"
 },

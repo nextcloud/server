@@ -15,7 +15,6 @@ OC.L10N.register(
     "Theming" : "Personalização",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Criar e alterar temas torna possível personalizar facilmente o Nextcloud e clientes suportados. Isso será visível a todos os usuários.",
     "Name" : "Nome",
-    "reset to default" : "restaurar ao padrão",
     "Web address" : "Endereço web",
     "Web address https://…" : "Endereço web https://...",
     "Slogan" : "Slogan",
@@ -25,6 +24,7 @@ OC.L10N.register(
     "Login image" : "Imagem de login",
     "Upload new login background" : "Enviar nova imagem de fundo para o login",
     "Remove background image" : "Excluir a imagem de fundo",
+    "reset to default" : "restaurar ao padrão",
     "Log in image" : "Imagem de fundo do login"
 },
 "nplurals=2; plural=(n > 1);");

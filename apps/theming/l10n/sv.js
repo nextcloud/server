@@ -1,6 +1,7 @@
 OC.L10N.register(
     "theming",
     {
+    "Loading preview…" : "Laddar förhandsvisning...",
     "Saved" : "Sparat",
     "Admin" : "Admin",
     "a safe home for all your data" : "En säker plats för alla dina filer och data",
@@ -12,8 +13,8 @@ OC.L10N.register(
     "Unsupported image type" : "Filtypen är ej giltig",
     "You are already using a custom theme" : "Du använder redan ett annat tema",
     "Theming" : "Teman",
+    "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Teman gör det möjligt att enkelt skräddarsy utseendet på ditt moln. Detta kommer att synas för alla användare.",
     "Name" : "Namn",
-    "reset to default" : "Återställ till standard",
     "Web address" : "Webbadress",
     "Web address https://…" : "Webbadress https://...",
     "Slogan" : "Slogan",
@@ -22,6 +23,8 @@ OC.L10N.register(
     "Upload new logo" : "Ladda upp ny logotyp",
     "Login image" : "Inloggningsbild",
     "Upload new login background" : "Ladda upp ny bakgrundsbild",
+    "Remove background image" : "Ta bort bakgrundsbild",
+    "reset to default" : "Återställ till standard",
     "Log in image" : "Inloggningsbild"
 },
 "nplurals=2; plural=(n != 1);");

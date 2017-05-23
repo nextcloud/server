@@ -13,7 +13,6 @@ OC.L10N.register(
     "You are already using a custom theme" : "Stai già usando un tema personalizzato",
     "Theming" : "Tema",
     "Name" : "Nome",
-    "reset to default" : "ripristina valori predefiniti",
     "Web address" : "Indirizzo web",
     "Web address https://…" : "Indirizzo web https://…",
     "Slogan" : "Slogan",
@@ -22,6 +21,7 @@ OC.L10N.register(
     "Upload new logo" : "Carica nuovo logo",
     "Login image" : "Immagine di accesso",
     "Upload new login background" : "Carica nuovo sfondo di accesso",
+    "reset to default" : "ripristina valori predefiniti",
     "Log in image" : "Immagine di accesso"
 },
 "nplurals=2; plural=(n != 1);");

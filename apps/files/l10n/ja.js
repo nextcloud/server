@@ -71,6 +71,7 @@ OC.L10N.register(
     "Favorite" : "お気に入り",
     "Copy direct link (only works for users who have access to this file/folder)" : "ダイレクトリンクをコピー (このファイル/フォルダにアクセスできるユーザーのみ)",
     "New folder" : "新しいフォルダー",
+    "Upload file" : "ファイルをアップロード",
     "An error occurred while trying to update the tags" : "タグを更新する際にエラーが発生しました",
     "Added to favorites" : "お気に入りに追加",
     "Removed from favorites" : "お気に入りから削除",

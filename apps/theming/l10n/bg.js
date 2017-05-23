@@ -13,7 +13,6 @@ OC.L10N.register(
     "You are already using a custom theme" : "Вие вече използвате персонализирана тема",
     "Theming" : "Теми",
     "Name" : "Име",
-    "reset to default" : "възстановяване към стандартни",
     "Web address" : "Уеб адрес",
     "Web address https://…" : "Уеб адрес https://...",
     "Slogan" : "Лозунг",
@@ -22,6 +21,7 @@ OC.L10N.register(
     "Upload new logo" : "Качване на ново лого",
     "Login image" : "Изображение при вписване",
     "Upload new login background" : "Качване на нов фон за входа",
+    "reset to default" : "възстановяване към стандартни",
     "Log in image" : "Изображение при вписване"
 },
 "nplurals=2; plural=(n != 1);");

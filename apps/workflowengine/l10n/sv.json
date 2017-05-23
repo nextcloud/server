@@ -1,5 +1,7 @@
 { "translations": {
+    "Saved" : "Sparad",
     "Saving failed:" : "Gick ej att spara: ",
+    "File MIME type" : "Filens MIME-typ",
     "is" : "är",
     "is not" : "är inte",
     "matches" : "träffar",

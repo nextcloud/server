@@ -62,7 +62,7 @@ OC.L10N.register(
     "{actor} shared {file} with you" : "{actor} jakoi kohteen {file} kanssasi",
     "{actor} removed you from {file}" : "{actor} poisti käyttöoikeutesi kohteeseen {file}",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Tiedosto tai kansio, joka on jaettu sähköpostitse tai julkisen linkin kautta, on <strong>ladattu</strong>",
-    "A file or folder was shared from <strong>another server</strong>" : "Tiedosto tai kansio jaettiin <strong>toiselta palvelimelta</strong>",
+    "A file or folder was shared from <strong>another server</strong>" : "Tiedosto tai kansio on jaettu <strong>toiselta palvelimelta</strong>",
     "A file or folder has been <strong>shared</strong>" : "Tiedosto tai kansio on <strong>jaettu</strong>",
     "Wrong share ID, share doesn't exist" : "Väärä jakotunniste, jakoa ei ole olemassa",
     "could not delete share" : "jaon poistaminen epäonnistui",

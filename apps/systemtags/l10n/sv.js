@@ -42,6 +42,8 @@ OC.L10N.register(
     "%s (invisible)" : "%s (osynlig)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>Systemtaggar</strong> för en fil har blivit ändrade",
     "Collaborative tags" : "Samverkande taggar",
+    "Create and edit collaborative tags. These tags affect all users." : "Skapa och redigera samverkanstaggar. Dessa taggar påverkar alla användare.",
+    "Select tag …" : "Välj tagg ...",
     "Name" : "Namn",
     "Delete" : "Radera",
     "Public" : "Offentlig",

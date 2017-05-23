@@ -13,7 +13,7 @@ OC.L10N.register(
     " Could not set configuration %s" : "Die Konfiguration %s konnte nicht gesetzt werden",
     "Action does not exist" : "Aktion existiert nicht",
     "LDAP user and group backend" : "LDAP Nutzer- und Gruppen-Backend",
-    "Renewing …" : "Erneuere ...",
+    "Renewing …" : "Erneuere …",
     "Very weak password" : "Sehr schwaches Passwort",
     "Weak password" : "Schwaches Passwort",
     "So-so password" : "Passables Passwort",
