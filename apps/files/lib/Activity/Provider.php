@@ -38,6 +38,8 @@ class Provider implements IProvider {
 
 	/** @var IL10N */
 	protected $l;
+	/** @var IL10N */
+	protected $activityLang;
 
 	/** @var IURLGenerator */
 	protected $url;
@@ -83,6 +85,7 @@ class Provider implements IProvider {
 		}
 
 		$this->l = $this->languageFactory->get('files', $language);
+		$this->activityLang = $this->languageFactory->get('activity', $language);
 
 		if ($this->activityManager->isFormattingFilteredObject()) {
 			try {
@@ -124,6 +127,11 @@ class Provider implements IProvider {
 			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'change.svg')));
 		} else {
 			throw new \InvalidArgumentException();
+		}
+
+		if (!isset($parsedParameters['user'])) {
+			// External user via public link share
+			$subject = str_replace('{user}', $this->activityLang->t('"remote user"'), $subject);
 		}
 
 		$this->setSubjects($event, $subject, $parsedParameters);
@@ -182,6 +190,11 @@ class Provider implements IProvider {
 			throw new \InvalidArgumentException();
 		}
 
+		if (!isset($parsedParameters['user'])) {
+			// External user via public link share
+			$subject = str_replace('{user}', $this->activityLang->t('"remote user"'), $subject);
+		}
+
 		$this->setSubjects($event, $subject, $parsedParameters);
 
 		$event = $this->eventMerger->mergeEvents('file', $event, $previousEvent);
@@ -229,6 +242,12 @@ class Provider implements IProvider {
 			case 'changed_by':
 			case 'deleted_by':
 			case 'restored_by':
+				if ($parameters[1] === '') {
+					// External user via public link share
+					return [
+						'file' => $this->getFile($parameters[0], $event),
+					];
+				}
 				return [
 					'file' => $this->getFile($parameters[0], $event),
 					'user' => $this->getUser($parameters[1]),
@@ -241,6 +260,13 @@ class Provider implements IProvider {
 				];
 			case 'renamed_by':
 			case 'moved_by':
+				if ($parameters[1] === '') {
+					// External user via public link share
+					return [
+						'newfile' => $this->getFile($parameters[0]),
+						'oldfile' => $this->getFile($parameters[2]),
+					];
+				}
 				return [
 					'newfile' => $this->getFile($parameters[0]),
 					'user' => $this->getUser($parameters[1]),
