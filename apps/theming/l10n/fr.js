@@ -15,7 +15,6 @@ OC.L10N.register(
     "Theming" : "Personnaliser l'apparence",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Cet extension permet de personnaliser facilement l'apparence de votre instance et des clients supportés. Cela sera visible pour tous les utilisateurs.",
     "Name" : "Nom",
-    "reset to default" : "Restaurer les valeurs par défaut",
     "Web address" : "Adresse web",
     "Web address https://…" : "Adresse du serveur https://…",
     "Slogan" : "Slogan",
@@ -25,6 +24,7 @@ OC.L10N.register(
     "Login image" : "Image de connexion",
     "Upload new login background" : "Téléverser un nouvel arrière-plan de connexion",
     "Remove background image" : "Supprimer l'image en arrière-plan",
+    "reset to default" : "Restaurer les valeurs par défaut",
     "Log in image" : "Image de connexion"
 },
 "nplurals=2; plural=(n > 1);");

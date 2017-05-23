@@ -13,7 +13,6 @@ OC.L10N.register(
     "You are already using a custom theme" : "Už používate upravený vzhľad",
     "Theming" : "Vzhľad",
     "Name" : "Názov",
-    "reset to default" : "nastaviť predvolené",
     "Web address" : "Web adresa",
     "Web address https://…" : "Webová adresa https://...",
     "Slogan" : "Slogan",
@@ -22,6 +21,7 @@ OC.L10N.register(
     "Upload new logo" : "Nahrať nové logo",
     "Login image" : "Prihlasovací obrázok",
     "Upload new login background" : "Nahrať nové prihlasovacie pozadie",
+    "reset to default" : "nastaviť predvolené",
     "Log in image" : "Prihlasovací obrázok"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

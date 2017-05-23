@@ -109,7 +109,7 @@ OC.L10N.register(
     "Direct link" : "Direkter Link",
     "Upload files to %s" : "Dateien für %s hochladen",
     "Select or drop files" : "Dateien auswählen oder hierher ziehen",
-    "Uploading files…" : "Dateien werden hochgeladen...",
+    "Uploading files…" : "Dateien werden hochgeladen …",
     "Uploaded files:" : "Hochgeladene Dateien: "
 },
 "nplurals=2; plural=(n != 1);");

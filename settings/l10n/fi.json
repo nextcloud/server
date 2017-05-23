@@ -167,7 +167,7 @@
     "STARTTLS" : "STARTTLS",
     "Email server" : "Sähköpostipalvelin",
     "Open documentation" : "Avaa dokumentaatio",
-    "It is important to set up this server to be able to send emails, like for password reset and notifications." : "On tärkeää määritää sähköpostipalvelin asetukset, jotta voidaan lähettää muun muassa salasanan palautus- ja ilmoitussähköpostiviestejä.",
+    "It is important to set up this server to be able to send emails, like for password reset and notifications." : "On tärkeää määrittää sähköpostipalvelinasetukset, jotta voidaan lähettää muun muassa salasanan palautus- ja ilmoitussähköpostiviestejä.",
     "Send mode" : "Lähetystila",
     "Encryption" : "Salaus",
     "From address" : "Lähettäjän osoite",

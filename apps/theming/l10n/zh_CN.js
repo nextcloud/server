@@ -15,7 +15,6 @@ OC.L10N.register(
     "Theming" : "主题",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "主题使得方便地定制你的实例的外观和体验成为可能。所有用户都可以使用。",
     "Name" : "名字",
-    "reset to default" : "重置默认",
     "Web address" : "网址",
     "Web address https://…" : "网址 https://...",
     "Slogan" : "标语",
@@ -25,6 +24,7 @@ OC.L10N.register(
     "Login image" : "登录图片",
     "Upload new login background" : "上传新登录背景",
     "Remove background image" : "删除背景图片",
+    "reset to default" : "重置默认",
     "Log in image" : "登录图片"
 },
 "nplurals=1; plural=0;");
