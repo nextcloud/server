@@ -2009,7 +2009,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				if (in_array($property->name, self::$indexProperties)) {
 					$value = $property->getValue();
 					// is this a shitty db?
-					if ($this->db->supports4ByteText()) {
+					if (!$this->db->supports4ByteText()) {
 						$value = preg_replace('/[\x{10000}-\x{10FFFF}]/u', "\xEF\xBF\xBD", $value);
 					}
 					$value = substr($value, 0, 254);
