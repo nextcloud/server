@@ -4,6 +4,7 @@
  *
  * @author Joas Schilling <coding@schilljs.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Maxence Lange <maxence@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -40,6 +41,11 @@ class PgSqlExpressionBuilder extends ExpressionBuilder {
 		if ($type === IQueryBuilder::PARAM_INT) {
 			$column = $this->helper->quoteColumnName($column);
 			return new QueryFunction('CAST(' . $column . ' AS INT)');
+		}
+
+		if ($type === IQueryBuilder::PARAM_STR) {
+			$column = $this->helper->quoteColumnName($column);
+			return new QueryFunction('CAST(' . $column . ' AS TEXT)');
 		}
 
 		return parent::castColumn($column, $type);
