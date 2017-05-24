@@ -30,6 +30,7 @@ use OCA\FederatedFileSharing\Controller\RequestHandlerController;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\FederatedFileSharing\Notifications;
 use OCP\AppFramework\App;
+use OCP\GlobalScale\IConfig;
 
 class Application extends App {
 
@@ -91,6 +92,7 @@ class Application extends App {
 	 * initialize federated share provider
 	 */
 	protected function initFederatedShareProvider() {
+		$c = $this->getContainer();
 		$addressHandler = new \OCA\FederatedFileSharing\AddressHandler(
 			\OC::$server->getURLGenerator(),
 			\OC::$server->getL10N('federatedfilesharing'),
@@ -116,7 +118,8 @@ class Application extends App {
 			\OC::$server->getLazyRootFolder(),
 			\OC::$server->getConfig(),
 			\OC::$server->getUserManager(),
-			\OC::$server->getCloudIdManager()
+			\OC::$server->getCloudIdManager(),
+			$c->query(IConfig::class)
 		);
 	}
 

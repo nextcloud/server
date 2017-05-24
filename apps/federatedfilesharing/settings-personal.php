@@ -53,7 +53,7 @@ if(\OC::$server->getAppManager()->isEnabledForUser("theming")) {
 			$textColor = "#000000";
 		}
 	} catch (OCP\AppFramework\QueryException $e) {
-		
+
 	}
 }
 
