@@ -972,14 +972,16 @@ class Access extends LDAPUtility implements IUserTools {
 			 * This was enough to get solr indexer working which has large delays between LDAP fetches.
 			 */
 			\OCP\Util::writeLog('user_ldap', "Connection lost on $command, attempting to reestablish.", \OCP\Util::DEBUG);
-			$this->connection = clone $this->connection;
+			$this->connection->resetConnectionResource();
 			$cr = $this->connection->getConnectionResource();
+
 			if(!$this->ldap->isResource($cr)) {
 				// Seems like we didn't find any resource.
 				\OCP\Util::writeLog('user_ldap', "Could not $command, because resource is missing.", \OCP\Util::DEBUG);
-				return false;
+				throw $e;
 			}
-			$arguments[0] = $cr;
+
+			$arguments[0] = array_pad([], count($arguments[0]), $cr);
 			$ret = $doMethod();
 		}
 		return $ret;
@@ -1012,7 +1014,8 @@ class Access extends LDAPUtility implements IUserTools {
 
 		$linkResources = array_pad(array(), count($base), $cr);
 		$sr = $this->invokeLDAPMethod('search', $linkResources, $base, $filter, $attr);
-		$error = $this->ldap->errno($cr);
+		// cannot use $cr anymore, might have changed in the previous call!
+		$error = $this->ldap->errno($this->connection->getConnectionResource());
 		if(!is_array($sr) || $error !== 0) {
 			\OCP\Util::writeLog('user_ldap', 'Attempt for Paging?  '.print_r($pagedSearchOK, true), \OCP\Util::ERROR);
 			return false;
@@ -1124,11 +1127,10 @@ class Access extends LDAPUtility implements IUserTools {
 	 * @return int
 	 */
 	private function countEntriesInSearchResults($searchResults) {
-		$cr = $this->connection->getConnectionResource();
 		$counter = 0;
 
 		foreach($searchResults as $res) {
-			$count = intval($this->invokeLDAPMethod('countEntries', $cr, $res));
+			$count = intval($this->invokeLDAPMethod('countEntries', $this->connection->getConnectionResource(), $res));
 			$counter += $count;
 		}
 
