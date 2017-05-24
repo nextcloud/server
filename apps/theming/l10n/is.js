@@ -15,6 +15,7 @@ OC.L10N.register(
     "Theming" : "Þemu",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Þemu gera þér kleift að breyta útliti og hegðun þíns eintaks af viðmótinu auk studdra biðlaraforrita. Það verður sýnilegt öllum notendum.",
     "Name" : "Heiti",
+    "Reset to default" : "Endurstilla á sjálfgefið",
     "Web address" : "Veffang",
     "Web address https://…" : "Veffang https://…",
     "Slogan" : "Slagorð",

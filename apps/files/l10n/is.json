@@ -32,7 +32,7 @@
     "Pending" : "Í bið",
     "Unable to determine date" : "Tókst ekki að ákvarða dagsetningu",
     "This operation is forbidden" : "Þessi aðgerð er bönnuð",
-    "This directory is unavailable, please check the logs or contact the administrator" : "Þessi mappa er ekki tiltæk, athugaðu annálana eða hafðu samband við kerfissjóra",
+    "This directory is unavailable, please check the logs or contact the administrator" : "Þessi mappa er ekki tiltæk, athugaðu atvikaskrár eða hafðu samband við kerfissjóra",
     "Could not move \"{file}\", target exists" : "Gat ekki fært \"{file}\", markskrá er til",
     "Could not move \"{file}\"" : "Gat ekki fært \"{file}\"",
     "{newName} already exists" : "{newName} er þegar til",
