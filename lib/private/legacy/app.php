@@ -1054,10 +1054,9 @@ class OC_App {
 			self::loadApp($appId);
 			include $appPath . '/appinfo/update.php';
 		}
+		self::registerAutoloading($appId, $appPath);
 		self::setupBackgroundJobs($appData['background-jobs']);
 		if(isset($appData['settings']) && is_array($appData['settings'])) {
-			$appPath = self::getAppPath($appId);
-			self::registerAutoloading($appId, $appPath);
 			\OC::$server->getSettingsManager()->setupSettings($appData['settings']);
 		}
 
