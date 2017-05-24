@@ -15,6 +15,7 @@ OC.L10N.register(
     "Theming" : "Tema",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Temalar kullandığınız kopyanın ve desteklenen istemcilerin genel görünümün kolayca değiştirilmesini sağlar. Tüm kullanıcılara görüntülenir.",
     "Name" : "Ad",
+    "Reset to default" : "Varsayılana Sıfırla",
     "Web address" : "Web adresi",
     "Web address https://…" : "Web adresi https://...",
     "Slogan" : "Slogan",

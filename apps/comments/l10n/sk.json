@@ -23,6 +23,8 @@
     "You commented on {file}" : "Komentovali ste {file}",
     "%1$s commented on %2$s" : "%1$s komentoval %2$s",
     "{author} commented on {file}" : "{author} komentoval {file}",
-    "<strong>Comments</strong> for files" : "<strong>Komentáre</strong> pre súbory"
+    "<strong>Comments</strong> for files" : "<strong>Komentáre</strong> pre súbory",
+    "%1$s mentioned you in a comment on “%2$s”" : "%1$s vás spomenul v komentári k \"%2$s\"",
+    "{user} mentioned you in a comment on “{file}”" : "{user} vás spomenul v komentári k “{file}”"
 },"pluralForm" :"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;"
 }

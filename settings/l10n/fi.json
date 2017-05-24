@@ -301,7 +301,7 @@
     "Web, desktop and mobile clients currently logged in to your account." : "Verkko-, työpöytä- ja mobiililaitteet, jotka ovat parhaillaan kirjautuneet tilillesi.",
     "Device" : "Laite",
     "Last activity" : "Viimeksi käytetty",
-    "Here you can generate individual passwords for apps so you don’t have to give out your password. You can revoke them individually too." : "Tässä voit luoda yksilöityjä salasanoja sovelluksille, jotta sinun ei tarvitse antaa salasanaasi niille. Voit myös poistaa niitä tarvittaessa.",
+    "Here you can generate individual passwords for apps so you don’t have to give out your password. You can revoke them individually too." : "Voit luoda yksilöityjä salasanoja sovelluksille, jotta sinun ei tarvitse antaa henkilökohtaista salasanaasi niille. Voit myös poistaa niitä tarvittaessa.",
     "Name" : "Nimi",
     "App name" : "Sovelluksen nimi",
     "Create new app password" : "Luo uusi sovellussalasana",

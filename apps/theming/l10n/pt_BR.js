@@ -15,6 +15,7 @@ OC.L10N.register(
     "Theming" : "Personalização",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Criar e alterar temas torna possível personalizar facilmente o Nextcloud e clientes suportados. Isso será visível a todos os usuários.",
     "Name" : "Nome",
+    "Reset to default" : "Redefinir para o padrão",
     "Web address" : "Endereço web",
     "Web address https://…" : "Endereço web https://...",
     "Slogan" : "Slogan",

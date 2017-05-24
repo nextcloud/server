@@ -299,7 +299,7 @@ OC.L10N.register(
     "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "Gakktu úr skugga um að gagnagrunnurinn, config mappan og gagnamappan hafi verið öryggisafritaðar áður en lengra er haldið.",
     "Start update" : "Hefja uppfærslu",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Til að forðast að falla á tímamörkum með stærri uppsetningar, getur þú í staðinn keyrt eftirfarandi skipun úr uppsetningarmöppunni:",
-    "Detailed logs" : "Ítarlegir annálar",
+    "Detailed logs" : "Ítarlegar atvikaskrár",
     "Update needed" : "Þarfnast uppfærslu",
     "Please use the command line updater because you have a big instance with more than 50 users." : "Endilega notaðu uppfærslutólið af skipanalínu, því þú ert með mjög stóra uppsetningu með fleiri en 50 notendum.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Til að fá hjálp er best að skoða fyrst  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">hjálparskjölin</a>.",
