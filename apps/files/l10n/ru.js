@@ -126,7 +126,7 @@ OC.L10N.register(
     "Shared with others" : "Доступные для других",
     "Shared by link" : "Доступные по ссылке",
     "Tags" : "Метки",
-    "Deleted files" : "Удалённые файлы",
+    "Deleted files" : "Корзина",
     "Text file" : "Текстовый файл",
     "New text file.txt" : "Новый текстовый документ.txt",
     "_{hours}:{minutes}:{seconds} hour left_::_{hours}:{minutes}:{seconds} hours left_" : ["Остался {hours}:{minutes}:{seconds} час","Осталось {hours}:{minutes}:{seconds} часа","Осталось {hours}:{minutes}:{seconds} часов","Осталось {hours}:{minutes}:{seconds} часов"],

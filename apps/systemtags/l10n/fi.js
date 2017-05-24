@@ -42,6 +42,8 @@ OC.L10N.register(
     "%s (invisible)" : "%s (näkymätön)",
     "<strong>System tags</strong> for a file have been modified" : "Tiedoston <strong>järjestelmätunnisteita</strong> on muokattu",
     "Collaborative tags" : "Yhteistyölliset tunnisteet",
+    "Create and edit collaborative tags. These tags affect all users." : "Luo ja muokkaa yhteisiä tunnisteita. Nämä tunnisteet vaikuttavat kaikkiin käyttäjiin.",
+    "Select tag …" : "Valitse tunniste ...",
     "Name" : "Nimi",
     "Delete" : "Poista",
     "Public" : "Julkinen",

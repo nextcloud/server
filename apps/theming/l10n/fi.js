@@ -15,6 +15,7 @@ OC.L10N.register(
     "Theming" : "Teema",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Teeman avulla voit helposti kustomoida web-käyttöliittymän ja tuettujen sovelluksien ulkonäköä ja tuntumaa. Teema näkyy kaikille käyttäjille.",
     "Name" : "Nimi",
+    "Reset to default" : "Palauta oletukseksi",
     "Web address" : "Verkko-osoite",
     "Web address https://…" : "Verkko-osoite https://…",
     "Slogan" : "Slogani",

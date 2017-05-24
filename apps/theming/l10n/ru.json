@@ -13,6 +13,7 @@
     "Theming" : "Темы оформления",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Темы оформление позволяют легко настроить внешний вид вашего сервера и поддерживаемых клиентов. Это будет доступно для всех пользователей.",
     "Name" : "Название",
+    "Reset to default" : "Сбросить изменения",
     "Web address" : "Веб адрес",
     "Web address https://…" : "Веб адрес  https://…",
     "Slogan" : "Слоган",

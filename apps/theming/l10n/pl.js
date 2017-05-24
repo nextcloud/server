@@ -15,6 +15,7 @@ OC.L10N.register(
     "Theming" : "Motyw",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Motywy pozwalają na łatwą personalizację wyglądu Twojej instancji i wpsieranych klientów. Efekty będą widoczne dla wszystkich użytkowników.",
     "Name" : "Nazwa",
+    "Reset to default" : "Przywróć domyślne",
     "Web address" : "adres internetowy",
     "Web address https://…" : "adres internetowy https://...",
     "Slogan" : "Slogan",
