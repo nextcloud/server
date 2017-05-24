@@ -231,7 +231,7 @@ class VerifyUserData extends Job {
 
 			$body = json_decode($response->getBody(), true);
 
-			if ($body['federationId'] === $cloudId) {
+			if (is_array($body) && isset($body['federationId']) && $body['federationId'] === $cloudId) {
 				return $body;
 			}
 
