@@ -84,6 +84,7 @@ OC.L10N.register(
     "Restored by {user}" : "Восстановлено {user}",
     "Renamed by {user}" : "Переименовано {user}",
     "Moved by {user}" : "Перемещено {user}",
+    "\"remote user\"" : "«пользователь с другого сервера»",
     "You created {file}" : "Вы создали {file}",
     "{user} created {file}" : "{user} создал {file}",
     "{file} was created in a public folder" : "{file} создан в общедоступом каталоге",

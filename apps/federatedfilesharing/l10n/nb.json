@@ -14,7 +14,7 @@
     "Server to server sharing is not enabled on this server" : "Tjener til tjener deling er ikke aktivert på denne tjeneren",
     "Couldn't establish a federated share." : "Kunne ikke etablere en forent ressurs",
     "Couldn't establish a federated share, maybe the password was wrong." : "Kunne ikke etablere en forent ressurs, kanskje passordet var feil.",
-    "Federated Share request was successful, you will receive a invitation. Check your notifications." : "Forent ressurs forespørselen var vellykket, du vil motta en invitasjon. Sjekk dine varsler.",
+    "Federated Share request was successful, you will receive a invitation. Check your notifications." : "Forent ressursforespørsel vellykket, du vil motta en invitasjon. Sjekk varslene dine.",
     "The mountpoint name contains invalid characters." : "Navnet på oppkoblingspunktet inneholder ugyldige tegn.",
     "Not allowed to create a federated share with the owner." : "Ikke tillatt å opprette en forent ressurs med eieren.",
     "Invalid or untrusted SSL certificate" : "Ugyldig eller ikke-klarert SSL-sertifikat",

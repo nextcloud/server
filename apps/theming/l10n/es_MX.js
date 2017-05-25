@@ -15,6 +15,7 @@ OC.L10N.register(
     "Theming" : "Tematizar",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "El tematizar hace posible personalizar facilmente la manera en que se ve su instancia y clientes soportados. Esto será visible para todos los usuarios. ",
     "Name" : "Nombre",
+    "Reset to default" : "Restablecer al predeterminado",
     "Web address" : "Dirección web",
     "Web address https://…" : "Dirección web https://...",
     "Slogan" : "Lema",

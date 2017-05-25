@@ -84,6 +84,7 @@ OC.L10N.register(
     "Restored by {user}" : "Endurheimt af {user}",
     "Renamed by {user}" : "Endurnefnt af {user}",
     "Moved by {user}" : "Fært af {user}",
+    "\"remote user\"" : "\"fjartengdur notandi\"",
     "You created {file}" : "Þú bjóst til {file}",
     "{user} created {file}" : "{user} bjó til {file}",
     "{file} was created in a public folder" : "{file} var búin til í opinni möppu",
