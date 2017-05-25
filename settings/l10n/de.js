@@ -110,7 +110,7 @@ OC.L10N.register(
     "Updated" : "Aktualisiert",
     "Removing …" : "Entferne ...",
     "Error while removing app" : "Fehler beim Entfernen der App",
-    "Remove" : "Entferne",
+    "Remove" : "Entfernen",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Die App wurde aktiviert, muss aber aktualisiert werden. Du wirst in 5 Sekunden zu Aktualisierungsseite weitergeleitet",
     "App update" : "App Aktualisierung",
     "Approved" : "Geprüft",

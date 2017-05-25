@@ -84,6 +84,7 @@ OC.L10N.register(
     "Restored by {user}" : "Restaurado por {user}",
     "Renamed by {user}" : "Renomeado por {user}",
     "Moved by {user}" : "Movido por {user}",
+    "\"remote user\"" : "\"usuário remoto\"",
     "You created {file}" : "Você criou o arquivo {file}",
     "{user} created {file}" : "{user} criou o arquivo {file}",
     "{file} was created in a public folder" : "O arquivo {file} foi criado em uma pasta pública",
