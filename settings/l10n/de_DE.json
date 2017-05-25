@@ -30,7 +30,7 @@
     "Unable to add group." : "Gruppe konnte nicht angelegt werden.",
     "Unable to delete group." : "Gruppe konnte nicht gelöscht werden.",
     "Invalid SMTP password." : "Ungültiges SMTP Passwort.",
-    "Well done, %s!" : "Gut gemacht, 1 %s!",
+    "Well done, %s!" : "Gut gemacht, %s!",
     "If you received this email, the email configuration seems to be correct." : "Wenn du diese EMail empfangen hast, scheint die EMail Konfiguration korrekt zu sein.",
     "Email setting test" : "EMail Einstellung Test",
     "Email could not be sent. Check your mail server log" : "E-Mail konnte nicht versandt werden. Prüfen Sie Ihr E-Mail-Server-Protokoll",
