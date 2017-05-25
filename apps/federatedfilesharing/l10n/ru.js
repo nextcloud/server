@@ -46,7 +46,7 @@ OC.L10N.register(
     "Search global and public address book for users and let local users publish their data" : "Поиск пользователей в глобальной и общедоступной адресной книге и резрешение публикации своих данных локальным пользователям ",
     "Allow users to publish their data to a global and public address book" : "Резрешить пользователям публиковать свои данные в глобальной и общедосупной адресной книге",
     "Federated Cloud" : "Федерация облачных хранилищ",
-    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Можно поделиться с любым пользователем Nextcloud, ownCloud или Pydio! Просто введите его идентификатор  федеративного облачного хранилища в диалоге предоставления общего доступа. Идектификатор указывается в виде «person@cloud.example.com».",
+    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Можно поделиться с любым пользователем Nextcloud, ownCloud или Pydio! Просто введите его идентификатор  федеративного облачного хранилища в диалоге предоставления общего доступа. Идентификатор указывается в виде «person@cloud.example.com».",
     "Your Federated Cloud ID:" : "Ваш ID в федерации облачных хранилищ:",
     "Share it so your friends can share files with you:" : "Сообщите его друзьям, что бы они могли поделиться с вами файлами:",
     "Add to your website" : "Добавить к себе на сайт",

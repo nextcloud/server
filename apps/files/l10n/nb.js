@@ -84,6 +84,7 @@ OC.L10N.register(
     "Restored by {user}" : "Gjenopprettet av {user}",
     "Renamed by {user}" : "Navn endret av {user}",
     "Moved by {user}" : "Flyttet av {user}",
+    "\"remote user\"" : "\"ekstern bruker\"",
     "You created {file}" : "Du opprettet {file}",
     "{user} created {file}" : "{user} opprettet {file}",
     "{file} was created in a public folder" : "{file} ble opprettet i en offentlig mappe",

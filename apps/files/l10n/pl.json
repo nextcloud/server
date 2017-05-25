@@ -82,6 +82,7 @@
     "Restored by {user}" : "Przywrócone przez {user}",
     "Renamed by {user}" : "Zmienione przez {user}",
     "Moved by {user}" : "Przeniesione przez {user}",
+    "\"remote user\"" : "\"użytkownik zdalny\"",
     "You created {file}" : "Utworzy‭łeś {file}",
     "{user} created {file}" : "{user} utworzy‭ł {file}",
     "{file} was created in a public folder" : "{file} został utworzony w folderze publicznym",
