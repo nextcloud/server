@@ -48,7 +48,7 @@ class IntegrationTestUserHome extends AbstractIntegrationTest {
 		$this->mapping = new UserMapping(\OC::$server->getDatabaseConnection());
 		$this->mapping->clear();
 		$this->access->setUserMapper($this->mapping);
-		$this->backend = new \OCA\User_LDAP\User_LDAP($this->access, \OC::$server->getConfig(), \OC::$server->getNotificationManager());
+		$this->backend = new User_LDAP($this->access, \OC::$server->getConfig(), \OC::$server->getNotificationManager());
 	}
 
 	/**
@@ -73,7 +73,8 @@ class IntegrationTestUserHome extends AbstractIntegrationTest {
 			\OC::$server->getAvatarManager(),
 			new \OCP\Image(),
 			\OC::$server->getDatabaseConnection(),
-			\OC::$server->getUserManager()
+			\OC::$server->getUserManager(),
+			\OC::$server->getNotificationManager()
 		);
 	}
 
