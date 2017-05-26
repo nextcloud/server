@@ -58,6 +58,7 @@ OC.L10N.register(
     "Please login with the new password" : "Prosím, přihlaste se pomocí nového hesla",
     "Your password will expire tomorrow." : "Vaše heslo zítra vyprší.",
     "Your password will expire today." : "Vaše heslo dnes vyprší.",
+    "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["Vaše heslo vyprší za %n den.","Vaše heslo vyprší za %n dny.","Vaše heslo vyprší za %n dní."],
     "LDAP / AD integration" : "LDAP / AD propojení",
     "_%s group found_::_%s groups found_" : ["nalezena %s skupina","nalezeny %s skupiny","nalezeno %s skupin"],
     "_%s user found_::_%s users found_" : ["nalezen %s uživatel","nalezeni %s uživatelé","nalezeno %s uživatelů"],

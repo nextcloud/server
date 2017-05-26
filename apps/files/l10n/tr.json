@@ -82,6 +82,7 @@
     "Restored by {user}" : "{user} tarafından geri yüklendi",
     "Renamed by {user}" : "{user} tarafından adı değiştirildi",
     "Moved by {user}" : "{user} tarafından taşındı",
+    "\"remote user\"" : "\"uzak kullanıcı\"",
     "You created {file}" : "{file} dosyasını eklediniz",
     "{user} created {file}" : "{user}, {file} dosyasını ekledi",
     "{file} was created in a public folder" : "{file} dosyası herkese açık klasör içine eklendi",

@@ -15,6 +15,7 @@ OC.L10N.register(
     "Theming" : "Draktvalg",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Draktvalg gjør det enkelt å tilpasse utseende og følelsen av din installasjon og støttede klienter. Dette vil bli synlig for alle brukere.",
     "Name" : "Navn",
+    "Reset to default" : "Tilbakestill til forvalg",
     "Web address" : "Nettadresse",
     "Web address https://…" : "Nettadresse https://",
     "Slogan" : "Slagord",

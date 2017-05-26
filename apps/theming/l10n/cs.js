@@ -15,6 +15,7 @@ OC.L10N.register(
     "Theming" : "Motivy",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Motivy umožňují jednoduché přizpůsobení vzhledu vaší instance a podporovaných klientů. Uvidí to všichni uživatelé.",
     "Name" : "Název",
+    "Reset to default" : "Obnovit výchozí",
     "Web address" : "Webová adresa",
     "Web address https://…" : "Webová adresa https://",
     "Slogan" : "Slogan",
@@ -23,6 +24,7 @@ OC.L10N.register(
     "Upload new logo" : "Nahrát nové logo",
     "Login image" : "Přihlašovací obrázek",
     "Upload new login background" : "Nahrát nové přihlašovací pozadí",
+    "Remove background image" : "Odebrat obrázek pozadí",
     "reset to default" : "obnovit výchozí",
     "Log in image" : "Přihlašovací obrázek"
 },
