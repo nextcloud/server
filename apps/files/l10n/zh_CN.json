@@ -82,6 +82,7 @@
     "Restored by {user}" : "由 {user} 恢复",
     "Renamed by {user}" : "由 {user} 重命名",
     "Moved by {user}" : "由 {user} 移动",
+    "\"remote user\"" : "远程用户",
     "You created {file}" : "您创建了 {file}",
     "{user} created {file}" : "{user} 创建了 {file}",
     "{file} was created in a public folder" : "{file} 被创建在公共文件夹",

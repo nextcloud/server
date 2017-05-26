@@ -82,6 +82,7 @@
     "Restored by {user}" : "Hersteld door {user}",
     "Renamed by {user}" : "Hernoemd door {user}",
     "Moved by {user}" : "Verplaatst door {user}",
+    "\"remote user\"" : "\"externe gebruiker\"",
     "You created {file}" : "Je creëerde {file}",
     "{user} created {file}" : "{user} creëerde {file}",
     "{file} was created in a public folder" : "{file} werd gecreëerd in een openbare map",
