@@ -59,6 +59,7 @@ OC.L10N.register(
     "Check %s is invalid" : "Sprawdź, czy %s jest nieprawidłowy",
     "Check #%s does not exist" : "Sprawdź, czy #%s nie istnieje",
     "Workflow" : "Wpływ na pracę",
+    "Files workflow engine" : "Silnik przepływu pracy nad plikami",
     "Open documentation" : "Otwórz dokumentację",
     "Add rule group" : "Dodaj grupę reguł",
     "Short rule description" : "Krótki opis reguły",
