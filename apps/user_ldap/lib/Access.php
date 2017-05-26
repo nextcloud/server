@@ -956,10 +956,11 @@ class Access extends LDAPUtility implements IUserTools {
 		}
 		array_unshift($arguments, $cr);
 		// php no longer supports call-time pass-by-reference
-		// make special case for controlPagedResultResponse as the third argument is a reference
+		// thus cannot support controlPagedResultResponse as the third argument
+		// is a reference
 		$doMethod = function () use ($command, &$arguments) {
 			if ($command == 'controlPagedResultResponse') {
-				return $this->ldap->controlPagedResultResponse($arguments[0], $arguments[1], $arguments[2]);
+				throw new \InvalidArgumentException('Invoker does not support controlPagedResultResponse, call LDAP Wrapper directly instead.');
 			} else {
 				return call_user_func_array(array($this->ldap, $command), $arguments);
 			}
@@ -1042,7 +1043,7 @@ class Access extends LDAPUtility implements IUserTools {
 		if($pagedSearchOK) {
 			$cr = $this->connection->getConnectionResource();
 			foreach($sr as $key => $res) {
-				if($this->invokeLDAPMethod('controlPagedResultResponse', $cr, $res, $cookie)) {
+				if($this->ldap->controlPagedResultResponse($cr, $res, $cookie)) {
 					$this->setPagedResultCookie($base[$key], $filter, $limit, $offset, $cookie);
 				}
 			}
