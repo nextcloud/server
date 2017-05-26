@@ -23,6 +23,7 @@
 
 namespace OCA\User_LDAP\Tests\Integration\Lib;
 
+use OC\ServerNotAvailableException;
 use OCA\User_LDAP\Tests\Integration\AbstractIntegrationTest;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\User_LDAP;
@@ -68,7 +69,7 @@ class IntegrationTestConnect extends AbstractIntegrationTest {
 		]);
 		try {
 			$this->connection->getConnectionResource();
-		} catch (\OC\ServerNotAvailableException $e) {
+		} catch (ServerNotAvailableException $e) {
 			return true;
 		}
 		return false;
@@ -87,7 +88,7 @@ class IntegrationTestConnect extends AbstractIntegrationTest {
 		]);
 		try {
 			$this->connection->getConnectionResource();
-		} catch (\OC\ServerNotAvailableException $e) {
+		} catch (ServerNotAvailableException $e) {
 			return false;
 		}
 		return true;
@@ -106,7 +107,7 @@ class IntegrationTestConnect extends AbstractIntegrationTest {
 		]);
 		try {
 			$this->connection->getConnectionResource();
-		} catch (\OC\ServerNotAvailableException $e) {
+		} catch (ServerNotAvailableException $e) {
 			return false;
 		}
 		return true;
@@ -125,7 +126,7 @@ class IntegrationTestConnect extends AbstractIntegrationTest {
 		]);
 		try {
 			$this->connection->getConnectionResource();
-		} catch (\OC\ServerNotAvailableException $e) {
+		} catch (ServerNotAvailableException $e) {
 			return false;
 		}
 		return true;
@@ -144,7 +145,7 @@ class IntegrationTestConnect extends AbstractIntegrationTest {
 		]);
 		try {
 			$this->connection->getConnectionResource();
-		} catch (\OC\ServerNotAvailableException $e) {
+		} catch (ServerNotAvailableException $e) {
 			return false;
 		}
 		return true;
@@ -161,6 +162,11 @@ class IntegrationTestConnect extends AbstractIntegrationTest {
 	}
 }
 
+/** @var string $host */
+/** @var int $port */
+/** @var string $adn */
+/** @var string $apwd */
+/** @var string $bdn */
 $test = new IntegrationTestConnect($host, $port, $adn, $apwd, $bdn);
 $test->init();
 $test->run();
