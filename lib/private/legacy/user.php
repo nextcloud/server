@@ -186,6 +186,8 @@ class OC_User {
 
 		if ($uid) {
 			if (self::getUser() !== $uid) {
+				self::getUserSession()->getSession()->regenerateId();
+				
 				self::setUserId($uid);
 				$setUidAsDisplayName = true;
 				if($backend instanceof \OCP\UserInterface
