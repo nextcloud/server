@@ -533,6 +533,10 @@ class OC {
 		$incompatibleUserAgents = [
 			// OS X Finder
 			'/^WebDAVFS/',
+			// Gnome Nautilus
+			'/^gvfs/',
+			// DAVdroid
+			'/^DAVdroid/',
 		];
 		if($request->isUserAgent($incompatibleUserAgents)) {
 			return;
