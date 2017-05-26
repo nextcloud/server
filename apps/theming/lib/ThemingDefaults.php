@@ -196,8 +196,8 @@ class ThemingDefaults extends \OC_Defaults {
 			'theming-background-mime' => "'" . $this->config->getAppValue('theming', 'backgroundMime', '') . "'"
 		];
 
-		$variables['image-logo'] = "'".$this->urlGenerator->getAbsoluteURL($this->getLogo())."'";
-		$variables['image-login-background'] = "'".$this->urlGenerator->getAbsoluteURL($this->getBackground())."'";
+		$variables['image-logo'] = "'".$this->getLogo()."'";
+		$variables['image-login-background'] = "'".$this->getBackground()."'";
 		$variables['image-login-plain'] = 'false';
 
 		if ($this->config->getAppValue('theming', 'color', null) !== null) {

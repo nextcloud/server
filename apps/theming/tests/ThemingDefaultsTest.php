@@ -524,18 +524,12 @@ class ThemingDefaultsTest extends TestCase {
 				['theming.Theming.getLoginBackground', [], 'custom-background'],
 			]);
 
-		$this->urlGenerator->expects($this->exactly(2))
-			->method('getAbsoluteURL')
-			->willReturnCallback(function ($path) {
-				return 'absolute-' . $path;
-			});
-
 		$expected = [
 			'theming-cachebuster' => '\'0\'',
 			'theming-logo-mime' => '\'jpeg\'',
 			'theming-background-mime' => '\'jpeg\'',
-			'image-logo' => "'absolute-custom-logo?v=0'",
-			'image-login-background' => "'absolute-custom-background?v=0'",
+			'image-logo' => "'custom-logo?v=0'",
+			'image-login-background' => "'custom-background?v=0'",
 			'color-primary' => $this->defaults->getColorPrimary(),
 			'color-primary-text' => '#ffffff',
 			'image-login-plain' => 'false'
