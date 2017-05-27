@@ -117,6 +117,9 @@ class File {
 			'userAgent',
 			'version'
 		);
+		foreach($entry as $key => $value) {
+			$entry[$key] = utf8_encode($value);
+		}
 		$entry = json_encode($entry);
 		$handle = @fopen(self::$logFile, 'a');
 		if ((fileperms(self::$logFile) & 0777) != 0640) {
