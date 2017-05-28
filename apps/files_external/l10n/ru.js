@@ -11,7 +11,7 @@ OC.L10N.register(
     "Google Drive App Configuration" : "Настройка приложения Google Drive",
     "Personal" : "Личное",
     "System" : "Система",
-    "Grant access" : "Предоставить досту",
+    "Grant access" : "Предоставить доступ",
     "Error configuring OAuth1" : "Ошибка настройки OAuth1",
     "Error configuring OAuth2" : "Ошибка настройки OAuth2",
     "Generate keys" : "Создать ключи",

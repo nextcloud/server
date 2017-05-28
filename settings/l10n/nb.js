@@ -250,6 +250,7 @@ OC.L10N.register(
     "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "For optimal ytelse er det viktig å sette opp bakgrunnsjobber rett. For kjøring på større installasjoner er 'Cron' anbefalt innstilling. Se dokumentasjonen for mer informasjon.",
     "Execute one task with each page loaded" : "Utfør en oppgave med hver side som blir lastet",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.php er registrert i en webcron-tjeneste for å kalle cron.php hvert 15. minutt over http.",
+    "Use system cron service to call the cron.php file every 15 minutes." : "Bruk systemets cron-tjeneste til å kalle cron.php hvert kvarter.",
     "The cron.php needs to be executed by the system user \"%s\"." : "Filen cron.php må kjøres systemet som følgende bruker \"%s\".",
     "To run this you need the PHP posix extension. See {linkstart}PHP documentation{linkend} for more details." : "For å kjøre denne trenger du «PHP posix extension». Se {linkstart}PHP dokumentasjonen{linkend} for flere detaljer.",
     "Version" : "Versjon",
