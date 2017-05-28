@@ -12,7 +12,7 @@ OC.L10N.register(
     "No data specified" : "Нет данных",
     " Could not set configuration %s" : "Невозможно создать конфигурацию %s",
     "Action does not exist" : "Действия не существует",
-    "LDAP user and group backend" : "Интерфейс польщователей и групп LDAP",
+    "LDAP user and group backend" : "Интерфейс пользователей и групп LDAP",
     "Renewing …" : "Обновляется…",
     "Very weak password" : "Очень слабый пароль",
     "Weak password" : "Слабый пароль",
