@@ -124,6 +124,10 @@ class TwoFactorChallengeController extends Controller {
 			$errorMessage = $this->session->get("two_factor_auth_error_message");
 			$this->session->remove('two_factor_auth_error_message');
 		}
+		//Attempt to get custom ContentSecurityPolicy(CSP) from 2FA provider
+		if ($provider instanceof \OCP\Authentication\TwoFactorAuth\IProvider2) {
+			$csp  = $provider->getCSP();
+		}
 		$tmpl = $provider->getTemplate($user);
 		$tmpl->assign('redirect_url', $redirect_url);
 		$data = [
@@ -135,8 +139,13 @@ class TwoFactorChallengeController extends Controller {
 			'redirect_url' => $redirect_url,
 			'template' => $tmpl->fetchPage(),
 		];
-		return new TemplateResponse($this->appName, 'twofactorshowchallenge', $data, 'guest');
-	}
+		//Generate the response and add the custom CSP (if defined)
+		$response = new TemplateResponse($this->appName, 'twofactorshowchallenge', $data, 'guest');
+		if (!is_null($csp)) {
+			$response->setContentSecurityPolicy($csp);
+		}
+		return $response;
+	}	
 
 	/**
 	 * @NoAdminRequired
