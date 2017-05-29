@@ -352,7 +352,7 @@ OC.L10N.register(
     "iOS app" : "iOS-App",
     "If you want to support the project {contributeopen}join development{linkclose} or {contributeopen}spread the word{linkclose}!" : "Wenn Sie das Projekt unterstützen wollen {contributeopen} helfen Sie bei der Entwicklung{linkclose} oder {contributeopen} verbreiten Sie es{linkclose}!",
     "Show First Run Wizard again" : "Den Einrichtungsassistenten erneut anzeigen",
-    "Web, desktop and mobile clients currently logged in to your account." : "Aktuell in Ihrem Konto eingeloggte Web-, Desktop- und Mobil-Clients.",
+    "Web, desktop and mobile clients currently logged in to your account." : "Aktuell in Ihrem Konto angemeldete Web-, Desktop- und Mobil-Clients.",
     "Device" : "Gerät",
     "Last activity" : "Letzte Aktivität",
     "Here you can generate individual passwords for apps so you don’t have to give out your password. You can revoke them individually too." : "Hier können individuelle Passwörter for Apps erzeugt werden. So müssen Sie nicht Ihr Passwort verteilen. Jedes Passwort kann individuell widerrufen werden.",
