@@ -108,7 +108,7 @@ OC.L10N.register(
     "Download %s" : "Скачать %s",
     "Direct link" : "Прямая ссылка",
     "Upload files to %s" : "Загрузка файлов пользователю %s",
-    "Select or drop files" : "Выбрать или сбросить файлы",
+    "Select or drop files" : "Выберите или перетащите файлы",
     "Uploading files…" : "Загрузка файлов...",
     "Uploaded files:" : "Загруженные файлы:"
 },
