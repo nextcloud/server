@@ -152,7 +152,7 @@
 						messages.push({
 							msg: t(
 								'core',
-								'The PHP Opcache is not properly configured. <a target="_blank" rel="noreferrer" href="{docLink}">For better performance we recommend ↗</a> to use following settings in the <code>php.ini</code>:',
+								'The PHP OPcache is not properly configured. <a target="_blank" rel="noreferrer" href="{docLink}">For better performance we recommend</a> to use following settings in the <code>php.ini</code>:',
 								{
 									docLink: data.phpOpcacheDocumentation,
 								}
