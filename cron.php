@@ -135,7 +135,7 @@ try {
 
 	} else {
 		// We call cron.php from some website
-		if ($appMode == 'cron') {
+		if ($appMode === 'cron') {
 			// Cron is cron :-P
 			OC_JSON::error(array('data' => array('message' => 'Backgroundjobs are using system cron!')));
 		} else {
@@ -151,7 +151,7 @@ try {
 	}
 
 	// Log the successful cron execution
-	\OC::$server->getConfig()->setAppValue('core', 'lastcron', time());
+	$config->setAppValue('core', 'lastcron', time());
 	exit();
 
 } catch (Exception $ex) {
