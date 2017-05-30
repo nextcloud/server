@@ -1,6 +1,7 @@
 OC.L10N.register(
     "settings",
     {
+    "{actor} changed your password" : "{actor} змінив ваш пароль",
     "Wrong password" : "Невірний пароль",
     "Saved" : "Збережено",
     "No user supplied" : "Користувача не вказано",
