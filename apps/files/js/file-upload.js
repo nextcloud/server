@@ -1027,7 +1027,7 @@ OC.Uploader.prototype = _.extend({
 						t('files', '{loadedSize} of {totalSize} ({bitrate})' , {
 							loadedSize: humanFileSize(data.loaded),
 							totalSize: humanFileSize(data.total),
-							bitrate: humanFileSize(data.bitrate) + '/s'
+							bitrate: humanFileSize(data.bitrate / 8) + '/s'
 						})
 					);
 					$('#uploadprogressbar').progressbar('value', progress);
