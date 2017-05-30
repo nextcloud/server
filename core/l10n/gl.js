@@ -182,7 +182,7 @@ OC.L10N.register(
     "Error" : "Erro",
     "Error removing share" : "Produciuse un erro ao retirar os compartidos",
     "Non-existing tag #{tag}" : "A etiqueta #{tag} non existe",
-    "restricted" : "restrinido",
+    "restricted" : "restrinxido",
     "invisible" : "invisíbel",
     "({scope})" : "({scope})",
     "Delete" : "Eliminar",
