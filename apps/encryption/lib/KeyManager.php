@@ -179,8 +179,8 @@ class KeyManager {
 			return;
 		}
 
-		$masterKey = $this->getPublicMasterKey();
-		if (empty($masterKey)) {
+		$publicMasterKey = $this->getPublicMasterKey();
+		if (empty($publicMasterKey)) {
 			$keyPair = $this->crypt->createKeyPair();
 
 			// Save public key
@@ -193,6 +193,15 @@ class KeyManager {
 			$header = $this->crypt->generateHeader();
 			$this->setSystemPrivateKey($this->masterKeyId, $header . $encryptedKey);
 		}
+
+		if (!$this->session->isPrivateKeySet()) {
+			$masterKey = $this->getSystemPrivateKey($this->masterKeyId);
+			$decryptedMasterKey = $this->crypt->decryptPrivateKey($masterKey, $this->getMasterKeyPassword(), $this->masterKeyId);
+			$this->session->setPrivateKey($decryptedMasterKey);
+		}
+
+		// after the encryption key is available we are ready to go
+		$this->session->setStatus(Session::INIT_SUCCESSFUL);
 	}
 
 	/**

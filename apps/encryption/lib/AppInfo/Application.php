@@ -67,7 +67,11 @@ class Application extends \OCP\AppFramework\App {
 			$session = $this->getContainer()->query('Session');
 			$session->setStatus(Session::RUN_MIGRATION);
 		}
-		if ($this->encryptionManager->isEnabled() && $encryptionSystemReady) {
+
+	}
+
+	public function setUp() {
+		if ($this->encryptionManager->isEnabled()) {
 			/** @var Setup $setup */
 			$setup = $this->getContainer()->query('UserSetup');
 			$setup->setupSystem();
@@ -77,7 +81,6 @@ class Application extends \OCP\AppFramework\App {
 	/**
 	 * register hooks
 	 */
-
 	public function registerHooks() {
 		if (!$this->config->getSystemValue('maintenance', false)) {
 
