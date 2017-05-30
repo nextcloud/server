@@ -235,7 +235,6 @@ if (\OC::$server->getAppManager()->isEnabledForUser('firstrunwizard')) {
 	$formsAndMore[]= ['anchor' => 'clientsbox', 'section-name' => $l->t('Sync clients')];
 }
 $formsAndMore[]= ['anchor' => 'sessions', 'section-name' => $l->t('Sessions')];
-$formsAndMore[]= ['anchor' => 'apppasswords', 'section-name' => $l->t('App passwords')];
 
 $forms=OC_App::getForms('personal');
 
