@@ -1,4 +1,5 @@
 { "translations": {
+    "{actor} changed your password" : "{actor} змінив ваш пароль",
     "Wrong password" : "Невірний пароль",
     "Saved" : "Збережено",
     "No user supplied" : "Користувача не вказано",
