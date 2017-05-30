@@ -196,7 +196,8 @@ class Application extends \OCP\AppFramework\App {
 				$c->getAppName(),
 				$server->getRequest(),
 				$server->getL10N($c->getAppName()),
-				$c->query('Session')
+				$c->query('Session'),
+				$server->getEncryptionManager()
 			);
 		});
 

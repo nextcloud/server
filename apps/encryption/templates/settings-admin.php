@@ -7,7 +7,7 @@ style('encryption', 'settings-admin');
 ?>
 <form id="ocDefaultEncryptionModule" class="sub-section">
 	<h3><?php p($l->t("Default encryption module")); ?></h3>
-	<?php if(!$_["initStatus"]): ?>
+	<?php if(!$_["initStatus"] && $_['masterKeyEnabled'] === false): ?>
 		<?php p($l->t("Encryption app is enabled but your keys are not initialized, please log-out and log-in again")); ?>
 	<?php else: ?>
 		<p id="encryptHomeStorageSetting">

@@ -28,6 +28,7 @@ namespace OCA\Encryption\Controller;
 use OCA\Encryption\Session;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\Encryption\IManager;
 use OCP\IL10N;
 use OCP\IRequest;
 
@@ -39,20 +40,26 @@ class StatusController extends Controller {
 	/** @var Session */
 	private $session;
 
+	/** @var IManager */
+	private $encryptionManager;
+
 	/**
 	 * @param string $AppName
 	 * @param IRequest $request
 	 * @param IL10N $l10n
 	 * @param Session $session
+	 * @param IManager $encryptionManager
 	 */
 	public function __construct($AppName,
 								IRequest $request,
 								IL10N $l10n,
-								Session $session
+								Session $session,
+								IManager $encryptionManager
 								) {
 		parent::__construct($AppName, $request);
 		$this->l = $l10n;
 		$this->session = $session;
+		$this->encryptionManager = $encryptionManager;
 	}
 
 	/**
@@ -78,9 +85,15 @@ class StatusController extends Controller {
 				break;
 			case Session::NOT_INITIALIZED:
 				$status = 'interactionNeeded';
-				$message = (string)$this->l->t(
-					'Encryption App is enabled, but your keys are not initialized. Please log-out and log-in again.'
-				);
+				if ($this->encryptionManager->isEnabled()) {
+					$message = (string)$this->l->t(
+						'Encryption App is enabled, but your keys are not initialized. Please log-out and log-in again.'
+					);
+				} else {
+					$message = (string)$this->l->t(
+						'Please enable server side encryption in the admin settings in order to use the encryption module.'
+					);
+				}
 				break;
 			case Session::INIT_SUCCESSFUL:
 				$status = 'success';
