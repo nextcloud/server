@@ -110,9 +110,9 @@ class OC_App {
 		$apps = self::getEnabledApps();
 
 		// Add each apps' folder as allowed class path
-		foreach($apps as $app) {
+		foreach ($apps as $app) {
 			$path = self::getAppPath($app);
-			if($path !== false) {
+			if ($path !== false) {
 				self::registerAutoloading($app, $path);
 			}
 		}
@@ -137,7 +137,7 @@ class OC_App {
 	public static function loadApp($app) {
 		self::$loadedApps[] = $app;
 		$appPath = self::getAppPath($app);
-		if($appPath === false) {
+		if ($appPath === false) {
 			return;
 		}
 
@@ -182,7 +182,7 @@ class OC_App {
 	 */
 	public static function registerAutoloading($app, $path) {
 		$key = $app . '-' . $path;
-		if(isset(self::$alreadyRegistered[$key])) {
+		if (isset(self::$alreadyRegistered[$key])) {
 			return;
 		}
 		self::$alreadyRegistered[$key] = true;
@@ -260,7 +260,7 @@ class OC_App {
 	 */
 	public static function setAppTypes($app) {
 		$appData = self::getAppInfo($app);
-		if(!is_array($appData)) {
+		if (!is_array($appData)) {
 			return;
 		}
 
@@ -355,7 +355,7 @@ class OC_App {
 	 * This function set an app as enabled in appconfig.
 	 */
 	public function enable($appId,
-						   $groups = null) {
+	                       $groups = null) {
 		self::$enabledAppsCache = []; // flush
 
 		// Check if app is already downloaded
@@ -368,7 +368,7 @@ class OC_App {
 		);
 		$isDownloaded = $installer->isDownloaded($appId);
 
-		if(!$isDownloaded) {
+		if (!$isDownloaded) {
 			$installer->downloadApp($appId);
 		}
 
@@ -435,7 +435,7 @@ class OC_App {
 
 	// This is private as well. It simply works, so don't ask for more details
 	private static function proceedNavigation($list) {
-		usort($list, function($a, $b) {
+		usort($list, function ($a, $b) {
 			if (isset($a['order']) && isset($b['order'])) {
 				return ($a['order'] < $b['order']) ? -1 : 1;
 			} else if (isset($a['order']) || isset($b['order'])) {
@@ -487,7 +487,7 @@ class OC_App {
 	 */
 	public static function findAppInDirectories($appId) {
 		$sanitizedAppId = self::cleanAppId($appId);
-		if($sanitizedAppId !== $appId) {
+		if ($sanitizedAppId !== $appId) {
 			return false;
 		}
 		static $app_dir = array();
@@ -566,7 +566,7 @@ class OC_App {
 	 * @return string
 	 */
 	public static function getAppVersion($appId, $useCache = true) {
-		if($useCache && isset(self::$appVersion[$appId])) {
+		if ($useCache && isset(self::$appVersion[$appId])) {
 			return self::$appVersion[$appId];
 		}
 
@@ -605,7 +605,7 @@ class OC_App {
 				return self::$appInfo[$appId];
 			}
 			$appPath = self::getAppPath($appId);
-			if($appPath === false) {
+			if ($appPath === false) {
 				return null;
 			}
 			$file = $appPath . '/appinfo/info.xml';
@@ -617,9 +617,9 @@ class OC_App {
 		if (is_array($data)) {
 			$data = OC_App::parseAppInfo($data, $lang);
 		}
-		if(isset($data['ocsid'])) {
+		if (isset($data['ocsid'])) {
 			$storedId = \OC::$server->getConfig()->getAppValue($appId, 'ocsid');
-			if($storedId !== '' && $storedId !== $data['ocsid']) {
+			if ($storedId !== '' && $storedId !== $data['ocsid']) {
 				$data['ocsid'] = $storedId;
 			}
 		}
@@ -699,7 +699,14 @@ class OC_App {
 				return array();
 		}
 		foreach ($source as $form) {
-			$forms[] = include $form;
+			if (is_callable($form)) {
+				$result = $form();
+				if (is_string($result)){
+					$forms[] = include $result;
+				}
+			} else {
+				$forms[] = include $form;
+			}
 		}
 		return $forms;
 	}
@@ -708,19 +715,34 @@ class OC_App {
 	 * register an admin form to be shown
 	 *
 	 * @param string $app
-	 * @param string $page
+	 * @param string|callable $page
 	 */
 	public static function registerAdmin($app, $page) {
-		self::$adminForms[] = $app . '/' . $page . '.php';
+		if (is_callable($page)) {
+			self::$adminForms[] = function() use ($app, $page) {
+				$result = $page();
+				return is_string($page) ? $app . '/' . $result . '.php' : false;
+			};
+		} else {
+			self::$adminForms[] = $app . '/' . $page . '.php';
+		}
 	}
 
 	/**
 	 * register a personal form to be shown
+	 *
 	 * @param string $app
-	 * @param string $page
+	 * @param string|callable $page
 	 */
 	public static function registerPersonal($app, $page) {
-		self::$personalForms[] = $app . '/' . $page . '.php';
+		if (is_callable($page)) {
+			self::$personalForms[] = function() use ($app, $page) {
+				$result = $page();
+				return is_string($result) ? $app . '/' . $result . '.php' : false;
+			};
+		} else {
+			self::$personalForms[] = $app . '/' . $page . '.php';
+		}
 	}
 
 	/**
@@ -819,7 +841,7 @@ class OC_App {
 				}
 
 				$appPath = self::getAppPath($app);
-				if($appPath !== false) {
+				if ($appPath !== false) {
 					$appIcon = $appPath . '/img/' . $app . '.svg';
 					if (file_exists($appIcon)) {
 						$info['preview'] = \OC::$server->getURLGenerator()->imagePath($app, $app . '.svg');
@@ -855,13 +877,14 @@ class OC_App {
 
 	/**
 	 * Returns the internal app ID or false
+	 *
 	 * @param string $ocsID
 	 * @return string|false
 	 */
 	public static function getInternalAppIdByOcs($ocsID) {
-		if(is_numeric($ocsID)) {
+		if (is_numeric($ocsID)) {
 			$idArray = \OC::$server->getAppConfig()->getValues(false, 'ocsid');
-			if(array_search($ocsID, $idArray)) {
+			if (array_search($ocsID, $idArray)) {
 				return array_search($ocsID, $idArray);
 			}
 		}
@@ -965,7 +988,7 @@ class OC_App {
 	public static function getAppVersions() {
 		static $versions;
 
-		if(!$versions) {
+		if (!$versions) {
 			$appConfig = \OC::$server->getAppConfig();
 			$versions = $appConfig->getValues(false, 'installed_version');
 		}
@@ -982,12 +1005,12 @@ class OC_App {
 	 * @throws Exception if no app-name was specified
 	 */
 	public function installApp($app,
-							   \OCP\IConfig $config,
-							   \OCP\IL10N $l) {
+	                           \OCP\IConfig $config,
+	                           \OCP\IL10N $l) {
 		if ($app !== false) {
 			// check if the app is compatible with this version of ownCloud
 			$info = self::getAppInfo($app);
-			if(!is_array($info)) {
+			if (!is_array($info)) {
 				throw new \Exception(
 					$l->t('App "%s" cannot be installed because appinfo file cannot be read.',
 						[$info['name']]
@@ -1012,7 +1035,7 @@ class OC_App {
 				$config->setAppValue($app, 'ocsid', $appData['id']);
 			}
 
-			if(isset($info['settings']) && is_array($info['settings'])) {
+			if (isset($info['settings']) && is_array($info['settings'])) {
 				$appPath = self::getAppPath($app);
 				self::registerAutoloading($app, $appPath);
 				\OC::$server->getSettingsManager()->setupSettings($info['settings']);
@@ -1020,7 +1043,7 @@ class OC_App {
 
 			\OC_Hook::emit('OC_App', 'post_enable', array('app' => $app));
 		} else {
-			if(empty($appName) ) {
+			if (empty($appName)) {
 				throw new \Exception($l->t("No app name specified"));
 			} else {
 				throw new \Exception($l->t("App '%s' could not be installed!", $appName));
@@ -1038,7 +1061,7 @@ class OC_App {
 	 */
 	public static function updateApp($appId) {
 		$appPath = self::getAppPath($appId);
-		if($appPath === false) {
+		if ($appPath === false) {
 			return false;
 		}
 		$appData = self::getAppInfo($appId);
@@ -1056,14 +1079,14 @@ class OC_App {
 		}
 		self::registerAutoloading($appId, $appPath);
 		self::setupBackgroundJobs($appData['background-jobs']);
-		if(isset($appData['settings']) && is_array($appData['settings'])) {
+		if (isset($appData['settings']) && is_array($appData['settings'])) {
 			\OC::$server->getSettingsManager()->setupSettings($appData['settings']);
 		}
 
 		//set remote/public handlers
 		if (array_key_exists('ocsid', $appData)) {
 			\OC::$server->getConfig()->setAppValue($appId, 'ocsid', $appData['ocsid']);
-		} elseif(\OC::$server->getConfig()->getAppValue($appId, 'ocsid', null) !== null) {
+		} elseif (\OC::$server->getConfig()->getAppValue($appId, 'ocsid', null) !== null) {
 			\OC::$server->getConfig()->deleteAppValue($appId, 'ocsid');
 		}
 		foreach ($appData['remote'] as $name => $path) {
@@ -1184,7 +1207,7 @@ class OC_App {
 					$similarLangFallback = $option['@value'];
 				} else if (strpos($attributeLang, $similarLang . '_') === 0) {
 					if ($similarLangFallback === false) {
-						$similarLangFallback =  $option['@value'];
+						$similarLangFallback = $option['@value'];
 					}
 				}
 			} else {
@@ -1197,7 +1220,7 @@ class OC_App {
 		} else if ($englishFallback !== false) {
 			return $englishFallback;
 		}
-		return (string) $fallback;
+		return (string)$fallback;
 	}
 
 	/**
@@ -1219,7 +1242,7 @@ class OC_App {
 			$data['description'] = trim(self::findBestL10NOption($data['description'], $lang));
 		} else if (isset($data['description']) && is_string($data['description'])) {
 			$data['description'] = trim($data['description']);
-		} else  {
+		} else {
 			$data['description'] = '';
 		}
 
