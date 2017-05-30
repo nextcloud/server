@@ -182,4 +182,14 @@ interface IEncryptionModule {
 	 */
 	public function isReadyForUser($user);
 
+	/**
+	 * Does the encryption module needs a detailed list of users with access to the file?
+	 * For example if the encryption module uses per-user encryption keys and needs to know
+	 * the users with access to the file to encrypt/decrypt it.
+	 *
+	 * @since 13.0.0
+	 * @return bool
+	 */
+	public function needDetailedAccessList();
+
 }
