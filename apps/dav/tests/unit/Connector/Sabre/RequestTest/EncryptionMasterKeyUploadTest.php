@@ -28,21 +28,21 @@ use OC\Files\View;
 use Test\Traits\EncryptionTrait;
 
 /**
- * Class EncryptionUploadTest
+ * Class EncryptionMasterKeyUploadTest
  *
  * @group DB
  *
  * @package OCA\DAV\Tests\Unit\Connector\Sabre\RequestTest
  */
-class EncryptionUploadTest extends UploadTest {
+class EncryptionMasterKeyUploadTest extends UploadTest {
 	use EncryptionTrait;
 
 	protected function setupUser($name, $password) {
 		$this->createUser($name, $password);
 		$tmpFolder = \OC::$server->getTempManager()->getTemporaryFolder();
 		$this->registerMount($name, '\OC\Files\Storage\Local', '/' . $name, ['datadir' => $tmpFolder]);
-		// we use per-user keys
-		\OC::$server->getConfig()->setAppValue('encryption', 'useMasterKey', '0');
+		// we use the master key
+		\OC::$server->getConfig()->setAppValue('encryption', 'useMasterKey', '1');
 		$this->setupForUser($name, $password);
 		$this->loginWithEncryption($name);
 		return new View('/' . $name . '/files');
