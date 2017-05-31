@@ -71,7 +71,7 @@
 					<?php endforeach; ?>
 					<li id="more-apps" class="menutoggle">
 						<a href="#">
-							<div class="icon-more-white"></div>
+							<div class="icon-more"></div>
 							<span><?php p($l->t('More apps')); ?></span>
 						</a>
 					</li>
