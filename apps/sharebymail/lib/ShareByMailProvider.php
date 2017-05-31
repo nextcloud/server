@@ -353,10 +353,10 @@ class ShareByMailProvider implements IShareProvider {
 			$this->removeShareFromTable($shareId);
 			throw $hintException;
 		} catch (\Exception $e) {
-			$this->logger->error('Failed to send share by mail: ' . $e->getMessage());
+			$this->logger->error('Failed to send share by email: ' . $e->getMessage());
 			$this->removeShareFromTable($shareId);
 			throw new HintException('Failed to send share by mail',
-				$this->l->t('Failed to send share by E-mail'));
+				$this->l->t('Failed to send share by email'));
 		}
 
 		return $shareId;
