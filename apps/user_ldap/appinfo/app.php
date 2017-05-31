@@ -60,9 +60,3 @@ if(count($configPrefixes) > 0) {
 	'\OCA\User_LDAP\Helper',
 	'loginName2UserName'
 );
-
-if(OCP\App::isEnabled('user_webdavauth')) {
-	OCP\Util::writeLog('user_ldap',
-		'user_ldap and user_webdavauth are incompatible. You may experience unexpected behaviour',
-		OCP\Util::WARN);
-}

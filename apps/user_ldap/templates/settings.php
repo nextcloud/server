@@ -66,9 +66,7 @@ style('user_ldap', 'settings');
 		<li class="ldapSettingsTabs"><a href="#ldapSettings-2"><?php p($l->t('Expert'));?></a></li>
 		<li class="ldapSettingsTabs"><a href="#ldapSettings-1"><?php p($l->t('Advanced'));?></a></li>
 	</ul>
-	<?php if(OCP\App::isEnabled('user_webdavauth')) {
-		print_unescaped('<p class="ldapwarning">'.$l->t('<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them.').'</p>');
-	}
+	<?php
 	if(!function_exists('ldap_connect')) {
 		print_unescaped('<p class="ldapwarning">'.$l->t('<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it.').'</p>');
 	}
