@@ -212,7 +212,7 @@ class EncryptionTest extends Storage {
 	protected function buildMockModule() {
 		$this->encryptionModule = $this->getMockBuilder('\OCP\Encryption\IEncryptionModule')
 			->disableOriginalConstructor()
-			->setMethods(['getId', 'getDisplayName', 'begin', 'end', 'encrypt', 'decrypt', 'update', 'shouldEncrypt', 'getUnencryptedBlockSize', 'isReadable', 'encryptAll', 'prepareDecryptAll', 'isReadyForUser'])
+			->setMethods(['getId', 'getDisplayName', 'begin', 'end', 'encrypt', 'decrypt', 'update', 'shouldEncrypt', 'getUnencryptedBlockSize', 'isReadable', 'encryptAll', 'prepareDecryptAll', 'isReadyForUser', 'needDetailedAccessList'])
 			->getMock();
 
 		$this->encryptionModule->expects($this->any())->method('getId')->willReturn('UNIT_TEST_MODULE');
@@ -225,6 +225,7 @@ class EncryptionTest extends Storage {
 		$this->encryptionModule->expects($this->any())->method('shouldEncrypt')->willReturn(true);
 		$this->encryptionModule->expects($this->any())->method('getUnencryptedBlockSize')->willReturn(8192);
 		$this->encryptionModule->expects($this->any())->method('isReadable')->willReturn(true);
+		$this->encryptionModule->expects($this->any())->method('needDetailedAccessList')->willReturn(false);
 		return $this->encryptionModule;
 	}
 

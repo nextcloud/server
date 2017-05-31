@@ -58,7 +58,8 @@ class EncryptionTest extends \Test\TestCase {
 	/**
 	 * @dataProvider dataProviderStreamOpen()
 	 */
-	public function testStreamOpen($mode,
+	public function testStreamOpen($isMasterKeyUsed,
+								   $mode,
 								   $fullPath,
 								   $fileExists,
 								   $expectedSharePath,
@@ -69,6 +70,7 @@ class EncryptionTest extends \Test\TestCase {
 		// build mocks
 		$encryptionModuleMock = $this->getMockBuilder('\OCP\Encryption\IEncryptionModule')
 		->disableOriginalConstructor()->getMock();
+		$encryptionModuleMock->expects($this->any())->method('needDetailedAccessList')->willReturn(!$isMasterKeyUsed);
 		$encryptionModuleMock->expects($this->once())
 			->method('getUnencryptedBlockSize')->willReturn(99);
 		$encryptionModuleMock->expects($this->once())
@@ -80,12 +82,15 @@ class EncryptionTest extends \Test\TestCase {
 
 		$fileMock = $this->getMockBuilder('\OC\Encryption\File')
 			->disableOriginalConstructor()->getMock();
-		$fileMock->expects($this->once())->method('getAccessList')
-			->will($this->returnCallback(function($sharePath) use ($expectedSharePath) {
-				$this->assertSame($expectedSharePath, $sharePath);
-				return array();
-			}));
-
+		if ($isMasterKeyUsed) {
+			$fileMock->expects($this->never())->method('getAccessList');
+		} else {
+			$fileMock->expects($this->once())->method('getAccessList')
+				->will($this->returnCallback(function ($sharePath) use ($expectedSharePath) {
+					$this->assertSame($expectedSharePath, $sharePath);
+					return array();
+				}));
+		}
 		$utilMock = $this->getMockBuilder('\OC\Encryption\Util')
 			->disableOriginalConstructor()->getMock();
 		$utilMock->expects($this->any())
@@ -152,11 +157,14 @@ class EncryptionTest extends \Test\TestCase {
 	}
 
 	public function dataProviderStreamOpen() {
-		return array(
-			array('r', '/foo/bar/test.txt', true, '/foo/bar/test.txt', null, null, true),
-			array('r', '/foo/bar/test.txt', false, '/foo/bar', null, null, true),
-			array('w', '/foo/bar/test.txt', true, '/foo/bar/test.txt', 8192, 0, false),
-		);
+		return [
+			[false, 'r', '/foo/bar/test.txt', true, '/foo/bar/test.txt', null, null, true],
+			[false, 'r', '/foo/bar/test.txt', false, '/foo/bar', null, null, true],
+			[false, 'w', '/foo/bar/test.txt', true, '/foo/bar/test.txt', 8192, 0, false],
+			[true, 'r', '/foo/bar/test.txt', true, '/foo/bar/test.txt', null, null, true],
+			[true, 'r', '/foo/bar/test.txt', false, '/foo/bar', null, null, true],
+			[true, 'w', '/foo/bar/test.txt', true, '/foo/bar/test.txt', 8192, 0, false],
+		];
 	}
 
 	public function testWriteRead() {
@@ -193,7 +201,7 @@ class EncryptionTest extends \Test\TestCase {
 		$stream = $this->getStream($fileName, 'r', 6);
 		$this->assertEquals('barbar', fread($stream, 100));
 		fclose($stream);
-	
+
 		unlink($fileName);
 }
 
@@ -311,7 +319,7 @@ class EncryptionTest extends \Test\TestCase {
 	protected function buildMockModule() {
 		$encryptionModule = $this->getMockBuilder('\OCP\Encryption\IEncryptionModule')
 			->disableOriginalConstructor()
-			->setMethods(['getId', 'getDisplayName', 'begin', 'end', 'encrypt', 'decrypt', 'update', 'shouldEncrypt', 'getUnencryptedBlockSize', 'isReadable', 'encryptAll', 'prepareDecryptAll', 'isReadyForUser'])
+			->setMethods(['getId', 'getDisplayName', 'begin', 'end', 'encrypt', 'decrypt', 'update', 'shouldEncrypt', 'getUnencryptedBlockSize', 'isReadable', 'encryptAll', 'prepareDecryptAll', 'isReadyForUser', 'needDetailedAccessList'])
 			->getMock();
 
 		$encryptionModule->expects($this->any())->method('getId')->willReturn('UNIT_TEST_MODULE');
@@ -319,6 +327,7 @@ class EncryptionTest extends \Test\TestCase {
 		$encryptionModule->expects($this->any())->method('begin')->willReturn([]);
 		$encryptionModule->expects($this->any())->method('end')->willReturn('');
 		$encryptionModule->expects($this->any())->method('isReadable')->willReturn(true);
+		$encryptionModule->expects($this->any())->method('needDetailedAccessList')->willReturn(false);
 		$encryptionModule->expects($this->any())->method('encrypt')->willReturnCallback(function($data) {
 			// simulate different block size by adding some padding to the data
 			if (isset($data[6125])) {
