@@ -104,10 +104,10 @@ class Mapper {
 	 * @return array[] [['class' => string, 'priority' => int], ...]
 	 */
 	public function getSectionsFromDB($type) {
-		if($type === 'personal') {
+		if($type === 'admin') {
 			$sectionsTable = self::TABLE_ADMIN_SECTIONS;
 			$settingsTable = self::TABLE_ADMIN_SETTINGS;
-		} else if($type === 'admin') {
+		} else if($type === 'personal') {
 			$sectionsTable = self::TABLE_PERSONAL_SECTIONS;
 			$settingsTable = self::TABLE_PERSONAL_SETTINGS;
 		} else {
