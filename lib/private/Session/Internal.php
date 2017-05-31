@@ -28,7 +28,6 @@
 
 namespace OC\Session;
 
-use OC\ServiceUnavailableException;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 
 /**
@@ -111,7 +110,6 @@ class Internal extends Session {
 	 *
 	 * @param bool $deleteOldSession Whether to delete the old associated session file or not.
 	 * @return void
-	 * @throws ServiceUnavailableException
 	 */
 	public function regenerateId($deleteOldSession = true) {
 		try {
