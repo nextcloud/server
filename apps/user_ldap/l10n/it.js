@@ -51,6 +51,8 @@ OC.L10N.register(
     "Please provide a login name to test against" : "Fornisci un nome di accesso da provare",
     "The group box was disabled, because the LDAP / AD server does not support memberOf." : "La casella dei gruppi è stata disabilitata, poiché il server LDAP / AD non supporta memberOf.",
     "Password change rejected. Hint: " : "Cambio password rifiutato. Suggerimento:",
+    "Your password will expire tomorrow." : "La tua password scadrà domani.",
+    "Your password will expire today." : "La tua password scadrà oggi.",
     "LDAP / AD integration" : "Integrazione LDAP / AD",
     "_%s group found_::_%s groups found_" : ["%s gruppo trovato","%s gruppi trovati"],
     "_%s user found_::_%s users found_" : ["%s utente trovato","%s utenti trovati"],
