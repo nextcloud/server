@@ -31,9 +31,7 @@ use OCP\Settings\IManager as ISettingsManager;
 use OCP\Template;
 
 class PersonalSettingsController extends Controller {
-	use CommonSettingsTrait {
-		getSettings as private;
-	}
+	use CommonSettingsTrait;
 
 	/** @var INavigationManager */
 	private $navigationManager;
@@ -66,8 +64,7 @@ class PersonalSettingsController extends Controller {
 	 * @param string $section
 	 * @return array
 	 */
-	private function getSettings($section) {
-		// PhpStorm shows this as unused, but is required by CommonSettingsTrait
+	protected function getSettings($section) {
 		$settings = $this->settingsManager->getPersonalSettings($section);
 		$formatted = $this->formatSettings($settings);
 		if($section === 'additional') {

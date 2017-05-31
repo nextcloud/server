@@ -119,5 +119,5 @@ trait CommonSettingsTrait  {
 		return new TemplateResponse('settings', 'settings/frame', $templateParams);
 	}
 
-	abstract public function getSettings($section);
+	abstract protected function getSettings($section);
 }

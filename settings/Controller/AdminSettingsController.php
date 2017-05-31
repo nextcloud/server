@@ -74,8 +74,7 @@ class AdminSettingsController extends Controller {
 	 * @param string $section
 	 * @return array
 	 */
-	private function getSettings($section) {
-		// PhpStorm shows this as unused, but is required by CommonSettingsTrait
+	protected function getSettings($section) {
 		$settings = $this->settingsManager->getAdminSettings($section);
 		$formatted = $this->formatSettings($settings);
 		if($section === 'additional') {
