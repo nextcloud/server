@@ -24,7 +24,7 @@ OC.L10N.register(
     "Upload new logo" : "Neues Logo hochladen",
     "Login image" : "Anmelde-Bild",
     "Upload new login background" : "Neuen Anmelde-Hintergrund hochladen",
-    "Remove background image" : "Hintergrundbilder entfernen",
+    "Remove background image" : "Entferne Hintergrundbild",
     "reset to default" : "Auf Standard zurücksetzen",
     "Log in image" : "Anmelde-Bild"
 },

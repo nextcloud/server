@@ -35,6 +35,8 @@
     "To send a password link to the user an email address is required." : "Per inviare un collegamento della password all'utente è richiesto un indirizzo email.",
     "Unable to create user." : "Impossibile creare l'utente.",
     "Unable to delete user." : "Impossibile eliminare l'utente.",
+    "Error while enabling user." : "Errore durante l'abilitazione dell'utente.",
+    "Error while disabling user." : "Errore durante la disabilitazione dell'utente.",
     "Settings saved" : "Impostazioni salvate",
     "Unable to change full name" : "Impossibile cambiare il nome completo",
     "Unable to change email address" : "Impossibile cambiare l'indirizzo di posta",
