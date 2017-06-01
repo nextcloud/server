@@ -15,7 +15,8 @@
 	.searchbox input[type="search"] {
 		background: transparent url('../../../core/img/actions/search.svg') no-repeat 6px center;
 	}
-	#appmenu li a img {
+	#appmenu li a img,
+	#appmenu li#more-apps a div {
 		-webkit-filter: invert(1);
 		filter: invert(1);
 		filter: progid:DXImageTransform.Microsoft.BasicImage(invert='1');
