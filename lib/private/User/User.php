@@ -165,7 +165,9 @@ class User implements IUser {
 		} else {
 			$this->config->setUserValue($this->uid, 'settings', 'email', $mailAddress);
 		}
-		$this->triggerChange('eMailAddress', $mailAddress, $oldMailAddress);
+		if($oldMailAddress !== $mailAddress) {
+			$this->triggerChange('eMailAddress', $mailAddress, $oldMailAddress);
+		}
 	}
 
 	/**
@@ -388,12 +390,15 @@ class User implements IUser {
 	 * @since 9.0.0
 	 */
 	public function setQuota($quota) {
+		$oldQuota = $this->config->getUserValue($this->uid, 'files', 'quota', '');
 		if($quota !== 'none' and $quota !== 'default') {
 			$quota = OC_Helper::computerFileSize($quota);
 			$quota = OC_Helper::humanFileSize($quota);
 		}
 		$this->config->setUserValue($this->uid, 'files', 'quota', $quota);
-		$this->triggerChange('quota', $quota);
+		if($quota !== $oldQuota) {
+			$this->triggerChange('quota', $quota);
+		}
 	}
 
 	/**
