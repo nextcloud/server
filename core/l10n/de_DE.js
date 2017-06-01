@@ -17,7 +17,7 @@ OC.L10N.register(
     "State token does not match" : "Status-Token stimmen nicht überein",
     "Password reset is disabled" : "Passwort-Reset ist deaktiviert",
     "Couldn't reset password because the token is invalid" : "Das Passwort konnte aufgrund eines ungültigen Tokens nicht zurückgesetzt werden",
-    "Couldn't reset password because the token is expired" : "Das Passwort konnte nicht zurückgesetzt werden, da der Token abgelaufen ist",
+    "Couldn't reset password because the token is expired" : "Das Passwort konnte nicht zurückgesetzt werden, da das Token abgelaufen ist",
     "Could not send reset email because there is no email address for this username. Please contact your administrator." : "Es konnte keine E-Mail verschickt werden um das Passwort zurückzusetzten, da keine E-Mail im Benutzerkonto hinterlegt ist. Bitte kontaktieren Sie den Administrator.",
     "Password reset" : "Passwort zurücksetzen",
     "Click the following button to reset your password. If you have not requested the password reset, then ignore this email." : "Klicken Sie zum Zurücksetzen des Passworts auf die folgende Schaltfläche. Wenn Sie das Zurücksetzen des Passworts nicht angefordert haben, ignorieren Sie bitte diese E-Mail.",

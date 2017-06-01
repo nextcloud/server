@@ -84,6 +84,7 @@ OC.L10N.register(
     "Restored by {user}" : "{user} -k zaharberrituta",
     "Renamed by {user}" : "{user} -k berrizendatuta",
     "Moved by {user}" : "{user} -k mugituta",
+    "\"remote user\"" : "\"urrutiko erabiltzailea\"",
     "You created {file}" : "Sortu duzu {file}",
     "{user} created {file}" : "{user} {file} sortu du",
     "{file} was created in a public folder" : "{file} fitxategi publiko batean sortu da",

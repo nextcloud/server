@@ -17,7 +17,7 @@ OC.L10N.register(
     "Name" : "Name",
     "Reset to default" : " Auf Standard zurücksetzen ",
     "Web address" : "Internetadresse",
-    "Web address https://…" : "Internetadresse https://...",
+    "Web address https://…" : "Internetadresse https://…",
     "Slogan" : "Slogan",
     "Color" : "Farbe",
     "Logo" : "Logo",

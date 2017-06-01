@@ -9,6 +9,6 @@ OC.L10N.register(
     "No earlier versions available" : "Ingen tidligere versjoner tilgjengelige",
     "More versions …" : "Flere versjoner…",
     "No versions available" : "Ingen versjoner tilgjengelig",
-    "More versions..." : "Flere versjoner"
+    "More versions..." : "Flere versjoner…"
 },
 "nplurals=2; plural=(n != 1);");

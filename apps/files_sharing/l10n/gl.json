@@ -70,7 +70,7 @@
     "Could not create share" : "Non foi posíbel crear o recurso compartido",
     "invalid permissions" : "permisos incorrectos",
     "Please specify a valid user" : "Especifique un usuario correcto",
-    "Group sharing is disabled by the administrator" : "Compartir en grupo foi desactivado polo administrador",
+    "Group sharing is disabled by the administrator" : "A opción de compartir en grupo foi desactivada polo administrador",
     "Please specify a valid group" : "Especifique un grupo correcto",
     "Public link sharing is disabled by the administrator" : "Compartir por ligazón pública foi desactivado polo administrador",
     "Public upload disabled by the administrator" : "O envío público foi desactivado polo administrador",
