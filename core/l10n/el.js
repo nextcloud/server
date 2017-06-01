@@ -301,6 +301,7 @@ OC.L10N.register(
     "Update needed" : "Απαιτείται ενημέρωση",
     "Please use the command line updater because you have a big instance with more than 50 users." : "Παρακαλούμε χρησιμοποιήστε την ενημέρωση μέσω γραμμής εντολών διότι έχετε μια μεγάλη εγκατάσταση με περισσότερους από 50 χρήστες.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Για βοήθεια, δείτε στην  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">τεκμηρίωση</a>.",
+    "Upgrade via web on my own risk" : "Αναβάθμιση μέσω δικτύου με δικιά μου ευθύνη",
     "This %s instance is currently in maintenance mode, which may take a while." : "Αυτή %s η εγκατάσταση είναι σε λειτουργία συντήρησης, η οποία μπορεί να διαρκέσει κάποιο χρόνο.",
     "This page will refresh itself when the %s instance is available again." : "Αυτή η σελίδα θα ανανεωθεί από μόνη της όταν η %s εγκατάσταση είναι διαθέσιμη ξανά.",
     "Problem loading page, reloading in 5 seconds" : "Πρόβλημα φόρτωσης σελίδας, φόρτωση ξανά σε 5 λεπτά",

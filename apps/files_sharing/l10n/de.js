@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_sharing",
     {
-    "Shared with you" : "Mit dir geteilt",
+    "Shared with you" : "Mit Dir geteilt",
     "Shared with others" : "Von Dir geteilt",
     "Shared by link" : "Geteilt über einen Link",
     "Nothing shared with you yet" : "Bis jetzt wurde nichts mit dir geteilt",
@@ -109,7 +109,7 @@ OC.L10N.register(
     "Direct link" : "Direkter Link",
     "Upload files to %s" : "Dateien für %s hochladen",
     "Select or drop files" : "Dateien auswählen oder hierher ziehen",
-    "Uploading files…" : "Dateien werden hochgeladen...",
+    "Uploading files…" : "Dateien werden hochgeladen…",
     "Uploaded files:" : "Hochgeladene Dateien: "
 },
 "nplurals=2; plural=(n != 1);");

@@ -18,7 +18,7 @@ OC.L10N.register(
     "is tagged with" : "ist zugewiesen",
     "is not tagged with" : "ist nicht zugewiesen",
     "Select tag…" : "Wähle einen Tag…",
-    "Request remote address" : "Anfrage Remote-Addresse",
+    "Request remote address" : "Anfrage Remote-Adresse",
     "matches IPv4" : "entspricht IPv4",
     "does not match IPv4" : "entspricht nicht IPv4",
     "matches IPv6" : "entspricht IPv6",
