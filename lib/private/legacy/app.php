@@ -50,6 +50,7 @@
 use OC\App\DependencyAnalyzer;
 use OC\App\InfoParser;
 use OC\App\Platform;
+use OC\DB\MigrationService;
 use OC\Installer;
 use OC\Repair;
 use OCP\App\ManagerEvent;
@@ -1043,12 +1044,18 @@ class OC_App {
 		}
 		$appData = self::getAppInfo($appId);
 		self::executeRepairSteps($appId, $appData['repair-steps']['pre-migration']);
-		if (file_exists($appPath . '/appinfo/database.xml')) {
+
+		if (isset($appData['use-migrations']) && $appData['use-migrations'] === 'true') {
+			$ms = new MigrationService($appId, \OC::$server->getDatabaseConnection());
+			$ms->migrate();
+		} else if (file_exists($appPath . '/appinfo/database.xml')) {
 			OC_DB::updateDbFromStructure($appPath . '/appinfo/database.xml');
 		}
+
 		self::executeRepairSteps($appId, $appData['repair-steps']['post-migration']);
 		self::setupLiveMigrations($appId, $appData['repair-steps']['live-migration']);
 		unset(self::$appVersion[$appId]);
+
 		// run upgrade code
 		if (file_exists($appPath . '/appinfo/update.php')) {
 			self::loadApp($appId);
