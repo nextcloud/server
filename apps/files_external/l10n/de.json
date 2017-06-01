@@ -11,7 +11,7 @@
     "System" : "System",
     "Grant access" : "Zugriff gestatten",
     "Error configuring OAuth1" : "Fehler beim Konfigurieren von OAuth1",
-    "Error configuring OAuth2" : "Fehler beim Einrichten von OAuth2",
+    "Error configuring OAuth2" : "Fehler beim Konfigurieren von OAuth2",
     "Generate keys" : "Schlüssel erzeugen",
     "Error generating key pair" : "Fehler beim Erzeugen des Schlüsselpaares",
     "All users. Type to select user or group." : "Alle Benutzer. Benutzer oder Gruppe zur Auswahl eingeben.",
