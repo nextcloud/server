@@ -32,6 +32,7 @@ namespace OCA\Provisioning_API\Tests\Controller;
 use Exception;
 use OC\Accounts\AccountManager;
 use OC\Group\Manager;
+use OCP\App\IAppManager;
 use OCP\Mail\IEMailTemplate;
 use OC\Settings\Mailer\NewUserMailHelper;
 use OC\SubAdmin;
@@ -58,6 +59,8 @@ class UsersControllerTest extends TestCase {
 	protected $userManager;
 	/** @var IConfig|PHPUnit_Framework_MockObject_MockObject */
 	protected $config;
+	/** @var IAppManager|PHPUnit_Framework_MockObject_MockObject */
+	protected $appManager;
 	/** @var Manager|PHPUnit_Framework_MockObject_MockObject */
 	protected $groupManager;
 	/** @var IUserSession|PHPUnit_Framework_MockObject_MockObject */
@@ -66,9 +69,9 @@ class UsersControllerTest extends TestCase {
 	protected $logger;
 	/** @var UsersController|PHPUnit_Framework_MockObject_MockObject */
 	protected $api;
-	/** @var  AccountManager|PHPUnit_Framework_MockObject_MockObject */
+	/** @var AccountManager|PHPUnit_Framework_MockObject_MockObject */
 	protected $accountManager;
-	/** @var  IRequest|PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest|PHPUnit_Framework_MockObject_MockObject */
 	protected $request;
 	/** @var IFactory|PHPUnit_Framework_MockObject_MockObject */
 	private $l10nFactory;
@@ -80,6 +83,7 @@ class UsersControllerTest extends TestCase {
 
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->config = $this->createMock(IConfig::class);
+		$this->appManager = $this->createMock(IAppManager::class);
 		$this->groupManager = $this->createMock(Manager::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->logger = $this->createMock(ILogger::class);
@@ -94,6 +98,7 @@ class UsersControllerTest extends TestCase {
 				$this->request,
 				$this->userManager,
 				$this->config,
+				$this->appManager,
 				$this->groupManager,
 				$this->userSession,
 				$this->accountManager,
@@ -2647,6 +2652,7 @@ class UsersControllerTest extends TestCase {
 				$this->request,
 				$this->userManager,
 				$this->config,
+				$this->appManager,
 				$this->groupManager,
 				$this->userSession,
 				$this->accountManager,
@@ -2707,6 +2713,7 @@ class UsersControllerTest extends TestCase {
 				$this->request,
 				$this->userManager,
 				$this->config,
+				$this->appManager,
 				$this->groupManager,
 				$this->userSession,
 				$this->accountManager,
