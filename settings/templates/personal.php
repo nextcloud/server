@@ -301,6 +301,7 @@ if($_['passwordChangeSupported']) {
 </form>
 
 
+<?php if(OC_APP::isEnabled('firstrunwizard')) {?>
 <div id="clientsbox" class="section clientsbox">
 	<h2><?php p($l->t('Get the apps to sync your files'));?></h2>
 	<a href="<?php p($_['clients']['desktop']); ?>" rel="noreferrer" target="_blank">
@@ -329,10 +330,9 @@ if($_['passwordChangeSupported']) {
 				$l->t('If you want to support the project {contributeopen}join development{linkclose} or {contributeopen}spread the word{linkclose}!'))); ?>
 		</p>
 
-	<?php if(OC_APP::isEnabled('firstrunwizard')) {?>
 		<p><a class="button" href="#" id="showWizard"><?php p($l->t('Show First Run Wizard again'));?></a></p>
-	<?php }?>
 </div>
+<?php }?>
 
 <div id="sessions" class="section">
 	<h2><?php p($l->t('Sessions'));?></h2>
