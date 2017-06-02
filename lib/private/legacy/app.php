@@ -1045,11 +1045,11 @@ class OC_App {
 		$appData = self::getAppInfo($appId);
 		self::executeRepairSteps($appId, $appData['repair-steps']['pre-migration']);
 
-		if (isset($appData['use-migrations']) && $appData['use-migrations'] === 'true') {
+		if (file_exists($appPath . '/appinfo/database.xml')) {
+			OC_DB::updateDbFromStructure($appPath . '/appinfo/database.xml');
+		} else {
 			$ms = new MigrationService($appId, \OC::$server->getDatabaseConnection());
 			$ms->migrate();
-		} else if (file_exists($appPath . '/appinfo/database.xml')) {
-			OC_DB::updateDbFromStructure($appPath . '/appinfo/database.xml');
 		}
 
 		self::executeRepairSteps($appId, $appData['repair-steps']['post-migration']);

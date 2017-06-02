@@ -139,6 +139,9 @@ class Installer {
 			} else {
 				OC_DB::updateDbFromStructure($basedir.'/appinfo/database.xml');
 			}
+		} else {
+			$ms = new \OC\DB\MigrationService($info['id'], \OC::$server->getDatabaseConnection());
+			$ms->migrate();
 		}
 
 		\OC_App::registerAutoloading($appId, $basedir);
@@ -540,6 +543,9 @@ class Installer {
 					0, $e
 				);
 			}
+		} else {
+			$ms = new \OC\DB\MigrationService($app, \OC::$server->getDatabaseConnection());
+			$ms->migrate();
 		}
 
 		//run appinfo/install.php
