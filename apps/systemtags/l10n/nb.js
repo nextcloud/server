@@ -40,7 +40,7 @@ OC.L10N.register(
     "{actor} removed system tag {systemtag} from {file}" : "{actor} fjernet system-merkelapp {systemtag} fra {file}",
     "%s (restricted)" : "%s (begrenset)",
     "%s (invisible)" : "%s (usynlig)",
-    "<strong>System tags</strong> for a file have been modified" : "<strong>System-merkelapper</strong> for en fil er endret",
+    "<strong>System tags</strong> for a file have been modified" : "Endringer av en fils <strong>System-merkelapper</strong>",
     "Collaborative tags" : "Felles merkelapper",
     "Create and edit collaborative tags. These tags affect all users." : "Opprett og rediger samarbeidsmessige merkelapper. Disse har innvirkning på alle brukere.",
     "Select tag …" : "Velg merkelapp…",

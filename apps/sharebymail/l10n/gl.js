@@ -18,6 +18,7 @@ OC.L10N.register(
     "Password to access {file} was sent to you" : "Envióuselle a vostede un correo para acceder a {file}",
     "Sharing %s failed, this item is already shared with %s" : "Fallou a compartición de %s, este elemento xa está compartido con %s",
     "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Non é posíbel enviarlle o contrasinal xerado automaticamente. Estabeleza un enderezo de correo correcto nos seus axustes persoais e ténteo de novo.",
+    "Failed to send share by email" : "Fallou o envío do recurso compartido por correo",
     "%s shared »%s« with you" : "%s compartiu «%s» con vostede",
     "%s shared »%s« with you." : "%s compartiu «%s» con vostede.",
     "Click the button below to open it." : "Prema no botón de embaixo para abrilo.",
