@@ -98,15 +98,6 @@ return array(
 		//'test'=>'true',
 		//'timeout'=>20
 	),
-	'dropbox' => array (
-		'run'=>false,
-		'root'=>'owncloud',
-		'configured' => 'true',
-		'app_key' => '',
-		'app_secret' => '',
-		'token' => '',
-		'token_secret' => ''
-	),
 	'sftp' => array (
 		'run'=>false,
 		'host'=>'localhost',
