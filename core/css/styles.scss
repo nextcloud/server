@@ -1218,9 +1218,14 @@ span.ui-icon {
 
 /* ---- BREADCRUMB ---- */
 
-div.crumb {
+.breadcrumb {
+	margin-right: 10px;
 	float: left;
-	display: block;
+	display: flex;
+}
+div.crumb {
+	display: flex;
+	opacity: 0.5;
 	background-image: url('../img/breadcrumb.svg?v=1');
 	background-repeat: no-repeat;
 	background-position: right center;
@@ -1230,22 +1235,13 @@ div.crumb {
 		display: none;
 	}
 	a, > span {
-		position: relative;
-		top: 12px;
-		padding: 14px 24px 14px 17px;
-		color: nc-lighten($color-main-text, 33%);
+		padding: 14px;
 	}
-	&.last a {
+	&.last .icon-shared {
 		padding-right: 0;
-	}
-	&:first-child a {
-		position: relative;
-		top: 13px;
-		padding-right: 14px;
 	}
 	&.last {
 		font-weight: 600;
-		margin-right: 10px;
 	}
 	&.ellipsized {
 		padding: 0 10px 0 5px;
@@ -1256,8 +1252,8 @@ div.crumb {
 		top: 8px !important;
 	}
 	&:hover, &:focus, a:focus, &:active {
-		-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=70)';
-		opacity: .7;
+		-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=100)';
+		opacity: 1;
 	}
 }
 
