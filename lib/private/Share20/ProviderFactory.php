@@ -24,6 +24,7 @@
 namespace OC\Share20;
 
 use OC\CapabilitiesManager;
+use OC\GlobalScale\Config;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\FederatedFileSharing\Notifications;
@@ -125,7 +126,8 @@ class ProviderFactory implements IProviderFactory {
 				$this->serverContainer->getLazyRootFolder(),
 				$this->serverContainer->getConfig(),
 				$this->serverContainer->getUserManager(),
-				$this->serverContainer->getCloudIdManager()
+				$this->serverContainer->getCloudIdManager(),
+				$this->serverContainer->query(Config::class)
 			);
 		}
 

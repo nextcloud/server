@@ -212,8 +212,14 @@ $tmpl->assign('certs', $certificateManager->listCertificates());
 $tmpl->assign('showCertificates', $enableCertImport);
 $tmpl->assign('urlGenerator', $urlGenerator);
 
-$lookupServerUploadEnabled = $config->getAppValue('files_sharing', 'lookupServerUploadEnabled', 'yes');
-$lookupServerUploadEnabled = $lookupServerUploadEnabled === 'yes';
+$federatedFileSharingEnabled = \OC::$server->getAppManager()->isEnabledForUser('federatedfilesharing');
+$lookupServerUploadEnabled = false;
+if ($federatedFileSharingEnabled) {
+	$federatedFileSharing = new \OCA\FederatedFileSharing\AppInfo\Application();
+	$shareProvider = $federatedFileSharing->getFederatedShareProvider();
+	$lookupServerUploadEnabled = $shareProvider->isLookupServerUploadEnabled();
+}
+
 $tmpl->assign('lookupServerUploadEnabled', $lookupServerUploadEnabled);
 
 // Get array of group ids for this user

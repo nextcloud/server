@@ -25,6 +25,7 @@ namespace OCA\FederatedFileSharing\Tests\Settings;
 
 use OCA\FederatedFileSharing\Settings\Admin;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\GlobalScale\IConfig;
 use Test\TestCase;
 
 class AdminTest extends TestCase {
@@ -32,12 +33,17 @@ class AdminTest extends TestCase {
 	private $admin;
 	/** @var \OCA\FederatedFileSharing\FederatedShareProvider */
 	private $federatedShareProvider;
+	/** @var  IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	private $gsConfig;
 
 	public function setUp() {
 		parent::setUp();
-		$this->federatedShareProvider = $this->getMockBuilder('\OCA\FederatedFileSharing\FederatedShareProvider')->disableOriginalConstructor()->getMock();
+		$this->federatedShareProvider = $this->getMockBuilder('\OCA\FederatedFileSharing\FederatedShareProvider')
+			->disableOriginalConstructor()->getMock();
+		$this->gsConfig = $this->getMock(IConfig::class);
 		$this->admin = new Admin(
-			$this->federatedShareProvider
+			$this->federatedShareProvider,
+			$this->gsConfig
 		);
 	}
 
@@ -73,8 +79,11 @@ class AdminTest extends TestCase {
 			->expects($this->once())
 			->method('isLookupServerUploadEnabled')
 			->willReturn($state);
+		$this->gsConfig->expects($this->once())->method('onlyInternalFederation')
+			->willReturn($state);
 
 		$params = [
+			'internalOnly' => $state,
 			'outgoingServer2serverShareEnabled' => $state,
 			'incomingServer2serverShareEnabled' => $state,
 			'lookupServerEnabled' => $state,

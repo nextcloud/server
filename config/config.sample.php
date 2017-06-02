@@ -1242,13 +1242,13 @@ $CONFIG = array(
  * During setup, if requirements are met (see below), this setting is set to true
  * and MySQL can handle 4 byte characters instead of 3 byte characters.
  *
- * If you want to convert an existing 3-byte setup into a 4-byte setup please 
+ * If you want to convert an existing 3-byte setup into a 4-byte setup please
  * set the parameters in MySQL as mentioned below and run the migration command:
  *  ./occ db:convert-mysql-charset
  * The config setting will be set automatically after a successful run.
- * 
+ *
  * Consult the documentation for more details.
- * 
+ *
  * MySQL requires a special setup for longer indexes (> 767 bytes) which are
  * needed:
  *
@@ -1529,5 +1529,16 @@ $CONFIG = array(
  * use a custom lookup server to publish user data
  */
 'lookup_server' => 'https://lookup.nextcloud.com',
+
+/**
+ * set to true if the server is used in a setup based on Nextcloud's Global Scale architecture
+ */
+'gs.enabled' => false,
+
+/**
+ * by default federation is only used internally in a Global Scale setup
+ * If you want to allow federation outside of your environment set it to 'global'
+ */
+'gs.federation' => 'internal',
 
 );

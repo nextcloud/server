@@ -4,6 +4,8 @@
 script('federatedfilesharing', 'settings-admin');
 ?>
 
+<?php if($_['internalOnly'] === false): ?>
+
 <div id="fileSharingSettings" class="followupsection">
 	<h3><?php p($l->t('Federated Cloud Sharing'));?></h3>
 	<a target="_blank" rel="noreferrer" class="icon-info svg"
@@ -42,3 +44,5 @@ script('federatedfilesharing', 'settings-admin');
 	</p>
 
 </div>
+
+<?php endif; ?>

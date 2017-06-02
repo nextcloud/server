@@ -85,6 +85,9 @@ class FederatedShareProvider implements IShareProvider {
 	/** @var ICloudIdManager */
 	private $cloudIdManager;
 
+	/** @var \OCP\GlobalScale\IConfig */
+	private $gsConfig;
+
 	/**
 	 * DefaultShareProvider constructor.
 	 *
@@ -98,6 +101,7 @@ class FederatedShareProvider implements IShareProvider {
 	 * @param IConfig $config
 	 * @param IUserManager $userManager
 	 * @param ICloudIdManager $cloudIdManager
+	 * @param \OCP\GlobalScale\IConfig $globalScaleConfig
 	 */
 	public function __construct(
 			IDBConnection $connection,
@@ -109,7 +113,8 @@ class FederatedShareProvider implements IShareProvider {
 			IRootFolder $rootFolder,
 			IConfig $config,
 			IUserManager $userManager,
-			ICloudIdManager $cloudIdManager
+			ICloudIdManager $cloudIdManager,
+			\OCP\GlobalScale\IConfig $globalScaleConfig
 	) {
 		$this->dbConnection = $connection;
 		$this->addressHandler = $addressHandler;
@@ -121,6 +126,7 @@ class FederatedShareProvider implements IShareProvider {
 		$this->config = $config;
 		$this->userManager = $userManager;
 		$this->cloudIdManager = $cloudIdManager;
+		$this->gsConfig = $globalScaleConfig;
 	}
 
 	/**
@@ -941,6 +947,9 @@ class FederatedShareProvider implements IShareProvider {
 	 * @return bool
 	 */
 	public function isOutgoingServer2serverShareEnabled() {
+		if ($this->gsConfig->onlyInternalFederation()) {
+			return false;
+		}
 		$result = $this->config->getAppValue('files_sharing', 'outgoing_server2server_share_enabled', 'yes');
 		return ($result === 'yes');
 	}
@@ -951,6 +960,9 @@ class FederatedShareProvider implements IShareProvider {
 	 * @return bool
 	 */
 	public function isIncomingServer2serverShareEnabled() {
+		if ($this->gsConfig->onlyInternalFederation()) {
+			return false;
+		}
 		$result = $this->config->getAppValue('files_sharing', 'incoming_server2server_share_enabled', 'yes');
 		return ($result === 'yes');
 	}
@@ -961,6 +973,10 @@ class FederatedShareProvider implements IShareProvider {
 	 * @return bool
 	 */
 	public function isLookupServerQueriesEnabled() {
+		// in a global scale setup we should always query the lookup server
+		if ($this->gsConfig->isGlobalScaleEnabled()) {
+			return true;
+		}
 		$result = $this->config->getAppValue('files_sharing', 'lookupServerEnabled', 'no');
 		return ($result === 'yes');
 	}
@@ -972,6 +988,10 @@ class FederatedShareProvider implements IShareProvider {
 	 * @return bool
 	 */
 	public function isLookupServerUploadEnabled() {
+		// in a global scale setup the admin is responsible to keep the lookup server up-to-date
+		if ($this->gsConfig->isGlobalScaleEnabled()) {
+			return false;
+		}
 		$result = $this->config->getAppValue('files_sharing', 'lookupServerUploadEnabled', 'yes');
 		return ($result === 'yes');
 	}
