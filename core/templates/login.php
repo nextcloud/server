@@ -9,7 +9,7 @@ script('core', [
 ?>
 
 <!--[if IE 8]><style>input[type="checkbox"]{padding:0;}</style><![endif]-->
-<form method="post" name="login">
+<form method="post" action="login" name="login" id="loginForm">
 	<fieldset>
 	<?php if (!empty($_['redirect_url'])) {
 		print_unescaped('<input type="hidden" name="redirect_url" value="' . \OCP\Util::sanitizeHTML($_['redirect_url']) . '">');
@@ -20,6 +20,12 @@ script('core', [
 				<small><?php p($l->t('Please contact your administrator.')); ?></small>
 			</div>
 		<?php endif; ?>
+		<?php if (!empty($_['loginToken'])): ?>
+			<div class="warning">
+				<?php p($l->t('Authenticating, please wait...')); ?><br>
+				<small><?php p($l->t('Contact your administrator if you are not redirected to your page')); ?></small>
+			</div>
+		<?php endif; ?>		
 		<?php foreach($_['messages'] as $message): ?>
 			<div class="warning">
 				<?php p($message); ?><br>
@@ -38,34 +44,39 @@ script('core', [
 			<!-- the following div ensures that the spinner is always inside the #message div -->
 			<div style="clear: both;"></div>
 		</div>
-		<p class="grouptop<?php if (!empty($_['invalidpassword'])) { ?> shake<?php } ?>">
-			<input type="text" name="user" id="user"
-				placeholder="<?php p($l->t('Username or email')); ?>"
-				value="<?php p($_['loginName']); ?>"
-				<?php p($_['user_autofocus'] ? 'autofocus' : ''); ?>
-				autocomplete="on" autocapitalize="off" autocorrect="off" required>
-			<label for="user" class="infield"><?php p($l->t('Username or email')); ?></label>
-		</p>
-
-		<p class="groupbottom<?php if (!empty($_['invalidpassword'])) { ?> shake<?php } ?>">
-			<input type="password" name="password" id="password" value=""
-				placeholder="<?php p($l->t('Password')); ?>"
-				<?php p($_['user_autofocus'] ? '' : 'autofocus'); ?>
-				autocomplete="on" autocapitalize="off" autocorrect="off" required>
-			<label for="password" class="infield"><?php p($l->t('Password')); ?></label>
-		</p>
-
-		<?php if (!empty($_['invalidpassword']) && !empty($_['canResetPassword'])) { ?>
-		<a id="lost-password" class="warning" href="<?php p($_['resetPasswordLink']); ?>">
-			<?php p($l->t('Wrong password. Reset it?')); ?>
-		</a>
-		<?php } else if (!empty($_['invalidpassword'])) { ?>
-			<p class="warning">
-				<?php p($l->t('Wrong password.')); ?>
+		
+		<?php if (empty($_['loginToken'])): ?>
+			<p class="grouptop<?php if (!empty($_['invalidpassword'])) { ?> shake<?php } ?>">
+				<input type="text" name="user" id="user"
+					placeholder="<?php p($l->t('Username or email')); ?>"
+					value="<?php p($_['loginName']); ?>"
+					<?php p($_['user_autofocus'] ? 'autofocus' : ''); ?>
+					autocomplete="on" autocapitalize="off" autocorrect="off" required>
+				<label for="user" class="infield"><?php p($l->t('Username or email')); ?></label>
 			</p>
-		<?php } ?>
 
-		<input type="submit" id="submit" class="login primary icon-confirm-white" title="" value="<?php p($l->t('Log in')); ?>" disabled="disabled" />
+			<p class="groupbottom<?php if (!empty($_['invalidpassword'])) { ?> shake<?php } ?>">
+				<input type="password" name="password" id="password" value=""
+					placeholder="<?php p($l->t('Password')); ?>"
+					<?php p($_['user_autofocus'] ? '' : 'autofocus'); ?>
+					autocomplete="on" autocapitalize="off" autocorrect="off" required>
+				<label for="password" class="infield"><?php p($l->t('Password')); ?></label>
+			</p>
+
+			<?php if (!empty($_['invalidpassword']) && !empty($_['canResetPassword'])) { ?>
+			<a id="lost-password" class="warning" href="<?php p($_['resetPasswordLink']); ?>">
+				<?php p($l->t('Wrong password. Reset it?')); ?>
+			</a>
+			<?php } else if (!empty($_['invalidpassword'])) { ?>
+				<p class="warning">
+					<?php p($l->t('Wrong password.')); ?>
+				</p>
+			<?php } ?>
+
+			<input type="submit" id="submitButton" class="login primary icon-confirm-white" title="" value="<?php p($l->t('Log in')); ?>" " />
+		<?php endif; ?>
+
+		<input type="hidden" name="accessToken" id="accessToken" value="<?php p($_['loginToken'])?>"/>
 
 		<div class="login-additional">
 			<?php if ($_['rememberLoginAllowed'] === true) : ?>
@@ -85,6 +96,15 @@ script('core', [
 		<input type="hidden" name="requesttoken" value="<?php p($_['requesttoken']) ?>">
 	</fieldset>
 </form>
+<?php if (!empty($_['loginToken'])) { ?>
+	<?php if (empty($_['invalidpassword'])) { ?>
+		<script nonce="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>" type="text/javascript">
+			$(document).ready(function() {
+						document.getElementById("loginForm").submit();
+				})
+		</script>
+	<?php } ?>
+<?php } ?>
 <?php if (!empty($_['alt_login'])) { ?>
 <form id="alternative-logins">
 	<fieldset>

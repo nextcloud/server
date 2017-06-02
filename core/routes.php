@@ -48,6 +48,7 @@ $application->registerRoutes($this, [
 		['name' => 'login#tryLogin', 'url' => '/login', 'verb' => 'POST'],
 		['name' => 'login#confirmPassword', 'url' => '/login/confirm', 'verb' => 'POST'],
 		['name' => 'login#showLoginForm', 'url' => '/login', 'verb' => 'GET'],
+		['name' => 'login#showLoginPostForm', 'url' => '/loginpost', 'verb' => 'POST'],
 		['name' => 'login#logout', 'url' => '/logout', 'verb' => 'GET'],
 		['name' => 'TwoFactorChallenge#selectChallenge', 'url' => '/login/selectchallenge', 'verb' => 'GET'],
 		['name' => 'TwoFactorChallenge#showChallenge', 'url' => '/login/challenge/{challengeProviderId}', 'verb' => 'GET'],
@@ -58,6 +59,7 @@ $application->registerRoutes($this, [
 	],
 	'ocs' => [
 		['root' => '/cloud', 'name' => 'OCS#getCapabilities', 'url' => '/capabilities', 'verb' => 'GET'],
+		['root' => '/cloud', 'name' => 'OCS#getCurrentUser', 'url' => '/user', 'verb' => 'GET'],
 		['root' => '', 'name' => 'OCS#getConfig', 'url' => '/config', 'verb' => 'GET'],
 		['root' => '/person', 'name' => 'OCS#personCheck', 'url' => '/check', 'verb' => 'POST'],
 		['root' => '/identityproof', 'name' => 'OCS#getIdentityProof', 'url' => '/key/{cloudId}', 'verb' => 'GET'],
