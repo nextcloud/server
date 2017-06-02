@@ -53,6 +53,7 @@ use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\QueryException;
 use OCP\Files\Folder;
 use OCP\Files\IAppData;
+use OCP\GlobalScale\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IServerContainer;
@@ -157,6 +158,10 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 
 		$this->registerService('OCP\Encryption\IManager', function ($c) {
 			return $this->getServer()->getEncryptionManager();
+		});
+
+		$this->registerService(IConfig::class, function ($c) {
+			return $c->query(OC\GlobalScale\Config::class);
 		});
 
 		$this->registerService(IValidator::class, function($c) {

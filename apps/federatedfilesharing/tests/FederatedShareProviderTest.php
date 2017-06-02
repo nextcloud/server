@@ -65,6 +65,8 @@ class FederatedShareProviderTest extends \Test\TestCase {
 	protected $config;
 	/** @var  IUserManager | \PHPUnit_Framework_MockObject_MockObject */
 	protected $userManager;
+	/** @var  \OCP\GlobalScale\IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	protected $gsConfig;
 
 	/** @var IManager */
 	protected $shareManager;
@@ -96,10 +98,10 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		$this->userManager = $this->getMockBuilder('OCP\IUserManager')->getMock();
 		//$this->addressHandler = new AddressHandler(\OC::$server->getURLGenerator(), $this->l);
 		$this->addressHandler = $this->getMockBuilder('OCA\FederatedFileSharing\AddressHandler')->disableOriginalConstructor()->getMock();
+		$this->cloudIdManager = new CloudIdManager();
+		$this->gsConfig = $this->createMock(\OCP\GlobalScale\IConfig::class);
 
 		$this->userManager->expects($this->any())->method('userExists')->willReturn(true);
-
-		$this->cloudIdManager = new CloudIdManager();
 
 		$this->provider = new FederatedShareProvider(
 			$this->connection,
@@ -111,7 +113,8 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			$this->rootFolder,
 			$this->config,
 			$this->userManager,
-			$this->cloudIdManager
+			$this->cloudIdManager,
+			$this->gsConfig
 		);
 
 		$this->shareManager = \OC::$server->getShareManager();
@@ -409,7 +412,8 @@ class FederatedShareProviderTest extends \Test\TestCase {
 					$this->rootFolder,
 					$this->config,
 					$this->userManager,
-					$this->cloudIdManager
+					$this->cloudIdManager,
+					$this->gsConfig
 				]
 			)->setMethods(['sendPermissionUpdate'])->getMock();
 
@@ -674,13 +678,15 @@ class FederatedShareProviderTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestFederatedSharingSettings
+	 * @dataProvider dataTestIsOutgoingServer2serverShareEnabled
 	 *
 	 * @param string $isEnabled
 	 * @param bool $expected
 	 */
-	public function testIsOutgoingServer2serverShareEnabled($isEnabled, $expected) {
-		$this->config->expects($this->once())->method('getAppValue')
+	public function testIsOutgoingServer2serverShareEnabled($internalOnly, $isEnabled, $expected) {
+		$this->gsConfig->expects($this->once())->method('onlyInternalFederation')
+			->willReturn($internalOnly);
+		$this->config->expects($this->any())->method('getAppValue')
 			->with('files_sharing', 'outgoing_server2server_share_enabled', 'yes')
 			->willReturn($isEnabled);
 
@@ -689,14 +695,25 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		);
 	}
 
+	public function dataTestIsOutgoingServer2serverShareEnabled() {
+		return [
+			[false, 'yes', true],
+			[false, 'no', false],
+			[true, 'yes', false],
+			[true, 'no', false],
+		];
+	}
+
 	/**
-	 * @dataProvider dataTestFederatedSharingSettings
+	 * @dataProvider dataTestIsIncomingServer2serverShareEnabled
 	 *
 	 * @param string $isEnabled
 	 * @param bool $expected
 	 */
-	public function testIsIncomingServer2serverShareEnabled($isEnabled, $expected) {
-		$this->config->expects($this->once())->method('getAppValue')
+	public function testIsIncomingServer2serverShareEnabled($onlyInternal, $isEnabled, $expected) {
+		$this->gsConfig->expects($this->once())->method('onlyInternalFederation')
+			->willReturn($onlyInternal);
+		$this->config->expects($this->any())->method('getAppValue')
 			->with('files_sharing', 'incoming_server2server_share_enabled', 'yes')
 			->willReturn($isEnabled);
 
@@ -705,14 +722,25 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		);
 	}
 
+	public function dataTestIsIncomingServer2serverShareEnabled() {
+		return [
+			[false, 'yes', true],
+			[false, 'no', false],
+			[true, 'yes', false],
+			[true, 'no', false],
+		];
+	}
+
 	/**
-	 * @dataProvider dataTestFederatedSharingSettings
+	 * @dataProvider dataTestIsLookupServerQueriesEnabled
 	 *
 	 * @param string $isEnabled
 	 * @param bool $expected
 	 */
-	public function testIsLookupServerQueriesEnabled($isEnabled, $expected) {
-		$this->config->expects($this->once())->method('getAppValue')
+	public function testIsLookupServerQueriesEnabled($gsEnabled, $isEnabled, $expected) {
+		$this->gsConfig->expects($this->once())->method('isGlobalScaleEnabled')
+			->willReturn($gsEnabled);
+		$this->config->expects($this->any())->method('getAppValue')
 			->with('files_sharing', 'lookupServerEnabled', 'no')
 			->willReturn($isEnabled);
 
@@ -721,14 +749,26 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		);
 	}
 
+
+	public function dataTestIsLookupServerQueriesEnabled() {
+		return [
+			[false, 'yes', true],
+			[false, 'no', false],
+			[true, 'yes', true],
+			[true, 'no', true],
+		];
+	}
+
 	/**
-	 * @dataProvider dataTestFederatedSharingSettings
+	 * @dataProvider dataTestIsLookupServerUploadEnabled
 	 *
 	 * @param string $isEnabled
 	 * @param bool $expected
 	 */
-	public function testIsLookupServerUploadEnabled($isEnabled, $expected) {
-		$this->config->expects($this->once())->method('getAppValue')
+	public function testIsLookupServerUploadEnabled($gsEnabled, $isEnabled, $expected) {
+		$this->gsConfig->expects($this->once())->method('isGlobalScaleEnabled')
+			->willReturn($gsEnabled);
+		$this->config->expects($this->any())->method('getAppValue')
 			->with('files_sharing', 'lookupServerUploadEnabled', 'yes')
 			->willReturn($isEnabled);
 
@@ -737,10 +777,12 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		);
 	}
 
-	public function dataTestFederatedSharingSettings() {
+	public function dataTestIsLookupServerUploadEnabled() {
 		return [
-			['yes', true],
-			['no', false]
+			[false, 'yes', true],
+			[false, 'no', false],
+			[true, 'yes', false],
+			[true, 'no', false],
 		];
 	}
 
