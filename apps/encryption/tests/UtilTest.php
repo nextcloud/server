@@ -152,7 +152,7 @@ class UtilTest extends TestCase {
 	 */
 	public function testIsMasterKeyEnabled($value, $expect) {
 		$this->configMock->expects($this->once())->method('getAppValue')
-			->with('encryption', 'useMasterKey', '0')->willReturn($value);
+			->with('encryption', 'useMasterKey', '1')->willReturn($value);
 		$this->assertSame($expect,
 			$this->instance->isMasterKeyEnabled()
 		);
