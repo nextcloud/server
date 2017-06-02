@@ -22,10 +22,12 @@
 
 namespace OC\DB;
 
+use Doctrine\DBAL\Schema\Schema;
 use OC\IntegrityCheck\Helpers\AppLocator;
 use OC\Migration\SimpleOutput;
 use OCP\AppFramework\QueryException;
 use OCP\IDBConnection;
+use OCP\Migration\IMigrationStep;
 use OCP\Migration\IOutput;
 use OCP\Migration\ISchemaMigration;
 use OCP\Migration\ISimpleMigration;
@@ -373,23 +375,23 @@ class MigrationService {
 	 * @param string $version
 	 */
 	public function executeStep($version) {
-
-		// FIXME our interface
 		$instance = $this->createInstance($version);
-		if ($instance instanceof ISimpleMigration) {
-			$instance->run($this->output);
+		if (!$instance instanceof IMigrationStep) {
+			throw new \RuntimeException('Not a valid migration');
 		}
-		if ($instance instanceof ISqlMigration) {
-			$sqls = $instance->sql($this->connection);
-			foreach ($sqls as $s) {
-				$this->connection->executeQuery($s);
-			}
-		}
-		if ($instance instanceof ISchemaMigration) {
-			$toSchema = $this->connection->createSchema();
-			$instance->changeSchema($toSchema, ['tablePrefix' => $this->connection->getPrefix()]);
+
+		$instance->preSchemaChange($this->output);
+
+		$toSchema = $instance->changeSchema(function() {
+			return $this->connection->createSchema();
+		}, ['tablePrefix' => $this->connection->getPrefix()]);
+
+		if ($toSchema instanceof Schema) {
 			$this->connection->migrateToSchema($toSchema);
 		}
+
+		$instance->postSchemaChange($this->output);
+
 		$this->markAsExecuted($version);
 	}
 

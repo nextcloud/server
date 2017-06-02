@@ -26,25 +26,29 @@ use Doctrine\DBAL\Schema\Schema;
 /**
  * @since 13.0.0
  */
-interface IMigrationStep {
+abstract class SimpleMigrationStep implements IMigrationStep {
 
 	/**
 	 * @param IOutput $output
 	 * @since 13.0.0
 	 */
-	public function preSchemaChange(IOutput $output);
+	public function preSchemaChange(IOutput $output) {
+	}
 
 	/**
-	 * @param \Closure $schema The `\Closure` returns a `Schema`
+	 * @param \Closure $schema
 	 * @param array $options
 	 * @return null|Schema
 	 * @since 13.0.0
 	 */
-	public function changeSchema(\Closure $schema, array $options);
+	public function changeSchema(\Closure $schema, array $options) {
+		return null;
+	}
 
 	/**
 	 * @param IOutput $output
 	 * @since 13.0.0
 	 */
-	public function postSchemaChange(IOutput $output);
+	public function postSchemaChange(IOutput $output) {
+	}
 }
