@@ -11,10 +11,13 @@ namespace Test\User;
 
 use OC\Hooks\PublicEmitter;
 use OC\User\Database;
+use OC\User\User;
 use OCP\Comments\ICommentsManager;
 use OCP\IConfig;
+use OCP\IUser;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\Notification\INotification;
+use OCP\UserInterface;
 
 /**
  * Class UserTest
@@ -540,5 +543,171 @@ class UserTest extends \Test\TestCase {
 				->willReturn('http://localhost:8888/owncloud');
 		$user = new \OC\User\User('foo', $backend, null, null, $urlGenerator);
 		$this->assertEquals("foo@localhost:8888/owncloud", $user->getCloudId());
+	}
+
+	public function testSetEMailAddressEmpty() {
+		/**
+		 * @var Backend | \PHPUnit_Framework_MockObject_MockObject $backend
+		 */
+		$backend = $this->createMock(\Test\Util\User\Dummy::class);
+
+		$test = $this;
+		$hooksCalled = 0;
+
+		/**
+		 * @param IUser $user
+		 * @param string $feature
+		 * @param string $value
+		 */
+		$hook = function (IUser $user, $feature, $value) use ($test, &$hooksCalled) {
+			$hooksCalled++;
+			$test->assertEquals('eMailAddress', $feature);
+			$test->assertEquals('', $value);
+		};
+
+		$emitter = new PublicEmitter();
+		$emitter->listen('\OC\User', 'changeUser', $hook);
+
+		$config = $this->createMock(IConfig::class);
+		$config->expects($this->once())
+			->method('deleteUserValue')
+			->with(
+				'foo',
+				'settings',
+				'email'
+			);
+
+		$user = new User('foo', $backend, $emitter, $config);
+		$user->setEMailAddress('');
+	}
+
+	public function testSetEMailAddress() {
+		/**
+		 * @var UserInterface | \PHPUnit_Framework_MockObject_MockObject $backend
+		 */
+		$backend = $this->createMock(\Test\Util\User\Dummy::class);
+
+		$test = $this;
+		$hooksCalled = 0;
+
+		/**
+		 * @param IUser $user
+		 * @param string $feature
+		 * @param string $value
+		 */
+		$hook = function (IUser $user, $feature, $value) use ($test, &$hooksCalled) {
+			$hooksCalled++;
+			$test->assertEquals('eMailAddress', $feature);
+			$test->assertEquals('foo@bar.com', $value);
+		};
+
+		$emitter = new PublicEmitter();
+		$emitter->listen('\OC\User', 'changeUser', $hook);
+
+		$config = $this->createMock(IConfig::class);
+		$config->expects($this->once())
+			->method('setUserValue')
+			->with(
+				'foo',
+				'settings',
+				'email',
+				'foo@bar.com'
+			);
+
+		$user = new User('foo', $backend, $emitter, $config);
+		$user->setEMailAddress('foo@bar.com');
+	}
+
+	public function testSetEMailAddressNoChange() {
+		/**
+		 * @var UserInterface | \PHPUnit_Framework_MockObject_MockObject $backend
+		 */
+		$backend = $this->createMock(\Test\Util\User\Dummy::class);
+
+		/** @var PublicEmitter|\PHPUnit_Framework_MockObject_MockObject $emitter */
+		$emitter = $this->createMock(PublicEmitter::class);
+		$emitter->expects($this->never())
+			->method('emit');
+
+		$config = $this->createMock(IConfig::class);
+		$config->expects($this->any())
+			->method('getUserValue')
+			->willReturn('foo@bar.com');
+		$config->expects($this->once())
+			->method('setUserValue')
+			->with(
+				'foo',
+				'settings',
+				'email',
+				'foo@bar.com'
+			);
+
+		$user = new User('foo', $backend, $emitter, $config);
+		$user->setEMailAddress('foo@bar.com');
+	}
+
+	public function testSetQuota() {
+		/**
+		 * @var UserInterface | \PHPUnit_Framework_MockObject_MockObject $backend
+		 */
+		$backend = $this->createMock(\Test\Util\User\Dummy::class);
+
+		$test = $this;
+		$hooksCalled = 0;
+
+		/**
+		 * @param IUser $user
+		 * @param string $feature
+		 * @param string $value
+		 */
+		$hook = function (IUser $user, $feature, $value) use ($test, &$hooksCalled) {
+			$hooksCalled++;
+			$test->assertEquals('quota', $feature);
+			$test->assertEquals('23 TB', $value);
+		};
+
+		$emitter = new PublicEmitter();
+		$emitter->listen('\OC\User', 'changeUser', $hook);
+
+		$config = $this->createMock(IConfig::class);
+		$config->expects($this->once())
+			->method('setUserValue')
+			->with(
+				'foo',
+				'files',
+				'quota',
+				'23 TB'
+			);
+
+		$user = new User('foo', $backend, $emitter, $config);
+		$user->setQuota('23 TB');
+	}
+
+	public function testSetQuotaAddressNoChange() {
+		/**
+		 * @var UserInterface | \PHPUnit_Framework_MockObject_MockObject $backend
+		 */
+		$backend = $this->createMock(\Test\Util\User\Dummy::class);
+
+		/** @var PublicEmitter|\PHPUnit_Framework_MockObject_MockObject $emitter */
+		$emitter = $this->createMock(PublicEmitter::class);
+		$emitter->expects($this->never())
+			->method('emit');
+
+		$config = $this->createMock(IConfig::class);
+		$config->expects($this->any())
+			->method('getUserValue')
+			->willReturn('23 TB');
+		$config->expects($this->once())
+			->method('setUserValue')
+			->with(
+				'foo',
+				'files',
+				'quota',
+				'23 TB'
+			);
+
+		$user = new User('foo', $backend, $emitter, $config);
+		$user->setQuota('23 TB');
 	}
 }
