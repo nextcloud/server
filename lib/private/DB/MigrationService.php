@@ -25,13 +25,11 @@ namespace OC\DB;
 use Doctrine\DBAL\Schema\Schema;
 use OC\IntegrityCheck\Helpers\AppLocator;
 use OC\Migration\SimpleOutput;
+use OCP\AppFramework\App;
 use OCP\AppFramework\QueryException;
 use OCP\IDBConnection;
 use OCP\Migration\IMigrationStep;
 use OCP\Migration\IOutput;
-use OCP\Migration\ISchemaMigration;
-use OCP\Migration\ISimpleMigration;
-use OCP\Migration\ISqlMigration;
 use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Types\Type;
@@ -62,7 +60,7 @@ class MigrationService {
 		$this->appName = $appName;
 		$this->connection = $connection;
 		$this->output = $output;
-		if (is_null($this->output)) {
+		if (null === $this->output) {
 			$this->output = new SimpleOutput(\OC::$server->getLogger(), $appName);
 		}
 
@@ -70,17 +68,17 @@ class MigrationService {
 			$this->migrationsPath = \OC::$SERVERROOT . '/core/Migrations';
 			$this->migrationsNamespace = 'OC\\Migrations';
 		} else {
-			if (is_null($appLocator)) {
+			if (null === $appLocator) {
 				$appLocator = new AppLocator();
 			}
 			$appPath = $appLocator->getAppPath($appName);
-			$namespace = \OCP\AppFramework\App::buildAppNamespace($appName);
+			$namespace = App::buildAppNamespace($appName);
 			$this->migrationsPath = "$appPath/lib/Migration";
 			$this->migrationsNamespace = $namespace . '\\Migration';
 		}
 
 		if (!is_dir($this->migrationsPath) && !mkdir($this->migrationsPath)) {
-			throw new \Exception("Could not create migration folder \"{$this->migrationsPath}\"");
+			throw new \RuntimeException("Could not create migration folder \"{$this->migrationsPath}\"");
 		}
 	}
 
@@ -190,6 +188,7 @@ class MigrationService {
 
 	/**
 	 * @param string $to
+	 * @return string[]
 	 */
 	private function getMigrationsToExecute($to) {
 		$knownMigrations = $this->getMigratedVersions();
@@ -209,7 +208,9 @@ class MigrationService {
 	}
 
 	/**
+	 * @param string $m
 	 * @param string[] $knownMigrations
+	 * @return bool
 	 */
 	private function shallBeExecuted($m, $knownMigrations) {
 		if (in_array($m, $knownMigrations)) {
@@ -288,7 +289,7 @@ class MigrationService {
 
 		$versions = $this->getAvailableVersions();
 		array_unshift($versions, 0);
-		$offset = array_search($version, $versions);
+		$offset = array_search($version, $versions, true);
 		if ($offset === false || !isset($versions[$offset + $delta])) {
 			// Unknown version or delta out of bounds.
 			return null;
@@ -309,7 +310,9 @@ class MigrationService {
 	}
 
 	/**
+	 * @param string $version
 	 * @return string
+	 * @throws \InvalidArgumentException
 	 */
 	private function getClass($version) {
 		$this->ensureMigrationsAreLoaded();
@@ -334,6 +337,7 @@ class MigrationService {
 	 * Applies all not yet applied versions up to $to
 	 *
 	 * @param string $to
+	 * @throws \InvalidArgumentException
 	 */
 	public function migrate($to = 'latest') {
 		// read known migrations
@@ -346,7 +350,7 @@ class MigrationService {
 	/**
 	 * @param string $version
 	 * @return mixed
-	 * @throws \Exception
+	 * @throws \InvalidArgumentException
 	 */
 	protected function createInstance($version) {
 		$class = $this->getClass($version);
@@ -356,7 +360,7 @@ class MigrationService {
 			if (class_exists($class)) {
 				$s = new $class();
 			} else {
-				throw new \Exception("Migration step '$class' is unknown");
+				throw new \InvalidArgumentException("Migration step '$class' is unknown");
 			}
 		}
 
@@ -367,11 +371,12 @@ class MigrationService {
 	 * Executes one explicit version
 	 *
 	 * @param string $version
+	 * @throws \InvalidArgumentException
 	 */
 	public function executeStep($version) {
 		$instance = $this->createInstance($version);
 		if (!$instance instanceof IMigrationStep) {
-			throw new \RuntimeException('Not a valid migration');
+			throw new \InvalidArgumentException('Not a valid migration');
 		}
 
 		$instance->preSchemaChange($this->output);
