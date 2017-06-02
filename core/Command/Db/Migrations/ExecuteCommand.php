@@ -24,6 +24,7 @@ namespace OC\Core\Command\Db\Migrations;
 
 use OC\DB\MigrationService;
 use OC\Migration\ConsoleOutput;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -34,14 +35,18 @@ class ExecuteCommand extends Command {
 
 	/** @var IDBConnection */
 	private $connection;
+	/** @var IConfig */
+	private $config;
 
 	/**
 	 * ExecuteCommand constructor.
 	 *
 	 * @param IDBConnection $connection
+	 * @param IConfig $config
 	 */
-	public function __construct(IDBConnection $connection) {
+	public function __construct(IDBConnection $connection, IConfig $config) {
 		$this->connection = $connection;
+		$this->config = $config;
 
 		parent::__construct();
 	}
@@ -56,12 +61,29 @@ class ExecuteCommand extends Command {
 		parent::configure();
 	}
 
+	/**
+	 * @param InputInterface $input
+	 * @param OutputInterface $output
+	 * @return int
+	 */
 	public function execute(InputInterface $input, OutputInterface $output) {
 		$appName = $input->getArgument('app');
 		$ms = new MigrationService($appName, $this->connection, new ConsoleOutput($output));
 		$version = $input->getArgument('version');
 
+		if ($this->config->getSystemValue('debug', false) === false) {
+			$olderVersions = $ms->getMigratedVersions();
+			$olderVersions[] = '0';
+			$olderVersions[] = 'prev';
+			if (in_array($version,  $olderVersions, true)) {
+				$output->writeln('<error>Can not go back to previous migration without debug enabled</error>');
+				return 1;
+			}
+		}
+
+
 		$ms->executeStep($version);
+		return 0;
 	}
 
 }
