@@ -76,7 +76,7 @@
     "Public upload disabled by the administrator" : "Offentlig opplasting er deaktivert av administratoren",
     "Public upload is only possible for publicly shared folders" : "Offentlig opplasting er kun mulig i offentlig delte mapper",
     "Invalid date, date format must be YYYY-MM-DD" : "Feil dato, dato må være i formatet YYYY-MM-DD",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "Deling av %s feilet på grunn av at tjeneren ikke tillater deling av filtypen %s",
+    "Sharing %s failed because the back end does not allow shares from type %s" : "Deling av %s mislyktes på grunn av at tjeneren ikke tillater deling av filtypen %s",
     "You cannot share to a Circle if the app is not enabled" : "Du kan ikke dele til en sirkel så lenge appn ikke er aktivert",
     "Please specify a valid circle" : "Vennligst angi en gyldig sirkel",
     "Unknown share type" : "Ukjent ressurstype",
