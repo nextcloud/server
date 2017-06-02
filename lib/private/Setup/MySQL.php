@@ -41,7 +41,7 @@ class MySQL extends AbstractDatabase {
 		$tools = new MySqlTools();
 		if ($tools->supports4ByteCharset($connection)) {
 			$this->config->setValue('mysql.utf8mb4', true);
-			$connection = $this->connect();
+			$connection = $this->connect(['dbname' => null]);
 		}
 
 		$this->createSpecificUser($username, $connection);
