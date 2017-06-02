@@ -58,7 +58,7 @@ class MigrationService {
 	 * @param IOutput|null $output
 	 * @throws \Exception
 	 */
-	function __construct($appName, IDBConnection $connection, IOutput $output = null, AppLocator $appLocator = null) {
+	public function __construct($appName, IDBConnection $connection, IOutput $output = null, AppLocator $appLocator = null) {
 		$this->appName = $appName;
 		$this->connection = $connection;
 		$this->output = $output;
@@ -74,19 +74,14 @@ class MigrationService {
 				$appLocator = new AppLocator();
 			}
 			$appPath = $appLocator->getAppPath($appName);
-			$this->migrationsPath = "$appPath/appinfo/Migrations";
-			$this->migrationsNamespace = "OCA\\$appName\\Migrations";
+			$namespace = \OCP\AppFramework\App::buildAppNamespace($appName);
+			$this->migrationsPath = "$appPath/lib/Migration";
+			$this->migrationsNamespace = $namespace . '\\Migration';
 		}
 
-		if (!is_dir($this->migrationsPath)) {
-			if (!mkdir($this->migrationsPath)) {
-				throw new \Exception("Could not create migration folder \"{$this->migrationsPath}\"");
-			};
+		if (!is_dir($this->migrationsPath) && !mkdir($this->migrationsPath)) {
+			throw new \Exception("Could not create migration folder \"{$this->migrationsPath}\"");
 		}
-	}
-
-	private static function requireOnce($file) {
-		require_once $file;
 	}
 
 	/**
@@ -180,7 +175,6 @@ class MigrationService {
 		$migrations = [];
 
 		foreach ($files as $file) {
-			static::requireOnce($file);
 			$className = basename($file, '.php');
 			$version = (string) substr($className, 7);
 			if ($version === '0') {
