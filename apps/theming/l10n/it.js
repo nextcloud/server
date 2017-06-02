@@ -24,6 +24,7 @@ OC.L10N.register(
     "Upload new logo" : "Carica nuovo logo",
     "Login image" : "Immagine di accesso",
     "Upload new login background" : "Carica nuovo sfondo di accesso",
+    "Remove background image" : "Rimuovi immagine di sfondo",
     "reset to default" : "ripristina valori predefiniti",
     "Log in image" : "Immagine di accesso"
 },

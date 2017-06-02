@@ -1,8 +1,8 @@
 OC.L10N.register(
     "files_external",
     {
-    "Fetching request tokens failed. Verify that your app key and secret are correct." : "Henting av henvendelsessymboler feilet. Sjekk at app-nøkkelen og hemmeligheten din stemmer.",
-    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Henting av adgangssymboler feilet. Sjekk at app-nøkkelen og hemmeligheten din stemmer.",
+    "Fetching request tokens failed. Verify that your app key and secret are correct." : "Henting av henvendelsessymboler mislyktes. Sjekk at app-nøkkelen og hemmeligheten din stemmer. ",
+    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Henting av adgangssymboler mislyktes. Sjekk at app-nøkkelen og hemmeligheten din stemmer.",
     "Please provide a valid app key and secret." : "Vær vennlig å oppgi gyldig appnøkkel og hemmelighet.",
     "Step 1 failed. Exception: %s" : "Steg 1 mislyktes. Unntak: %s",
     "Step 2 failed. Exception: %s" : "Steg 2 mislyktes. Unntak: %s",

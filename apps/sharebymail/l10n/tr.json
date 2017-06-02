@@ -16,6 +16,7 @@
     "Password to access {file} was sent to you" : "{file} dosyasına erişim parolası size gönderildi",
     "Sharing %s failed, this item is already shared with %s" : "%s paylaşılamadı, bu öge zaten %s ile paylaşılmış",
     "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Otomatik üretilen parola size gönderilemedi. Lütfen kişisel ayarlarınızdan geçerli bir e-posta adresi ayarlayın ve yeniden deneyin.",
+    "Failed to send share by email" : "Paylaşım e-postası gönderilemedi",
     "%s shared »%s« with you" : "%s sizinle »%s« ögesini paylaştı",
     "%s shared »%s« with you." : "%s sizinle »%s« ögesini paylaştı.",
     "Click the button below to open it." : "Açmak için aşağıdaki düğmeye tıklayın.",
