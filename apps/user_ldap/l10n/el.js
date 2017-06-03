@@ -102,6 +102,7 @@ OC.L10N.register(
     "Continue" : "Συνέχεια",
     "Please renew your password." : "Παρακαλούμε ανανεώτε το συνθηματικό σας.",
     "An internal error occurred." : "Παρουσιάστηκε ένα εσωτερικό σφάλμα.",
+    "Please try again or contact your administrator." : "Παρακαλούμε δοκιμάστε ξανά ή επικοινωνήστε με τον διαχειριστή σας.",
     "Current password" : "Τρέχον συνθηματικό",
     "New password" : "Νέο συνθηματικό",
     "Renew password" : "Ανανέωση συνθηματικού",

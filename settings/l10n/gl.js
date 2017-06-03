@@ -339,7 +339,7 @@ OC.L10N.register(
     "Link https://…" : "Ligazón https://...",
     "Twitter" : "Twitter",
     "Twitter handle @…" : "Usuario do Twitter @…",
-    "You are member of the following groups:" : "Vostede é membro dos seguintes grupos:",
+    "You are member of the following groups:" : "Vostede é participante nos seguintes grupos:",
     "Password" : "Contrasinal",
     "Current password" : "Contrasinal actual",
     "New password" : "Novo contrasinal",

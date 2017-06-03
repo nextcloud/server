@@ -5,6 +5,7 @@
     "{actor} changed your email address" : "{actor} cambió su dirección de correo electrónico",
     "You changed your email address" : "Ha cambiado su cuenta de correo",
     "Your email address was changed by an administrator" : "Su cuenta de correo ha sido cambiada por un administrador",
+    "Security" : "Seguridad",
     "Your <strong>password</strong> or <strong>email</strong> was modified" : "Su <strong>contraseña</strong> o <strong>dirección de correo electrónico</strong> fue modificado",
     "Your apps" : "Tus apps",
     "Enabled apps" : "Apps habilitadas",
