@@ -165,7 +165,7 @@
     "A valid password must be provided" : "Geçerli bir parola yazmalısınız",
     "The username is already being used" : "Bu kullanıcı adı zaten var",
     "User disabled" : "Kullanıcı devre dışı",
-    "Login canceled by app" : "Oturum açma işlemi uygulama tarafından iptal edildi",
+    "Login canceled by app" : "Oturum açma uygulama tarafından iptal edildi",
     "No app name specified" : "Uygulama adı belirtilmemiş",
     "App '%s' could not be installed!" : "'%s' uygulaması kurulamadı!",
     "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "\"%s\" uygulaması, şu gereklilikler sağlanmadığı için kurulamıyor: %s",

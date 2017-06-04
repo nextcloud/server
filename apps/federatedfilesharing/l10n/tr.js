@@ -21,7 +21,7 @@ OC.L10N.register(
     "Not allowed to create a federated share with the owner." : "Sahip ile birleşmiş bir paylaşım oluşturmanıza izin verilmiyor.",
     "Invalid or untrusted SSL certificate" : "Geçersiz ya da güvenilmez SSL sertifikası",
     "Could not authenticate to remote share, password might be wrong" : "Uzak paylaşım kimliği doğrulanamadı. Parola yanlış olabilir",
-    "Storage not valid" : "Depolama geçerli değil",
+    "Storage not valid" : "Depolama geçersiz",
     "Federated Share successfully added" : "Birleşmiş Paylaşım eklendi",
     "Couldn't add remote share" : "Uzak paylaşım eklenemedi",
     "Sharing %s failed, because this item is already shared with %s" : "%s paylaşılmadı. %s ile zaten paylaşılmış",

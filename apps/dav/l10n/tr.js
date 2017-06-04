@@ -6,7 +6,7 @@ OC.L10N.register(
     "{actor} created calendar {calendar}" : "{actor}, {calendar} takvimini ekledi",
     "You created calendar {calendar}" : "{calendar} takvimini eklediniz",
     "{actor} deleted calendar {calendar}" : "{actor}, {calendar} takvimini sildi",
-    "You deleted calendar {calendar}" : "{calendar} takvimi sildiniz",
+    "You deleted calendar {calendar}" : "{calendar} takvimini sildiniz",
     "{actor} updated calendar {calendar}" : "{actor}, {calendar} takvimini güncelledi",
     "You updated calendar {calendar}" : "{calendar} takvimini güncellediniz",
     "{actor} shared calendar {calendar} with you" : "{actor}, {calendar} takvimini sizinle paylaştı",

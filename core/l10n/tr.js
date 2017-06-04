@@ -291,7 +291,7 @@ OC.L10N.register(
     "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domains\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "Lütfen yöneticiniz ile görüşün. Bu kopyanın yöneticisi iseniz, config/config.php dosyası içerisindeki \"trusted_domain\" ayarını yapın. Örnek yapılandırma config/config.sample.php dosyasında görülebilir.",
     "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "Yapılandırmanıza bağlı olarak, bir yönetici olarak bu etki alanına güvenmek için aşağıdaki düğmeyi de kullanabilirsiniz.",
     "Add \"%s\" as trusted domain" : "\"%s\" etki alanını güvenilir olarak ekle",
-    "App update required" : "Uygulamanın güncellenmesi gerekiyor",
+    "App update required" : "Uygulamanın güncellenmesi gerekli",
     "%s will be updated to version %s" : "%s, %s sürümüne güncellenecek",
     "These apps will be updated:" : "Şu uygulamalar güncellenecek:",
     "These incompatible apps will be disabled:" : "Şu uyumsuz uygulamalar devre dışı bırakılacak:",
