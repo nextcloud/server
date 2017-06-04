@@ -1512,11 +1512,16 @@ function initCore() {
 
 	var resizeMenu = function() {
 		var appList = $('#appmenu li');
-		var availableWidth = $('#header-left').width() - $('#nextcloud').width() - 44;
+		var usePercentualAppMenuLimit = 33;
+		var availableWidth = (($('#header-left').width() - $('#nextcloud').width()) / 100 * usePercentualAppMenuLimit);
 		var appCount = Math.floor((availableWidth)/44);
 		// show at least 2 apps in the popover
 		if(appList.length-1-appCount >= 1) {
 			appCount--;
+		}
+		// show at least one icon
+		if(appCount < 1) {
+			appCount = 1;
 		}
 
 		$('#more-apps a').removeClass('active');
