@@ -106,6 +106,8 @@ OC.L10N.register(
     "An internal error occurred." : "Si è verificato un errore interno.",
     "Current password" : "Password attuale",
     "New password" : "Nuova password",
+    "Renew password" : "Rinnova la password",
+    "Wrong password." : "Password errata.",
     "Cancel" : "Annulla",
     "LDAP" : "LDAP",
     "Server" : "Server",

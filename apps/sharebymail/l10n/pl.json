@@ -16,6 +16,7 @@
     "Password to access {file} was sent to you" : "Hasło dostępu do {file} zostało wysłane do ciebie",
     "Sharing %s failed, this item is already shared with %s" : "Współdzielenie %s nie udało się, ten obiekt już jest współdzielony z %s",
     "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Nie można wysłać automatycznie wygenerowanego hasła. Proszę ustawić prawidłowy adres e-mail w ustawieniach osobistych i spróbować ponownie.",
+    "Failed to send share by email" : "Nie udało się wysłać współdzielenia przez e-mail",
     "%s shared »%s« with you" : "%s współdzieli »%s« z tobą",
     "%s shared »%s« with you." : "%s współdzieli »%s« z tobą.",
     "Click the button below to open it." : "Kliknij przycisk poniżej, żeby to otworzyć.",

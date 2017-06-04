@@ -7,6 +7,7 @@ OC.L10N.register(
     "{actor} changed your email address" : "{actor} muutti sähköpostiosoitteesi",
     "You changed your email address" : "Muutit sähköpostiosoitteesi",
     "Your email address was changed by an administrator" : "Ylläpitäjä muutti sähköpostiosoitteesi",
+    "Security" : "Turvallisuus",
     "Your <strong>password</strong> or <strong>email</strong> was modified" : "<strong>Salasanaasi</strong> tai <strong>sähköpostiosoitettasi</strong> muokattiin",
     "Your apps" : "Sovelluksesi",
     "Enabled apps" : "Käytössä olevat sovellukset",
