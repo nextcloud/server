@@ -2,7 +2,7 @@ OC.L10N.register(
     "workflowengine",
     {
     "Saved" : "Gardado",
-    "Saving failed:" : "Produciuse un fallou ao gardar:",
+    "Saving failed:" : "Produciuse unha falla ao gardar:",
     "File MIME type" : "Tipo MIME do ficheiro",
     "is" : "é",
     "is not" : "non é",

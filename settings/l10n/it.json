@@ -88,6 +88,7 @@
     "Updating...." : "Aggiornamento in corso...",
     "Error while updating app" : "Errore durante l'aggiornamento",
     "Updated" : "Aggiornato",
+    "Removing …" : "Rimozione in corso...",
     "Error while removing app" : "Errore durante la rimozione dell'applicazione",
     "Remove" : "Rimuovi",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "L'applicazione è stata abilitata, ma deve essere aggiornata. Sarai rediretto alla pagina di aggiornamento in 5 secondi.",
