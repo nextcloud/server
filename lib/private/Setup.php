@@ -201,21 +201,9 @@ class Setup {
 		if(!file_exists($dataDir)) {
 			@mkdir($dataDir);
 		}
-		$htAccessWorking = true;
 		if (is_dir($dataDir) && is_writable($dataDir)) {
 			// Protect data directory here, so we can test if the protection is working
 			\OC\Setup::protectDataDirectory();
-
-			try {
-				$util = new \OC_Util();
-				$htAccessWorking = $util->isHtaccessWorking(\OC::$server->getConfig());
-			} catch (\OC\HintException $e) {
-				$errors[] = array(
-					'error' => $e->getMessage(),
-					'hint' => $e->getHint()
-				);
-				$htAccessWorking = false;
-			}
 		}
 
 		if (\OC_Util::runningOnMac()) {
@@ -247,7 +235,6 @@ class Setup {
 			'hasOracle' => isset($databases['oci']),
 			'databases' => $databases,
 			'directory' => $dataDir,
-			'htaccessWorking' => $htAccessWorking,
 			'errors' => $errors,
 		);
 	}
