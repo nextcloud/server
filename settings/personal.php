@@ -169,6 +169,7 @@ $tmpl->assign('languages', $languages);
 $tmpl->assign('commonlanguages', $commonLanguages);
 $tmpl->assign('activelanguage', $userLang);
 $tmpl->assign('passwordChangeSupported', OC_User::canUserChangePassword(OC_User::getUser()));
+$tmpl->assign('loginPortalUrl', $config->getSystemValue('login.portal.url', ''));
 $tmpl->assign('displayNameChangeSupported', OC_User::canUserChangeDisplayName(OC_User::getUser()));
 $tmpl->assign('displayName', $userData[\OC\Accounts\AccountManager::PROPERTY_DISPLAYNAME]['value']);
 
