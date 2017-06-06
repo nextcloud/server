@@ -78,6 +78,8 @@ class UsersController extends Controller {
 	private $isEncryptionAppEnabled;
 	/** @var bool contains the state of the admin recovery setting */
 	private $isRestoreEnabled = false;
+	/** @var IAppManager */
+	private $appManager;
 	/** @var IAvatarManager */
 	private $avatarManager;
 	/** @var AccountManager */
@@ -146,6 +148,7 @@ class UsersController extends Controller {
 		$this->l10n = $l10n;
 		$this->log = $log;
 		$this->mailer = $mailer;
+		$this->appManager = $appManager;
 		$this->avatarManager = $avatarManager;
 		$this->accountManager = $accountManager;
 		$this->secureRandom = $secureRandom;
@@ -718,17 +721,26 @@ class UsersController extends Controller {
 			);
 		}
 
-		$data = [
-			AccountManager::PROPERTY_AVATAR =>  ['scope' => $avatarScope],
-			AccountManager::PROPERTY_DISPLAYNAME => ['value' => $displayname, 'scope' => $displaynameScope],
-			AccountManager::PROPERTY_EMAIL=> ['value' => $email, 'scope' => $emailScope],
-			AccountManager::PROPERTY_WEBSITE => ['value' => $website, 'scope' => $websiteScope],
-			AccountManager::PROPERTY_ADDRESS => ['value' => $address, 'scope' => $addressScope],
-			AccountManager::PROPERTY_PHONE => ['value' => $phone, 'scope' => $phoneScope],
-			AccountManager::PROPERTY_TWITTER => ['value' => $twitter, 'scope' => $twitterScope]
-		];
-
 		$user = $this->userSession->getUser();
+
+		$data = $this->accountManager->getUser($user);
+
+		$data[AccountManager::PROPERTY_AVATAR] =  ['scope' => $avatarScope];
+		if ($this->config->getSystemValue('allow_user_to_change_display_name', true) !== false) {
+			$data[AccountManager::PROPERTY_DISPLAYNAME] = ['value' => $displayname, 'scope' => $displaynameScope];
+			$data[AccountManager::PROPERTY_EMAIL] = ['value' => $email, 'scope' => $emailScope];
+		}
+
+		if ($this->appManager->isEnabledForUser('federatedfilesharing')) {
+			$federatedFileSharing = new \OCA\FederatedFileSharing\AppInfo\Application();
+			$shareProvider = $federatedFileSharing->getFederatedShareProvider();
+			if ($shareProvider->isLookupServerUploadEnabled()) {
+				$data[AccountManager::PROPERTY_WEBSITE] = ['value' => $website, 'scope' => $websiteScope];
+				$data[AccountManager::PROPERTY_ADDRESS] = ['value' => $address, 'scope' => $addressScope];
+				$data[AccountManager::PROPERTY_PHONE] = ['value' => $phone, 'scope' => $phoneScope];
+				$data[AccountManager::PROPERTY_TWITTER] = ['value' => $twitter, 'scope' => $twitterScope];
+			}
+		}
 
 		try {
 			$this->saveUserSettings($user, $data);
@@ -737,15 +749,15 @@ class UsersController extends Controller {
 					'status' => 'success',
 					'data' => [
 						'userId' => $user->getUID(),
-						'avatarScope' => $avatarScope,
-						'displayname' => $displayname,
-						'displaynameScope' => $displaynameScope,
-						'email' => $email,
-						'emailScope' => $emailScope,
-						'website' => $website,
-						'websiteScope' => $websiteScope,
-						'address' => $address,
-						'addressScope' => $addressScope,
+						'avatarScope' => $data[AccountManager::PROPERTY_AVATAR]['scope'],
+						'displayname' => $data[AccountManager::PROPERTY_DISPLAYNAME]['value'],
+						'displaynameScope' => $data[AccountManager::PROPERTY_DISPLAYNAME]['scope'],
+						'email' => $data[AccountManager::PROPERTY_EMAIL]['value'],
+						'emailScope' => $data[AccountManager::PROPERTY_EMAIL]['scope'],
+						'website' => $data[AccountManager::PROPERTY_WEBSITE]['value'],
+						'websiteScope' => $data[AccountManager::PROPERTY_WEBSITE]['scope'],
+						'address' => $data[AccountManager::PROPERTY_ADDRESS]['value'],
+						'addressScope' => $data[AccountManager::PROPERTY_ADDRESS]['scope'],
 						'message' => (string) $this->l10n->t('Settings saved')
 					]
 				],
