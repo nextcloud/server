@@ -235,7 +235,7 @@ $formsAndMore[]= ['anchor' => 'personal-settings', 'section-name' => $l->t('Pers
 if (\OC::$server->getAppManager()->isEnabledForUser('firstrunwizard')) {
 	$formsAndMore[]= ['anchor' => 'clientsbox', 'section-name' => $l->t('Sync clients')];
 }
-$formsAndMore[]= ['anchor' => 'sessions', 'section-name' => $l->t('Sessions')];
+$formsAndMore[]= ['anchor' => 'security', 'section-name' => $l->t('Security')];
 
 $forms=OC_App::getForms('personal');
 
