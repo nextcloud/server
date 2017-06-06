@@ -1548,4 +1548,9 @@ $CONFIG = array(
  */
 'gs.federation' => 'internal',
 
+/**
+ * show group membership on the personal page
+ */
+'settings.personal.showGroupMembership' => true
+
 );
