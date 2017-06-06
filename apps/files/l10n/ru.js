@@ -65,6 +65,7 @@ OC.L10N.register(
     "Your storage is almost full ({usedSpacePercent}%)" : "Ваше хранилище почти заполнено ({usedSpacePercent}%)",
     "_matches '{filter}'_::_match '{filter}'_" : ["соответствует '{filter}'","соответствуют '{filter}'","соответствуют '{filter}'","соответствуют '{filter}'"],
     "View in folder" : "Посмотреть в каталоге",
+    "Copied!" : "Скопировано!",
     "Copy direct link (only works for users who have access to this file/folder)" : "Копировать прямую ссылку (работает только для пользователей с правами доступа к этому файлу или каталогу)",
     "Path" : "Путь",
     "_%n byte_::_%n bytes_" : ["%n байт","%n байта","%n байт","%n байт"],

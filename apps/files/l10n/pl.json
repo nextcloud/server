@@ -63,6 +63,7 @@
     "Your storage is almost full ({usedSpacePercent}%)" : "Twój magazyn jest prawie pełny ({usedSpacePercent}%)",
     "_matches '{filter}'_::_match '{filter}'_" : ["pasujący '{filter}'","pasujące '{filter}'","pasujących '{filter}'","pasujących '{filter}'"],
     "View in folder" : "Zobacz w katalogu",
+    "Copied!" : "Skopiowano!",
     "Copy direct link (only works for users who have access to this file/folder)" : "Skopiuj link bezpośredni (działa tylko dla użytkowników, którzy mają dostęp do pliku/folderu)",
     "Path" : "Ścieżka",
     "_%n byte_::_%n bytes_" : ["%n bajt","%n bajty","%n bajtów","%n bajtów"],
