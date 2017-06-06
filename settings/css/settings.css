@@ -12,6 +12,10 @@ input#openid, input#webdav {
 
 /* PERSONAL */
 
+.clear {
+	clear: both;
+}
+
 /* icons for sidebar */
 .nav-icon-personal-settings {
 	background-image: url('../img/personal.svg?v=1');
@@ -226,8 +230,7 @@ input#openid, input#webdav {
 }
 
 #lostpassword,
-#groups,
-#passwordform {
+#groups {
 	display: inline-block;
 	margin-bottom: 0;
 	padding-bottom: 0;
