@@ -212,8 +212,13 @@ class ShareAPIController extends OCSController {
 			// "name (type, owner) [id]", depending on the Circles app version.
 			$hasCircleId = (substr($share->getSharedWith(), -1) === ']');
 
-			$displayNameLength = ($hasCircleId? strrpos($share->getSharedWith(), ' '): strlen($share->getSharedWith()));
-			$result['share_with_displayname'] = substr($share->getSharedWith(), 0, $displayNameLength);
+			$result['share_with_displayname'] = $share->getSharedWithDisplayName();
+			if (empty($result['share_with_displayname'])) {
+				$displayNameLength = ($hasCircleId? strrpos($share->getSharedWith(), ' '): strlen($share->getSharedWith()));
+				$result['share_with_displayname'] = substr($share->getSharedWith(), 0, $displayNameLength);
+			}
+
+			$result['share_with_avatar'] = $share->getSharedWithAvatar();
 
 			$shareWithStart = ($hasCircleId? strrpos($share->getSharedWith(), '[') + 1: 0);
 			$shareWithLength = ($hasCircleId? -1: strpos($share->getSharedWith(), ' '));
