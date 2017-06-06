@@ -9,7 +9,7 @@ OC.L10N.register(
     "matches" : "coincide",
     "does not match" : "não coincide",
     "Example: {placeholder}" : "Examplo: {placeholder}",
-    "File size (upload)" : "Tamanho do arquivo (upload)",
+    "File size (upload)" : "Tamanho do arquivo (envio)",
     "less" : "menos",
     "less or equals" : "menores ou iguais",
     "greater or equals" : "maiores ou iguais",
