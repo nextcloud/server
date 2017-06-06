@@ -2005,6 +2005,52 @@ class UsersControllerTest extends \Test\TestCase {
 		$saveData = (!empty($email) && $validEmail) || empty($email);
 
 		if ($saveData) {
+			$this->accountManager->expects($this->once())
+				->method('getUser')
+				->with($user)
+				->willReturn([
+					AccountManager::PROPERTY_DISPLAYNAME =>
+						[
+							'value' => 'Display name',
+							'scope' => AccountManager::VISIBILITY_CONTACTS_ONLY,
+							'verified' => AccountManager::NOT_VERIFIED,
+						],
+					AccountManager::PROPERTY_ADDRESS =>
+						[
+							'value' => '',
+							'scope' => AccountManager::VISIBILITY_PRIVATE,
+							'verified' => AccountManager::NOT_VERIFIED,
+						],
+					AccountManager::PROPERTY_WEBSITE =>
+						[
+							'value' => '',
+							'scope' => AccountManager::VISIBILITY_PRIVATE,
+							'verified' => AccountManager::NOT_VERIFIED,
+						],
+					AccountManager::PROPERTY_EMAIL =>
+						[
+							'value' => '',
+							'scope' => AccountManager::VISIBILITY_CONTACTS_ONLY,
+							'verified' => AccountManager::NOT_VERIFIED,
+						],
+					AccountManager::PROPERTY_AVATAR =>
+						[
+							'scope' => AccountManager::VISIBILITY_CONTACTS_ONLY
+						],
+					AccountManager::PROPERTY_PHONE =>
+						[
+							'value' => '',
+							'scope' => AccountManager::VISIBILITY_PRIVATE,
+							'verified' => AccountManager::NOT_VERIFIED,
+						],
+					AccountManager::PROPERTY_TWITTER =>
+						[
+							'value' => '',
+							'scope' => AccountManager::VISIBILITY_PRIVATE,
+							'verified' => AccountManager::NOT_VERIFIED,
+						],
+				]);
+
 			$controller->expects($this->once())->method('saveUserSettings');
 		} else {
 			$controller->expects($this->never())->method('saveUserSettings');
