@@ -90,6 +90,16 @@ class Mailer implements IMailer {
 	}
 
 	public function createEMailTemplate() {
+		$class = $this->config->getSystemValue('mail_template_class', '');
+
+		if ($class !== '' && class_exists($class) && is_a($class, EMailTemplate::class, true)) {
+			return new $class(
+				$this->defaults,
+				$this->urlGenerator,
+				$this->l10n
+			);
+		}
+
 		return new EMailTemplate(
 			$this->defaults,
 			$this->urlGenerator,
