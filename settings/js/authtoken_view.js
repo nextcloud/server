@@ -196,7 +196,7 @@
 		initialize: function (options) {
 			this.collection = options.collection;
 
-			var el = '#sessions';
+			var el = '#security';
 			this._view = new SubView({
 				el: el,
 				collection: this.collection
