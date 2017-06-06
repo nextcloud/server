@@ -967,6 +967,13 @@ $CONFIG = array(
 'systemtags.managerFactory' => '\OC\SystemTag\ManagerFactory',
 
 /**
+ * Replaces the default mail template layout. This can be utilized if the
+ * options to modify the mail texts with the theming app is not enough.
+ * The class must extend  ``\OC\Mail\EMailTemplate``
+ */
+'mail_template_class' => '\OC\Mail\EMailTemplate',
+
+/**
  * Maintenance
  *
  * These options are for halting user activity when you are performing server
