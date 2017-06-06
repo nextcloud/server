@@ -115,11 +115,7 @@ class NewUserMailHelper {
 			$link = $this->urlGenerator->getAbsoluteURL('/');
 		}
 
-		$emailTemplate = new EMailTemplate(
-			$this->themingDefaults,
-			$this->urlGenerator,
-			$this->l10n
-		);
+		$emailTemplate = $this->mailer->createEMailTemplate();
 		$emailTemplate->addHeader();
 		$displayName = $user->getDisplayName();
 		$userName = $user->getUID();
