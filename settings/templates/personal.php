@@ -239,6 +239,7 @@
 </div>
 </div>
 
+<?php if ($_['showGroupMembership'] === true): ?>
 <div id="groups" class="section">
 	<h2><?php p($l->t('Groups')); ?></h2>
 	<p><?php p($l->t('You are member of the following groups:')); ?></p>
@@ -246,6 +247,7 @@
 	<?php p(implode(', ', $_['groups'])); ?>
 	</p>
 </div>
+<?php endif; ?>
 
 <?php
 if($_['passwordChangeSupported']) {
