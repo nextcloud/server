@@ -348,22 +348,10 @@ if($_['passwordChangeSupported']) {
 		<tbody class="token-list">
 		</tbody>
 	</table>
-</div>
 
-<div id="apppasswords" class="section">
-	<h2><?php p($l->t('App passwords'));?></h2>
+	<h3><?php p($l->t('App passwords'));?></h3>
 	<p class="settings-hint"><?php p($l->t('Here you can generate individual passwords for apps so you don’t have to give out your password. You can revoke them individually too.'));?></p>
-	<table class="icon-loading">
-		<thead class="hidden-when-empty">
-			<tr>
-				<th><?php p($l->t('Name'));?></th>
-				<th><?php p($l->t('Last activity'));?></th>
-				<th></th>
-			</tr>
-		</thead>
-		<tbody class="token-list">
-		</tbody>
-	</table>
+	
 	<div id="app-password-form">
 		<input id="app-password-name" type="text" placeholder="<?php p($l->t('App name')); ?>">
 		<button id="add-app-password" class="button"><?php p($l->t('Create new app password')); ?></button>
