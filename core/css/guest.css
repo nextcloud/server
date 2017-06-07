@@ -65,12 +65,12 @@ h3 {
 	padding-top: 100px;
 }
 #header .logo {
-	background-image: url('../img/logo-icon.svg?v=1');
+	background-image: url('../img/logo.svg?v=1');
 	background-repeat: no-repeat;
-	background-size: 175px;
+	background-size: contain;
 	background-position: center;
-	width: 252px;
-	min-height: 120px;
+	width: 256px;
+	min-height: 128px;
 	max-height: 200px;
 	margin: 0 auto;
 }

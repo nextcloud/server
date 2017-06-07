@@ -45,12 +45,8 @@
 }
 
 /* override styles for login screen in guest.css */
-#header .logo,
-#header .logo-icon {
+#header .logo {
 	background-image: url(#{$image-logo});
-	@if $theming-logo-mime != '' {
-		background-size: contain;
-	}
 }
 
 #body-login,

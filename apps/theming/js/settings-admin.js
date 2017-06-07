@@ -72,7 +72,7 @@ function preview(setting, value) {
 		if (value !== '') {
 			previewImageLogo.src = OC.generateUrl('/apps/theming/logo') + "?v" + timestamp;
 		} else {
-			previewImageLogo.src = OC.getRootPath() + '/core/img/logo-icon.svg?v' + timestamp;
+			previewImageLogo.src = OC.getRootPath() + '/core/img/logo.svg?v' + timestamp;
 		}
 	}
 
@@ -232,5 +232,5 @@ $(document).ready(function () {
 			OC.msg.finishedSaving('#theming_settings_msg', response);
 		});
 	});
-	
+
 });
