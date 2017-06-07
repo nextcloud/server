@@ -76,11 +76,10 @@ button.primary:focus,
 /* use logos from theme */
 #header .logo {
 	background-image: url('../img/logo.svg');
-	width: 250px;
-	height: 121px;
+	width: 256px;
+	height: 128px;
 }
 #header .logo-icon {
-	background-image: url('../img/logo-icon.svg');
 	width: 62px;
 	height: 34px;
 }
