@@ -390,9 +390,11 @@ class MigrationService {
 			throw new \InvalidArgumentException('Not a valid migration');
 		}
 
-		$instance->preSchemaChange($this->output);
+		$instance->preSchemaChange($this->output, function() {
+			return $this->connection->createSchema();
+		}, ['tablePrefix' => $this->connection->getPrefix()]);
 
-		$toSchema = $instance->changeSchema(function() {
+		$toSchema = $instance->changeSchema($this->output, function() {
 			return $this->connection->createSchema();
 		}, ['tablePrefix' => $this->connection->getPrefix()]);
 
@@ -400,7 +402,9 @@ class MigrationService {
 			$this->connection->migrateToSchema($toSchema);
 		}
 
-		$instance->postSchemaChange($this->output);
+		$instance->postSchemaChange($this->output, function() {
+			return $this->connection->createSchema();
+		}, ['tablePrefix' => $this->connection->getPrefix()]);
 
 		$this->markAsExecuted($version);
 	}

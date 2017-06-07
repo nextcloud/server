@@ -51,26 +51,31 @@ class <classname> extends SimpleMigrationStep {
 
 	/**
 	 * @param IOutput $output
+	 * @param \Closure $schemaClosure The `\Closure` returns a `Schema`
+	 * @param array $options
 	 * @since 13.0.0
 	 */
-	public function preSchemaChange(IOutput $output) {
+	public function preSchemaChange(IOutput $output, \Closure $schemaClosure, array $options) {
 	}
 
 	/**
-	 * @param \Closure $schema The `\Closure` returns a `Schema`
+	 * @param IOutput $output
+	 * @param \Closure $schemaClosure The `\Closure` returns a `Schema`
 	 * @param array $options
 	 * @return null|Schema
 	 * @since 13.0.0
 	 */
-	public function changeSchema(\Closure $schema, array $options) {
+	public function changeSchema(IOutput $output, \Closure $schemaClosure, array $options) {
 		return null;
 	}
 
 	/**
 	 * @param IOutput $output
+	 * @param \Closure $schemaClosure The `\Closure` returns a `Schema`
+	 * @param array $options
 	 * @since 13.0.0
 	 */
-	public function postSchemaChange(IOutput $output) {
+	public function postSchemaChange(IOutput $output, \Closure $schemaClosure, array $options) {
 	}
 }
 ';
