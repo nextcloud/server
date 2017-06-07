@@ -101,7 +101,6 @@ OC.L10N.register(
     "Help translate" : "Pomozite prevesti",
     "Get the apps to sync your files" : "Koristite aplikacije za sinkronizaciju svojih datoteka",
     "Show First Run Wizard again" : "Opet pokažite First Run Wizard",
-    "Name" : "Naziv",
     "Username" : "Korisničko ime",
     "Show storage location" : "Prikaži mjesto pohrane",
     "Create" : "Kreirajte",
@@ -131,6 +130,7 @@ OC.L10N.register(
     "Cron was not executed yet!" : "Cron još nije izvršen!",
     "Use system's cron service to call the cron.php file every 15 minutes." : "Koristite cron uslugu sustava za pozivanje cron.php datoteke svakih 15 minuta.",
     "Cheers!" : "Cheers!",
+    "Name" : "Naziv",
     "Show last log in" : "Prikaži zadnje spajanje"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

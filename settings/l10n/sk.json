@@ -122,7 +122,6 @@
     "Unlimited" : "Nelimitované",
     "Personal info" : "Osobné informácie",
     "Sessions" : "Relácie",
-    "App passwords" : "Heslá aplikácie",
     "Sync clients" : "Klienti synchronizácie",
     "None" : "Žiadny",
     "Login" : "Prihlásenie",
@@ -254,7 +253,7 @@
     "Web, desktop and mobile clients currently logged in to your account." : "Weboví, desktopoví, alebo mobilní klienti práve prihlásení na váš účet.",
     "Device" : "Zariadenie",
     "Last activity" : "Posledná aktivita",
-    "Name" : "Názov",
+    "App passwords" : "Heslá aplikácie",
     "App name" : "Názov aplikácie",
     "Create new app password" : "Vytvoriť nové heslo aplikácie",
     "Use the credentials below to configure your app or device." : "Pre konfiguráciu vašej aplikácie, alebo zariadenia použite nižšie uvedené prihlasovacie údaje.",
@@ -313,6 +312,7 @@
     "Your website" : "Vaša webstránka",
     "Your Twitter handle" : "Vaša stránka na Twitteri",
     "Passcodes that give an app or device permissions to access your account." : "Prístupové heslá, ktoré dovolia aplikáciam alebo zariadeniam prístup na váš účet.",
+    "Name" : "Názov",
     "Follow us on Google Plus!" : "Sleduj nás na Google Plus!",
     "Show last log in" : "Zobraziť posledné prihlásenie"
 },"pluralForm" :"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;"

@@ -328,7 +328,7 @@ OC.L10N.register(
     "Share with users, groups, remote users or by mail..." : "Compartir con usuarios, grupos, usuarios remotos ou vía correo...",
     "Share with users..." : "Compartir con usuarios...",
     "The object type is not specified." : "Non se especificou o tipo de obxecto.",
-    "Enter new" : "Insira o novo",
+    "Enter new" : "Introduza o novo",
     "Add" : "Engadir",
     "Edit tags" : "Editar etiquetas",
     "Error loading dialog template: {error}" : "Produciuse un erro ao cargar o modelo do dialogo: {error}",

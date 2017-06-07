@@ -73,7 +73,6 @@ OC.L10N.register(
     "Unlimited" : "Nelimitată",
     "Personal info" : "Informații personale",
     "Sessions" : "Sesiuni",
-    "App passwords" : "Parole aplicații",
     "Sync clients" : "Sincronizează clienții",
     "None" : "Niciuna",
     "Login" : "Autentificare",
@@ -159,7 +158,7 @@ OC.L10N.register(
     "Desktop client" : "Client Desktop",
     "Android app" : "Aplicatie Android",
     "iOS app" : "Aplicație iOS",
-    "Name" : "Nume",
+    "App passwords" : "Parole aplicații",
     "Username" : "Nume utilizator",
     "E-Mail" : "Email",
     "Create" : "Crează",
@@ -185,6 +184,7 @@ OC.L10N.register(
     "Uninstall" : "Dezinstalați",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "Modulul PHP \"Fileinfo\" lipsește. Va recomandam sa activaţi acest modul pentru a obține cele mai bune rezultate cu detectarea mime-type.",
     "Cron" : "Cron",
-    "Cheers!" : "Noroc!"
+    "Cheers!" : "Noroc!",
+    "Name" : "Nume"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

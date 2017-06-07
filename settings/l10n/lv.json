@@ -112,7 +112,6 @@
     "Unlimited" : "Neierobežota",
     "Personal info" : "Personiskā informācija",
     "Sessions" : "Sesijas",
-    "App passwords" : "Programmu paroles",
     "Sync clients" : "Sinhronizācijas lietotnes",
     "None" : "Nav",
     "Login" : "Autorizēties",
@@ -226,7 +225,7 @@
     "Show First Run Wizard again" : "Vēlreiz rādīt pirmās palaišanas vedni",
     "Device" : "Ierīce",
     "Last activity" : "Pēdējā aktivitāte",
-    "Name" : "Nosaukums",
+    "App passwords" : "Programmu paroles",
     "App name" : "Programmas nosaukums",
     "Create new app password" : "Izveidot jaunu programmas paroli",
     "Use the credentials below to configure your app or device." : "Izmantot akreditācijas datus, lai konfigurētu savu programmu vai ierīci.",
@@ -276,6 +275,7 @@
     "Hey there,\n\njust letting you know that you now have a %s account.\n\nYour username: %s\nAccess it: %s\n\n" : "Hei,\n\nvienkārši Jūsu zināšanai, ka Jums tagad ir %s konts.\n\nJūsu lietotājvārds: %s\nPiekļuve: %s\n\n",
     "For password recovery and notifications" : "Paroles atjaunošanai un paziņojumiem",
     "Your website" : "Jūsu mājaslapa",
+    "Name" : "Nosaukums",
     "Follow us on Google Plus!" : "Seko mums Google Plus!",
     "Show last log in" : "Rādīt pēdējo autorizāciju"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);"

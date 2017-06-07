@@ -191,7 +191,6 @@ OC.L10N.register(
     "Web, desktop and mobile clients currently logged in to your account." : "Уеб, настолни и мобилни клиенти, които в момента са вписани чрез вашия акаунт.",
     "Device" : "Устройство",
     "Last activity" : "Последна активност",
-    "Name" : "Име",
     "App name" : "Име на приложението",
     "Username" : "Потребител",
     "Done" : "Завършен",
@@ -239,6 +238,7 @@ OC.L10N.register(
     "Uninstall app" : "Премахване на приложението",
     "Cheers!" : "Поздрави!",
     "Your website" : "Вашата уеб страница",
+    "Name" : "Име",
     "Show last log in" : "Покажи последно вписване"
 },
 "nplurals=2; plural=(n != 1);");

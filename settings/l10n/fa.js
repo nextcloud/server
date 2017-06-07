@@ -153,7 +153,6 @@ OC.L10N.register(
     "Android app" : "اپ اندروید",
     "iOS app" : "اپ iOS",
     "Show First Run Wizard again" : "راهبری کمکی اجرای اول را دوباره نمایش بده",
-    "Name" : "نام",
     "Username" : "نام کاربری",
     "Show storage location" : "نمایش محل ذخیره‌سازی",
     "Show email address" : "نمایش پست الکترونیکی",
@@ -187,6 +186,7 @@ OC.L10N.register(
     "Cron" : "زمانبند",
     "Cron was not executed yet!" : "کران هنوز اجرا نشده است!",
     "Cheers!" : "سلامتی!",
+    "Name" : "نام",
     "Show last log in" : "نمایش اخرین ورود"
 },
 "nplurals=1; plural=0;");

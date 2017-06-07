@@ -65,6 +65,7 @@ OC.L10N.register(
     "Your storage is almost full ({usedSpacePercent}%)" : "Boş depolama alanınız bitmek üzere (%{usedSpacePercent})",
     "_matches '{filter}'_::_match '{filter}'_" : ["'{filter}' ile eşleşen","'{filter}' ile eşleşen"],
     "View in folder" : "Klasörde görüntüle",
+    "Copied!" : "Kopyalandı!",
     "Copy direct link (only works for users who have access to this file/folder)" : "Doğrudan bağlantıyı kopyala (yalnız bu dosya ya da klasöre erişim izni olan kullanıcılar için)",
     "Path" : "Yol",
     "_%n byte_::_%n bytes_" : ["%n bayt","%n bayt"],

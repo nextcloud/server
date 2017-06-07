@@ -20,8 +20,8 @@ OC.L10N.register(
     "Change password" : "Փոխել գաղտնաբառը",
     "Language" : "Լեզու",
     "Help translate" : "Օգնել թարգմանել",
-    "Name" : "Անուն",
     "Username" : "Օգտանուն",
-    "Other" : "Այլ"
+    "Other" : "Այլ",
+    "Name" : "Անուն"
 },
 "nplurals=2; plural=(n != 1);");

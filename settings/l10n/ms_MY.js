@@ -22,10 +22,10 @@ OC.L10N.register(
     "Change password" : "Ubah kata laluan",
     "Language" : "Bahasa",
     "Help translate" : "Bantu terjemah",
-    "Name" : "Nama",
     "Username" : "Nama pengguna",
     "Create" : "Buat",
     "Other" : "Lain",
-    "Quota" : "Kuota"
+    "Quota" : "Kuota",
+    "Name" : "Nama"
 },
 "nplurals=1; plural=0;");
