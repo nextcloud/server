@@ -38,7 +38,7 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 		<div id="header-left">
 			<a href="<?php print_unescaped(link_to('', 'index.php')); ?>"
 				title="" id="nextcloud">
-				<div class="logo-icon svg"></div>
+				<div class="logo logo-icon svg"></div>
 				<h1 class="header-appname">
 					<?php p($theme->getName()); ?>
 				</h1>
