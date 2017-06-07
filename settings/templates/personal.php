@@ -131,41 +131,50 @@
 			<?php } ?>
 		</form>
 	</div>
-	<?php if($_['lookupServerUploadEnabled']) { ?>
+	<?php if (!empty($_['phone']) || $_['lookupServerUploadEnabled']) { ?>
 	<div class="personal-settings-setting-box">
 		<form id="phoneform" class="section">
 			<h2>
 				<label for="phone"><?php p($l->t('Phone number')); ?></label>
 				<span class="icon-password"/>
 			</h2>
-			<input type="tel" id="phone" name="phone"
-			       value="<?php p($_['phone']) ?>"
+			<input type="tel" id="phone" name="phone" <?php if(!$_['lookupServerUploadEnabled']) print_unescaped('disabled="1"'); ?>
+				   value="<?php p($_['phone']) ?>"
 				   placeholder="<?php p($l->t('Your phone number')); ?>"
 			       autocomplete="on" autocapitalize="none" autocorrect="off" />
 			<span class="icon-checkmark hidden"/>
+			<?php if($_['lookupServerUploadEnabled']) { ?>
 			<input type="hidden" id="phonescope" value="<?php p($_['phoneScope']) ?>">
+			<?php } ?>
 		</form>
 	</div>
+	<?php } ?>
+	<?php if (!empty($_['address']) || $_['lookupServerUploadEnabled']) { ?>
 	<div class="personal-settings-setting-box">
 		<form id="addressform" class="section">
 			<h2>
 				<label for="address"><?php p($l->t('Address')); ?></label>
 				<span class="icon-password"/>
 			</h2>
-			<input type="text" id="address" name="address"
+			<input type="text" id="address" name="address" <?php if(!$_['lookupServerUploadEnabled']) print_unescaped('disabled="1"');  ?>
 				   placeholder="<?php p($l->t('Your postal address')); ?>"
 				   value="<?php p($_['address']) ?>"
 				   autocomplete="on" autocapitalize="none" autocorrect="off" />
 			<span class="icon-checkmark hidden"/>
+			<?php if($_['lookupServerUploadEnabled']) { ?>
 			<input type="hidden" id="addressscope" value="<?php p($_['addressScope']) ?>">
+			<?php } ?>
 		</form>
 	</div>
+	<?php } ?>
+	<?php if (!empty($_['website']) || $_['lookupServerUploadEnabled']) { ?>
 	<div class="personal-settings-setting-box">
 		<form id="websiteform" class="section">
 			<h2>
 				<label for="website"><?php p($l->t('Website')); ?></label>
 				<span class="icon-password"/>
 			</h2>
+			<?php if($_['lookupServerUploadEnabled']) { ?>
 			<div class="verify <?php if ($_['website'] === ''  || $_['websiteScope'] !== 'public') p('hidden'); ?>">
 				<img id="verify-website" title="<?php p($_['websiteMessage']); ?>" data-status="<?php p($_['websiteVerification']) ?>" src="
 				<?php
@@ -190,19 +199,27 @@
 					</div>
 				</div>
 			</div>
+			<?php } ?>
 			<input type="text" name="website" id="website" value="<?php p($_['website']); ?>"
 			       placeholder="<?php p($l->t('Link https://…')); ?>"
-			       autocomplete="on" autocapitalize="none" autocorrect="off" />
+			       autocomplete="on" autocapitalize="none" autocorrect="off"
+				   <?php if(!$_['lookupServerUploadEnabled']) print_unescaped('disabled="1"');  ?>
+			/>
 			<span class="icon-checkmark hidden"/>
+			<?php if($_['lookupServerUploadEnabled']) { ?>
 			<input type="hidden" id="websitescope" value="<?php p($_['websiteScope']) ?>">
+			<?php } ?>
 		</form>
 	</div>
+	<?php } ?>
+	<?php if (!empty($_['twitter']) || $_['lookupServerUploadEnabled']) { ?>
 	<div class="personal-settings-setting-box">
 		<form id="twitterform" class="section">
 			<h2>
 				<label for="twitter"><?php p($l->t('Twitter')); ?></label>
 				<span class="icon-password"/>
 			</h2>
+			<?php if($_['lookupServerUploadEnabled']) { ?>
 			<div class="verify <?php if ($_['twitter'] === ''  || $_['twitterScope'] !== 'public') p('hidden'); ?>">
 				<img id="verify-twitter" title="<?php p($_['twitterMessage']); ?>" data-status="<?php p($_['twitterVerification']) ?>" src="
 				<?php
@@ -227,11 +244,16 @@
 					</div>
 				</div>
 			</div>
+			<?php } ?>
 			<input type="text" name="twitter" id="twitter" value="<?php p($_['twitter']); ?>"
 				   placeholder="<?php p($l->t('Twitter handle @…')); ?>"
-				   autocomplete="on" autocapitalize="none" autocorrect="off" />
+				   autocomplete="on" autocapitalize="none" autocorrect="off"
+				   <?php if(!$_['lookupServerUploadEnabled']) print_unescaped('disabled="1"');  ?>
+			/>
 			<span class="icon-checkmark hidden"/>
+			<?php if($_['lookupServerUploadEnabled']) { ?>
 			<input type="hidden" id="twitterscope" value="<?php p($_['twitterScope']) ?>">
+			<?php } ?>
 		</form>
 	</div>
 	<?php } ?>
@@ -353,7 +375,7 @@ if($_['passwordChangeSupported']) {
 
 	<h3><?php p($l->t('App passwords'));?></h3>
 	<p class="settings-hint"><?php p($l->t('Here you can generate individual passwords for apps so you don’t have to give out your password. You can revoke them individually too.'));?></p>
-	
+
 	<div id="app-password-form">
 		<input id="app-password-name" type="text" placeholder="<?php p($l->t('App name')); ?>">
 		<button id="add-app-password" class="button"><?php p($l->t('Create new app password')); ?></button>
