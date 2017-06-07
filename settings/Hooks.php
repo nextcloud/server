@@ -117,6 +117,12 @@ class Hooks {
 	 * @throws \BadMethodCallException
 	 */
 	public function onChangeEmail(IUser $user, $oldMailAddress) {
+
+		if ($oldMailAddress === $user->getEMailAddress()) {
+			// Email didn't really change, so don't create activities and emails
+			return;
+		}
+
 		$event = $this->activityManager->generateEvent();
 		$event->setApp('settings')
 			->setType('personal_settings')
