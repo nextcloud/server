@@ -41,14 +41,11 @@ use Aws\S3\Exception\S3Exception;
 use Icewind\Streams\CallbackWrapper;
 use Icewind\Streams\IteratorDirectory;
 use OC\Files\ObjectStore\S3ConnectionTrait;
+use OC\Files\ObjectStore\S3ObjectTrait;
 
 class AmazonS3 extends \OC\Files\Storage\Common {
 	use S3ConnectionTrait;
-
-	/**
-	 * @var array
-	 */
-	private static $tmpFiles = array();
+	use S3ObjectTrait;
 
 	/**
 	 * @var int in seconds
@@ -91,7 +88,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	 *
 	 * @param array $params
 	 */
-	public function updateLegacyId (array $params) {
+	public function updateLegacyId(array $params) {
 		$oldId = 'amazon::' . $params['key'] . md5($params['secret']);
 
 		// find by old id or bucket
@@ -187,7 +184,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		return false;
 	}
 
-	private function batchDelete ($path = null) {
+	private function batchDelete($path = null) {
 		$params = array(
 			'Bucket' => $this->bucket
 		);
@@ -283,7 +280,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			$stat['atime'] = time();
 
 			return $stat;
-		} catch(S3Exception $e) {
+		} catch (S3Exception $e) {
 			\OCP\Util::logException('files_external', $e);
 			return false;
 		}
@@ -300,7 +297,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			if ($this->getConnection()->doesObjectExist($this->bucket, $path)) {
 				return 'file';
 			}
-			if ($this->getConnection()->doesObjectExist($this->bucket, $path.'/')) {
+			if ($this->getConnection()->doesObjectExist($this->bucket, $path . '/')) {
 				return 'dir';
 			}
 		} catch (S3Exception $e) {
@@ -319,11 +316,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		}
 
 		try {
-			$this->getConnection()->deleteObject(array(
-				'Bucket' => $this->bucket,
-				'Key' => $path
-			));
-			$this->testTimeout();
+			$this->deleteObject($path);
 		} catch (S3Exception $e) {
 			\OCP\Util::logException('files_external', $e);
 			return false;
@@ -338,21 +331,12 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		switch ($mode) {
 			case 'r':
 			case 'rb':
-				$tmpFile = \OCP\Files::tmpFile();
-				self::$tmpFiles[$tmpFile] = $path;
-
 				try {
-					$this->getConnection()->getObject(array(
-						'Bucket' => $this->bucket,
-						'Key' => $path,
-						'SaveAs' => $tmpFile
-					));
+					return $this->readObject($path);
 				} catch (S3Exception $e) {
 					\OCP\Util::logException('files_external', $e);
 					return false;
 				}
-
-				return fopen($tmpFile, 'r');
 			case 'w':
 			case 'wb':
 			case 'a':
@@ -372,12 +356,12 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				}
 				$tmpFile = \OCP\Files::tmpFile($ext);
 				if ($this->file_exists($path)) {
-					$source = $this->fopen($path, 'r');
+					$source = $this->readObject($path);
 					file_put_contents($tmpFile, $source);
 				}
 
 				$handle = fopen($tmpFile, $mode);
-				return CallbackWrapper::wrap($handle, null, null, function() use ($path, $tmpFile) {
+				return CallbackWrapper::wrap($handle, null, null, function () use ($path, $tmpFile) {
 					$this->writeBack($tmpFile, $path);
 				});
 		}
@@ -398,7 +382,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		$fileType = $this->filetype($path);
 		try {
 			if ($fileType !== false) {
-				if ($fileType === 'dir' && ! $this->isRoot($path)) {
+				if ($fileType === 'dir' && !$this->isRoot($path)) {
 					$path .= '/';
 				}
 				$this->getConnection()->copyObject([
@@ -522,14 +506,9 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 
 	public function writeBack($tmpFile, $path) {
 		try {
-			$this->getConnection()->putObject(array(
-				'Bucket' => $this->bucket,
-				'Key' => $this->cleanKey($path),
-				'SourceFile' => $tmpFile,
-				'ContentType' => \OC::$server->getMimeTypeDetector()->detect($tmpFile),
-				'ContentLength' => filesize($tmpFile)
-			));
-			$this->testTimeout();
+			$source = $this->fopen($tmpFile, 'r');
+			$this->writeObject($path, $source);
+			fclose($source);
 
 			unlink($tmpFile);
 		} catch (S3Exception $e) {
