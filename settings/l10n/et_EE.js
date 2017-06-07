@@ -157,7 +157,6 @@ OC.L10N.register(
     "Android app" : "Androidi rakendus",
     "iOS app" : "iOS-i rakendus",
     "Show First Run Wizard again" : "Näita veelkord Esmase Käivituse Juhendajat",
-    "Name" : "Nimi",
     "Username" : "Kasutajanimi",
     "Done" : "Valmis",
     "Show storage location" : "Näita salvestusruumi asukohta",
@@ -195,6 +194,7 @@ OC.L10N.register(
     "Cron was not executed yet!" : "Cron pole kordagi käivitatud!",
     "Use system's cron service to call the cron.php file every 15 minutes." : "Kasuta süsteemi cron teenust, et käivitada fail cron.php iga 15 minuti järel.",
     "Cheers!" : "Terekest!",
+    "Name" : "Nimi",
     "Show last log in" : "Viimane sisselogimine"
 },
 "nplurals=2; plural=(n != 1);");

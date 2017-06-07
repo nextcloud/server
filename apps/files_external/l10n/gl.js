@@ -32,7 +32,7 @@ OC.L10N.register(
     "external-storage" : "almacenamento externo",
     "Couldn't get the list of Windows network drive mount points: empty response from the server" : "Non é posíbel obter a lista de unidades de rede e os seus puntos de montaxe de Windows: resposta baleira desde o servidor",
     "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Algúns dos puntos de montaxe externos configurados non están conectados. Prema na(s) fila(s) vermella(s)  para obter máis información",
-    "Please enter the credentials for the {mount} mount" : "Insira as credenciais para o punto de montaxe {mount}",
+    "Please enter the credentials for the {mount} mount" : "Introduza as credenciais para o punto de montaxe {mount}",
     "Username" : "Nome de usuario",
     "Password" : "Contrasinal",
     "Credentials saved" : "Credenciais gardadas",

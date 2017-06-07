@@ -36,7 +36,6 @@ OC.L10N.register(
     "Change password" : "ئىم ئۆزگەرت",
     "Language" : "تىل",
     "Help translate" : "تەرجىمىگە ياردەم",
-    "Name" : "ئاتى",
     "Username" : "ئىشلەتكۈچى ئاتى",
     "Create" : "قۇر",
     "Other" : "باشقا",
@@ -44,6 +43,7 @@ OC.L10N.register(
     "Default" : "كۆڭۈلدىكى",
     "Admins can't remove themself from the admin group" : "باشقۇرغۇچى ئۆزىنى باشقۇرۇش گۇرۇپپىسىدىن چىقىرىۋېتەلمەيدۇ",
     "Unable to add user to group %s" : "ئىشلەتكۈچىنى %s گۇرۇپپىغا قوشالمايدۇ",
-    "Unable to remove user from group %s" : "ئىشلەتكۈچىنى %s گۇرۇپپىدىن چىقىرىۋېتەلمەيدۇ"
+    "Unable to remove user from group %s" : "ئىشلەتكۈچىنى %s گۇرۇپپىدىن چىقىرىۋېتەلمەيدۇ",
+    "Name" : "ئاتى"
 },
 "nplurals=1; plural=0;");

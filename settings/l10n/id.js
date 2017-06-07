@@ -123,7 +123,6 @@ OC.L10N.register(
     "Unlimited" : "Tak terbatas",
     "Personal info" : "Info pribadi",
     "Sessions" : "Sesi",
-    "App passwords" : "Sandi aplikasi",
     "Sync clients" : "Klien sync",
     "None" : "Tidak ada",
     "Login" : "Masuk",
@@ -254,7 +253,7 @@ OC.L10N.register(
     "Web, desktop and mobile clients currently logged in to your account." : "Klien web, desktop dan mobile yang sedang login di akun Anda.",
     "Device" : "Perangkat",
     "Last activity" : "Aktivitas terakhir",
-    "Name" : "Nama",
+    "App passwords" : "Sandi aplikasi",
     "App name" : "Nama aplikasi",
     "Create new app password" : "Buat sandi aplikasi baru",
     "Use the credentials below to configure your app or device." : "Gunakan kredensial berikut untuk mengkonfigurasi aplikasi atau perangkat.",
@@ -306,6 +305,7 @@ OC.L10N.register(
     "Cheers!" : "Horee!",
     "For password recovery and notifications" : "Untuk pemulihan sandi dan pemberitahuan",
     "Passcodes that give an app or device permissions to access your account." : "Kode kunci yang memberikan aplikasi atau perangkat izin untuk mengakses akun Anda.",
+    "Name" : "Nama",
     "Show last log in" : "Tampilkan masuk terakhir"
 },
 "nplurals=1; plural=0;");

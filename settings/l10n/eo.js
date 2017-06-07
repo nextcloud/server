@@ -98,7 +98,6 @@ OC.L10N.register(
     "Desktop client" : "Labortabla kliento",
     "Android app" : "Android-aplikaĵo",
     "iOS app" : "iOS-aplikaĵo",
-    "Name" : "Nomo",
     "Username" : "Uzantonomo",
     "Done" : "Farita",
     "Show user backend" : "Montri uzantomotoron",
@@ -122,6 +121,7 @@ OC.L10N.register(
     "Error while uninstalling app" : "Eraris malinstalo de aplikaĵo",
     "Uninstall" : "Malinstali",
     "Cron" : "Cron",
+    "Name" : "Nomo",
     "Show last log in" : "Montri lastan ensaluton"
 },
 "nplurals=2; plural=(n != 1);");

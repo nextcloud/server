@@ -243,7 +243,6 @@ OC.L10N.register(
     "Show First Run Wizard again" : "Amosar nuevamente l'Encontu d'execución inicial",
     "Device" : "Preséu",
     "Here you can generate individual passwords for apps so you don’t have to give out your password. You can revoke them individually too." : "Equí pues xenerar contraseñes individuales p'aplicaciones pa qu'asina nun tengas de dar la to contraseña. Tamién pues revocales de mou individual.",
-    "Name" : "Nome",
     "App name" : "Nome d'aplicación",
     "For security reasons this password will only be shown once." : "Por razones de seguranza, esta contraseña namái s'amosará una vegada.",
     "Username" : "Nome d'usuariu",
@@ -285,6 +284,7 @@ OC.L10N.register(
     "Uninstall app" : "Desinstalar aplicación",
     "Cheers!" : "¡Salú!",
     "Your website" : "El to sitiu web",
+    "Name" : "Nome",
     "Follow us on Google Plus!" : "¡Síguimos en Google Plus!",
     "Subscribe to our twitter channel!" : "¡Soscríbite a la nuesa canal de Twitter!"
 },

@@ -88,7 +88,6 @@ OC.L10N.register(
     "Unlimited" : "Neomejeno",
     "Personal info" : "Osebni podatki",
     "Sessions" : "Seje",
-    "App passwords" : " Gesla aplikacije",
     "Sync clients" : "Uskladi odjemalce",
     "None" : "Brez",
     "Login" : "Prijava",
@@ -199,7 +198,7 @@ OC.L10N.register(
     "Android app" : "Program za Android",
     "iOS app" : "Program za iOS",
     "Show First Run Wizard again" : "Zaženi čarovnika prvega zagona",
-    "Name" : "Ime",
+    "App passwords" : " Gesla aplikacije",
     "App name" : "Ime aplikacije",
     "Create new app password" : "Ustvari novo geslo aplikacije",
     "Username" : "Uporabniško ime",
@@ -242,6 +241,7 @@ OC.L10N.register(
     "Use system's cron service to call the cron.php file every 15 minutes." : "Uporabi storitev periodičnih opravil za klic datoteke cron.php vsakih 15 minut.",
     "Cheers!" : "Lep pozdrav!",
     "For password recovery and notifications" : "Za obnovo gesla in obveščanje",
+    "Name" : "Ime",
     "Show last log in" : "Pokaži podatke zadnje prijave"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

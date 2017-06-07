@@ -97,7 +97,7 @@ OC.L10N.register(
     "Name" : "Nombre",
     "Share time" : "Tiempo de compartir",
     "Expiration date" : "Fecha de expiración",
-    "Sorry, this link doesn’t seem to work anymore." : "Lo sentimos, esta liga no parece funcionar más. ",
+    "Sorry, this link doesn’t seem to work anymore." : "Lo sentimos, este link no parece funcionar más. ",
     "Reasons might be:" : "Las causas podrían ser:",
     "the item was removed" : "el elemento fue eliminado",
     "the link expired" : "el link expiró",

@@ -176,7 +176,6 @@ OC.L10N.register(
     "Android app" : "Android-додаток",
     "iOS app" : "iOS додаток",
     "Show First Run Wizard again" : "Показувати Майстер Налаштувань знову",
-    "Name" : "Ім’я",
     "Username" : "Ім'я користувача",
     "Done" : "Готово",
     "Show storage location" : "Показати місцезнаходження сховища",
@@ -216,6 +215,7 @@ OC.L10N.register(
     "Cron was not executed yet!" : "Cron-задачі ще не запускалися!",
     "Use system's cron service to call the cron.php file every 15 minutes." : "Використовувати системний cron для виклику cron.php кожні 15 хвилин.",
     "Cheers!" : "Будьмо!",
+    "Name" : "Ім’я",
     "Show last log in" : "Показати останній вхід в систему"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

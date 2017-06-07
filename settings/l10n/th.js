@@ -200,7 +200,6 @@ OC.L10N.register(
     "Android app" : "แอพฯ แอนดรอยด์",
     "iOS app" : "แอพฯ IOS",
     "Show First Run Wizard again" : "แสดงหน้าจอวิซาร์ดนำทางครั้งแรกอีกครั้ง",
-    "Name" : "ชื่อ",
     "Username" : "ชื่อผู้ใช้งาน",
     "Done" : "เสร็จสิ้น",
     "Show storage location" : "แสดงสถานที่จัดเก็บข้อมูล",
@@ -241,6 +240,7 @@ OC.L10N.register(
     "Use system's cron service to call the cron.php file every 15 minutes." : "ใช้ระบบบริการ cron เพื่อเรียกไฟล์ cron.php ทุก 15 นาที",
     "Cheers!" : "ไชโย!",
     "For password recovery and notifications" : "สำหรับการกู้คืนรหัสผ่านและการแจ้งเตือน",
+    "Name" : "ชื่อ",
     "Show last log in" : "แสดงการเข้าสู่ระบบล่าสุด"
 },
 "nplurals=1; plural=0;");
