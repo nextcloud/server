@@ -170,6 +170,14 @@ class MigrationService {
 
 		$files = array_keys(iterator_to_array($iterator));
 		uasort($files, function ($a, $b) {
+			preg_match('/^Version(\d+)Date(\d+)\\.php$/', basename($a), $matchA);
+			preg_match('/^Version(\d+)Date(\d+)\\.php$/', basename($b), $matchB);
+			if (!empty($matchA) && !empty($matchB)) {
+				if ($matchA[1] !== $matchB[1]) {
+					return ($matchA[1] < $matchB[1]) ? -1 : 1;
+				}
+				return ($matchA[2] < $matchB[2]) ? -1 : 1;
+			}
 			return (basename($a) < basename($b)) ? -1 : 1;
 		});
 

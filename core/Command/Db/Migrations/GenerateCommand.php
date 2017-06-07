@@ -40,13 +40,14 @@ class GenerateCommand extends Command {
 		'<?php
 namespace <namespace>;
 
+use Doctrine\DBAL\Schema\Schema;
 use OCP\Migration\SimpleMigrationStep;
 use OCP\Migration\IOutput;
 
 /**
  * Auto-generated migration step: Please modify to your needs!
  */
-class Version<version> extends SimpleMigrationStep {
+class <classname> extends SimpleMigrationStep {
 
 	/**
 	 * @param IOutput $output
@@ -90,6 +91,7 @@ class Version<version> extends SimpleMigrationStep {
 		$this
 			->setName('migrations:generate')
 			->addArgument('app', InputArgument::REQUIRED, 'Name of the app this migration command shall work on')
+			->addArgument('version', InputArgument::REQUIRED, 'Major version of this app, to allow versions on parallel development branches')
 		;
 
 		parent::configure();
@@ -97,31 +99,39 @@ class Version<version> extends SimpleMigrationStep {
 
 	public function execute(InputInterface $input, OutputInterface $output) {
 		$appName = $input->getArgument('app');
+		$version = $input->getArgument('version');
+
+		if (!preg_match('/^\d{1,16}$/',$version)) {
+			$output->writeln('<error>The given version is invalid. Only 0-9 are allowed (max. 16 digits)</error>');
+			return 1;
+		}
+
 		$ms = new MigrationService($appName, $this->connection, new ConsoleOutput($output));
-		$version = date('YmdHis');
-		$path = $this->generateMigration($ms, $version);
+
+		$date = date('YmdHis');
+		$path = $this->generateMigration($ms, 'Version' . $version . 'Date' . $date);
 
 		$output->writeln("New migration class has been generated to <info>$path</info>");
-
+		return 0;
 	}
 
 	/**
 	 * @param MigrationService $ms
-	 * @param string $version
+	 * @param string $className
 	 * @return string
 	 */
-	private function generateMigration(MigrationService $ms, $version) {
+	private function generateMigration(MigrationService $ms, $className) {
 		$placeHolders = [
 			'<namespace>',
-			'<version>',
+			'<classname>',
 		];
 		$replacements = [
 			$ms->getMigrationsNamespace(),
-			$version,
+			$className,
 		];
 		$code = str_replace($placeHolders, $replacements, self::$_templateSimple);
 		$dir = $ms->getMigrationsDirectory();
-		$path = $dir . '/Version' . $version . '.php';
+		$path = $dir . '/' . $className . '.php';
 
 		if (file_put_contents($path, $code) === false) {
 			throw new RuntimeException('Failed to generate new migration step.');
