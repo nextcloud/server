@@ -91,7 +91,6 @@ OC.L10N.register(
     "Unlimited" : "無限制",
     "Personal info" : "個人資訊",
     "Sessions" : "工作階段",
-    "App passwords" : "應用程式密碼",
     "Sync clients" : "同步客戶端",
     "None" : "無",
     "Login" : "登入",
@@ -210,7 +209,7 @@ OC.L10N.register(
     "Android app" : "Android 應用程式",
     "iOS app" : "iOS 應用程式",
     "Show First Run Wizard again" : "再次顯示首次使用精靈",
-    "Name" : "名稱",
+    "App passwords" : "應用程式密碼",
     "Username" : "使用者名稱",
     "Show storage location" : "顯示儲存位置",
     "Show user backend" : "顯示用戶後台",
@@ -250,6 +249,7 @@ OC.L10N.register(
     "Use system's cron service to call the cron.php file every 15 minutes." : "使用系統的 cron 服務每 15 分鐘呼叫 cron.php 一次",
     "Cheers!" : "太棒了！",
     "For password recovery and notifications" : "用於密碼重設和通知",
+    "Name" : "名稱",
     "Show last log in" : "顯示最近登入"
 },
 "nplurals=1; plural=0;");

@@ -28,12 +28,12 @@ OC.L10N.register(
     "Change password" : "මුරපදය වෙනස් කිරීම",
     "Language" : "භාෂාව",
     "Help translate" : "පරිවර්ථන සහය",
-    "Name" : "නම",
     "Username" : "පරිශීලක නම",
     "Create" : "තනන්න",
     "Other" : "වෙනත්",
     "Quota" : "සලාකය",
     "Unable to add user to group %s" : "පරිශීලකයා %s කණ්ඩායමට එකතු කළ නොහැක",
-    "Unable to remove user from group %s" : "පරිශීලකයා %s කණ්ඩායමින් ඉවත් කළ නොහැක"
+    "Unable to remove user from group %s" : "පරිශීලකයා %s කණ්ඩායමින් ඉවත් කළ නොහැක",
+    "Name" : "නම"
 },
 "nplurals=2; plural=(n != 1);");

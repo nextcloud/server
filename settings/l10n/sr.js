@@ -171,7 +171,6 @@ OC.L10N.register(
     "Android app" : "Андроид апликација",
     "iOS app" : "иОС апликација",
     "Show First Run Wizard again" : "Поново прикажи чаробњака за прво покретање",
-    "Name" : "назив",
     "Username" : "Корисничко име",
     "Done" : "Завршено",
     "Show storage location" : "Прикажи локацију складишта",
@@ -211,6 +210,7 @@ OC.L10N.register(
     "Cron was not executed yet!" : "Крон задатак још увек није извршен!",
     "Use system's cron service to call the cron.php file every 15 minutes." : "Користите системски крон сервис за позивање cron.php фајла сваких 15 минута.",
     "Cheers!" : "Здраво!",
+    "Name" : "назив",
     "Show last log in" : "Прикажи последњу пријаву"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

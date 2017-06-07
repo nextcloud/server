@@ -55,7 +55,6 @@
     "Help translate" : "ជួយ​បក​ប្រែ",
     "Get the apps to sync your files" : "ដាក់​អោយកម្មវិធីផ្សេងៗ ​ធ្វើសមកាលកម្ម​ឯកសារ​អ្នក",
     "Show First Run Wizard again" : "បង្ហាញ First Run Wizard ម្តង​ទៀត",
-    "Name" : "ឈ្មោះ",
     "Username" : "ឈ្មោះ​អ្នកប្រើ",
     "Create" : "បង្កើត",
     "Admin Recovery Password" : "ការ​ស្វែង​រក​ពាក្យ​សម្ងាត់របស់ប្រធាន​វេបសាយ",
@@ -69,6 +68,7 @@
     "Unable to remove user from group %s" : "មិន​អាច​ដក​អ្នក​ប្រើ​ចេញ​ពី​ក្រុម​ %s",
     "Sending..." : "កំពុង​ផ្ញើ...",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "ខ្វះ​ម៉ូឌុល 'fileinfo' ។ យើង​សូម​ណែនាំ​ឲ្យ​បើក​ម៉ូឌុល​នេះ ដើម្បី​ទទួល​បាន​លទ្ធផល​ល្អ​នៃ​ការ​សម្គាល់​ប្រភេទ mime ។",
-    "Cron" : "Cron"
+    "Cron" : "Cron",
+    "Name" : "ឈ្មោះ"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

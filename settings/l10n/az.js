@@ -141,7 +141,6 @@ OC.L10N.register(
     "Android app" : "Android proqramı",
     "iOS app" : "iOS proqramı",
     "Show First Run Wizard again" : "İlk işəsalma sehirbazını yenidən göstər",
-    "Name" : "Ad",
     "Username" : "İstifadəçi adı",
     "Done" : "Edildi",
     "Show storage location" : "Depo ünvanını göstər",
@@ -181,6 +180,7 @@ OC.L10N.register(
     "Cron was not executed yet!" : "Cron hələ yerinə yetirilməyib!",
     "Use system's cron service to call the cron.php file every 15 minutes." : "Sistemin cron servisindən istifadə edin ki, cron.php faylını hər 15 dəqiqədən bir işə salasınız.",
     "Cheers!" : "Şərəfə!",
+    "Name" : "Ad",
     "Show last log in" : "Son girişi göstər"
 },
 "nplurals=2; plural=(n != 1);");

@@ -71,7 +71,6 @@ OC.L10N.register(
     "Help translate" : "ساعد في الترجمه",
     "Get the apps to sync your files" : "احصل على التطبيقات لمزامنة ملفاتك",
     "Show First Run Wizard again" : "ابدأ خطوات بداية التشغيل من جديد",
-    "Name" : "الاسم",
     "Username" : "إسم المستخدم",
     "Settings" : "الإعدادات",
     "E-Mail" : "بريد إلكتروني",
@@ -95,6 +94,7 @@ OC.L10N.register(
     "Uninstalling ...." : "جاري إلغاء التثبيت ...",
     "Uninstall" : "ألغاء التثبيت",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "موديل  'fileinfo' الخاص بالـPHP  مفقود . نوصي بتفعيل هذا الموديل للحصول على أفضل النتائج مع خاصية التحقق ",
-    "Cron" : "مجدول"
+    "Cron" : "مجدول",
+    "Name" : "الاسم"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

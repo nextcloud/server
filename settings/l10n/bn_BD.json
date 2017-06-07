@@ -51,7 +51,6 @@
     "Help translate" : "অনুবাদ করতে সহায়তা করুন",
     "Get the apps to sync your files" : "আপনার ফাইলসমূহ সিংক করতে অ্যাপস নিন",
     "Show First Run Wizard again" : "প্রথমবার চালানোর যাদুকর পূনরায় প্রদর্শন কর",
-    "Name" : "নাম",
     "Username" : "ব্যবহারকারী",
     "Done" : "শেষ হলো",
     "Create" : "তৈরী কর",
@@ -68,6 +67,7 @@
     "Admins can't remove themself from the admin group" : "প্রশাসকবৃন্দ তাদেরকে প্রশাসক গোষ্ঠী থেকে মুছে ফেলতে পারবেন না",
     "Unable to add user to group %s" : " %s গোষ্ঠীতে ব্যবহারকারী যোগ করা সম্ভব হলো না ",
     "Unable to remove user from group %s" : "%s গোষ্ঠী থেকে ব্যবহারকারীকে অপসারণ করা সম্ভব হলো না",
-    "Cheers!" : "শুভেচ্ছা!"
+    "Cheers!" : "শুভেচ্ছা!",
+    "Name" : "নাম"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -47,7 +47,6 @@ OC.L10N.register(
     "Help translate" : "Hỗ trợ dịch thuật",
     "Get the apps to sync your files" : "Nhận ứng dụng để đồng bộ file của bạn",
     "Show First Run Wizard again" : "Hiện lại việc chạy đồ thuật khởi đầu",
-    "Name" : "Tên",
     "Username" : "Tên đăng nhập",
     "Create" : "Tạo",
     "Other" : "Khác",
@@ -60,6 +59,7 @@ OC.L10N.register(
     "Unable to add user to group %s" : "Không thể thêm người dùng vào nhóm %s",
     "Unable to remove user from group %s" : "Không thể xóa người dùng từ nhóm %s",
     "Cron" : "Cron",
-    "Cheers!" : "Chúc mừng!"
+    "Cheers!" : "Chúc mừng!",
+    "Name" : "Tên"
 },
 "nplurals=1; plural=0;");

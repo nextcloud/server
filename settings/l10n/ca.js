@@ -154,7 +154,6 @@ OC.L10N.register(
     "Verifying" : "Verificant",
     "Personal info" : "Informació personal",
     "Sessions" : "Sessions",
-    "App passwords" : "Contrasenyes de l'Aplicació",
     "Sync clients" : "Sincronitzar clients",
     "None" : "Cap",
     "Login" : "Inici de sessió",
@@ -277,7 +276,7 @@ OC.L10N.register(
     "Web, desktop and mobile clients currently logged in to your account." : "Clients Web, d'escriptori i mòbils connectats actualment al seu compte",
     "Device" : "Dispositiu",
     "Last activity" : "Última activitat",
-    "Name" : "Nom",
+    "App passwords" : "Contrasenyes de l'Aplicació",
     "App name" : "Nom de l'aplicació",
     "Create new app password" : "Crea una nova contrasenya de l'aplicació",
     "For security reasons this password will only be shown once." : "Per raons de seguretat aquesta contrasenya només es mostrarà una vegada.",
@@ -332,6 +331,7 @@ OC.L10N.register(
     "Hey there,\n\njust letting you know that you now have a %s account.\n\nYour username: %s\nAccess it: %s\n\n" : "Hola,\n\nsimplement que sàpigas que ja tens un compte %s.\n\nEl teu nom d'usuari: %s\nAccedir-hi: %s\n",
     "For password recovery and notifications" : "Per a la recuperació de la contrasenya i notificacions",
     "Your website" : "El teu lloc web",
+    "Name" : "Nom",
     "Show last log in" : "Mostrar l'últim accés"
 },
 "nplurals=2; plural=(n != 1);");

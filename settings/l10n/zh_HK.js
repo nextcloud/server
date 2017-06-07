@@ -36,7 +36,6 @@ OC.L10N.register(
     "Help translate" : "幫忙翻譯",
     "Android app" : "Android 應用程式",
     "iOS app" : "iOS 應用程式",
-    "Name" : "名稱",
     "Username" : "用戶名稱",
     "Create" : "新增",
     "Everyone" : "所有人",
@@ -47,6 +46,7 @@ OC.L10N.register(
     "test email settings" : "測試電子郵件設定",
     "Sending..." : "發送中...",
     "Uninstalling ...." : "正在解除安裝 ....",
-    "Uninstall" : "解除安裝"
+    "Uninstall" : "解除安裝",
+    "Name" : "名稱"
 },
 "nplurals=1; plural=0;");

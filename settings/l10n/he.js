@@ -88,7 +88,6 @@ OC.L10N.register(
     "Unlimited" : "ללא הגבלה",
     "Personal info" : "מידע אישי",
     "Sessions" : "שיחות",
-    "App passwords" : "סיסמת יישום",
     "Sync clients" : "סנכרון לקוחות",
     "None" : "כלום",
     "Login" : "התחברות",
@@ -212,7 +211,7 @@ OC.L10N.register(
     "Android app" : "יישום אנדרואיד",
     "iOS app" : "יישום אייפון",
     "Show First Run Wizard again" : "הצגת אשף ההפעלה הראשונית שוב",
-    "Name" : "שם",
+    "App passwords" : "סיסמת יישום",
     "App name" : "שם יישום",
     "Create new app password" : "יצירת סיסמת יישום חדשה",
     "Username" : "שם משתמש",
@@ -255,6 +254,7 @@ OC.L10N.register(
     "Use system's cron service to call the cron.php file every 15 minutes." : "ניתן להשתמש בשירות cron לקרוא לקובץ cron.php בכל 15 דקות.",
     "Cheers!" : "לחיים!",
     "For password recovery and notifications" : "לשחזור סיסמא והודעות",
+    "Name" : "שם",
     "Show last log in" : "הצגת כניסה אחרונה"
 },
 "nplurals=2; plural=(n != 1);");

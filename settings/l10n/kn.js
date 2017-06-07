@@ -83,7 +83,6 @@ OC.L10N.register(
     "Change password" : "ಗುಪ್ತ ಪದವನ್ನು ಬದಲಾಯಿಸಿ",
     "Language" : "﻿ಭಾಷೆ",
     "Help translate" : "﻿ಭಾಷಾಂತರಿಸಲು ಸಹಾಯ ಮಾಡಿ",
-    "Name" : "﻿ಹೆಸರು",
     "Username" : "﻿ಬಳಕೆಯ ಹೆಸರು",
     "E-Mail" : "ಇ-ಅಂಚೆ ವಿಳಾಸ",
     "Create" : "ಸೃಷ್ಟಿಸಿ",
@@ -105,6 +104,7 @@ OC.L10N.register(
     "Uninstalling ...." : "ಅಳಿಸಿಹಾಕುವುದು ...",
     "Error while uninstalling app" : "ಅಳಿಸುವಾಗ ಏನೊ ಲೋಪವಾಗಿದೆ",
     "Uninstall" : "ಅಳಿಸಿ",
-    "Cheers!" : "ಆನಂದಿಸಿ !"
+    "Cheers!" : "ಆನಂದಿಸಿ !",
+    "Name" : "﻿ಹೆಸರು"
 },
 "nplurals=1; plural=0;");

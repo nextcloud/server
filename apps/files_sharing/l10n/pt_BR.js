@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_sharing",
     {
-    "Shared with you" : "Compartilhado com você",
+    "Shared with you" : "Compartilhado com Você",
     "Shared with others" : "Compartilhado com outros",
     "Shared by link" : "Compartilhado por link",
     "Nothing shared with you yet" : "Nada foi compartilhado com você até agora",
@@ -32,7 +32,7 @@ OC.L10N.register(
     "{actor} shared {file} with group {group}" : "{actor} compartilhou {file} com o grupo {group}",
     "{actor} removed group {group} from {file}" : "{actor} excluiu o grupo {group} de {file}",
     "Shared as public link" : "Compartilhado como um link publico",
-    "Removed public link" : "Excluido o link público",
+    "Removed public link" : "Excluído o link público",
     "Public link expired" : "O link público expirou",
     "{actor} shared as public link" : "{actor} compartilhou como um link publico",
     "{actor} removed public link" : "{actor} excluiu o link publico",

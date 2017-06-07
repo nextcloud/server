@@ -40,7 +40,6 @@ OC.L10N.register(
     "Desktop client" : "Desktop-Programm",
     "Android app" : "Android-App",
     "iOS app" : "iOS-App",
-    "Name" : "Numm",
     "Username" : "Benotzernumm",
     "E-Mail" : "E-Mail",
     "Create" : "Erstellen",
@@ -51,6 +50,7 @@ OC.L10N.register(
     "Unable to add user to group %s" : "Onmeiglech User an Grupp ze sätzen %s",
     "Error while uninstalling app" : "Fehler beim Deinstalléieren vun der App",
     "Cron" : "Cron",
-    "Cheers!" : "Prost!"
+    "Cheers!" : "Prost!",
+    "Name" : "Numm"
 },
 "nplurals=2; plural=(n != 1);");

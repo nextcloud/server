@@ -180,7 +180,6 @@ OC.L10N.register(
     "Android app" : "Android-app",
     "iOS app" : "iOS-app",
     "Show First Run Wizard again" : "Vis guiden for første kørsel igen.",
-    "Name" : "Navn",
     "Username" : "Brugernavn",
     "Done" : "Færdig",
     "Show storage location" : "Vis placering af lageret",
@@ -221,6 +220,7 @@ OC.L10N.register(
     "Use system's cron service to call the cron.php file every 15 minutes." : "Brug systemets cron service til at kalde cron.php hver 15. minut",
     "Cheers!" : "Hej!",
     "For password recovery and notifications" : "Angiv en e-mailadresse for at aktivere gendannelse af adgangskode og modtage notifikationer",
+    "Name" : "Navn",
     "Show last log in" : "Vis seneste login"
 },
 "nplurals=2; plural=(n != 1);");

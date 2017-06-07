@@ -4,6 +4,7 @@ OC.L10N.register(
     "You changed your password" : "Jūs pakeitėte savo slaptažodį",
     "Your password was reset by an administrator" : "Administratorius atstatė jūsų slaptažodį",
     "{actor} changed your email address" : "{actor} pakeitė jūsų el. pašto adresą",
+    "Security" : "Saugumas",
     "Your <strong>password</strong> or <strong>email</strong> was modified" : "Jūsų <strong>slaptažodis</strong> ar <strong>el. paštas</strong> buvo pakeisti",
     "Your apps" : "Jūsų programėlės",
     "Wrong password" : "Neteisingas slaptažodis",
@@ -99,7 +100,6 @@ OC.L10N.register(
     "Unlimited" : "Neribotai",
     "Personal info" : "Asmeninė informacija",
     "Sessions" : "Seansai",
-    "App passwords" : "Programėlių slaptažodžiai",
     "None" : "Nieko",
     "Login" : "Prisijungti",
     "SSL/TLS" : "SSL/TLS",
@@ -168,7 +168,7 @@ OC.L10N.register(
     "Web, desktop and mobile clients currently logged in to your account." : "Saityno, darbalaukio ir mobilieji klientai, kurie šiuo metu yra prisijungę prie jūsų paskyros.",
     "Device" : "Įrenginys",
     "Last activity" : "Paskutinė veikla",
-    "Name" : "Pavadinimas",
+    "App passwords" : "Programėlių slaptažodžiai",
     "App name" : "Programėlės pavadinimas",
     "Create new app password" : "Sukurti naują programėlės slaptažodį",
     "For security reasons this password will only be shown once." : "Saugumo sumetimais šis slaptažodis bus parodytas tik vieną kartą.",
@@ -200,6 +200,7 @@ OC.L10N.register(
     "Cron" : "Cron",
     "Cheers!" : "Sveikinimai!",
     "For password recovery and notifications" : "Skirtas slaptažodžio atkūrimui ir pranešimams",
-    "Your website" : "Jūsų svetainė"
+    "Your website" : "Jūsų svetainė",
+    "Name" : "Pavadinimas"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);");

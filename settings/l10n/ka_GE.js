@@ -43,7 +43,6 @@ OC.L10N.register(
     "Help translate" : "თარგმნის დახმარება",
     "Get the apps to sync your files" : "აპლიკაცია ფაილების სინქრონიზაციისთვის",
     "Show First Run Wizard again" : "მაჩვენე თავიდან გაშვებული ვიზარდი",
-    "Name" : "სახელი",
     "Username" : "მომხმარებლის სახელი",
     "Create" : "შექმნა",
     "Other" : "სხვა",
@@ -54,6 +53,7 @@ OC.L10N.register(
     "Unable to add user to group %s" : "მომხმარებლის დამატება ვერ მოხეხდა ჯგუფში %s",
     "Unable to remove user from group %s" : "მომხმარებლის წაშლა ვერ მოხეხდა ჯგუფიდან %s",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "PHP მოდული 'fileinfo' არ არსებობს. ჩვენ გირჩევთ რომ აუცილებლად ჩართოთ ეს მოდული, რომ მიიღოთ კარგი შედეგები mime-type–ს აღმოჩენისას.",
-    "Cron" : "Cron–ი"
+    "Cron" : "Cron–ი",
+    "Name" : "სახელი"
 },
 "nplurals=1; plural=0;");

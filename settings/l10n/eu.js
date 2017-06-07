@@ -133,7 +133,6 @@ OC.L10N.register(
     "Unlimited" : "Mugarik gabe",
     "Personal info" : "Datu pertsonalak",
     "Sessions" : "Saioak",
-    "App passwords" : "Aplikazioen pasahitzak",
     "Sync clients" : "Sync clients",
     "None" : "Ezer",
     "Login" : "Saio hasiera",
@@ -263,7 +262,7 @@ OC.L10N.register(
     "Web, desktop and mobile clients currently logged in to your account." : "Web-gune, mahaigain eta mugikorrean zure kontuan saioa hasita dago.",
     "Device" : "Gailu",
     "Last activity" : "Azken jarduera",
-    "Name" : "Izena",
+    "App passwords" : "Aplikazioen pasahitzak",
     "App name" : "Aplikazioaren izena",
     "Create new app password" : "Sortu app pasahitza berria",
     "Use the credentials below to configure your app or device." : "Erabili kredentzialak beheko zure aplikazioa edo gailua konfiguratzeko.",
@@ -318,6 +317,7 @@ OC.L10N.register(
     "Your website" : "Zure web orria",
     "Your Twitter handle" : "Zure Twitter erabiltzailea",
     "Passcodes that give an app or device permissions to access your account." : "Zure kontuan sartzeko aplikazio edo gailuei baimena ematen dien pasahitzak.",
+    "Name" : "Izena",
     "Show last log in" : "Erakutsi azkeneko saio hasiera"
 },
 "nplurals=2; plural=(n != 1);");
