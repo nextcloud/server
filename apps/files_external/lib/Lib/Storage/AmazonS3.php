@@ -287,6 +287,16 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		}
 	}
 
+	public function is_dir($path) {
+		$path = $this->normalizePath($path);
+		try {
+			return $this->isRoot($path) || $this->getConnection()->doesObjectExist($this->bucket, $path . '/');
+		} catch (S3Exception $e) {
+			\OCP\Util::logException('files_external', $e);
+			return false;
+		}
+	}
+
 	public function filetype($path) {
 		$path = $this->normalizePath($path);
 
