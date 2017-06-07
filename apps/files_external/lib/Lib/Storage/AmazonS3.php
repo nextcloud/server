@@ -42,6 +42,7 @@ use Icewind\Streams\CallbackWrapper;
 use Icewind\Streams\IteratorDirectory;
 use OC\Files\ObjectStore\S3ConnectionTrait;
 use OC\Files\ObjectStore\S3ObjectTrait;
+use OCP\Constants;
 
 class AmazonS3 extends \OC\Files\Storage\Common {
 	use S3ConnectionTrait;
@@ -339,6 +340,12 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				}
 			case 'w':
 			case 'wb':
+				$tmpFile = \OCP\Files::tmpFile();
+
+				$handle = fopen($tmpFile, 'w');
+				return CallbackWrapper::wrap($handle, null, null, function () use ($path, $tmpFile) {
+					$this->writeBack($tmpFile, $path);
+				});
 			case 'a':
 			case 'ab':
 			case 'r+':
@@ -506,11 +513,12 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 
 	public function writeBack($tmpFile, $path) {
 		try {
-			$source = $this->fopen($tmpFile, 'r');
+			$source = fopen($tmpFile, 'r');
 			$this->writeObject($path, $source);
 			fclose($source);
 
 			unlink($tmpFile);
+			return true;
 		} catch (S3Exception $e) {
 			\OCP\Util::logException('files_external', $e);
 			return false;
