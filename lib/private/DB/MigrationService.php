@@ -395,11 +395,12 @@ class MigrationService {
 		}, ['tablePrefix' => $this->connection->getPrefix()]);
 
 		$toSchema = $instance->changeSchema($this->output, function() {
-			return $this->connection->createSchema();
+			return new SchemaWrapper($this->connection);
 		}, ['tablePrefix' => $this->connection->getPrefix()]);
 
-		if ($toSchema instanceof Schema) {
-			$this->connection->migrateToSchema($toSchema);
+		if ($toSchema instanceof SchemaWrapper) {
+			$this->connection->migrateToSchema($toSchema->getWrappedSchema());
+			$toSchema->performDropTableCalls();
 		}
 
 		$instance->postSchemaChange($this->output, function() {

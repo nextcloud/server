@@ -50,9 +50,8 @@ class Version1002Date20170607113030 extends SimpleMigrationStep {
 	public function preSchemaChange(IOutput $output, \Closure $schemaClosure, array $options) {
 		/** @var Schema $schema */
 		$schema = $schemaClosure();
-		$prefix = $options['tablePrefix'];
 
-		if (!$schema->hasTable($prefix . 'twofactor_backup_codes')) {
+		if (!$schema->hasTable('twofactor_backup_codes')) {
 			// Legacy table does not exist
 			return;
 		}
@@ -96,10 +95,9 @@ class Version1002Date20170607113030 extends SimpleMigrationStep {
 	public function changeSchema(IOutput $output, \Closure $schemaClosure, array $options) {
 		/** @var Schema $schema */
 		$schema = $schemaClosure();
-		$prefix = $options['tablePrefix'];
 
-		if ($schema->hasTable($prefix . 'twofactor_backup_codes')) {
-			$schema->dropTable($prefix . 'twofactor_backup_codes');
+		if ($schema->hasTable('twofactor_backup_codes')) {
+			$schema->dropTable('twofactor_backup_codes');
 			return $schema;
 		}
 		return null;

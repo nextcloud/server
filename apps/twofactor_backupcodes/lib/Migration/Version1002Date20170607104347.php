@@ -39,10 +39,9 @@ class Version1002Date20170607104347 extends SimpleMigrationStep {
 	public function changeSchema(IOutput $output, \Closure $schemaClosure, array $options) {
 		/** @var Schema $schema */
 		$schema = $schemaClosure();
-		$prefix = $options['tablePrefix'];
 
-		if (!$schema->hasTable($prefix . 'twofactor_backupcodes')) {
-			$table = $schema->createTable($prefix . 'twofactor_backupcodes');
+		if (!$schema->hasTable('twofactor_backupcodes')) {
+			$table = $schema->createTable('twofactor_backupcodes');
 
 			$table->addColumn('id', Type::INTEGER, [
 				'autoincrement' => true,
