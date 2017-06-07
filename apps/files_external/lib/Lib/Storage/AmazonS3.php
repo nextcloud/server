@@ -309,6 +309,14 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		return false;
 	}
 
+	public function getPermissions($path) {
+		$type = $this->filetype($path);
+		if (!$type) {
+			return 0;
+		}
+		return $type === 'dir' ? Constants::PERMISSION_ALL : Constants::PERMISSION_ALL - Constants::PERMISSION_CREATE;
+	}
+
 	public function unlink($path) {
 		$path = $this->normalizePath($path);
 
