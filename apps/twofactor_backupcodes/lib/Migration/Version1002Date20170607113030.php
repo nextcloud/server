@@ -23,54 +23,36 @@
 
 namespace OCA\TwoFactorBackupCodes\Migration;
 
+use Doctrine\DBAL\Schema\Schema;
 use OCP\DB\QueryBuilder\IQueryBuilder;
-use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\Migration\SimpleMigrationStep;
 use OCP\Migration\IOutput;
-use OCP\Migration\IRepairStep;
 
-class CopyEntriesFromOldTable implements IRepairStep {
+class Version1002Date20170607113030 extends SimpleMigrationStep {
 
 	/** @var IDBConnection */
 	protected $connection;
 
-	/** @var IConfig */
-	protected $config;
-
 	/**
 	 * @param IDBConnection $connection
-	 * @param IConfig $config
 	 */
-	public function __construct(IDBConnection $connection, IConfig $config) {
+	public function __construct(IDBConnection $connection) {
 		$this->connection = $connection;
-		$this->config = $config;
 	}
 
 	/**
-	 * Returns the step's name
-	 *
-	 * @return string
-	 * @since 9.1.0
-	 */
-	public function getName() {
-		return 'Copy twofactor backup codes from legacy table';
-	}
-
-	/**
-	 * Run repair step.
-	 * Must throw exception on error.
-	 *
-	 * @since 9.1.0
 	 * @param IOutput $output
-	 * @throws \Exception in case of failure
+	 * @param \Closure $schemaClosure The `\Closure` returns a `Schema`
+	 * @param array $options
+	 * @since 13.0.0
 	 */
-	public function run(IOutput $output) {
-		$version = $this->config->getAppValue('twofactor_backupcodes', 'installed_version', '0.0.0');
-		if (version_compare($version, '1.1.1', '>=')) {
-			return;
-		}
+	public function preSchemaChange(IOutput $output, \Closure $schemaClosure, array $options) {
+		/** @var Schema $schema */
+		$schema = $schemaClosure();
+		$prefix = $options['tablePrefix'];
 
-		if (!$this->connection->tableExists('twofactor_backup_codes')) {
+		if (!$schema->hasTable($prefix . 'twofactor_backup_codes')) {
 			// Legacy table does not exist
 			return;
 		}
@@ -102,7 +84,24 @@ class CopyEntriesFromOldTable implements IRepairStep {
 				->execute();
 		}
 		$output->finishProgress();
+	}
 
-		$this->connection->dropTable('twofactor_backup_codes');
+	/**
+	 * @param IOutput $output
+	 * @param \Closure $schemaClosure The `\Closure` returns a `Schema`
+	 * @param array $options
+	 * @return null|Schema
+	 * @since 13.0.0
+	 */
+	public function changeSchema(IOutput $output, \Closure $schemaClosure, array $options) {
+		/** @var Schema $schema */
+		$schema = $schemaClosure();
+		$prefix = $options['tablePrefix'];
+
+		if ($schema->hasTable($prefix . 'twofactor_backup_codes')) {
+			$schema->dropTable($prefix . 'twofactor_backup_codes');
+			return $schema;
+		}
+		return null;
 	}
 }
