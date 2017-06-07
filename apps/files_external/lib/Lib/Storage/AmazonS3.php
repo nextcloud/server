@@ -36,10 +36,12 @@
 
 namespace OCA\Files_External\Lib\Storage;
 
+use Aws\Result;
 use Aws\S3\S3Client;
 use Aws\S3\Exception\S3Exception;
 use Icewind\Streams\CallbackWrapper;
 use Icewind\Streams\IteratorDirectory;
+use OC\Cache\CappedMemoryCache;
 use OC\Files\ObjectStore\S3ConnectionTrait;
 use OC\Files\ObjectStore\S3ObjectTrait;
 use OCP\Constants;
@@ -53,9 +55,13 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	 */
 	private $rescanDelay = 10;
 
+	/** @var CappedMemoryCache|Result[] */
+	private $objectCache;
+
 	public function __construct($parameters) {
 		parent::__construct($parameters);
 		$this->parseParams($parameters);
+		$this->objectCache = new CappedMemoryCache();
 	}
 
 	/**
@@ -81,6 +87,43 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			return '/';
 		}
 		return $path;
+	}
+
+	private function clearCache() {
+		$this->objectCache = new CappedMemoryCache();
+	}
+
+	private function invalidateCache($key) {
+		unset($this->objectCache[$key]);
+		$keys = array_keys($this->objectCache->getData());
+		$keyLength = strlen($key);
+		foreach ($keys as $existingKey) {
+			if (substr($existingKey, 0, $keyLength) === $keys) {
+				unset($this->objectCache[$existingKey]);
+			}
+		}
+	}
+
+	/**
+	 * @param $key
+	 * @return Result|boolean
+	 */
+	private function headObject($key) {
+		if (!isset($this->objectCache[$key])) {
+			try {
+				$this->objectCache[$key] = $this->getConnection()->headObject(array(
+					'Bucket' => $this->bucket,
+					'Key' => $key
+				));
+			} catch (S3Exception $e) {
+				if ($e->getStatusCode() >= 500) {
+					throw $e;
+				}
+				$this->objectCache[$key] = false;
+			}
+		}
+
+		return $this->objectCache[$key];
 	}
 
 	/**
@@ -152,6 +195,8 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			return false;
 		}
 
+		$this->invalidateCache($path);
+
 		return true;
 	}
 
@@ -171,10 +216,12 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			return false;
 		}
 
+		$this->invalidateCache($path);
 		return $this->batchDelete($path);
 	}
 
 	protected function clearBucket() {
+		$this->clearCache();
 		try {
 			$this->getConnection()->clearBucket($this->bucket);
 			return true;
@@ -266,10 +313,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				$stat['size'] = -1; //unknown
 				$stat['mtime'] = time() - $this->rescanDelay * 1000;
 			} else {
-				$result = $this->getConnection()->headObject(array(
-					'Bucket' => $this->bucket,
-					'Key' => $path
-				));
+				$result = $this->headObject($path);
 
 				$stat['size'] = $result['ContentLength'] ? $result['ContentLength'] : 0;
 				if (isset($result['Metadata']['lastmodified'])) {
@@ -290,7 +334,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	public function is_dir($path) {
 		$path = $this->normalizePath($path);
 		try {
-			return $this->isRoot($path) || $this->getConnection()->doesObjectExist($this->bucket, $path . '/');
+			return $this->isRoot($path) || $this->headObject($path . '/');
 		} catch (S3Exception $e) {
 			\OCP\Util::logException('files_external', $e);
 			return false;
@@ -305,10 +349,10 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		}
 
 		try {
-			if ($this->getConnection()->doesObjectExist($this->bucket, $path)) {
+			if ($this->headObject($path)) {
 				return 'file';
 			}
-			if ($this->getConnection()->doesObjectExist($this->bucket, $path . '/')) {
+			if ($this->headObject($path . '/')) {
 				return 'dir';
 			}
 		} catch (S3Exception $e) {
@@ -336,6 +380,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 
 		try {
 			$this->deleteObject($path);
+			$this->invalidateCache($path);
 		} catch (S3Exception $e) {
 			\OCP\Util::logException('files_external', $e);
 			return false;
@@ -435,6 +480,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			return false;
 		}
 
+		$this->invalidateCache($path);
 		return true;
 	}
 
@@ -482,6 +528,8 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				}
 			}
 		}
+
+		$this->invalidateCache($path2);
 
 		return true;
 	}
@@ -533,6 +581,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		try {
 			$source = fopen($tmpFile, 'r');
 			$this->writeObject($path, $source);
+			$this->invalidateCache($path);
 			fclose($source);
 
 			unlink($tmpFile);
