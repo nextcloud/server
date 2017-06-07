@@ -65,6 +65,10 @@ class Files extends Action {
 	 * @param array $params
 	 */
 	public function create(array $params) {
+		if ($params['path'] === '/' || $params['path'] === '' || $params['path'] === null) {
+			return;
+		}
+
 		$this->log(
 			'File created: "%s"',
 			$params,
@@ -96,6 +100,10 @@ class Files extends Action {
 	 * @param array $params
 	 */
 	public function write(array $params) {
+		if ($params['path'] === '/' || $params['path'] === '' || $params['path'] === null) {
+			return;
+		}
+
 		$this->log(
 			'File written to: "%s"',
 			$params,
