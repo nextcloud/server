@@ -50,6 +50,10 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	use S3ConnectionTrait;
 	use S3ObjectTrait;
 
+	public function needsPartFile() {
+		return false;
+	}
+
 	/**
 	 * @var int in seconds
 	 */
