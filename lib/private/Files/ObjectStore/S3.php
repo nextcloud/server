@@ -22,10 +22,10 @@
 namespace OC\Files\ObjectStore;
 
 use OCP\Files\ObjectStore\IObjectStore;
-use Psr\Http\Message\StreamInterface;
 
 class S3 implements IObjectStore {
 	use S3ConnectionTrait;
+	use S3ObjectTrait;
 
 	public function __construct($parameters) {
 		$this->parseParams($parameters);
@@ -38,52 +38,4 @@ class S3 implements IObjectStore {
 	function getStorageId() {
 		return $this->id;
 	}
-
-	/**
-	 * @param string $urn the unified resource name used to identify the object
-	 * @return resource stream with the read data
-	 * @throws \Exception when something goes wrong, message will be logged
-	 * @since 7.0.0
-	 */
-	function readObject($urn) {
-		$client = $this->getConnection();
-		$command = $client->getCommand('GetObject', [
-			'Bucket' => $this->bucket,
-			'Key' => $urn
-		]);
-		$command['@http']['stream'] = true;
-		$result = $client->execute($command);
-		/** @var StreamInterface $body */
-		$body = $result['Body'];
-
-		return $body->detach();
-	}
-
-	/**
-	 * @param string $urn the unified resource name used to identify the object
-	 * @param resource $stream stream with the data to write
-	 * @throws \Exception when something goes wrong, message will be logged
-	 * @since 7.0.0
-	 */
-	function writeObject($urn, $stream) {
-		$this->getConnection()->putObject([
-			'Bucket' => $this->bucket,
-			'Key' => $urn,
-			'Body' => $stream
-		]);
-	}
-
-	/**
-	 * @param string $urn the unified resource name used to identify the object
-	 * @return void
-	 * @throws \Exception when something goes wrong, message will be logged
-	 * @since 7.0.0
-	 */
-	function deleteObject($urn) {
-		$this->getConnection()->deleteObject([
-			'Bucket' => $this->bucket,
-			'Key' => $urn
-		]);
-	}
-
 }
