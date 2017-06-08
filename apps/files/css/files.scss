@@ -747,3 +747,16 @@ table.dragshadow td.size {
 #filestable tbody tr.canDrop {
   background-color: rgba(255, 255, 140, 1);
 }
+
+
+#quota {
+	margin: 0 !important;
+	border: none;
+	div {
+		border-radius: 0;
+	}
+}
+
+#quotatext {
+	padding: 3px;
+}
