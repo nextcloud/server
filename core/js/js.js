@@ -1512,7 +1512,7 @@ function initCore() {
 
 	var resizeMenu = function() {
 		var appList = $('#appmenu li');
-		var availableWidth = $('#header-left').width() - $('#nextcloud').width() - 44;
+		var availableWidth = $('#header-left').width() - $('#nextcloud').width();
 		var appCount = Math.floor((availableWidth)/44);
 		// show at least 2 apps in the popover
 		if(appList.length-1-appCount >= 1) {
