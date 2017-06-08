@@ -93,7 +93,7 @@
     "You can omit the protocol, unless you require SSL. If so, start with ldaps://" : "Você pode omitir o protocolo a menos que o SSL seja requerido. Se sim, inicie com ldaps://",
     "Port" : "Porta",
     "Detect Port" : "Detectar Porta",
-    "User DN" : "DN do usuário",
+    "User DN" : "usuário DN",
     "The DN of the client user with which the bind shall be done, e.g. uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password empty." : "O DN do usuário cliente com qual a ligação deverá ser feita, ex. uid=agent,dc=example,dc=com. Para acesso anônimo, deixe DN e senha vazios.",
     "Password" : "Senha",
     "For anonymous access, leave DN and Password empty." : "Para acesso anônimo, deixe DN e senha vazios.",
