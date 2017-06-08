@@ -83,6 +83,27 @@ class ChangePasswordController extends Controller {
 	}
 
 	/**
+	 * formats HintException into a JSONResponse for output
+	 *
+	 * @param HintException $e
+	 * @return JSONResponse
+	 */
+	private function caughtHintException(HintException $e) {
+		$message = $e->getMessage();
+		$hint = $e->getHint();
+		if($message === $hint) {
+			$hint = '';
+		}
+		return new JSONResponse([
+			'status' => 'error',
+			'data' => [
+				'message' => $message,
+				'hint' => $hint
+			],
+		]);
+	}
+
+	/**
 	 * @NoAdminRequired
 	 * @NoSubadminRequired
 	 * @BruteForceProtection(action=changePersonalPassword)
@@ -114,12 +135,7 @@ class ChangePasswordController extends Controller {
 			}
 		// password policy app throws exception
 		} catch(HintException $e) {
-			return new JSONResponse([
-				'status' => 'error',
-				'data' => [
-					'message' => $e->getHint(),
-				],
-			]);
+			return $this->caughtHintException($e);
 		}
 
 		$this->userSession->updateSessionTokenPassword($newpassword);
@@ -235,12 +251,7 @@ class ChangePasswordController extends Controller {
 					$result = $targetUser->setPassword($password, $recoveryPassword);
 				// password policy app throws exception
 				} catch(HintException $e) {
-					return new JSONResponse([
-						'status' => 'error',
-						'data' => [
-							'message' => $e->getHint(),
-						],
-					]);
+					return $this->caughtHintException($e);
 				}
 				if (!$result && $recoveryEnabledForUser) {
 					return new JSONResponse([
@@ -270,12 +281,7 @@ class ChangePasswordController extends Controller {
 				}
 			// password policy app throws exception
 			} catch(HintException $e) {
-				return new JSONResponse([
-					'status' => 'error',
-					'data' => [
-						'message' => $e->getHint(),
-					],
-				]);
+				return $this->caughtHintException($e);
 			}
 		}
 
