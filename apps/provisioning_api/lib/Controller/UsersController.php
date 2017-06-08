@@ -252,6 +252,11 @@ class UsersController extends OCSController {
 		}
 
 		$userAccount = $this->accountManager->getUser($targetUserObject);
+		$groups = $this->groupManager->getUserGroups($targetUserObject);
+		$gids = [];
+		foreach ($groups as $group) {
+			$gids[] = $group->getGID();
+		}
 
 		// Find the data
 		$data['id'] = $targetUserObject->getUID();
@@ -262,6 +267,7 @@ class UsersController extends OCSController {
 		$data['address'] = $userAccount[\OC\Accounts\AccountManager::PROPERTY_ADDRESS]['value'];
 		$data['webpage'] = $userAccount[\OC\Accounts\AccountManager::PROPERTY_WEBSITE]['value'];
 		$data['twitter'] = $userAccount[\OC\Accounts\AccountManager::PROPERTY_TWITTER]['value'];
+		$data['groups'] = $gids;
 
 		return $data;
 	}
