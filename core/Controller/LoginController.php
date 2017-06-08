@@ -32,6 +32,7 @@ use OC\Authentication\TwoFactorAuth\Manager;
 use OC\User\Session;
 use OC_App;
 use OC_Util;
+use OCP\App;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
@@ -127,6 +128,8 @@ class LoginController extends Controller {
 		}
 
 		$parameters = array();
+		$parameters['email_allowed'] = 1;
+
 		$loginMessages = $this->session->get('loginMessages');
 		$errors = [];
 		$messages = [];
@@ -151,6 +154,11 @@ class LoginController extends Controller {
 		}
 
 		$parameters['canResetPassword'] = true;
+
+		if (App::isEnabled("user_ldap")) {
+			$parameters['email_allowed'] = $this->config->getAppValue('user_ldap', 'ldap_loginfilter_email', 1);
+		}
+
 		$parameters['resetPasswordLink'] = $this->config->getSystemValue('lost_password_link', '');
 		if (!$parameters['resetPasswordLink']) {
 			if (!is_null($user) && $user !== '') {
