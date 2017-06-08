@@ -7,7 +7,7 @@ NC 11 (2016-12-13)
 * PHP 7.1 support
 * OC_L10N removed use \OCP\IL10N (#1948)
 * Preview handling is improved by sharing previews:
-  * Preview sharing (shared files/external storages)
+  * Preview sharing (shared files/external storage)
   * Previews are stored in the AppData
   * Previews are served faster by not first converting them to image objects
 * Core preview route changed:

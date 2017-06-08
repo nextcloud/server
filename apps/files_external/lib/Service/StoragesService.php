@@ -37,7 +37,7 @@ use OCP\Files\Config\IUserMountCache;
 use \OCP\Files\StorageNotAvailableException;
 
 /**
- * Service class to manage external storages
+ * Service class to manage external storage
  */
 abstract class StoragesService {
 
@@ -117,7 +117,7 @@ abstract class StoragesService {
 	}
 
 	/**
-	 * Read the external storages config
+	 * Read the external storage config
 	 *
 	 * @return array map of storage id to storage config
 	 */

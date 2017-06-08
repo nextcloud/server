@@ -49,7 +49,7 @@ class Section implements IIconSection {
 	 * @returns string
 	 */
 	public function getID() {
-		return 'externalstorages';
+		return 'externalstorage';
 	}
 
 	/**
@@ -59,7 +59,7 @@ class Section implements IIconSection {
 	 * @return string
 	 */
 	public function getName() {
-		return $this->l->t('External storages');
+		return $this->l->t('External storage');
 	}
 
 	/**
