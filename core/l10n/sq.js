@@ -1,7 +1,7 @@
 OC.L10N.register(
     "core",
     {
-    "Please select a file." : "Ju lutem përzgjidhni një kartelë.",
+    "Please select a file." : "Ju lutem përzgjidhni një skedar.",
     "File is too big" : "Kartela është shumë e madhe",
     "The selected file is not an image." : "Skedari i zgjedhur nuk është një imazh",
     "The selected file cannot be read." : "Skedari i zgjedhur nuk mund të lexohet",

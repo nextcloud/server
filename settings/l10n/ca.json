@@ -151,7 +151,6 @@
     "Unlimited" : "Il·limitat",
     "Verifying" : "Verificant",
     "Personal info" : "Informació personal",
-    "Sessions" : "Sessions",
     "Sync clients" : "Sincronitzar clients",
     "None" : "Cap",
     "Login" : "Inici de sessió",
@@ -271,7 +270,6 @@
     "Android app" : "aplicació para Android",
     "iOS app" : "aplicació para iOS",
     "Show First Run Wizard again" : "Torna a mostrar l'assistent de primera execució",
-    "Web, desktop and mobile clients currently logged in to your account." : "Clients Web, d'escriptori i mòbils connectats actualment al seu compte",
     "Device" : "Dispositiu",
     "Last activity" : "Última activitat",
     "App passwords" : "Contrasenyes de l'Aplicació",
@@ -317,6 +315,7 @@
     "Uninstalling ...." : "Desintal·lant ...",
     "Error while uninstalling app" : "Error en desinstal·lar l'aplicació",
     "Uninstall" : "Desinstal·la",
+    "Sessions" : "Sessions",
     "This is used for sending out notifications." : "S'usa per enviar notificacions.",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "El mòdul de PHP 'fileinfo' no s'ha trobat. Us recomanem que habiliteu aquest mòdul per obtenir millors resultats amb la detecció mime-type.",
     "Cron" : "Cron",
@@ -329,6 +328,7 @@
     "Hey there,\n\njust letting you know that you now have a %s account.\n\nYour username: %s\nAccess it: %s\n\n" : "Hola,\n\nsimplement que sàpigas que ja tens un compte %s.\n\nEl teu nom d'usuari: %s\nAccedir-hi: %s\n",
     "For password recovery and notifications" : "Per a la recuperació de la contrasenya i notificacions",
     "Your website" : "El teu lloc web",
+    "Web, desktop and mobile clients currently logged in to your account." : "Clients Web, d'escriptori i mòbils connectats actualment al seu compte",
     "Name" : "Nom",
     "Show last log in" : "Mostrar l'últim accés"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

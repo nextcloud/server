@@ -13,7 +13,7 @@ OC.L10N.register(
     "Please provide a new recovery password" : "Por favor, forneça a nova senha de recuperação",
     "Please repeat the new recovery password" : "Por favor, repita a nova senha de recuperação",
     "Password successfully changed." : "Senha alterada.",
-    "Could not change the password. Maybe the old password was not correct." : "Não foi possível alterar a senha. Talvez a senha antiga não estivesse correta.",
+    "Could not change the password. Maybe the old password was not correct." : "Não foi possível alterar a senha. Talvez a senha antiga não estava correta.",
     "Recovery Key disabled" : "Chave de recuperação desativada",
     "Recovery Key enabled" : "Chave de recuperação ativada",
     "Could not enable the recovery key, please try again or contact your administrator" : "Não foi possível ativar a chave de recuperação. Tente novamente ou entre em contato com o administrador",
