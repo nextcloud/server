@@ -6,5 +6,5 @@ Your username is: abc
 
 https://example.org/resetPassword/123
 
--- 
-TestCloud - A safe home for your data
+--
+TestCloud - Your Secure Workspace

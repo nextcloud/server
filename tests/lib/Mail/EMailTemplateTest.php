@@ -81,7 +81,7 @@ class EMailTemplateTest extends TestCase {
 			'Install Client', 'https://nextcloud.com/install/#install-clients'
 		);
 		$this->emailTemplate->addFooter(
-			'TestCloud - A safe home for your data<br>This is an automatically sent email, please do not reply.'
+			'TestCloud - Your Secure Workspace<br>This is an automatically sent email, please do not reply.'
 		);
 
 		$expectedHTML = file_get_contents(\OC::$SERVERROOT . '/tests/data/emails/new-account-email.html');
@@ -102,7 +102,7 @@ class EMailTemplateTest extends TestCase {
 		$this->defaults
 			->expects($this->any())
 			->method('getSlogan')
-			->willReturn('A safe home for your data');
+			->willReturn('Your Secure Workspace');
 		$this->defaults
 			->expects($this->any())
 			->method('getLogo')
@@ -141,7 +141,7 @@ class EMailTemplateTest extends TestCase {
 		$this->defaults
 			->expects($this->any())
 			->method('getSlogan')
-			->willReturn('A safe home for your data');
+			->willReturn('Your Secure Workspace');
 		$this->defaults
 			->expects($this->any())
 			->method('getLogo')
@@ -182,7 +182,7 @@ class EMailTemplateTest extends TestCase {
 		$this->defaults
 			->expects($this->any())
 			->method('getSlogan')
-			->willReturn('A safe home for your data');
+			->willReturn('Your Secure Workspace');
 		$this->defaults
 			->expects($this->any())
 			->method('getLogo')

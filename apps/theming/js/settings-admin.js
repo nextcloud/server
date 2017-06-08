@@ -87,7 +87,7 @@ function preview(setting, value) {
 function hideUndoButton(setting, value) {
 	var themingDefaults = {
 		name: 'Nextcloud',
-		slogan: t('lib', 'a safe home for all your data'),
+		slogan: t('lib', 'Your Secure Workspace'),
 		url: 'https://nextcloud.com',
 		color: '#0082c9',
 		logoMime: '',
@@ -232,5 +232,5 @@ $(document).ready(function () {
 			OC.msg.finishedSaving('#theming_settings_msg', response);
 		});
 	});
-	
+
 });

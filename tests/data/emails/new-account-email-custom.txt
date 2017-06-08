@@ -8,5 +8,5 @@ Set your password: https://example.org/resetPassword/123
 Install Client: https://nextcloud.com/install/#install-clients
 
 
--- 
-TestCloud - A safe home for your data
+--
+TestCloud - Your Secure Workspace
