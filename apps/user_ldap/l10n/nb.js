@@ -163,6 +163,7 @@ OC.L10N.register(
     "Chunksize used for paged LDAP searches that may return bulky results like user or group enumeration. (Setting it 0 disables paged LDAP searches in those situations.)" : "Sidestørrelsen brukes for sidevise (paged) LDAP-søk som kan returnere store resultater, som f.eks. gjennomløping av brukere eller grupper. (Sett til 0 for å skru av sidevis LDAP-spørring i disse situasjonene.)",
     "Enable LDAP password changes per user" : "Skru på LDAP-passordsendringer per bruker",
     "(New password is sent as plain text to LDAP)" : "(Nytt passord blir sendt i klartekst til LDAP)",
+    "Default password policy DN" : "Standard passordregler DN",
     "Special Attributes" : "Spesielle attributter",
     "Quota Field" : "Felt med lagringskvote",
     "Quota Default" : "Standard lagringskvote",

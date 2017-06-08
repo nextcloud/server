@@ -7,7 +7,7 @@ OC.L10N.register(
     "Shared with {email} by {actor}" : "Compartilhado com {email} por {actor}",
     "Password for mail share sent to %1$s" : "Senha para o correio compartilhado enviado para %1$s",
     "Password for mail share sent to {email}" : "Senha para o correio compartilhado enviado para {email}",
-    "Password for mail share sent to you" : "Senha para o correio compartilhado enviado para você",
+    "Password for mail share sent to you" : "Senha para o e-mail compartilhado foi enviado para você",
     "You shared %1$s with %2$s by mail" : "Você compartilhou %1$s com %2$s por e-mail",
     "You shared {file} with {email} by mail" : "Você compartilhou {file} com {email} por e-mail",
     "%3$s shared %1$s with %2$s by mail" : "%3$s compartilou %1$s com %2$s por e-mail",

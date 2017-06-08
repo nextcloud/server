@@ -97,7 +97,6 @@
     "__language_name__" : "Lietuvių",
     "Unlimited" : "Neribotai",
     "Personal info" : "Asmeninė informacija",
-    "Sessions" : "Seansai",
     "None" : "Nieko",
     "Login" : "Prisijungti",
     "SSL/TLS" : "SSL/TLS",
@@ -163,7 +162,6 @@
     "iOS app" : "iOS programa",
     "If you want to support the project {contributeopen}join development{linkclose} or {contributeopen}spread the word{linkclose}!" : "Jeigu norite palaikyti projektą, tuomet {contributeopen}prisijunkite prie kūrimo{linkclose} arba {contributeopen}skleiskite žinią kitiems{linkclose}!",
     "Show First Run Wizard again" : "Dar kartą rodyti pirmojo paleidimo vediklį",
-    "Web, desktop and mobile clients currently logged in to your account." : "Saityno, darbalaukio ir mobilieji klientai, kurie šiuo metu yra prisijungę prie jūsų paskyros.",
     "Device" : "Įrenginys",
     "Last activity" : "Paskutinė veikla",
     "App passwords" : "Programėlių slaptažodžiai",
@@ -194,11 +192,13 @@
     "Uninstalling ...." : "Šalinama...",
     "Error while uninstalling app" : "Klaida, šalinant programėlę",
     "Uninstall" : "Šalinti",
+    "Sessions" : "Seansai",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "Trūksta PHP modulio „fileinfo“. Labai rekomenduojame įjungti šį modulį, kad gauti geriausius rezultatus nustatant mime-tipą.",
     "Cron" : "Cron",
     "Cheers!" : "Sveikinimai!",
     "For password recovery and notifications" : "Skirtas slaptažodžio atkūrimui ir pranešimams",
     "Your website" : "Jūsų svetainė",
+    "Web, desktop and mobile clients currently logged in to your account." : "Saityno, darbalaukio ir mobilieji klientai, kurie šiuo metu yra prisijungę prie jūsų paskyros.",
     "Name" : "Pavadinimas"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }
