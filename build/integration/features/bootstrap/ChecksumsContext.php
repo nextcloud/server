@@ -25,6 +25,7 @@ require __DIR__ . '/../../vendor/autoload.php';
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Message\ResponseInterface;
+use Sabre\DAV\Xml\Response\MultiStatus;
 
 class ChecksumsContext implements \Behat\Behat\Context\Context {
 	/** @var string  */
@@ -140,19 +141,19 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 	 * @param string $checksum
 	 * @throws \Exception
 	 */
-	public function theWebdavChecksumShouldMatch($checksum)
-	{
-		$service = new Sabre\Xml\Service();
+	public function theWebdavChecksumShouldMatch($checksum) {
+		$service = new Sabre\DAV\Xml\Service();
+		/** @var MultiStatus $parsed */
 		$parsed = $service->parse($this->response->getBody()->getContents());
 
-		/*
-		 * Fetch the checksum array
-		 * Maybe we want to do this a bit cleaner ;)
-		 */
-		$checksums = $parsed[0]['value'][1]['value'][0]['value'][0];
-
-		if ($checksums['value'][0]['value'] !== $checksum) {
-			throw new \Exception("Expected $checksum, got ".$checksums['value'][0]['value']);
+		$props = $parsed->getResponses()[0]->getResponseProperties();
+		if (isset($props[200]) && isset($props[200]['{http://owncloud.org/ns}checksums'])) {
+			$checksums = $props[200]['{http://owncloud.org/ns}checksums'][0];
+			if ($checksums['value'] !== $checksum) {
+				throw new \Exception("Expected $checksum, got " . $checksums['value']);
+			}
+		} else {
+			throw new \Exception('No checksum provided');
 		}
 	}
 
