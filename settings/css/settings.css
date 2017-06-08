@@ -191,6 +191,13 @@ input#openid, input#webdav {
 	cursor: pointer;
 }
 
+#personal-settings-container input:disabled {
+	background-color: white;
+	color: black;
+	border: none;
+	opacity: 100;
+}
+
 .verification-dialog {
 	display: none;
 	right: -9px;
