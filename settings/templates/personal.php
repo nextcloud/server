@@ -354,9 +354,9 @@ if($_['passwordChangeSupported']) {
 </div>
 <?php }?>
 
-<div id="sessions" class="section">
-	<h2><?php p($l->t('Sessions'));?></h2>
-	<p class="settings-hint hidden-when-empty"><?php p($l->t('Web, desktop and mobile clients currently logged in to your account.'));?></p>
+<div id="security" class="section">
+	<h2><?php p($l->t('Security'));?></h2>
+	<p class="settings-hint hidden-when-empty"><?php p($l->t('Web, desktop, mobile clients and app specific passwords that currently have access to your account.'));?></p>
 	<table class="icon-loading">
 		<thead class="token-list-header">
 			<tr>
