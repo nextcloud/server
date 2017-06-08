@@ -1,0 +1,23 @@
+{
+    "name": "vgrem/php-spo",
+    "description": "The library provides a Office 365 REST client for PHP. It allows to performs CRUD operations against Office 365 resources via an REST/OData based API",
+    "type": "library",
+    "keywords": ["sharepoint", "office365", "rest", "curl", "api"],
+    "authors": [
+        {
+            "name": "Vadim Gremyachev",
+            "email": "vvgrem@gmail.com"
+        }
+    ],
+    "license": "LGPL-3.0+",
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.4",
+        "ext-curl": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Office365\\PHP\\Client\\": "src/"
+        }
+    }
+}

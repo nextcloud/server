@@ -3,3 +3,10 @@ icewind/smb/tests
 icewind/smb/install_libsmbclient.sh
 icewind/smb/.travis.yml
 icewind/streams/tests
+
+vgrem/php-spo/examples
+vgrem/php-spo/tests
+vgrem/php-spo/vendor
+vgrem/php-spo/.git
+vgrem/php-spo/.travis.yml
+vgrem/php-spo/phpunit_o365.xml
