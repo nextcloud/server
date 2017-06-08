@@ -90,7 +90,7 @@ class App {
 	/**
 	 * Register a Configuration Screen that should appear in the personal settings section.
 	 * @param string $app appid
-	 * @param string $page page to be included
+	 * @param string|callable $page page to be included
 	 * @return void
 	 * @since 4.0.0
 	*/
@@ -101,7 +101,7 @@ class App {
 	/**
 	 * Register a Configuration Screen that should appear in the Admin section.
 	 * @param string $app string appid
-	 * @param string $page string page to be included
+	 * @param string|callable $page string page to be included
 	 * @return void
 	 * @since 4.0.0
 	 */
