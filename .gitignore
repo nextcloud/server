@@ -8,6 +8,7 @@
 /apps/inc.php
 /assets
 /.htaccess
+.htaccess
 
 # ignore all apps except core ones
 /apps*/*
