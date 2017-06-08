@@ -387,6 +387,16 @@ class Google extends \OC\Files\Storage\Common {
 	}
 
 	public function rename($path1, $path2) {
+		// Avoid duplicate files with the same name
+		if ($this->is_file($path2)) {
+			$testFile2 = $this->getDriveFile($path2);
+			if ($testFile2) {
+				$this->service->files->trash($testFile2->getId());
+				\OCP\Util::writeLog('files_external', 'trash file '.$path2.' for renaming '.$path1.' on Google Drive.',
+				\OCP\Util::DEBUG);
+			}
+		}
+		
 		$file = $this->getDriveFile($path1);
 		if ($file) {
 			$newFile = $this->getDriveFile($path2);
