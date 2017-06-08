@@ -91,6 +91,9 @@ abstract class AbstractCalDavBackendTest extends TestCase {
 		if (is_null($this->backend)) {
 			return;
 		}
+		$this->principal->expects($this->any())->method('getGroupMembership')
+			->withAnyParameters()
+			->willReturn([self::UNIT_TEST_GROUP, self::UNIT_TEST_GROUP2]);
 		$calendars = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
 		foreach ($calendars as $calendar) {
 			$this->dispatcher->expects($this->at(0))
