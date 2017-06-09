@@ -432,20 +432,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @When I see that the :tabName tab in the details view is eventually loaded
 	 */
 	public function iSeeThatTheTabInTheDetailsViewIsEventuallyLoaded($tabName) {
-		$timeout = 10;
-		$timeoutStep = 1;
-
-		$actor = $this->actor;
-		$loadingIcon = self::loadingIconForTabInCurrentSectionDetailsViewNamed($tabName);
-
-		$loadingIconNotFoundCallback = function() use ($actor, $loadingIcon) {
-			try {
-				return !$actor->find($loadingIcon)->isVisible();
-			} catch (NoSuchElementException $exception) {
-				return true;
-			}
-		};
-		if (!Utils::waitFor($loadingIconNotFoundCallback, $timeout, $timeoutStep)) {
+		if (!$this->waitForElementToBeEventuallyNotShown(self::loadingIconForTabInCurrentSectionDetailsViewNamed($tabName), $timeout = 10)) {
 			PHPUnit_Framework_Assert::fail("The $tabName tab in the details view has not been loaded after $timeout seconds");
 		}
 	}
@@ -461,20 +448,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @Then I see that the working icon for password protect is eventually not shown
 	 */
 	public function iSeeThatTheWorkingIconForPasswordProtectIsEventuallyNotShown() {
-		$timeout = 10;
-		$timeoutStep = 1;
-
-		$actor = $this->actor;
-		$passwordProtectWorkingIcon = self::passwordProtectWorkingIcon();
-
-		$workingIconNotFoundCallback = function() use ($actor, $passwordProtectWorkingIcon) {
-			try {
-				return !$actor->find($passwordProtectWorkingIcon)->isVisible();
-			} catch (NoSuchElementException $exception) {
-				return true;
-			}
-		};
-		if (!Utils::waitFor($workingIconNotFoundCallback, $timeout, $timeoutStep)) {
+		if (!$this->waitForElementToBeEventuallyNotShown(self::passwordProtectWorkingIcon(), $timeout = 10)) {
 			PHPUnit_Framework_Assert::fail("The working icon for password protect is still shown after $timeout seconds");
 		}
 	}
@@ -489,4 +463,17 @@ class FilesAppContext implements Context, ActorAwareInterface {
 		$this->iSeeThatTheWorkingIconForPasswordProtectIsEventuallyNotShown();
 	}
 
+	private function waitForElementToBeEventuallyNotShown($elementLocator, $timeout = 10, $timeoutStep = 1) {
+		$actor = $this->actor;
+
+		$elementNotFoundCallback = function() use ($actor, $elementLocator) {
+			try {
+				return !$actor->find($elementLocator)->isVisible();
+			} catch (NoSuchElementException $exception) {
+				return true;
+			}
+		};
+
+		return Utils::waitFor($elementNotFoundCallback, $timeout, $timeoutStep);
+	}
 }
