@@ -2,12 +2,15 @@
 	<ul class="with-icon">
 		<li id="quota" class="section <?php
 		if ($_['quota'] !== \OCP\Files\FileInfo::SPACE_UNLIMITED) {
-			?>has-tooltip" title="<?php
-			p($l->t('%s %%', [$_['usage_relative']]));
-		}
-		?>">
+			?>has-tooltip" title="<?php p($_['usage_relative'] . '%');
+		} ?>">
 			<a href="#" class="nav-icon-quota svg">
-				<p id="quotatext"><?php p($l->t('%s of %s used', [$_['usage'], $_['total_space']])); ?></p>
+				<p id="quotatext"><?php
+					if ($_['quota'] !== \OCP\Files\FileInfo::SPACE_UNLIMITED) {
+						p($l->t('%s of %s used', [$_['usage'], $_['total_space']]));
+					} else {
+						p($l->t('%s used', [$_['usage']]));
+					} ?></p>
 				<div class="quota-container">
 					<div style="width:<?php p($_['usage_relative']);?>%"
 						 <?php if($_['usage_relative'] > 80): ?>class="quota-warning"<?php endif; ?>>
