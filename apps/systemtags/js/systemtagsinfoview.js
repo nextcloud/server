@@ -37,8 +37,6 @@
 		 */
 		_inputView: null,
 
-		_toggleHandle: null,
-
 		initialize: function(options) {
 			var self = this;
 			options = options || {};
@@ -60,18 +58,6 @@
 
 			this._inputView.on('select', this._onSelectTag, this);
 			this._inputView.on('deselect', this._onDeselectTag, this);
-
-			this._toggleHandle = $('<span>').addClass('tag-label').text(t('systemtags', 'Tags'));
-			this._toggleHandle.prepend($('<span>').addClass('icon icon-tag'));
-
-			this._toggleHandle.on('click', function () {
-				if (self.isVisible()) {
-					self.hide();
-				} else {
-					self.show();
-					self.openDropdown();
-				}
-			});
 		},
 
 		/**
@@ -119,15 +105,6 @@
 		_onTagDeletedGlobally: function(tagId) {
 			// also rename it in the selection, if applicable
 			this.selectedTagsCollection.remove(tagId);
-		},
-
-		setMainFileInfoView: function(mainFileInfoView) {
-			this.listenTo(mainFileInfoView, 'pre-render', function() {
-				this._toggleHandle.detach();
-			});
-			this.listenTo(mainFileInfoView, 'post-render', function() {
-				mainFileInfoView.$el.find('.file-details').append(this._toggleHandle);
-			});
 		},
 
 		setFileInfo: function(fileInfo) {
@@ -185,7 +162,6 @@
 
 		remove: function() {
 			this._inputView.remove();
-			this._toggleHandle.remove();
 		}
 	});
 
