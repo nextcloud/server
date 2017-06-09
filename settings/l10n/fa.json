@@ -135,10 +135,9 @@
     "Remove image" : "تصویر پاک شود",
     "Cancel" : "منصرف شدن",
     "Full name" : "نام کامل",
-    "No display name set" : "هیچ نام نمایشی تعیین نشده است",
     "Email" : "ایمیل",
-    "Your email address" : "پست الکترونیکی شما",
     "No email address set" : "آدرس‌ایمیلی تنظیم نشده است",
+    "Your email address" : "پست الکترونیکی شما",
     "You are member of the following groups:" : "شما عضو این گروه‌ها هستید:",
     "Password" : "گذرواژه",
     "Current password" : "گذرواژه کنونی",
@@ -184,6 +183,7 @@
     "Cron" : "زمانبند",
     "Cron was not executed yet!" : "کران هنوز اجرا نشده است!",
     "Cheers!" : "سلامتی!",
+    "No display name set" : "هیچ نام نمایشی تعیین نشده است",
     "Name" : "نام",
     "Show last log in" : "نمایش اخرین ورود"
 },"pluralForm" :"nplurals=1; plural=0;"

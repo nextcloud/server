@@ -65,6 +65,7 @@ OC.L10N.register(
     "Your storage is almost full ({usedSpacePercent}%)" : "Su almacenamiento está casi lleno ({usedSpacePercent}%)",
     "_matches '{filter}'_::_match '{filter}'_" : ["coincidencias '{filter}'","coincidencia '{filter}'"],
     "View in folder" : "Ver en carpeta",
+    "Copied!" : "¡Copiado!",
     "Copy direct link (only works for users who have access to this file/folder)" : "Copiae enlace directo (solo funciona para usuarios que tienen acceso a este archivo/carpeta)",
     "Path" : "Ruta",
     "_%n byte_::_%n bytes_" : ["%n byte","%n bytes"],
