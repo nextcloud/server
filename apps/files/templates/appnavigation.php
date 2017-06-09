@@ -1,18 +1,21 @@
 <div id="app-navigation">
-	<div id="quota" class="section has-tooltip" title="<?php
-	if ($_['quota'] === \OCP\Files\FileInfo::SPACE_UNLIMITED) {
-		p($l->t('You are using %s of %s', [$_['usage'], $_['total_space']]));
-	} else {
-		p($l->t('You are using %s of %s (%s %%)', [$_['usage'], $_['total_space'],  $_['usage_relative']]));
-	}
-	?>">
-		<div style="width:<?php p($_['usage_relative']);?>%"
-			 <?php if($_['usage_relative'] > 80): ?>class="quota-warning"<?php endif; ?>>
-			<p id="quotatext"><?php p($l->t('%s of %s in use', [$_['usage'], $_['total_space']])); ?></p>
-		</div>
-	</div>
-
 	<ul class="with-icon">
+		<li id="quota" class="section <?php
+		if ($_['quota'] !== \OCP\Files\FileInfo::SPACE_UNLIMITED) {
+			?>has-tooltip" title="<?php
+			p($l->t('%s %%', [$_['usage_relative']]));
+		}
+		?>">
+			<a href="#" class="nav-icon-quota svg">
+				<p id="quotatext"><?php p($l->t('%s of %s used', [$_['usage'], $_['total_space']])); ?></p>
+				<div class="quota-container">
+					<div style="width:<?php p($_['usage_relative']);?>%"
+						 <?php if($_['usage_relative'] > 80): ?>class="quota-warning"<?php endif; ?>>
+					</div>
+				</div>
+				<p id="quotatext-additional"><?php p($l->t('Do you need more space?')); ?></p>
+			</a>
+		</li>
 		<?php foreach ($_['navigationItems'] as $item) { ?>
 		<li data-id="<?php p($item['id']) ?>" class="nav-<?php p($item['id']) ?>">
 			<a href="<?php p(isset($item['href']) ? $item['href'] : '#') ?>"
