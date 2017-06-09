@@ -160,11 +160,13 @@ class IMipPlugin extends SabreIMipPlugin {
 				$lastOccurrence = $component->DTEND->getDateTime()->getTimeStamp();
 			} elseif (isset($component->DURATION)) {
 				$endDate = clone $component->DTSTART->getDateTime();
-				$endDate->add(DateTimeParser::parse($component->DURATION->getValue()));
+				// $component->DTEND->getDateTime() returns DateTimeImmutable
+				$endDate = $endDate->add(DateTimeParser::parse($component->DURATION->getValue()));
 				$lastOccurrence = $endDate->getTimeStamp();
 			} elseif (!$component->DTSTART->hasTime()) {
 				$endDate = clone $component->DTSTART->getDateTime();
-				$endDate->modify('+1 day');
+				// $component->DTSTART->getDateTime() returns DateTimeImmutable
+				$endDate = $endDate->modify('+1 day');
 				$lastOccurrence = $endDate->getTimeStamp();
 			} else {
 				$lastOccurrence = $firstOccurrence;

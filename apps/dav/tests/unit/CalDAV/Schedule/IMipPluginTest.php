@@ -107,7 +107,11 @@ class IMipPluginTest extends TestCase {
 		/** @var Mailer | \PHPUnit_Framework_MockObject_MockObject $mailer */
 		$mailer = $this->getMockBuilder('OC\Mail\Mailer')->disableOriginalConstructor()->getMock();
 		$mailer->method('createMessage')->willReturn($mailMessage);
-		$mailer->expects($this->once())->method('send');
+		if ($expectsMail) {
+			$mailer->expects($this->once())->method('send');
+		} else {
+			$mailer->expects($this->never())->method('send');
+		}
 		/** @var ILogger | \PHPUnit_Framework_MockObject_MockObject $logger */
 		$logger = $this->getMockBuilder('OC\Log')->disableOriginalConstructor()->getMock();
 		$timeFactory = $this->getMockBuilder(ITimeFactory::class)->disableOriginalConstructor()->getMock();
@@ -118,8 +122,8 @@ class IMipPluginTest extends TestCase {
 		$message->method = 'REQUEST';
 		$message->message = new VCalendar();
 		$message->message->add('VEVENT', array_merge([
-			'UID' => $message->uid,
-			'SEQUENCE' => $message->sequence,
+			'UID' => 'uid1337',
+			'SEQUENCE' => 42,
 			'SUMMARY' => 'Fellowship meeting',
 		], $veventParams));
 		$message->sender = 'mailto:gandalf@wiz.ard';
@@ -139,8 +143,8 @@ class IMipPluginTest extends TestCase {
 			[['DTSTART' => new \DateTime('2017-01-01 00:00:00')], false],
 			[['DTSTART' => new \DateTime('2017-01-01 00:00:00'), 'DTEND' => new \DateTime('2017-01-01 00:00:00')], false],
 			[['DTSTART' => new \DateTime('2017-01-01 00:00:00'), 'DTEND' => new \DateTime('2017-12-31 00:00:00')], true],
-			[['DTSTART' => new \DateTime('2017-01-01 00:00:00'), 'DURATION' => new \DateInterval('P1D')], false],
-			[['DTSTART' => new \DateTime('2017-01-01 00:00:00'), 'DURATION' => new \DateInterval('P1Y')], true],
+			[['DTSTART' => new \DateTime('2017-01-01 00:00:00'), 'DURATION' => 'P1D'], false],
+			[['DTSTART' => new \DateTime('2017-01-01 00:00:00'), 'DURATION' => 'P52W'], true],
 			[['DTSTART' => new \DateTime('2017-01-01 00:00:00'), 'DTEND' => new \DateTime('2017-01-01 00:00:00'), 'RRULE' => 'FREQ=WEEKLY'], true],
 			[['DTSTART' => new \DateTime('2017-01-01 00:00:00'), 'DTEND' => new \DateTime('2017-01-01 00:00:00'), 'RRULE' => 'FREQ=WEEKLY;COUNT=3'], false],
 			[['DTSTART' => new \DateTime('2017-01-01 00:00:00'), 'DTEND' => new \DateTime('2017-01-01 00:00:00'), 'RRULE' => 'FREQ=WEEKLY;UNTIL=20170301T000000Z'], false],
