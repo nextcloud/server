@@ -31,7 +31,16 @@
 				return;
 			}
 
-			fileList.registerDetailView(new OCA.SystemTags.SystemTagsInfoView());
+			var systemTagsInfoView = new OCA.SystemTags.SystemTagsInfoView();
+			fileList.registerDetailView(systemTagsInfoView);
+
+			_.each(fileList.getRegisteredDetailViews(), function(detailView) {
+				if (detailView instanceof OCA.Files.MainFileInfoDetailView) {
+					systemTagsInfoView.setMainFileInfoView(detailView);
+
+					return;
+				}
+			});
 		}
 	};
 

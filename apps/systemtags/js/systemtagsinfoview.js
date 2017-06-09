@@ -63,6 +63,13 @@
 
 			this._toggleHandle = $('<span>').addClass('tag-label').text(t('systemtags', 'Tags'));
 			this._toggleHandle.prepend($('<span>').addClass('icon icon-tag'));
+
+			this._toggleHandle.on('click', function () {
+				self.$el.toggleClass('hidden');
+				if (!self.$el.hasClass('hidden')) {
+					self.$el.find('.systemTagsInputField').select2('open');
+				}
+			});
 		},
 
 		/**
@@ -112,6 +119,15 @@
 			this.selectedTagsCollection.remove(tagId);
 		},
 
+		setMainFileInfoView: function(mainFileInfoView) {
+			this.listenTo(mainFileInfoView, 'pre-render', function() {
+				this._toggleHandle.detach();
+			});
+			this.listenTo(mainFileInfoView, 'post-render', function() {
+				mainFileInfoView.$el.find('.file-details').append(this._toggleHandle);
+			});
+		},
+
 		setFileInfo: function(fileInfo) {
 			var self = this;
 			if (!this._rendered) {
@@ -147,15 +163,6 @@
 
 			this.$el.append(this._inputView.$el);
 			this._inputView.render();
-
-			$('#app-sidebar').find('.mainFileInfoView .file-details').append(this._toggleHandle);
-			this._toggleHandle.off('click');
-			this._toggleHandle.on('click', function () {
-				self.$el.toggleClass('hidden');
-				if (!self.$el.hasClass('hidden')) {
-					self.$el.find('.systemTagsInputField').select2('open');
-				}
-			});
 		},
 
 		remove: function() {
