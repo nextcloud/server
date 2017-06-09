@@ -40,6 +40,7 @@ class AvatarHomeTest extends TestCase {
 	private $avatarManager;
 
 	public function setUp() {
+		parent::setUp();
 		$this->avatarManager = $this->createMock(IAvatarManager::class);
 		$this->home = new AvatarHome(['uri' => 'principals/users/admin'], $this->avatarManager);
 	}
