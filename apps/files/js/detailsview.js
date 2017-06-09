@@ -300,6 +300,16 @@
 		addDetailView: function(detailView) {
 			this._detailFileInfoViews.push(detailView);
 			this._dirty = true;
+		},
+
+		/**
+		 * Returns an array with the added DetailFileInfoViews.
+		 *
+		 * @return Array<OCA.Files.DetailFileInfoView> an array with the added
+		 *         DetailFileInfoViews.
+		 */
+		getDetailViews: function() {
+			return [].concat(this._detailFileInfoViews);
 		}
 	});
 
