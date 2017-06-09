@@ -533,6 +533,8 @@ class Installer {
 	public static function installShippedApp($app) {
 		//install the database
 		$appPath = OC_App::getAppPath($app);
+		\OC_App::registerAutoloading($app, $appPath);
+
 		if(is_file("$appPath/appinfo/database.xml")) {
 			try {
 				OC_DB::createDbFromStructure("$appPath/appinfo/database.xml");
@@ -549,7 +551,6 @@ class Installer {
 		}
 
 		//run appinfo/install.php
-		\OC_App::registerAutoloading($app, $appPath);
 		self::includeAppScript("$appPath/appinfo/install.php");
 
 		$info = OC_App::getAppInfo($app);

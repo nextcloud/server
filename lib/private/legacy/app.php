@@ -1042,6 +1042,8 @@ class OC_App {
 		if($appPath === false) {
 			return false;
 		}
+		self::registerAutoloading($appId, $appPath);
+
 		$appData = self::getAppInfo($appId);
 		self::executeRepairSteps($appId, $appData['repair-steps']['pre-migration']);
 
@@ -1061,7 +1063,6 @@ class OC_App {
 			self::loadApp($appId);
 			include $appPath . '/appinfo/update.php';
 		}
-		self::registerAutoloading($appId, $appPath);
 		self::setupBackgroundJobs($appData['background-jobs']);
 		if(isset($appData['settings']) && is_array($appData['settings'])) {
 			\OC::$server->getSettingsManager()->setupSettings($appData['settings']);
