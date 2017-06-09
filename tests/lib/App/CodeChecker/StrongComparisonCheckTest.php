@@ -23,7 +23,8 @@ class StrongComparisonCheckTest extends TestCase {
 	 */
 	public function testFindInvalidUsage($expectedErrorToken, $expectedErrorCode, $fileToVerify) {
 		$checker = new CodeChecker(
-			new StrongComparisonCheck(new EmptyCheck())
+			new StrongComparisonCheck(new EmptyCheck()),
+			false
 		);
 		$errors = $checker->analyseFile(\OC::$SERVERROOT . "/tests/data/app/code-checker/$fileToVerify");
 
@@ -45,7 +46,8 @@ class StrongComparisonCheckTest extends TestCase {
 	 */
 	public function testPassValidUsage($fileToVerify) {
 		$checker = new CodeChecker(
-			new StrongComparisonCheck(new EmptyCheck())
+			new StrongComparisonCheck(new EmptyCheck()),
+			false
 		);
 		$errors = $checker->analyseFile(\OC::$SERVERROOT . "/tests/data/app/code-checker/$fileToVerify");
 

@@ -59,7 +59,8 @@ class NodeVisitorTest extends TestCase {
 	 */
 	public function testMethodsToCheck($expectedErrors, $fileToVerify) {
 		$checker = new CodeChecker(
-			new TestList(new EmptyCheck())
+			new TestList(new EmptyCheck()),
+			false
 		);
 		$errors = $checker->analyseFile(\OC::$SERVERROOT . "/tests/data/app/code-checker/$fileToVerify");
 

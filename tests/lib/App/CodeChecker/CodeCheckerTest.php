@@ -23,7 +23,8 @@ class CodeCheckerTest extends TestCase {
 	 */
 	public function testFindInvalidUsage($expectedErrorToken, $expectedErrorCode, $fileToVerify) {
 		$checker = new CodeChecker(
-			new PrivateCheck(new EmptyCheck())
+			new PrivateCheck(new EmptyCheck()),
+			false
 		);
 		$errors = $checker->analyseFile(\OC::$SERVERROOT . "/tests/data/app/code-checker/$fileToVerify");
 
@@ -49,7 +50,8 @@ class CodeCheckerTest extends TestCase {
 	 */
 	public function testPassValidUsage($fileToVerify) {
 		$checker = new CodeChecker(
-			new PrivateCheck(new EmptyCheck())
+			new PrivateCheck(new EmptyCheck()),
+			false
 		);
 		$errors = $checker->analyseFile(\OC::$SERVERROOT . "/tests/data/app/code-checker/$fileToVerify");
 

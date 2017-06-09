@@ -155,7 +155,7 @@ class MigrationService {
 	 */
 	public function getAvailableVersions() {
 		$this->ensureMigrationsAreLoaded();
-		return array_keys($this->migrations);
+		return array_map('strval', array_keys($this->migrations));
 	}
 
 	protected function findMigrations() {

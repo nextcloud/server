@@ -13,7 +13,9 @@ namespace Test\DB;
 use Doctrine\DBAL\Schema\Schema;
 use OC\DB\Connection;
 use OC\DB\MigrationService;
+use OC\DB\SchemaWrapper;
 use OCP\IDBConnection;
+use OCP\Migration\IMigrationStep;
 use OCP\Migration\ISchemaMigration;
 use OCP\Migration\ISqlMigration;
 
@@ -39,8 +41,8 @@ class MigrationsTest extends \Test\TestCase {
 
 	public function testGetters() {
 		$this->assertEquals('testing', $this->migrationService->getApp());
-		$this->assertEquals(\OC::$SERVERROOT . '/apps/testing/appinfo/Migrations', $this->migrationService->getMigrationsDirectory());
-		$this->assertEquals('OCA\testing\Migrations', $this->migrationService->getMigrationsNamespace());
+		$this->assertEquals(\OC::$SERVERROOT . '/apps/testing/lib/Migration', $this->migrationService->getMigrationsDirectory());
+		$this->assertEquals('OCA\Testing\Migration', $this->migrationService->getMigrationsNamespace());
 		$this->assertEquals('test_oc_migrations', $this->migrationService->getMigrationsTableName());
 	}
 
@@ -84,36 +86,88 @@ class MigrationsTest extends \Test\TestCase {
 		$this->migrationService->executeStep('20170130180000');
 	}
 
-	public function testExecuteStepWithSchemaMigrationStep() {
+	public function testExecuteStepWithSchemaChange() {
 
 		$schema = $this->createMock(Schema::class);
-		$this->db->expects($this->any())->method('createSchema')->willReturn($schema);
+		$this->db->expects($this->any())
+			->method('createSchema')
+			->willReturn($schema);
 
-		$step = $this->createMock(ISchemaMigration::class);
-		$step->expects($this->once())->method('changeSchema');
+		$this->db->expects($this->once())
+			->method('migrateToSchema');
+
+		$schemaResult = $this->createMock(SchemaWrapper::class);
+		$schemaResult->expects($this->once())
+			->method('getWrappedSchema')
+			->willReturn($this->createMock(Schema::class));
+
+		$step = $this->createMock(IMigrationStep::class);
+		$step->expects($this->at(0))
+			->method('preSchemaChange');
+		$step->expects($this->at(1))
+			->method('changeSchema')
+			->willReturn($schemaResult);
+		$step->expects($this->at(2))
+			->method('postSchemaChange');
+
 		$this->migrationService = $this->getMockBuilder(MigrationService::class)
 			->setMethods(['createInstance'])
 			->setConstructorArgs(['testing', $this->db])
 			->getMock();
-		$this->migrationService->expects($this->any())->method('createInstance')->with('20170130180000')->willReturn($step);
+
+		$this->migrationService->expects($this->any())
+			->method('createInstance')
+			->with('20170130180000')
+			->willReturn($step);
 		$this->migrationService->executeStep('20170130180000');
 	}
 
-	public function testExecuteStepWithSqlMigrationStep() {
+	public function testExecuteStepWithoutSchemaChange() {
 
-		$this->db->expects($this->exactly(3))->method('executeQuery')->withConsecutive(['1'], ['2'], ['3']);
+		$schema = $this->createMock(Schema::class);
+		$this->db->expects($this->any())
+			->method('createSchema')
+			->willReturn($schema);
 
-		$step = $this->createMock(ISqlMigration::class);
-		$step->expects($this->once())->method('sql')->willReturn(['1', '2', '3']);
+		$this->db->expects($this->never())
+			->method('migrateToSchema');
+
+		$step = $this->createMock(IMigrationStep::class);
+		$step->expects($this->at(0))
+			->method('preSchemaChange');
+		$step->expects($this->at(1))
+			->method('changeSchema')
+			->willReturn(null);
+		$step->expects($this->at(2))
+			->method('postSchemaChange');
+
 		$this->migrationService = $this->getMockBuilder(MigrationService::class)
 			->setMethods(['createInstance'])
 			->setConstructorArgs(['testing', $this->db])
 			->getMock();
-		$this->migrationService->expects($this->any())->method('createInstance')->with('20170130180000')->willReturn($step);
+
+		$this->migrationService->expects($this->any())
+			->method('createInstance')
+			->with('20170130180000')
+			->willReturn($step);
 		$this->migrationService->executeStep('20170130180000');
 	}
 
-	public function testGetMigration() {
+	public function dataGetMigration() {
+		return [
+			['current', '20170130180001'],
+			['prev', '20170130180000'],
+			['next', '20170130180002'],
+			['latest', '20170130180003'],
+		];
+	}
+
+	/**
+	 * @dataProvider dataGetMigration
+	 * @param string $alias
+	 * @param string $expected
+	 */
+	public function testGetMigration($alias, $expected) {
 		$this->migrationService = $this->getMockBuilder(MigrationService::class)
 			->setMethods(['getMigratedVersions', 'findMigrations'])
 			->setConstructorArgs(['testing', $this->db])
@@ -129,14 +183,8 @@ class MigrationsTest extends \Test\TestCase {
 			['20170130180000', '20170130180001', '20170130180002', '20170130180003'],
 			$this->migrationService->getAvailableVersions());
 
-		$migration = $this->migrationService->getMigration('current');
-		$this->assertEquals('20170130180001', $migration);
-		$migration = $this->migrationService->getMigration('prev');
-		$this->assertEquals('20170130180000', $migration);
-		$migration = $this->migrationService->getMigration('next');
-		$this->assertEquals('20170130180002', $migration);
-		$migration = $this->migrationService->getMigration('latest');
-		$this->assertEquals('20170130180003', $migration);
+		$migration = $this->migrationService->getMigration($alias);
+		$this->assertEquals($expected, $migration);
 	}
 
 	public function testMigrate() {
