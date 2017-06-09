@@ -65,9 +65,11 @@
 			this._toggleHandle.prepend($('<span>').addClass('icon icon-tag'));
 
 			this._toggleHandle.on('click', function () {
-				self.$el.toggleClass('hidden');
-				if (!self.$el.hasClass('hidden')) {
-					self.$el.find('.systemTagsInputField').select2('open');
+				if (self.isVisible()) {
+					self.hide();
+				} else {
+					self.show();
+					self.openDropdown();
 				}
 			});
 		},
@@ -144,15 +146,15 @@
 						self._inputView.setData(appliedTags);
 
 						if (appliedTags.length !== 0) {
-							self.$el.removeClass('hidden');
+							self.show();
 						} else {
-							self.$el.addClass('hidden');
+							self.hide();
 						}
 					}
 				});
 			}
 
-			this.$el.addClass('hidden');
+			this.hide();
 		},
 
 		/**
@@ -163,6 +165,22 @@
 
 			this.$el.append(this._inputView.$el);
 			this._inputView.render();
+		},
+
+		isVisible: function() {
+			return !this.$el.hasClass('hidden');
+		},
+
+		show: function() {
+			this.$el.removeClass('hidden');
+		},
+
+		hide: function() {
+			this.$el.addClass('hidden');
+		},
+
+		openDropdown: function() {
+			this.$el.find('.systemTagsInputField').select2('open');
 		},
 
 		remove: function() {
