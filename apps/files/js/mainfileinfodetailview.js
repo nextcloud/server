@@ -171,6 +171,8 @@
 		 * Renders this details view
 		 */
 		render: function() {
+			this.trigger('pre-render');
+
 			if (this.model) {
 				var isFavorite = (this.model.get('tags') || []).indexOf(OC.TAG_FAVORITE) >= 0;
 				this.$el.html(this.template({
@@ -209,6 +211,8 @@
 				this.$el.empty();
 			}
 			this.delegateEvents();
+
+			this.trigger('post-render');
 		}
 	});
 
