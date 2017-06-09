@@ -16,7 +16,6 @@
 						 <?php if($_['usage_relative'] > 80): ?>class="quota-warning"<?php endif; ?>>
 					</div>
 				</div>
-				<p id="quotatext-additional"><?php p($l->t('Do you need more space?')); ?></p>
 			</a>
 		</li>
 		<?php foreach ($_['navigationItems'] as $item) { ?>
