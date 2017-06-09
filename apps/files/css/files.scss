@@ -108,6 +108,9 @@
 .nav-icon-trashbin {
 	background-image: url('../img/delete.svg?v=1');
 }
+.nav-icon-quota {
+	background-image: url('../img/quota.svg?v=1');
+}
 
 #app-navigation .nav-files a.nav-icon-files {
 	width: auto;
@@ -752,11 +755,22 @@ table.dragshadow td.size {
 #quota {
 	margin: 0 !important;
 	border: none;
-	div {
-		border-radius: 0;
+	background-color: transparent;
+
+	.quota-container {
+		height: 5px;
+		border-radius: 3px;
+
+		div {
+			height: 100%;
+			background-color: $color-primary;
+		}
 	}
 }
 
-#quotatext {
-	padding: 3px;
+#quotatext,
+#quotatext-additional {
+	padding: 0;
+	height: 30px;
+	line-height: 30px;
 }
