@@ -371,7 +371,7 @@ var OCP = {},
 				url: path,
 				cache: true,
 				success: function (content) {
-					eval(content);
+					window.eval(content);
 					if(ready) {
 						ready();
 					}
