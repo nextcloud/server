@@ -1158,7 +1158,7 @@ class View {
 				if ($this->lockingEnabled && $operation === 'fopen' && is_resource($result)) {
 					$unlockLater = true;
 					// make sure our unlocking callback will still be called if connection is aborted
-					ignore_user_abort(true);
+					ignore_user_abort(false); //false to allow user to cancel download when downloading files from network storages mounted a local fuse directory
 					$result = CallbackWrapper::wrap($result, null, null, function () use ($hooks, $path) {
 						if (in_array('write', $hooks)) {
 							$this->unlockFile($path, ILockingProvider::LOCK_EXCLUSIVE);
