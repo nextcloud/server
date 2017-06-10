@@ -5,7 +5,7 @@
     "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "Normalmente isso pode ser resolvido dando ao webserver permissão de escrita no diretório config. Veja %s",
     "The files of the app %$1s were not replaced correctly. Make sure it is a version compatible with the server." : "Os arquivos do aplicativo %$1s não foram substituídos corretamente. Certifique-se de que é uma versão compatível com o servidor.",
     "Sample configuration detected" : "Configuração de exemplo detectada",
-    "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Foi detectado que a configuração de exemplo foi copiada. Isso pode desestabilizar sua instalação e não é suportado. Por favor leia a documentação antes de realizar mudanças no config.php",
+    "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Foi detectado que a configuração de exemplo foi copiada. Isso pode terminar sua instalação e não é suportado. Por favor leia a documentação antes de realizar mudanças no config.php",
     "%1$s and %2$s" : "%1$s e %2$s",
     "%1$s, %2$s and %3$s" : "%1$s, %2$s e %3$s",
     "%1$s, %2$s, %3$s and %4$s" : "%1$s, %2$s, %3$s e %4$s",

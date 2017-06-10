@@ -65,7 +65,7 @@ OC.L10N.register(
     "Password for %1$s changed on %2$s" : "Senha para %1$s alterada em %2$s",
     "%1$s changed your email address on %2$s." : "%1$s alterou seu e-mail em %2$s.",
     "Your email address on %s was changed." : "Seu e-mail em %s foi alterado.",
-    "Your email address on %s was changed by an administrator." : "Seu e-mail em %s foi alterado pelo administrador.",
+    "Your email address on %s was changed by an administrator." : "Seu e-mail em %s foi alterado por um administrador.",
     "Email address changed for %s" : "E-mail alterado para %s",
     "The new email address is %s" : "O novo e-mail é %s",
     "Email address for %1$s changed on %2$s" : "E-mail para %1$s foi alterado em %2$s",
