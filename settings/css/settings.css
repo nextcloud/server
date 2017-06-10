@@ -25,10 +25,6 @@ input#openid, input#webdav {
 	background-image: url('../img/toggle-filelist.svg?v=1');
 }
 
-.nav-icon-apppasswords {
-	background-image: url('../img/password.svg?v=1');
-}
-
 .nav-icon-clientsbox {
 	background-image: url('../img/change.svg?v=1');
 }
