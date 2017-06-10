@@ -1237,19 +1237,14 @@ div.crumb {
 	a, > span {
 		padding: 14px;
 	}
-	&.last .icon-shared {
+	.shared {
 		padding-right: 0;
 	}
 	&.last {
 		font-weight: 600;
 	}
 	&.ellipsized {
-		padding: 0 10px 0 5px;
-	}
-	a.ellipsislink {
-		padding: 0 !important;
-		position: relative;
-		top: 8px !important;
+		line-height: 10px;
 	}
 	&:hover, &:focus, a:focus, &:active {
 		-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=100)';
