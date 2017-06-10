@@ -4,6 +4,7 @@ OC.L10N.register(
     "{actor} changed your password" : "{actor} ndryshoi fjalëkalimin tuaj ",
     "You changed your password" : "Ju ndëruat fjalëkalimin",
     "Your password was reset by an administrator" : "Fjalëkalimi juaj është rivendosur nga administratori",
+    "{actor} changed your email address" : "{actor} ndëroi emailin tuaj ",
     "You changed your email address" : "Ju ndryshuat  adresën e emailit tuaj",
     "Your email address was changed by an administrator" : "Adresa juaj e email-it është ndryshuar nga një administrator",
     "Security" : "Siguria",
