@@ -127,7 +127,7 @@ OC.L10N.register(
     "Expiration" : "Ablaufdatum",
     "Expiration date" : "Ablaufdatum",
     "Choose a password for the public link" : "Wähle ein Passwort für den öffentlichen Link",
-    "Choose a password for the public link or press \"Enter ↵\"" : "Wähle ein Passwort für die öffentliche Freigabe oder presse \"Return  '",
+    "Choose a password for the public link or press \"Enter ↵\"" : "Wähle ein Passwort für die öffentliche Freigabe oder drücke \"Return  \"",
     "Copied!" : "Kopiert!",
     "Copy" : "Kopieren",
     "Not supported!" : "Nicht unterstützt!",
