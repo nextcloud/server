@@ -349,6 +349,7 @@ OC.L10N.register(
     "iOS app" : "iOS приложение",
     "If you want to support the project {contributeopen}join development{linkclose} or {contributeopen}spread the word{linkclose}!" : "Если хотите поддержать проект - {contributeopen}присоединяйтесь к разработке{linkclose} или {contributeopen}расскажите о нем другим{linkclose}!",
     "Show First Run Wizard again" : "Повторно показать мастера первого запуска",
+    "Web, desktop, mobile clients and app specific passwords that currently have access to your account." : "Веб, настольные и мобильные клиенты, а также индивидуальные пароли приложений, которые имеют доступ к вашему аккаунту.",
     "Device" : "Устройство",
     "Last activity" : "Последние действия",
     "App passwords" : "Пароль приложения",
