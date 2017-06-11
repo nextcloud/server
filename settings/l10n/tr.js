@@ -349,6 +349,7 @@ OC.L10N.register(
     "iOS app" : "iOS uygulaması",
     "If you want to support the project {contributeopen}join development{linkclose} or {contributeopen}spread the word{linkclose}!" : "Projeyi desteklemek için {contributeopen}geliştirmeye katılabilir{linkclose} ya da  {contributeopen}tanıtımını yapabilirsiniz{linkclose}!",
     "Show First Run Wizard again" : "İlk Çalıştırma Yardımcısı yeniden görüntülensin",
+    "Web, desktop, mobile clients and app specific passwords that currently have access to your account." : "Şu anda hesabınıza erişebilen web, masa üstü ve mobil istemciler ile uygulamaya özel parolalar.",
     "Device" : "Aygıt",
     "Last activity" : "Son işlem",
     "App passwords" : "Uygulama parolaları",
