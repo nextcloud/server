@@ -59,7 +59,7 @@ input#openid, input#webdav {
 }
 
 #avatarform .jcrop-keymgr {
-	display:none !important;
+	display: none !important;
 }
 
 #displayavatar {
@@ -310,7 +310,7 @@ table.nostyle td {
 	max-width: 580px;
 }
 
-#security table th{
+#security table th {
 	opacity: .5;
 }
 
@@ -693,11 +693,17 @@ input#recoveryPassword {
 	height: 37px;
 }
 
-select.quota-user {
+#userlist td.quota {
 	position: relative;
+	width: 10em;
+}
+
+select.quota-user {
+	position: absolute;
 	left: 0;
 	top: 0;
 	width: 10em;
+	height: 34px;
 }
 
 select.quota.active {
@@ -706,6 +712,20 @@ select.quota.active {
 
 input.userFilter {
 	width: 200px;
+}
+
+.quota_progress_container {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 10em;
+	margin: 3px 3px 3px 0;
+	border-radius: 3px;
+}
+
+.quota_progress {
+	background-color: #eee;
+	height: 34px;
 }
 
 /* positioning fixes */
