@@ -109,7 +109,7 @@
 			this._onPopState(urlParams);
 
 			$('#quota.has-tooltip').tooltip({
-				placement: 'bottom'
+				placement: 'top'
 			});
 
 			this._debouncedPersistShowHiddenFilesState = _.debounce(this._persistShowHiddenFilesState, 1200);
