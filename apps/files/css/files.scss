@@ -756,7 +756,12 @@ table.dragshadow td.size {
 	margin: 0 !important;
 	border: none;
 	border-radius: 0;
-	background-color: transparent;
+	position: fixed !important;
+	bottom: 44px;
+	width: inherit !important;
+	background-color: #fff;
+	border-right: 1px solid #eee;
+	z-index:1;
 
 	.quota-container {
 		height: 5px;
@@ -767,6 +772,11 @@ table.dragshadow td.size {
 			background-color: $color-primary;
 		}
 	}
+}
+
+/* increase the padding of the last item to not hide below the quota item */
+.app-files #app-navigation > ul li:nth-last-child(1) {
+	margin-bottom: 44px;
 }
 
 #quotatext,
