@@ -69,7 +69,7 @@ class NewUserMailHelperTest extends TestCase {
 			$this->l10n
 		);
 		$this->mailer->method('createEMailTemplate')
-			->will($this->return($template));
+			->will($this->returnValue($template));
 		$this->secureRandom = $this->createMock(ISecureRandom::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->config = $this->createMock(IConfig::class);
