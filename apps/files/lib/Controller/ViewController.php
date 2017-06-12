@@ -41,6 +41,7 @@ use OCP\IUserSession;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use OCP\Files\Folder;
 use OCP\App\IAppManager;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * Class ViewController
@@ -199,7 +200,8 @@ class ViewController extends Controller {
 			$contentItems[] = $contentItem;
 		}
 
-		$this->eventDispatcher->dispatch('OCA\Files::loadAdditionalScripts');
+		$event = new GenericEvent(null, ['hiddenFields' => []]);
+		$this->eventDispatcher->dispatch('OCA\Files::loadAdditionalScripts', $event);
 
 		$params = [];
 		$params['usedSpacePercent'] = (int)$storageInfo['relative'];
@@ -215,6 +217,7 @@ class ViewController extends Controller {
 		$params['fileNotFound'] = $fileNotFound ? 1 : 0;
 		$params['appNavigation'] = $nav;
 		$params['appContents'] = $contentItems;
+		$params['hiddenFields'] = $event->getArgument('hiddenFields');
 
 		$response = new TemplateResponse(
 			$this->appName,
