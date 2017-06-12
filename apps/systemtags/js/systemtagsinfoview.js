@@ -30,7 +30,8 @@
 
 		_rendered: false,
 
-		className: 'systemTagsInfoView hidden',
+		// className: 'systemTagsInfoView hidden',
+		className: 'systemTagsInfoView',
 
 		/**
 		 * @type OC.SystemTags.SystemTagsInputField
@@ -61,8 +62,8 @@
 			this._inputView.on('select', this._onSelectTag, this);
 			this._inputView.on('deselect', this._onDeselectTag, this);
 
-			this._toggleHandle = $('<span>').addClass('tag-label').text(t('systemtags', 'Tags'));
-			this._toggleHandle.prepend($('<span>').addClass('icon icon-tag'));
+			// this._toggleHandle = $('<span>').addClass('tag-label').text(t('systemtags', 'Tags'));
+			// this._toggleHandle.prepend($('<span>').addClass('icon icon-tag'));
 		},
 
 		/**
@@ -127,40 +128,40 @@
 						var appliedTags = collection.map(modelToSelection);
 						self._inputView.setData(appliedTags);
 
-						if (appliedTags.length !== 0) {
-							self.$el.removeClass('hidden');
-						} else {
-							self.$el.addClass('hidden');
-						}
+						// if (appliedTags.length !== 0) {
+						// 	self.$el.removeClass('hidden');
+						// } else {
+						// 	self.$el.addClass('hidden');
+						// }
 					}
 				});
 			}
 
-			this.$el.addClass('hidden');
+			// this.$el.addClass('hidden');
 		},
 
 		/**
 		 * Renders this details view
 		 */
 		render: function() {
-			var self = this;
+			// var self = this;
 
 			this.$el.append(this._inputView.$el);
 			this._inputView.render();
 
-			$('#app-sidebar').find('.mainFileInfoView .file-details').append(this._toggleHandle);
-			this._toggleHandle.off('click');
-			this._toggleHandle.on('click', function () {
-				self.$el.toggleClass('hidden');
-				if (!self.$el.hasClass('hidden')) {
-					self.$el.find('.systemTagsInputField').select2('open');
-				}
-			});
+			// $('#app-sidebar').find('.mainFileInfoView .file-details').append(this._toggleHandle);
+			// this._toggleHandle.off('click');
+			// this._toggleHandle.on('click', function () {
+			// 	self.$el.toggleClass('hidden');
+			// 	if (!self.$el.hasClass('hidden')) {
+			// 		self.$el.find('.systemTagsInputField').select2('open');
+			// 	}
+			// });
 		},
 
 		remove: function() {
 			this._inputView.remove();
-			this._toggleHandle.remove();
+			// this._toggleHandle.remove();
 		}
 	});
 
