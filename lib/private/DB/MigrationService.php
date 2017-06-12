@@ -78,9 +78,13 @@ class MigrationService {
 			$namespace = App::buildAppNamespace($appName);
 			$this->migrationsPath = "$appPath/lib/Migration";
 			$this->migrationsNamespace = $namespace . '\\Migration';
+
+			if (!@mkdir($appPath . '/lib') && !is_dir($appPath . '/lib')) {
+				throw new \RuntimeException("Could not create migration folder \"{$this->migrationsPath}\"");
+			}
 		}
 
-		if (!is_dir($this->migrationsPath) && !mkdir($this->migrationsPath)) {
+		if (!@mkdir($this->migrationsPath) && !is_dir($this->migrationsPath)) {
 			throw new \RuntimeException("Could not create migration folder \"{$this->migrationsPath}\"");
 		}
 	}
