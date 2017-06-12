@@ -17,7 +17,7 @@
 
 	var PASSWORD_PLACEHOLDER = '**********';
 	var PASSWORD_PLACEHOLDER_MESSAGE = t('core', 'Choose a password for the public link');
-	var PASSWORD_PLACEHOLDER_MESSAGE_OPTIONAL = t('core', 'Choose a password for the public link or press "Enter ↵"');
+	var PASSWORD_PLACEHOLDER_MESSAGE_OPTIONAL = t('core', 'Choose a password for the public link or press the "Enter" key');
 
 	var TEMPLATE =
 			'{{#if shareAllowed}}' +
