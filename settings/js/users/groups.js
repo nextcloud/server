@@ -380,4 +380,7 @@ $(document).ready( function () {
 	$('#newgroupname').on('input', function(){
 		GroupList.handleAddGroupInput(this.value);
 	});
+
+	// highlight `everyone` group at DOMReady by default
+	GroupList.showGroup('_everyone');
 });
