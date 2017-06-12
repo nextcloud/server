@@ -94,7 +94,7 @@
     "Not allowed to create a federated share with the same user" : "Das Erstellen einer Federated-Cloud-Freigabe mit dem gleichen Benutzer ist nicht erlaubt",
     "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "Freigabe von %s fehlgeschlagen, da %s nicht gefunden wurde. Möglicherweise ist der Server nicht erreichbar.",
     "Share type %s is not valid for %s" : "Freigabetyp %s ist nicht gültig für %s",
-    "Setting permissions for %s failed, because the permissions exceed permissions granted to %s" : "Das Setzen der Berechtigungen für %s ist fehlgeschlagen, da die Berechtigungen, die erteilten Berechtigungen %s überschreiten",
+    "Setting permissions for %s failed, because the permissions exceed permissions granted to %s" : "Das Setzen der Berechtigungen für %s ist fehlgeschlagen, da die neuen Berechtigungen, die erteilten Berechtigungen %s überschreiten",
     "Setting permissions for %s failed, because the item was not found" : "Das Setzen der Berechtigungen für %s ist fehlgeschlagen, da das Element nicht gefunden wurde",
     "Cannot set expiration date. Shares cannot expire later than %s after they have been shared" : "Ablaufdatum kann nicht gesetzt werden. Freigaben können nach dem Teilen, nicht länger als %s gültig sein.",
     "Cannot set expiration date. Expiration date is in the past" : "Ablaufdatum kann nicht gesetzt werden. Ablaufdatum liegt in der Vergangenheit.",
