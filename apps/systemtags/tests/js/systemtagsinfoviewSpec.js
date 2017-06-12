@@ -201,4 +201,50 @@ describe('OCA.SystemTags.SystemTagsInfoView tests', function() {
 
 		});
 	});
+	describe('visibility', function() {
+		it('reports visibility based on the "hidden" class name', function() {
+			view.$el.addClass('hidden');
+
+			expect(view.isVisible()).toBeFalsy();
+
+			view.$el.removeClass('hidden');
+
+			expect(view.isVisible()).toBeTruthy();
+		});
+		it('is not visible after rendering', function() {
+			view.render();
+
+			expect(view.isVisible()).toBeFalsy();
+		});
+		it('shows and hides the element', function() {
+			view.show();
+
+			expect(view.isVisible()).toBeTruthy();
+
+			view.hide();
+
+			expect(view.isVisible()).toBeFalsy();
+
+			view.show();
+
+			expect(view.isVisible()).toBeTruthy();
+		});
+	});
+	describe('select2', function() {
+		var select2Stub;
+
+		beforeEach(function() {
+			select2Stub = sinon.stub($.fn, 'select2');
+		});
+		afterEach(function() {
+			select2Stub.restore();
+		});
+		it('opens dropdown', function() {
+			view.openDropdown();
+
+			expect(select2Stub.calledOnce).toBeTruthy();
+			expect(select2Stub.thisValues[0].selector).toEqual('.systemTagsInputField');
+			expect(select2Stub.withArgs('open')).toBeTruthy();
+		});
+	});
 });

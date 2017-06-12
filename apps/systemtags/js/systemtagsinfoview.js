@@ -37,8 +37,6 @@
 		 */
 		_inputView: null,
 
-		_toggleHandle: null,
-
 		initialize: function(options) {
 			var self = this;
 			options = options || {};
@@ -60,9 +58,6 @@
 
 			this._inputView.on('select', this._onSelectTag, this);
 			this._inputView.on('deselect', this._onDeselectTag, this);
-
-			this._toggleHandle = $('<span>').addClass('tag-label').text(t('systemtags', 'Tags'));
-			this._toggleHandle.prepend($('<span>').addClass('icon icon-tag'));
 		},
 
 		/**
@@ -128,15 +123,15 @@
 						self._inputView.setData(appliedTags);
 
 						if (appliedTags.length !== 0) {
-							self.$el.removeClass('hidden');
+							self.show();
 						} else {
-							self.$el.addClass('hidden');
+							self.hide();
 						}
 					}
 				});
 			}
 
-			this.$el.addClass('hidden');
+			this.hide();
 		},
 
 		/**
@@ -147,20 +142,26 @@
 
 			this.$el.append(this._inputView.$el);
 			this._inputView.render();
+		},
 
-			$('#app-sidebar').find('.mainFileInfoView .file-details').append(this._toggleHandle);
-			this._toggleHandle.off('click');
-			this._toggleHandle.on('click', function () {
-				self.$el.toggleClass('hidden');
-				if (!self.$el.hasClass('hidden')) {
-					self.$el.find('.systemTagsInputField').select2('open');
-				}
-			});
+		isVisible: function() {
+			return !this.$el.hasClass('hidden');
+		},
+
+		show: function() {
+			this.$el.removeClass('hidden');
+		},
+
+		hide: function() {
+			this.$el.addClass('hidden');
+		},
+
+		openDropdown: function() {
+			this.$el.find('.systemTagsInputField').select2('open');
 		},
 
 		remove: function() {
 			this._inputView.remove();
-			this._toggleHandle.remove();
 		}
 	});
 
