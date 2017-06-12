@@ -61,6 +61,11 @@ class IntegrationTestCountUsersByLoginName extends AbstractIntegrationTest {
 	}
 }
 
+/** @var string $host */
+/** @var int $port */
+/** @var string $adn */
+/** @var string $apwd */
+/** @var string $bdn */
 $test = new IntegrationTestCountUsersByLoginName($host, $port, $adn, $apwd, $bdn);
 $test->init();
 $test->run();

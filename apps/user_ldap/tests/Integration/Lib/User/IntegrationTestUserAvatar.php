@@ -25,9 +25,14 @@
 
 namespace OCA\User_LDAP\Tests\Integration\Lib\User;
 
+use OCA\User_LDAP\FilesystemHelper;
+use OCA\User_LDAP\LogWrapper;
+use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\User\User;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\Tests\Integration\AbstractIntegrationTest;
+use OCA\User_LDAP\User_LDAP;
+use OCP\Image;
 
 require_once __DIR__ . '/../../Bootstrap.php';
 
@@ -45,7 +50,7 @@ class IntegrationTestUserAvatar extends AbstractIntegrationTest {
 		$this->mapping = new UserMapping(\OC::$server->getDatabaseConnection());
 		$this->mapping->clear();
 		$this->access->setUserMapper($this->mapping);
-		$userBackend  = new \OCA\User_LDAP\User_LDAP($this->access, \OC::$server->getConfig(), \OC::$server->getNotificationManager());
+		$userBackend  = new User_LDAP($this->access, \OC::$server->getConfig(), \OC::$server->getNotificationManager());
 		\OC_User::useBackend($userBackend);
 	}
 
@@ -123,12 +128,12 @@ class IntegrationTestUserAvatar extends AbstractIntegrationTest {
 	}
 
 	protected function initUserManager() {
-		$this->userManager = new \OCA\User_LDAP\User\Manager(
+		$this->userManager = new Manager(
 			\OC::$server->getConfig(),
-			new \OCA\User_LDAP\FilesystemHelper(),
-			new \OCA\User_LDAP\LogWrapper(),
+			new FilesystemHelper(),
+			new LogWrapper(),
 			\OC::$server->getAvatarManager(),
-			new \OCP\Image(),
+			new Image(),
 			\OC::$server->getDatabaseConnection(),
 			\OC::$server->getUserManager(),
 			\OC::$server->getNotificationManager()
@@ -149,6 +154,11 @@ class IntegrationTestUserAvatar extends AbstractIntegrationTest {
 	}
 }
 
+/** @var string $host */
+/** @var int $port */
+/** @var string $adn */
+/** @var string $apwd */
+/** @var string $bdn */
 $test = new IntegrationTestUserAvatar($host, $port, $adn, $apwd, $bdn);
 $test->init();
 $test->run();
