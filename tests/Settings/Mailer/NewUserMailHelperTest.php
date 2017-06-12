@@ -21,6 +21,7 @@
 
 namespace Tests\Settings\Mailer;
 
+use OC\Mail\EMailTemplate;
 use OCP\Mail\IEMailTemplate;
 use OC\Mail\Message;
 use OC\Settings\Mailer\NewUserMailHelper;
@@ -62,6 +63,13 @@ class NewUserMailHelperTest extends TestCase {
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->mailer = $this->createMock(IMailer::class);
+		$template = new EMailTemplate(
+			$this->defaults,
+			$this->urlGenerator,
+			$this->l10n
+		);
+		$this->mailer->method('createEMailTemplate')
+			->will($this->returnValue($template));
 		$this->secureRandom = $this->createMock(ISecureRandom::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->config = $this->createMock(IConfig::class);
