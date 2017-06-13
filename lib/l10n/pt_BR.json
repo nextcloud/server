@@ -74,7 +74,7 @@
     "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "Mac OS X não é suportado e %s não funcionará corretamente nesta plataforma. Use-o por sua conta e risco!",
     "For the best results, please consider using a GNU/Linux server instead." : "Para obter melhores resultados, por favor considere o uso de um servidor GNU/Linux em seu lugar.",
     "It seems that this %s instance is running on a 32-bit PHP environment and the open_basedir has been configured in php.ini. This will lead to problems with files over 4 GB and is highly discouraged." : "Aparentemente a instância %s está rodando em um ambiente PHP de 32 bits e o open_basedir foi configurado no php.ini. Isto pode gerar problemas com arquivos maiores que 4GB e é altamente desencorajado.",
-    "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Por favor, remova a configuração de open_basedir de seu php.ini ou altere o PHP para 64bit.",
+    "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Por favor, remova a configuração de open_basedir de seu php.ini ou mude o PHP para 64bit.",
     "Set an admin username." : "Defina um nome do usuário administrador.",
     "Set an admin password." : "Defina uma senha para o administrador.",
     "Can't create or write into the data directory %s" : "Não foi possível criar ou gravar no diretório de dados %s",
@@ -204,7 +204,6 @@
     "Your data directory must be an absolute path" : "O diretório de dados deve ser um caminho absoluto",
     "Check the value of \"datadirectory\" in your configuration" : "Verifique o valor do \"datadirectory\" na sua configuração",
     "Your data directory is invalid" : "Seu diretório de dados é inválido",
-    "Please check that the data directory contains a file \".ocdata\" in its root." : "Por favor, verifique se o diretório de dados contém um arquivo \".ocdata\" em sua raiz.",
     "Could not obtain lock type %d on \"%s\"." : "Não foi possível obter tipo de bloqueio %d em \"%s\".",
     "Storage unauthorized. %s" : "Armazenamento não autorizado. %s",
     "Storage incomplete configuration. %s" : "Configuração incompleta do armazenamento. %s",
@@ -223,6 +222,7 @@
     "Permissions can usually be fixed by %sgiving the webserver write access to the root directory%s." : "Permissões podem ser corrigidas por %sdando permissão de escrita ao servidor web para o diretório raiz %s",
     "Data directory (%s) is readable by other users" : "Diretório de dados (%s) pode ser lido por outros usuários",
     "Data directory (%s) must be an absolute path" : "Diretório de dados (%s) deve ser um caminho absoluto",
-    "Data directory (%s) is invalid" : "Diretório de dados (%s) é inválido"
+    "Data directory (%s) is invalid" : "Diretório de dados (%s) é inválido",
+    "Please check that the data directory contains a file \".ocdata\" in its root." : "Por favor, verifique se o diretório de dados contém um arquivo \".ocdata\" em sua raiz."
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

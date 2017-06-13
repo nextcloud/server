@@ -108,7 +108,6 @@ OC.L10N.register(
     "The reverse proxy headers configuration is incorrect, or you are accessing Nextcloud from a trusted proxy. If you are not accessing Nextcloud from a trusted proxy, this is a security issue and can allow an attacker to spoof their IP address as visible to Nextcloud. Further information can be found in our <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">documentation</a>." : "역방향 프록시 헤더 설정이 올바르지 않거나 신뢰하는 프록시를 통해 Nextcloud에 접근하고 있을 수 있습니다. 만약 Nextcloud를 신뢰하는 프록시를 통해 접근하고 있지 않다면 이는 보안 문제이며 공격자가 IP 주소를 속이고 있을 수 있습니다. 자세한 내용은 <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">문서</a>를 참고하십시오.",
     "Memcached is configured as distributed cache, but the wrong PHP module \"memcache\" is installed. \\OC\\Memcache\\Memcached only supports \"memcached\" and not \"memcache\". See the <a target=\"_blank\" rel=\"noreferrer\" href=\"{wikiLink}\">memcached wiki about both modules</a>." : "Memcached가 분산 캐시로 구성되어 있지만 잘못된 PHP 모듈 \"memcache\"가 설치되어 있습니다. \\OC\\Memcache\\Memcached는 \"memcache\"가 아닌 \"memcached\"만 지원합니다. 자세한 내용은 <a target=\"_blank\" rel=\"noreferrer\" href=\"{wikiLink}\">이 두 모듈에 대한 memcached 위키</a>를 참고하십시오.",
     "Some files have not passed the integrity check. Further information on how to resolve this issue can be found in our <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">documentation</a>. (<a href=\"{codeIntegrityDownloadEndpoint}\">List of invalid files…</a> / <a href=\"{rescanEndpoint}\">Rescan…</a>)" : "일부 파일이 무결성 검사를 통과하지 못습니다. 이 문제를 해결하는 방법은 <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">문서</a>를 참고하십시오.(<a href=\"{codeIntegrityDownloadEndpoint}\">잘못된 파일 목록…</a> / <a href=\"{rescanEndpoint}\">다시 검색…</a>)",
-    "The PHP Opcache is not properly configured. <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">For better performance we recommend ↗</a> to use following settings in the <code>php.ini</code>:" : "PHP Opcache가 제대로 설정되어 있지 않습니다. 더 나은 성능을 위해서 <code>php.ini</code> 파일에 다음 설정을 <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">추가하는 것을 권장합니다 ↗</a>:",
     "The PHP function \"set_time_limit\" is not available. This could result in scripts being halted mid-execution, breaking your installation. We strongly recommend enabling this function." : "PHP 함수 \"set_time_limit\"을(를) 사용할 수 없습니다. 스크립트가 실행 중간에 중지되어 설치를 깨트릴 수도 있습니다. 이 함수를 활성화하는 것을 추천합니다.",
     "Error occurred while checking server setup" : "서버 설정을 확인하는 중 오류 발생",
     "Your data directory and your files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server in a way that the data directory is no longer accessible or you move the data directory outside the web server document root." : "데이터 디렉터리와 파일을 인터넷에서 접근할 수 있는 것 같습니다. .htaccess 파일을 사용할 수 없습니다. 웹 서버 설정을 변경하여 데이터 디렉터리에 접근할 수 없도록 하거나, 데이터 디렉터리를 웹 서버 문서 디렉터리 밖으로 옮기는 것을 추천합니다.",
@@ -123,7 +122,6 @@ OC.L10N.register(
     "Expiration" : "만료",
     "Expiration date" : "만료 날짜",
     "Choose a password for the public link" : "공개 링크 암호를 입력하십시오",
-    "Choose a password for the public link or press \"Enter ↵\"" : "공개 림크 암호를 입력하거나 \"Enter ↵\" 키를 누르십시오",
     "Copied!" : "복사 성공!",
     "Copy" : "복사",
     "Not supported!" : "지원하지 않음!",
@@ -331,6 +329,7 @@ OC.L10N.register(
     "Cheers!" : "감사합니다!",
     "Use the following link to reset your password: {link}" : "다음 링크를 사용하여 암호를 재설정할 수 있습니다: {link}",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "안녕하세요,<br><br>%s 님이 <strong>%s</strong>을(를) 공유하였음을 알려 드립니다.<br><a href=\"%s\">보러 가기!</a><br><br>",
-    "Please use the command line updater because you have a big instance." : "현재 인스턴스 크기가 크기 때문에 명령행 업데이터를 사용하십시오."
+    "Please use the command line updater because you have a big instance." : "현재 인스턴스 크기가 크기 때문에 명령행 업데이터를 사용하십시오.",
+    "The PHP Opcache is not properly configured. <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">For better performance we recommend ↗</a> to use following settings in the <code>php.ini</code>:" : "PHP Opcache가 제대로 설정되어 있지 않습니다. 더 나은 성능을 위해서 <code>php.ini</code> 파일에 다음 설정을 <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">추가하는 것을 권장합니다 ↗</a>:"
 },
 "nplurals=1; plural=0;");

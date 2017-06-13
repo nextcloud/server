@@ -186,7 +186,6 @@
     "Please upgrade your database version" : "Ju lutemi, përmirësoni bazën tuaj të të dhënave me një version më të ri.",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Ju lutemi, kalojani lejet në 0770, që kështu atë drejtori të mos mund ta shfaqin përdorues të tjerë.",
     "Check the value of \"datadirectory\" in your configuration" : "Kontrolloni vlerën e \"datadirectory\" te formësimi juaj",
-    "Please check that the data directory contains a file \".ocdata\" in its root." : "Ju lutemi, kontrolloni që drejtoria e të dhënave përmban në rrënjën e saj një kartelë \".ocdata\".",
     "Could not obtain lock type %d on \"%s\"." : "S’u mor dot lloj kyçjeje %d në \"%s\".",
     "Storage unauthorized. %s" : "Depozitë e paautorizuar. %s",
     "Storage incomplete configuration. %s" : "Formësim jo i plotë i depozitës. %s",
@@ -205,6 +204,7 @@
     "Permissions can usually be fixed by %sgiving the webserver write access to the root directory%s." : "Zakonisht lejet mund të ndreqen duke %si akorduar shërbyesit web të drejta shkrimi mbi drejtorinë rrënjë%s.",
     "Data directory (%s) is readable by other users" : "Drejtoria e të dhënave (%s) është e lexueshme nga përdorues të tjerë",
     "Data directory (%s) must be an absolute path" : "Drejtoria e të dhënave (%s) duhet të jepë një shteg absolut",
-    "Data directory (%s) is invalid" : "Drejtoria e të dhënave (%s) është e pavlefshme"
+    "Data directory (%s) is invalid" : "Drejtoria e të dhënave (%s) është e pavlefshme",
+    "Please check that the data directory contains a file \".ocdata\" in its root." : "Ju lutemi, kontrolloni që drejtoria e të dhënave përmban në rrënjën e saj një kartelë \".ocdata\"."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

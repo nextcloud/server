@@ -204,7 +204,6 @@
     "Your data directory must be an absolute path" : "Su directorio data debe ser una ruta absoluta",
     "Check the value of \"datadirectory\" in your configuration" : "Compruebe el valor de \"datadirectory\" en su configuración.",
     "Your data directory is invalid" : "Su directorio de datos es inválido",
-    "Please check that the data directory contains a file \".ocdata\" in its root." : "Verifique que el directorio de datos contiene un archivo \".ocdata\" en su directorio raíz.",
     "Could not obtain lock type %d on \"%s\"." : "No se pudo realizar el bloqueo %d en \"%s\".",
     "Storage unauthorized. %s" : "Almacenamiento no autorizado. %s",
     "Storage incomplete configuration. %s" : "Configuración de almacenamiento incompleta. %s",
@@ -223,6 +222,7 @@
     "Permissions can usually be fixed by %sgiving the webserver write access to the root directory%s." : "Los permisos normalmente puede solucionarse %sdándole al servidor permisos de escritura del directorio raíz%s.",
     "Data directory (%s) is readable by other users" : "El directorio de datos (%s) se puede leer por otros usuarios.",
     "Data directory (%s) must be an absolute path" : "El directorio de datos (%s) debe ser una ruta absoluta",
-    "Data directory (%s) is invalid" : "El directorio de datos (%s) no es válido"
+    "Data directory (%s) is invalid" : "El directorio de datos (%s) no es válido",
+    "Please check that the data directory contains a file \".ocdata\" in its root." : "Verifique que el directorio de datos contiene un archivo \".ocdata\" en su directorio raíz."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

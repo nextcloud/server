@@ -196,7 +196,6 @@
     "Your data directory must be an absolute path" : "Du måste specificera en korrekt sökväg till datamappen",
     "Check the value of \"datadirectory\" in your configuration" : "Kontrollera värdet av \"datakatalog\" i din konfiguration",
     "Your data directory is invalid" : "Din datamapp är ogiltig",
-    "Please check that the data directory contains a file \".ocdata\" in its root." : "Vänligen kontrollera att datakatalogen innehåller filen \".ocdata\" i rooten.",
     "Could not obtain lock type %d on \"%s\"." : "Kunde inte hämta låstyp %d på \"%s\".",
     "Storage unauthorized. %s" : "Lagringsutrymme ej tillåtet. %s",
     "Storage incomplete configuration. %s" : "Lagringsutrymme felaktigt inställt. %s",
@@ -215,6 +214,7 @@
     "Permissions can usually be fixed by %sgiving the webserver write access to the root directory%s." : "Rättigheterna kan vanligtvis åtgärdas genom att %s ger webbservern skrivrättigheter till rootkatalogen %s.",
     "Data directory (%s) is readable by other users" : "Datakatalogen (%s) kan läsas av andra användare",
     "Data directory (%s) must be an absolute path" : "Datakatalogen (%s) måste vara hela sökvägen",
-    "Data directory (%s) is invalid" : "Datakatlogen (%s) är ogiltig"
+    "Data directory (%s) is invalid" : "Datakatlogen (%s) är ogiltig",
+    "Please check that the data directory contains a file \".ocdata\" in its root." : "Vänligen kontrollera att datakatalogen innehåller filen \".ocdata\" i rooten."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
