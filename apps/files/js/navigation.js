@@ -123,7 +123,9 @@
 		_onClickItem: function(ev) {
 			var $target = $(ev.target);
 			var itemId = $target.closest('li').attr('data-id');
-			this.setActiveItem(itemId);
+			if (!_.isUndefined(itemId)) {
+				this.setActiveItem(itemId);
+			}
 			ev.preventDefault();
 		}
 	};

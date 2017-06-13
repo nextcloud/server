@@ -1,5 +1,23 @@
 <div id="app-navigation">
 	<ul class="with-icon">
+		<li id="quota" class="section <?php
+		if ($_['quota'] !== \OCP\Files\FileInfo::SPACE_UNLIMITED) {
+			?>has-tooltip" title="<?php p($_['usage_relative'] . '%');
+		} ?>">
+			<a href="#" class="nav-icon-quota svg">
+				<p id="quotatext"><?php
+					if ($_['quota'] !== \OCP\Files\FileInfo::SPACE_UNLIMITED) {
+						p($l->t('%s of %s used', [$_['usage'], $_['total_space']]));
+					} else {
+						p($l->t('%s used', [$_['usage']]));
+					} ?></p>
+				<div class="quota-container">
+					<div style="width:<?php p($_['usage_relative']);?>%"
+						 <?php if($_['usage_relative'] > 80): ?>class="quota-warning"<?php endif; ?>>
+					</div>
+				</div>
+			</a>
+		</li>
 		<?php foreach ($_['navigationItems'] as $item) { ?>
 		<li data-id="<?php p($item['id']) ?>" class="nav-<?php p($item['id']) ?>">
 			<a href="<?php p(isset($item['href']) ? $item['href'] : '#') ?>"

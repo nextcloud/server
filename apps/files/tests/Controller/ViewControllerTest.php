@@ -107,6 +107,9 @@ class ViewControllerTest extends TestCase {
 			->expects($this->once())
 			->method('getStorageInfo')
 			->will($this->returnValue([
+				'used' => 123,
+				'quota' => 100,
+				'total' => 100,
 				'relative' => 123,
 				'owner' => 'MyName',
 				'ownerDisplayName' => 'MyDisplayName',
@@ -125,6 +128,10 @@ class ViewControllerTest extends TestCase {
 			->will($this->returnArgument(2));
 
 		$nav = new Template('files', 'appnavigation');
+		$nav->assign('usage_relative', 123);
+		$nav->assign('usage', '123 B');
+		$nav->assign('quota', 100);
+		$nav->assign('total_space', '100 B');
 		$nav->assign('navigationItems', [
 			[
 				'id' => 'files',
@@ -256,6 +263,7 @@ class ViewControllerTest extends TestCase {
 						'content' => null,
 					],
 				],
+				'hiddenFields' => [],
 			]
 		);
 		$policy = new Http\ContentSecurityPolicy();
