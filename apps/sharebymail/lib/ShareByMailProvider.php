@@ -456,11 +456,24 @@ class ShareByMailProvider implements IShareProvider {
 		$emailTemplate->addHeading($this->l->t('Password to access »%s«', [$filename]), false);
 		$emailTemplate->addBodyText($htmlBodyPart, $plainBodyPart);
 		$emailTemplate->addBodyText($this->l->t('It is protected with the following password: %s', [$password]));
-		$emailTemplate->addFooter();
 
+		// The "From" contains the sharers name
+		$instanceName = $this->defaults->getName();
+		$senderName = $this->l->t(
+			'%s via %s',
+			[
+				$initiatorDisplayName,
+				$instanceName
+			]
+		);
+		$message->setFrom([\OCP\Util::getDefaultEmailAddress($instanceName) => $senderName]);
 		if ($initiatorEmailAddress !== null) {
-			$message->setFrom([$initiatorEmailAddress => $initiatorDisplayName]);
+			$message->setReplyTo([$initiatorEmailAddress => $initiatorDisplayName]);
+			$emailTemplate->addFooter($instanceName . ' - ' . $this->defaults->getSlogan());
+		} else {
+			$emailTemplate->addFooter();
 		}
+
 		$message->setTo([$shareWith]);
 		$message->setSubject($subject);
 		$message->setBody($emailTemplate->renderText(), 'text/plain');
