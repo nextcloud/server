@@ -3018,6 +3018,21 @@
 			if (this.breadcrumb) {
 				this.breadcrumb.addDetailView(detailView);
 			}
+		},
+
+		/**
+		 * Returns the registered detail views.
+		 *
+		 * @return null|Array<OCA.Files.DetailFileInfoView> an array with the
+		 *         registered DetailFileInfoViews, or null if the details view
+		 *         is not enabled.
+		 */
+		getRegisteredDetailViews: function() {
+			if (this._detailsView) {
+				return this._detailsView.getDetailViews();
+			}
+
+			return null;
 		}
 	};
 

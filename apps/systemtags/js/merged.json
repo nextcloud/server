@@ -2,5 +2,6 @@
   "app.js",
   "systemtagsfilelist.js",
   "filesplugin.js",
-  "systemtagsinfoview.js"
+  "systemtagsinfoview.js",
+  "systemtagsinfoviewtoggleview.js"
 ]
