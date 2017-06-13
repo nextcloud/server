@@ -50,10 +50,12 @@ class InfoCheckerTest extends TestCase {
 	public function appInfoData() {
 		return [
 			['testapp-infoxml', []],
-			['testapp-version', []],
-			['testapp-infoxml-version', []],
-			['testapp-infoxml-version-different', [['type' => 'differentVersions', 'message' => 'appinfo/version: 1.2.4 - appinfo/info.xml: 1.2.3']]],
-			['testapp-version-missing', []],
+			['testapp-version', [['type' => 'mandatoryFieldMissing', 'field' => 'version']]],
+			['testapp-dependency-missing', [
+				['type' => 'missingRequirement', 'field' => 'min'],
+				['type' => 'missingRequirement', 'field' => 'max'],
+				['type' => 'mandatoryFieldMissing', 'field' => 'dependencies'],
+			]],
 			['testapp-name-missing', [['type' => 'mandatoryFieldMissing', 'field' => 'name']]],
 		];
 	}

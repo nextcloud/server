@@ -146,11 +146,7 @@ class CheckCode extends Command implements CompletionAwareInterface  {
 			});
 
 			$infoChecker->listen('InfoChecker', 'missingRequirement', function($minMax) use ($output) {
-				$output->writeln("<comment>Nextcloud $minMax version requirement missing (will be an error in Nextcloud 12 and later)</comment>");
-			});
-
-			$infoChecker->listen('InfoChecker', 'duplicateRequirement', function($minMax) use ($output) {
-				$output->writeln("<error>Duplicate $minMax ownCloud version requirement found</error>");
+				$output->writeln("<error>Nextcloud $minMax version requirement missing</error>");
 			});
 
 			$infoChecker->listen('InfoChecker', 'differentVersions', function($versionFile, $infoXML) use ($output) {
@@ -162,7 +158,7 @@ class CheckCode extends Command implements CompletionAwareInterface  {
 			});
 
 			$infoChecker->listen('InfoChecker', 'migrateVersion', function($version) use ($output) {
-				$output->writeln("<info>Migrate the app version to appinfo/info.xml (add <version>$version</version> to appinfo/info.xml and remove appinfo/version)</info>");
+				$output->writeln("<error>Migrate the app version to appinfo/info.xml (add <version>$version</version> to appinfo/info.xml and remove appinfo/version)</error>");
 			});
 
 			if(OutputInterface::VERBOSITY_VERBOSE <= $output->getVerbosity()) {
