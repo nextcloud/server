@@ -599,17 +599,10 @@ class Connection extends LDAPUtility {
 	 * Binds to LDAP
 	 */
 	public function bind() {
-		static $getConnectionResourceAttempt = false;
 		if(!$this->configuration->ldapConfigurationActive) {
 			return false;
 		}
-		if($getConnectionResourceAttempt) {
-			$getConnectionResourceAttempt = false;
-			return false;
-		}
-		$getConnectionResourceAttempt = true;
 		$cr = $this->getConnectionResource();
-		$getConnectionResourceAttempt = false;
 		if(!$this->ldap->isResource($cr)) {
 			return false;
 		}
