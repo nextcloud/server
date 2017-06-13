@@ -15,10 +15,6 @@
 		<nextcloud min-version="13" max-version="13" />
 	</dependencies>
 
-	<dependencies>
-		<nextcloud min-version="12" max-version="12" />
-	</dependencies>
-
 	<settings>
 		<admin>OCA\OAuth2\Settings\Admin</admin>
 	</settings>
