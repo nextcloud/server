@@ -280,6 +280,7 @@ class OC {
 			// render error page
 			$template = new OC_Template('', 'update.user', 'guest');
 			OC_Util::addScript('maintenance-check');
+			OC_Util::addStyle('core', 'guest');
 			$template->printPage();
 			die();
 		}
