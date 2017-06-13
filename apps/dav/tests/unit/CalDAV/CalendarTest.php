@@ -191,6 +191,10 @@ class CalendarTest extends TestCase {
 				'privilege' => '{DAV:}read',
 				'principal' => $hasOwnerSet ? 'user1' : 'user2',
 				'protected' => true
+			], [
+				'privilege' => '{DAV:}write-properties',
+				'principal' => $hasOwnerSet ? 'user1' : 'user2',
+				'protected' => true
 			]];
 		}
 		if ($hasOwnerSet) {
