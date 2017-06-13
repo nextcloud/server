@@ -294,6 +294,19 @@ if($_['passwordChangeSupported']) {
 }
 ?>
 
+
+<?php
+if ($_['loginPortalUrl']) {
+?>
+	<form id="passwordportal" class="section" action="<?php p($_['loginPortalUrl'] . 'password-change'); ?>" method="GET">
+	<h2 class="inlineblock"><?php p($l->t('Password'));?></h2>
+		<br>
+		<input id="passwordbutton" type="submit" value="<?php p($l->t('Change your password')); ?>" />
+	</form>
+	<?php
+}
+?>
+
 <form id="language" class="section">
 	<h2>
 		<label for="languageinput"><?php p($l->t('Language'));?></label>
