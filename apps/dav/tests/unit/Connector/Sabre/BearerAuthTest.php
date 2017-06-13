@@ -21,9 +21,6 @@
 
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
-use OC\Authentication\TwoFactorAuth\Manager;
-use OC\Security\Bruteforce\Throttler;
-use OC\User\Session;
 use OCA\DAV\Connector\Sabre\BearerAuth;
 use OCP\IRequest;
 use OCP\ISession;
@@ -84,5 +81,14 @@ class BearerAuthTest extends TestCase {
 			->willReturn($user);
 
 		$this->assertSame('principals/users/admin', $this->bearerAuth->validateBearerToken('Token'));
+	}
+
+	public function testChallenge() {
+		/** @var \PHPUnit_Framework_MockObject_MockObject|RequestInterface $request */
+		$request = $this->createMock(RequestInterface::class);
+		/** @var \PHPUnit_Framework_MockObject_MockObject|ResponseInterface $response */
+		$response = $this->createMock(ResponseInterface::class);
+		$result = $this->bearerAuth->challenge($request, $response);
+		$this->assertEmpty($result);
 	}
 }
