@@ -108,8 +108,9 @@
 .nav-icon-trashbin {
 	background-image: url('../img/delete.svg?v=1');
 }
+/* no icon for the quota bar */
 .nav-icon-quota {
-	background-image: url('../img/quota.svg?v=1');
+	padding-left: 15px !important;
 }
 
 #app-navigation .nav-files a.nav-icon-files {
