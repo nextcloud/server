@@ -41,6 +41,7 @@ use OCP\IUserSession;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use OCP\Files\Folder;
 use OCP\App\IAppManager;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * Class ViewController
@@ -174,6 +175,17 @@ class ViewController extends Controller {
 		});
 		$nav->assign('navigationItems', $navItems);
 
+
+		$nav->assign('usage', \OC_Helper::humanFileSize($storageInfo['used']));
+		if ($storageInfo['quota'] === \OCP\Files\FileInfo::SPACE_UNLIMITED) {
+			$totalSpace = $this->l10n->t('Unlimited');
+		} else {
+			$totalSpace = \OC_Helper::humanFileSize($storageInfo['total']);
+		}
+		$nav->assign('total_space', $totalSpace);
+		$nav->assign('quota', $storageInfo['quota']);
+		$nav->assign('usage_relative', $storageInfo['relative']);
+
 		$contentItems = [];
 
 		// render the container content for every navigation item
@@ -188,7 +200,8 @@ class ViewController extends Controller {
 			$contentItems[] = $contentItem;
 		}
 
-		$this->eventDispatcher->dispatch('OCA\Files::loadAdditionalScripts');
+		$event = new GenericEvent(null, ['hiddenFields' => []]);
+		$this->eventDispatcher->dispatch('OCA\Files::loadAdditionalScripts', $event);
 
 		$params = [];
 		$params['usedSpacePercent'] = (int)$storageInfo['relative'];
@@ -204,6 +217,7 @@ class ViewController extends Controller {
 		$params['fileNotFound'] = $fileNotFound ? 1 : 0;
 		$params['appNavigation'] = $nav;
 		$params['appContents'] = $contentItems;
+		$params['hiddenFields'] = $event->getArgument('hiddenFields');
 
 		$response = new TemplateResponse(
 			$this->appName,

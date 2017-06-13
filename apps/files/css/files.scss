@@ -108,6 +108,10 @@
 .nav-icon-trashbin {
 	background-image: url('../img/delete.svg?v=1');
 }
+/* no icon for the quota bar */
+.nav-icon-quota {
+	padding-left: 15px !important;
+}
 
 #app-navigation .nav-files a.nav-icon-files {
 	width: auto;
@@ -746,4 +750,38 @@ table.dragshadow td.size {
 .canDrop,
 #filestable tbody tr.canDrop {
   background-color: rgba(255, 255, 140, 1);
+}
+
+
+#quota {
+	margin: 0 !important;
+	border: none;
+	border-radius: 0;
+	position: fixed !important;
+	bottom: 44px;
+	width: inherit !important;
+	background-color: #fff;
+	border-right: 1px solid #eee;
+	z-index:1;
+
+	.quota-container {
+		height: 5px;
+		border-radius: 3px;
+
+		div {
+			height: 100%;
+			background-color: $color-primary;
+		}
+	}
+}
+
+/* increase the padding of the last item to not hide below the quota item */
+.app-files #app-navigation > ul li:nth-last-child(1) {
+	margin-bottom: 44px;
+}
+
+#quotatext {
+	padding: 0;
+	height: 30px;
+	line-height: 30px;
 }
