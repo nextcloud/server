@@ -160,7 +160,6 @@ if ($storageInfo['quota'] === \OCP\Files\FileInfo::SPACE_UNLIMITED) {
 $uid = $user->getUID();
 $userData = $accountManager->getUser($user);
 
-$tmpl->assign('showGroupMembership', $config->getSystemValue('settings.personal.showGroupMembership', true));
 $tmpl->assign('total_space', $totalSpace);
 $tmpl->assign('usage_relative', $storageInfo['relative']);
 $tmpl->assign('quota', $storageInfo['quota']);
