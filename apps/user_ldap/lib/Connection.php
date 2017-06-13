@@ -550,19 +550,23 @@ class Connection extends LDAPUtility {
 			}
 
 			//if LDAP server is not reachable, try the Backup (Replica!) Server
-			if(    $error !== 0
+			if( trim($this->configuration->ldapBackupHost) !== ""
+				&& ($error !== 0
 				|| $this->configuration->ldapOverrideMainServer
 				|| $this->getFromCache('overrideMainServer'))
-			{
+			) {
 				$this->doConnect($this->configuration->ldapBackupHost,
 								 $this->configuration->ldapBackupPort);
 				$bindStatus = $this->bind();
-				if($bindStatus && $error === -1 && !$this->getFromCache('overrideMainServer')) {
+				$error = $this->ldap->isResource($this->ldapConnectionRes) ?
+					$this->ldap->errno($this->ldapConnectionRes) : -1;
+				if($bindStatus && $error === 0 && !$this->getFromCache('overrideMainServer')) {
 					//when bind to backup server succeeded and failed to main server,
 					//skip contacting him until next cache refresh
 					$this->writeToCache('overrideMainServer', true);
 				}
 			}
+
 			return $bindStatus;
 		}
 		return null;
