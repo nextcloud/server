@@ -74,7 +74,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	private $cachedGroups = array();
 
 	/**
-	 * @var \OC\Group\Group[]
+	 * @var \OC\Group\Group[][]
 	 */
 	private $cachedUserGroups = array();
 
