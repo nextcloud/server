@@ -259,7 +259,7 @@ OCA.Sharing.PublicApp = {
 		$('.save-form').submit(function (event) {
 			event.preventDefault();
 
-			var remote = $(this).find('input[type="email"]').val();
+			var remote = $(this).find('#remote_address').val();
 			var token = $('#sharingToken').val();
 			var owner = $('#save').data('owner');
 			var ownerDisplayName = $('#save').data('owner-display-name');
