@@ -196,7 +196,6 @@
     "Your data directory must be an absolute path" : "您的数据目录必须是绝对路径",
     "Check the value of \"datadirectory\" in your configuration" : "请检查配置文件中 \"datadirectory\" 的值",
     "Your data directory is invalid" : "您的数据目录无效",
-    "Please check that the data directory contains a file \".ocdata\" in its root." : "请检查根目录下 data 目录中包含名为 \".ocdata\" 的文件.",
     "Could not obtain lock type %d on \"%s\"." : "无法在 \"%s\" 上获取锁类型 %d.",
     "Storage unauthorized. %s" : "存储认证失败. %s",
     "Storage incomplete configuration. %s" : "存储未完成配置. %s",
@@ -215,6 +214,7 @@
     "Permissions can usually be fixed by %sgiving the webserver write access to the root directory%s." : "您可以由 %s 设置 Web 服务器对根目录 %s 的写权限可以修复这个问题.",
     "Data directory (%s) is readable by other users" : "数据目录 (%s) 能被其他用户读取",
     "Data directory (%s) must be an absolute path" : "数据目录 (%s) 必须为绝对路径",
-    "Data directory (%s) is invalid" : "数据目录 (%s) 无效"
+    "Data directory (%s) is invalid" : "数据目录 (%s) 无效",
+    "Please check that the data directory contains a file \".ocdata\" in its root." : "请检查根目录下 data 目录中包含名为 \".ocdata\" 的文件."
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -188,7 +188,6 @@
     "Please upgrade your database version" : "Kérem frissítse az adatbázis-szoftvert!",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Kérjük módosítsa a könyvtár elérhetőségi engedélybeállítását 0770-re, hogy a tartalmát más felhasználó ne listázhassa!",
     "Check the value of \"datadirectory\" in your configuration" : "Ellenőrizd a \"datadirectory\" értékét a konfigurációban",
-    "Please check that the data directory contains a file \".ocdata\" in its root." : "Kérjük ellenőrizze, hogy az adatkönyvtár tartalmaz a gyökerében egy \".ocdata\" nevű fájlt!",
     "Could not obtain lock type %d on \"%s\"." : "Nem sikerült %d típusú zárolást elérni itt: \"%s\".",
     "Storage unauthorized. %s" : "A tároló jogosulatlan. %s",
     "Storage incomplete configuration. %s" : "A tároló beállítása nem teljes. %s",
@@ -207,6 +206,7 @@
     "Permissions can usually be fixed by %sgiving the webserver write access to the root directory%s." : "Az elérési problémák rendszerint megoldhatók azzal, ha a %swebszervernek írásjogot adunk a gyökérkönyvtárra%s.",
     "Data directory (%s) is readable by other users" : "Az adatkönyvtár (%s) más felhasználók számára is olvasható ",
     "Data directory (%s) must be an absolute path" : "Az adatkönyvtárnak (%s) abszolút elérési útnak kell lennie",
-    "Data directory (%s) is invalid" : "Érvénytelen a megadott adatkönyvtár (%s) "
+    "Data directory (%s) is invalid" : "Érvénytelen a megadott adatkönyvtár (%s) ",
+    "Please check that the data directory contains a file \".ocdata\" in its root." : "Kérjük ellenőrizze, hogy az adatkönyvtár tartalmaz a gyökerében egy \".ocdata\" nevű fájlt!"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
