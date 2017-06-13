@@ -1090,7 +1090,7 @@ class Manager implements IManager {
 		}
 
 		if ($share === null) {
-			throw new ShareNotFound();
+			throw new ShareNotFound($this->l->t('The requested share does not exist anymore'));
 		}
 
 		$this->checkExpireDate($share);
@@ -1110,7 +1110,7 @@ class Manager implements IManager {
 		if ($share->getExpirationDate() !== null &&
 			$share->getExpirationDate() <= new \DateTime()) {
 			$this->deleteShare($share);
-			throw new ShareNotFound();
+			throw new ShareNotFound($this->l->t('The requested share does not exist anymore'));
 		}
 
 	}

@@ -2142,6 +2142,7 @@ class ManagerTest extends \Test\TestCase {
 
 	/**
 	 * @expectedException \OCP\Share\Exceptions\ShareNotFound
+	 * @expectedExceptionMessage The requested share does not exist anymore
 	 */
 	public function testGetShareByTokenExpired() {
 		$this->config
@@ -2149,6 +2150,10 @@ class ManagerTest extends \Test\TestCase {
 			->method('getAppValue')
 			->with('core', 'shareapi_allow_links', 'yes')
 			->willReturn('yes');
+
+		$this->l->expects($this->once())
+			->method('t')
+			->willReturnArgument(0);
 
 		$manager = $this->createManagerMock()
 			->setMethods(['deleteShare'])
