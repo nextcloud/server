@@ -123,7 +123,6 @@ OC.L10N.register(
     "Expiration" : "Udløb",
     "Expiration date" : "Udløbsdato",
     "Choose a password for the public link" : "Vælg et kodeord til det offentlige link",
-    "Choose a password for the public link or press \"Enter ↵\"" : "Beskyt dit offentlige link med en adgangskode eller tryk på \"Enter ↵\"",
     "Copied!" : "Kopirét!",
     "Copy" : "Kopiér",
     "Not supported!" : "Ikke understøttet!",

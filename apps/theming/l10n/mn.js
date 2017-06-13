@@ -2,7 +2,7 @@ OC.L10N.register(
     "theming",
     {
     "Loading preview…" : "Урьдчилсан харагдцыг дуудаж байна...",
-    "Saved" : "Хадгалагдсан",
+    "Saved" : "Хадгалах",
     "Admin" : "Админ",
     "a safe home for all your data" : "Таны өгөгдлүүдийн аюулгүй гэр",
     "The given name is too long" : "Өгсөн нэр хэтэрхий урт байна",

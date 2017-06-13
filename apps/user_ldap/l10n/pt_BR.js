@@ -27,7 +27,7 @@ OC.L10N.register(
     "Select groups" : "Selecionar grupos",
     "Select object classes" : "Selecionar classes de objetos",
     "Please check the credentials, they seem to be wrong." : "Por favor verifique as credenciais, elas parecem erradas.",
-    "Please specify the port, it could not be auto-detected." : "Por favor especifique uma porta, pois ela não pôde ser detectada automaticamente.",
+    "Please specify the port, it could not be auto-detected." : "Por favor especifique um porto, pois ela não pôde ser detectada automaticamente.",
     "Base DN could not be auto-detected, please revise credentials, host and port." : "A Base DN não pôde ser detectada automaticamente, por favor revise as credenciais, host e porta.",
     "Could not detect Base DN, please enter it manually." : "Não foi possível detectar a Base DN, por favor entre manualmente.",
     "{nthServer}. Server" : "{nthServer}. Servidor",

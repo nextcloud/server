@@ -2,7 +2,7 @@ OC.L10N.register(
     "comments",
     {
     "Comments" : "Сэтгэгдэл",
-    "Unknown user" : "Үл мэдэгдэх хэрэглэгч",
+    "Unknown user" : "  хэрэглэгч",
     "New comment …" : "Шинэ сэтгэгдэл",
     "Delete comment" : "Сэтгэгдэл устгах",
     "Post" : "Нийтлэл",
