@@ -98,6 +98,7 @@ class Util {
 
 		$this->excludedPaths[] = 'files_encryption';
 		$this->excludedPaths[] = 'appdata_' . $config->getSystemValue('instanceid', null);
+		$this->excludedPaths[] = 'files_external';
 	}
 
 	/**
