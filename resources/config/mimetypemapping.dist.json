@@ -58,6 +58,7 @@
 	"flac": ["audio/flac"],
 	"flv": ["video/x-flv"],
 	"gif": ["image/gif"],
+	"gpx": ["application/gpx+xml"],
 	"gz": ["application/x-gzip"],
 	"gzip": ["application/x-gzip"],
 	"h": ["text/x-h"],
