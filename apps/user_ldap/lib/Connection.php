@@ -586,7 +586,9 @@ class Connection extends LDAPUtility {
 		if($this->ldap->setOption($this->ldapConnectionRes, LDAP_OPT_PROTOCOL_VERSION, 3)) {
 			if($this->ldap->setOption($this->ldapConnectionRes, LDAP_OPT_REFERRALS, 0)) {
 				if($this->configuration->ldapTLS) {
-					$this->ldap->startTls($this->ldapConnectionRes);
+					if(!$this->ldap->startTls($this->ldapConnectionRes)) {
+						throw new \OC\ServerNotAvailableException('Start TLS failed, when connecting to LDAP host ' . $host . '.');
+					}
 				}
 			}
 		} else {
