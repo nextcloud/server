@@ -617,10 +617,17 @@ class Connection extends LDAPUtility {
 										$this->configuration->ldapAgentName,
 										$this->configuration->ldapAgentPassword);
 		if(!$ldapLogin) {
+			$errno = $this->ldap->errno($cr);
+
 			\OCP\Util::writeLog('user_ldap',
-				'Bind failed: ' . $this->ldap->errno($cr) . ': ' . $this->ldap->error($cr),
+				'Bind failed: ' . $errno . ': ' . $this->ldap->error($cr),
 				\OCP\Util::WARN);
-			$this->ldapConnectionRes = null;
+
+			// Set to failure mode, if LDAP error code is not LDAP_SUCCESS or LDAP_INVALID_CREDENTIALS
+			if($errno !== 0x00 && $errno !== 0x31) {
+				$this->ldapConnectionRes = null;
+			}
+
 			return false;
 		}
 		return true;
