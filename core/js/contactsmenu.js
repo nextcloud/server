@@ -26,7 +26,7 @@
 	'use strict';
 
 	var MENU_TEMPLATE = ''
-			+ '<input id="contactsmenu-search" type="search" placeholder="Search contacts …" value="{{searchTerm}}">'
+			+ '<input id="contactsmenu-search" type="search" placeholder="' + t('core', 'Search contacts …') + '" value="{{searchTerm}}">'
 			+ '<div class="content">'
 			+ '</div>';
 	var CONTACTS_LIST_TEMPLATE = ''
