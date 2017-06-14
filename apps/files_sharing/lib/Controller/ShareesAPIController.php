@@ -607,10 +607,11 @@ class ShareesAPIController extends OCSController {
 				}
 				foreach ($emailAddresses as $emailAddress) {
 					$exactEmailMatch = strtolower($emailAddress) === $lowerSearch;
-					if ($exactEmailMatch || strtolower($contact['FN']) === $lowerSearch) {
-						if (isset($contact['isLocalSystemBook'])) {
-							if ($exactEmailMatch) {
-								$cloud = $this->cloudIdManager->resolveCloudId($contact['CLOUD'][0]);
+
+					if (isset($contact['isLocalSystemBook'])) {
+						if ($exactEmailMatch) {
+							$cloud = $this->cloudIdManager->resolveCloudId($contact['CLOUD'][0]);
+							if (!$this->hasUserInResult($cloud->getUser())) {
 								$this->result['exact']['users'][] = [
 									'label' => $contact['FN'] . " ($emailAddress)",
 									'value' => [
@@ -618,10 +619,12 @@ class ShareesAPIController extends OCSController {
 										'shareWith' => $cloud->getUser(),
 									],
 								];
-								return ['results' => [], 'exact' => [], 'exactIdMatch' => true];
 							}
-							if ($this->shareeEnumeration) {
-								$cloud = $this->cloudIdManager->resolveCloudId($contact['CLOUD'][0]);
+							return ['results' => [], 'exact' => [], 'exactIdMatch' => true];
+						}
+						if ($this->shareeEnumeration) {
+							$cloud = $this->cloudIdManager->resolveCloudId($contact['CLOUD'][0]);
+							if (!$this->hasUserInResult($cloud->getUser())) {
 								$this->result['users'][] = [
 									'label' => $contact['FN'] . " ($emailAddress)",
 									'value' => [
@@ -630,9 +633,11 @@ class ShareesAPIController extends OCSController {
 									],
 								];
 							}
-							continue;
 						}
+						continue;
+					}
 
+					if ($exactEmailMatch || strtolower($contact['FN']) === $lowerSearch) {
 						if ($exactEmailMatch) {
 							$result['exactIdMatch'] = true;
 						}
@@ -709,6 +714,28 @@ class ShareesAPIController extends OCSController {
 		}
 
 		$this->result['lookup'] = $result;
+	}
+
+	/**
+	 * Check if a given user is already part of the result
+	 *
+	 * @param string $userId
+	 * @return bool
+	 */
+	protected function hasUserInResult($userId) {
+		foreach ($this->result['exact']['users'] as $result) {
+			if ($result['value']['shareWith'] === $userId) {
+				return true;
+			}
+		}
+
+		foreach ($this->result['users'] as $result) {
+			if ($result['value']['shareWith'] === $userId) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
