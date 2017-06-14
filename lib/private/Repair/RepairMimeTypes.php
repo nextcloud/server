@@ -131,7 +131,10 @@ class RepairMimeTypes implements IRepairStep {
 
 	private function introduceLocationTypes() {
 		$updatedMimetypes = [
-			'gpx' => 'application/gpx+xml'
+			'gpx' => 'application/gpx+xml',
+			'kml' => 'application/vnd.google-earth.kml+xml',
+			'kmz' => 'application/vnd.google-earth.kmz',
+			'tcx' => 'application/vnd.garmin.tcx+xml',
 		];
 
 		$this->updateMimetypes($updatedMimetypes);
