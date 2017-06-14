@@ -337,7 +337,6 @@ OC.L10N.register(
     "Cheers!" : "Pozdrawiam!",
     "Use the following link to reset your password: {link}" : "Użyj tego odnośnika by zresetować hasło: {link}",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Witam, <br><br>informuję, że %s udostępnianych zasobów <strong>%s</strong> jest z Tobą.<br><a href=\"%s\">Zobacz!</a><br><br>",
-    "Please use the command line updater because you have a big instance." : "Ze względu na rozmiar Twojej instalacji użyj programu do aktualizacji z linii poleceń.",
-    "The PHP Opcache is not properly configured. <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">For better performance we recommend ↗</a> to use following settings in the <code>php.ini</code>:" : "PHP Opcache nie jest prawidłowo skonfigurowany <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">Dla lepszej wydajności zalecamy ↗</a> użycie następujących ustawień w <code>php.ini</code>:"
+    "Please use the command line updater because you have a big instance." : "Ze względu na rozmiar Twojej instalacji użyj programu do aktualizacji z linii poleceń."
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>=14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

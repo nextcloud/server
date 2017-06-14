@@ -19,7 +19,7 @@ OC.L10N.register(
     "_%n unread comment_::_%n unread comments_" : ["%n comentários não lidos","%n comentários não lidos"],
     "Comment" : "Comentar",
     "You commented" : "Você comentou",
-    "%1$s commented" : "%1$s comentaram",
+    "%1$s commented" : "%1$s comentou",
     "{author} commented" : "{author} comentou",
     "You commented on %1$s" : "Você comentou em %1$s",
     "You commented on {file}" : "Você comentou sobre {file}",

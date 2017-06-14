@@ -335,7 +335,6 @@
     "Cheers!" : "Skál!",
     "Use the following link to reset your password: {link}" : "Notað eftirfarandi veftengil til að endursetja lykilorðið þitt: {link}",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hæ þú,<br><br>bara að láta þig vita að %s deildi <strong>%s</strong> með þér.<br><a href=\"%s\">Skoðaðu það!</a><br><br>",
-    "Please use the command line updater because you have a big instance." : "Endilega notaðu uppfærslutólið af skipanalínu, því þú ert með mjög stóra uppsetningu.",
-    "The PHP Opcache is not properly configured. <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">For better performance we recommend ↗</a> to use following settings in the <code>php.ini</code>:" : "PHP Opcache er ekki rétt uppsett. <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">Fyrir betri afköst mælum við með ↗</a> því að nota eftirfarandi stillingar í <code>php.ini</code>:"
+    "Please use the command line updater because you have a big instance." : "Endilega notaðu uppfærslutólið af skipanalínu, því þú ert með mjög stóra uppsetningu."
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

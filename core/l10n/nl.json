@@ -335,7 +335,6 @@
     "Cheers!" : "Proficiat!",
     "Use the following link to reset your password: {link}" : "Gebruik de volgende link om je wachtwoord te resetten: {link}",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hallo daar,<br><br>%s deelde <strong>%s</strong> met je.<br><a href=\"%s\">Bekijk het hier!</a><br><br>",
-    "Please use the command line updater because you have a big instance." : "Gebruik de commandoregel updater, omdat je een grote Nextcloud hebt.",
-    "The PHP Opcache is not properly configured. <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">For better performance we recommend ↗</a> to use following settings in the <code>php.ini</code>:" : "De PHP Opcache is niet juist geconfigureerd. <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">Voor betere prestaties adviseren we  ↗</a> de volgende instellingen te gebruiken in <code>php.ini</code>:"
+    "Please use the command line updater because you have a big instance." : "Gebruik de commandoregel updater, omdat je een grote Nextcloud hebt."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

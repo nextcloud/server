@@ -43,7 +43,7 @@ OC.L10N.register(
     "Adjust how people can share between servers." : "Definiere wie die Benutzer Inhalte mit anderen Servern teilen können.",
     "Allow users on this server to send shares to other servers" : "Benutzern auf diesem Server das Senden von Freigaben an andere Server erlauben",
     "Allow users on this server to receive shares from other servers" : "Benutzern auf diesem Server das Empfangen von Freigaben von anderen Servern erlauben",
-    "Search global and public address book for users and let local users publish their data" : "Globales und öffentliches Adressbuch nach Benutzern durchsuchen und lokale Benutzer ihre Daten veröffentlichen lassen",
+    "Search global and public address book for users" : "Durchsuche globales und öffentliches Adressbuch nach Nutzern",
     "Allow users to publish their data to a global and public address book" : "Erlaube Benutzern ihre Daten an ein globales und öffentliches Adressbuch zu veröffentlichen",
     "Federated Cloud" : "Federated Cloud",
     "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Sie können mit allen Leuten teilen, welche Nextcloud, ownCloud oder Pydio nutzen! Geben Sie einfach deren Federated Cloud ID in den Teilen-Dialog ein. Diese sieht wie folgt aus person@cloud.example.com",
@@ -52,7 +52,7 @@ OC.L10N.register(
     "Add to your website" : "Zu Ihrer Web-Seite hinzufügen",
     "Share with me via Nextcloud" : "Teilen Sie mit mir über Nextcloud",
     "HTML Code:" : "HTML-Code:",
-    "Search global and public address book for users" : "Durchsuche globales und öffentliches Adressbuch nach Nutzern",
-    "Share it:" : "Teilen:"
+    "Share it:" : "Teilen:",
+    "Search global and public address book for users and let local users publish their data" : "Globales und öffentliches Adressbuch nach Benutzern durchsuchen und lokale Benutzer ihre Daten veröffentlichen lassen"
 },
 "nplurals=2; plural=(n != 1);");

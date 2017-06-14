@@ -43,7 +43,7 @@ OC.L10N.register(
     "Adjust how people can share between servers." : "Kişilerin sunucular arasında nasıl paylaşım yapabileceğini ayarlayın.",
     "Allow users on this server to send shares to other servers" : "Bu sunucudaki kullanıcılar diğer sunuculara paylaşım gönderebilsin",
     "Allow users on this server to receive shares from other servers" : "Bu sunucudaki kullanıcılar diğer sunuculardan paylaşım alabilsin",
-    "Search global and public address book for users and let local users publish their data" : "Genel ve herkese açık adres defterinde kullanıcı ara ve yerel kullanıcıların bilgilerini paylaşmasını sağla",
+    "Search global and public address book for users" : "Genel ve herkese açık adres defterinde kullanıcı ara",
     "Allow users to publish their data to a global and public address book" : "Kullanıcıların bilgilerini genel ve herkese açık bir adres defterinde paylaşabilsin",
     "Federated Cloud" : "Birleşmiş Bulut",
     "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Nextcloud, ownCloud ya da Pydio kullanıcıları ile paylaşım yapılaiblir. Yalnızca paylaşım penceresine person@cloud.example.com gibi Birleşmiş Bulut kodunu yazın.",
@@ -52,7 +52,7 @@ OC.L10N.register(
     "Add to your website" : "Web sitenize ekleyin",
     "Share with me via Nextcloud" : "Benimle Nextcloud üzerinden paylaşın",
     "HTML Code:" : "HTML Kodu:",
-    "Search global and public address book for users" : "Genel ve herkese açık adres defterinde kullanıcı ara",
-    "Share it:" : "Paylaşın:"
+    "Share it:" : "Paylaşın:",
+    "Search global and public address book for users and let local users publish their data" : "Genel ve herkese açık adres defterinde kullanıcı ara ve yerel kullanıcıların bilgilerini paylaşmasını sağla"
 },
 "nplurals=2; plural=(n > 1);");

@@ -43,7 +43,7 @@ OC.L10N.register(
     "Adjust how people can share between servers." : "Réglez comment les personnes peuvent partager entre les serveurs.",
     "Allow users on this server to send shares to other servers" : "Autoriser les utilisateurs de ce serveur à envoyer des partages vers d'autres serveurs",
     "Allow users on this server to receive shares from other servers" : "Autoriser les utilisateurs de ce serveur à recevoir des partages d'autres serveurs",
-    "Search global and public address book for users and let local users publish their data" : "Rechercher dans le carnet d'adresse global et public pour les utilisateurs et laisser les utilisateurs publier leurs données",
+    "Search global and public address book for users" : "Rechercher dans le carnet d'adresse global et public pour les utilisateurs",
     "Allow users to publish their data to a global and public address book" : "Autoriser les utilisateurs à publier leurs données dans un carnet d'adresse global et public",
     "Federated Cloud" : "Federated Cloud",
     "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Vous pouvez partager avec n'importe qui qui utilise Nextcloud, ownCloud ou Pydio ! Renseignez simplement leur Federated Cloud ID dans la boîte de dialogue de partage. Cela ressemble à person@cloud.example.com",
@@ -52,7 +52,7 @@ OC.L10N.register(
     "Add to your website" : "Ajouter à votre site web",
     "Share with me via Nextcloud" : "Partagez avec moi via Nextcloud",
     "HTML Code:" : "Code HTML :",
-    "Search global and public address book for users" : "Rechercher dans le carnet d'adresse global et public pour les utilisateurs",
-    "Share it:" : "Partager :"
+    "Share it:" : "Partager :",
+    "Search global and public address book for users and let local users publish their data" : "Rechercher dans le carnet d'adresse global et public pour les utilisateurs et laisser les utilisateurs publier leurs données"
 },
 "nplurals=2; plural=(n > 1);");
