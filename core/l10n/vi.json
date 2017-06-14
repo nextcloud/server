@@ -316,7 +316,6 @@
     "Cheers!" : "Chúc mừng!",
     "Use the following link to reset your password: {link}" : "Dùng đường dẫn sau để khôi phục lại mật khẩu : {link}",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Xin chào, <br><br>  báo cho bạn biết rằng %s đã chia sẽ  %s  với bạn. <br> <a href=\"%s\"> Xem </a><br><br>",
-    "Please use the command line updater because you have a big instance." : "Hãy sử dụng dòng lệnh để cập nhật bởi vì bạn có một hệ thống lớn.",
-    "The PHP Opcache is not properly configured. <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">For better performance we recommend ↗</a> to use following settings in the <code>php.ini</code>:" : "PHP Opcache không được cấu hình đúng. <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">Để đạt hiệu suất tốt hơn, chúng tôi khuyên bạn ↗</a>nên sử dụng các cài đặt sau trong <code>php.ini</code>:"
+    "Please use the command line updater because you have a big instance." : "Hãy sử dụng dòng lệnh để cập nhật bởi vì bạn có một hệ thống lớn."
 },"pluralForm" :"nplurals=1; plural=0;"
 }

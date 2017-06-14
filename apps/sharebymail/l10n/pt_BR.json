@@ -16,7 +16,7 @@
     "Password to access {file} was sent to you" : "A senha para acesso {file} foi enviada para você",
     "Sharing %s failed, this item is already shared with %s" : "O compartilhamento %s falhou, pois este item já está compartilhado com %s",
     "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Não pudemos enviar a você a senha auto-gerada. por favor defina um e-mail válido em sua configuração e tente novamente.",
-    "Failed to send share by email" : "Falha ao enviar compartilhamento por e-mail",
+    "Failed to send share by email" : "Falha ao enviar compartilhamento via e-mail",
     "%s shared »%s« with you" : "%s compartilhou »%s« com você",
     "%s shared »%s« with you." : "%s compartilhou »%s« com você.",
     "Click the button below to open it." : "Clique no botão abaixo para abrí-lo.",

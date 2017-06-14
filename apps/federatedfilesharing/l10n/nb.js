@@ -43,7 +43,7 @@ OC.L10N.register(
     "Adjust how people can share between servers." : "Juster hvordan folk kan dele mellom tjenere.",
     "Allow users on this server to send shares to other servers" : "Tillat at brukere på denne tjeneren sender delinger til andre tjenere",
     "Allow users on this server to receive shares from other servers" : "Tillat at brukere på denne tjeneren mottar delinger fra andre tjenere",
-    "Search global and public address book for users and let local users publish their data" : "Søk i verdensomspennende og offentlig adressebok etter brukere og la lokale brukere offentliggjøre deres data",
+    "Search global and public address book for users" : "Søk global og offentlige adressebøker etter brukere",
     "Allow users to publish their data to a global and public address book" : "Tillat brukere å offentliggjøre deres data til en verdensomspennende og offentlig adressebok",
     "Federated Cloud" : "Sammenknyttet sky",
     "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Du kan dele med alle som bruker Nextcloud, ownCloud eller Pydio! Bare putt deres federerte sky-ID i delingsdialogvinduet. Det ser ut som person.sky.eksempel.no",
@@ -52,7 +52,7 @@ OC.L10N.register(
     "Add to your website" : "Legg på nettsiden din",
     "Share with me via Nextcloud" : "Del med meg via Nextcloud",
     "HTML Code:" : "HTML-kode:",
-    "Search global and public address book for users" : "Søk global og offentlige adressebøker etter brukere",
-    "Share it:" : "Del den:"
+    "Share it:" : "Del den:",
+    "Search global and public address book for users and let local users publish their data" : "Søk i verdensomspennende og offentlig adressebok etter brukere og la lokale brukere offentliggjøre deres data"
 },
 "nplurals=2; plural=(n != 1);");

@@ -337,7 +337,6 @@ OC.L10N.register(
     "Cheers!" : "Ha det!",
     "Use the following link to reset your password: {link}" : "Bruk følgende lenke for å tilbakestille passordet ditt: {link}",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hei,<br><br>Dette er en beskjed om at %s delte <strong>%s</strong> med deg.<br><a href=\"%s\">Vis den!</a><br><br>",
-    "Please use the command line updater because you have a big instance." : "Vennligst oppdater ved hjelp av kommandolinjen ettersom du har en stor installasjon.",
-    "The PHP Opcache is not properly configured. <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">For better performance we recommend ↗</a> to use following settings in the <code>php.ini</code>:" : "PHP OPcache er ikke satt opp rett. <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">For bedre ytelse anbefales det ↗</a> å bruke følgende innstillinger i <code>php.ini</code>:"
+    "Please use the command line updater because you have a big instance." : "Vennligst oppdater ved hjelp av kommandolinjen ettersom du har en stor installasjon."
 },
 "nplurals=2; plural=(n != 1);");

@@ -43,7 +43,7 @@ OC.L10N.register(
     "Adjust how people can share between servers." : "Aanpassen hoe mensen tussen servers kunnen delen.",
     "Allow users on this server to send shares to other servers" : "Toestaan dat gebruikers op deze server shares sturen naar andere servers",
     "Allow users on this server to receive shares from other servers" : "Toestaan dat gebruikers op deze server shares ontvangen van andere servers",
-    "Search global and public address book for users and let local users publish their data" : "Openbare adresboeken voor gebruikers doorzoeken en laat lokale gebruikers de data plubliceren",
+    "Search global and public address book for users" : "Doorzoeken van openbare adresboeken voor gebruikers",
     "Allow users to publish their data to a global and public address book" : "Publiek maken van data met een openbaar adresboek toestaan",
     "Federated Cloud" : "Gefedereerde Cloud",
     "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Je kunt met iedereeen delen die Nextcloud, ownCloud of Pydio gebruikt! Gebruik gewoon hun federatieID in de deel-dialoog. Het ziet eruit als iemand@cloud.voorbeeld.com",
@@ -52,7 +52,7 @@ OC.L10N.register(
     "Add to your website" : "Toevoegen aan je website",
     "Share with me via Nextcloud" : "Deel met mij via Nextcloud",
     "HTML Code:" : "HTML Code:",
-    "Search global and public address book for users" : "Doorzoeken van openbare adresboeken voor gebruikers",
-    "Share it:" : "Deel het:"
+    "Share it:" : "Deel het:",
+    "Search global and public address book for users and let local users publish their data" : "Openbare adresboeken voor gebruikers doorzoeken en laat lokale gebruikers de data plubliceren"
 },
 "nplurals=2; plural=(n != 1);");

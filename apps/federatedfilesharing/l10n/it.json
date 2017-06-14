@@ -40,13 +40,13 @@
     "Open documentation" : "Apri la documentazione",
     "Allow users on this server to send shares to other servers" : "Consenti agli utenti su questo server di inviare condivisioni ad altri server",
     "Allow users on this server to receive shares from other servers" : "Consenti agli utenti su questo server di ricevere condivisioni da altri server",
+    "Search global and public address book for users" : "Cerca gli utenti nella rubrica globale e pubblica",
     "Allow users to publish their data to a global and public address book" : "Consenti agli utenti di pubblicare i propri dati in una rubrica globale e pubblica",
     "Federated Cloud" : "Cloud federata",
     "Your Federated Cloud ID:" : "Il tuo ID di cloud federata:",
     "Add to your website" : "Aggiungi al tuo sito web",
     "Share with me via Nextcloud" : "Condividi con me tramite Nextcloud",
     "HTML Code:" : "Codice HTML:",
-    "Search global and public address book for users" : "Cerca gli utenti nella rubrica globale e pubblica",
     "Share it:" : "Condividilo:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -289,7 +289,6 @@ OC.L10N.register(
     "Cheers!" : "Noroc!",
     "Use the following link to reset your password: {link}" : "Folosește următorul link pentru a reseta parola: {link}",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Salutare,<br><br>te anunțăm pe această cale că %s a partajat <strong>%s</strong> cu tine.<br><a href=\"%s\">Accesează!</a><br><br>",
-    "Please use the command line updater because you have a big instance." : "Folosește actualizarea din linia de comandă deoarece ai o instanță mare.",
-    "The PHP Opcache is not properly configured. <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">For better performance we recommend ↗</a> to use following settings in the <code>php.ini</code>:" : "Modulul PHP Opcache nu este configurat corespunzător. <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">Pentru performanțe îmbunătățite recomandăm ↗</a> utilizarea următoarelor configurări în <code>php.ini</code>:"
+    "Please use the command line updater because you have a big instance." : "Folosește actualizarea din linia de comandă deoarece ai o instanță mare."
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

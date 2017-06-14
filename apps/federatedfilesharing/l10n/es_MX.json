@@ -41,7 +41,7 @@
     "Adjust how people can share between servers." : "Ajustar cómo las personas pueden compartir entre servidores. ",
     "Allow users on this server to send shares to other servers" : "Permitirle a los usuarios de este servidor enviar elementos compartidos a otros servidores",
     "Allow users on this server to receive shares from other servers" : "Permitir que los usuarios de este servidor recibir elementos compartidos de otros servidores",
-    "Search global and public address book for users and let local users publish their data" : "Buscar una libreta de direcciones global y pública para los usuarios y permitir  a los usuarios locales publicar sus datos",
+    "Search global and public address book for users" : "Buscar usuarios en las libretas de contactos globales y públicas",
     "Allow users to publish their data to a global and public address book" : "Permitir a los usuarios publicar sus datos a una libreta de direcciones global y pública",
     "Federated Cloud" : "Nube Federada",
     "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "¡Puede compartir con cualquiera que use NextCloud, ownCloud o Pydio! Solo ingrese su ID de Nube Federada en ventana de diálogo de compartir. Se ve algo así como person@cloud.example.com",
@@ -50,7 +50,7 @@
     "Add to your website" : "Agregar a su sitio web",
     "Share with me via Nextcloud" : "Compartir conmigo vía Nextcloud",
     "HTML Code:" : "Código HTML:",
-    "Search global and public address book for users" : "Buscar usuarios en las libretas de contactos globales y públicas",
-    "Share it:" : "Compartirlo:"
+    "Share it:" : "Compartirlo:",
+    "Search global and public address book for users and let local users publish their data" : "Buscar una libreta de direcciones global y pública para los usuarios y permitir  a los usuarios locales publicar sus datos"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

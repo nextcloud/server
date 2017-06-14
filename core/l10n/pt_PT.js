@@ -303,7 +303,6 @@ OC.L10N.register(
     "Cheers!" : "Parabéns!",
     "Use the following link to reset your password: {link}" : "Utilize a seguinte hiperligação para repor a sua palavra-passe: {link}",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Olá,<br><br>apenas para informar que %s partilhou <strong>%s</strong> consigo.<br><a href=\"%s\">Consulte aqui!</a><br><br>",
-    "Please use the command line updater because you have a big instance." : "Por favor, utilize o atualizador de linha de comando porque a sua instância é grande.",
-    "The PHP Opcache is not properly configured. <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">For better performance we recommend ↗</a> to use following settings in the <code>php.ini</code>:" : "PHP Opcache não está devidamente configurado. <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">Para um melhor desempenho, recomenda-se ↗</a> usar as seguintes configurações no <code>php.ini</code>:"
+    "Please use the command line updater because you have a big instance." : "Por favor, utilize o atualizador de linha de comando porque a sua instância é grande."
 },
 "nplurals=2; plural=(n != 1);");

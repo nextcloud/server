@@ -334,7 +334,6 @@ OC.L10N.register(
     "Cheers!" : "Με εκτίμηση!",
     "Use the following link to reset your password: {link}" : "Χρησιμοποιήστε τον ακόλουθο σύνδεσμο για να επαναφέρετε το συνθηματικό: {link}",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Γεια χαρά,<br><br>απλά σας ενημερώνω πως ο %s μοιράστηκε το<strong>%s</strong> με εσάς.<br><a href=\"%s\">Δείτε το!</a><br><br>",
-    "Please use the command line updater because you have a big instance." : "Παρακαλούμε χρησιμοποιήστε την ενημέρωση μέσω γραμμής εντολών διότι έχετε μεγάλη εγκατάσταση.",
-    "The PHP Opcache is not properly configured. <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">For better performance we recommend ↗</a> to use following settings in the <code>php.ini</code>:" : "Η PHP Opcache δεν είναι ρυθμισμένη σωστά. <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\"Για καλύτερη απόδοση σας συνιστούμε ↗</a> να χρησιμοποιήσετε τις ακόλουθες ρυθμίσεις στο αρχείο <code>php.ini</code>:"
+    "Please use the command line updater because you have a big instance." : "Παρακαλούμε χρησιμοποιήστε την ενημέρωση μέσω γραμμής εντολών διότι έχετε μεγάλη εγκατάσταση."
 },
 "nplurals=2; plural=(n != 1);");
