@@ -593,24 +593,52 @@ class ShareesAPIController extends OCSController {
 	 * @return array
 	 */
 	protected function getEmail($search) {
-		$result = ['results' => [], 'exact' => []];
+		$result = ['results' => [], 'exact' => [], 'exactIdMatch' => false];
 
 		// Search in contacts
 		//@todo Pagination missing
 		$addressBookContacts = $this->contactsManager->search($search, ['EMAIL', 'FN']);
-		$result['exactIdMatch'] = false;
+		$lowerSearch = strtolower($search);
 		foreach ($addressBookContacts as $contact) {
-			if (isset($contact['isLocalSystemBook'])) {
-				continue;
-			}
 			if (isset($contact['EMAIL'])) {
 				$emailAddresses = $contact['EMAIL'];
 				if (!is_array($emailAddresses)) {
 					$emailAddresses = [$emailAddresses];
 				}
 				foreach ($emailAddresses as $emailAddress) {
-					if (strtolower($contact['FN']) === strtolower($search) || strtolower($emailAddress) === strtolower($search)) {
-						if (strtolower($emailAddress) === strtolower($search)) {
+					$exactEmailMatch = strtolower($emailAddress) === $lowerSearch;
+
+					if (isset($contact['isLocalSystemBook'])) {
+						if ($exactEmailMatch) {
+							$cloud = $this->cloudIdManager->resolveCloudId($contact['CLOUD'][0]);
+							if (!$this->hasUserInResult($cloud->getUser())) {
+								$this->result['exact']['users'][] = [
+									'label' => $contact['FN'] . " ($emailAddress)",
+									'value' => [
+										'shareType' => Share::SHARE_TYPE_USER,
+										'shareWith' => $cloud->getUser(),
+									],
+								];
+							}
+							return ['results' => [], 'exact' => [], 'exactIdMatch' => true];
+						}
+						if ($this->shareeEnumeration) {
+							$cloud = $this->cloudIdManager->resolveCloudId($contact['CLOUD'][0]);
+							if (!$this->hasUserInResult($cloud->getUser())) {
+								$this->result['users'][] = [
+									'label' => $contact['FN'] . " ($emailAddress)",
+									'value' => [
+										'shareType' => Share::SHARE_TYPE_USER,
+										'shareWith' => $cloud->getUser(),
+									],
+								];
+							}
+						}
+						continue;
+					}
+
+					if ($exactEmailMatch || strtolower($contact['FN']) === $lowerSearch) {
+						if ($exactEmailMatch) {
 							$result['exactIdMatch'] = true;
 						}
 						$result['exact'][] = [
@@ -686,6 +714,28 @@ class ShareesAPIController extends OCSController {
 		}
 
 		$this->result['lookup'] = $result;
+	}
+
+	/**
+	 * Check if a given user is already part of the result
+	 *
+	 * @param string $userId
+	 * @return bool
+	 */
+	protected function hasUserInResult($userId) {
+		foreach ($this->result['exact']['users'] as $result) {
+			if ($result['value']['shareWith'] === $userId) {
+				return true;
+			}
+		}
+
+		foreach ($this->result['users'] as $result) {
+			if ($result['value']['shareWith'] === $userId) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
