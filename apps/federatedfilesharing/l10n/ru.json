@@ -41,7 +41,7 @@
     "Adjust how people can share between servers." : "Настройте общий доступ между серверами.",
     "Allow users on this server to send shares to other servers" : "Разрешить пользователям делиться с пользователями других серверов",
     "Allow users on this server to receive shares from other servers" : "Разрешить пользователям использовать общие ресурсы с других серверов",
-    "Search global and public address book for users and let local users publish their data" : "Поиск пользователей в глобальной и общедоступной адресной книге и резрешение публикации своих данных локальным пользователям ",
+    "Search global and public address book for users" : "Искать пользователей в глобальной и открытой адресной книге",
     "Allow users to publish their data to a global and public address book" : "Резрешить пользователям публиковать свои данные в глобальной и общедосупной адресной книге",
     "Federated Cloud" : "Федерация облачных хранилищ",
     "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Можно поделиться с любым пользователем Nextcloud, ownCloud или Pydio! Просто введите его идентификатор  федеративного облачного хранилища в диалоге предоставления общего доступа. Идентификатор указывается в виде «person@cloud.example.com».",
@@ -50,7 +50,7 @@
     "Add to your website" : "Добавить к себе на сайт",
     "Share with me via Nextcloud" : "Поделитесь со мной через Nextcloud",
     "HTML Code:" : "HTML код:",
-    "Search global and public address book for users" : "Искать пользователей в глобальной и открытой адресной книге",
-    "Share it:" : "Поделиться:"
+    "Share it:" : "Поделиться:",
+    "Search global and public address book for users and let local users publish their data" : "Поиск пользователей в глобальной и общедоступной адресной книге и резрешение публикации своих данных локальным пользователям "
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

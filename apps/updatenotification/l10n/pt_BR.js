@@ -4,7 +4,7 @@ OC.L10N.register(
     "Update notifications" : "Notificações de atualização",
     "Could not start updater, please try the manual update" : "Não foi possível iniciar o atualizador, tente a atualização manual",
     "{version} is available. Get more information on how to update." : "{version} está disponível. Obtenha mais informações sobre como atualizar.",
-    "Channel updated" : "Versão atualizada",
+    "Channel updated" : "Canal atualizado",
     "The update server could not be reached since %d days to check for new updates." : "O servidor de atualização não foi encontrado já há %d dias para verificar por novas atualizações.",
     "Please check the Nextcloud and server log files for errors." : "Verifique se há erros nos arquivos de log do servidor e do Nextcloud ",
     "Update to %1$s is available." : "Atualização para %1$s está disponível.",

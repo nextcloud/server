@@ -326,7 +326,6 @@ OC.L10N.register(
     "Cheers!" : "Kiitos!",
     "Use the following link to reset your password: {link}" : "Voit palauttaa salasanasi seuraavassa osoitteessa: {link}",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hei,<br><br>%s jakoi kanssasi kohteen <strong>%s</strong>.<br><a href=\"%s\">Tutustu siihen!</a><br><br>",
-    "Please use the command line updater because you have a big instance." : "Käytä komentorivipäivitintä, koska käyttämäsi Nextcloud on sen verran suuri.",
-    "The PHP Opcache is not properly configured. <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">For better performance we recommend ↗</a> to use following settings in the <code>php.ini</code>:" : "PHP Opcache ei ole oikein määritelty. <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">Suosittelemme paremman suorituskyvyn saavuttamiseksi ↗</a> käyttämään seuraavia asetuksia <code>php.ini</code>-asetustiedostossa:"
+    "Please use the command line updater because you have a big instance." : "Käytä komentorivipäivitintä, koska käyttämäsi Nextcloud on sen verran suuri."
 },
 "nplurals=2; plural=(n != 1);");

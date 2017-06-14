@@ -204,6 +204,7 @@
     "Your data directory must be an absolute path" : "Каталог данных должен быть указан в виде абсолютного пути",
     "Check the value of \"datadirectory\" in your configuration" : "Проверьте значение «datadirectory» в настройках.",
     "Your data directory is invalid" : "Каталог данных не верен",
+    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Убедитесь, что в корне каталога данных присутствует файл «.ocdata».",
     "Could not obtain lock type %d on \"%s\"." : "Не удалось получить блокировку типа %d для «%s»",
     "Storage unauthorized. %s" : "Хранилище неавторизовано. %s",
     "Storage incomplete configuration. %s" : "Неполная конфигурация хранилища.  %s",

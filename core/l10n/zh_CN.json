@@ -335,7 +335,6 @@
     "Cheers!" : "干杯！",
     "Use the following link to reset your password: {link}" : "使用以下链接重置您的密码: {link}",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "嗨、你好,<br><br>只想让你知道 %s 分享了 <strong>%s</strong> 给你。<br><a href=\"%s\">现在查看！</a><br><br>",
-    "Please use the command line updater because you have a big instance." : "由于您的实例较大, 请使用命令行更新.",
-    "The PHP Opcache is not properly configured. <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">For better performance we recommend ↗</a> to use following settings in the <code>php.ini</code>:" : "PHP opcache配置不正确.<a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">为更好的性能，我们建议↗</a> 使用下列设置<code>php.ini</code>:"
+    "Please use the command line updater because you have a big instance." : "由于您的实例较大, 请使用命令行更新."
 },"pluralForm" :"nplurals=1; plural=0;"
 }

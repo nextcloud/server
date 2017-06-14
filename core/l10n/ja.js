@@ -315,7 +315,6 @@ OC.L10N.register(
     "Cheers!" : "それでは！",
     "Use the following link to reset your password: {link}" : "パスワードをリセットするには次のリンクをクリックしてください: {link}",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "こんにちは、<br><br>%sがあなたと »%s« を共有したことをお知らせします。<br><a href=\"%s\">それを表示</a><br><br>",
-    "Please use the command line updater because you have a big instance." : "データ量が大きいため、コマンドラインでの更新を利用してください。",
-    "The PHP Opcache is not properly configured. <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">For better performance we recommend ↗</a> to use following settings in the <code>php.ini</code>:" : "PHP Opcache が正しく設定されていません。 <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">パフォーマンスを向上させるため ↗</a> <code>php.ini</code> で次の設定を使用することをお勧めします:"
+    "Please use the command line updater because you have a big instance." : "データ量が大きいため、コマンドラインでの更新を利用してください。"
 },
 "nplurals=1; plural=0;");

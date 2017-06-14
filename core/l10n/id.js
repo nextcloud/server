@@ -289,7 +289,6 @@ OC.L10N.register(
     "Cheers!" : "Horee!",
     "Use the following link to reset your password: {link}" : "Gunakan tautan berikut untuk menyetel ulang sandi Anda: {link}",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hai,<br><br>hanya memberi tahu jika %s membagikan <strong>%s</strong> dengan Anda.<br><a href=\"%s\">Lihat!</a><br><br>",
-    "Please use the command line updater because you have a big instance." : "Gunakan pembaruan command-line karena Anda mempunyai instansi yang besar.",
-    "The PHP Opcache is not properly configured. <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">For better performance we recommend ↗</a> to use following settings in the <code>php.ini</code>:" : "PHP Opcache tidak dikonfigurasi secara baik. <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">Untuk performa lebih baik kami merekomendasikan ↗</a>  untuk menggunakan pengaturan berikut di <code>php.ini</code>:"
+    "Please use the command line updater because you have a big instance." : "Gunakan pembaruan command-line karena Anda mempunyai instansi yang besar."
 },
 "nplurals=1; plural=0;");

@@ -315,7 +315,6 @@
     "Cheers!" : "Saluti!",
     "Use the following link to reset your password: {link}" : "Usa il collegamento seguente per ripristinare la password: {link}",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Ciao,<br><br>volevo informarti che %s ha condiviso <strong>%s</strong> con te.<br><a href=\"%s\">Guarda!</a><br><br>",
-    "Please use the command line updater because you have a big instance." : "Utilizza lo strumento da riga di comando per la grandezza della tua istanza.",
-    "The PHP Opcache is not properly configured. <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">For better performance we recommend ↗</a> to use following settings in the <code>php.ini</code>:" : "PHP OpCache non è configurata correttamente. <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">Per prestazioni migliori consigliamo</a> di utilizzare le impostazioni in <code>php.ini</code>:"
+    "Please use the command line updater because you have a big instance." : "Utilizza lo strumento da riga di comando per la grandezza della tua istanza."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

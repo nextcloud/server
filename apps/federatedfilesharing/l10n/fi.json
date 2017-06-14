@@ -39,7 +39,7 @@
     "Open documentation" : "Avaa dokumentaatio",
     "Allow users on this server to send shares to other servers" : "Salli tämän palvelimen käyttäjien lähettää jakoja muille palvelimille",
     "Allow users on this server to receive shares from other servers" : "Salli tämän palvelimen käyttäjien vastaanottaa jakoja muilta palvelimilta",
-    "Search global and public address book for users and let local users publish their data" : "Etsi käyttäjiä maailmanlaajuisesta ja julkisesta osoitekirjasta sekä salli paikallisten käyttäjien julkaista omia tietojaan",
+    "Search global and public address book for users" : "Etsi käyttäjiä maailmanlaajuisesta ja julkisesta osoitekirjasta",
     "Allow users to publish their data to a global and public address book" : "Salli käyttäjien julkaista tietojaan maailmanlaajuisessa ja julkisessa osoitekirjassa",
     "Federated Cloud" : "Federoitu pilvi",
     "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Voit jakaa kenelle tahansa, joka käyttää Nextcloudia, ownCloudia tai Pydiota! Kirjoita heidän federoidun pilven tunniste jaon kohteeksi. Se on muodossa henkilö@cloud.esimerkki.fi",
@@ -48,7 +48,7 @@
     "Add to your website" : "Lisää verkkosivuillesi",
     "Share with me via Nextcloud" : "Jaa kanssani Nextcloudin kautta",
     "HTML Code:" : "HTML-koodi:",
-    "Search global and public address book for users" : "Etsi käyttäjiä maailmanlaajuisesta ja julkisesta osoitekirjasta",
-    "Share it:" : "Jaa se:"
+    "Share it:" : "Jaa se:",
+    "Search global and public address book for users and let local users publish their data" : "Etsi käyttäjiä maailmanlaajuisesta ja julkisesta osoitekirjasta sekä salli paikallisten käyttäjien julkaista omia tietojaan"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
