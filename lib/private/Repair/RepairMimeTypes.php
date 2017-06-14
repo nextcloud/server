@@ -129,6 +129,14 @@ class RepairMimeTypes implements IRepairStep {
 		$this->updateMimetypes($updatedMimetypes);
 	}
 
+	private function introduceLocationTypes() {
+		$updatedMimetypes = [
+			'gpx' => 'application/gpx+xml'
+		];
+
+		$this->updateMimetypes($updatedMimetypes);
+	}
+
 	/**
 	 * Fix mime types
 	 */
@@ -145,6 +153,10 @@ class RepairMimeTypes implements IRepairStep {
 
 		if (version_compare($ocVersionFromBeforeUpdate, '12.0.0.13', '<') && $this->introduceWindowsProgramTypes()) {
 			$out->info('Fixed windows program mime types');
+		}
+
+		if (version_compare($ocVersionFromBeforeUpdate, '13.0.0.0', '<') && $this->introduceLocationTypes()) {
+			$out->info('Fixed geospatial mime types');
 		}
 	}
 }
