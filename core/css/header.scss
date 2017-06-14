@@ -100,13 +100,17 @@
 
 #header {
 	.logo {
-		background-image: url('#{$image-logo}');
+		display: inline-flex;
+		background-image: url($image-logo);
 		background-repeat: no-repeat;
-		background-size: 175px;
+		background-size: contain;
 		background-position: center;
-		width: 252px;
-		height: 120px;
+		width: 256px;
+		height: 128px;
 		margin: 0 auto;
+		&.logo-icon {
+			width: 62px;
+			height: 34px;
 
 		img {
 			opacity: 0;
@@ -114,15 +118,7 @@
 			max-height: 200px;
 		}
 	}
-	.logo-icon {
-		/* display logo so appname can be shown next to it */
-		display: inline-block;
-		background-image: url($image-logo);
-		background-repeat: no-repeat;
-		background-position: center center;
-		background-size: contain;
-		width: 62px;
-		height: 34px;
+
 	}
 	.header-appname-container {
 		display: none;
