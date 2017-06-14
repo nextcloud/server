@@ -409,7 +409,7 @@ class Local extends \OC\Files\Storage\Common {
 	 * @param string $targetInternalPath
 	 * @return bool
 	 */
-	public function copyFromStorage(\OCP\Files\Storage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
+	public function copyFromStorage(\OCP\Files\Storage $sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime = false) {
 		if ($sourceStorage->instanceOfStorage('\OC\Files\Storage\Local')) {
 			/**
 			 * @var \OC\Files\Storage\Local $sourceStorage
