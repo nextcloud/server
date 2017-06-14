@@ -26,6 +26,7 @@ use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchOrder;
 use OC\Files\Search\SearchQuery;
 use OC\Files\View;
+use OCA\DAV\Connector\Sabre\CachingTree;
 use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\FilesPlugin;
 use OCA\DAV\Connector\Sabre\TagsPlugin;
@@ -39,7 +40,6 @@ use OCP\Files\Search\ISearchQuery;
 use OCP\IUser;
 use OCP\Share\IManager;
 use Sabre\DAV\Exception\NotFound;
-use Sabre\DAV\Tree;
 use SearchDAV\Backend\ISearchBackend;
 use SearchDAV\Backend\SearchPropertyDefinition;
 use SearchDAV\Backend\SearchResult;
@@ -49,7 +49,7 @@ use SearchDAV\XML\Operator;
 use SearchDAV\XML\Order;
 
 class FileSearchBackend implements ISearchBackend {
-	/** @var Tree */
+	/** @var CachingTree */
 	private $tree;
 
 	/** @var IUser */
@@ -67,14 +67,14 @@ class FileSearchBackend implements ISearchBackend {
 	/**
 	 * FileSearchBackend constructor.
 	 *
-	 * @param Tree $tree
+	 * @param CachingTree $tree
 	 * @param IUser $user
 	 * @param IRootFolder $rootFolder
 	 * @param IManager $shareManager
 	 * @param View $view
 	 * @internal param IRootFolder $rootFolder
 	 */
-	public function __construct(Tree $tree, IUser $user, IRootFolder $rootFolder, IManager $shareManager, View $view) {
+	public function __construct(CachingTree $tree, IUser $user, IRootFolder $rootFolder, IManager $shareManager, View $view) {
 		$this->tree = $tree;
 		$this->user = $user;
 		$this->rootFolder = $rootFolder;
@@ -157,10 +157,13 @@ class FileSearchBackend implements ISearchBackend {
 
 		return array_map(function (Node $node) {
 			if ($node instanceof Folder) {
-				return new SearchResult(new \OCA\DAV\Connector\Sabre\Directory($this->view, $node, $this->tree, $this->shareManager), $this->getHrefForNode($node));
+				$davNode = new \OCA\DAV\Connector\Sabre\Directory($this->view, $node, $this->tree, $this->shareManager);
 			} else {
-				return new SearchResult(new \OCA\DAV\Connector\Sabre\File($this->view, $node, $this->shareManager), $this->getHrefForNode($node));
+				$davNode = new \OCA\DAV\Connector\Sabre\File($this->view, $node, $this->shareManager);
 			}
+			$path = $this->getHrefForNode($node);
+			$this->tree->cacheNode($davNode, $path);
+			return new SearchResult($davNode, $path);
 		}, $results);
 	}
 

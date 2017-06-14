@@ -35,6 +35,7 @@ use OCA\DAV\Comments\CommentsPlugin;
 use OCA\DAV\Connector\Sabre\Auth;
 use OCA\DAV\Connector\Sabre\BearerAuth;
 use OCA\DAV\Connector\Sabre\BlockLegacyClientPlugin;
+use OCA\DAV\Connector\Sabre\CachingTree;
 use OCA\DAV\Connector\Sabre\CommentPropertiesPlugin;
 use OCA\DAV\Connector\Sabre\CopyEtagHeaderPlugin;
 use OCA\DAV\Connector\Sabre\DavAclPlugin;
@@ -75,7 +76,7 @@ class Server {
 		$dispatcher = \OC::$server->getEventDispatcher();
 
 		$root = new RootCollection();
-		$this->server = new \OCA\DAV\Connector\Sabre\Server($root);
+		$this->server = new \OCA\DAV\Connector\Sabre\Server(new CachingTree($root));
 
 		// Add maintenance plugin
 		$this->server->addPlugin(new \OCA\DAV\Connector\Sabre\MaintenancePlugin(\OC::$server->getConfig()));
