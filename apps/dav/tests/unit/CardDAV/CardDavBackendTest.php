@@ -113,6 +113,10 @@ class CardDavBackendTest extends TestCase {
 		if (is_null($this->backend)) {
 			return;
 		}
+
+		$this->principal->method('getGroupMembership')
+			->withAnyParameters()
+			->willReturn([self::UNIT_TEST_GROUP]);
 		$books = $this->backend->getAddressBooksForUser(self::UNIT_TEST_USER);
 		foreach ($books as $book) {
 			$this->backend->deleteAddressBook($book['id']);
