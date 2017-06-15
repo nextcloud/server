@@ -126,7 +126,6 @@
     "Groups" : "Gruplar",
     "Expert" : "Uzman",
     "Advanced" : "Gelişmiş",
-    "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Uyarı:</b> user_ldap ve user_webdavauth uygulamaları uyumlu değil. Beklenmedik bir davranışla karşılaşabilirsiniz. Lütfen ikisinden birini devre dışı bırakmak için sistem yöneticinizle görüşün.",
     "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>Uyarı:</b> PHP LDAP modülü kurulmamış, arka uç çalışmayacak. Lütfen kurulumu için sistem yöneticinizle görüşün.",
     "Connection Settings" : "Bağlantı Ayarları",
     "Configuration Active" : "Yapılandırma Etkin",
@@ -191,6 +190,7 @@
     "Allows login against the LDAP / AD username, which is either uid or samaccountname and will be detected." : "LDAP / AD kullanıcı adı ile oturum açılmasını sağlar. Kullanıcı adı uid ya da samaccountname olabilir ve algılanır.",
     "Add a new and blank configuration" : "Yeni ve boş bir yapılandırma ekle",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "SSL gerekmiyorsa iletişim kuralı belirtilmeyebilir. Gerekiyorsa ldaps:// ile başlayın",
+    "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Uyarı:</b> user_ldap ve user_webdavauth uygulamaları uyumlu değil. Beklenmedik bir davranışla karşılaşabilirsiniz. Lütfen ikisinden birini devre dışı bırakmak için sistem yöneticinizle görüşün.",
     "in bytes" : "bayt cinsinden"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

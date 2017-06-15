@@ -275,11 +275,6 @@
     "New password" : "Новый пароль",
     "New Password" : "Новый пароль",
     "Reset password" : "Сбросить пароль",
-    "This Nextcloud instance is currently in single user mode." : "Сервер Nextcloud в настоящее время работает в однопользовательском режиме.",
-    "This means only administrators can use the instance." : "Это значит, что только администраторы могут использовать сервер.",
-    "Contact your system administrator if this message persists or appeared unexpectedly." : "Обратитесь к вашему системному администратору если это сообщение не исчезает или появляется неожиданно.",
-    "Thank you for your patience." : "Спасибо за терпение.",
-    "Log out" : "Выйти",
     "Two-factor authentication" : "Двухфакторная аутентификация",
     "Enhanced security is enabled for your account. Please authenticate using a second factor." : "Для вашей учётной записи включена повышенная безопасность. Пожалуйста, аутентифицируйтесь, используя код.",
     "Cancel log in" : "Отменить вход",
@@ -305,6 +300,8 @@
     "Upgrade via web on my own risk" : "Обновить через веб на мой страх и риск.",
     "This %s instance is currently in maintenance mode, which may take a while." : "Этот сервер %s находится в режиме технического обслуживания, которое может занять некоторое время.",
     "This page will refresh itself when the %s instance is available again." : "Эта страница автоматически обновится, когда сервер %s снова станет доступен.",
+    "Contact your system administrator if this message persists or appeared unexpectedly." : "Обратитесь к вашему системному администратору если это сообщение не исчезает или появляется неожиданно.",
+    "Thank you for your patience." : "Спасибо за терпение.",
     "Problem loading page, reloading in 5 seconds" : "Возникла проблема при загрузке страницы, повторная попытка через 5 секунд",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Ваши файлы зашифрованы. Если вы не включили ключ восстановления, то ваши данные будут недоступны после сброса пароля.<br />Если вы не уверены что делать дальше - обратитесь к вашему администратору.<br />Вы действительно хотите продолжить?",
     "Ok" : "Ок",
@@ -335,8 +332,11 @@
     "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Здравствуйте,\n\n%s поделился %s с вами.\nПосмотреть: %s\n",
     "The share will expire on %s." : "Доступ будет закрыт %s",
     "Cheers!" : "Всего наилучшего!",
+    "Log out" : "Выйти",
     "Use the following link to reset your password: {link}" : "Используйте следующую ссылку чтобы сбросить пароль: {link}",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Здравствуйте,<br><br>%s поделился с вами <strong>%s</strong>.<br>Перейдите по <a href=\"%s\">ссылке</a>, чтобы посмотреть<br><br>",
+    "This Nextcloud instance is currently in single user mode." : "Сервер Nextcloud в настоящее время работает в однопользовательском режиме.",
+    "This means only administrators can use the instance." : "Это значит, что только администраторы могут использовать сервер.",
     "Please use the command line updater because you have a big instance." : "Пожалуйста, используйте обновление через командную строку, так как данная установка имеет большой размер."
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

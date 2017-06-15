@@ -220,11 +220,6 @@
     "New password" : "Nové heslo",
     "New Password" : "Nové heslo",
     "Reset password" : "Obnovenie hesla",
-    "This Nextcloud instance is currently in single user mode." : "Táto inštancia Nextcloudu je teraz v jednopoužívateľskom móde.",
-    "This means only administrators can use the instance." : "Len správca systému môže používať túto inštanciu.",
-    "Contact your system administrator if this message persists or appeared unexpectedly." : "Kontaktujte prosím správcu systému, ak sa táto správa objavuje opakovane alebo neočakávane.",
-    "Thank you for your patience." : "Ďakujeme za Vašu trpezlivosť.",
-    "Log out" : "Odhlásiť",
     "You are accessing the server from an untrusted domain." : "Pristupujete na server v nedôveryhodnej doméne.",
     "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "V závislosti na konfigurácii, vám môže byť ako správcovi umožnené použitie tlačidla nižšie pre označenie tejto domény ako dôveryhodnej.",
     "Add \"%s\" as trusted domain" : "Pridať \"%s\" ako dôveryhodnú doménu",
@@ -240,6 +235,8 @@
     "Update needed" : "Aktualizácia je potrebná",
     "This %s instance is currently in maintenance mode, which may take a while." : "Táto %s inštancia je v súčasnej dobe v režime údržby. Počkajte prosím.",
     "This page will refresh itself when the %s instance is available again." : "Táto stránka sa obnoví sama hneď ako bude %s inštancia znovu dostupná.",
+    "Contact your system administrator if this message persists or appeared unexpectedly." : "Kontaktujte prosím správcu systému, ak sa táto správa objavuje opakovane alebo neočakávane.",
+    "Thank you for your patience." : "Ďakujeme za Vašu trpezlivosť.",
     "Problem loading page, reloading in 5 seconds" : "Nastal problém pri načítaní stránky, pokus sa zopakuje o 5 sekúnd",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Súbory sú zašifrované. Ak ste nepovolili kľúč pre obnovenie, neexistuje žiadny spôsob, ako obnoviť vaše dáta po obnovení vášho hesla. <br /> Ak si nie ste istí čo urobiť, prosím skôr než budete pokračovať, obráťte sa na administrátora. <br /> Naozaj chcete pokračovať?",
     "Ok" : "Ok",
@@ -268,8 +265,11 @@
     "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Dobrý deň,\n\npoužívateľ %s Vám sprístupnil položku s názvom %s.\nPre zobrazenie kliknite na odkaz: %s\n",
     "The share will expire on %s." : "Sprístupnenie vyprší %s.",
     "Cheers!" : "Pekný deň!",
+    "Log out" : "Odhlásiť",
     "Use the following link to reset your password: {link}" : "Použite nasledujúci odkaz pre obnovenie vášho hesla: {link}",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Dobrý deň,<br><br>používateľ %s Vám sprístupnil položku s názvom »%s«.<br><a href=\"%s\">Zobraziť!</a><br><br>",
+    "This Nextcloud instance is currently in single user mode." : "Táto inštancia Nextcloudu je teraz v jednopoužívateľskom móde.",
+    "This means only administrators can use the instance." : "Len správca systému môže používať túto inštanciu.",
     "Please use the command line updater because you have a big instance." : "Vaša inštancia je veľká, použite prosím aktualizáciu cez príkazový riadok."
 },"pluralForm" :"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;"
 }

@@ -124,6 +124,7 @@
     "Expiration" : "过期",
     "Expiration date" : "过期日期",
     "Choose a password for the public link" : "为共享链接设置密码",
+    "Choose a password for the public link or press the \"Enter\" key" : "为公开链接选择一个密码, 或按 \"Enter  \"",
     "Copied!" : "已经复制!",
     "Copy" : "复制",
     "Not supported!" : "无法支持!",
@@ -273,11 +274,6 @@
     "New password" : "新密码",
     "New Password" : "新密码",
     "Reset password" : "重置密码",
-    "This Nextcloud instance is currently in single user mode." : "当前 Nextcloud 实例运行在单用户模式下.",
-    "This means only administrators can use the instance." : "这意味着只有管理员才能在实例上操作.",
-    "Contact your system administrator if this message persists or appeared unexpectedly." : "如果这个消息一直存在或不停出现, 请联系你的系统管理员.",
-    "Thank you for your patience." : "感谢您久等了.",
-    "Log out" : "注销",
     "Two-factor authentication" : "双重认证",
     "Enhanced security is enabled for your account. Please authenticate using a second factor." : "您的帐户已启用增强安全性, 请使用第二因子验证.",
     "Cancel log in" : "取消登录",
@@ -303,6 +299,8 @@
     "Upgrade via web on my own risk" : "通过网络升级的风险",
     "This %s instance is currently in maintenance mode, which may take a while." : "该实例 %s 当前处于维护模式, 这将花费一些时间.",
     "This page will refresh itself when the %s instance is available again." : "当实例 %s 再次可用时此页面将刷新.",
+    "Contact your system administrator if this message persists or appeared unexpectedly." : "如果这个消息一直存在或不停出现, 请联系你的系统管理员.",
+    "Thank you for your patience." : "感谢您久等了.",
     "Problem loading page, reloading in 5 seconds" : "加载页面出现问题, 在 5 秒内重新加载",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "您的文件已经加密. 如果您没有启用恢复密钥, 当您的密码重置后没有任何方式能恢复您的数据. <br />如果您不确定, 请在继续前联系您的管理员.<br/>您是否真的要继续?",
     "Ok" : "确定",
@@ -333,8 +331,11 @@
     "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "嗨、你好,\n\n只想让你知道 %s 分享了 %s 给你。\n现在查看: %s\n",
     "The share will expire on %s." : "此分享将在 %s 过期.",
     "Cheers!" : "干杯！",
+    "Log out" : "注销",
     "Use the following link to reset your password: {link}" : "使用以下链接重置您的密码: {link}",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "嗨、你好,<br><br>只想让你知道 %s 分享了 <strong>%s</strong> 给你。<br><a href=\"%s\">现在查看！</a><br><br>",
+    "This Nextcloud instance is currently in single user mode." : "当前 Nextcloud 实例运行在单用户模式下.",
+    "This means only administrators can use the instance." : "这意味着只有管理员才能在实例上操作.",
     "Please use the command line updater because you have a big instance." : "由于您的实例较大, 请使用命令行更新."
 },"pluralForm" :"nplurals=1; plural=0;"
 }

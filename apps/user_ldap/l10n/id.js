@@ -102,7 +102,6 @@ OC.L10N.register(
     "Groups" : "Grup",
     "Expert" : "Lanjutan",
     "Advanced" : "Lanjutan",
-    "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Peringatan:</b> Aplikasi user_ldap dan user_webdavauth tidak kompatibel. Anda mungkin akan mengalami perilaku yang tidak terduga. Silakan minta administrator Anda untuk menonaktifkan salah satunya.",
     "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>Peringatan:</b> Modul LDAP PHP tidak terpasang, perangkat tidak akan bekerja. Silakan minta administrator sistem untuk memasangnya.",
     "Connection Settings" : "Pengaturan Koneksi",
     "Configuration Active" : "Konfigurasi Aktif",
@@ -162,6 +161,7 @@ OC.L10N.register(
     "Allows login against the LDAP / AD username, which is either uid or samaccountname and will be detected." : "Izinkan login dengan nama pengguna LDAP / AD, baik berupa uid atau samaccountname, mereka akan terdeteksi.",
     "Add a new and blank configuration" : "Tambah konfigurasi kosong yang baru",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "Anda dapat mengabaikan protokol, kecuali Anda membutuhkan SSL. Lalu jalankan dengan ldaps://",
+    "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Peringatan:</b> Aplikasi user_ldap dan user_webdavauth tidak kompatibel. Anda mungkin akan mengalami perilaku yang tidak terduga. Silakan minta administrator Anda untuk menonaktifkan salah satunya.",
     "in bytes" : "dalam bytes"
 },
 "nplurals=1; plural=0;");

@@ -126,7 +126,6 @@
     "Groups" : "Группы",
     "Expert" : "Эксперт",
     "Advanced" : "Дополнительно",
-    "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Предупреждение:</b> Приложения user_ldap и user_webdavauth несовместимы. Вы можете наблюдать некорректное поведение. Пожалуйста, попросите вашего системного администратора отключить одно из них.",
     "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>Предупреждение:</b> Модуль LDAP для PHP не установлен, бэкенд не будет работать. Пожалуйста, попросите вашего системного администратора его установить. ",
     "Connection Settings" : "Настройки подключения",
     "Configuration Active" : "Конфигурация активна",
@@ -191,6 +190,7 @@
     "Allows login against the LDAP / AD username, which is either uid or samaccountname and will be detected." : "Позволяет вход в LDAP / AD с помощью имени пользователя, которое может определяться как uid, так и samaccountname.",
     "Add a new and blank configuration" : "Добавить новую и пустую конфигурацию",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "Можно пренебречь протоколом, за исключением использования SSL. В этом случае укажите ldaps://",
+    "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Предупреждение:</b> Приложения user_ldap и user_webdavauth несовместимы. Вы можете наблюдать некорректное поведение. Пожалуйста, попросите вашего системного администратора отключить одно из них.",
     "in bytes" : "в байтах"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

@@ -128,7 +128,6 @@ OC.L10N.register(
     "Groups" : "Gruppen",
     "Expert" : "Experte",
     "Advanced" : "Fortgeschritten",
-    "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Warnung:</b> Die Anwendungen user_ldap und user_webdavauth sind inkompatibel. Es kann deshalb zu unerwartetem Systemverhalten kommen. Bitte kontaktieren Sie Ihren Systemadministator und bitten Sie um die Deaktivierung einer der beiden Anwendungen.",
     "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>Warnung:</b> Da das PHP-Modul für LDAP nicht installiert ist, wird das Backend nicht funktionieren. Bitte kontaktieren Sie Ihren Systemadministrator und bitten Sie um die Installation des Moduls.",
     "Connection Settings" : "Verbindungseinstellungen",
     "Configuration Active" : "Konfiguration aktiv",
@@ -193,6 +192,7 @@ OC.L10N.register(
     "Allows login against the LDAP / AD username, which is either uid or samaccountname and will be detected." : "Erlaubt das Anmelden gegen den LDAP / AD Nutzernamen, welcher entweder eine UID oder samaccountname ist und automatisch erkannt wird.",
     "Add a new and blank configuration" : "Eine neue und leere Konfiguration hinzufügen",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "Sie können das Protokoll auslassen, außer wenn Sie SSL benötigen. Beginnen Sie dann mit ldaps://",
+    "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Warnung:</b> Die Anwendungen user_ldap und user_webdavauth sind inkompatibel. Es kann deshalb zu unerwartetem Systemverhalten kommen. Bitte kontaktieren Sie Ihren Systemadministator und bitten Sie um die Deaktivierung einer der beiden Anwendungen.",
     "in bytes" : "in Bytes"
 },
 "nplurals=2; plural=(n != 1);");

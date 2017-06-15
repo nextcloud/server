@@ -128,7 +128,6 @@ OC.L10N.register(
     "Groups" : "그룹",
     "Expert" : "전문가",
     "Advanced" : "고급",
-    "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>경고:</b> user_ldap, user_webdavauth 앱은 서로 호환되지 않습니다. 예상하지 못한 행동을 할 수도 있습니다. 시스템 관리자에게 연락하여 둘 중 하나의 앱의 사용을 중단하십시오.",
     "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>경고:</b> PHP LDAP 모듈이 비활성화되어 있거나 설치되어 있지 않습니다. 백엔드를 사용할 수 없습니다. 시스템 관리자에게 설치를 요청하십시오.",
     "Connection Settings" : "연결 설정",
     "Configuration Active" : "구성 활성",
@@ -193,6 +192,7 @@ OC.L10N.register(
     "Allows login against the LDAP / AD username, which is either uid or samaccountname and will be detected." : "uid 또는 samaccountname에 해당하는 LDAP/AD 사용자 이름으로 로그인을 허용합니다. 속성은 자동으로 감지됩니다.",
     "Add a new and blank configuration" : "새 빈 설정 추가",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "SSL을 사용하지 않으면 프로토콜을 입력하지 않아도 됩니다. SSL을 사용하려면 ldaps://를 입력하십시오.",
+    "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>경고:</b> user_ldap, user_webdavauth 앱은 서로 호환되지 않습니다. 예상하지 못한 행동을 할 수도 있습니다. 시스템 관리자에게 연락하여 둘 중 하나의 앱의 사용을 중단하십시오.",
     "in bytes" : "바이트 단위"
 },
 "nplurals=1; plural=0;");

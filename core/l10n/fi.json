@@ -263,11 +263,6 @@
     "New password" : "Uusi salasana",
     "New Password" : "Uusi salasana",
     "Reset password" : "Palauta salasana",
-    "This Nextcloud instance is currently in single user mode." : "Tämä Nextcloud-asennus on parhaillaan single user -tilassa.",
-    "This means only administrators can use the instance." : "Se tarkoittaa, että vain ylläpitäjät voivat nyt käyttää tätä sivustoa.",
-    "Contact your system administrator if this message persists or appeared unexpectedly." : "Ota yhteys järjestelmän ylläpitäjään, jos tämä viesti ilmenee uudelleen tai odottamatta.",
-    "Thank you for your patience." : "Kiitos kärsivällisyydestäsi.",
-    "Log out" : "Kirjaudu ulos",
     "Two-factor authentication" : "Kaksivaiheinen tunnistautuminen",
     "Enhanced security is enabled for your account. Please authenticate using a second factor." : "Tililläsi on käytössä parannettu tietoturva. Käytä tunnistuksen toista vaihetta.",
     "Cancel log in" : "Peru kirjautuminen",
@@ -292,6 +287,8 @@
     "Upgrade via web on my own risk" : "Internetin kautta päivittäminen omalla vastuulla",
     "This %s instance is currently in maintenance mode, which may take a while." : "Tämä %s-instanssi on parhaillaan huoltotilassa, huollossa saattaa kestää hetki.",
     "This page will refresh itself when the %s instance is available again." : "Tämä sivu päivittää itsensä, kun %s on jälleen käytettävissä.",
+    "Contact your system administrator if this message persists or appeared unexpectedly." : "Ota yhteys järjestelmän ylläpitäjään, jos tämä viesti ilmenee uudelleen tai odottamatta.",
+    "Thank you for your patience." : "Kiitos kärsivällisyydestäsi.",
     "Problem loading page, reloading in 5 seconds" : "Ongelma sivun lataamisessa, päivitetään 5 sekunnin kuluttua",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Tiedostosi on salattu. Jos et ole ottanut käyttöön palautusavainta, tietojasi ei ole mahdollista palauttaa salasanan nollaamisen jälkeen.<br />Jos et ole varma mitä tehdä, ota yhteys ylläpitäjään.<br />Haluatko varmasti jatkaa?",
     "Ok" : "Ok",
@@ -322,8 +319,11 @@
     "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Hei,\n\n%s jakoi kohteen %s kanssasi.\nTutustu siihen: %s\n\n",
     "The share will expire on %s." : "Jakaminen päättyy %s.",
     "Cheers!" : "Kiitos!",
+    "Log out" : "Kirjaudu ulos",
     "Use the following link to reset your password: {link}" : "Voit palauttaa salasanasi seuraavassa osoitteessa: {link}",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hei,<br><br>%s jakoi kanssasi kohteen <strong>%s</strong>.<br><a href=\"%s\">Tutustu siihen!</a><br><br>",
+    "This Nextcloud instance is currently in single user mode." : "Tämä Nextcloud-asennus on parhaillaan single user -tilassa.",
+    "This means only administrators can use the instance." : "Se tarkoittaa, että vain ylläpitäjät voivat nyt käyttää tätä sivustoa.",
     "Please use the command line updater because you have a big instance." : "Käytä komentorivipäivitintä, koska käyttämäsi Nextcloud on sen verran suuri."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

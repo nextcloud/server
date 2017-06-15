@@ -89,6 +89,7 @@ OC.L10N.register(
     "Cannot increase permissions" : "Oikeuksien lisääminen ei onnistu",
     "%s is publicly shared" : "%s on julkisesti jaettu",
     "Share API is disabled" : "Jakamisrajapinta on poistettu käytöstä",
+    "File sharing" : "Tiedoston jako",
     "This share is password-protected" : "Tämä jako on suojattu salasanalla",
     "The password is wrong. Try again." : "Väärä salasana. Yritä uudelleen.",
     "Password" : "Salasana",

@@ -100,7 +100,6 @@ OC.L10N.register(
     "Groups" : "Skupine",
     "Expert" : "Napredno",
     "Advanced" : "Napredne možnosti",
-    "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Opozorilo:</b> določili user_ldap in user_webdavauth sta  neskladni, kar lahko vpliva na delovanje sistema. O napaki pošljite poročilo skrbniku sistema in opozorite, da je treba eno izmed možnosti onemogočiti.",
     "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>Opozorilo:</b> modul PHP LDAP mora biti nameščen, sicer vmesnik ne bo deloval. Paket je treba namestiti.",
     "Connection Settings" : "Nastavitve povezave",
     "Configuration Active" : "Dejavna nastavitev",
@@ -153,6 +152,7 @@ OC.L10N.register(
     "Allows login against the LDAP / AD username, which is either uid or samaccountname and will be detected." : "Omogoča prijavo prek LDAP / AD, ki je ali UID ali ime računa, ki bo zaznano.",
     "Add a new and blank configuration" : "In nova, privzeta nastavitev",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "Protokol je lahko izpuščen, če ni posebej zahtevan SSL. V tem primeru se mora naslov začeti z ldaps://",
+    "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Opozorilo:</b> določili user_ldap in user_webdavauth sta  neskladni, kar lahko vpliva na delovanje sistema. O napaki pošljite poročilo skrbniku sistema in opozorite, da je treba eno izmed možnosti onemogočiti.",
     "in bytes" : "v bajtih"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

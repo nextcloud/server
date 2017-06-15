@@ -103,7 +103,6 @@ OC.L10N.register(
     "Groups" : "Grupper",
     "Expert" : "Ekspert",
     "Advanced" : "Avanceret",
-    "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Advarsel:</b> Apps'ene user_ldap og user_webdavauth er ikke kompatible. Du kan opleve uventet adfærd. Spørg venligst din systemadministrator om at slå én af dem fra.",
     "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>Advarsel:</b> PHP-modulet LDAP er ikke installeret - backend'en vil ikke fungere. Anmod venligst din systemadministrator om at installere det.",
     "Connection Settings" : "Forbindelsesindstillinger ",
     "Configuration Active" : "Konfiguration er aktiv",
@@ -166,6 +165,7 @@ OC.L10N.register(
     "Allows login against the LDAP / AD username, which is either uid or samaccountname and will be detected." : "Tillader login mod LDAP/AD-brugernavnet, hvilket enten er et uid eller »samaccountname«, og vil blive detekteret.",
     "Add a new and blank configuration" : "Tilføj en ny og tom konfiguration",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "Du kan udelade protokollen, medmindre du skal bruge SSL. Start i så fald med ldaps://",
+    "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Advarsel:</b> Apps'ene user_ldap og user_webdavauth er ikke kompatible. Du kan opleve uventet adfærd. Spørg venligst din systemadministrator om at slå én af dem fra.",
     "in bytes" : "i bytes"
 },
 "nplurals=2; plural=(n != 1);");

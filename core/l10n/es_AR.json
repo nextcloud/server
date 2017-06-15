@@ -273,11 +273,6 @@
     "New password" : "Nueva contraseña",
     "New Password" : "Nueva Contraseña",
     "Reset password" : "Restablecer contraseña",
-    "This Nextcloud instance is currently in single user mode." : "Esta instalación de Nextcloud se encuentra en modo de usuario único.",
-    "This means only administrators can use the instance." : "Esto significa que sólo los administradores pueden usar la instancia.",
-    "Contact your system administrator if this message persists or appeared unexpectedly." : "Contacte a su administrador del sistema si este mensaje persiste o se presentó de manera inesperada.",
-    "Thank you for your patience." : "Gracias por su paciencia.",
-    "Log out" : "Salir",
     "Two-factor authentication" : "Autenticación de dos-factores",
     "Enhanced security is enabled for your account. Please authenticate using a second factor." : "La seguridad mejorada está habilitada para su cuenta. Favor de autenticarse usando un segundo factor. ",
     "Cancel log in" : "Cancelar inicio de sesión",
@@ -303,6 +298,8 @@
     "Upgrade via web on my own risk" : "Actualizar vía Web bajo mi propio riesgo",
     "This %s instance is currently in maintenance mode, which may take a while." : "Esta instancia %s se encuentra actualmente en modo mantenimiento, que podría tomar algo de tiempo. ",
     "This page will refresh itself when the %s instance is available again." : "Esta página se actualizará sola cuando la instancia %s esté disponible de nuevo. ",
+    "Contact your system administrator if this message persists or appeared unexpectedly." : "Contacte a su administrador del sistema si este mensaje persiste o se presentó de manera inesperada.",
+    "Thank you for your patience." : "Gracias por su paciencia.",
     "Problem loading page, reloading in 5 seconds" : "Se presentó un problema al cargar la página, recargando en 5 segundos",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Sus archivos están encriptados. Si no ha habilitado la llave de recuperación, no habrá manera de que pueda recuperar sus datos una vez que restablezca su contraseña.<br />Si no está seguro de lo que está haciendo, favor de contactar a su adminstrador antes de continuar. <br />¿Realmente desea continuar?",
     "Ok" : "Ok",
@@ -333,8 +330,11 @@
     "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Hola,\n\nsólo queremos informarle que %s ha compartido %s con usted.\n\nConsúltelo aquí: %s\n\n",
     "The share will expire on %s." : "El recurso dejará de ser compartido el %s.",
     "Cheers!" : "¡Saludos!",
+    "Log out" : "Salir",
     "Use the following link to reset your password: {link}" : "Use el siguiente link para restablecer su contraseña: {link}",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hola,<br><br> sólo queremos informarle que %s ha compartido <strong>%s</strong> con usted. <br><a href=\"%s\">¡Véalo!</a><br><br>",
+    "This Nextcloud instance is currently in single user mode." : "Esta instalación de Nextcloud se encuentra en modo de usuario único.",
+    "This means only administrators can use the instance." : "Esto significa que sólo los administradores pueden usar la instancia.",
     "Please use the command line updater because you have a big instance." : "Favor de usar el actualizador de línea de comando porque usted tiene una instancia grande. "
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
