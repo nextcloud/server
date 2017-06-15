@@ -98,7 +98,6 @@ OC.L10N.register(
     "Groups" : "קבוצות",
     "Expert" : "מומחה",
     "Advanced" : "מתקדם",
-    "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>אזהרה:</b> יישומים user_ldap ו- user_webdavauth אינם תואמים. תופעות לא מוסברות עלולות להתקיים. כדאי לפנות למנהל המערכת כדי שינטרל אחד מהם.",
     "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>אזהרה:</b> מודול PHP LDAP אינו מותקן, צד אחורי לא יעבוד. יש לבקש מהמנהל המערכת להתקין אותו.",
     "Connection Settings" : "הגדרות התחברות",
     "Configuration Active" : "תצורה פעילה",
@@ -147,6 +146,7 @@ OC.L10N.register(
     "Allows login against the LDAP / AD username, which is either uid or samaccountname and will be detected." : "מאפשר התחברות אל מול שם משתמש LDAP / AD, שהוא רק uid או samaccountname ויזוהה.",
     "Add a new and blank configuration" : "הוספת תצורה חדשה וריקה",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "ניתן להשמיט את הפרוטוקול, אך SSL מחייב. לפיכך יש להתחיל עם ldaps://",
+    "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>אזהרה:</b> יישומים user_ldap ו- user_webdavauth אינם תואמים. תופעות לא מוסברות עלולות להתקיים. כדאי לפנות למנהל המערכת כדי שינטרל אחד מהם.",
     "in bytes" : "בבתים"
 },
 "nplurals=2; plural=(n != 1);");

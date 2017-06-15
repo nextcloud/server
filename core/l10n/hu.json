@@ -235,11 +235,6 @@
     "New password" : "Új jelszó",
     "New Password" : "Új jelszó",
     "Reset password" : "Jelszó-visszaállítás",
-    "This Nextcloud instance is currently in single user mode." : "Ez az Nextcloud szolgáltatás jelenleg egyfelhasználós üzemmódban működik.",
-    "This means only administrators can use the instance." : "Ez azt jelenti, hogy csak az adminisztrátor használhatja ezt a példányt",
-    "Contact your system administrator if this message persists or appeared unexpectedly." : "Ha ez az üzenet ismételten vagy indokolatlanul megjelenik, akkor keresse fel a rendszergazdáját!",
-    "Thank you for your patience." : "Köszönjük a türelmét!",
-    "Log out" : "Kijelentkezés",
     "Two-factor authentication" : "Kétlépcsős hitelesítés",
     "Enhanced security is enabled for your account. Please authenticate using a second factor." : "A fokozott biztonság engedélyezett a fiókod számára. Kérlek hitelesítsd egy második faktor használatával.",
     "Cancel log in" : "Bejelentkezés megszakítása",
@@ -262,6 +257,8 @@
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Segítségért keresse fel a <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">dokumentációt</a>.",
     "This %s instance is currently in maintenance mode, which may take a while." : "Ez a %s folyamat éppen karbantartó üzemmódban van, ami eltarthat egy darabig.",
     "This page will refresh itself when the %s instance is available again." : "Ez az oldal frissíteni fogja magát amint a(z) %s példány ismét elérhető.",
+    "Contact your system administrator if this message persists or appeared unexpectedly." : "Ha ez az üzenet ismételten vagy indokolatlanul megjelenik, akkor keresse fel a rendszergazdáját!",
+    "Thank you for your patience." : "Köszönjük a türelmét!",
     "Problem loading page, reloading in 5 seconds" : "Probléma adódott az oldal betöltése közben, újratöltés 5 másodpercen belül",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Az Ön fájljai titkosítva vannak. Ha nem engedélyezte korábban az adatok visszanyeréséhez szükséges kulcs használatát, akkor a jelszó megváltoztatását követően nem fog hozzáférni az adataihoz. Ha nem biztos abban, hogy mit kellene tennie, akkor kérdezze meg a rendszergazdát, mielőtt továbbmenne.<br />Biztos, hogy folytatni kívánja?",
     "Ok" : "Ok",
@@ -292,8 +289,11 @@
     "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Üdv!\n\nÉrtesítünk, hogy %s megosztotta veled a következőt: %s.\nItt nézheted meg: %s\n\n",
     "The share will expire on %s." : "A megosztás lejár ekkor: %s.",
     "Cheers!" : "Üdv.",
+    "Log out" : "Kijelentkezés",
     "Use the following link to reset your password: {link}" : "Használja ezt a hivatkozást a jelszó ismételt beállításához: {link}",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Üdv!<br /><br />\n\nÉrtesítünk, hogy %s megosztotta veled a következőt: <strong>%s</strong><br />\n<a href=\"%s\">Itt nézheted meg.</a><br /><br />",
+    "This Nextcloud instance is currently in single user mode." : "Ez az Nextcloud szolgáltatás jelenleg egyfelhasználós üzemmódban működik.",
+    "This means only administrators can use the instance." : "Ez azt jelenti, hogy csak az adminisztrátor használhatja ezt a példányt",
     "Please use the command line updater because you have a big instance." : "Kérjük, a frissítéshez a parancssort használja, mert nagyobb frissítést készül telepíteni."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

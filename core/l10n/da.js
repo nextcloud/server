@@ -266,11 +266,6 @@ OC.L10N.register(
     "New password" : "Ny adgangskode",
     "New Password" : "Ny adgangskode",
     "Reset password" : "Nulstil kodeord",
-    "This Nextcloud instance is currently in single user mode." : "Denne Nextcloud instans er lige nu i enkeltbruger tilstand.",
-    "This means only administrators can use the instance." : "Det betyder at det kun er administrator, som kan benytte ownCloud.",
-    "Contact your system administrator if this message persists or appeared unexpectedly." : "Kontakt systemadministratoren, hvis denne meddelelse fortsætter eller optrådte uventet.",
-    "Thank you for your patience." : "Tak for din tålmodighed.",
-    "Log out" : "Log ud",
     "Two-factor authentication" : "To-faktor autentificering",
     "Cancel log in" : "Annullér login",
     "Use backup code" : "Benyt backup-kode",
@@ -289,6 +284,8 @@ OC.L10N.register(
     "Update needed" : "Opdatering nødvendig",
     "This %s instance is currently in maintenance mode, which may take a while." : "Denne %s-instans befinder sig i vedligeholdelsestilstand for øjeblikket, hvilket kan tage et stykke tid.",
     "This page will refresh itself when the %s instance is available again." : "Denne side vil genopfriske sig selv, når %s-instancen er tilgængelig igen.",
+    "Contact your system administrator if this message persists or appeared unexpectedly." : "Kontakt systemadministratoren, hvis denne meddelelse fortsætter eller optrådte uventet.",
+    "Thank you for your patience." : "Tak for din tålmodighed.",
     "Problem loading page, reloading in 5 seconds" : "Problem med indlæsning af side, genindlæser om 5 sekunder",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Dine filer er krypterede. Hvis du ikke har aktiveret gendannelsesnøglen kan du ikke få dine data tilbage efter at du har ændret adgangskode.<br />Hvis du ikke er sikker på, hvad du skal gøre så kontakt din administrator før du fortsætter.<br />Vil du fortsætte?",
     "Ok" : "OK",
@@ -319,7 +316,10 @@ OC.L10N.register(
     "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Hej\n\nDette blot for at lade dig vide, at %s har delt %s med dig.\n\nSe det her: %s\n\n",
     "The share will expire on %s." : "Delingen vil udløbe om %s.",
     "Cheers!" : "Hav en fortsat god dag!",
+    "Log out" : "Log ud",
     "Use the following link to reset your password: {link}" : "Anvend følgende link til at nulstille din adgangskode: {link}",
-    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hej med dig,<br><br>Dette er blot for at informere dig om, at %s har delt <strong>%s</strong> med dig.<br><a href=\"%s\">Se det her!</a><br><br>"
+    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hej med dig,<br><br>Dette er blot for at informere dig om, at %s har delt <strong>%s</strong> med dig.<br><a href=\"%s\">Se det her!</a><br><br>",
+    "This Nextcloud instance is currently in single user mode." : "Denne Nextcloud instans er lige nu i enkeltbruger tilstand.",
+    "This means only administrators can use the instance." : "Det betyder at det kun er administrator, som kan benytte ownCloud."
 },
 "nplurals=2; plural=(n != 1);");

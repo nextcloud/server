@@ -99,7 +99,6 @@
     "Groups" : "Skupiny",
     "Expert" : "Expert",
     "Advanced" : "Rozšírené",
-    "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Upozornenie:</b> Aplikácie user_ldap a user_webdavauth sú navzájom nekompatibilné. Môžete zaznamenať neočakávané správanie. Požiadajte prosím vášho systémového administrátora pre zakázanie jedného z nich.",
     "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>Upozornenie:</b> nie je nainštalovaný LDAP modul pre PHP, backend vrstva nebude fungovať. Požiadajte administrátora systému, aby ho nainštaloval.",
     "Connection Settings" : "Nastavenie pripojenia",
     "Configuration Active" : "Nastavenia sú aktívne ",
@@ -151,6 +150,7 @@
     "Allows login against the LDAP / AD username, which is either uid or samaccountname and will be detected." : "Povoliť prihlásenie prostredníctvom LDAP / AD používateľského mena, ktoré má zadanú hodnotu v atribútoch uid alebo samaccountname.",
     "Add a new and blank configuration" : "Pridať novú prázdnu konfiguráciu",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "Môžete vynechať protokol, okrem prípadu, kedy sa vyžaduje SSL. Vtedy začnite s ldaps://",
+    "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Upozornenie:</b> Aplikácie user_ldap a user_webdavauth sú navzájom nekompatibilné. Môžete zaznamenať neočakávané správanie. Požiadajte prosím vášho systémového administrátora pre zakázanie jedného z nich.",
     "in bytes" : "v bajtoch"
 },"pluralForm" :"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;"
 }

@@ -128,7 +128,6 @@ OC.L10N.register(
     "Groups" : "Groups",
     "Expert" : "Expert",
     "Advanced" : "Advanced",
-    "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them.",
     "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it.",
     "Connection Settings" : "Connection Settings",
     "Configuration Active" : "Configuration Active",
@@ -193,6 +192,7 @@ OC.L10N.register(
     "Allows login against the LDAP / AD username, which is either uid or samaccountname and will be detected." : "Allows login against the LDAP / AD username, which is either uid or samaccountname and will be detected.",
     "Add a new and blank configuration" : "Add a new and blank configuration",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "You can omit the protocol, except you require SSL. Then start with ldaps://",
+    "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them.",
     "in bytes" : "in bytes"
 },
 "nplurals=2; plural=(n != 1);");

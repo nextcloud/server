@@ -7,7 +7,7 @@ OC.L10N.register(
     "Name" : "Nome",
     "Redirection URI" : "Redirecionamento URI",
     "Client Identifier" : "Identificador do Cliente",
-    "Secret" : "Sigilo",
+    "Secret" : "Secreto",
     "Add client" : "Adicionar cliente",
     "Add" : "Adicionar"
 },
