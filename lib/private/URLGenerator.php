@@ -35,7 +35,9 @@ namespace OC;
 
 use OCP\ICacheFactory;
 use OCP\IConfig;
+use OCP\IRequest;
 use OCP\IURLGenerator;
+use OCP\Route\IRoute;
 use RuntimeException;
 
 /**
@@ -46,15 +48,20 @@ class URLGenerator implements IURLGenerator {
 	private $config;
 	/** @var ICacheFactory */
 	private $cacheFactory;
+	/** @var IRequest */
+	private $request;
 
 	/**
 	 * @param IConfig $config
 	 * @param ICacheFactory $cacheFactory
+	 * @param IRequest $request
 	 */
 	public function __construct(IConfig $config,
-								ICacheFactory $cacheFactory) {
+								ICacheFactory $cacheFactory,
+								IRequest $request) {
 		$this->config = $config;
 		$this->cacheFactory = $cacheFactory;
+		$this->request = $request;
 	}
 
 	/**
@@ -244,7 +251,6 @@ class URLGenerator implements IURLGenerator {
 	 * @return string base url of the current request
 	 */
 	public function getBaseUrl() {
-		$request = \OC::$server->getRequest();
-		return $request->getServerProtocol() . '://' . $request->getServerHost() . \OC::$WEBROOT;
+		return $this->request->getServerProtocol() . '://' . $this->request->getServerHost() . \OC::$WEBROOT;
 	}
 }
