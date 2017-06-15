@@ -209,6 +209,12 @@ class CalendarTest extends TestCase {
 					'principal' => 'user2',
 					'protected' => true
 				];
+			} else {
+				$expectedAcl[] = [
+					'privilege' => '{DAV:}write-properties',
+					'principal' => 'user2',
+					'protected' => true
+				];
 			}
 		}
 		$this->assertEquals($expectedAcl, $acl);

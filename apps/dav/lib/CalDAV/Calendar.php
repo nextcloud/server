@@ -142,6 +142,12 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 					'principal' => parent::getOwner(),
 					'protected' => true,
 				];
+			} else {
+				$acl[] = [
+					'privilege' => '{DAV:}write-properties',
+					'principal' => parent::getOwner(),
+					'protected' => true,
+				];
 			}
 		}
 		if ($this->isPublic()) {
