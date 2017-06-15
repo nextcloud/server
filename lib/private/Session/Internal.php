@@ -43,12 +43,12 @@ class Internal extends Session {
 	 * @throws \Exception
 	 */
 	public function __construct($name) {
-		session_name($name);
 		set_error_handler(array($this, 'trapError'));
+		$this->invoke('session_name', [$name]);
 		try {
-			session_start();
+			$this->invoke('session_start');
 		} catch (\Exception $e) {
-			setcookie(session_name(), null, -1, \OC::$WEBROOT ? : '/');
+			setcookie($this->invoke('session_name'), null, -1, \OC::$WEBROOT ?: '/');
 		}
 		restore_error_handler();
 		if (!isset($_SESSION)) {
@@ -94,14 +94,14 @@ class Internal extends Session {
 	}
 
 	public function clear() {
-		session_unset();
+		$this->invoke('session_unset');
 		$this->regenerateId();
-		@session_start();
-		$_SESSION = array();
+		$this->invoke('session_start', [], true);
+		$_SESSION = [];
 	}
 
 	public function close() {
-		session_write_close();
+		$this->invoke('session_write_close');
 		parent::close();
 	}
 
@@ -112,7 +112,11 @@ class Internal extends Session {
 	 * @return void
 	 */
 	public function regenerateId($deleteOldSession = true) {
-		@session_regenerate_id($deleteOldSession);
+		try {
+			@session_regenerate_id($deleteOldSession);
+		} catch (\Error $e) {
+			$this->trapError($e->getCode(), $e->getMessage());
+		}
 	}
 
 	/**
@@ -123,7 +127,7 @@ class Internal extends Session {
 	 * @since 9.1.0
 	 */
 	public function getId() {
-		$id = @session_id();
+		$id = $this->invoke('session_id', [], true);
 		if ($id === '') {
 			throw new SessionNotAvailableException();
 		}
@@ -152,6 +156,25 @@ class Internal extends Session {
 	private function validateSession() {
 		if ($this->sessionClosed) {
 			throw new SessionNotAvailableException('Session has been closed - no further changes to the session are allowed');
+		}
+	}
+
+	/**
+	 * @param string $functionName the full session_* function name
+	 * @param array $parameters
+	 * @param bool $silence whether to suppress warnings
+	 * @throws \ErrorException via trapError
+	 * @return mixed
+	 */
+	private function invoke($functionName, array $parameters = [], $silence = false) {
+		try {
+			if($silence) {
+				return @call_user_func_array($functionName, $parameters);
+			} else {
+				return call_user_func_array($functionName, $parameters);
+			}
+		} catch(\Error $e) {
+			$this->trapError($e->getCode(), $e->getMessage());
 		}
 	}
 }
