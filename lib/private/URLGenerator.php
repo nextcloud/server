@@ -142,7 +142,7 @@ class URLGenerator implements IURLGenerator {
 	 * Returns the path to the image.
 	 */
 	public function imagePath($app, $image) {
-		$cache = $this->cacheFactory->create('imagePath');
+		$cache = $this->cacheFactory->create('imagePath-'.md5($this->getBaseUrl()).'-');
 		$cacheKey = $app.'-'.$image;
 		if($key = $cache->get($cacheKey)) {
 			return $key;
@@ -223,14 +223,12 @@ class URLGenerator implements IURLGenerator {
 		if (\OC::$CLI && !defined('PHPUNIT_RUN')) {
 			return rtrim($this->config->getSystemValue('overwrite.cli.url'), '/') . '/' . ltrim($url, '/');
 		}
-
 		// The ownCloud web root can already be prepended.
-		$webRoot = substr($url, 0, strlen(\OC::$WEBROOT)) === \OC::$WEBROOT
-			? ''
-			: \OC::$WEBROOT;
+		if(substr($url, 0, strlen(\OC::$WEBROOT)) === \OC::$WEBROOT) {
+			$url = substr($url, strlen(\OC::$WEBROOT));
+		}
 
-		$request = \OC::$server->getRequest();
-		return $request->getServerProtocol() . '://' . $request->getServerHost() . $webRoot . $separator . $url;
+		return $this->getBaseUrl() . $separator . $url;
 	}
 
 	/**
@@ -240,5 +238,13 @@ class URLGenerator implements IURLGenerator {
 	public function linkToDocs($key) {
 		$theme = \OC::$server->getThemingDefaults();
 		return $theme->buildDocLinkToKey($key);
+	}
+
+	/**
+	 * @return string base url of the current request
+	 */
+	public function getBaseUrl() {
+		$request = \OC::$server->getRequest();
+		return $request->getServerProtocol() . '://' . $request->getServerHost() . \OC::$WEBROOT;
 	}
 }

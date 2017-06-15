@@ -92,7 +92,7 @@ class SCSSCacher {
 		$path = explode('/', $root . '/' . $file);
 
 		$fileNameSCSS = array_pop($path);
-		$fileNameCSS = str_replace('.scss', '.css', $fileNameSCSS);
+		$fileNameCSS = $this->getBaseUrlHash() . '-' . str_replace('.scss', '.css', $fileNameSCSS);
 
 		$path = implode('/', $path);
 
@@ -292,8 +292,12 @@ class SCSSCacher {
 	public function getCachedSCSS($appName, $fileName) {
 		$tmpfileLoc = explode('/', $fileName);
 		$fileName = array_pop($tmpfileLoc);
-		$fileName = str_replace('.scss', '.css', $fileName);
+		$fileName = $this->getBaseUrlHash() . '-' . str_replace('.scss', '.css', $fileName);
 
 		return substr($this->urlGenerator->linkToRoute('core.Css.getCss', array('fileName' => $fileName, 'appName' => $appName)), strlen(\OC::$WEBROOT) + 1);
+	}
+
+	private function getBaseUrlHash() {
+		return md5($this->urlGenerator->getBaseUrl());
 	}
 }
