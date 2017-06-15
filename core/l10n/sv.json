@@ -268,11 +268,6 @@
     "New password" : "Nytt lösenord",
     "New Password" : "Nytt lösenord",
     "Reset password" : "Återställ lösenord",
-    "This Nextcloud instance is currently in single user mode." : "Denna Nextcloud instans är för närvarande i enanvändarläge",
-    "This means only administrators can use the instance." : "Detta betyder att endast administartörer kan använda instansen.",
-    "Contact your system administrator if this message persists or appeared unexpectedly." : "Hör av dig till din systemadministratör om detta meddelande fortsätter eller visas oväntat.",
-    "Thank you for your patience." : "Tack för ditt tålamod.",
-    "Log out" : "Logga ut",
     "Two-factor authentication" : "Tvåfaktorsautentisering",
     "Enhanced security is enabled for your account. Please authenticate using a second factor." : "Utökad säkerhet är aktiverat för ditt konto. Var vänlig verifiera med tvåfaktorsautentisering.",
     "Cancel log in" : "Avbryt inloggning",
@@ -296,6 +291,8 @@
     "Upgrade via web on my own risk" : "Uppgradera via webben på min egen risk",
     "This %s instance is currently in maintenance mode, which may take a while." : "Denna %s instans befinner sig för närvarande i underhållsläge, vilket kan ta ett tag.",
     "This page will refresh itself when the %s instance is available again." : "Denna sida uppdaterar sig själv när %s instansen är tillgänglig igen.",
+    "Contact your system administrator if this message persists or appeared unexpectedly." : "Hör av dig till din systemadministratör om detta meddelande fortsätter eller visas oväntat.",
+    "Thank you for your patience." : "Tack för ditt tålamod.",
     "Problem loading page, reloading in 5 seconds" : "Problem med att ladda sidan, försöker igen om 5 sekunder",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Dina filer är krypterade. Om du inte angett någon återställningsnyckel, kommer det att vara omöjligt att få tillbaka dina data efter att lösenordet är återställt..<br />Om du är osäker på vad du ska göra, vänligen kontakta din administratör innan du fortsätter.<br />Är du verkligen helt säker på att du vill fortsätta?",
     "Ok" : "Ok",
@@ -326,8 +323,11 @@
     "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Hej där,\n\nVi vill bara meddela att %s delade %s med dig.\nTitta på den här: %s\n\n",
     "The share will expire on %s." : "Delningen kommer att upphöra %s.",
     "Cheers!" : "Ha de fint!",
+    "Log out" : "Logga ut",
     "Use the following link to reset your password: {link}" : "Använd följande länk för att återställa lösenordet: {link}",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hej där,<br><br>Tänkte bara informera dig om att %s delade <strong>%s</strong> med dig.<br><a href=\"%s\">Klicka här för att se!</a><br><br>",
+    "This Nextcloud instance is currently in single user mode." : "Denna Nextcloud instans är för närvarande i enanvändarläge",
+    "This means only administrators can use the instance." : "Detta betyder att endast administartörer kan använda instansen.",
     "Please use the command line updater because you have a big instance." : "Vänligen använd den kommandotolksbaserade uppdateringen eftersom du har en stor instans."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

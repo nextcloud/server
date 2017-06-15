@@ -126,7 +126,6 @@
     "Groups" : "Groupes",
     "Expert" : "Expert",
     "Advanced" : "Avancé",
-    "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Avertissement :</b> Les applications user_ldap et user_webdavauth sont incompatibles. Des dysfonctionnements peuvent survenir. Contactez votre administrateur système pour qu'il en désactive une.",
     "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>Attention :</b> Le module php LDAP n'est pas installé, par conséquent cette extension ne pourra fonctionner. Veuillez contacter votre administrateur système afin qu'il l'installe.",
     "Connection Settings" : "Paramètres de connexion",
     "Configuration Active" : "Configuration active",
@@ -191,6 +190,7 @@
     "Allows login against the LDAP / AD username, which is either uid or samaccountname and will be detected." : "Autoriser le login avec le nom d'utilisateur LDAP / AD (uid ou samaccountname, la détection est automatique). ",
     "Add a new and blank configuration" : "Ajouter une nouvelle configuration vierge",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "Vous pouvez omettre le protocole, sauf si vous avez besoin de SSL. Dans ce cas, préfixez avec ldaps://",
+    "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Avertissement :</b> Les applications user_ldap et user_webdavauth sont incompatibles. Des dysfonctionnements peuvent survenir. Contactez votre administrateur système pour qu'il en désactive une.",
     "in bytes" : "en octets"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

@@ -104,7 +104,6 @@
     "Groups" : "Grupe",
     "Expert" : "Ekspert",
     "Advanced" : "Të mëtejshme",
-    "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Kujdes:</b> user_ldap dhe user_webdavauth të aplikacionit janë të papërputhshëm. Mund t’ju ndodhin sjellje të papritura. Ju lutemi, kërkojini përgjegjësit të sistemit tuaj të çaktivizojë një prej tyre.",
     "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>Kujdes:</b> Moduli PHP LDAP s’është i instaluar, pjesa përkatëse në shërbyes nuk do të funksionojë. Ju lutemi, kërkojini përgjegjësit të sistemit tuaj ta instalojë.",
     "Connection Settings" : "Rregullime Lidhjeje",
     "Configuration Active" : "Formësimi Aktiv",
@@ -161,6 +160,7 @@
     "Allows login against the LDAP / AD username, which is either uid or samaccountname and will be detected." : "Lejon hyrje kundrejt emrin të përdoruesit LDAP / AD, që është ose uid, ose samaccountname, dhe do të zbulohet.",
     "Add a new and blank configuration" : "Shtoni një formësim të ri të zbrazët",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "Protokollin mund ta lini pa vënë, hiq rastin kur ju duhet SSL. Në atë rast filloni me ldaps://",
+    "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Kujdes:</b> user_ldap dhe user_webdavauth të aplikacionit janë të papërputhshëm. Mund t’ju ndodhin sjellje të papritura. Ju lutemi, kërkojini përgjegjësit të sistemit tuaj të çaktivizojë një prej tyre.",
     "in bytes" : "në bajte"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

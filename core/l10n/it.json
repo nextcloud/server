@@ -255,11 +255,6 @@
     "New password" : "Nuova password",
     "New Password" : "Nuova password",
     "Reset password" : "Ripristina la password",
-    "This Nextcloud instance is currently in single user mode." : "Questa istanza di Nextcloud è in modalità utente singolo.",
-    "This means only administrators can use the instance." : "Ciò significa che solo gli amministratori possono utilizzare l'istanza.",
-    "Contact your system administrator if this message persists or appeared unexpectedly." : "Contatta il tuo amministratore di sistema se questo messaggio persiste o appare inaspettatamente.",
-    "Thank you for your patience." : "Grazie per la pazienza.",
-    "Log out" : "Esci",
     "Two-factor authentication" : "Autenticazione a due fattori",
     "Enhanced security is enabled for your account. Please authenticate using a second factor." : "La sicurezza migliorata è stata abilitata per il tuo account. Autenticati utilizzando un secondo fattore.",
     "Cancel log in" : "Annulla l'accesso",
@@ -283,6 +278,8 @@
     "Upgrade via web on my own risk" : "Aggiorna tramite web a mio rischio",
     "This %s instance is currently in maintenance mode, which may take a while." : "Questa istanza di %s è attualmente in manutenzione, potrebbe richiedere del tempo.",
     "This page will refresh itself when the %s instance is available again." : "Questa pagina si aggiornerà quando l'istanza di %s sarà nuovamente disponibile.",
+    "Contact your system administrator if this message persists or appeared unexpectedly." : "Contatta il tuo amministratore di sistema se questo messaggio persiste o appare inaspettatamente.",
+    "Thank you for your patience." : "Grazie per la pazienza.",
     "Problem loading page, reloading in 5 seconds" : "Problema durante il caricamento della pagina, aggiornamento tra 5 secondi",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "I tuoi file sono cifrati. Se non hai precedentemente abilitato la chiave di ripristino, non sarà più possibile ritrovare i tuoi dati una volta che la password sarà reimpostata.<br />Se non sei sicuro, contatta l'amministratore prima di proseguire.<br />Vuoi davvero continuare?",
     "Ok" : "Ok",
@@ -313,8 +310,11 @@
     "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Ciao,\n\nvolevo informarti che %s ha condiviso %s con te.\nVedi: %s\n\n",
     "The share will expire on %s." : "La condivisione scadrà il %s.",
     "Cheers!" : "Saluti!",
+    "Log out" : "Esci",
     "Use the following link to reset your password: {link}" : "Usa il collegamento seguente per ripristinare la password: {link}",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Ciao,<br><br>volevo informarti che %s ha condiviso <strong>%s</strong> con te.<br><a href=\"%s\">Guarda!</a><br><br>",
+    "This Nextcloud instance is currently in single user mode." : "Questa istanza di Nextcloud è in modalità utente singolo.",
+    "This means only administrators can use the instance." : "Ciò significa che solo gli amministratori possono utilizzare l'istanza.",
     "Please use the command line updater because you have a big instance." : "Utilizza lo strumento da riga di comando per la grandezza della tua istanza."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

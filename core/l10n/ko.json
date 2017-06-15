@@ -268,11 +268,6 @@
     "New password" : "새 암호",
     "New Password" : "새 암호",
     "Reset password" : "암호 재설정",
-    "This Nextcloud instance is currently in single user mode." : "Nextcloud 인스턴스가 현재 단일 사용자 모드로 동작 중입니다.",
-    "This means only administrators can use the instance." : "현재 시스템 관리자만 인스턴스를 사용할 수 있습니다.",
-    "Contact your system administrator if this message persists or appeared unexpectedly." : "이 메시지가 계속 표시되거나, 예상하지 못하였을 때 표시된다면 시스템 관리자에게 연락하십시오.",
-    "Thank you for your patience." : "기다려 주셔서 감사합니다.",
-    "Log out" : "로그아웃",
     "Two-factor authentication" : "2단계 인증",
     "Enhanced security is enabled for your account. Please authenticate using a second factor." : "현재 계정에 향상된 보안이 켜져 있습니다. 2단계 인증으로 인증하십시오.",
     "Cancel log in" : "로그인 취소",
@@ -295,6 +290,8 @@
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "도움이 필요한 경우 <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">문서</a>를 참조하십시오.",
     "This %s instance is currently in maintenance mode, which may take a while." : "이 %s 인스턴스는 현재 점검 모드입니다. 시간이 걸릴 수도 있습니다.",
     "This page will refresh itself when the %s instance is available again." : "%s 인스턴스를 다시 사용할 수 있으면 자동으로 새로 고칩니다.",
+    "Contact your system administrator if this message persists or appeared unexpectedly." : "이 메시지가 계속 표시되거나, 예상하지 못하였을 때 표시된다면 시스템 관리자에게 연락하십시오.",
+    "Thank you for your patience." : "기다려 주셔서 감사합니다.",
     "Problem loading page, reloading in 5 seconds" : "페이지 불러오기 오류, 5초 후 새로 고침",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "내 파일이 암호화되어 있습니다. 복구 키를 활성화하지 않았다면 암호를 초기화한 후 데이터를 복구할 수 없습니다.<br />무엇을 해야 할 지 잘 모르겠으면 계속하기 전에 관리자에게 연락하십시오.<br />그래도 계속 진행하시겠습니까?",
     "Ok" : "확인",
@@ -325,8 +322,11 @@
     "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "안녕하세요,\n\n%s 님이 %s을(를) 공유하였음을 알려 드립니다.\n보기 링크: %s\n\n",
     "The share will expire on %s." : "이 공유는 %s에 만료됩니다.",
     "Cheers!" : "감사합니다!",
+    "Log out" : "로그아웃",
     "Use the following link to reset your password: {link}" : "다음 링크를 사용하여 암호를 재설정할 수 있습니다: {link}",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "안녕하세요,<br><br>%s 님이 <strong>%s</strong>을(를) 공유하였음을 알려 드립니다.<br><a href=\"%s\">보러 가기!</a><br><br>",
+    "This Nextcloud instance is currently in single user mode." : "Nextcloud 인스턴스가 현재 단일 사용자 모드로 동작 중입니다.",
+    "This means only administrators can use the instance." : "현재 시스템 관리자만 인스턴스를 사용할 수 있습니다.",
     "Please use the command line updater because you have a big instance." : "현재 인스턴스 크기가 크기 때문에 명령행 업데이터를 사용하십시오."
 },"pluralForm" :"nplurals=1; plural=0;"
 }

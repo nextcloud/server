@@ -226,11 +226,6 @@
     "New password" : "Contrasenya nova",
     "New Password" : "Contrasenya nova",
     "Reset password" : "Reinicialitza la contrasenya",
-    "This Nextcloud instance is currently in single user mode." : "La instància Nextcloud està en mode d'usuari únic.",
-    "This means only administrators can use the instance." : "Això significa que només els administradors poden usar la instància.",
-    "Contact your system administrator if this message persists or appeared unexpectedly." : "Contacteu amb l'administrador del sistema si aquest missatge persisteix o apareix inesperadament.",
-    "Thank you for your patience." : "Gràcies per la paciència.",
-    "Log out" : "Surt",
     "Two-factor authentication" : "Segon factor d'autenticació",
     "Cancel log in" : "Cancel·la l'accés a",
     "Use backup code" : "Utilitza un codi de copia de seguretat",
@@ -249,6 +244,8 @@
     "Update needed" : "Actualització necessaria",
     "This %s instance is currently in maintenance mode, which may take a while." : "Aquesta instància %s està actualment en manteniment i podria trigar una estona.",
     "This page will refresh itself when the %s instance is available again." : "Aquesta pàgina s'actualitzarà automàticament quan la instància %s estigui disponible de nou.",
+    "Contact your system administrator if this message persists or appeared unexpectedly." : "Contacteu amb l'administrador del sistema si aquest missatge persisteix o apareix inesperadament.",
+    "Thank you for your patience." : "Gràcies per la paciència.",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Els vostres fitxers estan encriptats. Si no heu habilitat la clau de recuperació no hi haurà manera de recuperar les dades després que reestabliu la contrasenya. <br />Si sabeu què fer, contacteu amb l'administrador abans de continuar.<br />Voleu continuar?",
     "Ok" : "D'acord",
     "Your data directory and your files are probably accessible from the Internet. The .htaccess file is not working. We strongly suggest that you configure your web server in a way that the data directory is no longer accessible or you move the data directory outside the web server document root." : "La carpeta de dades i els vostres fitxers probablement són accessibles des d'Internet. El fitxer .htaccess no funciona. Us recomanem que configureu el servidor web de tal manera que la carpeta de dades no sigui accessible o que moveu la carpeta de dades fora de l'arrel de documents del servidor web.",
@@ -269,7 +266,10 @@
     "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Ei,\n\nnomés fer-te saber que %s ha compartit %s amb tu.\nMira-ho a: %s\n\n",
     "The share will expire on %s." : "La compartició venç el %s.",
     "Cheers!" : "Salut!",
+    "Log out" : "Surt",
     "Use the following link to reset your password: {link}" : "Useu l'enllaç següent per restablir la contrasenya: {link}",
-    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Ei, <br><br>només fer-vos saber que %s us ha comparti <strong>%s</strong>. <br><a href=\"%s\">Mireu-ho!</a>"
+    "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Ei, <br><br>només fer-vos saber que %s us ha comparti <strong>%s</strong>. <br><a href=\"%s\">Mireu-ho!</a>",
+    "This Nextcloud instance is currently in single user mode." : "La instància Nextcloud està en mode d'usuari únic.",
+    "This means only administrators can use the instance." : "Això significa que només els administradors poden usar la instància."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

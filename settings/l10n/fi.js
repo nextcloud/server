@@ -12,6 +12,7 @@ OC.L10N.register(
     "Your apps" : "Sovelluksesi",
     "Enabled apps" : "Käytössä olevat sovellukset",
     "Disabled apps" : "Käytöstä poistetut sovellukset",
+    "App bundles" : "Sovelluskokoelmat",
     "Wrong password" : "Väärä salasana",
     "Saved" : "Tallennettu",
     "No user supplied" : "Käyttäjää ei määritetty",
