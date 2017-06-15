@@ -276,6 +276,9 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 		// query for shared calendars
 		$principals = $this->principalBackend->getGroupMembership($principalUriOriginal, true);
+		$principals = array_map(function($principal) {
+			return urldecode($principal);
+		}, $principals);
 		$principals[]= $principalUri;
 
 		$fields = array_values($this->propertyMap);
