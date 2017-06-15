@@ -443,7 +443,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 			if ($config->getSystemValue('installed', false) && !(defined('PHPUNIT_RUN') && PHPUNIT_RUN)) {
 				$v = \OC_App::getAppVersions();
-				$v['core'] = md5(file_get_contents(\OC::$SERVERROOT . '/version.php'));
+				$v['core'] = implode(',', \OC_Util::getVersion());
 				$version = implode(',', $v);
 				$instanceId = \OC_Util::getInstanceId();
 				$path = \OC::$SERVERROOT;
