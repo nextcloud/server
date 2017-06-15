@@ -30,6 +30,7 @@
 namespace OCA\Files_Sharing\External;
 
 use OC\Files\Filesystem;
+use OCA\Files_Sharing\Helper;
 use OCP\Files;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\Http\Client\IClientService;
@@ -199,8 +200,9 @@ class Manager {
 
 		if ($share) {
 			\OC_Util::setupFS($this->uid);
-			$mountPoint = Files::buildNotExistingFileName('/', $share['name']);
-			$mountPoint = Filesystem::normalizePath('/' . $mountPoint);
+			$shareFolder = Helper::getShareFolder();
+			$mountPoint = Files::buildNotExistingFileName($shareFolder, $share['name']);
+			$mountPoint = Filesystem::normalizePath($mountPoint);
 			$hash = md5($mountPoint);
 
 			$acceptShare = $this->connection->prepare('
