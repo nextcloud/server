@@ -8,6 +8,7 @@
 
 namespace Test\Files\Cache\Wrapper;
 
+use OC\Files\Cache\Wrapper\CacheJail;
 use Test\Files\Cache\CacheTest;
 
 /**
@@ -79,5 +80,54 @@ class CacheJailTest extends CacheTest {
 	function testGetIncomplete() {
 		//not supported
 		$this->assertTrue(true);
+	}
+
+	function testMoveFromJail() {
+		$folderData = array('size' => 100, 'mtime' => 50, 'mimetype' => 'httpd/unix-directory');
+
+		$this->sourceCache->put('source', $folderData);
+		$this->sourceCache->put('source/foo', $folderData);
+		$this->sourceCache->put('source/foo/bar', $folderData);
+		$this->sourceCache->put('target', $folderData);
+
+		$jail = new CacheJail($this->sourceCache, 'source');
+
+		$this->sourceCache->moveFromCache($jail, 'foo', 'target/foo');
+
+		$this->assertTrue($this->sourceCache->inCache('target/foo'));
+		$this->assertTrue($this->sourceCache->inCache('target/foo/bar'));
+	}
+
+	function testMoveToJail() {
+		$folderData = array('size' => 100, 'mtime' => 50, 'mimetype' => 'httpd/unix-directory');
+
+		$this->sourceCache->put('source', $folderData);
+		$this->sourceCache->put('source/foo', $folderData);
+		$this->sourceCache->put('source/foo/bar', $folderData);
+		$this->sourceCache->put('target', $folderData);
+
+		$jail = new CacheJail($this->sourceCache, 'target');
+
+		$jail->moveFromCache($this->sourceCache, 'source/foo', 'foo');
+
+		$this->assertTrue($this->sourceCache->inCache('target/foo'));
+		$this->assertTrue($this->sourceCache->inCache('target/foo/bar'));
+	}
+
+	function testMoveBetweenJail() {
+		$folderData = array('size' => 100, 'mtime' => 50, 'mimetype' => 'httpd/unix-directory');
+
+		$this->sourceCache->put('source', $folderData);
+		$this->sourceCache->put('source/foo', $folderData);
+		$this->sourceCache->put('source/foo/bar', $folderData);
+		$this->sourceCache->put('target', $folderData);
+
+		$jail = new CacheJail($this->sourceCache, 'target');
+		$sourceJail = new CacheJail($this->sourceCache, 'source');
+
+		$jail->moveFromCache($sourceJail, 'foo', 'foo');
+
+		$this->assertTrue($this->sourceCache->inCache('target/foo'));
+		$this->assertTrue($this->sourceCache->inCache('target/foo/bar'));
 	}
 }
