@@ -63,7 +63,7 @@ OC.L10N.register(
     "Your storage is full, files can not be updated or synced anymore!" : "Seu armazenamento está cheio e arquivos não podem mais ser atualizados ou sincronizados!",
     "Storage of {owner} is almost full ({usedSpacePercent}%)" : "O armazenamento do {owner} está quase cheio ({usedSpacePercent}%)",
     "Your storage is almost full ({usedSpacePercent}%)" : "Seu armazenamento está quase cheio ({usedSpacePercent}%)",
-    "_matches '{filter}'_::_match '{filter}'_" : ["coincide com '{filter}'","coincidem com '{filter}'"],
+    "_matches '{filter}'_::_match '{filter}'_" : ["coincide com '{filter}'","coincide com '{filter}'"],
     "View in folder" : "Exibir na pasta",
     "Copied!" : "Copiado!",
     "Copy direct link (only works for users who have access to this file/folder)" : "Copiar link direto (somente funciona para usuários que tem acesso a este arquivo/pasta)",
