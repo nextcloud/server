@@ -22,7 +22,6 @@
  */
 namespace Tests\Settings\Controller;
 
-
 use OC\Settings\Admin\TipsTricks;
 use OC\Settings\Controller\AdminSettingsController;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -31,6 +30,13 @@ use OCP\IRequest;
 use OCP\Settings\IManager;
 use Test\TestCase;
 
+/**
+ * Class AdminSettingsControllerTest
+ *
+ * @group DB
+ *
+ * @package Tests\Settings\Controller
+ */
 class AdminSettingsControllerTest extends TestCase {
 	/** @var AdminSettingsController */
 	private $adminSettingsController;
@@ -38,7 +44,7 @@ class AdminSettingsControllerTest extends TestCase {
 	private $request;
 	/** @var INavigationManager */
 	private $navigationManager;
-	/** @var IManager */
+	/** @var IManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $settingsManager;
 
 	public function setUp() {
@@ -63,10 +69,20 @@ class AdminSettingsControllerTest extends TestCase {
 			->willReturn([]);
 		$this->settingsManager
 			->expects($this->once())
+			->method('getPersonalSections')
+			->willReturn([]);
+		$this->settingsManager
+			->expects($this->once())
 			->method('getAdminSettings')
 			->with('test')
 			->willReturn([5 => new TipsTricks($this->getMockBuilder('\OCP\IConfig')->getMock())]);
-		$expected = new TemplateResponse('settings', 'admin/frame', ['forms' => [], 'content' => '']);
+
+		// so unity…
+		$user = \OC::$server->getUserManager()->createUser('lolo', 'olo');
+		\OC_User::setUserId($user->getUID());
+		\OC::$server->getGroupManager()->get('admin')->addUser($user);
+
+		$expected = new TemplateResponse('settings', 'settings/frame', ['forms' => ['personal' => [], 'admin' => []], 'content' => '']);
 		$this->assertEquals($expected, $this->adminSettingsController->index('test'));
 	}
 }
