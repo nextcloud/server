@@ -418,14 +418,9 @@ class Manager implements IManager {
 				);
 				$forms[$form->getPriority()] = [$form];
 			}
-			if($section === 'sessions') {
+			if($section === 'security') {
 				/** @var ISettings $form */
-				$form = new Personal\Sessions();
-				$forms[$form->getPriority()] = [$form];
-			}
-			if($section === 'app-passwords') {
-				/** @var ISettings $form */
-				$form = new Personal\AppPasswords();
+				$form = new Personal\Security();
 				$forms[$form->getPriority()] = [$form];
 			}
 			if($section === 'sync-clients') {
@@ -472,8 +467,7 @@ class Manager implements IManager {
 	public function getPersonalSections() {
 		$sections = [
 			0 => [new Section('personal-info', $this->l->t('Personal info'), 0, $this->url->imagePath('core', 'actions/info.svg'))],
-			5 => [new Section('sessions', $this->l->t('Sessions'), 0, $this->url->imagePath('settings', 'admin.svg'))],
-			10 => [new Section('app-passwords', $this->l->t('App passwords'), 0, $this->url->imagePath('settings', 'password.svg'))],
+			5 => [new Section('security', $this->l->t('Security'), 0, $this->url->imagePath('settings', 'password.svg'))],
 			15 => [new Section('sync-clients', $this->l->t('Sync clients'), 0, $this->url->imagePath('settings', 'change.svg'))],
 			98 => [new Section('additional', $this->l->t('Additional settings'), 0, $this->url->imagePath('core', 'actions/settings-dark.svg'))],
 		];

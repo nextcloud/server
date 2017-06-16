@@ -27,14 +27,14 @@ namespace OC\Settings\Personal;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Settings\ISettings;
 
-class Sessions implements ISettings {
+class Security implements ISettings {
 
 	/**
 	 * @return TemplateResponse returns the instance with all parameters set, ready to be rendered
 	 * @since 9.1
 	 */
 	public function getForm() {
-		return new TemplateResponse('settings', 'settings/personal/sessions');
+		return new TemplateResponse('settings', 'settings/personal/security');
 	}
 
 	/**
@@ -42,7 +42,7 @@ class Sessions implements ISettings {
 	 * @since 9.1
 	 */
 	public function getSection() {
-		return 'sessions';
+		return 'security';
 	}
 
 	/**

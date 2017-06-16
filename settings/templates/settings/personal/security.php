@@ -20,6 +20,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 script('settings', [
 	'authtoken',
 	'authtoken_collection',
@@ -29,16 +30,17 @@ script('settings', [
 
 ?>
 
-<div id="apppasswords" class="section">
-	<h2><?php p($l->t('App passwords'));?></h2>
-	<p class="settings-hint"><?php p($l->t('Here you can generate individual passwords for apps so you don’t have to give out your password. You can revoke them individually too.'));?></p>
+
+<div id="security" class="section">
+	<h2><?php p($l->t('Security'));?></h2>
+	<p class="settings-hint hidden-when-empty"><?php p($l->t('Web, desktop and mobile clients currently logged in to your account.'));?></p>
 	<table class="icon-loading">
-		<thead class="hidden-when-empty">
-		<tr>
-			<th><?php p($l->t('Name'));?></th>
-			<th><?php p($l->t('Last activity'));?></th>
-			<th></th>
-		</tr>
+		<thead class="token-list-header">
+			<tr>
+				<th><?php p($l->t('Device'));?></th>
+				<th><?php p($l->t('Last activity'));?></th>
+				<th></th>
+			</tr>
 		</thead>
 		<tbody class="token-list">
 		</tbody>
