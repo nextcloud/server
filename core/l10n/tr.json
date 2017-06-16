@@ -52,6 +52,7 @@
     "%s (incompatible)" : "%s (uyumsuz)",
     "Following apps have been disabled: %s" : "Aşağıdaki uygulamalar devre dışı bırakıldı: %s",
     "Already up to date" : "Zaten güncel",
+    "Search contacts …" : "Kişi arama...",
     "No contacts found" : "Herhangi bir kişi bulunamadı",
     "Show all contacts …" : "Tüm kişileri görüntüle...",
     "There was an error loading your contacts" : "Kişileriniz yüklenirken bir sorun çıktı",

@@ -112,6 +112,7 @@
     "Files can't be shared with create permissions" : "No es posible compartir archivos con permisos de creación",
     "Expiration date is in the past" : "La fecha de expiración ya ha pasado",
     "Cannot set expiration date more than %s days in the future" : "No es posible establecer la fecha de expiración más allá de %s días en el futuro",
+    "The requested share does not exist anymore" : "El recurso compartido solicitado ya no existe",
     "Could not find category \"%s\"" : "No fue posible encontrar la categoria \"%s\"",
     "Sunday" : "Domingo",
     "Monday" : "Lunes",

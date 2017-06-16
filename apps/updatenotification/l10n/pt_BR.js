@@ -17,7 +17,7 @@ OC.L10N.register(
     "Your version is up to date." : "Sua versão está atualizada.",
     "Checked on %s" : "Verificada em %s",
     "Update channel:" : "Atualizar para:",
-    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Você pode atualizar para uma versão mais nova ou experimental. No entanto, nunca poderá voltar para uma versão estável.",
+    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Você pode atualizar para uma versão mais nova ou experimental. No entanto, nunca poderá voltar para uma versão estável ou antiga.",
     "Notify members of the following groups about available updates:" : "Notificar membros dos seguintes grupos sobre atualizações disponíveis:",
     "Only notification for app updates are available." : "Só está disponível notificação para atualizações de aplicativos.",
     "The selected update channel makes dedicated notifications for the server obsolete." : "A atualização selecionada fornece notificações dedicadas para o servidor desatualizado.",

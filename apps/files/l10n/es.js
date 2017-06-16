@@ -112,6 +112,7 @@ OC.L10N.register(
     "Save" : "Guardar",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Con PHP-FPM podría tardar 5 minutos para que se realicen los cambios.",
     "Missing permissions to edit from here." : "Faltan permisos para poder editar desde aquí.",
+    "%s used" : "usado %s",
     "Settings" : "Ajustes",
     "Show hidden files" : "Mostrar archivos ocultos",
     "WebDAV" : "WebDAV",
