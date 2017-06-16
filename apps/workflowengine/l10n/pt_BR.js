@@ -61,7 +61,7 @@ OC.L10N.register(
     "Workflow" : "Fluxo de trabalho",
     "Files workflow engine" : "Arquivos do mecanismo de fluxo de trabalho",
     "Open documentation" : "Abrir documentação",
-    "Add rule group" : "Adicionar grupo de regra",
+    "Add rule group" : "Adicionar regra do grupo",
     "Short rule description" : "Descrição curta da regra",
     "Add rule" : "Adicionar regra",
     "Reset" : "Redefinir",

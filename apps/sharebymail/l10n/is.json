@@ -16,6 +16,7 @@
     "Password to access {file} was sent to you" : "Lykilorð fyrir aðgang að {file} var sent til þín",
     "Sharing %s failed, this item is already shared with %s" : "Deiling %s mistókst, því þessu atriði er þegar deilt með %s",
     "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Ekki er hægt að senda þér sjálfvirkt framleidda lykilorðið. Settu inn gilt tölvupóstfang í einkastillingunum þínum og prófaðu aftur.",
+    "Failed to send share by email" : "Gat ekki sent sameign með tölvupósti",
     "%s shared »%s« with you" : "%s deildi »%s« með þér",
     "%s shared »%s« with you." : "%s deildi »%s« með þér",
     "Click the button below to open it." : "Smelltu á tengilinn hér fyrir neðan til að opna það.",
