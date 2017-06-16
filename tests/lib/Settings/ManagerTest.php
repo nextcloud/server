@@ -27,8 +27,9 @@ use OC\Accounts\AccountManager;
 use OC\Settings\Admin\Sharing;
 use OC\Settings\Manager;
 use OC\Settings\Mapper;
-use OC\Settings\Personal\AppPasswords;
+use OC\Settings\Personal\Security;
 use OC\Settings\Section;
+use OCP\App\IAppManager;
 use OCP\Encryption\IManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -73,6 +74,8 @@ class ManagerTest extends TestCase {
 	private $l10nFactory;
 	/** @var \OC_Defaults|\PHPUnit_Framework_MockObject_MockObject */
 	private $defaults;
+	/** @var IAppManager */
+	private $appManager;
 
 	public function setUp() {
 		parent::setUp();
@@ -91,6 +94,7 @@ class ManagerTest extends TestCase {
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->l10nFactory = $this->createMock(IFactory::class);
 		$this->defaults = $this->createMock(\OC_Defaults::class);
+		$this->appManager = $this->createMock(IAppManager::class);
 
 		$this->manager = new Manager(
 			$this->logger,
@@ -106,7 +110,8 @@ class ManagerTest extends TestCase {
 			$this->accountManager,
 			$this->groupManager,
 			$this->l10nFactory,
-			$this->defaults
+			$this->defaults,
+			$this->appManager
 		);
 	}
 
@@ -218,23 +223,21 @@ class ManagerTest extends TestCase {
 				['class' => \OCA\WorkflowEngine\Settings\Section::class, 'priority' => 90]
 			]));
 
-		$this->url->expects($this->exactly(5))
+		$this->url->expects($this->exactly(4))
 			->method('imagePath')
 			->willReturnMap([
 				['core', 'actions/info.svg', '1'],
-				['settings', 'admin.svg', '2'],
-				['settings', 'password.svg', '3'],
-				['settings', 'change.svg', '4'],
-				['core', 'actions/settings-dark.svg', '5'],
+				['settings', 'password.svg', '2'],
+				['settings', 'change.svg', '3'],
+				['core', 'actions/settings-dark.svg', '4'],
 			]);
 
 		$this->assertEquals([
 			0 => [new Section('personal-info', 'Personal info', 0, '1')],
-			5 => [new Section('sessions', 'Sessions', 0, '2')],
-			10 => [new Section('app-passwords', 'App passwords', 0, '3')],
-			15 => [new Section('sync-clients', 'Sync clients', 0, '4')],
+			5 => [new Section('security', 'Security', 0, '2')],
+			15 => [new Section('sync-clients', 'Sync clients', 0, '3')],
 			90 => [\OC::$server->query(\OCA\WorkflowEngine\Settings\Section::class)],
-			98 => [new Section('additional', 'Additional settings', 0, '5')],
+			98 => [new Section('additional', 'Additional settings', 0, '4')],
 		], $this->manager->getPersonalSections());
 	}
 
@@ -279,22 +282,20 @@ class ManagerTest extends TestCase {
 			->method('getPersonalSectionsFromDB')
 			->will($this->returnValue([]));
 
-		$this->url->expects($this->exactly(5))
+		$this->url->expects($this->exactly(4))
 			->method('imagePath')
 			->willReturnMap([
 				['core', 'actions/info.svg', '1'],
-				['settings', 'admin.svg', '2'],
-				['settings', 'password.svg', '3'],
-				['settings', 'change.svg', '4'],
-				['core', 'actions/settings-dark.svg', '5'],
+				['settings', 'password.svg', '2'],
+				['settings', 'change.svg', '3'],
+				['core', 'actions/settings-dark.svg', '4'],
 			]);
 
 		$this->assertEquals([
 			0 => [new Section('personal-info', 'Personal info', 0, '1')],
-			5 => [new Section('sessions', 'Sessions', 0, '2')],
-			10 => [new Section('app-passwords', 'App passwords', 0, '3')],
-			15 => [new Section('sync-clients', 'Sync clients', 0, '4')],
-			98 => [new Section('additional', 'Additional settings', 0, '5')],
+			5 => [new Section('security', 'Security', 0, '2')],
+			15 => [new Section('sync-clients', 'Sync clients', 0, '3')],
+			98 => [new Section('additional', 'Additional settings', 0, '4')],
 		], $this->manager->getPersonalSections());
 	}
 
@@ -314,7 +315,7 @@ class ManagerTest extends TestCase {
 			->will($this->returnValue([]));
 
 		$this->assertEquals([
-			5 => [new AppPasswords()],
-		], $this->manager->getPersonalSettings('app-passwords'));
+			10 => [new Security()],
+		], $this->manager->getPersonalSettings('security'));
 	}
 }
