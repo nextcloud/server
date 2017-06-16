@@ -24,6 +24,7 @@
 namespace OC\Settings;
 
 use OC\Accounts\AccountManager;
+use OCP\App\IAppManager;
 use OCP\AppFramework\QueryException;
 use OCP\Encryption\IManager as EncryptionManager;
 use OCP\IConfig;
@@ -69,6 +70,8 @@ class Manager implements IManager {
 	private $l10nFactory;
 	/** @var \OC_Defaults */
 	private $defaults;
+	/** @var IAppManager */
+	private $appManager;
 
 	/**
 	 * @param ILogger $log
@@ -100,7 +103,8 @@ class Manager implements IManager {
 		AccountManager $accountManager,
 		IGroupManager $groupManager,
 		IFactory $l10nFactory,
-		\OC_Defaults $defaults
+		\OC_Defaults $defaults,
+		IAppManager $appManager
 	) {
 		$this->log = $log;
 		$this->dbc = $dbc;
@@ -116,6 +120,7 @@ class Manager implements IManager {
 		$this->groupManager = $groupManager;
 		$this->l10nFactory = $l10nFactory;
 		$this->defaults = $defaults;
+		$this->appManager = $appManager;
 	}
 
 	/**
@@ -402,7 +407,15 @@ class Manager implements IManager {
 		try {
 			if ($section === 'personal-info') {
 				/** @var ISettings $form */
-				$form = new Personal\PersonalInfo($this->config, $this->userManager, $this->groupManager, $this->accountManager, $this->l10nFactory, $this->l);
+				$form = new Personal\PersonalInfo(
+					$this->config,
+					$this->userManager,
+					$this->groupManager,
+					$this->accountManager,
+					$this->appManager,
+					$this->l10nFactory,
+					$this->l
+				);
 				$forms[$form->getPriority()] = [$form];
 			}
 			if($section === 'sessions') {

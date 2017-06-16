@@ -25,6 +25,8 @@
 namespace OC\Settings\Personal;
 
 use OC\Accounts\AccountManager;
+use OCA\FederatedFileSharing\AppInfo\Application;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Files\FileInfo;
 use OCP\IConfig;
@@ -45,6 +47,8 @@ class PersonalInfo implements ISettings {
 	private $accountManager;
 	/** @var IGroupManager */
 	private $groupManager;
+	/** @var IAppManager */
+	private $appManager;
 	/** @var IFactory */
 	private $l10nFactory;
 
@@ -69,6 +73,7 @@ class PersonalInfo implements ISettings {
 		IUserManager $userManager,
 		IGroupManager $groupManager,
 		AccountManager $accountManager,
+		IAppManager $appManager,
 		IFactory $l10nFactory,
 		IL10N $l
 	) {
@@ -76,6 +81,7 @@ class PersonalInfo implements ISettings {
 		$this->userManager = $userManager;
 		$this->accountManager = $accountManager;
 		$this->groupManager = $groupManager;
+		$this->appManager = $appManager;
 		$this->l10nFactory = $l10nFactory;
 		$this->l = $l;
 	}
@@ -85,8 +91,13 @@ class PersonalInfo implements ISettings {
 	 * @since 9.1
 	 */
 	public function getForm() {
-		$lookupServerUploadEnabled = $this->config->getAppValue('files_sharing', 'lookupServerUploadEnabled', 'yes');
-		$lookupServerUploadEnabled = $lookupServerUploadEnabled === 'yes';
+		$federatedFileSharingEnabled = $this->appManager->isEnabledForUser('federatedfilesharing');
+		$lookupServerUploadEnabled = false;
+		if($federatedFileSharingEnabled) {
+			$federatedFileSharing = new Application();
+			$shareProvider = $federatedFileSharing->getFederatedShareProvider();
+			$lookupServerUploadEnabled = $shareProvider->isLookupServerUploadEnabled();
+		}
 
 		$uid = \OC_User::getUser();
 		$user = $this->userManager->get($uid);
@@ -100,6 +111,7 @@ class PersonalInfo implements ISettings {
 		}
 
 		list($activeLanguage, $commonLanguages, $languages) = $this->getLanguages($user);
+		$messageParameters = $this->getMessageParameters($userData);
 
 		$parameters = [
 			'total_space' => $totalSpace,
@@ -108,17 +120,17 @@ class PersonalInfo implements ISettings {
 			'quota' => $storageInfo['quota'],
 			'avatarChangeSupported' => \OC_User::canUserChangeAvatar($uid),
 			'lookupServerUploadEnabled' => $lookupServerUploadEnabled,
-			'avatar_scope' => $userData[AccountManager::PROPERTY_AVATAR]['scope'],
+			'avatarScope' => $userData[AccountManager::PROPERTY_AVATAR]['scope'],
 			'displayNameChangeSupported' => \OC_User::canUserChangeDisplayName($uid),
 			'displayName' => $userData[AccountManager::PROPERTY_DISPLAYNAME]['value'],
+			'displayNameScope' => $userData[AccountManager::PROPERTY_DISPLAYNAME]['scope'],
 			'email' => $userData[AccountManager::PROPERTY_EMAIL]['value'],
 			'emailScope' => $userData[AccountManager::PROPERTY_EMAIL]['scope'],
-			'emailMesage' => '',
 			'emailVerification' => $userData[AccountManager::PROPERTY_EMAIL]['verified'],
 			'phone' => $userData[AccountManager::PROPERTY_PHONE]['value'],
 			'phoneScope' => $userData[AccountManager::PROPERTY_PHONE]['scope'],
-			'address', $userData[AccountManager::PROPERTY_ADDRESS]['value'],
-			'addressScope', $userData[AccountManager::PROPERTY_ADDRESS]['scope'],
+			'address' => $userData[AccountManager::PROPERTY_ADDRESS]['value'],
+			'addressScope' => $userData[AccountManager::PROPERTY_ADDRESS]['scope'],
 			'website' =>  $userData[AccountManager::PROPERTY_WEBSITE]['value'],
 			'websiteScope' =>  $userData[AccountManager::PROPERTY_WEBSITE]['scope'],
 			'websiteVerification' => $userData[AccountManager::PROPERTY_WEBSITE]['verified'],
@@ -130,7 +142,7 @@ class PersonalInfo implements ISettings {
 			'activelanguage' => $activeLanguage,
 			'commonlanguages' => $commonLanguages,
 			'languages' => $languages,
-		];
+		] + $messageParameters;
 
 
 		return new TemplateResponse('settings', 'settings/personal/personal.info', $parameters, '');
@@ -235,6 +247,29 @@ class PersonalInfo implements ISettings {
 		});
 
 		return [$userLang, $commonLanguages, $languages];
+	}
+
+	/**
+	 * @param array $userData
+	 * @return array
+	 */
+	private function getMessageParameters(array $userData) {
+		$needVerifyMessage = [AccountManager::PROPERTY_EMAIL, AccountManager::PROPERTY_WEBSITE, AccountManager::PROPERTY_TWITTER];
+		$messageParameters = [];
+		foreach ($needVerifyMessage as $property) {
+			switch ($userData[$property]['verified']) {
+				case AccountManager::VERIFIED:
+					$message = $this->l->t('Verifying');
+					break;
+				case AccountManager::VERIFICATION_IN_PROGRESS:
+					$message = $this->l->t('Verifying …');
+					break;
+				default:
+					$message = $this->l->t('Verify');
+			}
+			$messageParameters[$property . 'Message'] = $message;
+		}
+		return $messageParameters;
 	}
 
 }

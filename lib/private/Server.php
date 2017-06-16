@@ -975,7 +975,8 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->query(AccountManager::class),
 				$c->getGroupManager(),
 				$c->getL10NFactory(),
-				$c->getThemingDefaults()
+				$c->getThemingDefaults(),
+				$c->getAppManager()
 			);
 			return $manager;
 		});
