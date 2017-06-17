@@ -54,6 +54,7 @@ OC.L10N.register(
     "%s (incompatible)" : "%s (несовместимое)",
     "Following apps have been disabled: %s" : "Были отключены следующие приложения: %s",
     "Already up to date" : "Не нуждается в обновлении",
+    "Search contacts …" : "Искать контакты…",
     "No contacts found" : "Контактов не найдено",
     "Show all contacts …" : "Показать все контакты…",
     "There was an error loading your contacts" : "При загрузке контактов произошла ошибка",
