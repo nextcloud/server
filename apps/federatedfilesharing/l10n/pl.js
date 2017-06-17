@@ -55,4 +55,4 @@ OC.L10N.register(
     "Share it:" : "Udostępnij to:",
     "Search global and public address book for users and let local users publish their data" : "Szukaj użytkowników w globalnej i publicznej książce adresowej i pozwól lokalnym użytkownikom na publikowanie swoich danych"
 },
-"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>=14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");
+"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");
