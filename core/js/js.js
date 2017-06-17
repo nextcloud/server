@@ -1511,17 +1511,30 @@ function initCore() {
 	}
 
 	var resizeMenu = function() {
-		var maxApps = 8;
 		var appList = $('#appmenu li');
-		var availableWidth = $('#header-left').width() - $('#nextcloud').width() - 44;
-		var appCount = Math.floor((availableWidth)/44);
-		// show a maximum of 8 apps
-		if(appCount >= maxApps) {
-			appCount = maxApps;
+		var headerWidth = $('#header-left').width() - $('#nextcloud').width()
+		var usePercentualAppMenuLimit = 0.33;
+		var minAppsDesktop = 8;
+		var availableWidth = headerWidth - $(appList).width();
+		var isMobile = $(window).width() < 768;
+		if (!isMobile) {
+			availableWidth = headerWidth * usePercentualAppMenuLimit;
 		}
+		var appCount = Math.floor((availableWidth / $(appList).width()));
+		if (isMobile && appCount > minAppsDesktop) {
+			appCount = minAppsDesktop;
+		}
+		if (!isMobile && appCount < minAppsDesktop) {
+			appCount = minAppsDesktop;
+		}
+
 		// show at least 2 apps in the popover
 		if(appList.length-1-appCount >= 1) {
 			appCount--;
+		}
+		// show at least one icon
+		if(appCount < 1) {
+			appCount = 1;
 		}
 
 		$('#more-apps a').removeClass('active');
