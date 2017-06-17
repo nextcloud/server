@@ -40,7 +40,7 @@ OC.L10N.register(
     "Federated file sharing" : "Compartilhamento Federado de arquivos",
     "Federated Cloud Sharing" : "Compartilhamento de Nuvem Federada",
     "Open documentation" : "Abrir documentação",
-    "Adjust how people can share between servers." : "Como administrador, você pode ajustar como as pessoas podem compartilhar entre servidores.",
+    "Adjust how people can share between servers." : "Ajustar como as pessoas podem compartilhar entre servidores.",
     "Allow users on this server to send shares to other servers" : "Permitir que os usuários deste servidor enviem compartilhamentos para outros servidores",
     "Allow users on this server to receive shares from other servers" : "Permitir que os usuários deste servidor recebam compartilhamentos de outros servidores",
     "Search global and public address book for users" : "Procurar por usuários em catálogo de endereços global e público",

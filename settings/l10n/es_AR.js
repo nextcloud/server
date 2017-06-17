@@ -181,7 +181,7 @@ OC.L10N.register(
     "Error creating user: {message}" : "Se presentó un error al crear el usuario: {message}",
     "A valid password must be provided" : "Se debe proporcionar una contraseña válida",
     "A valid email must be provided" : "Se debe proporcionar un correo electrónico válido",
-    "__language_name__" : "Español (México)",
+    "__language_name__" : "Español (Argentina)",
     "Unlimited" : "Ilimitado",
     "Verifying" : "Verificando",
     "Personal info" : "Información personal",
