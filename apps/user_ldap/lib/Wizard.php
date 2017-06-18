@@ -702,8 +702,9 @@ class Wizard extends LDAPUtility {
 					'ldapTLS' => (int)$t
 				);
 				$this->configuration->setConfiguration($config);
-				\OCP\Util::writeLog('user_ldap', 'Wiz: detected Port ' . $p, \OCP\Util::DEBUG);
+				\OCP\Util::writeLog('user_ldap', 'Wiz: detected Port ' . $p . ', TLS '. $t, \OCP\Util::DEBUG);
 				$this->result->addChange('ldap_port', $p);
+				$this->result->addChange('ldap_tls', $t);
 				return $this->result;
 			}
 		}
