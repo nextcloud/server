@@ -254,7 +254,7 @@ OCA = OCA || {};
 				$element.button("enable");
 			}
 			else if(!isMS || (isMS && hasOptions)) {
-				$element.prop('disabled', false);
+				$element.attr('disabled', false);
 			}
 		},
 
@@ -269,7 +269,7 @@ OCA = OCA || {};
 			} else if ($element.hasClass(this.bjQuiButtonClass)) {
 				$element.button("disable");
 			} else {
-				$element.prop('disabled', 'disabled');
+				$element.attr('disabled', 'disabled');
 			}
 		},
 
