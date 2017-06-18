@@ -40,8 +40,9 @@
 						<span class="hostPortCombinatorSpan">
 							<input type="number" id="ldap_port" name="ldap_port"
 								placeholder="<?php p($l->t('Port'));?>" />
+							<span id="ldap_tls" name="ldap_tls"><?php p($l->t('SSL/TLS'));?></span>
 							<button class="ldapDetectPort" name="ldapDetectPort" type="button">
-								<?php p($l->t('Detect Port'));?>
+								<?php p($l->t('Detect Port and StartTLS'));?>
 							</button>
 						</span>
 					</div>

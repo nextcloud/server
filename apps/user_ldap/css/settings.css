@@ -73,6 +73,26 @@
 	margin-right: 0;
 }
 
+.ldap_tls_on {
+	background-color: green !important;
+}
+
+.ldap_tls_off {
+	background-color: red !important;
+}
+
+#ldap_tls[disabled] {
+	background-color: #777 !important;
+}
+
+#ldap_tls {
+	font-weight: bold;
+	white-space: pre;
+	color: white;
+	background-color: #777;
+	padding: 5px;
+}
+
 .tableCellInput {
 	margin-left: -40%;
 	width: 100%;
