@@ -84,4 +84,7 @@ class ContentSecurityPolicy extends EmptyContentSecurityPolicy {
 	];
 	/** @var array Domains from which web-workers and nested browsing content can load elements */
 	protected $allowedChildSrcDomains = [];
+
+	/** @var array Domains which can embeed this Nextcloud instance */
+	protected $allowedFrameAncestors = [];
 }

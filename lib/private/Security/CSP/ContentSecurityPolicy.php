@@ -197,4 +197,18 @@ class ContentSecurityPolicy extends \OCP\AppFramework\Http\ContentSecurityPolicy
 		$this->allowedChildSrcDomains = $allowedChildSrcDomains;
 	}
 
+	/**
+	 * @return array
+	 */
+	public function getAllowedFrameAncestors() {
+		return $this->allowedFrameAncestors;
+	}
+
+	/**
+	 * @param array $allowedFrameAncestors
+	 */
+	public function setAllowedFrameAncestors($allowedFrameAncestors) {
+		$this->allowedFrameAncestors = $allowedFrameAncestors;
+	}
+
 }

@@ -426,4 +426,45 @@ class ContentSecurityPolicyTest extends \Test\TestCase {
 		$this->contentSecurityPolicy->disallowChildSrcDomain('www.owncloud.org')->disallowChildSrcDomain('www.owncloud.com');
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
+
+
+
+	public function testGetAllowedFrameAncestorDomain() {
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'self' 'unsafe-eval';style-src 'self' 'unsafe-inline';img-src 'self' data: blob:;font-src 'self';connect-src 'self';media-src 'self';frame-ancestors sub.nextcloud.com";
+
+		$this->contentSecurityPolicy->addAllowedFrameAncestorDomain('sub.nextcloud.com');
+		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
+	}
+
+	public function testGetPolicyFrameAncestorValidMultiple() {
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'self' 'unsafe-eval';style-src 'self' 'unsafe-inline';img-src 'self' data: blob:;font-src 'self';connect-src 'self';media-src 'self';frame-ancestors sub.nextcloud.com foo.nextcloud.com";
+
+		$this->contentSecurityPolicy->addAllowedFrameAncestorDomain('sub.nextcloud.com');
+		$this->contentSecurityPolicy->addAllowedFrameAncestorDomain('foo.nextcloud.com');
+		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
+	}
+
+	public function testGetPolicyDisallowFrameAncestorDomain() {
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'self' 'unsafe-eval';style-src 'self' 'unsafe-inline';img-src 'self' data: blob:;font-src 'self';connect-src 'self';media-src 'self'";
+
+		$this->contentSecurityPolicy->addAllowedFrameAncestorDomain('www.nextcloud.com');
+		$this->contentSecurityPolicy->disallowFrameAncestorDomain('www.nextcloud.com');
+		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
+	}
+
+	public function testGetPolicyDisallowFrameAncestorDomainMultiple() {
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'self' 'unsafe-eval';style-src 'self' 'unsafe-inline';img-src 'self' data: blob:;font-src 'self';connect-src 'self';media-src 'self';frame-ancestors www.nextcloud.com";
+
+		$this->contentSecurityPolicy->addAllowedFrameAncestorDomain('www.nextcloud.com');
+		$this->contentSecurityPolicy->disallowFrameAncestorDomain('www.nextcloud.org');
+		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
+	}
+
+	public function testGetPolicyDisallowFrameAncestorDomainMultipleStakes() {
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'self' 'unsafe-eval';style-src 'self' 'unsafe-inline';img-src 'self' data: blob:;font-src 'self';connect-src 'self';media-src 'self'";
+
+		$this->contentSecurityPolicy->addAllowedChildSrcDomain('www.owncloud.com');
+		$this->contentSecurityPolicy->disallowChildSrcDomain('www.owncloud.org')->disallowChildSrcDomain('www.owncloud.com');
+		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
+	}
 }
