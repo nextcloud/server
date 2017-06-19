@@ -1083,10 +1083,14 @@ $(document).ready(function () {
 	$('#CheckboxLastLogin').click(function() {
 		if ($('#CheckboxLastLogin').is(':checked')) {
 			$("#userlist .lastLogin").show();
-			OCP.AppConfig.setValue('core', 'umgmt_show_last_login', 'true');
+			if (OC.isUserAdmin()) {
+				OCP.AppConfig.setValue('core', 'umgmt_show_last_login', 'true');
+			}
 		} else {
 			$("#userlist .lastLogin").hide();
-			OCP.AppConfig.setValue('core', 'umgmt_show_last_login', 'false');
+			if (OC.isUserAdmin()) {
+				OCP.AppConfig.setValue('core', 'umgmt_show_last_login', 'false');
+			}
 		}
 	});
 
@@ -1097,10 +1101,14 @@ $(document).ready(function () {
 	$('#CheckboxEmailAddress').click(function() {
 		if ($('#CheckboxEmailAddress').is(':checked')) {
 			$("#userlist .mailAddress").show();
-			OCP.AppConfig.setValue('core', 'umgmt_show_email', 'true');
+			if (OC.isUserAdmin()) {
+				OCP.AppConfig.setValue('core', 'umgmt_show_email', 'true');
+			}
 		} else {
 			$("#userlist .mailAddress").hide();
-			OCP.AppConfig.setValue('core', 'umgmt_show_email', 'false');
+			if (OC.isUserAdmin()) {
+				OCP.AppConfig.setValue('core', 'umgmt_show_email', 'false');
+			}
 		}
 	});
 
@@ -1111,10 +1119,14 @@ $(document).ready(function () {
 	$('#CheckboxUserBackend').click(function() {
 		if ($('#CheckboxUserBackend').is(':checked')) {
 			$("#userlist .userBackend").show();
-			OCP.AppConfig.setValue('core', 'umgmt_show_backend', 'true');
+			if (OC.isUserAdmin()) {
+				OCP.AppConfig.setValue('core', 'umgmt_show_backend', 'true');
+			}
 		} else {
 			$("#userlist .userBackend").hide();
-			OCP.AppConfig.setValue('core', 'umgmt_show_backend', 'false');
+			if (OC.isUserAdmin()) {
+				OCP.AppConfig.setValue('core', 'umgmt_show_backend', 'false');
+			}
 		}
 	});
 
@@ -1125,10 +1137,14 @@ $(document).ready(function () {
 	$('#CheckboxMailOnUserCreate').click(function() {
 		if ($('#CheckboxMailOnUserCreate').is(':checked')) {
 			$("#newemail").show();
-			OCP.AppConfig.setValue('core', 'umgmt_send_email', 'true');
+			if (OC.isUserAdmin()) {
+				OCP.AppConfig.setValue('core', 'umgmt_send_email', 'true');
+			}
 		} else {
 			$("#newemail").hide();
-			OCP.AppConfig.setValue('core', 'umgmt_send_email', 'false');
+			if (OC.isUserAdmin()) {
+				OCP.AppConfig.setValue('core', 'umgmt_send_email', 'false');
+			}
 		}
 	});
 
