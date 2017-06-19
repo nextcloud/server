@@ -13,6 +13,7 @@ OC.L10N.register(
     "You created two-factor backup codes for your account" : "Μπορείτε να δημιουργήσετε τον παράγοντα διπλού ελέγχου ταυτότητας για το λογαριασμό σας ΤΟΤΡ",
     "Backup code" : "Εφεδρικός κωδικός",
     "Use backup code" : "Χρησιμοποιήστε έναν εφεδρικό κωδικό",
+    "Two factor backup codes" : "Δύο συντελεστές δημιουργίας αντιγράφων",
     "Second-factor backup codes" : "Εφεδρικοί κωδικοί δεύτερου-παράγοντα"
 },
 "nplurals=2; plural=(n != 1);");
