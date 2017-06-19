@@ -25,7 +25,7 @@ style('core', ['styles', 'header']);
 
 	<?php if($_['debugMode']): ?>
 		<br />
-		<h2><strong><?php p($l->t('Trace')) ?></strong></h2>
+		<h3><?php p($l->t('Trace')) ?></h3>
 		<pre><?php p($_['trace']) ?></pre>
 	<?php endif; ?>
 </div>
