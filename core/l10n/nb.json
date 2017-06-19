@@ -52,6 +52,7 @@
     "%s (incompatible)" : "%s (ikke kompatibel)",
     "Following apps have been disabled: %s" : "Følgende programmer har blitt avskrudd: %s",
     "Already up to date" : "Allerede oppdatert",
+    "Search contacts …" : "Søk etter kontakter…",
     "No contacts found" : "Fant ingen kontakter",
     "Show all contacts …" : "Vis alle kontakter…",
     "There was an error loading your contacts" : "Feil ved innlasting av kontaktene dine",
