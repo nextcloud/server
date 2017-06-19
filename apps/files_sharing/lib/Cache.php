@@ -27,7 +27,6 @@
 
 namespace OCA\Files_Sharing;
 
-use OC\Files\Cache\FailedCache;
 use OC\Files\Cache\Wrapper\CacheJail;
 use OCP\Files\Cache\ICacheEntry;
 
@@ -69,13 +68,7 @@ class Cache extends CacheJail {
 
 	public function getCache() {
 		if (is_null($this->cache)) {
-			$sourceStorage = $this->storage->getSourceStorage();
-			if ($sourceStorage) {
-				$this->cache = $sourceStorage->getCache();
-			} else {
-				// don't set $this->cache here since sourceStorage will be set later
-				return new FailedCache();
-			}
+			$this->cache = $this->storage->getSourceStorage()->getCache();
 		}
 		return $this->cache;
 	}
