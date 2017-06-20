@@ -284,7 +284,20 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @return bool|IUser the created user or false
 	 */
 	public function createUser($uid, $password) {
+		$localBackends = [];
 		foreach ($this->backends as $backend) {
+			if ($backend instanceof Database) {
+				// First check if there is another user backend
+				$localBackends[] = $backend;
+				continue;
+			}
+
+			if ($backend->implementsActions(Backend::CREATE_USER)) {
+				return $this->createUserFromBackend($uid, $password, $backend);
+			}
+		}
+
+		foreach ($localBackends as $backend) {
 			if ($backend->implementsActions(Backend::CREATE_USER)) {
 				return $this->createUserFromBackend($uid, $password, $backend);
 			}
