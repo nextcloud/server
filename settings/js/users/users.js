@@ -1062,17 +1062,15 @@ $(document).ready(function () {
 	// Option to display/hide the "Storage location" column
 	$('#CheckboxStorageLocation').click(function() {
 		if ($('#CheckboxStorageLocation').is(':checked')) {
-			OCP.AppConfig.setValue('core', 'umgmt_show_storage_location', 'true', {
-				success: function () {
-					$("#userlist .storageLocation").show();
-				}
-			});
+			$("#userlist .storageLocation").show();
+			if (OC.isUserAdmin()) {
+				OCP.AppConfig.setValue('core', 'umgmt_show_storage_location', 'true');
+			}
 		} else {
-			OCP.AppConfig.setValue('core', 'umgmt_show_storage_location', 'false', {
-				success: function () {
-					$("#userlist .storageLocation").hide();
-				}
-			});
+			$("#userlist .storageLocation").hide();
+			if (OC.isUserAdmin()) {
+				OCP.AppConfig.setValue('core', 'umgmt_show_storage_location', 'false');
+			}
 		}
 	});
 
