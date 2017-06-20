@@ -43,6 +43,7 @@ use OC\Repair\OldGroupMembershipShares;
 use OC\Repair\RemoveGetETagEntries;
 use OC\Repair\RemoveOldShares;
 use OC\Repair\RemoveRootShares;
+use OC\Repair\RepairInvalidPaths;
 use OC\Repair\SharePropagation;
 use OC\Repair\SqliteAutoincrement;
 use OC\Repair\DropOldTables;
@@ -163,6 +164,7 @@ class Repair implements IOutput{
 				\OC::$server->getConfig()
 			),
 			new FixMountStorages(\OC::$server->getDatabaseConnection()),
+			new RepairInvalidPaths(\OC::$server->getDatabaseConnection())
 		];
 	}
 
@@ -174,7 +176,7 @@ class Repair implements IOutput{
 	 */
 	public static function getExpensiveRepairSteps() {
 		return [
-			new OldGroupMembershipShares(\OC::$server->getDatabaseConnection(), \OC::$server->getGroupManager()),
+			new OldGroupMembershipShares(\OC::$server->getDatabaseConnection(), \OC::$server->getGroupManager())
 		];
 	}
 
