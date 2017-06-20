@@ -349,6 +349,7 @@ OC.L10N.register(
     "iOS app" : "Aplikacja iOS",
     "If you want to support the project {contributeopen}join development{linkclose} or {contributeopen}spread the word{linkclose}!" : "Jeśli chcesz wesprzeć projekt {contributeopen} dołącz do programowania {linkclose} lub {contributeopen}głoś słowo{linkclose}!",
     "Show First Run Wizard again" : "Uruchom ponownie kreatora pierwszego uruchomienia",
+    "Web, desktop, mobile clients and app specific passwords that currently have access to your account." : "Web, klient desktop, klienci mobilni specjalne hasła aplikacja, które aktualnie mają dostęp do twojego konta.",
     "Device" : "Urządzenie",
     "Last activity" : "Ostatnia aktywność",
     "App passwords" : "Hasła aplikacji",

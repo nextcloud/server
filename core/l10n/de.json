@@ -228,7 +228,7 @@
     "Message: %s" : "Nachricht: %s",
     "File: %s" : "Datei: %s",
     "Line: %s" : "Zeile: %s",
-    "Trace" : "Spur",
+    "Trace" : "Trace",
     "Security warning" : "Sicherheitswarnung",
     "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." : "Ihr Datenverzeichnis und Ihre Dateien sind wahrscheinlich vom Internet aus erreichbar, weil die .htaccess-Datei nicht funktioniert.",
     "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">documentation</a>." : "Informationen zum richtigen Konfigurieren Deines Servers kannst Du der <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">Dokumentation</a> entnehmen.",
