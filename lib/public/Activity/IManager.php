@@ -207,6 +207,18 @@ interface IManager {
 	public function isFormattingFilteredObject();
 
 	/**
+	 * @param bool $status Set to true, when parsing events should not use SVG icons
+	 * @since 12.0.1
+	 */
+	public function setRequirePNG($status);
+
+	/**
+	 * @return bool
+	 * @since 12.0.1
+	 */
+	public function getRequirePNG();
+
+	/**
 	 * @param string $app
 	 * @param string $text
 	 * @param array $params

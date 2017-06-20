@@ -57,6 +57,9 @@ class Manager implements IManager {
 	/** @var int */
 	protected $formattingObjectId;
 
+	/** @var bool */
+	protected $requirePNG;
+
 	/** @var string */
 	protected $currentUserId;
 
@@ -463,6 +466,20 @@ class Manager implements IManager {
 		return $this->formattingObjectType !== null && $this->formattingObjectId !== null
 			&& $this->formattingObjectType === $this->request->getParam('object_type')
 			&& $this->formattingObjectId === $this->request->getParam('object_id');
+	}
+
+	/**
+	 * @param bool $status Set to true, when parsing events should not use SVG icons
+	 */
+	public function setRequirePNG($status) {
+		$this->requirePNG = $status;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function getRequirePNG() {
+		return $this->requirePNG;
 	}
 
 	/**
