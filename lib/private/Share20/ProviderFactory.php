@@ -51,9 +51,10 @@ class ProviderFactory implements IProviderFactory {
 	private $federatedProvider = null;
 	/** @var  ShareByMailProvider */
 	private $shareByMailProvider;
-	/** @var  \OCA\Circles\ShareByCircleProvider;
-	 * ShareByCircleProvider */
-	private $shareByCircleProvider;
+	/** @var  \OCA\Circles\ShareByCircleProvider */
+	private $shareByCircleProvider = null;
+	/** @var bool */
+	private $circlesAreNotAvailable = false;
 
 	/**
 	 * IProviderFactory constructor.
@@ -179,11 +180,16 @@ class ProviderFactory implements IProviderFactory {
 	 */
 	protected function getShareByCircleProvider() {
 
-		$appManager = $this->serverContainer->getAppManager();
-		if (!$appManager->isEnabledForUser('circles')) {
+		if ($this->circlesAreNotAvailable) {
 			return null;
 		}
 
+		if (!$this->serverContainer->getAppManager()->isEnabledForUser('circles') ||
+			!class_exists('\OCA\Circles\ShareByCircleProvider')
+		) {
+			$this->circlesAreNotAvailable = true;
+			return null;
+		}
 
 		if ($this->shareByCircleProvider === null) {
 
