@@ -103,7 +103,7 @@ OC.L10N.register(
     "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Um arquivo ou pasta foi <strong>alterado</strong> ou <strong>renomeado</strong>",
     "A new file or folder has been <strong>created</strong>" : "Um novo arquivo ou pasta foi <strong>criado</strong>",
     "A new file or folder has been <strong>deleted</strong>" : "Um novo arquivo ou pasta foi <strong> excluído </strong>",
-    "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Notificações de limite das criações e alterações em seus <strong>arquivos favoritos</strong> <em>(apenas fluxo de dados)</em>",
+    "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Notificações de limite das criações e alterações em seus <strong>arquivos favoritos</strong> <em>(apenas Stream)</em>",
     "A new file or folder has been <strong>restored</strong>" : "Um novo arquivo ou pasta foi <strong> recuperado </strong>",
     "Unlimited" : "Ilimitado",
     "Upload (max. %s)" : "Envio (max. %s)",
