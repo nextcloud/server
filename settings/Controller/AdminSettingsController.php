@@ -39,8 +39,6 @@ class AdminSettingsController extends Controller {
 
 	/** @var INavigationManager */
 	private $navigationManager;
-	/** @var ISettingsManager */
-	private $settingsManager;
 
 	/**
 	 * @param string $appName
