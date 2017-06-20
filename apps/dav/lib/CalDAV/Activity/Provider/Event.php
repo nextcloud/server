@@ -80,7 +80,11 @@ class Event extends Base {
 
 		$this->l = $this->languageFactory->get('dav', $language);
 
-		$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'places/calendar-dark.svg')));
+		if ($this->activityManager->getRequirePNG()) {
+			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'places/calendar-dark.png')));
+		} else {
+			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'places/calendar-dark.svg')));
+		}
 
 		if ($event->getSubject() === self::SUBJECT_OBJECT_ADD . '_event') {
 			$subject = $this->l->t('{actor} created event {event} in calendar {calendar}');

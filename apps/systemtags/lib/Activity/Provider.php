@@ -104,7 +104,12 @@ class Provider implements IProvider {
 	 */
 	public function parseShortVersion(IEvent $event) {
 		$parsedParameters = $this->getParameters($event);
-		$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/tag.svg')));
+
+		if ($this->activityManager->getRequirePNG()) {
+			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/tag.png')));
+		} else {
+			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/tag.svg')));
+		}
 
 		if ($event->getSubject() === self::ASSIGN_TAG) {
 			if ($parsedParameters['actor']['id'] === $this->activityManager->getCurrentUserId()) {
@@ -157,7 +162,12 @@ class Provider implements IProvider {
 	 */
 	public function parseLongVersion(IEvent $event) {
 		$parsedParameters = $this->getParameters($event);
-		$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/tag.svg')));
+
+		if ($this->activityManager->getRequirePNG()) {
+			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/tag.png')));
+		} else {
+			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/tag.svg')));
+		}
 
 		if ($event->getSubject() === self::CREATE_TAG) {
 			if ($parsedParameters['actor']['id'] === $this->activityManager->getCurrentUserId()) {

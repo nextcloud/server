@@ -40,7 +40,11 @@ class Todo extends Event {
 
 		$this->l = $this->languageFactory->get('dav', $language);
 
-		$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/checkmark.svg')));
+		if ($this->activityManager->getRequirePNG()) {
+			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/checkmark.png')));
+		} else {
+			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/checkmark.svg')));
+		}
 
 		if ($event->getSubject() === self::SUBJECT_OBJECT_ADD . '_todo') {
 			$subject = $this->l->t('{actor} created todo {todo} in list {calendar}');

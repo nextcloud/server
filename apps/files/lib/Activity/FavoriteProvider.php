@@ -97,11 +97,19 @@ class FavoriteProvider implements IProvider {
 	public function parseShortVersion(IEvent $event) {
 
 		if ($event->getSubject() === self::SUBJECT_ADDED) {
-			$event->setParsedSubject($this->l->t('Added to favorites'))
-				->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/starred.svg')));
+			$event->setParsedSubject($this->l->t('Added to favorites'));
+			if ($this->activityManager->getRequirePNG()) {
+				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/starred.png')));
+			} else {
+				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/starred.svg')));
+			}
 		} else if ($event->getSubject() === self::SUBJECT_REMOVED) {
-			$event->setParsedSubject($this->l->t('Removed from favorites'))
-				->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/star.svg')));
+			$event->setParsedSubject($this->l->t('Removed from favorites'));
+			if ($this->activityManager->getRequirePNG()) {
+				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/star.png')));
+			} else {
+				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/star.svg')));
+			}
 		} else {
 			throw new \InvalidArgumentException();
 		}
@@ -120,10 +128,18 @@ class FavoriteProvider implements IProvider {
 
 		if ($event->getSubject() === self::SUBJECT_ADDED) {
 			$subject = $this->l->t('You added {file} to your favorites');
-			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/starred.svg')));
+			if ($this->activityManager->getRequirePNG()) {
+				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/starred.png')));
+			} else {
+				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/starred.svg')));
+			}
 		} else if ($event->getSubject() === self::SUBJECT_REMOVED) {
 			$subject = $this->l->t('You removed {file} from your favorites');
-			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/star.svg')));
+			if ($this->activityManager->getRequirePNG()) {
+				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/star.png')));
+			} else {
+				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/star.svg')));
+			}
 		} else {
 			throw new \InvalidArgumentException();
 		}
