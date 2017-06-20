@@ -257,7 +257,7 @@
 				};
 
 				for (var header in securityHeaders) {
-					if(!xhr.getResponseHeader(header) || xhr.getResponseHeader(header).toLowerCase().indexOf(securityHeaders[header].toLowerCase()) === 1) {
+					if(!xhr.getResponseHeader(header) || xhr.getResponseHeader(header).toLowerCase().indexOf(securityHeaders[header].toLowerCase()) === -1) {
 						messages.push({
 							msg: t('core', 'The "{header}" HTTP header is not configured to equal to "{expected}". This is a potential security or privacy risk and we recommend adjusting this setting.', {header: header, expected: securityHeaders[header]}),
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
