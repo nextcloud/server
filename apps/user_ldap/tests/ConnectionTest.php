@@ -111,6 +111,10 @@ class ConnectionTest extends \Test\TestCase {
 			->method('connect')
 			->will($this->returnValue('ldapResource'));
 
+		$this->ldap->expects($this->any())
+			->method('errno')
+			->will($this->returnValue(0));
+
 		// Not called often enough? Then, the fallback to the backup server is broken.
 		$this->connection->expects($this->exactly(4))
 			->method('getFromCache')
