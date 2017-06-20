@@ -25,8 +25,8 @@ namespace OCA\TwoFactorBackupCodes\Test\Unit\Activity;
 use InvalidArgumentException;
 use OCA\TwoFactorBackupCodes\Activity\Provider;
 use OCP\Activity\IEvent;
+use OCP\Activity\IManager;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
 use PHPUnit_Framework_MockObject_MockObject;
@@ -34,14 +34,14 @@ use Test\TestCase;
 
 class ProviderTest extends TestCase {
 
-	/** @var IL10N|PHPUnit_Framework_MockObject_MockObject */
+	/** @var IFactory|PHPUnit_Framework_MockObject_MockObject */
 	private $l10n;
 
 	/** @var IURLGenerator|PHPUnit_Framework_MockObject_MockObject */
 	private $urlGenerator;
 
-	/** @var ILogger|PHPUnit_Framework_MockObject_MockObject */
-	private $logger;
+	/** @var IManager|PHPUnit_Framework_MockObject_MockObject */
+	private $activityManager;
 
 	/** @var Provider */
 	private $provider;
@@ -51,9 +51,9 @@ class ProviderTest extends TestCase {
 
 		$this->l10n = $this->createMock(IFactory::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
-		$this->logger = $this->createMock(ILogger::class);
+		$this->activityManager = $this->createMock(IManager::class);
 
-		$this->provider = new Provider($this->l10n, $this->urlGenerator, $this->logger);
+		$this->provider = new Provider($this->l10n, $this->urlGenerator, $this->activityManager);
 	}
 
 	public function testParseUnrelated() {
