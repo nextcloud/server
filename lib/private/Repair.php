@@ -42,6 +42,7 @@ use OC\Repair\NC12\UpdateLanguageCodes;
 use OC\Repair\OldGroupMembershipShares;
 use OC\Repair\Owncloud\SaveAccountsTableData;
 use OC\Repair\RemoveRootShares;
+use OC\Repair\RepairInvalidPaths;
 use OC\Repair\SqliteAutoincrement;
 use OC\Repair\RepairMimeTypes;
 use OC\Repair\RepairInvalidShares;
@@ -143,7 +144,8 @@ class Repair implements IOutput{
 				\OC::$server->query(BundleFetcher::class),
 				\OC::$server->getConfig(),
 				\OC::$server->query(Installer::class)
-			)
+			),
+			new RepairInvalidPaths(\OC::$server->getDatabaseConnection())
 		];
 	}
 
@@ -155,7 +157,7 @@ class Repair implements IOutput{
 	 */
 	public static function getExpensiveRepairSteps() {
 		return [
-			new OldGroupMembershipShares(\OC::$server->getDatabaseConnection(), \OC::$server->getGroupManager()),
+			new OldGroupMembershipShares(\OC::$server->getDatabaseConnection(), \OC::$server->getGroupManager())
 		];
 	}
 
