@@ -472,7 +472,7 @@ class ShareesAPIController extends OCSController {
 			$shareTypes[] = Share::SHARE_TYPE_EMAIL;
 		}
 
-		if (\OCP\App::isEnabled('circles')) {
+		if (\OCP\App::isEnabledForUser('circles') && class_exists('\OCA\Circles\ShareByCircleProvider')) {
 			$shareTypes[] = Share::SHARE_TYPE_CIRCLE;
 		}
 
