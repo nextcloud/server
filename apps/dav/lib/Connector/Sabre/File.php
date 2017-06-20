@@ -146,7 +146,7 @@ class File extends Node implements IFile {
 			// double check if the file was fully received
 			// compare expected and actual size
 			if (isset($_SERVER['CONTENT_LENGTH']) && $_SERVER['REQUEST_METHOD'] === 'PUT') {
-				$expected = $_SERVER['CONTENT_LENGTH'];
+				$expected = (int) $_SERVER['CONTENT_LENGTH'];
 				if ($count !== $expected) {
 					throw new BadRequest('expected filesize ' . $expected . ' got ' . $count);
 				}
@@ -409,7 +409,7 @@ class File extends Node implements IFile {
 		//detect aborted upload
 		if (isset ($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'PUT') {
 			if (isset($_SERVER['CONTENT_LENGTH'])) {
-				$expected = $_SERVER['CONTENT_LENGTH'];
+				$expected = (int) $_SERVER['CONTENT_LENGTH'];
 				if ($bytesWritten !== $expected) {
 					$chunk_handler->remove($info['index']);
 					throw new BadRequest(
