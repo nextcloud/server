@@ -978,15 +978,7 @@ OC.Uploader.prototype = _.extend({
 
 			if (this._supportAjaxUploadWithProgress()) {
 				//remaining time
-				var lastUpdate = new Date().getMilliseconds();
-				var lastSize = 0;
-				var bufferSize = 20;
-				var buffer = [];
-				var bufferIndex = 0;
-				var bufferTotal = 0;
-				for(var i = 0; i < bufferSize;i++){
-					buffer[i] = 0;
-				}
+				var lastUpdate, lastSize, bufferSize, buffer, bufferIndex, bufferTotal;
 
 				// add progress handlers
 				fileupload.on('fileuploadadd', function(e, data) {
@@ -1007,6 +999,16 @@ OC.Uploader.prototype = _.extend({
 							+ '</span></em>');
                     $('#uploadprogressbar').tipsy({gravity:'n', fade:true, live:true});
 					self._showProgressBar();
+					// initial remaining time variables
+					lastUpdate   = new Date().getTime();
+					lastSize     = 0;
+					bufferSize   = 20;
+					buffer       = [];
+					bufferIndex  = 0;
+					bufferTotal  = 0;
+					for(var i = 0; i < bufferSize; i++){
+						buffer[i]  = 0;
+					}
 					self.trigger('start', e, data);
 				});
 				fileupload.on('fileuploadprogress', function(e, data) {
@@ -1017,19 +1019,23 @@ OC.Uploader.prototype = _.extend({
 				fileupload.on('fileuploadprogressall', function(e, data) {
 					self.log('progress handle fileuploadprogressall', e, data);
 					var progress = (data.loaded / data.total) * 100;
-					var thisUpdate = new Date().getMilliseconds();
+					var thisUpdate = new Date().getTime();
 					var diffUpdate = (thisUpdate - lastUpdate)/1000; // eg. 2s
 					lastUpdate = thisUpdate;
 					var diffSize = data.loaded - lastSize;
 					lastSize = data.loaded;
-					diffSize = diffSize / diffUpdate; // apply timing factor, eg. 1mb/2s = 0.5mb/s
+					diffSize = diffSize / diffUpdate; // apply timing factor, eg. 1MiB/2s = 0.5MiB/s, unit is byte
 					var remainingSeconds = ((data.total - data.loaded) / diffSize);
 					if(remainingSeconds >= 0) {
 						bufferTotal = bufferTotal - (buffer[bufferIndex]) + remainingSeconds;
 						buffer[bufferIndex] = remainingSeconds; //buffer to make it smoother
 						bufferIndex = (bufferIndex + 1) % bufferSize;
 					}
-					var smoothRemainingSeconds = (bufferTotal / bufferSize); //seconds
+					if(buffer[bufferSize - 1] === 0){
+						var smoothRemainingSeconds = (bufferTotal / bufferIndex);
+					}else{
+						var smoothRemainingSeconds = (bufferTotal / bufferSize);
+					}
 					var date = new Date(smoothRemainingSeconds * 1000);
 					var timeStringDesktop = "";
 					var timeStringMobile = "";
@@ -1068,7 +1074,7 @@ OC.Uploader.prototype = _.extend({
 						t('files', '{loadedSize} of {totalSize} ({bitrate})' , {
 							loadedSize: humanFileSize(data.loaded),
 							totalSize: humanFileSize(data.total),
-							bitrate: humanFileSize(data.bitrate) + '/s'
+							bitrate: humanFileSize(data.bitrate / 8) + '/s'
 						})
 					);
 					$('#uploadprogressbar').progressbar('value', progress);
