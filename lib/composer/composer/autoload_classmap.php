@@ -683,6 +683,7 @@ return array(
     'OC\\Repair\\NC11\\FixMountStorages' => $baseDir . '/lib/private/Repair/NC11/FixMountStorages.php',
     'OC\\Repair\\NC11\\MoveAvatars' => $baseDir . '/lib/private/Repair/NC11/MoveAvatars.php',
     'OC\\Repair\\NC11\\MoveAvatarsBackgroundJob' => $baseDir . '/lib/private/Repair/NC11/MoveAvatarsBackgroundJob.php',
+    'OC\\Repair\\NC13\\RepairInvalidPaths' => $baseDir . '/lib/private/Repair/NC13/RepairInvalidPaths.php',
     'OC\\Repair\\OldGroupMembershipShares' => $baseDir . '/lib/private/Repair/OldGroupMembershipShares.php',
     'OC\\Repair\\Preview' => $baseDir . '/lib/private/Repair/Preview.php',
     'OC\\Repair\\RemoveGetETagEntries' => $baseDir . '/lib/private/Repair/RemoveGetETagEntries.php',

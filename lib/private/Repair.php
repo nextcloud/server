@@ -43,7 +43,7 @@ use OC\Repair\OldGroupMembershipShares;
 use OC\Repair\RemoveGetETagEntries;
 use OC\Repair\RemoveOldShares;
 use OC\Repair\RemoveRootShares;
-use OC\Repair\RepairInvalidPaths;
+use OC\Repair\NC13\RepairInvalidPaths;
 use OC\Repair\SharePropagation;
 use OC\Repair\SqliteAutoincrement;
 use OC\Repair\DropOldTables;
