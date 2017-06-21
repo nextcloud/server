@@ -699,6 +699,11 @@ class UsersControllerTest extends TestCase {
 			->method('getUserValue')
 			->with('UID', 'core', 'enabled', 'true')
 			->will($this->returnValue('true'));
+		$this->config
+			->expects($this->at(1))
+			->method('getUserValue')
+			->with('UID', 'core', 'lang')
+			->will($this->returnValue('de'));
 		$this->api
 			->expects($this->once())
 			->method('fillStorageInfo')
@@ -709,7 +714,7 @@ class UsersControllerTest extends TestCase {
 			->method('getDisplayName')
 			->will($this->returnValue('Demo User'));
 		$targetUser
-			->expects($this->exactly(3))
+			->expects($this->exactly(4))
 			->method('getUID')
 			->will($this->returnValue('UID'));
 
@@ -723,7 +728,8 @@ class UsersControllerTest extends TestCase {
 			'address' => 'address',
 			'website' => 'website',
 			'twitter' => 'twitter',
-			'groups' => ['group0', 'group1', 'group2']
+			'groups' => ['group0', 'group1', 'group2'],
+			'language' => 'de',
 		];
 		$this->assertEquals($expected, $this->invokePrivate($this->api, 'getUserData', ['UserToGet']));
 	}
@@ -778,6 +784,11 @@ class UsersControllerTest extends TestCase {
 			->method('getUserValue')
 			->with('UID', 'core', 'enabled', 'true')
 			->will($this->returnValue('true'));
+		$this->config
+			->expects($this->at(1))
+			->method('getUserValue')
+			->with('UID', 'core', 'lang')
+			->will($this->returnValue('da'));
 		$this->api
 			->expects($this->once())
 			->method('fillStorageInfo')
@@ -788,7 +799,7 @@ class UsersControllerTest extends TestCase {
 			->method('getDisplayName')
 			->will($this->returnValue('Demo User'));
 		$targetUser
-			->expects($this->exactly(3))
+			->expects($this->exactly(4))
 			->method('getUID')
 			->will($this->returnValue('UID'));
 		$this->accountManager->expects($this->any())->method('getUser')
@@ -812,7 +823,8 @@ class UsersControllerTest extends TestCase {
 			'address' => 'address',
 			'website' => 'website',
 			'twitter' => 'twitter',
-			'groups' => []
+			'groups' => [],
+			'language' => 'da',
 		];
 		$this->assertEquals($expected, $this->invokePrivate($this->api, 'getUserData', ['UserToGet']));
 	}
@@ -918,9 +930,14 @@ class UsersControllerTest extends TestCase {
 			->method('getEMailAddress')
 			->will($this->returnValue('subadmin@owncloud.org'));
 		$targetUser
-			->expects($this->exactly(3))
+			->expects($this->exactly(4))
 			->method('getUID')
 			->will($this->returnValue('UID'));
+		$this->config
+			->expects($this->at(0))
+			->method('getUserValue')
+			->with('UID', 'core', 'lang')
+			->will($this->returnValue('ru'));
 		$this->accountManager->expects($this->any())->method('getUser')
 			->with($targetUser)
 			->willReturn(
@@ -941,7 +958,8 @@ class UsersControllerTest extends TestCase {
 			'address' => 'address',
 			'website' => 'website',
 			'twitter' => 'twitter',
-			'groups' => []
+			'groups' => [],
+			'language' => 'ru',
 		];
 		$this->assertEquals($expected, $this->invokePrivate($this->api, 'getUserData', ['subadmin']));
 	}
@@ -1128,7 +1146,7 @@ class UsersControllerTest extends TestCase {
 			->with('UserToEdit')
 			->will($this->returnValue($targetUser));
 		$this->groupManager
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('isAdmin')
 			->with('UID')
 			->will($this->returnValue(true));
@@ -1163,7 +1181,7 @@ class UsersControllerTest extends TestCase {
 			->with('UserToEdit')
 			->will($this->returnValue($targetUser));
 		$this->groupManager
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('isAdmin')
 			->with('UID')
 			->will($this->returnValue(true));
