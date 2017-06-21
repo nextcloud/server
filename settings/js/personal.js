@@ -258,23 +258,31 @@ $(document).ready(function () {
 	});
 	federationSettingsView.render();
 
-	$("#languageinput").change(function () {
-		// Serialize the data
-		var post = $("#languageinput").serialize();
-		// Ajax foo
-		$.ajax(
-			'ajax/setlanguage.php',
-			{
-				method: 'POST',
-				data: post
+	var updateLanguage = function () {
+		if (OC.PasswordConfirmation.requiresPasswordConfirmation()) {
+			OC.PasswordConfirmation.requirePasswordConfirmation(updateLanguage);
+			return;
+		}
+
+		var selectedLang = $("#languageinput").val(),
+			user = OC.getCurrentUser();
+
+		$.ajax({
+			url: OC.linkToOCS('cloud/users', 2) + user['uid'],
+			method: 'PUT',
+			data: {
+				key: 'language',
+				value: selectedLang
+			},
+			success: function() {
+				location.reload();
+			},
+			fail: function() {
+				OC.Notification.showTemporary(t('settings', 'An error occured while changing your language. Please reload the page and try again.'));
 			}
-		).done(function() {
-			location.reload();
-		}).fail(function(jqXHR) {
-			$('#passworderror').text(jqXHR.responseJSON.message);
 		});
-		return false;
-	});
+	};
+	$("#languageinput").change(updateLanguage);
 
 	var uploadparms = {
 		pasteZone: null,
