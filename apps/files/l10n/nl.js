@@ -105,6 +105,7 @@ OC.L10N.register(
     "A new file or folder has been <strong>deleted</strong>" : "Een nieuw bestand of nieuwe map is <strong>verwijderd</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Beperk meldingen over aanmaken en wijzigen aan je <strong>favoriete bestanden</strong> <em>(Alleen stream)</em>",
     "A new file or folder has been <strong>restored</strong>" : "Een nieuw bestand of een nieuwe map is <strong>hersteld</strong>",
+    "Unlimited" : "Ongelimiteerd",
     "Upload (max. %s)" : "Upload (max. %s)",
     "File handling" : "Bestand afhandeling",
     "Maximum upload size" : "Maximale bestandsgrootte voor uploads",
