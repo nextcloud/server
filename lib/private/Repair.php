@@ -42,7 +42,7 @@ use OC\Repair\NC12\UpdateLanguageCodes;
 use OC\Repair\OldGroupMembershipShares;
 use OC\Repair\Owncloud\SaveAccountsTableData;
 use OC\Repair\RemoveRootShares;
-use OC\Repair\RepairInvalidPaths;
+use OC\Repair\NC13\RepairInvalidPaths;
 use OC\Repair\SqliteAutoincrement;
 use OC\Repair\RepairMimeTypes;
 use OC\Repair\RepairInvalidShares;

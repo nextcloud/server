@@ -739,6 +739,7 @@ return array(
     'OC\\Repair\\NC11\\MoveAvatarsBackgroundJob' => $baseDir . '/lib/private/Repair/NC11/MoveAvatarsBackgroundJob.php',
     'OC\\Repair\\NC12\\InstallCoreBundle' => $baseDir . '/lib/private/Repair/NC12/InstallCoreBundle.php',
     'OC\\Repair\\NC12\\UpdateLanguageCodes' => $baseDir . '/lib/private/Repair/NC12/UpdateLanguageCodes.php',
+    'OC\\Repair\\NC13\\RepairInvalidPaths' => $baseDir . '/lib/private/Repair/NC13/RepairInvalidPaths.php',
     'OC\\Repair\\OldGroupMembershipShares' => $baseDir . '/lib/private/Repair/OldGroupMembershipShares.php',
     'OC\\Repair\\Owncloud\\SaveAccountsTableData' => $baseDir . '/lib/private/Repair/Owncloud/SaveAccountsTableData.php',
     'OC\\Repair\\RemoveRootShares' => $baseDir . '/lib/private/Repair/RemoveRootShares.php',
