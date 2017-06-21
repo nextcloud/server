@@ -33,6 +33,7 @@ use Exception;
 use OC\Accounts\AccountManager;
 use OC\Group\Manager;
 use OCP\App\IAppManager;
+use OCP\AppFramework\OCS\OCSException;
 use OCP\Mail\IEMailTemplate;
 use OC\Settings\Mailer\NewUserMailHelper;
 use OC\SubAdmin;
@@ -1230,6 +1231,185 @@ class UsersControllerTest extends TestCase {
 			->will($this->returnValue('UID'));
 
 		$this->assertEquals([], $this->api->editUser('UserToEdit', 'quota', '3042824')->getData());
+	}
+
+	public function testEditUserSelfEditChangeLanguage() {
+
+		$this->l10nFactory->expects($this->once())
+			->method('findAvailableLanguages')
+			->willReturn(['en', 'de', 'sv']);
+		$this->config->expects($this->any())
+			->method('getSystemValue')
+			->willReturnMap([
+				['allow_user_to_change_display_name', true, true],
+				['force_language', false, false],
+			]);
+
+		$loggedInUser = $this->createMock(IUser::class);
+		$loggedInUser
+			->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('UserToEdit'));
+		$targetUser = $this->createMock(IUser::class);
+		$this->config->expects($this->once())
+			->method('setUserValue')
+			->with('UserToEdit', 'core', 'lang', 'de');
+		$this->userSession
+			->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($loggedInUser));
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('UserToEdit')
+			->will($this->returnValue($targetUser));
+		$this->groupManager
+			->expects($this->atLeastOnce())
+			->method('isAdmin')
+			->with('UserToEdit')
+			->will($this->returnValue(false));
+		$targetUser
+			->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('UserToEdit'));
+
+		$this->assertEquals([], $this->api->editUser('UserToEdit', 'language', 'de')->getData());
+	}
+
+	public function dataEditUserSelfEditChangeLanguageButForced() {
+		return [
+			['de'],
+			[true],
+		];
+	}
+
+	/**
+	 * @dataProvider dataEditUserSelfEditChangeLanguageButForced
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 */
+	public function testEditUserSelfEditChangeLanguageButForced($forced) {
+		$this->config->expects($this->any())
+			->method('getSystemValue')
+			->willReturnMap([
+				['allow_user_to_change_display_name', true, true],
+				['force_language', false, $forced],
+			]);
+
+		$loggedInUser = $this->createMock(IUser::class);
+		$loggedInUser
+			->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('UserToEdit'));
+		$targetUser = $this->createMock(IUser::class);
+		$this->config->expects($this->never())
+			->method('setUserValue');
+		$this->userSession
+			->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($loggedInUser));
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('UserToEdit')
+			->will($this->returnValue($targetUser));
+		$this->groupManager
+			->expects($this->atLeastOnce())
+			->method('isAdmin')
+			->with('UserToEdit')
+			->will($this->returnValue(false));
+		$targetUser
+			->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('UserToEdit'));
+
+		$this->assertEquals([], $this->api->editUser('UserToEdit', 'language', 'de')->getData());
+	}
+
+	public function testEditUserAdminEditChangeLanguage() {
+
+		$this->l10nFactory->expects($this->once())
+			->method('findAvailableLanguages')
+			->willReturn(['en', 'de', 'sv']);
+
+		$loggedInUser = $this->createMock(IUser::class);
+		$loggedInUser
+			->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('admin'));
+		$targetUser = $this->createMock(IUser::class);
+		$this->config->expects($this->once())
+			->method('setUserValue')
+			->with('UserToEdit', 'core', 'lang', 'de');
+		$this->userSession
+			->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($loggedInUser));
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('UserToEdit')
+			->will($this->returnValue($targetUser));
+		$this->groupManager
+			->expects($this->once())
+			->method('isAdmin')
+			->with('admin')
+			->will($this->returnValue(true));
+		$subAdminManager = $this->createMock(SubAdmin::class);
+		$this->groupManager
+			->expects($this->once())
+			->method('getSubAdmin')
+			->will($this->returnValue($subAdminManager));
+		$targetUser
+			->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('UserToEdit'));
+
+		$this->assertEquals([], $this->api->editUser('UserToEdit', 'language', 'de')->getData());
+	}
+
+	/**
+	 * @dataProvider dataEditUserSelfEditChangeLanguageButForced
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 */
+	public function testEditUserAdminEditChangeLanguageInvalidLanguage() {
+
+		$this->l10nFactory->expects($this->once())
+			->method('findAvailableLanguages')
+			->willReturn(['en', 'de', 'sv']);
+
+		$loggedInUser = $this->createMock(IUser::class);
+		$loggedInUser
+			->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('admin'));
+		$targetUser = $this->createMock(IUser::class);
+		$this->config->expects($this->never())
+			->method('setUserValue');
+		$this->userSession
+			->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($loggedInUser));
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('UserToEdit')
+			->will($this->returnValue($targetUser));
+		$this->groupManager
+			->expects($this->once())
+			->method('isAdmin')
+			->with('admin')
+			->will($this->returnValue(true));
+		$subAdminManager = $this->createMock(SubAdmin::class);
+		$this->groupManager
+			->expects($this->once())
+			->method('getSubAdmin')
+			->will($this->returnValue($subAdminManager));
+		$targetUser
+			->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('UserToEdit'));
+
+		$this->assertEquals([], $this->api->editUser('UserToEdit', 'language', 'ru')->getData());
 	}
 
 	public function testEditUserSubadminUserAccessible() {
