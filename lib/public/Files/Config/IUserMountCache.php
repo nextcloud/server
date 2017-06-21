@@ -113,6 +113,7 @@ interface IUserMountCache {
 	 *
 	 * @param IUser[] $users
 	 * @return int[] [$userId => $userSpace]
+	 * @since 13.0.0
 	 */
 	public function getUsedSpaceForUsers(array $users);
 }
