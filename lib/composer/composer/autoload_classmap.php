@@ -810,7 +810,6 @@ return array(
     'OC\\Settings\\Controller\\GroupsController' => $baseDir . '/settings/Controller/GroupsController.php',
     'OC\\Settings\\Controller\\LogSettingsController' => $baseDir . '/settings/Controller/LogSettingsController.php',
     'OC\\Settings\\Controller\\MailSettingsController' => $baseDir . '/settings/Controller/MailSettingsController.php',
-    'OC\\Settings\\Controller\\PersonalController' => $baseDir . '/settings/Controller/PersonalController.php',
     'OC\\Settings\\Controller\\SecuritySettingsController' => $baseDir . '/settings/Controller/SecuritySettingsController.php',
     'OC\\Settings\\Controller\\UsersController' => $baseDir . '/settings/Controller/UsersController.php',
     'OC\\Settings\\Hooks' => $baseDir . '/settings/Hooks.php',
