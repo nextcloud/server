@@ -391,7 +391,7 @@ form .warning input[type='checkbox']+label {
 /* Database selector on install page */
 form #selectDbType {
 	text-align:center;
-	white-space: nowrap; 
+	white-space: nowrap;
 	margin: 0;
 }
 form #selectDbType .info {

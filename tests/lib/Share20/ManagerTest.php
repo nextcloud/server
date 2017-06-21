@@ -508,7 +508,7 @@ class ManagerTest extends \Test\TestCase {
 			[$this->createShare(null, \OCP\Share::SHARE_TYPE_GROUP, $file, $group0, null, $user0, 31, null, null), 'SharedBy should be set', true],
 			[$this->createShare(null, \OCP\Share::SHARE_TYPE_LINK,  $file, null, null, $user0, 31, null, null), 'SharedBy should be set', true],
 
-			[$this->createShare(null, \OCP\Share::SHARE_TYPE_USER,  $file, $user0, $user0, $user0, 31, null, null), 'Can\'t share with yourself', true],
+			[$this->createShare(null, \OCP\Share::SHARE_TYPE_USER,  $file, $user0, $user0, $user0, 31, null, null), 'Can’t share with yourself', true],
 
 			[$this->createShare(null, \OCP\Share::SHARE_TYPE_USER,  null, $user2, $user0, $user0, 31, null, null), 'Path should be set', true],
 			[$this->createShare(null, \OCP\Share::SHARE_TYPE_GROUP, null, $group0, $user0, $user0, 31, null, null), 'Path should be set', true],
@@ -539,26 +539,26 @@ class ManagerTest extends \Test\TestCase {
 		$mount = $this->createMock(MoveableMount::class);
 		$limitedPermssions->method('getMountPoint')->willReturn($mount);
 
-		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_USER,  $limitedPermssions, $user2, $user0, $user0, 31, null, null), 'Cannot increase permissions of path', true];
-		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_GROUP, $limitedPermssions, $group0, $user0, $user0, 17, null, null), 'Cannot increase permissions of path', true];
-		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_LINK,  $limitedPermssions, null, $user0, $user0, 3, null, null), 'Cannot increase permissions of path', true];
+		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_USER,  $limitedPermssions, $user2, $user0, $user0, 31, null, null), 'Can’t increase permissions of path', true];
+		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_GROUP, $limitedPermssions, $group0, $user0, $user0, 17, null, null), 'Can’t increase permissions of path', true];
+		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_LINK,  $limitedPermssions, null, $user0, $user0, 3, null, null), 'Can’t increase permissions of path', true];
 
 		$nonMoveableMountPermssions = $this->createMock(Folder::class);
 		$nonMoveableMountPermssions->method('isShareable')->willReturn(true);
 		$nonMoveableMountPermssions->method('getPermissions')->willReturn(\OCP\Constants::PERMISSION_READ);
 		$nonMoveableMountPermssions->method('getPath')->willReturn('path');
 
-		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_USER,  $nonMoveableMountPermssions, $user2, $user0, $user0, 11, null, null), 'Cannot increase permissions of path', false];
-		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_GROUP, $nonMoveableMountPermssions, $group0, $user0, $user0, 11, null, null), 'Cannot increase permissions of path', false];
+		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_USER,  $nonMoveableMountPermssions, $user2, $user0, $user0, 11, null, null), 'Can’t increase permissions of path', false];
+		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_GROUP, $nonMoveableMountPermssions, $group0, $user0, $user0, 11, null, null), 'Can’t increase permissions of path', false];
 
 		$rootFolder = $this->createMock(Folder::class);
 		$rootFolder->method('isShareable')->willReturn(true);
 		$rootFolder->method('getPermissions')->willReturn(\OCP\Constants::PERMISSION_ALL);
 		$rootFolder->method('getPath')->willReturn('myrootfolder');
 
-		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_USER,  $rootFolder, $user2, $user0, $user0, 30, null, null), 'You can\'t share your root folder', true];
-		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_GROUP, $rootFolder, $group0, $user0, $user0, 2, null, null), 'You can\'t share your root folder', true];
-		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_LINK,  $rootFolder, null, $user0, $user0, 16, null, null), 'You can\'t share your root folder', true];
+		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_USER,  $rootFolder, $user2, $user0, $user0, 30, null, null), 'You can’t share your root folder', true];
+		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_GROUP, $rootFolder, $group0, $user0, $user0, 2, null, null), 'You can’t share your root folder', true];
+		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_LINK,  $rootFolder, null, $user0, $user0, 16, null, null), 'You can’t share your root folder', true];
 
 		$allPermssions = $this->createMock(Folder::class);
 		$allPermssions->method('isShareable')->willReturn(true);
@@ -614,7 +614,7 @@ class ManagerTest extends \Test\TestCase {
 
 	/**
 	 * @expectedException \InvalidArgumentException
-	 * @expectedExceptionMessage You can't share your root folder
+	 * @expectedExceptionMessage You can’t share your root folder
 	 */
 	public function testGeneralCheckShareRoot() {
 		$thrown = null;
@@ -882,7 +882,7 @@ class ManagerTest extends \Test\TestCase {
 
 	/**
 	 * @expectedException Exception
-	 * @expectedExceptionMessage Only sharing with group members is allowed
+	 * @expectedExceptionMessage Sharing is only allowed with group members
 	 */
 	public function testUserCreateChecksShareWithGroupMembersOnlyDifferentGroups() {
 		$share = $this->manager->newShare();
@@ -954,7 +954,7 @@ class ManagerTest extends \Test\TestCase {
 
 	/**
 	 * @expectedException Exception
-	 * @expectedExceptionMessage  Path already shared with this user
+	 * @expectedExceptionMessage  Path is already shared with this user
 	 */
 	public function testUserCreateChecksIdenticalShareExists() {
 		$share  = $this->manager->newShare();
@@ -979,7 +979,7 @@ class ManagerTest extends \Test\TestCase {
 
 	/**
 	 * @expectedException Exception
-	 * @expectedExceptionMessage  Path already shared with this user
+	 * @expectedExceptionMessage  Path is already shared with this user
 	 */
  	public function testUserCreateChecksIdenticalPathSharedViaGroup() {
 		$share  = $this->manager->newShare();
@@ -1105,7 +1105,7 @@ class ManagerTest extends \Test\TestCase {
 
 	/**
 	 * @expectedException Exception
-	 * @expectedExceptionMessage Only sharing within your own groups is allowed
+	 * @expectedExceptionMessage Sharing is only allowed within your own groups
 	 */
 	public function testGroupCreateChecksShareWithGroupMembersOnlyNotInGroup() {
 		$share = $this->manager->newShare();
@@ -1131,7 +1131,7 @@ class ManagerTest extends \Test\TestCase {
 
 	/**
 	 * @expectedException Exception
-	 * @expectedExceptionMessage Only sharing within your own groups is allowed
+	 * @expectedExceptionMessage Sharing is only allowed within your own groups
 	 */
 	public function testGroupCreateChecksShareWithGroupMembersOnlyNullGroup() {
 		$share = $this->manager->newShare();
@@ -1183,7 +1183,7 @@ class ManagerTest extends \Test\TestCase {
 
 	/**
 	 * @expectedException Exception
-	 * @expectedExceptionMessage Path already shared with this group
+	 * @expectedExceptionMessage Path is already shared with this group
 	 */
 	public function testGroupCreateChecksPathAlreadySharedWithSameGroup() {
 		$share = $this->manager->newShare();
@@ -1238,7 +1238,7 @@ class ManagerTest extends \Test\TestCase {
 
 	/**
 	 * @expectedException Exception
-	 * @expectedExceptionMessage Link sharing not allowed
+	 * @expectedExceptionMessage Link sharing is not allowed
 	 */
 	public function testLinkCreateChecksNoLinkSharesAllowed() {
 		$share = $this->manager->newShare();
@@ -1254,7 +1254,7 @@ class ManagerTest extends \Test\TestCase {
 
 	/**
 	 * @expectedException Exception
-	 * @expectedExceptionMessage Link shares can't have reshare permissions
+	 * @expectedExceptionMessage Link shares can’t have reshare permissions
 	 */
 	public function testLinkCreateChecksSharePermissions() {
 		$share = $this->manager->newShare();
@@ -1272,7 +1272,7 @@ class ManagerTest extends \Test\TestCase {
 
 	/**
 	 * @expectedException Exception
-	 * @expectedExceptionMessage Public upload not allowed
+	 * @expectedExceptionMessage Public upload is not allowed
 	 */
 	public function testLinkCreateChecksNoPublicUpload() {
 		$share = $this->manager->newShare();
@@ -2297,7 +2297,7 @@ class ManagerTest extends \Test\TestCase {
 
 	/**
 	 * @expectedException Exception
-	 * @expectedExceptionMessage Can't change share type
+	 * @expectedExceptionMessage Can’t change share type
 	 */
 	public function testUpdateShareCantChangeShareType() {
 		$manager = $this->createManagerMock()
@@ -2351,7 +2351,7 @@ class ManagerTest extends \Test\TestCase {
 
 	/**
 	 * @expectedException Exception
-	 * @expectedExceptionMessage Can't share with the share owner
+	 * @expectedExceptionMessage Can’t share with the share owner
 	 */
 	public function testUpdateShareCantShareWithOwner() {
 		$manager = $this->createManagerMock()
@@ -2642,7 +2642,7 @@ class ManagerTest extends \Test\TestCase {
 
 	/**
 	 * @expectedException \InvalidArgumentException
-	 * @expectedExceptionMessage Can't change target of link share
+	 * @expectedExceptionMessage Can’t change target of link share
 	 */
 	public function testMoveShareLink() {
 		$share = $this->manager->newShare();

@@ -210,7 +210,7 @@ class Manager implements IManager {
 		// Cannot share with yourself
 		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER &&
 			$share->getSharedWith() === $share->getSharedBy()) {
-			throw new \InvalidArgumentException('Can\'t share with yourself');
+			throw new \InvalidArgumentException('Can’t share with yourself');
 		}
 
 		// The path should be set
@@ -231,7 +231,7 @@ class Manager implements IManager {
 			$sharedPath = $this->rootFolder->getUserFolder($share->getShareOwner())->getPath();
 		}
 		if ($sharedPath === $share->getNode()->getPath()) {
-			throw new \InvalidArgumentException('You can\'t share your root folder');
+			throw new \InvalidArgumentException('You can’t share your root folder');
 		}
 
 		// Check if we actually have share permissions
@@ -258,7 +258,7 @@ class Manager implements IManager {
 
 		// Check that we do not share with more permissions than we have
 		if ($share->getPermissions() & ~$permissions) {
-			$message_t = $this->l->t('Cannot increase permissions of %s', [$share->getNode()->getPath()]);
+			$message_t = $this->l->t('Can’t increase permissions of %s', [$share->getNode()->getPath()]);
 			throw new GenericShareException($message_t, $message_t, 404);
 		}
 
@@ -274,11 +274,11 @@ class Manager implements IManager {
 
 		if ($share->getNode() instanceof \OCP\Files\File) {
 			if ($share->getPermissions() & \OCP\Constants::PERMISSION_DELETE) {
-				$message_t = $this->l->t('Files can\'t be shared with delete permissions');
+				$message_t = $this->l->t('Files can’t be shared with delete permissions');
 				throw new GenericShareException($message_t);
 			}
 			if ($share->getPermissions() & \OCP\Constants::PERMISSION_CREATE) {
-				$message_t = $this->l->t('Files can\'t be shared with create permissions');
+				$message_t = $this->l->t('Files can’t be shared with create permissions');
 				throw new GenericShareException($message_t);
 			}
 		}
@@ -333,7 +333,7 @@ class Manager implements IManager {
 			$date->setTime(0, 0, 0);
 			$date->add(new \DateInterval('P' . $this->shareApiLinkDefaultExpireDays() . 'D'));
 			if ($date < $expirationDate) {
-				$message = $this->l->t('Cannot set expiration date more than %s days in the future', [$this->shareApiLinkDefaultExpireDays()]);
+				$message = $this->l->t('Can’t set expiration date more than %s days in the future', [$this->shareApiLinkDefaultExpireDays()]);
 				throw new GenericShareException($message, $message, 404);
 			}
 		}
@@ -373,7 +373,7 @@ class Manager implements IManager {
 					$this->groupManager->getUserGroupIds($sharedWith)
 			);
 			if (empty($groups)) {
-				throw new \Exception('Only sharing with group members is allowed');
+				throw new \Exception('Sharing is only allowed with group members');
 			}
 		}
 
@@ -396,7 +396,7 @@ class Manager implements IManager {
 
 			// Identical share already existst
 			if ($existingShare->getSharedWith() === $share->getSharedWith()) {
-				throw new \Exception('Path already shared with this user');
+				throw new \Exception('Path is already shared with this user');
 			}
 
 			// The share is already shared with this user via a group share
@@ -406,7 +406,7 @@ class Manager implements IManager {
 					$user = $this->userManager->get($share->getSharedWith());
 
 					if ($group->inGroup($user) && $existingShare->getShareOwner() !== $share->getShareOwner()) {
-						throw new \Exception('Path already shared with this user');
+						throw new \Exception('Path is already shared with this user');
 					}
 				}
 			}
@@ -430,7 +430,7 @@ class Manager implements IManager {
 			$sharedBy = $this->userManager->get($share->getSharedBy());
 			$sharedWith = $this->groupManager->get($share->getSharedWith());
 			if (is_null($sharedWith) || !$sharedWith->inGroup($sharedBy)) {
-				throw new \Exception('Only sharing within your own groups is allowed');
+				throw new \Exception('Sharing is only allowed within your own groups');
 			}
 		}
 
@@ -451,7 +451,7 @@ class Manager implements IManager {
 			}
 
 			if ($existingShare->getSharedWith() === $share->getSharedWith()) {
-				throw new \Exception('Path already shared with this group');
+				throw new \Exception('Path is already shared with this group');
 			}
 		}
 	}
@@ -465,18 +465,18 @@ class Manager implements IManager {
 	protected function linkCreateChecks(\OCP\Share\IShare $share) {
 		// Are link shares allowed?
 		if (!$this->shareApiAllowLinks()) {
-			throw new \Exception('Link sharing not allowed');
+			throw new \Exception('Link sharing is not allowed');
 		}
 
 		// Link shares by definition can't have share permissions
 		if ($share->getPermissions() & \OCP\Constants::PERMISSION_SHARE) {
-			throw new \InvalidArgumentException('Link shares can\'t have reshare permissions');
+			throw new \InvalidArgumentException('Link shares can’t have reshare permissions');
 		}
 
 		// Check if public upload is allowed
 		if (!$this->shareApiLinkAllowPublicUpload() &&
 			($share->getPermissions() & (\OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_DELETE))) {
-			throw new \InvalidArgumentException('Public upload not allowed');
+			throw new \InvalidArgumentException('Public upload is not allowed');
 		}
 	}
 
@@ -526,11 +526,11 @@ class Manager implements IManager {
 	 */
 	protected function canShare(\OCP\Share\IShare $share) {
 		if (!$this->shareApiEnabled()) {
-			throw new \Exception('The share API is disabled');
+			throw new \Exception('Sharing is disabled');
 		}
 
 		if ($this->sharingDisabledForUser($share->getSharedBy())) {
-			throw new \Exception('You are not allowed to share');
+			throw new \Exception('Sharing is disabled for you');
 		}
 	}
 
@@ -611,7 +611,7 @@ class Manager implements IManager {
 		// Cannot share with the owner
 		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER &&
 			$share->getSharedWith() === $share->getShareOwner()) {
-			throw new \InvalidArgumentException('Can\'t share with the share owner');
+			throw new \InvalidArgumentException('Can’t share with the share owner');
 		}
 
 		// Generate the target
@@ -689,7 +689,7 @@ class Manager implements IManager {
 
 		// We can't change the share type!
 		if ($share->getShareType() !== $originalShare->getShareType()) {
-			throw new \InvalidArgumentException('Can\'t change share type');
+			throw new \InvalidArgumentException('Can’t change share type');
 		}
 
 		// We can only change the recipient on user shares
@@ -701,7 +701,7 @@ class Manager implements IManager {
 		// Cannot share with the owner
 		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER &&
 			$share->getSharedWith() === $share->getShareOwner()) {
-			throw new \InvalidArgumentException('Can\'t share with the share owner');
+			throw new \InvalidArgumentException('Can’t share with the share owner');
 		}
 
 		$this->generalCreateChecks($share);
@@ -880,7 +880,7 @@ class Manager implements IManager {
 	 */
 	public function moveShare(\OCP\Share\IShare $share, $recipientId) {
 		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK) {
-			throw new \InvalidArgumentException('Can\'t change target of link share');
+			throw new \InvalidArgumentException('Can’t change target of link share');
 		}
 
 		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER && $share->getSharedWith() !== $recipientId) {

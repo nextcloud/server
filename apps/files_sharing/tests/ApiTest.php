@@ -1382,7 +1382,7 @@ class ApiTest extends TestCase {
 			$this->fail();
 		} catch (OCSException $e) {
 			$this->assertEquals(404, $e->getCode());
-			$this->assertEquals('Cannot set expiration date more than 7 days in the future', $e->getMessage());
+			$this->assertEquals('Can’t set expiration date more than 7 days in the future', $e->getMessage());
 		}
 		$ocs->cleanup();
 
