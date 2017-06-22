@@ -36,14 +36,14 @@ trait CommonSettingsTrait  {
 	 * @param string $currentSection
 	 * @return array
 	 */
-	private function getNavigationParameters($currentSection) {
+	private function getNavigationParameters($currentType, $currentSection) {
 		$templateParameters = [
-			'personal' => $this->formatPersonalSections($currentSection),
+			'personal' => $this->formatPersonalSections($currentType, $currentSection),
 			'admin' => []
 		];
 
 		if(\OC_User::isAdminUser(\OC_User::getUser())) {
-			$templateParameters['admin'] = $this->formatAdminSections($currentSection);
+			$templateParameters['admin'] = $this->formatAdminSections($currentType, $currentSection);
 		}
 
 		return [
@@ -51,7 +51,7 @@ trait CommonSettingsTrait  {
 		];
 	}
 
-	protected function formatSections($sections, $currentSection, $type) {
+	protected function formatSections($sections, $currentSection, $type, $currentType) {
 		$templateParameters = [];
 		/** @var \OCP\Settings\ISection[] $prioritizedSections */
 		foreach($sections as $prioritizedSections) {
@@ -70,10 +70,13 @@ trait CommonSettingsTrait  {
 					$icon = $section->getIcon();
 				}
 
+				$active = $section->getID() === $currentSection
+					&& $type === $currentType;
+
 				$templateParameters[] = [
 					'anchor'       => $section->getID(),
 					'section-name' => $section->getName(),
-					'active'       => $section->getID() === $currentSection,
+					'active'       => $active,
 					'icon'         => $icon,
 				];
 			}
@@ -81,16 +84,16 @@ trait CommonSettingsTrait  {
 		return $templateParameters;
 	}
 
-	protected function formatPersonalSections($currentSections) {
+	protected function formatPersonalSections($currentType, $currentSections) {
 		$sections = $this->settingsManager->getPersonalSections();
-		$templateParameters = $this->formatSections($sections, $currentSections, 'personal');
+		$templateParameters = $this->formatSections($sections, $currentSections, 'personal', $currentType);
 
 		return $templateParameters;
 	}
 
-	protected function formatAdminSections($currentSections) {
+	protected function formatAdminSections($currentType, $currentSections) {
 		$sections = $this->settingsManager->getAdminSections();
-		$templateParameters = $this->formatSections($sections, $currentSections, 'admin');
+		$templateParameters = $this->formatSections($sections, $currentSections, 'admin', $currentType);
 
 		return $templateParameters;
 	}
@@ -111,9 +114,9 @@ trait CommonSettingsTrait  {
 		return ['content' => $html];
 	}
 
-	private function getIndexResponse($section) {
+	private function getIndexResponse($type, $section) {
 		$templateParams = [];
-		$templateParams = array_merge($templateParams, $this->getNavigationParameters($section));
+		$templateParams = array_merge($templateParams, $this->getNavigationParameters($type, $section));
 		$templateParams = array_merge($templateParams, $this->getSettings($section));
 
 		return new TemplateResponse('settings', 'settings/frame', $templateParams);

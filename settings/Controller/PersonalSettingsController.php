@@ -57,7 +57,8 @@ class PersonalSettingsController extends Controller {
 	 */
 	public function index($section) {
 		$this->navigationManager->setActiveEntry('personal');
-		return $this->getIndexResponse($section);
+		return $this->getIndexResponse('personal', $section);
+
 	}
 
 	/**

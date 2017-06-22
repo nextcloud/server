@@ -65,7 +65,7 @@ class AdminSettingsController extends Controller {
 	 */
 	public function index($section) {
 		$this->navigationManager->setActiveEntry('admin');
-		return $this->getIndexResponse($section);
+		return $this->getIndexResponse('admin', $section);
 	}
 
 	/**
