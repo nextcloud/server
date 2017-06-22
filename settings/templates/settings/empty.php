@@ -21,6 +21,5 @@
  *
  */
 
+	# used for Personal/Additional settings as fallback for legacy settings
 ?>
-
-<!-- temporarily, until we have content for Personal/Additional settings -->
