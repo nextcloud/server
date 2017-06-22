@@ -54,6 +54,7 @@ OC.L10N.register(
     "%s (incompatible)" : "%s (nekompatibilní)",
     "Following apps have been disabled: %s" : "Následující aplikace byly vypnuty: %s",
     "Already up to date" : "Je již aktuální",
+    "Search contacts …" : "Prohledat kontakty...",
     "No contacts found" : "Nebyly nalezeny žádné kontakty",
     "Show all contacts …" : "Zobrazit všechny kontakty …",
     "There was an error loading your contacts" : "Při načítání vašich kontaktů došlo k chybě",
