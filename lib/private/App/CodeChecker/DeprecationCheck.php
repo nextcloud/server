@@ -157,6 +157,7 @@ class DeprecationCheck extends AbstractCheck implements ICheck {
 			'OCP\Util::mb_str_replace' => '8.2.0',
 			'OCP\Util::mb_substr_replace' => '8.2.0',
 			'OCP\Util::sendMail' => '8.1.0',
+			'OCP\Util::writeLog' => '13.0.0',
 		];
 	}
 }
