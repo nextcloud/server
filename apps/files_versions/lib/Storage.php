@@ -161,7 +161,7 @@ class Storage {
 	 * store a new version of a file.
 	 */
 	public static function store($filename) {
-		if(\OC::$server->getConfig()->getSystemValue('files_versions', Storage::DEFAULTENABLED) === 'true') {
+		if(\OC::$server->getConfig()->getSystemValue('files_versions', Storage::DEFAULTENABLED)) {
 
 			// if the file gets streamed we need to remove the .part extension
 			// to get the right target
@@ -320,7 +320,7 @@ class Storage {
 	 */
 	public static function rollback($file, $revision) {
 
-		if(\OC::$server->getConfig()->getSystemValue('files_versions', Storage::DEFAULTENABLED) === 'true') {
+		if(\OC::$server->getConfig()->getSystemValue('files_versions', Storage::DEFAULTENABLED)) {
 			// add expected leading slash
 			$file = '/' . ltrim($file, '/');
 			list($uid, $filename) = self::getUidAndFilename($file);
@@ -701,7 +701,7 @@ class Storage {
 		$config = \OC::$server->getConfig();
 		$expiration = self::getExpiration();
 
-		if($config->getSystemValue('files_versions', Storage::DEFAULTENABLED) === 'true' && $expiration->isEnabled()) {
+		if($config->getSystemValue('files_versions', Storage::DEFAULTENABLED) && $expiration->isEnabled()) {
 			// get available disk space for user
 			$user = \OC::$server->getUserManager()->get($uid);
 			if (is_null($user)) {
