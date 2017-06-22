@@ -73,62 +73,65 @@ $storageInfo=OC_Helper::getStorageInfo('/');
 
 $user = OC::$server->getUserManager()->get(OC_User::getUser());
 
-$userLang=$config->getUserValue( OC_User::getUser(), 'core', 'lang', \OC::$server->getL10NFactory()->findLanguage() );
-$languageCodes = \OC::$server->getL10NFactory()->findAvailableLanguages();
+$forceLanguage = $config->getSystemValue('force_language', false);
+if ($forceLanguage === false) {
+	$userLang=$config->getUserValue( OC_User::getUser(), 'core', 'lang', \OC::$server->getL10NFactory()->findLanguage() );
+	$languageCodes = \OC::$server->getL10NFactory()->findAvailableLanguages();
 
-// array of common languages
-$commonLangCodes = array(
-	'en', 'es', 'fr', 'de', 'de_DE', 'ja', 'ar', 'ru', 'nl', 'it', 'pt_BR', 'pt_PT', 'da', 'fi_FI', 'nb_NO', 'sv', 'tr', 'zh_CN', 'ko'
-);
+	// array of common languages
+	$commonLangCodes = array(
+		'en', 'es', 'fr', 'de', 'de_DE', 'ja', 'ar', 'ru', 'nl', 'it', 'pt_BR', 'pt_PT', 'da', 'fi_FI', 'nb_NO', 'sv', 'tr', 'zh_CN', 'ko'
+	);
 
-$languages=array();
-$commonLanguages = array();
-foreach($languageCodes as $lang) {
-	$l = \OC::$server->getL10N('settings', $lang);
-	// TRANSLATORS this is the language name for the language switcher in the personal settings and should be the localized version
-	$potentialName = (string) $l->t('__language_name__');
-	if($l->getLanguageCode() === $lang && substr($potentialName, 0, 1) !== '_') {//first check if the language name is in the translation file
-		$ln = array('code' => $lang, 'name' => $potentialName);
-	} elseif ($lang === 'en') {
-		$ln = ['code' => $lang, 'name' => 'English (US)'];
-	}else{//fallback to language code
-		$ln=array('code'=>$lang, 'name'=>$lang);
+	$languages=array();
+	$commonLanguages = array();
+	foreach($languageCodes as $lang) {
+		$l = \OC::$server->getL10N('settings', $lang);
+		// TRANSLATORS this is the language name for the language switcher in the personal settings and should be the localized version
+		$potentialName = (string) $l->t('__language_name__');
+		if($l->getLanguageCode() === $lang && substr($potentialName, 0, 1) !== '_') {//first check if the language name is in the translation file
+			$ln = array('code' => $lang, 'name' => $potentialName);
+		} elseif ($lang === 'en') {
+			$ln = ['code' => $lang, 'name' => 'English (US)'];
+		}else{//fallback to language code
+			$ln=array('code'=>$lang, 'name'=>$lang);
+		}
+
+		// put appropriate languages into appropriate arrays, to print them sorted
+		// used language -> common languages -> divider -> other languages
+		if ($lang === $userLang) {
+			$userLang = $ln;
+		} elseif (in_array($lang, $commonLangCodes)) {
+			$commonLanguages[array_search($lang, $commonLangCodes)]=$ln;
+		} else {
+			$languages[]=$ln;
+		}
 	}
 
-	// put appropriate languages into appropriate arrays, to print them sorted
-	// used language -> common languages -> divider -> other languages
-	if ($lang === $userLang) {
-		$userLang = $ln;
-	} elseif (in_array($lang, $commonLangCodes)) {
-		$commonLanguages[array_search($lang, $commonLangCodes)]=$ln;
-	} else {
-		$languages[]=$ln;
+	// if user language is not available but set somehow: show the actual code as name
+	if (!is_array($userLang)) {
+		$userLang = [
+			'code' => $userLang,
+			'name' => $userLang,
+		];
 	}
+
+	ksort($commonLanguages);
+
+	// sort now by displayed language not the iso-code
+	usort( $languages, function ($a, $b) {
+		if ($a['code'] === $a['name'] && $b['code'] !== $b['name']) {
+			// If a doesn't have a name, but b does, list b before a
+			return 1;
+		}
+		if ($a['code'] !== $a['name'] && $b['code'] === $b['name']) {
+			// If a does have a name, but b doesn't, list a before b
+			return -1;
+		}
+		// Otherwise compare the names
+		return strcmp($a['name'], $b['name']);
+	});
 }
-
-// if user language is not available but set somehow: show the actual code as name
-if (!is_array($userLang)) {
-	$userLang = [
-		'code' => $userLang,
-		'name' => $userLang,
-	];
-}
-
-ksort($commonLanguages);
-
-// sort now by displayed language not the iso-code
-usort( $languages, function ($a, $b) {
-	if ($a['code'] === $a['name'] && $b['code'] !== $b['name']) {
-		// If a doesn't have a name, but b does, list b before a
-		return 1;
-	}
-	if ($a['code'] !== $a['name'] && $b['code'] === $b['name']) {
-		// If a does have a name, but b doesn't, list a before b
-		return -1;
-	}
-	// Otherwise compare the names
-	return strcmp($a['name'], $b['name']);
-});
 
 //links to clients
 $clients = array(
@@ -165,9 +168,11 @@ $tmpl->assign('usage_relative', $storageInfo['relative']);
 $tmpl->assign('quota', $storageInfo['quota']);
 $tmpl->assign('clients', $clients);
 $tmpl->assign('email', $userData[\OC\Accounts\AccountManager::PROPERTY_EMAIL]['value']);
-$tmpl->assign('languages', $languages);
-$tmpl->assign('commonlanguages', $commonLanguages);
-$tmpl->assign('activelanguage', $userLang);
+if ($forceLanguage === false) {
+	$tmpl->assign('languages', $languages);
+	$tmpl->assign('commonlanguages', $commonLanguages);
+	$tmpl->assign('activelanguage', $userLang);
+}
 $tmpl->assign('passwordChangeSupported', OC_User::canUserChangePassword(OC_User::getUser()));
 $tmpl->assign('displayNameChangeSupported', OC_User::canUserChangeDisplayName(OC_User::getUser()));
 $tmpl->assign('displayName', $userData[\OC\Accounts\AccountManager::PROPERTY_DISPLAYNAME]['value']);
