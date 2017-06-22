@@ -469,8 +469,12 @@ class Manager implements IManager {
 			0 => [new Section('personal-info', $this->l->t('Personal info'), 0, $this->url->imagePath('core', 'actions/info.svg'))],
 			5 => [new Section('security', $this->l->t('Security'), 0, $this->url->imagePath('settings', 'password.svg'))],
 			15 => [new Section('sync-clients', $this->l->t('Sync clients'), 0, $this->url->imagePath('settings', 'change.svg'))],
-			98 => [new Section('additional', $this->l->t('Additional settings'), 0, $this->url->imagePath('core', 'actions/settings-dark.svg'))],
 		];
+
+		$legacyForms = \OC_App::getForms('personal');
+		if(count($legacyForms) > 0 && $this->hasLegacyPersonalSettingsToRender($legacyForms)) {
+			$sections[98] = [new Section('additional', $this->l->t('Additional settings'), 0, $this->url->imagePath('core', 'actions/settings-dark.svg'))];
+		}
 
 		$rows = $this->mapper->getPersonalSectionsFromDB();
 
@@ -488,6 +492,19 @@ class Manager implements IManager {
 		ksort($sections);
 
 		return $sections;
+	}
+
+	/**
+	 * @param $forms
+	 * @return bool
+	 */
+	private function hasLegacyPersonalSettingsToRender($forms) {
+		foreach ($forms as $form) {
+			if(trim($form) !== '') {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
