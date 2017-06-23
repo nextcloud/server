@@ -232,12 +232,11 @@ class ManagerTest extends TestCase {
 				['core', 'actions/settings-dark.svg', '4'],
 			]);
 
-		$this->assertEquals([
+		$this->assertArraySubset([
 			0 => [new Section('personal-info', 'Personal info', 0, '1')],
 			5 => [new Section('security', 'Security', 0, '2')],
 			15 => [new Section('sync-clients', 'Sync clients', 0, '3')],
 			90 => [\OC::$server->query(\OCA\WorkflowEngine\Settings\Section::class)],
-			98 => [new Section('additional', 'Additional settings', 0, '4')],
 		], $this->manager->getPersonalSections());
 	}
 
