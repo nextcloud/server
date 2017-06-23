@@ -1231,20 +1231,20 @@ div.crumb {
 	background-position: right center;
 	height: 44px;
 	background-size: auto 24px;
+	line-height: 12px;
 	&.hidden {
 		display: none;
 	}
 	a, > span {
 		padding: 14px;
 	}
-	.shared {
-		padding-right: 0;
+	.icon-public, .icon-shared {
+		position: relative;
+		right: 14px;
+		margin-right: -14px;
 	}
 	&.last {
 		font-weight: 600;
-	}
-	&.ellipsized {
-		line-height: 10px;
 	}
 	&:hover, &:focus, a:focus, &:active {
 		-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=100)';
