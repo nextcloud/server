@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Saved" : "Đã lưu",
     "Authentication error" : "Lỗi xác thực",
-    "Invalid request" : "Yêu cầu không hợp lệ",
     "Unable to change full name" : "Họ và tên không thể đổi ",
     "Your full name has been changed." : "Họ và tên đã được thay đổi.",
     "Email saved" : "Lưu email",
@@ -55,6 +54,7 @@ OC.L10N.register(
     "set new password" : "đặt mật khẩu mới",
     "Default" : "Mặc định",
     "Enabled" : "Bật",
+    "Invalid request" : "Yêu cầu không hợp lệ",
     "Admins can't remove themself from the admin group" : "Quản trị viên không thể loại bỏ chính họ khỏi nhóm quản lý",
     "Unable to add user to group %s" : "Không thể thêm người dùng vào nhóm %s",
     "Unable to remove user from group %s" : "Không thể xóa người dùng từ nhóm %s",

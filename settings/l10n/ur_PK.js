@@ -1,7 +1,6 @@
 OC.L10N.register(
     "settings",
     {
-    "Invalid request" : "غلط درخواست",
     "Email sent" : "ارسال شدہ ای میل ",
     "Delete" : "حذف کریں",
     "Very weak password" : "بہت کمزور پاسورڈ",
@@ -15,6 +14,7 @@ OC.L10N.register(
     "New password" : "نیا پاسورڈ",
     "Username" : "یوزر نیم",
     "Other" : "دیگر",
+    "Invalid request" : "غلط درخواست",
     "Cheers!" : "واہ!",
     "Name" : "اسم"
 },

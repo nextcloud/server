@@ -2,7 +2,6 @@ OC.L10N.register(
     "settings",
     {
     "Authentication error" : "ავთენტიფიკაციის შეცდომა",
-    "Invalid request" : "არასწორი მოთხოვნა",
     "Email saved" : "იმეილი შენახულია",
     "Couldn't update app." : "ვერ მოხერხდა აპლიკაციის განახლება.",
     "Email sent" : "იმეილი გაიგზავნა",
@@ -49,6 +48,7 @@ OC.L10N.register(
     "Quota" : "ქვოტა",
     "set new password" : "დააყენეთ ახალი პაროლი",
     "Default" : "საწყისი პარამეტრები",
+    "Invalid request" : "არასწორი მოთხოვნა",
     "Admins can't remove themself from the admin group" : "ადმინისტრატორებს არ შეუძლიათ საკუთარი თავის წაშლა ადმინ ჯგუფიდან",
     "Unable to add user to group %s" : "მომხმარებლის დამატება ვერ მოხეხდა ჯგუფში %s",
     "Unable to remove user from group %s" : "მომხმარებლის წაშლა ვერ მოხეხდა ჯგუფიდან %s",

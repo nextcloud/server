@@ -1,5 +1,4 @@
 { "translations": {
-    "Invalid request" : "غلط درخواست",
     "Email sent" : "ارسال شدہ ای میل ",
     "Delete" : "حذف کریں",
     "Very weak password" : "بہت کمزور پاسورڈ",
@@ -13,6 +12,7 @@
     "New password" : "نیا پاسورڈ",
     "Username" : "یوزر نیم",
     "Other" : "دیگر",
+    "Invalid request" : "غلط درخواست",
     "Cheers!" : "واہ!",
     "Name" : "اسم"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
