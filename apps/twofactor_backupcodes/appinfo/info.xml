@@ -5,7 +5,7 @@
 	<description>A two-factor auth backup codes provider</description>
 	<licence>agpl</licence>
 	<author>Christoph Wurst</author>
-	<version>1.2.1</version>
+	<version>1.2.0</version>
 	<namespace>TwoFactorBackupCodes</namespace>
 	<category>other</category>
 
@@ -31,6 +31,5 @@
 
 	<settings>
 		<personal>OCA\TwoFactorBackupCodes\Settings\Personal</personal>
-		<personal-section>OCA\TwoFactorBackupCodes\Settings\PersonalSection</personal-section>
 	</settings>
 </info>
