@@ -2,7 +2,6 @@ OC.L10N.register(
     "settings",
     {
     "Authentication error" : "سالاھىيەت دەلىللەش خاتالىقى",
-    "Invalid request" : "ئىناۋەتسىز ئىلتىماس",
     "Email saved" : "تورخەت ساقلاندى",
     "Couldn't update app." : "ئەپنى يېڭىلىيالمايدۇ.",
     "All" : "ھەممىسى",
@@ -41,6 +40,7 @@ OC.L10N.register(
     "Other" : "باشقا",
     "set new password" : "يېڭى ئىم تەڭشە",
     "Default" : "كۆڭۈلدىكى",
+    "Invalid request" : "ئىناۋەتسىز ئىلتىماس",
     "Admins can't remove themself from the admin group" : "باشقۇرغۇچى ئۆزىنى باشقۇرۇش گۇرۇپپىسىدىن چىقىرىۋېتەلمەيدۇ",
     "Unable to add user to group %s" : "ئىشلەتكۈچىنى %s گۇرۇپپىغا قوشالمايدۇ",
     "Unable to remove user from group %s" : "ئىشلەتكۈچىنى %s گۇرۇپپىدىن چىقىرىۋېتەلمەيدۇ",
