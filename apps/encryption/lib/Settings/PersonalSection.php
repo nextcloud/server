@@ -29,6 +29,7 @@ use OCA\Encryption\Session;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
+use OCP\IUserSession;
 use OCP\Settings\IIconSection;
 
 class PersonalSection implements IIconSection {
@@ -43,13 +44,23 @@ class PersonalSection implements IIconSection {
 	private $config;
 	/** @var Session */
 	private $session;
+	/** @var IUserSession */
+	private $userSession;
 
-	public function __construct(IURLGenerator $urlGenerator, IL10N $l, Application $app, IConfig $config, Session $session) {
+	public function __construct(
+		IURLGenerator $urlGenerator,
+		IL10N $l,
+		Application $app,
+		IConfig $config,
+		Session $session,
+		IUserSession $userSession
+	) {
 		$this->urlGenerator = $urlGenerator;
 		$this->l = $l;
 		$this->app = $app;
 		$this->config = $config;
 		$this->session = $session;
+		$this->userSession = $userSession;
 	}
 
 	/**
@@ -71,10 +82,13 @@ class PersonalSection implements IIconSection {
 	 * @since 9.1
 	 */
 	public function getID() {
+		// we need to return the proper id while installing/upgrading the app
+		$loggedIn = $this->userSession->isLoggedIn();
+
 		$recoveryAdminEnabled = $this->config->getAppValue('encryption', 'recoveryAdminEnabled');
 		$privateKeySet = $this->session->isPrivateKeySet();
 
-		if (!$recoveryAdminEnabled && $privateKeySet) {
+		if ($loggedIn && !$recoveryAdminEnabled && $privateKeySet) {
 			return null;
 		}
 		return 'encryption';
