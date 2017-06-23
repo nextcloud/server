@@ -78,7 +78,8 @@ class Hooks {
 	public function onChangePassword($uid) {
 		$user = $this->userManager->get($uid);
 
-		if (!$user instanceof IUser || $user->getEMailAddress() === null) {
+		if (!$user instanceof IUser || $user->getLastLogin() === 0) {
+			// User didn't login, so don't create activities and emails.
 			return;
 		}
 
@@ -141,8 +142,10 @@ class Hooks {
 	 */
 	public function onChangeEmail(IUser $user, $oldMailAddress) {
 
-		if ($oldMailAddress === $user->getEMailAddress()) {
-			// Email didn't really change, so don't create activities and emails
+		if ($oldMailAddress === $user->getEMailAddress() ||
+			$user->getLastLogin() === 0) {
+			// Email didn't really change or user didn't login,
+			// so don't create activities and emails.
 			return;
 		}
 
