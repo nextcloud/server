@@ -2,7 +2,6 @@ OC.L10N.register(
     "settings",
     {
     "Authentication error" : "Ralat pengesahan",
-    "Invalid request" : "Permintaan tidak sah",
     "Email saved" : "Emel disimpan",
     "Disable" : "Nyahaktif",
     "Enable" : "Aktif",
@@ -26,6 +25,7 @@ OC.L10N.register(
     "Create" : "Buat",
     "Other" : "Lain",
     "Quota" : "Kuota",
+    "Invalid request" : "Permintaan tidak sah",
     "Name" : "Nama"
 },
 "nplurals=1; plural=0;");

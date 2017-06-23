@@ -2,7 +2,6 @@ OC.L10N.register(
     "settings",
     {
     "Authentication error" : "සත්‍යාපන දෝෂයක්",
-    "Invalid request" : "අවලංගු අයැදුමක්",
     "Email saved" : "වි-තැපෑල සුරකින ලදී",
     "All" : "සියල්ල",
     "Disable" : "අක්‍රිය කරන්න",
@@ -32,6 +31,7 @@ OC.L10N.register(
     "Create" : "තනන්න",
     "Other" : "වෙනත්",
     "Quota" : "සලාකය",
+    "Invalid request" : "අවලංගු අයැදුමක්",
     "Unable to add user to group %s" : "පරිශීලකයා %s කණ්ඩායමට එකතු කළ නොහැක",
     "Unable to remove user from group %s" : "පරිශීලකයා %s කණ්ඩායමින් ඉවත් කළ නොහැක",
     "Name" : "නම"

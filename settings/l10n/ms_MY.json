@@ -1,6 +1,5 @@
 { "translations": {
     "Authentication error" : "Ralat pengesahan",
-    "Invalid request" : "Permintaan tidak sah",
     "Email saved" : "Emel disimpan",
     "Disable" : "Nyahaktif",
     "Enable" : "Aktif",
@@ -24,6 +23,7 @@
     "Create" : "Buat",
     "Other" : "Lain",
     "Quota" : "Kuota",
+    "Invalid request" : "Permintaan tidak sah",
     "Name" : "Nama"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
