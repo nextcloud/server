@@ -287,6 +287,7 @@ if($_['passwordChangeSupported']) {
 }
 ?>
 
+<?php if (isset($_['activelanguage'])) { ?>
 <form id="language" class="section">
 	<h2>
 		<label for="languageinput"><?php p($l->t('Language'));?></label>
@@ -312,3 +313,4 @@ if($_['passwordChangeSupported']) {
 		<em><?php p($l->t('Help translate'));?></em>
 	</a>
 </form>
+<?php } ?>

@@ -110,7 +110,7 @@ class PersonalInfo implements ISettings {
 			$totalSpace = \OC_Helper::humanFileSize($storageInfo['total']);
 		}
 
-		list($activeLanguage, $commonLanguages, $languages) = $this->getLanguages($user);
+		$languageParameters = $this->getLanguages($user);
 		$messageParameters = $this->getMessageParameters($userData);
 
 		$parameters = [
@@ -139,10 +139,7 @@ class PersonalInfo implements ISettings {
 			'twitterVerification' => $userData[AccountManager::PROPERTY_TWITTER]['verified'],
 			'groups' => $this->getGroups($user),
 			'passwordChangeSupported' => \OC_User::canUserChangePassword($uid),
-			'activelanguage' => $activeLanguage,
-			'commonlanguages' => $commonLanguages,
-			'languages' => $languages,
-		] + $messageParameters;
+		] + $messageParameters + $languageParameters;
 
 
 		return new TemplateResponse('settings', 'settings/personal/personal.info', $parameters, '');
@@ -194,11 +191,19 @@ class PersonalInfo implements ISettings {
 	 * @return array
 	 */
 	private function getLanguages(IUser $user) {
+		$forceLanguage = $this->config->getSystemValue('force_language', false);
+		if($forceLanguage !== false) {
+			return [];
+		}
+
 		$uid = $user->getUID();
 
-		$commonLanguages = [];
 		$userLang = $this->config->getUserValue($uid, 'core', 'lang', $this->l10nFactory->findLanguage());
 		$languageCodes = $this->l10nFactory->findAvailableLanguages();
+
+		$commonLanguages = [];
+		$languages = [];
+
 		foreach($languageCodes as $lang) {
 			$l = \OC::$server->getL10N('settings', $lang);
 			// TRANSLATORS this is the language name for the language switcher in the personal settings and should be the localized version
@@ -246,7 +251,11 @@ class PersonalInfo implements ISettings {
 			return strcmp($a['name'], $b['name']);
 		});
 
-		return [$userLang, $commonLanguages, $languages];
+		return [
+			'activelanguage' => $userLang,
+			'commonlanguages' => $commonLanguages,
+			'languages' => $languages
+		];
 	}
 
 	/**
