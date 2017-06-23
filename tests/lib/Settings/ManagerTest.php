@@ -223,13 +223,12 @@ class ManagerTest extends TestCase {
 				['class' => \OCA\WorkflowEngine\Settings\Section::class, 'priority' => 90]
 			]));
 
-		$this->url->expects($this->exactly(4))
+		$this->url->expects($this->exactly(3))
 			->method('imagePath')
 			->willReturnMap([
 				['core', 'actions/info.svg', '1'],
 				['settings', 'password.svg', '2'],
 				['settings', 'change.svg', '3'],
-				['core', 'actions/settings-dark.svg', '4'],
 			]);
 
 		$this->assertArraySubset([
@@ -281,20 +280,18 @@ class ManagerTest extends TestCase {
 			->method('getPersonalSectionsFromDB')
 			->will($this->returnValue([]));
 
-		$this->url->expects($this->exactly(4))
+		$this->url->expects($this->exactly(3))
 			->method('imagePath')
 			->willReturnMap([
 				['core', 'actions/info.svg', '1'],
 				['settings', 'password.svg', '2'],
 				['settings', 'change.svg', '3'],
-				['core', 'actions/settings-dark.svg', '4'],
 			]);
 
-		$this->assertEquals([
+		$this->assertArraySubset([
 			0 => [new Section('personal-info', 'Personal info', 0, '1')],
 			5 => [new Section('security', 'Security', 0, '2')],
 			15 => [new Section('sync-clients', 'Sync clients', 0, '3')],
-			98 => [new Section('additional', 'Additional settings', 0, '4')],
 		], $this->manager->getPersonalSections());
 	}
 
