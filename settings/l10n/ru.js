@@ -152,6 +152,7 @@ OC.L10N.register(
     "Will be synced to a global and public address book" : "Будет синхронизирован с глобальной и открытой адресной книгой",
     "Verify" : "Проверить",
     "Verifying …" : "Производится проверка…",
+    "An error occured while changing your language. Please reload the page and try again." : "При переключении языка произошла ошибка. Перезагрузите эту страницу и попробуйте ещё раз.",
     "Select a profile picture" : "Выберите аватар",
     "Very weak password" : "Очень слабый пароль",
     "Weak password" : "Слабый пароль",
