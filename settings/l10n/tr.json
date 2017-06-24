@@ -150,6 +150,7 @@
     "Will be synced to a global and public address book" : "Genel ve herkese açık bir adres defteri ile eşitlenir",
     "Verify" : "Doğrula",
     "Verifying …" : "Doğrulanıyor...",
+    "An error occured while changing your language. Please reload the page and try again." : "Dil değiştirilirken bir sorun çıktı. Lütfen sayfayı yeniden yükleyerek yeniden deneyin.",
     "Select a profile picture" : "Bir profil fotoğrafı seçin",
     "Very weak password" : "Parola çok zayıf",
     "Weak password" : "Parola zayıf",
