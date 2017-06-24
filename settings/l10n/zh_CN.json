@@ -150,6 +150,7 @@
     "Will be synced to a global and public address book" : "将同步到全局和公开地址簿中",
     "Verify" : "验证",
     "Verifying …" : "正在验证...",
+    "An error occured while changing your language. Please reload the page and try again." : "在为您更改语言设置的过程中出错，请刷新页面重试",
     "Select a profile picture" : "选择头像",
     "Very weak password" : "非常弱的密码",
     "Weak password" : "弱密码",

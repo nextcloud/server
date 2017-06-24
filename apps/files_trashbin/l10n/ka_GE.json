@@ -4,8 +4,15 @@
     "Deleted files" : "წაშლილი ფაილები",
     "Restore" : "აღდგენა",
     "Delete" : "წაშლა",
-    "Delete permanently" : "სრულად წაშლა",
+    "Delete permanently" : "სამუდამოდ წაშლა",
     "Error" : "შეცდომა",
+    "This operation is forbidden" : "ოპერაცია აკრძალულია",
+    "This directory is unavailable, please check the logs or contact the administrator" : "კატალოგი ხელმიუწვდომელია, გთხოვთ დაათვალიეროთ მოქმედებათა ისტორია ან დაუკავშირდეთ ადმინისტრატორს",
+    "restored" : "აღდგენილია",
+    "No deleted files" : "წაშლილი ფაილები ვერ მოიძებნა",
+    "You will be able to recover deleted files from here" : "წაშლილი ფაილების აღდგენა შესაძლებელია აქ",
+    "No entries found in this folder" : "კატალოგში ჩანაწერები ვერ მოიძებნა",
+    "Select all" : "ყველას მონიშვნა",
     "Name" : "სახელი",
     "Deleted" : "წაშლილი"
 },"pluralForm" :"nplurals=1; plural=0;"
