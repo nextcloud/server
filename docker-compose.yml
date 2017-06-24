@@ -1,10 +1,11 @@
-version: '2'
+version: '3'
 services:
   server:
     build:
       context: .
-    image: nextcloud-server
     volumes:
       - .:/nextcloud
+    ports:
+      - "8000:80"
     container_name: 'nextcloud-server'
 
