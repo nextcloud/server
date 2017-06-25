@@ -178,7 +178,7 @@ OC.L10N.register(
     "Share with other people by entering a user or group or an email address." : "Deel met anderen door het invullen van een gebruiker, groep of een emailadres.",
     "Name or email address..." : "Naam of emailadres...",
     "Name or federated cloud ID..." : "Naam of gefedereerd Cloud ID:",
-    "Name, federated cloud ID or email address..." : "Naam, gefedereed cloud ID of een e-mailadres",
+    "Name, federated cloud ID or email address..." : "Naam, gefedereerde Cloud ID of een e-mailadres",
     "Name..." : "Naam...",
     "Error" : "Fout",
     "Error removing share" : "Fout bij verwijderen gedeelde",
