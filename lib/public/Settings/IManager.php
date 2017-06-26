@@ -38,12 +38,12 @@ interface IManager {
 	const KEY_ADMIN_SECTION  = 'admin-section';
 
 	/**
-	 * @since 12.0.0
+	 * @since 13.0.0
 	 */
 	const KEY_PERSONAL_SETTINGS = 'personal';
 
 	/**
-	 * @since 12.0.0
+	 * @since 13.0.0
 	 */
 	const KEY_PERSONAL_SECTION  = 'personal-section';
 
@@ -101,7 +101,7 @@ interface IManager {
 	 * returns a list of the personal sections
 	 *
 	 * @return array array of ISection[] where key is the priority
-	 * @since 12.0.0
+	 * @since 13.0.0
 	 */
 	public function getPersonalSections();
 
@@ -119,7 +119,7 @@ interface IManager {
 	 *
 	 * @param string $section the section id for which to load the settings
 	 * @return array array of IPersonal[] where key is the priority
-	 * @since 12.0.0
+	 * @since 13.0.0
 	 */
 	public function getPersonalSettings($section);
 }

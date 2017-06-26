@@ -68,7 +68,7 @@ class PersonalSection implements IIconSection {
 	 * e.g. '/core/img/places/files.svg'
 	 *
 	 * @returns string
-	 * @since 12
+	 * @since 13.0.0
 	 */
 	public function getIcon() {
 		return $this->urlGenerator->imagePath('settings', 'password.svg');
