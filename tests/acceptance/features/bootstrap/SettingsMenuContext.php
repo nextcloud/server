@@ -96,7 +96,7 @@ class SettingsMenuContext implements Context, ActorAwareInterface {
 	 */
 	public function iVisitTheSettingsPage() {
 		$this->iOpenTheSettingsMenu();
-		$this->actor->find(self::menuItemFor('Settings'), 20)->click();
+		$this->actor->find(self::menuItemFor('Settings'), 2)->click();
 	}
 
 	/**
