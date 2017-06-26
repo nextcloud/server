@@ -6,6 +6,7 @@ OC.L10N.register(
     "Please provide a valid app key and secret." : "Angiv venligst gyldig app-nøgle og -hemmelighed.",
     "Step 1 failed. Exception: %s" : "Trin 1 mislykkedes. Undtagelse: %s",
     "Step 2 failed. Exception: %s" : "Trin 2 mislykkedes. Undtagelse: %s",
+    "External storages" : "Eksternt lager",
     "Personal" : "Personligt",
     "System" : "System",
     "Grant access" : "Godkend adgang",

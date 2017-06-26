@@ -1,6 +1,9 @@
 OC.L10N.register(
     "settings",
     {
+    "{actor} changed your password" : "{actor} ændrede din adgangskode",
+    "You changed your password" : "Du ændrede din kode",
+    "Your password was reset by an administrator" : "Din adgangskode er blevet resat af en administrator",
     "Wrong password" : "Forkert kodeord",
     "Saved" : "Gemt",
     "No user supplied" : "Intet brugernavn givet",
