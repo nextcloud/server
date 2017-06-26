@@ -18,14 +18,14 @@ Feature: access-levels
     And I see that the "Help" item in the Settings menu is shown
     And I see that the "Log out" item in the Settings menu is shown
 
-  Scenario: regular users cannot see amdin-level items on the Settings page
-    Given  I am logged in
+  Scenario: regular users cannot see admin-level items on the Settings page
+    Given I am logged in
     When I visit the settings page
     Then I see that the "Personal" settings panel is shown
     And I see that the "Administration" settings panel is not shown
 
-  Scenario: admin users can see amdin-level items on the Settings page
-    Given  I am logged in as the admin
+  Scenario: admin users can see admin-level items on the Settings page
+    Given I am logged in as the admin
     When I visit the settings page
     Then I see that the "Personal" settings panel is shown
     And I see that the "Administration" settings panel is shown

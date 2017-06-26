@@ -82,7 +82,6 @@ class SettingsMenuContext implements Context, ActorAwareInterface {
 		$this->actor->find(self::settingsMenuButton(), 10)->click();
 	}
 
-
 	/**
 	 * @When I open the User settings
 	 */
