@@ -20,7 +20,7 @@ class Broadcaster implements IBroadcaster {
 	/**
 	 * {@inheritdoc}
 	 */
-	public function createShareToUser($userId, SharingFrame $frame) {
+	public function createShareToUser(SharingFrame $frame, $userId) {
 		return true;
 	}
 
@@ -70,7 +70,7 @@ class Broadcaster implements IBroadcaster {
 	/**
 	 * {@inheritdoc}
 	 */
-	public function deleteShareToUser($userId, SharingFrame $frame) {
+	public function deleteShareToUser(SharingFrame $frame, $userId) {
 		return true;
 	}
 
@@ -78,7 +78,7 @@ class Broadcaster implements IBroadcaster {
 	/**
 	 * {@inheritdoc}
 	 */
-	public function editShareToUser($userId, SharingFrame $frame) {
+	public function editShareToUser(SharingFrame $frame, $userId) {
 		return true;
 	}
 
