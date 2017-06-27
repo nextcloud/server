@@ -2,18 +2,45 @@
  This file is licensed under the Affero General Public License version 3 or later.
  See the COPYING-README file. */
 
-select#languageinput, select#timezone {
+select#timezone {
 	width: 15em;
+}
+
+select#languageinput {
+	width: 17em;
 }
 
 input#openid, input#webdav {
 	width: 20em;
 }
 
+input#pass1, input#pass2, input#passwordbutton {
+	width: 17em;
+}
+
 /* PERSONAL */
 
 .clear {
 	clear: both;
+}
+
+.personal-settings-password-box {
+	margin-top: 20px;
+	margin-bottom: 136px;
+}
+
+.icon-federation-menu {
+	width: 44px;
+	margin: -6px;
+	float: right;
+}
+
+.icon-avartar-federation-menu {
+	position: absolute;
+    width: 44px;
+    top: -6px;
+    left: 129px;
+    z-index: 10;
 }
 
 /* icons for sidebar */
@@ -213,7 +240,7 @@ input#openid, input#webdav {
 
 .federationScopeMenu {
 	top: 44px;
-	margin: -5px 0px 0;
+	margin: -5px -5px 0;
 }
 
 .federationScopeMenu.bubble::after {
@@ -235,7 +262,7 @@ input#openid, input#webdav {
 #lostpassword,
 #groups {
 	display: inline-block;
-	margin-bottom: 0;
+	margin-bottom: 10px;
 	padding-bottom: 0;
 	padding-right: 0;
 	min-width: 60%;
