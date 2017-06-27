@@ -41,6 +41,7 @@
 	</p>
 	<p>
 		<em><?php p($l->t('You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel.')); ?></em>
+		<em><?php p($l->t('Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found.')); ?></em>
 	</p>
 
 
