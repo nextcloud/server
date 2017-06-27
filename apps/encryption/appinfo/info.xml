@@ -30,7 +30,6 @@
 	<settings>
 		<admin>OCA\Encryption\Settings\Admin</admin>
 		<personal>OCA\Encryption\Settings\Personal</personal>
-		<personal-section>OCA\Encryption\Settings\PersonalSection</personal-section>
 	</settings>
 	<commands>
 		<command>OCA\Encryption\Command\EnableMasterKey</command>

@@ -78,7 +78,7 @@ class Personal implements  ISettings {
 	 * @since 9.1
 	 */
 	public function getSection() {
-		return 'encryption';
+		return 'security';
 	}
 
 	/**
@@ -90,6 +90,6 @@ class Personal implements  ISettings {
 	 * @since 9.1
 	 */
 	public function getPriority() {
-		return 10;
+		return 80;
 	}
 }
