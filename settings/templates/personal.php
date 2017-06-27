@@ -44,7 +44,7 @@
 	<form id="avatarform" class="section" method="post" action="<?php p(\OC::$server->getURLGenerator()->linkToRoute('core.avatar.postAvatar')); ?>">
 		<h2>
 			<label><?php p($l->t('Profile picture')); ?></label>
-			<span class="icon-password"/>
+				<span class="icon-avartar-federation-menu icon-password">&#9662;<span/>
 		</h2>
 		<div id="displayavatar">
 			<div class="avatardiv"></div>
@@ -78,7 +78,7 @@
 		<form id="displaynameform" class="section">
 			<h2>
 				<label for="displayname"><?php p($l->t('Full name')); ?></label>
-				<span class="icon-password"/>
+				<span class="icon-federation-menu icon-password">&#9662;<span/>
 			</h2>
 			<input type="text" id="displayname" name="displayname"
 				<?php if(!$_['displayNameChangeSupported']) { print_unescaped('disabled="1"'); } ?>
@@ -94,7 +94,7 @@
 		<form id="emailform" class="section">
 			<h2>
 				<label for="email"><?php p($l->t('Email')); ?></label>
-				<span class="icon-password"/>
+				<span class="icon-federation-menu icon-password">&#9662;<span/>
 			</h2>
 			<div class="verify <?php if ($_['email'] === ''  || $_['emailScope'] !== 'public') p('hidden'); ?>">
 				<img id="verify-email" title="<?php p($_['emailMessage']); ?>" data-status="<?php p($_['emailVerification']) ?>" src="
@@ -130,7 +130,7 @@
 		<form id="phoneform" class="section">
 			<h2>
 				<label for="phone"><?php p($l->t('Phone number')); ?></label>
-				<span class="icon-password"/>
+				<span class="icon-federation-menu icon-password">&#9662;<span/>
 			</h2>
 			<input type="tel" id="phone" name="phone" <?php if(!$_['lookupServerUploadEnabled']) print_unescaped('disabled="1"'); ?>
 				   value="<?php p($_['phone']) ?>"
@@ -148,7 +148,7 @@
 		<form id="addressform" class="section">
 			<h2>
 				<label for="address"><?php p($l->t('Address')); ?></label>
-				<span class="icon-password"/>
+				<span class="icon-federation-menu icon-password">&#9662;<span/>
 			</h2>
 			<input type="text" id="address" name="address" <?php if(!$_['lookupServerUploadEnabled']) print_unescaped('disabled="1"');  ?>
 				   placeholder="<?php p($l->t('Your postal address')); ?>"
@@ -166,7 +166,7 @@
 		<form id="websiteform" class="section">
 			<h2>
 				<label for="website"><?php p($l->t('Website')); ?></label>
-				<span class="icon-password"/>
+				<span class="icon-federation-menu icon-password">&#9662;<span/>
 			</h2>
 			<?php if($_['lookupServerUploadEnabled']) { ?>
 			<div class="verify <?php if ($_['website'] === ''  || $_['websiteScope'] !== 'public') p('hidden'); ?>">
@@ -211,7 +211,7 @@
 		<form id="twitterform" class="section">
 			<h2>
 				<label for="twitter"><?php p($l->t('Twitter')); ?></label>
-				<span class="icon-password"/>
+				<span class="icon-federation-menu icon-password">&#9662;<span/>
 			</h2>
 			<?php if($_['lookupServerUploadEnabled']) { ?>
 			<div class="verify <?php if ($_['twitter'] === ''  || $_['twitterScope'] !== 'public') p('hidden'); ?>">
@@ -251,74 +251,80 @@
 		</form>
 	</div>
 	<?php } ?>
+	<div class="personal-settings-setting-box personal-settings-group-box">
+		<div id="groups" class="section">
+			<h2><?php p($l->t('Groups')); ?></h2>
+			<p><?php p($l->t('You are member of the following groups:')); ?></p>
+			<p>
+			<strong><?php p(implode(', ', $_['groups'])); ?></strong>
+			</p>
+		</div>
+	</div>
+	<div class="personal-settings-setting-box">
+		<?php if (isset($_['activelanguage'])) { ?>
+		<form id="language" class="section">
+			<h2>
+				<label for="languageinput"><?php p($l->t('Language'));?></label>
+			</h2>
+			<select id="languageinput" name="lang" data-placeholder="<?php p($l->t('Language'));?>">
+				<option value="<?php p($_['activelanguage']['code']);?>">
+					<?php p($_['activelanguage']['name']);?>
+				</option>
+				<?php foreach($_['commonlanguages'] as $language):?>
+					<option value="<?php p($language['code']);?>">
+						<?php p($language['name']);?>
+					</option>
+				<?php endforeach;?>
+				<optgroup label="––––––––––"></optgroup>
+				<?php foreach($_['languages'] as $language):?>
+					<option value="<?php p($language['code']);?>">
+						<?php p($language['name']);?>
+					</option>
+				<?php endforeach;?>
+			</select>
+			<br>
+			<a href="https://www.transifex.com/nextcloud/nextcloud/"
+				target="_blank" rel="noreferrer">
+				<em><?php p($l->t('Help translate'));?></em>
+			</a>
+		</form>
+		<?php } ?>
+	</div>
+	<div class="personal-settings-setting-box personal-settings-password-box">
+		<?php
+		if($_['passwordChangeSupported']) {
+			script('jquery-showpassword');
+		?>
+		<form id="passwordform" class="section">
+			<h2 class="inlineblock"><?php p($l->t('Password'));?></h2>
+			<div id="password-error-msg" class="msg success inlineblock" style="display: none;">Saved</div>
+			<br>
+			<label for="pass1" class="hidden-visually"><?php p($l->t('Current password')); ?>: </label>
+			<input type="password" id="pass1" name="oldpassword"
+				placeholder="<?php p($l->t('Current password'));?>"
+				autocomplete="off" autocapitalize="none" autocorrect="off" />
+			<br>
+			<div class="personal-show-container">
+				<label for="pass2" class="hidden-visually"><?php p($l->t('New password'));?>: </label>
+				<input type="password" id="pass2" name="newpassword"
+					placeholder="<?php p($l->t('New password')); ?>"
+					data-typetoggle="#personal-show"
+					autocomplete="off" autocapitalize="none" autocorrect="off" />
+				<input type="checkbox" id="personal-show" name="show" /><label for="personal-show" class="personal-show-label"></label>
+			</div>
+			<br>
+			<input id="passwordbutton" type="submit" value="<?php p($l->t('Change password')); ?>" />
+			<br/>
+		</form>
+		<?php
+		}
+		?>
+	</div>
 	<span class="msg"></span>
 </div>
 </div>
 
 <div class="clear"></div>
-
-<div id="groups" class="section">
-	<h2><?php p($l->t('Groups')); ?></h2>
-	<p><?php p($l->t('You are member of the following groups:')); ?></p>
-	<p>
-	<?php p(implode(', ', $_['groups'])); ?>
-	</p>
-</div>
-
-<?php
-if($_['passwordChangeSupported']) {
-	script('jquery-showpassword');
-?>
-<form id="passwordform" class="section">
-	<h2 class="inlineblock"><?php p($l->t('Password'));?></h2>
-	<div id="password-error-msg" class="msg success inlineblock" style="display: none;">Saved</div>
-	<br>
-	<label for="pass1" class="hidden-visually"><?php p($l->t('Current password')); ?>: </label>
-	<input type="password" id="pass1" name="oldpassword"
-		placeholder="<?php p($l->t('Current password'));?>"
-		autocomplete="off" autocapitalize="none" autocorrect="off" />
-	<div class="personal-show-container">
-		<label for="pass2" class="hidden-visually"><?php p($l->t('New password'));?>: </label>
-		<input type="password" id="pass2" name="newpassword"
-			placeholder="<?php p($l->t('New password')); ?>"
-			data-typetoggle="#personal-show"
-			autocomplete="off" autocapitalize="none" autocorrect="off" />
-		<input type="checkbox" id="personal-show" name="show" /><label for="personal-show" class="personal-show-label"></label>
-	</div>
-	<input id="passwordbutton" type="submit" value="<?php p($l->t('Change password')); ?>" />
-	<br/>
-</form>
-<?php
-}
-?>
-
-<?php if (isset($_['activelanguage'])) { ?>
-<form id="language" class="section">
-	<h2>
-		<label for="languageinput"><?php p($l->t('Language'));?></label>
-	</h2>
-	<select id="languageinput" name="lang" data-placeholder="<?php p($l->t('Language'));?>">
-		<option value="<?php p($_['activelanguage']['code']);?>">
-			<?php p($_['activelanguage']['name']);?>
-		</option>
-		<?php foreach($_['commonlanguages'] as $language):?>
-			<option value="<?php p($language['code']);?>">
-				<?php p($language['name']);?>
-			</option>
-		<?php endforeach;?>
-		<optgroup label="––––––––––"></optgroup>
-		<?php foreach($_['languages'] as $language):?>
-			<option value="<?php p($language['code']);?>">
-				<?php p($language['name']);?>
-			</option>
-		<?php endforeach;?>
-	</select>
-	<a href="https://www.transifex.com/nextcloud/nextcloud/"
-		target="_blank" rel="noreferrer">
-		<em><?php p($l->t('Help translate'));?></em>
-	</a>
-</form>
-<?php } ?>
 
 
 <div id="clientsbox" class="section clientsbox">
