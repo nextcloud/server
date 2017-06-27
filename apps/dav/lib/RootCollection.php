@@ -30,6 +30,7 @@ use OCA\DAV\CalDAV\PublicCalendarRoot;
 use OCA\DAV\CardDAV\AddressBookRoot;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\Connector\Sabre\Principal;
+use OCA\DAV\DAV\CirclePrincipalBackend;
 use OCA\DAV\DAV\GroupPrincipalBackend;
 use OCA\DAV\DAV\SystemPrincipalBackend;
 use Sabre\CalDAV\Principal\Collection;
@@ -50,6 +51,7 @@ class RootCollection extends SimpleCollection {
 		$groupPrincipalBackend = new GroupPrincipalBackend(
 			\OC::$server->getGroupManager()
 		);
+		$circlePrincipalBackend = new CirclePrincipalBackend();
 		// as soon as debug mode is enabled we allow listing of principals
 		$disableListing = !$config->getSystemValue('debug', false);
 
@@ -58,6 +60,8 @@ class RootCollection extends SimpleCollection {
 		$userPrincipals->disableListing = $disableListing;
 		$groupPrincipals = new Collection($groupPrincipalBackend, 'principals/groups');
 		$groupPrincipals->disableListing = $disableListing;
+		$circlePrincipals = new Collection($circlePrincipalBackend, 'principals/circles');
+		$circlePrincipals->disableListing = $disableListing;
 		$systemPrincipals = new Collection(new SystemPrincipalBackend(), 'principals/system');
 		$systemPrincipals->disableListing = $disableListing;
 		$filesCollection = new Files\RootCollection($userPrincipalBackend, 'principals/users');
@@ -101,11 +105,11 @@ class RootCollection extends SimpleCollection {
 
 		$avatarCollection = new Avatars\RootCollection($userPrincipalBackend, 'principals/users');
 		$avatarCollection->disableListing = $disableListing;
-
 		$children = [
 				new SimpleCollection('principals', [
 						$userPrincipals,
 						$groupPrincipals,
+						$circlePrincipals,
 						$systemPrincipals]),
 				$filesCollection,
 				$calendarRoot,

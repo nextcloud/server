@@ -73,8 +73,42 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 		if ($this->isShared()) {
 			throw new Forbidden();
 		}
+
+		$this->updateCircleShares($add, $remove);
 		$this->caldavBackend->updateShares($this, $add, $remove);
 	}
+
+
+	protected function updateCircleShares(array &$add, array &$remove) {
+
+		$toAdd = [];
+		foreach ($add as $added) {
+			if (substr($added['href'], 0, 29) === 'principal:principals/circles/') {
+				$circleId = intval(substr($added['href'], 29));
+				$this->shareToCircle($circleId, ['calendar' => $this->calendarInfo, 'add' => $added]);
+			} else {
+				$toAdd[] = $added;
+			}
+		}
+		$add = $toAdd;
+	}
+
+
+	protected function shareToCircle($circleId, array $share)
+	{
+		if ($circleId < 1) {
+			return;
+		}
+
+		\OCA\Circles\Api\v1\Circles::shareToCircle($circleId, 'calendar', 'caldav', $share, '\OCA\DAV\Circles\Broadcaster');
+	}
+
+
+	protected function unshareToCircle($circleId, array $share)
+	{
+
+	}
+
 
 	/**
 	 * Returns the list of people whom this resource is shared with.
