@@ -1,5 +1,5 @@
 { "translations": {
-    "Cannot write into \"config\" directory!" : "无法写入 \"config\" 目录!",
+    "Cannot write into \"config\" directory!" : "无法写入 \"config\" 目录!ond",
     "This can usually be fixed by giving the webserver write access to the config directory" : "您可以设置 Web 服务器对 config 目录的写权限修复这个问题",
     "See %s" : "查看 %s",
     "The files of the app %$1s were not replaced correctly. Make sure it is a version compatible with the server." : "应用 %$1s 的文件替换不正确. 请确认版本与当前服务器兼容.",
@@ -32,7 +32,7 @@
     "_%n year ago_::_%n years ago_" : ["%n 年前"],
     "_%n hour ago_::_%n hours ago_" : ["%n 小时前"],
     "_%n minute ago_::_%n minutes ago_" : ["%n 分钟前"],
-    "seconds ago" : "秒前",
+    "seconds ago" : "几秒前",
     "File name is a reserved word" : "文件名包含敏感字符",
     "File name contains at least one invalid character" : "文件名中存在至少一个非法字符",
     "File name is too long" : "文件名过长",

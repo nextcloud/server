@@ -42,6 +42,7 @@ OC.L10N.register(
     "%s (invisible)" : "%s (láthatatlan)",
     "<strong>System tags</strong> for a file have been modified" : "A fájl <strong>rendszer címkéje</strong> módosítva lett",
     "Collaborative tags" : "Együttműködési címkék",
+    "Select tag …" : "Címke választás...",
     "Name" : "Név",
     "Delete" : "Törlés",
     "Public" : "Nyilvános",
