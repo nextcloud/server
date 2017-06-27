@@ -48,7 +48,7 @@ class TipsTricks implements ISettings {
 			'databaseOverload' => $databaseOverload,
 		];
 
-		return new TemplateResponse('settings', 'admin/tipstricks', $parameters, '');
+		return new TemplateResponse('settings', 'settings/admin/tipstricks', $parameters, '');
 	}
 
 	/**

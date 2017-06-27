@@ -67,7 +67,7 @@ class Sharing implements ISettings {
 			'enableLinkPasswordByDefault'     => $this->config->getAppValue('core', 'shareapi_enable_link_password_by_default', 'no'),
 		];
 
-		return new TemplateResponse('settings', 'admin/sharing', $parameters, '');
+		return new TemplateResponse('settings', 'settings/admin/sharing', $parameters, '');
 	}
 
 	/**

@@ -30,7 +30,7 @@ class ServerDevNotice implements ISettings {
 	 * @return TemplateResponse
 	 */
 	public function getForm() {
-		return new TemplateResponse('settings', 'admin/server.development.notice');
+		return new TemplateResponse('settings', 'settings/admin/server.development.notice');
 	}
 
 	/**
