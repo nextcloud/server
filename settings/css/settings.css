@@ -39,8 +39,7 @@ input#pass1, input#pass2, input#passwordbutton {
 	position: absolute;
 	width: 44px;
 	top: -6px;
-	left: 129px;
-	z-index: 10;
+	left: 130px;
 }
 
 /* icons for sidebar */
@@ -71,6 +70,7 @@ input#pass1, input#pass2, input#passwordbutton {
 #avatarform {
 	min-width: 145px;
 	padding-right: 0;
+	margin-top: -2px;
 }
 
 #avatarform .avatardiv {
@@ -148,10 +148,8 @@ input#pass1, input#pass2, input#passwordbutton {
 
 #personal-settings-container {
 	position: relative;
-	float: left;
-	min-width: 280px;
-	max-width: 700px;
-	width: calc(100% - 200px);
+	margin-left: 215px;
+	max-width: 600px;
 }
 
 #personal-settings-container:after {
