@@ -35,12 +35,12 @@ input#pass1, input#pass2, input#passwordbutton {
 	float: right;
 }
 
-.icon-avartar-federation-menu {
+.icon-avatar-federation-menu {
 	position: absolute;
-    width: 44px;
-    top: -6px;
-    left: 129px;
-    z-index: 10;
+	width: 44px;
+	top: -6px;
+	left: 129px;
+	z-index: 10;
 }
 
 /* icons for sidebar */
