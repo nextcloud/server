@@ -13,6 +13,7 @@ OC.L10N.register(
     "Unable to change password" : "Nepavyksta pakeisti slaptažodžio",
     "Authentication error" : "Tapatybės nustatymo klaida",
     "Wrong admin recovery password. Please check the password and try again." : "Netinkamas administratoriaus atkūrimo slaptažodis. Prašome pasitikrinti ir bandyti vėl.",
+    "A problem occurred, please check your log files (Error: %s)" : "Atsirado problema, prašome patikrinti savo žurnalo failus (Klaida: %s)",
     "Group already exists." : "Grupė jau yra.",
     "Unable to add group." : "Nepavyko pridėti grupės.",
     "Unable to delete group." : "Nepavyko ištrinti grupės.",
