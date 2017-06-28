@@ -99,7 +99,7 @@ OC.L10N.register(
     "{user} renamed {oldfile} to {newfile}" : "{user} renombró {oldfile} como {newfile}",
     "You moved {oldfile} to {newfile}" : "Usted movió {oldfile} a {newfile}",
     "{user} moved {oldfile} to {newfile}" : "{user} movió {oldfile} a {newfile}",
-    "A file has been added to or removed from your <strong>favorites</strong>" : "Un archivo ha sido agregado o eliminado de sus strong>favoritos</strong>",
+    "A file has been added to or removed from your <strong>favorites</strong>" : "Un archivo ha sido agregado o eliminado de sus <strong>favoritos</strong>",
     "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Un archivo o carpeta ha sido <strong>cambiado </strong> o <strong>renombrado</strong>",
     "A new file or folder has been <strong>created</strong>" : "Un nuevo archivo ha sido <strong>creado</strong>",
     "A new file or folder has been <strong>deleted</strong>" : "Un nuevo archivo  ha sido <strong>borrado</strong>",
