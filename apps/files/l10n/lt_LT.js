@@ -63,7 +63,6 @@ OC.L10N.register(
     "Your storage is full, files can not be updated or synced anymore!" : "Jūsų saugykla pilna, failai daugiau nebegali būti atnaujinti arba sinchronizuojami!",
     "Storage of {owner} is almost full ({usedSpacePercent}%)" : "{owner} saugykla yra beveik pilna ({usedSpacePercent}%)",
     "Your storage is almost full ({usedSpacePercent}%)" : "Jūsų saugykla yra beveik pilna ({usedSpacePercent}%)",
-    "_matches '{filter}'_::_match '{filter}'_" : ["atitikmuo „{filter}“","atitikmenų „{filter}“","atitikmenų „{filter}“"],
     "View in folder" : "Peržiūrėti aplanką",
     "Path" : "Kelias",
     "_%n byte_::_%n bytes_" : ["%n baitas","%n baitai","%n baitų"],
