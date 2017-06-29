@@ -1,12 +1,15 @@
 #password {
-	padding: 10px;
-	margin:	6px;
+	margin-right: 0 !important;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
 }
 
 input[type='submit'] {
 	width: 45px;
 	height: 45px;
-	margin:	6px;
+	margin-left: 0 !important;
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
 }
 
 fieldset > p {
