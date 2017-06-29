@@ -40,7 +40,7 @@
     "The given operator is invalid" : "Operatori i dhënë nuk është i vlefshëm",
     "The given regular expression is invalid" : "Shprehja e rregullt e dhënë është e pavlefshme",
     "The given file size is invalid" : "Madhësia e dhënë e skedarit është e pavlefshme",
-    "The given tag id is invalid" : "id e dhënë e etiketës është e pavlefshme",
+    "The given tag id is invalid" : "Id-ja e dhënë e etiketës është e pavlefshme",
     "The given IP range is invalid" : "Rangu i dhënë i IP është i pavlefshëm",
     "The given IP range is not valid for IPv4" : "Rangu i dhënë i IP nuk është i vlefshëm për IPv4",
     "The given IP range is not valid for IPv6" : "Rangu i dhënë i IP nuk është i vlefshëm për IPv6",
