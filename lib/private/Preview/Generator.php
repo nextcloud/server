@@ -365,10 +365,18 @@ class Generator {
 	 * @return ISimpleFolder
 	 */
 	private function getPreviewFolder(File $file) {
+		$a = "0";
+		if (strlen($file->getId()) > 1) {
+			$a = substr($file->getId(), -2, 1);
+		}
+		$b = substr($file->getId(), -1);
+
+		$fullpath = $a.DIRECTORY_SEPARATOR.$b.DIRECTORY_SEPARATOR.$file->getId();
+
 		try {
-			$folder = $this->appData->getFolder($file->getId());
+			$folder = $this->appData->getFolder($fullpath);
 		} catch (NotFoundException $e) {
-			$folder = $this->appData->newFolder($file->getId());
+			$folder = $this->appData->newFolder($fullpath);
 		}
 
 		return $folder;
