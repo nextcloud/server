@@ -52,7 +52,7 @@ class TipsTrickTest extends TestCase {
 
 		$expected = new TemplateResponse(
 			'settings',
-			'admin/tipstricks',
+			'settings/admin/tipstricks',
 			[
 				'databaseOverload' => true,
 			],
@@ -71,7 +71,7 @@ class TipsTrickTest extends TestCase {
 
 		$expected = new TemplateResponse(
 			'settings',
-			'admin/tipstricks',
+			'settings/admin/tipstricks',
 			[
 				'databaseOverload' => false,
 			],
