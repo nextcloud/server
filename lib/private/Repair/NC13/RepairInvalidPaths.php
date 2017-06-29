@@ -22,6 +22,7 @@
 namespace OC\Repair\NC13;
 
 
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
@@ -29,9 +30,12 @@ use OCP\Migration\IRepairStep;
 class RepairInvalidPaths implements IRepairStep {
 	/** @var IDBConnection */
 	private $connection;
+	/** @var IConfig */
+	private $config;
 
-	public function __construct(IDBConnection $connection) {
+	public function __construct(IDBConnection $connection, IConfig $config) {
 		$this->connection = $connection;
+		$this->config = $config;
 	}
 
 
