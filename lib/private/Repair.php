@@ -145,7 +145,7 @@ class Repair implements IOutput{
 				\OC::$server->getConfig(),
 				\OC::$server->query(Installer::class)
 			),
-			new RepairInvalidPaths(\OC::$server->getDatabaseConnection())
+			new RepairInvalidPaths(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig())
 		];
 	}
 
