@@ -29,17 +29,25 @@ input#pass1, input#pass2, input#passwordbutton {
 	margin-bottom: 136px;
 }
 
+.personal-settings-group-box,
+.personal-settings-language-box {
+	margin-top: 20px;
+}
+
 .icon-federation-menu {
 	width: 44px;
 	margin: -6px;
+	margin-right: 10px;
 	float: right;
+	text-align: right;
 }
 
 .icon-avatar-federation-menu {
 	position: absolute;
-	width: 44px;
+	width: 46px;
 	top: -6px;
-	left: 130px;
+	left: 128px;
+	text-align: right;
 }
 
 /* icons for sidebar */
@@ -146,33 +154,41 @@ input#pass1, input#pass2, input#passwordbutton {
 	float: left;
 }
 
-#personal-settings-container {
+.profile-settings-container {
+	top: 20px;
+}
+
+.personal-settings-container {
 	position: relative;
 	margin-left: 215px;
 	max-width: 600px;
 }
 
-#personal-settings-container:after {
+.personal-settings-container:after {
 	clear: both;
 }
 
-#personal-settings-container > div {
+.personal-settings-container > div {
 	float: left;
 	height: 100px;
 	min-width: 300px;
 }
 
-#personal-settings-container.no-edit > div {
+.personal-settings-container.no-edit > div {
 	height: 20px;
 	min-width: 200px;
 }
 
 #avatarform > h2,
-#personal-settings-container > div h2 {
+.personal-settings-container > div h2 {
 	position: relative;
 }
 
-#personal-settings-container > div h2 span[class^="icon-"],
+.personal-settings-container > div h2 {
+	margin-bottom: 5px;
+}
+
+.personal-settings-container > div h2 span[class^="icon-"],
 #personal-settings-avatar-container h2 span[class^="icon-"] {
 	display: inline-block;
 	padding: 8px;
@@ -189,7 +205,7 @@ input#pass1, input#pass2, input#passwordbutton {
 	width: 17em;
 }
 
-#personal-settings-container > div > form span[class^="icon-checkmark"] {
+.personal-settings-container > div > form span[class^="icon-checkmark"] {
 	position: absolute;
 	left: 228px;
 	top: 82px;
@@ -197,22 +213,22 @@ input#pass1, input#pass2, input#passwordbutton {
 }
 
 /* verify accounts */
-#personal-settings-container .verify {
+.personal-settings-container .verify {
 	position: absolute;
 	right: 14px;
 	top: 70px;
 }
 
-#personal-settings-container .verify img {
+.personal-settings-container .verify img {
 	padding: 12px 7px 6px;
 }
 
 /* only show pointer cursor when popup will be there */
-#personal-settings-container .verify-action {
+.personal-settings-container .verify-action {
 	cursor: pointer;
 }
 
-#personal-settings-container input:disabled {
+.personal-settings-container input:disabled {
 	background-color: white;
 	color: black;
 	border: none;
@@ -238,7 +254,7 @@ input#pass1, input#pass2, input#passwordbutton {
 
 .federationScopeMenu {
 	top: 44px;
-	margin: -5px -5px 0;
+	margin: -5px 5px 0;
 }
 
 .federationScopeMenu.bubble::after {

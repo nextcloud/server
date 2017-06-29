@@ -73,7 +73,7 @@
 	</form>
 </div>
 
-<div id="personal-settings-container">
+<div class="personal-settings-container">
 	<div class="personal-settings-setting-box">
 		<form id="displaynameform" class="section">
 			<h2>
@@ -251,6 +251,8 @@
 		</form>
 	</div>
 	<?php } ?>
+</div>
+<div class="personal-settings-container profile-settings-container">
 	<div class="personal-settings-setting-box personal-settings-group-box">
 		<div id="groups" class="section">
 			<h2><?php p($l->t('Groups')); ?></h2>
@@ -260,7 +262,7 @@
 			</p>
 		</div>
 	</div>
-	<div class="personal-settings-setting-box">
+	<div class="personal-settings-setting-box personal-settings-language-box">
 		<?php if (isset($_['activelanguage'])) { ?>
 		<form id="language" class="section">
 			<h2>
