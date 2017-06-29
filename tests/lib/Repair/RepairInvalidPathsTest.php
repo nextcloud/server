@@ -23,7 +23,8 @@ namespace Test\Repair;
 
 use OC\Files\Cache\Cache;
 use OC\Files\Storage\Temporary;
-use OC\Repair\RepairInvalidPaths;
+use OC\Repair\NC13\RepairInvalidPaths;
+use OCP\IConfig;
 use OCP\Migration\IOutput;
 use Test\TestCase;
 
@@ -43,7 +44,12 @@ class RepairInvalidPathsTest extends TestCase {
 
 		$this->storage = new Temporary();
 		$this->cache = $this->storage->getCache();
-		$this->repair = new RepairInvalidPaths(\OC::$server->getDatabaseConnection());
+		$config = $this->createMock(IConfig::class);
+		$config->expects($this->any())
+			->method('getSystemValue')
+			->with('version', '0.0.0')
+			->willReturn('12.0.0.0');
+		$this->repair = new RepairInvalidPaths(\OC::$server->getDatabaseConnection(), $config);
 	}
 
 	protected function tearDown() {
