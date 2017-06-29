@@ -1,8 +1,8 @@
 <?php
 /**
- * @copyright 2016, Roeland Jago Douma <roeland@famdouma.nl>
+ * @copyright Copyright (c) 2017 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
- * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -20,24 +20,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OC\Settings\Admin;
+
+namespace OC\Settings\Personal;
+
 
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Settings\ISettings;
 
-class ServerDevNotice implements ISettings {
+class Additional implements ISettings {
+
 	/**
-	 * @return TemplateResponse
+	 * @return TemplateResponse returns the instance with all parameters set, ready to be rendered
+	 * @since 9.1
 	 */
 	public function getForm() {
-		return new TemplateResponse('settings', 'settings/admin/server.development.notice');
+		return new TemplateResponse('settings', 'settings/empty');
 	}
 
 	/**
 	 * @return string the section ID, e.g. 'sharing'
+	 * @since 9.1
 	 */
 	public function getSection() {
-		return 'server';
+		return 'additional';
 	}
 
 	/**
@@ -46,8 +51,9 @@ class ServerDevNotice implements ISettings {
 	 * priority values. It is required to return a value between 0 and 100.
 	 *
 	 * E.g.: 70
+	 * @since 9.1
 	 */
 	public function getPriority() {
-		return 1000;
+		return '5';
 	}
 }

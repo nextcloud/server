@@ -19,7 +19,7 @@
 		<user>user-encryption</user>
 		<admin>admin-encryption</admin>
 	</documentation>
-	<version>1.7.0</version>
+	<version>1.7.1</version>
 	<types>
 		<filesystem/>
 	</types>
@@ -29,6 +29,7 @@
 	</dependencies>
 	<settings>
 		<admin>OCA\Encryption\Settings\Admin</admin>
+		<personal>OCA\Encryption\Settings\Personal</personal>
 	</settings>
 	<commands>
 		<command>OCA\Encryption\Command\EnableMasterKey</command>

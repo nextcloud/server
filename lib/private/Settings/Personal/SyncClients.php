@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @copyright Copyright (c) 2017 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
@@ -21,41 +21,40 @@
  *
  */
 
-namespace OC\Settings\Admin;
+namespace OC\Settings\Personal;
+
 
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use OCP\Settings\ISettings;
 
-class TipsTricks implements ISettings {
+class SyncClients implements ISettings {
+
 	/** @var IConfig */
 	private $config;
+	/** @var \OC_Defaults */
+	private $defaults;
 
-	/**
-	 * @param IConfig $config
-	 */
-	public function __construct(IConfig $config) {
+	public function __construct(IConfig $config, \OC_Defaults $defaults) {
 		$this->config = $config;
+		$this->defaults = $defaults;
 	}
 
 	/**
-	 * @return TemplateResponse
+	 * @return TemplateResponse returns the instance with all parameters set, ready to be rendered
+	 * @since 9.1
 	 */
 	public function getForm() {
-		$databaseOverload = (strpos($this->config->getSystemValue('dbtype'), 'sqlite') !== false);
-
-		$parameters = [
-			'databaseOverload' => $databaseOverload,
-		];
-
-		return new TemplateResponse('settings', 'settings/admin/tipstricks', $parameters, '');
+		$parameters = [ 'clients' => $this->getClientLinks() ];
+		return new TemplateResponse('settings', 'settings/personal/sync-clients', $parameters);
 	}
 
 	/**
 	 * @return string the section ID, e.g. 'sharing'
+	 * @since 9.1
 	 */
 	public function getSection() {
-		return 'tips-tricks';
+		return 'sync-clients';
 	}
 
 	/**
@@ -64,8 +63,23 @@ class TipsTricks implements ISettings {
 	 * priority values. It is required to return a value between 0 and 100.
 	 *
 	 * E.g.: 70
+	 * @since 9.1
 	 */
 	public function getPriority() {
-		return 0;
+		return 20;
+	}
+
+	/**
+	 * returns an array containing links to the various clients
+	 *
+	 * @return array
+	 */
+	private function getClientLinks() {
+		$clients = [
+			'desktop' => $this->config->getSystemValue('customclient_desktop', $this->defaults->getSyncClientUrl()),
+			'android' => $this->config->getSystemValue('customclient_android', $this->defaults->getAndroidClientUrl()),
+			'ios' => $this->config->getSystemValue('customclient_ios', $this->defaults->getiOSClientUrl())
+		];
+		return $clients;
 	}
 }

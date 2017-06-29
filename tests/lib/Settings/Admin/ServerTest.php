@@ -123,7 +123,7 @@ class ServerTest extends TestCase {
 		$envPath = getenv('PATH');
 		$expected = new TemplateResponse(
 			'settings',
-			'admin/server',
+			'settings/admin/server',
 			[
 				// Diagnosis
 				'readOnlyConfigEnabled'            => \OC_Helper::isReadOnlyConfigEnabled(),

@@ -1,9 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @copyright Copyright (c) 2017 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Lukas Reschke <lukas@statuscode.ch>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -31,21 +30,12 @@ use OCP\IRequest;
 use OCP\Settings\IManager as ISettingsManager;
 use OCP\Template;
 
-/**
- * @package OC\Settings\Controller
- */
-class AdminSettingsController extends Controller {
+class PersonalSettingsController extends Controller {
 	use CommonSettingsTrait;
 
 	/** @var INavigationManager */
 	private $navigationManager;
 
-	/**
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param INavigationManager $navigationManager
-	 * @param ISettingsManager $settingsManager
-	 */
 	public function __construct(
 		$appName,
 		IRequest $request,
@@ -62,10 +52,13 @@ class AdminSettingsController extends Controller {
 	 * @return TemplateResponse
 	 *
 	 * @NoCSRFRequired
+	 * @NoAdminRequired
+	 * @NoSubadminRequired
 	 */
 	public function index($section) {
-		$this->navigationManager->setActiveEntry('admin');
-		return $this->getIndexResponse('admin', $section);
+		$this->navigationManager->setActiveEntry('personal');
+		return $this->getIndexResponse('personal', $section);
+
 	}
 
 	/**
@@ -73,7 +66,7 @@ class AdminSettingsController extends Controller {
 	 * @return array
 	 */
 	protected function getSettings($section) {
-		$settings = $this->settingsManager->getAdminSettings($section);
+		$settings = $this->settingsManager->getPersonalSettings($section);
 		$formatted = $this->formatSettings($settings);
 		if($section === 'additional') {
 			$formatted['content'] .= $this->getLegacyForms();
@@ -85,7 +78,7 @@ class AdminSettingsController extends Controller {
 	 * @return bool|string
 	 */
 	private function getLegacyForms() {
-		$forms = \OC_App::getForms('admin');
+		$forms = \OC_App::getForms('personal');
 
 		$forms = array_map(function ($form) {
 			if (preg_match('%(<h2(?P<class>[^>]*)>.*?</h2>)%i', $form, $regs)) {
@@ -110,6 +103,4 @@ class AdminSettingsController extends Controller {
 
 		return $out->fetchPage();
 	}
-
-
 }

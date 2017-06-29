@@ -4,6 +4,7 @@
  * Copyright (c) 2011, Robin Appelman <icewind1991@gmail.com>
  *               2013, Morris Jobke <morris.jobke@gmail.com>
  *               2016, Christoph Wurst <christoph@owncloud.com>
+ *               2017, Arthur Schiwon <blizzz@arthur-schiwon.de>
  * This file is licensed under the Affero General Public License version 3 or later.
  * See the COPYING-README file.
  */
@@ -394,51 +395,6 @@ $(document).ready(function () {
 			$('#removeavatar').removeClass('hidden').addClass('inlineblock');
 		}
 	});
-
-
-	// Show token views
-	var collection = new OC.Settings.AuthTokenCollection();
-	var view = new OC.Settings.AuthTokenView({
-		collection: collection
-	});
-	view.reload();
-
-	// 'redirect' to anchor sections
-	// anchors are lost on redirects (e.g. while solving the 2fa challenge) otherwise
-	// example: /settings/person?section=devices will result in /settings/person?#devices
-	if (!window.location.hash) {
-		var query = OC.parseQueryString(location.search);
-		if (query && query.section) {
-			OC.Util.History.replaceState({});
-			window.location.hash = query.section;
-		}
-	}
 });
-
-if (!OC.Encryption) {
-	OC.Encryption = {};
-}
-
-OC.Encryption.msg = {
-	start: function (selector, msg) {
-		var spinner = '<img src="' + OC.imagePath('core', 'loading-small.gif') + '">';
-		$(selector)
-			.html(msg + ' ' + spinner)
-			.removeClass('success')
-			.removeClass('error')
-			.stop(true, true)
-			.show();
-	},
-	finished: function (selector, data) {
-		if (data.status === "success") {
-			$(selector).html(data.data.message)
-				.addClass('success')
-				.stop(true, true)
-				.delay(3000);
-		} else {
-			$(selector).html(data.data.message).addClass('error');
-		}
-	}
-};
 
 OC.Settings.updateAvatar = updateAvatar;

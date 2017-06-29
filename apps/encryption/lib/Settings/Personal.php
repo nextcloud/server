@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @copyright Copyright (c) 2017 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
@@ -21,41 +21,64 @@
  *
  */
 
-namespace OC\Settings\Admin;
+namespace OCA\Encryption\Settings;
 
+
+use OCA\Encryption\Session;
+use OCA\Encryption\Util;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
+use OCP\IUserSession;
 use OCP\Settings\ISettings;
 
-class TipsTricks implements ISettings {
+class Personal implements  ISettings {
+
 	/** @var IConfig */
 	private $config;
+	/** @var Session */
+	private $session;
+	/** @var Util */
+	private $util;
+	/** @var IUserSession */
+	private $userSession;
 
-	/**
-	 * @param IConfig $config
-	 */
-	public function __construct(IConfig $config) {
+	public function __construct(IConfig $config, Session $session, Util $util, IUserSession $userSession) {
 		$this->config = $config;
+		$this->session = $session;
+		$this->util = $util;
+		$this->userSession = $userSession;
 	}
 
 	/**
-	 * @return TemplateResponse
+	 * @return TemplateResponse returns the instance with all parameters set, ready to be rendered
+	 * @since 9.1
 	 */
 	public function getForm() {
-		$databaseOverload = (strpos($this->config->getSystemValue('dbtype'), 'sqlite') !== false);
+		$recoveryAdminEnabled = $this->config->getAppValue('encryption', 'recoveryAdminEnabled');
+		$privateKeySet = $this->session->isPrivateKeySet();
+
+		if (!$recoveryAdminEnabled && $privateKeySet) {
+			return new TemplateResponse('settings', 'settings/empty', [], '');
+		}
+
+		$userId = $this->userSession->getUser()->getUID();
+		$recoveryEnabledForUser = $this->util->isRecoveryEnabledForUser($userId);
 
 		$parameters = [
-			'databaseOverload' => $databaseOverload,
+			'recoveryEnabled' => $recoveryAdminEnabled,
+			'recoveryEnabledForUser' => $recoveryEnabledForUser,
+			'privateKeySet' => $privateKeySet,
+			'initialized' => $this->session->getStatus(),
 		];
-
-		return new TemplateResponse('settings', 'settings/admin/tipstricks', $parameters, '');
+		return new TemplateResponse('encryption', 'settings-personal', $parameters, '');
 	}
 
 	/**
 	 * @return string the section ID, e.g. 'sharing'
+	 * @since 9.1
 	 */
 	public function getSection() {
-		return 'tips-tricks';
+		return 'security';
 	}
 
 	/**
@@ -64,8 +87,9 @@ class TipsTricks implements ISettings {
 	 * priority values. It is required to return a value between 0 and 100.
 	 *
 	 * E.g.: 70
+	 * @since 9.1
 	 */
 	public function getPriority() {
-		return 0;
+		return 80;
 	}
 }
