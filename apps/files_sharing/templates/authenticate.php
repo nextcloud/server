@@ -5,7 +5,7 @@
 	script('files_sharing', 'authenticate'); 
 ?>
 <form method="post">
-	<fieldset>
+	<fieldset class="warning">
 		<?php if (!isset($_['wrongpw'])): ?>
 			<div class="warning-info"><?php p($l->t('This share is password-protected')); ?></div>
 		<?php endif; ?>
