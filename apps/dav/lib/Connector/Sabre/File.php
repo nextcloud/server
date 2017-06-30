@@ -184,7 +184,7 @@ class File extends Node implements IFile {
 						$fileExists = $storage->file_exists($internalPath);
 					}
 					if (!$run || $renameOkay === false || $fileExists === false) {
-						\OCP\Util::writeLog('webdav', 'renaming part file to final file failed', \OCP\Util::ERROR);
+						\OCP\Util::writeLog('webdav', 'renaming part file to final file failed ($run: ' . ( $run ? 'true' : 'false' ) . ', $renameOkay: '  . ( $renameOkay ? 'true' : 'false' ) . ', $fileExists: ' . ( $fileExists ? 'true' : 'false' ) . ')', \OCP\Util::ERROR);
 						throw new Exception('Could not rename part file to final file');
 					}
 				} catch (ForbiddenException $ex) {

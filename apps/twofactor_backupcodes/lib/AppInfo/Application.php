@@ -37,7 +37,6 @@ class Application extends App {
 	 */
 	public function register() {
 		$this->registerHooksAndEvents();
-		$this->registerPersonalPage();
 	}
 
 	/**
@@ -51,12 +50,5 @@ class Application extends App {
 		/** @var BackupCodeMapper $mapper */
 		$mapper = $this->getContainer()->query(BackupCodeMapper::class);
 		$mapper->deleteCodesByUserId($params['uid']);
-	}
-
-	/**
-	 * Register personal settings for notifications and emails
-	 */
-	public function registerPersonalPage() {
-		\OCP\App::registerPersonal($this->getContainer()->getAppName(), 'settings/personal');
 	}
 }

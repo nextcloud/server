@@ -112,7 +112,7 @@ class SharingTest extends TestCase {
 
 		$expected = new TemplateResponse(
 			'settings',
-			'admin/sharing',
+			'settings/admin/sharing',
 			[
 				'allowGroupSharing'               => 'yes',
 				'allowLinks'                      => 'yes',
@@ -205,7 +205,7 @@ class SharingTest extends TestCase {
 
 		$expected = new TemplateResponse(
 			'settings',
-			'admin/sharing',
+			'settings/admin/sharing',
 			[
 				'allowGroupSharing'               => 'yes',
 				'allowLinks'                      => 'yes',

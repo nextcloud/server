@@ -7,7 +7,7 @@ jpegoptim --strip-all *.jpg;
 for svg in `ls *.svg`;
 do
     mv $svg $svg.opttmp;
-    scour -i $svg.opttmp -o $svg --create-groups --enable-id-stripping --enable-comment-stripping --shorten-ids --remove-metadata;
+    scour -i $svg.opttmp -o $svg --create-groups --enable-id-stripping --enable-comment-stripping --shorten-ids --remove-metadata --strip-xml-prolog --no-line-breaks;
 done;
 rm *.opttmp
 for dir in `ls -d */`;

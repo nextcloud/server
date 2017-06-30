@@ -12,7 +12,6 @@ OC.L10N.register(
     "Strong password" : "Ուժեղ գաղտնաբառ",
     "Groups" : "Խմբեր",
     "never" : "երբեք",
-    "days" : "օր",
     "Cancel" : "Չեղարկել",
     "Email" : "Էլ. հասցե",
     "Password" : "Գաղտնաբառ",
@@ -20,8 +19,9 @@ OC.L10N.register(
     "Change password" : "Փոխել գաղտնաբառը",
     "Language" : "Լեզու",
     "Help translate" : "Օգնել թարգմանել",
-    "Name" : "Անուն",
     "Username" : "Օգտանուն",
-    "Other" : "Այլ"
+    "days" : "օր",
+    "Other" : "Այլ",
+    "Name" : "Անուն"
 },
 "nplurals=2; plural=(n != 1);");

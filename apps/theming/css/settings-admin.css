@@ -42,6 +42,8 @@ form.uploadButton {
     right: 0px;
     visibility: visible;
 }
+#theming input[type='text']:hover + .theme-undo,
+#theming input[type='text'] + .theme-undo:hover,
 #theming input[type='text']:focus + .theme-undo,
 #theming input[type='text']:active + .theme-undo {
     visibility: visible;

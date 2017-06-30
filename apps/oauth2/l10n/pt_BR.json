@@ -5,7 +5,7 @@
     "Name" : "Nome",
     "Redirection URI" : "Redirecionamento URI",
     "Client Identifier" : "Identificador do Cliente",
-    "Secret" : "Sigilo",
+    "Secret" : "Secreto",
     "Add client" : "Adicionar cliente",
     "Add" : "Adicionar"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"

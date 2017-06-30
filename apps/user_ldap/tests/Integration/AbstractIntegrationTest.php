@@ -105,7 +105,6 @@ abstract class AbstractIntegrationTest {
 
 	/**
 	 * initializes an LDAP user manager instance
-	 * @return Manager
 	 */
 	protected function initUserManager() {
 		$this->userManager = new Manager(
@@ -115,7 +114,8 @@ abstract class AbstractIntegrationTest {
 			\OC::$server->getAvatarManager(),
 			new \OCP\Image(),
 			\OC::$server->getDatabaseConnection(),
-			\OC::$server->getUserManager()
+			\OC::$server->getUserManager(),
+			\OC::$server->getNotificationManager()
 		);
 	}
 	

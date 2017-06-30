@@ -80,13 +80,17 @@
 					{
 						group: this.model.getReshareWithDisplayName(),
 						owner: ownerDisplayName
-					}
+					},
+					undefined,
+					{escape: false}
 				);
 			}  else {
 				sharedByText = t(
 					'core',
 					'Shared with you by {owner}',
-					{ owner: ownerDisplayName }
+					{ owner: ownerDisplayName },
+					undefined,
+					{escape: false}
 				);
 			}
 

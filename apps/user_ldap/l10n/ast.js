@@ -112,7 +112,6 @@ OC.L10N.register(
     "Groups" : "Grupos",
     "Expert" : "Espertu",
     "Advanced" : "Avanzáu",
-    "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Avisu:</b> Les apps user_ldap y user_webdavauth son incompatibles. Pues esperimentar un comportamientu inesperáu. Entruga al to alministrador de sistemes pa desactivar una d'elles.",
     "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>Avisu:</b> El módulu LDAP de PHP nun ta instaláu, el sistema nun va funcionar. Por favor consulta al alministrador del sistema pa instalalu.",
     "Connection Settings" : "Axustes de conexón",
     "Configuration Active" : "Configuración activa",
@@ -169,6 +168,7 @@ OC.L10N.register(
     "Allows login against the LDAP / AD username, which is either uid or samaccountname and will be detected." : "Permite la entrada en contra'l nome d'usuariu LDAP / AD,  yá sía uid o samaccountname y va ser detectada.",
     "Add a new and blank configuration" : "Amestar una configuración nueva y en blancu",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "Pues omitir el protocolu, sacantes si necesites SSL. Nesi casu, entama con ldaps://",
+    "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Avisu:</b> Les apps user_ldap y user_webdavauth son incompatibles. Pues esperimentar un comportamientu inesperáu. Entruga al to alministrador de sistemes pa desactivar una d'elles.",
     "in bytes" : "en bytes"
 },
 "nplurals=2; plural=(n != 1);");

@@ -35,7 +35,9 @@ namespace OC;
 
 use OCP\ICacheFactory;
 use OCP\IConfig;
+use OCP\IRequest;
 use OCP\IURLGenerator;
+use OCP\Route\IRoute;
 use RuntimeException;
 
 /**
@@ -46,15 +48,20 @@ class URLGenerator implements IURLGenerator {
 	private $config;
 	/** @var ICacheFactory */
 	private $cacheFactory;
+	/** @var IRequest */
+	private $request;
 
 	/**
 	 * @param IConfig $config
 	 * @param ICacheFactory $cacheFactory
+	 * @param IRequest $request
 	 */
 	public function __construct(IConfig $config,
-								ICacheFactory $cacheFactory) {
+								ICacheFactory $cacheFactory,
+								IRequest $request) {
 		$this->config = $config;
 		$this->cacheFactory = $cacheFactory;
+		$this->request = $request;
 	}
 
 	/**
@@ -142,7 +149,7 @@ class URLGenerator implements IURLGenerator {
 	 * Returns the path to the image.
 	 */
 	public function imagePath($app, $image) {
-		$cache = $this->cacheFactory->create('imagePath');
+		$cache = $this->cacheFactory->create('imagePath-'.md5($this->getBaseUrl()).'-');
 		$cacheKey = $app.'-'.$image;
 		if($key = $cache->get($cacheKey)) {
 			return $key;
@@ -159,13 +166,17 @@ class URLGenerator implements IURLGenerator {
 		// Check if the app is in the app folder
 		$path = '';
 		$themingEnabled = $this->config->getSystemValue('installed', false) && \OCP\App::isEnabled('theming') && \OC_App::isAppLoaded('theming');
-		if($themingEnabled && $image === "favicon.ico" && \OC::$server->getThemingDefaults()->shouldReplaceIcons()) {
+		if($themingEnabled && $image === 'favicon.ico' && \OC::$server->getThemingDefaults()->shouldReplaceIcons()) {
 			$cacheBusterValue = $this->config->getAppValue('theming', 'cachebuster', '0');
-			if($app==="") { $app = "core"; }
+			if($app === '') { $app = 'core'; }
 			$path = $this->linkToRoute('theming.Icon.getFavicon', [ 'app' => $app ]) . '?v='. $cacheBusterValue;
-		} elseif($themingEnabled && $image === "favicon-touch.png" && \OC::$server->getThemingDefaults()->shouldReplaceIcons()) {
+		} elseif($themingEnabled && $image === 'favicon-touch.png' && \OC::$server->getThemingDefaults()->shouldReplaceIcons()) {
 			$cacheBusterValue = $this->config->getAppValue('theming', 'cachebuster', '0');
-			if($app==="") { $app = "core"; }
+			if($app === '') { $app = 'core'; }
+			$path = $this->linkToRoute('theming.Icon.getTouchIcon', [ 'app' => $app ]) . '?v='. $cacheBusterValue;
+		} elseif($themingEnabled && $image === 'favicon-fb.png' && \OC::$server->getThemingDefaults()->shouldReplaceIcons()) {
+			$cacheBusterValue = $this->config->getAppValue('theming', 'cachebuster', '0');
+			if($app === '') { $app = 'core'; }
 			$path = $this->linkToRoute('theming.Icon.getTouchIcon', [ 'app' => $app ]) . '?v='. $cacheBusterValue;
 		} elseif (file_exists(\OC::$SERVERROOT . "/themes/$theme/apps/$app/img/$image")) {
 			$path = \OC::$WEBROOT . "/themes/$theme/apps/$app/img/$image";
@@ -219,14 +230,12 @@ class URLGenerator implements IURLGenerator {
 		if (\OC::$CLI && !defined('PHPUNIT_RUN')) {
 			return rtrim($this->config->getSystemValue('overwrite.cli.url'), '/') . '/' . ltrim($url, '/');
 		}
-
 		// The ownCloud web root can already be prepended.
-		$webRoot = substr($url, 0, strlen(\OC::$WEBROOT)) === \OC::$WEBROOT
-			? ''
-			: \OC::$WEBROOT;
+		if(substr($url, 0, strlen(\OC::$WEBROOT)) === \OC::$WEBROOT) {
+			$url = substr($url, strlen(\OC::$WEBROOT));
+		}
 
-		$request = \OC::$server->getRequest();
-		return $request->getServerProtocol() . '://' . $request->getServerHost() . $webRoot . $separator . $url;
+		return $this->getBaseUrl() . $separator . $url;
 	}
 
 	/**
@@ -236,5 +245,12 @@ class URLGenerator implements IURLGenerator {
 	public function linkToDocs($key) {
 		$theme = \OC::$server->getThemingDefaults();
 		return $theme->buildDocLinkToKey($key);
+	}
+
+	/**
+	 * @return string base url of the current request
+	 */
+	public function getBaseUrl() {
+		return $this->request->getServerProtocol() . '://' . $this->request->getServerHost() . \OC::$WEBROOT;
 	}
 }

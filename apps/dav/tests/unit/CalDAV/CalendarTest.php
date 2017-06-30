@@ -191,6 +191,10 @@ class CalendarTest extends TestCase {
 				'privilege' => '{DAV:}read',
 				'principal' => $hasOwnerSet ? 'user1' : 'user2',
 				'protected' => true
+			], [
+				'privilege' => '{DAV:}write-properties',
+				'principal' => $hasOwnerSet ? 'user1' : 'user2',
+				'protected' => true
 			]];
 		}
 		if ($hasOwnerSet) {
@@ -202,6 +206,12 @@ class CalendarTest extends TestCase {
 			if ($expectsWrite) {
 				$expectedAcl[] = [
 					'privilege' => '{DAV:}write',
+					'principal' => 'user2',
+					'protected' => true
+				];
+			} else {
+				$expectedAcl[] = [
+					'privilege' => '{DAV:}write-properties',
 					'principal' => 'user2',
 					'protected' => true
 				];

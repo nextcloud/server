@@ -126,7 +126,6 @@
     "Groups" : "Groepen",
     "Expert" : "Expert",
     "Advanced" : "Geavanceerd",
-    "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Waarschuwing:</b> De Apps user_ldap en user_webdavauth zijn incompatible. Je kunt onverwacht gedrag ervaren. Vraag je beheerder om een van beide apps de deactiveren.",
     "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>Waarschuwing:</b> De PHP LDAP module is niet geïnstalleerd, het backend zal niet werken. Vraag je systeembeheerder om de module te installeren.",
     "Connection Settings" : "Verbindingsinstellingen",
     "Configuration Active" : "Configuratie actief",
@@ -191,6 +190,7 @@
     "Allows login against the LDAP / AD username, which is either uid or samaccountname and will be detected." : "Maakt inloggen tegen de LDAP / AD gebruikersnaam mogelijk, ofwel uid of samaccountname en wordt gedetecteerd.",
     "Add a new and blank configuration" : "Toevoegen nieuwe, blanco configuratie",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "Je kunt het protocol weglaten, tenzij je SSL vereist. Start in dat geval met ldaps://",
+    "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Waarschuwing:</b> De Apps user_ldap en user_webdavauth zijn incompatible. Je kunt onverwacht gedrag ervaren. Vraag je beheerder om een van beide apps de deactiveren.",
     "in bytes" : "in bytes"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

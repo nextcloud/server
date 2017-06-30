@@ -42,6 +42,7 @@ OC.L10N.register(
     "Contact birthdays" : "Yhteystietojen syntymäpäivät",
     "Personal" : "Henkilökohtainen",
     "Contacts" : "Yhteystiedot",
+    "WebDAV" : "WebDAV",
     "Technical details" : "Tekniset yksityiskohdat",
     "Remote Address: %s" : "Etäosoite: %s",
     "Request ID: %s" : "Pyynnön tunniste: %s"

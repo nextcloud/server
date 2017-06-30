@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Saved" : "Elmentve",
     "Saving failed:" : "Mentés sikertelen:",
+    "File MIME type" : "Fájl MIME típus",
     "is" : "ez",
     "is not" : "nem ez",
     "matches" : "egyezik",

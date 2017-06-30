@@ -28,4 +28,8 @@
 			<step>OCA\TwoFactorBackupCodes\Migration\CopyEntriesFromOldTable</step>
 		</post-migration>
 	</repair-steps>
+
+	<settings>
+		<personal>OCA\TwoFactorBackupCodes\Settings\Personal</personal>
+	</settings>
 </info>

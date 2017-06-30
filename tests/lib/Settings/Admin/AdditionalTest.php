@@ -97,7 +97,7 @@ class AdditionalTest extends TestCase {
 
 		$expected = new TemplateResponse(
 			'settings',
-			'admin/additional-mail',
+			'settings/admin/additional-mail',
 			[
 				'sendmail_is_available' => (bool) \OC_Helper::findBinaryPath('sendmail'),
 				'mail_domain'           => 'mx.nextcloud.com',

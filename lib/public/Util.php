@@ -150,6 +150,7 @@ class Util {
 	 * @param string $message
 	 * @param int $level
 	 * @since 4.0.0
+	 * @deprecated 13.0.0 use log of \OCP\ILogger
 	 */
 	public static function writeLog( $app, $message, $level ) {
 		$context = ['app' => $app];

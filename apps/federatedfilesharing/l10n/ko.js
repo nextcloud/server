@@ -42,7 +42,7 @@ OC.L10N.register(
     "Adjust how people can share between servers." : "서버간 파일 공유를 설정합니다.",
     "Allow users on this server to send shares to other servers" : "이 서버의 사용자가 다른 서버와 공유할 수 있도록 허용",
     "Allow users on this server to receive shares from other servers" : "이 서버의 사용자가 다른 서버에서 공유한 파일을 받을 수 있도록 허용",
-    "Search global and public address book for users and let local users publish their data" : "전역 및 공개 주소록에서 검색하고 로컬 사용자가 정보를 공개할 수 있도록 허용",
+    "Search global and public address book for users" : "전역 및 공개 주소록에서 사용자 검색",
     "Allow users to publish their data to a global and public address book" : "사용자가 데이터를 전역 및 공개 주소록에 업로드할 수 있도록 허용",
     "Federated Cloud" : "연합 클라우드",
     "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Nextcloud, ownCloud, Pydio를 사용하는 누구나와 공유할 수 있습니다! 공유 대화 상자에서 연합 클라우드 ID를 입력하십시오. person@cloud.example.com 형식입니다",
@@ -51,7 +51,7 @@ OC.L10N.register(
     "Add to your website" : "내 웹 사이트에 추가",
     "Share with me via Nextcloud" : "Nextcloud로 나와 공유하기",
     "HTML Code:" : "HTML 코드:",
-    "Search global and public address book for users" : "전역 및 공개 주소록에서 사용자 검색",
-    "Share it:" : "공유하기:"
+    "Share it:" : "공유하기:",
+    "Search global and public address book for users and let local users publish their data" : "전역 및 공개 주소록에서 검색하고 로컬 사용자가 정보를 공개할 수 있도록 허용"
 },
 "nplurals=1; plural=0;");

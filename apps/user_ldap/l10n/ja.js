@@ -103,7 +103,6 @@ OC.L10N.register(
     "Groups" : "グループ",
     "Expert" : "エキスパート設定",
     "Advanced" : "詳細設定",
-    "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>警告:</b> user_ldap と user_webdavauth のアプリには互換性がありません。予期せぬ動作をする可能性があります。システム管理者にどちらかを無効にするよう問い合わせてください。",
     "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>警告:</b> PHP LDAP モジュールがインストールされていません。バックエンド接続が正しく動作しません。システム管理者にインストールするよう問い合わせてください。",
     "Connection Settings" : "接続設定",
     "Configuration Active" : "設定は有効です",
@@ -166,6 +165,7 @@ OC.L10N.register(
     "Allows login against the LDAP / AD username, which is either uid or samaccountname and will be detected." : "LDAP / AD ユーザー名に対してログインが許可されています。uid か、samaccountname のどちらかが検出されました。",
     "Add a new and blank configuration" : "空欄の新しい設定を追加",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "SSL通信しない場合には、プロトコル名を省略することができます。そうでない場合には、ldaps:// から始めてください。",
+    "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>警告:</b> user_ldap と user_webdavauth のアプリには互換性がありません。予期せぬ動作をする可能性があります。システム管理者にどちらかを無効にするよう問い合わせてください。",
     "in bytes" : "バイト"
 },
 "nplurals=1; plural=0;");

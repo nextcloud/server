@@ -91,4 +91,10 @@ interface IURLGenerator {
 	 * @since 8.0.0
 	 */
 	public function linkToDocs($key);
+
+	/**
+	 * @return string base url of the current request
+	 * @since 13.0.0
+	 */
+	public function getBaseUrl();
 }

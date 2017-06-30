@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Missing recovery key password" : "Está faltando a senha da chave de recuperação",
     "Please repeat the recovery key password" : "Por favor, repita a senha da chave de recuperação",
-    "Repeated recovery key password does not match the provided recovery key password" : "A senha repetida não corresponde à senha da chave de recuperação fornecida",
+    "Repeated recovery key password does not match the provided recovery key password" : "A senha repetida não corresponde com a senha da chave de recuperação fornecida",
     "Recovery key successfully enabled" : "Chave de recuperação habilitada com sucesso",
     "Could not enable recovery key. Please check your recovery key password!" : "Impossível habilitar a chave de recuperação. Por favor, verifique a senha da chave de recuperação!",
     "Recovery key successfully disabled" : "Chave de recuperação desabilitada com sucesso",
@@ -13,7 +13,7 @@ OC.L10N.register(
     "Please provide a new recovery password" : "Por favor, forneça a nova senha de recuperação",
     "Please repeat the new recovery password" : "Por favor, repita a nova senha de recuperação",
     "Password successfully changed." : "Senha alterada.",
-    "Could not change the password. Maybe the old password was not correct." : "Não foi possível alterar a senha. Talvez a senha antiga não estivesse correta.",
+    "Could not change the password. Maybe the old password was not correct." : "Não foi possível alterar a senha. Talvez a senha antiga não estava correta.",
     "Recovery Key disabled" : "Chave de recuperação desativada",
     "Recovery Key enabled" : "Chave de recuperação ativada",
     "Could not enable the recovery key, please try again or contact your administrator" : "Não foi possível ativar a chave de recuperação. Tente novamente ou entre em contato com o administrador",

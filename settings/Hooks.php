@@ -23,11 +23,13 @@ namespace OC\Settings;
 
 use OC\Settings\Activity\Provider;
 use OCP\Activity\IManager as IActivityManager;
+use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use OCP\Mail\IMailer;
 
 class Hooks {
@@ -42,15 +44,28 @@ class Hooks {
 	protected $urlGenerator;
 	/** @var IMailer */
 	protected $mailer;
+	/** @var IConfig */
+	protected $config;
+	/** @var IFactory */
+	protected $languageFactory;
 	/** @var IL10N */
 	protected $l;
 
-	public function __construct(IActivityManager $activityManager, IUserManager $userManager, IUserSession $userSession, IURLGenerator $urlGenerator, IMailer $mailer, IL10N $l) {
+	public function __construct(IActivityManager $activityManager,
+								IUserManager $userManager,
+								IUserSession $userSession,
+								IURLGenerator $urlGenerator,
+								IMailer $mailer,
+								IConfig $config,
+								IFactory $languageFactory,
+								IL10N $l) {
 		$this->activityManager = $activityManager;
 		$this->userManager = $userManager;
 		$this->userSession = $userSession;
 		$this->urlGenerator = $urlGenerator;
 		$this->mailer = $mailer;
+		$this->config = $config;
+		$this->languageFactory = $languageFactory;
 		$this->l = $l;
 	}
 
@@ -63,7 +78,8 @@ class Hooks {
 	public function onChangePassword($uid) {
 		$user = $this->userManager->get($uid);
 
-		if (!$user instanceof IUser || $user->getEMailAddress() === null) {
+		if (!$user instanceof IUser || $user->getLastLogin() === 0) {
+			// User didn't login, so don't create activities and emails.
 			return;
 		}
 
@@ -77,6 +93,14 @@ class Hooks {
 		$actor = $this->userSession->getUser();
 		if ($actor instanceof IUser) {
 			if ($actor->getUID() !== $user->getUID()) {
+				$this->l = $this->languageFactory->get(
+					'settings',
+					$this->config->getUserValue(
+						$user->getUID(), 'core', 'lang',
+						$this->config->getSystemValue('default_language', 'en')
+					)
+				);
+
 				$text = $this->l->t('%1$s changed your password on %2$s.', [$actor->getDisplayName(), $instanceUrl]);
 				$event->setAuthor($actor->getUID())
 					->setSubject(Provider::PASSWORD_CHANGED_BY, [$actor->getUID()]);
@@ -118,8 +142,10 @@ class Hooks {
 	 */
 	public function onChangeEmail(IUser $user, $oldMailAddress) {
 
-		if ($oldMailAddress === $user->getEMailAddress()) {
-			// Email didn't really change, so don't create activities and emails
+		if ($oldMailAddress === $user->getEMailAddress() ||
+			$user->getLastLogin() === 0) {
+			// Email didn't really change or user didn't login,
+			// so don't create activities and emails.
 			return;
 		}
 
@@ -133,6 +159,14 @@ class Hooks {
 		$actor = $this->userSession->getUser();
 		if ($actor instanceof IUser) {
 			if ($actor->getUID() !== $user->getUID()) {
+				$this->l = $this->languageFactory->get(
+					'settings',
+					$this->config->getUserValue(
+						$user->getUID(), 'core', 'lang',
+						$this->config->getSystemValue('default_language', 'en')
+					)
+				);
+
 				$text = $this->l->t('%1$s changed your email address on %2$s.', [$actor->getDisplayName(), $instanceUrl]);
 				$event->setAuthor($actor->getUID())
 					->setSubject(Provider::EMAIL_CHANGED_BY, [$actor->getUID()]);

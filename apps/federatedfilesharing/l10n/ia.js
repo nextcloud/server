@@ -41,12 +41,12 @@ OC.L10N.register(
     "Open documentation" : "Documentation aperte",
     "Allow users on this server to send shares to other servers" : "Permitter usatores in iste servitor a inviar elementos compartite a altere servitores",
     "Allow users on this server to receive shares from other servers" : "Permitter usatores in iste servitor a reciper elementos compartite ex altere servitores",
+    "Search global and public address book for users" : "Cercar pro usatores in adressarios global e public",
     "Federated Cloud" : "Nube Federate",
     "Your Federated Cloud ID:" : "Tu ID de Nube Federate:",
     "Add to your website" : "Adde a tu sito web",
     "Share with me via Nextcloud" : "Comparti con me via Nextcloud",
     "HTML Code:" : "Codice HTML:",
-    "Search global and public address book for users" : "Cercar pro usatores in adressarios global e public",
     "Share it:" : "Comparti lo:"
 },
 "nplurals=2; plural=(n != 1);");

@@ -46,6 +46,10 @@ class PublicCalendarRootTest extends TestCase {
 		$this->random = \OC::$server->getSecureRandom();
 		$dispatcher = $this->createMock(EventDispatcherInterface::class);
 
+		$this->principal->expects($this->any())->method('getGroupMembership')
+			->withAnyParameters()
+			->willReturn([]);
+
 		$this->backend = new CalDavBackend(
 			$db,
 			$this->principal,
@@ -66,6 +70,9 @@ class PublicCalendarRootTest extends TestCase {
 		if (is_null($this->backend)) {
 			return;
 		}
+		$this->principal->expects($this->any())->method('getGroupMembership')
+			->withAnyParameters()
+			->willReturn([]);
 		$books = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
 		foreach ($books as $book) {
 			$this->backend->deleteCalendar($book['id']);

@@ -38,13 +38,43 @@ function p($string) {
 	print(\OCP\Util::sanitizeHTML($string));
 }
 
+
+/**
+ * Prints a <link> tag for loading css
+ * @param string $href the source URL, ignored when empty
+ * @param string $opts, additional optional options
+*/
+function emit_css_tag($href, $opts = '') {
+	$s='<link rel="stylesheet"';
+	if (!empty($href)) {
+		$s.=' href="' . $href .'"';
+	}
+	if (!empty($opts)) {
+		$s.=' '.$opts;
+	}
+	print_unescaped($s.">\n");
+}
+
+/**
+ * Prints all tags for CSS loading
+ * @param hash $obj all the script information from template
+*/
+function emit_css_loading_tags($obj) {
+	foreach($obj['cssfiles'] as $css) {
+		emit_css_tag($css);
+	}
+	foreach($obj['printcssfiles'] as $css) {
+		emit_css_tag($css, 'media="print"');
+	}
+}
+
 /**
  * Prints a <script> tag with nonce and defer depending on config
  * @param string $src the source URL, ignored when empty
  * @param string $script_content the inline script content, ignored when empty
  * @param bool $defer_flag deferred loading or not
 */
-function emit_script_tag($src, $script_content) {
+function emit_script_tag($src, $script_content='') {
 	$defer_str=' defer';
 	$s='<script nonce="' . \OC::$server->getContentSecurityPolicyNonceManager()->getNonce() . '"';
 	if (!empty($src)) {

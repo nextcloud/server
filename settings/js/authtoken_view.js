@@ -48,15 +48,6 @@
 	var SubView = OC.Backbone.View.extend({
 		collection: null,
 
-		/**
-		 * token type
-		 * - 0: browser
-		 * - 1: device
-		 *
-		 * @see OC\Authentication\Token\IToken
-		 */
-		type: 0,
-
 		_template: undefined,
 
 		template: function (data) {
@@ -68,7 +59,6 @@
 		},
 
 		initialize: function (options) {
-			this.type = options.type;
 			this.collection = options.collection;
 
 			this.on(this.collection, 'change', this.render);
@@ -79,7 +69,7 @@
 
 			var list = this.$('.token-list');
 			var tokens = this.collection.filter(function (token) {
-				return token.get('type') === _this.type;
+				return true;
 			});
 			list.html('');
 
@@ -183,7 +173,7 @@
 	var AuthTokenView = OC.Backbone.View.extend({
 		collection: null,
 
-		_views: [],
+		_view: [],
 
 		_form: undefined,
 
@@ -206,25 +196,20 @@
 		initialize: function (options) {
 			this.collection = options.collection;
 
-			var tokenTypes = [0, 1];
-			var _this = this;
-			_.each(tokenTypes, function (type) {
-				var el = type === 0 ? '#sessions' : '#apppasswords';
-				_this._views.push(new SubView({
-					el: el,
-					type: type,
-					collection: _this.collection
-				}));
-
-				var $el = $(el);
-				$('body').on('click', _.bind(_this._hideConfigureToken, _this));
-				$el.on('click', '.popovermenu', function(event) {
-					event.stopPropagation();
-				});
-				$el.on('click', 'a.icon-delete', _.bind(_this._onDeleteToken, _this));
-				$el.on('click', '.icon-more', _.bind(_this._onConfigureToken, _this));
-				$el.on('change', 'input.filesystem', _.bind(_this._onSetTokenScope, _this));
+			var el = '#security';
+			this._view = new SubView({
+				el: el,
+				collection: this.collection
 			});
+
+			var $el = $(el);
+			$('body').on('click', _.bind(this._hideConfigureToken, this));
+			$el.on('click', '.popovermenu', function(event) {
+				event.stopPropagation();
+			});
+			$el.on('click', 'a.icon-delete', _.bind(this._onDeleteToken, this));
+			$el.on('click', '.icon-more', _.bind(this._onConfigureToken, this));
+			$el.on('change', 'input.filesystem', _.bind(this._onSetTokenScope, this));
 
 			this._form = $('#app-password-form');
 			this._tokenName = $('#app-password-name');
@@ -233,7 +218,7 @@
 			this._appPasswordName = $('#app-password-name');
 			this._appPasswordName.on('keypress', function(event) {
 				if (event.which === 13) {
-					_this._addAppPassword();
+					this._addAppPassword();
 				}
 			});
 
@@ -287,18 +272,14 @@
 		},
 
 		render: function () {
-			_.each(this._views, function (view) {
-				view.render();
-				view.toggleLoading(false);
-			});
+			this._view.render();
+			this._view.toggleLoading(false);
 		},
 
 		reload: function () {
 			var _this = this;
 
-			_.each(this._views, function (view) {
-				view.toggleLoading(true);
-			});
+			this._view.toggleLoading(true);
 
 			var loadingTokens = this.collection.fetch();
 

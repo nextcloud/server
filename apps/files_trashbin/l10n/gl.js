@@ -4,7 +4,7 @@ OC.L10N.register(
     "Couldn't delete %s permanently" : "Non foi posíbel eliminar %s de xeito permanente",
     "Couldn't restore %s" : "Non foi posíbel restaurar %s",
     "Deleted files" : "Ficheiros eliminados",
-    "Restore" : "Restabelecer",
+    "Restore" : "Restaurar",
     "Delete" : "Eliminar",
     "Delete permanently" : "Eliminar permanentemente",
     "Error" : "Erro",

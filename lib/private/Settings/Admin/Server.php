@@ -137,7 +137,7 @@ class Server implements ISettings {
 			'cli_based_cron_user' => function_exists('posix_getpwuid') ? posix_getpwuid(fileowner(\OC::$configDir . 'config.php'))['name'] : '',
 		];
 
-		return new TemplateResponse('settings', 'admin/server', $parameters, '');
+		return new TemplateResponse('settings', 'settings/admin/server', $parameters, '');
 	}
 
 	/**

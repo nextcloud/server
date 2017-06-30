@@ -12,17 +12,17 @@ input#openid, input#webdav {
 
 /* PERSONAL */
 
+.clear {
+	clear: both;
+}
+
 /* icons for sidebar */
 .nav-icon-personal-settings {
 	background-image: url('../img/personal.svg?v=1');
 }
 
-.nav-icon-sessions {
+.nav-icon-security {
 	background-image: url('../img/toggle-filelist.svg?v=1');
-}
-
-.nav-icon-apppasswords {
-	background-image: url('../img/password.svg?v=1');
 }
 
 .nav-icon-clientsbox {
@@ -187,6 +187,13 @@ input#openid, input#webdav {
 	cursor: pointer;
 }
 
+#personal-settings-container input:disabled {
+	background-color: white;
+	color: black;
+	border: none;
+	opacity: 100;
+}
+
 .verification-dialog {
 	display: none;
 	right: -9px;
@@ -226,8 +233,7 @@ input#openid, input#webdav {
 }
 
 #lostpassword,
-#groups,
-#passwordform {
+#groups {
 	display: inline-block;
 	margin-bottom: 0;
 	padding-bottom: 0;
@@ -300,35 +306,29 @@ table.nostyle td {
 	padding: 0.2em 0;
 }
 
-#sessions table,
-#apppasswords table {
+#security table {
 	width: 100%;
 	min-height: 50px;
 	padding-top: 5px;
 	max-width: 580px;
 }
 
-#sessions table th,
-#apppasswords table th {
+#security table th{
 	opacity: .5;
 }
 
-#sessions table th,
-#sessions table td,
-#apppasswords table th,
-#apppasswords table td {
+#security table th,
+#security table td {
 	padding: 10px 10px 10px 0;
 }
 
-#sessions .token-list td.more,
-#apppasswords .token-list td.more {
+#security .token-list td.more {
 	overflow: visible;
 	position: relative;
 	width: 16px;
 }
 
-#sessions .token-list td,
-#apppasswords .token-list td {
+#security .token-list td {
 	border-top: 1px solid #DDD;
 	text-overflow: ellipsis;
 	max-width: 200px;
@@ -338,37 +338,30 @@ table.nostyle td {
 	position: relative;
 }
 
-#sessions tr > *:nth-child(2),
-#apppasswords tr > *:nth-child(2) {
+#security tr > *:nth-child(2) {
 	text-align: right;
 }
 
-#sessions .token-list td > a.icon,
-#apppasswords .token-list td > a.icon {
+#security .token-list td > a.icon {
 	opacity: 0;
 	transition: opacity 0.5s;
 }
 
-#sessions .token-list a.icon,
-#apppasswords .token-list a.icon {
+#security .token-list a.icon {
 	margin-top: 4px;
 	display: block;
 }
 
-#sessions .token-list tr:hover td > a.icon,
-#apppasswords .token-list tr:hover td > a.icon,
-#sessions .token-list tr.active td > a.icon,
-#apppasswords .token-list tr.active td > a.icon {
+#security .token-list tr:hover td > a.icon,
+#security .token-list tr.active td > a.icon {
 	opacity: 0.6;
 }
 
-#sessions .token-list td div.configure,
-#apppasswords .token-list td div.configure {
+#security .token-list td div.configure {
 	display: none;
 }
 
-#sessions .token-list tr.active div.configure,
-#apppasswords .token-list tr.active div.configure {
+#security .token-list tr.active div.configure {
 	display: block;
 	position: absolute;
 	top: 45px;
@@ -376,20 +369,17 @@ table.nostyle td {
 	padding: 10px;
 }
 
-#sessions .token-list div.configure:after,
-#apppasswords .token-list div.configure:after {
+#security .token-list div.configure:after {
 	right: 13px;
 }
 
-#sessions .token-list tr.active div.configure > *,
-#apppasswords .token-list tr.active div.configure > * {
+#security .token-list tr.active div.configure > * {
 	margin-top: 5px;
 	margin-bottom: 5px;
 	display: inline-block;
 }
 
-#sessions .token-list tr.active a.icon-delete,
-#apppasswords .token-list tr.active a.icon-delete {
+#security .token-list tr.active a.icon-delete {
 	background-position: left;
 	padding-left: 20px;
 }
@@ -1305,4 +1295,12 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 	margin-top: -12px;
 	margin-bottom: 12px;
 	opacity: .7;
+}
+
+.settings-caption {
+	font-weight: bold;
+	line-height: 44px;
+	padding: 0 12px;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 }

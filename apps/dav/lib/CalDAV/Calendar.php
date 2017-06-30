@@ -122,7 +122,14 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 				'principal' => $this->getOwner(),
 				'protected' => true,
 			];
+		} else {
+			$acl[] = [
+				'privilege' => '{DAV:}write-properties',
+				'principal' => $this->getOwner(),
+				'protected' => true,
+			];
 		}
+
 		if ($this->getOwner() !== parent::getOwner()) {
 			$acl[] =  [
 					'privilege' => '{DAV:}read',
@@ -132,6 +139,12 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 			if ($this->canWrite()) {
 				$acl[] = [
 					'privilege' => '{DAV:}write',
+					'principal' => parent::getOwner(),
+					'protected' => true,
+				];
+			} else {
+				$acl[] = [
+					'privilege' => '{DAV:}write-properties',
 					'principal' => parent::getOwner(),
 					'protected' => true,
 				];

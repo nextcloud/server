@@ -65,11 +65,12 @@ OC.L10N.register(
     "Your storage is almost full ({usedSpacePercent}%)" : "Twój magazyn jest prawie pełny ({usedSpacePercent}%)",
     "_matches '{filter}'_::_match '{filter}'_" : ["pasujący '{filter}'","pasujące '{filter}'","pasujących '{filter}'","pasujących '{filter}'"],
     "View in folder" : "Zobacz w katalogu",
+    "Copied!" : "Skopiowano!",
+    "Copy direct link (only works for users who have access to this file/folder)" : "Skopiuj link bezpośredni (działa tylko dla użytkowników, którzy mają dostęp do pliku/folderu)",
     "Path" : "Ścieżka",
     "_%n byte_::_%n bytes_" : ["%n bajt","%n bajty","%n bajtów","%n bajtów"],
     "Favorited" : "Ulubiony",
     "Favorite" : "Ulubione",
-    "Copy direct link (only works for users who have access to this file/folder)" : "Skopiuj link bezpośredni (działa tylko dla użytkowników, którzy mają dostęp do pliku/folderu)",
     "New folder" : "Nowy folder",
     "Upload file" : "Załaduj plik",
     "An error occurred while trying to update the tags" : "Wystąpił błąd podczas aktualizacji tagów",
@@ -104,6 +105,7 @@ OC.L10N.register(
     "A new file or folder has been <strong>deleted</strong>" : "Nowy plik lub folder został <strong>usunięty </strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Ogranicz powiadomienia o utworzeniu i zmianach do swoich <strong>ulubionych plików</strong> <em>(Tylko w strumieniu aktywności)</em>",
     "A new file or folder has been <strong>restored</strong>" : "Nowy plik lub folder został <strong>przywrócony</strong>",
+    "Unlimited" : "Bez limitu",
     "Upload (max. %s)" : "Wysyłka (max. %s)",
     "File handling" : "Zarządzanie plikami",
     "Maximum upload size" : "Maksymalny rozmiar wysyłanego pliku",
@@ -111,6 +113,8 @@ OC.L10N.register(
     "Save" : "Zapisz",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Z PHP-FPM zastosowanie zmian może zająć 5 minut.",
     "Missing permissions to edit from here." : "Brakuje uprawnień do edycji.",
+    "%s of %s used" : "Używany %s z %s",
+    "%s used" : "%sużywany",
     "Settings" : "Ustawienia",
     "Show hidden files" : "Pokaż ukryte pliki",
     "WebDAV" : "WebDAV",
@@ -144,4 +148,4 @@ OC.L10N.register(
     "Upload" : "Wyślij",
     "No favorites" : "Brak ulubionych"
 },
-"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>=14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");
+"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

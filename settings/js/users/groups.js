@@ -222,7 +222,6 @@ GroupList = {
 		UserList.update(gid === '_everyone' ? '' : gid);
 		$userGroupList.find('li').removeClass('active');
 		if (gid !== undefined) {
-			//TODO: treat Everyone properly
 			GroupList.getGroupLI(gid).addClass('active');
 		}
 	},
@@ -380,4 +379,7 @@ $(document).ready( function () {
 	$('#newgroupname').on('input', function(){
 		GroupList.handleAddGroupInput(this.value);
 	});
+
+	// highlight `everyone` group at DOMReady by default
+	GroupList.showGroup('_everyone');
 });

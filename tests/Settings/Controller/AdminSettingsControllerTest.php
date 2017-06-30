@@ -22,7 +22,6 @@
  */
 namespace Tests\Settings\Controller;
 
-
 use OC\Settings\Admin\TipsTricks;
 use OC\Settings\Controller\AdminSettingsController;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -31,6 +30,13 @@ use OCP\IRequest;
 use OCP\Settings\IManager;
 use Test\TestCase;
 
+/**
+ * Class AdminSettingsControllerTest
+ *
+ * @group DB
+ *
+ * @package Tests\Settings\Controller
+ */
 class AdminSettingsControllerTest extends TestCase {
 	/** @var AdminSettingsController */
 	private $adminSettingsController;
@@ -38,8 +44,10 @@ class AdminSettingsControllerTest extends TestCase {
 	private $request;
 	/** @var INavigationManager */
 	private $navigationManager;
-	/** @var IManager */
+	/** @var IManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $settingsManager;
+	/** @var string */
+	private $adminUid = 'lololo';
 
 	public function setUp() {
 		parent::setUp();
@@ -54,6 +62,16 @@ class AdminSettingsControllerTest extends TestCase {
 			$this->navigationManager,
 			$this->settingsManager
 		);
+
+		$user = \OC::$server->getUserManager()->createUser($this->adminUid, 'olo');
+		\OC_User::setUserId($user->getUID());
+		\OC::$server->getGroupManager()->createGroup('admin')->addUser($user);
+	}
+
+	public function tearDown() {
+		\OC::$server->getUserManager()->get($this->adminUid)->delete();
+
+		parent::tearDown();
 	}
 
 	public function testIndex() {
@@ -63,10 +81,15 @@ class AdminSettingsControllerTest extends TestCase {
 			->willReturn([]);
 		$this->settingsManager
 			->expects($this->once())
+			->method('getPersonalSections')
+			->willReturn([]);
+		$this->settingsManager
+			->expects($this->once())
 			->method('getAdminSettings')
 			->with('test')
 			->willReturn([5 => new TipsTricks($this->getMockBuilder('\OCP\IConfig')->getMock())]);
-		$expected = new TemplateResponse('settings', 'admin/frame', ['forms' => [], 'content' => '']);
+
+		$expected = new TemplateResponse('settings', 'settings/frame', ['forms' => ['personal' => [], 'admin' => []], 'content' => '']);
 		$this->assertEquals($expected, $this->adminSettingsController->index('test'));
 	}
 }

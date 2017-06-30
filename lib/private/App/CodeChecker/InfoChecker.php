@@ -34,15 +34,16 @@ class InfoChecker extends BasicEmitter {
 	private $mandatoryFields = [
 		'author',
 		'description',
+		'dependencies',
 		'id',
 		'licence',
 		'name',
+		'version',
 	];
 	private $optionalFields = [
 		'bugs',
 		'category',
 		'default_enable',
-		'dependencies', // TODO: Mandatory as of ownCloud 11
 		'documentation',
 		'namespace',
 		'ocsid',
@@ -50,7 +51,6 @@ class InfoChecker extends BasicEmitter {
 		'remote',
 		'repository',
 		'types',
-		'version',
 		'website',
 	];
 	private $deprecatedFields = [
@@ -80,29 +80,19 @@ class InfoChecker extends BasicEmitter {
 
 		$info = $this->infoParser->parse($appPath . '/appinfo/info.xml');
 
-		if (isset($info['dependencies']['owncloud']['@attributes']['min-version']) && (isset($info['requiremin']) || isset($info['require']))) {
-			$this->emit('InfoChecker', 'duplicateRequirement', ['min']);
+		if (!isset($info['dependencies']['nextcloud']['@attributes']['min-version'])) {
 			$errors[] = [
-				'type' => 'duplicateRequirement',
+				'type' => 'missingRequirement',
 				'field' => 'min',
 			];
-		} else if (
-			!isset($info['dependencies']['owncloud']['@attributes']['min-version']) &&
-			!isset($info['dependencies']['nextcloud']['@attributes']['min-version'])
-		) {
 			$this->emit('InfoChecker', 'missingRequirement', ['min']);
 		}
 
-		if (isset($info['dependencies']['owncloud']['@attributes']['max-version']) && isset($info['requiremax'])) {
-			$this->emit('InfoChecker', 'duplicateRequirement', ['max']);
+		if (!isset($info['dependencies']['nextcloud']['@attributes']['max-version'])) {
 			$errors[] = [
-				'type' => 'duplicateRequirement',
+				'type' => 'missingRequirement',
 				'field' => 'max',
 			];
-		} else if (
-			!isset($info['dependencies']['owncloud']['@attributes']['max-version']) &&
-			!isset($info['dependencies']['nextcloud']['@attributes']['max-version'])
-		) {
 			$this->emit('InfoChecker', 'missingRequirement', ['max']);
 		}
 
@@ -145,21 +135,7 @@ class InfoChecker extends BasicEmitter {
 		$versionFile = $appPath . '/appinfo/version';
 		if (is_file($versionFile)) {
 			$version = trim(file_get_contents($versionFile));
-			if (isset($info['version'])) {
-				if($info['version'] !== $version) {
-					$this->emit('InfoChecker', 'differentVersions',
-						[$version, $info['version']]);
-					$errors[] = [
-						'type' => 'differentVersions',
-						'message' => 'appinfo/version: ' . $version .
-							' - appinfo/info.xml: ' . $info['version'],
-					];
-				} else {
-					$this->emit('InfoChecker', 'sameVersions', [$versionFile]);
-				}
-			} else {
-				$this->emit('InfoChecker', 'migrateVersion', [$version]);
-			}
+			$this->emit('InfoChecker', 'migrateVersion', [$version]);
 		}
 
 		return $errors;

@@ -15,7 +15,7 @@ OC.L10N.register(
     "%1$s added system tag %2$s" : "%1$s dodał/-a etykietę systemową %2$s",
     "{actor} added system tag {systemtag}" : "{actor} dodał/-a etykietę systemową {systemtag}",
     "Removed system tag %1$s" : "Usunięto etykietę systemową %1$s",
-    "Removed system tag {systemtag}" : "Usunięto etykietą systemową",
+    "Removed system tag {systemtag}" : "Usunięto etykietą systemową {systemtag}",
     "%1$s removed system tag %2$s" : "%1$s usunął/-ęła etykietę systemową %2$s",
     "{actor} removed system tag {systemtag}" : "{actor} usunął/-ęła etykietę systemową {systemtag}",
     "You created system tag %1$s" : "Utworzyłeś/-aś etykietę systemową %1$s",
@@ -55,4 +55,4 @@ OC.L10N.register(
     "Size" : "Rozmiar",
     "Modified" : "Modyfikacja"
 },
-"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>=14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");
+"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

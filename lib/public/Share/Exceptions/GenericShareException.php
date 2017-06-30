@@ -40,7 +40,7 @@ class GenericShareException extends HintException {
 	 */
 	public function __construct($message = '', $hint = '', $code = 0, \Exception $previous = null) {
 		if (empty($message)) {
-			$message = 'Unspecified share exception';
+			$message = 'There was an error retrieving the share. Maybe the link is wrong, it was unshared, or it was deleted.';
 		}
 		parent::__construct($message, $hint, $code, $previous);
 	}

@@ -43,7 +43,7 @@ OC.L10N.register(
     "Adjust how people can share between servers." : "Dostosuj ustawienia współdzielenia między serwerami.",
     "Allow users on this server to send shares to other servers" : "Zezwalaj użytkownikom na tym serwerze wysłać udostępnienia do innych serwerów",
     "Allow users on this server to receive shares from other servers" : "Zezwalaj użytkownikom na tym serwerze do otrzymania udostępnień z innych serwerów",
-    "Search global and public address book for users and let local users publish their data" : "Szukaj użytkowników w globalnej i publicznej książce adresowej i pozwól lokalnym użytkownikom na publikowanie swoich danych",
+    "Search global and public address book for users" : "Szukaj użytkowników w globalnej i publicznej książce adresowej",
     "Allow users to publish their data to a global and public address book" : "Pozwól użytkownikom na publikację ich danych do globalnej i publicznej książki adresowej",
     "Federated Cloud" : "Stowarzyszona Chmura",
     "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Możesz współdzielić z każdym kto używa Nextclouda, ownClouda lub Pydio. Wystarczy, że wpiszesz ich ID chmury stowarzyszonej w pole współdzielenia. Wygląda jak osoba@przyklad.chmury.com",
@@ -52,7 +52,7 @@ OC.L10N.register(
     "Add to your website" : "Dodaj do swojej strony",
     "Share with me via Nextcloud" : "Podziel się ze mną poprzez Nextcloud",
     "HTML Code:" : "Kod HTML:",
-    "Search global and public address book for users" : "Szukaj użytkowników w globalnej i publicznej książce adresowej",
-    "Share it:" : "Udostępnij to:"
+    "Share it:" : "Udostępnij to:",
+    "Search global and public address book for users and let local users publish their data" : "Szukaj użytkowników w globalnej i publicznej książce adresowej i pozwól lokalnym użytkownikom na publikowanie swoich danych"
 },
-"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>=14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");
+"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

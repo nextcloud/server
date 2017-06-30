@@ -28,19 +28,17 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\INavigationManager;
 use OCP\IRequest;
-use OCP\Settings\IIconSection;
 use OCP\Settings\IManager as ISettingsManager;
-use OCP\Settings\ISection;
 use OCP\Template;
 
 /**
  * @package OC\Settings\Controller
  */
 class AdminSettingsController extends Controller {
+	use CommonSettingsTrait;
+
 	/** @var INavigationManager */
 	private $navigationManager;
-	/** @var ISettingsManager */
-	private $settingsManager;
 
 	/**
 	 * @param string $appName
@@ -67,32 +65,20 @@ class AdminSettingsController extends Controller {
 	 */
 	public function index($section) {
 		$this->navigationManager->setActiveEntry('admin');
-
-		$templateParams = [];
-		$templateParams = array_merge($templateParams, $this->getNavigationParameters($section));
-		$templateParams = array_merge($templateParams, $this->getSettings($section));
-
-		return new TemplateResponse('settings', 'admin/frame', $templateParams);
+		return $this->getIndexResponse('admin', $section);
 	}
 
 	/**
 	 * @param string $section
 	 * @return array
 	 */
-	private function getSettings($section) {
-		$html = '';
+	protected function getSettings($section) {
 		$settings = $this->settingsManager->getAdminSettings($section);
-		foreach ($settings as $prioritizedSettings) {
-			foreach ($prioritizedSettings as $setting) {
-				/** @var \OCP\Settings\ISettings $setting */
-				$form = $setting->getForm();
-				$html .= $form->renderAs('')->render();
-			}
-		}
+		$formatted = $this->formatSettings($settings);
 		if($section === 'additional') {
-			$html .= $this->getLegacyForms();
+			$formatted['content'] .= $this->getLegacyForms();
 		}
-		return ['content' => $html];
+		return $formatted;
 	}
 
 	/**
@@ -119,42 +105,11 @@ class AdminSettingsController extends Controller {
 			);
 		}, $forms);
 
-		$out = new Template('settings', 'admin/additional');
+		$out = new Template('settings', 'settings/additional');
 		$out->assign('forms', $forms);
 
 		return $out->fetchPage();
 	}
 
-	/**
-	 * @param string $currentSection
-	 * @return array
-	 */
-	private function getNavigationParameters($currentSection) {
-		$sections = $this->settingsManager->getAdminSections();
-		$templateParameters = [];
-		/** @var \OC\Settings\Section[] $prioritizedSections */
-		foreach($sections as $prioritizedSections) {
-			foreach ($prioritizedSections as $section) {
-				if (empty($this->settingsManager->getAdminSettings($section->getID()))) {
-					continue;
-				}
 
-				$icon = '';
-				if ($section instanceof IIconSection) {
-					$icon = $section->getIcon();
-				}
-
-				$templateParameters[] = [
-					'anchor'       => $section->getID(),
-					'section-name' => $section->getName(),
-					'active'       => $section->getID() === $currentSection,
-					'icon'         => $icon,
-				];
-			}
-		}
-
-		return [
-			'forms' => $templateParameters
-		];
-	}
 }

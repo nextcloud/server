@@ -43,7 +43,7 @@ OC.L10N.register(
     "Adjust how people can share between servers." : "Upravte, jak mohou lidé mezi servery sdílet.",
     "Allow users on this server to send shares to other servers" : "Povolit uživatelům z tohoto serveru zasílat sdílení na jiné servery",
     "Allow users on this server to receive shares from other servers" : "Povolit uživatelům na tomto serveru přijímat sdílení z jiných serverů",
-    "Search global and public address book for users and let local users publish their data" : "Hledat uživatele v globálním a veřejném adresáři a dovolit místním uživatelům publikovat jejich údaje",
+    "Search global and public address book for users" : "Hledat uživatele v globálním a veřejném adresáři",
     "Allow users to publish their data to a global and public address book" : "Povolit uživatelům publikování jejich dat do globálního a sdíleného adresáře",
     "Federated Cloud" : "Sdružený cloud",
     "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Můžete sdílet s kýmkoliv, kdo používá Nextcloud, ownCloud, nebo Pydio! Jen zadejte jejich sdružené cloud ID do dialogu pro sdílení. Vypadá jako person@cloud.example.com",
@@ -52,7 +52,7 @@ OC.L10N.register(
     "Add to your website" : "Přidat na svou webovou stránku",
     "Share with me via Nextcloud" : "Sdíleno se mnou přes Nextcloud",
     "HTML Code:" : "HTML kód:",
-    "Search global and public address book for users" : "Hledat uživatele v globálním a veřejném adresáři",
-    "Share it:" : "Sdílet:"
+    "Share it:" : "Sdílet:",
+    "Search global and public address book for users and let local users publish their data" : "Hledat uživatele v globálním a veřejném adresáři a dovolit místním uživatelům publikovat jejich údaje"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

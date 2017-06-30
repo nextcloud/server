@@ -743,6 +743,8 @@ class DefaultShareProvider implements IShareProvider {
 					$qb->andWhere($qb->expr()->eq('file_source', $qb->createNamedParameter($node->getId())));
 				}
 
+
+				$groups = array_filter($groups, function($group) { return $group instanceof IGroup; });
 				$groups = array_map(function(IGroup $group) { return $group->getGID(); }, $groups);
 
 				$qb->andWhere($qb->expr()->eq('share_type', $qb->createNamedParameter(\OCP\Share::SHARE_TYPE_GROUP)))
@@ -1115,7 +1117,7 @@ class DefaultShareProvider implements IShareProvider {
 				$gid = $row['share_with'];
 				$group = $this->groupManager->get($gid);
 
-				if ($gid === null) {
+				if ($group === null) {
 					continue;
 				}
 

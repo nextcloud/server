@@ -98,7 +98,6 @@ OC.L10N.register(
     "Groups" : "Групе",
     "Expert" : "Стручњак",
     "Advanced" : "Напредно",
-    "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Упозорење:</b> Апликације user_ldap и user_webdavauth нису компатибилне. Можете имати проблема. Питајте систем администратора да искључи једну од њих.",
     "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>Упозорење:</b> ПХП ЛДАП модул није инсталиран и зачеље неће радити. Питајте систем администратора да га инсталира.",
     "Connection Settings" : "Поставке везе",
     "Configuration Active" : "Конфигурација активна",
@@ -150,6 +149,7 @@ OC.L10N.register(
     "Allows login against the LDAP / AD username, which is either uid or samaccountname and will be detected." : "Дозволи пријаву уз ЛДАП / АД корисичко име које је или uid или samaccountname и биће откривено.",
     "Add a new and blank configuration" : "Додај нову празну поставу",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "Можете да изоставите протокол, осим ако захтевате ССЛ. У том случају почните са ldaps://",
+    "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Упозорење:</b> Апликације user_ldap и user_webdavauth нису компатибилне. Можете имати проблема. Питајте систем администратора да искључи једну од њих.",
     "in bytes" : "у бајтовима"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

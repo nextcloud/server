@@ -35,6 +35,27 @@ describe('OCA.Files.DetailsView tests', function() {
 		expect(detailsView.$el.find('.tabsContainer').length).toEqual(1);
 	});
 	describe('file info detail view', function() {
+		it('returns registered view', function() {
+			var testView = new OCA.Files.DetailFileInfoView();
+			var testView2 = new OCA.Files.DetailFileInfoView();
+			detailsView.addDetailView(testView);
+			detailsView.addDetailView(testView2);
+
+			detailViews = detailsView.getDetailViews();
+
+			expect(detailViews).toContain(testView);
+			expect(detailViews).toContain(testView2);
+
+			// Modify array and check that registered detail views are not
+			// modified
+			detailViews.pop();
+			detailViews.pop();
+
+			detailViews = detailsView.getDetailViews();
+
+			expect(detailViews).toContain(testView);
+			expect(detailViews).toContain(testView2);
+		});
 		it('renders registered view', function() {
 			var testView = new OCA.Files.DetailFileInfoView();
 			var testView2 = new OCA.Files.DetailFileInfoView();

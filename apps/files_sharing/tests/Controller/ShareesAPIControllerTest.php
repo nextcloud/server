@@ -1272,6 +1272,21 @@ class ShareesAPIControllerTest extends TestCase {
 				['results' => [], 'exact' => [], 'exactIdMatch' => false],
 				true,
 			],
+			// Local user found by email
+			[
+				'test@example.com',
+				[
+					[
+						'FN' => 'User',
+						'EMAIL' => ['test@example.com'],
+						'CLOUD' => ['test@localhost'],
+						'isLocalSystemBook' => true,
+					]
+				],
+				false,
+				['results' => [], 'exact' => [], 'exactIdMatch' => true],
+				false,
+			]
 		];
 	}
 

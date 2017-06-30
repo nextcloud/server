@@ -97,7 +97,6 @@
     "Groups" : "Grupper",
     "Expert" : "Expert",
     "Advanced" : "Avancerad",
-    "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Varning:</b> Apps user_ldap och user_webdavauth är inkompatibla. Oväntade problem kan uppstå. Be din systemadministratör att inaktivera en av dem.",
     "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>Varning:</b> PHP LDAP - modulen är inte installerad, serversidan kommer inte att fungera. Kontakta din systemadministratör för installation.",
     "Connection Settings" : "Uppkopplingsinställningar",
     "Configuration Active" : "Konfiguration aktiv",
@@ -149,6 +148,7 @@
     "Verify settings and count groups" : "Verifiera inställningar och räkna grupper",
     "Add a new and blank configuration" : "Skapa en ny och tom konfiguration",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "Du behöver inte ange protokoll förutom om du använder SSL. Starta då med ldaps://",
+    "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Varning:</b> Apps user_ldap och user_webdavauth är inkompatibla. Oväntade problem kan uppstå. Be din systemadministratör att inaktivera en av dem.",
     "in bytes" : "i bytes"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

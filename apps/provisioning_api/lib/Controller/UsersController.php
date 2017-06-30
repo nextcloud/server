@@ -32,6 +32,7 @@ namespace OCA\Provisioning_API\Controller;
 use OC\Accounts\AccountManager;
 use OC\Settings\Mailer\NewUserMailHelper;
 use OC_Helper;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
@@ -52,6 +53,8 @@ class UsersController extends OCSController {
 	private $userManager;
 	/** @var IConfig */
 	private $config;
+	/** @var IAppManager */
+	private $appManager;
 	/** @var IGroupManager|\OC\Group\Manager */ // FIXME Requires a method that is not on the interface
 	private $groupManager;
 	/** @var IUserSession */
@@ -70,6 +73,7 @@ class UsersController extends OCSController {
 	 * @param IRequest $request
 	 * @param IUserManager $userManager
 	 * @param IConfig $config
+	 * @param IAppManager $appManager
 	 * @param IGroupManager $groupManager
 	 * @param IUserSession $userSession
 	 * @param AccountManager $accountManager
@@ -81,6 +85,7 @@ class UsersController extends OCSController {
 								IRequest $request,
 								IUserManager $userManager,
 								IConfig $config,
+								IAppManager $appManager,
 								IGroupManager $groupManager,
 								IUserSession $userSession,
 								AccountManager $accountManager,
@@ -91,6 +96,7 @@ class UsersController extends OCSController {
 
 		$this->userManager = $userManager;
 		$this->config = $config;
+		$this->appManager = $appManager;
 		$this->groupManager = $groupManager;
 		$this->userSession = $userSession;
 		$this->accountManager = $accountManager;
@@ -280,6 +286,7 @@ class UsersController extends OCSController {
 		$data[AccountManager::PROPERTY_WEBSITE] = $userAccount[AccountManager::PROPERTY_WEBSITE]['value'];
 		$data[AccountManager::PROPERTY_TWITTER] = $userAccount[AccountManager::PROPERTY_TWITTER]['value'];
 		$data['groups'] = $gids;
+		$data['language'] = $this->config->getUserValue($targetUserObject->getUID(), 'core', 'lang');
 
 		return $data;
 	}
@@ -309,14 +316,29 @@ class UsersController extends OCSController {
 		$permittedFields = [];
 		if($targetUser->getUID() === $currentLoggedInUser->getUID()) {
 			// Editing self (display, email)
-			$permittedFields[] = 'display';
-			$permittedFields[] = AccountManager::PROPERTY_DISPLAYNAME;
-			$permittedFields[] = AccountManager::PROPERTY_EMAIL;
+			if ($this->config->getSystemValue('allow_user_to_change_display_name', true) !== false) {
+				$permittedFields[] = 'display';
+				$permittedFields[] = AccountManager::PROPERTY_DISPLAYNAME;
+				$permittedFields[] = AccountManager::PROPERTY_EMAIL;
+			}
+
 			$permittedFields[] = 'password';
-			$permittedFields[] = AccountManager::PROPERTY_PHONE;
-			$permittedFields[] = AccountManager::PROPERTY_ADDRESS;
-			$permittedFields[] = AccountManager::PROPERTY_WEBSITE;
-			$permittedFields[] = AccountManager::PROPERTY_TWITTER;
+			if ($this->config->getSystemValue('force_language', false) === false ||
+				$this->groupManager->isAdmin($currentLoggedInUser->getUID())) {
+				$permittedFields[] = 'language';
+			}
+
+			if ($this->appManager->isEnabledForUser('federatedfilesharing')) {
+				$federatedFileSharing = new \OCA\FederatedFileSharing\AppInfo\Application();
+				$shareProvider = $federatedFileSharing->getFederatedShareProvider();
+				if ($shareProvider->isLookupServerUploadEnabled()) {
+					$permittedFields[] = AccountManager::PROPERTY_PHONE;
+					$permittedFields[] = AccountManager::PROPERTY_ADDRESS;
+					$permittedFields[] = AccountManager::PROPERTY_WEBSITE;
+					$permittedFields[] = AccountManager::PROPERTY_TWITTER;
+				}
+			}
+
 			// If admin they can edit their own quota
 			if($this->groupManager->isAdmin($currentLoggedInUser->getUID())) {
 				$permittedFields[] = 'quota';
@@ -331,6 +353,7 @@ class UsersController extends OCSController {
 				$permittedFields[] = AccountManager::PROPERTY_DISPLAYNAME;
 				$permittedFields[] = AccountManager::PROPERTY_EMAIL;
 				$permittedFields[] = 'password';
+				$permittedFields[] = 'language';
 				$permittedFields[] = AccountManager::PROPERTY_PHONE;
 				$permittedFields[] = AccountManager::PROPERTY_ADDRESS;
 				$permittedFields[] = AccountManager::PROPERTY_WEBSITE;
@@ -374,6 +397,13 @@ class UsersController extends OCSController {
 				break;
 			case 'password':
 				$targetUser->setPassword($value);
+				break;
+			case 'language':
+				$languagesCodes = $this->l10nFactory->findAvailableLanguages();
+				if (!in_array($value, $languagesCodes, true) && $value !== 'en') {
+					throw new OCSException('Invalid language', 102);
+				}
+				$this->config->setUserValue($targetUser->getUID(), 'core', 'lang', $value);
 				break;
 			case AccountManager::PROPERTY_EMAIL:
 				if(filter_var($value, FILTER_VALIDATE_EMAIL)) {

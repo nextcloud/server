@@ -105,6 +105,69 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
+	public static function fileDetailsInCurrentSectionDetailsViewWithText($fileDetailsText) {
+		return Locator::forThe()->xpath("//span[normalize-space() = '$fileDetailsText']")->
+				descendantOf(self::fileDetailsInCurrentSectionDetailsView())->
+				describedAs("File details with text \"$fileDetailsText\" in current section details view in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	private static function fileDetailsInCurrentSectionDetailsView() {
+		return Locator::forThe()->css(".file-details")->
+				descendantOf(self::currentSectionDetailsView())->
+				describedAs("File details in current section details view in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function inputFieldForTagsInCurrentSectionDetails() {
+		return Locator::forThe()->css(".systemTagsInfoView")->
+				descendantOf(self::currentSectionDetailsView())->
+				describedAs("Input field for tags in current section details view in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function tabHeaderInCurrentSectionDetailsViewNamed($tabHeaderName) {
+		return Locator::forThe()->xpath("//li[normalize-space() = '$tabHeaderName']")->
+				descendantOf(self::tabHeadersInCurrentSectionDetailsView())->
+				describedAs("Tab header named $tabHeaderName in current section details view in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	private static function tabHeadersInCurrentSectionDetailsView() {
+		return Locator::forThe()->css(".tabHeaders")->
+				descendantOf(self::currentSectionDetailsView())->
+				describedAs("Tab headers in current section details view in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function tabInCurrentSectionDetailsViewNamed($tabName) {
+		return Locator::forThe()->xpath("//div[@id=//*[contains(concat(' ', normalize-space(@class), ' '), ' tabHeader ') and normalize-space() = '$tabName']/@data-tabid]")->
+				descendantOf(self::currentSectionDetailsView())->
+				describedAs("Tab named $tabName in current section details view in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function loadingIconForTabInCurrentSectionDetailsViewNamed($tabName) {
+		return Locator::forThe()->css(".loading")->
+				descendantOf(self::tabInCurrentSectionDetailsViewNamed($tabName))->
+				describedAs("Loading icon for tab named $tabName in current section details view in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
 	public static function shareLinkCheckbox() {
 		// forThe()->checkbox("Share link") can not be used here; that would
 		// return the checkbox itself, but the element that the user interacts
@@ -247,6 +310,20 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	}
 
 	/**
+	 * @Given I open the input field for tags in the details view
+	 */
+	public function iOpenTheInputFieldForTagsInTheDetailsView() {
+		$this->actor->find(self::fileDetailsInCurrentSectionDetailsViewWithText("Tags"), 10)->click();
+	}
+
+	/**
+	 * @Given I open the :tabName tab in the details view
+	 */
+	public function iOpenTheTabInTheDetailsView($tabName) {
+		$this->actor->find(self::tabHeaderInCurrentSectionDetailsViewNamed($tabName), 10)->click();
+	}
+
+	/**
 	 * @Given I mark :fileName as favorite
 	 */
 	public function iMarkAsFavorite($fileName) {
@@ -344,6 +421,23 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	}
 
 	/**
+	 * @Then I see that the input field for tags in the details view is shown
+	 */
+	public function iSeeThatTheInputFieldForTagsInTheDetailsViewIsShown() {
+		PHPUnit_Framework_Assert::assertTrue(
+				$this->actor->find(self::inputFieldForTagsInCurrentSectionDetails(), 10)->isVisible());
+	}
+
+	/**
+	 * @When I see that the :tabName tab in the details view is eventually loaded
+	 */
+	public function iSeeThatTheTabInTheDetailsViewIsEventuallyLoaded($tabName) {
+		if (!$this->waitForElementToBeEventuallyNotShown(self::loadingIconForTabInCurrentSectionDetailsViewNamed($tabName), $timeout = 10)) {
+			PHPUnit_Framework_Assert::fail("The $tabName tab in the details view has not been loaded after $timeout seconds");
+		}
+	}
+
+	/**
 	 * @Then I see that the working icon for password protect is shown
 	 */
 	public function iSeeThatTheWorkingIconForPasswordProtectIsShown() {
@@ -354,20 +448,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @Then I see that the working icon for password protect is eventually not shown
 	 */
 	public function iSeeThatTheWorkingIconForPasswordProtectIsEventuallyNotShown() {
-		$timeout = 10;
-		$timeoutStep = 1;
-
-		$actor = $this->actor;
-		$passwordProtectWorkingIcon = self::passwordProtectWorkingIcon();
-
-		$workingIconNotFoundCallback = function() use ($actor, $passwordProtectWorkingIcon) {
-			try {
-				return !$actor->find($passwordProtectWorkingIcon)->isVisible();
-			} catch (NoSuchElementException $exception) {
-				return true;
-			}
-		};
-		if (!Utils::waitFor($workingIconNotFoundCallback, $timeout, $timeoutStep)) {
+		if (!$this->waitForElementToBeEventuallyNotShown(self::passwordProtectWorkingIcon(), $timeout = 10)) {
 			PHPUnit_Framework_Assert::fail("The working icon for password protect is still shown after $timeout seconds");
 		}
 	}
@@ -382,4 +463,17 @@ class FilesAppContext implements Context, ActorAwareInterface {
 		$this->iSeeThatTheWorkingIconForPasswordProtectIsEventuallyNotShown();
 	}
 
+	private function waitForElementToBeEventuallyNotShown($elementLocator, $timeout = 10, $timeoutStep = 1) {
+		$actor = $this->actor;
+
+		$elementNotFoundCallback = function() use ($actor, $elementLocator) {
+			try {
+				return !$actor->find($elementLocator)->isVisible();
+			} catch (NoSuchElementException $exception) {
+				return true;
+			}
+		};
+
+		return Utils::waitFor($elementNotFoundCallback, $timeout, $timeoutStep);
+	}
 }

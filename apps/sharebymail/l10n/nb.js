@@ -18,6 +18,7 @@ OC.L10N.register(
     "Password to access {file} was sent to you" : "Du ble tildelt passord for å benytte {file}",
     "Sharing %s failed, this item is already shared with %s" : "Deling %s mislyktes, dette elementet er allerede delt med %s",
     "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Vi kan ikke sende det auto-genererte passordet. Angi en gyldig e-postadresse i dine personlige innstillinger og prøv igjen.",
+    "Failed to send share by email" : "Delingen kunne ikke sendes med e-post",
     "%s shared »%s« with you" : "%s delte »%s« med deg",
     "%s shared »%s« with you." : "%s delte »%s« med deg.",
     "Click the button below to open it." : "Klikk på knappen nedenfor for å åpne den.",

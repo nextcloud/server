@@ -32,7 +32,7 @@ script('federatedfilesharing', 'settings-admin');
 		<input type="checkbox" name="lookupServerEnabled" id="lookupServerEnabled" class="checkbox"
 			   value="1" <?php if ($_['lookupServerEnabled']) print_unescaped('checked="checked"'); ?> />
 		<label for="lookupServerEnabled">
-			<?php p($l->t('Search global and public address book for users and let local users publish their data'));?>
+			<?php p($l->t('Search global and public address book for users'));?>
 		</label><br/>
 	</p>
 	<p>

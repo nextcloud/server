@@ -32,6 +32,8 @@ namespace OCA\Provisioning_API\Tests\Controller;
 use Exception;
 use OC\Accounts\AccountManager;
 use OC\Group\Manager;
+use OCP\App\IAppManager;
+use OCP\AppFramework\OCS\OCSException;
 use OCP\Mail\IEMailTemplate;
 use OC\Settings\Mailer\NewUserMailHelper;
 use OC\SubAdmin;
@@ -58,6 +60,8 @@ class UsersControllerTest extends TestCase {
 	protected $userManager;
 	/** @var IConfig|PHPUnit_Framework_MockObject_MockObject */
 	protected $config;
+	/** @var IAppManager|PHPUnit_Framework_MockObject_MockObject */
+	protected $appManager;
 	/** @var Manager|PHPUnit_Framework_MockObject_MockObject */
 	protected $groupManager;
 	/** @var IUserSession|PHPUnit_Framework_MockObject_MockObject */
@@ -66,9 +70,9 @@ class UsersControllerTest extends TestCase {
 	protected $logger;
 	/** @var UsersController|PHPUnit_Framework_MockObject_MockObject */
 	protected $api;
-	/** @var  AccountManager|PHPUnit_Framework_MockObject_MockObject */
+	/** @var AccountManager|PHPUnit_Framework_MockObject_MockObject */
 	protected $accountManager;
-	/** @var  IRequest|PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest|PHPUnit_Framework_MockObject_MockObject */
 	protected $request;
 	/** @var IFactory|PHPUnit_Framework_MockObject_MockObject */
 	private $l10nFactory;
@@ -80,6 +84,7 @@ class UsersControllerTest extends TestCase {
 
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->config = $this->createMock(IConfig::class);
+		$this->appManager = $this->createMock(IAppManager::class);
 		$this->groupManager = $this->createMock(Manager::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->logger = $this->createMock(ILogger::class);
@@ -94,6 +99,7 @@ class UsersControllerTest extends TestCase {
 				$this->request,
 				$this->userManager,
 				$this->config,
+				$this->appManager,
 				$this->groupManager,
 				$this->userSession,
 				$this->accountManager,
@@ -694,6 +700,11 @@ class UsersControllerTest extends TestCase {
 			->method('getUserValue')
 			->with('UID', 'core', 'enabled', 'true')
 			->will($this->returnValue('true'));
+		$this->config
+			->expects($this->at(1))
+			->method('getUserValue')
+			->with('UID', 'core', 'lang')
+			->will($this->returnValue('de'));
 		$this->api
 			->expects($this->once())
 			->method('fillStorageInfo')
@@ -704,7 +715,7 @@ class UsersControllerTest extends TestCase {
 			->method('getDisplayName')
 			->will($this->returnValue('Demo User'));
 		$targetUser
-			->expects($this->exactly(3))
+			->expects($this->exactly(4))
 			->method('getUID')
 			->will($this->returnValue('UID'));
 
@@ -718,7 +729,8 @@ class UsersControllerTest extends TestCase {
 			'address' => 'address',
 			'website' => 'website',
 			'twitter' => 'twitter',
-			'groups' => ['group0', 'group1', 'group2']
+			'groups' => ['group0', 'group1', 'group2'],
+			'language' => 'de',
 		];
 		$this->assertEquals($expected, $this->invokePrivate($this->api, 'getUserData', ['UserToGet']));
 	}
@@ -773,6 +785,11 @@ class UsersControllerTest extends TestCase {
 			->method('getUserValue')
 			->with('UID', 'core', 'enabled', 'true')
 			->will($this->returnValue('true'));
+		$this->config
+			->expects($this->at(1))
+			->method('getUserValue')
+			->with('UID', 'core', 'lang')
+			->will($this->returnValue('da'));
 		$this->api
 			->expects($this->once())
 			->method('fillStorageInfo')
@@ -783,7 +800,7 @@ class UsersControllerTest extends TestCase {
 			->method('getDisplayName')
 			->will($this->returnValue('Demo User'));
 		$targetUser
-			->expects($this->exactly(3))
+			->expects($this->exactly(4))
 			->method('getUID')
 			->will($this->returnValue('UID'));
 		$this->accountManager->expects($this->any())->method('getUser')
@@ -807,7 +824,8 @@ class UsersControllerTest extends TestCase {
 			'address' => 'address',
 			'website' => 'website',
 			'twitter' => 'twitter',
-			'groups' => []
+			'groups' => [],
+			'language' => 'da',
 		];
 		$this->assertEquals($expected, $this->invokePrivate($this->api, 'getUserData', ['UserToGet']));
 	}
@@ -913,9 +931,14 @@ class UsersControllerTest extends TestCase {
 			->method('getEMailAddress')
 			->will($this->returnValue('subadmin@owncloud.org'));
 		$targetUser
-			->expects($this->exactly(3))
+			->expects($this->exactly(4))
 			->method('getUID')
 			->will($this->returnValue('UID'));
+		$this->config
+			->expects($this->at(0))
+			->method('getUserValue')
+			->with('UID', 'core', 'lang')
+			->will($this->returnValue('ru'));
 		$this->accountManager->expects($this->any())->method('getUser')
 			->with($targetUser)
 			->willReturn(
@@ -936,7 +959,8 @@ class UsersControllerTest extends TestCase {
 			'address' => 'address',
 			'website' => 'website',
 			'twitter' => 'twitter',
-			'groups' => []
+			'groups' => [],
+			'language' => 'ru',
 		];
 		$this->assertEquals($expected, $this->invokePrivate($this->api, 'getUserData', ['subadmin']));
 	}
@@ -1123,7 +1147,7 @@ class UsersControllerTest extends TestCase {
 			->with('UserToEdit')
 			->will($this->returnValue($targetUser));
 		$this->groupManager
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('isAdmin')
 			->with('UID')
 			->will($this->returnValue(true));
@@ -1158,7 +1182,7 @@ class UsersControllerTest extends TestCase {
 			->with('UserToEdit')
 			->will($this->returnValue($targetUser));
 		$this->groupManager
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('isAdmin')
 			->with('UID')
 			->will($this->returnValue(true));
@@ -1207,6 +1231,185 @@ class UsersControllerTest extends TestCase {
 			->will($this->returnValue('UID'));
 
 		$this->assertEquals([], $this->api->editUser('UserToEdit', 'quota', '3042824')->getData());
+	}
+
+	public function testEditUserSelfEditChangeLanguage() {
+
+		$this->l10nFactory->expects($this->once())
+			->method('findAvailableLanguages')
+			->willReturn(['en', 'de', 'sv']);
+		$this->config->expects($this->any())
+			->method('getSystemValue')
+			->willReturnMap([
+				['allow_user_to_change_display_name', true, true],
+				['force_language', false, false],
+			]);
+
+		$loggedInUser = $this->createMock(IUser::class);
+		$loggedInUser
+			->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('UserToEdit'));
+		$targetUser = $this->createMock(IUser::class);
+		$this->config->expects($this->once())
+			->method('setUserValue')
+			->with('UserToEdit', 'core', 'lang', 'de');
+		$this->userSession
+			->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($loggedInUser));
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('UserToEdit')
+			->will($this->returnValue($targetUser));
+		$this->groupManager
+			->expects($this->atLeastOnce())
+			->method('isAdmin')
+			->with('UserToEdit')
+			->will($this->returnValue(false));
+		$targetUser
+			->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('UserToEdit'));
+
+		$this->assertEquals([], $this->api->editUser('UserToEdit', 'language', 'de')->getData());
+	}
+
+	public function dataEditUserSelfEditChangeLanguageButForced() {
+		return [
+			['de'],
+			[true],
+		];
+	}
+
+	/**
+	 * @dataProvider dataEditUserSelfEditChangeLanguageButForced
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 */
+	public function testEditUserSelfEditChangeLanguageButForced($forced) {
+		$this->config->expects($this->any())
+			->method('getSystemValue')
+			->willReturnMap([
+				['allow_user_to_change_display_name', true, true],
+				['force_language', false, $forced],
+			]);
+
+		$loggedInUser = $this->createMock(IUser::class);
+		$loggedInUser
+			->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('UserToEdit'));
+		$targetUser = $this->createMock(IUser::class);
+		$this->config->expects($this->never())
+			->method('setUserValue');
+		$this->userSession
+			->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($loggedInUser));
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('UserToEdit')
+			->will($this->returnValue($targetUser));
+		$this->groupManager
+			->expects($this->atLeastOnce())
+			->method('isAdmin')
+			->with('UserToEdit')
+			->will($this->returnValue(false));
+		$targetUser
+			->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('UserToEdit'));
+
+		$this->assertEquals([], $this->api->editUser('UserToEdit', 'language', 'de')->getData());
+	}
+
+	public function testEditUserAdminEditChangeLanguage() {
+
+		$this->l10nFactory->expects($this->once())
+			->method('findAvailableLanguages')
+			->willReturn(['en', 'de', 'sv']);
+
+		$loggedInUser = $this->createMock(IUser::class);
+		$loggedInUser
+			->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('admin'));
+		$targetUser = $this->createMock(IUser::class);
+		$this->config->expects($this->once())
+			->method('setUserValue')
+			->with('UserToEdit', 'core', 'lang', 'de');
+		$this->userSession
+			->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($loggedInUser));
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('UserToEdit')
+			->will($this->returnValue($targetUser));
+		$this->groupManager
+			->expects($this->once())
+			->method('isAdmin')
+			->with('admin')
+			->will($this->returnValue(true));
+		$subAdminManager = $this->createMock(SubAdmin::class);
+		$this->groupManager
+			->expects($this->once())
+			->method('getSubAdmin')
+			->will($this->returnValue($subAdminManager));
+		$targetUser
+			->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('UserToEdit'));
+
+		$this->assertEquals([], $this->api->editUser('UserToEdit', 'language', 'de')->getData());
+	}
+
+	/**
+	 * @dataProvider dataEditUserSelfEditChangeLanguageButForced
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 */
+	public function testEditUserAdminEditChangeLanguageInvalidLanguage() {
+
+		$this->l10nFactory->expects($this->once())
+			->method('findAvailableLanguages')
+			->willReturn(['en', 'de', 'sv']);
+
+		$loggedInUser = $this->createMock(IUser::class);
+		$loggedInUser
+			->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('admin'));
+		$targetUser = $this->createMock(IUser::class);
+		$this->config->expects($this->never())
+			->method('setUserValue');
+		$this->userSession
+			->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($loggedInUser));
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('UserToEdit')
+			->will($this->returnValue($targetUser));
+		$this->groupManager
+			->expects($this->once())
+			->method('isAdmin')
+			->with('admin')
+			->will($this->returnValue(true));
+		$subAdminManager = $this->createMock(SubAdmin::class);
+		$this->groupManager
+			->expects($this->once())
+			->method('getSubAdmin')
+			->will($this->returnValue($subAdminManager));
+		$targetUser
+			->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('UserToEdit'));
+
+		$this->assertEquals([], $this->api->editUser('UserToEdit', 'language', 'ru')->getData());
 	}
 
 	public function testEditUserSubadminUserAccessible() {
@@ -2647,6 +2850,7 @@ class UsersControllerTest extends TestCase {
 				$this->request,
 				$this->userManager,
 				$this->config,
+				$this->appManager,
 				$this->groupManager,
 				$this->userSession,
 				$this->accountManager,
@@ -2707,6 +2911,7 @@ class UsersControllerTest extends TestCase {
 				$this->request,
 				$this->userManager,
 				$this->config,
+				$this->appManager,
 				$this->groupManager,
 				$this->userSession,
 				$this->accountManager,

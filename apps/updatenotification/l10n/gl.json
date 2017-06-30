@@ -16,7 +16,7 @@
     "Checked on %s" : "Revisado o %s",
     "Update channel:" : "Canle de actualización:",
     "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Sempre poderá actualizar á versión más recente ou á canle experimental, mais nunca poderá volver a unha canle máis estábel.",
-    "Notify members of the following groups about available updates:" : "Notificar aos membros dos seguintes grupos sobre actualizacións dispoñíbeis:",
+    "Notify members of the following groups about available updates:" : "Notificar aos participantes nos seguintes grupos sobre actualizacións dispoñíbeis:",
     "Only notification for app updates are available." : "Só están dispoñíbeis as notificacións para actualizacións de aplicacións.",
     "The selected update channel makes dedicated notifications for the server obsolete." : "A canle de actualización seleccionada fai obsoletas as notificacións dedicadas para o servidor.",
     "The selected update channel does not support updates of the server." : "A canle de actualización seleccionada non admite actualizacións do servidor."

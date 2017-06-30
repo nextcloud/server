@@ -7,7 +7,7 @@ OC.L10N.register(
     "Could not add server" : "Kunne ikke legge til tjener",
     "Federation" : "Sammenknytting",
     "Trusted servers" : "Klarerte tjenere",
-    "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Føderasjon tillater deg å koble sammen andre betrodde tjenere for utviksling av bruker kataloger. For eksempel vil det bli brukt for autofullføring av eksterne brukere for føderal deling.",
+    "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Sammenknytting tillater deg å koble sammen andre betrodde tjenere for utveksling av brukermapper. For eksempel vil det bli brukt for autofullføring av eksterne brukere for sammenknyttet deling.",
     "Add server automatically once a federated share was created successfully" : "Legg til tjener automatisk når en sammenknyttet deling har blitt opprettet",
     "+ Add trusted server" : "+ Legg til klarert tjener",
     "Trusted server" : "Klarert tjener",
