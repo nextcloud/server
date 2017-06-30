@@ -57,7 +57,7 @@ class CapabilitiesManager {
 			}
 
 			if ($c instanceof ICapability) {
-				if(!$public || ($public && $c instanceof IPublicCapability)) {
+				if(!$public || $c instanceof IPublicCapability) {
 					$capabilities = array_replace_recursive($capabilities, $c->getCapabilities());
 				}
 			} else {
