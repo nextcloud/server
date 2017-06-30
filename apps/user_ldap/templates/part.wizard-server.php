@@ -61,6 +61,9 @@
 				placeholder="<?php p($l->t('Password'));?>" autocomplete="off"
 				title="<?php p($l->t('For anonymous access, leave DN and Password empty.'));?>"
 				/>
+				<button class="ldapSaveAgentCredentials" name="ldapSaveAgentCredentials" type="button">
+					<?php p($l->t('Save Credentials'));?>
+				</button>
 			</div>
 
 			<div class="tablerow">

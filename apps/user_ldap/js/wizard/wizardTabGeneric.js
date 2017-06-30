@@ -53,6 +53,7 @@ OCA = OCA || {};
 		setManagedItems: function(managedItems) {
 			this.managedItems = managedItems;
 			this._enableAutoSave();
+			this._enableSaveButton();
 		},
 
 		/**
@@ -319,7 +320,10 @@ OCA = OCA || {};
 
 			for(var id in this.managedItems) {
 				if(_.isUndefined(this.managedItems[id].$element)
-				   || _.isUndefined(this.managedItems[id].setMethod)) {
+					|| _.isUndefined(this.managedItems[id].setMethod)
+					|| (!_.isUndefined(this.managedItems[id].preventAutoSave)
+						&& this.managedItems[id].preventAutoSave === true)
+				) {
 					continue;
 				}
 				var $element = this.managedItems[id].$element;
@@ -328,6 +332,35 @@ OCA = OCA || {};
 						view._requestSave($(this));
 					});
 				}
+			}
+		},
+
+		/**
+		 * set's up save-button behavior (essentially used for agent dn and pwd)
+		 *
+		 * @private
+		 */
+		_enableSaveButton: function() {
+			var view = this;
+
+			// TODO: this is not nice, because it fires one request per change
+			// in the scenario this happens twice, causes detectors to run
+			// duplicated etc. To have this work properly, the wizard endpoint
+			// must accept setting multiple changes. Instead of messing around
+			// with old ajax/wizard.php use this opportunity and create a
+			// Controller
+			for(var id in this.managedItems) {
+				if(_.isUndefined(this.managedItems[id].$element)
+					|| _.isUndefined(this.managedItems[id].$saveButton)
+				) {
+					continue;
+				}
+				(function (item) {
+					item.$saveButton.click(function(event) {
+						event.preventDefault();
+						view._requestSave(item.$element);
+					});
+				})(this.managedItems[id]);
 			}
 		},
 
