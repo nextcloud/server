@@ -146,7 +146,7 @@ class Connection extends LDAPUtility {
 		$this->configuration->$name = $value;
 		$after = $this->configuration->$name;
 		if($before !== $after) {
-			if ($this->configID !== '') {
+			if ($this->configID !== '' && $this->configID !== null) {
 				$this->configuration->saveConfiguration();
 			}
 			$this->validateConfiguration();
