@@ -35,8 +35,6 @@ use \phpseclib\Crypt\RSA as RSACrypt;
  */
 class RSA extends AuthMechanism {
 
-	const CREATE_KEY_BITS = 1024;
-
 	/** @var IConfig */
 	private $config;
 
