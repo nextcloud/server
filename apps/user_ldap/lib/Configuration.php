@@ -38,6 +38,8 @@ class Configuration {
 
 	protected $configPrefix = null;
 	protected $configRead = false;
+	/** @var string[]  */
+	protected $unsavedChanges = [];
 
 	//settings
 	protected $config = array(
@@ -185,6 +187,8 @@ class Configuration {
 			$this->$setMethod($key, $val);
 			if(is_array($applied)) {
 				$applied[] = $inputKey;
+				// storing key as index avoids duplication, and as value for simplicity
+				$this->unsavedChanges[$key] = $key;
 			}
 		}
 		return null;
@@ -238,11 +242,12 @@ class Configuration {
 	}
 
 	/**
-	 * saves the current Configuration in the database
+	 * saves the current config changes in the database
 	 */
 	public function saveConfiguration() {
 		$cta = array_flip($this->getConfigTranslationArray());
-		foreach($this->config as $key => $value) {
+		foreach($this->unsavedChanges as $key) {
+			$value = $this->config[$key];
 			switch ($key) {
 				case 'ldapAgentPassword':
 					$value = base64_encode($value);
@@ -273,6 +278,7 @@ class Configuration {
 			}
 			$this->saveValue($cta[$key], $value);
 		}
+		$this->unsavedChanges = [];
 	}
 
 	/**
