@@ -23,7 +23,7 @@
 
 namespace OCA\Theming;
 
-use OCP\Capabilities\ICapability;
+use OCP\Capabilities\IPublicCapability;
 use OCP\IConfig;
 use OCP\IURLGenerator;
 
@@ -32,7 +32,7 @@ use OCP\IURLGenerator;
  *
  * @package OCA\Theming
  */
-class Capabilities implements ICapability {
+class Capabilities implements IPublicCapability {
 
 	/** @var ThemingDefaults */
 	protected $theming;
