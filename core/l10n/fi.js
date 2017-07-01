@@ -50,6 +50,7 @@ OC.L10N.register(
     "%s (incompatible)" : "%s (ei yhteensopiva)",
     "Following apps have been disabled: %s" : "Seuraavat sovellukset on poistettu käytöstä: %s",
     "Already up to date" : "Kaikki on jo ajan tasalla",
+    "Search contacts …" : "Etsi yhteystietoja…",
     "No contacts found" : "Yhteystietoja ei löytynyt",
     "Show all contacts …" : "Näytä kaikki yhteystiedot…",
     "There was an error loading your contacts" : "Virhe yhteystietojasi ladatessa",

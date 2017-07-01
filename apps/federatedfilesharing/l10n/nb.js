@@ -37,6 +37,7 @@ OC.L10N.register(
     "Decline" : "Avslå",
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Del med meg gjennom min #Nextcloud-ID for sammenknyttet sky, se %s",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Del med meg gjennom min #Nextcloud-ID for sammenknyttet sky",
+    "Sharing" : "Deling",
     "Federated file sharing" : "Sammenknyttet fildeling",
     "Federated Cloud Sharing" : "Sammenknyttet skydeling",
     "Open documentation" : "Åpne dokumentasjonen",
