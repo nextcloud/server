@@ -590,6 +590,8 @@ class Connection extends LDAPUtility {
 						throw new \OC\ServerNotAvailableException('Start TLS failed, when connecting to LDAP host ' . $host . '.');
 					}
 				}
+			} else {
+				throw new \OC\ServerNotAvailableException('Could not disable LDAP referrals.');
 			}
 		} else {
 			throw new \OC\ServerNotAvailableException('Could not set required LDAP Protocol version.');
