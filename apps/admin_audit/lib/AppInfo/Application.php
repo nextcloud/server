@@ -1,8 +1,6 @@
 <?php
 /**
- * @copyright Bjoern Schiessle <bjoern@schiessle.org>
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @copyright Copyright (c) 2017 Joas Schilling <coding@schilljs.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -21,27 +19,13 @@
  *
  */
 
+namespace OCA\AdminAudit\AppInfo;
 
-namespace OCA\Admin_Audit\Actions;
+use OCP\AppFramework\App;
 
+class Application extends App {
 
-class Versions extends Action {
-
-	public function rollback($params) {
-		$this->log('Version "%s" of "%s" was restored.',
-			[
-				'version' => $params['revision'],
-				'path' => $params['path']
-			],
-			['version', 'path']
-		);
+	public function __construct() {
+		parent::__construct('admin_audit');
 	}
-
-	public function delete($params) {
-		$this->log('Version "%s" was deleted.',
-			['path' => $params['path']],
-			['path']
-		);
-	}
-
 }

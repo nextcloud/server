@@ -24,17 +24,17 @@
  *
  */
 
-namespace OCA\Admin_Audit;
+namespace OCA\AdminAudit;
 
 use OC\Files\Filesystem;
 use OC\Files\Node\File;
-use OCA\Admin_Audit\Actions\Auth;
-use OCA\Admin_Audit\Actions\Files;
-use OCA\Admin_Audit\Actions\GroupManagement;
-use OCA\Admin_Audit\Actions\Sharing;
-use OCA\Admin_Audit\Actions\Trashbin;
-use OCA\Admin_Audit\Actions\UserManagement;
-use OCA\Admin_Audit\Actions\Versions;
+use OCA\AdminAudit\Actions\Auth;
+use OCA\AdminAudit\Actions\Files;
+use OCA\AdminAudit\Actions\GroupManagement;
+use OCA\AdminAudit\Actions\Sharing;
+use OCA\AdminAudit\Actions\Trashbin;
+use OCA\AdminAudit\Actions\UserManagement;
+use OCA\AdminAudit\Actions\Versions;
 use OCP\IGroupManager;
 use OCP\ILogger;
 use OCP\IPreview;

@@ -23,18 +23,16 @@
  *
  */
 
+namespace OCA\AdminAudit\Actions;
 
-namespace OCA\Admin_Audit\Actions;
 
-
-use OCA\Admin_Audit\Actions\Action;
 use OCP\IGroup;
 use OCP\IUser;
 
 /**
  * Class GroupManagement logs all group manager related events
  *
- * @package OCA\Admin_Audit
+ * @package OCA\AdminAudit\Actions
  */
 class GroupManagement extends Action {
 
