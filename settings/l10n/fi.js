@@ -8,6 +8,8 @@ OC.L10N.register(
     "You changed your email address" : "Muutit sähköpostiosoitteesi",
     "Your email address was changed by an administrator" : "Ylläpitäjä muutti sähköpostiosoitteesi",
     "Security" : "Turvallisuus",
+    "You successfully logged in using two-factor authentication (%1$s)" : "Kirjauduit onnistuneesti sisään kaksivaiheista tunnistautumista käyttäen (%1$s)",
+    "A login attempt using two-factor authentication failed (%1$s)" : "Kirjautumisyritys kaksivaiheista tunnistautumista käyttäen epäonnistui (%1$s)",
     "Your <strong>password</strong> or <strong>email</strong> was modified" : "<strong>Salasanaasi</strong> tai <strong>sähköpostiosoitettasi</strong> muokattiin",
     "Your apps" : "Sovelluksesi",
     "Enabled apps" : "Käytössä olevat sovellukset",
