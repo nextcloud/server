@@ -21,11 +21,162 @@
 
 namespace OCA\AdminAudit\AppInfo;
 
+use OC\Files\Filesystem;
+use OC\Files\Node\File;
+use OC\Group\Manager;
+use OC\User\Session;
+use OCA\AdminAudit\Actions\Auth;
+use OCA\AdminAudit\Actions\Files;
+use OCA\AdminAudit\Actions\GroupManagement;
+use OCA\AdminAudit\Actions\Sharing;
+use OCA\AdminAudit\Actions\Trashbin;
+use OCA\AdminAudit\Actions\UserManagement;
+use OCA\AdminAudit\Actions\Versions;
 use OCP\AppFramework\App;
+use OCP\IGroupManager;
+use OCP\ILogger;
+use OCP\IPreview;
+use OCP\IUserSession;
+use OCP\Util;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Application extends App {
 
 	public function __construct() {
 		parent::__construct('admin_audit');
+	}
+
+	public function register() {
+		$this->registerHooks();
+	}
+
+	/**
+	 * Register hooks in order to log them
+	 */
+	protected function registerHooks() {
+		$logger = $this->getContainer()->getServer()->getLogger();
+		$this->userManagementHooks($logger);
+		$this->groupHooks($logger);
+		$this->sharingHooks($logger);
+		$this->authHooks($logger);
+		$this->fileHooks($logger);
+		$this->trashbinHooks($logger);
+		$this->versionsHooks($logger);
+	}
+
+	protected function userManagementHooks(ILogger $logger) {
+		$userActions = new UserManagement($logger);
+
+		Util::connectHook('OC_User', 'post_createUser',	$userActions, 'create');
+		Util::connectHook('OC_User', 'post_deleteUser',	$userActions, 'delete');
+		Util::connectHook('OC_User', 'changeUser',	$userActions, 'change');
+
+		/** @var IUserSession|Session $userSession */
+		$userSession = $this->getContainer()->getServer()->getUserSession();
+		$userSession->listen('\OC\User', 'postSetPassword', [$userActions, 'setPassword']);
+	}
+
+	protected function groupHooks(ILogger $logger)  {
+		$groupActions = new GroupManagement($logger);
+
+		/** @var IGroupManager|Manager $groupManager */
+		$groupManager = $this->getContainer()->getServer()->getGroupManager();
+		$groupManager->listen('\OC\Group', 'postRemoveUser',  [$groupActions, 'removeUser']);
+		$groupManager->listen('\OC\Group', 'postAddUser',  [$groupActions, 'addUser']);
+		$groupManager->listen('\OC\Group', 'postDelete',  [$groupActions, 'deleteGroup']);
+		$groupManager->listen('\OC\Group', 'postCreate',  [$groupActions, 'createGroup']);
+	}
+
+	protected function sharingHooks(ILogger $logger) {
+		$shareActions = new Sharing($logger);
+
+		Util::connectHook('OCP\Share', 'post_shared', $shareActions, 'shared');
+		Util::connectHook('OCP\Share', 'post_unshare', $shareActions, 'unshare');
+		Util::connectHook('OCP\Share', 'post_update_permissions', $shareActions, 'updatePermissions');
+		Util::connectHook('OCP\Share', 'post_update_password', $shareActions, 'updatePassword');
+		Util::connectHook('OCP\Share', 'post_set_expiration_date', $shareActions, 'updateExpirationDate');
+		Util::connectHook('OCP\Share', 'share_link_access', $shareActions, 'shareAccessed');
+	}
+
+	protected function authHooks(ILogger $logger) {
+		$authActions = new Auth($logger);
+
+		Util::connectHook('OC_User', 'pre_login', $authActions, 'loginAttempt');
+		Util::connectHook('OC_User', 'post_login', $authActions, 'loginSuccessful');
+		Util::connectHook('OC_User', 'logout', $authActions, 'logout');
+	}
+
+	protected function fileHooks(ILogger $logger) {
+		$fileActions = new Files($logger);
+		$eventDispatcher = $this->getContainer()->getServer()->getEventDispatcher();
+		$eventDispatcher->addListener(
+			IPreview::EVENT,
+			function(GenericEvent $event) use ($fileActions) {
+				/** @var File $file */
+				$file = $event->getSubject();
+				$fileActions->preview([
+					'path' => substr($file->getInternalPath(), 5),
+					'width' => $event->getArguments()['width'],
+					'height' => $event->getArguments()['height'],
+					'crop' => $event->getArguments()['crop'],
+					'mode'  => $event->getArguments()['mode']
+				]);
+			}
+		);
+
+		Util::connectHook(
+			Filesystem::CLASSNAME,
+			Filesystem::signal_post_rename,
+			$fileActions,
+			'rename'
+		);
+		Util::connectHook(
+			Filesystem::CLASSNAME,
+			Filesystem::signal_post_create,
+			$fileActions,
+			'create'
+		);
+		Util::connectHook(
+			Filesystem::CLASSNAME,
+			Filesystem::signal_post_copy,
+			$fileActions,
+			'copy'
+		);
+		Util::connectHook(
+			Filesystem::CLASSNAME,
+			Filesystem::signal_post_write,
+			$fileActions,
+			'write'
+		);
+		Util::connectHook(
+			Filesystem::CLASSNAME,
+			Filesystem::signal_post_update,
+			$fileActions,
+			'update'
+		);
+		Util::connectHook(
+			Filesystem::CLASSNAME,
+			Filesystem::signal_read,
+			$fileActions,
+			'read'
+		);
+		Util::connectHook(
+			Filesystem::CLASSNAME,
+			Filesystem::signal_delete,
+			$fileActions,
+			'delete'
+		);
+	}
+
+	protected function versionsHooks(ILogger $logger) {
+		$versionsActions = new Versions($logger);
+		Util::connectHook('\OCP\Versions', 'rollback', $versionsActions, 'rollback');
+		Util::connectHook('\OCP\Versions', 'delete',$versionsActions, 'delete');
+	}
+
+	protected function trashbinHooks(ILogger $logger) {
+		$trashActions = new Trashbin($logger);
+		Util::connectHook('\OCP\Trashbin', 'preDelete', $trashActions, 'delete');
+		Util::connectHook('\OCA\Files_Trashbin\Trashbin', 'post_restore', $trashActions, 'restore');
 	}
 }
