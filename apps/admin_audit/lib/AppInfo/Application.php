@@ -27,6 +27,7 @@ use OC\Group\Manager;
 use OC\User\Session;
 use OCA\AdminAudit\Actions\AppManagement;
 use OCA\AdminAudit\Actions\Auth;
+use OCA\AdminAudit\Actions\Console;
 use OCA\AdminAudit\Actions\Files;
 use OCA\AdminAudit\Actions\GroupManagement;
 use OCA\AdminAudit\Actions\Sharing;
@@ -35,6 +36,7 @@ use OCA\AdminAudit\Actions\UserManagement;
 use OCA\AdminAudit\Actions\Versions;
 use OCP\App\ManagerEvent;
 use OCP\AppFramework\App;
+use OCP\Console\ConsoleEvent;
 use OCP\IGroupManager;
 use OCP\ILogger;
 use OCP\IPreview;
@@ -62,6 +64,7 @@ class Application extends App {
 		$this->groupHooks($logger);
 		$this->authHooks($logger);
 
+		$this->consoleHooks($logger);
 		$this->appHooks($logger);
 
 		$this->sharingHooks($logger);
@@ -129,6 +132,14 @@ class Application extends App {
 			$appActions->disableApp($event->getAppID());
 		});
 
+	}
+
+	protected function consoleHooks(ILogger $logger) {
+		$eventDispatcher = $this->getContainer()->getServer()->getEventDispatcher();
+		$eventDispatcher->addListener(ConsoleEvent::EVENT_RUN, function(ConsoleEvent $event) use ($logger) {
+			$appActions = new Console($logger);
+			$appActions->runCommand($event->getArguments());
+		});
 	}
 
 	protected function fileHooks(ILogger $logger) {
