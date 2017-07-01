@@ -25,6 +25,7 @@ use OC\Files\Filesystem;
 use OC\Files\Node\File;
 use OC\Group\Manager;
 use OC\User\Session;
+use OCA\AdminAudit\Actions\AppManagement;
 use OCA\AdminAudit\Actions\Auth;
 use OCA\AdminAudit\Actions\Files;
 use OCA\AdminAudit\Actions\GroupManagement;
@@ -32,6 +33,7 @@ use OCA\AdminAudit\Actions\Sharing;
 use OCA\AdminAudit\Actions\Trashbin;
 use OCA\AdminAudit\Actions\UserManagement;
 use OCA\AdminAudit\Actions\Versions;
+use OCP\App\ManagerEvent;
 use OCP\AppFramework\App;
 use OCP\IGroupManager;
 use OCP\ILogger;
@@ -55,10 +57,15 @@ class Application extends App {
 	 */
 	protected function registerHooks() {
 		$logger = $this->getContainer()->getServer()->getLogger();
+
 		$this->userManagementHooks($logger);
 		$this->groupHooks($logger);
-		$this->sharingHooks($logger);
 		$this->authHooks($logger);
+
+		$this->appHooks($logger);
+
+		$this->sharingHooks($logger);
+
 		$this->fileHooks($logger);
 		$this->trashbinHooks($logger);
 		$this->versionsHooks($logger);
@@ -104,6 +111,24 @@ class Application extends App {
 		Util::connectHook('OC_User', 'pre_login', $authActions, 'loginAttempt');
 		Util::connectHook('OC_User', 'post_login', $authActions, 'loginSuccessful');
 		Util::connectHook('OC_User', 'logout', $authActions, 'logout');
+	}
+
+	protected function appHooks(ILogger $logger) {
+
+		$eventDispatcher = $this->getContainer()->getServer()->getEventDispatcher();
+		$eventDispatcher->addListener(ManagerEvent::EVENT_APP_ENABLE, function(ManagerEvent $event) use ($logger) {
+			$appActions = new AppManagement($logger);
+			$appActions->enableApp($event->getAppID());
+		});
+		$eventDispatcher->addListener(ManagerEvent::EVENT_APP_ENABLE_FOR_GROUPS, function(ManagerEvent $event) use ($logger) {
+			$appActions = new AppManagement($logger);
+			$appActions->enableAppForGroups($event->getAppID(), $event->getGroups());
+		});
+		$eventDispatcher->addListener(ManagerEvent::EVENT_APP_DISABLE, function(ManagerEvent $event) use ($logger) {
+			$appActions = new AppManagement($logger);
+			$appActions->disableApp($event->getAppID());
+		});
+
 	}
 
 	protected function fileHooks(ILogger $logger) {
