@@ -26,7 +26,10 @@ namespace Tests\Contacts\ContactsMenu;
 
 use OC\Contacts\ContactsMenu\ContactsStore;
 use OCP\Contacts\IManager;
+use OCP\IConfig;
+use OCP\IGroupManager;
 use OCP\IUser;
+use OCP\IUserManager;
 use PHPUnit_Framework_MockObject_MockObject;
 use Test\TestCase;
 
@@ -38,12 +41,27 @@ class ContactsStoreTest extends TestCase {
 	/** @var IManager|PHPUnit_Framework_MockObject_MockObject */
 	private $contactsManager;
 
+	/** @var IUserManager|PHPUnit_Framework_MockObject_MockObject */
+	private $userManager;
+
+	/** @var IGroupManager|PHPUnit_Framework_MockObject_MockObject */
+	private $groupManager;
+
+	/** @var IConfig|PHPUnit_Framework_MockObject_MockObject */
+	private $config;
+
 	protected function setUp() {
 		parent::setUp();
 
 		$this->contactsManager = $this->createMock(IManager::class);
 
-		$this->contactsStore = new ContactsStore($this->contactsManager);
+		$this->userManager = $this->createMock(IUserManager::class);
+
+		$this->groupManager = $this->createMock(IGroupManager::class);
+
+		$this->config = $this->createMock(IConfig::class);
+
+		$this->contactsStore = new ContactsStore($this->contactsManager, $this->config, $this->userManager, $this->groupManager);
 	}
 
 	public function testGetContactsWithoutFilter() {
