@@ -106,7 +106,9 @@ class ContactsStore {
 			}
 		}
 
-		return array_filter($entries, function(IEntry $entry) use ($self, $skipLocal, $ownGroupsOnly, $selfGroups) {
+		$selfUID = $self->getUID();
+
+		return array_filter($entries, function(IEntry $entry) use ($self, $skipLocal, $ownGroupsOnly, $selfGroups, $selfUID) {
 
 			if ($skipLocal && $entry->getProperty('isLocalSystemBook') === true) {
 				return false;
@@ -120,7 +122,7 @@ class ContactsStore {
 				}
 			}
 
-			return $entry->getProperty('UID') !== $self->getUID();
+			return $entry->getProperty('UID') !== $selfUID;
 		});
 
 
