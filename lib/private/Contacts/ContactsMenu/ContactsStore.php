@@ -24,20 +24,40 @@
 
 namespace OC\Contacts\ContactsMenu;
 
+use OC\Share\Share;
 use OCP\Contacts\ContactsMenu\IEntry;
 use OCP\Contacts\IManager;
+use OCP\IConfig;
+use OCP\IGroupManager;
 use OCP\IUser;
+use OCP\IUserManager;
+use OCP\IUserSession;
 
 class ContactsStore {
 
 	/** @var IManager */
 	private $contactsManager;
 
+	/** @var IConfig */
+	private $config;
+
+	/** @var IUserManager */
+	private $userManager;
+
+	/** @var IGroupManager */
+	private $groupManager;
+
 	/**
 	 * @param IManager $contactsManager
+	 * @param IConfig $config
+	 * @param IUserManager $userManager
+	 * @param IGroupManager $groupManager
 	 */
-	public function __construct(IManager $contactsManager) {
+	public function __construct(IManager $contactsManager, IConfig $config, IUserManager $userManager, IGroupManager $groupManager) {
 		$this->contactsManager = $contactsManager;
+		$this->config = $config;
+		$this->userManager = $userManager;
+		$this->groupManager = $groupManager;
 	}
 
 	/**
@@ -50,13 +70,60 @@ class ContactsStore {
 			'FN',
 		]);
 
-		$self = $user->getUID();
 		$entries = array_map(function(array $contact) {
 			return $this->contactArrayToEntry($contact);
 		}, $allContacts);
-		return array_filter($entries, function(IEntry $entry) use ($self) {
-			return $entry->getProperty('UID') !== $self;
+		return $this->filterContacts($user, $entries);
+	}
+
+	/**
+	 * @brief filters the contacts. Applies 3 filters:
+	 *  1. filter the current user
+	 *  2. if the `shareapi_exclude_groups` config option is enabled and the
+	 * current user is in an excluded group it will filter all local users.
+	 *  3. if the ``shareapi_only_share_with_group_members config option is
+	 * enabled it will filter all users which doens't have a common group
+	 * with the current user.
+	 * @param IUser $self
+	 * @param $entries Entry[]
+	 * @return array the filtered contacts
+	 */
+	private function filterContacts(IUser $self, Array $entries) {
+		$excludedGroups = $this->config->getAppValue('core', 'shareapi_exclude_groups', 'no') === 'yes' ? true : false;
+
+		$skipLocal = false; // whether to filter out local users
+		$ownGroupsOnly = Share::shareWithGroupMembersOnly(); // whether to filter out all users which doesn't have the same group as the current user
+
+		$selfGroups = $this->groupManager->getUserGroupIds($self);
+
+		if ($excludedGroups) {
+			$excludedGroups = $this->config->getAppValue('core', 'shareapi_exclude_groups_list', '');
+			$excludeGroupsList = !is_null(json_decode($excludedGroups)) ? json_decode($excludedGroups, true) :  [];
+
+			if (count(array_intersect($excludeGroupsList, $selfGroups)) !== 0) {
+				// a group of the current user is excluded -> filter all local users
+				$skipLocal = true;
+			}
+		}
+
+		return array_filter($entries, function(IEntry $entry) use ($self, $skipLocal, $ownGroupsOnly, $selfGroups) {
+
+			if ($skipLocal && $entry->getProperty('isLocalSystemBook') === true) {
+				return false;
+			}
+
+			if ($ownGroupsOnly && $entry->getProperty('isLocalSystemBook') === true) {
+				$contactGroups = $this->groupManager->getUserGroupIds($this->userManager->get($entry->getProperty('UID')));
+				if (count(array_intersect($contactGroups, $selfGroups)) === 0) {
+					// no groups in common, so shouldn't see the contact
+					return false;
+				}
+			}
+
+			return $entry->getProperty('UID') !== $self->getUID();
 		});
+
+
 	}
 
 	/**
