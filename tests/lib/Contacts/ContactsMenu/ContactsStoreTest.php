@@ -175,6 +175,135 @@ class ContactsStoreTest extends TestCase {
 		$this->assertEquals('https://photo', $entries[1]->getAvatar());
 	}
 
+	public function testGetContactsWhenUserIsInExcludeGroups() {
+		$this->config->expects($this->at(0))
+			->method('getAppValue')
+			->with($this->equalTo('core'), $this->equalTo('shareapi_exclude_groups'), $this->equalTo('no'))
+			->willReturn('yes');
+
+		$this->config->expects($this->at(1))
+			->method('getAppValue')
+			->with($this->equalTo('core'), $this->equalTo('shareapi_only_share_with_group_members'), $this->equalTo('no'))
+			->willReturn('yes');
+
+		$this->config->expects($this->at(2))
+			->method('getAppValue')
+			->with($this->equalTo('core'), $this->equalTo('shareapi_exclude_groups_list'), $this->equalTo(''))
+			->willReturn('["group1", "group5", "group6"]');
+
+		$currentUser = $this->createMock(IUser::class);
+		$currentUser->expects($this->once())
+			->method('getUID')
+			->willReturn('user001');
+
+		$this->groupManager->expects($this->once())
+			->method('getUserGroupIds')
+			->with($this->equalTo($currentUser))
+			->willReturn(["group1", "group2", "group3"]);
+
+
+		$this->contactsManager->expects($this->once())
+			->method('search')
+			->with($this->equalTo(''), $this->equalTo(['FN']))
+			->willReturn([
+				[
+					'UID' => 'user123',
+					'isLocalSystemBook' => true
+				],
+				[
+					'UID' => 'user12345',
+					'isLocalSystemBook' => true
+				],
+			]);
+
+
+		$entries = $this->contactsStore->getContacts($currentUser, '');
+
+		$this->assertCount(0, $entries);
+
+	}
+
+	public function testGetContactsOnlyIfInTheSameGroup() {
+		$this->config->expects($this->at(0)) ->method('getAppValue')
+			->with($this->equalTo('core'), $this->equalTo('shareapi_exclude_groups'), $this->equalTo('no'))
+			->willReturn('no');
+
+		$this->config->expects($this->at(1))
+			->method('getAppValue')
+			->with($this->equalTo('core'), $this->equalTo('shareapi_only_share_with_group_members'), $this->equalTo('no'))
+			->willReturn('yes');
+
+		$currentUser = $this->createMock(IUser::class);
+		$currentUser->expects($this->once())
+			->method('getUID')
+			->willReturn('user001');
+
+		$this->groupManager->expects($this->at(0))
+			->method('getUserGroupIds')
+			->with($this->equalTo($currentUser))
+			->willReturn(["group1", "group2", "group3"]);
+
+
+		$user1 = $this->createMock(IUser::class);
+		$this->userManager->expects($this->at(0))
+			->method('get')
+			->with('user1')
+			->willReturn($user1);
+		$this->groupManager->expects($this->at(1))
+			->method('getUserGroupIds')
+			->with($this->equalTo($user1))
+			->willReturn(["group1"]);
+		$user2 = $this->createMock(IUser::class);
+		$this->userManager->expects($this->at(1))
+			->method('get')
+			->with('user2')
+			->willReturn($user2);
+		$this->groupManager->expects($this->at(2))
+			->method('getUserGroupIds')
+			->with($this->equalTo($user2))
+			->willReturn(["group2", "group3"]);
+		$user3 = $this->createMock(IUser::class);
+		$this->userManager->expects($this->at(2))
+			->method('get')
+			->with('user3')
+			->willReturn($user3);
+		$this->groupManager->expects($this->at(3))
+			->method('getUserGroupIds')
+			->with($this->equalTo($user3))
+			->willReturn(["group8", "group9"]);
+
+		$this->contactsManager->expects($this->once())
+			->method('search')
+			->with($this->equalTo(''), $this->equalTo(['FN']))
+			->willReturn([
+				[
+					'UID' => 'user1',
+					'isLocalSystemBook' => true
+				],
+				[
+					'UID' => 'user2',
+					'isLocalSystemBook' => true
+				],
+				[
+					'UID' => 'user3',
+					'isLocalSystemBook' => true
+				],
+				[
+					'UID' => 'contact',
+				],
+			]);
+
+		$entries = $this->contactsStore->getContacts($currentUser, '');
+
+		$this->assertCount(3, $entries);
+		$this->assertEquals('user1', $entries[0]->getProperty('UID'));
+		$this->assertEquals('user2', $entries[1]->getProperty('UID'));
+		$this->assertEquals('contact', $entries[3]->getProperty('UID'));
+
+
+	}
+
+
 	public function testFindOneUser() {
 		$user = $this->createMock(IUser::class);
 		$this->contactsManager->expects($this->once())
