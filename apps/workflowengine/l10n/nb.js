@@ -59,6 +59,7 @@ OC.L10N.register(
     "Check %s is invalid" : "Sjekk %s er ugyldig",
     "Check #%s does not exist" : "Sjekk #%s finnes ikke",
     "Workflow" : "Arbeidsflyt",
+    "Files workflow engine" : "Arbeidsflytmotor for Files-programmet",
     "Open documentation" : "Åpne dokumentasjonen",
     "Add rule group" : "Legg til regelgruppe",
     "Short rule description" : "Kort beskrivelse av regel",
