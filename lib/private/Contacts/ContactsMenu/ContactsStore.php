@@ -92,7 +92,7 @@ class ContactsStore {
 		$excludedGroups = $this->config->getAppValue('core', 'shareapi_exclude_groups', 'no') === 'yes' ? true : false;
 
 		$skipLocal = false; // whether to filter out local users
-		$ownGroupsOnly = Share::shareWithGroupMembersOnly(); // whether to filter out all users which doesn't have the same group as the current user
+		$ownGroupsOnly = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes' ? true : false; // whether to filter out all users which doesn't have the same group as the current user
 
 		$selfGroups = $this->groupManager->getUserGroupIds($self);
 
