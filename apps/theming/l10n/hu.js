@@ -1,6 +1,7 @@
 OC.L10N.register(
     "theming",
     {
+    "Loading preview…" : "Előnézet betöltése...",
     "Saved" : "Mentve!",
     "Admin" : "Adminisztrátor",
     "a safe home for all your data" : "biztonságos hely az adataid számára",
@@ -12,7 +13,9 @@ OC.L10N.register(
     "Unsupported image type" : "Nem támogatott képtípus",
     "You are already using a custom theme" : "Már egyedi témát használ",
     "Theming" : "Témázás",
+    "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "A témák lehetőve teszik, hogy könnyedén személyre szabja a kinézetét az oldalnak, és a támogatott klienseknek. Ez minden felhasználó számára látható lesz.",
     "Name" : "Név",
+    "Reset to default" : "Visszaállítás eredetire",
     "Web address" : "Webcím",
     "Web address https://…" : "Webcím https://...",
     "Slogan" : "Szlogen",
@@ -21,6 +24,7 @@ OC.L10N.register(
     "Upload new logo" : "Új logó feltöltése",
     "Login image" : "Bejelentkező kép",
     "Upload new login background" : "Új bejelentkező kép feltöltése",
+    "Remove background image" : "Háttérkép eltávolítása",
     "reset to default" : "Visszaállítás alapértelmezettre",
     "Log in image" : "Bejelentkező kép"
 },
