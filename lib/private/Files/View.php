@@ -779,14 +779,18 @@ class View {
 				$this->changeLock($path1, ILockingProvider::LOCK_EXCLUSIVE, true);
 				$this->changeLock($path2, ILockingProvider::LOCK_EXCLUSIVE, true);
 
-				if ($internalPath1 === '' and $mount1 instanceof MoveableMount) {
-					if ($this->isTargetAllowed($absolutePath2)) {
-						/**
-						 * @var \OC\Files\Mount\MountPoint | \OC\Files\Mount\MoveableMount $mount1
-						 */
-						$sourceMountPoint = $mount1->getMountPoint();
-						$result = $mount1->moveMount($absolutePath2);
-						$manager->moveMount($sourceMountPoint, $mount1->getMountPoint());
+				if ($internalPath1 === '') {
+					if ($mount1 instanceof MoveableMount) {
+						if ($this->isTargetAllowed($absolutePath2)) {
+							/**
+							 * @var \OC\Files\Mount\MountPoint | \OC\Files\Mount\MoveableMount $mount1
+							 */
+							$sourceMountPoint = $mount1->getMountPoint();
+							$result = $mount1->moveMount($absolutePath2);
+							$manager->moveMount($sourceMountPoint, $mount1->getMountPoint());
+						} else {
+							$result = false;
+						}
 					} else {
 						$result = false;
 					}
