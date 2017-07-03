@@ -191,7 +191,7 @@
     "This can usually be fixed by giving the webserver write access to the root directory. See %s" : "Dette kan vanligvis ordnes ved å gi vev-tjeneren skrivetilgang til root-mappen. Se %s",
     "Permissions can usually be fixed by giving the webserver write access to the root directory. See %s." : "Tillatelser kan vanligvis ordnes ved å gi vevtjeneren skrivetilgang til rotmappa. Se %s.",
     "Setting locale to %s failed" : "Setting av nasjonale innstillinger til %s mislyktes.",
-    "Please install one of these locales on your system and restart your webserver." : "Vennligst installer en av disse nasjonale innstillingene på systemet ditt og start vevtjeneren på nytt.",
+    "Please install one of these locales on your system and restart your webserver." : "Installer en av disse nasjonale innstillingene på systemet ditt og start vevtjeneren på nytt.",
     "Please ask your server administrator to install the module." : "Be tjener-administratoren om å installere modulen.",
     "PHP module %s not installed." : "PHP-modul %s er ikke installert.",
     "PHP setting \"%s\" is not set to \"%s\"." : "PHP-innstilling \"%s\" er ikke satt til \"%s\".",
