@@ -56,6 +56,7 @@ OC.L10N.register(
     "There was an error loading your contacts" : "Virhe yhteystietojasi ladatessa",
     "Loading your contacts …" : "Ladataan yhteystietojasi…",
     "<a href=\"{docUrl}\">There were problems with the code integrity check. More information…</a>" : "<a href=\"{docUrl}\">Eheystarkistus tuotti ongelmia. Lisätietoja…</a>",
+    "No action available" : "Ei toimintoa saatavilla",
     "Settings" : "Asetukset",
     "Connection to server lost" : "Yhteys palvelimelle menetetty",
     "_Problem loading page, reloading in %n second_::_Problem loading page, reloading in %n seconds_" : ["Ongelma sivun lataamisessa, päivitetään %n sekunnin kuluttua","Ongelma sivun lataamisessa, päivitetään %n sekunnin kuluttua"],
