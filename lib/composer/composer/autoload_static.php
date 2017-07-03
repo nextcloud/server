@@ -852,7 +852,6 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Settings\\Personal\\Additional' => __DIR__ . '/../../..' . '/lib/private/Settings/Personal/Additional.php',
         'OC\\Settings\\Personal\\PersonalInfo' => __DIR__ . '/../../..' . '/lib/private/Settings/Personal/PersonalInfo.php',
         'OC\\Settings\\Personal\\Security' => __DIR__ . '/../../..' . '/lib/private/Settings/Personal/Security.php',
-        'OC\\Settings\\Personal\\SyncClients' => __DIR__ . '/../../..' . '/lib/private/Settings/Personal/SyncClients.php',
         'OC\\Settings\\RemoveOrphaned' => __DIR__ . '/../../..' . '/lib/private/Settings/RemoveOrphaned.php',
         'OC\\Settings\\Section' => __DIR__ . '/../../..' . '/lib/private/Settings/Section.php',
         'OC\\Setup' => __DIR__ . '/../../..' . '/lib/private/Setup.php',

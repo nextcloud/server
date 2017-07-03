@@ -423,11 +423,6 @@ class Manager implements IManager {
 				$form = new Personal\Security();
 				$forms[$form->getPriority()] = [$form];
 			}
-			if($section === 'sync-clients') {
-				/** @var ISettings $form */
-				$form = new Personal\SyncClients($this->config, $this->defaults);
-				$forms[$form->getPriority()] = [$form];
-			}
 			if ($section === 'additional') {
 				/** @var ISettings $form */
 				$form = new Personal\Additional($this->config);
