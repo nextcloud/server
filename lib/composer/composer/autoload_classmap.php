@@ -822,7 +822,6 @@ return array(
     'OC\\Settings\\Personal\\Additional' => $baseDir . '/lib/private/Settings/Personal/Additional.php',
     'OC\\Settings\\Personal\\PersonalInfo' => $baseDir . '/lib/private/Settings/Personal/PersonalInfo.php',
     'OC\\Settings\\Personal\\Security' => $baseDir . '/lib/private/Settings/Personal/Security.php',
-    'OC\\Settings\\Personal\\SyncClients' => $baseDir . '/lib/private/Settings/Personal/SyncClients.php',
     'OC\\Settings\\RemoveOrphaned' => $baseDir . '/lib/private/Settings/RemoveOrphaned.php',
     'OC\\Settings\\Section' => $baseDir . '/lib/private/Settings/Section.php',
     'OC\\Setup' => $baseDir . '/lib/private/Setup.php',
