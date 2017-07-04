@@ -1,7 +1,7 @@
 OC.L10N.register(
     "settings",
     {
-    "{actor} changed your password" : "{actor} сменил ваш пароль",
+    "{actor} changed your password" : "{actor} сменил ваш парольчётаlocation",
     "You changed your password" : "Вы сменили пароль",
     "Your password was reset by an administrator" : "Ваш пароль был сброшен администратором",
     "{actor} changed your email address" : "{actor} сменил ваш адрес email",
@@ -341,7 +341,7 @@ OC.L10N.register(
     "Exclude groups from sharing" : "Исключить группы из общего доступа",
     "These groups will still be able to receive shares, but not to initiate them." : "Эти группы смогут получать общие ресурсы, но не могут их создавать.",
     "Allow username autocompletion in share dialog. If this is disabled the full username needs to be entered." : "Включить автоматическое завершение имен пользователей в окне общего доступа. Если отключено, то необходимо вводить полное имя вручную.",
-    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Показать текст об отказе на странице загрузки публичной ссылки (Показывать только когда список файлов скрыт)",
+    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Показывать текст об отказе на странице загрузки публичной ссылки (Показывать только когда список файлов скрыт)",
     "This text will be shown on the public link upload page when the file list is hidden." : "Этот текст будет показан при переходе по публичной ссылке на загрузку при скрытом списке файлов",
     "Tips & tricks" : "Советы и трюки",
     "There are a lot of features and config switches available to optimally customize and use this instance. Here are some pointers for more information." : "Для оптимальной настройки и использования доступно множество возможностей и параметров конфигурации. Вот несколько указателей для получения дополнительной информации.",
@@ -364,9 +364,9 @@ OC.L10N.register(
     "Check out our blog!" : "Просмотрите наш блог!",
     "Subscribe to our newsletter!" : "Подписывайтесь на нашу новостную рассылку!",
     "Settings" : "Настройки",
-    "Show storage location" : "Показать местонахождение хранилища",
-    "Show user backend" : "Показать механизм учёта пользователей",
-    "Show last login" : "Показывать использованый логин",
+    "Show storage location" : "Показывать расположение хранилища",
+    "Show user backend" : "Показывать механизм учёта",
+    "Show last login" : "Показывать последний вход",
     "Show email address" : "Показывать адрес электронной почты",
     "Send email to new user" : "Отправлять письмо новому пользователю",
     "When the password of a new user is left empty, an activation email with a link to set the password is sent." : "Если поле пароля нового пользователя оставить пустым, то пользователю будет отправлено эл.письмо, содержащее ссылку на страницу установки пароля.",
@@ -384,7 +384,7 @@ OC.L10N.register(
     "Other" : "Другая",
     "Group admin for" : "Администратор групп",
     "Quota" : "Квота",
-    "Storage location" : "Место хранилища",
+    "Storage location" : "Расположение хранилища",
     "User backend" : "Механизм учёта пользователей",
     "Last login" : "Последний вход",
     "change full name" : "изменить полное имя",
@@ -427,7 +427,7 @@ OC.L10N.register(
     "Follow us on Google Plus!" : "Следите за нашими новостями в Google Plus!",
     "Subscribe to our twitter channel!" : "Подпишитесь на наш twitter-канал!",
     "Subscribe to our news feed!" : "Подпишитесь на нашу ленту новостей!",
-    "Show last log in" : "Показать последний вход в систему",
+    "Show last log in" : "Показывать последний вход в систему",
     "Verifying" : "Производится проверка"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");
