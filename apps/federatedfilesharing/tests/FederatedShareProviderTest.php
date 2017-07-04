@@ -696,6 +696,38 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		);
 	}
 
+	/**
+	 * @dataProvider dataTestFederatedSharingSettings
+	 *
+	 * @param string $isEnabled
+	 * @param bool $expected
+	 */
+	public function testIsLookupServerQueriesEnabled($isEnabled, $expected) {
+		$this->config->expects($this->once())->method('getAppValue')
+			->with('files_sharing', 'lookupServerEnabled', 'no')
+			->willReturn($isEnabled);
+
+		$this->assertSame($expected,
+			$this->provider->isLookupServerQueriesEnabled()
+		);
+	}
+
+	/**
+	 * @dataProvider dataTestFederatedSharingSettings
+	 *
+	 * @param string $isEnabled
+	 * @param bool $expected
+	 */
+	public function testIsLookupServerUploadEnabled($isEnabled, $expected) {
+		$this->config->expects($this->once())->method('getAppValue')
+			->with('files_sharing', 'lookupServerUploadEnabled', 'yes')
+			->willReturn($isEnabled);
+
+		$this->assertSame($expected,
+			$this->provider->isLookupServerUploadEnabled()
+		);
+	}
+
 	public function dataTestFederatedSharingSettings() {
 		return [
 			['yes', true],
