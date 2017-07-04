@@ -66,6 +66,7 @@ return array(
     'OCP\\BackgroundJob\\IJob' => $baseDir . '/lib/public/BackgroundJob/IJob.php',
     'OCP\\BackgroundJob\\IJobList' => $baseDir . '/lib/public/BackgroundJob/IJobList.php',
     'OCP\\Capabilities\\ICapability' => $baseDir . '/lib/public/Capabilities/ICapability.php',
+    'OCP\\Capabilities\\IPublicCapability' => $baseDir . '/lib/public/Capabilities/IPublicCapability.php',
     'OCP\\Command\\IBus' => $baseDir . '/lib/public/Command/IBus.php',
     'OCP\\Command\\ICommand' => $baseDir . '/lib/public/Command/ICommand.php',
     'OCP\\Comments\\CommentsEntityEvent' => $baseDir . '/lib/public/Comments/CommentsEntityEvent.php',
