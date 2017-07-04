@@ -46,6 +46,8 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 
 	private $objectPrefix = 'urn:oid:';
 
+	private $logger;
+
 	public function __construct($params) {
 		if (isset($params['objectstore']) && $params['objectstore'] instanceof IObjectStore) {
 			$this->objectStore = $params['objectstore'];
@@ -64,6 +66,8 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 		if (!$this->is_dir('/')) {
 			$this->mkdir('/');
 		}
+
+		$this->logger = \OC::$server->getLogger();
 	}
 
 	public function mkdir($path) {
@@ -185,7 +189,10 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 				$this->objectStore->deleteObject($this->getURN($stat['fileid']));
 			} catch (\Exception $ex) {
 				if ($ex->getCode() !== 404) {
-					\OCP\Util::writeLog('objectstore', 'Could not delete object: ' . $ex->getMessage(), \OCP\Util::ERROR);
+					$this->logger->logException($ex, [
+						'app' => 'objectstore',
+						'message' => 'Could not delete object ' . $this->getURN($stat['fileid']) . ' for ' . $path,
+					]);
 					return false;
 				} else {
 					//removing from cache is ok as it does not exist in the objectstore anyway
@@ -234,7 +241,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 
 			return IteratorDirectory::wrap($files);
 		} catch (\Exception $e) {
-			\OCP\Util::writeLog('objectstore', $e->getMessage(), \OCP\Util::ERROR);
+			$this->logger->logException($e);
 			return false;
 		}
 	}
@@ -263,7 +270,10 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 					try {
 						return $this->objectStore->readObject($this->getURN($stat['fileid']));
 					} catch (\Exception $ex) {
-						\OCP\Util::writeLog('objectstore', 'Could not get object: ' . $ex->getMessage(), \OCP\Util::ERROR);
+						$this->logger->logException($ex, [
+							'app' => 'objectstore',
+							'message' => 'Count not get object ' . $this->getURN($stat['fileid']) . ' for file ' . $path,
+						]);
 						return false;
 					}
 				} else {
@@ -357,7 +367,10 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 				$this->objectStore->writeObject($this->getURN($fileId), fopen('php://memory', 'r'));
 			} catch (\Exception $ex) {
 				$this->getCache()->remove($path);
-				\OCP\Util::writeLog('objectstore', 'Could not create object: ' . $ex->getMessage(), \OCP\Util::ERROR);
+				$this->logger->logException($ex, [
+					'app' => 'objectstore',
+					'message' => 'Could not create object ' . $this->getURN($fileId) . ' for ' . $path,
+				]);
 				return false;
 			}
 		}
@@ -386,7 +399,10 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 			$this->objectStore->writeObject($this->getURN($fileId), fopen($tmpFile, 'r'));
 		} catch (\Exception $ex) {
 			$this->getCache()->remove($path);
-			\OCP\Util::writeLog('objectstore', 'Could not create object: ' . $ex->getMessage(), \OCP\Util::ERROR);
+			$this->logger->logException($ex, [
+				'app' => 'objectstore',
+				'message' => 'Could not create object ' . $this->getURN($fileId) . ' for ' . $path,
+			]);
 			throw $ex; // make this bubble up
 		}
 	}
