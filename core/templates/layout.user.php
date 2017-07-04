@@ -34,7 +34,7 @@
 			<div id="header-left">
 				<a href="<?php print_unescaped(link_to('', 'index.php')); ?>"
 					id="nextcloud" tabindex="1">
-					<div class="logo-icon">
+					<div class="logo logo-icon">
 						<h1 class="hidden-visually">
 							<?php p($theme->getName()); ?>
 						</h1>

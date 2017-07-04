@@ -70,7 +70,7 @@ class Personal implements ISettings {
 			'outgoingServer2serverShareEnabled' => $this->federatedShareProvider->isOutgoingServer2serverShareEnabled(),
 			'message_with_URL' => $this->l->t('Share with me through my #Nextcloud Federated Cloud ID, see %s', [$url]),
 			'message_without_URL' => $this->l->t('Share with me through my #Nextcloud Federated Cloud ID', [$cloudID]),
-			'logoPath' => $this->urlGenerator->imagePath('core', 'logo-icon.svg'),
+			'logoPath' => $this->urlGenerator->imagePath('core', 'logo.svg'),
 			'reference' => $url,
 			'cloudId' => $cloudID,
 			'color' => $this->defaults->getColorPrimary(),
