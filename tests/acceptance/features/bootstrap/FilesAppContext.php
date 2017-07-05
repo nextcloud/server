@@ -216,6 +216,40 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
+	public static function createMenuButton() {
+		return Locator::forThe()->css("#controls .button.new")->
+				descendantOf(self::currentSectionMainView())->
+				describedAs("Create menu button in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function createNewFolderMenuItem() {
+		return self::createMenuItemFor("New folder");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function createNewFolderMenuItemNameInput() {
+		return Locator::forThe()->css(".filenameform input")->
+				descendantOf(self::createNewFolderMenuItem())->
+				describedAs("Name input in create new folder menu item in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	private static function createMenuItemFor($newType) {
+		return Locator::forThe()->xpath("//div[contains(concat(' ', normalize-space(@class), ' '), ' newFileMenu ')]//span[normalize-space() = '$newType']/ancestor::li")->
+				descendantOf(self::currentSectionMainView())->
+				describedAs("Create $newType menu item in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
 	public static function rowForFile($fileName) {
 		return Locator::forThe()->xpath("//*[@id = 'fileList']//span[contains(concat(' ', normalize-space(@class), ' '), ' nametext ') and normalize-space() = '$fileName']/ancestor::tr")->
 				descendantOf(self::currentSectionMainView())->
@@ -225,9 +259,26 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
+	public static function rowForFilePreceding($fileName1, $fileName2) {
+		return Locator::forThe()->xpath("//preceding-sibling::tr//span[contains(concat(' ', normalize-space(@class), ' '), ' nametext ') and normalize-space() = '$fileName1']/ancestor::tr")->
+				descendantOf(self::rowForFile($fileName2))->
+				describedAs("Row for file $fileName1 preceding $fileName2 in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
 	public static function favoriteActionForFile($fileName) {
 		return Locator::forThe()->css(".action-favorite")->descendantOf(self::rowForFile($fileName))->
 				describedAs("Favorite action for file $fileName in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function notFavoritedStateIconForFile($fileName) {
+		return Locator::forThe()->css(".icon-star")->descendantOf(self::favoriteActionForFile($fileName))->
+				describedAs("Not favorited state icon for file $fileName in Files app");
 	}
 
 	/**
@@ -294,6 +345,16 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	}
 
 	/**
+	 * @Given I create a new folder named :folderName
+	 */
+	public function iCreateANewFolderNamed($folderName) {
+		$this->actor->find(self::createMenuButton(), 10)->click();
+
+		$this->actor->find(self::createNewFolderMenuItem(), 2)->click();
+		$this->actor->find(self::createNewFolderMenuItemNameInput(), 2)->setValue($folderName . "\r");
+	}
+
+	/**
 	 * @Given I open the :section section
 	 */
 	public function iOpenTheSection($section) {
@@ -327,6 +388,17 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @Given I mark :fileName as favorite
 	 */
 	public function iMarkAsFavorite($fileName) {
+		$this->iSeeThatIsNotMarkedAsFavorite($fileName);
+
+		$this->actor->find(self::favoriteActionForFile($fileName), 10)->click();
+	}
+
+	/**
+	 * @Given I unmark :fileName as favorite
+	 */
+	public function iUnmarkAsFavorite($fileName) {
+		$this->iSeeThatIsMarkedAsFavorite($fileName);
+
 		$this->actor->find(self::favoriteActionForFile($fileName), 10)->click();
 	}
 
@@ -414,10 +486,24 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	}
 
 	/**
+	 * @Then I see that :fileName1 precedes :fileName2 in the file list
+	 */
+	public function iSeeThatPrecedesInTheFileList($fileName1, $fileName2) {
+		PHPUnit_Framework_Assert::assertNotNull($this->actor->find(self::rowForFilePreceding($fileName1, $fileName2), 10));
+	}
+
+	/**
 	 * @Then I see that :fileName is marked as favorite
 	 */
 	public function iSeeThatIsMarkedAsFavorite($fileName) {
 		PHPUnit_Framework_Assert::assertNotNull($this->actor->find(self::favoritedStateIconForFile($fileName), 10));
+	}
+
+	/**
+	 * @Then I see that :fileName is not marked as favorite
+	 */
+	public function iSeeThatIsNotMarkedAsFavorite($fileName) {
+		PHPUnit_Framework_Assert::assertNotNull($this->actor->find(self::notFavoritedStateIconForFile($fileName), 10));
 	}
 
 	/**
