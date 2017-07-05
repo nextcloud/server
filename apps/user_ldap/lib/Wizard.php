@@ -1019,21 +1019,14 @@ class Wizard extends LDAPUtility {
 
 	/**
 	 * Connects and Binds to an LDAP Server
+	 *
 	 * @param int $port the port to connect with
 	 * @param bool $tls whether startTLS is to be used
-	 * @param bool $ncc
 	 * @return bool
 	 * @throws \Exception
 	 */
-	private function connectAndBind($port = 389, $tls = false, $ncc = false) {
-		if($ncc) {
-			//No certificate check
-			//FIXME: undo afterwards
-			putenv('LDAPTLS_REQCERT=never');
-		}
-
+	private function connectAndBind($port, $tls) {
 		//connect, does not really trigger any server communication
-		\OCP\Util::writeLog('user_ldap', 'Wiz: Checking Host Info ', \OCP\Util::DEBUG);
 		$host = $this->configuration->ldapHost;
 		$hostInfo = parse_url($host);
 		if(!$hostInfo) {
@@ -1045,7 +1038,6 @@ class Wizard extends LDAPUtility {
 			throw new \Exception(self::$l->t('Invalid Host'));
 		}
 
-		\OCP\Util::writeLog('user_ldap', 'Wiz: Setting LDAP Options ', \OCP\Util::DEBUG);
 		//set LDAP options
 		$this->ldap->setOption($cr, LDAP_OPT_PROTOCOL_VERSION, 3);
 		$this->ldap->setOption($cr, LDAP_OPT_REFERRALS, 0);
@@ -1074,18 +1066,13 @@ class Wizard extends LDAPUtility {
 
 		if($login === true) {
 			$this->ldap->unbind($cr);
-			if($ncc) {
-				throw new \Exception('Certificate cannot be validated.');
-			}
 			\OCP\Util::writeLog('user_ldap', 'Wiz: Bind successful to Port '. $port . ' TLS ' . intval($tls), \OCP\Util::DEBUG);
 			return true;
 		}
 
-		if($errNo === -1 || ($errNo === 2 && $ncc)) {
+		if($errNo === -1) {
 			//host, port or TLS wrong
 			return false;
-		} else if ($errNo === 2) {
-			return $this->connectAndBind($port, $tls, true);
 		}
 		throw new \Exception($error, $errNo);
 	}
