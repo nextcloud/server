@@ -451,20 +451,20 @@ $CONFIG = array(
  *
  * Available values:
  *
- * * ``auto``      
- *     default setting. keeps files and folders in the trash bin for 30 days 
- *     and automatically deletes anytime after that if space is needed (note: 
+ * * ``auto``
+ *     default setting. keeps files and folders in the trash bin for 30 days
+ *     and automatically deletes anytime after that if space is needed (note:
  *     files may not be deleted if space is not needed).
- * * ``D, auto``   
- *     keeps files and folders in the trash bin for D+ days, delete anytime if 
+ * * ``D, auto``
+ *     keeps files and folders in the trash bin for D+ days, delete anytime if
  *     space needed (note: files may not be deleted if space is not needed)
- * * ``auto, D``   
- *     delete all files in the trash bin that are older than D days   
+ * * ``auto, D``
+ *     delete all files in the trash bin that are older than D days
  *     automatically, delete other files anytime if space needed
- * * ``D1, D2``    
- *     keep files and folders in the trash bin for at least D1 days and 
+ * * ``D1, D2``
+ *     keep files and folders in the trash bin for at least D1 days and
  *     delete when exceeds D2 days
- * * ``disabled``  
+ * * ``disabled``
  *     trash bin auto clean disabled, files and folders will be kept forever
  */
 'trashbin_retention_obligation' => 'auto',
@@ -491,19 +491,19 @@ $CONFIG = array(
  *
  * Available values:
  *
- * * ``auto``      
- *     default setting. Automatically expire versions according to expire 
+ * * ``auto``
+ *     default setting. Automatically expire versions according to expire
  *     rules. Please refer to :doc:`../configuration_files/file_versioning` for
  *     more information.
- * * ``D, auto``   
- *     keep versions at least for D days, apply expire rules to all versions 
+ * * ``D, auto``
+ *     keep versions at least for D days, apply expire rules to all versions
  *     that are older than D days
- * * ``auto, D``   
- *     delete all versions that are older than D days automatically, delete 
+ * * ``auto, D``
+ *     delete all versions that are older than D days automatically, delete
  *     other versions according to expire rules
- * * ``D1, D2``    
+ * * ``D1, D2``
  *     keep versions for at least D1 days and delete when exceeds D2 days
- * * ``disabled``  
+ * * ``disabled``
  *     versions auto clean disabled, versions will be kept forever
  */
 'versions_retention_obligation' => 'auto',
@@ -1064,6 +1064,17 @@ $CONFIG = array(
  */
 'sharing.managerFactory' => '\OC\Share20\ProviderFactory',
 
+/**
+ * Define max number of results returned by the user search for auto-completion
+ * Default is unlimited (value set to 0).
+ */
+'sharing.maxAutocompleteResults' => 0,
+
+/**
+ * Define the minimum length of the search string before we start auto-completion
+ * Default is no limit (value set to 0)
+ */
+'sharing.minSearchStringLength' => 0,
 
 
 /**
