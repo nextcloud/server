@@ -305,13 +305,18 @@ class Log implements ILogger {
 	/**
 	 * Logs an exception very detailed
 	 *
-	 * @param \Exception | \Throwable $exception
+	 * @param \Exception|\Throwable $exception
 	 * @param array $context
 	 * @return void
 	 * @since 8.2.0
 	 */
 	public function logException($exception, array $context = array()) {
-		$exception = array(
+		$level = Util::ERROR;
+		if (isset($context['level'])) {
+			$level = $context['level'];
+			unset($context['level']);
+		}
+		$data = array(
 			'Exception' => get_class($exception),
 			'Message' => $exception->getMessage(),
 			'Code' => $exception->getCode(),
@@ -319,10 +324,10 @@ class Log implements ILogger {
 			'File' => $exception->getFile(),
 			'Line' => $exception->getLine(),
 		);
-		$exception['Trace'] = preg_replace('!(' . implode('|', $this->methodsWithSensitiveParameters) . ')\(.*\)!', '$1(*** sensitive parameters replaced ***)', $exception['Trace']);
+		$data['Trace'] = preg_replace('!(' . implode('|', $this->methodsWithSensitiveParameters) . ')\(.*\)!', '$1(*** sensitive parameters replaced ***)', $data['Trace']);
 		$msg = isset($context['message']) ? $context['message'] : 'Exception';
-		$msg .= ': ' . json_encode($exception);
-		$this->error($msg, $context);
+		$msg .= ': ' . json_encode($data);
+		$this->log($level, $msg, $context);
 	}
 
 	/**
