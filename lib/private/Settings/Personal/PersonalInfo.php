@@ -4,6 +4,7 @@
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Thomas Citharel <tcit@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -106,6 +107,7 @@ class PersonalInfo implements ISettings {
 		}
 
 		$languageParameters = $this->getLanguages($user);
+		$localeParameters = $this->getLocales($user);
 		$messageParameters = $this->getMessageParameters($userData);
 
 		$parameters = [
@@ -134,7 +136,7 @@ class PersonalInfo implements ISettings {
 			'twitterVerification' => $userData[AccountManager::PROPERTY_TWITTER]['verified'],
 			'groups' => $this->getGroups($user),
 			'passwordChangeSupported' => $user->canChangePassword(),
-		] + $messageParameters + $languageParameters;
+		] + $messageParameters + $languageParameters + $localeParameters;
 
 
 		return new TemplateResponse('settings', 'settings/personal/personal.info', $parameters, '');
@@ -216,6 +218,50 @@ class PersonalInfo implements ISettings {
 			array('activelanguage' => $userLang),
 			$languages
 		);
+	}
+
+	private function getLocales(IUser $user) {
+		$forceLanguage = $this->config->getSystemValue('force_locale', false);
+		if($forceLanguage !== false) {
+			return [];
+		}
+
+		$uid = $user->getUID();
+
+		$userLocaleString = $this->config->getUserValue($uid, 'core', 'locale', 'en_US');
+
+		$userLang = $this->config->getUserValue($uid, 'core', 'lang', $this->l10nFactory->findLanguage());
+
+		$localeData = file_get_contents(__DIR__ . '/locales.json');
+		$localeCodes = json_decode($localeData, true);
+
+		$userLocale = array_filter($localeCodes, function($value) use ($userLocaleString) {
+			return $userLocaleString === $value['code'];
+		});
+
+		if (count($userLocale) > 0)
+		{
+			$userLocale = reset($userLocale);
+		}
+
+		$localesForLanguage = array_filter($localeCodes, function($localeCode) use ($userLang) {
+			return 0 === strpos($localeCode['code'], $userLang);
+		});
+
+		/*$localesForLanguage = [];
+
+		foreach (array_keys($localeCodes) as $localeCode) {
+			if (0 === strpos($localeCode, $userLang)) {
+				$localesForLanguage[] = $localeCode;
+			}
+		}*/
+
+		return [
+			'activelocaleLang' => $userLocaleString,
+			'activelocale' => $userLocale,
+			'locales' => $localeCodes,
+			'localesforlanguage' => $localesForLanguage,
+		];
 	}
 
 	/**

@@ -5,6 +5,7 @@
  *               2013, Morris Jobke <morris.jobke@gmail.com>
  *               2016, Christoph Wurst <christoph@owncloud.com>
  *               2017, Arthur Schiwon <blizzz@arthur-schiwon.de>
+ *               2017, Thomas Citharel <tcit@tcit.fr>
  * This file is licensed under the Affero General Public License version 3 or later.
  * See the COPYING-README file.
  */
@@ -293,6 +294,32 @@ $(document).ready(function () {
 		});
 	};
 	$("#languageinput").change(updateLanguage);
+
+	var updateLocale = function () {
+		if (OC.PasswordConfirmation.requiresPasswordConfirmation()) {
+			OC.PasswordConfirmation.requirePasswordConfirmation(updateLocale);
+			return;
+		}
+
+		var selectedLocale = $("#localeinput").val(),
+			user = OC.getCurrentUser();
+
+		$.ajax({
+			url: OC.linkToOCS('cloud/users', 2) + user['uid'],
+			method: 'PUT',
+			data: {
+				key: 'locale',
+				value: selectedLocale
+			},
+			success: function() {
+				location.reload();
+			},
+			fail: function() {
+				OC.Notification.showTemporary(t('settings', 'An error occured while changing your locale. Please reload the page and try again.'));
+			}
+		});
+	};
+	$("#localeinput").change(updateLocale);
 
 	var uploadparms = {
 		pasteZone: null,
