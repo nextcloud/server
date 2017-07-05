@@ -1,8 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
+ * @copyright Copyright (c) 2016 Bjoern Schiessle <bjoern@schiessle.org>
  *
- * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Bjoern Schiessle <bjoern@schiessle.org>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -20,41 +20,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OCA\Admin_Audit\Actions;
 
-/**
- * Class Auth logs all auth related actions
- *
- * @package OCA\Admin_Audit\Actions
- */
-class Auth extends Action {
-	public function loginAttempt(array $params) {
-		$this->log(
-			'Login attempt: "%s"',
-			$params,
-			[
-				'uid',
-			],
-			true
+namespace OCA\AdminAudit\Actions;
+
+
+class Trashbin extends Action {
+
+	public function delete($params) {
+		$this->log('File "%s" deleted from trash bin.',
+			['path' => $params['path']], ['path']
 		);
 	}
 
-	public function loginSuccessful(array $params) {
-		$this->log(
-			'Login successful: "%s"',
-			$params,
-			[
-				'uid',
-			],
-			true
+	public function restore($params) {
+		$this->log('File "%s" restored from trash bin.',
+			['path' => $params['filePath']], ['path']
 		);
 	}
 
-	public function logout(array $params) {
-		$this->log(
-			'Logout occurred',
-			[],
-			[]
-		);
-	}
 }

@@ -1,8 +1,8 @@
 <?php
 /**
- * @copyright Bjoern Schiessle <bjoern@schiessle.org>
+ * @copyright Copyright (c) 2017 Joas Schilling <coding@schilljs.com>
  *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Joas Schilling <coding@schilljs.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -21,27 +21,25 @@
  *
  */
 
+namespace OCA\AdminAudit\Actions;
 
-namespace OCA\Admin_Audit\Actions;
 
+class Console extends Action {
+	/**
+	 * @param $arguments
+	 */
+	public function runCommand($arguments) {
+		if ($arguments[1] === '_completion') {
+			// Don't log autocompletion
+			return;
+		}
 
-class Versions extends Action {
+		// Remove `./occ`
+		array_shift($arguments);
 
-	public function rollback($params) {
-		$this->log('Version "%s" of "%s" was restored.',
-			[
-				'version' => $params['revision'],
-				'path' => $params['path']
-			],
-			['version', 'path']
+		$this->log('Console command executed: %s',
+			['arguments' => implode(' ', $arguments)],
+			['arguments']
 		);
 	}
-
-	public function delete($params) {
-		$this->log('Version "%s" was deleted.',
-			['path' => $params['path']],
-			['path']
-		);
-	}
-
 }

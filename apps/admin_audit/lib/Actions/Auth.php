@@ -1,9 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Bjoern Schiessle <bjoern@schiessle.org>
- * @copyright Copyright (c) 2017 Lukas Reschke <lukas@statuscode.ch>
+ * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
  *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Lukas Reschke <lukas@statuscode.ch>
  *
  * @license GNU AGPL version 3 or any later version
@@ -23,5 +21,41 @@
  *
  */
 
-$app = new \OCA\AdminAudit\AppInfo\Application();
-$app->register();
+namespace OCA\AdminAudit\Actions;
+
+/**
+ * Class Auth logs all auth related actions
+ *
+ * @package OCA\AdminAudit\Actions
+ */
+class Auth extends Action {
+	public function loginAttempt(array $params) {
+		$this->log(
+			'Login attempt: "%s"',
+			$params,
+			[
+				'uid',
+			],
+			true
+		);
+	}
+
+	public function loginSuccessful(array $params) {
+		$this->log(
+			'Login successful: "%s"',
+			$params,
+			[
+				'uid',
+			],
+			true
+		);
+	}
+
+	public function logout(array $params) {
+		$this->log(
+			'Logout occurred',
+			[],
+			[]
+		);
+	}
+}

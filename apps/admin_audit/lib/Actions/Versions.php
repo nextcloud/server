@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Bjoern Schiessle <bjoern@schiessle.org>
+ * @copyright Bjoern Schiessle <bjoern@schiessle.org>
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  *
@@ -21,21 +21,25 @@
  *
  */
 
+namespace OCA\AdminAudit\Actions;
 
-namespace OCA\Admin_Audit\Actions;
 
+class Versions extends Action {
 
-class Trashbin extends Action {
-
-	public function delete($params) {
-		$this->log('File "%s" deleted from trash bin.',
-			['path' => $params['path']], ['path']
+	public function rollback($params) {
+		$this->log('Version "%s" of "%s" was restored.',
+			[
+				'version' => $params['revision'],
+				'path' => $params['path']
+			],
+			['version', 'path']
 		);
 	}
 
-	public function restore($params) {
-		$this->log('File "%s" restored from trash bin.',
-			['path' => $params['filePath']], ['path']
+	public function delete($params) {
+		$this->log('Version "%s" was deleted.',
+			['path' => $params['path']],
+			['path']
 		);
 	}
 

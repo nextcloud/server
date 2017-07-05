@@ -21,13 +21,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OCA\Admin_Audit\Actions;
+
+namespace OCA\AdminAudit\Actions;
+
+
 use OCP\IUser;
 
 /**
  * Class UserManagement logs all user management related actions.
  *
- * @package OCA\Admin_Audit\Actions
+ * @package OCA\AdminAudit\Actions
  */
 class UserManagement extends Action {
 	/**
