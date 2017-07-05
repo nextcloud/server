@@ -35,11 +35,13 @@ namespace OCA\User_LDAP;
  * @property int ldapPagingSize holds an integer
  */
 class Configuration {
-
 	protected $configPrefix = null;
 	protected $configRead = false;
-	/** @var string[]  */
-	protected $unsavedChanges = [];
+	/**
+	 * @var string[] pre-filled with one reference key so that at least one entry is written on save request and
+	 *               the config ID is registered
+	 */
+	protected $unsavedChanges = ['ldapConfigurationActive' => 'ldapConfigurationActive'];
 
 	//settings
 	protected $config = array(
