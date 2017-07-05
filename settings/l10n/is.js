@@ -152,6 +152,7 @@ OC.L10N.register(
     "Will be synced to a global and public address book" : "Verður samstillt víðværri og opinberri vistfangaskrá",
     "Verify" : "Sannreyna",
     "Verifying …" : "Sannreyni …",
+    "An error occured while changing your language. Please reload the page and try again." : "Villa kom upp við að skipta um tungumálið þitt. Endurlestu síðuna og prófaðu aftur.",
     "Select a profile picture" : "Veldu einkennismynd",
     "Very weak password" : "Mjög veikt lykilorð",
     "Weak password" : "Veikt lykilorð",

@@ -37,6 +37,7 @@ OC.L10N.register(
     "Decline" : "Hafna",
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Deila með mér í gegnum víðværa skýjasambandsauðkennið mitt #Nextcloud Federated Cloud ID, sjá %s",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Deila með mér í gegnum víðværa skýjasambandsauðkennið mitt #Nextcloud Federated Cloud ID",
+    "Sharing" : "Deiling",
     "Federated file sharing" : "Deiling skráa milli þjóna",
     "Federated Cloud Sharing" : "Deiling með skýjasambandi",
     "Open documentation" : "Opna hjálparskjöl",
@@ -52,7 +53,7 @@ OC.L10N.register(
     "Add to your website" : "Bæta við vefsvæðið þitt",
     "Share with me via Nextcloud" : "Deila með mér í gegnum Nextcloud",
     "HTML Code:" : "HTML-kóði:",
-    "Share it:" : "Deila því:",
-    "Search global and public address book for users and let local users publish their data" : "Leita að notendum í víðværri og opinberri vistfangaskrá og leyfa staðværum notendum að birta gögnin sín"
+    "Search global and public address book for users and let local users publish their data" : "Leita að notendum í víðværri og opinberri vistfangaskrá og leyfa staðværum notendum að birta gögnin sín",
+    "Share it:" : "Deila því:"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");
