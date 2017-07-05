@@ -414,9 +414,11 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService(\OCP\IURLGenerator::class, function (Server $c) {
 			$config = $c->getConfig();
 			$cacheFactory = $c->getMemCacheFactory();
+			$request = $c->getRequest();
 			return new \OC\URLGenerator(
 				$config,
-				$cacheFactory
+				$cacheFactory,
+				$request
 			);
 		});
 		$this->registerAlias('URLGenerator', \OCP\IURLGenerator::class);
@@ -433,27 +435,31 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias('UserCache', \OCP\ICache::class);
 
 		$this->registerService(Factory::class, function (Server $c) {
+
+			$arrayCacheFactory = new \OC\Memcache\Factory('', $c->getLogger(),
+				'\\OC\\Memcache\\ArrayCache',
+				'\\OC\\Memcache\\ArrayCache',
+				'\\OC\\Memcache\\ArrayCache'
+			);
 			$config = $c->getConfig();
+			$request = $c->getRequest();
+			$urlGenerator = new URLGenerator($config, $arrayCacheFactory, $request);
 
 			if ($config->getSystemValue('installed', false) && !(defined('PHPUNIT_RUN') && PHPUNIT_RUN)) {
 				$v = \OC_App::getAppVersions();
-				$v['core'] = md5(file_get_contents(\OC::$SERVERROOT . '/version.php'));
+				$v['core'] = implode(',', \OC_Util::getVersion());
 				$version = implode(',', $v);
 				$instanceId = \OC_Util::getInstanceId();
 				$path = \OC::$SERVERROOT;
-				$prefix = md5($instanceId . '-' . $version . '-' . $path . '-' . \OC::$WEBROOT);
+				$prefix = md5($instanceId . '-' . $version . '-' . $path . '-' . $urlGenerator->getBaseUrl());
 				return new \OC\Memcache\Factory($prefix, $c->getLogger(),
 					$config->getSystemValue('memcache.local', null),
 					$config->getSystemValue('memcache.distributed', null),
 					$config->getSystemValue('memcache.locking', null)
 				);
 			}
+			return $arrayCacheFactory;
 
-			return new \OC\Memcache\Factory('', $c->getLogger(),
-				'\\OC\\Memcache\\ArrayCache',
-				'\\OC\\Memcache\\ArrayCache',
-				'\\OC\\Memcache\\ArrayCache'
-			);
 		});
 		$this->registerAlias('MemCacheFactory', Factory::class);
 		$this->registerAlias(ICacheFactory::class, Factory::class);
