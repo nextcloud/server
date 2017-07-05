@@ -69,7 +69,7 @@ class MigrationService {
 
 		if ($appName === 'core') {
 			$this->migrationsPath = \OC::$SERVERROOT . '/core/Migrations';
-			$this->migrationsNamespace = 'OC\\Migrations';
+			$this->migrationsNamespace = 'OC\\Core\\Migrations';
 		} else {
 			if (null === $appLocator) {
 				$appLocator = new AppLocator();

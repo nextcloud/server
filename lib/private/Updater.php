@@ -302,10 +302,8 @@ class Updater extends BasicEmitter {
 		$this->emit('\OC\Updater', 'dbUpgradeBefore');
 
 		// execute core migrations
-		if (is_dir(\OC::$SERVERROOT . '/core/Migrations')) {
-			$ms = new MigrationService('core', \OC::$server->getDatabaseConnection());
-			$ms->migrate();
-		}
+		$ms = new MigrationService('core', \OC::$server->getDatabaseConnection());
+		$ms->migrate();
 
 		$this->emit('\OC\Updater', 'dbUpgrade');
 	}
