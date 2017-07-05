@@ -45,6 +45,7 @@ class Application extends App {
 				$c->query('UserManager'),
 				$server->getConfig(),
 				$c->query('OCP\IL10N'),
+				$c->query('Session'),
 				$server->getURLGenerator()
 			);
 		});
