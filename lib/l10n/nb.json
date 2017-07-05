@@ -1,5 +1,5 @@
 { "translations": {
-    "Cannot write into \"config\" directory!" : "Kan ikke skrive i \"config\"-mappen!",
+    "Cannot write into \"config\" directory!" : "Kan ikke skrive til «config»-mappen!",
     "This can usually be fixed by giving the webserver write access to the config directory" : "Dette kan vanligvis ordnes ved å gi vev-tjeneren skrivetilgang til config-mappen",
     "See %s" : "Se %s",
     "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "Dette kan vanligvis ordnes ved å gi vev-tjeneren skrivetilgang til config-mappen. Se %s",
