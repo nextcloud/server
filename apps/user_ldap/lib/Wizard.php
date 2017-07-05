@@ -1021,14 +1021,14 @@ class Wizard extends LDAPUtility {
 	 * Connects and Binds to an LDAP Server
 	 * @param int $port the port to connect with
 	 * @param bool $tls whether startTLS is to be used
-	 * @param bool $ncc
+	 * @param bool $ncc no certificate check
 	 * @return bool
 	 * @throws \Exception
 	 */
 	private function connectAndBind($port = 389, $tls = false, $ncc = false) {
 		if($ncc) {
+			$originalLDAPTLS_REQCERT = strval(getenv('LDAPTLS_REQCERT'));
 			//No certificate check
-			//FIXME: undo afterwards
 			putenv('LDAPTLS_REQCERT=never');
 		}
 
@@ -1069,7 +1069,14 @@ class Wizard extends LDAPUtility {
 			$error = ldap_error($cr);
 			$this->ldap->unbind($cr);
 		} catch(ServerNotAvailableException $e) {
+			if($ncc && isset($originalLDAPTLS_REQCERT)) {
+				putenv('LDAPTLS_REQCERT=' . $originalLDAPTLS_REQCERT);
+			}
 			return false;
+		}
+
+		if($ncc && isset($originalLDAPTLS_REQCERT)) {
+			putenv('LDAPTLS_REQCERT=' . $originalLDAPTLS_REQCERT);
 		}
 
 		if($login === true) {
