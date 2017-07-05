@@ -33,6 +33,7 @@ namespace OC\Settings\Controller;
 use OC\Accounts\AccountManager;
 use OC\AppFramework\Http;
 use OC\ForbiddenException;
+use OC\HintException;
 use OC\Settings\Mailer\NewUserMailHelper;
 use OC\Security\IdentityProof\Manager;
 use OCP\App\IAppManager;
@@ -406,6 +407,9 @@ class UsersController extends Controller {
 			$user = $this->userManager->createUser($username, $password);
 		} catch (\Exception $exception) {
 			$message = $exception->getMessage();
+			if ($exception instanceof HintException && $exception->getHint()) {
+				$message = $exception->getHint();
+			}
 			if (!$message) {
 				$message = $this->l10n->t('Unable to create user.');
 			}
