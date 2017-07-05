@@ -47,6 +47,7 @@
 					</div>
 				</div>
 			</div>
+			<div class="tablerow">&nbsp;</div>
 			<div class="tablerow">
 				<input type="text" id="ldap_dn" name="ldap_dn"
 				class="tablecell"
@@ -65,6 +66,7 @@
 					<?php p($l->t('Save Credentials'));?>
 				</button>
 			</div>
+			<div class="tablerow">&nbsp;</div>
 
 			<div class="tablerow">
 				<textarea id="ldap_base" name="ldap_base"
