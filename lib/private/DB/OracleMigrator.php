@@ -24,19 +24,75 @@
 
 namespace OC\DB;
 
+use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\ColumnDiff;
+use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Schema\Schema;
+use Doctrine\DBAL\Schema\Table;
 
 class OracleMigrator extends NoCheckMigrator {
 	/**
 	 * @param Schema $targetSchema
 	 * @param \Doctrine\DBAL\Connection $connection
 	 * @return \Doctrine\DBAL\Schema\SchemaDiff
+	 * @throws DBALException
 	 */
 	protected function getDiff(Schema $targetSchema, \Doctrine\DBAL\Connection $connection) {
 		$schemaDiff = parent::getDiff($targetSchema, $connection);
 
 		// oracle forces us to quote the identifiers
+		$schemaDiff->newTables = array_map(function(Table $table) {
+			return new Table(
+				$this->connection->quoteIdentifier($table->getName()),
+				array_map(function(Column $column) {
+					$newColumn = new Column(
+						$this->connection->quoteIdentifier($column->getName()),
+						$column->getType()
+					);
+					$newColumn->setAutoincrement($column->getAutoincrement());
+					$newColumn->setColumnDefinition($column->getColumnDefinition());
+					$newColumn->setComment($column->getComment());
+					$newColumn->setDefault($column->getDefault());
+					$newColumn->setFixed($column->getFixed());
+					$newColumn->setLength($column->getLength());
+					$newColumn->setNotnull($column->getNotnull());
+					$newColumn->setPrecision($column->getPrecision());
+					$newColumn->setScale($column->getScale());
+					$newColumn->setUnsigned($column->getUnsigned());
+					$newColumn->setPlatformOptions($column->getPlatformOptions());
+					$newColumn->setCustomSchemaOptions($column->getPlatformOptions());
+					return $newColumn;
+				}, $table->getColumns()),
+				array_map(function(Index $index) {
+					return new Index(
+						$this->connection->quoteIdentifier($index->getName()),
+						array_map(function($columnName) {
+							return $this->connection->quoteIdentifier($columnName);
+						}, $index->getColumns()),
+						$index->isUnique(),
+						$index->isPrimary(),
+						$index->getFlags(),
+						$index->getOptions()
+					);
+				}, $table->getIndexes()),
+				$table->getForeignKeys(),
+				0,
+				$table->getOptions()
+			);
+		}, $schemaDiff->newTables);
+
+		$schemaDiff->removedTables = array_map(function(Table $table) {
+			return new Table(
+				$this->connection->quoteIdentifier($table->getName()),
+				$table->getColumns(),
+				$table->getIndexes(),
+				$table->getForeignKeys(),
+				0,
+				$table->getOptions()
+			);
+		}, $schemaDiff->removedTables);
+
 		foreach ($schemaDiff->changedTables as $tableDiff) {
 			$tableDiff->name = $this->connection->quoteIdentifier($tableDiff->name);
 			foreach ($tableDiff->changedColumns as $column) {

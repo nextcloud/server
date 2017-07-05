@@ -139,6 +139,9 @@ class Installer {
 			} else {
 				OC_DB::updateDbFromStructure($basedir.'/appinfo/database.xml');
 			}
+		} else {
+			$ms = new \OC\DB\MigrationService($info['id'], \OC::$server->getDatabaseConnection());
+			$ms->migrate();
 		}
 
 		\OC_App::registerAutoloading($appId, $basedir);
@@ -530,6 +533,8 @@ class Installer {
 	public static function installShippedApp($app) {
 		//install the database
 		$appPath = OC_App::getAppPath($app);
+		\OC_App::registerAutoloading($app, $appPath);
+
 		if(is_file("$appPath/appinfo/database.xml")) {
 			try {
 				OC_DB::createDbFromStructure("$appPath/appinfo/database.xml");
@@ -540,10 +545,12 @@ class Installer {
 					0, $e
 				);
 			}
+		} else {
+			$ms = new \OC\DB\MigrationService($app, \OC::$server->getDatabaseConnection());
+			$ms->migrate();
 		}
 
 		//run appinfo/install.php
-		\OC_App::registerAutoloading($app, $appPath);
 		self::includeAppScript("$appPath/appinfo/install.php");
 
 		$info = OC_App::getAppInfo($app);

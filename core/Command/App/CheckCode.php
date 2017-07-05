@@ -97,7 +97,7 @@ class CheckCode extends Command implements CompletionAwareInterface  {
 			$checkList = new $checkerClass($checkList);
 		}
 
-		$codeChecker = new CodeChecker($checkList);
+		$codeChecker = new CodeChecker($checkList, !$input->getOption('skip-validate-info'));
 
 		$codeChecker->listen('CodeChecker', 'analyseFileBegin', function($params) use ($output) {
 			if(OutputInterface::VERBOSITY_VERBOSE <= $output->getVerbosity()) {

@@ -50,6 +50,7 @@
 use OC\App\DependencyAnalyzer;
 use OC\App\InfoParser;
 use OC\App\Platform;
+use OC\DB\MigrationService;
 use OC\Installer;
 use OC\Repair;
 use OCP\App\ManagerEvent;
@@ -1041,20 +1042,27 @@ class OC_App {
 		if($appPath === false) {
 			return false;
 		}
+		self::registerAutoloading($appId, $appPath);
+
 		$appData = self::getAppInfo($appId);
 		self::executeRepairSteps($appId, $appData['repair-steps']['pre-migration']);
+
 		if (file_exists($appPath . '/appinfo/database.xml')) {
 			OC_DB::updateDbFromStructure($appPath . '/appinfo/database.xml');
+		} else {
+			$ms = new MigrationService($appId, \OC::$server->getDatabaseConnection());
+			$ms->migrate();
 		}
+
 		self::executeRepairSteps($appId, $appData['repair-steps']['post-migration']);
 		self::setupLiveMigrations($appId, $appData['repair-steps']['live-migration']);
 		unset(self::$appVersion[$appId]);
+
 		// run upgrade code
 		if (file_exists($appPath . '/appinfo/update.php')) {
 			self::loadApp($appId);
 			include $appPath . '/appinfo/update.php';
 		}
-		self::registerAutoloading($appId, $appPath);
 		self::setupBackgroundJobs($appData['background-jobs']);
 		if(isset($appData['settings']) && is_array($appData['settings'])) {
 			\OC::$server->getSettingsManager()->setupSettings($appData['settings']);
