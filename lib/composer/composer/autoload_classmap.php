@@ -487,6 +487,7 @@ return array(
     'OC\\Core\\Controller\\TwoFactorChallengeController' => $baseDir . '/core/Controller/TwoFactorChallengeController.php',
     'OC\\Core\\Controller\\UserController' => $baseDir . '/core/Controller/UserController.php',
     'OC\\Core\\Middleware\\TwoFactorMiddleware' => $baseDir . '/core/Middleware/TwoFactorMiddleware.php',
+    'OC\\Core\\Migrations\\Version13000Date20170705121758' => $baseDir . '/core/Migrations/Version13000Date20170705121758.php',
     'OC\\DB\\Adapter' => $baseDir . '/lib/private/DB/Adapter.php',
     'OC\\DB\\AdapterMySQL' => $baseDir . '/lib/private/DB/AdapterMySQL.php',
     'OC\\DB\\AdapterOCI8' => $baseDir . '/lib/private/DB/AdapterOCI8.php',

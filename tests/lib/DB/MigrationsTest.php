@@ -51,7 +51,7 @@ class MigrationsTest extends \Test\TestCase {
 
 		$this->assertEquals('core', $this->migrationService->getApp());
 		$this->assertEquals(\OC::$SERVERROOT . '/core/Migrations', $this->migrationService->getMigrationsDirectory());
-		$this->assertEquals('OC\Migrations', $this->migrationService->getMigrationsNamespace());
+		$this->assertEquals('OC\Core\Migrations', $this->migrationService->getMigrationsNamespace());
 		$this->assertEquals('test_oc_migrations', $this->migrationService->getMigrationsTableName());
 	}
 
