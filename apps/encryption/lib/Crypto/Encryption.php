@@ -60,6 +60,9 @@ class Encryption implements IEncryptionModule {
 	/** @var string */
 	private $user;
 
+	/** @var  string */
+	private $owner;
+
 	/** @var string */
 	private $fileKey;
 
@@ -174,6 +177,7 @@ class Encryption implements IEncryptionModule {
 		$this->path = $this->getPathToRealFile($path);
 		$this->accessList = $accessList;
 		$this->user = $user;
+		$this->owner = $this->util->getOwner($path);
 		$this->isWriteOperation = false;
 		$this->writeCache = '';
 
@@ -280,12 +284,14 @@ class Encryption implements IEncryptionModule {
 				}
 			}
 
-			$publicKeys = $this->keyManager->addSystemKeys($this->accessList, $publicKeys, $this->user);
+			$publicKeys = $this->keyManager->addSystemKeys($this->accessList, $publicKeys, $this->owner);
 			$encryptedKeyfiles = $this->crypt->multiKeyEncrypt($this->fileKey, $publicKeys);
 			$this->keyManager->setAllFileKeys($this->path, $encryptedKeyfiles);
 		}
 		return $result;
 	}
+
+
 
 	/**
 	 * encrypt data
@@ -407,7 +413,7 @@ class Encryption implements IEncryptionModule {
 				}
 			}
 
-			$publicKeys = $this->keyManager->addSystemKeys($accessList, $publicKeys, $uid);
+			$publicKeys = $this->keyManager->addSystemKeys($accessList, $publicKeys, $this->owner);
 
 			$encryptedFileKey = $this->crypt->multiKeyEncrypt($fileKey, $publicKeys);
 
