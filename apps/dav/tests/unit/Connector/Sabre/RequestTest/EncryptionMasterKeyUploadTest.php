@@ -4,6 +4,7 @@
  *
  * @author Joas Schilling <coding@schilljs.com>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
  *
@@ -21,25 +22,29 @@
  *
  */
 
-namespace OCA\Files_Sharing\Tests;
+namespace OCA\DAV\Tests\unit\Connector\Sabre\RequestTest;
 
 use OC\Files\View;
 use Test\Traits\EncryptionTrait;
 
 /**
+ * Class EncryptionMasterKeyUploadTest
+ *
  * @group DB
+ *
+ * @package OCA\DAV\Tests\Unit\Connector\Sabre\RequestTest
  */
-class EncryptedSizePropagationTest extends SizePropagationTest {
+class EncryptionMasterKeyUploadTest extends UploadTest {
 	use EncryptionTrait;
 
-	protected function setupUser($name, $password = '') {
+	protected function setupUser($name, $password) {
 		$this->createUser($name, $password);
 		$tmpFolder = \OC::$server->getTempManager()->getTemporaryFolder();
 		$this->registerMount($name, '\OC\Files\Storage\Local', '/' . $name, ['datadir' => $tmpFolder]);
-		$this->config->setAppValue('encryption', 'useMasterKey', '0');
+		// we use the master key
+		\OC::$server->getConfig()->setAppValue('encryption', 'useMasterKey', '1');
 		$this->setupForUser($name, $password);
 		$this->loginWithEncryption($name);
 		return new View('/' . $name . '/files');
 	}
-
 }

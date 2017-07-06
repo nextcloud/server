@@ -41,6 +41,8 @@ class EncryptionUploadTest extends UploadTest {
 		$this->createUser($name, $password);
 		$tmpFolder = \OC::$server->getTempManager()->getTemporaryFolder();
 		$this->registerMount($name, '\OC\Files\Storage\Local', '/' . $name, ['datadir' => $tmpFolder]);
+		// we use per-user keys
+		\OC::$server->getConfig()->setAppValue('encryption', 'useMasterKey', '0');
 		$this->setupForUser($name, $password);
 		$this->loginWithEncryption($name);
 		return new View('/' . $name . '/files');
