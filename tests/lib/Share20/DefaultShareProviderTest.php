@@ -629,6 +629,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$share->setSharedBy('sharedBy');
 		$share->setShareOwner('shareOwner');
 		$share->setNode($path);
+		$share->setSharedWithDisplayName('Displayed Name');
+		$share->setSharedWithAvatar('/path/to/image.svg');
 		$share->setPermissions(1);
 		$share->setTarget('/target');
 
@@ -644,6 +646,12 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertSame('/target', $share2->getTarget());
 		$this->assertLessThanOrEqual(new \DateTime(), $share2->getShareTime());
 		$this->assertSame($path, $share2->getNode());
+
+		// nothing from setSharedWithDisplayName/setSharedWithAvatar is saved in DB
+		$this->assertSame('Displayed Name', $share->getSharedWithDisplayName());
+		$this->assertSame('/path/to/image.svg', $share->getSharedWithAvatar());
+		$this->assertSame(null, $share2->getSharedWithDisplayName());
+		$this->assertSame(null, $share2->getSharedWithAvatar());
 	}
 
 	public function testCreateGroupShare() {
@@ -678,6 +686,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$share->setShareOwner('shareOwner');
 		$share->setNode($path);
 		$share->setPermissions(1);
+		$share->setSharedWithDisplayName('Displayed Name');
+		$share->setSharedWithAvatar('/path/to/image.svg');
 		$share->setTarget('/target');
 
 		$share2 = $this->provider->create($share);
@@ -692,6 +702,13 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertSame('/target', $share2->getTarget());
 		$this->assertLessThanOrEqual(new \DateTime(), $share2->getShareTime());
 		$this->assertSame($path, $share2->getNode());
+
+		// nothing from setSharedWithDisplayName/setSharedWithAvatar is saved in DB
+		$this->assertSame('Displayed Name', $share->getSharedWithDisplayName());
+		$this->assertSame('/path/to/image.svg', $share->getSharedWithAvatar());
+		$this->assertSame(null, $share2->getSharedWithDisplayName());
+		$this->assertSame(null, $share2->getSharedWithAvatar());
+
 	}
 
 	public function testCreateLinkShare() {
