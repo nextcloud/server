@@ -266,9 +266,4 @@ class Application extends \OCP\AppFramework\App {
 		);
 
 	}
-
-	public function registerSettings() {
-		// Register settings scripts
-		App::registerPersonal('encryption', 'settings/settings-personal');
-	}
 }

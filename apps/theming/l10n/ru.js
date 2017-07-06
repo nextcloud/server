@@ -4,7 +4,7 @@ OC.L10N.register(
     "Loading preview…" : "Загружается предпросмотр…",
     "Saved" : "Сохранено",
     "Admin" : "Администратор",
-    "a safe home for all your data" : "надежный дом для всех ваших данных",
+    "a safe home for all your data" : "надёжный дом для всех ваших данных",
     "The given name is too long" : "Указанное название слишком длинное",
     "The given web address is too long" : "Указанный веб адрес слишком длинный",
     "The given slogan is too long" : "Указанный слоган слишком длинный",

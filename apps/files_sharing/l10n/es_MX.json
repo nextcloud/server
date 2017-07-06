@@ -88,7 +88,7 @@
     "%s is publicly shared" : "%s está compartido públicamente",
     "Share API is disabled" : "El API para compartir está deshabilitado",
     "File sharing" : "Compartir archivos",
-    "This share is password-protected" : "Este elemento compartido esta protegido con contraseña",
+    "This share is password-protected" : "Este elemento compartido está protegido con contraseña",
     "The password is wrong. Try again." : "La contraseña es incorrecta. Favor de intentarlo de nuevo.",
     "Password" : "Contraseña",
     "No entries found in this folder" : "No se encontraron elementos en esta carpeta",

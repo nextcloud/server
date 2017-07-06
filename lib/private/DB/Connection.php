@@ -35,6 +35,7 @@ use Doctrine\DBAL\Cache\QueryCacheProfile;
 use Doctrine\Common\EventManager;
 use Doctrine\DBAL\Platforms\MySqlPlatform;
 use Doctrine\DBAL\Exception\ConstraintViolationException;
+use Doctrine\DBAL\Schema\Schema;
 use OC\DB\QueryBuilder\QueryBuilder;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
@@ -417,5 +418,28 @@ class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
 			return true;
 		}
 		return $this->getParams()['charset'] === 'utf8mb4';
+	}
+
+
+	/**
+	 * Create the schema of the connected database
+	 *
+	 * @return Schema
+	 */
+	public function createSchema() {
+		$schemaManager = new MDB2SchemaManager($this);
+		$migrator = $schemaManager->getMigrator();
+		return $migrator->createSchema();
+	}
+
+	/**
+	 * Migrate the database to the given schema
+	 *
+	 * @param Schema $toSchema
+	 */
+	public function migrateToSchema(Schema $toSchema) {
+		$schemaManager = new MDB2SchemaManager($this);
+		$migrator = $schemaManager->getMigrator();
+		$migrator->migrate($toSchema);
 	}
 }

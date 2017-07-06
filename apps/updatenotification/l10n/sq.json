@@ -3,6 +3,7 @@
     "Could not start updater, please try the manual update" : "Nuk mundi të filloj përditësuesi, ju lutemi të provoni përditësimin manual",
     "{version} is available. Get more information on how to update." : "Është gati {version}. Merrni më tepër informacion se si ta përditësoni.",
     "Channel updated" : "Kanali u përditësua",
+    "The update server could not be reached since %d days to check for new updates." : "Përditësimi i serverit nuk mund të arrihej deri sa %dtë kontrollohen për përditësime të reja.",
     "Please check the Nextcloud and server log files for errors." : "Ju lutemi kontrolloni dosjet e Nextcloud dhe te server log-ut per gabimet",
     "Update to %1$s is available." : "Përditësimi te%1$s është në dispozicion.",
     "Update for %1$s to version %2$s is available." : "Është gati përditësimi për %1$s në version %2$s.",

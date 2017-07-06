@@ -177,14 +177,14 @@ class NavigationManager implements INavigationManager {
 				]);
 			}
 
-			// Personal settings
+			// Personal and (if applicable) admin settings
 			$this->add([
 				'type' => 'settings',
-				'id' => 'personal',
+				'id' => 'settings',
 				'order' => 1,
-				'href' => $this->urlGenerator->linkToRoute('settings_personal'),
-				'name' => $l->t('Personal'),
-				'icon' => $this->urlGenerator->imagePath('settings', 'personal.svg'),
+				'href' => $this->urlGenerator->linkToRoute('settings.PersonalSettings.index'),
+				'name' => $l->t('Settings'),
+				'icon' => $this->urlGenerator->imagePath('settings', 'admin.svg'),
 			]);
 
 			// Logout
@@ -209,18 +209,6 @@ class NavigationManager implements INavigationManager {
 					'href' => $this->urlGenerator->linkToRoute('settings_users'),
 					'name' => $l->t('Users'),
 					'icon' => $this->urlGenerator->imagePath('settings', 'users.svg'),
-				]);
-			}
-
-			if ($this->isAdmin()) {
-				// Admin settings
-				$this->add([
-					'type' => 'settings',
-					'id' => 'admin',
-					'order' => 2,
-					'href' => $this->urlGenerator->linkToRoute('settings.AdminSettings.index'),
-					'name' => $l->t('Admin'),
-					'icon' => $this->urlGenerator->imagePath('settings', 'admin.svg'),
 				]);
 			}
 		}

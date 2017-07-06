@@ -43,6 +43,7 @@
 			</td>
 		<?php endif;?>
 			<td class="quota">
+				<div class="quota_progress_container"><div class="quota_progress"></div></div>
 				<select class="quota-user" data-inputtitle="<?php p($l->t('Please enter storage quota (ex: "512 MB" or "12 GB")')) ?>">
 					<option	value='default'>
 						<?php p($l->t('Default'));?>

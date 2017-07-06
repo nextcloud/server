@@ -35,8 +35,6 @@ require_once __DIR__ . '/../3rdparty/autoload.php';
 \OC_Mount_Config::$app = new \OCA\Files_External\AppInfo\Application();
 $appContainer = \OC_Mount_Config::$app->getContainer();
 
-\OC_Mount_Config::$app->registerSettings();
-
 \OCA\Files\App::getNavigationManager()->add(function () {
 	$l = \OC::$server->getL10N('files_external');
 	return [

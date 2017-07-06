@@ -12,7 +12,6 @@ OC.L10N.register(
     "Strong password" : "Ուժեղ գաղտնաբառ",
     "Groups" : "Խմբեր",
     "never" : "երբեք",
-    "days" : "օր",
     "Cancel" : "Չեղարկել",
     "Email" : "Էլ. հասցե",
     "Password" : "Գաղտնաբառ",
@@ -21,6 +20,7 @@ OC.L10N.register(
     "Language" : "Լեզու",
     "Help translate" : "Օգնել թարգմանել",
     "Username" : "Օգտանուն",
+    "days" : "օր",
     "Other" : "Այլ",
     "Name" : "Անուն"
 },
