@@ -247,13 +247,24 @@ class NavigationManagerTest extends TestCase {
 				'type' => 'settings',
 			]
 		];
-		$defaults = [
+		$admin = [
 			[
-				'id' => 'settings',
-				'order' => 1,
+				'id' => 'admin',
+				'order' => 2,
 				'href' => '/apps/test/',
 				'icon' => '/apps/settings/img/admin.svg',
-				'name' => 'Settings',
+				'name' => 'Admin',
+				'active' => false,
+				'type' => 'settings',
+			]
+		];
+		$defaults = [
+			[
+				'id' => 'personal',
+				'order' => 1,
+				'href' => '/apps/test/',
+				'icon' => '/apps/settings/img/personal.svg',
+				'name' => 'Personal',
 				'active' => false,
 				'type' => 'settings',
 			],
@@ -286,7 +297,7 @@ class NavigationManagerTest extends TestCase {
 				'active' => false,
 				'type' => 'settings',
 			]]), ['navigations' => [['route' => 'test.page.index', 'name' => 'Test', 'type' => 'settings']]]],
-			'admin' => [array_merge($apps, $defaults, [[
+			'admin' => [array_merge($apps, $defaults, $admin, [[
 				'id' => 'test',
 				'order' => 100,
 				'href' => '/apps/test/',
@@ -295,7 +306,7 @@ class NavigationManagerTest extends TestCase {
 				'active' => false,
 				'type' => 'link',
 			]]), ['navigations' => [['@attributes' => ['role' => 'admin'], 'route' => 'test.page.index', 'name' => 'Test']]], true],
-			'no name' => [array_merge($apps, $defaults), ['navigations' => [['@attributes' => ['role' => 'admin'], 'route' => 'test.page.index']]], true],
+			'no name' => [array_merge($apps, $defaults, $admin), ['navigations' => [['@attributes' => ['role' => 'admin'], 'route' => 'test.page.index']]], true],
 			'no admin' => [$defaults, ['navigations' => [['@attributes' => ['role' => 'admin'], 'route' => 'test.page.index', 'name' => 'Test']]]]
 		];
 	}
