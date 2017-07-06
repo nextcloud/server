@@ -190,8 +190,8 @@ class Configuration {
 			if(is_array($applied)) {
 				$applied[] = $inputKey;
 				// storing key as index avoids duplication, and as value for simplicity
-				$this->unsavedChanges[$key] = $key;
 			}
+			$this->unsavedChanges[$key] = $key;
 		}
 		return null;
 	}
