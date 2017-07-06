@@ -136,6 +136,8 @@ class <classname> extends SimpleMigrationStep {
 		];
 		$code = str_replace($placeHolders, $replacements, self::$_templateSimple);
 		$dir = $ms->getMigrationsDirectory();
+
+		$this->ensureMigrationDirExists($dir);
 		$path = $dir . '/' . $className . '.php';
 
 		if (file_put_contents($path, $code) === false) {
@@ -145,4 +147,19 @@ class <classname> extends SimpleMigrationStep {
 		return $path;
 	}
 
+	private function ensureMigrationDirExists($directory) {
+		if (file_exists($directory) && is_dir($directory)) {
+			return;
+		}
+
+		if (file_exists($directory)) {
+			throw new \RuntimeException("Could not create folder \"$directory\"");
+		}
+
+		$this->ensureMigrationDirExists(dirname($directory));
+
+		if (!@mkdir($directory) && !is_dir($directory)) {
+			throw new \RuntimeException("Could not create folder \"$directory\"");
+		}
+	}
 }
