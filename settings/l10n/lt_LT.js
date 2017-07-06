@@ -1,6 +1,7 @@
 OC.L10N.register(
     "settings",
     {
+    "{actor} changed your password" : "{actor} pakeitė jūsų slaptažodį",
     "You changed your password" : "Jūs pakeitėte savo slaptažodį",
     "Your password was reset by an administrator" : "Administratorius atstatė jūsų slaptažodį",
     "{actor} changed your email address" : "{actor} pakeitė jūsų el. pašto adresą",
