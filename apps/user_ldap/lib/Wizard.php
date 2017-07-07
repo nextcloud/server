@@ -419,7 +419,7 @@ class Wizard extends LDAPUtility {
 	 * @throws \Exception
 	 */
 	public function fetchGroups($dbKey, $confKey) {
-		$obclasses = array('posixGroup', 'group', 'zimbraDistributionList', 'groupOfNames');
+		$obclasses = array('posixGroup', 'group', 'zimbraDistributionList', 'groupOfNames', 'groupOfUniqueNames');
 
 		$filterParts = array();
 		foreach($obclasses as $obclass) {
