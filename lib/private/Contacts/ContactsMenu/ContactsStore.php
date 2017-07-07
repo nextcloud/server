@@ -81,7 +81,7 @@ class ContactsStore {
 	 *  1. filter the current user
 	 *  2. if the `shareapi_exclude_groups` config option is enabled and the
 	 * current user is in an excluded group it will filter all local users.
-	 *  3. if the ``shareapi_only_share_with_group_members config option is
+	 *  3. if the `shareapi_only_share_with_group_members` config option is
 	 * enabled it will filter all users which doens't have a common group
 	 * with the current user.
 	 * @param IUser $self
@@ -89,16 +89,17 @@ class ContactsStore {
 	 * @return array the filtered contacts
 	 */
 	private function filterContacts(IUser $self, Array $entries) {
-		$excludedGroups = $this->config->getAppValue('core', 'shareapi_exclude_groups', 'no') === 'yes' ? true : false;
+		$excludedGroups = $this->config->getAppValue('core', 'shareapi_exclude_groups', 'no') === 'yes';
 
 		$skipLocal = false; // whether to filter out local users
-		$ownGroupsOnly = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes' ? true : false; // whether to filter out all users which doesn't have the same group as the current user
+		$ownGroupsOnly = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members', 'no'); // whether to filter out all users which doesn't have the same group as the current user
 
 		$selfGroups = $this->groupManager->getUserGroupIds($self);
 
 		if ($excludedGroups) {
 			$excludedGroups = $this->config->getAppValue('core', 'shareapi_exclude_groups_list', '');
-			$excludeGroupsList = !is_null(json_decode($excludedGroups)) ? json_decode($excludedGroups, true) :  [];
+			$decodedExcludeGroups = json_decode($excludedGroups, true);
+			$excludeGroupsList = !is_null($decodedExcludeGroups) ? $decodedExcludeGroups :  [];
 
 			if (count(array_intersect($excludeGroupsList, $selfGroups)) !== 0) {
 				// a group of the current user is excluded -> filter all local users
