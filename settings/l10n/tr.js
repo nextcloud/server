@@ -165,6 +165,7 @@ OC.L10N.register(
     "A valid group name must be provided" : "Geçerli bir grup adı yazmalısınız",
     "deleted {groupName}" : "{groupName} silindi",
     "undo" : "geri al",
+    "{size} used" : "{size} kullanılmış",
     "never" : "asla",
     "deleted {userName}" : "{userName} silindi",
     "No user found for <strong>{pattern}</strong>" : "<strong>{pattern}</strong> aramasına uyan bir kullanıcı bulunamadı",
