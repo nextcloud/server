@@ -24,8 +24,8 @@ namespace OC\Settings\Activity;
 
 use InvalidArgumentException;
 use OCP\Activity\IEvent;
+use OCP\Activity\IManager;
 use OCP\Activity\IProvider;
-use OCP\ILogger;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory as L10nFactory;
 
@@ -37,13 +37,13 @@ class SecurityProvider implements IProvider {
 	/** @var IURLGenerator */
 	private $urlGenerator;
 
-	/** @var ILogger */
-	private $logger;
+	/** @var IManager */
+	private $activityManager;
 
-	public function __construct(L10nFactory $l10n, IURLGenerator $urlGenerator, ILogger $logger) {
-		$this->logger = $logger;
+	public function __construct(L10nFactory $l10n, IURLGenerator $urlGenerator, IManager $activityManager) {
 		$this->urlGenerator = $urlGenerator;
 		$this->l10n = $l10n;
+		$this->activityManager = $activityManager;
 	}
 
 	public function parse($language, IEvent $event, IEvent $previousEvent = null) {
@@ -59,14 +59,22 @@ class SecurityProvider implements IProvider {
 				$event->setParsedSubject($l->t('You successfully logged in using two-factor authentication (%1$s)', [
 							$params['provider'],
 					]));
-				$event->setIcon($this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'actions/password.svg')));
+				if ($this->activityManager->getRequirePNG()) {
+					$event->setIcon($this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'actions/password.png')));
+				} else {
+					$event->setIcon($this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'actions/password.svg')));
+				}
 				break;
 			case 'twofactor_failed':
 				$params = $event->getSubjectParameters();
 				$event->setParsedSubject($l->t('A login attempt using two-factor authentication failed (%1$s)', [
 							$params['provider'],
 					]));
-				$event->setIcon($this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'actions/password.svg')));
+				if ($this->activityManager->getRequirePNG()) {
+					$event->setIcon($this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'actions/password.png')));
+				} else {
+					$event->setIcon($this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'actions/password.svg')));
+				}
 				break;
 			default:
 				throw new InvalidArgumentException();

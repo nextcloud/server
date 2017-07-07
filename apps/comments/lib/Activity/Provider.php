@@ -87,7 +87,11 @@ class Provider implements IProvider {
 
 		if ($event->getSubject() === 'add_comment_subject') {
 			$this->parseMessage($event);
-			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/comment.svg')));
+			if ($this->activityManager->getRequirePNG()) {
+				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/comment.png')));
+			} else {
+				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/comment.svg')));
+			}
 
 			if ($this->activityManager->isFormattingFilteredObject()) {
 				try {

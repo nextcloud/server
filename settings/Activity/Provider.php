@@ -22,6 +22,7 @@
 namespace OC\Settings\Activity;
 
 use OCP\Activity\IEvent;
+use OCP\Activity\IManager;
 use OCP\Activity\IProvider;
 use OCP\IL10N;
 use OCP\IURLGenerator;
@@ -50,6 +51,9 @@ class Provider implements IProvider {
 	/** @var IUserManager */
 	protected $userManager;
 
+	/** @var IManager */
+	private $activityManager;
+
 	/** @var string[] cached displayNames - key is the UID and value the displayname */
 	protected $displayNames = [];
 
@@ -57,11 +61,13 @@ class Provider implements IProvider {
 	 * @param IFactory $languageFactory
 	 * @param IURLGenerator $url
 	 * @param IUserManager $userManager
+	 * @param IManager $activityManager
 	 */
-	public function __construct(IFactory $languageFactory, IURLGenerator $url, IUserManager $userManager) {
+	public function __construct(IFactory $languageFactory, IURLGenerator $url, IUserManager $userManager, IManager $activityManager) {
 		$this->languageFactory = $languageFactory;
 		$this->url = $url;
 		$this->userManager = $userManager;
+		$this->activityManager = $activityManager;
 	}
 
 	/**
@@ -79,7 +85,11 @@ class Provider implements IProvider {
 
 		$this->l = $this->languageFactory->get('settings', $language);
 
-		$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('settings', 'personal.svg')));
+		if ($this->activityManager->getRequirePNG()) {
+			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('settings', 'personal.png')));
+		} else {
+			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('settings', 'personal.svg')));
+		}
 
 		if ($event->getSubject() === self::PASSWORD_CHANGED_BY) {
 			$subject = $this->l->t('{actor} changed your password');
