@@ -228,7 +228,18 @@ class NavigationManager implements INavigationManager {
 		if ($this->appManager === 'null') {
 			return;
 		}
-		foreach ($this->appManager->getInstalledApps() as $app) {
+
+		if ($this->userSession->isLoggedIn()) {
+			$apps = $this->appManager->getEnabledAppsForUser($this->userSession->getUser());
+		} else {
+			$apps = $this->appManager->getInstalledApps();
+		}
+
+		foreach ($apps as $app) {
+			if (!$this->userSession->isLoggedIn() && !$this->appManager->isEnabledForUser($app, $this->userSession->getUser())) {
+				continue;
+			}
+
 			// load plugins and collections from info.xml
 			$info = $this->appManager->getAppInfo($app);
 			if (empty($info['navigations'])) {

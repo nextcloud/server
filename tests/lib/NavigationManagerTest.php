@@ -13,7 +13,9 @@
 namespace Test;
 
 use OC\App\AppManager;
+use OC\Group\Manager;
 use OC\NavigationManager;
+use OC\SubAdmin;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
@@ -46,7 +48,7 @@ class NavigationManagerTest extends TestCase {
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->l10nFac = $this->createMock(IFactory::class);
 		$this->userSession = $this->createMock(IUserSession::class);
-		$this->groupManager = $this->createMock(IGroupManager::class);
+		$this->groupManager = $this->createMock(Manager::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->navigationManager = new NavigationManager(
 			$this->appManager,
@@ -207,19 +209,26 @@ class NavigationManagerTest extends TestCase {
 			return vsprintf($text, $parameters);
 		});
 
-		$this->appManager->expects($this->once())->method('getInstalledApps')->willReturn(['test']);
 		$this->appManager->expects($this->once())->method('getAppInfo')->with('test')->willReturn($navigation);
-		$this->l10nFac->expects($this->exactly(count($expected) + 1))->method('get')->willReturn($l);
+		$this->l10nFac->expects($this->any())->method('get')->willReturn($l);
 		$this->urlGenerator->expects($this->any())->method('imagePath')->willReturnCallback(function($appName, $file) {
 			return "/apps/$appName/img/$file";
 		});
-		$this->urlGenerator->expects($this->exactly(count($expected)))->method('linkToRoute')->willReturnCallback(function() {
+		$this->urlGenerator->expects($this->any())->method('linkToRoute')->willReturnCallback(function() {
 			return "/apps/test/";
 		});
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->any())->method('getUID')->willReturn('user001');
 		$this->userSession->expects($this->any())->method('getUser')->willReturn($user);
+		$this->userSession->expects($this->any())->method('isLoggedIn')->willReturn(true);
+		$this->appManager->expects($this->once())
+			->method('getEnabledAppsForUser')
+			->with($user)
+			->willReturn(['test']);
 		$this->groupManager->expects($this->any())->method('isAdmin')->willReturn($isAdmin);
+		$subadmin = $this->createMock(SubAdmin::class);
+		$subadmin->expects($this->any())->method('isSubAdmin')->with($user)->willReturn(false);
+		$this->groupManager->expects($this->any())->method('getSubAdmin')->willReturn($subadmin);
 
 		$this->navigationManager->clear();
 		$entries = $this->navigationManager->getAll('all');
@@ -227,8 +236,50 @@ class NavigationManagerTest extends TestCase {
 	}
 
 	public function providesNavigationConfig() {
+		$apps = [
+			[
+				'id' => 'core_apps',
+				'order' => 3,
+				'href' => '/apps/test/',
+				'icon' => '/apps/settings/img/apps.svg',
+				'name' => 'Apps',
+				'active' => false,
+				'type' => 'settings',
+			]
+		];
+		$admin = [
+			[
+				'id' => 'admin',
+				'order' => 2,
+				'href' => '/apps/test/',
+				'icon' => '/apps/settings/img/admin.svg',
+				'name' => 'Admin',
+				'active' => false,
+				'type' => 'settings',
+			]
+		];
+		$defaults = [
+			[
+				'id' => 'personal',
+				'order' => 1,
+				'href' => '/apps/test/',
+				'icon' => '/apps/settings/img/personal.svg',
+				'name' => 'Personal',
+				'active' => false,
+				'type' => 'settings',
+			],
+			[
+				'id' => 'logout',
+				'order' => 99999,
+				'href' => null,
+				'icon' => '/apps/core/img/actions/logout.svg',
+				'name' => 'Log out',
+				'active' => false,
+				'type' => 'settings',
+			],
+		];
 		return [
-			'minimalistic' => [[[
+			'minimalistic' => [array_merge($defaults, [[
 				'id' => 'test',
 				'order' => 100,
 				'href' => '/apps/test/',
@@ -236,8 +287,8 @@ class NavigationManagerTest extends TestCase {
 				'name' => 'Test',
 				'active' => false,
 				'type' => 'link',
-			]], ['navigations' => [['route' => 'test.page.index', 'name' => 'Test']]]],
-			'minimalistic-settings' => [[[
+			]]), ['navigations' => [['route' => 'test.page.index', 'name' => 'Test']]]],
+			'minimalistic-settings' => [array_merge($defaults, [[
 				'id' => 'test',
 				'order' => 100,
 				'href' => '/apps/test/',
@@ -245,8 +296,8 @@ class NavigationManagerTest extends TestCase {
 				'name' => 'Test',
 				'active' => false,
 				'type' => 'settings',
-			]], ['navigations' => [['route' => 'test.page.index', 'name' => 'Test', 'type' => 'settings']]]],
-			'no admin' => [[[
+			]]), ['navigations' => [['route' => 'test.page.index', 'name' => 'Test', 'type' => 'settings']]]],
+			'admin' => [array_merge($apps, $defaults, $admin, [[
 				'id' => 'test',
 				'order' => 100,
 				'href' => '/apps/test/',
@@ -254,9 +305,9 @@ class NavigationManagerTest extends TestCase {
 				'name' => 'Test',
 				'active' => false,
 				'type' => 'link',
-			]], ['navigations' => [['@attributes' => ['role' => 'admin'], 'route' => 'test.page.index', 'name' => 'Test']]], true],
-			'no name' => [[], ['navigations' => [['@attributes' => ['role' => 'admin'], 'route' => 'test.page.index']]], true],
-			'admin' => [[], ['navigations' => [['@attributes' => ['role' => 'admin'], 'route' => 'test.page.index', 'name' => 'Test']]]]
+			]]), ['navigations' => [['@attributes' => ['role' => 'admin'], 'route' => 'test.page.index', 'name' => 'Test']]], true],
+			'no name' => [array_merge($apps, $defaults, $admin), ['navigations' => [['@attributes' => ['role' => 'admin'], 'route' => 'test.page.index']]], true],
+			'no admin' => [$defaults, ['navigations' => [['@attributes' => ['role' => 'admin'], 'route' => 'test.page.index', 'name' => 'Test']]]]
 		];
 	}
 }
