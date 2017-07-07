@@ -165,6 +165,7 @@ OC.L10N.register(
     "A valid group name must be provided" : "Введите правильное имя группы",
     "deleted {groupName}" : "удалена {groupName}",
     "undo" : "отмена",
+    "{size} used" : "{size} использовано",
     "never" : "никогда",
     "deleted {userName}" : "удалён {userName}",
     "No user found for <strong>{pattern}</strong>" : "По шаблону <strong>{pattern}</strong> пользователей не найдено",

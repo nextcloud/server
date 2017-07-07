@@ -165,6 +165,7 @@ OC.L10N.register(
     "A valid group name must be provided" : "Ein gültiger Gruppenname muss angegeben werden",
     "deleted {groupName}" : "{groupName} gelöscht",
     "undo" : "rückgängig machen",
+    "{size} used" : "{size} verwendet",
     "never" : "niemals",
     "deleted {userName}" : "{userName} gelöscht",
     "No user found for <strong>{pattern}</strong>" : "Keine Benutzer für <strong>{pattern}</strong> gefunden",
