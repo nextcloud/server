@@ -131,6 +131,7 @@ class Installer {
 
 		// check for required dependencies
 		\OC_App::checkAppDependencies($this->config, $l, $info);
+		\OC_App::registerAutoloading($appId, $basedir);
 
 		//install the database
 		if(is_file($basedir.'/appinfo/database.xml')) {
@@ -144,7 +145,6 @@ class Installer {
 			$ms->migrate();
 		}
 
-		\OC_App::registerAutoloading($appId, $basedir);
 		\OC_App::setupBackgroundJobs($info['background-jobs']);
 		if(isset($info['settings']) && is_array($info['settings'])) {
 			\OC::$server->getSettingsManager()->setupSettings($info['settings']);

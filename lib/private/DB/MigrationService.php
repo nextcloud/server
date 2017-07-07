@@ -25,7 +25,6 @@
 
 namespace OC\DB;
 
-use Doctrine\DBAL\Schema\Schema;
 use OC\IntegrityCheck\Helpers\AppLocator;
 use OC\Migration\SimpleOutput;
 use OCP\AppFramework\App;
@@ -78,14 +77,6 @@ class MigrationService {
 			$namespace = App::buildAppNamespace($appName);
 			$this->migrationsPath = "$appPath/lib/Migration";
 			$this->migrationsNamespace = $namespace . '\\Migration';
-
-			if (!@mkdir($appPath . '/lib') && !is_dir($appPath . '/lib')) {
-				throw new \RuntimeException("Could not create migration folder \"{$this->migrationsPath}\"");
-			}
-		}
-
-		if (!@mkdir($this->migrationsPath) && !is_dir($this->migrationsPath)) {
-			throw new \RuntimeException("Could not create migration folder \"{$this->migrationsPath}\"");
 		}
 	}
 
@@ -164,6 +155,10 @@ class MigrationService {
 
 	protected function findMigrations() {
 		$directory = realpath($this->migrationsPath);
+		if (!file_exists($directory) || !is_dir($directory)) {
+			return [];
+		}
+
 		$iterator = new \RegexIterator(
 			new \RecursiveIteratorIterator(
 				new \RecursiveDirectoryIterator($directory, \FilesystemIterator::SKIP_DOTS),
