@@ -163,6 +163,7 @@
     "A valid group name must be provided" : "Vous devez indiquer un nom de groupe valide",
     "deleted {groupName}" : "{groupName} supprimé",
     "undo" : "annuler",
+    "{size} used" : "{size} utilisé",
     "never" : "jamais",
     "deleted {userName}" : "{userName} supprimé",
     "No user found for <strong>{pattern}</strong>" : "Aucun utilisateur trouvé pour <strong>{pattern}</strong>",
