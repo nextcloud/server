@@ -7,14 +7,27 @@ use OCP\IUser;
 use Sabre\DAV\Exception;
 use \Sabre\DAV\PropPatch;
 use Sabre\DAVACL\PrincipalBackend\BackendInterface;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 class CirclePrincipalBackend implements BackendInterface {
 
 	const PRINCIPAL_PREFIX = 'principals/circles';
 
-	public function __construct() {
-
+	/**
+	 * CirclePrincipalBackend constructor.
+	 *
+	 * @param EventDispatcher $eventDispatcher
+	 */
+	public function __construct(EventDispatcher $eventDispatcher) {
+		$eventDispatcher->addListener('\OCA\DAV\CalDAV\CalDavBackend::createCalendarObject', [$this, 'onNewCalendarEvent']);
 	}
+
+
+	public function onNewCalendarEvent(GenericEvent $e) {
+		//$e->getSubject();
+	}
+
 
 	/**
 	 * Returns a list of principals based on a prefix.
@@ -33,10 +46,9 @@ class CirclePrincipalBackend implements BackendInterface {
 		$principals = [];
 
 		if ($prefixPath === self::PRINCIPAL_PREFIX) {
-			foreach(\OCA\Circles\Api\v1\Circles::joinedCircles() as $circle)
-			{
-				\OC::$server->getLogger()->log(2, 'CIRCLE: ' . $circle->getName());
-			}
+//			foreach (\OCA\Circles\Api\v1\Circles::joinedCircles() as $circle) {
+//				\OC::$server->getLogger()->log(2, 'CIRCLE: ' . $circle->getName());
+//			}
 		}
 
 		return $principals;
@@ -52,7 +64,7 @@ class CirclePrincipalBackend implements BackendInterface {
 	 */
 	public function getPrincipalByPath($path) {
 
-		$elements = explode('/', $path,  3);
+		$elements = explode('/', $path, 3);
 		if ($elements[0] !== 'principals') {
 			return null;
 		}
@@ -92,7 +104,7 @@ class CirclePrincipalBackend implements BackendInterface {
 			return [];
 		}
 
-		return array_map(function($user) {
+		return array_map(function ($user) {
 			return $this->userToPrincipal($user);
 		}, $group->getUsers());
 	}

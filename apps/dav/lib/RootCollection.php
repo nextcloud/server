@@ -51,7 +51,7 @@ class RootCollection extends SimpleCollection {
 		$groupPrincipalBackend = new GroupPrincipalBackend(
 			\OC::$server->getGroupManager()
 		);
-		$circlePrincipalBackend = new CirclePrincipalBackend();
+		$circlePrincipalBackend = new CirclePrincipalBackend($dispatcher);
 		// as soon as debug mode is enabled we allow listing of principals
 		$disableListing = !$config->getSystemValue('debug', false);
 
