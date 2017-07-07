@@ -37,8 +37,11 @@ class SystemConfig {
 
 	/** @var array */
 	protected $sensitiveValues = [
+		'dbname' => true,
 		'dbpassword' => true,
 		'dbuser' => true,
+		'mail_from_address' => true,
+		'mail_domain' => true,
 		'mail_smtpname' => true,
 		'mail_smtppassword' => true,
 		'passwordsalt' => true,
