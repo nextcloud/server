@@ -63,7 +63,7 @@
 				<h3><?php p($l->t('Select default encryption module:')) ?></h3>
 				<fieldset id='encryptionModules'>
 					<?php foreach ($_['encryptionModules'] as $id => $module): ?>
-						<input type="radio" id="<?php p($id) ?>"
+						<input type="radio" id="<?php p($id) ?>" class="radio"
 							   name="default_encryption_module"
 							   value="<?php p($id) ?>"
 							<?php if ($module['default']) {
