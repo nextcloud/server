@@ -748,6 +748,10 @@ class UsersControllerTest extends TestCase {
 			->method('getDisplayName')
 			->will($this->returnValue('Demo User'));
 		$targetUser
+			->expects($this->exactly(5))
+			->method('getUID')
+			->will($this->returnValue('UID'));
+		$targetUser
 			->expects($this->once())
 			->method('getHome')
 			->will($this->returnValue('/var/www/newtcloud/data/UID'));
@@ -759,10 +763,6 @@ class UsersControllerTest extends TestCase {
 			->expects($this->once())
 			->method('getBackendClassName')
 			->will($this->returnValue('Database'));
-		$targetUser
-			->expects($this->exactly(5))
-			->method('getUID')
-			->will($this->returnValue('UID'));
 
 		$expected = [
 			'id' => 'UID',
@@ -780,6 +780,7 @@ class UsersControllerTest extends TestCase {
 			'twitter' => 'twitter',
 			'groups' => ['group0', 'group1', 'group2'],
 			'language' => 'de',
+			'locale' => null,
 		];
 		$this->assertEquals($expected, $this->invokePrivate($this->api, 'getUserData', ['UID']));
 	}
@@ -865,7 +866,7 @@ class UsersControllerTest extends TestCase {
 			->method('getBackendClassName')
 			->will($this->returnValue('Database'));
 		$targetUser
-			->expects($this->exactly(5))
+			->expects($this->exactly(6))
 			->method('getUID')
 			->will($this->returnValue('UID'));
 		$this->accountManager->expects($this->any())->method('getUser')
@@ -895,6 +896,7 @@ class UsersControllerTest extends TestCase {
 			'twitter' => 'twitter',
 			'groups' => [],
 			'language' => 'da',
+			'locale' => null,
 		];
 		$this->assertEquals($expected, $this->invokePrivate($this->api, 'getUserData', ['UID']));
 	}
@@ -1050,6 +1052,7 @@ class UsersControllerTest extends TestCase {
 			'twitter' => 'twitter',
 			'groups' => [],
 			'language' => 'ru',
+			'locale' => null,
 		];
 		$this->assertEquals($expected, $this->invokePrivate($this->api, 'getUserData', ['UID']));
 	}

@@ -522,7 +522,9 @@ class UsersController extends AUserData {
 				$this->config->setUserValue($targetUser->getUID(), 'core', 'lang', $value);
 				break;
 			case 'locale':
-				// do some stuff
+				if (!$this->l10nFactory->localeExists($value)) {
+					throw new OCSException('Invalid locale', 102);
+				}
 				$this->config->setUserValue($targetUser->getUID(), 'core', 'locale', $value);
 				break;
 			case AccountManager::PROPERTY_EMAIL:

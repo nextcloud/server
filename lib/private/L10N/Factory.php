@@ -115,6 +115,10 @@ class Factory implements IFactory {
 			$lang = $this->findLanguage($app);
 		}
 
+		if ($locale === null || !$this->localeExists($locale)) {
+			$locale = $this->findLocale($app, $lang);
+		}
+
 		if (!isset($this->instances[$lang][$app])) {
 			$this->instances[$lang][$app] = new L10N(
 				$this, $app, $lang, $locale,
@@ -186,6 +190,38 @@ class Factory implements IFactory {
 		return 'en';
 	}
 
+	public function findLocale($app = null, $lang = null)
+	{
+		if ($this->config->getSystemValue('installed', false)) {
+			$userId = null !== $this->userSession->getUser() ? $this->userSession->getUser()->getUID() :  null;
+			$userLocale = null;
+			if (null !== $userId) {
+				$userLocale = $this->config->getUserValue($userId, 'core', 'locale', null);
+			}
+		} else {
+			$userId = null;
+			$userLocale = null;
+		}
+
+		if ($userLocale && $this->localeExists($userLocale)) {
+			return $userLocale;
+		}
+
+		// If no user locale set, use lang as locale
+		if (null !== $lang && $this->localeExists($lang)) {
+			return $lang;
+		}
+
+		// Default : use system default locale
+		$defaultLocale = $this->config->getSystemValue('default_locale', false);
+		if ($defaultLocale !== false && $this->localeExists($defaultLocale)) {
+			return $defaultLocale;
+		}
+
+		// At last, return USA
+		return 'en_US';
+	}
+
 	/**
 	 * Find all available languages for an app
 	 *
@@ -237,6 +273,12 @@ class Factory implements IFactory {
 		return $available;
 	}
 
+	public function findAvailableLocales()
+	{
+		$localeData = file_get_contents(__DIR__ . '/locales.json');
+		return json_decode($localeData, true);
+	}
+
 	/**
 	 * @param string|null $app App id or null for core
 	 * @param string $lang
@@ -249,6 +291,24 @@ class Factory implements IFactory {
 
 		$languages = $this->findAvailableLanguages($app);
 		return array_search($lang, $languages) !== false;
+	}
+
+	/**
+	 * @param string $locale
+	 * @return bool
+	 */
+	public function localeExists($locale) {
+		if ($locale === 'en') { //english is always available
+			return true;
+		}
+
+		$locales = $this->findAvailableLocales();
+
+		$userLocale = array_filter($locales, function($value) use ($locale) {
+			return $locale === $value['code'];
+		});
+
+		return !empty($userLocale);
 	}
 
 	/**

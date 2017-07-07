@@ -232,14 +232,13 @@ class PersonalInfo implements ISettings {
 
 		$userLang = $this->config->getUserValue($uid, 'core', 'lang', $this->l10nFactory->findLanguage());
 
-		$localeData = file_get_contents(__DIR__ . '/locales.json');
-		$localeCodes = json_decode($localeData, true);
+		$localeCodes = $this->l10nFactory->findAvailableLocales();
 
 		$userLocale = array_filter($localeCodes, function($value) use ($userLocaleString) {
 			return $userLocaleString === $value['code'];
 		});
 
-		if (count($userLocale) > 0)
+		if (!empty($userLocale))
 		{
 			$userLocale = reset($userLocale);
 		}
@@ -247,14 +246,6 @@ class PersonalInfo implements ISettings {
 		$localesForLanguage = array_filter($localeCodes, function($localeCode) use ($userLang) {
 			return 0 === strpos($localeCode['code'], $userLang);
 		});
-
-		/*$localesForLanguage = [];
-
-		foreach (array_keys($localeCodes) as $localeCode) {
-			if (0 === strpos($localeCode, $userLang)) {
-				$localesForLanguage[] = $localeCode;
-			}
-		}*/
 
 		return [
 			'activelocaleLang' => $userLocaleString,
