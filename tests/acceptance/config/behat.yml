@@ -9,6 +9,7 @@ default:
         - ActorContext
         - NextcloudTestServerContext
 
+        - AppNavigationContext
         - FeatureContext
         - FilesAppContext
         - FilesSharingAppContext
