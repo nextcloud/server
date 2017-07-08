@@ -15,6 +15,7 @@ default:
         - FilesSharingAppContext
         - LoginPageContext
         - NotificationContext
+        - SettingsContext
         - SettingsMenuContext
         - UsersSettingsContext
   extensions:

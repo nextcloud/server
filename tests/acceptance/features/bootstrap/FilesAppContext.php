@@ -107,6 +107,41 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
+	public static function itemInInputFieldForTagsInCurrentSectionDetailsViewForTag($tag) {
+		return Locator::forThe()->xpath("//span[normalize-space() = '$tag']")->
+				descendantOf(self::inputFieldForTagsInCurrentSectionDetailsView())->
+				describedAs("Item in input field for tags in current section details view for tag $tag in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function itemInDropdownForTag($tag) {
+		return Locator::forThe()->xpath("//*[contains(concat(' ', normalize-space(@class), ' '), ' select2-result-label ')]//span[normalize-space() = '$tag']/ancestor::li")->
+				descendantOf(self::select2Dropdown())->
+				describedAs("Item in dropdown for tag $tag in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function checkmarkInItemInDropdownForTag($tag) {
+		return Locator::forThe()->css(".checkmark")->
+				descendantOf(self::itemInDropdownForTag($tag))->
+				describedAs("Checkmark in item in dropdown for tag $tag in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	private static function select2Dropdown() {
+		return Locator::forThe()->css("#select2-drop")->
+				describedAs("Select2 dropdown in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
 	public static function tabHeaderInCurrentSectionDetailsViewNamed($tabHeaderName) {
 		return Locator::forThe()->xpath("//li[normalize-space() = '$tabHeaderName']")->
 				descendantOf(self::tabHeadersInCurrentSectionDetailsView())->
@@ -396,6 +431,24 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	}
 
 	/**
+	 * @When I check the tag :tag in the dropdown for tags in the details view
+	 */
+	public function iCheckTheTagInTheDropdownForTagsInTheDetailsView($tag) {
+		$this->iSeeThatTheTagInTheDropdownForTagsInTheDetailsViewIsNotChecked($tag);
+
+		$this->actor->find(self::itemInDropdownForTag($tag), 10)->click();
+	}
+
+	/**
+	 * @When I uncheck the tag :tag in the dropdown for tags in the details view
+	 */
+	public function iUncheckTheTagInTheDropdownForTagsInTheDetailsView($tag) {
+		$this->iSeeThatTheTagInTheDropdownForTagsInTheDetailsViewIsChecked($tag);
+
+		$this->actor->find(self::itemInDropdownForTag($tag), 10)->click();
+	}
+
+	/**
 	 * @When I protect the shared link with the password :password
 	 */
 	public function iProtectTheSharedLinkWithThePassword($password) {
@@ -473,6 +526,46 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	public function iSeeThatTheInputFieldForTagsInTheDetailsViewIsShown() {
 		PHPUnit_Framework_Assert::assertTrue(
 				$this->actor->find(self::inputFieldForTagsInCurrentSectionDetailsView(), 10)->isVisible());
+	}
+
+	/**
+	 * @Then I see that the input field for tags in the details view contains the tag :tag
+	 */
+	public function iSeeThatTheInputFieldForTagsInTheDetailsViewContainsTheTag($tag) {
+		PHPUnit_Framework_Assert::assertTrue(
+				$this->actor->find(self::itemInInputFieldForTagsInCurrentSectionDetailsViewForTag($tag), 10)->isVisible());
+	}
+
+	/**
+	 * @Then I see that the input field for tags in the details view does not contain the tag :tag
+	 */
+	public function iSeeThatTheInputFieldForTagsInTheDetailsViewDoesNotContainTheTag($tag) {
+		$this->iSeeThatTheInputFieldForTagsInTheDetailsViewIsShown();
+
+		try {
+			PHPUnit_Framework_Assert::assertFalse(
+					$this->actor->find(self::itemInInputFieldForTagsInCurrentSectionDetailsViewForTag($tag))->isVisible());
+		} catch (NoSuchElementException $exception) {
+		}
+	}
+
+	/**
+	 * @Then I see that the tag :tag in the dropdown for tags in the details view is checked
+	 */
+	public function iSeeThatTheTagInTheDropdownForTagsInTheDetailsViewIsChecked($tag) {
+		PHPUnit_Framework_Assert::assertTrue(
+				$this->actor->find(self::checkmarkInItemInDropdownForTag($tag), 10)->isVisible());
+	}
+
+	/**
+	 * @Then I see that the tag :tag in the dropdown for tags in the details view is not checked
+	 */
+	public function iSeeThatTheTagInTheDropdownForTagsInTheDetailsViewIsNotChecked($tag) {
+		PHPUnit_Framework_Assert::assertTrue(
+				$this->actor->find(self::itemInDropdownForTag($tag), 10)->isVisible());
+
+		PHPUnit_Framework_Assert::assertFalse(
+				$this->actor->find(self::checkmarkInItemInDropdownForTag($tag))->isVisible());
 	}
 
 	/**
