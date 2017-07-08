@@ -44,31 +44,6 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
-	public static function appNavigation() {
-		return Locator::forThe()->id("app-navigation")->
-				describedAs("App navigation");
-	}
-
-	/**
-	 * @return Locator
-	 */
-	public static function appNavigationSectionItemFor($sectionText) {
-		return Locator::forThe()->xpath("//li[normalize-space() = '$sectionText']")->
-				descendantOf(self::appNavigation())->
-				describedAs($sectionText . " section item in App Navigation");
-	}
-
-	/**
-	 * @return Locator
-	 */
-	public static function appNavigationCurrentSectionItem() {
-		return Locator::forThe()->css(".active")->descendantOf(self::appNavigation())->
-				describedAs("Current section item in App Navigation");
-	}
-
-	/**
-	 * @return Locator
-	 */
 	public static function mainViewForSection($section) {
 		$sectionId = self::sections()[$section];
 
@@ -294,13 +269,6 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	}
 
 	/**
-	 * @Given I open the :section section
-	 */
-	public function iOpenTheSection($section) {
-		$this->actor->find(self::appNavigationSectionItemFor($section), 10)->click();
-	}
-
-	/**
 	 * @Given I open the details view for :fileName
 	 */
 	public function iOpenTheDetailsViewFor($fileName) {
@@ -371,13 +339,6 @@ class FilesAppContext implements Context, ActorAwareInterface {
 		PHPUnit_Framework_Assert::assertStringStartsWith(
 				$this->actor->locatePath("/apps/files/"),
 				$this->actor->getSession()->getCurrentUrl());
-	}
-
-	/**
-	 * @Then I see that the current section is :section
-	 */
-	public function iSeeThatTheCurrentSectionIs($section) {
-		PHPUnit_Framework_Assert::assertEquals($this->actor->find(self::appNavigationCurrentSectionItem(), 10)->getText(), $section);
 	}
 
 	/**
