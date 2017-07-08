@@ -25,7 +25,23 @@ class CirclePrincipalBackend implements BackendInterface {
 
 
 	public function onNewCalendarEvent(GenericEvent $e) {
-		//$e->getSubject();
+
+		$data = $e->getArguments();
+		foreach ($data['shares'] as $share) {
+			if (substr($share['href'], 0, 29) === 'principal:principals/circles/') {
+				$circleId = intval(substr($share['href'], 29));
+				$this->shareToCircle($circleId,
+					['calendarId' => $data['calendarId'],
+						'objectUri' => $data['objectData']['uri'],
+						'calendarData' => $data['objectData']['calendardata']
+					]);
+			}
+		}
+	}
+
+
+	private function shareToCircle($circleId, $data) {
+		\OCA\Circles\Api\v1\Circles::shareToCircle($circleId, 'calendar', 'caldav_object', $data, '\OCA\DAV\Circles\CalDAVEventsBroadcaster');
 	}
 
 
