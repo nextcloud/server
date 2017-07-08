@@ -123,7 +123,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
-	public static function inputFieldForTagsInCurrentSectionDetails() {
+	public static function inputFieldForTagsInCurrentSectionDetailsView() {
 		return Locator::forThe()->css(".systemTagsInfoView")->
 				descendantOf(self::currentSectionDetailsView())->
 				describedAs("Input field for tags in current section details view in Files app");
@@ -425,7 +425,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheInputFieldForTagsInTheDetailsViewIsShown() {
 		PHPUnit_Framework_Assert::assertTrue(
-				$this->actor->find(self::inputFieldForTagsInCurrentSectionDetails(), 10)->isVisible());
+				$this->actor->find(self::inputFieldForTagsInCurrentSectionDetailsView(), 10)->isVisible());
 	}
 
 	/**
