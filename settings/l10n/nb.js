@@ -165,6 +165,7 @@ OC.L10N.register(
     "A valid group name must be provided" : "Et gyldig gruppenavn må oppgis",
     "deleted {groupName}" : "slettet {groupName}",
     "undo" : "angre",
+    "{size} used" : "{size} brukt",
     "never" : "aldri",
     "deleted {userName}" : "slettet {userName}",
     "No user found for <strong>{pattern}</strong>" : "Ingen bruker funnet for <strong>{pattern}</strong>",

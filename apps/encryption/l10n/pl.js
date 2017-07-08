@@ -24,6 +24,7 @@ OC.L10N.register(
     "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Musisz przenieść swoje klucze szyfrowania ze starego sposobu szyfrowania (Nextcloud <= 8,0) na nowy. Proszę uruchomić 'occ encryption:migrate' lub skontaktować się z administratorem",
     "Invalid private key for encryption app. Please update your private key password in your personal settings to recover access to your encrypted files." : "Nieprawidłowy klucz prywatny do szyfrowania aplikacji. Należy zaktualizować hasło klucza prywatnego w ustawieniach osobistych, aby odzyskać dostęp do zaszyfrowanych plików.",
     "Encryption App is enabled, but your keys are not initialized. Please log-out and log-in again." : "Aplikacja szyfrująca jest włączona, ale twoje klucze nie sa zainicjalizowane. Proszę się wylogować i zalogować ponownie.",
+    "Please enable server side encryption in the admin settings in order to use the encryption module." : "Aby móc korzystać z modułu szyfrowania trzeba włączyć w panelu administratora szyfrowanie po stronie serwera. ",
     "Encryption app is enabled and ready" : "Szyfrowanie aplikacja jest włączone i gotowe",
     "Bad Signature" : "Zła sygnatura",
     "Missing Signature" : "Brakująca sygnatura",
