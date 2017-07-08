@@ -18,6 +18,7 @@ OC.L10N.register(
     "Checked on %s" : "Sprawdzone na %s",
     "Update channel:" : "Kanał aktualizacji:",
     "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Zawsze możesz zaktualizować do nowszej wersji z eksperymentalnego kanału. Ale nigdy nie możesz powrócić do wersji ze stabilnego kanału.",
+    "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Zauważ, że po opublikowaniu nowej wersji może minąć trochę czasu, zanim pojawi się ona tutaj. Publikację dla naszych użytkowników rozkładamy w czasie, a czasami pomijamy wersję, gdy znajdziemy jakieś błędy.",
     "Notify members of the following groups about available updates:" : "Powiadom członków następujących grup o dostępnych aktualizacjach: ",
     "Only notification for app updates are available." : "Tylko powiadomienia o aktualizacjach aplikacji są dostępne.",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Wybrany kanał aktualizacji dla dedykowanych powiadomień dla serwera jest nieaktualny.",

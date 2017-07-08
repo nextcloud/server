@@ -1,6 +1,7 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Saved" : "Saglabāts",
     "Saving failed:" : "Saglabāšana neizdevās:",
     "is" : "ir",
     "is not" : "nav",
