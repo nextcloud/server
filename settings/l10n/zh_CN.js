@@ -165,6 +165,7 @@ OC.L10N.register(
     "A valid group name must be provided" : "请提供一个有效的分组名称",
     "deleted {groupName}" : "已删除 {groupName}",
     "undo" : "撤销",
+    "{size} used" : "{size} 已使用",
     "never" : "从不",
     "deleted {userName}" : "已删除 {userName}",
     "No user found for <strong>{pattern}</strong>" : "没有用户发现 <strong>{pattern}</strong>",

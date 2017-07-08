@@ -24,6 +24,7 @@ OC.L10N.register(
     "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator",
     "Invalid private key for encryption app. Please update your private key password in your personal settings to recover access to your encrypted files." : "Invalid private key for encryption app. Please update your private key password in your personal settings to recover access to your encrypted files.",
     "Encryption App is enabled, but your keys are not initialized. Please log-out and log-in again." : "Encryption App is enabled, but your keys are not initialized. Please log-out and log-in again.",
+    "Please enable server side encryption in the admin settings in order to use the encryption module." : "Please enable server side encryption in the admin settings in order to use the encryption module.",
     "Encryption app is enabled and ready" : "Encryption app is enabled and ready",
     "Bad Signature" : "Bad Signature",
     "Missing Signature" : "Missing Signature",
