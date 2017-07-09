@@ -22,6 +22,7 @@
     "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Usted necesita migar sus llaves de encripción de la encripción anterior (ownCloud <=8.0) a la nueva. Favor de ejecutar 'occ encryption:migrate' o contacte a su adminstrador",
     "Invalid private key for encryption app. Please update your private key password in your personal settings to recover access to your encrypted files." : "La llave de encripción privada es inválida para la aplicación de encripción. Favor de actualizar la contraseña de su llave privada en sus configuraciones personales para recuperar el acceso a sus archivos encriptados. ",
     "Encryption App is enabled, but your keys are not initialized. Please log-out and log-in again." : "La aplicación de encripción está habilitada, pero sus llaves no han sido inicializadas. Favor de cerrar sesión e iniciar sesión de nuevo. ",
+    "Please enable server side encryption in the admin settings in order to use the encryption module." : "Por favor active el cifrado del lado del servidor en los ajustes de administración para usar el módulo de cifrado.",
     "Encryption app is enabled and ready" : "La aplicación de encripción se cuentra habilitada y lista",
     "Bad Signature" : "Firma equivocada",
     "Missing Signature" : "Firma faltante",

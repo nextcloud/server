@@ -165,6 +165,7 @@ OC.L10N.register(
     "A valid group name must be provided" : "Skráðu inn gilt heiti á hópi",
     "deleted {groupName}" : "eyddi {groupName}",
     "undo" : "afturkalla",
+    "{size} used" : "{size} notað",
     "never" : "aldrei",
     "deleted {userName}" : "eyddi {userName}",
     "No user found for <strong>{pattern}</strong>" : "Enginn notandi fannst fyrir <strong>{pattern}</strong>",
