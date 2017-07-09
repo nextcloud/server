@@ -37,6 +37,7 @@ OC.L10N.register(
     "Decline" : "Rechazar",
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Compartir conmigo a través de mi ID de Nube Federada #Nextcloud, ver %s",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Compartir conmigo a través de mi ID de Nube Federada #Nextcloud",
+    "Sharing" : "Comparitr",
     "Federated file sharing" : "Compartir archivos en federación",
     "Federated Cloud Sharing" : "Compartir en la Nube Federada",
     "Open documentation" : "Abrir documentación",
