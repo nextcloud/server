@@ -17,7 +17,7 @@ OC.L10N.register(
     "File system tag" : "Filsystem merkelapp",
     "is tagged with" : "er merket med",
     "is not tagged with" : "er ikke merket med",
-    "Select tag…" : "Velg merkelapp ...",
+    "Select tag…" : "Velg merkelapp…",
     "Request remote address" : "Be om ekstern adresse",
     "matches IPv4" : "passer IPv4",
     "does not match IPv4" : "passer ikke IPv4",
