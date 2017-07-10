@@ -35,8 +35,8 @@
 		if ($_['getenvServerNotWorking']) {
 			?>
 			<li>
-				<?php p($l->t('php does not seem to be setup properly to query system environment variables. The test with getenv("PATH") only returns an empty response.')); ?><br>
-				<?php print_unescaped($l->t('Please check the <a target="_blank" rel="noreferrer" href="%s">installation documentation ↗</a> for php configuration notes and the php configuration of your server, especially when using php-fpm.', link_to_docs('admin-php-fpm'))); ?>
+				<?php p($l->t('PHP does not seem to be setup properly to query system environment variables. The test with getenv("PATH") only returns an empty response.')); ?><br>
+				<?php print_unescaped($l->t('Please check the <a target="_blank" rel="noreferrer" href="%s">installation documentation ↗</a> for PHP configuration notes and the PHP configuration of your server, especially when using php-fpm.', link_to_docs('admin-php-fpm'))); ?>
 			</li>
 			<?php
 		}
@@ -54,7 +54,7 @@
 		if (!$_['isAnnotationsWorking']) {
 			?>
 			<li>
-				<?php p($l->t('PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible.')); ?><br>
+				<?php p($l->t('PHP is apparently set up to strip inline doc blocks. This will make several core apps inaccessible.')); ?><br>
 				<?php p($l->t('This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator.')); ?>
 			</li>
 			<?php
@@ -73,7 +73,7 @@
 		foreach ($_['OutdatedCacheWarning'] as $php_module => $data) {
 			?>
 			<li>
-				<?php p($l->t('%1$s below version %2$s is installed, for stability and performance reasons we recommend updating to a newer %1$s version.', $data)); ?>
+				<?php p($l->t('%1$s below version %2$s is installed, for stability and performance reasons it is recommended to update to a newer %1$s version.', $data)); ?>
 			</li>
 			<?php
 		}
@@ -82,7 +82,7 @@
 		if (!$_['has_fileinfo']) {
 			?>
 			<li>
-				<?php p($l->t('The PHP module \'fileinfo\' is missing. We strongly recommend to enable this module to get best results with MIME type detection.')); ?>
+				<?php p($l->t('The PHP module \'fileinfo\' is missing. It is strongly recommended to enable this module to get the best results with MIME type detection.')); ?>
 			</li>
 			<?php
 		}
@@ -106,11 +106,11 @@
 				?>
 				<br>
 				<?php
-				p($l->t('This means that there might be problems with certain characters in file names.'));
+				p($l->t('This means that there might be problems with certain characters in filenames.'));
 				?>
 				<br>
 				<?php
-				p($l->t('We strongly suggest installing the required packages on your system to support one of the following locales: %s.', [$locales]));
+				p($l->t('It is strongly proposed to install the required packages on your system to support one of the following locales: %s.', [$locales]));
 				?>
 			</li>
 			<?php
@@ -119,7 +119,7 @@
 		if ($_['suggestedOverwriteCliUrl']) {
 			?>
 			<li>
-				<?php p($l->t('If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the "overwrite.cli.url" option in your config.php file to the webroot path of your installation (Suggested: "%s")', $_['suggestedOverwriteCliUrl'])); ?>
+				<?php p($l->t('If your installation is not installed at the root of the domain and uses system Cron, there can be issues with the URL generation. To avoid these problems, please set the "overwrite.cli.url" option in your config.php file to the webroot path of your installation (Suggested: "%s")', $_['suggestedOverwriteCliUrl'])); ?>
 			</li>
 			<?php
 		}
@@ -127,7 +127,7 @@
 		if ($_['cronErrors']) {
 			?>
 			<li>
-				<?php p($l->t('It was not possible to execute the cronjob via CLI. The following technical errors have appeared:')); ?>
+				<?php p($l->t('It was not possible to execute the cron job via CLI. The following technical errors have appeared:')); ?>
 				<br>
 				<ol>
 					<?php foreach(json_decode($_['cronErrors']) as $error) { if(isset($error->error)) {?>
@@ -197,7 +197,7 @@
 			print_unescaped('checked="checked"');
 		} ?>>
 		<label for="backgroundjobs_webcron">Webcron</label><br/>
-		<em><?php p($l->t("cron.php is registered at a webcron service to call cron.php every 15 minutes over http.")); ?></em>
+		<em><?php p($l->t("cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP.")); ?></em>
 	</p>
 	<p>
 		<input type="radio" name="mode" value="cron" class="radio"
@@ -215,7 +215,7 @@
 				print_unescaped(str_replace(
 					['{linkstart}', '{linkend}'],
 					['<a href="http://php.net/manual/en/book.posix.php">', ' ↗</a>'],
-					$l->t('To run this you need the PHP posix extension. See {linkstart}PHP documentation{linkend} for more details.')
+					$l->t('To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details.')
 				));
 		} ?></em>
 
