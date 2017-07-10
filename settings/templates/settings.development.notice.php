@@ -48,11 +48,11 @@
 				'<a target="_blank" rel="noreferrer noopener" href="https://nextcloud.com/news/">',
 				'<a target="_blank" rel="noreferrer noopener" href="https://newsletter.nextcloud.com/?p=subscribe&amp;id=1">',
 				'</a>',
-				$l->t('Follow us on Google+!'),
-				$l->t('Like our facebook page!'),
-				$l->t('Follow us on Twitter!'),
-				$l->t('Check out our blog!'),
-				$l->t('Subscribe to our newsletter!'),
+				$l->t('Follow us on Google+'),
+				$l->t('Like our Facebook page'),
+				$l->t('Follow us on Twitter'),
+				$l->t('Check out our blog'),
+				$l->t('Subscribe to our newsletter'),
 
 			],
 '{googleopen}<img width="50" src="{googleimage}" title="{googletext}" alt="{googletext}">{linkclose}
