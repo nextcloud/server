@@ -146,7 +146,7 @@ class RenewPasswordController extends Controller {
 				$this->session->set('loginMessages', [
 					[], [$this->l10n->t("Please login with the new password")]
 				]);
-				$this->config->setUserValue($uid, 'user_ldap', 'needsPasswordReset', 'false');
+				$this->config->setUserValue($user, 'user_ldap', 'needsPasswordReset', 'false');
 				return new RedirectResponse($this->urlGenerator->linkToRoute('core.login.showLoginForm', $args));
 			} else {
 				$this->session->set('renewPasswordMessages', [
