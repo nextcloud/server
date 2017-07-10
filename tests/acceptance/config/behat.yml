@@ -9,11 +9,13 @@ default:
         - ActorContext
         - NextcloudTestServerContext
 
+        - AppNavigationContext
         - FeatureContext
         - FilesAppContext
         - FilesSharingAppContext
         - LoginPageContext
         - NotificationContext
+        - SettingsContext
         - SettingsMenuContext
         - UsersSettingsContext
   extensions:
