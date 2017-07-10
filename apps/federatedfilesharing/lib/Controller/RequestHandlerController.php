@@ -451,7 +451,7 @@ class RequestHandlerController extends OCSController {
 			$event = \OC::$server->getActivityManager()->generateEvent();
 			$event->setApp('files_sharing')
 				->setType('remote_share')
-				->setSubject(RemoteShares::SUBJECT_REMOTE_SHARE_UNSHARED, [$owner, $path])
+				->setSubject(RemoteShares::SUBJECT_REMOTE_SHARE_UNSHARED, [$owner->getId(), $path])
 				->setAffectedUser($user)
 				->setObject('remote_share', (int)$share['id'], $path);
 			\OC::$server->getActivityManager()->publish($event);
