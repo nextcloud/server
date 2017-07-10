@@ -2737,6 +2737,7 @@
 
 				if (self.$el.hasClass('hidden')) {
 					// do not upload to invisible lists
+					e.preventDefault();
 					return false;
 				}
 
@@ -2748,6 +2749,7 @@
 					&& !self.$el.has(dropTarget).length // dropped inside list
 					&& !dropTarget.is(self.$container) // dropped on main container
 					) {
+					e.preventDefault();
 					return false;
 				}
 
