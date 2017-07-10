@@ -79,7 +79,7 @@ OC.L10N.register(
     "Public upload is only possible for publicly shared folders" : "Offentlig opplasting er kun mulig i offentlig delte mapper",
     "Invalid date, date format must be YYYY-MM-DD" : "Feil dato, dato må være i formatet YYYY-MM-DD",
     "Sharing %s failed because the back end does not allow shares from type %s" : "Deling av %s mislyktes på grunn av at tjeneren ikke tillater deling av filtypen %s",
-    "You cannot share to a Circle if the app is not enabled" : "Du kan ikke dele til en sirkel så lenge appn ikke er aktivert",
+    "You cannot share to a Circle if the app is not enabled" : "Du kan ikke dele til en sirkel så lenge programmet ikke er aktivert",
     "Please specify a valid circle" : "Angi en gyldig sirkel",
     "Unknown share type" : "Ukjent ressurstype",
     "Not a directory" : "Ikke en mappe",
