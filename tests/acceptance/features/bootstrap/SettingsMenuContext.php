@@ -46,6 +46,13 @@ class SettingsMenuContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
+	public static function adminMenuItem() {
+		return self::menuItemFor("Admin");
+	}
+
+	/**
+	 * @return Locator
+	 */
 	public static function usersMenuItem() {
 		return self::menuItemFor("Users");
 	}
@@ -71,6 +78,15 @@ class SettingsMenuContext implements Context, ActorAwareInterface {
 	 */
 	public function iOpenTheSettingsMenu() {
 		$this->actor->find(self::settingsMenuButton(), 10)->click();
+	}
+
+	/**
+	 * @When I open the Admin settings
+	 */
+	public function iOpenTheAdminSettings() {
+		$this->iOpenTheSettingsMenu();
+
+		$this->actor->find(self::adminMenuItem(), 2)->click();
 	}
 
 	/**
