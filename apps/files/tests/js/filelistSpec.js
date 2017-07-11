@@ -2694,22 +2694,24 @@ describe('OCA.Files.FileList tests', function() {
 				var eventData = {
 					delegatedEvent: {
 						target: $target
+					},
+					preventDefault: function () {
 					}
 				};
 				uploader.trigger('drop', eventData, data || {});
 				return !!data.targetDir;
 			}
 
-			it('drop on a tr or crumb outside file list does not trigger upload', function() {
-				var $anotherTable = $('<table><tbody><tr><td>outside<div class="crumb">crumb</div></td></tr></table>');
-				var ev;
-				$('#testArea').append($anotherTable);
-				ev = dropOn($anotherTable.find('tr'), uploadData);
-				expect(ev).toEqual(false);
+				it('drop on a tr or crumb outside file list does not trigger upload', function() {
+					var $anotherTable = $('<table><tbody><tr><td>outside<div class="crumb">crumb</div></td></tr></table>');
+					var ev;
+					$('#testArea').append($anotherTable);
+					ev = dropOn($anotherTable.find('tr'), uploadData);
+					expect(ev).toEqual(false);
 
-				ev = dropOn($anotherTable.find('.crumb'), uploadData);
-				expect(ev).toEqual(false);
-			});
+					ev = dropOn($anotherTable.find('.crumb'), uploadData);
+					expect(ev).toEqual(false);
+				});
 			it('drop on an element outside file list container does not trigger upload', function() {
 				var $anotherEl = $('<div>outside</div>');
 				var ev;
