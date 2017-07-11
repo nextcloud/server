@@ -251,7 +251,7 @@ OC.L10N.register(
     "Device" : "Gerät",
     "Last activity" : "Letzte Aktivität",
     "App passwords" : "App-PINs",
-    "Here you can generate individual passwords for apps so you don’t have to give out your password. You can revoke them individually too." : "Hier können individuelle Passwörter for Apps erzeugt werden. So must Du nicht Dein Passwort verteilen. Jedes Passwort kann individuell widerrufen werden.",
+    "Here you can generate individual passwords for apps so you don’t have to give out your password. You can revoke them individually too." : "Hier können individuelle Passwörter for Apps erzeugt werden. So musst Du nicht Dein Passwort verteilen. Jedes Passwort kann individuell widerrufen werden.",
     "App name" : "App-Name",
     "Create new app password" : "Neues App-Passwort erstellen",
     "Use the credentials below to configure your app or device." : "Nutze die unten angebenen Anmeldeinformationen, um deine App oder dein Gerät zu konfigurieren.",
