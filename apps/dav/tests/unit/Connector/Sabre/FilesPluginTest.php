@@ -341,11 +341,12 @@ class FilesPluginTest extends TestCase {
 		$this->assertEquals('my_fingerprint', $propFind->get(self::DATA_FINGERPRINT_PROPERTYNAME));
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\NotFound
-	 */
 	public function testGetPropertiesWhenNoPermission() {
-		/** @var \OCA\DAV\Connector\Sabre\Directory | \PHPUnit_Framework_MockObject_MockObject $node */
+		// No read permissions can be caused by files access control.
+		// But we still want to load the directory list, so this is okay for us.
+		// $this->expectException(\Sabre\DAV\Exception\NotFound::class);
+
+		/** @var \OCA\DAV\Connector\Sabre\Directory|\PHPUnit_Framework_MockObject_MockObject $node */
 		$node = $this->getMockBuilder('\OCA\DAV\Connector\Sabre\Directory')
 			->disableOriginalConstructor()
 			->getMock();

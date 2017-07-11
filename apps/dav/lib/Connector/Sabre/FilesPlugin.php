@@ -288,10 +288,16 @@ class FilesPlugin extends ServerPlugin {
 		$httpRequest = $this->server->httpRequest;
 
 		if ($node instanceof \OCA\DAV\Connector\Sabre\Node) {
+			/**
+			 * This was disabled, because it made dir listing throw an exception,
+			 * so users were unable to navigate into folders where one subitem
+			 * is blocked by the files_accesscontrol app, see:
+			 * https://github.com/nextcloud/files_accesscontrol/issues/65
 			if (!$node->getFileInfo()->isReadable()) {
 				// avoid detecting files through this means
 				throw new NotFound();
 			}
+			 */
 
 			$propFind->handle(self::FILEID_PROPERTYNAME, function() use ($node) {
 				return $node->getFileId();
