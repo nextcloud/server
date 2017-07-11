@@ -70,10 +70,11 @@
 									 class="app-icon"/>
 								<div class="icon-loading-small-dark"
 									 style="display:none;"></div>
-								<span>
+							</a>
+							<span>
 								<?php p($entry['name']); ?>
 							</span>
-							</a>
+
 						</li>
 					<?php endforeach; ?>
 					<li id="more-apps" class="menutoggle">
