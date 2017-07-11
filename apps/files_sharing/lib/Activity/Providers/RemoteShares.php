@@ -131,8 +131,12 @@ class RemoteShares extends Base {
 				];
 			case self::SUBJECT_REMOTE_SHARE_ACCEPTED:
 			case self::SUBJECT_REMOTE_SHARE_DECLINED:
+				$fileParameter = $parameters[1];
+				if (!is_array($fileParameter)) {
+					$fileParameter = [$event->getObjectId() => $event->getObjectName()];
+				}
 				return [
-					'file' => $this->getFile([$event->getObjectId() => $event->getObjectName()]),
+					'file' => $this->getFile($fileParameter),
 					'user' => $this->getFederatedUser($parameters[0]),
 				];
 		}
