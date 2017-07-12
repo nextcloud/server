@@ -60,7 +60,10 @@ class RepairInvalidPaths implements IRepairStep {
 			))
 			->where($builder->expr()->neq('f.path', $computedPath));
 
-		return $query->execute()->fetchAll();
+		$result = $query->execute();
+		while ($row = $result->fetch()) {
+			yield $row;
+		}
 	}
 
 	private function getId($storage, $path) {
@@ -103,8 +106,11 @@ class RepairInvalidPaths implements IRepairStep {
 	}
 
 	private function repair() {
+		$this->connection->beginTransaction();
 		$entries = $this->getInvalidEntries();
+		$count = 0;
 		foreach ($entries as $entry) {
+			$count++;
 			$calculatedPath = $entry['parent_path'] . '/' . $entry['name'];
 			if ($newId = $this->getId($entry['storage'], $calculatedPath)) {
 				// a new entry with the correct path has already been created, reuse that one and delete the incorrect entry
@@ -114,7 +120,8 @@ class RepairInvalidPaths implements IRepairStep {
 				$this->update($entry['fileid'], $calculatedPath);
 			}
 		}
-		return count($entries);
+		$this->connection->commit();
+		return $count;
 	}
 
 	public function run(IOutput $output) {
