@@ -22,16 +22,24 @@
 namespace OC\Repair\NC13;
 
 
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class RepairInvalidPaths implements IRepairStep {
+	const MAX_ROWS = 1000;
+
 	/** @var IDBConnection */
 	private $connection;
 	/** @var IConfig */
 	private $config;
+
+	private $getIdQuery;
+	private $updateQuery;
+	private $reparentQuery;
+	private $deleteQuery;
 
 	public function __construct(IDBConnection $connection, IConfig $config) {
 		$this->connection = $connection;
@@ -58,51 +66,77 @@ class RepairInvalidPaths implements IRepairStep {
 				$builder->expr()->eq('f.parent', 'p.fileid'),
 				$builder->expr()->neq('p.name', $builder->createNamedParameter(''))
 			))
-			->where($builder->expr()->neq('f.path', $computedPath));
+			->where($builder->expr()->neq('f.path', $computedPath))
+			->setMaxResults(self::MAX_ROWS);
 
-		$result = $query->execute();
-		while ($row = $result->fetch()) {
-			yield $row;
-		}
+		do {
+			$result = $query->execute();
+			$rows = $result->fetchAll();
+			foreach ($rows as $row) {
+				yield $row;
+			}
+			$result->closeCursor();
+		} while (count($rows) >= self::MAX_ROWS);
 	}
 
 	private function getId($storage, $path) {
-		$builder = $this->connection->getQueryBuilder();
+		if (!$this->getIdQuery) {
+			$builder = $this->connection->getQueryBuilder();
 
-		$query = $builder->select('fileid')
-			->from('filecache')
-			->where($builder->expr()->eq('storage', $builder->createNamedParameter($storage)))
-			->andWhere($builder->expr()->eq('path', $builder->createNamedParameter($path)));
+			$this->getIdQuery = $builder->select('fileid')
+				->from('filecache')
+				->where($builder->expr()->eq('storage', $builder->createParameter('storage')))
+				->andWhere($builder->expr()->eq('path', $builder->createParameter('path')));
+		}
 
-		return $query->execute()->fetchColumn();
+		$this->getIdQuery->setParameter('storage', $storage, IQueryBuilder::PARAM_INT);
+		$this->getIdQuery->setParameter('path', $path);
+
+		return $this->getIdQuery->execute()->fetchColumn();
 	}
 
 	private function update($fileid, $newPath) {
-		$builder = $this->connection->getQueryBuilder();
+		if (!$this->updateQuery) {
+			$builder = $this->connection->getQueryBuilder();
 
-		$query = $builder->update('filecache')
-			->set('path', $builder->createNamedParameter($newPath))
-			->set('path_hash', $builder->createNamedParameter(md5($newPath)))
-			->where($builder->expr()->eq('fileid', $builder->createNamedParameter($fileid)));
+			$this->updateQuery = $builder->update('filecache')
+				->set('path', $builder->createParameter('newpath'))
+				->set('path_hash', $builder->func()->md5($builder->createParameter('newpath')))
+				->where($builder->expr()->eq('fileid', $builder->createParameter('fileid')));
+		}
 
-		$query->execute();
+		$this->updateQuery->setParameter('newpath', $newPath);
+		$this->updateQuery->setParameter('fileid', $fileid, IQueryBuilder::PARAM_INT);
+
+		$this->updateQuery->execute();
 	}
 
 	private function reparent($from, $to) {
-		$builder = $this->connection->getQueryBuilder();
+		if (!$this->reparentQuery) {
+			$builder = $this->connection->getQueryBuilder();
 
-		$query = $builder->update('filecache')
-			->set('parent', $builder->createNamedParameter($to))
-			->where($builder->expr()->eq('fileid', $builder->createNamedParameter($from)));
-		$query->execute();
+			$this->reparentQuery = $builder->update('filecache')
+				->set('parent', $builder->createParameter('to'))
+				->where($builder->expr()->eq('fileid', $builder->createParameter('from')));
+		}
+
+		$this->reparentQuery->setParameter('from', $from);
+		$this->reparentQuery->setParameter('to', $to);
+
+		$this->reparentQuery->execute();
 	}
 
 	private function delete($fileid) {
-		$builder = $this->connection->getQueryBuilder();
+		if (!$this->deleteQuery) {
+			$builder = $this->connection->getQueryBuilder();
 
-		$query = $builder->delete('filecache')
-			->where($builder->expr()->eq('fileid', $builder->createNamedParameter($fileid)));
-		$query->execute();
+			$this->deleteQuery = $builder->delete('filecache')
+				->where($builder->expr()->eq('fileid', $builder->createParameter('fileid')));
+		}
+
+		$this->deleteQuery->setParameter('fileid', $fileid, IQueryBuilder::PARAM_INT);
+
+		$this->deleteQuery->execute();
 	}
 
 	private function repair() {
