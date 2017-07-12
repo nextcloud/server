@@ -24,6 +24,7 @@ namespace OC;
 
 use OCP\AppFramework\QueryException;
 use OCP\Capabilities\ICapability;
+use OCP\Capabilities\IPublicCapability;
 use OCP\ILogger;
 
 class CapabilitiesManager {
@@ -41,10 +42,11 @@ class CapabilitiesManager {
 	/**
 	 * Get an array of al the capabilities that are registered at this manager
      *
+	 * @param bool $public get public capabilities only
 	 * @throws \InvalidArgumentException
 	 * @return array
 	 */
-	public function getCapabilities() {
+	public function getCapabilities($public = false) {
 		$capabilities = [];
 		foreach($this->capabilities as $capability) {
 			try {
@@ -55,7 +57,9 @@ class CapabilitiesManager {
 			}
 
 			if ($c instanceof ICapability) {
-				$capabilities = array_replace_recursive($capabilities, $c->getCapabilities());
+				if(!$public || $c instanceof IPublicCapability) {
+					$capabilities = array_replace_recursive($capabilities, $c->getCapabilities());
+				}
 			} else {
 				throw new \InvalidArgumentException('The given Capability (' . get_class($c) . ') does not implement the ICapability interface');
 			}

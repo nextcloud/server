@@ -80,7 +80,8 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
+	 * @PublicPage
+	 *
 	 * @return DataResponse
 	 */
 	public function getCapabilities() {
@@ -94,7 +95,11 @@ class OCSController extends \OCP\AppFramework\OCSController {
 			'edition' => '',
 		);
 
-		$result['capabilities'] = $this->capabilitiesManager->getCapabilities();
+		if($this->userSession->isLoggedIn()) {
+			$result['capabilities'] = $this->capabilitiesManager->getCapabilities();
+		} else {
+			$result['capabilities'] = $this->capabilitiesManager->getCapabilities(true);
+		}
 
 		return new DataResponse($result);
 	}
