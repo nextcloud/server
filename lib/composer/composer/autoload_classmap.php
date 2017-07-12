@@ -770,6 +770,7 @@ return array(
     'OC\\Search\\Result\\File' => $baseDir . '/lib/private/Search/Result/File.php',
     'OC\\Search\\Result\\Folder' => $baseDir . '/lib/private/Search/Result/Folder.php',
     'OC\\Search\\Result\\Image' => $baseDir . '/lib/private/Search/Result/Image.php',
+    'OC\\Security\\Bruteforce\\Capabilities' => $baseDir . '/lib/private/Security/Bruteforce/Capabilities.php',
     'OC\\Security\\Bruteforce\\Throttler' => $baseDir . '/lib/private/Security/Bruteforce/Throttler.php',
     'OC\\Security\\CSP\\ContentSecurityPolicy' => $baseDir . '/lib/private/Security/CSP/ContentSecurityPolicy.php',
     'OC\\Security\\CSP\\ContentSecurityPolicyManager' => $baseDir . '/lib/private/Security/CSP/ContentSecurityPolicyManager.php',

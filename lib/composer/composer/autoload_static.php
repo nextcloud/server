@@ -800,6 +800,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Search\\Result\\File' => __DIR__ . '/../../..' . '/lib/private/Search/Result/File.php',
         'OC\\Search\\Result\\Folder' => __DIR__ . '/../../..' . '/lib/private/Search/Result/Folder.php',
         'OC\\Search\\Result\\Image' => __DIR__ . '/../../..' . '/lib/private/Search/Result/Image.php',
+        'OC\\Security\\Bruteforce\\Capabilities' => __DIR__ . '/../../..' . '/lib/private/Security/Bruteforce/Capabilities.php',
         'OC\\Security\\Bruteforce\\Throttler' => __DIR__ . '/../../..' . '/lib/private/Security/Bruteforce/Throttler.php',
         'OC\\Security\\CSP\\ContentSecurityPolicy' => __DIR__ . '/../../..' . '/lib/private/Security/CSP/ContentSecurityPolicy.php',
         'OC\\Security\\CSP\\ContentSecurityPolicyManager' => __DIR__ . '/../../..' . '/lib/private/Security/CSP/ContentSecurityPolicyManager.php',
