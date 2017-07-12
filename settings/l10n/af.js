@@ -69,11 +69,6 @@ OC.L10N.register(
     "Username" : "Gebruikersnaam",
     "days" : "dae",
     "Tips & tricks" : "Wenke & truuks",
-    "Follow us on Google+!" : "Volg ons op Google+!",
-    "Like our facebook page!" : "Hou van ons Facebook-blad!",
-    "Follow us on Twitter!" : "Volg ons op Twitter!",
-    "Check out our blog!" : "Besoek ons woernaal!",
-    "Subscribe to our newsletter!" : "Teken in op ons nuusbrief!",
     "Settings" : "Instellings",
     "Show email address" : "Toon e-posadres",
     "Send email to new user" : "Stuur e-pos aan nuwe gebruiker",
@@ -99,7 +94,12 @@ OC.L10N.register(
     "Your Twitter handle" : "U Twitter-handvatsel",
     "Name" : "Naam",
     "Follow us on Google Plus!" : "Volg ons op Google Plus",
+    "Like our facebook page!" : "Hou van ons Facebook-blad!",
     "Subscribe to our twitter channel!" : "Teken in op ons twitterkanaal",
-    "Subscribe to our news feed!" : "Teken in op ons nuusvoer!"
+    "Subscribe to our news feed!" : "Teken in op ons nuusvoer!",
+    "Subscribe to our newsletter!" : "Teken in op ons nuusbrief!",
+    "Follow us on Google+!" : "Volg ons op Google+!",
+    "Follow us on Twitter!" : "Volg ons op Twitter!",
+    "Check out our blog!" : "Besoek ons woernaal!"
 },
 "nplurals=2; plural=(n != 1);");

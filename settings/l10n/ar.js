@@ -59,9 +59,7 @@ OC.L10N.register(
     "Port" : "المنفذ",
     "Test email settings" : "فحص إعدادات البريد الإلكتروني",
     "System locale can not be set to a one which supports UTF-8." : "لا يمكن تعيين لغة النظام الى احد اللغات التي تدعم UTF-8.",
-    "This means that there might be problems with certain characters in file names." : "هذا يعني انه من الممكن ان يكون هناك مشكلة في بعض الاحرف في اسم الملف.",
     "Execute one task with each page loaded" : "قم بتنفيذ مهمة واحدة مع كل صفحة تم تحميلها",
-    "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "الملف cron.php تم تسجيله فى خدمه webcron  لاستدعاء الملف cron.php كل  15 دقيقه",
     "Sharing" : "مشاركة",
     "Allow apps to use the Share API" : "السماح للتطبيقات بالمشاركة عن طريق الAPI",
     "Allow users to share via link" : "السماح للمستخدم بمشاركة الملف عن طريق رابط",
@@ -94,7 +92,9 @@ OC.L10N.register(
     "Uninstall" : "ألغاء التثبيت",
     "__language_name__" : "اللغة العربية",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "موديل  'fileinfo' الخاص بالـPHP  مفقود . نوصي بتفعيل هذا الموديل للحصول على أفضل النتائج مع خاصية التحقق ",
+    "This means that there might be problems with certain characters in file names." : "هذا يعني انه من الممكن ان يكون هناك مشكلة في بعض الاحرف في اسم الملف.",
     "Cron" : "مجدول",
+    "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "الملف cron.php تم تسجيله فى خدمه webcron  لاستدعاء الملف cron.php كل  15 دقيقه",
     "Name" : "الاسم"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");
