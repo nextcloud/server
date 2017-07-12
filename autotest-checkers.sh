@@ -37,6 +37,9 @@ for app in $(find "apps/" -mindepth 1 -maxdepth 1 -type d -exec basename {} \;);
     RESULT=$(($RESULT+$?))
 done;
 
+php ./build/files-checker.php
+RESULT=$(($RESULT+$?))
+
 php ./build/signed-off-checker.php
 RESULT=$(($RESULT+$?))
 
