@@ -161,7 +161,6 @@
     "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one." : "Jūs turite perkelti savo šifravimo raktus iš senojo šifravimo (ownCloud <= 8.0) į naująjį.",
     "Security & setup warnings" : "Saugos ir diegimo perspėjimai",
     "Execute one task with each page loaded" : "Įvykdyti vieną užduotį su kiekvieno puslapio įkėlimu",
-    "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.php yra registruotas tinklapio suplanuotų užduočių paslaugose, kad iškviesti cron.php kas 15 minučių per http.",
     "Sharing" : "Dalijimasis",
     "Allow apps to use the Share API" : "Leidžia programoms naudoti Share API",
     "Allow public uploads" : "Leisti viešus įkėlimus",
@@ -169,8 +168,6 @@
     "Allow resharing" : "Leisti dalintis",
     "Tips & tricks" : "Patarimai ir gudrybės",
     "Web, desktop and mobile clients currently logged in to your account." : "Saityno, darbalaukio ir mobilieji klientai, kurie šiuo metu yra prisijungę prie jūsų paskyros.",
-    "Follow us on Google+!" : "Sekite mus Google+!",
-    "Follow us on Twitter!" : "Sekite mus Twitter!",
     "Settings" : "Nustatymai",
     "Create" : "Sukurti",
     "Admin Recovery Password" : "Administracinis atkūrimo slaptažodis",
@@ -198,9 +195,12 @@
     "Sessions" : "Seansai",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "Trūksta PHP modulio „fileinfo“. Labai rekomenduojame įjungti šį modulį, kad gauti geriausius rezultatus nustatant mime-tipą.",
     "Cron" : "Cron",
+    "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.php yra registruotas tinklapio suplanuotų užduočių paslaugose, kad iškviesti cron.php kas 15 minučių per http.",
     "Cheers!" : "Sveikinimai!",
     "For password recovery and notifications" : "Skirtas slaptažodžio atkūrimui ir pranešimams",
     "Your website" : "Jūsų svetainė",
-    "Name" : "Pavadinimas"
+    "Name" : "Pavadinimas",
+    "Follow us on Google+!" : "Sekite mus Google+!",
+    "Follow us on Twitter!" : "Sekite mus Twitter!"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

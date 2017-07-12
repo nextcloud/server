@@ -229,7 +229,6 @@ OC.L10N.register(
     "Hardening and security guidance" : "Aizsardzības un drošības norādījumi",
     "No display name set" : "Nav norādīts ekrāna vārds",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Izstrādātās {communityopen}Nextcloud kopiena {linkclose},  {githubopen} avota kods {linkclose} licencēts saskaņā ar {licenseopen}AGPL{linkclose}.",
-    "Subscribe to our newsletter!" : "Abonēt mūsu jaunumus!",
     "Show storage location" : "Rādīt krātuves atrašanās vietu",
     "Show email address" : "Rādīt e-pasta adreses",
     "Send email to new user" : "Sūtīt e-pastu jaunajam lietotājam",
@@ -279,6 +278,7 @@ OC.L10N.register(
     "Your website" : "Jūsu mājaslapa",
     "Name" : "Nosaukums",
     "Follow us on Google Plus!" : "Seko mums Google Plus!",
+    "Subscribe to our newsletter!" : "Abonēt mūsu jaunumus!",
     "Show last log in" : "Rādīt pēdējo autorizāciju"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");
