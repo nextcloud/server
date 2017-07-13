@@ -83,7 +83,7 @@ OC.L10N.register(
     "LDAP / AD Email Address:" : "LDAP / AD e-postadresse:",
     "Allows login against an email attribute. Mail and mailPrimaryAddress will be allowed." : "Alltid logg inn med en e-post-attributt. Mail og mailPrimaryAddress tillates.",
     "Other Attributes:" : "Andre attributter:",
-    "Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\"" : "Definerer filteret som skal brukes når noen prøver å logge inn. %%uid erstatter brukernavnet i innloggingen. Eksempel: \"UID=%%uid\"",
+    "Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\"" : "Definerer filteret som skal brukes når noen prøver å logge inn. %%uid erstatter brukernavnet i innloggingen. Eksempel: \"uid=%%uid\"",
     "Test Loginname" : "Test påloggingsnavn",
     "Verify settings" : "Sjekk innstillinger",
     "1. Server" : "1. Tjener",

@@ -7,7 +7,7 @@ OC.L10N.register(
     "Could not add server" : "No fue posible agregar el servidor",
     "Federation" : "Federación",
     "Trusted servers" : "Servidores de confianza",
-    "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "La federación le permite conectarse con otros servidores de confianza para intercambiar el directorio de usuarios. Por ejemplo, esto se usará para auto-completar usuarios externos en el recurso compartido federado.",
+    "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "La federación te permite conectarte con otros servidores de confianza para intercambiar el directorio de usuarios. Por ejemplo, esto se usará para auto-completar usuarios externos en el recurso compartido federado.",
     "Add server automatically once a federated share was created successfully" : "Agregar el servidor automáticamente una vez que se genere exitosamente el elemento compartido federado",
     "+ Add trusted server" : "+ Agregar servidor de confianza",
     "Trusted server" : "Servidor de confianza",

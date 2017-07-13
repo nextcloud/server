@@ -310,6 +310,7 @@
     "Background job didn’t run yet!" : "Achtergrondjob nog niet gelopen!",
     "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "Voor optimale prestaties is het belangrijk om de achtergrondtaken goed te configureren. Voor grotere installaties is \"Cron' de aanbevolen instelling. Bekijk de documentatie voor meer informatie.",
     "Execute one task with each page loaded" : "Bij laden van elke pagina één taak uitvoeren",
+    "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php is geregistreerd bij een webcron service om elke 15 minuten cron.php over http aan te roepen.",
     "Use system cron service to call the cron.php file every 15 minutes." : "Gebruik de systeemcron service om cron.php elke 15 minuten aan te roepen.",
     "The cron.php needs to be executed by the system user \"%s\"." : "cron.php moet worden uitgevoerd door systeemgebruiker \"%s\".",
     "Sharing" : "Delen",
