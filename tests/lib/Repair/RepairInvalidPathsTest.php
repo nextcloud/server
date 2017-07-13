@@ -114,4 +114,42 @@ class RepairInvalidPathsTest extends TestCase {
 		$this->assertEquals($this->cache->getId('foo2/bar'), $this->cache->get('foo2/bar/asd')['parent']);
 		$this->assertEquals($this->cache->getId('foo2/bar/asd'), $this->cache->get('foo2/bar/asd/foo')['parent']);
 	}
+
+	public function testRepairMultipleNonDuplicate() {
+		$this->storage->mkdir('foo/bar/asd');
+		$this->storage->mkdir('foo/bar2/asd');
+		$this->storage->mkdir('foo2');
+		$this->storage->getScanner()->scan('');
+
+		$folderId1 = $this->cache->getId('foo/bar');
+		$folderId2 = $this->cache->getId('foo/bar2');
+		$newParentFolderId = $this->cache->getId('foo2');
+		// failed rename, moved entry is updated but not it's children
+		$this->cache->update($folderId1, ['path' => 'foo2/bar', 'parent' => $newParentFolderId]);
+		$this->cache->update($folderId2, ['path' => 'foo2/bar2', 'parent' => $newParentFolderId]);
+
+		$this->assertTrue($this->cache->inCache('foo2/bar'));
+		$this->assertTrue($this->cache->inCache('foo2/bar2'));
+		$this->assertTrue($this->cache->inCache('foo/bar/asd'));
+		$this->assertTrue($this->cache->inCache('foo/bar2/asd'));
+		$this->assertFalse($this->cache->inCache('foo2/bar/asd'));
+		$this->assertFalse($this->cache->inCache('foo2/bar2/asd'));
+
+		$this->assertEquals($folderId1, $this->cache->get('foo/bar/asd')['parent']);
+		$this->assertEquals($folderId2, $this->cache->get('foo/bar2/asd')['parent']);
+
+		$this->repair->run($this->createMock(IOutput::class));
+
+		$this->assertTrue($this->cache->inCache('foo2/bar'));
+		$this->assertTrue($this->cache->inCache('foo2/bar2'));
+		$this->assertTrue($this->cache->inCache('foo2/bar/asd'));
+		$this->assertTrue($this->cache->inCache('foo2/bar2/asd'));
+		$this->assertFalse($this->cache->inCache('foo/bar/asd'));
+		$this->assertFalse($this->cache->inCache('foo/bar2/asd'));
+
+		$this->assertEquals($folderId1, $this->cache->get('foo2/bar/asd')['parent']);
+		$this->assertEquals($folderId2, $this->cache->get('foo2/bar2/asd')['parent']);
+		$this->assertEquals($folderId1, $this->cache->getId('foo2/bar'));
+		$this->assertEquals($folderId2, $this->cache->getId('foo2/bar2'));
+	}
 }
