@@ -964,6 +964,85 @@ code {
 	background-image: url('../img/actions/play-previous.svg?v=1');
 }
 
+/* ---- jQuery UI datepicker ---- */
+.ui-widget.ui-datepicker {
+	margin-left: -110px !important;
+	margin-top: 10px;
+	border-radius: 3px;
+
+	.ui-state-default,
+	.ui-widget-content .ui-state-default,
+	.ui-widget-header .ui-state-default {
+		border: 1px solid transparent;
+		background: inherit;
+	}
+
+	.ui-state-hover,
+	.ui-state-focus {
+		background: inherit;
+		color: $color-primary;
+	}
+
+	.ui-widget-header {
+		margin: 3px 3px 3px 0;
+		padding: 7px 6px;
+		font-size: 13px;
+		border:	none; // 1px solid #dbdbdb;
+		border-radius: 3px;
+		background-color: $color-main-background;
+		color: $color-main-text;
+
+		.ui-datepicker-title {
+			line-height: 1;
+		}
+
+		.ui-icon {
+			opacity: .5;
+		}
+
+		.ui-state-hover .ui-icon {
+			opacity: 1;
+		}
+
+		.ui-icon.ui-icon-circle-triangle-e {
+			background: url("../img/actions/arrow-right.svg") center center no-repeat;
+		}
+
+		.ui-icon.ui-icon-circle-triangle-w {
+			background: url("../img/actions/arrow-left.svg") center center no-repeat;
+		}
+	}
+
+	.ui-datepicker-calendar {
+		th.ui-datepicker-week-end {
+			color: $color-primary;
+		}
+
+		td {
+			padding: 0;
+
+			a {
+				border-radius: 3px;
+				text-align: center;
+			}
+
+			&.ui-datepicker-week-end a {
+				color: $color-primary;
+			}
+
+			&.ui-datepicker-today a {
+				background-color: nc-lighten($color-main-text, 86%);
+			}
+
+			&.ui-datepicker-current-day .ui-state-active {
+				background-color: $color-primary;
+				color: $color-primary-text;
+			}
+		}
+	}
+}
+
+
 .ui-datepicker-prev, .ui-datepicker-next {
 	border: nc-lighten($color-main-text, 86%);
 	background: $color-main-background;
