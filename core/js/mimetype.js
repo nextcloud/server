@@ -91,7 +91,7 @@ OC.MimeType = {
 				path += icon;
 			}
 		}
-		if(OCA.Theming) {
+		if(OCA.Theming && gotIcon === null) {
 			path = OC.generateUrl('/apps/theming/img/core/filetypes/');
 			path += OC.MimeType._getFile(mimeType, OC.MimeTypeList.files);
 			gotIcon = true;
