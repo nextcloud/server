@@ -127,6 +127,21 @@ class PermissionsMaskTest extends \Test\Files\Storage\Storage {
 		$this->assertEquals(Constants::PERMISSION_READ, $storage->getCache()->get('foo')->getPermissions());
 	}
 
+	public function testScanNewFilesNested() {
+		$storage = $this->getMaskedStorage(Constants::PERMISSION_READ + Constants::PERMISSION_CREATE + Constants::PERMISSION_UPDATE);
+		$nestedStorage = new \OC\Files\Storage\Wrapper\PermissionsMask(array(
+			'storage' => $storage,
+			'mask' => Constants::PERMISSION_READ + Constants::PERMISSION_CREATE
+		));
+		$wrappedStorage = new Wrapper(['storage' => $nestedStorage]);
+		$wrappedStorage->file_put_contents('foo', 'bar');
+		$wrappedStorage->getScanner()->scan('');
+
+		$this->assertEquals(Constants::PERMISSION_ALL - Constants::PERMISSION_CREATE, $this->sourceStorage->getCache()->get('foo')->getPermissions());
+		$this->assertEquals(Constants::PERMISSION_READ + Constants::PERMISSION_UPDATE, $storage->getCache()->get('foo')->getPermissions());
+		$this->assertEquals(Constants::PERMISSION_READ, $wrappedStorage->getCache()->get('foo')->getPermissions());
+	}
+
 	public function testScanUnchanged() {
 		$this->sourceStorage->mkdir('foo');
 		$this->sourceStorage->file_put_contents('foo/bar.txt', 'bar');
