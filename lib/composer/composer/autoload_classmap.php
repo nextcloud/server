@@ -560,6 +560,7 @@ return array(
     'OC\\Files\\Cache\\Wrapper\\CacheJail' => $baseDir . '/lib/private/Files/Cache/Wrapper/CacheJail.php',
     'OC\\Files\\Cache\\Wrapper\\CachePermissionsMask' => $baseDir . '/lib/private/Files/Cache/Wrapper/CachePermissionsMask.php',
     'OC\\Files\\Cache\\Wrapper\\CacheWrapper' => $baseDir . '/lib/private/Files/Cache/Wrapper/CacheWrapper.php',
+    'OC\\Files\\Cache\\Wrapper\\JailPropagator' => $baseDir . '/lib/private/Files/Cache/Wrapper/JailPropagator.php',
     'OC\\Files\\Config\\CachedMountInfo' => $baseDir . '/lib/private/Files/Config/CachedMountInfo.php',
     'OC\\Files\\Config\\LazyStorageMountInfo' => $baseDir . '/lib/private/Files/Config/LazyStorageMountInfo.php',
     'OC\\Files\\Config\\MountProviderCollection' => $baseDir . '/lib/private/Files/Config/MountProviderCollection.php',
