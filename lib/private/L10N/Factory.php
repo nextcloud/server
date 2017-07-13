@@ -111,6 +111,11 @@ class Factory implements IFactory {
 			$lang = $forceLang;
 		}
 
+		$forceLocale = $this->config->getSystemValue('force_locale', false);
+		if (is_string($forceLocale)) {
+			$locale = $forceLocale;
+		}
+
 		if ($lang === null || !$this->languageExists($app, $lang)) {
 			$lang = $this->findLanguage($app);
 		}
@@ -207,15 +212,15 @@ class Factory implements IFactory {
 			return $userLocale;
 		}
 
-		// If no user locale set, use lang as locale
-		if (null !== $lang && $this->localeExists($lang)) {
-			return $lang;
-		}
-
 		// Default : use system default locale
 		$defaultLocale = $this->config->getSystemValue('default_locale', false);
 		if ($defaultLocale !== false && $this->localeExists($defaultLocale)) {
 			return $defaultLocale;
+		}
+
+		// If no user locale set, use lang as locale
+		if (null !== $lang && $this->localeExists($lang)) {
+			return $lang;
 		}
 
 		// At last, return USA

@@ -442,6 +442,10 @@ class UsersController extends AUserData {
 			if ($this->config->getSystemValue('force_language', false) === false ||
 				$this->groupManager->isAdmin($currentLoggedInUser->getUID())) {
 				$permittedFields[] = 'language';
+			}
+
+			if ($this->config->getSystemValue('force_locale', false) === false ||
+				$this->groupManager->isAdmin($currentLoggedInUser->getUID())) {
 				$permittedFields[] = 'locale';
 			}
 

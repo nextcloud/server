@@ -179,6 +179,29 @@ $CONFIG = array(
 'force_language' => 'en',
 
 /**
+ * This sets the default locale on your Nextcloud server, using ISO_639
+ * language codes such as ``en`` for English, ``de`` for German, and ``fr`` for
+ * French, and ISO-3166 country codes such as ``GB``, ``US``, ``CA``, as defined
+ * in RFC 5646. It overrides automatic locale detection on public pages like
+ * login or shared items. User's locale preferences configured under "personal
+ * -> locale" override this setting after they have logged in.
+ *
+ * Defaults to ``en``
+ */
+'default_locale' => 'en_US',
+
+/**
+ * With this setting a locale can be forced for all users. If a locale is
+ * forced, the users are also unable to change their locale in the personal
+ * settings. If users shall be unable to change their locale, but users have
+ * different languages, this value can be set to ``true`` instead of a locale
+ * code.
+ *
+ * Defaults to ``false``
+ */
+'force_locale' => 'en_US',
+
+/**
  * Set the default app to open on login. Use the app names as they appear in the
  * URL after clicking them in the Apps menu, such as documents, calendar, and
  * gallery. You can use a comma-separated list of app names, so if the first
