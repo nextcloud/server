@@ -41,6 +41,7 @@ use OCA\User_LDAP\Exceptions\NotOnLDAP;
 use OCA\User_LDAP\User\OfflineUser;
 use OCA\User_LDAP\User\User;
 use OCP\IConfig;
+use OCP\IUser;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\Util;
 
@@ -51,6 +52,9 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	/** @var INotificationManager */
 	protected $notificationManager;
 
+	/** @var string */
+	protected $currentUserInDeletionProcess;
+
 	/**
 	 * @param Access $access
 	 * @param \OCP\IConfig $ocConfig
@@ -60,6 +64,24 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 		parent::__construct($access);
 		$this->ocConfig = $ocConfig;
 		$this->notificationManager = $notificationManager;
+		$this->registerHooks();
+	}
+
+	protected function registerHooks() {
+		Util::connectHook('OC_User','pre_deleteUser', $this, 'preDeleteUser');
+		Util::connectHook('OC_User','post_deleteUser', $this, 'postDeleteUser');
+	}
+
+	public function preDeleteUser(array $param) {
+		$user = $param[0];
+		if(!$user instanceof IUser) {
+			throw new \RuntimeException('IUser expected');
+		}
+		$this->currentUserInDeletionProcess = $user->getUID();
+	}
+
+	public function postDeleteUser() {
+		$this->currentUserInDeletionProcess = null;
 	}
 
 	/**
@@ -357,6 +379,7 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 		//Get Home Directory out of user preferences so we can return it later,
 		//necessary for removing directories as done by OC_User.
 		$this->access->getUserMapper()->unmap($uid);
+		$this->access->userManager->invalidate($uid);
 		return true;
 	}
 
@@ -383,7 +406,11 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 		// early return path if it is a deleted user
 		$user = $this->access->userManager->get($uid);
 		if($user instanceof OfflineUser) {
-			return $user->getHomePath();
+			if($this->currentUserInDeletionProcess === $user->getUID()) {
+				return $user->getHomePath();
+			} else {
+				throw new NoUserException($uid . ' is not a valid user anymore');
+			}
 		} else if ($user === null) {
 			throw new NoUserException($uid . ' is not a valid user anymore');
 		}
