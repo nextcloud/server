@@ -602,6 +602,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Files\\Cache\\Wrapper\\CacheJail' => __DIR__ . '/../../..' . '/lib/private/Files/Cache/Wrapper/CacheJail.php',
         'OC\\Files\\Cache\\Wrapper\\CachePermissionsMask' => __DIR__ . '/../../..' . '/lib/private/Files/Cache/Wrapper/CachePermissionsMask.php',
         'OC\\Files\\Cache\\Wrapper\\CacheWrapper' => __DIR__ . '/../../..' . '/lib/private/Files/Cache/Wrapper/CacheWrapper.php',
+        'OC\\Files\\Cache\\Wrapper\\JailPropagator' => __DIR__ . '/../../..' . '/lib/private/Files/Cache/Wrapper/JailPropagator.php',
         'OC\\Files\\Config\\CachedMountInfo' => __DIR__ . '/../../..' . '/lib/private/Files/Config/CachedMountInfo.php',
         'OC\\Files\\Config\\LazyStorageMountInfo' => __DIR__ . '/../../..' . '/lib/private/Files/Config/LazyStorageMountInfo.php',
         'OC\\Files\\Config\\MountProviderCollection' => __DIR__ . '/../../..' . '/lib/private/Files/Config/MountProviderCollection.php',
