@@ -26,7 +26,7 @@
 // between betas, final and RCs. This is _not_ the public version number. Reset minor/patchlevel
 // when updating major/minor version number.
 
-$OC_Version = array(12, 0, 0, 29);
+$OC_Version = array(12, 0, 0, 30);
 
 // The human readable string
 $OC_VersionString = '12.0.0';
