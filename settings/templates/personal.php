@@ -252,16 +252,21 @@
 	</div>
 	<?php } ?>
 </div>
-<div class="profile-settings-container">
+
+<div class="clear"></div>
+
+<div id="personal-settings-group-container">
 	<div class="personal-settings-setting-box personal-settings-group-box">
 		<div id="groups" class="section">
 			<h2><?php p($l->t('Groups')); ?></h2>
 			<p><?php p($l->t('You are member of the following groups:')); ?></p>
-			<p>
+			<p id="groups-groups">
 			<strong><?php p(implode(', ', $_['groups'])); ?></strong>
 			</p>
 		</div>
 	</div>
+</div>
+<div class="profile-settings-container">
 	<div class="personal-settings-setting-box personal-settings-language-box">
 		<?php if (isset($_['activelanguage'])) { ?>
 		<form id="language" class="section">

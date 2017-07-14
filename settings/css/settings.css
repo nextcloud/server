@@ -25,8 +25,14 @@ input#pass1, input#pass2, input#passwordbutton {
 }
 
 .personal-settings-password-box {
-	margin-bottom: 80px;
+	margin-top: 20px;
+	margin-bottom: 136px;
 }
+
+.personal-settings-group-box,
+.personal-settings-language-box {
+	margin-top: 20px;
+ }
 
 .icon-federation-menu {
 	width: 44px;
@@ -102,10 +108,6 @@ input#pass1, input#pass2, input#passwordbutton {
 	height: 33px;
 }
 
-#language {
-	padding-bottom: 0;
-}
-
 .jcrop-holder {
 	z-index: 500;
 }
@@ -148,13 +150,14 @@ input#pass1, input#pass2, input#passwordbutton {
 	float: right;
 }
 
-#personal-settings-avatar-container {
+#personal-settings-avatar-container,
+#personal-settings-group-container {
 	float: left;
 }
 
 .profile-settings-container {
-	top: 20px;
 	position: relative;
+	margin-left: 215px;
 	max-width: 600px;
 }
 
@@ -168,7 +171,8 @@ input#pass1, input#pass2, input#passwordbutton {
 	clear: both;
 }
 
-.personal-settings-container > div {
+.personal-settings-container > div,
+.profile-settings-container > div {
 	float: left;
 	height: 100px;
 	min-width: 300px;
@@ -177,11 +181,6 @@ input#pass1, input#pass2, input#passwordbutton {
 .personal-settings-container.no-edit > div {
 	height: 20px;
 	min-width: 200px;
-}
-
-.personal-settings-group-box, .personal-settings-language-box {
-    margin-top: -20px;
-    margin-bottom: -20px;
 }
 
 #avatarform > h2,
@@ -281,6 +280,7 @@ input#pass1, input#pass2, input#passwordbutton {
 #lostpassword,
 #groups {
 	display: inline-block;
+	margin-bottom: 10px;
 	padding-bottom: 0;
 	padding-right: 0;
 	min-width: 60%;
@@ -294,9 +294,13 @@ input#pass1, input#pass2, input#passwordbutton {
 
 #groups {
 	overflow-wrap: break-word;
-	max-width: 75%;
-	display: block;;
+	width: 125px;
+	display: block;
 	clear: both;
+}
+
+#groups-groups {
+	padding-top: 5px;
 }
 
 .clientsbox img {
