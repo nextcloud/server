@@ -6,12 +6,12 @@ $CONFIG = [
 	'memcache.locking' => '\\OC\\Memcache\\Redis',
 	'redis.cluster' => [
 		'seeds' => [ // provide some/all of the cluster servers to bootstrap discovery, port required
-			'localhost:7000',
-			'localhost:7001',
-			'localhost:7002',
-			'localhost:7003',
-			'localhost:7004',
-			'localhost:7005'
+			'cache-cluster:7000',
+			'cache-cluster:7001',
+			'cache-cluster:7002',
+			'cache-cluster:7003',
+			'cache-cluster:7004',
+			'cache-cluster:7005'
 		],
 		'timeout' => 0.0,
 		'read_timeout' => 0.0,
