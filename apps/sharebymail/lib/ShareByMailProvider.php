@@ -541,8 +541,7 @@ class ShareByMailProvider implements IShareProvider {
 	 * @return string
 	 */
 	protected function generateToken($size = 15) {
-		$token = $this->secureRandom->generate(
-			$size, ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_DIGITS);
+		$token = $this->secureRandom->generate($size, ISecureRandom::CHAR_HUMAN_READABLE);
 		return $token;
 	}
 

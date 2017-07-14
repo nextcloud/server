@@ -1925,7 +1925,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	public function setPublishStatus($value, $calendar) {
 		$query = $this->db->getQueryBuilder();
 		if ($value) {
-			$publicUri = $this->random->generate(16, ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_DIGITS);
+			$publicUri = $this->random->generate(16, ISecureRandom::CHAR_HUMAN_READABLE);
 			$query->insert('dav_shares')
 				->values([
 					'principaluri' => $query->createNamedParameter($calendar->getPrincipalURI()),
