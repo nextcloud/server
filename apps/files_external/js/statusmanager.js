@@ -102,7 +102,7 @@ OCA.External.StatusManager = {
 					var message;
 					if (mountData.location === 3) {
 						// In this case the error is because  mount point use Login credentials and don't exist in the session
-						message = t('files_external', 'Couldn\'t access. Please logout and login to activate this mount point');
+						message = t('files_external', 'Couldn\'t access. Please log out and in again to activate this mount point');
 					} else {
 						message = t('files_external', 'Couldn\'t get the information from the remote server: {code} {type}', {
 							code: jqxhr.status,
@@ -265,7 +265,7 @@ OCA.External.StatusManager = {
 			// check if we have a list first
 			if (list === undefined && !self.emptyWarningShown) {
 				self.emptyWarningShown = true;
-				OC.Notification.showTemporary(t('files_external', 'Couldn\'t get the list of Windows network drive mount points: empty response from the server'));
+				OC.Notification.showTemporary(t('files_external', 'Couldn\'t fetch list of Windows network drive mount points: Empty response from server'));
 				return;
 			}
 			if (list && list.length > 0) {
