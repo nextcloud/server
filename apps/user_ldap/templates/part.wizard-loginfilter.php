@@ -9,7 +9,7 @@
 			</label>
 
 			<input type="checkbox" id="ldap_loginfilter_username"
-				   title="<?php p($l->t('Allows login against the LDAP / AD username, which is either uid or sAMAccountName and will be detected.'));?>"
+				   title="<?php p($l->t('Allows login against the LDAP / AD username, which is either "uid" or "sAMAccountName" and will be detected.'));?>"
 				   name="ldap_loginfilter_username" value="1" />
 		</p>
 		<p>
@@ -18,7 +18,7 @@
 			</label>
 
 			<input type="checkbox" id="ldap_loginfilter_email"
-				   title="<?php p($l->t('Allows login against an email attribute. Mail and mailPrimaryAddress will be allowed.'));?>"
+				   title="<?php p($l->t('Allows login against an email attribute. "mail" and "mailPrimaryAddress" allowed.'));?>"
 				   name="ldap_loginfilter_email" value="1" />
 		</p>
 		<p>
@@ -41,7 +41,7 @@
 			<textarea type="text" id="ldap_login_filter" name="ldap_login_filter"
 				class="ldapFilterInputElement"
 				placeholder="<?php p($l->t('Edit LDAP Query'));?>"
-				title="<?php p($l->t('Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: "uid=%%uid"'));?>">
+				title="<?php p($l->t('Defines the filter to apply, when login is attempted. "%%uid" replaces the username in the login action. Example: "uid=%%uid"'));?>">
 			</textarea>
 		</p>
 		<p>
