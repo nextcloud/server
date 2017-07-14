@@ -595,8 +595,7 @@ kbd {
 
 .bubble,
 .app-navigation-entry-menu,
-.popovermenu,
-.ui-datepicker {
+.popovermenu {
 	position: absolute;
 	background-color: $color-main-background;
 	color: nc-lighten($color-main-text, 20%);
