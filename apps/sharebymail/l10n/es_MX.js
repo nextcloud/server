@@ -30,7 +30,7 @@ OC.L10N.register(
     "Password to access »%s«" : "Contraseña para acceder  »%s«",
     "It is protected with the following password: %s" : "Está protegido con la siguiente contraseña: %s",
     "Password to access »%s« shared with %s" : "La contraseña para acceder »%s« ha sido compartida con %s",
-    "You just shared »%s« with %s. The share was already send to the recipient. Due to the security policies defined by the administrator of %s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Usted compartió »%s« con %s. El elemento compartido ya ha sido enviado al destinatario. Debido a las políticas de seguridad definidas por el administrador de %s cada elelento compartido debe ser protegido por una contraseña y no se permite enviar la contraseña directamente al destinatario. Por lo tanto necesita reenviar la contaseña manualmente al destinatario. ",
+    "You just shared »%s« with %s. The share was already send to the recipient. Due to the security policies defined by the administrator of %s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Acabas de compartir »%s« con %s. El elemento compartido ya ha sido enviado al destinatario. Debido a las políticas de seguridad definidas por el administrador de %s cada elelento compartido debe ser protegido por una contraseña y no se permite enviar la contraseña directamente al destinatario. Por lo tanto necesitas reenviar la contaseña manualmente al destinatario. ",
     "This is the password: %s" : "Esta es la contraseña: %s",
     "You can choose a different password at any time in the share dialog." : "Puedes elegir una contraseña diferente en cualquier momento en la ventana de diálogo de compartir. ",
     "Could not find share" : "No fue posible encontrar el elemento compartido",
@@ -44,7 +44,7 @@ OC.L10N.register(
     "Hey there,\n\n%s shared »%s« with you on behalf of %s.\n\n%s\n\n" : "Hola,\n\n%s ha compartido »%s« contigo a nombre de %s.\n\n%s\n",
     "Hey there,\n\n%s shared »%s« with you.\n\n%s\n\n" : "Hola,\n\n%s ha compartido »%s« contigo.\n\n%s\n",
     "Cheers!" : "¡Saludos!",
-    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you on behalf of %s.<br><br>" : "Hola,<br><br>%s ha compartido <a href=\"%s\">%s</a> con usted a nombre de %s.<br><br> ",
+    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you on behalf of %s.<br><br>" : "Hola,<br><br>%s ha compartido <a href=\"%s\">%s</a> contigo a nombre de %s.<br><br> ",
     "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you.<br><br>" : "Hola, <br><br>%s ha compartido <a href=\"%s\">%s</a> contigo.<br><br> "
 },
 "nplurals=2; plural=(n != 1);");
