@@ -254,3 +254,5 @@ services:
     when:
       matrix:
         DB: mysql
+
+branches: [ master, stable* ]
