@@ -966,21 +966,13 @@ code {
 
 /* ---- jQuery UI datepicker ---- */
 .ui-widget.ui-datepicker {
-	margin-left: -110px !important;
 	margin-top: 10px;
-	border-radius: 3px;
 
 	.ui-state-default,
 	.ui-widget-content .ui-state-default,
 	.ui-widget-header .ui-state-default {
 		border: 1px solid transparent;
 		background: inherit;
-	}
-
-	.ui-state-hover,
-	.ui-state-focus {
-		background: inherit;
-		color: $color-primary;
 	}
 
 	.ui-widget-header {
@@ -1014,8 +1006,13 @@ code {
 	}
 
 	.ui-datepicker-calendar {
-		th.ui-datepicker-week-end {
-			color: $color-primary;
+		th {
+			font-weight: normal;
+			color: nc-lighten($color-main-text, 33%);
+		}
+
+		tr:hover {
+			background-color: inherit;
 		}
 
 		td {
@@ -1024,19 +1021,25 @@ code {
 			a {
 				border-radius: 3px;
 				text-align: center;
+				font-weight: normal;
+				color: $color-main-text;
 			}
 
-			&.ui-datepicker-week-end a {
-				color: $color-primary;
+			&.ui-datepicker-week-end a:not(.ui-state-hover),
+			.ui-priority-secondary {
+				color: nc-lighten($color-main-text, 33%);
 			}
 
-			&.ui-datepicker-today a {
+			&.ui-datepicker-today a:not(.ui-state-hover) {
 				background-color: nc-lighten($color-main-text, 86%);
 			}
 
-			&.ui-datepicker-current-day .ui-state-active {
+			&.ui-datepicker-current-day .ui-state-active,
+			.ui-state-hover,
+			.ui-state-focus {
 				background-color: $color-primary;
 				color: $color-primary-text;
+				font-weight: bold;
 			}
 		}
 	}
