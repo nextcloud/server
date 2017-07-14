@@ -252,7 +252,7 @@
 	</div>
 	<?php } ?>
 </div>
-<div class="personal-settings-container profile-settings-container">
+<div class="profile-settings-container">
 	<div class="personal-settings-setting-box personal-settings-group-box">
 		<div id="groups" class="section">
 			<h2><?php p($l->t('Groups')); ?></h2>

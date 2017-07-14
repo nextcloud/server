@@ -25,13 +25,7 @@ input#pass1, input#pass2, input#passwordbutton {
 }
 
 .personal-settings-password-box {
-	margin-top: 20px;
-	margin-bottom: 136px;
-}
-
-.personal-settings-group-box,
-.personal-settings-language-box {
-	margin-top: 20px;
+	margin-bottom: 80px;
 }
 
 .icon-federation-menu {
@@ -108,6 +102,10 @@ input#pass1, input#pass2, input#passwordbutton {
 	height: 33px;
 }
 
+#language {
+	padding-bottom: 0;
+}
+
 .jcrop-holder {
 	z-index: 500;
 }
@@ -156,6 +154,8 @@ input#pass1, input#pass2, input#passwordbutton {
 
 .profile-settings-container {
 	top: 20px;
+	position: relative;
+	max-width: 600px;
 }
 
 .personal-settings-container {
@@ -177,6 +177,11 @@ input#pass1, input#pass2, input#passwordbutton {
 .personal-settings-container.no-edit > div {
 	height: 20px;
 	min-width: 200px;
+}
+
+.personal-settings-group-box, .personal-settings-language-box {
+    margin-top: -20px;
+    margin-bottom: -20px;
 }
 
 #avatarform > h2,
@@ -276,7 +281,6 @@ input#pass1, input#pass2, input#passwordbutton {
 #lostpassword,
 #groups {
 	display: inline-block;
-	margin-bottom: 10px;
 	padding-bottom: 0;
 	padding-right: 0;
 	min-width: 60%;
