@@ -564,12 +564,12 @@ matrix:
     - TESTS: integration-transfer-ownership-features
     - TESTS: integration-ldap-features
     - TESTS: integration-trashbin
-    - TESTS: acceptance
-      TESTS-ACCEPTANCE: access-levels
-    - TESTS: acceptance
-      TESTS-ACCEPTANCE: app-files
-    - TESTS: acceptance
-      TESTS-ACCEPTANCE: login
+#    - TESTS: acceptance
+#      TESTS-ACCEPTANCE: access-levels
+#    - TESTS: acceptance
+#      TESTS-ACCEPTANCE: app-files
+#    - TESTS: acceptance
+#      TESTS-ACCEPTANCE: login
     - TESTS: jsunit
     - TESTS: syntax-php5.6
     - TESTS: syntax-php7.0
@@ -580,13 +580,13 @@ matrix:
     - TESTS: caldavtester-new-endpoint
     - TESTS: carddavtester-new-endpoint
     - TESTS: carddavtester-old-endpoint
-    - TESTS: object-store
-      OBJECT_STORE: s3
+#    - TESTS: object-store
+#      OBJECT_STORE: s3
     - TESTS: sqlite-php7.0-samba-native
     - TESTS: sqlite-php7.0-samba-non-native
     - TEST: memcache-memcached
-    - TEST: memcache-redis-cluster
-      ENABLE_REDIS_CLUSTER: true
+#    - TEST: memcache-redis-cluster
+#      ENABLE_REDIS_CLUSTER: true
     - TESTS: sqlite-php7.0-webdav-apache
       ENABLE_REDIS: true
     - DB: NODB
