@@ -836,6 +836,9 @@ class Server extends ServerContainer implements IServerContainer {
 			$manager->registerCapability(function () use ($c) {
 				return new \OC\OCS\CoreCapabilities($c->getConfig());
 			});
+			$manager->registerCapability(function () use ($c) {
+				return $c->query(\OC\Security\Bruteforce\Capabilities::class);
+			});
 			return $manager;
 		});
 		$this->registerAlias('CapabilitiesManager', \OC\CapabilitiesManager::class);
