@@ -484,3 +484,5 @@ services:
     when:
       matrix:
         DB: mysqlmb4
+
+branches: [ master, stable* ]
