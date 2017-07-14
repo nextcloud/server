@@ -126,6 +126,9 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @return \OC\User\User|null Either the user or null if the specified user does not exist
 	 */
 	public function get($uid) {
+		if (is_null($uid) || $uid === '' || $uid === false) {
+			return null;
+		}
 		if (isset($this->cachedUsers[$uid])) { //check the cache first to prevent having to loop over the backends
 			return $this->cachedUsers[$uid];
 		}
