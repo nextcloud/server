@@ -10,6 +10,7 @@
     "Strong password" : "Ուժեղ գաղտնաբառ",
     "Groups" : "Խմբեր",
     "never" : "երբեք",
+    "days" : "օր",
     "Cancel" : "Չեղարկել",
     "Email" : "Էլ. հասցե",
     "Password" : "Գաղտնաբառ",
@@ -18,7 +19,6 @@
     "Language" : "Լեզու",
     "Help translate" : "Օգնել թարգմանել",
     "Username" : "Օգտանուն",
-    "days" : "օր",
     "Other" : "Այլ",
     "Name" : "Անուն"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
