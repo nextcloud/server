@@ -16,7 +16,7 @@
     "Recovery Key enabled" : "Wiederherstellungsschlüssel aktiviert",
     "Could not enable the recovery key, please try again or contact your administrator" : "Der Wiederherstellungsschlüssel konnte nicht aktiviert werden, bitte versuche es noch einmal oder kontaktiere Deinen Administrator",
     "Could not update the private key password." : "Das Passwort des privaten Schlüssels konnte nicht aktualisiert werden.",
-    "The old password was not correct, please try again." : "Das alte Passwort war falsch, bitte versuchen Sie es erneut.",
+    "The old password was not correct, please try again." : "Das alte Passwort war falsch, bitte versuche es erneut.",
     "The current log-in password was not correct, please try again." : "Das aktuelle Anmeldepasswort war nicht korrekt, bitte versuche es noch einmal.",
     "Private key password successfully updated." : "Das Passwort des privaten Schlüssels wurde aktualisiert.",
     "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Verschlüsselungsschlüssel müssen von der alten Verschlüsselung (ownCloud <= 8.0) zur neuen migriert werden. Bitte 'occ encryption:migrate' ausführen oder Deinen Administrator kontaktieren.",
