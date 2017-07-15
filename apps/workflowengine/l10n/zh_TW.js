@@ -1,7 +1,9 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Saved" : "已儲存",
     "Saving failed:" : "保存失敗:",
+    "File MIME type" : "檔案MIME類型",
     "is" : "是",
     "is not" : "不是",
     "matches" : "匹配",
