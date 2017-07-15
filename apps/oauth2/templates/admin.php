@@ -32,7 +32,7 @@ $clients = $_['clients'];
 
 <div id="oauth2" class="section">
 	<h2><?php p($l->t('OAuth 2.0 clients')); ?></h2>
-	<p class="settings-hint"><?php p($l->t('OAuth 2.0 allows external services to request access to your %s.', [$themingDefaults->getName()])); ?></p>
+	<p class="settings-hint"><?php p($l->t('OAuth 2.0 allows external services to request access to %s.', [$themingDefaults->getName()])); ?></p>
 
 	<table class="grid">
 		<thead>
