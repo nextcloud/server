@@ -19,6 +19,9 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
+use OCP\Files\Config\IUserMountCache;
+use OCP\Encryption\IEncryptionModule;
+use OCP\Encryption\IManager;
 use OCP\IAvatar;
 use OCP\IAvatarManager;
 use OCP\IConfig;
@@ -79,6 +82,12 @@ class UsersControllerTest extends \Test\TestCase {
 	private $jobList;
 	/** @var \OC\Security\IdentityProof\Manager |\PHPUnit_Framework_MockObject_MockObject  */
 	private $securityManager;
+	/** @var IUserMountCache |\PHPUnit_Framework_MockObject_MockObject */
+	private $userMountCache;
+	/** @var  IManager | \PHPUnit_Framework_MockObject_MockObject */
+	private $encryptionManager;
+	/** @var  IEncryptionModule  | \PHPUnit_Framework_MockObject_MockObject */
+	private $encryptionModule;
 
 	protected function setUp() {
 		parent::setUp();
@@ -101,11 +110,17 @@ class UsersControllerTest extends \Test\TestCase {
 		$this->crypto = $this->createMock(ICrypto::class);
 		$this->securityManager = $this->getMockBuilder(\OC\Security\IdentityProof\Manager::class)->disableOriginalConstructor()->getMock();
 		$this->jobList = $this->createMock(IJobList::class);
+		$this->encryptionManager = $this->createMock(IManager::class);
 		$this->l = $this->createMock(IL10N::class);
 		$this->l->method('t')
 			->will($this->returnCallback(function ($text, $parameters = []) {
 				return vsprintf($text, $parameters);
 			}));
+		$this->userMountCache = $this->createMock(IUserMountCache::class);
+
+		$this->encryptionModule = $this->createMock(IEncryptionModule::class);
+		$this->encryptionManager->expects($this->any())->method('getEncryptionModules')
+			->willReturn(['encryptionModule' => ['callback' => function() { return $this->encryptionModule;}]]);
 
 		/*
 		 * Set default avatar behaviour for whole test suite
@@ -149,8 +164,9 @@ class UsersControllerTest extends \Test\TestCase {
 				$this->timeFactory,
 				$this->crypto,
 				$this->securityManager,
-				$this->jobList
-
+				$this->jobList,
+				$this->userMountCache,
+				$this->encryptionManager
 			);
 		} else {
 			return $this->getMockBuilder(UsersController::class)
@@ -175,7 +191,9 @@ class UsersControllerTest extends \Test\TestCase {
 						$this->timeFactory,
 						$this->crypto,
 						$this->securityManager,
-						$this->jobList
+						$this->jobList,
+						$this->userMountCache,
+						$this->encryptionManager
 					]
 				)->setMethods($mockedMethods)->getMock();
 		}
@@ -198,7 +216,7 @@ class UsersControllerTest extends \Test\TestCase {
 			->method('getEMailAddress')
 			->will($this->returnValue('foo@bar.com'));
 		$foo
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getQuota')
 			->will($this->returnValue('1024'));
 		$foo
@@ -228,7 +246,7 @@ class UsersControllerTest extends \Test\TestCase {
 			->method('getEMailAddress')
 			->will($this->returnValue('admin@bar.com'));
 		$admin
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getQuota')
 			->will($this->returnValue('404'));
 		$admin
@@ -260,7 +278,7 @@ class UsersControllerTest extends \Test\TestCase {
 			->method('getEMailAddress')
 			->will($this->returnValue('bar@dummy.com'));
 		$bar
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getQuota')
 			->will($this->returnValue('2323'));
 		$bar
@@ -331,6 +349,11 @@ class UsersControllerTest extends \Test\TestCase {
 			->method('getSubAdmin')
 			->will($this->returnValue($subadmin));
 
+		$this->userMountCache
+			->expects($this->once())
+			->method('getUsedSpaceForUsers')
+			->will($this->returnValue(['admin' => 200, 'bar' => 2000, 'foo' => 512]));
+
 		$expectedResponse = new DataResponse(
 			array(
 				0 => array(
@@ -339,6 +362,7 @@ class UsersControllerTest extends \Test\TestCase {
 					'groups' => array('Users', 'Support'),
 					'subadmin' => array(),
 					'quota' => 1024,
+					'quota_bytes' => 1024,
 					'storageLocation' => '/home/foo',
 					'lastLogin' => 500000,
 					'backend' => 'OC_User_Database',
@@ -346,6 +370,7 @@ class UsersControllerTest extends \Test\TestCase {
 					'isRestoreDisabled' => false,
 					'isAvatarAvailable' => true,
 					'isEnabled' => true,
+					'size' => 512,
 				),
 				1 => array(
 					'name' => 'admin',
@@ -353,6 +378,7 @@ class UsersControllerTest extends \Test\TestCase {
 					'groups' => array('admins', 'Support'),
 					'subadmin' => array(),
 					'quota' => 404,
+					'quota_bytes' => 404,
 					'storageLocation' => '/home/admin',
 					'lastLogin' => 12000,
 					'backend' => Dummy::class,
@@ -360,6 +386,7 @@ class UsersControllerTest extends \Test\TestCase {
 					'isRestoreDisabled' => false,
 					'isAvatarAvailable' => false,
 					'isEnabled' => true,
+					'size' => 200,
 				),
 				2 => array(
 					'name' => 'bar',
@@ -367,6 +394,7 @@ class UsersControllerTest extends \Test\TestCase {
 					'groups' => array('External Users'),
 					'subadmin' => array(),
 					'quota' => 2323,
+					'quota_bytes' => 2323,
 					'storageLocation' => '/home/bar',
 					'lastLogin' => 3999000,
 					'backend' => Dummy::class,
@@ -374,6 +402,7 @@ class UsersControllerTest extends \Test\TestCase {
 					'isRestoreDisabled' => false,
 					'isAvatarAvailable' => true,
 					'isEnabled' => false,
+					'size' => 2000,
 				),
 			)
 		);
@@ -404,7 +433,7 @@ class UsersControllerTest extends \Test\TestCase {
 			->method('getEMailAddress')
 			->will($this->returnValue('foo@bar.com'));
 		$foo
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getQuota')
 			->will($this->returnValue('1024'));
 		$foo
@@ -434,7 +463,7 @@ class UsersControllerTest extends \Test\TestCase {
 			->method('getEMailAddress')
 			->will($this->returnValue('admin@bar.com'));
 		$admin
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getQuota')
 			->will($this->returnValue('404'));
 		$admin
@@ -466,7 +495,7 @@ class UsersControllerTest extends \Test\TestCase {
 			->method('getEMailAddress')
 			->will($this->returnValue('bar@dummy.com'));
 		$bar
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getQuota')
 			->will($this->returnValue('2323'));
 		$bar
@@ -545,6 +574,11 @@ class UsersControllerTest extends \Test\TestCase {
 			->method('getSubAdmin')
 			->will($this->returnValue($subadmin));
 
+		$this->userMountCache
+			->expects($this->once())
+			->method('getUsedSpaceForUsers')
+			->will($this->returnValue(['admin' => 200, 'bar' => 2000, 'foo' => 512]));
+
 		$expectedResponse = new DataResponse(
 			[
 				0 => [
@@ -553,6 +587,7 @@ class UsersControllerTest extends \Test\TestCase {
 					'groups' => ['SubGroup1'],
 					'subadmin' => [],
 					'quota' => 2323,
+					'quota_bytes' => 2323,
 					'storageLocation' => '/home/bar',
 					'lastLogin' => 3999000,
 					'backend' => Dummy::class,
@@ -560,6 +595,7 @@ class UsersControllerTest extends \Test\TestCase {
 					'isRestoreDisabled' => false,
 					'isAvatarAvailable' => true,
 					'isEnabled' => true,
+					'size' => 2000,
 				],
 				1=> [
 					'name' => 'foo',
@@ -567,6 +603,7 @@ class UsersControllerTest extends \Test\TestCase {
 					'groups' => ['SubGroup2', 'SubGroup1'],
 					'subadmin' => [],
 					'quota' => 1024,
+					'quota_bytes' => 1024,
 					'storageLocation' => '/home/foo',
 					'lastLogin' => 500000,
 					'backend' => 'OC_User_Database',
@@ -574,6 +611,7 @@ class UsersControllerTest extends \Test\TestCase {
 					'isRestoreDisabled' => false,
 					'isAvatarAvailable' => true,
 					'isEnabled' => true,
+					'size' => 512,
 				],
 				2 => [
 					'name' => 'admin',
@@ -581,6 +619,7 @@ class UsersControllerTest extends \Test\TestCase {
 					'groups' => ['SubGroup2'],
 					'subadmin' => [],
 					'quota' => 404,
+					'quota_bytes' => 404,
 					'storageLocation' => '/home/admin',
 					'lastLogin' => 12000,
 					'backend' => Dummy::class,
@@ -588,6 +627,7 @@ class UsersControllerTest extends \Test\TestCase {
 					'isRestoreDisabled' => false,
 					'isAvatarAvailable' => false,
 					'isEnabled' => true,
+					'size' => 200,
 				],
 			]
 		);
@@ -617,7 +657,7 @@ class UsersControllerTest extends \Test\TestCase {
 			->method('getEMailAddress')
 			->will($this->returnValue('foo@bar.com'));
 		$foo
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getQuota')
 			->will($this->returnValue('1024'));
 		$foo
@@ -647,7 +687,7 @@ class UsersControllerTest extends \Test\TestCase {
 			->method('getEMailAddress')
 			->will($this->returnValue('admin@bar.com'));
 		$admin
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getQuota')
 			->will($this->returnValue('404'));
 		$admin
@@ -679,7 +719,7 @@ class UsersControllerTest extends \Test\TestCase {
 			->method('getEMailAddress')
 			->will($this->returnValue('bar@dummy.com'));
 		$bar
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getQuota')
 			->will($this->returnValue('2323'));
 		$bar
@@ -717,6 +757,11 @@ class UsersControllerTest extends \Test\TestCase {
 			->method('getSubAdmin')
 			->will($this->returnValue($subadmin));
 
+		$this->userMountCache
+			->expects($this->once())
+			->method('getUsedSpaceForUsers')
+			->will($this->returnValue(['admin' => 200, 'bar' => 2000, 'foo' => 512]));
+
 		$expectedResponse = new DataResponse(
 			array(
 				0 => array(
@@ -725,6 +770,7 @@ class UsersControllerTest extends \Test\TestCase {
 					'groups' => array('Users', 'Support'),
 					'subadmin' => array(),
 					'quota' => 1024,
+					'quota_bytes' => 1024,
 					'storageLocation' => '/home/foo',
 					'lastLogin' => 500000,
 					'backend' => 'OC_User_Database',
@@ -732,6 +778,7 @@ class UsersControllerTest extends \Test\TestCase {
 					'isRestoreDisabled' => false,
 					'isAvatarAvailable' => true,
 					'isEnabled' => true,
+					'size' => 512,
 				),
 				1 => array(
 					'name' => 'admin',
@@ -739,6 +786,7 @@ class UsersControllerTest extends \Test\TestCase {
 					'groups' => array('admins', 'Support'),
 					'subadmin' => array(),
 					'quota' => 404,
+					'quota_bytes' => 404,
 					'storageLocation' => '/home/admin',
 					'lastLogin' => 12000,
 					'backend' => Dummy::class,
@@ -746,6 +794,7 @@ class UsersControllerTest extends \Test\TestCase {
 					'isRestoreDisabled' => false,
 					'isAvatarAvailable' => false,
 					'isEnabled' => true,
+					'size' => 200,
 				),
 				2 => array(
 					'name' => 'bar',
@@ -753,6 +802,7 @@ class UsersControllerTest extends \Test\TestCase {
 					'groups' => array('External Users'),
 					'subadmin' => array(),
 					'quota' => 2323,
+					'quota_bytes' => 2323,
 					'storageLocation' => '/home/bar',
 					'lastLogin' => 3999000,
 					'backend' => Dummy::class,
@@ -760,6 +810,7 @@ class UsersControllerTest extends \Test\TestCase {
 					'isRestoreDisabled' => false,
 					'isAvatarAvailable' => true,
 					'isEnabled' => true,
+					'size' => 2000,
 				),
 			)
 		);
@@ -784,7 +835,7 @@ class UsersControllerTest extends \Test\TestCase {
 			->method('getEMailAddress')
 			->will($this->returnValue(null));
 		$user
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getQuota')
 			->will($this->returnValue('none'));
 		$user
@@ -825,6 +876,11 @@ class UsersControllerTest extends \Test\TestCase {
 			->method('getSubAdmin')
 			->will($this->returnValue($subadmin));
 
+		$this->userMountCache
+			->expects($this->once())
+			->method('getUsedSpaceForUsers')
+			->will($this->returnValue(['foo' => 512]));
+
 		$expectedResponse = new DataResponse(
 			array(
 				0 => array(
@@ -833,6 +889,7 @@ class UsersControllerTest extends \Test\TestCase {
 					'groups' => null,
 					'subadmin' => array(),
 					'quota' => 'none',
+					'quota_bytes' => 0,
 					'storageLocation' => '/home/foo',
 					'lastLogin' => 500000,
 					'backend' => 'OC_User_Database',
@@ -840,6 +897,7 @@ class UsersControllerTest extends \Test\TestCase {
 					'isRestoreDisabled' => false,
 					'isAvatarAvailable' => true,
 					'isEnabled' => true,
+					'size' => 512,
 				)
 			)
 		);
@@ -858,6 +916,11 @@ class UsersControllerTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('search')
 			->with('')
+			->will($this->returnValue([]));
+
+		$this->userMountCache
+			->expects($this->once())
+			->method('getUsedSpaceForUsers')
 			->will($this->returnValue([]));
 
 		$expectedResponse = new DataResponse([]);
@@ -915,6 +978,7 @@ class UsersControllerTest extends \Test\TestCase {
 				'isRestoreDisabled' => false,
 				'isAvatarAvailable' => true,
 				'isEnabled' => true,
+				'quota_bytes' => false,
 			),
 			Http::STATUS_CREATED
 		);
@@ -1001,6 +1065,7 @@ class UsersControllerTest extends \Test\TestCase {
 				'isRestoreDisabled' => false,
 				'isAvatarAvailable' => true,
 				'isEnabled' => true,
+				'quota_bytes' => false,
 			),
 			Http::STATUS_CREATED
 		);
@@ -1093,6 +1158,7 @@ class UsersControllerTest extends \Test\TestCase {
 				'isRestoreDisabled' => false,
 				'isAvatarAvailable' => true,
 				'isEnabled' => true,
+				'quota_bytes' => false,
 			),
 			Http::STATUS_CREATED
 		);
@@ -1560,6 +1626,7 @@ class UsersControllerTest extends \Test\TestCase {
 			'isRestoreDisabled' => false,
 			'isAvatarAvailable' => true,
 			'isEnabled' => $enabled,
+			'quota_bytes' => false,
 		];
 
 		return [$user, $result];
@@ -1634,8 +1701,16 @@ class UsersControllerTest extends \Test\TestCase {
 		$this->assertEquals($expectedResult, $result);
 	}
 
-	public function testRestoreNotPossibleWithoutAdminRestore() {
+	/**
+	 * @dataProvider dataTestRestoreNotPossibleWithoutAdminRestore
+	 *
+	 * @param bool $masterKeyEnabled
+	 */
+	public function testRestoreNotPossibleWithoutAdminRestore($masterKeyEnabled) {
 		list($user, $expectedResult) = $this->mockUser();
+
+		// without the master key enabled we use per-user keys
+		$this->encryptionModule->expects($this->once())->method('needDetailedAccessList')->willReturn(!$masterKeyEnabled);
 
 		$this->appManager
 			->method('isEnabledForUser')
@@ -1644,7 +1719,8 @@ class UsersControllerTest extends \Test\TestCase {
 			)
 			->will($this->returnValue(true));
 
-		$expectedResult['isRestoreDisabled'] = true;
+		// without the master key enabled we use per-user keys -> restore is disabled
+		$expectedResult['isRestoreDisabled'] = !$masterKeyEnabled;
 
 		$subadmin = $this->getMockBuilder('\OC\SubAdmin')
 			->disableOriginalConstructor()
@@ -1661,6 +1737,13 @@ class UsersControllerTest extends \Test\TestCase {
 		$controller = $this->getController(true);
 		$result = self::invokePrivate($controller, 'formatUserForIndex', [$user]);
 		$this->assertEquals($expectedResult, $result);
+	}
+
+	public function dataTestRestoreNotPossibleWithoutAdminRestore() {
+		return [
+			[true],
+			[false]
+		];
 	}
 
 	public function testRestoreNotPossibleWithoutUserRestore() {
@@ -2393,6 +2476,7 @@ class UsersControllerTest extends \Test\TestCase {
 				'lastLogin' => 0,
 				'displayname' => 'John Doe',
 				'quota' => null,
+				'quota_bytes' => false,
 				'subadmin' => array(),
 				'email' => 'abc@example.org',
 				'isRestoreDisabled' => false,

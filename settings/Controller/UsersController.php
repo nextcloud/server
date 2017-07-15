@@ -33,6 +33,7 @@ namespace OC\Settings\Controller;
 use OC\Accounts\AccountManager;
 use OC\AppFramework\Http;
 use OC\ForbiddenException;
+use OC\HintException;
 use OC\Settings\Mailer\NewUserMailHelper;
 use OC\Security\IdentityProof\Manager;
 use OCP\App\IAppManager;
@@ -40,6 +41,9 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
+use OCP\Files\Config\IUserMountCache;
+use OCP\Encryption\IEncryptionModule;
+use OCP\Encryption\IManager;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
@@ -53,6 +57,7 @@ use OCP\Mail\IMailer;
 use OCP\IAvatarManager;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
+use OCP\Util;
 
 /**
  * @package OC\Settings\Controller
@@ -97,6 +102,13 @@ class UsersController extends Controller {
 	/** @var IJobList */
 	private $jobList;
 
+	/** @var IUserMountCache */
+	private $userMountCache;
+
+	/** @var IManager */
+	private $encryptionManager;
+
+
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
@@ -118,6 +130,8 @@ class UsersController extends Controller {
 	 * @param ICrypto $crypto
 	 * @param Manager $keyManager
 	 * @param IJobList $jobList
+	 * @param IUserMountCache $userMountCache
+	 * @param IManager $encryptionManager
 	 */
 	public function __construct($appName,
 								IRequest $request,
@@ -138,7 +152,9 @@ class UsersController extends Controller {
 								ITimeFactory $timeFactory,
 								ICrypto $crypto,
 								Manager $keyManager,
-								IJobList $jobList) {
+								IJobList $jobList,
+								IUserMountCache $userMountCache,
+								IManager $encryptionManager) {
 		parent::__construct($appName, $request);
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
@@ -157,10 +173,12 @@ class UsersController extends Controller {
 		$this->crypto = $crypto;
 		$this->keyManager = $keyManager;
 		$this->jobList = $jobList;
+		$this->userMountCache = $userMountCache;
+		$this->encryptionManager = $encryptionManager;
 
 		// check for encryption state - TODO see formatUserForIndex
 		$this->isEncryptionAppEnabled = $appManager->isEnabledForUser('encryption');
-		if($this->isEncryptionAppEnabled) {
+		if ($this->isEncryptionAppEnabled) {
 			// putting this directly in empty is possible in PHP 5.5+
 			$result = $config->getAppValue('encryption', 'recoveryAdminEnabled', 0);
 			$this->isRestoreEnabled = !empty($result);
@@ -192,6 +210,17 @@ class UsersController extends Controller {
 					// user also has recovery mode enabled
 					$restorePossible = true;
 				}
+			} else {
+				$modules = $this->encryptionManager->getEncryptionModules();
+				$restorePossible = true;
+				foreach ($modules as $id => $module) {
+					/* @var IEncryptionModule $instance */
+					$instance = call_user_func($module['callback']);
+					if ($instance->needDetailedAccessList()) {
+						$restorePossible = false;
+						break;
+					}
+				}
 			}
 		} else {
 			// recovery is possible if encryption is disabled (plain files are
@@ -200,7 +229,7 @@ class UsersController extends Controller {
 		}
 
 		$subAdminGroups = $this->groupManager->getSubAdmin()->getSubAdminsGroups($user);
-		foreach($subAdminGroups as $key => $subAdminGroup) {
+		foreach ($subAdminGroups as $key => $subAdminGroup) {
 			$subAdminGroups[$key] = $subAdminGroup->getGID();
 		}
 
@@ -222,6 +251,7 @@ class UsersController extends Controller {
 			'groups' => (empty($userGroups)) ? $this->groupManager->getUserGroupIds($user) : $userGroups,
 			'subadmin' => $subAdminGroups,
 			'quota' => $user->getQuota(),
+			'quota_bytes' => Util::computerFileSize($user->getQuota()),
 			'storageLocation' => $user->getHome(),
 			'lastLogin' => $user->getLastLogin() * 1000,
 			'backend' => $user->getBackendClassName(),
@@ -258,29 +288,31 @@ class UsersController extends Controller {
 	 */
 	public function index($offset = 0, $limit = 10, $gid = '', $pattern = '', $backend = '') {
 		// Remove backends
-		if(!empty($backend)) {
+		if (!empty($backend)) {
 			$activeBackends = $this->userManager->getBackends();
 			$this->userManager->clearBackends();
-			foreach($activeBackends as $singleActiveBackend) {
-				if($backend === get_class($singleActiveBackend)) {
+			foreach ($activeBackends as $singleActiveBackend) {
+				if ($backend === get_class($singleActiveBackend)) {
 					$this->userManager->registerBackend($singleActiveBackend);
 					break;
 				}
 			}
 		}
 
+		$userObjects = [];
 		$users = [];
 		if ($this->isAdmin) {
-			if($gid !== '' && $gid !== '_disabledUsers') {
+			if ($gid !== '' && $gid !== '_disabledUsers') {
 				$batch = $this->getUsersForUID($this->groupManager->displayNamesInGroup($gid, $pattern, $limit, $offset));
 			} else {
 				$batch = $this->userManager->search($pattern, $limit, $offset);
 			}
 
 			foreach ($batch as $user) {
-				if( ($gid !== '_disabledUsers' && $user->isEnabled()) ||
+				if (($gid !== '_disabledUsers' && $user->isEnabled()) ||
 					($gid === '_disabledUsers' && !$user->isEnabled())
 				) {
+					$userObjects[] = $user;
 					$users[] = $this->formatUserForIndex($user);
 				}
 			}
@@ -295,17 +327,17 @@ class UsersController extends Controller {
 			$subAdminOfGroups = $gids;
 
 			// Set the $gid parameter to an empty value if the subadmin has no rights to access a specific group
-			if($gid !== '' && $gid !== '_disabledUsers' && !in_array($gid, $subAdminOfGroups)) {
+			if ($gid !== '' && $gid !== '_disabledUsers' && !in_array($gid, $subAdminOfGroups)) {
 				$gid = '';
 			}
 
 			// Batch all groups the user is subadmin of when a group is specified
 			$batch = [];
-			if($gid === '') {
-				foreach($subAdminOfGroups as $group) {
+			if ($gid === '') {
+				foreach ($subAdminOfGroups as $group) {
 					$groupUsers = $this->groupManager->displayNamesInGroup($group, $pattern, $limit, $offset);
 
-					foreach($groupUsers as $uid => $displayName) {
+					foreach ($groupUsers as $uid => $displayName) {
 						$batch[$uid] = $displayName;
 					}
 				}
@@ -320,12 +352,19 @@ class UsersController extends Controller {
 					$this->groupManager->getUserGroupIds($user),
 					$subAdminOfGroups
 				));
-				if( ($gid !== '_disabledUsers' && $user->isEnabled()) ||
+				if (($gid !== '_disabledUsers' && $user->isEnabled()) ||
 					($gid === '_disabledUsers' && !$user->isEnabled())
 				) {
+					$userObjects[] = $user;
 					$users[] = $this->formatUserForIndex($user, $userGroups);
 				}
 			}
+		}
+
+		$usedSpace = $this->userMountCache->getUsedSpaceForUsers($userObjects);
+
+		foreach ($users as &$userData) {
+			$userData['size'] = isset($usedSpace[$userData['name']]) ? $usedSpace[$userData['name']] : 0;
 		}
 
 		return new DataResponse($users);
@@ -341,8 +380,8 @@ class UsersController extends Controller {
 	 * @param string $email
 	 * @return DataResponse
 	 */
-	public function create($username, $password, array $groups=[], $email='') {
-		if($email !== '' && !$this->mailer->validateMailAddress($email)) {
+	public function create($username, $password, array $groups = [], $email = '') {
+		if ($email !== '' && !$this->mailer->validateMailAddress($email)) {
 			return new DataResponse(
 				[
 					'message' => (string)$this->l10n->t('Invalid mail address')
@@ -357,7 +396,7 @@ class UsersController extends Controller {
 			if (!empty($groups)) {
 				foreach ($groups as $key => $group) {
 					$groupObject = $this->groupManager->get($group);
-					if($groupObject === null) {
+					if ($groupObject === null) {
 						unset($groups[$key]);
 						continue;
 					}
@@ -406,23 +445,26 @@ class UsersController extends Controller {
 			$user = $this->userManager->createUser($username, $password);
 		} catch (\Exception $exception) {
 			$message = $exception->getMessage();
+			if ($exception instanceof HintException && $exception->getHint()) {
+				$message = $exception->getHint();
+			}
 			if (!$message) {
 				$message = $this->l10n->t('Unable to create user.');
 			}
 			return new DataResponse(
 				[
-					'message' => (string) $message,
+					'message' => (string)$message,
 				],
 				Http::STATUS_FORBIDDEN
 			);
 		}
 
-		if($user instanceof IUser) {
-			if($groups !== null) {
-				foreach($groups as $groupName) {
+		if ($user instanceof IUser) {
+			if ($groups !== null) {
+				foreach ($groups as $groupName) {
 					$group = $this->groupManager->get($groupName);
 
-					if(empty($group)) {
+					if (empty($group)) {
 						$group = $this->groupManager->createGroup($groupName);
 					}
 					$group->addUser($user);
@@ -431,12 +473,12 @@ class UsersController extends Controller {
 			/**
 			 * Send new user mail only if a mail is set
 			 */
-			if($email !== '') {
+			if ($email !== '') {
 				$user->setEMailAddress($email);
 				try {
 					$emailTemplate = $this->newUserMailHelper->generateTemplate($user, $generatePasswordResetToken);
 					$this->newUserMailHelper->sendMail($user, $emailTemplate);
-				} catch(\Exception $e) {
+				} catch (\Exception $e) {
 					$this->log->error("Can't send new user mail to $email: " . $e->getMessage(), ['app' => 'settings']);
 				}
 			}
@@ -451,7 +493,7 @@ class UsersController extends Controller {
 
 		return new DataResponse(
 			[
-				'message' => (string) $this->l10n->t('Unable to create user.')
+				'message' => (string)$this->l10n->t('Unable to create user.')
 			],
 			Http::STATUS_FORBIDDEN
 		);
@@ -469,19 +511,19 @@ class UsersController extends Controller {
 		$userId = $this->userSession->getUser()->getUID();
 		$user = $this->userManager->get($id);
 
-		if($userId === $id) {
+		if ($userId === $id) {
 			return new DataResponse(
 				[
 					'status' => 'error',
 					'data' => [
-						'message' => (string) $this->l10n->t('Unable to delete user.')
+						'message' => (string)$this->l10n->t('Unable to delete user.')
 					]
 				],
 				Http::STATUS_FORBIDDEN
 			);
 		}
 
-		if(!$this->isAdmin && !$this->groupManager->getSubAdmin()->isUserAccessible($this->userSession->getUser(), $user)) {
+		if (!$this->isAdmin && !$this->groupManager->getSubAdmin()->isUserAccessible($this->userSession->getUser(), $user)) {
 			return new DataResponse(
 				[
 					'status' => 'error',
@@ -493,8 +535,8 @@ class UsersController extends Controller {
 			);
 		}
 
-		if($user) {
-			if($user->delete()) {
+		if ($user) {
+			if ($user->delete()) {
 				return new DataResponse(
 					[
 						'status' => 'success',
@@ -527,10 +569,10 @@ class UsersController extends Controller {
 	 */
 	public function setEnabled($id, $enabled) {
 		$enabled = (bool)$enabled;
-		if($enabled) {
-			$errorMsgGeneral = (string) $this->l10n->t('Error while enabling user.');
+		if ($enabled) {
+			$errorMsgGeneral = (string)$this->l10n->t('Error while enabling user.');
 		} else {
-			$errorMsgGeneral = (string) $this->l10n->t('Error while disabling user.');
+			$errorMsgGeneral = (string)$this->l10n->t('Error while disabling user.');
 		}
 
 		$userId = $this->userSession->getUser()->getUID();
@@ -547,13 +589,13 @@ class UsersController extends Controller {
 			);
 		}
 
-		if($user) {
+		if ($user) {
 			if (!$this->isAdmin && !$this->groupManager->getSubAdmin()->isUserAccessible($this->userSession->getUser(), $user)) {
 				return new DataResponse(
 					[
 						'status' => 'error',
 						'data' => [
-							'message' => (string) $this->l10n->t('Authentication error')
+							'message' => (string)$this->l10n->t('Authentication error')
 						]
 					],
 					Http::STATUS_FORBIDDEN
@@ -714,7 +756,7 @@ class UsersController extends Controller {
 				[
 					'status' => 'error',
 					'data' => [
-						'message' => (string) $this->l10n->t('Invalid mail address')
+						'message' => (string)$this->l10n->t('Invalid mail address')
 					]
 				],
 				Http::STATUS_UNPROCESSABLE_ENTITY
@@ -725,7 +767,7 @@ class UsersController extends Controller {
 
 		$data = $this->accountManager->getUser($user);
 
-		$data[AccountManager::PROPERTY_AVATAR] =  ['scope' => $avatarScope];
+		$data[AccountManager::PROPERTY_AVATAR] = ['scope' => $avatarScope];
 		if ($this->config->getSystemValue('allow_user_to_change_display_name', true) !== false) {
 			$data[AccountManager::PROPERTY_DISPLAYNAME] = ['value' => $displayname, 'scope' => $displaynameScope];
 			$data[AccountManager::PROPERTY_EMAIL] = ['value' => $email, 'scope' => $emailScope];
@@ -758,7 +800,7 @@ class UsersController extends Controller {
 						'websiteScope' => $data[AccountManager::PROPERTY_WEBSITE]['scope'],
 						'address' => $data[AccountManager::PROPERTY_ADDRESS]['value'],
 						'addressScope' => $data[AccountManager::PROPERTY_ADDRESS]['scope'],
-						'message' => (string) $this->l10n->t('Settings saved')
+						'message' => (string)$this->l10n->t('Settings saved')
 					]
 				],
 				Http::STATUS_OK
@@ -835,7 +877,7 @@ class UsersController extends Controller {
 
 			$uniqueUsers = [];
 			foreach ($groups as $group) {
-				foreach($group->getUsers() as $uid => $displayName) {
+				foreach ($group->getUsers() as $uid => $displayName) {
 					$uniqueUsers[$uid] = true;
 				}
 			}
@@ -929,19 +971,19 @@ class UsersController extends Controller {
 				[
 					'status' => 'error',
 					'data' => [
-						'message' => (string) $this->l10n->t('Forbidden')
+						'message' => (string)$this->l10n->t('Forbidden')
 					]
 				],
 				Http::STATUS_FORBIDDEN
 			);
 		}
 
-		if($mailAddress !== '' && !$this->mailer->validateMailAddress($mailAddress)) {
+		if ($mailAddress !== '' && !$this->mailer->validateMailAddress($mailAddress)) {
 			return new DataResponse(
 				[
 					'status' => 'error',
 					'data' => [
-						'message' => (string) $this->l10n->t('Invalid mail address')
+						'message' => (string)$this->l10n->t('Invalid mail address')
 					]
 				],
 				Http::STATUS_UNPROCESSABLE_ENTITY
@@ -953,7 +995,7 @@ class UsersController extends Controller {
 				[
 					'status' => 'error',
 					'data' => [
-						'message' => (string) $this->l10n->t('Invalid user')
+						'message' => (string)$this->l10n->t('Invalid user')
 					]
 				],
 				Http::STATUS_UNPROCESSABLE_ENTITY
@@ -966,7 +1008,7 @@ class UsersController extends Controller {
 				[
 					'status' => 'error',
 					'data' => [
-						'message' => (string) $this->l10n->t('Unable to change mail address')
+						'message' => (string)$this->l10n->t('Unable to change mail address')
 					]
 				],
 				Http::STATUS_FORBIDDEN
@@ -984,7 +1026,7 @@ class UsersController extends Controller {
 					'data' => [
 						'username' => $id,
 						'mailAddress' => $mailAddress,
-						'message' => (string) $this->l10n->t('Email saved')
+						'message' => (string)$this->l10n->t('Email saved')
 					]
 				],
 				Http::STATUS_OK

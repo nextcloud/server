@@ -254,7 +254,10 @@ class Encryption extends Wrapper {
 			$sharePath = dirname($sharePath);
 		}
 
-		$accessList = $this->file->getAccessList($sharePath);
+		$accessList = [];
+		if ($this->encryptionModule->needDetailedAccessList()) {
+			$accessList = $this->file->getAccessList($sharePath);
+		}
 		$this->newHeader = $this->encryptionModule->begin($this->fullPath, $this->uid, $mode, $this->header, $accessList);
 
 		if (

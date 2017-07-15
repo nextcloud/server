@@ -1,6 +1,7 @@
 OC.L10N.register(
     "theming",
     {
+    "Loading preview…" : "Načítavanie ukážky...",
     "Saved" : "Uložené",
     "Admin" : "Správca",
     "a safe home for all your data" : "bezpečný domov pre všetky vaše dáta",
@@ -11,8 +12,10 @@ OC.L10N.register(
     "No file uploaded" : "Žiadny súbor nebol nahraný",
     "Unsupported image type" : "Typ obrázka nie je podporovaný",
     "You are already using a custom theme" : "Už používate upravený vzhľad",
-    "Theming" : "Vzhľad",
+    "Theming" : "Zmena vzhľadu",
+    "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Zmena vzhľadu umožňuje ľahko upraviť pocit z vašej inštalácie a podporovaných klientov. Toto bude viditeľné pre všetkých klientov.",
     "Name" : "Názov",
+    "Reset to default" : "Nastaviť predvolené",
     "Web address" : "Web adresa",
     "Web address https://…" : "Webová adresa https://...",
     "Slogan" : "Slogan",
@@ -21,6 +24,7 @@ OC.L10N.register(
     "Upload new logo" : "Nahrať nové logo",
     "Login image" : "Prihlasovací obrázok",
     "Upload new login background" : "Nahrať nové prihlasovacie pozadie",
+    "Remove background image" : "Odstrániť obrázok pozadia",
     "reset to default" : "nastaviť predvolené",
     "Log in image" : "Prihlasovací obrázok"
 },

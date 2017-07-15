@@ -132,12 +132,7 @@
 		/**
 		 * @type boolean
 		 */
-		hasPreview: true,
-
-		/**
-		 * @type boolean
-		 */
-		isFavorite: false
+		hasPreview: true
 	};
 
 	if (!OC.Files) {

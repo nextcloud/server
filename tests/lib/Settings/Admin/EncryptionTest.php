@@ -81,7 +81,7 @@ class EncryptionTest extends TestCase {
 			->willReturn(['entry']);
 		$expected = new TemplateResponse(
 			'settings',
-			'admin/encryption',
+			'settings/admin/encryption',
 			[
 				'encryptionEnabled' => $enabled,
 				'encryptionReady' => $enabled,
@@ -116,7 +116,7 @@ class EncryptionTest extends TestCase {
 			->willReturn(['entry', 'entry']);
 		$expected = new TemplateResponse(
 			'settings',
-			'admin/encryption',
+			'settings/admin/encryption',
 			[
 				'encryptionEnabled' => $enabled,
 				'encryptionReady' => $enabled,

@@ -28,6 +28,8 @@ use OCP\IDBConnection;
 class Mapper {
 	const TABLE_ADMIN_SETTINGS = 'admin_settings';
 	const TABLE_ADMIN_SECTIONS = 'admin_sections';
+	const TABLE_PERSONAL_SETTINGS = 'personal_settings';
+	const TABLE_PERSONAL_SECTIONS = 'personal_sections';
 
 	/** @var IDBConnection */
 	private $dbc;
@@ -46,9 +48,30 @@ class Mapper {
 	 * @return array[] [['class' => string, 'priority' => int], ...]
 	 */
 	public function getAdminSettingsFromDB($section) {
+		return $this->getSettingsFromDB(self::TABLE_ADMIN_SETTINGS, $section);
+	}
+
+	/**
+	 * Get the configured personal settings from the database for the provided section
+	 *
+	 * @param string $section
+	 * @return array[] [['class' => string, 'priority' => int], ...]
+	 */
+	public function getPersonalSettingsFromDB($section) {
+		return $this->getSettingsFromDB(self::TABLE_PERSONAL_SETTINGS, $section);
+	}
+
+	/**
+	 * Get the configured settings from the database for the provided table and section
+	 *
+	 * @param $table
+	 * @param $section
+	 * @return array
+	 */
+	private function getSettingsFromDB($table, $section) {
 		$query = $this->dbc->getQueryBuilder();
 		$query->select(['class', 'priority'])
-			->from(self::TABLE_ADMIN_SETTINGS)
+			->from($table)
 			->where($query->expr()->eq('section', $this->dbc->getQueryBuilder()->createParameter('section')))
 			->setParameter('section', $section);
 
@@ -62,11 +85,39 @@ class Mapper {
 	 * @return array[] [['class' => string, 'priority' => int], ...]
 	 */
 	public function getAdminSectionsFromDB() {
+		return $this->getSectionsFromDB('admin');
+	}
+
+	/**
+	 * Get the configured admin sections from the database
+	 *
+	 * @return array[] [['class' => string, 'priority' => int], ...]
+	 */
+	public function getPersonalSectionsFromDB() {
+		return $this->getSectionsFromDB('personal');
+	}
+
+	/**
+	 * Get the configured sections from the database by table
+	 *
+	 * @param string $type either 'personal' or 'admin'
+	 * @return array[] [['class' => string, 'priority' => int], ...]
+	 */
+	public function getSectionsFromDB($type) {
+		if($type === 'admin') {
+			$sectionsTable = self::TABLE_ADMIN_SECTIONS;
+			$settingsTable = self::TABLE_ADMIN_SETTINGS;
+		} else if($type === 'personal') {
+			$sectionsTable = self::TABLE_PERSONAL_SECTIONS;
+			$settingsTable = self::TABLE_PERSONAL_SETTINGS;
+		} else {
+			throw new \InvalidArgumentException('"admin" or "personal" expected');
+		}
 		$query = $this->dbc->getQueryBuilder();
 		$query->selectDistinct('s.class')
 			->addSelect('s.priority')
-			->from(self::TABLE_ADMIN_SECTIONS, 's')
-			->from(self::TABLE_ADMIN_SETTINGS, 'f')
+			->from($sectionsTable, 's')
+			->from($settingsTable, 'f')
 			->where($query->expr()->eq('s.id', 'f.section'));
 		$result = $query->execute();
 		return array_map(function ($row) {
@@ -76,7 +127,7 @@ class Mapper {
 	}
 
 	/**
-	 * @param string $table Mapper::TABLE_ADMIN_SECTIONS or Mapper::TABLE_ADMIN_SETTINGS
+	 * @param string $table one of the Mapper::TABLE_* constants
 	 * @param array $values
 	 */
 	public function add($table, array $values) {
@@ -91,7 +142,7 @@ class Mapper {
 	/**
 	 * returns the registered classes in the given table
 	 *
-	 * @param $table Mapper::TABLE_ADMIN_SECTIONS or Mapper::TABLE_ADMIN_SETTINGS
+	 * @param string $table one of the Mapper::TABLE_* constants
 	 * @return string[]
 	 */
 	public function getClasses($table) {
@@ -110,7 +161,7 @@ class Mapper {
 	/**
 	 * Check if a class is configured in the database
 	 *
-	 * @param string $table Mapper::TABLE_ADMIN_SECTIONS or Mapper::TABLE_ADMIN_SETTINGS
+	 * @param string $table one of the Mapper::TABLE_* constants
 	 * @param string $className
 	 * @return bool
 	 */
@@ -131,8 +182,8 @@ class Mapper {
 	/**
 	 * deletes an settings or admin entry from the given table
 	 *
-	 * @param $table Mapper::TABLE_ADMIN_SECTIONS or Mapper::TABLE_ADMIN_SETTINGS
-	 * @param $className
+	 * @param string $table one of the Mapper::TABLE_* constants
+	 * @param string $className
 	 */
 	public function remove($table, $className) {
 		$query = $this->dbc->getQueryBuilder();
@@ -143,10 +194,10 @@ class Mapper {
 	}
 
 	/**
-	 * @param $table Mapper::TABLE_ADMIN_SECTIONS or Mapper::TABLE_ADMIN_SETTINGS
-	 * @param $idCol
-	 * @param $id
-	 * @param $values
+	 * @param string $table one of the Mapper::TABLE_* constants
+	 * @param string $idCol
+	 * @param string $id
+	 * @param array $values
 	 */
 	public function update($table, $idCol, $id, $values) {
 		$query = $this->dbc->getQueryBuilder();

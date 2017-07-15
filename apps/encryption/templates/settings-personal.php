@@ -52,19 +52,21 @@ script('core', 'multiselect');
 			<em><?php p( $l->t( "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" ) ); ?></em>
 			<br />
 			<input
-			type='radio'
-			id='userEnableRecoveryCheckbox'
-			name='userEnableRecovery'
-			value='1'
+			type="radio"
+			class="radio"
+			id="userEnableRecoveryCheckbox"
+			name="userEnableRecovery"
+			value="1"
 			<?php echo ( $_["recoveryEnabledForUser"] ? 'checked="checked"' : '' ); ?> />
 			<label for="userEnableRecoveryCheckbox"><?php p( $l->t( "Enabled" ) ); ?></label>
 			<br />
 
 			<input
-			type='radio'
-			id='userDisableRecoveryCheckbox'
-			name='userEnableRecovery'
-			value='0'
+			type="radio"
+			class="radio"
+			id="userDisableRecoveryCheckbox"
+			name="userEnableRecovery"
+			value="0"
 			<?php echo ( $_["recoveryEnabledForUser"] === false ? 'checked="checked"' : '' ); ?> />
 			<label for="userDisableRecoveryCheckbox"><?php p( $l->t( "Disabled" ) ); ?></label>
 		</p>

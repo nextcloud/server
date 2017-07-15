@@ -14,7 +14,7 @@ External storage can be configured using the GUI or at the command line. This se
 	<documentation>
 		<admin>admin-external-storage</admin>
 	</documentation>
-	<version>1.4.0</version>
+	<version>1.4.1</version>
 	<types>
 		<filesystem/>
 	</types>
@@ -29,6 +29,8 @@ External storage can be configured using the GUI or at the command line. This se
 	<settings>
 		<admin>OCA\Files_External\Settings\Admin</admin>
 		<admin-section>OCA\Files_External\Settings\Section</admin-section>
+		<personal>OCA\Files_External\Settings\Personal</personal>
+		<personal-section>OCA\Files_External\Settings\PersonalSection</personal-section>
 	</settings>
 
 	<commands>

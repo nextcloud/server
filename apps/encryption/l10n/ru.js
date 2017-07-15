@@ -24,6 +24,7 @@ OC.L10N.register(
     "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Вам необходимо произвести конвертацию ключей шифрования из старого формата (ownCloud <= 8.0) в новый. Пожалуйста запустите команду 'occ encryption:migrate' или обратитесь к администратору.",
     "Invalid private key for encryption app. Please update your private key password in your personal settings to recover access to your encrypted files." : "Закрытый ключ приложения шифрования недействителен. Обновите закрытый ключ в личных настройках, чтобы восстановить доступ к зашифрованным файлам.",
     "Encryption App is enabled, but your keys are not initialized. Please log-out and log-in again." : "Приложение шифрования активно, но ваши ключи не инициализированы. Выйдите из системы и войдите заново.",
+    "Please enable server side encryption in the admin settings in order to use the encryption module." : "Для использования модуля шифрования включите шифрование на стороне сервера в меню «Настройки» -> «Администрирование» -> «Шифрование».",
     "Encryption app is enabled and ready" : "Приложение шифрования включено и готово",
     "Bad Signature" : "Некорректная подпись",
     "Missing Signature" : "Подпись отсутствует",

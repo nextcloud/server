@@ -193,7 +193,7 @@ class Manager implements IManager {
 				throw new \InvalidArgumentException('SharedWith should not be empty');
 			}
 		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_CIRCLE) {
-			$circle = \OCA\Circles\Api\Circles::detailsCircle($share->getSharedWith());
+			$circle = \OCA\Circles\Api\v1\Circles::detailsCircle($share->getSharedWith());
 			if ($circle === null) {
 				throw new \InvalidArgumentException('SharedWith is not a valid circle');
 			}

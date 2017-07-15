@@ -119,7 +119,7 @@ class ElementWrapper {
 	/**
 	 * Returns whether the wrapped element is visible or not.
 	 *
-	 * @return boolbean true if the wrapped element is visible, false otherwise.
+	 * @return bool true if the wrapped element is visible, false otherwise.
 	 */
 	public function isVisible() {
 		$commandCallback = function() {

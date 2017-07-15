@@ -37,6 +37,7 @@ OC.L10N.register(
     "Decline" : "拒绝",
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "通过我的联合云ID，分享给我，看%s",
     "Share with me through my #Nextcloud Federated Cloud ID" : "通过我的#Nextcloud联合云ID与我共享",
+    "Sharing" : "分享中",
     "Federated file sharing" : "联合文件共享",
     "Federated Cloud Sharing" : "联合云共享",
     "Open documentation" : "打开文档",
@@ -52,7 +53,7 @@ OC.L10N.register(
     "Add to your website" : "添加到您的网站",
     "Share with me via Nextcloud" : "通过联合云与我共享",
     "HTML Code:" : "HTML 代码:",
-    "Share it:" : "分享它：",
-    "Search global and public address book for users and let local users publish their data" : "搜索用户的全球和公共通讯录，并让本地用户发布其数据"
+    "Search global and public address book for users and let local users publish their data" : "搜索用户的全球和公共通讯录，并让本地用户发布其数据",
+    "Share it:" : "分享它："
 },
 "nplurals=1; plural=0;");

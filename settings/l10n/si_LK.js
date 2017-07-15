@@ -10,7 +10,6 @@ OC.L10N.register(
     "Groups" : "කණ්ඩායම්",
     "undo" : "නිෂ්ප්‍රභ කරන්න",
     "never" : "කවදාවත්",
-    "__language_name__" : "සිංහල",
     "None" : "කිසිවක් නැත",
     "Login" : "ප්‍රවිශ්ටය",
     "Encryption" : "ගුප්ත කේතනය",
@@ -34,6 +33,7 @@ OC.L10N.register(
     "Invalid request" : "අවලංගු අයැදුමක්",
     "Unable to add user to group %s" : "පරිශීලකයා %s කණ්ඩායමට එකතු කළ නොහැක",
     "Unable to remove user from group %s" : "පරිශීලකයා %s කණ්ඩායමින් ඉවත් කළ නොහැක",
+    "__language_name__" : "සිංහල",
     "Name" : "නම"
 },
 "nplurals=2; plural=(n != 1);");

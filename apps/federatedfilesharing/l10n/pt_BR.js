@@ -37,6 +37,7 @@ OC.L10N.register(
     "Decline" : "Rejeitar",
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Compartilhe comigo através do meu ID de Nuvem Federada #Nextcloud, veja %s",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Compartilhe comigo através do meu ID de Nuvem Federada #Nextcloud",
+    "Sharing" : "Compartilhar",
     "Federated file sharing" : "Compartilhamento Federado de arquivos",
     "Federated Cloud Sharing" : "Compartilhamento de Nuvem Federada",
     "Open documentation" : "Abrir documentação",
@@ -52,7 +53,7 @@ OC.L10N.register(
     "Add to your website" : "Adicione ao seu website",
     "Share with me via Nextcloud" : "Compartilhe comigo via Nextcloud",
     "HTML Code:" : "Código HTML:",
-    "Share it:" : "Compartilhe-a:",
-    "Search global and public address book for users and let local users publish their data" : "Pesquise o catálogo de endereços global e público para usuários e deixe os usuários locais publicarem seus dados"
+    "Search global and public address book for users and let local users publish their data" : "Pesquise o catálogo de endereços global e público para usuários e deixe os usuários locais publicarem seus dados",
+    "Share it:" : "Compartilhe-a:"
 },
 "nplurals=2; plural=(n > 1);");

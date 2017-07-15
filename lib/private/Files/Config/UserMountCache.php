@@ -24,6 +24,7 @@
 
 namespace OC\Files\Config;
 
+use OC\DB\QueryBuilder\Literal;
 use OCA\Files_Sharing\SharedMount;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Config\ICachedMountInfo;
@@ -193,7 +194,7 @@ class UserMountCache implements IUserMountCache {
 		if (is_null($user)) {
 			return null;
 		}
-		return new CachedMountInfo($user, (int)$row['storage_id'], (int)$row['root_id'], $row['mount_point'], $row['mount_id'], isset($row['path'])? $row['path']:'');
+		return new CachedMountInfo($user, (int)$row['storage_id'], (int)$row['root_id'], $row['mount_point'], $row['mount_id'], isset($row['path']) ? $row['path'] : '');
 	}
 
 	/**
@@ -224,7 +225,7 @@ class UserMountCache implements IUserMountCache {
 		$builder = $this->connection->getQueryBuilder();
 		$query = $builder->select('storage_id', 'root_id', 'user_id', 'mount_point', 'mount_id', 'f.path')
 			->from('mounts', 'm')
-			->innerJoin('m', 'filecache', 'f' , $builder->expr()->eq('m.root_id', 'f.fileid'))
+			->innerJoin('m', 'filecache', 'f', $builder->expr()->eq('m.root_id', 'f.fileid'))
 			->where($builder->expr()->eq('storage_id', $builder->createPositionalParameter($numericStorageId, IQueryBuilder::PARAM_INT)));
 
 		if ($user) {
@@ -331,5 +332,34 @@ class UserMountCache implements IUserMountCache {
 		$query = $builder->delete('mounts')
 			->where($builder->expr()->eq('storage_id', $builder->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)));
 		$query->execute();
+	}
+
+	public function getUsedSpaceForUsers(array $users) {
+		$builder = $this->connection->getQueryBuilder();
+
+		$slash = $builder->createNamedParameter('/');
+
+		$mountPoint = $builder->func()->concat(
+			$builder->func()->concat($slash, 'user_id'),
+			$slash
+		);
+
+		$userIds = array_map(function (IUser $user) {
+			return $user->getUID();
+		}, $users);
+
+		$query = $builder->select('m.user_id', 'f.size')
+			->from('mounts', 'm')
+			->innerJoin('m', 'filecache', 'f',
+				$builder->expr()->andX(
+					$builder->expr()->eq('m.storage_id', 'f.storage'),
+					$builder->expr()->eq('f.path', $builder->createNamedParameter('files'))
+				))
+			->where($builder->expr()->eq('m.mount_point', $mountPoint))
+			->andWhere($builder->expr()->in('m.user_id', $builder->createNamedParameter($userIds, IQueryBuilder::PARAM_STR_ARRAY)));
+
+		$result = $query->execute();
+
+		return $result->fetchAll(\PDO::FETCH_KEY_PAIR);
 	}
 }

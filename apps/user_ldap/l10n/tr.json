@@ -136,7 +136,7 @@
     "Disable Main Server" : "Ana Sunucuyu Devre Dışı Bırak",
     "Only connect to the replica server." : "Yalnız yedek sunucuya bağlanılsın.",
     "Turn off SSL certificate validation." : "SSL sertifika doğrulaması kullanılmasın.",
-    "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." : "Önerilmez, yalnız deneme amacıyla için kullanın! Bağlantı yalnız bu seçenek etkinleştirildiğinde çalışıyorsa %s sunucunuza LDAP sunucusunun SSL sertifikasını ekleyin.",
+    "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." : "Önerilmez, yalnız deneme amacıyla için kullanın! Bağlantı yalnız bu seçenek etkinleştirildiğinde çalışıyorsa LDAP sunucusunun SSL sertifikasını %s sunucuzun içine aktarın.",
     "Cache Time-To-Live" : "Ön Bellek Time-To-Live Değeri",
     "in seconds. A change empties the cache." : "saniye cinsinden. Değişiklik ön belleği temizler.",
     "Directory Settings" : "Dizin Ayarları",

@@ -68,7 +68,7 @@ class Encryption implements ISettings {
 			'encryptionModules'       => $encryptionModuleList,
 		];
 
-		return new TemplateResponse('settings', 'admin/encryption', $parameters, '');
+		return new TemplateResponse('settings', 'settings/admin/encryption', $parameters, '');
 	}
 
 	/**

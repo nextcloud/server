@@ -67,6 +67,15 @@ class SettingsMenuContext implements Context, ActorAwareInterface {
 	}
 
 	/**
+	 * @param string $itemText
+	 * @return Locator
+	 */
+	private static function settingsPanelFor($itemText) {
+		return Locator::forThe()->xpath("//div[@id = 'app-navigation']//ul//li[@class = 'settings-caption' and normalize-space() = '$itemText']")->
+		describedAs($itemText . " item in Settings panel");
+	}
+
+	/**
 	 * @When I open the Settings menu
 	 */
 	public function iOpenTheSettingsMenu() {
@@ -80,6 +89,14 @@ class SettingsMenuContext implements Context, ActorAwareInterface {
 		$this->iOpenTheSettingsMenu();
 
 		$this->actor->find(self::usersMenuItem(), 2)->click();
+	}
+
+	/**
+	 * @When I visit the settings page
+	 */
+	public function iVisitTheSettingsPage() {
+		$this->iOpenTheSettingsMenu();
+		$this->actor->find(self::menuItemFor('Settings'), 2)->click();
 	}
 
 	/**
@@ -116,6 +133,27 @@ class SettingsMenuContext implements Context, ActorAwareInterface {
 		try {
 			PHPUnit_Framework_Assert::assertFalse(
 					$this->actor->find(self::menuItemFor($itemText))->isVisible());
+		} catch (NoSuchElementException $exception) {
+		}
+	}
+
+	/**
+	 * @Then I see that the :itemText settings panel is shown
+	 */
+	public function iSeeThatTheItemSettingsPanelIsShown($itemText) {
+		PHPUnit_Framework_Assert::assertTrue(
+			$this->actor->find(self::settingsPanelFor($itemText), 10)->isVisible()
+		);
+	}
+
+	/**
+	 * @Then I see that the :itemText settings panel is not shown
+	 */
+	public function iSeeThatTheItemSettingsPanelIsNotShown($itemText) {
+		try {
+			PHPUnit_Framework_Assert::assertFalse(
+				$this->actor->find(self::settingsPanelFor($itemText), 10)->isVisible()
+			);
 		} catch (NoSuchElementException $exception) {
 		}
 	}

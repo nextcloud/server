@@ -88,6 +88,7 @@
 				placeholder: t('systemtags', 'Select tags to filter by'),
 				allowClear: false,
 				multiple: true,
+				toggleSelect: true,
 				separator: ',',
 				query: _.bind(this._queryTagsAutocomplete, this),
 
