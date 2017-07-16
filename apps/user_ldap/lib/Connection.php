@@ -543,7 +543,7 @@ class Connection extends LDAPUtility {
 				if($bindStatus === true) {
 					return $bindStatus;
 				}
-			} catch (\OC\ServerNotAvailableException $e) {
+			} catch (ServerNotAvailableException $e) {
 				if(trim($this->configuration->ldapBackupHost) === "") {
 					throw $e;
 				}
@@ -586,16 +586,16 @@ class Connection extends LDAPUtility {
 		$this->ldapConnectionRes = $this->ldap->connect($host, $port);
 
 		if(!$this->ldap->setOption($this->ldapConnectionRes, LDAP_OPT_PROTOCOL_VERSION, 3)) {
-			throw new \OC\ServerNotAvailableException('Could not set required LDAP Protocol version.');
+			throw new ServerNotAvailableException('Could not set required LDAP Protocol version.');
 		}
 
 		if(!$this->ldap->setOption($this->ldapConnectionRes, LDAP_OPT_REFERRALS, 0)) {
-			throw new \OC\ServerNotAvailableException('Could not disable LDAP referrals.');
+			throw new ServerNotAvailableException('Could not disable LDAP referrals.');
 		}
 
 		if($this->configuration->ldapTLS) {
 			if(!$this->ldap->startTls($this->ldapConnectionRes)) {
-				throw new \OC\ServerNotAvailableException('Start TLS failed, when connecting to LDAP host ' . $host . '.');
+				throw new ServerNotAvailableException('Start TLS failed, when connecting to LDAP host ' . $host . '.');
 			}
 		}
 
