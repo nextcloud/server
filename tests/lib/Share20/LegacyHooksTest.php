@@ -99,7 +99,7 @@ class LegacyHooksTest extends TestCase {
 			->setTarget('myTarget');
 
 		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
-		\OCP\Util::connectHook('OCP\Share', 'pre_unshare', $hookListner, 'post');
+		\OCP\Util::connectHook('OCP\Share', 'post_unshare', $hookListner, 'post');
 
 		$hookListnerExpectsPost = [
 			'id' => 42,
