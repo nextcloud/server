@@ -582,20 +582,23 @@ class Connection extends LDAPUtility {
 		if ($host === '') {
 			return false;
 		}
+
 		$this->ldapConnectionRes = $this->ldap->connect($host, $port);
-		if($this->ldap->setOption($this->ldapConnectionRes, LDAP_OPT_PROTOCOL_VERSION, 3)) {
-			if($this->ldap->setOption($this->ldapConnectionRes, LDAP_OPT_REFERRALS, 0)) {
-				if($this->configuration->ldapTLS) {
-					if(!$this->ldap->startTls($this->ldapConnectionRes)) {
-						throw new \OC\ServerNotAvailableException('Start TLS failed, when connecting to LDAP host ' . $host . '.');
-					}
-				}
-			} else {
-				throw new \OC\ServerNotAvailableException('Could not disable LDAP referrals.');
-			}
-		} else {
+
+		if(!$this->ldap->setOption($this->ldapConnectionRes, LDAP_OPT_PROTOCOL_VERSION, 3)) {
 			throw new \OC\ServerNotAvailableException('Could not set required LDAP Protocol version.');
 		}
+
+		if(!$this->ldap->setOption($this->ldapConnectionRes, LDAP_OPT_REFERRALS, 0)) {
+			throw new \OC\ServerNotAvailableException('Could not disable LDAP referrals.');
+		}
+
+		if($this->configuration->ldapTLS) {
+			if(!$this->ldap->startTls($this->ldapConnectionRes)) {
+				throw new \OC\ServerNotAvailableException('Start TLS failed, when connecting to LDAP host ' . $host . '.');
+			}
+		}
+
 		return true;
 	}
 
