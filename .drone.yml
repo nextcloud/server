@@ -214,28 +214,41 @@ matrix:
     - TESTS: carddavtester-old-endpoint
     - DB: NODB
       PHP: 5.4
+      ENABLE_REDIS: true
     - DB: NODB
       PHP: 5.5
+      ENABLE_REDIS: true
     - DB: NODB
       PHP: 5.6
+      ENABLE_REDIS: true
     - DB: NODB
       PHP: 7.0
+      ENABLE_REDIS: true
     - DB: sqlite
       PHP: 5.4
+      ENABLE_REDIS: true
     - DB: sqlite
       PHP: 5.5
+      ENABLE_REDIS: true
     - DB: sqlite
       PHP: 5.6
+      ENABLE_REDIS: true
     - DB: sqlite
       PHP: 7.0
+      ENABLE_REDIS: true
     - DB: mysql
       PHP: 5.6
+      ENABLE_REDIS: true
     - DB: postgres
       PHP: 5.6
+      ENABLE_REDIS: true
 
 services:
   cache:
     image: redis
+    when:
+      matrix:
+       ENABLE_REDIS: true
   postgres:
     image: postgres
     environment:
