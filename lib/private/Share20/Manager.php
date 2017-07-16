@@ -873,6 +873,8 @@ class Manager implements IManager {
 		$provider = $this->factory->getProvider($providerId);
 
 		$provider->deleteFromSelf($share, $recipientId);
+		$event = new GenericEvent($share);
+		$this->eventDispatcher->dispatch('OCP\Share::postUnshareFromSelf', $event);
 	}
 
 	/**

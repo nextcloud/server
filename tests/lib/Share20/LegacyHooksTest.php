@@ -135,4 +135,56 @@ class LegacyHooksTest extends TestCase {
 		$event->setArgument('deletedShares', [$share]);
 		$this->eventDispatcher->dispatch('OCP\Share::postUnshare', $event);
 	}
+
+	public function testPostUnshareFromSelf() {
+		$path = $this->createMock(File::class);
+		$path->method('getId')->willReturn(1);
+
+		$share = $this->manager->newShare();
+		$share->setId(42)
+			->setProviderId('prov')
+			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setSharedWith('awesomeUser')
+			->setSharedBy('sharedBy')
+			->setNode($path)
+			->setTarget('myTarget');
+
+		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['postFromSelf'])->getMock();
+		\OCP\Util::connectHook('OCP\Share', 'post_unshareFromSelf', $hookListner, 'postFromSelf');
+
+		$hookListnerExpectsPostFromSelf = [
+			'id' => 42,
+			'itemType' => 'file',
+			'itemSource' => 1,
+			'shareType' => \OCP\Share::SHARE_TYPE_USER,
+			'shareWith' => 'awesomeUser',
+			'itemparent' => null,
+			'uidOwner' => 'sharedBy',
+			'fileSource' => 1,
+			'fileTarget' => 'myTarget',
+			'itemTarget' => 'myTarget',
+			'unsharedItems' => [
+				[
+					'id' => 42,
+					'itemType' => 'file',
+					'itemSource' => 1,
+					'shareType' => \OCP\Share::SHARE_TYPE_USER,
+					'shareWith' => 'awesomeUser',
+					'itemparent' => null,
+					'uidOwner' => 'sharedBy',
+					'fileSource' => 1,
+					'fileTarget' => 'myTarget',
+					'itemTarget' => 'myTarget',
+				],
+			],
+		];
+
+		$hookListner
+			->expects($this->exactly(1))
+			->method('postFromSelf')
+			->with($hookListnerExpectsPostFromSelf);
+
+		$event = new GenericEvent($share);
+		$this->eventDispatcher->dispatch('OCP\Share::postUnshareFromSelf', $event);
+	}
 }

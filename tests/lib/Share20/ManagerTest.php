@@ -332,6 +332,40 @@ class ManagerTest extends \Test\TestCase {
 		$manager->deleteShare($share1);
 	}
 
+	public function testDeleteFromSelf() {
+		$manager = $this->createManagerMock()
+			->setMethods(['getShareById'])
+			->getMock();
+
+		$recipientId = 'unshareFrom';
+		$share = $this->manager->newShare();
+		$share->setId(42)
+			->setProviderId('prov')
+			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setSharedWith('sharedWith')
+			->setSharedBy('sharedBy')
+			->setShareOwner('shareOwner')
+			->setTarget('myTarget')
+			->setNodeId(1)
+			->setNodeType('file');
+
+		$this->defaultProvider
+			->expects($this->once())
+			->method('deleteFromSelf')
+			->with($share, $recipientId);
+
+		$this->eventDispatcher->expects($this->at(0))
+			->method('dispatch')
+			->with(
+				'OCP\Share::postUnshareFromSelf',
+				$this->callBack(function(GenericEvent $e) use ($share) {
+					return $e->getSubject() === $share;
+				})
+			);
+
+		$manager->deleteFromSelf($share, $recipientId);
+	}
+
 	public function testDeleteChildren() {
 		$manager = $this->createManagerMock()
 			->setMethods(['deleteShare'])
