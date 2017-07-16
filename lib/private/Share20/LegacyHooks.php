@@ -71,7 +71,7 @@ class LegacyHooks {
 
 		$formatted['deletedShares'] = $formattedDeletedShares;
 
-		\OC_Hook::emit('OCP\Share', 'pre_unshare', $formatted);
+		\OC_Hook::emit('OCP\Share', 'post_unshare', $formatted);
 	}
 
 	private function formatHookParams(IShare $share) {
