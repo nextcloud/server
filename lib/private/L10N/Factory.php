@@ -195,7 +195,7 @@ class Factory implements IFactory {
 		return 'en';
 	}
 
-	public function findLocale($app = null, $lang = null)
+	public function findLocale($lang = null)
 	{
 		if ($this->config->getSystemValue('installed', false)) {
 			$userId = null !== $this->userSession->getUser() ? $this->userSession->getUser()->getUID() :  null;
