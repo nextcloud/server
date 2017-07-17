@@ -54,7 +54,7 @@ OC.L10N.register(
     "%s (incompatible)" : "%s (inkompatibel)",
     "Following apps have been disabled: %s" : "Die folgenden Apps wurden deaktiviert: %s",
     "Already up to date" : "Bereits aktuell",
-    "Search contacts …" : "…",
+    "Search contacts …" : "Kontakte suchen…",
     "No contacts found" : "Keine Kontakte gefunden",
     "Show all contacts …" : "Zeige alle Kontakte…",
     "There was an error loading your contacts" : "Fehler beim Laden Ihrer Kontakte",
