@@ -60,7 +60,7 @@ class Encryption implements IEncryptionModule {
 	/** @var string */
 	private $user;
 
-	/** @var  string */
+	/** @var  array */
 	private $owner;
 
 	/** @var string */
@@ -139,6 +139,7 @@ class Encryption implements IEncryptionModule {
 		$this->decryptAll = $decryptAll;
 		$this->logger = $logger;
 		$this->l = $il10n;
+		$this->owner = [];
 		$this->useMasterPassword = $util->isMasterKeyEnabled();
 	}
 
@@ -177,7 +178,6 @@ class Encryption implements IEncryptionModule {
 		$this->path = $this->getPathToRealFile($path);
 		$this->accessList = $accessList;
 		$this->user = $user;
-		$this->owner = $this->util->getOwner($path);
 		$this->isWriteOperation = false;
 		$this->writeCache = '';
 
@@ -284,7 +284,7 @@ class Encryption implements IEncryptionModule {
 				}
 			}
 
-			$publicKeys = $this->keyManager->addSystemKeys($this->accessList, $publicKeys, $this->owner);
+			$publicKeys = $this->keyManager->addSystemKeys($this->accessList, $publicKeys, $this->getOwner($path));
 			$encryptedKeyfiles = $this->crypt->multiKeyEncrypt($this->fileKey, $publicKeys);
 			$this->keyManager->setAllFileKeys($this->path, $encryptedKeyfiles);
 		}
@@ -413,7 +413,7 @@ class Encryption implements IEncryptionModule {
 				}
 			}
 
-			$publicKeys = $this->keyManager->addSystemKeys($accessList, $publicKeys, $this->owner);
+			$publicKeys = $this->keyManager->addSystemKeys($accessList, $publicKeys, $this->getOwner($path));
 
 			$encryptedFileKey = $this->crypt->multiKeyEncrypt($fileKey, $publicKeys);
 
@@ -560,6 +560,19 @@ class Encryption implements IEncryptionModule {
 		}
 
 		return $path;
+	}
+
+	/**
+	 * get owner of a file
+	 *
+	 * @param string $path
+	 * @return string
+	 */
+	protected function getOwner($path) {
+		if (!isset($this->owner[$path])) {
+			$this->owner[$path] = $this->util->getOwner($path);
+		}
+		return $this->owner[$path];
 	}
 
 	/**
