@@ -214,6 +214,7 @@ OCA = OCA || {};
 		onConfigSwitch: function(view, configuration) {
 			this.baseDNTestTriggered = false;
 			view.disableElement(view.managedItems.ldap_port.$relatedElements);
+			view.managedItems.ldap_dn.$saveButton.removeClass('ldap_primary');
 			view.onConfigLoaded(view, configuration);
 		},
 

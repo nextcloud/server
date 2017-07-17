@@ -209,6 +209,14 @@ select[multiple=multiple] + button {
 	color: #777;
 }
 
+.ldap_primary {
+	border: 1px solid #0082c9 !important;
+	background-color: rgba(0, 130, 201, .7) !important;
+	background-image: none !important;
+	color: #fff !important;
+	cursor: pointer;
+}
+
 #ldapSettings {
 	background-color: white;
 	padding: 0;

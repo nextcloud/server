@@ -5,7 +5,7 @@
 			type="button">
 		<?php p($l->t('Back'));?>
 	</button>
-	<button class="ldap_action_continue" name="ldap_action_continue" type="button">
+	<button class="ldap_action_continue ldap_primary" name="ldap_action_continue" type="button">
 		<?php p($l->t('Continue'));?>
 	</button>
 	<a href="<?php p(link_to_docs('admin-ldap')); ?>"

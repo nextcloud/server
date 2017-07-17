@@ -359,6 +359,10 @@ OCA = OCA || {};
 					item.$saveButton.click(function(event) {
 						event.preventDefault();
 						view._requestSave(item.$element);
+						item.$saveButton.removeClass('ldap_primary');
+					});
+					item.$element.change(function () {
+						item.$saveButton.addClass('ldap_primary');
 					});
 				})(this.managedItems[id]);
 			}
