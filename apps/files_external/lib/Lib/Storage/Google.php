@@ -733,5 +733,9 @@ class Google extends \OC\Files\Storage\Common {
 	public static function checkDependencies() {
 		return true;
 	}
+	
+	public function needsPartFile() {
+		return false;
+	}
 
 }
