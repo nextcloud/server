@@ -142,4 +142,48 @@ class ConnectionTest extends \Test\TestCase {
 		$this->connection->init();
 	}
 
+	public function testBindWithInvalidCredentials() {
+		// background: Bind with invalid credentials should return false
+		// and not throw a ServerNotAvailableException.
+
+		$host = 'ldap://nixda.ldap';
+		$config = [
+			'ldapConfigurationActive' => true,
+			'ldapHost' => $host,
+			'ldapPort' => 389,
+			'ldapBackupHost' => '',
+			'ldapAgentName' => 'user',
+			'ldapAgentPassword' => 'password'
+		];
+
+		$this->connection->setIgnoreValidation(true);
+		$this->connection->setConfiguration($config);
+
+		$this->ldap->expects($this->any())
+			->method('isResource')
+			->will($this->returnValue(true));
+
+		$this->ldap->expects($this->any())
+			->method('setOption')
+			->will($this->returnValue(true));
+
+		$this->ldap->expects($this->any())
+			->method('connect')
+			->will($this->returnValue('ldapResource'));
+
+		$this->ldap->expects($this->exactly(2))
+			->method('bind')
+			->will($this->returnValue(false));
+
+		// LDAP_INVALID_CREDENTIALS
+		$this->ldap->expects($this->any())
+			->method('errno')
+			->will($this->returnValue(0x31));
+
+		try {
+			$this->assertFalse($this->connection->bind(), 'Connection::bind() should not return true with invalid credentials.');
+		} catch (\OC\ServerNotAvailableException $e) {
+			$this->fail('Failed asserting that exception of type "OC\ServerNotAvailableException" is not thrown.');
+		}
+	}
 }
