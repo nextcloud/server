@@ -186,4 +186,54 @@ class ConnectionTest extends \Test\TestCase {
 			$this->fail('Failed asserting that exception of type "OC\ServerNotAvailableException" is not thrown.');
 		}
 	}
+
+	public function testStartTlsNegotiationFailure() {
+		// background: If Start TLS negotiation fails,
+		// a ServerNotAvailableException should be thrown.
+
+		$host = 'ldap://nixda.ldap';
+		$port = 389;
+		$config = [
+			'ldapConfigurationActive' => true,
+			'ldapHost' => $host,
+			'ldapPort' => $port,
+			'ldapTLS' => true,
+			'ldapBackupHost' => '',
+			'ldapAgentName' => 'user',
+			'ldapAgentPassword' => 'password'
+		];
+
+		$this->connection->setIgnoreValidation(true);
+		$this->connection->setConfiguration($config);
+
+		$this->ldap->expects($this->any())
+			->method('isResource')
+			->will($this->returnValue(true));
+
+		$this->ldap->expects($this->any())
+			->method('connect')
+			->will($this->returnValue('ldapResource'));
+
+		$this->ldap->expects($this->any())
+			->method('setOption')
+			->will($this->returnValue(true));
+
+		$this->ldap->expects($this->any())
+			->method('bind')
+			->will($this->returnValue(true));
+
+		$this->ldap->expects($this->any())
+			->method('errno')
+			->will($this->returnValue(0));
+
+		$this->ldap->expects($this->any())
+			->method('startTls')
+			->will($this->returnValue(false));
+
+		$this->expectException(\OC\ServerNotAvailableException::class);
+		$this->expectExceptionMessage('Start TLS failed, when connecting to LDAP host ' . $host . '.');
+
+		$this->connection->init();
+	}
+
 }
