@@ -45,6 +45,13 @@ interface IFactory {
 	public function findLanguage($app = null);
 
 	/**
+	 * @param string|null $lang user language as default locale
+	 * @return string locale If nothing works it returns 'en_US'
+	 * @since 13.0.0
+	 */
+	public function findLocale($lang = null);
+
+	/**
 	 * Find all available languages for an app
 	 *
 	 * @param string|null $app App id or null for core
