@@ -968,6 +968,7 @@ code {
 .ui-widget.ui-datepicker {
 	margin-top: 10px;
 	padding: 4px 8px;
+	width: auto;
 
 	.ui-state-default,
 	.ui-widget-content .ui-state-default,
@@ -975,77 +976,68 @@ code {
 		border: 1px solid transparent;
 		background: inherit;
 	}
-
 	.ui-widget-header {
-		margin: 3px 3px 3px 0;
-		padding: 7px 6px;
+		padding: 7px;
 		font-size: 13px;
-		border:	none; // 1px solid #dbdbdb;
-		border-radius: 3px;
+		font-weight: normal;
+		border:	none;
 		background-color: $color-main-background;
 		color: $color-main-text;
 
 		.ui-datepicker-title {
 			line-height: 1;
 		}
-
 		.ui-icon {
 			opacity: .5;
-		}
 
+			&.ui-icon-circle-triangle-e {
+				background: url("../img/actions/arrow-right.svg") center center no-repeat;
+			}
+			&.ui-icon-circle-triangle-w {
+				background: url("../img/actions/arrow-left.svg") center center no-repeat;
+			}
+		}
 		.ui-state-hover .ui-icon {
 			opacity: 1;
 		}
-
-		.ui-icon.ui-icon-circle-triangle-e {
-			background: url("../img/actions/arrow-right.svg") center center no-repeat;
-		}
-
-		.ui-icon.ui-icon-circle-triangle-w {
-			background: url("../img/actions/arrow-left.svg") center center no-repeat;
-		}
 	}
-
 	.ui-datepicker-calendar {
 		th {
 			font-weight: normal;
 			color: nc-lighten($color-main-text, 33%);
 		}
-
 		tr:hover {
 			background-color: inherit;
 		}
-
 		td {
-			padding: 0;
-
-			a {
-				border-radius: 3px;
+			> * {
+				border-radius: 50%;
 				text-align: center;
 				font-weight: normal;
 				color: $color-main-text;
-			}
-
-			&.ui-datepicker-week-end a:not(.ui-state-hover),
-			.ui-priority-secondary {
-				color: nc-lighten($color-main-text, 33%);
+				padding: 6px;
+				line-height: 12px;
 			}
 
 			&.ui-datepicker-today a:not(.ui-state-hover) {
 				background-color: nc-lighten($color-main-text, 86%);
 			}
 
-			&.ui-datepicker-current-day .ui-state-active,
+			&.ui-datepicker-current-day a.ui-state-active,
 			.ui-state-hover,
 			.ui-state-focus {
 				background-color: $color-primary;
 				color: $color-primary-text;
 				font-weight: bold;
 			}
+
+			&.ui-datepicker-week-end :not(.ui-state-hover),
+			.ui-priority-secondary:not(.ui-state-hover) {
+				color: nc-lighten($color-main-text, 33%);
+			}
 		}
 	}
 }
-
 
 .ui-datepicker-prev, .ui-datepicker-next {
 	border: nc-lighten($color-main-text, 86%);
