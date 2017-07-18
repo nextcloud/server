@@ -46,6 +46,13 @@ pipeline:
     when:
       matrix:
         TESTS: htaccess-checker
+  files-check:
+    image: nextcloudci/php7.0:php7.0-7
+    commands:
+      - php ./build/files-checker.php
+    when:
+      matrix:
+        TESTS: files-check
   syntax-php5.6:
     image: nextcloudci/php5.6:php5.6-7
     commands:
@@ -398,6 +405,7 @@ pipeline:
 matrix:
   include:
     - TESTS: signed-off-check
+    - TESTS: files-check
     - TESTS: htaccess-checker
     - TESTS: nodb-codecov
       ENABLE_REDIS: true
