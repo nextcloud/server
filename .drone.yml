@@ -610,9 +610,9 @@ matrix:
     - DB: mysql
       PHP: 5.6
       ENABLE_REDIS: true
-    - DB: postgres
-      PHP: 5.6
-      ENABLE_REDIS: true
+#    - DB: postgres
+#      PHP: 5.6
+#      ENABLE_REDIS: true
     - DB: mysqlmb4
       PHP: 5.6
       ENABLE_REDIS: true
