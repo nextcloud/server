@@ -3,12 +3,12 @@ OC.L10N.register(
     {
     "OAuth 2.0" : "OAuth 2.0",
     "OAuth 2.0 clients" : "OAuth 2.0 klienti",
-    "OAuth 2.0 allows external services to request access to your %s." : "OAuth 2.0 umožňuje cizím službám žádat přístup k vašemu %s.",
     "Name" : "Název",
     "Redirection URI" : "URL pro přesměrování",
     "Client Identifier" : "Identifikátor klienta",
     "Secret" : "Tajemství",
     "Add client" : "Přidat klienta",
-    "Add" : "Přidat"
+    "Add" : "Přidat",
+    "OAuth 2.0 allows external services to request access to your %s." : "OAuth 2.0 umožňuje cizím službám žádat přístup k vašemu %s."
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");
