@@ -43,6 +43,14 @@ pipeline:
     when:
       matrix:
         TESTS: syntax-php7.1
+  phan:
+    image: nextcloudci/php7.1:php7.0-13
+    commands:
+      - composer install
+      - ./lib/composer/etsy/phan/phan -k build/.phan/config.php
+    when:
+      matrix:
+        TESTS: phan
   litmus-v1:
     image: nextcloudci/litmus-php7.0:litmus-php7.0-4
     commands:
@@ -574,6 +582,7 @@ matrix:
     - TESTS: syntax-php5.6
     - TESTS: syntax-php7.0
     - TESTS: syntax-php7.1
+    - TESTS: phan
     - TESTS: litmus-v1
     - TESTS: litmus-v2
     - TESTS: caldavtester-old-endpoint

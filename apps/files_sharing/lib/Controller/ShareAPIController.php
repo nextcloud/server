@@ -308,6 +308,8 @@ class ShareAPIController extends OCSController {
 	 * @throws OCSForbiddenException
 	 * @throws OCSBadRequestException
 	 * @throws OCSException
+	 *
+	 * @suppress PhanUndeclaredClassMethod
 	 */
 	public function createShare(
 		$path = null,

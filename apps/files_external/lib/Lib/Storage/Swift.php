@@ -118,7 +118,7 @@ class Swift extends \OC\Files\Storage\Common {
 	 * that one will be returned.
 	 *
 	 * @param string $path
-	 * @return \OpenCloud\OpenStack\ObjectStorage\Resource\DataObject|bool object
+	 * @return \OpenCloud\ObjectStore\Resource\DataObject|bool object
 	 * or false if the object did not exist
 	 */
 	private function fetchObject($path) {
@@ -382,9 +382,9 @@ class Swift extends \OC\Files\Storage\Common {
 				try {
 					$c = $this->getContainer();
 					$streamFactory = new \Guzzle\Stream\PhpStreamRequestFactory();
-					$streamInterface = $streamFactory->fromRequest(
-						$c->getClient()
-							->get($c->getUrl($path)));
+					/** @var \OpenCloud\Common\Http\Client $client */
+					$client = $c->getClient();
+					$streamInterface = $streamFactory->fromRequest($client->get($c->getUrl($path)));
 					$streamInterface->rewind();
 					$stream = $streamInterface->getStream();
 					stream_context_set_option($stream, 'swift','content', $streamInterface);

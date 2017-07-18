@@ -1292,7 +1292,7 @@ class View {
 	 * @param \OC\Files\Storage\Storage $storage
 	 * @param string $internalPath
 	 * @param string $relativePath
-	 * @return array|bool
+	 * @return ICacheEntry|bool
 	 */
 	private function getCacheEntry($storage, $internalPath, $relativePath) {
 		$cache = $storage->getCache($internalPath);
