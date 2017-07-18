@@ -76,7 +76,7 @@ class RepairInvalidPaths implements IRepairStep {
 				yield $row;
 			}
 			$result->closeCursor();
-		} while (count($rows) >= self::MAX_ROWS);
+		} while (count($rows) > 0);
 	}
 
 	private function getId($storage, $path) {
