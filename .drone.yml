@@ -46,7 +46,9 @@ pipeline:
   phan:
     image: nextcloudci/php7.0:php7.0-13
     commands:
+      - rm /etc/php/7.0/cli/conf.d/20-xdebug.ini
       - composer install
+      - composer require --dev "etsy/phan:0.8.x-dev"
       - ./lib/composer/etsy/phan/phan -k build/.phan/config.php
     when:
       matrix:
