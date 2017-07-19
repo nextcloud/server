@@ -325,7 +325,9 @@ class OC_Template extends \OC\Template\Base {
 
 	/**
 	 * print error page using Exception details
-	 * @param Exception | Throwable $exception
+	 * @param Exception|Throwable $exception
+	 * @param bool $fetchPage
+	 * @return bool|string
 	 */
 	public static function printExceptionErrorPage($exception, $fetchPage = false) {
 		try {

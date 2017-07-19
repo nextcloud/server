@@ -136,7 +136,7 @@ interface ILogger {
 	 * ]);
 	 * </code>
 	 *
-	 * @param \Exception | \Throwable $exception
+	 * @param \Exception|\Throwable $exception
 	 * @param array $context
 	 * @return void
 	 * @since 8.2.0
