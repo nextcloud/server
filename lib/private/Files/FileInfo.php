@@ -225,7 +225,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	 */
 	public function getPermissions() {
 		$perms = (int) $this->data['permissions'];
-		if (\OCP\Util::isSharingDisabledForUser() || ($this->isShared() && !\OC\Share\Share::isResharingAllowed())) {
+		if (\OCP\Util::isSharingDisabledForUser() || ($this->isShared() && !\OC::$server->getShareManager()->isResharingAllowed())) {
 			$perms = $perms & ~\OCP\Constants::PERMISSION_SHARE;
 		}
 		return (int) $perms;

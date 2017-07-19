@@ -890,23 +890,6 @@ class Share extends Constants {
 	}
 
 	/**
-	 * Check if resharing is allowed
-	 * @return boolean true if allowed or false
-	 *
-	 * Resharing is allowed by default if not configured
-	 */
-	public static function isResharingAllowed() {
-		if (!isset(self::$isResharingAllowed)) {
-			if (\OC::$server->getAppConfig()->getValue('core', 'shareapi_allow_resharing', 'yes') == 'yes') {
-				self::$isResharingAllowed = true;
-			} else {
-				self::$isResharingAllowed = false;
-			}
-		}
-		return self::$isResharingAllowed;
-	}
-
-	/**
 	 * Get a list of collection item types for the specified item type
 	 * @param string $itemType
 	 * @return array
@@ -1254,7 +1237,7 @@ class Share extends Constants {
 				}
 			}
 			// Check if resharing is allowed, if not remove share permission
-			if (isset($row['permissions']) && (!self::isResharingAllowed() | \OCP\Util::isSharingDisabledForUser())) {
+			if (isset($row['permissions']) && (!\OC::$server->getShareManager()->isResharingAllowed() | \OCP\Util::isSharingDisabledForUser())) {
 				$row['permissions'] &= ~\OCP\Constants::PERMISSION_SHARE;
 			}
 			// Add display names to result
@@ -1696,7 +1679,7 @@ class Share extends Constants {
 
 		if ($checkReshare && $checkReshare['uid_owner'] !== \OC_User::getUser()) {
 			// Check if share permissions is granted
-			if (self::isResharingAllowed() && (int)$checkReshare['permissions'] & \OCP\Constants::PERMISSION_SHARE) {
+			if (\OC::$server->getShareManager()->isResharingAllowed() && (int)$checkReshare['permissions'] & \OCP\Constants::PERMISSION_SHARE) {
 				if (~(int)$checkReshare['permissions'] & $permissions) {
 					$message = 'Sharing %s failed, because the permissions exceed permissions granted to %s';
 					$message_t = $l->t('Sharing %s failed, because the permissions exceed permissions granted to %s', array($itemSourceName, $uidOwner));

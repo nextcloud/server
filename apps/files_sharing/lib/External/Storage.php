@@ -342,7 +342,7 @@ class Storage extends DAV implements ISharedStorage {
 	}
 
 	public function isSharable($path) {
-		if (\OCP\Util::isSharingDisabledForUser() || !\OC\Share\Share::isResharingAllowed()) {
+		if (\OCP\Util::isSharingDisabledForUser() || !\OC::$server->getShareManager()->isResharingAllowed()) {
 			return false;
 		}
 		return ($this->getPermissions($path) & \OCP\Constants::PERMISSION_SHARE);
