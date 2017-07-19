@@ -543,4 +543,65 @@ class ThemingDefaultsTest extends TestCase {
 		];
 		$this->assertEquals($expected, $this->template->getScssVariables());
 	}
+
+	public function testGetDefaultAndroidURL() {
+		$this->config
+			->expects($this->once())
+			->method('getAppValue')
+			->with('theming', 'AndroidClientUrl', 'https://play.google.com/store/apps/details?id=com.nextcloud.client')
+			->willReturn('https://play.google.com/store/apps/details?id=com.nextcloud.client');
+
+		$this->assertEquals('https://play.google.com/store/apps/details?id=com.nextcloud.client', $this->template->getAndroidClientUrl());
+	}
+
+	public function testGetCustomAndroidURL() {
+		$this->config
+			->expects($this->once())
+			->method('getAppValue')
+			->with('theming', 'AndroidClientUrl', 'https://play.google.com/store/apps/details?id=com.nextcloud.client')
+			->willReturn('https://play.google.com/store/apps/details?id=com.mycloud.client');
+
+		$this->assertEquals('https://play.google.com/store/apps/details?id=com.mycloud.client', $this->template->getAndroidClientUrl());
+	}
+
+	public function testGetDefaultiOSURL() {
+		$this->config
+			->expects($this->once())
+			->method('getAppValue')
+			->with('theming', 'iOSClientUrl', 'https://itunes.apple.com/us/app/nextcloud/id1125420102?mt=8')
+			->willReturn('https://itunes.apple.com/us/app/nextcloud/id1125420102?mt=8');
+
+		$this->assertEquals('https://itunes.apple.com/us/app/nextcloud/id1125420102?mt=8', $this->template->getiOSClientUrl());
+	}
+
+	public function testGetCustomiOSURL() {
+		$this->config
+			->expects($this->once())
+			->method('getAppValue')
+			->with('theming', 'iOSClientUrl', 'https://itunes.apple.com/us/app/nextcloud/id1125420102?mt=8')
+			->willReturn('https://itunes.apple.com/us/app/nextcloud/id1234567890?mt=8');
+
+		$this->assertEquals('https://itunes.apple.com/us/app/nextcloud/id1234567890?mt=8', $this->template->getiOSClientUrl());
+	}
+
+	public function testGetDefaultiTunesAppId() {
+		$this->config
+			->expects($this->once())
+			->method('getAppValue')
+			->with('theming', 'iTunesAppId', '1125420102')
+			->willReturn('1125420102');
+
+		$this->assertEquals('1125420102', $this->template->getiTunesAppId());
+	}
+
+	public function testGetCustomiTunesAppId() {
+		$this->config
+			->expects($this->once())
+			->method('getAppValue')
+			->with('theming', 'iTunesAppId', '1125420102')
+			->willReturn('1234567890');
+
+		$this->assertEquals('1234567890', $this->template->getiTunesAppId());
+	}
+
 }
