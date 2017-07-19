@@ -30,6 +30,7 @@ namespace OC\Core\Command\Db;
 
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Schema\Table;
+use Doctrine\DBAL\Types\Type;
 use OC\DB\MigrationService;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use \OCP\IConfig;
@@ -353,7 +354,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 				}
 
 				foreach ($row as $key => $value) {
-					$type = $this->getColumnType($table->getName(), $key);
+					$type = $this->getColumnType($table, $key);
 					if ($type !== false) {
 						$insertQuery->setParameter($key, $value, $type);
 					} else {
@@ -367,24 +368,24 @@ class ConvertType extends Command implements CompletionAwareInterface {
 		$progress->finish();
 	}
 
-	protected function getColumnType($table, $column) {
-		if (isset($this->columnTypes[$table][$column])) {
-			return $this->columnTypes[$table][$column];
-		}
-		$prefix = $this->config->getSystemValue('dbtableprefix', 'oc_');
-
-		$this->columnTypes[$table][$column] = false;
-
-		if ($table === $prefix . 'cards' && $column === 'carddata') {
-			$this->columnTypes[$table][$column] = IQueryBuilder::PARAM_LOB;
-		} else if ($column === 'calendardata') {
-			if ($table === $prefix . 'calendarobjects' ||
-				$table === $prefix . 'schedulingobjects') {
-				$this->columnTypes[$table][$column] = IQueryBuilder::PARAM_LOB;
-			}
+	protected function getColumnType(Table $table, $columnName) {
+		$tableName = $table->getName();
+		if (isset($this->columnTypes[$tableName][$columnName])) {
+			return $this->columnTypes[$tableName][$columnName];
 		}
 
-		return $this->columnTypes[$table][$column];
+		$type = $table->getColumn($columnName)->getType()->getName();
+
+		switch ($type) {
+			case Type::BLOB:
+			case Type::TEXT:
+				$this->columnTypes[$tableName][$columnName] = IQueryBuilder::PARAM_LOB;
+				break;
+			default:
+				$this->columnTypes[$tableName][$columnName] = false;
+		}
+
+		return $this->columnTypes[$tableName][$columnName];
 	}
 
 	protected function convertDB(Connection $fromDB, Connection $toDB, array $tables, InputInterface $input, OutputInterface $output) {
