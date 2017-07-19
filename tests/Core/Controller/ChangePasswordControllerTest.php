@@ -50,9 +50,9 @@ class ChangePasswordControllerTest extends \Test\TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->userManager = $this->createMock(IUserManager::class);
+		$this->userManager = $this->createMock(\OC\User\Manager::class);
 		$this->userSession = $this->createMock(Session::class);
-		$this->groupManager = $this->createMock(IGroupManager::class);
+		$this->groupManager = $this->createMock(\OC\Group\Manager::class);
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->l = $this->createMock(IL10N::class);
 		$this->l->method('t')->will($this->returnArgument(0));
