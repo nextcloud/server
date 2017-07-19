@@ -63,7 +63,7 @@ trait IdentifierTrait {
 
 	/**
 	 * @param string $alias
-	 * @return self
+	 * @return $this
 	 */
 	public function addIdentifierAlias($alias) {
 		$this->identifierAliases[] = $alias;
