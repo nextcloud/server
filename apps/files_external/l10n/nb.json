@@ -22,13 +22,11 @@
     "Saving..." : "Lagrer...",
     "Save" : "Lagre",
     "Empty response from the server" : "Tomt svar fra tjeneren",
-    "Couldn't access. Please logout and login to activate this mount point" : "Fikk ikke tilgang. Logg ut og inn igjen for å aktivere dette oppkoblingspunktet.",
     "Couldn't get the information from the remote server: {code} {type}" : "Kunne ikke få informasjon fra fjerntjeneren/ remote server: {code} {type}",
     "Couldn't get the list of external mount points: {type}" : "Klarte ikke å hente listen over eksterne oppkoblingspunkter: {type}",
     "There was an error with message: " : "Det oppstod en feil med melding: ",
     "External mount error" : "Ekstern oppkoblingsfeil",
     "external-storage" : "eksternlagring",
-    "Couldn't get the list of Windows network drive mount points: empty response from the server" : "Klarte ikke å hente listen over oppkoblingspunkter for Windowsnettverks-disker: Tomt svar fra tjeneren",
     "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Noen av de oppsatte eksterne oppkoblingspunktene er ikke tilkoblet. Klikk på de røde raden(e) for mer informasjon.",
     "Please enter the credentials for the {mount} mount" : "Legg inn påloggingsdetaljer for {mount}",
     "Username" : "Brukernavn",
@@ -125,6 +123,8 @@
     "Delete" : "Slett",
     "Allow users to mount external storage" : "Tillat at brukere kobler opp eksterne lagre",
     "Allow users to mount the following external storage" : "Tillat brukere å koble opp følgende eksterne lagring",
+    "Couldn't access. Please logout and login to activate this mount point" : "Fikk ikke tilgang. Logg ut og inn igjen for å aktivere dette oppkoblingspunktet.",
+    "Couldn't get the list of Windows network drive mount points: empty response from the server" : "Klarte ikke å hente listen over oppkoblingspunkter for Windowsnettverks-disker: Tomt svar fra tjeneren",
     "Storage with id \"%i\" not found" : "Lager med ID \"%i\" ikke funnet",
     "Storage with id \"%i\" is not user editable" : "Lager med ID \"%i\" kan ikke redigeres av bruker"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

@@ -16,13 +16,11 @@ OC.L10N.register(
     "Server to server sharing is not enabled on this server" : "La condivisione tra server non è abilitata su questo server",
     "Couldn't establish a federated share." : "Impossibile stabilire una condivisione federata.",
     "Couldn't establish a federated share, maybe the password was wrong." : "Impossibile stabilire una condivisione federata, forse la password non è corretta.",
-    "Federated Share request was successful, you will receive a invitation. Check your notifications." : "La richiesta della condivisione federata è stata eseguita con successo, riceverai un invito. Controlla le tue notifiche.",
     "The mountpoint name contains invalid characters." : "Il nome del punto di mount contiene caratteri non validi.",
     "Not allowed to create a federated share with the owner." : "Non è consentito creare una condivisione federata con il proprietario.",
     "Invalid or untrusted SSL certificate" : "Certificato SSL non valido o non attendibile",
     "Could not authenticate to remote share, password might be wrong" : "Impossibile autenticarsi sulla condivisione remota, la password potrebbe essere errata",
     "Storage not valid" : "Archiviazione non valida",
-    "Federated Share successfully added" : "Condivisione federata aggiunta con successo",
     "Couldn't add remote share" : "Impossibile aggiungere la condivisione remota",
     "Sharing %s failed, because this item is already shared with %s" : "Condivisione di %s non riuscita, poiché l'oggetto è già condiviso con %s",
     "Not allowed to create a federated share with the same user" : "Non è consentito creare una condivisione federata con lo stesso utente",
@@ -49,6 +47,8 @@ OC.L10N.register(
     "Add to your website" : "Aggiungi al tuo sito web",
     "Share with me via Nextcloud" : "Condividi con me tramite Nextcloud",
     "HTML Code:" : "Codice HTML:",
+    "Federated Share request was successful, you will receive a invitation. Check your notifications." : "La richiesta della condivisione federata è stata eseguita con successo, riceverai un invito. Controlla le tue notifiche.",
+    "Federated Share successfully added" : "Condivisione federata aggiunta con successo",
     "Share it:" : "Condividilo:"
 },
 "nplurals=2; plural=(n != 1);");
