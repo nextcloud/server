@@ -243,7 +243,8 @@ class TemplateLayout extends \OC_Template {
 				\OC::$server->getAppDataDir('js'),
 				\OC::$server->getURLGenerator(),
 				\OC::$server->getMemCacheFactory()->create('JS'),
-				\OC::$server->getSystemConfig()
+				\OC::$server->getSystemConfig(),
+				\OC::$server->getLogger()
 			)
 			);
 		$locator->find($scripts);

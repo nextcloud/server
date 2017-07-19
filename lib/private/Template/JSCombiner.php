@@ -28,6 +28,7 @@ use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFolder;
+use OCP\ILogger;
 use OCP\IURLGenerator;
 
 class JSCombiner {
@@ -44,20 +45,26 @@ class JSCombiner {
 	/** @var SystemConfig */
 	protected $config;
 
+	/** @var ILogger */
+	protected $logger;
+
 	/**
 	 * @param IAppData $appData
 	 * @param IURLGenerator $urlGenerator
 	 * @param ICache $depsCache
 	 * @param SystemConfig $config
+	 * @param ILogger $logger
 	 */
 	public function __construct(IAppData $appData,
 								IURLGenerator $urlGenerator,
 								ICache $depsCache,
-								SystemConfig $config) {
+								SystemConfig $config,
+								ILogger $logger) {
 		$this->appData = $appData;
 		$this->urlGenerator = $urlGenerator;
 		$this->depsCache = $depsCache;
 		$this->config = $config;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -102,6 +109,12 @@ class JSCombiner {
 				$depFile = $folder->getFile($fileName);
 				$deps = $depFile->getContent();
 			}
+			// check again
+			if ($deps === null || $deps === '') {
+				$this->logger->info('JSCombiner: deps file empty: ' . $fileName);
+				return false;
+			}
+
 			$deps = json_decode($deps, true);
 
 			foreach ($deps as $file=>$mtime) {
