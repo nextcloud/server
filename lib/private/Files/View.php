@@ -367,15 +367,6 @@ class View {
 	}
 
 	/**
-	 * @param $handle
-	 * @return mixed
-	 */
-	public function readdir($handle) {
-		$fsLocal = new Storage\Local(array('datadir' => '/'));
-		return $fsLocal->readdir($handle);
-	}
-
-	/**
 	 * @param string $path
 	 * @return bool|mixed
 	 */
@@ -1292,7 +1283,7 @@ class View {
 	 * @param \OC\Files\Storage\Storage $storage
 	 * @param string $internalPath
 	 * @param string $relativePath
-	 * @return array|bool
+	 * @return ICacheEntry|bool
 	 */
 	private function getCacheEntry($storage, $internalPath, $relativePath) {
 		$cache = $storage->getCache($internalPath);

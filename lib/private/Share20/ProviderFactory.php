@@ -177,6 +177,8 @@ class ProviderFactory implements IProviderFactory {
 	 * Create the circle share provider
 	 *
 	 * @return FederatedShareProvider
+	 *
+	 * @suppress PhanUndeclaredClassMethod
 	 */
 	protected function getShareByCircleProvider() {
 

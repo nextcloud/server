@@ -168,6 +168,8 @@ class Manager implements IManager {
 	 * @param \OCP\Share\IShare $share
 	 * @throws \InvalidArgumentException
 	 * @throws GenericShareException
+	 *
+	 * @suppress PhanUndeclaredClassMethod
 	 */
 	protected function generalCreateChecks(\OCP\Share\IShare $share) {
 		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER) {
