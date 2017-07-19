@@ -65,17 +65,15 @@ class GenerateFromSchemaFileCommand extends GenerateCommand {
 			return 1;
 		}
 
-		$reader = new MDB2SchemaReader($this->config, $this->connection->getDatabasePlatform());
-		$schema = new Schema();
-		if ($appName === 'core') {
-			$reader->loadSchemaFromFile(\OC::$SERVERROOT . '/db_structure.xml', $schema);
-		} else {
-			if (!file_exists($this->appManager->getAppPath($appName) . '/appinfo/database.xml')) {
-				throw new \RuntimeException('App ' . $appName . ' does not have a database.xml file');
-			}
-			$reader->loadSchemaFromFile($this->appManager->getAppPath($appName) . '/appinfo/database.xml', $schema);
+		$schemaFile = $this->appManager->getAppPath($appName) . '/appinfo/database.xml';
+		if (!file_exists($schemaFile)) {
+			$output->writeln('<error>App ' . $appName . ' does not have a database.xml file</error>');
+			return 2;
 		}
 
+		$reader = new MDB2SchemaReader($this->config, $this->connection->getDatabasePlatform());
+		$schema = new Schema();
+		$reader->loadSchemaFromFile($schemaFile, $schema);
 
 		$schemaBody = $this->schemaToMigration($schema);
 
