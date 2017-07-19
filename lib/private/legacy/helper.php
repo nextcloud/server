@@ -395,7 +395,7 @@ class OC_Helper {
 	 * performs a search in a nested array
 	 * @param array $haystack the array to be searched
 	 * @param string $needle the search string
-	 * @param string $index optional, only search this key name
+	 * @param mixed $index optional, only search this key name
 	 * @return mixed the key of the matching field, otherwise false
 	 *
 	 * performs a search in a nested array

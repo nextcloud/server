@@ -252,6 +252,7 @@ class Util {
 	 *
 	 * @deprecated 8.0.0 Use \OC::$server->query('DateTimeFormatter') instead
 	 * @since 4.0.0
+	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function formatDate($timestamp, $dateOnly=false, $timeZone = null) {
 		return \OC_Util::formatDate($timestamp, $dateOnly, $timeZone);
@@ -351,7 +352,7 @@ class Util {
 	 * @since 5.0.0
 	 */
 	public static function getServerHostName() {
-		$host_name = self::getServerHost();
+		$host_name = \OC::$server->getRequest()->getServerHost();
 		// strip away port number (if existing)
 		$colon_pos = strpos($host_name, ':');
 		if ($colon_pos != FALSE) {
@@ -447,7 +448,7 @@ class Util {
 	/**
 	 * Make a computer file size (2 kB to 2048)
 	 * @param string $str file size in a fancy format
-	 * @return int a file size in bytes
+	 * @return float a file size in bytes
 	 *
 	 * Inspired by: http://www.php.net/manual/en/function.filesize.php#92418
 	 * @since 4.0.0
@@ -602,7 +603,7 @@ class Util {
 	 *
 	 * @param array $haystack the array to be searched
 	 * @param string $needle the search string
-	 * @param int $index optional, only search this key name
+	 * @param mixed $index optional, only search this key name
 	 * @return mixed the key of the matching field, otherwise false
 	 * @since 4.5.0
 	 */
@@ -648,6 +649,7 @@ class Util {
 	 * @return bool true if the file name is valid, false otherwise
 	 * @deprecated 8.1.0 use \OC\Files\View::verifyPath()
 	 * @since 7.0.0
+	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function isValidFileName($file) {
 		return \OC_Util::isValidFileName($file);
