@@ -119,7 +119,7 @@ class Hooks {
 		if ($user->getEMailAddress() !== null) {
 			$template = $this->mailer->createEMailTemplate();
 			$template->addHeader();
-			$template->addHeading($this->l->t('Password changed for %s', $user->getDisplayName()), false);
+			$template->addHeading($this->l->t('Password changed for %s', [$user->getDisplayName()]), false);
 			$template->addBodyText($text . ' ' . $this->l->t('If you did not request this, please contact an administrator.'));
 			$template->addFooter();
 
@@ -185,10 +185,10 @@ class Hooks {
 		if ($oldMailAddress !== null) {
 			$template = $this->mailer->createEMailTemplate();
 			$template->addHeader();
-			$template->addHeading($this->l->t('Email address changed for %s', $user->getDisplayName()), false);
+			$template->addHeading($this->l->t('Email address changed for %s', [$user->getDisplayName()]), false);
 			$template->addBodyText($text . ' ' . $this->l->t('If you did not request this, please contact an administrator.'));
 			if ($user->getEMailAddress()) {
-				$template->addBodyText($this->l->t('The new email address is %s', $user->getEMailAddress()));
+				$template->addBodyText($this->l->t('The new email address is %s', [$user->getEMailAddress()]));
 			}
 			$template->addFooter();
 
