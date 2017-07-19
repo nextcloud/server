@@ -23,6 +23,7 @@
 namespace OCA\Files_Sharing;
 
 use OC\BackgroundJob\TimedJob;
+use OCP\Share\Exceptions\ShareNotFound;
 
 /**
  * Delete all shares that are expired
@@ -44,6 +45,8 @@ class ExpireSharesJob extends TimedJob {
 	 */
 	public function run($argument) {
 		$connection = \OC::$server->getDatabaseConnection();
+
+		$manager = \OC::$server->getShareManager();
 
 		//Current time
 		$now = new \DateTime();
@@ -68,7 +71,11 @@ class ExpireSharesJob extends TimedJob {
 
 		$shares = $qb->execute();
 		while($share = $shares->fetch()) {
-			\OCP\Share::unshare($share['item_type'], $share['file_source'], \OCP\Share::SHARE_TYPE_LINK, null, $share['uid_owner']);
+			try {
+				$manager->getShareById('ocinternal:' . $share['id']);
+			} catch (ShareNotFound $e) {
+
+			}
 		}
 		$shares->closeCursor();
 	}

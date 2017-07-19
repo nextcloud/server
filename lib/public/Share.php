@@ -130,20 +130,6 @@ class Share extends \OC\Share\Constants {
 	}
 
 	/**
-	 * Unshare an item from a user, group, or delete a private link
-	 * @param string $itemType
-	 * @param string $itemSource
-	 * @param int $shareType SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_LINK
-	 * @param string $shareWith User or group the item is being shared with
-	 * @param string $owner owner of the share, if null the current user is used
-	 * @return boolean true on success or false on failure
-	 * @since 5.0.0 - parameter $owner was added in 8.0.0
-	 */
-	public static function unshare($itemType, $itemSource, $shareType, $shareWith, $owner = null) {
-		return \OC\Share\Share::unshare($itemType, $itemSource, $shareType, $shareWith, $owner);
-	}
-
-	/**
 	 * Get the backend class for the specified item type
 	 * @param string $itemType
 	 * @return Share_Backend

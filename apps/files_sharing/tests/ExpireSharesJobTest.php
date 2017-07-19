@@ -32,7 +32,7 @@ use OCA\Files_Sharing\ExpireSharesJob;
  *
  * @package OCA\Files_Sharing\Tests
  */
-class ExpireSharesJobTest extends \Test\TestCase {
+class ExpireSharesJobTest extends TestCase {
 
 	/**
 	 * @var ExpireSharesJob
@@ -124,7 +124,7 @@ class ExpireSharesJobTest extends \Test\TestCase {
 	/**
 	 * @dataProvider dataExpireLinkShare
 	 *
-	 * @param bool addExpiration Should we add an expire date
+	 * @param bool $addExpiration Should we add an expire date
 	 * @param string $interval The dateInterval
 	 * @param bool $addInterval If true add to the current time if false subtract
 	 * @param bool $shouldExpire Should this share be expired
@@ -135,11 +135,12 @@ class ExpireSharesJobTest extends \Test\TestCase {
 		$view = new \OC\Files\View('/' . $this->user1 . '/');
 		$view->mkdir('files/test');
 
-		$fileInfo = $view->getFileInfo('files/test');
-
-		$this->assertNotNull(
-			\OCP\Share::shareItem('folder', $fileInfo->getId(), \OCP\Share::SHARE_TYPE_LINK, null, \OCP\Constants::PERMISSION_READ),
-			'Failed asserting that user 1 successfully shared "test" by link.'
+		$this->share(
+			\OCP\Share::SHARE_TYPE_LINK,
+			'test',
+			$this->user1,
+			null,
+			\OCP\Constants::PERMISSION_READ
 		);
 
 		$shares = $this->getShares();

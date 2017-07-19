@@ -235,11 +235,17 @@ abstract class TestCase extends \Test\TestCase {
 
 		$share = $this->shareManager->newShare();
 		$share->setShareType($type)
-			->setSharedWith($recipient)
 			->setSharedBy($initiator)
 			->setNode($node)
 			->setPermissions($permissions);
+
+		if ($recipient !== null) {
+			$share->setSharedWith($recipient);
+		}
+
 		$share = $this->shareManager->createShare($share);
+
+
 
 		return $share;
 	}
