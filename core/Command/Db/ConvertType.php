@@ -324,18 +324,13 @@ class ConvertType extends Command implements CompletionAwareInterface {
 			$orderColumns = $table->getPrimaryKeyColumns();
 		} catch (DBALException $e) {
 			$orderColumns = [];
-		}
-		foreach ($table->getIndexes() as $index) {
-			if ($index->isUnique()) {
-				$orderColumns = array_merge($orderColumns, $index->getUnquotedColumns());
+			foreach ($table->getColumns() as $column) {
+				$orderColumns[] = $column->getName();
 			}
 		}
-		$orderColumns = array_unique($orderColumns);
 
-		if (!empty($orderColumns)) {
-			foreach ($orderColumns as $column) {
-				$query->addOrderBy($column);
-			}
+		foreach ($orderColumns as $column) {
+			$query->addOrderBy($column);
 		}
 
 		$insertQuery = $toDB->getQueryBuilder();
