@@ -209,7 +209,7 @@ class CertificateManager implements ICertificateManager {
 	/**
 	 * Get the path to the certificate bundle for this user
 	 *
-	 * @param string $uid (optional) user to get the certificate bundle for, use `null` to get the system bundle
+	 * @param string|null $uid (optional) user to get the certificate bundle for, use `null` to get the system bundle
 	 * @return string
 	 */
 	public function getCertificateBundle($uid = '') {
@@ -241,7 +241,7 @@ class CertificateManager implements ICertificateManager {
 	}
 
 	/**
-	 * @param string $uid (optional) user to get the certificate path for, use `null` to get the system path
+	 * @param string|null $uid (optional) user to get the certificate path for, use `null` to get the system path
 	 * @return string
 	 */
 	private function getPathToCertificates($uid = '') {
