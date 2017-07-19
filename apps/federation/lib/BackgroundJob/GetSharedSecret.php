@@ -121,7 +121,7 @@ class GetSharedSecret extends Job{
 	 * run the job, then remove it from the joblist
 	 *
 	 * @param JobList $jobList
-	 * @param ILogger $logger
+	 * @param ILogger|null $logger
 	 */
 	public function execute($jobList, ILogger $logger = null) {
 		$target = $this->argument['url'];
