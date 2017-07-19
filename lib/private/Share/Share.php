@@ -913,8 +913,7 @@ class Share extends Constants {
 					$token = $oldToken;
 				} else {
 					$token = \OC::$server->getSecureRandom()->generate(self::TOKEN_LENGTH,
-						\OCP\Security\ISecureRandom::CHAR_LOWER.\OCP\Security\ISecureRandom::CHAR_UPPER.
-						\OCP\Security\ISecureRandom::CHAR_DIGITS
+						\OCP\Security\ISecureRandom::CHAR_HUMAN_READABLE
 					);
 				}
 				$result = self::put($itemType, $itemSource, $shareType, $shareWith, $uidOwner, $permissions,

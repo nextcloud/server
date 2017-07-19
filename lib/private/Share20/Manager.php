@@ -583,9 +583,7 @@ class Manager implements IManager {
 			$share->setToken(
 				$this->secureRandom->generate(
 					\OC\Share\Constants::TOKEN_LENGTH,
-					\OCP\Security\ISecureRandom::CHAR_LOWER.
-					\OCP\Security\ISecureRandom::CHAR_UPPER.
-					\OCP\Security\ISecureRandom::CHAR_DIGITS
+					\OCP\Security\ISecureRandom::CHAR_HUMAN_READABLE
 				)
 			);
 
@@ -603,9 +601,7 @@ class Manager implements IManager {
 			$share->setToken(
 				$this->secureRandom->generate(
 					\OC\Share\Constants::TOKEN_LENGTH,
-					\OCP\Security\ISecureRandom::CHAR_LOWER.
-					\OCP\Security\ISecureRandom::CHAR_UPPER.
-					\OCP\Security\ISecureRandom::CHAR_DIGITS
+					\OCP\Security\ISecureRandom::CHAR_HUMAN_READABLE
 				)
 			);
 		}
