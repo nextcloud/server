@@ -169,7 +169,6 @@ class OC_Util {
 	 * @description configure the initial filesystem based on the configuration
 	 * @suppress PhanDeprecatedFunction
 	 * @suppress PhanAccessMethodInternal
-	 * @suppress PhanUndeclaredMethod
 	 */
 	public static function setupFS($user = '') {
 		//setting up the filesystem twice can only lead to trouble
@@ -207,7 +206,7 @@ class OC_Util {
 			return $storage;
 		});
 
-		\OC\Files\Filesystem::addStorageWrapper('enable_sharing', function ($mountPoint, \OCP\Files\Storage $storage, \OCP\Files\Mount\IMountPoint $mount) {
+		\OC\Files\Filesystem::addStorageWrapper('enable_sharing', function ($mountPoint, \OCP\Files\Storage\IStorage $storage, \OCP\Files\Mount\IMountPoint $mount) {
 			if (!$mount->getOption('enable_sharing', true)) {
 				return new \OC\Files\Storage\Wrapper\PermissionsMask([
 					'storage' => $storage,
@@ -218,7 +217,7 @@ class OC_Util {
 		});
 
 		// install storage availability wrapper, before most other wrappers
-		\OC\Files\Filesystem::addStorageWrapper('oc_availability', function ($mountPoint, $storage) {
+		\OC\Files\Filesystem::addStorageWrapper('oc_availability', function ($mountPoint, \OCP\Files\Storage\IStorage $storage) {
 			if (!$storage->instanceOfStorage('\OCA\Files_Sharing\SharedStorage') && !$storage->isLocal()) {
 				return new \OC\Files\Storage\Wrapper\Availability(['storage' => $storage]);
 			}

@@ -131,7 +131,7 @@ class OC_Helper {
 	/**
 	 * Make a computer file size
 	 * @param string $str file size in human readable format
-	 * @return float a file size in bytes
+	 * @return float|bool a file size in bytes
 	 *
 	 * Makes 2kB to 2048.
 	 *
