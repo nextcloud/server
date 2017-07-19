@@ -193,7 +193,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 			$this->clearSchema($toDB, $input, $output);
 		}
 
-		$this->createSchema($toDB, $input, $output);
+		$this->createSchema($fromDB, $toDB, $input, $output);
 
 		$toTables = $this->getTables($toDB);
 		$fromTables = $this->getTables($fromDB);
@@ -220,11 +220,15 @@ class ConvertType extends Command implements CompletionAwareInterface {
 		$this->convertDB($fromDB, $toDB, $intersectingTables, $input, $output);
 	}
 
-	protected function createSchema(Connection $toDB, InputInterface $input, OutputInterface $output) {
+	protected function createSchema(Connection $fromDB, Connection $toDB, InputInterface $input, OutputInterface $output) {
 		$output->writeln('<info>Creating schema in new database</info>');
 
-		$ms = new MigrationService('core', $toDB);
-		$ms->migrate(); // FIXME should only migrate to the current version?
+		$fromMS = new MigrationService('core', $fromDB);
+		$currentMigration = $fromMS->getMigration('current');
+		if ($currentMigration !== '0') {
+			$toMS = new MigrationService('core', $toDB);
+			$toMS->migrate($currentMigration);
+		}
 
 		$schemaManager = new \OC\DB\MDB2SchemaManager($toDB);
 		$apps = $input->getOption('all-apps') ? \OC_App::getAllApps() : \OC_App::getEnabledApps();
@@ -232,8 +236,14 @@ class ConvertType extends Command implements CompletionAwareInterface {
 			if (file_exists(\OC_App::getAppPath($app).'/appinfo/database.xml')) {
 				$schemaManager->createDbFromStructure(\OC_App::getAppPath($app).'/appinfo/database.xml');
 			} else {
-				$ms = new MigrationService($app, $toDB);
-				$ms->migrate(); // FIXME should only migrate to the current version?
+				// Make sure autoloading works...
+				\OC_App::loadApp($app);
+				$fromMS = new MigrationService($app, $fromDB);
+				$currentMigration = $fromMS->getMigration('current');
+				if ($currentMigration !== '0') {
+					$toMS = new MigrationService($app, $toDB);
+					$toMS->migrate($currentMigration);
+				}
 			}
 		}
 	}
