@@ -21,7 +21,6 @@ return [
 		'lib/composer',
 		'themes',
 		'lib/',
-		'apps/files_external/3rdparty',
 		'apps/',
 		'core/',
 		'ocs/',
