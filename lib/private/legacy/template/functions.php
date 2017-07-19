@@ -250,7 +250,7 @@ function mimetype_icon( $mimetype ) {
  * make preview_icon available as a simple function
  * Returns the path to the preview of the image.
  * @param string $path path of file
- * @return link to the preview
+ * @return string link to the preview
  */
 function preview_icon( $path ) {
 	return \OC::$server->getURLGenerator()->linkToRoute('core.Preview.getPreview', ['x' => 32, 'y' => 32, 'file' => $path]);
@@ -258,6 +258,8 @@ function preview_icon( $path ) {
 
 /**
  * @param string $path
+ * @param string $token
+ * @return string
  */
 function publicPreview_icon ( $path, $token ) {
 	return \OC::$server->getURLGenerator()->linkToRoute('files_sharing.PublicPreview.getPreview', ['x' => 32, 'y' => 32, 'file' => $path, 't' => $token]);
@@ -289,8 +291,8 @@ function strip_time($timestamp){
  * Formats timestamp relatively to the current time using
  * a human-friendly format like "x minutes ago" or "yesterday"
  * @param int $timestamp timestamp to format
- * @param int $fromTime timestamp to compare from, defaults to current time
- * @param bool $dateOnly whether to strip time information
+ * @param int|null $fromTime timestamp to compare from, defaults to current time
+ * @param bool|null $dateOnly whether to strip time information
  * @return string timestamp
  */
 function relative_modified_date($timestamp, $fromTime = null, $dateOnly = false) {
