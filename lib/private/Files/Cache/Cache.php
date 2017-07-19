@@ -332,7 +332,7 @@ class Cache implements ICache {
 	protected function buildParts(array $data) {
 		$fields = array(
 			'path', 'parent', 'name', 'mimetype', 'size', 'mtime', 'storage_mtime', 'encrypted',
-			'etag', 'permissions', 'checksum');
+			'etag', 'permissions', 'checksum', 'storage');
 
 		$doNotCopyStorageMTime = false;
 		if (array_key_exists('mtime', $data) && $data['mtime'] === null) {
