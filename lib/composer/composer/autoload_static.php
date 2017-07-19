@@ -453,7 +453,6 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Core\\Command\\Config\\System\\SetConfig' => __DIR__ . '/../../..' . '/core/Command/Config/System/SetConfig.php',
         'OC\\Core\\Command\\Db\\ConvertMysqlToMB4' => __DIR__ . '/../../..' . '/core/Command/Db/ConvertMysqlToMB4.php',
         'OC\\Core\\Command\\Db\\ConvertType' => __DIR__ . '/../../..' . '/core/Command/Db/ConvertType.php',
-        'OC\\Core\\Command\\Db\\GenerateChangeScript' => __DIR__ . '/../../..' . '/core/Command/Db/GenerateChangeScript.php',
         'OC\\Core\\Command\\Db\\Migrations\\ExecuteCommand' => __DIR__ . '/../../..' . '/core/Command/Db/Migrations/ExecuteCommand.php',
         'OC\\Core\\Command\\Db\\Migrations\\GenerateCommand' => __DIR__ . '/../../..' . '/core/Command/Db/Migrations/GenerateCommand.php',
         'OC\\Core\\Command\\Db\\Migrations\\GenerateFromSchemaFileCommand' => __DIR__ . '/../../..' . '/core/Command/Db/Migrations/GenerateFromSchemaFileCommand.php',

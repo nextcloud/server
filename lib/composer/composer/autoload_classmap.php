@@ -423,7 +423,6 @@ return array(
     'OC\\Core\\Command\\Config\\System\\SetConfig' => $baseDir . '/core/Command/Config/System/SetConfig.php',
     'OC\\Core\\Command\\Db\\ConvertMysqlToMB4' => $baseDir . '/core/Command/Db/ConvertMysqlToMB4.php',
     'OC\\Core\\Command\\Db\\ConvertType' => $baseDir . '/core/Command/Db/ConvertType.php',
-    'OC\\Core\\Command\\Db\\GenerateChangeScript' => $baseDir . '/core/Command/Db/GenerateChangeScript.php',
     'OC\\Core\\Command\\Db\\Migrations\\ExecuteCommand' => $baseDir . '/core/Command/Db/Migrations/ExecuteCommand.php',
     'OC\\Core\\Command\\Db\\Migrations\\GenerateCommand' => $baseDir . '/core/Command/Db/Migrations/GenerateCommand.php',
     'OC\\Core\\Command\\Db\\Migrations\\GenerateFromSchemaFileCommand' => $baseDir . '/core/Command/Db/Migrations/GenerateFromSchemaFileCommand.php',
