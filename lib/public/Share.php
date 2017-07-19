@@ -64,23 +64,6 @@ class Share extends \OC\Share\Constants {
 	public static function registerBackend($itemType, $class, $collectionOf = null, $supportedFileExtensions = null) {
 		return \OC\Share\Share::registerBackend($itemType, $class, $collectionOf, $supportedFileExtensions);
 	}
-
-	/**
-	 * Get the items of item type shared with the current user
-	 * @param string $itemType
-	 * @param int $format (optional) Format type must be defined by the backend
-	 * @param mixed $parameters (optional)
-	 * @param int $limit Number of items to return (optional) Returns all by default
-	 * @param bool $includeCollections (optional)
-	 * @return mixed Return depends on format
-	 * @since 5.0.0
-	 */
-	public static function getItemsSharedWith($itemType, $format = self::FORMAT_NONE,
-		$parameters = null, $limit = -1, $includeCollections = false) {
-
-		return \OC\Share\Share::getItemsSharedWith($itemType, $format, $parameters, $limit, $includeCollections);
-	}
-
 	/**
 	 * Get the items of item type shared with a user
 	 * @param string $itemType
