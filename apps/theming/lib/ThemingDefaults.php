@@ -55,6 +55,8 @@ class ThemingDefaults extends \OC_Defaults {
 	private $iTunesAppId;
 	/** @var string */
 	private $iOSClientUrl;
+	/** @var string */
+	private $AndroidClientUrl;
 
 	/**
 	 * ThemingDefaults constructor.
@@ -88,6 +90,7 @@ class ThemingDefaults extends \OC_Defaults {
 		$this->color = parent::getColorPrimary();
 		$this->iTunesAppId = parent::getiTunesAppId();
 		$this->iOSClientUrl = parent::getiOSClientUrl();
+		$this->AndroidClientUrl = parent::getAndroidClientUrl();
 	}
 
 	public function getName() {
@@ -198,6 +201,13 @@ class ThemingDefaults extends \OC_Defaults {
 	 */
 	public function getiOSClientUrl() {
 		return $this->config->getAppValue('theming', 'iOSClientUrl', $this->iOSClientUrl);
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getAndroidClientUrl() {
+		return $this->config->getAppValue('theming', 'AndroidClientUrl', $this->AndroidClientUrl);
 	}
 
 
