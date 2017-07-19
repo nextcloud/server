@@ -78,6 +78,7 @@ class OC_User {
 	 * @return bool
 	 *
 	 * Set the User Authentication Module
+	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function useBackend($backend = 'database') {
 		if ($backend instanceof \OCP\UserInterface) {
@@ -123,6 +124,7 @@ class OC_User {
 
 	/**
 	 * setup the configured backends in config.php
+	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function setupBackends() {
 		OC_App::loadApps(['prelogin']);
@@ -347,7 +349,7 @@ class OC_User {
 	 * get the display name of the user currently logged in.
 	 *
 	 * @param string $uid
-	 * @return string uid or false
+	 * @return string|bool uid or false
 	 */
 	public static function getDisplayName($uid = null) {
 		if ($uid) {

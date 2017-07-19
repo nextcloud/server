@@ -90,7 +90,7 @@ class DB {
 	 * @since 4.5.0
 	 */
 	public static function insertid($table=null) {
-		return \OC::$server->getDatabaseConnection()->lastInsertId($table);
+		return (string)\OC::$server->getDatabaseConnection()->lastInsertId($table);
 	}
 
 	/**

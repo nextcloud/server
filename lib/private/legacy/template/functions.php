@@ -57,7 +57,7 @@ function emit_css_tag($href, $opts = '') {
 
 /**
  * Prints all tags for CSS loading
- * @param hash $obj all the script information from template
+ * @param array $obj all the script information from template
 */
 function emit_css_loading_tags($obj) {
 	foreach($obj['cssfiles'] as $css) {
@@ -72,7 +72,6 @@ function emit_css_loading_tags($obj) {
  * Prints a <script> tag with nonce and defer depending on config
  * @param string $src the source URL, ignored when empty
  * @param string $script_content the inline script content, ignored when empty
- * @param bool $defer_flag deferred loading or not
 */
 function emit_script_tag($src, $script_content='') {
 	$defer_str=' defer';
@@ -93,7 +92,7 @@ function emit_script_tag($src, $script_content='') {
 
 /**
  * Print all <script> tags for loading JS
- * @param hash $obj all the script information from template
+ * @param array $obj all the script information from template
 */
 function emit_script_loading_tags($obj) {
 	foreach($obj['jsfiles'] as $jsfile) {

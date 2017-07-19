@@ -291,10 +291,11 @@ class OC_Template extends \OC\Template\Base {
 	}
 
 	/**
-		* Print a fatal error page and terminates the script
-		* @param string $error_msg The error message to show
-		* @param string $hint An optional hint message - needs to be properly escaped
-		*/
+	 * Print a fatal error page and terminates the script
+	 * @param string $error_msg The error message to show
+	 * @param string $hint An optional hint message - needs to be properly escape
+	 * @suppress PhanAccessMethodInternal
+	 */
 	public static function printErrorPage( $error_msg, $hint = '' ) {
 		if (\OC_App::isEnabled('theming') && !\OC_App::isAppLoaded('theming')) {
 			\OC_App::loadApp('theming');
@@ -328,6 +329,7 @@ class OC_Template extends \OC\Template\Base {
 	 * @param Exception|Throwable $exception
 	 * @param bool $fetchPage
 	 * @return bool|string
+	 * @suppress PhanAccessMethodInternal
 	 */
 	public static function printExceptionErrorPage($exception, $fetchPage = false) {
 		try {

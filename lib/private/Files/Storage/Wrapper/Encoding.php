@@ -22,6 +22,7 @@
 
 namespace OC\Files\Storage\Wrapper;
 
+use OCP\Files\Storage\IStorage;
 use OCP\ICache;
 use OC\Cache\CappedMemoryCache;
 
@@ -483,12 +484,12 @@ class Encoding extends Wrapper {
 	}
 
 	/**
-	 * @param \OCP\Files\Storage $sourceStorage
+	 * @param IStorage $sourceStorage
 	 * @param string $sourceInternalPath
 	 * @param string $targetInternalPath
 	 * @return bool
 	 */
-	public function copyFromStorage(\OCP\Files\Storage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
+	public function copyFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
 		if ($sourceStorage === $this) {
 			return $this->copy($sourceInternalPath, $this->findPathToUse($targetInternalPath));
 		}
@@ -501,12 +502,12 @@ class Encoding extends Wrapper {
 	}
 
 	/**
-	 * @param \OCP\Files\Storage $sourceStorage
+	 * @param IStorage $sourceStorage
 	 * @param string $sourceInternalPath
 	 * @param string $targetInternalPath
 	 * @return bool
 	 */
-	public function moveFromStorage(\OCP\Files\Storage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
+	public function moveFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
 		if ($sourceStorage === $this) {
 			$result = $this->rename($sourceInternalPath, $this->findPathToUse($targetInternalPath));
 			if ($result) {

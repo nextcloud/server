@@ -38,7 +38,7 @@ class TagNotFoundException extends \RuntimeException {
 	 *
 	 * @param string $message
 	 * @param int $code
-	 * @param \Exception $previous
+	 * @param \Exception|null $previous
 	 * @param string[] $tags
 	 * @since 9.0.0
 	 */
