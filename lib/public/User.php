@@ -89,6 +89,7 @@ class User {
 	 * @return array an array of all display names (value) and the correspondig uids (key)
 	 * @deprecated 8.1.0 use method searchDisplayName() of \OCP\IUserManager - \OC::$server->getUserManager()
 	 * @since 5.0.0
+	 * @suppressed PhanDeprecatedFunction
 	 */
 	public static function getDisplayNames( $search = '', $limit = null, $offset = null ) {
 		return \OC_User::getDisplayNames( $search, $limit, $offset );
@@ -111,8 +112,8 @@ class User {
 	 * @deprecated 8.1.0 use method userExists() of \OCP\IUserManager - \OC::$server->getUserManager()
 	 * @since 5.0.0
 	 */
-	public static function userExists( $uid, $excludingBackend = null ) {
-		return \OC_User::userExists( $uid, $excludingBackend );
+	public static function userExists($uid, $excludingBackend = null) {
+		return \OC_User::userExists($uid);
 	}
 	/**
 	 * Logs the user out including all the session data
