@@ -277,6 +277,12 @@ class ConvertType extends Command implements CompletionAwareInterface {
 	 * @suppress SqlInjectionChecker
 	 */
 	protected function copyTable(Connection $fromDB, Connection $toDB, $table, InputInterface $input, OutputInterface $output) {
+		if ($table === $toDB->getPrefix() . 'migrations') {
+			$output->writeln('<comment>Skipping migrations table because it was already filled by running the migrations</comment>');
+			return;
+		}
+
+
 		$chunkSize = $input->getOption('chunk-size');
 
 		$query = $fromDB->getQueryBuilder();
