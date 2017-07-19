@@ -22,7 +22,6 @@ OC.L10N.register(
     "Saving..." : "儲存中...",
     "Save" : "儲存",
     "Empty response from the server" : "服務器没有回應",
-    "Couldn't access. Please logout and login to activate this mount point" : "無法存取。請重新登出再登入啟動此掛載點。",
     "Couldn't get the information from the remote server: {code} {type}" : "無法從遠程伺服器上獲取資料 : {code} {type}",
     "Couldn't get the list of external mount points: {type}" : "無法得到外部掛載點的列表: {type}",
     "There was an error with message: " : "錯誤信息:",
@@ -103,6 +102,7 @@ OC.L10N.register(
     "Delete" : "刪除",
     "Allow users to mount external storage" : "允許使用者能自行掛載外部儲存",
     "Allow users to mount the following external storage" : "允許使用者自行掛載以下的外部儲存",
+    "Couldn't access. Please logout and login to activate this mount point" : "無法存取。請重新登出再登入啟動此掛載點。",
     "Storage with id \"%i\" not found" : "沒有找到編號 \"%i\" 的儲存空間 "
 },
 "nplurals=1; plural=0;");

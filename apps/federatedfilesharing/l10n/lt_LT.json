@@ -14,13 +14,11 @@
     "Server to server sharing is not enabled on this server" : "Dalinimasis tarp serverių yra neleidžiamas šiame serveryje",
     "Couldn't establish a federated share." : "Neįmanoma pradėti dalintis kitame serveryje.",
     "Couldn't establish a federated share, maybe the password was wrong." : "Neįmanoma pradėti dalintis kitame serveryje. Gal jūsų slaptažodis blogas?",
-    "Federated Share request was successful, you will receive a invitation. Check your notifications." : "Dalinimasis kitame serveryje buvo sėkmingas, jūs gausite specialų pakvietimą. Pasitikrinkite pranešimus.",
     "The mountpoint name contains invalid characters." : "Prijungimo taškas turi netinkamų naudoti simbolių.",
     "Not allowed to create a federated share with the owner." : "Savininkas neleidžia dalintis duomenimis su kitu serveriu.",
     "Invalid or untrusted SSL certificate" : "Neteisingas arba nepatikimas SSL liudijimas",
     "Could not authenticate to remote share, password might be wrong" : "Neįmanoma pradėti dalintis kitame serveryje. Gal jūsų slaptažodis blogas?",
     "Storage not valid" : "Saugykla netinkama naudotis",
-    "Federated Share successfully added" : "Dalinimosi su kitu serveriu funkcionalumas įjungtas",
     "Couldn't add remote share" : "Nepavyko peržiūrėti kitame serveryje pasidalintų duomenų",
     "Sharing %s failed, because this item is already shared with %s" : "%s bendrinimas nepavyko, kadangi šis elementas jau yra bendrinamas su %s",
     "Not allowed to create a federated share with the same user" : "Negalima dalintis su identišku naudotoju kitame serveryje",
@@ -51,6 +49,8 @@
     "Add to your website" : "Pridėti jūsų puslapį",
     "Share with me via Nextcloud" : "Pasidalinti su manimi per NextCloud",
     "HTML Code:" : "HTML kodas:",
+    "Federated Share request was successful, you will receive a invitation. Check your notifications." : "Dalinimasis kitame serveryje buvo sėkmingas, jūs gausite specialų pakvietimą. Pasitikrinkite pranešimus.",
+    "Federated Share successfully added" : "Dalinimosi su kitu serveriu funkcionalumas įjungtas",
     "Search global and public address book for users and let local users publish their data" : "Rasti globalias ar viešas adresų knygas ir leisti naudotojams viešinti savo duomenis",
     "Share it:" : "Pasidalinti:"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);"

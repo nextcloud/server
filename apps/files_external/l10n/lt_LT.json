@@ -22,13 +22,11 @@
     "Saving..." : "Įrašoma...",
     "Save" : "Įrašyti",
     "Empty response from the server" : "Negautas atsakymas iš serverio",
-    "Couldn't access. Please logout and login to activate this mount point" : "Nepavyko gauti prieigos. Norint aktyvuoti šį prijungimo tašką, prašome atsijungti ir prisijungti",
     "Couldn't get the information from the remote server: {code} {type}" : "Neįmanoma gauti informacijos iš serverio: {code} {type}",
     "Couldn't get the list of external mount points: {type}" : "Nepavyko gauti išorinių prijungimo taškų sąrašo: {type}",
     "There was an error with message: " : "Klaidos žinutė:",
     "External mount error" : "Išorinio prijungimo klaida",
     "external-storage" : "išorinė saugykla",
-    "Couldn't get the list of Windows network drive mount points: empty response from the server" : "Neįmanoma rasti prijungimo taško Windows tinklo diskui: negautas atsakymas iš serverio",
     "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Kai kurios sukonfigūruotos išorinės saugyklos nebuvo prijungtos. Paspauskite ant raudonai nuspalvotų eilučių norėdami gauti išsamesnę informaciją",
     "Please enter the credentials for the {mount} mount" : "Prašome įvesti prisijungimo duomenis skirtus saugyklos {mount} prijungimui",
     "Username" : "Naudotojo vardas",
@@ -125,6 +123,8 @@
     "Delete" : "Ištrinti",
     "Allow users to mount external storage" : "Leisti naudotojams prijungti išorines saugyklas",
     "Allow users to mount the following external storage" : "Leisti naudotojams prijungti šias išorines saugyklas",
+    "Couldn't access. Please logout and login to activate this mount point" : "Nepavyko gauti prieigos. Norint aktyvuoti šį prijungimo tašką, prašome atsijungti ir prisijungti",
+    "Couldn't get the list of Windows network drive mount points: empty response from the server" : "Neįmanoma rasti prijungimo taško Windows tinklo diskui: negautas atsakymas iš serverio",
     "Storage with id \"%i\" not found" : "Nerasta saugykla su identifikacijos numeriu \"%i\"",
     "Storage with id \"%i\" is not user editable" : "Naudotojai negali redaguoti saugyklos identifikuotos kaip \"%i\""
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);"
