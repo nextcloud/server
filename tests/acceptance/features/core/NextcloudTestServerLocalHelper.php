@@ -35,12 +35,20 @@
  * the Nextcloud server; the last commit in that Git repository must provide the
  * initial state for the Nextcloud server expected by the acceptance tests.
  *
- * The Nextcloud server is available at "127.0.0.1", so it is expected to see
- * "127.0.0.1" as a trusted domain (which would be the case if it was installed
- * by running "occ maintenance:install"). The base URL to access the Nextcloud
+ * The Nextcloud server is available at "$nextcloudServerDomain", which can be
+ * optionally specified when the NextcloudTestServerLocalHelper is created; if
+ * no value is given "127.0.0.1" is used by default. In any case, the value of
+ * "$nextcloudServerDomain" must be seen as a trusted domain by the Nextcloud
+ * server (which would be the case for "127.0.0.1" if it was installed by
+ * running "occ maintenance:install"). The base URL to access the Nextcloud
  * server can be got from "getBaseUrl".
  */
 class NextcloudTestServerLocalHelper implements NextcloudTestServerHelper {
+
+	/**
+	 * @var string
+	 */
+	private $nextcloudServerDomain;
 
 	/**
 	 * @var string
@@ -50,7 +58,9 @@ class NextcloudTestServerLocalHelper implements NextcloudTestServerHelper {
 	/**
 	 * Creates a new NextcloudTestServerLocalHelper.
 	 */
-	public function __construct() {
+	public function __construct($nextcloudServerDomain = "127.0.0.1") {
+		$this->nextcloudServerDomain = $nextcloudServerDomain;
+
 		$this->phpServerPid = "";
 	}
 
@@ -77,7 +87,7 @@ class NextcloudTestServerLocalHelper implements NextcloudTestServerHelper {
 		// execOrException is not used because the server is started in the
 		// background, so the command will always succeed even if the server
 		// itself fails.
-		$this->phpServerPid = exec("php -S 127.0.0.1:80 -t ../../ >/dev/null 2>&1 & echo $!");
+		$this->phpServerPid = exec("php -S " . $this->nextcloudServerDomain . ":80 -t ../../ >/dev/null 2>&1 & echo $!");
 
 		$timeout = 60;
 		if (!Utils::waitForServer($this->getBaseUrl(), $timeout)) {
@@ -100,7 +110,7 @@ class NextcloudTestServerLocalHelper implements NextcloudTestServerHelper {
 	 * @return string the base URL of the Nextcloud test server.
 	 */
 	public function getBaseUrl() {
-		return "http://127.0.0.1/index.php";
+		return "http://" . $this->nextcloudServerDomain . "/index.php";
 	}
 
 	/**
