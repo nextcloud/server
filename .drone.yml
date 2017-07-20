@@ -469,21 +469,21 @@ pipeline:
   acceptance-access-levels:
       image: nextcloudci/integration-php7.0:integration-php7.0-4
       commands:
-        - tests/acceptance/run-local.sh --timeout-multiplier 10 allow-git-repository-modifications features/access-levels.feature
+        - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-access-levels --selenium-server selenium:4444 allow-git-repository-modifications features/access-levels.feature
       when:
         matrix:
           TESTS-ACCEPTANCE: access-levels
   acceptance-app-files:
       image: nextcloudci/integration-php7.0:integration-php7.0-4
       commands:
-        - tests/acceptance/run-local.sh --timeout-multiplier 10 allow-git-repository-modifications features/app-files.feature
+        - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-app-files --selenium-server selenium:4444 allow-git-repository-modifications features/app-files.feature
       when:
         matrix:
           TESTS-ACCEPTANCE: app-files
   acceptance-login:
       image: nextcloudci/integration-php7.0:integration-php7.0-4
       commands:
-        - tests/acceptance/run-local.sh --timeout-multiplier 10 allow-git-repository-modifications features/login.feature
+        - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-login --selenium-server selenium:4444 allow-git-repository-modifications features/login.feature
       when:
         matrix:
           TESTS-ACCEPTANCE: login
@@ -574,12 +574,12 @@ matrix:
     - TESTS: integration-transfer-ownership-features
     - TESTS: integration-ldap-features
     - TESTS: integration-trashbin
-#    - TESTS: acceptance
-#      TESTS-ACCEPTANCE: access-levels
-#    - TESTS: acceptance
-#      TESTS-ACCEPTANCE: app-files
-#    - TESTS: acceptance
-#      TESTS-ACCEPTANCE: login
+    - TESTS: acceptance
+      TESTS-ACCEPTANCE: access-levels
+    - TESTS: acceptance
+      TESTS-ACCEPTANCE: app-files
+    - TESTS: acceptance
+      TESTS-ACCEPTANCE: login
     - TESTS: jsunit
     - TESTS: syntax-php5.6
     - TESTS: syntax-php7.0
