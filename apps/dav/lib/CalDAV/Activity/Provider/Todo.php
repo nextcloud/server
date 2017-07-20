@@ -95,7 +95,7 @@ class Todo extends Event {
 			case self::SUBJECT_OBJECT_UPDATE . '_todo_needs_action':
 				return [
 					'actor' => $this->generateUserParameter($parameters[0]),
-					'calendar' => $this->generateCalendarParameter($event->getObjectId(), $parameters[1]),
+					'calendar' => $this->generateCalendarParameter((int)$event->getObjectId(), $parameters[1]),
 					'todo' => $this->generateObjectParameter($parameters[2]),
 				];
 			case self::SUBJECT_OBJECT_ADD . '_todo_self':
@@ -104,7 +104,7 @@ class Todo extends Event {
 			case self::SUBJECT_OBJECT_UPDATE . '_todo_completed_self':
 			case self::SUBJECT_OBJECT_UPDATE . '_todo_needs_action_self':
 				return [
-					'calendar' => $this->generateCalendarParameter($event->getObjectId(), $parameters[1]),
+					'calendar' => $this->generateCalendarParameter((int)$event->getObjectId(), $parameters[1]),
 					'todo' => $this->generateObjectParameter($parameters[2]),
 				];
 		}

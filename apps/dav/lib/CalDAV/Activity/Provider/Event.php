@@ -124,14 +124,14 @@ class Event extends Base {
 			case self::SUBJECT_OBJECT_UPDATE . '_event':
 				return [
 					'actor' => $this->generateUserParameter($parameters[0]),
-					'calendar' => $this->generateCalendarParameter($event->getObjectId(), $parameters[1]),
+					'calendar' => $this->generateCalendarParameter((int)$event->getObjectId(), $parameters[1]),
 					'event' => $this->generateObjectParameter($parameters[2]),
 				];
 			case self::SUBJECT_OBJECT_ADD . '_event_self':
 			case self::SUBJECT_OBJECT_DELETE . '_event_self':
 			case self::SUBJECT_OBJECT_UPDATE . '_event_self':
 				return [
-					'calendar' => $this->generateCalendarParameter($event->getObjectId(), $parameters[1]),
+					'calendar' => $this->generateCalendarParameter((int)$event->getObjectId(), $parameters[1]),
 					'event' => $this->generateObjectParameter($parameters[2]),
 				];
 		}
