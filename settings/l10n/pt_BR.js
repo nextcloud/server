@@ -101,6 +101,8 @@ OC.L10N.register(
     "Enable" : "Habilitar",
     "Enabling app …" : "Ativando aplicativo...",
     "Error while enabling app" : "Erro ao habilitar o aplicativo",
+    "Error: This app can not be enabled because it makes the server unstable" : "Erro: Este aplicativo não pode ser ativado porque torna o servidor instável",
+    "Error: Could not disable broken app" : "Erro: Não foi possível desativar o aplicativo defeituoso",
     "Error while disabling broken app" : "Erro ao desativar aplicativo corrompido",
     "Updating...." : "Atualizando...",
     "Error while updating app" : "Erro ao atualizar aplicativo",

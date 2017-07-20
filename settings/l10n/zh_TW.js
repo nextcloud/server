@@ -1,6 +1,8 @@
 OC.L10N.register(
     "settings",
     {
+    "You changed your password" : "你已更改你的密碼",
+    "Your password was reset by an administrator" : "你的密碼已被管理員重設",
     "Wrong password" : "密碼錯誤",
     "Saved" : "已儲存",
     "No user supplied" : "未提供使用者",
