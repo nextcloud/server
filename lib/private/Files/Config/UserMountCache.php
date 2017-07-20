@@ -365,6 +365,11 @@ class UserMountCache implements IUserMountCache {
 
 		$result = $query->execute();
 
-		return $result->fetchAll(\PDO::FETCH_KEY_PAIR);
+		$results = [];
+		while ($row = $result->fetch()) {
+			$results[$row['user_id']] = $row['size'];
+		}
+		$result->closeCursor();
+		return $results;
 	}
 }
