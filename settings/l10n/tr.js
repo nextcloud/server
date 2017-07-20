@@ -101,6 +101,8 @@ OC.L10N.register(
     "Enable" : "Etkinleştir",
     "Enabling app …" : "Uygulama etkinleştiriliyor...",
     "Error while enabling app" : "Uygulama etkinleştirilirken sorun çıktı",
+    "Error: This app can not be enabled because it makes the server unstable" : "Hata: Bu uygulama sunucuda kararsızlığa yol açtığından etkinleştirilemez",
+    "Error: Could not disable broken app" : "Hata: Bozuk uygulama devre dışı bırakılamadı",
     "Error while disabling broken app" : "Bozuk uygulama devre dışı bırakılırken sorun çıktı",
     "Updating...." : "Güncelleniyor....",
     "Error while updating app" : "Uygulama güncellenirken sorun çıktı",
