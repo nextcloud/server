@@ -560,7 +560,7 @@ class QueryBuilder implements IQueryBuilder {
 	public function from($from, $alias = null) {
 		$this->queryBuilder->from(
 			$this->getTableName($from),
-			$alias
+			$this->quoteAlias($alias)
 		);
 
 		return $this;
@@ -585,9 +585,9 @@ class QueryBuilder implements IQueryBuilder {
 	 */
 	public function join($fromAlias, $join, $alias, $condition = null) {
 		$this->queryBuilder->join(
-			$fromAlias,
+			$this->quoteAlias($fromAlias),
 			$this->getTableName($join),
-			$alias,
+			$this->quoteAlias($alias),
 			$condition
 		);
 
@@ -613,9 +613,9 @@ class QueryBuilder implements IQueryBuilder {
 	 */
 	public function innerJoin($fromAlias, $join, $alias, $condition = null) {
 		$this->queryBuilder->innerJoin(
-			$fromAlias,
+			$this->quoteAlias($fromAlias),
 			$this->getTableName($join),
-			$alias,
+			$this->quoteAlias($alias),
 			$condition
 		);
 
@@ -641,9 +641,9 @@ class QueryBuilder implements IQueryBuilder {
 	 */
 	public function leftJoin($fromAlias, $join, $alias, $condition = null) {
 		$this->queryBuilder->leftJoin(
-			$fromAlias,
+			$this->quoteAlias($fromAlias),
 			$this->getTableName($join),
-			$alias,
+			$this->quoteAlias($alias),
 			$condition
 		);
 
@@ -669,9 +669,9 @@ class QueryBuilder implements IQueryBuilder {
 	 */
 	public function rightJoin($fromAlias, $join, $alias, $condition = null) {
 		$this->queryBuilder->rightJoin(
-			$fromAlias,
+			$this->quoteAlias($fromAlias),
 			$this->getTableName($join),
-			$alias,
+			$this->quoteAlias($alias),
 			$condition
 		);
 
@@ -1192,5 +1192,19 @@ class QueryBuilder implements IQueryBuilder {
 		}
 
 		return $this->helper->quoteColumnName($tableAlias . $column);
+	}
+
+	/**
+	 * Returns the column name quoted and with table alias prefix as needed by the implementation
+	 *
+	 * @param string $alias
+	 * @return string
+	 */
+	public function quoteAlias($alias) {
+		if ($alias === '' || $alias === null) {
+			return $alias;
+		}
+
+		return $this->helper->quoteColumnName($alias);
 	}
 }
