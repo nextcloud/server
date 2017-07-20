@@ -70,7 +70,7 @@ class QuoteHelper {
 			list($alias, $columnName) = explode('.', $string, 2);
 
 			if ($columnName === '*') {
-				return $string;
+				return '`' . $alias . '`.*';
 			}
 
 			return '`' . $alias . '`.`' . $columnName . '`';
