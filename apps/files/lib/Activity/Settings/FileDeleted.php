@@ -50,7 +50,7 @@ class FileDeleted implements ISetting {
 	 * @since 11.0.0
 	 */
 	public function getName() {
-		return $this->l->t('A new file or folder has been <strong>deleted</strong>');
+		return $this->l->t('A file or folder has been <strong>deleted</strong>');
 	}
 
 	/**
