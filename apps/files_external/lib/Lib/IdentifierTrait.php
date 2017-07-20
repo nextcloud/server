@@ -46,7 +46,7 @@ trait IdentifierTrait {
 
 	/**
 	 * @param string $identifier
-	 * @return self
+	 * @return $this
 	 */
 	public function setIdentifier($identifier) {
 		$this->identifier = $identifier;
