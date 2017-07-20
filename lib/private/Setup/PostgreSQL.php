@@ -34,6 +34,11 @@ use OCP\IDBConnection;
 class PostgreSQL extends AbstractDatabase {
 	public $dbprettyname = 'PostgreSQL';
 
+	/**
+	 * @param string $username
+	 * @throws \OC\DatabaseSetupException
+	 * @suppress SqlInjectionChecker
+	 */
 	public function setupDatabase($username) {
 		try {
 			$connection = $this->connect([

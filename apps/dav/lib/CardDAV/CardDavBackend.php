@@ -348,6 +348,9 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			'{' . Plugin::NS_CARDDAV . '}addressbook-description',
 		];
 
+		/**
+		 * @suppress SqlInjectionChecker
+		 */
 		$propPatch->handle($supportedProperties, function($mutations) use ($addressBookId) {
 
 			$updates = [];

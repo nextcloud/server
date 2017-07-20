@@ -65,6 +65,7 @@ class OldGroupMembershipShares implements IRepairStep {
 	 * Must throw exception on error.
 	 *
 	 * @throws \Exception in case of failure
+	 * @suppress SqlInjectionChecker
 	 */
 	public function run(IOutput $output) {
 		$deletedEntries = 0;

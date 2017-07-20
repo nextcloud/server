@@ -284,6 +284,7 @@ class JobList implements IJobList {
 	 * Remove the reservation for a job
 	 *
 	 * @param IJob $job
+	 * @suppress SqlInjectionChecker
 	 */
 	public function unlockJob(IJob $job) {
 		$query = $this->connection->getQueryBuilder();

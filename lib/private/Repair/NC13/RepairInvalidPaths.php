@@ -51,6 +51,10 @@ class RepairInvalidPaths implements IRepairStep {
 		return 'Repair invalid paths in file cache';
 	}
 
+	/**
+	 * @return \Generator
+	 * @suppress SqlInjectionChecker
+	 */
 	private function getInvalidEntries() {
 		$builder = $this->connection->getQueryBuilder();
 
@@ -95,6 +99,11 @@ class RepairInvalidPaths implements IRepairStep {
 		return $this->getIdQuery->execute()->fetchColumn();
 	}
 
+	/**
+	 * @param string $fileid
+	 * @param string $newPath
+	 * @suppress SqlInjectionChecker
+	 */
 	private function update($fileid, $newPath) {
 		if (!$this->updateQuery) {
 			$builder = $this->connection->getQueryBuilder();

@@ -261,6 +261,14 @@ class ConvertType extends Command implements CompletionAwareInterface {
 		return $db->getSchemaManager()->listTableNames();
 	}
 
+	/**
+	 * @param Connection $fromDB
+	 * @param Connection $toDB
+	 * @param $table
+	 * @param InputInterface $input
+	 * @param OutputInterface $output
+	 * @suppress SqlInjectionChecker
+	 */
 	protected function copyTable(Connection $fromDB, Connection $toDB, $table, InputInterface $input, OutputInterface $output) {
 		$chunkSize = $input->getOption('chunk-size');
 

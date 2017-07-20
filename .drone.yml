@@ -50,6 +50,7 @@ pipeline:
       - composer install
       - composer require --dev "etsy/phan:dev-master"
       - ./lib/composer/etsy/phan/phan -k build/.phan/config.php
+      - php ./build/.phan/plugin-checker.php
     when:
       matrix:
         TESTS: phan
