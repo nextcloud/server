@@ -64,6 +64,16 @@ if [ "$1" = "--nextcloud-server-domain" ]; then
 	shift 2
 fi
 
+# "--selenium-server XXX" option can be provided to set the domain and port used
+# by the acceptance tests to access the Selenium server.
+DEFAULT_SELENIUM_SERVER="127.0.0.1:4444"
+SELENIUM_SERVER="$DEFAULT_SELENIUM_SERVER"
+if [ "$1" = "--selenium-server" ]; then
+	SELENIUM_SERVER=$2
+
+	shift 2
+fi
+
 # Safety parameter to prevent executing this script by mistake and messing with
 # the Git repository.
 if [ "$1" != "allow-git-repository-modifications" ]; then
@@ -107,6 +117,35 @@ if [ "$NEXTCLOUD_SERVER_DOMAIN" != "$DEFAULT_NEXTCLOUD_SERVER_DOMAIN" ]; then
 	sed --in-place "s/$ORIGINAL/$REPLACEMENT/" config/behat.yml
 fi
 
+if [ "$SELENIUM_SERVER" != "$DEFAULT_SELENIUM_SERVER" ]; then
+	# Set the Selenium server to be used by Mink; this extends the default
+	# configuration from "config/behat.yml".
+	export BEHAT_PARAMS='
+{
+    "extensions": {
+        "Behat\\MinkExtension": {
+            "sessions": {
+                "default": {
+                    "selenium2": {
+                        "wd_host": "http://'"$SELENIUM_SERVER"'/wd/hub"
+                    }
+                },
+                "John": {
+                    "selenium2": {
+                        "wd_host": "http://'"$SELENIUM_SERVER"'/wd/hub"
+                    }
+                },
+                "Jane": {
+                    "selenium2": {
+                        "wd_host": "http://'"$SELENIUM_SERVER"'/wd/hub"
+                    }
+                }
+            }
+        }
+    }
+}'
+fi
+
 composer install
 
 cd ../../
@@ -127,6 +166,6 @@ cd tests/acceptance
 
 # Ensure that the Selenium server is ready before running the tests.
 echo "Waiting for Selenium"
-timeout 60s bash -c "while ! curl 127.0.0.1:4444 >/dev/null 2>&1; do sleep 1; done"
+timeout 60s bash -c "while ! curl $SELENIUM_SERVER >/dev/null 2>&1; do sleep 1; done"
 
 vendor/bin/behat $SCENARIO_TO_RUN
