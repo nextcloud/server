@@ -54,6 +54,16 @@ if [ "$1" = "--timeout-multiplier" ]; then
 	shift 2
 fi
 
+# "--nextcloud-server-domain XXX" option can be provided to set the domain used
+# by the Selenium server to access the Nextcloud server.
+DEFAULT_NEXTCLOUD_SERVER_DOMAIN="127.0.0.1"
+NEXTCLOUD_SERVER_DOMAIN="$DEFAULT_NEXTCLOUD_SERVER_DOMAIN"
+if [ "$1" = "--nextcloud-server-domain" ]; then
+	NEXTCLOUD_SERVER_DOMAIN=$2
+
+	shift 2
+fi
+
 # Safety parameter to prevent executing this script by mistake and messing with
 # the Git repository.
 if [ "$1" != "allow-git-repository-modifications" ]; then
@@ -80,12 +90,34 @@ if [ "$TIMEOUT_MULTIPLIER" != "" ]; then
 	sed --in-place "s/$ORIGINAL/$REPLACEMENT/" config/behat.yml
 fi
 
+if [ "$NEXTCLOUD_SERVER_DOMAIN" != "$DEFAULT_NEXTCLOUD_SERVER_DOMAIN" ]; then
+	# Although Behat documentation states that using the BEHAT_PARAMS
+	# environment variable "You can set any value for any option that is
+	# available in a behat.yml file" this is currently not true for the
+	# constructor parameters of contexts (see
+	# https://github.com/Behat/Behat/issues/983). Thus, the default "behat.yml"
+	# configuration file has to be adjusted to provide the appropriate
+	# parameters for NextcloudTestServerContext.
+	ORIGINAL="\
+        - NextcloudTestServerContext"
+	REPLACEMENT="\
+        - NextcloudTestServerContext:\n\
+            nextcloudTestServerHelperParameters:\n\
+              - $NEXTCLOUD_SERVER_DOMAIN"
+	sed --in-place "s/$ORIGINAL/$REPLACEMENT/" config/behat.yml
+fi
+
 composer install
 
 cd ../../
 
+INSTALL_AND_CONFIGURE_SERVER_PARAMETERS=""
+if [ "$NEXTCLOUD_SERVER_domain" != "$DEFAULT_NEXTCLOUD_SERVER_DOMAIN" ]; then
+	INSTALL_AND_CONFIGURE_SERVER_PARAMETERS+="--nextcloud-server-domain $NEXTCLOUD_SERVER_DOMAIN"
+fi
+
 echo "Installing and configuring Nextcloud server"
-tests/acceptance/installAndConfigureServer.sh
+tests/acceptance/installAndConfigureServer.sh $INSTALL_AND_CONFIGURE_SERVER_PARAMETERS
 
 echo "Saving the default state so acceptance tests can reset to it"
 find . -name ".gitignore" -exec rm --force {} \;
