@@ -25,6 +25,18 @@
 
 set -o errexit
 
+NEXTCLOUD_SERVER_DOMAIN=""
+if [ "$1" = "--nextcloud-server-domain" ]; then
+	NEXTCLOUD_SERVER_DOMAIN=$2
+
+	shift 2
+fi
+
 php occ maintenance:install --admin-pass=admin
 
 OC_PASS=123456acb php occ user:add --password-from-env user0
+
+if [ "$NEXTCLOUD_SERVER_DOMAIN" != "" ]; then
+	# Default first trusted domain is "localhost"; replace it with given domain.
+	php occ config:system:set trusted_domains 0 --value="$NEXTCLOUD_SERVER_DOMAIN"
+fi
