@@ -214,7 +214,7 @@ class MountPublicLinkController extends Controller {
 		$result = json_decode($body, true);
 
 		if (is_array($result) && isset($result['remoteUrl'])) {
-			return new JSONResponse(['message' => $this->l->t('Federated Share request was successful, you will receive a invitation. Check your notifications.')]);
+			return new JSONResponse(['message' => $this->l->t('Federated Share request sent, you will receive an invitation. Check your notifications.')]);
 		}
 
 		// if we doesn't get the expected response we assume that we try to add
@@ -303,7 +303,7 @@ class MountPublicLinkController extends Controller {
 				$storage->getScanner()->scanAll();
 				return new JSONResponse(
 					[
-						'message' => $this->l->t('Federated Share successfully added'),
+						'message' => $this->l->t('Federated share added'),
 						'legacyMount' => '1'
 					]
 				);
