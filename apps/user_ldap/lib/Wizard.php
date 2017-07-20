@@ -106,7 +106,7 @@ class Wizard extends LDAPUtility {
 		} else if ($type === 'objects') {
 			$result = $this->access->countObjects($limit);
 		} else {
-			throw new \Exception('internal error: invalid object type', 500);
+			throw new \Exception('Internal error: Invalid object type', 500);
 		}
 
 		return $result;
@@ -243,7 +243,7 @@ class Wizard extends LDAPUtility {
 			}
 		};
 
-		throw new \Exception(self::$l->t('Could not detect user display name attribute. Please specify it yourself in advanced ldap settings.'));
+		throw new \Exception(self::$l->t('Could not detect user display name attribute. Please specify it yourself in advanced LDAP settings.'));
 	}
 
 	/**
