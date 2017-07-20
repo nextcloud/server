@@ -526,7 +526,7 @@ class Cache implements ICache {
 			$this->connection->beginTransaction();
 			if ($sourceData['mimetype'] === 'httpd/unix-directory') {
 				//update all child entries
-				$sourceLength = strlen($sourcePath);
+				$sourceLength = mb_strlen($sourcePath);
 				$query = $this->connection->getQueryBuilder();
 
 				$fun = $query->func();
