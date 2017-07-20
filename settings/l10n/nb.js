@@ -101,6 +101,8 @@ OC.L10N.register(
     "Enable" : "Aktiver",
     "Enabling app …" : "Aktiverer program…",
     "Error while enabling app" : "Aktivering av program mislyktes",
+    "Error: This app can not be enabled because it makes the server unstable" : "Feil: Dette programmet kan ikke aktiveres fordi det gjør tjeneren ustabil",
+    "Error: Could not disable broken app" : "Feil: Kunne ikke deaktivere ustabilt program",
     "Error while disabling broken app" : "Feil ved deaktivering av ustabilt program",
     "Updating...." : "Oppdaterer…",
     "Error while updating app" : "Feil ved oppdatering av program",
