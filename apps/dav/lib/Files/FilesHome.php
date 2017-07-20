@@ -53,7 +53,7 @@ class FilesHome extends Directory {
 	}
 
 	function getName() {
-		list(,$name) = URLUtil::splitPath($this->principalInfo['uri']);
+		list(,$name) = \Sabre\Uri\split($this->principalInfo['uri']);
 		return $name;
 	}
 

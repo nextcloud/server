@@ -51,7 +51,7 @@ class LegacyDAVACL extends DavAclPlugin {
 	}
 
 	private function convertPrincipal($principal, $toV2) {
-		list(, $name) = URLUtil::splitPath($principal);
+		list(, $name) = \Sabre\Uri\split($principal);
 		if ($toV2) {
 			return "principals/users/$name";
 		}

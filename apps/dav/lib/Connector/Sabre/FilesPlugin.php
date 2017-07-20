@@ -196,8 +196,8 @@ class FilesPlugin extends ServerPlugin {
 		if (!$sourceNode instanceof Node) {
 			return;
 		}
-		list($sourceDir,) = \Sabre\HTTP\URLUtil::splitPath($source);
-		list($destinationDir,) = \Sabre\HTTP\URLUtil::splitPath($destination);
+		list($sourceDir,) = \Sabre\Uri\split($source);
+		list($destinationDir,) = \Sabre\Uri\split($destination);
 
 		if ($sourceDir !== $destinationDir) {
 			$sourceNodeFileInfo = $sourceNode->getFileInfo();
@@ -432,7 +432,7 @@ class FilesPlugin extends ServerPlugin {
 	public function sendFileIdHeader($filePath, \Sabre\DAV\INode $node = null) {
 		// chunked upload handling
 		if (isset($_SERVER['HTTP_OC_CHUNKED'])) {
-			list($path, $name) = \Sabre\HTTP\URLUtil::splitPath($filePath);
+			list($path, $name) = \Sabre\Uri\split($filePath);
 			$info = \OC_FileChunking::decodeName($name);
 			if (!empty($info)) {
 				$filePath = $path . '/' . $info['name'];

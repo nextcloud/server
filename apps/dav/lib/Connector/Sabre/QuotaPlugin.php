@@ -91,7 +91,7 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 			if (substr($uri, 0, 1) !== '/') {
 				$uri = '/' . $uri;
 			}
-			list($parentUri, $newName) = URLUtil::splitPath($uri);
+			list($parentUri, $newName) = \Sabre\Uri\split($uri);
 			if(is_null($parentUri)) {
 				$parentUri = '';
 			}

@@ -39,7 +39,7 @@ class RootCollection extends AbstractPrincipalCollection {
 	 * @return INode
 	 */
 	function getChildForPrincipal(array $principalInfo) {
-		list(,$name) = URLUtil::splitPath($principalInfo['uri']);
+		list(,$name) = \Sabre\Uri\split($principalInfo['uri']);
 		$user = \OC::$server->getUserSession()->getUser();
 		if (is_null($user) || $name !== $user->getUID()) {
 			// a user is only allowed to see their own home contents, so in case another collection

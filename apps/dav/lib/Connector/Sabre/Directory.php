@@ -387,7 +387,7 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node
 			throw new \Sabre\DAV\Exception\Forbidden('Could not copy directory ' . $sourceNode->getName() . ', target exists');
 		}
 
-		list($sourceDir,) = \Sabre\HTTP\URLUtil::splitPath($sourceNode->getPath());
+		list($sourceDir,) = \Sabre\Uri\split($sourceNode->getPath());
 		$destinationDir = $this->getPath();
 
 		$sourcePath = $sourceNode->getPath();
