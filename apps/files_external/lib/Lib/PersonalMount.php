@@ -86,4 +86,15 @@ class PersonalMount extends MountPoint implements MoveableMount {
 		$this->storagesService->removeStorage($this->numericStorageId);
 		return true;
 	}
+
+	/**
+	 * Returns true
+	 * 
+	 * @param string $target unused
+	 * @return bool true
+	 */
+	public function isTargetAllowed($target) {
+		// note: home storage check already done in View
+		return true;
+	}
 }

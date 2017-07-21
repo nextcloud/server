@@ -46,4 +46,14 @@ class TestMoveableMountPoint extends Mount\MountPoint implements Mount\MoveableM
 	 */
 	public function removeMount() {
 	}
+
+	/**
+	 * Returns true
+	 * 
+	 * @param string $target unused
+	 * @return bool true
+	 */
+	public function isTargetAllowed($target) {
+		return true;
+	}
 }
