@@ -60,7 +60,7 @@ class RepairInvalidPaths implements IRepairStep {
 		);
 
 		//select f.path, f.parent,p.path from oc_filecache f inner join oc_filecache p on f.parent=p.fileid and p.path!='' where f.path != p.path || '/' || f.name;
-		$query = $builder->select('f.fileid', 'f.path', 'p.path AS parent_path', 'f.name', 'f.parent', 'f.storage')
+		$query = $builder->select('f.fileid', 'f.path', 'p.path AS parent_path', 'f.name', 'f.parent', 'f.storage', 'p.storage as parent_storage')
 			->from('filecache', 'f')
 			->innerJoin('f', 'filecache', 'p', $builder->expr()->andX(
 				$builder->expr()->eq('f.parent', 'p.fileid'),
@@ -95,17 +95,19 @@ class RepairInvalidPaths implements IRepairStep {
 		return $this->getIdQuery->execute()->fetchColumn();
 	}
 
-	private function update($fileid, $newPath) {
+	private function update($fileid, $newPath, $newStorage) {
 		if (!$this->updateQuery) {
 			$builder = $this->connection->getQueryBuilder();
 
 			$this->updateQuery = $builder->update('filecache')
 				->set('path', $builder->createParameter('newpath'))
 				->set('path_hash', $builder->func()->md5($builder->createParameter('newpath')))
+				->set('storage', $builder->createParameter('newstorage'))
 				->where($builder->expr()->eq('fileid', $builder->createParameter('fileid')));
 		}
 
 		$this->updateQuery->setParameter('newpath', $newPath);
+		$this->updateQuery->setParameter('newstorage', $newStorage);
 		$this->updateQuery->setParameter('fileid', $fileid, IQueryBuilder::PARAM_INT);
 
 		$this->updateQuery->execute();
@@ -146,12 +148,12 @@ class RepairInvalidPaths implements IRepairStep {
 		foreach ($entries as $entry) {
 			$count++;
 			$calculatedPath = $entry['parent_path'] . '/' . $entry['name'];
-			if ($newId = $this->getId($entry['storage'], $calculatedPath)) {
+			if ($newId = $this->getId($entry['parent_storage'], $calculatedPath)) {
 				// a new entry with the correct path has already been created, reuse that one and delete the incorrect entry
 				$this->reparent($entry['fileid'], $newId);
 				$this->delete($entry['fileid']);
 			} else {
-				$this->update($entry['fileid'], $calculatedPath);
+				$this->update($entry['fileid'], $calculatedPath, $entry['parent_storage']);
 			}
 		}
 		$this->connection->commit();
