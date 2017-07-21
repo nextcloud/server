@@ -389,8 +389,6 @@
     "Unable to add user to group %s" : "Unable to add user to group %s",
     "Unable to remove user from group %s" : "Unable to remove user from group %s",
     "Sending..." : "Sending...",
-    "Error: this app cannot be enabled because it makes the server unstable" : "Error: this app cannot be enabled because it makes the server unstable",
-    "Error: could not disable broken app" : "Error: could not disable broken app",
     "Uninstalling ...." : "Uninstalling...",
     "Error while uninstalling app" : "Error whilst uninstalling app",
     "Uninstall" : "Uninstall",

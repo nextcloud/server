@@ -127,8 +127,6 @@ OC.L10N.register(
     "Delete" : "Excluir",
     "Allow users to mount external storage" : "Permitir que usuários montem armazenamento externo",
     "Allow users to mount the following external storage" : "Permitir que usuários montem o seguinte armazenamento externo",
-    "Couldn't access. Please logout and login to activate this mount point" : "Não foi possível acessar. Por favor, saia e entre novamente para ativar este ponto de montagem",
-    "Couldn't get the list of Windows network drive mount points: empty response from the server" : "Não foi possível obter a lista de unidades de pontos de montagem da rede Windows: resposta vazia do servidor",
     "Storage with id \"%i\" not found" : "Armazenamento com ID \"%i\" não encontrado",
     "Storage with id \"%i\" is not user editable" : "Armazenamento com ID \"%i\" não é editável pelo usuário"
 },

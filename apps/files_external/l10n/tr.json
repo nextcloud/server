@@ -125,8 +125,6 @@
     "Delete" : "Sil",
     "Allow users to mount external storage" : "Kullanıcılar dış depolama bağlayabilsin",
     "Allow users to mount the following external storage" : "Kullanıcıların şu dış depolamayı bağlayabilsin",
-    "Couldn't access. Please logout and login to activate this mount point" : "Erişilemedi. Lütfen bu bağlama noktasını etkinleştirmek için oturumunuzu kapatıp yeniden açın",
-    "Couldn't get the list of Windows network drive mount points: empty response from the server" : "Windows ağ sürücüsü bağlama nokta listesi alınamadı: Sunucudan boş yanıt alındı",
     "Storage with id \"%i\" not found" : "\"%i\" kimliği ile bir depolama bulunamadı",
     "Storage with id \"%i\" is not user editable" : "\"%i\" kimlikli depolama düzenlenebilir değil"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"

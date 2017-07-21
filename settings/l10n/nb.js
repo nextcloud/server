@@ -393,8 +393,6 @@ OC.L10N.register(
     "Unable to add user to group %s" : "Kan ikke legge bruker til gruppen %s",
     "Unable to remove user from group %s" : "Kan ikke slette bruker fra gruppen %s",
     "Sending..." : "Sender…",
-    "Error: this app cannot be enabled because it makes the server unstable" : "Feil: Dette programmet kan ikke aktiveres fordi det gjør tjeneren ustabil",
-    "Error: could not disable broken app" : "Feil: Kunne ikke deaktivere ustabil app",
     "Uninstalling ...." : "Avinstallerer…",
     "Error while uninstalling app" : "Feil ved avinstallering av program",
     "Uninstall" : "Avinstaller",

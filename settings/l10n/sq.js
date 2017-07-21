@@ -341,8 +341,6 @@ OC.L10N.register(
     "Unable to add user to group %s" : "S’arrin të shtojë përdorues te grupi %s",
     "Unable to remove user from group %s" : "S’arrin të heqë përdorues nga grupi %s",
     "Sending..." : "Po dërgohet…",
-    "Error: this app cannot be enabled because it makes the server unstable" : "Gabim: ky aplikacion s’u aktivizua dot, ngaqë e bën shërbyesin të paqëndrueshëm.",
-    "Error: could not disable broken app" : "Gabim: s’u çaktivizua dot aplikacion i dëmtuar",
     "Uninstalling ...." : "Po çinstalohet…",
     "Error while uninstalling app" : "Gabim në çinstalimin e aplikacionit",
     "Uninstall" : "Çinstaloje",

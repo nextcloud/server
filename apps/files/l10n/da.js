@@ -102,9 +102,7 @@ OC.L10N.register(
     "A file has been added to or removed from your <strong>favorites</strong>" : "En fil er blevet tilføjet eller fjernet fra dine <strong>favoritter</strong>",
     "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "En fil eller mappe er blevet <strong>ændret</strong> eller <strong>omdøbt</strong>",
     "A new file or folder has been <strong>created</strong>" : "En ny fil eller mapper er blevet <strong>oprettet</strong>",
-    "A new file or folder has been <strong>deleted</strong>" : "En ny fil eller mappe er blevet <strong>slettet</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Begræns noter om oprettelse og ændringer af dine <strong>favorit filer</strong> <em>(Kun streaming)</em>",
-    "A new file or folder has been <strong>restored</strong>" : "En ny fil eller mappe er blevet <strong>gendannet</strong>",
     "Unlimited" : "Ubegrænset",
     "Upload (max. %s)" : "Upload (max. %s)",
     "File handling" : "Filhåndtering",
@@ -146,6 +144,8 @@ OC.L10N.register(
     "Copy local link" : "Kopier lokalt link",
     "Folder" : "Mappe",
     "Upload" : "Upload",
+    "A new file or folder has been <strong>deleted</strong>" : "En ny fil eller mappe er blevet <strong>slettet</strong>",
+    "A new file or folder has been <strong>restored</strong>" : "En ny fil eller mappe er blevet <strong>gendannet</strong>",
     "No favorites" : "Ingen foretrukne"
 },
 "nplurals=2; plural=(n != 1);");

@@ -124,8 +124,6 @@ OC.L10N.register(
     "Delete" : "Radera",
     "Allow users to mount external storage" : "Tillåt användare att montera extern lagring",
     "Allow users to mount the following external storage" : "Tillåt användare att montera följande extern lagring",
-    "Couldn't access. Please logout and login to activate this mount point" : "Ingen åtkomst. Vänligen logga ut och in igen för att aktivera denna monteringspunkt.",
-    "Couldn't get the list of Windows network drive mount points: empty response from the server" : "Kunde inte hitta listan med Windows nätverksdiskar: tomt svar från servern",
     "Storage with id \"%i\" not found" : "Lagring med id \"%i\" kan ej hittas",
     "Storage with id \"%i\" is not user editable" : "Lagring med id \"%i\" är inte redigerbar av användare"
 },

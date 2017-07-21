@@ -115,8 +115,6 @@ OC.L10N.register(
     "Delete" : "Izbriši",
     "Allow users to mount external storage" : "Dovoli uporabnikom priklapljanje zunanje shrambe",
     "Allow users to mount the following external storage" : "Dovoli uporabnikom priklapljanje navedenih zunanjih shramb.",
-    "Couldn't access. Please logout and login to activate this mount point" : "Dostop ni mogoč. Za priklop točke se odjavite in ponovno prijavite.",
-    "Couldn't get the list of Windows network drive mount points: empty response from the server" : "Ni mogoče pridobiti seznama priklopnih točk omrežnega pogona: ni odziva s strežnika",
     "Storage with id \"%i\" not found" : "Shrambe z ID \"%i\" ni mogoče najti.",
     "Storage with id \"%i\" is not user editable" : "Shramba z ID \"%i\" ni uporabniško uredljiva."
 },

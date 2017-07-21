@@ -122,8 +122,6 @@ OC.L10N.register(
     "Delete" : "Hapus",
     "Allow users to mount external storage" : "Izinkan pengguna untuk mengaitkan penyimpanan eksternal",
     "Allow users to mount the following external storage" : "Izinkan pengguna untuk mengaitkan penyimpanan eksternal berikut",
-    "Couldn't access. Please logout and login to activate this mount point" : "Tidak dapat mengakses. Log keluar dan log masuk untuk mengaktifkan mount point ini",
-    "Couldn't get the list of Windows network drive mount points: empty response from the server" : "Tidak bisa mendapatkan daftar jaringan drive mount point Windows: Tidak ada respon dari server",
     "Storage with id \"%i\" not found" : "Penyimpanan dengan id \"%i\" tidak ditemukan",
     "Storage with id \"%i\" is not user editable" : "Penyimpanan dengan id \"%i\" tidak bisa diubah pengguna"
 },

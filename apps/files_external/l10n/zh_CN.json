@@ -123,8 +123,6 @@
     "Delete" : "删除",
     "Allow users to mount external storage" : "允许用户挂载外部存储",
     "Allow users to mount the following external storage" : "允许用户挂载以下外部存储",
-    "Couldn't access. Please logout and login to activate this mount point" : "无法连接. 请注销并重新登录以激活挂载点.",
-    "Couldn't get the list of Windows network drive mount points: empty response from the server" : "无法获取 Windows 网络磁盘挂载点列表: 服务器响应为空",
     "Storage with id \"%i\" not found" : "未找到 ID 为 \"%i\" 的存储",
     "Storage with id \"%i\" is not user editable" : "无法编辑 ID 为 \"%i\" 的存储"
 },"pluralForm" :"nplurals=1; plural=0;"

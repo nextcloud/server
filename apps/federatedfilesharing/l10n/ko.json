@@ -47,8 +47,6 @@
     "Add to your website" : "내 웹 사이트에 추가",
     "Share with me via Nextcloud" : "Nextcloud로 나와 공유하기",
     "HTML Code:" : "HTML 코드:",
-    "Federated Share request was successful, you will receive a invitation. Check your notifications." : "연합 공유 요청이 성공했으며 초대장을 받을 것입니다. 알림을 확인하십시오.",
-    "Federated Share successfully added" : "연합 공유를 성공적으로 추가함",
     "Search global and public address book for users and let local users publish their data" : "전역 및 공개 주소록에서 검색하고 로컬 사용자가 정보를 공개할 수 있도록 허용",
     "Share it:" : "공유하기:"
 },"pluralForm" :"nplurals=1; plural=0;"

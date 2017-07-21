@@ -53,8 +53,6 @@ OC.L10N.register(
     "Add to your website" : "Legg på nettsiden din",
     "Share with me via Nextcloud" : "Del med meg via Nextcloud",
     "HTML Code:" : "HTML-kode:",
-    "Federated Share request was successful, you will receive a invitation. Check your notifications." : "Sammenknyttet ressurs forespurt, du vil motta en invitasjon. Sjekk varslene dine.",
-    "Federated Share successfully added" : "Sammenknyttet ressurs ble lagt til",
     "Search global and public address book for users and let local users publish their data" : "Søk i verdensomspennende og offentlig adressebok etter brukere og la lokale brukere offentliggjøre deres data",
     "Share it:" : "Del den:"
 },

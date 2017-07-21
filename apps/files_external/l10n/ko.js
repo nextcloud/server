@@ -124,8 +124,6 @@ OC.L10N.register(
     "Delete" : "삭제",
     "Allow users to mount external storage" : "사용자가 외부 저장소를 마운트하도록 허용",
     "Allow users to mount the following external storage" : "사용자가 다음 외부 저장소를 마운트할 수 있도록 허용",
-    "Couldn't access. Please logout and login to activate this mount point" : "접근할 수 없습니다. 이 마운트 지점을 활성화하려면 로그아웃 후 로그인하십시오",
-    "Couldn't get the list of Windows network drive mount points: empty response from the server" : "Windows 네트워크 드라이브 마운트 지점 목록을 가져올 수 없음: 서버에서 빈 응답이 돌아옴",
     "Storage with id \"%i\" not found" : "ID가 \"%i\"인 저장소를 찾을 수 없음",
     "Storage with id \"%i\" is not user editable" : "저장소 ID \"%i\"을(를) 사용자가 편집할 수 없음"
 },

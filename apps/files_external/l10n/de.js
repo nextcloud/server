@@ -127,8 +127,6 @@ OC.L10N.register(
     "Delete" : "Löschen",
     "Allow users to mount external storage" : "Benutzern erlauben, externen Speicher einzubinden",
     "Allow users to mount the following external storage" : "Benutzern erlauben, den oder die folgenden externen Speicher einzubinden:",
-    "Couldn't access. Please logout and login to activate this mount point" : "Anmeldung nicht möglich. Bitte abmelden und erneut anmelden, damit von diesem Endpunkt zugegriffen werden kann.",
-    "Couldn't get the list of Windows network drive mount points: empty response from the server" : "Es konnte keine Liste der Windows-Netzlaufwerke erstellt werden: leer Antwort vom Server",
     "Storage with id \"%i\" not found" : "Der Speicher mit der ID „%i“ wurde nicht gefunden",
     "Storage with id \"%i\" is not user editable" : "Speicher mit der ID \"%i\" kann nicht vom Benutzer bearbeitet werden"
 },
