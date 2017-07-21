@@ -156,7 +156,7 @@ class AuthSettingsController extends Controller {
 	/**
 	 * Return a 25 digit device password
 	 *
-	 * Example: AbCdE-fGhIj-KlMnO-pQrSt-12345
+	 * Example: AbCdE-fGhJk-MnPqR-sTwXy-23456
 	 *
 	 * @return string
 	 */
