@@ -39,6 +39,14 @@ if (version_compare(PHP_VERSION, '5.6.0') === -1) {
 	return;
 }
 
+// Show warning if PHP 7.2 is used as Nextcloud is not compatible with PHP 7.2 for now
+// @see https://github.com/nextcloud/server/pull/5791
+if (version_compare(PHP_VERSION, '7.2.0') !== -1) {
+	echo 'This version of Nextcloud is not compatible with PHP 7.2.<br/>';
+	echo 'You are currently running ' . PHP_VERSION . '.';
+	return;
+}
+
 function exceptionHandler($exception) {
 	echo "An unhandled exception has been thrown:" . PHP_EOL;
 	echo $exception;
