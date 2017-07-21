@@ -488,48 +488,50 @@ class CacheTest extends \Test\TestCase {
 			, 10, 0, [], $user)));
 	}
 
-	function testMove() {
-		$file1 = 'folder';
-		$file2 = 'folder/bar';
-		$file3 = 'folder/foo';
-		$file4 = 'folder/foo/1';
-		$file5 = 'folder/foo/2';
+	function movePathProvider() {
+		return [
+			['folder/foo', 'folder/foobar', ['1', '2']],
+			['folder/foo', 'foo', ['1', '2']],
+			['files/Индустрия_Инженерные системы ЦОД', 'files/Индустрия_Инженерные системы ЦОД1', ['1', '2']],
+		];
+	}
+
+	/**
+	 * @dataProvider movePathProvider
+	 */
+	function testMove($sourceFolder, $targetFolder, $children) {
 		$data = array('size' => 100, 'mtime' => 50, 'mimetype' => 'foo/bar');
 		$folderData = array('size' => 100, 'mtime' => 50, 'mimetype' => 'httpd/unix-directory');
 
-		$this->cache->put($file1, $folderData);
-		$this->cache->put($file2, $folderData);
-		$this->cache->put($file3, $folderData);
-		$this->cache->put($file4, $data);
-		$this->cache->put($file5, $data);
+		// create folders
+		foreach ([$sourceFolder, $targetFolder] as $current) {
+			while (strpos($current, '/') > 0) {
+				$current = dirname($current);
+				$this->cache->put($current, $folderData);
+				$this->cache2->put($current, $folderData);
+			}
+		}
 
-		/* simulate a second user with a different storage id but the same folder structure */
-		$this->cache2->put($file1, $folderData);
-		$this->cache2->put($file2, $folderData);
-		$this->cache2->put($file3, $folderData);
-		$this->cache2->put($file4, $data);
-		$this->cache2->put($file5, $data);
+		$this->cache->put($sourceFolder, $folderData);
+		$this->cache2->put($sourceFolder, $folderData);
+		foreach ($children as $child) {
+			$this->cache->put($sourceFolder . '/' . $child, $data);
+			$this->cache2->put($sourceFolder . '/' . $child, $data);
+		}
 
-		$this->cache->move('folder/foo', 'folder/foobar');
+		$this->cache->move($sourceFolder, $targetFolder);
 
-		$this->assertFalse($this->cache->inCache('folder/foo'));
-		$this->assertFalse($this->cache->inCache('folder/foo/1'));
-		$this->assertFalse($this->cache->inCache('folder/foo/2'));
 
-		$this->assertTrue($this->cache->inCache('folder/bar'));
-		$this->assertTrue($this->cache->inCache('folder/foobar'));
-		$this->assertTrue($this->cache->inCache('folder/foobar/1'));
-		$this->assertTrue($this->cache->inCache('folder/foobar/2'));
-
-		/* the folder structure of the second user must not change! */
-		$this->assertTrue($this->cache2->inCache('folder/bar'));
-		$this->assertTrue($this->cache2->inCache('folder/foo'));
-		$this->assertTrue($this->cache2->inCache('folder/foo/1'));
-		$this->assertTrue($this->cache2->inCache('folder/foo/2'));
-
-		$this->assertFalse($this->cache2->inCache('folder/foobar'));
-		$this->assertFalse($this->cache2->inCache('folder/foobar/1'));
-		$this->assertFalse($this->cache2->inCache('folder/foobar/2'));
+		$this->assertFalse($this->cache->inCache($sourceFolder));
+		$this->assertTrue($this->cache2->inCache($sourceFolder));
+		$this->assertTrue($this->cache->inCache($targetFolder));
+		$this->assertFalse($this->cache2->inCache($targetFolder));
+		foreach ($children as $child) {
+			$this->assertFalse($this->cache->inCache($sourceFolder . '/' . $child));
+			$this->assertTrue($this->cache2->inCache($sourceFolder . '/' . $child));
+			$this->assertTrue($this->cache->inCache($targetFolder . '/' . $child));
+			$this->assertFalse($this->cache2->inCache($targetFolder . '/' . $child));
+		}
 	}
 
 	function testGetIncomplete() {
