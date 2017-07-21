@@ -736,7 +736,6 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\OCS\\CoreCapabilities' => __DIR__ . '/../../..' . '/lib/private/OCS/CoreCapabilities.php',
         'OC\\OCS\\DiscoveryService' => __DIR__ . '/../../..' . '/lib/private/OCS/DiscoveryService.php',
         'OC\\OCS\\Exception' => __DIR__ . '/../../..' . '/lib/private/OCS/Exception.php',
-        'OC\\OCS\\PrivateData' => __DIR__ . '/../../..' . '/lib/private/OCS/PrivateData.php',
         'OC\\OCS\\Provider' => __DIR__ . '/../../..' . '/lib/private/OCS/Provider.php',
         'OC\\OCS\\Result' => __DIR__ . '/../../..' . '/lib/private/OCS/Result.php',
         'OC\\PreviewManager' => __DIR__ . '/../../..' . '/lib/private/PreviewManager.php',

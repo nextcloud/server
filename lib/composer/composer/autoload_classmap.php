@@ -706,7 +706,6 @@ return array(
     'OC\\OCS\\CoreCapabilities' => $baseDir . '/lib/private/OCS/CoreCapabilities.php',
     'OC\\OCS\\DiscoveryService' => $baseDir . '/lib/private/OCS/DiscoveryService.php',
     'OC\\OCS\\Exception' => $baseDir . '/lib/private/OCS/Exception.php',
-    'OC\\OCS\\PrivateData' => $baseDir . '/lib/private/OCS/PrivateData.php',
     'OC\\OCS\\Provider' => $baseDir . '/lib/private/OCS/Provider.php',
     'OC\\OCS\\Result' => $baseDir . '/lib/private/OCS/Result.php',
     'OC\\PreviewManager' => $baseDir . '/lib/private/PreviewManager.php',
