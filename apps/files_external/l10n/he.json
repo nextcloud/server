@@ -110,8 +110,6 @@
     "Delete" : "מחיקה",
     "Allow users to mount external storage" : "מאפשר למשתמשים לחבר אחסון חיצוני",
     "Allow users to mount the following external storage" : "מאפשר למשתמשים לחבר אחסון חיצוני הבא",
-    "Couldn't access. Please logout and login to activate this mount point" : "לא ניתן להכנס. יש להתנתק ולהתחבר כדי להפעיל את נקודת העיגון הזו",
-    "Couldn't get the list of Windows network drive mount points: empty response from the server" : "לא ניתן היה לקבל את רשימת נקודות העיגון של כונן הרשת של Window: תגובה ריקה מהשרת",
     "Storage with id \"%i\" not found" : "אחסון עם מספר זיהוי \"%i\" לא אותר",
     "Storage with id \"%i\" is not user editable" : "האחסון עם זהות \"%i\" לא ניתן לעריכה"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

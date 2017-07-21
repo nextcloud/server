@@ -43,8 +43,6 @@
     "Add to your website" : "Lägg till på din hemsida",
     "Share with me via Nextcloud" : "Dela med mig via Nextcloud",
     "HTML Code:" : "HTML Kod:",
-    "Federated Share request was successful, you will receive a invitation. Check your notifications." : "Federerad delningsbegäran lyckades och du kommer att få en inbjudan. Kolla dina notifikationer.",
-    "Federated Share successfully added" : "Federerad delning lyckades",
     "Share it:" : "Dela detta:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

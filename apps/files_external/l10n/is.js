@@ -125,8 +125,6 @@ OC.L10N.register(
     "Delete" : "Eyða",
     "Allow users to mount external storage" : "Leyfa notendum að tengja ytri gagnageymslur í skráakerfi",
     "Allow users to mount the following external storage" : "Leyfa notendum að tengja eftirfarandi ytri gagnageymslu í skráakerfi",
-    "Couldn't access. Please logout and login to activate this mount point" : "Náði ekki aðgangi. Skráðu þig út og svo aftur inn til að virkja þennan tengipunkt",
-    "Couldn't get the list of Windows network drive mount points: empty response from the server" : "Gat ekki fengið lista yfir tengipunkta Windows-netdrifa: autt svar frá þjóni",
     "Storage with id \"%i\" not found" : "Geymsla með auðkennið '%i' fannst ekki",
     "Storage with id \"%i\" is not user editable" : "Geymslan með auðkennið '%s' er ekki breytanleg af notanda"
 },

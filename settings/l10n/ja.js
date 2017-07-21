@@ -303,8 +303,6 @@ OC.L10N.register(
     "Unable to add user to group %s" : "ユーザーをグループ %s に追加できません",
     "Unable to remove user from group %s" : "ユーザーをグループ %s から削除できません",
     "Sending..." : "送信中…",
-    "Error: this app cannot be enabled because it makes the server unstable" : "エラー：このアプリは、サーバーを不安定にするため、有効にすることができません。",
-    "Error: could not disable broken app" : "エラー: 壊れたアプリを無効にできませんでした",
     "Uninstalling ...." : "アンインストール中 ....",
     "Error while uninstalling app" : "アプリをアンインストール中にエラーが発生",
     "Uninstall" : "アンインストール",

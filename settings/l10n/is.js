@@ -375,8 +375,6 @@ OC.L10N.register(
     "Unable to add user to group %s" : "Ekki tókst að bæta notanda við hópinn %s",
     "Unable to remove user from group %s" : "Ekki tókst að fjarlægja notanda úr hópnum %s",
     "Sending..." : "Sendi...",
-    "Error: this app cannot be enabled because it makes the server unstable" : "Villa: ekki er hægt að virkja þetta forrit því það gerir þjóninn óstöðugan",
-    "Error: could not disable broken app" : "Villa: gat ekki gert bilaða forritið óvirkt",
     "Uninstalling ...." : "Tek út uppsetningu ....",
     "Error while uninstalling app" : "Villa við að fjarlægja forrit",
     "Uninstall" : "Henda út",

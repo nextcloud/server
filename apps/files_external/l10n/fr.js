@@ -125,8 +125,6 @@ OC.L10N.register(
     "Delete" : "Supprimer",
     "Allow users to mount external storage" : "Autoriser les utilisateurs à monter des espaces de stockage externes",
     "Allow users to mount the following external storage" : "Autoriser les utilisateurs à monter les stockages externes suivants",
-    "Couldn't access. Please logout and login to activate this mount point" : "Impossible d'accéder. Veuillez vous déconnecter et vous reconnecter pour activer ce point de montage.",
-    "Couldn't get the list of Windows network drive mount points: empty response from the server" : "Impossible d'obtenir la liste des points de montage des disques réseaux Windows : Réponse vide du serveur",
     "Storage with id \"%i\" not found" : "Stockage avec l'id \"%i\" non trouvé",
     "Storage with id \"%i\" is not user editable" : "Le support de stockage d'id \"%i\" n'est pas modifiable par les utilisateurs"
 },

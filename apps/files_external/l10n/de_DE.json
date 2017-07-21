@@ -125,8 +125,6 @@
     "Delete" : "Löschen",
     "Allow users to mount external storage" : "Erlauben Sie den Benutzern externen Speicher hinzuzufügen",
     "Allow users to mount the following external storage" : "Benutzern erlauben, den oder die folgenden externen Speicher einzubinden:",
-    "Couldn't access. Please logout and login to activate this mount point" : "Anmeldung nicht möglich. Bitte melden Sie sich ab und wieder an, damit Sie von diesem aus Endpunkt zugreifen können.",
-    "Couldn't get the list of Windows network drive mount points: empty response from the server" : "Es konnte keine Liste der Windows-Netzlaufwerke erstellt werden: leer Antwort vom Server",
     "Storage with id \"%i\" not found" : "Der Speicher mit der ID „%i“ wurde nicht gefunden",
     "Storage with id \"%i\" is not user editable" : "Der Speicher mit der ID „%i“ ist nicht bearbeitbar durch Benutzer"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

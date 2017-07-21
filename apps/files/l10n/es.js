@@ -102,9 +102,7 @@ OC.L10N.register(
     "A file has been added to or removed from your <strong>favorites</strong>" : "Un archivo fue agregado o borrado de tus <strong>favoritos</strong>",
     "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Un archivo o carpeta ha sido <strong>cambiado</strong> o <strong>renombrado</strong>",
     "A new file or folder has been <strong>created</strong>" : "Se ha <strong>creado</strong> un nuevo archivo o carpeta",
-    "A new file or folder has been <strong>deleted</strong>" : "Un nuevo archivo o carpeta ha sido <strong>eliminado</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Limitar las notificaciones acerca de la creación y cambios de sus <strong>archivos favoritos</strong> <em>(solo flujos)</em>",
-    "A new file or folder has been <strong>restored</strong>" : "Un nuevo archivo o carpeta ha sido <strong>restaurado</strong>",
     "Unlimited" : "Ilimitado",
     "Upload (max. %s)" : "Subida (máx. %s)",
     "File handling" : "Administración de archivos",
@@ -146,6 +144,8 @@ OC.L10N.register(
     "Copy local link" : "Copiar enlace local",
     "Folder" : "Carpeta",
     "Upload" : "Subir",
+    "A new file or folder has been <strong>deleted</strong>" : "Un nuevo archivo o carpeta ha sido <strong>eliminado</strong>",
+    "A new file or folder has been <strong>restored</strong>" : "Un nuevo archivo o carpeta ha sido <strong>restaurado</strong>",
     "No favorites" : "No hay favoritos"
 },
 "nplurals=2; plural=(n != 1);");

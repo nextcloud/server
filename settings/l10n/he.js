@@ -221,8 +221,6 @@ OC.L10N.register(
     "Unable to add user to group %s" : "לא ניתן להוסיף משתמש לקבוצה %s",
     "Unable to remove user from group %s" : "לא ניתן להסיר משתמש מהקבוצה %s",
     "Sending..." : "שולח...",
-    "Error: this app cannot be enabled because it makes the server unstable" : "שגיאה: לא ניתן להפעיל יישום זה כיוון שהוא גורם לשרת להיות לא יציב. ",
-    "Error: could not disable broken app" : "שגיאה: לא ניתן לנטרל יישום פגום",
     "Uninstalling ...." : "מסיר התקנה...",
     "Error while uninstalling app" : "אירעה שגיאה בעת הסרת היישום",
     "Uninstall" : "הסרת התקנה",

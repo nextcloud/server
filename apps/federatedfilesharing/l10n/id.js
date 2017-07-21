@@ -45,8 +45,6 @@ OC.L10N.register(
     "Add to your website" : "Tambahkan pada situs web Anda",
     "Share with me via Nextcloud" : "Dibagikan pada saya via Nextcloud",
     "HTML Code:" : "Kode HTML:",
-    "Federated Share request was successful, you will receive a invitation. Check your notifications." : "Permintaan pembagian terfederasi sukses, Anda akan mendapatkan undangan. Cek pemberitahuan Anda.",
-    "Federated Share successfully added" : "Pembagian terfederasi sukses ditambahkan",
     "Share it:" : "Bagikan:"
 },
 "nplurals=1; plural=0;");

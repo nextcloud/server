@@ -276,8 +276,6 @@
     "Unable to add user to group %s" : "Nie je možné pridať používateľa do skupiny %s",
     "Unable to remove user from group %s" : "Nie je možné odstrániť používateľa zo skupiny %s",
     "Sending..." : "Odosielam...",
-    "Error: this app cannot be enabled because it makes the server unstable" : "Chyba: aplikáciu nie je možné povoliť, lebo naruší stabilitu servera",
-    "Error: could not disable broken app" : "Chyba: nebolo možné zakázať poškodenú aplikáciu",
     "Uninstalling ...." : "Prebieha odinštalovanie...",
     "Error while uninstalling app" : "Chyba pri odinštalovaní aplikácie",
     "Uninstall" : "Odinštalácia",

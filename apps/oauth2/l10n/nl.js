@@ -8,7 +8,6 @@ OC.L10N.register(
     "Client Identifier" : "Client identificatie",
     "Secret" : "Geheim",
     "Add client" : "Voeg client toe",
-    "Add" : "Toevoegen",
-    "OAuth 2.0 allows external services to request access to your %s." : "OAuth 2.0 staat externe services toe om toegang te vragen aan %s"
+    "Add" : "Toevoegen"
 },
 "nplurals=2; plural=(n != 1);");

@@ -9,7 +9,6 @@ OC.L10N.register(
     "Client Identifier" : "Identifiant du client",
     "Secret" : "Secret",
     "Add client" : "Ajouter un client",
-    "Add" : "Ajouter",
-    "OAuth 2.0 allows external services to request access to your %s." : "OAuth 2.0 permet à des services externes de demander l'accès à votre %s."
+    "Add" : "Ajouter"
 },
 "nplurals=2; plural=(n > 1);");

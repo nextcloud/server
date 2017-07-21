@@ -8,7 +8,6 @@ OC.L10N.register(
     "Client Identifier" : "Klienta identifikators",
     "Secret" : "Noslēpums",
     "Add client" : "Pievienot klientu",
-    "Add" : "Pievienot",
-    "OAuth 2.0 allows external services to request access to your %s." : " OAuth 2.0 atļauj ārējiem servisiem pieprasīt piekļuvi pie Jūsu %s."
+    "Add" : "Pievienot"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

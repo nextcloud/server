@@ -373,8 +373,6 @@
     "Unable to add user to group %s" : "无法将用户添加到分组 %s",
     "Unable to remove user from group %s" : "无法从分组 %s 中移除用户",
     "Sending..." : "正在发送...",
-    "Error: this app cannot be enabled because it makes the server unstable" : "错误: 无法启用应用因为它会导致服务器不稳定",
-    "Error: could not disable broken app" : "错误: 无法禁用损坏的应用",
     "Uninstalling ...." : "正在卸载....",
     "Error while uninstalling app" : "卸载应用时发生了一个错误",
     "Uninstall" : "卸载",

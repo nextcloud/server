@@ -45,8 +45,6 @@ OC.L10N.register(
     "Add to your website" : "Adja hozzá saját weboldalához",
     "Share with me via Nextcloud" : "Ossza meg velem Nextcloud-on keresztül",
     "HTML Code:" : "HTML kód:",
-    "Federated Share request was successful, you will receive a invitation. Check your notifications." : "Az egyesített megosztási kérés sikeres volt, kapni fogsz egy értesítést. Ellenőrizd az értesítéseidet.",
-    "Federated Share successfully added" : "Egyesített megosztás sikeresen hozzáadva",
     "Share it:" : "Oszd meg:"
 },
 "nplurals=2; plural=(n != 1);");

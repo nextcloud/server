@@ -100,9 +100,7 @@ OC.L10N.register(
     "A file has been added to or removed from your <strong>favorites</strong>" : "En fil har lagts till eller tagits bort från dina <strong>favoriter</strong>",
     "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "En fil har blivit <strong>ändrad</strong> eller <strong>bytt namn</strong>",
     "A new file or folder has been <strong>created</strong>" : "En ny fil eller mapp har blivit <strong>skapad</strong>",
-    "A new file or folder has been <strong>deleted</strong>" : "En ny fil har blivit <strong>raderad</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Begränsa notiser om skapande och ändringar till dina <strong>favoritfiler</strong> <em>(Endast i flödet)</em>",
-    "A new file or folder has been <strong>restored</strong>" : "En ny fil eller mapp har blivit <strong>återställd</strong>",
     "Upload (max. %s)" : "Ladda upp (max. %s)",
     "File handling" : "Filhantering",
     "Maximum upload size" : "Maximal storlek att ladda upp",
@@ -141,6 +139,8 @@ OC.L10N.register(
     "Copy local link" : "Kopiera den lokala länken",
     "Folder" : "Mapp",
     "Upload" : "Ladda upp",
+    "A new file or folder has been <strong>deleted</strong>" : "En ny fil har blivit <strong>raderad</strong>",
+    "A new file or folder has been <strong>restored</strong>" : "En ny fil eller mapp har blivit <strong>återställd</strong>",
     "No favorites" : "Inga favoriter"
 },
 "nplurals=2; plural=(n != 1);");

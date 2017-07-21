@@ -97,9 +97,7 @@
     "A file has been added to or removed from your <strong>favorites</strong>" : "Ένα αρχείο έχει προστεθεί ή αφαιρεθεί από τα <strong>αγαπημένα</strong> σας",
     "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Ένα αρχείο ή φάκελος έχει <strong>αλλάξει</strong> ή <strong>μετονομάστηκε</strong>",
     "A new file or folder has been <strong>created</strong>" : "Ένα νέο αρχείο ή κατάλογος έχουν <strong>δημιουργηθεί</strong>",
-    "A new file or folder has been <strong>deleted</strong>" : "Ένα νέο αρχείο ή φάκελος έχει <strong>διαγραφεί</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Βάλτε όριο στις ειδοποιήσεις για τη δημιουργία και αλλαγές στα <strong>αγαπημένα σας αρχεία</strong> <em>(Μόνο Stream)</em>",
-    "A new file or folder has been <strong>restored</strong>" : "Ένα νέο αρχείο ή φάκελος έχει <strong>επαναφερθεί</strong>",
     "Upload (max. %s)" : "Διαμοιρασμός (max. %s)",
     "File handling" : "Διαχείριση αρχείων",
     "Maximum upload size" : "Μέγιστο μέγεθος αποστολής",
@@ -138,6 +136,8 @@
     "Copy local link" : "Αντιγραφή τοπικού συνδέσμου",
     "Folder" : "Φάκελος",
     "Upload" : "Μεταφόρτωση",
+    "A new file or folder has been <strong>deleted</strong>" : "Ένα νέο αρχείο ή φάκελος έχει <strong>διαγραφεί</strong>",
+    "A new file or folder has been <strong>restored</strong>" : "Ένα νέο αρχείο ή φάκελος έχει <strong>επαναφερθεί</strong>",
     "No favorites" : "Δεν υπάρχουν αγαπημένα"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -53,8 +53,6 @@ OC.L10N.register(
     "Add to your website" : "Adicione ao seu website",
     "Share with me via Nextcloud" : "Compartilhe comigo via Nextcloud",
     "HTML Code:" : "Código HTML:",
-    "Federated Share request was successful, you will receive a invitation. Check your notifications." : "Solicitação de compartilhamento federado concluída. Você receberá um convite que pode ser visto nas suas notificações.",
-    "Federated Share successfully added" : "Compartilhamento federado adicionado com sucesso",
     "Search global and public address book for users and let local users publish their data" : "Pesquise o catálogo de endereços global e público para usuários e deixe os usuários locais publicarem seus dados",
     "Share it:" : "Compartilhe-a:"
 },

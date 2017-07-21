@@ -47,8 +47,6 @@ OC.L10N.register(
     "Add to your website" : "Aggiungi al tuo sito web",
     "Share with me via Nextcloud" : "Condividi con me tramite Nextcloud",
     "HTML Code:" : "Codice HTML:",
-    "Federated Share request was successful, you will receive a invitation. Check your notifications." : "La richiesta della condivisione federata è stata eseguita con successo, riceverai un invito. Controlla le tue notifiche.",
-    "Federated Share successfully added" : "Condivisione federata aggiunta con successo",
     "Share it:" : "Condividilo:"
 },
 "nplurals=2; plural=(n != 1);");

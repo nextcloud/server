@@ -121,8 +121,6 @@
     "Delete" : "Διαγραφή",
     "Allow users to mount external storage" : "Να επιτρέπεται στους χρήστες η σύνδεση εξωτερικού χώρου",
     "Allow users to mount the following external storage" : "Χορήγηση άδειας στους χρήστες να συνδέσουν τα παρακάτω εξωτερικά μέσα αποθήκευσης",
-    "Couldn't access. Please logout and login to activate this mount point" : "Αδυναμία πρόσβασης. Παρακαλώ εξέλθετε και εισέλθετε ξανά ώστε να ενεργοποιήσετε το σημείο προσάρτησης",
-    "Couldn't get the list of Windows network drive mount points: empty response from the server" : "Δεν μπορέσαμε να πάρουμε την λίστα των Windows δυκτιακών σημείων προσάρτησης: κενή απάντηση από τον εξυπηρετητή ",
     "Storage with id \"%i\" not found" : "Αποθήκευση με id \"%i\" δεν βρέθηκε",
     "Storage with id \"%i\" is not user editable" : "Αποθηκευτικός χώρος με ID \"%i\" δεν είναι επεξεργάσιμος από τον χρήστη "
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

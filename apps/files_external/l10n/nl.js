@@ -125,8 +125,6 @@ OC.L10N.register(
     "Delete" : "Verwijder",
     "Allow users to mount external storage" : "Sta gebruikers toe om een externe opslag aan te koppelen",
     "Allow users to mount the following external storage" : "Sta gebruikers toe de volgende externe opslag aan te koppelen",
-    "Couldn't access. Please logout and login to activate this mount point" : "Geen toegang. Log uit en opnieuw in om dit koppelpunt te activeren",
-    "Couldn't get the list of Windows network drive mount points: empty response from the server" : "Kon geen overzicht met Windows netwerk koppelpunten krijgen: lege reactie van de server",
     "Storage with id \"%i\" not found" : "Opslag met id \"%i\" niet gevonden",
     "Storage with id \"%i\" is not user editable" : "Opslag met id \"%i\" is niet te bewerken door gebruiker"
 },

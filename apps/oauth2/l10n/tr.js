@@ -9,7 +9,6 @@ OC.L10N.register(
     "Client Identifier" : "İstemci Belirteci",
     "Secret" : "Parola",
     "Add client" : "İstemci Ekle",
-    "Add" : "Ekle",
-    "OAuth 2.0 allows external services to request access to your %s." : "OAuth 2.0 dış hizmetlerin %s hesabınıza erişmesini sağlar."
+    "Add" : "Ekle"
 },
 "nplurals=2; plural=(n > 1);");

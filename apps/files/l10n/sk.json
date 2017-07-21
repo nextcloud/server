@@ -96,9 +96,7 @@
     "A file has been added to or removed from your <strong>favorites</strong>" : "Súbor bol pridaný alebo odstránený z vašich <strong>obľúbených</strong>",
     "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Súbor alebo priečinok bol <strong>zmenený</strong> alebo <strong>premenovaný</strong>",
     "A new file or folder has been <strong>created</strong>" : "Nový súbor alebo priečinok bol <strong>vytvorený</strong>",
-    "A new file or folder has been <strong>deleted</strong>" : "Nový súbor alebo priečinok bol <strong>zmazaný</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Obmedzte upozornenia na vytvorenie a zmeny na vaše <strong>obľúbené súbory</strong> <em>(Len streamy)</em>",
-    "A new file or folder has been <strong>restored</strong>" : "Nový súbor alebo priečinok bol<strong>obnovený</strong>",
     "Upload (max. %s)" : "Nahrať (max. %s)",
     "File handling" : "Nastavenie správania sa k súborom",
     "Maximum upload size" : "Maximálna veľkosť odosielaného súboru",
@@ -136,6 +134,8 @@
     "Copy local link" : "Kopíruj lokálny odkaz",
     "Folder" : "Priečinok",
     "Upload" : "Nahrať",
+    "A new file or folder has been <strong>deleted</strong>" : "Nový súbor alebo priečinok bol <strong>zmazaný</strong>",
+    "A new file or folder has been <strong>restored</strong>" : "Nový súbor alebo priečinok bol<strong>obnovený</strong>",
     "No favorites" : "Žiadne obľúbené"
 },"pluralForm" :"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;"
 }

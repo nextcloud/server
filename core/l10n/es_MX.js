@@ -1,7 +1,7 @@
 OC.L10N.register(
     "core",
     {
-    "Please select a file." : "Por favor selecciona un archivo.un ",
+    "Please select a file." : "Por favor selecciona un archivo.",
     "File is too big" : "El archivo es demasiado grande.",
     "The selected file is not an image." : "El archivo seleccionado no es una imagen.",
     "The selected file cannot be read." : "El archivo seleccionado no se puede leer.",

@@ -7,7 +7,6 @@ OC.L10N.register(
     "Redirection URI" : "Ανακατεύθυνση URI",
     "Secret" : "Μυστικό",
     "Add client" : "Προσθήκη πελάτη",
-    "Add" : "Προσθήκη",
-    "OAuth 2.0 allows external services to request access to your %s." : "Το OAuth 2.0 επιτρέπει σε εξωτερικές υπηρεσίες να ζητούν πρόσβαση στο %s σας."
+    "Add" : "Προσθήκη"
 },
 "nplurals=2; plural=(n != 1);");
