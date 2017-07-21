@@ -151,4 +151,9 @@ return [
 	'whitelist_issue_types' => [
 		// 'PhanAccessMethodPrivate',
 	],
+
+	// A list of plugin files to execute
+	'plugins' => [
+		'build/.phan/plugins/SqlInjectionCheckerPlugin.php',
+	],
 ];

@@ -502,6 +502,7 @@ class Cache implements ICache {
 	 * @param string $targetPath
 	 * @throws \OC\DatabaseException
 	 * @throws \Exception if the given storages have an invalid id
+	 * @suppress SqlInjectionChecker
 	 */
 	public function moveFromCache(ICache $sourceCache, $sourcePath, $targetPath) {
 		if ($sourceCache instanceof Cache) {

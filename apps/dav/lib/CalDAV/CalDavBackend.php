@@ -635,6 +635,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @param string $calendarUri
 	 * @param array $properties
 	 * @return int
+	 * @suppress SqlInjectionChecker
 	 */
 	function createCalendar($principalUri, $calendarUri, array $properties) {
 		$values = [
@@ -695,6 +696,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 *
 	 * Read the PropPatch documentation for more info and examples.
 	 *
+	 * @param mixed $calendarId
 	 * @param PropPatch $propPatch
 	 * @return void
 	 */
@@ -702,6 +704,9 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$supportedProperties = array_keys($this->propertyMap);
 		$supportedProperties[] = '{' . Plugin::NS_CALDAV . '}schedule-calendar-transp';
 
+		/**
+		 * @suppress SqlInjectionChecker
+		 */
 		$propPatch->handle($supportedProperties, function($mutations) use ($calendarId) {
 			$newValues = [];
 			foreach ($mutations as $propertyName => $propertyValue) {
@@ -1618,6 +1623,9 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$supportedProperties = array_keys($this->subscriptionPropertyMap);
 		$supportedProperties[] = '{http://calendarserver.org/ns/}source';
 
+		/**
+		 * @suppress SqlInjectionChecker
+		 */
 		$propPatch->handle($supportedProperties, function($mutations) use ($subscriptionId) {
 
 			$newValues = [];

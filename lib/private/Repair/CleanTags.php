@@ -167,6 +167,7 @@ class CleanTags implements IRepairStep {
 	 * @param string $sourceId
 	 * @param string $sourceNullColumn	If this column is null in the source table,
 	 * 								the entry is deleted in the $deleteTable
+	 * @suppress SqlInjectionChecker
 	 */
 	protected function deleteOrphanEntries(IOutput $output, $repairInfo, $deleteTable, $deleteId, $sourceTable, $sourceId, $sourceNullColumn) {
 		$qb = $this->connection->getQueryBuilder();

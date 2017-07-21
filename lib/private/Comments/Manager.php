@@ -691,6 +691,7 @@ class Manager implements ICommentsManager {
 	 * @param \DateTime $dateTime
 	 * @param IUser $user
 	 * @since 9.0.0
+	 * @suppress SqlInjectionChecker
 	 */
 	public function setReadMark($objectType, $objectId, \DateTime $dateTime, IUser $user) {
 		$this->checkRoleParameters('Object', $objectType, $objectId);
