@@ -263,6 +263,20 @@ class MountProviderTest extends \Test\TestCase {
 					['1', 100, 'user2', '/share2-renamed', 31],
 				],
 			],
+			// #9: share as outsider with "nullgroup" and "user1" where recipient renamed in between
+			[
+				[
+					[2, 100, 'user2', '/share2', 31],
+				],
+				[
+					[1, 100, 'nullgroup', '/share2-renamed', 31],
+				],
+				[
+					// use target of least recent share
+					['1', 100, 'nullgroup', '/share2-renamed', 31],
+				],
+				true
+			],
 		];
 	}
 
@@ -278,7 +292,7 @@ class MountProviderTest extends \Test\TestCase {
 	 * @param array $groupShares array of group share specs
 	 * @param array $expectedShares array of expected supershare specs
 	 */
-	public function testMergeShares($userShares, $groupShares, $expectedShares) {
+	public function testMergeShares($userShares, $groupShares, $expectedShares, $moveFails = false) {
 		$rootFolder = $this->createMock(IRootFolder::class);
 		$userManager = $this->createMock(IUserManager::class);
 
@@ -306,6 +320,12 @@ class MountProviderTest extends \Test\TestCase {
 			->will($this->returnCallback(function() use ($rootFolder, $userManager) {
 				return new \OC\Share20\Share($rootFolder, $userManager);
 			}));
+
+		if ($moveFails) {
+			$this->shareManager->expects($this->any())
+				->method('moveShare')
+				->will($this->throwException(new \InvalidArgumentException()));
+		}
 
 		$mounts = $this->provider->getMountsForUser($this->user, $this->loader);
 
