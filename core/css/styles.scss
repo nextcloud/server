@@ -979,13 +979,13 @@ code {
 	.ui-widget-header {
 		padding: 7px;
 		font-size: 13px;
-		font-weight: 300;
 		border:	none;
 		background-color: $color-main-background;
 		color: $color-main-text;
 
 		.ui-datepicker-title {
 			line-height: 1;
+			font-weight: 300;
 		}
 		.ui-icon {
 			opacity: .5;
