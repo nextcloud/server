@@ -15,12 +15,12 @@ use OC\AppFramework\Http\Request;
 use OC\AppFramework\Middleware\Security\CORSMiddleware;
 use OC\AppFramework\Middleware\Security\Exceptions\SecurityException;
 use OC\AppFramework\Utility\ControllerMethodReflector;
-use OC\User\Session;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IRequestId;
+use OCP\IUserSession;
 use OCP\Security\Bruteforce\IThrottler;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\AppFramework\Middleware\Security\Mock\CORSMiddlewareController;
@@ -28,17 +28,25 @@ use Test\AppFramework\Middleware\Security\Mock\CORSMiddlewareController;
 class CORSMiddlewareTest extends \Test\TestCase {
 	/** @var ControllerMethodReflector */
 	private $reflector;
-	/** @var Session|MockObject */
+	/** @var IUserSession|MockObject */
 	private $session;
 	/** @var IThrottler|MockObject */
 	private $throttler;
+	/** @var IConfig|MockObject */
+	private $config;
 	/** @var CORSMiddlewareController */
 	private $controller;
 
 	protected function setUp(): void {
 		parent::setUp();
+
+		/** @var MockObject */
+		$this->config = $this->createMock(IConfig::class);
+		$this->config->method('getUserValue')->willReturn('["http:\/\/www.test.com"]');
+		$this->config->method('setUserValue')->willReturn(true);
+
 		$this->reflector = new ControllerMethodReflector();
-		$this->session = $this->createMock(Session::class);
+		$this->session = $this->createMock(IUserSession::class);
 		$this->throttler = $this->createMock(IThrottler::class);
 		$this->controller = new CORSMiddlewareController(
 			'test',
@@ -51,6 +59,17 @@ class CORSMiddlewareTest extends \Test\TestCase {
 			['testSetCORSAPIHeader'],
 			['testSetCORSAPIHeaderAttribute'],
 		];
+
+		$this->session = $this->getMockBuilder('\OC\User\Session')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('user');
+		$userSession = $this->createMock(IUserSession::class);
+		$userSession->method('getUser')->willReturn($user);
+
+		$this->session = $userSession;
 	}
 
 	/**
@@ -60,18 +79,24 @@ class CORSMiddlewareTest extends \Test\TestCase {
 		$request = new Request(
 			[
 				'server' => [
-					'HTTP_ORIGIN' => 'test'
+					'HTTP_ORIGIN' => 'http://www.test.com'
 				]
 			],
 			$this->createMock(IRequestId::class),
 			$this->createMock(IConfig::class)
 		);
 		$this->reflector->reflect($this->controller, $method);
-		$middleware = new CORSMiddleware($request, $this->reflector, $this->session, $this->throttler);
+		$middleware = new CORSMiddleware(
+			$request,
+			$this->reflector,
+			$this->session,
+			$this->throttler,
+			$this->config
+		);
 
 		$response = $middleware->afterController($this->controller, $method, new Response());
 		$headers = $response->getHeaders();
-		$this->assertEquals('test', $headers['Access-Control-Allow-Origin']);
+		$this->assertEquals('http://www.test.com', $headers['Access-Control-Allow-Origin']);
 	}
 
 	public function testNoAnnotationNoCORSHEADER(): void {
@@ -84,7 +109,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 			$this->createMock(IRequestId::class),
 			$this->createMock(IConfig::class)
 		);
-		$middleware = new CORSMiddleware($request, $this->reflector, $this->session, $this->throttler);
+		$middleware = new CORSMiddleware($request, $this->reflector, $this->session, $this->throttler, $this->config);
 
 		$response = $middleware->afterController($this->controller, __FUNCTION__, new Response());
 		$headers = $response->getHeaders();
@@ -108,7 +133,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 			$this->createMock(IConfig::class)
 		);
 		$this->reflector->reflect($this->controller, $method);
-		$middleware = new CORSMiddleware($request, $this->reflector, $this->session, $this->throttler);
+		$middleware = new CORSMiddleware($request, $this->reflector, $this->session, $this->throttler, $this->config);
 
 		$response = $middleware->afterController($this->controller, $method, new Response());
 		$headers = $response->getHeaders();
@@ -131,14 +156,14 @@ class CORSMiddlewareTest extends \Test\TestCase {
 		$request = new Request(
 			[
 				'server' => [
-					'HTTP_ORIGIN' => 'test'
+					'HTTP_ORIGIN' => 'http://www.test.com',
 				]
 			],
 			$this->createMock(IRequestId::class),
 			$this->createMock(IConfig::class)
 		);
 		$this->reflector->reflect($this->controller, $method);
-		$middleware = new CORSMiddleware($request, $this->reflector, $this->session, $this->throttler);
+		$middleware = new CORSMiddleware($request, $this->reflector, $this->session, $this->throttler, $this->config);
 
 		$response = new Response();
 		$response->addHeader('AcCess-control-Allow-Credentials ', 'TRUE');
@@ -164,7 +189,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 			$this->createMock(IConfig::class)
 		);
 		$this->reflector->reflect($this->controller, $method);
-		$middleware = new CORSMiddleware($request, $this->reflector, $this->session, $this->throttler);
+		$middleware = new CORSMiddleware($request, $this->reflector, $this->session, $this->throttler, $this->config);
 		$this->session->expects($this->once())
 			->method('isLoggedIn')
 			->willReturn(false);
@@ -198,7 +223,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 			$this->createMock(IConfig::class)
 		);
 		$this->reflector->reflect($this->controller, $method);
-		$middleware = new CORSMiddleware($request, $this->reflector, $this->session, $this->throttler);
+		$middleware = new CORSMiddleware($request, $this->reflector, $this->session, $this->throttler, $this->config);
 		$this->session->expects($this->once())
 			->method('isLoggedIn')
 			->willReturn(true);
@@ -239,7 +264,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 			->with($this->equalTo('user'), $this->equalTo('pass'))
 			->willReturn(true);
 		$this->reflector->reflect($this->controller, $method);
-		$middleware = new CORSMiddleware($request, $this->reflector, $this->session, $this->throttler);
+		$middleware = new CORSMiddleware($request, $this->reflector, $this->session, $this->throttler, $this->config);
 
 		$middleware->beforeController($this->controller, $method);
 	}
@@ -272,7 +297,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 			->with($this->equalTo('user'), $this->equalTo('pass'))
 			->will($this->throwException(new \OC\Authentication\Exceptions\PasswordLoginForbiddenException));
 		$this->reflector->reflect($this->controller, $method);
-		$middleware = new CORSMiddleware($request, $this->reflector, $this->session, $this->throttler);
+		$middleware = new CORSMiddleware($request, $this->reflector, $this->session, $this->throttler, $this->config);
 
 		$middleware->beforeController($this->controller, $method);
 	}
@@ -305,7 +330,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 			->with($this->equalTo('user'), $this->equalTo('pass'))
 			->willReturn(false);
 		$this->reflector->reflect($this->controller, $method);
-		$middleware = new CORSMiddleware($request, $this->reflector, $this->session, $this->throttler);
+		$middleware = new CORSMiddleware($request, $this->reflector, $this->session, $this->throttler, $this->config);
 
 		$middleware->beforeController($this->controller, $method);
 	}
@@ -319,7 +344,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 			$this->createMock(IRequestId::class),
 			$this->createMock(IConfig::class)
 		);
-		$middleware = new CORSMiddleware($request, $this->reflector, $this->session, $this->throttler);
+		$middleware = new CORSMiddleware($request, $this->reflector, $this->session, $this->throttler, $this->config);
 		$response = $middleware->afterException($this->controller, __FUNCTION__, new SecurityException('A security exception'));
 
 		$expected = new JSONResponse(['message' => 'A security exception'], 500);
@@ -335,7 +360,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 			$this->createMock(IRequestId::class),
 			$this->createMock(IConfig::class)
 		);
-		$middleware = new CORSMiddleware($request, $this->reflector, $this->session, $this->throttler);
+		$middleware = new CORSMiddleware($request, $this->reflector, $this->session, $this->throttler, $this->config);
 		$response = $middleware->afterException($this->controller, __FUNCTION__, new SecurityException('A security exception', 501));
 
 		$expected = new JSONResponse(['message' => 'A security exception'], 501);
@@ -354,7 +379,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 			$this->createMock(IRequestId::class),
 			$this->createMock(IConfig::class)
 		);
-		$middleware = new CORSMiddleware($request, $this->reflector, $this->session, $this->throttler);
+		$middleware = new CORSMiddleware($request, $this->reflector, $this->session, $this->throttler, $this->config);
 		$middleware->afterException($this->controller, __FUNCTION__, new \Exception('A regular exception'));
 	}
 }

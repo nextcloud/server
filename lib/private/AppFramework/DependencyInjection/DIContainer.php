@@ -234,7 +234,8 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 					$c->get(IRequest::class),
 					$c->get(IControllerMethodReflector::class),
 					$c->get(IUserSession::class),
-					$c->get(IThrottler::class)
+					$c->get(IThrottler::class),
+					$c->get(IConfig::class),
 				)
 			);
 			$dispatcher->registerMiddleware(

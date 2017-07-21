@@ -274,6 +274,41 @@ class Router implements IRouter {
 		}
 
 		$matcher = new UrlMatcher($this->root, $this->context);
+
+		if (\OC::$server->getRequest()->getMethod() === "OPTIONS") {
+			try {
+				// Checking whether the actual request (one which OPTIONS is pre-flight for)
+				// Is actually valid
+				$requestingMethod = \OC::$server->getRequest()->getHeader('Access-Control-Request-Method');
+				$tempContext = $this->context;
+				$tempContext->setMethod($requestingMethod);
+				$tempMatcher = new UrlMatcher($this->root, $tempContext);
+				$parameters = $tempMatcher->match($url);
+
+				// Reach here if it's valid
+				$response = new \OC\OCS\Result(null, 100, 'OPTIONS request successful');
+				$response = \OC_Response::setOptionsRequestHeaders($response);
+				\OC_API::respond($response, \OC_API::requestedFormat());
+
+				// Return since no more processing for an OPTIONS request is required
+				return;
+			} catch (ResourceNotFoundException $e) {
+				if (substr($url, -1) !== '/') {
+					// We allow links to apps/files? for backwards compatibility reasons
+					// However, since Symfony does not allow empty route names, the route
+					// we need to match is '/', so we need to append the '/' here.
+					try {
+						$parameters = $matcher->match($url . '/');
+					} catch (ResourceNotFoundException $newException) {
+						// If we still didn't match a route, we throw the original exception
+						throw $e;
+					}
+				} else {
+					throw $e;
+				}
+			}
+		}
+
 		try {
 			$parameters = $matcher->match($url);
 		} catch (ResourceNotFoundException $e) {

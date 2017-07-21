@@ -29,7 +29,6 @@ namespace OC\AppFramework\Middleware\Security;
 use OC\AppFramework\Middleware\Security\Exceptions\SecurityException;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\Authentication\Exceptions\PasswordLoginForbiddenException;
-use OC\User\Session;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\CORS;
@@ -37,7 +36,9 @@ use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Middleware;
+use OCP\IConfig;
 use OCP\IRequest;
+use OCP\IUserSession;
 use OCP\Security\Bruteforce\IThrottler;
 use ReflectionMethod;
 
@@ -48,23 +49,12 @@ use ReflectionMethod;
  * https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS
  */
 class CORSMiddleware extends Middleware {
-	/** @var IRequest  */
-	private $request;
-	/** @var ControllerMethodReflector */
-	private $reflector;
-	/** @var Session */
-	private $session;
-	/** @var IThrottler */
-	private $throttler;
-
-	public function __construct(IRequest $request,
-								ControllerMethodReflector $reflector,
-								Session $session,
-								IThrottler $throttler) {
-		$this->request = $request;
-		$this->reflector = $reflector;
-		$this->session = $session;
-		$this->throttler = $throttler;
+	public function __construct(private IRequest $request,
+								private ControllerMethodReflector $reflector,
+								private IUserSession $session,
+								private IThrottler $throttler,
+								private IConfig $config,
+								) {
 	}
 
 	/**
@@ -135,24 +125,25 @@ class CORSMiddleware extends Middleware {
 	 * @throws SecurityException
 	 */
 	public function afterController($controller, $methodName, Response $response) {
+		$userId = !is_null($this->session->getUser()) ? $this->session->getUser()->getUID() : null;
+
 		// only react if it's a CORS request and if the request sends origin and
+		$reflectionMethod = new ReflectionMethod($controller, $methodName);
+		if ($this->request->getHeader("Origin") !== null
+			&& $this->hasAnnotationOrAttribute($reflectionMethod, 'CORS', CORS::class)
+			&& !is_null($userId)) {
+			$requesterDomain = $this->request->getHeader("Origin");
+			\OC_Response::setCorsHeaders($userId, $requesterDomain, $this->config);
 
-		if (isset($this->request->server['HTTP_ORIGIN'])) {
-			$reflectionMethod = new ReflectionMethod($controller, $methodName);
-			if ($this->hasAnnotationOrAttribute($reflectionMethod, 'CORS', CORS::class)) {
-				// allow credentials headers must not be true or CSRF is possible
-				// otherwise
-				foreach ($response->getHeaders() as $header => $value) {
-					if (strtolower($header) === 'access-control-allow-credentials' &&
-					   strtolower(trim($value)) === 'true') {
-						$msg = 'Access-Control-Allow-Credentials must not be '.
-							   'set to true in order to prevent CSRF';
-						throw new SecurityException($msg);
-					}
+			// allow credentials headers must not be true or CSRF is possible
+			// otherwise
+			foreach ($response->getHeaders() as $header => $value) {
+				if (strtolower($header) === 'access-control-allow-credentials' &&
+					strtolower(trim($value)) === 'true') {
+					$msg = 'Access-Control-Allow-Credentials must not be '.
+							'set to true in order to prevent CSRF';
+					throw new SecurityException($msg);
 				}
-
-				$origin = $this->request->server['HTTP_ORIGIN'];
-				$response->addHeader('Access-Control-Allow-Origin', $origin);
 			}
 		}
 		return $response;
