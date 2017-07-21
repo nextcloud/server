@@ -32,6 +32,7 @@
 * :clipboard: [Forum](https://help.nextcloud.com)
 * :busts_in_silhouette: [Facebook](https://facebook.com/nextclouders)
 * :hatching_chick: [Twitter](https://twitter.com/Nextclouders)
+* :elephant: [Mastodon](https://mastodon.xyz/@nextcloud)
 
 […learn more about how to get support for Nextcloud here!](https://nextcloud.com/support)
 
