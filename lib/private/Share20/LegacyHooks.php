@@ -40,6 +40,7 @@ class LegacyHooks {
 
 		$this->eventDispatcher->addListener('OCP\Share::preUnshare', [$this, 'preUnshare']);
 		$this->eventDispatcher->addListener('OCP\Share::postUnshare', [$this, 'postUnshare']);
+		$this->eventDispatcher->addListener('OCP\Share::postUnshareFromSelf', [$this, 'postUnshareFromSelf']);
 	}
 
 	/**
@@ -72,6 +73,20 @@ class LegacyHooks {
 		$formatted['deletedShares'] = $formattedDeletedShares;
 
 		\OC_Hook::emit('OCP\Share', 'post_unshare', $formatted);
+	}
+
+	/**
+	 * @param GenericEvent $e
+	 */
+	public function postUnshareFromSelf(GenericEvent $e) {
+		/** @var IShare $share */
+		$share = $e->getSubject();
+
+		$formatted = $this->formatHookParams($share);
+		$formatted['itemTarget'] = $formatted['fileTarget'];
+		$formatted['unsharedItems'] = [$formatted];
+
+		\OC_Hook::emit('OCP\Share', 'post_unshareFromSelf', $formatted);
 	}
 
 	private function formatHookParams(IShare $share) {
