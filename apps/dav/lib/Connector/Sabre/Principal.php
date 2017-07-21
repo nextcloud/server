@@ -147,11 +147,19 @@ class Principal implements BackendInterface {
 			}
 
 			if ($this->hasGroups || $needGroups) {
+
 				$groups = $this->groupManager->getUserGroups($user);
 				$groups = array_map(function($group) {
 					/** @var IGroup $group */
 					return 'principals/groups/' . urlencode($group->getGID());
 				}, $groups);
+
+				// We also add circles to the group list.
+				// TODO: will generate conflict if the circle has the same name than a group
+				$circles = \OCA\Circles\Api\v1\Circles::joinedCircles();
+				foreach ($circles as $circle) {
+					$groups['_circle_' . $circle->getId()] = 'principals/circles/' . $circle->getId();
+				}
 
 				return $groups;
 			}

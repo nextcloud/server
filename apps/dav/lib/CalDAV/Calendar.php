@@ -21,6 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\DAV\CalDAV;
 
 use OCA\DAV\DAV\Sharing\IShareable;
@@ -45,7 +46,8 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 			$this->calendarInfo['{DAV:}displayname'] = $l10n->t('Contact birthdays');
 		}
 		if ($this->getName() === CalDavBackend::PERSONAL_CALENDAR_URI &&
-			$this->calendarInfo['{DAV:}displayname'] === CalDavBackend::PERSONAL_CALENDAR_NAME) {
+			$this->calendarInfo['{DAV:}displayname'] === CalDavBackend::PERSONAL_CALENDAR_NAME
+		) {
 			$this->calendarInfo['{DAV:}displayname'] = $l10n->t('Personal');
 		}
 	}
@@ -73,8 +75,66 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 		if ($this->isShared()) {
 			throw new Forbidden();
 		}
+
+		$this->updateCircleShares($add, $remove);
 		$this->caldavBackend->updateShares($this, $add, $remove);
 	}
+
+
+	/**
+	 * Update the list of shares to Circles.
+	 * Called by updateShares(), this function will check if the Circles app exists and is enabled.
+	 * Then it will add or remove shares to Circles using a Broadcaster
+	 *
+	 * @param array $add
+	 * @param array $remove
+	 *
+	 */
+	protected function updateCircleShares(array &$add, array &$remove) {
+
+		if (!\OC::$server->getAppManager()->isEnabledForUser('circles') || !class_exists('\OCA\Circles\Api\v1\Circles')) {
+			return;
+		}
+
+		$calInfos = $this->calendarInfo;
+
+		$k = '{' . Plugin::NS_CALDAV . '}supported-calendar-component-set';
+		$calInfos[$k] = $this->calendarInfo[$k]->getValue();
+
+		$k = '{' . Plugin::NS_CALDAV . '}schedule-calendar-transp';
+		$calInfos[$k] = $this->calendarInfo[$k]->getValue();
+
+		$toAdd = [];
+		foreach ($add as $added) {
+			if (substr($added['href'], 0, 29) === 'principal:principals/circles/') {
+				$circleId = intval(substr($added['href'], 29));
+				$this->shareToCircle($circleId, ['calendar' => $calInfos, 'add' => $added]);
+			} else {
+				$toAdd[] = $added;
+			}
+		}
+		$add = $toAdd;
+	}
+
+
+	/**
+	 * @param $circleId
+	 * @param array $share
+	 */
+	protected function shareToCircle($circleId, array $share) {
+		if ($circleId < 1) {
+			return;
+		}
+
+		/** @noinspection PhpUnnecessaryFullyQualifiedNameInspection */
+		\OCA\Circles\Api\v1\Circles::shareToCircle($circleId, 'calendar', 'caldav', $share, '\OCA\DAV\Circles\CalDAVSharesBroadcaster');
+	}
+
+
+	protected function unshareToCircle($circleId, array $share) {
+
+	}
+
 
 	/**
 	 * Returns the list of people whom this resource is shared with.
@@ -110,7 +170,7 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 	}
 
 	public function getACL() {
-		$acl =  [
+		$acl = [
 			[
 				'privilege' => '{DAV:}read',
 				'principal' => $this->getOwner(),
@@ -131,11 +191,11 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 		}
 
 		if ($this->getOwner() !== parent::getOwner()) {
-			$acl[] =  [
-					'privilege' => '{DAV:}read',
-					'principal' => parent::getOwner(),
-					'protected' => true,
-				];
+			$acl[] = [
+				'privilege' => '{DAV:}read',
+				'principal' => parent::getOwner(),
+				'protected' => true,
+			];
 			if ($this->canWrite()) {
 				$acl[] = [
 					'privilege' => '{DAV:}write',
@@ -165,7 +225,7 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 		}
 
 		$allowedPrincipals = [$this->getOwner(), parent::getOwner(), 'principals/system/public'];
-		return array_filter($acl, function($rule) use ($allowedPrincipals) {
+		return array_filter($acl, function ($rule) use ($allowedPrincipals) {
 			return in_array($rule['principal'], $allowedPrincipals);
 		});
 	}
@@ -183,10 +243,11 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 
 	public function delete() {
 		if (isset($this->calendarInfo['{http://owncloud.org/ns}owner-principal']) &&
-			$this->calendarInfo['{http://owncloud.org/ns}owner-principal'] !== $this->calendarInfo['principaluri']) {
+			$this->calendarInfo['{http://owncloud.org/ns}owner-principal'] !== $this->calendarInfo['principaluri']
+		) {
 			$principal = 'principal:' . parent::getOwner();
 			$shares = $this->caldavBackend->getShares($this->getResourceId());
-			$shares = array_filter($shares, function($share) use ($principal){
+			$shares = array_filter($shares, function ($share) use ($principal) {
 				return $share['href'] === $principal;
 			});
 			if (empty($shares)) {
