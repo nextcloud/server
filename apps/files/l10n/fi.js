@@ -102,9 +102,7 @@ OC.L10N.register(
     "A file has been added to or removed from your <strong>favorites</strong>" : "Tiedosto on lisätty tai poistettu <strong>suosikeista</strong>",
     "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Tiedostoa tai kansiota on <strong>muutettu</strong> tai se on <strong>uudelleennimetty</strong>",
     "A new file or folder has been <strong>created</strong>" : "Uusi tiedosto tai kansio on <strong>luotu</strong>",
-    "A new file or folder has been <strong>deleted</strong>" : "Uusi tiedosto tai kansio on <strong>poistettu</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Rajoita luomis- ja muutosilmoitukset <strong>omiin suosikkitiedostoihin</strong> <em>(Vain listaus)</em>",
-    "A new file or folder has been <strong>restored</strong>" : "Uusi tiedosto tai kansio on <strong>palautettu</strong>",
     "Unlimited" : "Rajoittamaton",
     "Upload (max. %s)" : "Lähetys (enintään %s)",
     "File handling" : "Tiedostonhallinta",
@@ -145,6 +143,8 @@ OC.L10N.register(
     "Copy local link" : "Kopioi paikallinen linkki",
     "Folder" : "Kansio",
     "Upload" : "Lähetä",
+    "A new file or folder has been <strong>deleted</strong>" : "Uusi tiedosto tai kansio on <strong>poistettu</strong>",
+    "A new file or folder has been <strong>restored</strong>" : "Uusi tiedosto tai kansio on <strong>palautettu</strong>",
     "No favorites" : "Ei suosikkeja"
 },
 "nplurals=2; plural=(n != 1);");

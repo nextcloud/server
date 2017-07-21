@@ -391,8 +391,6 @@
     "Unable to add user to group %s" : "Der Benutzer konnte nicht zur Gruppe %s hinzugefügt werden",
     "Unable to remove user from group %s" : "Der Benutzer konnte nicht aus der Gruppe %s entfernt werden",
     "Sending..." : "Wird gesendet…",
-    "Error: this app cannot be enabled because it makes the server unstable" : "Fehler: Diese App kann nicht aktiviert werden, da es den Server instabil macht.",
-    "Error: could not disable broken app" : "Fehler: Die beschädigte Anwendung konnte nicht deaktiviert werden",
     "Uninstalling ...." : "Wird deinstalliert…",
     "Error while uninstalling app" : "Fehler beim Deinstallieren der App",
     "Uninstall" : "Deinstallieren",

@@ -357,8 +357,6 @@ OC.L10N.register(
     "Unable to add user to group %s" : "Kan inte lägga till användare i gruppen %s",
     "Unable to remove user from group %s" : "Kan inte radera användare från gruppen %s",
     "Sending..." : "Skickar ...",
-    "Error: this app cannot be enabled because it makes the server unstable" : "Fel uppstod: Denna applikation kan ej startas för det gör servern ostabil.",
-    "Error: could not disable broken app" : "Fel: Gick inte att inaktivera trasig applikation.",
     "Uninstalling ...." : "Avinstallerar ...",
     "Error while uninstalling app" : "Ett fel inträffade när applikatonen avinstallerades",
     "Uninstall" : "Avinstallera",

@@ -393,8 +393,6 @@ OC.L10N.register(
     "Unable to add user to group %s" : "Não foi possível adicionar o usuário ao grupo %s",
     "Unable to remove user from group %s" : "Não foi possível excluir o usuário do grupo %s",
     "Sending..." : "Enviando...",
-    "Error: this app cannot be enabled because it makes the server unstable" : "Erro: este aplicativo não pode ser habilitado porque faz o servidor instável",
-    "Error: could not disable broken app" : "Erro: Não foi possível desativar o aplicativo corrompido",
     "Uninstalling ...." : "Desinstalando...",
     "Error while uninstalling app" : "Erro enquanto desinstalava aplicativo",
     "Uninstall" : "Desinstalar",

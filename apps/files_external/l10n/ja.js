@@ -125,8 +125,6 @@ OC.L10N.register(
     "Delete" : "削除",
     "Allow users to mount external storage" : "ユーザーに外部ストレージの接続を許可する",
     "Allow users to mount the following external storage" : "ユーザーに以下の外部ストレージのマウントを許可する",
-    "Couldn't access. Please logout and login to activate this mount point" : "アクセス出来ませんでした｡このマウントポイントを有効にするには一度ログアウトしてからログインしてください。",
-    "Couldn't get the list of Windows network drive mount points: empty response from the server" : "Windows ネットワークドライブのマウントポイントリストを取得出来ませんでした:サーバーから空の応答がありました",
     "Storage with id \"%i\" not found" : "ストレージID \"%i\" が見つかりません",
     "Storage with id \"%i\" is not user editable" : "ストレージID \"%i\" はユーザーが編集できません"
 },

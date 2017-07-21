@@ -125,8 +125,6 @@ OC.L10N.register(
     "Delete" : "Usuń",
     "Allow users to mount external storage" : "Pozwól użytkownikom montować zewnętrzne zasoby dyskowe",
     "Allow users to mount the following external storage" : "Pozwól użytkownikom montować następujące zewnętrzne zasoby dyskowe",
-    "Couldn't access. Please logout and login to activate this mount point" : "Nie można uzyskać dostępu. Należy wylogować się i ponownie zalogować się, aby włączyć ten punkt montowania",
-    "Couldn't get the list of Windows network drive mount points: empty response from the server" : "Nie udało się uzyskać listy punktów montowania dysku sieciowego z systemu Windows: puste odpowiedzi z serwera",
     "Storage with id \"%i\" not found" : "Magazyn o ID \"%i\" nie został znaleziony",
     "Storage with id \"%i\" is not user editable" : "Magazyn o ID \"%i\" nie może być edytowany przez użytkowników"
 },

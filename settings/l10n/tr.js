@@ -393,8 +393,6 @@ OC.L10N.register(
     "Unable to add user to group %s" : "Kullanıcı %s grubuna eklenemedi",
     "Unable to remove user from group %s" : "Kullanıcı %s grubundan çıkartılamadı",
     "Sending..." : "Gönderiliyor...",
-    "Error: this app cannot be enabled because it makes the server unstable" : "Hata: Bu uygulama sunucuda kararsızlığa yol açtığından etkinleştirilemez",
-    "Error: could not disable broken app" : "Hata: Bozuk uygulama devre dışı bırakılamadı",
     "Uninstalling ...." : "Kaldırılıyor ....",
     "Error while uninstalling app" : "Uygulama kaldırılırken sorun çıktı",
     "Uninstall" : "Kaldır",

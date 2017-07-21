@@ -115,8 +115,6 @@ OC.L10N.register(
     "Delete" : "Törlés",
     "Allow users to mount external storage" : "Külső tárolók csatolásának  engedélyezése a felhasználók részére",
     "Allow users to mount the following external storage" : "A felhasználók számára engedélyezett külső tárolók csatolása:",
-    "Couldn't access. Please logout and login to activate this mount point" : "Nem férhető hozzá. Kérlek próbálj meg ki- és bejelentkezni a csatolási pont aktiválásához.",
-    "Couldn't get the list of Windows network drive mount points: empty response from the server" : "Nem sikerült letölteni a Windows hálózati meghajtó csatolási pontok listáját: üres válasz a szervertől",
     "Storage with id \"%i\" not found" : "A következő azonosítójú tároló nem található: \"%i\"",
     "Storage with id \"%i\" is not user editable" : "A következő azonosítójú tároló a felhasználó számára nem szerkeszthető: \"%i\""
 },

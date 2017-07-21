@@ -226,7 +226,6 @@ OC.L10N.register(
     "test email settings" : "testar configurationes de e-posta",
     "Invalid request" : "Requesta non valide",
     "Sending..." : "Inviante...",
-    "Error: this app cannot be enabled because it makes the server unstable" : "Error: iste application non pote esser activate proque illo face le servitor esser instabile",
     "Uninstalling ...." : "De-installante...",
     "Error while uninstalling app" : "Error durante de-installation del application",
     "Uninstall" : "De-installar",

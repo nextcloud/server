@@ -125,8 +125,6 @@ OC.L10N.register(
     "Delete" : "Ištrinti",
     "Allow users to mount external storage" : "Leisti naudotojams prijungti išorines saugyklas",
     "Allow users to mount the following external storage" : "Leisti naudotojams prijungti šias išorines saugyklas",
-    "Couldn't access. Please logout and login to activate this mount point" : "Nepavyko gauti prieigos. Norint aktyvuoti šį prijungimo tašką, prašome atsijungti ir prisijungti",
-    "Couldn't get the list of Windows network drive mount points: empty response from the server" : "Neįmanoma rasti prijungimo taško Windows tinklo diskui: negautas atsakymas iš serverio",
     "Storage with id \"%i\" not found" : "Nerasta saugykla su identifikacijos numeriu \"%i\"",
     "Storage with id \"%i\" is not user editable" : "Naudotojai negali redaguoti saugyklos identifikuotos kaip \"%i\""
 },

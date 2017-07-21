@@ -49,8 +49,6 @@ OC.L10N.register(
     "Add to your website" : "Lisää verkkosivuillesi",
     "Share with me via Nextcloud" : "Jaa kanssani Nextcloudin kautta",
     "HTML Code:" : "HTML-koodi:",
-    "Federated Share request was successful, you will receive a invitation. Check your notifications." : "Federoidun jaon pyyntö onnistui. Tulet saamaan kutsun. Tarkista ilmoituksesi.",
-    "Federated Share successfully added" : "Federoitu jako lisätty onnistuneesti",
     "Search global and public address book for users and let local users publish their data" : "Etsi käyttäjiä maailmanlaajuisesta ja julkisesta osoitekirjasta sekä salli paikallisten käyttäjien julkaista omia tietojaan",
     "Share it:" : "Jaa se:"
 },

@@ -97,9 +97,7 @@
     "A file has been added to or removed from your <strong>favorites</strong>" : "파일이 <strong>즐겨찾기</strong>에서 추가 또는 삭제됨",
     "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "파일이나 폴더가 <strong>변경되거나</strong> <strong>이름이 바뀜</strong>",
     "A new file or folder has been <strong>created</strong>" : "새 파일이나 폴더가 <strong>생성됨</strong>",
-    "A new file or folder has been <strong>deleted</strong>" : "새 파일이나 폴더가 <strong>삭제됨</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "<strong>즐겨찾는 파일</strong>의 생성 및 변경 사항에 대한 알림을 줄일 수 있습니다<em>(스트림에서만)</em>",
-    "A new file or folder has been <strong>restored</strong>" : "새 파일이나 폴더가 <strong>복원됨</strong>",
     "Upload (max. %s)" : "업로드(최대 %s)",
     "File handling" : "파일 처리",
     "Maximum upload size" : "최대 업로드 크기",
@@ -138,6 +136,8 @@
     "Copy local link" : "로컬 링크 복사",
     "Folder" : "폴더",
     "Upload" : "업로드",
+    "A new file or folder has been <strong>deleted</strong>" : "새 파일이나 폴더가 <strong>삭제됨</strong>",
+    "A new file or folder has been <strong>restored</strong>" : "새 파일이나 폴더가 <strong>복원됨</strong>",
     "No favorites" : "즐겨찾는 항목 없음"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

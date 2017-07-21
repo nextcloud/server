@@ -51,8 +51,6 @@ OC.L10N.register(
     "Add to your website" : "Pridėti jūsų puslapį",
     "Share with me via Nextcloud" : "Pasidalinti su manimi per NextCloud",
     "HTML Code:" : "HTML kodas:",
-    "Federated Share request was successful, you will receive a invitation. Check your notifications." : "Dalinimasis kitame serveryje buvo sėkmingas, jūs gausite specialų pakvietimą. Pasitikrinkite pranešimus.",
-    "Federated Share successfully added" : "Dalinimosi su kitu serveriu funkcionalumas įjungtas",
     "Search global and public address book for users and let local users publish their data" : "Rasti globalias ar viešas adresų knygas ir leisti naudotojams viešinti savo duomenis",
     "Share it:" : "Pasidalinti:"
 },

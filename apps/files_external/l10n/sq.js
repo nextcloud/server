@@ -122,8 +122,6 @@ OC.L10N.register(
     "Delete" : "Fshije",
     "Allow users to mount external storage" : "Lejoju përdoruesve të montojnë depozita të jashtme",
     "Allow users to mount the following external storage" : "Lejoju përdoruesve të montojnë depozitën e jashtme vijuese",
-    "Couldn't access. Please logout and login to activate this mount point" : "S’fut dot. Ju lutemi, dilni dhe hyni që të aktivizohet kjo pikë montimi",
-    "Couldn't get the list of Windows network drive mount points: empty response from the server" : "S’u mor dot lista e pikave të montimit Windows network drive: përgjigje e zbrazët nga shërbyesi",
     "Storage with id \"%i\" not found" : "S’u gjet depozitë me id \"%i\"",
     "Storage with id \"%i\" is not user editable" : "Depozita me id \"%i\" s’është e përpunueshme nga përdoruesi"
 },

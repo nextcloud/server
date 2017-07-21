@@ -127,8 +127,6 @@ OC.L10N.register(
     "Delete" : "Slett",
     "Allow users to mount external storage" : "Tillat at brukere kobler opp eksterne lagre",
     "Allow users to mount the following external storage" : "Tillat brukere å koble opp følgende eksterne lagring",
-    "Couldn't access. Please logout and login to activate this mount point" : "Fikk ikke tilgang. Logg ut og inn igjen for å aktivere dette oppkoblingspunktet.",
-    "Couldn't get the list of Windows network drive mount points: empty response from the server" : "Klarte ikke å hente listen over oppkoblingspunkter for Windowsnettverks-disker: Tomt svar fra tjeneren",
     "Storage with id \"%i\" not found" : "Lager med ID \"%i\" ikke funnet",
     "Storage with id \"%i\" is not user editable" : "Lager med ID \"%i\" kan ikke redigeres av bruker"
 },

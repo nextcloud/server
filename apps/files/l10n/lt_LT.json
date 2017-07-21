@@ -100,9 +100,7 @@
     "A file has been added to or removed from your <strong>favorites</strong>" : "Failas buvo pridėtas arba pašalintas iš <strong>mėgstamųjų</strong>",
     "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Buvo <strong>pakeistas</strong> ar <strong>pervadintas</strong> failas ar aplankas",
     "A new file or folder has been <strong>created</strong>" : "Buvo <strong>sukurtas</strong> naujas failas ar aplankas",
-    "A new file or folder has been <strong>deleted</strong>" : "Naujas failas arba aplankas buvo <strong>ištrintas</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Riboti pranešimus apie sukūrimą ir pokyčius jūsų <strong>mėgiamuose failuose</strong> <em>(Tik srautas)</em>",
-    "A new file or folder has been <strong>restored</strong>" : "Naujas failas arba aplankas buvo <strong>atkurtas</strong>",
     "Unlimited" : "Neribotai",
     "Upload (max. %s)" : "Įkelti (maks. %s)",
     "File handling" : "Failų tvarkymas",
@@ -144,6 +142,8 @@
     "Copy local link" : "Kopijuoti vietinę nuorodą",
     "Folder" : "Aplankas",
     "Upload" : "Įkelti",
+    "A new file or folder has been <strong>deleted</strong>" : "Naujas failas arba aplankas buvo <strong>ištrintas</strong>",
+    "A new file or folder has been <strong>restored</strong>" : "Naujas failas arba aplankas buvo <strong>atkurtas</strong>",
     "No favorites" : "Nėra mėgstamiausių"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

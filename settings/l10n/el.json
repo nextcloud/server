@@ -308,8 +308,6 @@
     "Unable to add user to group %s" : "Αδυναμία προσθήκη χρήστη στην ομάδα %s",
     "Unable to remove user from group %s" : "Αδυναμία αφαίρεσης χρήστη από την ομάδα %s",
     "Sending..." : "Αποστέλεται...",
-    "Error: this app cannot be enabled because it makes the server unstable" : "Σφάλμα: αυτή η εφαρμογή δεν μπορεί να ενεργοποιηθεί γιατί θα καταστήσει ασταθή τον διακομιστή.",
-    "Error: could not disable broken app" : "Σφάλμα: αδυναμία απενεργοποίησης κατεστραμμένης εφαρμογής",
     "Uninstalling ...." : "Απεγκατάσταση ....",
     "Error while uninstalling app" : "Σφάλμα κατά την απεγκατάσταση της εφαρμογής",
     "Uninstall" : "Απεγκατάσταση",

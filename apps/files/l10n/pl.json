@@ -100,9 +100,7 @@
     "A file has been added to or removed from your <strong>favorites</strong>" : "Plik został dodany lub usunięty z Twoich <strong>ulubionych</strong>",
     "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Plik lub folder został <strong>zmieniony</ strong> lub <strong>zastąpiony</ strong>",
     "A new file or folder has been <strong>created</strong>" : "Nowy plik lub folder został <strong>utworzony</strong>",
-    "A new file or folder has been <strong>deleted</strong>" : "Nowy plik lub folder został <strong>usunięty </strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Ogranicz powiadomienia o utworzeniu i zmianach do swoich <strong>ulubionych plików</strong> <em>(Tylko w strumieniu aktywności)</em>",
-    "A new file or folder has been <strong>restored</strong>" : "Nowy plik lub folder został <strong>przywrócony</strong>",
     "Unlimited" : "Bez limitu",
     "Upload (max. %s)" : "Wysyłka (max. %s)",
     "File handling" : "Zarządzanie plikami",
@@ -144,6 +142,8 @@
     "Copy local link" : "Kopiowanie lokalnego linku",
     "Folder" : "Folder",
     "Upload" : "Wyślij",
+    "A new file or folder has been <strong>deleted</strong>" : "Nowy plik lub folder został <strong>usunięty </strong>",
+    "A new file or folder has been <strong>restored</strong>" : "Nowy plik lub folder został <strong>przywrócony</strong>",
     "No favorites" : "Brak ulubionych"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

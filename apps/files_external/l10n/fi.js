@@ -125,8 +125,6 @@ OC.L10N.register(
     "Delete" : "Poista",
     "Allow users to mount external storage" : "Salli käyttäjien liittää erillisiä tallennustiloja",
     "Allow users to mount the following external storage" : "Salli käyttäjien liittää seuraavat erilliset tallennusvälineet",
-    "Couldn't access. Please logout and login to activate this mount point" : "Käyttö epäonnistui. Kirjaudu ulos ja takaisin sisään aktivoidaksesi tämän liitospisteen",
-    "Couldn't get the list of Windows network drive mount points: empty response from the server" : "Windows-verkkoasemien liitospisteiden listauksen noutaminen epäonnistui: tyhjä vastaus palvelimelta",
     "Storage with id \"%i\" not found" : "Tallennustilaa tunnisteella \"%i\" ei löytynyt",
     "Storage with id \"%i\" is not user editable" : "Tallennustila, jolla on \"%i\" id, ei ole muokattavissa."
 },

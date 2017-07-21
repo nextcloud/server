@@ -313,8 +313,6 @@
     "Unable to add user to group %s" : "A felhasználó nem adható hozzá ehhez a csoporthoz: %s",
     "Unable to remove user from group %s" : "A felhasználó nem távolítható el ebből a csoportból: %s",
     "Sending..." : "Küldés...",
-    "Error: this app cannot be enabled because it makes the server unstable" : "Hiba: ezt az alkalmzást nem lehet engedélyezni, mert a szerver instabilitását eredményezné",
-    "Error: could not disable broken app" : "Hiba: nem lehet tiltani a megtört alkalmazást",
     "Uninstalling ...." : "Eltávolítás ...",
     "Error while uninstalling app" : "Hiba történt az alkalmazás eltávolítása közben",
     "Uninstall" : "Eltávolítás",

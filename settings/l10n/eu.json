@@ -282,8 +282,6 @@
     "Unable to add user to group %s" : "Ezin izan da erabiltzailea %s taldera gehitu",
     "Unable to remove user from group %s" : "Ezin izan da erabiltzailea %s taldetik ezabatu",
     "Sending..." : "Bidaltzen...",
-    "Error: this app cannot be enabled because it makes the server unstable" : "Akatsa: Aplikazioa hau ezin da gaitu zerbitzaria ezegonkor izatea egiten duelako",
-    "Error: could not disable broken app" : "Akatsa: ezin da hondatutako aplikazioa desgaitu",
     "Uninstalling ...." : "Desinstalatzen ...",
     "Error while uninstalling app" : "Erroea izan da aplikazioa desinstalatzerakoan",
     "Uninstall" : "Desinstalatu",

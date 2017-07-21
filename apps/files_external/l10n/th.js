@@ -109,8 +109,6 @@ OC.L10N.register(
     "Delete" : "ลบ",
     "Allow users to mount external storage" : "อนุญาตให้ผู้ใช้ติดตั้งการจัดเก็บข้อมูลภายนอก",
     "Allow users to mount the following external storage" : "อนุญาตให้ผู้ใช้ติดตั้งจัดเก็บข้อมูลภายนอกต่อไปนี้",
-    "Couldn't access. Please logout and login to activate this mount point" : "ไม่สามารถเข้าถึง กรุณออกจากระบบและาเข้าสู่ระบบใหม่เพื่อเปิดใช้งานจุดเชื่อมต่อนี้",
-    "Couldn't get the list of Windows network drive mount points: empty response from the server" : "ไม่สามารถรับรายชื่อไดรฟ์เครือข่ายของวินโดว์ส จุดที่ติดตั้ง: ไม่มีการตอบสนองจากเซิร์ฟเวอร์",
     "Storage with id \"%i\" not found" : "ไม่พบจัดการเก็บข้อมูลของ ID \"%i\"",
     "Storage with id \"%i\" is not user editable" : "พื้นที่เก็บข้อมูล รหัส \"%i\" ไม่อนุญาตให้ผู้ใช้แก้ไขข้อมูลได้"
 },

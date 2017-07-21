@@ -379,8 +379,6 @@
     "Unable to add user to group %s" : "Niet in staat om gebruiker toe te voegen aan groep %s",
     "Unable to remove user from group %s" : "Niet in staat om gebruiker te verwijderen uit groep %s",
     "Sending..." : "Versturen...",
-    "Error: this app cannot be enabled because it makes the server unstable" : "Fout: deze app kan niet ingeschakeld worden, omdat die de server onstabiel maakt",
-    "Error: could not disable broken app" : "Fout: kan de beschadigde app niet uitschakelen",
     "Uninstalling ...." : "De-installeren ...",
     "Error while uninstalling app" : "Fout bij de-installeren app",
     "Uninstall" : "De-installeren",

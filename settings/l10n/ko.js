@@ -363,8 +363,6 @@ OC.L10N.register(
     "Unable to add user to group %s" : "그룹 %s에 사용자를 추가할 수 없음",
     "Unable to remove user from group %s" : "그룹 %s에서 사용자를 삭제할 수 없음",
     "Sending..." : "보내는 중...",
-    "Error: this app cannot be enabled because it makes the server unstable" : "오류: 이 앱은 서버를 불안정하게 만들 수 있어서 활성화할 수 없습니다",
-    "Error: could not disable broken app" : "오류: 망가진 앱을 비활성화할 수 없음",
     "Uninstalling ...." : "제거하는 중 ....",
     "Error while uninstalling app" : "앱을 제거하는 중 오류 발생",
     "Uninstall" : "제거",
