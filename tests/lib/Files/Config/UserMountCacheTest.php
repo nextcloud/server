@@ -331,7 +331,7 @@ class UserMountCacheTest extends TestCase {
 			$id = (int)$this->connection->lastInsertId('*PREFIX*filecache');
 			$this->fileIds[] = $id;
 		} else {
-			$sql = 'SELECT fileid FROM *PREFIX*filecache WHERE `storage` = ? AND `path_hash` =?';
+			$sql = 'SELECT `fileid` FROM `*PREFIX*filecache` WHERE `storage` = ? AND `path_hash` =?';
 			$query = $this->connection->prepare($sql);
 			$query->execute([$storageId, md5($internalPath)]);
 			return (int)$query->fetchColumn();
