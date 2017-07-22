@@ -73,7 +73,7 @@ class Util {
 	 * @since 4.0.0
 	 */
 	public static function getVersion() {
-		return(\OC_Util::getVersion());
+		return \OC_Util::getVersion();
 	}
 	
 	/**
@@ -119,11 +119,11 @@ class Util {
 		$message->setPlainBody($mailtext);
 		$message->setFrom([$fromaddress => $fromname]);
 		if($html === 1) {
-			$message->setHTMLBody($altbody);
+			$message->setHtmlBody($altbody);
 		}
 
 		if($altbody === '') {
-			$message->setHTMLBody($mailtext);
+			$message->setHtmlBody($mailtext);
 			$message->setPlainBody('');
 		} else {
 			$message->setHtmlBody($mailtext);
@@ -254,7 +254,7 @@ class Util {
 	 * @since 4.0.0
 	 */
 	public static function formatDate($timestamp, $dateOnly=false, $timeZone = null) {
-		return(\OC_Util::formatDate($timestamp, $dateOnly, $timeZone));
+		return \OC_Util::formatDate($timestamp, $dateOnly, $timeZone);
 	}
 
 	/**
@@ -440,8 +440,8 @@ class Util {
 	 * @return string a human readable file size
 	 * @since 4.0.0
 	 */
-	public static function humanFileSize( $bytes ) {
-		return(\OC_Helper::humanFileSize( $bytes ));
+	public static function humanFileSize($bytes) {
+		return \OC_Helper::humanFileSize($bytes);
 	}
 
 	/**
@@ -452,8 +452,8 @@ class Util {
 	 * Inspired by: http://www.php.net/manual/en/function.filesize.php#92418
 	 * @since 4.0.0
 	 */
-	public static function computerFileSize( $str ) {
-		return(\OC_Helper::computerFileSize( $str ));
+	public static function computerFileSize($str) {
+		return \OC_Helper::computerFileSize($str);
 	}
 
 	/**
@@ -470,8 +470,8 @@ class Util {
 	 * TODO: write example
 	 * @since 4.0.0
 	 */
-	static public function connectHook($signalClass, $signalName, $slotClass, $slotName ) {
-		return(\OC_Hook::connect($signalClass, $signalName, $slotClass, $slotName ));
+	static public function connectHook($signalClass, $signalName, $slotClass, $slotName) {
+		return \OC_Hook::connect($signalClass, $signalName, $slotClass, $slotName);
 	}
 
 	/**
@@ -484,8 +484,8 @@ class Util {
 	 * TODO: write example
 	 * @since 4.0.0
 	 */
-	static public function emitHook( $signalclass, $signalname, $params = array()) {
-		return(\OC_Hook::emit( $signalclass, $signalname, $params ));
+	static public function emitHook($signalclass, $signalname, $params = array()) {
+		return \OC_Hook::emit($signalclass, $signalname, $params);
 	}
 
 	/**
@@ -518,7 +518,7 @@ class Util {
 			exit();
 		}
 
-		if (!(\OC::$server->getRequest()->passesCSRFCheck())) {
+		if (!\OC::$server->getRequest()->passesCSRFCheck()) {
 			exit();
 		}
 	}
@@ -549,7 +549,7 @@ class Util {
 	 * @since 6.0.0
 	 */
 	public static function encodePath($component) {
-		return(\OC_Util::encodePath($component));
+		return \OC_Util::encodePath($component);
 	}
 
 	/**
@@ -562,7 +562,7 @@ class Util {
 	 * @since 4.5.0
 	 */
 	public static function mb_array_change_key_case($input, $case = MB_CASE_LOWER, $encoding = 'UTF-8') {
-		return(\OC_Helper::mb_array_change_key_case($input, $case, $encoding));
+		return \OC_Helper::mb_array_change_key_case($input, $case, $encoding);
 	}
 
 	/**
@@ -607,7 +607,7 @@ class Util {
 	 * @since 4.5.0
 	 */
 	public static function recursiveArraySearch($haystack, $needle, $index = null) {
-		return(\OC_Helper::recursiveArraySearch($haystack, $needle, $index));
+		return \OC_Helper::recursiveArraySearch($haystack, $needle, $index);
 	}
 
 	/**

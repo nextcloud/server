@@ -42,41 +42,41 @@ interface IAppContainer extends IContainer {
 	 * @return string the name of your application
 	 * @since 6.0.0
 	 */
-	function getAppName();
+	public function getAppName();
 
 	/**
 	 * @deprecated 8.0.0 implements only deprecated methods
 	 * @return IApi
 	 * @since 6.0.0
 	 */
-	function getCoreApi();
+	public function getCoreApi();
 
 	/**
 	 * @return \OCP\IServerContainer
 	 * @since 6.0.0
 	 */
-	function getServer();
+	public function getServer();
 
 	/**
 	 * @param string $middleWare
 	 * @return boolean
 	 * @since 6.0.0
 	 */
-	function registerMiddleWare($middleWare);
+	public function registerMiddleWare($middleWare);
 
 	/**
 	 * @deprecated 8.0.0 use IUserSession->isLoggedIn()
 	 * @return boolean
 	 * @since 6.0.0
 	 */
-	function isLoggedIn();
+	public function isLoggedIn();
 
 	/**
 	 * @deprecated 8.0.0 use IGroupManager->isAdmin($userId)
 	 * @return boolean
 	 * @since 6.0.0
 	 */
-	function isAdminUser();
+	public function isAdminUser();
 
 	/**
 	 * @deprecated 8.0.0 use the ILogger instead
@@ -85,7 +85,7 @@ interface IAppContainer extends IContainer {
 	 * @return mixed
 	 * @since 6.0.0
 	 */
-	function log($message, $level);
+	public function log($message, $level);
 
 	/**
 	 * Register a capability
