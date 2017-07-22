@@ -287,6 +287,16 @@ class AppManager implements IAppManager {
 		}
 		unset($this->installedAppsCache[$appId]);
 		$this->appConfig->setValue($appId, 'enabled', 'no');
+
+		// run uninstall steps
+		$appData = $this->getAppInfo($appId);
+		if (!is_null($appData)) {
+			\OC_App::executeRepairSteps($appId, $appData['repair-steps']['uninstall']);
+		}
+
+		// emit disable hook - needed anymore ?
+		\OC_Hook::emit('OC_App', 'pre_disable', array('app' => $appId));
+
 		$this->dispatcher->dispatch(ManagerEvent::EVENT_APP_DISABLE, new ManagerEvent(
 			ManagerEvent::EVENT_APP_DISABLE, $appId
 		));
