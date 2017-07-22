@@ -307,29 +307,9 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testGetNumberOfUnreadCommentsForFolder() {
-		// 2 comment for 1111 with 1 before read marker
-		// 2 comments for 1112 with no read marker
-		// 1 comment for 1113 before read marker
-		// 1 comment for 1114 with no read marker
-		$this->addDatabaseEntry(0, 0, null, null, '1112');
-		for ($i = 1; $i < 5; $i++) {
-			$this->addDatabaseEntry(0, 0, null, null, '111' . $i);
-		}
-		$this->addDatabaseEntry(0, 0, (new \DateTime())->modify('-2 days'), null, '1111');
-		$user = $this->createMock(IUser::class);
-		$user->expects($this->any())
-			->method('getUID')
-			->will($this->returnValue('comment_test'));
-
-		$manager = $this->getManager();
-
-		$manager->setReadMark('files', '1111', (new \DateTime())->modify('-1 days'), $user);
-		$manager->setReadMark('files', '1113', (new \DateTime()), $user);
-
 		$query = $this->connection->getQueryBuilder();
 		$query->insert('filecache')
 			->values([
-				'fileid' => $query->createParameter('fileid'),
 				'parent' => $query->createNamedParameter(1000),
 				'size' => $query->createNamedParameter(10),
 				'mtime' => $query->createNamedParameter(10),
@@ -338,17 +318,37 @@ class ManagerTest extends TestCase {
 				'path_hash' => $query->createParameter('path'),
 			]);
 
-		for ($i = 1111; $i < 1115; $i++) {
+		$fileIds = [];
+		for ($i = 0; $i < 4; $i++) {
 			$query->setParameter('path', 'path_' . $i);
-			$query->setParameter('fileid', $i);
 			$query->execute();
+			$fileIds[] = $query->getLastInsertId();
 		}
+
+		// 2 comment for 1111 with 1 before read marker
+		// 2 comments for 1112 with no read marker
+		// 1 comment for 1113 before read marker
+		// 1 comment for 1114 with no read marker
+		$this->addDatabaseEntry(0, 0, null, null, $fileIds[1]);
+		for ($i = 0; $i < 4; $i++) {
+			$this->addDatabaseEntry(0, 0, null, null, $fileIds[$i]);
+		}
+		$this->addDatabaseEntry(0, 0, (new \DateTime())->modify('-2 days'), null, $fileIds[0]);
+		$user = $this->createMock(IUser::class);
+		$user->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('comment_test'));
+
+		$manager = $this->getManager();
+
+		$manager->setReadMark('files', (string) $fileIds[0], (new \DateTime())->modify('-1 days'), $user);
+		$manager->setReadMark('files', (string) $fileIds[2], (new \DateTime()), $user);
 
 		$amount = $manager->getNumberOfUnreadCommentsForFolder(1000, $user);
 		$this->assertEquals([
-			'1111' => 1,
-			'1112' => 2,
-			'1114' => 1,
+			$fileIds[0] => 1,
+			$fileIds[1] => 2,
+			$fileIds[3] => 1,
 		], $amount);
 	}
 
