@@ -36,13 +36,15 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 
 <header><div id="header" class="<?php p((isset($_['folder']) ? 'share-folder' : 'share-file')) ?>">
 		<div id="header-left">
-			<a href="<?php print_unescaped(link_to('', 'index.php')); ?>"
-				title="" id="nextcloud">
+			<span id="nextcloud">
 				<div class="logo logo-icon svg"></div>
 				<h1 class="header-appname">
-					<?php p($theme->getName()); ?>
+					<?php p($_['filename']); ?>
 				</h1>
-			</a>
+				<div class="header-shared-by">
+					<?php echo p($l->t('shared by %s', [$_['displayName']])); ?>
+				</div>
+			</span>
 		</div>
 
 		<div id="logo-claim" style="display:none;"><?php p($theme->getLogoClaim()); ?></div>
