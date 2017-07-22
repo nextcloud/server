@@ -101,6 +101,8 @@ OC.L10N.register(
     "Enable" : "Enable",
     "Enabling app …" : "Enabling app …",
     "Error while enabling app" : "Error whilst enabling app",
+    "Error: This app can not be enabled because it makes the server unstable" : "Error: This app can not be enabled because it makes the server unstable",
+    "Error: Could not disable broken app" : "Error: Could not disable broken app",
     "Error while disabling broken app" : "Error whilst disabling broken app",
     "Updating...." : "Updating....",
     "Error while updating app" : "Error whilst updating app",
