@@ -20,52 +20,48 @@
  *
  */
 
-namespace OCA\Testing;
+namespace OCA\Testing\Controller;
 
+use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\OCSController;
 use OCP\IConfig;
 use OCP\IRequest;
 
-class Config {
+class ConfigController extends OCSController {
 
 	/** @var IConfig */
 	private $config;
 
-	/** @var IRequest */
-	private $request;
-
 	/**
-	 * @param IConfig $config
+	 * @param string $appName
 	 * @param IRequest $request
+	 * @param IConfig $config
 	 */
-	public function __construct(IConfig $config, IRequest $request) {
+	public function __construct($appName,
+								IRequest $request,
+								IConfig $config) {
+		parent::__construct($appName, $request);
 		$this->config = $config;
-		$this->request = $request;
 	}
 
 	/**
-	 * @param array $parameters
-	 * @return \OC_OCS_Result
+	 * @param string $appid
+	 * @param string $configkey
+	 * @param string $value
+	 * @return DataResponse
 	 */
-	public function setAppValue($parameters) {
-		$app = $parameters['appid'];
-		$configKey = $parameters['configkey'];
-
-		$value = $this->request->getParam('value');
-		$this->config->setAppValue($app, $configKey, $value);
-
-		return new \OC_OCS_Result();
+	public function setAppValue($appid, $configkey, $value) {
+		$this->config->setAppValue($appid, $configkey, $value);
+		return new DataResponse();
 	}
 
 	/**
-	 * @param array $parameters
-	 * @return \OC_OCS_Result
+	 * @param string $appid
+	 * @param string $configkey
+	 * @return DataResponse
 	 */
-	public function deleteAppValue($parameters) {
-		$app = $parameters['appid'];
-		$configKey = $parameters['configkey'];
-
-		$this->config->deleteAppValue($app, $configKey);
-
-		return new \OC_OCS_Result();
+	public function deleteAppValue($appid, $configkey) {
+		$this->config->deleteAppValue($appid, $configkey);
+		return new DataResponse();
 	}
 }

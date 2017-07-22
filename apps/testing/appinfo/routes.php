@@ -22,15 +22,9 @@
 
 namespace OCA\Testing\AppInfo;
 
-use OCA\Testing\Config;
 use OCA\Testing\Locking\Provisioning;
 use OCP\API;
 use OCP\AppFramework\App;
-
-$config = new Config(
-	\OC::$server->getConfig(),
-	\OC::$server->getRequest()
-);
 
 $app = new App('testing');
 $app->registerRoutes(
@@ -47,24 +41,20 @@ $app->registerRoutes(
 				'url' => '/anonProtected',
 				'verb' => 'GET',
 			],
-		]
+		],
+		'ocs' => [
+			[
+				'name' => 'Config#setAppValue',
+				'url'  => '/api/v1/app/{appid}/{configkey}',
+				'verb' => 'POST',
+			],
+			[
+				'name' => 'Config#deleteAppValue',
+				'url'  => '/api/v1/app/{appid}/{configkey}',
+				'verb' => 'DELETE',
+			],
+		],
 	]
-);
-
-API::register(
-	'post',
-	'/apps/testing/api/v1/app/{appid}/{configkey}',
-	[$config, 'setAppValue'],
-	'testing',
-	API::ADMIN_AUTH
-);
-
-API::register(
-	'delete',
-	'/apps/testing/api/v1/app/{appid}/{configkey}',
-	[$config, 'deleteAppValue'],
-	'testing',
-	API::ADMIN_AUTH
 );
 
 $locking = new Provisioning(
