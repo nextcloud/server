@@ -101,6 +101,8 @@ OC.L10N.register(
     "Enable" : "Activer",
     "Enabling app …" : "Activation de l'application...",
     "Error while enabling app" : "Erreur lors de l'activation de l'application",
+    "Error: This app can not be enabled because it makes the server unstable" : "Erreur : Cette application ne peut pas être activée car cela rend le serveur instable.",
+    "Error: Could not disable broken app" : "Erreur : Impossible de désactiver l’application cassé",
     "Error while disabling broken app" : "Erreur lors de la désactivation de l'application cassé  .",
     "Updating...." : "Mise à jour...",
     "Error while updating app" : "Erreur lors de la mise à jour de l'application",
