@@ -43,7 +43,7 @@ class ZIP extends Archive{
 	/**
 	 * @param string $source
 	 */
-	function __construct($source) {
+	public function __construct($source) {
 		$this->path=$source;
 		$this->zip=new \ZipArchive();
 		if($this->zip->open($source, \ZipArchive::CREATE)) {
@@ -56,7 +56,7 @@ class ZIP extends Archive{
 	 * @param string $path
 	 * @return bool
 	 */
-	function addFolder($path) {
+	public function addFolder($path) {
 		return $this->zip->addEmptyDir($path);
 	}
 	/**
@@ -65,7 +65,7 @@ class ZIP extends Archive{
 	 * @param string $source either a local file or string data
 	 * @return bool
 	 */
-	function addFile($path, $source='') {
+	public function addFile($path, $source='') {
 		if($source and $source[0]=='/' and file_exists($source)) {
 			$result=$this->zip->addFile($source, $path);
 		}else{
@@ -83,7 +83,7 @@ class ZIP extends Archive{
 	 * @param string $dest
 	 * @return boolean|null
 	 */
-	function rename($source, $dest) {
+	public function rename($source, $dest) {
 		$source=$this->stripPath($source);
 		$dest=$this->stripPath($dest);
 		$this->zip->renameName($source, $dest);
@@ -93,7 +93,7 @@ class ZIP extends Archive{
 	 * @param string $path
 	 * @return int
 	 */
-	function filesize($path) {
+	public function filesize($path) {
 		$stat=$this->zip->statName($path);
 		return $stat['size'];
 	}
@@ -102,7 +102,7 @@ class ZIP extends Archive{
 	 * @param string $path
 	 * @return int
 	 */
-	function mtime($path) {
+	public function mtime($path) {
 		return filemtime($this->path);
 	}
 	/**
@@ -110,7 +110,7 @@ class ZIP extends Archive{
 	 * @param string $path
 	 * @return array
 	 */
-	function getFolder($path) {
+	public function getFolder($path) {
 		$files=$this->getFiles();
 		$folderContent=array();
 		$pathLength=strlen($path);
@@ -127,7 +127,7 @@ class ZIP extends Archive{
 	 * get all files in the archive
 	 * @return array
 	 */
-	function getFiles() {
+	public function getFiles() {
 		$fileCount=$this->zip->numFiles;
 		$files=array();
 		for($i=0;$i<$fileCount;$i++) {
@@ -140,7 +140,7 @@ class ZIP extends Archive{
 	 * @param string $path
 	 * @return string
 	 */
-	function getFile($path) {
+	public function getFile($path) {
 		return $this->zip->getFromName($path);
 	}
 	/**
@@ -149,7 +149,7 @@ class ZIP extends Archive{
 	 * @param string $dest
 	 * @return boolean|null
 	 */
-	function extractFile($path, $dest) {
+	public function extractFile($path, $dest) {
 		$fp = $this->zip->getStream($path);
 		file_put_contents($dest, $fp);
 	}
@@ -158,7 +158,7 @@ class ZIP extends Archive{
 	 * @param string $dest
 	 * @return bool
 	 */
-	function extract($dest) {
+	public function extract($dest) {
 		return $this->zip->extractTo($dest);
 	}
 	/**
@@ -166,7 +166,7 @@ class ZIP extends Archive{
 	 * @param string $path
 	 * @return bool
 	 */
-	function fileExists($path) {
+	public function fileExists($path) {
 		return ($this->zip->locateName($path)!==false) or ($this->zip->locateName($path.'/')!==false);
 	}
 	/**
@@ -174,7 +174,7 @@ class ZIP extends Archive{
 	 * @param string $path
 	 * @return bool
 	 */
-	function remove($path) {
+	public function remove($path) {
 		if($this->fileExists($path.'/')) {
 			return $this->zip->deleteName($path.'/');
 		}else{
@@ -187,7 +187,7 @@ class ZIP extends Archive{
 	 * @param string $mode
 	 * @return resource
 	 */
-	function getStream($path, $mode) {
+	public function getStream($path, $mode) {
 		if($mode=='r' or $mode=='rb') {
 			return $this->zip->getStream($path);
 		} else {
@@ -213,7 +213,7 @@ class ZIP extends Archive{
 	/**
 	 * write back temporary files
 	 */
-	function writeBack($tmpFile, $path) {
+	public function writeBack($tmpFile, $path) {
 		$this->addFile($path, $tmpFile);
 		unlink($tmpFile);
 	}

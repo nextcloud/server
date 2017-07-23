@@ -97,7 +97,7 @@ class Memcached extends Cache implements IMemcache {
 	}
 
 	public function get($key) {
-		$result = self::$cache->get($this->getNamespace() . $key);
+		$result = self::$cache->get($this->getNameSpace() . $key);
 		if ($result === false and self::$cache->getResultCode() == \Memcached::RES_NOTFOUND) {
 			return null;
 		} else {
@@ -107,9 +107,9 @@ class Memcached extends Cache implements IMemcache {
 
 	public function set($key, $value, $ttl = 0) {
 		if ($ttl > 0) {
-			$result =  self::$cache->set($this->getNamespace() . $key, $value, $ttl);
+			$result =  self::$cache->set($this->getNameSpace() . $key, $value, $ttl);
 		} else {
-			$result = self::$cache->set($this->getNamespace() . $key, $value);
+			$result = self::$cache->set($this->getNameSpace() . $key, $value);
 		}
 		if ($result !== true) {
 			$this->verifyReturnCode();
@@ -118,12 +118,12 @@ class Memcached extends Cache implements IMemcache {
 	}
 
 	public function hasKey($key) {
-		self::$cache->get($this->getNamespace() . $key);
+		self::$cache->get($this->getNameSpace() . $key);
 		return self::$cache->getResultCode() === \Memcached::RES_SUCCESS;
 	}
 
 	public function remove($key) {
-		$result= self::$cache->delete($this->getNamespace() . $key);
+		$result= self::$cache->delete($this->getNameSpace() . $key);
 		if (self::$cache->getResultCode() !== \Memcached::RES_NOTFOUND) {
 			$this->verifyReturnCode();
 		}
@@ -131,7 +131,7 @@ class Memcached extends Cache implements IMemcache {
 	}
 
 	public function clear($prefix = '') {
-		$prefix = $this->getNamespace() . $prefix;
+		$prefix = $this->getNameSpace() . $prefix;
 		$allKeys = self::$cache->getAllKeys();
 		if ($allKeys === false) {
 			// newer Memcached doesn't like getAllKeys(), flush everything

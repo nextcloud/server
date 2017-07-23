@@ -45,7 +45,7 @@ class AsyncBus implements IBus {
 	/**
 	 * @param \OCP\BackgroundJob\IJobList $jobList
 	 */
-	function __construct($jobList) {
+	public function __construct($jobList) {
 		$this->jobList = $jobList;
 	}
 

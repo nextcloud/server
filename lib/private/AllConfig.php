@@ -409,7 +409,7 @@ class AllConfig implements \OCP\IConfig {
 			array_unshift($queryParams, $key);
 			array_unshift($queryParams, $appName);
 
-			$placeholders = (sizeof($chunk) == 50) ? $placeholders50 :  implode(',', array_fill(0, sizeof($chunk), '?'));
+			$placeholders = (count($chunk) === 50) ? $placeholders50 :  implode(',', array_fill(0, count($chunk), '?'));
 
 			$query    = 'SELECT `userid`, `configvalue` ' .
 						'FROM `*PREFIX*preferences` ' .

@@ -256,7 +256,7 @@ class TempManager implements ITempManager {
 		// suppress any possible errors caused by is_writable
 		// checks missing or invalid path or characters, wrong permissions etc
 		try {
-			if (is_writeable($directory)) {
+			if (is_writable($directory)) {
 				return true;
 			}
 		} catch (\Exception $e) {

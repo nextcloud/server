@@ -1244,7 +1244,7 @@ class OC_App {
 		$dependencyAnalyzer = new DependencyAnalyzer(new Platform($config), $l);
 		$missing = $dependencyAnalyzer->analyze($info);
 		if (!empty($missing)) {
-			$missingMsg = join(PHP_EOL, $missing);
+			$missingMsg = implode(PHP_EOL, $missing);
 			throw new \Exception(
 				$l->t('App "%s" cannot be installed because the following dependencies are not fulfilled: %s',
 					[$info['name'], $missingMsg]
