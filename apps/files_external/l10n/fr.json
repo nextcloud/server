@@ -28,6 +28,7 @@
     "There was an error with message: " : "Il y a eu une erreur avec le message :",
     "External mount error" : "Erreur de point de montage externe",
     "external-storage" : "external-storage",
+    "Couldn't fetch list of Windows network drive mount points: Empty response from server" : "Impossible d'aller chercher la liste des points de montage des disques réseaux Windows : Réponse vide du serveur",
     "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Certains points de montage externes configurés ne sont pas connectés. Veuillez cliquer sur la(les) ligne(s) rouge(s) pour plus d'informations",
     "Please enter the credentials for the {mount} mount" : "Veuillez entrer les identifiants pour le montage {mount}",
     "Username" : "Nom d'utilisateur",
