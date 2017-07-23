@@ -528,12 +528,13 @@ class Connection extends LDAPUtility {
 				}
 			}
 
+			$isOverrideMainServer = ($this->configuration->ldapOverrideMainServer
+				|| $this->getFromCache('overrideMainServer'));
+			$isBackupHost = (trim($this->configuration->ldapBackupHost) !== "");
 			$bindStatus = false;
 			$error = -1;
 			try {
-				if (!$this->configuration->ldapOverrideMainServer
-					&& !$this->getFromCache('overrideMainServer')
-				) {
+				if (!$isOverrideMainServer) {
 					$this->doConnect($this->configuration->ldapHost,
 						$this->configuration->ldapPort);
 					$bindStatus = $this->bind();
@@ -544,17 +545,13 @@ class Connection extends LDAPUtility {
 					return $bindStatus;
 				}
 			} catch (ServerNotAvailableException $e) {
-				if(trim($this->configuration->ldapBackupHost) === "") {
+				if(!$isBackupHost) {
 					throw $e;
 				}
 			}
 
 			//if LDAP server is not reachable, try the Backup (Replica!) Server
-			if( trim($this->configuration->ldapBackupHost) !== ""
-				&& ($error !== 0
-				|| $this->configuration->ldapOverrideMainServer
-				|| $this->getFromCache('overrideMainServer'))
-			) {
+			if($isBackupHost && ($error !== 0 || $isOverrideMainServer)) {
 				$this->doConnect($this->configuration->ldapBackupHost,
 								 $this->configuration->ldapBackupPort);
 				$bindStatus = $this->bind();
