@@ -964,6 +964,83 @@ code {
 	background-image: url('../img/actions/play-previous.svg?v=1');
 }
 
+/* ---- jQuery UI datepicker ---- */
+.ui-widget.ui-datepicker {
+	margin-top: 10px;
+	padding: 4px 8px;
+	width: auto;
+
+	.ui-state-default,
+	.ui-widget-content .ui-state-default,
+	.ui-widget-header .ui-state-default {
+		border: 1px solid transparent;
+		background: inherit;
+	}
+	.ui-widget-header {
+		padding: 7px;
+		font-size: 13px;
+		border:	none;
+		background-color: $color-main-background;
+		color: $color-main-text;
+
+		.ui-datepicker-title {
+			line-height: 1;
+			font-weight: 300;
+		}
+		.ui-icon {
+			opacity: .5;
+
+			&.ui-icon-circle-triangle-e {
+				background: url("../img/actions/arrow-right.svg") center center no-repeat;
+			}
+			&.ui-icon-circle-triangle-w {
+				background: url("../img/actions/arrow-left.svg") center center no-repeat;
+			}
+		}
+		.ui-state-hover .ui-icon {
+			opacity: 1;
+		}
+	}
+	.ui-datepicker-calendar {
+		th {
+			font-weight: normal;
+			color: nc-lighten($color-main-text, 33%);
+			opacity: .8;
+		}
+		tr:hover {
+			background-color: inherit;
+		}
+		td {
+			> * {
+				border-radius: 50%;
+				text-align: center;
+				font-weight: normal;
+				color: $color-main-text;
+				padding: 6px;
+				line-height: 12px;
+			}
+
+			&.ui-datepicker-today a:not(.ui-state-hover) {
+				background-color: nc-lighten($color-main-text, 86%);
+			}
+
+			&.ui-datepicker-current-day a.ui-state-active,
+			.ui-state-hover,
+			.ui-state-focus {
+				background-color: $color-primary;
+				color: $color-primary-text;
+				font-weight: bold;
+			}
+
+			&.ui-datepicker-week-end :not(.ui-state-hover),
+			.ui-priority-secondary:not(.ui-state-hover) {
+				color: nc-lighten($color-main-text, 33%);
+				opacity: .8;
+			}
+		}
+	}
+}
+
 .ui-datepicker-prev, .ui-datepicker-next {
 	border: nc-lighten($color-main-text, 86%);
 	background: $color-main-background;
