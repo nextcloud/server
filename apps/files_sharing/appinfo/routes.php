@@ -48,6 +48,12 @@ $application->registerRoutes($this, [
 			'url' => '/ajax/publicpreview.php',
 			'verb' => 'GET',
 		],
+
+		[
+			'name' => 'ShareInfo#info',
+			'url' => '/shareinfo',
+			'verb' => 'POST',
+		],
 	],
 	'ocs' => [
 		/*
@@ -123,5 +129,5 @@ $application->registerRoutes($this, [
 ]);
 
 /** @var $this \OCP\Route\IRouter */
-$this->create('sharing_external_shareinfo', '/shareinfo')
+$this->create('sharing_external_shareinfo', '/shareinfo3')
 	->actionInclude('files_sharing/ajax/shareinfo.php');
