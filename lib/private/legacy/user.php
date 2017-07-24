@@ -412,57 +412,6 @@ class OC_User {
 	}
 
 	/**
-	 * Check whether user can change his avatar
-	 *
-	 * @param string $uid The username
-	 * @return bool
-	 *
-	 * Check whether a specified user can change his avatar
-	 */
-	public static function canUserChangeAvatar($uid) {
-		$user = \OC::$server->getUserManager()->get($uid);
-		if ($user) {
-			return $user->canChangeAvatar();
-		} else {
-			return false;
-		}
-	}
-
-	/**
-	 * Check whether user can change his password
-	 *
-	 * @param string $uid The username
-	 * @return bool
-	 *
-	 * Check whether a specified user can change his password
-	 */
-	public static function canUserChangePassword($uid) {
-		$user = \OC::$server->getUserManager()->get($uid);
-		if ($user) {
-			return $user->canChangePassword();
-		} else {
-			return false;
-		}
-	}
-
-	/**
-	 * Check whether user can change his display name
-	 *
-	 * @param string $uid The username
-	 * @return bool
-	 *
-	 * Check whether a specified user can change his display name
-	 */
-	public static function canUserChangeDisplayName($uid) {
-		$user = \OC::$server->getUserManager()->get($uid);
-		if ($user) {
-			return $user->canChangeDisplayName();
-		} else {
-			return false;
-		}
-	}
-
-	/**
 	 * Check if the password is correct
 	 *
 	 * @param string $uid The username
