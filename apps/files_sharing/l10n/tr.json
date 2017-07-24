@@ -101,6 +101,7 @@
     "the link expired" : "bağlantı süresi dolmuş",
     "sharing is disabled" : "paylaşım devre dışı bırakılmış",
     "For more info, please ask the person who sent this link." : "Ayrıntılı bilgi almak için bu bağlantıyı aldığınız kişi ile görüşün.",
+    "shared by %s" : "%s tarafından paylaşıldı",
     "Add to your Nextcloud" : "Nextcloud hesabınıza ekleyin",
     "Download" : "İndir",
     "Download %s" : "%s İndir",
