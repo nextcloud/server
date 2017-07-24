@@ -100,7 +100,10 @@ EOF;
 							<tbody>
 							<tr style="padding:0;text-align:left;vertical-align:top">
 								<center data-parsed="" style="min-width:580px;width:100%%">
+									<!-- convince Outlook to have a max-width of 100px -->
+									<!--[if mso]><table><tr><td width="100"><![endif]-->
 									<img class="logo float-center" src="%s" alt="%s" align="center" style="-ms-interpolation-mode:bicubic;Margin:0 auto;clear:both;display:block;float:none;margin:0 auto;max-height:100%%;max-width:100px;outline:0;text-align:center;text-decoration:none;width:auto">
+									<!--[if mso]></td></tr></table><![endif]-->
 								</center>
 							</tr>
 							</tbody>
