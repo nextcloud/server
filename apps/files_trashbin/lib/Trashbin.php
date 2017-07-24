@@ -42,6 +42,8 @@ use OC\Files\Filesystem;
 use OC\Files\View;
 use OCA\Files_Trashbin\AppInfo\Application;
 use OCA\Files_Trashbin\Command\Expire;
+use OCP\Files\File;
+use OCP\Files\Folder;
 use OCP\Files\NotFoundException;
 use OCP\User;
 
@@ -485,8 +487,15 @@ class Trashbin {
 	 */
 	public static function deleteAll() {
 		$user = User::getUser();
+		$userRoot = \OC::$server->getUserFolder($user)->getParent();
 		$view = new View('/' . $user);
 		$fileInfos = $view->getDirectoryContent('files_trashbin/files');
+
+		try {
+			$trash = $userRoot->get('files_trashbin');
+		} catch (NotFoundException $e) {
+			return false;
+		}
 
 		// Array to store the relative path in (after the file is deleted, the view won't be able to relativise the path anymore)
 		$filePaths = array();
@@ -504,7 +513,7 @@ class Trashbin {
 		}
 
 		// actual file deletion
-		$view->deleteAll('files_trashbin');
+		$trash->delete();
 		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*files_trash` WHERE `user`=?');
 		$query->execute(array($user));
 
@@ -516,8 +525,8 @@ class Trashbin {
 			self::emitTrashbinPostDelete($path);
 		}
 
-		$view->mkdir('files_trashbin');
-		$view->mkdir('files_trashbin/files');
+		$trash = $userRoot->newFolder('files_trashbin');
+		$trash->newFolder('files');
 
 		return true;
 	}
@@ -548,6 +557,7 @@ class Trashbin {
 	 * @return int size of deleted files
 	 */
 	public static function delete($filename, $user, $timestamp = null) {
+		$userRoot = \OC::$server->getUserFolder($user)->getParent();
 		$view = new View('/' . $user);
 		$size = 0;
 
@@ -561,13 +571,20 @@ class Trashbin {
 
 		$size += self::deleteVersions($view, $file, $filename, $timestamp, $user);
 
-		if ($view->is_dir('/files_trashbin/files/' . $file)) {
+		try {
+			$node = $userRoot->get('/files_trashbin/files/' . $file);
+		} catch (NotFoundException $e) {
+			return $size;
+		}
+
+		if ($node instanceof Folder) {
 			$size += self::calculateSize(new View('/' . $user . '/files_trashbin/files/' . $file));
-		} else {
+		} else if ($node instanceof File) {
 			$size += $view->filesize('/files_trashbin/files/' . $file);
 		}
+
 		self::emitTrashbinPreDelete('/files_trashbin/files/' . $file);
-		$view->unlink('/files_trashbin/files/' . $file);
+		$node->delete();
 		self::emitTrashbinPostDelete('/files_trashbin/files/' . $file);
 
 		return $size;
