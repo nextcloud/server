@@ -176,7 +176,7 @@ class InfoParser {
 	 * @param \SimpleXMLElement $xml
 	 * @return array
 	 */
-	function xmlToArray($xml) {
+	public function xmlToArray($xml) {
 		if (!$xml->children()) {
 			return (string)$xml;
 		}

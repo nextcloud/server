@@ -860,7 +860,7 @@ class DefaultShareProvider implements IShareProvider {
 		if (isset($data['f_permissions'])) {
 			$entryData = $data;
 			$entryData['permissions'] = $entryData['f_permissions'];
-			$entryData['parent'] = $entryData['f_parent'];;
+			$entryData['parent'] = $entryData['f_parent'];
 			$share->setNodeCacheEntry(Cache::cacheEntryFromData($entryData,
 				\OC::$server->getMimeTypeLoader()));
 		}

@@ -37,7 +37,7 @@ class File extends \OCP\Search\Provider {
 	 * @param string $query
 	 * @return \OCP\Search\Result
 	 */
-	function search($query) {
+	public function search($query) {
 		$files = Filesystem::search($query);
 		$results = array();
 		// edit results

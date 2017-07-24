@@ -59,7 +59,7 @@ abstract class Office extends Provider {
 		} catch (\Exception $e) {
 			unlink($absPath);
 			unlink($pdfPreview);
-			\OCP\Util::writeLog('core', $e->getmessage(), \OCP\Util::ERROR);
+			\OCP\Util::writeLog('core', $e->getMessage(), \OCP\Util::ERROR);
 			return false;
 		}
 

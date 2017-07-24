@@ -202,7 +202,7 @@ class CleanTags implements IRepairStep {
 		}
 
 		if ($repairInfo) {
-			$output->info(sprintf($repairInfo, sizeof($orphanItems)));
+			$output->info(sprintf($repairInfo, count($orphanItems)));
 		}
 	}
 }
