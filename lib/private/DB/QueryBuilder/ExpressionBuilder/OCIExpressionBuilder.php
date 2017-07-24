@@ -166,6 +166,6 @@ class OCIExpressionBuilder extends ExpressionBuilder {
 	public function iLike($x, $y, $type = null) {
 		$x = $this->helper->quoteColumnName($x);
 		$y = $this->helper->quoteColumnName($y);
-		return new QueryFunction('REGEXP_LIKE('.$x.', \'^\' || REPLACE('.$y.', \'%\', \'.*\') || \'$\', \'i\')');
+		return new QueryFunction('REGEXP_LIKE(' . $x . ', \'^\' || REPLACE(REPLACE(' . $y . ', \'%\', \'.*\'), \'_\', \'.\') || \'$\', \'i\')');
 	}
 }
