@@ -73,7 +73,11 @@ class RemoteShares extends Base {
 			throw new \InvalidArgumentException();
 		}
 
-		$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/share.svg')));
+		if ($this->activityManager->getRequirePNG()) {
+			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/share.png')));
+		} else {
+			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/share.svg')));
+		}
 		$this->setSubjects($event, $subject, $parsedParameters);
 
 		return $event;
@@ -100,7 +104,11 @@ class RemoteShares extends Base {
 			throw new \InvalidArgumentException();
 		}
 
-		$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/share.svg')));
+		if ($this->activityManager->getRequirePNG()) {
+			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/share.png')));
+		} else {
+			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/share.svg')));
+		}
 		$this->setSubjects($event, $subject, $parsedParameters);
 
 		return $event;
@@ -123,8 +131,12 @@ class RemoteShares extends Base {
 				];
 			case self::SUBJECT_REMOTE_SHARE_ACCEPTED:
 			case self::SUBJECT_REMOTE_SHARE_DECLINED:
+				$fileParameter = $parameters[1];
+				if (!is_array($fileParameter)) {
+					$fileParameter = [$event->getObjectId() => $event->getObjectName()];
+				}
 				return [
-					'file' => $this->getFile([$event->getObjectId() => $event->getObjectName()]),
+					'file' => $this->getFile($fileParameter),
 					'user' => $this->getFederatedUser($parameters[0]),
 				];
 		}

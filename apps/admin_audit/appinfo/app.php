@@ -23,15 +23,5 @@
  *
  */
 
-$logger = \OC::$server->getLogger();
-$userSession = \OC::$server->getUserSession();
-$groupManager = \OC::$server->getGroupManager();
-$eventDispatcher = \OC::$server->getEventDispatcher();
-
-$auditLogger = new \OCA\Admin_Audit\AuditLogger(
-	$logger,
-	$userSession,
-	$groupManager,
-	$eventDispatcher
-);
-$auditLogger->registerHooks();
+$app = new \OCA\AdminAudit\AppInfo\Application();
+$app->register();

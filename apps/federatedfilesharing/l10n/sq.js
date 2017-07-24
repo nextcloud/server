@@ -31,6 +31,7 @@ OC.L10N.register(
     "Decline" : "Hidhe poshtë",
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Ndani me mua përmes ID-së time për #Nextcloud Federated Cloud, shihni %s",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Ndani me mua përmes ID-së time për #Nextcloud Federated Cloud",
+    "Sharing" : "Ndarje",
     "Federated Cloud Sharing" : "Ndarje Në Re të Federuar ",
     "Open documentation" : "Hap dokumentimin",
     "Allow users on this server to send shares to other servers" : "Lejoju përdoruesve në këtë shërbyes të dërgojnë ndarje në shërbyes të tjerë",

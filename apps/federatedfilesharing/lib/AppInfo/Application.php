@@ -70,13 +70,6 @@ class Application extends App {
 	}
 
 	/**
-	 * register personal and admin settings page
-	 */
-	public function registerSettings() {
-		\OCP\App::registerPersonal('federatedfilesharing', 'settings-personal');
-	}
-
-	/**
 	 * get instance of federated share provider
 	 *
 	 * @return FederatedShareProvider

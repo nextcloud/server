@@ -8,7 +8,6 @@ OC.L10N.register(
     "Delete" : "Padam",
     "Groups" : "Kumpulan",
     "never" : "jangan",
-    "__language_name__" : "Bahasa Melayu",
     "Login" : "Log masuk",
     "Server address" : "Alamat pelayan",
     "Profile picture" : "Gambar profil",
@@ -26,6 +25,7 @@ OC.L10N.register(
     "Other" : "Lain",
     "Quota" : "Kuota",
     "Invalid request" : "Permintaan tidak sah",
+    "__language_name__" : "Bahasa Melayu",
     "Name" : "Nama"
 },
 "nplurals=1; plural=0;");

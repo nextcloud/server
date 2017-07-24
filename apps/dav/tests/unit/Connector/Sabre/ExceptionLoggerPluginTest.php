@@ -71,13 +71,13 @@ class ExceptionLoggerPluginTest extends TestCase {
 		$this->plugin->logException($exception);
 
 		$this->assertEquals($expectedLogLevel, $this->logger->level);
-		$this->assertStringStartsWith('Exception: {"Message":"' . $expectedMessage, $this->logger->message);
+		$this->assertStringStartsWith('Exception: {"Exception":' . json_encode(get_class($exception)) . ',"Message":"' . $expectedMessage . '",', $this->logger->message);
 	}
 
 	public function providesExceptions() {
 		return [
-			[0, 'HTTP\/1.1 404 Not Found', new NotFound()],
-			[4, 'HTTP\/1.1 400 This path leads to nowhere', new InvalidPath('This path leads to nowhere')]
+			[0, '', new NotFound()],
+			[4, 'This path leads to nowhere', new InvalidPath('This path leads to nowhere')]
 		];
 	}
 

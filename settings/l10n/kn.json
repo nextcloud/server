@@ -47,7 +47,9 @@
     "A valid username must be provided" : "﻿ಮಾನ್ಯ ಬಳಕೆದಾರ ಹೆಸರು ಒದಗಿಸಬೇಕಾಗುತ್ತದೆ",
     "A valid password must be provided" : "ಸರಿಯಾದ ಬಳಕೆದಾರ ಗುಪ್ತಪದ ಒದಗಿಸಬೇಕಾಗಿದೆ",
     "A valid email must be provided" : "﻿ಮಾನ್ಯ ಬಳಕೆದಾರ ಇ-ಅಂಚೆಯನ್ನು ಒದಗಿಸಬೇಕಾಗುತ್ತದೆ",
-    "__language_name__" : "ಕನ್ನಡ",
+    "Documentation:" : "﻿ದಾಖಲೆ:",
+    "Enable only for specific groups" : "﻿ಕೇವಲ ನಿರ್ದಿಷ್ಟ ಗುಂಪುಗಳಿಗೆ ಸಕ್ರಿಯಗೊಳಿಸಿ",
+    "Forum" : "﻿ವೇದಿಕೆ",
     "None" : "﻿ಯಾವುದೂ ಇಲ್ಲ",
     "Login" : "ಖಾತೆ ಪ್ರವೇಶಿಸು",
     "Plain" : "﻿ಸರಳ",
@@ -68,9 +70,6 @@
     "Expire after " : "ನಿಶ್ವಸಿಸುವ ಅವಧಿ",
     "days" : "﻿ದಿನಗಳು",
     "Enforce expiration date" : "﻿ಮುಕ್ತಾಯ ದಿನಾಂಕವನ್ನು ಬಲವ೦ತವಾಗಿ ಜಾರಿಗೆ ಮಾಡಿ",
-    "Documentation:" : "﻿ದಾಖಲೆ:",
-    "Enable only for specific groups" : "﻿ಕೇವಲ ನಿರ್ದಿಷ್ಟ ಗುಂಪುಗಳಿಗೆ ಸಕ್ರಿಯಗೊಳಿಸಿ",
-    "Forum" : "﻿ವೇದಿಕೆ",
     "Cancel" : "﻿ರದ್ದು",
     "Email" : "﻿ಇ-ಅಂಚೆ",
     "Your email address" : "﻿ನಿಮ್ಮ ಇ-ಅಂಚೆ ವಿಳಾಸ",
@@ -102,6 +101,7 @@
     "Uninstalling ...." : "ಅಳಿಸಿಹಾಕುವುದು ...",
     "Error while uninstalling app" : "ಅಳಿಸುವಾಗ ಏನೊ ಲೋಪವಾಗಿದೆ",
     "Uninstall" : "ಅಳಿಸಿ",
+    "__language_name__" : "ಕನ್ನಡ",
     "Cheers!" : "ಆನಂದಿಸಿ !",
     "Name" : "﻿ಹೆಸರು"
 },"pluralForm" :"nplurals=1; plural=0;"

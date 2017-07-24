@@ -18,6 +18,7 @@ OC.L10N.register(
     "Checked on %s" : "Gecontroleerd op %s",
     "Update channel:" : "Bijwerkkanaal:",
     "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Je kunt altijd updaten naar een nieuwere versie of experimenteel kanaal. Maar terug naar een oudere versie of een stabieler kanaal is niet mogelijk.",
+    "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Houd er rekening mee dat het enige tijd kan duren voordat na een nieuwe versie hier verschijnt. We verspreiden nieuwe versies over de tijd aan onze gebruikers en soms slaan we een versie over als er problemen zijn gevonden.",
     "Notify members of the following groups about available updates:" : "Geef een melding over beschikbare updates aan leden van de volgende groepen:",
     "Only notification for app updates are available." : "Er zijn alleen meldingen voor apps beschikbaar.",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Het geselecteerde updatekanaal maakt overbodig om serverspecifieke meldingen apart te genereren.",

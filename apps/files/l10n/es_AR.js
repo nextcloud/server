@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files",
     {
-    "Storage is temporarily not available" : "El almacenamiento no está  disponible temporalmente ",
+    "Storage is temporarily not available" : "El almacenamiento no está disponible temporalmente",
     "Storage invalid" : "El almacenamiento es inválido",
     "Unknown error" : "Se presentó un error desconocido",
     "All files" : "Todos los archivos",
@@ -105,6 +105,7 @@ OC.L10N.register(
     "A new file or folder has been <strong>deleted</strong>" : "Un nuevo archivo  ha sido <strong>borrado</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Limite las notificación de la creación y cambios a sus <strong>archivos favoritos</strong> <em>(sólo flujo)</em>",
     "A new file or folder has been <strong>restored</strong>" : "Un nuevo archivo ha sido <strong>restaurado</strong>",
+    "Unlimited" : "Ilimitado",
     "Upload (max. %s)" : "Cargar (max. %s)",
     "File handling" : "Administración de archivos",
     "Maximum upload size" : "Tamaño máximo de carga",
@@ -112,6 +113,8 @@ OC.L10N.register(
     "Save" : "Guardar",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Con PHP-FPM podría tomar 5 minutos para que los cambios apliquen. ",
     "Missing permissions to edit from here." : "Faltan privilegios para editar desde aquí. ",
+    "%s of %s used" : "%s de %s usado",
+    "%s used" : "%s usado",
     "Settings" : "Configuraciones ",
     "Show hidden files" : "Mostrar archivos ocultos",
     "WebDAV" : "WebDAV",

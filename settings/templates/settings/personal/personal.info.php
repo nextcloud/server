@@ -94,12 +94,15 @@ vendor_style('jcrop/css/jquery.Jcrop');
 					<span class="icon-federation-menu icon-password">&#9662;<span/>
 				</h2>
 				<input type="text" id="displayname" name="displayname"
-					<?php if(!$_['displayNameChangeSupported']) { print_unescaped('disabled="1"'); } ?>
-					value="<?php p($_['displayName']) ?>"
-					autocomplete="on" autocapitalize="none" autocorrect="off" />
+					<?php if(!$_['displayNameChangeSupported']) { print_unescaped('class="hidden"'); } ?>
+					   value="<?php p($_['displayName']) ?>"
+					   autocomplete="on" autocapitalize="none" autocorrect="off" />
+				<?php if(!$_['displayNameChangeSupported']) { ?>
+					<span><?php if(isset($_['displayName']) && !empty($_['displayName'])) { p($_['displayName']); } else { p($l->t('No display name set')); } ?></span>
+				<?php } ?>
 				<span class="icon-checkmark hidden"/>
 				<?php if($_['lookupServerUploadEnabled']) { ?>
-				<input type="hidden" id="displaynamescope" value="<?php p($_['displayNameScope']) ?>">
+					<input type="hidden" id="displaynamescope" value="<?php p($_['displayNameScope']) ?>">
 				<?php } ?>
 			</form>
 		</div>
@@ -111,7 +114,7 @@ vendor_style('jcrop/css/jquery.Jcrop');
 				</h2>
 				<div class="verify <?php if ($_['email'] === ''  || $_['emailScope'] !== 'public') p('hidden'); ?>">
 					<img id="verify-email" title="<?php p($_['emailMessage']); ?>" data-status="<?php p($_['emailVerification']) ?>" src="
-					<?php
+				<?php
 					switch($_['emailVerification']) {
 						case \OC\Accounts\AccountManager::VERIFICATION_IN_PROGRESS:
 							p(image_path('core', 'actions/verifying.svg'));
@@ -124,10 +127,13 @@ vendor_style('jcrop/css/jquery.Jcrop');
 					}
 					?>">
 				</div>
-				<input type="email" name="email" id="email" value="<?php if(!$_['displayNameChangeSupported'] && empty($_['email'])) p($l->t('No email address set')); else p($_['email']); ?>"
-					<?php if(!$_['displayNameChangeSupported']) { print_unescaped('disabled="1"'); } ?>
-					placeholder="<?php p($l->t('Your email address')) ?>"
-					autocomplete="on" autocapitalize="none" autocorrect="off" />
+				<input type="email" name="email" id="email" value="<?php p($_['email']); ?>"
+					<?php if(!$_['displayNameChangeSupported']) { print_unescaped('class="hidden"'); } ?>
+					   placeholder="<?php p($l->t('Your email address')); ?>"
+					   autocomplete="on" autocapitalize="none" autocorrect="off" />
+				<?php if(!$_['displayNameChangeSupported']) { ?>
+					<span><?php if(isset($_['email']) && !empty($_['email'])) { p($_['email']); } else { p($l->t('No email address set')); }?></span>
+				<?php } ?>
 				<?php if($_['displayNameChangeSupported']) { ?>
 					<br />
 					<em><?php p($l->t('For password reset and notifications')); ?></em>

@@ -10,7 +10,6 @@ OC.L10N.register(
     "Groups" : "குழுக்கள்",
     "undo" : "முன் செயல் நீக்கம் ",
     "never" : "ஒருபோதும்",
-    "__language_name__" : "தமிழ்",
     "None" : "ஒன்றுமில்லை",
     "Login" : "புகுபதிகை",
     "Encryption" : "மறைக்குறியீடு",
@@ -33,6 +32,7 @@ OC.L10N.register(
     "Invalid request" : "செல்லுபடியற்ற வேண்டுகோள்",
     "Unable to add user to group %s" : "குழு %s இல் பயனாளரை சேர்க்க முடியாது",
     "Unable to remove user from group %s" : "குழு %s இலிருந்து பயனாளரை நீக்கமுடியாது",
+    "__language_name__" : "தமிழ்",
     "Name" : "பெயர்"
 },
 "nplurals=2; plural=(n != 1);");

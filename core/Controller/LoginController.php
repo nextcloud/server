@@ -107,7 +107,9 @@ class LoginController extends Controller {
 		}
 		$this->userSession->logout();
 
-		return new RedirectResponse($this->urlGenerator->linkToRouteAbsolute('core.login.showLoginForm'));
+		$response = new RedirectResponse($this->urlGenerator->linkToRouteAbsolute('core.login.showLoginForm'));
+		$response->addHeader('Clear-Site-Data', '"cache", "cookies", "storage", "executionContexts"');
+		return $response;
 	}
 
 	/**

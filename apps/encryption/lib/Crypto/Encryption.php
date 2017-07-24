@@ -569,4 +569,13 @@ class Encryption implements IEncryptionModule {
 	public function isReadyForUser($user) {
 		return $this->keyManager->userHasKeys($user);
 	}
+
+	/**
+	 * We only need a detailed access list if the master key is not enabled
+	 *
+	 * @return bool
+	 */
+	public function needDetailedAccessList() {
+		return !$this->util->isMasterKeyEnabled();
+	}
 }

@@ -65,24 +65,6 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 	}
 
 	/**
-	 * Register settings templates
-	 */
-	public function registerSettings() {
-		$container = $this->getContainer();
-		$userSession = $container->getServer()->getUserSession();
-		if (!$userSession->isLoggedIn()) {
-			return;
-		}
-		$backendService = $container->query('OCA\\Files_External\\Service\\BackendService');
-
-		/** @var \OCA\Files_External\Service\UserGlobalStoragesService $userGlobalStoragesService */
-		$userGlobalStoragesService = $container->query('OCA\Files_External\Service\UserGlobalStoragesService');
-		if (count($userGlobalStoragesService->getStorages()) > 0 || $backendService->isUserMountingAllowed()) {
-			\OCP\App::registerPersonal('files_external', 'personal');
-		}
-	}
-
-	/**
 	 * @{inheritdoc}
 	 */
 	public function getBackends() {

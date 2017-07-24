@@ -34,7 +34,7 @@
 			<div id="header-left">
 				<a href="<?php print_unescaped(link_to('', 'index.php')); ?>"
 					id="nextcloud" tabindex="1">
-					<div class="logo-icon">
+					<div class="logo logo-icon">
 						<h1 class="hidden-visually">
 							<?php p($theme->getName()); ?>
 						</h1>
@@ -58,10 +58,10 @@
 									 class="app-icon"/>
 								<div class="icon-loading-small-dark"
 									 style="display:none;"></div>
-								<span>
+							</a>
+							<span>
 								<?php p($entry['name']); ?>
 							</span>
-							</a>
 						</li>
 					<?php endforeach; ?>
 					<li id="more-apps" class="menutoggle">

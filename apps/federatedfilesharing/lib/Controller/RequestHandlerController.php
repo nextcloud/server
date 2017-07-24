@@ -318,14 +318,15 @@ class RequestHandlerController extends OCSController {
 	}
 
 	protected function executeAcceptShare(Share\IShare $share) {
-		list($file, $link) = $this->getFile($this->getCorrectUid($share), $share->getNode()->getId());
+		$fileId = (int) $share->getNode()->getId();
+		list($file, $link) = $this->getFile($this->getCorrectUid($share), $fileId);
 
 		$event = \OC::$server->getActivityManager()->generateEvent();
 		$event->setApp('files_sharing')
 			->setType('remote_share')
 			->setAffectedUser($this->getCorrectUid($share))
-			->setSubject(RemoteShares::SUBJECT_REMOTE_SHARE_ACCEPTED, [$share->getSharedWith(), $file])
-			->setObject('files', (int)$share->getNode()->getId(), $file)
+			->setSubject(RemoteShares::SUBJECT_REMOTE_SHARE_ACCEPTED, [$share->getSharedWith(), [$fileId => $file]])
+			->setObject('files', $fileId, $file)
 			->setLink($link);
 		\OC::$server->getActivityManager()->publish($event);
 	}
@@ -373,14 +374,15 @@ class RequestHandlerController extends OCSController {
 	 */
 	protected function executeDeclineShare(Share\IShare $share) {
 		$this->federatedShareProvider->removeShareFromTable($share);
-		list($file, $link) = $this->getFile($this->getCorrectUid($share), $share->getNode()->getId());
+		$fileId = (int) $share->getNode()->getId();
+		list($file, $link) = $this->getFile($this->getCorrectUid($share), $fileId);
 
 		$event = \OC::$server->getActivityManager()->generateEvent();
 		$event->setApp('files_sharing')
 			->setType('remote_share')
 			->setAffectedUser($this->getCorrectUid($share))
-			->setSubject(RemoteShares::SUBJECT_REMOTE_SHARE_DECLINED, [$share->getSharedWith(), $file])
-			->setObject('files', (int)$share->getNode()->getId(), $file)
+			->setSubject(RemoteShares::SUBJECT_REMOTE_SHARE_DECLINED, [$share->getSharedWith(), [$fileId => $file]])
+			->setObject('files', $fileId, $file)
 			->setLink($link);
 		\OC::$server->getActivityManager()->publish($event);
 
@@ -449,7 +451,7 @@ class RequestHandlerController extends OCSController {
 			$event = \OC::$server->getActivityManager()->generateEvent();
 			$event->setApp('files_sharing')
 				->setType('remote_share')
-				->setSubject(RemoteShares::SUBJECT_REMOTE_SHARE_UNSHARED, [$owner, $path])
+				->setSubject(RemoteShares::SUBJECT_REMOTE_SHARE_UNSHARED, [$owner->getId(), $path])
 				->setAffectedUser($user)
 				->setObject('remote_share', (int)$share['id'], $path);
 			\OC::$server->getActivityManager()->publish($event);

@@ -13,6 +13,7 @@ use OC\Files\Mount\MountPoint;
 use OC\Log;
 use OC\User\Manager;
 use OCP\Files\Config\ICachedMountInfo;
+use OC\Files\Storage\Storage;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUserManager;
@@ -310,7 +311,7 @@ class UserMountCacheTest extends TestCase {
 		});
 	}
 
-	private function createCacheEntry($internalPath, $storageId) {
+	private function createCacheEntry($internalPath, $storageId, $size = 0) {
 		$internalPath = trim($internalPath, '/');
 		$inserted = $this->connection->insertIfNotExist('*PREFIX*filecache', [
 			'storage' => $storageId,
@@ -320,7 +321,7 @@ class UserMountCacheTest extends TestCase {
 			'name' => basename($internalPath),
 			'mimetype' => 0,
 			'mimepart' => 0,
-			'size' => 0,
+			'size' => $size,
 			'storage_mtime' => 0,
 			'encrypted' => 0,
 			'unencrypted_size' => 0,
@@ -454,5 +455,35 @@ class UserMountCacheTest extends TestCase {
 
 		$cachedMounts = $this->cache->getMountsForFileId($rootId);
 		$this->assertEmpty($cachedMounts);
+	}
+
+	public function testGetUsedSpaceForUsers() {
+		$user1 = $this->userManager->get('u1');
+		$user2 = $this->userManager->get('u2');
+
+		/** @var Storage $storage1 */
+		list($storage1, $rootId) = $this->getStorage(2);
+		$folderId = $this->createCacheEntry('files', 2, 100);
+		$fileId = $this->createCacheEntry('files/foo', 2, 7);
+		$storage1->getCache()->put($folderId, ['size' => 100]);
+		$storage1->getCache()->update($fileId, ['size' => 70]);
+
+		$mount1 = $this->getMockBuilder(MountPoint::class)
+			->setConstructorArgs([$storage1, '/u1/'])
+			->setMethods(['getStorageRootId', 'getNumericStorageId'])
+			->getMock();
+
+		$mount1->expects($this->any())
+			->method('getStorageRootId')
+			->will($this->returnValue($rootId));
+
+		$mount1->expects($this->any())
+			->method('getNumericStorageId')
+			->will($this->returnValue(2));
+
+		$this->cache->registerMounts($user1, [$mount1]);
+
+		$result = $this->cache->getUsedSpaceForUsers([$user1, $user2]);
+		$this->assertEquals(['u1' => 100], $result);
 	}
 }

@@ -1,6 +1,6 @@
 { "translations": {
     "Update notifications" : "Update-Benachrichtigungen",
-    "Could not start updater, please try the manual update" : "Der Updater konnte nicht gestartet werden, bitte versuchen Sie ein manuelles Update",
+    "Could not start updater, please try the manual update" : "Der Updater konnte nicht gestartet werden, bitte versuche ein manuelles Update",
     "{version} is available. Get more information on how to update." : "{version} ist verfügbar. Weitere Informationen zur Aktualisierung.",
     "Channel updated" : "Kanal aktualisiert",
     "The update server could not be reached since %d days to check for new updates." : "Der Aktualisierungsserver konnte seit %d Tagen nicht erreicht werden um auf verfügbare Aktualisierungen zu prüfen.",
@@ -16,6 +16,7 @@
     "Checked on %s" : "Geprüft am %s",
     "Update channel:" : "Update-Kanal:",
     "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Es kann immer auf eine neuere Version / experimentellen Kanal aktualisiert werden. Allerdings kann kein Downgrade auf einen stabileren Kanal durchgeführt werden.",
+    "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Nach Veröffentlichung einer neuen Version kann es einige Zeit dauern bis diese hier erscheint. Die neuen Versionen verteilen sich beim Ausrollen im Laufe der Zeit auf die Benutzer. Manchmal werden Versionen übersprungen, wenn Probleme gefunden wurden.",
     "Notify members of the following groups about available updates:" : "Informiere die Mitglieder der folgenden Gruppen über verfügbare Updates:",
     "Only notification for app updates are available." : "Benachrichtigungen sind nur für Aktualisierungen von Apps verfügbar.",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Der gewählte Aktualisierungskanal macht dedizierte Benachrichtigungen für Server Aktualisierungen obsolet.",

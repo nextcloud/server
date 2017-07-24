@@ -25,6 +25,7 @@
 namespace OC\Files\Storage\Wrapper;
 
 use OC\Files\Cache\Wrapper\CacheJail;
+use OC\Files\Cache\Wrapper\JailPropagator;
 use OCP\Lock\ILockingProvider;
 
 /**
@@ -487,5 +488,17 @@ class Jail extends Wrapper {
 			return $this->rename($sourceInternalPath, $targetInternalPath);
 		}
 		return $this->getWrapperStorage()->moveFromStorage($sourceStorage, $sourceInternalPath, $this->getUnjailedPath($targetInternalPath));
+	}
+
+	public function getPropagator($storage = null) {
+		if (isset($this->propagator)) {
+			return $this->propagator;
+		}
+
+		if (!$storage) {
+			$storage = $this;
+		}
+		$this->propagator = new JailPropagator($storage, \OC::$server->getDatabaseConnection());
+		return $this->propagator;
 	}
 }

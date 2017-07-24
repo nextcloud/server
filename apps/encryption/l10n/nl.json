@@ -22,6 +22,7 @@
     "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Je moet je cryptosleutels van de oude versleuteling (ownCloud <= 8.0) migreren naar de nieuwe. Start 'occ encryption:migrate' of neem contact op met je beheerder",
     "Invalid private key for encryption app. Please update your private key password in your personal settings to recover access to your encrypted files." : "Ongeldige privésleutel voor de crypto app. Werk het privésleutel wachtwoord bij in je persoonlijke instellingen om opnieuw toegang te krijgen tot je versleutelde bestanden.",
     "Encryption App is enabled, but your keys are not initialized. Please log-out and log-in again." : "Crypto app is ingeschakeld, maar je sleutels werden niet geïnitialiseerd. Log uit en log daarna opnieuw in.",
+    "Please enable server side encryption in the admin settings in order to use the encryption module." : "Activeer de server-encryptie in de beheerdersinstellingen om de encryptiemodule te kunnen gebruiken.",
     "Encryption app is enabled and ready" : "Encryptie app is ingeschakeld en gereed",
     "Bad Signature" : "Verkeerde handtekening",
     "Missing Signature" : "Missende ondertekening",

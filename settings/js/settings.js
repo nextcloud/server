@@ -30,6 +30,7 @@ OC.Settings = _.extend(OC.Settings, {
 				placeholder: t('core', 'Groups'),
 				allowClear: true,
 				multiple: true,
+				toggleSelect: true,
 				separator: '|',
 				query: _.debounce(function(query) {
 					var queryData = {};

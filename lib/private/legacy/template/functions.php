@@ -96,11 +96,11 @@ function emit_script_tag($src, $script_content='') {
  * @param hash $obj all the script information from template
 */
 function emit_script_loading_tags($obj) {
-	if (!empty($obj['inline_ocjs'])) {
-		emit_script_tag('', $obj['inline_ocjs']);
-	}
 	foreach($obj['jsfiles'] as $jsfile) {
 		emit_script_tag($jsfile, '');
+	}
+	if (!empty($obj['inline_ocjs'])) {
+		emit_script_tag('', $obj['inline_ocjs']);
 	}
 }
 

@@ -18,7 +18,6 @@ style('federatedfilesharing', 'settings-personal');
 
 		<br>
 
-		<?php if ($_['showShareIT']) {?>
 		<p>
 			<?php p($l->t('Share it so your friends can share files with you:')); ?><br>
 			<button class="social-facebook pop-up"
@@ -58,7 +57,6 @@ style('federatedfilesharing', 'settings-personal');
 <?php p($l->t('Share with me via Nextcloud')); ?></a></xmp>
 		</p>
 		</div>
-		<?php } ?>
 
 	</div>
 <?php endif; ?>

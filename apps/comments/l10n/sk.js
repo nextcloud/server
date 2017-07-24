@@ -26,6 +26,8 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s komentoval %2$s",
     "{author} commented on {file}" : "{author} komentoval {file}",
     "<strong>Comments</strong> for files" : "<strong>Komentáre</strong> pre súbory",
+    "A (now) deleted user mentioned you in a comment on “%s”" : "Teraz už odstránený používateľ vás spomenul v komentári k \"%s\"",
+    "A (now) deleted user mentioned you in a comment on “{file}”" : "Teraz už odstránený používateľ vás spomenul v komentári k \"{file}\"",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s vás spomenul v komentári k \"%2$s\"",
     "{user} mentioned you in a comment on “{file}”" : "{user} vás spomenul v komentári k “{file}”"
 },

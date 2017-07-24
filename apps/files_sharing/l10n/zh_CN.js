@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_sharing",
     {
-    "Shared with you" : "分享给您的文件",
+    "Shared with you" : "收到分享",
     "Shared with others" : "您分享的文件",
     "Shared by link" : "分享链接的文件",
     "Nothing shared with you yet" : "您还没有收到任何共享的文件",

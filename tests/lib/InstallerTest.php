@@ -19,6 +19,12 @@ use OCP\IConfig;
 use OCP\ILogger;
 use OCP\ITempManager;
 
+/**
+ * Class InstallerTest
+ *
+ * @package Test
+ * @group DB
+ */
 class InstallerTest extends TestCase {
 
 	private static $appid = 'testapp';

@@ -39,9 +39,9 @@
     "Failed to send share by E-mail" : "Falló enviar recurso compartido por correo electrónico",
     "%s shared »%s« with you on behalf of %s" : "%s compartió »%s« con usted a nombre de %s",
     "Failed to create the E-mail" : "Falló crear el correo electrónico",
-    "Hey there,\n\n%s shared »%s« with you on behalf of %s.\n\n%s\n\n" : "¡Hola!,\n\n%s comapartió »%s« con usted a nombre de %s.\n\n%s\n\n",
+    "Hey there,\n\n%s shared »%s« with you on behalf of %s.\n\n%s\n\n" : "¡Hola!,\n\n%s compartió »%s« con usted a nombre de %s.\n\n%s\n\n",
     "Hey there,\n\n%s shared »%s« with you.\n\n%s\n\n" : "Hola,\n\n%s compartió »%s« con usted.\n\n%s\n\n",
-    "Cheers!" : "¡Ánimo!",
+    "Cheers!" : "¡Saludos!",
     "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you on behalf of %s.<br><br>" : "Hola,<br><br>%s compartió <a href=\"%s\">%s</a> con usted a nombre de %s.<br><br>",
     "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you.<br><br>" : "Hola,<br><br>%s compartió <a href=\"%s\">%s</a> con usted.<br><br>"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

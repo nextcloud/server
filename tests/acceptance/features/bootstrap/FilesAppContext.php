@@ -44,31 +44,6 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
-	public static function appNavigation() {
-		return Locator::forThe()->id("app-navigation")->
-				describedAs("App navigation");
-	}
-
-	/**
-	 * @return Locator
-	 */
-	public static function appNavigationSectionItemFor($sectionText) {
-		return Locator::forThe()->xpath("//li[normalize-space() = '$sectionText']")->
-				descendantOf(self::appNavigation())->
-				describedAs($sectionText . " section item in App Navigation");
-	}
-
-	/**
-	 * @return Locator
-	 */
-	public static function appNavigationCurrentSectionItem() {
-		return Locator::forThe()->css(".active")->descendantOf(self::appNavigation())->
-				describedAs("Current section item in App Navigation");
-	}
-
-	/**
-	 * @return Locator
-	 */
 	public static function mainViewForSection($section) {
 		$sectionId = self::sections()[$section];
 
@@ -123,10 +98,45 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
-	public static function inputFieldForTagsInCurrentSectionDetails() {
+	public static function inputFieldForTagsInCurrentSectionDetailsView() {
 		return Locator::forThe()->css(".systemTagsInfoView")->
 				descendantOf(self::currentSectionDetailsView())->
 				describedAs("Input field for tags in current section details view in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function itemInInputFieldForTagsInCurrentSectionDetailsViewForTag($tag) {
+		return Locator::forThe()->xpath("//span[normalize-space() = '$tag']")->
+				descendantOf(self::inputFieldForTagsInCurrentSectionDetailsView())->
+				describedAs("Item in input field for tags in current section details view for tag $tag in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function itemInDropdownForTag($tag) {
+		return Locator::forThe()->xpath("//*[contains(concat(' ', normalize-space(@class), ' '), ' select2-result-label ')]//span[normalize-space() = '$tag']/ancestor::li")->
+				descendantOf(self::select2Dropdown())->
+				describedAs("Item in dropdown for tag $tag in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function checkmarkInItemInDropdownForTag($tag) {
+		return Locator::forThe()->css(".checkmark")->
+				descendantOf(self::itemInDropdownForTag($tag))->
+				describedAs("Checkmark in item in dropdown for tag $tag in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	private static function select2Dropdown() {
+		return Locator::forThe()->css("#select2-drop")->
+				describedAs("Select2 dropdown in Files app");
 	}
 
 	/**
@@ -216,6 +226,40 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
+	public static function createMenuButton() {
+		return Locator::forThe()->css("#controls .button.new")->
+				descendantOf(self::currentSectionMainView())->
+				describedAs("Create menu button in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function createNewFolderMenuItem() {
+		return self::createMenuItemFor("New folder");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function createNewFolderMenuItemNameInput() {
+		return Locator::forThe()->css(".filenameform input")->
+				descendantOf(self::createNewFolderMenuItem())->
+				describedAs("Name input in create new folder menu item in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	private static function createMenuItemFor($newType) {
+		return Locator::forThe()->xpath("//div[contains(concat(' ', normalize-space(@class), ' '), ' newFileMenu ')]//span[normalize-space() = '$newType']/ancestor::li")->
+				descendantOf(self::currentSectionMainView())->
+				describedAs("Create $newType menu item in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
 	public static function rowForFile($fileName) {
 		return Locator::forThe()->xpath("//*[@id = 'fileList']//span[contains(concat(' ', normalize-space(@class), ' '), ' nametext ') and normalize-space() = '$fileName']/ancestor::tr")->
 				descendantOf(self::currentSectionMainView())->
@@ -225,9 +269,26 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
+	public static function rowForFilePreceding($fileName1, $fileName2) {
+		return Locator::forThe()->xpath("//preceding-sibling::tr//span[contains(concat(' ', normalize-space(@class), ' '), ' nametext ') and normalize-space() = '$fileName1']/ancestor::tr")->
+				descendantOf(self::rowForFile($fileName2))->
+				describedAs("Row for file $fileName1 preceding $fileName2 in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
 	public static function favoriteActionForFile($fileName) {
 		return Locator::forThe()->css(".action-favorite")->descendantOf(self::rowForFile($fileName))->
 				describedAs("Favorite action for file $fileName in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function notFavoritedStateIconForFile($fileName) {
+		return Locator::forThe()->css(".icon-star")->descendantOf(self::favoriteActionForFile($fileName))->
+				describedAs("Not favorited state icon for file $fileName in Files app");
 	}
 
 	/**
@@ -294,10 +355,13 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	}
 
 	/**
-	 * @Given I open the :section section
+	 * @Given I create a new folder named :folderName
 	 */
-	public function iOpenTheSection($section) {
-		$this->actor->find(self::appNavigationSectionItemFor($section), 10)->click();
+	public function iCreateANewFolderNamed($folderName) {
+		$this->actor->find(self::createMenuButton(), 10)->click();
+
+		$this->actor->find(self::createNewFolderMenuItem(), 2)->click();
+		$this->actor->find(self::createNewFolderMenuItemNameInput(), 2)->setValue($folderName . "\r");
 	}
 
 	/**
@@ -327,6 +391,17 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @Given I mark :fileName as favorite
 	 */
 	public function iMarkAsFavorite($fileName) {
+		$this->iSeeThatIsNotMarkedAsFavorite($fileName);
+
+		$this->actor->find(self::favoriteActionForFile($fileName), 10)->click();
+	}
+
+	/**
+	 * @Given I unmark :fileName as favorite
+	 */
+	public function iUnmarkAsFavorite($fileName) {
+		$this->iSeeThatIsMarkedAsFavorite($fileName);
+
 		$this->actor->find(self::favoriteActionForFile($fileName), 10)->click();
 	}
 
@@ -356,6 +431,24 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	}
 
 	/**
+	 * @When I check the tag :tag in the dropdown for tags in the details view
+	 */
+	public function iCheckTheTagInTheDropdownForTagsInTheDetailsView($tag) {
+		$this->iSeeThatTheTagInTheDropdownForTagsInTheDetailsViewIsNotChecked($tag);
+
+		$this->actor->find(self::itemInDropdownForTag($tag), 10)->click();
+	}
+
+	/**
+	 * @When I uncheck the tag :tag in the dropdown for tags in the details view
+	 */
+	public function iUncheckTheTagInTheDropdownForTagsInTheDetailsView($tag) {
+		$this->iSeeThatTheTagInTheDropdownForTagsInTheDetailsViewIsChecked($tag);
+
+		$this->actor->find(self::itemInDropdownForTag($tag), 10)->click();
+	}
+
+	/**
 	 * @When I protect the shared link with the password :password
 	 */
 	public function iProtectTheSharedLinkWithThePassword($password) {
@@ -371,13 +464,6 @@ class FilesAppContext implements Context, ActorAwareInterface {
 		PHPUnit_Framework_Assert::assertStringStartsWith(
 				$this->actor->locatePath("/apps/files/"),
 				$this->actor->getSession()->getCurrentUrl());
-	}
-
-	/**
-	 * @Then I see that the current section is :section
-	 */
-	public function iSeeThatTheCurrentSectionIs($section) {
-		PHPUnit_Framework_Assert::assertEquals($this->actor->find(self::appNavigationCurrentSectionItem(), 10)->getText(), $section);
 	}
 
 	/**
@@ -414,6 +500,13 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	}
 
 	/**
+	 * @Then I see that :fileName1 precedes :fileName2 in the file list
+	 */
+	public function iSeeThatPrecedesInTheFileList($fileName1, $fileName2) {
+		PHPUnit_Framework_Assert::assertNotNull($this->actor->find(self::rowForFilePreceding($fileName1, $fileName2), 10));
+	}
+
+	/**
 	 * @Then I see that :fileName is marked as favorite
 	 */
 	public function iSeeThatIsMarkedAsFavorite($fileName) {
@@ -421,11 +514,58 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	}
 
 	/**
+	 * @Then I see that :fileName is not marked as favorite
+	 */
+	public function iSeeThatIsNotMarkedAsFavorite($fileName) {
+		PHPUnit_Framework_Assert::assertNotNull($this->actor->find(self::notFavoritedStateIconForFile($fileName), 10));
+	}
+
+	/**
 	 * @Then I see that the input field for tags in the details view is shown
 	 */
 	public function iSeeThatTheInputFieldForTagsInTheDetailsViewIsShown() {
 		PHPUnit_Framework_Assert::assertTrue(
-				$this->actor->find(self::inputFieldForTagsInCurrentSectionDetails(), 10)->isVisible());
+				$this->actor->find(self::inputFieldForTagsInCurrentSectionDetailsView(), 10)->isVisible());
+	}
+
+	/**
+	 * @Then I see that the input field for tags in the details view contains the tag :tag
+	 */
+	public function iSeeThatTheInputFieldForTagsInTheDetailsViewContainsTheTag($tag) {
+		PHPUnit_Framework_Assert::assertTrue(
+				$this->actor->find(self::itemInInputFieldForTagsInCurrentSectionDetailsViewForTag($tag), 10)->isVisible());
+	}
+
+	/**
+	 * @Then I see that the input field for tags in the details view does not contain the tag :tag
+	 */
+	public function iSeeThatTheInputFieldForTagsInTheDetailsViewDoesNotContainTheTag($tag) {
+		$this->iSeeThatTheInputFieldForTagsInTheDetailsViewIsShown();
+
+		try {
+			PHPUnit_Framework_Assert::assertFalse(
+					$this->actor->find(self::itemInInputFieldForTagsInCurrentSectionDetailsViewForTag($tag))->isVisible());
+		} catch (NoSuchElementException $exception) {
+		}
+	}
+
+	/**
+	 * @Then I see that the tag :tag in the dropdown for tags in the details view is checked
+	 */
+	public function iSeeThatTheTagInTheDropdownForTagsInTheDetailsViewIsChecked($tag) {
+		PHPUnit_Framework_Assert::assertTrue(
+				$this->actor->find(self::checkmarkInItemInDropdownForTag($tag), 10)->isVisible());
+	}
+
+	/**
+	 * @Then I see that the tag :tag in the dropdown for tags in the details view is not checked
+	 */
+	public function iSeeThatTheTagInTheDropdownForTagsInTheDetailsViewIsNotChecked($tag) {
+		PHPUnit_Framework_Assert::assertTrue(
+				$this->actor->find(self::itemInDropdownForTag($tag), 10)->isVisible());
+
+		PHPUnit_Framework_Assert::assertFalse(
+				$this->actor->find(self::checkmarkInItemInDropdownForTag($tag))->isVisible());
 	}
 
 	/**

@@ -61,7 +61,7 @@ class Additional implements ISettings {
 			$parameters['mail_smtppassword'] = '********';
 		}
 
-		return new TemplateResponse('settings', 'admin/additional-mail', $parameters, '');
+		return new TemplateResponse('settings', 'settings/admin/additional-mail', $parameters, '');
 	}
 
 	/**

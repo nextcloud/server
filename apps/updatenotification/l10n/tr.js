@@ -18,6 +18,7 @@ OC.L10N.register(
     "Checked on %s" : "Son denetim: %s",
     "Update channel:" : "Güncelleme kanalı:",
     "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "İstediğiniz zaman yeni / deneysel bir güncelleme kanalına geçebilirsiniz. Daha kararlı bir kanala geri dönemezsiniz.",
+    "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Yeni bir sürümün yayınlanmasından sonra burada görüntülenmesinin biraz zaman alabileceğini unutmayın. Yeni sürümleri kullanıcılarımıza zamanla dağıtıyoruz ve bazen sorunlarla karşılaştığımızda bir sürümü atlayabiliyoruz.",
     "Notify members of the following groups about available updates:" : "Yayınlanan güncellemeler şu grupların üyelerine bildirilsin:",
     "Only notification for app updates are available." : "Yalnız uygulama güncellemeleri kullanılabilir.",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Seçilmiş güncelleme kanalı kullanımdan kalkmış sunucu bildirimleri için kullanılıyor.",
