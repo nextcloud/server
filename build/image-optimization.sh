@@ -17,4 +17,4 @@ do
 done;
 }
 
-recursive_optimize_images ../../
+recursive_optimize_images ../
