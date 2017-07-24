@@ -156,20 +156,6 @@ class OC_User {
 	}
 
 	/**
-
-	 * Try to login a user using the magic cookie (remember login)
-	 *
-	 * @deprecated use \OCP\IUserSession::loginWithCookie()
-	 * @param string $uid The username of the user to log in
-	 * @param string $token
-	 * @param string $oldSessionId
-	 * @return bool
-	 */
-	public static function loginWithCookie($uid, $token, $oldSessionId) {
-		return self::getUserSession()->loginWithCookie($uid, $token, $oldSessionId);
-	}
-
-	/**
 	 * Try to login a user, assuming authentication
 	 * has already happened (e.g. via Single Sign On).
 	 *
@@ -233,7 +219,7 @@ class OC_User {
 
 			//setup extra user backends
 			self::setupBackends();
-			self::unsetMagicInCookie();
+			self::getUserSession()->unsetMagicInCookie();
 
 			return self::loginWithApache($backend);
 		}
@@ -379,17 +365,6 @@ class OC_User {
 				return false;
 			}
 		}
-	}
-
-	/**
-	 * Autogenerate a password
-	 *
-	 * @return string
-	 *
-	 * generates a password
-	 */
-	public static function generatePassword() {
-		return \OC::$server->getSecureRandom()->generate(30);
 	}
 
 	/**
@@ -547,30 +522,6 @@ class OC_User {
 	}
 
 	/**
-	 * disables a user
-	 *
-	 * @param string $uid the user to disable
-	 */
-	public static function disableUser($uid) {
-		$user = \OC::$server->getUserManager()->get($uid);
-		if ($user) {
-			$user->setEnabled(false);
-		}
-	}
-
-	/**
-	 * enable a user
-	 *
-	 * @param string $uid
-	 */
-	public static function enableUser($uid) {
-		$user = \OC::$server->getUserManager()->get($uid);
-		if ($user) {
-			$user->setEnabled(true);
-		}
-	}
-
-	/**
 	 * checks if a user is enabled
 	 *
 	 * @param string $uid
@@ -583,23 +534,6 @@ class OC_User {
 		} else {
 			return false;
 		}
-	}
-
-	/**
-	 * Set cookie value to use in next page load
-	 *
-	 * @param string $username username to be set
-	 * @param string $token
-	 */
-	public static function setMagicInCookie($username, $token) {
-		self::getUserSession()->setMagicInCookie($username, $token);
-	}
-
-	/**
-	 * Remove cookie for "remember username"
-	 */
-	public static function unsetMagicInCookie() {
-		self::getUserSession()->unsetMagicInCookie();
 	}
 
 	/**
