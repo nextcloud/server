@@ -69,7 +69,7 @@ class UpdaterTest extends TestCase {
 	 * points should be unshared before the folder gets deleted so
 	 * that the mount point doesn't end up at the trash bin
 	 */
-	function testDeleteParentFolder() {
+	public function testDeleteParentFolder() {
 		$status = \OC_App::isEnabled('files_trashbin');
 		(new \OC_App())->enable('files_trashbin');
 
@@ -96,8 +96,8 @@ class UpdaterTest extends TestCase {
 		$foldersShared = \OCP\Share::getItemsSharedWith('folder');
 		$this->assertSame(1, count($foldersShared));
 
-		$view->mkdir("localFolder");
-		$view->file_put_contents("localFolder/localFile.txt", "local file");
+		$view->mkdir('localFolder');
+		$view->file_put_contents('localFolder/localFile.txt', 'local file');
 
 		$view->rename($this->folder, 'localFolder/' . $this->folder);
 
@@ -196,7 +196,7 @@ class UpdaterTest extends TestCase {
 	/**
 	 * if a folder gets renamed all children mount points should be renamed too
 	 */
-	function testRename() {
+	public function testRename() {
 
 		$fileinfo = \OC\Files\Filesystem::getFileInfo($this->folder);
 

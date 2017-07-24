@@ -26,8 +26,6 @@
  *
  */
 
-use OCP\API;
-
 $application = new \OCA\Files_Sharing\AppInfo\Application();
 $application->registerRoutes($this, [
 	'resources' => [
@@ -127,7 +125,3 @@ $application->registerRoutes($this, [
 /** @var $this \OCP\Route\IRouter */
 $this->create('sharing_external_shareinfo', '/shareinfo')
 	->actionInclude('files_sharing/ajax/shareinfo.php');
-
-// OCS API
-
-//TODO: SET: mail notification, waiting for PR #4689 to be accepted
