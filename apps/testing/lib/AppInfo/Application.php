@@ -19,7 +19,7 @@
  *
  */
 
-namespace OCA\Testing;
+namespace OCA\Testing\AppInfo;
 
 use OCP\AppFramework\App;
 use OCA\Testing\AlternativeHomeUserBackend;
