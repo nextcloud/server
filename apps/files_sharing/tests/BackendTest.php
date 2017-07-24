@@ -68,7 +68,7 @@ class BackendTest extends TestCase {
 		parent::tearDown();
 	}
 
-	function testGetParents() {
+	public function testGetParents() {
 
 		$fileinfo1 = $this->view->getFileInfo($this->folder);
 		$fileinfo2 = $this->view->getFileInfo($this->folder . $this->subfolder . $this->subsubfolder);

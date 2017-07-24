@@ -1128,7 +1128,7 @@ class UsersControllerTest extends TestCase {
 	}
 
 	public function testEditUserAdminUserSelfEditChangeValidQuota() {
-		$loggedInUser = $this->getMockBuilder('\OCP\IUser')->disableOriginalConstructor()->getMock();;
+		$loggedInUser = $this->getMockBuilder('\OCP\IUser')->disableOriginalConstructor()->getMock();
 		$loggedInUser
 			->expects($this->any())
 			->method('getUID')

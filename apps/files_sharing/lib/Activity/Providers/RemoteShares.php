@@ -23,9 +23,7 @@ namespace OCA\Files_Sharing\Activity\Providers;
 
 use OCP\Activity\IEvent;
 use OCP\Activity\IManager;
-use OCP\Activity\IProvider;
 use OCP\Federation\ICloudIdManager;
-use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;

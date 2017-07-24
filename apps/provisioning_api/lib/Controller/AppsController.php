@@ -91,9 +91,9 @@ class AppsController extends OCSController {
 		$info = \OCP\App::getAppInfo($app);
 		if(!is_null($info)) {
 			return new DataResponse(OC_App::getAppInfo($app));
-		} else {
-			throw new OCSException('The request app was not found', \OCP\API::RESPOND_NOT_FOUND);
 		}
+
+		throw new OCSException('The request app was not found', \OCP\API::RESPOND_NOT_FOUND);
 	}
 
 	/**

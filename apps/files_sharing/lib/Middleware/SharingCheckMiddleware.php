@@ -37,6 +37,7 @@ use OCA\Files_Sharing\Exceptions\S2SException;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
 use OCP\Share\IManager;
+use OCP\Share\Exceptions\ShareNotFound;
 
 /**
  * Checks whether the "sharing check" is enabled
@@ -88,6 +89,7 @@ class SharingCheckMiddleware extends Middleware {
 	 * @param string $methodName
 	 * @throws NotFoundException
 	 * @throws S2SException
+	 * @throws ShareNotFound
 	 */
 	public function beforeController($controller, $methodName) {
 		if(!$this->isSharingEnabled()) {

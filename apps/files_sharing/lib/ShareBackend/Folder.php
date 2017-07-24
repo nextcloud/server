@@ -50,8 +50,8 @@ class Folder extends File implements \OCP\Share_Backend_Collection {
 					$share['file_path'] = $name;
 					$displayNameOwner = \OCP\User::getDisplayName($share['uid_owner']);
 					$displayNameShareWith = \OCP\User::getDisplayName($share['share_with']);
-					$share['displayname_owner'] = ($displayNameOwner) ? $displayNameOwner : $share['uid_owner'];
-					$share['share_with_displayname'] = ($displayNameShareWith) ? $displayNameShareWith : $share['uid_owner'];
+					$share['displayname_owner'] = $displayNameOwner ? $displayNameOwner : $share['uid_owner'];
+					$share['share_with_displayname'] = $displayNameShareWith ? $displayNameShareWith : $share['uid_owner'];
 
 					$result[] = $share;
 				}
@@ -72,7 +72,7 @@ class Folder extends File implements \OCP\Share_Backend_Collection {
 		$query = \OCP\DB::prepare('SELECT `parent` FROM `*PREFIX*filecache` WHERE `fileid` = ?');
 		$result = $query->execute(array($child));
 		$row = $result->fetchRow();
-		$parent = ($row) ? $row['parent'] : null;
+		$parent = $row ? $row['parent'] : null;
 
 		return $parent;
 	}
