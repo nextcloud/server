@@ -75,7 +75,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 * Put your class dependencies in here
 	 * @param string $appName the name of the app
 	 * @param array $urlParams
-	 * @param ServerContainer $server
+	 * @param ServerContainer|null $server
 	 */
 	public function __construct($appName, $urlParams = array(), ServerContainer $server = null){
 		parent::__construct();
