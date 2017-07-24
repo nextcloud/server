@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Saved" : "Αποθηκεύτηκε",
     "Saving failed:" : "Απέτυχε η αποθήκευση:",
-    "File MIME type" : "MIME τύπος αρχείου",
+    "File MIME type" : "Τύπος αρχείου MIME",
     "is" : "είναι",
     "is not" : "δεν είναι",
     "matches" : "ταιριάζει",

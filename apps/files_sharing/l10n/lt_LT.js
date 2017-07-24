@@ -103,6 +103,7 @@ OC.L10N.register(
     "the link expired" : "baigėsi nuorodos galiojimo laikas",
     "sharing is disabled" : "dalinimasis yra išjungtas",
     "For more info, please ask the person who sent this link." : "Dėl tikslesnės informacijos susisiekite su asmeniu atsiuntusiu nuorodą.",
+    "shared by %s" : "pasidalino %s",
     "Add to your Nextcloud" : "Pridėti į jūsų NextCloud",
     "Download" : "Atsisiųsti",
     "Download %s" : "Atsisiųsti %s",
