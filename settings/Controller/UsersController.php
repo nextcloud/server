@@ -133,7 +133,8 @@ class UsersController extends Controller {
 	 * @param IUserMountCache $userMountCache
 	 * @param IManager $encryptionManager
 	 */
-	public function __construct($appName,
+	public function __construct(
+		$appName,
 								IRequest $request,
 								IUserManager $userManager,
 								IGroupManager $groupManager,
@@ -154,7 +155,8 @@ class UsersController extends Controller {
 								Manager $keyManager,
 								IJobList $jobList,
 								IUserMountCache $userMountCache,
-								IManager $encryptionManager) {
+								IManager $encryptionManager
+	) {
 		parent::__construct($appName, $request);
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
@@ -316,7 +318,6 @@ class UsersController extends Controller {
 					$users[] = $this->formatUserForIndex($user);
 				}
 			}
-
 		} else {
 			$subAdminOfGroups = $this->groupManager->getSubAdmin()->getSubAdminsGroups($this->userSession->getUser());
 			// New class returns IGroup[] so convert back
@@ -497,7 +498,6 @@ class UsersController extends Controller {
 			],
 			Http::STATUS_FORBIDDEN
 		);
-
 	}
 
 	/**
@@ -585,7 +585,8 @@ class UsersController extends Controller {
 					'data' => [
 						'message' => $errorMsgGeneral
 					]
-				], Http::STATUS_FORBIDDEN
+				],
+				Http::STATUS_FORBIDDEN
 			);
 		}
 
@@ -623,7 +624,6 @@ class UsersController extends Controller {
 				Http::STATUS_FORBIDDEN
 			);
 		}
-
 	}
 
 	/**
@@ -638,7 +638,6 @@ class UsersController extends Controller {
 	 * @return DataResponse
 	 */
 	public function getVerificationCode($account, $onlyVerificationCode) {
-
 		$user = $this->userSession->getUser();
 
 		if ($user === null) {
@@ -676,7 +675,8 @@ class UsersController extends Controller {
 		if ($onlyVerificationCode === false) {
 			$this->accountManager->updateUser($user, $accountData);
 
-			$this->jobList->add('OC\Settings\BackgroundJobs\VerifyUserData',
+			$this->jobList->add(
+				'OC\Settings\BackgroundJobs\VerifyUserData',
 				[
 					'verificationCode' => $code,
 					'data' => $data,
@@ -736,7 +736,8 @@ class UsersController extends Controller {
 	 * @param string $twitterScope
 	 * @return DataResponse
 	 */
-	public function setUserSettings($avatarScope,
+	public function setUserSettings(
+		$avatarScope,
 									$displayname,
 									$displaynameScope,
 									$phone,
@@ -750,7 +751,6 @@ class UsersController extends Controller {
 									$twitter,
 									$twitterScope
 	) {
-
 		if (!empty($email) && !$this->mailer->validateMailAddress($email)) {
 			return new DataResponse(
 				[
@@ -813,7 +813,6 @@ class UsersController extends Controller {
 				],
 			]);
 		}
-
 	}
 
 
@@ -1040,5 +1039,4 @@ class UsersController extends Controller {
 			]);
 		}
 	}
-
 }

@@ -45,7 +45,6 @@ use OCP\Util;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Application extends App {
-
 	public function __construct() {
 		parent::__construct('admin_audit');
 	}
@@ -77,24 +76,24 @@ class Application extends App {
 	protected function userManagementHooks(ILogger $logger) {
 		$userActions = new UserManagement($logger);
 
-		Util::connectHook('OC_User', 'post_createUser',	$userActions, 'create');
-		Util::connectHook('OC_User', 'post_deleteUser',	$userActions, 'delete');
-		Util::connectHook('OC_User', 'changeUser',	$userActions, 'change');
+		Util::connectHook('OC_User', 'post_createUser', $userActions, 'create');
+		Util::connectHook('OC_User', 'post_deleteUser', $userActions, 'delete');
+		Util::connectHook('OC_User', 'changeUser', $userActions, 'change');
 
 		/** @var IUserSession|Session $userSession */
 		$userSession = $this->getContainer()->getServer()->getUserSession();
 		$userSession->listen('\OC\User', 'postSetPassword', [$userActions, 'setPassword']);
 	}
 
-	protected function groupHooks(ILogger $logger)  {
+	protected function groupHooks(ILogger $logger) {
 		$groupActions = new GroupManagement($logger);
 
 		/** @var IGroupManager|Manager $groupManager */
 		$groupManager = $this->getContainer()->getServer()->getGroupManager();
-		$groupManager->listen('\OC\Group', 'postRemoveUser',  [$groupActions, 'removeUser']);
-		$groupManager->listen('\OC\Group', 'postAddUser',  [$groupActions, 'addUser']);
-		$groupManager->listen('\OC\Group', 'postDelete',  [$groupActions, 'deleteGroup']);
-		$groupManager->listen('\OC\Group', 'postCreate',  [$groupActions, 'createGroup']);
+		$groupManager->listen('\OC\Group', 'postRemoveUser', [$groupActions, 'removeUser']);
+		$groupManager->listen('\OC\Group', 'postAddUser', [$groupActions, 'addUser']);
+		$groupManager->listen('\OC\Group', 'postDelete', [$groupActions, 'deleteGroup']);
+		$groupManager->listen('\OC\Group', 'postCreate', [$groupActions, 'createGroup']);
 	}
 
 	protected function sharingHooks(ILogger $logger) {
@@ -117,26 +116,24 @@ class Application extends App {
 	}
 
 	protected function appHooks(ILogger $logger) {
-
 		$eventDispatcher = $this->getContainer()->getServer()->getEventDispatcher();
-		$eventDispatcher->addListener(ManagerEvent::EVENT_APP_ENABLE, function(ManagerEvent $event) use ($logger) {
+		$eventDispatcher->addListener(ManagerEvent::EVENT_APP_ENABLE, function (ManagerEvent $event) use ($logger) {
 			$appActions = new AppManagement($logger);
 			$appActions->enableApp($event->getAppID());
 		});
-		$eventDispatcher->addListener(ManagerEvent::EVENT_APP_ENABLE_FOR_GROUPS, function(ManagerEvent $event) use ($logger) {
+		$eventDispatcher->addListener(ManagerEvent::EVENT_APP_ENABLE_FOR_GROUPS, function (ManagerEvent $event) use ($logger) {
 			$appActions = new AppManagement($logger);
 			$appActions->enableAppForGroups($event->getAppID(), $event->getGroups());
 		});
-		$eventDispatcher->addListener(ManagerEvent::EVENT_APP_DISABLE, function(ManagerEvent $event) use ($logger) {
+		$eventDispatcher->addListener(ManagerEvent::EVENT_APP_DISABLE, function (ManagerEvent $event) use ($logger) {
 			$appActions = new AppManagement($logger);
 			$appActions->disableApp($event->getAppID());
 		});
-
 	}
 
 	protected function consoleHooks(ILogger $logger) {
 		$eventDispatcher = $this->getContainer()->getServer()->getEventDispatcher();
-		$eventDispatcher->addListener(ConsoleEvent::EVENT_RUN, function(ConsoleEvent $event) use ($logger) {
+		$eventDispatcher->addListener(ConsoleEvent::EVENT_RUN, function (ConsoleEvent $event) use ($logger) {
 			$appActions = new Console($logger);
 			$appActions->runCommand($event->getArguments());
 		});
@@ -147,7 +144,7 @@ class Application extends App {
 		$eventDispatcher = $this->getContainer()->getServer()->getEventDispatcher();
 		$eventDispatcher->addListener(
 			IPreview::EVENT,
-			function(GenericEvent $event) use ($fileActions) {
+			function (GenericEvent $event) use ($fileActions) {
 				/** @var File $file */
 				$file = $event->getSubject();
 				$fileActions->preview([
@@ -155,7 +152,7 @@ class Application extends App {
 					'width' => $event->getArguments()['width'],
 					'height' => $event->getArguments()['height'],
 					'crop' => $event->getArguments()['crop'],
-					'mode'  => $event->getArguments()['mode']
+					'mode' => $event->getArguments()['mode']
 				]);
 			}
 		);
@@ -207,7 +204,7 @@ class Application extends App {
 	protected function versionsHooks(ILogger $logger) {
 		$versionsActions = new Versions($logger);
 		Util::connectHook('\OCP\Versions', 'rollback', $versionsActions, 'rollback');
-		Util::connectHook('\OCP\Versions', 'delete',$versionsActions, 'delete');
+		Util::connectHook('\OCP\Versions', 'delete', $versionsActions, 'delete');
 	}
 
 	protected function trashbinHooks(ILogger $logger) {

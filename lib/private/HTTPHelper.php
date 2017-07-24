@@ -45,8 +45,10 @@ class HTTPHelper {
 	 * @param IConfig $config
 	 * @param IClientService $clientService
 	 */
-	public function __construct(IConfig $config,
-								IClientService $clientService) {
+	public function __construct(
+		IConfig $config,
+								IClientService $clientService
+	) {
 		$this->config = $config;
 		$this->clientService = $clientService;
 	}
@@ -116,5 +118,4 @@ class HTTPHelper {
 
 		return ['success' => true, 'result' => $response->getBody()];
 	}
-
 }

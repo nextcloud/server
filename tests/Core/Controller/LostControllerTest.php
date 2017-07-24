@@ -97,7 +97,7 @@ class LostControllerTest extends \Test\TestCase {
 		$this->l10n
 			->expects($this->any())
 			->method('t')
-			->will($this->returnCallback(function($text, $parameters = array()) {
+			->will($this->returnCallback(function ($text, $parameters = []) {
 				return vsprintf($text, $parameters);
 			}));
 		$this->defaults = $this->getMockBuilder('\OCP\Defaults')
@@ -171,14 +171,16 @@ class LostControllerTest extends \Test\TestCase {
 			)->willReturn('12345:TheOnlyAndOnlyOneTokenToResetThePassword');
 
 		$response = $this->lostController->resetform('12345:MySecretToken', 'ValidTokenUser');
-		$expectedResponse = new TemplateResponse('core',
+		$expectedResponse = new TemplateResponse(
+			'core',
 			'error',
 			[
 				'errors' => [
 					['error' => 'Couldn\'t reset password because the token is invalid'],
 				]
 			],
-			'guest');
+			'guest'
+		);
 		$this->assertEquals($expectedResponse, $response);
 	}
 
@@ -203,14 +205,16 @@ class LostControllerTest extends \Test\TestCase {
 			->willReturn(999999);
 
 		$response = $this->lostController->resetform('TheOnlyAndOnlyOneTokenToResetThePassword', 'ValidTokenUser');
-		$expectedResponse = new TemplateResponse('core',
+		$expectedResponse = new TemplateResponse(
+			'core',
 			'error',
 			[
 				'errors' => [
 					['error' => 'Couldn\'t reset password because the token is expired'],
 				]
 			],
-			'guest');
+			'guest'
+		);
 		$this->assertEquals($expectedResponse, $response);
 	}
 
@@ -237,16 +241,18 @@ class LostControllerTest extends \Test\TestCase {
 		$this->urlGenerator
 			->expects($this->once())
 			->method('linkToRouteAbsolute')
-			->with('core.lost.setPassword', array('userId' => 'ValidTokenUser', 'token' => 'TheOnlyAndOnlyOneTokenToResetThePassword'))
+			->with('core.lost.setPassword', ['userId' => 'ValidTokenUser', 'token' => 'TheOnlyAndOnlyOneTokenToResetThePassword'])
 			->will($this->returnValue('https://example.tld/index.php/lostpassword/'));
 
 		$response = $this->lostController->resetform('TheOnlyAndOnlyOneTokenToResetThePassword', 'ValidTokenUser');
-		$expectedResponse = new TemplateResponse('core',
+		$expectedResponse = new TemplateResponse(
+			'core',
 			'lostpassword/resetpassword',
-			array(
+			[
 				'link' => 'https://example.tld/index.php/lostpassword/',
-			),
-			'guest');
+			],
+			'guest'
+		);
 		$this->assertEquals($expectedResponse, $response);
 	}
 
@@ -256,10 +262,10 @@ class LostControllerTest extends \Test\TestCase {
 		$this->userManager
 			->expects($this->any())
 			->method('userExists')
-			->will($this->returnValueMap(array(
-				array(true, $existingUser),
-				array(false, $nonExistingUser)
-			)));
+			->will($this->returnValueMap([
+				[true, $existingUser],
+				[false, $nonExistingUser]
+			]));
 
 		// With a non existing user
 		$response = $this->lostController->email($nonExistingUser);
@@ -307,7 +313,7 @@ class LostControllerTest extends \Test\TestCase {
 		$this->urlGenerator
 			->expects($this->once())
 			->method('linkToRouteAbsolute')
-			->with('core.lost.resetform', array('userId' => 'ExistingUser', 'token' => 'ThisIsMaybeANotSoSecretToken!'))
+			->with('core.lost.resetform', ['userId' => 'ExistingUser', 'token' => 'ThisIsMaybeANotSoSecretToken!'])
 			->will($this->returnValue('https://example.tld/index.php/lostpassword/'));
 		$message = $this->getMockBuilder('\OC\Mail\Message')
 			->disableOriginalConstructor()->getMock();
@@ -390,7 +396,7 @@ class LostControllerTest extends \Test\TestCase {
 		$this->urlGenerator
 			->expects($this->once())
 			->method('linkToRouteAbsolute')
-			->with('core.lost.resetform', array('userId' => 'ExistingUser', 'token' => 'ThisIsMaybeANotSoSecretToken!'))
+			->with('core.lost.resetform', ['userId' => 'ExistingUser', 'token' => 'ThisIsMaybeANotSoSecretToken!'])
 			->will($this->returnValue('https://example.tld/index.php/lostpassword/'));
 		$message = $this->getMockBuilder('\OC\Mail\Message')
 			->disableOriginalConstructor()->getMock();
@@ -468,7 +474,7 @@ class LostControllerTest extends \Test\TestCase {
 		$this->urlGenerator
 			->expects($this->once())
 			->method('linkToRouteAbsolute')
-			->with('core.lost.resetform', array('userId' => 'ExistingUser', 'token' => 'ThisIsMaybeANotSoSecretToken!'))
+			->with('core.lost.resetform', ['userId' => 'ExistingUser', 'token' => 'ThisIsMaybeANotSoSecretToken!'])
 			->will($this->returnValue('https://example.tld/index.php/lostpassword/'));
 		$message = $this->createMock(Message::class);
 		$message
@@ -549,7 +555,7 @@ class LostControllerTest extends \Test\TestCase {
 			)->willReturn('12345:TheOnlyAndOnlyOneTokenToResetThePassword');
 
 		$response = $this->lostController->setPassword('TheOnlyAndOnlyOneTokenToResetThePassword', 'ValidTokenUser', 'NewPassword', true);
-		$expectedResponse = array('status' => 'error', 'msg' => '');
+		$expectedResponse = ['status' => 'error', 'msg' => ''];
 		$this->assertSame($expectedResponse, $response);
 	}
 
@@ -579,7 +585,7 @@ class LostControllerTest extends \Test\TestCase {
 			)->willReturn('12345:TheOnlyAndOnlyOneTokenToResetThePassword');
 
 		$response = $this->lostController->setPassword('TheOnlyAndOnlyOneTokenToResetThePassword', 'ValidTokenUser', 'NewPassword', true);
-		$expectedResponse = array('status' => 'success');
+		$expectedResponse = ['status' => 'success'];
 		$this->assertSame($expectedResponse, $response);
 	}
 
@@ -700,5 +706,4 @@ class LostControllerTest extends \Test\TestCase {
 		$expectedResponse = ['status' => 'error', 'msg' => '', 'encryption' => true];
 		$this->assertSame($expectedResponse, $response);
 	}
-
 }

@@ -26,7 +26,6 @@
 
 namespace OCA\Encryption\Crypto;
 
-
 use OC\Encryption\Exceptions\DecryptionFailedException;
 use OC\Encryption\Exceptions\EncryptionFailedException;
 use OCA\Encryption\Exceptions\MultiKeyDecryptException;
@@ -52,7 +51,6 @@ use OCP\IUserSession;
  * @package OCA\Encryption\Crypto
  */
 class Crypt {
-
 	const DEFAULT_CIPHER = 'AES-256-CTR';
 	// default cipher from old Nextcloud versions
 	const LEGACY_CIPHER = 'AES-128-CFB';
@@ -107,22 +105,27 @@ class Crypt {
 	 * @return array|bool
 	 */
 	public function createKeyPair() {
-
 		$log = $this->logger;
 		$res = $this->getOpenSSLPKey();
 
 		if (!$res) {
-			$log->error("Encryption Library couldn't generate users key-pair for {$this->user}",
-				['app' => 'encryption']);
+			$log->error(
+				"Encryption Library couldn't generate users key-pair for {$this->user}",
+				['app' => 'encryption']
+			);
 
 			if (openssl_error_string()) {
-				$log->error('Encryption library openssl_pkey_new() fails: ' . openssl_error_string(),
-					['app' => 'encryption']);
+				$log->error(
+					'Encryption library openssl_pkey_new() fails: ' . openssl_error_string(),
+					['app' => 'encryption']
+				);
 			}
-		} elseif (openssl_pkey_export($res,
+		} elseif (openssl_pkey_export(
+			$res,
 			$privateKey,
 			null,
-			$this->getOpenSSLConfig())) {
+			$this->getOpenSSLConfig()
+		)) {
 			$keyDetails = openssl_pkey_get_details($res);
 			$publicKey = $keyDetails['key'];
 
@@ -131,11 +134,15 @@ class Crypt {
 				'privateKey' => $privateKey
 			];
 		}
-		$log->error('Encryption library couldn\'t export users private key, please check your servers OpenSSL configuration.' . $this->user,
-			['app' => 'encryption']);
+		$log->error(
+			'Encryption library couldn\'t export users private key, please check your servers OpenSSL configuration.' . $this->user,
+			['app' => 'encryption']
+		);
 		if (openssl_error_string()) {
-			$log->error('Encryption Library:' . openssl_error_string(),
-				['app' => 'encryption']);
+			$log->error(
+				'Encryption Library:' . openssl_error_string(),
+				['app' => 'encryption']
+			);
 		}
 
 		return false;
@@ -174,19 +181,22 @@ class Crypt {
 	 * @throws EncryptionFailedException
 	 */
 	public function symmetricEncryptFileContent($plainContent, $passPhrase, $version, $position) {
-
 		if (!$plainContent) {
-			$this->logger->error('Encryption Library, symmetrical encryption failed no content given',
-				['app' => 'encryption']);
+			$this->logger->error(
+				'Encryption Library, symmetrical encryption failed no content given',
+				['app' => 'encryption']
+			);
 			return false;
 		}
 
 		$iv = $this->generateIv();
 
-		$encryptedContent = $this->encrypt($plainContent,
+		$encryptedContent = $this->encrypt(
+			$plainContent,
 			$iv,
 			$passPhrase,
-			$this->getCipher());
+			$this->getCipher()
+		);
 
 		// Create a signature based on the key as well as the current version
 		$sig = $this->createSignature($encryptedContent, $passPhrase.$version.$position);
@@ -207,7 +217,6 @@ class Crypt {
 	 * @throws \InvalidArgumentException
 	 */
 	public function generateHeader($keyFormat = 'hash') {
-
 		if (in_array($keyFormat, $this->supportedKeyFormats, true) === false) {
 			throw new \InvalidArgumentException('key format "' . $keyFormat . '" is not supported');
 		}
@@ -231,16 +240,20 @@ class Crypt {
 	 * @throws EncryptionFailedException
 	 */
 	private function encrypt($plainContent, $iv, $passPhrase = '', $cipher = self::DEFAULT_CIPHER) {
-		$encryptedContent = openssl_encrypt($plainContent,
+		$encryptedContent = openssl_encrypt(
+			$plainContent,
 			$cipher,
 			$passPhrase,
 			false,
-			$iv);
+			$iv
+		);
 
 		if (!$encryptedContent) {
 			$error = 'Encryption (symmetric) of content failed';
-			$this->logger->error($error . openssl_error_string(),
-				['app' => 'encryption']);
+			$this->logger->error(
+				$error . openssl_error_string(),
+				['app' => 'encryption']
+			);
 			throw new EncryptionFailedException($error);
 		}
 
@@ -262,13 +275,14 @@ class Crypt {
 							$cipher,
 							self::DEFAULT_CIPHER
 					),
-				['app' => 'encryption']);
+				['app' => 'encryption']
+			);
 			$cipher = self::DEFAULT_CIPHER;
 		}
 
 		// Workaround for OpenSSL 0.9.8. Fallback to an old cipher that should work.
-		if(OPENSSL_VERSION_NUMBER < 0x1000101f) {
-			if($cipher === 'AES-256-CTR' || $cipher === 'AES-128-CTR') {
+		if (OPENSSL_VERSION_NUMBER < 0x1000101f) {
+			if ($cipher === 'AES-256-CTR' || $cipher === 'AES-128-CTR') {
 				$cipher = self::LEGACY_CIPHER;
 			}
 		}
@@ -284,7 +298,7 @@ class Crypt {
 	 * @throws \InvalidArgumentException
 	 */
 	protected function getKeySize($cipher) {
-		if(isset($this->supportedCiphersAndKeySize[$cipher])) {
+		if (isset($this->supportedCiphersAndKeySize[$cipher])) {
 			return $this->supportedCiphersAndKeySize[$cipher];
 		}
 
@@ -389,7 +403,6 @@ class Crypt {
 	 * @return false|string
 	 */
 	public function decryptPrivateKey($privateKey, $password = '', $uid = '') {
-
 		$header = $this->parseHeader($privateKey);
 
 		if (isset($header['cipher'])) {
@@ -410,9 +423,13 @@ class Crypt {
 
 		// If we found a header we need to remove it from the key we want to decrypt
 		if (!empty($header)) {
-			$privateKey = substr($privateKey,
-				strpos($privateKey,
-					self::HEADER_END) + strlen(self::HEADER_END));
+			$privateKey = substr(
+				$privateKey,
+				strpos(
+					$privateKey,
+					self::HEADER_END
+				) + strlen(self::HEADER_END)
+			);
 		}
 
 		$plainKey = $this->symmetricDecryptFileContent(
@@ -463,10 +480,12 @@ class Crypt {
 			$this->checkSignature($catFile['encrypted'], $passPhrase.$version.$position, $catFile['signature']);
 		}
 
-		return $this->decrypt($catFile['encrypted'],
+		return $this->decrypt(
+			$catFile['encrypted'],
 			$catFile['iv'],
 			$passPhrase,
-			$cipher);
+			$cipher
+		);
 	}
 
 	/**
@@ -575,11 +594,13 @@ class Crypt {
 	 * @throws DecryptionFailedException
 	 */
 	private function decrypt($encryptedContent, $iv, $passPhrase = '', $cipher = self::DEFAULT_CIPHER) {
-		$plainContent = openssl_decrypt($encryptedContent,
+		$plainContent = openssl_decrypt(
+			$encryptedContent,
 			$cipher,
 			$passPhrase,
 			false,
-			$iv);
+			$iv
+		);
 
 		if ($plainContent) {
 			return $plainContent;
@@ -600,8 +621,10 @@ class Crypt {
 			$header = substr($data, 0, $endAt + strlen(self::HEADER_END));
 
 			// +1 not to start with an ':' which would result in empty element at the beginning
-			$exploded = explode(':',
-				substr($header, strlen(self::HEADER_START) + 1));
+			$exploded = explode(
+				':',
+				substr($header, strlen(self::HEADER_START) + 1)
+			);
 
 			$element = array_shift($exploded);
 
@@ -690,4 +713,3 @@ class Crypt {
 		}
 	}
 }
-

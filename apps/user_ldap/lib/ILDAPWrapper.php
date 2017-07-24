@@ -216,5 +216,4 @@ interface ILDAPWrapper {
 	 * @return bool true if it is a resource, false otherwise
 	 */
 	public function isResource($resource);
-
 }

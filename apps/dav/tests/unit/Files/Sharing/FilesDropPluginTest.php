@@ -121,7 +121,7 @@ class FilesDropPluginTest extends TestCase {
 			->willReturn('https://example.com');
 
 		$this->view->method('file_exists')
-			->will($this->returnCallback(function($path) {
+			->will($this->returnCallback(function ($path) {
 				if ($path === 'file.txt' || $path === '/file.txt') {
 					return true;
 				} else {
@@ -162,7 +162,7 @@ class FilesDropPluginTest extends TestCase {
 			->willReturn('https://example.com');
 
 		$this->view->method('file_exists')
-			->will($this->returnCallback(function($path) {
+			->will($this->returnCallback(function ($path) {
 				if ($path === 'file.txt' || $path === '/file.txt') {
 					return true;
 				} else {

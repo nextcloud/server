@@ -24,7 +24,6 @@ namespace OCA\Files_Sharing\Activity\Providers;
 use OCP\Activity\IEvent;
 
 class Groups extends Base {
-
 	const SUBJECT_SHARED_GROUP_SELF = 'shared_group_self';
 	const SUBJECT_RESHARED_GROUP_BY = 'reshared_group_by';
 	const SUBJECT_UNSHARED_GROUP_SELF = 'unshared_group_self';
@@ -41,11 +40,11 @@ class Groups extends Base {
 
 		if ($event->getSubject() === self::SUBJECT_SHARED_GROUP_SELF) {
 			$subject = $this->l->t('Shared with group {group}');
-		} else if ($event->getSubject() === self::SUBJECT_UNSHARED_GROUP_SELF) {
+		} elseif ($event->getSubject() === self::SUBJECT_UNSHARED_GROUP_SELF) {
 			$subject = $this->l->t('Removed share for group {group}');
-		} else if ($event->getSubject() === self::SUBJECT_RESHARED_GROUP_BY) {
+		} elseif ($event->getSubject() === self::SUBJECT_RESHARED_GROUP_BY) {
 			$subject = $this->l->t('{actor} shared with group {group}');
-		} else if ($event->getSubject() === self::SUBJECT_UNSHARED_GROUP_BY) {
+		} elseif ($event->getSubject() === self::SUBJECT_UNSHARED_GROUP_BY) {
 			$subject = $this->l->t('{actor} removed share for group {group}');
 		} else {
 			throw new \InvalidArgumentException();
@@ -72,11 +71,11 @@ class Groups extends Base {
 
 		if ($event->getSubject() === self::SUBJECT_SHARED_GROUP_SELF) {
 			$subject = $this->l->t('You shared {file} with group {group}');
-		} else if ($event->getSubject() === self::SUBJECT_UNSHARED_GROUP_SELF) {
+		} elseif ($event->getSubject() === self::SUBJECT_UNSHARED_GROUP_SELF) {
 			$subject = $this->l->t('You removed group {group} from {file}');
-		} else if ($event->getSubject() === self::SUBJECT_RESHARED_GROUP_BY) {
+		} elseif ($event->getSubject() === self::SUBJECT_RESHARED_GROUP_BY) {
 			$subject = $this->l->t('{actor} shared {file} with group {group}');
-		} else if ($event->getSubject() === self::SUBJECT_UNSHARED_GROUP_BY) {
+		} elseif ($event->getSubject() === self::SUBJECT_UNSHARED_GROUP_BY) {
 			$subject = $this->l->t('{actor} removed group {group} from {file}');
 		} else {
 			throw new \InvalidArgumentException();

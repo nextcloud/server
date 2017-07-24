@@ -21,7 +21,6 @@
 
 namespace OCA\LookupServerConnector\BackgroundJobs;
 
-
 use OC\BackgroundJob\Job;
 use OC\BackgroundJob\JobList;
 use OCP\BackgroundJob\IJobList;
@@ -44,9 +43,11 @@ class RetryJob extends Job {
 	 * @param IJobList $jobList
 	 * @param IConfig $config
 	 */
-	public function __construct(IClientService $clientService,
+	public function __construct(
+		IClientService $clientService,
 								IJobList $jobList,
-								IConfig $config) {
+								IConfig $config
+	) {
 		$this->clientService = $clientService;
 		$this->jobList = $jobList;
 
@@ -69,14 +70,15 @@ class RetryJob extends Job {
 	}
 
 	protected function run($argument) {
-		if($argument['retryNo'] === 5) {
+		if ($argument['retryNo'] === 5) {
 			return;
 		}
 
 		$client = $this->clientService->newClient();
 
 		try {
-			$client->post($this->lookupServer,
+			$client->post(
+				$this->lookupServer,
 				[
 					'body' => json_encode($argument['dataArray']),
 					'timeout' => 10,
@@ -84,14 +86,14 @@ class RetryJob extends Job {
 				]
 			);
 		} catch (\Exception $e) {
-			$this->jobList->add(RetryJob::class,
+			$this->jobList->add(
+				RetryJob::class,
 				[
 					'dataArray' => $argument['dataArray'],
 					'retryNo' => $argument['retryNo'] + 1,
 					'lastRun' => time(),
 				]
 			);
-
 		}
 	}
 

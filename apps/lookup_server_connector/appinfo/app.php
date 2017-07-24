@@ -21,7 +21,7 @@
 
 $dispatcher = \OC::$server->getEventDispatcher();
 
-$dispatcher->addListener('OC\AccountManager::userUpdated', function(\Symfony\Component\EventDispatcher\GenericEvent $event) {
+$dispatcher->addListener('OC\AccountManager::userUpdated', function (\Symfony\Component\EventDispatcher\GenericEvent $event) {
 	/** @var \OCP\IUser $user */
 	$user = $event->getSubject();
 

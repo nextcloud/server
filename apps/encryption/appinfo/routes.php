@@ -24,7 +24,7 @@
 
 namespace OCA\Encryption\AppInfo;
 
-(new Application())->registerRoutes($this, array('routes' => array(
+(new Application())->registerRoutes($this, ['routes' => [
 
 	[
 		'name' => 'Recovery#adminRecovery',
@@ -58,4 +58,4 @@ namespace OCA\Encryption\AppInfo;
 	]
 
 
-)));
+]]);

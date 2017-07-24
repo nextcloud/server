@@ -23,7 +23,6 @@
 namespace Test;
 
 class FilesTest extends \Test\TestCase {
-
 	const UPLOAD_LIMIT_DEFAULT_STR = '511M';
 	const UPLOAD_LIMIT_SETTING_STR = '2M';
 	const UPLOAD_LIMIT_SETTING_BYTES = 2097152;
@@ -98,9 +97,12 @@ class FilesTest extends \Test\TestCase {
 	 * @dataProvider setUploadLimitWriteProvider
 	 */
 	public function testSetUploadLimitWrite(
-		$htaccessWritable, $userIniWritable,
-		$setSize, $expectedSize,
-		$htaccessStr, $userIniStr
+		$htaccessWritable,
+		$userIniWritable,
+		$setSize,
+		$expectedSize,
+		$htaccessStr,
+		$userIniStr
 	) {
 		$this->markTestSkipped('TODO: Disable because fails on drone');
 
@@ -110,26 +112,30 @@ class FilesTest extends \Test\TestCase {
 
 		$htaccessSize = filesize($files['.htaccess']);
 		$userIniSize = filesize($files['.user.ini']);
-		$htaccessSizeMod = 2*(strlen($htaccessStr) - strlen(self::UPLOAD_LIMIT_DEFAULT_STR));
-		$userIniSizeMod = 2*(strlen($userIniStr) - strlen(self::UPLOAD_LIMIT_DEFAULT_STR));
+		$htaccessSizeMod = 2 * (strlen($htaccessStr) - strlen(self::UPLOAD_LIMIT_DEFAULT_STR));
+		$userIniSizeMod = 2 * (strlen($userIniStr) - strlen(self::UPLOAD_LIMIT_DEFAULT_STR));
 
 		$this->assertEquals($expectedSize, \OC_Files::setUploadLimit($setSize, $files));
 
 		// check file contents
 		$htaccess = file_get_contents($files['.htaccess']);
-		$this->assertEquals(1,
+		$this->assertEquals(
+			1,
 			preg_match('/php_value upload_max_filesize '.$htaccessStr.'/', $htaccess)
 		);
-		$this->assertEquals(1,
+		$this->assertEquals(
+			1,
 			preg_match('/php_value post_max_size '.$htaccessStr.'/', $htaccess)
 		);
 		$this->assertEquals($htaccessSize + $htaccessSizeMod, filesize($files['.htaccess']));
 
 		$userIni = file_get_contents($files['.user.ini']);
-		$this->assertEquals(1,
+		$this->assertEquals(
+			1,
 			preg_match('/upload_max_filesize='.$userIniStr.'/', $userIni)
 		);
-		$this->assertEquals(1,
+		$this->assertEquals(
+			1,
 			preg_match('/post_max_size='.$userIniStr.'/', $userIni)
 		);
 		$this->assertEquals($userIniSize + $userIniSizeMod, filesize($files['.user.ini']));

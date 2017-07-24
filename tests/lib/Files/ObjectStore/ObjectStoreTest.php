@@ -49,7 +49,6 @@ abstract class ObjectStoreTest extends TestCase {
 		$instance->deleteObject('1');
 
 		$this->assertEquals('foobar', stream_get_contents($result));
-
 	}
 
 	public function testDelete() {

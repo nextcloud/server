@@ -61,5 +61,4 @@ class SecuritySetting implements ISetting {
 	public function isDefaultEnabledStream() {
 		return true;
 	}
-
 }

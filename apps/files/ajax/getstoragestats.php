@@ -34,7 +34,7 @@ OCP\JSON::checkLoggedIn();
 
 // send back json
 try {
-	OCP\JSON::success(array('data' => \OCA\Files\Helper::buildFileStorageStatistics($dir)));
+	OCP\JSON::success(['data' => \OCA\Files\Helper::buildFileStorageStatistics($dir)]);
 } catch (\OCP\Files\NotFoundException $e) {
 	OCP\JSON::error(['data' => ['message' => 'Folder not found']]);
 }

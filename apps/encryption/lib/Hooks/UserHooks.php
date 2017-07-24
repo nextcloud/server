@@ -24,7 +24,6 @@
 
 namespace OCA\Encryption\Hooks;
 
-
 use OC\Files\Filesystem;
 use OCP\IUserManager;
 use OCP\Util as OCUtil;
@@ -97,7 +96,8 @@ class UserHooks implements IHook {
 	 * @param Crypt $crypt
 	 * @param Recovery $recovery
 	 */
-	public function __construct(KeyManager $keyManager,
+	public function __construct(
+		KeyManager $keyManager,
 								IUserManager $userManager,
 								ILogger $logger,
 								Setup $userSetup,
@@ -105,8 +105,8 @@ class UserHooks implements IHook {
 								Util $util,
 								Session $session,
 								Crypt $crypt,
-								Recovery $recovery) {
-
+								Recovery $recovery
+	) {
 		$this->keyManager = $keyManager;
 		$this->userManager = $userManager;
 		$this->logger = $logger;
@@ -129,35 +129,47 @@ class UserHooks implements IHook {
 
 		// this hooks only make sense if no master key is used
 		if ($this->util->isMasterKeyEnabled() === false) {
-			OCUtil::connectHook('OC_User',
+			OCUtil::connectHook(
+				'OC_User',
 				'post_setPassword',
 				$this,
-				'setPassphrase');
+				'setPassphrase'
+			);
 
-			OCUtil::connectHook('OC_User',
+			OCUtil::connectHook(
+				'OC_User',
 				'pre_setPassword',
 				$this,
-				'preSetPassphrase');
+				'preSetPassphrase'
+			);
 
-			OCUtil::connectHook('\OC\Core\LostPassword\Controller\LostController',
+			OCUtil::connectHook(
+				'\OC\Core\LostPassword\Controller\LostController',
 				'post_passwordReset',
 				$this,
-				'postPasswordReset');
+				'postPasswordReset'
+			);
 
-			OCUtil::connectHook('\OC\Core\LostPassword\Controller\LostController',
+			OCUtil::connectHook(
+				'\OC\Core\LostPassword\Controller\LostController',
 				'pre_passwordReset',
 				$this,
-				'prePasswordReset');
+				'prePasswordReset'
+			);
 
-			OCUtil::connectHook('OC_User',
+			OCUtil::connectHook(
+				'OC_User',
 				'post_createUser',
 				$this,
-				'postCreateUser');
+				'postCreateUser'
+			);
 
-			OCUtil::connectHook('OC_User',
+			OCUtil::connectHook(
+				'OC_User',
 				'post_deleteUser',
 				$this,
-				'postDeleteUser');
+				'postDeleteUser'
+			);
 		}
 	}
 
@@ -170,7 +182,6 @@ class UserHooks implements IHook {
 	 * @return boolean|null
 	 */
 	public function login($params) {
-
 		if (!App::isEnabled('encryption')) {
 			return true;
 		}
@@ -200,7 +211,6 @@ class UserHooks implements IHook {
 	 * @param array $params
 	 */
 	public function postCreateUser($params) {
-
 		if (App::isEnabled('encryption')) {
 			$this->userSetup->setupUser($params['uid'], $params['password']);
 		}
@@ -213,7 +223,6 @@ class UserHooks implements IHook {
 	 * @note This method should never be called for users using client side encryption
 	 */
 	public function postDeleteUser($params) {
-
 		if (App::isEnabled('encryption')) {
 			$this->keyManager->deletePublicKey($params['uid']);
 		}
@@ -275,8 +284,10 @@ class UserHooks implements IHook {
 
 			// Save private key
 			if ($encryptedPrivateKey) {
-				$this->keyManager->setPrivateKey($this->user->getUser()->getUID(),
-					$this->crypt->generateHeader() . $encryptedPrivateKey);
+				$this->keyManager->setPrivateKey(
+					$this->user->getUser()->getUID(),
+					$this->crypt->generateHeader() . $encryptedPrivateKey
+				);
 			} else {
 				$this->logger->error('Encryption could not update users encryption password');
 			}

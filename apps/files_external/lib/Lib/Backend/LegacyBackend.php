@@ -32,7 +32,6 @@ use \OCA\Files_External\Lib\LegacyDependencyCheckPolyfill;
  * Legacy compatibility for OC_Mount_Config::registerBackend()
  */
 class LegacyBackend extends Backend {
-
 	use LegacyDependencyCheckPolyfill {
 		LegacyDependencyCheckPolyfill::checkDependencies as doCheckDependencies;
 	}
@@ -75,7 +74,8 @@ class LegacyBackend extends Backend {
 				$placeholder = substr($placeholder, 1);
 				break;
 			}
-			$this->addParameter((new DefinitionParameter($name, $placeholder))
+			$this->addParameter(
+				(new DefinitionParameter($name, $placeholder))
 				->setType($type)
 				->setFlags($flags)
 			);
@@ -101,5 +101,4 @@ class LegacyBackend extends Backend {
 		}
 		return [];
 	}
-
 }

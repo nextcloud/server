@@ -40,8 +40,10 @@ class WatcherConnector {
 	 * @param IRootFolder $root
 	 * @param SystemConfig $config
 	 */
-	public function __construct(IRootFolder $root,
-								SystemConfig $config) {
+	public function __construct(
+		IRootFolder $root,
+								SystemConfig $config
+	) {
 		$this->root = $root;
 		$this->config = $config;
 	}

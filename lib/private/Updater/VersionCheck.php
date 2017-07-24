@@ -39,8 +39,10 @@ class VersionCheck {
 	 * @param IClientService $clientService
 	 * @param IConfig $config
 	 */
-	public function __construct(IClientService $clientService,
-								IConfig $config) {
+	public function __construct(
+		IClientService $clientService,
+								IConfig $config
+	) {
 		$this->clientService = $clientService;
 		$this->config = $config;
 	}
@@ -120,4 +122,3 @@ class VersionCheck {
 		return $response->getBody();
 	}
 }
-

@@ -41,7 +41,7 @@ namespace OC\Log;
  */
 
 class File {
-	static protected $logFile;
+	protected static $logFile;
 
 	/**
 	 * Init class data
@@ -56,10 +56,10 @@ class File {
 		 * and can not be created.
 		 */
 		if (!file_exists(self::$logFile)) {
-			if(!is_writable(dirname(self::$logFile))) {
+			if (!is_writable(dirname(self::$logFile))) {
 				self::$logFile = $defaultLogFile;
 			} else {
-				if(!touch(self::$logFile)) {
+				if (!touch(self::$logFile)) {
 					self::$logFile = $defaultLogFile;
 				}
 			}
@@ -97,7 +97,7 @@ class File {
 		$time = $time->format($format);
 		$url = ($request->getRequestUri() !== '') ? $request->getRequestUri() : '--';
 		$method = is_string($request->getMethod()) ? $request->getMethod() : '--';
-		if($config->getValue('installed', false)) {
+		if ($config->getValue('installed', false)) {
 			$user = (\OC_User::getUser()) ? \OC_User::getUser() : '--';
 		} else {
 			$user = '--';
@@ -140,10 +140,10 @@ class File {
 	 * @param int $offset
 	 * @return array
 	 */
-	public static function getEntries($limit=50, $offset=0) {
+	public static function getEntries($limit = 50, $offset = 0) {
 		self::init();
 		$minLevel = \OC::$server->getSystemConfig()->getValue("loglevel", \OCP\Util::WARN);
-		$entries = array();
+		$entries = [];
 		$handle = @fopen(self::$logFile, 'rb');
 		if ($handle) {
 			fseek($handle, 0, SEEK_END);
@@ -152,7 +152,7 @@ class File {
 			$entriesCount = 0;
 			$lines = 0;
 			// Loop through each character of the file looking for new lines
-			while ($pos >= 0 && ($limit === null ||$entriesCount < $limit)) {
+			while ($pos >= 0 && ($limit === null || $entriesCount < $limit)) {
 				fseek($handle, $pos);
 				$ch = fgetc($handle);
 				if ($ch == "\n" || $pos == 0) {

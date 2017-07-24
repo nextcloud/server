@@ -34,7 +34,7 @@ class ContactsTest extends \Test\TestCase {
 
 	public function testEnabledAfterRegister() {
 		// create mock for the addressbook
-		$stub = $this->getMockForAbstractClass("OCP\IAddressBook", array('getKey'));
+		$stub = $this->getMockForAbstractClass("OCP\IAddressBook", ['getKey']);
 
 		// we expect getKey to be called twice:
 		// first time on register
@@ -60,7 +60,7 @@ class ContactsTest extends \Test\TestCase {
 
 	public function testAddressBookEnumeration() {
 		// create mock for the addressbook
-		$stub = $this->getMockForAbstractClass("OCP\IAddressBook", array('getKey', 'getDisplayName'));
+		$stub = $this->getMockForAbstractClass("OCP\IAddressBook", ['getKey', 'getDisplayName']);
 
 		// setup return for method calls
 		$stub->expects($this->any())
@@ -80,17 +80,17 @@ class ContactsTest extends \Test\TestCase {
 
 	public function testSearchInAddressBook() {
 		// create mock for the addressbook
-		$stub1 = $this->getMockForAbstractClass("OCP\IAddressBook", array('getKey', 'getDisplayName', 'search'));
-		$stub2 = $this->getMockForAbstractClass("OCP\IAddressBook", array('getKey', 'getDisplayName', 'search'));
+		$stub1 = $this->getMockForAbstractClass("OCP\IAddressBook", ['getKey', 'getDisplayName', 'search']);
+		$stub2 = $this->getMockForAbstractClass("OCP\IAddressBook", ['getKey', 'getDisplayName', 'search']);
 
-		$searchResult1 = array(
-			array('id' => 0, 'FN' => 'Frank Karlitschek', 'EMAIL' => 'a@b.c', 'GEO' => '37.386013;-122.082932'),
-			array('id' => 5, 'FN' => 'Klaas Freitag', 'EMAIL' => array('d@e.f', 'g@h.i')),
-		);
-		$searchResult2 = array(
-			array('id' => 0, 'FN' => 'Thomas Müller', 'EMAIL' => 'a@b.c'),
-			array('id' => 5, 'FN' => 'Thomas Tanghus', 'EMAIL' => array('d@e.f', 'g@h.i')),
-		);
+		$searchResult1 = [
+			['id' => 0, 'FN' => 'Frank Karlitschek', 'EMAIL' => 'a@b.c', 'GEO' => '37.386013;-122.082932'],
+			['id' => 5, 'FN' => 'Klaas Freitag', 'EMAIL' => ['d@e.f', 'g@h.i']],
+		];
+		$searchResult2 = [
+			['id' => 0, 'FN' => 'Thomas Müller', 'EMAIL' => 'a@b.c'],
+			['id' => 5, 'FN' => 'Thomas Tanghus', 'EMAIL' => ['d@e.f', 'g@h.i']],
+		];
 
 		// setup return for method calls for $stub1
 		$stub1->expects($this->any())->method('getKey')->will($this->returnValue('SIMPLE_ADDRESS_BOOK1'));
@@ -111,10 +111,9 @@ class ContactsTest extends \Test\TestCase {
 		$this->assertEquals(2, count($all_books));
 
 		// perform the search
-		$result = \OCP\Contacts::search('x', array());
+		$result = \OCP\Contacts::search('x', []);
 
 		// we expect 4 hits
 		$this->assertEquals(4, count($result));
-
 	}
 }

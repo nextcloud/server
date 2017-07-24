@@ -30,7 +30,6 @@ use \OCA\Files_External\Service\BackendService;
 use \OCA\Files_External\Lib\Auth\NullMechanism;
 
 class Local extends Backend {
-
 	public function __construct(IL10N $l, NullMechanism $legacyAuth) {
 		$this
 			->setIdentifier('local')
@@ -46,5 +45,4 @@ class Local extends Backend {
 			->setLegacyAuthMechanism($legacyAuth)
 		;
 	}
-
 }

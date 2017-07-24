@@ -55,27 +55,27 @@ $application->registerRoutes($this, [
 		 */
 		[
 			'name' => 'ShareAPI#getShares',
-			'url'  => '/api/v1/shares',
+			'url' => '/api/v1/shares',
 			'verb' => 'GET',
 		],
 		[
 			'name' => 'ShareAPI#createShare',
-			'url'  => '/api/v1/shares',
+			'url' => '/api/v1/shares',
 			'verb' => 'POST',
 		],
 		[
 			'name' => 'ShareAPI#getShare',
-			'url'  => '/api/v1/shares/{id}',
+			'url' => '/api/v1/shares/{id}',
 			'verb' => 'GET',
 		],
 		[
 			'name' => 'ShareAPI#updateShare',
-			'url'  => '/api/v1/shares/{id}',
+			'url' => '/api/v1/shares/{id}',
 			'verb' => 'PUT',
 		],
 		[
 			'name' => 'ShareAPI#deleteShare',
-			'url'  => '/api/v1/shares/{id}',
+			'url' => '/api/v1/shares/{id}',
 			'verb' => 'DELETE',
 		],
 		/*

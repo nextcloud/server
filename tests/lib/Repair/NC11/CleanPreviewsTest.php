@@ -131,5 +131,4 @@ class CleanPreviewsTest extends TestCase {
 
 		$this->repair->run($this->createMock(IOutput::class));
 	}
-
 }

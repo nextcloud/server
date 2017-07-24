@@ -33,7 +33,6 @@ use OCP\IGroupManager;
 use OCP\Notification\IManager;
 
 class BackgroundJob extends TimedJob {
-
 	protected $connectionNotifications = [3, 7, 14, 30];
 
 	/** @var IConfig */
@@ -98,7 +97,7 @@ class BackgroundJob extends TimedJob {
 			if (in_array($errors, $this->connectionNotifications, true)) {
 				$this->sendErrorNotifications($errors);
 			}
-		} else if (is_array($status)) {
+		} elseif (is_array($status)) {
 			$this->config->setAppValue('updatenotification', 'update_check_errors', 0);
 			$this->clearErrorNotifications();
 
@@ -171,7 +170,7 @@ class BackgroundJob extends TimedJob {
 		if ($lastNotification === $version) {
 			// We already notified about this update
 			return;
-		} else if ($lastNotification !== false) {
+		} elseif ($lastNotification !== false) {
 			// Delete old updates
 			$this->deleteOutdatedNotifications($app, $lastNotification);
 		}

@@ -33,9 +33,10 @@ class Factory {
 	/** @var SystemConfig */
 	private $config;
 
-	public function __construct(IRootFolder $rootFolder,
-								SystemConfig $systemConfig) {
-
+	public function __construct(
+		IRootFolder $rootFolder,
+								SystemConfig $systemConfig
+	) {
 		$this->rootFolder = $rootFolder;
 		$this->config = $systemConfig;
 	}

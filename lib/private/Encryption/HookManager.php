@@ -63,7 +63,8 @@ class HookManager {
 					new View(),
 					\OC::$server->getUserManager(),
 					\OC::$server->getGroupManager(),
-					\OC::$server->getConfig()),
+					\OC::$server->getConfig()
+				),
 				Filesystem::getMountManager(),
 				\OC::$server->getEncryptionManager(),
 				\OC::$server->getEncryptionFilesHelper(),

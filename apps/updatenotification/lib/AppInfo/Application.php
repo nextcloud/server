@@ -30,11 +30,11 @@ use OCP\AppFramework\App;
 use OCP\AppFramework\IAppContainer;
 
 class Application extends App {
-	public function __construct (array $urlParams = array()) {
+	public function __construct(array $urlParams = []) {
 		parent::__construct('updatenotification', $urlParams);
 		$container = $this->getContainer();
 
-		$container->registerService('AdminController', function(IAppContainer $c) {
+		$container->registerService('AdminController', function (IAppContainer $c) {
 			$updater = new \OC\Updater\VersionCheck(
 				\OC::$server->getHTTPClientService(),
 				\OC::$server->getConfig()
@@ -52,5 +52,4 @@ class Application extends App {
 			);
 		});
 	}
-
 }

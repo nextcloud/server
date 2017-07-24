@@ -44,12 +44,14 @@ class Action {
 	 * @param array $elements
 	 * @param bool $obfuscateParameters
 	 */
-	public function log($text,
-						array $params,
-						array $elements,
-						$obfuscateParameters = false) {
-		foreach($elements as $element) {
-			if(!isset($params[$element])) {
+	public function log(
+		$text,
+		array $params,
+		array $elements,
+		$obfuscateParameters = false
+	) {
+		foreach ($elements as $element) {
+			if (!isset($params[$element])) {
 				if ($obfuscateParameters) {
 					$this->logger->critical(
 						'$params["'.$element.'"] was missing.',
@@ -69,8 +71,8 @@ class Action {
 		}
 
 		$replaceArray = [];
-		foreach($elements as $element) {
-			if($params[$element] instanceof \DateTime) {
+		foreach ($elements as $element) {
+			if ($params[$element] instanceof \DateTime) {
 				$params[$element] = $params[$element]->format('Y-m-d H:i:s');
 			}
 			$replaceArray[] = $params[$element];

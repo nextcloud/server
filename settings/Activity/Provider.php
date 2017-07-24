@@ -31,7 +31,6 @@ use OCP\IUserManager;
 use OCP\L10N\IFactory;
 
 class Provider implements IProvider {
-
 	const PASSWORD_CHANGED_BY = 'password_changed_by';
 	const PASSWORD_CHANGED_SELF = 'password_changed_self';
 	const PASSWORD_RESET = 'password_changed';
@@ -93,18 +92,16 @@ class Provider implements IProvider {
 
 		if ($event->getSubject() === self::PASSWORD_CHANGED_BY) {
 			$subject = $this->l->t('{actor} changed your password');
-		} else if ($event->getSubject() === self::PASSWORD_CHANGED_SELF) {
+		} elseif ($event->getSubject() === self::PASSWORD_CHANGED_SELF) {
 			$subject = $this->l->t('You changed your password');
-		} else if ($event->getSubject() === self::PASSWORD_RESET) {
+		} elseif ($event->getSubject() === self::PASSWORD_RESET) {
 			$subject = $this->l->t('Your password was reset by an administrator');
-
-		} else if ($event->getSubject() === self::EMAIL_CHANGED_BY) {
+		} elseif ($event->getSubject() === self::EMAIL_CHANGED_BY) {
 			$subject = $this->l->t('{actor} changed your email address');
-		} else if ($event->getSubject() === self::EMAIL_CHANGED_SELF) {
+		} elseif ($event->getSubject() === self::EMAIL_CHANGED_SELF) {
 			$subject = $this->l->t('You changed your email address');
-		} else if ($event->getSubject() === self::EMAIL_CHANGED) {
+		} elseif ($event->getSubject() === self::EMAIL_CHANGED) {
 			$subject = $this->l->t('Your email address was changed by an administrator');
-
 		} else {
 			throw new \InvalidArgumentException();
 		}

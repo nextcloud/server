@@ -40,7 +40,7 @@ class UpdaterLegacyTest extends \Test\TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->storage = new \OC\Files\Storage\Temporary(array());
+		$this->storage = new \OC\Files\Storage\Temporary([]);
 		$textData = "dummy file data\n";
 		$imgData = file_get_contents(\OC::$SERVERROOT . '/core/img/logo.png');
 		$this->storage->mkdir('folder');
@@ -63,7 +63,7 @@ class UpdaterLegacyTest extends \Test\TestCase {
 		Filesystem::init(self::$user, '/' . self::$user . '/files');
 
 		Filesystem::clearMounts();
-		Filesystem::mount($this->storage, array(), '/' . self::$user . '/files');
+		Filesystem::mount($this->storage, [], '/' . self::$user . '/files');
 
 		\OC_Hook::clear('OC_Filesystem');
 	}
@@ -75,7 +75,9 @@ class UpdaterLegacyTest extends \Test\TestCase {
 
 		$result = false;
 		$user = \OC::$server->getUserManager()->get(self::$user);
-		if ($user !== null) { $result = $user->delete(); }
+		if ($user !== null) {
+			$result = $user->delete();
+		}
 		$this->assertTrue($result);
 
 		$this->logout();
@@ -85,7 +87,7 @@ class UpdaterLegacyTest extends \Test\TestCase {
 	public function testWrite() {
 		$textSize = strlen("dummy file data\n");
 		$imageSize = filesize(\OC::$SERVERROOT . '/core/img/logo.png');
-		$this->cache->put('foo.txt', array('mtime' => 100, 'storage_mtime' => 150));
+		$this->cache->put('foo.txt', ['mtime' => 100, 'storage_mtime' => 150]);
 		$rootCachedData = $this->cache->get('');
 		$this->assertEquals(3 * $textSize + $imageSize, $rootCachedData['size']);
 
@@ -118,10 +120,10 @@ class UpdaterLegacyTest extends \Test\TestCase {
 	}
 
 	public function testWriteWithMountPoints() {
-		$storage2 = new \OC\Files\Storage\Temporary(array());
+		$storage2 = new \OC\Files\Storage\Temporary([]);
 		$storage2->getScanner()->scan(''); //initialize etags
 		$cache2 = $storage2->getCache();
-		Filesystem::mount($storage2, array(), '/' . self::$user . '/files/folder/substorage');
+		Filesystem::mount($storage2, [], '/' . self::$user . '/files/folder/substorage');
 		$view = new View('/' . self::$user . '/files');
 		$folderCachedData = $view->getFileInfo('folder');
 		$substorageCachedData = $cache2->get('');
@@ -179,9 +181,9 @@ class UpdaterLegacyTest extends \Test\TestCase {
 	}
 
 	public function testDeleteWithMountPoints() {
-		$storage2 = new \OC\Files\Storage\Temporary(array());
+		$storage2 = new \OC\Files\Storage\Temporary([]);
 		$cache2 = $storage2->getCache();
-		Filesystem::mount($storage2, array(), '/' . self::$user . '/files/folder/substorage');
+		Filesystem::mount($storage2, [], '/' . self::$user . '/files/folder/substorage');
 		Filesystem::file_put_contents('folder/substorage/foo.txt', 'asd');
 		$view = new View('/' . self::$user . '/files');
 		$this->assertTrue($cache2->inCache('foo.txt'));
@@ -235,9 +237,9 @@ class UpdaterLegacyTest extends \Test\TestCase {
 	}
 
 	public function testRenameWithMountPoints() {
-		$storage2 = new \OC\Files\Storage\Temporary(array());
+		$storage2 = new \OC\Files\Storage\Temporary([]);
 		$cache2 = $storage2->getCache();
-		Filesystem::mount($storage2, array(), '/' . self::$user . '/files/folder/substorage');
+		Filesystem::mount($storage2, [], '/' . self::$user . '/files/folder/substorage');
 		Filesystem::file_put_contents('folder/substorage/foo.txt', 'asd');
 		$view = new View('/' . self::$user . '/files');
 		$this->assertTrue($cache2->inCache('foo.txt'));
@@ -257,7 +259,7 @@ class UpdaterLegacyTest extends \Test\TestCase {
 		$this->assertInternalType('string', $cachedData['etag']);
 		$this->assertNotSame($oldEtag, $cachedData['etag']);
 		// rename can cause mtime change - invalid assert
-//		$this->assertEquals($mtime, $cachedData['mtime']);
+		//		$this->assertEquals($mtime, $cachedData['mtime']);
 
 		$cachedData = $view->getFileInfo('folder');
 		$this->assertInternalType('string', $folderCachedData['etag']);
@@ -305,5 +307,4 @@ class UpdaterLegacyTest extends \Test\TestCase {
 		$this->assertNotSame($rootCachedData['etag'], $cachedData['etag']);
 		$this->assertEquals($time, $cachedData['mtime']);
 	}
-
 }

@@ -68,7 +68,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 		}
 		if ($path === $this->path) {
 			return '/';
-		} else if (strpos($path, $this->path . '/') !== 0) {
+		} elseif (strpos($path, $this->path . '/') !== 0) {
 			return null;
 		} else {
 			$path = substr($path, strlen($this->path));
@@ -155,12 +155,12 @@ class Folder extends Node implements \OCP\Files\Folder {
 		if ($this->checkPermissions(\OCP\Constants::PERMISSION_CREATE)) {
 			$fullPath = $this->getFullPath($path);
 			$nonExisting = new NonExistingFolder($this->root, $this->view, $fullPath);
-			$this->root->emit('\OC\Files', 'preWrite', array($nonExisting));
-			$this->root->emit('\OC\Files', 'preCreate', array($nonExisting));
+			$this->root->emit('\OC\Files', 'preWrite', [$nonExisting]);
+			$this->root->emit('\OC\Files', 'preCreate', [$nonExisting]);
 			$this->view->mkdir($fullPath);
 			$node = new Folder($this->root, $this->view, $fullPath);
-			$this->root->emit('\OC\Files', 'postWrite', array($node));
-			$this->root->emit('\OC\Files', 'postCreate', array($node));
+			$this->root->emit('\OC\Files', 'postWrite', [$node]);
+			$this->root->emit('\OC\Files', 'postCreate', [$node]);
 			return $node;
 		} else {
 			throw new NotPermittedException('No create permission for folder');
@@ -176,12 +176,12 @@ class Folder extends Node implements \OCP\Files\Folder {
 		if ($this->checkPermissions(\OCP\Constants::PERMISSION_CREATE)) {
 			$fullPath = $this->getFullPath($path);
 			$nonExisting = new NonExistingFile($this->root, $this->view, $fullPath);
-			$this->root->emit('\OC\Files', 'preWrite', array($nonExisting));
-			$this->root->emit('\OC\Files', 'preCreate', array($nonExisting));
+			$this->root->emit('\OC\Files', 'preWrite', [$nonExisting]);
+			$this->root->emit('\OC\Files', 'preCreate', [$nonExisting]);
 			$this->view->touch($fullPath);
 			$node = new File($this->root, $this->view, $fullPath);
-			$this->root->emit('\OC\Files', 'postWrite', array($node));
-			$this->root->emit('\OC\Files', 'postCreate', array($node));
+			$this->root->emit('\OC\Files', 'postWrite', [$node]);
+			$this->root->emit('\OC\Files', 'postCreate', [$node]);
 			return $node;
 		} else {
 			throw new NotPermittedException('No create permission for path');
@@ -196,9 +196,9 @@ class Folder extends Node implements \OCP\Files\Folder {
 	 */
 	public function search($query) {
 		if (is_string($query)) {
-			return $this->searchCommon('search', array('%' . $query . '%'));
+			return $this->searchCommon('search', ['%' . $query . '%']);
 		} else {
-			return $this->searchCommon('searchQuery', array($query));
+			return $this->searchCommon('searchQuery', [$query]);
 		}
 	}
 
@@ -209,7 +209,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 	 * @return Node[]
 	 */
 	public function searchByMime($mimetype) {
-		return $this->searchCommon('searchByMime', array($mimetype));
+		return $this->searchCommon('searchByMime', [$mimetype]);
 	}
 
 	/**
@@ -220,7 +220,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 	 * @return Node[]
 	 */
 	public function searchByTag($tag, $userId) {
-		return $this->searchCommon('searchByTag', array($tag, $userId));
+		return $this->searchCommon('searchByTag', [$tag, $userId]);
 	}
 
 	/**
@@ -229,7 +229,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 	 * @return \OC\Files\Node\Node[]
 	 */
 	private function searchCommon($method, $args) {
-		$files = array();
+		$files = [];
 		$rootLength = strlen($this->path);
 		$mount = $this->root->getMount($this->path);
 		$storage = $mount->getStorage();
@@ -242,7 +242,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 
 		$cache = $storage->getCache('');
 
-		$results = call_user_func_array(array($cache, $method), $args);
+		$results = call_user_func_array([$cache, $method], $args);
 		foreach ($results as $result) {
 			if ($internalRootLength === 0 or substr($result['path'], 0, $internalRootLength) === $internalPath) {
 				$result['internalPath'] = $result['path'];
@@ -259,7 +259,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 				$cache = $storage->getCache('');
 
 				$relativeMountPoint = substr($mount->getMountPoint(), $rootLength);
-				$results = call_user_func_array(array($cache, $method), $args);
+				$results = call_user_func_array([$cache, $method], $args);
 				foreach ($results as $result) {
 					$result['internalPath'] = $result['path'];
 					$result['path'] = $relativeMountPoint . $result['path'];
@@ -318,7 +318,11 @@ class Folder extends Node implements \OCP\Files\Folder {
 			$pathRelativeToMount = ltrim($pathRelativeToMount, '/');
 			$absolutePath = $cachedMountInfo->getMountPoint() . $pathRelativeToMount;
 			return $this->root->createNode($absolutePath, new \OC\Files\FileInfo(
-				$absolutePath, $mount->getStorage(), $cacheEntry->getPath(), $cacheEntry, $mount,
+				$absolutePath,
+				$mount->getStorage(),
+				$cacheEntry->getPath(),
+				$cacheEntry,
+				$mount,
 				\OC::$server->getUserManager()->get($mount->getStorage()->getOwner($pathRelativeToMount))
 			));
 		}, $mountsContainingFile);
@@ -334,11 +338,11 @@ class Folder extends Node implements \OCP\Files\Folder {
 
 	public function delete() {
 		if ($this->checkPermissions(\OCP\Constants::PERMISSION_DELETE)) {
-			$this->sendHooks(array('preDelete'));
+			$this->sendHooks(['preDelete']);
 			$fileInfo = $this->getFileInfo();
 			$this->view->rmdir($this->path);
 			$nonExisting = new NonExistingFolder($this->root, $this->view, $this->path, $fileInfo);
-			$this->root->emit('\OC\Files', 'postDelete', array($nonExisting));
+			$this->root->emit('\OC\Files', 'postDelete', [$nonExisting]);
 			$this->exists = false;
 		} else {
 			throw new NotPermittedException('No delete permission for path');
@@ -422,7 +426,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 			$rootLength = strlen($jailRoot) + 1;
 			if ($path === $jailRoot) {
 				return $mount->getMountPoint();
-			} else if (substr($path, 0, $rootLength) === $jailRoot . '/') {
+			} elseif (substr($path, 0, $rootLength) === $jailRoot . '/') {
 				return $mount->getMountPoint() . substr($path, $rootLength);
 			} else {
 				return null;

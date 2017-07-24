@@ -161,7 +161,7 @@ class GroupPrincipalTest extends \Test\TestCase {
 	}
 
 	public function testUpdatePrincipal() {
-		$this->assertSame(0, $this->connector->updatePrincipal('foo', new PropPatch(array())));
+		$this->assertSame(0, $this->connector->updatePrincipal('foo', new PropPatch([])));
 	}
 
 	public function testSearchPrincipals() {

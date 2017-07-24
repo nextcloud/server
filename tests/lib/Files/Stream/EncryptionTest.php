@@ -50,22 +50,38 @@ class EncryptionTest extends \Test\TestCase {
 			->willReturn(['user1', $internalPath]);
 
 
-		return $wrapper::wrap($source, $internalPath,
-			$fullPath, $header, $uid, $this->encryptionModule, $storage, $encStorage,
-			$util, $file, $mode, $size, $unencryptedSize, 8192, $wrapper);
+		return $wrapper::wrap(
+			$source,
+			$internalPath,
+			$fullPath,
+			$header,
+			$uid,
+			$this->encryptionModule,
+			$storage,
+			$encStorage,
+			$util,
+			$file,
+			$mode,
+			$size,
+			$unencryptedSize,
+			8192,
+			$wrapper
+		);
 	}
 
 	/**
 	 * @dataProvider dataProviderStreamOpen()
 	 */
-	public function testStreamOpen($isMasterKeyUsed,
+	public function testStreamOpen(
+		$isMasterKeyUsed,
 								   $mode,
 								   $fullPath,
 								   $fileExists,
 								   $expectedSharePath,
 								   $expectedSize,
 								   $expectedUnencryptedSize,
-								   $expectedReadOnly) {
+								   $expectedReadOnly
+	) {
 
 		// build mocks
 		$encryptionModuleMock = $this->getMockBuilder('\OCP\Encryption\IEncryptionModule')
@@ -88,7 +104,7 @@ class EncryptionTest extends \Test\TestCase {
 			$fileMock->expects($this->once())->method('getAccessList')
 				->will($this->returnCallback(function ($sharePath) use ($expectedSharePath) {
 					$this->assertSame($expectedSharePath, $sharePath);
-					return array();
+					return [];
 				}));
 		}
 		$utilMock = $this->getMockBuilder('\OC\Encryption\Util')
@@ -125,7 +141,7 @@ class EncryptionTest extends \Test\TestCase {
 		$fullPathP->setAccessible(false);
 		$header = $stream->getProperty('header');
 		$header->setAccessible(true);
-		$header->setValue($streamWrapper, array());
+		$header->setValue($streamWrapper, []);
 		$header->setAccessible(false);
 		$this->invokePrivate($streamWrapper, 'signed', [true]);
 
@@ -136,21 +152,24 @@ class EncryptionTest extends \Test\TestCase {
 		// check internal properties
 		$size = $stream->getProperty('size');
 		$size->setAccessible(true);
-		$this->assertSame($expectedSize,
+		$this->assertSame(
+			$expectedSize,
 			$size->getValue($streamWrapper)
 		);
 		$size->setAccessible(false);
 
 		$unencryptedSize = $stream->getProperty('unencryptedSize');
 		$unencryptedSize->setAccessible(true);
-		$this->assertSame($expectedUnencryptedSize,
+		$this->assertSame(
+			$expectedUnencryptedSize,
 			$unencryptedSize->getValue($streamWrapper)
 		);
 		$unencryptedSize->setAccessible(false);
 
 		$readOnly = $stream->getProperty('readOnly');
 		$readOnly->setAccessible(true);
-		$this->assertSame($expectedReadOnly,
+		$this->assertSame(
+			$expectedReadOnly,
 			$readOnly->getValue($streamWrapper)
 		);
 		$readOnly->setAccessible(false);
@@ -192,9 +211,9 @@ class EncryptionTest extends \Test\TestCase {
 		$fileName = tempnam("/tmp", "FOO");
 		$stream = $this->getStream($fileName, 'w+', 0);
 		$this->assertEquals(6, fwrite($stream, 'foobar'));
-		$this->assertEquals(TRUE, rewind($stream));
+		$this->assertEquals(true, rewind($stream));
 		$this->assertEquals('foobar', fread($stream, 100));
-		$this->assertEquals(TRUE, rewind($stream));
+		$this->assertEquals(true, rewind($stream));
 		$this->assertEquals(3, fwrite($stream, 'bar'));
 		fclose($stream);
 
@@ -203,7 +222,7 @@ class EncryptionTest extends \Test\TestCase {
 		fclose($stream);
 
 		unlink($fileName);
-}
+	}
 
 	public function testSeek() {
 		$fileName = tempnam("/tmp", "FOO");
@@ -226,7 +245,7 @@ class EncryptionTest extends \Test\TestCase {
 		unlink($fileName);
 	}
 
-	function dataFilesProvider() {
+	public function dataFilesProvider() {
 		return [
 			['lorem-big.txt'],
 			['block-aligned.txt'],
@@ -238,7 +257,6 @@ class EncryptionTest extends \Test\TestCase {
 	 * @dataProvider dataFilesProvider
 	 */
 	public function testWriteReadBigFile($testFile) {
-
 		$expectedData = file_get_contents(\OC::$SERVERROOT . '/tests/data/' . $testFile);
 		// write it
 		$fileName = tempnam("/tmp", "FOO");
@@ -276,7 +294,6 @@ class EncryptionTest extends \Test\TestCase {
 	 * @dataProvider dataFilesProvider
 	 */
 	public function testWriteToNonSeekableStorage($testFile) {
-
 		$wrapper = $this->getMockBuilder('\OC\Files\Stream\Encryption')
 			->setMethods(['parentSeekStream'])->getMock();
 		$wrapper->expects($this->any())->method('parentSeekStream')->willReturn(false);
@@ -310,7 +327,6 @@ class EncryptionTest extends \Test\TestCase {
 		$this->assertEquals($expectedData, $data);
 
 		unlink($fileName);
-
 	}
 
 	/**
@@ -328,7 +344,7 @@ class EncryptionTest extends \Test\TestCase {
 		$encryptionModule->expects($this->any())->method('end')->willReturn('');
 		$encryptionModule->expects($this->any())->method('isReadable')->willReturn(true);
 		$encryptionModule->expects($this->any())->method('needDetailedAccessList')->willReturn(false);
-		$encryptionModule->expects($this->any())->method('encrypt')->willReturnCallback(function($data) {
+		$encryptionModule->expects($this->any())->method('encrypt')->willReturnCallback(function ($data) {
 			// simulate different block size by adding some padding to the data
 			if (isset($data[6125])) {
 				return str_pad($data, 8192, 'X');
@@ -336,7 +352,7 @@ class EncryptionTest extends \Test\TestCase {
 			// last block
 			return $data;
 		});
-		$encryptionModule->expects($this->any())->method('decrypt')->willReturnCallback(function($data) {
+		$encryptionModule->expects($this->any())->method('decrypt')->willReturnCallback(function ($data) {
 			if (isset($data[8191])) {
 				return substr($data, 0, 6126);
 			}

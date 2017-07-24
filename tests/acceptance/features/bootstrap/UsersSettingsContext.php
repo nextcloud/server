@@ -24,7 +24,6 @@
 use Behat\Behat\Context\Context;
 
 class UsersSettingsContext implements Context, ActorAwareInterface {
-
 	use ActorAware;
 
 	/**
@@ -98,5 +97,4 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	public function iSeeThatTheListOfUsersContainsTheUser($user) {
 		PHPUnit_Framework_Assert::assertNotNull($this->actor->find(self::rowForUser($user), 10));
 	}
-
 }

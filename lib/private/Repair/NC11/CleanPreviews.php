@@ -47,9 +47,11 @@ class CleanPreviews implements IRepairStep {
 	 * @param IUserManager $userManager
 	 * @param IConfig $config
 	 */
-	public function __construct(IJobList $jobList,
+	public function __construct(
+		IJobList $jobList,
 								IUserManager $userManager,
-								IConfig $config) {
+								IConfig $config
+	) {
 		$this->jobList = $jobList;
 		$this->userManager = $userManager;
 		$this->config = $config;

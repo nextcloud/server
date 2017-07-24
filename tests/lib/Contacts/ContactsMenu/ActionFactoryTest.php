@@ -63,5 +63,4 @@ class ActionFactoryTest extends TestCase {
 		$this->assertEquals(10, $action->getPriority());
 		$this->assertEquals('mailto:user%40example.com', $action->getHref());
 	}
-
 }

@@ -51,7 +51,6 @@ class Admin implements ISettings {
 	 * @return TemplateResponse
 	 */
 	public function getForm() {
-
 		$parameters = [
 			'internalOnly' => $this->gsConfig->onlyInternalFederation(),
 			'outgoingServer2serverShareEnabled' => $this->fedShareProvider->isOutgoingServer2serverShareEnabled(),
@@ -80,5 +79,4 @@ class Admin implements ISettings {
 	public function getPriority() {
 		return 20;
 	}
-
 }

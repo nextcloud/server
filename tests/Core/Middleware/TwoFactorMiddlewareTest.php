@@ -33,7 +33,6 @@ use OCP\Security\ISecureRandom;
 use Test\TestCase;
 
 class TwoFactorMiddlewareTest extends TestCase {
-
 	private $twoFactorManager;
 	private $userSession;
 	private $session;
@@ -198,5 +197,4 @@ class TwoFactorMiddlewareTest extends TestCase {
 
 		$this->assertEquals($expected, $this->middleware->afterException(null, 'index', $ex));
 	}
-
 }

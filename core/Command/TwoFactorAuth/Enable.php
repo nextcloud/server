@@ -60,5 +60,4 @@ class Enable extends Base {
 		$this->manager->enableTwoFactorAuthentication($user);
 		$output->writeln("Two-factor authentication enabled for user $uid");
 	}
-
 }

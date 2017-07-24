@@ -59,13 +59,15 @@ class MailSettingsController extends Controller {
 	 * @param IMailer $mailer
 	 * @param string $fromMailAddress
 	 */
-	public function __construct($appName,
+	public function __construct(
+		$appName,
 								IRequest $request,
 								IL10N $l10n,
 								IConfig $config,
 								IUserSession $userSession,
 								IMailer $mailer,
-								$fromMailAddress) {
+								$fromMailAddress
+	) {
 		parent::__construct($appName, $request);
 		$this->l10n = $l10n;
 		$this->config = $config;
@@ -89,18 +91,19 @@ class MailSettingsController extends Controller {
 	 * @param string $mail_smtpport
 	 * @return DataResponse
 	 */
-	public function setMailSettings($mail_domain,
+	public function setMailSettings(
+		$mail_domain,
 									$mail_from_address,
 									$mail_smtpmode,
 									$mail_smtpsecure,
 									$mail_smtphost,
 									$mail_smtpauthtype,
 									$mail_smtpauth,
-									$mail_smtpport) {
-
+									$mail_smtpport
+	) {
 		$params = get_defined_vars();
 		$configs = [];
-		foreach($params as $key => $value) {
+		foreach ($params as $key => $value) {
 			$configs[$key] = (empty($value)) ? null : $value;
 		}
 
@@ -130,8 +133,8 @@ class MailSettingsController extends Controller {
 		}
 
 		$this->config->setSystemValues([
-			'mail_smtpname'		=> $mail_smtpname,
-			'mail_smtppassword'	=> $mail_smtppassword,
+			'mail_smtpname' => $mail_smtpname,
+			'mail_smtppassword' => $mail_smtppassword,
 		]);
 
 		return new DataResponse();
@@ -170,5 +173,4 @@ class MailSettingsController extends Controller {
 
 		return new DataResponse($this->l10n->t('You need to set your user email before being able to send test emails.'), Http::STATUS_BAD_REQUEST);
 	}
-
 }

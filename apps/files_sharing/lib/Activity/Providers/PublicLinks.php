@@ -24,7 +24,6 @@ namespace OCA\Files_Sharing\Activity\Providers;
 use OCP\Activity\IEvent;
 
 class PublicLinks extends Base {
-
 	const SUBJECT_SHARED_LINK_SELF = 'shared_link_self';
 	const SUBJECT_RESHARED_LINK_BY = 'reshared_link_by';
 	const SUBJECT_UNSHARED_LINK_SELF = 'unshared_link_self';
@@ -43,17 +42,16 @@ class PublicLinks extends Base {
 
 		if ($event->getSubject() === self::SUBJECT_SHARED_LINK_SELF) {
 			$subject = $this->l->t('Shared as public link');
-		} else if ($event->getSubject() === self::SUBJECT_UNSHARED_LINK_SELF) {
+		} elseif ($event->getSubject() === self::SUBJECT_UNSHARED_LINK_SELF) {
 			$subject = $this->l->t('Removed public link');
-		} else if ($event->getSubject() === self::SUBJECT_LINK_EXPIRED) {
+		} elseif ($event->getSubject() === self::SUBJECT_LINK_EXPIRED) {
 			$subject = $this->l->t('Public link expired');
-		} else if ($event->getSubject() === self::SUBJECT_RESHARED_LINK_BY) {
+		} elseif ($event->getSubject() === self::SUBJECT_RESHARED_LINK_BY) {
 			$subject = $this->l->t('{actor} shared as public link');
-		} else if ($event->getSubject() === self::SUBJECT_UNSHARED_LINK_BY) {
+		} elseif ($event->getSubject() === self::SUBJECT_UNSHARED_LINK_BY) {
 			$subject = $this->l->t('{actor} removed public link');
-		} else if ($event->getSubject() === self::SUBJECT_LINK_BY_EXPIRED) {
+		} elseif ($event->getSubject() === self::SUBJECT_LINK_BY_EXPIRED) {
 			$subject = $this->l->t('Public link of {actor} expired');
-
 		} else {
 			throw new \InvalidArgumentException();
 		}
@@ -79,17 +77,16 @@ class PublicLinks extends Base {
 
 		if ($event->getSubject() === self::SUBJECT_SHARED_LINK_SELF) {
 			$subject = $this->l->t('You shared {file} as public link');
-		} else if ($event->getSubject() === self::SUBJECT_UNSHARED_LINK_SELF) {
+		} elseif ($event->getSubject() === self::SUBJECT_UNSHARED_LINK_SELF) {
 			$subject = $this->l->t('You removed public link for {file}');
-		} else if ($event->getSubject() === self::SUBJECT_LINK_EXPIRED) {
+		} elseif ($event->getSubject() === self::SUBJECT_LINK_EXPIRED) {
 			$subject = $this->l->t('Public link expired for {file}');
-		} else if ($event->getSubject() === self::SUBJECT_RESHARED_LINK_BY) {
+		} elseif ($event->getSubject() === self::SUBJECT_RESHARED_LINK_BY) {
 			$subject = $this->l->t('{actor} shared {file} as public link');
-		} else if ($event->getSubject() === self::SUBJECT_UNSHARED_LINK_BY) {
+		} elseif ($event->getSubject() === self::SUBJECT_UNSHARED_LINK_BY) {
 			$subject = $this->l->t('{actor} removed public link for {file}');
-		} else if ($event->getSubject() === self::SUBJECT_LINK_BY_EXPIRED) {
+		} elseif ($event->getSubject() === self::SUBJECT_LINK_BY_EXPIRED) {
 			$subject = $this->l->t('Public link of {actor} for {file} expired');
-
 		} else {
 			throw new \InvalidArgumentException();
 		}
@@ -125,5 +122,4 @@ class PublicLinks extends Base {
 		}
 		return [];
 	}
-
 }

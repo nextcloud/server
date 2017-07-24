@@ -52,5 +52,4 @@ class App {
 		}
 		return self::$navigationManager;
 	}
-
 }

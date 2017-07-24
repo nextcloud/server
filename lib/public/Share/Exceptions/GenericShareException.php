@@ -21,6 +21,7 @@
  *
  */
 namespace OCP\Share\Exceptions;
+
 use OC\HintException;
 
 /**
@@ -44,5 +45,4 @@ class GenericShareException extends HintException {
 		}
 		parent::__construct($message, $hint, $code, $previous);
 	}
-
 }

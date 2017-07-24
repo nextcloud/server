@@ -46,5 +46,4 @@ class UUIDFixGroupTest extends AbstractUUIDFixTest {
 		$this->mockProxy(Group_Proxy::class);
 		$this->instantiateJob(UUIDFixGroup::class);
 	}
-
 }

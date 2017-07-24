@@ -39,8 +39,7 @@ class AppLocator {
 	 */
 	public function getAppPath($appId) {
 		$path = \OC_App::getAppPath($appId);
-		if($path === false) {
-
+		if ($path === false) {
 			throw new \Exception('App not found');
 		}
 		return $path;

@@ -48,23 +48,23 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 	 * @return array
 	 */
 	protected function getTestData() {
-		$data = array(
-			array(
+		$data = [
+			[
 				'dn' => 'uid=foobar,dc=example,dc=org',
 				'name' => 'Foobar',
 				'uuid' => '1111-AAAA-1234-CDEF',
-			),
-			array(
+			],
+			[
 				'dn' => 'uid=barfoo,dc=example,dc=org',
 				'name' => 'Barfoo',
 				'uuid' => '2222-BBBB-1234-CDEF',
-			),
-			array(
+			],
+			[
 				'dn' => 'uid=barabara,dc=example,dc=org',
 				'name' => 'BaraBara',
 				'uuid' => '3333-CCCC-1234-CDEF',
-			)
-		);
+			]
+		];
 
 		return $data;
 	}
@@ -75,7 +75,7 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 	 * @param array $data
 	 */
 	protected function mapEntries($mapper, $data) {
-		foreach($data as $entry) {
+		foreach ($data as $entry) {
 			$done = $mapper->map($entry['dn'], $entry['name'], $entry['uuid']);
 			$this->assertTrue($done);
 		}
@@ -96,7 +96,7 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 		$mapper->clear();
 		$this->mapEntries($mapper, $data);
 
-		return array($mapper, $data);
+		return [$mapper, $data];
 	}
 
 	/**
@@ -108,10 +108,10 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 
 		// test that mapping will not happen when it shall not
 		$tooLongDN = 'uid=joann,ou=Secret Small Specialized Department,ou=Some Tremendously Important Department,ou=Another Very Important Department,ou=Pretty Meaningful Derpartment,ou=Quite Broad And General Department,ou=The Topmost Department,dc=hugelysuccessfulcompany,dc=com';
-		$paramKeys = array('', 'dn', 'name', 'uuid', $tooLongDN);
-		foreach($paramKeys as $key) {
+		$paramKeys = ['', 'dn', 'name', 'uuid', $tooLongDN];
+		foreach ($paramKeys as $key) {
 			$failEntry = $data[0];
-			if(!empty($key)) {
+			if (!empty($key)) {
 				$failEntry[$key] = 'do-not-get-mapped';
 			}
 			$isMapped = $mapper->map($failEntry['dn'], $failEntry['name'], $failEntry['uuid']);
@@ -126,7 +126,7 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 	public function testUnmap() {
 		list($mapper, $data) = $this->initTest();
 
-		foreach($data as $entry) {
+		foreach ($data as $entry) {
 			$result = $mapper->unmap($entry['name']);
 			$this->assertTrue($result);
 		}
@@ -142,21 +142,21 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 	public function testGetMethods() {
 		list($mapper, $data) = $this->initTest();
 
-		foreach($data as $entry) {
+		foreach ($data as $entry) {
 			$fdn = $mapper->getDNByName($entry['name']);
 			$this->assertSame($fdn, $entry['dn']);
 		}
 		$fdn = $mapper->getDNByName('nosuchname');
 		$this->assertFalse($fdn);
 
-		foreach($data as $entry) {
+		foreach ($data as $entry) {
 			$name = $mapper->getNameByDN($entry['dn']);
 			$this->assertSame($name, $entry['name']);
 		}
 		$name = $mapper->getNameByDN('nosuchdn');
 		$this->assertFalse($name);
 
-		foreach($data as $entry) {
+		foreach ($data as $entry) {
 			$name = $mapper->getNameByUUID($entry['uuid']);
 			$this->assertSame($name, $entry['name']);
 		}
@@ -168,7 +168,7 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 	 * tests getNamesBySearch() for successful and unsuccessful requests.
 	 */
 	public function testSearch() {
-		list($mapper,) = $this->initTest();
+		list($mapper, ) = $this->initTest();
 
 		$names = $mapper->getNamesBySearch('oo', '%', '%');
 		$this->assertTrue(is_array($names));
@@ -227,7 +227,7 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 
 		$done = $mapper->clear();
 		$this->assertTrue($done);
-		foreach($data as $entry) {
+		foreach ($data as $entry) {
 			$name = $mapper->getNameByUUID($entry['uuid']);
 			$this->assertFalse($name);
 		}

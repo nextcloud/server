@@ -55,29 +55,28 @@ class TagManager implements \OCP\ITagManager {
 	private $mapper;
 
 	/**
-	* Constructor.
-	*
-	* @param TagMapper $mapper Instance of the TagMapper abstraction layer.
-	* @param \OCP\IUserSession $userSession the user session
-	*/
+	 * Constructor.
+	 *
+	 * @param TagMapper $mapper Instance of the TagMapper abstraction layer.
+	 * @param \OCP\IUserSession $userSession the user session
+	 */
 	public function __construct(TagMapper $mapper, \OCP\IUserSession $userSession) {
 		$this->mapper = $mapper;
 		$this->userSession = $userSession;
-
 	}
 
 	/**
-	* Create a new \OCP\ITags instance and load tags from db.
-	*
-	* @see \OCP\ITags
-	* @param string $type The type identifier e.g. 'contact' or 'event'.
-	* @param array $defaultTags An array of default tags to be used if none are stored.
-	* @param boolean $includeShared Whether to include tags for items shared with this user by others.
-	* @param string $userId user for which to retrieve the tags, defaults to the currently
-	* logged in user
-	* @return \OCP\ITags
-	*/
-	public function load($type, $defaultTags = array(), $includeShared = false, $userId = null) {
+	 * Create a new \OCP\ITags instance and load tags from db.
+	 *
+	 * @see \OCP\ITags
+	 * @param string $type The type identifier e.g. 'contact' or 'event'.
+	 * @param array $defaultTags An array of default tags to be used if none are stored.
+	 * @param boolean $includeShared Whether to include tags for items shared with this user by others.
+	 * @param string $userId user for which to retrieve the tags, defaults to the currently
+	 * logged in user
+	 * @return \OCP\ITags
+	 */
+	public function load($type, $defaultTags = [], $includeShared = false, $userId = null) {
 		if (is_null($userId)) {
 			$user = $this->userSession->getUser();
 			if ($user === null) {
@@ -88,5 +87,4 @@ class TagManager implements \OCP\ITagManager {
 		}
 		return new Tags($this->mapper, $userId, $type, $defaultTags, $includeShared);
 	}
-
 }

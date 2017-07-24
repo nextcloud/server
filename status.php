@@ -28,7 +28,6 @@
  */
 
 try {
-
 	require_once __DIR__ . '/lib/base.php';
 
 	$systemConfig = \OC::$server->getSystemConfig();
@@ -38,14 +37,14 @@ try {
 	# see core/lib/private/legacy/defaults.php and core/themes/example/defaults.php
 	# for description and defaults
 	$defaults = new \OCP\Defaults();
-	$values=array(
-		'installed'=>$installed,
+	$values = [
+		'installed' => $installed,
 		'maintenance' => $maintenance,
 		'needsDbUpgrade' => \OCP\Util::needUpgrade(),
-		'version'=>implode('.', \OCP\Util::getVersion()),
-		'versionstring'=>OC_Util::getVersionString(),
-		'edition'=> '',
-		'productname'=>$defaults->getName());
+		'version' => implode('.', \OCP\Util::getVersion()),
+		'versionstring' => OC_Util::getVersionString(),
+		'edition' => '',
+		'productname' => $defaults->getName()];
 	if (OC::$CLI) {
 		print_r($values);
 	} else {
@@ -53,7 +52,6 @@ try {
 		header('Content-Type: application/json');
 		echo json_encode($values);
 	}
-
 } catch (Exception $ex) {
 	OC_Response::setStatus(OC_Response::STATUS_INTERNAL_SERVER_ERROR);
 	\OCP\Util::writeLog('remote', $ex->getMessage(), \OCP\Util::FATAL);

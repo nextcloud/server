@@ -23,7 +23,6 @@ namespace Test;
 use OCP\ICache;
 
 class FileChunkingTest extends \Test\TestCase {
-
 	public function dataIsComplete() {
 		return [
 			[1, [], false],

@@ -30,7 +30,6 @@ use \OCA\Files_External\Lib\Auth\AuthMechanism;
  * Rackspace authentication
  */
 class Rackspace extends AuthMechanism {
-
 	public function __construct(IL10N $l) {
 		$this
 			->setIdentifier('openstack::rackspace')
@@ -43,5 +42,4 @@ class Rackspace extends AuthMechanism {
 			])
 		;
 	}
-
 }

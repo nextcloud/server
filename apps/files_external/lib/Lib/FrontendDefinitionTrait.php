@@ -155,5 +155,4 @@ trait FrontendDefinitionTrait {
 		}
 		return true;
 	}
-
 }

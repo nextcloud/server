@@ -45,8 +45,10 @@ class IpAddress {
 	 * @param int $maskBits
 	 * @return string
 	 */
-	private function getIPv4Subnet($ip,
-								   $maskBits = 32) {
+	private function getIPv4Subnet(
+		$ip,
+								   $maskBits = 32
+	) {
 		$binary = \inet_pton($ip);
 		for ($i = 32; $i > $maskBits; $i -= 8) {
 			$j = \intdiv($i, 8) - 1;

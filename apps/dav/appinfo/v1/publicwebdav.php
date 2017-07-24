@@ -77,7 +77,7 @@ $server = $serverFactory->createServer($baseuri, $requestUri, $authPlugin, funct
 	// FIXME: should not add storage wrappers outside of preSetup, need to find a better way
 	$previousLog = \OC\Files\Filesystem::logWarningWhenAddingStorageWrapper(false);
 	\OC\Files\Filesystem::addStorageWrapper('sharePermissions', function ($mountPoint, $storage) use ($share) {
-		return new \OC\Files\Storage\Wrapper\PermissionsMask(array('storage' => $storage, 'mask' => $share->getPermissions() | \OCP\Constants::PERMISSION_SHARE));
+		return new \OC\Files\Storage\Wrapper\PermissionsMask(['storage' => $storage, 'mask' => $share->getPermissions() | \OCP\Constants::PERMISSION_SHARE]);
 	});
 
 	\OC\Files\Filesystem::logWarningWhenAddingStorageWrapper($previousLog);

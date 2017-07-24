@@ -95,7 +95,7 @@ class ActionProviderStore {
 	 * @return string[]
 	 */
 	private function getAppProviderClasses(IUser $user) {
-		return array_reduce($this->appManager->getEnabledAppsForUser($user), function($all, $appId) {
+		return array_reduce($this->appManager->getEnabledAppsForUser($user), function ($all, $appId) {
 			$info = $this->appManager->getAppInfo($appId);
 
 			if (!isset($info['contactsmenu']) || !isset($info['contactsmenu'])) {
@@ -103,12 +103,11 @@ class ActionProviderStore {
 				return $all;
 			}
 
-			$providers = array_reduce($info['contactsmenu'], function($all, $provider) {
+			$providers = array_reduce($info['contactsmenu'], function ($all, $provider) {
 				return array_merge($all, [$provider]);
 			}, []);
 
 			return array_merge($all, $providers);
 		}, []);
 	}
-
 }

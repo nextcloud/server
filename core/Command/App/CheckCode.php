@@ -39,7 +39,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class CheckCode extends Command implements CompletionAwareInterface  {
+class CheckCode extends Command implements CompletionAwareInterface {
 
 	/** @var InfoParser */
 	private $infoParser;
@@ -99,78 +99,78 @@ class CheckCode extends Command implements CompletionAwareInterface  {
 
 		$codeChecker = new CodeChecker($checkList, !$input->getOption('skip-validate-info'));
 
-		$codeChecker->listen('CodeChecker', 'analyseFileBegin', function($params) use ($output) {
-			if(OutputInterface::VERBOSITY_VERBOSE <= $output->getVerbosity()) {
+		$codeChecker->listen('CodeChecker', 'analyseFileBegin', function ($params) use ($output) {
+			if (OutputInterface::VERBOSITY_VERBOSE <= $output->getVerbosity()) {
 				$output->writeln("<info>Analysing {$params}</info>");
 			}
 		});
-		$codeChecker->listen('CodeChecker', 'analyseFileFinished', function($filename, $errors) use ($output) {
+		$codeChecker->listen('CodeChecker', 'analyseFileFinished', function ($filename, $errors) use ($output) {
 			$count = count($errors);
 
 			// show filename if the verbosity is low, but there are errors in a file
-			if($count > 0 && OutputInterface::VERBOSITY_VERBOSE > $output->getVerbosity()) {
+			if ($count > 0 && OutputInterface::VERBOSITY_VERBOSE > $output->getVerbosity()) {
 				$output->writeln("<info>Analysing {$filename}</info>");
 			}
 
 			// show error count if there are errors present or the verbosity is high
-			if($count > 0 || OutputInterface::VERBOSITY_VERBOSE <= $output->getVerbosity()) {
+			if ($count > 0 || OutputInterface::VERBOSITY_VERBOSE <= $output->getVerbosity()) {
 				$output->writeln(" {$count} errors");
 			}
-			usort($errors, function($a, $b) {
-				return $a['line'] >$b['line'];
+			usort($errors, function ($a, $b) {
+				return $a['line'] > $b['line'];
 			});
 
-			foreach($errors as $p) {
+			foreach ($errors as $p) {
 				$line = sprintf("%' 4d", $p['line']);
 				$output->writeln("    <error>line $line: {$p['disallowedToken']} - {$p['reason']}</error>");
 			}
 		});
 		$errors = [];
-		if(!$input->getOption('skip-checkers')) {
+		if (!$input->getOption('skip-checkers')) {
 			$errors = $codeChecker->analyse($appId);
 		}
 
-		if(!$input->getOption('skip-validate-info')) {
+		if (!$input->getOption('skip-validate-info')) {
 			$infoChecker = new InfoChecker($this->infoParser);
 
-			$infoChecker->listen('InfoChecker', 'mandatoryFieldMissing', function($key) use ($output) {
+			$infoChecker->listen('InfoChecker', 'mandatoryFieldMissing', function ($key) use ($output) {
 				$output->writeln("<error>Mandatory field missing: $key</error>");
 			});
 
-			$infoChecker->listen('InfoChecker', 'deprecatedFieldFound', function($key, $value) use ($output) {
-				if($value === [] || is_null($value) || $value === '') {
+			$infoChecker->listen('InfoChecker', 'deprecatedFieldFound', function ($key, $value) use ($output) {
+				if ($value === [] || is_null($value) || $value === '') {
 					$output->writeln("<info>Deprecated field available: $key</info>");
 				} else {
 					$output->writeln("<info>Deprecated field available: $key => $value</info>");
 				}
 			});
 
-			$infoChecker->listen('InfoChecker', 'missingRequirement', function($minMax) use ($output) {
+			$infoChecker->listen('InfoChecker', 'missingRequirement', function ($minMax) use ($output) {
 				$output->writeln("<error>Nextcloud $minMax version requirement missing</error>");
 			});
 
-			$infoChecker->listen('InfoChecker', 'differentVersions', function($versionFile, $infoXML) use ($output) {
+			$infoChecker->listen('InfoChecker', 'differentVersions', function ($versionFile, $infoXML) use ($output) {
 				$output->writeln("<error>Different versions provided (appinfo/version: $versionFile - appinfo/info.xml: $infoXML)</error>");
 			});
 
-			$infoChecker->listen('InfoChecker', 'sameVersions', function($path) use ($output) {
+			$infoChecker->listen('InfoChecker', 'sameVersions', function ($path) use ($output) {
 				$output->writeln("<info>Version file isn't needed anymore and can be safely removed ($path)</info>");
 			});
 
-			$infoChecker->listen('InfoChecker', 'migrateVersion', function($version) use ($output) {
+			$infoChecker->listen('InfoChecker', 'migrateVersion', function ($version) use ($output) {
 				$output->writeln("<error>Migrate the app version to appinfo/info.xml (add <version>$version</version> to appinfo/info.xml and remove appinfo/version)</error>");
 			});
 
-			if(OutputInterface::VERBOSITY_VERBOSE <= $output->getVerbosity()) {
-				$infoChecker->listen('InfoChecker', 'mandatoryFieldFound', function($key, $value) use ($output) {
+			if (OutputInterface::VERBOSITY_VERBOSE <= $output->getVerbosity()) {
+				$infoChecker->listen('InfoChecker', 'mandatoryFieldFound', function ($key, $value) use ($output) {
 					$output->writeln("<info>Mandatory field available: $key => $value</info>");
 				});
 
-				$infoChecker->listen('InfoChecker', 'optionalFieldFound', function($key, $value) use ($output) {
+				$infoChecker->listen('InfoChecker', 'optionalFieldFound', function ($key, $value) use ($output) {
 					$output->writeln("<info>Optional field available: $key => $value</info>");
 				});
 
-				$infoChecker->listen('InfoChecker', 'unusedFieldFound', function($key, $value) use ($output) {
+				$infoChecker->listen('InfoChecker', 'unusedFieldFound', function ($key, $value) use ($output) {
 					$output->writeln("<info>Unused field available: $key => $value</info>");
 				});
 			}

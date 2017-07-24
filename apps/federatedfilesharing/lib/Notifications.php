@@ -81,13 +81,12 @@ class Notifications {
 	 * @throws \OC\ServerNotAvailableException
 	 */
 	public function sendRemoteShare($token, $shareWith, $name, $remote_id, $owner, $ownerFederatedId, $sharedBy, $sharedByFederatedId) {
-
 		list($user, $remote) = $this->addressHandler->splitUserRemote($shareWith);
 
 		if ($user && $remote) {
 			$local = $this->addressHandler->generateRemoteURL();
 
-			$fields = array(
+			$fields = [
 				'shareWith' => $user,
 				'token' => $token,
 				'name' => $name,
@@ -97,7 +96,7 @@ class Notifications {
 				'sharedBy' => $sharedBy,
 				'sharedByFederatedId' => $sharedByFederatedId,
 				'remote' => $local,
-			);
+			];
 
 			$result = $this->tryHttpPostToShareEndpoint($remote, '', $fields);
 			$status = json_decode($result['result'], true);
@@ -106,7 +105,6 @@ class Notifications {
 				\OC_Hook::emit('OCP\Share', 'federated_share_added', ['server' => $remote]);
 				return true;
 			}
-
 		}
 
 		return false;
@@ -126,13 +124,12 @@ class Notifications {
 	 * @throws \OC\ServerNotAvailableException
 	 */
 	public function requestReShare($token, $id, $shareId, $remote, $shareWith, $permission) {
-
-		$fields = array(
+		$fields = [
 			'shareWith' => $shareWith,
 			'token' => $token,
 			'permission' => $permission,
 			'remoteId' => $shareId
-		);
+		];
 
 		$result = $this->tryHttpPostToShareEndpoint(rtrim($remote, '/'), '/' . $id . '/reshare', $fields);
 		$status = json_decode($result['result'], true);
@@ -223,8 +220,7 @@ class Notifications {
 	 * @return boolean
 	 */
 	public function sendUpdateToRemote($remote, $remoteId, $token, $action, $data = [], $try = 0) {
-
-		$fields = array('token' => $token);
+		$fields = ['token' => $token];
 		foreach ($data as $key => $value) {
 			$fields[$key] = $value;
 		}
@@ -233,14 +229,16 @@ class Notifications {
 		$status = json_decode($result['result'], true);
 
 		if ($result['success'] &&
-			($status['ocs']['meta']['statuscode'] === 100 ||
+			(
+				$status['ocs']['meta']['statuscode'] === 100 ||
 				$status['ocs']['meta']['statuscode'] === 200
 			)
 		) {
 			return true;
 		} elseif ($try === 0) {
 			// only add new job on first try
-			$this->jobList->add('OCA\FederatedFileSharing\BackgroundJob\RetryJob',
+			$this->jobList->add(
+				'OCA\FederatedFileSharing\BackgroundJob\RetryJob',
 				[
 					'remote' => $remote,
 					'remoteId' => $remoteId,

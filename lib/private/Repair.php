@@ -52,7 +52,7 @@ use OCP\Migration\IRepairStep;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
-class Repair implements IOutput{
+class Repair implements IOutput {
 	/* @var IRepairStep[] */
 	private $repairSteps;
 	/** @var EventDispatcher */
@@ -76,7 +76,7 @@ class Repair implements IOutput{
 	 */
 	public function run() {
 		if (count($this->repairSteps) === 0) {
-			$this->emit('\OC\Repair', 'info', array('No repair steps available'));
+			$this->emit('\OC\Repair', 'info', ['No repair steps available']);
 			return;
 		}
 		// run each repair step
@@ -186,14 +186,16 @@ class Repair implements IOutput{
 	 */
 	public function emit($scope, $method, array $arguments = []) {
 		if (!is_null($this->dispatcher)) {
-			$this->dispatcher->dispatch("$scope::$method",
-				new GenericEvent("$scope::$method", $arguments));
+			$this->dispatcher->dispatch(
+				"$scope::$method",
+				new GenericEvent("$scope::$method", $arguments)
+			);
 		}
 	}
 
 	public function info($string) {
 		// for now just emit as we did in the past
-		$this->emit('\OC\Repair', 'info', array($string));
+		$this->emit('\OC\Repair', 'info', [$string]);
 	}
 
 	/**

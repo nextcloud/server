@@ -50,6 +50,7 @@
 // use OCP namespace for all classes that are considered public.
 // This means that they should be used by apps instead of the internal ownCloud classes
 namespace OCP;
+
 use DateTimeZone;
 
 /**
@@ -58,11 +59,11 @@ use DateTimeZone;
  */
 class Util {
 	// consts for Logging
-	const DEBUG=0;
-	const INFO=1;
-	const WARN=2;
-	const ERROR=3;
-	const FATAL=4;
+	const DEBUG = 0;
+	const INFO = 1;
+	const WARN = 2;
+	const ERROR = 3;
+	const FATAL = 4;
 
 	/** \OCP\Share\IManager */
 	private static $shareManager;
@@ -110,19 +111,30 @@ class Util {
 	 * @deprecated 8.1.0 Use \OCP\Mail\IMailer instead
 	 * @since 4.0.0
 	 */
-	public static function sendMail($toaddress, $toname, $subject, $mailtext, $fromaddress, $fromname,
-		$html = 0, $altbody = '', $ccaddress = '', $ccname = '', $bcc = '') {
+	public static function sendMail(
+		$toaddress,
+		$toname,
+		$subject,
+		$mailtext,
+		$fromaddress,
+		$fromname,
+		$html = 0,
+		$altbody = '',
+		$ccaddress = '',
+		$ccname = '',
+		$bcc = ''
+	) {
 		$mailer = \OC::$server->getMailer();
 		$message = $mailer->createMessage();
 		$message->setTo([$toaddress => $toname]);
 		$message->setSubject($subject);
 		$message->setPlainBody($mailtext);
 		$message->setFrom([$fromaddress => $fromname]);
-		if($html === 1) {
+		if ($html === 1) {
 			$message->setHtmlBody($altbody);
 		}
 
-		if($altbody === '') {
+		if ($altbody === '') {
 			$message->setHtmlBody($mailtext);
 			$message->setPlainBody('');
 		} else {
@@ -130,14 +142,14 @@ class Util {
 			$message->setPlainBody($altbody);
 		}
 
-		if(!empty($ccaddress)) {
-			if(!empty($ccname)) {
+		if (!empty($ccaddress)) {
+			if (!empty($ccname)) {
 				$message->setCc([$ccaddress => $ccname]);
 			} else {
 				$message->setCc([$ccaddress]);
 			}
 		}
-		if(!empty($bcc)) {
+		if (!empty($bcc)) {
 			$message->setBcc([$bcc]);
 		}
 
@@ -152,7 +164,7 @@ class Util {
 	 * @since 4.0.0
 	 * @deprecated 13.0.0 use log of \OCP\ILogger
 	 */
-	public static function writeLog( $app, $message, $level ) {
+	public static function writeLog($app, $message, $level) {
 		$context = ['app' => $app];
 		\OC::$server->getLogger()->log($level, $message, $context);
 	}
@@ -165,7 +177,7 @@ class Util {
 	 * @since ....0.0 - parameter $level was added in 7.0.0
 	 * @deprecated 8.2.0 use logException of \OCP\ILogger
 	 */
-	public static function logException( $app, \Exception $ex, $level = \OCP\Util::FATAL ) {
+	public static function logException($app, \Exception $ex, $level = \OCP\Util::FATAL) {
 		\OC::$server->getLogger()->logException($ex, ['app' => $app]);
 	}
 
@@ -206,8 +218,8 @@ class Util {
 	 * @param string $file
 	 * @since 4.0.0
 	 */
-	public static function addStyle( $application, $file = null ) {
-		\OC_Util::addStyle( $application, $file );
+	public static function addStyle($application, $file = null) {
+		\OC_Util::addStyle($application, $file);
 	}
 
 	/**
@@ -216,8 +228,8 @@ class Util {
 	 * @param string $file
 	 * @since 4.0.0
 	 */
-	public static function addScript( $application, $file = null ) {
-		\OC_Util::addScript( $application, $file );
+	public static function addScript($application, $file = null) {
+		\OC_Util::addScript($application, $file);
 	}
 
 	/**
@@ -239,7 +251,7 @@ class Util {
 	 * @param string $text the text content for the element
 	 * @since 4.0.0
 	 */
-	public static function addHeader($tag, $attributes, $text=null) {
+	public static function addHeader($tag, $attributes, $text = null) {
 		\OC_Util::addHeader($tag, $attributes, $text);
 	}
 
@@ -253,7 +265,7 @@ class Util {
 	 * @deprecated 8.0.0 Use \OC::$server->query('DateTimeFormatter') instead
 	 * @since 4.0.0
 	 */
-	public static function formatDate($timestamp, $dateOnly=false, $timeZone = null) {
+	public static function formatDate($timestamp, $dateOnly = false, $timeZone = null) {
 		return \OC_Util::formatDate($timestamp, $dateOnly, $timeZone);
 	}
 
@@ -277,7 +289,7 @@ class Util {
 	 * @return string the url
 	 * @since 4.0.0 - parameter $args was added in 4.5.0
 	 */
-	public static function linkToAbsolute( $app, $file, $args = array() ) {
+	public static function linkToAbsolute($app, $file, $args = []) {
 		$urlGenerator = \OC::$server->getURLGenerator();
 		return $urlGenerator->getAbsoluteURL(
 			$urlGenerator->linkTo($app, $file, $args)
@@ -290,7 +302,7 @@ class Util {
 	 * @return string the url
 	 * @since 4.0.0
 	 */
-	public static function linkToRemote( $service ) {
+	public static function linkToRemote($service) {
 		$urlGenerator = \OC::$server->getURLGenerator();
 		$remoteBase = $urlGenerator->linkTo('', 'remote.php') . '/' . $service;
 		return $urlGenerator->getAbsoluteURL(
@@ -317,7 +329,7 @@ class Util {
 	 * @deprecated 8.1.0 Use \OC::$server->getURLGenerator()->linkToRoute($route, $parameters)
 	 * @since 5.0.0
 	 */
-	public static function linkToRoute( $route, $parameters = array() ) {
+	public static function linkToRoute($route, $parameters = []) {
 		return \OC::$server->getURLGenerator()->linkToRoute($route, $parameters);
 	}
 
@@ -331,7 +343,7 @@ class Util {
 	 * @deprecated 8.1.0 Use \OC::$server->getURLGenerator()->linkTo($app, $file, $args)
 	 * @since 4.0.0 - parameter $args was added in 4.5.0
 	 */
-	public static function linkTo( $app, $file, $args = array() ) {
+	public static function linkTo($app, $file, $args = []) {
 		return \OC::$server->getURLGenerator()->linkTo($app, $file, $args);
 	}
 
@@ -354,7 +366,7 @@ class Util {
 		$host_name = self::getServerHost();
 		// strip away port number (if existing)
 		$colon_pos = strpos($host_name, ':');
-		if ($colon_pos != FALSE) {
+		if ($colon_pos != false) {
 			$host_name = substr($host_name, 0, $colon_pos);
 		}
 		return $host_name;
@@ -430,7 +442,7 @@ class Util {
 	 * @deprecated 8.1.0 Use \OC::$server->getURLGenerator()->imagePath($app, $image)
 	 * @since 4.0.0
 	 */
-	public static function imagePath( $app, $image ) {
+	public static function imagePath($app, $image) {
 		return \OC::$server->getURLGenerator()->imagePath($app, $image);
 	}
 
@@ -470,7 +482,7 @@ class Util {
 	 * TODO: write example
 	 * @since 4.0.0
 	 */
-	static public function connectHook($signalClass, $signalName, $slotClass, $slotName) {
+	public static function connectHook($signalClass, $signalName, $slotClass, $slotName) {
 		return \OC_Hook::connect($signalClass, $signalName, $slotClass, $slotName);
 	}
 
@@ -484,7 +496,7 @@ class Util {
 	 * TODO: write example
 	 * @since 4.0.0
 	 */
-	static public function emitHook($signalclass, $signalname, $params = array()) {
+	public static function emitHook($signalclass, $signalname, $params = []) {
 		return \OC_Hook::emit($signalclass, $signalname, $params);
 	}
 
@@ -501,7 +513,7 @@ class Util {
 	 * @since 4.5.0
 	 */
 	public static function callRegister() {
-		if(self::$token === '') {
+		if (self::$token === '') {
 			self::$token = \OC::$server->getCsrfTokenManager()->getToken()->getEncryptedValue();
 		}
 		return self::$token;
@@ -513,7 +525,7 @@ class Util {
 	 * @deprecated 9.0.0 Use annotations based on the app framework.
 	 */
 	public static function callCheck() {
-		if(!\OC::$server->getRequest()->passesStrictCookieCheck()) {
+		if (!\OC::$server->getRequest()->passesStrictCookieCheck()) {
 			header('Location: '.\OC::$WEBROOT);
 			exit();
 		}
@@ -704,8 +716,8 @@ class Util {
 	 */
 	public static function needUpgrade() {
 		if (!isset(self::$needUpgradeCache)) {
-			self::$needUpgradeCache=\OC_Util::needUpgrade(\OC::$server->getSystemConfig());
-		}		
+			self::$needUpgradeCache = \OC_Util::needUpgrade(\OC::$server->getSystemConfig());
+		}
 		return self::$needUpgradeCache;
 	}
 }

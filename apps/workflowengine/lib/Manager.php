@@ -21,7 +21,6 @@
 
 namespace OCA\WorkflowEngine;
 
-
 use OCP\AppFramework\QueryException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Storage\IStorage;

@@ -85,7 +85,7 @@ class Watcher {
 		foreach ($nodes as $node) {
 			if ($node instanceof File) {
 				$this->toDelete[] = $node->getId();
-			} else if ($node instanceof Folder) {
+			} elseif ($node instanceof Folder) {
 				$this->deleteFolder($node);
 			}
 		}

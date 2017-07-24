@@ -59,12 +59,14 @@ class NavigationManager implements INavigationManager {
 	/** @var IConfig */
 	private $config;
 
-	public function __construct(IAppManager $appManager,
+	public function __construct(
+		IAppManager $appManager,
 						 IURLGenerator $urlGenerator,
 						 IFactory $l10nFac,
 						 IUserSession $userSession,
 						 IGroupManager $groupManager,
-						 IConfig $config) {
+						 IConfig $config
+	) {
 		$this->appManager = $appManager;
 		$this->urlGenerator = $urlGenerator;
 		$this->l10nFac = $l10nFac;
@@ -88,10 +90,10 @@ class NavigationManager implements INavigationManager {
 		}
 
 		$entry['active'] = false;
-		if(!isset($entry['icon'])) {
+		if (!isset($entry['icon'])) {
 			$entry['icon'] = '';
 		}
-		if(!isset($entry['type'])) {
+		if (!isset($entry['type'])) {
 			$entry['type'] = 'link';
 		}
 		$this->entries[] = $entry;
@@ -107,13 +109,13 @@ class NavigationManager implements INavigationManager {
 		foreach ($this->closureEntries as $c) {
 			$this->add($c());
 		}
-		$this->closureEntries = array();
+		$this->closureEntries = [];
 
 		if ($type === 'all') {
 			return $this->entries;
 		}
 
-		return array_filter($this->entries, function($entry) use ($type) {
+		return array_filter($this->entries, function ($entry) use ($type) {
 			return $entry['type'] === $type;
 		});
 	}

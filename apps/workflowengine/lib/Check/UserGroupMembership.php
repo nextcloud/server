@@ -21,7 +21,6 @@
 
 namespace OCA\WorkflowEngine\Check;
 
-
 use OCP\Files\Storage\IStorage;
 use OCP\IGroupManager;
 use OCP\IL10N;

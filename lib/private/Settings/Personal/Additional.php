@@ -23,7 +23,6 @@
 
 namespace OC\Settings\Personal;
 
-
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Settings\ISettings;
 

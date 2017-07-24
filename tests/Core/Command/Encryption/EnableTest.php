@@ -21,7 +21,6 @@
 
 namespace Tests\Core\Command\Encryption;
 
-
 use OC\Core\Command\Encryption\Enable;
 use OCP\Encryption\IManager;
 use OCP\IConfig;

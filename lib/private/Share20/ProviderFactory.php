@@ -181,7 +181,6 @@ class ProviderFactory implements IProviderFactory {
 	 * @suppress PhanUndeclaredClassMethod
 	 */
 	protected function getShareByCircleProvider() {
-
 		if ($this->circlesAreNotAvailable) {
 			return null;
 		}
@@ -194,7 +193,6 @@ class ProviderFactory implements IProviderFactory {
 		}
 
 		if ($this->shareByCircleProvider === null) {
-
 			$this->shareByCircleProvider = new \OCA\Circles\ShareByCircleProvider(
 				$this->serverContainer->getDatabaseConnection(),
 				$this->serverContainer->getSecureRandom(),
@@ -217,11 +215,11 @@ class ProviderFactory implements IProviderFactory {
 		$provider = null;
 		if ($id === 'ocinternal') {
 			$provider = $this->defaultShareProvider();
-		} else if ($id === 'ocFederatedSharing') {
+		} elseif ($id === 'ocFederatedSharing') {
 			$provider = $this->federatedShareProvider();
-		} else if ($id === 'ocMailShare') {
+		} elseif ($id === 'ocMailShare') {
 			$provider = $this->getShareByMailProvider();
-		} else if ($id === 'ocCircleShare') {
+		} elseif ($id === 'ocCircleShare') {
 			$provider = $this->getShareByCircleProvider();
 		}
 
@@ -243,11 +241,11 @@ class ProviderFactory implements IProviderFactory {
 			$shareType === \OCP\Share::SHARE_TYPE_LINK
 		) {
 			$provider = $this->defaultShareProvider();
-		} else if ($shareType === \OCP\Share::SHARE_TYPE_REMOTE) {
+		} elseif ($shareType === \OCP\Share::SHARE_TYPE_REMOTE) {
 			$provider = $this->federatedShareProvider();
-		} else if ($shareType === \OCP\Share::SHARE_TYPE_EMAIL) {
+		} elseif ($shareType === \OCP\Share::SHARE_TYPE_EMAIL) {
 			$provider = $this->getShareByMailProvider();
-		} else if ($shareType === \OCP\Share::SHARE_TYPE_CIRCLE) {
+		} elseif ($shareType === \OCP\Share::SHARE_TYPE_CIRCLE) {
 			$provider = $this->getShareByCircleProvider();
 		}
 

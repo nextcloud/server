@@ -25,8 +25,7 @@ use Test\TestCase;
  *
  * @group DB
  */
-class FileTest extends TestCase
-{
+class FileTest extends TestCase {
 	private $restore_logfile;
 	private $restore_logdateformat;
 
@@ -45,12 +44,12 @@ class FileTest extends TestCase
 			$config->getSystemValue("logfile", $this->restore_logfile);
 		} else {
 			$config->deleteSystemValue("logfile");
-		}		
+		}
 		if (isset($this->restore_logdateformat)) {
 			$config->getSystemValue("logdateformat", $this->restore_logdateformat);
 		} else {
 			$config->deleteSystemValue("logdateformat");
-		}		
+		}
 		File::init();
 		parent::tearDown();
 	}
@@ -73,8 +72,5 @@ class FileTest extends TestCase
 		$values = (array) json_decode($line);
 		$microseconds = $values['time'];
 		$this->assertNotEquals(0, $microseconds);
-		
 	}
-
-
 }

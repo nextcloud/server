@@ -21,7 +21,6 @@
 
 namespace OCA\WorkflowEngine\Check;
 
-
 use OCP\IL10N;
 use OCP\IRequest;
 
@@ -44,7 +43,7 @@ class RequestUserAgent extends AbstractStringCheck {
 	 * @param string $value
 	 * @return bool
 	 */
-	public function executeCheck($operator, $value)  {
+	public function executeCheck($operator, $value) {
 		$actualValue = $this->getActualValue();
 		if (in_array($operator, ['is', '!is'])) {
 			switch ($value) {

@@ -41,7 +41,8 @@ class DiscoveryService implements IDiscoveryService {
 	 * @param ICacheFactory $cacheFactory
 	 * @param IClientService $clientService
 	 */
-	public function __construct(ICacheFactory $cacheFactory,
+	public function __construct(
+		ICacheFactory $cacheFactory,
 								IClientService $clientService
 	) {
 		$this->cache = $cacheFactory->create('ocs-discovery');
@@ -61,7 +62,7 @@ class DiscoveryService implements IDiscoveryService {
 	public function discover($remote, $service) {
 		// Check the cache first
 		$cacheData = $this->cache->get($remote . '#' . $service);
-		if($cacheData) {
+		if ($cacheData) {
 			return json_decode($cacheData, true);
 		}
 
@@ -73,7 +74,7 @@ class DiscoveryService implements IDiscoveryService {
 				'timeout' => 10,
 				'connect_timeout' => 10,
 			]);
-			if($response->getStatusCode() === Http::STATUS_OK) {
+			if ($response->getStatusCode() === Http::STATUS_OK) {
 				$decodedServices = json_decode($response->getBody(), true);
 				$discoveredServices = $this->getEndpoints($decodedServices, $service);
 			}
@@ -95,14 +96,13 @@ class DiscoveryService implements IDiscoveryService {
 	 * @return array
 	 */
 	protected function getEndpoints($decodedServices, $service) {
-
 		$discoveredServices = [];
 
-		if(is_array($decodedServices) &&
+		if (is_array($decodedServices) &&
 			isset($decodedServices['services'][$service]['endpoints'])
 		) {
 			foreach ($decodedServices['services'][$service]['endpoints'] as $endpoint => $url) {
-				if($this->isSafeUrl($url)) {
+				if ($this->isSafeUrl($url)) {
 					$discoveredServices[$endpoint] = $url;
 				}
 			}
@@ -121,5 +121,4 @@ class DiscoveryService implements IDiscoveryService {
 	protected function isSafeUrl($url) {
 		return (bool)preg_match('/^[\/\.\-A-Za-z0-9]+$/', $url);
 	}
-
 }

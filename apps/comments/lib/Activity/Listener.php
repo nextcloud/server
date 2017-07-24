@@ -57,12 +57,14 @@ class Listener {
 	 * @param IRootFolder $rootFolder
 	 * @param IShareHelper $shareHelper
 	 */
-	public function __construct(IManager $activityManager,
-								IUserSession $session,
-								IAppManager $appManager,
-								IMountProviderCollection $mountCollection,
-								IRootFolder $rootFolder,
-								IShareHelper $shareHelper) {
+	public function __construct(
+		IManager $activityManager,
+		IUserSession $session,
+		IAppManager $appManager,
+		IMountProviderCollection $mountCollection,
+		IRootFolder $rootFolder,
+		IShareHelper $shareHelper
+	) {
 		$this->activityManager = $activityManager;
 		$this->session = $session;
 		$this->appManager = $appManager;
@@ -113,7 +115,7 @@ class Listener {
 		$activity->setApp('comments')
 			->setType('comments')
 			->setAuthor($actor)
-			->setObject($event->getComment()->getObjectType(), (int) $event->getComment()->getObjectId())
+			->setObject($event->getComment()->getObjectType(), (int)$event->getComment()->getObjectId())
 			->setMessage('add_comment_message', [
 				$event->getComment()->getId(),
 			]);

@@ -99,5 +99,4 @@ trait IdentifierTrait {
 		}
 		return $data;
 	}
-
 }

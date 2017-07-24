@@ -118,7 +118,8 @@ class ShareesAPIController extends OCSController {
 	 * @param IClientService $clientService
 	 * @param ICloudIdManager $cloudIdManager
 	 */
-	public function __construct($appName,
+	public function __construct(
+		$appName,
 								IRequest $request,
 								IGroupManager $groupManager,
 								IUserManager $userManager,
@@ -236,17 +237,21 @@ class ShareesAPIController extends OCSController {
 		$this->result['groups'] = $this->result['exact']['groups'] = [];
 
 		$groups = $this->groupManager->search($search, $this->limit, $this->offset);
-		$groupIds = array_map(function (IGroup $group) { return $group->getGID(); }, $groups);
+		$groupIds = array_map(function (IGroup $group) {
+			return $group->getGID();
+		}, $groups);
 
 		if (!$this->shareeEnumeration || sizeof($groups) < $this->limit) {
 			$this->reachedEndFor[] = 'groups';
 		}
 
-		$userGroups =  [];
+		$userGroups = [];
 		if (!empty($groups) && $this->shareWithGroupOnly) {
 			// Intersect all the groups that match with the groups this user is a member of
 			$userGroups = $this->groupManager->getUserGroups($this->userSession->getUser());
-			$userGroups = array_map(function (IGroup $group) { return $group->getGID(); }, $userGroups);
+			$userGroups = array_map(function (IGroup $group) {
+				return $group->getGID();
+			}, $userGroups);
 			$groupIds = array_intersect($groupIds, $userGroups);
 		}
 
@@ -480,7 +485,7 @@ class ShareesAPIController extends OCSController {
 		if (isset($_GET['shareType']) && is_array($_GET['shareType'])) {
 			$shareTypes = array_intersect($shareTypes, $_GET['shareType']);
 			sort($shareTypes);
-		} else if (is_numeric($shareType)) {
+		} elseif (is_numeric($shareType)) {
 			$shareTypes = array_intersect($shareTypes, [(int) $shareType]);
 			sort($shareTypes);
 		}
@@ -565,7 +570,7 @@ class ShareesAPIController extends OCSController {
 		if ($mailResults['exactIdMatch'] && !$remoteResults['exactIdMatch']) {
 			$this->result['emails'] = $mailResults['results'];
 			$this->result['exact']['emails'] = $mailResults['exact'];
-		} else if (!$mailResults['exactIdMatch'] && $remoteResults['exactIdMatch']) {
+		} elseif (!$mailResults['exactIdMatch'] && $remoteResults['exactIdMatch']) {
 			$this->result['remotes'] = $remoteResults['results'];
 			$this->result['exact']['remotes'] = $remoteResults['exact'];
 		} else {
@@ -687,7 +692,7 @@ class ShareesAPIController extends OCSController {
 		$lookupServerUrl = rtrim($lookupServerUrl, '/');
 		$result = [];
 
-		if($isEnabled === 'yes') {
+		if ($isEnabled === 'yes') {
 			try {
 				$client = $this->clientService->newClient();
 				$response = $client->get(
@@ -711,7 +716,8 @@ class ShareesAPIController extends OCSController {
 						'extra' => $lookup,
 					];
 				}
-			} catch (\Exception $e) {}
+			} catch (\Exception $e) {
+			}
 		}
 
 		$this->result['lookup'] = $result;

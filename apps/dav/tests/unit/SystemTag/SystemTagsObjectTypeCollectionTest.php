@@ -75,7 +75,7 @@ class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 			->getMock();
 		$userFolder = $this->userFolder;
 
-		$closure = function($name) use ($userFolder) {
+		$closure = function ($name) use ($userFolder) {
 			$nodes = $userFolder->getById(intval($name));
 			return !empty($nodes);
 		};

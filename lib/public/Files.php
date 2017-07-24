@@ -50,8 +50,8 @@ class Files {
 	 * @return bool
 	 * @since 5.0.0
 	 */
-	static public function rmdirr( $dir ) {
-		return \OC_Helper::rmdirr( $dir );
+	public static function rmdirr($dir) {
+		return \OC_Helper::rmdirr($dir);
 	}
 
 	/**
@@ -61,7 +61,7 @@ class Files {
 	 * does NOT work for ownClouds filesystem, use OC_FileSystem::getMimeType instead
 	 * @since 5.0.0
 	 */
-	static public function getMimeType( $path ) {
+	public static function getMimeType($path) {
 		return \OC::$server->getMimeTypeDetector()->detect($path);
 	}
 
@@ -71,7 +71,7 @@ class Files {
 	 * @return array
 	 * @since 6.0.0
 	 */
-	static public function searchByMime($mimetype) {
+	public static function searchByMime($mimetype) {
 		return \OC\Files\Filesystem::searchByMime($mimetype);
 	}
 
@@ -82,8 +82,8 @@ class Files {
 	 * @return int the number of bytes copied
 	 * @since 5.0.0
 	 */
-	public static function streamCopy( $source, $target ) {
-		list($count, ) = \OC_Helper::streamCopy( $source, $target );
+	public static function streamCopy($source, $target) {
+		list($count, ) = \OC_Helper::streamCopy($source, $target);
 		return $count;
 	}
 
@@ -96,7 +96,7 @@ class Files {
 	 * @deprecated 8.1.0 use getTemporaryFile() of \OCP\ITempManager - \OC::$server->getTempManager()
 	 * @since 5.0.0
 	 */
-	public static function tmpFile( $postfix='' ) {
+	public static function tmpFile($postfix = '') {
 		return \OC::$server->getTempManager()->getTemporaryFile($postfix);
 	}
 
@@ -131,6 +131,6 @@ class Files {
 	 * @since 5.0.0
 	 */
 	public static function getStorage($app) {
-		return \OC_App::getStorage( $app );
+		return \OC_App::getStorage($app);
 	}
 }

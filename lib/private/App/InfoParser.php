@@ -49,7 +49,7 @@ class InfoParser {
 			return null;
 		}
 
-		if(!is_null($this->cache)) {
+		if (!is_null($this->cache)) {
 			$fileCacheKey = $file . filemtime($file);
 			if ($cachedValue = $this->cache->get($fileCacheKey)) {
 				return json_decode($cachedValue, true);
@@ -166,7 +166,7 @@ class InfoParser {
 			$array['activity']['providers'] = $array['activity']['providers']['provider'];
 		}
 
-		if(!is_null($this->cache)) {
+		if (!is_null($this->cache)) {
 			$this->cache->set($fileCacheKey, json_encode($array));
 		}
 		return $array;
@@ -194,7 +194,7 @@ class InfoParser {
 				$data = [
 					'@attributes' => [],
 				];
-				if (!count($node->children())){
+				if (!count($node->children())) {
 					$value = (string)$node;
 					if (!empty($value)) {
 						$data['@value'] = (string)$node;

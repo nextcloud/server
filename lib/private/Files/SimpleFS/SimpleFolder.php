@@ -28,7 +28,7 @@ use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFolder;
 
-class SimpleFolder implements ISimpleFolder   {
+class SimpleFolder implements ISimpleFolder {
 
 	/** @var Folder */
 	private $folder;
@@ -49,7 +49,7 @@ class SimpleFolder implements ISimpleFolder   {
 	public function getDirectoryListing() {
 		$listing = $this->folder->getDirectoryListing();
 
-		$fileListing = array_map(function(Node $file) {
+		$fileListing = array_map(function (Node $file) {
 			if ($file instanceof File) {
 				return new SimpleFile($file);
 			}

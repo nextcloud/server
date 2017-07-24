@@ -30,7 +30,7 @@ use OCP\IDBConnection;
 
 class CleanUpTest extends \Test\TestCase {
 	public function getMocks() {
-		$mocks = array();
+		$mocks = [];
 		$mocks['userBackend'] =
 			$this->getMockBuilder('\OCA\User_LDAP\User_Proxy')
 				->disableOriginalConstructor()
@@ -39,9 +39,9 @@ class CleanUpTest extends \Test\TestCase {
 			$this->getMockBuilder('\OCA\User_LDAP\User\DeletedUsersIndex')
 				->disableOriginalConstructor()
 				->getMock();
-		$mocks['ocConfig']    = $this->createMock(IConfig::class);
-		$mocks['db']          = $this->createMock(IDBConnection::class);
-		$mocks['helper']      = $this->createMock(Helper::class);
+		$mocks['ocConfig'] = $this->createMock(IConfig::class);
+		$mocks['db'] = $this->createMock(IDBConnection::class);
+		$mocks['helper'] = $this->createMock(Helper::class);
 
 		return $mocks;
 	}
@@ -53,7 +53,7 @@ class CleanUpTest extends \Test\TestCase {
 		$args = $this->getMocks();
 		$args['helper']->expects($this->once())
 			->method('haveDisabledConfigurations')
-			->will($this->returnValue(true)	);
+			->will($this->returnValue(true));
 
 		$args['ocConfig']->expects($this->never())
 			->method('getSystemValue');
@@ -150,6 +150,4 @@ class CleanUpTest extends \Test\TestCase {
 		$result = $bgJob->isOffsetResetNecessary($bgJob->getChunkSize());
 		$this->assertSame(false, $result);
 	}
-
 }
-

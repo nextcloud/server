@@ -11,28 +11,37 @@ style('federation', 'settings-admin')
 	<p class="settings-hint"><?php p($l->t('Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing.')); ?></p>
 
 	<p>
-		<input id="autoAddServers" type="checkbox" class="checkbox" <?php if($_['autoAddServers']) p('checked'); ?> />
+		<input id="autoAddServers" type="checkbox" class="checkbox" <?php if ($_['autoAddServers']) {
+	p('checked');
+} ?> />
 		<label for="autoAddServers"><?php p($l->t('Add server automatically once a federated share was created successfully')); ?></label>
 	</p>
 
 	<ul id="listOfTrustedServers">
-		<?php foreach($_['trustedServers'] as $trustedServer) { ?>
+		<?php foreach ($_['trustedServers'] as $trustedServer) {
+	?>
 			<li id="<?php p($trustedServer['id']); ?>">
-				<?php if((int)$trustedServer['status'] === TrustedServers::STATUS_OK) { ?>
+				<?php if ((int)$trustedServer['status'] === TrustedServers::STATUS_OK) {
+		?>
 					<span class="status success"></span>
 				<?php
-				} elseif(
+	} elseif (
 					(int)$trustedServer['status'] === TrustedServers::STATUS_PENDING ||
 					(int)$trustedServer['status'] === TrustedServers::STATUS_ACCESS_REVOKED
-				) { ?>
+				) {
+		?>
 					<span class="status indeterminate"></span>
-				<?php } else {?>
+				<?php
+	} else {
+		?>
 					<span class="status error"></span>
-				<?php } ?>
+				<?php
+	} ?>
 				<?php p($trustedServer['url']); ?>
 				<span class="icon icon-delete"></span>
 			</li>
-		<?php } ?>
+		<?php
+} ?>
 	</ul>
 	<p id="ocFederationAddServer">
 		<button id="ocFederationAddServerButton" class=""><?php p($l->t('+ Add trusted server')); ?></button>

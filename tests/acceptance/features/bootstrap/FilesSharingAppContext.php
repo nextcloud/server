@@ -24,7 +24,6 @@
 use Behat\Behat\Context\Context;
 
 class FilesSharingAppContext implements Context, ActorAwareInterface {
-
 	use ActorAware;
 
 	/**
@@ -80,7 +79,8 @@ class FilesSharingAppContext implements Context, ActorAwareInterface {
 	public function iSeeThatTheCurrentPageIsTheAuthenticatePageForTheSharedLinkIWroteDown() {
 		PHPUnit_Framework_Assert::assertEquals(
 				$this->actor->getSharedNotebook()["shared link"] . "/authenticate",
-				$this->actor->getSession()->getCurrentUrl());
+				$this->actor->getSession()->getCurrentUrl()
+		);
 	}
 
 	/**
@@ -89,7 +89,8 @@ class FilesSharingAppContext implements Context, ActorAwareInterface {
 	public function iSeeThatTheCurrentPageIsTheSharedLinkIWroteDown() {
 		PHPUnit_Framework_Assert::assertEquals(
 				$this->actor->getSharedNotebook()["shared link"],
-				$this->actor->getSession()->getCurrentUrl());
+				$this->actor->getSession()->getCurrentUrl()
+		);
 	}
 
 	/**
@@ -97,7 +98,8 @@ class FilesSharingAppContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatAWrongPasswordForTheSharedFileMessageIsShown() {
 		PHPUnit_Framework_Assert::assertTrue(
-				$this->actor->find(self::wrongPasswordMessage(), 10)->isVisible());
+				$this->actor->find(self::wrongPasswordMessage(), 10)->isVisible()
+		);
 	}
 
 	/**
@@ -106,5 +108,4 @@ class FilesSharingAppContext implements Context, ActorAwareInterface {
 	public function iSeeThatTheSharedFilePreviewShowsTheText($text) {
 		PHPUnit_Framework_Assert::assertContains($text, $this->actor->find(self::textPreview(), 10)->getText());
 	}
-
 }

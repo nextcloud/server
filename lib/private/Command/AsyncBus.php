@@ -89,9 +89,9 @@ class AsyncBus implements IBus {
 	private function getJobClass($command) {
 		if ($command instanceof \Closure) {
 			return 'OC\Command\ClosureJob';
-		} else if (is_callable($command)) {
+		} elseif (is_callable($command)) {
 			return 'OC\Command\CallableJob';
-		} else if ($command instanceof ICommand) {
+		} elseif ($command instanceof ICommand) {
 			return 'OC\Command\CommandJob';
 		} else {
 			throw new \InvalidArgumentException('Invalid command');
@@ -106,7 +106,7 @@ class AsyncBus implements IBus {
 		if ($command instanceof \Closure) {
 			$serializer = new Serializer();
 			return $serializer->serialize($command);
-		} else if (is_callable($command) or $command instanceof ICommand) {
+		} elseif (is_callable($command) or $command instanceof ICommand) {
 			return serialize($command);
 		} else {
 			throw new \InvalidArgumentException('Invalid command');

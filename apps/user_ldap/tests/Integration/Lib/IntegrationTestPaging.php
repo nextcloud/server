@@ -62,13 +62,13 @@ class IntegrationTestPaging extends AbstractIntegrationTest {
 		$users = [];
 		do {
 			$result = $this->access->searchUsers($filter, $attributes, $limit, $offset);
-			foreach($result as $user) {
+			foreach ($result as $user) {
 				$users[] = $user['cn'];
 			}
 			$offset += $limit;
 		} while ($this->access->hasMoreResults());
 
-		if(count($users) === 2) {
+		if (count($users) === 2) {
 			return true;
 		}
 

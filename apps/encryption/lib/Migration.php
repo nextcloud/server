@@ -24,14 +24,12 @@
 
 namespace OCA\Encryption;
 
-
 use OC\Files\View;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\ILogger;
 
 class Migration {
-
 	private $moduleId;
 	/** @var \OC\Files\View */
 	private $view;
@@ -103,7 +101,6 @@ class Migration {
 	 * reorganize system wide folder structure
 	 */
 	public function reorganizeSystemFolderStructure() {
-
 		$this->createPathForKeys('/files_encryption');
 
 		// backup system wide folders
@@ -172,7 +169,7 @@ class Migration {
 
 		while ($row = $appSettings->fetch()) {
 			// 'installed_version' gets deleted at the end of the migration process
-			if ($row['configkey'] !== 'installed_version' ) {
+			if ($row['configkey'] !== 'installed_version') {
 				$this->config->setAppValue('encryption', $row['configkey'], $row['configvalue']);
 				$this->config->deleteAppValue('files_encryption', $row['configkey']);
 			}
@@ -222,10 +219,10 @@ class Migration {
 	 */
 	private function renameSystemPrivateKeys() {
 		$dh = $this->view->opendir('files_encryption');
-		$this->createPathForKeys('/files_encryption/' . $this->moduleId );
+		$this->createPathForKeys('/files_encryption/' . $this->moduleId);
 		if (is_resource($dh)) {
 			while (($privateKey = readdir($dh)) !== false) {
-				if (!\OC\Files\Filesystem::isIgnoredDir($privateKey) ) {
+				if (!\OC\Files\Filesystem::isIgnoredDir($privateKey)) {
 					if (!$this->view->is_dir('/files_encryption/' . $privateKey)) {
 						$this->view->rename('files_encryption/' . $privateKey, 'files_encryption/' . $this->moduleId . '/' . $privateKey);
 						$this->renameSystemPublicKey($privateKey);
@@ -242,7 +239,7 @@ class Migration {
 	 * @param string $privateKey private key for which we want to rename the corresponding public key
 	 */
 	private function renameSystemPublicKey($privateKey) {
-		$publicKey = substr($privateKey,0 , strrpos($privateKey, '.privateKey')) . '.publicKey';
+		$publicKey = substr($privateKey, 0, strrpos($privateKey, '.privateKey')) . '.publicKey';
 		$this->view->rename('files_encryption/public_keys/' . $publicKey, 'files_encryption/' . $this->moduleId . '/' . $publicKey);
 	}
 
@@ -282,7 +279,6 @@ class Migration {
 	 * @param bool $trash
 	 */
 	private function renameFileKeys($user, $path, $trash = false) {
-
 		if ($this->view->is_dir($user . '/' . $path) === false) {
 			$this->logger->info('Skip dir /' . $user . '/' . $path . ': does not exist');
 			return;
@@ -304,7 +300,8 @@ class Migration {
 							$this->logger->warning(
 								'did not move key "' . $file
 								. '" could not find the corresponding file in /data/' . $user . '/files.'
-							. 'Most likely the key was already moved in a previous migration run and is already on the right place.');
+							. 'Most likely the key was already moved in a previous migration run and is already on the right place.'
+							);
 						}
 					}
 				}
@@ -348,14 +345,15 @@ class Migration {
 			$systemMountPoints = $this->getSystemMountPoints();
 			foreach ($systemMountPoints as $mountPoint) {
 				$normalizedMountPoint = \OC\Files\Filesystem::normalizePath($mountPoint['mountpoint']) . '/';
-				if (strpos($normalized, $normalizedMountPoint) === 0)
+				if (strpos($normalized, $normalizedMountPoint) === 0) {
 					return $targetDir;
+				}
 			}
-		} else if ($trash === false && $this->view->file_exists('/' . $user. '/files/' . $filePath)) {
+		} elseif ($trash === false && $this->view->file_exists('/' . $user. '/files/' . $filePath)) {
 			return $targetDir;
-		} else if ($trash === true && $this->view->file_exists('/' . $user. '/files_trashbin/' . $filePath)) {
-				return $targetDir;
-			}
+		} elseif ($trash === true && $this->view->file_exists('/' . $user. '/files_trashbin/' . $filePath)) {
+			return $targetDir;
+		}
 
 		return false;
 	}

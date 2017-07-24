@@ -32,7 +32,6 @@ use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
 
 class BackupCodeStorage {
-
 	private static $CODE_LENGTH = 16;
 
 	/** @var BackupCodeMapper */
@@ -57,8 +56,13 @@ class BackupCodeStorage {
 	 * @param IManager $activityManager
 	 * @param ILogger $logger
 	 */
-	public function __construct(BackupCodeMapper $mapper, ISecureRandom $random, IHasher $hasher,
-		IManager $activityManager, ILogger $logger) {
+	public function __construct(
+		BackupCodeMapper $mapper,
+		ISecureRandom $random,
+		IHasher $hasher,
+		IManager $activityManager,
+		ILogger $logger
+	) {
 		$this->mapper = $mapper;
 		$this->hasher = $hasher;
 		$this->random = $random;
@@ -161,5 +165,4 @@ class BackupCodeStorage {
 		}
 		return false;
 	}
-
 }

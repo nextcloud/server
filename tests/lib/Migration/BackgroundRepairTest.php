@@ -21,7 +21,6 @@
 
 namespace Test\Migration;
 
-
 use OC\Migration\BackgroundRepair;
 use OC\NeedsUpdateException;
 use OCP\ILogger;

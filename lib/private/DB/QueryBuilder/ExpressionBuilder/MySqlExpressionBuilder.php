@@ -23,7 +23,6 @@
 
 namespace OC\DB\QueryBuilder\ExpressionBuilder;
 
-
 use OC\DB\Connection;
 use OCP\IDBConnection;
 
@@ -50,5 +49,4 @@ class MySqlExpressionBuilder extends ExpressionBuilder {
 		$y = $this->helper->quoteColumnName($y);
 		return $this->expressionBuilder->comparison($x, ' COLLATE ' . $this->charset . '_general_ci LIKE', $y);
 	}
-
 }

@@ -51,7 +51,7 @@ class CleanupFileLocks extends TimedJob {
 	 */
 	public function run($argument) {
 		$lockingProvider = \OC::$server->getLockingProvider();
-		if($lockingProvider instanceof DBLockingProvider) {
+		if ($lockingProvider instanceof DBLockingProvider) {
 			$lockingProvider->cleanExpiredLocks();
 		}
 	}

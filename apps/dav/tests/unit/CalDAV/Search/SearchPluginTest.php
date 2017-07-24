@@ -27,7 +27,6 @@ use OCA\DAV\CalDAV\Search\Xml\Request\CalendarSearchReport;
 use Test\TestCase;
 
 class SearchPluginTest extends TestCase {
-
 	protected $server;
 
 	/** @var \OCA\DAV\CalDAV\Search\SearchPlugin $plugin */

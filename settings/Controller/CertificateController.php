@@ -54,12 +54,14 @@ class CertificateController extends Controller {
 	 * @param IL10N $l10n
 	 * @param IAppManager $appManager
 	 */
-	public function __construct($appName,
+	public function __construct(
+		$appName,
 								IRequest $request,
 								ICertificateManager $userCertificateManager,
 								ICertificateManager $systemCertificateManager,
 								IL10N $l10n,
-								IAppManager $appManager) {
+								IAppManager $appManager
+	) {
 		parent::__construct($appName, $request);
 		$this->userCertificateManager = $userCertificateManager;
 		$this->systemCertificateManager = $systemCertificateManager;
@@ -127,7 +129,6 @@ class CertificateController extends Controller {
 	 * @return DataResponse
 	 */
 	public function removePersonalRootCertificate($certificateIdentifier) {
-
 		if ($this->isCertificateImportAllowed() === false) {
 			return new DataResponse('Individual certificate management disabled', Http::STATUS_FORBIDDEN);
 		}
@@ -169,7 +170,6 @@ class CertificateController extends Controller {
 	 * @return DataResponse
 	 */
 	public function removeSystemRootCertificate($certificateIdentifier) {
-
 		if ($this->isCertificateImportAllowed() === false) {
 			return new DataResponse('Individual certificate management disabled', Http::STATUS_FORBIDDEN);
 		}

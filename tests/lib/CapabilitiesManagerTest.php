@@ -53,7 +53,7 @@ class CapabilitiesManagerTest extends TestCase {
 	 * Test a valid capabilitie
 	 */
 	public function testValidCapability() {
-		$this->manager->registerCapability(function() {
+		$this->manager->registerCapability(function () {
 			return new SimpleCapability();
 		});
 
@@ -65,13 +65,13 @@ class CapabilitiesManagerTest extends TestCase {
 	 * Test a public capabilitie
 	 */
 	public function testPublicCapability() {
-		$this->manager->registerCapability(function() {
+		$this->manager->registerCapability(function () {
 			return new PublicSimpleCapability1();
 		});
-		$this->manager->registerCapability(function() {
+		$this->manager->registerCapability(function () {
 			return new SimpleCapability2();
 		});
-		$this->manager->registerCapability(function() {
+		$this->manager->registerCapability(function () {
 			return new SimpleCapability3();
 		});
 
@@ -85,7 +85,7 @@ class CapabilitiesManagerTest extends TestCase {
 	 * @expectedExceptionMessage The given Capability (Test\NoCapability) does not implement the ICapability interface
 	 */
 	public function testNoICapability() {
-		$this->manager->registerCapability(function() {
+		$this->manager->registerCapability(function () {
 			return new NoCapability();
 		});
 
@@ -97,13 +97,13 @@ class CapabilitiesManagerTest extends TestCase {
 	 * Test a bunch of merged Capabilities
 	 */
 	public function testMergedCapabilities() {
-		$this->manager->registerCapability(function() {
+		$this->manager->registerCapability(function () {
 			return new SimpleCapability();
 		});
-		$this->manager->registerCapability(function() {
+		$this->manager->registerCapability(function () {
 			return new SimpleCapability2();
 		});
-		$this->manager->registerCapability(function() {
+		$this->manager->registerCapability(function () {
 			return new SimpleCapability3();
 		});
 
@@ -123,10 +123,10 @@ class CapabilitiesManagerTest extends TestCase {
 	 * Test deep identical capabilities
 	 */
 	public function testDeepIdenticalCapabilities() {
-		$this->manager->registerCapability(function() {
+		$this->manager->registerCapability(function () {
 			return new DeepCapability();
 		});
-		$this->manager->registerCapability(function() {
+		$this->manager->registerCapability(function () {
 			return new DeepCapability();
 		});
 

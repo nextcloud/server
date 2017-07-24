@@ -72,7 +72,5 @@ class AddServerMiddleware extends Middleware {
 			['message' => $message],
 			Http::STATUS_BAD_REQUEST
 		);
-
 	}
-
 }

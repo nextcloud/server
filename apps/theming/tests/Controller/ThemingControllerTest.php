@@ -245,7 +245,7 @@ class ThemingControllerTest extends TestCase {
 
 		$file = $this->createMock(ISimpleFile::class);
 		$folder = $this->createMock(ISimpleFolder::class);
-		if($folderExists) {
+		if ($folderExists) {
 			$this->appData
 				->expects($this->once())
 				->method('getFolder')
@@ -314,7 +314,7 @@ class ThemingControllerTest extends TestCase {
 
 		$file = $this->createMock(ISimpleFile::class);
 		$folder = $this->createMock(ISimpleFolder::class);
-		if($folderExists) {
+		if ($folderExists) {
 			$this->appData
 				->expects($this->once())
 				->method('getFolder')
@@ -555,7 +555,6 @@ class ThemingControllerTest extends TestCase {
 
 
 	public function testGetStylesheet() {
-
 		$file = $this->createMock(ISimpleFile::class);
 		$file->expects($this->any())->method('getName')->willReturn('theming.css');
 		$file->expects($this->any())->method('getContent')->willReturn('compiled');

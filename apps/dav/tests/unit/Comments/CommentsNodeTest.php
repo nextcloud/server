@@ -475,7 +475,7 @@ class CommentsNodeTest extends \Test\TestCase {
 
 		$properties = $this->node->getProperties(null);
 
-		foreach($properties as $name => $value) {
+		foreach ($properties as $name => $value) {
 			$this->assertTrue(array_key_exists($name, $expected));
 			$this->assertSame($expected[$name], $value);
 			unset($expected[$name]);
@@ -486,8 +486,10 @@ class CommentsNodeTest extends \Test\TestCase {
 	public function readCommentProvider() {
 		$creationDT = new \DateTime('2016-01-19 18:48:00');
 		$diff = new \DateInterval('PT2H');
-		$readDT1 = clone $creationDT; $readDT1->sub($diff);
-		$readDT2 = clone $creationDT; $readDT2->add($diff);
+		$readDT1 = clone $creationDT;
+		$readDT1->sub($diff);
+		$readDT2 = clone $creationDT;
+		$readDT2->add($diff);
 		return [
 			[$creationDT, $readDT1, 'true'],
 			[$creationDT, $readDT2, 'false'],

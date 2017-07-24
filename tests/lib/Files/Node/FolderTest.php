@@ -64,10 +64,10 @@ class FolderTest extends NodeTest {
 		$view->expects($this->any())
 			->method('getDirectoryContent')
 			->with('/bar/foo')
-			->will($this->returnValue(array(
+			->will($this->returnValue([
 				new FileInfo('/bar/foo/asd', null, 'foo/asd', ['fileid' => 2, 'path' => '/bar/foo/asd', 'name' => 'asd', 'size' => 100, 'mtime' => 50, 'mimetype' => 'text/plain'], null),
 				new FileInfo('/bar/foo/qwerty', null, 'foo/qwerty', ['fileid' => 3, 'path' => '/bar/foo/qwerty', 'name' => 'qwerty', 'size' => 200, 'mtime' => 55, 'mimetype' => 'httpd/unix-directory'], null)
-			)));
+			]));
 
 		$node = new \OC\Files\Node\Folder($root, $view, '/bar/foo');
 		$children = $node->getDirectoryListing();
@@ -163,7 +163,7 @@ class FolderTest extends NodeTest {
 		$view->expects($this->once())
 			->method('getFileInfo')
 			->with('/bar/foo')
-			->will($this->returnValue($this->getFileInfo(array('permissions' => \OCP\Constants::PERMISSION_ALL))));
+			->will($this->returnValue($this->getFileInfo(['permissions' => \OCP\Constants::PERMISSION_ALL])));
 
 		$view->expects($this->once())
 			->method('mkdir')
@@ -195,7 +195,7 @@ class FolderTest extends NodeTest {
 		$view->expects($this->once())
 			->method('getFileInfo')
 			->with('/bar/foo')
-			->will($this->returnValue($this->getFileInfo(array('permissions' => \OCP\Constants::PERMISSION_READ))));
+			->will($this->returnValue($this->getFileInfo(['permissions' => \OCP\Constants::PERMISSION_READ])));
 
 		$node = new \OC\Files\Node\Folder($root, $view, '/bar/foo');
 		$node->newFolder('asd');
@@ -217,7 +217,7 @@ class FolderTest extends NodeTest {
 		$view->expects($this->once())
 			->method('getFileInfo')
 			->with('/bar/foo')
-			->will($this->returnValue($this->getFileInfo(array('permissions' => \OCP\Constants::PERMISSION_ALL))));
+			->will($this->returnValue($this->getFileInfo(['permissions' => \OCP\Constants::PERMISSION_ALL])));
 
 		$view->expects($this->once())
 			->method('touch')
@@ -249,7 +249,7 @@ class FolderTest extends NodeTest {
 		$view->expects($this->once())
 			->method('getFileInfo')
 			->with('/bar/foo')
-			->will($this->returnValue($this->getFileInfo(array('permissions' => \OCP\Constants::PERMISSION_READ))));
+			->will($this->returnValue($this->getFileInfo(['permissions' => \OCP\Constants::PERMISSION_READ])));
 
 		$node = new \OC\Files\Node\Folder($root, $view, '/bar/foo');
 		$node->newFile('asd');
@@ -307,14 +307,14 @@ class FolderTest extends NodeTest {
 		$cache->expects($this->once())
 			->method('search')
 			->with('%qw%')
-			->will($this->returnValue(array(
-				array('fileid' => 3, 'path' => 'foo/qwerty', 'name' => 'qwerty', 'size' => 200, 'mtime' => 55, 'mimetype' => 'text/plain')
-			)));
+			->will($this->returnValue([
+				['fileid' => 3, 'path' => 'foo/qwerty', 'name' => 'qwerty', 'size' => 200, 'mtime' => 55, 'mimetype' => 'text/plain']
+			]));
 
 		$root->expects($this->once())
 			->method('getMountsIn')
 			->with('/bar/foo')
-			->will($this->returnValue(array()));
+			->will($this->returnValue([]));
 
 		$root->expects($this->once())
 			->method('getMount')
@@ -358,15 +358,15 @@ class FolderTest extends NodeTest {
 		$cache->expects($this->once())
 			->method('search')
 			->with('%qw%')
-			->will($this->returnValue(array(
-				array('fileid' => 3, 'path' => 'files/foo', 'name' => 'qwerty', 'size' => 200, 'mtime' => 55, 'mimetype' => 'text/plain'),
-				array('fileid' => 3, 'path' => 'files_trashbin/foo2.d12345', 'name' => 'foo2.d12345', 'size' => 200, 'mtime' => 55, 'mimetype' => 'text/plain'),
-			)));
+			->will($this->returnValue([
+				['fileid' => 3, 'path' => 'files/foo', 'name' => 'qwerty', 'size' => 200, 'mtime' => 55, 'mimetype' => 'text/plain'],
+				['fileid' => 3, 'path' => 'files_trashbin/foo2.d12345', 'name' => 'foo2.d12345', 'size' => 200, 'mtime' => 55, 'mimetype' => 'text/plain'],
+			]));
 
 		$root->expects($this->once())
 			->method('getMountsIn')
 			->with('')
-			->will($this->returnValue(array()));
+			->will($this->returnValue([]));
 
 		$root->expects($this->once())
 			->method('getMount')
@@ -408,14 +408,14 @@ class FolderTest extends NodeTest {
 		$cache->expects($this->once())
 			->method('search')
 			->with('%qw%')
-			->will($this->returnValue(array(
-				array('fileid' => 3, 'path' => 'foo/qwerty', 'name' => 'qwerty', 'size' => 200, 'mtime' => 55, 'mimetype' => 'text/plain')
-			)));
+			->will($this->returnValue([
+				['fileid' => 3, 'path' => 'foo/qwerty', 'name' => 'qwerty', 'size' => 200, 'mtime' => 55, 'mimetype' => 'text/plain']
+			]));
 
 		$root->expects($this->once())
 			->method('getMountsIn')
 			->with('/bar')
-			->will($this->returnValue(array()));
+			->will($this->returnValue([]));
 
 		$root->expects($this->once())
 			->method('getMount')
@@ -458,14 +458,14 @@ class FolderTest extends NodeTest {
 		$cache->expects($this->once())
 			->method('searchByTag')
 			->with('tag1', 'user1')
-			->will($this->returnValue(array(
-				array('fileid' => 3, 'path' => 'foo/qwerty', 'name' => 'qwerty', 'size' => 200, 'mtime' => 55, 'mimetype' => 'text/plain')
-			)));
+			->will($this->returnValue([
+				['fileid' => 3, 'path' => 'foo/qwerty', 'name' => 'qwerty', 'size' => 200, 'mtime' => 55, 'mimetype' => 'text/plain']
+			]));
 
 		$root->expects($this->once())
 			->method('getMountsIn')
 			->with('/bar/foo')
-			->will($this->returnValue(array()));
+			->will($this->returnValue([]));
 
 		$root->expects($this->once())
 			->method('getMount')
@@ -523,21 +523,21 @@ class FolderTest extends NodeTest {
 		$cache->expects($this->once())
 			->method('search')
 			->with('%qw%')
-			->will($this->returnValue(array(
-				array('fileid' => 3, 'path' => 'foo/qwerty', 'name' => 'qwerty', 'size' => 200, 'mtime' => 55, 'mimetype' => 'text/plain')
-			)));
+			->will($this->returnValue([
+				['fileid' => 3, 'path' => 'foo/qwerty', 'name' => 'qwerty', 'size' => 200, 'mtime' => 55, 'mimetype' => 'text/plain']
+			]));
 
 		$subCache->expects($this->once())
 			->method('search')
 			->with('%qw%')
-			->will($this->returnValue(array(
-				array('fileid' => 4, 'path' => 'asd/qweasd', 'name' => 'qweasd', 'size' => 200, 'mtime' => 55, 'mimetype' => 'text/plain')
-			)));
+			->will($this->returnValue([
+				['fileid' => 4, 'path' => 'asd/qweasd', 'name' => 'qweasd', 'size' => 200, 'mtime' => 55, 'mimetype' => 'text/plain']
+			]));
 
 		$root->expects($this->once())
 			->method('getMountsIn')
 			->with('/bar/foo')
-			->will($this->returnValue(array($subMount)));
+			->will($this->returnValue([$subMount]));
 
 		$root->expects($this->once())
 			->method('getMount')
@@ -600,7 +600,7 @@ class FolderTest extends NodeTest {
 		$root->expects($this->once())
 			->method('getMountsIn')
 			->with('/bar/foo')
-			->will($this->returnValue(array()));
+			->will($this->returnValue([]));
 
 		$root->expects($this->once())
 			->method('getMount')
@@ -653,7 +653,7 @@ class FolderTest extends NodeTest {
 		$root->expects($this->once())
 			->method('getMountsIn')
 			->with('/bar/foo')
-			->will($this->returnValue(array()));
+			->will($this->returnValue([]));
 
 		$root->expects($this->once())
 			->method('getMount')
@@ -720,7 +720,7 @@ class FolderTest extends NodeTest {
 		$root->expects($this->any())
 			->method('getMountsIn')
 			->with('/bar/foo')
-			->will($this->returnValue(array($mount2)));
+			->will($this->returnValue([$mount2]));
 
 		$root->expects($this->once())
 			->method('getMount')

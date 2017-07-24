@@ -37,7 +37,6 @@ use Sabre\DAV\PropPatch;
  * @property BackendInterface|CalDavBackend $caldavBackend
  */
 class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
-
 	public function __construct(BackendInterface $caldavBackend, $calendarInfo, IL10N $l10n) {
 		parent::__construct($caldavBackend, $calendarInfo);
 
@@ -110,7 +109,7 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 	}
 
 	public function getACL() {
-		$acl =  [
+		$acl = [
 			[
 				'privilege' => '{DAV:}read',
 				'principal' => $this->getOwner(),
@@ -131,7 +130,7 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 		}
 
 		if ($this->getOwner() !== parent::getOwner()) {
-			$acl[] =  [
+			$acl[] = [
 					'privilege' => '{DAV:}read',
 					'principal' => parent::getOwner(),
 					'protected' => true,
@@ -165,7 +164,7 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 		}
 
 		$allowedPrincipals = [$this->getOwner(), parent::getOwner(), 'principals/system/public'];
-		return array_filter($acl, function($rule) use ($allowedPrincipals) {
+		return array_filter($acl, function ($rule) use ($allowedPrincipals) {
 			return in_array($rule['principal'], $allowedPrincipals);
 		});
 	}
@@ -186,7 +185,7 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 			$this->calendarInfo['{http://owncloud.org/ns}owner-principal'] !== $this->calendarInfo['principaluri']) {
 			$principal = 'principal:' . parent::getOwner();
 			$shares = $this->caldavBackend->getShares($this->getResourceId());
-			$shares = array_filter($shares, function($share) use ($principal){
+			$shares = array_filter($shares, function ($share) use ($principal) {
 				return $share['href'] === $principal;
 			});
 			if (empty($shares)) {
@@ -210,7 +209,6 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 	}
 
 	public function getChild($name) {
-
 		$obj = $this->caldavBackend->getCalendarObject($this->calendarInfo['id'], $name);
 
 		if (!$obj) {
@@ -224,11 +222,9 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 		$obj['acl'] = $this->getChildACL();
 
 		return new CalendarObject($this->caldavBackend, $this->calendarInfo, $obj);
-
 	}
 
 	public function getChildren() {
-
 		$objs = $this->caldavBackend->getCalendarObjects($this->calendarInfo['id']);
 		$children = [];
 		foreach ($objs as $obj) {
@@ -239,11 +235,9 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 			$children[] = new CalendarObject($this->caldavBackend, $this->calendarInfo, $obj);
 		}
 		return $children;
-
 	}
 
 	public function getMultipleChildren(array $paths) {
-
 		$objs = $this->caldavBackend->getMultipleCalendarObjects($this->calendarInfo['id'], $paths);
 		$children = [];
 		foreach ($objs as $obj) {
@@ -254,7 +248,6 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 			$children[] = new CalendarObject($this->caldavBackend, $this->calendarInfo, $obj);
 		}
 		return $children;
-
 	}
 
 	public function childExists($name) {
@@ -270,7 +263,6 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 	}
 
 	public function calendarQuery(array $filters) {
-
 		$uris = $this->caldavBackend->calendarQuery($this->calendarInfo['id'], $filters);
 		if ($this->isShared()) {
 			return array_filter($uris, function ($uri) {
@@ -320,5 +312,4 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 	public function isSubscription() {
 		return isset($this->calendarInfo['{http://calendarserver.org/ns/}source']);
 	}
-
 }

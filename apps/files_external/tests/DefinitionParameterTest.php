@@ -26,7 +26,6 @@ namespace OCA\Files_External\Tests;
 use \OCA\Files_External\Lib\DefinitionParameter as Param;
 
 class DefinitionParameterTest extends \Test\TestCase {
-
 	public function testJsonSerialization() {
 		$param = new Param('foo', 'bar');
 		$this->assertEquals([

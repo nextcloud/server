@@ -5,5 +5,4 @@
  *     NOTE: lowercase typo is intended
  */
 class BadClass implements oC_Avatar {
-
 }

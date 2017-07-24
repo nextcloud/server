@@ -25,7 +25,6 @@
 
 namespace OCP\AppFramework\Http;
 
-
 /**
  * Very thin wrapper class to make output testable
  * @since 8.1.0
@@ -75,5 +74,4 @@ interface IOutput {
 	 * @since 8.1.0
 	 */
 	public function setCookie($name, $value, $expire, $path, $domain, $secure, $httpOnly);
-
 }

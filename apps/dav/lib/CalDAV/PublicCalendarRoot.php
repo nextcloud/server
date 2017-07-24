@@ -30,7 +30,7 @@ class PublicCalendarRoot extends Collection {
 	/** @var \OCP\IL10N */
 	protected $l10n;
 
-	function __construct(CalDavBackend $caldavBackend) {
+	public function __construct(CalDavBackend $caldavBackend) {
 		$this->caldavBackend = $caldavBackend;
 		$this->l10n = \OC::$server->getL10N('dav');
 	}
@@ -38,14 +38,14 @@ class PublicCalendarRoot extends Collection {
 	/**
 	 * @inheritdoc
 	 */
-	function getName() {
+	public function getName() {
 		return 'public-calendars';
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	function getChild($name) {
+	public function getChild($name) {
 		$calendar = $this->caldavBackend->getPublicCalendar($name);
 		return new PublicCalendar($this->caldavBackend, $calendar, $this->l10n);
 	}
@@ -53,7 +53,7 @@ class PublicCalendarRoot extends Collection {
 	/**
 	 * @inheritdoc
 	 */
-	function getChildren() {
+	public function getChildren() {
 		return [];
 	}
 }

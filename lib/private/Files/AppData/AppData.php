@@ -53,10 +53,11 @@ class AppData implements IAppData {
 	 * @param SystemConfig $systemConfig
 	 * @param string $appId
 	 */
-	public function __construct(IRootFolder $rootFolder,
+	public function __construct(
+		IRootFolder $rootFolder,
 								SystemConfig $systemConfig,
-								$appId) {
-
+								$appId
+	) {
 		$this->rootFolder = $rootFolder;
 		$this->config = $systemConfig;
 		$this->appId = $appId;
@@ -117,7 +118,7 @@ class AppData implements IAppData {
 	public function getDirectoryListing() {
 		$listing = $this->getAppDataFolder()->getDirectoryListing();
 
-		$fileListing = array_map(function(Node $folder) {
+		$fileListing = array_map(function (Node $folder) {
 			if ($folder instanceof Folder) {
 				return new SimpleFolder($folder);
 			}

@@ -64,7 +64,7 @@ class EtagTest extends \Test\TestCase {
 		Filesystem::file_put_contents('/folder/bar.txt', 'fgh');
 		Filesystem::file_put_contents('/folder/subfolder/qwerty.txt', 'jkl');
 
-		$files = array('/foo.txt', '/folder/bar.txt', '/folder/subfolder', '/folder/subfolder/qwerty.txt');
+		$files = ['/foo.txt', '/folder/bar.txt', '/folder/subfolder', '/folder/subfolder/qwerty.txt'];
 		$originalEtags = $this->getEtags($files);
 
 		$scanner = new \OC\Files\Utils\Scanner($user1, \OC::$server->getDatabaseConnection(), \OC::$server->getLogger());
@@ -81,7 +81,7 @@ class EtagTest extends \Test\TestCase {
 	 * @param string[] $files
 	 */
 	private function getEtags($files) {
-		$etags = array();
+		$etags = [];
 		foreach ($files as $file) {
 			$info = Filesystem::getFileInfo($file);
 			$etags[$file] = $info['etag'];

@@ -22,5 +22,4 @@
 namespace OC\L10N;
 
 class LanguageNotFoundException extends \Exception {
-
 }

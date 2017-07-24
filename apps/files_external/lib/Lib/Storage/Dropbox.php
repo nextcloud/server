@@ -39,11 +39,10 @@ use OCP\Files\StorageNotAvailableException;
 require_once __DIR__ . '/../../../3rdparty/Dropbox/autoload.php';
 
 class Dropbox extends \OC\Files\Storage\Common {
-
 	private $dropbox;
 	private $root;
 	private $id;
-	private $metaData = array();
+	private $metaData = [];
 	private $oauth;
 
 	public function __construct($params) {
@@ -89,7 +88,7 @@ class Dropbox extends \OC\Files\Storage\Common {
 	 */
 	private function getDropBoxMetaData($path, $list = false) {
 		$path = ltrim($this->root.$path, '/');
-		if ( ! $list && isset($this->metaData[$path])) {
+		if (! $list && isset($this->metaData[$path])) {
 			return $this->metaData[$path];
 		} else {
 			if ($list) {
@@ -101,7 +100,7 @@ class Dropbox extends \OC\Files\Storage\Common {
 					\OCP\Util::writeLog('files_external', $exception->getMessage(), \OCP\Util::ERROR);
 					return false;
 				}
-				$contents = array();
+				$contents = [];
 				if ($response && isset($response['contents'])) {
 					// Cache folder's contents
 					foreach ($response['contents'] as $file) {
@@ -144,7 +143,7 @@ class Dropbox extends \OC\Files\Storage\Common {
 		}
 	}
 
-	public function getId(){
+	public function getId() {
 		return $this->id;
 	}
 
@@ -166,7 +165,7 @@ class Dropbox extends \OC\Files\Storage\Common {
 	public function opendir($path) {
 		$contents = $this->getDropBoxMetaData($path, true);
 		if ($contents !== false) {
-			$files = array();
+			$files = [];
 			foreach ($contents as $file) {
 				$files[] = basename($file['path']);
 			}
@@ -352,5 +351,4 @@ class Dropbox extends \OC\Files\Storage\Common {
 	public static function checkDependencies() {
 		return true;
 	}
-
 }

@@ -47,9 +47,11 @@ class Client implements IClient {
 	 * @param ICertificateManager $certificateManager
 	 * @param GuzzleClient $client
 	 */
-	public function __construct(IConfig $config,
+	public function __construct(
+		IConfig $config,
 								ICertificateManager $certificateManager,
-								GuzzleClient $client) {
+								GuzzleClient $client
+	) {
 		$this->config = $config;
 		$this->client = $client;
 		$this->certificateManager = $certificateManager;

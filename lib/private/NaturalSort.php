@@ -30,7 +30,7 @@ namespace OC;
 class NaturalSort {
 	private static $instance;
 	private $collator;
-	private $cache = array();
+	private $cache = [];
 
 	/**
 	 * Instantiate a new \OC\NaturalSort instance.
@@ -56,7 +56,7 @@ class NaturalSort {
 		if (isset($this->cache[$t])) {
 			return $this->cache[$t];
 		}
-		$tz = array();
+		$tz = [];
 		$x = 0;
 		$y = -1;
 		$n = null;
@@ -88,8 +88,7 @@ class NaturalSort {
 			// German umlauts, so using en_US instead
 			if (class_exists('Collator')) {
 				$this->collator = new \Collator('en_US');
-			}
-			else {
+			} else {
 				$this->collator = new \OC\NaturalSort_DefaultCollator();
 			}
 		}

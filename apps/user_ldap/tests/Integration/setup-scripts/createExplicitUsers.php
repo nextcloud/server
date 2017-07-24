@@ -20,7 +20,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-if(php_sapi_name() !== 'cli') {
+if (php_sapi_name() !== 'cli') {
 	print('Only via CLI, please.');
 	exit(1);
 }

@@ -749,10 +749,10 @@ class SessionTest extends \Test\TestCase {
 	}
 
 	public function testActiveUserAfterSetSession() {
-		$users = array(
+		$users = [
 			'foo' => new User('foo', null),
 			'bar' => new User('bar', null)
-		);
+		];
 
 		$manager = $this->getMockBuilder('\OC\User\Manager')
 			->disableOriginalConstructor()
@@ -1255,7 +1255,7 @@ class SessionTest extends \Test\TestCase {
 
 		$this->session
 			->method('set')
-			->will($this->returnCallback(function($k, $v) use (&$davAuthenticatedSet, &$lastPasswordConfirmSet) {
+			->will($this->returnCallback(function ($k, $v) use (&$davAuthenticatedSet, &$lastPasswordConfirmSet) {
 				switch ($k) {
 					case Auth::DAV_AUTHENTICATED:
 						$davAuthenticatedSet = $v;

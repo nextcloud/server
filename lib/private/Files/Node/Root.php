@@ -82,12 +82,14 @@ class Root extends Folder implements IRootFolder {
 	 * @param ILogger $logger
 	 * @param IUserManager $userManager
 	 */
-	public function __construct($manager,
+	public function __construct(
+		$manager,
 								$view,
 								$user,
 								IUserMountCache $userMountCache,
 								ILogger $logger,
-								IUserManager $userManager) {
+								IUserManager $userManager
+	) {
 		parent::__construct($this, $view, '');
 		$this->mountManager = $manager;
 		$this->user = $user;
@@ -130,7 +132,7 @@ class Root extends Folder implements IRootFolder {
 	 * @param string $method
 	 * @param Node[] $arguments
 	 */
-	public function emit($scope, $method, $arguments = array()) {
+	public function emit($scope, $method, $arguments = []) {
 		$this->emitter->emit($scope, $method, $arguments);
 	}
 
@@ -139,7 +141,7 @@ class Root extends Folder implements IRootFolder {
 	 * @param string $mountPoint
 	 * @param array $arguments
 	 */
-	public function mount($storage, $mountPoint, $arguments = array()) {
+	public function mount($storage, $mountPoint, $arguments = []) {
 		$mount = new MountPoint($storage, $mountPoint, $arguments);
 		$this->mountManager->addMount($mount);
 	}

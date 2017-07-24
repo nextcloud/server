@@ -21,7 +21,6 @@
 
 namespace OCA\DAV\CalDAV\Activity;
 
-
 use OCA\DAV\CalDAV\Activity\Provider\Calendar;
 use OCA\DAV\CalDAV\Activity\Provider\Event;
 use OCP\Activity\IEvent;
@@ -193,7 +192,7 @@ class Backend {
 
 					if ($owner === $event->getAuthor()) {
 						$subject = Calendar::SUBJECT_UNSHARE_USER . '_you';
-					} else if ($principal[2] === $event->getAuthor()) {
+					} elseif ($principal[2] === $event->getAuthor()) {
 						$subject = Calendar::SUBJECT_UNSHARE_USER . '_self';
 					} else {
 						$event->setAffectedUser($event->getAuthor())
@@ -208,7 +207,7 @@ class Backend {
 						->setSubject($subject, $parameters);
 					$this->activityManager->publish($event);
 				}
-			} else if ($principal[1] === 'groups') {
+			} elseif ($principal[1] === 'groups') {
 				$this->triggerActivityGroup($principal[2], $event, $calendarData, Calendar::SUBJECT_UNSHARE_USER);
 
 				$parameters = [
@@ -269,7 +268,7 @@ class Backend {
 						->setSubject($subject, $parameters);
 					$this->activityManager->publish($event);
 				}
-			} else if ($principal[1] === 'groups') {
+			} elseif ($principal[1] === 'groups') {
 				$this->triggerActivityGroup($principal[2], $event, $calendarData, Calendar::SUBJECT_SHARE_USER);
 
 				$parameters = [
@@ -383,7 +382,7 @@ class Backend {
 
 		if ($object['type'] === 'todo' && strpos($action, Event::SUBJECT_OBJECT_UPDATE) === 0 && $object['status'] === 'COMPLETED') {
 			$action .= '_completed';
-		} else if ($object['type'] === 'todo' && strpos($action, Event::SUBJECT_OBJECT_UPDATE) === 0 && $object['status'] === 'NEEDS-ACTION') {
+		} elseif ($object['type'] === 'todo' && strpos($action, Event::SUBJECT_OBJECT_UPDATE) === 0 && $object['status'] === 'NEEDS-ACTION') {
 			$action .= '_needs_action';
 		}
 
@@ -420,7 +419,7 @@ class Backend {
 	protected function getObjectNameAndType(array $objectData) {
 		$vObject = Reader::read($objectData['calendardata']);
 		$component = $componentType = null;
-		foreach($vObject->getComponents() as $component) {
+		foreach ($vObject->getComponents() as $component) {
 			if (in_array($component->name, ['VEVENT', 'VTODO'])) {
 				$componentType = $component->name;
 				break;
@@ -450,7 +449,7 @@ class Backend {
 			$prinical = explode('/', $share['{http://owncloud.org/ns}principal']);
 			if ($prinical[1] === 'users') {
 				$users[] = $prinical[2];
-			} else if ($prinical[1] === 'groups') {
+			} elseif ($prinical[1] === 'groups') {
 				$groups[] = $prinical[2];
 			}
 		}

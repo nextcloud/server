@@ -48,7 +48,7 @@ class ExcludeFileByNameFilterIterator extends \RecursiveFilterIterator {
 	 * @return bool
 	 */
 	public function accept() {
-		if($this->isDir()) {
+		if ($this->isDir()) {
 			return true;
 		}
 

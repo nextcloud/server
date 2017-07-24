@@ -25,6 +25,7 @@
  */
 
 namespace OC\Files\Storage;
+
 use OC\Files\Cache\HomePropagator;
 
 /**
@@ -51,7 +52,7 @@ class Home extends Local implements \OCP\Files\IHomeStorage {
 		$datadir = $this->user->getHome();
 		$this->id = 'home::' . $this->user->getUID();
 
-		parent::__construct(array('datadir' => $datadir));
+		parent::__construct(['datadir' => $datadir]);
 	}
 
 	public function getId() {

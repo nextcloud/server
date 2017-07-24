@@ -52,15 +52,15 @@ class RemoveUserTest extends TestCase {
 		parent::setUp();
 
 		$this->groupManager = $this->createMock(IGroupManager::class);
-		$this->userManager =  $this->createMock(IUserManager::class);
+		$this->userManager = $this->createMock(IUserManager::class);
 		$this->command = new RemoveUser($this->userManager, $this->groupManager);
 
 		$this->input = $this->createMock(InputInterface::class);
 		$this->input->method('getArgument')
-			->willReturnCallback(function($arg) {
+			->willReturnCallback(function ($arg) {
 				if ($arg === 'group') {
 					return 'myGroup';
-				} else if ($arg === 'user') {
+				} elseif ($arg === 'user') {
 					return 'myUser';
 				}
 				throw new \Exception();
@@ -114,6 +114,4 @@ class RemoveUserTest extends TestCase {
 
 		$this->invokePrivate($this->command, 'execute', [$this->input, $this->output]);
 	}
-
-
 }

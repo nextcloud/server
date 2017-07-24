@@ -59,7 +59,7 @@ class ListCommand extends Base {
 
 	const ALL = -1;
 
-	function __construct(GlobalStoragesService $globalService, UserStoragesService $userService, IUserSession $userSession, IUserManager $userManager) {
+	public function __construct(GlobalStoragesService $globalService, UserStoragesService $userService, IUserSession $userSession, IUserManager $userManager) {
 		parent::__construct();
 		$this->globalService = $globalService;
 		$this->userService = $userService;
@@ -124,7 +124,7 @@ class ListCommand extends Base {
 			} else {
 				if ($userId === self::ALL) {
 					$output->writeln("<info>No mounts configured</info>");
-				} else if ($userId) {
+				} elseif ($userId) {
 					$output->writeln("<info>No mounts configured by $userId</info>");
 				} else {
 					$output->writeln("<info>No admin mounts configured</info>");

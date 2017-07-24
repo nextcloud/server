@@ -42,10 +42,10 @@ class OracleMigrator extends NoCheckMigrator {
 		$schemaDiff = parent::getDiff($targetSchema, $connection);
 
 		// oracle forces us to quote the identifiers
-		$schemaDiff->newTables = array_map(function(Table $table) {
+		$schemaDiff->newTables = array_map(function (Table $table) {
 			return new Table(
 				$this->connection->quoteIdentifier($table->getName()),
-				array_map(function(Column $column) {
+				array_map(function (Column $column) {
 					$newColumn = new Column(
 						$this->connection->quoteIdentifier($column->getName()),
 						$column->getType()
@@ -64,10 +64,10 @@ class OracleMigrator extends NoCheckMigrator {
 					$newColumn->setCustomSchemaOptions($column->getPlatformOptions());
 					return $newColumn;
 				}, $table->getColumns()),
-				array_map(function(Index $index) {
+				array_map(function (Index $index) {
 					return new Index(
 						$this->connection->quoteIdentifier($index->getName()),
-						array_map(function($columnName) {
+						array_map(function ($columnName) {
 							return $this->connection->quoteIdentifier($columnName);
 						}, $index->getColumns()),
 						$index->isUnique(),
@@ -82,7 +82,7 @@ class OracleMigrator extends NoCheckMigrator {
 			);
 		}, $schemaDiff->newTables);
 
-		$schemaDiff->removedTables = array_map(function(Table $table) {
+		$schemaDiff->removedTables = array_map(function (Table $table) {
 			return new Table(
 				$this->connection->quoteIdentifier($table->getName()),
 				$table->getColumns(),
@@ -133,5 +133,4 @@ class OracleMigrator extends NoCheckMigrator {
 	protected function getFilterExpression() {
 		return '/^"' . preg_quote($this->config->getSystemValue('dbtableprefix', 'oc_')) . '/';
 	}
-
 }

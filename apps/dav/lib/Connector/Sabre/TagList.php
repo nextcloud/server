@@ -56,9 +56,7 @@ class TagList implements Element {
 	 * @return array
 	 */
 	public function getTags() {
-
 		return $this->tags;
-
 	}
 
 	/**
@@ -82,7 +80,7 @@ class TagList implements Element {
 	 * @param Reader $reader
 	 * @return mixed
 	 */
-	static function xmlDeserialize(Reader $reader) {
+	public static function xmlDeserialize(Reader $reader) {
 		$tags = [];
 
 		$tree = $reader->parseInnerTree();
@@ -116,8 +114,7 @@ class TagList implements Element {
 	 * @param Writer $writer
 	 * @return void
 	 */
-	function xmlSerialize(Writer $writer) {
-
+	public function xmlSerialize(Writer $writer) {
 		foreach ($this->tags as $tag) {
 			$writer->writeElement('{' . self::NS_OWNCLOUD . '}tag', $tag);
 		}

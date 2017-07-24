@@ -42,8 +42,10 @@ class ClientService implements IClientService {
 	 * @param IConfig $config
 	 * @param ICertificateManager $certificateManager
 	 */
-	public function __construct(IConfig $config,
-								ICertificateManager $certificateManager) {
+	public function __construct(
+		IConfig $config,
+								ICertificateManager $certificateManager
+	) {
 		$this->config = $config;
 		$this->certificateManager = $certificateManager;
 	}

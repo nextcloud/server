@@ -26,14 +26,12 @@
 
 namespace OCA\Files_Sharing\Tests;
 
-
 /**
  * Class BackendTest
  *
  * @group DB
  */
 class BackendTest extends TestCase {
-
 	const TEST_FOLDER_NAME = '/folder_share_api_test';
 
 	public $folder;
@@ -44,7 +42,7 @@ class BackendTest extends TestCase {
 		parent::setUp();
 
 		$this->folder = self::TEST_FOLDER_NAME;
-		$this->subfolder  = '/subfolder_share_backend_test';
+		$this->subfolder = '/subfolder_share_backend_test';
 		$this->subsubfolder = '/subsubfolder_share_backend_test';
 
 		$this->filename = '/share-backend-test.txt';
@@ -69,15 +67,24 @@ class BackendTest extends TestCase {
 	}
 
 	public function testGetParents() {
-
 		$fileinfo1 = $this->view->getFileInfo($this->folder);
 		$fileinfo2 = $this->view->getFileInfo($this->folder . $this->subfolder . $this->subsubfolder);
 		$fileinfo3 = $this->view->getFileInfo($this->folder . $this->subfolder . $this->subsubfolder . $this->filename);
 
-		$this->assertTrue(\OCP\Share::shareItem('folder', $fileinfo1['fileid'], \OCP\Share::SHARE_TYPE_USER,
-				self::TEST_FILES_SHARING_API_USER2, 31));
-		$this->assertTrue(\OCP\Share::shareItem('folder', $fileinfo2['fileid'], \OCP\Share::SHARE_TYPE_USER,
-				self::TEST_FILES_SHARING_API_USER3, 31));
+		$this->assertTrue(\OCP\Share::shareItem(
+			'folder',
+			$fileinfo1['fileid'],
+			\OCP\Share::SHARE_TYPE_USER,
+				self::TEST_FILES_SHARING_API_USER2,
+			31
+		));
+		$this->assertTrue(\OCP\Share::shareItem(
+			'folder',
+			$fileinfo2['fileid'],
+			\OCP\Share::SHARE_TYPE_USER,
+				self::TEST_FILES_SHARING_API_USER3,
+			31
+		));
 
 		$backend = new \OCA\Files_Sharing\ShareBackend\Folder();
 
@@ -86,7 +93,7 @@ class BackendTest extends TestCase {
 
 		$count1 = 0;
 		$count2 = 0;
-		foreach($result as $r) {
+		foreach ($result as $r) {
 			if ($r['path'] === 'files' . $this->folder) {
 				$this->assertSame(ltrim($this->folder, '/'), $r['collection']['path']);
 				$count1++;
@@ -104,9 +111,7 @@ class BackendTest extends TestCase {
 		$result1 = $backend->getParents($fileinfo3['fileid'], self::TEST_FILES_SHARING_API_USER3);
 		$this->assertSame(1, count($result1));
 		$elemet = reset($result1);
-		$this->assertSame('files' . $this->folder . $this->subfolder . $this->subsubfolder ,$elemet['path']);
-		$this->assertSame(ltrim($this->subsubfolder, '/') ,$elemet['collection']['path']);
-
+		$this->assertSame('files' . $this->folder . $this->subfolder . $this->subsubfolder, $elemet['path']);
+		$this->assertSame(ltrim($this->subsubfolder, '/'), $elemet['collection']['path']);
 	}
-
 }

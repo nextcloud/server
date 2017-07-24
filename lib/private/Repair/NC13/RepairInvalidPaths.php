@@ -21,7 +21,6 @@
 
 namespace OC\Repair\NC13;
 
-
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
 use OCP\IDBConnection;

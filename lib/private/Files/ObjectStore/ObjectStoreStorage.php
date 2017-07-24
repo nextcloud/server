@@ -99,7 +99,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 					// something went wrong
 					return false;
 				}
-			} else if ($parentType === 'file') {
+			} elseif ($parentType === 'file') {
 				// parent is a file
 				return false;
 			}
@@ -233,7 +233,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 		$path = $this->normalizePath($path);
 
 		try {
-			$files = array();
+			$files = [];
 			$folderContents = $this->getCache()->getFolderContents($path);
 			foreach ($folderContents as $file) {
 				$files[] = $file['name'];
@@ -279,6 +279,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 				} else {
 					return false;
 				}
+				// no break
 			case 'w':
 			case 'wb':
 			case 'a':
@@ -353,14 +354,14 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 		} else {
 			$mimeType = \OC::$server->getMimeTypeDetector()->detectPath($path);
 			// create new file
-			$stat = array(
+			$stat = [
 				'etag' => $this->getETag($path),
 				'mimetype' => $mimeType,
 				'size' => 0,
 				'mtime' => $mtime,
 				'storage_mtime' => $mtime,
 				'permissions' => \OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_CREATE,
-			);
+			];
 			$fileId = $this->getCache()->put($path, $stat);
 			try {
 				//read an empty file from memory
@@ -381,9 +382,9 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 		$stat = $this->stat($path);
 		if (empty($stat)) {
 			// create new file
-			$stat = array(
+			$stat = [
 				'permissions' => \OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_CREATE,
-			);
+			];
 		}
 		// update stat with new data
 		$mTime = time();

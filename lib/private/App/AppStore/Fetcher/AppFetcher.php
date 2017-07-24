@@ -36,11 +36,13 @@ class AppFetcher extends Fetcher {
 	 * @param IConfig $config
 	 * @param ILogger $logger
 	 */
-	public function __construct(Factory $appDataFactory,
+	public function __construct(
+		Factory $appDataFactory,
 								IClientService $clientService,
 								ITimeFactory $timeFactory,
 								IConfig $config,
-								ILogger $logger) {
+								ILogger $logger
+	) {
 		parent::__construct(
 			$appDataFactory,
 			$clientService,
@@ -67,13 +69,13 @@ class AppFetcher extends Fetcher {
 
 		$ncVersion = $this->getVersion();
 		$ncMajorVersion = explode('.', $ncVersion)[0];
-		foreach($response['data'] as $dataKey => $app) {
+		foreach ($response['data'] as $dataKey => $app) {
 			$releases = [];
 
 			// Filter all compatible releases
-			foreach($app['releases'] as $release) {
+			foreach ($app['releases'] as $release) {
 				// Exclude all nightly and pre-releases
-				if($release['isNightly'] === false
+				if ($release['isNightly'] === false
 					&& strpos($release['version'], '-') === false) {
 					// Exclude all versions not compatible with the current version
 					$versionParser = new VersionParser();
@@ -91,13 +93,13 @@ class AppFetcher extends Fetcher {
 
 			// Get the highest version
 			$versions = [];
-			foreach($releases as $release) {
+			foreach ($releases as $release) {
 				$versions[] = $release['version'];
 			}
 			usort($versions, 'version_compare');
 			$versions = array_reverse($versions);
 			$compatible = false;
-			if(isset($versions[0])) {
+			if (isset($versions[0])) {
 				$highestVersion = $versions[0];
 				foreach ($releases as $release) {
 					if ((string)$release['version'] === (string)$highestVersion) {
@@ -107,7 +109,7 @@ class AppFetcher extends Fetcher {
 					}
 				}
 			}
-			if(!$compatible) {
+			if (!$compatible) {
 				unset($response['data'][$dataKey]);
 			}
 		}

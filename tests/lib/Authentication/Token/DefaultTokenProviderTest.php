@@ -67,8 +67,13 @@ class DefaultTokenProviderTest extends TestCase {
 			->method('getTime')
 			->will($this->returnValue($this->time));
 
-		$this->tokenProvider = new DefaultTokenProvider($this->mapper, $this->crypto, $this->config, $this->logger,
-			$this->timeFactory);
+		$this->tokenProvider = new DefaultTokenProvider(
+			$this->mapper,
+			$this->crypto,
+			$this->config,
+			$this->logger,
+			$this->timeFactory
+		);
 	}
 
 	public function testGenerateToken() {

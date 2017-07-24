@@ -58,8 +58,8 @@ class AddressBookImpl implements IAddressBook {
 			AddressBook $addressBook,
 			array $addressBookInfo,
 			CardDavBackend $backend,
-			IURLGenerator $urlGenerator) {
-
+			IURLGenerator $urlGenerator
+	) {
 		$this->addressBook = $addressBook;
 		$this->addressBookInfo = $addressBookInfo;
 		$this->backend = $backend;
@@ -131,7 +131,6 @@ class AddressBookImpl implements IAddressBook {
 		}
 
 		return $this->vCard2Array($uri, $vCard);
-
 	}
 
 	/**
@@ -142,7 +141,7 @@ class AddressBookImpl implements IAddressBook {
 		$permissions = $this->addressBook->getACL();
 		$result = 0;
 		foreach ($permissions as $permission) {
-			switch($permission['privilege']) {
+			switch ($permission['privilege']) {
 				case '{DAV:}read':
 					$result |= Constants::PERMISSION_READ;
 					break;
@@ -227,7 +226,8 @@ class AddressBookImpl implements IAddressBook {
 		foreach ($vCard->children() as $property) {
 			if ($property->name === 'PHOTO' && $property->getValueType() === 'BINARY') {
 				$url = $this->urlGenerator->getAbsoluteURL(
-					$this->urlGenerator->linkTo('', 'remote.php') . '/dav/');
+					$this->urlGenerator->linkTo('', 'remote.php') . '/dav/'
+				);
 				$url .= implode('/', [
 					'addressbooks',
 					substr($this->addressBookInfo['principaluri'], 11), //cut off 'principals/'
@@ -236,8 +236,7 @@ class AddressBookImpl implements IAddressBook {
 				]) . '?photo';
 
 				$result['PHOTO'] = 'VALUE=uri:' . $url;
-
-			} else if ($property->name === 'X-SOCIALPROFILE') {
+			} elseif ($property->name === 'X-SOCIALPROFILE') {
 				$type = $this->getTypeFromProperty($property);
 
 				// Type is the social network, when it's empty we don't need this.
@@ -248,14 +247,13 @@ class AddressBookImpl implements IAddressBook {
 					$result[$property->name][$type] = $property->getValue();
 				}
 
-			// The following properties can be set multiple times
-			} else if (in_array($property->name, ['CLOUD', 'EMAIL', 'IMPP', 'TEL', 'URL'])) {
+				// The following properties can be set multiple times
+			} elseif (in_array($property->name, ['CLOUD', 'EMAIL', 'IMPP', 'TEL', 'URL'])) {
 				if (!isset($result[$property->name])) {
 					$result[$property->name] = [];
 				}
 
 				$result[$property->name][] = $property->getValue();
-
 			} else {
 				$result[$property->name] = $property->getValue();
 			}

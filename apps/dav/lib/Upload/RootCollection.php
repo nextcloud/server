@@ -29,15 +29,14 @@ class RootCollection extends AbstractPrincipalCollection {
 	/**
 	 * @inheritdoc
 	 */
-	function getChildForPrincipal(array $principalInfo) {
+	public function getChildForPrincipal(array $principalInfo) {
 		return new UploadHome($principalInfo);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	function getName() {
+	public function getName() {
 		return 'uploads';
 	}
-
 }

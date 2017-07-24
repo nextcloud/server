@@ -28,7 +28,6 @@ namespace OCA\Files_External\Tests;
 use OCA\Files_External\Lib\StorageConfig;
 
 class StorageConfigTest extends \Test\TestCase {
-
 	public function testJsonSerialization() {
 		$backend = $this->getMockBuilder('\OCA\Files_External\Lib\Backend\Backend')
 			->disableOriginalConstructor()
@@ -77,5 +76,4 @@ class StorageConfigTest extends \Test\TestCase {
 		$this->assertSame(['group1', 'group2'], $json['applicableGroups']);
 		$this->assertSame(['preview' => false], $json['mountOptions']);
 	}
-
 }

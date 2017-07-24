@@ -34,7 +34,7 @@ abstract class ForwardingEmitter extends BasicEmitter {
 	/**
 	 * @var \OC\Hooks\Emitter[] array
 	 */
-	private $forwardEmitters = array();
+	private $forwardEmitters = [];
 
 	/**
 	 * @param string $scope

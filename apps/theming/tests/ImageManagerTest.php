@@ -158,7 +158,7 @@ class ImageManager extends TestCase {
 			$this->createMock(ISimpleFolder::class),
 			$this->createMock(ISimpleFolder::class)
 			];
-		foreach ($folders as $index=>$folder) {
+		foreach ($folders as $index => $folder) {
 			$folder->expects($this->any())
 				->method('getName')
 				->willReturn($index);
@@ -168,7 +168,7 @@ class ImageManager extends TestCase {
 		$folders[2]->expects($this->never())->method('delete');
 		$this->config->expects($this->once())
 			->method('getAppValue')
-			->with('theming','cachebuster','0')
+			->with('theming', 'cachebuster', '0')
 			->willReturn('2');
 		$this->appData->expects($this->once())
 			->method('getDirectoryListing')
@@ -179,5 +179,4 @@ class ImageManager extends TestCase {
 			->willReturn($folders[2]);
 		$this->imageManager->cleanup();
 	}
-
 }

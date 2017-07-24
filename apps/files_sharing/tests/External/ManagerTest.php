@@ -80,7 +80,7 @@ class ManagerTest extends TestCase {
 			\OC::$server->query(\OCP\OCS\IDiscoveryService::class),
 			$this->uid
 		);
-		$this->testMountProvider = new MountProvider(\OC::$server->getDatabaseConnection(), function() {
+		$this->testMountProvider = new MountProvider(\OC::$server->getDatabaseConnection(), function () {
 			return $this->manager;
 		}, new CloudIdManager());
 	}
@@ -93,7 +93,6 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testAddShare() {
-
 		$shareData1 = [
 			'remote' => 'http://localhost',
 			'token' => 'token1',

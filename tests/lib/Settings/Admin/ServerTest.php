@@ -111,8 +111,8 @@ class ServerTest extends TestCase {
 			->willReturn('Redis');
 		$outdatedCaches = [];
 		$caches = [
-			'apcu'	=> ['name' => 'APCu', 'version' => '4.0.6'],
-			'redis'	=> ['name' => 'Redis', 'version' => '2.2.5'],
+			'apcu' => ['name' => 'APCu', 'version' => '4.0.6'],
+			'redis' => ['name' => 'Redis', 'version' => '2.2.5'],
 		];
 		foreach ($caches as $php_module => $data) {
 			$isOutdated = extension_loaded($php_module) && version_compare(phpversion($php_module), $data['version'], '<');
@@ -126,22 +126,22 @@ class ServerTest extends TestCase {
 			'settings/admin/server',
 			[
 				// Diagnosis
-				'readOnlyConfigEnabled'            => \OC_Helper::isReadOnlyConfigEnabled(),
-				'isLocaleWorking'                  => \OC_Util::isSetLocaleWorking(),
-				'isAnnotationsWorking'             => \OC_Util::isAnnotationsWorking(),
-				'checkForWorkingWellKnownSetup'    => true,
-				'has_fileinfo'                     => \OC_Util::fileInfoLoaded(),
+				'readOnlyConfigEnabled' => \OC_Helper::isReadOnlyConfigEnabled(),
+				'isLocaleWorking' => \OC_Util::isSetLocaleWorking(),
+				'isAnnotationsWorking' => \OC_Util::isAnnotationsWorking(),
+				'checkForWorkingWellKnownSetup' => true,
+				'has_fileinfo' => \OC_Util::fileInfoLoaded(),
 				'invalidTransactionIsolationLevel' => false,
-				'getenvServerNotWorking'           => empty($envPath),
-				'OutdatedCacheWarning'             => $outdatedCaches,
-				'fileLockingType'                  => 'cache',
-				'suggestedOverwriteCliUrl'         => '',
+				'getenvServerNotWorking' => empty($envPath),
+				'OutdatedCacheWarning' => $outdatedCaches,
+				'fileLockingType' => 'cache',
+				'suggestedOverwriteCliUrl' => '',
 
 				// Background jobs
 				'backgroundjobs_mode' => 'ajax',
-				'cron_log'            => true,
-				'lastcron'            => false,
-				'cronErrors'		  => '',
+				'cron_log' => true,
+				'lastcron' => false,
+				'cronErrors' => '',
 				'cli_based_cron_possible' => true,
 				'cli_based_cron_user' => function_exists('posix_getpwuid') ? posix_getpwuid(fileowner(\OC::$configDir . 'config.php'))['name'] : '', // to not explode here because of posix extension not being disabled - which is already checked in the line above
 			],

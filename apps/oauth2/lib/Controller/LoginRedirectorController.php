@@ -43,11 +43,13 @@ class LoginRedirectorController extends Controller {
 	 * @param ClientMapper $clientMapper
 	 * @param ISession $session
 	 */
-	public function __construct($appName,
+	public function __construct(
+		$appName,
 								IRequest $request,
 								IURLGenerator $urlGenerator,
 								ClientMapper $clientMapper,
-								ISession $session) {
+								ISession $session
+	) {
 		parent::__construct($appName, $request);
 		$this->urlGenerator = $urlGenerator;
 		$this->clientMapper = $clientMapper;
@@ -63,8 +65,10 @@ class LoginRedirectorController extends Controller {
 	 * @param string $state
 	 * @return RedirectResponse
 	 */
-	public function authorize($client_id,
-							  $state) {
+	public function authorize(
+		$client_id,
+							  $state
+	) {
 		$client = $this->clientMapper->getByIdentifier($client_id);
 		$this->session->set('oauth.state', $state);
 

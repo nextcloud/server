@@ -23,7 +23,6 @@
 
 namespace Tests\Settings;
 
-
 use OC\Settings\Application;
 use OC\Settings\Controller\AdminSettingsController;
 use OC\Settings\Controller\AppSettingsController;

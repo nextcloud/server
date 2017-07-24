@@ -160,7 +160,7 @@ class DefaultToken extends Entity implements IToken {
 		$scope = json_decode($this->getScope(), true);
 		if (!$scope) {
 			return [
-				'filesystem'=> true
+				'filesystem' => true
 			];
 		}
 		return $scope;

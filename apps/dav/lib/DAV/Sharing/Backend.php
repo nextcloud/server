@@ -57,10 +57,10 @@ class Backend {
 	 * @param string[] $remove
 	 */
 	public function updateShares($shareable, $add, $remove) {
-		foreach($add as $element) {
+		foreach ($add as $element) {
 			$this->shareWith($shareable, $element);
 		}
-		foreach($remove as $element) {
+		foreach ($remove as $element) {
 			$this->unshare($shareable, $element);
 		}
 	}
@@ -164,9 +164,9 @@ class Backend {
 			->execute();
 
 		$shares = [];
-		while($row = $result->fetch()) {
+		while ($row = $result->fetch()) {
 			$p = $this->principalBackend->getPrincipalByPath($row['principaluri']);
-			$shares[]= [
+			$shares[] = [
 				'href' => "principal:${row['principaluri']}",
 				'commonName' => isset($p['{DAV:}displayname']) ? $p['{DAV:}displayname'] : '',
 				'status' => 1,
@@ -187,7 +187,6 @@ class Backend {
 	 * @return array
 	 */
 	public function applyShareAcl($resourceId, $acl) {
-
 		$shares = $this->getShares($resourceId);
 		foreach ($shares as $share) {
 			$acl[] = [
@@ -201,7 +200,7 @@ class Backend {
 					'principal' => $share['{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}principal'],
 					'protected' => true,
 				];
-			} else if ($this->resourceType === 'calendar') {
+			} elseif ($this->resourceType === 'calendar') {
 				// Allow changing the properties of read only calendars,
 				// so users can change the visibility.
 				$acl[] = [

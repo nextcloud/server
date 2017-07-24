@@ -24,6 +24,7 @@
  */
 
 namespace OCA\User_LDAP\Tests;
+
 use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\ILDAPWrapper;
 
@@ -44,7 +45,7 @@ class ConnectionTest extends \Test\TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->ldap       = $this->createMock(ILDAPWrapper::class);
+		$this->ldap = $this->createMock(ILDAPWrapper::class);
 		// we use a mock here to replace the cache mechanism, due to missing DI in LDAP backend.
 		$this->connection = $this->getMockBuilder('OCA\User_LDAP\Connection')
 			->setMethods(['getFromCache', 'writeToCache'])
@@ -60,20 +61,20 @@ class ConnectionTest extends \Test\TestCase {
 		//background: upon login a bind is done with the user credentials
 		//which is valid for the whole LDAP resource. It needs to be reset
 		//to the agent's credentials
-		$lw  = $this->createMock(ILDAPWrapper::class);
+		$lw = $this->createMock(ILDAPWrapper::class);
 
 		$connection = new Connection($lw, '', null);
-		$agent = array(
+		$agent = [
 			'ldapAgentName' => 'agent',
 			'ldapAgentPassword' => '123456',
-		);
+		];
 		$connection->setConfiguration($agent);
 
 		$testConnection = clone $connection;
-		$user = array(
+		$user = [
 			'ldapAgentName' => 'user',
 			'ldapAgentPassword' => 'password',
-		);
+		];
 		$testConnection->setConfiguration($user);
 
 		$agentName = $connection->ldapAgentName;
@@ -125,7 +126,7 @@ class ConnectionTest extends \Test\TestCase {
 		$this->ldap->expects($this->exactly(3))
 			->method('bind')
 			->will($this->returnCallback(function () use (&$isThrown) {
-				if(!$isThrown) {
+				if (!$isThrown) {
 					$isThrown = true;
 					throw new \OC\ServerNotAvailableException();
 				}
@@ -137,5 +138,4 @@ class ConnectionTest extends \Test\TestCase {
 		// with the second init() we test whether caching works
 		$this->connection->init();
 	}
-
 }

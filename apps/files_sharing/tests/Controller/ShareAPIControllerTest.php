@@ -94,7 +94,7 @@ class ShareAPIControllerTest extends TestCase {
 
 		$this->l = $this->createMock(IL10N::class);
 		$this->l->method('t')
-			->will($this->returnCallback(function($text, $parameters = []) {
+			->will($this->returnCallback(function ($text, $parameters = []) {
 				return vsprintf($text, $parameters);
 			}));
 
@@ -142,7 +142,7 @@ class ShareAPIControllerTest extends TestCase {
 		$this->shareManager
 			->expects($this->exactly(2))
 			->method('getShareById')
-			->will($this->returnCallback(function($id) {
+			->will($this->returnCallback(function ($id) {
 				if ($id === 'ocinternal:42' || $id === 'ocFederatedSharing:42') {
 					throw new \OCP\Share\Exceptions\ShareNotFound();
 				} else {
@@ -214,20 +214,33 @@ class ShareAPIControllerTest extends TestCase {
 	 * FIXME: Enable once we have a federated Share Provider
 
 	public function testGetGetShareNotExists() {
-		$this->shareManager
-			->expects($this->once())
-			->method('getShareById')
-			->with('ocinternal:42')
-			->will($this->throwException(new \OC\Share20\Exception\ShareNotFound()));
+	    $this->shareManager
+	        ->expects($this->once())
+	        ->method('getShareById')
+	        ->with('ocinternal:42')
+	        ->will($this->throwException(new \OC\Share20\Exception\ShareNotFound()));
 
-		$expected = new \OC_OCS_Result(null, 404, 'wrong share ID, share doesn\'t exist.');
-		$this->assertEquals($expected, $this->ocs->getShare(42));
+	    $expected = new \OC_OCS_Result(null, 404, 'wrong share ID, share doesn\'t exist.');
+	    $this->assertEquals($expected, $this->ocs->getShare(42));
 	}
-	*/
+	 */
 
-	public function createShare($id, $shareType, $sharedWith, $sharedBy, $shareOwner, $path, $permissions,
-								$shareTime, $expiration, $parent, $target, $mail_send, $token=null,
-								$password=null) {
+	public function createShare(
+		$id,
+		$shareType,
+		$sharedWith,
+		$sharedBy,
+		$shareOwner,
+		$path,
+		$permissions,
+								$shareTime,
+		$expiration,
+		$parent,
+		$target,
+		$mail_send,
+		$token = null,
+								$password = null
+	) {
 		$share = $this->getMockBuilder('\OCP\Share\IShare')->getMock();
 		$share->method('getId')->willReturn($id);
 		$share->method('getShareType')->willReturn($shareType);
@@ -245,7 +258,7 @@ class ShareAPIControllerTest extends TestCase {
 		$share->method('getToken')->willReturn($token);
 		$share->method('getPassword')->willReturn($password);
 
-		if ($shareType === \OCP\Share::SHARE_TYPE_USER  ||
+		if ($shareType === \OCP\Share::SHARE_TYPE_USER ||
 			$shareType === \OCP\Share::SHARE_TYPE_GROUP ||
 			$shareType === \OCP\Share::SHARE_TYPE_LINK) {
 			$share->method('getFullId')->willReturn('ocinternal:'.$id);
@@ -1053,7 +1066,7 @@ class ShareAPIControllerTest extends TestCase {
 		$this->shareManager->expects($this->once())->method('createShare')->with(
 			$this->callback(function (\OCP\Share\IShare $share) use ($path) {
 				$date = new \DateTime('2000-01-01');
-				$date->setTime(0,0,0);
+				$date->setTime(0, 0, 0);
 
 				return $share->getNode() === $path &&
 				$share->getShareType() === \OCP\Share::SHARE_TYPE_LINK &&
@@ -1262,7 +1275,7 @@ class ShareAPIControllerTest extends TestCase {
 		$this->shareManager->expects($this->once())->method('updateShare')->with(
 			$this->callback(function (\OCP\Share\IShare $share) {
 				$date = new \DateTime('2000-01-01');
-				$date->setTime(0,0,0);
+				$date->setTime(0, 0, 0);
 
 				return $share->getPermissions() === (\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_DELETE) &&
 				$share->getPassword() === 'password' &&
@@ -1398,7 +1411,7 @@ class ShareAPIControllerTest extends TestCase {
 		$ocs = $this->mockFormatShare();
 
 		$date = new \DateTime('2000-01-01');
-		$date->setTime(0,0,0);
+		$date->setTime(0, 0, 0);
 
 		$node = $this->getMockBuilder('\OCP\Files\File')->getMock();
 		$share = $this->newShare();
@@ -1453,7 +1466,7 @@ class ShareAPIControllerTest extends TestCase {
 		$this->shareManager->expects($this->once())->method('updateShare')->with(
 			$this->callback(function (\OCP\Share\IShare $share) {
 				$date = new \DateTime('2010-12-23');
-				$date->setTime(0,0,0);
+				$date->setTime(0, 0, 0);
 
 				return $share->getPermissions() === \OCP\Constants::PERMISSION_ALL &&
 				$share->getPassword() === 'password' &&

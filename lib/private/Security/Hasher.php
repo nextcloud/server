@@ -49,7 +49,7 @@ class Hasher implements IHasher {
 	/** @var IConfig */
 	private $config;
 	/** @var array Options passed to password_hash and password_needs_rehash */
-	private $options = array();
+	private $options = [];
 	/** @var string Salt used for legacy passwords */
 	private $legacySalt = null;
 	/** @var int Current version of the generated hash */
@@ -62,7 +62,7 @@ class Hasher implements IHasher {
 		$this->config = $config;
 
 		$hashingCost = $this->config->getSystemValue('hashingCost', null);
-		if(!is_null($hashingCost)) {
+		if (!is_null($hashingCost)) {
 			$this->options['cost'] = $hashingCost;
 		}
 	}
@@ -86,9 +86,9 @@ class Hasher implements IHasher {
 	 */
 	protected function splitHash($prefixedHash) {
 		$explodedString = explode('|', $prefixedHash, 2);
-		if(count($explodedString) === 2) {
-			if((int)$explodedString[0] > 0) {
-				return array('version' => (int)$explodedString[0], 'hash' => $explodedString[1]);
+		if (count($explodedString) === 2) {
+			if ((int)$explodedString[0] > 0) {
+				return ['version' => (int)$explodedString[0], 'hash' => $explodedString[1]];
 			}
 		}
 
@@ -103,13 +103,13 @@ class Hasher implements IHasher {
 	 * @return bool Whether $hash is a valid hash of $message
 	 */
 	protected function legacyHashVerify($message, $hash, &$newHash = null) {
-		if(empty($this->legacySalt)) {
+		if (empty($this->legacySalt)) {
 			$this->legacySalt = $this->config->getSystemValue('passwordsalt', '');
 		}
 
 		// Verify whether it matches a legacy PHPass or SHA1 string
 		$hashLength = strlen($hash);
-		if($hashLength === 60 && password_verify($message.$this->legacySalt, $hash) ||
+		if ($hashLength === 60 && password_verify($message.$this->legacySalt, $hash) ||
 			$hashLength === 40 && hash_equals($hash, sha1($message))) {
 			$newHash = $this->hash($message);
 			return true;
@@ -126,8 +126,8 @@ class Hasher implements IHasher {
 	 * @return bool Whether $hash is a valid hash of $message
 	 */
 	protected function verifyHashV1($message, $hash, &$newHash = null) {
-		if(password_verify($message, $hash)) {
-			if(password_needs_rehash($hash, PASSWORD_DEFAULT, $this->options)) {
+		if (password_verify($message, $hash)) {
+			if (password_needs_rehash($hash, PASSWORD_DEFAULT, $this->options)) {
 				$newHash = $this->hash($message);
 			}
 			return true;
@@ -145,7 +145,7 @@ class Hasher implements IHasher {
 	public function verify($message, $hash, &$newHash = null) {
 		$splittedHash = $this->splitHash($hash);
 
-		if(isset($splittedHash['version'])) {
+		if (isset($splittedHash['version'])) {
 			switch ($splittedHash['version']) {
 				case 1:
 					return $this->verifyHashV1($message, $splittedHash['hash'], $newHash);
@@ -157,5 +157,4 @@ class Hasher implements IHasher {
 
 		return false;
 	}
-
 }

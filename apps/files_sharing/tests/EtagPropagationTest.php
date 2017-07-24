@@ -448,7 +448,7 @@ class EtagPropagationTest extends PropagationTestCase {
 
 		$shares = $this->shareManager->getSharesBy(self::TEST_FILES_SHARING_API_USER1, \OCP\Share::SHARE_TYPE_USER, $node);
 		/** @var \OCP\Share\IShare[] $shares */
-		$shares = array_filter($shares, function(\OCP\Share\IShare $share) {
+		$shares = array_filter($shares, function (\OCP\Share\IShare $share) {
 			return $share->getSharedWith() === self::TEST_FILES_SHARING_API_USER2;
 		});
 		$this->assertCount(1, $shares);

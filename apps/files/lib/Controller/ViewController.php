@@ -79,7 +79,8 @@ class ViewController extends Controller {
 	 * @param IAppManager $appManager
 	 * @param IRootFolder $rootFolder
 	 */
-	public function __construct($appName,
+	public function __construct(
+		$appName,
 								IRequest $request,
 								IURLGenerator $urlGenerator,
 								IL10N $l10n,
@@ -170,7 +171,7 @@ class ViewController extends Controller {
 		);
 
 		$navItems = \OCA\Files\App::getNavigationManager()->getAll();
-		usort($navItems, function($item1, $item2) {
+		usort($navItems, function ($item1, $item2) {
 			return $item1['order'] - $item2['order'];
 		});
 		$nav->assign('navigationItems', $navItems);

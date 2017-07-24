@@ -44,13 +44,13 @@ if (isset($_POST['app_key']) && isset($_POST['app_secret'])) {
 						$callback = null;
 					}
 					$token = $oauth->getRequestToken();
-					OCP\JSON::success(array('data' => array('url' => $oauth->getAuthorizeUrl($callback),
+					OCP\JSON::success(['data' => ['url' => $oauth->getAuthorizeUrl($callback),
 															'request_token' => $token['token'],
-															'request_token_secret' => $token['token_secret'])));
+															'request_token_secret' => $token['token_secret']]]);
 				} catch (Exception $exception) {
-					OCP\JSON::error(array('data' => array('message' =>
-						$l->t('Fetching request tokens failed. Verify that your app key and secret are correct.'))
-						));
+					OCP\JSON::error(['data' => ['message' =>
+						$l->t('Fetching request tokens failed. Verify that your app key and secret are correct.')]
+						]);
 				}
 				break;
 			case 2:
@@ -58,17 +58,17 @@ if (isset($_POST['app_key']) && isset($_POST['app_secret'])) {
 					try {
 						$oauth->setToken((string)$_POST['request_token'], (string)$_POST['request_token_secret']);
 						$token = $oauth->getAccessToken();
-						OCP\JSON::success(array('access_token' => $token['token'],
-												'access_token_secret' => $token['token_secret']));
+						OCP\JSON::success(['access_token' => $token['token'],
+												'access_token_secret' => $token['token_secret']]);
 					} catch (Exception $exception) {
-						OCP\JSON::error(array('data' => array('message' =>
-							$l->t('Fetching access tokens failed. Verify that your app key and secret are correct.'))
-							));
+						OCP\JSON::error(['data' => ['message' =>
+							$l->t('Fetching access tokens failed. Verify that your app key and secret are correct.')]
+							]);
 					}
 				}
 				break;
 		}
 	}
 } else {
-	OCP\JSON::error(array('data' => array('message' => $l->t('Please provide a valid app key and secret.'))));
+	OCP\JSON::error(['data' => ['message' => $l->t('Please provide a valid app key and secret.')]]);
 }

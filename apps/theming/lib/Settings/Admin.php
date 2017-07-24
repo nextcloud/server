@@ -40,10 +40,12 @@ class Admin implements ISettings {
 	/** @var IURLGenerator */
 	private $urlGenerator;
 
-	public function __construct(IConfig $config,
+	public function __construct(
+		IConfig $config,
 								IL10N $l,
 								ThemingDefaults $themingDefaults,
-								IURLGenerator $urlGenerator) {
+								IURLGenerator $urlGenerator
+	) {
 		$this->config = $config;
 		$this->l = $l;
 		$this->themingDefaults = $themingDefaults;
@@ -65,16 +67,16 @@ class Admin implements ISettings {
 		}
 
 		$parameters = [
-			'themable'        => $themable,
-			'errorMessage'    => $errorMessage,
-			'name'            => $this->themingDefaults->getEntity(),
-			'url'             => $this->themingDefaults->getBaseUrl(),
-			'slogan'          => $this->themingDefaults->getSlogan(),
-			'color'           => $this->themingDefaults->getColorPrimary(),
-			'logo'            => $this->themingDefaults->getLogo(),
-			'logoMime'        => $this->config->getAppValue('theming', 'logoMime', ''),
-			'background'      => $this->themingDefaults->getBackground(),
-			'backgroundMime'  => $this->config->getAppValue('theming', 'backgroundMime', ''),
+			'themable' => $themable,
+			'errorMessage' => $errorMessage,
+			'name' => $this->themingDefaults->getEntity(),
+			'url' => $this->themingDefaults->getBaseUrl(),
+			'slogan' => $this->themingDefaults->getSlogan(),
+			'color' => $this->themingDefaults->getColorPrimary(),
+			'logo' => $this->themingDefaults->getLogo(),
+			'logoMime' => $this->config->getAppValue('theming', 'logoMime', ''),
+			'background' => $this->themingDefaults->getBackground(),
+			'backgroundMime' => $this->config->getAppValue('theming', 'backgroundMime', ''),
 			'uploadLogoRoute' => $path,
 		];
 
@@ -98,5 +100,4 @@ class Admin implements ISettings {
 	public function getPriority() {
 		return 5;
 	}
-
 }

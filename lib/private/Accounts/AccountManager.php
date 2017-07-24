@@ -77,9 +77,11 @@ class AccountManager {
 	 * @param EventDispatcherInterface $eventDispatcher
 	 * @param IJobList $jobList
 	 */
-	public function __construct(IDBConnection $connection,
+	public function __construct(
+		IDBConnection $connection,
 								EventDispatcherInterface $eventDispatcher,
-								IJobList $jobList) {
+								IJobList $jobList
+	) {
 		$this->connection = $connection;
 		$this->eventDispatcher = $eventDispatcher;
 		$this->jobList = $jobList;
@@ -164,7 +166,8 @@ class AccountManager {
 	 */
 	protected function checkEmailVerification($oldData, $newData, IUser $user) {
 		if ($oldData[self::PROPERTY_EMAIL]['value'] !== $newData[self::PROPERTY_EMAIL]['value']) {
-			$this->jobList->add('OC\Settings\BackgroundJobs\VerifyUserData',
+			$this->jobList->add(
+				'OC\Settings\BackgroundJobs\VerifyUserData',
 				[
 					'verificationCode' => '',
 					'data' => $newData[self::PROPERTY_EMAIL]['value'],
@@ -187,7 +190,6 @@ class AccountManager {
 	 * @return array
 	 */
 	protected function addMissingDefaultValues(array $userData) {
-
 		foreach ($userData as $key => $value) {
 			if (!isset($userData[$key]['verified'])) {
 				$userData[$key]['verified'] = self::NOT_VERIFIED;
@@ -212,45 +214,44 @@ class AccountManager {
 		$emailVerified = isset($oldData[self::PROPERTY_EMAIL]['verified']) && $oldData[self::PROPERTY_EMAIL]['verified'] === self::VERIFIED;
 
 		// keep old verification status if we don't have a new one
-		if(!isset($newData[self::PROPERTY_TWITTER]['verified'])) {
+		if (!isset($newData[self::PROPERTY_TWITTER]['verified'])) {
 			// keep old verification status if value didn't changed and an old value exists
 			$keepOldStatus = $newData[self::PROPERTY_TWITTER]['value'] === $oldData[self::PROPERTY_TWITTER]['value'] && isset($oldData[self::PROPERTY_TWITTER]['verified']);
 			$newData[self::PROPERTY_TWITTER]['verified'] = $keepOldStatus ? $oldData[self::PROPERTY_TWITTER]['verified'] : self::NOT_VERIFIED;
 		}
 
-		if(!isset($newData[self::PROPERTY_WEBSITE]['verified'])) {
+		if (!isset($newData[self::PROPERTY_WEBSITE]['verified'])) {
 			// keep old verification status if value didn't changed and an old value exists
 			$keepOldStatus = $newData[self::PROPERTY_WEBSITE]['value'] === $oldData[self::PROPERTY_WEBSITE]['value'] && isset($oldData[self::PROPERTY_WEBSITE]['verified']);
 			$newData[self::PROPERTY_WEBSITE]['verified'] = $keepOldStatus ? $oldData[self::PROPERTY_WEBSITE]['verified'] : self::NOT_VERIFIED;
 		}
 
-		if(!isset($newData[self::PROPERTY_EMAIL]['verified'])) {
+		if (!isset($newData[self::PROPERTY_EMAIL]['verified'])) {
 			// keep old verification status if value didn't changed and an old value exists
 			$keepOldStatus = $newData[self::PROPERTY_EMAIL]['value'] === $oldData[self::PROPERTY_EMAIL]['value'] && isset($oldData[self::PROPERTY_EMAIL]['verified']);
 			$newData[self::PROPERTY_EMAIL]['verified'] = $keepOldStatus ? $oldData[self::PROPERTY_EMAIL]['verified'] : self::VERIFICATION_IN_PROGRESS;
 		}
 
 		// reset verification status if a value from a previously verified data was changed
-		if($twitterVerified &&
+		if ($twitterVerified &&
 			$oldData[self::PROPERTY_TWITTER]['value'] !== $newData[self::PROPERTY_TWITTER]['value']
 		) {
 			$newData[self::PROPERTY_TWITTER]['verified'] = self::NOT_VERIFIED;
 		}
 
-		if($websiteVerified &&
+		if ($websiteVerified &&
 			$oldData[self::PROPERTY_WEBSITE]['value'] !== $newData[self::PROPERTY_WEBSITE]['value']
 		) {
 			$newData[self::PROPERTY_WEBSITE]['verified'] = self::NOT_VERIFIED;
 		}
 
-		if($emailVerified &&
+		if ($emailVerified &&
 			$oldData[self::PROPERTY_EMAIL]['value'] !== $newData[self::PROPERTY_EMAIL]['value']
 		) {
 			$newData[self::PROPERTY_EMAIL]['verified'] = self::NOT_VERIFIED;
 		}
 
 		return $newData;
-
 	}
 
 	/**
@@ -339,5 +340,4 @@ class AccountManager {
 				],
 		];
 	}
-
 }

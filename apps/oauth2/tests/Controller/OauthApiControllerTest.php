@@ -102,5 +102,4 @@ class OauthApiControllerTest extends TestCase {
 		);
 		$this->assertEquals($expected, $this->oauthApiController->getToken('MySecretCode'));
 	}
-
 }

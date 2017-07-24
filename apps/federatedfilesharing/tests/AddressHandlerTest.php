@@ -24,7 +24,6 @@
 
 namespace OCA\FederatedFileSharing\Tests;
 
-
 use OC\Federation\CloudIdManager;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCP\IL10N;
@@ -102,21 +101,21 @@ class AddressHandlerTest extends \Test\TestCase {
 	}
 
 	public function dataTestSplitUserRemoteError() {
-		return array(
+		return [
 			// Invalid path
-			array('user@'),
+			['user@'],
 
 			// Invalid user
-			array('@server'),
-			array('us/er@server'),
-			array('us:er@server'),
+			['@server'],
+			['us/er@server'],
+			['us:er@server'],
 
 			// Invalid splitting
-			array('user'),
-			array(''),
-			array('us/erserver'),
-			array('us:erserver'),
-		);
+			['user'],
+			[''],
+			['us/erserver'],
+			['us:erserver'],
+		];
 	}
 
 	/**
@@ -139,7 +138,8 @@ class AddressHandlerTest extends \Test\TestCase {
 	 * @param bool $expected
 	 */
 	public function testCompareAddresses($user1, $server1, $user2, $server2, $expected) {
-		$this->assertSame($expected,
+		$this->assertSame(
+			$expected,
 			$this->addressHandler->compareAddresses($user1, $server1, $user2, $server2)
 		);
 	}

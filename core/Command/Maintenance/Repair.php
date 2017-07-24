@@ -67,7 +67,8 @@ class Repair extends Command {
 				'include-expensive',
 				null,
 				InputOption::VALUE_NONE,
-				'Use this option when you want to include resource and load expensive tasks');
+				'Use this option when you want to include resource and load expensive tasks'
+			);
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {

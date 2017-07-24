@@ -37,9 +37,11 @@ class ConfigController extends OCSController {
 	 * @param IRequest $request
 	 * @param IConfig $config
 	 */
-	public function __construct($appName,
+	public function __construct(
+		$appName,
 								IRequest $request,
-								IConfig $config) {
+								IConfig $config
+	) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
 	}

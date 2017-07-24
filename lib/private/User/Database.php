@@ -92,7 +92,7 @@ class Database extends Backend implements IUserBackend {
 			$event = new GenericEvent($password);
 			$this->eventDispatcher->dispatch('OCP\PasswordPolicy::validate', $event);
 			$query = \OC_DB::prepare('INSERT INTO `*PREFIX*users` ( `uid`, `password` ) VALUES( ?, ? )');
-			$result = $query->execute(array($uid, \OC::$server->getHasher()->hash($password)));
+			$result = $query->execute([$uid, \OC::$server->getHasher()->hash($password)]);
 
 			// Clear cache
 			unset($this->cache[$uid]);
@@ -113,7 +113,7 @@ class Database extends Backend implements IUserBackend {
 	public function deleteUser($uid) {
 		// Delete user-group-relation
 		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*users` WHERE `uid` = ?');
-		$result = $query->execute(array($uid));
+		$result = $query->execute([$uid]);
 
 		if (isset($this->cache[$uid])) {
 			unset($this->cache[$uid]);
@@ -135,7 +135,7 @@ class Database extends Backend implements IUserBackend {
 			$event = new GenericEvent($password);
 			$this->eventDispatcher->dispatch('OCP\PasswordPolicy::validate', $event);
 			$query = \OC_DB::prepare('UPDATE `*PREFIX*users` SET `password` = ? WHERE `uid` = ?');
-			$result = $query->execute(array(\OC::$server->getHasher()->hash($password), $uid));
+			$result = $query->execute([\OC::$server->getHasher()->hash($password), $uid]);
 
 			return $result ? true : false;
 		}
@@ -154,7 +154,7 @@ class Database extends Backend implements IUserBackend {
 	public function setDisplayName($uid, $displayName) {
 		if ($this->userExists($uid)) {
 			$query = \OC_DB::prepare('UPDATE `*PREFIX*users` SET `displayname` = ? WHERE LOWER(`uid`) = LOWER(?)');
-			$query->execute(array($displayName, $uid));
+			$query->execute([$displayName, $uid]);
 			$this->cache[$uid]['displayname'] = $displayName;
 
 			return true;
@@ -191,7 +191,7 @@ class Database extends Backend implements IUserBackend {
 				. 'LOWER(`uid`) LIKE LOWER(?)';
 		}
 
-		$displayNames = array();
+		$displayNames = [];
 		$query = \OC_DB::prepare('SELECT `uid`, `displayname` FROM `*PREFIX*users`'
 			. $searchLike .' ORDER BY LOWER(`displayname`), LOWER(`uid`) ASC', $limit, $offset);
 		$result = $query->execute($parameters);
@@ -213,19 +213,18 @@ class Database extends Backend implements IUserBackend {
 	 */
 	public function checkPassword($uid, $password) {
 		$query = \OC_DB::prepare('SELECT `uid`, `password` FROM `*PREFIX*users` WHERE LOWER(`uid`) = LOWER(?)');
-		$result = $query->execute(array($uid));
+		$result = $query->execute([$uid]);
 
 		$row = $result->fetchRow();
 		if ($row) {
 			$storedHash = $row['password'];
 			$newHash = '';
-			if(\OC::$server->getHasher()->verify($password, $storedHash, $newHash)) {
-				if(!empty($newHash)) {
+			if (\OC::$server->getHasher()->verify($password, $storedHash, $newHash)) {
+				if (!empty($newHash)) {
 					$this->setPassword($uid, $password);
 				}
 				return $row['uid'];
 			}
-
 		}
 
 		return false;
@@ -241,12 +240,12 @@ class Database extends Backend implements IUserBackend {
 		if (!isset($this->cache[$uid])) {
 			//guests $uid could be NULL or ''
 			if ($uid === '') {
-				$this->cache[$uid]=false;
+				$this->cache[$uid] = false;
 				return true;
 			}
 
 			$query = \OC_DB::prepare('SELECT `uid`, `displayname` FROM `*PREFIX*users` WHERE LOWER(`uid`) = LOWER(?)');
-			$result = $query->execute(array($uid));
+			$result = $query->execute([$uid]);
 
 			if ($result === false) {
 				Util::writeLog('core', \OC_DB::getErrorMessage(), Util::ERROR);
@@ -287,7 +286,7 @@ class Database extends Backend implements IUserBackend {
 
 		$query = \OC_DB::prepare('SELECT `uid` FROM `*PREFIX*users`' . $searchLike . ' ORDER BY LOWER(`uid`) ASC', $limit, $offset);
 		$result = $query->execute($parameters);
-		$users = array();
+		$users = [];
 		while ($row = $result->fetchRow()) {
 			$users[] = $row['uid'];
 		}
@@ -357,12 +356,12 @@ class Database extends Backend implements IUserBackend {
 	 * Backend name to be shown in user management
 	 * @return string the name of the backend to be shown
 	 */
-	public function getBackendName(){
+	public function getBackendName() {
 		return 'Database';
 	}
 
 	public static function preLoginNameUsedAsUserName($param) {
-		if(!isset($param['uid'])) {
+		if (!isset($param['uid'])) {
 			throw new \Exception('key uid is expected to be set in $param');
 		}
 
@@ -377,6 +376,5 @@ class Database extends Backend implements IUserBackend {
 				}
 			}
 		}
-
 	}
 }

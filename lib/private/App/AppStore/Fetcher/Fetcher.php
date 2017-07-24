@@ -58,11 +58,13 @@ abstract class Fetcher {
 	 * @param IConfig $config
 	 * @param ILogger $logger
 	 */
-	public function __construct(Factory $appDataFactory,
+	public function __construct(
+		Factory $appDataFactory,
 								IClientService $clientService,
 								ITimeFactory $timeFactory,
 								IConfig $config,
-								ILogger $logger) {
+								ILogger $logger
+	) {
 		$this->appData = $appDataFactory->get('appstore');
 		$this->clientService = $clientService;
 		$this->timeFactory = $timeFactory;

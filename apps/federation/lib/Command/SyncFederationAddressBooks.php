@@ -36,7 +36,7 @@ class SyncFederationAddressBooks extends Command {
 	/**
 	 * @param \OCA\Federation\SyncFederationAddressBooks $syncService
 	 */
-	function __construct(\OCA\Federation\SyncFederationAddressBooks $syncService) {
+	public function __construct(\OCA\Federation\SyncFederationAddressBooks $syncService) {
 		parent::__construct();
 
 		$this->syncService = $syncService;
@@ -54,13 +54,11 @@ class SyncFederationAddressBooks extends Command {
 	 * @return int
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output) {
-
 		$progress = new ProgressBar($output);
 		$progress->start();
-		$this->syncService->syncThemAll(function($url, $ex) use ($progress, $output) {
+		$this->syncService->syncThemAll(function ($url, $ex) use ($progress, $output) {
 			if ($ex instanceof \Exception) {
 				$output->writeln("Error while syncing $url : " . $ex->getMessage());
-
 			} else {
 				$progress->advance();
 			}

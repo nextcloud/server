@@ -72,7 +72,7 @@ class Router implements IRouter {
 	public function __construct(ILogger $logger) {
 		$this->logger = $logger;
 		$baseUrl = \OC::$WEBROOT;
-		if(!(\OC::$server->getConfig()->getSystemValue('htaccess.IgnoreFrontController', false) === true || getenv('front_controller_active') === 'true')) {
+		if (!(\OC::$server->getConfig()->getSystemValue('htaccess.IgnoreFrontController', false) === true || getenv('front_controller_active') === 'true')) {
 			$baseUrl = \OC::$server->getURLGenerator()->linkTo('', 'index.php');
 		}
 		if (!\OC::$CLI && isset($_SERVER['REQUEST_METHOD'])) {
@@ -98,7 +98,7 @@ class Router implements IRouter {
 			$this->routingFiles = [];
 			foreach (\OC_APP::getEnabledApps() as $app) {
 				$appPath = \OC_App::getAppPath($app);
-				if($appPath !== false) {
+				if ($appPath !== false) {
 					$file = $appPath . '/appinfo/routes.php';
 					if (file_exists($file)) {
 						$this->routingFiles[$app] = $file;
@@ -115,7 +115,7 @@ class Router implements IRouter {
 	 * @param null|string $app
 	 */
 	public function loadRoutes($app = null) {
-		if(is_string($app)) {
+		if (is_string($app)) {
 			$app = \OC_App::cleanAppId($app);
 		}
 
@@ -227,10 +227,12 @@ class Router implements IRouter {
 	 * @param array $requirements An array of requirements for parameters (regexes)
 	 * @return \OC\Route\Route
 	 */
-	public function create($name,
+	public function create(
+		$name,
 						   $pattern,
 						   array $defaults = [],
-						   array $requirements = []) {
+						   array $requirements = []
+	) {
 		$route = new Route($pattern, $defaults, $requirements);
 		$this->collection->add($name, $route);
 		return $route;
@@ -246,19 +248,19 @@ class Router implements IRouter {
 	public function match($url) {
 		if (substr($url, 0, 6) === '/apps/') {
 			// empty string / 'apps' / $app / rest of the route
-			list(, , $app,) = explode('/', $url, 4);
+			list(, , $app, ) = explode('/', $url, 4);
 
 			$app = \OC_App::cleanAppId($app);
 			\OC::$REQUESTEDAPP = $app;
 			$this->loadRoutes($app);
-		} else if (substr($url, 0, 13) === '/ocsapp/apps/') {
+		} elseif (substr($url, 0, 13) === '/ocsapp/apps/') {
 			// empty string / 'ocsapp' / 'apps' / $app / rest of the route
-			list(, , , $app,) = explode('/', $url, 5);
+			list(, , , $app, ) = explode('/', $url, 5);
 
 			$app = \OC_App::cleanAppId($app);
 			\OC::$REQUESTEDAPP = $app;
 			$this->loadRoutes($app);
-		} else if (substr($url, 0, 6) === '/core/' or substr($url, 0, 10) === '/settings/') {
+		} elseif (substr($url, 0, 6) === '/core/' or substr($url, 0, 10) === '/settings/') {
 			\OC::$REQUESTEDAPP = $url;
 			if (!\OC::$server->getConfig()->getSystemValue('maintenance', false) && !Util::needUpgrade()) {
 				\OC_App::loadApps();
@@ -325,9 +327,11 @@ class Router implements IRouter {
 	 * @param bool $absolute
 	 * @return string
 	 */
-	public function generate($name,
+	public function generate(
+		$name,
 							 $parameters = [],
-							 $absolute = false) {
+							 $absolute = false
+	) {
 		$this->loadRoutes();
 		try {
 			$referenceType = UrlGenerator::ABSOLUTE_URL;

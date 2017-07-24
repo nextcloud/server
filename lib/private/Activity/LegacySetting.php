@@ -48,12 +48,14 @@ class LegacySetting implements ISetting {
 	 * @param bool $canChangeMail
 	 * @param bool $isDefaultEnabledMail
 	 */
-	public function __construct($identifier,
+	public function __construct(
+		$identifier,
 								$name,
 								$canChangeStream,
 								$isDefaultEnabledStream,
 								$canChangeMail,
-								$isDefaultEnabledMail) {
+								$isDefaultEnabledMail
+	) {
 		$this->identifier = $identifier;
 		$this->name = $name;
 		$this->canChangeStream = $canChangeStream;
@@ -120,4 +122,3 @@ class LegacySetting implements ISetting {
 		return $this->isDefaultEnabledMail;
 	}
 }
-

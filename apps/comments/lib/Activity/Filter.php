@@ -21,7 +21,6 @@
 
 namespace OCA\Comments\Activity;
 
-
 use OCP\Activity\IFilter;
 use OCP\IL10N;
 use OCP\IURLGenerator;

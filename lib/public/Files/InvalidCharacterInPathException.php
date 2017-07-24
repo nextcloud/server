@@ -35,5 +35,4 @@ namespace OCP\Files;
  * @since 8.1.0
  */
 class InvalidCharacterInPathException extends InvalidPathException {
-
 }

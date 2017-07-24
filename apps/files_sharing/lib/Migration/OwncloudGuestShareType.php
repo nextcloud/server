@@ -68,7 +68,7 @@ class OwncloudGuestShareType implements IRepairStep {
 
 		$query = $this->connection->getQueryBuilder();
 		$query->update('share')
-			->set('share_type',  $query->createNamedParameter(Share::SHARE_TYPE_GUEST))
+			->set('share_type', $query->createNamedParameter(Share::SHARE_TYPE_GUEST))
 			->where($query->expr()->eq('share_type', $query->createNamedParameter(Share::SHARE_TYPE_EMAIL)));
 		$query->execute();
 	}
@@ -78,5 +78,4 @@ class OwncloudGuestShareType implements IRepairStep {
 		return in_array($appVersion, ['0.10.0']) ||
 			$this->config->getAppValue('core', 'vendor', '') === 'owncloud';
 	}
-
 }

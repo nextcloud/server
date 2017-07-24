@@ -31,8 +31,8 @@
  */
 
 namespace OCP\AppFramework;
-use OC\AppFramework\Routing\RouteConfig;
 
+use OC\AppFramework\Routing\RouteConfig;
 
 /**
  * Class App
@@ -55,7 +55,7 @@ class App {
 	 * @return string the starting namespace for the app
 	 * @since 8.0.0
 	 */
-	public static function buildAppNamespace($appId, $topNamespace='OCA\\') {
+	public static function buildAppNamespace($appId, $topNamespace = 'OCA\\') {
 		return \OC\AppFramework\App::buildAppNamespace($appId, $topNamespace);
 	}
 
@@ -64,7 +64,7 @@ class App {
 	 * @param array $urlParams an array with variables extracted from the routes
 	 * @since 6.0.0
 	 */
-	public function __construct($appName, $urlParams = array()) {
+	public function __construct($appName, $urlParams = []) {
 		$this->container = new \OC\AppFramework\DependencyInjection\DIContainer($appName, $urlParams);
 	}
 

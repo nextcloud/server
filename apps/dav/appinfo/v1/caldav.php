@@ -60,10 +60,10 @@ $principalCollection->disableListing = !$debugging; // Disable listing
 $addressBookRoot = new CalendarRoot($principalBackend, $calDavBackend);
 $addressBookRoot->disableListing = !$debugging; // Disable listing
 
-$nodes = array(
+$nodes = [
 	$principalCollection,
 	$addressBookRoot,
-);
+];
 
 // Fire up server
 $server = new \Sabre\DAV\Server($nodes);
@@ -84,7 +84,7 @@ if ($debugging) {
 $server->addPlugin(new \Sabre\DAV\Sync\Plugin());
 $server->addPlugin(new \Sabre\CalDAV\ICSExportPlugin());
 $server->addPlugin(new \OCA\DAV\CalDAV\Schedule\Plugin());
-$server->addPlugin(new \OCA\DAV\CalDAV\Schedule\IMipPlugin( \OC::$server->getMailer(), \OC::$server->getLogger()));
+$server->addPlugin(new \OCA\DAV\CalDAV\Schedule\IMipPlugin(\OC::$server->getMailer(), \OC::$server->getLogger()));
 $server->addPlugin(new ExceptionLoggerPlugin('caldav', \OC::$server->getLogger()));
 
 // And off we go!

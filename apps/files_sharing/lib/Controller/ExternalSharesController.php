@@ -50,10 +50,12 @@ class ExternalSharesController extends Controller {
 	 * @param \OCA\Files_Sharing\External\Manager $externalManager
 	 * @param IClientService $clientService
 	 */
-	public function __construct($appName,
+	public function __construct(
+		$appName,
 								IRequest $request,
 								\OCA\Files_Sharing\External\Manager $externalManager,
-								IClientService $clientService) {
+								IClientService $clientService
+	) {
 		parent::__construct($appName, $request);
 		$this->externalManager = $externalManager;
 		$this->clientService = $clientService;
@@ -146,5 +148,4 @@ class ExternalSharesController extends Controller {
 			return new DataResponse(false);
 		}
 	}
-
 }

@@ -54,11 +54,13 @@ class UpdateLookupServer {
 	 * @param IJobList $jobList
 	 * @param IConfig $config
 	 */
-	public function __construct(AccountManager $accountManager,
+	public function __construct(
+		AccountManager $accountManager,
 								IClientService $clientService,
 								Signer $signer,
 								IJobList $jobList,
-								IConfig $config) {
+								IConfig $config
+	) {
 		$this->accountManager = $accountManager;
 		$this->clientService = $clientService;
 		$this->signer = $signer;
@@ -92,7 +94,6 @@ class UpdateLookupServer {
 	 * @param array $publicData
 	 */
 	protected function sendToLookupServer(IUser $user, array $publicData) {
-
 		$dataArray = ['federationId' => $user->getCloudId()];
 
 		if (!empty($publicData)) {
@@ -115,7 +116,8 @@ class UpdateLookupServer {
 		$httpClient = $this->clientService->newClient();
 		try {
 			if (empty($publicData)) {
-				$httpClient->delete($this->lookupServer,
+				$httpClient->delete(
+					$this->lookupServer,
 					[
 						'body' => json_encode($dataArray),
 						'timeout' => 10,
@@ -123,7 +125,8 @@ class UpdateLookupServer {
 					]
 				);
 			} else {
-				$httpClient->post($this->lookupServer,
+				$httpClient->post(
+					$this->lookupServer,
 					[
 						'body' => json_encode($dataArray),
 						'timeout' => 10,
@@ -132,7 +135,8 @@ class UpdateLookupServer {
 				);
 			}
 		} catch (\Exception $e) {
-			$this->jobList->add(RetryJob::class,
+			$this->jobList->add(
+				RetryJob::class,
 				[
 					'dataArray' => $dataArray,
 					'retryNo' => 0,

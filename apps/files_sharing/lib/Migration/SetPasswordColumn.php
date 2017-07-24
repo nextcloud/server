@@ -86,12 +86,10 @@ class SetPasswordColumn implements IRepairStep {
 			->where($clearQuery->expr()->eq('share_type', $clearQuery->createNamedParameter(Share::SHARE_TYPE_LINK)));
 
 		$clearQuery->execute();
-
 	}
 
 	protected function shouldRun() {
 		$appVersion = $this->config->getAppValue('files_sharing', 'installed_version', '0.0.0');
 		return version_compare($appVersion, '1.4.0', '<');
 	}
-
 }

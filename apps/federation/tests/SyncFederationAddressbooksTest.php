@@ -68,7 +68,7 @@ class SyncFederationAddressbooksTest extends \Test\TestCase {
 
 		/** @var \OCA\DAV\CardDAV\SyncService $syncService */
 		$s = new SyncFederationAddressBooks($dbHandler, $syncService, $this->discoveryService);
-		$s->syncThemAll(function($url, $ex) {
+		$s->syncThemAll(function ($url, $ex) {
 			$this->callBacks[] = [$url, $ex];
 		});
 		$this->assertEquals(1, count($this->callBacks));
@@ -96,7 +96,7 @@ class SyncFederationAddressbooksTest extends \Test\TestCase {
 
 		/** @var \OCA\DAV\CardDAV\SyncService $syncService */
 		$s = new SyncFederationAddressBooks($dbHandler, $syncService, $this->discoveryService);
-		$s->syncThemAll(function($url, $ex) {
+		$s->syncThemAll(function ($url, $ex) {
 			$this->callBacks[] = [$url, $ex];
 		});
 		$this->assertEquals(2, count($this->callBacks));

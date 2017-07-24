@@ -46,7 +46,6 @@ class MigrationSchemaChecker extends NodeVisitorAbstract {
 			 $node->expr instanceof Node\Expr\MethodCall &&
 			 $node->expr->var instanceof Node\Expr\Variable &&
 			 $node->expr->var->name === $this->schemaVariableName) {
-
 			if ($node->expr->name === 'createTable') {
 				if (isset($node->expr->args[0]) && $node->expr->args[0]->value instanceof Node\Scalar\String_) {
 					if (!$this->checkNameLength($node->expr->args[0]->value->value)) {
@@ -59,16 +58,15 @@ class MigrationSchemaChecker extends NodeVisitorAbstract {
 						$this->tableVariableNames[$node->var->name] = $node->expr->args[0]->value->value;
 					}
 				}
-			} else if ($node->expr->name === 'getTable') {
+			} elseif ($node->expr->name === 'getTable') {
 				if (isset($node->expr->args[0]) && $node->expr->args[0]->value instanceof Node\Scalar\String_) {
 					$this->tableVariableNames[$node->var->name] = $node->expr->args[0]->value->value;
 				}
 			}
-		} else if ($this->schemaVariableName !== null &&
+		} elseif ($this->schemaVariableName !== null &&
 			 $node instanceof Node\Expr\MethodCall &&
 			 $node->var instanceof Node\Expr\Variable &&
 			 $node->var->name === $this->schemaVariableName) {
-
 			if ($node->name === 'renameTable') {
 				$this->errors[] = [
 					'line' => $node->getLine(),
@@ -80,14 +78,13 @@ class MigrationSchemaChecker extends NodeVisitorAbstract {
 				];
 			}
 
-		/**
-		 * Check columns and Indexes
-		 */
-		} else if (!empty($this->tableVariableNames) &&
+			/**
+			 * Check columns and Indexes
+			 */
+		} elseif (!empty($this->tableVariableNames) &&
 			 $node instanceof Node\Expr\MethodCall &&
 			 $node->var instanceof Node\Expr\Variable &&
 			 isset($this->tableVariableNames[$node->var->name])) {
-
 			if ($node->name === 'addColumn' || $node->name === 'changeColumn') {
 				if (isset($node->args[0]) && $node->args[0]->value instanceof Node\Scalar\String_) {
 					if (!$this->checkNameLength($node->args[0]->value->value)) {
@@ -116,7 +113,7 @@ class MigrationSchemaChecker extends NodeVisitorAbstract {
 						}
 					}
 				}
-			} else if ($node->name === 'addIndex' ||
+			} elseif ($node->name === 'addIndex' ||
 				 $node->name === 'addUniqueIndex' ||
 				 $node->name === 'renameIndex' ||
 				 $node->name === 'setPrimaryKey') {
@@ -132,7 +129,7 @@ class MigrationSchemaChecker extends NodeVisitorAbstract {
 						];
 					}
 				}
-			} else if ($node->name === 'addForeignKeyConstraint') {
+			} elseif ($node->name === 'addForeignKeyConstraint') {
 				if (isset($node->args[4]) && $node->args[4]->value instanceof Node\Scalar\String_) {
 					if (!$this->checkNameLength($node->args[4]->value->value)) {
 						$this->errors[] = [
@@ -145,7 +142,7 @@ class MigrationSchemaChecker extends NodeVisitorAbstract {
 						];
 					}
 				}
-			} else if ($node->name === 'renameColumn') {
+			} elseif ($node->name === 'renameColumn') {
 				$this->errors[] = [
 					'line' => $node->getLine(),
 					'disallowedToken' => 'Deprecated method',
@@ -156,10 +153,10 @@ class MigrationSchemaChecker extends NodeVisitorAbstract {
 				];
 			}
 
-		/**
-		 * Find the schema
-		 */
-		} else if ($node instanceof Node\Expr\Assign &&
+			/**
+			 * Find the schema
+			 */
+		} elseif ($node instanceof Node\Expr\Assign &&
 			 $node->expr instanceof Node\Expr\FuncCall &&
 			 $node->var instanceof Node\Expr\Variable &&
 			 $node->expr->name instanceof Node\Expr\Variable &&

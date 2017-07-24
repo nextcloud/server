@@ -62,8 +62,15 @@ class AuthSettingsController extends Controller {
 	 * @param ISecureRandom $random
 	 * @param string $userId
 	 */
-	public function __construct($appName, IRequest $request, IProvider $tokenProvider, IUserManager $userManager,
-		ISession $session, ISecureRandom $random, $userId) {
+	public function __construct(
+		$appName,
+		IRequest $request,
+		IProvider $tokenProvider,
+		IUserManager $userManager,
+		ISession $session,
+		ISecureRandom $random,
+		$userId
+	) {
 		parent::__construct($appName, $request);
 		$this->tokenProvider = $tokenProvider;
 		$this->userManager = $userManager;
@@ -96,7 +103,7 @@ class AuthSettingsController extends Controller {
 			return $this->getServiceNotAvailableResponse();
 		}
 
-		return array_map(function(IToken $token) use ($sessionToken) {
+		return array_map(function (IToken $token) use ($sessionToken) {
 			$data = $token->jsonSerialize();
 			if ($sessionToken->getId() === $token->getId()) {
 				$data['canDelete'] = false;

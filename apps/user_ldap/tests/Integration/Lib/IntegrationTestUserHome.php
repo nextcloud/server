@@ -94,12 +94,12 @@ class IntegrationTestUserHome extends AbstractIntegrationTest {
 		$userManager->registerBackend($this->backend);
 		$users = $userManager->search('', 5, 0);
 
-		foreach($users as $user) {
+		foreach ($users as $user) {
 			$home = $user->getHome();
 			$uid = $user->getUID();
 			$posFound = strpos($home, '/' . $uid);
 			$posExpected = strlen($home) - (strlen($uid) + 1);
-			if($posFound === false || $posFound !== $posExpected) {
+			if ($posFound === false || $posFound !== $posExpected) {
 				print('"' . $user->getUID() . '" was not found in "' . $home . '" or does not end with it.' . PHP_EOL);
 				return false;
 			}
@@ -129,7 +129,7 @@ class IntegrationTestUserHome extends AbstractIntegrationTest {
 				return false;
 			}
 		} catch (\Exception $e) {
-			if(strpos($e->getMessage(), 'Home dir attribute') === 0) {
+			if (strpos($e->getMessage(), 'Home dir attribute') === 0) {
 				return true;
 			}
 		}

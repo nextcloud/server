@@ -60,10 +60,12 @@ class Throttler {
 	 * @param ILogger $logger
 	 * @param IConfig $config
 	 */
-	public function __construct(IDBConnection $db,
+	public function __construct(
+		IDBConnection $db,
 								ITimeFactory $timeFactory,
 								ILogger $logger,
-								IConfig $config) {
+								IConfig $config
+	) {
 		$this->db = $db;
 		$this->timeFactory = $timeFactory;
 		$this->logger = $logger;
@@ -91,11 +93,13 @@ class Throttler {
 	 * @param array $metadata Optional metadata logged to the database
 	 * @suppress SqlInjectionChecker
 	 */
-	public function registerAttempt($action,
+	public function registerAttempt(
+		$action,
 									$ip,
-									array $metadata = []) {
+									array $metadata = []
+	) {
 		// No need to log if the bruteforce protection is disabled
-		if($this->config->getSystemValue('auth.bruteforce.protection.enabled', true) === false) {
+		if ($this->config->getSystemValue('auth.bruteforce.protection.enabled', true) === false) {
 			return;
 		}
 
@@ -121,7 +125,7 @@ class Throttler {
 
 		$qb = $this->db->getQueryBuilder();
 		$qb->insert('bruteforce_attempts');
-		foreach($values as $column => $value) {
+		foreach ($values as $column => $value) {
 			$qb->setValue($column, $qb->createNamedParameter($value));
 		}
 		$qb->execute();
@@ -134,19 +138,19 @@ class Throttler {
 	 * @return bool
 	 */
 	private function isIPWhitelisted($ip) {
-		if($this->config->getSystemValue('auth.bruteforce.protection.enabled', true) === false) {
+		if ($this->config->getSystemValue('auth.bruteforce.protection.enabled', true) === false) {
 			return true;
 		}
 
 		$keys = $this->config->getAppKeys('bruteForce');
-		$keys = array_filter($keys, function($key) {
+		$keys = array_filter($keys, function ($key) {
 			$regex = '/^whitelist_/S';
 			return preg_match($regex, $key) === 1;
 		});
 
 		if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
 			$type = 4;
-		} else if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
+		} elseif (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
 			$type = 6;
 		} else {
 			return false;
@@ -170,9 +174,9 @@ class Throttler {
 			$addr = inet_pton($addr);
 
 			$valid = true;
-			for($i = 0; $i < $mask; $i++) {
-				$part = ord($addr[(int)($i/8)]);
-				$orig = ord($ip[(int)($i/8)]);
+			for ($i = 0; $i < $mask; $i++) {
+				$part = ord($addr[(int)($i / 8)]);
+				$orig = ord($ip[(int)($i / 8)]);
 
 				$part = $part & (15 << (1 - ($i % 2)));
 				$orig = $orig & (15 << (1 - ($i % 2)));
@@ -189,7 +193,6 @@ class Throttler {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -227,7 +230,7 @@ class Throttler {
 
 		$maxDelay = 30;
 		$firstDelay = 0.1;
-		if ($attempts > (8 * PHP_INT_SIZE - 1))  {
+		if ($attempts > (8 * PHP_INT_SIZE - 1)) {
 			// Don't ever overflow. Just assume the maxDelay time:s
 			$firstDelay = $maxDelay;
 		} else {

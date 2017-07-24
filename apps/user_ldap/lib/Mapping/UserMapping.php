@@ -24,9 +24,9 @@
 namespace OCA\User_LDAP\Mapping;
 
 /**
-* Class UserMapping
-* @package OCA\User_LDAP\Mapping
-*/
+ * Class UserMapping
+ * @package OCA\User_LDAP\Mapping
+ */
 class UserMapping extends AbstractMapping {
 
 	/**
@@ -36,5 +36,4 @@ class UserMapping extends AbstractMapping {
 	protected function getTableName() {
 		return '*PREFIX*ldap_user_mapping';
 	}
-
 }

@@ -85,7 +85,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	 * @param \OCP\Files\Mount\IMountPoint $mount
 	 * @param \OCP\IUser|null $owner
 	 */
-	public function __construct($path, $storage, $internalPath, $data, $mount, $owner= null) {
+	public function __construct($path, $storage, $internalPath, $data, $mount, $owner = null) {
 		$this->path = $path;
 		$this->storage = $storage;
 		$this->internalPath = $internalPath;
@@ -109,11 +109,11 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	public function offsetGet($offset) {
 		if ($offset === 'type') {
 			return $this->getType();
-		} else if ($offset === 'etag') {
+		} elseif ($offset === 'etag') {
 			return $this->getEtag();
-		} else if ($offset === 'size') {
+		} elseif ($offset === 'size') {
 			return $this->getSize();
-		} else if ($offset === 'mtime') {
+		} elseif ($offset === 'mtime') {
 			return $this->getMTime();
 		} elseif ($offset === 'permissions') {
 			return $this->getPermissions();

@@ -70,8 +70,14 @@ class AssemblyStream implements \Icewind\Streams\File {
 			return strnatcmp($a->getName(), $b->getName());
 		});
 		$this->nodes = array_values($nodes);
-		if (count($this->nodes) > 0) {
-			$this->currentStream = $this->getStream($this->nodes[0]);
+
+		if (count(
+		$this->nodes
+		) > 0) {
+			$this->currentStream =
+			$this->getStream(
+			$this->nodes[0]
+			);
 		}
 		$this->size = array_reduce($this->nodes, function ($size, IFile $file) {
 			return $size + $file->getSize();

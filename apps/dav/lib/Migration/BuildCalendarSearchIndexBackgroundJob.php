@@ -53,11 +53,13 @@ class BuildCalendarSearchIndexBackgroundJob extends QueuedJob {
 	 * @param IJobList $jobList
 	 * @param ITimeFactory $timeFactory
 	 */
-	public function __construct(IDBConnection $db,
+	public function __construct(
+		IDBConnection $db,
 								CalDavBackend $calDavBackend,
 								ILogger $logger,
 								IJobList $jobList,
-								ITimeFactory $timeFactory) {
+								ITimeFactory $timeFactory
+	) {
 		$this->db = $db;
 		$this->calDavBackend = $calDavBackend;
 		$this->logger = $logger;
@@ -100,7 +102,7 @@ class BuildCalendarSearchIndexBackgroundJob extends QueuedJob {
 			->orderBy('id', 'ASC');
 
 		$stmt = $query->execute();
-		while($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+		while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
 			$offset = $row['id'];
 
 			$calendarData = $row['calendardata'];

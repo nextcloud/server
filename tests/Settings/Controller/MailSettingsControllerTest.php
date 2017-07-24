@@ -114,7 +114,6 @@ class MailSettingsControllerTest extends \Test\TestCase {
 			'25'
 		);
 		$this->assertSame(Http::STATUS_OK, $response->getStatus());
-
 	}
 
 	public function testStoreCredentials() {
@@ -141,7 +140,7 @@ class MailSettingsControllerTest extends \Test\TestCase {
 
 		$this->l->expects($this->any())
 			->method('t')
-			->willReturnCallback(function($text, $parameters = []) {
+			->willReturnCallback(function ($text, $parameters = []) {
 				return vsprintf($text, $parameters);
 			});
 		$this->userSession
@@ -170,5 +169,4 @@ class MailSettingsControllerTest extends \Test\TestCase {
 		$response = $this->mailController->sendTestMail();
 		$this->assertSame(Http::STATUS_OK, $response->getStatus(), $response->getData());
 	}
-
 }

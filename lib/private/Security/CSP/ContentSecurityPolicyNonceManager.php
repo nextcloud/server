@@ -40,8 +40,10 @@ class ContentSecurityPolicyNonceManager {
 	 * @param CsrfTokenManager $csrfTokenManager
 	 * @param IRequest $request
 	 */
-	public function __construct(CsrfTokenManager $csrfTokenManager,
-								IRequest $request) {
+	public function __construct(
+		CsrfTokenManager $csrfTokenManager,
+								IRequest $request
+	) {
 		$this->csrfTokenManager = $csrfTokenManager;
 		$this->request = $request;
 	}
@@ -52,7 +54,7 @@ class ContentSecurityPolicyNonceManager {
 	 * @return string
 	 */
 	public function getNonce() {
-		if($this->nonce === '') {
+		if ($this->nonce === '') {
 			$this->nonce = base64_encode($this->csrfTokenManager->getToken()->getEncryptedValue());
 		}
 
@@ -71,7 +73,7 @@ class ContentSecurityPolicyNonceManager {
 			'/^Mozilla\/5\.0 \([^)]+\) Gecko\/[0-9.]+ Firefox\/(4[5-9]|[5-9][0-9])\.[0-9.]+$/',
 		];
 
-		if($this->request->isUserAgent($browserWhitelist)) {
+		if ($this->request->isUserAgent($browserWhitelist)) {
 			return true;
 		}
 

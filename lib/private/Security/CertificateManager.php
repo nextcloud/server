@@ -67,11 +67,13 @@ class CertificateManager implements ICertificateManager {
 	 * @param ILogger $logger
 	 * @param ISecureRandom $random
 	 */
-	public function __construct($uid,
+	public function __construct(
+		$uid,
 								\OC\Files\View $view,
 								IConfig $config,
 								ILogger $logger,
-								ISecureRandom $random) {
+								ISecureRandom $random
+	) {
 		$this->uid = $uid;
 		$this->view = $view;
 		$this->config = $config;
@@ -85,19 +87,18 @@ class CertificateManager implements ICertificateManager {
 	 * @return \OCP\ICertificate[]
 	 */
 	public function listCertificates() {
-
 		if (!$this->config->getSystemValue('installed', false)) {
-			return array();
+			return [];
 		}
 
 		$path = $this->getPathToCertificates() . 'uploads/';
 		if (!$this->view->is_dir($path)) {
-			return array();
+			return [];
 		}
-		$result = array();
+		$result = [];
 		$handle = $this->view->opendir($path);
 		if (!is_resource($handle)) {
-			return array();
+			return [];
 		}
 		while (false !== ($file = readdir($handle))) {
 			if ($file != '.' && $file != '..') {
@@ -185,7 +186,6 @@ class CertificateManager implements ICertificateManager {
 		} catch (\Exception $e) {
 			throw $e;
 		}
-
 	}
 
 	/**
@@ -287,5 +287,4 @@ class CertificateManager implements ICertificateManager {
 	protected function getFilemtimeOfCaBundle() {
 		return filemtime(\OC::$SERVERROOT . '/resources/config/ca-bundle.crt');
 	}
-
 }

@@ -40,7 +40,7 @@ use \OCP\IContainer;
 use OCP\IServerContainer;
 
 class Application extends App {
-	public function __construct(array $urlParams = array()) {
+	public function __construct(array $urlParams = []) {
 		parent::__construct('files_sharing', $urlParams);
 
 		$container = $this->getContainer();
@@ -143,7 +143,7 @@ class Application extends App {
 			$server = $c->query('ServerContainer');
 			return new \OCA\Files_Sharing\External\MountProvider(
 				$server->getDatabaseConnection(),
-				function() use ($c) {
+				function () use ($c) {
 					return $c->query('ExternalManager');
 				},
 				$server->getCloudIdManager()

@@ -96,7 +96,7 @@ class IconBuilder {
 	 */
 	public function renderAppIcon($app, $size) {
 		$appIcon = $this->util->getAppIcon($app);
-		if($appIcon === false) {
+		if ($appIcon === false) {
 			return false;
 		}
 		if ($appIcon instanceof ISimpleFile) {
@@ -107,7 +107,7 @@ class IconBuilder {
 			$mime = mime_content_type($appIcon);
 		}
 
-		if($appIconContent === false || $appIconContent === "") {
+		if ($appIconContent === false || $appIconContent === "") {
 			return false;
 		}
 
@@ -119,8 +119,8 @@ class IconBuilder {
 			'<rect x="0" y="0" rx="100" ry="100" width="512" height="512" style="fill:' . $color . ';" />' .
 			'</svg>';
 		// resize svg magic as this seems broken in Imagemagick
-		if($mime === "image/svg+xml" || substr($appIconContent, 0, 4) === "<svg") {
-			if(substr($appIconContent, 0, 5) !== "<?xml") {
+		if ($mime === "image/svg+xml" || substr($appIconContent, 0, 4) === "<svg") {
+			if (substr($appIconContent, 0, 5) !== "<?xml") {
 				$svg = "<?xml version=\"1.0\"?>".$appIconContent;
 			} else {
 				$svg = $appIconContent;
@@ -132,7 +132,7 @@ class IconBuilder {
 			$res = $tmp->getImageResolution();
 			$tmp->destroy();
 
-			if($x>$y) {
+			if ($x > $y) {
 				$max = $x;
 			} else {
 				$max = $y;
@@ -197,5 +197,4 @@ class IconBuilder {
 			return false;
 		}
 	}
-
 }

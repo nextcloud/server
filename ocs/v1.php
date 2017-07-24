@@ -71,7 +71,7 @@ try {
  * Try the appframework routes
  */
 try {
-	if(!\OC::$server->getUserSession()->isLoggedIn()) {
+	if (!\OC::$server->getUserSession()->isLoggedIn()) {
 		OC::handleLogin(\OC::$server->getRequest());
 	}
 	OC::$server->getRouter()->match('/ocsapp'.\OC::$server->getRequest()->getRawPathInfo());
@@ -79,7 +79,7 @@ try {
 	OC_API::setContentType();
 
 	$format = \OC::$server->getRequest()->getParam('format', 'xml');
-	$txt='Invalid query, please check the syntax. API specifications are here:'
+	$txt = 'Invalid query, please check the syntax. API specifications are here:'
 		.' http://www.freedesktop.org/wiki/Specifications/open-collaboration-services. DEBUG OUTPUT:'."\n";
 	OC_API::respond(new OC_OCS_Result(null, \OCP\API::RESPOND_NOT_FOUND, $txt), $format);
 } catch (MethodNotAllowedException $e) {
@@ -94,8 +94,7 @@ try {
 	OC_API::setContentType();
 
 	$format = \OC::$server->getRequest()->getParam('format', 'xml');
-	$txt='Invalid query, please check the syntax. API specifications are here:'
+	$txt = 'Invalid query, please check the syntax. API specifications are here:'
 		.' http://www.freedesktop.org/wiki/Specifications/open-collaboration-services. DEBUG OUTPUT:'."\n";
 	OC_API::respond(new OC_OCS_Result(null, \OCP\API::RESPOND_NOT_FOUND, $txt), $format);
 }
-

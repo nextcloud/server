@@ -28,7 +28,7 @@ use OCP\Settings\IManager as ISettingsManager;
 use OCP\Settings\IIconSection;
 use OCP\Settings\ISettings;
 
-trait CommonSettingsTrait  {
+trait CommonSettingsTrait {
 	/** @var ISettingsManager */
 	private $settingsManager;
 
@@ -42,7 +42,7 @@ trait CommonSettingsTrait  {
 			'admin' => []
 		];
 
-		if(\OC_User::isAdminUser(\OC_User::getUser())) {
+		if (\OC_User::isAdminUser(\OC_User::getUser())) {
 			$templateParameters['admin'] = $this->formatAdminSections($currentType, $currentSection);
 		}
 
@@ -54,11 +54,11 @@ trait CommonSettingsTrait  {
 	protected function formatSections($sections, $currentSection, $type, $currentType) {
 		$templateParameters = [];
 		/** @var \OCP\Settings\ISection[] $prioritizedSections */
-		foreach($sections as $prioritizedSections) {
+		foreach ($sections as $prioritizedSections) {
 			foreach ($prioritizedSections as $section) {
-				if($type === 'admin') {
+				if ($type === 'admin') {
 					$settings = $this->settingsManager->getAdminSettings($section->getID());
-				} else if($type === 'personal') {
+				} elseif ($type === 'personal') {
 					$settings = $this->settingsManager->getPersonalSettings($section->getID());
 				}
 				if (empty($settings)) {
@@ -74,10 +74,10 @@ trait CommonSettingsTrait  {
 					&& $type === $currentType;
 
 				$templateParameters[] = [
-					'anchor'       => $section->getID(),
+					'anchor' => $section->getID(),
 					'section-name' => $section->getName(),
-					'active'       => $active,
-					'icon'         => $icon,
+					'active' => $active,
+					'icon' => $icon,
 				];
 			}
 		}

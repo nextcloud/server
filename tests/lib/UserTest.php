@@ -22,7 +22,7 @@ class UserTest extends TestCase {
 	 */
 	private $backend;
 	
-	protected function setUp(){
+	protected function setUp() {
 		parent::setUp();
 
 		$this->backend = $this->createMock(\Test\Util\User\Dummy::class);
@@ -31,7 +31,6 @@ class UserTest extends TestCase {
 	}
 	
 	public function testCheckPassword() {
-
 		$this->backend->expects($this->once())
 			->method('checkPassword')
 			->with($this->equalTo('foo'), $this->equalTo('bar'))
@@ -51,5 +50,4 @@ class UserTest extends TestCase {
 		$uid = \OC_User::checkPassword('foo', 'bar');
 		$this->assertEquals($uid, 'foo');
 	}
-
 }

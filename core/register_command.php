@@ -64,10 +64,13 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\App\ListApps(\OC::$server->getAppManager()));
 
 	$application->add(new OC\Core\Command\TwoFactorAuth\Enable(
-		\OC::$server->getTwoFactorAuthManager(), \OC::$server->getUserManager()
+		\OC::$server->getTwoFactorAuthManager(),
+	
+		\OC::$server->getUserManager()
 	));
 	$application->add(new OC\Core\Command\TwoFactorAuth\Disable(
-		\OC::$server->getTwoFactorAuthManager(), \OC::$server->getUserManager()
+		\OC::$server->getTwoFactorAuthManager(),
+		\OC::$server->getUserManager()
 	));
 
 	$application->add(new OC\Core\Command\Background\Cron(\OC::$server->getConfig()));
@@ -97,12 +100,14 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\Encryption\SetDefaultModule(\OC::$server->getEncryptionManager()));
 	$application->add(new OC\Core\Command\Encryption\Status(\OC::$server->getEncryptionManager()));
 	$application->add(new OC\Core\Command\Encryption\EncryptAll(\OC::$server->getEncryptionManager(), \OC::$server->getAppManager(), \OC::$server->getConfig(), new \Symfony\Component\Console\Helper\QuestionHelper()));
-	$application->add(new OC\Core\Command\Encryption\DecryptAll(
+	$application->add(
+		new OC\Core\Command\Encryption\DecryptAll(
 		\OC::$server->getEncryptionManager(),
 		\OC::$server->getAppManager(),
 		\OC::$server->getConfig(),
 		new \OC\Encryption\DecryptAll(\OC::$server->getEncryptionManager(), \OC::$server->getUserManager(), new \OC\Files\View()),
-		new \Symfony\Component\Console\Helper\QuestionHelper())
+		new \Symfony\Component\Console\Helper\QuestionHelper()
+	)
 	);
 
 	$application->add(new OC\Core\Command\Log\Manage(\OC::$server->getConfig()));
@@ -115,7 +120,8 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 		\OC::$server->getGroupManager(),
 		\OC::$server->getConfig()
 	);
-	$application->add(new OC\Core\Command\Encryption\ChangeKeyStorageRoot(
+	$application->add(
+		new OC\Core\Command\Encryption\ChangeKeyStorageRoot(
 			$view,
 			\OC::$server->getUserManager(),
 			\OC::$server->getConfig(),
@@ -134,8 +140,10 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 
 	$application->add(new OC\Core\Command\Upgrade(\OC::$server->getConfig(), \OC::$server->getLogger()));
 	$application->add(new OC\Core\Command\Maintenance\Repair(
-		new \OC\Repair(\OC\Repair::getRepairSteps(), \OC::$server->getEventDispatcher()), \OC::$server->getConfig(),
-		\OC::$server->getEventDispatcher()));
+		new \OC\Repair(\OC\Repair::getRepairSteps(), \OC::$server->getEventDispatcher()),
+		\OC::$server->getConfig(),
+		\OC::$server->getEventDispatcher()
+	));
 
 	$application->add(new OC\Core\Command\User\Add(\OC::$server->getUserManager(), \OC::$server->getGroupManager()));
 	$application->add(new OC\Core\Command\User\Delete(\OC::$server->getUserManager()));

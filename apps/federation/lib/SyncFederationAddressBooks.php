@@ -44,7 +44,8 @@ class SyncFederationAddressBooks {
 	 * @param SyncService $syncService
 	 * @param IDiscoveryService $ocsDiscoveryService
 	 */
-	public function __construct(DbHandler $dbHandler,
+	public function __construct(
+		DbHandler $dbHandler,
 								SyncService $syncService,
 								IDiscoveryService $ocsDiscoveryService
 	) {
@@ -57,7 +58,6 @@ class SyncFederationAddressBooks {
 	 * @param \Closure $callback
 	 */
 	public function syncThemAll(\Closure $callback) {
-
 		$trustedServers = $this->dbHandler->getAllServer();
 		foreach ($trustedServers as $trustedServer) {
 			$url = $trustedServer['url'];

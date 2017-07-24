@@ -26,7 +26,6 @@
 
 namespace OCA\Files_External\Controller;
 
-
 use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCP\ILogger;
 use \OCP\IUserSession;
@@ -134,7 +133,7 @@ class UserStoragesController extends StoragesController {
 			$backendOptions,
 			$mountOptions
 		);
-		if ($newStorage instanceOf DataResponse) {
+		if ($newStorage instanceof DataResponse) {
 			return $newStorage;
 		}
 
@@ -183,7 +182,7 @@ class UserStoragesController extends StoragesController {
 			$backendOptions,
 			$mountOptions
 		);
-		if ($storage instanceOf DataResponse) {
+		if ($storage instanceof DataResponse) {
 			return $storage;
 		}
 		$storage->setId($id);
@@ -198,7 +197,7 @@ class UserStoragesController extends StoragesController {
 		} catch (NotFoundException $e) {
 			return new DataResponse(
 				[
-					'message' => (string)$this->l10n->t('Storage with ID "%d" not found', array($id))
+					'message' => (string)$this->l10n->t('Storage with ID "%d" not found', [$id])
 				],
 				Http::STATUS_NOT_FOUND
 			);
@@ -210,7 +209,6 @@ class UserStoragesController extends StoragesController {
 			$storage,
 			Http::STATUS_OK
 		);
-
 	}
 
 	/**
@@ -223,5 +221,4 @@ class UserStoragesController extends StoragesController {
 	public function destroy($id) {
 		return parent::destroy($id);
 	}
-
 }

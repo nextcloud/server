@@ -126,8 +126,11 @@ class Loader implements IMimeTypeLoader {
 		$fetch->select('id')
 			->from('mimetypes')
 			->where(
-				$fetch->expr()->eq('mimetype', $fetch->createNamedParameter($mimetype)
-			));
+				$fetch->expr()->eq(
+					'mimetype',
+					$fetch->createNamedParameter($mimetype)
+			)
+			);
 		$row = $fetch->execute()->fetch();
 
 		$this->mimetypes[$row['id']] = $mimetype;
@@ -163,10 +166,12 @@ class Loader implements IMimeTypeLoader {
 		$update->update('filecache')
 			->set('mimetype', $update->createNamedParameter($mimeTypeId))
 			->where($update->expr()->neq(
-				'mimetype', $update->createNamedParameter($mimeTypeId)
+				'mimetype',
+				$update->createNamedParameter($mimeTypeId)
 			))
 			->andWhere($update->expr()->neq(
-				'mimetype', $update->createNamedParameter($folderMimeTypeId)
+				'mimetype',
+				$update->createNamedParameter($folderMimeTypeId)
 			))
 			->andWhere($update->expr()->like(
 				$update->createFunction('LOWER(' . $update->getColumnName('name') . ')'),
@@ -174,5 +179,4 @@ class Loader implements IMimeTypeLoader {
 			));
 		return $update->execute();
 	}
-
 }

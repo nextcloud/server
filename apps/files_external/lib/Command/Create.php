@@ -63,7 +63,8 @@ class Create extends Base {
 	/** @var IUserSession */
 	private $userSession;
 
-	function __construct(GlobalStoragesService $globalService,
+	public function __construct(
+		GlobalStoragesService $globalService,
 						 UserStoragesService $userService,
 						 IUserManager $userManager,
 						 IUserSession $userSession,

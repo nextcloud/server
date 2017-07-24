@@ -27,7 +27,6 @@
 
 namespace OCA\Encryption\Crypto;
 
-
 use OC\Encryption\Exceptions\DecryptionFailedException;
 use OC\Files\Cache\Scanner;
 use OC\Files\View;
@@ -42,7 +41,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Encryption implements IEncryptionModule {
-
 	const ID = 'OC_DEFAULT_MODULE';
 	const DISPLAY_NAME = 'Default encryption module';
 
@@ -123,14 +121,16 @@ class Encryption implements IEncryptionModule {
 	 * @param ILogger $logger
 	 * @param IL10N $il10n
 	 */
-	public function __construct(Crypt $crypt,
+	public function __construct(
+		Crypt $crypt,
 								KeyManager $keyManager,
 								Util $util,
 								Session $session,
 								EncryptAll $encryptAll,
 								DecryptAll $decryptAll,
 								ILogger $logger,
-								IL10N $il10n) {
+								IL10N $il10n
+	) {
 		$this->crypt = $crypt;
 		$this->keyManager = $keyManager;
 		$this->util = $util;
@@ -181,7 +181,7 @@ class Encryption implements IEncryptionModule {
 		$this->isWriteOperation = false;
 		$this->writeCache = '';
 
-		if($this->session->isReady() === false) {
+		if ($this->session->isReady() === false) {
 			// if the master key is enabled we can initialize encryption
 			// with a empty password and user name
 			if ($this->util->isMasterKeyEnabled()) {
@@ -192,9 +192,11 @@ class Encryption implements IEncryptionModule {
 		if ($this->session->decryptAllModeActivated()) {
 			$encryptedFileKey = $this->keyManager->getEncryptedFileKey($this->path);
 			$shareKey = $this->keyManager->getShareKey($this->path, $this->session->getDecryptAllUid());
-			$this->fileKey = $this->crypt->multiKeyDecrypt($encryptedFileKey,
+			$this->fileKey = $this->crypt->multiKeyDecrypt(
+				$encryptedFileKey,
 				$shareKey,
-				$this->session->getDecryptAllKey());
+				$this->session->getDecryptAllKey()
+			);
 		} else {
 			$this->fileKey = $this->keyManager->getFileKey($this->path, $this->user);
 		}
@@ -218,7 +220,7 @@ class Encryption implements IEncryptionModule {
 			// if we read a part file we need to increase the version by 1
 			// because the version number was also increased by writing
 			// the part file
-			if(Scanner::isPartialFile($path)) {
+			if (Scanner::isPartialFile($path)) {
 				$this->version = $this->version + 1;
 			}
 		}
@@ -233,7 +235,7 @@ class Encryption implements IEncryptionModule {
 			$this->cipher = $this->crypt->getLegacyCipher();
 		}
 
-		return array('cipher' => $this->cipher, 'signed' => 'true');
+		return ['cipher' => $this->cipher, 'signed' => 'true'];
 	}
 
 	/**
@@ -264,7 +266,7 @@ class Encryption implements IEncryptionModule {
 				$result = $this->crypt->symmetricEncryptFileContent($this->writeCache, $this->fileKey, $this->version + 1, $position);
 				$this->writeCache = '';
 			}
-			$publicKeys = array();
+			$publicKeys = [];
 			if ($this->useMasterPassword === true) {
 				$publicKeys[$this->keyManager->getMasterKeyId()] = $this->keyManager->getPublicMasterKey();
 			} else {
@@ -311,7 +313,6 @@ class Encryption implements IEncryptionModule {
 			// Clear the write cache, ready for reuse - it has been
 			// flushed and its old contents processed
 			$this->writeCache = '';
-
 		}
 
 		$encrypted = '';
@@ -338,7 +339,6 @@ class Encryption implements IEncryptionModule {
 
 				// Clear $data ready for next round
 				$data = '';
-
 			} else {
 
 				// Read the chunk from the start of $data
@@ -350,9 +350,7 @@ class Encryption implements IEncryptionModule {
 				// $data, leaving only unprocessed data in $data
 				// var, for handling on the next round
 				$data = substr($data, $this->unencryptedBlockSizeSigned);
-
 			}
-
 		}
 
 		return $encrypted;
@@ -387,7 +385,6 @@ class Encryption implements IEncryptionModule {
 	 * @return boolean
 	 */
 	public function update($path, $uid, array $accessList) {
-
 		if (empty($accessList)) {
 			if (isset(self::$rememberVersion[$path])) {
 				$this->keyManager->setVersion($path, self::$rememberVersion[$path], new View());
@@ -399,8 +396,7 @@ class Encryption implements IEncryptionModule {
 		$fileKey = $this->keyManager->getFileKey($path, $uid);
 
 		if (!empty($fileKey)) {
-
-			$publicKeys = array();
+			$publicKeys = [];
 			if ($this->useMasterPassword === true) {
 				$publicKeys[$this->keyManager->getMasterKeyId()] = $this->keyManager->getPublicMasterKey();
 			} else {
@@ -420,10 +416,11 @@ class Encryption implements IEncryptionModule {
 			$this->keyManager->deleteAllFileKeys($path);
 
 			$this->keyManager->setAllFileKeys($path, $encryptedFileKey);
-
 		} else {
-			$this->logger->debug('no file key found, we assume that the file "{file}" is not encrypted',
-				array('file' => $path, 'app' => 'encryption'));
+			$this->logger->debug(
+				'no file key found, we assume that the file "{file}" is not encrypted',
+				['file' => $path, 'app' => 'encryption']
+			);
 
 			return false;
 		}

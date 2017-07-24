@@ -49,9 +49,9 @@ class AdminTest extends TestCase {
 	}
 
 	public function testGetForm() {
-		$htaccessWorking  = (getenv('htaccessWorking') == 'true');
+		$htaccessWorking = (getenv('htaccessWorking') == 'true');
 		$htaccessWritable = is_writable(\OC::$SERVERROOT.'/.htaccess');
-		$userIniWritable  = is_writable(\OC::$SERVERROOT.'/.user.ini');
+		$userIniWritable = is_writable(\OC::$SERVERROOT.'/.user.ini');
 
 		$this->iniGetWrapper
 			->expects($this->at(0))
@@ -64,10 +64,10 @@ class AdminTest extends TestCase {
 			->with('post_max_size')
 			->willReturn(1234);
 		$params = [
-			'uploadChangable'              => (($htaccessWorking and $htaccessWritable) or $userIniWritable ),
-			'uploadMaxFilesize'            => '1 KB',
+			'uploadChangable' => (($htaccessWorking and $htaccessWritable) or $userIniWritable),
+			'uploadMaxFilesize' => '1 KB',
 			'displayMaxPossibleUploadSize' => PHP_INT_SIZE === 4,
-			'maxPossibleUploadSize'        => Util::humanFileSize(PHP_INT_MAX),
+			'maxPossibleUploadSize' => Util::humanFileSize(PHP_INT_MAX),
 		];
 		$expected = new TemplateResponse('files', 'admin', $params, '');
 		$this->assertEquals($expected, $this->admin->getForm());

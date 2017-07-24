@@ -88,7 +88,7 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 	public function setUp() {
 		parent::setUp();
 		$this->dbConfig = new CleaningDBConfig(\OC::$server->getDatabaseConnection(), \OC::$server->getCrypto());
-		self::$hookCalls = array();
+		self::$hookCalls = [];
 		$config = \OC::$server->getConfig();
 		$this->dataDir = $config->getSystemValue(
 			'datadirectory',
@@ -146,11 +146,15 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 		\OCP\Util::connectHook(
 			Filesystem::CLASSNAME,
 			Filesystem::signal_create_mount,
-			get_class($this), 'createHookCallback');
+			get_class($this),
+			'createHookCallback'
+		);
 		\OCP\Util::connectHook(
 			Filesystem::CLASSNAME,
 			Filesystem::signal_delete_mount,
-			get_class($this), 'deleteHookCallback');
+			get_class($this),
+			'deleteHookCallback'
+		);
 
 		$containerMock = $this->createMock(IAppContainer::class);
 		$containerMock->method('query')
@@ -169,7 +173,7 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 
 	public function tearDown() {
 		\OC_Mount_Config::$skipTest = false;
-		self::$hookCalls = array();
+		self::$hookCalls = [];
 		if ($this->dbConfig) {
 			$this->dbConfig->clean();
 		}
@@ -439,17 +443,17 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 	}
 
 	public static function createHookCallback($params) {
-		self::$hookCalls[] = array(
+		self::$hookCalls[] = [
 			'signal' => Filesystem::signal_create_mount,
 			'params' => $params
-		);
+		];
 	}
 
 	public static function deleteHookCallback($params) {
-		self::$hookCalls[] = array(
+		self::$hookCalls[] = [
 			'signal' => Filesystem::signal_delete_mount,
 			'params' => $params
-		);
+		];
 	}
 
 	/**

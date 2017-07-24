@@ -33,7 +33,6 @@ use \OCA\User_LDAP\Helper;
 use \OCA\User_LDAP\Connection;
 
 class TestConfig extends Command {
-
 	protected function configure() {
 		$this
 			->setName('ldap:test-config')
@@ -42,7 +41,7 @@ class TestConfig extends Command {
 					'configID',
 					InputArgument::REQUIRED,
 					'the configuration ID'
-				     )
+					 )
 		;
 	}
 
@@ -50,17 +49,17 @@ class TestConfig extends Command {
 		$helper = new Helper(\OC::$server->getConfig());
 		$availableConfigs = $helper->getServerConfigurationPrefixes();
 		$configID = $input->getArgument('configID');
-		if(!in_array($configID, $availableConfigs)) {
+		if (!in_array($configID, $availableConfigs)) {
 			$output->writeln("Invalid configID");
 			return;
 		}
 
 		$result = $this->testConfig($configID);
-		if($result === 0) {
+		if ($result === 0) {
 			$output->writeln('The configuration is valid and the connection could be established!');
-		} else if($result === 1) {
+		} elseif ($result === 1) {
 			$output->writeln('The configuration is invalid. Please have a look at the logs for further details.');
-		} else if($result === 2) {
+		} elseif ($result === 2) {
 			$output->writeln('The configuration is valid, but the Bind failed. Please check the server settings and credentials.');
 		} else {
 			$output->writeln('Your LDAP server was kidnapped by aliens.');
@@ -79,12 +78,12 @@ class TestConfig extends Command {
 		//ensure validation is run before we attempt the bind
 		$connection->getConfiguration();
 
-		if(!$connection->setConfiguration(array(
+		if (!$connection->setConfiguration([
 			'ldap_configuration_active' => 1,
-		))) {
+		])) {
 			return 1;
 		}
-		if($connection->bind()) {
+		if ($connection->bind()) {
 			return 0;
 		}
 		return 2;

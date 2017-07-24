@@ -133,9 +133,12 @@ class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
 	 * @param \Doctrine\Common\EventManager $eventManager
 	 * @throws \Exception
 	 */
-	public function __construct(array $params, Driver $driver, Configuration $config = null,
-		EventManager $eventManager = null)
-	{
+	public function __construct(
+		array $params,
+		Driver $driver,
+		Configuration $config = null,
+		EventManager $eventManager = null
+	) {
 		if (!isset($params['adapter'])) {
 			throw new \Exception('adapter not set');
 		}
@@ -157,7 +160,7 @@ class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
 	 * @param int $offset
 	 * @return \Doctrine\DBAL\Driver\Statement The prepared statement.
 	 */
-	public function prepare( $statement, $limit=null, $offset=null ) {
+	public function prepare($statement, $limit = null, $offset = null) {
 		if ($limit === -1) {
 			$limit = null;
 		}
@@ -186,8 +189,7 @@ class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
 	 *
 	 * @throws \Doctrine\DBAL\DBALException
 	 */
-	public function executeQuery($query, array $params = array(), $types = array(), QueryCacheProfile $qcp = null)
-	{
+	public function executeQuery($query, array $params = [], $types = [], QueryCacheProfile $qcp = null) {
 		$query = $this->replaceTablePrefix($query);
 		$query = $this->adapter->fixupStatement($query);
 		return parent::executeQuery($query, $params, $types, $qcp);
@@ -207,8 +209,7 @@ class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
 	 *
 	 * @throws \Doctrine\DBAL\DBALException
 	 */
-	public function executeUpdate($query, array $params = array(), array $types = array())
-	{
+	public function executeUpdate($query, array $params = [], array $types = []) {
 		$query = $this->replaceTablePrefix($query);
 		$query = $this->adapter->fixupStatement($query);
 		return parent::executeUpdate($query, $params, $types);
@@ -255,7 +256,7 @@ class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
 	private function getType($value) {
 		if (is_bool($value)) {
 			return IQueryBuilder::PARAM_BOOL;
-		} else if (is_int($value)) {
+		} elseif (is_int($value)) {
 			return IQueryBuilder::PARAM_INT;
 		} else {
 			return IQueryBuilder::PARAM_STR;
@@ -279,7 +280,7 @@ class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
 			$insertQb = $this->getQueryBuilder();
 			$insertQb->insert($table)
 				->values(
-					array_map(function($value) use ($insertQb) {
+					array_map(function ($value) use ($insertQb) {
 						return $insertQb->createNamedParameter($value, $this->getType($value));
 					}, array_merge($keys, $values))
 				);
@@ -362,7 +363,7 @@ class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
 	public function dropTable($table) {
 		$table = $this->tablePrefix . trim($table);
 		$schema = $this->getSchemaManager();
-		if($schema->tablesExist(array($table))) {
+		if ($schema->tablesExist([$table])) {
 			$schema->dropTable($table);
 		}
 	}
@@ -373,10 +374,10 @@ class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
 	 * @param string $table table name without the prefix
 	 * @return bool
 	 */
-	public function tableExists($table){
+	public function tableExists($table) {
 		$table = $this->tablePrefix . trim($table);
 		$schema = $this->getSchemaManager();
-		return $schema->tablesExist(array($table));
+		return $schema->tablesExist([$table]);
 	}
 
 	// internal use
@@ -385,7 +386,7 @@ class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
 	 * @return string
 	 */
 	protected function replaceTablePrefix($statement) {
-		return str_replace( '*PREFIX*', $this->tablePrefix, $statement );
+		return str_replace('*PREFIX*', $this->tablePrefix, $statement);
 	}
 
 	/**

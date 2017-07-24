@@ -28,9 +28,9 @@ namespace OC\Files\Storage;
 /**
  * local storage backend in temporary folder for testing purpose
  */
-class Temporary extends Local{
+class Temporary extends Local {
 	public function __construct($arguments = null) {
-		parent::__construct(array('datadir' => \OC::$server->getTempManager()->getTemporaryFolder()));
+		parent::__construct(['datadir' => \OC::$server->getTempManager()->getTemporaryFolder()]);
 	}
 
 	public function cleanUp() {

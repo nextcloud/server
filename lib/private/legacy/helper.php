@@ -143,7 +143,7 @@ class OC_Helper {
 			return floatval($str);
 		}
 
-		$bytes_array = array(
+		$bytes_array = [
 			'b' => 1,
 			'k' => 1024,
 			'kb' => 1024,
@@ -155,7 +155,7 @@ class OC_Helper {
 			't' => 1024 * 1024 * 1024 * 1024,
 			'pb' => 1024 * 1024 * 1024 * 1024 * 1024,
 			'p' => 1024 * 1024 * 1024 * 1024 * 1024,
-		);
+		];
 
 		$bytes = floatval($str);
 
@@ -176,7 +176,7 @@ class OC_Helper {
 	 * @param string $dest target folder
 	 *
 	 */
-	static function copyr($src, $dest) {
+	public static function copyr($src, $dest) {
 		if (is_dir($src)) {
 			if (!is_dir($dest)) {
 				mkdir($dest);
@@ -198,7 +198,7 @@ class OC_Helper {
 	 * @param bool $deleteSelf if set to false only the content of the folder will be deleted
 	 * @return bool
 	 */
-	static function rmdirr($dir, $deleteSelf = true) {
+	public static function rmdirr($dir, $deleteSelf = true) {
 		if (is_dir($dir)) {
 			$files = new RecursiveIteratorIterator(
 				new RecursiveDirectoryIterator($dir, RecursiveDirectoryIterator::SKIP_DOTS),
@@ -209,7 +209,7 @@ class OC_Helper {
 				/** @var SplFileInfo $fileInfo */
 				if ($fileInfo->isLink()) {
 					unlink($fileInfo->getPathname());
-				} else if ($fileInfo->isDir()) {
+				} elseif ($fileInfo->isDir()) {
 					rmdir($fileInfo->getRealPath());
 				} else {
 					unlink($fileInfo->getRealPath());
@@ -233,7 +233,7 @@ class OC_Helper {
 	/**
 	 * @return \OC\Files\Type\TemplateManager
 	 */
-	static public function getFileTemplateManager() {
+	public static function getFileTemplateManager() {
 		if (!self::$templateManager) {
 			self::$templateManager = new \OC\Files\Type\TemplateManager();
 		}
@@ -271,8 +271,9 @@ class OC_Helper {
 		}
 		foreach ($dirs as $dir) {
 			foreach ($exts as $ext) {
-				if ($check_fn("$dir/$name" . $ext))
+				if ($check_fn("$dir/$name" . $ext)) {
 					return true;
+				}
 			}
 		}
 		return false;
@@ -287,7 +288,7 @@ class OC_Helper {
 	 */
 	public static function streamCopy($source, $target) {
 		if (!$source or !$target) {
-			return array(0, false);
+			return [0, false];
 		}
 		$bufSize = 8192;
 		$result = true;
@@ -308,7 +309,7 @@ class OC_Helper {
 				break;
 			}
 		}
-		return array($count, $result);
+		return [$count, $result];
 	}
 
 	/**
@@ -384,7 +385,7 @@ class OC_Helper {
 	 */
 	public static function mb_array_change_key_case($input, $case = MB_CASE_LOWER, $encoding = 'UTF-8') {
 		$case = ($case != MB_CASE_UPPER) ? MB_CASE_LOWER : MB_CASE_UPPER;
-		$ret = array();
+		$ret = [];
 		foreach ($input as $k => $v) {
 			$ret[mb_convert_case($k, $case, $encoding)] = $v;
 		}
@@ -407,7 +408,7 @@ class OC_Helper {
 		$it = new RecursiveIteratorIterator($aIt);
 
 		while ($it->valid()) {
-			if (((isset($index) AND ($it->key() == $index)) OR (!isset($index))) AND ($it->current() == $needle)) {
+			if (((isset($index) and ($it->key() == $index)) or (!isset($index))) and ($it->current() == $needle)) {
 				return $aIt->key();
 			}
 
@@ -425,7 +426,7 @@ class OC_Helper {
 	 * @return int number of bytes representing
 	 */
 	public static function maxUploadFilesize($dir, $freeSpace = null) {
-		if (is_null($freeSpace) || $freeSpace < 0){
+		if (is_null($freeSpace) || $freeSpace < 0) {
 			$freeSpace = self::freeSpace($dir);
 		}
 		return min($freeSpace, self::uploadLimit());
@@ -510,7 +511,7 @@ class OC_Helper {
 				if (empty($paths)) {
 					$paths = '/usr/local/bin /usr/bin /opt/bin /bin';
 				} else {
-					$paths = str_replace(':',' ',getenv('PATH'));
+					$paths = str_replace(':', ' ', getenv('PATH'));
 				}
 				$command = 'find ' . $paths . ' -name ' . escapeshellarg($program) . ' 2> /dev/null';
 				exec($command, $output, $returnCode);
@@ -597,7 +598,7 @@ class OC_Helper {
 		$ownerId = $storage->getOwner($path);
 		$ownerDisplayName = '';
 		$owner = \OC::$server->getUserManager()->get($ownerId);
-		if($owner) {
+		if ($owner) {
 			$ownerDisplayName = $owner->getDisplayName();
 		}
 
@@ -639,8 +640,7 @@ class OC_Helper {
 			$relative = 0;
 		}
 
-		return array('free' => $free, 'used' => $used, 'total' => $total, 'relative' => $relative);
-
+		return ['free' => $free, 'used' => $used, 'total' => $total, 'relative' => $relative];
 	}
 
 	/**

@@ -79,7 +79,7 @@ class SystemTagsObjectTypeCollection implements ICollection {
 	 * @param \Closure $childExistsFunction
 	 */
 	public function __construct(
-		$objectType, 
+		$objectType,
 		ISystemTagManager $tagManager,
 		ISystemTagObjectMapper $tagMapper,
 		IUserSession $userSession,
@@ -100,7 +100,7 @@ class SystemTagsObjectTypeCollection implements ICollection {
 	 * @return null|string
 	 * @throws Forbidden
 	 */
-	function createFile($name, $data = null) {
+	public function createFile($name, $data = null) {
 		throw new Forbidden('Permission denied to create nodes');
 	}
 
@@ -108,7 +108,7 @@ class SystemTagsObjectTypeCollection implements ICollection {
 	 * @param string $name
 	 * @throws Forbidden
 	 */
-	function createDirectory($name) {
+	public function createDirectory($name) {
 		throw new Forbidden('Permission denied to create collections');
 	}
 
@@ -117,9 +117,9 @@ class SystemTagsObjectTypeCollection implements ICollection {
 	 * @return SystemTagsObjectMappingCollection
 	 * @throws NotFound
 	 */
-	function getChild($objectId) {
+	public function getChild($objectId) {
 		// make sure the object exists and is reachable
-		if(!$this->childExists($objectId)) {
+		if (!$this->childExists($objectId)) {
 			throw new NotFound('Entity does not exist or is not available');
 		}
 		return new SystemTagsObjectMappingCollection(
@@ -131,7 +131,7 @@ class SystemTagsObjectTypeCollection implements ICollection {
 		);
 	}
 
-	function getChildren() {
+	public function getChildren() {
 		// do not list object ids
 		throw new MethodNotAllowed();
 	}
@@ -142,15 +142,15 @@ class SystemTagsObjectTypeCollection implements ICollection {
 	 * @param string $name
 	 * @return bool
 	 */
-	function childExists($name) {
+	public function childExists($name) {
 		return call_user_func($this->childExistsFunction, $name);
 	}
 
-	function delete() {
+	public function delete() {
 		throw new Forbidden('Permission denied to delete this collection');
 	}
 
-	function getName() {
+	public function getName() {
 		return $this->objectType;
 	}
 
@@ -158,7 +158,7 @@ class SystemTagsObjectTypeCollection implements ICollection {
 	 * @param string $name
 	 * @throws Forbidden
 	 */
-	function setName($name) {
+	public function setName($name) {
 		throw new Forbidden('Permission denied to rename this collection');
 	}
 
@@ -167,7 +167,7 @@ class SystemTagsObjectTypeCollection implements ICollection {
 	 *
 	 * @return int
 	 */
-	function getLastModified() {
+	public function getLastModified() {
 		return null;
 	}
 }

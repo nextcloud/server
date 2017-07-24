@@ -32,7 +32,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class Import extends Command implements CompletionAwareInterface  {
+class Import extends Command implements CompletionAwareInterface {
 	protected $validRootKeys = ['system', 'apps'];
 
 	/** @var IConfig */

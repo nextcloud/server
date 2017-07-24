@@ -26,7 +26,6 @@
 
 namespace OCA\Encryption\Tests\Hooks;
 
-
 use OCA\Encryption\Crypto\Crypt;
 use OCA\Encryption\Hooks\UserHooks;
 use OCP\ILogger;
@@ -142,7 +141,6 @@ class UserHooksTest extends TestCase {
 		$this->instance->postPasswordReset($params);
 		$passwordResetUsers = $this->invokePrivate($this->instance, 'passwordResetUsers');
 		$this->assertEmpty($passwordResetUsers);
-
 	}
 
 	/**
@@ -218,7 +216,9 @@ class UserHooksTest extends TestCase {
 				$header = substr($key, 0, strlen(Crypt::HEADER_START));
 				$this->assertSame(
 					Crypt::HEADER_START,
-					$header, 'every encrypted file should start with a header');
+					$header,
+					'every encrypted file should start with a header'
+				);
 			});
 
 		$this->assertNull($this->instance->setPassphrase($this->params));
@@ -387,7 +387,5 @@ class UserHooksTest extends TestCase {
 					$this->recoveryMock
 				]
 			)->setMethods(['setupFS'])->getMock();
-
 	}
-
 }

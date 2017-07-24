@@ -75,7 +75,9 @@ class HookManagerTest extends TestCase {
 		$cal->expects($this->once())->method('getCalendarsForUserCount')->willReturn(0);
 		$cal->expects($this->once())->method('createCalendar')->with(
 			'principals/users/newUser',
-			'personal', ['{DAV:}displayname' => 'Personal']);
+			'personal',
+			['{DAV:}displayname' => 'Personal']
+		);
 
 		/** @var CardDavBackend | \PHPUnit_Framework_MockObject_MockObject $card */
 		$card = $this->getMockBuilder(CardDavBackend::class)
@@ -84,7 +86,9 @@ class HookManagerTest extends TestCase {
 		$card->expects($this->once())->method('getAddressBooksForUserCount')->willReturn(0);
 		$card->expects($this->once())->method('createAddressBook')->with(
 			'principals/users/newUser',
-			'contacts', ['{DAV:}displayname' => 'Contacts']);
+			'contacts',
+			['{DAV:}displayname' => 'Contacts']
+		);
 
 		$hm = new HookManager($userManager, $syncService, $cal, $card, $this->eventDispatcher);
 		$hm->firstLogin($user);
@@ -147,7 +151,9 @@ class HookManagerTest extends TestCase {
 		$cal->expects($this->once())->method('getCalendarsForUserCount')->willReturn(0);
 		$cal->expects($this->once())->method('createCalendar')->with(
 			'principals/users/newUser',
-			'personal', ['{DAV:}displayname' => 'Personal']);
+			'personal',
+			['{DAV:}displayname' => 'Personal']
+		);
 
 		/** @var CardDavBackend | \PHPUnit_Framework_MockObject_MockObject $card */
 		$card = $this->getMockBuilder(CardDavBackend::class)
@@ -156,7 +162,9 @@ class HookManagerTest extends TestCase {
 		$card->expects($this->once())->method('getAddressBooksForUserCount')->willReturn(0);
 		$card->expects($this->once())->method('createAddressBook')->with(
 			'principals/users/newUser',
-			'contacts', ['{DAV:}displayname' => 'Contacts']);
+			'contacts',
+			['{DAV:}displayname' => 'Contacts']
+		);
 
 		$hm = new HookManager($userManager, $syncService, $cal, $card, $this->eventDispatcher);
 		$hm->firstLogin($user);

@@ -83,7 +83,7 @@ $this->create('core_ajax_update', '/core/ajax/update.php')
 	->actionInclude('core/ajax/update.php');
 
 // File routes
-$this->create('files.viewcontroller.showFile', '/f/{fileid}')->action(function($urlParams) {
+$this->create('files.viewcontroller.showFile', '/f/{fileid}')->action(function ($urlParams) {
 	$app = new \OCA\Files\AppInfo\Application($urlParams);
 	$app->dispatch('ViewController', 'index');
 });
@@ -93,7 +93,7 @@ $this->create('files.viewcontroller.showFile', '/f/{fileid}')->action(function($
  * @suppress PhanUndeclaredClassConstant
  * @suppress PhanUndeclaredClassMethod
  */
-$this->create('spreed.pagecontroller.showCall', '/call/{token}')->action(function($urlParams) {
+$this->create('spreed.pagecontroller.showCall', '/call/{token}')->action(function ($urlParams) {
 	if (class_exists(\OCA\Spreed\AppInfo\Application::class, false)) {
 		$app = new \OCA\Spreed\AppInfo\Application($urlParams);
 		$app->dispatch('PageController', 'index');
@@ -103,7 +103,7 @@ $this->create('spreed.pagecontroller.showCall', '/call/{token}')->action(functio
 });
 
 // Sharing routes
-$this->create('files_sharing.sharecontroller.showShare', '/s/{token}')->action(function($urlParams) {
+$this->create('files_sharing.sharecontroller.showShare', '/s/{token}')->action(function ($urlParams) {
 	if (class_exists(\OCA\Files_Sharing\AppInfo\Application::class, false)) {
 		$app = new \OCA\Files_Sharing\AppInfo\Application($urlParams);
 		$app->dispatch('ShareController', 'showShare');
@@ -111,7 +111,7 @@ $this->create('files_sharing.sharecontroller.showShare', '/s/{token}')->action(f
 		throw new \OC\HintException('App file sharing is not enabled');
 	}
 });
-$this->create('files_sharing.sharecontroller.authenticate', '/s/{token}/authenticate')->post()->action(function($urlParams) {
+$this->create('files_sharing.sharecontroller.authenticate', '/s/{token}/authenticate')->post()->action(function ($urlParams) {
 	if (class_exists(\OCA\Files_Sharing\AppInfo\Application::class, false)) {
 		$app = new \OCA\Files_Sharing\AppInfo\Application($urlParams);
 		$app->dispatch('ShareController', 'authenticate');
@@ -119,7 +119,7 @@ $this->create('files_sharing.sharecontroller.authenticate', '/s/{token}/authenti
 		throw new \OC\HintException('App file sharing is not enabled');
 	}
 });
-$this->create('files_sharing.sharecontroller.showAuthenticate', '/s/{token}/authenticate')->get()->action(function($urlParams) {
+$this->create('files_sharing.sharecontroller.showAuthenticate', '/s/{token}/authenticate')->get()->action(function ($urlParams) {
 	if (class_exists(\OCA\Files_Sharing\AppInfo\Application::class, false)) {
 		$app = new \OCA\Files_Sharing\AppInfo\Application($urlParams);
 		$app->dispatch('ShareController', 'showAuthenticate');
@@ -127,7 +127,7 @@ $this->create('files_sharing.sharecontroller.showAuthenticate', '/s/{token}/auth
 		throw new \OC\HintException('App file sharing is not enabled');
 	}
 });
-$this->create('files_sharing.sharecontroller.downloadShare', '/s/{token}/download')->get()->action(function($urlParams) {
+$this->create('files_sharing.sharecontroller.downloadShare', '/s/{token}/download')->get()->action(function ($urlParams) {
 	if (class_exists(\OCA\Files_Sharing\AppInfo\Application::class, false)) {
 		$app = new \OCA\Files_Sharing\AppInfo\Application($urlParams);
 		$app->dispatch('ShareController', 'downloadShare');
@@ -137,6 +137,6 @@ $this->create('files_sharing.sharecontroller.downloadShare', '/s/{token}/downloa
 });
 
 // used for heartbeat
-$this->create('heartbeat', '/heartbeat')->action(function(){
+$this->create('heartbeat', '/heartbeat')->action(function () {
 	// do nothing
 });

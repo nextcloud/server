@@ -54,12 +54,14 @@ class AjaxController extends Controller {
 	 * @param IUserSession $userSession
 	 * @param IGroupManager $groupManager
 	 */
-	public function __construct($appName,
+	public function __construct(
+		$appName,
 								IRequest $request,
 								RSA $rsaMechanism,
 								GlobalAuth $globalAuth,
 								IUserSession $userSession,
-								IGroupManager $groupManager) {
+								IGroupManager $groupManager
+	) {
 		parent::__construct($appName, $request);
 		$this->rsaMechanism = $rsaMechanism;
 		$this->globalAuth = $globalAuth;
@@ -88,12 +90,13 @@ class AjaxController extends Controller {
 	public function getSshKeys($keyLength = 1024) {
 		$key = $this->generateSshKeys($keyLength);
 		return new JSONResponse(
-			array('data' => array(
+			['data' => [
 				'private_key' => $key['privatekey'],
 				'public_key' => $key['publickey']
-			),
+			],
 			'status' => 'success'
-		));
+		]
+		);
 	}
 
 	/**

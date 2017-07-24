@@ -63,13 +63,15 @@ class LockingController extends OCSController {
 	 * @param IConfig $config
 	 * @param IRootFolder $rootFolder
 	 */
-	public function __construct($appName,
+	public function __construct(
+		$appName,
 								IRequest $request,
 								ILockingProvider $lockingProvider,
 								FakeDBLockingProvider $fakeDBLockingProvider,
 								IDBConnection $connection,
 								IConfig $config,
-								IRootFolder $rootFolder) {
+								IRootFolder $rootFolder
+	) {
 		parent::__construct($appName, $request);
 
 		$this->lockingProvider = $lockingProvider;
@@ -233,7 +235,7 @@ class LockingController extends OCSController {
 
 				if ($type === ILockingProvider::LOCK_EXCLUSIVE && (int)$this->config->getAppValue('testing', $lock) === ILockingProvider::LOCK_EXCLUSIVE) {
 					$lockingProvider->releaseLock($path, $this->config->getAppValue('testing', $lock));
-				} else if ($type === ILockingProvider::LOCK_SHARED && (int)$this->config->getAppValue('testing', $lock) === ILockingProvider::LOCK_SHARED) {
+				} elseif ($type === ILockingProvider::LOCK_SHARED && (int)$this->config->getAppValue('testing', $lock) === ILockingProvider::LOCK_SHARED) {
 					$lockingProvider->releaseLock($path, $this->config->getAppValue('testing', $lock));
 				} else {
 					$lockingProvider->releaseLock($path, $this->config->getAppValue('testing', $lock));

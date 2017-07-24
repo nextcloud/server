@@ -72,7 +72,7 @@ class OC_API {
 	/**
 	 * api actions
 	 */
-	protected static $actions = array();
+	protected static $actions = [];
 	private static $logoutRequired = false;
 	private static $isLoggedIn = false;
 
@@ -86,13 +86,18 @@ class OC_API {
 	 * @param array $defaults
 	 * @param array $requirements
 	 */
-	public static function register($method, $url, $action, $app,
+	public static function register(
+		$method,
+		$url,
+		$action,
+		$app,
 				$authLevel = API::USER_AUTH,
-				$defaults = array(),
-				$requirements = array()) {
+				$defaults = [],
+				$requirements = []
+	) {
 		$name = strtolower($method).$url;
-		$name = str_replace(array('/', '{', '}'), '_', $name);
-		if(!isset(self::$actions[$name])) {
+		$name = str_replace(['/', '{', '}'], '_', $name);
+		if (!isset(self::$actions[$name])) {
 			$oldCollection = OC::$server->getRouter()->getCurrentCollection();
 			OC::$server->getRouter()->useCollection('ocs');
 			OC::$server->getRouter()->create($name, $url)
@@ -100,10 +105,10 @@ class OC_API {
 				->defaults($defaults)
 				->requirements($requirements)
 				->action('OC_API', 'call');
-			self::$actions[$name] = array();
+			self::$actions[$name] = [];
 			OC::$server->getRouter()->useCollection($oldCollection);
 		}
-		self::$actions[$name][] = array('app' => $app, 'action' => $action, 'authlevel' => $authLevel);
+		self::$actions[$name][] = ['app' => $app, 'action' => $action, 'authlevel' => $authLevel];
 	}
 
 	/**
@@ -115,38 +120,38 @@ class OC_API {
 		$method = $request->getMethod();
 
 		// Prepare the request variables
-		if($method === 'PUT') {
+		if ($method === 'PUT') {
 			$parameters['_put'] = $request->getParams();
-		} else if($method === 'DELETE') {
+		} elseif ($method === 'DELETE') {
 			$parameters['_delete'] = $request->getParams();
 		}
 		$name = $parameters['_route'];
 		// Foreach registered action
-		$responses = array();
-		foreach(self::$actions[$name] as $action) {
+		$responses = [];
+		foreach (self::$actions[$name] as $action) {
 			// Check authentication and availability
-			if(!self::isAuthorised($action)) {
-				$responses[] = array(
+			if (!self::isAuthorised($action)) {
+				$responses[] = [
 					'app' => $action['app'],
 					'response' => new OC_OCS_Result(null, API::RESPOND_UNAUTHORISED, 'Unauthorised'),
 					'shipped' => OC_App::isShipped($action['app']),
-					);
+					];
 				continue;
 			}
-			if(!is_callable($action['action'])) {
-				$responses[] = array(
+			if (!is_callable($action['action'])) {
+				$responses[] = [
 					'app' => $action['app'],
 					'response' => new OC_OCS_Result(null, API::RESPOND_NOT_FOUND, 'Api method not found'),
 					'shipped' => OC_App::isShipped($action['app']),
-					);
+					];
 				continue;
 			}
 			// Run the action
-			$responses[] = array(
+			$responses[] = [
 				'app' => $action['app'],
 				'response' => call_user_func($action['action'], $parameters),
 				'shipped' => OC_App::isShipped($action['app']),
-				);
+				];
 		}
 		$response = self::mergeResponses($responses);
 		$format = self::requestedFormat();
@@ -164,24 +169,24 @@ class OC_API {
 	 */
 	public static function mergeResponses($responses) {
 		// Sort into shipped and third-party
-		$shipped = array(
-			'succeeded' => array(),
-			'failed' => array(),
-			);
-		$thirdparty = array(
-			'succeeded' => array(),
-			'failed' => array(),
-			);
+		$shipped = [
+			'succeeded' => [],
+			'failed' => [],
+			];
+		$thirdparty = [
+			'succeeded' => [],
+			'failed' => [],
+			];
 
-		foreach($responses as $response) {
-			if($response['shipped'] || ($response['app'] === 'core')) {
-				if($response['response']->succeeded()) {
+		foreach ($responses as $response) {
+			if ($response['shipped'] || ($response['app'] === 'core')) {
+				if ($response['response']->succeeded()) {
 					$shipped['succeeded'][$response['app']] = $response;
 				} else {
 					$shipped['failed'][$response['app']] = $response;
 				}
 			} else {
-				if($response['response']->succeeded()) {
+				if ($response['response']->succeeded()) {
 					$thirdparty['succeeded'][$response['app']] = $response;
 				} else {
 					$thirdparty['failed'][$response['app']] = $response;
@@ -190,14 +195,14 @@ class OC_API {
 		}
 
 		// Remove any error responses if there is one shipped response that succeeded
-		if(!empty($shipped['failed'])) {
+		if (!empty($shipped['failed'])) {
 			// Which shipped response do we use if they all failed?
 			// They may have failed for different reasons (different status codes)
 			// Which response code should we return?
 			// Maybe any that are not \OCP\API::RESPOND_SERVER_ERROR
 			// Merge failed responses if more than one
-			$data = array();
-			foreach($shipped['failed'] as $failure) {
+			$data = [];
+			foreach ($shipped['failed'] as $failure) {
 				$data = array_merge_recursive($data, $failure['response']->getData());
 			}
 			$picked = reset($shipped['failed']);
@@ -206,12 +211,12 @@ class OC_API {
 			$headers = $picked['response']->getHeaders();
 			$response = new OC_OCS_Result($data, $code, $meta['message'], $headers);
 			return $response;
-		} elseif(!empty($shipped['succeeded'])) {
+		} elseif (!empty($shipped['succeeded'])) {
 			$responses = array_merge($shipped['succeeded'], $thirdparty['succeeded']);
-		} elseif(!empty($thirdparty['failed'])) {
+		} elseif (!empty($thirdparty['failed'])) {
 			// Merge failed responses if more than one
-			$data = array();
-			foreach($thirdparty['failed'] as $failure) {
+			$data = [];
+			foreach ($thirdparty['failed'] as $failure) {
 				$data = array_merge_recursive($data, $failure['response']->getData());
 			}
 			$picked = reset($thirdparty['failed']);
@@ -228,8 +233,8 @@ class OC_API {
 		$codes = [];
 		$header = [];
 
-		foreach($responses as $response) {
-			if($response['shipped']) {
+		foreach ($responses as $response) {
+			if ($response['shipped']) {
 				$data = array_merge_recursive($response['response']->getData(), $data);
 			} else {
 				$data = array_merge_recursive($data, $response['response']->getData());
@@ -242,8 +247,8 @@ class OC_API {
 		// Use any non 100 status codes
 		$statusCode = 100;
 		$statusMessage = null;
-		foreach($codes as $code) {
-			if($code['code'] != 100) {
+		foreach ($codes as $code) {
+			if ($code['code'] != 100) {
 				$statusCode = $code['code'];
 				$statusMessage = $code['meta']['message'];
 				break;
@@ -260,7 +265,7 @@ class OC_API {
 	 */
 	private static function isAuthorised($action) {
 		$level = $action['authlevel'];
-		switch($level) {
+		switch ($level) {
 			case API::GUEST_AUTH:
 				// Anyone can access
 				return true;
@@ -270,29 +275,31 @@ class OC_API {
 			case API::SUBADMIN_AUTH:
 				// Check for subadmin
 				$user = self::loginUser();
-				if(!$user) {
+				if (!$user) {
 					return false;
 				} else {
 					$userObject = \OC::$server->getUserSession()->getUser();
-					if($userObject === null) {
+					if ($userObject === null) {
 						return false;
 					}
 					$isSubAdmin = \OC::$server->getGroupManager()->getSubAdmin()->isSubAdmin($userObject);
 					$admin = OC_User::isAdminUser($user);
-					if($isSubAdmin || $admin) {
+					if ($isSubAdmin || $admin) {
 						return true;
 					} else {
 						return false;
 					}
 				}
+				// no break
 			case API::ADMIN_AUTH:
 				// Check for admin
 				$user = self::loginUser();
-				if(!$user) {
+				if (!$user) {
 					return false;
 				} else {
 					return OC_User::isAdminUser($user);
 				}
+				// no break
 			default:
 				// oops looks like invalid level supplied
 				return false;
@@ -304,7 +311,7 @@ class OC_API {
 	 * @return string|false (username, or false on failure)
 	 */
 	private static function loginUser() {
-		if(self::$isLoggedIn === true) {
+		if (self::$isLoggedIn === true) {
 			return \OC_User::getUser();
 		}
 
@@ -353,13 +360,13 @@ class OC_API {
 	 * @param OC_OCS_Result $result
 	 * @param string $format the format xml|json
 	 */
-	public static function respond($result, $format='xml') {
+	public static function respond($result, $format = 'xml') {
 		$request = \OC::$server->getRequest();
 
 		// Send 401 headers if unauthorised
-		if($result->getStatusCode() === API::RESPOND_UNAUTHORISED) {
+		if ($result->getStatusCode() === API::RESPOND_UNAUTHORISED) {
 			// If request comes from JS return dummy auth request
-			if($request->getHeader('X-Requested-With') === 'XMLHttpRequest') {
+			if ($request->getHeader('X-Requested-With') === 'XMLHttpRequest') {
 				header('WWW-Authenticate: DummyBasic realm="Authorisation Required"');
 			} else {
 				header('WWW-Authenticate: Basic realm="Authorisation Required"');
@@ -367,7 +374,7 @@ class OC_API {
 			header('HTTP/1.0 401 Unauthorized');
 		}
 
-		foreach($result->getHeaders() as $name => $value) {
+		foreach ($result->getHeaders() as $name => $value) {
 			header($name . ': ' . $value);
 		}
 
@@ -390,14 +397,14 @@ class OC_API {
 	 * @param XMLWriter $writer
 	 */
 	private static function toXML($array, $writer) {
-		foreach($array as $k => $v) {
+		foreach ($array as $k => $v) {
 			if ($k[0] === '@') {
 				$writer->writeAttribute(substr($k, 1), $v);
 				continue;
-			} else if (is_numeric($k)) {
+			} elseif (is_numeric($k)) {
 				$k = 'element';
 			}
-			if(is_array($v)) {
+			if (is_array($v)) {
 				$writer->startElement($k);
 				self::toXML($v, $writer);
 				$writer->endElement();
@@ -411,7 +418,7 @@ class OC_API {
 	 * @return string
 	 */
 	public static function requestedFormat() {
-		$formats = array('json', 'xml');
+		$formats = ['json', 'xml'];
 
 		$format = !empty($_GET['format']) && in_array($_GET['format'], $formats) ? $_GET['format'] : 'xml';
 		return $format;
@@ -477,12 +484,12 @@ class OC_API {
 	 * @return string
 	 */
 	public static function renderResult($format, $meta, $data) {
-		$response = array(
-			'ocs' => array(
+		$response = [
+			'ocs' => [
 				'meta' => $meta,
 				'data' => $data,
-			),
-		);
+			],
+		];
 		if ($format == 'json') {
 			return OC_JSON::encode($response);
 		}

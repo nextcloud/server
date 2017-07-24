@@ -45,7 +45,7 @@ class UpdaterTest extends \Test\TestCase {
 
 		$this->loginAsUser();
 
-		$this->storage = new Temporary(array());
+		$this->storage = new Temporary([]);
 		$this->updater = $this->storage->getUpdater();
 		$this->cache = $this->storage->getCache();
 	}
@@ -220,9 +220,9 @@ class UpdaterTest extends \Test\TestCase {
 	}
 
 	public function testMoveCrossStorage() {
-		$storage2 = new Temporary(array());
+		$storage2 = new Temporary([]);
 		$cache2 = $storage2->getCache();
-		Filesystem::mount($storage2, array(), '/bar');
+		Filesystem::mount($storage2, [], '/bar');
 		$this->storage->file_put_contents('foo.txt', 'qwerty');
 
 		$this->updater->update('foo.txt');
@@ -251,9 +251,9 @@ class UpdaterTest extends \Test\TestCase {
 	}
 
 	public function testMoveFolderCrossStorage() {
-		$storage2 = new Temporary(array());
+		$storage2 = new Temporary([]);
 		$cache2 = $storage2->getCache();
-		Filesystem::mount($storage2, array(), '/bar');
+		Filesystem::mount($storage2, [], '/bar');
 		$this->storage->mkdir('foo');
 		$this->storage->mkdir('foo/bar');
 		$this->storage->file_put_contents('foo/foo.txt', 'qwerty');

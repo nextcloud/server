@@ -47,12 +47,14 @@ class OauthApiController extends Controller {
 	 * @param DefaultTokenMapper $defaultTokenMapper
 	 * @param ISecureRandom $secureRandom
 	 */
-	public function __construct($appName,
+	public function __construct(
+		$appName,
 								IRequest $request,
 								ICrypto $crypto,
 								AccessTokenMapper $accessTokenMapper,
 								DefaultTokenMapper $defaultTokenMapper,
-								ISecureRandom $secureRandom) {
+								ISecureRandom $secureRandom
+	) {
 		parent::__construct($appName, $request);
 		$this->crypto = $crypto;
 		$this->accessTokenMapper = $accessTokenMapper;

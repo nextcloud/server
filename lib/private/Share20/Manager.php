@@ -177,24 +177,24 @@ class Manager implements IManager {
 			if (!$this->userManager->userExists($share->getSharedWith())) {
 				throw new \InvalidArgumentException('SharedWith is not a valid user');
 			}
-		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
+		} elseif ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
 			// We expect a valid group as sharedWith for group shares
 			if (!$this->groupManager->groupExists($share->getSharedWith())) {
 				throw new \InvalidArgumentException('SharedWith is not a valid group');
 			}
-		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK) {
+		} elseif ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK) {
 			if ($share->getSharedWith() !== null) {
 				throw new \InvalidArgumentException('SharedWith should be empty');
 			}
-		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_REMOTE) {
+		} elseif ($share->getShareType() === \OCP\Share::SHARE_TYPE_REMOTE) {
 			if ($share->getSharedWith() === null) {
 				throw new \InvalidArgumentException('SharedWith should not be empty');
 			}
-		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_EMAIL) {
+		} elseif ($share->getShareType() === \OCP\Share::SHARE_TYPE_EMAIL) {
 			if ($share->getSharedWith() === null) {
 				throw new \InvalidArgumentException('SharedWith should not be empty');
 			}
-		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_CIRCLE) {
+		} elseif ($share->getShareType() === \OCP\Share::SHARE_TYPE_CIRCLE) {
 			$circle = \OCA\Circles\Api\v1\Circles::detailsCircle($share->getSharedWith());
 			if ($circle === null) {
 				throw new \InvalidArgumentException('SharedWith is not a valid circle');
@@ -296,7 +296,6 @@ class Manager implements IManager {
 	 * @throws \Exception
 	 */
 	protected function validateExpirationDate(\OCP\Share\IShare $share) {
-
 		$expirationDate = $share->getExpirationDate();
 
 		if ($expirationDate !== null) {
@@ -321,7 +320,7 @@ class Manager implements IManager {
 
 		if ($fullId === null && $expirationDate === null && $this->shareApiLinkDefaultExpireDate()) {
 			$expirationDate = new \DateTime();
-			$expirationDate->setTime(0,0,0);
+			$expirationDate->setTime(0, 0, 0);
 			$expirationDate->add(new \DateInterval('P'.$this->shareApiLinkDefaultExpireDays().'D'));
 		}
 
@@ -386,7 +385,7 @@ class Manager implements IManager {
 		 */
 		$provider = $this->factory->getProviderForType(\OCP\Share::SHARE_TYPE_USER);
 		$existingShares = $provider->getSharesByPath($share->getNode());
-		foreach($existingShares as $existingShare) {
+		foreach ($existingShares as $existingShare) {
 			// Ignore if it is the same share
 			try {
 				if ($existingShare->getFullId() === $share->getFullId()) {
@@ -443,7 +442,7 @@ class Manager implements IManager {
 		 */
 		$provider = $this->factory->getProviderForType(\OCP\Share::SHARE_TYPE_GROUP);
 		$existingShares = $provider->getSharesByPath($share->getNode());
-		foreach($existingShares as $existingShare) {
+		foreach ($existingShares as $existingShare) {
 			try {
 				if ($existingShare->getFullId() === $share->getFullId()) {
 					continue;
@@ -512,7 +511,7 @@ class Manager implements IManager {
 		// Make sure that we do not share a path that contains a shared mountpoint
 		if ($path instanceof \OCP\Files\Folder) {
 			$mounts = $this->mountManager->findIn($path->getPath());
-			foreach($mounts as $mount) {
+			foreach ($mounts as $mount) {
 				if ($mount->getStorage()->instanceOfStorage('\OCA\Files_Sharing\ISharedStorage')) {
 					throw new \InvalidArgumentException('Path contains files shared with you');
 				}
@@ -560,7 +559,7 @@ class Manager implements IManager {
 		$storage = $share->getNode()->getStorage();
 		if ($storage->instanceOfStorage('OCA\Files_Sharing\External\Storage')) {
 			$parent = $share->getNode()->getParent();
-			while($parent->getStorage()->instanceOfStorage('OCA\Files_Sharing\External\Storage')) {
+			while ($parent->getStorage()->instanceOfStorage('OCA\Files_Sharing\External\Storage')) {
 				$parent = $parent->getParent();
 			}
 			$share->setShareOwner($parent->getOwner()->getUID());
@@ -571,9 +570,9 @@ class Manager implements IManager {
 		//Verify share type
 		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER) {
 			$this->userCreateChecks($share);
-		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
+		} elseif ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
 			$this->groupCreateChecks($share);
-		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK) {
+		} elseif ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK) {
 			$this->linkCreateChecks($share);
 			$this->setLinkParent($share);
 
@@ -597,7 +596,7 @@ class Manager implements IManager {
 			if ($share->getPassword() !== null) {
 				$share->setPassword($this->hasher->hash($share->getPassword()));
 			}
-		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_EMAIL) {
+		} elseif ($share->getShareType() === \OCP\Share::SHARE_TYPE_EMAIL) {
 			$share->setToken(
 				$this->secureRandom->generate(
 					\OC\Share\Constants::TOKEN_LENGTH,
@@ -692,7 +691,7 @@ class Manager implements IManager {
 
 		// We can only change the recipient on user shares
 		if ($share->getSharedWith() !== $originalShare->getSharedWith() &&
-		    $share->getShareType() !== \OCP\Share::SHARE_TYPE_USER) {
+			$share->getShareType() !== \OCP\Share::SHARE_TYPE_USER) {
 			throw new \InvalidArgumentException('Can only update recipient on user shares');
 		}
 
@@ -706,9 +705,9 @@ class Manager implements IManager {
 
 		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER) {
 			$this->userCreateChecks($share);
-		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
+		} elseif ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
 			$this->groupCreateChecks($share);
-		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK) {
+		} elseif ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK) {
 			$this->linkCreateChecks($share);
 
 			$this->updateSharePasswordIfNeeded($share, $originalShare);
@@ -718,7 +717,7 @@ class Manager implements IManager {
 				$this->validateExpirationDate($share);
 				$expirationDateUpdated = true;
 			}
-		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_EMAIL) {
+		} elseif ($share->getShareType() === \OCP\Share::SHARE_TYPE_EMAIL) {
 			$plainTextPassword = $share->getPassword();
 			if (!$this->updateSharePasswordIfNeeded($share, $originalShare)) {
 				$plainTextPassword = null;
@@ -760,7 +759,7 @@ class Manager implements IManager {
 			} else {
 				$userFolder = $this->rootFolder->getUserFolder($share->getSharedBy());
 			}
-			\OC_Hook::emit('OCP\Share', 'post_update_permissions', array(
+			\OC_Hook::emit('OCP\Share', 'post_update_permissions', [
 				'itemType' => $share->getNode() instanceof \OCP\Files\File ? 'file' : 'folder',
 				'itemSource' => $share->getNode()->getId(),
 				'shareType' => $share->getShareType(),
@@ -768,7 +767,7 @@ class Manager implements IManager {
 				'uidOwner' => $share->getSharedBy(),
 				'permissions' => $share->getPermissions(),
 				'path' => $userFolder->getRelativePath($share->getNode()->getPath()),
-			));
+			]);
 		}
 
 		return $share;
@@ -831,7 +830,6 @@ class Manager implements IManager {
 	 * @throws \InvalidArgumentException
 	 */
 	public function deleteShare(\OCP\Share\IShare $share) {
-
 		try {
 			$share->getFullId();
 		} catch (\UnexpectedValueException $e) {
@@ -907,7 +905,7 @@ class Manager implements IManager {
 	public function getSharesInFolder($userId, Folder $node, $reshares = false) {
 		$providers = $this->factory->getAllProviders();
 
-		return array_reduce($providers, function($shares, IShareProvider $provider) use ($userId, $node, $reshares) {
+		return array_reduce($providers, function ($shares, IShareProvider $provider) use ($userId, $node, $reshares) {
 			$newShares = $provider->getSharesInFolder($userId, $node, $reshares);
 			foreach ($newShares as $fid => $data) {
 				if (!isset($shares[$fid])) {
@@ -945,10 +943,9 @@ class Manager implements IManager {
 
 		$shares2 = [];
 
-		while(true) {
+		while (true) {
 			$added = 0;
 			foreach ($shares as $share) {
-
 				try {
 					$this->checkExpireDate($share);
 				} catch (ShareNotFound $e) {
@@ -1045,7 +1042,7 @@ class Manager implements IManager {
 	 *
 	 * @return Share[]
 	 */
-	public function getSharesByPath(\OCP\Files\Node $path, $page=0, $perPage=50) {
+	public function getSharesByPath(\OCP\Files\Node $path, $page = 0, $perPage = 50) {
 		return [];
 	}
 
@@ -1060,7 +1057,7 @@ class Manager implements IManager {
 	public function getShareByToken($token) {
 		$share = null;
 		try {
-			if($this->shareApiAllowLinks()) {
+			if ($this->shareApiAllowLinks()) {
 				$provider = $this->factory->getProviderForType(\OCP\Share::SHARE_TYPE_LINK);
 				$share = $provider->getShareByToken($token);
 			}
@@ -1112,7 +1109,6 @@ class Manager implements IManager {
 			$this->deleteShare($share);
 			throw new ShareNotFound($this->l->t('The requested share does not exist anymore'));
 		}
-
 	}
 
 	/**
@@ -1441,5 +1437,4 @@ class Manager implements IManager {
 
 		return true;
 	}
-
 }

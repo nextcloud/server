@@ -21,7 +21,6 @@
 
 namespace OC\Files\Cache\Wrapper;
 
-
 use OC\Files\Cache\Propagator;
 use OC\Files\Storage\Wrapper\Jail;
 

@@ -39,9 +39,11 @@ class SecuritySettingsController extends Controller {
 	 * @param IRequest $request
 	 * @param IConfig $config
 	 */
-	public function __construct($appName,
+	public function __construct(
+		$appName,
 								IRequest $request,
-								IConfig $config) {
+								IConfig $config
+	) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
 	}
@@ -50,9 +52,9 @@ class SecuritySettingsController extends Controller {
 	 * @return array
 	 */
 	protected function returnSuccess() {
-		return array(
+		return [
 			'status' => 'success'
-		);
+		];
 	}
 
 	/**
@@ -67,5 +69,4 @@ class SecuritySettingsController extends Controller {
 
 		return $this->returnSuccess();
 	}
-
 }

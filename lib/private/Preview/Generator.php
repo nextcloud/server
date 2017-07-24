@@ -89,7 +89,7 @@ class Generator {
 	public function getPreview(File $file, $width = -1, $height = -1, $crop = false, $mode = IPreview::MODE_FILL, $mimeType = null) {
 		$this->eventDispatcher->dispatch(
 			IPreview::EVENT,
-			new GenericEvent($file,[
+			new GenericEvent($file, [
 				'width' => $width,
 				'height' => $height,
 				'crop' => $crop,
@@ -244,7 +244,7 @@ class Generator {
 				} else {
 					$width = $height / $ratio;
 				}
-			} else if ($mode === IPreview::MODE_COVER) {
+			} elseif ($mode === IPreview::MODE_COVER) {
 				if ($ratioH > $ratioW) {
 					$width = $height / $ratio;
 				} else {
@@ -273,9 +273,9 @@ class Generator {
 		}
 
 		/*
- 		 * Make sure the requested height and width fall within the max
- 		 * of the preview.
- 		 */
+		 * Make sure the requested height and width fall within the max
+		 * of the preview.
+		 */
 		if ($height > $maxHeight) {
 			$ratio = $height / $maxHeight;
 			$height = $maxHeight;

@@ -21,7 +21,6 @@
 
 namespace OCA\WorkflowEngine\Check;
 
-
 use OCP\Files\Storage\IStorage;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -63,9 +62,9 @@ class RequestRemoteAddress implements ICheck {
 
 		if ($operator === 'matchesIPv4') {
 			return $this->matchIPv4($actualValue, $decodedValue[0], $decodedValue[1]);
-		} else if ($operator === '!matchesIPv4') {
+		} elseif ($operator === '!matchesIPv4') {
 			return !$this->matchIPv4($actualValue, $decodedValue[0], $decodedValue[1]);
-		} else if ($operator === 'matchesIPv6') {
+		} elseif ($operator === 'matchesIPv6') {
 			return $this->matchIPv6($actualValue, $decodedValue[0], $decodedValue[1]);
 		} else {
 			return !$this->matchIPv6($actualValue, $decodedValue[0], $decodedValue[1]);

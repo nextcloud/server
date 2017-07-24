@@ -21,7 +21,6 @@
 
 namespace OCA\WorkflowEngine\Tests\Check;
 
-
 class RequestRemoteAddressTest extends \Test\TestCase {
 
 	/** @var \OCP\IRequest|\PHPUnit_Framework_MockObject_MockObject */

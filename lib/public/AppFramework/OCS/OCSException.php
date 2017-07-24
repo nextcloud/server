@@ -1,6 +1,6 @@
 <?php
 /**
-
+ *
  *
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -30,4 +30,5 @@ use Exception;
  * @package OCP\AppFramework
  * @since 9.1.0
  */
-class OCSException extends Exception {}
+class OCSException extends Exception {
+}

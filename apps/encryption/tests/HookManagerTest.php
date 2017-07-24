@@ -24,7 +24,6 @@
 
 namespace OCA\Encryption\Tests;
 
-
 use OCA\Encryption\HookManager;
 use OCP\IConfig;
 use Test\TestCase;
@@ -59,7 +58,6 @@ class HookManagerTest extends TestCase {
 		parent::setUpBeforeClass();
 		// have to make instance static to preserve data between tests
 		self::$instance = new HookManager();
-
 	}
 
 	/**
@@ -72,7 +70,5 @@ class HookManagerTest extends TestCase {
 
 		$hookInstances = self::invokePrivate(self::$instance, 'hookInstances');
 		$this->assertCount(3, $hookInstances);
-
 	}
-
 }

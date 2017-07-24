@@ -44,10 +44,12 @@ class BearerAuth extends AbstractBearer {
 	 * @param string $principalPrefix
 	 * @param IRequest $request
 	 */
-	public function __construct(IUserSession $userSession,
+	public function __construct(
+		IUserSession $userSession,
 								ISession $session,
 								IRequest $request,
-								$principalPrefix = 'principals/users/') {
+								$principalPrefix = 'principals/users/'
+	) {
 		$this->userSession = $userSession;
 		$this->session = $session;
 		$this->request = $request;
@@ -70,10 +72,10 @@ class BearerAuth extends AbstractBearer {
 	public function validateBearerToken($bearerToken) {
 		\OC_Util::setupFS();
 
-		if(!$this->userSession->isLoggedIn()) {
+		if (!$this->userSession->isLoggedIn()) {
 			$this->userSession->tryTokenLogin($this->request);
 		}
-		if($this->userSession->isLoggedIn()) {
+		if ($this->userSession->isLoggedIn()) {
 			return $this->setupUserFs($this->userSession->getUser()->getUID());
 		}
 

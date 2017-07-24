@@ -31,11 +31,10 @@ use Symfony\Component\EventDispatcher\Event;
  * @since 9.0.0
  */
 class CommentsEvent extends Event {
-
-	const EVENT_ADD        = 'OCP\Comments\ICommentsManager::addComment';
+	const EVENT_ADD = 'OCP\Comments\ICommentsManager::addComment';
 	const EVENT_PRE_UPDATE = 'OCP\Comments\ICommentsManager::preUpdateComment';
-	const EVENT_UPDATE     = 'OCP\Comments\ICommentsManager::updateComment';
-	const EVENT_DELETE     = 'OCP\Comments\ICommentsManager::deleteComment';
+	const EVENT_UPDATE = 'OCP\Comments\ICommentsManager::updateComment';
+	const EVENT_DELETE = 'OCP\Comments\ICommentsManager::deleteComment';
 
 	/** @var string */
 	protected $event;

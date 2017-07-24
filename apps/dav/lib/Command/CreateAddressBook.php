@@ -41,7 +41,8 @@ class CreateAddressBook extends Command {
 	 * @param IUserManager $userManager
 	 * @param CardDavBackend $cardDavBackend
 	 */
-	function __construct(IUserManager $userManager,
+	public function __construct(
+		IUserManager $userManager,
 						 CardDavBackend $cardDavBackend
 	) {
 		parent::__construct();
@@ -53,12 +54,16 @@ class CreateAddressBook extends Command {
 		$this
 				->setName('dav:create-addressbook')
 				->setDescription('Create a dav addressbook')
-				->addArgument('user',
+				->addArgument(
+					'user',
 						InputArgument::REQUIRED,
-						'User for whom the addressbook will be created')
-				->addArgument('name',
+						'User for whom the addressbook will be created'
+				)
+				->addArgument(
+					'name',
 						InputArgument::REQUIRED,
-						'Name of the addressbook');
+						'Name of the addressbook'
+				);
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {

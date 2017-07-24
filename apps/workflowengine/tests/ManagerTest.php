@@ -21,7 +21,6 @@
 
 namespace OCA\WorkflowEngine\Tests;
 
-
 use OCA\WorkflowEngine\Manager;
 use OCP\IDBConnection;
 use OCP\IL10N;
@@ -48,7 +47,7 @@ class ManagerTest extends TestCase {
 		$container = $this->createMock(IServerContainer::class);
 		$l = $this->createMock(IL10N::class);
 		$l->method('t')
-			->will($this->returnCallback(function($text, $parameters = []) {
+			->will($this->returnCallback(function ($text, $parameters = []) {
 				return vsprintf($text, $parameters);
 			}));
 

@@ -24,11 +24,12 @@
  */
 
 namespace OC\DB;
+
 use OCP\IConfig;
 
 /**
-* Various PostgreSQL specific helper functions.
-*/
+ * Various PostgreSQL specific helper functions.
+ */
 class PgSqlTools {
 
 	/** @var \OCP\IConfig */
@@ -42,11 +43,11 @@ class PgSqlTools {
 	}
 
 	/**
-	* @brief Resynchronizes all sequences of a database after using INSERTs
-	*        without leaving out the auto-incremented column.
-	* @param \OC\DB\Connection $conn
-	* @return null
-	*/
+	 * @brief Resynchronizes all sequences of a database after using INSERTs
+	 *        without leaving out the auto-incremented column.
+	 * @param \OC\DB\Connection $conn
+	 * @return null
+	 */
 	public function resynchronizeDatabaseSequences(Connection $conn) {
 		$filterExpression = '/^' . preg_quote($this->config->getSystemValue('dbtableprefix', 'oc_')) . '/';
 		$databaseName = $conn->getDatabase();
@@ -57,10 +58,10 @@ class PgSqlTools {
 			$sqlInfo = 'SELECT table_schema, table_name, column_name
 				FROM information_schema.columns
 				WHERE column_default = ? AND table_catalog = ?';
-			$sequenceInfo = $conn->fetchAssoc($sqlInfo, array(
+			$sequenceInfo = $conn->fetchAssoc($sqlInfo, [
 				"nextval('$sequenceName'::regclass)",
 				$databaseName
-			));
+			]);
 			$tableName = $sequenceInfo['table_name'];
 			$columnName = $sequenceInfo['column_name'];
 			$sqlMaxId = "SELECT MAX($columnName) FROM $tableName";

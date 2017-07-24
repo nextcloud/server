@@ -1,6 +1,7 @@
 <div id="app-navigation">
 	<ul>
-	<?php if($_['admin']) { ?>
+	<?php if ($_['admin']) {
+	?>
 		<li>
 			<a class="<?php p($_['style1']); ?>"
 				href="<?php print_unescaped($_['url1']); ?>">
@@ -13,7 +14,8 @@
 				<?php p($l->t('Administrator documentation')); ?>
 			</a>
 		</li>
-	<?php } ?>
+	<?php
+} ?>
 
 		<li>
 			<a href="https://docs.nextcloud.org" target="_blank" rel="noreferrer">
@@ -26,13 +28,15 @@
 			</a>
 		</li>
 
-	<?php if($_['admin']) { ?>
+	<?php if ($_['admin']) {
+		?>
 		<li>
 			<a href="https://nextcloud.com/support/" target="_blank" rel="noreferrer">
 				<?php p($l->t('Getting help')); ?> ↗
 			</a>
 		</li>
-	<?php } ?>
+	<?php
+	} ?>
 
 	<li>
 		<a href="https://nextcloud.com/enterprise/" target="_blank" rel="noreferrer">

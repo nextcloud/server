@@ -63,7 +63,7 @@ class CreateEmptyConfig extends Command {
 		$configHolder->saveConfiguration();
 
 		$prose = '';
-		if(!$input->getOption('only-print-prefix')) {
+		if (!$input->getOption('only-print-prefix')) {
 			$prose = 'Created new configuration with configID ';
 		}
 		$output->writeln($prose . "{$configPrefix}");

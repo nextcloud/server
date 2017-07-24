@@ -21,7 +21,6 @@
 
 namespace OCA\Files\Tests\Activity\Filter;
 
-
 use OCA\Files\Activity\Filter\Favorites;
 use OCA\Files\Activity\Filter\FileChanges;
 use OCP\Activity\IFilter;
@@ -34,7 +33,6 @@ use Test\TestCase;
  * @group DB
  */
 class GenericTest extends TestCase {
-
 	public function dataFilters() {
 		return [
 			[Favorites::class],

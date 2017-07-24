@@ -38,7 +38,6 @@ use Sabre\VObject\Property\VCard\DateAndOrTime;
 use Sabre\VObject\Reader;
 
 class BirthdayService {
-
 	const BIRTHDAY_CALENDAR_URI = 'contact_birthdays';
 
 	/** @var GroupPrincipalBackend */
@@ -116,7 +115,7 @@ class BirthdayService {
 		$this->calDavBackEnd->createCalendar($principal, self::BIRTHDAY_CALENDAR_URI, [
 			'{DAV:}displayname' => 'Contact birthdays',
 			'{http://apple.com/ns/ical/}calendar-color' => '#FFFFCA',
-			'components'   => 'VEVENT',
+			'components' => 'VEVENT',
 		]);
 
 		return $this->calDavBackEnd->getCalendarByUri($principal, self::BIRTHDAY_CALENDAR_URI);
@@ -218,9 +217,9 @@ class BirthdayService {
 		$principal = 'principals/users/'.$user;
 		$this->ensureCalendarExists($principal);
 		$books = $this->cardDavBackEnd->getAddressBooksForUser($principal);
-		foreach($books as $book) {
+		foreach ($books as $book) {
 			$cards = $this->cardDavBackEnd->getCards($book['id']);
-			foreach($cards as $card) {
+			foreach ($cards as $card) {
 				$this->onCardChanged($book['id'], $card['uri'], $card['carddata']);
 			}
 		}
@@ -290,5 +289,4 @@ class BirthdayService {
 			}
 		}
 	}
-
 }

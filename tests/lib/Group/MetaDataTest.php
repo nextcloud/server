@@ -56,9 +56,16 @@ class MetaDataTest extends \Test\TestCase {
 		$group->expects($this->exactly(9))
 			->method('getGID')
 			->will($this->onConsecutiveCalls(
-				'admin', 'admin', 'admin',
-				'g2', 'g2', 'g2',
-				'g3', 'g3', 'g3'));
+				'admin',
+				'admin',
+				'admin',
+				'g2',
+				'g2',
+				'g2',
+				'g3',
+				'g3',
+				'g3'
+			));
 
 		$group->expects($this->exactly($countCallCount))
 			->method('count')

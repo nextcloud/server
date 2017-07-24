@@ -68,4 +68,3 @@ interface IFilter {
 	 */
 	public function allowedApps();
 }
-

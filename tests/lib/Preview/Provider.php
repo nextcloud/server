@@ -97,8 +97,8 @@ abstract class Provider extends \Test\TestCase {
 
 		// Testing code
 		/*print_r("w $this->width ");
-		print_r("h $this->height ");
-		print_r("r $ratio ");*/
+	    print_r("h $this->height ");
+	    print_r("r $ratio ");*/
 
 		$preview = $this->getPreview($this->provider);
 		// The TXT provider uses the max dimensions to create its canvas,
@@ -166,13 +166,13 @@ abstract class Provider extends \Test\TestCase {
 
 		// Testing code
 		/*print_r("mw $this->maxWidth ");
-		print_r("mh $this->maxHeight ");
-		print_r("mr $maxDimRatio ");
-		$pw = $preview->width();
-		$ph = $preview->height();
-		print_r("pw $pw ");
-		print_r("ph $ph ");
-		print_r("pr $previewRatio ");*/
+	    print_r("mh $this->maxHeight ");
+	    print_r("mr $maxDimRatio ");
+	    $pw = $preview->width();
+	    $ph = $preview->height();
+	    print_r("pw $pw ");
+	    print_r("ph $ph ");
+	    print_r("pr $previewRatio ");*/
 
 		if ($maxDimRatio < $previewRatio) {
 			$this->assertLessThanOrEqual($this->maxWidth, $preview->width());

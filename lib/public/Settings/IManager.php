@@ -35,7 +35,7 @@ interface IManager {
 	/**
 	 * @since 9.1.0
 	 */
-	const KEY_ADMIN_SECTION  = 'admin-section';
+	const KEY_ADMIN_SECTION = 'admin-section';
 
 	/**
 	 * @since 13.0.0
@@ -45,7 +45,7 @@ interface IManager {
 	/**
 	 * @since 13.0.0
 	 */
-	const KEY_PERSONAL_SECTION  = 'personal-section';
+	const KEY_PERSONAL_SECTION = 'personal-section';
 
 	/**
 	 * sets up settings according to data specified by an apps info.xml, within

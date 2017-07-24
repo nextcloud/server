@@ -21,4 +21,5 @@
 
 namespace OCA\OAuth2\Exceptions;
 
-class AccessTokenNotFoundException extends \Exception {}
+class AccessTokenNotFoundException extends \Exception {
+}

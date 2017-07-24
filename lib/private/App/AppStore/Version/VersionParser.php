@@ -44,7 +44,7 @@ class VersionParser {
 	 */
 	public function getVersion($versionSpec) {
 		// * indicates that the version is compatible with all versions
-		if($versionSpec === '*') {
+		if ($versionSpec === '*') {
 			return new Version('', '');
 		}
 
@@ -56,18 +56,19 @@ class VersionParser {
 		$secondVersion = isset($versionElements[1]) ? $versionElements[1] : '';
 		$secondVersionNumber = substr($secondVersion, 2);
 
-		switch(count($versionElements)) {
+		switch (count($versionElements)) {
 			case 1:
-				if(!$this->isValidVersionString($firstVersionNumber)) {
+				if (!$this->isValidVersionString($firstVersionNumber)) {
 					break;
 				}
-				if(substr($firstVersion, 0, 1) === '>') {
+				if (substr($firstVersion, 0, 1) === '>') {
 					return new Version($firstVersionNumber, '');
 				} else {
 					return new Version('', $firstVersionNumber);
 				}
+				// no break
 			case 2:
-				if(!$this->isValidVersionString($firstVersionNumber) || !$this->isValidVersionString($secondVersionNumber)) {
+				if (!$this->isValidVersionString($firstVersionNumber) || !$this->isValidVersionString($secondVersionNumber)) {
 					break;
 				}
 				return new Version($firstVersionNumber, $secondVersionNumber);

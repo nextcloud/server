@@ -113,7 +113,7 @@ class PhotoCache {
 
 			$ratio = $photo->width() / $photo->height();
 			if ($ratio < 1) {
-				$ratio = 1/$ratio;
+				$ratio = 1 / $ratio;
 			}
 			$size = (int)($size * $ratio);
 
@@ -124,7 +124,6 @@ class PhotoCache {
 				$file = $folder->newFile($path);
 				$file->putContent($photo->data());
 			} catch (NotPermittedException $e) {
-
 			}
 		}
 
@@ -182,7 +181,7 @@ class PhotoCache {
 					return false;
 				}
 				if (substr_count($parsed['path'], ';') === 1) {
-					list($type,) = explode(';', $parsed['path']);
+					list($type, ) = explode(';', $parsed['path']);
 				}
 				$val = file_get_contents($val);
 			}
@@ -193,7 +192,7 @@ class PhotoCache {
 				'image/gif',
 			];
 
-			if(!in_array($type, $allowedContentTypes, true)) {
+			if (!in_array($type, $allowedContentTypes, true)) {
 				$type = 'application/octet-stream';
 			}
 
@@ -201,8 +200,7 @@ class PhotoCache {
 				'Content-Type' => $type,
 				'body' => $val
 			];
-		} catch(\Exception $ex) {
-
+		} catch (\Exception $ex) {
 		}
 		return false;
 	}

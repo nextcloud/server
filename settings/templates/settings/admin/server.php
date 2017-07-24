@@ -102,16 +102,13 @@
 			<li>
 				<?php
 				$locales = 'en_US.UTF-8/fr_FR.UTF-8/es_ES.UTF-8/de_DE.UTF-8/ru_RU.UTF-8/pt_BR.UTF-8/it_IT.UTF-8/ja_JP.UTF-8/zh_CN.UTF-8';
-				p($l->t('System locale can not be set to a one which supports UTF-8.'));
-				?>
+			p($l->t('System locale can not be set to a one which supports UTF-8.')); ?>
 				<br>
 				<?php
-				p($l->t('This means that there might be problems with certain characters in filenames.'));
-				?>
+				p($l->t('This means that there might be problems with certain characters in filenames.')); ?>
 				<br>
 				<?php
-				p($l->t('It is strongly proposed to install the required packages on your system to support one of the following locales: %s.', [$locales]));
-				?>
+				p($l->t('It is strongly proposed to install the required packages on your system to support one of the following locales: %s.', [$locales])); ?>
 			</li>
 			<?php
 		}
@@ -130,9 +127,13 @@
 				<?php p($l->t('It was not possible to execute the cron job via CLI. The following technical errors have appeared:')); ?>
 				<br>
 				<ol>
-					<?php foreach(json_decode($_['cronErrors']) as $error) { if(isset($error->error)) {?>
+					<?php foreach (json_decode($_['cronErrors']) as $error) {
+				if (isset($error->error)) {
+					?>
 						<li><?php p($error->error) ?> <?php p($error->hint) ?></li>
-					<?php }};?>
+					<?php
+				}
+			}; ?>
 				</ol>
 			</li>
 			<?php
@@ -140,13 +141,17 @@
 		?>
 	</ul>
 
-	<div id="postsetupchecks" data-check-wellknown="<?php if($_['checkForWorkingWellKnownSetup']) { p('true'); } else { p('false'); } ?>">
+	<div id="postsetupchecks" data-check-wellknown="<?php if ($_['checkForWorkingWellKnownSetup']) {
+			p('true');
+		} else {
+			p('false');
+		} ?>">
 		<div class="loading"></div>
 		<ul class="errors hidden"></ul>
 		<ul class="warnings hidden"></ul>
 		<ul class="info hidden"></ul>
 		<p class="hint hidden">
-			<?php print_unescaped($l->t('Please double check the <a target="_blank" rel="noreferrer" href="%s">installation guides ↗</a>, and check for any errors or warnings in the <a href="%s">log</a>.', [link_to_docs('admin-install'), \OC::$server->getURLGenerator()->linkToRoute('settings.AdminSettings.index', ['section' => 'logging'])] )); ?>
+			<?php print_unescaped($l->t('Please double check the <a target="_blank" rel="noreferrer" href="%s">installation guides ↗</a>, and check for any errors or warnings in the <a href="%s">log</a>.', [link_to_docs('admin-install'), \OC::$server->getURLGenerator()->linkToRoute('settings.AdminSettings.index', ['section' => 'logging'])])); ?>
 		</p>
 	</div>
 	<div id="security-warning-state">
@@ -186,33 +191,33 @@
 	<p>
 		<input type="radio" name="mode" value="ajax" class="radio"
 			   id="backgroundjobs_ajax" <?php if ($_['backgroundjobs_mode'] === "ajax") {
-			print_unescaped('checked="checked"');
-		} ?>>
+				print_unescaped('checked="checked"');
+			} ?>>
 		<label for="backgroundjobs_ajax">AJAX</label><br/>
 		<em><?php p($l->t("Execute one task with each page loaded")); ?></em>
 	</p>
 	<p>
 		<input type="radio" name="mode" value="webcron" class="radio"
 			   id="backgroundjobs_webcron" <?php if ($_['backgroundjobs_mode'] === "webcron") {
-			print_unescaped('checked="checked"');
-		} ?>>
+				print_unescaped('checked="checked"');
+			} ?>>
 		<label for="backgroundjobs_webcron">Webcron</label><br/>
 		<em><?php p($l->t("cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP.")); ?></em>
 	</p>
 	<p>
 		<input type="radio" name="mode" value="cron" class="radio"
 			   id="backgroundjobs_cron" <?php if ($_['backgroundjobs_mode'] === "cron") {
-			print_unescaped('checked="checked"');
-		}
+				print_unescaped('checked="checked"');
+			}
 		if (!$_['cli_based_cron_possible']) {
 			print_unescaped('disabled');
 		}?>>
 		<label for="backgroundjobs_cron">Cron</label><br/>
 		<em><?php p($l->t("Use system cron service to call the cron.php file every 15 minutes.")); ?>
-			<?php if($_['cli_based_cron_possible']) {
-				p($l->t('The cron.php needs to be executed by the system user "%s".', [$_['cli_based_cron_user']]));
-			} else {
-				print_unescaped(str_replace(
+			<?php if ($_['cli_based_cron_possible']) {
+			p($l->t('The cron.php needs to be executed by the system user "%s".', [$_['cli_based_cron_user']]));
+		} else {
+			print_unescaped(str_replace(
 					['{linkstart}', '{linkend}'],
 					['<a href="http://php.net/manual/en/book.posix.php">', ' ↗</a>'],
 					$l->t('To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details.')

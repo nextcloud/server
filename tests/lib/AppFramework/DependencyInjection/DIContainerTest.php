@@ -26,7 +26,6 @@
 
 namespace Test\AppFramework\DependencyInjection;
 
-
 use OC\AppFramework\Core\API;
 use OC\AppFramework\DependencyInjection\DIContainer;
 use \OC\AppFramework\Http\Request;
@@ -43,7 +42,7 @@ class DIContainerTest extends \Test\TestCase {
 	private $container;
 	private $api;
 
-	protected function setUp(){
+	protected function setUp() {
 		parent::setUp();
 		$this->container = $this->getMockBuilder(DIContainer::class)
 			->setMethods(['isAdminUser'])
@@ -54,36 +53,36 @@ class DIContainerTest extends \Test\TestCase {
 			->getMock();
 	}
 
-	public function testProvidesAPI(){
+	public function testProvidesAPI() {
 		$this->assertTrue(isset($this->container['API']));
 	}
 
 
-	public function testProvidesRequest(){
+	public function testProvidesRequest() {
 		$this->assertTrue(isset($this->container['Request']));
 	}
 
 
-	public function testProvidesSecurityMiddleware(){
+	public function testProvidesSecurityMiddleware() {
 		$this->assertTrue(isset($this->container['SecurityMiddleware']));
 	}
 
 
-	public function testProvidesMiddlewareDispatcher(){
+	public function testProvidesMiddlewareDispatcher() {
 		$this->assertTrue(isset($this->container['MiddlewareDispatcher']));
 	}
 
 
-	public function testProvidesAppName(){
+	public function testProvidesAppName() {
 		$this->assertTrue(isset($this->container['AppName']));
 	}
 
 
-	public function testAppNameIsSetCorrectly(){
+	public function testAppNameIsSetCorrectly() {
 		$this->assertEquals('name', $this->container['AppName']);
 	}
 
-	public function testMiddlewareDispatcherIncludesSecurityMiddleware(){
+	public function testMiddlewareDispatcherIncludesSecurityMiddleware() {
 		$this->container['Request'] = new Request(
 			['method' => 'GET'],
 			$this->getMockBuilder(ISecureRandom::class)

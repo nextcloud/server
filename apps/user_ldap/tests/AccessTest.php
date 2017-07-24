@@ -78,7 +78,7 @@ class AccessTest extends \Test\TestCase {
 	}
 
 	private function getConnectorAndLdapMock() {
-		$lw  = $this->createMock(ILDAPWrapper::class);
+		$lw = $this->createMock(ILDAPWrapper::class);
 		$connector = $this->getMockBuilder(Connection::class)
 			->setConstructorArgs([$lw, null, null])
 			->getMock();
@@ -95,7 +95,7 @@ class AccessTest extends \Test\TestCase {
 			->getMock();
 		$helper = new Helper(\OC::$server->getConfig());
 
-		return array($lw, $connector, $um, $helper);
+		return [$lw, $connector, $um, $helper];
 	}
 
 	public function testEscapeFilterPartValidChars() {
@@ -134,9 +134,9 @@ class AccessTest extends \Test\TestCase {
 	}
 
 	public function convertSID2StrSuccessData() {
-		return array(
-			array(
-				array(
+		return [
+			[
+				[
 					"\x01",
 					"\x04",
 					"\x00\x00\x00\x00\x00\x05",
@@ -144,20 +144,20 @@ class AccessTest extends \Test\TestCase {
 					"\xa6\x81\xe5\x0e",
 					"\x4d\x6c\x6c\x2b",
 					"\xca\x32\x05\x5f",
-				),
+				],
 				'S-1-5-21-249921958-728525901-1594176202',
-			),
-			array(
-				array(
+			],
+			[
+				[
 					"\x01",
 					"\x02",
 					"\xFF\xFF\xFF\xFF\xFF\xFF",
 					"\xFF\xFF\xFF\xFF",
 					"\xFF\xFF\xFF\xFF",
-				),
+				],
 				'S-1-281474976710655-4294967295-4294967295',
-			),
-		);
+			],
+		];
 	}
 
 	public function testConvertSID2StrInputError() {
@@ -201,23 +201,23 @@ class AccessTest extends \Test\TestCase {
 	}
 
 	private function getResemblesDNInputData() {
-		return  $cases = array(
-			array(
+		return  $cases = [
+			[
 				'input' => 'foo=bar,bar=foo,dc=foobar',
-				'interResult' => array(
+				'interResult' => [
 					'count' => 3,
 					0 => 'foo=bar',
 					1 => 'bar=foo',
 					2 => 'dc=foobar'
-				),
+				],
 				'expectedResult' => true
-			),
-			array(
+			],
+			[
 				'input' => 'foobarbarfoodcfoobar',
 				'interResult' => false,
 				'expectedResult' => false
-			)
-		);
+			]
+		];
 	}
 
 	public function testStringResemblesDN() {
@@ -229,15 +229,15 @@ class AccessTest extends \Test\TestCase {
 		$lw->expects($this->exactly(2))
 			->method('explodeDN')
 			->will($this->returnCallback(function ($dn) use ($cases) {
-				foreach($cases as $case) {
-					if($dn === $case['input']) {
+				foreach ($cases as $case) {
+					if ($dn === $case['input']) {
 						return $case['interResult'];
 					}
 				}
 				return null;
 			}));
 
-		foreach($cases as $case) {
+		foreach ($cases as $case) {
 			$this->assertSame($case['expectedResult'], $access->stringResemblesDN($case['input']));
 		}
 	}
@@ -247,13 +247,13 @@ class AccessTest extends \Test\TestCase {
 		$lw = new \OCA\User_LDAP\LDAP();
 		$access = new Access($con, $lw, $um, $helper);
 
-		if(!function_exists('ldap_explode_dn')) {
+		if (!function_exists('ldap_explode_dn')) {
 			$this->markTestSkipped('LDAP Module not available');
 		}
 
 		$cases = $this->getResemblesDNInputData();
 
-		foreach($cases as $case) {
+		foreach ($cases as $case) {
 			$this->assertSame($case['expectedResult'], $access->stringResemblesDN($case['input']));
 		}
 	}
@@ -290,20 +290,20 @@ class AccessTest extends \Test\TestCase {
 		$access->setUserMapper($mapperMock);
 
 		$displayNameAttribute = strtolower($access->connection->ldapUserDisplayName);
-		$data = array(
-			array(
+		$data = [
+			[
 				'dn' => 'foobar',
 				$displayNameAttribute => 'barfoo'
-			),
-			array(
+			],
+			[
 				'dn' => 'foo',
 				$displayNameAttribute => 'bar'
-			),
-			array(
+			],
+			[
 				'dn' => 'raboof',
 				$displayNameAttribute => 'oofrab'
-			)
-		);
+			]
+		];
 
 		$userMock->expects($this->exactly(count($data)))
 			->method('processAttributes');
@@ -317,12 +317,12 @@ class AccessTest extends \Test\TestCase {
 
 	public function dNAttributeProvider() {
 		// corresponds to Access::resemblesDN()
-		return array(
-			'dn' => array('dn'),
-			'uniqueMember' => array('uniquemember'),
-			'member' => array('member'),
-			'memberOf' => array('memberof')
-		);
+		return [
+			'dn' => ['dn'],
+			'uniqueMember' => ['uniquemember'],
+			'member' => ['member'],
+			'memberOf' => ['memberof']
+		];
 	}
 
 	/**
@@ -340,9 +340,9 @@ class AccessTest extends \Test\TestCase {
 
 		$lw->expects($this->any())
 			->method('getAttributes')
-			->will($this->returnValue(array(
-				$attribute => array('count' => 1, $dnFromServer)
-			)));
+			->will($this->returnValue([
+				$attribute => ['count' => 1, $dnFromServer]
+			]));
 
 		$access = new Access($con, $lw, $um, $helper);
 		$values = $access->readAttribute('uid=whoever,dc=example,dc=org', $attribute);

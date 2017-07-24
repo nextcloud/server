@@ -27,7 +27,7 @@ use OCP\AppFramework\App;
 use OCA\Files_Trashbin\Expiration;
 
 class Application extends App {
-	public function __construct (array $urlParams = []) {
+	public function __construct(array $urlParams = []) {
 		parent::__construct('files_trashbin', $urlParams);
 
 		$container = $this->getContainer();
@@ -39,7 +39,7 @@ class Application extends App {
 		/*
 		 * Register expiration
 		 */
-		$container->registerService('Expiration', function($c) {
+		$container->registerService('Expiration', function ($c) {
 			return  new Expiration(
 				$c->query('ServerContainer')->getConfig(),
 				$c->query('OCP\AppFramework\Utility\ITimeFactory')

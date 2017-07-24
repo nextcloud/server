@@ -98,4 +98,3 @@ class SqliteAutoincrement implements IRepairStep {
 		$this->connection->commit();
 	}
 }
-

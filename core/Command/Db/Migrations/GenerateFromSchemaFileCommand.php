@@ -24,7 +24,6 @@
 
 namespace OC\Core\Command\Db\Migrations;
 
-
 use Doctrine\DBAL\Schema\Schema;
 use OC\DB\MDB2SchemaReader;
 use OC\DB\MigrationService;
@@ -60,7 +59,7 @@ class GenerateFromSchemaFileCommand extends GenerateCommand {
 		$appName = $input->getArgument('app');
 		$version = $input->getArgument('version');
 
-		if (!preg_match('/^\d{1,16}$/',$version)) {
+		if (!preg_match('/^\d{1,16}$/', $version)) {
 			$output->writeln('<error>The given version is invalid. Only 0-9 are allowed (max. 16 digits)</error>');
 			return 1;
 		}
@@ -98,7 +97,10 @@ class GenerateFromSchemaFileCommand extends GenerateCommand {
 EOT;
 
 		foreach ($schema->getTables() as $table) {
-			$content .= str_replace('{{table-name}}', substr($table->getName(), 3), <<<'EOT'
+			$content .= str_replace(
+				'{{table-name}}',
+				substr($table->getName(), 3),
+				<<<'EOT'
 
 		if (!$schema->hasTable('{{table-name}}')) {
 			$table = $schema->createTable('{{table-name}}');
@@ -107,7 +109,10 @@ EOT
 			);
 
 			foreach ($table->getColumns() as $column) {
-				$content .= str_replace(['{{name}}', '{{type}}'], [$column->getName(), $column->getType()->getName()], <<<'EOT'
+				$content .= str_replace(
+					['{{name}}', '{{type}}'],
+					[$column->getName(), $column->getType()->getName()],
+					<<<'EOT'
 			$table->addColumn('{{name}}', '{{type}}', [
 
 EOT
@@ -118,13 +123,19 @@ EOT
 
 EOT;
 				}
-				$content .= str_replace('{{notnull}}', $column->getNotnull() ? 'true' : 'false', <<<'EOT'
+				$content .= str_replace(
+					'{{notnull}}',
+					$column->getNotnull() ? 'true' : 'false',
+					<<<'EOT'
 				'notnull' => {{notnull}},
 
 EOT
 				);
 				if ($column->getLength() !== null) {
-					$content .= str_replace('{{length}}', $column->getLength(), <<<'EOT'
+					$content .= str_replace(
+						'{{length}}',
+						$column->getLength(),
+						<<<'EOT'
 				'length' => {{length}},
 
 EOT
@@ -133,7 +144,10 @@ EOT
 				$default = $column->getDefault();
 				if ($default !== null) {
 					$default = is_numeric($default) ? $default : "'$default'";
-					$content .= str_replace('{{default}}', $default, <<<'EOT'
+					$content .= str_replace(
+						'{{default}}',
+						$default,
+						<<<'EOT'
 				'default' => {{default}},
 
 EOT
@@ -151,7 +165,10 @@ EOT;
 
 			$primaryKey = $table->getPrimaryKey();
 			if ($primaryKey !== null) {
-				$content .= str_replace('{{columns}}', implode('\', \'', $primaryKey->getUnquotedColumns()), <<<'EOT'
+				$content .= str_replace(
+					'{{columns}}',
+					implode('\', \'', $primaryKey->getUnquotedColumns()),
+					<<<'EOT'
 			$table->setPrimaryKey(['{{columns}}']);
 
 EOT

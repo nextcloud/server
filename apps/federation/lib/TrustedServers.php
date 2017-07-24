@@ -229,7 +229,6 @@ class TrustedServers {
 			);
 			if ($result->getStatusCode() === Http::STATUS_OK) {
 				$isValidOwnCloud = $this->checkOwnCloudVersion($result->getBody());
-
 			}
 		} catch (\Exception $e) {
 			$this->logger->debug('No Nextcloud server: ' . $e->getMessage());
@@ -268,9 +267,7 @@ class TrustedServers {
 			strpos($url, 'https://') === 0
 			|| strpos($url, 'http://') === 0
 		) {
-
 			return $url;
-
 		}
 
 		return 'https://' . $url;

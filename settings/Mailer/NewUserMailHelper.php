@@ -64,7 +64,8 @@ class NewUserMailHelper {
 	 * @param ICrypto $crypto
 	 * @param string $fromAddress
 	 */
-	public function __construct(Defaults $themingDefaults,
+	public function __construct(
+		Defaults $themingDefaults,
 								IURLGenerator $urlGenerator,
 								IL10N $l10n,
 								IMailer $mailer,
@@ -72,7 +73,8 @@ class NewUserMailHelper {
 								ITimeFactory $timeFactory,
 								IConfig $config,
 								ICrypto $crypto,
-								$fromAddress) {
+								$fromAddress
+	) {
 		$this->themingDefaults = $themingDefaults;
 		$this->urlGenerator = $urlGenerator;
 		$this->l10n = $l10n;
@@ -149,8 +151,10 @@ class NewUserMailHelper {
 	 * @param IEmailTemplate $emailTemplate
 	 * @throws \Exception If mail could not be sent
 	 */
-	public function sendMail(IUser $user,
-							 IEMailTemplate $emailTemplate) {
+	public function sendMail(
+		IUser $user,
+							 IEMailTemplate $emailTemplate
+	) {
 		$message = $this->mailer->createMessage();
 		$message->setTo([$user->getEMailAddress() => $user->getDisplayName()]);
 		$message->setSubject($this->l10n->t('Your %s account was created', [$this->themingDefaults->getName()]));

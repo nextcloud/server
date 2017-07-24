@@ -111,7 +111,7 @@ class QuerySearchHelperTest extends TestCase {
 		$data['name'] = basename($data['path']);
 		$data['parent'] = -1;
 		if (isset($data['mimetype'])) {
-			list($mimepart,) = explode('/', $data['mimetype']);
+			list($mimepart, ) = explode('/', $data['mimetype']);
 			$data['mimepart'] = $this->mimetypeLoader->getId($mimepart);
 			$data['mimetype'] = $this->mimetypeLoader->getId($data['mimetype']);
 		} else {

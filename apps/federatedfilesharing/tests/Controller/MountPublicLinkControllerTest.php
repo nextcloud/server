@@ -101,7 +101,8 @@ class MountPublicLinkControllerTest extends \Test\TestCase {
 		$this->cloudIdManager = new CloudIdManager();
 
 		$this->controller = new MountPublicLinkController(
-			'federatedfilesharing', $this->request,
+			'federatedfilesharing',
+			$this->request,
 			$this->federatedShareProvider,
 			$this->shareManager,
 			$this->addressHandler,
@@ -124,7 +125,8 @@ class MountPublicLinkControllerTest extends \Test\TestCase {
 	 * @param bool $createSuccessful
 	 * @param string $expectedReturnData
 	 */
-	public function testCreateFederatedShare($shareWith,
+	public function testCreateFederatedShare(
+		$shareWith,
 											 $outgoingSharesAllowed,
 											 $validShareWith,
 											 $token,
@@ -132,7 +134,6 @@ class MountPublicLinkControllerTest extends \Test\TestCase {
 											 $createSuccessful,
 											 $expectedReturnData
 	) {
-
 		$this->federatedShareProvider->expects($this->any())
 			->method('isOutgoingServer2serverShareEnabled')
 			->willReturn($outgoingSharesAllowed);
@@ -140,7 +141,7 @@ class MountPublicLinkControllerTest extends \Test\TestCase {
 		$this->addressHandler->expects($this->any())->method('splitUserRemote')
 			->with($shareWith)
 			->willReturnCallback(
-				function($shareWith) use ($validShareWith, $expectedReturnData) {
+				function ($shareWith) use ($validShareWith, $expectedReturnData) {
 					if ($validShareWith) {
 						return ['user', 'server'];
 					}
@@ -185,9 +186,7 @@ class MountPublicLinkControllerTest extends \Test\TestCase {
 			$this->assertSame(Http::STATUS_OK, $result->getStatus());
 			$this->assertTrue(isset($result->getData()['remoteUrl']));
 			$this->assertSame($expectedReturnData, $result->getData()['remoteUrl']);
-
 		}
-
 	}
 
 	public function dataTestCreateFederatedShare() {
@@ -204,5 +203,4 @@ class MountPublicLinkControllerTest extends \Test\TestCase {
 			['user@server', false, true, 'token', true, true, 'This server doesn\'t support outgoing federated shares'],
 		];
 	}
-
 }

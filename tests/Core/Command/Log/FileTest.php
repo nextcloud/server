@@ -21,7 +21,6 @@
 
 namespace Tests\Core\Command\Log;
 
-
 use OC\Core\Command\Log\File;
 use OCP\IConfig;
 use Symfony\Component\Console\Input\InputInterface;
@@ -120,5 +119,4 @@ class FileTest extends TestCase {
 
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}
-
 }

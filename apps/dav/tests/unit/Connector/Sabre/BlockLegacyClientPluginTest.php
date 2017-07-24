@@ -132,5 +132,4 @@ class BlockLegacyClientPluginTest extends TestCase {
 			->will($this->returnValue(null));
 		$this->blockLegacyClientVersionPlugin->beforeHandler($request);
 	}
-
 }

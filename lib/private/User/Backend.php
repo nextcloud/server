@@ -37,16 +37,16 @@ abstract class Backend implements UserInterface {
 	/**
 	 * actions that user backends can define
 	 */
-	const CREATE_USER		= 1;			// 1 << 0
-	const SET_PASSWORD		= 16;			// 1 << 4
-	const CHECK_PASSWORD	= 256;			// 1 << 8
-	const GET_HOME			= 4096;			// 1 << 12
-	const GET_DISPLAYNAME	= 65536;		// 1 << 16
-	const SET_DISPLAYNAME	= 1048576;		// 1 << 20
-	const PROVIDE_AVATAR	= 16777216;		// 1 << 24
-	const COUNT_USERS		= 268435456;	// 1 << 28
+	const CREATE_USER = 1;			// 1 << 0
+	const SET_PASSWORD = 16;			// 1 << 4
+	const CHECK_PASSWORD = 256;			// 1 << 8
+	const GET_HOME = 4096;			// 1 << 12
+	const GET_DISPLAYNAME = 65536;		// 1 << 16
+	const SET_DISPLAYNAME = 1048576;		// 1 << 20
+	const PROVIDE_AVATAR = 16777216;		// 1 << 24
+	const COUNT_USERS = 268435456;	// 1 << 28
 
-	protected $possibleActions = array(
+	protected $possibleActions = [
 		self::CREATE_USER => 'createUser',
 		self::SET_PASSWORD => 'setPassword',
 		self::CHECK_PASSWORD => 'checkPassword',
@@ -55,19 +55,19 @@ abstract class Backend implements UserInterface {
 		self::SET_DISPLAYNAME => 'setDisplayName',
 		self::PROVIDE_AVATAR => 'canChangeAvatar',
 		self::COUNT_USERS => 'countUsers',
-	);
+	];
 
 	/**
-	* Get all supported actions
-	* @return int bitwise-or'ed actions
-	*
-	* Returns the supported actions as int to be
-	* compared with self::CREATE_USER etc.
-	*/
+	 * Get all supported actions
+	 * @return int bitwise-or'ed actions
+	 *
+	 * Returns the supported actions as int to be
+	 * compared with self::CREATE_USER etc.
+	 */
 	public function getSupportedActions() {
 		$actions = 0;
-		foreach($this->possibleActions AS $action => $methodName) {
-			if(method_exists($this, $methodName)) {
+		foreach ($this->possibleActions as $action => $methodName) {
+			if (method_exists($this, $methodName)) {
 				$actions |= $action;
 			}
 		}
@@ -76,13 +76,13 @@ abstract class Backend implements UserInterface {
 	}
 
 	/**
-	* Check if backend implements actions
-	* @param int $actions bitwise-or'ed actions
-	* @return boolean
-	*
-	* Returns the supported actions as int to be
-	* compared with self::CREATE_USER etc.
-	*/
+	 * Check if backend implements actions
+	 * @param int $actions bitwise-or'ed actions
+	 * @return boolean
+	 *
+	 * Returns the supported actions as int to be
+	 * compared with self::CREATE_USER etc.
+	 */
 	public function implementsActions($actions) {
 		return (bool)($this->getSupportedActions() & $actions);
 	}
@@ -94,7 +94,7 @@ abstract class Backend implements UserInterface {
 	 *
 	 * Deletes a user
 	 */
-	public function deleteUser( $uid ) {
+	public function deleteUser($uid) {
 		return false;
 	}
 
@@ -107,23 +107,23 @@ abstract class Backend implements UserInterface {
 	 * @return string[] an array of all uids
 	 */
 	public function getUsers($search = '', $limit = null, $offset = null) {
-		return array();
+		return [];
 	}
 
 	/**
-	* check if a user exists
-	* @param string $uid the username
-	* @return boolean
-	*/
+	 * check if a user exists
+	 * @param string $uid the username
+	 * @return boolean
+	 */
 	public function userExists($uid) {
 		return false;
 	}
 
 	/**
-	* get the user's home directory
-	* @param string $uid the username
-	* @return boolean
-	*/
+	 * get the user's home directory
+	 * @param string $uid the username
+	 * @return boolean
+	 */
 	public function getHome($uid) {
 		return false;
 	}
@@ -146,9 +146,9 @@ abstract class Backend implements UserInterface {
 	 * @return array an array of all displayNames (value) and the corresponding uids (key)
 	 */
 	public function getDisplayNames($search = '', $limit = null, $offset = null) {
-		$displayNames = array();
+		$displayNames = [];
 		$users = $this->getUsers($search, $limit, $offset);
-		foreach ( $users as $user) {
+		foreach ($users as $user) {
 			$displayNames[$user] = $user;
 		}
 		return $displayNames;

@@ -32,22 +32,22 @@ use OCP\Lock\ILockingProvider;
  */
 class NoopLockingProvider implements ILockingProvider {
 
-    /**
-     * {@inheritdoc}
-     */
+	/**
+	 * {@inheritdoc}
+	 */
 	public function isLocked($path, $type) {
 		return false;
 	}
 
-    /**
-     * {@inheritdoc}
-     */
+	/**
+	 * {@inheritdoc}
+	 */
 	public function acquireLock($path, $type) {
 		// do nothing
 	}
 
 	/**
-     * {@inheritdoc}
+	 * {@inheritdoc}
 	 */
 	public function releaseLock($path, $type) {
 		// do nothing

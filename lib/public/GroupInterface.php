@@ -43,14 +43,14 @@ interface GroupInterface {
 	/**
 	 * actions that user backends can define
 	 */
-	const CREATE_GROUP		= 0x00000001;
-	const DELETE_GROUP		= 0x00000010;
-	const ADD_TO_GROUP		= 0x00000100;
-	const REMOVE_FROM_GOUP	= 0x00001000; // oops
-	const REMOVE_FROM_GROUP	= 0x00001000;
+	const CREATE_GROUP = 0x00000001;
+	const DELETE_GROUP = 0x00000010;
+	const ADD_TO_GROUP = 0x00000100;
+	const REMOVE_FROM_GOUP = 0x00001000; // oops
+	const REMOVE_FROM_GROUP = 0x00001000;
 	//OBSOLETE const GET_DISPLAYNAME	= 0x00010000;
-	const COUNT_USERS		= 0x00100000;
-	const GROUP_DETAILS		= 0x01000000;
+	const COUNT_USERS = 0x00100000;
+	const GROUP_DETAILS = 0x01000000;
 
 	/**
 	 * Check if backend implements actions
@@ -115,5 +115,4 @@ interface GroupInterface {
 	 * @since 4.5.0
 	 */
 	public function usersInGroup($gid, $search = '', $limit = -1, $offset = 0);
-
 }

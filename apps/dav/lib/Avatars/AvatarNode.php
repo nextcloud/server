@@ -22,7 +22,6 @@
 
 namespace OCA\DAV\Avatars;
 
-
 use OCP\IAvatar;
 use Sabre\DAV\File;
 
@@ -93,6 +92,5 @@ class AvatarNode extends File {
 			return (int)$timestamp;
 		}
 		return $timestamp;
-
 	}
 }

@@ -31,7 +31,6 @@ use OCP\Files\IMimeTypeDetector;
 use OCP\Files\IMimeTypeLoader;
 
 class UpdateDB extends Command {
-
 	const DEFAULT_MIMETYPE = 'application/octet-stream';
 
 	/** @var IMimeTypeDetector */

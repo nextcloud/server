@@ -60,5 +60,4 @@ class Disable extends Base {
 		$this->manager->disableTwoFactorAuthentication($user);
 		$output->writeln("Two-factor authentication disabled for user $uid");
 	}
-
 }

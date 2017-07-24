@@ -21,7 +21,6 @@
 
 namespace OCA\DAV\CalDAV\Activity\Setting;
 
-
 use OCP\Activity\ISetting;
 use OCP\IL10N;
 
@@ -95,4 +94,3 @@ class Todo implements ISetting {
 		return false;
 	}
 }
-

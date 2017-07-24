@@ -11,7 +11,7 @@
 			<br><br>
 			<p style="text-align:center;">
 				<a href="<?php print_unescaped(\OC::$server->getURLGenerator()->getAbsoluteURL(\OCP\Util::linkToRoute('settings.AdminSettings.index'))); ?>?trustDomain=<?php p($_['domain']); ?>" class="button">
-					<?php p($l->t('Add "%s" as trusted domain', array($_['domain']))); ?>
+					<?php p($l->t('Add "%s" as trusted domain', [$_['domain']])); ?>
 				</a>
 			</p>
 		</p>

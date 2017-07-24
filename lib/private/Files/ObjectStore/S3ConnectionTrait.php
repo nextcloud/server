@@ -95,14 +95,14 @@ trait S3ConnectionTrait {
 
 		if (!$this->connection->doesBucketExist($this->bucket)) {
 			try {
-				$this->connection->createBucket(array(
+				$this->connection->createBucket([
 					'Bucket' => $this->bucket
-				));
-				$this->connection->waitUntilBucketExists(array(
+				]);
+				$this->connection->waitUntilBucketExists([
 					'Bucket' => $this->bucket,
 					'waiter.interval' => 1,
 					'waiter.max_attempts' => 15
-				));
+				]);
 				$this->testTimeout();
 			} catch (S3Exception $e) {
 				\OCP\Util::logException('files_external', $e);

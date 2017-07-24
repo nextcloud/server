@@ -51,14 +51,16 @@ class Hooks {
 	/** @var IL10N */
 	protected $l;
 
-	public function __construct(IActivityManager $activityManager,
+	public function __construct(
+		IActivityManager $activityManager,
 								IUserManager $userManager,
 								IUserSession $userSession,
 								IURLGenerator $urlGenerator,
 								IMailer $mailer,
 								IConfig $config,
 								IFactory $languageFactory,
-								IL10N $l) {
+								IL10N $l
+	) {
 		$this->activityManager = $activityManager;
 		$this->userManager = $userManager;
 		$this->userSession = $userSession;
@@ -96,7 +98,9 @@ class Hooks {
 				$this->l = $this->languageFactory->get(
 					'settings',
 					$this->config->getUserValue(
-						$user->getUID(), 'core', 'lang',
+						$user->getUID(),
+						'core',
+						'lang',
 						$this->config->getSystemValue('default_language', 'en')
 					)
 				);
@@ -141,7 +145,6 @@ class Hooks {
 	 * @throws \BadMethodCallException
 	 */
 	public function onChangeEmail(IUser $user, $oldMailAddress) {
-
 		if ($oldMailAddress === $user->getEMailAddress() ||
 			$user->getLastLogin() === 0) {
 			// Email didn't really change or user didn't login,
@@ -162,7 +165,9 @@ class Hooks {
 				$this->l = $this->languageFactory->get(
 					'settings',
 					$this->config->getUserValue(
-						$user->getUID(), 'core', 'lang',
+						$user->getUID(),
+						'core',
+						'lang',
 						$this->config->getSystemValue('default_language', 'en')
 					)
 				);

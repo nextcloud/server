@@ -6,7 +6,7 @@
  * later.
  * See the COPYING-README file.
  *
-*/
+ */
 
 namespace Test\SystemTag;
 
@@ -88,7 +88,7 @@ class SystemTagObjectMapperTest extends TestCase {
 
 		$this->tagManager->expects($this->any())
 			->method('getTagsByIds')
-			->will($this->returnCallback(function($tagIds) {
+			->will($this->returnCallback(function ($tagIds) {
 				$result = [];
 				if (in_array(1, $tagIds)) {
 					$result[1] = $this->tag1;

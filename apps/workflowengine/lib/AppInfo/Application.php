@@ -22,7 +22,6 @@
 namespace OCA\WorkflowEngine\AppInfo;
 
 class Application extends \OCP\AppFramework\App {
-
 	public function __construct() {
 		parent::__construct('workflowengine');
 
@@ -37,7 +36,7 @@ class Application extends \OCP\AppFramework\App {
 		$dispatcher = $this->getContainer()->getServer()->getEventDispatcher();
 		$dispatcher->addListener(
 			'OCP\WorkflowEngine::loadAdditionalSettingScripts',
-			function() {
+			function () {
 				if (!function_exists('style')) {
 					// This is hacky, but we need to load the template class
 					class_exists('OCP\Template', true);

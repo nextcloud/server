@@ -42,13 +42,13 @@ class DavAclPlugin extends \Sabre\DAVACL\Plugin {
 		$this->allowUnauthenticatedAccess = false;
 	}
 
-	function checkPrivileges($uri, $privileges, $recursion = self::R_PARENT, $throwExceptions = true) {
+	public function checkPrivileges($uri, $privileges, $recursion = self::R_PARENT, $throwExceptions = true) {
 		$access = parent::checkPrivileges($uri, $privileges, $recursion, false);
-		if($access === false && $throwExceptions) {
+		if ($access === false && $throwExceptions) {
 			/** @var INode $node */
 			$node = $this->server->tree->getNodeForPath($uri);
 
-			switch(get_class($node)) {
+			switch (get_class($node)) {
 				case 'OCA\DAV\CardDAV\AddressBook':
 					$type = 'Addressbook';
 					break;
@@ -71,7 +71,7 @@ class DavAclPlugin extends \Sabre\DAVACL\Plugin {
 	public function propFind(PropFind $propFind, INode $node) {
 		// If the node is neither readable nor writable then fail unless its of
 		// the standard user-principal
-		if(!($node instanceof User)) {
+		if (!($node instanceof User)) {
 			$path = $propFind->getPath();
 			$readPermissions = $this->checkPrivileges($path, '{DAV:}read', self::R_PARENT, false);
 			$writePermissions = $this->checkPrivileges($path, '{DAV:}write', self::R_PARENT, false);

@@ -39,7 +39,8 @@ class LoaderTest extends \Test\TestCase {
 		$deleteMimetypes = $this->db->getQueryBuilder();
 		$deleteMimetypes->delete('mimetypes')
 			->where($deleteMimetypes->expr()->like(
-				'mimetype', $deleteMimetypes->createPositionalParameter('testing/%')
+				'mimetype',
+				$deleteMimetypes->createPositionalParameter('testing/%')
 			));
 		$deleteMimetypes->execute();
 	}
@@ -89,5 +90,4 @@ class LoaderTest extends \Test\TestCase {
 
 		$this->assertEquals($mimetypeId, $mimetypeId2);
 	}
-
 }

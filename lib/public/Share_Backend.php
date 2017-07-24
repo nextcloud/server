@@ -93,5 +93,4 @@ interface Share_Backend {
 	 * @since 8.0.0
 	 */
 	public function isShareTypeAllowed($shareType);
-
 }

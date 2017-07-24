@@ -28,10 +28,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-class OC_Hook{
+class OC_Hook {
 	public static $thrownExceptions = [];
 
-	static private $registered = array();
+	private static $registered = [];
 
 	/**
 	 * connects a function to a hook
@@ -46,16 +46,16 @@ class OC_Hook{
 	 *
 	 * TODO: write example
 	 */
-	static public function connect($signalClass, $signalName, $slotClass, $slotName ) {
+	public static function connect($signalClass, $signalName, $slotClass, $slotName) {
 		// If we're trying to connect to an emitting class that isn't
 		// yet registered, register it
-		if( !array_key_exists($signalClass, self::$registered )) {
-			self::$registered[$signalClass] = array();
+		if (!array_key_exists($signalClass, self::$registered)) {
+			self::$registered[$signalClass] = [];
 		}
 		// If we're trying to connect to an emitting method that isn't
 		// yet registered, register it with the emitting class
-		if( !array_key_exists( $signalName, self::$registered[$signalClass] )) {
-			self::$registered[$signalClass][$signalName] = array();
+		if (!array_key_exists($signalName, self::$registered[$signalClass])) {
+			self::$registered[$signalClass][$signalName] = [];
 		}
 
 		// don't connect hooks twice
@@ -65,10 +65,10 @@ class OC_Hook{
 			}
 		}
 		// Connect the hook handler to the requested emitter
-		self::$registered[$signalClass][$signalName][] = array(
+		self::$registered[$signalClass][$signalName][] = [
 				"class" => $slotClass,
 				"name" => $slotName
-		);
+		];
 
 		// No chance for failure ;-)
 		return true;
@@ -86,31 +86,31 @@ class OC_Hook{
 	 *
 	 * TODO: write example
 	 */
-	static public function emit($signalClass, $signalName, $params = []) {
+	public static function emit($signalClass, $signalName, $params = []) {
 
 		// Return false if no hook handlers are listening to this
 		// emitting class
-		if( !array_key_exists($signalClass, self::$registered )) {
+		if (!array_key_exists($signalClass, self::$registered)) {
 			return false;
 		}
 
 		// Return false if no hook handlers are listening to this
 		// emitting method
-		if( !array_key_exists( $signalName, self::$registered[$signalClass] )) {
+		if (!array_key_exists($signalName, self::$registered[$signalClass])) {
 			return false;
 		}
 
 		// Call all slots
-		foreach( self::$registered[$signalClass][$signalName] as $i ) {
+		foreach (self::$registered[$signalClass][$signalName] as $i) {
 			try {
-				call_user_func( array( $i["class"], $i["name"] ), $params );
-			} catch (Exception $e){
+				call_user_func([ $i["class"], $i["name"] ], $params);
+			} catch (Exception $e) {
 				self::$thrownExceptions[] = $e;
 				\OC::$server->getLogger()->logException($e);
-				if($e instanceof \OC\HintException) {
+				if ($e instanceof \OC\HintException) {
 					throw $e;
 				}
-				if($e instanceof \OC\ServerNotAvailableException) {
+				if ($e instanceof \OC\ServerNotAvailableException) {
 					throw $e;
 				}
 			}
@@ -124,15 +124,15 @@ class OC_Hook{
 	 * @param string $signalClass
 	 * @param string $signalName
 	 */
-	static public function clear($signalClass='', $signalName='') {
+	public static function clear($signalClass = '', $signalName = '') {
 		if ($signalClass) {
 			if ($signalName) {
-				self::$registered[$signalClass][$signalName]=array();
-			}else{
-				self::$registered[$signalClass]=array();
+				self::$registered[$signalClass][$signalName] = [];
+			} else {
+				self::$registered[$signalClass] = [];
 			}
-		}else{
-			self::$registered=array();
+		} else {
+			self::$registered = [];
 		}
 	}
 
@@ -140,7 +140,7 @@ class OC_Hook{
 	 * DO NOT USE!
 	 * For unit tests ONLY!
 	 */
-	static public function getHooks() {
+	public static function getHooks() {
 		return self::$registered;
 	}
 }

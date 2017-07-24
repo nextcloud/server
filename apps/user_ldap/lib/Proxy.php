@@ -35,7 +35,7 @@ use OCA\User_LDAP\Mapping\GroupMapping;
 use OCA\User_LDAP\User\Manager;
 
 abstract class Proxy {
-	static private $accesses = array();
+	private static $accesses = [];
 	private $ldap = null;
 
 	/** @var \OCP\ICache|null */
@@ -47,7 +47,7 @@ abstract class Proxy {
 	public function __construct(ILDAPWrapper $ldap) {
 		$this->ldap = $ldap;
 		$memcache = \OC::$server->getMemCacheFactory();
-		if($memcache->isAvailable()) {
+		if ($memcache->isAvailable()) {
 			$this->cache = $memcache->create();
 		}
 	}
@@ -65,20 +65,28 @@ abstract class Proxy {
 		static $db;
 		static $coreUserManager;
 		static $coreNotificationManager;
-		if(is_null($fs)) {
+		if (is_null($fs)) {
 			$ocConfig = \OC::$server->getConfig();
-			$fs       = new FilesystemHelper();
-			$log      = new LogWrapper();
-			$avatarM  = \OC::$server->getAvatarManager();
-			$db       = \OC::$server->getDatabaseConnection();
-			$userMap  = new UserMapping($db);
+			$fs = new FilesystemHelper();
+			$log = new LogWrapper();
+			$avatarM = \OC::$server->getAvatarManager();
+			$db = \OC::$server->getDatabaseConnection();
+			$userMap = new UserMapping($db);
 			$groupMap = new GroupMapping($db);
 			$coreUserManager = \OC::$server->getUserManager();
 			$coreNotificationManager = \OC::$server->getNotificationManager();
 		}
 		$userManager =
-			new Manager($ocConfig, $fs, $log, $avatarM, new \OCP\Image(), $db,
-				$coreUserManager, $coreNotificationManager);
+			new Manager(
+				$ocConfig,
+				$fs,
+				$log,
+				$avatarM,
+				new \OCP\Image(),
+				$db,
+				$coreUserManager,
+				$coreNotificationManager
+			);
 		$connector = new Connection($this->ldap, $configPrefix);
 		$access = new Access($connector, $this->ldap, $userManager, new Helper(\OC::$server->getConfig()));
 		$access->setUserMapper($userMap);
@@ -91,7 +99,7 @@ abstract class Proxy {
 	 * @return mixed
 	 */
 	protected function getAccess($configPrefix) {
-		if(!isset(self::$accesses[$configPrefix])) {
+		if (!isset(self::$accesses[$configPrefix])) {
 			$this->addAccess($configPrefix);
 		}
 		return self::$accesses[$configPrefix];
@@ -145,8 +153,8 @@ abstract class Proxy {
 	 * @return mixed, the result of the specified method
 	 */
 	protected function handleRequest($id, $method, $parameters, $passOnWhen = false) {
-		$result = $this->callOnLastSeenOn($id,  $method, $parameters, $passOnWhen);
-		if($result === $passOnWhen) {
+		$result = $this->callOnLastSeenOn($id, $method, $parameters, $passOnWhen);
+		if ($result === $passOnWhen) {
 			$result = $this->walkBackends($id, $method, $parameters);
 		}
 		return $result;
@@ -158,7 +166,7 @@ abstract class Proxy {
 	 */
 	private function getCacheKey($key) {
 		$prefix = 'LDAP-Proxy-';
-		if(is_null($key)) {
+		if (is_null($key)) {
 			return $prefix;
 		}
 		return $prefix.md5($key);
@@ -169,7 +177,7 @@ abstract class Proxy {
 	 * @return mixed|null
 	 */
 	public function getFromCache($key) {
-		if(is_null($this->cache) || !$this->isCached($key)) {
+		if (is_null($this->cache) || !$this->isCached($key)) {
 			return null;
 		}
 		$key = $this->getCacheKey($key);
@@ -182,7 +190,7 @@ abstract class Proxy {
 	 * @return bool
 	 */
 	public function isCached($key) {
-		if(is_null($this->cache)) {
+		if (is_null($this->cache)) {
 			return false;
 		}
 		$key = $this->getCacheKey($key);
@@ -194,16 +202,16 @@ abstract class Proxy {
 	 * @param mixed $value
 	 */
 	public function writeToCache($key, $value) {
-		if(is_null($this->cache)) {
+		if (is_null($this->cache)) {
 			return;
 		}
-		$key   = $this->getCacheKey($key);
+		$key = $this->getCacheKey($key);
 		$value = base64_encode(json_encode($value));
 		$this->cache->set($key, $value, '2592000');
 	}
 
 	public function clearCache() {
-		if(is_null($this->cache)) {
+		if (is_null($this->cache)) {
 			return;
 		}
 		$this->cache->clear($this->getCacheKey(null));

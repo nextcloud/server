@@ -24,7 +24,6 @@
 use Behat\Behat\Context\Context;
 
 class SettingsContext implements Context, ActorAwareInterface {
-
 	use ActorAware;
 
 	/**
@@ -116,7 +115,7 @@ class SettingsContext implements Context, ActorAwareInterface {
 
 		$actor = $this->actor;
 
-		$tagFoundInDropdownCallback = function() use($actor, $tag) {
+		$tagFoundInDropdownCallback = function () use ($actor, $tag) {
 			// Open the dropdown to look for the tag.
 			$actor->find(self::systemTagsSelectTagButton())->click();
 
@@ -148,5 +147,4 @@ class SettingsContext implements Context, ActorAwareInterface {
 
 		PHPUnit_Framework_Assert::fail("The dropdown in system tags section in Administration Settings does not contain the tag $tag after $numberOfTries tries");
 	}
-
 }

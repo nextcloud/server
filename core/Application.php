@@ -39,7 +39,6 @@ use OCP\Util;
  * @package OC\Core
  */
 class Application extends App {
-
 	public function __construct() {
 		parent::__construct('core');
 

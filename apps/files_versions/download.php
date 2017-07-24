@@ -29,11 +29,11 @@ OCP\JSON::checkAppEnabled('files_versions');
 OCP\JSON::checkLoggedIn();
 
 $file = $_GET['file'];
-$revision=(int)$_GET['revision'];
+$revision = (int)$_GET['revision'];
 
 try {
 	list($uid, $filename) = OCA\Files_Versions\Storage::getUidAndFilename($file);
-} catch(\OCP\Files\NotFoundException $e) {
+} catch (\OCP\Files\NotFoundException $e) {
 	header("HTTP/1.1 404 Not Found");
 	$tmpl = new OCP\Template('', '404', 'guest');
 	$tmpl->assign('file', '');

@@ -33,7 +33,6 @@ use \OCA\Files_External\Lib\StorageConfig;
  * Read-only access available, attempting to write will throw DomainException
  */
 class UserGlobalStoragesService extends GlobalStoragesService {
-
 	use UserTrait;
 
 	/** @var IGroupManager */

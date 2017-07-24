@@ -23,7 +23,6 @@
 
 namespace OC\Notification;
 
-
 use OCP\Notification\IApp;
 use OCP\Notification\IManager;
 use OCP\Notification\INotification;

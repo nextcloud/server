@@ -48,12 +48,14 @@ class PreviewController extends Controller {
 	/** @var IPreview */
 	private $previewManager;
 
-	public function __construct($appName,
+	public function __construct(
+		$appName,
 								IRequest $request,
 								IRootFolder $rootFolder,
 								$userId,
 								IMimeTypeDetector $mimeTypeDetector,
-								IPreview $previewManager) {
+								IPreview $previewManager
+	) {
 		parent::__construct($appName, $request);
 
 		$this->rootFolder = $rootFolder;
@@ -78,7 +80,7 @@ class PreviewController extends Controller {
 		$y = 44,
 		$version = ''
 	) {
-		if($file === '' || $version === '' || $x === 0 || $y === 0) {
+		if ($file === '' || $version === '' || $x === 0 || $y === 0) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
 

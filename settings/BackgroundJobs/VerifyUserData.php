@@ -22,7 +22,6 @@
 
 namespace OC\Settings\BackgroundJobs;
 
-
 use OC\Accounts\AccountManager;
 use OC\BackgroundJob\Job;
 use OC\BackgroundJob\JobList;
@@ -68,7 +67,8 @@ class VerifyUserData extends Job {
 	 * @param ILogger $logger
 	 * @param IConfig $config
 	 */
-	public function __construct(AccountManager $accountManager,
+	public function __construct(
+		AccountManager $accountManager,
 								IUserManager $userManager,
 								IClientService $clientService,
 								ILogger $logger,
@@ -90,7 +90,6 @@ class VerifyUserData extends Job {
 	 * @param ILogger $logger
 	 */
 	public function execute($jobList, ILogger $logger = null) {
-
 		if ($this->shouldRun($this->argument)) {
 			parent::execute($jobList, $logger);
 			$jobList->remove($this, $this->argument);
@@ -100,14 +99,12 @@ class VerifyUserData extends Job {
 				$this->resetVerificationState();
 			}
 		}
-
 	}
 
 	protected function run($argument) {
-
 		$try = (int)$argument['try'] + 1;
 
-		switch($argument['type']) {
+		switch ($argument['type']) {
 			case AccountManager::PROPERTY_WEBSITE:
 				$result = $this->verifyWebsite($argument);
 				break;
@@ -133,7 +130,6 @@ class VerifyUserData extends Job {
 	 * @return bool true if we could check the verification code, otherwise false
 	 */
 	protected function verifyWebsite(array $argument) {
-
 		$result = false;
 
 		$url = rtrim($argument['data'], '/') . '/.well-known/' . 'CloudIdVerificationCode.txt';
@@ -178,7 +174,6 @@ class VerifyUserData extends Job {
 	 * @return bool true if we could check the verification code, otherwise false
 	 */
 	protected function verifyViaLookupServer(array $argument, $dataType) {
-
 		$user = $this->userManager->get($argument['uid']);
 
 		// we don't check a valid user -> give up
@@ -234,7 +229,6 @@ class VerifyUserData extends Job {
 			if (is_array($body) && isset($body['federationId']) && $body['federationId'] === $cloudId) {
 				return $body;
 			}
-
 		} catch (\Exception $e) {
 			// do nothing, we will just re-try later
 		}
@@ -249,7 +243,8 @@ class VerifyUserData extends Job {
 	 * @param array $argument
 	 */
 	protected function reAddJob(IJobList $jobList, array $argument) {
-		$jobList->add('OC\Settings\BackgroundJobs\VerifyUserData',
+		$jobList->add(
+			'OC\Settings\BackgroundJobs\VerifyUserData',
 			[
 				'verificationCode' => $argument['verificationCode'],
 				'data' => $argument['data'],
@@ -284,5 +279,4 @@ class VerifyUserData extends Job {
 			$this->accountManager->updateUser($user, $accountData);
 		}
 	}
-
 }

@@ -39,14 +39,18 @@ vendor_style('jcrop/css/jquery.Jcrop');
 
 <div id="quota" class="section">
 	<div style="width:<?php p($_['usage_relative']);?>%"
-		<?php if($_['usage_relative'] > 80): ?> class="quota-warning" <?php endif; ?>>
+		<?php if ($_['usage_relative'] > 80): ?> class="quota-warning" <?php endif; ?>>
 		<p id="quotatext">
 			<?php if ($_['quota'] === \OCP\Files\FileInfo::SPACE_UNLIMITED): ?>
-				<?php print_unescaped($l->t('You are using <strong>%s</strong> of <strong>%s</strong>',
-					[$_['usage'], $_['total_space']]));?>
+				<?php print_unescaped($l->t(
+	'You are using <strong>%s</strong> of <strong>%s</strong>',
+					[$_['usage'], $_['total_space']]
+));?>
 			<?php else: ?>
-				<?php print_unescaped($l->t('You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)',
-					[$_['usage'], $_['total_space'],  $_['usage_relative']]));?>
+				<?php print_unescaped($l->t(
+						'You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)',
+					[$_['usage'], $_['total_space'],  $_['usage_relative']]
+					));?>
 			<?php endif ?>
 		</p>
 	</div>
@@ -80,9 +84,11 @@ vendor_style('jcrop/css/jquery.Jcrop');
 				</div>
 			</div>
 			<span class="icon-checkmark hidden"/>
-			<?php if($_['lookupServerUploadEnabled']) { ?>
+			<?php if ($_['lookupServerUploadEnabled']) {
+						?>
 				<input type="hidden" id="avatarscope" value="<?php p($_['avatarScope']) ?>">
-			<?php } ?>
+			<?php
+					} ?>
 		</form>
 	</div>
 
@@ -94,16 +100,26 @@ vendor_style('jcrop/css/jquery.Jcrop');
 					<span class="icon-password"/>
 				</h2>
 				<input type="text" id="displayname" name="displayname"
-					<?php if(!$_['displayNameChangeSupported']) { print_unescaped('class="hidden"'); } ?>
+					<?php if (!$_['displayNameChangeSupported']) {
+						print_unescaped('class="hidden"');
+					} ?>
 					   value="<?php p($_['displayName']) ?>"
 					   autocomplete="on" autocapitalize="none" autocorrect="off" />
-				<?php if(!$_['displayNameChangeSupported']) { ?>
-					<span><?php if(isset($_['displayName']) && !empty($_['displayName'])) { p($_['displayName']); } else { p($l->t('No display name set')); } ?></span>
-				<?php } ?>
+				<?php if (!$_['displayNameChangeSupported']) {
+						?>
+					<span><?php if (isset($_['displayName']) && !empty($_['displayName'])) {
+							p($_['displayName']);
+						} else {
+							p($l->t('No display name set'));
+						} ?></span>
+				<?php
+					} ?>
 				<span class="icon-checkmark hidden"/>
-				<?php if($_['lookupServerUploadEnabled']) { ?>
+				<?php if ($_['lookupServerUploadEnabled']) {
+						?>
 					<input type="hidden" id="displaynamescope" value="<?php p($_['displayNameScope']) ?>">
-				<?php } ?>
+				<?php
+					} ?>
 			</form>
 		</div>
 		<div class="personal-settings-setting-box">
@@ -112,10 +128,12 @@ vendor_style('jcrop/css/jquery.Jcrop');
 					<label for="email"><?php p($l->t('Email')); ?></label>
 					<span class="icon-password"/>
 				</h2>
-				<div class="verify <?php if ($_['email'] === ''  || $_['emailScope'] !== 'public') p('hidden'); ?>">
+				<div class="verify <?php if ($_['email'] === '' || $_['emailScope'] !== 'public') {
+						p('hidden');
+					} ?>">
 					<img id="verify-email" title="<?php p($_['emailMessage']); ?>" data-status="<?php p($_['emailVerification']) ?>" src="
 				<?php
-					switch($_['emailVerification']) {
+					switch ($_['emailVerification']) {
 						case \OC\Accounts\AccountManager::VERIFICATION_IN_PROGRESS:
 							p(image_path('core', 'actions/verifying.svg'));
 							break;
@@ -128,23 +146,36 @@ vendor_style('jcrop/css/jquery.Jcrop');
 					?>">
 				</div>
 				<input type="email" name="email" id="email" value="<?php p($_['email']); ?>"
-					<?php if(!$_['displayNameChangeSupported']) { print_unescaped('class="hidden"'); } ?>
+					<?php if (!$_['displayNameChangeSupported']) {
+						print_unescaped('class="hidden"');
+					} ?>
 					   placeholder="<?php p($l->t('Your email address')); ?>"
 					   autocomplete="on" autocapitalize="none" autocorrect="off" />
-				<?php if(!$_['displayNameChangeSupported']) { ?>
-					<span><?php if(isset($_['email']) && !empty($_['email'])) { p($_['email']); } else { p($l->t('No email address set')); }?></span>
-				<?php } ?>
-				<?php if($_['displayNameChangeSupported']) { ?>
+				<?php if (!$_['displayNameChangeSupported']) {
+						?>
+					<span><?php if (isset($_['email']) && !empty($_['email'])) {
+							p($_['email']);
+						} else {
+							p($l->t('No email address set'));
+						} ?></span>
+				<?php
+					} ?>
+				<?php if ($_['displayNameChangeSupported']) {
+						?>
 					<br />
 					<em><?php p($l->t('For password reset and notifications')); ?></em>
-				<?php } ?>
+				<?php
+					} ?>
 				<span class="icon-checkmark hidden"/>
-				<?php if($_['lookupServerUploadEnabled']) { ?>
+				<?php if ($_['lookupServerUploadEnabled']) {
+						?>
 					<input type="hidden" id="emailscope" value="<?php p($_['emailScope']) ?>">
-				<?php } ?>
+				<?php
+					} ?>
 			</form>
 		</div>
-		<?php if($_['lookupServerUploadEnabled']) { ?>
+		<?php if ($_['lookupServerUploadEnabled']) {
+						?>
 			<div class="personal-settings-setting-box">
 				<form id="phoneform" class="section">
 					<h2>
@@ -179,10 +210,12 @@ vendor_style('jcrop/css/jquery.Jcrop');
 						<label for="website"><?php p($l->t('Website')); ?></label>
 						<span class="icon-password"/>
 					</h2>
-					<div class="verify <?php if ($_['website'] === ''  || $_['websiteScope'] !== 'public') p('hidden'); ?>">
+					<div class="verify <?php if ($_['website'] === '' || $_['websiteScope'] !== 'public') {
+							p('hidden');
+						} ?>">
 						<img id="verify-website" title="<?php p($_['websiteMessage']); ?>" data-status="<?php p($_['websiteVerification']) ?>" src="
 				<?php
-						switch($_['websiteVerification']) {
+						switch ($_['websiteVerification']) {
 							case \OC\Accounts\AccountManager::VERIFICATION_IN_PROGRESS:
 								p(image_path('core', 'actions/verifying.svg'));
 								break;
@@ -191,15 +224,16 @@ vendor_style('jcrop/css/jquery.Jcrop');
 								break;
 							default:
 								p(image_path('core', 'actions/verify.svg'));
-						}
-						?>"
-							<?php if($_['websiteVerification'] === \OC\Accounts\AccountManager::VERIFICATION_IN_PROGRESS || $_['websiteVerification'] === \OC\Accounts\AccountManager::NOT_VERIFIED) print_unescaped(' class="verify-action"') ?>
+						} ?>"
+							<?php if ($_['websiteVerification'] === \OC\Accounts\AccountManager::VERIFICATION_IN_PROGRESS || $_['websiteVerification'] === \OC\Accounts\AccountManager::NOT_VERIFIED) {
+							print_unescaped(' class="verify-action"');
+						} ?>
 						>
 						<div class="verification-dialog popovermenu bubble menu">
 							<div class="verification-dialog-content">
 								<p class="explainVerification"></p>
 								<p class="verificationCode"></p>
-								<p><?php p($l->t('It can take up to 24 hours before the account is displayed as verified.'));?></p>
+								<p><?php p($l->t('It can take up to 24 hours before the account is displayed as verified.')); ?></p>
 							</div>
 						</div>
 					</div>
@@ -216,10 +250,12 @@ vendor_style('jcrop/css/jquery.Jcrop');
 						<label for="twitter"><?php p($l->t('Twitter')); ?></label>
 						<span class="icon-password"/>
 					</h2>
-					<div class="verify <?php if ($_['twitter'] === ''  || $_['twitterScope'] !== 'public') p('hidden'); ?>">
+					<div class="verify <?php if ($_['twitter'] === '' || $_['twitterScope'] !== 'public') {
+							p('hidden');
+						} ?>">
 						<img id="verify-twitter" title="<?php p($_['twitterMessage']); ?>" data-status="<?php p($_['twitterVerification']) ?>" src="
 				<?php
-						switch($_['twitterVerification']) {
+						switch ($_['twitterVerification']) {
 							case \OC\Accounts\AccountManager::VERIFICATION_IN_PROGRESS:
 								p(image_path('core', 'actions/verifying.svg'));
 								break;
@@ -228,15 +264,16 @@ vendor_style('jcrop/css/jquery.Jcrop');
 								break;
 							default:
 								p(image_path('core', 'actions/verify.svg'));
-						}
-						?>"
-							<?php if($_['twitterVerification'] === \OC\Accounts\AccountManager::VERIFICATION_IN_PROGRESS || $_['twitterVerification'] === \OC\Accounts\AccountManager::NOT_VERIFIED) print_unescaped(' class="verify-action"') ?>
+						} ?>"
+							<?php if ($_['twitterVerification'] === \OC\Accounts\AccountManager::VERIFICATION_IN_PROGRESS || $_['twitterVerification'] === \OC\Accounts\AccountManager::NOT_VERIFIED) {
+							print_unescaped(' class="verify-action"');
+						} ?>
 						>
 						<div class="verification-dialog popovermenu bubble menu">
 							<div class="verification-dialog-content">
 								<p class="explainVerification"></p>
 								<p class="verificationCode"></p>
-								<p><?php p($l->t('It can take up to 24 hours before the account is displayed as verified.'));?></p>
+								<p><?php p($l->t('It can take up to 24 hours before the account is displayed as verified.')); ?></p>
 							</div>
 						</div>
 					</div>
@@ -247,7 +284,8 @@ vendor_style('jcrop/css/jquery.Jcrop');
 					<input type="hidden" id="twitterscope" value="<?php p($_['twitterScope']) ?>">
 				</form>
 			</div>
-		<?php } ?>
+		<?php
+					} ?>
 		<span class="msg"></span>
 	</div>
 </div>
@@ -261,19 +299,18 @@ vendor_style('jcrop/css/jquery.Jcrop');
 </div>
 
 <?php
-if($_['passwordChangeSupported']) {
-	script('jquery-showpassword');
-	?>
+if ($_['passwordChangeSupported']) {
+						script('jquery-showpassword'); ?>
 	<form id="passwordform" class="section">
-		<h2 class="inlineblock"><?php p($l->t('Password'));?></h2>
+		<h2 class="inlineblock"><?php p($l->t('Password')); ?></h2>
 		<div id="password-error-msg" class="msg success inlineblock" style="display: none;">Saved</div>
 		<br>
 		<label for="pass1" class="hidden-visually"><?php p($l->t('Current password')); ?>: </label>
 		<input type="password" id="pass1" name="oldpassword"
-			   placeholder="<?php p($l->t('Current password'));?>"
+			   placeholder="<?php p($l->t('Current password')); ?>"
 			   autocomplete="off" autocapitalize="none" autocorrect="off" />
 		<div class="personal-show-container">
-			<label for="pass2" class="hidden-visually"><?php p($l->t('New password'));?>: </label>
+			<label for="pass2" class="hidden-visually"><?php p($l->t('New password')); ?>: </label>
 			<input type="password" id="pass2" name="newpassword"
 				   placeholder="<?php p($l->t('New password')); ?>"
 				   data-typetoggle="#personal-show"
@@ -284,33 +321,35 @@ if($_['passwordChangeSupported']) {
 		<br/>
 	</form>
 	<?php
-}
+					}
 ?>
 
-<?php if (isset($_['activelanguage'])) { ?>
+<?php if (isset($_['activelanguage'])) {
+	?>
 <form id="language" class="section">
 	<h2>
-		<label for="languageinput"><?php p($l->t('Language'));?></label>
+		<label for="languageinput"><?php p($l->t('Language')); ?></label>
 	</h2>
-	<select id="languageinput" name="lang" data-placeholder="<?php p($l->t('Language'));?>">
-		<option value="<?php p($_['activelanguage']['code']);?>">
-			<?php p($_['activelanguage']['name']);?>
+	<select id="languageinput" name="lang" data-placeholder="<?php p($l->t('Language')); ?>">
+		<option value="<?php p($_['activelanguage']['code']); ?>">
+			<?php p($_['activelanguage']['name']); ?>
 		</option>
-		<?php foreach($_['commonlanguages'] as $language):?>
-			<option value="<?php p($language['code']);?>">
-				<?php p($language['name']);?>
+		<?php foreach ($_['commonlanguages'] as $language):?>
+			<option value="<?php p($language['code']); ?>">
+				<?php p($language['name']); ?>
 			</option>
-		<?php endforeach;?>
+		<?php endforeach; ?>
 		<optgroup label="––––––––––"></optgroup>
-		<?php foreach($_['languages'] as $language):?>
-			<option value="<?php p($language['code']);?>">
-				<?php p($language['name']);?>
+		<?php foreach ($_['languages'] as $language):?>
+			<option value="<?php p($language['code']); ?>">
+				<?php p($language['name']); ?>
 			</option>
-		<?php endforeach;?>
+		<?php endforeach; ?>
 	</select>
 	<a href="https://www.transifex.com/nextcloud/nextcloud/"
 	   target="_blank" rel="noreferrer">
-		<em><?php p($l->t('Help translate'));?></em>
+		<em><?php p($l->t('Help translate')); ?></em>
 	</a>
 </form>
-<?php } ?>
+<?php
+} ?>

@@ -98,9 +98,9 @@ class ConnectionFactory {
 		// \PDO::MYSQL_ATTR_FOUND_ROWS may not be defined, e.g. when the MySQL
 		// driver is missing. In this case, we won't be able to connect anyway.
 		if ($normalizedType === 'mysql' && defined('\PDO::MYSQL_ATTR_FOUND_ROWS')) {
-			$result['driverOptions'] = array(
+			$result['driverOptions'] = [
 				\PDO::MYSQL_ATTR_FOUND_ROWS => true,
-			);
+			];
 		}
 		return $result;
 	}
@@ -117,7 +117,8 @@ class ConnectionFactory {
 		switch ($normalizedType) {
 			case 'mysql':
 				$eventManager->addEventSubscriber(
-					new SQLSessionInit("SET SESSION AUTOCOMMIT=1"));
+					new SQLSessionInit("SET SESSION AUTOCOMMIT=1")
+				);
 				break;
 			case 'oci':
 				$eventManager->addEventSubscriber(new OracleSessionInit);

@@ -21,7 +21,6 @@
 
 namespace OCA\Files\Activity\Filter;
 
-
 use OCA\Files\Activity\Helper;
 use OCP\Activity\IFilter;
 use OCP\Activity\IManager;
@@ -146,7 +145,8 @@ class Favorites implements IFilter {
 			return;
 		}
 
-		$function = $query->createFunction('
+		$function = $query->createFunction(
+			'
 			CASE 
 				WHEN ' . $query->getColumnName('app') . ' <> ' . $query->createNamedParameter('files') . ' THEN 1
 				WHEN ' . $query->getColumnName('app') . ' = ' . $query->createNamedParameter('files') . '

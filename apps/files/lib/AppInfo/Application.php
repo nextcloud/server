@@ -31,7 +31,7 @@ use \OCP\IContainer;
 use OCA\Files\Controller\ViewController;
 
 class Application extends App {
-	public function __construct(array $urlParams=array()) {
+	public function __construct(array $urlParams = []) {
 		parent::__construct('files', $urlParams);
 		$container = $this->getContainer();
 		$server = $container->getServer();
@@ -69,17 +69,17 @@ class Application extends App {
 		/**
 		 * Core
 		 */
-		$container->registerService('L10N', function(IContainer $c) {
+		$container->registerService('L10N', function (IContainer $c) {
 			return $c->query('ServerContainer')->getL10N($c->query('AppName'));
 		});
 
 		/**
 		 * Services
 		 */
-		$container->registerService('Tagger', function(IContainer $c)  {
+		$container->registerService('Tagger', function (IContainer $c) {
 			return $c->query('ServerContainer')->getTagManager()->load('files');
 		});
-		$container->registerService('TagService', function(IContainer $c)  {
+		$container->registerService('TagService', function (IContainer $c) {
 			$homeFolder = $c->query('ServerContainer')->getUserFolder();
 			return new TagService(
 				$c->query('ServerContainer')->getUserSession(),

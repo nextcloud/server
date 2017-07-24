@@ -41,7 +41,7 @@ class Application extends \OCP\AppFramework\App {
 	/**
 	 * @param array $urlParams
 	 */
-	public function __construct($urlParams = array()) {
+	public function __construct($urlParams = []) {
 		parent::__construct('federation', $urlParams);
 		$this->registerService();
 		$this->registerMiddleware();
@@ -50,7 +50,7 @@ class Application extends \OCP\AppFramework\App {
 	private function registerService() {
 		$container = $this->getContainer();
 
-		$container->registerService('addServerMiddleware', function(IAppContainer $c) {
+		$container->registerService('addServerMiddleware', function (IAppContainer $c) {
 			return new AddServerMiddleware(
 				$c->getAppName(),
 				\OC::$server->getL10N($c->getAppName()),
@@ -58,14 +58,14 @@ class Application extends \OCP\AppFramework\App {
 			);
 		});
 
-		$container->registerService('DbHandler', function(IAppContainer $c) {
+		$container->registerService('DbHandler', function (IAppContainer $c) {
 			return new DbHandler(
 				\OC::$server->getDatabaseConnection(),
 				\OC::$server->getL10N($c->getAppName())
 			);
 		});
 
-		$container->registerService('TrustedServers', function(IAppContainer $c) {
+		$container->registerService('TrustedServers', function (IAppContainer $c) {
 			$server = $c->getServer();
 			return new TrustedServers(
 				$c->query('DbHandler'),
@@ -87,7 +87,6 @@ class Application extends \OCP\AppFramework\App {
 				$c->query('TrustedServers')
 			);
 		});
-
 	}
 
 	private function registerMiddleware() {
@@ -100,7 +99,6 @@ class Application extends \OCP\AppFramework\App {
 	 * list of trusted servers.
 	 */
 	public function registerHooks() {
-
 		$container = $this->getContainer();
 		$hooksManager = new Hooks($container->query('TrustedServers'));
 
@@ -112,11 +110,12 @@ class Application extends \OCP\AppFramework\App {
 		);
 
 		$dispatcher = $this->getContainer()->getServer()->getEventDispatcher();
-		$dispatcher->addListener('OCA\DAV\Connector\Sabre::authInit', function($event) use($container) {
+		$dispatcher->addListener('OCA\DAV\Connector\Sabre::authInit', function ($event) use ($container) {
 			if ($event instanceof SabrePluginEvent) {
 				$authPlugin = $event->getServer()->getPlugin('auth');
 				if ($authPlugin instanceof Plugin) {
-					$h = new DbHandler($container->getServer()->getDatabaseConnection(),
+					$h = new DbHandler(
+						$container->getServer()->getDatabaseConnection(),
 							$container->getServer()->getL10N('federation')
 					);
 					$authPlugin->addBackend(new FedAuth($h));
@@ -134,5 +133,4 @@ class Application extends \OCP\AppFramework\App {
 		$discoveryService = \OC::$server->query(\OCP\OCS\IDiscoveryService::class);
 		return new SyncFederationAddressBooks($dbHandler, $syncService, $discoveryService);
 	}
-
 }

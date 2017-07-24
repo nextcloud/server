@@ -68,7 +68,7 @@ class SimpleContainer extends Container implements IContainer {
 					// Service not found, use the default value when available
 					if ($parameter->isDefaultValueAvailable()) {
 						$parameters[] = $parameter->getDefaultValue();
-					} else if ($parameterClass !== null) {
+					} elseif ($parameterClass !== null) {
 						$resolveName = $parameter->getName();
 						$parameters[] = $this->query($resolveName);
 					} else {
@@ -98,7 +98,7 @@ class SimpleContainer extends Container implements IContainer {
 				throw new QueryException($baseMsg .
 					' Class can not be instantiated');
 			}
-		} catch(ReflectionException $e) {
+		} catch (ReflectionException $e) {
 			throw new QueryException($baseMsg . ' ' . $e->getMessage());
 		}
 	}
@@ -141,7 +141,7 @@ class SimpleContainer extends Container implements IContainer {
 	 */
 	public function registerService($name, Closure $closure, $shared = true) {
 		$name = $this->sanitizeName($name);
-		if (isset($this[$name]))  {
+		if (isset($this[$name])) {
 			unset($this[$name]);
 		}
 		if ($shared) {
@@ -174,5 +174,4 @@ class SimpleContainer extends Container implements IContainer {
 		}
 		return $name;
 	}
-
 }

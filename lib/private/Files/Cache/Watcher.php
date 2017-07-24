@@ -24,6 +24,7 @@
  */
 
 namespace OC\Files\Cache;
+
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Cache\IWatcher;
 
@@ -31,10 +32,9 @@ use OCP\Files\Cache\IWatcher;
  * check the storage backends for updates and change the cache accordingly
  */
 class Watcher implements IWatcher {
-
 	protected $watchPolicy = self::CHECK_ONCE;
 
-	protected $checkedPaths = array();
+	protected $checkedPaths = [];
 
 	/**
 	 * @var \OC\Files\Storage\Storage $storage

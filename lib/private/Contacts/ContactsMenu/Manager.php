@@ -89,7 +89,7 @@ class Manager {
 	 * @return IEntry[]
 	 */
 	private function sortEntries(array $entries) {
-		usort($entries, function(IEntry $entryA, IEntry $entryB) {
+		usort($entries, function (IEntry $entryA, IEntry $entryB) {
 			return strcasecmp($entryA->getFullName(), $entryB->getFullName());
 		});
 		return $entries;
@@ -107,5 +107,4 @@ class Manager {
 			}
 		}
 	}
-
 }

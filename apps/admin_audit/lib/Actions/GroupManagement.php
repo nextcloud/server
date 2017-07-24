@@ -25,7 +25,6 @@
 
 namespace OCA\AdminAudit\Actions;
 
-
 use OCP\IGroup;
 use OCP\IUser;
 
@@ -43,7 +42,8 @@ class GroupManagement extends Action {
 	 * @param IUser $user
 	 */
 	public function addUser(IGroup $group, IUser $user) {
-		$this->log('User "%s" added to group "%s"',
+		$this->log(
+			'User "%s" added to group "%s"',
 			[
 				'group' => $group->getGID(),
 				'user' => $user->getUID()
@@ -61,7 +61,8 @@ class GroupManagement extends Action {
 	 * @param IUser $user
 	 */
 	public function removeUser(IGroup $group, IUser $user) {
-		$this->log('User "%s" removed from group "%s"',
+		$this->log(
+			'User "%s" removed from group "%s"',
 			[
 				'group' => $group->getGID(),
 				'user' => $user->getUID()
@@ -78,7 +79,8 @@ class GroupManagement extends Action {
 	 * @param IGroup $group
 	 */
 	public function createGroup(IGroup $group) {
-		$this->log('Group created: "%s"',
+		$this->log(
+			'Group created: "%s"',
 			[
 				'group' => $group->getGID()
 			],
@@ -94,7 +96,8 @@ class GroupManagement extends Action {
 	 * @param IGroup $group
 	 */
 	public function deleteGroup(IGroup $group) {
-		$this->log('Group deleted: "%s"',
+		$this->log(
+			'Group deleted: "%s"',
 			[
 				'group' => $group->getGID()
 			],

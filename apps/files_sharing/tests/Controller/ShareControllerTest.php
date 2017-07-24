@@ -131,7 +131,9 @@ class ShareControllerTest extends \Test\TestCase {
 		\OC_User::setUserId('');
 		Filesystem::tearDown();
 		$user = \OC::$server->getUserManager()->get($this->user);
-		if ($user !== null) { $user->delete(); }
+		if ($user !== null) {
+			$user->delete();
+		}
 		\OC_User::setIncognitoMode(false);
 
 		\OC::$server->getSession()->set('public_link_authenticated', '');
@@ -152,7 +154,7 @@ class ShareControllerTest extends \Test\TestCase {
 			->willReturn($share);
 
 		$response = $this->shareController->showAuthenticate('token');
-		$expectedResponse =  new TemplateResponse($this->appName, 'authenticate', [], 'guest');
+		$expectedResponse = new TemplateResponse($this->appName, 'authenticate', [], 'guest');
 		$this->assertEquals($expectedResponse, $response);
 	}
 
@@ -170,7 +172,7 @@ class ShareControllerTest extends \Test\TestCase {
 		$this->session->method('get')->with('public_link_authenticated')->willReturn('2');
 
 		$response = $this->shareController->showAuthenticate('token');
-		$expectedResponse =  new TemplateResponse($this->appName, 'authenticate', [], 'guest');
+		$expectedResponse = new TemplateResponse($this->appName, 'authenticate', [], 'guest');
 		$this->assertEquals($expectedResponse, $response);
 	}
 
@@ -193,7 +195,7 @@ class ShareControllerTest extends \Test\TestCase {
 			->willReturn('redirect');
 
 		$response = $this->shareController->showAuthenticate('token');
-		$expectedResponse =  new RedirectResponse('redirect');
+		$expectedResponse = new RedirectResponse('redirect');
 		$this->assertEquals($expectedResponse, $response);
 	}
 
@@ -205,7 +207,7 @@ class ShareControllerTest extends \Test\TestCase {
 			->will($this->throwException(new \OCP\Share\Exceptions\ShareNotFound()));
 
 		$response = $this->shareController->authenticate('token');
-		$expectedResponse =  new NotFoundResponse();
+		$expectedResponse = new NotFoundResponse();
 		$this->assertEquals($expectedResponse, $response);
 	}
 
@@ -232,11 +234,11 @@ class ShareControllerTest extends \Test\TestCase {
 
 		$this->urlGenerator->expects($this->once())
 			->method('linkToRoute')
-			->with('files_sharing.sharecontroller.showShare', ['token'=>'token'])
+			->with('files_sharing.sharecontroller.showShare', ['token' => 'token'])
 			->willReturn('redirect');
 
 		$response = $this->shareController->authenticate('token', 'validpassword');
-		$expectedResponse =  new RedirectResponse('redirect');
+		$expectedResponse = new RedirectResponse('redirect');
 		$this->assertEquals($expectedResponse, $response);
 	}
 
@@ -265,11 +267,11 @@ class ShareControllerTest extends \Test\TestCase {
 			->method('set');
 
 		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['access'])->getMock();
-		\OCP\Util::connectHook('OCP\Share', 'share_link_access',  $hookListner, 'access');
+		\OCP\Util::connectHook('OCP\Share', 'share_link_access', $hookListner, 'access');
 
 		$hookListner->expects($this->once())
 			->method('access')
-			->with($this->callback(function(array $data) {
+			->with($this->callback(function (array $data) {
 				return $data['itemType'] === 'file' &&
 					$data['itemSource'] === 100 &&
 					$data['uidOwner'] === 'initiator' &&
@@ -279,7 +281,7 @@ class ShareControllerTest extends \Test\TestCase {
 			}));
 
 		$response = $this->shareController->authenticate('token', 'invalidpassword');
-		$expectedResponse =  new TemplateResponse($this->appName, 'authenticate', array('wrongpw' => true), 'guest');
+		$expectedResponse = new TemplateResponse($this->appName, 'authenticate', ['wrongpw' => true], 'guest');
 		$expectedResponse->throttle();
 		$this->assertEquals($expectedResponse, $response);
 	}
@@ -293,7 +295,7 @@ class ShareControllerTest extends \Test\TestCase {
 
 		// Test without a not existing token
 		$response = $this->shareController->showShare('invalidtoken');
-		$expectedResponse =  new NotFoundResponse();
+		$expectedResponse = new NotFoundResponse();
 		$this->assertEquals($expectedResponse, $response);
 	}
 
@@ -373,7 +375,7 @@ class ShareControllerTest extends \Test\TestCase {
 			->with('OCA\Files_Sharing::loadAdditionalScripts');
 
 		$response = $this->shareController->showShare('token');
-		$sharedTmplParams = array(
+		$sharedTmplParams = [
 			'displayName' => 'ownerDisplay',
 			'owner' => 'ownerUID',
 			'filename' => 'file1.txt',
@@ -397,7 +399,7 @@ class ShareControllerTest extends \Test\TestCase {
 			'disclaimer' => 'My disclaimer text',
 			'shareUrl' => null,
 			'previewImage' => null
-		);
+		];
 
 		$csp = new \OCP\AppFramework\Http\ContentSecurityPolicy();
 		$csp->addAllowedFrameDomain('\'self\'');
@@ -499,5 +501,4 @@ class ShareControllerTest extends \Test\TestCase {
 		$expectedResponse = new DataResponse('Share is read-only');
 		$this->assertEquals($expectedResponse, $response);
 	}
-
 }

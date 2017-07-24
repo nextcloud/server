@@ -3,10 +3,10 @@
 /** @var $l \OCP\IL10N */
 /** @var $theme OCP\Defaults */
 // @codeCoverageIgnoreStart
-if(!isset($_)) {//also provide standalone error page
+if (!isset($_)) {//also provide standalone error page
 	require_once '../../lib/base.php';
 	
-	$tmpl = new OC_Template( '', '404', 'guest' );
+	$tmpl = new OC_Template('', '404', 'guest');
 	$tmpl->printPage();
 	exit;
 }
@@ -19,7 +19,7 @@ if(!isset($_)) {//also provide standalone error page
 		<li class="error">
 			<?php p($l->t('File not found')); ?><br>
 			<p class="hint"><?php p($l->t('The specified document has not been found on the server.')); ?></p>
-			<p class="hint"><a href="<?php p(\OC::$server->getURLGenerator()->linkTo('', 'index.php')) ?>"><?php p($l->t('You can click here to return to %s.', array($theme->getName()))); ?></a></p>
+			<p class="hint"><a href="<?php p(\OC::$server->getURLGenerator()->linkTo('', 'index.php')) ?>"><?php p($l->t('You can click here to return to %s.', [$theme->getName()])); ?></a></p>
 		</li>
 	</ul>
 <?php endif; ?>

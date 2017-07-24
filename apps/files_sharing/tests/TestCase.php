@@ -129,11 +129,17 @@ abstract class TestCase extends \Test\TestCase {
 	public static function tearDownAfterClass() {
 		// cleanup users
 		$user = \OC::$server->getUserManager()->get(self::TEST_FILES_SHARING_API_USER1);
-		if ($user !== null) { $user->delete(); }
+		if ($user !== null) {
+			$user->delete();
+		}
 		$user = \OC::$server->getUserManager()->get(self::TEST_FILES_SHARING_API_USER2);
-		if ($user !== null) { $user->delete(); }
+		if ($user !== null) {
+			$user->delete();
+		}
 		$user = \OC::$server->getUserManager()->get(self::TEST_FILES_SHARING_API_USER3);
-		if ($user !== null) { $user->delete(); }
+		if ($user !== null) {
+			$user->delete();
+		}
 
 		// delete group
 		$group = \OC::$server->getGroupManager()->get(self::TEST_FILES_SHARING_API_GROUP1);
@@ -160,7 +166,6 @@ abstract class TestCase extends \Test\TestCase {
 	 * @param bool $password
 	 */
 	protected static function loginHelper($user, $create = false, $password = false) {
-
 		if ($password === false) {
 			$password = $user;
 		}
@@ -207,18 +212,17 @@ abstract class TestCase extends \Test\TestCase {
 	 */
 	protected function getShareFromId($shareID) {
 		$sql = 'SELECT `item_source`, `share_type`, `share_with`, `item_type`, `permissions` FROM `*PREFIX*share` WHERE `id` = ?';
-		$args = array($shareID);
+		$args = [$shareID];
 		$query = \OCP\DB::prepare($sql);
 		$result = $query->execute($args);
 
-		$share = Null;
+		$share = null;
 
 		if ($result) {
 			$share = $result->fetchRow();
 		}
 
 		return $share;
-
 	}
 
 	/**

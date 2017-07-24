@@ -49,12 +49,14 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	 * @param IUserManager $userManager
 	 * @param Manager $keyManager
 	 */
-	public function __construct($appName,
+	public function __construct(
+		$appName,
 								IRequest $request,
 								CapabilitiesManager $capabilitiesManager,
 								IUserSession $userSession,
 								IUserManager $userManager,
-								Manager $keyManager) {
+								Manager $keyManager
+	) {
 		parent::__construct($appName, $request);
 		$this->capabilitiesManager = $capabilitiesManager;
 		$this->userSession = $userSession;
@@ -87,15 +89,15 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	public function getCapabilities() {
 		$result = [];
 		list($major, $minor, $micro) = \OCP\Util::getVersion();
-		$result['version'] = array(
+		$result['version'] = [
 			'major' => $major,
 			'minor' => $minor,
 			'micro' => $micro,
 			'string' => \OC_Util::getVersionString(),
 			'edition' => '',
-		);
+		];
 
-		if($this->userSession->isLoggedIn()) {
+		if ($this->userSession->isLoggedIn()) {
 			$result['capabilities'] = $this->capabilitiesManager->getCapabilities();
 		} else {
 			$result['capabilities'] = $this->capabilitiesManager->getCapabilities(true);
@@ -138,7 +140,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	public function getIdentityProof($cloudId) {
 		$userObject = $this->userManager->get($cloudId);
 
-		if($userObject !== null) {
+		if ($userObject !== null) {
 			$key = $this->keyManager->getKey($userObject);
 			$data = [
 				'public' => $key->getPublic(),

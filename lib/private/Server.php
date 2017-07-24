@@ -139,7 +139,7 @@ class Server extends ServerContainer implements IServerContainer {
 		parent::__construct();
 		$this->webRoot = $webRoot;
 
-		$this->registerService(\OCP\IServerContainer::class, function(IServerContainer $c) {
+		$this->registerService(\OCP\IServerContainer::class, function (IServerContainer $c) {
 			return $c;
 		});
 
@@ -256,8 +256,8 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerAlias('SystemTagObjectMapper', \OCP\SystemTag\ISystemTagObjectMapper::class);
 
-		$this->registerService(\OCP\Files\IRootFolder::class, function(Server $c) {
-			return new LazyRoot(function() use ($c) {
+		$this->registerService(\OCP\Files\IRootFolder::class, function (Server $c) {
+			return new LazyRoot(function () use ($c) {
 				return $c->query('RootFolder');
 			});
 		});
@@ -272,30 +272,30 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService(\OCP\IGroupManager::class, function (Server $c) {
 			$groupManager = new \OC\Group\Manager($this->getUserManager(), $this->getLogger());
 			$groupManager->listen('\OC\Group', 'preCreate', function ($gid) {
-				\OC_Hook::emit('OC_Group', 'pre_createGroup', array('run' => true, 'gid' => $gid));
+				\OC_Hook::emit('OC_Group', 'pre_createGroup', ['run' => true, 'gid' => $gid]);
 			});
 			$groupManager->listen('\OC\Group', 'postCreate', function (\OC\Group\Group $gid) {
-				\OC_Hook::emit('OC_User', 'post_createGroup', array('gid' => $gid->getGID()));
+				\OC_Hook::emit('OC_User', 'post_createGroup', ['gid' => $gid->getGID()]);
 			});
 			$groupManager->listen('\OC\Group', 'preDelete', function (\OC\Group\Group $group) {
-				\OC_Hook::emit('OC_Group', 'pre_deleteGroup', array('run' => true, 'gid' => $group->getGID()));
+				\OC_Hook::emit('OC_Group', 'pre_deleteGroup', ['run' => true, 'gid' => $group->getGID()]);
 			});
 			$groupManager->listen('\OC\Group', 'postDelete', function (\OC\Group\Group $group) {
-				\OC_Hook::emit('OC_User', 'post_deleteGroup', array('gid' => $group->getGID()));
+				\OC_Hook::emit('OC_User', 'post_deleteGroup', ['gid' => $group->getGID()]);
 			});
 			$groupManager->listen('\OC\Group', 'preAddUser', function (\OC\Group\Group $group, \OC\User\User $user) {
-				\OC_Hook::emit('OC_Group', 'pre_addToGroup', array('run' => true, 'uid' => $user->getUID(), 'gid' => $group->getGID()));
+				\OC_Hook::emit('OC_Group', 'pre_addToGroup', ['run' => true, 'uid' => $user->getUID(), 'gid' => $group->getGID()]);
 			});
 			$groupManager->listen('\OC\Group', 'postAddUser', function (\OC\Group\Group $group, \OC\User\User $user) {
-				\OC_Hook::emit('OC_Group', 'post_addToGroup', array('uid' => $user->getUID(), 'gid' => $group->getGID()));
+				\OC_Hook::emit('OC_Group', 'post_addToGroup', ['uid' => $user->getUID(), 'gid' => $group->getGID()]);
 				//Minimal fix to keep it backward compatible TODO: clean up all the GroupManager hooks
-				\OC_Hook::emit('OC_User', 'post_addToGroup', array('uid' => $user->getUID(), 'gid' => $group->getGID()));
+				\OC_Hook::emit('OC_User', 'post_addToGroup', ['uid' => $user->getUID(), 'gid' => $group->getGID()]);
 			});
 			return $groupManager;
 		});
 		$this->registerAlias('GroupManager', \OCP\IGroupManager::class);
 
-		$this->registerService(Store::class, function(Server $c) {
+		$this->registerService(Store::class, function (Server $c) {
 			$session = $c->getSession();
 			if (\OC::$server->getSystemConfig()->getValue('installed', false)) {
 				$tokenProvider = $c->query('OC\Authentication\Token\IProvider');
@@ -334,45 +334,45 @@ class Server extends ServerContainer implements IServerContainer {
 
 			$userSession = new \OC\User\Session($manager, $session, $timeFactory, $defaultTokenProvider, $c->getConfig(), $c->getSecureRandom(), $c->getLockdownManager());
 			$userSession->listen('\OC\User', 'preCreateUser', function ($uid, $password) {
-				\OC_Hook::emit('OC_User', 'pre_createUser', array('run' => true, 'uid' => $uid, 'password' => $password));
+				\OC_Hook::emit('OC_User', 'pre_createUser', ['run' => true, 'uid' => $uid, 'password' => $password]);
 			});
 			$userSession->listen('\OC\User', 'postCreateUser', function ($user, $password) {
 				/** @var $user \OC\User\User */
-				\OC_Hook::emit('OC_User', 'post_createUser', array('uid' => $user->getUID(), 'password' => $password));
+				\OC_Hook::emit('OC_User', 'post_createUser', ['uid' => $user->getUID(), 'password' => $password]);
 			});
 			$userSession->listen('\OC\User', 'preDelete', function ($user) {
 				/** @var $user \OC\User\User */
-				\OC_Hook::emit('OC_User', 'pre_deleteUser', array('run' => true, 'uid' => $user->getUID()));
+				\OC_Hook::emit('OC_User', 'pre_deleteUser', ['run' => true, 'uid' => $user->getUID()]);
 			});
 			$userSession->listen('\OC\User', 'postDelete', function ($user) {
 				/** @var $user \OC\User\User */
-				\OC_Hook::emit('OC_User', 'post_deleteUser', array('uid' => $user->getUID()));
+				\OC_Hook::emit('OC_User', 'post_deleteUser', ['uid' => $user->getUID()]);
 			});
 			$userSession->listen('\OC\User', 'preSetPassword', function ($user, $password, $recoveryPassword) {
 				/** @var $user \OC\User\User */
-				\OC_Hook::emit('OC_User', 'pre_setPassword', array('run' => true, 'uid' => $user->getUID(), 'password' => $password, 'recoveryPassword' => $recoveryPassword));
+				\OC_Hook::emit('OC_User', 'pre_setPassword', ['run' => true, 'uid' => $user->getUID(), 'password' => $password, 'recoveryPassword' => $recoveryPassword]);
 			});
 			$userSession->listen('\OC\User', 'postSetPassword', function ($user, $password, $recoveryPassword) {
 				/** @var $user \OC\User\User */
-				\OC_Hook::emit('OC_User', 'post_setPassword', array('run' => true, 'uid' => $user->getUID(), 'password' => $password, 'recoveryPassword' => $recoveryPassword));
+				\OC_Hook::emit('OC_User', 'post_setPassword', ['run' => true, 'uid' => $user->getUID(), 'password' => $password, 'recoveryPassword' => $recoveryPassword]);
 			});
 			$userSession->listen('\OC\User', 'preLogin', function ($uid, $password) {
-				\OC_Hook::emit('OC_User', 'pre_login', array('run' => true, 'uid' => $uid, 'password' => $password));
+				\OC_Hook::emit('OC_User', 'pre_login', ['run' => true, 'uid' => $uid, 'password' => $password]);
 			});
 			$userSession->listen('\OC\User', 'postLogin', function ($user, $password) {
 				/** @var $user \OC\User\User */
-				\OC_Hook::emit('OC_User', 'post_login', array('run' => true, 'uid' => $user->getUID(), 'password' => $password));
+				\OC_Hook::emit('OC_User', 'post_login', ['run' => true, 'uid' => $user->getUID(), 'password' => $password]);
 			});
 			$userSession->listen('\OC\User', 'postRememberedLogin', function ($user, $password) {
 				/** @var $user \OC\User\User */
-				\OC_Hook::emit('OC_User', 'post_login', array('run' => true, 'uid' => $user->getUID(), 'password' => $password));
+				\OC_Hook::emit('OC_User', 'post_login', ['run' => true, 'uid' => $user->getUID(), 'password' => $password]);
 			});
 			$userSession->listen('\OC\User', 'logout', function () {
-				\OC_Hook::emit('OC_User', 'logout', array());
+				\OC_Hook::emit('OC_User', 'logout', []);
 			});
 			$userSession->listen('\OC\User', 'changeUser', function ($user, $feature, $value, $oldValue) {
 				/** @var $user \OC\User\User */
-				\OC_Hook::emit('OC_User', 'changeUser', array('run' => true, 'user' => $user, 'feature' => $feature, 'value' => $value, 'old_value' => $oldValue));
+				\OC_Hook::emit('OC_User', 'changeUser', ['run' => true, 'user' => $user, 'feature' => $feature, 'value' => $value, 'old_value' => $oldValue]);
 			});
 			return $userSession;
 		});
@@ -437,8 +437,9 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias('UserCache', \OCP\ICache::class);
 
 		$this->registerService(Factory::class, function (Server $c) {
-
-			$arrayCacheFactory = new \OC\Memcache\Factory('', $c->getLogger(),
+			$arrayCacheFactory = new \OC\Memcache\Factory(
+				'',
+				$c->getLogger(),
 				'\\OC\\Memcache\\ArrayCache',
 				'\\OC\\Memcache\\ArrayCache',
 				'\\OC\\Memcache\\ArrayCache'
@@ -454,14 +455,15 @@ class Server extends ServerContainer implements IServerContainer {
 				$instanceId = \OC_Util::getInstanceId();
 				$path = \OC::$SERVERROOT;
 				$prefix = md5($instanceId . '-' . $version . '-' . $path . '-' . $urlGenerator->getBaseUrl());
-				return new \OC\Memcache\Factory($prefix, $c->getLogger(),
+				return new \OC\Memcache\Factory(
+					$prefix,
+					$c->getLogger(),
 					$config->getSystemValue('memcache.local', null),
 					$config->getSystemValue('memcache.distributed', null),
 					$config->getSystemValue('memcache.locking', null)
 				);
 			}
 			return $arrayCacheFactory;
-
 		});
 		$this->registerAlias('MemCacheFactory', Factory::class);
 		$this->registerAlias(ICacheFactory::class, Factory::class);
@@ -502,7 +504,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService(\OCP\ILogger::class, function (Server $c) {
 			$logType = $c->query('AllConfig')->getSystemValue('log_type', 'file');
 			$logger = Log::getLogClass($logType);
-			call_user_func(array($logger, 'init'));
+			call_user_func([$logger, 'init']);
 
 			return new Log($logger);
 		});
@@ -535,7 +537,7 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerAlias('Search', \OCP\ISearch::class);
 
-		$this->registerService(\OC\Security\RateLimiting\Limiter::class, function($c) {
+		$this->registerService(\OC\Security\RateLimiting\Limiter::class, function ($c) {
 			return new \OC\Security\RateLimiting\Limiter(
 				$this->getUserSession(),
 				$this->getRequest(),
@@ -543,7 +545,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->query(\OC\Security\RateLimiting\Backend\IBackend::class)
 			);
 		});
-		$this->registerService(\OC\Security\RateLimiting\Backend\IBackend::class, function($c) {
+		$this->registerService(\OC\Security\RateLimiting\Backend\IBackend::class, function ($c) {
 			return new \OC\Security\RateLimiting\Backend\MemoryCache(
 				$this->getMemCacheFactory(),
 				new \OC\AppFramework\Utility\TimeFactory()
@@ -677,7 +679,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService(\OCP\Files\Config\IMountProviderCollection::class, function (Server $c) {
 			$loader = \OC\Files\Filesystem::getLoader();
 			$mountCache = $c->query('UserMountCache');
-			$manager =  new \OC\Files\Config\MountProviderCollection($loader, $mountCache);
+			$manager = new \OC\Files\Config\MountProviderCollection($loader, $mountCache);
 
 			// builtin providers
 
@@ -700,7 +702,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService('TrustedDomainHelper', function ($c) {
 			return new TrustedDomainHelper($this->getConfig());
 		});
-		$this->registerService('Throttler', function(Server $c) {
+		$this->registerService('Throttler', function (Server $c) {
 			return new Throttler(
 				$c->getDatabaseConnection(),
 				new TimeFactory(),
@@ -711,7 +713,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService('IntegrityCodeChecker', function (Server $c) {
 			// IConfig and IAppManager requires a working database. This code
 			// might however be called when ownCloud is not yet setup.
-			if(\OC::$server->getSystemConfig()->getValue('installed', false)) {
+			if (\OC::$server->getSystemConfig()->getValue('installed', false)) {
 				$config = $c->getConfig();
 				$appManager = $c->getAppManager();
 			} else {
@@ -776,10 +778,10 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerAlias('Mailer', \OCP\Mail\IMailer::class);
 
-		$this->registerService('LDAPProvider', function(Server $c) {
+		$this->registerService('LDAPProvider', function (Server $c) {
 			$config = $c->getConfig();
 			$factoryClass = $config->getSystemValue('ldapProviderFactory', null);
-			if(is_null($factoryClass)) {
+			if (is_null($factoryClass)) {
 				throw new \Exception('ldapProviderFactory not set');
 			}
 			/** @var \OCP\LDAP\ILDAPProviderFactory $factory */
@@ -845,7 +847,7 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerAlias('CapabilitiesManager', \OC\CapabilitiesManager::class);
 
-		$this->registerService(\OCP\Comments\ICommentsManager::class, function(Server $c) {
+		$this->registerService(\OCP\Comments\ICommentsManager::class, function (Server $c) {
 			$config = $c->getConfig();
 			$factoryClass = $config->getSystemValue('comments.managerFactory', '\OC\Comments\ManagerFactory');
 			/** @var \OCP\Comments\ICommentsManagerFactory $factory */
@@ -854,7 +856,7 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerAlias('CommentsManager', \OCP\Comments\ICommentsManager::class);
 
-		$this->registerService('ThemingDefaults', function(Server $c) {
+		$this->registerService('ThemingDefaults', function (Server $c) {
 			/*
 			 * Dark magic for autoloader.
 			 * If we do a class_exists it will try to load the class which will
@@ -880,7 +882,7 @@ class Server extends ServerContainer implements IServerContainer {
 			}
 			return new \OC_Defaults();
 		});
-		$this->registerService(SCSSCacher::class, function(Server $c) {
+		$this->registerService(SCSSCacher::class, function (Server $c) {
 			/** @var Factory $cacheFactory */
 			$cacheFactory = $c->query(Factory::class);
 			return new SCSSCacher(
@@ -940,14 +942,14 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerAlias('ContentSecurityPolicyManager', \OCP\Security\IContentSecurityPolicyManager::class);
 
-		$this->registerService('ContentSecurityPolicyNonceManager', function(Server $c) {
+		$this->registerService('ContentSecurityPolicyNonceManager', function (Server $c) {
 			return new ContentSecurityPolicyNonceManager(
 				$c->getCsrfTokenManager(),
 				$c->getRequest()
 			);
 		});
 
-		$this->registerService(\OCP\Share\IManager::class, function(Server $c) {
+		$this->registerService(\OCP\Share\IManager::class, function (Server $c) {
 			$config = $c->getConfig();
 			$factoryClass = $config->getSystemValue('sharing.managerFactory', '\OC\Share20\ProviderFactory');
 			/** @var \OCP\Share\IProviderFactory $factory */
@@ -971,7 +973,7 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerAlias('ShareManager', \OCP\Share\IManager::class);
 
-		$this->registerService('SettingsManager', function(Server $c) {
+		$this->registerService('SettingsManager', function (Server $c) {
 			$manager = new \OC\Settings\Manager(
 				$c->getLogger(),
 				$c->getDatabaseConnection(),
@@ -999,7 +1001,7 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 
 		$this->registerService('LockdownManager', function (Server $c) {
-			return new LockdownManager(function() use ($c) {
+			return new LockdownManager(function () use ($c) {
 				return $c->getSession();
 			});
 		});
@@ -1035,11 +1037,11 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerAlias('Defaults', \OCP\Defaults::class);
 
-		$this->registerService(\OCP\ISession::class, function(SimpleContainer $c) {
+		$this->registerService(\OCP\ISession::class, function (SimpleContainer $c) {
 			return $c->query(\OCP\IUserSession::class)->getSession();
 		});
 
-		$this->registerService(IShareHelper::class, function(Server $c) {
+		$this->registerService(IShareHelper::class, function (Server $c) {
 			return new ShareHelper(
 				$c->query(\OCP\Share\IManager::class)
 			);
@@ -1600,12 +1602,12 @@ class Server extends ServerContainer implements IServerContainer {
 	/**
 	 * @return \OCP\Files\Mount\IMountManager
 	 **/
-	function getMountManager() {
+	public function getMountManager() {
 		return $this->query('MountManager');
 	}
 
 	/** @return \OCP\Files\Config\IUserMountCache */
-	function getUserMountCache() {
+	public function getUserMountCache() {
 		return $this->query('UserMountCache');
 	}
 

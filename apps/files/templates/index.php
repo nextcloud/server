@@ -1,11 +1,13 @@
 <?php /** @var $l \OCP\IL10N */ ?>
 <?php $_['appNavigation']->printPage(); ?>
 <div id="app-content">
-	<?php foreach ($_['appContents'] as $content) { ?>
+	<?php foreach ($_['appContents'] as $content) {
+	?>
 	<div id="app-content-<?php p($content['id']) ?>" class="hidden viewcontainer">
 	<?php print_unescaped($content['content']) ?>
 	</div>
-	<?php } ?>
+	<?php
+} ?>
 	<div id="searchresults" class="hidden"></div>
 </div><!-- closing app-content -->
 
@@ -22,6 +24,8 @@
 <input type="hidden" name="showHiddenFiles" id="showHiddenFiles" value="<?php p($_['showHiddenFiles']); ?>" />
 <?php endif;
 
-foreach ($_['hiddenFields'] as $name => $value) {?>
+foreach ($_['hiddenFields'] as $name => $value) {
+	?>
 <input type="hidden" name="<?php p($name) ?>" id="<?php p($name) ?>" value="<?php p($value) ?>" />
-<?php }
+<?php
+}

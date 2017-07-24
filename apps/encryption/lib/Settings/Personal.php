@@ -23,7 +23,6 @@
 
 namespace OCA\Encryption\Settings;
 
-
 use OCA\Encryption\Session;
 use OCA\Encryption\Util;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -31,7 +30,7 @@ use OCP\IConfig;
 use OCP\IUserSession;
 use OCP\Settings\ISettings;
 
-class Personal implements  ISettings {
+class Personal implements ISettings {
 
 	/** @var IConfig */
 	private $config;

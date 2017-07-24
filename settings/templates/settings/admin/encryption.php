@@ -35,7 +35,9 @@
 	<p id="enable">
 		<input type="checkbox"
 			   id="enableEncryption" class="checkbox"
-			   value="1" <?php if ($_['encryptionEnabled']) print_unescaped('checked="checked" disabled="disabled"'); ?> />
+			   value="1" <?php if ($_['encryptionEnabled']) {
+	print_unescaped('checked="checked" disabled="disabled"');
+} ?> />
 		<label
 			for="enableEncryption"><?php p($l->t('Enable server-side encryption')); ?> <span id="startmigration_msg" class="msg"></span> </label><br/>
 	</p>
@@ -54,12 +56,17 @@
 																										   value="<?php p($l->t("Enable encryption")); ?>" /></p>
 	</div>
 
-	<div id="EncryptionSettingsArea" class="<?php if (!$_['encryptionEnabled']) p('hidden'); ?>">
-		<div id='selectEncryptionModules' class="<?php if (!$_['encryptionReady']) p('hidden'); ?>">
+	<div id="EncryptionSettingsArea" class="<?php if (!$_['encryptionEnabled']) {
+	p('hidden');
+} ?>">
+		<div id='selectEncryptionModules' class="<?php if (!$_['encryptionReady']) {
+	p('hidden');
+} ?>">
 			<?php
 			if (empty($_['encryptionModules'])) {
 				p($l->t('No encryption module loaded, please enable an encryption module in the app menu.'));
-			} else { ?>
+			} else {
+				?>
 				<h3><?php p($l->t('Select default encryption module:')) ?></h3>
 				<fieldset id='encryptionModules'>
 					<?php foreach ($_['encryptionModules'] as $id => $module): ?>
@@ -67,16 +74,19 @@
 							   name="default_encryption_module"
 							   value="<?php p($id) ?>"
 							<?php if ($module['default']) {
-								p('checked');
-							} ?>>
+					p('checked');
+				} ?>>
 						<label
 							for="<?php p($id) ?>"><?php p($module['displayName']) ?></label>
 						<br/>
 					<?php endforeach; ?>
 				</fieldset>
-			<?php } ?>
+			<?php
+			} ?>
 		</div>
-		<div id="migrationWarning" class="<?php if ($_['encryptionReady']) p('hidden'); ?>">
+		<div id="migrationWarning" class="<?php if ($_['encryptionReady']) {
+				p('hidden');
+			} ?>">
 			<?php
 			if ($_['encryptionReady'] === false && $_['externalBackendsEnabled'] === true) {
 				p($l->t('You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please enable the "Default encryption module" and run \'occ encryption:migrate\''));
@@ -84,7 +94,8 @@
 				p($l->t('You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one.')); ?>
 				<input type="submit" name="startmigration" id="startmigration"
 					   value="<?php p($l->t('Start migration')); ?>"/>
-			<?php } ?>
+			<?php
+			} ?>
 		</div>
 	</div>
 </div>

@@ -30,7 +30,6 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class UpdateHtaccess extends Command {
-
 	protected function configure() {
 		$this
 			->setName('maintenance:update:htaccess')

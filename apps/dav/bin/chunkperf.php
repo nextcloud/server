@@ -38,7 +38,7 @@ function request($client, $method, $uploadUrl, $data = null, $headers = []) {
 	$result = $client->request($method, $uploadUrl, $data, $headers);
 	$t1 = microtime(true);
 	echo $result['statusCode'] . " - " . ($t1 - $t0) . ' seconds' . PHP_EOL;
-	if (!in_array($result['statusCode'],  [200, 201])) {
+	if (!in_array($result['statusCode'], [200, 201])) {
 		echo $result['body'] . PHP_EOL;
 	}
 	return $result;
@@ -65,7 +65,7 @@ $size = filesize($file);
 $stream = fopen($file, 'r');
 
 $index = 0;
-while(!feof($stream)) {
+while (!feof($stream)) {
 	request($client, 'PUT', "$uploadUrl/$index", fread($stream, $chunkSize));
 	$index++;
 }

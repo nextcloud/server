@@ -133,5 +133,4 @@ trait VisibilityTrait {
 	public function removeAllowedVisibility($allowedVisibility) {
 		return $this->setAllowedVisibility($this->allowedVisibility & ~$allowedVisibility);
 	}
-
 }

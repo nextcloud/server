@@ -84,7 +84,7 @@ class UserStoragesControllerTest extends StoragesControllerTest {
 			'mount',
 			'\OCA\Files_External\Lib\Storage\SMB',
 			'\Auth\Mechanism',
-			array(),
+			[],
 			[],
 			[],
 			[],
@@ -98,7 +98,7 @@ class UserStoragesControllerTest extends StoragesControllerTest {
 			'mount',
 			'\OCA\Files_External\Lib\Storage\SMB',
 			'\Auth\Mechanism',
-			array(),
+			[],
 			[],
 			[],
 			[],
@@ -107,5 +107,4 @@ class UserStoragesControllerTest extends StoragesControllerTest {
 
 		$this->assertEquals(Http::STATUS_UNPROCESSABLE_ENTITY, $response->getStatus());
 	}
-
 }

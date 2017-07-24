@@ -43,8 +43,11 @@ class FileDisplayResponse extends Response implements ICallbackResponse {
 	 * @param array $headers
 	 * @since 11.0.0
 	 */
-	public function __construct($file, $statusCode=Http::STATUS_OK,
-								$headers=[]) {
+	public function __construct(
+		$file,
+		$statusCode = Http::STATUS_OK,
+								$headers = []
+	) {
 		$this->file = $file;
 		$this->setStatus($statusCode);
 		$this->setHeaders(array_merge($this->getHeaders(), $headers));

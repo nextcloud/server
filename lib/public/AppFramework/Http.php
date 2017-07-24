@@ -34,7 +34,6 @@ namespace OCP\AppFramework;
  * @since 6.0.0
  */
 class Http {
-
 	const STATUS_CONTINUE = 100;
 	const STATUS_SWITCHING_PROTOCOLS = 101;
 	const STATUS_PROCESSING = 102;

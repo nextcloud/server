@@ -258,5 +258,4 @@ class BackupCodeStorageTest extends TestCase {
 
 		$this->assertFalse($this->storage->validateCode($user, 'CHALLENGE'));
 	}
-
 }

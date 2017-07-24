@@ -38,8 +38,8 @@ class RootCollection extends AbstractPrincipalCollection {
 	 * @param array $principalInfo
 	 * @return INode
 	 */
-	function getChildForPrincipal(array $principalInfo) {
-		list(,$name) = URLUtil::splitPath($principalInfo['uri']);
+	public function getChildForPrincipal(array $principalInfo) {
+		list(, $name) = URLUtil::splitPath($principalInfo['uri']);
 		$user = \OC::$server->getUserSession()->getUser();
 		if (is_null($user) || $name !== $user->getUID()) {
 			// a user is only allowed to see their own home contents, so in case another collection
@@ -50,8 +50,7 @@ class RootCollection extends AbstractPrincipalCollection {
 		return new FilesHome($principalInfo);
 	}
 
-	function getName() {
+	public function getName() {
 		return 'files';
 	}
-
 }

@@ -35,7 +35,6 @@ use OCP\IRequest;
  * @package OCA\DAV\Tests\Unit
  */
 class ServerTest extends \Test\TestCase {
-
 	public function test() {
 		/** @var IRequest $r */
 		$r = $this->getMockBuilder('\OCP\IRequest')

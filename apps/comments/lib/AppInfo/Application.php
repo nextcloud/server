@@ -25,8 +25,7 @@ use OCA\Comments\Controller\Notifications;
 use OCP\AppFramework\App;
 
 class Application extends App {
-
-	public function __construct (array $urlParams = array()) {
+	public function __construct(array $urlParams = []) {
 		parent::__construct('comments', $urlParams);
 		$container = $this->getContainer();
 

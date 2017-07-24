@@ -33,7 +33,6 @@ use OC\Group\Database;
  * Base class for sharing tests.
  */
 abstract class TestCase extends \Test\TestCase {
-
 	const TEST_FILES_SHARING_API_USER1 = "test-share-user1";
 	const TEST_FILES_SHARING_API_USER2 = "test-share-user2";
 
@@ -88,7 +87,6 @@ abstract class TestCase extends \Test\TestCase {
 	 * @param bool $password
 	 */
 	protected static function loginHelper($user, $create = false, $password = false) {
-
 		if ($password === false) {
 			$password = $user;
 		}
@@ -126,5 +124,4 @@ abstract class TestCase extends \Test\TestCase {
 		$isInitialized->setValue($storage, false);
 		$isInitialized->setAccessible(false);
 	}
-
 }

@@ -21,7 +21,6 @@
 
 namespace OC\Core\Command\Db\Migrations;
 
-
 use OC\DB\MigrationService;
 use OC\Migration\ConsoleOutput;
 use OCP\IDBConnection;
@@ -60,5 +59,4 @@ class MigrateCommand extends Command {
 
 		$ms->migrate($version);
 	}
-
 }

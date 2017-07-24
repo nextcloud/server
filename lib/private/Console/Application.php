@@ -75,10 +75,10 @@ class Application {
 		$inputDefinition = $application->getDefinition();
 		$inputDefinition->addOption(
 			new InputOption(
-				'no-warnings', 
-				null, 
-				InputOption::VALUE_NONE, 
-				'Skip global warnings, show command output only', 
+				'no-warnings',
+				null,
+				InputOption::VALUE_NONE,
+				'Skip global warnings, show command output only',
 				null
 			)
 		);
@@ -124,10 +124,10 @@ class Application {
 						}
 					}
 				}
-			} else if ($input->getArgument('command') !== '_completion') {
+			} elseif ($input->getArgument('command') !== '_completion') {
 				$output->writeln("Nextcloud is not installed - only a limited number of commands are available");
 			}
-		} catch(NeedsUpdateException $e) {
+		} catch (NeedsUpdateException $e) {
 			if ($input->getArgument('command') !== '_completion') {
 				$output->writeln("Nextcloud or one of the apps require upgrade - only a limited number of commands are available");
 				$output->writeln("You may use your browser or the occ upgrade command to do the upgrade");

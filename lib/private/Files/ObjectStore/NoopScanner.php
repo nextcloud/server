@@ -24,11 +24,11 @@
  */
 
 namespace OC\Files\ObjectStore;
+
 use \OC\Files\Cache\Scanner;
 use \OC\Files\Storage\Storage;
 
 class NoopScanner extends Scanner {
-
 	public function __construct(Storage $storage) {
 		//we don't need the storage, so do nothing here
 	}
@@ -43,7 +43,7 @@ class NoopScanner extends Scanner {
 	 * @return array an array of metadata of the scanned file
 	 */
 	public function scanFile($file, $reuseExisting = 0, $parentId = -1, $cacheData = null, $lock = true) {
-		return array();
+		return [];
 	}
 
 	/**
@@ -55,7 +55,7 @@ class NoopScanner extends Scanner {
 	 * @return array with the meta data of the scanned file or folder
 	 */
 	public function scan($path, $recursive = self::SCAN_RECURSIVE, $reuse = -1, $lock = true) {
-		return array();
+		return [];
 	}
 
 	/**

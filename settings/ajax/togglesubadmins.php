@@ -27,7 +27,7 @@ OCP\JSON::callCheck();
 $lastConfirm = (int) \OC::$server->getSession()->get('last-password-confirm');
 if ($lastConfirm < (time() - 30 * 60 + 15)) { // allow 15 seconds delay
 	$l = \OC::$server->getL10N('core');
-	OC_JSON::error(array( 'data' => array( 'message' => $l->t('Password confirmation is required'))));
+	OC_JSON::error([ 'data' => [ 'message' => $l->t('Password confirmation is required')]]);
 	exit();
 }
 
@@ -39,12 +39,12 @@ $targetUserObject = \OC::$server->getUserManager()->get($username);
 $targetGroupObject = \OC::$server->getGroupManager()->get($group);
 
 $isSubAdminOfGroup = false;
-if($targetUserObject !== null && $targetGroupObject !== null) {
+if ($targetUserObject !== null && $targetGroupObject !== null) {
 	$isSubAdminOfGroup = $subAdminManager->isSubAdminOfGroup($targetUserObject, $targetGroupObject);
 }
 
 // Toggle group
-if($isSubAdminOfGroup) {
+if ($isSubAdminOfGroup) {
 	$subAdminManager->deleteSubAdmin($targetUserObject, $targetGroupObject);
 } else {
 	$subAdminManager->createSubAdmin($targetUserObject, $targetGroupObject);

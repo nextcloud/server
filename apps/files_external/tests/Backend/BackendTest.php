@@ -25,7 +25,6 @@ namespace OCA\Files_External\Tests\Backend;
 use \OCA\Files_External\Lib\Backend\Backend;
 
 class BackendTest extends \Test\TestCase {
-
 	public function testJsonSerialization() {
 		$backend = $this->getMockBuilder('\OCA\Files_External\Lib\Backend\Backend')
 			->setMethods(['jsonSerializeDefinition'])
@@ -75,7 +74,7 @@ class BackendTest extends \Test\TestCase {
 
 	public function testLegacyAuthMechanismCallback() {
 		$backend = new Backend();
-		$backend->setLegacyAuthMechanismCallback(function(array $params) {
+		$backend->setLegacyAuthMechanismCallback(function (array $params) {
 			if (isset($params['ping'])) {
 				return 'pong';
 			}
@@ -86,5 +85,4 @@ class BackendTest extends \Test\TestCase {
 		$this->assertEquals('foobar', $backend->getLegacyAuthMechanism(['other' => true]));
 		$this->assertEquals('foobar', $backend->getLegacyAuthMechanism());
 	}
-
 }

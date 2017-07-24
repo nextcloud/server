@@ -22,7 +22,6 @@
 
 namespace OC\Console;
 
-
 use OCP\IConfig;
 use Symfony\Component\Console\Formatter\OutputFormatterInterface;
 use Symfony\Component\Console\Formatter\OutputFormatterStyleInterface;
@@ -96,7 +95,6 @@ class TimestampFormatter implements OutputFormatterInterface {
 	 * log timezone and dateformat, e.g. "2015-06-23T17:24:37+02:00"
 	 */
 	public function format($message) {
-
 		$timeZone = $this->config->getSystemValue('logtimezone', 'UTC');
 		$timeZone = $timeZone !== null ? new \DateTimeZone($timeZone) : null;
 

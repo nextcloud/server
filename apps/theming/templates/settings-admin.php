@@ -1,6 +1,6 @@
 <?php
 /**
-
+ *
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
@@ -33,11 +33,14 @@ style('theming', 'settings-admin');
 			<div id="theming_settings_loading" class="icon-loading-small" style="display: none;"></div>
 			<span id="theming_settings_msg" class="msg success" style="display: none;">Saved</span>
 		</div>
-	<?php if ($_['themable'] === false) { ?>
+	<?php if ($_['themable'] === false) {
+	?>
 	<p>
 		<?php p($_['errorMessage']) ?>
 	</p>
-	<?php } else { ?>
+	<?php
+} else {
+		?>
 	<div>
 		<label>
 			<span><?php p($l->t('Name')) ?></span>
@@ -88,5 +91,6 @@ style('theming', 'settings-admin');
 	<div id="theming-preview">
 		<img src="<?php p($_['logo']); ?>" id="theming-preview-logo" />
 	</div>
-	<?php } ?>
+	<?php
+	} ?>
 </div>

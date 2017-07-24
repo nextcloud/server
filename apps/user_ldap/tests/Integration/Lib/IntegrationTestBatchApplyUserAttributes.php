@@ -68,7 +68,6 @@ class IntegrationTestBatchApplyUserAttributes extends AbstractIntegrationTest {
 		// – cannot catch it here, but will render the test as unsuccessful
 		return is_array($result) && !empty($result);
 	}
-
 }
 
 /** @var string $host */

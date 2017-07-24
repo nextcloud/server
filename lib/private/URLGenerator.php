@@ -32,7 +32,6 @@
 
 namespace OC;
 
-
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IRequest;
@@ -56,9 +55,11 @@ class URLGenerator implements IURLGenerator {
 	 * @param ICacheFactory $cacheFactory
 	 * @param IRequest $request
 	 */
-	public function __construct(IConfig $config,
+	public function __construct(
+		IConfig $config,
 								ICacheFactory $cacheFactory,
-								IRequest $request) {
+								IRequest $request
+	) {
 		$this->config = $config;
 		$this->cacheFactory = $cacheFactory;
 		$this->request = $request;
@@ -72,7 +73,7 @@ class URLGenerator implements IURLGenerator {
 	 *
 	 * Returns a url to the given route.
 	 */
-	public function linkToRoute($route, $parameters = array()) {
+	public function linkToRoute($route, $parameters = []) {
 		// TODO: mock router
 		$urlLinkTo = \OC::$server->getRouter()->generate($route, $parameters);
 		return $urlLinkTo;
@@ -86,7 +87,7 @@ class URLGenerator implements IURLGenerator {
 	 *
 	 * Returns an absolute url to the given route.
 	 */
-	public function linkToRouteAbsolute($routeName, $arguments = array()) {
+	public function linkToRouteAbsolute($routeName, $arguments = []) {
 		return $this->getAbsoluteURL($this->linkToRoute($routeName, $arguments));
 	}
 
@@ -100,15 +101,14 @@ class URLGenerator implements IURLGenerator {
 	 *
 	 * Returns a url to the given app and file.
 	 */
-	public function linkTo( $app, $file, $args = array() ) {
+	public function linkTo($app, $file, $args = []) {
 		$frontControllerActive = ($this->config->getSystemValue('htaccess.IgnoreFrontController', false) === true || getenv('front_controller_active') === 'true');
 
-		if( $app != '' ) {
+		if ($app != '') {
 			$app_path = \OC_App::getAppPath($app);
 			// Check if the app is in the app folder
 			if ($app_path && file_exists($app_path . '/' . $file)) {
 				if (substr($file, -3) == 'php') {
-
 					$urlLinkTo = \OC::$WEBROOT . '/index.php/apps/' . $app;
 					if ($frontControllerActive) {
 						$urlLinkTo = \OC::$WEBROOT . '/apps/' . $app;
@@ -151,7 +151,7 @@ class URLGenerator implements IURLGenerator {
 	public function imagePath($app, $image) {
 		$cache = $this->cacheFactory->create('imagePath-'.md5($this->getBaseUrl()).'-');
 		$cacheKey = $app.'-'.$image;
-		if($key = $cache->get($cacheKey)) {
+		if ($key = $cache->get($cacheKey)) {
 			return $key;
 		}
 
@@ -159,7 +159,7 @@ class URLGenerator implements IURLGenerator {
 		$theme = \OC_Util::getTheme();
 
 		//if a theme has a png but not an svg always use the png
-		$basename = substr(basename($image),0,-4);
+		$basename = substr(basename($image), 0, -4);
 
 		$appPath = \OC_App::getAppPath($app);
 
@@ -170,43 +170,47 @@ class URLGenerator implements IURLGenerator {
 			$path = \OC::$WEBROOT . "/themes/$theme/apps/$app/img/$image";
 		} elseif (!file_exists(\OC::$SERVERROOT . "/themes/$theme/apps/$app/img/$basename.svg")
 			&& file_exists(\OC::$SERVERROOT . "/themes/$theme/apps/$app/img/$basename.png")) {
-			$path =  \OC::$WEBROOT . "/themes/$theme/apps/$app/img/$basename.png";
+			$path = \OC::$WEBROOT . "/themes/$theme/apps/$app/img/$basename.png";
 		} elseif (!empty($app) and file_exists(\OC::$SERVERROOT . "/themes/$theme/$app/img/$image")) {
-			$path =  \OC::$WEBROOT . "/themes/$theme/$app/img/$image";
+			$path = \OC::$WEBROOT . "/themes/$theme/$app/img/$image";
 		} elseif (!empty($app) and (!file_exists(\OC::$SERVERROOT . "/themes/$theme/$app/img/$basename.svg")
 			&& file_exists(\OC::$SERVERROOT . "/themes/$theme/$app/img/$basename.png"))) {
-			$path =  \OC::$WEBROOT . "/themes/$theme/$app/img/$basename.png";
+			$path = \OC::$WEBROOT . "/themes/$theme/$app/img/$basename.png";
 		} elseif (file_exists(\OC::$SERVERROOT . "/themes/$theme/core/img/$image")) {
-			$path =  \OC::$WEBROOT . "/themes/$theme/core/img/$image";
+			$path = \OC::$WEBROOT . "/themes/$theme/core/img/$image";
 		} elseif (!file_exists(\OC::$SERVERROOT . "/themes/$theme/core/img/$basename.svg")
 			&& file_exists(\OC::$SERVERROOT . "/themes/$theme/core/img/$basename.png")) {
-			$path =  \OC::$WEBROOT . "/themes/$theme/core/img/$basename.png";
-		} elseif($themingEnabled && $image === "favicon.ico" && \OC::$server->getThemingDefaults()->shouldReplaceIcons()) {
+			$path = \OC::$WEBROOT . "/themes/$theme/core/img/$basename.png";
+		} elseif ($themingEnabled && $image === "favicon.ico" && \OC::$server->getThemingDefaults()->shouldReplaceIcons()) {
 			$cacheBusterValue = $this->config->getAppValue('theming', 'cachebuster', '0');
-			if($app==="") { $app = "core"; }
+			if ($app === "") {
+				$app = "core";
+			}
 			$path = $this->linkToRoute('theming.Icon.getFavicon', [ 'app' => $app ]) . '?v='. $cacheBusterValue;
-		} elseif($themingEnabled && $image === "favicon-touch.png" && \OC::$server->getThemingDefaults()->shouldReplaceIcons()) {
+		} elseif ($themingEnabled && $image === "favicon-touch.png" && \OC::$server->getThemingDefaults()->shouldReplaceIcons()) {
 			$cacheBusterValue = $this->config->getAppValue('theming', 'cachebuster', '0');
-			if($app==="") { $app = "core"; }
+			if ($app === "") {
+				$app = "core";
+			}
 			$path = $this->linkToRoute('theming.Icon.getTouchIcon', [ 'app' => $app ]) . '?v='. $cacheBusterValue;
 		} elseif ($appPath && file_exists($appPath . "/img/$image")) {
-			$path =  \OC_App::getAppWebPath($app) . "/img/$image";
+			$path = \OC_App::getAppWebPath($app) . "/img/$image";
 		} elseif ($appPath && !file_exists($appPath . "/img/$basename.svg")
 			&& file_exists($appPath . "/img/$basename.png")) {
-			$path =  \OC_App::getAppWebPath($app) . "/img/$basename.png";
+			$path = \OC_App::getAppWebPath($app) . "/img/$basename.png";
 		} elseif (!empty($app) and file_exists(\OC::$SERVERROOT . "/$app/img/$image")) {
-			$path =  \OC::$WEBROOT . "/$app/img/$image";
+			$path = \OC::$WEBROOT . "/$app/img/$image";
 		} elseif (!empty($app) and (!file_exists(\OC::$SERVERROOT . "/$app/img/$basename.svg")
 				&& file_exists(\OC::$SERVERROOT . "/$app/img/$basename.png"))) {
-			$path =  \OC::$WEBROOT . "/$app/img/$basename.png";
+			$path = \OC::$WEBROOT . "/$app/img/$basename.png";
 		} elseif (file_exists(\OC::$SERVERROOT . "/core/img/$image")) {
-			$path =  \OC::$WEBROOT . "/core/img/$image";
+			$path = \OC::$WEBROOT . "/core/img/$image";
 		} elseif (!file_exists(\OC::$SERVERROOT . "/core/img/$basename.svg")
 			&& file_exists(\OC::$SERVERROOT . "/core/img/$basename.png")) {
-			$path =  \OC::$WEBROOT . "/themes/$theme/core/img/$basename.png";
+			$path = \OC::$WEBROOT . "/themes/$theme/core/img/$basename.png";
 		}
 
-		if($path !== '') {
+		if ($path !== '') {
 			$cache->set($cacheKey, $path);
 			return $path;
 		} else {
@@ -227,7 +231,7 @@ class URLGenerator implements IURLGenerator {
 			return rtrim($this->config->getSystemValue('overwrite.cli.url'), '/') . '/' . ltrim($url, '/');
 		}
 		// The ownCloud web root can already be prepended.
-		if(substr($url, 0, strlen(\OC::$WEBROOT)) === \OC::$WEBROOT) {
+		if (substr($url, 0, strlen(\OC::$WEBROOT)) === \OC::$WEBROOT) {
 			$url = substr($url, strlen(\OC::$WEBROOT));
 		}
 

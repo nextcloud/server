@@ -32,7 +32,7 @@ class SearchTermFilter implements XmlDeserializable {
 	 * @throws BadRequest
 	 * @return string
 	 */
-	static function xmlDeserialize(Reader $reader) {
+	public static function xmlDeserialize(Reader $reader) {
 		$value = $reader->parseInnerTree();
 		if (!is_string($value)) {
 			throw new BadRequest('The {' . SearchPlugin::NS_Nextcloud . '}search-term has illegal value');

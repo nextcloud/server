@@ -38,7 +38,7 @@ try {
 		exit();
 	}
 
-	$data = array();
+	$data = [];
 	$baseUrl = OCP\Util::linkTo('files', 'index.php') . '?dir=';
 
 	$permissions = $dirInfo->getPermissions();
@@ -75,7 +75,7 @@ try {
 	$data['files'] = \OCA\Files\Helper::formatFileInfos($files);
 	$data['permissions'] = $permissions;
 
-	OCP\JSON::success(array('data' => $data));
+	OCP\JSON::success(['data' => $data]);
 } catch (\OCP\Files\StorageNotAvailableException $e) {
 	\OCP\Util::logException('files', $e);
 	OCP\JSON::error([
@@ -86,18 +86,18 @@ try {
 	]);
 } catch (\OCP\Files\StorageInvalidException $e) {
 	\OCP\Util::logException('files', $e);
-	OCP\JSON::error(array(
-		'data' => array(
+	OCP\JSON::error([
+		'data' => [
 			'exception' => '\OCP\Files\StorageInvalidException',
 			'message' => $l->t('Storage invalid')
-		)
-	));
+		]
+	]);
 } catch (\Exception $e) {
 	\OCP\Util::logException('files', $e);
-	OCP\JSON::error(array(
-		'data' => array(
+	OCP\JSON::error([
+		'data' => [
 			'exception' => '\Exception',
 			'message' => $l->t('Unknown error')
-		)
-	));
+		]
+	]);
 }

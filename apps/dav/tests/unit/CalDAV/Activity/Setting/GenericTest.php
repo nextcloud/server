@@ -28,7 +28,6 @@ use OCP\Activity\ISetting;
 use Test\TestCase;
 
 class GenericTest extends TestCase {
-
 	public function dataSettings() {
 		return [
 			[Calendar::class],

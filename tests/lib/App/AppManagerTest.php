@@ -34,7 +34,7 @@ class AppManagerTest extends TestCase {
 	 * @return IAppConfig|\PHPUnit_Framework_MockObject_MockObject
 	 */
 	protected function getAppConfig() {
-		$appConfig = array();
+		$appConfig = [];
 		$config = $this->createMock(IAppConfig::class);
 
 		$config->expects($this->any())
@@ -46,7 +46,7 @@ class AppManagerTest extends TestCase {
 			->method('setValue')
 			->will($this->returnCallback(function ($app, $key, $value) use (&$appConfig) {
 				if (!isset($appConfig[$app])) {
-					$appConfig[$app] = array();
+					$appConfig[$app] = [];
 				}
 				$appConfig[$app][$key] = $value;
 			}));
@@ -56,7 +56,7 @@ class AppManagerTest extends TestCase {
 				if ($app) {
 					return $appConfig[$app];
 				} else {
-					$values = array();
+					$values = [];
 					foreach ($appConfig as $appid => $appData) {
 						if (isset($appData[$key])) {
 							$values[$appid] = $appData[$key];
@@ -138,15 +138,17 @@ class AppManagerTest extends TestCase {
 		}
 
 		$this->assertEquals('no', $this->appConfig->getValue(
-			'some_random_name_which_i_hope_is_not_an_app', 'enabled', 'no'
+			'some_random_name_which_i_hope_is_not_an_app',
+			'enabled',
+			'no'
 		));
 	}
 
 	public function testEnableAppForGroups() {
-		$groups = array(
-			new Group('group1', array(), null),
-			new Group('group2', array(), null)
-		);
+		$groups = [
+			new Group('group1', [], null),
+			new Group('group2', [], null)
+		];
 		$this->expectClearCache();
 		$this->manager->enableAppForGroups('test', $groups);
 		$this->assertEquals('["group1","group2"]', $this->appConfig->getValue('test', 'enabled', 'no'));
@@ -170,10 +172,10 @@ class AppManagerTest extends TestCase {
 	 * @param array $appInfo
 	 */
 	public function testEnableAppForGroupsAllowedTypes(array $appInfo) {
-		$groups = array(
-			new Group('group1', array(), null),
-			new Group('group2', array(), null)
-		);
+		$groups = [
+			new Group('group1', [], null),
+			new Group('group2', [], null)
+		];
 		$this->expectClearCache();
 
 		/** @var AppManager|\PHPUnit_Framework_MockObject_MockObject $manager */
@@ -214,10 +216,10 @@ class AppManagerTest extends TestCase {
 	 * @expectedExceptionMessage test can't be enabled for groups.
 	 */
 	public function testEnableAppForGroupsForbiddenTypes($type) {
-		$groups = array(
-			new Group('group1', array(), null),
-			new Group('group2', array(), null)
-		);
+		$groups = [
+			new Group('group1', [], null),
+			new Group('group2', [], null)
+		];
 
 		/** @var AppManager|\PHPUnit_Framework_MockObject_MockObject $manager */
 		$manager = $this->getMockBuilder(AppManager::class)
@@ -287,7 +289,7 @@ class AppManagerTest extends TestCase {
 		$this->groupManager->expects($this->once())
 			->method('getUserGroupIds')
 			->with($user)
-			->will($this->returnValue(array('foo', 'bar')));
+			->will($this->returnValue(['foo', 'bar']));
 
 		$this->appConfig->setValue('test', 'enabled', '["foo"]');
 		$this->assertTrue($this->manager->isEnabledForUser('test', $user));
@@ -298,7 +300,7 @@ class AppManagerTest extends TestCase {
 		$this->groupManager->expects($this->once())
 			->method('getUserGroupIds')
 			->with($user)
-			->will($this->returnValue(array('bar')));
+			->will($this->returnValue(['bar']));
 
 		$this->appConfig->setValue('test', 'enabled', '["foo"]');
 		$this->assertFalse($this->manager->isEnabledForUser('test', $user));
@@ -318,7 +320,7 @@ class AppManagerTest extends TestCase {
 		$this->groupManager->expects($this->once())
 			->method('getUserGroupIds')
 			->with($user)
-			->will($this->returnValue(array('foo', 'bar')));
+			->will($this->returnValue(['foo', 'bar']));
 
 		$this->appConfig->setValue('test', 'enabled', '["foo"]');
 		$this->assertTrue($this->manager->isEnabledForUser('test'));
@@ -348,7 +350,7 @@ class AppManagerTest extends TestCase {
 		$this->groupManager->expects($this->any())
 			->method('getUserGroupIds')
 			->with($user)
-			->will($this->returnValue(array('foo', 'bar')));
+			->will($this->returnValue(['foo', 'bar']));
 
 		$this->appConfig->setValue('test1', 'enabled', 'yes');
 		$this->appConfig->setValue('test2', 'enabled', 'no');
@@ -395,7 +397,7 @@ class AppManagerTest extends TestCase {
 		$manager->expects($this->any())
 			->method('getAppInfo')
 			->will($this->returnCallback(
-				function($appId) use ($appInfos) {
+				function ($appId) use ($appInfos) {
 					return $appInfos[$appId];
 				}
 			));
@@ -441,7 +443,7 @@ class AppManagerTest extends TestCase {
 		$manager->expects($this->any())
 			->method('getAppInfo')
 			->will($this->returnCallback(
-				function($appId) use ($appInfos) {
+				function ($appId) use ($appInfos) {
 					return $appInfos[$appId];
 				}
 			));

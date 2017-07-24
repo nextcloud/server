@@ -17,13 +17,12 @@ class NullLogger extends Log {
 		//disable original constructor
 	}
 
-	public function log($level, $message, array $context = array()) {
+	public function log($level, $message, array $context = []) {
 		//noop
 	}
 }
 
 class TempManagerTest extends \Test\TestCase {
-
 	protected $baseDir = null;
 
 	protected function setUp() {

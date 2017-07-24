@@ -47,7 +47,7 @@ class CreateCalendar extends Command {
 	 * @param IGroupManager $groupManager
 	 * @param IDBConnection $dbConnection
 	 */
-	function __construct(IUserManager $userManager, IGroupManager $groupManager, IDBConnection $dbConnection) {
+	public function __construct(IUserManager $userManager, IGroupManager $groupManager, IDBConnection $dbConnection) {
 		parent::__construct();
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
@@ -58,12 +58,16 @@ class CreateCalendar extends Command {
 		$this
 			->setName('dav:create-calendar')
 			->setDescription('Create a dav calendar')
-			->addArgument('user',
+			->addArgument(
+				'user',
 				InputArgument::REQUIRED,
-				'User for whom the calendar will be created')
-			->addArgument('name',
+				'User for whom the calendar will be created'
+			)
+			->addArgument(
+				'name',
 				InputArgument::REQUIRED,
-				'Name of the calendar');
+				'Name of the calendar'
+			);
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {

@@ -13,24 +13,22 @@ class NaturalSortTest extends \Test\TestCase {
 	/**
 	 * @dataProvider naturalSortDataProvider
 	 */
-	public function testNaturalSortCompare($array, $sorted)
-	{
-		if(!class_exists('Collator')) {
+	public function testNaturalSortCompare($array, $sorted) {
+		if (!class_exists('Collator')) {
 			$this->markTestSkipped('The intl module is not available, natural sorting might not work as expected.');
 			return;
 		}
 		$comparator = \OC\NaturalSort::getInstance();
-		usort($array, array($comparator, 'compare'));
+		usort($array, [$comparator, 'compare']);
 		$this->assertEquals($sorted, $array);
 	}
 
 	/**
-	* @dataProvider defaultCollatorDataProvider
-	*/
-	public function testDefaultCollatorCompare($array, $sorted)
-	{
+	 * @dataProvider defaultCollatorDataProvider
+	 */
+	public function testDefaultCollatorCompare($array, $sorted) {
 		$comparator = new \OC\NaturalSort(new \OC\NaturalSort_DefaultCollator());
-		usort($array, array($comparator, 'compare'));
+		usort($array, [$comparator, 'compare']);
 		$this->assertEquals($sorted, $array);
 	}
 
@@ -39,30 +37,29 @@ class NaturalSortTest extends \Test\TestCase {
 	 * Must provide the same result as in core/js/tests/specs/coreSpec.js
 	 * @return array test cases
 	 */
-	public function naturalSortDataProvider()
-	{
-		return array(
+	public function naturalSortDataProvider() {
+		return [
 			// different casing
-			array(
+			[
 				// unsorted
-				array(
+				[
 					'aaa',
 					'bbb',
 					'BBB',
 					'AAA'
-				),
+				],
 				// sorted
-				array(
+				[
 					'aaa',
 					'AAA',
 					'bbb',
 					'BBB'
-				)
-			),
+				]
+			],
 			// numbers
-			array(
+			[
 				// unsorted
-				array(
+				[
 					'124.txt',
 					'abc1',
 					'123.txt',
@@ -85,9 +82,9 @@ class NaturalSortTest extends \Test\TestCase {
 					'zz',
 					'15.txt',
 					'15b.txt',
-				),
+				],
 				// sorted
-				array(
+				[
 					'15.txt',
 					'15b.txt',
 					'123.txt',
@@ -110,12 +107,12 @@ class NaturalSortTest extends \Test\TestCase {
 					'z',
 					'za',
 					'zz',
-				)
-			),
+				]
+			],
 			// chinese characters
-			array(
+			[
 				// unsorted
-				array(
+				[
 					'十.txt',
 					'一.txt',
 					'二.txt',
@@ -134,9 +131,9 @@ class NaturalSortTest extends \Test\TestCase {
 					'莫.txt',
 					'啊.txt',
 					'123.txt',
-				),
+				],
 				// sorted
-				array(
+				[
 					'123.txt',
 					'abc.txt',
 					'一.txt',
@@ -155,12 +152,12 @@ class NaturalSortTest extends \Test\TestCase {
 					'波.txt',
 					'破.txt',
 					'莫.txt',
-				)
-			),
+				]
+			],
 			// with umlauts
-			array(
+			[
 				// unsorted
-				array(
+				[
 					'öh.txt',
 					'Äh.txt',
 					'oh.txt',
@@ -171,9 +168,9 @@ class NaturalSortTest extends \Test\TestCase {
 					'uh.txt',
 					'üh.txt',
 					'äh.txt',
-				),
+				],
 				// sorted
-				array(
+				[
 					'ah.txt',
 					'äh.txt',
 					'Äh.txt',
@@ -184,40 +181,39 @@ class NaturalSortTest extends \Test\TestCase {
 					'üh.txt',
 					'Üh.txt',
 					'Üh 2.txt',
-				)
-			),
-		);
+				]
+			],
+		];
 	}
 
 	/**
-	* Data provider for natural sorting with \OC\NaturalSort_DefaultCollator.
-	* Must provide the same result as in core/js/tests/specs/coreSpec.js
-	* @return array test cases
-	*/
-	public function defaultCollatorDataProvider()
-	{
-		return array(
+	 * Data provider for natural sorting with \OC\NaturalSort_DefaultCollator.
+	 * Must provide the same result as in core/js/tests/specs/coreSpec.js
+	 * @return array test cases
+	 */
+	public function defaultCollatorDataProvider() {
+		return [
 			// different casing
-			array(
+			[
 				// unsorted
-				array(
+				[
 					'aaa',
 					'bbb',
 					'BBB',
 					'AAA'
-				),
+				],
 				// sorted
-				array(
+				[
 					'aaa',
 					'AAA',
 					'bbb',
 					'BBB'
-				)
-			),
+				]
+			],
 			// numbers
-			array(
+			[
 				// unsorted
-				array(
+				[
 					'124.txt',
 					'abc1',
 					'123.txt',
@@ -240,9 +236,9 @@ class NaturalSortTest extends \Test\TestCase {
 					'zz',
 					'15.txt',
 					'15b.txt',
-				),
+				],
 				// sorted
-				array(
+				[
 					'15.txt',
 					'15b.txt',
 					'123.txt',
@@ -265,8 +261,8 @@ class NaturalSortTest extends \Test\TestCase {
 					'z',
 					'za',
 					'zz',
-				)
-			),
-		);
+				]
+			],
+		];
 	}
 }

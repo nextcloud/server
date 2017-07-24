@@ -34,7 +34,6 @@ use OCP\IUser;
 use OCP\SystemTag\ISystemTag;
 
 class SystemTagPluginTest extends \Test\TestCase {
-
 	const ID_PROPERTYNAME = \OCA\DAV\SystemTag\SystemTagPlugin::ID_PROPERTYNAME;
 	const DISPLAYNAME_PROPERTYNAME = \OCA\DAV\SystemTag\SystemTagPlugin::DISPLAYNAME_PROPERTYNAME;
 	const USERVISIBLE_PROPERTYNAME = \OCA\DAV\SystemTag\SystemTagPlugin::USERVISIBLE_PROPERTYNAME;
@@ -300,12 +299,12 @@ class SystemTagPluginTest extends \Test\TestCase {
 			->with($systemTag, ['group1', 'group2']);
 
 		// properties to set
-		$propPatch = new \Sabre\DAV\PropPatch(array(
+		$propPatch = new \Sabre\DAV\PropPatch([
 			self::DISPLAYNAME_PROPERTYNAME => 'Test changed',
 			self::USERVISIBLE_PROPERTYNAME => 'false',
 			self::USERASSIGNABLE_PROPERTYNAME => 'true',
 			self::GROUPS_PROPERTYNAME => 'group1|group2',
-		));
+		]);
 
 		$this->plugin->handleUpdateProperties(
 			'/systemtag/1',
@@ -356,9 +355,9 @@ class SystemTagPluginTest extends \Test\TestCase {
 			->method('setTagGroups');
 
 		// properties to set
-		$propPatch = new \Sabre\DAV\PropPatch(array(
+		$propPatch = new \Sabre\DAV\PropPatch([
 			self::GROUPS_PROPERTYNAME => 'group1|group2',
-		));
+		]);
 
 		$this->plugin->handleUpdateProperties(
 			'/systemtag/1',
@@ -563,7 +562,7 @@ class SystemTagPluginTest extends \Test\TestCase {
 		$request->expects($this->once())
 			->method('getHeader')
 			->with('Content-Type')
-			->will($this->returnValue('application/json'));	
+			->will($this->returnValue('application/json'));
 
 		$request->expects($this->once())
 			->method('getUrl')
@@ -637,7 +636,7 @@ class SystemTagPluginTest extends \Test\TestCase {
 		$request->expects($this->once())
 			->method('getHeader')
 			->with('Content-Type')
-			->will($this->returnValue('application/json'));	
+			->will($this->returnValue('application/json'));
 
 		$request->expects($this->once())
 			->method('getBaseUrl')
@@ -733,9 +732,8 @@ class SystemTagPluginTest extends \Test\TestCase {
 		$request->expects($this->once())
 			->method('getHeader')
 			->with('Content-Type')
-			->will($this->returnValue('application/json'));	
+			->will($this->returnValue('application/json'));
 
 		$this->plugin->httpPost($request, $response);
 	}
-
 }

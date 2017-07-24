@@ -35,7 +35,6 @@ namespace OCP\AppFramework\Http;
  * @deprecated 9.2.0 To implement an OCS endpoint extend the OCSController
  */
 class OCSResponse extends Response {
-
 	private $data;
 	private $format;
 	private $statuscode;
@@ -54,9 +53,14 @@ class OCSResponse extends Response {
 	 * @since 8.1.0
 	 * @deprecated 9.2.0 To implement an OCS endpoint extend the OCSController
 	 */
-	public function __construct($format, $statuscode, $message,
-								$data=[], $itemscount='',
-								$itemsperpage='') {
+	public function __construct(
+		$format,
+		$statuscode,
+		$message,
+								$data = [],
+		$itemscount = '',
+								$itemsperpage = ''
+	) {
 		$this->format = $format;
 		$this->statuscode = $statuscode;
 		$this->message = $message;
@@ -67,11 +71,13 @@ class OCSResponse extends Response {
 		// set the correct header based on the format parameter
 		if ($format === 'json') {
 			$this->addHeader(
-				'Content-Type', 'application/json; charset=utf-8'
+				'Content-Type',
+				'application/json; charset=utf-8'
 			);
 		} else {
 			$this->addHeader(
-				'Content-Type', 'application/xml; charset=utf-8'
+				'Content-Type',
+				'application/xml; charset=utf-8'
 			);
 		}
 	}
@@ -88,6 +94,4 @@ class OCSResponse extends Response {
 
 		return \OC_API::renderResult($this->format, $r->getMeta(), $r->getData());
 	}
-
-
 }

@@ -51,10 +51,10 @@ class ContactsStore {
 		]);
 
 		$self = $user->getUID();
-		$entries = array_map(function(array $contact) {
+		$entries = array_map(function (array $contact) {
 			return $this->contactArrayToEntry($contact);
 		}, $allContacts);
-		return array_filter($entries, function(IEntry $entry) use ($self) {
+		return array_filter($entries, function (IEntry $entry) use ($self) {
 			return $entry->getProperty('UID') !== $self;
 		});
 	}
@@ -66,7 +66,7 @@ class ContactsStore {
 	 * @return IEntry|null
 	 */
 	public function findOne(IUser $user, $shareType, $shareWith) {
-		switch($shareType) {
+		switch ($shareType) {
 			case 0:
 			case 6:
 				$filter = ['UID'];
@@ -80,7 +80,7 @@ class ContactsStore {
 
 		$userId = $user->getUID();
 		$allContacts = $this->contactsManager->search($shareWith, $filter);
-		$contacts = array_filter($allContacts, function($contact) use ($userId) {
+		$contacts = array_filter($allContacts, function ($contact) use ($userId) {
 			return $contact['UID'] !== $userId;
 		});
 		$match = null;
@@ -135,5 +135,4 @@ class ContactsStore {
 
 		return $entry;
 	}
-
 }

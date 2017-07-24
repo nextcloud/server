@@ -36,11 +36,11 @@ class PlatformRepository {
 
 	protected function initialize() {
 		$loadedExtensions = get_loaded_extensions();
-		$packages = array();
+		$packages = [];
 
 		// Extensions scanning
 		foreach ($loadedExtensions as $name) {
-			if (in_array($name, array('standard', 'Core'))) {
+			if (in_array($name, ['standard', 'Core'])) {
 				continue;
 			}
 

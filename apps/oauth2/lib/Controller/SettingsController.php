@@ -54,7 +54,8 @@ class SettingsController extends Controller {
 	 * @param AccessTokenMapper $accessTokenMapper
 	 * @param DefaultTokenMapper $defaultTokenMapper
 	 */
-	public function __construct($appName,
+	public function __construct(
+		$appName,
 								IRequest $request,
 								IURLGenerator $urlGenerator,
 								ClientMapper $clientMapper,
@@ -75,8 +76,10 @@ class SettingsController extends Controller {
 	 * @param string $redirectUri
 	 * @return RedirectResponse
 	 */
-	public function addClient($name,
-							  $redirectUri) {
+	public function addClient(
+		$name,
+							  $redirectUri
+	) {
 		$client = new Client();
 		$client->setName($name);
 		$client->setRedirectUri($redirectUri);

@@ -30,7 +30,6 @@ use \OCA\Files_External\Lib\Auth\AuthMechanism;
  * OAuth2 authentication
  */
 class OAuth2 extends AuthMechanism {
-
 	public function __construct(IL10N $l) {
 		$this
 			->setIdentifier('oauth2::oauth2')
@@ -48,5 +47,4 @@ class OAuth2 extends AuthMechanism {
 			->addCustomJs('oauth2')
 		;
 	}
-
 }

@@ -47,5 +47,4 @@ interface IConfig {
 	 * @return bool
 	 */
 	public function onlyInternalFederation();
-
 }

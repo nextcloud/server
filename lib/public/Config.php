@@ -57,8 +57,8 @@ class Config {
 	 * This function gets the value from config.php. If it does not exist,
 	 * $default will be returned.
 	 */
-	public static function getSystemValue( $key, $default = null ) {
-		return \OC::$server->getConfig()->getSystemValue( $key, $default );
+	public static function getSystemValue($key, $default = null) {
+		return \OC::$server->getConfig()->getSystemValue($key, $default);
 	}
 
 	/**
@@ -71,9 +71,9 @@ class Config {
 	 * This function sets the value and writes the config.php. If the file can
 	 * not be written, false will be returned.
 	 */
-	public static function setSystemValue( $key, $value ) {
+	public static function setSystemValue($key, $value) {
 		try {
-			\OC::$server->getConfig()->setSystemValue( $key, $value );
+			\OC::$server->getConfig()->setSystemValue($key, $value);
 		} catch (\Exception $e) {
 			return false;
 		}
@@ -87,8 +87,8 @@ class Config {
 	 *
 	 * This function deletes the value from config.php.
 	 */
-	public static function deleteSystemValue( $key ) {
-		\OC::$server->getConfig()->deleteSystemValue( $key );
+	public static function deleteSystemValue($key) {
+		\OC::$server->getConfig()->deleteSystemValue($key);
 	}
 
 	/**
@@ -102,8 +102,8 @@ class Config {
 	 * This function gets a value from the appconfig table. If the key does
 	 * not exist the default value will be returned
 	 */
-	public static function getAppValue( $app, $key, $default = null ) {
-		return \OC::$server->getConfig()->getAppValue( $app, $key, $default );
+	public static function getAppValue($app, $key, $default = null) {
+		return \OC::$server->getConfig()->getAppValue($app, $key, $default);
 	}
 
 	/**
@@ -116,9 +116,9 @@ class Config {
 	 *
 	 * Sets a value. If the key did not exist before it will be created.
 	 */
-	public static function setAppValue( $app, $key, $value ) {
+	public static function setAppValue($app, $key, $value) {
 		try {
-			\OC::$server->getConfig()->setAppValue( $app, $key, $value );
+			\OC::$server->getConfig()->setAppValue($app, $key, $value);
 		} catch (\Exception $e) {
 			return false;
 		}
@@ -137,8 +137,8 @@ class Config {
 	 * This function gets a value from the preferences table. If the key does
 	 * not exist the default value will be returned
 	 */
-	public static function getUserValue( $user, $app, $key, $default = null ) {
-		return \OC::$server->getConfig()->getUserValue( $user, $app, $key, $default );
+	public static function getUserValue($user, $app, $key, $default = null) {
+		return \OC::$server->getConfig()->getUserValue($user, $app, $key, $default);
 	}
 
 	/**
@@ -153,9 +153,9 @@ class Config {
 	 * Adds a value to the preferences. If the key did not exist before, it
 	 * will be added automagically.
 	 */
-	public static function setUserValue( $user, $app, $key, $value ) {
+	public static function setUserValue($user, $app, $key, $value) {
 		try {
-			\OC::$server->getConfig()->setUserValue( $user, $app, $key, $value );
+			\OC::$server->getConfig()->setUserValue($user, $app, $key, $value);
 		} catch (\Exception $e) {
 			return false;
 		}

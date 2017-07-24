@@ -84,7 +84,8 @@ class RequestHandlerController extends OCSController {
 	 * @param IUserManager $userManager
 	 * @param ICloudIdManager $cloudIdManager
 	 */
-	public function __construct($appName,
+	public function __construct(
+		$appName,
 								IRequest $request,
 								FederatedShareProvider $federatedShareProvider,
 								IDBConnection $connection,
@@ -115,7 +116,6 @@ class RequestHandlerController extends OCSController {
 	 * @throws OCSException
 	 */
 	public function createShare() {
-
 		if (!$this->isS2SEnabled(true)) {
 			throw new OCSException('Server does not support federated cloud sharing', 503);
 		}
@@ -131,7 +131,6 @@ class RequestHandlerController extends OCSController {
 		$ownerFederatedId = isset($_POST['ownerFederatedId']) ? $_POST['ownerFederatedId'] : null;
 
 		if ($remote && $token && $name && $owner && $remoteId && $shareWith) {
-
 			if (!\OCP\Util::isValidFileName($name)) {
 				throw new OCSException('The mountpoint name contains invalid characters.', 400);
 			}
@@ -141,7 +140,7 @@ class RequestHandlerController extends OCSController {
 			\OCP\Util::emitHook(
 				'\OCA\Files_Sharing\API\Server2Server',
 				'preLoginNameUsedAsUserName',
-				array('uid' => &$shareWith)
+				['uid' => &$shareWith]
 			);
 			\OCP\Util::writeLog('files_sharing', 'shareWith after, ' . $shareWith, \OCP\Util::DEBUG);
 
@@ -227,7 +226,6 @@ class RequestHandlerController extends OCSController {
 	 * @throws OCSNotFoundException
 	 */
 	public function reShare($id) {
-
 		$token = $this->request->getParam('token', null);
 		$shareWith = $this->request->getParam('shareWith', null);
 		$permission = (int)$this->request->getParam('permission', null);
@@ -292,7 +290,6 @@ class RequestHandlerController extends OCSController {
 	 * @throws OCSException
 	 */
 	public function acceptShare($id) {
-
 		if (!$this->isS2SEnabled()) {
 			throw new OCSException('Server does not support federated cloud sharing', 503);
 		}
@@ -342,7 +339,6 @@ class RequestHandlerController extends OCSController {
 	 * @throws OCSException
 	 */
 	public function declineShare($id) {
-
 		if (!$this->isS2SEnabled()) {
 			throw new OCSException('Server does not support federated cloud sharing', 503);
 		}
@@ -385,7 +381,6 @@ class RequestHandlerController extends OCSController {
 			->setObject('files', $fileId, $file)
 			->setLink($link);
 		\OC::$server->getActivityManager()->publish($event);
-
 	}
 
 	/**
@@ -413,7 +408,6 @@ class RequestHandlerController extends OCSController {
 	 * @throws OCSException
 	 */
 	public function unshare($id) {
-
 		if (!$this->isS2SEnabled()) {
 			throw new OCSException('Server does not support federated cloud sharing', 503);
 		}
@@ -421,11 +415,10 @@ class RequestHandlerController extends OCSController {
 		$token = isset($_POST['token']) ? $_POST['token'] : null;
 
 		$query = \OCP\DB::prepare('SELECT * FROM `*PREFIX*share_external` WHERE `remote_id` = ? AND `share_token` = ?');
-		$query->execute(array($id, $token));
+		$query->execute([$id, $token]);
 		$share = $query->fetchRow();
 
 		if ($token && $id && !empty($share)) {
-
 			$remote = $this->cleanupRemote($share['remote']);
 
 			$owner = $this->cloudIdManager->getCloudId($share['owner'], $remote);
@@ -433,7 +426,7 @@ class RequestHandlerController extends OCSController {
 			$user = $share['user'];
 
 			$query = \OCP\DB::prepare('DELETE FROM `*PREFIX*share_external` WHERE `remote_id` = ? AND `share_token` = ?');
-			$query->execute(array($id, $token));
+			$query->execute([$id, $token]);
 
 			if ($share['accepted']) {
 				$path = trim($mountpoint, '/');
@@ -528,11 +521,10 @@ class RequestHandlerController extends OCSController {
 		} catch (NotFoundException $e) {
 			$file = null;
 		}
-		$args = \OC\Files\Filesystem::is_dir($file) ? array('dir' => $file) : array('dir' => dirname($file), 'scrollto' => $file);
+		$args = \OC\Files\Filesystem::is_dir($file) ? ['dir' => $file] : ['dir' => dirname($file), 'scrollto' => $file];
 		$link = \OCP\Util::linkToAbsolute('files', 'index.php', $args);
 
-		return array($file, $link);
-
+		return [$file, $link];
 	}
 
 	/**
@@ -542,7 +534,6 @@ class RequestHandlerController extends OCSController {
 	 * @return bool
 	 */
 	private function isS2SEnabled($incoming = false) {
-
 		$result = \OCP\App::isEnabled('files_sharing');
 
 		if ($incoming) {
@@ -629,7 +620,6 @@ class RequestHandlerController extends OCSController {
 	 * @throws OCSException
 	 */
 	public function move($id) {
-
 		if (!$this->isS2SEnabled()) {
 			throw new OCSException('Server does not support federated cloud sharing', 503);
 		}

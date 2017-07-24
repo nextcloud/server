@@ -26,8 +26,7 @@
 $app = new \OCP\AppFramework\App('theming');
 /** @var \OCA\Theming\Util $util */
 $util = $app->getContainer()->query(\OCA\Theming\Util::class);
-if(!$util->isAlreadyThemed()) {
-
+if (!$util->isAlreadyThemed()) {
 	$app->getContainer()->registerCapability(\OCA\Theming\Capabilities::class);
 
 	$linkToCSS = \OC::$server->getURLGenerator()->linkToRoute(
@@ -55,7 +54,7 @@ if(!$util->isAlreadyThemed()) {
 		[
 			'src' => $linkToJs,
 			'nonce' => \OC::$server->getContentSecurityPolicyNonceManager()->getNonce()
-		], ''
+		],
+		''
 	);
-
 }

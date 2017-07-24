@@ -24,7 +24,6 @@
 use Behat\Behat\Context\Context;
 
 class NotificationContext implements Context, ActorAwareInterface {
-
 	use ActorAware;
 
 	/**
@@ -49,7 +48,8 @@ class NotificationContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheNotificationIsShown($message) {
 		PHPUnit_Framework_Assert::assertTrue($this->actor->find(
-				self::notificationMessage($message), 10)->isVisible());
+				self::notificationMessage($message),
+			10
+		)->isVisible());
 	}
-
 }

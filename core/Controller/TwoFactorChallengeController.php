@@ -57,8 +57,14 @@ class TwoFactorChallengeController extends Controller {
 	 * @param ISession $session
 	 * @param IURLGenerator $urlGenerator
 	 */
-	public function __construct($appName, IRequest $request, Manager $twoFactorManager, IUserSession $userSession,
-		ISession $session, IURLGenerator $urlGenerator) {
+	public function __construct(
+		$appName,
+		IRequest $request,
+		Manager $twoFactorManager,
+		IUserSession $userSession,
+		ISession $session,
+		IURLGenerator $urlGenerator
+	) {
 		parent::__construct($appName, $request);
 		$this->twoFactorManager = $twoFactorManager;
 		$this->userSession = $userSession;
@@ -179,5 +185,4 @@ class TwoFactorChallengeController extends Controller {
 			'redirect_url' => $redirect_url,
 		]));
 	}
-
 }

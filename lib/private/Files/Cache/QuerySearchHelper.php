@@ -32,7 +32,7 @@ use OCP\Files\Search\ISearchOrder;
  * Tools for transforming search queries into database queries
  */
 class QuerySearchHelper {
-	static protected $searchOperatorMap = [
+	protected static $searchOperatorMap = [
 		ISearchComparison::COMPARE_LIKE => 'iLike',
 		ISearchComparison::COMPARE_EQUAL => 'eq',
 		ISearchComparison::COMPARE_GREATER_THAN => 'gt',
@@ -41,7 +41,7 @@ class QuerySearchHelper {
 		ISearchComparison::COMPARE_LESS_THAN_EQUAL => 'lte'
 	];
 
-	static protected $searchOperatorNegativeMap = [
+	protected static $searchOperatorNegativeMap = [
 		ISearchComparison::COMPARE_LIKE => 'notLike',
 		ISearchComparison::COMPARE_EQUAL => 'neq',
 		ISearchComparison::COMPARE_GREATER_THAN => 'lte',
@@ -75,7 +75,7 @@ class QuerySearchHelper {
 			return array_reduce($operator->getArguments(), function ($shouldJoin, ISearchOperator $operator) {
 				return $shouldJoin || $this->shouldJoinTags($operator);
 			}, false);
-		} else if ($operator instanceof ISearchComparison) {
+		} elseif ($operator instanceof ISearchComparison) {
 			return $operator->getField() === 'tagname' || $operator->getField() === 'favorite';
 		}
 		return false;
@@ -92,6 +92,7 @@ class QuerySearchHelper {
 					} else {
 						throw new \InvalidArgumentException('Binary operators inside "not" is not supported');
 					}
+					// no break
 				case ISearchBinaryOperator::OPERATOR_AND:
 					return $expr->andX($this->searchOperatorToDBExpr($builder, $operator->getArguments()[0]), $this->searchOperatorToDBExpr($builder, $operator->getArguments()[1]));
 				case ISearchBinaryOperator::OPERATOR_OR:
@@ -99,7 +100,7 @@ class QuerySearchHelper {
 				default:
 					throw new \InvalidArgumentException('Invalid operator type: ' . $operator->getType());
 			}
-		} else if ($operator instanceof ISearchComparison) {
+		} elseif ($operator instanceof ISearchComparison) {
 			return $this->searchComparisonToDBExpr($builder, $operator, self::$searchOperatorMap);
 		} else {
 			throw new \InvalidArgumentException('Invalid operator type: ' . get_class($operator));
@@ -125,7 +126,7 @@ class QuerySearchHelper {
 		if ($field === 'mimetype') {
 			if ($operator->getType() === ISearchComparison::COMPARE_EQUAL) {
 				$value = $this->mimetypeLoader->getId($value);
-			} else if ($operator->getType() === ISearchComparison::COMPARE_LIKE) {
+			} elseif ($operator->getType() === ISearchComparison::COMPARE_LIKE) {
 				// transform "mimetype='foo/%'" to "mimepart='foo'"
 				if (preg_match('|(.+)/%|', $value, $matches)) {
 					$field = 'mimepart';
@@ -136,10 +137,10 @@ class QuerySearchHelper {
 					throw new \InvalidArgumentException('Unsupported query value for mimetype: ' . $value . ', only values in the format "mime/type" or "mime/%" are supported');
 				}
 			}
-		} else if ($field === 'favorite') {
+		} elseif ($field === 'favorite') {
 			$field = 'tag.category';
 			$value = self::TAG_FAVORITE;
-		} else if ($field === 'tagname') {
+		} elseif ($field === 'tagname') {
 			$field = 'tag.category';
 		}
 		return [$field, $value, $type];

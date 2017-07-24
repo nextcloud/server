@@ -44,4 +44,3 @@ class Errorlog {
 		error_log('[owncloud]['.$app.']['.$level.'] '.$message);
 	}
 }
-

@@ -62,5 +62,4 @@ class SecurityFilter implements IFilter {
 	public function getPriority() {
 		return 30;
 	}
-
 }

@@ -70,16 +70,21 @@ class Install extends Command {
 
 		// validate the environment
 		$server = \OC::$server;
-		$setupHelper = new Setup($this->config, $server->getIniWrapper(),
-			$server->getL10N('lib'), $server->query(Defaults::class), $server->getLogger(),
-			$server->getSecureRandom());
+		$setupHelper = new Setup(
+			$this->config,
+			$server->getIniWrapper(),
+			$server->getL10N('lib'),
+			$server->query(Defaults::class),
+			$server->getLogger(),
+			$server->getSecureRandom()
+		);
 		$sysInfo = $setupHelper->getSystemInfo(true);
 		$errors = $sysInfo['errors'];
 		if (count($errors) > 0) {
 			$this->printErrors($output, $errors);
 
 			// ignore the OS X setup warning
-			if(count($errors) !== 1 ||
+			if (count($errors) !== 1 ||
 				(string)($errors[0]['error']) !== 'Mac OS X is not supported and Nextcloud will not work properly on this platform. Use it at your own risk! ') {
 				return 1;
 			}

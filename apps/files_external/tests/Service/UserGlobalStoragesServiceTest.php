@@ -150,10 +150,8 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 				$this->service->getStorage($newStorage->getId());
 				$this->fail('Failed asserting that storage can\'t be accessed by id');
 			} catch (NotFoundException $e) {
-
 			}
 		}
-
 	}
 
 	/**
@@ -258,8 +256,12 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 	 * @dataProvider getUniqueStoragesProvider
 	 */
 	public function testGetUniqueStorages(
-		$priority1, $applicableUsers1, $applicableGroups1,
-		$priority2, $applicableUsers2, $applicableGroups2,
+		$priority1,
+		$applicableUsers1,
+		$applicableGroups1,
+		$priority2,
+		$applicableUsers2,
+		$applicableGroups2,
 		$expectedPrecedence
 	) {
 		$backend = $this->backendService->getBackend('identifier:\OCA\Files_External\Lib\Backend\SMB');

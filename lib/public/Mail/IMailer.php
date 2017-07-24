@@ -23,6 +23,7 @@
  */
 
 namespace OCP\Mail;
+
 use OC\Mail\Message;
 
 /**

@@ -41,7 +41,6 @@ use OC\Template\SCSSCacher;
 use OCP\Defaults;
 
 class TemplateLayout extends \OC_Template {
-
 	private static $versionHash = '';
 
 	/**
@@ -53,44 +52,44 @@ class TemplateLayout extends \OC_Template {
 	 * @param string $renderAs
 	 * @param string $appId application id
 	 */
-	public function __construct( $renderAs, $appId = '' ) {
+	public function __construct($renderAs, $appId = '') {
 
 		// yes - should be injected ....
 		$this->config = \OC::$server->getConfig();
 
 
 		// Decide which page we show
-		if($renderAs == 'user') {
-			parent::__construct( 'core', 'layout.user' );
-			if(in_array(\OC_App::getCurrentApp(), ['settings','admin', 'help']) !== false) {
+		if ($renderAs == 'user') {
+			parent::__construct('core', 'layout.user');
+			if (in_array(\OC_App::getCurrentApp(), ['settings','admin', 'help']) !== false) {
 				$this->assign('bodyid', 'body-settings');
-			}else{
+			} else {
 				$this->assign('bodyid', 'body-user');
 			}
 
 			// Code integrity notification
 			$integrityChecker = \OC::$server->getIntegrityCodeChecker();
-			if(\OC_User::isAdminUser(\OC_User::getUser()) && $integrityChecker->isCodeCheckEnforced() && !$integrityChecker->hasPassedCheck()) {
+			if (\OC_User::isAdminUser(\OC_User::getUser()) && $integrityChecker->isCodeCheckEnforced() && !$integrityChecker->hasPassedCheck()) {
 				\OCP\Util::addScript('core', 'integritycheck-failed-notification');
 			}
 
 			// Add navigation entry
-			$this->assign( 'application', '');
-			$this->assign( 'appid', $appId );
+			$this->assign('application', '');
+			$this->assign('appid', $appId);
 			$navigation = \OC_App::getNavigation();
-			$this->assign( 'navigation', $navigation);
+			$this->assign('navigation', $navigation);
 			$settingsNavigation = \OC_App::getSettingsNavigation();
-			$this->assign( 'settingsnavigation', $settingsNavigation);
-			foreach($navigation as $entry) {
+			$this->assign('settingsnavigation', $settingsNavigation);
+			foreach ($navigation as $entry) {
 				if ($entry['active']) {
-					$this->assign( 'application', $entry['name'] );
+					$this->assign('application', $entry['name']);
 					break;
 				}
 			}
 			
-			foreach($settingsNavigation as $entry) {
+			foreach ($settingsNavigation as $entry) {
 				if ($entry['active']) {
-					$this->assign( 'application', $entry['name'] );
+					$this->assign('application', $entry['name']);
 					break;
 				}
 			}
@@ -104,21 +103,19 @@ class TemplateLayout extends \OC_Template {
 				$this->assign('userAvatarSet', \OC::$server->getAvatarManager()->getAvatar(\OC_User::getUser())->exists());
 				$this->assign('userAvatarVersion', \OC::$server->getConfig()->getUserValue(\OC_User::getUser(), 'avatar', 'version', 0));
 			}
-
-		} else if ($renderAs == 'error') {
+		} elseif ($renderAs == 'error') {
 			parent::__construct('core', 'layout.guest', '', false);
 			$this->assign('bodyid', 'body-login');
-		} else if ($renderAs == 'guest') {
+		} elseif ($renderAs == 'guest') {
 			parent::__construct('core', 'layout.guest');
 			$this->assign('bodyid', 'body-login');
 		} else {
 			parent::__construct('core', 'layout.base');
-
 		}
 		// Send the language to our layouts
 		$this->assign('language', \OC::$server->getL10NFactory()->findLanguage());
 
-		if(\OC::$server->getSystemConfig()->getValue('installed', false)) {
+		if (\OC::$server->getSystemConfig()->getValue('installed', false)) {
 			if (empty(self::$versionHash)) {
 				$v = \OC_App::getAppVersions();
 				$v['core'] = implode('.', \OCP\Util::getVersion());
@@ -130,7 +127,7 @@ class TemplateLayout extends \OC_Template {
 
 		// Add the js files
 		$jsFiles = self::findJavascriptFiles(\OC_Util::$scripts);
-		$this->assign('jsfiles', array());
+		$this->assign('jsfiles', []);
 		if ($this->config->getSystemValue('installed', false) && $renderAs != 'error') {
 			if (\OC::$server->getContentSecurityPolicyNonceManager()->browserSupportsCspV3()) {
 				$jsConfigHelper = new JSConfigHelper(
@@ -149,10 +146,10 @@ class TemplateLayout extends \OC_Template {
 				$this->append('jsfiles', \OC::$server->getURLGenerator()->linkToRoute('core.OCJS.getConfig', ['v' => self::$versionHash]));
 			}
 		}
-		foreach($jsFiles as $info) {
+		foreach ($jsFiles as $info) {
 			$web = $info[1];
 			$file = $info[2];
-			$this->append( 'jsfiles', $web.'/'.$file . $this->getVersionHashSuffix() );
+			$this->append('jsfiles', $web.'/'.$file . $this->getVersionHashSuffix());
 		}
 
 		try {
@@ -163,7 +160,7 @@ class TemplateLayout extends \OC_Template {
 
 		// Do not initialise scss appdata until we have a fully installed instance
 		// Do not load scss for update, errors, installation or login page
-		if(\OC::$server->getSystemConfig()->getValue('installed', false)
+		if (\OC::$server->getSystemConfig()->getValue('installed', false)
 			&& !\OCP\Util::needUpgrade()
 			&& $pathInfo !== ''
 			&& !preg_match('/^\/login/', $pathInfo)) {
@@ -175,23 +172,23 @@ class TemplateLayout extends \OC_Template {
 			$cssFiles = self::findStylesheetFiles(\OC_Util::$styles, false);
 		}
 
-		$this->assign('cssfiles', array());
+		$this->assign('cssfiles', []);
 		$this->assign('printcssfiles', []);
 		$this->assign('versionHash', self::$versionHash);
-		foreach($cssFiles as $info) {
+		foreach ($cssFiles as $info) {
 			$web = $info[1];
 			$file = $info[2];
 
 			if (substr($file, -strlen('print.css')) === 'print.css') {
-				$this->append( 'printcssfiles', $web.'/'.$file . $this->getVersionHashSuffix() );
+				$this->append('printcssfiles', $web.'/'.$file . $this->getVersionHashSuffix());
 			} else {
-				$this->append( 'cssfiles', $web.'/'.$file . $this->getVersionHashSuffix()  );
+				$this->append('cssfiles', $web.'/'.$file . $this->getVersionHashSuffix());
 			}
 		}
 	}
 
 	protected function getVersionHashSuffix() {
-		if(\OC::$server->getConfig()->getSystemValue('debug', false)) {
+		if (\OC::$server->getConfig()->getSystemValue('debug', false)) {
 			// allows chrome workspace mapping in debug mode
 			return "";
 		}
@@ -205,11 +202,11 @@ class TemplateLayout extends \OC_Template {
 	 * @param array $styles
 	 * @return array
 	 */
-	static public function findStylesheetFiles($styles, $compileScss = true) {
+	public static function findStylesheetFiles($styles, $compileScss = true) {
 		// Read the selected theme from the config file
 		$theme = \OC_Util::getTheme();
 
-		if($compileScss) {
+		if ($compileScss) {
 			$SCSSCacher = \OC::$server->query(SCSSCacher::class);
 		} else {
 			$SCSSCacher = null;
@@ -218,8 +215,8 @@ class TemplateLayout extends \OC_Template {
 		$locator = new \OC\Template\CSSResourceLocator(
 			\OC::$server->getLogger(),
 			$theme,
-			array( \OC::$SERVERROOT => \OC::$WEBROOT ),
-			array( \OC::$SERVERROOT => \OC::$WEBROOT ),
+			[ \OC::$SERVERROOT => \OC::$WEBROOT ],
+			[ \OC::$SERVERROOT => \OC::$WEBROOT ],
 			$SCSSCacher
 		);
 		$locator->find($styles);
@@ -230,15 +227,15 @@ class TemplateLayout extends \OC_Template {
 	 * @param array $scripts
 	 * @return array
 	 */
-	static public function findJavascriptFiles($scripts) {
+	public static function findJavascriptFiles($scripts) {
 		// Read the selected theme from the config file
 		$theme = \OC_Util::getTheme();
 
 		$locator = new \OC\Template\JSResourceLocator(
 			\OC::$server->getLogger(),
 			$theme,
-			array( \OC::$SERVERROOT => \OC::$WEBROOT ),
-			array( \OC::$SERVERROOT => \OC::$WEBROOT ),
+			[ \OC::$SERVERROOT => \OC::$WEBROOT ],
+			[ \OC::$SERVERROOT => \OC::$WEBROOT ],
 			new JSCombiner(
 				\OC::$server->getAppDataDir('js'),
 				\OC::$server->getURLGenerator(),
@@ -259,7 +256,7 @@ class TemplateLayout extends \OC_Template {
 	 */
 	public static function convertToRelativePath($filePath) {
 		$relativePath = explode(\OC::$SERVERROOT, $filePath);
-		if(count($relativePath) !== 2) {
+		if (count($relativePath) !== 2) {
 			throw new \Exception('$filePath is not under the \OC::$SERVERROOT');
 		}
 

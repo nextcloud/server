@@ -14,6 +14,8 @@ return PhpCsFixer\Config::create()
 		'array_syntax' => ['syntax' => 'short'],
 		'braces' => ['position_after_functions_and_oop_constructs' => 'same'],
 		'binary_operator_spaces' => ['align_double_arrow' => false, 'align_equals' => false],
+		'phpdoc_indent' => true,
+		'align_multiline_comment' => ['comment_type' => 'all_multiline'],
 	])
 	->setIndent("\t")
 	->setFinder($finder)

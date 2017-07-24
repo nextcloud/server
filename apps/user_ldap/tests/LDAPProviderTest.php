@@ -33,7 +33,6 @@ use OCA\User_LDAP\IUserLDAP;
  * @package OCA\User_LDAP\Tests
  */
 class LDAPProviderTest extends \Test\TestCase {
-
 	protected function setUp() {
 		parent::setUp();
 	}
@@ -44,11 +43,11 @@ class LDAPProviderTest extends \Test\TestCase {
 			 ->setConstructorArgs(['', new \OC\Config(\OC::$configDir)])
 			 ->getMock();
 		$server->expects($this->at(1))
-            ->method('getBackends')
-            ->willReturn([$backend]);
+			->method('getBackends')
+			->willReturn([$backend]);
 		$server->expects($this->any())
-            ->method($this->anything())
-            ->willReturnSelf();
+			->method($this->anything())
+			->willReturnSelf();
 			
 		return $server;
 	}
@@ -81,20 +80,22 @@ class LDAPProviderTest extends \Test\TestCase {
 			 ->disableOriginalConstructor()
 			 ->getMock();
 		$backend->expects($this->at(0))
-            ->method('userExists')
-            ->willReturn(true);
+			->method('userExists')
+			->willReturn(true);
 		$backend->expects($this->at(2))
-            ->method('username2dn')
-            ->willReturn('cn=existing_user,ou=Are Sufficient To,ou=Test,dc=example,dc=org');
+			->method('username2dn')
+			->willReturn('cn=existing_user,ou=Are Sufficient To,ou=Test,dc=example,dc=org');
 		$backend->expects($this->any())
-            ->method($this->anything())
-            ->willReturnSelf();
+			->method($this->anything())
+			->willReturnSelf();
 		
 		$server = $this->getServerMock($backend);
 			
 		$ldapProvider = $this->getLDAPProvider($server);
-		$this->assertEquals('cn=existing_user,ou=Are Sufficient To,ou=Test,dc=example,dc=org', 
-			$ldapProvider->getUserDN('existing_user'));
+		$this->assertEquals(
+			'cn=existing_user,ou=Are Sufficient To,ou=Test,dc=example,dc=org',
+			$ldapProvider->getUserDN('existing_user')
+		);
 	}
 
 	public function testGetUserName() {
@@ -103,14 +104,16 @@ class LDAPProviderTest extends \Test\TestCase {
 			 ->disableOriginalConstructor()
 			 ->getMock();
 		$backend->expects($this->any())
-            ->method('dn2UserName')
-            ->willReturn('existing_user');
+			->method('dn2UserName')
+			->willReturn('existing_user');
 		
 		$server = $this->getServerMock($backend);
 			
 		$ldapProvider = $this->getLDAPProvider($server);
-		$this->assertEquals('existing_user', 
-			$ldapProvider->getUserName('cn=existing_user,ou=Are Sufficient To,ou=Test,dc=example,dc=org'));
+		$this->assertEquals(
+			'existing_user',
+			$ldapProvider->getUserName('cn=existing_user,ou=Are Sufficient To,ou=Test,dc=example,dc=org')
+		);
 	}
 	
 	public function testDNasBaseParameter() {
@@ -125,8 +128,9 @@ class LDAPProviderTest extends \Test\TestCase {
 			
 		$ldapProvider = $this->getLDAPProvider($server);
 		$this->assertEquals(
-			$helper->DNasBaseParameter('cn=existing_user,ou=Are Sufficient To,ou=Test,dc=example,dc=org'), 
-			$ldapProvider->DNasBaseParameter('cn=existing_user,ou=Are Sufficient To,ou=Test,dc=example,dc=org'));
+			$helper->DNasBaseParameter('cn=existing_user,ou=Are Sufficient To,ou=Test,dc=example,dc=org'),
+			$ldapProvider->DNasBaseParameter('cn=existing_user,ou=Are Sufficient To,ou=Test,dc=example,dc=org')
+		);
 	}
 
 	public function testSanitizeDN() {
@@ -141,8 +145,9 @@ class LDAPProviderTest extends \Test\TestCase {
 			
 		$ldapProvider = $this->getLDAPProvider($server);
 		$this->assertEquals(
-			$helper->sanitizeDN('cn=existing_user,ou=Are Sufficient To,ou=Test,dc=example,dc=org'), 
-			$ldapProvider->sanitizeDN('cn=existing_user,ou=Are Sufficient To,ou=Test,dc=example,dc=org'));
+			$helper->sanitizeDN('cn=existing_user,ou=Are Sufficient To,ou=Test,dc=example,dc=org'),
+			$ldapProvider->sanitizeDN('cn=existing_user,ou=Are Sufficient To,ou=Test,dc=example,dc=org')
+		);
 	}
 	
 	/**
@@ -168,11 +173,11 @@ class LDAPProviderTest extends \Test\TestCase {
 			 ->disableOriginalConstructor()
 			 ->getMock();
 		$backend->expects($this->any())
-            ->method('userExists')
-            ->willReturn(true);
+			->method('userExists')
+			->willReturn(true);
 		$backend->expects($this->any())
-            ->method('getNewLDAPConnection')
-            ->willReturn(true);
+			->method('getNewLDAPConnection')
+			->willReturn(true);
 		
 		$server = $this->getServerMock($backend);
 			
@@ -203,14 +208,14 @@ class LDAPProviderTest extends \Test\TestCase {
 			 ->disableOriginalConstructor()
 			 ->getMock();
 		$backend->expects($this->at(0))
-            ->method('userExists')
-            ->willReturn(true);
+			->method('userExists')
+			->willReturn(true);
 		$backend->expects($this->at(3))
-            ->method('getConfiguration')
-            ->willReturn(array('ldap_base_users'=>'ou=users,dc=example,dc=org'));
+			->method('getConfiguration')
+			->willReturn(['ldap_base_users' => 'ou=users,dc=example,dc=org']);
 		$backend->expects($this->any())
-            ->method($this->anything())
-            ->willReturnSelf();
+			->method($this->anything())
+			->willReturnSelf();
 		
 		$server = $this->getServerMock($backend);
 			
@@ -241,14 +246,14 @@ class LDAPProviderTest extends \Test\TestCase {
 			 ->disableOriginalConstructor()
 			 ->getMock();
 		$backend->expects($this->at(0))
-            ->method('userExists')
-            ->willReturn(true);
+			->method('userExists')
+			->willReturn(true);
 		$backend->expects($this->at(3))
-            ->method('getConfiguration')
-            ->willReturn(array('ldap_base_groups'=>'ou=groups,dc=example,dc=org'));
+			->method('getConfiguration')
+			->willReturn(['ldap_base_groups' => 'ou=groups,dc=example,dc=org']);
 		$backend->expects($this->any())
-            ->method($this->anything())
-            ->willReturnSelf();
+			->method($this->anything())
+			->willReturnSelf();
 		
 		$server = $this->getServerMock($backend);
 			
@@ -279,20 +284,20 @@ class LDAPProviderTest extends \Test\TestCase {
 			 ->disableOriginalConstructor()
 			 ->getMock();
 		$backend->expects($this->at(0))
-            ->method('userExists')
-            ->willReturn(true);
+			->method('userExists')
+			->willReturn(true);
 		$backend->expects($this->at(3))
-            ->method('clearCache')
-            ->willReturn(true);
+			->method('clearCache')
+			->willReturn(true);
 		$backend->expects($this->any())
-            ->method($this->anything())
-            ->willReturnSelf();
+			->method($this->anything())
+			->willReturnSelf();
 		
 		$server = $this->getServerMock($backend);
 			
 		$ldapProvider = $this->getLDAPProvider($server);
 		$ldapProvider->clearCache('existing_user');
-		$this->assertTrue(TRUE);
+		$this->assertTrue(true);
 	}
 	
 	public function testDnExists() {
@@ -301,8 +306,8 @@ class LDAPProviderTest extends \Test\TestCase {
 			 ->disableOriginalConstructor()
 			 ->getMock();
 		$backend->expects($this->any())
-            ->method('dn2UserName')
-            ->willReturn('existing_user');
+			->method('dn2UserName')
+			->willReturn('existing_user');
 		
 		$server = $this->getServerMock($backend);
 			
@@ -320,7 +325,7 @@ class LDAPProviderTest extends \Test\TestCase {
 			
 		$ldapProvider = $this->getLDAPProvider($server);
 		$ldapProvider->flagRecord('existing_user');
-		$this->assertTrue(TRUE);
+		$this->assertTrue(true);
 	}
 	
 	public function testUnflagRecord() {
@@ -333,6 +338,6 @@ class LDAPProviderTest extends \Test\TestCase {
 			
 		$ldapProvider = $this->getLDAPProvider($server);
 		$ldapProvider->unflagRecord('existing_user');
-		$this->assertTrue(TRUE);
+		$this->assertTrue(true);
 	}
 }

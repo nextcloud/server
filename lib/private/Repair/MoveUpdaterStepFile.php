@@ -43,24 +43,23 @@ class MoveUpdaterStepFile implements IRepairStep {
 	}
 
 	public function run(IOutput $output) {
-
 		$dataDir = $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data');
 		$instanceId = $this->config->getSystemValue('instanceid', null);
 
-		if(!is_string($instanceId) || empty($instanceId)) {
+		if (!is_string($instanceId) || empty($instanceId)) {
 			return;
 		}
 
 		$updaterFolderPath = $dataDir . '/updater-' . $instanceId;
 		$stepFile = $updaterFolderPath . '/.step';
-		if(file_exists($stepFile)) {
+		if (file_exists($stepFile)) {
 			$output->info('.step file exists');
 
 			$previousStepFile = $updaterFolderPath . '/.step-previous-update';
 
 			// cleanup
-			if(file_exists($previousStepFile)) {
-				if(\OC_Helper::rmdirr($previousStepFile)) {
+			if (file_exists($previousStepFile)) {
+				if (\OC_Helper::rmdirr($previousStepFile)) {
 					$output->info('.step-previous-update removed');
 				} else {
 					$output->info('.step-previous-update can\'t be removed - abort move of .step file');
@@ -69,7 +68,7 @@ class MoveUpdaterStepFile implements IRepairStep {
 			}
 
 			// move step file
-			if(rename($stepFile, $previousStepFile)) {
+			if (rename($stepFile, $previousStepFile)) {
 				$output->info('.step file moved to .step-previous-update');
 			} else {
 				$output->warning('.step file can\'t be moved');
@@ -77,4 +76,3 @@ class MoveUpdaterStepFile implements IRepairStep {
 		}
 	}
 }
-

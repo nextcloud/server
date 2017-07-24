@@ -23,7 +23,6 @@
 
 namespace OCP;
 
-
 use OCP\AppFramework\Http;
 use Sabre\DAV\Server;
 use Symfony\Component\EventDispatcher\Event;

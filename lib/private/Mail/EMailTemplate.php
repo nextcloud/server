@@ -339,9 +339,11 @@ EOF;
 	 * @param IURLGenerator $urlGenerator
 	 * @param IL10N $l10n
 	 */
-	public function __construct(Defaults $themingDefaults,
+	public function __construct(
+		Defaults $themingDefaults,
 								IURLGenerator $urlGenerator,
-								IL10N $l10n) {
+								IL10N $l10n
+	) {
 		$this->themingDefaults = $themingDefaults;
 		$this->urlGenerator = $urlGenerator;
 		$this->l10n = $l10n;
@@ -487,12 +489,14 @@ EOF;
 	 * @param string $plainTextLeft Text of left button that is used in the plain text version - if unset the $textLeft is used
 	 * @param string $plainTextRight Text of right button that is used in the plain text version - if unset the $textRight is used
 	 */
-	public function addBodyButtonGroup($textLeft,
+	public function addBodyButtonGroup(
+		$textLeft,
 									   $urlLeft,
 									   $textRight,
 									   $urlRight,
 									   $plainTextLeft = '',
-									   $plainTextRight = '') {
+									   $plainTextRight = ''
+	) {
 		if ($this->footerAdded) {
 			return;
 		}
@@ -512,7 +516,6 @@ EOF;
 		$this->htmlBody .= vsprintf($this->buttonGroup, [$color, $color, $urlLeft, $color, htmlspecialchars($textLeft), $urlRight, htmlspecialchars($textRight)]);
 		$this->plainBody .= $plainTextLeft . ': ' . $urlLeft . PHP_EOL;
 		$this->plainBody .= $plainTextRight . ': ' . $urlRight . PHP_EOL . PHP_EOL;
-
 	}
 
 	/**
@@ -544,8 +547,7 @@ EOF;
 			$this->plainBody .= $plainText . ': ';
 		}
 
-		$this->plainBody .=  $url . PHP_EOL;
-
+		$this->plainBody .= $url . PHP_EOL;
 	}
 
 	/**
@@ -568,7 +570,7 @@ EOF;
 	 * @param string $text If the text is empty the default "Name - Slogan<br>This is an automatically sent email" will be used
 	 */
 	public function addFooter($text = '') {
-		if($text === '') {
+		if ($text === '') {
 			$text = $this->themingDefaults->getName() . ' - ' . $this->themingDefaults->getSlogan() . '<br>' . $this->l10n->t('This is an automatically sent email, please do not reply.');
 		}
 

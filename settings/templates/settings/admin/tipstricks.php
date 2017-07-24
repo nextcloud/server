@@ -37,9 +37,10 @@
 			<li>
 				<?php p($l->t('SQLite is currently being used as the backend database. For larger installations we recommend that you switch to a different database backend.')); ?><br>
 				<?php p($l->t('This is particularly recommended when using the desktop client for file synchronisation.')); ?><br>
-				<?php print_unescaped($l->t('To migrate to another database use the command line tool: \'occ db:convert-type\', or see the <a target="_blank" rel="noreferrer" href="%s">documentation ↗</a>.', link_to_docs('admin-db-conversion') )); ?>
+				<?php print_unescaped($l->t('To migrate to another database use the command line tool: \'occ db:convert-type\', or see the <a target="_blank" rel="noreferrer" href="%s">documentation ↗</a>.', link_to_docs('admin-db-conversion'))); ?>
 			</li>
-		<?php } ?>
+		<?php
+		} ?>
 		<li><a target="_blank" rel="noreferrer" href="<?php p(link_to_docs('admin-backup')); ?>"><?php p($l->t('How to do backups'));?> ↗</a></li>
 		<li><a target="_blank" rel="noreferrer" href="<?php p(link_to_docs('admin-monitoring')); ?>"><?php p($l->t('Advanced monitoring'));?> ↗</a></li>
 		<li><a target="_blank" rel="noreferrer" href="<?php p(link_to_docs('admin-performance')); ?>"><?php p($l->t('Performance tuning'));?> ↗</a></li>

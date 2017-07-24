@@ -55,12 +55,14 @@ class PreviewController extends Controller {
 	 * @param IMimeTypeDetector $mimeTypeDetector
 	 * @param IPreview $previewManager
 	 */
-	public function __construct($appName,
+	public function __construct(
+		$appName,
 								IRequest $request,
 								IRootFolder $rootFolder,
 								$userId,
 								IMimeTypeDetector $mimeTypeDetector,
-								IPreview $previewManager) {
+								IPreview $previewManager
+	) {
 		parent::__construct($appName, $request);
 
 		$this->rootFolder = $rootFolder;

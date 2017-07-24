@@ -14,7 +14,7 @@
 		<meta name="apple-itunes-app" content="app-id=<?php p($theme->getiTunesAppId()); ?>">
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
-		<meta name="apple-mobile-web-app-title" content="<?php p((!empty($_['application']) && $_['appid']!='files')? $_['application']:$theme->getTitle()); ?>">
+		<meta name="apple-mobile-web-app-title" content="<?php p((!empty($_['application']) && $_['appid'] != 'files')? $_['application']:$theme->getTitle()); ?>">
 		<meta name="mobile-web-app-capable" content="yes">
 		<meta name="theme-color" content="<?php p($theme->getColorPrimary()); ?>">
 		<link rel="icon" href="<?php print_unescaped(image_path($_['appid'], 'favicon.ico')); /* IE11+ supports png */ ?>">
@@ -76,10 +76,10 @@
 					<div id="navigation" style="display: none;">
 						<div id="apps">
 							<ul>
-								<?php foreach($_['navigation'] as $entry): ?>
+								<?php foreach ($_['navigation'] as $entry): ?>
 									<li data-id="<?php p($entry['id']); ?>">
 									<a href="<?php print_unescaped($entry['href']); ?>" tabindex="3"
-										<?php if( $entry['active'] ): ?> class="active"<?php endif; ?>>
+										<?php if ($entry['active']): ?> class="active"<?php endif; ?>>
 										<svg width="16" height="16" viewBox="0 0 16 16">
 											<defs><filter id="invert-<?php p($entry['id']); ?>"><feColorMatrix in="SourceGraphic" type="matrix" values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0"></feColorMatrix></filter></defs>
 											<image x="0" y="0" width="16" height="16" preserveAspectRatio="xMinYMin meet" filter="url(#invert-<?php p($entry['id']); ?>)" xlink:href="<?php print_unescaped($entry['icon'] . '?v=' . $_['versionHash']); ?>"  class="app-icon"></image>
@@ -112,7 +112,11 @@
 				</div>
 				<div id="settings">
 					<div id="expand" tabindex="6" role="link" class="menutoggle">
-						<div class="avatardiv<?php if ($_['userAvatarSet']) { print_unescaped(' avatardiv-shown'); } else { print_unescaped('" style="display: none'); } ?>">
+						<div class="avatardiv<?php if ($_['userAvatarSet']) {
+				print_unescaped(' avatardiv-shown');
+			} else {
+				print_unescaped('" style="display: none');
+			} ?>">
 							<?php if ($_['userAvatarSet']): ?>
 								<img alt="" width="32" height="32"
 								src="<?php p(\OC::$server->getURLGenerator()->linkToRoute('core.avatar.getAvatar', ['userId' => $_['user_uid'], 'size' => 32, 'v' => $_['userAvatarVersion']]));?>"
@@ -124,10 +128,10 @@
 					</div>
 					<div id="expanddiv" style="display:none;">
 					<ul>
-					<?php foreach($_['settingsnavigation'] as $entry):?>
+					<?php foreach ($_['settingsnavigation'] as $entry):?>
 						<li>
 							<a href="<?php print_unescaped($entry['href']); ?>"
-								<?php if( $entry["active"] ): ?> class="active"<?php endif; ?>>
+								<?php if ($entry["active"]): ?> class="active"<?php endif; ?>>
 								<img alt="" src="<?php print_unescaped($entry['icon'] . '?v=' . $_['versionHash']); ?>">
 								<?php p($entry['name']) ?>
 							</a>

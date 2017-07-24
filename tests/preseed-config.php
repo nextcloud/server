@@ -3,9 +3,9 @@ $CONFIG = [
 	'appstoreenabled' => false,
 	'apps_paths' => [
 		[
-			'path'		=> OC::$SERVERROOT . '/apps',
-			'url'		=> '/apps',
-			'writable'	=> true,
+			'path' => OC::$SERVERROOT . '/apps',
+			'url' => '/apps',
+			'writable' => true,
 		],
 	],
 ];
@@ -25,7 +25,7 @@ if (substr(strtolower(PHP_OS), 0, 3) === 'win') {
 if (getenv('OBJECT_STORE') === 's3') {
 	$CONFIG['objectstore'] = [
 		'class' => 'OC\\Files\\ObjectStore\\S3',
-		'arguments' => array(
+		'arguments' => [
 			'bucket' => 'nextcloud',
 			'autocreate' => true,
 			'key' => 'dummy',
@@ -35,6 +35,6 @@ if (getenv('OBJECT_STORE') === 's3') {
 			'use_ssl' => false,
 			// required for some non amazon s3 implementations
 			'use_path_style' => true
-		)
+		]
 	];
 }

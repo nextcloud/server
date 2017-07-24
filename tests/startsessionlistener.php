@@ -10,7 +10,6 @@
  * Starts a new session before each test execution
  */
 class StartSessionListener implements PHPUnit_Framework_TestListener {
-
 	public function addError(PHPUnit_Framework_Test $test, Exception $e, $time) {
 	}
 
@@ -46,5 +45,4 @@ class StartSessionListener implements PHPUnit_Framework_TestListener {
 
 	public function addWarning(\PHPUnit_Framework_Test $test, \PHPUnit_Framework_Warning $e, $time) {
 	}
-
 }

@@ -84,7 +84,7 @@ class SubadminMiddlewareTest extends \Test\TestCase {
 	}
 
 	public function testAfterNotAdminException() {
-		$expectedResponse = new TemplateResponse('core', '403', array(), 'guest');
+		$expectedResponse = new TemplateResponse('core', '403', [], 'guest');
 		$expectedResponse->setStatus(403);
 		$this->assertEquals($expectedResponse, $this->subadminMiddleware->afterException($this->controller, 'foo', new NotAdminException()));
 	}
@@ -93,7 +93,7 @@ class SubadminMiddlewareTest extends \Test\TestCase {
 	 * @expectedException \Exception
 	 */
 	public function testAfterRegularException() {
-		$expectedResponse = new TemplateResponse('core', '403', array(), 'guest');
+		$expectedResponse = new TemplateResponse('core', '403', [], 'guest');
 		$expectedResponse->setStatus(403);
 		$this->subadminMiddleware->afterException($this->controller, 'foo', new \Exception());
 	}

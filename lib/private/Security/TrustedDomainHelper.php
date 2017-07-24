@@ -23,6 +23,7 @@
  */
 
 namespace OC\Security;
+
 use OC\AppFramework\Http\Request;
 use OCP\IConfig;
 
@@ -81,7 +82,7 @@ class TrustedDomainHelper {
 			return true;
 		}
 		// Reject misformed domains in any case
-		if (strpos($domain,'-') === 0 || strpos($domain,'..') !== false) {
+		if (strpos($domain, '-') === 0 || strpos($domain, '..') !== false) {
 			return false;
 		}
 		// Match, allowing for * wildcards
@@ -89,11 +90,13 @@ class TrustedDomainHelper {
 			if (gettype($trusted) !== 'string') {
 				break;
 			}
-			$regex = '/^' . implode('[-\.a-zA-Z0-9]*', array_map(function($v) { return preg_quote($v, '/'); }, explode('*', $trusted))) . '$/';
+			$regex = '/^' . implode('[-\.a-zA-Z0-9]*', array_map(function ($v) {
+				return preg_quote($v, '/');
+			}, explode('*', $trusted))) . '$/';
 			if (preg_match($regex, $domain) || preg_match($regex, $domainWithPort)) {
- 				return true;
- 			}
- 		}
- 		return false;
+				return true;
+			}
+		}
+		return false;
 	}
 }

@@ -32,24 +32,24 @@ class DependencyAnalyzerTest extends TestCase {
 			->getMock();
 		$this->platformMock->expects($this->any())
 			->method('getPhpVersion')
-			->will( $this->returnValue('5.4.3'));
+			->will($this->returnValue('5.4.3'));
 		$this->platformMock->expects($this->any())
 			->method('getIntSize')
-			->will( $this->returnValue('4'));
+			->will($this->returnValue('4'));
 		$this->platformMock->expects($this->any())
 			->method('getDatabase')
-			->will( $this->returnValue('mysql'));
+			->will($this->returnValue('mysql'));
 		$this->platformMock->expects($this->any())
 			->method('getOS')
-			->will( $this->returnValue('Linux'));
+			->will($this->returnValue('Linux'));
 		$this->platformMock->expects($this->any())
 			->method('isCommandKnown')
-			->will( $this->returnCallback(function($command) {
+			->will($this->returnCallback(function ($command) {
 				return ($command === 'grep');
 			}));
 		$this->platformMock->expects($this->any())
 			->method('getLibraryVersion')
-			->will( $this->returnCallback(function($lib) {
+			->will($this->returnCallback(function ($lib) {
 				if ($lib === 'curl') {
 					return "2.3.4";
 				}
@@ -57,14 +57,14 @@ class DependencyAnalyzerTest extends TestCase {
 			}));
 		$this->platformMock->expects($this->any())
 			->method('getOcVersion')
-			->will( $this->returnValue('8.0.2'));
+			->will($this->returnValue('8.0.2'));
 
 		$this->l10nMock = $this->getMockBuilder('\OCP\IL10N')
 			->disableOriginalConstructor()
 			->getMock();
 		$this->l10nMock->expects($this->any())
 			->method('t')
-			->will($this->returnCallback(function($text, $parameters = array()) {
+			->will($this->returnCallback(function ($text, $parameters = []) {
 				return vsprintf($text, $parameters);
 			}));
 
@@ -80,11 +80,11 @@ class DependencyAnalyzerTest extends TestCase {
 	 * @param string $intSize
 	 */
 	public function testPhpVersion($expectedMissing, $minVersion, $maxVersion, $intSize) {
-		$app = array(
-			'dependencies' => array(
-				'php' => array()
-			)
-		);
+		$app = [
+			'dependencies' => [
+				'php' => []
+			]
+		];
 		if (!is_null($minVersion)) {
 			$app['dependencies']['php']['@attributes']['min-version'] = $minVersion;
 		}
@@ -126,10 +126,10 @@ class DependencyAnalyzerTest extends TestCase {
 	 * @param string|null $commands
 	 */
 	public function testCommand($expectedMissing, $commands) {
-		$app = array(
-			'dependencies' => array(
-			)
-		);
+		$app = [
+			'dependencies' => [
+			]
+		];
 		if (!is_null($commands)) {
 			$app['dependencies']['command'] = $commands;
 		}
@@ -144,11 +144,11 @@ class DependencyAnalyzerTest extends TestCase {
 	 * @param $expectedMissing
 	 * @param $libs
 	 */
-	function testLibs($expectedMissing, $libs) {
-		$app = array(
-			'dependencies' => array(
-			)
-		);
+	public function testLibs($expectedMissing, $libs) {
+		$app = [
+			'dependencies' => [
+			]
+		];
 		if (!is_null($libs)) {
 			$app['dependencies']['lib'] = $libs;
 		}
@@ -164,10 +164,10 @@ class DependencyAnalyzerTest extends TestCase {
 	 * @param $expectedMissing
 	 * @param $oss
 	 */
-	function testOS($expectedMissing, $oss) {
-		$app = array(
-			'dependencies' => array()
-		);
+	public function testOS($expectedMissing, $oss) {
+		$app = [
+			'dependencies' => []
+		];
 		if (!is_null($oss)) {
 			$app['dependencies']['os'] = $oss;
 		}
@@ -183,10 +183,10 @@ class DependencyAnalyzerTest extends TestCase {
 	 * @param $expectedMissing
 	 * @param $oc
 	 */
-	function testOC($expectedMissing, $oc) {
-		$app = array(
-			'dependencies' => array()
-		);
+	public function testOC($expectedMissing, $oc) {
+		$app = [
+			'dependencies' => []
+		];
 		if (!is_null($oc)) {
 			$app['dependencies'] = $oc;
 		}
@@ -200,7 +200,7 @@ class DependencyAnalyzerTest extends TestCase {
 	/**
 	 * @return array
 	 */
-	function providesOC() {
+	public function providesOC() {
 		return [
 			// no version -> no missing dependency
 			[
@@ -428,19 +428,19 @@ class DependencyAnalyzerTest extends TestCase {
 	/**
 	 * @return array
 	 */
-	function providesOS() {
-		return array(
-			array(array(), null),
-			array(array(), array()),
-			array(array('Following platforms are supported: ANDROID'), 'ANDROID'),
-			array(array('Following platforms are supported: WINNT'), array('WINNT'))
-		);
+	public function providesOS() {
+		return [
+			[[], null],
+			[[], []],
+			[['Following platforms are supported: ANDROID'], 'ANDROID'],
+			[['Following platforms are supported: WINNT'], ['WINNT']]
+		];
 	}
 
 	/**
 	 * @return array
 	 */
-	function providesLibs() {
+	public function providesLibs() {
 		return [
 			// we expect curl to exist
 			[[], 'curl'],
@@ -470,7 +470,7 @@ class DependencyAnalyzerTest extends TestCase {
 	/**
 	 * @return array
 	 */
-	function providesCommands() {
+	public function providesCommands() {
 		return [
 			[[], null],
 			// grep is known on linux
@@ -488,29 +488,29 @@ class DependencyAnalyzerTest extends TestCase {
 	/**
 	 * @return array
 	 */
-	function providesDatabases() {
-		return array(
+	public function providesDatabases() {
+		return [
 			// non BC - in case on databases are defined -> all are supported
-			array(array(), null),
-			array(array(), array()),
-			array(array('Following databases are supported: mongodb'), 'mongodb'),
-			array(array('Following databases are supported: sqlite, postgres'), array('sqlite', array('@value' => 'postgres'))),
-		);
+			[[], null],
+			[[], []],
+			[['Following databases are supported: mongodb'], 'mongodb'],
+			[['Following databases are supported: sqlite, postgres'], ['sqlite', ['@value' => 'postgres']]],
+		];
 	}
 
 	/**
 	 * @return array
 	 */
-	function providesPhpVersion() {
-		return array(
-			array(array(), null, null, null),
-			array(array(), '5.4', null, null),
-			array(array(), null, '5.5', null),
-			array(array(), '5.4', '5.5', null),
-			array(array('PHP 5.4.4 or higher is required.'), '5.4.4', null, null),
-			array(array('PHP with a version lower than 5.4.2 is required.'), null, '5.4.2', null),
-			array(array('64bit or higher PHP required.'), null, null, 64),
-			array(array(), '5.4', '5.4', null),
-		);
+	public function providesPhpVersion() {
+		return [
+			[[], null, null, null],
+			[[], '5.4', null, null],
+			[[], null, '5.5', null],
+			[[], '5.4', '5.5', null],
+			[['PHP 5.4.4 or higher is required.'], '5.4.4', null, null],
+			[['PHP with a version lower than 5.4.2 is required.'], null, '5.4.2', null],
+			[['64bit or higher PHP required.'], null, null, 64],
+			[[], '5.4', '5.4', null],
+		];
 	}
 }

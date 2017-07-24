@@ -48,9 +48,9 @@ class UpdateCheckerTest extends TestCase {
 			->willReturn([
 				'version' => 123,
 				'versionstring' => 'Nextcloud 123',
-				'web'=> 'javascript:alert(1)',
-				'url'=> 'javascript:alert(2)',
-				'autoupdater'=> '0',
+				'web' => 'javascript:alert(1)',
+				'url' => 'javascript:alert(2)',
+				'autoupdater' => '0',
 			]);
 
 		$expected = [
@@ -68,9 +68,9 @@ class UpdateCheckerTest extends TestCase {
 			->willReturn([
 				'version' => 123,
 				'versionstring' => 'Nextcloud 123',
-				'web'=> 'https://docs.nextcloud.com/myUrl',
-				'url'=> 'https://downloads.nextcloud.org/server',
-				'autoupdater'=> '1',
+				'web' => 'https://docs.nextcloud.com/myUrl',
+				'url' => 'https://downloads.nextcloud.org/server',
+				'autoupdater' => '1',
 			]);
 
 		$expected = [

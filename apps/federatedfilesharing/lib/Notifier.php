@@ -23,7 +23,6 @@
 
 namespace OCA\FederatedFileSharing;
 
-
 use OC\HintException;
 use OCP\Contacts\IManager;
 use OCP\Federation\ICloudId;
@@ -174,7 +173,7 @@ class Notifier implements INotifier {
 		$user = $cloudId->getUser();
 		if (strpos($server, 'http://') === 0) {
 			$server = substr($server, strlen('http://'));
-		} else if (strpos($server, 'https://') === 0) {
+		} elseif (strpos($server, 'https://') === 0) {
 			$server = substr($server, strlen('https://'));
 		}
 

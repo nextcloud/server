@@ -172,8 +172,7 @@ class Redis extends Cache implements IMemcacheTTL {
 		self::$cache->expire($this->getNameSpace() . $key, $ttl);
 	}
 
-	static public function isAvailable() {
+	public static function isAvailable() {
 		return \OC::$server->getGetRedisFactory()->isAvailable();
 	}
 }
-

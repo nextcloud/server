@@ -59,10 +59,10 @@ $principalCollection->disableListing = !$debugging; // Disable listing
 $addressBookRoot = new AddressBookRoot($principalBackend, $cardDavBackend);
 $addressBookRoot->disableListing = !$debugging; // Disable listing
 
-$nodes = array(
+$nodes = [
 	$principalCollection,
 	$addressBookRoot,
-);
+];
 
 // Fire up server
 $server = new \Sabre\DAV\Server($nodes);

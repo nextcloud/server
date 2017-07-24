@@ -23,7 +23,6 @@
 
 namespace OCA\FederatedFileSharing\AppInfo;
 
-
 use OC\AppFramework\Utility\SimpleContainer;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\Controller\RequestHandlerController;
@@ -43,7 +42,7 @@ class Application extends App {
 		$container = $this->getContainer();
 		$server = $container->getServer();
 
-		$container->registerService('RequestHandlerController', function(SimpleContainer $c) use ($server) {
+		$container->registerService('RequestHandlerController', function (SimpleContainer $c) use ($server) {
 			$addressHandler = new AddressHandler(
 				$server->getURLGenerator(),
 				$server->getL10N('federatedfilesharing'),
@@ -115,5 +114,4 @@ class Application extends App {
 			$c->query(IConfig::class)
 		);
 	}
-
 }

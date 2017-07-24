@@ -136,7 +136,7 @@ abstract class Base implements IProvider {
 		if (is_array($parameter)) {
 			$path = reset($parameter);
 			$id = (string) key($parameter);
-		} else if ($event !== null) {
+		} elseif ($event !== null) {
 			// Legacy from before ownCloud 8.2
 			$path = $parameter;
 			$id = $event->getObjectId();

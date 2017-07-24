@@ -1,6 +1,6 @@
 <?php
 /**
-
+ *
  *
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -99,8 +99,7 @@ class OCSMiddleware extends Middleware {
 		 */
 		if ($controller instanceof OCSController && !($response instanceof BaseResponse)) {
 			if ($response->getStatus() === Http::STATUS_UNAUTHORIZED ||
-			    $response->getStatus() === Http::STATUS_FORBIDDEN) {
-
+				$response->getStatus() === Http::STATUS_FORBIDDEN) {
 				$message = '';
 				if ($response instanceof JSONResponse) {
 					/** @var DataResponse $response */
@@ -143,7 +142,7 @@ class OCSMiddleware extends Middleware {
 		$format = $this->request->getParam('format');
 
 		// if none is given try the first Accept header
-		if($format === null) {
+		if ($format === null) {
 			$headers = $this->request->getHeader('Accept');
 			$format = $controller->getResponderByHTTPHeader($headers, 'xml');
 		}

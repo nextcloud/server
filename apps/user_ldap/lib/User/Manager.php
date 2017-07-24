@@ -89,22 +89,26 @@ class Manager {
 	 * @param IDBConnection $db
 	 * @throws \Exception when the methods mentioned above do not exist
 	 */
-	public function __construct(IConfig $ocConfig,
-								FilesystemHelper $ocFilesystem, LogWrapper $ocLog,
-								IAvatarManager $avatarManager, Image $image,
-								IDBConnection $db, IUserManager $userManager,
-								INotificationManager $notificationManager) {
-
-		$this->ocConfig            = $ocConfig;
-		$this->ocFilesystem        = $ocFilesystem;
-		$this->ocLog               = $ocLog;
-		$this->avatarManager       = $avatarManager;
-		$this->image               = $image;
-		$this->db                  = $db;
-		$this->userManager         = $userManager;
+	public function __construct(
+		IConfig $ocConfig,
+								FilesystemHelper $ocFilesystem,
+		LogWrapper $ocLog,
+								IAvatarManager $avatarManager,
+		Image $image,
+								IDBConnection $db,
+		IUserManager $userManager,
+								INotificationManager $notificationManager
+	) {
+		$this->ocConfig = $ocConfig;
+		$this->ocFilesystem = $ocFilesystem;
+		$this->ocLog = $ocLog;
+		$this->avatarManager = $avatarManager;
+		$this->image = $image;
+		$this->db = $db;
+		$this->userManager = $userManager;
 		$this->notificationManager = $notificationManager;
-		$this->usersByDN           = new CappedMemoryCache();
-		$this->usersByUid          = new CappedMemoryCache();
+		$this->usersByDN = new CappedMemoryCache();
+		$this->usersByUid = new CappedMemoryCache();
 	}
 
 	/**
@@ -125,11 +129,19 @@ class Manager {
 	 */
 	private function createAndCache($dn, $uid) {
 		$this->checkAccess();
-		$user = new User($uid, $dn, $this->access, $this->ocConfig,
-			$this->ocFilesystem, clone $this->image, $this->ocLog,
-			$this->avatarManager, $this->userManager, 
-			$this->notificationManager);
-		$this->usersByDN[$dn]   = $user;
+		$user = new User(
+			$uid,
+			$dn,
+			$this->access,
+			$this->ocConfig,
+			$this->ocFilesystem,
+			clone $this->image,
+			$this->ocLog,
+			$this->avatarManager,
+			$this->userManager,
+			$this->notificationManager
+		);
+		$this->usersByDN[$dn] = $user;
 		$this->usersByUid[$uid] = $user;
 		return $user;
 	}
@@ -140,7 +152,7 @@ class Manager {
 	 * @return null
 	 */
 	private function checkAccess() {
-		if(is_null($this->access)) {
+		if (is_null($this->access)) {
 			throw new \Exception('LDAP Access instance must be set first');
 		}
 	}
@@ -153,31 +165,31 @@ class Manager {
 	 * @return string[]
 	 */
 	public function getAttributes($minimal = false) {
-		$attributes = array('dn', 'uid', 'samaccountname', 'memberof');
-		$possible = array(
+		$attributes = ['dn', 'uid', 'samaccountname', 'memberof'];
+		$possible = [
 			$this->access->getConnection()->ldapQuotaAttribute,
 			$this->access->getConnection()->ldapEmailAttribute,
 			$this->access->getConnection()->ldapUserDisplayName,
 			$this->access->getConnection()->ldapUserDisplayName2,
-		);
-		foreach($possible as $attr) {
-			if(!is_null($attr)) {
+		];
+		foreach ($possible as $attr) {
+			if (!is_null($attr)) {
 				$attributes[] = $attr;
 			}
 		}
 
 		$homeRule = $this->access->getConnection()->homeFolderNamingRule;
-		if(strpos($homeRule, 'attr:') === 0) {
+		if (strpos($homeRule, 'attr:') === 0) {
 			$attributes[] = substr($homeRule, strlen('attr:'));
 		}
 
-		if(!$minimal) {
+		if (!$minimal) {
 			// attributes that are not really important but may come with big
 			// payload.
-			$attributes = array_merge($attributes, array(
+			$attributes = array_merge($attributes, [
 				'jpegphoto',
 				'thumbnailphoto'
-			));
+			]);
 		}
 
 		return $attributes;
@@ -190,7 +202,11 @@ class Manager {
 	 */
 	public function isDeletedUser($id) {
 		$isDeleted = $this->ocConfig->getUserValue(
-			$id, 'user_ldap', 'isDeleted', 0);
+			$id,
+			'user_ldap',
+			'isDeleted',
+			0
+		);
 		return intval($isDeleted) === 1;
 	}
 
@@ -204,7 +220,8 @@ class Manager {
 			$id,
 			$this->ocConfig,
 			$this->db,
-			$this->access->getUserMapper());
+			$this->access->getUserMapper()
+		);
 	}
 
 	/**
@@ -214,11 +231,11 @@ class Manager {
 	 */
 	protected function createInstancyByUserName($id) {
 		//most likely a uid. Check whether it is a deleted user
-		if($this->isDeletedUser($id)) {
+		if ($this->isDeletedUser($id)) {
 			return $this->getDeletedUser($id);
 		}
 		$dn = $this->access->username2dn($id);
-		if($dn !== false) {
+		if ($dn !== false) {
 			return $this->createAndCache($dn, $id);
 		}
 		return null;
@@ -232,20 +249,19 @@ class Manager {
 	 */
 	public function get($id) {
 		$this->checkAccess();
-		if(isset($this->usersByDN[$id])) {
+		if (isset($this->usersByDN[$id])) {
 			return $this->usersByDN[$id];
-		} else if(isset($this->usersByUid[$id])) {
+		} elseif (isset($this->usersByUid[$id])) {
 			return $this->usersByUid[$id];
 		}
 
-		if($this->access->stringResemblesDN($id) ) {
+		if ($this->access->stringResemblesDN($id)) {
 			$uid = $this->access->dn2username($id);
-			if($uid !== false) {
+			if ($uid !== false) {
 				return $this->createAndCache($id, $uid);
 			}
 		}
 
 		return $this->createInstancyByUserName($id);
 	}
-
 }

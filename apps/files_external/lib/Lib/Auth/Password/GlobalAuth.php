@@ -35,7 +35,6 @@ use OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
  * Global Username and Password
  */
 class GlobalAuth extends AuthMechanism {
-
 	const CREDENTIALS_IDENTIFIER = 'password::global';
 
 	/** @var ICredentialsManager */
@@ -85,5 +84,4 @@ class GlobalAuth extends AuthMechanism {
 			$storage->setBackendOption('password', $credentials['password']);
 		}
 	}
-
 }

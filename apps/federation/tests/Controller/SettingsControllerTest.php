@@ -23,7 +23,6 @@
 
 namespace OCA\Federation\Tests\Controller;
 
-
 use OCA\Federation\Controller\SettingsController;
 use OCA\Federation\TrustedServers;
 use OCP\AppFramework\Http\DataResponse;
@@ -127,7 +126,6 @@ class SettingsControllerTest extends TestCase {
 		$this->assertTrue(
 			$this->invokePrivate($this->controller, 'checkServer', ['url'])
 		);
-
 	}
 
 	/**
@@ -152,7 +150,6 @@ class SettingsControllerTest extends TestCase {
 		$this->assertTrue(
 			$this->invokePrivate($this->controller, 'checkServer', ['url'])
 		);
-
 	}
 
 	/**
@@ -166,5 +163,4 @@ class SettingsControllerTest extends TestCase {
 			[false, false]
 		];
 	}
-
 }

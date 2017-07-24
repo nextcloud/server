@@ -22,7 +22,6 @@
 
 namespace Test\Encryption;
 
-
 use OC\Encryption\DecryptAll;
 use OC\Encryption\Exceptions\DecryptionFailedException;
 use OC\Encryption\Manager;
@@ -104,7 +103,6 @@ class DecryptAllTest extends TestCase {
 	 * @param bool $userExistsChecked
 	 */
 	public function testDecryptAll($prepareResult, $user, $userExistsChecked) {
-
 		if ($userExistsChecked) {
 			$this->userManager->expects($this->once())->method('userExists')->willReturn(true);
 		} else {
@@ -163,7 +161,6 @@ class DecryptAllTest extends TestCase {
 	 * @param bool $success
 	 */
 	public function testPrepareEncryptionModules($success) {
-
 		$user = 'user1';
 
 		$dummyEncryptionModule = $this->getMockBuilder('OCP\Encryption\IEncryptionModule')
@@ -174,7 +171,9 @@ class DecryptAllTest extends TestCase {
 			->with($this->inputInterface, $this->outputInterface, $user)
 			->willReturn($success);
 
-		$callback = function() use ($dummyEncryptionModule) {return $dummyEncryptionModule;};
+		$callback = function () use ($dummyEncryptionModule) {
+			return $dummyEncryptionModule;
+		};
 		$moduleDescription = [
 			'id' => 'id',
 			'displayName' => 'displayName',
@@ -185,7 +184,8 @@ class DecryptAllTest extends TestCase {
 			->method('getEncryptionModules')
 			->willReturn([$moduleDescription]);
 
-		$this->assertSame($success,
+		$this->assertSame(
+			$success,
 			$this->invokePrivate($this->instance, 'prepareEncryptionModules', [$user])
 		);
 	}
@@ -265,22 +265,22 @@ class DecryptAllTest extends TestCase {
 		$this->view->expects($this->at(0))->method('getDirectoryContent')
 			->with('/user1/files')->willReturn(
 				[
-					new FileInfo('path', $storage, 'intPath', ['name' => 'foo', 'type'=>'dir'], null),
-					new FileInfo('path', $storage, 'intPath', ['name' => 'bar', 'type'=>'file', 'encrypted'=>true], null),
-					new FileInfo('path', $sharedStorage, 'intPath', ['name' => 'shared', 'type'=>'file', 'encrypted'=>true], null),
+					new FileInfo('path', $storage, 'intPath', ['name' => 'foo', 'type' => 'dir'], null),
+					new FileInfo('path', $storage, 'intPath', ['name' => 'bar', 'type' => 'file', 'encrypted' => true], null),
+					new FileInfo('path', $sharedStorage, 'intPath', ['name' => 'shared', 'type' => 'file', 'encrypted' => true], null),
 				]
 			);
 
 		$this->view->expects($this->at(3))->method('getDirectoryContent')
 			->with('/user1/files/foo')->willReturn(
 				[
-					new FileInfo('path', $storage, 'intPath', ['name' => 'subfile', 'type'=>'file', 'encrypted'=>true], null)
+					new FileInfo('path', $storage, 'intPath', ['name' => 'subfile', 'type' => 'file', 'encrypted' => true], null)
 				]
 			);
 
 		$this->view->expects($this->any())->method('is_dir')
 			->willReturnCallback(
-				function($path) {
+				function ($path) {
 					if ($path === '/user1/files/foo') {
 						return true;
 					}
@@ -299,11 +299,9 @@ class DecryptAllTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 
 		$this->invokePrivate($instance, 'decryptUsersFiles', ['user1', $progressBar, '']);
-
 	}
 
 	public function testDecryptFile() {
-
 		$path = 'test.txt';
 
 		/** @var DecryptAll | \PHPUnit_Framework_MockObject_MockObject  $instance */
@@ -352,7 +350,9 @@ class DecryptAllTest extends TestCase {
 		$this->view->expects($this->once())
 			->method('copy')
 			->with($path, $path . '.decrypted.42')
-			->willReturnCallback(function() { throw new DecryptionFailedException();});
+			->willReturnCallback(function () {
+				throw new DecryptionFailedException();
+			});
 
 		$this->view->expects($this->never())->method('rename');
 		$this->view->expects($this->once())
@@ -367,5 +367,4 @@ class DecryptAllTest extends TestCase {
 			$this->invokePrivate($instance, 'decryptFile', [$path])
 		);
 	}
-
 }

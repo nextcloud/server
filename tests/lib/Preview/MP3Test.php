@@ -29,7 +29,6 @@ namespace Test\Preview;
  * @package Test\Preview
  */
 class MP3Test extends Provider {
-
 	public function setUp() {
 		parent::setUp();
 
@@ -39,5 +38,4 @@ class MP3Test extends Provider {
 		$this->height = 200;
 		$this->provider = new \OC\Preview\MP3;
 	}
-
 }

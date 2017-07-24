@@ -37,13 +37,12 @@ use \OC\Files\Storage\DAV;
  * @package OCA\Files_External\Tests\Storage
  */
 class WebdavTest extends \Test\Files\Storage\Storage {
-
 	protected function setUp() {
 		parent::setUp();
 
 		$id = $this->getUniqueID();
 		$config = include('files_external/tests/config.webdav.php');
-		if ( ! is_array($config) or !$config['run']) {
+		if (! is_array($config) or !$config['run']) {
 			$this->markTestSkipped('WebDAV backend not configured');
 		}
 		if (isset($config['wait'])) {

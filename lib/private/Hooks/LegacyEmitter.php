@@ -31,7 +31,7 @@ abstract class LegacyEmitter extends BasicEmitter {
 	 *
 	 * @suppress PhanAccessMethodProtected
 	 */
-	protected function emit($scope, $method, array $arguments = array()) {
+	protected function emit($scope, $method, array $arguments = []) {
 		\OC_Hook::emit($scope, $method, $arguments);
 		parent::emit($scope, $method, $arguments);
 	}

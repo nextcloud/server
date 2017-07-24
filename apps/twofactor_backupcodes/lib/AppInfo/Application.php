@@ -28,7 +28,7 @@ use OCP\AppFramework\App;
 use OCP\Util;
 
 class Application extends App {
-	public function __construct () {
+	public function __construct() {
 		parent::__construct('twofactor_backupcodes');
 	}
 

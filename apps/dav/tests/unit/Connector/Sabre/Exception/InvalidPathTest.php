@@ -27,13 +27,12 @@ namespace OCA\DAV\Tests\unit\Connector\Sabre\Exception;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
 
 class InvalidPathTest extends \Test\TestCase {
-
 	public function testSerialization() {
 
 		// create xml doc
-		$DOM = new \DOMDocument('1.0','utf-8');
+		$DOM = new \DOMDocument('1.0', 'utf-8');
 		$DOM->formatOutput = true;
-		$error = $DOM->createElementNS('DAV:','d:error');
+		$error = $DOM->createElementNS('DAV:', 'd:error');
 		$error->setAttribute('xmlns:s', \Sabre\DAV\Server::NS_SABREDAV);
 		$DOM->appendChild($error);
 

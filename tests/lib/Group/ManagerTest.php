@@ -85,7 +85,7 @@ class ManagerTest extends TestCase {
 			->getMock();
 		$backend->expects($this->any())
 			->method('implementsActions')
-			->will($this->returnCallback(function($actions) use ($implementedActions) {
+			->will($this->returnCallback(function ($actions) use ($implementedActions) {
 				return (bool)($actions & $implementedActions);
 			}));
 		return $backend;
@@ -219,7 +219,7 @@ class ManagerTest extends TestCase {
 		$backend->expects($this->once())
 			->method('getGroups')
 			->with('1')
-			->will($this->returnValue(array('group1')));
+			->will($this->returnValue(['group1']));
 		$backend->expects($this->once())
 			->method('groupExists')
 			->with('group1')
@@ -242,7 +242,7 @@ class ManagerTest extends TestCase {
 		$backend1->expects($this->once())
 			->method('getGroups')
 			->with('1')
-			->will($this->returnValue(array('group1')));
+			->will($this->returnValue(['group1']));
 		$backend1->expects($this->any())
 			->method('groupExists')
 			->will($this->returnValue(true));
@@ -254,7 +254,7 @@ class ManagerTest extends TestCase {
 		$backend2->expects($this->once())
 			->method('getGroups')
 			->with('1')
-			->will($this->returnValue(array('group12', 'group1')));
+			->will($this->returnValue(['group12', 'group1']));
 		$backend2->expects($this->any())
 			->method('groupExists')
 			->will($this->returnValue(true));
@@ -279,7 +279,7 @@ class ManagerTest extends TestCase {
 		$backend1->expects($this->once())
 			->method('getGroups')
 			->with('1', 2, 1)
-			->will($this->returnValue(array('group1')));
+			->will($this->returnValue(['group1']));
 		$backend1->expects($this->any())
 			->method('groupExists')
 			->will($this->returnValue(true));
@@ -291,7 +291,7 @@ class ManagerTest extends TestCase {
 		$backend2->expects($this->once())
 			->method('getGroups')
 			->with('1', 2, 1)
-			->will($this->returnValue(array('group12')));
+			->will($this->returnValue(['group12']));
 		$backend2->expects($this->any())
 			->method('groupExists')
 			->will($this->returnValue(true));
@@ -338,7 +338,7 @@ class ManagerTest extends TestCase {
 		$backend->expects($this->once())
 			->method('getUserGroups')
 			->with('user1')
-			->will($this->returnValue(array('group1')));
+			->will($this->returnValue(['group1']));
 		$backend->expects($this->any())
 			->method('groupExists')
 			->with('group1')
@@ -385,7 +385,7 @@ class ManagerTest extends TestCase {
 		$backend->expects($this->once())
 			->method('getUserGroups')
 			->with('user1')
-			->will($this->returnValue(array('group1')));
+			->will($this->returnValue(['group1']));
 		$backend->expects($this->any())
 			->method('groupExists')
 			->with('group1')
@@ -412,7 +412,7 @@ class ManagerTest extends TestCase {
 		$backend->expects($this->once())
 			->method('getUserGroups')
 			->with('user1')
-			->will($this->returnValue(array('group1', 'admin', 'group2')));
+			->will($this->returnValue(['group1', 'admin', 'group2']));
 		$backend->expects($this->any())
 			->method('groupExists')
 			->will($this->returnValue(true));
@@ -431,7 +431,7 @@ class ManagerTest extends TestCase {
 		$backend->expects($this->once())
 			->method('getUserGroups')
 			->with('user1')
-			->will($this->returnValue(array('group1', 'admin', 'group2')));
+			->will($this->returnValue(['group1', 'admin', 'group2']));
 		$backend->expects($this->any())
 			->method('groupExists')
 			->will($this->returnValue(true));
@@ -450,7 +450,7 @@ class ManagerTest extends TestCase {
 		$backend->expects($this->once())
 			->method('getUserGroups')
 			->with('user1')
-			->will($this->returnValue(array('group1', 'group2')));
+			->will($this->returnValue(['group1', 'group2']));
 		$backend->expects($this->any())
 			->method('groupExists')
 			->will($this->returnValue(true));
@@ -469,7 +469,7 @@ class ManagerTest extends TestCase {
 		$backend1->expects($this->once())
 			->method('getUserGroups')
 			->with('user1')
-			->will($this->returnValue(array('group1')));
+			->will($this->returnValue(['group1']));
 		$backend1->expects($this->any())
 			->method('groupExists')
 			->will($this->returnValue(true));
@@ -481,7 +481,7 @@ class ManagerTest extends TestCase {
 		$backend2->expects($this->once())
 			->method('getUserGroups')
 			->with('user1')
-			->will($this->returnValue(array('group1', 'group2')));
+			->will($this->returnValue(['group1', 'group2']));
 		$backend1->expects($this->any())
 			->method('groupExists')
 			->will($this->returnValue(true));
@@ -510,11 +510,11 @@ class ManagerTest extends TestCase {
 
 		$backend->expects($this->any())
 			->method('inGroup')
-			->will($this->returnCallback(function($uid, $gid) {
-				switch($uid) {
-					case 'user1' : return false;
-					case 'user2' : return true;
-					case 'user3' : return false;
+			->will($this->returnCallback(function ($uid, $gid) {
+				switch ($uid) {
+					case 'user1': return false;
+					case 'user2': return true;
+					case 'user3': return false;
 					case 'user33': return true;
 					default:
 						return null;
@@ -524,21 +524,21 @@ class ManagerTest extends TestCase {
 		$this->userManager->expects($this->any())
 			->method('searchDisplayName')
 			->with('user3')
-			->will($this->returnCallback(function($search, $limit, $offset) {
-				switch($offset) {
-					case 0 : return ['user3' => $this->getTestUser('user3'),
+			->will($this->returnCallback(function ($search, $limit, $offset) {
+				switch ($offset) {
+					case 0: return ['user3' => $this->getTestUser('user3'),
 									'user33' => $this->getTestUser('user33')];
-					case 2 : return [];
+					case 2: return [];
 				}
 				return null;
 			}));
 		$this->userManager->expects($this->any())
 			->method('get')
-			->will($this->returnCallback(function($uid) {
-				switch($uid) {
-					case 'user1' : return $this->getTestUser('user1');
-					case 'user2' : return $this->getTestUser('user2');
-					case 'user3' : return $this->getTestUser('user3');
+			->will($this->returnCallback(function ($uid) {
+				switch ($uid) {
+					case 'user1': return $this->getTestUser('user1');
+					case 'user2': return $this->getTestUser('user2');
+					case 'user3': return $this->getTestUser('user3');
 					case 'user33': return $this->getTestUser('user33');
 					default:
 						return null;
@@ -566,13 +566,13 @@ class ManagerTest extends TestCase {
 			->with('testgroup')
 			->will($this->returnValue(true));
 
-				$backend->expects($this->any())
+		$backend->expects($this->any())
 			->method('inGroup')
-			->will($this->returnCallback(function($uid, $gid) {
-					switch($uid) {
-						case 'user1' : return false;
-						case 'user2' : return true;
-						case 'user3' : return false;
+			->will($this->returnCallback(function ($uid, $gid) {
+				switch ($uid) {
+						case 'user1': return false;
+						case 'user2': return true;
+						case 'user3': return false;
 						case 'user33': return true;
 						case 'user333': return true;
 						default:
@@ -583,21 +583,21 @@ class ManagerTest extends TestCase {
 		$this->userManager->expects($this->any())
 			->method('searchDisplayName')
 			->with('user3')
-			->will($this->returnCallback(function($search, $limit, $offset) {
-				switch($offset) {
-					case 0 : return ['user3' => $this->getTestUser('user3'),
+			->will($this->returnCallback(function ($search, $limit, $offset) {
+				switch ($offset) {
+					case 0: return ['user3' => $this->getTestUser('user3'),
 									'user33' => $this->getTestUser('user33')];
-					case 2 : return ['user333' => $this->getTestUser('user333')];
+					case 2: return ['user333' => $this->getTestUser('user333')];
 				}
 				return null;
 			}));
 		$this->userManager->expects($this->any())
 			->method('get')
-			->will($this->returnCallback(function($uid) {
-				switch($uid) {
-					case 'user1' : return $this->getTestUser('user1');
-					case 'user2' : return $this->getTestUser('user2');
-					case 'user3' : return $this->getTestUser('user3');
+			->will($this->returnCallback(function ($uid) {
+				switch ($uid) {
+					case 'user1': return $this->getTestUser('user1');
+					case 'user2': return $this->getTestUser('user2');
+					case 'user3': return $this->getTestUser('user3');
 					case 'user33': return $this->getTestUser('user33');
 					case 'user333': return $this->getTestUser('user333');
 					default:
@@ -629,11 +629,11 @@ class ManagerTest extends TestCase {
 
 		$backend->expects($this->any())
 			->method('inGroup')
-			->will($this->returnCallback(function($uid) {
-					switch($uid) {
-						case 'user1' : return false;
-						case 'user2' : return true;
-						case 'user3' : return false;
+			->will($this->returnCallback(function ($uid) {
+				switch ($uid) {
+						case 'user1': return false;
+						case 'user2': return true;
+						case 'user3': return false;
 						case 'user33': return true;
 						case 'user333': return true;
 						default:
@@ -644,9 +644,9 @@ class ManagerTest extends TestCase {
 		$this->userManager->expects($this->any())
 			->method('searchDisplayName')
 			->with('user3')
-			->will($this->returnCallback(function($search, $limit, $offset) {
-				switch($offset) {
-					case 0 :
+			->will($this->returnCallback(function ($search, $limit, $offset) {
+				switch ($offset) {
+					case 0:
 						return [
 							'user3' => $this->getTestUser('user3'),
 							'user33' => $this->getTestUser('user33'),
@@ -657,11 +657,11 @@ class ManagerTest extends TestCase {
 			}));
 		$this->userManager->expects($this->any())
 			->method('get')
-			->will($this->returnCallback(function($uid) {
-				switch($uid) {
-					case 'user1' : return $this->getTestUser('user1');
-					case 'user2' : return $this->getTestUser('user2');
-					case 'user3' : return $this->getTestUser('user3');
+			->will($this->returnCallback(function ($uid) {
+				switch ($uid) {
+					case 'user1': return $this->getTestUser('user1');
+					case 'user2': return $this->getTestUser('user2');
+					case 'user3': return $this->getTestUser('user3');
 					case 'user33': return $this->getTestUser('user33');
 					case 'user333': return $this->getTestUser('user333');
 					default:
@@ -691,18 +691,18 @@ class ManagerTest extends TestCase {
 			->with('testgroup')
 			->will($this->returnValue(true));
 
-				$backend->expects($this->once())
+		$backend->expects($this->once())
 			->method('usersInGroup')
 			->with('testgroup', '', -1, 0)
-			->will($this->returnValue(array('user2', 'user33')));
+			->will($this->returnValue(['user2', 'user33']));
 
 		$this->userManager->expects($this->any())
 			->method('get')
-			->will($this->returnCallback(function($uid) {
-				switch($uid) {
-					case 'user1' : return $this->getTestUser('user1');
-					case 'user2' : return $this->getTestUser('user2');
-					case 'user3' : return $this->getTestUser('user3');
+			->will($this->returnCallback(function ($uid) {
+				switch ($uid) {
+					case 'user1': return $this->getTestUser('user1');
+					case 'user2': return $this->getTestUser('user2');
+					case 'user3': return $this->getTestUser('user3');
 					case 'user33': return $this->getTestUser('user33');
 					default:
 						return null;
@@ -733,15 +733,15 @@ class ManagerTest extends TestCase {
 		$backend->expects($this->once())
 			->method('usersInGroup')
 			->with('testgroup', '', 1, 0)
-			->will($this->returnValue(array('user2')));
+			->will($this->returnValue(['user2']));
 
 		$this->userManager->expects($this->any())
 			->method('get')
-			->will($this->returnCallback(function($uid) {
-				switch($uid) {
-					case 'user1' : return $this->getTestUser('user1');
-					case 'user2' : return $this->getTestUser('user2');
-					case 'user3' : return $this->getTestUser('user3');
+			->will($this->returnCallback(function ($uid) {
+				switch ($uid) {
+					case 'user1': return $this->getTestUser('user1');
+					case 'user2': return $this->getTestUser('user2');
+					case 'user3': return $this->getTestUser('user3');
 					case 'user33': return $this->getTestUser('user33');
 					default:
 						return null;
@@ -772,15 +772,15 @@ class ManagerTest extends TestCase {
 		$backend->expects($this->once())
 			->method('usersInGroup')
 			->with('testgroup', '', 1, 1)
-			->will($this->returnValue(array('user33')));
+			->will($this->returnValue(['user33']));
 
 		$this->userManager->expects($this->any())
 			->method('get')
-			->will($this->returnCallback(function($uid) {
-				switch($uid) {
-					case 'user1' : return $this->getTestUser('user1');
-					case 'user2' : return $this->getTestUser('user2');
-					case 'user3' : return $this->getTestUser('user3');
+			->will($this->returnCallback(function ($uid) {
+				switch ($uid) {
+					case 'user1': return $this->getTestUser('user1');
+					case 'user2': return $this->getTestUser('user2');
+					case 'user3': return $this->getTestUser('user3');
 					case 'user33': return $this->getTestUser('user33');
 					default:
 						return null;
@@ -821,7 +821,7 @@ class ManagerTest extends TestCase {
 		// prime cache
 		$user1 = $this->getTestUser('user1');
 		$groups = $manager->getUserGroups($user1);
-		$this->assertEquals(array(), $groups);
+		$this->assertEquals([], $groups);
 
 		// add user
 		$group = $manager->get('group1');
@@ -871,7 +871,7 @@ class ManagerTest extends TestCase {
 		// remove user
 		$group = $manager->get('group1');
 		$group->removeUser($user1);
-		$expectedGroups = array();
+		$expectedGroups = [];
 
 		// check result
 		$groups = $manager->getUserGroups($user1);
@@ -929,5 +929,4 @@ class ManagerTest extends TestCase {
 		$this->assertEquals('group2', $group->getGID());
 		$this->assertEquals('group2', $group->getDisplayName());
 	}
-
 }

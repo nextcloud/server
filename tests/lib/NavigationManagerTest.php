@@ -66,40 +66,40 @@ class NavigationManagerTest extends TestCase {
 		return [
 			[
 				[
-					'id'	=> 'entry id',
-					'name'	=> 'link text',
-					'order'	=> 1,
-					'icon'	=> 'optional',
-					'href'	=> 'url',
-					'type'	=> 'settings',
+					'id' => 'entry id',
+					'name' => 'link text',
+					'order' => 1,
+					'icon' => 'optional',
+					'href' => 'url',
+					'type' => 'settings',
 				],
 				[
-					'id'		=> 'entry id',
-					'name'		=> 'link text',
-					'order'		=> 1,
-					'icon'		=> 'optional',
-					'href'		=> 'url',
-					'active'	=> false,
-					'type'		=> 'settings',
+					'id' => 'entry id',
+					'name' => 'link text',
+					'order' => 1,
+					'icon' => 'optional',
+					'href' => 'url',
+					'active' => false,
+					'type' => 'settings',
 				],
 			],
 			[
 				[
-					'id'	=> 'entry id',
-					'name'	=> 'link text',
-					'order'	=> 1,
+					'id' => 'entry id',
+					'name' => 'link text',
+					'order' => 1,
 					//'icon'	=> 'optional',
-					'href'	=> 'url',
-					'active'	=> true,
+					'href' => 'url',
+					'active' => true,
 				],
 				[
-					'id'		=> 'entry id',
-					'name'		=> 'link text',
-					'order'		=> 1,
-					'icon'		=> '',
-					'href'		=> 'url',
-					'active'	=> false,
-					'type'		=> 'link',
+					'id' => 'entry id',
+					'name' => 'link text',
+					'order' => 1,
+					'icon' => '',
+					'href' => 'url',
+					'active' => false,
+					'type' => 'link',
 				],
 			],
 		];
@@ -158,11 +158,11 @@ class NavigationManagerTest extends TestCase {
 
 	public function testAddArrayClearGetAll() {
 		$entry = [
-			'id'	=> 'entry id',
-			'name'	=> 'link text',
-			'order'	=> 1,
-			'icon'	=> 'optional',
-			'href'	=> 'url',
+			'id' => 'entry id',
+			'name' => 'link text',
+			'order' => 1,
+			'icon' => 'optional',
+			'href' => 'url',
 		];
 
 		$this->assertEmpty($this->navigationManager->getAll(), 'Expected no navigation entry exists');
@@ -175,11 +175,11 @@ class NavigationManagerTest extends TestCase {
 		$this->assertEmpty($this->navigationManager->getAll(), 'Expected no navigation entry exists');
 
 		$entry = [
-			'id'	=> 'entry id',
-			'name'	=> 'link text',
-			'order'	=> 1,
-			'icon'	=> 'optional',
-			'href'	=> 'url',
+			'id' => 'entry id',
+			'name' => 'link text',
+			'order' => 1,
+			'icon' => 'optional',
+			'href' => 'url',
 		];
 
 		global $testAddClosureNumberOfCalls;
@@ -203,18 +203,17 @@ class NavigationManagerTest extends TestCase {
 	 * @dataProvider providesNavigationConfig
 	 */
 	public function testWithAppManager($expected, $navigation, $isAdmin = false) {
-
 		$l = $this->createMock(IL10N::class);
-		$l->expects($this->any())->method('t')->willReturnCallback(function($text, $parameters = []) {
+		$l->expects($this->any())->method('t')->willReturnCallback(function ($text, $parameters = []) {
 			return vsprintf($text, $parameters);
 		});
 
 		$this->appManager->expects($this->once())->method('getAppInfo')->with('test')->willReturn($navigation);
 		$this->l10nFac->expects($this->any())->method('get')->willReturn($l);
-		$this->urlGenerator->expects($this->any())->method('imagePath')->willReturnCallback(function($appName, $file) {
+		$this->urlGenerator->expects($this->any())->method('imagePath')->willReturnCallback(function ($appName, $file) {
 			return "/apps/$appName/img/$file";
 		});
-		$this->urlGenerator->expects($this->any())->method('linkToRoute')->willReturnCallback(function() {
+		$this->urlGenerator->expects($this->any())->method('linkToRoute')->willReturnCallback(function () {
 			return "/apps/test/";
 		});
 		$user = $this->createMock(IUser::class);

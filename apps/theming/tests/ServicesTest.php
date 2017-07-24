@@ -40,7 +40,7 @@ use Test\TestCase;
  * @group DB
  * @package OCA\Theming\Tests
  */
-class ServicesTest extends TestCase  {
+class ServicesTest extends TestCase {
 	/** @var \OCA\Activity\AppInfo\Application */
 	protected $app;
 

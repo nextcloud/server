@@ -23,7 +23,6 @@
 
 namespace OCA\User_LDAP\Tests\Integration;
 
-
 use OC\ServerNotAvailableException;
 use OCA\User_LDAP\LDAP;
 
@@ -34,7 +33,7 @@ use OCA\User_LDAP\LDAP;
  *
  * LDAP must be available via toxiproxy.
  *
- * This test must be run manually. 
+ * This test must be run manually.
  *
  */
 class ExceptionOnLostConnection {
@@ -111,7 +110,7 @@ class ExceptionOnLostConnection {
 	 * restores original state of the LDAP proxy, if necessary
 	 */
 	public function cleanUp() {
-		if($this->originalProxyState === true) {
+		if ($this->originalProxyState === true) {
 			$this->setProxyState(true);
 		}
 	}
@@ -121,18 +120,18 @@ class ExceptionOnLostConnection {
 	 * fail
 	 */
 	public function run() {
-		if($this->originalProxyState === false) {
+		if ($this->originalProxyState === false) {
 			$this->setProxyState(true);
 		}
 		//host contains port, 2nd parameter will be ignored
 		$cr = $this->ldap->connect($this->ldapHost, 0);
 		$this->ldap->bind($cr, $this->ldapBindDN, $this->ldapBindPwd);
-		$this->ldap->search($cr, $this->ldapBase, 'objectClass=*', array('dn'), true, 5);
+		$this->ldap->search($cr, $this->ldapBase, 'objectClass=*', ['dn'], true, 5);
 
 		// disable LDAP, will cause lost connection
 		$this->setProxyState(false);
 		try {
-			$this->ldap->search($cr, $this->ldapBase, 'objectClass=*', array('dn'), true, 5);
+			$this->ldap->search($cr, $this->ldapBase, 'objectClass=*', ['dn'], true, 5);
 		} catch (ServerNotAvailableException $e) {
 			print("Test PASSED" . PHP_EOL);
 			exit(0);
@@ -150,7 +149,7 @@ class ExceptionOnLostConnection {
 	 * @throws \Exception
 	 */
 	private function checkCurlResult($ch, $result) {
-		if($result === false) {
+		if ($result === false) {
 			$error = curl_error($ch);
 			curl_close($ch);
 			throw new \Exception($error);
@@ -164,16 +163,19 @@ class ExceptionOnLostConnection {
 	 * @throws \Exception
 	 */
 	private function setProxyState($isEnabled) {
-		if(!is_bool($isEnabled)) {
+		if (!is_bool($isEnabled)) {
 			throw new \InvalidArgumentException('Bool expected');
 		}
 		$postData = json_encode(['enabled' => $isEnabled]);
 		$ch = $this->getCurl();
 		curl_setopt($ch, CURLOPT_POST, true);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+		curl_setopt(
+			$ch,
+			CURLOPT_HTTPHEADER,
+			[
 				'Content-Type: application/json',
-				'Content-Length: ' . strlen($postData))
+				'Content-Length: ' . strlen($postData)]
 		);
 		$recvd = curl_exec($ch);
 		$this->checkCurlResult($ch, $recvd);
@@ -194,4 +196,3 @@ class ExceptionOnLostConnection {
 
 $test = new ExceptionOnLostConnection('http://localhost:8474', 'ldap', 'dc=owncloud,dc=bzoc');
 $test->run();
-

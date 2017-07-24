@@ -42,10 +42,12 @@ class PublicPreviewController extends Controller {
 	/** @var IPreview */
 	private $previewManager;
 
-	public function __construct($appName,
+	public function __construct(
+		$appName,
 								IRequest $request,
 								ShareManager $shareManger,
-								IPreview $previewManager) {
+								IPreview $previewManager
+	) {
 		parent::__construct($appName, $request);
 
 		$this->shareManager = $shareManger;
@@ -70,7 +72,6 @@ class PublicPreviewController extends Controller {
 		$t = '',
 		$a = false
 	) {
-
 		if ($t === '' || $x === 0 || $y === 0) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}

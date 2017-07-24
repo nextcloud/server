@@ -114,5 +114,4 @@ class UpdaterTest extends TestCase {
 		$this->updater->setSkip3rdPartyAppsDisable(false);
 		$this->assertSame(false, $this->invokePrivate($this->updater, 'skip3rdPartyAppsDisable'));
 	}
-
 }

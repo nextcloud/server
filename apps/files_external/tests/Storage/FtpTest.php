@@ -45,7 +45,7 @@ class FtpTest extends \Test\Files\Storage\Storage {
 
 		$id = $this->getUniqueID();
 		$this->config = include('files_external/tests/config.ftp.php');
-		if ( ! is_array($this->config) or ! $this->config['run']) {
+		if (! is_array($this->config) or ! $this->config['run']) {
 			$this->markTestSkipped('FTP backend not configured');
 		}
 		$this->config['root'] .= '/' . $id; //make sure we have an new empty folder to work in
@@ -61,12 +61,12 @@ class FtpTest extends \Test\Files\Storage\Storage {
 		parent::tearDown();
 	}
 
-	public function testConstructUrl(){
-		$config = array ( 'host' => 'localhost',
+	public function testConstructUrl() {
+		$config = [ 'host' => 'localhost',
 						  'user' => 'ftp',
 						  'password' => 'ftp',
 						  'root' => '/',
-						  'secure' => false );
+						  'secure' => false ];
 		$instance = new FTP($config);
 		$this->assertEquals('ftp://ftp:ftp@localhost/', $instance->constructUrl(''));
 

@@ -69,5 +69,4 @@ interface NextcloudTestServerHelper {
 	 * @throws \Exception if the base URL can not be determined.
 	 */
 	public function getBaseUrl();
-
 }

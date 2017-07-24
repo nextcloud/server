@@ -23,7 +23,6 @@
 
 namespace OCA\TwoFactorBackupCodes\Settings;
 
-
 use OCA\TwoFactorBackupCodes\AppInfo\Application;
 use OCA\TwoFactorBackupCodes\Provider\BackupCodesProvider;
 use OCP\AppFramework\Http\TemplateResponse;

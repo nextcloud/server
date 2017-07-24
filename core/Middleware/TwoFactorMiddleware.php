@@ -65,8 +65,14 @@ class TwoFactorMiddleware extends Middleware {
 	 * @param ISession $session
 	 * @param IURLGenerator $urlGenerator
 	 */
-	public function __construct(Manager $twoFactorManager, Session $userSession, ISession $session,
-		IURLGenerator $urlGenerator, IControllerMethodReflector $reflector, IRequest $request) {
+	public function __construct(
+		Manager $twoFactorManager,
+		Session $userSession,
+		ISession $session,
+		IURLGenerator $urlGenerator,
+		IControllerMethodReflector $reflector,
+		IRequest $request
+	) {
 		$this->twoFactorManager = $twoFactorManager;
 		$this->userSession = $userSession;
 		$this->session = $session;
@@ -95,7 +101,7 @@ class TwoFactorMiddleware extends Middleware {
 
 			if ($this->twoFactorManager->isTwoFactorAuthenticated($user)) {
 				$this->checkTwoFactor($controller, $methodName, $user);
-			} else if ($controller instanceof TwoFactorChallengeController) {
+			} elseif ($controller instanceof TwoFactorChallengeController) {
 				// Allow access to the two-factor controllers only if two-factor authentication
 				// is in progress.
 				throw new UserAlreadyLoggedInException();
@@ -136,5 +142,4 @@ class TwoFactorMiddleware extends Middleware {
 
 		throw $exception;
 	}
-
 }

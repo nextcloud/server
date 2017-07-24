@@ -50,8 +50,11 @@ class DataResponse extends Response {
 	 * @param array $headers additional key value based headers
 	 * @since 8.0.0
 	 */
-	public function __construct($data=array(), $statusCode=Http::STATUS_OK,
-	                            array $headers=array()) {
+	public function __construct(
+		$data = [],
+		$statusCode = Http::STATUS_OK,
+								array $headers = []
+	) {
 		$this->data = $data;
 		$this->setStatus($statusCode);
 		$this->setHeaders(array_merge($this->getHeaders(), $headers));
@@ -64,7 +67,7 @@ class DataResponse extends Response {
 	 * @return DataResponse Reference to this object
 	 * @since 8.0.0
 	 */
-	public function setData($data){
+	public function setData($data) {
 		$this->data = $data;
 
 		return $this;
@@ -76,9 +79,7 @@ class DataResponse extends Response {
 	 * @return array the data
 	 * @since 8.0.0
 	 */
-	public function getData(){
+	public function getData() {
 		return $this->data;
 	}
-
-
 }

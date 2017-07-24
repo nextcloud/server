@@ -30,7 +30,6 @@ use OCP\IUserManager;
 use OCP\L10N\IFactory;
 
 class Event extends Base {
-
 	const SUBJECT_OBJECT_ADD = 'object_add';
 	const SUBJECT_OBJECT_UPDATE = 'object_update';
 	const SUBJECT_OBJECT_DELETE = 'object_delete';
@@ -88,15 +87,15 @@ class Event extends Base {
 
 		if ($event->getSubject() === self::SUBJECT_OBJECT_ADD . '_event') {
 			$subject = $this->l->t('{actor} created event {event} in calendar {calendar}');
-		} else if ($event->getSubject() === self::SUBJECT_OBJECT_ADD . '_event_self') {
+		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_ADD . '_event_self') {
 			$subject = $this->l->t('You created event {event} in calendar {calendar}');
-		} else if ($event->getSubject() === self::SUBJECT_OBJECT_DELETE . '_event') {
+		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_DELETE . '_event') {
 			$subject = $this->l->t('{actor} deleted event {event} from calendar {calendar}');
-		} else if ($event->getSubject() === self::SUBJECT_OBJECT_DELETE . '_event_self') {
+		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_DELETE . '_event_self') {
 			$subject = $this->l->t('You deleted event {event} from calendar {calendar}');
-		} else if ($event->getSubject() === self::SUBJECT_OBJECT_UPDATE . '_event') {
+		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_UPDATE . '_event') {
 			$subject = $this->l->t('{actor} updated event {event} in calendar {calendar}');
-		} else if ($event->getSubject() === self::SUBJECT_OBJECT_UPDATE . '_event_self') {
+		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_UPDATE . '_event_self') {
 			$subject = $this->l->t('You updated event {event} in calendar {calendar}');
 		} else {
 			throw new \InvalidArgumentException();

@@ -24,7 +24,6 @@
 
 namespace OCA\DAV\Tests\unit\CardDAV;
 
-
 use OCA\DAV\CardDAV\AddressBook;
 use OCA\DAV\CardDAV\ImageExportPlugin;
 use OCA\DAV\CardDAV\PhotoCache;
@@ -53,7 +52,7 @@ class ImageExportPluginTest extends TestCase {
 	/** @var PhotoCache|\PHPUnit_Framework_MockObject_MockObject */
 	private $cache;
 
-	function setUp() {
+	public function setUp() {
 		parent::setUp();
 
 		$this->request = $this->createMock(RequestInterface::class);
@@ -141,10 +140,10 @@ class ImageExportPluginTest extends TestCase {
 			->willReturn(1);
 
 		$this->tree->method('getNodeForPath')
-			->willReturnCallback(function($path) use ($card, $book) {
+			->willReturnCallback(function ($path) use ($card, $book) {
 				if ($path === 'user/book/card') {
 					return $card;
-				} else if ($path === 'user/book') {
+				} elseif ($path === 'user/book') {
 					return $book;
 				}
 				$this->fail();
@@ -186,7 +185,6 @@ class ImageExportPluginTest extends TestCase {
 			$this->response->expects($this->once())
 				->method('setBody')
 				->with('imgdata');
-
 		} else {
 			$this->cache->method('get')
 				->with(1, 'card', $size, $card)

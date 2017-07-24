@@ -115,30 +115,30 @@ class Provider implements IProvider {
 			} else {
 				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'add-color.svg')));
 			}
-		} else if ($event->getSubject() === 'changed_by') {
+		} elseif ($event->getSubject() === 'changed_by') {
 			$subject = $this->l->t('Changed by {user}');
 			if ($this->activityManager->getRequirePNG()) {
 				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'change.png')));
 			} else {
 				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'change.svg')));
 			}
-		} else if ($event->getSubject() === 'deleted_by') {
+		} elseif ($event->getSubject() === 'deleted_by') {
 			$subject = $this->l->t('Deleted by {user}');
 			if ($this->activityManager->getRequirePNG()) {
 				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'delete-color.png')));
 			} else {
 				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'delete-color.svg')));
 			}
-		} else if ($event->getSubject() === 'restored_by') {
+		} elseif ($event->getSubject() === 'restored_by') {
 			$subject = $this->l->t('Restored by {user}');
-		} else if ($event->getSubject() === 'renamed_by') {
+		} elseif ($event->getSubject() === 'renamed_by') {
 			$subject = $this->l->t('Renamed by {user}');
 			if ($this->activityManager->getRequirePNG()) {
 				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'change.png')));
 			} else {
 				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'change.svg')));
 			}
-		} else if ($event->getSubject() === 'moved_by') {
+		} elseif ($event->getSubject() === 'moved_by') {
 			$subject = $this->l->t('Moved by {user}');
 			if ($this->activityManager->getRequirePNG()) {
 				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'change.png')));
@@ -176,74 +176,74 @@ class Provider implements IProvider {
 			} else {
 				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'add-color.svg')));
 			}
-		} else if ($event->getSubject() === 'created_by') {
+		} elseif ($event->getSubject() === 'created_by') {
 			$subject = $this->l->t('{user} created {file}');
 			if ($this->activityManager->getRequirePNG()) {
 				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'add-color.png')));
 			} else {
 				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'add-color.svg')));
 			}
-		} else if ($event->getSubject() === 'created_public') {
+		} elseif ($event->getSubject() === 'created_public') {
 			$subject = $this->l->t('{file} was created in a public folder');
 			if ($this->activityManager->getRequirePNG()) {
 				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'add-color.png')));
 			} else {
 				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'add-color.svg')));
 			}
-		} else if ($event->getSubject() === 'changed_self') {
+		} elseif ($event->getSubject() === 'changed_self') {
 			$subject = $this->l->t('You changed {file}');
 			if ($this->activityManager->getRequirePNG()) {
 				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'change.png')));
 			} else {
 				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'change.svg')));
 			}
-		} else if ($event->getSubject() === 'changed_by') {
+		} elseif ($event->getSubject() === 'changed_by') {
 			$subject = $this->l->t('{user} changed {file}');
 			if ($this->activityManager->getRequirePNG()) {
 				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'change.png')));
 			} else {
 				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'change.svg')));
 			}
-		} else if ($event->getSubject() === 'deleted_self') {
+		} elseif ($event->getSubject() === 'deleted_self') {
 			$subject = $this->l->t('You deleted {file}');
 			if ($this->activityManager->getRequirePNG()) {
 				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'delete-color.png')));
 			} else {
 				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'delete-color.svg')));
 			}
-		} else if ($event->getSubject() === 'deleted_by') {
+		} elseif ($event->getSubject() === 'deleted_by') {
 			$subject = $this->l->t('{user} deleted {file}');
 			if ($this->activityManager->getRequirePNG()) {
 				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'delete-color.png')));
 			} else {
 				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'delete-color.svg')));
 			}
-		} else if ($event->getSubject() === 'restored_self') {
+		} elseif ($event->getSubject() === 'restored_self') {
 			$subject = $this->l->t('You restored {file}');
-		} else if ($event->getSubject() === 'restored_by') {
+		} elseif ($event->getSubject() === 'restored_by') {
 			$subject = $this->l->t('{user} restored {file}');
-		} else if ($event->getSubject() === 'renamed_self') {
+		} elseif ($event->getSubject() === 'renamed_self') {
 			$subject = $this->l->t('You renamed {oldfile} to {newfile}');
 			if ($this->activityManager->getRequirePNG()) {
 				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'change.png')));
 			} else {
 				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'change.svg')));
 			}
-		} else if ($event->getSubject() === 'renamed_by') {
+		} elseif ($event->getSubject() === 'renamed_by') {
 			$subject = $this->l->t('{user} renamed {oldfile} to {newfile}');
 			if ($this->activityManager->getRequirePNG()) {
 				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'change.png')));
 			} else {
 				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'change.svg')));
 			}
-		} else if ($event->getSubject() === 'moved_self') {
+		} elseif ($event->getSubject() === 'moved_self') {
 			$subject = $this->l->t('You moved {oldfile} to {newfile}');
 			if ($this->activityManager->getRequirePNG()) {
 				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'change.png')));
 			} else {
 				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'change.svg')));
 			}
-		} else if ($event->getSubject() === 'moved_by') {
+		} elseif ($event->getSubject() === 'moved_by') {
 			$subject = $this->l->t('{user} moved {oldfile} to {newfile}');
 			if ($this->activityManager->getRequirePNG()) {
 				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'change.png')));
@@ -350,7 +350,7 @@ class Provider implements IProvider {
 		if (is_array($parameter)) {
 			$path = reset($parameter);
 			$id = (string) key($parameter);
-		} else if ($event !== null) {
+		} elseif ($event !== null) {
 			// Legacy from before ownCloud 8.2
 			$path = $parameter;
 			$id = $event->getObjectId();

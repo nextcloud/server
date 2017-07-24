@@ -87,7 +87,7 @@ class DBLockingProvider extends AbstractLockingProvider {
 		parent::markChange($path, $targetType);
 		if ($targetType === self::LOCK_SHARED) {
 			$this->sharedLocks[$path] = true;
-		} else if ($targetType === self::LOCK_EXCLUSIVE) {
+		} elseif ($targetType === self::LOCK_EXCLUSIVE) {
 			$this->sharedLocks[$path] = false;
 		}
 	}
@@ -144,7 +144,7 @@ class DBLockingProvider extends AbstractLockingProvider {
 			} else {
 				return $lockValue > 0;
 			}
-		} else if ($type === self::LOCK_EXCLUSIVE) {
+		} elseif ($type === self::LOCK_EXCLUSIVE) {
 			return $lockValue === -1;
 		} else {
 			return false;

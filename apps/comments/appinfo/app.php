@@ -24,15 +24,15 @@
 $eventDispatcher = \OC::$server->getEventDispatcher();
 $eventDispatcher->addListener(
 	'OCA\Files::loadAdditionalScripts',
-	function() {
+	function () {
 		\OCP\Util::addScript('oc-backbone-webdav');
 		\OCP\Util::addScript('comments', 'merged');
 		\OCP\Util::addStyle('comments', 'comments');
 	}
 );
 
-$eventDispatcher->addListener(\OCP\Comments\CommentsEntityEvent::EVENT_ENTITY, function(\OCP\Comments\CommentsEntityEvent $event) {
-	$event->addEntityCollection('files', function($name) {
+$eventDispatcher->addListener(\OCP\Comments\CommentsEntityEvent::EVENT_ENTITY, function (\OCP\Comments\CommentsEntityEvent $event) {
+	$event->addEntityCollection('files', function ($name) {
 		$nodes = \OC::$server->getUserFolder()->getById(intval($name));
 		return !empty($nodes);
 	});
@@ -40,7 +40,7 @@ $eventDispatcher->addListener(\OCP\Comments\CommentsEntityEvent::EVENT_ENTITY, f
 
 $notificationManager = \OC::$server->getNotificationManager();
 $notificationManager->registerNotifier(
-	function() {
+	function () {
 		$application = new \OCP\AppFramework\App('comments');
 		return $application->getContainer()->query(\OCA\Comments\Notification\Notifier::class);
 	},
@@ -57,10 +57,10 @@ $commentsManager->registerEventHandler(function () {
 	$handler = $application->getContainer()->query(\OCA\Comments\EventHandler::class);
 	return $handler;
 });
-$commentsManager->registerDisplayNameResolver('user', function($id) {
+$commentsManager->registerDisplayNameResolver('user', function ($id) {
 	$manager = \OC::$server->getUserManager();
 	$user = $manager->get($id);
-	if(is_null($user)) {
+	if (is_null($user)) {
 		$l = \OC::$server->getL10N('comments');
 		$displayName = $l->t('Unknown user');
 	} else {

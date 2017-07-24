@@ -94,5 +94,4 @@ class SettingsControllerTest extends TestCase {
 		$this->assertInstanceOf(JSONResponse::class, $response);
 		$this->assertEquals($expected, $response->getData());
 	}
-
 }

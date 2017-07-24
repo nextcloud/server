@@ -38,13 +38,13 @@ namespace OC {
 		 * @param array $options - for future use. One should always have options!
 		 * @return array an array of contacts which are arrays of key-value-pairs
 		 */
-		public function search($pattern, $searchProperties = array(), $options = array()) {
+		public function search($pattern, $searchProperties = [], $options = []) {
 			$this->loadAddressBooks();
-			$result = array();
-			foreach($this->addressBooks as $addressBook) {
+			$result = [];
+			foreach ($this->addressBooks as $addressBook) {
 				$r = $addressBook->search($pattern, $searchProperties, $options);
-				$contacts = array();
-				foreach($r as $c){
+				$contacts = [];
+				foreach ($r as $c) {
 					$c['addressbook-key'] = $addressBook->getKey();
 					$contacts[] = $c;
 				}
@@ -123,8 +123,8 @@ namespace OC {
 		 */
 		public function getAddressBooks() {
 			$this->loadAddressBooks();
-			$result = array();
-			foreach($this->addressBooks as $addressBook) {
+			$result = [];
+			foreach ($this->addressBooks as $addressBook) {
 				$result[$addressBook->getKey()] = $addressBook->getDisplayName();
 			}
 
@@ -135,19 +135,19 @@ namespace OC {
 		 * removes all registered address book instances
 		 */
 		public function clear() {
-			$this->addressBooks = array();
-			$this->addressBookLoaders = array();
+			$this->addressBooks = [];
+			$this->addressBookLoaders = [];
 		}
 
 		/**
 		 * @var \OCP\IAddressBook[] which holds all registered address books
 		 */
-		private $addressBooks = array();
+		private $addressBooks = [];
 
 		/**
 		 * @var \Closure[] to call to load/register address books
 		 */
-		private $addressBookLoaders = array();
+		private $addressBookLoaders = [];
 
 		/**
 		 * In order to improve lazy loading a closure can be registered which will be called in case
@@ -155,8 +155,7 @@ namespace OC {
 		 *
 		 * @param \Closure $callable
 		 */
-		public function register(\Closure $callable)
-		{
+		public function register(\Closure $callable) {
 			$this->addressBookLoaders[] = $callable;
 		}
 
@@ -166,8 +165,7 @@ namespace OC {
 		 * @param string $addressBookKey
 		 * @return \OCP\IAddressBook
 		 */
-		protected function getAddressBook($addressBookKey)
-		{
+		protected function getAddressBook($addressBookKey) {
 			$this->loadAddressBooks();
 			if (!array_key_exists($addressBookKey, $this->addressBooks)) {
 				return null;
@@ -179,12 +177,11 @@ namespace OC {
 		/**
 		 * Load all address books registered with 'register'
 		 */
-		protected function loadAddressBooks()
-		{
-			foreach($this->addressBookLoaders as $callable) {
+		protected function loadAddressBooks() {
+			foreach ($this->addressBookLoaders as $callable) {
 				$callable($this);
 			}
-			$this->addressBookLoaders = array();
+			$this->addressBookLoaders = [];
 		}
 	}
 }

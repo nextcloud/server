@@ -52,7 +52,7 @@ class OC_Template extends \OC\Template\Base {
 	private $path; // The path to the template
 
 	/** @var array */
-	private $headers = array(); //custom headers
+	private $headers = []; //custom headers
 
 	/** @var string */
 	protected $app; // app id
@@ -70,7 +70,7 @@ class OC_Template extends \OC\Template\Base {
 	 *                         "admin".
 	 * @param bool $registerCall = true
 	 */
-	public function __construct( $app, $name, $renderAs = "", $registerCall = true ) {
+	public function __construct($app, $name, $renderAs = "", $registerCall = true) {
 		// Read the selected theme from the config file
 		self::initTemplateEngine($renderAs);
 
@@ -97,20 +97,20 @@ class OC_Template extends \OC\Template\Base {
 	 * @param string $renderAs
 	 */
 	public static function initTemplateEngine($renderAs) {
-		if (self::$initTemplateEngineFirstRun){
+		if (self::$initTemplateEngineFirstRun) {
 
 			//apps that started before the template initialization can load their own scripts/styles
 			//so to make sure this scripts/styles here are loaded first we use OC_Util::addScript() with $prepend=true
 			//meaning the last script/style in this list will be loaded first
-			if (\OC::$server->getSystemConfig()->getValue ('installed', false) && $renderAs !== 'error' && !\OCP\Util::needUpgrade()) {
-				if (\OC::$server->getConfig ()->getAppValue ( 'core', 'backgroundjobs_mode', 'ajax' ) == 'ajax') {
-					OC_Util::addScript ( 'backgroundjobs', null, true );
+			if (\OC::$server->getSystemConfig()->getValue('installed', false) && $renderAs !== 'error' && !\OCP\Util::needUpgrade()) {
+				if (\OC::$server->getConfig()->getAppValue('core', 'backgroundjobs_mode', 'ajax') == 'ajax') {
+					OC_Util::addScript('backgroundjobs', null, true);
 				}
 			}
 
 			OC_Util::addStyle('server', null, true);
-			OC_Util::addStyle('jquery-ui-fixes',null,true);
-			OC_Util::addVendorStyle('jquery-ui/themes/base/jquery-ui',null,true);
+			OC_Util::addStyle('jquery-ui-fixes', null, true);
+			OC_Util::addVendorStyle('jquery-ui/themes/base/jquery-ui', null, true);
 			OC_Util::addVendorStyle('select2/select2', null, true);
 			OC_Util::addStyle('jquery.ocdialog');
 			OC_Util::addTranslations("core", null, true);
@@ -126,14 +126,17 @@ class OC_Template extends \OC\Template\Base {
 				// following logic will import all vendor libraries that are
 				// specified in core/js/core.json
 				$fileContent = file_get_contents(OC::$SERVERROOT . '/core/js/core.json');
-				if($fileContent !== false) {
+				if ($fileContent !== false) {
 					$coreDependencies = json_decode($fileContent, true);
-					foreach(array_reverse($coreDependencies['vendor']) as $vendorLibrary) {
+					foreach (array_reverse($coreDependencies['vendor']) as $vendorLibrary) {
 						//remove trailing ".js" as addVendorScript will append it
 						OC_Util::addVendorScript(
-							substr($vendorLibrary, 0, strlen($vendorLibrary) - 3),null,true);
-						}
- 				} else {
+							substr($vendorLibrary, 0, strlen($vendorLibrary) - 3),
+							null,
+							true
+						);
+					}
+				} else {
 					throw new \Exception('Cannot read core/js/core.json');
 				}
 			} else {
@@ -150,7 +153,6 @@ class OC_Template extends \OC\Template\Base {
 
 			self::$initTemplateEngineFirstRun = false;
 		}
-
 	}
 
 
@@ -166,15 +168,15 @@ class OC_Template extends \OC\Template\Base {
 	 */
 	protected function findTemplate($theme, $app, $name) {
 		// Check if it is a app template or not.
-		if( $app !== '' ) {
+		if ($app !== '') {
 			$dirs = $this->getAppTemplateDirs($theme, $app, OC::$SERVERROOT, OC_App::getAppPath($app));
 		} else {
 			$dirs = $this->getCoreTemplateDirs($theme, OC::$SERVERROOT);
 		}
-		$locator = new \OC\Template\TemplateFileLocator( $dirs );
+		$locator = new \OC\Template\TemplateFileLocator($dirs);
 		$template = $locator->find($name);
 		$path = $locator->getPath();
-		return array($path, $template);
+		return [$path, $template];
 	}
 
 	/**
@@ -184,12 +186,12 @@ class OC_Template extends \OC\Template\Base {
 	 * @param string $text the text content for the element. If $text is null then the
 	 * element will be written as empty element. So use "" to get a closing tag.
 	 */
-	public function addHeader($tag, $attributes, $text=null) {
-		$this->headers[]= array(
+	public function addHeader($tag, $attributes, $text = null) {
+		$this->headers[] = [
 			'tag' => $tag,
 			'attributes' => $attributes,
 			'text' => $text
-		);
+		];
 	}
 
 	/**
@@ -202,17 +204,17 @@ class OC_Template extends \OC\Template\Base {
 	public function fetchPage($additionalParams = null) {
 		$data = parent::fetchPage($additionalParams);
 
-		if( $this->renderAs ) {
+		if ($this->renderAs) {
 			$page = new TemplateLayout($this->renderAs, $this->app);
 
 			// Add custom headers
 			$headers = '';
-			foreach(OC_Util::$headers as $header) {
+			foreach (OC_Util::$headers as $header) {
 				$headers .= '<'.\OCP\Util::sanitizeHTML($header['tag']);
-				if ( strcasecmp($header['tag'], 'script') === 0 && in_array('src', array_map('strtolower', array_keys($header['attributes']))) ) {
+				if (strcasecmp($header['tag'], 'script') === 0 && in_array('src', array_map('strtolower', array_keys($header['attributes'])))) {
 					$headers .= ' defer';
 				}
-				foreach($header['attributes'] as $name=>$value) {
+				foreach ($header['attributes'] as $name => $value) {
 					$headers .= ' '.\OCP\Util::sanitizeHTML($name).'="'.\OCP\Util::sanitizeHTML($value).'"';
 				}
 				if ($header['text'] !== null) {
@@ -241,7 +243,7 @@ class OC_Template extends \OC\Template\Base {
 	 * Includes another template. use <?php echo $this->inc('template'); ?> to
 	 * do this.
 	 */
-	public function inc( $file, $additionalParams = null ) {
+	public function inc($file, $additionalParams = null) {
 		return $this->load($this->path.$file.'.php', $additionalParams);
 	}
 
@@ -252,10 +254,10 @@ class OC_Template extends \OC\Template\Base {
 	 * @param array $parameters Parameters for the template
 	 * @return boolean|null
 	 */
-	public static function printUserPage( $application, $name, $parameters = array() ) {
-		$content = new OC_Template( $application, $name, "user" );
-		foreach( $parameters as $key => $value ) {
-			$content->assign( $key, $value );
+	public static function printUserPage($application, $name, $parameters = []) {
+		$content = new OC_Template($application, $name, "user");
+		foreach ($parameters as $key => $value) {
+			$content->assign($key, $value);
 		}
 		print $content->printPage();
 	}
@@ -267,10 +269,10 @@ class OC_Template extends \OC\Template\Base {
 	 * @param array $parameters Parameters for the template
 	 * @return bool
 	 */
-	public static function printAdminPage( $application, $name, $parameters = array() ) {
-		$content = new OC_Template( $application, $name, "admin" );
-		foreach( $parameters as $key => $value ) {
-			$content->assign( $key, $value );
+	public static function printAdminPage($application, $name, $parameters = []) {
+		$content = new OC_Template($application, $name, "admin");
+		foreach ($parameters as $key => $value) {
+			$content->assign($key, $value);
 		}
 		return $content->printPage();
 	}
@@ -282,20 +284,20 @@ class OC_Template extends \OC\Template\Base {
 	 * @param array|string $parameters Parameters for the template
 	 * @return bool
 	 */
-	public static function printGuestPage( $application, $name, $parameters = array() ) {
-		$content = new OC_Template( $application, $name, "guest" );
-		foreach( $parameters as $key => $value ) {
-			$content->assign( $key, $value );
+	public static function printGuestPage($application, $name, $parameters = []) {
+		$content = new OC_Template($application, $name, "guest");
+		foreach ($parameters as $key => $value) {
+			$content->assign($key, $value);
 		}
 		return $content->printPage();
 	}
 
 	/**
-		* Print a fatal error page and terminates the script
-		* @param string $error_msg The error message to show
-		* @param string $hint An optional hint message - needs to be properly escaped
-		*/
-	public static function printErrorPage( $error_msg, $hint = '' ) {
+	 * Print a fatal error page and terminates the script
+	 * @param string $error_msg The error message to show
+	 * @param string $hint An optional hint message - needs to be properly escaped
+	 */
+	public static function printErrorPage($error_msg, $hint = '') {
 		if (\OC_App::isEnabled('theming') && !\OC_App::isAppLoaded('theming')) {
 			\OC_App::loadApp('theming');
 		}
@@ -307,9 +309,9 @@ class OC_Template extends \OC\Template\Base {
 		}
 
 		try {
-			$content = new \OC_Template( '', 'error', 'error', false );
-			$errors = array(array('error' => $error_msg, 'hint' => $hint));
-			$content->assign( 'errors', $errors );
+			$content = new \OC_Template('', 'error', 'error', false);
+			$errors = [['error' => $error_msg, 'hint' => $hint]];
+			$content->assign('errors', $errors);
 			$content->printPage();
 		} catch (\Exception $e) {
 			$logger = \OC::$server->getLogger();
@@ -375,7 +377,7 @@ class OC_Template extends \OC\Template\Base {
 			'HTTP/1.1',
 			'HTTP/2',
 		];
-		if(in_array($claimedProtocol, $validProtocols, true)) {
+		if (in_array($claimedProtocol, $validProtocols, true)) {
 			return $claimedProtocol;
 		}
 		return 'HTTP/1.1';

@@ -21,18 +21,16 @@
 
 namespace OCA\WorkflowEngine\Tests\Check;
 
-
 class AbstractStringCheckTest extends \Test\TestCase {
-
 	protected function getCheckMock() {
 		$l = $this->getMockBuilder('OCP\IL10N')
 			->disableOriginalConstructor()
 			->getMock();
 		$l->expects($this->any())
 			->method('t')
-			->willReturnCallback(function($string, $args) {
-					return sprintf($string, $args);
-				});
+			->willReturnCallback(function ($string, $args) {
+				return sprintf($string, $args);
+			});
 
 		$check = $this->getMockBuilder('OCA\WorkflowEngine\Check\AbstractStringCheck')
 			->setConstructorArgs([

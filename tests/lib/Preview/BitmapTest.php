@@ -29,7 +29,6 @@ namespace Test\Preview;
  * @package Test\Preview
  */
 class BitmapTest extends Provider {
-
 	public function setUp() {
 		parent::setUp();
 
@@ -39,5 +38,4 @@ class BitmapTest extends Provider {
 		$this->height = 1707;
 		$this->provider = new \OC\Preview\Postscript;
 	}
-
 }

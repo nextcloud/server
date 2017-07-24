@@ -108,7 +108,8 @@ class ShareController extends Controller {
 	 * @param IL10N $l10n
 	 * @param Defaults $defaults
 	 */
-	public function __construct($appName,
+	public function __construct(
+		$appName,
 								IRequest $request,
 								IConfig $config,
 								IURLGenerator $urlGenerator,
@@ -122,7 +123,8 @@ class ShareController extends Controller {
 								FederatedShareProvider $federatedShareProvider,
 								EventDispatcherInterface $eventDispatcher,
 								IL10N $l10n,
-								Defaults $defaults) {
+								Defaults $defaults
+	) {
 		parent::__construct($appName, $request);
 
 		$this->config = $config;
@@ -150,11 +152,11 @@ class ShareController extends Controller {
 	public function showAuthenticate($token) {
 		$share = $this->shareManager->getShareByToken($token);
 
-		if($this->linkShareAuth($share)) {
-			return new RedirectResponse($this->urlGenerator->linkToRoute('files_sharing.sharecontroller.showShare', array('token' => $token)));
+		if ($this->linkShareAuth($share)) {
+			return new RedirectResponse($this->urlGenerator->linkToRoute('files_sharing.sharecontroller.showShare', ['token' => $token]));
 		}
 
-		return new TemplateResponse($this->appName, 'authenticate', array(), 'guest');
+		return new TemplateResponse($this->appName, 'authenticate', [], 'guest');
 	}
 
 	/**
@@ -178,11 +180,11 @@ class ShareController extends Controller {
 
 		$authenticate = $this->linkShareAuth($share, $password);
 
-		if($authenticate === true) {
-			return new RedirectResponse($this->urlGenerator->linkToRoute('files_sharing.sharecontroller.showShare', array('token' => $token)));
+		if ($authenticate === true) {
+			return new RedirectResponse($this->urlGenerator->linkToRoute('files_sharing.sharecontroller.showShare', ['token' => $token]));
 		}
 
-		$response = new TemplateResponse($this->appName, 'authenticate', array('wrongpw' => true), 'guest');
+		$response = new TemplateResponse($this->appName, 'authenticate', ['wrongpw' => true], 'guest');
 		$response->throttle();
 		return $response;
 	}
@@ -208,7 +210,7 @@ class ShareController extends Controller {
 			}
 		} else {
 			// not authenticated ?
-			if ( ! $this->session->exists('public_link_authenticated')
+			if (! $this->session->exists('public_link_authenticated')
 				|| $this->session->get('public_link_authenticated') !== (string)$share->getId()) {
 				return false;
 			}
@@ -230,7 +232,7 @@ class ShareController extends Controller {
 		$itemType = $itemSource = $uidOwner = '';
 		$token = $share;
 		$exception = null;
-		if($share instanceof \OCP\Share\IShare) {
+		if ($share instanceof \OCP\Share\IShare) {
 			try {
 				$token = $share->getToken();
 				$uidOwner = $share->getSharedBy();
@@ -249,7 +251,7 @@ class ShareController extends Controller {
 			'errorCode' => $errorCode,
 			'errorMessage' => $errorMessage,
 		]);
-		if(!is_null($exception)) {
+		if (!is_null($exception)) {
 			throw $exception;
 		}
 	}
@@ -287,8 +289,10 @@ class ShareController extends Controller {
 
 		// Share is password protected - check whether the user is permitted to access the share
 		if ($share->getPassword() !== null && !$this->linkShareAuth($share)) {
-			return new RedirectResponse($this->urlGenerator->linkToRoute('files_sharing.sharecontroller.authenticate',
-				array('token' => $token)));
+			return new RedirectResponse($this->urlGenerator->linkToRoute(
+				'files_sharing.sharecontroller.authenticate',
+				['token' => $token]
+			));
 		}
 
 		if (!$this->validateShare($share)) {
@@ -373,8 +377,10 @@ class ShareController extends Controller {
 		$shareTmpl['previewMaxY'] = $this->config->getSystemValue('preview_max_y', 1024);
 		$shareTmpl['disclaimer'] = $this->config->getAppValue('core', 'shareapi_public_link_disclaimertext', null);
 		if ($shareTmpl['previewSupported']) {
-			$shareTmpl['previewImage'] = $this->urlGenerator->linkToRouteAbsolute( 'files_sharing.PublicPreview.getPreview',
-				['x' => 200, 'y' => 200, 'file' => $shareTmpl['directory_path'], 't' => $shareTmpl['dirToken']]);
+			$shareTmpl['previewImage'] = $this->urlGenerator->linkToRouteAbsolute(
+				'files_sharing.PublicPreview.getPreview',
+				['x' => 200, 'y' => 200, 'file' => $shareTmpl['directory_path'], 't' => $shareTmpl['dirToken']]
+			);
 		} else {
 			$shareTmpl['previewImage'] = $this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'favicon-fb.png'));
 		}
@@ -436,14 +442,16 @@ class ShareController extends Controller {
 
 		$share = $this->shareManager->getShareByToken($token);
 
-		if(!($share->getPermissions() & \OCP\Constants::PERMISSION_READ)) {
+		if (!($share->getPermissions() & \OCP\Constants::PERMISSION_READ)) {
 			return new \OCP\AppFramework\Http\DataResponse('Share is read-only');
 		}
 
 		// Share is password protected - check whether the user is permitted to access the share
 		if ($share->getPassword() !== null && !$this->linkShareAuth($share)) {
-			return new RedirectResponse($this->urlGenerator->linkToRoute('files_sharing.sharecontroller.authenticate',
-				['token' => $token]));
+			return new RedirectResponse($this->urlGenerator->linkToRoute(
+				'files_sharing.sharecontroller.authenticate',
+				['token' => $token]
+			));
 		}
 
 		$files_list = null;
@@ -487,7 +495,7 @@ class ShareController extends Controller {
 			if ($node instanceof \OCP\Files\File) {
 				// Single file download
 				$this->singleFileDownloaded($share, $share->getNode());
-			} else if (!empty($files_list)) {
+			} elseif (!empty($files_list)) {
 				$this->fileListDownloaded($share, $files_list, $node);
 			} else {
 				// The folder is downloaded
@@ -514,7 +522,7 @@ class ShareController extends Controller {
 
 		$this->emitAccessShareHook($share);
 
-		$server_params = array( 'head' => $this->request->getMethod() == 'HEAD' );
+		$server_params = [ 'head' => $this->request->getMethod() == 'HEAD' ];
 
 		/**
 		 * Http range requests support
@@ -549,7 +557,6 @@ class ShareController extends Controller {
 			$subNode = $node->get($file);
 			$this->singleFileDownloaded($share, $subNode);
 		}
-
 	}
 
 	/**
@@ -558,7 +565,6 @@ class ShareController extends Controller {
 	 * @param Share\IShare $share
 	 */
 	protected function singleFileDownloaded(Share\IShare $share, \OCP\Files\Node $node) {
-
 		$fileId = $node->getId();
 
 		$userFolder = $this->rootFolder->getUserFolder($share->getSharedBy());
@@ -602,12 +608,13 @@ class ShareController extends Controller {
 	 * @param int $fileId
 	 * @param string $filePath
 	 */
-	protected function publishActivity($subject,
+	protected function publishActivity(
+		$subject,
 										array $parameters,
 										$affectedUser,
 										$fileId,
-										$filePath) {
-
+										$filePath
+	) {
 		$event = $this->activityManager->generateEvent();
 		$event->setApp('files_sharing')
 			->setType('public_links')
@@ -616,6 +623,4 @@ class ShareController extends Controller {
 			->setObject('files', $fileId, $filePath);
 		$this->activityManager->publish($event);
 	}
-
-
 }

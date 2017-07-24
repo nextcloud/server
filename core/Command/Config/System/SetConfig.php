@@ -85,7 +85,10 @@ class SetConfig extends Base {
 			$existingValue = $this->systemConfig->getValue($configName);
 
 			$newValue = $this->mergeArrayValue(
-				array_slice($configNames, 1), $existingValue, $configValue['value'], $updateOnly
+				array_slice($configNames, 1),
+				$existingValue,
+				$configValue['value'],
+				$updateOnly
 			);
 
 			$this->systemConfig->setValue($configName, $newValue);
@@ -149,6 +152,7 @@ class SetConfig extends Base {
 						throw new \InvalidArgumentException('Unable to parse value as boolean');
 				}
 
+				// no break
 			case 'null':
 				return [
 					'value' => null,

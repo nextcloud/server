@@ -25,7 +25,6 @@
 
 namespace OCP;
 
-
 /**
  * Class Manager
  *
@@ -41,7 +40,7 @@ namespace OCP;
  * @since 8.0.0
  */
 interface IUserManager {
-		/**
+	/**
 	 * register a user backend
 	 *
 	 * @param \OCP\UserInterface $backend

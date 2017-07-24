@@ -40,9 +40,11 @@ class InstallCoreBundle implements IRepairStep {
 	 * @param IConfig $config
 	 * @param Installer $installer
 	 */
-	public function __construct(BundleFetcher $bundleFetcher,
+	public function __construct(
+		BundleFetcher $bundleFetcher,
 								IConfig $config,
-								Installer $installer) {
+								Installer $installer
+	) {
 		$this->bundleFetcher = $bundleFetcher;
 		$this->config = $config;
 		$this->installer = $installer;
@@ -66,7 +68,7 @@ class InstallCoreBundle implements IRepairStep {
 		}
 
 		$defaultBundle = $this->bundleFetcher->getDefaultInstallationBundle();
-		foreach($defaultBundle as $bundle) {
+		foreach ($defaultBundle as $bundle) {
 			try {
 				$this->installer->installAppBundle($bundle);
 				$output->info('Successfully installed core app bundle.');

@@ -61,22 +61,21 @@ return ['routes' => [
 		'verb' => 'GET',
 	],
 	[
-		'name'	=> 'Icon#getFavicon',
+		'name' => 'Icon#getFavicon',
 		'url' => '/favicon/{app}',
 		'verb' => 'GET',
-		'defaults' => array('app' => 'core'),
+		'defaults' => ['app' => 'core'],
 	],
 	[
-		'name'	=> 'Icon#getTouchIcon',
+		'name' => 'Icon#getTouchIcon',
 		'url' => '/icon/{app}',
 		'verb' => 'GET',
-		'defaults' => array('app' => 'core'),
+		'defaults' => ['app' => 'core'],
 	],
 	[
-		'name'	=> 'Icon#getThemedIcon',
+		'name' => 'Icon#getThemedIcon',
 		'url' => '/img/{app}/{image}',
 		'verb' => 'GET',
-		'requirements' => array('image' => '.+')
+		'requirements' => ['image' => '.+']
 	],
 ]];
-

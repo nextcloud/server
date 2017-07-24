@@ -90,8 +90,11 @@ class DAV extends Common {
 		if (isset($params['host']) && isset($params['user']) && isset($params['password'])) {
 			$host = $params['host'];
 			//remove leading http[s], will be generated in createBaseUri()
-			if (substr($host, 0, 8) == "https://") $host = substr($host, 8);
-			else if (substr($host, 0, 7) == "http://") $host = substr($host, 7);
+			if (substr($host, 0, 8) == "https://") {
+				$host = substr($host, 8);
+			} elseif (substr($host, 0, 7) == "http://") {
+				$host = substr($host, 7);
+			}
 			$this->host = $host;
 			$this->user = $params['user'];
 			$this->password = $params['password'];
@@ -146,7 +149,7 @@ class DAV extends Common {
 		}
 
 		$proxy = \OC::$server->getConfig()->getSystemValue('proxy', '');
-		if($proxy !== '') {
+		if ($proxy !== '') {
 			$settings['proxy'] = $proxy;
 		}
 
@@ -259,7 +262,7 @@ class DAV extends Common {
 			try {
 				$response = $this->client->propFind(
 					$this->encodePath($path),
-					array(
+					[
 						'{DAV:}getlastmodified',
 						'{DAV:}getcontentlength',
 						'{DAV:}getcontenttype',
@@ -267,7 +270,7 @@ class DAV extends Common {
 						'{http://open-collaboration-services.org/ns}share-permissions',
 						'{DAV:}resourcetype',
 						'{DAV:}getetag',
-					)
+					]
 				);
 				$this->statCache->set($path, $response);
 			} catch (ClientHttpException $e) {
@@ -313,7 +316,7 @@ class DAV extends Common {
 			if ($cachedState === false) {
 				// we know the file doesn't exist
 				return false;
-			} else if (!is_null($cachedState)) {
+			} elseif (!is_null($cachedState)) {
 				return true;
 			}
 			// need to get from server
@@ -585,7 +588,7 @@ class DAV extends Common {
 		} catch (\Exception $e) {
 			$this->convertException($e, $path);
 		}
-		return array();
+		return [];
 	}
 
 	/** {@inheritdoc} */
@@ -703,9 +706,9 @@ class DAV extends Common {
 		}
 		if (isset($response['{http://owncloud.org/ns}permissions'])) {
 			return $this->parsePermissions($response['{http://owncloud.org/ns}permissions']);
-		} else if ($this->is_dir($path)) {
+		} elseif ($this->is_dir($path)) {
 			return Constants::PERMISSION_ALL;
-		} else if ($this->file_exists($path)) {
+		} elseif ($this->file_exists($path)) {
 			return Constants::PERMISSION_ALL - Constants::PERMISSION_CREATE;
 		} else {
 			return 0;
@@ -778,10 +781,10 @@ class DAV extends Common {
 				}
 				if (!empty($etag) && $cachedData['etag'] !== $etag) {
 					return true;
-				} else if (isset($response['{http://open-collaboration-services.org/ns}share-permissions'])) {
+				} elseif (isset($response['{http://open-collaboration-services.org/ns}share-permissions'])) {
 					$sharePermissions = (int)$response['{http://open-collaboration-services.org/ns}share-permissions'];
 					return $sharePermissions !== $cachedData['permissions'];
-				} else if (isset($response['{http://owncloud.org/ns}permissions'])) {
+				} elseif (isset($response['{http://owncloud.org/ns}permissions'])) {
 					$permissions = $this->parsePermissions($response['{http://owncloud.org/ns}permissions']);
 					return $permissions !== $cachedData['permissions'];
 				} else {
@@ -831,19 +834,19 @@ class DAV extends Common {
 			if ($e->getHttpStatus() === Http::STATUS_UNAUTHORIZED) {
 				// either password was changed or was invalid all along
 				throw new StorageInvalidException(get_class($e) . ': ' . $e->getMessage());
-			} else if ($e->getHttpStatus() === Http::STATUS_METHOD_NOT_ALLOWED) {
+			} elseif ($e->getHttpStatus() === Http::STATUS_METHOD_NOT_ALLOWED) {
 				// ignore exception for MethodNotAllowed, false will be returned
 				return;
 			}
 			throw new StorageNotAvailableException(get_class($e) . ': ' . $e->getMessage());
-		} else if ($e instanceof ClientException) {
+		} elseif ($e instanceof ClientException) {
 			// connection timeout or refused, server could be temporarily down
 			throw new StorageNotAvailableException(get_class($e) . ': ' . $e->getMessage());
-		} else if ($e instanceof \InvalidArgumentException) {
+		} elseif ($e instanceof \InvalidArgumentException) {
 			// parse error because the server returned HTML instead of XML,
 			// possibly temporarily down
 			throw new StorageNotAvailableException(get_class($e) . ': ' . $e->getMessage());
-		} else if (($e instanceof StorageNotAvailableException) || ($e instanceof StorageInvalidException)) {
+		} elseif (($e instanceof StorageNotAvailableException) || ($e instanceof StorageInvalidException)) {
 			// rethrow
 			throw $e;
 		}
@@ -851,4 +854,3 @@ class DAV extends Common {
 		// TODO: only log for now, but in the future need to wrap/rethrow exception
 	}
 }
-

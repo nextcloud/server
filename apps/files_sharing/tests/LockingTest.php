@@ -104,7 +104,6 @@ class LockingTest extends TestCase {
 	}
 
 	public function testChangeLock() {
-
 		Filesystem::initMountPoints($this->recipientUid);
 		$recipientView = new View('/' . $this->recipientUid . '/files');
 		$recipientView->lockFile('bar.txt', ILockingProvider::LOCK_SHARED);

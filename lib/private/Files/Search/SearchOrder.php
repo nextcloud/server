@@ -21,7 +21,6 @@
 
 namespace OC\Files\Search;
 
-
 use OCP\Files\Search\ISearchOrder;
 
 class SearchOrder implements ISearchOrder {

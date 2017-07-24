@@ -53,7 +53,7 @@ class OC_DB {
 	 *
 	 * SQL query via Doctrine prepare(), needs to be execute()'d!
 	 */
-	static public function prepare( $query , $limit = null, $offset = null, $isManipulation = null) {
+	public static function prepare($query, $limit = null, $offset = null, $isManipulation = null) {
 		$connection = \OC::$server->getDatabaseConnection();
 
 		if ($isManipulation === null) {
@@ -63,7 +63,7 @@ class OC_DB {
 
 		// return the result
 		try {
-			$result =$connection->prepare($query, $limit, $offset);
+			$result = $connection->prepare($query, $limit, $offset);
 		} catch (\Doctrine\DBAL\DBALException $e) {
 			throw new \OC\DatabaseException($e->getMessage());
 		}
@@ -79,7 +79,7 @@ class OC_DB {
 	 * @param string $sql
 	 * @return bool
 	 */
-	static public function isManipulation( $sql ) {
+	public static function isManipulation($sql) {
 		$selectOccurrence = stripos($sql, 'SELECT');
 		if ($selectOccurrence !== false && $selectOccurrence < 10) {
 			return false;
@@ -108,7 +108,7 @@ class OC_DB {
 	 * @return OC_DB_StatementWrapper
 	 * @throws \OC\DatabaseException
 	 */
-	static public function executeAudited( $stmt, array $parameters = null) {
+	public static function executeAudited($stmt, array $parameters = null) {
 		if (is_string($stmt)) {
 			// convert to an array with 'sql'
 			if (stripos($stmt, 'LIMIT') !== false) { //OFFSET requires LIMIT, so we only need to check for LIMIT
@@ -117,18 +117,18 @@ class OC_DB {
 						 . ' pass an array with \'limit\' and \'offset\' instead';
 				throw new \OC\DatabaseException($message);
 			}
-			$stmt = array('sql' => $stmt, 'limit' => null, 'offset' => null);
+			$stmt = ['sql' => $stmt, 'limit' => null, 'offset' => null];
 		}
 		if (is_array($stmt)) {
 			// convert to prepared statement
-			if ( ! array_key_exists('sql', $stmt) ) {
+			if (! array_key_exists('sql', $stmt)) {
 				$message = 'statement array must at least contain key \'sql\'';
 				throw new \OC\DatabaseException($message);
 			}
-			if ( ! array_key_exists('limit', $stmt) ) {
+			if (! array_key_exists('limit', $stmt)) {
 				$stmt['limit'] = null;
 			}
-			if ( ! array_key_exists('limit', $stmt) ) {
+			if (! array_key_exists('limit', $stmt)) {
 				$stmt['offset'] = null;
 			}
 			$stmt = self::prepare($stmt['sql'], $stmt['limit'], $stmt['offset']);
@@ -168,7 +168,7 @@ class OC_DB {
 	 *
 	 * TODO: write more documentation
 	 */
-	public static function createDbFromStructure( $file ) {
+	public static function createDbFromStructure($file) {
 		$schemaManager = self::getMDB2SchemaManager();
 		$result = $schemaManager->createDbFromStructure($file);
 		return $result;
@@ -208,7 +208,7 @@ class OC_DB {
 	 * @throws \OC\DatabaseException
 	 */
 	public static function raiseExceptionOnError($result, $message = null) {
-		if($result === false) {
+		if ($result === false) {
 			if ($message === null) {
 				$message = self::getErrorMessage();
 			} else {

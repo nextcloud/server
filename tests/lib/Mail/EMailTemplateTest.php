@@ -77,8 +77,10 @@ class EMailTemplateTest extends TestCase {
 		$this->emailTemplate->addBodyText('You have now an Nextcloud account, you can add, protect, and share your data.');
 		$this->emailTemplate->addBodyText('Your username is: abc');
 		$this->emailTemplate->addBodyButtonGroup(
-			'Set your password', 'https://example.org/resetPassword/123',
-			'Install Client', 'https://nextcloud.com/install/#install-clients'
+			'Set your password',
+			'https://example.org/resetPassword/123',
+			'Install Client',
+			'https://nextcloud.com/install/#install-clients'
 		);
 		$this->emailTemplate->addFooter(
 			'TestCloud - A safe home for your data<br>This is an automatically sent email, please do not reply.'
@@ -118,8 +120,10 @@ class EMailTemplateTest extends TestCase {
 		$this->emailTemplate->addBodyText('You have now an Nextcloud account, you can add, protect, and share your data.');
 		$this->emailTemplate->addBodyText('Your username is: abc');
 		$this->emailTemplate->addBodyButtonGroup(
-			'Set your password', 'https://example.org/resetPassword/123',
-			'Install Client', 'https://nextcloud.com/install/#install-clients'
+			'Set your password',
+			'https://example.org/resetPassword/123',
+			'Install Client',
+			'https://nextcloud.com/install/#install-clients'
 		);
 		$this->emailTemplate->addFooter();
 
@@ -157,7 +161,8 @@ class EMailTemplateTest extends TestCase {
 		$this->emailTemplate->addBodyText('You have now an Nextcloud account, you can add, protect, and share your data.');
 		$this->emailTemplate->addBodyText('Your username is: abc');
 		$this->emailTemplate->addBodyButton(
-			'Set your password', 'https://example.org/resetPassword/123',
+			'Set your password',
+			'https://example.org/resetPassword/123',
 			false
 		);
 		$this->emailTemplate->addFooter();
@@ -198,9 +203,12 @@ class EMailTemplateTest extends TestCase {
 		$this->emailTemplate->addBodyText('You have now an Nextcloud account, you can add, protect, and share your data.', 'You have now an Nextcloud account, you can add, protect, and share your data. - text');
 		$this->emailTemplate->addBodyText('Your username is: abc');
 		$this->emailTemplate->addBodyButtonGroup(
-			'Set your password', 'https://example.org/resetPassword/123',
-			'Install Client', 'https://nextcloud.com/install/#install-clients',
-			'Set your password - text', 'Install Client - text'
+			'Set your password',
+			'https://example.org/resetPassword/123',
+			'Install Client',
+			'https://nextcloud.com/install/#install-clients',
+			'Set your password - text',
+			'Install Client - text'
 		);
 		$this->emailTemplate->addFooter();
 
@@ -209,6 +217,4 @@ class EMailTemplateTest extends TestCase {
 		$expectedTXT = file_get_contents(\OC::$SERVERROOT . '/tests/data/emails/new-account-email-custom-text-alternative.txt');
 		$this->assertSame($expectedTXT, $this->emailTemplate->renderText());
 	}
-
-
 }

@@ -68,7 +68,7 @@ class JsController extends Controller {
 			$folder = $this->appData->getFolder($appName);
 			$gzip = false;
 			$file = $this->getFile($folder, $fileName, $gzip);
-		} catch(NotFoundException $e) {
+		} catch (NotFoundException $e) {
 			return new NotFoundResponse();
 		}
 

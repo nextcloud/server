@@ -57,7 +57,7 @@ class BackgroundRepair extends TimedJob {
 	 */
 	public function execute($jobList, ILogger $logger = null) {
 		// add an interval of 15 mins
-		$this->setInterval(15*60);
+		$this->setInterval(15 * 60);
 
 		$this->jobList = $jobList;
 		$this->logger = $logger;
@@ -90,7 +90,7 @@ class BackgroundRepair extends TimedJob {
 		try {
 			$repair->addStep($step);
 		} catch (\Exception $ex) {
-			$this->logger->logException($ex,[
+			$this->logger->logException($ex, [
 				'app' => 'migration'
 			]);
 

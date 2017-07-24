@@ -24,7 +24,6 @@
 
 namespace OCP\DB\QueryBuilder;
 
-
 use Doctrine\DBAL\Query\Expression\ExpressionBuilder;
 
 /**
@@ -35,7 +34,7 @@ interface IExpressionBuilder {
 	/**
 	 * @since 9.0.0
 	 */
-	const EQ  = ExpressionBuilder::EQ;
+	const EQ = ExpressionBuilder::EQ;
 	/**
 	 * @since 9.0.0
 	 */
@@ -43,7 +42,7 @@ interface IExpressionBuilder {
 	/**
 	 * @since 9.0.0
 	 */
-	const LT  = ExpressionBuilder::LT;
+	const LT = ExpressionBuilder::LT;
 	/**
 	 * @since 9.0.0
 	 */
@@ -51,7 +50,7 @@ interface IExpressionBuilder {
 	/**
 	 * @since 9.0.0
 	 */
-	const GT  = ExpressionBuilder::GT;
+	const GT = ExpressionBuilder::GT;
 	/**
 	 * @since 9.0.0
 	 */

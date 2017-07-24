@@ -26,7 +26,7 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\EmptyContentSecurityPolicy;
 use OCP\AppFramework\Http\Response;
 
-abstract class BaseResponse extends Response   {
+abstract class BaseResponse extends Response {
 	/** @var array */
 	protected $data;
 
@@ -51,11 +51,13 @@ abstract class BaseResponse extends Response   {
 	 * @param int|null $itemsCount
 	 * @param int|null $itemsPerPage
 	 */
-	public function __construct(DataResponse $dataResponse,
+	public function __construct(
+		DataResponse $dataResponse,
 								$format = 'xml',
 								$statusMessage = null,
 								$itemsCount = null,
-								$itemsPerPage = null) {
+								$itemsPerPage = null
+	) {
 		$this->format = $format;
 		$this->statusMessage = $statusMessage;
 		$this->itemsCount = $itemsCount;
@@ -72,11 +74,13 @@ abstract class BaseResponse extends Response   {
 
 		if ($format === 'json') {
 			$this->addHeader(
-				'Content-Type', 'application/json; charset=utf-8'
+				'Content-Type',
+				'application/json; charset=utf-8'
 			);
 		} else {
 			$this->addHeader(
-				'Content-Type', 'application/xml; charset=utf-8'
+				'Content-Type',
+				'application/xml; charset=utf-8'
 			);
 		}
 	}

@@ -61,7 +61,7 @@ class ApplicationTest extends TestCase {
 			Notifier::class,
 		];
 
-		foreach($services as $service) {
+		foreach ($services as $service) {
 			$s = $c->query($service);
 			$this->assertInstanceOf($service, $s);
 		}

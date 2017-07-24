@@ -72,4 +72,3 @@ trait UserTrait {
 		return $this;
 	}
 }
-

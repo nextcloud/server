@@ -43,9 +43,7 @@ use Sabre\DAVACL\IACL;
  * @package OCA\DAV\Tests\unit\CalDAV
  */
 class CalDavBackendTest extends AbstractCalDavBackendTest {
-
 	public function testCalendarOperations() {
-
 		$calendarId = $this->createTestCalendar();
 
 		// update it's display name
@@ -126,7 +124,7 @@ class CalDavBackendTest extends AbstractCalDavBackendTest {
 		$l10n
 			->expects($this->any())
 			->method('t')
-			->will($this->returnCallback(function ($text, $parameters = array()) {
+			->will($this->returnCallback(function ($text, $parameters = []) {
 				return vsprintf($text, $parameters);
 			}));
 
@@ -190,7 +188,6 @@ EOD;
 	}
 
 	public function testCalendarObjectsOperations() {
-
 		$calendarId = $this->createTestCalendar();
 
 		// create a card
@@ -267,7 +264,6 @@ EOD;
 	}
 
 	public function testMultiCalendarObjects() {
-
 		$calendarId = $this->createTestCalendar();
 
 		// create an event
@@ -310,7 +306,7 @@ EOD;
 		// get the cards
 		$calendarObjects = $this->backend->getMultipleCalendarObjects($calendarId, [$uri1, $uri2]);
 		$this->assertCount(2, $calendarObjects);
-		foreach($calendarObjects as $card) {
+		foreach ($calendarObjects as $card) {
 			$this->assertArrayHasKey('id', $card);
 			$this->assertArrayHasKey('uri', $card);
 			$this->assertArrayHasKey('lastmodified', $card);
@@ -354,7 +350,7 @@ EOD;
 			'comp-filters' => $compFilter
 		]);
 
-		$expectedEventsInResult = array_map(function($index) use($events) {
+		$expectedEventsInResult = array_map(function ($index) use ($events) {
 			return $events[$index];
 		}, $expectedEventsInResult);
 		$this->assertEquals($expectedEventsInResult, $result, '', 0.0, 10, true);

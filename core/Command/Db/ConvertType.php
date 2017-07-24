@@ -233,7 +233,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 
 		$schemaManager = new \OC\DB\MDB2SchemaManager($toDB);
 		$apps = $input->getOption('all-apps') ? \OC_App::getAllApps() : \OC_App::getEnabledApps();
-		foreach($apps as $app) {
+		foreach ($apps as $app) {
 			if (file_exists(\OC_App::getAppPath($app).'/appinfo/database.xml')) {
 				$schemaManager->createDbFromStructure(\OC_App::getAppPath($app).'/appinfo/database.xml');
 			} else {
@@ -269,7 +269,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 		if (!empty($toTables)) {
 			$output->writeln('<info>Clearing schema in new database</info>');
 		}
-		foreach($toTables as $table) {
+		foreach ($toTables as $table) {
 			$db->getSchemaManager()->dropTable($table);
 		}
 	}
@@ -305,7 +305,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 		$count = $result->fetchColumn();
 		$result->closeCursor();
 
-		$numChunks = ceil($count/$chunkSize);
+		$numChunks = ceil($count / $chunkSize);
 		if ($numChunks > 1) {
 			$output->writeln('chunked query, ' . $numChunks . ' chunks');
 		}
@@ -379,8 +379,8 @@ class ConvertType extends Command implements CompletionAwareInterface {
 		switch ($type) {
 			case Type::BLOB:
 			case Type::TEXT:
-				$this->columnTypes[$tableName][$columnName] = IQueryBuilder::PARAM_LOB;
-				break;
+			$this->columnTypes[$tableName][$columnName] = IQueryBuilder::PARAM_LOB;
+		break;
 			default:
 				$this->columnTypes[$tableName][$columnName] = false;
 		}
@@ -394,7 +394,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 
 		try {
 			// copy table rows
-			foreach($tables as $table) {
+			foreach ($tables as $table) {
 				$output->writeln($table);
 				$this->copyTable($fromDB, $toDB, $schema->getTable($table), $input, $output);
 			}
@@ -404,7 +404,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 			}
 			// save new database config
 			$this->saveDBInfo($input);
-		} catch(\Exception $e) {
+		} catch (\Exception $e) {
 			$this->config->setSystemValue('maintenance', false);
 			throw $e;
 		}
@@ -422,11 +422,11 @@ class ConvertType extends Command implements CompletionAwareInterface {
 		}
 
 		$this->config->setSystemValues([
-			'dbtype'		=> $type,
-			'dbname'		=> $dbName,
-			'dbhost'		=> $dbHost,
-			'dbuser'		=> $username,
-			'dbpassword'	=> $password,
+			'dbtype' => $type,
+			'dbname' => $dbName,
+			'dbhost' => $dbHost,
+			'dbuser' => $username,
+			'dbpassword' => $password,
 		]);
 	}
 

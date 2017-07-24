@@ -130,5 +130,4 @@ class ActionProviderStoreTest extends TestCase {
 
 		$this->actionProviderStore->getProviders($user);
 	}
-
 }

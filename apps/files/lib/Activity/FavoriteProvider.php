@@ -30,7 +30,6 @@ use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
 
 class FavoriteProvider implements IProvider {
-
 	const SUBJECT_ADDED = 'added_favorite';
 	const SUBJECT_REMOVED = 'removed_favorite';
 
@@ -95,7 +94,6 @@ class FavoriteProvider implements IProvider {
 	 * @since 11.0.0
 	 */
 	public function parseShortVersion(IEvent $event) {
-
 		if ($event->getSubject() === self::SUBJECT_ADDED) {
 			$event->setParsedSubject($this->l->t('Added to favorites'));
 			if ($this->activityManager->getRequirePNG()) {
@@ -103,7 +101,7 @@ class FavoriteProvider implements IProvider {
 			} else {
 				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/starred.svg')));
 			}
-		} else if ($event->getSubject() === self::SUBJECT_REMOVED) {
+		} elseif ($event->getSubject() === self::SUBJECT_REMOVED) {
 			$event->setParsedSubject($this->l->t('Removed from favorites'));
 			if ($this->activityManager->getRequirePNG()) {
 				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/star.png')));
@@ -125,7 +123,6 @@ class FavoriteProvider implements IProvider {
 	 * @since 11.0.0
 	 */
 	public function parseLongVersion(IEvent $event, IEvent $previousEvent = null) {
-
 		if ($event->getSubject() === self::SUBJECT_ADDED) {
 			$subject = $this->l->t('You added {file} to your favorites');
 			if ($this->activityManager->getRequirePNG()) {
@@ -133,7 +130,7 @@ class FavoriteProvider implements IProvider {
 			} else {
 				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/starred.svg')));
 			}
-		} else if ($event->getSubject() === self::SUBJECT_REMOVED) {
+		} elseif ($event->getSubject() === self::SUBJECT_REMOVED) {
 			$subject = $this->l->t('You removed {file} from your favorites');
 			if ($this->activityManager->getRequirePNG()) {
 				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/star.png')));

@@ -27,7 +27,7 @@ use OCP\IConfig;
 use OCP\Notification\IManager as INotificationManager;
 use Test\TestCase;
 
-class User_ProxyTest extends TestCase  {
+class User_ProxyTest extends TestCase {
 	/** @var ILDAPWrapper|\PHPUnit_Framework_MockObject_MockObject */
 	private $ldapWrapper;
 	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */

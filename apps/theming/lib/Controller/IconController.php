@@ -97,13 +97,13 @@ class IconController extends Controller {
 	 */
 	public function getThemedIcon($app, $image) {
 		try {
-			$iconFile = $this->imageManager->getCachedImage("icon-" . $app . '-' . str_replace("/","_",$image));
+			$iconFile = $this->imageManager->getCachedImage("icon-" . $app . '-' . str_replace("/", "_", $image));
 		} catch (NotFoundException $exception) {
 			$icon = $this->iconBuilder->colorSvg($app, $image);
 			if ($icon === false || $icon === "") {
 				return new NotFoundResponse();
 			}
-			$iconFile = $this->imageManager->setCachedImage("icon-" . $app . '-' . str_replace("/","_",$image), $icon);
+			$iconFile = $this->imageManager->setCachedImage("icon-" . $app . '-' . str_replace("/", "_", $image), $icon);
 		}
 		if ($iconFile !== false) {
 			$response = new FileDisplayResponse($iconFile, Http::STATUS_OK, ['Content-Type' => 'image/svg+xml']);
@@ -141,7 +141,7 @@ class IconController extends Controller {
 				$response = new FileDisplayResponse($iconFile, Http::STATUS_OK, ['Content-Type' => 'image/x-icon']);
 			}
 		}
-		if($response === null) {
+		if ($response === null) {
 			$fallbackLogo = \OC::$SERVERROOT . '/core/img/favicon.png';
 			$response = new DataDisplayResponse($this->fileAccessHelper->file_get_contents($fallbackLogo), Http::STATUS_OK, ['Content-Type' => 'image/x-icon']);
 		}
@@ -176,7 +176,7 @@ class IconController extends Controller {
 				$response = new FileDisplayResponse($iconFile, Http::STATUS_OK, ['Content-Type' => 'image/png']);
 			}
 		}
-		if($response === null) {
+		if ($response === null) {
 			$fallbackLogo = \OC::$SERVERROOT . '/core/img/favicon-touch.png';
 			$response = new DataDisplayResponse($this->fileAccessHelper->file_get_contents($fallbackLogo), Http::STATUS_OK, ['Content-Type' => 'image/png']);
 		}

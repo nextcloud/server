@@ -25,7 +25,6 @@
 
 namespace OCA\Federation\Tests;
 
-
 use OCA\Federation\DbHandler;
 use OCA\Federation\TrustedServers;
 use OCP\IDBConnection;
@@ -148,7 +147,8 @@ class DbHandlerTest extends TestCase {
 	 */
 	public function testServerExists($serverInTable, $checkForServer, $expected) {
 		$this->dbHandler->addServer($serverInTable);
-		$this->assertSame($expected,
+		$this->assertSame(
+			$expected,
 			$this->dbHandler->serverExists($checkForServer)
 		);
 	}
@@ -177,7 +177,8 @@ class DbHandlerTest extends TestCase {
 	public function testGetToken() {
 		$this->dbHandler->addServer('server1');
 		$this->dbHandler->addToken('http://server1', 'token');
-		$this->assertSame('token',
+		$this->assertSame(
+			'token',
 			$this->dbHandler->getToken('https://server1')
 		);
 	}
@@ -198,7 +199,8 @@ class DbHandlerTest extends TestCase {
 	public function testGetSharedSecret() {
 		$this->dbHandler->addServer('server1');
 		$this->dbHandler->addSharedSecret('http://server1', 'secret');
-		$this->assertSame('secret',
+		$this->assertSame(
+			'secret',
 			$this->dbHandler->getSharedSecret('https://server1')
 		);
 	}
@@ -219,7 +221,8 @@ class DbHandlerTest extends TestCase {
 	public function testGetServerStatus() {
 		$this->dbHandler->addServer('server1');
 		$this->dbHandler->setServerStatus('http://server1', TrustedServers::STATUS_OK);
-		$this->assertSame(TrustedServers::STATUS_OK,
+		$this->assertSame(
+			TrustedServers::STATUS_OK,
 			$this->dbHandler->getServerStatus('https://server1')
 		);
 
@@ -238,7 +241,8 @@ class DbHandlerTest extends TestCase {
 	 * @param string $expected
 	 */
 	public function testHash($url, $expected) {
-		$this->assertSame($expected,
+		$this->assertSame(
+			$expected,
 			$this->invokePrivate($this->dbHandler, 'hash', [$url])
 		);
 	}
@@ -259,7 +263,8 @@ class DbHandlerTest extends TestCase {
 	 * @param string $expected
 	 */
 	public function testNormalizeUrl($url, $expected) {
-		$this->assertSame($expected,
+		$this->assertSame(
+			$expected,
 			$this->invokePrivate($this->dbHandler, 'normalizeUrl', [$url])
 		);
 	}

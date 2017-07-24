@@ -28,7 +28,6 @@ use Sabre\DAV\Server;
 use Sabre\DAV\Exception\NotAuthenticated;
 
 class PasswordLoginForbidden extends NotAuthenticated {
-
 	const NS_OWNCLOUD = 'http://owncloud.org/ns';
 
 	public function getHTTPCode() {
@@ -51,5 +50,4 @@ class PasswordLoginForbidden extends NotAuthenticated {
 		$error = $errorNode->ownerDocument->createElementNS('o:', 'o:hint', 'password login forbidden');
 		$errorNode->appendChild($error);
 	}
-
 }

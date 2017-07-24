@@ -41,7 +41,7 @@ class ManagerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$closure = function() use ($app) {
+		$closure = function () use ($app) {
 			return $app;
 		};
 
@@ -65,7 +65,7 @@ class ManagerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$closure = function() use ($notifier) {
+		$closure = function () use ($notifier) {
 			return $notifier;
 		};
 
@@ -79,14 +79,14 @@ class ManagerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$closure = function() use ($notifier) {
+		$closure = function () use ($notifier) {
 			return $notifier;
 		};
 
 		$this->assertEquals([], $this->invokePrivate($this->manager, 'getNotifiers'));
 		$this->assertEquals([], $this->invokePrivate($this->manager, 'listNotifiers'));
 
-		$this->manager->registerNotifier($closure, function() {
+		$this->manager->registerNotifier($closure, function () {
 			return ['id' => 'test1', 'name' => 'Test One'];
 		});
 
@@ -95,7 +95,7 @@ class ManagerTest extends TestCase {
 		$this->assertEquals([$notifier], $this->invokePrivate($this->manager, 'getNotifiers'));
 		$this->assertEquals(['test1' => 'Test One'], $this->invokePrivate($this->manager, 'listNotifiers'));
 
-		$this->manager->registerNotifier($closure, function() {
+		$this->manager->registerNotifier($closure, function () {
 			return ['id' => 'test2', 'name' => 'Test Two'];
 		});
 
@@ -111,11 +111,11 @@ class ManagerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$closure = function() use ($app) {
+		$closure = function () use ($app) {
 			return $app;
 		};
 
-		$this->manager->registerNotifier($closure, function() {
+		$this->manager->registerNotifier($closure, function () {
 			return ['id' => 'test1', 'name' => 'Test One'];
 		});
 
@@ -142,11 +142,11 @@ class ManagerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$closure = function() use ($app) {
+		$closure = function () use ($app) {
 			return $app;
 		};
 
-		$this->manager->registerNotifier($closure, function() use ($data) {
+		$this->manager->registerNotifier($closure, function () use ($data) {
 			return $data;
 		});
 
@@ -162,15 +162,15 @@ class ManagerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$closure = function() use ($app) {
+		$closure = function () use ($app) {
 			return $app;
 		};
 
-		$this->manager->registerNotifier($closure, function() {
+		$this->manager->registerNotifier($closure, function () {
 			return ['id' => 'test1', 'name' => 'Test One'];
 		});
 
-		$this->manager->registerNotifier($closure, function() {
+		$this->manager->registerNotifier($closure, function () {
 			return ['id' => 'test1', 'name' => 'Test One'];
 		});
 
@@ -207,10 +207,10 @@ class ManagerTest extends TestCase {
 			->method('notify')
 			->with($notification);
 
-		$this->manager->registerApp(function() use ($app) {
+		$this->manager->registerApp(function () use ($app) {
 			return $app;
 		});
-		$this->manager->registerApp(function() use ($app2) {
+		$this->manager->registerApp(function () use ($app2) {
 			return $app2;
 		});
 
@@ -266,14 +266,14 @@ class ManagerTest extends TestCase {
 			->with($notification, 'en')
 			->willReturn($notification2);
 
-		$this->manager->registerNotifier(function() use ($notifier) {
+		$this->manager->registerNotifier(function () use ($notifier) {
 			return $notifier;
-		}, function() {
+		}, function () {
 			return ['id' => 'test1', 'name' => 'Test One'];
 		});
-		$this->manager->registerNotifier(function() use ($notifier2) {
+		$this->manager->registerNotifier(function () use ($notifier2) {
 			return $notifier2;
-		}, function() {
+		}, function () {
 			return ['id' => 'test2', 'name' => 'Test Two'];
 		});
 
@@ -301,9 +301,9 @@ class ManagerTest extends TestCase {
 			->with($notification, 'de')
 			->willReturnArgument(0);
 
-		$this->manager->registerNotifier(function() use ($notifier) {
+		$this->manager->registerNotifier(function () use ($notifier) {
 			return $notifier;
-		}, function() {
+		}, function () {
 			return ['id' => 'test1', 'name' => 'Test One'];
 		});
 
@@ -328,9 +328,9 @@ class ManagerTest extends TestCase {
 			->with($notification, 'de')
 			->willThrowException(new \InvalidArgumentException);
 
-		$this->manager->registerNotifier(function() use ($notifier) {
+		$this->manager->registerNotifier(function () use ($notifier) {
 			return $notifier;
-		}, function() {
+		}, function () {
 			return ['id' => 'test1', 'name' => 'Test One'];
 		});
 
@@ -374,10 +374,10 @@ class ManagerTest extends TestCase {
 			->method('markProcessed')
 			->with($notification);
 
-		$this->manager->registerApp(function() use ($app) {
+		$this->manager->registerApp(function () use ($app) {
 			return $app;
 		});
-		$this->manager->registerApp(function() use ($app2) {
+		$this->manager->registerApp(function () use ($app2) {
 			return $app2;
 		});
 
@@ -408,10 +408,10 @@ class ManagerTest extends TestCase {
 			->with($notification)
 			->willReturn(42);
 
-		$this->manager->registerApp(function() use ($app) {
+		$this->manager->registerApp(function () use ($app) {
 			return $app;
 		});
-		$this->manager->registerApp(function() use ($app2) {
+		$this->manager->registerApp(function () use ($app2) {
 			return $app2;
 		});
 

@@ -23,11 +23,10 @@
 
 namespace OCA\AdminAudit\Actions;
 
-
 class Versions extends Action {
-
 	public function rollback($params) {
-		$this->log('Version "%s" of "%s" was restored.',
+		$this->log(
+			'Version "%s" of "%s" was restored.',
 			[
 				'version' => $params['revision'],
 				'path' => $params['path']
@@ -37,10 +36,10 @@ class Versions extends Action {
 	}
 
 	public function delete($params) {
-		$this->log('Version "%s" was deleted.',
+		$this->log(
+			'Version "%s" was deleted.',
 			['path' => $params['path']],
 			['path']
 		);
 	}
-
 }

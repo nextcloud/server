@@ -55,7 +55,6 @@ class PluginTest extends TestCase {
 	}
 
 	public function testPublishing() {
-
 		$this->book->expects($this->once())->method('setPublishStatus')->with(true);
 
 		// setup request
@@ -68,7 +67,6 @@ class PluginTest extends TestCase {
 	}
 
 	public function testUnPublishing() {
-
 		$this->book->expects($this->once())->method('setPublishStatus')->with(false);
 
 		// setup request

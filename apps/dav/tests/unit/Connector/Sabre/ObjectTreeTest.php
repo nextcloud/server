@@ -28,7 +28,6 @@
 
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
-
 use OC\Files\FileInfo;
 use OC\Files\Filesystem;
 use OC\Files\Storage\Temporary;
@@ -44,7 +43,6 @@ use OCA\DAV\Connector\Sabre\ObjectTree;
  * @package OCA\DAV\Tests\Unit\Connector\Sabre
  */
 class ObjectTreeTest extends \Test\TestCase {
-
 	public function copyDataProvider() {
 		return [
 			// copy into same dir
@@ -151,7 +149,6 @@ class ObjectTreeTest extends \Test\TestCase {
 		$type,
 		$enableChunkingHeader
 	) {
-
 		if ($enableChunkingHeader) {
 			$_SERVER['HTTP_OC_CHUNKED'] = true;
 		}
@@ -197,73 +194,73 @@ class ObjectTreeTest extends \Test\TestCase {
 		unset($_SERVER['HTTP_OC_CHUNKED']);
 	}
 
-	function nodeForPathProvider() {
-		return array(
+	public function nodeForPathProvider() {
+		return [
 			// regular file
-			array(
+			[
 				'regularfile.txt',
 				'regularfile.txt',
 				'regularfile.txt',
 				'file',
 				false
-			),
+			],
 			// regular directory
-			array(
+			[
 				'regulardir',
 				'regulardir',
 				'regulardir',
 				'dir',
 				false
-			),
+			],
 			// regular file with chunking
-			array(
+			[
 				'regularfile.txt',
 				'regularfile.txt',
 				'regularfile.txt',
 				'file',
 				true
-			),
+			],
 			// regular directory with chunking
-			array(
+			[
 				'regulardir',
 				'regulardir',
 				'regulardir',
 				'dir',
 				true
-			),
+			],
 			// file with chunky file name
-			array(
+			[
 				'regularfile.txt-chunking-123566789-10-1',
 				'regularfile.txt',
 				'regularfile.txt',
 				'file',
 				true
-			),
+			],
 			// regular file in subdir
-			array(
+			[
 				'subdir/regularfile.txt',
 				'subdir/regularfile.txt',
 				'regularfile.txt',
 				'file',
 				false
-			),
+			],
 			// regular directory in subdir
-			array(
+			[
 				'subdir/regulardir',
 				'subdir/regulardir',
 				'regulardir',
 				'dir',
 				false
-			),
+			],
 			// file with chunky file name in subdir
-			array(
+			[
 				'subdir/regularfile.txt-chunking-123566789-10-1',
 				'subdir/regularfile.txt',
 				'regularfile.txt',
 				'file',
 				true
-			),
-		);
+			],
+		];
 	}
 
 	/**
@@ -280,9 +277,9 @@ class ObjectTreeTest extends \Test\TestCase {
 			->getMock();
 		$view->expects($this->once())
 			->method('resolvePath')
-			->will($this->returnCallback(function($path) use ($storage){
-			return [$storage, ltrim($path, '/')];
-		}));
+			->will($this->returnCallback(function ($path) use ($storage) {
+				return [$storage, ltrim($path, '/')];
+			}));
 
 		$rootNode = $this->getMockBuilder('\OCA\DAV\Connector\Sabre\Directory')
 			->disableOriginalConstructor()

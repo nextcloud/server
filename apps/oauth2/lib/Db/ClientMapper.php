@@ -49,7 +49,7 @@ class ClientMapper extends Mapper {
 		$result = $qb->execute();
 		$row = $result->fetch();
 		$result->closeCursor();
-		if($row === false) {
+		if ($row === false) {
 			throw new ClientNotFoundException();
 		}
 		return Client::fromRow($row);
@@ -69,7 +69,7 @@ class ClientMapper extends Mapper {
 		$result = $qb->execute();
 		$row = $result->fetch();
 		$result->closeCursor();
-		if($row === false) {
+		if ($row === false) {
 			throw new ClientNotFoundException();
 		}
 		return Client::fromRow($row);

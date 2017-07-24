@@ -38,7 +38,7 @@ class Folder extends File implements \OCP\Share_Backend_Collection {
 	 * @return array with shares
 	 */
 	public function getParents($itemSource, $shareWith = null, $owner = null) {
-		$result = array();
+		$result = [];
 		$parent = $this->getParentId($itemSource);
 		while ($parent) {
 			$shares = \OCP\Share::getItemSharedWithUser('folder', $parent, $shareWith, $owner);
@@ -70,7 +70,7 @@ class Folder extends File implements \OCP\Share_Backend_Collection {
 	 */
 	private function getParentId($child) {
 		$query = \OCP\DB::prepare('SELECT `parent` FROM `*PREFIX*filecache` WHERE `fileid` = ?');
-		$result = $query->execute(array($child));
+		$result = $query->execute([$child]);
 		$row = $result->fetchRow();
 		$parent = $row ? $row['parent'] : null;
 
@@ -78,10 +78,10 @@ class Folder extends File implements \OCP\Share_Backend_Collection {
 	}
 
 	public function getChildren($itemSource) {
-		$children = array();
-		$parents = array($itemSource);
+		$children = [];
+		$parents = [$itemSource];
 		$query = \OCP\DB::prepare('SELECT `id` FROM `*PREFIX*mimetypes` WHERE `mimetype` = ?');
-		$result = $query->execute(array('httpd/unix-directory'));
+		$result = $query->execute(['httpd/unix-directory']);
 		if ($row = $result->fetchRow()) {
 			$mimetype = $row['id'];
 		} else {
@@ -92,9 +92,9 @@ class Folder extends File implements \OCP\Share_Backend_Collection {
 			$query = \OCP\DB::prepare('SELECT `fileid`, `name`, `mimetype` FROM `*PREFIX*filecache`'
 				.' WHERE `parent` IN ('.$parents.')');
 			$result = $query->execute();
-			$parents = array();
+			$parents = [];
 			while ($file = $result->fetchRow()) {
-				$children[] = array('source' => $file['fileid'], 'file_path' => $file['name']);
+				$children[] = ['source' => $file['fileid'], 'file_path' => $file['name']];
 				// If a child folder is found look inside it
 				if ($file['mimetype'] == $mimetype) {
 					$parents[] = $file['fileid'];
@@ -103,5 +103,4 @@ class Folder extends File implements \OCP\Share_Backend_Collection {
 		}
 		return $children;
 	}
-
 }

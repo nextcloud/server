@@ -40,7 +40,6 @@ use \OCA\Files_External\Lib\Storage\Google;
  * @package OCA\Files_External\Tests\Storage
  */
 class GoogleTest extends \Test\Files\Storage\Storage {
-
 	private $config;
 
 	protected function setUp() {

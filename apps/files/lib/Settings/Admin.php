@@ -46,20 +46,20 @@ class Admin implements ISettings {
 	 * @return TemplateResponse
 	 */
 	public function getForm() {
-		$htaccessWorking  = (getenv('htaccessWorking') == 'true');
+		$htaccessWorking = (getenv('htaccessWorking') == 'true');
 		$htaccessWritable = is_writable(\OC::$SERVERROOT.'/.htaccess');
-		$userIniWritable  = is_writable(\OC::$SERVERROOT.'/.user.ini');
+		$userIniWritable = is_writable(\OC::$SERVERROOT.'/.user.ini');
 
 		$upload_max_filesize = $this->iniWrapper->getBytes('upload_max_filesize');
 		$post_max_size = $this->iniWrapper->getBytes('post_max_size');
 		$maxUploadFilesize = Util::humanFileSize(min($upload_max_filesize, $post_max_size));
 
 		$parameters = [
-			'uploadChangable'              => (($htaccessWorking and $htaccessWritable) or $userIniWritable ),
-			'uploadMaxFilesize'            => $maxUploadFilesize,
+			'uploadChangable' => (($htaccessWorking and $htaccessWritable) or $userIniWritable),
+			'uploadMaxFilesize' => $maxUploadFilesize,
 			// max possible makes only sense on a 32 bit system
 			'displayMaxPossibleUploadSize' => PHP_INT_SIZE === 4,
-			'maxPossibleUploadSize'        => Util::humanFileSize(PHP_INT_MAX),
+			'maxPossibleUploadSize' => Util::humanFileSize(PHP_INT_MAX),
 		];
 
 		return new TemplateResponse('files', 'admin', $parameters, '');
@@ -82,5 +82,4 @@ class Admin implements ISettings {
 	public function getPriority() {
 		return 5;
 	}
-
 }

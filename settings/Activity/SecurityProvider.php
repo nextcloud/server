@@ -81,5 +81,4 @@ class SecurityProvider implements IProvider {
 		}
 		return $event;
 	}
-
 }

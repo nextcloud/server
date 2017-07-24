@@ -71,7 +71,7 @@ class SmbTest extends \Test\Files\Storage\Storage {
 
 	public function directoryProvider() {
 		// doesn't support leading/trailing spaces
-		return array(array('folder'));
+		return [['folder']];
 	}
 
 	public function testRenameWithSpaces() {

@@ -133,6 +133,4 @@ class SystemPrincipalBackendTest extends TestCase {
 		$result = $backend->getGroupMembership('principals/system/system');
 		$this->assertEquals([], $result);
 	}
-
-
 }

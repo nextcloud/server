@@ -81,5 +81,4 @@ class RSA extends AuthMechanism {
 
 		return $rsa->createKey($keyLength);
 	}
-
 }

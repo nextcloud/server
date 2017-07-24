@@ -25,7 +25,6 @@
 
 namespace OCA\Encryption\Tests\Users;
 
-
 use OCA\Encryption\Users\Setup;
 use OCP\ILogger;
 use Test\TestCase;
@@ -60,10 +59,12 @@ class SetupTest extends TestCase {
 
 		/** @var \OCP\ILogger $logMock */
 		/** @var \OCP\IUserSession $userSessionMock */
-		$this->instance = new Setup($logMock,
+		$this->instance = new Setup(
+			$logMock,
 			$userSessionMock,
 			$this->cryptMock,
-			$this->keyManagerMock);
+			$this->keyManagerMock
+		);
 	}
 
 
@@ -81,7 +82,6 @@ class SetupTest extends TestCase {
 	 * @param bool $expected
 	 */
 	public function testSetupUser($hasKeys, $expected) {
-
 		$this->keyManagerMock->expects($this->once())->method('userHasKeys')
 			->with('uid')->willReturn($hasKeys);
 
@@ -93,7 +93,8 @@ class SetupTest extends TestCase {
 				->with('uid', 'password', 'keyPair')->willReturn(true);
 		}
 
-		$this->assertSame($expected,
+		$this->assertSame(
+			$expected,
 			$this->instance->setupUser('uid', 'password')
 		);
 	}
@@ -104,5 +105,4 @@ class SetupTest extends TestCase {
 			[false, true]
 		];
 	}
-
 }

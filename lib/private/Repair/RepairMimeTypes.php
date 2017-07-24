@@ -88,43 +88,43 @@ class RepairMimeTypes implements IRepairStep {
 
 	private function updateMimetypes($updatedMimetypes) {
 		if (empty($this->folderMimeTypeId)) {
-			$result = \OC_DB::executeAudited(self::getIdStmt(), array('httpd/unix-directory'));
+			$result = \OC_DB::executeAudited(self::getIdStmt(), ['httpd/unix-directory']);
 			$this->folderMimeTypeId = (int)$result->fetchOne();
 		}
 
 		foreach ($updatedMimetypes as $extension => $mimetype) {
-			$result = \OC_DB::executeAudited(self::existsStmt(), array($mimetype));
+			$result = \OC_DB::executeAudited(self::existsStmt(), [$mimetype]);
 			$exists = $result->fetchOne();
 
 			if (!$exists) {
 				// insert mimetype
-				\OC_DB::executeAudited(self::insertStmt(), array($mimetype));
+				\OC_DB::executeAudited(self::insertStmt(), [$mimetype]);
 			}
 			
 			// get target mimetype id
-			$result = \OC_DB::executeAudited(self::getIdStmt(), array($mimetype));
+			$result = \OC_DB::executeAudited(self::getIdStmt(), [$mimetype]);
 			$mimetypeId = $result->fetchOne();
 
 			// change mimetype for files with x extension
-			\OC_DB::executeAudited(self::updateByNameStmt(), array($mimetypeId, $this->folderMimeTypeId, $mimetypeId, '%.' . $extension));
+			\OC_DB::executeAudited(self::updateByNameStmt(), [$mimetypeId, $this->folderMimeTypeId, $mimetypeId, '%.' . $extension]);
 		}
 	}
 
 	private function introduceImageTypes() {
-		$updatedMimetypes = array(
+		$updatedMimetypes = [
 			'jp2' => 'image/jp2',
 			'webp' => 'image/webp',
-		);
+		];
 
 		$this->updateMimetypes($updatedMimetypes);
 	}
 
 	private function introduceWindowsProgramTypes() {
-		$updatedMimetypes = array(
+		$updatedMimetypes = [
 			'htaccess' => 'text/plain',
 			'bat' => 'application/x-msdos-program',
 			'cmd' => 'application/cmd',
-		);
+		];
 
 		$this->updateMimetypes($updatedMimetypes);
 	}
@@ -144,7 +144,6 @@ class RepairMimeTypes implements IRepairStep {
 	 * Fix mime types
 	 */
 	public function run(IOutput $out) {
-
 		$ocVersionFromBeforeUpdate = $this->config->getSystemValue('version', '0.0.0');
 
 		// NOTE TO DEVELOPERS: when adding new mime types, please make sure to

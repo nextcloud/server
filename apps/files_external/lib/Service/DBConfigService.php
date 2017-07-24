@@ -320,7 +320,6 @@ class DBConfigService {
 	 * @param string $value
 	 */
 	public function setOption($mountId, $key, $value) {
-
 		$count = $this->connection->insertIfNotExist('*PREFIX*external_options', [
 			'mount_id' => $mountId,
 			'key' => $key,

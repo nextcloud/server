@@ -68,7 +68,6 @@ class MountProvider implements IMountProvider {
 	 * @return \OCP\Files\Mount\IMountPoint[]
 	 */
 	public function getMountsForUser(IUser $user, IStorageFactory $storageFactory) {
-
 		$shares = $this->shareManager->getSharedWith($user->getUID(), \OCP\Share::SHARE_TYPE_USER, null, -1);
 		$shares = array_merge($shares, $this->shareManager->getSharedWith($user->getUID(), \OCP\Share::SHARE_TYPE_GROUP, null, -1));
 		$shares = array_merge($shares, $this->shareManager->getSharedWith($user->getUID(), \OCP\Share::SHARE_TYPE_CIRCLE, null, -1));
@@ -125,7 +124,7 @@ class MountProvider implements IMountProvider {
 		$result = [];
 		// sort by stime, the super share will be based on the least recent share
 		foreach ($tmp as &$tmp2) {
-			@usort($tmp2, function($a, $b) {
+			@usort($tmp2, function ($a, $b) {
 				if ($a->getShareTime() <= $b->getShareTime()) {
 					return -1;
 				}

@@ -21,7 +21,6 @@
 
 namespace Test\Security\CSP;
 
-
 use OC\Security\CSP\ContentSecurityPolicyManager;
 
 class ContentSecurityPolicyManagerTest extends \Test\TestCase {
@@ -65,5 +64,4 @@ class ContentSecurityPolicyManagerTest extends \Test\TestCase {
 		$this->assertEquals($expected, $this->contentSecurityPolicyManager->getDefaultPolicy());
 		$this->assertSame($expectedStringPolicy, $this->contentSecurityPolicyManager->getDefaultPolicy()->buildPolicy());
 	}
-
 }

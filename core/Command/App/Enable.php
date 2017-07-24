@@ -93,7 +93,7 @@ class Enable extends Command implements CompletionAwareInterface {
 	 */
 	public function completeOptionValues($optionName, CompletionContext $context) {
 		if ($optionName === 'groups') {
-			return array_map(function(IGroup $group) {
+			return array_map(function (IGroup $group) {
 				return $group->getGID();
 			}, \OC::$server->getGroupManager()->search($context->getCurrentWord()));
 		}

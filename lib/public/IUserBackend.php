@@ -44,5 +44,4 @@ interface IUserBackend {
 	 * @since 8.0.0
 	 */
 	public function getBackendName();
-
 }
