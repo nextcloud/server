@@ -65,7 +65,7 @@ class OC_DB {
 		try {
 			$result =$connection->prepare($query, $limit, $offset);
 		} catch (\Doctrine\DBAL\DBALException $e) {
-			throw new \OC\DatabaseException($e->getMessage(), $query);
+			throw new \OC\DatabaseException($e->getMessage());
 		}
 		// differentiate between query and manipulation
 		$result = new OC_DB_StatementWrapper($result, $isManipulation);
@@ -214,7 +214,7 @@ class OC_DB {
 			} else {
 				$message .= ', Root cause:' . self::getErrorMessage();
 			}
-			throw new \OC\DatabaseException($message, \OC::$server->getDatabaseConnection()->errorCode());
+			throw new \OC\DatabaseException($message);
 		}
 	}
 
