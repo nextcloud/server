@@ -133,3 +133,5 @@ Vagrantfile
 /config/config-autotest-backup.php
 /config/autoconfig.php
 clover.xml
+.php_cs.cache
+php-cs-fixer

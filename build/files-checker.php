@@ -34,6 +34,7 @@ $expectedFiles = [
 	'.jshintrc',
 	'.lgtm',
 	'.mailmap',
+	'.php_cs.dist',
 	'.scrutinizer.yml',
 	'.tag',
 	'.user.ini',
