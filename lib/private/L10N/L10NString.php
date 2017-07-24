@@ -26,7 +26,9 @@
  *
  */
 
-class OC_L10N_String implements JsonSerializable {
+namespace OC\L10N;
+
+class L10NString implements \JsonSerializable {
 	/** @var \OC\L10N\L10N */
 	protected $l10n;
 
@@ -52,6 +54,9 @@ class OC_L10N_String implements JsonSerializable {
 		$this->count = $count;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function __toString() {
 		$translations = $this->l10n->getTranslations();
 
@@ -73,6 +78,9 @@ class OC_L10N_String implements JsonSerializable {
 	}
 
 
+	/**
+	 * @return string
+	 */
 	public function jsonSerialize() {
 		return $this->__toString();
 	}

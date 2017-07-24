@@ -102,7 +102,7 @@ function human_file_size($bytes) {
  * Return the relative date in relation to today. Returns something like "last hour" or "two month ago"
  * @param int $timestamp unix timestamp
  * @param boolean $dateOnly
- * @return \OC_L10N_String human readable interpretation of the timestamp
+ * @return string human readable interpretation of the timestamp
  *
  * @deprecated 8.0.0 Use \OCP\Template::relative_modified_date() instead
  */

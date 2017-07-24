@@ -159,7 +159,7 @@ class OC_JSON{
 	 * Convert OC_L10N_String to string, for use in json encodings
 	 */
 	protected static function to_string(&$value) {
-		if ($value instanceof OC_L10N_String) {
+		if ($value instanceof \OC\L10N\L10NString) {
 			$value = (string)$value;
 		}
 	}
