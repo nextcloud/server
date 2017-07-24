@@ -44,6 +44,8 @@ class FunctionBuilderTest extends TestCase {
 		$query = $this->connection->getQueryBuilder();
 
 		$query->select($query->func()->concat($query->createNamedParameter('foo'), new Literal("'bar'")));
+		$query->from('appconfig')
+			->setMaxResults(1);
 
 		$this->assertEquals('foobar', $query->execute()->fetchColumn());
 	}
@@ -52,6 +54,8 @@ class FunctionBuilderTest extends TestCase {
 		$query = $this->connection->getQueryBuilder();
 
 		$query->select($query->func()->md5($query->createNamedParameter('foobar')));
+		$query->from('appconfig')
+			->setMaxResults(1);
 
 		$this->assertEquals(md5('foobar'), $query->execute()->fetchColumn());
 	}
@@ -60,6 +64,8 @@ class FunctionBuilderTest extends TestCase {
 		$query = $this->connection->getQueryBuilder();
 
 		$query->select($query->func()->substring($query->createNamedParameter('foobar'), new Literal(2), $query->createNamedParameter(2)));
+		$query->from('appconfig')
+			->setMaxResults(1);
 
 		$this->assertEquals('oo', $query->execute()->fetchColumn());
 	}
@@ -68,6 +74,8 @@ class FunctionBuilderTest extends TestCase {
 		$query = $this->connection->getQueryBuilder();
 
 		$query->select($query->func()->substring($query->createNamedParameter('foobar'), new Literal(2)));
+		$query->from('appconfig')
+			->setMaxResults(1);
 
 		$this->assertEquals('oobar', $query->execute()->fetchColumn());
 	}
