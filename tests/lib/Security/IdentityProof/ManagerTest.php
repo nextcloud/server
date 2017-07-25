@@ -27,8 +27,10 @@ use OC\Security\IdentityProof\Manager;
 use OCP\Files\IAppData;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
+use OCP\IConfig;
 use OCP\IUser;
 use OCP\Security\ICrypto;
+use SebastianBergmann\Comparator\MockObjectComparator;
 use Test\TestCase;
 
 class ManagerTest extends TestCase  {
@@ -40,6 +42,8 @@ class ManagerTest extends TestCase  {
 	private $crypto;
 	/** @var Manager|\PHPUnit_Framework_MockObject_MockObject */
 	private $manager;
+	/** @var  IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	private $config;
 
 	public function setUp() {
 		parent::setUp();
@@ -47,19 +51,37 @@ class ManagerTest extends TestCase  {
 		/** @var Factory|\PHPUnit_Framework_MockObject_MockObject $factory */
 		$this->factory = $this->createMock(Factory::class);
 		$this->appData = $this->createMock(IAppData::class);
+		$this->config = $this->createMock(IConfig::class);
 		$this->factory->expects($this->any())
 			->method('get')
 			->with('identityproof')
 			->willReturn($this->appData);
 
 		$this->crypto = $this->createMock(ICrypto::class);
-		$this->manager = $this->getMockBuilder(Manager::class)
-			->setConstructorArgs([
+		$this->manager = $this->getManager(['generateKeyPair']);
+	}
+
+	/**
+	 * create manager object
+	 *
+	 * @param array $setMethods
+	 * @return Manager|\PHPUnit_Framework_MockObject_MockObject
+	 */
+	protected function getManager($setMethods = []) {
+		if (empty($setMethods)) {
+			return new Manager(
 				$this->factory,
-				$this->crypto
-			])
-			->setMethods(['generateKeyPair'])
-			->getMock();
+				$this->crypto,
+				$this->config
+			);
+		} else {
+			return $this->getMockBuilder(Manager::class)
+				->setConstructorArgs([
+					$this->factory,
+					$this->crypto,
+					$this->config
+				])->setMethods($setMethods)->getMock();
+		}
 	}
 
 	public function testGetKeyWithExistingKey() {
@@ -107,7 +129,7 @@ class ManagerTest extends TestCase  {
 	public function testGetKeyWithNotExistingKey() {
 		$user = $this->createMock(IUser::class);
 		$user
-			->expects($this->exactly(3))
+			->expects($this->once())
 			->method('getUID')
 			->willReturn('MyUid');
 		$this->appData
@@ -161,10 +183,7 @@ class ManagerTest extends TestCase  {
 	}
 
 	public function testGenerateKeyPair() {
-		$manager = new Manager(
-			$this->factory,
-			$this->crypto
-		);
+		$manager = $this->getManager();
 		$data = 'MyTestData';
 
 		list($resultPublicKey, $resultPrivateKey) = self::invokePrivate($manager, 'generateKeyPair');
@@ -173,5 +192,37 @@ class ManagerTest extends TestCase  {
 
 		$this->assertSame(1, openssl_verify($data, $signature, $resultPublicKey));
 		$this->assertSame(2048, $details['bits']);
+	}
+
+	public function testGetSystemKey() {
+		$manager = $this->getManager(['retrieveKey']);
+
+		/** @var Key|\PHPUnit_Framework_MockObject_MockObject $key */
+		$key = $this->createMock(Key::class);
+
+		$this->config->expects($this->once())->method('getSystemValue')
+			->with('instanceid', null)->willReturn('instanceId');
+
+		$manager->expects($this->once())->method('retrieveKey')->with('instanceId')
+			->willReturn($key);
+
+		$this->assertSame($key, $manager->getSystemKey());
+
+	}
+
+
+	/**
+	 * @expectedException \RuntimeException
+	 */
+	public function testGetSystemKeyFailure() {
+		$manager = $this->getManager(['retrieveKey']);
+
+		/** @var Key|\PHPUnit_Framework_MockObject_MockObject $key */
+		$key = $this->createMock(Key::class);
+
+		$this->config->expects($this->once())->method('getSystemValue')
+			->with('instanceid', null)->willReturn(null);
+
+		$manager->getSystemKey();
 	}
 }
