@@ -42,6 +42,8 @@ OC.L10N.register(
     "%s (invisible)" : "%s (αόρατο)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>Οι ετικέτες συστήματος</strong> για ένα αρχείο έχουν τροποποιηθεί",
     "Collaborative tags" : "Ετικέτες συνεργασίας",
+    "Create and edit collaborative tags. These tags affect all users." : "Δημιουργήστε και διορθώστε συνεργατικές ετικέτες. Αυτές οι ετικέτες επηρεάζουν όλους τους χρήστες.",
+    "Select tag …" : "Επιλογή ετικέτας ...",
     "Name" : "Όνομα",
     "Delete" : "Διαγραφή",
     "Public" : "Δημόσιο",

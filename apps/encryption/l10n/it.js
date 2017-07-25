@@ -24,6 +24,7 @@ OC.L10N.register(
     "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Devi migrare le tue chiavi di cifratura dalla vecchia cifratura (ownCloud <= 8.0) alla nuova. Esegui 'occ encryption:migrate' o contatta il tuo amministratore",
     "Invalid private key for encryption app. Please update your private key password in your personal settings to recover access to your encrypted files." : "Chiave privata non valida per l'applicazione di cifratura. Aggiorna la password della chiave privata nelle impostazioni personali per ripristinare l'accesso ai tuoi file cifrati.",
     "Encryption App is enabled, but your keys are not initialized. Please log-out and log-in again." : "L'applicazione di cifratura è abilitata, ma le chiavi non sono state inizializzate. Disconnettiti ed effettua nuovamente l'accesso.",
+    "Please enable server side encryption in the admin settings in order to use the encryption module." : "Abilita la cifratura lato server nelle impostazioni di amministrazione per utilizzare il modulo di cifratura.",
     "Encryption app is enabled and ready" : "L'applicazione Cifratura è abilitata e pronta",
     "Bad Signature" : "Firma non valida",
     "Missing Signature" : "Firma mancante",
