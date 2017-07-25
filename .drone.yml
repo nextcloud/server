@@ -632,7 +632,7 @@ services:
     image: postgres
     environment:
       - POSTGRES_USER=oc_autotest
-      - POSTGRES_PASSWORD=oc_autotest
+      - POSTGRES_PASSWORD=owncloud
     when:
       matrix:
         DB: postgres
