@@ -26,8 +26,7 @@
  *
  */
 
-$application = new \OCA\Files_Sharing\AppInfo\Application();
-$application->registerRoutes($this, [
+return [
 	'resources' => [
 		'ExternalShares' => ['url' => '/api/externalShares'],
 	],
@@ -126,8 +125,4 @@ $application->registerRoutes($this, [
 			'verb' => 'DELETE',
 		],
 	],
-]);
-
-/** @var $this \OCP\Route\IRouter */
-$this->create('sharing_external_shareinfo', '/shareinfo3')
-	->actionInclude('files_sharing/ajax/shareinfo.php');
+];

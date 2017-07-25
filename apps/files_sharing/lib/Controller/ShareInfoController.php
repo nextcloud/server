@@ -41,9 +41,9 @@ class ShareInfoController extends ApiController {
 	 * @param null $password
 	 * @param null $dir
 	 * @return JSONResponse
+	 * @throws ShareNotFound
 	 */
 	public function info($t, $password = null, $dir = null) {
-		$this->logger->error('HERE!');
 		try {
 			$share = $this->shareManager->getShareByToken($t);
 		} catch (ShareNotFound $e) {
@@ -79,12 +79,7 @@ class ShareInfoController extends ApiController {
 			}
 		}
 
-		$result = [
-			'data' => $this->parseNode($node),
-			'status' => 'success'
-		];
-
-		return new JSONResponse($result);
+		return new JSONResponse($this->parseNode($node));
 	}
 
 	private function parseNode(Node $node) {
