@@ -46,7 +46,7 @@ interface UserInterface {
 	 * @return boolean
 	 *
 	 * Returns the supported actions as int to be
-	 * compared with \OC_User_Backend::CREATE_USER etc.
+	 * compared with \OC\User\Backend::CREATE_USER etc.
 	 * @since 4.5.0
 	 */
 	public function implementsActions($actions);
