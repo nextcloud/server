@@ -23,6 +23,7 @@ namespace Test\App\AppStore\Bundles;
 
 use OC\App\AppStore\Bundles\BundleFetcher;
 use OC\App\AppStore\Bundles\CoreBundle;
+use OC\App\AppStore\Bundles\EducationBundle;
 use OC\App\AppStore\Bundles\EnterpriseBundle;
 use OC\App\AppStore\Bundles\GroupwareBundle;
 use OC\App\AppStore\Bundles\SocialSharingBundle;
@@ -50,6 +51,7 @@ class BundleFetcherTest extends TestCase {
 			new EnterpriseBundle($this->l10n),
 			new GroupwareBundle($this->l10n),
 			new SocialSharingBundle($this->l10n),
+			new EducationBundle($this->l10n),
 		];
 		$this->assertEquals($expected, $this->bundleFetcher->getBundles());
 	}
