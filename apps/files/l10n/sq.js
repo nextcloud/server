@@ -63,6 +63,7 @@ OC.L10N.register(
     "Your storage is almost full ({usedSpacePercent}%)" : "Depozita juaj është thuajse plot ({usedSpacePercent}%)",
     "_matches '{filter}'_::_match '{filter}'_" : ["ka përputhje me '{filter}'","ka përputhje me '{filter}'"],
     "View in folder" : "Shikoje në dosje",
+    "Copied!" : "E kopjuar!",
     "Path" : "Rrugë",
     "_%n byte_::_%n bytes_" : ["%n bajt","%n bajte"],
     "Favorited" : "U kalua e parapëlqyer",
