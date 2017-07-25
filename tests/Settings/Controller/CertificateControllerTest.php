@@ -174,7 +174,7 @@ class CertificateControllerTest extends \Test\TestCase {
 			->with(file_get_contents($uploadedFile['tmp_name'], 'badCertificate.crt'))
 			->will($this->throwException(new \Exception()));
 
-		$expected = new DataResponse('An error occurred.', Http::STATUS_UNPROCESSABLE_ENTITY);
+		$expected = new DataResponse(['An error occurred.'], Http::STATUS_UNPROCESSABLE_ENTITY);
 		$this->assertEquals($expected, $this->certificateController->addPersonalRootCertificate());
 	}
 

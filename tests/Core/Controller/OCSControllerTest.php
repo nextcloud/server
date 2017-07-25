@@ -169,7 +169,7 @@ class OCSControllerTest extends TestCase {
 				$this->equalTo('wrongpass')
 			)->willReturn(false);
 
-		$expected = new DataResponse(null, 102);
+		$expected = new DataResponse([], 102);
 		$expected->throttle();
 		$this->assertEquals($expected, $this->controller->personCheck('user', 'wrongpass'));
 	}
@@ -181,7 +181,7 @@ class OCSControllerTest extends TestCase {
 				$this->equalTo('wrongpass')
 			)->willReturn(false);
 
-		$expected = new DataResponse(null, 101);
+		$expected = new DataResponse([], 101);
 		$this->assertEquals($expected, $this->controller->personCheck('', ''));
 	}
 
@@ -192,7 +192,7 @@ class OCSControllerTest extends TestCase {
 			->with('NotExistingUser')
 			->willReturn(null);
 
-		$expected = new DataResponse('User not found', 404);
+		$expected = new DataResponse(['User not found'], 404);
 		$this->assertEquals($expected, $this->controller->getIdentityProof('NotExistingUser'));
 	}
 
