@@ -138,6 +138,28 @@ class OCIExpressionBuilder extends ExpressionBuilder {
 	}
 
 	/**
+	 * Creates a $x = '' statement, because Oracle needs a different check
+	 *
+	 * @param string $x The field in string format to be inspected by the comparison.
+	 * @return string
+	 * @since 13.0.0
+	 */
+	public function emptyString($x) {
+		return $this->isNull($x);
+	}
+
+	/**
+	 * Creates a `$x <> ''` statement, because Oracle needs a different check
+	 *
+	 * @param string $x The field in string format to be inspected by the comparison.
+	 * @return string
+	 * @since 13.0.0
+	 */
+	public function nonEmptyString($x) {
+		return $this->isNotNull($x);
+	}
+
+	/**
 	 * Returns a IQueryFunction that casts the column to the given type
 	 *
 	 * @param string $column

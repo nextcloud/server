@@ -31,6 +31,7 @@ use OC\DB\QueryBuilder\QueryFunction;
 use OC\DB\QueryBuilder\QuoteHelper;
 use OCP\DB\QueryBuilder\IExpressionBuilder;
 use OCP\DB\QueryBuilder\ILiteral;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\QueryBuilder\IQueryFunction;
 use OCP\IDBConnection;
 
@@ -348,6 +349,28 @@ class ExpressionBuilder implements IExpressionBuilder {
 		$x = $this->helper->quoteColumnName($x);
 		$y = $this->helper->quoteColumnNames($y);
 		return $this->expressionBuilder->notIn($x, $y);
+	}
+
+	/**
+	 * Creates a $x = '' statement, because Oracle needs a different check
+	 *
+	 * @param string $x The field in string format to be inspected by the comparison.
+	 * @return string
+	 * @since 13.0.0
+	 */
+	public function emptyString($x) {
+		return $this->eq($x, $this->literal('', IQueryBuilder::PARAM_STR));
+	}
+
+	/**
+	 * Creates a `$x <> ''` statement, because Oracle needs a different check
+	 *
+	 * @param string $x The field in string format to be inspected by the comparison.
+	 * @return string
+	 * @since 13.0.0
+	 */
+	public function nonEmptyString($x) {
+		return $this->neq($x, $this->literal('', IQueryBuilder::PARAM_STR));
 	}
 
 	/**
