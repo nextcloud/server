@@ -70,7 +70,7 @@ class RepairInvalidPaths implements IRepairStep {
 			->from('filecache', 'f')
 			->innerJoin('f', 'filecache', 'p', $builder->expr()->andX(
 				$builder->expr()->eq('f.parent', 'p.fileid'),
-				$builder->expr()->neq('p.name', $builder->createNamedParameter(''))
+				$builder->expr()->isNotNull('p.name')
 			))
 			->where($builder->expr()->neq('f.path', $computedPath))
 			->setMaxResults(self::MAX_ROWS);
