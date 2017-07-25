@@ -58,7 +58,6 @@ $expectedFiles = [
 	'COPYING-README',
 	'core',
 	'cron.php',
-	'db_structure.xml',
 	'index.html',
 	'index.php',
 	'issue_template.md',
