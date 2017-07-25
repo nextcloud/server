@@ -103,6 +103,7 @@ OC.L10N.register(
     "the link expired" : "de link is verlopen",
     "sharing is disabled" : "delen is uitgeschakeld",
     "For more info, please ask the person who sent this link." : "Voor meer informatie, neem contact op met de persoon die u deze link heeft gestuurd.",
+    "shared by %s" : "Gedeeld door %s",
     "Add to your Nextcloud" : "Toevoegen aan je Nextcloud",
     "Download" : "Downloaden",
     "Download %s" : "Download %s",
