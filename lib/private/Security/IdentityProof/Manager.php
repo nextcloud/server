@@ -23,6 +23,7 @@ namespace OC\Security\IdentityProof;
 
 use OC\Files\AppData\Factory;
 use OCP\Files\IAppData;
+use OCP\IConfig;
 use OCP\IUser;
 use OCP\Security\ICrypto;
 
@@ -31,15 +32,21 @@ class Manager {
 	private $appData;
 	/** @var ICrypto */
 	private $crypto;
+	/** @var IConfig */
+	private $config;
 
 	/**
 	 * @param Factory $appDataFactory
 	 * @param ICrypto $crypto
+	 * @param IConfig $config
 	 */
 	public function __construct(Factory $appDataFactory,
-								ICrypto $crypto) {
+								ICrypto $crypto,
+								IConfig $config
+	) {
 		$this->appData = $appDataFactory->get('identityproof');
 		$this->crypto = $crypto;
+		$this->config = $config;
 	}
 
 	/**
@@ -66,20 +73,20 @@ class Manager {
 	}
 
 	/**
-	 * Generate a key for $user
+	 * Generate a key for a given ID
 	 * Note: If a key already exists it will be overwritten
 	 *
-	 * @param IUser $user
+	 * @param string $id key id
 	 * @return Key
 	 */
-	protected function generateKey(IUser $user) {
+	protected function generateKey($id) {
 		list($publicKey, $privateKey) = $this->generateKeyPair();
 
 		// Write the private and public key to the disk
 		try {
-			$this->appData->newFolder($user->getUID());
+			$this->appData->newFolder($id);
 		} catch (\Exception $e) {}
-		$folder = $this->appData->getFolder($user->getUID());
+		$folder = $this->appData->getFolder($id);
 		$folder->newFile('private')
 			->putContent($this->crypto->encrypt($privateKey));
 		$folder->newFile('public')
@@ -89,21 +96,47 @@ class Manager {
 	}
 
 	/**
-	 * Get public and private key for $user
+	 * Get key for a specific id
 	 *
-	 * @param IUser $user
+	 * @param string $id
 	 * @return Key
 	 */
-	public function getKey(IUser $user) {
+	protected function retrieveKey($id) {
 		try {
-			$folder = $this->appData->getFolder($user->getUID());
+			$folder = $this->appData->getFolder($id);
 			$privateKey = $this->crypto->decrypt(
 				$folder->getFile('private')->getContent()
 			);
 			$publicKey = $folder->getFile('public')->getContent();
 			return new Key($publicKey, $privateKey);
 		} catch (\Exception $e) {
-			return $this->generateKey($user);
+			return $this->generateKey($id);
 		}
 	}
+
+	/**
+	 * Get public and private key for $user
+	 *
+	 * @param IUser $user
+	 * @return Key
+	 */
+	public function getKey(IUser $user) {
+		return $this->retrieveKey($user->getUID());
+	}
+
+	/**
+	 * Get instance wide public and private key
+	 *
+	 * @return Key
+	 * @throws \RuntimeException
+	 */
+	public function getSystemKey() {
+		$instanceId = $this->config->getSystemValue('instanceid', null);
+		if ($instanceId === null) {
+			throw new \RuntimeException('no instance id!');
+		}
+		return $this->retrieveKey($instanceId);
+	}
+
+
 }
