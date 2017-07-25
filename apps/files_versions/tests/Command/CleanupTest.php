@@ -140,7 +140,7 @@ class CleanupTest extends TestCase {
 			->setConstructorArgs([$this->rootFolder, $this->userManager])
 			->getMock();
 
-		$backend = $this->getMockBuilder('OC_User_Interface')
+		$backend = $this->getMockBuilder(\OCP\UserInterface::class)
 			->disableOriginalConstructor()->getMock();
 		$backend->expects($this->once())->method('getUsers')
 			->with('', 500, 0)

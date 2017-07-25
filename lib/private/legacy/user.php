@@ -175,7 +175,7 @@ class OC_User {
 				self::setUserId($uid);
 				$setUidAsDisplayName = true;
 				if($backend instanceof \OCP\UserInterface
-					&& $backend->implementsActions(OC_User_Backend::GET_DISPLAYNAME)) {
+					&& $backend->implementsActions(\OC\User\Backend::GET_DISPLAYNAME)) {
 
 					$backendDisplayName = $backend->getDisplayName($uid);
 					if(is_string($backendDisplayName) && trim($backendDisplayName) !== '') {
