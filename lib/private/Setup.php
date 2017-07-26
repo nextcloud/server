@@ -449,10 +449,10 @@ class Setup {
 		$htaccessContent = explode($content, $htaccessContent, 2)[0];
 
 		//custom 403 error page
-		$content.= "\nErrorDocument 403 ".$webRoot."/core/templates/403.php";
+		$content.= "\nErrorDocument 403 ".$webRoot."/";
 
 		//custom 404 error page
-		$content.= "\nErrorDocument 404 ".$webRoot."/core/templates/404.php";
+		$content.= "\nErrorDocument 404 ".$webRoot."/";
 
 		// Add rewrite rules if the RewriteBase is configured
 		$rewriteBase = $config->getValue('htaccess.RewriteBase', '');
