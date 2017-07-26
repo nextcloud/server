@@ -326,6 +326,7 @@ return array(
     'OC\\App\\AppStore\\Bundles\\Bundle' => $baseDir . '/lib/private/App/AppStore/Bundles/Bundle.php',
     'OC\\App\\AppStore\\Bundles\\BundleFetcher' => $baseDir . '/lib/private/App/AppStore/Bundles/BundleFetcher.php',
     'OC\\App\\AppStore\\Bundles\\CoreBundle' => $baseDir . '/lib/private/App/AppStore/Bundles/CoreBundle.php',
+    'OC\\App\\AppStore\\Bundles\\EducationBundle' => $baseDir . '/lib/private/App/AppStore/Bundles/EducationBundle.php',
     'OC\\App\\AppStore\\Bundles\\EnterpriseBundle' => $baseDir . '/lib/private/App/AppStore/Bundles/EnterpriseBundle.php',
     'OC\\App\\AppStore\\Bundles\\GroupwareBundle' => $baseDir . '/lib/private/App/AppStore/Bundles/GroupwareBundle.php',
     'OC\\App\\AppStore\\Bundles\\SocialSharingBundle' => $baseDir . '/lib/private/App/AppStore/Bundles/SocialSharingBundle.php',
