@@ -3,6 +3,7 @@
 namespace OCA\Provisioning_API\Middleware;
 
 use OCA\Provisioning_API\Middleware\Exceptions\NotSubAdminException;
+use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Middleware;
 use OCP\AppFramework\OCS\OCSException;
@@ -36,25 +37,25 @@ class ProvisioningApiMiddleware extends Middleware {
 	}
 
 	/**
-	 * @param \OCP\AppFramework\Controller $controller
+	 * @param Controller $controller
 	 * @param string $methodName
 	 *
 	 * @throws NotSubAdminException
 	 */
-	public function beforeController($controller, $methodName) {
+	public function beforeController(Controller $controller, $methodName) {
 		if (!$this->isAdmin && !$this->reflector->hasAnnotation('NoSubAdminRequired') && !$this->isSubAdmin) {
 			throw new NotSubAdminException();
 		}
 	}
 
 	/**
-	 * @param \OCP\AppFramework\Controller $controller
+	 * @param Controller $controller
 	 * @param string $methodName
 	 * @param \Exception $exception
 	 * @throws \Exception
 	 * @return Response
 	 */
-	public function afterException($controller, $methodName, \Exception $exception) {
+	public function afterException(Controller $controller, $methodName, \Exception $exception) {
 		if ($exception instanceof NotSubAdminException) {
 			throw new OCSException($exception->getMessage(), \OCP\API::RESPOND_UNAUTHORISED);
 		}

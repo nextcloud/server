@@ -24,6 +24,7 @@
 namespace OC\AppFramework\Middleware;
 
 use OC\AppFramework\Utility\ControllerMethodReflector;
+use OCP\AppFramework\Controller;
 use OCP\IRequest;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Middleware;
@@ -55,10 +56,10 @@ class SessionMiddleware extends Middleware {
 	}
 
 	/**
-	 * @param \OCP\AppFramework\Controller $controller
+	 * @param Controller $controller
 	 * @param string $methodName
 	 */
-	public function beforeController($controller, $methodName) {
+	public function beforeController(Controller $controller, $methodName) {
 		$useSession = $this->reflector->hasAnnotation('UseSession');
 		if (!$useSession) {
 			$this->session->close();
@@ -66,12 +67,12 @@ class SessionMiddleware extends Middleware {
 	}
 
 	/**
-	 * @param \OCP\AppFramework\Controller $controller
+	 * @param Controller $controller
 	 * @param string $methodName
 	 * @param Response $response
 	 * @return Response
 	 */
-	public function afterController($controller, $methodName, Response $response){
+	public function afterController(Controller $controller, $methodName, Response $response){
 		$useSession = $this->reflector->hasAnnotation('UseSession');
 		if ($useSession) {
 			$this->session->close();

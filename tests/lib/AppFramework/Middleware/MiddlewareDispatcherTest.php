@@ -26,6 +26,7 @@ namespace Test\AppFramework\Middleware;
 
 use OC\AppFramework\Http\Request;
 use OC\AppFramework\Middleware\MiddlewareDispatcher;
+use OCP\AppFramework\Controller;
 use OCP\AppFramework\Middleware;
 use OCP\AppFramework\Http\Response;
 
@@ -61,7 +62,7 @@ class TestMiddleware extends Middleware {
 		$this->beforeControllerThrowsEx = $beforeControllerThrowsEx;
 	}
 
-	public function beforeController($controller, $methodName){
+	public function beforeController(Controller $controller, $methodName){
 		self::$beforeControllerCalled++;
 		$this->beforeControllerOrder = self::$beforeControllerCalled;
 		$this->controller = $controller;
@@ -71,7 +72,7 @@ class TestMiddleware extends Middleware {
 		}
 	}
 
-	public function afterException($controller, $methodName, \Exception $exception){
+	public function afterException(Controller $controller, $methodName, \Exception $exception){
 		self::$afterExceptionCalled++;
 		$this->afterExceptionOrder = self::$afterExceptionCalled;
 		$this->controller = $controller;
@@ -80,7 +81,7 @@ class TestMiddleware extends Middleware {
 		parent::afterException($controller, $methodName, $exception);
 	}
 
-	public function afterController($controller, $methodName, Response $response){
+	public function afterController(Controller $controller, $methodName, Response $response){
 		self::$afterControllerCalled++;
 		$this->afterControllerOrder = self::$afterControllerCalled;
 		$this->controller = $controller;
@@ -89,7 +90,7 @@ class TestMiddleware extends Middleware {
 		return parent::afterController($controller, $methodName, $response);
 	}
 
-	public function beforeOutput($controller, $methodName, $output){
+	public function beforeOutput(Controller $controller, $methodName, $output){
 		self::$beforeOutputCalled++;
 		$this->beforeOutputOrder = self::$beforeOutputCalled;
 		$this->controller = $controller;

@@ -24,6 +24,7 @@ namespace OC\AppFramework\Middleware\Security;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\Security\RateLimiting\Exception\RateLimitExceededException;
 use OC\Security\RateLimiting\Limiter;
+use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Middleware;
@@ -76,7 +77,7 @@ class RateLimitingMiddleware extends Middleware {
 	 * {@inheritDoc}
 	 * @throws RateLimitExceededException
 	 */
-	public function beforeController($controller, $methodName) {
+	public function beforeController(Controller $controller, $methodName) {
 		parent::beforeController($controller, $methodName);
 
 		$anonLimit = $this->reflector->getAnnotationParameter('AnonRateThrottle', 'limit');
@@ -104,7 +105,7 @@ class RateLimitingMiddleware extends Middleware {
 	/**
 	 * {@inheritDoc}
 	 */
-	public function afterException($controller, $methodName, \Exception $exception) {
+	public function afterException(Controller $controller, $methodName, \Exception $exception) {
 		if($exception instanceof RateLimitExceededException) {
 			if (stripos($this->request->getHeader('Accept'),'html') === false) {
 				$response = new JSONResponse(
