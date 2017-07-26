@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<info xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+	<!-- https://docs.nextcloud.com/server/12/developer_manual/app/info.html -->
+	<!-- TODO: ocsid -->
+	<id>beame_insta_ssl</id>
+	<name>Secure remote access (beame-insta-ssl)</name>
+	<description>beame-insta-ssl makes your Nextcloud accessible from the Internet even if it is behind a firewall or router. You must have beame-insta-ssl npm installed globally.</description>
+	<category>intergration</category>
+	<licence>AGPL</licence>
+	<author>Beame.io LTD</author>
+	<namespace>BeameInstaSsl</namespace>
+	<version>0.0.1</version>
+
+	<default_enable/>
+	<types>
+		<filesystem/>
+	</types>
+	<dependencies>
+		<nextcloud min-version="12" max-version="13" />
+		<command>bash</command>
+		<command>env</command>
+		<command>grep</command>
+		<command>nohup</command>
+		<command>ps</command>
+	</dependencies>
+	<website>https://www.beame.io/insta-ssl</website>
+	<settings>
+		<admin>OCA\BeameInstaSsl\Settings\Admin</admin>
+	</settings>
+</info>
