@@ -103,6 +103,7 @@ OC.L10N.register(
     "the link expired" : "la liga expiró",
     "sharing is disabled" : "compartir está deshabilitado",
     "For more info, please ask the person who sent this link." : "Para mayores informes, contacta a la persona que le envió esta liga.",
+    "shared by %s" : "compartido por %s",
     "Add to your Nextcloud" : "Agregar a tu Nextcloud",
     "Download" : "Descargar",
     "Download %s" : "Descargar %s",

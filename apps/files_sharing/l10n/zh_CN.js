@@ -103,6 +103,7 @@ OC.L10N.register(
     "the link expired" : "链接过期",
     "sharing is disabled" : "分享已禁用",
     "For more info, please ask the person who sent this link." : "欲知详情，请联系发给你链接的人。",
+    "shared by %s" : "共享者 %s",
     "Add to your Nextcloud" : "添加到你的 Nextcloud",
     "Download" : "下载",
     "Download %s" : "下载 %s",
