@@ -131,7 +131,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			->with($this->equalTo('files'));
 
 		$this->reader->reflect(__CLASS__, __FUNCTION__);
-		$this->middleware->beforeController(__CLASS__, __FUNCTION__);
+		$this->middleware->beforeController($this->controller, __FUNCTION__);
 	}
 
 
@@ -152,7 +152,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 
 		try {
 			$this->reader->reflect(__CLASS__, $method);
-			$sec->beforeController(__CLASS__, $method);
+			$sec->beforeController($this->controller, $method);
 		} catch (SecurityException $ex){
 			$this->assertEquals($status, $ex->getCode());
 		}
@@ -234,7 +234,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		$sec = $this->getMiddleware(false, false);
 
 		$this->reader->reflect(__CLASS__, __FUNCTION__);
-		$sec->beforeController(__CLASS__, __FUNCTION__);
+		$sec->beforeController($this->controller, __FUNCTION__);
 	}
 
 
@@ -261,7 +261,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		}
 
 		$this->reader->reflect(__CLASS__, $method);
-		$sec->beforeController(__CLASS__, $method);
+		$sec->beforeController($this->controller, $method);
 	}
 
 
@@ -277,7 +277,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			->method('passesStrictCookieCheck')
 			->will($this->returnValue(true));
 		$this->reader->reflect(__CLASS__, __FUNCTION__);
-		$this->middleware->beforeController(__CLASS__, __FUNCTION__);
+		$this->middleware->beforeController($this->controller, __FUNCTION__);
 	}
 
 
@@ -291,7 +291,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			->will($this->returnValue(false));
 
 		$this->reader->reflect(__CLASS__, __FUNCTION__);
-		$this->middleware->beforeController(__CLASS__, __FUNCTION__);
+		$this->middleware->beforeController($this->controller, __FUNCTION__);
 	}
 
 	/**
@@ -306,7 +306,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			->will($this->returnValue(true));
 
 		$this->reader->reflect(__CLASS__, __FUNCTION__);
-		$this->middleware->beforeController(__CLASS__, __FUNCTION__);
+		$this->middleware->beforeController($this->controller, __FUNCTION__);
 	}
 
 	/**
@@ -322,7 +322,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			->will($this->returnValue(true));
 
 		$this->reader->reflect(__CLASS__, __FUNCTION__);
-		$this->middleware->beforeController(__CLASS__, __FUNCTION__);
+		$this->middleware->beforeController($this->controller, __FUNCTION__);
 	}
 
 	/**
@@ -338,7 +338,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			->will($this->returnValue(false));
 
 		$this->reader->reflect(__CLASS__, __FUNCTION__);
-		$this->middleware->beforeController(__CLASS__, __FUNCTION__);
+		$this->middleware->beforeController($this->controller, __FUNCTION__);
 	}
 
 
@@ -352,7 +352,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			->will($this->returnValue(false));
 
 		$this->reader->reflect(__CLASS__, __FUNCTION__);
-		$this->middleware->beforeController(__CLASS__, __FUNCTION__);
+		$this->middleware->beforeController($this->controller, __FUNCTION__);
 	}
 
 	/**
@@ -367,7 +367,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			->willReturn(true);
 
 		$this->reader->reflect(__CLASS__, __FUNCTION__);
-		$this->middleware->beforeController(__CLASS__, __FUNCTION__);
+		$this->middleware->beforeController($this->controller, __FUNCTION__);
 	}
 
 	public function dataCsrfOcsController() {
