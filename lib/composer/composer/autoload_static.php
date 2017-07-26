@@ -353,6 +353,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\App\\AppStore\\Bundles\\Bundle' => __DIR__ . '/../../..' . '/lib/private/App/AppStore/Bundles/Bundle.php',
         'OC\\App\\AppStore\\Bundles\\BundleFetcher' => __DIR__ . '/../../..' . '/lib/private/App/AppStore/Bundles/BundleFetcher.php',
         'OC\\App\\AppStore\\Bundles\\CoreBundle' => __DIR__ . '/../../..' . '/lib/private/App/AppStore/Bundles/CoreBundle.php',
+        'OC\\App\\AppStore\\Bundles\\EducationBundle' => __DIR__ . '/../../..' . '/lib/private/App/AppStore/Bundles/EducationBundle.php',
         'OC\\App\\AppStore\\Bundles\\EnterpriseBundle' => __DIR__ . '/../../..' . '/lib/private/App/AppStore/Bundles/EnterpriseBundle.php',
         'OC\\App\\AppStore\\Bundles\\GroupwareBundle' => __DIR__ . '/../../..' . '/lib/private/App/AppStore/Bundles/GroupwareBundle.php',
         'OC\\App\\AppStore\\Bundles\\SocialSharingBundle' => __DIR__ . '/../../..' . '/lib/private/App/AppStore/Bundles/SocialSharingBundle.php',
