@@ -2522,6 +2522,49 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	}
 
 	/**
+	 * Move a calendar from one user to another
+	 *
+	 * @param string $uriName
+	 * @param string $uriOrigin
+	 * @param string $uriDestination
+	 */
+	public function moveCalendar($uriName, $uriOrigin, $uriDestination)
+	{
+		$query = $this->db->getQueryBuilder();
+		$query->update('calendars')
+			->set('principaluri', $query->createNamedParameter($uriDestination))
+			->where($query->expr()->eq('principaluri', $query->createNamedParameter($uriOrigin)))
+			->andWhere($query->expr()->eq('uri', $query->createNamedParameter($uriName)))
+			->execute();
+	}
+
+	/**
+	 * @param string $displayName
+	 * @param string|null $principalUri
+	 * @return array
+	 */
+	public function findCalendarsUrisByDisplayName($displayName, $principalUri = null)
+	{
+		// Ideally $displayName would be sanitized the same way as stringUtility.js does in calendar
+
+		$query = $this->db->getQueryBuilder();
+		$query->select('uri')
+			->from('calendars')
+			->where($query->expr()->iLike('displayname',
+				$query->createNamedParameter('%'.$this->db->escapeLikeParameter($displayName).'%')));
+		if ($principalUri) {
+			$query->andWhere($query->expr()->eq('principaluri', $query->createNamedParameter($principalUri)));
+		}
+		$result = $query->execute();
+
+		$calendarUris = [];
+		while($row = $result->fetch()) {
+			$calendarUris[] = $row['uri'];
+		}
+		return $calendarUris;
+	}
+
+	/**
 	 * read VCalendar data into a VCalendar object
 	 *
 	 * @param string $objectData
