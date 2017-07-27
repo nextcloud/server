@@ -168,7 +168,6 @@ $(document).ready(function () {
 				if (data.status === "success") {
 					$("#passwordbutton").after("<span class='checkmark icon icon-checkmark password-state'></span>");
 					removeloader();
-					$(".personal-show-label").show();
 					$('#pass1').val('');
 					$('#pass2').val('').change();
 				}
@@ -184,6 +183,7 @@ $(document).ready(function () {
 						}
 					);
 				}
+				$(".personal-show-label").show();
 				$(".password-loading").remove();
 				$("#passwordbutton").removeAttr('disabled');
 			});
