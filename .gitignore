@@ -33,6 +33,7 @@
 !/apps/theming
 !/apps/twofactor_backupcodes
 !/apps/workflowengine
+!/apps/beame_insta_ssl
 /apps/files_external/3rdparty/irodsphp/PHPUnitTest
 /apps/files_external/3rdparty/irodsphp/web
 /apps/files_external/3rdparty/irodsphp/prods/test
