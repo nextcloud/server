@@ -161,7 +161,7 @@ class Storage {
 	 * store a new version of a file.
 	 */
 	public static function store($filename) {
-		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
+		if(\OC::$server->getConfig()->getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
 
 			// if the file gets streamed we need to remove the .part extension
 			// to get the right target
@@ -320,7 +320,7 @@ class Storage {
 	 */
 	public static function rollback($file, $revision) {
 
-		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
+		if(\OC::$server->getConfig()->getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
 			// add expected leading slash
 			$file = '/' . ltrim($file, '/');
 			list($uid, $filename) = self::getUidAndFilename($file);

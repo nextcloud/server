@@ -305,7 +305,7 @@ class UtilTest extends \Test\TestCase {
 	 * @group DB
 	 */
 	function testDefaultApps($defaultAppConfig, $expectedPath, $enabledApps) {
-		$oldDefaultApps = \OCP\Config::getSystemValue('defaultapp', '');
+		$oldDefaultApps = \OC::$server->getConfig()->getSystemValue('defaultapp', '');
 		// CLI is doing messy stuff with the webroot, so need to work it around
 		$oldWebRoot = \OC::$WEBROOT;
 		\OC::$WEBROOT = '';

@@ -1081,7 +1081,8 @@ class OC_Util {
 				$location = $urlGenerator->getAbsoluteURL($defaultPage);
 			} else {
 				$appId = 'files';
-				$defaultApps = explode(',', \OCP\Config::getSystemValue('defaultapp', 'files'));
+				$config = \OC::$server->getConfig();
+				$defaultApps = explode(',', $config->getSystemValue('defaultapp', 'files'));
 				// find the first app that is enabled for the current user
 				foreach ($defaultApps as $defaultApp) {
 					$defaultApp = OC_App::cleanAppId(strip_tags($defaultApp));
@@ -1091,7 +1092,7 @@ class OC_Util {
 					}
 				}
 
-				if(\OC::$server->getConfig()->getSystemValue('htaccess.IgnoreFrontController', false) === true || getenv('front_controller_active') === 'true') {
+				if($config->getSystemValue('htaccess.IgnoreFrontController', false) === true || getenv('front_controller_active') === 'true') {
 					$location = $urlGenerator->getAbsoluteURL('/apps/' . $appId . '/');
 				} else {
 					$location = $urlGenerator->getAbsoluteURL('/index.php/apps/' . $appId . '/');

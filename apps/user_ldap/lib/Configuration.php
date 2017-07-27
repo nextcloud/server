@@ -349,7 +349,7 @@ class Configuration {
 	 */
 	protected function getSystemValue($varName) {
 		//FIXME: if another system value is added, softcode the default value
-		return \OCP\Config::getSystemValue($varName, false);
+		return \OC::$server->getConfig()->getSystemValue($varName, false);
 	}
 
 	/**
