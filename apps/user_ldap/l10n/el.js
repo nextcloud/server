@@ -147,6 +147,7 @@ OC.L10N.register(
     "When switched on, groups that contain groups are supported. (Only works if the group member attribute contains DNs.)" : "Όταν ενεργοποιηθεί, οι ομάδες που περιέχουν ομάδες υποστηρίζονται. (Λειτουργεί μόνο αν το χαρακτηριστικό μέλους ομάδες περιέχει Διακεκριμένα Ονόματα.)",
     "Paging chunksize" : "Μέγεθος σελιδοποίησης",
     "Chunksize used for paged LDAP searches that may return bulky results like user or group enumeration. (Setting it 0 disables paged LDAP searches in those situations.)" : "Μέγεθος τμήματος που χρησιμοποιείται για την σελιδοποίηση αναζητήσεων LDAP που μπορεί να επιστρέψουν πολλά δεδομένα, όπως απαρίθμηση χρηστών ή ομάδων. (Η τιμή 0 απενεργοποιεί την σελιδοποίηση των αναζητήσεων LDAP σε αυτές τις περιπτώσεις.)",
+    "Enable LDAP password changes per user" : "Ενεργοποίηση αλλαγών συνθηματικού LDAP ανά χρήστη",
     "Special Attributes" : "Ειδικά Χαρακτηριστικά ",
     "Quota Field" : "Ποσοσταση πεδιου",
     "Quota Default" : "Προκαθισμενο πεδιο",
