@@ -307,7 +307,7 @@ class LoginControllerTest extends TestCase {
 			->method('deleteUserValue');
 
 		$expected = new \OCP\AppFramework\Http\RedirectResponse($loginPageUrl);
-		$expected->throttle();
+		$expected->throttle(['user' => 'MyUserName']);
 		$this->assertEquals($expected, $this->loginController->tryLogin($user, $password, '/apps/files'));
 	}
 
@@ -634,7 +634,7 @@ class LoginControllerTest extends TestCase {
 			->method('createRememberMeToken');
 
 		$expected = new RedirectResponse('');
-		$expected->throttle();
+		$expected->throttle(['user' => 'john']);
 		$this->assertEquals($expected, $this->loginController->tryLogin('john@doe.com', 'just wrong', null));
 	}
 }

@@ -75,7 +75,7 @@ class BruteForceMiddleware extends Middleware {
 			$action = $this->reflector->getAnnotationParameter('BruteForceProtection', 'action');
 			$ip = $this->request->getRemoteAddress();
 			$this->throttler->sleepDelay($ip, $action);
-			$this->throttler->registerAttempt($action, $ip);
+			$this->throttler->registerAttempt($action, $ip, $response->getThrottleMetadata());
 		}
 
 		return parent::afterController($controller, $methodName, $response);
