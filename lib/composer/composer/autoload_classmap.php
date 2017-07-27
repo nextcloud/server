@@ -405,6 +405,7 @@ return array(
     'OC\\Core\\Command\\App\\Disable' => $baseDir . '/core/Command/App/Disable.php',
     'OC\\Core\\Command\\App\\Enable' => $baseDir . '/core/Command/App/Enable.php',
     'OC\\Core\\Command\\App\\GetPath' => $baseDir . '/core/Command/App/GetPath.php',
+    'OC\\Core\\Command\\App\\Install' => $baseDir . '/core/Command/App/Install.php',
     'OC\\Core\\Command\\App\\ListApps' => $baseDir . '/core/Command/App/ListApps.php',
     'OC\\Core\\Command\\Background\\Ajax' => $baseDir . '/core/Command/Background/Ajax.php',
     'OC\\Core\\Command\\Background\\Base' => $baseDir . '/core/Command/Background/Base.php',
