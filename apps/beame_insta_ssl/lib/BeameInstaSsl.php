@@ -70,7 +70,7 @@ function startTunnel($fqdn) {
 
 function stopTunnel() {
 	$state = checkTunnelRunning();
-	if($state['mode'] != 'running') {
+	if($state['mode'] !== 'running') {
 		return false;
 	}
 	exec("kill -9 ".escapeshellarg($state['run_pid']));
@@ -83,7 +83,7 @@ function checkTunnelRunning() {
 	if($run_pid === null) {
 		$creds = listCredentials();
 		error_log('p0'.json_encode($creds->exit_code));
-		if(($creds instanceof CommandRunError) && ($creds->exit_code == 127)) {
+		if(($creds instanceof CommandRunError) && ($creds->exit_code === 127)) {
 			error_log('p1');
 			$ret['mode'] = 'not-installed';
 		} else {
@@ -103,7 +103,7 @@ function checkTunnelRunning() {
 			$ret['mode'] = 'running';
 			// Without trailing slash , there is redirect to HTTP
 			$l = 'https://'.$ret['run_fqdn'].\OC::$WEBROOT;
-			if(substr($l, -1) != '/') {
+			if(substr($l, -1) !== '/') {
 				$l .= '/';
 			}
 			$ret['run_link'] = $l;
