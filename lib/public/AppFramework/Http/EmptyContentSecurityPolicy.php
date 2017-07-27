@@ -68,7 +68,7 @@ class EmptyContentSecurityPolicy {
 	protected $allowedFontDomains = null;
 	/** @var array Domains from which web-workers and nested browsing content can load elements */
 	protected $allowedChildSrcDomains = null;
-	/** @var array Domains which can embeed this Nextcloud instance */
+	/** @var array Domains which can embed this Nextcloud instance */
 	protected $allowedFrameAncestors = null;
 
 	/**
@@ -329,11 +329,11 @@ class EmptyContentSecurityPolicy {
 	}
 
 	/**
-	 * Domains which can embeed an iFrame of the Nextcloud instance
+	 * Domains which can embed an iFrame of the Nextcloud instance
 	 *
 	 * @param string $domain
 	 * @return $this
-	 * @since 12.x
+	 * @since 13.0.0
 	 */
 	public function addAllowedFrameAncestorDomain($domain) {
 		$this->allowedFrameAncestors[] = $domain;
@@ -341,11 +341,11 @@ class EmptyContentSecurityPolicy {
 	}
 
 	/**
-	 * Domains which can embeed an iFrame of the Nextcloud instance
+	 * Domains which can embed an iFrame of the Nextcloud instance
 	 *
 	 * @param string $domain
 	 * @return $this
-	 * @since 12.x
+	 * @since 13.0.0
 	 */
 	public function disallowFrameAncestorDomain($domain) {
 		$this->allowedFrameAncestors = array_diff($this->allowedFrameAncestors, [$domain]);
