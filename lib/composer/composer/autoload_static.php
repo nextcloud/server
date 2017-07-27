@@ -773,6 +773,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Repair\\NC12\\UpdateLanguageCodes' => __DIR__ . '/../../..' . '/lib/private/Repair/NC12/UpdateLanguageCodes.php',
         'OC\\Repair\\NC13\\RepairInvalidPaths' => __DIR__ . '/../../..' . '/lib/private/Repair/NC13/RepairInvalidPaths.php',
         'OC\\Repair\\OldGroupMembershipShares' => __DIR__ . '/../../..' . '/lib/private/Repair/OldGroupMembershipShares.php',
+        'OC\\Repair\\Owncloud\\DropAccountTermsTable' => __DIR__ . '/../../..' . '/lib/private/Repair/Owncloud/DropAccountTermsTable.php',
         'OC\\Repair\\Owncloud\\SaveAccountsTableData' => __DIR__ . '/../../..' . '/lib/private/Repair/Owncloud/SaveAccountsTableData.php',
         'OC\\Repair\\RemoveRootShares' => __DIR__ . '/../../..' . '/lib/private/Repair/RemoveRootShares.php',
         'OC\\Repair\\RepairInvalidShares' => __DIR__ . '/../../..' . '/lib/private/Repair/RepairInvalidShares.php',

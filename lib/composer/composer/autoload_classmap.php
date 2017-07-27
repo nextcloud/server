@@ -743,6 +743,7 @@ return array(
     'OC\\Repair\\NC12\\UpdateLanguageCodes' => $baseDir . '/lib/private/Repair/NC12/UpdateLanguageCodes.php',
     'OC\\Repair\\NC13\\RepairInvalidPaths' => $baseDir . '/lib/private/Repair/NC13/RepairInvalidPaths.php',
     'OC\\Repair\\OldGroupMembershipShares' => $baseDir . '/lib/private/Repair/OldGroupMembershipShares.php',
+    'OC\\Repair\\Owncloud\\DropAccountTermsTable' => $baseDir . '/lib/private/Repair/Owncloud/DropAccountTermsTable.php',
     'OC\\Repair\\Owncloud\\SaveAccountsTableData' => $baseDir . '/lib/private/Repair/Owncloud/SaveAccountsTableData.php',
     'OC\\Repair\\RemoveRootShares' => $baseDir . '/lib/private/Repair/RemoveRootShares.php',
     'OC\\Repair\\RepairInvalidShares' => $baseDir . '/lib/private/Repair/RepairInvalidShares.php',
