@@ -121,7 +121,8 @@ class Manager {
 	 * @return Key
 	 */
 	public function getKey(IUser $user) {
-		return $this->retrieveKey($user->getUID());
+		$uid = $user->getUID();
+		return $this->retrieveKey('user-' . $uid);
 	}
 
 	/**
@@ -135,7 +136,7 @@ class Manager {
 		if ($instanceId === null) {
 			throw new \RuntimeException('no instance id!');
 		}
-		return $this->retrieveKey($instanceId);
+		return $this->retrieveKey('system-' . $instanceId);
 	}
 
 

@@ -119,7 +119,7 @@ class ManagerTest extends TestCase  {
 		$this->appData
 			->expects($this->once())
 			->method('getFolder')
-			->with('MyUid')
+			->with('user-MyUid')
 			->willReturn($folder);
 
 		$expected = new Key('MyPublicKey', 'MyPrivateKey');
@@ -135,7 +135,7 @@ class ManagerTest extends TestCase  {
 		$this->appData
 			->expects($this->at(0))
 			->method('getFolder')
-			->with('MyUid')
+			->with('user-MyUid')
 			->willThrowException(new \Exception());
 		$this->manager
 			->expects($this->once())
@@ -144,7 +144,7 @@ class ManagerTest extends TestCase  {
 		$this->appData
 			->expects($this->at(1))
 			->method('newFolder')
-			->with('MyUid');
+			->with('user-MyUid');
 		$folder = $this->createMock(ISimpleFolder::class);
 		$this->crypto
 			->expects($this->once())
@@ -174,7 +174,7 @@ class ManagerTest extends TestCase  {
 		$this->appData
 			->expects($this->at(2))
 			->method('getFolder')
-			->with('MyUid')
+			->with('user-MyUid')
 			->willReturn($folder);
 
 
@@ -203,7 +203,7 @@ class ManagerTest extends TestCase  {
 		$this->config->expects($this->once())->method('getSystemValue')
 			->with('instanceid', null)->willReturn('instanceId');
 
-		$manager->expects($this->once())->method('retrieveKey')->with('instanceId')
+		$manager->expects($this->once())->method('retrieveKey')->with('system-instanceId')
 			->willReturn($key);
 
 		$this->assertSame($key, $manager->getSystemKey());
