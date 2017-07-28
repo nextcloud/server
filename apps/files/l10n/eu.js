@@ -102,6 +102,7 @@ OC.L10N.register(
     "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>",
     "A new file or folder has been <strong>created</strong>" : "Fitxategi edo karpeta berri bat <strong>sortu da</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>",
+    "Unlimited" : "Mugarik gabe",
     "Upload (max. %s)" : "Igo (max. %s)",
     "File handling" : "Fitxategien kudeaketa",
     "Maximum upload size" : "Igo daitekeen gehienezko tamaina",
