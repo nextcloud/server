@@ -163,6 +163,7 @@ class OCSAuthAPIController extends OCSController{
 			[
 				'url' => $url,
 				'token' => $token,
+				'created' => $this->getTimestamp()
 			]
 		);
 
@@ -209,6 +210,10 @@ class OCSAuthAPIController extends OCSController{
 	protected function isValidToken($url, $token) {
 		$storedToken = $this->dbHandler->getToken($url);
 		return hash_equals($storedToken, $token);
+	}
+
+	protected function getTimestamp() {
+		return time();
 	}
 
 }

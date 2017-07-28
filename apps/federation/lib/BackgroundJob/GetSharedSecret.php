@@ -76,6 +76,9 @@ class GetSharedSecret extends Job{
 
 	private $defaultEndPoint = '/ocs/v2.php/apps/federation/api/v1/shared-secret';
 
+	/** @var  int  30 day = 2592000sec */
+	private $maxLifespan = 2592000;
+
 	/**
 	 * RequestSharedSecret constructor.
 	 *
@@ -130,8 +133,10 @@ class GetSharedSecret extends Job{
 			$this->parentExecute($jobList, $logger);
 		}
 
-		if (!$this->retainJob) {
-			$jobList->remove($this, $this->argument);
+		$jobList->remove($this, $this->argument);
+
+		if ($this->retainJob) {
+			$this->reAddJob($jobList, $this->argument);
 		}
 	}
 
@@ -147,9 +152,19 @@ class GetSharedSecret extends Job{
 
 	protected function run($argument) {
 		$target = $argument['url'];
+		$created = isset($argument['created']) ? (int)$argument['created'] : time();
+		$currentTime = time();
 		$source = $this->urlGenerator->getAbsoluteURL('/');
 		$source = rtrim($source, '/');
 		$token = $argument['token'];
+
+		// kill job after 30 days of trying
+		$deadline = $currentTime - $this->maxLifespan;
+		if ($created < $deadline) {
+			$this->retainJob = false;
+			$this->trustedServers->setServerStatus($target,TrustedServers::STATUS_FAILURE);
+			return;
+		}
 
 		$endPoints = $this->ocsDiscoveryService->discover($target, 'FEDERATED_SHARING');
 		$endPoint = isset($endPoints['shared-secret']) ? $endPoints['shared-secret'] : $this->defaultEndPoint;
@@ -214,5 +229,25 @@ class GetSharedSecret extends Job{
 			}
 		}
 
+	}
+
+	/**
+	 * re-add background job
+	 *
+	 * @param IJobList $jobList
+	 * @param array $argument
+	 */
+	protected function reAddJob(IJobList $jobList, array $argument) {
+		$url = $argument['url'];
+		$created = isset($argument['created']) ? (int)$argument['created'] : time();
+		$token = $argument['token'];
+		$this->jobList->add(
+			GetSharedSecret::class,
+			[
+				'url' => $url,
+				'token' => $token,
+				'created' => $created
+			]
+		);
 	}
 }

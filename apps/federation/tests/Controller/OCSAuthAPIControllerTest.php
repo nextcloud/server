@@ -59,6 +59,9 @@ class OCSAuthAPIControllerTest extends TestCase {
 	/** @var  OCSAuthAPIController */
 	private $ocsAuthApi;
 
+	/** @var int simulated timestamp */
+	private $currentTime = 1234567;
+
 	public function setUp() {
 		parent::setUp();
 
@@ -73,15 +76,20 @@ class OCSAuthAPIControllerTest extends TestCase {
 		$this->logger = $this->getMockBuilder('OCP\ILogger')
 			->disableOriginalConstructor()->getMock();
 
-		$this->ocsAuthApi = new OCSAuthAPIController(
-			'federation',
-			$this->request,
-			$this->secureRandom,
-			$this->jobList,
-			$this->trustedServers,
-			$this->dbHandler,
-			$this->logger
-		);
+		$this->ocsAuthApi = $this->getMockBuilder(OCSAuthAPIController::class)
+			->setConstructorArgs(
+				[
+					'federation',
+					$this->request,
+					$this->secureRandom,
+					$this->jobList,
+					$this->trustedServers,
+					$this->dbHandler,
+					$this->logger
+				]
+			)->setMethods(['getTimestamp'])->getMock();
+
+		$this->ocsAuthApi->expects($this->any())->method('getTimestamp')->willReturn($this->currentTime);
 
 	}
 
@@ -105,7 +113,7 @@ class OCSAuthAPIControllerTest extends TestCase {
 
 		if ($ok) {
 			$this->jobList->expects($this->once())->method('add')
-				->with('OCA\Federation\BackgroundJob\GetSharedSecret', ['url' => $url, 'token' => $token]);
+				->with('OCA\Federation\BackgroundJob\GetSharedSecret', ['url' => $url, 'token' => $token, 'created' => $this->currentTime]);
 			$this->jobList->expects($this->once())->method('remove')
 				->with('OCA\Federation\BackgroundJob\RequestSharedSecret', ['url' => $url, 'token' => $localToken]);
 		} else {
