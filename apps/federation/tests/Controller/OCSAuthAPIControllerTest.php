@@ -114,8 +114,6 @@ class OCSAuthAPIControllerTest extends TestCase {
 		if ($ok) {
 			$this->jobList->expects($this->once())->method('add')
 				->with('OCA\Federation\BackgroundJob\GetSharedSecret', ['url' => $url, 'token' => $token, 'created' => $this->currentTime]);
-			$this->jobList->expects($this->once())->method('remove')
-				->with('OCA\Federation\BackgroundJob\RequestSharedSecret', ['url' => $url, 'token' => $localToken]);
 		} else {
 			$this->jobList->expects($this->never())->method('add');
 			$this->jobList->expects($this->never())->method('remove');

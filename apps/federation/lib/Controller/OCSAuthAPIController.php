@@ -149,15 +149,6 @@ class OCSAuthAPIController extends OCSController{
 			throw new OCSForbiddenException();
 		}
 
-		// we ask for the shared secret so we no longer have to ask the other server
-		// to request the shared secret
-		$this->jobList->remove('OCA\Federation\BackgroundJob\RequestSharedSecret',
-			[
-				'url' => $url,
-				'token' => $localToken
-			]
-		);
-
 		$this->jobList->add(
 			'OCA\Federation\BackgroundJob\GetSharedSecret',
 			[
