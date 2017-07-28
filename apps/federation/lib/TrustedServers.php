@@ -111,7 +111,8 @@ class TrustedServers {
 				'OCA\Federation\BackgroundJob\RequestSharedSecret',
 				[
 					'url' => $url,
-					'token' => $token
+					'token' => $token,
+					'created' => $this->getTimestamp()
 				]
 			);
 		}
@@ -274,5 +275,9 @@ class TrustedServers {
 		}
 
 		return 'https://' . $url;
+	}
+
+	protected function getTimestamp() {
+		return time();
 	}
 }

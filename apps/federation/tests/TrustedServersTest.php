@@ -117,10 +117,11 @@ class TrustedServersTest extends TestCase {
 					$this->dispatcher
 				]
 			)
-			->setMethods(['normalizeUrl', 'updateProtocol'])
+			->setMethods(['normalizeUrl', 'updateProtocol', 'getTimestamp'])
 			->getMock();
 		$trustedServers->expects($this->once())->method('updateProtocol')
 				->with('url')->willReturn('https://url');
+		$trustedServers->expects($this->any())->method('getTimestamp')->willReturn(1234567);
 		$this->dbHandler->expects($this->once())->method('addServer')->with('https://url')
 			->willReturn($success);
 
@@ -130,7 +131,7 @@ class TrustedServersTest extends TestCase {
 			$this->dbHandler->expects($this->once())->method('addToken')->with('https://url', 'token');
 			$this->jobList->expects($this->once())->method('add')
 				->with('OCA\Federation\BackgroundJob\RequestSharedSecret',
-						['url' => 'https://url', 'token' => 'token']);
+						['url' => 'https://url', 'token' => 'token', 'created' => 1234567]);
 		} else {
 			$this->jobList->expects($this->never())->method('add');
 		}
