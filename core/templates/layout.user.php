@@ -31,7 +31,7 @@
 		<div id="notification"></div>
 	</div>
 	<header role="banner"><div id="header">
-			<div id="header-left">
+			<div class="header-left">
 				<a href="<?php print_unescaped(link_to('', 'index.php')); ?>"
 					id="nextcloud" tabindex="1">
 					<div class="logo logo-icon">
@@ -96,7 +96,7 @@
 
 			</div>
 
-			<div id="header-right">
+			<div class="header-right">
 				<form class="searchbox" action="#" method="post" role="search" novalidate>
 					<label for="searchbox" class="hidden-visually">
 						<?php p($l->t('Search'));?>
