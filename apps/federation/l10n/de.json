@@ -6,7 +6,7 @@
     "Federation" : "Federation",
     "Trusted servers" : "Vertrauenswürdige Server",
     "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Federation erlaubt es Dir, Dich mit anderen vertrauenswürdigen Servern zu verbinden, um das Benutzerverzeichnis auszutauschen. Dies wird zum Beispiel für die automatische Vervollständigung externer Benutzernamen beim Federated-Sharing verwendet.",
-    "Add server automatically once a federated share was created successfully" : "Einen mit ownCloud Federation verbundenen Server automatisch hinzufügen, sobald die Verbindung einmal erfolgreich erstellt wurde",
+    "Add server automatically once a federated share was created successfully" : "Server automatisch hinzufügen, sobald eine Federation-Freigabe erfolgreich erstellt wurde",
     "+ Add trusted server" : "+ Vertrauenswürdigen Server hinzufügen",
     "Trusted server" : "Vertrauenswürdiger Server",
     "Add" : "Hinzufügen"
