@@ -25,6 +25,6 @@ use OC\DB\QueryBuilder\QueryFunction;
 
 class SqliteFunctionBuilder extends FunctionBuilder {
 	public function concat($x, $y) {
-		return new QueryFunction($this->helper->quoteColumnName($x) . ' || ' . $this->helper->quoteColumnName($y));
+		return new QueryFunction('(' . $this->helper->quoteColumnName($x) . ' || ' . $this->helper->quoteColumnName($y) . ')');
 	}
 }
