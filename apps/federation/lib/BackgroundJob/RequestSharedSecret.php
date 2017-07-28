@@ -35,6 +35,7 @@ use OCA\Federation\TrustedServers;
 use OCP\AppFramework\Http;
 use OCP\BackgroundJob\IJobList;
 use OCP\Http\Client\IClient;
+use OCP\Http\Client\IClientService;
 use OCP\ILogger;
 use OCP\IURLGenerator;
 use OCP\OCS\IDiscoveryService;
@@ -82,40 +83,30 @@ class RequestSharedSecret extends Job {
 	/**
 	 * RequestSharedSecret constructor.
 	 *
-	 * @param IClient $httpClient
+	 * @param IClientService $httpClientService
 	 * @param IURLGenerator $urlGenerator
 	 * @param IJobList $jobList
 	 * @param TrustedServers $trustedServers
 	 * @param DbHandler $dbHandler
 	 * @param IDiscoveryService $ocsDiscoveryService
+	 * @param ILogger $logger
 	 */
 	public function __construct(
-		IClient $httpClient = null,
-		IURLGenerator $urlGenerator = null,
-		IJobList $jobList = null,
-		TrustedServers $trustedServers = null,
-		DbHandler $dbHandler = null,
-		IDiscoveryService $ocsDiscoveryService = null
+		IClientService $httpClientService,
+		IURLGenerator $urlGenerator,
+		IJobList $jobList,
+		TrustedServers $trustedServers,
+		DbHandler $dbHandler,
+		IDiscoveryService $ocsDiscoveryService,
+		ILogger $logger
 	) {
-		$this->httpClient = $httpClient ? $httpClient : \OC::$server->getHTTPClientService()->newClient();
-		$this->jobList = $jobList ? $jobList : \OC::$server->getJobList();
-		$this->urlGenerator = $urlGenerator ? $urlGenerator : \OC::$server->getURLGenerator();
-		$this->dbHandler = $dbHandler ? $dbHandler : new DbHandler(\OC::$server->getDatabaseConnection(), \OC::$server->getL10N('federation'));
-		$this->logger = \OC::$server->getLogger();
-		$this->ocsDiscoveryService = $ocsDiscoveryService ? $ocsDiscoveryService : \OC::$server->query(\OCP\OCS\IDiscoveryService::class);
-		if ($trustedServers) {
-			$this->trustedServers = $trustedServers;
-		} else {
-			$this->trustedServers = new TrustedServers(
-				$this->dbHandler,
-				\OC::$server->getHTTPClientService(),
-				$this->logger,
-				$this->jobList,
-				\OC::$server->getSecureRandom(),
-				\OC::$server->getConfig(),
-				\OC::$server->getEventDispatcher()
-			);
-		}
+		$this->httpClient = $httpClientService->newClient();
+		$this->jobList = $jobList;
+		$this->urlGenerator = $urlGenerator;
+		$this->dbHandler = $dbHandler;
+		$this->logger = $logger;
+		$this->ocsDiscoveryService = $ocsDiscoveryService;
+		$this->trustedServers = $trustedServers;
 	}
 
 
