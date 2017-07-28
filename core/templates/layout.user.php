@@ -108,7 +108,7 @@
 				</form>
 				<div id="contactsmenu">
 					<div class="icon-contacts icon-white menutoggle">
-						<?php include('core/img/places/contacts.svg'); ?>
+						<?php echo file_get_contents('core/img/places/contacts.svg'); ?>
 					</div>
 					<div class="menu"></div>
 				</div>
