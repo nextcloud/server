@@ -10,6 +10,7 @@
     "%1$s, %2$s and %3$s" : "%1$s, %2$s og %3$s",
     "%1$s, %2$s, %3$s and %4$s" : "%1$s, %2$s, %3$s og %4$s",
     "%1$s, %2$s, %3$s, %4$s and %5$s" : "%1$s, %2$s, %3$s, %4$s og %5$s",
+    "Education Edition" : "Utdanningsversjon",
     "Enterprise bundle" : "Bedrifts-pakke",
     "Groupware bundle" : "Gruppevare-pakke",
     "Social sharing bundle" : "Sosialdelings-pakke",
