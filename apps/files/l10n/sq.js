@@ -107,6 +107,7 @@ OC.L10N.register(
     "Save" : "Ruaje",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Me PHP-FPM mund të duhen 5 minuta që ndryshimet të hyjnë në fuqi.",
     "Missing permissions to edit from here." : "Mungojnë lejet për përpunim që nga këtu.",
+    "%s used" : "%s të përdorura",
     "Settings" : "Rregullime",
     "Show hidden files" : "Shfaq kartela të fshehura",
     "WebDAV" : "WebDAV",
