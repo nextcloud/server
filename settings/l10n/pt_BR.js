@@ -396,7 +396,7 @@ OC.L10N.register(
     "Uninstalling ...." : "Desinstalando...",
     "Error while uninstalling app" : "Erro enquanto desinstalava aplicativo",
     "Uninstall" : "Desinstalar",
-    "__language_name__" : "__language_name__",
+    "__language_name__" : "Português Brasileiro",
     "Personal info" : "Informação pessoal",
     "Sessions" : "Sessões",
     "App passwords" : "Senhas de aplicativos",
