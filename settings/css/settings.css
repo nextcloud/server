@@ -175,6 +175,13 @@ input#openid, input#webdav {
 	pointer-events: none;
 }
 
+#personal-settings-container > div > form span[class^="icon-error"] {
+	position: absolute;
+	left: 228px;
+	top: 82px;
+	pointer-events: none;
+}
+
 /* verify accounts */
 #personal-settings-container .verify {
 	position: absolute;
