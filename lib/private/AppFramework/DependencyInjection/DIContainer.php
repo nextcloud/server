@@ -412,7 +412,15 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		try {
 			return $this->queryNoFallback($name);
 		} catch (QueryException $e) {
-			return $this->getServer()->query($name);
+			if (strpos($name, \OC\AppFramework\App::buildAppNamespace($this['AppName']) . '\\') === 0) {
+				throw $e;
+			}
+
+			try {
+				return $this->getServer()->query($name);
+			} catch (QueryException $e2) {
+				throw $e;
+			}
 		}
 	}
 

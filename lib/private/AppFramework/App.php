@@ -88,7 +88,7 @@ class App {
 
 		// first try $controllerName then go for \OCA\AppName\Controller\$controllerName
 		try {
-			$controller = $container->query($controllerName);
+			$controller = $container->queryNoFallback($controllerName);
 		} catch(QueryException $e) {
 			if ($appName === 'core') {
 				$appNameSpace = 'OC\\Core';
@@ -98,7 +98,7 @@ class App {
 				$appNameSpace = self::buildAppNamespace($appName);
 			}
 			$controllerName = $appNameSpace . '\\Controller\\' . $controllerName;
-			$controller = $container->query($controllerName);
+			$controller = $container->queryNoFallback($controllerName);
 		}
 
 		// initialize the dispatcher and run all the middleware before the controller
