@@ -145,6 +145,7 @@ return array(
     'OCA\\DAV\\SystemTag\\SystemTagsObjectTypeCollection' => $baseDir . '/../lib/SystemTag/SystemTagsObjectTypeCollection.php',
     'OCA\\DAV\\SystemTag\\SystemTagsRelationsCollection' => $baseDir . '/../lib/SystemTag/SystemTagsRelationsCollection.php',
     'OCA\\DAV\\Upload\\AssemblyStream' => $baseDir . '/../lib/Upload/AssemblyStream.php',
+    'OCA\\DAV\\Upload\\ChunkingPlugin' => $baseDir . '/../lib/Upload/ChunkingPlugin.php',
     'OCA\\DAV\\Upload\\FutureFile' => $baseDir . '/../lib/Upload/FutureFile.php',
     'OCA\\DAV\\Upload\\RootCollection' => $baseDir . '/../lib/Upload/RootCollection.php',
     'OCA\\DAV\\Upload\\UploadFolder' => $baseDir . '/../lib/Upload/UploadFolder.php',
