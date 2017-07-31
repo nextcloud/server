@@ -163,7 +163,8 @@ input#passwordbutton {
 	width: 100%;
 }
 
-.personal-settings-container > div > form span[class^="icon-checkmark"] {
+.personal-settings-container > div > form span[class^="icon-checkmark"],
+.personal-settings-container > div > form span[class^="icon-error"] {
 	position: relative;
 	left: 90%;
 	top: -44px;
