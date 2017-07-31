@@ -35,7 +35,7 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 
 
 <header><div id="header" class="<?php p((isset($_['folder']) ? 'share-folder' : 'share-file')) ?>">
-		<div id="header-left">
+		<div class="header-left">
 			<a href="<?php print_unescaped(link_to('', 'index.php')); ?>"
 				title="" id="nextcloud">
 				<div class="logo-icon svg"></div>
@@ -46,7 +46,7 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 		</div>
 
 		<div id="logo-claim" style="display:none;"><?php p($theme->getLogoClaim()); ?></div>
-		<div id="header-right">
+		<div class="header-right">
 			<?php if (!isset($_['hideFileList']) || (isset($_['hideFileList']) && $_['hideFileList'] === false)) {
 				if ($_['server2serversharing']) {
 					?>
