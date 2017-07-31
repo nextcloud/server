@@ -35,7 +35,6 @@ use OCA\Files_Trashbin\Tests;
  * @group DB
  */
 class TrashbinTest extends \Test\TestCase {
-
 	const TEST_TRASHBIN_USER1 = "test-trashbin-user1";
 	const TEST_TRASHBIN_USER2 = "test-trashbin-user2";
 
@@ -151,7 +150,6 @@ class TrashbinTest extends \Test\TestCase {
 	 * test expiration of files older then the max storage time defined for the trash
 	 */
 	public function testExpireOldFiles() {
-
 		$currentTime = time();
 		$expireAt = $currentTime - 2 * 24 * 60 * 60;
 		$expiredDate = $currentTime - 3 * 24 * 60 * 60;
@@ -199,7 +197,6 @@ class TrashbinTest extends \Test\TestCase {
 	 * correctly
 	 */
 	public function testExpireOldFilesShared() {
-
 		$currentTime = time();
 		$folder = "trashTest-" . $currentTime . '/';
 		$expiredDate = $currentTime - 3 * 24 * 60 * 60;
@@ -258,14 +255,14 @@ class TrashbinTest extends \Test\TestCase {
 		$filesInTrashUser2AfterDelete = OCA\Files_Trashbin\Helper::getTrashFiles('/', self::TEST_TRASHBIN_USER2);
 
 		// user2-1.txt should have been expired
-		$this->verifyArray($filesInTrashUser2AfterDelete, array('user2-2.txt', 'user1-4.txt'));
+		$this->verifyArray($filesInTrashUser2AfterDelete, ['user2-2.txt', 'user1-4.txt']);
 
 		self::loginHelper(self::TEST_TRASHBIN_USER1);
 
 		// user1-1.txt and user1-3.txt should have been expired
 		$filesInTrashUser1AfterDelete = OCA\Files_Trashbin\Helper::getTrashFiles('/', self::TEST_TRASHBIN_USER1);
 
-		$this->verifyArray($filesInTrashUser1AfterDelete, array('user1-2.txt', 'user1-4.txt'));
+		$this->verifyArray($filesInTrashUser1AfterDelete, ['user1-2.txt', 'user1-4.txt']);
 	}
 
 	/**
@@ -661,7 +658,6 @@ class TrashbinTest extends \Test\TestCase {
 			try {
 				\OC::$server->getUserManager()->createUser($user, $user);
 			} catch (\Exception $e) { // catch username is already being used from previous aborted runs
-
 			}
 		}
 

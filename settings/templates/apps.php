@@ -22,7 +22,7 @@ script(
 	</li>
 {{/each}}
 
-<?php if($_['appstoreEnabled']): ?>
+<?php if ($_['appstoreEnabled']): ?>
 	<li>
 		<a class="app-external" target="_blank" rel="noreferrer" href="https://docs.nextcloud.org/server/12/developer_manual/"><?php p($l->t('Developer documentation'));?> ↗</a>
 	</li>
@@ -69,7 +69,7 @@ script(
 			<p><?php p($l->t('This app has an update available.')); ?></p>
 		</div>
 		<div class="warning hidden"></div>
-		<input class="update hidden" type="submit" value="<?php p($l->t('Update to %s', array('{{update}}'))); ?>" data-appid="{{id}}" />
+		<input class="update hidden" type="submit" value="<?php p($l->t('Update to %s', ['{{update}}'])); ?>" data-appid="{{id}}" />
 		{{#if canUnInstall}}
 		<input class="uninstall" type="submit" value="<?php p($l->t('Remove')); ?>" data-appid="{{id}}" />
 		{{/if}}
@@ -175,7 +175,7 @@ script(
 	</div>
 	{{/unless}}
 
-	<input class="update hidden" type="submit" value="<?php p($l->t('Update to %s', array('{{update}}'))); ?>" data-appid="{{id}}" />
+	<input class="update hidden" type="submit" value="<?php p($l->t('Update to %s', ['{{update}}'])); ?>" data-appid="{{id}}" />
 	{{#if active}}
 	<input class="enable" type="submit" data-appid="{{id}}" data-active="true" value="<?php p($l->t("Disable"));?>"/>
 	<div class="groups-enable">

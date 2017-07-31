@@ -23,7 +23,6 @@
 
 namespace OCA\AdminAudit\Actions;
 
-
 class Console extends Action {
 	/**
 	 * @param $arguments
@@ -37,7 +36,8 @@ class Console extends Action {
 		// Remove `./occ`
 		array_shift($arguments);
 
-		$this->log('Console command executed: %s',
+		$this->log(
+			'Console command executed: %s',
 			['arguments' => implode(' ', $arguments)],
 			['arguments']
 		);

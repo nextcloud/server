@@ -9,7 +9,6 @@
 namespace Test\Files\Storage\Wrapper;
 
 class EncodingTest extends \Test\Files\Storage\Storage {
-
 	const NFD_NAME = 'ümlaut';
 	const NFC_NAME = 'ümlaut';
 

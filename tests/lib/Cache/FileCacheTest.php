@@ -21,6 +21,7 @@
  */
 
 namespace Test\Cache;
+
 use OC\Files\Storage\Local;
 
 /**
@@ -48,7 +49,7 @@ class FileCacheTest extends TestCache {
 	 * */
 	private $rootView;
 
-	function skip() {
+	public function skip() {
 		//$this->skipUnless(OC_User::isLoggedIn());
 	}
 
@@ -61,8 +62,8 @@ class FileCacheTest extends TestCache {
 		//set up temporary storage
 		$this->storage = \OC\Files\Filesystem::getStorage('/');
 		\OC\Files\Filesystem::clearMounts();
-		$storage = new \OC\Files\Storage\Temporary(array());
-		\OC\Files\Filesystem::mount($storage,array(),'/');
+		$storage = new \OC\Files\Storage\Temporary([]);
+		\OC\Files\Filesystem::mount($storage, [], '/');
 		$datadir = str_replace('local::', '', $storage->getId());
 		$config = \OC::$server->getConfig();
 		$this->datadir = $config->getSystemValue('cachedirectory', \OC::$SERVERROOT.'/data/cache');
@@ -81,7 +82,7 @@ class FileCacheTest extends TestCache {
 		$this->rootView = new \OC\Files\View('');
 		$this->rootView->mkdir('/test');
 
-		$this->instance=new \OC\Cache\File();
+		$this->instance = new \OC\Cache\File();
 
 		// forces creation of cache folder for subsequent tests
 		$this->instance->set('hack', 'hack');
@@ -97,7 +98,7 @@ class FileCacheTest extends TestCache {
 
 		// Restore the original mount point
 		\OC\Files\Filesystem::clearMounts();
-		\OC\Files\Filesystem::mount($this->storage, array(), '/');
+		\OC\Files\Filesystem::mount($this->storage, [], '/');
 
 		parent::tearDown();
 	}
@@ -108,7 +109,7 @@ class FileCacheTest extends TestCache {
 			->setConstructorArgs([['datadir' => \OC::$server->getTempManager()->getTemporaryFolder()]])
 			->getMock();
 
-		\OC\Files\Filesystem::mount($mockStorage, array(), '/test/cache');
+		\OC\Files\Filesystem::mount($mockStorage, [], '/test/cache');
 
 		return $mockStorage;
 	}

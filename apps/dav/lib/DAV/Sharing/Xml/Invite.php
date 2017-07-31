@@ -82,11 +82,9 @@ class Invite implements XmlSerializable {
 	 *
 	 * @param array $users
 	 */
-	function __construct(array $users, array $organizer = null) {
-
+	public function __construct(array $users, array $organizer = null) {
 		$this->users = $users;
 		$this->organizer = $organizer;
-
 	}
 
 	/**
@@ -94,10 +92,8 @@ class Invite implements XmlSerializable {
 	 *
 	 * @return array
 	 */
-	function getValue() {
-
+	public function getValue() {
 		return $this->users;
-
 	}
 
 	/**
@@ -119,12 +115,10 @@ class Invite implements XmlSerializable {
 	 * @param Writer $writer
 	 * @return void
 	 */
-	function xmlSerialize(Writer $writer) {
-
+	public function xmlSerialize(Writer $writer) {
 		$cs = '{' . Plugin::NS_OWNCLOUD . '}';
 
 		if (!is_null($this->organizer)) {
-
 			$writer->startElement($cs . 'organizer');
 			$writer->writeElement('{DAV:}href', $this->organizer['href']);
 
@@ -138,11 +132,9 @@ class Invite implements XmlSerializable {
 				$writer->writeElement($cs . 'last-name', $this->organizer['lastName']);
 			}
 			$writer->endElement(); // organizer
-
 		}
 
 		foreach ($this->users as $user) {
-
 			$writer->startElement($cs . 'user');
 			$writer->writeElement('{DAV:}href', $user['href']);
 			if (isset($user['commonName']) && $user['commonName']) {
@@ -163,8 +155,6 @@ class Invite implements XmlSerializable {
 			}
 
 			$writer->endElement(); //user
-
 		}
-
 	}
 }

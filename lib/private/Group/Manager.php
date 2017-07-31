@@ -61,7 +61,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	/**
 	 * @var GroupInterface[] $backends
 	 */
-	private $backends = array();
+	private $backends = [];
 
 	/**
 	 * @var \OC\User\Manager $userManager
@@ -71,12 +71,12 @@ class Manager extends PublicEmitter implements IGroupManager {
 	/**
 	 * @var \OC\Group\Group[]
 	 */
-	private $cachedGroups = array();
+	private $cachedGroups = [];
 
 	/**
 	 * @var \OC\Group\Group[][]
 	 */
-	private $cachedUserGroups = array();
+	private $cachedUserGroups = [];
 
 	/** @var \OC\SubAdmin */
 	private $subAdmin = null;
@@ -98,19 +98,19 @@ class Manager extends PublicEmitter implements IGroupManager {
 			 * @var \OC\Group\Group $group
 			 */
 			unset($cachedGroups[$group->getGID()]);
-			$cachedUserGroups = array();
+			$cachedUserGroups = [];
 		});
 		$this->listen('\OC\Group', 'postAddUser', function ($group) use (&$cachedUserGroups) {
 			/**
 			 * @var \OC\Group\Group $group
 			 */
-			$cachedUserGroups = array();
+			$cachedUserGroups = [];
 		});
 		$this->listen('\OC\Group', 'postRemoveUser', function ($group) use (&$cachedUserGroups) {
 			/**
 			 * @var \OC\Group\Group $group
 			 */
-			$cachedUserGroups = array();
+			$cachedUserGroups = [];
 		});
 	}
 
@@ -141,13 +141,13 @@ class Manager extends PublicEmitter implements IGroupManager {
 	}
 
 	public function clearBackends() {
-		$this->backends = array();
+		$this->backends = [];
 		$this->clearCaches();
 	}
 	
 	protected function clearCaches() {
-		$this->cachedGroups = array();
-		$this->cachedUserGroups = array();
+		$this->cachedGroups = [];
+		$this->cachedUserGroups = [];
 	}
 
 	/**
@@ -167,7 +167,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 * @return \OCP\IGroup
 	 */
 	protected function getGroupObject($gid, $displayName = null) {
-		$backends = array();
+		$backends = [];
 		foreach ($this->backends as $backend) {
 			if ($backend->implementsActions(\OC\Group\Backend::GROUP_DETAILS)) {
 				$groupData = $backend->getGroupDetails($gid);
@@ -178,7 +178,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 					}
 					$backends[] = $backend;
 				}
-			} else if ($backend->groupExists($gid)) {
+			} elseif ($backend->groupExists($gid)) {
 				$backends[] = $backend;
 			}
 		}
@@ -204,15 +204,15 @@ class Manager extends PublicEmitter implements IGroupManager {
 	public function createGroup($gid) {
 		if ($gid === '' || $gid === null) {
 			return false;
-		} else if ($group = $this->get($gid)) {
+		} elseif ($group = $this->get($gid)) {
 			return $group;
 		} else {
-			$this->emit('\OC\Group', 'preCreate', array($gid));
+			$this->emit('\OC\Group', 'preCreate', [$gid]);
 			foreach ($this->backends as $backend) {
 				if ($backend->implementsActions(\OC\Group\Backend::CREATE_GROUP)) {
 					$backend->createGroup($gid);
 					$group = $this->getGroupObject($gid);
-					$this->emit('\OC\Group', 'postCreate', array($group));
+					$this->emit('\OC\Group', 'postCreate', [$group]);
 					return $group;
 				}
 			}
@@ -227,7 +227,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 * @return \OC\Group\Group[]
 	 */
 	public function search($search, $limit = null, $offset = null) {
-		$groups = array();
+		$groups = [];
 		foreach ($this->backends as $backend) {
 			$groupIds = $backend->getGroups($search, $limit, $offset);
 			foreach ($groupIds as $groupId) {
@@ -264,7 +264,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 		if (isset($this->cachedUserGroups[$uid])) {
 			return $this->cachedUserGroups[$uid];
 		}
-		$groups = array();
+		$groups = [];
 		foreach ($this->backends as $backend) {
 			$groupIds = $backend->getUserGroups($uid);
 			if (is_array($groupIds)) {
@@ -307,7 +307,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 * @return array with group ids
 	 */
 	public function getUserGroupIds($user) {
-		return array_map(function($value) {
+		return array_map(function ($value) {
 			return (string) $value;
 		}, array_keys($this->getUserGroups($user)));
 	}
@@ -322,32 +322,32 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 */
 	public function displayNamesInGroup($gid, $search = '', $limit = -1, $offset = 0) {
 		$group = $this->get($gid);
-		if(is_null($group)) {
-			return array();
+		if (is_null($group)) {
+			return [];
 		}
 
 		$search = trim($search);
-		$groupUsers = array();
+		$groupUsers = [];
 
-		if(!empty($search)) {
+		if (!empty($search)) {
 			// only user backends have the capability to do a complex search for users
 			$searchOffset = 0;
 			$searchLimit = $limit * 100;
-			if($limit === -1) {
+			if ($limit === -1) {
 				$searchLimit = 500;
 			}
 
 			do {
 				$filteredUsers = $this->userManager->searchDisplayName($search, $searchLimit, $searchOffset);
-				foreach($filteredUsers as $filteredUser) {
-					if($group->inGroup($filteredUser)) {
-						$groupUsers[]= $filteredUser;
+				foreach ($filteredUsers as $filteredUser) {
+					if ($group->inGroup($filteredUser)) {
+						$groupUsers[] = $filteredUser;
 					}
 				}
 				$searchOffset += $searchLimit;
-			} while(count($groupUsers) < $searchLimit+$offset && count($filteredUsers) >= $searchLimit);
+			} while (count($groupUsers) < $searchLimit + $offset && count($filteredUsers) >= $searchLimit);
 
-			if($limit === -1) {
+			if ($limit === -1) {
 				$groupUsers = array_slice($groupUsers, $offset);
 			} else {
 				$groupUsers = array_slice($groupUsers, $offset, $limit);
@@ -356,8 +356,8 @@ class Manager extends PublicEmitter implements IGroupManager {
 			$groupUsers = $group->searchUsers('', $limit, $offset);
 		}
 
-		$matchingUsers = array();
-		foreach($groupUsers as $groupUser) {
+		$matchingUsers = [];
+		foreach ($groupUsers as $groupUser) {
 			$matchingUsers[$groupUser->getUID()] = $groupUser->getDisplayName();
 		}
 		return $matchingUsers;

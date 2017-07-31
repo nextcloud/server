@@ -22,7 +22,6 @@
 
 namespace Test\Encryption;
 
-
 use OC\Encryption\EncryptionWrapper;
 use OC\Encryption\Manager;
 use OC\Memcache\ArrayCache;
@@ -100,5 +99,4 @@ class EncryptionWrapperTest extends TestCase {
 			[false, ['OCA\Files_Sharing\SharedStorage', 'OCA\Files_Sharing\External\Storage', 'OC\Files\Storage\OwnCloud']],
 		];
 	}
-
 }

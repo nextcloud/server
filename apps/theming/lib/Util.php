@@ -61,7 +61,7 @@ class Util {
 	 */
 	public function invertTextColor($color) {
 		$l = $this->calculateLuminance($color);
-		if($l>0.5) {
+		if ($l > 0.5) {
 			return true;
 		} else {
 			return false;
@@ -76,7 +76,7 @@ class Util {
 	 */
 	public function elementColor($color) {
 		$l = $this->calculateLuminance($color);
-		if($l>0.8) {
+		if ($l > 0.8) {
 			return '#555555';
 		} else {
 			return $color;
@@ -98,7 +98,7 @@ class Util {
 		$r = hexdec(substr($hex, 0, 2));
 		$g = hexdec(substr($hex, 2, 2));
 		$b = hexdec(substr($hex, 4, 2));
-		return (0.299 * $r + 0.587 * $g + 0.114 * $b)/255;
+		return (0.299 * $r + 0.587 * $g + 0.114 * $b) / 255;
 	}
 
 	/**
@@ -117,7 +117,7 @@ class Util {
 	 * @return string|ISimpleFile path to app icon / file of logo
 	 */
 	public function getAppIcon($app) {
-		$app = str_replace(array('\0', '/', '\\', '..'), '', $app);
+		$app = str_replace(['\0', '/', '\\', '..'], '', $app);
 		try {
 			$appPath = $this->appManager->getAppPath($app);
 			$icon = $appPath . '/img/' . $app . '.svg';
@@ -128,7 +128,8 @@ class Util {
 			if (file_exists($icon)) {
 				return $icon;
 			}
-		} catch (AppPathNotFoundException $e) {}
+		} catch (AppPathNotFoundException $e) {
+		}
 
 		if ($this->config->getAppValue('theming', 'logoMime', '') !== '') {
 			$logoFile = null;
@@ -137,7 +138,8 @@ class Util {
 				if ($folder !== null) {
 					return $folder->getFile('logo');
 				}
-			} catch (NotFoundException $e) {}
+			} catch (NotFoundException $e) {
+			}
 		}
 		return \OC::$SERVERROOT . '/core/img/logo.svg';
 	}
@@ -148,8 +150,8 @@ class Util {
 	 * @return string|false absolute path to image
 	 */
 	public function getAppImage($app, $image) {
-		$app = str_replace(array('\0', '/', '\\', '..'), '', $app);
-		$image = str_replace(array('\0', '\\', '..'), '', $image);
+		$app = str_replace(['\0', '/', '\\', '..'], '', $app);
+		$image = str_replace(['\0', '\\', '..'], '', $image);
 		if ($app === "core") {
 			$icon = \OC::$SERVERROOT . '/core/img/' . $image;
 			if (file_exists($icon)) {
@@ -201,7 +203,7 @@ class Util {
 
 	/**
 	 * Check if a custom theme is set in the server configuration
-	 * 
+	 *
 	 * @return bool
 	 */
 	public function isAlreadyThemed() {
@@ -211,5 +213,4 @@ class Util {
 		}
 		return false;
 	}
-
 }

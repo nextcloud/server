@@ -25,7 +25,6 @@
 namespace OC\Share;
 
 class Constants {
-
 	const SHARE_TYPE_USER = 0;
 	const SHARE_TYPE_GROUP = 1;
 	const SHARE_TYPE_LINK = 3;
@@ -45,7 +44,7 @@ class Constants {
 
 	protected static $shareTypeUserAndGroups = -1;
 	protected static $shareTypeGroupUserUnique = 2;
-	protected static $backends = array();
-	protected static $backendTypes = array();
+	protected static $backends = [];
+	protected static $backendTypes = [];
 	protected static $isResharingAllowed;
 }

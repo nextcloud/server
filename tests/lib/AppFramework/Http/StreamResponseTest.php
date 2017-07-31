@@ -24,11 +24,9 @@
 
 namespace Test\AppFramework\Http;
 
-
 use OCP\AppFramework\Http\StreamResponse;
 use OCP\AppFramework\Http\IOutput;
 use OCP\AppFramework\Http;
-
 
 class StreamResponseTest extends \Test\TestCase {
 
@@ -42,7 +40,7 @@ class StreamResponseTest extends \Test\TestCase {
 			->getMock();
 	}
 
-	public function testOutputNotModified(){
+	public function testOutputNotModified() {
 		$path = __FILE__;
 		$this->output->expects($this->once())
 			->method('getHttpResponseCode')
@@ -54,7 +52,7 @@ class StreamResponseTest extends \Test\TestCase {
 		$response->callback($this->output);
 	}
 
-	public function testOutputOk(){
+	public function testOutputOk() {
 		$path = __FILE__;
 		$this->output->expects($this->once())
 			->method('getHttpResponseCode')
@@ -68,7 +66,7 @@ class StreamResponseTest extends \Test\TestCase {
 		$response->callback($this->output);
 	}
 
-	public function testOutputNotFound(){
+	public function testOutputNotFound() {
 		$path = __FILE__ . 'test';
 		$this->output->expects($this->once())
 			->method('getHttpResponseCode')
@@ -83,7 +81,7 @@ class StreamResponseTest extends \Test\TestCase {
 		$response->callback($this->output);
 	}
 
-	public function testOutputReadFileError(){
+	public function testOutputReadFileError() {
 		$path = __FILE__;
 		$this->output->expects($this->once())
 			->method('getHttpResponseCode')
@@ -98,5 +96,4 @@ class StreamResponseTest extends \Test\TestCase {
 
 		$response->callback($this->output);
 	}
-
 }

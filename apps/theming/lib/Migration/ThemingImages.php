@@ -33,7 +33,6 @@ use OC\Files\Node\File;
 use OCP\Files\NotFoundException;
 
 class ThemingImages implements IRepairStep {
-
 	private $appData;
 	private $rootFolder;
 

@@ -31,7 +31,7 @@ class Image extends File {
 
 	/**
 	 * Type name; translated in templates
-	 * @var string 
+	 * @var string
 	 */
 	public $type = 'image';
 	

@@ -31,7 +31,7 @@ OCP\JSON::callCheck();
 $lastConfirm = (int) \OC::$server->getSession()->get('last-password-confirm');
 if ($lastConfirm < (time() - 30 * 60 + 15)) { // allow 15 seconds delay
 	$l = \OC::$server->getL10N('core');
-	OC_JSON::error(array( 'data' => array( 'message' => $l->t('Password confirmation is required'))));
+	OC_JSON::error([ 'data' => [ 'message' => $l->t('Password confirmation is required')]]);
 	exit();
 }
 
@@ -40,11 +40,11 @@ $appIds = isset($_POST['appIds']) ? (array)$_POST['appIds'] : [];
 
 try {
 	$updateRequired = false;
-	foreach($appIds as $appId) {
+	foreach ($appIds as $appId) {
 		$app = new OC_App();
 		$appId = OC_App::cleanAppId($appId);
 		$app->enable($appId, $groups);
-		if(\OC_App::shouldUpgrade($appId)) {
+		if (\OC_App::shouldUpgrade($appId)) {
 			$updateRequired = true;
 		}
 	}
@@ -52,5 +52,5 @@ try {
 	OC_JSON::success(['data' => ['update_required' => $updateRequired]]);
 } catch (Exception $e) {
 	\OCP\Util::writeLog('core', $e->getMessage(), \OCP\Util::ERROR);
-	OC_JSON::error(array("data" => array("message" => $e->getMessage()) ));
+	OC_JSON::error(["data" => ["message" => $e->getMessage()] ]);
 }

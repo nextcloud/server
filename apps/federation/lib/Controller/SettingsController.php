@@ -31,7 +31,6 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\IL10N;
 use OCP\IRequest;
 
-
 class SettingsController extends Controller {
 
 	/** @var IL10N */
@@ -46,7 +45,8 @@ class SettingsController extends Controller {
 	 * @param IL10N $l10n
 	 * @param TrustedServers $trustedServers
 	 */
-	public function __construct($AppName,
+	public function __construct(
+		$AppName,
 								IRequest $request,
 								IL10N $l10n,
 								TrustedServers $trustedServers
@@ -120,5 +120,4 @@ class SettingsController extends Controller {
 
 		return true;
 	}
-
 }

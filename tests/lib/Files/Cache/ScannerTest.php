@@ -36,7 +36,7 @@ class ScannerTest extends \Test\TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->storage = new \OC\Files\Storage\Temporary(array());
+		$this->storage = new \OC\Files\Storage\Temporary([]);
 		$this->scanner = new \OC\Files\Cache\Scanner($this->storage);
 		$this->cache = new \OC\Files\Cache\Cache($this->storage);
 	}
@@ -49,7 +49,7 @@ class ScannerTest extends \Test\TestCase {
 		parent::tearDown();
 	}
 
-	function testFile() {
+	public function testFile() {
 		$data = "dummy file data\n";
 		$this->storage->file_put_contents('foo.txt', $data);
 		$this->scanner->scanFile('foo.txt');
@@ -70,7 +70,7 @@ class ScannerTest extends \Test\TestCase {
 		$this->assertEquals($cachedData['mimetype'], 'image/png');
 	}
 
-	function testFile4Byte() {
+	public function testFile4Byte() {
 		$data = "dummy file data\n";
 		$this->storage->file_put_contents('foo🙈.txt', $data);
 
@@ -88,7 +88,7 @@ class ScannerTest extends \Test\TestCase {
 		}
 	}
 
-	function testFileInvalidChars() {
+	public function testFileInvalidChars() {
 		$data = "dummy file data\n";
 		$this->storage->file_put_contents("foo\nbar.txt", $data);
 
@@ -105,7 +105,7 @@ class ScannerTest extends \Test\TestCase {
 		$this->storage->file_put_contents('folder/bar.txt', $textData);
 	}
 
-	function testFolder() {
+	public function testFolder() {
 		$this->fillTestFolders();
 
 		$this->scanner->scan('');
@@ -127,7 +127,7 @@ class ScannerTest extends \Test\TestCase {
 		$this->assertEquals($cachedDataFolder2['size'], $cachedDataText2['size']);
 	}
 
-	function testShallow() {
+	public function testShallow() {
 		$this->fillTestFolders();
 
 		$this->scanner->scan('', \OC\Files\Cache\Scanner::SCAN_SHALLOW);
@@ -155,7 +155,7 @@ class ScannerTest extends \Test\TestCase {
 		$this->assertNotEquals($cachedDataFolder['size'], -1);
 	}
 
-	function testBackgroundScan() {
+	public function testBackgroundScan() {
 		$this->fillTestFolders();
 		$this->storage->mkdir('folder2');
 		$this->storage->file_put_contents('folder2/bar.txt', 'foobar');
@@ -177,7 +177,7 @@ class ScannerTest extends \Test\TestCase {
 		$this->assertFalse($this->cache->getIncomplete());
 	}
 
-	function testBackgroundScanOnlyRecurseIncomplete() {
+	public function testBackgroundScanOnlyRecurseIncomplete() {
 		$this->fillTestFolders();
 		$this->storage->mkdir('folder2');
 		$this->storage->file_put_contents('folder2/bar.txt', 'foobar');
@@ -209,7 +209,7 @@ class ScannerTest extends \Test\TestCase {
 		$this->scanner->scan('');
 		$oldData = $this->cache->get('');
 		$this->storage->unlink('folder/bar.txt');
-		$this->cache->put('folder', array('mtime' => $this->storage->filemtime('folder'), 'storage_mtime' => $this->storage->filemtime('folder')));
+		$this->cache->put('folder', ['mtime' => $this->storage->filemtime('folder'), 'storage_mtime' => $this->storage->filemtime('folder')]);
 		$this->scanner->scan('', \OC\Files\Cache\Scanner::SCAN_SHALLOW, \OC\Files\Cache\Scanner::REUSE_SIZE);
 		$newData = $this->cache->get('');
 		$this->assertInternalType('string', $oldData['etag']);
@@ -307,7 +307,7 @@ class ScannerTest extends \Test\TestCase {
 
 		// delete the folder without removing the childs
 		$sql = 'DELETE FROM `*PREFIX*filecache` WHERE `fileid` = ?';
-		\OC_DB::executeAudited($sql, array($oldFolderId));
+		\OC_DB::executeAudited($sql, [$oldFolderId]);
 
 		$cachedData = $this->cache->get('folder/bar.txt');
 		$this->assertEquals($oldFolderId, $cachedData['parent']);
@@ -331,7 +331,7 @@ class ScannerTest extends \Test\TestCase {
 
 		// delete the folder without removing the childs
 		$sql = 'DELETE FROM `*PREFIX*filecache` WHERE `fileid` = ?';
-		\OC_DB::executeAudited($sql, array($oldFolderId));
+		\OC_DB::executeAudited($sql, [$oldFolderId]);
 
 		$cachedData = $this->cache->get('folder/bar.txt');
 		$this->assertEquals($oldFolderId, $cachedData['parent']);
@@ -354,7 +354,8 @@ class ScannerTest extends \Test\TestCase {
 	 * @param bool $expected
 	 */
 	public function testIsPartialFile($path, $expected) {
-		$this->assertSame($expected,
+		$this->assertSame(
+			$expected,
 			$this->scanner->isPartialFile($path)
 		);
 	}
@@ -368,5 +369,4 @@ class ScannerTest extends \Test\TestCase {
 			['/sub/folder/foo.txt', false],
 		];
 	}
-
 }

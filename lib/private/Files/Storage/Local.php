@@ -98,7 +98,7 @@ class Local extends \OC\Files\Storage\Common {
 				 * @var \SplFileInfo $file
 				 */
 				$file = $it->current();
-				if (in_array($file->getBasename(), array('.', '..'))) {
+				if (in_array($file->getBasename(), ['.', '..'])) {
 					$it->next();
 					continue;
 				} elseif ($file->isDir()) {
@@ -216,12 +216,11 @@ class Local extends \OC\Files\Storage\Common {
 	public function unlink($path) {
 		if ($this->is_dir($path)) {
 			return $this->rmdir($path);
-		} else if ($this->is_file($path)) {
+		} elseif ($this->is_file($path)) {
 			return unlink($this->getSourcePath($path));
 		} else {
 			return false;
 		}
-
 	}
 
 	public function rename($path1, $path2) {
@@ -245,7 +244,7 @@ class Local extends \OC\Files\Storage\Common {
 
 		if ($this->is_dir($path2)) {
 			$this->rmdir($path2);
-		} else if ($this->is_file($path2)) {
+		} elseif ($this->is_file($path2)) {
 			$this->unlink($path2);
 		}
 
@@ -315,11 +314,12 @@ class Local extends \OC\Files\Storage\Common {
 	 * @return array
 	 */
 	protected function searchInDir($query, $dir = '') {
-		$files = array();
+		$files = [];
 		$physicalDir = $this->getSourcePath($dir);
 		foreach (scandir($physicalDir) as $item) {
-			if (\OC\Files\Filesystem::isIgnoredDir($item))
+			if (\OC\Files\Filesystem::isIgnoredDir($item)) {
 				continue;
+			}
 			$physicalItem = $physicalDir . '/' . $item;
 
 			if (strstr(strtolower($item), strtolower($query)) !== false) {

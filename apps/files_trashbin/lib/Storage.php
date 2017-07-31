@@ -33,11 +33,10 @@ use OCP\ILogger;
 use OCP\IUserManager;
 
 class Storage extends Wrapper {
-
 	private $mountPoint;
 	// remember already deleted files to avoid infinite loops if the trash bin
 	// move files across storages
-	private $deletedFiles = array();
+	private $deletedFiles = [];
 
 	/**
 	 * Disable trash logic
@@ -66,9 +65,11 @@ class Storage extends Wrapper {
 	 * @param array $parameters
 	 * @param IUserManager|null $userManager
 	 */
-	public function __construct($parameters,
+	public function __construct(
+		$parameters,
 								IUserManager $userManager = null,
-								ILogger $logger = null) {
+								ILogger $logger = null
+	) {
 		$this->mountPoint = $parameters['mountPoint'];
 		$this->userManager = $userManager;
 		$this->logger = $logger;
@@ -115,12 +116,11 @@ class Storage extends Wrapper {
 			$logger->debug('Trashbin storage could not check if a file was moved out of a shared folder: ' . $e->getMessage());
 		}
 
-		if($fileMovedOutOfSharedFolder) {
+		if ($fileMovedOutOfSharedFolder) {
 			self::$moveOutOfSharedFolder['/' . $currentUserId . '/files' . $oldPath] = true;
 		} else {
 			self::$disableTrash = true;
 		}
-
 	}
 
 	/**
@@ -166,7 +166,8 @@ class Storage extends Wrapper {
 			// in case of a encryption exception we delete the file right away
 			$this->logger->info(
 				"Can't move file" .  $path .
-				"to the trash bin, therefore it was deleted right away");
+				"to the trash bin, therefore it was deleted right away"
+			);
 
 			$result = $this->storage->unlink($path);
 		}
@@ -199,7 +200,7 @@ class Storage extends Wrapper {
 	 * @param $path
 	 * @return bool
 	 */
-	protected function shouldMoveToTrash($path){
+	protected function shouldMoveToTrash($path) {
 		$normalized = Filesystem::normalizePath($this->mountPoint . '/' . $path);
 		$parts = explode('/', $normalized);
 		if (count($parts) < 4) {
@@ -254,7 +255,7 @@ class Storage extends Wrapper {
 				$result = call_user_func_array([$this->storage, $method], [$path]);
 			}
 			unset($this->deletedFiles[$normalized]);
-		} else if ($this->storage->file_exists($path)) {
+		} elseif ($this->storage->file_exists($path)) {
 			$result = call_user_func_array([$this->storage, $method], [$path]);
 		}
 
@@ -267,11 +268,10 @@ class Storage extends Wrapper {
 	public static function setupStorage() {
 		\OC\Files\Filesystem::addStorageWrapper('oc_trashbin', function ($mountPoint, $storage) {
 			return new \OCA\Files_Trashbin\Storage(
-				array('storage' => $storage, 'mountPoint' => $mountPoint),
+				['storage' => $storage, 'mountPoint' => $mountPoint],
 				\OC::$server->getUserManager(),
 				\OC::$server->getLogger()
 			);
 		}, 1);
 	}
-
 }

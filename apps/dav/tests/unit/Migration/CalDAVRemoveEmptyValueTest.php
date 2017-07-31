@@ -35,7 +35,7 @@ use Test\TestCase;
  * @package OCA\DAV\Tests\Unit\DAV\Migration
  * @group DB
  */
-class CalDAVRemoveEmptyValueTest extends TestCase  {
+class CalDAVRemoveEmptyValueTest extends TestCase {
 
 	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
 	private $logger;

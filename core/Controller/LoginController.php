@@ -75,7 +75,8 @@ class LoginController extends Controller {
 	 * @param ILogger $logger
 	 * @param Manager $twoFactorManager
 	 */
-	public function __construct($appName,
+	public function __construct(
+		$appName,
 						 IRequest $request,
 						 IUserManager $userManager,
 						 IConfig $config,
@@ -83,7 +84,8 @@ class LoginController extends Controller {
 						 IUserSession $userSession,
 						 IURLGenerator $urlGenerator,
 						 ILogger $logger,
-						 Manager $twoFactorManager) {
+						 Manager $twoFactorManager
+	) {
 		parent::__construct($appName, $request);
 		$this->userManager = $userManager;
 		$this->config = $config;
@@ -128,7 +130,7 @@ class LoginController extends Controller {
 			return new RedirectResponse(OC_Util::getDefaultPageUrl());
 		}
 
-		$parameters = array();
+		$parameters = [];
 		$loginMessages = $this->session->get('loginMessages');
 		$errors = [];
 		$messages = [];
@@ -177,7 +179,10 @@ class LoginController extends Controller {
 		}
 
 		return new TemplateResponse(
-			$this->appName, 'login', $parameters, 'guest'
+			$this->appName,
+			'login',
+			$parameters,
+			'guest'
 		);
 	}
 
@@ -212,19 +217,19 @@ class LoginController extends Controller {
 	 * @return RedirectResponse
 	 */
 	public function tryLogin($user, $password, $redirect_url, $remember_login = false, $timezone = '', $timezone_offset = '') {
-		if(!is_string($user)) {
+		if (!is_string($user)) {
 			throw new \InvalidArgumentException('Username must be string');
 		}
 
 		// If the user is already logged in and the CSRF check does not pass then
 		// simply redirect the user to the correct page as required. This is the
 		// case when an user has already logged-in, in another tab.
-		if(!$this->request->passesCSRFCheck()) {
+		if (!$this->request->passesCSRFCheck()) {
 			return $this->generateRedirect($redirect_url);
 		}
 
 		if ($this->userManager instanceof PublicEmitter) {
-			$this->userManager->emit('\OC\User', 'preLogin', array($user, $password));
+			$this->userManager->emit('\OC\User', 'preLogin', [$user, $password]);
 		}
 
 		$originalUser = $user;

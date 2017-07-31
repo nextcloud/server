@@ -46,10 +46,10 @@ class TXT extends Provider {
 	 */
 	public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {
 		$content = $fileview->fopen($path, 'r');
-		$content = stream_get_contents($content,3000);
+		$content = stream_get_contents($content, 3000);
 
 		//don't create previews of empty text files
-		if(trim($content) === '') {
+		if (trim($content) === '') {
 			return false;
 		}
 
@@ -62,13 +62,13 @@ class TXT extends Provider {
 		imagecolorallocate($image, 255, 255, 255);
 		$textColor = imagecolorallocate($image, 0, 0, 0);
 
-		$fontFile  = __DIR__;
+		$fontFile = __DIR__;
 		$fontFile .= '/../../../core';
 		$fontFile .= '/fonts/OpenSans-Regular.ttf';
 
 		$canUseTTF = function_exists('imagettftext');
 
-		foreach($lines as $index => $line) {
+		foreach ($lines as $index => $line) {
 			$index = $index + 1;
 
 			$x = (int) 1;
@@ -81,7 +81,7 @@ class TXT extends Provider {
 				imagestring($image, 1, $x, $y, $line, $textColor);
 			}
 
-			if(($index * $lineSize) >= $maxY) {
+			if (($index * $lineSize) >= $maxY) {
 				break;
 			}
 		}

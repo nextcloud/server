@@ -44,9 +44,11 @@ class BuildCalendarSearchIndex implements IRepairStep {
 	 * @param IJobList $jobList
 	 * @param IConfig $config
 	 */
-	public function __construct(IDBConnection $db,
+	public function __construct(
+		IDBConnection $db,
 								IJobList $jobList,
-								IConfig $config) {
+								IConfig $config
+	) {
 		$this->db = $db;
 		$this->jobList = $jobList;
 		$this->config = $config;

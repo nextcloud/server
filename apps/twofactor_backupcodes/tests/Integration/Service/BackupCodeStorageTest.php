@@ -85,5 +85,4 @@ class BackupCodeStorageTest extends TestCase {
 		];
 		$this->assertEquals($stateAllUsed, $this->storage->getBackupCodesState($user));
 	}
-
 }

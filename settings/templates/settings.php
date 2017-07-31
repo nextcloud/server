@@ -4,6 +4,6 @@
  * See the COPYING-README file.
  */?>
 
-<?php foreach($_['forms'] as $form) {
+<?php foreach ($_['forms'] as $form) {
 	print_unescaped($form);
 };

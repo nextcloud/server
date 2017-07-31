@@ -80,7 +80,8 @@ class ClientFlowLoginController extends Controller {
 	 * @param AccessTokenMapper $accessTokenMapper
 	 * @param ICrypto $crypto
 	 */
-	public function __construct($appName,
+	public function __construct(
+		$appName,
 								IRequest $request,
 								IUserSession $userSession,
 								IL10N $l10n,
@@ -91,7 +92,8 @@ class ClientFlowLoginController extends Controller {
 								IURLGenerator $urlGenerator,
 								ClientMapper $clientMapper,
 								AccessTokenMapper $accessTokenMapper,
-								ICrypto $crypto) {
+								ICrypto $crypto
+	) {
 		parent::__construct($appName, $request);
 		$this->userSession = $userSession;
 		$this->l10n = $l10n;
@@ -119,7 +121,7 @@ class ClientFlowLoginController extends Controller {
 	 */
 	private function isValidToken($stateToken) {
 		$currentToken = $this->session->get(self::stateName);
-		if(!is_string($stateToken) || !is_string($currentToken)) {
+		if (!is_string($stateToken) || !is_string($currentToken)) {
 			return false;
 		}
 		return hash_equals($currentToken, $stateToken);
@@ -153,7 +155,7 @@ class ClientFlowLoginController extends Controller {
 	public function showAuthPickerPage($clientIdentifier = '') {
 		$clientName = $this->getClientName();
 		$client = null;
-		if($clientIdentifier !== '') {
+		if ($clientIdentifier !== '') {
 			$client = $this->clientMapper->getByIdentifier($clientIdentifier);
 			$clientName = $client->getName();
 		}
@@ -207,9 +209,11 @@ class ClientFlowLoginController extends Controller {
 	 * @param string $clientIdentifier
 	 * @return TemplateResponse
 	 */
-	public function redirectPage($stateToken = '',
-								 $clientIdentifier = '') {
-		if(!$this->isValidToken($stateToken)) {
+	public function redirectPage(
+		$stateToken = '',
+								 $clientIdentifier = ''
+	) {
+		if (!$this->isValidToken($stateToken)) {
 			return $this->stateTokenForbiddenResponse();
 		}
 
@@ -234,9 +238,11 @@ class ClientFlowLoginController extends Controller {
 	 * @param string $clientIdentifier
 	 * @return Http\RedirectResponse|Response
 	 */
-	public function generateAppPassword($stateToken,
-										$clientIdentifier = '') {
-		if(!$this->isValidToken($stateToken)) {
+	public function generateAppPassword(
+		$stateToken,
+										$clientIdentifier = ''
+	) {
+		if (!$this->isValidToken($stateToken)) {
 			$this->session->remove(self::stateName);
 			return $this->stateTokenForbiddenResponse();
 		}
@@ -267,7 +273,7 @@ class ClientFlowLoginController extends Controller {
 
 		$clientName = $this->getClientName();
 		$client = false;
-		if($clientIdentifier !== '') {
+		if ($clientIdentifier !== '') {
 			$client = $this->clientMapper->getByIdentifier($clientIdentifier);
 			$clientName = $client->getName();
 		}
@@ -284,7 +290,7 @@ class ClientFlowLoginController extends Controller {
 			IToken::DO_NOT_REMEMBER
 		);
 
-		if($client) {
+		if ($client) {
 			$code = $this->random->generate(128);
 			$accessToken = new AccessToken();
 			$accessToken->setClientId($client->getId());

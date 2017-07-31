@@ -74,13 +74,15 @@ class Checker {
 	 * @param IAppManager $appManager
 	 * @param ITempManager $tempManager
 	 */
-	public function __construct(EnvironmentHelper $environmentHelper,
+	public function __construct(
+		EnvironmentHelper $environmentHelper,
 								FileAccessHelper $fileAccessHelper,
 								AppLocator $appLocator,
 								IConfig $config = null,
 								ICacheFactory $cacheFactory,
 								IAppManager $appManager = null,
-								ITempManager $tempManager) {
+								ITempManager $tempManager
+	) {
 		$this->environmentHelper = $environmentHelper;
 		$this->fileAccessHelper = $fileAccessHelper;
 		$this->appLocator = $appLocator;
@@ -131,7 +133,7 @@ class Checker {
 			$folderToIterate,
 			\RecursiveDirectoryIterator::SKIP_DOTS
 		);
-		if($root === '') {
+		if ($root === '') {
 			$root = \OC::$SERVERROOT;
 		}
 		$root = rtrim($root, '/');
@@ -153,16 +155,18 @@ class Checker {
 	 * @param string $path
 	 * @return array Array of hashes.
 	 */
-	private function generateHashes(\RecursiveIteratorIterator $iterator,
-									$path) {
+	private function generateHashes(
+		\RecursiveIteratorIterator $iterator,
+									$path
+	) {
 		$hashes = [];
 		$copiedWebserverSettingFiles = false;
 		$tmpFolder = '';
 
 		$baseDirectoryLength = strlen($path);
-		foreach($iterator as $filename => $data) {
+		foreach ($iterator as $filename => $data) {
 			/** @var \DirectoryIterator $data */
-			if($data->isDir()) {
+			if ($data->isDir()) {
 				continue;
 			}
 
@@ -170,11 +174,11 @@ class Checker {
 			$relativeFileName = ltrim($relativeFileName, '/');
 
 			// Exclude signature.json files in the appinfo and root folder
-			if($relativeFileName === 'appinfo/signature.json') {
+			if ($relativeFileName === 'appinfo/signature.json') {
 				continue;
 			}
 			// Exclude signature.json files in the appinfo and core folder
-			if($relativeFileName === 'core/signature.json') {
+			if ($relativeFileName === 'core/signature.json') {
 				continue;
 			}
 
@@ -183,10 +187,9 @@ class Checker {
 			// to ensure that this will not lead to false positives this will
 			// copy the file to a temporary folder and reset it to the default
 			// values.
-			if($filename === $this->environmentHelper->getServerRoot() . '/.htaccess'
+			if ($filename === $this->environmentHelper->getServerRoot() . '/.htaccess'
 				|| $filename === $this->environmentHelper->getServerRoot() . '/.user.ini') {
-
-				if(!$copiedWebserverSettingFiles) {
+				if (!$copiedWebserverSettingFiles) {
 					$tmpFolder = rtrim($this->tempManager->getTemporaryFolder(), '/');
 					copy($this->environmentHelper->getServerRoot() . '/.htaccess', $tmpFolder . '/.htaccess');
 					copy($this->environmentHelper->getServerRoot() . '/.user.ini', $tmpFolder . '/.user.ini');
@@ -202,7 +205,7 @@ class Checker {
 
 			// The .user.ini file can contain custom modifications to the file size
 			// as well.
-			if($filename === $this->environmentHelper->getServerRoot() . '/.user.ini') {
+			if ($filename === $this->environmentHelper->getServerRoot() . '/.user.ini') {
 				$fileContent = file_get_contents($tmpFolder . '/.user.ini');
 				$hashes[$relativeFileName] = hash('sha512', $fileContent);
 				continue;
@@ -215,10 +218,10 @@ class Checker {
 			// Thus we ignore everything below the first occurrence of
 			// "#### DO NOT CHANGE ANYTHING ABOVE THIS LINE ####" and have the
 			// hash generated based on this.
-			if($filename === $this->environmentHelper->getServerRoot() . '/.htaccess') {
+			if ($filename === $this->environmentHelper->getServerRoot() . '/.htaccess') {
 				$fileContent = file_get_contents($tmpFolder . '/.htaccess');
 				$explodedArray = explode('#### DO NOT CHANGE ANYTHING ABOVE THIS LINE ####', $fileContent);
-				if(count($explodedArray) === 2) {
+				if (count($explodedArray) === 2) {
 					$hashes[$relativeFileName] = hash('sha512', $explodedArray[0]);
 					continue;
 				}
@@ -238,9 +241,11 @@ class Checker {
 	 * @param RSA $privateKey
 	 * @return string
 	 */
-	private function createSignatureData(array $hashes,
+	private function createSignatureData(
+		array $hashes,
 										 X509 $certificate,
-										 RSA $privateKey) {
+										 RSA $privateKey
+	) {
 		ksort($hashes);
 
 		$privateKey->setSignatureMode(RSA::SIGNATURE_PSS);
@@ -264,9 +269,11 @@ class Checker {
 	 * @param RSA $privateKey
 	 * @throws \Exception
 	 */
-	public function writeAppSignature($path,
+	public function writeAppSignature(
+		$path,
 									  X509 $certificate,
-									  RSA $privateKey) {
+									  RSA $privateKey
+	) {
 		$appInfoDir = $path . '/appinfo';
 		try {
 			$this->fileAccessHelper->assertDirectoryExists($appInfoDir);
@@ -274,11 +281,11 @@ class Checker {
 			$iterator = $this->getFolderIterator($path);
 			$hashes = $this->generateHashes($iterator, $path);
 			$signature = $this->createSignatureData($hashes, $certificate, $privateKey);
-				$this->fileAccessHelper->file_put_contents(
+			$this->fileAccessHelper->file_put_contents(
 					$appInfoDir . '/signature.json',
 				json_encode($signature, JSON_PRETTY_PRINT)
 			);
-		} catch (\Exception $e){
+		} catch (\Exception $e) {
 			if (!$this->fileAccessHelper->is_writable($appInfoDir)) {
 				throw new \Exception($appInfoDir . ' is not writable');
 			}
@@ -294,12 +301,13 @@ class Checker {
 	 * @param string $path
 	 * @throws \Exception
 	 */
-	public function writeCoreSignature(X509 $certificate,
+	public function writeCoreSignature(
+		X509 $certificate,
 									   RSA $rsa,
-									   $path) {
+									   $path
+	) {
 		$coreDir = $path . '/core';
 		try {
-
 			$this->fileAccessHelper->assertDirectoryExists($coreDir);
 			$iterator = $this->getFolderIterator($path, $path);
 			$hashes = $this->generateHashes($iterator, $path);
@@ -308,7 +316,7 @@ class Checker {
 				$coreDir . '/signature.json',
 				json_encode($signatureData, JSON_PRETTY_PRINT)
 			);
-		} catch (\Exception $e){
+		} catch (\Exception $e) {
 			if (!$this->fileAccessHelper->is_writable($coreDir)) {
 				throw new \Exception($coreDir . ' is not writable');
 			}
@@ -327,12 +335,12 @@ class Checker {
 	 * @throws \Exception
 	 */
 	private function verify($signaturePath, $basePath, $certificateCN) {
-		if(!$this->isCodeCheckEnforced()) {
+		if (!$this->isCodeCheckEnforced()) {
 			return [];
 		}
 
 		$signatureData = json_decode($this->fileAccessHelper->file_get_contents($signaturePath), true);
-		if(!is_array($signatureData)) {
+		if (!is_array($signatureData)) {
 			throw new InvalidSignatureException('Signature data not found.');
 		}
 
@@ -346,11 +354,11 @@ class Checker {
 		$rootCertificatePublicKey = $this->fileAccessHelper->file_get_contents($this->environmentHelper->getServerRoot().'/resources/codesigning/root.crt');
 		$x509->loadCA($rootCertificatePublicKey);
 		$x509->loadX509($certificate);
-		if(!$x509->validateSignature()) {
+		if (!$x509->validateSignature()) {
 			throw new InvalidSignatureException('Certificate is not valid.');
 		}
 		// Verify if certificate has proper CN. "core" CN is always trusted.
-		if($x509->getDN(X509::DN_OPENSSL)['CN'] !== $certificateCN && $x509->getDN(X509::DN_OPENSSL)['CN'] !== 'core') {
+		if ($x509->getDN(X509::DN_OPENSSL)['CN'] !== $certificateCN && $x509->getDN(X509::DN_OPENSSL)['CN'] !== 'core') {
 			throw new InvalidSignatureException(
 					sprintf('Certificate is not valid for required scope. (Requested: %s, current: CN=%s)', $certificateCN, $x509->getDN(true)['CN'])
 			);
@@ -363,7 +371,7 @@ class Checker {
 		$rsa->setMGFHash('sha512');
 		// See https://tools.ietf.org/html/rfc3447#page-38
 		$rsa->setSaltLength(0);
-		if(!$rsa->verify(json_encode($expectedHashes), $signature)) {
+		if (!$rsa->verify(json_encode($expectedHashes), $signature)) {
 			throw new InvalidSignatureException('Signature could not get verified.');
 		}
 
@@ -372,9 +380,9 @@ class Checker {
 		//
 		// Due to this reason we exclude the whole updater/ folder from the code
 		// integrity check.
-		if($basePath === $this->environmentHelper->getServerRoot()) {
-			foreach($expectedHashes as $fileName => $hash) {
-				if(strpos($fileName, 'updater/') === 0) {
+		if ($basePath === $this->environmentHelper->getServerRoot()) {
+			foreach ($expectedHashes as $fileName => $hash) {
+				if (strpos($fileName, 'updater/') === 0) {
 					unset($expectedHashes[$fileName]);
 				}
 			}
@@ -386,23 +394,23 @@ class Checker {
 		$differencesB = array_diff($currentInstanceHashes, $expectedHashes);
 		$differences = array_unique(array_merge($differencesA, $differencesB));
 		$differenceArray = [];
-		foreach($differences as $filename => $hash) {
+		foreach ($differences as $filename => $hash) {
 			// Check if file should not exist in the new signature table
-			if(!array_key_exists($filename, $expectedHashes)) {
+			if (!array_key_exists($filename, $expectedHashes)) {
 				$differenceArray['EXTRA_FILE'][$filename]['expected'] = '';
 				$differenceArray['EXTRA_FILE'][$filename]['current'] = $hash;
 				continue;
 			}
 
 			// Check if file is missing
-			if(!array_key_exists($filename, $currentInstanceHashes)) {
+			if (!array_key_exists($filename, $currentInstanceHashes)) {
 				$differenceArray['FILE_MISSING'][$filename]['expected'] = $expectedHashes[$filename];
 				$differenceArray['FILE_MISSING'][$filename]['current'] = '';
 				continue;
 			}
 
 			// Check if hash does mismatch
-			if($expectedHashes[$filename] !== $currentInstanceHashes[$filename]) {
+			if ($expectedHashes[$filename] !== $currentInstanceHashes[$filename]) {
 				$differenceArray['INVALID_HASH'][$filename]['expected'] = $expectedHashes[$filename];
 				$differenceArray['INVALID_HASH'][$filename]['current'] = $currentInstanceHashes[$filename];
 				continue;
@@ -422,7 +430,7 @@ class Checker {
 	 */
 	public function hasPassedCheck() {
 		$results = $this->getResults();
-		if(empty($results)) {
+		if (empty($results)) {
 			return true;
 		}
 
@@ -434,7 +442,7 @@ class Checker {
 	 */
 	public function getResults() {
 		$cachedResults = $this->cache->get(self::CACHE_KEY);
-		if(!is_null($cachedResults)) {
+		if (!is_null($cachedResults)) {
 			return json_decode($cachedResults, true);
 		}
 
@@ -453,7 +461,7 @@ class Checker {
 	private function storeResults($scope, array $result) {
 		$resultArray = $this->getResults();
 		unset($resultArray[$scope]);
-		if(!empty($result)) {
+		if (!empty($result)) {
 			$resultArray[$scope] = $result;
 		}
 		if ($this->config !== null) {
@@ -505,7 +513,7 @@ class Checker {
 	 */
 	public function verifyAppSignature($appId, $path = '') {
 		try {
-			if($path === '') {
+			if ($path === '') {
 				$path = $this->appLocator->getAppPath($appId);
 			}
 			$result = $this->verify(
@@ -584,7 +592,7 @@ class Checker {
 		$this->cleanResults();
 		$this->verifyCoreSignature();
 		$appIds = $this->appLocator->getAllApps();
-		foreach($appIds as $appId) {
+		foreach ($appIds as $appId) {
 			// If an application is shipped a valid signature is required
 			$isShipped = $this->appManager->isShipped($appId);
 			$appNeedsToBeChecked = false;
@@ -595,7 +603,7 @@ class Checker {
 				$appNeedsToBeChecked = true;
 			}
 
-			if($appNeedsToBeChecked) {
+			if ($appNeedsToBeChecked) {
 				$this->verifyAppSignature($appId);
 			}
 		}

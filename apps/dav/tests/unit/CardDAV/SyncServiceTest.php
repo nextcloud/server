@@ -106,7 +106,8 @@ class SyncServiceTest extends TestCase {
 		$user->method('getDisplayName')->willReturn('test-user');
 		$accountManager = $this->getMockBuilder('OC\Accounts\AccountManager')->disableOriginalConstructor()->getMock();
 		$accountManager->expects($this->any())->method('getUser')
-			->willReturn([
+			->willReturn(
+				[
 					AccountManager::PROPERTY_DISPLAYNAME =>
 						[
 							'value' => $user->getDisplayName(),
@@ -192,5 +193,4 @@ class SyncServiceTest extends TestCase {
 		$ss->method('getCertPath')->willReturn('');
 		return $ss;
 	}
-
 }

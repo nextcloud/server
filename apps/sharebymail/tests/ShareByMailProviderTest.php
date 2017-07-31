@@ -22,7 +22,6 @@
 
 namespace OCA\ShareByMail\Tests;
 
-
 use OC\CapabilitiesManager;
 use OC\Mail\Message;
 use OCA\ShareByMail\Settings\SettingsManager;
@@ -105,7 +104,7 @@ class ShareByMailProviderTest extends TestCase {
 
 		$this->l = $this->getMockBuilder('OCP\IL10N')->getMock();
 		$this->l->method('t')
-			->will($this->returnCallback(function($text, $parameters = []) {
+			->will($this->returnCallback(function ($text, $parameters = []) {
 				return vsprintf($text, $parameters);
 			}));
 		$this->logger = $this->getMockBuilder('OCP\ILogger')->getMock();
@@ -131,7 +130,6 @@ class ShareByMailProviderTest extends TestCase {
 	 * @return \PHPUnit_Framework_MockObject_MockObject | ShareByMailProvider
 	 */
 	private function getInstance(array $mockedMethods = []) {
-
 		$instance = $this->getMockBuilder('OCA\ShareByMail\ShareByMailProvider')
 			->setConstructorArgs(
 				[
@@ -171,7 +169,6 @@ class ShareByMailProviderTest extends TestCase {
 			$this->hasher,
 			$this->capabilitiesManager
 		);
-
 	}
 
 	public function tearDown() {
@@ -199,7 +196,8 @@ class ShareByMailProviderTest extends TestCase {
 		$this->settingsManager->expects($this->any())->method('enforcePasswordProtection')->willReturn(false);
 		$this->settingsManager->expects($this->any())->method('sendPasswordByMail')->willReturn(true);
 
-		$this->assertSame('shareObject',
+		$this->assertSame(
+			'shareObject',
 			$instance->create($share)
 		);
 	}
@@ -220,7 +218,8 @@ class ShareByMailProviderTest extends TestCase {
 		$instance->expects($this->never())->method('getRawShare');
 		$instance->expects($this->never())->method('createShareObject');
 
-		$this->assertSame('shareObject',
+		$this->assertSame(
+			'shareObject',
 			$instance->create($this->share)
 		);
 	}
@@ -241,10 +240,10 @@ class ShareByMailProviderTest extends TestCase {
 			->with('files_sharing.sharecontroller.showShare', ['token' => 'token']);
 		$instance->expects($this->once())->method('sendMailNotification');
 
-		$this->assertSame(42,
+		$this->assertSame(
+			42,
 			$this->invokePrivate($instance, 'createMailShare', [$this->share])
 		);
-
 	}
 
 	/**
@@ -266,15 +265,15 @@ class ShareByMailProviderTest extends TestCase {
 			->with('files_sharing.sharecontroller.showShare', ['token' => 'token']);
 		$instance->expects($this->once())->method('sendMailNotification')
 			->willReturnCallback(
-				function() {
+				function () {
 					throw new \Exception('should be converted to a hint exception');
 				}
 			);
 
-		$this->assertSame(42,
+		$this->assertSame(
+			42,
 			$this->invokePrivate($instance, 'createMailShare', [$this->share])
 		);
-
 	}
 
 	public function testGenerateToken() {
@@ -282,7 +281,8 @@ class ShareByMailProviderTest extends TestCase {
 
 		$this->secureRandom->expects($this->once())->method('generate')->willReturn('token');
 
-		$this->assertSame('token',
+		$this->assertSame(
+			'token',
 			$this->invokePrivate($instance, 'generateToken')
 		);
 	}
@@ -330,11 +330,9 @@ class ShareByMailProviderTest extends TestCase {
 		$this->assertSame($permissions, (int)$result[0]['permissions']);
 		$this->assertSame($token, $result[0]['token']);
 		$this->assertSame($password, $result[0]['password']);
-
 	}
 
 	public function testUpdate() {
-
 		$itemSource = 11;
 		$itemType = 'file';
 		$shareWith = 'user@server.com';
@@ -353,7 +351,8 @@ class ShareByMailProviderTest extends TestCase {
 		$this->share->expects($this->once())->method('getSharedBy')->willReturn($sharedBy);
 		$this->share->expects($this->atLeastOnce())->method('getId')->willReturn($id);
 
-		$this->assertSame($this->share,
+		$this->assertSame(
+			$this->share,
 			$instance->update($this->share)
 		);
 
@@ -426,11 +425,10 @@ class ShareByMailProviderTest extends TestCase {
 
 		$id = $this->createDummyShare($itemType, $itemSource, $shareWith, $sharedBy, $uidOwner, $permissions, $token);
 
-		$instance->getShareById($id+1);
+		$instance->getShareById($id + 1);
 	}
 
 	public function testGetShareByPath() {
-
 		$itemSource = 11;
 		$itemType = 'file';
 		$shareWith = 'user@server.com';
@@ -466,7 +464,6 @@ class ShareByMailProviderTest extends TestCase {
 	}
 
 	public function testGetShareByToken() {
-
 		$itemSource = 11;
 		$itemType = 'file';
 		$shareWith = 'user@server.com';
@@ -490,7 +487,8 @@ class ShareByMailProviderTest extends TestCase {
 				}
 			);
 
-		$this->assertInstanceOf('OCP\Share\IShare',
+		$this->assertInstanceOf(
+			'OCP\Share\IShare',
 			$instance->getShareByToken('token')
 		);
 	}
@@ -499,7 +497,6 @@ class ShareByMailProviderTest extends TestCase {
 	 * @expectedException \OCP\Share\Exceptions\ShareNotFound
 	 */
 	public function testGetShareByTokenFailed() {
-
 		$itemSource = 11;
 		$itemType = 'file';
 		$shareWith = 'user@server.com';
@@ -515,7 +512,8 @@ class ShareByMailProviderTest extends TestCase {
 
 		$this->assertTrue($idMail !== $idPublic);
 
-		$this->assertInstanceOf('OCP\Share\IShare',
+		$this->assertInstanceOf(
+			'OCP\Share\IShare',
 			$instance->getShareByToken('token2')
 		);
 	}
@@ -553,7 +551,6 @@ class ShareByMailProviderTest extends TestCase {
 	}
 
 	public function testUserDeleted() {
-
 		$itemSource = 11;
 		$itemType = 'file';
 		$shareWith = 'user@server.com';
@@ -584,7 +581,6 @@ class ShareByMailProviderTest extends TestCase {
 		$this->assertTrue(is_array($after));
 		$this->assertSame(1, count($after));
 		$this->assertSame($id, (int)$after[0]['id']);
-
 	}
 
 	public function testGetRawShare() {
@@ -628,7 +624,7 @@ class ShareByMailProviderTest extends TestCase {
 
 		$id = $this->createDummyShare($itemType, $itemSource, $shareWith, $sharedBy, $uidOwner, $permissions, $token);
 
-		$this->invokePrivate($instance, 'getRawShare', [$id+1]);
+		$this->invokePrivate($instance, 'getRawShare', [$id + 1]);
 	}
 
 	private function createDummyShare($itemType, $itemSource, $shareWith, $sharedBy, $uidOwner, $permissions, $token, $shareType = \OCP\Share::SHARE_TYPE_EMAIL) {
@@ -868,7 +864,8 @@ class ShareByMailProviderTest extends TestCase {
 				'https://example.com/file.txt',
 				'OwnerUser',
 				'john@doe.com',
-			]);
+			]
+		);
 	}
 
 	public function testSendMailNotificationWithDifferentUserAndNoUserEmail() {
@@ -968,6 +965,7 @@ class ShareByMailProviderTest extends TestCase {
 				'https://example.com/file.txt',
 				'InitiatorUser',
 				'john@doe.com',
-			]);
+			]
+		);
 	}
 }

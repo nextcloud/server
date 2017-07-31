@@ -57,11 +57,13 @@ class DefaultTokenProvider implements IProvider {
 	 * @param ILogger $logger
 	 * @param ITimeFactory $time
 	 */
-	public function __construct(DefaultTokenMapper $mapper,
+	public function __construct(
+		DefaultTokenMapper $mapper,
 								ICrypto $crypto,
 								IConfig $config,
 								ILogger $logger,
-								ITimeFactory $time) {
+								ITimeFactory $time
+	) {
 		$this->mapper = $mapper;
 		$this->crypto = $crypto;
 		$this->config = $config;
@@ -303,5 +305,4 @@ class DefaultTokenProvider implements IProvider {
 			throw new InvalidTokenException();
 		}
 	}
-
 }

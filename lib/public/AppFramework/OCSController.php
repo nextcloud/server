@@ -34,7 +34,6 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\IRequest;
 
-
 /**
  * Base class to inherit your controllers from that are used for RESTful APIs
  * @since 8.1.0
@@ -58,13 +57,20 @@ abstract class OCSController extends ApiController {
 	 * request should be cached, defaults to 1728000 seconds
 	 * @since 8.1.0
 	 */
-	public function __construct($appName,
+	public function __construct(
+		$appName,
 								IRequest $request,
-								$corsMethods='PUT, POST, GET, DELETE, PATCH',
-								$corsAllowedHeaders='Authorization, Content-Type, Accept',
-								$corsMaxAge=1728000){
-		parent::__construct($appName, $request, $corsMethods,
-							$corsAllowedHeaders, $corsMaxAge);
+								$corsMethods = 'PUT, POST, GET, DELETE, PATCH',
+								$corsAllowedHeaders = 'Authorization, Content-Type, Accept',
+								$corsMaxAge = 1728000
+	) {
+		parent::__construct(
+			$appName,
+			$request,
+			$corsMethods,
+							$corsAllowedHeaders,
+			$corsMaxAge
+		);
 		$this->registerResponder('json', function ($data) {
 			return $this->buildOCSResponse('json', $data);
 		});
@@ -109,5 +115,4 @@ abstract class OCSController extends ApiController {
 		}
 		return new \OC\AppFramework\OCS\V2Response($data, $format);
 	}
-
 }

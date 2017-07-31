@@ -411,8 +411,11 @@ class Manager implements ICommentsManager {
 	 */
 	public function getNumberOfUnreadCommentsForFolder($folderId, IUser $user) {
 		$qb = $this->dbConn->getQueryBuilder();
-		$query = $qb->select('fileid', $qb->createFunction(
-			'COUNT(' . $qb->getColumnName('c.id') . ')')
+		$query = $qb->select(
+			'fileid',
+			$qb->createFunction(
+			'COUNT(' . $qb->getColumnName('c.id') . ')'
+		)
 		)->from('comments', 'c')
 			->innerJoin('c', 'filecache', 'f', $qb->expr()->andX(
 				$qb->expr()->eq('c.object_type', $qb->createNamedParameter('files')),

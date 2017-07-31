@@ -56,6 +56,4 @@ trait PriorityTrait {
 	public static function priorityCompare(PriorityTrait $a, PriorityTrait $b) {
 		return ($a->getPriority() - $b->getPriority());
 	}
-
 }
-

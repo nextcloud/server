@@ -96,7 +96,7 @@ namespace OCP {
 		 * @deprecated 8.1.0 use search() of \OCP\Contacts\IManager - \OC::$server->getContactsManager();
 		 * @since 5.0.0
 		 */
-		public static function search($pattern, $searchProperties = array(), $options = array()) {
+		public static function search($pattern, $searchProperties = [], $options = []) {
 			$cm = \OC::$server->getContactsManager();
 			return $cm->search($pattern, $searchProperties, $options);
 		}

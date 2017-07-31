@@ -29,7 +29,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Install extends Command {
-
 	protected function configure() {
 		$this
 			->setName('app:install')
@@ -60,12 +59,12 @@ class Install extends Command {
 			);
 			$installer->downloadApp($appId);
 			$result = $installer->installApp($appId);
-		} catch(\Exception $e) {
+		} catch (\Exception $e) {
 			$output->writeln('Error: ' . $e->getMessage());
 			return 1;
 		}
 
-		if($result === false) {
+		if ($result === false) {
 			$output->writeln($appId . ' couldn\'t be installed');
 			return 1;
 		}

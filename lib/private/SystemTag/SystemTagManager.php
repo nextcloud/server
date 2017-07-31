@@ -39,7 +39,6 @@ use OCP\IUser;
  * Manager class for system tags
  */
 class SystemTagManager implements ISystemTagManager {
-
 	const TAG_TABLE = 'systemtag';
 	const TAG_GROUP_TABLE = 'systemtag_group';
 
@@ -117,7 +116,10 @@ class SystemTagManager implements ISystemTagManager {
 
 		if (count($tags) !== count($tagIds)) {
 			throw new TagNotFoundException(
-				'Tag id(s) not found', 0, null, array_diff($tagIds, array_keys($tags))
+				'Tag id(s) not found',
+				0,
+				null,
+				array_diff($tagIds, array_keys($tags))
 			);
 		}
 
@@ -221,7 +223,8 @@ class SystemTagManager implements ISystemTagManager {
 		);
 
 		$this->dispatcher->dispatch(ManagerEvent::EVENT_CREATE, new ManagerEvent(
-			ManagerEvent::EVENT_CREATE, $tag
+			ManagerEvent::EVENT_CREATE,
+			$tag
 		));
 
 		return $tag;
@@ -238,7 +241,10 @@ class SystemTagManager implements ISystemTagManager {
 			$tags = $this->getTagsByIds($tagId);
 		} catch (TagNotFoundException $e) {
 			throw new TagNotFoundException(
-				'Tag does not exist', 0, null, [$tagId]
+				'Tag does not exist',
+				0,
+				null,
+				[$tagId]
 			);
 		}
 
@@ -264,7 +270,10 @@ class SystemTagManager implements ISystemTagManager {
 		try {
 			if ($query->execute() === 0) {
 				throw new TagNotFoundException(
-					'Tag does not exist', 0, null, [$tagId]
+					'Tag does not exist',
+					0,
+					null,
+					[$tagId]
 				);
 			}
 		} catch (UniqueConstraintViolationException $e) {
@@ -276,7 +285,9 @@ class SystemTagManager implements ISystemTagManager {
 		}
 
 		$this->dispatcher->dispatch(ManagerEvent::EVENT_UPDATE, new ManagerEvent(
-			ManagerEvent::EVENT_UPDATE, $afterUpdate, $beforeUpdate
+			ManagerEvent::EVENT_UPDATE,
+			$afterUpdate,
+			$beforeUpdate
 		));
 	}
 
@@ -321,13 +332,17 @@ class SystemTagManager implements ISystemTagManager {
 
 		foreach ($tags as $tag) {
 			$this->dispatcher->dispatch(ManagerEvent::EVENT_DELETE, new ManagerEvent(
-				ManagerEvent::EVENT_DELETE, $tag
+				ManagerEvent::EVENT_DELETE,
+				$tag
 			));
 		}
 
 		if ($tagNotFoundException !== null) {
 			throw new TagNotFoundException(
-				'Tag id(s) not found', 0, $tagNotFoundException, $tagNotFoundException->getMissingTags()
+				'Tag id(s) not found',
+				0,
+				$tagNotFoundException,
+				$tagNotFoundException->getMissingTags()
 			);
 		}
 	}

@@ -41,8 +41,10 @@ class CsrfTokenManager {
 	 * @param CsrfTokenGenerator $tokenGenerator
 	 * @param SessionStorage $storageInterface
 	 */
-	public function __construct(CsrfTokenGenerator $tokenGenerator,
-								SessionStorage $storageInterface) {
+	public function __construct(
+		CsrfTokenGenerator $tokenGenerator,
+								SessionStorage $storageInterface
+	) {
 		$this->tokenGenerator = $tokenGenerator;
 		$this->sessionStorage = $storageInterface;
 	}
@@ -53,11 +55,11 @@ class CsrfTokenManager {
 	 * @return CsrfToken
 	 */
 	public function getToken() {
-		if(!is_null($this->csrfToken)) {
+		if (!is_null($this->csrfToken)) {
 			return $this->csrfToken;
 		}
 
-		if($this->sessionStorage->hasToken()) {
+		if ($this->sessionStorage->hasToken()) {
 			$value = $this->sessionStorage->getToken();
 		} else {
 			$value = $this->tokenGenerator->generateToken();
@@ -95,7 +97,7 @@ class CsrfTokenManager {
 	 * @return bool
 	 */
 	public function isTokenValid(CsrfToken $token) {
-		if(!$this->sessionStorage->hasToken()) {
+		if (!$this->sessionStorage->hasToken()) {
 			return false;
 		}
 

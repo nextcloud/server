@@ -24,67 +24,66 @@
 namespace OCA\User_LDAP\Tests;
 
 class ConfigurationTest extends \Test\TestCase {
-
 	public function configurationDataProvider() {
-		$inputWithDN = array(
+		$inputWithDN = [
 			'cn=someUsers,dc=example,dc=org',
 			'  ',
 			' cn=moreUsers,dc=example,dc=org '
-		);
-		$expectWithDN = array(
+		];
+		$expectWithDN = [
 			'cn=someUsers,dc=example,dc=org',
 			'cn=moreUsers,dc=example,dc=org'
-		);
+		];
 
-		$inputNames = array(
+		$inputNames = [
 			'  uid  ',
 			'cn ',
 			' ',
 			'',
 			' whats my name',
-		    '	'
-		);
-		$expectedNames = array('uid', 'cn', 'whats my name');
+			'	'
+		];
+		$expectedNames = ['uid', 'cn', 'whats my name'];
 
 		$inputString = ' alea iacta est ';
 		$expectedString = 'alea iacta est';
 
-		$inputHomeFolder = array(
+		$inputHomeFolder = [
 			' homeDirectory ',
 			' attr:homeDirectory ',
 			' '
-		);
+		];
 
-		$expectedHomeFolder = array(
+		$expectedHomeFolder = [
 			'attr:homeDirectory', 'attr:homeDirectory', ''
-		);
+		];
 
 		$password = ' such a passw0rd ';
 
-		return array(
-			'set general base' => array('ldapBase', $inputWithDN, $expectWithDN),
-			'set user base'    => array('ldapBaseUsers', $inputWithDN, $expectWithDN),
-			'set group base'   => array('ldapBaseGroups', $inputWithDN, $expectWithDN),
+		return [
+			'set general base' => ['ldapBase', $inputWithDN, $expectWithDN],
+			'set user base' => ['ldapBaseUsers', $inputWithDN, $expectWithDN],
+			'set group base' => ['ldapBaseGroups', $inputWithDN, $expectWithDN],
 
-			'set search attributes users'  => array('ldapAttributesForUserSearch', $inputNames, $expectedNames),
-			'set search attributes groups' => array('ldapAttributesForGroupSearch', $inputNames, $expectedNames),
+			'set search attributes users' => ['ldapAttributesForUserSearch', $inputNames, $expectedNames],
+			'set search attributes groups' => ['ldapAttributesForGroupSearch', $inputNames, $expectedNames],
 
-			'set user filter objectclasses'  => array('ldapUserFilterObjectclass', $inputNames, $expectedNames),
-			'set user filter groups'         => array('ldapUserFilterGroups', $inputNames, $expectedNames),
-			'set group filter objectclasses' => array('ldapGroupFilterObjectclass', $inputNames, $expectedNames),
-			'set group filter groups'        => array('ldapGroupFilterGroups', $inputNames, $expectedNames),
-			'set login filter attributes'    => array('ldapLoginFilterAttributes', $inputNames, $expectedNames),
+			'set user filter objectclasses' => ['ldapUserFilterObjectclass', $inputNames, $expectedNames],
+			'set user filter groups' => ['ldapUserFilterGroups', $inputNames, $expectedNames],
+			'set group filter objectclasses' => ['ldapGroupFilterObjectclass', $inputNames, $expectedNames],
+			'set group filter groups' => ['ldapGroupFilterGroups', $inputNames, $expectedNames],
+			'set login filter attributes' => ['ldapLoginFilterAttributes', $inputNames, $expectedNames],
 
-			'set agent password' => array('ldapAgentPassword', $password, $password),
+			'set agent password' => ['ldapAgentPassword', $password, $password],
 
-			'set home folder, variant 1' => array('homeFolderNamingRule', $inputHomeFolder[0], $expectedHomeFolder[0]),
-			'set home folder, variant 2' => array('homeFolderNamingRule', $inputHomeFolder[1], $expectedHomeFolder[1]),
-			'set home folder, empty'     => array('homeFolderNamingRule', $inputHomeFolder[2], $expectedHomeFolder[2]),
+			'set home folder, variant 1' => ['homeFolderNamingRule', $inputHomeFolder[0], $expectedHomeFolder[0]],
+			'set home folder, variant 2' => ['homeFolderNamingRule', $inputHomeFolder[1], $expectedHomeFolder[1]],
+			'set home folder, empty' => ['homeFolderNamingRule', $inputHomeFolder[2], $expectedHomeFolder[2]],
 
 			// default behaviour, one case is enough, special needs must be tested
 			// individually
-			'set string value' => array('ldapHost', $inputString, $expectedString),
-		);
+			'set string value' => ['ldapHost', $inputString, $expectedString],
+		];
 	}
 
 	/**
@@ -96,5 +95,4 @@ class ConfigurationTest extends \Test\TestCase {
 		$configuration->setConfiguration([$key => $input]);
 		$this->assertSame($configuration->$key, $expected);
 	}
-
 }

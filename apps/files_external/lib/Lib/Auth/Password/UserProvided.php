@@ -37,7 +37,6 @@ use OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
  * User provided Username and Password
  */
 class UserProvided extends AuthMechanism implements IUserProvided {
-
 	const CREDENTIALS_IDENTIFIER_PREFIX = 'password::userprovided/';
 
 	/** @var ICredentialsManager */
@@ -85,5 +84,4 @@ class UserProvided extends AuthMechanism implements IUserProvided {
 		$storage->setBackendOption('user', $credentials['user']);
 		$storage->setBackendOption('password', $credentials['password']);
 	}
-
 }

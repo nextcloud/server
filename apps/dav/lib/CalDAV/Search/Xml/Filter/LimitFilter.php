@@ -32,7 +32,7 @@ class LimitFilter implements XmlDeserializable {
 	 * @throws BadRequest
 	 * @return int
 	 */
-	static function xmlDeserialize(Reader $reader) {
+	public static function xmlDeserialize(Reader $reader) {
 		$value = $reader->parseInnerTree();
 		if (!is_int($value) && !is_string($value)) {
 			throw new BadRequest('The {' . SearchPlugin::NS_Nextcloud . '}limit has illegal value');

@@ -43,10 +43,12 @@ class LegacyFilter implements IFilter {
 	 * @param string $name
 	 * @param bool $isTopFilter
 	 */
-	public function __construct(IManager $manager,
+	public function __construct(
+		IManager $manager,
 								$identifier,
 								$name,
-								$isTopFilter) {
+								$isTopFilter
+	) {
 		$this->manager = $manager;
 		$this->identifier = $identifier;
 		$this->name = $name;
@@ -105,4 +107,3 @@ class LegacyFilter implements IFilter {
 		return [];
 	}
 }
-

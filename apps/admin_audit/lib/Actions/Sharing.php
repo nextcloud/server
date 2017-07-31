@@ -23,7 +23,6 @@
 
 namespace OCA\AdminAudit\Actions;
 
-
 use OCP\Share;
 
 /**
@@ -38,7 +37,7 @@ class Sharing extends Action {
 	 * @param array $params
 	 */
 	public function shared(array $params) {
-		if($params['shareType'] === Share::SHARE_TYPE_LINK) {
+		if ($params['shareType'] === Share::SHARE_TYPE_LINK) {
 			$this->log(
 				'The %s "%s" with ID "%s" has been shared via link with permissions "%s" (Share ID: %s)',
 				$params,
@@ -50,7 +49,7 @@ class Sharing extends Action {
 					'id',
 				]
 			);
-		} elseif($params['shareType'] === Share::SHARE_TYPE_USER) {
+		} elseif ($params['shareType'] === Share::SHARE_TYPE_USER) {
 			$this->log(
 				'The %s "%s" with ID "%s" has been shared to the user "%s" with permissions "%s"  (Share ID: %s)',
 				$params,
@@ -63,7 +62,7 @@ class Sharing extends Action {
 					'id',
 				]
 			);
-		} elseif($params['shareType'] === Share::SHARE_TYPE_GROUP) {
+		} elseif ($params['shareType'] === Share::SHARE_TYPE_GROUP) {
 			$this->log(
 				'The %s "%s" with ID "%s" has been shared to the group "%s" with permissions "%s"  (Share ID: %s)',
 				$params,
@@ -85,7 +84,7 @@ class Sharing extends Action {
 	 * @param array $params
 	 */
 	public function unshare(array $params) {
-		if($params['shareType'] === Share::SHARE_TYPE_LINK) {
+		if ($params['shareType'] === Share::SHARE_TYPE_LINK) {
 			$this->log(
 				'The %s "%s" with ID "%s" has been unshared (Share ID: %s)',
 				$params,
@@ -96,7 +95,7 @@ class Sharing extends Action {
 					'id',
 				]
 			);
-		} elseif($params['shareType'] === Share::SHARE_TYPE_USER) {
+		} elseif ($params['shareType'] === Share::SHARE_TYPE_USER) {
 			$this->log(
 				'The %s "%s" with ID "%s" has been unshared from the user "%s" (Share ID: %s)',
 				$params,
@@ -108,7 +107,7 @@ class Sharing extends Action {
 					'id',
 				]
 			);
-		} elseif($params['shareType'] === Share::SHARE_TYPE_GROUP) {
+		} elseif ($params['shareType'] === Share::SHARE_TYPE_GROUP) {
 			$this->log(
 				'The %s "%s" with ID "%s" has been unshared from the group "%s" (Share ID: %s)',
 				$params,

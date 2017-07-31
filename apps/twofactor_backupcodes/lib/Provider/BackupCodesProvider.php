@@ -126,7 +126,7 @@ class BackupCodesProvider implements IProvider {
 	 * @return boolean
 	 */
 	public function isActive(IUser $user) {
-		$appIds = array_filter($this->appManager->getEnabledAppsForUser($user), function($appId) {
+		$appIds = array_filter($this->appManager->getEnabledAppsForUser($user), function ($appId) {
 			return $appId !== $this->appName;
 		});
 		foreach ($appIds as $appId) {
@@ -137,5 +137,4 @@ class BackupCodesProvider implements IProvider {
 		}
 		return false;
 	}
-
 }

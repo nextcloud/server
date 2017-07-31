@@ -23,6 +23,7 @@
  */
 
 namespace Test;
+
 use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\App\AppStore\Fetcher\CategoryFetcher;
 

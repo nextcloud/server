@@ -24,7 +24,6 @@
  */
 namespace OCA\FederatedFileSharing\Tests;
 
-
 use OC\Federation\CloudIdManager;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\FederatedShareProvider;
@@ -89,7 +88,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			->getMock();
 		$this->l = $this->getMockBuilder('OCP\IL10N')->getMock();
 		$this->l->method('t')
-			->will($this->returnCallback(function($text, $parameters = []) {
+			->will($this->returnCallback(function ($text, $parameters = []) {
 				return vsprintf($text, $parameters);
 			}));
 		$this->logger = $this->getMockBuilder('OCP\ILogger')->getMock();
@@ -399,7 +398,6 @@ class FederatedShareProviderTest extends \Test\TestCase {
 	 *
 	 */
 	public function testUpdate($owner, $sharedBy) {
-
 		$this->provider = $this->getMockBuilder('OCA\FederatedFileSharing\FederatedShareProvider')
 			->setConstructorArgs(
 				[
@@ -450,7 +448,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 				$sharedBy . '@http://localhost/'
 			)->willReturn(true);
 
-		if($owner === $sharedBy) {
+		if ($owner === $sharedBy) {
 			$this->provider->expects($this->never())->method('sendPermissionUpdate');
 		} else {
 			$this->provider->expects($this->once())->method('sendPermissionUpdate');
@@ -598,7 +596,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 					return ['user', 'server.com'];
 				}
 				return ['user2', 'server.com'];
-		});
+			});
 
 		$this->tokenHandler->method('generateToken')->willReturn('token');
 		$this->notifications
@@ -690,7 +688,8 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			->with('files_sharing', 'outgoing_server2server_share_enabled', 'yes')
 			->willReturn($isEnabled);
 
-		$this->assertSame($expected,
+		$this->assertSame(
+			$expected,
 			$this->provider->isOutgoingServer2serverShareEnabled()
 		);
 	}
@@ -717,7 +716,8 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			->with('files_sharing', 'incoming_server2server_share_enabled', 'yes')
 			->willReturn($isEnabled);
 
-		$this->assertSame($expected,
+		$this->assertSame(
+			$expected,
 			$this->provider->isIncomingServer2serverShareEnabled()
 		);
 	}
@@ -744,7 +744,8 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			->with('files_sharing', 'lookupServerEnabled', 'no')
 			->willReturn($isEnabled);
 
-		$this->assertSame($expected,
+		$this->assertSame(
+			$expected,
 			$this->provider->isLookupServerQueriesEnabled()
 		);
 	}
@@ -772,7 +773,8 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			->with('files_sharing', 'lookupServerUploadEnabled', 'yes')
 			->willReturn($isEnabled);
 
-		$this->assertSame($expected,
+		$this->assertSame(
+			$expected,
 			$this->provider->isLookupServerUploadEnabled()
 		);
 	}

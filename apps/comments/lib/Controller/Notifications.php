@@ -93,11 +93,11 @@ class Notifications extends Controller {
 	public function view($id) {
 		try {
 			$comment = $this->commentsManager->get($id);
-			if($comment->getObjectType() !== 'files') {
+			if ($comment->getObjectType() !== 'files') {
 				return new NotFoundResponse();
 			}
 			$files = $this->folder->getById($comment->getObjectId());
-			if(count($files) === 0) {
+			if (count($files) === 0) {
 				$this->markProcessed($comment);
 				return new NotFoundResponse();
 			}
@@ -121,7 +121,7 @@ class Notifications extends Controller {
 	 */
 	protected function markProcessed(IComment $comment) {
 		$user = $this->userSession->getUser();
-		if(is_null($user)) {
+		if (is_null($user)) {
 			return;
 		}
 		$notification = $this->notificationManager->createNotification();

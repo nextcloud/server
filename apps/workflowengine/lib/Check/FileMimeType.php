@@ -21,7 +21,6 @@
 
 namespace OCA\WorkflowEngine\Check;
 
-
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\Storage\IStorage;
 use OCP\IL10N;
@@ -88,7 +87,7 @@ class FileMimeType extends AbstractStringCheck {
 				$this->mimeType[$this->storage->getId()][$this->path] = $this->mimeTypeDetector->detectPath($path);
 				return $this->mimeType[$this->storage->getId()][$this->path];
 			}
-		} else if ($this->isPublicWebDAVRequest()) {
+		} elseif ($this->isPublicWebDAVRequest()) {
 			if ($this->request->getMethod() === 'PUT') {
 				$path = $this->request->getPathInfo();
 				if (strpos($path, '/webdav/') === 0) {

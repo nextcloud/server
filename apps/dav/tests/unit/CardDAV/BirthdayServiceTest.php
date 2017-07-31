@@ -201,7 +201,7 @@ class BirthdayServiceTest extends TestCase {
 			->with('principal001', 'contact_birthdays', [
 				'{DAV:}displayname' => 'Contact birthdays',
 				'{http://apple.com/ns/ical/}calendar-color' => '#FFFFCA',
-				'components'   => 'VEVENT',
+				'components' => 'VEVENT',
 			]);
 		$this->service->ensureCalendarExists('principal001');
 	}
@@ -223,7 +223,7 @@ class BirthdayServiceTest extends TestCase {
 		];
 	}
 
-	public function providesCardChanges(){
+	public function providesCardChanges() {
 		return[
 			['delete'],
 			['create'],

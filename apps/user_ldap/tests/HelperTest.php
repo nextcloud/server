@@ -2,7 +2,6 @@
 
 namespace OCA\User_LDAP\Tests;
 
-
 use OCA\User_LDAP\Helper;
 use OCP\IConfig;
 
@@ -45,7 +44,7 @@ class HelperTest extends \Test\TestCase {
 			]);
 
 		$this->config->method('getAppValue')
-			->will($this->returnCallback(function($app, $key, $default) {
+			->will($this->returnCallback(function ($app, $key, $default) {
 				if ($app !== 'user_ldap') {
 					$this->fail('wrong app');
 				}
@@ -71,7 +70,7 @@ class HelperTest extends \Test\TestCase {
 			]);
 
 		$this->config->method('getAppValue')
-			->will($this->returnCallback(function($app, $key, $default) {
+			->will($this->returnCallback(function ($app, $key, $default) {
 				if ($app !== 'user_ldap') {
 					$this->fail('wrong app');
 				}

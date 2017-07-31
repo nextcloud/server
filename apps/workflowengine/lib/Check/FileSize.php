@@ -21,7 +21,6 @@
 
 namespace OCA\WorkflowEngine\Check;
 
-
 use OCP\Files\Storage\IStorage;
 use OCP\IL10N;
 use OCP\IRequest;

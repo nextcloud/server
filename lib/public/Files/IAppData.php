@@ -31,6 +31,5 @@ use OCP\Files\SimpleFS\ISimpleRoot;
  * @since 11.0.0
  * @internal This interface is experimental and might change for NC12
  */
-interface IAppData extends ISimpleRoot  {
-	
+interface IAppData extends ISimpleRoot {
 }

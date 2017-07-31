@@ -41,8 +41,10 @@ class MemoryCache implements IBackend {
 	 * @param ICacheFactory $cacheFactory
 	 * @param ITimeFactory $timeFactory
 	 */
-	public function __construct(ICacheFactory $cacheFactory,
-								ITimeFactory $timeFactory) {
+	public function __construct(
+		ICacheFactory $cacheFactory,
+								ITimeFactory $timeFactory
+	) {
 		$this->cache = $cacheFactory->create(__CLASS__);
 		$this->timeFactory = $timeFactory;
 	}
@@ -52,8 +54,10 @@ class MemoryCache implements IBackend {
 	 * @param string $userIdentifier
 	 * @return string
 	 */
-	private function hash($methodIdentifier,
-						  $userIdentifier) {
+	private function hash(
+		$methodIdentifier,
+						  $userIdentifier
+	) {
 		return hash('sha512', $methodIdentifier . $userIdentifier);
 	}
 
@@ -63,7 +67,7 @@ class MemoryCache implements IBackend {
 	 */
 	private function getExistingAttempts($identifier) {
 		$cachedAttempts = json_decode($this->cache->get($identifier), true);
-		if(is_array($cachedAttempts)) {
+		if (is_array($cachedAttempts)) {
 			return $cachedAttempts;
 		}
 
@@ -73,9 +77,11 @@ class MemoryCache implements IBackend {
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getAttempts($methodIdentifier,
+	public function getAttempts(
+		$methodIdentifier,
 								$userIdentifier,
-								$seconds) {
+								$seconds
+	) {
 		$identifier = $this->hash($methodIdentifier, $userIdentifier);
 		$existingAttempts = $this->getExistingAttempts($identifier);
 
@@ -83,7 +89,7 @@ class MemoryCache implements IBackend {
 		$currentTime = $this->timeFactory->getTime();
 		/** @var array $existingAttempts */
 		foreach ($existingAttempts as $attempt) {
-			if(($attempt + $seconds) > $currentTime) {
+			if (($attempt + $seconds) > $currentTime) {
 				$count++;
 			}
 		}
@@ -94,16 +100,18 @@ class MemoryCache implements IBackend {
 	/**
 	 * {@inheritDoc}
 	 */
-	public function registerAttempt($methodIdentifier,
+	public function registerAttempt(
+		$methodIdentifier,
 									$userIdentifier,
-									$period) {
+									$period
+	) {
 		$identifier = $this->hash($methodIdentifier, $userIdentifier);
 		$existingAttempts = $this->getExistingAttempts($identifier);
 		$currentTime = $this->timeFactory->getTime();
 
 		// Unset all attempts older than $period
 		foreach ($existingAttempts as $key => $attempt) {
-			if(($attempt + $period) < $currentTime) {
+			if (($attempt + $period) < $currentTime) {
 				unset($existingAttempts[$key]);
 			}
 		}

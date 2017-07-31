@@ -25,7 +25,7 @@ namespace Test\File\SimpleFS;
 use OC\Files\SimpleFS\SimpleFile;
 use OCP\Files\File;
 
-class SimpleFileTest extends \Test\TestCase  {
+class SimpleFileTest extends \Test\TestCase {
 	/** @var File|\PHPUnit_Framework_MockObject_MockObject */
 	private $file;
 

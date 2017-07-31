@@ -206,7 +206,7 @@ class Manager implements IManager {
 			return;
 		}
 		$table = $this->getSectionTableForType($type);
-		if(!$this->hasSection(get_class($section), $table)) {
+		if (!$this->hasSection(get_class($section), $table)) {
 			$this->addSection($section, $table);
 		} else {
 			$this->updateSection($section, $table);
@@ -300,18 +300,18 @@ class Manager implements IManager {
 	}
 
 	private function getSectionTableForType($type) {
-		if($type === 'admin') {
+		if ($type === 'admin') {
 			return Mapper::TABLE_ADMIN_SECTIONS;
-		} else if($type === 'personal') {
+		} elseif ($type === 'personal') {
 			return Mapper::TABLE_PERSONAL_SECTIONS;
 		}
 		throw new \InvalidArgumentException('"admin" or "personal" expected');
 	}
 
 	private function getSettingsTableForType($type) {
-		if($type === 'admin') {
+		if ($type === 'admin') {
 			return Mapper::TABLE_ADMIN_SETTINGS;
-		} else if($type === 'personal') {
+		} elseif ($type === 'personal') {
 			return Mapper::TABLE_PERSONAL_SETTINGS;
 		}
 		throw new \InvalidArgumentException('"admin" or "personal" expected');
@@ -418,7 +418,7 @@ class Manager implements IManager {
 				);
 				$forms[$form->getPriority()] = [$form];
 			}
-			if($section === 'security') {
+			if ($section === 'security') {
 				/** @var ISettings $form */
 				$form = new Personal\Security();
 				$forms[$form->getPriority()] = [$form];
@@ -467,7 +467,7 @@ class Manager implements IManager {
 		];
 
 		$legacyForms = \OC_App::getForms('personal');
-		if(count($legacyForms) > 0 && $this->hasLegacyPersonalSettingsToRender($legacyForms)) {
+		if (count($legacyForms) > 0 && $this->hasLegacyPersonalSettingsToRender($legacyForms)) {
 			$sections[98] = [new Section('additional', $this->l->t('Additional settings'), 0, $this->url->imagePath('core', 'actions/settings-dark.svg'))];
 		}
 
@@ -495,7 +495,7 @@ class Manager implements IManager {
 	 */
 	private function hasLegacyPersonalSettingsToRender($forms) {
 		foreach ($forms as $form) {
-			if(trim($form) !== '') {
+			if (trim($form) !== '') {
 				return true;
 			}
 		}

@@ -30,7 +30,7 @@
 // t('Files')
 $l = \OC::$server->getL10N('files');
 
-\OC::$server->getSearch()->registerProvider('OC\Search\Provider\File', array('apps' => array('files')));
+\OC::$server->getSearch()->registerProvider('OC\Search\Provider\File', ['apps' => ['files']]);
 
 $templateManager = \OC_Helper::getFileTemplateManager();
 $templateManager->registerTemplate('text/html', 'core/templates/filetemplates/template.html');

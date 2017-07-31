@@ -99,5 +99,4 @@ class LinkAction implements ILinkAction {
 			'hyperlink' => $this->href,
 		];
 	}
-
 }

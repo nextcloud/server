@@ -84,7 +84,7 @@ class User implements IUser {
 		$this->uid = $uid;
 		$this->backend = $backend;
 		$this->emitter = $emitter;
-		if(is_null($config)) {
+		if (is_null($config)) {
 			$config = \OC::$server->getConfig();
 		}
 		$this->config = $config;
@@ -160,12 +160,12 @@ class User implements IUser {
 	 */
 	public function setEMailAddress($mailAddress) {
 		$oldMailAddress = $this->getEMailAddress();
-		if($mailAddress === '') {
+		if ($mailAddress === '') {
 			$this->config->deleteUserValue($this->uid, 'settings', 'email');
 		} else {
 			$this->config->setUserValue($this->uid, 'settings', 'email', $mailAddress);
 		}
-		if($oldMailAddress !== $mailAddress) {
+		if ($oldMailAddress !== $mailAddress) {
 			$this->triggerChange('eMailAddress', $mailAddress, $oldMailAddress);
 		}
 	}
@@ -187,7 +187,11 @@ class User implements IUser {
 		$firstTimeLogin = ($this->lastLogin === 0);
 		$this->lastLogin = time();
 		$this->config->setUserValue(
-			$this->uid, 'login', 'lastLogin', $this->lastLogin);
+			$this->uid,
+			'login',
+			'lastLogin',
+			$this->lastLogin
+		);
 
 		return $firstTimeLogin;
 	}
@@ -199,7 +203,7 @@ class User implements IUser {
 	 */
 	public function delete() {
 		if ($this->emitter) {
-			$this->emitter->emit('\OC\User', 'preDelete', array($this));
+			$this->emitter->emit('\OC\User', 'preDelete', [$this]);
 		}
 		// get the home now because it won't return it after user deletion
 		$homePath = $this->getHome();
@@ -243,7 +247,7 @@ class User implements IUser {
 			$accountManager->deleteUser($this);
 
 			if ($this->emitter) {
-				$this->emitter->emit('\OC\User', 'postDelete', array($this));
+				$this->emitter->emit('\OC\User', 'postDelete', [$this]);
 			}
 		}
 		return !($result === false);
@@ -258,12 +262,12 @@ class User implements IUser {
 	 */
 	public function setPassword($password, $recoveryPassword = null) {
 		if ($this->emitter) {
-			$this->emitter->emit('\OC\User', 'preSetPassword', array($this, $password, $recoveryPassword));
+			$this->emitter->emit('\OC\User', 'preSetPassword', [$this, $password, $recoveryPassword]);
 		}
 		if ($this->backend->implementsActions(Backend::SET_PASSWORD)) {
 			$result = $this->backend->setPassword($this->uid, $password);
 			if ($this->emitter) {
-				$this->emitter->emit('\OC\User', 'postSetPassword', array($this, $password, $recoveryPassword));
+				$this->emitter->emit('\OC\User', 'postSetPassword', [$this, $password, $recoveryPassword]);
 			}
 			return !($result === false);
 		} else {
@@ -295,7 +299,7 @@ class User implements IUser {
 	 * @return string
 	 */
 	public function getBackendClassName() {
-		if($this->backend instanceof IUserBackend) {
+		if ($this->backend instanceof IUserBackend) {
 			return $this->backend->getBackendName();
 		}
 		return get_class($this->backend);
@@ -376,7 +380,7 @@ class User implements IUser {
 	 */
 	public function getQuota() {
 		$quota = $this->config->getUserValue($this->uid, 'files', 'quota', 'default');
-		if($quota === 'default') {
+		if ($quota === 'default') {
 			$quota = $this->config->getAppValue('files', 'default_quota', 'none');
 		}
 		return $quota;
@@ -391,12 +395,12 @@ class User implements IUser {
 	 */
 	public function setQuota($quota) {
 		$oldQuota = $this->config->getUserValue($this->uid, 'files', 'quota', '');
-		if($quota !== 'none' and $quota !== 'default') {
+		if ($quota !== 'none' and $quota !== 'default') {
 			$quota = OC_Helper::computerFileSize($quota);
 			$quota = OC_Helper::humanFileSize($quota);
 		}
 		$this->config->setUserValue($this->uid, 'files', 'quota', $quota);
-		if($quota !== $oldQuota) {
+		if ($quota !== $oldQuota) {
 			$this->triggerChange('quota', $quota);
 		}
 	}
@@ -432,7 +436,7 @@ class User implements IUser {
 	public function getCloudId() {
 		$uid = $this->getUID();
 		$server = $this->urlGenerator->getAbsoluteURL('/');
-		$server =  rtrim( $this->removeProtocolFromUrl($server), '/');
+		$server = rtrim($this->removeProtocolFromUrl($server), '/');
 		return \OC::$server->getCloudIdManager()->getCloudId($uid, $server)->getId();
 	}
 
@@ -443,7 +447,7 @@ class User implements IUser {
 	private function removeProtocolFromUrl($url) {
 		if (strpos($url, 'https://') === 0) {
 			return substr($url, strlen('https://'));
-		} else if (strpos($url, 'http://') === 0) {
+		} elseif (strpos($url, 'http://') === 0) {
 			return substr($url, strlen('http://'));
 		}
 
@@ -452,7 +456,7 @@ class User implements IUser {
 
 	public function triggerChange($feature, $value = null, $oldValue = null) {
 		if ($this->emitter) {
-			$this->emitter->emit('\OC\User', 'changeUser', array($this, $feature, $value, $oldValue));
+			$this->emitter->emit('\OC\User', 'changeUser', [$this, $feature, $value, $oldValue]);
 		}
 	}
 }

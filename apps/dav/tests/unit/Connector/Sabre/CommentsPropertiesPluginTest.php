@@ -54,8 +54,8 @@ class CommentsPropertiesPluginTest extends \Test\TestCase {
 
 	public function nodeProvider() {
 		$mocks = [];
-		foreach(['\OCA\DAV\Connector\Sabre\File', '\OCA\DAV\Connector\Sabre\Directory', '\Sabre\DAV\INode'] as $class) {
-			$mocks[] = 	$this->getMockBuilder($class)
+		foreach (['\OCA\DAV\Connector\Sabre\File', '\OCA\DAV\Connector\Sabre\Directory', '\Sabre\DAV\INode'] as $class) {
+			$mocks[] = $this->getMockBuilder($class)
 				->disableOriginalConstructor()
 				->getMock();
 		}
@@ -77,7 +77,7 @@ class CommentsPropertiesPluginTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		if($expectedSuccessful) {
+		if ($expectedSuccessful) {
 			$propFind->expects($this->exactly(3))
 				->method('handle');
 		} else {
@@ -150,11 +150,10 @@ class CommentsPropertiesPluginTest extends \Test\TestCase {
 			->will($this->returnValue(42));
 
 		$unread = $this->plugin->getUnreadCount($node);
-		if(is_null($user)) {
+		if (is_null($user)) {
 			$this->assertNull($unread);
 		} else {
 			$this->assertSame($unread, 42);
 		}
 	}
-
 }

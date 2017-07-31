@@ -57,9 +57,11 @@ class Principal implements BackendInterface {
 	 * @param IGroupManager $groupManager
 	 * @param string $principalPrefix
 	 */
-	public function __construct(IUserManager $userManager,
+	public function __construct(
+		IUserManager $userManager,
 								IGroupManager $groupManager,
-								$principalPrefix = 'principals/users/') {
+								$principalPrefix = 'principals/users/'
+	) {
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
 		$this->principalPrefix = trim($principalPrefix, '/');
@@ -83,7 +85,7 @@ class Principal implements BackendInterface {
 		$principals = [];
 
 		if ($prefixPath === $this->principalPrefix) {
-			foreach($this->userManager->search('') as $user) {
+			foreach ($this->userManager->search('') as $user) {
 				$principals[] = $this->userToPrincipal($user);
 			}
 		}
@@ -148,7 +150,7 @@ class Principal implements BackendInterface {
 
 			if ($this->hasGroups || $needGroups) {
 				$groups = $this->groupManager->getUserGroups($user);
-				$groups = array_map(function($group) {
+				$groups = array_map(function ($group) {
 					/** @var IGroup $group */
 					return 'principals/groups/' . urlencode($group->getGID());
 				}, $groups);
@@ -177,7 +179,7 @@ class Principal implements BackendInterface {
 	 * @param PropPatch $propPatch
 	 * @return int
 	 */
-	function updatePrincipal($path, PropPatch $propPatch) {
+	public function updatePrincipal($path, PropPatch $propPatch) {
 		return 0;
 	}
 
@@ -187,7 +189,7 @@ class Principal implements BackendInterface {
 	 * @param string $test
 	 * @return array
 	 */
-	function searchPrincipals($prefixPath, array $searchProperties, $test = 'allof') {
+	public function searchPrincipals($prefixPath, array $searchProperties, $test = 'allof') {
 		return [];
 	}
 
@@ -196,7 +198,7 @@ class Principal implements BackendInterface {
 	 * @param string $principalPrefix
 	 * @return string
 	 */
-	function findByUri($uri, $principalPrefix) {
+	public function findByUri($uri, $principalPrefix) {
 		if (substr($uri, 0, 7) === 'mailto:') {
 			$email = substr($uri, 7);
 			$users = $this->userManager->getByEmail($email);
@@ -231,5 +233,4 @@ class Principal implements BackendInterface {
 	public function getPrincipalPrefix() {
 		return $this->principalPrefix;
 	}
-
 }

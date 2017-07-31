@@ -24,7 +24,7 @@ namespace OCA\User_LDAP\Tests;
 use OCA\User_LDAP\LDAP;
 use Test\TestCase;
 
-class LDAPTest extends TestCase  {
+class LDAPTest extends TestCase {
 	/** @var LDAP|\PHPUnit_Framework_MockObject_MockObject */
 	private $ldap;
 
@@ -42,7 +42,7 @@ class LDAPTest extends TestCase  {
 		$this->ldap
 			->expects($this->once())
 			->method('invokeLDAPMethod')
-			->with('mod_replace', $link, $userDN, array('userPassword' => $password))
+			->with('mod_replace', $link, $userDN, ['userPassword' => $password])
 			->willReturn(true);
 
 		$this->assertTrue($this->ldap->modReplace($link, $userDN, $password));

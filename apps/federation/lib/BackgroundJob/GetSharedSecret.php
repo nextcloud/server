@@ -46,7 +46,7 @@ use OCP\OCS\IDiscoveryService;
  *
  * @package OCA\Federation\Backgroundjob
  */
-class GetSharedSecret extends Job{
+class GetSharedSecret extends Job {
 
 	/** @var IClient */
 	private $httpClient;
@@ -173,7 +173,6 @@ class GetSharedSecret extends Job{
 			);
 
 			$status = $result->getStatusCode();
-
 		} catch (ClientException $e) {
 			$status = $e->getCode();
 			if ($status === Http::STATUS_FORBIDDEN) {
@@ -192,7 +191,7 @@ class GetSharedSecret extends Job{
 			&& $status !== Http::STATUS_FORBIDDEN
 		) {
 			$this->retainJob = true;
-		}  else {
+		} else {
 			// reset token if we received a valid response
 			$this->dbHandler->addToken($target, '');
 		}
@@ -213,6 +212,5 @@ class GetSharedSecret extends Job{
 				$this->trustedServers->setServerStatus($target, TrustedServers::STATUS_FAILURE);
 			}
 		}
-
 	}
 }

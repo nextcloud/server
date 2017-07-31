@@ -76,13 +76,13 @@ class CertificateManagerTest extends \Test\TestCase {
 		$this->assertEquals($expected, $actual);
 	}
 
-	function testListCertificates() {
+	public function testListCertificates() {
 		// Test empty certificate bundle
-		$this->assertSame(array(), $this->certificateManager->listCertificates());
+		$this->assertSame([], $this->certificateManager->listCertificates());
 
 		// Add some certificates
 		$this->certificateManager->addCertificate(file_get_contents(__DIR__ . '/../../data/certificates/goodCertificate.crt'), 'GoodCertificate');
-		$certificateStore = array();
+		$certificateStore = [];
 		$certificateStore[] = new \OC\Security\Certificate(file_get_contents(__DIR__ . '/../../data/certificates/goodCertificate.crt'), 'GoodCertificate');
 		$this->assertEqualsArrays($certificateStore, $this->certificateManager->listCertificates());
 
@@ -96,7 +96,7 @@ class CertificateManagerTest extends \Test\TestCase {
 	 * @expectedException \Exception
 	 * @expectedExceptionMessage Certificate could not get parsed.
 	 */
-	function testAddInvalidCertificate() {
+	public function testAddInvalidCertificate() {
 		$this->certificateManager->addCertificate('InvalidCertificate', 'invalidCertificate');
 	}
 
@@ -117,20 +117,20 @@ class CertificateManagerTest extends \Test\TestCase {
 	 * @dataProvider dangerousFileProvider
 	 * @param string $filename
 	 */
-	function testAddDangerousFile($filename) {
+	public function testAddDangerousFile($filename) {
 		$this->certificateManager->addCertificate(file_get_contents(__DIR__ . '/../../data/certificates/expiredCertificate.crt'), $filename);
 	}
 
-	function testRemoveDangerousFile() {
+	public function testRemoveDangerousFile() {
 		$this->assertFalse($this->certificateManager->removeCertificate('../../foo.txt'));
 	}
 
-	function testRemoveExistingFile() {
+	public function testRemoveExistingFile() {
 		$this->certificateManager->addCertificate(file_get_contents(__DIR__ . '/../../data/certificates/goodCertificate.crt'), 'GoodCertificate');
 		$this->assertTrue($this->certificateManager->removeCertificate('GoodCertificate'));
 	}
 
-	function testGetCertificateBundle() {
+	public function testGetCertificateBundle() {
 		$this->assertSame('/' . $this->username . '/files_external/rootcerts.crt', $this->certificateManager->getCertificateBundle());
 	}
 
@@ -144,14 +144,14 @@ class CertificateManagerTest extends \Test\TestCase {
 	 * @param int $targetBundleExists
 	 * @param bool $expected
 	 */
-	function testNeedRebundling($uid,
+	public function testNeedRebundling(
+		$uid,
 								$CaBundleMtime,
 								$systemWideMtime,
 								$targetBundleMtime,
 								$targetBundleExists,
 								$expected
 	) {
-
 		$view = $this->getMockBuilder('OC\Files\View')
 			->disableOriginalConstructor()->getMock();
 		$config = $this->createMock(IConfig::class);
@@ -176,11 +176,10 @@ class CertificateManagerTest extends \Test\TestCase {
 		if ($uid !== null && $targetBundleExists) {
 			$certificateManager->expects($this->at(2))->method('getCertificateBundle')
 				->with(null)->willReturn('SystemBundlePath');
-
 		}
 
 		$view->expects($this->any())->method('filemtime')
-			->willReturnCallback(function($path) use ($systemWideMtime, $targetBundleMtime)  {
+			->willReturnCallback(function ($path) use ($systemWideMtime, $targetBundleMtime) {
 				if ($path === 'SystemBundlePath') {
 					return $systemWideMtime;
 				} elseif ($path === 'targetBundlePath') {
@@ -190,13 +189,13 @@ class CertificateManagerTest extends \Test\TestCase {
 			});
 
 
-		$this->assertSame($expected,
+		$this->assertSame(
+			$expected,
 			$this->invokePrivate($certificateManager, 'needsRebundling', [$uid])
 		);
-
 	}
 
-	function dataTestNeedRebundling() {
+	public function dataTestNeedRebundling() {
 		return [
 			//values: uid, CaBundleMtime, systemWideMtime, targetBundleMtime, targetBundleExists, expected
 

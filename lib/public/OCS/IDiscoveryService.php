@@ -44,5 +44,4 @@ interface IDiscoveryService {
 	 * @return array
 	 */
 	public function discover($remote, $service);
-
 }

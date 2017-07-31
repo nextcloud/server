@@ -46,8 +46,10 @@ class SubadminMiddleware extends Middleware {
 	 * @param ControllerMethodReflector $reflector
 	 * @param bool $isSubAdmin
 	 */
-	public function __construct(ControllerMethodReflector $reflector,
-								$isSubAdmin) {
+	public function __construct(
+		ControllerMethodReflector $reflector,
+								$isSubAdmin
+	) {
 		$this->reflector = $reflector;
 		$this->isSubAdmin = $isSubAdmin;
 	}
@@ -59,8 +61,8 @@ class SubadminMiddleware extends Middleware {
 	 * @throws \Exception
 	 */
 	public function beforeController($controller, $methodName) {
-		if(!$this->reflector->hasAnnotation('NoSubadminRequired')) {
-			if(!$this->isSubAdmin) {
+		if (!$this->reflector->hasAnnotation('NoSubadminRequired')) {
+			if (!$this->isSubAdmin) {
 				throw new NotAdminException('Logged in user must be a subadmin');
 			}
 		}
@@ -75,13 +77,12 @@ class SubadminMiddleware extends Middleware {
 	 * @throws \Exception
 	 */
 	public function afterException($controller, $methodName, \Exception $exception) {
-		if($exception instanceof NotAdminException) {
-			$response = new TemplateResponse('core', '403', array(), 'guest');
+		if ($exception instanceof NotAdminException) {
+			$response = new TemplateResponse('core', '403', [], 'guest');
 			$response->setStatus(Http::STATUS_FORBIDDEN);
 			return $response;
 		}
 
 		throw $exception;
 	}
-
 }

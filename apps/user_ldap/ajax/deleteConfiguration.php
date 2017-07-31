@@ -33,9 +33,9 @@ OCP\JSON::callCheck();
 
 $prefix = (string)$_POST['ldap_serverconfig_chooser'];
 $helper = new \OCA\User_LDAP\Helper(\OC::$server->getConfig());
-if($helper->deleteServerConfiguration($prefix)) {
+if ($helper->deleteServerConfiguration($prefix)) {
 	OCP\JSON::success();
 } else {
 	$l = \OC::$server->getL10N('user_ldap');
-	OCP\JSON::error(array('message' => $l->t('Failed to delete the server configuration')));
+	OCP\JSON::error(['message' => $l->t('Failed to delete the server configuration')]);
 }

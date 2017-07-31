@@ -10,7 +10,7 @@
 namespace Test\Memcache;
 
 class RedisTest extends Cache {
-	static public function setUpBeforeClass() {
+	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
 
 		if (!\OC\Memcache\Redis::isAvailable()) {
@@ -19,7 +19,7 @@ class RedisTest extends Cache {
 
 		$errorOccurred = false;
 		set_error_handler(
-			function($errno, $errstr) {
+			function ($errno, $errstr) {
 				throw new \RuntimeException($errstr, 123456789);
 			},
 			E_WARNING

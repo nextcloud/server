@@ -34,7 +34,6 @@ namespace OC;
  * @package OC
  */
 class HintException extends \Exception {
-
 	private $hint;
 
 	/**

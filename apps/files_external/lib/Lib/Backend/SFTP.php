@@ -28,7 +28,6 @@ use \OCA\Files_External\Lib\Auth\AuthMechanism;
 use \OCA\Files_External\Lib\Auth\Password\Password;
 
 class SFTP extends Backend {
-
 	public function __construct(IL10N $l, Password $legacyAuth) {
 		$this
 			->setIdentifier('sftp')
@@ -45,5 +44,4 @@ class SFTP extends Backend {
 			->setLegacyAuthMechanism($legacyAuth)
 		;
 	}
-
 }

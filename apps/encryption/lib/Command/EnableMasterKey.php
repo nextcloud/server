@@ -23,7 +23,6 @@
 
 namespace OCA\Encryption\Command;
 
-
 use OCA\Encryption\Util;
 use OCP\IConfig;
 use Symfony\Component\Console\Command\Command;
@@ -48,10 +47,11 @@ class EnableMasterKey extends Command {
 	 * @param IConfig $config
 	 * @param QuestionHelper $questionHelper
 	 */
-	public function __construct(Util $util,
+	public function __construct(
+		Util $util,
 								IConfig $config,
-								QuestionHelper $questionHelper) {
-
+								QuestionHelper $questionHelper
+	) {
 		$this->util = $util;
 		$this->config = $config;
 		$this->questionHelper = $questionHelper;
@@ -65,15 +65,16 @@ class EnableMasterKey extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-
 		$isAlreadyEnabled = $this->util->isMasterKeyEnabled();
 
-		if($isAlreadyEnabled) {
+		if ($isAlreadyEnabled) {
 			$output->writeln('Master key already enabled');
 		} else {
 			$question = new ConfirmationQuestion(
 				'Warning: Only available for fresh installations with no existing encrypted data! '
-			. 'There is also no way to disable it again. Do you want to continue? (y/n) ', false);
+			. 'There is also no way to disable it again. Do you want to continue? (y/n) ',
+				false
+			);
 			if ($this->questionHelper->ask($input, $output, $question)) {
 				$this->config->setAppValue('encryption', 'useMasterKey', '1');
 				$output->writeln('Master key successfully enabled.');
@@ -81,7 +82,5 @@ class EnableMasterKey extends Command {
 				$output->writeln('aborted.');
 			}
 		}
-
 	}
-
 }

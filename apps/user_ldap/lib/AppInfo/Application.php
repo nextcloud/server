@@ -28,14 +28,14 @@ use OCP\AppFramework\App;
 use OCP\AppFramework\IAppContainer;
 
 class Application extends App {
-	public function __construct () {
+	public function __construct() {
 		parent::__construct('user_ldap');
 		$container = $this->getContainer();
 
 		/**
 		 * Controller
 		 */
-		$container->registerService('RenewPasswordController', function(IAppContainer $c) {
+		$container->registerService('RenewPasswordController', function (IAppContainer $c) {
 			/** @var \OC\Server $server */
 			$server = $c->query('ServerContainer');
 

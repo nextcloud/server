@@ -45,10 +45,10 @@ class IntegrationTestConnect extends AbstractIntegrationTest {
 
 	public function __construct($host, $port, $bind, $pwd, $base) {
 		// make sure host is a simple host name
-		if(strpos($host, '://') !== false) {
+		if (strpos($host, '://') !== false) {
 			$host = substr_replace($host, '', 0, strpos($host, '://') + 3);
 		}
-		if(strpos($host, ':') !== false) {
+		if (strpos($host, ':') !== false) {
 			$host = substr_replace($host, '', strpos($host, ':'));
 		}
 		$this->host = $host;

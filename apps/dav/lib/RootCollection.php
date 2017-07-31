@@ -36,7 +36,6 @@ use Sabre\CalDAV\Principal\Collection;
 use Sabre\DAV\SimpleCollection;
 
 class RootCollection extends SimpleCollection {
-
 	public function __construct() {
 		$config = \OC::$server->getConfig();
 		$random = \OC::$server->getSecureRandom();
@@ -122,5 +121,4 @@ class RootCollection extends SimpleCollection {
 
 		parent::__construct('root', $children);
 	}
-
 }

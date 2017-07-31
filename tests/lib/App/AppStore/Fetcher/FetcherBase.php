@@ -194,10 +194,10 @@ abstract class FetcherBase extends TestCase {
 
 	public function testGetWithAlreadyExistingFileAndOutdatedTimestamp() {
 		$this->config->method('getSystemValue')
-			->willReturnCallback(function($key, $default) {
+			->willReturnCallback(function ($key, $default) {
 				if ($key === 'appstoreenabled') {
 					return true;
-				} else if ($key === 'version') {
+				} elseif ($key === 'version') {
 					return '11.0.0.2';
 				} else {
 					return $default;
@@ -427,7 +427,7 @@ abstract class FetcherBase extends TestCase {
 
 	public function testGetWithExceptionInClient() {
 		$this->config->method('getSystemValue')
-			->willReturnCallback(function($key, $default) {
+			->willReturnCallback(function ($key, $default) {
 				if ($key === 'appstoreenabled') {
 					return true;
 				} else {
@@ -467,10 +467,10 @@ abstract class FetcherBase extends TestCase {
 
 	public function testGetMatchingETag() {
 		$this->config->method('getSystemValue')
-			->willReturnCallback(function($key, $default) {
+			->willReturnCallback(function ($key, $default) {
 				if ($key === 'appstoreenabled') {
 					return true;
-				} else if ($key === 'version') {
+				} elseif ($key === 'version') {
 					return '11.0.0.2';
 				} else {
 					return $default;
@@ -548,10 +548,10 @@ abstract class FetcherBase extends TestCase {
 
 	public function testGetNoMatchingETag() {
 		$this->config->method('getSystemValue')
-			->willReturnCallback(function($key, $default) {
+			->willReturnCallback(function ($key, $default) {
 				if ($key === 'appstoreenabled') {
 					return true;
-				} else if ($key === 'version') {
+				} elseif ($key === 'version') {
 					return '11.0.0.2';
 				} else {
 					return $default;
@@ -635,10 +635,10 @@ abstract class FetcherBase extends TestCase {
 
 	public function testFetchAfterUpgradeNoETag() {
 		$this->config->method('getSystemValue')
-			->willReturnCallback(function($key, $default) {
+			->willReturnCallback(function ($key, $default) {
 				if ($key === 'appstoreenabled') {
 					return true;
-				} else if ($key === 'version') {
+				} elseif ($key === 'version') {
 					return '11.0.0.3';
 				} else {
 					return $default;

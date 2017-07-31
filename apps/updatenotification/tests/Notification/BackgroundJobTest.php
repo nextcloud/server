@@ -22,7 +22,6 @@
 
 namespace OCA\UpdateNotification\Tests\Notification;
 
-
 use OCA\UpdateNotification\Notification\BackgroundJob;
 use OCP\App\IAppManager;
 use OCP\Http\Client\IClientService;
@@ -71,7 +70,8 @@ class BackgroundJobTest extends TestCase {
 				$this->appManager,
 				$this->client
 			);
-		} {
+		}
+		{
 			return $this->getMockBuilder(BackgroundJob::class)
 				->setConstructorArgs([
 					$this->config,
@@ -168,7 +168,7 @@ class BackgroundJobTest extends TestCase {
 				->method('createNotifications');
 			$job->expects($versionCheck === null ? $this->never() : $this->once())
 				->method('clearErrorNotifications');
-		} else if ($version === false) {
+		} elseif ($version === false) {
 			$job->expects($this->never())
 				->method('createNotifications');
 			$job->expects($this->never())

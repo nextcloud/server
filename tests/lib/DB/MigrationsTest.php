@@ -87,7 +87,6 @@ class MigrationsTest extends \Test\TestCase {
 	}
 
 	public function testExecuteStepWithSchemaChange() {
-
 		$schema = $this->createMock(Schema::class);
 		$this->db->expects($this->any())
 			->method('createSchema')
@@ -123,7 +122,6 @@ class MigrationsTest extends \Test\TestCase {
 	}
 
 	public function testExecuteStepWithoutSchemaChange() {
-
 		$schema = $this->createMock(Schema::class);
 		$this->db->expects($this->any())
 			->method('createSchema')
@@ -181,7 +179,8 @@ class MigrationsTest extends \Test\TestCase {
 
 		$this->assertEquals(
 			['20170130180000', '20170130180001', '20170130180002', '20170130180003'],
-			$this->migrationService->getAvailableVersions());
+			$this->migrationService->getAvailableVersions()
+		);
 
 		$migration = $this->migrationService->getMigration($alias);
 		$this->assertEquals($expected, $migration);
@@ -201,7 +200,8 @@ class MigrationsTest extends \Test\TestCase {
 
 		$this->assertEquals(
 			['20170130180000', '20170130180001', '20170130180002', '20170130180003'],
-			$this->migrationService->getAvailableVersions());
+			$this->migrationService->getAvailableVersions()
+		);
 
 		$this->migrationService->expects($this->exactly(2))->method('executeStep')
 			->withConsecutive(['20170130180002'], ['20170130180003']);

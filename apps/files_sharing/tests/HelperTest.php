@@ -46,7 +46,5 @@ class HelperTest extends TestCase {
 
 		// cleanup
 		\OC::$server->getConfig()->deleteSystemValue('share_folder');
-
 	}
-
 }

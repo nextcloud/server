@@ -77,10 +77,12 @@ class Factory implements IFactory {
 	 * @param IUserSession $userSession
 	 * @param string $serverRoot
 	 */
-	public function __construct(IConfig $config,
+	public function __construct(
+		IConfig $config,
 								IRequest $request,
 								IUserSession $userSession,
-								$serverRoot) {
+								$serverRoot
+	) {
 		$this->config = $config;
 		$this->request = $request;
 		$this->userSession = $userSession;
@@ -97,7 +99,7 @@ class Factory implements IFactory {
 	public function get($app, $lang = null) {
 		$app = \OC_App::cleanAppId($app);
 		if ($lang !== null) {
-			$lang = str_replace(array('\0', '/', '\\', '..'), '', (string) $lang);
+			$lang = str_replace(['\0', '/', '\\', '..'], '', (string) $lang);
 		}
 
 		$forceLang = $this->config->getSystemValue('force_language', false);
@@ -111,7 +113,9 @@ class Factory implements IFactory {
 
 		if (!isset($this->instances[$lang][$app])) {
 			$this->instances[$lang][$app] = new L10N(
-				$this, $app, $lang,
+				$this,
+				$app,
+				$lang,
 				$this->getL10nFilesForApp($app, $lang)
 			);
 		}
@@ -137,9 +141,9 @@ class Factory implements IFactory {
 		 *
 		 * @link https://github.com/owncloud/core/issues/21955
 		 */
-		if($this->config->getSystemValue('installed', false)) {
+		if ($this->config->getSystemValue('installed', false)) {
 			$userId = !is_null($this->userSession->getUser()) ? $this->userSession->getUser()->getUID() :  null;
-			if(!is_null($userId)) {
+			if (!is_null($userId)) {
 				$userLang = $this->config->getUserValue($userId, 'core', 'lang', null);
 			} else {
 				$userLang = null;
@@ -285,7 +289,7 @@ class Factory implements IFactory {
 	 */
 	private function isSubDirectory($sub, $parent) {
 		// Check whether $sub contains no ".."
-		if(strpos($sub, '..') !== false) {
+		if (strpos($sub, '..') !== false) {
 			return false;
 		}
 
@@ -312,7 +316,8 @@ class Factory implements IFactory {
 		$i18nDir = $this->findL10nDir($app);
 		$transFile = strip_tags($i18nDir) . strip_tags($lang) . '.json';
 
-		if (($this->isSubDirectory($transFile, $this->serverRoot . '/core/l10n/')
+		if ((
+			$this->isSubDirectory($transFile, $this->serverRoot . '/core/l10n/')
 				|| $this->isSubDirectory($transFile, $this->serverRoot . '/lib/l10n/')
 				|| $this->isSubDirectory($transFile, $this->serverRoot . '/settings/l10n/')
 				|| $this->isSubDirectory($transFile, \OC_App::getAppPath($app) . '/l10n/')
@@ -345,7 +350,7 @@ class Factory implements IFactory {
 			if (file_exists($this->serverRoot . '/' . $app . '/l10n/')) {
 				return $this->serverRoot . '/' . $app . '/l10n/';
 			}
-		} else if ($app && \OC_App::getAppPath($app) !== false) {
+		} elseif ($app && \OC_App::getAppPath($app) !== false) {
 			// Check if the app is in the app folder
 			return \OC_App::getAppPath($app) . '/l10n/';
 		}
@@ -366,14 +371,14 @@ class Factory implements IFactory {
 			return $this->pluralFunctions[$string];
 		}
 
-		if (preg_match( '/^\s*nplurals\s*=\s*(\d+)\s*;\s*plural=(.*)$/u', $string, $matches)) {
+		if (preg_match('/^\s*nplurals\s*=\s*(\d+)\s*;\s*plural=(.*)$/u', $string, $matches)) {
 			// sanitize
-			$nplurals = preg_replace( '/[^0-9]/', '', $matches[1] );
-			$plural = preg_replace( '#[^n0-9:\(\)\?\|\&=!<>+*/\%-]#', '', $matches[2] );
+			$nplurals = preg_replace('/[^0-9]/', '', $matches[1]);
+			$plural = preg_replace('#[^n0-9:\(\)\?\|\&=!<>+*/\%-]#', '', $matches[2]);
 
 			$body = str_replace(
-				array( 'plural', 'n', '$n$plurals', ),
-				array( '$plural', '$n', '$nplurals', ),
+				[ 'plural', 'n', '$n$plurals', ],
+				[ '$plural', '$n', '$nplurals', ],
 				'nplurals='. $nplurals . '; plural=' . $plural
 			);
 
@@ -382,9 +387,9 @@ class Factory implements IFactory {
 			$body .= ';';
 			$res = '';
 			$p = 0;
-			for($i = 0; $i < strlen($body); $i++) {
+			for ($i = 0; $i < strlen($body); $i++) {
 				$ch = $body[$i];
-				switch ( $ch ) {
+				switch ($ch) {
 					case '?':
 						$res .= ' ? (';
 						$p++;
@@ -393,7 +398,7 @@ class Factory implements IFactory {
 						$res .= ') : (';
 						break;
 					case ';':
-						$res .= str_repeat( ')', $p ) . ';';
+						$res .= str_repeat(')', $p) . ';';
 						$p = 0;
 						break;
 					default:

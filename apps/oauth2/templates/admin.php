@@ -48,7 +48,7 @@ $clients = $_['clients'];
 		<?php
 		$imageUrl = $urlGenerator->imagePath('core', 'actions/toggle.svg');
 		foreach ($clients as $client) {
-		?>
+			?>
 			<tr>
 				<td><?php p($client->getName()); ?></td>
 				<td><?php p($client->getRedirectUri()); ?></td>
@@ -61,7 +61,8 @@ $clients = $_['clients'];
 					</form>
 				</td>
 			</tr>
-		<?php } ?>
+		<?php
+		} ?>
 		</tbody>
 	</table>
 

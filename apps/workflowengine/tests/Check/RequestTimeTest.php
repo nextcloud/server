@@ -21,7 +21,6 @@
 
 namespace OCA\WorkflowEngine\Tests\Check;
 
-
 class RequestTimeTest extends \Test\TestCase {
 
 	/** @var \OCP\AppFramework\Utility\ITimeFactory|\PHPUnit_Framework_MockObject_MockObject */

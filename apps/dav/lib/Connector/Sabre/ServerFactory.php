@@ -97,10 +97,12 @@ class ServerFactory {
 	 * @param callable $viewCallBack callback that should return the view for the dav endpoint
 	 * @return Server
 	 */
-	public function createServer($baseUri,
+	public function createServer(
+		$baseUri,
 								 $requestUri,
 								 Plugin $authPlugin,
-								 callable $viewCallBack) {
+								 callable $viewCallBack
+	) {
 		// Fire up server
 		$objectTree = new \OCA\DAV\Connector\Sabre\ObjectTree();
 		$server = new \OCA\DAV\Connector\Sabre\Server($objectTree);
@@ -118,7 +120,7 @@ class ServerFactory {
 		$server->addPlugin(new \OCA\DAV\Connector\Sabre\LockPlugin());
 		// Some WebDAV clients do require Class 2 WebDAV support (locking), since
 		// we do not provide locking we emulate it using a fake locking plugin.
-		if($this->request->isUserAgent([
+		if ($this->request->isUserAgent([
 				'/WebDAVFS/',
 				'/Microsoft Office OneNote 2013/',
 				'/Microsoft-WebDAV-MiniRedir/',
@@ -163,7 +165,7 @@ class ServerFactory {
 			);
 			$server->addPlugin(new \OCA\DAV\Connector\Sabre\QuotaPlugin($view));
 
-			if($this->userSession->isLoggedIn()) {
+			if ($this->userSession->isLoggedIn()) {
 				$server->addPlugin(new \OCA\DAV\Connector\Sabre\TagsPlugin($objectTree, $this->tagManager));
 				$server->addPlugin(new \OCA\DAV\Connector\Sabre\SharesPlugin(
 					$objectTree,

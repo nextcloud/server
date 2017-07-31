@@ -77,7 +77,7 @@ class OC_EventSource implements \OCP\IEventSource {
 		} else {
 			header("Content-Type: text/event-stream");
 		}
-		if(!\OC::$server->getRequest()->passesStrictCookieCheck()) {
+		if (!\OC::$server->getRequest()->passesStrictCookieCheck()) {
 			header('Location: '.\OC::$WEBROOT);
 			exit();
 		}

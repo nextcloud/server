@@ -45,7 +45,7 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 	/**
 	 * @var \OCP\Files\Config\IMountProvider[]
 	 */
-	private $providers = array();
+	private $providers = [];
 
 	/**
 	 * @var \OCP\Files\Storage\IStorageFactory
@@ -82,7 +82,7 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 		});
 		return array_reduce($mounts, function (array $mounts, array $providerMounts) {
 			return array_merge($mounts, $providerMounts);
-		}, array());
+		}, []);
 	}
 
 	public function addMountForUser(IUser $user, IMountManager $mountManager) {

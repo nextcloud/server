@@ -32,14 +32,14 @@ OCP\JSON::callCheck();
 
 $l = \OC::$server->getL10N('user_ldap');
 
-if(!isset($_POST['action'])) {
-	\OCP\JSON::error(array('message' => $l->t('No action specified')));
+if (!isset($_POST['action'])) {
+	\OCP\JSON::error(['message' => $l->t('No action specified')]);
 }
 $action = (string)$_POST['action'];
 
 
-if(!isset($_POST['ldap_serverconfig_chooser'])) {
-	\OCP\JSON::error(array('message' => $l->t('No configuration specified')));
+if (!isset($_POST['ldap_serverconfig_chooser'])) {
+	\OCP\JSON::error(['message' => $l->t('No configuration specified')]);
 }
 $prefix = (string)$_POST['ldap_serverconfig_chooser'];
 
@@ -59,7 +59,8 @@ $userManager = new \OCA\User_LDAP\User\Manager(
 	new \OCP\Image(),
 	\OC::$server->getDatabaseConnection(),
 	\OC::$server->getUserManager(),
-	\OC::$server->getNotificationManager());
+	\OC::$server->getNotificationManager()
+);
 
 $access = new \OCA\User_LDAP\Access($con, $ldapWrapper, $userManager, new \OCA\User_LDAP\Helper(
 	\OC::$server->getConfig()
@@ -67,7 +68,7 @@ $access = new \OCA\User_LDAP\Access($con, $ldapWrapper, $userManager, new \OCA\U
 
 $wizard = new \OCA\User_LDAP\Wizard($configuration, $ldapWrapper, $access);
 
-switch($action) {
+switch ($action) {
 	case 'guessPortAndTLS':
 	case 'guessBaseDN':
 	case 'detectEmailAttribute':
@@ -86,12 +87,12 @@ switch($action) {
 	case 'countInBaseDN':
 		try {
 			$result = $wizard->$action();
-			if($result !== false) {
+			if ($result !== false) {
 				OCP\JSON::success($result->getResultArray());
 				exit;
 			}
 		} catch (\Exception $e) {
-			\OCP\JSON::error(array('message' => $e->getMessage(), 'code' => $e->getCode()));
+			\OCP\JSON::error(['message' => $e->getMessage(), 'code' => $e->getCode()]);
 			exit;
 		}
 		\OCP\JSON::error();
@@ -102,12 +103,12 @@ switch($action) {
 		try {
 			$loginName = $_POST['ldap_test_loginname'];
 			$result = $wizard->$action($loginName);
-			if($result !== false) {
+			if ($result !== false) {
 				OCP\JSON::success($result->getResultArray());
 				exit;
 			}
 		} catch (\Exception $e) {
-			\OCP\JSON::error(array('message' => $e->getMessage()));
+			\OCP\JSON::error(['message' => $e->getMessage()]);
 			exit;
 		}
 		\OCP\JSON::error();
@@ -118,16 +119,16 @@ switch($action) {
 	case 'save':
 		$key = isset($_POST['cfgkey']) ? $_POST['cfgkey'] : false;
 		$val = isset($_POST['cfgval']) ? $_POST['cfgval'] : null;
-		if($key === false || is_null($val)) {
-			\OCP\JSON::error(array('message' => $l->t('No data specified')));
+		if ($key === false || is_null($val)) {
+			\OCP\JSON::error(['message' => $l->t('No data specified')]);
 			exit;
 		}
-		$cfg = array($key => $val);
-		$setParameters = array();
+		$cfg = [$key => $val];
+		$setParameters = [];
 		$configuration->setConfiguration($cfg, $setParameters);
-		if(!in_array($key, $setParameters)) {
-			\OCP\JSON::error(array('message' => $l->t($key.
-				' Could not set configuration %s', $setParameters[0])));
+		if (!in_array($key, $setParameters)) {
+			\OCP\JSON::error(['message' => $l->t($key.
+				' Could not set configuration %s', $setParameters[0])]);
 			exit;
 		}
 		$configuration->saveConfiguration();
@@ -137,6 +138,6 @@ switch($action) {
 		OCP\JSON::success();
 		break;
 	default:
-		\OCP\JSON::error(array('message' => $l->t('Action does not exist')));
+		\OCP\JSON::error(['message' => $l->t('Action does not exist')]);
 		break;
 }

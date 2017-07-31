@@ -34,7 +34,6 @@ use \OCA\Files_External\Lib\Auth\Password\Password;
 use OCP\IUser;
 
 class SMB extends Backend {
-
 	use LegacyDependencyCheckPolyfill;
 
 	public function __construct(IL10N $l, Password $legacyAuth) {
@@ -66,5 +65,4 @@ class SMB extends Backend {
 			$storage->setBackendOption('user', $domain.'\\'.$user);
 		}
 	}
-
 }

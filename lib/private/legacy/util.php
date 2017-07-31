@@ -61,9 +61,9 @@ use OCP\IGroupManager;
 use OCP\IUser;
 
 class OC_Util {
-	public static $scripts = array();
-	public static $styles = array();
-	public static $headers = array();
+	public static $scripts = [];
+	public static $styles = [];
+	public static $headers = [];
 	private static $rootMounted = false;
 	private static $fsSetup = false;
 
@@ -80,7 +80,7 @@ class OC_Util {
 		//first set up the local "root" storage
 		\OC\Files\Filesystem::initMountManager();
 		if (!self::$rootMounted) {
-			\OC\Files\Filesystem::mount('\OC\Files\Storage\Local', array('datadir' => $configDataDirectory), '/');
+			\OC\Files\Filesystem::mount('\OC\Files\Storage\Local', ['datadir' => $configDataDirectory], '/');
 			self::$rootMounted = true;
 		}
 	}
@@ -98,7 +98,7 @@ class OC_Util {
 			\OCP\Util::writeLog('files', 'No class given for objectstore', \OCP\Util::ERROR);
 		}
 		if (!isset($config['arguments'])) {
-			$config['arguments'] = array();
+			$config['arguments'] = [];
 		}
 
 		// instantiate object store implementation
@@ -131,7 +131,7 @@ class OC_Util {
 			\OCP\Util::writeLog('files', 'No class given for objectstore', \OCP\Util::ERROR);
 		}
 		if (!isset($config['arguments'])) {
-			$config['arguments'] = array();
+			$config['arguments'] = [];
 		}
 
 		// instantiate object store implementation
@@ -177,12 +177,12 @@ class OC_Util {
 		// If we are not forced to load a specific user we load the one that is logged in
 		if ($user === null) {
 			$user = '';
-		} else if ($user == "" && \OC::$server->getUserSession()->isLoggedIn()) {
+		} elseif ($user == "" && \OC::$server->getUserSession()->isLoggedIn()) {
 			$user = OC_User::getUser();
 		}
 
 		// load all filesystem apps before, so no setup-hook gets lost
-		OC_App::loadApps(array('filesystem'));
+		OC_App::loadApps(['filesystem']);
 
 		// the filesystem will finish when $user is not empty,
 		// mark fs setup here to avoid doing the setup from loading
@@ -242,7 +242,7 @@ class OC_Util {
 					$user = $storage->getUser()->getUID();
 					$quota = OC_Util::getUserQuota($user);
 					if ($quota !== \OCP\Files\FileInfo::SPACE_UNLIMITED) {
-						return new \OC\Files\Storage\Wrapper\Quota(array('storage' => $storage, 'quota' => $quota, 'root' => 'files'));
+						return new \OC\Files\Storage\Wrapper\Quota(['storage' => $storage, 'quota' => $quota, 'root' => 'files']);
 					}
 				}
 			}
@@ -250,7 +250,7 @@ class OC_Util {
 			return $storage;
 		});
 
-		OC_Hook::emit('OC_Filesystem', 'preSetup', array('user' => $user));
+		OC_Hook::emit('OC_Filesystem', 'preSetup', ['user' => $user]);
 		\OC\Files\Filesystem::logWarningWhenAddingStorageWrapper(true);
 
 		//check if we are using an object storage
@@ -273,13 +273,12 @@ class OC_Util {
 
 		//if we aren't logged in, there is no use to set up the filesystem
 		if ($user != "") {
-
 			$userDir = '/' . $user . '/files';
 
 			//jail the user into his "home" directory
 			\OC\Files\Filesystem::init($user, $userDir);
 
-			OC_Hook::emit('OC_Filesystem', 'setup', array('user' => $user, 'user_dir' => $userDir));
+			OC_Hook::emit('OC_Filesystem', 'setup', ['user' => $user, 'user_dir' => $userDir]);
 		}
 		\OC::$server->getEventLogger()->end('setup_fs');
 		return true;
@@ -353,7 +352,7 @@ class OC_Util {
 			return \OCP\Files\FileInfo::SPACE_UNLIMITED;
 		}
 		$userQuota = $user->getQuota();
-		if($userQuota === 'none') {
+		if ($userQuota === 'none') {
 			return \OCP\Files\FileInfo::SPACE_UNLIMITED;
 		}
 		return OC_Helper::computerFileSize($userQuota);
@@ -367,7 +366,6 @@ class OC_Util {
 	 * @throws \RuntimeException
 	 */
 	public static function copySkeleton($userId, \OCP\Files\Folder $userDirectory) {
-
 		$skeletonDirectory = \OC::$server->getConfig()->getSystemValue('skeletondirectory', \OC::$SERVERROOT . '/core/skeleton');
 		$instanceId = \OC::$server->getConfig()->getSystemValue('instanceid', '');
 
@@ -403,7 +401,7 @@ class OC_Util {
 
 		// Verify if folder exists
 		$dir = opendir($source);
-		if($dir === false) {
+		if ($dir === false) {
 			$logger->error(sprintf('Could not opendir "%s"', $source), ['app' => 'core']);
 			return;
 		}
@@ -417,7 +415,7 @@ class OC_Util {
 				} else {
 					$child = $target->newFile($file);
 					$sourceStream = fopen($source . '/' . $file, 'r');
-					if($sourceStream === false) {
+					if ($sourceStream === false) {
 						$logger->error(sprintf('Could not fopen "%s"', $source . '/' . $file), ['app' => 'core']);
 						closedir($dir);
 						return;
@@ -541,7 +539,7 @@ class OC_Util {
 
 		// core js files need separate handling
 		if ($application !== 'core' && $file !== null) {
-			self::addTranslations ( $application );
+			self::addTranslations($application);
 		}
 		self::addExternalResource($application, $prepend, $path, "script");
 	}
@@ -614,11 +612,10 @@ class OC_Util {
 	 * @return void
 	 */
 	private static function addExternalResource($application, $prepend, $path, $type = "script") {
-
 		if ($type === "style") {
 			if (!in_array($path, self::$styles)) {
 				if ($prepend === true) {
-					array_unshift ( self::$styles, $path );
+					array_unshift(self::$styles, $path);
 				} else {
 					self::$styles[] = $path;
 				}
@@ -626,7 +623,7 @@ class OC_Util {
 		} elseif ($type === "script") {
 			if (!in_array($path, self::$scripts)) {
 				if ($prepend === true) {
-					array_unshift ( self::$scripts, $path );
+					array_unshift(self::$scripts, $path);
 				} else {
 					self::$scripts [] = $path;
 				}
@@ -642,12 +639,12 @@ class OC_Util {
 	 * @param array $attributes array of attributes for the element
 	 * @param string $text the text content for the element
 	 */
-	public static function addHeader($tag, $attributes, $text=null) {
-		self::$headers[] = array(
+	public static function addHeader($tag, $attributes, $text = null) {
+		self::$headers[] = [
 			'tag' => $tag,
 			'attributes' => $attributes,
 			'text' => $text
-		);
+		];
 	}
 
 	/**
@@ -681,7 +678,7 @@ class OC_Util {
 	 */
 	public static function checkServer(\OC\SystemConfig $config) {
 		$l = \OC::$server->getL10N('lib');
-		$errors = array();
+		$errors = [];
 		$CONFIG_DATADIRECTORY = $config->getValue('datadirectory', OC::$SERVERROOT . '/data');
 
 		if (!self::needUpgrade($config) && $config->getValue('installed', false)) {
@@ -695,28 +692,36 @@ class OC_Util {
 		}
 
 		$webServerRestart = false;
-		$setup = new \OC\Setup($config, \OC::$server->getIniWrapper(), \OC::$server->getL10N('lib'),
-			\OC::$server->query(\OCP\Defaults::class), \OC::$server->getLogger(), \OC::$server->getSecureRandom());
+		$setup = new \OC\Setup(
+			$config,
+			\OC::$server->getIniWrapper(),
+			\OC::$server->getL10N('lib'),
+			\OC::$server->query(\OCP\Defaults::class),
+			\OC::$server->getLogger(),
+			\OC::$server->getSecureRandom()
+		);
 
 		$urlGenerator = \OC::$server->getURLGenerator();
 
 		$availableDatabases = $setup->getSupportedDatabases();
 		if (empty($availableDatabases)) {
-			$errors[] = array(
+			$errors[] = [
 				'error' => $l->t('No database drivers (sqlite, mysql, or postgresql) installed.'),
 				'hint' => '' //TODO: sane hint
-			);
+			];
 			$webServerRestart = true;
 		}
 
 		// Check if config folder is writable.
-		if(!OC_Helper::isReadOnlyConfigEnabled()) {
+		if (!OC_Helper::isReadOnlyConfigEnabled()) {
 			if (!is_writable(OC::$configDir) or !is_readable(OC::$configDir)) {
-				$errors[] = array(
+				$errors[] = [
 					'error' => $l->t('Cannot write into "config" directory'),
-					'hint' => $l->t('This can usually be fixed by giving the webserver write access to the config directory. See %s',
-						[$urlGenerator->linkToDocs('admin-dir_permissions')])
-				);
+					'hint' => $l->t(
+						'This can usually be fixed by giving the webserver write access to the config directory. See %s',
+						[$urlGenerator->linkToDocs('admin-dir_permissions')]
+					)
+				];
 			}
 		}
 
@@ -726,12 +731,14 @@ class OC_Util {
 				|| !is_writable(OC_App::getInstallPath())
 				|| !is_readable(OC_App::getInstallPath())
 			) {
-				$errors[] = array(
+				$errors[] = [
 					'error' => $l->t('Cannot write into "apps" directory'),
-					'hint' => $l->t('This can usually be fixed by giving the webserver write access to the apps directory'
+					'hint' => $l->t(
+						'This can usually be fixed by giving the webserver write access to the apps directory'
 						. ' or disabling the appstore in the config file. See %s',
-						[$urlGenerator->linkToDocs('admin-dir_permissions')])
-				);
+						[$urlGenerator->linkToDocs('admin-dir_permissions')]
+					)
+				];
 			}
 		}
 		// Create root dir.
@@ -743,14 +750,18 @@ class OC_Util {
 				} else {
 					$errors[] = [
 						'error' => $l->t('Cannot create "data" directory'),
-						'hint' => $l->t('This can usually be fixed by giving the webserver write access to the root directory. See %s',
-							[$urlGenerator->linkToDocs('admin-dir_permissions')])
+						'hint' => $l->t(
+							'This can usually be fixed by giving the webserver write access to the root directory. See %s',
+							[$urlGenerator->linkToDocs('admin-dir_permissions')]
+						)
 					];
 				}
-			} else if (!is_writable($CONFIG_DATADIRECTORY) or !is_readable($CONFIG_DATADIRECTORY)) {
+			} elseif (!is_writable($CONFIG_DATADIRECTORY) or !is_readable($CONFIG_DATADIRECTORY)) {
 				//common hint for all file permissions error messages
-				$permissionsHint = $l->t('Permissions can usually be fixed by giving the webserver write access to the root directory. See %s.',
-					[$urlGenerator->linkToDocs('admin-dir_permissions')]);
+				$permissionsHint = $l->t(
+					'Permissions can usually be fixed by giving the webserver write access to the root directory. See %s.',
+					[$urlGenerator->linkToDocs('admin-dir_permissions')]
+				);
 				$errors[] = [
 					'error' => 'Your data directory is not writable',
 					'hint' => $permissionsHint
@@ -761,12 +772,14 @@ class OC_Util {
 		}
 
 		if (!OC_Util::isSetLocaleWorking()) {
-			$errors[] = array(
-				'error' => $l->t('Setting locale to %s failed',
-					array('en_US.UTF-8/fr_FR.UTF-8/es_ES.UTF-8/de_DE.UTF-8/ru_RU.UTF-8/'
-						. 'pt_BR.UTF-8/it_IT.UTF-8/ja_JP.UTF-8/zh_CN.UTF-8')),
+			$errors[] = [
+				'error' => $l->t(
+					'Setting locale to %s failed',
+					['en_US.UTF-8/fr_FR.UTF-8/es_ES.UTF-8/de_DE.UTF-8/ru_RU.UTF-8/'
+						. 'pt_BR.UTF-8/it_IT.UTF-8/ja_JP.UTF-8/zh_CN.UTF-8']
+				),
 				'hint' => $l->t('Please install one of these locales on your system and restart your webserver.')
-			);
+			];
 		}
 
 		// Contains the dependencies that should be checked against
@@ -777,13 +790,13 @@ class OC_Util {
 		// If the dependency is not found the missing module name is shown to the EndUser
 		// When adding new checks always verify that they pass on Travis as well
 		// for ini settings, see https://github.com/owncloud/administration/blob/master/travis-ci/custom.ini
-		$dependencies = array(
-			'classes' => array(
+		$dependencies = [
+			'classes' => [
 				'ZipArchive' => 'zip',
 				'DOMDocument' => 'dom',
 				'XMLWriter' => 'XMLWriter',
 				'XMLReader' => 'XMLReader',
-			),
+			],
 			'functions' => [
 				'xml_parser_create' => 'libxml',
 				'mb_strcut' => 'mb multibyte',
@@ -797,14 +810,14 @@ class OC_Util {
 				'curl_init' => 'cURL',
 				'openssl_verify' => 'OpenSSL',
 			],
-			'defined' => array(
+			'defined' => [
 				'PDO::ATTR_DRIVER_NAME' => 'PDO'
-			),
+			],
 			'ini' => [
 				'default_charset' => 'UTF-8',
 			],
-		);
-		$missingDependencies = array();
+		];
+		$missingDependencies = [];
 		$invalidIniSettings = [];
 		$moduleHint = $l->t('Please ask your server administrator to install the module.');
 
@@ -850,20 +863,20 @@ class OC_Util {
 			}
 		}
 
-		foreach($missingDependencies as $missingDependency) {
-			$errors[] = array(
-				'error' => $l->t('PHP module %s not installed.', array($missingDependency)),
+		foreach ($missingDependencies as $missingDependency) {
+			$errors[] = [
+				'error' => $l->t('PHP module %s not installed.', [$missingDependency]),
 				'hint' => $moduleHint
-			);
+			];
 			$webServerRestart = true;
 		}
-		foreach($invalidIniSettings as $setting) {
-			if(is_bool($setting[1])) {
+		foreach ($invalidIniSettings as $setting) {
+			if (is_bool($setting[1])) {
 				$setting[1] = ($setting[1]) ? 'on' : 'off';
 			}
 			$errors[] = [
 				'error' => $l->t('PHP setting "%s" is not set to "%s".', [$setting[0], var_export($setting[1], true)]),
-				'hint' =>  $l->t('Adjusting this setting in php.ini will make Nextcloud run again')
+				'hint' => $l->t('Adjusting this setting in php.ini will make Nextcloud run again')
 			];
 			$webServerRestart = true;
 		}
@@ -876,40 +889,40 @@ class OC_Util {
 		 * TODO: Should probably be implemented in the above generic dependency
 		 *       check somehow in the long-term.
 		 */
-		if($iniWrapper->getBool('mbstring.func_overload') !== null &&
+		if ($iniWrapper->getBool('mbstring.func_overload') !== null &&
 			$iniWrapper->getBool('mbstring.func_overload') === true) {
-			$errors[] = array(
+			$errors[] = [
 				'error' => $l->t('mbstring.func_overload is set to "%s" instead of the expected value "0"', [$iniWrapper->getString('mbstring.func_overload')]),
 				'hint' => $l->t('To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini')
-			);
+			];
 		}
 
-		if(function_exists('xml_parser_create') &&
-			LIBXML_LOADED_VERSION < 20700 ) {
+		if (function_exists('xml_parser_create') &&
+			LIBXML_LOADED_VERSION < 20700) {
 			$version = LIBXML_LOADED_VERSION;
-			$major = floor($version/10000);
+			$major = floor($version / 10000);
 			$version -= ($major * 10000);
-			$minor = floor($version/100);
+			$minor = floor($version / 100);
 			$version -= ($minor * 100);
 			$patch = $version;
-			$errors[] = array(
+			$errors[] = [
 				'error' => $l->t('libxml2 2.7.0 is at least required. Currently %s is installed.', [$major . '.' . $minor . '.' . $patch]),
 				'hint' => $l->t('To fix this issue update your libxml2 version and restart your web server.')
-			);
+			];
 		}
 
 		if (!self::isAnnotationsWorking()) {
-			$errors[] = array(
+			$errors[] = [
 				'error' => $l->t('PHP is apparently set up to strip inline doc blocks. This will make several core apps inaccessible.'),
 				'hint' => $l->t('This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator.')
-			);
+			];
 		}
 
 		if (!\OC::$CLI && $webServerRestart) {
-			$errors[] = array(
+			$errors[] = [
 				'error' => $l->t('PHP modules have been installed, but they are still listed as missing?'),
 				'hint' => $l->t('Please ask your server administrator to restart the web server.')
-			);
+			];
 		}
 
 		$errors = array_merge($errors, self::checkDatabaseVersion());
@@ -927,7 +940,7 @@ class OC_Util {
 	 */
 	public static function checkDatabaseVersion() {
 		$l = \OC::$server->getL10N('lib');
-		$errors = array();
+		$errors = [];
 		$dbType = \OC::$server->getSystemConfig()->getValue('dbtype', 'sqlite');
 		if ($dbType === 'pgsql') {
 			// check PostgreSQL version
@@ -937,10 +950,10 @@ class OC_Util {
 				if (isset($data['server_version'])) {
 					$version = $data['server_version'];
 					if (version_compare($version, '9.0.0', '<')) {
-						$errors[] = array(
+						$errors[] = [
 							'error' => $l->t('PostgreSQL >= 9 required'),
 							'hint' => $l->t('Please upgrade your database version')
-						);
+						];
 					}
 				}
 			} catch (\Doctrine\DBAL\DBALException $e) {
@@ -960,7 +973,7 @@ class OC_Util {
 	 */
 	public static function checkDataDirectoryPermissions($dataDirectory) {
 		$l = \OC::$server->getL10N('lib');
-		$errors = array();
+		$errors = [];
 		$permissionsModHint = $l->t('Please change the permissions to 0770 so that the directory'
 			. ' cannot be listed by other users.');
 		$perms = substr(decoct(@fileperms($dataDirectory)), -3);
@@ -1013,7 +1026,8 @@ class OC_Util {
 	public static function checkLoggedIn() {
 		// Check if we are a user
 		if (!\OC::$server->getUserSession()->isLoggedIn()) {
-			header('Location: ' . \OC::$server->getURLGenerator()->linkToRoute(
+			header(
+				'Location: ' . \OC::$server->getURLGenerator()->linkToRoute(
 						'core.login.showLoginForm',
 						[
 							'redirect_url' => \OC::$server->getRequest()->getRequestUri(),
@@ -1051,7 +1065,7 @@ class OC_Util {
 		OC_Util::checkLoggedIn();
 		$userObject = \OC::$server->getUserSession()->getUser();
 		$isSubAdmin = false;
-		if($userObject !== null) {
+		if ($userObject !== null) {
 			$isSubAdmin = \OC::$server->getGroupManager()->getSubAdmin()->isSubAdmin($userObject);
 		}
 
@@ -1091,7 +1105,7 @@ class OC_Util {
 					}
 				}
 
-				if(\OC::$server->getConfig()->getSystemValue('htaccess.IgnoreFrontController', false) === true || getenv('front_controller_active') === 'true') {
+				if (\OC::$server->getConfig()->getSystemValue('htaccess.IgnoreFrontController', false) === true || getenv('front_controller_active') === 'true') {
 					$location = $urlGenerator->getAbsoluteURL('/apps/' . $appId . '/');
 				} else {
 					$location = $urlGenerator->getAbsoluteURL('/index.php/apps/' . $appId . '/');
@@ -1138,7 +1152,7 @@ class OC_Util {
 	 */
 	public static function sanitizeHTML($value) {
 		if (is_array($value)) {
-			$value = array_map(function($value) {
+			$value = array_map(function ($value) {
 				return self::sanitizeHTML($value);
 			}, $value);
 		} else {
@@ -1184,8 +1198,10 @@ class OC_Util {
 
 		$fp = @fopen($testFile, 'w');
 		if (!$fp) {
-			throw new OC\HintException('Can\'t create test file to check for working .htaccess file.',
-				'Make sure it is possible for the webserver to write to ' . $testFile);
+			throw new OC\HintException(
+				'Can\'t create test file to check for working .htaccess file.',
+				'Make sure it is possible for the webserver to write to ' . $testFile
+			);
 		}
 		fwrite($fp, $testContent);
 		fclose($fp);
@@ -1201,7 +1217,6 @@ class OC_Util {
 	 * @throws \OC\HintException If the test file can't get written.
 	 */
 	public function isHtaccessWorking(\OCP\IConfig $config) {
-
 		if (\OC::$CLI || !$config->getSystemValue('check_for_working_htaccess', true)) {
 			return true;
 		}
@@ -1377,7 +1392,7 @@ class OC_Util {
 	 * @return bool|string
 	 */
 	public static function normalizeUnicode($value) {
-		if(Normalizer::isNormalized($value)) {
+		if (Normalizer::isNormalized($value)) {
 			return $value;
 		}
 
@@ -1459,7 +1474,7 @@ class OC_Util {
 			$versionDiff = version_compare($currentVersion, $installedVersion);
 			if ($versionDiff > 0) {
 				return true;
-			} else if ($config->getValue('debug', false) && $versionDiff < 0) {
+			} elseif ($config->getValue('debug', false) && $versionDiff < 0) {
 				// downgrade with debug
 				$installedMajor = explode('.', $installedVersion);
 				$installedMajor = $installedMajor[0] . '.' . $installedMajor[1];
@@ -1472,7 +1487,7 @@ class OC_Util {
 					// downgrade attempt, throw exception
 					throw new \OC\HintException('Downgrading is not supported and is likely to cause unpredictable issues (from ' . $installedVersion . ' to ' . $currentVersion . ')');
 				}
-			} else if ($versionDiff < 0) {
+			} elseif ($versionDiff < 0) {
 				// downgrade attempt, throw exception
 				throw new \OC\HintException('Downgrading is not supported and is likely to cause unpredictable issues (from ' . $installedVersion . ' to ' . $currentVersion . ')');
 			}
@@ -1491,5 +1506,4 @@ class OC_Util {
 			return false;
 		}
 	}
-
 }

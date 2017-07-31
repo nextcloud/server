@@ -80,7 +80,8 @@ class Admin implements ISettings {
 			$this->logger,
 			$this->userSession,
 			$this->config,
-			$this->l);
+			$this->l
+		);
 
 		$util = new Util(
 			new View(),
@@ -88,7 +89,8 @@ class Admin implements ISettings {
 			$this->logger,
 			$this->userSession,
 			$this->config,
-			$this->userManager);
+			$this->userManager
+		);
 
 		// Check if an adminRecovery account is enabled for recovering files after lost pwd
 		$recoveryAdminEnabled = $this->config->getAppValue('encryption', 'recoveryAdminEnabled', '0');
@@ -97,10 +99,10 @@ class Admin implements ISettings {
 		$encryptHomeStorage = $util->shouldEncryptHomeStorage();
 
 		$parameters = [
-			'recoveryEnabled'    => $recoveryAdminEnabled,
-			'initStatus'         => $session->getStatus(),
+			'recoveryEnabled' => $recoveryAdminEnabled,
+			'initStatus' => $session->getStatus(),
 			'encryptHomeStorage' => $encryptHomeStorage,
-			'masterKeyEnabled'   => $util->isMasterKeyEnabled(),
+			'masterKeyEnabled' => $util->isMasterKeyEnabled(),
 		];
 
 		return new TemplateResponse('encryption', 'settings-admin', $parameters, '');
@@ -123,5 +125,4 @@ class Admin implements ISettings {
 	public function getPriority() {
 		return 5;
 	}
-
 }

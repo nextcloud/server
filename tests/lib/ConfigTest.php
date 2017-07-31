@@ -12,7 +12,7 @@ class ConfigTest extends TestCase {
 	const TESTCONTENT = '<?php $CONFIG=array("foo"=>"bar", "beers" => array("Appenzeller", "Guinness", "Kölsch"), "alcohol_free" => false);';
 
 	/** @var array */
-	private $initialConfig = array('foo' => 'bar', 'beers' => array('Appenzeller', 'Guinness', 'Kölsch'), 'alcohol_free' => false);
+	private $initialConfig = ['foo' => 'bar', 'beers' => ['Appenzeller', 'Guinness', 'Kölsch'], 'alcohol_free' => false];
 	/** @var string */
 	private $configFile;
 	/** @var \OC\Config */
@@ -35,7 +35,7 @@ class ConfigTest extends TestCase {
 	}
 
 	public function testGetKeys() {
-		$expectedConfig = array('foo', 'beers', 'alcohol_free');
+		$expectedConfig = ['foo', 'beers', 'alcohol_free'];
 		$this->assertSame($expectedConfig, $this->config->getKeys());
 	}
 
@@ -44,8 +44,8 @@ class ConfigTest extends TestCase {
 		$this->assertSame(null, $this->config->getValue('bar'));
 		$this->assertSame('moo', $this->config->getValue('bar', 'moo'));
 		$this->assertSame(false, $this->config->getValue('alcohol_free', 'someBogusValue'));
-		$this->assertSame(array('Appenzeller', 'Guinness', 'Kölsch'), $this->config->getValue('beers', 'someBogusValue'));
-		$this->assertSame(array('Appenzeller', 'Guinness', 'Kölsch'), $this->config->getValue('beers'));
+		$this->assertSame(['Appenzeller', 'Guinness', 'Kölsch'], $this->config->getValue('beers', 'someBogusValue'));
+		$this->assertSame(['Appenzeller', 'Guinness', 'Kölsch'], $this->config->getValue('beers'));
 	}
 
 	public function testGetValueReturnsEnvironmentValueIfSet() {
@@ -81,9 +81,9 @@ class ConfigTest extends TestCase {
 		$this->assertEquals($expected, $content);
 
 		$this->config->setValue('bar', 'red');
-		$this->config->setValue('apps', array('files', 'gallery'));
+		$this->config->setValue('apps', ['files', 'gallery']);
 		$expectedConfig['bar'] = 'red';
-		$expectedConfig['apps'] = array('files', 'gallery');
+		$expectedConfig['apps'] = ['files', 'gallery'];
 		$this->assertAttributeEquals($expectedConfig, 'cache', $this->config);
 
 		$content = file_get_contents($this->configFile);
@@ -101,8 +101,8 @@ class ConfigTest extends TestCase {
 		// Changing configs to existing values and deleting non-existing once
 		// should not rewrite the config.php
 		$this->config->setValues([
-			'foo'			=> 'bar',
-			'not_exists'	=> null,
+			'foo' => 'bar',
+			'not_exists' => null,
 		]);
 
 		$this->assertAttributeEquals($this->initialConfig, 'cache', $this->config);
@@ -110,8 +110,8 @@ class ConfigTest extends TestCase {
 		$this->assertEquals(self::TESTCONTENT, $content);
 
 		$this->config->setValues([
-			'foo'			=> 'moo',
-			'alcohol_free'	=> null,
+			'foo' => 'moo',
+			'alcohol_free' => null,
 		]);
 		$expectedConfig = $this->initialConfig;
 		$expectedConfig['foo'] = 'moo';
@@ -150,7 +150,7 @@ class ConfigTest extends TestCase {
 		$this->assertEquals(self::TESTCONTENT, file_get_contents($this->configFile));
 
 		// Write a new value to the config
-		$this->config->setValue('CoolWebsites', array('demo.owncloud.org', 'owncloud.org', 'owncloud.com'));
+		$this->config->setValue('CoolWebsites', ['demo.owncloud.org', 'owncloud.org', 'owncloud.com']);
 		$expected = "<?php\n\$CONFIG = array (\n  'foo' => 'bar',\n  'beers' => \n  array (\n    0 => 'Appenzeller',\n  " .
 			"  1 => 'Guinness',\n    2 => 'Kölsch',\n  ),\n  'alcohol_free' => false,\n  'php53' => 'totallyOutdated',\n  'CoolWebsites' => \n  array (\n  " .
 			"  0 => 'demo.owncloud.org',\n    1 => 'owncloud.org',\n    2 => 'owncloud.com',\n  ),\n);\n";
@@ -159,5 +159,4 @@ class ConfigTest extends TestCase {
 		// Cleanup
 		unlink($additionalConfigPath);
 	}
-
 }

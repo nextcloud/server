@@ -141,10 +141,12 @@ class ThrottlerTest extends TestCase {
 	 * @param bool $isWhiteListed
 	 * @param bool $enabled
 	 */
-	private function isIpWhiteListedHelper($ip,
+	private function isIpWhiteListedHelper(
+		$ip,
 										 $whitelists,
 										 $isWhiteListed,
-										 $enabled) {
+										 $enabled
+	) {
 		$this->config->method('getAppKeys')
 			->with($this->equalTo('bruteForce'))
 			->willReturn(array_keys($whitelists));
@@ -155,7 +157,7 @@ class ThrottlerTest extends TestCase {
 			->willReturn($enabled);
 
 		$this->config->method('getAppValue')
-			->will($this->returnCallback(function($app, $key, $default) use ($whitelists) {
+			->will($this->returnCallback(function ($app, $key, $default) use ($whitelists) {
 				if ($app !== 'bruteForce') {
 					return $default;
 				}
@@ -178,9 +180,11 @@ class ThrottlerTest extends TestCase {
 	 * @param string[] $whitelists
 	 * @param bool $isWhiteListed
 	 */
-	public function testIsIpWhiteListedWithEnabledProtection($ip,
+	public function testIsIpWhiteListedWithEnabledProtection(
+		$ip,
 															 $whitelists,
-															 $isWhiteListed) {
+															 $isWhiteListed
+	) {
 		$this->isIpWhiteListedHelper(
 			$ip,
 			$whitelists,
@@ -196,9 +200,11 @@ class ThrottlerTest extends TestCase {
 	 * @param string[] $whitelists
 	 * @param bool $isWhiteListed
 	 */
-	public function testIsIpWhiteListedWithDisabledProtection($ip,
+	public function testIsIpWhiteListedWithDisabledProtection(
+		$ip,
 															 $whitelists,
-															 $isWhiteListed) {
+															 $isWhiteListed
+	) {
 		$this->isIpWhiteListedHelper(
 			$ip,
 			$whitelists,

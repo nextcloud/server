@@ -115,7 +115,6 @@ class KeyManager {
 		ILogger $log,
 		Util $util
 	) {
-
 		$this->util = $util;
 		$this->session = $session;
 		$this->keyStorage = $keyStorage;
@@ -123,24 +122,32 @@ class KeyManager {
 		$this->config = $config;
 		$this->log = $log;
 
-		$this->recoveryKeyId = $this->config->getAppValue('encryption',
-			'recoveryKeyId');
+		$this->recoveryKeyId = $this->config->getAppValue(
+			'encryption',
+			'recoveryKeyId'
+		);
 		if (empty($this->recoveryKeyId)) {
 			$this->recoveryKeyId = 'recoveryKey_' . substr(md5(time()), 0, 8);
-			$this->config->setAppValue('encryption',
+			$this->config->setAppValue(
+				'encryption',
 				'recoveryKeyId',
-				$this->recoveryKeyId);
+				$this->recoveryKeyId
+			);
 		}
 
-		$this->publicShareKeyId = $this->config->getAppValue('encryption',
-			'publicShareKeyId');
+		$this->publicShareKeyId = $this->config->getAppValue(
+			'encryption',
+			'publicShareKeyId'
+		);
 		if (empty($this->publicShareKeyId)) {
 			$this->publicShareKeyId = 'pubShare_' . substr(md5(time()), 0, 8);
 			$this->config->setAppValue('encryption', 'publicShareKeyId', $this->publicShareKeyId);
 		}
 
-		$this->masterKeyId = $this->config->getAppValue('encryption',
-			'masterKeyId');
+		$this->masterKeyId = $this->config->getAppValue(
+			'encryption',
+			'masterKeyId'
+		);
 		if (empty($this->masterKeyId)) {
 			$this->masterKeyId = 'master_' . substr(md5(time()), 0, 8);
 			$this->config->setAppValue('encryption', 'masterKeyId', $this->masterKeyId);
@@ -160,8 +167,10 @@ class KeyManager {
 
 			// Save public key
 			$this->keyStorage->setSystemUserKey(
-				$this->publicShareKeyId . '.publicKey', $keyPair['publicKey'],
-				Encryption::ID);
+				$this->publicShareKeyId . '.publicKey',
+				$keyPair['publicKey'],
+				Encryption::ID
+			);
 
 			// Encrypt private key empty passphrase
 			$encryptedKey = $this->crypt->encryptPrivateKey($keyPair['privateKey'], '');
@@ -174,7 +183,6 @@ class KeyManager {
 	 * check if a key pair for the master key exists, if not we create one
 	 */
 	public function validateMasterKey() {
-
 		if ($this->util->isMasterKeyEnabled() === false) {
 			return;
 		}
@@ -185,8 +193,10 @@ class KeyManager {
 
 			// Save public key
 			$this->keyStorage->setSystemUserKey(
-				$this->masterKeyId . '.publicKey', $keyPair['publicKey'],
-				Encryption::ID);
+				$this->masterKeyId . '.publicKey',
+				$keyPair['publicKey'],
+				Encryption::ID
+			);
 
 			// Encrypt private key with system password
 			$encryptedKey = $this->crypt->encryptPrivateKey($keyPair['privateKey'], $this->getMasterKeyPassword(), $this->masterKeyId);
@@ -272,10 +282,12 @@ class KeyManager {
 	 */
 	public function setRecoveryKey($password, $keyPair) {
 		// Save Public Key
-		$this->keyStorage->setSystemUserKey($this->getRecoveryKeyId().
+		$this->keyStorage->setSystemUserKey(
+			$this->getRecoveryKeyId().
 			'.publicKey',
 			$keyPair['publicKey'],
-			Encryption::ID);
+			Encryption::ID
+		);
 
 		$encryptedKey = $this->crypt->encryptPrivateKey($keyPair['privateKey'], $password);
 		$header = $this->crypt->generateHeader();
@@ -302,10 +314,12 @@ class KeyManager {
 	 * @return bool
 	 */
 	public function setPrivateKey($userId, $key) {
-		return $this->keyStorage->setUserKey($userId,
+		return $this->keyStorage->setUserKey(
+			$userId,
 			$this->privateKeyId,
 			$key,
-			Encryption::ID);
+			Encryption::ID
+		);
 	}
 
 	/**
@@ -353,11 +367,10 @@ class KeyManager {
 	 * @return boolean
 	 */
 	public function init($uid, $passPhrase) {
-
 		$this->session->setStatus(Session::INIT_EXECUTED);
 
 		try {
-			if($this->util->isMasterKeyEnabled()) {
+			if ($this->util->isMasterKeyEnabled()) {
 				$uid = $this->getMasterKeyId();
 				$passPhrase = $this->getMasterKeyPassword();
 				$privateKey = $this->getSystemPrivateKey($uid);
@@ -393,8 +406,11 @@ class KeyManager {
 	 * @throws PrivateKeyMissingException
 	 */
 	public function getPrivateKey($userId) {
-		$privateKey = $this->keyStorage->getUserKey($userId,
-			$this->privateKeyId, Encryption::ID);
+		$privateKey = $this->keyStorage->getUserKey(
+			$userId,
+			$this->privateKeyId,
+			Encryption::ID
+		);
 
 		if (strlen($privateKey) !== 0) {
 			return $privateKey;
@@ -428,7 +444,7 @@ class KeyManager {
 				// when logged in, the master key is already decrypted in the session
 				$privateKey = $this->session->getPrivateKey();
 			}
-		} else if ($publicAccess) {
+		} elseif ($publicAccess) {
 			// use public share key for public links
 			$uid = $this->getPublicShareKeyId();
 			$shareKey = $this->getShareKey($path, $uid);
@@ -440,9 +456,11 @@ class KeyManager {
 		}
 
 		if ($encryptedFileKey && $shareKey && $privateKey) {
-			return $this->crypt->multiKeyDecrypt($encryptedFileKey,
+			return $this->crypt->multiKeyDecrypt(
+				$encryptedFileKey,
 				$shareKey,
-				$privateKey);
+				$privateKey
+			);
 		}
 
 		return '';
@@ -457,7 +475,7 @@ class KeyManager {
 	 */
 	public function getVersion($path, View $view) {
 		$fileInfo = $view->getFileInfo($path);
-		if($fileInfo === false) {
+		if ($fileInfo === false) {
 			return 0;
 		}
 		return $fileInfo->getEncryptedVersion();
@@ -471,9 +489,9 @@ class KeyManager {
 	 * @param View $view
 	 */
 	public function setVersion($path, $version, View $view) {
-		$fileInfo= $view->getFileInfo($path);
+		$fileInfo = $view->getFileInfo($path);
 
-		if($fileInfo !== false) {
+		if ($fileInfo !== false) {
 			$cache = $fileInfo->getStorage()->getCache();
 			$cache->update($fileInfo->getId(), ['encrypted' => $version, 'encryptedVersion' => $version]);
 		}
@@ -486,8 +504,11 @@ class KeyManager {
 	 * @return string
 	 */
 	public function getEncryptedFileKey($path) {
-		$encryptedFileKey = $this->keyStorage->getFileKey($path,
-			$this->fileKeyId, Encryption::ID);
+		$encryptedFileKey = $this->keyStorage->getFileKey(
+			$path,
+			$this->fileKeyId,
+			Encryption::ID
+		);
 
 		return $encryptedFileKey;
 	}
@@ -503,7 +524,8 @@ class KeyManager {
 		return $this->keyStorage->deleteFileKey(
 			$path,
 			$keyId . '.' . $this->shareKeyId,
-			Encryption::ID);
+			Encryption::ID
+		);
 	}
 
 
@@ -637,7 +659,6 @@ class KeyManager {
 		}
 
 		return $keys;
-
 	}
 
 	/**
@@ -657,7 +678,8 @@ class KeyManager {
 		return $this->keyStorage->setSystemUserKey(
 			$keyId . '.' . $this->privateKeyId,
 			$key,
-			Encryption::ID);
+			Encryption::ID
+		);
 	}
 
 	/**
@@ -680,7 +702,6 @@ class KeyManager {
 
 		if ($this->recoveryKeyExists() &&
 			$this->util->isRecoveryEnabledForUser($uid)) {
-
 			$publicKeys[$this->getRecoveryKeyId()] = $this->getRecoveryKey();
 		}
 
@@ -695,7 +716,7 @@ class KeyManager {
 	 */
 	public function getMasterKeyPassword() {
 		$password = $this->config->getSystemValue('secret');
-		if (empty($password)){
+		if (empty($password)) {
 			throw new \Exception('Can not get secret from Nextcloud instance');
 		}
 

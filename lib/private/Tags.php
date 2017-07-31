@@ -53,14 +53,14 @@ class Tags implements \OCP\ITags {
 	 *
 	 * @var array
 	 */
-	private $tags = array();
+	private $tags = [];
 
 	/**
 	 * Used for storing objectid/categoryname pairs while rescanning.
 	 *
 	 * @var array
 	 */
-	private static $relations = array();
+	private static $relations = [];
 
 	/**
 	 * Type
@@ -89,7 +89,7 @@ class Tags implements \OCP\ITags {
 	 *
 	 * @var array
 	 */
-	private $owners = array();
+	private $owners = [];
 
 	/**
 	 * The Mapper we're using to communicate our Tag objects to the database.
@@ -112,47 +112,47 @@ class Tags implements \OCP\ITags {
 	const TAG_FAVORITE = '_$!<Favorite>!$_';
 
 	/**
-	* Constructor.
-	*
-	* @param TagMapper $mapper Instance of the TagMapper abstraction layer.
-	* @param string $user The user whose data the object will operate on.
-	* @param string $type The type of items for which tags will be loaded.
-	* @param array $defaultTags Tags that should be created at construction.
-	* @param boolean $includeShared Whether to include tags for items shared with this user by others.
-	*/
-	public function __construct(TagMapper $mapper, $user, $type, $defaultTags = array(), $includeShared = false) {
+	 * Constructor.
+	 *
+	 * @param TagMapper $mapper Instance of the TagMapper abstraction layer.
+	 * @param string $user The user whose data the object will operate on.
+	 * @param string $type The type of items for which tags will be loaded.
+	 * @param array $defaultTags Tags that should be created at construction.
+	 * @param boolean $includeShared Whether to include tags for items shared with this user by others.
+	 */
+	public function __construct(TagMapper $mapper, $user, $type, $defaultTags = [], $includeShared = false) {
 		$this->mapper = $mapper;
 		$this->user = $user;
 		$this->type = $type;
 		$this->includeShared = $includeShared;
-		$this->owners = array($this->user);
+		$this->owners = [$this->user];
 		if ($this->includeShared) {
 			$this->owners = array_merge($this->owners, \OC\Share\Share::getSharedItemsOwners($this->user, $this->type, true));
 			$this->backend = \OC\Share\Share::getBackend($this->type);
 		}
 		$this->tags = $this->mapper->loadTags($this->owners, $this->type);
 
-		if(count($defaultTags) > 0 && count($this->tags) === 0) {
+		if (count($defaultTags) > 0 && count($this->tags) === 0) {
 			$this->addMultiple($defaultTags, true);
 		}
 	}
 
 	/**
-	* Check if any tags are saved for this type and user.
-	*
-	* @return boolean.
-	*/
+	 * Check if any tags are saved for this type and user.
+	 *
+	 * @return boolean.
+	 */
 	public function isEmpty() {
 		return count($this->tags) === 0;
 	}
 
 	/**
-	* Returns an array mapping a given tag's properties to its values:
-	* ['id' => 0, 'name' = 'Tag', 'owner' = 'User', 'type' => 'tagtype']
-	*
-	* @param string $id The ID of the tag that is going to be mapped
-	* @return array|false
-	*/
+	 * Returns an array mapping a given tag's properties to its values:
+	 * ['id' => 0, 'name' = 'Tag', 'owner' = 'User', 'type' => 'tagtype']
+	 *
+	 * @param string $id The ID of the tag that is going to be mapped
+	 * @return array|false
+	 */
 	public function getTag($id) {
 		$key = $this->getTagById($id);
 		if ($key !== false) {
@@ -162,45 +162,45 @@ class Tags implements \OCP\ITags {
 	}
 
 	/**
-	* Get the tags for a specific user.
-	*
-	* This returns an array with maps containing each tag's properties:
-	* [
-	* 	['id' => 0, 'name' = 'First tag', 'owner' = 'User', 'type' => 'tagtype'],
-	* 	['id' => 1, 'name' = 'Shared tag', 'owner' = 'Other user', 'type' => 'tagtype'],
-	* ]
-	*
-	* @return array
-	*/
+	 * Get the tags for a specific user.
+	 *
+	 * This returns an array with maps containing each tag's properties:
+	 * [
+	 * 	['id' => 0, 'name' = 'First tag', 'owner' = 'User', 'type' => 'tagtype'],
+	 * 	['id' => 1, 'name' = 'Shared tag', 'owner' = 'Other user', 'type' => 'tagtype'],
+	 * ]
+	 *
+	 * @return array
+	 */
 	public function getTags() {
-		if(!count($this->tags)) {
-			return array();
+		if (!count($this->tags)) {
+			return [];
 		}
 
-		usort($this->tags, function($a, $b) {
+		usort($this->tags, function ($a, $b) {
 			return strnatcasecmp($a->getName(), $b->getName());
 		});
-		$tagMap = array();
+		$tagMap = [];
 
-		foreach($this->tags as $tag) {
-			if($tag->getName() !== self::TAG_FAVORITE) {
+		foreach ($this->tags as $tag) {
+			if ($tag->getName() !== self::TAG_FAVORITE) {
 				$tagMap[] = $this->tagMap($tag);
 			}
 		}
 		return $tagMap;
-
 	}
 
 	/**
-	* Return only the tags owned by the given user, omitting any tags shared
-	* by other users.
-	*
-	* @param string $user The user whose tags are to be checked.
-	* @return array An array of Tag objects.
-	*/
+	 * Return only the tags owned by the given user, omitting any tags shared
+	 * by other users.
+	 *
+	 * @param string $user The user whose tags are to be checked.
+	 * @return array An array of Tag objects.
+	 */
 	public function getTagsForUser($user) {
-		return array_filter($this->tags,
-			function($tag) use($user) {
+		return array_filter(
+			$this->tags,
+			function ($tag) use ($user) {
 				return $tag->getOwner() === $user;
 			}
 		);
@@ -214,7 +214,7 @@ class Tags implements \OCP\ITags {
 	 * or false if an error occurred
 	 */
 	public function getTagsForObjects(array $objIds) {
-		$entries = array();
+		$entries = [];
 
 		try {
 			$conn = \OC::$server->getDatabaseConnection();
@@ -224,13 +224,13 @@ class Tags implements \OCP\ITags {
 					'SELECT `category`, `categoryid`, `objid` ' .
 					'FROM `' . self::RELATION_TABLE . '` r, `' . self::TAG_TABLE . '` ' .
 					'WHERE `categoryid` = `id` AND `uid` = ? AND r.`type` = ? AND `objid` IN (?)',
-					array($this->user, $this->type, $chunk),
-					array(null, null, IQueryBuilder::PARAM_INT_ARRAY)
+					[$this->user, $this->type, $chunk],
+					[null, null, IQueryBuilder::PARAM_INT_ARRAY]
 				);
 				while ($row = $result->fetch()) {
 					$objId = (int)$row['objid'];
 					if (!isset($entries[$objId])) {
-						$entries[$objId] = array();
+						$entries[$objId] = [];
 					}
 					$entries[$objId][] = $row['category'];
 				}
@@ -239,9 +239,12 @@ class Tags implements \OCP\ITags {
 					return false;
 				}
 			}
-		} catch(\Exception $e) {
-			\OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(),
-				\OCP\Util::ERROR);
+		} catch (\Exception $e) {
+			\OCP\Util::writeLog(
+				'core',
+				__METHOD__.', exception: '.$e->getMessage(),
+				\OCP\Util::ERROR
+			);
 			return false;
 		}
 
@@ -249,54 +252,57 @@ class Tags implements \OCP\ITags {
 	}
 
 	/**
-	* Get the a list if items tagged with $tag.
-	*
-	* Throws an exception if the tag could not be found.
-	*
-	* @param string $tag Tag id or name.
-	* @return array|false An array of object ids or false on error.
-	* @throws \Exception
-	*/
+	 * Get the a list if items tagged with $tag.
+	 *
+	 * Throws an exception if the tag could not be found.
+	 *
+	 * @param string $tag Tag id or name.
+	 * @return array|false An array of object ids or false on error.
+	 * @throws \Exception
+	 */
 	public function getIdsForTag($tag) {
 		$result = null;
 		$tagId = false;
-		if(is_numeric($tag)) {
+		if (is_numeric($tag)) {
 			$tagId = $tag;
-		} elseif(is_string($tag)) {
+		} elseif (is_string($tag)) {
 			$tag = trim($tag);
-			if($tag === '') {
+			if ($tag === '') {
 				\OCP\Util::writeLog('core', __METHOD__.', Cannot use empty tag names', \OCP\Util::DEBUG);
 				return false;
 			}
 			$tagId = $this->getTagId($tag);
 		}
 
-		if($tagId === false) {
+		if ($tagId === false) {
 			$l10n = \OC::$server->getL10N('core');
 			throw new \Exception(
 				$l10n->t('Could not find category "%s"', $tag)
 			);
 		}
 
-		$ids = array();
+		$ids = [];
 		$sql = 'SELECT `objid` FROM `' . self::RELATION_TABLE
 			. '` WHERE `categoryid` = ?';
 
 		try {
 			$stmt = \OCP\DB::prepare($sql);
-			$result = $stmt->execute(array($tagId));
+			$result = $stmt->execute([$tagId]);
 			if (\OCP\DB::isError($result)) {
 				\OCP\Util::writeLog('core', __METHOD__. 'DB error: ' . \OCP\DB::getErrorMessage(), \OCP\Util::ERROR);
 				return false;
 			}
-		} catch(\Exception $e) {
-			\OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(),
-				\OCP\Util::ERROR);
+		} catch (\Exception $e) {
+			\OCP\Util::writeLog(
+				'core',
+				__METHOD__.', exception: '.$e->getMessage(),
+				\OCP\Util::ERROR
+			);
 			return false;
 		}
 
-		if(!is_null($result)) {
-			while( $row = $result->fetchRow()) {
+		if (!is_null($result)) {
+			while ($row = $result->fetchRow()) {
 				$id = (int)$row['objid'];
 
 				if ($this->includeShared) {
@@ -320,42 +326,42 @@ class Tags implements \OCP\ITags {
 	}
 
 	/**
-	* Checks whether a tag is saved for the given user,
-	* disregarding the ones shared with him or her.
-	*
-	* @param string $name The tag name to check for.
-	* @param string $user The user whose tags are to be checked.
-	* @return bool
-	*/
+	 * Checks whether a tag is saved for the given user,
+	 * disregarding the ones shared with him or her.
+	 *
+	 * @param string $name The tag name to check for.
+	 * @param string $user The user whose tags are to be checked.
+	 * @return bool
+	 */
 	public function userHasTag($name, $user) {
 		$key = $this->array_searchi($name, $this->getTagsForUser($user));
 		return ($key !== false) ? $this->tags[$key]->getId() : false;
 	}
 
 	/**
-	* Checks whether a tag is saved for or shared with the current user.
-	*
-	* @param string $name The tag name to check for.
-	* @return bool
-	*/
+	 * Checks whether a tag is saved for or shared with the current user.
+	 *
+	 * @param string $name The tag name to check for.
+	 * @return bool
+	 */
 	public function hasTag($name) {
 		return $this->getTagId($name) !== false;
 	}
 
 	/**
-	* Add a new tag.
-	*
-	* @param string $name A string with a name of the tag
-	* @return false|int the id of the added tag or false on error.
-	*/
+	 * Add a new tag.
+	 *
+	 * @param string $name A string with a name of the tag
+	 * @return false|int the id of the added tag or false on error.
+	 */
 	public function add($name) {
 		$name = trim($name);
 
-		if($name === '') {
+		if ($name === '') {
 			\OCP\Util::writeLog('core', __METHOD__.', Cannot add an empty tag', \OCP\Util::DEBUG);
 			return false;
 		}
-		if($this->userHasTag($name, $this->user)) {
+		if ($this->userHasTag($name, $this->user)) {
 			\OCP\Util::writeLog('core', __METHOD__.', name: ' . $name. ' exists already', \OCP\Util::DEBUG);
 			return false;
 		}
@@ -363,9 +369,12 @@ class Tags implements \OCP\ITags {
 			$tag = new Tag($this->user, $this->type, $name);
 			$tag = $this->mapper->insert($tag);
 			$this->tags[] = $tag;
-		} catch(\Exception $e) {
-			\OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(),
-				\OCP\Util::ERROR);
+		} catch (\Exception $e) {
+			\OCP\Util::writeLog(
+				'core',
+				__METHOD__.', exception: '.$e->getMessage(),
+				\OCP\Util::ERROR
+			);
 			return false;
 		}
 		\OCP\Util::writeLog('core', __METHOD__.', id: ' . $tag->getId(), \OCP\Util::DEBUG);
@@ -373,17 +382,17 @@ class Tags implements \OCP\ITags {
 	}
 
 	/**
-	* Rename tag.
-	*
-	* @param string|integer $from The name or ID of the existing tag
-	* @param string $to The new name of the tag.
-	* @return bool
-	*/
+	 * Rename tag.
+	 *
+	 * @param string|integer $from The name or ID of the existing tag
+	 * @param string $to The new name of the tag.
+	 * @return bool
+	 */
 	public function rename($from, $to) {
 		$from = trim($from);
 		$to = trim($to);
 
-		if($to === '' || $from === '') {
+		if ($to === '' || $from === '') {
 			\OCP\Util::writeLog('core', __METHOD__.', Cannot use empty tag names', \OCP\Util::DEBUG);
 			return false;
 		}
@@ -393,13 +402,13 @@ class Tags implements \OCP\ITags {
 		} else {
 			$key = $this->getTagByName($from);
 		}
-		if($key === false) {
+		if ($key === false) {
 			\OCP\Util::writeLog('core', __METHOD__.', tag: ' . $from. ' does not exist', \OCP\Util::DEBUG);
 			return false;
 		}
 		$tag = $this->tags[$key];
 
-		if($this->userHasTag($to, $tag->getOwner())) {
+		if ($this->userHasTag($to, $tag->getOwner())) {
 			\OCP\Util::writeLog('core', __METHOD__.', A tag named ' . $to. ' already exists for user ' . $tag->getOwner() . '.', \OCP\Util::DEBUG);
 			return false;
 		}
@@ -407,42 +416,45 @@ class Tags implements \OCP\ITags {
 		try {
 			$tag->setName($to);
 			$this->tags[$key] = $this->mapper->update($tag);
-		} catch(\Exception $e) {
-			\OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(),
-				\OCP\Util::ERROR);
+		} catch (\Exception $e) {
+			\OCP\Util::writeLog(
+				'core',
+				__METHOD__.', exception: '.$e->getMessage(),
+				\OCP\Util::ERROR
+			);
 			return false;
 		}
 		return true;
 	}
 
 	/**
-	* Add a list of new tags.
-	*
-	* @param string[] $names A string with a name or an array of strings containing
-	* the name(s) of the tag(s) to add.
-	* @param bool $sync When true, save the tags
-	* @param int|null $id int Optional object id to add to this|these tag(s)
-	* @return bool Returns false on error.
-	*/
-	public function addMultiple($names, $sync=false, $id = null) {
-		if(!is_array($names)) {
-			$names = array($names);
+	 * Add a list of new tags.
+	 *
+	 * @param string[] $names A string with a name or an array of strings containing
+	 * the name(s) of the tag(s) to add.
+	 * @param bool $sync When true, save the tags
+	 * @param int|null $id int Optional object id to add to this|these tag(s)
+	 * @return bool Returns false on error.
+	 */
+	public function addMultiple($names, $sync = false, $id = null) {
+		if (!is_array($names)) {
+			$names = [$names];
 		}
 		$names = array_map('trim', $names);
 		array_filter($names);
 
-		$newones = array();
-		foreach($names as $name) {
-			if(!$this->hasTag($name) && $name !== '') {
+		$newones = [];
+		foreach ($names as $name) {
+			if (!$this->hasTag($name) && $name !== '') {
 				$newones[] = new Tag($this->user, $this->type, $name);
 			}
-			if(!is_null($id) ) {
+			if (!is_null($id)) {
 				// Insert $objectid, $categoryid  pairs if not exist.
-				self::$relations[] = array('objid' => $id, 'tag' => $name);
+				self::$relations[] = ['objid' => $id, 'tag' => $name];
 			}
 		}
 		$this->tags = array_merge($this->tags, $newones);
-		if($sync === true) {
+		if ($sync === true) {
 			$this->save();
 		}
 
@@ -453,45 +465,56 @@ class Tags implements \OCP\ITags {
 	 * Save the list of tags and their object relations
 	 */
 	protected function save() {
-		if(is_array($this->tags)) {
-			foreach($this->tags as $tag) {
+		if (is_array($this->tags)) {
+			foreach ($this->tags as $tag) {
 				try {
 					if (!$this->mapper->tagExists($tag)) {
 						$this->mapper->insert($tag);
 					}
-				} catch(\Exception $e) {
-					\OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(),
-						\OCP\Util::ERROR);
+				} catch (\Exception $e) {
+					\OCP\Util::writeLog(
+						'core',
+						__METHOD__.', exception: '.$e->getMessage(),
+						\OCP\Util::ERROR
+					);
 				}
 			}
 
 			// reload tags to get the proper ids.
 			$this->tags = $this->mapper->loadTags($this->owners, $this->type);
-			\OCP\Util::writeLog('core', __METHOD__.', tags: ' . print_r($this->tags, true),
-				\OCP\Util::DEBUG);
+			\OCP\Util::writeLog(
+				'core',
+				__METHOD__.', tags: ' . print_r($this->tags, true),
+				\OCP\Util::DEBUG
+			);
 			// Loop through temporarily cached objectid/tagname pairs
 			// and save relations.
 			$tags = $this->tags;
 			// For some reason this is needed or array_search(i) will return 0..?
 			ksort($tags);
-			foreach(self::$relations as $relation) {
+			foreach (self::$relations as $relation) {
 				$tagId = $this->getTagId($relation['tag']);
 				\OCP\Util::writeLog('core', __METHOD__ . 'catid, ' . $relation['tag'] . ' ' . $tagId, \OCP\Util::DEBUG);
-				if($tagId) {
+				if ($tagId) {
 					try {
-						\OCP\DB::insertIfNotExist(self::RELATION_TABLE,
-							array(
+						\OCP\DB::insertIfNotExist(
+							self::RELATION_TABLE,
+							[
 								'objid' => $relation['objid'],
 								'categoryid' => $tagId,
 								'type' => $this->type,
-								));
-					} catch(\Exception $e) {
-						\OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(),
-							\OCP\Util::ERROR);
+								]
+						);
+					} catch (\Exception $e) {
+						\OCP\Util::writeLog(
+							'core',
+							__METHOD__.', exception: '.$e->getMessage(),
+							\OCP\Util::ERROR
+						);
 					}
 				}
 			}
-			self::$relations = array(); // reset
+			self::$relations = []; // reset
 		} else {
 			\OCP\Util::writeLog('core', __METHOD__.', $this->tags is not an array! '
 				. print_r($this->tags, true), \OCP\Util::ERROR);
@@ -499,72 +522,81 @@ class Tags implements \OCP\ITags {
 	}
 
 	/**
-	* Delete tags and tag/object relations for a user.
-	*
-	* For hooking up on post_deleteUser
-	*
-	* @param array $arguments
-	*/
+	 * Delete tags and tag/object relations for a user.
+	 *
+	 * For hooking up on post_deleteUser
+	 *
+	 * @param array $arguments
+	 */
 	public static function post_deleteUser($arguments) {
 		// Find all objectid/tagId pairs.
 		$result = null;
 		try {
 			$stmt = \OCP\DB::prepare('SELECT `id` FROM `' . self::TAG_TABLE . '` '
 				. 'WHERE `uid` = ?');
-			$result = $stmt->execute(array($arguments['uid']));
+			$result = $stmt->execute([$arguments['uid']]);
 			if (\OCP\DB::isError($result)) {
 				\OCP\Util::writeLog('core', __METHOD__. 'DB error: ' . \OCP\DB::getErrorMessage(), \OCP\Util::ERROR);
 			}
-		} catch(\Exception $e) {
-			\OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(),
-				\OCP\Util::ERROR);
+		} catch (\Exception $e) {
+			\OCP\Util::writeLog(
+				'core',
+				__METHOD__.', exception: '.$e->getMessage(),
+				\OCP\Util::ERROR
+			);
 		}
 
-		if(!is_null($result)) {
+		if (!is_null($result)) {
 			try {
 				$stmt = \OCP\DB::prepare('DELETE FROM `' . self::RELATION_TABLE . '` '
 					. 'WHERE `categoryid` = ?');
-				while( $row = $result->fetchRow()) {
+				while ($row = $result->fetchRow()) {
 					try {
-						$stmt->execute(array($row['id']));
-					} catch(\Exception $e) {
-						\OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(),
-							\OCP\Util::ERROR);
+						$stmt->execute([$row['id']]);
+					} catch (\Exception $e) {
+						\OCP\Util::writeLog(
+							'core',
+							__METHOD__.', exception: '.$e->getMessage(),
+							\OCP\Util::ERROR
+						);
 					}
 				}
-			} catch(\Exception $e) {
-				\OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(),
-					\OCP\Util::ERROR);
+			} catch (\Exception $e) {
+				\OCP\Util::writeLog(
+					'core',
+					__METHOD__.', exception: '.$e->getMessage(),
+					\OCP\Util::ERROR
+				);
 			}
 		}
 		try {
 			$stmt = \OCP\DB::prepare('DELETE FROM `' . self::TAG_TABLE . '` '
 				. 'WHERE `uid` = ?');
-			$result = $stmt->execute(array($arguments['uid']));
+			$result = $stmt->execute([$arguments['uid']]);
 			if (\OCP\DB::isError($result)) {
 				\OCP\Util::writeLog('core', __METHOD__. ', DB error: ' . \OCP\DB::getErrorMessage(), \OCP\Util::ERROR);
 			}
-		} catch(\Exception $e) {
+		} catch (\Exception $e) {
 			\OCP\Util::writeLog('core', __METHOD__ . ', exception: '
 				. $e->getMessage(), \OCP\Util::ERROR);
 		}
 	}
 
 	/**
-	* Delete tag/object relations from the db
-	*
-	* @param array $ids The ids of the objects
-	* @return boolean Returns false on error.
-	*/
+	 * Delete tag/object relations from the db
+	 *
+	 * @param array $ids The ids of the objects
+	 * @return boolean Returns false on error.
+	 */
 	public function purgeObjects(array $ids) {
-		if(count($ids) === 0) {
+		if (count($ids) === 0) {
 			// job done ;)
 			return true;
 		}
 		$updates = $ids;
 		try {
 			$query = 'DELETE FROM `' . self::RELATION_TABLE . '` ';
-			$query .= 'WHERE `objid` IN (' . str_repeat('?,', count($ids)-1) . '?) ';
+			$query .= 'WHERE `objid` IN (' . str_repeat('?,', count($ids) - 1) . '?) ';
 			$query .= 'AND `type`= ?';
 			$updates[] = $this->type;
 			$stmt = \OCP\DB::prepare($query);
@@ -573,103 +605,114 @@ class Tags implements \OCP\ITags {
 				\OCP\Util::writeLog('core', __METHOD__. 'DB error: ' . \OCP\DB::getErrorMessage(), \OCP\Util::ERROR);
 				return false;
 			}
-		} catch(\Exception $e) {
-			\OCP\Util::writeLog('core', __METHOD__.', exception: ' . $e->getMessage(),
-				\OCP\Util::ERROR);
+		} catch (\Exception $e) {
+			\OCP\Util::writeLog(
+				'core',
+				__METHOD__.', exception: ' . $e->getMessage(),
+				\OCP\Util::ERROR
+			);
 			return false;
 		}
 		return true;
 	}
 
 	/**
-	* Get favorites for an object type
-	*
-	* @return array|false An array of object ids.
-	*/
+	 * Get favorites for an object type
+	 *
+	 * @return array|false An array of object ids.
+	 */
 	public function getFavorites() {
 		try {
 			return $this->getIdsForTag(self::TAG_FAVORITE);
-		} catch(\Exception $e) {
-			\OCP\Util::writeLog('core', __METHOD__.', exception: ' . $e->getMessage(),
-				\OCP\Util::DEBUG);
-			return array();
+		} catch (\Exception $e) {
+			\OCP\Util::writeLog(
+				'core',
+				__METHOD__.', exception: ' . $e->getMessage(),
+				\OCP\Util::DEBUG
+			);
+			return [];
 		}
 	}
 
 	/**
-	* Add an object to favorites
-	*
-	* @param int $objid The id of the object
-	* @return boolean
-	*/
+	 * Add an object to favorites
+	 *
+	 * @param int $objid The id of the object
+	 * @return boolean
+	 */
 	public function addToFavorites($objid) {
-		if(!$this->userHasTag(self::TAG_FAVORITE, $this->user)) {
+		if (!$this->userHasTag(self::TAG_FAVORITE, $this->user)) {
 			$this->add(self::TAG_FAVORITE);
 		}
 		return $this->tagAs($objid, self::TAG_FAVORITE);
 	}
 
 	/**
-	* Remove an object from favorites
-	*
-	* @param int $objid The id of the object
-	* @return boolean
-	*/
+	 * Remove an object from favorites
+	 *
+	 * @param int $objid The id of the object
+	 * @return boolean
+	 */
 	public function removeFromFavorites($objid) {
 		return $this->unTag($objid, self::TAG_FAVORITE);
 	}
 
 	/**
-	* Creates a tag/object relation.
-	*
-	* @param int $objid The id of the object
-	* @param string $tag The id or name of the tag
-	* @return boolean Returns false on error.
-	*/
+	 * Creates a tag/object relation.
+	 *
+	 * @param int $objid The id of the object
+	 * @param string $tag The id or name of the tag
+	 * @return boolean Returns false on error.
+	 */
 	public function tagAs($objid, $tag) {
-		if(is_string($tag) && !is_numeric($tag)) {
+		if (is_string($tag) && !is_numeric($tag)) {
 			$tag = trim($tag);
-			if($tag === '') {
+			if ($tag === '') {
 				\OCP\Util::writeLog('core', __METHOD__.', Cannot add an empty tag', \OCP\Util::DEBUG);
 				return false;
 			}
-			if(!$this->hasTag($tag)) {
+			if (!$this->hasTag($tag)) {
 				$this->add($tag);
 			}
-			$tagId =  $this->getTagId($tag);
+			$tagId = $this->getTagId($tag);
 		} else {
 			$tagId = $tag;
 		}
 		try {
-			\OCP\DB::insertIfNotExist(self::RELATION_TABLE,
-				array(
+			\OCP\DB::insertIfNotExist(
+				self::RELATION_TABLE,
+				[
 					'objid' => $objid,
 					'categoryid' => $tagId,
 					'type' => $this->type,
-				));
-		} catch(\Exception $e) {
-			\OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(),
-				\OCP\Util::ERROR);
+				]
+			);
+		} catch (\Exception $e) {
+			\OCP\Util::writeLog(
+				'core',
+				__METHOD__.', exception: '.$e->getMessage(),
+				\OCP\Util::ERROR
+			);
 			return false;
 		}
 		return true;
 	}
 
 	/**
-	* Delete single tag/object relation from the db
-	*
-	* @param int $objid The id of the object
-	* @param string $tag The id or name of the tag
-	* @return boolean
-	*/
+	 * Delete single tag/object relation from the db
+	 *
+	 * @param int $objid The id of the object
+	 * @param string $tag The id or name of the tag
+	 * @return boolean
+	 */
 	public function unTag($objid, $tag) {
-		if(is_string($tag) && !is_numeric($tag)) {
+		if (is_string($tag) && !is_numeric($tag)) {
 			$tag = trim($tag);
-			if($tag === '') {
+			if ($tag === '') {
 				\OCP\Util::writeLog('core', __METHOD__.', Tag name is empty', \OCP\Util::DEBUG);
 				return false;
 			}
-			$tagId =  $this->getTagId($tag);
+			$tagId = $this->getTagId($tag);
 		} else {
 			$tagId = $tag;
 		}
@@ -678,24 +721,27 @@ class Tags implements \OCP\ITags {
 			$sql = 'DELETE FROM `' . self::RELATION_TABLE . '` '
 					. 'WHERE `objid` = ? AND `categoryid` = ? AND `type` = ?';
 			$stmt = \OCP\DB::prepare($sql);
-			$stmt->execute(array($objid, $tagId, $this->type));
-		} catch(\Exception $e) {
-			\OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(),
-				\OCP\Util::ERROR);
+			$stmt->execute([$objid, $tagId, $this->type]);
+		} catch (\Exception $e) {
+			\OCP\Util::writeLog(
+				'core',
+				__METHOD__.', exception: '.$e->getMessage(),
+				\OCP\Util::ERROR
+			);
 			return false;
 		}
 		return true;
 	}
 
 	/**
-	* Delete tags from the database.
-	*
-	* @param string[]|integer[] $names An array of tags (names or IDs) to delete
-	* @return bool Returns false on error
-	*/
+	 * Delete tags from the database.
+	 *
+	 * @param string[]|integer[] $names An array of tags (names or IDs) to delete
+	 * @return bool Returns false on error
+	 */
 	public function delete($names) {
-		if(!is_array($names)) {
-			$names = array($names);
+		if (!is_array($names)) {
+			$names = [$names];
 		}
 
 		$names = array_map('trim', $names);
@@ -703,7 +749,7 @@ class Tags implements \OCP\ITags {
 
 		\OCP\Util::writeLog('core', __METHOD__ . ', before: '
 			. print_r($this->tags, true), \OCP\Util::DEBUG);
-		foreach($names as $name) {
+		foreach ($names as $name) {
 			$id = null;
 
 			if (is_numeric($name)) {
@@ -720,21 +766,26 @@ class Tags implements \OCP\ITags {
 				\OCP\Util::writeLog('core', __METHOD__ . 'Cannot delete tag ' . $name
 					. ': not found.', \OCP\Util::ERROR);
 			}
-			if(!is_null($id) && $id !== false) {
+			if (!is_null($id) && $id !== false) {
 				try {
 					$sql = 'DELETE FROM `' . self::RELATION_TABLE . '` '
 							. 'WHERE `categoryid` = ?';
 					$stmt = \OCP\DB::prepare($sql);
-					$result = $stmt->execute(array($id));
+					$result = $stmt->execute([$id]);
 					if (\OCP\DB::isError($result)) {
-						\OCP\Util::writeLog('core',
+						\OCP\Util::writeLog(
+							'core',
 							__METHOD__. 'DB error: ' . \OCP\DB::getErrorMessage(),
-							\OCP\Util::ERROR);
+							\OCP\Util::ERROR
+						);
 						return false;
 					}
-				} catch(\Exception $e) {
-					\OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(),
-						\OCP\Util::ERROR);
+				} catch (\Exception $e) {
+					\OCP\Util::writeLog(
+						'core',
+						__METHOD__.', exception: '.$e->getMessage(),
+						\OCP\Util::ERROR
+					);
 					return false;
 				}
 			}
@@ -743,23 +794,27 @@ class Tags implements \OCP\ITags {
 	}
 
 	// case-insensitive array_search
-	protected function array_searchi($needle, $haystack, $mem='getName') {
-		if(!is_array($haystack)) {
+	protected function array_searchi($needle, $haystack, $mem = 'getName') {
+		if (!is_array($haystack)) {
 			return false;
 		}
-		return array_search(strtolower($needle), array_map(
-			function($tag) use($mem) {
-				return strtolower(call_user_func(array($tag, $mem)));
-			}, $haystack)
+		return array_search(
+			strtolower($needle),
+			array_map(
+			function ($tag) use ($mem) {
+				return strtolower(call_user_func([$tag, $mem]));
+			},
+			$haystack
+		)
 		);
 	}
 
 	/**
-	* Get a tag's ID.
-	*
-	* @param string $name The tag name to look for.
-	* @return string|bool The tag's id or false if no matching tag is found.
-	*/
+	 * Get a tag's ID.
+	 *
+	 * @param string $name The tag name to look for.
+	 * @return string|bool The tag's id or false if no matching tag is found.
+	 */
 	private function getTagId($name) {
 		$key = $this->array_searchi($name, $this->tags);
 		if ($key !== false) {
@@ -769,40 +824,40 @@ class Tags implements \OCP\ITags {
 	}
 
 	/**
-	* Get a tag by its name.
-	*
-	* @param string $name The tag name.
-	* @return integer|bool The tag object's offset within the $this->tags
-	*                      array or false if it doesn't exist.
-	*/
+	 * Get a tag by its name.
+	 *
+	 * @param string $name The tag name.
+	 * @return integer|bool The tag object's offset within the $this->tags
+	 *                      array or false if it doesn't exist.
+	 */
 	private function getTagByName($name) {
 		return $this->array_searchi($name, $this->tags, 'getName');
 	}
 
 	/**
-	* Get a tag by its ID.
-	*
-	* @param string $id The tag ID to look for.
-	* @return integer|bool The tag object's offset within the $this->tags
-	*                      array or false if it doesn't exist.
-	*/
+	 * Get a tag by its ID.
+	 *
+	 * @param string $id The tag ID to look for.
+	 * @return integer|bool The tag object's offset within the $this->tags
+	 *                      array or false if it doesn't exist.
+	 */
 	private function getTagById($id) {
 		return $this->array_searchi($id, $this->tags, 'getId');
 	}
 
 	/**
-	* Returns an array mapping a given tag's properties to its values:
-	* ['id' => 0, 'name' = 'Tag', 'owner' = 'User', 'type' => 'tagtype']
-	*
-	* @param Tag $tag The tag that is going to be mapped
-	* @return array
-	*/
+	 * Returns an array mapping a given tag's properties to its values:
+	 * ['id' => 0, 'name' = 'Tag', 'owner' = 'User', 'type' => 'tagtype']
+	 *
+	 * @param Tag $tag The tag that is going to be mapped
+	 * @return array
+	 */
 	private function tagMap(Tag $tag) {
-		return array(
-			'id'    => $tag->getId(),
-			'name'  => $tag->getName(),
+		return [
+			'id' => $tag->getId(),
+			'name' => $tag->getName(),
 			'owner' => $tag->getOwner(),
-			'type'  => $tag->getType()
-		);
+			'type' => $tag->getType()
+		];
 	}
 }

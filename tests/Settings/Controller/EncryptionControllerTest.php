@@ -62,7 +62,7 @@ class EncryptionControllerTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 		$this->l10n->expects($this->any())
 			->method('t')
-			->will($this->returnCallback(function($message, array $replace) {
+			->will($this->returnCallback(function ($message, array $replace) {
 				return vsprintf($message, $replace);
 			}));
 		$this->config = $this->getMockBuilder('\\OCP\\IConfig')

@@ -37,7 +37,6 @@ use \OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
  * Username and password from login credentials, saved in DB
  */
 class LoginCredentials extends AuthMechanism {
-
 	const CREDENTIALS_IDENTIFIER = 'password::logincredentials/credentials';
 
 	/** @var ISession */
@@ -89,5 +88,4 @@ class LoginCredentials extends AuthMechanism {
 		$storage->setBackendOption('user', $credentials['user']);
 		$storage->setBackendOption('password', $credentials['password']);
 	}
-
 }

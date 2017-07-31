@@ -24,7 +24,6 @@
 
 namespace OC\Core\Command\Db\Migrations;
 
-
 use OC\DB\MigrationService;
 use OC\Migration\ConsoleOutput;
 use OCP\IConfig;
@@ -78,7 +77,7 @@ class ExecuteCommand extends Command {
 			$olderVersions = $ms->getMigratedVersions();
 			$olderVersions[] = '0';
 			$olderVersions[] = 'prev';
-			if (in_array($version,  $olderVersions, true)) {
+			if (in_array($version, $olderVersions, true)) {
 				$output->writeln('<error>Can not go back to previous migration without debug enabled</error>');
 				return 1;
 			}
@@ -88,5 +87,4 @@ class ExecuteCommand extends Command {
 		$ms->executeStep($version);
 		return 0;
 	}
-
 }

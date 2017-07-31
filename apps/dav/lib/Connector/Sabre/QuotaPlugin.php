@@ -25,6 +25,7 @@
  *
  */
 namespace OCA\DAV\Connector\Sabre;
+
 use OCP\Files\FileInfo;
 use OCP\Files\StorageNotAvailableException;
 use Sabre\DAV\Exception\InsufficientStorage;
@@ -71,11 +72,10 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 	 * @return void
 	 */
 	public function initialize(\Sabre\DAV\Server $server) {
-
 		$this->server = $server;
 
-		$server->on('beforeWriteContent', array($this, 'checkQuota'), 10);
-		$server->on('beforeCreateFile', array($this, 'checkQuota'), 10);
+		$server->on('beforeWriteContent', [$this, 'checkQuota'], 10);
+		$server->on('beforeCreateFile', [$this, 'checkQuota'], 10);
 	}
 
 	/**
@@ -92,7 +92,7 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 				$uri = '/' . $uri;
 			}
 			list($parentUri, $newName) = URLUtil::splitPath($uri);
-			if(is_null($parentUri)) {
+			if (is_null($parentUri)) {
 				$parentUri = '';
 			}
 			$req = $this->server->httpRequest;

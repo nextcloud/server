@@ -91,7 +91,8 @@ class MountPublicLinkController extends Controller {
 	 * @param IClientService $clientService
 	 * @param ICloudIdManager $cloudIdManager
 	 */
-	public function __construct($appName,
+	public function __construct(
+		$appName,
 								IRequest $request,
 								FederatedShareProvider $federatedShareProvider,
 								IManager $shareManager,
@@ -127,7 +128,6 @@ class MountPublicLinkController extends Controller {
 	 * @return JSONResponse
 	 */
 	public function createFederatedShare($shareWith, $token, $password = '') {
-
 		if (!$this->federatedShareProvider->isOutgoingServer2serverShareEnabled()) {
 			return new JSONResponse(
 				['message' => 'This server doesn\'t support outgoing federated shares'],
@@ -146,7 +146,7 @@ class MountPublicLinkController extends Controller {
 		$storedPassword = $share->getPassword();
 		$authenticated = $this->session->get('public_link_authenticated') === $share->getId() ||
 			$this->shareManager->checkPassword($share, $password);
-		if (!empty($storedPassword) && !$authenticated ) {
+		if (!empty($storedPassword) && !$authenticated) {
 			$response = new JSONResponse(
 				['message' => 'No permission to access the share'],
 				Http::STATUS_BAD_REQUEST
@@ -190,7 +190,8 @@ class MountPublicLinkController extends Controller {
 		$httpClient = $this->clientService->newClient();
 
 		try {
-			$response = $httpClient->post($remote . '/index.php/apps/federatedfilesharing/createFederatedShare',
+			$response = $httpClient->post(
+				$remote . '/index.php/apps/federatedfilesharing/createFederatedShare',
 				[
 					'body' =>
 						[
@@ -331,7 +332,5 @@ class MountPublicLinkController extends Controller {
 			);
 			return new JSONResponse(['message' => $this->l->t('Couldn\'t add remote share')], Http::STATUS_BAD_REQUEST);
 		}
-
 	}
-
 }

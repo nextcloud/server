@@ -50,7 +50,7 @@ class Check extends Base {
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$errors = \OC_Util::checkServer($this->config);
 		if (!empty($errors)) {
-			$errors = array_map(function($item) {
+			$errors = array_map(function ($item) {
 				return (string) $item['error'];
 			}, $errors);
 

@@ -22,7 +22,6 @@
 
 namespace OCA\UpdateNotification\Tests\Notification;
 
-
 use OCA\UpdateNotification\Notification\Notifier;
 use OCP\IConfig;
 use OCP\IGroupManager;
@@ -73,7 +72,8 @@ class NotifierTest extends TestCase {
 				$this->userSession,
 				$this->groupManager
 			);
-		} {
+		}
+		{
 			return $this->getMockBuilder(Notifier::class)
 				->setConstructorArgs([
 					$this->urlGenerator,

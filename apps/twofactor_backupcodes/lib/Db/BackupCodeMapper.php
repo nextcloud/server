@@ -27,7 +27,6 @@ use OCP\IDBConnection;
 use OCP\IUser;
 
 class BackupCodeMapper extends Mapper {
-
 	public function __construct(IDBConnection $db) {
 		parent::__construct($db, 'twofactor_backupcodes');
 	}
@@ -71,5 +70,4 @@ class BackupCodeMapper extends Mapper {
 			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($uid)));
 		$qb->execute();
 	}
-
 }

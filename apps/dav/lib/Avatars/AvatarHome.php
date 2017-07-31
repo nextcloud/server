@@ -22,7 +22,6 @@
 
 namespace OCA\DAV\Avatars;
 
-
 use OCP\IAvatarManager;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\MethodNotAllowed;
@@ -78,7 +77,7 @@ class AvatarHome implements ICollection {
 			return [
 				$this->getChild('96.jpeg')
 			];
-		} catch(NotFound $exception) {
+		} catch (NotFound $exception) {
 			return [];
 		}
 	}
@@ -99,7 +98,7 @@ class AvatarHome implements ICollection {
 	}
 
 	public function getName() {
-		list(,$name) = Uri\split($this->principalInfo['uri']);
+		list(, $name) = Uri\split($this->principalInfo['uri']);
 		return $name;
 	}
 
@@ -115,6 +114,4 @@ class AvatarHome implements ICollection {
 	public function getLastModified() {
 		return null;
 	}
-
-
 }

@@ -30,9 +30,7 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\DataResponse;
 
-
 class ChildController extends Controller {
-
 	public function __construct($appName, $request) {
 		parent::__construct($appName, $request);
 		$this->registerResponder('tom', function ($respone) {
@@ -42,7 +40,7 @@ class ChildController extends Controller {
 
 	public function custom($in) {
 		$this->registerResponder('json', function ($response) {
-			return new JSONResponse(array(strlen($response)));
+			return new JSONResponse([strlen($response)]);
 		});
 
 		return $in;
@@ -63,7 +61,7 @@ class ControllerTest extends \Test\TestCase {
 	private $controller;
 	private $app;
 
-	protected function setUp(){
+	protected function setUp() {
 		parent::setUp();
 
 		$request = new Request(
@@ -104,9 +102,9 @@ class ControllerTest extends \Test\TestCase {
 
 
 	public function testFormat() {
-		$response = $this->controller->buildResponse(array('hi'), 'json');
+		$response = $this->controller->buildResponse(['hi'], 'json');
 
-		$this->assertEquals(array('hi'), $response->getData());
+		$this->assertEquals(['hi'], $response->getData());
 	}
 
 
@@ -118,10 +116,10 @@ class ControllerTest extends \Test\TestCase {
 			'Content-Security-Policy' => "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'self' 'unsafe-eval';style-src 'self' 'unsafe-inline';img-src 'self' data: blob:;font-src 'self';connect-src 'self';media-src 'self'",
 		];
 
-		$response = $this->controller->customDataResponse(array('hi'));
+		$response = $this->controller->customDataResponse(['hi']);
 		$response = $this->controller->buildResponse($response, 'json');
 
-		$this->assertEquals(array('hi'), $response->getData());
+		$this->assertEquals(['hi'], $response->getData());
 		$this->assertEquals(300, $response->getStatus());
 		$this->assertEquals($expectedHeaders, $response->getHeaders());
 	}
@@ -131,7 +129,7 @@ class ControllerTest extends \Test\TestCase {
 		$response = $this->controller->custom('hi');
 		$response = $this->controller->buildResponse($response, 'json');
 
-		$this->assertEquals(array(2), $response->getData());
+		$this->assertEquals([2], $response->getData());
 	}
 
 
@@ -158,6 +156,4 @@ class ControllerTest extends \Test\TestCase {
 
 		$this->assertEquals('tom', $responder);
 	}
-
-
 }

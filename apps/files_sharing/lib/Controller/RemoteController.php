@@ -49,10 +49,12 @@ class RemoteController extends OCSController {
 	 * @param IRequest $request
 	 * @param Manager $externalManager
 	 */
-	public function __construct($appName,
+	public function __construct(
+		$appName,
 								IRequest $request,
 								Manager $externalManager,
-								ILogger $logger) {
+								ILogger $logger
+	) {
 		parent::__construct($appName, $request);
 
 		$this->externalManager = $externalManager;
@@ -84,8 +86,10 @@ class RemoteController extends OCSController {
 			return new DataResponse();
 		}
 
-		$this->logger->error('Could not accept federated share with id: ' . $id,
-			['app' => 'files_sharing']);
+		$this->logger->error(
+			'Could not accept federated share with id: ' . $id,
+			['app' => 'files_sharing']
+		);
 
 		throw new OCSNotFoundException('wrong share ID, share doesn\'t exist.');
 	}

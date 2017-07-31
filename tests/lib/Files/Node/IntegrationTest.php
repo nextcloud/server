@@ -57,8 +57,8 @@ class IntegrationTest extends \Test\TestCase {
 			$this->createMock(ILogger::class),
 			$this->createMock(IUserManager::class)
 		);
-		$storage = new Temporary(array());
-		$subStorage = new Temporary(array());
+		$storage = new Temporary([]);
+		$subStorage = new Temporary([]);
 		$this->storages[] = $storage;
 		$this->storages[] = $subStorage;
 		$this->root->mount($storage, '/');

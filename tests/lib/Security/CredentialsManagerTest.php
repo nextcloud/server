@@ -71,7 +71,8 @@ class CredentialsManagerTest extends \Test\TestCase {
 
 		$this->dbConnection->expects($this->once())
 			->method('setValues')
-			->with(CredentialsManager::DB_TABLE,
+			->with(
+				CredentialsManager::DB_TABLE,
 				['user' => $userId, 'identifier' => $identifier],
 				['credentials' => 'baz']
 			);
@@ -106,5 +107,4 @@ class CredentialsManagerTest extends \Test\TestCase {
 
 		$this->manager->retrieve($userId, $identifier);
 	}
-
 }

@@ -27,4 +27,5 @@ namespace OCP\SystemTag;
  *
  * @since 9.0.0
  */
-class TagAlreadyExistsException extends \RuntimeException {}
+class TagAlreadyExistsException extends \RuntimeException {
+}

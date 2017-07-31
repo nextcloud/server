@@ -22,7 +22,6 @@
 
 namespace Test\Accounts;
 
-
 use OC\Accounts\AccountManager;
 use OCP\BackgroundJob\IJobList;
 use OCP\IUser;
@@ -75,7 +74,6 @@ class AccountsManagerTest extends TestCase {
 			->setConstructorArgs([$this->connection, $this->eventDispatcher, $this->jobList])
 			->setMethods($mockedMethods)
 			->getMock();
-
 	}
 
 	/**
@@ -157,16 +155,16 @@ class AccountsManagerTest extends TestCase {
 				->with($askUser, $expectedData);
 		}
 
-		if(empty($expectedData)) {
+		if (empty($expectedData)) {
 			$accountManager->expects($this->never())->method('addMissingDefaultValues');
-
- 		} else {
+		} else {
 			$accountManager->expects($this->once())->method('addMissingDefaultValues')->with($expectedData)
 				->willReturn($expectedData);
 		}
 
 		$this->addDummyValuesToTable($setUser, $setData);
-		$this->assertEquals($expectedData,
+		$this->assertEquals(
+			$expectedData,
 			$accountManager->getUser($askUser)
 		);
 	}
@@ -210,7 +208,6 @@ class AccountsManagerTest extends TestCase {
 	}
 
 	public function testAddMissingDefaultValues() {
-
 		$accountManager = $this->getInstance();
 
 		$input = [
@@ -229,7 +226,6 @@ class AccountsManagerTest extends TestCase {
 	}
 
 	private function addDummyValuesToTable($uid, $data) {
-
 		$query = $this->connection->getQueryBuilder();
 		$query->insert($this->table)
 			->values(
@@ -253,5 +249,4 @@ class AccountsManagerTest extends TestCase {
 			return json_decode($result[0]['data'], true);
 		}
 	}
-
 }

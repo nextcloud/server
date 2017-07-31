@@ -35,7 +35,6 @@ use OCP\IRequest;
 use OCP\IUserSession;
 use OCP\IUser;
 
-
 class GroupsController extends OCSController {
 
 	/** @var IGroupManager */
@@ -59,7 +58,8 @@ class GroupsController extends OCSController {
 			IRequest $request,
 			IGroupManager $groupManager,
 			IUserSession $userSession,
-			ILogger $logger) {
+			ILogger $logger
+	) {
 		parent::__construct($appName, $request);
 
 		$this->groupManager = $groupManager;
@@ -86,7 +86,7 @@ class GroupsController extends OCSController {
 		}
 
 		$groups = $this->groupManager->search($search, $limit, $offset);
-		$groups = array_map(function($group) {
+		$groups = array_map(function ($group) {
 			/** @var IGroup $group */
 			return $group->getGID();
 		}, $groups);
@@ -107,21 +107,21 @@ class GroupsController extends OCSController {
 		$user = $this->userSession->getUser();
 
 		// Check the group exists
-		if(!$this->groupManager->groupExists($groupId)) {
+		if (!$this->groupManager->groupExists($groupId)) {
 			throw new OCSException('The requested group could not be found', \OCP\API::RESPOND_NOT_FOUND);
 		}
 
 		$isSubadminOfGroup = false;
 		$group = $this->groupManager->get($groupId);
 		if ($group !== null) {
-			$isSubadminOfGroup =$this->groupManager->getSubAdmin()->isSubAdminofGroup($user, $group);
+			$isSubadminOfGroup = $this->groupManager->getSubAdmin()->isSubAdminofGroup($user, $group);
 		}
 
 		// Check subadmin has access to this group
-		if($this->groupManager->isAdmin($user->getUID())
+		if ($this->groupManager->isAdmin($user->getUID())
 		   || $isSubadminOfGroup) {
 			$users = $this->groupManager->get($groupId)->getUsers();
-			$users =  array_map(function($user) {
+			$users = array_map(function ($user) {
 				/** @var IUser $user */
 				return $user->getUID();
 			}, $users);
@@ -143,12 +143,12 @@ class GroupsController extends OCSController {
 	 */
 	public function addGroup($groupid) {
 		// Validate name
-		if(empty($groupid)) {
+		if (empty($groupid)) {
 			$this->logger->error('Group name not supplied', ['app' => 'provisioning_api']);
 			throw new OCSException('Invalid group name', 101);
 		}
 		// Check if it exists
-		if($this->groupManager->groupExists($groupid)){
+		if ($this->groupManager->groupExists($groupid)) {
 			throw new OCSException('', 102);
 		}
 		$this->groupManager->createGroup($groupid);
@@ -164,9 +164,9 @@ class GroupsController extends OCSController {
 	 */
 	public function deleteGroup($groupId) {
 		// Check it exists
-		if(!$this->groupManager->groupExists($groupId)){
+		if (!$this->groupManager->groupExists($groupId)) {
 			throw new OCSException('', 101);
-		} else if($groupId === 'admin' || !$this->groupManager->get($groupId)->delete()){
+		} elseif ($groupId === 'admin' || !$this->groupManager->get($groupId)->delete()) {
 			// Cannot delete admin group
 			throw new OCSException('', 102);
 		}
@@ -182,7 +182,7 @@ class GroupsController extends OCSController {
 	public function getSubAdminsOfGroup($groupId) {
 		// Check group exists
 		$targetGroup = $this->groupManager->get($groupId);
-		if($targetGroup === null) {
+		if ($targetGroup === null) {
 			throw new OCSException('Group does not exist', 101);
 		}
 
@@ -196,5 +196,4 @@ class GroupsController extends OCSController {
 
 		return new DataResponse($uids);
 	}
-
 }

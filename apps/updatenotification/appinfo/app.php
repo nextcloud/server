@@ -22,7 +22,7 @@
  *
  */
 
-if(\OC::$server->getConfig()->getSystemValue('updatechecker', true) === true) {
+if (\OC::$server->getConfig()->getSystemValue('updatechecker', true) === true) {
 	$updater = new \OC\Updater\VersionCheck(
 		\OC::$server->getHTTPClientService(),
 		\OC::$server->getConfig()
@@ -32,10 +32,10 @@ if(\OC::$server->getConfig()->getSystemValue('updatechecker', true) === true) {
 	);
 
 	$userObject = \OC::$server->getUserSession()->getUser();
-	if($userObject !== null) {
-		if(\OC::$server->getGroupManager()->isAdmin($userObject->getUID()) &&
+	if ($userObject !== null) {
+		if (\OC::$server->getGroupManager()->isAdmin($userObject->getUID()) &&
 			!\OC::$server->getAppManager()->isEnabledForUser('notifications')) {
-			if($updateChecker->getUpdateState() !== []) {
+			if ($updateChecker->getUpdateState() !== []) {
 				\OCP\Util::addScript('updatenotification', 'notification');
 				OC_Hook::connect('\OCP\Config', 'js', $updateChecker, 'getJavaScript');
 			}
@@ -43,9 +43,9 @@ if(\OC::$server->getConfig()->getSystemValue('updatechecker', true) === true) {
 	}
 
 	$manager = \OC::$server->getNotificationManager();
-	$manager->registerNotifier(function() use ($manager) {
+	$manager->registerNotifier(function () use ($manager) {
 		return \OC::$server->query(\OCA\UpdateNotification\Notification\Notifier::class);
-	}, function() {
+	}, function () {
 		$l = \OC::$server->getL10N('updatenotification');
 		return [
 			'id' => 'updatenotification',

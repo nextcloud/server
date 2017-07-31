@@ -43,5 +43,4 @@ class EnterpriseBundle extends Bundle {
 			'files_accesscontrol',
 		];
 	}
-
 }

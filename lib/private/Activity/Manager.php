@@ -24,7 +24,6 @@
  */
 namespace OC\Activity;
 
-
 use OCP\Activity\IConsumer;
 use OCP\Activity\IEvent;
 use OCP\Activity\IExtension;
@@ -71,10 +70,12 @@ class Manager implements IManager {
 	 * @param IConfig $config
 	 * @param IValidator $validator
 	 */
-	public function __construct(IRequest $request,
+	public function __construct(
+		IRequest $request,
 								IUserSession $session,
 								IConfig $config,
-								IValidator $validator) {
+								IValidator $validator
+	) {
 		$this->request = $request;
 		$this->session = $session;
 		$this->config = $config;
@@ -82,29 +83,29 @@ class Manager implements IManager {
 	}
 
 	/** @var \Closure[] */
-	private $consumersClosures = array();
+	private $consumersClosures = [];
 
 	/** @var IConsumer[] */
-	private $consumers = array();
+	private $consumers = [];
 
 	/** @var \Closure[] */
-	private $extensionsClosures = array();
+	private $extensionsClosures = [];
 
 	/** @var IExtension[] */
-	private $extensions = array();
+	private $extensions = [];
 
 	/** @var array list of filters "name" => "is valid" */
-	protected $validFilters = array(
-		'all'	=> true,
-		'by'	=> true,
-		'self'	=> true,
-	);
+	protected $validFilters = [
+		'all' => true,
+		'by' => true,
+		'self' => true,
+	];
 
 	/** @var array list of type icons "type" => "css class" */
-	protected $typeIcons = array();
+	protected $typeIcons = [];
 
 	/** @var array list of special parameters "app" => ["text" => ["parameter" => "type"]] */
-	protected $specialParameters = array();
+	protected $specialParameters = [];
 
 	/**
 	 * @return \OCP\Activity\IConsumer[]
@@ -115,7 +116,7 @@ class Manager implements IManager {
 		}
 
 		$this->consumers = [];
-		foreach($this->consumersClosures as $consumer) {
+		foreach ($this->consumersClosures as $consumer) {
 			$c = $consumer();
 			if ($c instanceof IConsumer) {
 				$this->consumers[] = $c;
@@ -136,7 +137,7 @@ class Manager implements IManager {
 		}
 
 		$this->extensions = [];
-		foreach($this->extensionsClosures as $extension) {
+		foreach ($this->extensionsClosures as $extension) {
 			$e = $extension();
 			if ($e instanceof IExtension) {
 				$this->extensions[] = $e;
@@ -274,13 +275,19 @@ class Manager implements IManager {
 
 			foreach ($legacyFilters['top'] as $filter => $data) {
 				$this->filters[$filter] = new LegacyFilter(
-					$this, $filter, $data['name'], true
+					$this,
+					$filter,
+					$data['name'],
+					true
 				);
 			}
 
 			foreach ($legacyFilters['apps'] as $filter => $data) {
 				$this->filters[$filter] = new LegacyFilter(
-					$this, $filter, $data['name'], false
+					$this,
+					$filter,
+					$data['name'],
+					false
 				);
 			}
 			$this->loadedLegacyFilters = true;
@@ -390,9 +397,12 @@ class Manager implements IManager {
 				}
 
 				$this->settings[$type] = new LegacySetting(
-					$type, $desc,
-					$canChangeStream, in_array($type, $streamTypes),
-					$canChangeMail, in_array($type, $mailTypes)
+					$type,
+					$desc,
+					$canChangeStream,
+					in_array($type, $streamTypes),
+					$canChangeMail,
+					in_array($type, $mailTypes)
 				);
 			}
 			$this->loadedLegacyTypes = true;
@@ -513,7 +523,7 @@ class Manager implements IManager {
 		}
 
 		if (!isset($this->specialParameters[$app])) {
-			$this->specialParameters[$app] = array();
+			$this->specialParameters[$app] = [];
 		}
 
 		foreach ($this->getExtensions() as $c) {
@@ -567,7 +577,7 @@ class Manager implements IManager {
 	public function getCurrentUserId() {
 		if ($this->currentUserId !== null) {
 			return $this->currentUserId;
-		} else if (!$this->session->isLoggedIn()) {
+		} elseif (!$this->session->isLoggedIn()) {
 			return $this->getUserFromToken();
 		} else {
 			return $this->session->getUser()->getUID();
@@ -602,10 +612,10 @@ class Manager implements IManager {
 	 * @deprecated 11.0.0 - Use getFilters() instead
 	 */
 	public function getNavigation() {
-		$entries = array(
-			'apps' => array(),
-			'top' => array(),
-		);
+		$entries = [
+			'apps' => [],
+			'top' => [],
+		];
 		foreach ($this->getExtensions() as $c) {
 			$additionalEntries = $c->getNavigation();
 			if (is_array($additionalEntries)) {
@@ -668,8 +678,8 @@ class Manager implements IManager {
 			return [null, null];
 		}
 
-		$conditions = array();
-		$parameters = array();
+		$conditions = [];
+		$parameters = [];
 
 		foreach ($this->getExtensions() as $c) {
 			$result = $c->getQueryForFilter($filter);
@@ -683,10 +693,10 @@ class Manager implements IManager {
 		}
 
 		if (empty($conditions)) {
-			return array(null, null);
+			return [null, null];
 		}
 
-		return array(' and ((' . implode(') or (', $conditions) . '))', $parameters);
+		return [' and ((' . implode(') or (', $conditions) . '))', $parameters];
 	}
 
 	/**
@@ -714,7 +724,7 @@ class Manager implements IManager {
 	 * @deprecated 11.0.0 - Use getSettings()->isDefaulEnabled<method>() instead
 	 */
 	public function getDefaultTypes($method) {
-		$defaultTypes = array();
+		$defaultTypes = [];
 		foreach ($this->getExtensions() as $c) {
 			$types = $c->getDefaultTypes($method);
 			if (is_array($types)) {

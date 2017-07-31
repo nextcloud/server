@@ -39,7 +39,6 @@ use OCP\Files\NotFoundException;
  * @group DB
  */
 class SharedStorageTest extends TestCase {
-
 	protected function setUp() {
 		parent::setUp();
 		\OCA\Files_Trashbin\Trashbin::registerHooks();
@@ -103,7 +102,7 @@ class SharedStorageTest extends TestCase {
 
 		// delete the local folder
 		/** @var \OC\Files\Storage\Storage $storage */
-		list($storage, $internalPath)  = \OC\Files\Filesystem::resolvePath('/' . self::TEST_FILES_SHARING_API_USER2 . '/files/localfolder');
+		list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath('/' . self::TEST_FILES_SHARING_API_USER2 . '/files/localfolder');
 		$storage->rmdir($internalPath);
 
 		//enforce reload of the mount points
@@ -283,7 +282,7 @@ class SharedStorageTest extends TestCase {
 		$this->assertFalse($user2View->rename($this->folder . '/test-create.txt', $this->folder . '/newtarget.txt'));
 		$this->assertFalse($user2View->file_exists($this->folder . '/newtarget.txt'));
 
-		// rename file not allowed if target exists 
+		// rename file not allowed if target exists
 		$this->assertFalse($user2View->rename($this->folder . '/newtarget.txt', $this->folder . '/existing.txt'));
 
 		// overwriting file not allowed
@@ -298,8 +297,12 @@ class SharedStorageTest extends TestCase {
 
 		//cleanup
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
-		$result = \OCP\Share::unshare('folder', $fileinfoFolder['fileid'], \OCP\Share::SHARE_TYPE_USER,
-			self::TEST_FILES_SHARING_API_USER2);
+		$result = \OCP\Share::unshare(
+			'folder',
+			$fileinfoFolder['fileid'],
+			\OCP\Share::SHARE_TYPE_USER,
+			self::TEST_FILES_SHARING_API_USER2
+		);
 		$this->assertTrue($result);
 	}
 
@@ -406,7 +409,7 @@ class SharedStorageTest extends TestCase {
 
 		$mountConfigManager = \OC::$server->getMountProviderCollection();
 		$mounts = $mountConfigManager->getMountsForUser(\OC::$server->getUserManager()->get(self::TEST_FILES_SHARING_API_USER3));
-		array_walk($mounts, array(\OC\Files\Filesystem::getMountManager(), 'addMount'));
+		array_walk($mounts, [\OC\Files\Filesystem::getMountManager(), 'addMount']);
 
 		$this->assertTrue($rootView->file_exists('/' . self::TEST_FILES_SHARING_API_USER3 . '/files/' . $this->filename));
 
@@ -440,10 +443,10 @@ class SharedStorageTest extends TestCase {
 		/**
 		 * @var \OCP\Files\Storage $sharedStorage
 		 */
-		list($sharedStorage,) = $view->resolvePath($this->folder);
+		list($sharedStorage, ) = $view->resolvePath($this->folder);
 		$this->assertTrue($sharedStorage->instanceOfStorage('OCA\Files_Sharing\ISharedStorage'));
 
-		$sourceStorage = new \OC\Files\Storage\Temporary(array());
+		$sourceStorage = new \OC\Files\Storage\Temporary([]);
 		$sourceStorage->file_put_contents('foo.txt', 'asd');
 
 		$sharedStorage->copyFromStorage($sourceStorage, 'foo.txt', 'bar.txt');
@@ -473,10 +476,10 @@ class SharedStorageTest extends TestCase {
 		/**
 		 * @var \OCP\Files\Storage $sharedStorage
 		 */
-		list($sharedStorage,) = $view->resolvePath($this->folder);
+		list($sharedStorage, ) = $view->resolvePath($this->folder);
 		$this->assertTrue($sharedStorage->instanceOfStorage('OCA\Files_Sharing\ISharedStorage'));
 
-		$sourceStorage = new \OC\Files\Storage\Temporary(array());
+		$sourceStorage = new \OC\Files\Storage\Temporary([]);
 		$sourceStorage->file_put_contents('foo.txt', 'asd');
 
 		$sharedStorage->moveFromStorage($sourceStorage, 'foo.txt', 'bar.txt');
@@ -557,12 +560,13 @@ class SharedStorageTest extends TestCase {
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 
 		$this->assertTrue($this->view->file_exists($this->folder . '/newfile.txt'));
-		$this->assertEquals(\OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_CREATE,
-			$this->view->getFileInfo($this->folder . '/newfile.txt')->getPermissions());
+		$this->assertEquals(
+			\OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_CREATE,
+			$this->view->getFileInfo($this->folder . '/newfile.txt')->getPermissions()
+		);
 
 		$this->view->unlink($this->folder);
 		$this->shareManager->deleteShare($share);
-
 	}
 
 	public function testInitWithNonExistingUser() {

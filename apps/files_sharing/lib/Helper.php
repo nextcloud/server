@@ -35,7 +35,6 @@ use OCP\Share\Exceptions\ShareNotFound;
 use OCP\User;
 
 class Helper {
-
 	public static function registerHooks() {
 		\OCP\Util::connectHook('OC_Filesystem', 'post_rename', '\OCA\Files_Sharing\Updater', 'renameHook');
 		\OCP\Util::connectHook('OC_Filesystem', 'post_delete', '\OCA\Files_Sharing\Hooks', 'unshareChildren');
@@ -73,14 +72,14 @@ class Helper {
 		} catch (NotFoundException $e) {
 			\OCP\Util::writeLog('share', 'could not resolve linkItem', \OCP\Util::DEBUG);
 			\OC_Response::setStatus(404);
-			\OCP\JSON::error(array('success' => false));
+			\OCP\JSON::error(['success' => false]);
 			exit();
 		}
 
 		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK && $share->getPassword() !== null) {
 			if (!self::authenticate($share, $password)) {
 				\OC_Response::setStatus(403);
-				\OCP\JSON::error(array('success' => false));
+				\OCP\JSON::error(['success' => false]);
 				exit();
 			}
 		}
@@ -91,11 +90,11 @@ class Helper {
 			$path .= Filesystem::normalizePath($relativePath);
 		}
 
-		return array(
+		return [
 			'share' => $share,
 			'basePath' => $basePath,
 			'realPath' => $path
-		);
+		];
 	}
 
 	/**
@@ -127,19 +126,19 @@ class Helper {
 	}
 
 	public static function getSharesFromItem($target) {
-		$result = array();
+		$result = [];
 		$owner = Filesystem::getOwner($target);
 		Filesystem::initMountPoints($owner);
 		$info = Filesystem::getFileInfo($target);
 		$ownerView = new View('/'.$owner.'/files');
-		if ( $owner != User::getUser() ) {
+		if ($owner != User::getUser()) {
 			$path = $ownerView->getPath($info['fileid']);
 		} else {
 			$path = $target;
 		}
 
 
-		$ids = array();
+		$ids = [];
 		while ($path !== dirname($path)) {
 			$info = $ownerView->getFileInfo($path);
 			if ($info instanceof \OC\Files\FileInfo) {
@@ -151,7 +150,6 @@ class Helper {
 		}
 
 		if (!empty($ids)) {
-
 			$idList = array_chunk($ids, 99, true);
 
 			foreach ($idList as $subList) {
@@ -183,7 +181,7 @@ class Helper {
 			$uid = User::getUser();
 		}
 		Filesystem::initMountPoints($uid);
-		if ( $uid != User::getUser() ) {
+		if ($uid != User::getUser()) {
 			$info = Filesystem::getFileInfo($filename);
 			$ownerView = new View('/'.$uid.'/files');
 			try {
@@ -262,7 +260,6 @@ class Helper {
 		}
 
 		return $shareFolder;
-
 	}
 
 	/**
@@ -273,5 +270,4 @@ class Helper {
 	public static function setShareFolder($shareFolder) {
 		\OC::$server->getConfig()->setSystemValue('share_folder', $shareFolder);
 	}
-
 }

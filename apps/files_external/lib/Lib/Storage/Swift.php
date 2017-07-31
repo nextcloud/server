@@ -77,7 +77,7 @@ class Swift extends \OC\Files\Storage\Common {
 	/**
 	 * @var array
 	 */
-	private static $tmpFiles = array();
+	private static $tmpFiles = [];
 
 	/**
 	 * Key value cache mapping path to data object. Maps path to
@@ -198,8 +198,8 @@ class Swift extends \OC\Files\Storage\Common {
 		}
 
 		try {
-			$customHeaders = array('content-type' => 'httpd/unix-directory');
-			$metadataHeaders = DataObject::stockHeaders(array());
+			$customHeaders = ['content-type' => 'httpd/unix-directory'];
+			$metadataHeaders = DataObject::stockHeaders([]);
 			$allHeaders = $customHeaders + $metadataHeaders;
 			$this->getContainer()->uploadObject($path, '', $allHeaders);
 			// invalidate so that the next access gets the real object
@@ -266,12 +266,12 @@ class Swift extends \OC\Files\Storage\Common {
 		$path = str_replace('%23', '#', $path); // the prefix is sent as a query param, so revert the encoding of #
 
 		try {
-			$files = array();
+			$files = [];
 			/** @var OpenCloud\Common\Collection $objects */
-			$objects = $this->getContainer()->objectList(array(
+			$objects = $this->getContainer()->objectList([
 				'prefix' => $path,
 				'delimiter' => '/'
-			));
+			]);
 
 			/** @var OpenCloud\ObjectStore\Resource\DataObject $object */
 			foreach ($objects as $object) {
@@ -286,7 +286,6 @@ class Swift extends \OC\Files\Storage\Common {
 			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
 			return false;
 		}
-
 	}
 
 	public function stat($path) {
@@ -294,7 +293,7 @@ class Swift extends \OC\Files\Storage\Common {
 
 		if ($path === '.') {
 			$path = '';
-		} else if ($this->is_dir($path)) {
+		} elseif ($this->is_dir($path)) {
 			$path .= '/';
 		}
 
@@ -325,7 +324,7 @@ class Swift extends \OC\Files\Storage\Common {
 			$mtime = floor($mtime);
 		}
 
-		$stat = array();
+		$stat = [];
 		$stat['size'] = (int)$object->getContentLength();
 		$stat['mtime'] = $mtime;
 		$stat['atime'] = time();
@@ -387,8 +386,8 @@ class Swift extends \OC\Files\Storage\Common {
 					$streamInterface = $streamFactory->fromRequest($client->get($c->getUrl($path)));
 					$streamInterface->rewind();
 					$stream = $streamInterface->getStream();
-					stream_context_set_option($stream, 'swift','content', $streamInterface);
-					if(!strrpos($streamInterface
+					stream_context_set_option($stream, 'swift', 'content', $streamInterface);
+					if (!strrpos($streamInterface
 						->getMetaData('wrapper_data')[0], '404 Not Found')) {
 						return $stream;
 					}
@@ -433,7 +432,7 @@ class Swift extends \OC\Files\Storage\Common {
 		if (is_null($mtime)) {
 			$mtime = time();
 		}
-		$metadata = array('timestamp' => $mtime);
+		$metadata = ['timestamp' => $mtime];
 		if ($this->file_exists($path)) {
 			if ($this->is_dir($path) && $path != '.') {
 				$path .= '/';
@@ -447,7 +446,7 @@ class Swift extends \OC\Files\Storage\Common {
 			return true;
 		} else {
 			$mimeType = \OC::$server->getMimeTypeDetector()->detectPath($path);
-			$customHeaders = array('content-type' => $mimeType);
+			$customHeaders = ['content-type' => $mimeType];
 			$metadataHeaders = DataObject::stockHeaders($metadata);
 			$allHeaders = $customHeaders + $metadataHeaders;
 			$this->getContainer()->uploadObject($path, '', $allHeaders);
@@ -477,8 +476,7 @@ class Swift extends \OC\Files\Storage\Common {
 				\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
 				return false;
 			}
-
-		} else if ($fileType === 'dir') {
+		} elseif ($fileType === 'dir') {
 
 			// make way
 			$this->unlink($path2);
@@ -504,7 +502,6 @@ class Swift extends \OC\Files\Storage\Common {
 				$target = $path2 . '/' . $file;
 				$this->copy($source, $target);
 			}
-
 		} else {
 			//file does not exist
 			return false;
@@ -552,13 +549,13 @@ class Swift extends \OC\Files\Storage\Common {
 			return $this->connection;
 		}
 
-		$settings = array(
+		$settings = [
 			'username' => $this->params['user'],
-		);
+		];
 
 		if (!empty($this->params['password'])) {
 			$settings['password'] = $this->params['password'];
-		} else if (!empty($this->params['key'])) {
+		} elseif (!empty($this->params['key'])) {
 			$settings['apiKey'] = $this->params['key'];
 		}
 
@@ -627,7 +624,7 @@ class Swift extends \OC\Files\Storage\Common {
 		}
 		$path = $this->normalizePath($path);
 		$dh = $this->opendir($path);
-		$content = array();
+		$content = [];
 		while (($file = readdir($dh)) !== false) {
 			$content[] = $file;
 		}
@@ -649,5 +646,4 @@ class Swift extends \OC\Files\Storage\Common {
 	public static function checkDependencies() {
 		return true;
 	}
-
 }

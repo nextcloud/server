@@ -38,7 +38,9 @@ class LegacyDAVACL extends DavAclPlugin {
 	public function getCurrentUserPrincipals() {
 		$principalV2 = $this->getCurrentUserPrincipal();
 
-		if (is_null($principalV2)) return [];
+		if (is_null($principalV2)) {
+			return [];
+		}
 
 		$principalV1 = $this->convertPrincipal($principalV2, false);
 		return array_merge(

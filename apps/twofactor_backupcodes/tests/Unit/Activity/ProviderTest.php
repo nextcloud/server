@@ -127,5 +127,4 @@ class ProviderTest extends TestCase {
 		$this->expectException(InvalidArgumentException::class);
 		$this->provider->parse($lang, $event);
 	}
-
 }

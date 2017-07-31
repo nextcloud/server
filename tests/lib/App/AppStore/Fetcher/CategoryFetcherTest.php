@@ -49,6 +49,5 @@ class CategoryFetcherTest extends FetcherBase {
 			->method('getFolder');
 
 		$this->assertEquals([], $this->fetcher->get());
-
 	}
 }

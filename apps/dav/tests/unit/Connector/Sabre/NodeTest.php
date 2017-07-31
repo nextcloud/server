@@ -34,17 +34,17 @@ namespace OCA\DAV\Tests\unit\Connector\Sabre;
  */
 class NodeTest extends \Test\TestCase {
 	public function davPermissionsProvider() {
-		return array(
-			array(\OCP\Constants::PERMISSION_ALL, 'file', false, false, 'RDNVW'),
-			array(\OCP\Constants::PERMISSION_ALL, 'dir', false, false, 'RDNVCK'),
-			array(\OCP\Constants::PERMISSION_ALL, 'file', true, false, 'SRDNVW'),
-			array(\OCP\Constants::PERMISSION_ALL, 'file', true, true, 'SRMDNVW'),
-			array(\OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_SHARE, 'file', true, false, 'SDNVW'),
-			array(\OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_UPDATE, 'file', false, false, 'RD'),
-			array(\OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_DELETE, 'file', false, false, 'RNVW'),
-			array(\OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_CREATE, 'file', false, false, 'RDNVW'),
-			array(\OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_CREATE, 'dir', false, false, 'RDNV'),
-		);
+		return [
+			[\OCP\Constants::PERMISSION_ALL, 'file', false, false, 'RDNVW'],
+			[\OCP\Constants::PERMISSION_ALL, 'dir', false, false, 'RDNVCK'],
+			[\OCP\Constants::PERMISSION_ALL, 'file', true, false, 'SRDNVW'],
+			[\OCP\Constants::PERMISSION_ALL, 'file', true, true, 'SRMDNVW'],
+			[\OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_SHARE, 'file', true, false, 'SDNVW'],
+			[\OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_UPDATE, 'file', false, false, 'RD'],
+			[\OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_DELETE, 'file', false, false, 'RNVW'],
+			[\OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_CREATE, 'file', false, false, 'RDNVW'],
+			[\OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_CREATE, 'dir', false, false, 'RDNV'],
+		];
 	}
 
 	/**
@@ -53,7 +53,7 @@ class NodeTest extends \Test\TestCase {
 	public function testDavPermissions($permissions, $type, $shared, $mounted, $expected) {
 		$info = $this->getMockBuilder('\OC\Files\FileInfo')
 			->disableOriginalConstructor()
-			->setMethods(array('getPermissions', 'isShared', 'isMounted', 'getType'))
+			->setMethods(['getPermissions', 'isShared', 'isMounted', 'getType'])
 			->getMock();
 		$info->expects($this->any())
 			->method('getPermissions')

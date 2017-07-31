@@ -25,7 +25,6 @@
 
 namespace OCA\Encryption;
 
-
 use OC\Files\View;
 use OCA\Encryption\Crypto\Crypt;
 use OCP\IConfig;
@@ -71,7 +70,8 @@ class Util {
 	 * @param IConfig $config
 	 * @param IUserManager $userManager
 	 */
-	public function __construct(View $files,
+	public function __construct(
+		View $files,
 								Crypt $crypt,
 								ILogger $logger,
 								IUserSession $userSession,
@@ -93,10 +93,12 @@ class Util {
 	 * @return bool
 	 */
 	public function isRecoveryEnabledForUser($uid) {
-		$recoveryMode = $this->config->getUserValue($uid,
+		$recoveryMode = $this->config->getUserValue(
+			$uid,
 			'encryption',
 			'recoveryEnabled',
-			'0');
+			'0'
+		);
 
 		return ($recoveryMode === '1');
 	}
@@ -148,10 +150,12 @@ class Util {
 		$value = $enabled ? '1' : '0';
 
 		try {
-			$this->config->setUserValue($this->user->getUID(),
+			$this->config->setUserValue(
+				$this->user->getUID(),
 				'encryption',
 				'recoveryEnabled',
-				$value);
+				$value
+			);
 			return true;
 		} catch (PreConditionNotMetException $e) {
 			return false;
@@ -182,7 +186,6 @@ class Util {
 				throw new \BadMethodCallException('Unknown user: ' .
 				'method expects path to a user folder relative to the data folder');
 			}
-
 		}
 
 		return $owner;
@@ -198,5 +201,4 @@ class Util {
 		$storage = $this->files->getMount($path)->getStorage();
 		return $storage;
 	}
-
 }

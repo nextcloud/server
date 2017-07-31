@@ -23,7 +23,6 @@
 
 namespace OCA\FederatedFileSharing\Settings;
 
-
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\Settings\IIconSection;

@@ -182,7 +182,7 @@ class StorageConfig implements \JsonSerializable {
 	 * @param Backend $backend
 	 */
 	public function setBackend(Backend $backend) {
-		$this->backend= $backend;
+		$this->backend = $backend;
 	}
 
 	/**
@@ -214,10 +214,10 @@ class StorageConfig implements \JsonSerializable {
 	 * @param array $backendOptions backend options
 	 */
 	public function setBackendOptions($backendOptions) {
-		if($this->getBackend() instanceof  Backend) {
+		if ($this->getBackend() instanceof  Backend) {
 			$parameters = $this->getBackend()->getParameters();
-			foreach($backendOptions as $key => $value) {
-				if(isset($parameters[$key])) {
+			foreach ($backendOptions as $key => $value) {
+				if (isset($parameters[$key])) {
 					switch ($parameters[$key]->getType()) {
 						case \OCA\Files_External\Lib\DefinitionParameter::VALUE_BOOLEAN:
 							$value = (bool)$value;

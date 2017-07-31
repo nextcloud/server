@@ -31,7 +31,6 @@ use \OCA\Files_External\Service\BackendService;
 use \OCA\Files_External\Lib\Auth\Password\Password;
 
 class OwnCloud extends Backend {
-
 	public function __construct(IL10N $l, Password $legacyAuth) {
 		$this
 			->setIdentifier('owncloud')
@@ -49,5 +48,4 @@ class OwnCloud extends Backend {
 			->setLegacyAuthMechanism($legacyAuth)
 		;
 	}
-
 }

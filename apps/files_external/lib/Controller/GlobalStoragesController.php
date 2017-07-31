@@ -26,7 +26,6 @@
 
 namespace OCA\Files_External\Controller;
 
-
 use OCP\ILogger;
 use \OCP\IRequest;
 use \OCP\IL10N;
@@ -170,7 +169,7 @@ class GlobalStoragesController extends StoragesController {
 		} catch (NotFoundException $e) {
 			return new DataResponse(
 				[
-					'message' => (string)$this->l10n->t('Storage with ID "%d" not found', array($id))
+					'message' => (string)$this->l10n->t('Storage with ID "%d" not found', [$id])
 				],
 				Http::STATUS_NOT_FOUND
 			);
@@ -182,8 +181,5 @@ class GlobalStoragesController extends StoragesController {
 			$storage,
 			Http::STATUS_OK
 		);
-
 	}
-
-
 }

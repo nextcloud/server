@@ -46,16 +46,16 @@ class Response {
 	 * Headers - defaults to ['Cache-Control' => 'no-cache, no-store, must-revalidate']
 	 * @var array
 	 */
-	private $headers = array(
+	private $headers = [
 		'Cache-Control' => 'no-cache, no-store, must-revalidate'
-	);
+	];
 
 
 	/**
 	 * Cookies that will be need to be constructed as header
 	 * @var array
 	 */
-	private $cookies = array();
+	private $cookies = [];
 
 
 	/**
@@ -92,8 +92,7 @@ class Response {
 	 * @since 6.0.0 - return value was added in 7.0.0
 	 */
 	public function cacheFor($cacheSeconds) {
-
-		if($cacheSeconds > 0) {
+		if ($cacheSeconds > 0) {
 			$this->addHeader('Cache-Control', 'max-age=' . $cacheSeconds . ', must-revalidate');
 		} else {
 			$this->addHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
@@ -113,7 +112,7 @@ class Response {
 	 * @since 8.0.0
 	 */
 	public function addCookie($name, $value, \DateTime $expireDate = null) {
-		$this->cookies[$name] = array('value' => $value, 'expireDate' => $expireDate);
+		$this->cookies[$name] = ['value' => $value, 'expireDate' => $expireDate];
 		return $this;
 	}
 
@@ -148,7 +147,7 @@ class Response {
 	 * @since 8.0.0
 	 */
 	public function invalidateCookies(array $cookieNames) {
-		foreach($cookieNames as $cookieName) {
+		foreach ($cookieNames as $cookieName) {
 			$this->invalidateCookie($cookieName);
 		}
 		return $this;
@@ -173,10 +172,10 @@ class Response {
 	 */
 	public function addHeader($name, $value) {
 		$name = trim($name);  // always remove leading and trailing whitespace
-		                      // to be able to reliably check for security
-		                      // headers
+		// to be able to reliably check for security
+		// headers
 
-		if(is_null($value)) {
+		if (is_null($value)) {
 			unset($this->headers[$name]);
 		} else {
 			$this->headers[$name] = $value;
@@ -207,18 +206,18 @@ class Response {
 	public function getHeaders() {
 		$mergeWith = [];
 
-		if($this->lastModified) {
+		if ($this->lastModified) {
 			$mergeWith['Last-Modified'] =
 				$this->lastModified->format(\DateTime::RFC2822);
 		}
 
 		// Build Content-Security-Policy and use default if none has been specified
-		if(is_null($this->contentSecurityPolicy)) {
+		if (is_null($this->contentSecurityPolicy)) {
 			$this->setContentSecurityPolicy(new ContentSecurityPolicy());
 		}
 		$this->headers['Content-Security-Policy'] = $this->contentSecurityPolicy->buildPolicy();
 
-		if($this->ETag) {
+		if ($this->ETag) {
 			$mergeWith['ETag'] = '"' . $this->ETag . '"';
 		}
 

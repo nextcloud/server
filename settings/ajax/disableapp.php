@@ -27,7 +27,7 @@ OCP\JSON::callCheck();
 $lastConfirm = (int) \OC::$server->getSession()->get('last-password-confirm');
 if ($lastConfirm < (time() - 30 * 60 + 15)) { // allow 15 seconds delay
 	$l = \OC::$server->getL10N('core');
-	OC_JSON::error(array( 'data' => array( 'message' => $l->t('Password confirmation is required'))));
+	OC_JSON::error([ 'data' => [ 'message' => $l->t('Password confirmation is required')]]);
 	exit();
 }
 
@@ -37,7 +37,7 @@ if (!array_key_exists('appid', $_POST)) {
 }
 
 $appIds = (array)$_POST['appid'];
-foreach($appIds as $appId) {
+foreach ($appIds as $appId) {
 	$appId = OC_App::cleanAppId($appId);
 	OC_App::disable($appId);
 }

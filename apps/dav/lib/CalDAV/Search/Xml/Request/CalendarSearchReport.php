@@ -80,22 +80,22 @@ class CalendarSearchReport implements XmlDeserializable {
 	 * @param Reader $reader
 	 * @return mixed
 	 */
-	static function xmlDeserialize(Reader $reader) {
+	public static function xmlDeserialize(Reader $reader) {
 		$elems = $reader->parseInnerTree([
-			'{http://nextcloud.com/ns}comp-filter'  => 'OCA\\DAV\\CalDAV\\Search\\Xml\\Filter\\CompFilter',
-			'{http://nextcloud.com/ns}prop-filter'  => 'OCA\\DAV\\CalDAV\\Search\\Xml\\Filter\\PropFilter',
+			'{http://nextcloud.com/ns}comp-filter' => 'OCA\\DAV\\CalDAV\\Search\\Xml\\Filter\\CompFilter',
+			'{http://nextcloud.com/ns}prop-filter' => 'OCA\\DAV\\CalDAV\\Search\\Xml\\Filter\\PropFilter',
 			'{http://nextcloud.com/ns}param-filter' => 'OCA\\DAV\\CalDAV\\Search\\Xml\\Filter\\ParamFilter',
-			'{http://nextcloud.com/ns}search-term'  => 'OCA\\DAV\\CalDAV\\Search\\Xml\\Filter\\SearchTermFilter',
-			'{http://nextcloud.com/ns}limit'        => 'OCA\\DAV\\CalDAV\\Search\\Xml\\Filter\\LimitFilter',
-			'{http://nextcloud.com/ns}offset'       => 'OCA\\DAV\\CalDAV\\Search\\Xml\\Filter\\OffsetFilter',
-			'{DAV:}prop'                            => 'Sabre\\Xml\\Element\\KeyValue',
+			'{http://nextcloud.com/ns}search-term' => 'OCA\\DAV\\CalDAV\\Search\\Xml\\Filter\\SearchTermFilter',
+			'{http://nextcloud.com/ns}limit' => 'OCA\\DAV\\CalDAV\\Search\\Xml\\Filter\\LimitFilter',
+			'{http://nextcloud.com/ns}offset' => 'OCA\\DAV\\CalDAV\\Search\\Xml\\Filter\\OffsetFilter',
+			'{DAV:}prop' => 'Sabre\\Xml\\Element\\KeyValue',
 		]);
 
 		$newProps = [
-			'filters'    => [],
+			'filters' => [],
 			'properties' => [],
-			'limit'      => null,
-			'offset'     => null
+			'limit' => null,
+			'offset' => null
 		];
 
 		if (!is_array($elems)) {

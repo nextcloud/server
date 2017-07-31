@@ -21,7 +21,6 @@
 
 namespace Tests\Core\Command\Config\App;
 
-
 use OC\Core\Command\Config\App\GetConfig;
 use OCP\IConfig;
 use Symfony\Component\Console\Input\InputInterface;
@@ -148,7 +147,7 @@ class GetConfigTest extends TestCase {
 			$output = '';
 			$this->consoleOutput->expects($this->any())
 				->method('writeln')
-				->willReturnCallback(function($value) {
+				->willReturnCallback(function ($value) {
 					global $output;
 					$output .= $value . "\n";
 					return $output;

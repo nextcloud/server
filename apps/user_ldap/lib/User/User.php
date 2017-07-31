@@ -90,7 +90,7 @@ class User {
 	/**
 	 * @var string[]
 	 */
-	protected $refreshedFeatures = array();
+	protected $refreshedFeatures = [];
 	/**
 	 * @var string
 	 */
@@ -99,7 +99,7 @@ class User {
 	/**
 	 * DB config keys for user preferences
 	 */
-	const USER_PREFKEY_FIRSTLOGIN  = 'firstLoginAccomplished';
+	const USER_PREFKEY_FIRSTLOGIN = 'firstLoginAccomplished';
 	const USER_PREFKEY_LASTREFRESH = 'lastFeatureRefresh';
 
 	/**
@@ -116,29 +116,36 @@ class User {
 	 * @param IUserManager $userManager
 	 * @param INotificationManager $notificationManager
 	 */
-	public function __construct($username, $dn, IUserTools $access,
-		IConfig $config, FilesystemHelper $fs, Image $image,
-		LogWrapper $log, IAvatarManager $avatarManager, IUserManager $userManager,
-		INotificationManager $notificationManager) {
-	
+	public function __construct(
+		$username,
+		$dn,
+		IUserTools $access,
+		IConfig $config,
+		FilesystemHelper $fs,
+		Image $image,
+		LogWrapper $log,
+		IAvatarManager $avatarManager,
+		IUserManager $userManager,
+		INotificationManager $notificationManager
+	) {
 		if ($username === null) {
 			$log->log("uid for '$dn' must not be null!", Util::ERROR);
 			throw new \InvalidArgumentException('uid must not be null!');
-		} else if ($username === '') {
+		} elseif ($username === '') {
 			$log->log("uid for '$dn' must not be an empty string", Util::ERROR);
 			throw new \InvalidArgumentException('uid must not be an empty string!');
 		}
 
-		$this->access              = $access;
-		$this->connection          = $access->getConnection();
-		$this->config              = $config;
-		$this->fs                  = $fs;
-		$this->dn                  = $dn;
-		$this->uid                 = $username;
-		$this->image               = $image;
-		$this->log                 = $log;
-		$this->avatarManager       = $avatarManager;
-		$this->userManager         = $userManager;
+		$this->access = $access;
+		$this->connection = $access->getConnection();
+		$this->config = $config;
+		$this->fs = $fs;
+		$this->dn = $dn;
+		$this->uid = $username;
+		$this->image = $image;
+		$this->log = $log;
+		$this->avatarManager = $avatarManager;
+		$this->userManager = $userManager;
 		$this->notificationManager = $notificationManager;
 
 		\OCP\Util::connectHook('OC_User', 'post_login', $this, 'handlePasswordExpiry');
@@ -149,17 +156,21 @@ class User {
 	 * @return null
 	 */
 	public function update() {
-		if(is_null($this->dn)) {
+		if (is_null($this->dn)) {
 			return null;
 		}
 
-		$hasLoggedIn = $this->config->getUserValue($this->uid, 'user_ldap',
-				self::USER_PREFKEY_FIRSTLOGIN, 0);
+		$hasLoggedIn = $this->config->getUserValue(
+			$this->uid,
+			'user_ldap',
+				self::USER_PREFKEY_FIRSTLOGIN,
+			0
+		);
 
-		if($this->needsRefresh()) {
+		if ($this->needsRefresh()) {
 			$this->updateEmail();
 			$this->updateQuota();
-			if($hasLoggedIn !== 0) {
+			if ($hasLoggedIn !== 0) {
 				//we do not need to try it, when the user has not been logged in
 				//before, because the file system will not be ready.
 				$this->updateAvatar();
@@ -178,7 +189,7 @@ class User {
 		$this->markRefreshTime();
 		//Quota
 		$attr = strtolower($this->connection->ldapQuotaAttribute);
-		if(isset($ldapEntry[$attr])) {
+		if (isset($ldapEntry[$attr])) {
 			$this->updateQuota($ldapEntry[$attr][0]);
 		} else {
 			if ($this->connection->ldapQuotaDefault !== '') {
@@ -189,7 +200,7 @@ class User {
 
 		//Email
 		$attr = strtolower($this->connection->ldapEmailAttribute);
-		if(isset($ldapEntry[$attr])) {
+		if (isset($ldapEntry[$attr])) {
 			$this->updateEmail($ldapEntry[$attr][0]);
 		}
 		unset($attr);
@@ -197,11 +208,11 @@ class User {
 		//displayName
 		$displayName = $displayName2 = '';
 		$attr = strtolower($this->connection->ldapUserDisplayName);
-		if(isset($ldapEntry[$attr])) {
+		if (isset($ldapEntry[$attr])) {
 			$displayName = strval($ldapEntry[$attr][0]);
 		}
 		$attr = strtolower($this->connection->ldapUserDisplayName2);
-		if(isset($ldapEntry[$attr])) {
+		if (isset($ldapEntry[$attr])) {
 			$displayName2 = strval($ldapEntry[$attr][0]);
 		}
 		if ($displayName !== '') {
@@ -215,33 +226,35 @@ class User {
 		unset($attr);
 
 		// LDAP Username, needed for s2s sharing
-		if(isset($ldapEntry['uid'])) {
+		if (isset($ldapEntry['uid'])) {
 			$this->storeLDAPUserName($ldapEntry['uid'][0]);
-		} else if(isset($ldapEntry['samaccountname'])) {
+		} elseif (isset($ldapEntry['samaccountname'])) {
 			$this->storeLDAPUserName($ldapEntry['samaccountname'][0]);
 		}
 
 		//homePath
-		if(strpos($this->connection->homeFolderNamingRule, 'attr:') === 0) {
+		if (strpos($this->connection->homeFolderNamingRule, 'attr:') === 0) {
 			$attr = strtolower(substr($this->connection->homeFolderNamingRule, strlen('attr:')));
-			if(isset($ldapEntry[$attr])) {
+			if (isset($ldapEntry[$attr])) {
 				$this->access->cacheUserHome(
-					$this->getUsername(), $this->getHomePath($ldapEntry[$attr][0]));
+					$this->getUsername(),
+					$this->getHomePath($ldapEntry[$attr][0])
+				);
 			}
 		}
 
 		//memberOf groups
 		$cacheKey = 'getMemberOf'.$this->getUsername();
 		$groups = false;
-		if(isset($ldapEntry['memberof'])) {
+		if (isset($ldapEntry['memberof'])) {
 			$groups = $ldapEntry['memberof'];
 		}
 		$this->connection->writeToCache($cacheKey, $groups);
 
 		//Avatar
-		$attrs = array('jpegphoto', 'thumbnailphoto');
-		foreach ($attrs as $attr)  {
-			if(isset($ldapEntry[$attr])) {
+		$attrs = ['jpegphoto', 'thumbnailphoto'];
+		foreach ($attrs as $attr) {
+			if (isset($ldapEntry[$attr])) {
 				$this->avatarImage = $ldapEntry[$attr][0];
 				// the call to the method that saves the avatar in the file
 				// system must be postponed after the login. It is to ensure
@@ -281,11 +294,12 @@ class User {
 
 		if (is_null($valueFromLDAP)
 		   && strpos($this->access->connection->homeFolderNamingRule, 'attr:') === 0
-		   && $this->access->connection->homeFolderNamingRule !== 'attr:')
-		{
+		   && $this->access->connection->homeFolderNamingRule !== 'attr:') {
 			$attr = substr($this->access->connection->homeFolderNamingRule, strlen('attr:'));
 			$homedir = $this->access->readAttribute(
-				$this->access->username2dn($this->getUsername()), $attr);
+				$this->access->username2dn($this->getUsername()),
+				$attr
+			);
 			if ($homedir && isset($homedir[0])) {
 				$path = $homedir[0];
 			}
@@ -294,22 +308,27 @@ class User {
 		if ($path !== '') {
 			//if attribute's value is an absolute path take this, otherwise append it to data dir
 			//check for / at the beginning or pattern c:\ resp. c:/
-			if(   '/' !== $path[0]
+			if ('/' !== $path[0]
 			   && !(3 < strlen($path) && ctype_alpha($path[0])
-			       && $path[1] === ':' && ('\\' === $path[2] || '/' === $path[2]))
+				   && $path[1] === ':' && ('\\' === $path[2] || '/' === $path[2]))
 			) {
-				$path = $this->config->getSystemValue('datadirectory',
-						\OC::$SERVERROOT.'/data' ) . '/' . $path;
+				$path = $this->config->getSystemValue(
+					'datadirectory',
+						\OC::$SERVERROOT.'/data'
+				) . '/' . $path;
 			}
 			//we need it to store it in the DB as well in case a user gets
 			//deleted so we can clean up afterwards
 			$this->config->setUserValue(
-				$this->getUsername(), 'user_ldap', 'homePath', $path
+				$this->getUsername(),
+				'user_ldap',
+				'homePath',
+				$path
 			);
 			return $path;
 		}
 
-		if(    !is_null($attr)
+		if (!is_null($attr)
 			&& $this->config->getAppValue('user_ldap', 'enforce_home_folder_naming_rule', true)
 		) {
 			// a naming rule attribute is defined, but it doesn't exist for that LDAP user
@@ -324,7 +343,7 @@ class User {
 	public function getMemberOfGroups() {
 		$cacheKey = 'getMemberOf'.$this->getUsername();
 		$memberOfGroups = $this->connection->getFromCache($cacheKey);
-		if(!is_null($memberOfGroups)) {
+		if (!is_null($memberOfGroups)) {
 			return $memberOfGroups;
 		}
 		$groupDNs = $this->access->readAttribute($this->getDN(), 'memberOf');
@@ -337,15 +356,15 @@ class User {
 	 * @return string data (provided by LDAP) | false
 	 */
 	public function getAvatarImage() {
-		if(!is_null($this->avatarImage)) {
+		if (!is_null($this->avatarImage)) {
 			return $this->avatarImage;
 		}
 
 		$this->avatarImage = false;
-		$attributes = array('jpegPhoto', 'thumbnailPhoto');
-		foreach($attributes as $attribute) {
+		$attributes = ['jpegPhoto', 'thumbnailPhoto'];
+		foreach ($attributes as $attribute) {
 			$result = $this->access->readAttribute($this->dn, $attribute);
-			if($result !== false && is_array($result) && isset($result[0])) {
+			if ($result !== false && is_array($result) && isset($result[0])) {
 				$this->avatarImage = $result[0];
 				break;
 			}
@@ -360,7 +379,11 @@ class User {
 	 */
 	public function markLogin() {
 		$this->config->setUserValue(
-			$this->uid, 'user_ldap', self::USER_PREFKEY_FIRSTLOGIN, 1);
+			$this->uid,
+			'user_ldap',
+			self::USER_PREFKEY_FIRSTLOGIN,
+			1
+		);
 	}
 
 	/**
@@ -369,7 +392,11 @@ class User {
 	 */
 	public function markRefreshTime() {
 		$this->config->setUserValue(
-			$this->uid, 'user_ldap', self::USER_PREFKEY_LASTREFRESH, time());
+			$this->uid,
+			'user_ldap',
+			self::USER_PREFKEY_LASTREFRESH,
+			time()
+		);
 	}
 
 	/**
@@ -379,11 +406,15 @@ class User {
 	 * @return bool
 	 */
 	private function needsRefresh() {
-		$lastChecked = $this->config->getUserValue($this->uid, 'user_ldap',
-			self::USER_PREFKEY_LASTREFRESH, 0);
+		$lastChecked = $this->config->getUserValue(
+			$this->uid,
+			'user_ldap',
+			self::USER_PREFKEY_LASTREFRESH,
+			0
+		);
 
 		//TODO make interval configurable
-		if((time() - intval($lastChecked)) < 86400 ) {
+		if ((time() - intval($lastChecked)) < 86400) {
 			return false;
 		}
 		return  true;
@@ -409,7 +440,7 @@ class User {
 	 */
 	public function composeAndStoreDisplayName($displayName, $displayName2 = '') {
 		$displayName2 = strval($displayName2);
-		if($displayName2 !== '') {
+		if ($displayName2 !== '') {
 			$displayName .= ' (' . $displayName2 . ')';
 		}
 		$this->store('displayName', $displayName);
@@ -432,7 +463,7 @@ class User {
 	 * @return bool
 	 */
 	private function wasRefreshed($feature) {
-		if(isset($this->refreshedFeatures[$feature])) {
+		if (isset($this->refreshedFeatures[$feature])) {
 			return true;
 		}
 		$this->refreshedFeatures[$feature] = 1;
@@ -445,15 +476,15 @@ class User {
 	 * @return null
 	 */
 	public function updateEmail($valueFromLDAP = null) {
-		if($this->wasRefreshed('email')) {
+		if ($this->wasRefreshed('email')) {
 			return;
 		}
 		$email = strval($valueFromLDAP);
-		if(is_null($valueFromLDAP)) {
+		if (is_null($valueFromLDAP)) {
 			$emailAttribute = $this->connection->ldapEmailAttribute;
 			if ($emailAttribute !== '') {
 				$aEmail = $this->access->readAttribute($this->dn, $emailAttribute);
-				if(is_array($aEmail) && (count($aEmail) > 0)) {
+				if (is_array($aEmail) && (count($aEmail) > 0)) {
 					$email = strval($aEmail[0]);
 				}
 			}
@@ -490,16 +521,16 @@ class User {
 	 * @return null
 	 */
 	public function updateQuota($valueFromLDAP = null) {
-		if($this->wasRefreshed('quota')) {
+		if ($this->wasRefreshed('quota')) {
 			return;
 		}
 
 		$quota = false;
-		if(is_null($valueFromLDAP)) {
+		if (is_null($valueFromLDAP)) {
 			$quotaAttribute = $this->connection->ldapQuotaAttribute;
 			if ($quotaAttribute !== '') {
 				$aQuota = $this->access->readAttribute($this->dn, $quotaAttribute);
-				if($aQuota && (count($aQuota) > 0)) {
+				if ($aQuota && (count($aQuota) > 0)) {
 					if ($this->verifyQuotaValue($aQuota[0])) {
 						$quota = $aQuota[0];
 					} else {
@@ -525,7 +556,7 @@ class User {
 
 		$targetUser = $this->userManager->get($this->uid);
 		if ($targetUser) {
-			if($quota !== false) {
+			if ($quota !== false) {
 				$targetUser->setQuota($quota);
 			} else {
 				$this->log->log('not suitable default quota found for user ' . $this->uid . ': [' . $defaultQuota . ']', \OCP\Util::WARN);
@@ -546,7 +577,7 @@ class User {
 	 * @param array $params
 	 */
 	public function updateAvatarPostLogin($params) {
-		if(isset($params['uid']) && $params['uid'] === $this->getUsername()) {
+		if (isset($params['uid']) && $params['uid'] === $this->getUsername()) {
 			$this->updateAvatar();
 		}
 	}
@@ -556,11 +587,11 @@ class User {
 	 * @return null
 	 */
 	public function updateAvatar() {
-		if($this->wasRefreshed('avatar')) {
+		if ($this->wasRefreshed('avatar')) {
 			return;
 		}
 		$avatarImage = $this->getAvatarImage();
-		if($avatarImage === false) {
+		if ($avatarImage === false) {
 			//not set, nothing left to do;
 			return;
 		}
@@ -573,18 +604,18 @@ class User {
 	 * @return null
 	 */
 	private function setOwnCloudAvatar() {
-		if(!$this->image->valid()) {
+		if (!$this->image->valid()) {
 			$this->log->log('jpegPhoto data invalid for '.$this->dn, \OCP\Util::ERROR);
 			return;
 		}
 		//make sure it is a square and not bigger than 128x128
-		$size = min(array($this->image->width(), $this->image->height(), 128));
-		if(!$this->image->centerCrop($size)) {
+		$size = min([$this->image->width(), $this->image->height(), 128]);
+		if (!$this->image->centerCrop($size)) {
 			$this->log->log('croping image for avatar failed for '.$this->dn, \OCP\Util::ERROR);
 			return;
 		}
 
-		if(!$this->fs->isLoaded()) {
+		if (!$this->fs->isLoaded()) {
 			$this->fs->setup($this->uid);
 		}
 
@@ -594,7 +625,8 @@ class User {
 		} catch (\Exception $e) {
 			\OC::$server->getLogger()->notice(
 				'Could not set avatar for ' . $this->dn	. ', because: ' . $e->getMessage(),
-				['app' => 'user_ldap']);
+				['app' => 'user_ldap']
+			);
 		}
 	}
 
@@ -609,13 +641,13 @@ class User {
 			return;//password expiry handling disabled
 		}
 		$uid = $params['uid'];
-		if(isset($uid) && $uid === $this->getUsername()) {
+		if (isset($uid) && $uid === $this->getUsername()) {
 			//retrieve relevant user attributes
 			$result = $this->access->search('objectclass=*', $this->dn, ['pwdpolicysubentry', 'pwdgraceusetime', 'pwdreset', 'pwdchangedtime']);
 			
-			if(array_key_exists('pwdpolicysubentry', $result[0])) {
+			if (array_key_exists('pwdpolicysubentry', $result[0])) {
 				$pwdPolicySubentry = $result[0]['pwdpolicysubentry'];
-				if($pwdPolicySubentry && (count($pwdPolicySubentry) > 0)){
+				if ($pwdPolicySubentry && (count($pwdPolicySubentry) > 0)) {
 					$ppolicyDN = $pwdPolicySubentry[0];//custom ppolicy DN
 				}
 			}
@@ -627,7 +659,7 @@ class User {
 			//retrieve relevant password policy attributes
 			$cacheKey = 'ppolicyAttributes' . $ppolicyDN;
 			$result = $this->connection->getFromCache($cacheKey);
-			if(is_null($result)) {
+			if (is_null($result)) {
 				$result = $this->access->search('objectclass=*', $ppolicyDN, ['pwdgraceauthnlimit', 'pwdmaxage', 'pwdexpirewarning']);
 				$this->connection->writeToCache($cacheKey, $result);
 			}
@@ -638,38 +670,44 @@ class User {
 			
 			//handle grace login
 			$pwdGraceUseTimeCount = count($pwdGraceUseTime);
-			if($pwdGraceUseTime && $pwdGraceUseTimeCount > 0) { //was this a grace login?
-				if($pwdGraceAuthNLimit 
+			if ($pwdGraceUseTime && $pwdGraceUseTimeCount > 0) { //was this a grace login?
+				if ($pwdGraceAuthNLimit
 					&& (count($pwdGraceAuthNLimit) > 0)
-					&&($pwdGraceUseTimeCount < intval($pwdGraceAuthNLimit[0]))) { //at least one more grace login available?
+					&& ($pwdGraceUseTimeCount < intval($pwdGraceAuthNLimit[0]))) { //at least one more grace login available?
 					$this->config->setUserValue($uid, 'user_ldap', 'needsPasswordReset', 'true');
 					header('Location: '.\OC::$server->getURLGenerator()->linkToRouteAbsolute(
-					'user_ldap.renewPassword.showRenewPasswordForm', array('user' => $uid)));
+					'user_ldap.renewPassword.showRenewPasswordForm',
+						['user' => $uid]
+					));
 				} else { //no more grace login available
 					header('Location: '.\OC::$server->getURLGenerator()->linkToRouteAbsolute(
-					'user_ldap.renewPassword.showLoginFormInvalidPassword', array('user' => $uid)));
+					'user_ldap.renewPassword.showLoginFormInvalidPassword',
+						['user' => $uid]
+					));
 				}
 				exit();
 			}
 			//handle pwdReset attribute
-			if($pwdReset && (count($pwdReset) > 0) && $pwdReset[0] === 'TRUE') { //user must change his password
+			if ($pwdReset && (count($pwdReset) > 0) && $pwdReset[0] === 'TRUE') { //user must change his password
 				$this->config->setUserValue($uid, 'user_ldap', 'needsPasswordReset', 'true');
 				header('Location: '.\OC::$server->getURLGenerator()->linkToRouteAbsolute(
-				'user_ldap.renewPassword.showRenewPasswordForm', array('user' => $uid)));
+				'user_ldap.renewPassword.showRenewPasswordForm',
+					['user' => $uid]
+				));
 				exit();
 			}
 			//handle password expiry warning
-			if($pwdChangedTime && (count($pwdChangedTime) > 0)) {
-				if($pwdMaxAge && (count($pwdMaxAge) > 0)
+			if ($pwdChangedTime && (count($pwdChangedTime) > 0)) {
+				if ($pwdMaxAge && (count($pwdMaxAge) > 0)
 					&& $pwdExpireWarning && (count($pwdExpireWarning) > 0)) {
 					$pwdMaxAgeInt = intval($pwdMaxAge[0]);
 					$pwdExpireWarningInt = intval($pwdExpireWarning[0]);
-					if($pwdMaxAgeInt > 0 && $pwdExpireWarningInt > 0){
+					if ($pwdMaxAgeInt > 0 && $pwdExpireWarningInt > 0) {
 						$pwdChangedTimeDt = \DateTime::createFromFormat('YmdHisZ', $pwdChangedTime[0]);
 						$pwdChangedTimeDt->add(new \DateInterval('PT'.$pwdMaxAgeInt.'S'));
 						$currentDateTime = new \DateTime();
 						$secondsToExpiry = $pwdChangedTimeDt->getTimestamp() - $currentDateTime->getTimestamp();
-						if($secondsToExpiry <= $pwdExpireWarningInt) {
+						if ($secondsToExpiry <= $pwdExpireWarningInt) {
 							//remove last password expiry warning if any
 							$notification = $this->notificationManager->createNotification();
 							$notification->setApp('user_ldap')
@@ -682,7 +720,7 @@ class User {
 							$notification->setApp('user_ldap')
 								->setUser($uid)
 								->setDateTime($currentDateTime)
-								->setObject('pwd_exp_warn', $uid) 
+								->setObject('pwd_exp_warn', $uid)
 								->setSubject('pwd_exp_warn_days', [(int) ceil($secondsToExpiry / 60 / 60 / 24)])
 							;
 							$this->notificationManager->notify($notification);

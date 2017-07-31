@@ -51,10 +51,10 @@ class RequestTest extends \Test\TestCase {
 	}
 
 	public function testRequestAccessors() {
-		$vars = array(
-			'get' => array('name' => 'John Q. Public', 'nickname' => 'Joey'),
+		$vars = [
+			'get' => ['name' => 'John Q. Public', 'nickname' => 'Joey'],
 			'method' => 'GET',
-		);
+		];
 
 		$request = new Request(
 			$vars,
@@ -77,17 +77,16 @@ class RequestTest extends \Test\TestCase {
 		$this->assertSame('Joey', $request->get['nickname']);
 		// Always returns null if variable not set.
 		$this->assertSame(null, $request->{'flickname'});
-
 	}
 
 	// urlParams has precedence over POST which has precedence over GET
 	public function testPrecedence() {
-		$vars = array(
-			'get' => array('name' => 'John Q. Public', 'nickname' => 'Joey'),
-			'post' => array('name' => 'Jane Doe', 'nickname' => 'Janey'),
-			'urlParams' => array('user' => 'jw', 'name' => 'Johnny Weissmüller'),
+		$vars = [
+			'get' => ['name' => 'John Q. Public', 'nickname' => 'Joey'],
+			'post' => ['name' => 'Jane Doe', 'nickname' => 'Janey'],
+			'urlParams' => ['user' => 'jw', 'name' => 'Johnny Weissmüller'],
 			'method' => 'GET'
-		);
+		];
 
 		$request = new Request(
 			$vars,
@@ -107,10 +106,10 @@ class RequestTest extends \Test\TestCase {
 	 * @expectedException \RuntimeException
 	 */
 	public function testImmutableArrayAccess() {
-		$vars = array(
-			'get' => array('name' => 'John Q. Public', 'nickname' => 'Joey'),
+		$vars = [
+			'get' => ['name' => 'John Q. Public', 'nickname' => 'Joey'],
 			'method' => 'GET'
-		);
+		];
 
 		$request = new Request(
 			$vars,
@@ -127,10 +126,10 @@ class RequestTest extends \Test\TestCase {
 	 * @expectedException \RuntimeException
 	 */
 	public function testImmutableMagicAccess() {
-		$vars = array(
-			'get' => array('name' => 'John Q. Public', 'nickname' => 'Joey'),
+		$vars = [
+			'get' => ['name' => 'John Q. Public', 'nickname' => 'Joey'],
 			'method' => 'GET'
-		);
+		];
 
 		$request = new Request(
 			$vars,
@@ -147,10 +146,10 @@ class RequestTest extends \Test\TestCase {
 	 * @expectedException \LogicException
 	 */
 	public function testGetTheMethodRight() {
-		$vars = array(
-			'get' => array('name' => 'John Q. Public', 'nickname' => 'Joey'),
+		$vars = [
+			'get' => ['name' => 'John Q. Public', 'nickname' => 'Joey'],
 			'method' => 'GET',
-		);
+		];
 
 		$request = new Request(
 			$vars,
@@ -164,10 +163,10 @@ class RequestTest extends \Test\TestCase {
 	}
 
 	public function testTheMethodIsRight() {
-		$vars = array(
-			'get' => array('name' => 'John Q. Public', 'nickname' => 'Joey'),
+		$vars = [
+			'get' => ['name' => 'John Q. Public', 'nickname' => 'Joey'],
 			'method' => 'GET',
-		);
+		];
 
 		$request = new Request(
 			$vars,
@@ -186,10 +185,10 @@ class RequestTest extends \Test\TestCase {
 	public function testJsonPost() {
 		global $data;
 		$data = '{"name": "John Q. Public", "nickname": "Joey"}';
-		$vars = array(
+		$vars = [
 			'method' => 'POST',
-			'server' => array('CONTENT_TYPE' => 'application/json; utf-8')
-		);
+			'server' => ['CONTENT_TYPE' => 'application/json; utf-8']
+		];
 
 		$request = new Request(
 			$vars,
@@ -210,10 +209,10 @@ class RequestTest extends \Test\TestCase {
 	public function testNotJsonPost() {
 		global $data;
 		$data = 'this is not valid json';
-		$vars = array(
+		$vars = [
 			'method' => 'POST',
-			'server' => array('CONTENT_TYPE' => 'application/json; utf-8')
-		);
+			'server' => ['CONTENT_TYPE' => 'application/json; utf-8']
+		];
 
 		$request = new Request(
 			$vars,
@@ -230,12 +229,12 @@ class RequestTest extends \Test\TestCase {
 
 	public function testPatch() {
 		global $data;
-		$data = http_build_query(array('name' => 'John Q. Public', 'nickname' => 'Joey'), '', '&');
+		$data = http_build_query(['name' => 'John Q. Public', 'nickname' => 'Joey'], '', '&');
 
-		$vars = array(
+		$vars = [
 			'method' => 'PATCH',
-			'server' => array('CONTENT_TYPE' => 'application/x-www-form-urlencoded'),
-		);
+			'server' => ['CONTENT_TYPE' => 'application/x-www-form-urlencoded'],
+		];
 
 		$request = new Request(
 			$vars,
@@ -257,10 +256,10 @@ class RequestTest extends \Test\TestCase {
 
 		// PUT content
 		$data = '{"name": "John Q. Public", "nickname": "Joey"}';
-		$vars = array(
+		$vars = [
 			'method' => 'PUT',
-			'server' => array('CONTENT_TYPE' => 'application/json; utf-8'),
-		);
+			'server' => ['CONTENT_TYPE' => 'application/json; utf-8'],
+		];
 
 		$request = new Request(
 			$vars,
@@ -278,10 +277,10 @@ class RequestTest extends \Test\TestCase {
 
 		// PATCH content
 		$data = '{"name": "John Q. Public", "nickname": null}';
-		$vars = array(
+		$vars = [
 			'method' => 'PATCH',
-			'server' => array('CONTENT_TYPE' => 'application/json; utf-8'),
-		);
+			'server' => ['CONTENT_TYPE' => 'application/json; utf-8'],
+		];
 
 		$request = new Request(
 			$vars,
@@ -302,14 +301,14 @@ class RequestTest extends \Test\TestCase {
 		global $data;
 		$data = file_get_contents(__DIR__ . '/../../../data/testimage.png');
 
-		$vars = array(
+		$vars = [
 			'put' => $data,
 			'method' => 'PUT',
 			'server' => [
 				'CONTENT_TYPE' => 'image/png',
 				'CONTENT_LENGTH' => strlen($data)
 			],
-		);
+		];
 
 		$request = new Request(
 			$vars,
@@ -326,20 +325,19 @@ class RequestTest extends \Test\TestCase {
 
 		try {
 			$resource = $request->put;
-		} catch(\LogicException $e) {
+		} catch (\LogicException $e) {
 			return;
 		}
 		$this->fail('Expected LogicException.');
-
 	}
 
 
 	public function testSetUrlParameters() {
-		$vars = array(
-			'post' => array(),
+		$vars = [
+			'post' => [],
 			'method' => 'POST',
-			'urlParams' => array('id' => '2'),
-		);
+			'urlParams' => ['id' => '2'],
+		];
 
 		$request = new Request(
 			$vars,
@@ -349,7 +347,7 @@ class RequestTest extends \Test\TestCase {
 			$this->stream
 		);
 
-		$newParams = array('id' => '3', 'test' => 'test2');
+		$newParams = ['id' => '3', 'test' => 'test2'];
 		$request->setUrlParameters($newParams);
 		$this->assertSame('test2', $request->getParam('test'));
 		$this->assertEquals('3', $request->getParam('id'));
@@ -778,7 +776,7 @@ class RequestTest extends \Test\TestCase {
 	/**
 	 * @return array
 	 */
-	function userAgentProvider() {
+	public function userAgentProvider() {
 		return [
 			[
 				'Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0)',
@@ -875,7 +873,7 @@ class RequestTest extends \Test\TestCase {
 			$this->stream
 		);
 
-		$this->assertSame('from.server.name:8080',  $request->getInsecureServerHost());
+		$this->assertSame('from.server.name:8080', $request->getInsecureServerHost());
 	}
 
 	public function testInsecureServerHostHttpHostHeader() {
@@ -892,7 +890,7 @@ class RequestTest extends \Test\TestCase {
 			$this->stream
 		);
 
-		$this->assertSame('from.host.header:8080',  $request->getInsecureServerHost());
+		$this->assertSame('from.host.header:8080', $request->getInsecureServerHost());
 	}
 
 	public function testInsecureServerHostHttpFromForwardedHeaderSingle() {
@@ -910,7 +908,7 @@ class RequestTest extends \Test\TestCase {
 			$this->stream
 		);
 
-		$this->assertSame('from.forwarded.host:8080',  $request->getInsecureServerHost());
+		$this->assertSame('from.forwarded.host:8080', $request->getInsecureServerHost());
 	}
 
 	public function testInsecureServerHostHttpFromForwardedHeaderStacked() {
@@ -928,7 +926,7 @@ class RequestTest extends \Test\TestCase {
 			$this->stream
 		);
 
-		$this->assertSame('from.forwarded.host2:8080',  $request->getInsecureServerHost());
+		$this->assertSame('from.forwarded.host2:8080', $request->getInsecureServerHost());
 	}
 
 	public function testGetServerHostWithOverwriteHost() {
@@ -956,7 +954,7 @@ class RequestTest extends \Test\TestCase {
 			$this->stream
 		);
 
-		$this->assertSame('my.overwritten.host',  $request->getServerHost());
+		$this->assertSame('my.overwritten.host', $request->getServerHost());
 	}
 
 	public function testGetServerHostWithTrustedDomain() {
@@ -978,7 +976,7 @@ class RequestTest extends \Test\TestCase {
 			$this->stream
 		);
 
-		$this->assertSame('my.trusted.host',  $request->getServerHost());
+		$this->assertSame('my.trusted.host', $request->getServerHost());
 	}
 
 	public function testGetServerHostWithUntrustedDomain() {
@@ -1005,7 +1003,7 @@ class RequestTest extends \Test\TestCase {
 			$this->stream
 		);
 
-		$this->assertSame('my.trusted.host',  $request->getServerHost());
+		$this->assertSame('my.trusted.host', $request->getServerHost());
 	}
 
 	public function testGetServerHostWithNoTrustedDomain() {
@@ -1032,7 +1030,7 @@ class RequestTest extends \Test\TestCase {
 			$this->stream
 		);
 
-		$this->assertSame('',  $request->getServerHost());
+		$this->assertSame('', $request->getServerHost());
 	}
 
 	public function testGetOverwriteHostDefaultNull() {

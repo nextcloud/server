@@ -23,7 +23,6 @@
 
 namespace OC\DB;
 
-
 class MigrationException extends \Exception {
 	private $table;
 

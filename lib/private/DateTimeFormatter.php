@@ -80,7 +80,7 @@ class DateTimeFormatter implements \OCP\IDateTimeFormatter {
 	protected function getDateTime($timestamp, \DateTimeZone $timeZone = null) {
 		if ($timestamp === null) {
 			return new \DateTime('now', $timeZone);
-		} else if (!$timestamp instanceof \DateTime) {
+		} elseif (!$timestamp instanceof \DateTime) {
 			$dateTime = new \DateTime('now', $timeZone);
 			$dateTime->setTimestamp($timestamp);
 			return $dateTime;
@@ -158,15 +158,15 @@ class DateTimeFormatter implements \OCP\IDateTimeFormatter {
 
 		if ($dateInterval->y == 0 && $dateInterval->m == 0 && $dateInterval->d == 0) {
 			return (string) $l->t('today');
-		} else if ($dateInterval->y == 0 && $dateInterval->m == 0 && $dateInterval->d == 1) {
+		} elseif ($dateInterval->y == 0 && $dateInterval->m == 0 && $dateInterval->d == 1) {
 			return (string) $l->t('yesterday');
-		} else if ($dateInterval->y == 0 && $dateInterval->m == 0) {
+		} elseif ($dateInterval->y == 0 && $dateInterval->m == 0) {
 			return (string) $l->n('%n day ago', '%n days ago', $dateInterval->d);
-		} else if ($dateInterval->y == 0 && $dateInterval->m == 1) {
+		} elseif ($dateInterval->y == 0 && $dateInterval->m == 1) {
 			return (string) $l->t('last month');
-		} else if ($dateInterval->y == 0) {
+		} elseif ($dateInterval->y == 0) {
 			return (string) $l->n('%n month ago', '%n months ago', $dateInterval->m);
-		} else if ($dateInterval->y == 1) {
+		} elseif ($dateInterval->y == 1) {
 			return (string) $l->t('last year');
 		}
 		return (string) $l->n('%n year ago', '%n years ago', $dateInterval->y);
@@ -220,7 +220,7 @@ class DateTimeFormatter implements \OCP\IDateTimeFormatter {
 
 		if ($diff->h > 0) {
 			return (string) $l->n('%n hour ago', '%n hours ago', $diff->h);
-		} else if ($diff->i > 0) {
+		} elseif ($diff->i > 0) {
 			return (string) $l->n('%n minute ago', '%n minutes ago', $diff->i);
 		}
 		return (string) $l->t('seconds ago');
@@ -274,8 +274,8 @@ class DateTimeFormatter implements \OCP\IDateTimeFormatter {
 		$timeZone = $this->getTimeZone($timeZone);
 		$timestamp = $this->getDateTime($timestamp, $timeZone);
 
-		return (string) $l->l($type, $timestamp, array(
+		return (string) $l->l($type, $timestamp, [
 			'width' => $format,
-		));
+		]);
 	}
 }

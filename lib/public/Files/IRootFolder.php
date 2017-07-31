@@ -43,4 +43,3 @@ interface IRootFolder extends Folder, Emitter {
 	 */
 	public function getUserFolder($userId);
 }
-

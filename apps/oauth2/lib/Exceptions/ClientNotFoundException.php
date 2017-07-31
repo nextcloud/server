@@ -21,4 +21,5 @@
 
 namespace OCA\OAuth2\Exceptions;
 
-class ClientNotFoundException extends \Exception {}
+class ClientNotFoundException extends \Exception {
+}

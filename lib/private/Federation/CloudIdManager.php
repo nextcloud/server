@@ -43,9 +43,9 @@ class CloudIdManager implements ICloudIdManager {
 
 		if ($posSlash === false && $posColon === false) {
 			$invalidPos = strlen($id);
-		} else if ($posSlash === false) {
+		} elseif ($posSlash === false) {
 			$invalidPos = $posColon;
-		} else if ($posColon === false) {
+		} elseif ($posColon === false) {
 			$invalidPos = $posSlash;
 		} else {
 			$invalidPos = min($posSlash, $posColon);

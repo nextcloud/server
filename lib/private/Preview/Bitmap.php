@@ -38,7 +38,6 @@ abstract class Bitmap extends Provider {
 	 * {@inheritDoc}
 	 */
 	public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {
-
 		$tmpPath = $fileview->toTmpFile($path);
 		if (!$tmpPath) {
 			return false;
@@ -111,5 +110,4 @@ abstract class Bitmap extends Provider {
 
 		return $bp;
 	}
-
 }

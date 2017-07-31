@@ -34,7 +34,7 @@ abstract class ResourceLocator {
 	protected $thirdpartyroot;
 	protected $webroot;
 
-	protected $resources = array();
+	protected $resources = [];
 
 	/** @var \OCP\ILogger */
 	protected $logger;
@@ -116,7 +116,6 @@ abstract class ResourceLocator {
 	 * @throws ResourceNotFoundException Only thrown when $throw is true and the resource is missing
 	 */
 	protected function append($root, $file, $webRoot = null, $throw = true) {
-
 		if (!is_string($root)) {
 			if ($throw) {
 				throw new ResourceNotFoundException($file, $webRoot);
@@ -155,10 +154,9 @@ abstract class ResourceLocator {
 					break;
 				}
 				$tmpRoot = dirname($tmpRoot);
-			} while(true);
-
+			} while (true);
 		}
-		$this->resources[] = array($root, $webRoot, $file);
+		$this->resources[] = [$root, $webRoot, $file];
 
 		if ($throw && !is_file($root . '/' . $file)) {
 			throw new ResourceNotFoundException($file, $webRoot);

@@ -53,7 +53,7 @@ interface IL10N {
 	 * returned.
 	 * @since 6.0.0
 	 */
-	public function t($text, $parameters = array());
+	public function t($text, $parameters = []);
 
 	/**
 	 * Translating
@@ -71,7 +71,7 @@ interface IL10N {
 	 * @since 6.0.0
 	 *
 	 */
-	public function n($text_singular, $text_plural, $count, $parameters = array());
+	public function n($text_singular, $text_plural, $count, $parameters = []);
 
 	/**
 	 * Localization
@@ -98,7 +98,7 @@ interface IL10N {
 	 *    - params: timestamp (int/string)
 	 * @since 6.0.0 - parameter $options was added in 8.0.0
 	 */
-	public function l($type, $data, $options = array());
+	public function l($type, $data, $options = []);
 
 
 	/**

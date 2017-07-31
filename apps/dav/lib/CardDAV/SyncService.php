@@ -192,17 +192,17 @@ class SyncService {
 	 * @param string $syncToken
 	 * @return array
 	 */
-	 protected function requestSyncReport($url, $userName, $addressBookUrl, $sharedSecret, $syncToken) {
-		 $client = $this->getClient($url, $userName, $sharedSecret);
+	protected function requestSyncReport($url, $userName, $addressBookUrl, $sharedSecret, $syncToken) {
+		$client = $this->getClient($url, $userName, $sharedSecret);
 
-		 $body = $this->buildSyncCollectionRequestBody($syncToken);
+		$body = $this->buildSyncCollectionRequestBody($syncToken);
 
-		 $response = $client->request('REPORT', $addressBookUrl, $body, [
+		$response = $client->request('REPORT', $addressBookUrl, $body, [
 			 'Content-Type' => 'application/xml'
 		 ]);
 
-		 return $this->parseMultiStatus($response['body']);
-	 }
+		return $this->parseMultiStatus($response['body']);
+	}
 
 	/**
 	 * @param string $url
@@ -221,7 +221,6 @@ class SyncService {
 	 * @return string
 	 */
 	private function buildSyncCollectionRequestBody($syncToken) {
-
 		$dom = new \DOMDocument('1.0', 'UTF-8');
 		$dom->formatOutput = true;
 		$root = $dom->createElementNS('DAV:', 'd:sync-collection');
@@ -291,7 +290,7 @@ class SyncService {
 	 */
 	public function deleteUser($userOrCardId) {
 		$systemAddressBook = $this->getLocalSystemAddressBook();
-		if ($userOrCardId instanceof IUser){
+		if ($userOrCardId instanceof IUser) {
 			$name = $userOrCardId->getBackendClassName();
 			$userId = $userOrCardId->getUID();
 
@@ -316,7 +315,7 @@ class SyncService {
 
 	public function syncInstance(\Closure $progressCallback = null) {
 		$systemAddressBook = $this->getLocalSystemAddressBook();
-		$this->userManager->callForAllUsers(function($user) use ($systemAddressBook, $progressCallback) {
+		$this->userManager->callForAllUsers(function ($user) use ($systemAddressBook, $progressCallback) {
 			$this->updateUser($user);
 			if (!is_null($progressCallback)) {
 				$progressCallback();
@@ -325,7 +324,7 @@ class SyncService {
 
 		// remove no longer existing
 		$allCards = $this->backend->getCards($systemAddressBook['id']);
-		foreach($allCards as $card) {
+		foreach ($allCards as $card) {
 			$vCard = Reader::read($card['carddata']);
 			$uid = $vCard->UID->getValue();
 			// load backend and see if user exists
@@ -334,6 +333,4 @@ class SyncService {
 			}
 		}
 	}
-
-
 }

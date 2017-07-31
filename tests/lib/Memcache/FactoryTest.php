@@ -112,8 +112,14 @@ class FactoryTest extends \Test\TestCase {
 	/**
 	 * @dataProvider cacheAvailabilityProvider
 	 */
-	public function testCacheAvailability($localCache, $distributedCache, $lockingCache,
-		$expectedLocalCache, $expectedDistributedCache, $expectedLockingCache) {
+	public function testCacheAvailability(
+		$localCache,
+		$distributedCache,
+		$lockingCache,
+		$expectedLocalCache,
+		$expectedDistributedCache,
+		$expectedLockingCache
+	) {
 		$logger = $this->getMockBuilder('\OCP\ILogger')->getMock();
 		$factory = new \OC\Memcache\Factory('abc', $logger, $localCache, $distributedCache, $lockingCache);
 		$this->assertTrue(is_a($factory->createLocal(), $expectedLocalCache));

@@ -61,13 +61,12 @@ class L10NString implements \JsonSerializable {
 		$translations = $this->l10n->getTranslations();
 
 		$text = $this->text;
-		if(array_key_exists($this->text, $translations)) {
-			if(is_array($translations[$this->text])) {
+		if (array_key_exists($this->text, $translations)) {
+			if (is_array($translations[$this->text])) {
 				$fn = $this->l10n->getPluralFormFunction();
 				$id = $fn($this->count);
 				$text = $translations[$this->text][$id];
-			}
-			else{
+			} else {
 				$text = $translations[$this->text];
 			}
 		}

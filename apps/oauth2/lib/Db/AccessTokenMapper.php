@@ -49,7 +49,7 @@ class AccessTokenMapper extends Mapper {
 		$result = $qb->execute();
 		$row = $result->fetch();
 		$result->closeCursor();
-		if($row === false) {
+		if ($row === false) {
 			throw new AccessTokenNotFoundException();
 		}
 		return AccessToken::fromRow($row);

@@ -37,12 +37,10 @@ use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IRequest;
 
-
 /**
  * Class to dispatch the request to the middleware dispatcher
  */
 class Dispatcher {
-
 	private $middlewareDispatcher;
 	private $protocol;
 	private $reflector;
@@ -56,10 +54,12 @@ class Dispatcher {
 	 * the arguments for the controller
 	 * @param IRequest $request the incoming request
 	 */
-	public function __construct(Http $protocol,
+	public function __construct(
+		Http $protocol,
 								MiddlewareDispatcher $middlewareDispatcher,
 								ControllerMethodReflector $reflector,
-								IRequest $request) {
+								IRequest $request
+	) {
 		$this->protocol = $protocol;
 		$this->middlewareDispatcher = $middlewareDispatcher;
 		$this->reflector = $reflector;
@@ -78,39 +78,52 @@ class Dispatcher {
 	 * @throws \Exception
 	 */
 	public function dispatch(Controller $controller, $methodName) {
-		$out = array(null, array(), null);
+		$out = [null, [], null];
 
 		try {
 			// prefill reflector with everything thats needed for the
 			// middlewares
 			$this->reflector->reflect($controller, $methodName);
 
-			$this->middlewareDispatcher->beforeController($controller,
-				$methodName);
+			$this->middlewareDispatcher->beforeController(
+				$controller,
+				$methodName
+			);
 			$response = $this->executeController($controller, $methodName);
 
 			// if an exception appears, the middleware checks if it can handle the
 			// exception and creates a response. If no response is created, it is
 			// assumed that theres no middleware who can handle it and the error is
 			// thrown again
-		} catch(\Exception $exception){
+		} catch (\Exception $exception) {
 			$response = $this->middlewareDispatcher->afterException(
-				$controller, $methodName, $exception);
+				$controller,
+				$methodName,
+				$exception
+			);
 			if (is_null($response)) {
 				throw $exception;
 			}
 		}
 
 		$response = $this->middlewareDispatcher->afterController(
-			$controller, $methodName, $response);
+			$controller,
+			$methodName,
+			$response
+		);
 
 		// depending on the cache object the headers need to be changed
-		$out[0] = $this->protocol->getStatusHeader($response->getStatus(),
-			$response->getLastModified(), $response->getETag());
+		$out[0] = $this->protocol->getStatusHeader(
+			$response->getStatus(),
+			$response->getLastModified(),
+			$response->getETag()
+		);
 		$out[1] = array_merge($response->getHeaders());
 		$out[2] = $response->getCookies();
 		$out[3] = $this->middlewareDispatcher->beforeOutput(
-			$controller, $methodName, $response->render()
+			$controller,
+			$methodName,
+			$response->render()
 		);
 		$out[4] = $response;
 
@@ -126,12 +139,12 @@ class Dispatcher {
 	 * @return Response
 	 */
 	private function executeController($controller, $methodName) {
-		$arguments = array();
+		$arguments = [];
 
 		// valid types that will be casted
-		$types = array('int', 'integer', 'bool', 'boolean', 'float');
+		$types = ['int', 'integer', 'bool', 'boolean', 'float'];
 
-		foreach($this->reflector->getParameters() as $param => $default) {
+		foreach ($this->reflector->getParameters() as $param => $default) {
 
 			// try to get the parameter from the request object and cast
 			// it to the type annotated in the @param annotation
@@ -140,33 +153,34 @@ class Dispatcher {
 
 			// if this is submitted using GET or a POST form, 'false' should be
 			// converted to false
-			if(($type === 'bool' || $type === 'boolean') &&
+			if (($type === 'bool' || $type === 'boolean') &&
 				$value === 'false' &&
 				(
 					$this->request->method === 'GET' ||
-					strpos($this->request->getHeader('Content-Type'),
-						'application/x-www-form-urlencoded') !== false
+					strpos(
+						$this->request->getHeader('Content-Type'),
+						'application/x-www-form-urlencoded'
+					) !== false
 				)
 			) {
 				$value = false;
-
-			} elseif($value !== null && in_array($type, $types)) {
+			} elseif ($value !== null && in_array($type, $types)) {
 				settype($value, $type);
 			}
 
 			$arguments[] = $value;
 		}
 
-		$response = call_user_func_array(array($controller, $methodName), $arguments);
+		$response = call_user_func_array([$controller, $methodName], $arguments);
 
 		// format response
-		if($response instanceof DataResponse || !($response instanceof Response)) {
+		if ($response instanceof DataResponse || !($response instanceof Response)) {
 
 			// get format from the url format or request format parameter
 			$format = $this->request->getParam('format');
 
 			// if none is given try the first Accept header
-			if($format === null) {
+			if ($format === null) {
 				$headers = $this->request->getHeader('Accept');
 				$format = $controller->getResponderByHTTPHeader($headers, null);
 			}
@@ -180,5 +194,4 @@ class Dispatcher {
 
 		return $response;
 	}
-
 }

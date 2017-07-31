@@ -46,9 +46,9 @@ class CommentsPlugin extends ServerPlugin {
 	// namespace
 	const NS_OWNCLOUD = 'http://owncloud.org/ns';
 
-	const REPORT_NAME            = '{http://owncloud.org/ns}filter-comments';
-	const REPORT_PARAM_LIMIT     = '{http://owncloud.org/ns}limit';
-	const REPORT_PARAM_OFFSET    = '{http://owncloud.org/ns}offset';
+	const REPORT_NAME = '{http://owncloud.org/ns}filter-comments';
+	const REPORT_PARAM_LIMIT = '{http://owncloud.org/ns}limit';
+	const REPORT_PARAM_OFFSET = '{http://owncloud.org/ns}offset';
 	const REPORT_PARAM_TIMESTAMP = '{http://owncloud.org/ns}datetime';
 
 	/** @var ICommentsManager  */
@@ -82,15 +82,15 @@ class CommentsPlugin extends ServerPlugin {
 	 * @param Server $server
 	 * @return void
 	 */
-	function initialize(Server $server) {
+	public function initialize(Server $server) {
 		$this->server = $server;
-		if(strpos($this->server->getRequestUri(), 'comments/') !== 0) {
+		if (strpos($this->server->getRequestUri(), 'comments/') !== 0) {
 			return;
 		}
 
 		$this->server->xml->namespaceMap[self::NS_OWNCLOUD] = 'oc';
 
-		$this->server->xml->classMap['DateTime'] = function(Writer $writer, \DateTime $value) {
+		$this->server->xml->classMap['DateTime'] = function (Writer $writer, \DateTime $value) {
 			$writer->write(\Sabre\HTTP\toDate($value));
 		};
 
@@ -157,7 +157,7 @@ class CommentsPlugin extends ServerPlugin {
 	 */
 	public function onReport($reportName, $report, $uri) {
 		$node = $this->server->tree->getNodeForPath($uri);
-		if(!$node instanceof EntityCollection || $reportName !== self::REPORT_NAME) {
+		if (!$node instanceof EntityCollection || $reportName !== self::REPORT_NAME) {
 			throw new ReportNotSupported();
 		}
 		$args = ['limit' => 0, 'offset' => 0, 'datetime' => null];
@@ -167,31 +167,30 @@ class CommentsPlugin extends ServerPlugin {
 			$this::REPORT_PARAM_TIMESTAMP
 		];
 		$ns = '{' . $this::NS_OWNCLOUD . '}';
-		foreach($report as $parameter) {
-			if(!in_array($parameter['name'], $acceptableParameters) || empty($parameter['value'])) {
+		foreach ($report as $parameter) {
+			if (!in_array($parameter['name'], $acceptableParameters) || empty($parameter['value'])) {
 				continue;
 			}
 			$args[str_replace($ns, '', $parameter['name'])] = $parameter['value'];
 		}
 
-		if(!is_null($args['datetime'])) {
+		if (!is_null($args['datetime'])) {
 			$args['datetime'] = new \DateTime($args['datetime']);
 		}
 
 		$results = $node->findChildren($args['limit'], $args['offset'], $args['datetime']);
 
 		$responses = [];
-		foreach($results as $node) {
+		foreach ($results as $node) {
 			$nodePath = $this->server->getRequestUri() . '/' . $node->comment->getId();
 			$resultSet = $this->server->getPropertiesForPath($nodePath, CommentNode::getPropertyNames());
-			if(isset($resultSet[0]) && isset($resultSet[0][200])) {
+			if (isset($resultSet[0]) && isset($resultSet[0][200])) {
 				$responses[] = new Response(
 					$this->server->getBaseUri() . $nodePath,
 					[200 => $resultSet[0][200]],
 					200
 				);
 			}
-
 		}
 
 		$xml = $this->server->xml->write(
@@ -227,13 +226,13 @@ class CommentsPlugin extends ServerPlugin {
 
 		$actorType = $data['actorType'];
 		$actorId = null;
-		if($actorType === 'users') {
+		if ($actorType === 'users') {
 			$user = $this->userSession->getUser();
-			if(!is_null($user)) {
+			if (!is_null($user)) {
 				$actorId = $user->getUID();
 			}
 		}
-		if(is_null($actorId)) {
+		if (is_null($actorId)) {
 			throw new BadRequest('Invalid actor "' .  $actorType .'"');
 		}
 
@@ -247,10 +246,7 @@ class CommentsPlugin extends ServerPlugin {
 			throw new BadRequest('Invalid input values', 0, $e);
 		} catch (\OCP\Comments\MessageTooLongException $e) {
 			$msg = 'Message exceeds allowed character limit of ';
-			throw new BadRequest($msg . \OCP\Comments\IComment::MAX_MESSAGE_LENGTH, 0,	$e);
+			throw new BadRequest($msg . \OCP\Comments\IComment::MAX_MESSAGE_LENGTH, 0, $e);
 		}
 	}
-
-
-
 }

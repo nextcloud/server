@@ -37,7 +37,6 @@ use \OCA\Files_External\Lib\Storage\Swift;
  * @package OCA\Files_External\Tests\Storage
  */
 class SwiftTest extends \Test\Files\Storage\Storage {
-
 	private $config;
 
 	protected function setUp() {
@@ -57,8 +56,8 @@ class SwiftTest extends \Test\Files\Storage\Storage {
 				$container = $connection->getContainer($this->config['bucket']);
 
 				$objects = $container->objectList();
-				while($object = $objects->next()) {
-					$object->setName(str_replace('#','%23',$object->getName()));
+				while ($object = $objects->next()) {
+					$object->setName(str_replace('#', '%23', $object->getName()));
 					$object->delete();
 				}
 

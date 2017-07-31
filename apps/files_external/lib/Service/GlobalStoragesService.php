@@ -27,7 +27,6 @@
 
 namespace OCA\Files_External\Service;
 
-
 use \OC\Files\Filesystem;
 use OCA\Files_External\Lib\StorageConfig;
 

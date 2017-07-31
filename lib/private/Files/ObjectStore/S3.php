@@ -56,9 +56,9 @@ class S3 implements IObjectStore {
 			'Key' => $urn
 		])->prepare();
 
-		$request->dispatch('request.before_send', array(
+		$request->dispatch('request.before_send', [
 			'request' => $request
-		));
+		]);
 
 		$headers = $request->getHeaderLines();
 		$headers[] = 'Connection: close';
@@ -103,5 +103,4 @@ class S3 implements IObjectStore {
 			'Key' => $urn
 		]);
 	}
-
 }

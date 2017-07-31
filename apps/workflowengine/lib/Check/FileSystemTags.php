@@ -21,7 +21,6 @@
 
 namespace OCA\WorkflowEngine\Check;
 
-
 use OCP\Files\Cache\ICache;
 use OCP\Files\IHomeStorage;
 use OCP\Files\Storage\IStorage;
@@ -148,7 +147,7 @@ class FileSystemTags implements ICheck {
 		$parentIds = [];
 		if ($path !== $this->dirname($path)) {
 			$parentIds = $this->getFileIds($cache, $this->dirname($path), $isExternalStorage);
-		} else if (!$isExternalStorage) {
+		} elseif (!$isExternalStorage) {
 			return [];
 		}
 

@@ -110,5 +110,4 @@ class LegacyBackendTest extends \Test\TestCase {
 		$dependencies = $backend->checkDependencies();
 		$this->assertCount(0, $dependencies);
 	}
-
 }

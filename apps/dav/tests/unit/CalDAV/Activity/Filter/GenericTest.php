@@ -27,7 +27,6 @@ use OCP\Activity\IFilter;
 use Test\TestCase;
 
 class GenericTest extends TestCase {
-
 	public function dataFilters() {
 		return [
 			[Calendar::class],

@@ -50,7 +50,6 @@ class UpdateLanguageCodesTest extends TestCase {
 	}
 
 	public function testRun() {
-
 		$users = [
 			['userid' => 'user1', 'configvalue' => 'fi_FI'],
 			['userid' => 'user2', 'configvalue' => 'de'],
@@ -172,5 +171,4 @@ class UpdateLanguageCodesTest extends TestCase {
 		$repair = new UpdateLanguageCodes($this->connection, $this->config);
 		$repair->run($outputMock);
 	}
-
 }

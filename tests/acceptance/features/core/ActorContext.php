@@ -132,8 +132,8 @@ class ActorContext extends RawMinkContext {
 	 * are used in an "I act as XXX" step.
 	 */
 	public function initializeActors() {
-		$this->actors = array();
-		$this->sharedNotebook = array();
+		$this->actors = [];
+		$this->sharedNotebook = [];
 
 		$this->actors["default"] = new Actor($this->getSession(), $this->getMinkParameter("base_url"), $this->sharedNotebook);
 		$this->actors["default"]->setFindTimeoutMultiplier($this->actorTimeoutMultiplier);
@@ -176,5 +176,4 @@ class ActorContext extends RawMinkContext {
 			$actor->getSession()->stop();
 		}
 	}
-
 }

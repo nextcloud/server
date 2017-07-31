@@ -67,7 +67,6 @@ use OCP\Lock\LockedException;
  * in classes which extend it, e.g. $this->stat() .
  */
 abstract class Common implements Storage, ILockingStorage {
-
 	use LocalTempFileTrait;
 
 	protected $cache;
@@ -95,7 +94,7 @@ abstract class Common implements Storage, ILockingStorage {
 	protected function remove($path) {
 		if ($this->is_dir($path)) {
 			return $this->rmdir($path);
-		} else if ($this->is_file($path)) {
+		} elseif ($this->is_file($path)) {
 			return $this->unlink($path);
 		} else {
 			return false;
@@ -285,11 +284,13 @@ abstract class Common implements Storage, ILockingStorage {
 	 * @return array
 	 */
 	protected function searchInDir($query, $dir = '') {
-		$files = array();
+		$files = [];
 		$dh = $this->opendir($dir);
 		if (is_resource($dh)) {
 			while (($item = readdir($dh)) !== false) {
-				if (\OC\Files\Filesystem::isIgnoredDir($item)) continue;
+				if (\OC\Files\Filesystem::isIgnoredDir($item)) {
+					continue;
+				}
 				if (strstr(strtolower($item), strtolower($query)) !== false) {
 					$files[] = $dir . '/' . $item;
 				}
@@ -422,11 +423,11 @@ abstract class Common implements Storage, ILockingStorage {
 			$path = '/' . $path;
 		}
 
-		$output = array();
+		$output = [];
 		foreach (explode('/', $path) as $chunk) {
 			if ($chunk == '..') {
 				array_pop($output);
-			} else if ($chunk == '.') {
+			} elseif ($chunk == '.') {
 			} else {
 				$output[] = $chunk;
 			}

@@ -37,7 +37,7 @@ class OCSqlitePlatform extends \Doctrine\DBAL\Platforms\SqlitePlatform {
 	/**
 	 * {@inheritDoc}
 	 */
-	protected function _getCreateTableSQL($name, array $columns, array $options = array()){
+	protected function _getCreateTableSQL($name, array $columns, array $options = []) {
 		// if auto increment is set the column is already defined as primary key
 		foreach ($columns as $column) {
 			if (!empty($column['autoincrement'])) {

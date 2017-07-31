@@ -25,6 +25,7 @@
  */
 
 namespace OCP\Encryption\Exceptions;
+
 use OC\HintException;
 
 /**
@@ -48,5 +49,4 @@ class GenericEncryptionException extends HintException {
 		}
 		parent::__construct($message, $hint, $code, $previous);
 	}
-
 }

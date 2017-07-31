@@ -55,7 +55,7 @@ class Application extends App {
 	/**
 	 * @param array $urlParams
 	 */
-	public function __construct(array $urlParams=[]){
+	public function __construct(array $urlParams = []) {
 		parent::__construct('settings', $urlParams);
 
 		$container = $this->getContainer();
@@ -68,19 +68,19 @@ class Application extends App {
 		 * Core class wrappers
 		 */
 		/** FIXME: Remove once OC_User is non-static and mockable */
-		$container->registerService('isAdmin', function() {
+		$container->registerService('isAdmin', function () {
 			return \OC_User::isAdminUser(\OC_User::getUser());
 		});
 		/** FIXME: Remove once OC_SubAdmin is non-static and mockable */
-		$container->registerService('isSubAdmin', function(IContainer $c) {
+		$container->registerService('isSubAdmin', function (IContainer $c) {
 			$userObject = \OC::$server->getUserSession()->getUser();
 			$isSubAdmin = false;
-			if($userObject !== null) {
+			if ($userObject !== null) {
 				$isSubAdmin = \OC::$server->getGroupManager()->getSubAdmin()->isSubAdmin($userObject);
 			}
 			return $isSubAdmin;
 		});
-		$container->registerService('userCertificateManager', function(IContainer $c) {
+		$container->registerService('userCertificateManager', function (IContainer $c) {
 			return $c->query('ServerContainer')->getCertificateManager();
 		}, false);
 		$container->registerService('systemCertificateManager', function (IContainer $c) {

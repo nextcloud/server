@@ -22,7 +22,6 @@
 
 namespace OCA\User_LDAP;
 
-
 use OCP\LDAP\ILDAPProvider;
 use OCP\LDAP\IDeletionFlagSupport;
 use OCP\IServerContainer;
@@ -32,7 +31,6 @@ use OCA\User_LDAP\User\DeletedUsersIndex;
  * LDAP provider for pulic access to the LDAP backend.
  */
 class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
-
 	private $backend;
 	private $logger;
 	private $helper;
@@ -47,13 +45,13 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 		$this->logger = $serverContainer->getLogger();
 		$this->helper = $helper;
 		$this->deletedUsersIndex = $deletedUsersIndex;
-		foreach ($serverContainer->getUserManager()->getBackends() as $backend){
+		foreach ($serverContainer->getUserManager()->getBackends() as $backend) {
 			$this->logger->debug('instance '.get_class($backend).' backend.', ['app' => 'user_ldap']);
 			if ($backend instanceof IUserLDAP) {
 				$this->backend = $backend;
 				return;
 			}
-        }
+		}
 		throw new \Exception('To use the LDAPProvider, user_ldap app must be enabled');
 	}
 	
@@ -64,18 +62,18 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 	 * @throws \Exception if translation was unsuccessful
 	 */
 	public function getUserDN($uid) {
-		if(!$this->backend->userExists($uid)){
+		if (!$this->backend->userExists($uid)) {
 			throw new \Exception('User id not found in LDAP');
 		}
 		$result = $this->backend->getLDAPAccess($uid)->username2dn($uid);
-		if(!$result){
+		if (!$result) {
 			throw new \Exception('Translation to LDAP DN unsuccessful');
 		}
 		return $result;
 	}
 	
 	/**
-	 * Translate a LDAP DN to an internal user name. If there is no mapping between 
+	 * Translate a LDAP DN to an internal user name. If there is no mapping between
 	 * the DN and the user name, a new one will be created.
 	 * @param string $dn LDAP DN
 	 * @return string with the internal user name
@@ -83,7 +81,7 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 	 */
 	public function getUserName($dn) {
 		$result = $this->backend->dn2UserName($dn);
-		if(!$result){
+		if (!$result) {
 			throw new \Exception('Translation to internal user name unsuccessful');
 		}
 		return $result;
@@ -108,14 +106,14 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 	}
 	
 	/**
-	 * Return a new LDAP connection resource for the specified user. 
+	 * Return a new LDAP connection resource for the specified user.
 	 * The connection must be closed manually.
 	 * @param string $uid user id
 	 * @return resource of the LDAP connection
 	 * @throws \Exception if user id was not found in LDAP
 	 */
 	public function getLDAPConnection($uid) {
-		if(!$this->backend->userExists($uid)){
+		if (!$this->backend->userExists($uid)) {
 			throw new \Exception('User id not found in LDAP');
 		}
 		return $this->backend->getNewLDAPConnection($uid);
@@ -128,9 +126,9 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 	 * @throws \Exception if user id was not found in LDAP
 	 */
 	public function getLDAPBaseUsers($uid) {
-		if(!$this->backend->userExists($uid)){
+		if (!$this->backend->userExists($uid)) {
 			throw new \Exception('User id not found in LDAP');
-		}	
+		}
 		return $this->backend->getLDAPAccess($uid)->getConnection()->getConfiguration()['ldap_base_users'];
 	}
 	
@@ -141,7 +139,7 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 	 * @throws \Exception if user id was not found in LDAP
 	 */
 	public function getLDAPBaseGroups($uid) {
-		if(!$this->backend->userExists($uid)){
+		if (!$this->backend->userExists($uid)) {
 			throw new \Exception('User id not found in LDAP');
 		}
 		return $this->backend->getLDAPAccess($uid)->getConnection()->getConfiguration()['ldap_base_groups'];
@@ -153,7 +151,7 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 	 * @throws \Exception if user id was not found in LDAP
 	 */
 	public function clearCache($uid) {
-		if(!$this->backend->userExists($uid)){
+		if (!$this->backend->userExists($uid)) {
 			throw new \Exception('User id not found in LDAP');
 		}
 		$this->backend->getLDAPAccess($uid)->getConnection()->clearCache();

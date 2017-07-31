@@ -43,7 +43,7 @@ class FilesReportPlugin extends ServerPlugin {
 
 	// namespace
 	const NS_OWNCLOUD = 'http://owncloud.org/ns';
-	const REPORT_NAME            = '{http://owncloud.org/ns}filter-files';
+	const REPORT_NAME = '{http://owncloud.org/ns}filter-files';
 	const SYSTEMTAG_PROPERTYNAME = '{http://owncloud.org/ns}systemtag';
 
 	/**
@@ -105,7 +105,8 @@ class FilesReportPlugin extends ServerPlugin {
 	 * @param IGroupManager $groupManager
 	 * @param Folder $userFolder
 	 */
-	public function __construct(Tree $tree,
+	public function __construct(
+		Tree $tree,
 								View $view,
 								ISystemTagManager $tagManager,
 								ISystemTagObjectMapper $tagMapper,
@@ -136,11 +137,10 @@ class FilesReportPlugin extends ServerPlugin {
 	 * @return void
 	 */
 	public function initialize(\Sabre\DAV\Server $server) {
-
 		$server->xml->namespaceMap[self::NS_OWNCLOUD] = 'oc';
 
 		$this->server = $server;
-		$this->server->on('report', array($this, 'onReport'));
+		$this->server->on('report', [$this, 'onReport']);
 	}
 
 	/**
@@ -181,7 +181,7 @@ class FilesReportPlugin extends ServerPlugin {
 			$name = $reportProps['name'];
 			if ($name === $ns . 'filter-rules') {
 				$filterRules = $reportProps['value'];
-			} else if ($name === '{DAV:}prop') {
+			} elseif ($name === '{DAV:}prop') {
 				// propfind properties
 				foreach ($reportProps['value'] as $propVal) {
 					$requestedProps[] = $propVal['name'];
@@ -380,7 +380,7 @@ class FilesReportPlugin extends ServerPlugin {
 				$entry = current($entry);
 				if ($entry instanceof \OCP\Files\File) {
 					$results[] = new File($this->fileView, $entry);
-				} else if ($entry instanceof \OCP\Files\Folder) {
+				} elseif ($entry instanceof \OCP\Files\Folder) {
 					$results[] = new Directory($this->fileView, $entry);
 				}
 			}

@@ -20,9 +20,7 @@ use OC\Security\Bruteforce\Throttler;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
 
-
 class CORSMiddlewareTest extends \Test\TestCase {
-
 	private $reflector;
 	private $session;
 	/** @var Throttler */
@@ -34,7 +32,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 		$this->session = $this->getMockBuilder('\OC\User\Session')
 			->disableOriginalConstructor()
 			->getMock();
-		$this->throttler =  $this->getMockBuilder('\OC\Security\Bruteforce\Throttler')
+		$this->throttler = $this->getMockBuilder('\OC\Security\Bruteforce\Throttler')
 			->disableOriginalConstructor()
 			->getMock();
 	}
@@ -264,5 +262,4 @@ class CORSMiddlewareTest extends \Test\TestCase {
 		$middleware = new CORSMiddleware($request, $this->reflector, $this->session, $this->throttler);
 		$middleware->afterException($this, __FUNCTION__, new \Exception('A regular exception'));
 	}
-
 }

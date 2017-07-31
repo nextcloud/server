@@ -21,7 +21,6 @@ use Test\TestCase;
  * @package OCA\DAV\Tests\unit\CalDAV
  */
 class PublicCalendarRootTest extends TestCase {
-
 	const UNIT_TEST_USER = '';
 	/** @var CalDavBackend */
 	private $backend;
@@ -85,7 +84,6 @@ class PublicCalendarRootTest extends TestCase {
 	}
 
 	public function testGetChild() {
-
 		$calendar = $this->createPublicCalendar();
 
 		$publicCalendars = $this->backend->getPublicCalendars();
@@ -119,5 +117,4 @@ class PublicCalendarRootTest extends TestCase {
 
 		return $calendar;
 	}
-
 }

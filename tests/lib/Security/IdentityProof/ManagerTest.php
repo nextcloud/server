@@ -31,7 +31,7 @@ use OCP\IUser;
 use OCP\Security\ICrypto;
 use Test\TestCase;
 
-class ManagerTest extends TestCase  {
+class ManagerTest extends TestCase {
 	/** @var Factory|\PHPUnit_Framework_MockObject_MockObject */
 	private $factory;
 	/** @var IAppData|\PHPUnit_Framework_MockObject_MockObject */

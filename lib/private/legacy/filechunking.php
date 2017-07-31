@@ -40,7 +40,7 @@ class OC_FileChunking {
 	 */
 	protected $ttl;
 
-	static public function decodeName($name) {
+	public static function decodeName($name) {
 		preg_match('/(?P<name>.*)-chunking-(?P<transferid>\d+)-(?P<chunkcount>\d+)-(?P<index>\d+)/', $name, $matches);
 		return $matches;
 	}
@@ -87,7 +87,7 @@ class OC_FileChunking {
 		$cache = $this->getCache();
 		$chunkcount = (int)$this->info['chunkcount'];
 
-		for($i=($chunkcount-1); $i >= 0; $i--) {
+		for ($i = ($chunkcount - 1); $i >= 0; $i--) {
 			if (!$cache->hasKey($prefix.$i)) {
 				return false;
 			}
@@ -143,7 +143,7 @@ class OC_FileChunking {
 	public function cleanup() {
 		$cache = $this->getCache();
 		$prefix = $this->getPrefix();
-		for($i=0; $i < $this->info['chunkcount']; $i++) {
+		for ($i = 0; $i < $this->info['chunkcount']; $i++) {
 			$cache->remove($prefix.$i);
 		}
 	}

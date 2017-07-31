@@ -48,24 +48,23 @@ class Todo extends Event {
 
 		if ($event->getSubject() === self::SUBJECT_OBJECT_ADD . '_todo') {
 			$subject = $this->l->t('{actor} created todo {todo} in list {calendar}');
-		} else if ($event->getSubject() === self::SUBJECT_OBJECT_ADD . '_todo_self') {
+		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_ADD . '_todo_self') {
 			$subject = $this->l->t('You created todo {todo} in list {calendar}');
-		} else if ($event->getSubject() === self::SUBJECT_OBJECT_DELETE . '_todo') {
+		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_DELETE . '_todo') {
 			$subject = $this->l->t('{actor} deleted todo {todo} from list {calendar}');
-		} else if ($event->getSubject() === self::SUBJECT_OBJECT_DELETE . '_todo_self') {
+		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_DELETE . '_todo_self') {
 			$subject = $this->l->t('You deleted todo {todo} from list {calendar}');
-		} else if ($event->getSubject() === self::SUBJECT_OBJECT_UPDATE . '_todo') {
+		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_UPDATE . '_todo') {
 			$subject = $this->l->t('{actor} updated todo {todo} in list {calendar}');
-		} else if ($event->getSubject() === self::SUBJECT_OBJECT_UPDATE . '_todo_self') {
+		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_UPDATE . '_todo_self') {
 			$subject = $this->l->t('You updated todo {todo} in list {calendar}');
-
-		} else if ($event->getSubject() === self::SUBJECT_OBJECT_UPDATE . '_todo_completed') {
+		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_UPDATE . '_todo_completed') {
 			$subject = $this->l->t('{actor} solved todo {todo} in list {calendar}');
-		} else if ($event->getSubject() === self::SUBJECT_OBJECT_UPDATE . '_todo_completed_self') {
+		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_UPDATE . '_todo_completed_self') {
 			$subject = $this->l->t('You solved todo {todo} in list {calendar}');
-		} else if ($event->getSubject() === self::SUBJECT_OBJECT_UPDATE . '_todo_needs_action') {
+		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_UPDATE . '_todo_needs_action') {
 			$subject = $this->l->t('{actor} reopened todo {todo} in list {calendar}');
-		} else if ($event->getSubject() === self::SUBJECT_OBJECT_UPDATE . '_todo_needs_action_self') {
+		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_UPDATE . '_todo_needs_action_self') {
 			$subject = $this->l->t('You reopened todo {todo} in list {calendar}');
 		} else {
 			throw new \InvalidArgumentException();

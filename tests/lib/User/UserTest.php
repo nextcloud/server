@@ -105,7 +105,7 @@ class UserTest extends TestCase {
 			}));
 
 		$user = new User('foo', $backend);
-		$this->assertTrue($user->setPassword('bar',''));
+		$this->assertTrue($user->setPassword('bar', ''));
 	}
 
 	public function testSetPasswordNotSupported() {
@@ -121,7 +121,7 @@ class UserTest extends TestCase {
 			->will($this->returnValue(false));
 
 		$user = new User('foo', $backend);
-		$this->assertFalse($user->setPassword('bar',''));
+		$this->assertFalse($user->setPassword('bar', ''));
 	}
 
 	public function testChangeAvatarSupportedYes() {
@@ -377,12 +377,12 @@ class UserTest extends TestCase {
 
 		$backend->expects($this->once())
 			->method('setDisplayName')
-			->with('foo','Foo')
+			->with('foo', 'Foo')
 			->willReturn(true);
 
 		$user = new User('foo', $backend);
 		$this->assertTrue($user->setDisplayName('Foo'));
-		$this->assertEquals('Foo',$user->getDisplayName());
+		$this->assertEquals('Foo', $user->getDisplayName());
 	}
 
 	/**
@@ -406,7 +406,7 @@ class UserTest extends TestCase {
 
 		$user = new User('foo', $backend);
 		$this->assertFalse($user->setDisplayName(' '));
-		$this->assertEquals('foo',$user->getDisplayName());
+		$this->assertEquals('foo', $user->getDisplayName());
 	}
 
 	public function testSetDisplayNameNotSupported() {
@@ -424,7 +424,7 @@ class UserTest extends TestCase {
 
 		$user = new User('foo', $backend);
 		$this->assertFalse($user->setDisplayName('Foo'));
-		$this->assertEquals('foo',$user->getDisplayName());
+		$this->assertEquals('foo', $user->getDisplayName());
 	}
 
 	public function testSetPasswordHooks() {
@@ -464,7 +464,7 @@ class UserTest extends TestCase {
 
 		$user = new User('foo', $backend, $emitter);
 
-		$user->setPassword('bar','');
+		$user->setPassword('bar', '');
 		$this->assertEquals(2, $hooksCalled);
 	}
 

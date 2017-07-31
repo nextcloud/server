@@ -21,7 +21,6 @@
 
 namespace Tests\Core\Command\Config\System;
 
-
 use OC\Core\Command\Config\System\SetConfig;
 use OC\SystemConfig;
 use Symfony\Component\Console\Input\InputInterface;
@@ -150,7 +149,8 @@ class SetConfigTest extends TestCase {
 	 * @dataProvider castValueProvider
 	 */
 	public function testCastValue($value, $type, $expectedValue) {
-		$this->assertSame($expectedValue,
+		$this->assertSame(
+			$expectedValue,
 			$this->invokePrivate($this->command, 'castValue', [$value, $type])
 		);
 	}
@@ -174,5 +174,4 @@ class SetConfigTest extends TestCase {
 	public function testCastValueInvalid($value, $type) {
 		$this->invokePrivate($this->command, 'castValue', [$value, $type]);
 	}
-
 }

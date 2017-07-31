@@ -28,15 +28,14 @@ class ErrorHandlerTest extends \Test\TestCase {
 	 * provide username, password combinations for testRemovePassword
 	 * @return array
 	 */
-	function passwordProvider() {
-		return array(
-			array('user', 'password'),
-			array('user@owncloud.org', 'password'),
-			array('user', 'pass@word'),
-			array('us:er', 'password'),
-			array('user', 'pass:word'),
-			);
-
+	public function passwordProvider() {
+		return [
+			['user', 'password'],
+			['user@owncloud.org', 'password'],
+			['user', 'pass@word'],
+			['us:er', 'password'],
+			['user', 'pass:word'],
+			];
 	}
 
 	/**
@@ -44,14 +43,13 @@ class ErrorHandlerTest extends \Test\TestCase {
 	 * @param string $username
 	 * @param string $password
 	 */
-	function testRemovePassword($username, $password) {
+	public function testRemovePassword($username, $password) {
 		$url = 'http://'.$username.':'.$password.'@owncloud.org';
 		$expectedResult = 'http://xxx:xxx@owncloud.org';
 		$result = TestableErrorHandler::testRemovePassword($url);
 
 		$this->assertEquals($expectedResult, $result);
 	}
-
 }
 
 /**

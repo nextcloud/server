@@ -150,5 +150,4 @@ class BackupCodesProviderTest extends TestCase {
 
 		$this->assertTrue($this->provider->isActive($user));
 	}
-
 }

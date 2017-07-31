@@ -32,7 +32,7 @@ class LockdownManagerTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->sessionCallback = function() {
+		$this->sessionCallback = function () {
 			return $this->createMock(ISession::class);
 		};
 	}

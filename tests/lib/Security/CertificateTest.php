@@ -56,7 +56,7 @@ class CertificateTest extends \Test\TestCase {
 	 * @expectedException \Exception
 	 * @expectedExceptionMessage Certificate could not get parsed.
 	 */
-	function testCertificateStartingWithFileReference() {
+	public function testCertificateStartingWithFileReference() {
 		new Certificate('file://'.__DIR__ . '/../../data/certificates/goodCertificate.crt', 'bar');
 	}
 

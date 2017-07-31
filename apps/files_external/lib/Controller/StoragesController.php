@@ -27,7 +27,6 @@
 
 namespace OCA\Files_External\Controller;
 
-
 use OCP\ILogger;
 use \OCP\IRequest;
 use \OCP\IL10N;
@@ -145,9 +144,9 @@ abstract class StoragesController extends Controller {
 		$mountPoint = $storage->getMountPoint();
 		if ($mountPoint === '') {
 			return new DataResponse(
-				array(
+				[
 					'message' => (string)$this->l10n->t('Invalid mount point')
-				),
+				],
 				Http::STATUS_UNPROCESSABLE_ENTITY
 			);
 		}
@@ -155,9 +154,9 @@ abstract class StoragesController extends Controller {
 		if ($storage->getBackendOption('objectstore')) {
 			// objectstore must not be sent from client side
 			return new DataResponse(
-				array(
+				[
 					'message' => (string)$this->l10n->t('Objectstore forbidden')
-				),
+				],
 				Http::STATUS_UNPROCESSABLE_ENTITY
 			);
 		}
@@ -169,11 +168,11 @@ abstract class StoragesController extends Controller {
 		if ($backend->checkDependencies()) {
 			// invalid backend
 			return new DataResponse(
-				array(
+				[
 					'message' => (string)$this->l10n->t('Invalid storage backend "%s"', [
 						$backend->getIdentifier()
 					])
-				),
+				],
 				Http::STATUS_UNPROCESSABLE_ENTITY
 			);
 		}
@@ -181,22 +180,22 @@ abstract class StoragesController extends Controller {
 		if (!$backend->isVisibleFor($this->service->getVisibilityType())) {
 			// not permitted to use backend
 			return new DataResponse(
-				array(
+				[
 					'message' => (string)$this->l10n->t('Not permitted to use backend "%s"', [
 						$backend->getIdentifier()
 					])
-				),
+				],
 				Http::STATUS_UNPROCESSABLE_ENTITY
 			);
 		}
 		if (!$authMechanism->isVisibleFor($this->service->getVisibilityType())) {
 			// not permitted to use auth mechanism
 			return new DataResponse(
-				array(
+				[
 					'message' => (string)$this->l10n->t('Not permitted to use authentication mechanism "%s"', [
 						$authMechanism->getIdentifier()
 					])
-				),
+				],
 				Http::STATUS_UNPROCESSABLE_ENTITY
 			);
 		}
@@ -204,9 +203,9 @@ abstract class StoragesController extends Controller {
 		if (!$backend->validateStorage($storage)) {
 			// unsatisfied parameters
 			return new DataResponse(
-				array(
+				[
 					'message' => (string)$this->l10n->t('Unsatisfied backend parameters')
-				),
+				],
 				Http::STATUS_UNPROCESSABLE_ENTITY
 			);
 		}
@@ -306,7 +305,7 @@ abstract class StoragesController extends Controller {
 		} catch (NotFoundException $e) {
 			return new DataResponse(
 				[
-					'message' => (string)$this->l10n->t('Storage with ID "%d" not found', array($id))
+					'message' => (string)$this->l10n->t('Storage with ID "%d" not found', [$id])
 				],
 				Http::STATUS_NOT_FOUND
 			);
@@ -331,7 +330,7 @@ abstract class StoragesController extends Controller {
 		} catch (NotFoundException $e) {
 			return new DataResponse(
 				[
-					'message' => (string)$this->l10n->t('Storage with ID "%d" not found', array($id))
+					'message' => (string)$this->l10n->t('Storage with ID "%d" not found', [$id])
 				],
 				Http::STATUS_NOT_FOUND
 			);
@@ -339,6 +338,4 @@ abstract class StoragesController extends Controller {
 
 		return new DataResponse([], Http::STATUS_NO_CONTENT);
 	}
-
 }
-

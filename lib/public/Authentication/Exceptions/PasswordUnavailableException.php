@@ -30,5 +30,4 @@ use Exception;
  * @since 12
  */
 class PasswordUnavailableException extends Exception {
-
 }

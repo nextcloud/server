@@ -175,7 +175,9 @@ class TransferOwnership extends Command {
 		$progress->start();
 		$self = $this;
 
-		$this->walkFiles($view, $this->sourcePath,
+		$this->walkFiles(
+			$view,
+			$this->sourcePath,
 				function (FileInfo $fileInfo) use ($progress, $self) {
 					if ($fileInfo->getType() === FileInfo::TYPE_FOLDER) {
 						// only analyze into folders from main storage,
@@ -190,20 +192,20 @@ class TransferOwnership extends Command {
 						$this->encryptedFiles[] = $fileInfo;
 					}
 					return true;
-				});
+				}
+		);
 		$progress->finish();
 		$output->writeln('');
 
 		// no file is allowed to be encrypted
 		if (!empty($this->encryptedFiles)) {
 			$output->writeln("<error>Some files are encrypted - please decrypt them first</error>");
-			foreach($this->encryptedFiles as $encryptedFile) {
+			foreach ($this->encryptedFiles as $encryptedFile) {
 				/** @var FileInfo $encryptedFile */
 				$output->writeln("  " . $encryptedFile->getPath());
 			}
 			throw new \Exception('Execution terminated.');
 		}
-
 	}
 
 	/**
@@ -213,8 +215,8 @@ class TransferOwnership extends Command {
 		$output->writeln("Collecting all share information for files and folder of $this->sourceUser ...");
 
 		$progress = new ProgressBar($output, count($this->shares));
-		foreach([\OCP\Share::SHARE_TYPE_GROUP, \OCP\Share::SHARE_TYPE_USER, \OCP\Share::SHARE_TYPE_LINK, \OCP\Share::SHARE_TYPE_REMOTE] as $shareType) {
-		$offset = 0;
+		foreach ([\OCP\Share::SHARE_TYPE_GROUP, \OCP\Share::SHARE_TYPE_USER, \OCP\Share::SHARE_TYPE_LINK, \OCP\Share::SHARE_TYPE_REMOTE] as $shareType) {
+			$offset = 0;
 			while (true) {
 				$sharePage = $this->shareManager->getSharesBy($this->sourceUser, $shareType, null, true, 50, $offset);
 				$progress->advance(count($sharePage));
@@ -239,7 +241,7 @@ class TransferOwnership extends Command {
 
 		// This change will help user to transfer the folder specified using --path option.
 		// Else only the content inside folder is transferred which is not correct.
-		if($this->sourcePath !== "$this->sourceUser/files") {
+		if ($this->sourcePath !== "$this->sourceUser/files") {
 			$view->mkdir($this->finalTarget);
 			$this->finalTarget = $this->finalTarget . '/' . basename($this->sourcePath);
 		}
@@ -257,7 +259,7 @@ class TransferOwnership extends Command {
 		$output->writeln("Restoring shares ...");
 		$progress = new ProgressBar($output, count($this->shares));
 
-		foreach($this->shares as $share) {
+		foreach ($this->shares as $share) {
 			try {
 				if ($share->getSharedWith() === $this->destinationUser) {
 					// Unmount the shares before deleting, so we don't try to get the storage later on.

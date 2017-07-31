@@ -25,8 +25,7 @@ class RepairStepTest implements IRepairStep {
 	public function run(\OCP\Migration\IOutput $out) {
 		if ($this->warning) {
 			$out->warning('Simulated warning');
-		}
-		else {
+		} else {
 			$out->info('Simulated info');
 		}
 	}
@@ -59,29 +58,27 @@ class RepairTest extends TestCase {
 	}
 
 	public function testRunRepairStep() {
-
 		$this->repair->addStep(new TestRepairStep(false));
 		$this->repair->run();
 
 		$this->assertEquals(
-			array(
+			[
 				'step: Test Name',
 				'info: Simulated info',
-			),
+			],
 			$this->outputArray
 		);
 	}
 
 	public function testRunRepairStepThatFail() {
-
 		$this->repair->addStep(new TestRepairStep(true));
 		$this->repair->run();
 
 		$this->assertEquals(
-			array(
+			[
 				'step: Test Name',
 				'warning: Simulated warning',
-			),
+			],
 			$this->outputArray
 		);
 	}
@@ -101,17 +98,16 @@ class RepairTest extends TestCase {
 		$thrown = false;
 		try {
 			$this->repair->run();
-		}
-		catch (\Exception $e) {
+		} catch (\Exception $e) {
 			$thrown = true;
 		}
 
 		$this->assertTrue($thrown);
 		// jump out after exception
 		$this->assertEquals(
-			array(
+			[
 				'step: Exception Test',
-			),
+			],
 			$this->outputArray
 		);
 	}
@@ -122,12 +118,12 @@ class RepairTest extends TestCase {
 		$this->repair->run();
 
 		$this->assertEquals(
-			array(
+			[
 				'step: Test Name',
 				'warning: Simulated warning',
 				'step: Test Name',
 				'info: Simulated info',
-			),
+			],
 			$this->outputArray
 		);
 	}

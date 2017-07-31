@@ -24,7 +24,6 @@
 
 namespace OCA\AdminAudit\Actions;
 
-
 use OCP\IUser;
 
 /**
@@ -86,7 +85,7 @@ class UserManagement extends Action {
 	 * @param IUser $user
 	 */
 	public function setPassword(IUser $user) {
-		if($user->getBackendClassName() === 'Database') {
+		if ($user->getBackendClassName() === 'Database') {
 			$this->log(
 				'Password of user "%s" has been changed',
 				[

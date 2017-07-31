@@ -103,7 +103,7 @@ class Swift implements IObjectStore {
 				$statusCode = $e->getResponse()->getStatusCode();
 				if ($statusCode == 412) {
 					throw new StorageAuthException('Precondition failed, verify the keystone url', $e);
-				} else if ($statusCode === 401) {
+				} elseif ($statusCode === 401) {
 					throw new StorageAuthException('Authentication failed, verify the username, password and possibly tenant', $e);
 				} else {
 					throw new StorageAuthException('Unknown error', $e);
@@ -136,7 +136,7 @@ class Swift implements IObjectStore {
 			throw new StorageNotAvailableException(
 				"Service $serviceName not found in service catalog, available services: $available"
 			);
-		} else if (isset($this->params['region'])) {
+		} elseif (isset($this->params['region'])) {
 			$this->validateRegion($catalogItem, $this->params['region']);
 		}
 
@@ -281,5 +281,4 @@ class Swift implements IObjectStore {
 		$this->init();
 		$this->container->delete($recursive);
 	}
-
 }

@@ -31,7 +31,6 @@ use OCP\IConfig;
 use OCP\Migration\IOutput;
 use Test\TestCase;
 
-
 class InstallCoreBundleTest extends TestCase {
 	/** @var BundleFetcher|\PHPUnit_Framework_MockObject_MockObject */
 	private $bundleFetcher;
@@ -140,5 +139,4 @@ class InstallCoreBundleTest extends TestCase {
 
 		$this->installCoreBundle->run($output);
 	}
-
 }

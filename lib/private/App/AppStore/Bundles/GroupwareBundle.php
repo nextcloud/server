@@ -40,5 +40,4 @@ class GroupwareBundle extends Bundle {
 			'spreed',
 		];
 	}
-
 }

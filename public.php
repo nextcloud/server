@@ -28,7 +28,6 @@
  *
  */
 try {
-
 	require_once __DIR__ . '/lib/base.php';
 	if (\OCP\Util::needUpgrade()) {
 		// since the behavior of apps or remotes are unpredictable during
@@ -62,8 +61,8 @@ try {
 
 	// Load all required applications
 	\OC::$REQUESTEDAPP = $app;
-	OC_App::loadApps(array('authentication'));
-	OC_App::loadApps(array('filesystem', 'logging'));
+	OC_App::loadApps(['authentication']);
+	OC_App::loadApps(['filesystem', 'logging']);
 
 	if (!\OC::$server->getAppManager()->isInstalled($app)) {
 		throw new Exception('App not installed: ' . $app);
@@ -74,7 +73,6 @@ try {
 	$baseuri = OC::$WEBROOT . '/public.php/' . $service . '/';
 
 	require_once OC_App::getAppPath($app) . '/' . $parts[1];
-
 } catch (Exception $ex) {
 	if ($ex instanceof \OC\ServiceUnavailableException) {
 		OC_Response::setStatus(OC_Response::STATUS_SERVICE_UNAVAILABLE);

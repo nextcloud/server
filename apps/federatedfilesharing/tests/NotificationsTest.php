@@ -23,7 +23,6 @@
 
 namespace OCA\FederatedFileSharing\Tests;
 
-
 use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\Notifications;
 use OCP\BackgroundJob\IJobList;
@@ -52,7 +51,6 @@ class NotificationsTest extends \Test\TestCase {
 		$this->httpClientService = $this->getMockBuilder('OCP\Http\Client\IClientService')->getMock();
 		$this->addressHandler = $this->getMockBuilder('OCA\FederatedFileSharing\AddressHandler')
 			->disableOriginalConstructor()->getMock();
-
 	}
 
 	/**
@@ -124,10 +122,10 @@ class NotificationsTest extends \Test\TestCase {
 			$this->jobList->expects($this->never())->method('add');
 		}
 
-		$this->assertSame($expected,
+		$this->assertSame(
+			$expected,
 			$instance->sendUpdateToRemote($remote, $id, $token, 'unshare', ['data1Key' => 'data1Value'], $try)
 		);
-
 	}
 
 
@@ -147,5 +145,4 @@ class NotificationsTest extends \Test\TestCase {
 			[0, ['success' => false, 'result' => json_encode(['ocs' => ['meta' => ['statuscode' => 400]]])], false],
 		];
 	}
-
 }

@@ -44,16 +44,18 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	protected $sessionValues;
 	/** @var bool */
 	protected $isModified = false;
-	CONST encryptedSessionName = 'encrypted_session_data';
+	const encryptedSessionName = 'encrypted_session_data';
 
 	/**
 	 * @param ISession $session
 	 * @param ICrypto $crypto
 	 * @param string $passphrase
 	 */
-	public function __construct(ISession $session,
+	public function __construct(
+		ISession $session,
 								ICrypto $crypto,
-								$passphrase) {
+								$passphrase
+	) {
 		$this->crypto = $crypto;
 		$this->session = $session;
 		$this->passphrase = $passphrase;
@@ -66,7 +68,7 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	public function __destruct() {
 		try {
 			$this->close();
-		} catch (SessionNotAvailableException $e){
+		} catch (SessionNotAvailableException $e) {
 			// This exception can occur if session is already closed
 			// So it is safe to ignore it and let the garbage collector to proceed
 		}
@@ -102,7 +104,7 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	 * @return string|null Either the value or null
 	 */
 	public function get($key) {
-		if(isset($this->sessionValues[$key])) {
+		if (isset($this->sessionValues[$key])) {
 			return $this->sessionValues[$key];
 		}
 
@@ -168,7 +170,7 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	 * Close the session and release the lock, also writes all changed data in batch
 	 */
 	public function close() {
-		if($this->isModified) {
+		if ($this->isModified) {
 			$encryptedValue = $this->crypto->encrypt(json_encode($this->sessionValues), $this->passphrase);
 			$this->session->set(self::encryptedSessionName, $encryptedValue);
 			$this->isModified = false;

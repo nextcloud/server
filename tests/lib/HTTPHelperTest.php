@@ -26,29 +26,29 @@ class HTTPHelperTest extends \Test\TestCase {
 			->disableOriginalConstructor()->getMock();
 		$this->clientService = $this->createMock(IClientService::class);
 		$this->httpHelperMock = $this->getMockBuilder('\OC\HTTPHelper')
-			->setConstructorArgs(array($this->config, $this->clientService))
-			->setMethods(array('getHeaders'))
+			->setConstructorArgs([$this->config, $this->clientService])
+			->setMethods(['getHeaders'])
 			->getMock();
 	}
 
 	public function isHttpTestData() {
-		return array(
-			array('http://wwww.owncloud.org/enterprise/', true),
-			array('https://wwww.owncloud.org/enterprise/', true),
-			array('HTTPS://WWW.OWNCLOUD.ORG', true),
-			array('HTTP://WWW.OWNCLOUD.ORG', true),
-			array('FILE://WWW.OWNCLOUD.ORG', false),
-			array('file://www.owncloud.org', false),
-			array('FTP://WWW.OWNCLOUD.ORG', false),
-			array('ftp://www.owncloud.org', false),
-		);
+		return [
+			['http://wwww.owncloud.org/enterprise/', true],
+			['https://wwww.owncloud.org/enterprise/', true],
+			['HTTPS://WWW.OWNCLOUD.ORG', true],
+			['HTTP://WWW.OWNCLOUD.ORG', true],
+			['FILE://WWW.OWNCLOUD.ORG', false],
+			['file://www.owncloud.org', false],
+			['FTP://WWW.OWNCLOUD.ORG', false],
+			['ftp://www.owncloud.org', false],
+		];
 	}
 
 	/**
 	 * @dataProvider isHttpTestData
 	 */
 	public function testIsHTTP($url, $expected) {
-			$this->assertSame($expected, $this->httpHelperMock->isHTTPURL($url));
+		$this->assertSame($expected, $this->httpHelperMock->isHTTPURL($url));
 	}
 
 	public function testPostSuccess() {
@@ -118,5 +118,4 @@ class HTTPHelperTest extends \Test\TestCase {
 		];
 		$this->assertSame($expected, $response);
 	}
-
 }

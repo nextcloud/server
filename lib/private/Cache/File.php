@@ -189,11 +189,11 @@ class File implements ICache {
 						}
 					} catch (\OCP\Lock\LockedException $e) {
 						// ignore locked chunks
-						\OC::$server->getLogger()->debug('Could not cleanup locked chunk "' . $file . '"', array('app' => 'core'));
+						\OC::$server->getLogger()->debug('Could not cleanup locked chunk "' . $file . '"', ['app' => 'core']);
 					} catch (\OCP\Files\ForbiddenException $e) {
-						\OC::$server->getLogger()->debug('Could not cleanup forbidden chunk "' . $file . '"', array('app' => 'core'));
+						\OC::$server->getLogger()->debug('Could not cleanup forbidden chunk "' . $file . '"', ['app' => 'core']);
 					} catch (\OCP\Files\LockNotAcquiredException $e) {
-						\OC::$server->getLogger()->debug('Could not cleanup locked chunk "' . $file . '"', array('app' => 'core'));
+						\OC::$server->getLogger()->debug('Could not cleanup locked chunk "' . $file . '"', ['app' => 'core']);
 					}
 				}
 			}

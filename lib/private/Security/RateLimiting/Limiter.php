@@ -41,10 +41,12 @@ class Limiter {
 	 * @param ITimeFactory $timeFactory
 	 * @param IBackend $backend
 	 */
-	public function __construct(IUserSession $userSession,
+	public function __construct(
+		IUserSession $userSession,
 								IRequest $request,
 								ITimeFactory $timeFactory,
-								IBackend $backend) {
+								IBackend $backend
+	) {
 		$this->backend = $backend;
 		$this->timeFactory = $timeFactory;
 	}
@@ -56,10 +58,12 @@ class Limiter {
 	 * @param int $limit
 	 * @throws RateLimitExceededException
 	 */
-	private function register($methodIdentifier,
+	private function register(
+		$methodIdentifier,
 							  $userIdentifier,
 							  $period,
-							  $limit) {
+							  $limit
+	) {
 		$existingAttempts = $this->backend->getAttempts($methodIdentifier, $userIdentifier, (int)$period);
 		if ($existingAttempts >= (int)$limit) {
 			throw new RateLimitExceededException();
@@ -77,10 +81,12 @@ class Limiter {
 	 * @param string $ip
 	 * @throws RateLimitExceededException
 	 */
-	public function registerAnonRequest($identifier,
+	public function registerAnonRequest(
+		$identifier,
 										$anonLimit,
 										$anonPeriod,
-										$ip) {
+										$ip
+	) {
 		$ipSubnet = (new IpAddress($ip))->getSubnet();
 
 		$anonHashIdentifier = hash('sha512', 'anon::' . $identifier . $ipSubnet);
@@ -96,10 +102,12 @@ class Limiter {
 	 * @param IUser $user
 	 * @throws RateLimitExceededException
 	 */
-	public function registerUserRequest($identifier,
+	public function registerUserRequest(
+		$identifier,
 										$userLimit,
 										$userPeriod,
-										IUser $user) {
+										IUser $user
+	) {
 		$userHashIdentifier = hash('sha512', 'user::' . $identifier . $user->getUID());
 		$this->register($identifier, $userHashIdentifier, $userPeriod, $userLimit);
 	}

@@ -54,12 +54,14 @@ class GroupsController extends Controller {
 	 * @param bool $isAdmin
 	 * @param IL10N $l10n
 	 */
-	public function __construct($appName,
+	public function __construct(
+		$appName,
 								IRequest $request,
 								IGroupManager $groupManager,
 								IUserSession $userSession,
 								$isAdmin,
-								IL10N $l10n) {
+								IL10N $l10n
+	) {
 		parent::__construct($appName, $request);
 		$this->groupManager = $groupManager;
 		$this->userSession = $userSession;
@@ -88,9 +90,9 @@ class GroupsController extends Controller {
 		list($adminGroups, $groups) = $groupsInfo->get($groupPattern, $pattern);
 
 		return new DataResponse(
-			array(
-				'data' => array('adminGroups' => $adminGroups, 'groups' => $groups)
-			)
+			[
+				'data' => ['adminGroups' => $adminGroups, 'groups' => $groups]
+			]
 		);
 	}
 
@@ -100,30 +102,30 @@ class GroupsController extends Controller {
 	 * @return DataResponse
 	 */
 	public function create($id) {
-		if($this->groupManager->groupExists($id)) {
+		if ($this->groupManager->groupExists($id)) {
 			return new DataResponse(
-				array(
+				[
 					'message' => (string)$this->l10n->t('Group already exists.')
-				),
+				],
 				Http::STATUS_CONFLICT
 			);
 		}
-		if($this->groupManager->createGroup($id)) {
+		if ($this->groupManager->createGroup($id)) {
 			return new DataResponse(
-				array(
+				[
 					'groupname' => $id
-				),
+				],
 				Http::STATUS_CREATED
 			);
 		}
 
 		return new DataResponse(
-			array(
+			[
 				'status' => 'error',
-				'data' => array(
+				'data' => [
 					'message' => (string)$this->l10n->t('Unable to add group.')
-				)
-			),
+				]
+			],
 			Http::STATUS_FORBIDDEN
 		);
 	}
@@ -138,25 +140,24 @@ class GroupsController extends Controller {
 		if ($group) {
 			if ($group->delete()) {
 				return new DataResponse(
-					array(
+					[
 						'status' => 'success',
-						'data' => array(
+						'data' => [
 							'groupname' => $id
-						)
-					),
+						]
+					],
 					Http::STATUS_NO_CONTENT
 				);
 			}
 		}
 		return new DataResponse(
-			array(
+			[
 				'status' => 'error',
-				'data' => array(
+				'data' => [
 					'message' => (string)$this->l10n->t('Unable to delete group.')
-				),
-			),
+				],
+			],
 			Http::STATUS_FORBIDDEN
 		);
 	}
-
 }

@@ -82,7 +82,8 @@ class AppSettingsController extends Controller {
 	 * @param IFactory $l10nFactory
 	 * @param BundleFetcher $bundleFetcher
 	 */
-	public function __construct($appName,
+	public function __construct(
+		$appName,
 								IRequest $request,
 								IL10N $l10n,
 								IConfig $config,
@@ -91,7 +92,8 @@ class AppSettingsController extends Controller {
 								CategoryFetcher $categoryFetcher,
 								AppFetcher $appFetcher,
 								IFactory $l10nFactory,
-								BundleFetcher $bundleFetcher) {
+								BundleFetcher $bundleFetcher
+	) {
 		parent::__construct($appName, $request);
 		$this->l10n = $l10n;
 		$this->config = $config;
@@ -137,7 +139,7 @@ class AppSettingsController extends Controller {
 			['id' => self::CAT_APP_BUNDLES, 'ident' => 'app-bundles', 'displayName' => (string)$this->l10n->t('App bundles')],
 		];
 		$categories = $this->categoryFetcher->get();
-		foreach($categories as $category) {
+		foreach ($categories as $category) {
 			$formattedCategories[] = [
 				'id' => $category['id'],
 				'ident' => $category['id'],
@@ -167,46 +169,46 @@ class AppSettingsController extends Controller {
 		$versionParser = new VersionParser();
 		$formattedApps = [];
 		$apps = $this->appFetcher->get();
-		foreach($apps as $app) {
+		foreach ($apps as $app) {
 			if (isset($app['isFeatured'])) {
 				$app['featured'] = $app['isFeatured'];
 			}
 
 			// Skip all apps not in the requested category
 			$isInCategory = false;
-			foreach($app['categories'] as $category) {
-				if($category === $requestedCategory) {
+			foreach ($app['categories'] as $category) {
+				if ($category === $requestedCategory) {
 					$isInCategory = true;
 				}
 			}
-			if(!$isInCategory) {
+			if (!$isInCategory) {
 				continue;
 			}
 
 			$nextCloudVersion = $versionParser->getVersion($app['releases'][0]['rawPlatformVersionSpec']);
 			$nextCloudVersionDependencies = [];
-			if($nextCloudVersion->getMinimumVersion() !== '') {
+			if ($nextCloudVersion->getMinimumVersion() !== '') {
 				$nextCloudVersionDependencies['nextcloud']['@attributes']['min-version'] = $nextCloudVersion->getMinimumVersion();
 			}
-			if($nextCloudVersion->getMaximumVersion() !== '') {
+			if ($nextCloudVersion->getMaximumVersion() !== '') {
 				$nextCloudVersionDependencies['nextcloud']['@attributes']['max-version'] = $nextCloudVersion->getMaximumVersion();
 			}
 			$phpVersion = $versionParser->getVersion($app['releases'][0]['rawPhpVersionSpec']);
 			$existsLocally = (\OC_App::getAppPath($app['id']) !== false) ? true : false;
 			$phpDependencies = [];
-			if($phpVersion->getMinimumVersion() !== '') {
+			if ($phpVersion->getMinimumVersion() !== '') {
 				$phpDependencies['php']['@attributes']['min-version'] = $phpVersion->getMinimumVersion();
 			}
-			if($phpVersion->getMaximumVersion() !== '') {
+			if ($phpVersion->getMaximumVersion() !== '') {
 				$phpDependencies['php']['@attributes']['max-version'] = $phpVersion->getMaximumVersion();
 			}
-			if(isset($app['releases'][0]['minIntSize'])) {
+			if (isset($app['releases'][0]['minIntSize'])) {
 				$phpDependencies['php']['@attributes']['min-int-size'] = $app['releases'][0]['minIntSize'];
 			}
 			$authors = '';
-			foreach($app['authors'] as $key => $author) {
+			foreach ($app['authors'] as $key => $author) {
 				$authors .= $author['name'];
-				if($key !== count($app['authors']) - 1) {
+				if ($key !== count($app['authors']) - 1) {
 					$authors .= ', ';
 				}
 			}
@@ -214,12 +216,12 @@ class AppSettingsController extends Controller {
 			$currentLanguage = substr(\OC::$server->getL10NFactory()->findLanguage(), 0, 2);
 			$enabledValue = $this->config->getAppValue($app['id'], 'enabled', 'no');
 			$groups = null;
-			if($enabledValue !== 'no' && $enabledValue !== 'yes') {
+			if ($enabledValue !== 'no' && $enabledValue !== 'yes') {
 				$groups = $enabledValue;
 			}
 
 			$currentVersion = '';
-			if($this->appManager->isInstalled($app['id'])) {
+			if ($this->appManager->isInstalled($app['id'])) {
 				$currentVersion = \OC_App::getAppVersion($app['id']);
 			} else {
 				$currentLanguage = $app['releases'][0]['version'];
@@ -265,8 +267,8 @@ class AppSettingsController extends Controller {
 
 			$appFetcher = \OC::$server->getAppFetcher();
 			$newVersion = \OC\Installer::isUpdateAvailable($app['id'], $appFetcher);
-			if($newVersion && $this->appManager->isInstalled($app['id'])) {
-				$formattedApps[count($formattedApps)-1]['update'] = $newVersion;
+			if ($newVersion && $this->appManager->isInstalled($app['id'])) {
+				$formattedApps[count($formattedApps) - 1]['update'] = $newVersion;
 			}
 		}
 
@@ -287,7 +289,7 @@ class AppSettingsController extends Controller {
 			case 'installed':
 				$apps = $appClass->listAllApps();
 
-				foreach($apps as $key => $app) {
+				foreach ($apps as $key => $app) {
 					$newVersion = \OC\Installer::isUpdateAvailable($app['id'], $this->appFetcher);
 					$apps[$key]['update'] = $newVersion;
 				}
@@ -308,7 +310,7 @@ class AppSettingsController extends Controller {
 					return $app['active'];
 				});
 
-				foreach($apps as $key => $app) {
+				foreach ($apps as $key => $app) {
 					$newVersion = \OC\Installer::isUpdateAvailable($app['id'], $this->appFetcher);
 					$apps[$key]['update'] = $newVersion;
 				}
@@ -349,15 +351,15 @@ class AppSettingsController extends Controller {
 			case 'app-bundles':
 				$bundles = $this->bundleFetcher->getBundles();
 				$apps = [];
-				foreach($bundles as $bundle) {
+				foreach ($bundles as $bundle) {
 					$newCategory = true;
 					$allApps = $appClass->listAllApps();
 					$categories = $this->getAllCategories();
-					foreach($categories as $singleCategory) {
+					foreach ($categories as $singleCategory) {
 						$newApps = $this->getAppsForCategory($singleCategory['id']);
-						foreach($allApps as $app) {
-							foreach($newApps as $key => $newApp) {
-								if($app['id'] === $newApp['id']) {
+						foreach ($allApps as $app) {
+							foreach ($newApps as $key => $newApp) {
+								if ($app['id'] === $newApp['id']) {
 									unset($newApps[$key]);
 								}
 							}
@@ -365,10 +367,10 @@ class AppSettingsController extends Controller {
 						$allApps = array_merge($allApps, $newApps);
 					}
 
-					foreach($bundle->getAppIdentifiers() as $identifier) {
-						foreach($allApps as $app) {
-							if($app['id'] === $identifier) {
-								if($newCategory) {
+					foreach ($bundle->getAppIdentifiers() as $identifier) {
+						foreach ($allApps as $app) {
+							if ($app['id'] === $identifier) {
+								if ($newCategory) {
 									$app['newCategory'] = true;
 									$app['categoryName'] = $bundle->getName();
 								}
@@ -398,10 +400,10 @@ class AppSettingsController extends Controller {
 
 		// fix groups to be an array
 		$dependencyAnalyzer = new DependencyAnalyzer(new Platform($this->config), $this->l10n);
-		$apps = array_map(function($app) use ($dependencyAnalyzer) {
+		$apps = array_map(function ($app) use ($dependencyAnalyzer) {
 
 			// fix groups
-			$groups = array();
+			$groups = [];
 			if (is_string($app['groups'])) {
 				$groups = json_decode($app['groups']);
 			}

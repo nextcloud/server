@@ -266,7 +266,7 @@ class View {
 	 * for \OC\Files\Storage\Storage via basicOperation().
 	 */
 	public function mkdir($path) {
-		return $this->basicOperation('mkdir', $path, array('create', 'write'));
+		return $this->basicOperation('mkdir', $path, ['create', 'write']);
 	}
 
 	/**
@@ -283,16 +283,18 @@ class View {
 			$relPath = '/' . $pathParts[3];
 			$this->lockFile($relPath, ILockingProvider::LOCK_SHARED, true);
 			\OC_Hook::emit(
-				Filesystem::CLASSNAME, "umount",
-				array(Filesystem::signal_param_path => $relPath)
+				Filesystem::CLASSNAME,
+				"umount",
+				[Filesystem::signal_param_path => $relPath]
 			);
 			$this->changeLock($relPath, ILockingProvider::LOCK_EXCLUSIVE, true);
 			$result = $mount->removeMount();
 			$this->changeLock($relPath, ILockingProvider::LOCK_SHARED, true);
 			if ($result) {
 				\OC_Hook::emit(
-					Filesystem::CLASSNAME, "post_umount",
-					array(Filesystem::signal_param_path => $relPath)
+					Filesystem::CLASSNAME,
+					"post_umount",
+					[Filesystem::signal_param_path => $relPath]
 				);
 			}
 			$this->unlockFile($relPath, ILockingProvider::LOCK_SHARED, true);
@@ -345,7 +347,7 @@ class View {
 			return $this->removeMount($mount, $absolutePath);
 		}
 		if ($this->is_dir($path)) {
-			$result = $this->basicOperation('rmdir', $path, array('delete'));
+			$result = $this->basicOperation('rmdir', $path, ['delete']);
 		} else {
 			$result = false;
 		}
@@ -363,7 +365,7 @@ class View {
 	 * @return resource
 	 */
 	public function opendir($path) {
-		return $this->basicOperation('opendir', $path, array('read'));
+		return $this->basicOperation('opendir', $path, ['read']);
 	}
 
 	/**
@@ -541,7 +543,7 @@ class View {
 			$mtime = strtotime($mtime);
 		}
 
-		$hooks = array('touch');
+		$hooks = ['touch'];
 
 		if (!$this->file_exists($path)) {
 			$hooks[] = 'create';
@@ -558,7 +560,7 @@ class View {
 				$mtime = time();
 			}
 			//if native touch fails, we emulate it by changing the mtime in the cache
-			$this->putFileInfo($path, array('mtime' => floor($mtime)));
+			$this->putFileInfo($path, ['mtime' => floor($mtime)]);
 		}
 		return true;
 	}
@@ -568,7 +570,7 @@ class View {
 	 * @return mixed
 	 */
 	public function file_get_contents($path) {
-		return $this->basicOperation('file_get_contents', $path, array('read'));
+		return $this->basicOperation('file_get_contents', $path, ['read']);
 	}
 
 	/**
@@ -578,20 +580,20 @@ class View {
 	 */
 	protected function emit_file_hooks_pre($exists, $path, &$run) {
 		if (!$exists) {
-			\OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_create, array(
+			\OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_create, [
 				Filesystem::signal_param_path => $this->getHookPath($path),
 				Filesystem::signal_param_run => &$run,
-			));
+			]);
 		} else {
-			\OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_update, array(
+			\OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_update, [
 				Filesystem::signal_param_path => $this->getHookPath($path),
 				Filesystem::signal_param_run => &$run,
-			));
+			]);
 		}
-		\OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_write, array(
+		\OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_write, [
 			Filesystem::signal_param_path => $this->getHookPath($path),
 			Filesystem::signal_param_run => &$run,
-		));
+		]);
 	}
 
 	/**
@@ -600,17 +602,17 @@ class View {
 	 */
 	protected function emit_file_hooks_post($exists, $path) {
 		if (!$exists) {
-			\OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_post_create, array(
+			\OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_post_create, [
 				Filesystem::signal_param_path => $this->getHookPath($path),
-			));
+			]);
 		} else {
-			\OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_post_update, array(
+			\OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_post_update, [
 				Filesystem::signal_param_path => $this->getHookPath($path),
-			));
+			]);
 		}
-		\OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_post_write, array(
+		\OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_post_write, [
 			Filesystem::signal_param_path => $this->getHookPath($path),
-		));
+		]);
 	}
 
 	/**
@@ -645,7 +647,7 @@ class View {
 				list($storage, $internalPath) = $this->resolvePath($path);
 				$target = $storage->fopen($internalPath, 'w');
 				if ($target) {
-					list (, $result) = \OC_Helper::streamCopy($data, $target);
+					list(, $result) = \OC_Helper::streamCopy($data, $target);
 					fclose($target);
 					fclose($data);
 
@@ -666,7 +668,7 @@ class View {
 				return false;
 			}
 		} else {
-			$hooks = ($this->file_exists($path)) ? array('update', 'write') : array('create', 'write');
+			$hooks = ($this->file_exists($path)) ? ['update', 'write'] : ['create', 'write'];
 			return $this->basicOperation('file_put_contents', $path, $hooks, $data);
 		}
 	}
@@ -748,12 +750,13 @@ class View {
 				$this->emit_file_hooks_pre($exists, $path2, $run);
 			} elseif ($this->shouldEmitHooks($path1)) {
 				\OC_Hook::emit(
-					Filesystem::CLASSNAME, Filesystem::signal_rename,
-					array(
+					Filesystem::CLASSNAME,
+					Filesystem::signal_rename,
+					[
 						Filesystem::signal_param_oldpath => $this->getHookPath($path1),
 						Filesystem::signal_param_newpath => $this->getHookPath($path2),
 						Filesystem::signal_param_run => &$run
-					)
+					]
 				);
 			}
 			if ($run) {
@@ -801,7 +804,7 @@ class View {
 					// if it was a rename from a part file to a regular file it was a write and not a rename operation
 
 					$this->writeUpdate($storage2, $internalPath2);
-				} else if ($result) {
+				} elseif ($result) {
 					if ($internalPath1 !== '') { // don't do a cache update for moved mounts
 						$this->renameUpdate($storage1, $storage2, $internalPath1, $internalPath2);
 					}
@@ -819,10 +822,10 @@ class View {
 						\OC_Hook::emit(
 							Filesystem::CLASSNAME,
 							Filesystem::signal_post_rename,
-							array(
+							[
 								Filesystem::signal_param_oldpath => $this->getHookPath($path1),
 								Filesystem::signal_param_newpath => $this->getHookPath($path2)
-							)
+							]
 						);
 					}
 				}
@@ -865,17 +868,16 @@ class View {
 			$lockTypePath2 = ILockingProvider::LOCK_SHARED;
 
 			try {
-
 				$exists = $this->file_exists($path2);
 				if ($this->shouldEmitHooks()) {
 					\OC_Hook::emit(
 						Filesystem::CLASSNAME,
 						Filesystem::signal_copy,
-						array(
+						[
 							Filesystem::signal_param_oldpath => $this->getHookPath($path1),
 							Filesystem::signal_param_newpath => $this->getHookPath($path2),
 							Filesystem::signal_param_run => &$run
-						)
+						]
 					);
 					$this->emit_file_hooks_pre($exists, $path2, $run);
 				}
@@ -909,14 +911,13 @@ class View {
 						\OC_Hook::emit(
 							Filesystem::CLASSNAME,
 							Filesystem::signal_post_copy,
-							array(
+							[
 								Filesystem::signal_param_oldpath => $this->getHookPath($path1),
 								Filesystem::signal_param_newpath => $this->getHookPath($path2)
-							)
+							]
 						);
 						$this->emit_file_hooks_post($exists, $path2);
 					}
-
 				}
 			} catch (\Exception $e) {
 				$this->unlockFile($path2, $lockTypePath2);
@@ -926,7 +927,6 @@ class View {
 
 			$this->unlockFile($path2, $lockTypePath2);
 			$this->unlockFile($path1, $lockTypePath1);
-
 		}
 		return $result;
 	}
@@ -938,7 +938,7 @@ class View {
 	 */
 	public function fopen($path, $mode) {
 		$mode = str_replace('b', '', $mode); // the binary flag is a windows only feature which we do not support
-		$hooks = array();
+		$hooks = [];
 		switch ($mode) {
 			case 'r':
 				$hooks[] = 'read';
@@ -1057,7 +1057,7 @@ class View {
 				\OC_Hook::emit(
 					Filesystem::CLASSNAME,
 					Filesystem::signal_read,
-					array(Filesystem::signal_param_path => $this->getHookPath($path))
+					[Filesystem::signal_param_path => $this->getHookPath($path)]
 				);
 			}
 			list($storage, $internalPath) = Filesystem::resolvePath($absolutePath . $postFix);
@@ -1129,7 +1129,7 @@ class View {
 				} catch (\Exception $e) {
 					if (in_array('write', $hooks) || in_array('delete', $hooks)) {
 						$this->unlockFile($path, ILockingProvider::LOCK_EXCLUSIVE);
-					} else if (in_array('read', $hooks)) {
+					} elseif (in_array('read', $hooks)) {
 						$this->unlockFile($path, ILockingProvider::LOCK_SHARED);
 					}
 					throw $e;
@@ -1157,7 +1157,7 @@ class View {
 					$result = CallbackWrapper::wrap($result, null, null, function () use ($hooks, $path) {
 						if (in_array('write', $hooks)) {
 							$this->unlockFile($path, ILockingProvider::LOCK_EXCLUSIVE);
-						} else if (in_array('read', $hooks)) {
+						} elseif (in_array('read', $hooks)) {
 							$this->unlockFile($path, ILockingProvider::LOCK_SHARED);
 						}
 					});
@@ -1235,18 +1235,18 @@ class View {
 					\OC_Hook::emit(
 						Filesystem::CLASSNAME,
 						$prefix . $hook,
-						array(
+						[
 							Filesystem::signal_param_run => &$run,
 							Filesystem::signal_param_path => $path
-						)
+						]
 					);
 				} elseif (!$post) {
 					\OC_Hook::emit(
 						Filesystem::CLASSNAME,
 						$prefix . $hook,
-						array(
+						[
 							Filesystem::signal_param_path => $path
-						)
+						]
 					);
 				}
 			}
@@ -1262,7 +1262,7 @@ class View {
 	 * @return bool
 	 */
 	public function hasUpdated($path, $time) {
-		return $this->basicOperation('hasUpdated', $path, array(), $time);
+		return $this->basicOperation('hasUpdated', $path, [], $time);
 	}
 
 	/**
@@ -1306,7 +1306,7 @@ class View {
 				$scanner->scan($internalPath, Cache\Scanner::SCAN_SHALLOW);
 				$data = $cache->get($internalPath);
 				$this->unlockFile($relativePath, ILockingProvider::LOCK_SHARED);
-			} else if (!Cache\Scanner::isPartialFile($internalPath) && $watcher->needsUpdate($internalPath, $data)) {
+			} elseif (!Cache\Scanner::isPartialFile($internalPath) && $watcher->needsUpdate($internalPath, $data)) {
 				$this->lockFile($relativePath, ILockingProvider::LOCK_SHARED);
 				$watcher->update($internalPath, $data);
 				$storage->getPropagator()->propagateChange($internalPath, time());
@@ -1548,7 +1548,7 @@ class View {
 	 * @return FileInfo[]
 	 */
 	public function search($query) {
-		return $this->searchCommon('search', array('%' . $query . '%'));
+		return $this->searchCommon('search', ['%' . $query . '%']);
 	}
 
 	/**
@@ -1558,7 +1558,7 @@ class View {
 	 * @return FileInfo[]
 	 */
 	public function searchRaw($query) {
-		return $this->searchCommon('search', array($query));
+		return $this->searchCommon('search', [$query]);
 	}
 
 	/**
@@ -1568,7 +1568,7 @@ class View {
 	 * @return FileInfo[]
 	 */
 	public function searchByMime($mimetype) {
-		return $this->searchCommon('searchByMime', array($mimetype));
+		return $this->searchCommon('searchByMime', [$mimetype]);
 	}
 
 	/**
@@ -1579,7 +1579,7 @@ class View {
 	 * @return FileInfo[]
 	 */
 	public function searchByTag($tag, $userId) {
-		return $this->searchCommon('searchByTag', array($tag, $userId));
+		return $this->searchCommon('searchByTag', [$tag, $userId]);
 	}
 
 	/**
@@ -1588,7 +1588,7 @@ class View {
 	 * @return FileInfo[]
 	 */
 	private function searchCommon($method, $args) {
-		$files = array();
+		$files = [];
 		$rootLength = strlen($this->fakeRoot);
 
 		$mount = $this->getMount('');
@@ -1597,7 +1597,7 @@ class View {
 		if ($storage) {
 			$cache = $storage->getCache('');
 
-			$results = call_user_func_array(array($cache, $method), $args);
+			$results = call_user_func_array([$cache, $method], $args);
 			foreach ($results as $result) {
 				if (substr($mountPoint . $result['path'], 0, $rootLength + 1) === $this->fakeRoot . '/') {
 					$internalPath = $result['path'];
@@ -1616,7 +1616,7 @@ class View {
 					$cache = $storage->getCache('');
 
 					$relativeMountPoint = substr($mountPoint, $rootLength);
-					$results = call_user_func_array(array($cache, $method), $args);
+					$results = call_user_func_array([$cache, $method], $args);
 					if ($results) {
 						foreach ($results as $result) {
 							$internalPath = $result['path'];
@@ -1724,12 +1724,13 @@ class View {
 	 * @return boolean
 	 */
 	private function isTargetAllowed($target) {
-
 		list($targetStorage, $targetInternalPath) = \OC\Files\Filesystem::resolvePath($target);
 		if (!$targetStorage->instanceOfStorage('\OCP\Files\IHomeStorage')) {
-			\OCP\Util::writeLog('files',
+			\OCP\Util::writeLog(
+				'files',
 				'It is not allowed to move one mount point into another one',
-				\OCP\Util::DEBUG);
+				\OCP\Util::DEBUG
+			);
 			return false;
 		}
 
@@ -1750,9 +1751,11 @@ class View {
 		);
 
 		if (count($shares) > 0) {
-			\OCP\Util::writeLog('files',
+			\OCP\Util::writeLog(
+				'files',
 				'It is not allowed to move one mount point into a shared folder',
-				\OCP\Util::DEBUG);
+				\OCP\Util::DEBUG
+			);
 			return false;
 		}
 
@@ -1833,7 +1836,7 @@ class View {
 
 		// remove the single file
 		array_pop($parts);
-		$result = array('/');
+		$result = ['/'];
 		$resultPath = '';
 		foreach ($parts as $part) {
 			if ($part) {

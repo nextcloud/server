@@ -25,7 +25,7 @@ use OC\App\AppStore\Version\Version;
 use OC\App\AppStore\Version\VersionParser;
 use Test\TestCase;
 
-class VersionParserTest extends TestCase  {
+class VersionParserTest extends TestCase {
 	/** @var VersionParser */
 	private $versionParser;
 
@@ -76,8 +76,10 @@ class VersionParserTest extends TestCase  {
 	 * @param string $input
 	 * @param Version $expected
 	 */
-	public function testGetVersion($input,
-								   Version $expected) {
+	public function testGetVersion(
+		$input,
+								   Version $expected
+	) {
 		$this->assertEquals($expected, $this->versionParser->getVersion($input));
 	}
 

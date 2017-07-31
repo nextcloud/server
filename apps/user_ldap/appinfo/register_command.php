@@ -39,7 +39,9 @@ $uBackend = new User_Proxy(
 	\OC::$server->getNotificationManager()
 );
 $deletedUsersIndex = new DeletedUsersIndex(
-	$ocConfig, $dbConnection, $userMapping
+	$ocConfig,
+	$dbConnection,
+	$userMapping
 );
 
 $application->add(new OCA\User_LDAP\Command\ShowConfig($helper));
@@ -48,9 +50,17 @@ $application->add(new OCA\User_LDAP\Command\TestConfig());
 $application->add(new OCA\User_LDAP\Command\CreateEmptyConfig($helper));
 $application->add(new OCA\User_LDAP\Command\DeleteConfig($helper));
 $application->add(new OCA\User_LDAP\Command\Search($ocConfig));
-$application->add(new OCA\User_LDAP\Command\ShowRemnants(
-	$deletedUsersIndex, \OC::$server->getDateTimeFormatter())
+$application->add(
+	new OCA\User_LDAP\Command\ShowRemnants(
+	$deletedUsersIndex,
+	\OC::$server->getDateTimeFormatter()
+)
 );
-$application->add(new OCA\User_LDAP\Command\CheckUser(
-	$uBackend, $helper, $deletedUsersIndex, $userMapping)
+$application->add(
+	new OCA\User_LDAP\Command\CheckUser(
+	$uBackend,
+	$helper,
+	$deletedUsersIndex,
+	$userMapping
+)
 );

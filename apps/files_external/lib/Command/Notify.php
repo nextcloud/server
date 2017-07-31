@@ -47,7 +47,7 @@ class Notify extends Base {
 	/** @var \OCP\DB\QueryBuilder\IQueryBuilder */
 	private $updateQuery;
 
-	function __construct(GlobalStoragesService $globalService, IDBConnection $connection) {
+	public function __construct(GlobalStoragesService $globalService, IDBConnection $connection) {
 		parent::__construct();
 		$this->globalService = $globalService;
 		$this->connection = $connection;
@@ -201,16 +201,16 @@ class Notify extends Base {
 		foreach ($changes as $change) {
 			if ($change->getPath() === '/.nc_test_file.txt' || $change->getPath() === '.nc_test_file.txt') {
 				$foundRootChange = true;
-			} else if ($change->getPath() === '/.nc_test_folder/subfile.txt' || $change->getPath() === '.nc_test_folder/subfile.txt') {
+			} elseif ($change->getPath() === '/.nc_test_folder/subfile.txt' || $change->getPath() === '.nc_test_folder/subfile.txt') {
 				$foundSubfolderChange = true;
 			}
 		}
 
 		if ($foundRootChange && $foundSubfolderChange && $verbose) {
 			$output->writeln('<info>Self-test successful</info>');
-		} else if ($foundRootChange && !$foundSubfolderChange) {
+		} elseif ($foundRootChange && !$foundSubfolderChange) {
 			$output->writeln('<error>Error while running self-test, change is subfolder not detected</error>');
-		} else if (!$foundRootChange) {
+		} elseif (!$foundRootChange) {
 			$output->writeln('<error>Error while running self-test, no changes detected</error>');
 		}
 	}

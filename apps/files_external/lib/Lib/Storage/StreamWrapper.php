@@ -126,5 +126,4 @@ abstract class StreamWrapper extends \OC\Files\Storage\Common {
 	public function stat($path) {
 		return stat($this->constructUrl($path));
 	}
-
 }

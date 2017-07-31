@@ -187,5 +187,4 @@ class Actor {
 	public function &getSharedNotebook() {
 		return $this->sharedNotebook;
 	}
-
 }

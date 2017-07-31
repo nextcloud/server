@@ -23,7 +23,6 @@
 namespace OCA\Files_External\Tests\Auth;
 
 class AuthMechanismTest extends \Test\TestCase {
-
 	public function testJsonSerialization() {
 		$mechanism = $this->getMockBuilder('\OCA\Files_External\Lib\Auth\AuthMechanism')
 			->setMethods(['jsonSerializeDefinition'])
@@ -77,5 +76,4 @@ class AuthMechanismTest extends \Test\TestCase {
 
 		$this->assertEquals($expectedSuccess, $mechanism->validateStorage($storageConfig));
 	}
-
 }

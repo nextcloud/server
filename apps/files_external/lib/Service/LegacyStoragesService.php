@@ -85,7 +85,7 @@ abstract class LegacyStoragesService {
 				$applicableUsers[] = $applicable;
 				$storageConfig->setApplicableUsers($applicableUsers);
 			}
-		} else if ($mountType === \OC_Mount_Config::MOUNT_TYPE_GROUP) {
+		} elseif ($mountType === \OC_Mount_Config::MOUNT_TYPE_GROUP) {
 			$applicableGroups = $storageConfig->getApplicableGroups();
 			$applicableGroups[] = $applicable;
 			$storageConfig->setApplicableGroups($applicableGroups);

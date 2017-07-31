@@ -46,8 +46,8 @@ class Base {
 	 * @param \OCP\IL10N $l10n
 	 * @param Defaults $theme
 	 */
-	public function __construct($template, $requestToken, $l10n, $theme ) {
-		$this->vars = array();
+	public function __construct($template, $requestToken, $l10n, $theme) {
+		$this->vars = [];
 		$this->vars['requesttoken'] = $requestToken;
 		$this->l10n = $l10n;
 		$this->template = $template;
@@ -63,7 +63,7 @@ class Base {
 	 */
 	protected function getAppTemplateDirs($theme, $app, $serverRoot, $app_dir) {
 		// Check if the app is in the app folder or in the root
-		if( file_exists($app_dir.'/templates/' )) {
+		if (file_exists($app_dir.'/templates/')) {
 			return [
 				$serverRoot.'/themes/'.$theme.'/apps/'.$app.'/templates/',
 				$app_dir.'/templates/',
@@ -98,7 +98,7 @@ class Base {
 	 *
 	 * If the key existed before, it will be overwritten
 	 */
-	public function assign( $key, $value) {
+	public function assign($key, $value) {
 		$this->vars[$key] = $value;
 		return true;
 	}
@@ -113,12 +113,11 @@ class Base {
 	 * exists, the value will be appended. It can be accessed via
 	 * $_[$key][$position] in the template.
 	 */
-	public function append( $key, $value ) {
-		if( array_key_exists( $key, $this->vars )) {
+	public function append($key, $value) {
+		if (array_key_exists($key, $this->vars)) {
 			$this->vars[$key][] = $value;
-		}
-		else{
-			$this->vars[$key] = array( $value );
+		} else {
+			$this->vars[$key] = [ $value ];
 		}
 	}
 
@@ -130,10 +129,9 @@ class Base {
 	 */
 	public function printPage() {
 		$data = $this->fetchPage();
-		if( $data === false ) {
+		if ($data === false) {
 			return false;
-		}
-		else{
+		} else {
 			print $data;
 			return true;
 		}
@@ -166,8 +164,8 @@ class Base {
 		$l = $this->l10n;
 		$theme = $this->theme;
 
-		if( !is_null($additionalParams)) {
-			$_ = array_merge( $additionalParams, $this->vars );
+		if (!is_null($additionalParams)) {
+			$_ = array_merge($additionalParams, $this->vars);
 		}
 
 		// Include
@@ -184,5 +182,4 @@ class Base {
 		// Return data
 		return $data;
 	}
-
 }

@@ -24,7 +24,6 @@
 
 namespace OCA\Encryption\Tests\Controller;
 
-
 use OCA\Encryption\Controller\RecoveryController;
 use OCP\AppFramework\Http;
 use Test\TestCase;
@@ -60,8 +59,6 @@ class RecoveryControllerTest extends TestCase {
 	 * @param $expectedStatus
 	 */
 	public function testAdminRecovery($recoveryPassword, $passConfirm, $enableRecovery, $expectedMessage, $expectedStatus) {
-
-
 		$this->recoveryMock->expects($this->any())
 			->method('enableAdminRecovery')
 			->willReturn(true);
@@ -70,15 +67,15 @@ class RecoveryControllerTest extends TestCase {
 			->method('disableAdminRecovery')
 			->willReturn(true);
 
-		$response = $this->controller->adminRecovery($recoveryPassword,
+		$response = $this->controller->adminRecovery(
+			$recoveryPassword,
 			$passConfirm,
-			$enableRecovery);
+			$enableRecovery
+		);
 
 
 		$this->assertEquals($expectedMessage, $response->getData()['data']['message']);
 		$this->assertEquals($expectedStatus, $response->getStatus());
-
-
 	}
 
 	public function changeRecoveryPasswordProvider() {
@@ -108,14 +105,14 @@ class RecoveryControllerTest extends TestCase {
 				['test', 'oldtest', true]
 			]));
 
-		$response = $this->controller->changeRecoveryPassword($password,
+		$response = $this->controller->changeRecoveryPassword(
+			$password,
 			$oldPassword,
-			$confirmPassword);
+			$confirmPassword
+		);
 
 		$this->assertEquals($expectedMessage, $response->getData()['data']['message']);
 		$this->assertEquals($expectedStatus, $response->getStatus());
-
-
 	}
 
 	public function userSetRecoveryProvider() {
@@ -145,7 +142,6 @@ class RecoveryControllerTest extends TestCase {
 
 		$this->assertEquals($expectedMessage, $response->getData()['data']['message']);
 		$this->assertEquals($expectedStatus, $response->getStatus());
-
 	}
 
 	protected function setUp() {
@@ -172,11 +168,12 @@ class RecoveryControllerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->controller = new RecoveryController('encryption',
+		$this->controller = new RecoveryController(
+			'encryption',
 			$this->requestMock,
 			$this->configMock,
 			$this->l10nMock,
-			$this->recoveryMock);
+			$this->recoveryMock
+		);
 	}
-
 }

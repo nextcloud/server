@@ -75,7 +75,6 @@ abstract class Office extends Provider {
 			return $image;
 		}
 		return false;
-
 	}
 
 	private function initCmd() {

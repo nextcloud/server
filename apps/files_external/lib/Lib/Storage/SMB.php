@@ -115,7 +115,7 @@ class SMB extends Common implements INotifyStorage {
 	protected function relativePath($fullPath) {
 		if ($fullPath === $this->root) {
 			return '';
-		} else if (substr($fullPath, 0, strlen($this->root)) === $this->root) {
+		} elseif (substr($fullPath, 0, strlen($this->root)) === $this->root) {
 			return substr($fullPath, strlen($this->root));
 		} else {
 			return null;
@@ -366,7 +366,7 @@ class SMB extends Common implements INotifyStorage {
 		}
 
 		try {
-			$this->statCache = array();
+			$this->statCache = [];
 			$content = $this->share->dir($this->buildPath($path));
 			foreach ($content as $file) {
 				if ($file->isDirectory()) {

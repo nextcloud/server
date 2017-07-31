@@ -24,7 +24,6 @@
 use Behat\Behat\Context\Context;
 
 class SettingsMenuContext implements Context, ActorAwareInterface {
-
 	use ActorAware;
 
 	/**
@@ -113,7 +112,8 @@ class SettingsMenuContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheSettingsMenuIsShown() {
 		PHPUnit_Framework_Assert::assertTrue(
-				$this->actor->find(self::settingsMenu(), 10)->isVisible());
+				$this->actor->find(self::settingsMenu(), 10)->isVisible()
+		);
 	}
 
 	/**
@@ -121,7 +121,8 @@ class SettingsMenuContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheItemInTheSettingsMenuIsShown($itemText) {
 		PHPUnit_Framework_Assert::assertTrue(
-				$this->actor->find(self::menuItemFor($itemText), 10)->isVisible());
+				$this->actor->find(self::menuItemFor($itemText), 10)->isVisible()
+		);
 	}
 
 	/**
@@ -132,7 +133,8 @@ class SettingsMenuContext implements Context, ActorAwareInterface {
 
 		try {
 			PHPUnit_Framework_Assert::assertFalse(
-					$this->actor->find(self::menuItemFor($itemText))->isVisible());
+					$this->actor->find(self::menuItemFor($itemText))->isVisible()
+			);
 		} catch (NoSuchElementException $exception) {
 		}
 	}
@@ -157,5 +159,4 @@ class SettingsMenuContext implements Context, ActorAwareInterface {
 		} catch (NoSuchElementException $exception) {
 		}
 	}
-
 }

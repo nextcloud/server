@@ -14,7 +14,6 @@ namespace Test;
  * @group DB
  */
 class UtilCheckServerTest extends \Test\TestCase {
-
 	private $datadir;
 
 	/**
@@ -55,9 +54,9 @@ class UtilCheckServerTest extends \Test\TestCase {
 	 * Test that checkServer() returns no errors in the regular case.
 	 */
 	public function testCheckServer() {
-		$result = \OC_Util::checkServer($this->getConfig(array(
+		$result = \OC_Util::checkServer($this->getConfig([
 			'installed' => true
-		)));
+		]));
 		$this->assertEmpty($result);
 	}
 
@@ -72,9 +71,9 @@ class UtilCheckServerTest extends \Test\TestCase {
 
 		// even though ".ocdata" is missing, the error isn't
 		// triggered to allow setup to run
-		$result = \OC_Util::checkServer($this->getConfig(array(
+		$result = \OC_Util::checkServer($this->getConfig([
 			'installed' => false
-		)));
+		]));
 		$this->assertEmpty($result);
 	}
 
@@ -91,14 +90,14 @@ class UtilCheckServerTest extends \Test\TestCase {
 		$oldCurrentVersion = $session->get('OC_Version');
 
 		// upgrade condition to simulate needUpgrade() === true
-		$session->set('OC_Version', array(6, 0, 0, 2));
+		$session->set('OC_Version', [6, 0, 0, 2]);
 
 		// even though ".ocdata" is missing, the error isn't
 		// triggered to allow for upgrade
-		$result = \OC_Util::checkServer($this->getConfig(array(
+		$result = \OC_Util::checkServer($this->getConfig([
 			'installed' => true,
 			'version' => '6.0.0.1'
-		)));
+		]));
 		$this->assertEmpty($result);
 
 		// restore versions
@@ -123,10 +122,10 @@ class UtilCheckServerTest extends \Test\TestCase {
 		$result = \OC_Util::checkDataDirectoryValidity($this->datadir);
 		$this->assertEquals(1, count($result));
 
-		$result = \OC_Util::checkServer($this->getConfig(array(
+		$result = \OC_Util::checkServer($this->getConfig([
 			'installed' => true,
 			'version' => implode('.', \OCP\Util::getVersion())
-		)));
+		]));
 		$this->assertCount(1, $result);
 	}
 
@@ -134,10 +133,10 @@ class UtilCheckServerTest extends \Test\TestCase {
 	 * Tests that no error is given when the datadir is writable
 	 */
 	public function testDataDirWritable() {
-		$result = \OC_Util::checkServer($this->getConfig(array(
+		$result = \OC_Util::checkServer($this->getConfig([
 			'installed' => true,
 			'version' => implode('.', \OCP\Util::getVersion())
-		)));
+		]));
 		$this->assertEmpty($result);
 	}
 
@@ -148,10 +147,10 @@ class UtilCheckServerTest extends \Test\TestCase {
 		$this->markTestSkipped('TODO: Disable because fails on drone');
 
 		chmod($this->datadir, 0300);
-		$result = \OC_Util::checkServer($this->getConfig(array(
+		$result = \OC_Util::checkServer($this->getConfig([
 			'installed' => true,
 			'version' => implode('.', \OCP\Util::getVersion())
-		)));
+		]));
 		$this->assertCount(1, $result);
 	}
 
@@ -160,10 +159,10 @@ class UtilCheckServerTest extends \Test\TestCase {
 	 */
 	public function testDataDirNotWritableSetup() {
 		chmod($this->datadir, 0300);
-		$result = \OC_Util::checkServer($this->getConfig(array(
+		$result = \OC_Util::checkServer($this->getConfig([
 			'installed' => false,
 			'version' => implode('.', \OCP\Util::getVersion())
-		)));
+		]));
 		chmod($this->datadir, 0700); //needed for cleanup
 		$this->assertEmpty($result);
 	}

@@ -42,7 +42,8 @@ class ImageManager {
 	 * @param IConfig $config
 	 * @param IAppData $appData
 	 */
-	public function __construct(IConfig $config,
+	public function __construct(
+		IConfig $config,
 								IAppData $appData
 	) {
 		$this->config = $config;

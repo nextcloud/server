@@ -202,8 +202,10 @@ class LoginControllerTest extends TestCase {
 	/**
 	 * @dataProvider passwordResetDataProvider
 	 */
-	public function testShowLoginFormWithPasswordResetOption($canChangePassword,
-															 $expectedResult) {
+	public function testShowLoginFormWithPasswordResetOption(
+		$canChangePassword,
+															 $expectedResult
+	) {
 		$this->userSession
 			->expects($this->once())
 			->method('isLoggedIn')
@@ -367,7 +369,7 @@ class LoginControllerTest extends TestCase {
 		$user->expects($this->any())
 			->method('getUID')
 			->will($this->returnValue('uid'));
-		$loginName  = 'loginli';
+		$loginName = 'loginli';
 		$password = 'secret';
 		$indexPageUrl = \OC_Util::getDefaultPageUrl();
 

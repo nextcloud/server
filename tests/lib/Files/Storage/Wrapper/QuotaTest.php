@@ -31,8 +31,8 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 		parent::setUp();
 
 		$this->tmpDir = \OC::$server->getTempManager()->getTemporaryFolder();
-		$storage = new \OC\Files\Storage\Local(array('datadir' => $this->tmpDir));
-		$this->instance = new \OC\Files\Storage\Wrapper\Quota(array('storage' => $storage, 'quota' => 10000000));
+		$storage = new \OC\Files\Storage\Local(['datadir' => $this->tmpDir]);
+		$this->instance = new \OC\Files\Storage\Wrapper\Quota(['storage' => $storage, 'quota' => 10000000]);
 	}
 
 	protected function tearDown() {
@@ -44,10 +44,10 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 	 * @param integer $limit
 	 */
 	protected function getLimitedStorage($limit) {
-		$storage = new \OC\Files\Storage\Local(array('datadir' => $this->tmpDir));
+		$storage = new \OC\Files\Storage\Local(['datadir' => $this->tmpDir]);
 		$storage->mkdir('files');
 		$storage->getScanner()->scan('');
-		return new \OC\Files\Storage\Wrapper\Quota(array('storage' => $storage, 'quota' => $limit));
+		return new \OC\Files\Storage\Wrapper\Quota(['storage' => $storage, 'quota' => $limit]);
 	}
 
 	public function testFilePutContentsNotEnoughSpace() {
@@ -70,7 +70,8 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 	public function testFreeSpaceWithUsedSpace() {
 		$instance = $this->getLimitedStorage(9);
 		$instance->getCache()->put(
-			'', array('size' => 3)
+			'',
+			['size' => 3]
 		);
 		$this->assertEquals(6, $instance->free_space(''));
 	}
@@ -85,9 +86,10 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 			->will($this->returnValue(-2));
 		$storage->getScanner()->scan('');
 
-		$instance = new \OC\Files\Storage\Wrapper\Quota(array('storage' => $storage, 'quota' => 9));
+		$instance = new \OC\Files\Storage\Wrapper\Quota(['storage' => $storage, 'quota' => 9]);
 		$instance->getCache()->put(
-			'', array('size' => 3)
+			'',
+			['size' => 3]
 		);
 		$this->assertEquals(6, $instance->free_space(''));
 	}
@@ -95,7 +97,8 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 	public function testFreeSpaceWithUsedSpaceAndEncryption() {
 		$instance = $this->getLimitedStorage(9);
 		$instance->getCache()->put(
-			'', array('size' => 7)
+			'',
+			['size' => 7]
 		);
 		$this->assertEquals(2, $instance->free_space(''));
 	}
@@ -140,7 +143,7 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 			->method('fopen')
 			->will($this->returnValue(false));
 
-		$instance = new \OC\Files\Storage\Wrapper\Quota(array('storage' => $failStorage, 'quota' => 1000));
+		$instance = new \OC\Files\Storage\Wrapper\Quota(['storage' => $failStorage, 'quota' => 1000]);
 
 		$this->assertFalse($instance->fopen('failedfopen', 'r'));
 	}
@@ -198,7 +201,7 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 			->with('files')
 			->will($this->returnValue(new CacheEntry(['size' => 50])));
 
-		$instance = new \OC\Files\Storage\Wrapper\Quota(array('storage' => $storage, 'quota' => 1024, 'root' => 'files'));
+		$instance = new \OC\Files\Storage\Wrapper\Quota(['storage' => $storage, 'quota' => 1024, 'root' => 'files']);
 
 		$this->assertEquals(1024 - 50, $instance->free_space(''));
 	}

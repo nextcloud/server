@@ -53,5 +53,4 @@ class ActionFactory implements IActionFactory {
 	public function newEMailAction($icon, $name, $email) {
 		return $this->newLinkAction($icon, $name, 'mailto:' . urlencode($email));
 	}
-
 }

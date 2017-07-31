@@ -34,7 +34,6 @@ use OCP\AppFramework\OCSController;
 use OCP\IRequest;
 use OC\AppFramework\Middleware\OCSMiddleware;
 
-
 class OCSMiddlewareTest extends \Test\TestCase {
 
 	/**
@@ -238,5 +237,4 @@ class OCSMiddlewareTest extends \Test\TestCase {
 			$this->assertSame(Http::STATUS_UNAUTHORIZED, $newResponse->getStatus());
 		}
 	}
-
 }

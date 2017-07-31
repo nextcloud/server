@@ -198,7 +198,7 @@ class DetectionTest extends \Test\TestCase {
 				[$this->equalTo('core'), $this->equalTo('filetypes/my.png')]
 			)
 			->will($this->returnCallback(
-				function($appName, $file) {
+				function ($appName, $file) {
 					if ($file === 'filetypes/my.png') {
 						return 'my.svg';
 					}
@@ -229,7 +229,7 @@ class DetectionTest extends \Test\TestCase {
 				[$this->equalTo('core'), $this->equalTo('filetypes/file.png')]
 			)
 			->will($this->returnCallback(
-				function($appName, $file) {
+				function ($appName, $file) {
 					if ($file === 'filetypes/file.png') {
 						return 'file.svg';
 					}

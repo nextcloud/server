@@ -28,7 +28,6 @@ use OCP\IURLGenerator;
 use Test\TestCase;
 
 class SecurityFilterTest extends TestCase {
-
 	private $urlGenerator;
 	private $l10n;
 
@@ -79,5 +78,4 @@ class SecurityFilterTest extends TestCase {
 	public function testGetPriority() {
 		$this->assertEquals(30, $this->filter->getPriority());
 	}
-
 }

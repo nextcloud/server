@@ -36,8 +36,10 @@ class Manager {
 	 * @param Factory $appDataFactory
 	 * @param ICrypto $crypto
 	 */
-	public function __construct(Factory $appDataFactory,
-								ICrypto $crypto) {
+	public function __construct(
+		Factory $appDataFactory,
+								ICrypto $crypto
+	) {
 		$this->appData = $appDataFactory->get('identityproof');
 		$this->crypto = $crypto;
 	}
@@ -78,7 +80,8 @@ class Manager {
 		// Write the private and public key to the disk
 		try {
 			$this->appData->newFolder($user->getUID());
-		} catch (\Exception $e) {}
+		} catch (\Exception $e) {
+		}
 		$folder = $this->appData->getFolder($user->getUID());
 		$folder->newFile('private')
 			->putContent($this->crypto->encrypt($privateKey));

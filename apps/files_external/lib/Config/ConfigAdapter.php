@@ -77,7 +77,8 @@ class ConfigAdapter implements IMountProvider {
 	private function prepareStorageConfig(StorageConfig &$storage, IUser $user) {
 		foreach ($storage->getBackendOptions() as $option => $value) {
 			$storage->setBackendOption($option, \OC_Mount_Config::setUserVars(
-				$user->getUID(), $value
+				$user->getUID(),
+				$value
 			));
 		}
 
@@ -126,7 +127,7 @@ class ConfigAdapter implements IMountProvider {
 
 		$storageConfigs = $this->userGlobalStoragesService->getAllStoragesForUser();
 
-		$storages = array_map(function(StorageConfig $storageConfig) use ($user) {
+		$storages = array_map(function (StorageConfig $storageConfig) use ($user) {
 			try {
 				$this->prepareStorageConfig($storageConfig, $user);
 				return $this->constructStorage($storageConfig);
@@ -137,7 +138,7 @@ class ConfigAdapter implements IMountProvider {
 		}, $storageConfigs);
 
 
-		\OC\Files\Cache\Storage::getGlobalCache()->loadForStorageIds(array_map(function(Storage\IStorage $storage) {
+		\OC\Files\Cache\Storage::getGlobalCache()->loadForStorageIds(array_map(function (Storage\IStorage $storage) {
 			return $storage->getId();
 		}, $storages));
 
@@ -156,7 +157,7 @@ class ConfigAdapter implements IMountProvider {
 			return $storage;
 		}, $storages, $storageConfigs);
 
-		$mounts = array_map(function(StorageConfig $storageConfig, Storage\IStorage $storage) use ($user, $loader) {
+		$mounts = array_map(function (StorageConfig $storageConfig, Storage\IStorage $storage) use ($user, $loader) {
 			if ($storageConfig->getType() === StorageConfig::MOUNT_TYPE_PERSONAl) {
 				return new PersonalMount(
 					$this->userStoragesService,

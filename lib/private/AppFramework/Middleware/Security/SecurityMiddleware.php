@@ -102,7 +102,8 @@ class SecurityMiddleware extends Middleware {
 	 * @param CSRFTokenManager $csrfTokenManager
 	 * @param ContentSecurityPolicyNonceManager $cspNonceManager
 	 */
-	public function __construct(IRequest $request,
+	public function __construct(
+		IRequest $request,
 								ControllerMethodReflector $reflector,
 								INavigationManager $navigationManager,
 								IURLGenerator $urlGenerator,
@@ -113,7 +114,8 @@ class SecurityMiddleware extends Middleware {
 								$isAdminUser,
 								ContentSecurityPolicyManager $contentSecurityPolicyManager,
 								CsrfTokenManager $csrfTokenManager,
-								ContentSecurityPolicyNonceManager $cspNonceManager) {
+								ContentSecurityPolicyNonceManager $cspNonceManager
+	) {
 		$this->navigationManager = $navigationManager;
 		$this->request = $request;
 		$this->reflector = $reflector;
@@ -144,13 +146,13 @@ class SecurityMiddleware extends Middleware {
 
 		// security checks
 		$isPublicPage = $this->reflector->hasAnnotation('PublicPage');
-		if(!$isPublicPage) {
-			if(!$this->isLoggedIn) {
+		if (!$isPublicPage) {
+			if (!$this->isLoggedIn) {
 				throw new NotLoggedInException();
 			}
 
-			if(!$this->reflector->hasAnnotation('NoAdminRequired')) {
-				if(!$this->isAdminUser) {
+			if (!$this->reflector->hasAnnotation('NoAdminRequired')) {
+				if (!$this->isAdminUser) {
 					throw new NotAdminException();
 				}
 			}
@@ -164,22 +166,23 @@ class SecurityMiddleware extends Middleware {
 		}
 
 		// Check for strict cookie requirement
-		if($this->reflector->hasAnnotation('StrictCookieRequired') || !$this->reflector->hasAnnotation('NoCSRFRequired')) {
-			if(!$this->request->passesStrictCookieCheck()) {
+		if ($this->reflector->hasAnnotation('StrictCookieRequired') || !$this->reflector->hasAnnotation('NoCSRFRequired')) {
+			if (!$this->request->passesStrictCookieCheck()) {
 				throw new StrictCookieMissingException();
 			}
 		}
 		// CSRF check - also registers the CSRF token since the session may be closed later
 		Util::callRegister();
-		if(!$this->reflector->hasAnnotation('NoCSRFRequired')) {
+		if (!$this->reflector->hasAnnotation('NoCSRFRequired')) {
 			/*
 			 * Only allow the CSRF check to fail on OCS Requests. This kind of
 			 * hacks around that we have no full token auth in place yet and we
 			 * do want to offer CSRF checks for web requests.
 			 */
-			if(!$this->request->passesCSRFCheck() && !(
+			if (!$this->request->passesCSRFCheck() && !(
 					$controller instanceof OCSController &&
-					$this->request->getHeader('OCS-APIREQUEST') === 'true')) {
+					$this->request->getHeader('OCS-APIREQUEST') === 'true'
+			)) {
 				throw new CrossSiteRequestForgeryException();
 			}
 		}
@@ -190,10 +193,9 @@ class SecurityMiddleware extends Middleware {
 		 * The getAppPath() check is here since components such as settings also use the AppFramework and
 		 * therefore won't pass this check.
 		 */
-		if(\OC_App::getAppPath($this->appName) !== false && !\OC_App::isEnabled($this->appName)) {
+		if (\OC_App::getAppPath($this->appName) !== false && !\OC_App::isEnabled($this->appName)) {
 			throw new AppNotEnabledException();
 		}
-
 	}
 
 	/**
@@ -215,7 +217,7 @@ class SecurityMiddleware extends Middleware {
 		$defaultPolicy = $this->contentSecurityPolicyManager->getDefaultPolicy();
 		$defaultPolicy = $this->contentSecurityPolicyManager->mergePolicies($defaultPolicy, $policy);
 
-		if($this->cspNonceManager->browserSupportsCspV3()) {
+		if ($this->cspNonceManager->browserSupportsCspV3()) {
 			$defaultPolicy->useJsNonce($this->csrfTokenManager->getToken()->getEncryptedValue());
 		}
 
@@ -235,17 +237,17 @@ class SecurityMiddleware extends Middleware {
 	 * @return Response a Response object or null in case that the exception could not be handled
 	 */
 	public function afterException($controller, $methodName, \Exception $exception) {
-		if($exception instanceof SecurityException) {
-			if($exception instanceof StrictCookieMissingException) {
+		if ($exception instanceof SecurityException) {
+			if ($exception instanceof StrictCookieMissingException) {
 				return new RedirectResponse(\OC::$WEBROOT);
- 			}
-			if (stripos($this->request->getHeader('Accept'),'html') === false) {
+			}
+			if (stripos($this->request->getHeader('Accept'), 'html') === false) {
 				$response = new JSONResponse(
-					array('message' => $exception->getMessage()),
+					['message' => $exception->getMessage()],
 					$exception->getCode()
 				);
 			} else {
-				if($exception instanceof NotLoggedInException) {
+				if ($exception instanceof NotLoggedInException) {
 					$params = [];
 					if (isset($this->request->server['REQUEST_URI'])) {
 						$params['redirect_url'] = $this->request->server['REQUEST_URI'];
@@ -264,5 +266,4 @@ class SecurityMiddleware extends Middleware {
 
 		throw $exception;
 	}
-
 }

@@ -62,7 +62,6 @@ class SettingsControllerTest extends TestCase {
 	private $utilMock;
 
 	protected function setUp() {
-
 		parent::setUp();
 
 		$this->requestMock = $this->createMock(IRequest::class);
@@ -72,7 +71,7 @@ class SettingsControllerTest extends TestCase {
 
 		$this->l10nMock->expects($this->any())
 			->method('t')
-			->will($this->returnCallback(function($message) {
+			->will($this->returnCallback(function ($message) {
 				return $message;
 			}));
 
@@ -133,7 +132,6 @@ class SettingsControllerTest extends TestCase {
 	 * test updatePrivateKeyPassword() if wrong new password was entered
 	 */
 	public function testUpdatePrivateKeyPasswordWrongNewPassword() {
-
 		$oldPassword = 'old';
 		$newPassword = 'new';
 
@@ -149,15 +147,16 @@ class SettingsControllerTest extends TestCase {
 		$data = $result->getData();
 
 		$this->assertSame(Http::STATUS_BAD_REQUEST, $result->getStatus());
-		$this->assertSame('The current log-in password was not correct, please try again.',
-			$data['message']);
+		$this->assertSame(
+			'The current log-in password was not correct, please try again.',
+			$data['message']
+		);
 	}
 
 	/**
 	 * test updatePrivateKeyPassword() if wrong old password was entered
 	 */
 	public function testUpdatePrivateKeyPasswordWrongOldPassword() {
-
 		$oldPassword = 'old';
 		$newPassword = 'new';
 
@@ -176,15 +175,16 @@ class SettingsControllerTest extends TestCase {
 		$data = $result->getData();
 
 		$this->assertSame(Http::STATUS_BAD_REQUEST, $result->getStatus());
-		$this->assertSame('The old password was not correct, please try again.',
-			$data['message']);
+		$this->assertSame(
+			'The old password was not correct, please try again.',
+			$data['message']
+		);
 	}
 
 	/**
 	 * test updatePrivateKeyPassword() with the correct old and new password
 	 */
 	public function testUpdatePrivateKeyPassword() {
-
 		$oldPassword = 'old';
 		$newPassword = 'new';
 
@@ -240,14 +240,15 @@ class SettingsControllerTest extends TestCase {
 		$data = $result->getData();
 
 		$this->assertSame(Http::STATUS_OK, $result->getStatus());
-		$this->assertSame('Private key password successfully updated.',
-			$data['message']);
+		$this->assertSame(
+			'Private key password successfully updated.',
+			$data['message']
+		);
 	}
 
-	function testSetEncryptHomeStorage() {
+	public function testSetEncryptHomeStorage() {
 		$value = true;
 		$this->utilMock->expects($this->once())->method('setEncryptHomeStorage')->with($value);
 		$this->controller->setEncryptHomeStorage($value);
 	}
-
 }

@@ -21,7 +21,6 @@
 
 namespace OCP\WorkflowEngine;
 
-
 use OCP\Files\Storage\IStorage;
 
 /**

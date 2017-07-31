@@ -140,7 +140,7 @@ class File extends Command implements Completion\CompletionAwareInterface {
 				Completion::TYPE_OPTION
 			);
 			return $helper->run();
-		} else if ($optionName === 'rotate-size') {
+		} elseif ($optionName === 'rotate-size') {
 			return [0];
 		}
 		return [];

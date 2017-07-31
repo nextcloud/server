@@ -38,7 +38,7 @@ class Platform {
 	/**
 	 * @param IConfig $config
 	 */
-	function __construct(IConfig $config) {
+	public function __construct(IConfig $config) {
 		$this->config = $config;
 	}
 

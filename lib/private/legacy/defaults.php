@@ -30,7 +30,6 @@
  *
  */
 class OC_Defaults {
-
 	private $theme;
 	private $l;
 
@@ -277,7 +276,6 @@ class OC_Defaults {
 	 * @return string
 	 */
 	public function getColorPrimary() {
-
 		if ($this->themeExist('getColorPrimary')) {
 			return $this->theme->getColorPrimary();
 		}
@@ -291,7 +289,7 @@ class OC_Defaults {
 	 * @return array scss variables to overwrite
 	 */
 	public function getScssVariables() {
-		if($this->themeExist('getScssVariables')) {
+		if ($this->themeExist('getScssVariables')) {
 			return $this->theme->getScssVariables();
 		}
 		return [];
@@ -312,11 +310,11 @@ class OC_Defaults {
 			return $this->theme->getLogo($useSvg);
 		}
 
-		if($useSvg) {
+		if ($useSvg) {
 			$logo = \OC::$server->getURLGenerator()->imagePath('core', 'logo.svg');
 		} else {
 			$logo = \OC::$server->getURLGenerator()->imagePath('core', 'logo.png');
 		}
-	    return $logo . '?v=' . hash('sha1', implode('.', \OCP\Util::getVersion()));
+		return $logo . '?v=' . hash('sha1', implode('.', \OCP\Util::getVersion()));
 	}
 }

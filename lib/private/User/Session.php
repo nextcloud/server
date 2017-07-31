@@ -113,7 +113,8 @@ class Session implements IUserSession, Emitter {
 	 * @param ISecureRandom $random
 	 * @param ILockdownManager $lockdownManager
 	 */
-	public function __construct(IUserManager $manager,
+	public function __construct(
+		IUserManager $manager,
 								ISession $session,
 								ITimeFactory $timeFactory,
 								$tokenProvider,
@@ -341,14 +342,14 @@ class Session implements IUserSession, Emitter {
 			throw new LoginException($message);
 		}
 
-		if($regenerateSessionId) {
+		if ($regenerateSessionId) {
 			$this->session->regenerateId();
 		}
 
 		$this->setUser($user);
 		$this->setLoginName($loginDetails['loginName']);
 
-		if(isset($loginDetails['token']) && $loginDetails['token'] instanceof IToken) {
+		if (isset($loginDetails['token']) && $loginDetails['token'] instanceof IToken) {
 			$this->setToken($loginDetails['token']->getId());
 			$this->lockdownManager->setToken($loginDetails['token']);
 			$firstTimeLogin = false;
@@ -357,7 +358,7 @@ class Session implements IUserSession, Emitter {
 			$firstTimeLogin = $user->updateLastLoginTimestamp();
 		}
 		$this->manager->emit('\OC\User', 'postLogin', [$user, $loginDetails['password']]);
-		if($this->isLoggedIn()) {
+		if ($this->isLoggedIn()) {
 			$this->prepareUserLogin($firstTimeLogin);
 			return true;
 		} else {
@@ -380,14 +381,16 @@ class Session implements IUserSession, Emitter {
 	 * @throws PasswordLoginForbiddenException
 	 * @return boolean
 	 */
-	public function logClientIn($user,
+	public function logClientIn(
+		$user,
 								$password,
 								IRequest $request,
-								OC\Security\Bruteforce\Throttler $throttler) {
+								OC\Security\Bruteforce\Throttler $throttler
+	) {
 		$currentDelay = $throttler->sleepDelay($request->getRemoteAddress(), 'login');
 
 		if ($this->manager instanceof PublicEmitter) {
-			$this->manager->emit('\OC\User', 'preLogin', array($user, $password));
+			$this->manager->emit('\OC\User', 'preLogin', [$user, $password]);
 		}
 
 		$isTokenPassword = $this->isTokenPassword($password);
@@ -397,14 +400,14 @@ class Session implements IUserSession, Emitter {
 		if (!$isTokenPassword && $this->isTwoFactorEnforced($user)) {
 			throw new PasswordLoginForbiddenException();
 		}
-		if (!$this->login($user, $password) ) {
+		if (!$this->login($user, $password)) {
 			$users = $this->manager->getByEmail($user);
 			if (count($users) === 1) {
 				return $this->login($users[0]->getUID(), $password);
 			}
 
 			$throttler->registerAttempt('login', $request->getRemoteAddress(), ['uid' => $user]);
-			if($currentDelay === 0) {
+			if ($currentDelay === 0) {
 				$throttler->sleepDelay($request->getRemoteAddress(), 'login');
 			}
 			return false;
@@ -412,7 +415,7 @@ class Session implements IUserSession, Emitter {
 
 		if ($isTokenPassword) {
 			$this->session->set('app_password', $password);
-		} else if($this->supportsCookies($request)) {
+		} elseif ($this->supportsCookies($request)) {
 			// Password login, but cookies supported -> create (browser) session token
 			$this->createSessionToken($request, $this->getUser()->getUID(), $user, $password);
 		}
@@ -436,7 +439,7 @@ class Session implements IUserSession, Emitter {
 		Util::emitHook(
 			'\OCA\Files_Sharing\API\Server2Server',
 			'preLoginNameUsedAsUserName',
-			array('uid' => &$username)
+			['uid' => &$username]
 		);
 		$user = $this->manager->get($username);
 		if (is_null($user)) {
@@ -501,8 +504,10 @@ class Session implements IUserSession, Emitter {
 	 * @param OC\Security\Bruteforce\Throttler $throttler
 	 * @return boolean if the login was successful
 	 */
-	public function tryBasicAuthLogin(IRequest $request,
-									  OC\Security\Bruteforce\Throttler $throttler) {
+	public function tryBasicAuthLogin(
+		IRequest $request,
+									  OC\Security\Bruteforce\Throttler $throttler
+	) {
 		if (!empty($request->server['PHP_AUTH_USER']) && !empty($request->server['PHP_AUTH_PW'])) {
 			try {
 				if ($this->logClientIn($request->server['PHP_AUTH_USER'], $request->server['PHP_AUTH_PW'], $request, $throttler)) {
@@ -514,11 +519,12 @@ class Session implements IUserSession, Emitter {
 					 * @see https://github.com/owncloud/core/issues/22893
 					 */
 					$this->session->set(
-						Auth::DAV_AUTHENTICATED, $this->getUser()->getUID()
+						Auth::DAV_AUTHENTICATED,
+						$this->getUser()->getUID()
 					);
 
 					// Set the last-password-confirm session to make the sudo mode work
-					 $this->session->set('last-password-confirm', $this->timeFactory->getTime());
+					$this->session->set('last-password-confirm', $this->timeFactory->getTime());
 
 					return true;
 				}
@@ -570,7 +576,7 @@ class Session implements IUserSession, Emitter {
 			// Ignore and use empty string instead
 		}
 
-		$this->manager->emit('\OC\User', 'preLogin', array($uid, $password));
+		$this->manager->emit('\OC\User', 'preLogin', [$uid, $password]);
 
 		$user = $this->manager->get($uid);
 		if (is_null($user)) {
@@ -585,7 +591,8 @@ class Session implements IUserSession, Emitter {
 				'password' => $password,
 				'token' => $dbToken
 			],
-			false);
+			false
+		);
 	}
 
 	/**
@@ -739,7 +746,7 @@ class Session implements IUserSession, Emitter {
 		if (!$this->loginWithToken($token)) {
 			return false;
 		}
-		if(!$this->validateToken($token)) {
+		if (!$this->validateToken($token)) {
 			return false;
 		}
 		return true;
@@ -755,7 +762,7 @@ class Session implements IUserSession, Emitter {
 	 */
 	public function loginWithCookie($uid, $currentToken, $oldSessionId) {
 		$this->session->regenerateId();
-		$this->manager->emit('\OC\User', 'preRememberedLogin', array($uid));
+		$this->manager->emit('\OC\User', 'preRememberedLogin', [$uid]);
 		$user = $this->manager->get($uid);
 		if (is_null($user)) {
 			// user does not exist
@@ -821,7 +828,6 @@ class Session implements IUserSession, Emitter {
 			try {
 				$this->tokenProvider->invalidateToken($this->session->getId());
 			} catch (SessionNotAvailableException $ex) {
-
 			}
 		}
 		$this->setUser(null);
@@ -891,6 +897,4 @@ class Session implements IUserSession, Emitter {
 			// Nothing to do
 		}
 	}
-
-
 }

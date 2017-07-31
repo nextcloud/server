@@ -25,7 +25,7 @@
 namespace OC\Files\Type;
 
 class TemplateManager {
-	protected $templates = array();
+	protected $templates = [];
 
 	public function registerTemplate($mimetype, $path) {
 		$this->templates[$mimetype] = $path;

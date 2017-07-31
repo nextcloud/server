@@ -68,10 +68,13 @@ class DeletedUsersIndex {
 	 */
 	private function fetchDeletedUsers() {
 		$deletedUsers = $this->config->getUsersForUserValue(
-			'user_ldap', 'isDeleted', '1');
+			'user_ldap',
+			'isDeleted',
+			'1'
+		);
 
-		$userObjects = array();
-		foreach($deletedUsers as $user) {
+		$userObjects = [];
+		foreach ($deletedUsers as $user) {
 			$userObjects[] = new OfflineUser($user, $this->config, $this->db, $this->mapping);
 		}
 		$this->deletedUsers = $userObjects;
@@ -84,7 +87,7 @@ class DeletedUsersIndex {
 	 * @return \OCA\User_LDAP\User\OfflineUser[]
 	 */
 	public function getUsers() {
-		if(is_array($this->deletedUsers)) {
+		if (is_array($this->deletedUsers)) {
 			return $this->deletedUsers;
 		}
 		return $this->fetchDeletedUsers();
@@ -95,10 +98,10 @@ class DeletedUsersIndex {
 	 * @return bool
 	 */
 	public function hasUsers() {
-		if($this->deletedUsers === false) {
+		if ($this->deletedUsers === false) {
 			$this->fetchDeletedUsers();
 		}
-		if(is_array($this->deletedUsers) && count($this->deletedUsers) > 0) {
+		if (is_array($this->deletedUsers) && count($this->deletedUsers) > 0) {
 			return true;
 		}
 		return false;

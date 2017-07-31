@@ -37,7 +37,6 @@ use OCP\PreConditionNotMetException;
  * before the data structure is changed and the information is gone
  */
 class SaveAccountsTableData implements IRepairStep {
-
 	const BATCH_SIZE = 75;
 
 	/** @var IDBConnection */
@@ -164,7 +163,7 @@ class SaveAccountsTableData implements IRepairStep {
 		}
 		if ($state === 1) {
 			$this->config->setUserValue($userdata['user_id'], 'core', 'enabled', 'true');
-		} else if ($state === 2) {
+		} elseif ($state === 2) {
 			$this->config->setUserValue($userdata['user_id'], 'core', 'enabled', 'false');
 		}
 
@@ -173,7 +172,5 @@ class SaveAccountsTableData implements IRepairStep {
 				->setParameter('userid', $userdata['user_id']);
 			$update->execute();
 		}
-
 	}
 }
-

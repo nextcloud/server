@@ -74,7 +74,8 @@ class SettingsController extends Controller {
 	 * @param ISession $ocSession
 	 * @param Util $util
 	 */
-	public function __construct($AppName,
+	public function __construct(
+		$AppName,
 								IRequest $request,
 								IL10N $l10n,
 								IUserManager $userManager,
@@ -150,7 +151,6 @@ class SettingsController extends Controller {
 				Http::STATUS_BAD_REQUEST
 			);
 		}
-
 	}
 
 	/**

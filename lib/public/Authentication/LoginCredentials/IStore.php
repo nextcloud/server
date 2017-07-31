@@ -40,5 +40,4 @@ interface IStore {
 	 * @return ICredentials the login credentials of the current user
 	 */
 	public function getLoginCredentials();
-	
 }

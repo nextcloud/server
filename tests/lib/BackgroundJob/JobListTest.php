@@ -64,16 +64,16 @@ class JobListTest extends TestCase {
 	}
 
 	public function argumentProvider() {
-		return array(
-			array(null),
-			array(false),
-			array('foobar'),
-			array(12),
-			array(array(
+		return [
+			[null],
+			[false],
+			['foobar'],
+			[12],
+			[[
 				'asd' => 5,
 				'foo' => 'bar'
-			))
-		);
+			]]
+		];
 	}
 
 	/**

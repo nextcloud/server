@@ -39,6 +39,4 @@ class SessionStorageWrapper extends PermissionsMask {
 		$arguments['mask'] = Constants::PERMISSION_ALL & ~Constants::PERMISSION_SHARE;
 		parent::__construct($arguments);
 	}
-
 }
-

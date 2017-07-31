@@ -24,7 +24,6 @@
 
 namespace OCA\Encryption\Controller;
 
-
 use OCA\Encryption\Session;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
@@ -50,7 +49,8 @@ class StatusController extends Controller {
 	 * @param Session $session
 	 * @param IManager $encryptionManager
 	 */
-	public function __construct($AppName,
+	public function __construct(
+		$AppName,
 								IRequest $request,
 								IL10N $l10n,
 								Session $session,
@@ -67,10 +67,9 @@ class StatusController extends Controller {
 	 * @return DataResponse
 	 */
 	public function getStatus() {
-
 		$status = 'error';
 		$message = 'no valid init status';
-		switch( $this->session->getStatus()) {
+		switch ($this->session->getStatus()) {
 			case Session::RUN_MIGRATION:
 				$status = 'interactionNeeded';
 				$message = (string)$this->l->t(
@@ -108,5 +107,4 @@ class StatusController extends Controller {
 			]
 		);
 	}
-
 }

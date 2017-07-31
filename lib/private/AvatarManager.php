@@ -69,7 +69,8 @@ class AvatarManager implements IAvatarManager {
 			IAppData $appData,
 			IL10N $l,
 			ILogger $logger,
-			IConfig $config) {
+			IConfig $config
+	) {
 		$this->userManager = $userManager;
 		$this->appData = $appData;
 		$this->l = $l;

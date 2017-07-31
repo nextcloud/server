@@ -11,25 +11,24 @@ namespace Test\Security;
 use \OC\Security\SecureRandom;
 
 class SecureRandomTest extends \Test\TestCase {
-
 	public function stringGenerationProvider() {
-		return array(
-			array(0, 0),
-			array(1, 1),
-			array(128, 128),
-			array(256, 256),
-			array(1024, 1024),
-			array(2048, 2048),
-			array(64000, 64000),
-		);
+		return [
+			[0, 0],
+			[1, 1],
+			[128, 128],
+			[256, 256],
+			[1024, 1024],
+			[2048, 2048],
+			[64000, 64000],
+		];
 	}
 
 	public static function charCombinations() {
-		return array(
-			array('CHAR_LOWER', '[a-z]'),
-			array('CHAR_UPPER', '[A-Z]'),
-			array('CHAR_DIGITS', '[0-9]'),
-		);
+		return [
+			['CHAR_LOWER', '[a-z]'],
+			['CHAR_UPPER', '[A-Z]'],
+			['CHAR_DIGITS', '[0-9]'],
+		];
 	}
 
 	/** @var SecureRandom */
@@ -43,7 +42,7 @@ class SecureRandomTest extends \Test\TestCase {
 	/**
 	 * @dataProvider stringGenerationProvider
 	 */
-	function testGetLowStrengthGeneratorLength($length, $expectedLength) {
+	public function testGetLowStrengthGeneratorLength($length, $expectedLength) {
 		$generator = $this->rng;
 
 		$this->assertEquals($expectedLength, strlen($generator->generate($length)));
@@ -52,7 +51,7 @@ class SecureRandomTest extends \Test\TestCase {
 	/**
 	 * @dataProvider stringGenerationProvider
 	 */
-	function testMediumLowStrengthGeneratorLength($length, $expectedLength) {
+	public function testMediumLowStrengthGeneratorLength($length, $expectedLength) {
 		$generator = $this->rng;
 
 		$this->assertEquals($expectedLength, strlen($generator->generate($length)));
@@ -61,7 +60,7 @@ class SecureRandomTest extends \Test\TestCase {
 	/**
 	 * @dataProvider stringGenerationProvider
 	 */
-	function testUninitializedGenerate($length, $expectedLength) {
+	public function testUninitializedGenerate($length, $expectedLength) {
 		$this->assertEquals($expectedLength, strlen($this->rng->generate($length)));
 	}
 

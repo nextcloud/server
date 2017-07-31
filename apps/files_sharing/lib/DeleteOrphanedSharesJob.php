@@ -41,7 +41,7 @@ class DeleteOrphanedSharesJob extends TimedJob {
 	/**
 	 * sets the correct interval for this timed job
 	 */
-	public function __construct(){
+	public function __construct() {
 		$this->interval = $this->defaultIntervalMin * 60;
 	}
 
@@ -62,5 +62,4 @@ class DeleteOrphanedSharesJob extends TimedJob {
 		$deletedEntries = $connection->executeUpdate($sql);
 		$logger->debug("$deletedEntries orphaned share(s) deleted", ['app' => 'DeleteOrphanedSharesJob']);
 	}
-
 }

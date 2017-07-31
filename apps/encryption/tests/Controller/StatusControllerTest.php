@@ -24,7 +24,6 @@
 
 namespace OCA\Encryption\Tests\Controller;
 
-
 use OCA\Encryption\Controller\StatusController;
 use OCA\Encryption\Session;
 use OCP\Encryption\IManager;
@@ -49,7 +48,6 @@ class StatusControllerTest extends TestCase {
 	protected $controller;
 
 	protected function setUp() {
-
 		parent::setUp();
 
 		$this->sessionMock = $this->getMockBuilder('OCA\Encryption\Session')
@@ -60,17 +58,18 @@ class StatusControllerTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 		$this->l10nMock->expects($this->any())
 			->method('t')
-			->will($this->returnCallback(function($message) {
+			->will($this->returnCallback(function ($message) {
 				return $message;
 			}));
 		$this->encryptionManagerMock = $this->createMock(IManager::class);
 
-		$this->controller = new StatusController('encryptionTest',
+		$this->controller = new StatusController(
+			'encryptionTest',
 			$this->requestMock,
 			$this->l10nMock,
 			$this->sessionMock,
-			$this->encryptionManagerMock);
-
+			$this->encryptionManagerMock
+		);
 	}
 
 	/**
@@ -88,12 +87,12 @@ class StatusControllerTest extends TestCase {
 	}
 
 	public function dataTestGetStatus() {
-		return array(
-			array(Session::RUN_MIGRATION, 'interactionNeeded'),
-			array(Session::INIT_EXECUTED, 'interactionNeeded'),
-			array(Session::INIT_SUCCESSFUL, 'success'),
-			array(Session::NOT_INITIALIZED, 'interactionNeeded'),
-			array('unknown', 'error'),
-		);
+		return [
+			[Session::RUN_MIGRATION, 'interactionNeeded'],
+			[Session::INIT_EXECUTED, 'interactionNeeded'],
+			[Session::INIT_SUCCESSFUL, 'success'],
+			[Session::NOT_INITIALIZED, 'interactionNeeded'],
+			['unknown', 'error'],
+		];
 	}
 }

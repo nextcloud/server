@@ -23,6 +23,7 @@
  */
 
 namespace OCA\Files_External\Lib\Storage;
+
 use Sabre\DAV\Client;
 
 /**
@@ -32,7 +33,7 @@ use Sabre\DAV\Client;
  * http://%host/%context/remote.php/webdav/%root
  *
  */
-class OwnCloud extends \OC\Files\Storage\DAV{
+class OwnCloud extends \OC\Files\Storage\DAV {
 	const OC_URL_SUFFIX = 'remote.php/webdav';
 
 	public function __construct($params) {
@@ -43,28 +44,27 @@ class OwnCloud extends \OC\Files\Storage\DAV{
 		if (substr($host, 0, 8) == "https://") {
 			$host = substr($host, 8);
 			$params['secure'] = true;
-		} else if (substr($host, 0, 7) == "http://") {
+		} elseif (substr($host, 0, 7) == "http://") {
 			$host = substr($host, 7);
 			$params['secure'] = false;
 		}
 		$contextPath = '';
 		$hostSlashPos = strpos($host, '/');
-		if ($hostSlashPos !== false){
+		if ($hostSlashPos !== false) {
 			$contextPath = substr($host, $hostSlashPos);
 			$host = substr($host, 0, $hostSlashPos);
 		}
 
-		if (substr($contextPath, -1) !== '/'){
+		if (substr($contextPath, -1) !== '/') {
 			$contextPath .= '/';
 		}
 
-		if (isset($params['root'])){
+		if (isset($params['root'])) {
 			$root = $params['root'];
-			if (substr($root, 0, 1) !== '/'){
+			if (substr($root, 0, 1) !== '/') {
 				$root = '/' . $root;
 			}
-		}
-		else{
+		} else {
 			$root = '/';
 		}
 

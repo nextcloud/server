@@ -99,7 +99,7 @@ class AvatarTest extends \Test\TestCase {
 
 		$this->folder->method('getFile')
 			->will($this->returnCallback(
-				function($path) use ($file) {
+				function ($path) use ($file) {
 					if ($path === 'avatar.png') {
 						return $file;
 					} else {
@@ -190,5 +190,4 @@ class AvatarTest extends \Test\TestCase {
 
 		$this->avatar->set($image->data());
 	}
-
 }

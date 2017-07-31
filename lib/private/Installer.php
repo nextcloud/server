@@ -81,11 +81,13 @@ class Installer {
 	 * @param ILogger $logger
 	 * @param IConfig $config
 	 */
-	public function __construct(AppFetcher $appFetcher,
+	public function __construct(
+		AppFetcher $appFetcher,
 								IClientService $clientService,
 								ITempManager $tempManager,
 								ILogger $logger,
-								IConfig $config) {
+								IConfig $config
+	) {
 		$this->appFetcher = $appFetcher;
 		$this->clientService = $clientService;
 		$this->tempManager = $tempManager;
@@ -102,7 +104,7 @@ class Installer {
 	 */
 	public function installApp($appId) {
 		$app = \OC_App::findAppInDirectories($appId);
-		if($app === false) {
+		if ($app === false) {
 			throw new \Exception('App not found in any app directory');
 		}
 
@@ -111,9 +113,10 @@ class Installer {
 
 		$l = \OC::$server->getL10N('core');
 
-		if(!is_array($info)) {
+		if (!is_array($info)) {
 			throw new \Exception(
-				$l->t('App "%s" cannot be installed because appinfo file cannot be read.',
+				$l->t(
+					'App "%s" cannot be installed because appinfo file cannot be read.',
 					[$info['name']]
 				)
 			);
@@ -123,7 +126,8 @@ class Installer {
 		if (!\OC_App::isAppCompatible($version, $info)) {
 			throw new \Exception(
 				// TODO $l
-				$l->t('App "%s" cannot be installed because it is not compatible with this version of the server.',
+				$l->t(
+					'App "%s" cannot be installed because it is not compatible with this version of the server.',
 					[$info['name']]
 				)
 			);
@@ -134,7 +138,7 @@ class Installer {
 		\OC_App::registerAutoloading($appId, $basedir);
 
 		//install the database
-		if(is_file($basedir.'/appinfo/database.xml')) {
+		if (is_file($basedir.'/appinfo/database.xml')) {
 			if (\OC::$server->getAppConfig()->getValue($info['id'], 'installed_version') === null) {
 				OC_DB::createDbFromStructure($basedir.'/appinfo/database.xml');
 			} else {
@@ -146,12 +150,12 @@ class Installer {
 		}
 
 		\OC_App::setupBackgroundJobs($info['background-jobs']);
-		if(isset($info['settings']) && is_array($info['settings'])) {
+		if (isset($info['settings']) && is_array($info['settings'])) {
 			\OC::$server->getSettingsManager()->setupSettings($info['settings']);
 		}
 
 		//run appinfo/install.php
-		if((!isset($data['noinstall']) or $data['noinstall']==false)) {
+		if ((!isset($data['noinstall']) or $data['noinstall'] == false)) {
 			self::includeAppScript($basedir . '/appinfo/install.php');
 		}
 
@@ -163,10 +167,10 @@ class Installer {
 		\OC::$server->getConfig()->setAppValue($info['id'], 'enabled', 'no');
 
 		//set remote/public handlers
-		foreach($info['remote'] as $name=>$path) {
+		foreach ($info['remote'] as $name => $path) {
 			\OC::$server->getConfig()->setAppValue('core', 'remote_'.$name, $info['id'].'/'.$path);
 		}
-		foreach($info['public'] as $name=>$path) {
+		foreach ($info['public'] as $name => $path) {
 			\OC::$server->getConfig()->setAppValue('core', 'public_'.$name, $info['id'].'/'.$path);
 		}
 
@@ -182,7 +186,7 @@ class Installer {
 	 *
 	 * Checks whether or not an app is installed, i.e. registered in apps table.
 	 */
-	public static function isInstalled( $app ) {
+	public static function isInstalled($app) {
 		return (\OC::$server->getConfig()->getAppValue($app, "installed_version", null) !== null);
 	}
 
@@ -193,7 +197,7 @@ class Installer {
 	 * @return bool
 	 */
 	public function updateAppstoreApp($appId) {
-		if(self::isUpdateAvailable($appId, $this->appFetcher)) {
+		if (self::isUpdateAvailable($appId, $this->appFetcher)) {
 			try {
 				$this->downloadApp($appId);
 			} catch (\Exception $e) {
@@ -217,8 +221,8 @@ class Installer {
 		$appId = strtolower($appId);
 
 		$apps = $this->appFetcher->get();
-		foreach($apps as $app) {
-			if($app['id'] === $appId) {
+		foreach ($apps as $app) {
+			if ($app['id'] === $appId) {
 				// Load the certificate
 				$certificate = new X509();
 				$certificate->loadCA(file_get_contents(__DIR__ . '/../../resources/codesigning/root.crt'));
@@ -228,7 +232,7 @@ class Installer {
 				$crl = new X509();
 				$crl->loadCA(file_get_contents(__DIR__ . '/../../resources/codesigning/root.crt'));
 				$crl->loadCRL(file_get_contents(__DIR__ . '/../../resources/codesigning/root.crl'));
-				if($crl->validateSignature() !== true) {
+				if ($crl->validateSignature() !== true) {
 					throw new \Exception('Could not validate CRL signature');
 				}
 				$csn = $loadedCertificate['tbsCertificate']['serialNumber']->toString();
@@ -243,7 +247,7 @@ class Installer {
 				}
 
 				// Verify if the certificate has been issued by the Nextcloud Code Authority CA
-				if($certificate->validateSignature() !== true) {
+				if ($certificate->validateSignature() !== true) {
 					throw new \Exception(
 						sprintf(
 							'App with id %s has a certificate not issued by a trusted Code Signing Authority',
@@ -254,7 +258,7 @@ class Installer {
 
 				// Verify if the certificate is issued for the requested app id
 				$certInfo = openssl_x509_parse($app['certificate']);
-				if(!isset($certInfo['subject']['CN'])) {
+				if (!isset($certInfo['subject']['CN'])) {
 					throw new \Exception(
 						sprintf(
 							'App with id %s has a cert with no CN',
@@ -262,7 +266,7 @@ class Installer {
 						)
 					);
 				}
-				if($certInfo['subject']['CN'] !== $appId) {
+				if ($certInfo['subject']['CN'] !== $appId) {
 					throw new \Exception(
 						sprintf(
 							'App with id %s has a cert issued to %s',
@@ -282,18 +286,18 @@ class Installer {
 				$verified = (bool)openssl_verify(file_get_contents($tempFile), base64_decode($app['releases'][0]['signature']), $certificate, OPENSSL_ALGO_SHA512);
 				openssl_free_key($certificate);
 
-				if($verified === true) {
+				if ($verified === true) {
 					// Seems to match, let's proceed
 					$extractDir = $this->tempManager->getTemporaryFolder();
 					$archive = new TAR($tempFile);
 
-					if($archive) {
+					if ($archive) {
 						$archive->extract($extractDir);
 						$allFiles = scandir($extractDir);
 						$folders = array_diff($allFiles, ['.', '..']);
 						$folders = array_values($folders);
 
-						if(count($folders) > 1) {
+						if (count($folders) > 1) {
 							throw new \Exception(
 								sprintf(
 									'Extracted app %s has more than 1 folder',
@@ -306,7 +310,7 @@ class Installer {
 						$loadEntities = libxml_disable_entity_loader(false);
 						$xml = simplexml_load_file($extractDir . '/' . $folders[0] . '/appinfo/info.xml');
 						libxml_disable_entity_loader($loadEntities);
-						if((string)$xml->id !== $appId) {
+						if ((string)$xml->id !== $appId) {
 							throw new \Exception(
 								sprintf(
 									'App for id %s has a wrong app ID in info.xml: %s',
@@ -319,7 +323,7 @@ class Installer {
 						// Check if the version is lower than before
 						$currentVersion = OC_App::getAppVersion($appId);
 						$newVersion = (string)$xml->version;
-						if(version_compare($currentVersion, $newVersion) === 1) {
+						if (version_compare($currentVersion, $newVersion) === 1) {
 							throw new \Exception(
 								sprintf(
 									'App for id %s has version %s and tried to update to lower version %s',
@@ -334,7 +338,7 @@ class Installer {
 						// Remove old app with the ID if existent
 						OC_Helper::rmdirr($baseDir);
 						// Move to app folder
-						if(@mkdir($baseDir)) {
+						if (@mkdir($baseDir)) {
 							$extractDir .= '/' . $folders[0];
 							OC_Helper::copyr($extractDir, $baseDir);
 						}
@@ -377,8 +381,10 @@ class Installer {
 	 * @param AppFetcher $appFetcher
 	 * @return string|false false or the version number of the update
 	 */
-	public static function isUpdateAvailable($appId,
-									  AppFetcher $appFetcher) {
+	public static function isUpdateAvailable(
+		$appId,
+									  AppFetcher $appFetcher
+	) {
 		static $isInstanceReadyForUpdates = null;
 
 		if ($isInstanceReadyForUpdates === null) {
@@ -395,8 +401,8 @@ class Installer {
 		}
 
 		$apps = $appFetcher->get();
-		foreach($apps as $app) {
-			if($app['id'] === $appId) {
+		foreach ($apps as $app) {
+			if ($app['id'] === $appId) {
 				$currentVersion = OC_App::getAppVersion($appId);
 				$newestVersion = $app['releases'][0]['version'];
 				if (version_compare($newestVersion, $currentVersion, '>')) {
@@ -418,8 +424,8 @@ class Installer {
 	 * The function will check if the app is already downloaded in the apps repository
 	 */
 	public function isDownloaded($name) {
-		foreach(\OC::$APPSROOTS as $dir) {
-			$dirToTest  = $dir['path'];
+		foreach (\OC::$APPSROOTS as $dir) {
+			$dirToTest = $dir['path'];
 			$dirToTest .= '/';
 			$dirToTest .= $name;
 			$dirToTest .= '/';
@@ -446,16 +452,15 @@ class Installer {
 	 * this has to be done by the function oc_app_uninstall().
 	 */
 	public function removeApp($appId) {
-		if($this->isDownloaded( $appId )) {
+		if ($this->isDownloaded($appId)) {
 			$appDir = OC_App::getInstallPath() . '/' . $appId;
 			OC_Helper::rmdirr($appDir);
 			return true;
-		}else{
+		} else {
 			\OCP\Util::writeLog('core', 'can\'t remove app '.$appId.'. It is not installed.', \OCP\Util::ERROR);
 
 			return false;
 		}
-
 	}
 
 	/**
@@ -466,8 +471,8 @@ class Installer {
 	 */
 	public function installAppBundle(Bundle $bundle) {
 		$appIds = $bundle->getAppIdentifiers();
-		foreach($appIds as $appId) {
-			if(!$this->isDownloaded($appId)) {
+		foreach ($appIds as $appId) {
+			if (!$this->isDownloaded($appId)) {
 				$this->downloadApp($appId);
 			}
 			$this->installApp($appId);
@@ -489,13 +494,13 @@ class Installer {
 	 */
 	public static function installShippedApps($softErrors = false) {
 		$errors = [];
-		foreach(\OC::$APPSROOTS as $app_dir) {
-			if($dir = opendir( $app_dir['path'] )) {
-				while( false !== ( $filename = readdir( $dir ))) {
-					if( substr( $filename, 0, 1 ) != '.' and is_dir($app_dir['path']."/$filename") ) {
-						if( file_exists( $app_dir['path']."/$filename/appinfo/info.xml" )) {
-							if(!Installer::isInstalled($filename)) {
-								$info=OC_App::getAppInfo($filename);
+		foreach (\OC::$APPSROOTS as $app_dir) {
+			if ($dir = opendir($app_dir['path'])) {
+				while (false !== ($filename = readdir($dir))) {
+					if (substr($filename, 0, 1) != '.' and is_dir($app_dir['path']."/$filename")) {
+						if (file_exists($app_dir['path']."/$filename/appinfo/info.xml")) {
+							if (!Installer::isInstalled($filename)) {
+								$info = OC_App::getAppInfo($filename);
 								$enabled = isset($info['default_enable']);
 								if (($enabled || in_array($filename, \OC::$server->getAppManager()->getAlwaysEnabledApps()))
 									  && \OC::$server->getConfig()->getAppValue($filename, 'enabled') !== 'no') {
@@ -518,7 +523,7 @@ class Installer {
 						}
 					}
 				}
-				closedir( $dir );
+				closedir($dir);
 			}
 		}
 
@@ -535,14 +540,15 @@ class Installer {
 		$appPath = OC_App::getAppPath($app);
 		\OC_App::registerAutoloading($app, $appPath);
 
-		if(is_file("$appPath/appinfo/database.xml")) {
+		if (is_file("$appPath/appinfo/database.xml")) {
 			try {
 				OC_DB::createDbFromStructure("$appPath/appinfo/database.xml");
 			} catch (TableExistsException $e) {
 				throw new HintException(
 					'Failed to enable app ' . $app,
 					'Please ask for help via one of our <a href="https://nextcloud.com/support/" target="_blank" rel="noreferrer">support channels</a>.',
-					0, $e
+					0,
+					$e
 				);
 			}
 		} else {
@@ -569,16 +575,16 @@ class Installer {
 		}
 
 		//set remote/public handlers
-		foreach($info['remote'] as $name=>$path) {
+		foreach ($info['remote'] as $name => $path) {
 			$config->setAppValue('core', 'remote_'.$name, $app.'/'.$path);
 		}
-		foreach($info['public'] as $name=>$path) {
+		foreach ($info['public'] as $name => $path) {
 			$config->setAppValue('core', 'public_'.$name, $app.'/'.$path);
 		}
 
 		OC_App::setAppTypes($info['id']);
 
-		if(isset($info['settings']) && is_array($info['settings'])) {
+		if (isset($info['settings']) && is_array($info['settings'])) {
 			// requires that autoloading was registered for the app,
 			// as happens before running the install.php some lines above
 			\OC::$server->getSettingsManager()->setupSettings($info['settings']);
@@ -594,7 +600,7 @@ class Installer {
 	 */
 	public static function checkCode($folder) {
 		// is the code checker enabled?
-		if(!\OC::$server->getConfig()->getSystemValue('appcodechecker', false)) {
+		if (!\OC::$server->getConfig()->getSystemValue('appcodechecker', false)) {
 			return true;
 		}
 
@@ -608,7 +614,7 @@ class Installer {
 	 * @param string $script
 	 */
 	private static function includeAppScript($script) {
-		if ( file_exists($script) ){
+		if (file_exists($script)) {
 			include $script;
 		}
 	}

@@ -70,7 +70,7 @@ function handleException($e) {
 		$server->exec();
 	} else {
 		$statusCode = OC_Response::STATUS_INTERNAL_SERVER_ERROR;
-		if ($e instanceof \OC\ServiceUnavailableException ) {
+		if ($e instanceof \OC\ServiceUnavailableException) {
 			$statusCode = OC_Response::STATUS_SERVICE_UNAVAILABLE;
 		}
 		if ($e instanceof RemoteException) {
@@ -128,27 +128,27 @@ try {
 	if (!$pos = strpos($pathInfo, '/', 1)) {
 		$pos = strlen($pathInfo);
 	}
-	$service=substr($pathInfo, 1, $pos-1);
+	$service = substr($pathInfo, 1, $pos - 1);
 
 	$file = resolveService($service);
 
-	if(is_null($file)) {
+	if (is_null($file)) {
 		throw new RemoteException('Path not found', OC_Response::STATUS_NOT_FOUND);
 	}
 
-	$file=ltrim($file, '/');
+	$file = ltrim($file, '/');
 
-	$parts=explode('/', $file, 2);
-	$app=$parts[0];
+	$parts = explode('/', $file, 2);
+	$app = $parts[0];
 
 	// Load all required applications
 	\OC::$REQUESTEDAPP = $app;
-	OC_App::loadApps(array('authentication'));
-	OC_App::loadApps(array('filesystem', 'logging'));
+	OC_App::loadApps(['authentication']);
+	OC_App::loadApps(['filesystem', 'logging']);
 
 	switch ($app) {
 		case 'core':
-			$file =  OC::$SERVERROOT .'/'. $file;
+			$file = OC::$SERVERROOT .'/'. $file;
 			break;
 		default:
 			if (!\OC::$server->getAppManager()->isInstalled($app)) {
@@ -160,7 +160,6 @@ try {
 	}
 	$baseuri = OC::$WEBROOT . '/remote.php/'.$service.'/';
 	require_once $file;
-
 } catch (Exception $ex) {
 	handleException($ex);
 } catch (Error $e) {

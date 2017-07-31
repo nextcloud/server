@@ -71,9 +71,15 @@ class API {
 	 * @since 5.0.0
 	 * @deprecated 9.1.0 Use the AppFramework
 	 */
-	public static function register($method, $url, $action, $app, $authLevel = self::USER_AUTH,
-		$defaults = array(), $requirements = array()){
+	public static function register(
+		$method,
+		$url,
+		$action,
+		$app,
+		$authLevel = self::USER_AUTH,
+		$defaults = [],
+		$requirements = []
+	) {
 		\OC_API::register($method, $url, $action, $app, $authLevel, $defaults, $requirements);
 	}
-
 }

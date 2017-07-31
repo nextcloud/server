@@ -7,7 +7,6 @@ use OCP\Comments\IComment;
 use Test\TestCase;
 
 class CommentTest extends TestCase {
-
 	public function testSettersValidInput() {
 		$comment = new Comment();
 
@@ -106,7 +105,7 @@ class CommentTest extends TestCase {
 	 * @dataProvider roleSetterProvider
 	 * @expectedException \InvalidArgumentException
 	 */
-	public function testSetRoleInvalidInput($role, $type, $id){
+	public function testSetRoleInvalidInput($role, $type, $id) {
 		$comment = new Comment();
 		$setter = 'set' . $role;
 		$comment->$setter($type, $id);
@@ -151,11 +150,11 @@ class CommentTest extends TestCase {
 	public function testMentions($message, $expectedUids, $author = null) {
 		$comment = new Comment();
 		$comment->setMessage($message);
-		if(!is_null($author)) {
+		if (!is_null($author)) {
 			$comment->setActor('user', $author);
 		}
 		$mentions = $comment->getMentions();
-		while($mention = array_shift($mentions)) {
+		while ($mention = array_shift($mentions)) {
 			$uid = array_shift($expectedUids);
 			$this->assertSame('user', $mention['type']);
 			$this->assertSame($uid, $mention['id']);
@@ -164,7 +163,4 @@ class CommentTest extends TestCase {
 		$this->assertEmpty($mentions);
 		$this->assertEmpty($expectedUids);
 	}
-
-
-
 }

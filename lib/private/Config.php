@@ -39,11 +39,10 @@ namespace OC;
  * configuration file of ownCloud.
  */
 class Config {
-
 	const ENV_PREFIX = 'NC_';
 
 	/** @var array Associative array ($key => $value) */
-	protected $cache = array();
+	protected $cache = [];
 	/** @var string */
 	protected $configDir;
 	/** @var string */
@@ -184,7 +183,7 @@ class Config {
 	 */
 	private function readData() {
 		// Default config should always get loaded
-		$configFiles = array($this->configFilePath);
+		$configFiles = [$this->configFilePath];
 
 		// Add all files in the config dir ending with the same file name
 		$extra = glob($this->configDir.'*.'.$this->configFileName);
@@ -197,7 +196,7 @@ class Config {
 		foreach ($configFiles as $file) {
 			$fileExistsAndIsReadable = file_exists($file) && is_readable($file);
 			$filePointer = $fileExistsAndIsReadable ? fopen($file, 'r') : false;
-			if($file === $this->configFilePath &&
+			if ($file === $this->configFilePath &&
 				$filePointer === false) {
 				// Opening the main config might not be possible, e.g. if the wrong
 				// permissions are set (likely on a new installation)
@@ -205,13 +204,13 @@ class Config {
 			}
 
 			// Try to acquire a file lock
-			if(!flock($filePointer, LOCK_SH)) {
+			if (!flock($filePointer, LOCK_SH)) {
 				throw new \Exception(sprintf('Could not acquire a shared lock on the config file %s', $file));
 			}
 
 			unset($CONFIG);
 			include $file;
-			if(isset($CONFIG) && is_array($CONFIG)) {
+			if (isset($CONFIG) && is_array($CONFIG)) {
 				$this->cache = array_merge($this->cache, $CONFIG);
 			}
 
@@ -236,29 +235,30 @@ class Config {
 		$content .= var_export($this->cache, true);
 		$content .= ";\n";
 
-		touch ($this->configFilePath);
+		touch($this->configFilePath);
 		$filePointer = fopen($this->configFilePath, 'r+');
 
 		// Prevent others not to read the config
 		chmod($this->configFilePath, 0640);
 
 		// File does not exist, this can happen when doing a fresh install
-		if(!is_resource ($filePointer)) {
+		if (!is_resource($filePointer)) {
 			// TODO fix this via DI once it is very clear that this doesn't cause side effects due to initialization order
 			// currently this breaks app routes but also could have other side effects especially during setup and exception handling
 			$url = \OC::$server->getURLGenerator()->linkToDocs('admin-dir_permissions');
 			throw new HintException(
 				"Can't write into config directory!",
-				'This can usually be fixed by giving the webserver write access to the config directory. See ' . $url);
+				'This can usually be fixed by giving the webserver write access to the config directory. See ' . $url
+			);
 		}
 
 		// Try to acquire a file lock
-		if(!flock($filePointer, LOCK_EX)) {
+		if (!flock($filePointer, LOCK_EX)) {
 			throw new \Exception(sprintf('Could not acquire an exclusive lock on the config file %s', $this->configFilePath));
 		}
 
 		// Write the config and release the lock
-		ftruncate ($filePointer, 0);
+		ftruncate($filePointer, 0);
 		fwrite($filePointer, $content);
 		fflush($filePointer);
 		flock($filePointer, LOCK_UN);
@@ -271,4 +271,3 @@ class Config {
 		}
 	}
 }
-

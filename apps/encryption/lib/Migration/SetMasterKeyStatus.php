@@ -22,7 +22,6 @@
 
 namespace OCA\Encryption\Migration;
 
-
 use OCP\IConfig;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
@@ -73,5 +72,4 @@ class SetMasterKeyStatus implements IRepairStep {
 		$appVersion = $this->config->getAppValue('encryption', 'installed_version', '0.0.0');
 		return version_compare($appVersion, '2.0.0', '<');
 	}
-
 }

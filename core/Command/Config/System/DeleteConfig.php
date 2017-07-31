@@ -74,8 +74,7 @@ class DeleteConfig extends Base {
 
 			try {
 				$value = $this->removeSubValue(array_slice($configNames, 1), $value, $input->hasParameterOption('--error-if-not-exists'));
-			}
-			catch (\UnexpectedValueException $e) {
+			} catch (\UnexpectedValueException $e) {
 				$output->writeln('<error>System config ' . implode(' => ', $configNames) . ' could not be deleted because it did not exist</error>');
 				return 1;
 			}
@@ -105,10 +104,10 @@ class DeleteConfig extends Base {
 				} else {
 					$currentValue[$nextKey] = $this->removeSubValue($keys, $currentValue[$nextKey], $throwError);
 				}
-			} else if ($throwError) {
+			} elseif ($throwError) {
 				throw new \UnexpectedValueException('Config parameter does not exist');
 			}
-		} else if ($throwError) {
+		} elseif ($throwError) {
 			throw new \UnexpectedValueException('Config parameter does not exist');
 		}
 

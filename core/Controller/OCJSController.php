@@ -57,7 +57,8 @@ class OCJSController extends Controller {
 	 * @param IniGetWrapper $iniWrapper
 	 * @param IURLGenerator $urlGenerator
 	 */
-	public function __construct($appName,
+	public function __construct(
+		$appName,
 								IRequest $request,
 								IL10N $l,
 								Defaults $defaults,
@@ -67,7 +68,8 @@ class OCJSController extends Controller {
 								IConfig $config,
 								IGroupManager $groupManager,
 								IniGetWrapper $iniWrapper,
-								IURLGenerator $urlGenerator) {
+								IURLGenerator $urlGenerator
+	) {
 		parent::__construct($appName, $request);
 
 		$this->helper = new JSConfigHelper(

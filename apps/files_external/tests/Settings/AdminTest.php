@@ -89,14 +89,14 @@ class AdminTest extends TestCase {
 			->with('')
 			->willReturn('asdf:asdf');
 		$params = [
-			'encryptionEnabled'    => false,
-			'visibilityType'       => BackendService::VISIBILITY_ADMIN,
-			'storages'             => ['a', 'b', 'c'],
-			'backends'             => ['d', 'e', 'f'],
-			'authMechanisms'       => ['g', 'h', 'i'],
-			'dependencies'         => \OC_Mount_Config::dependencyMessage($this->backendService->getBackends()),
-			'allowUserMounting'    => true,
-			'globalCredentials'    => 'asdf:asdf',
+			'encryptionEnabled' => false,
+			'visibilityType' => BackendService::VISIBILITY_ADMIN,
+			'storages' => ['a', 'b', 'c'],
+			'backends' => ['d', 'e', 'f'],
+			'authMechanisms' => ['g', 'h', 'i'],
+			'dependencies' => \OC_Mount_Config::dependencyMessage($this->backendService->getBackends()),
+			'allowUserMounting' => true,
+			'globalCredentials' => 'asdf:asdf',
 			'globalCredentialsUid' => '',
 		];
 		$expected = new TemplateResponse('files_external', 'settings', $params, '');

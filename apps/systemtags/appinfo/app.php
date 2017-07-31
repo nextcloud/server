@@ -27,7 +27,7 @@ use OCP\SystemTag\MapperEvent;
 $eventDispatcher = \OC::$server->getEventDispatcher();
 $eventDispatcher->addListener(
 	'OCA\Files::loadAdditionalScripts',
-	function() {
+	function () {
 		// FIXME: no public API for these ?
 		\OCP\Util::addScript('oc-backbone-webdav');
 		\OCP\Util::addScript('systemtags/merged');
@@ -37,7 +37,7 @@ $eventDispatcher->addListener(
 	}
 );
 
-$managerListener = function(ManagerEvent $event) {
+$managerListener = function (ManagerEvent $event) {
 	$application = new \OCP\AppFramework\App('systemtags');
 	/** @var \OCA\SystemTags\Activity\Listener $listener */
 	$listener = $application->getContainer()->query('OCA\SystemTags\Activity\Listener');
@@ -48,7 +48,7 @@ $eventDispatcher->addListener(ManagerEvent::EVENT_CREATE, $managerListener);
 $eventDispatcher->addListener(ManagerEvent::EVENT_DELETE, $managerListener);
 $eventDispatcher->addListener(ManagerEvent::EVENT_UPDATE, $managerListener);
 
-$mapperListener = function(MapperEvent $event) {
+$mapperListener = function (MapperEvent $event) {
 	$application = new \OCP\AppFramework\App('systemtags');
 	/** @var \OCA\SystemTags\Activity\Listener $listener */
 	$listener = $application->getContainer()->query('OCA\SystemTags\Activity\Listener');
@@ -68,4 +68,3 @@ $eventDispatcher->addListener(MapperEvent::EVENT_UNASSIGN, $mapperListener);
 		'name' => $l->t('Tags'),
 	];
 });
-

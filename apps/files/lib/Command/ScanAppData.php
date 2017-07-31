@@ -111,10 +111,10 @@ class ScanAppData extends Base {
 				}
 			});
 		}
-		$scanner->listen('\OC\Files\Utils\Scanner', 'scanFile', function($path) use ($output) {
+		$scanner->listen('\OC\Files\Utils\Scanner', 'scanFile', function ($path) use ($output) {
 			$this->checkScanWarning($path, $output);
 		});
-		$scanner->listen('\OC\Files\Utils\Scanner', 'scanFolder', function($path) use ($output) {
+		$scanner->listen('\OC\Files\Utils\Scanner', 'scanFolder', function ($path) use ($output) {
 			$this->checkScanWarning($path, $output);
 		});
 

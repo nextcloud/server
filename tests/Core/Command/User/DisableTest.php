@@ -22,7 +22,6 @@
  */
 namespace Tests\Core\Command\User;
 
-
 use OC\Core\Command\User\Disable;
 use OCP\IUser;
 use OCP\IUserManager;

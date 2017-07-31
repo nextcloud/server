@@ -188,6 +188,7 @@ abstract class Flysystem extends Common {
 			case 'wb':
 			case 'wb+':
 				$useExisting = false;
+				// no break
 			case 'a':
 			case 'ab':
 			case 'r+':

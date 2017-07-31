@@ -83,7 +83,7 @@ class OC_Mount_Config {
 	 * @deprecated 8.2.0 use UserGlobalStoragesService::getStorages() and UserStoragesService::getStorages()
 	 */
 	public static function getAbsoluteMountPoints($uid) {
-		$mountPoints = array();
+		$mountPoints = [];
 
 		$userGlobalStoragesService = self::$app->getContainer()->query('OCA\Files_External\Service\UserGlobalStoragesService');
 		$userStoragesService = self::$app->getContainer()->query('OCA\Files_External\Service\UserStoragesService');
@@ -267,7 +267,7 @@ class OC_Mount_Config {
 				return $mountPoints;
 			}
 		}
-		return array();
+		return [];
 	}
 
 	/**
@@ -293,7 +293,7 @@ class OC_Mount_Config {
 		}
 
 		foreach ($dependencyGroups as $module => $dependants) {
-			$backends = implode(', ', array_map(function($backend) {
+			$backends = implode(', ', array_map(function ($backend) {
 				return '"' . $backend->getText() . '"';
 			}, $dependants));
 			$message .= '<p>' . OC_Mount_Config::getSingleDependencyMessage($l, $module, $backends) . '</p>';
@@ -317,7 +317,7 @@ class OC_Mount_Config {
 			case 'ftp':
 				return (string)$l->t('The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it.', $backend);
 			default:
-				return (string)$l->t('"%s" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it.', array($module, $backend));
+				return (string)$l->t('"%s" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it.', [$module, $backend]);
 		}
 	}
 
@@ -401,14 +401,14 @@ class OC_Mount_Config {
 	 */
 	public static function makeConfigHash($config) {
 		$data = json_encode(
-			array(
+			[
 				'c' => $config['backend'],
 				'a' => $config['authMechanism'],
 				'm' => $config['mountpoint'],
 				'o' => $config['options'],
 				'p' => isset($config['priority']) ? $config['priority'] : -1,
 				'mo' => isset($config['mountOptions']) ? $config['mountOptions'] : [],
-			)
+			]
 		);
 		return hash('md5', $data);
 	}

@@ -41,8 +41,10 @@ class MoveAvatars implements IRepairStep {
 	 * @param IJobList $jobList
 	 * @param IConfig $config
 	 */
-	public function __construct(IJobList $jobList,
-								IConfig $config) {
+	public function __construct(
+		IJobList $jobList,
+								IConfig $config
+	) {
 		$this->jobList = $jobList;
 		$this->config = $config;
 	}

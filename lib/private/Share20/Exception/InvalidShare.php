@@ -22,5 +22,4 @@
 namespace OC\Share20\Exception;
 
 class InvalidShare extends \Exception {
-
 }

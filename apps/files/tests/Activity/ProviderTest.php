@@ -21,7 +21,6 @@
 
 namespace OCA\Files\Tests\Activity;
 
-
 use OCA\Files\Activity\Provider;
 use OCP\Activity\IEvent;
 use OCP\Activity\IEventMerger;

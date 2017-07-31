@@ -12,11 +12,11 @@
 			<?php p($l->t('You don’t have permission to upload or create files here'))?>
 		</div>
 	<?php /* Note: the template attributes are here only for the public page. These are normally loaded
-			 through ajax instead (updateStorageStatistics).
+	         through ajax instead (updateStorageStatistics).
 	*/ ?>
 	<input type="hidden" name="permissions" value="" id="permissions">
 	<input type="hidden" id="free_space" value="<?php isset($_['freeSpace']) ? p($_['freeSpace']) : '' ?>">
-	<?php if(isset($_['dirToken'])):?>
+	<?php if (isset($_['dirToken'])):?>
 	<input type="hidden" id="publicUploadRequestToken" name="requesttoken" value="<?php p($_['requesttoken']) ?>" />
 	<input type="hidden" id="dirToken" name="dirToken" value="<?php p($_['dirToken']) ?>" />
 	<?php endif;?>
@@ -45,7 +45,7 @@
 					<label for="select_all_files">
 						<span class="hidden-visually"><?php p($l->t('Select all'))?></span>
 					</label>
-					<a class="name sort columntitle" data-sort="name"><span><?php p($l->t( 'Name' )); ?></span><span class="sort-indicator"></span></a>
+					<a class="name sort columntitle" data-sort="name"><span><?php p($l->t('Name')); ?></span><span class="sort-indicator"></span></a>
 					<span id="selectedActionsList" class="selectedActions">
 						<a href="" class="download">
 							<span class="icon icon-download"></span>
@@ -58,7 +58,7 @@
 				<a class="size sort columntitle" data-sort="size"><span><?php p($l->t('Size')); ?></span><span class="sort-indicator"></span></a>
 			</th>
 			<th id="headerDate" class="hidden column-mtime">
-				<a id="modified" class="columntitle" data-sort="mtime"><span><?php p($l->t( 'Modified' )); ?></span><span class="sort-indicator"></span></a>
+				<a id="modified" class="columntitle" data-sort="mtime"><span><?php p($l->t('Modified')); ?></span><span class="sort-indicator"></span></a>
 					<span class="selectedActions"><a href="" class="delete-selected">
 						<span><?php p($l->t('Delete'))?></span>
 						<span class="icon icon-delete"></span>

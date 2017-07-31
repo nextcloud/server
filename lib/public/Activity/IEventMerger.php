@@ -21,7 +21,6 @@
 
 namespace OCP\Activity;
 
-
 /**
  * Interface EventMerger
  *
@@ -60,5 +59,4 @@ interface IEventMerger {
 	 * @since 11.0
 	 */
 	public function mergeEvents($mergeParameter, IEvent $event, IEvent $previousEvent = null);
-
 }

@@ -73,12 +73,14 @@ class NextcloudTestServerContext implements Context {
 	 * @param array $nextcloudTestServerHelperParameters the parameters for the
 	 *        constructor of the $nextcloudTestServerHelper class.
 	 */
-	public function __construct($nextcloudTestServerHelper = "NextcloudTestServerLocalHelper",
-								$nextcloudTestServerHelperParameters = [ ]) {
+	public function __construct(
+		$nextcloudTestServerHelper = "NextcloudTestServerLocalHelper",
+								$nextcloudTestServerHelperParameters = [ ]
+	) {
 		$nextcloudTestServerHelperClass = new ReflectionClass($nextcloudTestServerHelper);
 
 		if ($nextcloudTestServerHelperParameters === null) {
-			$nextcloudTestServerHelperParameters = array();
+			$nextcloudTestServerHelperParameters = [];
 		}
 
 		$this->nextcloudTestServerHelper = $nextcloudTestServerHelperClass->newInstanceArgs($nextcloudTestServerHelperParameters);
@@ -124,5 +126,4 @@ class NextcloudTestServerContext implements Context {
 			}
 		}
 	}
-
 }

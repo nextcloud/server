@@ -186,5 +186,4 @@ class CertificateControllerTest extends \Test\TestCase {
 
 		$this->assertEquals(new DataResponse(), $this->certificateController->removePersonalRootCertificate('CertificateToRemove'));
 	}
-
 }

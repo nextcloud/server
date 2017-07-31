@@ -18,7 +18,7 @@ style('user_ldap', 'renewPassword');
 		<div class="warning title">
 			<?php p($l->t('Please renew your password.')); ?><br>
 		</div>
-		<?php foreach($_['messages'] as $message): ?>
+		<?php foreach ($_['messages'] as $message): ?>
 			<div class="warning">
 				<?php p($message); ?><br>
 			</div>
@@ -53,15 +53,19 @@ style('user_ldap', 'renewPassword');
 		
 		<input type="submit" id="submit" class="login primary icon-confirm-white" title="" value="<?php p($l->t('Renew password')); ?>"/>
 
-		<?php if (!empty($_['invalidpassword']) && !empty($_['canResetPassword'])) { ?>
+		<?php if (!empty($_['invalidpassword']) && !empty($_['canResetPassword'])) {
+	?>
 		<a id="lost-password" class="warning" href="<?php p($_['resetPasswordLink']); ?>">
 			<?php p($l->t('Wrong password. Reset it?')); ?>
 		</a>
-		<?php } else if (!empty($_['invalidpassword'])) { ?>
+		<?php
+} elseif (!empty($_['invalidpassword'])) {
+		?>
 			<p class="warning">
 				<?php p($l->t('Wrong password.')); ?>
 			</p>
-		<?php } ?>
+		<?php
+	} ?>
 		<p id="cancel-container" class="info">
 			<a id="cancel" href="<?php p($_['cancelLink']); ?>">
 				<?php p($l->t('Cancel')); ?>

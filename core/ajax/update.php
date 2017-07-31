@@ -94,7 +94,6 @@ class FeedBackHandler {
 }
 
 if (OC::checkUpgrade(false)) {
-
 	$config = \OC::$server->getSystemConfig();
 	if ($config->getValue('upgrade.disable-web', false)) {
 		$eventSource->send('failure', (string)$l->t('Please use the command line updater because automatic updating is disabled in the config.php.'));
@@ -117,12 +116,12 @@ if (OC::checkUpgrade(false)) {
 	$disabledThirdPartyApps = [];
 
 	$dispatcher = \OC::$server->getEventDispatcher();
-	$dispatcher->addListener('\OC\DB\Migrator::executeSql', function($event) use ($eventSource, $l) {
+	$dispatcher->addListener('\OC\DB\Migrator::executeSql', function ($event) use ($eventSource, $l) {
 		if ($event instanceof GenericEvent) {
 			$eventSource->send('success', (string)$l->t('[%d / %d]: %s', [$event[0], $event[1], $event->getSubject()]));
 		}
 	});
-	$dispatcher->addListener('\OC\DB\Migrator::checkTable', function($event) use ($eventSource, $l) {
+	$dispatcher->addListener('\OC\DB\Migrator::checkTable', function ($event) use ($eventSource, $l) {
 		if ($event instanceof GenericEvent) {
 			$eventSource->send('success', (string)$l->t('[%d / %d]: Checking table %s', [$event[0], $event[1], $event->getSubject()]));
 		}
@@ -145,13 +144,13 @@ if (OC::checkUpgrade(false)) {
 	$updater->listen('\OC\Updater', 'maintenanceActive', function () use ($eventSource, $l) {
 		$eventSource->send('success', (string)$l->t('Maintenance mode is kept active'));
 	});
-	$updater->listen('\OC\Updater', 'dbUpgradeBefore', function () use($eventSource, $l) {
+	$updater->listen('\OC\Updater', 'dbUpgradeBefore', function () use ($eventSource, $l) {
 		$eventSource->send('success', (string)$l->t('Updating database schema'));
 	});
 	$updater->listen('\OC\Updater', 'dbUpgrade', function () use ($eventSource, $l) {
 		$eventSource->send('success', (string)$l->t('Updated database'));
 	});
-	$updater->listen('\OC\Updater', 'dbSimulateUpgradeBefore', function () use($eventSource, $l) {
+	$updater->listen('\OC\Updater', 'dbSimulateUpgradeBefore', function () use ($eventSource, $l) {
 		$eventSource->send('success', (string)$l->t('Checking whether the database schema can be updated (this can take a long time depending on the database size)'));
 	});
 	$updater->listen('\OC\Updater', 'dbSimulateUpgrade', function () use ($eventSource, $l) {
@@ -176,29 +175,29 @@ if (OC::checkUpgrade(false)) {
 		$eventSource->send('success', (string)$l->t('Checked database schema update for apps'));
 	});
 	$updater->listen('\OC\Updater', 'appUpgrade', function ($app, $version) use ($eventSource, $l) {
-		$eventSource->send('success', (string)$l->t('Updated "%s" to %s', array($app, $version)));
+		$eventSource->send('success', (string)$l->t('Updated "%s" to %s', [$app, $version]));
 	});
 	$updater->listen('\OC\Updater', 'incompatibleAppDisabled', function ($app) use (&$incompatibleApps) {
-		$incompatibleApps[]= $app;
+		$incompatibleApps[] = $app;
 	});
 	$updater->listen('\OC\Updater', 'thirdPartyAppDisabled', function ($app) use (&$disabledThirdPartyApps) {
-		$disabledThirdPartyApps[]= $app;
+		$disabledThirdPartyApps[] = $app;
 	});
 	$updater->listen('\OC\Updater', 'failure', function ($message) use ($eventSource, $config) {
 		$eventSource->send('failure', $message);
 		$eventSource->close();
 		$config->setSystemValue('maintenance', false);
 	});
-	$updater->listen('\OC\Updater', 'setDebugLogLevel', function ($logLevel, $logLevelName) use($eventSource, $l) {
+	$updater->listen('\OC\Updater', 'setDebugLogLevel', function ($logLevel, $logLevelName) use ($eventSource, $l) {
 		$eventSource->send('success', (string)$l->t('Set log level to debug'));
 	});
-	$updater->listen('\OC\Updater', 'resetLogLevel', function ($logLevel, $logLevelName) use($eventSource, $l) {
+	$updater->listen('\OC\Updater', 'resetLogLevel', function ($logLevel, $logLevelName) use ($eventSource, $l) {
 		$eventSource->send('success', (string)$l->t('Reset log level'));
 	});
-	$updater->listen('\OC\Updater', 'startCheckCodeIntegrity', function () use($eventSource, $l) {
+	$updater->listen('\OC\Updater', 'startCheckCodeIntegrity', function () use ($eventSource, $l) {
 		$eventSource->send('success', (string)$l->t('Starting code integrity check'));
 	});
-	$updater->listen('\OC\Updater', 'finishedCheckCodeIntegrity', function () use($eventSource, $l) {
+	$updater->listen('\OC\Updater', 'finishedCheckCodeIntegrity', function () use ($eventSource, $l) {
 		$eventSource->send('success', (string)$l->t('Finished code integrity check'));
 	});
 
@@ -219,8 +218,10 @@ if (OC::checkUpgrade(false)) {
 	}
 
 	if (!empty($disabledApps)) {
-		$eventSource->send('notice',
-			(string)$l->t('Following apps have been disabled: %s', implode(', ', $disabledApps)));
+		$eventSource->send(
+			'notice',
+			(string)$l->t('Following apps have been disabled: %s', implode(', ', $disabledApps))
+		);
 	}
 } else {
 	$eventSource->send('notice', (string)$l->t('Already up to date'));
@@ -228,4 +229,3 @@ if (OC::checkUpgrade(false)) {
 
 $eventSource->send('done', '');
 $eventSource->close();
-

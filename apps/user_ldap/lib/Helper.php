@@ -95,8 +95,8 @@ class Helper {
 
 		$keys = $this->getServersConfig($referenceConfigkey);
 
-		$result = array();
-		foreach($keys as $key) {
+		$result = [];
+		foreach ($keys as $key) {
 			$len = strlen($key) - strlen($referenceConfigkey);
 			$prefix = substr($key, 0, $len);
 			$result[$prefix] = $this->config->getAppValue('user_ldap', $key);
@@ -113,7 +113,7 @@ class Helper {
 	public function getNextServerConfigurationPrefix() {
 		$serverConnections = $this->getServerConfigurationPrefixes();
 
-		if(count($serverConnections) === 0) {
+		if (count($serverConnections) === 0) {
 			return 's01';
 		}
 
@@ -144,12 +144,12 @@ class Helper {
 	 * @return bool true on success, false otherwise
 	 */
 	public function deleteServerConfiguration($prefix) {
-		if(!in_array($prefix, self::getServerConfigurationPrefixes())) {
+		if (!in_array($prefix, self::getServerConfigurationPrefixes())) {
 			return false;
 		}
 
 		$saveOtherConfigurations = '';
-		if(empty($prefix)) {
+		if (empty($prefix)) {
 			$saveOtherConfigurations = 'AND `configkey` NOT LIKE \'s%\'';
 		}
 
@@ -161,13 +161,13 @@ class Helper {
 				AND `appid` = \'user_ldap\'
 				AND `configkey` NOT IN (\'enabled\', \'installed_version\', \'types\', \'bgjUpdateGroupsLastRun\')
 		');
-		$delRows = $query->execute(array($prefix.'%'));
+		$delRows = $query->execute([$prefix.'%']);
 
-		if(\OCP\DB::isError($delRows)) {
+		if (\OCP\DB::isError($delRows)) {
 			return false;
 		}
 
-		if($delRows === 0) {
+		if ($delRows === 0) {
 			return false;
 		}
 
@@ -183,7 +183,7 @@ class Helper {
 		$all = $this->getServerConfigurationPrefixes(false);
 		$active = $this->getServerConfigurationPrefixes(true);
 
-		if(!is_array($all) || !is_array($active)) {
+		if (!is_array($all) || !is_array($active)) {
 			throw new \Exception('Unexpected Return Value');
 		}
 
@@ -197,14 +197,14 @@ class Helper {
 	 */
 	public function getDomainFromURL($url) {
 		$uinfo = parse_url($url);
-		if(!is_array($uinfo)) {
+		if (!is_array($uinfo)) {
 			return false;
 		}
 
 		$domain = false;
-		if(isset($uinfo['host'])) {
+		if (isset($uinfo['host'])) {
 			$domain = $uinfo['host'];
-		} else if(isset($uinfo['path'])) {
+		} elseif (isset($uinfo['path'])) {
 			$domain = $uinfo['path'];
 		}
 
@@ -218,7 +218,7 @@ class Helper {
 	 */
 	public function setLDAPProvider() {
 		$current = \OC::$server->getConfig()->getSystemValue('ldapProviderFactory', null);
-		if(is_null($current)) {
+		if (is_null($current)) {
 			\OC::$server->getConfig()->setSystemValue('ldapProviderFactory', '\\OCA\\User_LDAP\\LDAPProviderFactory');
 		}
 	}
@@ -230,9 +230,9 @@ class Helper {
 	 */
 	public function sanitizeDN($dn) {
 		//treating multiple base DNs
-		if(is_array($dn)) {
-			$result = array();
-			foreach($dn as $singleDN) {
+		if (is_array($dn)) {
+			$result = [];
+			foreach ($dn as $singleDN) {
 				$result[] = $this->sanitizeDN($singleDN);
 			}
 			return $result;
@@ -248,7 +248,7 @@ class Helper {
 		//escape DN values according to RFC 2253 – this is already done by ldap_explode_dn
 		//to use the DN in search filters, \ needs to be escaped to \5c additionally
 		//to use them in bases, we convert them back to simple backslashes in readAttribute()
-		$replacements = array(
+		$replacements = [
 			'\,' => '\5c2C',
 			'\=' => '\5c3D',
 			'\+' => '\5c2B',
@@ -257,10 +257,10 @@ class Helper {
 			'\;' => '\5c3B',
 			'\"' => '\5c22',
 			'\#' => '\5c23',
-			'('  => '\28',
-			')'  => '\29',
-			'*'  => '\2A',
-		);
+			'(' => '\28',
+			')' => '\29',
+			'*' => '\2A',
+		];
 		$dn = str_replace(array_keys($replacements), array_values($replacements), $dn);
 
 		return $dn;
@@ -283,7 +283,7 @@ class Helper {
 	 * @throws \Exception
 	 */
 	public static function loginName2UserName($param) {
-		if(!isset($param['uid'])) {
+		if (!isset($param['uid'])) {
 			throw new \Exception('key uid is expected to be set in $param');
 		}
 
@@ -295,11 +295,14 @@ class Helper {
 		$ocConfig = \OC::$server->getConfig();
 		$notificationManager = \OC::$server->getNotificationManager();
 
-		$userBackend  = new User_Proxy(
-			$configPrefixes, $ldapWrapper, $ocConfig, $notificationManager
+		$userBackend = new User_Proxy(
+			$configPrefixes,
+			$ldapWrapper,
+			$ocConfig,
+			$notificationManager
 		);
-		$uid = $userBackend->loginName2UserName($param['uid'] );
-		if($uid !== false) {
+		$uid = $userBackend->loginName2UserName($param['uid']);
+		if ($uid !== false) {
 			$param['uid'] = $uid;
 		}
 	}

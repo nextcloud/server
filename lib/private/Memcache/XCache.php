@@ -114,7 +114,7 @@ class XCache extends Cache implements IMemcache {
 		return xcache_dec($this->getPrefix() . $key, $step);
 	}
 
-	static public function isAvailable() {
+	public static function isAvailable() {
 		if (!extension_loaded('xcache')) {
 			return false;
 		}

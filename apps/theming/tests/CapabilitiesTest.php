@@ -33,7 +33,7 @@ use Test\TestCase;
  * @group DB
  * @package OCA\Theming\Tests
  */
-class CapabilitiesTest extends TestCase  {
+class CapabilitiesTest extends TestCase {
 	/** @var ThemingDefaults|\PHPUnit_Framework_MockObject_MockObject */
 	protected $theming;
 
@@ -115,19 +115,19 @@ class CapabilitiesTest extends TestCase  {
 			->method('getLogo')
 			->willReturn($logo);
 
-		if($background !== 'backgroundColor') {
+		if ($background !== 'backgroundColor') {
 			$this->theming->expects($this->once())
 				->method('getBackground')
 				->willReturn($background);
 			$this->url->expects($this->exactly(2))
 				->method('getAbsoluteURL')
-				->willReturnCallback(function($url) use($baseUrl) {
+				->willReturnCallback(function ($url) use ($baseUrl) {
 					return $baseUrl . $url;
 				});
 		} else {
 			$this->url->expects($this->once())
 				->method('getAbsoluteURL')
-				->willReturnCallback(function($url) use($baseUrl) {
+				->willReturnCallback(function ($url) use ($baseUrl) {
 					return $baseUrl . $url;
 				});
 		}

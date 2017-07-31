@@ -35,5 +35,6 @@ class NoCheckMigrator extends Migrator {
 	 * @param \Doctrine\DBAL\Schema\Schema $targetSchema
 	 * @throws \OC\DB\MigrationException
 	 */
-	public function checkMigrate(Schema $targetSchema) {}
+	public function checkMigrate(Schema $targetSchema) {
+	}
 }

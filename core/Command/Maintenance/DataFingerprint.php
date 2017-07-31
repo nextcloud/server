@@ -27,7 +27,6 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-
 class DataFingerprint extends Command {
 
 	/** @var IConfig */
@@ -35,8 +34,10 @@ class DataFingerprint extends Command {
 	/** @var ITimeFactory */
 	protected $timeFactory;
 
-	public function __construct(IConfig $config,
-								ITimeFactory $timeFactory) {
+	public function __construct(
+		IConfig $config,
+								ITimeFactory $timeFactory
+	) {
 		$this->config = $config;
 		$this->timeFactory = $timeFactory;
 		parent::__construct();

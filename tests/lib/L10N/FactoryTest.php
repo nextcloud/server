@@ -488,10 +488,10 @@ class FactoryTest extends TestCase {
 
 		$this->config->expects($this->any())
 			->method('getSystemValue')
-			->will($this->returnCallback(function($var, $default) use ($defaultLang) {
+			->will($this->returnCallback(function ($var, $default) use ($defaultLang) {
 				if ($var === 'installed') {
 					return true;
-				} else if ($var === 'default_language') {
+				} elseif ($var === 'default_language') {
 					return $defaultLang;
 				} else {
 					return $default;
@@ -538,6 +538,5 @@ class FactoryTest extends TestCase {
 
 		$lang = $factory->findLanguage(null);
 		$this->assertSame($expected, $lang);
-
 	}
 }

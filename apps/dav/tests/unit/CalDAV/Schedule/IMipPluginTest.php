@@ -31,7 +31,6 @@ use Sabre\VObject\ITip\Message;
 use Test\TestCase;
 
 class IMipPluginTest extends TestCase {
-
 	public function testDelivery() {
 		$mailMessage = new \OC\Mail\Message(new \Swift_Message());
 		/** @var Mailer | \PHPUnit_Framework_MockObject_MockObject $mailer */
@@ -89,5 +88,4 @@ class IMipPluginTest extends TestCase {
 		$this->assertEquals(['gandalf@wiz.ard' => null], $mailMessage->getReplyTo());
 		$this->assertEquals('text/calendar; charset=UTF-8; method=REQUEST', $mailMessage->getSwiftMessage()->getContentType());
 	}
-
 }

@@ -67,14 +67,16 @@ class EncryptionController extends Controller {
 	 * @param View $view
 	 * @param ILogger $logger
 	 */
-	public function __construct($appName,
+	public function __construct(
+		$appName,
 								IRequest $request,
 								IL10N $l10n,
 								IConfig $config,
 								IDBConnection $connection,
 								IUserManager $userManager,
 								View $view,
-								ILogger  $logger) {
+								ILogger  $logger
+	) {
 		parent::__construct($appName, $request);
 		$this->l10n = $l10n;
 		$this->config = $config;
@@ -91,10 +93,12 @@ class EncryptionController extends Controller {
 	 * @param ILogger $logger
 	 * @return Migration
 	 */
-	protected function getMigration(IConfig $config,
+	protected function getMigration(
+		IConfig $config,
 								 View $view,
 								 IDBConnection $connection,
-								 ILogger $logger) {
+								 ILogger $logger
+	) {
 		return new Migration($config, $view, $connection, $logger);
 	}
 
@@ -104,13 +108,12 @@ class EncryptionController extends Controller {
 	 * @return array
 	 */
 	public function startMigration() {
-        // allow as long execution on the web server as possible
+		// allow as long execution on the web server as possible
 		if (strpos(@ini_get('disable_functions'), 'set_time_limit') === false) {
 			@set_time_limit(0);
 		}
 
 		try {
-
 			$migration = $this->getMigration($this->config, $this->view, $this->connection, $this->logger);
 			$migration->reorganizeSystemFolderStructure();
 			$migration->updateDB();
@@ -128,7 +131,6 @@ class EncryptionController extends Controller {
 			}
 
 			$migration->finalCleanUp();
-
 		} catch (\Exception $e) {
 			return [
 				'data' => [
@@ -145,5 +147,4 @@ class EncryptionController extends Controller {
 			'status' => 'success',
 		];
 	}
-
 }

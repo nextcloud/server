@@ -137,12 +137,15 @@ class ManagerTest extends TestCase {
 
 		$this->mapper->expects($this->once())
 			->method('update')
-			->with($table,
+			->with(
+				$table,
 				'class',
-				$className, [
+				$className,
+				[
 					'section' => 'additional',
 					'priority' => 5
-				]);
+				]
+			);
 		$this->mapper->expects($this->never())
 			->method('add');
 

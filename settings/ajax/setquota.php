@@ -35,7 +35,7 @@ OCP\JSON::callCheck();
 $lastConfirm = (int) \OC::$server->getSession()->get('last-password-confirm');
 if ($lastConfirm < (time() - 30 * 60 + 15)) { // allow 15 seconds delay
 	$l = \OC::$server->getL10N('core');
-	OC_JSON::error(array( 'data' => array( 'message' => $l->t('Password confirmation is required'))));
+	OC_JSON::error([ 'data' => [ 'message' => $l->t('Password confirmation is required')]]);
 	exit();
 }
 
@@ -44,33 +44,32 @@ $username = isset($_POST["username"]) ? (string)$_POST["username"] : '';
 $isUserAccessible = false;
 $currentUserObject = \OC::$server->getUserSession()->getUser();
 $targetUserObject = \OC::$server->getUserManager()->get($username);
-if($targetUserObject !== null && $currentUserObject !== null) {
+if ($targetUserObject !== null && $currentUserObject !== null) {
 	$isUserAccessible = \OC::$server->getGroupManager()->getSubAdmin()->isUserAccessible($currentUserObject, $targetUserObject);
 }
 
-if(($username === '' && !OC_User::isAdminUser(OC_User::getUser()))
+if (($username === '' && !OC_User::isAdminUser(OC_User::getUser()))
 	|| (!OC_User::isAdminUser(OC_User::getUser())
 		&& !$isUserAccessible)) {
 	$l = \OC::$server->getL10N('core');
-	OC_JSON::error(array( 'data' => array( 'message' => $l->t('Authentication error') )));
+	OC_JSON::error([ 'data' => [ 'message' => $l->t('Authentication error') ]]);
 	exit();
 }
 
 //make sure the quota is in the expected format
-$quota= (string)$_POST["quota"];
-if($quota !== 'none' and $quota !== 'default') {
-	$quota= OC_Helper::computerFileSize($quota);
-	$quota=OC_Helper::humanFileSize($quota);
+$quota = (string)$_POST["quota"];
+if ($quota !== 'none' and $quota !== 'default') {
+	$quota = OC_Helper::computerFileSize($quota);
+	$quota = OC_Helper::humanFileSize($quota);
 }
 
 // Return Success story
-if($username) {
+if ($username) {
 	$targetUserObject->setQuota($quota);
-}else{//set the default quota when no username is specified
-	if($quota === 'default') {//'default' as default quota makes no sense
-		$quota='none';
+} else {//set the default quota when no username is specified
+	if ($quota === 'default') {//'default' as default quota makes no sense
+		$quota = 'none';
 	}
 	\OC::$server->getAppConfig()->setValue('files', 'default_quota', $quota);
 }
-OC_JSON::success(array("data" => array( "username" => $username , 'quota' => $quota)));
-
+OC_JSON::success(["data" => [ "username" => $username , 'quota' => $quota]]);

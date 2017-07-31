@@ -33,21 +33,21 @@ namespace OC\Archive;
 
 use Icewind\Streams\CallbackWrapper;
 
-class ZIP extends Archive{
+class ZIP extends Archive {
 	/**
 	 * @var \ZipArchive zip
 	 */
-	private $zip=null;
+	private $zip = null;
 	private $path;
 
 	/**
 	 * @param string $source
 	 */
 	public function __construct($source) {
-		$this->path=$source;
-		$this->zip=new \ZipArchive();
-		if($this->zip->open($source, \ZipArchive::CREATE)) {
-		}else{
+		$this->path = $source;
+		$this->zip = new \ZipArchive();
+		if ($this->zip->open($source, \ZipArchive::CREATE)) {
+		} else {
 			\OCP\Util::writeLog('files_archive', 'Error while opening archive '.$source, \OCP\Util::WARN);
 		}
 	}
@@ -65,13 +65,13 @@ class ZIP extends Archive{
 	 * @param string $source either a local file or string data
 	 * @return bool
 	 */
-	public function addFile($path, $source='') {
-		if($source and $source[0]=='/' and file_exists($source)) {
-			$result=$this->zip->addFile($source, $path);
-		}else{
-			$result=$this->zip->addFromString($path, $source);
+	public function addFile($path, $source = '') {
+		if ($source and $source[0] == '/' and file_exists($source)) {
+			$result = $this->zip->addFile($source, $path);
+		} else {
+			$result = $this->zip->addFromString($path, $source);
 		}
-		if($result) {
+		if ($result) {
 			$this->zip->close();//close and reopen to save the zip
 			$this->zip->open($this->path);
 		}
@@ -84,8 +84,8 @@ class ZIP extends Archive{
 	 * @return boolean|null
 	 */
 	public function rename($source, $dest) {
-		$source=$this->stripPath($source);
-		$dest=$this->stripPath($dest);
+		$source = $this->stripPath($source);
+		$dest = $this->stripPath($dest);
 		$this->zip->renameName($source, $dest);
 	}
 	/**
@@ -94,7 +94,7 @@ class ZIP extends Archive{
 	 * @return int
 	 */
 	public function filesize($path) {
-		$stat=$this->zip->statName($path);
+		$stat = $this->zip->statName($path);
 		return $stat['size'];
 	}
 	/**
@@ -111,13 +111,13 @@ class ZIP extends Archive{
 	 * @return array
 	 */
 	public function getFolder($path) {
-		$files=$this->getFiles();
-		$folderContent=array();
-		$pathLength=strlen($path);
-		foreach($files as $file) {
-			if(substr($file, 0, $pathLength)==$path and $file!=$path) {
-				if(strrpos(substr($file, 0, -1), '/')<=$pathLength) {
-					$folderContent[]=substr($file, $pathLength);
+		$files = $this->getFiles();
+		$folderContent = [];
+		$pathLength = strlen($path);
+		foreach ($files as $file) {
+			if (substr($file, 0, $pathLength) == $path and $file != $path) {
+				if (strrpos(substr($file, 0, -1), '/') <= $pathLength) {
+					$folderContent[] = substr($file, $pathLength);
 				}
 			}
 		}
@@ -128,10 +128,10 @@ class ZIP extends Archive{
 	 * @return array
 	 */
 	public function getFiles() {
-		$fileCount=$this->zip->numFiles;
-		$files=array();
-		for($i=0;$i<$fileCount;$i++) {
-			$files[]=$this->zip->getNameIndex($i);
+		$fileCount = $this->zip->numFiles;
+		$files = [];
+		for ($i = 0;$i < $fileCount;$i++) {
+			$files[] = $this->zip->getNameIndex($i);
 		}
 		return $files;
 	}
@@ -167,7 +167,7 @@ class ZIP extends Archive{
 	 * @return bool
 	 */
 	public function fileExists($path) {
-		return ($this->zip->locateName($path)!==false) or ($this->zip->locateName($path.'/')!==false);
+		return ($this->zip->locateName($path) !== false) or ($this->zip->locateName($path.'/') !== false);
 	}
 	/**
 	 * remove a file or folder from the archive
@@ -175,9 +175,9 @@ class ZIP extends Archive{
 	 * @return bool
 	 */
 	public function remove($path) {
-		if($this->fileExists($path.'/')) {
+		if ($this->fileExists($path.'/')) {
 			return $this->zip->deleteName($path.'/');
-		}else{
+		} else {
 			return $this->zip->deleteName($path);
 		}
 	}
@@ -188,19 +188,19 @@ class ZIP extends Archive{
 	 * @return resource
 	 */
 	public function getStream($path, $mode) {
-		if($mode=='r' or $mode=='rb') {
+		if ($mode == 'r' or $mode == 'rb') {
 			return $this->zip->getStream($path);
 		} else {
 			//since we can't directly get a writable stream,
 			//make a temp copy of the file and put it back
 			//in the archive when the stream is closed
-			if(strrpos($path, '.')!==false) {
-				$ext=substr($path, strrpos($path, '.'));
-			}else{
-				$ext='';
+			if (strrpos($path, '.') !== false) {
+				$ext = substr($path, strrpos($path, '.'));
+			} else {
+				$ext = '';
 			}
-			$tmpFile=\OCP\Files::tmpFile($ext);
-			if($this->fileExists($path)) {
+			$tmpFile = \OCP\Files::tmpFile($ext);
+			if ($this->fileExists($path)) {
 				$this->extractFile($path, $tmpFile);
 			}
 			$handle = fopen($tmpFile, $mode);
@@ -223,9 +223,9 @@ class ZIP extends Archive{
 	 * @return string
 	 */
 	private function stripPath($path) {
-		if(!$path || $path[0]=='/') {
+		if (!$path || $path[0] == '/') {
 			return substr($path, 1);
-		}else{
+		} else {
 			return $path;
 		}
 	}

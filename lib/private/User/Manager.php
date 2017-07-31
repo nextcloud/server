@@ -58,12 +58,12 @@ class Manager extends PublicEmitter implements IUserManager {
 	/**
 	 * @var \OCP\UserInterface[] $backends
 	 */
-	private $backends = array();
+	private $backends = [];
 
 	/**
 	 * @var \OC\User\User[] $cachedUsers
 	 */
-	private $cachedUsers = array();
+	private $cachedUsers = [];
 
 	/**
 	 * @var \OCP\IConfig $config
@@ -105,7 +105,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @param \OCP\UserInterface $backend
 	 */
 	public function removeBackend($backend) {
-		$this->cachedUsers = array();
+		$this->cachedUsers = [];
 		if (($i = array_search($backend, $this->backends)) !== false) {
 			unset($this->backends[$i]);
 		}
@@ -115,8 +115,8 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * remove all user backends
 	 */
 	public function clearBackends() {
-		$this->cachedUsers = array();
-		$this->backends = array();
+		$this->cachedUsers = [];
+		$this->backends = [];
 	}
 
 	/**
@@ -231,7 +231,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @return \OC\User\User[]
 	 */
 	public function search($pattern, $limit = null, $offset = null) {
-		$users = array();
+		$users = [];
 		foreach ($this->backends as $backend) {
 			$backendUsers = $backend->getUsers($pattern, $limit, $offset);
 			if (is_array($backendUsers)) {
@@ -260,7 +260,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @return \OC\User\User[]
 	 */
 	public function searchDisplayName($pattern, $limit = null, $offset = null) {
-		$users = array();
+		$users = [];
 		foreach ($this->backends as $backend) {
 			$backendUsers = $backend->getDisplayNames($pattern, $limit, $offset);
 			if (is_array($backendUsers)) {
@@ -372,13 +372,13 @@ class Manager extends PublicEmitter implements IUserManager {
 		foreach ($this->backends as $backend) {
 			if ($backend->implementsActions(Backend::COUNT_USERS)) {
 				$backendUsers = $backend->countUsers();
-				if($backendUsers !== false) {
-					if($backend instanceof IUserBackend) {
+				if ($backendUsers !== false) {
+					if ($backend instanceof IUserBackend) {
 						$name = $backend->getBackendName();
 					} else {
 						$name = get_class($backend);
 					}
-					if(isset($userCountStatistics[$name])) {
+					if (isset($userCountStatistics[$name])) {
 						$userCountStatistics[$name] += $backendUsers;
 					} else {
 						$userCountStatistics[$name] = $backendUsers;
@@ -496,7 +496,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * Getting all userIds that have a listLogin value requires checking the
 	 * value in php because on oracle you cannot use a clob in a where clause,
 	 * preventing us from doing a not null or length(value) > 0 check.
-	 * 
+	 *
 	 * @param int $limit
 	 * @param int $offset
 	 * @return string[] with user ids
@@ -505,13 +505,20 @@ class Manager extends PublicEmitter implements IUserManager {
 		$queryBuilder = \OC::$server->getDatabaseConnection()->getQueryBuilder();
 		$queryBuilder->select(['userid'])
 			->from('preferences')
-			->where($queryBuilder->expr()->eq(
-				'appid', $queryBuilder->createNamedParameter('login'))
+			->where(
+				$queryBuilder->expr()->eq(
+				'appid',
+				$queryBuilder->createNamedParameter('login')
 			)
-			->andWhere($queryBuilder->expr()->eq(
-				'configkey', $queryBuilder->createNamedParameter('lastLogin'))
 			)
-			->andWhere($queryBuilder->expr()->isNotNull('configvalue')
+			->andWhere(
+				$queryBuilder->expr()->eq(
+				'configkey',
+				$queryBuilder->createNamedParameter('lastLogin')
+			)
+			)
+			->andWhere(
+				$queryBuilder->expr()->isNotNull('configvalue')
 			);
 
 		if ($limit !== null) {
@@ -540,7 +547,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	public function getByEmail($email) {
 		$userIds = $this->config->getUsersForUserValue('settings', 'email', $email);
 
-		return array_map(function($uid) {
+		return array_map(function ($uid) {
 			return $this->get($uid);
 		}, $userIds);
 	}

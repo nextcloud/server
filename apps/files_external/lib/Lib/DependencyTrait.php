@@ -37,6 +37,4 @@ trait DependencyTrait {
 	public function checkDependencies() {
 		return []; // no dependencies by default
 	}
-
 }
-

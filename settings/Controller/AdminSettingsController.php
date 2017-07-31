@@ -75,7 +75,7 @@ class AdminSettingsController extends Controller {
 	protected function getSettings($section) {
 		$settings = $this->settingsManager->getAdminSettings($section);
 		$formatted = $this->formatSettings($settings);
-		if($section === 'additional') {
+		if ($section === 'additional') {
 			$formatted['content'] .= $this->getLegacyForms();
 		}
 		return $formatted;
@@ -94,15 +94,15 @@ class AdminSettingsController extends Controller {
 				$anchor = strtolower($sectionName);
 				$anchor = str_replace(' ', '-', $anchor);
 
-				return array(
+				return [
 					'anchor' => $anchor,
 					'section-name' => $sectionName,
 					'form' => $form
-				);
+				];
 			}
-			return array(
+			return [
 				'form' => $form
-			);
+			];
 		}, $forms);
 
 		$out = new Template('settings', 'settings/additional');
@@ -110,6 +110,4 @@ class AdminSettingsController extends Controller {
 
 		return $out->fetchPage();
 	}
-
-
 }

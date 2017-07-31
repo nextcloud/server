@@ -46,7 +46,8 @@ class PrincipalTest extends TestCase {
 
 		$this->connector = new \OCA\DAV\Connector\Sabre\Principal(
 			$this->userManager,
-			$this->groupManager);
+			$this->groupManager
+		);
 		parent::setUp();
 	}
 
@@ -251,7 +252,7 @@ class PrincipalTest extends TestCase {
 	}
 
 	public function testUpdatePrincipal() {
-		$this->assertSame(0, $this->connector->updatePrincipal('foo', new PropPatch(array())));
+		$this->assertSame(0, $this->connector->updatePrincipal('foo', new PropPatch([])));
 	}
 
 	public function testSearchPrincipals() {

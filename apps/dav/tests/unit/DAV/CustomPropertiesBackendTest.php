@@ -55,8 +55,11 @@ class CustomPropertiesBackendTest extends TestCase {
 			->with()
 			->will($this->returnValue('dummy_user_42'));
 
-		$this->backend = new CustomPropertiesBackend($this->tree,
-			$this->dbConnection, $this->user);
+		$this->backend = new CustomPropertiesBackend(
+			$this->tree,
+			$this->dbConnection,
+			$this->user
+		);
 	}
 
 	public function testPropFindNoDbCalls() {
@@ -105,13 +108,15 @@ class CustomPropertiesBackendTest extends TestCase {
 		$statement = $this->createMock('\Doctrine\DBAL\Driver\Statement');
 		$this->dbConnection->expects($this->once())
 			->method('executeQuery')
-			->with('SELECT * FROM `*PREFIX*properties` WHERE `userid` = ? AND `propertypath` = ? AND `propertyname` in (?)',
+			->with(
+				'SELECT * FROM `*PREFIX*properties` WHERE `userid` = ? AND `propertypath` = ? AND `propertyname` in (?)',
 				['dummy_user_42', 'calendars/foo/bar_path_1337_0', [
 					3 => '{abc}def',
 					4 => '{DAV:}displayname',
 					5 => '{urn:ietf:params:xml:ns:caldav}calendar-description',
 					6 => '{urn:ietf:params:xml:ns:caldav}calendar-timezone']],
-				[null, null, 102])
+				[null, null, 102]
+			)
 			->will($this->returnValue($statement));
 
 		$this->backend->propFind('calendars/foo/bar_path_1337_0', $propFind);

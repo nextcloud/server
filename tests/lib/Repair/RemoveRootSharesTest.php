@@ -83,10 +83,10 @@ class RemoveRootSharesTest extends \Test\TestCase {
 		$qb = $this->connection->getQueryBuilder();
 		$qb->insert('share')
 			->values([
-				'share_type'  => $qb->createNamedParameter(0),
-				'share_with'  => $qb->createNamedParameter('foo'),
-				'uid_owner'   => $qb->createNamedParameter('owner'),
-				'item_type'   => $qb->createNamedParameter('file'),
+				'share_type' => $qb->createNamedParameter(0),
+				'share_with' => $qb->createNamedParameter('foo'),
+				'uid_owner' => $qb->createNamedParameter('owner'),
+				'item_type' => $qb->createNamedParameter('file'),
 				'item_source' => $qb->createNamedParameter($fileId),
 				'item_target' => $qb->createNamedParameter('/target'),
 				'file_source' => $qb->createNamedParameter($fileId),
@@ -112,13 +112,13 @@ class RemoveRootSharesTest extends \Test\TestCase {
 		$qb = $this->connection->getQueryBuilder();
 		$qb->insert('share')
 			->values([
-				'share_type'  => $qb->createNamedParameter(0),
-				'share_with'  => $qb->createNamedParameter('foo'),
-				'uid_owner'   => $qb->createNamedParameter('owner'),
-				'item_type'   => $qb->createNamedParameter('file'),
-				'item_source' => $qb->createNamedParameter($fileId+1),
+				'share_type' => $qb->createNamedParameter(0),
+				'share_with' => $qb->createNamedParameter('foo'),
+				'uid_owner' => $qb->createNamedParameter('owner'),
+				'item_type' => $qb->createNamedParameter('file'),
+				'item_source' => $qb->createNamedParameter($fileId + 1),
 				'item_target' => $qb->createNamedParameter('/target'),
-				'file_source' => $qb->createNamedParameter($fileId+1),
+				'file_source' => $qb->createNamedParameter($fileId + 1),
 				'file_target' => $qb->createNamedParameter('/target'),
 				'permissions' => $qb->createNamedParameter(1),
 			]);
@@ -141,10 +141,10 @@ class RemoveRootSharesTest extends \Test\TestCase {
 		$qb = $this->connection->getQueryBuilder();
 		$qb->insert('share')
 			->values([
-				'share_type'  => $qb->createNamedParameter(0),
-				'share_with'  => $qb->createNamedParameter('foo'),
-				'uid_owner'   => $qb->createNamedParameter('owner'),
-				'item_type'   => $qb->createNamedParameter('file'),
+				'share_type' => $qb->createNamedParameter(0),
+				'share_with' => $qb->createNamedParameter('foo'),
+				'uid_owner' => $qb->createNamedParameter('owner'),
+				'item_type' => $qb->createNamedParameter('file'),
 				'item_source' => $qb->createNamedParameter($fileId),
 				'item_target' => $qb->createNamedParameter('/target'),
 				'file_source' => $qb->createNamedParameter($fileId),
@@ -164,10 +164,10 @@ class RemoveRootSharesTest extends \Test\TestCase {
 		$qb = $this->connection->getQueryBuilder();
 		$qb->insert('share')
 			->values([
-				'share_type'  => $qb->createNamedParameter(0),
-				'share_with'  => $qb->createNamedParameter('foo'),
-				'uid_owner'   => $qb->createNamedParameter('owner'),
-				'item_type'   => $qb->createNamedParameter('file'),
+				'share_type' => $qb->createNamedParameter(0),
+				'share_with' => $qb->createNamedParameter('foo'),
+				'uid_owner' => $qb->createNamedParameter('owner'),
+				'item_type' => $qb->createNamedParameter('file'),
 				'item_source' => $qb->createNamedParameter($fileId),
 				'item_target' => $qb->createNamedParameter('/target'),
 				'file_source' => $qb->createNamedParameter($fileId),

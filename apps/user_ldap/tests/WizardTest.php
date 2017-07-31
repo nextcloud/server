@@ -41,10 +41,10 @@ class WizardTest extends \Test\TestCase {
 		parent::setUp();
 		//we need to make sure the consts are defined, otherwise tests will fail
 		//on systems without php5_ldap
-		$ldapConsts = array('LDAP_OPT_PROTOCOL_VERSION',
-							'LDAP_OPT_REFERRALS', 'LDAP_OPT_NETWORK_TIMEOUT');
-		foreach($ldapConsts as $const) {
-			if(!defined($const)) {
+		$ldapConsts = ['LDAP_OPT_PROTOCOL_VERSION',
+							'LDAP_OPT_REFERRALS', 'LDAP_OPT_NETWORK_TIMEOUT'];
+		foreach ($ldapConsts as $const) {
+			if (!defined($const)) {
 				define($const, 42);
 			}
 		}
@@ -55,12 +55,12 @@ class WizardTest extends \Test\TestCase {
 		static $connMethods;
 		static $accMethods;
 
-		if(is_null($confMethods)) {
+		if (is_null($confMethods)) {
 			$confMethods = get_class_methods('\OCA\User_LDAP\Configuration');
 			$connMethods = get_class_methods('\OCA\User_LDAP\Connection');
-			$accMethods  = get_class_methods('\OCA\User_LDAP\Access');
+			$accMethods = get_class_methods('\OCA\User_LDAP\Access');
 		}
-		$lw   = $this->createMock(ILDAPWrapper::class);
+		$lw = $this->createMock(ILDAPWrapper::class);
 		$conf = $this->getMockBuilder('\OCA\User_LDAP\Configuration')
 			->setMethods($confMethods)
 			->setConstructorArgs([$lw, null, null])
@@ -80,7 +80,7 @@ class WizardTest extends \Test\TestCase {
 			->setConstructorArgs([$connector, $lw, $um, $helper])
 			->getMock();
 
-		return array(new Wizard($conf, $lw, $access), $conf, $lw, $access);
+		return [new Wizard($conf, $lw, $access), $conf, $lw, $access];
 	}
 
 	private function prepareLdapWrapperForConnections(&$ldap) {
@@ -96,7 +96,6 @@ class WizardTest extends \Test\TestCase {
 		$ldap->expects($this->once())
 			->method('bind')
 			->will($this->returnValue(true));
-
 	}
 
 	public function testCumulativeSearchOnAttributeLimited() {
@@ -104,12 +103,12 @@ class WizardTest extends \Test\TestCase {
 
 		$configuration->expects($this->any())
 			->method('__get')
-			->will($this->returnCallback(function($name) {
-					if($name === 'ldapBase') {
-						return array('base');
-					}
-					return null;
-			   }));
+			->will($this->returnCallback(function ($name) {
+				if ($name === 'ldapBase') {
+					return ['base'];
+				}
+				return null;
+			}));
 
 		$this->prepareLdapWrapperForConnections($ldap);
 
@@ -141,20 +140,20 @@ class WizardTest extends \Test\TestCase {
 		$ldap->expects($this->exactly(10))
 			->method('getAttributes')
 			//dummy value, usually invalid
-			->will($this->returnValue(array('cn' => array('foo'), 'count' => 1)));
+			->will($this->returnValue(['cn' => ['foo'], 'count' => 1]));
 
 		global $uidnumber;
 		$uidnumber = 1;
 		$ldap->expects($this->exactly(10))
 			->method('getDN')
 			//dummy value, usually invalid
-			->will($this->returnCallback(function($a, $b) {
+			->will($this->returnCallback(function ($a, $b) {
 				global $uidnumber;
 				return $uidnumber++;
 			}));
 
 		// The following expectations are the real test
-		$filters = array('f1', 'f2', '*');
+		$filters = ['f1', 'f2', '*'];
 		$wizard->cumulativeSearchOnAttribute($filters, 'cn', 5);
 		unset($uidnumber);
 	}
@@ -164,22 +163,22 @@ class WizardTest extends \Test\TestCase {
 
 		$configuration->expects($this->any())
 			->method('__get')
-			->will($this->returnCallback(function($name) {
-					if($name === 'ldapBase') {
-						return array('base');
-					}
-					return null;
-			   }));
+			->will($this->returnCallback(function ($name) {
+				if ($name === 'ldapBase') {
+					return ['base'];
+				}
+				return null;
+			}));
 
 		$this->prepareLdapWrapperForConnections($ldap);
 
 		$ldap->expects($this->any())
 			->method('isResource')
-			->will($this->returnCallback(function($r) {
-				if($r === true) {
+			->will($this->returnCallback(function ($r) {
+				if ($r === true) {
 					return true;
 				}
-				if($r % 24 === 0) {
+				if ($r % 24 === 0) {
 					global $uidnumber;
 					$uidnumber++;
 					return false;
@@ -201,7 +200,7 @@ class WizardTest extends \Test\TestCase {
 		$ldap->expects($this->exactly(2))
 			->method('firstEntry')
 			//dummy value, usually invalid
-			->will($this->returnCallback(function($r) {
+			->will($this->returnCallback(function ($r) {
 				global $uidnumber;
 				return $uidnumber;
 			}));
@@ -209,7 +208,7 @@ class WizardTest extends \Test\TestCase {
 		$ldap->expects($this->exactly(46))
 			->method('nextEntry')
 			//dummy value, usually invalid
-			->will($this->returnCallback(function($r) {
+			->will($this->returnCallback(function ($r) {
 				global $uidnumber;
 				return $uidnumber;
 			}));
@@ -217,20 +216,20 @@ class WizardTest extends \Test\TestCase {
 		$ldap->expects($this->exactly(46))
 			->method('getAttributes')
 			//dummy value, usually invalid
-			->will($this->returnValue(array('cn' => array('foo'), 'count' => 1)));
+			->will($this->returnValue(['cn' => ['foo'], 'count' => 1]));
 
 		global $uidnumber;
 		$uidnumber = 1;
 		$ldap->expects($this->exactly(46))
 			->method('getDN')
 			//dummy value, usually invalid
-			->will($this->returnCallback(function($a, $b) {
+			->will($this->returnCallback(function ($a, $b) {
 				global $uidnumber;
 				return $uidnumber++;
 			}));
 
 		// The following expectations are the real test
-		$filters = array('f1', 'f2', '*');
+		$filters = ['f1', 'f2', '*'];
 		$wizard->cumulativeSearchOnAttribute($filters, 'cn', 0);
 		unset($uidnumber);
 	}
@@ -242,7 +241,7 @@ class WizardTest extends \Test\TestCase {
 		$configuration->expects($this->any())
 			->method('__get')
 			->will($this->returnCallback(function ($name) {
-				if($name === 'ldapEmailAttribute') {
+				if ($name === 'ldapEmailAttribute') {
 					return 'myEmailAttribute';
 				} else {
 					//for requirement checks
@@ -264,7 +263,7 @@ class WizardTest extends \Test\TestCase {
 		$configuration->expects($this->any())
 			->method('__get')
 			->will($this->returnCallback(function ($name) {
-				if($name === 'ldapEmailAttribute') {
+				if ($name === 'ldapEmailAttribute') {
 					return 'myEmailAttribute';
 				} else {
 					//for requirement checks
@@ -281,19 +280,21 @@ class WizardTest extends \Test\TestCase {
 		$access->expects($this->exactly(3))
 			->method('countUsers')
 			->will($this->returnCallback(function ($filter) {
-				if($filter === 'myEmailAttribute') {
+				if ($filter === 'myEmailAttribute') {
 					return 0;
-				} else if($filter === 'mail') {
+				} elseif ($filter === 'mail') {
 					return 3;
-				} else if($filter === 'mailPrimaryAddress') {
+				} elseif ($filter === 'mailPrimaryAddress') {
 					return 17;
 				}
 				throw new \Exception('Untested filter: ' . $filter);
 			}));
 
 		$result = $wizard->detectEmailAttribute()->getResultArray();
-		$this->assertSame('mailPrimaryAddress',
-			$result['changes']['ldap_email_attr']);
+		$this->assertSame(
+			'mailPrimaryAddress',
+			$result['changes']['ldap_email_attr']
+		);
 	}
 
 	public function testDetectEmailAttributeFind() {
@@ -303,7 +304,7 @@ class WizardTest extends \Test\TestCase {
 		$configuration->expects($this->any())
 			->method('__get')
 			->will($this->returnCallback(function ($name) {
-				if($name === 'ldapEmailAttribute') {
+				if ($name === 'ldapEmailAttribute') {
 					return '';
 				} else {
 					//for requirement checks
@@ -320,19 +321,21 @@ class WizardTest extends \Test\TestCase {
 		$access->expects($this->exactly(2))
 			->method('countUsers')
 			->will($this->returnCallback(function ($filter) {
-				if($filter === 'myEmailAttribute') {
+				if ($filter === 'myEmailAttribute') {
 					return 0;
-				} else if($filter === 'mail') {
+				} elseif ($filter === 'mail') {
 					return 3;
-				} else if($filter === 'mailPrimaryAddress') {
+				} elseif ($filter === 'mailPrimaryAddress') {
 					return 17;
 				}
 				throw new \Exception('Untested filter: ' . $filter);
 			}));
 
 		$result = $wizard->detectEmailAttribute()->getResultArray();
-		$this->assertSame('mailPrimaryAddress',
-			$result['changes']['ldap_email_attr']);
+		$this->assertSame(
+			'mailPrimaryAddress',
+			$result['changes']['ldap_email_attr']
+		);
 	}
 
 	public function testDetectEmailAttributeFindNothing() {
@@ -342,7 +345,7 @@ class WizardTest extends \Test\TestCase {
 		$configuration->expects($this->any())
 			->method('__get')
 			->will($this->returnCallback(function ($name) {
-				if($name === 'ldapEmailAttribute') {
+				if ($name === 'ldapEmailAttribute') {
 					return 'myEmailAttribute';
 				} else {
 					//for requirement checks
@@ -359,11 +362,11 @@ class WizardTest extends \Test\TestCase {
 		$access->expects($this->exactly(3))
 			->method('countUsers')
 			->will($this->returnCallback(function ($filter) {
-				if($filter === 'myEmailAttribute') {
+				if ($filter === 'myEmailAttribute') {
 					return 0;
-				} else if($filter === 'mail') {
+				} elseif ($filter === 'mail') {
 					return 0;
-				} else if($filter === 'mailPrimaryAddress') {
+				} elseif ($filter === 'mailPrimaryAddress') {
 					return 0;
 				}
 				throw new \Exception('Untested filter: ' . $filter);
@@ -380,18 +383,18 @@ class WizardTest extends \Test\TestCase {
 
 		$configuration->expects($this->any())
 			->method('__get')
-			->will($this->returnCallback(function($name) {
-					if($name === 'ldapBase') {
-						return array('base');
-					}
-					return null;
-			   }));
+			->will($this->returnCallback(function ($name) {
+				if ($name === 'ldapBase') {
+					return ['base'];
+				}
+				return null;
+			}));
 
 		$this->prepareLdapWrapperForConnections($ldap);
 
 		$ldap->expects($this->any())
 			->method('isResource')
-			->will($this->returnCallback(function($res) {
+			->will($this->returnCallback(function ($res) {
 				return (bool)$res;
 			}));
 
@@ -417,13 +420,13 @@ class WizardTest extends \Test\TestCase {
 		$ldap->expects($this->any())
 			->method('nextEntry')
 			//dummy value, usually invalid
-			->will($this->returnCallback(function($a, $prev){
+			->will($this->returnCallback(function ($a, $prev) {
 				$current = $prev + 1;
-				if($current === 7) {
+				if ($current === 7) {
 					return false;
 				}
 				global $mark;
-				if($prev === 4 && !$mark) {
+				if ($prev === 4 && !$mark) {
 					$mark = true;
 					return 4;
 				}
@@ -433,22 +436,21 @@ class WizardTest extends \Test\TestCase {
 		$ldap->expects($this->any())
 			->method('getAttributes')
 			//dummy value, usually invalid
-			->will($this->returnCallback(function($a, $entry) {
-				return array('cn' => array($entry), 'count' => 1);
+			->will($this->returnCallback(function ($a, $entry) {
+				return ['cn' => [$entry], 'count' => 1];
 			}));
 
 		$ldap->expects($this->any())
 			->method('getDN')
 			//dummy value, usually invalid
-			->will($this->returnCallback(function($a, $b) {
+			->will($this->returnCallback(function ($a, $b) {
 				return $b;
 			}));
 
 		// The following expectations are the real test
-		$filters = array('f1', 'f2', '*');
+		$filters = ['f1', 'f2', '*'];
 		$resultArray = $wizard->cumulativeSearchOnAttribute($filters, 'cn', 0);
 		$this->assertSame(6, count($resultArray));
 		unset($mark);
 	}
-
 }

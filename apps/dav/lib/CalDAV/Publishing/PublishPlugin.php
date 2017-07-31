@@ -89,7 +89,7 @@ class PublishPlugin extends ServerPlugin {
 	 *
 	 * @return string
 	 */
-	public function getPluginName()	{
+	public function getPluginName() {
 		return 'oc-calendar-publishing';
 	}
 
@@ -107,7 +107,7 @@ class PublishPlugin extends ServerPlugin {
 		$this->server = $server;
 
 		$this->server->on('method:POST', [$this, 'httpPost']);
-		$this->server->on('propFind',    [$this, 'propFind']);
+		$this->server->on('propFind', [$this, 'propFind']);
 	}
 
 	public function propFind(PropFind $propFind, INode $node) {
@@ -122,7 +122,7 @@ class PublishPlugin extends ServerPlugin {
 				}
 			});
 
-			$propFind->handle('{'.self::NS_CALENDARSERVER.'}allowed-sharing-modes', function() use ($node) {
+			$propFind->handle('{'.self::NS_CALENDARSERVER.'}allowed-sharing-modes', function () use ($node) {
 				return new AllowedSharingModes(!$node->isSubscription(), !$node->isSubscription());
 			});
 		}
@@ -167,7 +167,7 @@ class PublishPlugin extends ServerPlugin {
 
 		switch ($documentType) {
 
-			case '{'.self::NS_CALENDARSERVER.'}publish-calendar' :
+			case '{'.self::NS_CALENDARSERVER.'}publish-calendar':
 
 			// We can only deal with IShareableCalendar objects
 			if (!$node instanceof Calendar) {
@@ -195,7 +195,7 @@ class PublishPlugin extends ServerPlugin {
 			// Breaking the event chain
 			return false;
 
-			case '{'.self::NS_CALENDARSERVER.'}unpublish-calendar' :
+			case '{'.self::NS_CALENDARSERVER.'}unpublish-calendar':
 
 			// We can only deal with IShareableCalendar objects
 			if (!$node instanceof Calendar) {

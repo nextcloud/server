@@ -24,8 +24,6 @@ namespace OCA\Files_Sharing\Activity\Providers;
 use OCP\Activity\IEvent;
 
 class Users extends Base {
-
-
 	const SUBJECT_SHARED_USER_SELF = 'shared_user_self';
 	const SUBJECT_RESHARED_USER_BY = 'reshared_user_by';
 	const SUBJECT_UNSHARED_USER_SELF = 'unshared_user_self';
@@ -45,17 +43,16 @@ class Users extends Base {
 
 		if ($event->getSubject() === self::SUBJECT_SHARED_USER_SELF) {
 			$subject = $this->l->t('Shared with {user}');
-		} else if ($event->getSubject() === self::SUBJECT_UNSHARED_USER_SELF) {
+		} elseif ($event->getSubject() === self::SUBJECT_UNSHARED_USER_SELF) {
 			$subject = $this->l->t('Removed share for {user}');
-		} else if ($event->getSubject() === self::SUBJECT_RESHARED_USER_BY) {
+		} elseif ($event->getSubject() === self::SUBJECT_RESHARED_USER_BY) {
 			$subject = $this->l->t('{actor} shared with {user}');
-		} else if ($event->getSubject() === self::SUBJECT_UNSHARED_USER_BY) {
+		} elseif ($event->getSubject() === self::SUBJECT_UNSHARED_USER_BY) {
 			$subject = $this->l->t('{actor} removed share for {user}');
-		} else if ($event->getSubject() === self::SUBJECT_SHARED_WITH_BY) {
+		} elseif ($event->getSubject() === self::SUBJECT_SHARED_WITH_BY) {
 			$subject = $this->l->t('Shared by {actor}');
-		} else if ($event->getSubject() === self::SUBJECT_UNSHARED_BY) {
+		} elseif ($event->getSubject() === self::SUBJECT_UNSHARED_BY) {
 			$subject = $this->l->t('{actor} removed share');
-
 		} else {
 			throw new \InvalidArgumentException();
 		}
@@ -81,17 +78,16 @@ class Users extends Base {
 
 		if ($event->getSubject() === self::SUBJECT_SHARED_USER_SELF) {
 			$subject = $this->l->t('You shared {file} with {user}');
-		} else if ($event->getSubject() === self::SUBJECT_UNSHARED_USER_SELF) {
+		} elseif ($event->getSubject() === self::SUBJECT_UNSHARED_USER_SELF) {
 			$subject = $this->l->t('You removed {user} from {file}');
-		} else if ($event->getSubject() === self::SUBJECT_RESHARED_USER_BY) {
+		} elseif ($event->getSubject() === self::SUBJECT_RESHARED_USER_BY) {
 			$subject = $this->l->t('{actor} shared {file} with {user}');
-		} else if ($event->getSubject() === self::SUBJECT_UNSHARED_USER_BY) {
+		} elseif ($event->getSubject() === self::SUBJECT_UNSHARED_USER_BY) {
 			$subject = $this->l->t('{actor} removed {user} from {file}');
-		} else if ($event->getSubject() === self::SUBJECT_SHARED_WITH_BY) {
+		} elseif ($event->getSubject() === self::SUBJECT_SHARED_WITH_BY) {
 			$subject = $this->l->t('{actor} shared {file} with you');
-		} else if ($event->getSubject() === self::SUBJECT_UNSHARED_BY) {
+		} elseif ($event->getSubject() === self::SUBJECT_UNSHARED_BY) {
 			$subject = $this->l->t('{actor} removed you from {file}');
-
 		} else {
 			throw new \InvalidArgumentException();
 		}

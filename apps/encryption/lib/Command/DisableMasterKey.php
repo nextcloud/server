@@ -22,7 +22,6 @@
 
 namespace OCA\Encryption\Command;
 
-
 use OCA\Encryption\Util;
 use OCP\IConfig;
 use Symfony\Component\Console\Command\Command;
@@ -47,10 +46,11 @@ class DisableMasterKey extends Command {
 	 * @param IConfig $config
 	 * @param QuestionHelper $questionHelper
 	 */
-	public function __construct(Util $util,
+	public function __construct(
+		Util $util,
 								IConfig $config,
-								QuestionHelper $questionHelper) {
-
+								QuestionHelper $questionHelper
+	) {
 		$this->util = $util;
 		$this->config = $config;
 		$this->questionHelper = $questionHelper;
@@ -64,10 +64,9 @@ class DisableMasterKey extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-
 		$isMasterKeyEnabled = $this->util->isMasterKeyEnabled();
 
-		if(!$isMasterKeyEnabled) {
+		if (!$isMasterKeyEnabled) {
 			$output->writeln('Master key already disabled');
 		} else {
 			$question = new ConfirmationQuestion(
@@ -75,7 +74,9 @@ class DisableMasterKey extends Command {
 				. 'There is no way to enable the master key again. '
 				. 'We strongly recommend to keep the master key, it provides significant performance improvements '
 				. 'and is easier to handle for both, users and administrators. '
-				. 'Do you really want to switch to per-user keys? (y/n) ', false);
+				. 'Do you really want to switch to per-user keys? (y/n) ',
+				false
+			);
 			if ($this->questionHelper->ask($input, $output, $question)) {
 				$this->config->setAppValue('encryption', 'useMasterKey', '0');
 				$output->writeln('Master key successfully disabled.');
@@ -83,7 +84,5 @@ class DisableMasterKey extends Command {
 				$output->writeln('aborted.');
 			}
 		}
-
 	}
-
 }

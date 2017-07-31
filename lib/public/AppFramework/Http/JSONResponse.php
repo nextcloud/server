@@ -52,7 +52,7 @@ class JSONResponse extends Response {
 	 * @param int $statusCode the Http status code, defaults to 200
 	 * @since 6.0.0
 	 */
-	public function __construct($data=array(), $statusCode=Http::STATUS_OK) {
+	public function __construct($data = [], $statusCode = Http::STATUS_OK) {
 		$this->data = $data;
 		$this->setStatus($statusCode);
 		$this->addHeader('Content-Type', 'application/json; charset=utf-8');
@@ -67,7 +67,7 @@ class JSONResponse extends Response {
 	 */
 	public function render() {
 		$response = json_encode($this->data, JSON_HEX_TAG);
-		if($response === false) {
+		if ($response === false) {
 			throw new \Exception(sprintf('Could not json_encode due to invalid ' .
 				'non UTF-8 characters in the array: %s', var_export($this->data, true)));
 		}
@@ -82,7 +82,7 @@ class JSONResponse extends Response {
 	 * @return JSONResponse Reference to this object
 	 * @since 6.0.0 - return value was added in 7.0.0
 	 */
-	public function setData($data){
+	public function setData($data) {
 		$this->data = $data;
 
 		return $this;
@@ -94,8 +94,7 @@ class JSONResponse extends Response {
 	 * @return array the data
 	 * @since 6.0.0
 	 */
-	public function getData(){
+	public function getData() {
 		return $this->data;
 	}
-
 }

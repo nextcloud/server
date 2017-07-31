@@ -93,7 +93,8 @@ class LostController extends Controller {
 	 * @param ITimeFactory $timeFactory
 	 * @param ICrypto $crypto
 	 */
-	public function __construct($appName,
+	public function __construct(
+		$appName,
 								IRequest $request,
 								IURLGenerator $urlGenerator,
 								IUserManager $userManager,
@@ -105,7 +106,8 @@ class LostController extends Controller {
 								IManager $encryptionManager,
 								IMailer $mailer,
 								ITimeFactory $timeFactory,
-								ICrypto $crypto) {
+								ICrypto $crypto
+	) {
 		parent::__construct($appName, $request);
 		$this->urlGenerator = $urlGenerator;
 		$this->userManager = $userManager;
@@ -132,7 +134,10 @@ class LostController extends Controller {
 	 */
 	public function resetform($token, $userId) {
 		if ($this->config->getSystemValue('lost_password_link', '') !== '') {
-			return new TemplateResponse('core', 'error', [
+			return new TemplateResponse(
+				'core',
+				'error',
+				[
 					'errors' => [['error' => $this->l10n->t('Password reset is disabled')]]
 				],
 				'guest'
@@ -143,8 +148,10 @@ class LostController extends Controller {
 			$this->checkPasswordResetToken($token, $userId);
 		} catch (\Exception $e) {
 			return new TemplateResponse(
-				'core', 'error', [
-					"errors" => array(array("error" => $e->getMessage()))
+				'core',
+				'error',
+				[
+					"errors" => [["error" => $e->getMessage()]]
 				],
 				'guest'
 			);
@@ -153,9 +160,9 @@ class LostController extends Controller {
 		return new TemplateResponse(
 			'core',
 			'lostpassword/resetpassword',
-			array(
-				'link' => $this->urlGenerator->linkToRouteAbsolute('core.lost.setPassword', array('userId' => $userId, 'token' => $token)),
-			),
+			[
+				'link' => $this->urlGenerator->linkToRouteAbsolute('core.lost.setPassword', ['userId' => $userId, 'token' => $token]),
+			],
 			'guest'
 		);
 	}
@@ -167,7 +174,7 @@ class LostController extends Controller {
 	 */
 	protected function checkPasswordResetToken($token, $userId) {
 		$user = $this->userManager->get($userId);
-		if($user === null) {
+		if ($user === null) {
 			throw new \Exception($this->l10n->t('Couldn\'t reset password because the token is invalid'));
 		}
 
@@ -180,11 +187,11 @@ class LostController extends Controller {
 		}
 
 		$splittedToken = explode(':', $decryptedToken);
-		if(count($splittedToken) !== 2) {
+		if (count($splittedToken) !== 2) {
 			throw new \Exception($this->l10n->t('Couldn\'t reset password because the token is invalid'));
 		}
 
-		if ($splittedToken[0] < ($this->timeFactory->getTime() - 60*60*12) ||
+		if ($splittedToken[0] < ($this->timeFactory->getTime() - 60 * 60 * 12) ||
 			$user->getLastLogin() > $splittedToken[0]) {
 			throw new \Exception($this->l10n->t('Couldn\'t reset password because the token is expired'));
 		}
@@ -199,15 +206,15 @@ class LostController extends Controller {
 	 * @param array $additional
 	 * @return array
 	 */
-	private function error($message, array $additional=array()) {
-		return array_merge(array('status' => 'error', 'msg' => $message), $additional);
+	private function error($message, array $additional = []) {
+		return array_merge(['status' => 'error', 'msg' => $message], $additional);
 	}
 
 	/**
 	 * @return array
 	 */
 	private function success() {
-		return array('status'=>'success');
+		return ['status' => 'success'];
 	}
 
 	/**
@@ -218,7 +225,7 @@ class LostController extends Controller {
 	 * @param string $user
 	 * @return JSONResponse
 	 */
-	public function email($user){
+	public function email($user) {
 		if ($this->config->getSystemValue('lost_password_link', '') !== '') {
 			return new JSONResponse($this->error($this->l10n->t('Password reset is disabled')));
 		}
@@ -226,7 +233,7 @@ class LostController extends Controller {
 		// FIXME: use HTTP error codes
 		try {
 			$this->sendEmail($user);
-		} catch (\Exception $e){
+		} catch (\Exception $e) {
 			$response = new JSONResponse($this->error($e->getMessage()));
 			$response->throttle();
 			return $response;
@@ -251,24 +258,24 @@ class LostController extends Controller {
 		}
 
 		if ($this->encryptionManager->isEnabled() && !$proceed) {
-			return $this->error('', array('encryption' => true));
+			return $this->error('', ['encryption' => true]);
 		}
 
 		try {
 			$this->checkPasswordResetToken($token, $userId);
 			$user = $this->userManager->get($userId);
 
-			\OC_Hook::emit('\OC\Core\LostPassword\Controller\LostController', 'pre_passwordReset', array('uid' => $userId, 'password' => $password));
+			\OC_Hook::emit('\OC\Core\LostPassword\Controller\LostController', 'pre_passwordReset', ['uid' => $userId, 'password' => $password]);
 
 			if (!$user->setPassword($password)) {
 				throw new \Exception();
 			}
 
-			\OC_Hook::emit('\OC\Core\LostPassword\Controller\LostController', 'post_passwordReset', array('uid' => $userId, 'password' => $password));
+			\OC_Hook::emit('\OC\Core\LostPassword\Controller\LostController', 'post_passwordReset', ['uid' => $userId, 'password' => $password]);
 
 			$this->config->deleteUserValue($userId, 'core', 'lostpassword');
 			@\OC::$server->getUserSession()->unsetMagicInCookie();
-		} catch (\Exception $e){
+		} catch (\Exception $e) {
 			return $this->error($e->getMessage());
 		}
 
@@ -303,7 +310,7 @@ class LostController extends Controller {
 		$encryptedValue = $this->crypto->encrypt($tokenValue, $email . $this->config->getSystemValue('secret'));
 		$this->config->setUserValue($user->getUID(), 'core', 'lostpassword', $encryptedValue);
 
-		$link = $this->urlGenerator->linkToRouteAbsolute('core.lost.resetform', array('userId' => $user->getUID(), 'token' => $token));
+		$link = $this->urlGenerator->linkToRouteAbsolute('core.lost.resetform', ['userId' => $user->getUID(), 'token' => $token]);
 
 		$emailTemplate = $this->mailer->createEMailTemplate();
 

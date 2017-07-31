@@ -61,6 +61,5 @@ class EventLoggerTest extends TestCase {
 		$this->assertSame("test3", $events['test3']->getId());
 		$this->assertSame("testevent3", $events['test3']->getDescription());
 		$this->assertSame(2, sizeof($events));
-
 	}
 }

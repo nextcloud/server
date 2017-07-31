@@ -46,5 +46,4 @@ class EducationBundle extends Bundle {
 			'user_saml',
 		];
 	}
-
 }

@@ -30,7 +30,6 @@ use OC\Files\Filesystem;
 use OCA\FederatedFileSharing\DiscoveryManager;
 
 class Hooks {
-
 	public static function deleteUser($params) {
 		$manager = new External\Manager(
 			\OC::$server->getDatabaseConnection(),
@@ -39,7 +38,8 @@ class Hooks {
 			\OC::$server->getHTTPClientService(),
 			\OC::$server->getNotificationManager(),
 			\OC::$server->query(\OCP\OCS\IDiscoveryService::class),
-			$params['uid']);
+			$params['uid']
+		);
 
 		$manager->removeUserShares($params['uid']);
 	}

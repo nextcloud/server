@@ -108,5 +108,4 @@ class BackupCodeMapperTest extends TestCase {
 
 		$this->assertCount(0, $this->mapper->getBackupCodes($user));
 	}
-
 }

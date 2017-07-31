@@ -38,9 +38,11 @@ class Signer {
 	 * @param ITimeFactory $timeFactory
 	 * @param IUserManager $userManager
 	 */
-	public function __construct(Manager $keyManager,
+	public function __construct(
+		Manager $keyManager,
 								ITimeFactory $timeFactory,
-								IUserManager $userManager) {
+								IUserManager $userManager
+	) {
 		$this->keyManager = $keyManager;
 		$this->timeFactory = $timeFactory;
 		$this->userManager = $userManager;
@@ -77,7 +79,7 @@ class Signer {
 	 * @return bool
 	 */
 	public function verify(array $data) {
-		if(isset($data['message'])
+		if (isset($data['message'])
 			&& isset($data['signature'])
 			&& isset($data['message']['signer'])
 		) {
@@ -85,7 +87,7 @@ class Signer {
 			$userId = substr($data['message']['signer'], 0, $location);
 
 			$user = $this->userManager->get($userId);
-			if($user !== null) {
+			if ($user !== null) {
 				$key = $this->keyManager->getKey($user);
 				return (bool)openssl_verify(
 					json_encode($data['message']),

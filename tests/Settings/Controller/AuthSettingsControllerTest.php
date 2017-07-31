@@ -223,5 +223,4 @@ class AuthSettingsControllerTest extends TestCase {
 
 		$this->assertSame([], $this->controller->update(42, ['filesystem' => true]));
 	}
-
 }

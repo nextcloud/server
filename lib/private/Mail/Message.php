@@ -53,10 +53,10 @@ class Message {
 			return $addresses;
 		}
 
-		$convertedAddresses = array();
+		$convertedAddresses = [];
 
-		foreach($addresses as $email => $readableName) {
-			if(!is_numeric($email)) {
+		foreach ($addresses as $email => $readableName) {
+			if (!is_numeric($email)) {
 				list($name, $domain) = explode('@', $email, 2);
 				$domain = idn_to_ascii($domain);
 				$convertedAddresses[$name.'@'.$domain] = $readableName;

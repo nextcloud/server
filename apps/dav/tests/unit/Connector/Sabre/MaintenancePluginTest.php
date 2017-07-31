@@ -58,5 +58,4 @@ class MaintenancePluginTest extends TestCase {
 
 		$this->maintenancePlugin->checkMaintenanceMode();
 	}
-
 }

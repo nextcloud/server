@@ -21,12 +21,10 @@
 
 namespace Test\RichObjectStrings;
 
-
 use OCP\RichObjectStrings\Definitions;
 use Test\TestCase;
 
 class DefinitionsTest extends TestCase {
-
 	public function dataGetDefinition() {
 		$definitions = new Definitions();
 		$testsuite = [];
@@ -88,6 +86,5 @@ class DefinitionsTest extends TestCase {
 		$this->assertNotEquals('', $data['description'], 'Description of parameter ' . $parameter . ' must not be empty');
 		$this->assertArrayHasKey('example', $data);
 		$this->assertNotEquals('', $data['example'], 'Example of parameter ' . $parameter . ' must not be empty');
-
 	}
 }

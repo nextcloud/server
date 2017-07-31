@@ -10,7 +10,6 @@
 namespace Test\Session;
 
 class MemoryTest extends Session {
-
 	protected function setUp() {
 		parent::setUp();
 		$this->instance = new \OC\Session\Memory($this->getUniqueID());
@@ -22,5 +21,4 @@ class MemoryTest extends Session {
 	public function testThrowsExceptionOnGetId() {
 		$this->instance->getId();
 	}
-
 }

@@ -29,7 +29,6 @@ use OCP\Share\IShare;
  * Sabre Plugin to provide share-related properties
  */
 class SharesPlugin extends \Sabre\DAV\ServerPlugin {
-
 	const NS_OWNCLOUD = 'http://owncloud.org/ns';
 	const SHARETYPES_PROPERTYNAME = '{http://owncloud.org/ns}share-types';
 
@@ -102,7 +101,7 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 		$server->protectedProperties[] = self::SHARETYPES_PROPERTYNAME;
 
 		$this->server = $server;
-		$this->server->on('propFind', array($this, 'handleGetProperties'));
+		$this->server->on('propFind', [$this, 'handleGetProperties']);
 	}
 
 	/**
@@ -146,8 +145,8 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 
 		$shareTypesByFileId = [];
 
-		foreach($shares as $fileId => $sharesForFile) {
-			$types = array_map(function(IShare $share) {
+		foreach ($shares as $fileId => $sharesForFile) {
+			$types = array_map(function (IShare $share) {
 				return $share->getShareType();
 			}, $sharesForFile);
 			$types = array_unique($types);
@@ -191,7 +190,7 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 			if (isset($this->cachedShareTypes[$sabreNode->getId()])) {
 				$shareTypes = $this->cachedShareTypes[$sabreNode->getId()];
 			} else {
-				list($parentPath,) = \Sabre\Uri\split($sabreNode->getPath());
+				list($parentPath, ) = \Sabre\Uri\split($sabreNode->getPath());
 				if ($parentPath === '') {
 					$parentPath = '/';
 				}

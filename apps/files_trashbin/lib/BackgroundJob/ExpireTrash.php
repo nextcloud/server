@@ -47,8 +47,10 @@ class ExpireTrash extends \OC\BackgroundJob\TimedJob {
 	 * @param IUserManager|null $userManager
 	 * @param Expiration|null $expiration
 	 */
-	public function __construct(IUserManager $userManager = null,
-								Expiration $expiration = null) {
+	public function __construct(
+		IUserManager $userManager = null,
+								Expiration $expiration = null
+	) {
 		// Run once per 30 minutes
 		$this->setInterval(60 * 30);
 
@@ -76,7 +78,7 @@ class ExpireTrash extends \OC\BackgroundJob\TimedJob {
 			return;
 		}
 
-		$this->userManager->callForSeenUsers(function(IUser $user) {
+		$this->userManager->callForSeenUsers(function (IUser $user) {
 			$uid = $user->getUID();
 			if (!$this->setupFS($uid)) {
 				return;

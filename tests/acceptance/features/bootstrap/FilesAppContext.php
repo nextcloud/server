@@ -24,7 +24,6 @@
 use Behat\Behat\Context\Context;
 
 class FilesAppContext implements Context, ActorAwareInterface {
-
 	use ActorAware;
 
 	/**
@@ -463,7 +462,8 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	public function iSeeThatTheCurrentPageIsTheFilesApp() {
 		PHPUnit_Framework_Assert::assertStringStartsWith(
 				$this->actor->locatePath("/apps/files/"),
-				$this->actor->getSession()->getCurrentUrl());
+				$this->actor->getSession()->getCurrentUrl()
+		);
 	}
 
 	/**
@@ -471,7 +471,8 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheDetailsViewForSectionIsOpen($section) {
 		PHPUnit_Framework_Assert::assertTrue(
-				$this->actor->find(self::detailsViewForSection($section), 10)->isVisible());
+				$this->actor->find(self::detailsViewForSection($section), 10)->isVisible()
+		);
 
 		$otherSections = self::sections();
 		unset($otherSections[$section]);
@@ -493,7 +494,8 @@ class FilesAppContext implements Context, ActorAwareInterface {
 			try {
 				PHPUnit_Framework_Assert::assertFalse(
 						$this->actor->find(self::detailsViewForSection($section))->isVisible(),
-						"Details view for section $section is open but it should be closed");
+						"Details view for section $section is open but it should be closed"
+				);
 			} catch (NoSuchElementException $exception) {
 			}
 		}
@@ -525,7 +527,8 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheInputFieldForTagsInTheDetailsViewIsShown() {
 		PHPUnit_Framework_Assert::assertTrue(
-				$this->actor->find(self::inputFieldForTagsInCurrentSectionDetailsView(), 10)->isVisible());
+				$this->actor->find(self::inputFieldForTagsInCurrentSectionDetailsView(), 10)->isVisible()
+		);
 	}
 
 	/**
@@ -533,7 +536,8 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheInputFieldForTagsInTheDetailsViewContainsTheTag($tag) {
 		PHPUnit_Framework_Assert::assertTrue(
-				$this->actor->find(self::itemInInputFieldForTagsInCurrentSectionDetailsViewForTag($tag), 10)->isVisible());
+				$this->actor->find(self::itemInInputFieldForTagsInCurrentSectionDetailsViewForTag($tag), 10)->isVisible()
+		);
 	}
 
 	/**
@@ -544,7 +548,8 @@ class FilesAppContext implements Context, ActorAwareInterface {
 
 		try {
 			PHPUnit_Framework_Assert::assertFalse(
-					$this->actor->find(self::itemInInputFieldForTagsInCurrentSectionDetailsViewForTag($tag))->isVisible());
+					$this->actor->find(self::itemInInputFieldForTagsInCurrentSectionDetailsViewForTag($tag))->isVisible()
+			);
 		} catch (NoSuchElementException $exception) {
 		}
 	}
@@ -554,7 +559,8 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheTagInTheDropdownForTagsInTheDetailsViewIsChecked($tag) {
 		PHPUnit_Framework_Assert::assertTrue(
-				$this->actor->find(self::checkmarkInItemInDropdownForTag($tag), 10)->isVisible());
+				$this->actor->find(self::checkmarkInItemInDropdownForTag($tag), 10)->isVisible()
+		);
 	}
 
 	/**
@@ -562,10 +568,12 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheTagInTheDropdownForTagsInTheDetailsViewIsNotChecked($tag) {
 		PHPUnit_Framework_Assert::assertTrue(
-				$this->actor->find(self::itemInDropdownForTag($tag), 10)->isVisible());
+				$this->actor->find(self::itemInDropdownForTag($tag), 10)->isVisible()
+		);
 
 		PHPUnit_Framework_Assert::assertFalse(
-				$this->actor->find(self::checkmarkInItemInDropdownForTag($tag))->isVisible());
+				$this->actor->find(self::checkmarkInItemInDropdownForTag($tag))->isVisible()
+		);
 	}
 
 	/**
@@ -606,7 +614,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	private function waitForElementToBeEventuallyNotShown($elementLocator, $timeout = 10, $timeoutStep = 1) {
 		$actor = $this->actor;
 
-		$elementNotFoundCallback = function() use ($actor, $elementLocator) {
+		$elementNotFoundCallback = function () use ($actor, $elementLocator) {
 			try {
 				return !$actor->find($elementLocator)->isVisible();
 			} catch (NoSuchElementException $exception) {

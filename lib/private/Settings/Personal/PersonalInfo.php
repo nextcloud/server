@@ -93,7 +93,7 @@ class PersonalInfo implements ISettings {
 	public function getForm() {
 		$federatedFileSharingEnabled = $this->appManager->isEnabledForUser('federatedfilesharing');
 		$lookupServerUploadEnabled = false;
-		if($federatedFileSharingEnabled) {
+		if ($federatedFileSharingEnabled) {
 			$federatedFileSharing = new Application();
 			$shareProvider = $federatedFileSharing->getFederatedShareProvider();
 			$lookupServerUploadEnabled = $shareProvider->isLookupServerUploadEnabled();
@@ -131,8 +131,8 @@ class PersonalInfo implements ISettings {
 			'phoneScope' => $userData[AccountManager::PROPERTY_PHONE]['scope'],
 			'address' => $userData[AccountManager::PROPERTY_ADDRESS]['value'],
 			'addressScope' => $userData[AccountManager::PROPERTY_ADDRESS]['scope'],
-			'website' =>  $userData[AccountManager::PROPERTY_WEBSITE]['value'],
-			'websiteScope' =>  $userData[AccountManager::PROPERTY_WEBSITE]['scope'],
+			'website' => $userData[AccountManager::PROPERTY_WEBSITE]['value'],
+			'websiteScope' => $userData[AccountManager::PROPERTY_WEBSITE]['scope'],
 			'websiteVerification' => $userData[AccountManager::PROPERTY_WEBSITE]['verified'],
 			'twitter' => $userData[AccountManager::PROPERTY_TWITTER]['value'],
 			'twitterScope' => $userData[AccountManager::PROPERTY_TWITTER]['scope'],
@@ -173,7 +173,7 @@ class PersonalInfo implements ISettings {
 	 */
 	private function getGroups(IUser $user) {
 		$groups = array_map(
-			function(IGroup $group) {
+			function (IGroup $group) {
 				return $group->getGID();
 			},
 			$this->groupManager->getUserGroups($user)
@@ -192,7 +192,7 @@ class PersonalInfo implements ISettings {
 	 */
 	private function getLanguages(IUser $user) {
 		$forceLanguage = $this->config->getSystemValue('force_language', false);
-		if($forceLanguage !== false) {
+		if ($forceLanguage !== false) {
 			return [];
 		}
 
@@ -204,16 +204,16 @@ class PersonalInfo implements ISettings {
 		$commonLanguages = [];
 		$languages = [];
 
-		foreach($languageCodes as $lang) {
+		foreach ($languageCodes as $lang) {
 			$l = \OC::$server->getL10N('settings', $lang);
 			// TRANSLATORS this is the language name for the language switcher in the personal settings and should be the localized version
 			$potentialName = (string) $l->t('__language_name__');
-			if($l->getLanguageCode() === $lang && substr($potentialName, 0, 1) !== '_') {//first check if the language name is in the translation file
-				$ln = array('code' => $lang, 'name' => $potentialName);
+			if ($l->getLanguageCode() === $lang && substr($potentialName, 0, 1) !== '_') {//first check if the language name is in the translation file
+				$ln = ['code' => $lang, 'name' => $potentialName];
 			} elseif ($lang === 'en') {
 				$ln = ['code' => $lang, 'name' => 'English (US)'];
-			}else{//fallback to language code
-				$ln=array('code'=>$lang, 'name'=>$lang);
+			} else {//fallback to language code
+				$ln = ['code' => $lang, 'name' => $lang];
 			}
 
 			// put appropriate languages into appropriate arrays, to print them sorted
@@ -221,9 +221,9 @@ class PersonalInfo implements ISettings {
 			if ($lang === $userLang) {
 				$userLang = $ln;
 			} elseif (in_array($lang, self::COMMON_LANGUAGE_CODES)) {
-				$commonLanguages[array_search($lang, self::COMMON_LANGUAGE_CODES)]=$ln;
+				$commonLanguages[array_search($lang, self::COMMON_LANGUAGE_CODES)] = $ln;
 			} else {
-				$languages[]=$ln;
+				$languages[] = $ln;
 			}
 		}
 
@@ -238,7 +238,7 @@ class PersonalInfo implements ISettings {
 		ksort($commonLanguages);
 
 		// sort now by displayed language not the iso-code
-		usort( $languages, function ($a, $b) {
+		usort($languages, function ($a, $b) {
 			if ($a['code'] === $a['name'] && $b['code'] !== $b['name']) {
 				// If a doesn't have a name, but b does, list b before a
 				return 1;
@@ -280,5 +280,4 @@ class PersonalInfo implements ISettings {
 		}
 		return $messageParameters;
 	}
-
 }

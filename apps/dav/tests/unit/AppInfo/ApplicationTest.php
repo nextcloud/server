@@ -51,7 +51,7 @@ class ApplicationTest extends TestCase {
 	public function testContactsManagerSetup() {
 		$app = new Application();
 		$c = $app->getContainer();
-		$c->registerService(CardDavBackend::class, function() {
+		$c->registerService(CardDavBackend::class, function () {
 			$service = $this->createMock(CardDavBackend::class);
 			$service->method('getAddressBooksForUser')->willReturn([]);
 			return $service;

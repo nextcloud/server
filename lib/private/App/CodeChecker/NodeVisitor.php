@@ -102,7 +102,7 @@ class NodeVisitor extends NodeVisitorAbstract {
 
 	public function enterNode(Node $node) {
 		if ($this->checkEqualOperatorUsage && $node instanceof Node\Expr\BinaryOp\Equal) {
-			$this->errors[]= [
+			$this->errors[] = [
 				'disallowedToken' => '==',
 				'errorCode' => CodeChecker::OP_OPERATOR_USAGE_DISCOURAGED,
 				'line' => $node->getLine(),
@@ -110,7 +110,7 @@ class NodeVisitor extends NodeVisitorAbstract {
 			];
 		}
 		if ($this->checkEqualOperatorUsage && $node instanceof Node\Expr\BinaryOp\NotEqual) {
-			$this->errors[]= [
+			$this->errors[] = [
 				'disallowedToken' => '!=',
 				'errorCode' => CodeChecker::OP_OPERATOR_USAGE_DISCOURAGED,
 				'line' => $node->getLine(),
@@ -246,7 +246,7 @@ class NodeVisitor extends NodeVisitorAbstract {
 		$lowerName = strtolower($name);
 
 		if (isset($this->blackListedClassNames[$lowerName])) {
-			$this->errors[]= [
+			$this->errors[] = [
 				'disallowedToken' => $name,
 				'errorCode' => $errorCode,
 				'line' => $node->getLine(),
@@ -260,7 +260,7 @@ class NodeVisitor extends NodeVisitorAbstract {
 		$lowerName = strtolower($name);
 
 		if (isset($this->blackListedConstants[$lowerName])) {
-			$this->errors[]= [
+			$this->errors[] = [
 				'disallowedToken' => $name,
 				'errorCode' => CodeChecker::CLASS_CONST_FETCH_NOT_ALLOWED,
 				'line' => $node->getLine(),
@@ -274,7 +274,7 @@ class NodeVisitor extends NodeVisitorAbstract {
 		$lowerName = strtolower($name);
 
 		if (isset($this->blackListedFunctions[$lowerName])) {
-			$this->errors[]= [
+			$this->errors[] = [
 				'disallowedToken' => $name,
 				'errorCode' => CodeChecker::STATIC_CALL_NOT_ALLOWED,
 				'line' => $node->getLine(),
@@ -288,7 +288,7 @@ class NodeVisitor extends NodeVisitorAbstract {
 		$lowerName = strtolower($name);
 
 		if (isset($this->blackListedMethods[$lowerName])) {
-			$this->errors[]= [
+			$this->errors[] = [
 				'disallowedToken' => $name,
 				'errorCode' => CodeChecker::CLASS_METHOD_CALL_NOT_ALLOWED,
 				'line' => $node->getLine(),

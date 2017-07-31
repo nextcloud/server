@@ -25,7 +25,6 @@ namespace OCA\Files_Sharing\Tests;
 
 use OCA\Files_Sharing\Capabilities;
 
-
 /**
  * Class CapabilitiesTest
  *
@@ -281,5 +280,4 @@ class CapabilitiesTest extends \Test\TestCase {
 		$this->assertArrayHasKey('federation', $result);
 		$this->assertFalse($result['federation']['outgoing']);
 	}
-
 }

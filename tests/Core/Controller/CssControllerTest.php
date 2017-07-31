@@ -156,13 +156,15 @@ class CssControllerTest extends TestCase {
 			->willReturn($folder);
 
 		$folder->method('getFile')
-			->will($this->returnCallback(
-				function($fileName) use ($file) {
+			->will(
+				$this->returnCallback(
+				function ($fileName) use ($file) {
 					if ($fileName === 'file.css') {
 						return $file;
 					}
 					throw new NotFoundException();
-				})
+				}
+			)
 			);
 
 		$this->request->method('getHeader')
@@ -180,5 +182,4 @@ class CssControllerTest extends TestCase {
 		$result = $this->controller->getCss('file.css', 'myapp');
 		$this->assertEquals($expected, $result);
 	}
-
 }

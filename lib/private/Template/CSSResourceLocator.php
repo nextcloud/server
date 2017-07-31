@@ -59,7 +59,7 @@ class CSSResourceLocator extends ResourceLocator {
 		) {
 			return;
 		}
-		$style = substr($style, strpos($style, '/')+1);
+		$style = substr($style, strpos($style, '/') + 1);
 		$app_path = \OC_App::getAppPath($app);
 		$app_url = \OC_App::getAppWebPath($app);
 
@@ -71,7 +71,7 @@ class CSSResourceLocator extends ResourceLocator {
 			return;
 		}
 
-		if(!$this->cacheAndAppendScssIfExist($app_path, $style.'.scss', $app)) {
+		if (!$this->cacheAndAppendScssIfExist($app_path, $style.'.scss', $app)) {
 			$this->append($app_path, $style.'.css', $app_url);
 		}
 	}
@@ -95,9 +95,8 @@ class CSSResourceLocator extends ResourceLocator {
 	 */
 	protected function cacheAndAppendScssIfExist($root, $file, $app = 'core') {
 		if (is_file($root.'/'.$file)) {
-			if($this->scssCacher !== null) {
-				if($this->scssCacher->process($root, $file, $app)) {
-
+			if ($this->scssCacher !== null) {
+				if ($this->scssCacher->process($root, $file, $app)) {
 					$this->append($root, $this->scssCacher->getCachedSCSS($app, $file), false, true, true);
 					return true;
 				} else {
@@ -147,15 +146,14 @@ class CSSResourceLocator extends ResourceLocator {
 						break;
 					}
 					$tmpRoot = dirname($tmpRoot);
-				} while(true);
-
+				} while (true);
 			}
 
 			if ($throw && $tmpRoot === '/') {
 				throw new ResourceNotFoundException($file, $webRoot);
 			}
 
-			$this->resources[] = array($tmpRoot, $webRoot, $file);
+			$this->resources[] = [$tmpRoot, $webRoot, $file];
 		}
 	}
 }

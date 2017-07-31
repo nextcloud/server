@@ -33,18 +33,17 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 	 *
 	 * @return array
 	 */
-	function getChildren() {
+	public function getChildren() {
 		if ($this->l10n === null) {
 			$this->l10n = \OC::$server->getL10N('dav');
 		}
 
 		$addressBooks = $this->carddavBackend->getAddressBooksForUser($this->principalUri);
 		$objects = [];
-		foreach($addressBooks as $addressBook) {
+		foreach ($addressBooks as $addressBook) {
 			$objects[] = new AddressBook($this->carddavBackend, $addressBook, $this->l10n);
 		}
 		return $objects;
-
 	}
 
 	/**
@@ -59,8 +58,7 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 	 *
 	 * @return array
 	 */
-	function getACL() {
-
+	public function getACL() {
 		$acl = parent::getACL();
 		if ($this->principalUri === 'principals/system/system') {
 			$acl[] = [
@@ -72,5 +70,4 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 
 		return $acl;
 	}
-
 }

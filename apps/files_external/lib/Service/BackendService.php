@@ -79,7 +79,8 @@ class BackendService {
 		if ($this->config->getAppValue('files_external', 'allow_user_mounting', 'yes') !== 'yes') {
 			$this->userMountingAllowed = false;
 		}
-		$this->userMountingBackends = explode(',',
+		$this->userMountingBackends = explode(
+			',',
 			$this->config->getAppValue('files_external', 'user_mounting_backends', '')
 		);
 
@@ -193,7 +194,7 @@ class BackendService {
 	 * @return Backend[]
 	 */
 	public function getAvailableBackends() {
-		return array_filter($this->getBackends(), function($backend) {
+		return array_filter($this->getBackends(), function ($backend) {
 			return !($backend->checkDependencies());
 		});
 	}
@@ -232,7 +233,7 @@ class BackendService {
 	 * @return AuthMechanism[]
 	 */
 	public function getAuthMechanismsByScheme(array $schemes) {
-		return array_filter($this->getAuthMechanisms(), function($authMech) use ($schemes) {
+		return array_filter($this->getAuthMechanisms(), function ($authMech) use ($schemes) {
 			return in_array($authMech->getScheme(), $schemes, true);
 		});
 	}

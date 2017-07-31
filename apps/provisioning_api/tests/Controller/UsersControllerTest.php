@@ -1234,7 +1234,6 @@ class UsersControllerTest extends TestCase {
 	}
 
 	public function testEditUserSelfEditChangeLanguage() {
-
 		$this->l10nFactory->expects($this->once())
 			->method('findAvailableLanguages')
 			->willReturn(['en', 'de', 'sv']);
@@ -1326,7 +1325,6 @@ class UsersControllerTest extends TestCase {
 	}
 
 	public function testEditUserAdminEditChangeLanguage() {
-
 		$this->l10nFactory->expects($this->once())
 			->method('findAvailableLanguages')
 			->willReturn(['en', 'de', 'sv']);
@@ -1372,7 +1370,6 @@ class UsersControllerTest extends TestCase {
 	 * @expectedException \OCP\AppFramework\OCS\OCSException
 	 */
 	public function testEditUserAdminEditChangeLanguageInvalidLanguage() {
-
 		$this->l10nFactory->expects($this->once())
 			->method('findAvailableLanguages')
 			->willReturn(['en', 'de', 'sv']);
@@ -2431,7 +2428,6 @@ class UsersControllerTest extends TestCase {
 	 * @expectedExceptionMessage Group does not exist
 	 */
 	public function testAddSubAdminWithNotExistingTargetGroup() {
-
 		$targetUser = $this->getMockBuilder('\OCP\IUser')->disableOriginalConstructor()->getMock();
 		$this->userManager
 			->expects($this->once())
@@ -2895,7 +2891,6 @@ class UsersControllerTest extends TestCase {
 	 * @expectedException \OCP\AppFramework\OCS\OCSException
 	 */
 	public function testGetCurrentUserNotLoggedIn() {
-
 		$this->userSession->expects($this->once())->method('getUser')
 			->willReturn(null);
 

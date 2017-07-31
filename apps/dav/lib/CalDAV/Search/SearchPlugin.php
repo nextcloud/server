@@ -135,13 +135,13 @@ class SearchPlugin extends ServerPlugin {
 		// If we're dealing with the calendar home, the calendar home itself is
 		// responsible for the calendar-query
 		if ($node instanceof CalendarHome && $depth == 2) {
-
 			$nodePaths = $node->calendarSearch($report->filters, $report->limit, $report->offset);
 
 			foreach ($nodePaths as $path) {
 				list($properties) = $this->server->getPropertiesForPath(
 					$this->server->getRequestUri() . '/' . $path,
-					$report->properties);
+					$report->properties
+				);
 				$result[] = $properties;
 			}
 		}
@@ -149,11 +149,16 @@ class SearchPlugin extends ServerPlugin {
 		$prefer = $this->server->getHTTPPrefer();
 
 		$this->server->httpResponse->setStatus(207);
-		$this->server->httpResponse->setHeader('Content-Type',
-			'application/xml; charset=utf-8');
+		$this->server->httpResponse->setHeader(
+			'Content-Type',
+			'application/xml; charset=utf-8'
+		);
 		$this->server->httpResponse->setHeader('Vary', 'Brief,Prefer');
 		$this->server->httpResponse->setBody(
-			$this->server->generateMultiStatus($result,
-				$prefer['return'] === 'minimal'));
+			$this->server->generateMultiStatus(
+				$result,
+				$prefer['return'] === 'minimal'
+			)
+		);
 	}
 }

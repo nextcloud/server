@@ -32,7 +32,10 @@ class FileInfoTest extends TestCase {
 		$fileInfo = new FileInfo(
 			'',
 			new Home(['user' => new User('foo', $this->userBackend, null, $this->config)]),
-			'', [], null);
+			'',
+			[],
+			null
+		);
 		$this->assertFalse($fileInfo->isMounted());
 	}
 
@@ -40,7 +43,10 @@ class FileInfoTest extends TestCase {
 		$fileInfo = new FileInfo(
 			'',
 			new Temporary(),
-			'', [], null);
+			'',
+			[],
+			null
+		);
 		$this->assertTrue($fileInfo->isMounted());
 	}
 }

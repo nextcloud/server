@@ -35,4 +35,3 @@ class AutoloadNotAllowedException extends \DomainException {
 		parent::__construct('Autoload path not allowed: '.$path);
 	}
 }
-

@@ -27,7 +27,7 @@ OCP\JSON::callCheck();
 $lastConfirm = (int) \OC::$server->getSession()->get('last-password-confirm');
 if ($lastConfirm < (time() - 30 * 60 + 15)) { // allow 15 seconds delay
 	$l = \OC::$server->getL10N('core');
-	OC_JSON::error(array( 'data' => array( 'message' => $l->t('Password confirmation is required'))));
+	OC_JSON::error([ 'data' => [ 'message' => $l->t('Password confirmation is required')]]);
 	exit();
 }
 
@@ -40,12 +40,12 @@ $appId = (string)$_POST['appid'];
 $appId = OC_App::cleanAppId($appId);
 
 $result = OC_App::removeApp($appId);
-if($result !== false) {
+if ($result !== false) {
 	// FIXME: Clear the cache - move that into some sane helper method
 	\OC::$server->getMemCacheFactory()->create('settings')->remove('listApps-0');
 	\OC::$server->getMemCacheFactory()->create('settings')->remove('listApps-1');
-	OC_JSON::success(array('data' => array('appid' => $appId)));
+	OC_JSON::success(['data' => ['appid' => $appId]]);
 } else {
 	$l = \OC::$server->getL10N('settings');
-	OC_JSON::error(array('data' => array( 'message' => $l->t("Couldn't remove app.") )));
+	OC_JSON::error(['data' => [ 'message' => $l->t("Couldn't remove app.") ]]);
 }

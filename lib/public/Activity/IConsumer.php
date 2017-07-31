@@ -46,4 +46,3 @@ interface IConsumer {
 	 */
 	public function receive(IEvent $event);
 }
-

@@ -54,7 +54,6 @@ class AdminTest extends TestCase {
 	 * @UseDB
 	 */
 	public function testGetForm() {
-
 		$helper = new Helper(\OC::$server->getConfig());
 		$prefixes = $helper->getServerConfigurationPrefixes();
 		$hosts = $helper->getServerConfigurationHosts();
@@ -72,7 +71,7 @@ class AdminTest extends TestCase {
 		// assign default values
 		$config = new Configuration('', false);
 		$defaults = $config->getDefaults();
-		foreach($defaults as $key => $default) {
+		foreach ($defaults as $key => $default) {
 			$parameters[$key.'_default'] = $default;
 		}
 

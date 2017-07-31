@@ -55,11 +55,13 @@ class Server implements ISettings {
 	 * @param ILockingProvider $lockingProvider
 	 * @param IL10N $l
 	 */
-	public function __construct(IDBConnection $db,
+	public function __construct(
+		IDBConnection $db,
 								IRequest $request,
 								IConfig $config,
 								ILockingProvider $lockingProvider,
-								IL10N $l) {
+								IL10N $l
+	) {
 		$this->db = $db;
 		$this->request = $request;
 		$this->config = $config;
@@ -86,8 +88,8 @@ class Server implements ISettings {
 
 		// warn if outdated version of a memcache module is used
 		$caches = [
-			'apcu'	=> ['name' => $this->l->t('APCu'), 'version' => '4.0.6'],
-			'redis'	=> ['name' => $this->l->t('Redis'), 'version' => '2.2.5'],
+			'apcu' => ['name' => $this->l->t('APCu'), 'version' => '4.0.6'],
+			'redis' => ['name' => $this->l->t('Redis'), 'version' => '2.2.5'],
 		];
 		$outdatedCaches = [];
 		foreach ($caches as $php_module => $data) {
@@ -99,7 +101,7 @@ class Server implements ISettings {
 
 		if ($this->lockingProvider instanceof NoopLockingProvider) {
 			$fileLockingType = 'none';
-		} else if ($this->lockingProvider instanceof DBLockingProvider) {
+		} elseif ($this->lockingProvider instanceof DBLockingProvider) {
 			$fileLockingType = 'db';
 		} else {
 			$fileLockingType = 'cache';
@@ -117,22 +119,22 @@ class Server implements ISettings {
 
 		$parameters = [
 			// Diagnosis
-			'readOnlyConfigEnabled'            => \OC_Helper::isReadOnlyConfigEnabled(),
-			'isLocaleWorking'                  => \OC_Util::isSetLocaleWorking(),
-			'isAnnotationsWorking'             => \OC_Util::isAnnotationsWorking(),
-			'checkForWorkingWellKnownSetup'    => $this->config->getSystemValue('check_for_working_wellknown_setup', true),
-			'has_fileinfo'                     => \OC_Util::fileInfoLoaded(),
+			'readOnlyConfigEnabled' => \OC_Helper::isReadOnlyConfigEnabled(),
+			'isLocaleWorking' => \OC_Util::isSetLocaleWorking(),
+			'isAnnotationsWorking' => \OC_Util::isAnnotationsWorking(),
+			'checkForWorkingWellKnownSetup' => $this->config->getSystemValue('check_for_working_wellknown_setup', true),
+			'has_fileinfo' => \OC_Util::fileInfoLoaded(),
 			'invalidTransactionIsolationLevel' => $invalidTransactionIsolationLevel,
-			'getenvServerNotWorking'           => empty($envPath),
-			'OutdatedCacheWarning'             => $outdatedCaches,
-			'fileLockingType'                  => $fileLockingType,
-			'suggestedOverwriteCliUrl'         => $suggestedOverwriteCliUrl,
+			'getenvServerNotWorking' => empty($envPath),
+			'OutdatedCacheWarning' => $outdatedCaches,
+			'fileLockingType' => $fileLockingType,
+			'suggestedOverwriteCliUrl' => $suggestedOverwriteCliUrl,
 
 			// Background jobs
 			'backgroundjobs_mode' => $this->config->getAppValue('core', 'backgroundjobs_mode', 'ajax'),
-			'cron_log'            => $this->config->getSystemValue('cron_log', true),
-			'lastcron'            => $this->config->getAppValue('core', 'lastcron', false),
-			'cronErrors'		  => $this->config->getAppValue('core', 'cronErrors'),
+			'cron_log' => $this->config->getSystemValue('cron_log', true),
+			'lastcron' => $this->config->getAppValue('core', 'lastcron', false),
+			'cronErrors' => $this->config->getAppValue('core', 'cronErrors'),
 			'cli_based_cron_possible' => function_exists('posix_getpwuid'),
 			'cli_based_cron_user' => function_exists('posix_getpwuid') ? posix_getpwuid(fileowner(\OC::$configDir . 'config.php'))['name'] : '',
 		];

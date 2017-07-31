@@ -42,7 +42,7 @@ class Memory extends Session {
 
 	public function __construct($name) {
 		//no need to use $name since all data is already scoped to this instance
-		$this->data = array();
+		$this->data = [];
 	}
 
 	/**
@@ -82,7 +82,7 @@ class Memory extends Session {
 	}
 
 	public function clear() {
-		$this->data = array();
+		$this->data = [];
 	}
 
 	/**
@@ -90,7 +90,8 @@ class Memory extends Session {
 	 *
 	 * @param bool $deleteOldSession
 	 */
-	public function regenerateId($deleteOldSession = true) {}
+	public function regenerateId($deleteOldSession = true) {
+	}
 
 	/**
 	 * Wrapper around session_id

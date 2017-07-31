@@ -76,7 +76,7 @@ class Database extends \OC\Group\Backend {
 	 * Tries to create a new group. If the group name already exists, false will
 	 * be returned.
 	 */
-	public function createGroup( $gid ) {
+	public function createGroup($gid) {
 		$this->fixDI();
 
 		// Add group
@@ -97,7 +97,7 @@ class Database extends \OC\Group\Backend {
 	 *
 	 * Deletes a group and removes it from the group_user-table
 	 */
-	public function deleteGroup( $gid ) {
+	public function deleteGroup($gid) {
 		$this->fixDI();
 
 		// Delete the group
@@ -132,7 +132,7 @@ class Database extends \OC\Group\Backend {
 	 *
 	 * Checks whether the user is member of a group or not.
 	 */
-	public function inGroup( $uid, $gid ) {
+	public function inGroup($uid, $gid) {
 		$this->fixDI();
 
 		// check
@@ -157,18 +157,18 @@ class Database extends \OC\Group\Backend {
 	 *
 	 * Adds a user to a group.
 	 */
-	public function addToGroup( $uid, $gid ) {
+	public function addToGroup($uid, $gid) {
 		$this->fixDI();
 
 		// No duplicate entries!
-		if( !$this->inGroup( $uid, $gid )) {
+		if (!$this->inGroup($uid, $gid)) {
 			$qb = $this->dbConn->getQueryBuilder();
 			$qb->insert('group_user')
 				->setValue('uid', $qb->createNamedParameter($uid))
 				->setValue('gid', $qb->createNamedParameter($gid))
 				->execute();
 			return true;
-		}else{
+		} else {
 			return false;
 		}
 	}
@@ -181,7 +181,7 @@ class Database extends \OC\Group\Backend {
 	 *
 	 * removes the user from a group.
 	 */
-	public function removeFromGroup( $uid, $gid ) {
+	public function removeFromGroup($uid, $gid) {
 		$this->fixDI();
 
 		$qb = $this->dbConn->getQueryBuilder();
@@ -201,7 +201,7 @@ class Database extends \OC\Group\Backend {
 	 * This function fetches all groups a user belongs to. It does not check
 	 * if the user exists at all.
 	 */
-	public function getUserGroups( $uid ) {
+	public function getUserGroups($uid) {
 		//guests has empty or null $uid
 		if ($uid === null || $uid === '') {
 			return [];
@@ -217,7 +217,7 @@ class Database extends \OC\Group\Backend {
 			->execute();
 
 		$groups = [];
-		while( $row = $cursor->fetch()) {
+		while ($row = $cursor->fetch()) {
 			$groups[] = $row["gid"];
 			$this->groupCache[$row['gid']] = $row['gid'];
 		}
@@ -245,7 +245,7 @@ class Database extends \OC\Group\Backend {
 
 		$stmt = \OC_DB::prepare('SELECT `gid` FROM `*PREFIX*groups`' . $searchLike . ' ORDER BY `gid` ASC', $limit, $offset);
 		$result = $stmt->execute($parameters);
-		$groups = array();
+		$groups = [];
 		while ($row = $result->fetchRow()) {
 			$groups[] = $row['gid'];
 		}
@@ -296,11 +296,13 @@ class Database extends \OC\Group\Backend {
 			$searchLike = ' AND `uid` LIKE ?';
 		}
 
-		$stmt = \OC_DB::prepare('SELECT `uid` FROM `*PREFIX*group_user` WHERE `gid` = ?' . $searchLike . ' ORDER BY `uid` ASC',
+		$stmt = \OC_DB::prepare(
+			'SELECT `uid` FROM `*PREFIX*group_user` WHERE `gid` = ?' . $searchLike . ' ORDER BY `uid` ASC',
 			$limit,
-			$offset);
+			$offset
+		);
 		$result = $stmt->execute($parameters);
-		$users = array();
+		$users = [];
 		while ($row = $result->fetchRow()) {
 			$users[] = $row['uid'];
 		}
@@ -325,10 +327,9 @@ class Database extends \OC\Group\Backend {
 		$stmt = \OC_DB::prepare('SELECT COUNT(`uid`) AS `count` FROM `*PREFIX*group_user` WHERE `gid` = ?' . $searchLike);
 		$result = $stmt->execute($parameters);
 		$count = $result->fetchOne();
-		if($count !== false) {
+		if ($count !== false) {
 			$count = intval($count);
 		}
 		return $count;
 	}
-
 }

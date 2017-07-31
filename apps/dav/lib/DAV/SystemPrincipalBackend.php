@@ -43,7 +43,7 @@ class SystemPrincipalBackend extends AbstractBackend {
 	 * @param string $prefixPath
 	 * @return array
 	 */
-	function getPrincipalsByPrefix($prefixPath) {
+	public function getPrincipalsByPrefix($prefixPath) {
 		$principals = [];
 
 		if ($prefixPath === 'principals/system') {
@@ -68,8 +68,7 @@ class SystemPrincipalBackend extends AbstractBackend {
 	 * @param string $path
 	 * @return array
 	 */
-	function getPrincipalByPath($path) {
-
+	public function getPrincipalByPath($path) {
 		if ($path === 'principals/system/system') {
 			$principal = [
 				'uri' => 'principals/system/system',
@@ -104,7 +103,7 @@ class SystemPrincipalBackend extends AbstractBackend {
 	 * @param \Sabre\DAV\PropPatch $propPatch
 	 * @return void
 	 */
-	function updatePrincipal($path, \Sabre\DAV\PropPatch $propPatch) {
+	public function updatePrincipal($path, \Sabre\DAV\PropPatch $propPatch) {
 	}
 
 	/**
@@ -136,7 +135,7 @@ class SystemPrincipalBackend extends AbstractBackend {
 	 * @param string $test
 	 * @return array
 	 */
-	function searchPrincipals($prefixPath, array $searchProperties, $test = 'allof') {
+	public function searchPrincipals($prefixPath, array $searchProperties, $test = 'allof') {
 		return [];
 	}
 
@@ -146,7 +145,7 @@ class SystemPrincipalBackend extends AbstractBackend {
 	 * @param string $principal
 	 * @return array
 	 */
-	function getGroupMemberSet($principal) {
+	public function getGroupMemberSet($principal) {
 		// TODO: for now the group principal has only one member, the user itself
 		$principal = $this->getPrincipalByPath($principal);
 		if (!$principal) {
@@ -162,7 +161,7 @@ class SystemPrincipalBackend extends AbstractBackend {
 	 * @param string $principal
 	 * @return array
 	 */
-	function getGroupMembership($principal) {
+	public function getGroupMembership($principal) {
 		list($prefix, $name) = URLUtil::splitPath($principal);
 
 		if ($prefix === 'principals/system') {
@@ -185,7 +184,7 @@ class SystemPrincipalBackend extends AbstractBackend {
 	 * @param array $members
 	 * @return void
 	 */
-	function setGroupMemberSet($principal, array $members) {
+	public function setGroupMemberSet($principal, array $members) {
 		throw new \Sabre\DAV\Exception('Setting members of the group is not supported yet');
 	}
 }

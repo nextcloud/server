@@ -71,7 +71,7 @@ class UUIDFixInsert implements IRepairStep {
 	 */
 	public function run(IOutput $output) {
 		$installedVersion = $this->config->getAppValue('user_ldap', 'installed_version', '1.2.1');
-		if(version_compare($installedVersion, '1.2.1') !== -1) {
+		if (version_compare($installedVersion, '1.2.1') !== -1) {
 			return;
 		}
 
@@ -82,20 +82,19 @@ class UUIDFixInsert implements IRepairStep {
 			do {
 				$retry = false;
 				$records = $mapper->getList($offset, $batchSize);
-				if(count($records) === 0){
+				if (count($records) === 0) {
 					continue;
 				}
 				try {
 					$this->jobList->add($jobClass, ['records' => $records]);
 					$offset += $batchSize;
 				} catch (\InvalidArgumentException $e) {
-					if(strpos($e->getMessage(), 'Background job arguments can\'t exceed 4000') !== false) {
+					if (strpos($e->getMessage(), 'Background job arguments can\'t exceed 4000') !== false) {
 						$batchSize = intval(floor(count($records) * 0.8));
 						$retry = true;
 					}
 				}
 			} while (count($records) === $batchSize || $retry);
 		}
-
 	}
 }

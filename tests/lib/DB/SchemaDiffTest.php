@@ -58,7 +58,7 @@ class SchemaDiffTest extends TestCase {
 		$this->config = \OC::$server->getConfig();
 		$this->connection = \OC::$server->getDatabaseConnection();
 		$this->manager = new MDB2SchemaManager($this->connection);
-		$this->testPrefix= strtolower($this->getUniqueID($this->config->getSystemValue('dbtableprefix', 'oc_'), 3));
+		$this->testPrefix = strtolower($this->getUniqueID($this->config->getSystemValue('dbtableprefix', 'oc_'), 3));
 	}
 
 	protected function tearDown() {
@@ -71,8 +71,7 @@ class SchemaDiffTest extends TestCase {
 	 * @param string $xml
 	 */
 	public function testZeroChangeOnSchemaMigrations($xml) {
-
-		$xml = str_replace( '*dbprefix*', $this->testPrefix, $xml );
+		$xml = str_replace('*dbprefix*', $this->testPrefix, $xml);
 		$schemaFile = $this->schemaFile;
 		file_put_contents($schemaFile, $xml);
 

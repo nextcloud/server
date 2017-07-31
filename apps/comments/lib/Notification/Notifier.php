@@ -68,34 +68,34 @@ class Notifier implements INotifier {
 	 * @throws \InvalidArgumentException When the notification was not prepared by a notifier
 	 */
 	public function prepare(INotification $notification, $languageCode) {
-		if($notification->getApp() !== 'comments') {
+		if ($notification->getApp() !== 'comments') {
 			throw new \InvalidArgumentException();
 		}
 		try {
 			$comment = $this->commentsManager->get($notification->getObjectId());
-		} catch(NotFoundException $e) {
+		} catch (NotFoundException $e) {
 			// needs to be converted to InvalidArgumentException, otherwise none Notifications will be shown at all
 			throw new \InvalidArgumentException('Comment not found', 0, $e);
 		}
 		$l = $this->l10nFactory->get('comments', $languageCode);
 		$displayName = $comment->getActorId();
 		$isDeletedActor = $comment->getActorType() === ICommentsManager::DELETED_USER;
-		if($comment->getActorType() === 'users') {
+		if ($comment->getActorType() === 'users') {
 			$commenter = $this->userManager->get($comment->getActorId());
-			if(!is_null($commenter)) {
+			if (!is_null($commenter)) {
 				$displayName = $commenter->getDisplayName();
 			}
 		}
 
-		switch($notification->getSubject()) {
+		switch ($notification->getSubject()) {
 			case 'mention':
 				$parameters = $notification->getSubjectParameters();
-				if($parameters[0] !== 'files') {
+				if ($parameters[0] !== 'files') {
 					throw new \InvalidArgumentException('Unsupported comment object');
 				}
 				$userFolder = $this->rootFolder->getUserFolder($notification->getUser());
 				$nodes = $userFolder->getById($parameters[1]);
-				if(empty($nodes)) {
+				if (empty($nodes)) {
 					throw new \InvalidArgumentException('Cannot resolve file id to Node instance');
 				}
 				$node = $nodes[0];
@@ -141,9 +141,11 @@ class Notifier implements INotifier {
 						);
 				}
 				$notification->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/comment.svg')))
-					->setLink($this->url->linkToRouteAbsolute(
+					->setLink(
+						$this->url->linkToRouteAbsolute(
 						'comments.Notifications.view',
-						['id' => $comment->getId()])
+						['id' => $comment->getId()]
+					)
 					);
 
 				return $notification;
@@ -152,6 +154,5 @@ class Notifier implements INotifier {
 			default:
 				throw new \InvalidArgumentException('Invalid subject');
 		}
-
 	}
 }

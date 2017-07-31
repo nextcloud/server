@@ -34,6 +34,7 @@
 // use OCP namespace for all classes that are considered public.
 // This means that they should be used by apps instead of the internal ownCloud classes
 namespace OCP;
+
 use Doctrine\DBAL\Schema\Schema;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 
@@ -60,7 +61,7 @@ interface IDBConnection {
 	 * @return \Doctrine\DBAL\Driver\Statement The prepared statement.
 	 * @since 6.0.0
 	 */
-	public function prepare($sql, $limit=null, $offset=null);
+	public function prepare($sql, $limit = null, $offset = null);
 
 	/**
 	 * Executes an, optionally parameterized, SQL query.
@@ -74,7 +75,7 @@ interface IDBConnection {
 	 * @return \Doctrine\DBAL\Driver\Statement The executed statement.
 	 * @since 8.0.0
 	 */
-	public function executeQuery($query, array $params = array(), $types = array());
+	public function executeQuery($query, array $params = [], $types = []);
 
 	/**
 	 * Executes an SQL INSERT/UPDATE/DELETE query with the given parameters
@@ -88,7 +89,7 @@ interface IDBConnection {
 	 * @return integer The number of affected rows.
 	 * @since 8.0.0
 	 */
-	public function executeUpdate($query, array $params = array(), array $types = array());
+	public function executeUpdate($query, array $params = [], array $types = []);
 
 	/**
 	 * Used to get the id of the just inserted element

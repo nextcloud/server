@@ -23,11 +23,9 @@
 
 namespace OCA\Encryption;
 
-
 use OCA\Encryption\Hooks\Contracts\IHook;
 
 class HookManager {
-
 	private $hookInstances = [];
 
 	/**
@@ -43,7 +41,6 @@ class HookManager {
 				}
 				$this->hookInstances[] = $instance;
 			}
-
 		} elseif ($instances instanceof IHook) {
 			$this->hookInstances[] = $instances;
 		}
@@ -59,7 +56,5 @@ class HookManager {
 			 */
 			$instance->addHooks();
 		}
-
 	}
-
 }

@@ -23,7 +23,6 @@
 
 namespace OCA\User_LDAP\Notification;
 
-
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
@@ -38,7 +37,7 @@ class Notifier implements INotifier {
 	/**
 	 * @param IFactory $l10nFactory
 	 */
-	 public function __construct(\OCP\L10N\IFactory $l10nFactory) {
+	public function __construct(\OCP\L10N\IFactory $l10nFactory) {
 		$this->l10nFactory = $l10nFactory;
 	}
 
@@ -64,7 +63,7 @@ class Notifier implements INotifier {
 				$days = (int) $params[0];
 				if ($days === 2) {
 					$notification->setParsedSubject($l->t('Your password will expire tomorrow.', $days));
-				} else if ($days === 1) {
+				} elseif ($days === 1) {
 					$notification->setParsedSubject($l->t('Your password will expire today.', $days));
 				} else {
 					$notification->setParsedSubject($l->n(

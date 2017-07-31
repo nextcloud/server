@@ -54,12 +54,13 @@ class MigrateKeys extends Command {
 	 * @param IConfig $config
 	 * @param ILogger $logger
 	 */
-	public function __construct(IUserManager $userManager,
+	public function __construct(
+		IUserManager $userManager,
 								View $view,
 								IDBConnection $connection,
 								IConfig $config,
-								ILogger $logger) {
-
+								ILogger $logger
+	) {
 		$this->userManager = $userManager;
 		$this->view = $view;
 		$this->connection = $connection;
@@ -98,7 +99,7 @@ class MigrateKeys extends Command {
 			$output->writeln("Reorganize system folder structure");
 			$migration->reorganizeSystemFolderStructure();
 			$migration->updateDB();
-			foreach($this->userManager->getBackends() as $backend) {
+			foreach ($this->userManager->getBackends() as $backend) {
 				$name = get_class($backend);
 
 				if ($backend instanceof IUserBackend) {
@@ -116,11 +117,10 @@ class MigrateKeys extends Command {
 						$migration->reorganizeFolderStructureForUser($user);
 					}
 					$offset += $limit;
-				} while(count($users) >= $limit);
+				} while (count($users) >= $limit);
 			}
 		}
 
 		$migration->finalCleanUp();
-
 	}
 }

@@ -66,7 +66,7 @@ if (!$isWritable) {
 	// FIXME: should not add storage wrappers outside of preSetup, need to find a better way
 	$previousLog = \OC\Files\Filesystem::logWarningWhenAddingStorageWrapper(false);
 	\OC\Files\Filesystem::addStorageWrapper('readonly', function ($mountPoint, $storage) {
-		return new \OC\Files\Storage\Wrapper\PermissionsMask(array('storage' => $storage, 'mask' => \OCP\Constants::PERMISSION_READ + \OCP\Constants::PERMISSION_SHARE));
+		return new \OC\Files\Storage\Wrapper\PermissionsMask(['storage' => $storage, 'mask' => \OCP\Constants::PERMISSION_READ + \OCP\Constants::PERMISSION_SHARE]);
 	});
 	\OC\Files\Filesystem::logWarningWhenAddingStorageWrapper($previousLog);
 }
@@ -74,8 +74,8 @@ if (!$isWritable) {
 $rootInfo = \OC\Files\Filesystem::getFileInfo($path);
 $rootView = new \OC\Files\View('');
 
-if($rootInfo === false || !($share->getPermissions() & \OCP\Constants::PERMISSION_READ)) {
-	OCP\JSON::error(array('data' => 'Share is not readable.'));
+if ($rootInfo === false || !($share->getPermissions() & \OCP\Constants::PERMISSION_READ)) {
+	OCP\JSON::error(['data' => 'Share is not readable.']);
 	exit();
 }
 
@@ -86,7 +86,7 @@ if($rootInfo === false || !($share->getPermissions() & \OCP\Constants::PERMISSIO
  */
 function getChildInfo($dir, $view, $sharePermissions) {
 	$children = $view->getDirectoryContent($dir->getPath());
-	$result = array();
+	$result = [];
 	foreach ($children as $child) {
 		$formatted = \OCA\Files\Helper::formatFileInfo($child);
 		if ($child->getType() === 'dir') {
@@ -108,4 +108,4 @@ if ($rootInfo->getType() === 'dir') {
 	$result['children'] = getChildInfo($rootInfo, $rootView, $share->getPermissions());
 }
 
-OCP\JSON::success(array('data' => $result));
+OCP\JSON::success(['data' => $result]);

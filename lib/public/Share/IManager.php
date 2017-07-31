@@ -340,5 +340,4 @@ interface IManager {
 	 * @since 11.0.0
 	 */
 	public function shareProviderExists($shareType);
-
 }

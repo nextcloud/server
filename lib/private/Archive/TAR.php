@@ -53,7 +53,7 @@ class TAR extends Archive {
 	 * @param string $source
 	 */
 	public function __construct($source) {
-		$types = array(null, 'gz', 'bz2');
+		$types = [null, 'gz', 'bz2'];
 		$this->path = $source;
 		$this->tar = new \Archive_Tar($source, $types[self::getTarType($source)]);
 	}
@@ -64,7 +64,7 @@ class TAR extends Archive {
 	 * @param string $file
 	 * @return integer
 	 */
-	static public function getTarType($file) {
+	public static function getTarType($file) {
 		if (strpos($file, '.')) {
 			$extension = substr($file, strrpos($file, '.'));
 			switch ($extension) {
@@ -106,7 +106,7 @@ class TAR extends Archive {
 				mkdir($folder);
 			}
 		}
-		$result = $this->tar->addModify(array($tmpBase . $path), '', $tmpBase);
+		$result = $this->tar->addModify([$tmpBase . $path], '', $tmpBase);
 		rmdir($tmpBase . $path);
 		$this->fileList = false;
 		$this->cachedHeaders = false;
@@ -147,9 +147,9 @@ class TAR extends Archive {
 		rename($tmp . $source, $tmp . $dest);
 		$this->tar = null;
 		unlink($this->path);
-		$types = array(null, 'gz', 'bz');
+		$types = [null, 'gz', 'bz'];
 		$this->tar = new \Archive_Tar($this->path, $types[self::getTarType($this->path)]);
-		$this->tar->createModify(array($tmp), '', $tmp . '/');
+		$this->tar->createModify([$tmp], '', $tmp . '/');
 		$this->fileList = false;
 		$this->cachedHeaders = false;
 		return true;
@@ -204,7 +204,7 @@ class TAR extends Archive {
 	 */
 	public function getFolder($path) {
 		$files = $this->getFiles();
-		$folderContent = array();
+		$folderContent = [];
 		$pathLength = strlen($path);
 		foreach ($files as $file) {
 			if ($file[0] == '/') {
@@ -235,7 +235,7 @@ class TAR extends Archive {
 		if (!$this->cachedHeaders) {
 			$this->cachedHeaders = $this->tar->listContent();
 		}
-		$files = array();
+		$files = [];
 		foreach ($this->cachedHeaders as $header) {
 			$files[] = $header['filename'];
 		}
@@ -266,9 +266,9 @@ class TAR extends Archive {
 			return false;
 		}
 		if ($this->fileExists('/' . $path)) {
-			$success = $this->tar->extractList(array('/' . $path), $tmp);
+			$success = $this->tar->extractList(['/' . $path], $tmp);
 		} else {
-			$success = $this->tar->extractList(array($path), $tmp);
+			$success = $this->tar->extractList([$path], $tmp);
 		}
 		if ($success) {
 			rename($tmp . $path, $dest);
@@ -335,7 +335,7 @@ class TAR extends Archive {
 		$this->tar = null;
 		unlink($this->path);
 		$this->reopen();
-		$this->tar->createModify(array($tmp), '', $tmp);
+		$this->tar->createModify([$tmp], '', $tmp);
 		return true;
 	}
 
@@ -384,7 +384,7 @@ class TAR extends Archive {
 			$this->tar->_close();
 			$this->tar = null;
 		}
-		$types = array(null, 'gz', 'bz');
+		$types = [null, 'gz', 'bz'];
 		$this->tar = new \Archive_Tar($this->path, $types[self::getTarType($this->path)]);
 	}
 }

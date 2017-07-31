@@ -62,7 +62,7 @@ class Admin implements ISettings {
 		// assign default values
 		$config = new Configuration('', false);
 		$defaults = $config->getDefaults();
-		foreach($defaults as $key => $default) {
+		foreach ($defaults as $key => $default) {
 			$parameters[$key.'_default'] = $default;
 		}
 

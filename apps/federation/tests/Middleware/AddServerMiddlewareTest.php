@@ -24,7 +24,6 @@
 
 namespace OCA\Federation\Tests\Middleware;
 
-
 use OC\HintException;
 use OCA\Federation\Controller\SettingsController;
 use OCA\Federation\Middleware\AddServerMiddleware;
@@ -70,26 +69,27 @@ class AddServerMiddlewareTest extends TestCase {
 	 * @param string $hint
 	 */
 	public function testAfterException($exception, $message, $hint) {
-
 		$this->logger->expects($this->once())->method('error')
 			->with($message, ['app' => 'AddServerMiddlewareTest']);
 
 		$this->l10n->expects($this->any())->method('t')
 			->willReturnCallback(
-				function($message) {
+				function ($message) {
 					return $message;
 				}
 			);
 
 		$result = $this->middleware->afterException($this->controller, 'method', $exception);
 
-		$this->assertSame(Http::STATUS_BAD_REQUEST,
+		$this->assertSame(
+			Http::STATUS_BAD_REQUEST,
 			$result->getStatus()
 		);
 
 		$data = $result->getData();
 
-		$this->assertSame($hint,
+		$this->assertSame(
+			$hint,
 			$data['message']
 		);
 	}
@@ -100,5 +100,4 @@ class AddServerMiddlewareTest extends TestCase {
 			[new \Exception('message'), 'message', 'message'],
 		];
 	}
-
 }

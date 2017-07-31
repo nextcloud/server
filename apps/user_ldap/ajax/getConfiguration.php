@@ -37,4 +37,4 @@ if (isset($configuration['ldap_agent_password']) && $configuration['ldap_agent_p
 	// hide password
 	$configuration['ldap_agent_password'] = '**PASSWORD SET**';
 }
-OCP\JSON::success(array('configuration' => $configuration));
+OCP\JSON::success(['configuration' => $configuration]);

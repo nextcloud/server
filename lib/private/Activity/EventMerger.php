@@ -244,7 +244,7 @@ class EventMerger implements IEventMerger {
 			$placeholders[] = '{' . $placeholder . '}';
 			if ($parameter['type'] === 'file') {
 				$replacements[] = trim($parameter['path'], '/');
-			} else if (isset($parameter['name'])) {
+			} elseif (isset($parameter['name'])) {
 				$replacements[] = $parameter['name'];
 			} else {
 				$replacements[] = $parameter['id'];

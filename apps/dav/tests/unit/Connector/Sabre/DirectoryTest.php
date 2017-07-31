@@ -31,7 +31,6 @@ use OC\Files\FileInfo;
 use OCA\DAV\Connector\Sabre\Directory;
 
 class TestViewDirectory extends \OC\Files\View {
-
 	private $updatables;
 	private $deletables;
 	private $canRename;
@@ -201,7 +200,7 @@ class DirectoryTest extends \Test\TestCase {
 		$this->view->expects($this->once())
 			->method('getDirectoryContent')
 			->with('')
-			->will($this->returnValue(array($info1, $info2)));
+			->will($this->returnValue([$info1, $info2]));
 
 		$this->view->expects($this->any())
 			->method('getRelativePath')

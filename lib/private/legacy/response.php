@@ -39,46 +39,43 @@ class OC_Response {
 	const STATUS_SERVICE_UNAVAILABLE = 503;
 
 	/**
-	* Enable response caching by sending correct HTTP headers
-	* @param integer $cache_time time to cache the response
-	*  >0		cache time in seconds
-	*  0 and <0	enable default browser caching
-	*  null		cache indefinitely
-	*/
-	static public function enableCaching($cache_time = null) {
+	 * Enable response caching by sending correct HTTP headers
+	 * @param integer $cache_time time to cache the response
+	 *  >0		cache time in seconds
+	 *  0 and <0	enable default browser caching
+	 *  null		cache indefinitely
+	 */
+	public static function enableCaching($cache_time = null) {
 		if (is_numeric($cache_time)) {
 			header('Pragma: public');// enable caching in IE
 			if ($cache_time > 0) {
 				self::setExpiresHeader('PT'.$cache_time.'S');
 				header('Cache-Control: max-age='.$cache_time.', must-revalidate');
-			}
-			else {
+			} else {
 				self::setExpiresHeader(0);
 				header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 			}
-		}
-		else {
+		} else {
 			header('Cache-Control: cache');
 			header('Pragma: cache');
 		}
-
 	}
 
 	/**
-	* disable browser caching
-	* @see enableCaching with cache_time = 0
-	*/
-	static public function disableCaching() {
+	 * disable browser caching
+	 * @see enableCaching with cache_time = 0
+	 */
+	public static function disableCaching() {
 		self::enableCaching(0);
 	}
 
 	/**
-	* Set response status
-	* @param int $status a HTTP status code, see also the STATUS constants
-	*/
-	static public function setStatus($status) {
+	 * Set response status
+	 * @param int $status a HTTP status code, see also the STATUS constants
+	 */
+	public static function setStatus($status) {
 		$protocol = \OC::$server->getRequest()->getHttpProtocol();
-		switch($status) {
+		switch ($status) {
 			case self::STATUS_NOT_MODIFIED:
 				$status = $status . ' Not Modified';
 				break;
@@ -90,16 +87,17 @@ class OC_Response {
 					$status = self::STATUS_FOUND;
 					// fallthrough
 				}
-			case self::STATUS_FOUND;
+				// no break
+			case self::STATUS_FOUND:
 				$status = $status . ' Found';
 				break;
-			case self::STATUS_NOT_FOUND;
+			case self::STATUS_NOT_FOUND:
 				$status = $status . ' Not Found';
 				break;
-			case self::STATUS_INTERNAL_SERVER_ERROR;
+			case self::STATUS_INTERNAL_SERVER_ERROR:
 				$status = $status . ' Internal Server Error';
 				break;
-			case self::STATUS_SERVICE_UNAVAILABLE;
+			case self::STATUS_SERVICE_UNAVAILABLE:
 				$status = $status . ' Service Unavailable';
 				break;
 		}
@@ -107,21 +105,21 @@ class OC_Response {
 	}
 
 	/**
-	* Send redirect response
-	* @param string $location to redirect to
-	*/
-	static public function redirect($location) {
+	 * Send redirect response
+	 * @param string $location to redirect to
+	 */
+	public static function redirect($location) {
 		self::setStatus(self::STATUS_TEMPORARY_REDIRECT);
 		header('Location: '.$location);
 	}
 
 	/**
-	* Set response expire time
-	* @param string|DateTime $expires date-time when the response expires
-	*  string for DateInterval from now
-	*  DateTime object when to expire response
-	*/
-	static public function setExpiresHeader($expires) {
+	 * Set response expire time
+	 * @param string|DateTime $expires date-time when the response expires
+	 *  string for DateInterval from now
+	 *  DateTime object when to expire response
+	 */
+	public static function setExpiresHeader($expires) {
 		if (is_string($expires) && $expires[0] == 'P') {
 			$interval = $expires;
 			$expires = new DateTime('now');
@@ -135,17 +133,17 @@ class OC_Response {
 	}
 
 	/**
-	* Checks and set ETag header, when the request matches sends a
-	* 'not modified' response
-	* @param string $etag token to use for modification check
-	*/
-	static public function setETagHeader($etag) {
+	 * Checks and set ETag header, when the request matches sends a
+	 * 'not modified' response
+	 * @param string $etag token to use for modification check
+	 */
+	public static function setETagHeader($etag) {
 		if (empty($etag)) {
 			return;
 		}
 		$etag = '"'.$etag.'"';
 		if (isset($_SERVER['HTTP_IF_NONE_MATCH']) &&
-		    trim($_SERVER['HTTP_IF_NONE_MATCH']) == $etag) {
+			trim($_SERVER['HTTP_IF_NONE_MATCH']) == $etag) {
 			self::setStatus(self::STATUS_NOT_MODIFIED);
 			exit;
 		}
@@ -153,11 +151,11 @@ class OC_Response {
 	}
 
 	/**
-	* Checks and set Last-Modified header, when the request matches sends a
-	* 'not modified' response
-	* @param int|DateTime|string $lastModified time when the response was last modified
-	*/
-	static public function setLastModifiedHeader($lastModified) {
+	 * Checks and set Last-Modified header, when the request matches sends a
+	 * 'not modified' response
+	 * @param int|DateTime|string $lastModified time when the response was last modified
+	 */
+	public static function setLastModifiedHeader($lastModified) {
 		if (empty($lastModified)) {
 			return;
 		}
@@ -168,7 +166,7 @@ class OC_Response {
 			$lastModified = $lastModified->format(DateTime::RFC2822);
 		}
 		if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) &&
-		    trim($_SERVER['HTTP_IF_MODIFIED_SINCE']) == $lastModified) {
+			trim($_SERVER['HTTP_IF_MODIFIED_SINCE']) == $lastModified) {
 			self::setStatus(self::STATUS_NOT_MODIFIED);
 			exit;
 		}
@@ -180,17 +178,18 @@ class OC_Response {
 	 * @param string $filename file name
 	 * @param string $type disposition type, either 'attachment' or 'inline'
 	 */
-	static public function setContentDispositionHeader( $filename, $type = 'attachment' ) {
+	public static function setContentDispositionHeader($filename, $type = 'attachment') {
 		if (\OC::$server->getRequest()->isUserAgent(
 			[
 				\OC\AppFramework\Http\Request::USER_AGENT_IE,
 				\OC\AppFramework\Http\Request::USER_AGENT_ANDROID_MOBILE_CHROME,
 				\OC\AppFramework\Http\Request::USER_AGENT_FREEBOX,
-			])) {
-			header( 'Content-Disposition: ' . rawurlencode($type) . '; filename="' . rawurlencode( $filename ) . '"' );
+			]
+		)) {
+			header('Content-Disposition: ' . rawurlencode($type) . '; filename="' . rawurlencode($filename) . '"');
 		} else {
-			header( 'Content-Disposition: ' . rawurlencode($type) . '; filename*=UTF-8\'\'' . rawurlencode( $filename )
-												 . '; filename="' . rawurlencode( $filename ) . '"' );
+			header('Content-Disposition: ' . rawurlencode($type) . '; filename*=UTF-8\'\'' . rawurlencode($filename)
+												 . '; filename="' . rawurlencode($filename) . '"');
 		}
 	}
 
@@ -198,7 +197,7 @@ class OC_Response {
 	 * Sets the content length header (with possible workarounds)
 	 * @param string|int|float $length Length to be sent
 	 */
-	static public function setContentLengthHeader($length) {
+	public static function setContentLengthHeader($length) {
 		if (PHP_INT_SIZE === 4) {
 			if ($length > PHP_INT_MAX && stripos(PHP_SAPI, 'apache') === 0) {
 				// Apache PHP SAPI casts Content-Length headers to PHP integers.
@@ -220,7 +219,7 @@ class OC_Response {
 	 * @param string $filepath of file to send
 	 * @deprecated 8.1.0 - Use \OCP\AppFramework\Http\StreamResponse or another AppFramework controller instead
 	 */
-	static public function sendFile($filepath) {
+	public static function sendFile($filepath) {
 		$fp = fopen($filepath, 'rb');
 		if ($fp) {
 			self::setLastModifiedHeader(filemtime($filepath));
@@ -228,8 +227,7 @@ class OC_Response {
 
 			self::setContentLengthHeader(filesize($filepath));
 			fpassthru($fp);
-		}
-		else {
+		} else {
 			self::setStatus(self::STATUS_NOT_FOUND);
 		}
 	}
@@ -252,7 +250,7 @@ class OC_Response {
 			. 'frame-src *; '
 			. 'img-src * data: blob:; '
 			. 'font-src \'self\' data:; '
-			. 'media-src *; ' 
+			. 'media-src *; '
 			. 'connect-src *; '
 			. 'object-src \'none\'; '
 			. 'base-uri \'self\'; ';
@@ -261,7 +259,7 @@ class OC_Response {
 
 		// Send fallback headers for installations that don't have the possibility to send
 		// custom headers on the webserver side
-		if(getenv('modHeadersAvailable') !== 'true') {
+		if (getenv('modHeadersAvailable') !== 'true') {
 			header('X-XSS-Protection: 1; mode=block'); // Enforce browser based XSS filters
 			header('X-Content-Type-Options: nosniff'); // Disable sniffing the content type for IE
 			header('X-Robots-Tag: none'); // https://developers.google.com/webmasters/control-crawl-index/docs/robots_meta_tag
@@ -269,5 +267,4 @@ class OC_Response {
 			header('X-Permitted-Cross-Domain-Policies: none'); // https://www.adobe.com/devnet/adobe-media-server/articles/cross-domain-xml-for-streaming.html
 		}
 	}
-
 }

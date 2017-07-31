@@ -50,8 +50,8 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 		<div id="logo-claim" style="display:none;"><?php p($theme->getLogoClaim()); ?></div>
 		<div id="header-right">
 			<?php if (!isset($_['hideFileList']) || (isset($_['hideFileList']) && $_['hideFileList'] === false)) {
-				if ($_['server2serversharing']) {
-					?>
+	if ($_['server2serversharing']) {
+		?>
 					<span id="save" data-protected="<?php p($_['protected']) ?>"
 						  data-owner-display-name="<?php p($_['displayName']) ?>" data-owner="<?php p($_['owner']) ?>" data-name="<?php p($_['filename']) ?>">
 					<button id="save-button"><?php p($l->t('Add to your Nextcloud')) ?></button>
@@ -60,16 +60,19 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 						<button id="save-button-confirm" class="icon-confirm svg" disabled></button>
 					</form>
 				</span>
-				<?php } ?>
+				<?php
+	} ?>
 				<a href="<?php p($_['downloadURL']); ?>" id="download" class="button">
 					<span class="icon icon-download"></span>
 					<span id="download-text"><?php p($l->t('Download'))?></span>
 				</a>
-			<?php } ?>
+			<?php
+} ?>
 		</div>
 	</div></header>
 <div id="content-wrapper">
-	<?php if (!isset($_['hideFileList']) || (isset($_['hideFileList']) && $_['hideFileList'] === false)) { ?>
+	<?php if (!isset($_['hideFileList']) || (isset($_['hideFileList']) && $_['hideFileList'] === false)) {
+		?>
 	<div id="content">
 	<div id="preview">
 			<?php if (isset($_['folder'])): ?>
@@ -88,7 +91,7 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 				<div class="directDownload">
 					<a href="<?php p($_['downloadURL']); ?>" id="downloadFile" class="button">
 						<span class="icon icon-download"></span>
-						<?php p($l->t('Download %s', array($_['filename'])))?> (<?php p($_['fileSize']) ?>)
+						<?php p($l->t('Download %s', [$_['filename']]))?> (<?php p($_['fileSize']) ?>)
 					</a>
 				</div>
 				<div class="directLink">
@@ -98,16 +101,22 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 			<?php endif; ?>
 		</div>
 		</div>
-		<?php } else { ?>
+		<?php
+	} else {
+		?>
 		<input type="hidden" id="upload-only-interface" value="1"/>
 			<div id="public-upload">
-				<div id="emptycontent" class="<?php if (!empty($_['disclaimer'])) { ?>has-disclaimer<?php } ?>">
+				<div id="emptycontent" class="<?php if (!empty($_['disclaimer'])) {
+			?>has-disclaimer<?php
+		} ?>">
 					<div id="displayavatar"><div class="avatardiv"></div></div>
 					<h2><?php p($l->t('Upload files to %s', [$_['shareOwner']])) ?></h2>
 					<p><span class="icon-folder"></span> <?php p($_['filename']) ?></p>
-					<?php if (!empty($_['disclaimer'])) { ?>
+					<?php if (!empty($_['disclaimer'])) {
+			?>
 					<p class="disclaimer"><?php p($_['disclaimer']); ?></p>
-					<?php } ?>
+					<?php
+		} ?>
 					<input type="file" name="files[]" class="hidden" multiple>
 
 					<a href="#" class="button icon-upload"><?php p($l->t('Select or drop files')) ?></a>
@@ -117,7 +126,8 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 					</ul>
 				</div>
 			</div>
-		<?php } ?>
+		<?php
+	} ?>
 <?php if (!isset($_['hideFileList']) || (isset($_['hideFileList']) && $_['hideFileList'] !== true)): ?>
 	<input type="hidden" name="dir" id="dir" value="" />
 	<div class="hiddenuploadfield">

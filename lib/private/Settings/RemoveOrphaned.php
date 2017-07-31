@@ -46,7 +46,7 @@ class RemoveOrphaned extends TimedJob {
 	private $manager;
 
 	public function __construct(Manager $manager = null) {
-		if($manager !== null) {
+		if ($manager !== null) {
 			$this->manager = $manager;
 		} else {
 			// fix DI for Jobs
@@ -62,7 +62,7 @@ class RemoveOrphaned extends TimedJob {
 	 */
 	public function execute($jobList, ILogger $logger = null) {
 		// add an interval of 15 mins
-		$this->setInterval(15*60);
+		$this->setInterval(15 * 60);
 
 		$this->jobList = $jobList;
 		$this->logger = $logger;
@@ -87,5 +87,4 @@ class RemoveOrphaned extends TimedJob {
 		// remove the job once executed successfully
 		$this->jobList->remove($this);
 	}
-
 }

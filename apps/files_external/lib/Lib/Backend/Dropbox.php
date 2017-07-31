@@ -32,7 +32,6 @@ use \OCA\Files_External\Lib\LegacyDependencyCheckPolyfill;
 use \OCA\Files_External\Lib\Auth\OAuth1\OAuth1;
 
 class Dropbox extends Backend {
-
 	use LegacyDependencyCheckPolyfill;
 
 	public function __construct(IL10N $l, OAuth1 $legacyAuth) {
@@ -49,5 +48,4 @@ class Dropbox extends Backend {
 			->setLegacyAuthMechanism($legacyAuth)
 		;
 	}
-
 }

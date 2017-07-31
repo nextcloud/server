@@ -37,7 +37,6 @@ use OCP\ISession;
 use OCP\IUser;
 
 class Manager {
-
 	const SESSION_UID_KEY = 'two_factor_auth_uid';
 	const BACKUP_CODES_APP_ID = 'twofactor_backupcodes';
 	const BACKUP_CODES_PROVIDER_ID = 'backup_codes';
@@ -65,8 +64,13 @@ class Manager {
 	 * @param IManager $activityManager
 	 * @param ILogger $logger
 	 */
-	public function __construct(AppManager $appManager, ISession $session, IConfig $config, IManager $activityManager,
-		ILogger $logger) {
+	public function __construct(
+		AppManager $appManager,
+		ISession $session,
+		IConfig $config,
+		IManager $activityManager,
+		ILogger $logger
+	) {
 		$this->appManager = $appManager;
 		$this->session = $session;
 		$this->config = $config;
@@ -265,5 +269,4 @@ class Manager {
 		$this->session->set(self::SESSION_UID_KEY, $user->getUID());
 		$this->session->set(self::REMEMBER_LOGIN, $rememberMe);
 	}
-
 }

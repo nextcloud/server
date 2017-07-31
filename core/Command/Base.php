@@ -118,9 +118,9 @@ class Base extends Command implements CompletionAwareInterface {
 	protected function valueToString($value, $returnNull = true) {
 		if ($value === false) {
 			return 'false';
-		} else if ($value === true) {
+		} elseif ($value === true) {
 			return 'true';
-		} else if ($value === null) {
+		} elseif ($value === null) {
 			return ($returnNull) ? null : 'null';
 		} else {
 			return $value;

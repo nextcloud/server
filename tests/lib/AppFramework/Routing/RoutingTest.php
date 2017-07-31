@@ -6,14 +6,11 @@ use OC\AppFramework\DependencyInjection\DIContainer;
 use OC\AppFramework\Routing\RouteActionHandler;
 use OC\AppFramework\Routing\RouteConfig;
 
-class RoutingTest extends \Test\TestCase
-{
-
-	public function testSimpleRoute()
-	{
-		$routes = array('routes' => array(
-			array('name' => 'folders#open', 'url' => '/folders/{folderId}/open', 'verb' => 'GET')
-		));
+class RoutingTest extends \Test\TestCase {
+	public function testSimpleRoute() {
+		$routes = ['routes' => [
+			['name' => 'folders#open', 'url' => '/folders/{folderId}/open', 'verb' => 'GET']
+		]];
 
 		$this->assertSimpleRoute($routes, 'folders.open', 'GET', '/folders/{folderId}/open', 'FoldersController', 'open');
 	}
@@ -27,11 +24,10 @@ class RoutingTest extends \Test\TestCase
 		$this->assertSimpleOCSRoute($routes, 'folders.open', 'GET', '/apps/app1/folders/{folderId}/open', 'FoldersController', 'open');
 	}
 
-	public function testSimpleRouteWithMissingVerb()
-	{
-		$routes = array('routes' => array(
-			array('name' => 'folders#open', 'url' => '/folders/{folderId}/open')
-		));
+	public function testSimpleRouteWithMissingVerb() {
+		$routes = ['routes' => [
+			['name' => 'folders#open', 'url' => '/folders/{folderId}/open']
+		]];
 
 		$this->assertSimpleRoute($routes, 'folders.open', 'GET', '/folders/{folderId}/open', 'FoldersController', 'open');
 	}
@@ -45,11 +41,10 @@ class RoutingTest extends \Test\TestCase
 		$this->assertSimpleOCSRoute($routes, 'folders.open', 'GET', '/apps/app1/folders/{folderId}/open', 'FoldersController', 'open');
 	}
 
-	public function testSimpleRouteWithLowercaseVerb()
-	{
-		$routes = array('routes' => array(
-			array('name' => 'folders#open', 'url' => '/folders/{folderId}/open', 'verb' => 'delete')
-		));
+	public function testSimpleRouteWithLowercaseVerb() {
+		$routes = ['routes' => [
+			['name' => 'folders#open', 'url' => '/folders/{folderId}/open', 'verb' => 'delete']
+		]];
 
 		$this->assertSimpleRoute($routes, 'folders.open', 'DELETE', '/folders/{folderId}/open', 'FoldersController', 'open');
 	}
@@ -63,13 +58,12 @@ class RoutingTest extends \Test\TestCase
 		$this->assertSimpleOCSRoute($routes, 'folders.open', 'DELETE', '/apps/app1/folders/{folderId}/open', 'FoldersController', 'open');
 	}
 
-	public function testSimpleRouteWithRequirements()
-	{
-		$routes = array('routes' => array(
-			array('name' => 'folders#open', 'url' => '/folders/{folderId}/open', 'verb' => 'delete', 'requirements' => array('something'))
-		));
+	public function testSimpleRouteWithRequirements() {
+		$routes = ['routes' => [
+			['name' => 'folders#open', 'url' => '/folders/{folderId}/open', 'verb' => 'delete', 'requirements' => ['something']]
+		]];
 
-		$this->assertSimpleRoute($routes, 'folders.open', 'DELETE', '/folders/{folderId}/open', 'FoldersController', 'open', array('something'));
+		$this->assertSimpleRoute($routes, 'folders.open', 'DELETE', '/folders/{folderId}/open', 'FoldersController', 'open', ['something']);
 	}
 
 	public function testSimpleOCSRouteWithRequirements() {
@@ -81,13 +75,12 @@ class RoutingTest extends \Test\TestCase
 		$this->assertSimpleOCSRoute($routes, 'folders.open', 'DELETE', '/apps/app1/folders/{folderId}/open', 'FoldersController', 'open', ['something']);
 	}
 
-	public function testSimpleRouteWithDefaults()
-	{
-		$routes = array('routes' => array(
-			array('name' => 'folders#open', 'url' => '/folders/{folderId}/open', 'verb' => 'delete', array(), 'defaults' => array('param' => 'foobar'))
-		));
+	public function testSimpleRouteWithDefaults() {
+		$routes = ['routes' => [
+			['name' => 'folders#open', 'url' => '/folders/{folderId}/open', 'verb' => 'delete', [], 'defaults' => ['param' => 'foobar']]
+		]];
 
-		$this->assertSimpleRoute($routes, 'folders.open', 'DELETE', '/folders/{folderId}/open', 'FoldersController', 'open', array(), array('param' => 'foobar'));
+		$this->assertSimpleRoute($routes, 'folders.open', 'DELETE', '/folders/{folderId}/open', 'FoldersController', 'open', [], ['param' => 'foobar']);
 	}
 
 
@@ -100,13 +93,12 @@ class RoutingTest extends \Test\TestCase
 		$this->assertSimpleOCSRoute($routes, 'folders.open', 'DELETE', '/apps/app1/folders/{folderId}/open', 'FoldersController', 'open', [], ['param' => 'foobar']);
 	}
 
-	public function testSimpleRouteWithPostfix()
-	{
-		$routes = array('routes' => array(
-			array('name' => 'folders#open', 'url' => '/folders/{folderId}/open', 'verb' => 'delete', 'postfix' => '_something')
-		));
+	public function testSimpleRouteWithPostfix() {
+		$routes = ['routes' => [
+			['name' => 'folders#open', 'url' => '/folders/{folderId}/open', 'verb' => 'delete', 'postfix' => '_something']
+		]];
 
-		$this->assertSimpleRoute($routes, 'folders.open', 'DELETE', '/folders/{folderId}/open', 'FoldersController', 'open', array(), array(), '_something');
+		$this->assertSimpleRoute($routes, 'folders.open', 'DELETE', '/folders/{folderId}/open', 'FoldersController', 'open', [], [], '_something');
 	}
 
 	public function testSimpleOCSRouteWithPostfix() {
@@ -121,11 +113,10 @@ class RoutingTest extends \Test\TestCase
 	/**
 	 * @expectedException \UnexpectedValueException
 	 */
-	public function testSimpleRouteWithBrokenName()
-	{
-		$routes = array('routes' => array(
-			array('name' => 'folders_open', 'url' => '/folders/{folderId}/open', 'verb' => 'delete')
-		));
+	public function testSimpleRouteWithBrokenName() {
+		$routes = ['routes' => [
+			['name' => 'folders_open', 'url' => '/folders/{folderId}/open', 'verb' => 'delete']
+		]];
 
 		// router mock
 		$router = $this->getMockBuilder('\OC\Route\Router')
@@ -161,11 +152,10 @@ class RoutingTest extends \Test\TestCase
 		$config->register();
 	}
 
-	public function testSimpleRouteWithUnderScoreNames()
-	{
-		$routes = array('routes' => array(
-			array('name' => 'admin_folders#open_current', 'url' => '/folders/{folderId}/open', 'verb' => 'delete')
-		));
+	public function testSimpleRouteWithUnderScoreNames() {
+		$routes = ['routes' => [
+			['name' => 'admin_folders#open_current', 'url' => '/folders/{folderId}/open', 'verb' => 'delete']
+		]];
 
 		$this->assertSimpleRoute($routes, 'admin_folders.open_current', 'DELETE', '/folders/{folderId}/open', 'AdminFoldersController', 'openCurrent');
 	}
@@ -178,16 +168,14 @@ class RoutingTest extends \Test\TestCase
 		$this->assertSimpleOCSRoute($routes, 'admin_folders.open_current', 'DELETE', '/apps/app1/folders/{folderId}/open', 'AdminFoldersController', 'openCurrent');
 	}
 
-	public function testResource()
-	{
-		$routes = array('resources' => array('account' => array('url' => '/accounts')));
+	public function testResource() {
+		$routes = ['resources' => ['account' => ['url' => '/accounts']]];
 
 		$this->assertResource($routes, 'account', '/accounts', 'AccountController', 'id');
 	}
 
-	public function testResourceWithUnderScoreName()
-	{
-		$routes = array('resources' => array('admin_accounts' => array('url' => '/admin/accounts')));
+	public function testResourceWithUnderScoreName() {
+		$routes = ['resources' => ['admin_accounts' => ['url' => '/admin/accounts']]];
 
 		$this->assertResource($routes, 'admin_accounts', '/admin/accounts', 'AdminAccountsController', 'id');
 	}
@@ -199,8 +187,7 @@ class RoutingTest extends \Test\TestCase
 	 * @param string $controllerName
 	 * @param string $actionName
 	 */
-	private function assertSimpleRoute($routes, $name, $verb, $url, $controllerName, $actionName, array $requirements=array(), array $defaults=array(), $postfix='')
-	{
+	private function assertSimpleRoute($routes, $name, $verb, $url, $controllerName, $actionName, array $requirements = [], array $defaults = [], $postfix = '') {
 		if ($postfix) {
 			$name .= $postfix;
 		}
@@ -239,16 +226,17 @@ class RoutingTest extends \Test\TestCase
 	 * @param array $defaults
 	 * @param string $postfix
 	 */
-	private function assertSimpleOCSRoute($routes,
+	private function assertSimpleOCSRoute(
+		$routes,
 										  $name,
 										  $verb,
 										  $url,
 										  $controllerName,
 										  $actionName,
-										  array $requirements=array(),
-										  array $defaults=array(),
-										  $postfix='')
-	{
+										  array $requirements = [],
+										  array $defaults = [],
+										  $postfix = ''
+	) {
 		if ($postfix) {
 			$name .= $postfix;
 		}
@@ -282,8 +270,7 @@ class RoutingTest extends \Test\TestCase
 	 * @param string $controllerName
 	 * @param string $paramName
 	 */
-	private function assertResource($yaml, $resourceName, $url, $controllerName, $paramName)
-	{
+	private function assertResource($yaml, $resourceName, $url, $controllerName, $paramName) {
 		// router mock
 		$router = $this->getMockBuilder('\OC\Route\Router')
 			->setMethods(['create'])
@@ -351,8 +338,8 @@ class RoutingTest extends \Test\TestCase
 		$verb,
 		$controllerName,
 		$actionName,
-		array $requirements=array(),
-		array $defaults=array()
+		array $requirements = [],
+		array $defaults = []
 	) {
 		$route = $this->getMockBuilder('\OC\Route\Route')
 			->setMethods(['method', 'action', 'requirements', 'defaults'])
@@ -370,7 +357,7 @@ class RoutingTest extends \Test\TestCase
 			->with($this->equalTo(new RouteActionHandler($container, $controllerName, $actionName)))
 			->will($this->returnValue($route));
 
-		if(count($requirements) > 0) {
+		if (count($requirements) > 0) {
 			$route
 				->expects($this->exactly(1))
 				->method('requirements')
@@ -388,7 +375,6 @@ class RoutingTest extends \Test\TestCase
 
 		return $route;
 	}
-
 }
 
 /*
@@ -398,11 +384,11 @@ class RoutingTest extends \Test\TestCase
 # the section simple describes one route
 
 routes:
-        - name: folders#open
-          url: /folders/{folderId}/open
-          verb: GET
-          # controller: name.split()[0]
-          # action: name.split()[1]
+	    - name: folders#open
+	      url: /folders/{folderId}/open
+	      verb: GET
+	      # controller: name.split()[0]
+	      # action: name.split()[1]
 
 # for a resource following actions will be generated:
 # - index
@@ -412,15 +398,15 @@ routes:
 # - destroy
 # - new
 resources:
-    accounts:
-        url: /accounts
+	accounts:
+	    url: /accounts
 
-    folders:
-        url: /accounts/{accountId}/folders
-        # actions can be used to define additional actions on the resource
-        actions:
-            - name: validate
-              verb: GET
-              on-collection: false
+	folders:
+	    url: /accounts/{accountId}/folders
+	    # actions can be used to define additional actions on the resource
+	    actions:
+	        - name: validate
+	          verb: GET
+	          on-collection: false
 
  * */

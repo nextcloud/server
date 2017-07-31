@@ -23,19 +23,20 @@
 
 namespace OCA\AdminAudit\Actions;
 
-
 class Trashbin extends Action {
-
 	public function delete($params) {
-		$this->log('File "%s" deleted from trash bin.',
-			['path' => $params['path']], ['path']
+		$this->log(
+			'File "%s" deleted from trash bin.',
+			['path' => $params['path']],
+			['path']
 		);
 	}
 
 	public function restore($params) {
-		$this->log('File "%s" restored from trash bin.',
-			['path' => $params['filePath']], ['path']
+		$this->log(
+			'File "%s" restored from trash bin.',
+			['path' => $params['filePath']],
+			['path']
 		);
 	}
-
 }

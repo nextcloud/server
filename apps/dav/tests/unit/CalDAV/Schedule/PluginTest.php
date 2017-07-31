@@ -26,7 +26,7 @@ use Sabre\DAV\Server;
 use Sabre\DAV\Xml\Property\Href;
 use Test\TestCase;
 
-class PluginTest extends TestCase  {
+class PluginTest extends TestCase {
 	/** @var Plugin */
 	private $plugin;
 	/** @var Server|\PHPUnit_Framework_MockObject_MockObject */

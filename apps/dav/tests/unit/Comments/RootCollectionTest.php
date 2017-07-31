@@ -84,8 +84,8 @@ class RootCollectionTest extends \Test\TestCase {
 			->method('getUser')
 			->will($this->returnValue($this->user));
 
-		$this->dispatcher->addListener(CommentsEntityEvent::EVENT_ENTITY, function(CommentsEntityEvent $event) {
-			$event->addEntityCollection('files', function() {
+		$this->dispatcher->addListener(CommentsEntityEvent::EVENT_ENTITY, function (CommentsEntityEvent $event) {
+			$event->addEntityCollection('files', function () {
 				return true;
 			});
 		});
@@ -130,7 +130,7 @@ class RootCollectionTest extends \Test\TestCase {
 		$this->prepareForInitCollections();
 		$children = $this->collection->getChildren();
 		$this->assertFalse(empty($children));
-		foreach($children as $child) {
+		foreach ($children as $child) {
 			$this->assertTrue($child instanceof EntityTypeCollectionImplementation);
 		}
 	}

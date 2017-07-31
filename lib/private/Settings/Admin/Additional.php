@@ -45,16 +45,16 @@ class Additional implements ISettings {
 		$parameters = [
 			// Mail
 			'sendmail_is_available' => (bool) \OC_Helper::findBinaryPath('sendmail'),
-			'mail_domain'           => $this->config->getSystemValue('mail_domain', ''),
-			'mail_from_address'     => $this->config->getSystemValue('mail_from_address', ''),
-			'mail_smtpmode'         => $this->config->getSystemValue('mail_smtpmode', ''),
-			'mail_smtpsecure'       => $this->config->getSystemValue('mail_smtpsecure', ''),
-			'mail_smtphost'         => $this->config->getSystemValue('mail_smtphost', ''),
-			'mail_smtpport'         => $this->config->getSystemValue('mail_smtpport', ''),
-			'mail_smtpauthtype'     => $this->config->getSystemValue('mail_smtpauthtype', ''),
-			'mail_smtpauth'         => $this->config->getSystemValue('mail_smtpauth', false),
-			'mail_smtpname'         => $this->config->getSystemValue('mail_smtpname', ''),
-			'mail_smtppassword'     => $this->config->getSystemValue('mail_smtppassword', ''),
+			'mail_domain' => $this->config->getSystemValue('mail_domain', ''),
+			'mail_from_address' => $this->config->getSystemValue('mail_from_address', ''),
+			'mail_smtpmode' => $this->config->getSystemValue('mail_smtpmode', ''),
+			'mail_smtpsecure' => $this->config->getSystemValue('mail_smtpsecure', ''),
+			'mail_smtphost' => $this->config->getSystemValue('mail_smtphost', ''),
+			'mail_smtpport' => $this->config->getSystemValue('mail_smtpport', ''),
+			'mail_smtpauthtype' => $this->config->getSystemValue('mail_smtpauthtype', ''),
+			'mail_smtpauth' => $this->config->getSystemValue('mail_smtpauth', false),
+			'mail_smtpname' => $this->config->getSystemValue('mail_smtpname', ''),
+			'mail_smtppassword' => $this->config->getSystemValue('mail_smtppassword', ''),
 		];
 
 		if ($parameters['mail_smtppassword'] !== '') {

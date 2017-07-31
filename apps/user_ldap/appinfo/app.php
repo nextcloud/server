@@ -29,15 +29,15 @@
 
 $helper = new \OCA\User_LDAP\Helper(\OC::$server->getConfig());
 $configPrefixes = $helper->getServerConfigurationPrefixes(true);
-if(count($configPrefixes) > 0) {
+if (count($configPrefixes) > 0) {
 	$ldapWrapper = new OCA\User_LDAP\LDAP();
 	$ocConfig = \OC::$server->getConfig();
 	$notificationManager = \OC::$server->getNotificationManager();
-	$notificationManager->registerNotifier(function() {
+	$notificationManager->registerNotifier(function () {
 		return new \OCA\User_LDAP\Notification\Notifier(
 			\OC::$server->getL10NFactory()
 		);
-	}, function() {
+	}, function () {
 		$l = \OC::$server->getL10N('user_ldap');
 		return [
 			'id' => 'user_ldap',
@@ -45,10 +45,13 @@ if(count($configPrefixes) > 0) {
 		];
 	});
 
-	$userBackend  = new OCA\User_LDAP\User_Proxy(
-		$configPrefixes, $ldapWrapper, $ocConfig, $notificationManager
+	$userBackend = new OCA\User_LDAP\User_Proxy(
+		$configPrefixes,
+		$ldapWrapper,
+		$ocConfig,
+		$notificationManager
 	);
-	$groupBackend  = new OCA\User_LDAP\Group_Proxy($configPrefixes, $ldapWrapper);
+	$groupBackend = new OCA\User_LDAP\Group_Proxy($configPrefixes, $ldapWrapper);
 	// register user backend
 	OC_User::useBackend($userBackend);
 	\OC::$server->getGroupManager()->addBackend($groupBackend);

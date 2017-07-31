@@ -30,23 +30,23 @@
  * error code for functions not provided by the group backend
  * @deprecated Use \OC_Group_Backend::NOT_IMPLEMENTED instead
  */
-define('OC_GROUP_BACKEND_NOT_IMPLEMENTED',   -501);
+define('OC_GROUP_BACKEND_NOT_IMPLEMENTED', -501);
 
 /**
  * actions that user backends can define
  */
 /** @deprecated Use \OC_Group_Backend::CREATE_GROUP instead */
-define('OC_GROUP_BACKEND_CREATE_GROUP',      0x00000001);
+define('OC_GROUP_BACKEND_CREATE_GROUP', 0x00000001);
 /** @deprecated Use \OC_Group_Backend::DELETE_GROUP instead */
-define('OC_GROUP_BACKEND_DELETE_GROUP',      0x00000010);
+define('OC_GROUP_BACKEND_DELETE_GROUP', 0x00000010);
 /** @deprecated Use \OC_Group_Backend::ADD_TO_GROUP instead */
-define('OC_GROUP_BACKEND_ADD_TO_GROUP',      0x00000100);
+define('OC_GROUP_BACKEND_ADD_TO_GROUP', 0x00000100);
 /** @deprecated Use \OC_Group_Backend::REMOVE_FROM_GOUP instead */
-define('OC_GROUP_BACKEND_REMOVE_FROM_GOUP',  0x00001000);
+define('OC_GROUP_BACKEND_REMOVE_FROM_GOUP', 0x00001000);
 /** @deprecated Obsolete */
-define('OC_GROUP_BACKEND_GET_DISPLAYNAME',   0x00010000); //OBSOLETE
+define('OC_GROUP_BACKEND_GET_DISPLAYNAME', 0x00010000); //OBSOLETE
 /** @deprecated Use \OC_Group_Backend::COUNT_USERS instead */
-define('OC_GROUP_BACKEND_COUNT_USERS',       0x00100000);
+define('OC_GROUP_BACKEND_COUNT_USERS', 0x00100000);
 
 /**
  * Abstract base class for user management

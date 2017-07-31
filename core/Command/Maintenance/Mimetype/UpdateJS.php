@@ -53,10 +53,10 @@ class UpdateJS extends Command {
 		$aliases = $this->mimetypeDetector->getAllAliases();
 
 		// Remove comments
-		$keys = array_filter(array_keys($aliases), function($k) {
+		$keys = array_filter(array_keys($aliases), function ($k) {
 			return $k[0] === '_';
 		});
-		foreach($keys as $key) {
+		foreach ($keys as $key) {
 			unset($aliases[$key]);
 		}
 
@@ -64,7 +64,7 @@ class UpdateJS extends Command {
 		$dir = new \DirectoryIterator(\OC::$SERVERROOT.'/core/img/filetypes');
 
 		$files = [];
-		foreach($dir as $fileInfo) {
+		foreach ($dir as $fileInfo) {
 			if ($fileInfo->isFile()) {
 				$file = preg_replace('/.[^.]*$/', '', $fileInfo->getFilename());
 				$files[] = $file;
@@ -78,7 +78,7 @@ class UpdateJS extends Command {
 		// Fetch all themes!
 		$themes = [];
 		$dirs = new \DirectoryIterator(\OC::$SERVERROOT.'/themes/');
-		foreach($dirs as $dir) {
+		foreach ($dirs as $dir) {
 			//Valid theme dir
 			if ($dir->isFile() || $dir->isDot()) {
 				continue;

@@ -35,7 +35,6 @@
 // This means that they should be used by apps instead of the internal ownCloud classes
 namespace OCP;
 
-
 /**
  * This class provides functions to register backgroundjobs in ownCloud
  *
@@ -74,7 +73,7 @@ class BackgroundJob {
 	 * @since 5.0.0
 	 */
 	public static function setExecutionType($type) {
-		if( !in_array( $type, array('none', 'ajax', 'webcron', 'cron'))) {
+		if (!in_array($type, ['none', 'ajax', 'webcron', 'cron'])) {
 			return false;
 		}
 		\OC::$server->getConfig()->setAppValue('core', 'backgroundjobs_mode', $type);

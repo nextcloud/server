@@ -27,9 +27,9 @@ $app = new \OCA\FederatedFileSharing\AppInfo\Application();
 $eventDispatcher = \OC::$server->getEventDispatcher();
 
 $manager = \OC::$server->getNotificationManager();
-$manager->registerNotifier(function() {
+$manager->registerNotifier(function () {
 	return \OC::$server->query(Notifier::class);
-}, function() {
+}, function () {
 	$l = \OC::$server->getL10N('files_sharing');
 	return [
 		'id' => 'files_sharing',
@@ -41,7 +41,7 @@ $federatedShareProvider = $app->getFederatedShareProvider();
 
 $eventDispatcher->addListener(
 	'OCA\Files::loadAdditionalScripts',
-	function() use ($federatedShareProvider) {
+	function () use ($federatedShareProvider) {
 		if ($federatedShareProvider->isIncomingServer2serverShareEnabled()) {
 			\OCP\Util::addScript('federatedfilesharing', 'external');
 		}

@@ -66,27 +66,27 @@ class ShowRemnants extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		/** @var \Symfony\Component\Console\Helper\Table $table */
 		$table = new Table($output);
-		$table->setHeaders(array(
+		$table->setHeaders([
 			'Nextcloud name', 'Display Name', 'LDAP UID', 'LDAP DN', 'Last Login',
-			'Dir', 'Sharer'));
-		$rows = array();
+			'Dir', 'Sharer']);
+		$rows = [];
 		$resultSet = $this->dui->getUsers();
-		foreach($resultSet as $user) {
+		foreach ($resultSet as $user) {
 			$hAS = $user->getHasActiveShares() ? 'Y' : 'N';
 			$lastLogin = ($user->getLastLogin() > 0) ?
 				$this->dateFormatter->formatDate($user->getLastLogin()) : '-';
-			$rows[] = array('ocName'      => $user->getOCName(),
+			$rows[] = ['ocName' => $user->getOCName(),
 							'displayName' => $user->getDisplayName(),
-							'uid'         => $user->getUID(),
-							'dn'          => $user->getDN(),
-							'lastLogin'   => $lastLogin,
-							'homePath'    => $user->getHomePath(),
-							'sharer'      => $hAS
-			);
+							'uid' => $user->getUID(),
+							'dn' => $user->getDN(),
+							'lastLogin' => $lastLogin,
+							'homePath' => $user->getHomePath(),
+							'sharer' => $hAS
+			];
 		}
 
 		if ($input->getOption('json')) {
-			$output->writeln(json_encode($rows));			
+			$output->writeln(json_encode($rows));
 		} else {
 			$table->setRows($rows);
 			$table->render($output);

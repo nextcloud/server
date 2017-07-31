@@ -59,9 +59,9 @@ class Result {
 	 */
 	public function __construct($data = null, $code = 100, $message = null, $headers = []) {
 		if ($data === null) {
-			$this->data = array();
+			$this->data = [];
 		} elseif (!is_array($data)) {
-			$this->data = array($this->data);
+			$this->data = [$this->data];
 		} else {
 			$this->data = $data;
 		}
@@ -99,18 +99,17 @@ class Result {
 	 * @return array
 	 */
 	public function getMeta() {
-		$meta = array();
+		$meta = [];
 		$meta['status'] = $this->succeeded() ? 'ok' : 'failure';
 		$meta['statuscode'] = $this->statusCode;
 		$meta['message'] = $this->message;
-		if(isset($this->items)) {
+		if (isset($this->items)) {
 			$meta['totalitems'] = $this->items;
 		}
-		if(isset($this->perPage)) {
+		if (isset($this->perPage)) {
 			$meta['itemsperpage'] = $this->perPage;
 		}
 		return $meta;
-
 	}
 
 	/**
@@ -140,7 +139,7 @@ class Result {
 		// to be able to reliably check for security
 		// headers
 
-		if(is_null($value)) {
+		if (is_null($value)) {
 			unset($this->headers[$name]);
 		} else {
 			$this->headers[$name] = $value;
@@ -156,5 +155,4 @@ class Result {
 	public function getHeaders() {
 		return $this->headers;
 	}
-
 }

@@ -36,14 +36,14 @@ class MDB2SchemaWriter {
 	 * @param \OC\DB\Connection $conn
 	 * @return bool
 	 */
-	static public function saveSchemaToFile($file, \OC\DB\Connection $conn) {
+	public static function saveSchemaToFile($file, \OC\DB\Connection $conn) {
 		$config = \OC::$server->getConfig();
 
 		$xml = new \SimpleXMLElement('<database/>');
 		$xml->addChild('name', $config->getSystemValue('dbname', 'owncloud'));
 		$xml->addChild('create', 'true');
 		$xml->addChild('overwrite', 'false');
-		if($config->getSystemValue('dbtype', 'sqlite') === 'mysql' && $config->getSystemValue('mysql.utf8mb4', false)) {
+		if ($config->getSystemValue('dbtype', 'sqlite') === 'mysql' && $config->getSystemValue('mysql.utf8mb4', false)) {
 			$xml->addChild('charset', 'utf8mb4');
 		} else {
 			$xml->addChild('charset', 'utf8');
@@ -71,13 +71,13 @@ class MDB2SchemaWriter {
 	private static function saveTable($table, $xml) {
 		$xml->addChild('name', $table->getName());
 		$declaration = $xml->addChild('declaration');
-		foreach($table->getColumns() as $column) {
+		foreach ($table->getColumns() as $column) {
 			self::saveColumn($column, $declaration->addChild('field'));
 		}
-		foreach($table->getIndexes() as $index) {
+		foreach ($table->getIndexes() as $index) {
 			if ($index->getName() == 'PRIMARY') {
 				$autoincrement = false;
-				foreach($index->getColumns() as $column) {
+				foreach ($index->getColumns() as $column) {
 					if ($table->getColumn($column)->getAutoincrement()) {
 						$autoincrement = true;
 					}
@@ -96,7 +96,7 @@ class MDB2SchemaWriter {
 	 */
 	private static function saveColumn($column, $xml) {
 		$xml->addChild('name', $column->getName());
-		switch($column->getType()) {
+		switch ($column->getType()) {
 			case 'SmallInt':
 			case 'Integer':
 			case 'BigInt':
@@ -116,8 +116,7 @@ class MDB2SchemaWriter {
 				$length = '4';
 				if ($column->getType() == 'SmallInt') {
 					$length = '2';
-				}
-				elseif ($column->getType() == 'BigInt') {
+				} elseif ($column->getType() == 'BigInt') {
 					$length = '8';
 				}
 				$xml->addChild('length', $length);
@@ -165,15 +164,13 @@ class MDB2SchemaWriter {
 		$xml->addChild('name', $index->getName());
 		if ($index->isPrimary()) {
 			$xml->addChild('primary', 'true');
-		}
-		elseif ($index->isUnique()) {
+		} elseif ($index->isUnique()) {
 			$xml->addChild('unique', 'true');
 		}
-		foreach($index->getColumns() as $column) {
+		foreach ($index->getColumns() as $column) {
 			$field = $xml->addChild('field');
 			$field->addChild('name', $column);
 			$field->addChild('sorting', 'ascending');
-			
 		}
 	}
 

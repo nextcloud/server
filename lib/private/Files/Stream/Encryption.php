@@ -102,7 +102,7 @@ class Encryption extends Wrapper {
 	protected $expectedContextProperties;
 
 	public function __construct() {
-		$this->expectedContextProperties = array(
+		$this->expectedContextProperties = [
 			'source',
 			'storage',
 			'internalPath',
@@ -117,7 +117,7 @@ class Encryption extends Wrapper {
 			'encryptionStorage',
 			'headerSize',
 			'signed'
-		);
+		];
 	}
 
 
@@ -144,7 +144,11 @@ class Encryption extends Wrapper {
 	 *
 	 * @throws \BadMethodCallException
 	 */
-	public static function wrap($source, $internalPath, $fullPath, array $header,
+	public static function wrap(
+		$source,
+		$internalPath,
+		$fullPath,
+		array $header,
 								$uid,
 								\OCP\Encryption\IEncryptionModule $encryptionModule,
 								\OC\Files\Storage\Storage $storage,
@@ -156,10 +160,10 @@ class Encryption extends Wrapper {
 								$unencryptedSize,
 								$headerSize,
 								$signed,
-								$wrapper =  'OC\Files\Stream\Encryption') {
-
-		$context = stream_context_create(array(
-			'ocencryption' => array(
+								$wrapper = 'OC\Files\Stream\Encryption'
+	) {
+		$context = stream_context_create([
+			'ocencryption' => [
 				'source' => $source,
 				'storage' => $storage,
 				'internalPath' => $internalPath,
@@ -174,8 +178,8 @@ class Encryption extends Wrapper {
 				'encryptionStorage' => $encStorage,
 				'headerSize' => $headerSize,
 				'signed' => $signed
-			)
-		));
+			]
+		]);
 
 		return self::wrapSource($source, $context, 'ocencryption', $wrapper, $mode);
 	}
@@ -225,7 +229,6 @@ class Encryption extends Wrapper {
 			}
 		}
 		return $context;
-
 	}
 
 	public function stream_open($path, $mode, $options, &$opened_path) {
@@ -276,7 +279,6 @@ class Encryption extends Wrapper {
 		}
 
 		return true;
-
 	}
 
 	public function stream_eof() {
@@ -284,7 +286,6 @@ class Encryption extends Wrapper {
 	}
 
 	public function stream_read($count) {
-
 		$result = '';
 
 		$count = min($count, $this->unencryptedSize - $this->position);
@@ -308,11 +309,9 @@ class Encryption extends Wrapper {
 			}
 		}
 		return $result;
-
 	}
 
 	public function stream_write($data) {
-
 		$length = 0;
 		// loop over $data to fit it in 6126 sized unencrypted blocks
 		while (isset($data[0])) {
@@ -367,7 +366,6 @@ class Encryption extends Wrapper {
 	}
 
 	public function stream_seek($offset, $whence = SEEK_SET) {
-
 		$return = false;
 
 		switch ($whence) {
@@ -400,15 +398,14 @@ class Encryption extends Wrapper {
 			$return = true;
 		}
 		return $return;
-
 	}
 
 	public function stream_close() {
 		$this->flush('end');
-		$position = (int)floor($this->position/$this->unencryptedBlockSize);
+		$position = (int)floor($this->position / $this->unencryptedBlockSize);
 		$remainingData = $this->encryptionModule->end($this->fullPath, $position . 'end');
 		if ($this->readOnly === false) {
-			if(!empty($remainingData)) {
+			if (!empty($remainingData)) {
 				parent::stream_write($remainingData);
 			}
 			$this->encryptionStorage->updateUnencryptedSize($this->fullPath, $this->unencryptedSize);
@@ -427,7 +424,7 @@ class Encryption extends Wrapper {
 			// automatically attempted when the file is written to disk -
 			// we are handling that separately here and we don't want to
 			// get into an infinite loop
-			$position = (int)floor($this->position/$this->unencryptedBlockSize);
+			$position = (int)floor($this->position / $this->unencryptedBlockSize);
 			$encrypted = $this->encryptionModule->encrypt($this->cache, $position . $positionPrefix);
 			$bytesWritten = parent::stream_write($encrypted);
 			$this->writeFlag = false;
@@ -435,8 +432,8 @@ class Encryption extends Wrapper {
 			// If so then update the encrypted filesize
 			// Note that the unencrypted pointer and filesize are NOT yet updated when flush() is called
 			// We recalculate the encrypted filesize as we do not know the context of calling flush()
-			$completeBlocksInFile=(int)floor($this->unencryptedSize/$this->unencryptedBlockSize);
-			if ($completeBlocksInFile === (int)floor($this->position/$this->unencryptedBlockSize)) {
+			$completeBlocksInFile = (int)floor($this->unencryptedSize / $this->unencryptedBlockSize);
+			if ($completeBlocksInFile === (int)floor($this->position / $this->unencryptedBlockSize)) {
 				$this->size = $this->util->getBlockSize() * $completeBlocksInFile;
 				$this->size += $bytesWritten;
 				$this->size += $this->headerSize;
@@ -455,9 +452,9 @@ class Encryption extends Wrapper {
 		if ($this->cache === '' && !($this->position === $this->unencryptedSize && ($this->position % $this->unencryptedBlockSize) === 0)) {
 			// Get the data from the file handle
 			$data = parent::stream_read($this->util->getBlockSize());
-			$position = (int)floor($this->position/$this->unencryptedBlockSize);
+			$position = (int)floor($this->position / $this->unencryptedBlockSize);
 			$numberOfChunks = (int)($this->unencryptedSize / $this->unencryptedBlockSize);
-			if($numberOfChunks === $position) {
+			if ($numberOfChunks === $position) {
 				$position .= 'end';
 			}
 			$this->cache = $this->encryptionModule->decrypt($data, $position);
@@ -500,5 +497,4 @@ class Encryption extends Wrapper {
 	public function dir_opendir($path, $options) {
 		return false;
 	}
-
 }

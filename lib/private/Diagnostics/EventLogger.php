@@ -42,7 +42,7 @@ class EventLogger implements IEventLogger {
 	 * @inheritdoc
 	 */
 	public function start($id, $description) {
-		if ($this->activated){
+		if ($this->activated) {
 			$this->events[$id] = new Event($id, $description, microtime(true));
 		}
 	}

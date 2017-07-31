@@ -115,7 +115,7 @@ class Entry implements IEntry {
 	 * sort the actions by priority and name
 	 */
 	private function sortActions() {
-		usort($this->actions, function(IAction $action1, IAction $action2) {
+		usort($this->actions, function (IAction $action1, IAction $action2) {
 			$prio1 = $action1->getPriority();
 			$prio2 = $action2->getPriority();
 
@@ -152,7 +152,7 @@ class Entry implements IEntry {
 	 */
 	public function jsonSerialize() {
 		$topAction = !empty($this->actions) ? $this->actions[0]->jsonSerialize() : null;
-		$otherActions = array_map(function(IAction $action) {
+		$otherActions = array_map(function (IAction $action) {
 			return $action->jsonSerialize();
 		}, array_slice($this->actions, 1));
 
@@ -165,5 +165,4 @@ class Entry implements IEntry {
 			'lastMessage' => '',
 		];
 	}
-
 }

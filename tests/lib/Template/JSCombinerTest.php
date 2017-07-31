@@ -112,12 +112,12 @@ class JSCombinerTest extends \Test\TestCase {
 		$fileDeps = $this->createMock(ISimpleFile::class);
 
 		$folder->method('getFile')
-			->will($this->returnCallback(function($path) use ($file, $gzfile) {
+			->will($this->returnCallback(function ($path) use ($file, $gzfile) {
 				if ($path === 'combine.js') {
 					return $file;
-				} else if ($path === 'combine.js.deps') {
+				} elseif ($path === 'combine.js.deps') {
 					throw new NotFoundException();
-				} else if ($path === 'combine.js.gzip') {
+				} elseif ($path === 'combine.js.gzip') {
 					return $gzfile;
 				}
 				$this->fail();
@@ -149,12 +149,12 @@ class JSCombinerTest extends \Test\TestCase {
 		$gzfile = $this->createMock(ISimpleFile::class);
 
 		$folder->method('getFile')
-			->will($this->returnCallback(function($path) use ($file, $gzfile) {
+			->will($this->returnCallback(function ($path) use ($file, $gzfile) {
 				if ($path === 'combine.js') {
 					return $file;
-				} else if ($path === 'combine.js.deps') {
+				} elseif ($path === 'combine.js.deps') {
 					throw new NotFoundException();
-				} else if ($path === 'combine.js.gzip') {
+				} elseif ($path === 'combine.js.gzip') {
 					return $gzfile;
 				}
 				$this->fail();
@@ -188,7 +188,7 @@ class JSCombinerTest extends \Test\TestCase {
 		$fileDeps->expects($this->once())->method('getContent')->willReturn('{}');
 
 		$folder->method('getFile')
-			->will($this->returnCallback(function($path) use ($file, $fileDeps) {
+			->will($this->returnCallback(function ($path) use ($file, $fileDeps) {
 				if ($path === 'combine.js') {
 					return $file;
 				}
@@ -229,7 +229,7 @@ class JSCombinerTest extends \Test\TestCase {
 			->willReturn('{}');
 
 		$folder->method('getFile')
-			->will($this->returnCallback(function($path) use ($file) {
+			->will($this->returnCallback(function ($path) use ($file) {
 				if ($path === 'combine.js') {
 					return $file;
 				}
@@ -246,7 +246,7 @@ class JSCombinerTest extends \Test\TestCase {
 		$file = $this->createMock(ISimpleFile::class);
 
 		$folder->method('getFile')
-			->will($this->returnCallback(function($path) use ($file) {
+			->will($this->returnCallback(function ($path) use ($file) {
 				if ($path === 'combine.js') {
 					return $file;
 				}
@@ -323,9 +323,9 @@ class JSCombinerTest extends \Test\TestCase {
 			function ($filename) use ($file, $depsFile, $gzFile) {
 				if ($filename === 'combine.js') {
 					return $file;
-				} else if ($filename === 'combine.js.deps') {
+				} elseif ($filename === 'combine.js.deps') {
 					return $depsFile;
-				} else if ($filename === 'combine.js.gzip') {
+				} elseif ($filename === 'combine.js.gzip') {
 					return $gzFile;
 				}
 				$this->fail();
@@ -354,9 +354,9 @@ class JSCombinerTest extends \Test\TestCase {
 			function ($filename) use ($file, $depsFile, $gzFile) {
 				if ($filename === 'combine.js') {
 					return $file;
-				} else if ($filename === 'combine.js.deps') {
+				} elseif ($filename === 'combine.js.deps') {
 					return $depsFile;
-				} else if ($filename === 'combine.js.gzip') {
+				} elseif ($filename === 'combine.js.gzip') {
 					return $gzFile;
 				}
 				$this->fail();
@@ -400,7 +400,8 @@ var b = \'world\';
 				$deps = json_decode($content, true);
 				return array_key_exists(__DIR__ . '/data//1.js', $deps)
 					&& array_key_exists(__DIR__ . '/data//2.js', $deps);
-			}))
+			}
+			))
 			->willThrowException(new NotPermittedException());
 
 		$actual = self::invokePrivate($this->jsCombiner, 'cache', [$path, 'combine.json', $folder]);
@@ -422,9 +423,9 @@ var b = \'world\';
 			function ($filename) use ($file, $depsFile, $gzFile) {
 				if ($filename === 'combine.js') {
 					return $file;
-				} else if ($filename === 'combine.js.deps') {
+				} elseif ($filename === 'combine.js.deps') {
 					return $depsFile;
-				} else if ($filename === 'combine.js.gzip') {
+				} elseif ($filename === 'combine.js.gzip') {
 					return $gzFile;
 				}
 				$this->fail();
@@ -445,7 +446,8 @@ var b = \'world\';
 				$deps = json_decode($content, true);
 				return array_key_exists(__DIR__ . '/data//1.js', $deps)
 					&& array_key_exists(__DIR__ . '/data//2.js', $deps);
-			}));
+			}
+		));
 		$gzFile->expects($this->at(0))->method('putContent')->with($this->callback(
 			function ($content) {
 				return gzdecode($content) === 'var a = \'hello\';

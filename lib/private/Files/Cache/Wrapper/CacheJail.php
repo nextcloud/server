@@ -26,6 +26,7 @@
  */
 
 namespace OC\Files\Cache\Wrapper;
+
 use OC\Files\Cache\Cache;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Search\ISearchQuery;
@@ -67,7 +68,7 @@ class CacheJail extends CacheWrapper {
 		$rootLength = strlen($this->root) + 1;
 		if ($path === $this->root) {
 			return '';
-		} else if (substr($path, 0, $rootLength) === $this->root . '/') {
+		} elseif (substr($path, 0, $rootLength) === $this->root . '/') {
 			return substr($path, $rootLength);
 		} else {
 			return null;
@@ -202,9 +203,9 @@ class CacheJail extends CacheWrapper {
 	}
 
 	private function formatSearchResults($results) {
-		$results = array_filter($results, array($this, 'filterCacheEntry'));
+		$results = array_filter($results, [$this, 'filterCacheEntry']);
 		$results = array_values($results);
-		return array_map(array($this, 'formatCacheEntry'), $results);
+		return array_map([$this, 'formatCacheEntry'], $results);
 	}
 
 	/**
@@ -271,7 +272,6 @@ class CacheJail extends CacheWrapper {
 		} else {
 			return 0;
 		}
-
 	}
 
 	/**
@@ -281,7 +281,7 @@ class CacheJail extends CacheWrapper {
 	 */
 	public function getAll() {
 		// not supported
-		return array();
+		return [];
 	}
 
 	/**

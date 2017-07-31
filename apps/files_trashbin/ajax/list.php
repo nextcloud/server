@@ -28,7 +28,7 @@ OCP\JSON::checkLoggedIn();
 $dir = isset($_GET['dir']) ? (string)$_GET['dir'] : '';
 $sortAttribute = isset($_GET['sort']) ? (string)$_GET['sort'] : 'name';
 $sortDirection = isset($_GET['sortdirection']) ? ($_GET['sortdirection'] === 'desc') : false;
-$data = array();
+$data = [];
 
 // make filelist
 try {
@@ -44,5 +44,4 @@ $data['permissions'] = 0;
 $data['directory'] = $dir;
 $data['files'] = \OCA\Files_Trashbin\Helper::formatFileInfos($files);
 
-OCP\JSON::success(array('data' => $data));
-
+OCP\JSON::success(['data' => $data]);

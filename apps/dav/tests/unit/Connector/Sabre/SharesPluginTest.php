@@ -24,7 +24,6 @@
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 class SharesPluginTest extends \Test\TestCase {
-
 	const SHARETYPES_PROPERTYNAME = \OCA\DAV\Connector\Sabre\SharesPlugin::SHARETYPES_PROPERTYNAME;
 
 	/**
@@ -120,7 +119,7 @@ class SharesPluginTest extends \Test\TestCase {
 				$this->equalTo(false),
 				$this->equalTo(1)
 			)
-			->will($this->returnCallback(function($userId, $requestedShareType, $node, $flag, $limit) use ($shareTypes){
+			->will($this->returnCallback(function ($userId, $requestedShareType, $node, $flag, $limit) use ($shareTypes) {
 				if (in_array($requestedShareType, $shareTypes)) {
 					return ['dummyshare'];
 				}
@@ -205,7 +204,7 @@ class SharesPluginTest extends \Test\TestCase {
 			->with('/subdir')
 			->will($this->returnValue($node));
 		
-		$dummyShares = array_map(function($type) {
+		$dummyShares = array_map(function ($type) {
 			$share = $this->getMockBuilder('\OCP\Share\IShare')->getMock();
 			$share->expects($this->any())
 				->method('getShareType')
@@ -222,7 +221,7 @@ class SharesPluginTest extends \Test\TestCase {
 				$this->equalTo(false),
 				$this->equalTo(1)
 			)
-			->will($this->returnCallback(function($userId, $requestedShareType, $node, $flag, $limit) use ($shareTypes){
+			->will($this->returnCallback(function ($userId, $requestedShareType, $node, $flag, $limit) use ($shareTypes) {
 				if ($node->getId() === 111 && in_array($requestedShareType, $shareTypes)) {
 					return ['dummyshare'];
 				}
@@ -278,7 +277,7 @@ class SharesPluginTest extends \Test\TestCase {
 		$this->assertEquals($shareTypes, $result[200][self::SHARETYPES_PROPERTYNAME]->getShareTypes());
 	}
 
-	function sharesGetPropertiesDataProvider() {
+	public function sharesGetPropertiesDataProvider() {
 		return [
 			[[]],
 			[[\OCP\Share::SHARE_TYPE_USER]],

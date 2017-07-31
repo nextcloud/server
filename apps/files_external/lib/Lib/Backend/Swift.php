@@ -32,7 +32,6 @@ use \OCA\Files_External\Lib\Auth\OpenStack\Rackspace;
 use \OCA\Files_External\Lib\LegacyDependencyCheckPolyfill;
 
 class Swift extends Backend {
-
 	use LegacyDependencyCheckPolyfill;
 
 	public function __construct(IL10N $l, OpenStack $openstackAuth, Rackspace $rackspaceAuth) {
@@ -51,7 +50,7 @@ class Swift extends Backend {
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 			])
 			->addAuthScheme(AuthMechanism::SCHEME_OPENSTACK)
-			->setLegacyAuthMechanismCallback(function(array $params) use ($openstackAuth, $rackspaceAuth) {
+			->setLegacyAuthMechanismCallback(function (array $params) use ($openstackAuth, $rackspaceAuth) {
 				if (isset($params['options']['key']) && $params['options']['key']) {
 					return $rackspaceAuth;
 				}
@@ -59,5 +58,4 @@ class Swift extends Backend {
 			})
 		;
 	}
-
 }

@@ -23,7 +23,6 @@
 
 namespace OCA\UpdateNotification\Notification;
 
-
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IURLGenerator;

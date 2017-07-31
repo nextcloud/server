@@ -166,7 +166,6 @@ class Updater implements IUpdater {
 				$this->cache->correctFolderSize($parent);
 			}
 		}
-
 	}
 
 	/**
@@ -225,7 +224,8 @@ class Updater implements IUpdater {
 		$fileId = $this->cache->getId($internalPath);
 		if ($fileId !== -1) {
 			$this->cache->update(
-				$fileId, [
+				$fileId,
+				[
 					'mtime' => null, // this magic tells it to not overwrite mtime
 					'storage_mtime' => $this->storage->filemtime($internalPath)
 				]
@@ -244,7 +244,7 @@ class Updater implements IUpdater {
 		if ($parentId != -1) {
 			$mtime = $this->storage->filemtime($parent);
 			if ($mtime !== false) {
-				$this->cache->update($parentId, array('storage_mtime' => $mtime));
+				$this->cache->update($parentId, ['storage_mtime' => $mtime]);
 			}
 		}
 	}

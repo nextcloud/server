@@ -32,7 +32,6 @@ class CsrfTokenGeneratorTest extends \Test\TestCase {
 		$this->random = $this->getMockBuilder('\OCP\Security\ISecureRandom')
 			->disableOriginalConstructor()->getMock();
 		$this->csrfTokenGenerator = new \OC\Security\CSRF\CsrfTokenGenerator($this->random);
-
 	}
 
 	public function testGenerateTokenWithCustomNumber() {
@@ -53,4 +52,3 @@ class CsrfTokenGeneratorTest extends \Test\TestCase {
 		$this->assertSame('12345678901234567890123456789012', $this->csrfTokenGenerator->generateToken(32));
 	}
 }
-

@@ -56,7 +56,7 @@ class MemcacheLockingProvider extends AbstractLockingProvider {
 		$lockValue = $this->memcache->get($path);
 		if ($type === self::LOCK_SHARED) {
 			return $lockValue > 0;
-		} else if ($type === self::LOCK_EXCLUSIVE) {
+		} elseif ($type === self::LOCK_EXCLUSIVE) {
 			return $lockValue === 'exclusive';
 		} else {
 			return false;
@@ -98,7 +98,7 @@ class MemcacheLockingProvider extends AbstractLockingProvider {
 				// if we own more than one lock ourselves just decrease
 				$this->memcache->dec($path);
 			}
-		} else if ($type === self::LOCK_EXCLUSIVE) {
+		} elseif ($type === self::LOCK_EXCLUSIVE) {
 			$this->memcache->cad($path, 'exclusive');
 		}
 		$this->markRelease($path, $type);
@@ -116,7 +116,7 @@ class MemcacheLockingProvider extends AbstractLockingProvider {
 			if (!$this->memcache->cas($path, 'exclusive', 1)) {
 				throw new LockedException($path);
 			}
-		} else if ($targetType === self::LOCK_EXCLUSIVE) {
+		} elseif ($targetType === self::LOCK_EXCLUSIVE) {
 			// we can only change a shared lock to an exclusive if there's only a single owner of the shared lock
 			if (!$this->memcache->cas($path, 1, 'exclusive')) {
 				throw new LockedException($path);

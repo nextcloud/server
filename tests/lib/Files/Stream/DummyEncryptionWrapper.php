@@ -33,5 +33,4 @@ class DummyEncryptionWrapper extends \OC\Files\Stream\Encryption {
 	protected function parentStreamSeek($position) {
 		return false;
 	}
-
 }

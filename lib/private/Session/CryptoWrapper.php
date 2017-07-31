@@ -65,10 +65,12 @@ class CryptoWrapper {
 	 * @param ISecureRandom $random
 	 * @param IRequest $request
 	 */
-	public function __construct(IConfig $config,
+	public function __construct(
+		IConfig $config,
 								ICrypto $crypto,
 								ISecureRandom $random,
-								IRequest $request) {
+								IRequest $request
+	) {
 		$this->crypto = $crypto;
 		$this->config = $config;
 		$this->random = $random;
@@ -81,7 +83,7 @@ class CryptoWrapper {
 			// FIXME: Required for CI
 			if (!defined('PHPUNIT_RUN')) {
 				$webRoot = \OC::$WEBROOT;
-				if($webRoot === '') {
+				if ($webRoot === '') {
 					$webRoot = '/';
 				}
 				setcookie(self::COOKIE_NAME, $this->passphrase, 0, $webRoot, '', $secureCookie, true);

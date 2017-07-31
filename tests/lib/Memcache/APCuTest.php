@@ -13,11 +13,11 @@ class APCuTest extends Cache {
 	protected function setUp() {
 		parent::setUp();
 
-		if(!\OC\Memcache\APCu::isAvailable()) {
+		if (!\OC\Memcache\APCu::isAvailable()) {
 			$this->markTestSkipped('The APCu extension is not available.');
 			return;
 		}
-		$this->instance=new \OC\Memcache\APCu($this->getUniqueID());
+		$this->instance = new \OC\Memcache\APCu($this->getUniqueID());
 	}
 
 	public function testCasIntChanged() {

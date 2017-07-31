@@ -62,7 +62,7 @@ $authPlugin->addBackend($bearerAuthPlugin);
 
 $requestUri = \OC::$server->getRequest()->getRequestUri();
 
-$server = $serverFactory->createServer($baseuri, $requestUri, $authPlugin, function() {
+$server = $serverFactory->createServer($baseuri, $requestUri, $authPlugin, function () {
 	// use the view for the logged in user
 	return \OC\Files\Filesystem::getView();
 });

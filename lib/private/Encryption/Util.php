@@ -34,7 +34,6 @@ use OCP\Encryption\IEncryptionModule;
 use OCP\IConfig;
 
 class Util {
-
 	const HEADER_START = 'HBEGIN';
 	const HEADER_END = 'HEND';
 	const HEADER_PADDING_CHAR = '-';
@@ -84,8 +83,8 @@ class Util {
 		View $rootView,
 		\OC\User\Manager $userManager,
 		\OC\Group\Manager $groupManager,
-		IConfig $config) {
-
+		IConfig $config
+	) {
 		$this->ocHeaderKeys = [
 			self::HEADER_ENCRYPTION_MODULE_KEY
 		];
@@ -161,8 +160,8 @@ class Util {
 	 * @return array with list of files relative to the users files folder
 	 */
 	public function getAllFiles($dir) {
-		$result = array();
-		$dirList = array($dir);
+		$result = [];
+		$dirList = [$dir];
 
 		while ($dirList) {
 			$dir = array_pop($dirList);
@@ -172,10 +171,9 @@ class Util {
 				if ($c->getType() === 'dir') {
 					$dirList[] = $c->getPath();
 				} else {
-					$result[] =  $c->getPath();
+					$result[] = $c->getPath();
 				}
 			}
-
 		}
 
 		return $result;
@@ -222,7 +220,6 @@ class Util {
 	 * @throws \BadMethodCallException
 	 */
 	public function getUidAndFilename($path) {
-
 		$parts = explode('/', $path);
 		$uid = '';
 		if (count($parts) > 2) {
@@ -236,8 +233,7 @@ class Util {
 
 		$ownerPath = implode('/', array_slice($parts, 2));
 
-		return array($uid, Filesystem::normalizePath($ownerPath));
-
+		return [$uid, Filesystem::normalizePath($ownerPath)];
 	}
 
 	/**
@@ -249,26 +245,24 @@ class Util {
 	public function stripPartialFileExtension($path) {
 		$extension = pathinfo($path, PATHINFO_EXTENSION);
 
-		if ( $extension === 'part') {
-
+		if ($extension === 'part') {
 			$newLength = strlen($path) - 5; // 5 = strlen(".part")
 			$fPath = substr($path, 0, $newLength);
 
 			// if path also contains a transaction id, we remove it too
 			$extension = pathinfo($fPath, PATHINFO_EXTENSION);
-			if(substr($extension, 0, 12) === 'ocTransferId') { // 12 = strlen("ocTransferId")
-				$newLength = strlen($fPath) - strlen($extension) -1;
+			if (substr($extension, 0, 12) === 'ocTransferId') { // 12 = strlen("ocTransferId")
+				$newLength = strlen($fPath) - strlen($extension) - 1;
 				$fPath = substr($fPath, 0, $newLength);
 			}
 			return $fPath;
-
 		} else {
 			return $path;
 		}
 	}
 
 	public function getUserWithAccessToMountPoint($users, $groups) {
-		$result = array();
+		$result = [];
 		if (in_array('all', $users)) {
 			$result = \OCP\User::getUsers();
 		} else {
@@ -319,7 +313,7 @@ class Util {
 	 * @return boolean
 	 */
 	private function isMountPointApplicableToUser($mount, $uid) {
-		$acceptedUids = array('all', $uid);
+		$acceptedUids = ['all', $uid];
 		// check if mount point is applicable for the user
 		$intersection = array_intersect($acceptedUids, $mount['applicable']['users']);
 		if (!empty($intersection)) {
@@ -365,7 +359,6 @@ class Util {
 			// detect user specific folders
 			if ($this->userManager->userExists($root[1])
 				&& in_array($root[2], $this->excludedPaths)) {
-
 				return true;
 			}
 		}
@@ -401,5 +394,4 @@ class Util {
 	public function getKeyStorageRoot() {
 		return $this->config->getAppValue('core', 'encryption_key_storage_root', '');
 	}
-
 }

@@ -492,8 +492,8 @@ class ThemingDefaultsTest extends TestCase {
 	}
 
 	public function testGetScssVariablesCached() {
-		$this->cache->expects($this->once())->method('get')->with('getScssVariables')->willReturn(['foo'=>'bar']);
-		$this->assertEquals(['foo'=>'bar'], $this->template->getScssVariables());
+		$this->cache->expects($this->once())->method('get')->with('getScssVariables')->willReturn(['foo' => 'bar']);
+		$this->assertEquals(['foo' => 'bar'], $this->template->getScssVariables());
 	}
 
 	public function testGetScssVariables() {
@@ -603,5 +603,4 @@ class ThemingDefaultsTest extends TestCase {
 
 		$this->assertEquals('1234567890', $this->template->getiTunesAppId());
 	}
-
 }

@@ -8,7 +8,6 @@
 
 namespace Test;
 
-
 use OC\App\AppStore\Bundles\Bundle;
 use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\Archive\ZIP;
@@ -26,7 +25,6 @@ use OCP\ITempManager;
  * @group DB
  */
 class InstallerTest extends TestCase {
-
 	private static $appid = 'testapp';
 	private $appstore;
 	/** @var AppFetcher|\PHPUnit_Framework_MockObject_MockObject */
@@ -91,7 +89,7 @@ class InstallerTest extends TestCase {
 		\OC_App::getAppVersion('testapp');
 
 		// Extract app
-		$pathOfTestApp  = __DIR__ . '/../data/testapp.zip';
+		$pathOfTestApp = __DIR__ . '/../data/testapp.zip';
 		$tar = new ZIP($pathOfTestApp);
 		$tar->extract(\OC_App::getInstallPath());
 

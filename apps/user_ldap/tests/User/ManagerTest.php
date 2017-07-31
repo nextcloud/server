@@ -46,7 +46,6 @@ use OCP\Notification\IManager as INotificationManager;
  * @package OCA\User_LDAP\Tests\User
  */
 class ManagerTest extends \Test\TestCase {
-
 	private function getTestInstances() {
 		$access = $this->createMock(IUserTools::class);
 		$config = $this->createMock(IConfig::class);
@@ -56,10 +55,10 @@ class ManagerTest extends \Test\TestCase {
 		$image = $this->createMock(Image::class);
 		$dbc = $this->createMock(IDBConnection::class);
 		$userMgr = $this->createMock(IUserManager::class);
-		$notiMgr  = $this->createMock(INotificationManager::class);
+		$notiMgr = $this->createMock(INotificationManager::class);
 
 		$connection = new \OCA\User_LDAP\Connection(
-			$lw  = $this->createMock(ILDAPWrapper::class),
+			$lw = $this->createMock(ILDAPWrapper::class),
 			'',
 			null
 		);
@@ -68,7 +67,7 @@ class ManagerTest extends \Test\TestCase {
 			->method('getConnection')
 			->will($this->returnValue($connection));
 
-		return array($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr);
+		return [$access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr];
 	}
 
 	public function testGetByDNExisting() {
@@ -244,7 +243,7 @@ class ManagerTest extends \Test\TestCase {
 		$manager->setLdapAccess($access);
 
 		$connection = $access->getConnection();
-		$connection->setConfiguration(array('ldapEmailAttribute' => 'mail'));
+		$connection->setConfiguration(['ldapEmailAttribute' => 'mail']);
 
 		$attributes = $manager->getAttributes();
 
@@ -267,5 +266,4 @@ class ManagerTest extends \Test\TestCase {
 		$this->assertTrue(!in_array('jpegphoto', $attributes));
 		$this->assertTrue(!in_array('thumbnailphoto', $attributes));
 	}
-
 }

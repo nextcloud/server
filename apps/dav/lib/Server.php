@@ -112,7 +112,7 @@ class Server {
 		$authPlugin->addBackend($authBackend);
 
 		// debugging
-		if(\OC::$server->getConfig()->getSystemValue('debug', false)) {
+		if (\OC::$server->getConfig()->getSystemValue('debug', false)) {
 			$this->server->addPlugin(new \Sabre\DAV\Browser\Plugin());
 		} else {
 			$this->server->addPlugin(new DummyGetResponsePlugin());
@@ -165,7 +165,7 @@ class Server {
 
 		// Some WebDAV clients do require Class 2 WebDAV support (locking), since
 		// we do not provide locking we emulate it using a fake locking plugin.
-		if($request->isUserAgent([
+		if ($request->isUserAgent([
 			'/WebDAVFS/',
 			'/Microsoft Office OneNote 2013/',
 			'/^Microsoft-WebDAV/',// Microsoft-WebDAV-MiniRedir/6.1.7601
@@ -206,11 +206,13 @@ class Server {
 				);
 				if ($view !== null) {
 					$this->server->addPlugin(
-						new QuotaPlugin($view));
+						new QuotaPlugin($view)
+					);
 				}
 				$this->server->addPlugin(
 					new TagsPlugin(
-						$this->server->tree, \OC::$server->getTagManager()
+						$this->server->tree,
+						\OC::$server->getTagManager()
 					)
 				);
 				// TODO: switch to LazyUserFolder

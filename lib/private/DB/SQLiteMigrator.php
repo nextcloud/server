@@ -43,10 +43,10 @@ class SQLiteMigrator extends Migrator {
 		$tmpFile = $this->buildTempDatabase();
 		copy($dbFile, $tmpFile);
 
-		$connectionParams = array(
+		$connectionParams = [
 			'path' => $tmpFile,
 			'driver' => 'pdo_sqlite',
-		);
+		];
 		$conn = \Doctrine\DBAL\DriverManager::getConnection($connectionParams);
 		try {
 			$this->applySchema($targetSchema, $conn);

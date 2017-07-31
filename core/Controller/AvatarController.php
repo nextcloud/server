@@ -90,7 +90,8 @@ class AvatarController extends Controller {
 	 * @param string $userId
 	 * @param TimeFactory $timeFactory
 	 */
-	public function __construct($appName,
+	public function __construct(
+		$appName,
 								IRequest $request,
 								IAvatarManager $avatarManager,
 								ICache $cache,
@@ -99,7 +100,8 @@ class AvatarController extends Controller {
 								IRootFolder $rootFolder,
 								ILogger $logger,
 								$userId,
-								TimeFactory $timeFactory) {
+								TimeFactory $timeFactory
+	) {
 		parent::__construct($appName, $request);
 
 		$this->avatarManager = $avatarManager;
@@ -130,9 +132,11 @@ class AvatarController extends Controller {
 
 		try {
 			$avatar = $this->avatarManager->getAvatar($userId)->getFile($size);
-			$resp = new FileDisplayResponse($avatar,
+			$resp = new FileDisplayResponse(
+				$avatar,
 				Http::STATUS_OK,
-				['Content-Type' => $avatar->getMimeType()]);
+				['Content-Type' => $avatar->getMimeType()]
+			);
 		} catch (NotFoundException $e) {
 			$user = $this->userManager->get($userId);
 			$resp = new JSONResponse([
@@ -177,7 +181,7 @@ class AvatarController extends Controller {
 			if (!($node instanceof File)) {
 				return new JSONResponse(['data' => ['message' => $this->l->t('Please select a file.')]]);
 			}
-			if ($node->getSize() > 20*1024*1024) {
+			if ($node->getSize() > 20 * 1024 * 1024) {
 				return new JSONResponse(
 					['data' => ['message' => $this->l->t('File is too big')]],
 					Http::STATUS_BAD_REQUEST
@@ -205,7 +209,7 @@ class AvatarController extends Controller {
 				 is_uploaded_file($files['tmp_name'][0]) &&
 				!\OC\Files\Filesystem::isFileBlacklisted($files['tmp_name'][0])
 			) {
-				if ($files['size'][0] > 20*1024*1024) {
+				if ($files['size'][0] > 20 * 1024 * 1024) {
 					return new JSONResponse(
 						['data' => ['message' => $this->l->t('File is too big')]],
 						Http::STATUS_BAD_REQUEST
@@ -262,7 +266,7 @@ class AvatarController extends Controller {
 
 	/**
 	 * @NoAdminRequired
-     *
+	 *
 	 * @return JSONResponse
 	 */
 	public function deleteAvatar() {
@@ -284,17 +288,21 @@ class AvatarController extends Controller {
 	public function getTmpAvatar() {
 		$tmpAvatar = $this->cache->get('tmpAvatar');
 		if (is_null($tmpAvatar)) {
-			return new JSONResponse(['data' => [
+			return new JSONResponse(
+				['data' => [
 										'message' => $this->l->t("No temporary profile picture available, try again")
 									]],
-									Http::STATUS_NOT_FOUND);
+									Http::STATUS_NOT_FOUND
+			);
 		}
 
 		$image = new \OC_Image($tmpAvatar);
 
-		$resp = new DataDisplayResponse($image->data(),
+		$resp = new DataDisplayResponse(
+			$image->data(),
 				Http::STATUS_OK,
-				['Content-Type' => $image->mimeType()]);
+				['Content-Type' => $image->mimeType()]
+		);
 
 		$resp->setETag(crc32($image->data()));
 		$resp->cacheFor(0);
@@ -310,21 +318,27 @@ class AvatarController extends Controller {
 	 */
 	public function postCroppedAvatar($crop) {
 		if (is_null($crop)) {
-			return new JSONResponse(['data' => ['message' => $this->l->t("No crop data provided")]],
-									Http::STATUS_BAD_REQUEST);
+			return new JSONResponse(
+				['data' => ['message' => $this->l->t("No crop data provided")]],
+									Http::STATUS_BAD_REQUEST
+			);
 		}
 
 		if (!isset($crop['x'], $crop['y'], $crop['w'], $crop['h'])) {
-			return new JSONResponse(['data' => ['message' => $this->l->t("No valid crop data provided")]],
-									Http::STATUS_BAD_REQUEST);
+			return new JSONResponse(
+				['data' => ['message' => $this->l->t("No valid crop data provided")]],
+									Http::STATUS_BAD_REQUEST
+			);
 		}
 
 		$tmpAvatar = $this->cache->get('tmpAvatar');
 		if (is_null($tmpAvatar)) {
-			return new JSONResponse(['data' => [
+			return new JSONResponse(
+				['data' => [
 										'message' => $this->l->t("No temporary profile picture available, try again")
 									]],
-									Http::STATUS_BAD_REQUEST);
+									Http::STATUS_BAD_REQUEST
+			);
 		}
 
 		$image = new \OC_Image($tmpAvatar);
@@ -336,8 +350,10 @@ class AvatarController extends Controller {
 			$this->cache->remove('tmpAvatar');
 			return new JSONResponse(['status' => 'success']);
 		} catch (\OC\NotSquareException $e) {
-			return new JSONResponse(['data' => ['message' => $this->l->t('Crop is not square')]],
-									Http::STATUS_BAD_REQUEST);
+			return new JSONResponse(
+				['data' => ['message' => $this->l->t('Crop is not square')]],
+									Http::STATUS_BAD_REQUEST
+			);
 		} catch (\Exception $e) {
 			$this->logger->logException($e, ['app' => 'core']);
 			return new JSONResponse(['data' => ['message' => $this->l->t('An error occurred. Please contact your admin.')]], Http::STATUS_BAD_REQUEST);

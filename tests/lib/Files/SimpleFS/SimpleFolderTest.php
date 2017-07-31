@@ -29,7 +29,7 @@ use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 
-class SimpleFolderTest extends \Test\TestCase  {
+class SimpleFolderTest extends \Test\TestCase {
 	/** @var Folder|\PHPUnit_Framework_MockObject_MockObject */
 	private $folder;
 
@@ -134,5 +134,4 @@ class SimpleFolderTest extends \Test\TestCase  {
 		$this->assertCount(1, $result);
 		$this->assertInstanceOf(ISimpleFile::class, $result[0]);
 	}
-
 }

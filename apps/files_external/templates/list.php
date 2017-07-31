@@ -7,7 +7,7 @@
 <div id="emptycontent" class="hidden">
 	<div class="icon-external"></div>
 	<h2><?php p($l->t('No external storage configured')); ?></h2>
-	<p><a href="<?php p(link_to('', 'index.php/settings/personal#files_external' )); ?>"><?php p($l->t('You can add external storages in the personal settings')); ?></a></p>
+	<p><a href="<?php p(link_to('', 'index.php/settings/personal#files_external')); ?>"><?php p($l->t('You can add external storages in the personal settings')); ?></a></p>
 </div>
 
 <input type="hidden" name="dir" value="" id="dir">
@@ -17,7 +17,7 @@
 		<tr>
 			<th id='headerName' class="hidden column-name">
 				<div id="headerName-container">
-					<a class="name sort columntitle" data-sort="name"><span><?php p($l->t( 'Name' )); ?></span><span class="sort-indicator"></span></a>
+					<a class="name sort columntitle" data-sort="name"><span><?php p($l->t('Name')); ?></span><span class="sort-indicator"></span></a>
 				</div>
 			</th>
 			<th id="headerBackend" class="hidden column-backend">

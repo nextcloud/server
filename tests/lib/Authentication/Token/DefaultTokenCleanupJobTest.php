@@ -53,5 +53,4 @@ class DefaultTokenCleanupJobTest extends TestCase {
 			->with();
 		$this->invokePrivate($this->job, 'run', [null]);
 	}
-
 }

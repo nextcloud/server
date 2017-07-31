@@ -36,8 +36,10 @@ class Capabilities implements IPublicCapability {
 	 * @param IRequest $request
 	 * @param Throttler $throttler
 	 */
-	public function __construct(IRequest $request,
-								Throttler $throttler) {
+	public function __construct(
+		IRequest $request,
+								Throttler $throttler
+	) {
 		$this->request = $request;
 		$this->throttler = $throttler;
 	}

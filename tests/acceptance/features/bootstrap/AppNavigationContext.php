@@ -24,7 +24,6 @@
 use Behat\Behat\Context\Context;
 
 class AppNavigationContext implements Context, ActorAwareInterface {
-
 	use ActorAware;
 
 	/**
@@ -65,5 +64,4 @@ class AppNavigationContext implements Context, ActorAwareInterface {
 	public function iSeeThatTheCurrentSectionIs($section) {
 		PHPUnit_Framework_Assert::assertEquals($this->actor->find(self::appNavigationCurrentSectionItem(), 10)->getText(), $section);
 	}
-
 }

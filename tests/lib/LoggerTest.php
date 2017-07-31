@@ -15,14 +15,15 @@ class LoggerTest extends TestCase {
 	 * @var \OCP\ILogger
 	 */
 	private $logger;
-	static private $logs = array();
+	private static $logs = [];
 
 	protected function setUp() {
 		parent::setUp();
 
-		self::$logs = array();
+		self::$logs = [];
 		$this->config = $this->getMockBuilder(
-			'\OC\SystemConfig')
+			'\OC\SystemConfig'
+		)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->logger = new Log('Test\LoggerTest', $this->config);
@@ -30,9 +31,9 @@ class LoggerTest extends TestCase {
 
 	public function testInterpolation() {
 		$logger = $this->logger;
-		$logger->warning('{Message {nothing} {user} {foo.bar} a}', array('user' => 'Bob', 'foo.bar' => 'Bar'));
+		$logger->warning('{Message {nothing} {user} {foo.bar} a}', ['user' => 'Bob', 'foo.bar' => 'Bar']);
 
-		$expected = array('2 {Message {nothing} Bob Bar a}');
+		$expected = ['2 {Message {nothing} Bob Bar a}'];
 		$this->assertEquals($expected, $this->getLogs());
 	}
 
@@ -61,7 +62,7 @@ class LoggerTest extends TestCase {
 	}
 
 	public static function write($app, $message, $level) {
-		self::$logs[]= "$level $message";
+		self::$logs[] = "$level $message";
 	}
 
 	public function userAndPasswordData() {
@@ -86,7 +87,7 @@ class LoggerTest extends TestCase {
 		$this->logger->logException($e);
 
 		$logLines = $this->getLogs();
-		foreach($logLines as $logLine) {
+		foreach ($logLines as $logLine) {
 			$this->assertNotContains($user, $logLine);
 			$this->assertNotContains($password, $logLine);
 			$this->assertContains('login(*** sensitive parameters replaced ***)', $logLine);
@@ -101,7 +102,7 @@ class LoggerTest extends TestCase {
 		$this->logger->logException($e);
 		$logLines = $this->getLogs();
 
-		foreach($logLines as $logLine) {
+		foreach ($logLines as $logLine) {
 			$this->assertNotContains($user, $logLine);
 			$this->assertNotContains($password, $logLine);
 			$this->assertContains('checkPassword(*** sensitive parameters replaced ***)', $logLine);
@@ -116,7 +117,7 @@ class LoggerTest extends TestCase {
 		$this->logger->logException($e);
 		$logLines = $this->getLogs();
 
-		foreach($logLines as $logLine) {
+		foreach ($logLines as $logLine) {
 			$this->assertNotContains($user, $logLine);
 			$this->assertNotContains($password, $logLine);
 			$this->assertContains('validateUserPass(*** sensitive parameters replaced ***)', $logLine);
@@ -131,7 +132,7 @@ class LoggerTest extends TestCase {
 		$this->logger->logException($e);
 		$logLines = $this->getLogs();
 
-		foreach($logLines as $logLine) {
+		foreach ($logLines as $logLine) {
 			$this->assertNotContains($user, $logLine);
 			$this->assertNotContains($password, $logLine);
 			$this->assertContains('tryLogin(*** sensitive parameters replaced ***)', $logLine);

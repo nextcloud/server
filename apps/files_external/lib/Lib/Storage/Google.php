@@ -45,7 +45,6 @@ set_include_path(get_include_path().PATH_SEPARATOR.
 require_once 'Google/autoload.php';
 
 class Google extends \OC\Files\Storage\Common {
-
 	private $client;
 	private $id;
 	private $service;
@@ -67,7 +66,7 @@ class Google extends \OC\Files\Storage\Common {
 			$this->client = new \Google_Client();
 			$this->client->setClientId($params['client_id']);
 			$this->client->setClientSecret($params['client_secret']);
-			$this->client->setScopes(array('https://www.googleapis.com/auth/drive'));
+			$this->client->setScopes(['https://www.googleapis.com/auth/drive']);
 			$this->client->setAccessToken($params['token']);
 			// if curl isn't available we're likely to run into
 			// https://github.com/google/google-api-php-client/issues/59
@@ -102,7 +101,7 @@ class Google extends \OC\Files\Storage\Common {
 		}
 		if (isset($this->driveFiles[$path])) {
 			return $this->driveFiles[$path];
-		} else if ($path === '') {
+		} elseif ($path === '') {
 			$root = $this->service->files->get('root');
 			$this->driveFiles[$path] = $root;
 			return $root;
@@ -123,8 +122,8 @@ class Google extends \OC\Files\Storage\Common {
 				if (isset($this->driveFiles[$path])) {
 					$parentId = $this->driveFiles[$path]->getId();
 				} else {
-					$q = "title='" . str_replace("'","\\'", $name) . "' and '" . str_replace("'","\\'", $parentId) . "' in parents and trashed = false";
-					$result = $this->service->files->listFiles(array('q' => $q))->getItems();
+					$q = "title='" . str_replace("'", "\\'", $name) . "' and '" . str_replace("'", "\\'", $parentId) . "' in parents and trashed = false";
+					$result = $this->service->files->listFiles(['q' => $q])->getItems();
 					if (!empty($result)) {
 						// Google Drive allows files with the same name, Nextcloud doesn't
 						if (count($result) > 1) {
@@ -185,7 +184,8 @@ class Google extends \OC\Files\Storage\Common {
 	private function onDuplicateFileDetected($path) {
 		$about = $this->service->about->get();
 		$user = $about->getName();
-		\OCP\Util::writeLog('files_external',
+		\OCP\Util::writeLog(
+			'files_external',
 			'Ignoring duplicate file name: '.$path.' on Google Drive for Google user: '.$user,
 			\OCP\Util::INFO
 		);
@@ -199,11 +199,11 @@ class Google extends \OC\Files\Storage\Common {
 	private function getGoogleDocExtension($mimetype) {
 		if ($mimetype === self::DOCUMENT) {
 			return 'odt';
-		} else if ($mimetype === self::SPREADSHEET) {
+		} elseif ($mimetype === self::SPREADSHEET) {
 			return 'ods';
-		} else if ($mimetype === self::DRAWING) {
+		} elseif ($mimetype === self::DRAWING) {
 			return 'jpg';
-		} else if ($mimetype === self::PRESENTATION) {
+		} elseif ($mimetype === self::PRESENTATION) {
 			// Download as .odp is not available
 			return 'pdf';
 		} else {
@@ -231,7 +231,7 @@ class Google extends \OC\Files\Storage\Common {
 				$folder->setMimeType(self::FOLDER);
 				$parent = new \Google_Service_Drive_ParentReference();
 				$parent->setId($parentFolder->getId());
-				$folder->setParents(array($parent));
+				$folder->setParents([$parent]);
 				$result = $this->service->files->insert($folder);
 				if ($result) {
 					$this->setDriveFile($path, $result);
@@ -248,7 +248,7 @@ class Google extends \OC\Files\Storage\Common {
 		}
 		if (trim($path, '/') === '') {
 			$dir = $this->opendir($path);
-			if(is_resource($dir)) {
+			if (is_resource($dir)) {
 				while (($file = readdir($dir)) !== false) {
 					if (!\OC\Files\Filesystem::isIgnoredDir($file)) {
 						if (!$this->unlink($path.'/'.$file)) {
@@ -258,7 +258,7 @@ class Google extends \OC\Files\Storage\Common {
 				}
 				closedir($dir);
 			}
-			$this->driveFiles = array();
+			$this->driveFiles = [];
 			return true;
 		} else {
 			return $this->unlink($path);
@@ -268,15 +268,15 @@ class Google extends \OC\Files\Storage\Common {
 	public function opendir($path) {
 		$folder = $this->getDriveFile($path);
 		if ($folder) {
-			$files = array();
-			$duplicates = array();
+			$files = [];
+			$duplicates = [];
 			$pageToken = true;
 			while ($pageToken) {
-				$params = array();
+				$params = [];
 				if ($pageToken !== true) {
 					$params['pageToken'] = $pageToken;
 				}
-				$params['q'] = "'" . str_replace("'","\\'", $folder->getId()) . "' in parents and trashed = false";
+				$params['q'] = "'" . str_replace("'", "\\'", $folder->getId()) . "' in parents and trashed = false";
 				$children = $this->service->files->listFiles($params);
 				foreach ($children->getItems() as $child) {
 					$name = $child->getTitle();
@@ -285,7 +285,7 @@ class Google extends \OC\Files\Storage\Common {
 					if (empty($extension)) {
 						if ($child->getMimeType() === self::MAP) {
 							continue; // No method known to transfer map files, ignore it
-						} else if ($child->getMimeType() !== self::FOLDER) {
+						} elseif ($child->getMimeType() !== self::FOLDER) {
 							$name .= '.'.$this->getGoogleDocExtension($child->getMimeType());
 						}
 					}
@@ -321,7 +321,7 @@ class Google extends \OC\Files\Storage\Common {
 	public function stat($path) {
 		$file = $this->getDriveFile($path);
 		if ($file) {
-			$stat = array();
+			$stat = [];
 			if ($this->filetype($path) === 'dir') {
 				$stat['size'] = 0;
 			} else {
@@ -387,17 +387,17 @@ class Google extends \OC\Files\Storage\Common {
 
 	public function rename($path1, $path2) {
 		// Avoid duplicate files with the same name
-                $testRegex = '/^.+\.ocTransferId\d+\.part$/';
-                if (preg_match($testRegex, $path1)) {
-                        if ($this->is_file($path2)) {
-                                $testFile2 = $this->getDriveFile($path2);
-                                if ($testFile2) {
-                                        $this->service->files->trash($testFile2->getId());
-                                        \OCP\Util::writeLog('files_external', 'trash file '.$path2.
-                                        ' for renaming '.$path1.' on Google Drive.', \OCP\Util::DEBUG);
-                                }
-                        }
-                }
+		$testRegex = '/^.+\.ocTransferId\d+\.part$/';
+		if (preg_match($testRegex, $path1)) {
+			if ($this->is_file($path2)) {
+				$testFile2 = $this->getDriveFile($path2);
+				if ($testFile2) {
+					$this->service->files->trash($testFile2->getId());
+					\OCP\Util::writeLog('files_external', 'trash file '.$path2.
+										' for renaming '.$path1.' on Google Drive.', \OCP\Util::DEBUG);
+				}
+			}
+		}
 		
 		$file = $this->getDriveFile($path1);
 		if ($file) {
@@ -415,7 +415,7 @@ class Google extends \OC\Files\Storage\Common {
 				if ($parentFolder2) {
 					$parent = new \Google_Service_Drive_ParentReference();
 					$parent->setId($parentFolder2->getId());
-					$file->setParents(array($parent));
+					$file->setParents([$parent]);
 				} else {
 					return false;
 				}
@@ -478,7 +478,7 @@ class Google extends \OC\Files\Storage\Common {
 								'verify' => realpath(__DIR__ . '/../../../3rdparty/google-api-php-client/src/Google/IO/cacerts.pem'),
 							]);
 						} catch (RequestException $e) {
-							if(!is_null($e->getResponse())) {
+							if (!is_null($e->getResponse())) {
 								if ($e->getResponse()->getStatusCode() === 404) {
 									return false;
 								} else {
@@ -522,10 +522,10 @@ class Google extends \OC\Files\Storage\Common {
 		$parentFolder = $this->getDriveFile(dirname($path));
 		if ($parentFolder) {
 			$mimetype = \OC::$server->getMimeTypeDetector()->detect($tmpFile);
-			$params = array(
+			$params = [
 				'mimeType' => $mimetype,
 				'uploadType' => 'media'
-			);
+			];
 			$result = false;
 
 			$chunkSizeBytes = 10 * 1024 * 1024;
@@ -548,7 +548,7 @@ class Google extends \OC\Files\Storage\Common {
 				$file->setMimeType($mimetype);
 				$parent = new \Google_Service_Drive_ParentReference();
 				$parent->setId($parentFolder->getId());
-				$file->setParents(array($parent));
+				$file->setParents([$parent]);
 				$this->client->setDefer($useChunking);
 				$request = $this->service->files->insert($file, $params);
 			}
@@ -602,13 +602,13 @@ class Google extends \OC\Files\Storage\Common {
 			// Convert Google Doc mimetypes, choosing Open Document formats for download
 			if ($mimetype === self::FOLDER) {
 				return 'httpd/unix-directory';
-			} else if ($mimetype === self::DOCUMENT) {
+			} elseif ($mimetype === self::DOCUMENT) {
 				return 'application/vnd.oasis.opendocument.text';
-			} else if ($mimetype === self::SPREADSHEET) {
+			} elseif ($mimetype === self::SPREADSHEET) {
 				return 'application/x-vnd.oasis.opendocument.spreadsheet';
-			} else if ($mimetype === self::DRAWING) {
+			} elseif ($mimetype === self::DRAWING) {
 				return 'image/jpeg';
-			} else if ($mimetype === self::PRESENTATION) {
+			} elseif ($mimetype === self::PRESENTATION) {
 				// Download as .odp is not available
 				return 'application/pdf';
 			} else {
@@ -634,9 +634,9 @@ class Google extends \OC\Files\Storage\Common {
 				// the fractions portion be present, while no handy PHP constant
 				// for RFC3339 or ISO8601 includes it. So we do it ourselves.
 				$file->setModifiedDate(date('Y-m-d\TH:i:s.uP', $mtime));
-				$result = $this->service->files->patch($file->getId(), $file, array(
+				$result = $this->service->files->patch($file->getId(), $file, [
 					'setModifiedDate' => true,
-				));
+				]);
 			} else {
 				$result = $this->service->files->touch($file->getId());
 			}
@@ -647,7 +647,7 @@ class Google extends \OC\Files\Storage\Common {
 				$file->setTitle(basename($path));
 				$parent = new \Google_Service_Drive_ParentReference();
 				$parent->setId($parentFolder->getId());
-				$file->setParents(array($parent));
+				$file->setParents([$parent]);
 				$result = $this->service->files->insert($file);
 			}
 		}
@@ -676,10 +676,10 @@ class Google extends \OC\Files\Storage\Common {
 				$result = false;
 				$folderId = $folder->getId();
 				$startChangeId = $appConfig->getValue('files_external', $this->getId().'cId');
-				$params = array(
+				$params = [
 					'includeDeleted' => true,
 					'includeSubscribed' => true,
-				);
+				];
 				if (isset($startChangeId)) {
 					$startChangeId = (int)$startChangeId;
 					$largestChangeId = $startChangeId;
@@ -705,8 +705,8 @@ class Google extends \OC\Files\Storage\Common {
 								foreach ($file->getParents() as $parent) {
 									if ($parent->getId() === $folderId) {
 										$result = true;
-									// Check if there are changes in different folders
-									} else if ($change->getId() <= $largestChangeId) {
+										// Check if there are changes in different folders
+									} elseif ($change->getId() <= $largestChangeId) {
 										// Decrement id so this change is fetched when called again
 										$largestChangeId = $change->getId();
 										$largestChangeId--;
@@ -733,5 +733,4 @@ class Google extends \OC\Files\Storage\Common {
 	public static function checkDependencies() {
 		return true;
 	}
-
 }

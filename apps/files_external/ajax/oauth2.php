@@ -42,7 +42,7 @@ if (isset($_POST['client_id']) && isset($_POST['client_secret']) && isset($_POST
 	$client->setClientId((string)$_POST['client_id']);
 	$client->setClientSecret((string)$_POST['client_secret']);
 	$client->setRedirectUri((string)$_POST['redirect']);
-	$client->setScopes(array('https://www.googleapis.com/auth/drive'));
+	$client->setScopes(['https://www.googleapis.com/auth/drive']);
 	$client->setApprovalPrompt('force');
 	$client->setAccessType('offline');
 	if (isset($_POST['step'])) {
@@ -50,24 +50,24 @@ if (isset($_POST['client_id']) && isset($_POST['client_secret']) && isset($_POST
 		if ($step == 1) {
 			try {
 				$authUrl = $client->createAuthUrl();
-				OCP\JSON::success(array('data' => array(
+				OCP\JSON::success(['data' => [
 					'url' => $authUrl
-				)));
+				]]);
 			} catch (Exception $exception) {
-				OCP\JSON::error(array('data' => array(
-					'message' => $l->t('Step 1 failed. Exception: %s', array($exception->getMessage()))
-				)));
+				OCP\JSON::error(['data' => [
+					'message' => $l->t('Step 1 failed. Exception: %s', [$exception->getMessage()])
+				]]);
 			}
-		} else if ($step == 2 && isset($_POST['code'])) {
+		} elseif ($step == 2 && isset($_POST['code'])) {
 			try {
 				$token = $client->authenticate((string)$_POST['code']);
-				OCP\JSON::success(array('data' => array(
+				OCP\JSON::success(['data' => [
 					'token' => $token
-				)));
+				]]);
 			} catch (Exception $exception) {
-				OCP\JSON::error(array('data' => array(
-					'message' => $l->t('Step 2 failed. Exception: %s', array($exception->getMessage()))
-				)));
+				OCP\JSON::error(['data' => [
+					'message' => $l->t('Step 2 failed. Exception: %s', [$exception->getMessage()])
+				]]);
 			}
 		}
 	}

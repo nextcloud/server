@@ -86,11 +86,13 @@ class AppManager implements IAppManager {
 	 * @param ICacheFactory $memCacheFactory
 	 * @param EventDispatcherInterface $dispatcher
 	 */
-	public function __construct(IUserSession $userSession,
+	public function __construct(
+		IUserSession $userSession,
 								IAppConfig $appConfig,
 								IGroupManager $groupManager,
 								ICacheFactory $memCacheFactory,
-								EventDispatcherInterface $dispatcher) {
+								EventDispatcherInterface $dispatcher
+	) {
 		$this->userSession = $userSession;
 		$this->appConfig = $appConfig;
 		$this->groupManager = $groupManager;
@@ -106,7 +108,7 @@ class AppManager implements IAppManager {
 			$values = $this->appConfig->getValues(false, 'enabled');
 
 			$alwaysEnabledApps = $this->getAlwaysEnabledApps();
-			foreach($alwaysEnabledApps as $appId) {
+			foreach ($alwaysEnabledApps as $appId) {
 				$values[$appId] = 'yes';
 			}
 
@@ -174,7 +176,7 @@ class AppManager implements IAppManager {
 		} elseif ($user === null) {
 			return false;
 		} else {
-			if(empty($enabled)){
+			if (empty($enabled)) {
 				return false;
 			}
 
@@ -220,7 +222,8 @@ class AppManager implements IAppManager {
 		$this->installedAppsCache[$appId] = 'yes';
 		$this->appConfig->setValue($appId, 'enabled', 'yes');
 		$this->dispatcher->dispatch(ManagerEvent::EVENT_APP_ENABLE, new ManagerEvent(
-			ManagerEvent::EVENT_APP_ENABLE, $appId
+			ManagerEvent::EVENT_APP_ENABLE,
+			$appId
 		));
 		$this->clearAppsCache();
 	}
@@ -263,7 +266,9 @@ class AppManager implements IAppManager {
 		$this->installedAppsCache[$appId] = json_encode($groupIds);
 		$this->appConfig->setValue($appId, 'enabled', json_encode($groupIds));
 		$this->dispatcher->dispatch(ManagerEvent::EVENT_APP_ENABLE_FOR_GROUPS, new ManagerEvent(
-			ManagerEvent::EVENT_APP_ENABLE_FOR_GROUPS, $appId, $groups
+			ManagerEvent::EVENT_APP_ENABLE_FOR_GROUPS,
+			$appId,
+			$groups
 		));
 		$this->clearAppsCache();
 	}
@@ -281,7 +286,8 @@ class AppManager implements IAppManager {
 		unset($this->installedAppsCache[$appId]);
 		$this->appConfig->setValue($appId, 'enabled', 'no');
 		$this->dispatcher->dispatch(ManagerEvent::EVENT_APP_DISABLE, new ManagerEvent(
-			ManagerEvent::EVENT_APP_DISABLE, $appId
+			ManagerEvent::EVENT_APP_DISABLE,
+			$appId
 		));
 		$this->clearAppsCache();
 	}
@@ -295,7 +301,7 @@ class AppManager implements IAppManager {
 	 */
 	public function getAppPath($appId) {
 		$appPath = \OC_App::getAppPath($appId);
-		if($appPath === false) {
+		if ($appPath === false) {
 			throw new AppPathNotFoundException('Could not find path for ' . $appId);
 		}
 		return $appPath;
@@ -364,7 +370,7 @@ class AppManager implements IAppManager {
 	 */
 	public function getIncompatibleApps($version) {
 		$apps = $this->getInstalledApps();
-		$incompatibleApps = array();
+		$incompatibleApps = [];
 		foreach ($apps as $appId) {
 			$info = $this->getAppInfo($appId);
 			if (!\OC_App::isAppCompatible($version, $info)) {

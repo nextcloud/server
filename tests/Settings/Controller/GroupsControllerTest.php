@@ -40,7 +40,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		$this->userSession = $this->createMock(IUserSession::class);
 		$l = $this->createMock(IL10N::class);
 		$l->method('t')
-			->will($this->returnCallback(function($text, $parameters = []) {
+			->will($this->returnCallback(function ($text, $parameters = []) {
 				return vsprintf($text, $parameters);
 			}));
 		$this->groupsController = new GroupsController(
@@ -51,7 +51,6 @@ class GroupsControllerTest extends \Test\TestCase {
 			true,
 			$l
 		);
-
 	}
 
 	/**
@@ -92,7 +91,7 @@ class GroupsControllerTest extends \Test\TestCase {
 			->method('count')
 			->will($this->returnValue(18));
 		/** @var \OC\Group\Group[] $groups */
-		$groups = array();
+		$groups = [];
 		$groups[] = $firstGroup;
 		$groups[] = $secondGroup;
 		$groups[] = $thirdGroup;
@@ -112,35 +111,35 @@ class GroupsControllerTest extends \Test\TestCase {
 			->will($this->returnValue($groups));
 
 		$expectedResponse = new DataResponse(
-			array(
-				'data' => array(
-				'adminGroups' => array(
-					0 => array(
+			[
+				'data' => [
+				'adminGroups' => [
+					0 => [
 						'id' => 'admin',
 						'name' => 'admin',
 						'usercount' => 0,//User count disabled 18,
-					)
-				),
+					]
+				],
 				'groups' =>
-					array(
-						0 => array(
+					[
+						0 => [
 							'id' => 'firstGroup',
 							'name' => 'firstGroup',
 							'usercount' => 0,//User count disabled 12,
-						),
-						1 => array(
+						],
+						1 => [
 							'id' => 'secondGroup',
 							'name' => 'secondGroup',
 							'usercount' => 0,//User count disabled 25,
-						),
-						2 => array(
+						],
+						2 => [
 							'id' => 'thirdGroup',
 							'name' => 'thirdGroup',
 							'usercount' => 0,//User count disabled 14,
-						),
-					)
-				)
-			)
+						],
+					]
+				]
+			]
 		);
 		$response = $this->groupsController->index('', false, MetaData::SORT_GROUPNAME);
 		$this->assertEquals($expectedResponse, $response);
@@ -184,7 +183,7 @@ class GroupsControllerTest extends \Test\TestCase {
 			->method('count')
 			->will($this->returnValue(18));
 		/** @var \OC\Group\Group[] $groups */
-		$groups = array();
+		$groups = [];
 		$groups[] = $firstGroup;
 		$groups[] = $secondGroup;
 		$groups[] = $thirdGroup;
@@ -205,35 +204,35 @@ class GroupsControllerTest extends \Test\TestCase {
 			->will($this->returnValue($groups));
 
 		$expectedResponse = new DataResponse(
-			array(
-				'data' => array(
-				'adminGroups' => array(
-					0 => array(
+			[
+				'data' => [
+				'adminGroups' => [
+					0 => [
 						'id' => 'admin',
 						'name' => 'admin',
 						'usercount' => 18,
-					)
-				),
+					]
+				],
 				'groups' =>
-					array(
-						0 => array(
+					[
+						0 => [
 							'id' => 'secondGroup',
 							'name' => 'secondGroup',
 							'usercount' => 25,
-						),
-						1 => array(
+						],
+						1 => [
 							'id' => 'thirdGroup',
 							'name' => 'thirdGroup',
 							'usercount' => 14,
-						),
-						2 => array(
+						],
+						2 => [
 							'id' => 'firstGroup',
 							'name' => 'firstGroup',
 							'usercount' => 12,
-						),
-					)
-				)
-			)
+						],
+					]
+				]
+			]
 		);
 		$response = $this->groupsController->index();
 		$this->assertEquals($expectedResponse, $response);
@@ -247,9 +246,9 @@ class GroupsControllerTest extends \Test\TestCase {
 			->will($this->returnValue(true));
 
 		$expectedResponse = new DataResponse(
-			array(
+			[
 				'message' => 'Group already exists.'
-			),
+			],
 			Http::STATUS_CONFLICT
 		);
 		$response = $this->groupsController->create('ExistingGroup');
@@ -269,9 +268,9 @@ class GroupsControllerTest extends \Test\TestCase {
 			->will($this->returnValue(true));
 
 		$expectedResponse = new DataResponse(
-			array(
+			[
 				'groupname' => 'NewGroup'
-			),
+			],
 			Http::STATUS_CREATED
 		);
 		$response = $this->groupsController->create('NewGroup');
@@ -291,10 +290,10 @@ class GroupsControllerTest extends \Test\TestCase {
 			->will($this->returnValue(false));
 
 		$expectedResponse = new DataResponse(
-			array(
+			[
 				'status' => 'error',
-				'data' => array('message' => 'Unable to add group.')
-			),
+				'data' => ['message' => 'Unable to add group.']
+			],
 			Http::STATUS_FORBIDDEN
 		);
 		$response = $this->groupsController->create('NewGroup');
@@ -315,10 +314,10 @@ class GroupsControllerTest extends \Test\TestCase {
 			->will($this->returnValue(true));
 
 		$expectedResponse = new DataResponse(
-			array(
+			[
 				'status' => 'success',
-				'data' => array('groupname' => 'ExistingGroup')
-			),
+				'data' => ['groupname' => 'ExistingGroup']
+			],
 			Http::STATUS_NO_CONTENT
 		);
 		$response = $this->groupsController->destroy('ExistingGroup');
@@ -333,14 +332,13 @@ class GroupsControllerTest extends \Test\TestCase {
 			->will($this->returnValue(null));
 
 		$expectedResponse = new DataResponse(
-			array(
+			[
 				'status' => 'error',
-				'data' => array('message' => 'Unable to delete group.')
-			),
+				'data' => ['message' => 'Unable to delete group.']
+			],
 			Http::STATUS_FORBIDDEN
 		);
 		$response = $this->groupsController->destroy('ExistingGroup');
 		$this->assertEquals($expectedResponse, $response);
 	}
-
 }

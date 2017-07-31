@@ -43,7 +43,6 @@ class Listener {
 		IManager $notificationManager,
 		IUserManager $userManager
 	) {
-
 		$this->notificationManager = $notificationManager;
 		$this->userManager = $userManager;
 	}
@@ -55,15 +54,15 @@ class Listener {
 		$comment = $event->getComment();
 
 		$mentions = $this->extractMentions($comment->getMentions());
-		if(empty($mentions)) {
+		if (empty($mentions)) {
 			// no one to notify
 			return;
 		}
 
 		$notification = $this->instantiateNotification($comment);
 
-		foreach($mentions as $uid) {
-			if( ($comment->getActorType() === 'users' && $uid === $comment->getActorId())
+		foreach ($mentions as $uid) {
+			if (($comment->getActorType() === 'users' && $uid === $comment->getActorId())
 				|| !$this->userManager->userExists($uid)
 			) {
 				// do not notify unknown users or yourself
@@ -71,9 +70,8 @@ class Listener {
 			}
 
 			$notification->setUser($uid);
-			if(    $event->getEvent() === CommentsEvent::EVENT_DELETE
-				|| $event->getEvent() === CommentsEvent::EVENT_PRE_UPDATE)
-			{
+			if ($event->getEvent() === CommentsEvent::EVENT_DELETE
+				|| $event->getEvent() === CommentsEvent::EVENT_PRE_UPDATE) {
 				$this->notificationManager->markProcessed($notification);
 			} else {
 				$this->notificationManager->notify($notification);
@@ -105,12 +103,12 @@ class Listener {
 	 * @return string[] containing the mentions, e.g. ['alice', 'bob']
 	 */
 	public function extractMentions(array $mentions) {
-		if(empty($mentions)) {
+		if (empty($mentions)) {
 			return [];
 		}
 		$uids = [];
-		foreach($mentions as $mention) {
-			if($mention['type'] === 'user') {
+		foreach ($mentions as $mention) {
+			if ($mention['type'] === 'user') {
 				$uids[] = $mention['id'];
 			}
 		}

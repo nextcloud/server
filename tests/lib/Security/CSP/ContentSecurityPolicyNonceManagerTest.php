@@ -27,7 +27,7 @@ use OC\Security\CSRF\CsrfTokenManager;
 use OCP\IRequest;
 use Test\TestCase;
 
-class ContentSecurityPolicyNonceManagerTest extends TestCase  {
+class ContentSecurityPolicyNonceManagerTest extends TestCase {
 	/** @var CsrfTokenManager */
 	private $csrfTokenManager;
 	/** @var ContentSecurityPolicyNonceManager */

@@ -26,6 +26,7 @@
  */
 
 namespace OCP;
+
 use OCP\Files\File;
 use OCP\Files\NotFoundException;
 

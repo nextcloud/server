@@ -49,7 +49,7 @@ class Application extends App {
 		$container = $this->getContainer();
 		$server = $container->getServer();
 
-		$container->registerService(PhotoCache::class, function(SimpleContainer $s) use ($server) {
+		$container->registerService(PhotoCache::class, function (SimpleContainer $s) use ($server) {
 			return new PhotoCache(
 				$server->getAppDataDir('dav-photocache')
 			);
@@ -87,7 +87,7 @@ class Application extends App {
 		});
 
 		// carddav/caldav sync event setup
-		$listener = function($event) {
+		$listener = function ($event) {
 			if ($event instanceof GenericEvent) {
 				/** @var BirthdayService $b */
 				$b = $this->getContainer()->query(BirthdayService::class);
@@ -101,7 +101,7 @@ class Application extends App {
 
 		$dispatcher->addListener('\OCA\DAV\CardDAV\CardDavBackend::createCard', $listener);
 		$dispatcher->addListener('\OCA\DAV\CardDAV\CardDavBackend::updateCard', $listener);
-		$dispatcher->addListener('\OCA\DAV\CardDAV\CardDavBackend::deleteCard', function($event) {
+		$dispatcher->addListener('\OCA\DAV\CardDAV\CardDavBackend::deleteCard', function ($event) {
 			if ($event instanceof GenericEvent) {
 				/** @var BirthdayService $b */
 				$b = $this->getContainer()->query(BirthdayService::class);
@@ -112,7 +112,7 @@ class Application extends App {
 			}
 		});
 
-		$clearPhotoCache = function($event) {
+		$clearPhotoCache = function ($event) {
 			if ($event instanceof GenericEvent) {
 				/** @var PhotoCache $p */
 				$p = $this->getContainer()->query(PhotoCache::class);
@@ -125,20 +125,20 @@ class Application extends App {
 		$dispatcher->addListener('\OCA\DAV\CardDAV\CardDavBackend::updateCard', $clearPhotoCache);
 		$dispatcher->addListener('\OCA\DAV\CardDAV\CardDavBackend::deleteCard', $clearPhotoCache);
 
-		$dispatcher->addListener('OC\AccountManager::userUpdated', function(GenericEvent $event) {
+		$dispatcher->addListener('OC\AccountManager::userUpdated', function (GenericEvent $event) {
 			$user = $event->getSubject();
 			$syncService = $this->getContainer()->query(SyncService::class);
 			$syncService->updateUser($user);
 		});
 
-		$dispatcher->addListener('\OCA\DAV\CalDAV\CalDavBackend::createCalendar', function(GenericEvent $event) {
+		$dispatcher->addListener('\OCA\DAV\CalDAV\CalDavBackend::createCalendar', function (GenericEvent $event) {
 			/** @var Backend $backend */
 			$backend = $this->getContainer()->query(Backend::class);
 			$backend->onCalendarAdd(
 				$event->getArgument('calendarData')
 			);
 		});
-		$dispatcher->addListener('\OCA\DAV\CalDAV\CalDavBackend::updateCalendar', function(GenericEvent $event) {
+		$dispatcher->addListener('\OCA\DAV\CalDAV\CalDavBackend::updateCalendar', function (GenericEvent $event) {
 			/** @var Backend $backend */
 			$backend = $this->getContainer()->query(Backend::class);
 			$backend->onCalendarUpdate(
@@ -147,7 +147,7 @@ class Application extends App {
 				$event->getArgument('propertyMutations')
 			);
 		});
-		$dispatcher->addListener('\OCA\DAV\CalDAV\CalDavBackend::deleteCalendar', function(GenericEvent $event) {
+		$dispatcher->addListener('\OCA\DAV\CalDAV\CalDavBackend::deleteCalendar', function (GenericEvent $event) {
 			/** @var Backend $backend */
 			$backend = $this->getContainer()->query(Backend::class);
 			$backend->onCalendarDelete(
@@ -155,7 +155,7 @@ class Application extends App {
 				$event->getArgument('shares')
 			);
 		});
-		$dispatcher->addListener('\OCA\DAV\CalDAV\CalDavBackend::updateShares', function(GenericEvent $event) {
+		$dispatcher->addListener('\OCA\DAV\CalDAV\CalDavBackend::updateShares', function (GenericEvent $event) {
 			/** @var Backend $backend */
 			$backend = $this->getContainer()->query(Backend::class);
 			$backend->onCalendarUpdateShares(
@@ -166,14 +166,14 @@ class Application extends App {
 			);
 		});
 
-		$listener = function(GenericEvent $event, $eventName) {
+		$listener = function (GenericEvent $event, $eventName) {
 			/** @var Backend $backend */
 			$backend = $this->getContainer()->query(Backend::class);
 
 			$subject = Event::SUBJECT_OBJECT_ADD;
 			if ($eventName === '\OCA\DAV\CalDAV\CalDavBackend::updateCalendarObject') {
 				$subject = Event::SUBJECT_OBJECT_UPDATE;
-			} else if ($eventName === '\OCA\DAV\CalDAV\CalDavBackend::deleteCalendarObject') {
+			} elseif ($eventName === '\OCA\DAV\CalDAV\CalDavBackend::deleteCalendarObject') {
 				$subject = Event::SUBJECT_OBJECT_DELETE;
 			}
 			$backend->onTouchCalendarObject(
@@ -191,5 +191,4 @@ class Application extends App {
 	public function getSyncService() {
 		return $this->getContainer()->query(SyncService::class);
 	}
-
 }

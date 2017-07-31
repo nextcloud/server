@@ -50,7 +50,7 @@ class Applicable extends Base {
 	 */
 	private $groupManager;
 
-	function __construct(
+	public function __construct(
 		GlobalStoragesService $globalService,
 		IUserManager $userManager,
 		IGroupManager $groupManager

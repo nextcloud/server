@@ -268,11 +268,11 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 						}
 					}
 			}
-			$info = array(
+			$info = [
 				'target' => $this->getMountPoint() . $path,
 				'source' => $source,
 				'mode' => $mode,
-			);
+			];
 			\OCP\Util::emitHook('\OC\Files\Storage\Shared', 'fopen', $info);
 			return $this->nonMaskedStorage->fopen($this->getUnjailedPath($path), $mode);
 		}

@@ -183,5 +183,4 @@ class Session {
 		$this->session->remove('decryptAllKey');
 		$this->session->remove('decryptAllUid');
 	}
-
 }

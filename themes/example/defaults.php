@@ -160,5 +160,4 @@ class OC_Theme {
 			'color-primary' => '#745bca'
 		];
 	}
-
 }

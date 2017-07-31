@@ -25,5 +25,4 @@ namespace OC\Authentication\Exceptions;
 use Exception;
 
 class PasswordLoginForbiddenException extends Exception {
-
 }

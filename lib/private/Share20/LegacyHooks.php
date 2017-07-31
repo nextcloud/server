@@ -66,7 +66,7 @@ class LegacyHooks {
 		/** @var IShare[] $deletedShares */
 		$deletedShares = $e->getArgument('deletedShares');
 
-		$formattedDeletedShares = array_map(function($share) {
+		$formattedDeletedShares = array_map(function ($share) {
 			return $this->formatHookParams($share);
 		}, $deletedShares);
 

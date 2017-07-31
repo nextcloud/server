@@ -22,7 +22,6 @@
  */
 namespace OCA\Theming\Tests\Controller;
 
-
 use OC\Files\SimpleFS\SimpleFile;
 use OC\IntegrityCheck\Helpers\FileAccessHelper;
 use OCA\Theming\IconBuilder;
@@ -38,7 +37,6 @@ use Test\TestCase;
 use OCA\Theming\Util;
 use OCA\Theming\Controller\IconController;
 use OCP\AppFramework\Http\FileDisplayResponse;
-
 
 class IconControllerTest extends TestCase {
 	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
@@ -223,5 +221,4 @@ class IconControllerTest extends TestCase {
 		$expected->addHeader('Pragma', 'cache');
 		$this->assertEquals($expected, $this->iconController->getTouchIcon());
 	}
-
 }

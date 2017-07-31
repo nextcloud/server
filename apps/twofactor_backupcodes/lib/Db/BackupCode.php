@@ -21,7 +21,6 @@
 
 namespace OCA\TwoFactorBackupCodes\Db;
 
-
 use OCP\AppFramework\Db\Entity;
 
 /**
@@ -42,5 +41,4 @@ class BackupCode extends Entity {
 
 	/** @var int */
 	protected $used;
-
 }

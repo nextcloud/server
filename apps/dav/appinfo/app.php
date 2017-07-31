@@ -29,14 +29,15 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 $app = new Application();
 $app->registerHooks();
 
-\OC::$server->registerService('CardDAVSyncService', function() use ($app) {
+\OC::$server->registerService('CardDAVSyncService', function () use ($app) {
 	return $app->getSyncService();
 });
 
 $eventDispatcher = \OC::$server->getEventDispatcher();
 
-$eventDispatcher->addListener('OCP\Federation\TrustedServerEvent::remove',
-	function(GenericEvent $event) use ($app) {
+$eventDispatcher->addListener(
+	'OCP\Federation\TrustedServerEvent::remove',
+	function (GenericEvent $event) use ($app) {
 		/** @var CardDavBackend $cardDavBackend */
 		$cardDavBackend = $app->getContainer()->query(CardDavBackend::class);
 		$addressBookUri = $event->getSubject();
@@ -48,7 +49,7 @@ $eventDispatcher->addListener('OCP\Federation\TrustedServerEvent::remove',
 );
 
 $cm = \OC::$server->getContactsManager();
-$cm->register(function() use ($cm, $app) {
+$cm->register(function () use ($cm, $app) {
 	$user = \OC::$server->getUserSession()->getUser();
 	if (is_null($user)) {
 		return;

@@ -60,7 +60,8 @@ class CleanPreviewsBackgroundJobTest extends TestCase {
 			$this->rootFolder,
 			$this->logger,
 			$this->jobList,
-			$this->timeFactory);
+			$this->timeFactory
+		);
 	}
 
 	public function testCleanupPreviewsUnfinished() {

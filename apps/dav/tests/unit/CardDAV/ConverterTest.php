@@ -33,7 +33,7 @@ use PHPUnit_Framework_MockObject_MockObject;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Test\TestCase;
 
-class ConverterTest extends  TestCase {
+class ConverterTest extends TestCase {
 
 	/** @var  AccountManager | PHPUnit_Framework_MockObject_MockObject */
 	private $accountManager;
@@ -111,23 +111,23 @@ class ConverterTest extends  TestCase {
 			$this->assertInstanceOf('Sabre\VObject\Component\VCard', $vCard);
 			$cardData = $vCard->jsonSerialize();
 			$this->compareData($expectedVCard, $cardData);
-
 		} else {
 			$this->assertSame($expectedVCard, $vCard);
 		}
-
 	}
 
 	protected function compareData($expected, $data) {
 		foreach ($expected as $key => $value) {
 			$found = false;
 			foreach ($data[1] as $d) {
-				if($d[0] === $key && $d[3] === $value) {
+				if ($d[0] === $key && $d[3] === $value) {
 					$found = true;
 					break;
 				}
 			}
-			if (!$found) $this->assertTrue(false, 'Expected data: ' . $key . ' not found.');
+			if (!$found) {
+				$this->assertTrue(false, 'Expected data: ' . $key . ' not found.');
+			}
 		}
 	}
 
@@ -191,7 +191,6 @@ class ConverterTest extends  TestCase {
 	 * @param $fullName
 	 */
 	public function testNameSplitter($expected, $fullName) {
-
 		$converter = new Converter($this->accountManager);
 		$r = $converter->splitFullName($fullName);
 		$r = implode(';', $r);

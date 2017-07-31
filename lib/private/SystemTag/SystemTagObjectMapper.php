@@ -34,7 +34,6 @@ use OCP\SystemTag\TagNotFoundException;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class SystemTagObjectMapper implements ISystemTagObjectMapper {
-
 	const RELATION_TABLE = 'systemtag_object_mapping';
 
 	/** @var ISystemTagManager */
@@ -47,12 +46,12 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 	protected $dispatcher;
 
 	/**
-	* Constructor.
-	*
-	* @param IDBConnection $connection database connection
-	* @param ISystemTagManager $tagManager system tag manager
-	* @param EventDispatcherInterface $dispatcher
-	*/
+	 * Constructor.
+	 *
+	 * @param IDBConnection $connection database connection
+	 * @param ISystemTagManager $tagManager system tag manager
+	 * @param EventDispatcherInterface $dispatcher
+	 */
 	public function __construct(IDBConnection $connection, ISystemTagManager $tagManager, EventDispatcherInterface $dispatcher) {
 		$this->connection = $connection;
 		$this->tagManager = $tagManager;
@@ -65,7 +64,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 	public function getTagIdsForObjects($objIds, $objectType) {
 		if (!is_array($objIds)) {
 			$objIds = [$objIds];
-		} else if (empty($objIds)) {
+		} elseif (empty($objIds)) {
 			return [];
 		}
 
@@ -249,14 +248,17 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 		if (count($tags) !== count($tagIds)) {
 			// at least one tag missing, bail out
 			$foundTagIds = array_map(
-				function(ISystemTag $tag) {
+				function (ISystemTag $tag) {
 					return $tag->getId();
 				},
 				$tags
 			);
 			$missingTagIds = array_diff($tagIds, $foundTagIds);
 			throw new TagNotFoundException(
-				'Tags not found', 0, null, $missingTagIds
+				'Tags not found',
+				0,
+				null,
+				$missingTagIds
 			);
 		}
 	}

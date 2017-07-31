@@ -1460,19 +1460,17 @@ class ShareesAPIControllerTest extends TestCase {
 				$this->clientService,
 				$this->cloudIdManager
 			])
-			->setMethods(array('searchSharees', 'isRemoteSharingAllowed', 'shareProviderExists'))
+			->setMethods(['searchSharees', 'isRemoteSharingAllowed', 'shareProviderExists'])
 			->getMock();
 		$sharees->expects($this->once())
 			->method('searchSharees')
-			->willReturnCallback(function
-					($isearch, $iitemType, $ishareTypes, $ipage, $iperPage)
-				use ($search, $itemType, $shareTypes, $page, $perPage) {
+			->willReturnCallback(function ($isearch, $iitemType, $ishareTypes, $ipage, $iperPage) use ($search, $itemType, $shareTypes, $page, $perPage) {
 
 				// We are doing strict comparisons here, so we can differ 0/'' and null on shareType/itemType
 				$this->assertSame($search, $isearch);
 				$this->assertSame($itemType, $iitemType);
 				$this->assertSame(count($shareTypes), count($ishareTypes));
-				foreach($shareTypes as $expected) {
+				foreach ($shareTypes as $expected) {
 					$this->assertTrue(in_array($expected, $ishareTypes));
 				}
 				$this->assertSame($page, $ipage);
@@ -1553,7 +1551,7 @@ class ShareesAPIControllerTest extends TestCase {
 				$this->clientService,
 				$this->cloudIdManager
 			])
-			->setMethods(array('searchSharees', 'isRemoteSharingAllowed'))
+			->setMethods(['searchSharees', 'isRemoteSharingAllowed'])
 			->getMock();
 		$sharees->expects($this->never())
 			->method('searchSharees');
@@ -1708,8 +1706,19 @@ class ShareesAPIControllerTest extends TestCase {
 	 * @param array $expected
 	 * @param bool $nextLink
 	 */
-	public function testSearchSharees($searchTerm, $itemType, array $shareTypes, $page, $perPage, $shareWithGroupOnly,
-									  $mockedUserResult, $mockedGroupsResult, $mockedRemotesResult, $expected, $nextLink) {
+	public function testSearchSharees(
+		$searchTerm,
+		$itemType,
+		array $shareTypes,
+		$page,
+		$perPage,
+		$shareWithGroupOnly,
+									  $mockedUserResult,
+		$mockedGroupsResult,
+		$mockedRemotesResult,
+		$expected,
+		$nextLink
+	) {
 		/** @var \PHPUnit_Framework_MockObject_MockObject|\OCA\Files_Sharing\Controller\ShareesAPIController $sharees */
 		$sharees = $this->getMockBuilder('\OCA\Files_Sharing\Controller\ShareesAPIController')
 			->setConstructorArgs([
@@ -1726,12 +1735,12 @@ class ShareesAPIControllerTest extends TestCase {
 				$this->clientService,
 				$this->cloudIdManager
 			])
-			->setMethods(array('getShareesForShareIds', 'getUsers', 'getGroups', 'getRemote'))
+			->setMethods(['getShareesForShareIds', 'getUsers', 'getGroups', 'getRemote'])
 			->getMock();
 		$sharees->expects(($mockedUserResult === null) ? $this->never() : $this->once())
 			->method('getUsers')
 			->with($searchTerm)
-			->willReturnCallback(function() use ($sharees, $mockedUserResult) {
+			->willReturnCallback(function () use ($sharees, $mockedUserResult) {
 				$result = $this->invokePrivate($sharees, 'result');
 				$result['users'] = $mockedUserResult;
 				$this->invokePrivate($sharees, 'result', [$result]);
@@ -1739,7 +1748,7 @@ class ShareesAPIControllerTest extends TestCase {
 		$sharees->expects(($mockedGroupsResult === null) ? $this->never() : $this->once())
 			->method('getGroups')
 			->with($searchTerm)
-			->willReturnCallback(function() use ($sharees, $mockedGroupsResult) {
+			->willReturnCallback(function () use ($sharees, $mockedGroupsResult) {
 				$result = $this->invokePrivate($sharees, 'result');
 				$result['groups'] = $mockedGroupsResult;
 				$this->invokePrivate($sharees, 'result', [$result]);
@@ -1860,21 +1869,21 @@ class ShareesAPIControllerTest extends TestCase {
 	}
 
 	public function dataTestSplitUserRemoteError() {
-		return array(
+		return [
 			// Invalid path
-			array('user@'),
+			['user@'],
 
 			// Invalid user
-			array('@server'),
-			array('us/er@server'),
-			array('us:er@server'),
+			['@server'],
+			['us/er@server'],
+			['us:er@server'],
 
 			// Invalid splitting
-			array('user'),
-			array(''),
-			array('us/erserver'),
-			array('us:erserver'),
-		);
+			['user'],
+			[''],
+			['us/erserver'],
+			['us:erserver'],
+		];
 	}
 
 	/**
@@ -1894,7 +1903,8 @@ class ShareesAPIControllerTest extends TestCase {
 	 * @param string $expected
 	 */
 	public function testFixRemoteUrl($url, $expected) {
-		$this->assertSame($expected,
+		$this->assertSame(
+			$expected,
 			$this->invokePrivate($this->sharees, 'fixRemoteURL', [$url])
 		);
 	}

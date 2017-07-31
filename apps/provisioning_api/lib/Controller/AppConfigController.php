@@ -21,7 +21,6 @@
 
 namespace OCA\Provisioning_API\Controller;
 
-
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
@@ -43,10 +42,12 @@ class AppConfigController extends OCSController {
 	 * @param IConfig $config
 	 * @param IAppConfig $appConfig
 	 */
-	public function __construct($appName,
+	public function __construct(
+		$appName,
 								IRequest $request,
 								IConfig $config,
-								IAppConfig $appConfig) {
+								IAppConfig $appConfig
+	) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
 		$this->appConfig = $appConfig;

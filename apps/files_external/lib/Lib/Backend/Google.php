@@ -32,7 +32,6 @@ use \OCA\Files_External\Lib\LegacyDependencyCheckPolyfill;
 use \OCA\Files_External\Lib\Auth\OAuth2\OAuth2;
 
 class Google extends Backend {
-
 	use LegacyDependencyCheckPolyfill;
 
 	public function __construct(IL10N $l, OAuth2 $legacyAuth) {
@@ -49,5 +48,4 @@ class Google extends Backend {
 			->setLegacyAuthMechanism($legacyAuth)
 		;
 	}
-
 }

@@ -36,7 +36,6 @@ namespace OCA\Files_Sharing\ShareBackend;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 
 class File implements \OCP\Share_Backend_File_Dependent {
-
 	const FORMAT_SHARED_STORAGE = 0;
 	const FORMAT_GET_FOLDER_CONTENTS = 1;
 	const FORMAT_FILE_APP_ROOT = 2;
@@ -117,7 +116,7 @@ class File implements \OCP\Share_Backend_File_Dependent {
 			}
 		}
 
-		$excludeList = (is_array($exclude)) ? $exclude : array();
+		$excludeList = (is_array($exclude)) ? $exclude : [];
 
 		return \OCA\Files_Sharing\Helper::generateUniqueTarget($target, $excludeList, $view);
 	}
@@ -126,17 +125,17 @@ class File implements \OCP\Share_Backend_File_Dependent {
 		if ($format == self::FORMAT_SHARED_STORAGE) {
 			// Only 1 item should come through for this format call
 			$item = array_shift($items);
-			return array(
+			return [
 				'parent' => $item['parent'],
 				'path' => $item['path'],
 				'storage' => $item['storage'],
 				'permissions' => $item['permissions'],
 				'uid_owner' => $item['uid_owner'],
-			);
-		} else if ($format == self::FORMAT_GET_FOLDER_CONTENTS) {
-			$files = array();
+			];
+		} elseif ($format == self::FORMAT_GET_FOLDER_CONTENTS) {
+			$files = [];
 			foreach ($items as $item) {
-				$file = array();
+				$file = [];
 				$file['fileid'] = $item['file_source'];
 				$file['storage'] = $item['storage'];
 				$file['path'] = $item['file_target'];
@@ -156,32 +155,32 @@ class File implements \OCP\Share_Backend_File_Dependent {
 				$files[] = $file;
 			}
 			return $files;
-		} else if ($format == self::FORMAT_OPENDIR) {
-			$files = array();
+		} elseif ($format == self::FORMAT_OPENDIR) {
+			$files = [];
 			foreach ($items as $item) {
 				$files[] = basename($item['file_target']);
 			}
 			return $files;
-		} else if ($format == self::FORMAT_GET_ALL) {
-			$ids = array();
+		} elseif ($format == self::FORMAT_GET_ALL) {
+			$ids = [];
 			foreach ($items as $item) {
 				$ids[] = $item['file_source'];
 			}
 			return $ids;
-		} else if ($format === self::FORMAT_PERMISSIONS) {
-			$filePermissions = array();
+		} elseif ($format === self::FORMAT_PERMISSIONS) {
+			$filePermissions = [];
 			foreach ($items as $item) {
 				$filePermissions[$item['file_source']] = $item['permissions'];
 			}
 			return $filePermissions;
-		} else if ($format === self::FORMAT_TARGET_NAMES) {
-			$targets = array();
+		} elseif ($format === self::FORMAT_TARGET_NAMES) {
+			$targets = [];
 			foreach ($items as $item) {
 				$targets[] = $item['file_target'];
 			}
 			return $targets;
 		}
-		return array();
+		return [];
 	}
 
 	/**
@@ -208,7 +207,7 @@ class File implements \OCP\Share_Backend_File_Dependent {
 			$parent = $source['parent'];
 			while (isset($parent)) {
 				$query = \OCP\DB::prepare('SELECT `parent`, `uid_owner` FROM `*PREFIX*share` WHERE `id` = ?', 1);
-				$item = $query->execute(array($parent))->fetchRow();
+				$item = $query->execute([$parent])->fetchRow();
 				if (isset($item['parent'])) {
 					$parent = $item['parent'];
 				} else {

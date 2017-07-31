@@ -29,7 +29,6 @@ namespace Test\Preview;
  * @package Test\Preview
  */
 class TXTTest extends Provider {
-
 	public function setUp() {
 		parent::setUp();
 
@@ -40,5 +39,4 @@ class TXTTest extends Provider {
 		$this->height = 200;
 		$this->provider = new \OC\Preview\TXT;
 	}
-
 }

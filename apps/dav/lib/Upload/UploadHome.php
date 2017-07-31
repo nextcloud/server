@@ -38,41 +38,41 @@ class UploadHome implements ICollection {
 		$this->principalInfo = $principalInfo;
 	}
 
-	function createFile($name, $data = null) {
+	public function createFile($name, $data = null) {
 		throw new Forbidden('Permission denied to create file (filename ' . $name . ')');
 	}
 
-	function createDirectory($name) {
+	public function createDirectory($name) {
 		$this->impl()->createDirectory($name);
 	}
 
-	function getChild($name) {
+	public function getChild($name) {
 		return new UploadFolder($this->impl()->getChild($name));
 	}
 
-	function getChildren() {
-		return array_map(function($node) {
+	public function getChildren() {
+		return array_map(function ($node) {
 			return new UploadFolder($node);
 		}, $this->impl()->getChildren());
 	}
 
-	function childExists($name) {
+	public function childExists($name) {
 		return !is_null($this->getChild($name));
 	}
 
-	function delete() {
+	public function delete() {
 		$this->impl()->delete();
 	}
 
-	function getName() {
+	public function getName() {
 		return 'uploads';
 	}
 
-	function setName($name) {
+	public function setName($name) {
 		throw new Forbidden('Permission denied to rename this folder');
 	}
 
-	function getLastModified() {
+	public function getLastModified() {
 		return $this->impl()->getLastModified();
 	}
 

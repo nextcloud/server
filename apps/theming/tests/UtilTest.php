@@ -155,7 +155,7 @@ class UtilTest extends TestCase {
 	 * @dataProvider dataGetAppImage
 	 */
 	public function testGetAppImage($app, $image, $expected) {
-		if($app !== 'core') {
+		if ($app !== 'core') {
 			$this->appManager->expects($this->once())
 				->method('getAppPath')
 				->with($app)
@@ -199,5 +199,4 @@ class UtilTest extends TestCase {
 		$actual = $this->util->isAlreadyThemed();
 		$this->assertTrue($actual);
 	}
-
 }

@@ -64,7 +64,6 @@ class StatusCommand extends Command {
 	 * @return array associative array of human readable info name as key and the actual information as value
 	 */
 	public function getMigrationsInfos(MigrationService $ms) {
-
 		$executedMigrations = $ms->getMigratedVersions();
 		$availableMigrations = $ms->getAvailableVersions();
 		$executedUnavailableMigrations = array_diff($executedMigrations, array_keys($availableMigrations));
@@ -73,18 +72,18 @@ class StatusCommand extends Command {
 		$numNewMigrations = count(array_diff(array_keys($availableMigrations), $executedMigrations));
 
 		$infos = [
-			'App'								=> $ms->getApp(),
-			'Version Table Name'				=> $ms->getMigrationsTableName(),
-			'Migrations Namespace'				=> $ms->getMigrationsNamespace(),
-			'Migrations Directory'				=> $ms->getMigrationsDirectory(),
-			'Previous Version'					=> $this->getFormattedVersionAlias($ms, 'prev'),
-			'Current Version'					=> $this->getFormattedVersionAlias($ms, 'current'),
-			'Next Version'						=> $this->getFormattedVersionAlias($ms, 'next'),
-			'Latest Version'					=> $this->getFormattedVersionAlias($ms, 'latest'),
-			'Executed Migrations'				=> count($executedMigrations),
-			'Executed Unavailable Migrations'	=> $numExecutedUnavailableMigrations,
-			'Available Migrations'				=> count($availableMigrations),
-			'New Migrations'					=> $numNewMigrations,
+			'App' => $ms->getApp(),
+			'Version Table Name' => $ms->getMigrationsTableName(),
+			'Migrations Namespace' => $ms->getMigrationsNamespace(),
+			'Migrations Directory' => $ms->getMigrationsDirectory(),
+			'Previous Version' => $this->getFormattedVersionAlias($ms, 'prev'),
+			'Current Version' => $this->getFormattedVersionAlias($ms, 'current'),
+			'Next Version' => $this->getFormattedVersionAlias($ms, 'next'),
+			'Latest Version' => $this->getFormattedVersionAlias($ms, 'latest'),
+			'Executed Migrations' => count($executedMigrations),
+			'Executed Unavailable Migrations' => $numExecutedUnavailableMigrations,
+			'Available Migrations' => count($availableMigrations),
+			'New Migrations' => $numNewMigrations,
 		];
 
 		return $infos;
@@ -110,6 +109,4 @@ class StatusCommand extends Command {
 
 		return $migration;
 	}
-
-
 }

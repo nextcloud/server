@@ -291,10 +291,13 @@ class ImageTest extends \Test\TestCase {
 		$resizedWidth = $img->width();
 		$resizedHeight = $img->height();
 		$this->assertEquals(
-			$currentWidth, $img->width(), "currentWidth $currentWidth resizedWidth $resizedWidth \n"
+			$currentWidth,
+			$img->width(),
+			"currentWidth $currentWidth resizedWidth $resizedWidth \n"
 		);
 		$this->assertEquals(
-			$currentHeight, $img->height(),
+			$currentHeight,
+			$img->height(),
 			"currentHeight $currentHeight resizedHeight $resizedHeight \n"
 		);
 	}
@@ -321,12 +324,12 @@ class ImageTest extends \Test\TestCase {
 		$this->assertEquals($expected[1], $img->height());
 	}
 
-	function convertDataProvider() {
-		return array(
-			array( 'image/gif'),
-			array( 'image/jpeg'),
-			array( 'image/png'),
-		);
+	public function convertDataProvider() {
+		return [
+			[ 'image/gif'],
+			[ 'image/jpeg'],
+			[ 'image/png'],
+		];
 	}
 
 	/**

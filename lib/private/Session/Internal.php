@@ -43,7 +43,7 @@ class Internal extends Session {
 	 * @throws \Exception
 	 */
 	public function __construct($name) {
-		set_error_handler(array($this, 'trapError'));
+		set_error_handler([$this, 'trapError']);
 		$this->invoke('session_name', [$name]);
 		try {
 			$this->invoke('session_start');
@@ -168,12 +168,12 @@ class Internal extends Session {
 	 */
 	private function invoke($functionName, array $parameters = [], $silence = false) {
 		try {
-			if($silence) {
+			if ($silence) {
 				return @call_user_func_array($functionName, $parameters);
 			} else {
 				return call_user_func_array($functionName, $parameters);
 			}
-		} catch(\Error $e) {
+		} catch (\Error $e) {
 			$this->trapError($e->getCode(), $e->getMessage());
 		}
 	}
