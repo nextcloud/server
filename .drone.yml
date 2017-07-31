@@ -219,6 +219,15 @@ pipeline:
       matrix:
         DB: postgres
         PHP: 7.0
+  postgres10-php5.6:
+    image: nextcloudci/php5.6:php5.6-7
+    commands:
+      - sleep 10 # gives the database enough time to initialize
+      - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh pgsql
+    when:
+      matrix:
+        DB: postgres10
+        PHP: 5.6
   mysqlmb4-php5.6:
     image: nextcloudci/php5.6:php5.6-7
     commands:
@@ -583,6 +592,9 @@ matrix:
     - DB: postgres
       PHP: 7.0
       ENABLE_REDIS: true
+    - DB: postgres10
+      PHP: 5.6
+      ENABLE_REDIS: true
     - DB: mysqlmb4
       PHP: 5.6
       ENABLE_REDIS: true
@@ -660,6 +672,14 @@ services:
     when:
       matrix:
         DB: postgres
+  postgres10:
+    image: postgres:10
+    environment:
+      - POSTGRES_USER=oc_autotest
+      - POSTGRES_PASSWORD=owncloud
+    when:
+      matrix:
+        DB: postgres10
   mysql:
     image: mysql
     environment:
