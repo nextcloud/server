@@ -1,7 +1,7 @@
 OC.L10N.register(
     "sharebymail",
     {
-    "Shared with %1$s" : "E shpërndarë me %1$s ",
+    "Shared with %1$s" : "E ndarë me %1$s ",
     "Shared with {email}" : "Të shpërndara me {email}",
     "Shared with %1$s by %2$s" : "E ndarë me %1$s nga %2$s",
     "Shared with {email} by {actor}" : "Ndarë me {email} nga {actor}",

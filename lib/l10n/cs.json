@@ -10,6 +10,7 @@
     "%1$s, %2$s and %3$s" : "%1$s, %2$s a %3$s",
     "%1$s, %2$s, %3$s and %4$s" : "%1$s, %2$s, %3$s a %4$s",
     "%1$s, %2$s, %3$s, %4$s and %5$s" : "%1$s, %2$s, %3$s, %4$s a %5$s",
+    "Education Edition" : "Edice pro výuku",
     "Enterprise bundle" : "Enterprise balíček",
     "Groupware bundle" : "Balíček groupware",
     "Social sharing bundle" : "Balíček sociálního sdílení",
