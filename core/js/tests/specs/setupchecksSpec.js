@@ -151,7 +151,7 @@ describe('OC.SetupChecks tests', function() {
 				JSON.stringify({
 					isUrandomAvailable: true,
 					serverHasInternetConnection: false,
-					memcacheDocs: 'https://doc.owncloud.org/server/go.php?to=admin-performance',
+					memcacheDocs: 'https://docs.nextcloud.com/server/go.php?to=admin-performance',
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
@@ -166,7 +166,7 @@ describe('OC.SetupChecks tests', function() {
 						msg: 'This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. We suggest to enable Internet connection for this server if you want to have all features.',
 						type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 					}, {
-						msg: 'No memory cache has been configured. To enhance your performance please configure a memcache if available. Further information can be found in our <a href="https://doc.owncloud.org/server/go.php?to=admin-performance" rel="noreferrer">documentation</a>.',
+						msg: 'No memory cache has been configured. To enhance your performance please configure a memcache if available. Further information can be found in our <a href="https://docs.nextcloud.com/server/go.php?to=admin-performance" rel="noreferrer">documentation</a>.',
 						type: OC.SetupChecks.MESSAGE_TYPE_INFO
 					}]);
 				done();
@@ -184,7 +184,7 @@ describe('OC.SetupChecks tests', function() {
 				JSON.stringify({
 					isUrandomAvailable: true,
 					serverHasInternetConnection: false,
-					memcacheDocs: 'https://doc.owncloud.org/server/go.php?to=admin-performance',
+					memcacheDocs: 'https://docs.nextcloud.com/server/go.php?to=admin-performance',
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
@@ -200,7 +200,7 @@ describe('OC.SetupChecks tests', function() {
 						type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 					},
 					{
-						msg: 'No memory cache has been configured. To enhance your performance please configure a memcache if available. Further information can be found in our <a href="https://doc.owncloud.org/server/go.php?to=admin-performance" rel="noreferrer">documentation</a>.',
+						msg: 'No memory cache has been configured. To enhance your performance please configure a memcache if available. Further information can be found in our <a href="https://docs.nextcloud.com/server/go.php?to=admin-performance" rel="noreferrer">documentation</a>.',
 						type: OC.SetupChecks.MESSAGE_TYPE_INFO
 					}]);
 				done();
