@@ -148,7 +148,7 @@ OC.L10N.register(
     "Shared with you and the group {group} by {owner}" : "Compartido contigo y el grupo {group} por {owner}",
     "Shared with you by {owner}" : "Compartido contigo por {owner}",
     "Choose a password for the mail share" : "Elige una contraseña para el elemento compartido por correo",
-    "{{shareInitiatorDisplayName}} shared via link" : "{{shareInitiatorDisplayName}} ha compatido mediante una liga",
+    "{{shareInitiatorDisplayName}} shared via link" : "{{shareInitiatorDisplayName}} ha compartido mediante una liga",
     "group" : "grupo",
     "remote" : "remoto",
     "email" : "correo electrónico",

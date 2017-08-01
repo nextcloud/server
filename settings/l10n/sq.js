@@ -141,7 +141,7 @@ OC.L10N.register(
     "Error while deleting the token" : "Gabim gjatë fshirjes së token-it",
     "An error occurred. Please upload an ASCII-encoded PEM certificate." : "Ndodhi një gabim. Ju lutemi, ngarkoni një dëshmi PEM të koduar me ASCII.",
     "Valid until {date}" : "E vlefshme deri më {date}",
-    "Delete" : "Fshije",
+    "Delete" : "Fshij",
     "Local" : "Lokale",
     "Private" : "Private",
     "Only visible to local users" : "E dukshme vetëm për përdoruesit lokal",
