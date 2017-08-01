@@ -176,6 +176,7 @@ class OC_User {
 			if (self::getUser() !== $uid) {
 				self::setUserId($uid);
 				$userSession = self::getUserSession();
+				$userSession->getSession()->regenerateId();
 				$userSession->setLoginName($uid);
 				$request = OC::$server->getRequest();
 				$userSession->createSessionToken($request, $uid, $uid);
