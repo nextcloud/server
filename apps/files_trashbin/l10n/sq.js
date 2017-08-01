@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_trashbin",
     {
-    "Couldn't delete %s permanently" : "S’u fshi dot përgjithmonë %s",
+    "Couldn't delete %s permanently" : "%s s'u fshi dot përgjithmonë",
     "Couldn't restore %s" : "S’u rikthye dot %s",
     "Deleted files" : "Kartela të fshira",
     "Restore" : "Riktheje",

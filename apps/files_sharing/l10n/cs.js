@@ -103,6 +103,7 @@ OC.L10N.register(
     "the link expired" : "platnost odkazu vypršela",
     "sharing is disabled" : "sdílení je zakázané",
     "For more info, please ask the person who sent this link." : "Pro více informací kontaktujte osobu, která vám zaslala tento odkaz.",
+    "shared by %s" : "Sdílel %s",
     "Add to your Nextcloud" : "Přidat do Nextcloud",
     "Download" : "Stáhnout",
     "Download %s" : "Stáhnout %s",
