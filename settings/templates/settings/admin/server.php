@@ -28,7 +28,7 @@
 
 <div id="security-warning" class="section">
 	<h2><?php p($l->t('Security & setup warnings'));?></h2>
-	<p class="settings-hint"><?php p($l->t('It\'s important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the Tips & Ticks section and the documentation for more information.'));?></p>
+	<p class="settings-hint"><?php p($l->t('It\'s important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the Tips & Tricks section and the documentation for more information.'));?></p>
 	<ul>
 		<?php
 		// is php setup properly to query system environment variables like getenv('PATH')
