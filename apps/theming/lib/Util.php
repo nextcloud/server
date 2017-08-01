@@ -30,6 +30,7 @@ use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IConfig;
 use OCP\Files\IRootFolder;
+use Leafo\ScssPhp\Compiler;
 
 class Util {
 
@@ -95,10 +96,12 @@ class Util {
 		if (strlen($hex) !== 6) {
 			return 0;
 		}
-		$r = hexdec(substr($hex, 0, 2));
-		$g = hexdec(substr($hex, 2, 2));
-		$b = hexdec(substr($hex, 4, 2));
-		return (0.299 * $r + 0.587 * $g + 0.114 * $b)/255;
+		$red = hexdec(substr($hex, 0, 2));
+		$green = hexdec(substr($hex, 2, 2));
+		$blue = hexdec(substr($hex, 4, 2));
+		$compiler = new Compiler();
+		$hsl = $compiler->toHSL($red, $green, $blue);
+		return $hsl[3]/100;
 	}
 
 	/**
