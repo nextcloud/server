@@ -32,6 +32,7 @@ use OCA\Federation\TrustedServers;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCSController;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\ILogger;
 use OCP\IRequest;
@@ -61,6 +62,9 @@ class OCSAuthAPIController extends OCSController{
 	/** @var ILogger */
 	private $logger;
 
+	/** @var ITimeFactory */
+	private $timeFactory;
+
 	/**
 	 * OCSAuthAPI constructor.
 	 *
@@ -71,6 +75,7 @@ class OCSAuthAPIController extends OCSController{
 	 * @param TrustedServers $trustedServers
 	 * @param DbHandler $dbHandler
 	 * @param ILogger $logger
+	 * @param ITimeFactory $timeFactory
 	 */
 	public function __construct(
 		$appName,
@@ -79,7 +84,8 @@ class OCSAuthAPIController extends OCSController{
 		IJobList $jobList,
 		TrustedServers $trustedServers,
 		DbHandler $dbHandler,
-		ILogger $logger
+		ILogger $logger,
+		ITimeFactory $timeFactory
 	) {
 		parent::__construct($appName, $request);
 
@@ -88,6 +94,7 @@ class OCSAuthAPIController extends OCSController{
 		$this->trustedServers = $trustedServers;
 		$this->dbHandler = $dbHandler;
 		$this->logger = $logger;
+		$this->timeFactory = $timeFactory;
 	}
 
 	/**
@@ -154,7 +161,7 @@ class OCSAuthAPIController extends OCSController{
 			[
 				'url' => $url,
 				'token' => $token,
-				'created' => $this->getTimestamp()
+				'created' => $this->timeFactory->getTime()
 			]
 		);
 
@@ -202,9 +209,4 @@ class OCSAuthAPIController extends OCSController{
 		$storedToken = $this->dbHandler->getToken($url);
 		return hash_equals($storedToken, $token);
 	}
-
-	protected function getTimestamp() {
-		return time();
-	}
-
 }

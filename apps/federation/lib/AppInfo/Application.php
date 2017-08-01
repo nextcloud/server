@@ -32,6 +32,7 @@ use OCA\Federation\Middleware\AddServerMiddleware;
 use OCA\Federation\SyncFederationAddressBooks;
 use OCA\Federation\TrustedServers;
 use OCP\AppFramework\IAppContainer;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\SabrePluginEvent;
 use OCP\Util;
 use Sabre\DAV\Auth\Plugin;
@@ -74,7 +75,8 @@ class Application extends \OCP\AppFramework\App {
 				$server->getJobList(),
 				$server->getSecureRandom(),
 				$server->getConfig(),
-				$server->getEventDispatcher()
+				$server->getEventDispatcher(),
+				$server->query(ITimeFactory::class)
 			);
 		});
 

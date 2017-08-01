@@ -29,8 +29,8 @@ use OC\BackgroundJob\JobList;
 use OCA\Federation\Controller\OCSAuthAPIController;
 use OCA\Federation\DbHandler;
 use OCA\Federation\TrustedServers;
-use OCP\AppFramework\Http;
 use OCP\AppFramework\OCS\OCSForbiddenException;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\ILogger;
 use OCP\IRequest;
 use OCP\Security\ISecureRandom;
@@ -38,23 +38,27 @@ use Test\TestCase;
 
 class OCSAuthAPIControllerTest extends TestCase {
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject | IRequest */
+	/** @var \PHPUnit_Framework_MockObject_MockObject|IRequest */
 	private $request;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject | ISecureRandom  */
+	/** @var \PHPUnit_Framework_MockObject_MockObject|ISecureRandom  */
 	private $secureRandom;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject | JobList */
+	/** @var \PHPUnit_Framework_MockObject_MockObject|JobList */
 	private $jobList;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject | TrustedServers */
+	/** @var \PHPUnit_Framework_MockObject_MockObject|TrustedServers */
 	private $trustedServers;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject | DbHandler */
+	/** @var \PHPUnit_Framework_MockObject_MockObject|DbHandler */
 	private $dbHandler;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject | ILogger */
+	/** @var \PHPUnit_Framework_MockObject_MockObject|ILogger */
 	private $logger;
+
+	/** @var \PHPUnit_Framework_MockObject_MockObject|ITimeFactory */
+	private $timeFactory;
+
 
 	/** @var  OCSAuthAPIController */
 	private $ocsAuthApi;
@@ -65,31 +69,28 @@ class OCSAuthAPIControllerTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->request = $this->getMockBuilder('OCP\IRequest')->getMock();
-		$this->secureRandom = $this->getMockBuilder('OCP\Security\ISecureRandom')->getMock();
-		$this->trustedServers = $this->getMockBuilder('OCA\Federation\TrustedServers')
-			->disableOriginalConstructor()->getMock();
-		$this->dbHandler = $this->getMockBuilder('OCA\Federation\DbHandler')
-			->disableOriginalConstructor()->getMock();
-		$this->jobList = $this->getMockBuilder('OC\BackgroundJob\JobList')
-			->disableOriginalConstructor()->getMock();
-		$this->logger = $this->getMockBuilder('OCP\ILogger')
-			->disableOriginalConstructor()->getMock();
+		$this->request = $this->createMock(IRequest::class);
+		$this->secureRandom = $this->createMock(ISecureRandom::class);
+		$this->trustedServers = $this->createMock(TrustedServers::class);
+		$this->dbHandler = $this->createMock(DbHandler::class);
+		$this->jobList = $this->createMock(JobList::class);
+		$this->logger = $this->createMock(ILogger::class);
+		$this->timeFactory = $this->createMock(ITimeFactory::class);
 
-		$this->ocsAuthApi = $this->getMockBuilder(OCSAuthAPIController::class)
-			->setConstructorArgs(
-				[
-					'federation',
-					$this->request,
-					$this->secureRandom,
-					$this->jobList,
-					$this->trustedServers,
-					$this->dbHandler,
-					$this->logger
-				]
-			)->setMethods(['getTimestamp'])->getMock();
 
-		$this->ocsAuthApi->expects($this->any())->method('getTimestamp')->willReturn($this->currentTime);
+		$this->ocsAuthApi = new OCSAuthAPIController(
+			'federation',
+			$this->request,
+			$this->secureRandom,
+			$this->jobList,
+			$this->trustedServers,
+			$this->dbHandler,
+			$this->logger,
+			$this->timeFactory
+		);
+
+		$this->timeFactory->method('getTime')
+			->willReturn($this->currentTime);
 
 	}
 
@@ -157,7 +158,8 @@ class OCSAuthAPIControllerTest extends TestCase {
 					$this->jobList,
 					$this->trustedServers,
 					$this->dbHandler,
-					$this->logger
+					$this->logger,
+					$this->timeFactory
 				]
 			)->setMethods(['isValidToken'])->getMock();
 

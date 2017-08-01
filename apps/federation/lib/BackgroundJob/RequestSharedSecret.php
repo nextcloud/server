@@ -33,6 +33,7 @@ use OC\BackgroundJob\Job;
 use OCA\Federation\DbHandler;
 use OCA\Federation\TrustedServers;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
@@ -70,6 +71,9 @@ class RequestSharedSecret extends Job {
 	/** @var ILogger */
 	private $logger;
 
+	/** @var ITimeFactory */
+	private $timeFactory;
+
 	/** @var bool */
 	protected $retainJob = false;
 
@@ -90,6 +94,7 @@ class RequestSharedSecret extends Job {
 	 * @param DbHandler $dbHandler
 	 * @param IDiscoveryService $ocsDiscoveryService
 	 * @param ILogger $logger
+	 * @param ITimeFactory $timeFactory
 	 */
 	public function __construct(
 		IClientService $httpClientService,
@@ -98,7 +103,8 @@ class RequestSharedSecret extends Job {
 		TrustedServers $trustedServers,
 		DbHandler $dbHandler,
 		IDiscoveryService $ocsDiscoveryService,
-		ILogger $logger
+		ILogger $logger,
+		ITimeFactory $timeFactory
 	) {
 		$this->httpClient = $httpClientService->newClient();
 		$this->jobList = $jobList;
@@ -107,6 +113,7 @@ class RequestSharedSecret extends Job {
 		$this->logger = $logger;
 		$this->ocsDiscoveryService = $ocsDiscoveryService;
 		$this->trustedServers = $trustedServers;
+		$this->timeFactory = $timeFactory;
 	}
 
 
@@ -126,7 +133,7 @@ class RequestSharedSecret extends Job {
 		$jobList->remove($this, $this->argument);
 
 		if ($this->retainJob) {
-			$this->reAddJob($jobList, $this->argument);
+			$this->reAddJob($this->argument);
 		}
 	}
 
@@ -143,8 +150,8 @@ class RequestSharedSecret extends Job {
 	protected function run($argument) {
 
 		$target = $argument['url'];
-		$created = isset($argument['created']) ? (int)$argument['created'] : time();
-		$currentTime = time();
+		$created = isset($argument['created']) ? (int)$argument['created'] : $this->timeFactory->getTime();
+		$currentTime = $this->timeFactory->getTime();
 		$source = $this->urlGenerator->getAbsoluteURL('/');
 		$source = rtrim($source, '/');
 		$token = $argument['token'];
@@ -208,16 +215,14 @@ class RequestSharedSecret extends Job {
 	/**
 	 * re-add background job
 	 *
-	 * @param IJobList $jobList
 	 * @param array $argument
 	 */
-	protected function reAddJob(IJobList $jobList, array $argument) {
-
+	protected function reAddJob(array $argument) {
 		$url = $argument['url'];
-		$created = isset($argument['created']) ? (int)$argument['created'] : time();
+		$created = isset($argument['created']) ? (int)$argument['created'] : $this->timeFactory->getTime();
 		$token = $argument['token'];
 
-		$jobList->add(
+		$this->jobList->add(
 			RequestSharedSecret::class,
 			[
 				'url' => $url,

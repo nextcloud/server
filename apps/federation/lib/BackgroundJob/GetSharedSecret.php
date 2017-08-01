@@ -32,6 +32,7 @@ use OC\BackgroundJob\Job;
 use OCA\Federation\DbHandler;
 use OCA\Federation\TrustedServers;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
@@ -47,7 +48,7 @@ use OCP\OCS\IDiscoveryService;
  *
  * @package OCA\Federation\Backgroundjob
  */
-class GetSharedSecret extends Job{
+class GetSharedSecret extends Job {
 
 	/** @var IClient */
 	private $httpClient;
@@ -70,6 +71,9 @@ class GetSharedSecret extends Job{
 	/** @var ILogger */
 	private $logger;
 
+	/** @var ITimeFactory */
+	private $timeFactory;
+
 	/** @var bool */
 	protected $retainJob = false;
 
@@ -90,6 +94,7 @@ class GetSharedSecret extends Job{
 	 * @param ILogger $logger
 	 * @param DbHandler $dbHandler
 	 * @param IDiscoveryService $ocsDiscoveryService
+	 * @param ITimeFactory $timeFactory
 	 */
 	public function __construct(
 		IClientService $httpClientService,
@@ -98,7 +103,8 @@ class GetSharedSecret extends Job{
 		TrustedServers $trustedServers,
 		ILogger $logger,
 		DbHandler $dbHandler,
-		IDiscoveryService $ocsDiscoveryService
+		IDiscoveryService $ocsDiscoveryService,
+		ITimeFactory $timeFactory
 	) {
 		$this->logger = $logger;
 		$this->httpClient = $httpClientService->newClient();
@@ -107,6 +113,7 @@ class GetSharedSecret extends Job{
 		$this->dbHandler = $dbHandler;
 		$this->ocsDiscoveryService = $ocsDiscoveryService;
 		$this->trustedServers = $trustedServers;
+		$this->timeFactory = $timeFactory;
 	}
 
 	/**
@@ -125,7 +132,7 @@ class GetSharedSecret extends Job{
 		$jobList->remove($this, $this->argument);
 
 		if ($this->retainJob) {
-			$this->reAddJob($jobList, $this->argument);
+			$this->reAddJob($this->argument);
 		}
 	}
 
@@ -141,8 +148,8 @@ class GetSharedSecret extends Job{
 
 	protected function run($argument) {
 		$target = $argument['url'];
-		$created = isset($argument['created']) ? (int)$argument['created'] : time();
-		$currentTime = time();
+		$created = isset($argument['created']) ? (int)$argument['created'] : $this->timeFactory->getTime();
+		$currentTime = $this->timeFactory->getTime();
 		$source = $this->urlGenerator->getAbsoluteURL('/');
 		$source = rtrim($source, '/');
 		$token = $argument['token'];
@@ -158,7 +165,7 @@ class GetSharedSecret extends Job{
 		$endPoints = $this->ocsDiscoveryService->discover($target, 'FEDERATED_SHARING');
 		$endPoint = isset($endPoints['shared-secret']) ? $endPoints['shared-secret'] : $this->defaultEndPoint;
 
-		// make sure that we have a well formated url
+		// make sure that we have a well formatted url
 		$url = rtrim($target, '/') . '/' . trim($endPoint, '/') . $this->format;
 
 		$result = null;
@@ -223,12 +230,11 @@ class GetSharedSecret extends Job{
 	/**
 	 * re-add background job
 	 *
-	 * @param IJobList $jobList
 	 * @param array $argument
 	 */
-	protected function reAddJob(IJobList $jobList, array $argument) {
+	protected function reAddJob(array $argument) {
 		$url = $argument['url'];
-		$created = isset($argument['created']) ? (int)$argument['created'] : time();
+		$created = isset($argument['created']) ? (int)$argument['created'] : $this->timeFactory->getTime();
 		$token = $argument['token'];
 		$this->jobList->add(
 			GetSharedSecret::class,
