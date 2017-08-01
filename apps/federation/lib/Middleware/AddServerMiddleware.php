@@ -59,7 +59,7 @@ class AddServerMiddleware extends Middleware {
 	 * @return JSONResponse
 	 * @throws \Exception
 	 */
-	public function afterException(Controller $controller, $methodName, \Exception $exception) {
+	public function afterException($controller, $methodName, \Exception $exception) {
 		if (($controller instanceof SettingsController) === false) {
 			throw $exception;
 		}

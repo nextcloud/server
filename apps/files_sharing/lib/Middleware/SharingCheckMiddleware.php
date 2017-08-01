@@ -92,7 +92,7 @@ class SharingCheckMiddleware extends Middleware {
 	 * @throws S2SException
 	 * @throws ShareNotFound
 	 */
-	public function beforeController(Controller $controller, $methodName) {
+	public function beforeController($controller, $methodName) {
 		if(!$this->isSharingEnabled()) {
 			throw new NotFoundException('Sharing is disabled.');
 		}
@@ -119,7 +119,7 @@ class SharingCheckMiddleware extends Middleware {
 	 * @return NotFoundResponse
 	 * @throws \Exception
 	 */
-	public function afterException(Controller $controller, $methodName, \Exception $exception) {
+	public function afterException($controller, $methodName, \Exception $exception) {
 		if(is_a($exception, '\OCP\Files\NotFoundException')) {
 			return new NotFoundResponse();
 		}

@@ -42,7 +42,7 @@ class ProvisioningApiMiddleware extends Middleware {
 	 *
 	 * @throws NotSubAdminException
 	 */
-	public function beforeController(Controller $controller, $methodName) {
+	public function beforeController($controller, $methodName) {
 		if (!$this->isAdmin && !$this->reflector->hasAnnotation('NoSubAdminRequired') && !$this->isSubAdmin) {
 			throw new NotSubAdminException();
 		}
@@ -55,7 +55,7 @@ class ProvisioningApiMiddleware extends Middleware {
 	 * @throws \Exception
 	 * @return Response
 	 */
-	public function afterException(Controller $controller, $methodName, \Exception $exception) {
+	public function afterException($controller, $methodName, \Exception $exception) {
 		if ($exception instanceof NotSubAdminException) {
 			throw new OCSException($exception->getMessage(), \OCP\API::RESPOND_UNAUTHORISED);
 		}
