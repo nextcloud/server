@@ -79,7 +79,7 @@ class TwoFactorMiddleware extends Middleware {
 	 * @param Controller $controller
 	 * @param string $methodName
 	 */
-	public function beforeController($controller, $methodName) {
+	public function beforeController(Controller $controller, $methodName) {
 		if ($this->reflector->hasAnnotation('PublicPage')) {
 			// Don't block public pages
 			return;
@@ -104,7 +104,7 @@ class TwoFactorMiddleware extends Middleware {
 		// TODO: dont check/enforce 2FA if a auth token is used
 	}
 
-	private function checkTwoFactor($controller, $methodName, IUser $user) {
+	private function checkTwoFactor(Controller $controller, $methodName, IUser $user) {
 		// If two-factor auth is in progress disallow access to any controllers
 		// defined within "LoginController".
 		$needsSecondFactor = $this->twoFactorManager->needsSecondFactor($user);
@@ -122,7 +122,7 @@ class TwoFactorMiddleware extends Middleware {
 		}
 	}
 
-	public function afterException($controller, $methodName, Exception $exception) {
+	public function afterException(Controller $controller, $methodName, Exception $exception) {
 		if ($exception instanceof TwoFactorAuthRequiredException) {
 			$params = [];
 			if (isset($this->request->server['REQUEST_URI'])) {

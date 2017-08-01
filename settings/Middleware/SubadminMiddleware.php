@@ -27,6 +27,7 @@ namespace OC\Settings\Middleware;
 use OC\AppFramework\Http;
 use OC\AppFramework\Middleware\Security\Exceptions\NotAdminException;
 use OC\AppFramework\Utility\ControllerMethodReflector;
+use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Middleware;
 
@@ -54,11 +55,11 @@ class SubadminMiddleware extends Middleware {
 
 	/**
 	 * Check if sharing is enabled before the controllers is executed
-	 * @param \OCP\AppFramework\Controller $controller
+	 * @param Controller $controller
 	 * @param string $methodName
 	 * @throws \Exception
 	 */
-	public function beforeController($controller, $methodName) {
+	public function beforeController(Controller $controller, $methodName) {
 		if(!$this->reflector->hasAnnotation('NoSubadminRequired')) {
 			if(!$this->isSubAdmin) {
 				throw new NotAdminException('Logged in user must be a subadmin');
@@ -68,13 +69,13 @@ class SubadminMiddleware extends Middleware {
 
 	/**
 	 * Return 403 page in case of an exception
-	 * @param \OCP\AppFramework\Controller $controller
+	 * @param Controller $controller
 	 * @param string $methodName
 	 * @param \Exception $exception
 	 * @return TemplateResponse
 	 * @throws \Exception
 	 */
-	public function afterException($controller, $methodName, \Exception $exception) {
+	public function afterException(Controller $controller, $methodName, \Exception $exception) {
 		if($exception instanceof NotAdminException) {
 			$response = new TemplateResponse('core', '403', array(), 'guest');
 			$response->setStatus(Http::STATUS_FORBIDDEN);

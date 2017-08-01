@@ -26,6 +26,7 @@ namespace OCA\Federation\Middleware;
 
 use OC\HintException;
 use OCA\Federation\Controller\SettingsController;
+use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Middleware;
@@ -52,12 +53,13 @@ class AddServerMiddleware extends Middleware {
 	/**
 	 * Log error message and return a response which can be displayed to the user
 	 *
-	 * @param \OCP\AppFramework\Controller $controller
+	 * @param Controller $controller
 	 * @param string $methodName
 	 * @param \Exception $exception
 	 * @return JSONResponse
+	 * @throws \Exception
 	 */
-	public function afterException($controller, $methodName, \Exception $exception) {
+	public function afterException(Controller $controller, $methodName, \Exception $exception) {
 		if (($controller instanceof SettingsController) === false) {
 			throw $exception;
 		}

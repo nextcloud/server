@@ -52,10 +52,10 @@ class OCSMiddleware extends Middleware {
 	}
 
 	/**
-	 * @param \OCP\AppFramework\Controller $controller
+	 * @param Controller $controller
 	 * @param string $methodName
 	 */
-	public function beforeController($controller, $methodName) {
+	public function beforeController(Controller $controller, $methodName) {
 		if ($controller instanceof OCSController) {
 			if (substr_compare($this->request->getScriptName(), '/ocs/v2.php', -strlen('/ocs/v2.php')) === 0) {
 				$this->ocsVersion = 2;
@@ -67,13 +67,13 @@ class OCSMiddleware extends Middleware {
 	}
 
 	/**
-	 * @param \OCP\AppFramework\Controller $controller
+	 * @param Controller $controller
 	 * @param string $methodName
 	 * @param \Exception $exception
 	 * @throws \Exception
 	 * @return BaseResponse
 	 */
-	public function afterException($controller, $methodName, \Exception $exception) {
+	public function afterException(Controller $controller, $methodName, \Exception $exception) {
 		if ($controller instanceof OCSController && $exception instanceof OCSException) {
 			$code = $exception->getCode();
 			if ($code === 0) {
@@ -87,12 +87,12 @@ class OCSMiddleware extends Middleware {
 	}
 
 	/**
-	 * @param \OCP\AppFramework\Controller $controller
+	 * @param Controller $controller
 	 * @param string $methodName
 	 * @param Response $response
 	 * @return \OCP\AppFramework\Http\Response
 	 */
-	public function afterController($controller, $methodName, Response $response) {
+	public function afterController(Controller $controller, $methodName, Response $response) {
 		/*
 		 * If a different middleware has detected that a request unauthorized or forbidden
 		 * we need to catch the response and convert it to a proper OCS response.
@@ -120,7 +120,7 @@ class OCSMiddleware extends Middleware {
 	 * @param string $message
 	 * @return V1Response|V2Response
 	 */
-	private function buildNewResponse($controller, $code, $message) {
+	private function buildNewResponse(Controller $controller, $code, $message) {
 		$format = $this->getFormat($controller);
 
 		$data = new DataResponse();
@@ -135,10 +135,10 @@ class OCSMiddleware extends Middleware {
 	}
 
 	/**
-	 * @param \OCP\AppFramework\Controller $controller
+	 * @param Controller $controller
 	 * @return string
 	 */
-	private function getFormat($controller) {
+	private function getFormat(Controller $controller) {
 		// get format from the url format or request format parameter
 		$format = $this->request->getParam('format');
 
