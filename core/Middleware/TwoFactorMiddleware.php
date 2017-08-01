@@ -79,7 +79,7 @@ class TwoFactorMiddleware extends Middleware {
 	 * @param Controller $controller
 	 * @param string $methodName
 	 */
-	public function beforeController(Controller $controller, $methodName) {
+	public function beforeController($controller, $methodName) {
 		if ($this->reflector->hasAnnotation('PublicPage')) {
 			// Don't block public pages
 			return;
@@ -122,7 +122,7 @@ class TwoFactorMiddleware extends Middleware {
 		}
 	}
 
-	public function afterException(Controller $controller, $methodName, Exception $exception) {
+	public function afterException($controller, $methodName, Exception $exception) {
 		if ($exception instanceof TwoFactorAuthRequiredException) {
 			$params = [];
 			if (isset($this->request->server['REQUEST_URI'])) {

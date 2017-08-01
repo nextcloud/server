@@ -59,7 +59,7 @@ class BruteForceMiddleware extends Middleware {
 	/**
 	 * {@inheritDoc}
 	 */
-	public function beforeController(Controller $controller, $methodName) {
+	public function beforeController($controller, $methodName) {
 		parent::beforeController($controller, $methodName);
 
 		if($this->reflector->hasAnnotation('BruteForceProtection')) {
@@ -71,7 +71,7 @@ class BruteForceMiddleware extends Middleware {
 	/**
 	 * {@inheritDoc}
 	 */
-	public function afterController(Controller $controller, $methodName, Response $response) {
+	public function afterController($controller, $methodName, Response $response) {
 		if($this->reflector->hasAnnotation('BruteForceProtection') && $response->isThrottled()) {
 			$action = $this->reflector->getAnnotationParameter('BruteForceProtection', 'action');
 			$ip = $this->request->getRemoteAddress();

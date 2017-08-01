@@ -28,7 +28,7 @@ class OCSShareAPIMiddleware extends Middleware {
 	 *
 	 * @throws OCSNotFoundException
 	 */
-	public function beforeController(Controller $controller, $methodName) {
+	public function beforeController($controller, $methodName) {
 		if ($controller instanceof ShareAPIController) {
 			if (!$this->shareManager->shareApiEnabled()) {
 				throw new OCSNotFoundException($this->l->t('Share API is disabled'));
@@ -42,7 +42,7 @@ class OCSShareAPIMiddleware extends Middleware {
 	 * @param Response $response
 	 * @return Response
 	 */
-	public function afterController(Controller $controller, $methodName, Response $response) {
+	public function afterController($controller, $methodName, Response $response) {
 		if ($controller instanceof ShareAPIController) {
 			/** @var ShareAPIController $controller */
 			$controller->cleanup();

@@ -77,7 +77,7 @@ class RateLimitingMiddleware extends Middleware {
 	 * {@inheritDoc}
 	 * @throws RateLimitExceededException
 	 */
-	public function beforeController(Controller $controller, $methodName) {
+	public function beforeController($controller, $methodName) {
 		parent::beforeController($controller, $methodName);
 
 		$anonLimit = $this->reflector->getAnnotationParameter('AnonRateThrottle', 'limit');
@@ -105,7 +105,7 @@ class RateLimitingMiddleware extends Middleware {
 	/**
 	 * {@inheritDoc}
 	 */
-	public function afterException(Controller $controller, $methodName, \Exception $exception) {
+	public function afterException($controller, $methodName, \Exception $exception) {
 		if($exception instanceof RateLimitExceededException) {
 			if (stripos($this->request->getHeader('Accept'),'html') === false) {
 				$response = new JSONResponse(

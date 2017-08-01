@@ -55,7 +55,7 @@ class OCSMiddleware extends Middleware {
 	 * @param Controller $controller
 	 * @param string $methodName
 	 */
-	public function beforeController(Controller $controller, $methodName) {
+	public function beforeController($controller, $methodName) {
 		if ($controller instanceof OCSController) {
 			if (substr_compare($this->request->getScriptName(), '/ocs/v2.php', -strlen('/ocs/v2.php')) === 0) {
 				$this->ocsVersion = 2;
@@ -73,7 +73,7 @@ class OCSMiddleware extends Middleware {
 	 * @throws \Exception
 	 * @return BaseResponse
 	 */
-	public function afterException(Controller $controller, $methodName, \Exception $exception) {
+	public function afterException($controller, $methodName, \Exception $exception) {
 		if ($controller instanceof OCSController && $exception instanceof OCSException) {
 			$code = $exception->getCode();
 			if ($code === 0) {
@@ -92,7 +92,7 @@ class OCSMiddleware extends Middleware {
 	 * @param Response $response
 	 * @return \OCP\AppFramework\Http\Response
 	 */
-	public function afterController(Controller $controller, $methodName, Response $response) {
+	public function afterController($controller, $methodName, Response $response) {
 		/*
 		 * If a different middleware has detected that a request unauthorized or forbidden
 		 * we need to catch the response and convert it to a proper OCS response.
