@@ -36,6 +36,12 @@ class MigrationSchemaChecker extends NodeVisitorAbstract {
 	/** @var array */
 	public $errors = [];
 
+	/**
+	 * @param Node $node
+	 * @return void
+	 *
+	 * @suppress PhanUndeclaredProperty
+	 */
 	public function enterNode(Node $node) {
 		/**
 		 * Check tables

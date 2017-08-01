@@ -71,27 +71,27 @@ class Applicable extends Base {
 				'The id of the mount to edit'
 			)->addOption(
 				'add-user',
-				null,
+				'',
 				InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED,
 				'user to add as applicable'
 			)->addOption(
 				'remove-user',
-				null,
+				'',
 				InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED,
 				'user to remove as applicable'
 			)->addOption(
 				'add-group',
-				null,
+				'',
 				InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED,
 				'group to add as applicable'
 			)->addOption(
 				'remove-group',
-				null,
+				'',
 				InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED,
 				'group to remove as applicable'
 			)->addOption(
 				'remove-all',
-				null,
+				'',
 				InputOption::VALUE_NONE,
 				'Set the mount to be globally applicable'
 			);

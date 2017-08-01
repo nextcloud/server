@@ -73,7 +73,7 @@ $groupsInfo->setSorting($sortGroupsBy);
 list($adminGroup, $groups) = $groupsInfo->get();
 
 $recoveryAdminEnabled = OC_App::isEnabled('encryption') &&
-					    $config->getAppValue( 'encryption', 'recoveryAdminEnabled', null );
+					    $config->getAppValue( 'encryption', 'recoveryAdminEnabled', '0');
 
 if($isAdmin) {
 	$subAdmins = \OC::$server->getGroupManager()->getSubAdmin()->getAllSubAdmins();

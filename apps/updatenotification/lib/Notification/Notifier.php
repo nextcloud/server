@@ -117,7 +117,7 @@ class Notifier implements INotifier {
 			}
 
 			$notification->setParsedSubject($l->t('Update for %1$s to version %2$s is available.', [$appName, $notification->getObjectId()]))
-				->setRichSubject($l->t('Update for {app} to version %s is available.', $notification->getObjectId()), [
+				->setRichSubject($l->t('Update for {app} to version %s is available.', [$notification->getObjectId()]), [
 					'app' => [
 						'type' => 'app',
 						'id' => $notification->getObjectType(),

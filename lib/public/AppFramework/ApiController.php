@@ -88,7 +88,7 @@ abstract class ApiController extends Controller {
         $response = new Response();
         $response->addHeader('Access-Control-Allow-Origin', $origin);
         $response->addHeader('Access-Control-Allow-Methods', $this->corsMethods);
-        $response->addHeader('Access-Control-Max-Age', $this->corsMaxAge);
+        $response->addHeader('Access-Control-Max-Age', (string)$this->corsMaxAge);
         $response->addHeader('Access-Control-Allow-Headers', $this->corsAllowedHeaders);
         $response->addHeader('Access-Control-Allow-Credentials', 'false');
         return $response;

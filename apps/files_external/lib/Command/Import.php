@@ -87,7 +87,7 @@ class Import extends Base {
 			->setDescription('Import mount configurations')
 			->addOption(
 				'user',
-				null,
+				'',
 				InputOption::VALUE_OPTIONAL,
 				'user to add the mount configurations for, if not set the mount will be added as system mount'
 			)
@@ -98,7 +98,7 @@ class Import extends Base {
 			)
 			->addOption(
 				'dry',
-				null,
+				'',
 				InputOption::VALUE_NONE,
 				'Don\'t save the imported mounts, only list the new mounts'
 			);

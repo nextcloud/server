@@ -100,7 +100,7 @@ class Principal implements BackendInterface {
 	 * @return array
 	 */
 	public function getPrincipalByPath($path) {
-		list($prefix, $name) = URLUtil::splitPath($path);
+		list($prefix, $name) = \Sabre\Uri\split($path);
 
 		if ($prefix === $this->principalPrefix) {
 			$user = $this->userManager->get($name);
@@ -138,7 +138,7 @@ class Principal implements BackendInterface {
 	 * @throws Exception
 	 */
 	public function getGroupMembership($principal, $needGroups = false) {
-		list($prefix, $name) = URLUtil::splitPath($principal);
+		list($prefix, $name) = \Sabre\Uri\split($principal);
 
 		if ($prefix === $this->principalPrefix) {
 			$user = $this->userManager->get($name);

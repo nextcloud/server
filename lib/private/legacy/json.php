@@ -52,6 +52,7 @@ class OC_JSON{
 	 * Check if the app is enabled, send json error msg if not
 	 * @param string $app
 	 * @deprecated Use the AppFramework instead. It will automatically check if the app is enabled.
+	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function checkAppEnabled($app) {
 		if( !OC_App::isEnabled($app)) {
@@ -64,6 +65,7 @@ class OC_JSON{
 	/**
 	 * Check if the user is logged in, send json error msg if not
 	 * @deprecated Use annotation based ACLs from the AppFramework instead
+	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function checkLoggedIn() {
 		$twoFactorAuthManger = \OC::$server->getTwoFactorAuthManager();
@@ -79,6 +81,7 @@ class OC_JSON{
 	/**
 	 * Check an ajax get/post call if the request token is valid, send json error msg if not.
 	 * @deprecated Use annotation based CSRF checks from the AppFramework instead
+	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function callCheck() {
 		if(!\OC::$server->getRequest()->passesStrictCookieCheck()) {
@@ -96,6 +99,7 @@ class OC_JSON{
 	/**
 	 * Check if the user is a admin, send json error msg if not.
 	 * @deprecated Use annotation based ACLs from the AppFramework instead
+	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function checkAdminUser() {
 		if( !OC_User::isAdminUser(OC_User::getUser())) {
@@ -109,6 +113,7 @@ class OC_JSON{
 	 * Check is a given user exists - send json error msg if not
 	 * @param string $user
 	 * @deprecated Use a AppFramework JSONResponse instead
+	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function checkUserExists($user) {
 		if (!OCP\User::userExists($user)) {
@@ -122,6 +127,7 @@ class OC_JSON{
 	/**
 	 * Check if the user is a subadmin, send json error msg if not
 	 * @deprecated Use annotation based ACLs from the AppFramework instead
+	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function checkSubAdminUser() {
 		$userObject = \OC::$server->getUserSession()->getUser();
@@ -140,6 +146,7 @@ class OC_JSON{
 	/**
 	 * Send json error msg
 	 * @deprecated Use a AppFramework JSONResponse instead
+	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function error($data = array()) {
 		$data['status'] = 'error';
@@ -149,6 +156,7 @@ class OC_JSON{
 	/**
 	 * Send json success msg
 	 * @deprecated Use a AppFramework JSONResponse instead
+	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function success($data = array()) {
 		$data['status'] = 'success';
@@ -167,6 +175,7 @@ class OC_JSON{
 	/**
 	 * Encode and print $data in json format
 	 * @deprecated Use a AppFramework JSONResponse instead
+	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function encodedPrint($data, $setContentType=true) {
 		if($setContentType) {

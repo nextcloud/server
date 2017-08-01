@@ -76,11 +76,11 @@ class AuthSettingsController extends Controller {
 	 * @NoAdminRequired
 	 * @NoSubadminRequired
 	 *
-	 * @return JSONResponse
+	 * @return JSONResponse|array
 	 */
 	public function index() {
 		$user = $this->userManager->get($this->uid);
-		if (is_null($user)) {
+		if ($user === null) {
 			return [];
 		}
 		$tokens = $this->tokenProvider->getTokenByUser($user);
@@ -147,6 +147,9 @@ class AuthSettingsController extends Controller {
 		]);
 	}
 
+	/**
+	 * @return JSONResponse
+	 */
 	private function getServiceNotAvailableResponse() {
 		$resp = new JSONResponse();
 		$resp->setStatus(Http::STATUS_SERVICE_UNAVAILABLE);
@@ -172,7 +175,7 @@ class AuthSettingsController extends Controller {
 	 * @NoAdminRequired
 	 * @NoSubadminRequired
 	 *
-	 * @return JSONResponse
+	 * @return array
 	 */
 	public function destroy($id) {
 		$user = $this->userManager->get($this->uid);
@@ -190,9 +193,10 @@ class AuthSettingsController extends Controller {
 	 *
 	 * @param int $id
 	 * @param array $scope
+	 * @return array
 	 */
 	public function update($id, array $scope) {
-		$token = $this->tokenProvider->getTokenById($id);
+		$token = $this->tokenProvider->getTokenById((string)$id);
 		$token->setScope([
 			'filesystem' => $scope['filesystem']
 		]);

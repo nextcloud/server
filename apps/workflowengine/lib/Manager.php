@@ -165,7 +165,7 @@ class Manager implements IManager {
 			return $row;
 		}
 
-		throw new \UnexpectedValueException($this->l->t('Operation #%s does not exist', $id));
+		throw new \UnexpectedValueException($this->l->t('Operation #%s does not exist', [$id]));
 	}
 
 	/**
@@ -250,11 +250,11 @@ class Manager implements IManager {
 			/** @var IOperation $instance */
 			$instance = $this->container->query($class);
 		} catch (QueryException $e) {
-			throw new \UnexpectedValueException($this->l->t('Operation %s does not exist', $class));
+			throw new \UnexpectedValueException($this->l->t('Operation %s does not exist', [$class]));
 		}
 
 		if (!($instance instanceof IOperation)) {
-			throw new \UnexpectedValueException($this->l->t('Operation %s is invalid', $class));
+			throw new \UnexpectedValueException($this->l->t('Operation %s is invalid', [$class]));
 		}
 
 		$instance->validateOperation($name, $checks, $operation);
@@ -264,11 +264,11 @@ class Manager implements IManager {
 				/** @var ICheck $instance */
 				$instance = $this->container->query($check['class']);
 			} catch (QueryException $e) {
-				throw new \UnexpectedValueException($this->l->t('Check %s does not exist', $class));
+				throw new \UnexpectedValueException($this->l->t('Check %s does not exist', [$class]));
 			}
 
 			if (!($instance instanceof ICheck)) {
-				throw new \UnexpectedValueException($this->l->t('Check %s is invalid', $class));
+				throw new \UnexpectedValueException($this->l->t('Check %s is invalid', [$class]));
 			}
 
 			$instance->validateCheck($check['operator'], $check['value']);

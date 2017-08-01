@@ -50,14 +50,16 @@ use OCP\Security\ISecureRandom;
 class CryptoWrapper {
 	const COOKIE_NAME = 'oc_sessionPassphrase';
 
+	/** @var IConfig */
+	protected $config;
 	/** @var ISession */
 	protected $session;
-
-	/** @var \OCP\Security\ICrypto */
+	/** @var ICrypto */
 	protected $crypto;
-
 	/** @var ISecureRandom */
 	protected $random;
+	/** @var string */
+	protected $passphrase;
 
 	/**
 	 * @param IConfig $config

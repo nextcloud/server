@@ -41,7 +41,7 @@ class RemoteException extends Exception {
 }
 
 /**
- * @param Exception | Error $e
+ * @param Exception|Error $e
  */
 function handleException($e) {
 	$request = \OC::$server->getRequest();

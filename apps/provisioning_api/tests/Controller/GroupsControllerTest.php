@@ -28,6 +28,7 @@ namespace OCA\Provisioning_API\Tests\Controller;
 
 use OCA\Provisioning_API\Controller\GroupsController;
 use OCP\IGroupManager;
+use OCP\ILogger;
 use OCP\IUserSession;
 
 class GroupsControllerTest extends \Test\TestCase {

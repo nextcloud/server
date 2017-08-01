@@ -81,7 +81,7 @@ class RetryJob extends Job {
 	 * run the job, then remove it from the jobList
 	 *
 	 * @param JobList $jobList
-	 * @param ILogger $logger
+	 * @param ILogger|null $logger
 	 */
 	public function execute($jobList, ILogger $logger = null) {
 

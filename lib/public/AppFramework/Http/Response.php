@@ -228,7 +228,7 @@ class Response {
 
 	/**
 	 * By default renders no output
-	 * @return null
+	 * @return string|null
 	 * @since 6.0.0
 	 */
 	public function render() {

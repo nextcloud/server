@@ -79,7 +79,7 @@ class Notify extends Base {
 				'The password for the remote mount (required only for some mount configuration that don\'t store credentials)'
 			)->addOption(
 				'path',
-				null,
+				'',
 				InputOption::VALUE_REQUIRED,
 				'The directory in the storage to listen for updates in',
 				'/'

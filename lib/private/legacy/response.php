@@ -116,11 +116,11 @@ class OC_Response {
 	}
 
 	/**
-	* Set response expire time
-	* @param string|DateTime $expires date-time when the response expires
-	*  string for DateInterval from now
-	*  DateTime object when to expire response
-	*/
+	 * Set response expire time
+	 * @param string|DateTime|int $expires date-time when the response expires
+	 * string for DateInterval from now
+	 * DateTime object when to expire response
+	 */
 	static public function setExpiresHeader($expires) {
 		if (is_string($expires) && $expires[0] == 'P') {
 			$interval = $expires;

@@ -173,6 +173,7 @@ class AvatarController extends Controller {
 		if (isset($path)) {
 			$path = stripslashes($path);
 			$userFolder = $this->rootFolder->getUserFolder($this->userId);
+			/** @var File $node */
 			$node = $userFolder->get($path);
 			if (!($node instanceof File)) {
 				return new JSONResponse(['data' => ['message' => $this->l->t('Please select a file.')]]);
@@ -296,7 +297,7 @@ class AvatarController extends Controller {
 				Http::STATUS_OK,
 				['Content-Type' => $image->mimeType()]);
 
-		$resp->setETag(crc32($image->data()));
+		$resp->setETag((string)crc32($image->data()));
 		$resp->cacheFor(0);
 		$resp->setLastModified(new \DateTime('now', new \DateTimeZone('GMT')));
 		return $resp;
@@ -328,7 +329,7 @@ class AvatarController extends Controller {
 		}
 
 		$image = new \OC_Image($tmpAvatar);
-		$image->crop($crop['x'], $crop['y'], round($crop['w']), round($crop['h']));
+		$image->crop($crop['x'], $crop['y'], (int)round($crop['w']), (int)round($crop['h']));
 		try {
 			$avatar = $this->avatarManager->getAvatar($this->userId);
 			$avatar->set($image);

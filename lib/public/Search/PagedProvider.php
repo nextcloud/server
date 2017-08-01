@@ -53,7 +53,7 @@ abstract class PagedProvider extends Provider {
 	 */
 	public function search($query) {
 		// old apps might assume they get all results, so we use SIZE_ALL
-		$this->searchPaged($query, 1, self::SIZE_ALL);
+		return $this->searchPaged($query, 1, self::SIZE_ALL);
 	}
 
 	/**

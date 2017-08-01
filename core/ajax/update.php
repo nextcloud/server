@@ -50,6 +50,10 @@ class FeedBackHandler {
 	private $progressStateStep = 0;
 	/** @var string */
 	private $currentStep;
+	/** @var \OCP\IEventSource */
+	private $eventSource;
+	/** @var \OCP\IL10N */
+	private $l10n;
 
 	public function __construct(\OCP\IEventSource $eventSource, \OCP\IL10N $l10n) {
 		$this->eventSource = $eventSource;
@@ -220,7 +224,7 @@ if (OC::checkUpgrade(false)) {
 
 	if (!empty($disabledApps)) {
 		$eventSource->send('notice',
-			(string)$l->t('Following apps have been disabled: %s', implode(', ', $disabledApps)));
+			(string)$l->t('Following apps have been disabled: %s', [implode(', ', $disabledApps)]));
 	}
 } else {
 	$eventSource->send('notice', (string)$l->t('Already up to date'));

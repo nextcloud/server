@@ -83,7 +83,7 @@ class Create extends Base {
 			->setDescription('Create a new mount configuration')
 			->addOption(
 				'user',
-				null,
+				'',
 				InputOption::VALUE_OPTIONAL,
 				'user to add the mount configuration for, if not set the mount will be added as system mount'
 			)
@@ -110,7 +110,7 @@ class Create extends Base {
 			)
 			->addOption(
 				'dry',
-				null,
+				'',
 				InputOption::VALUE_NONE,
 				'Don\'t save the created mount, only list the new mount'
 			);
@@ -180,7 +180,7 @@ class Create extends Base {
 			if ($input->getOption('output') === self::OUTPUT_FORMAT_PLAIN) {
 				$output->writeln('<info>Storage created with id ' . $mount->getId() . '</info>');
 			} else {
-				$output->writeln($mount->getId());
+				$output->writeln((string)$mount->getId());
 			}
 		}
 		return 0;

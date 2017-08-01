@@ -84,7 +84,7 @@ class Listener {
 
 		// Get all mount point owners
 		$cache = $this->mountCollection->getMountCache();
-		$mounts = $cache->getMountsForFileId($event->getComment()->getObjectId());
+		$mounts = $cache->getMountsForFileId((int)$event->getComment()->getObjectId());
 		if (empty($mounts)) {
 			return;
 		}
@@ -93,7 +93,7 @@ class Listener {
 		foreach ($mounts as $mount) {
 			$owner = $mount->getUser()->getUID();
 			$ownerFolder = $this->rootFolder->getUserFolder($owner);
-			$nodes = $ownerFolder->getById($event->getComment()->getObjectId());
+			$nodes = $ownerFolder->getById((int)$event->getComment()->getObjectId());
 			if (!empty($nodes)) {
 				/** @var Node $node */
 				$node = array_shift($nodes);
