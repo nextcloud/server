@@ -22,15 +22,15 @@
 namespace OC\Settings\Controller;
 
 use OC\HintException;
-use OC\User\Manager as UserManager;
-use OC\Group\Manager as GroupManager;
 use OC\User\Session;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IUser;
+use OCP\IUserManager;
 use OCP\IUserSession;
 
 class ChangePasswordController extends Controller {
@@ -38,13 +38,13 @@ class ChangePasswordController extends Controller {
 	/** @var string */
 	private $userId;
 
-	/** @var UserManager */
+	/** @var IUserManager */
 	private $userManager;
 
 	/** @var IL10N */
 	private $l;
 
-	/** @var GroupManager */
+	/** @var IGroupManager */
 	private $groupManager;
 
 	/** @var Session */
@@ -59,18 +59,18 @@ class ChangePasswordController extends Controller {
 	 * @param string $appName
 	 * @param IRequest $request
 	 * @param $userId
-	 * @param UserManager $userManager
+	 * @param IUserManager $userManager
 	 * @param IUserSession $userSession
-	 * @param GroupManager $groupManager
+	 * @param IGroupManager $groupManager
 	 * @param IAppManager $appManager
 	 * @param IL10N $l
 	 */
 	public function __construct($appName,
 								IRequest $request,
 								$userId,
-								UserManager $userManager,
+								IUserManager $userManager,
 								IUserSession $userSession,
-								GroupManager $groupManager,
+								IGroupManager $groupManager,
 								IAppManager $appManager,
 								IL10N $l) {
 		parent::__construct($appName, $request);
