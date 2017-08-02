@@ -297,10 +297,7 @@ class SharedStorageTest extends TestCase {
 		$this->assertFalse($user2View->unlink($this->folder . '/existing.txt'));
 
 		//cleanup
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
-		$result = \OCP\Share::unshare('folder', $fileinfoFolder['fileid'], \OCP\Share::SHARE_TYPE_USER,
-			self::TEST_FILES_SHARING_API_USER2);
-		$this->assertTrue($result);
+		$this->shareManager->deleteShare($share);
 	}
 
 	public function testFopenWithUpdateOnlyPermission() {

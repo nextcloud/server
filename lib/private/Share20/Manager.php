@@ -1542,4 +1542,11 @@ class Manager implements IManager {
 		return true;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	public function isResharingAllowed() {
+		return $this->config->getAppValue('core', 'shareapi_allow_resharing', 'yes') === 'yes';
+	}
+
 }

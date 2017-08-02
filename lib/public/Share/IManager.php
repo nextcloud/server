@@ -341,4 +341,10 @@ interface IManager {
 	 */
 	public function shareProviderExists($shareType);
 
+	/**
+	 * Check if resharing is allowed
+	 * @return bool
+	 * @since 13.0.0
+	 */
+	public function isResharingAllowed();
 }
