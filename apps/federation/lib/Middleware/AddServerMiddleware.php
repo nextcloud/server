@@ -43,6 +43,11 @@ class AddServerMiddleware extends Middleware {
 	/** @var  ILogger */
 	protected $logger;
 
+	/**
+	 * @param string $appName
+	 * @param IL10N $l
+	 * @param ILogger $logger
+	 */
 	public function __construct($appName, IL10N $l, ILogger $logger) {
 		$this->appName = $appName;
 		$this->l = $l;
@@ -56,6 +61,7 @@ class AddServerMiddleware extends Middleware {
 	 * @param string $methodName
 	 * @param \Exception $exception
 	 * @return JSONResponse
+	 * @throws \Exception
 	 */
 	public function afterException($controller, $methodName, \Exception $exception) {
 		if (($controller instanceof SettingsController) === false) {
