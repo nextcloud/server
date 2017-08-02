@@ -181,14 +181,14 @@
 		_setFieldScopeIcon: function(field, scope) {
 			var $icon = this.$('#' + field + 'form > h2 > span');
 			$icon.removeClass('icon-password');
-			$icon.removeClass('icon-contacts-dark');
+			$icon.removeClass('icon-contacts');
 			$icon.removeClass('icon-link');
 			switch (scope) {
 				case 'private':
 					$icon.addClass('icon-password');
 					break;
 				case 'contacts':
-					$icon.addClass('icon-contacts-dark');
+					$icon.addClass('icon-contacts');
 					break;
 				case 'public':
 					$icon.addClass('icon-link');

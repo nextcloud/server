@@ -107,7 +107,9 @@
 					<button class="icon-close-white" type="reset"></button>
 				</form>
 				<div id="contactsmenu">
-					<div class="icon-contacts menutoggle"></div>
+					<div class="icon-contacts icon-white menutoggle">
+						<?php echo file_get_contents('core/img/places/contacts.svg'); ?>
+					</div>
 					<div class="menu"></div>
 				</div>
 				<div id="settings">
