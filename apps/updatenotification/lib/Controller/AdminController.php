@@ -105,6 +105,9 @@ class AdminController extends Controller implements ISettings {
 
 		$notifyGroups = json_decode($this->config->getAppValue('updatenotification', 'notify_groups', '["admin"]'), true);
 
+		$defaultUpdateServerURL = 'https://updates.nextcloud.com/server/';
+		$updateServerURL = $this->config->getSystemValue('updater.server.url', $defaultUpdateServerURL);
+
 		$params = [
 			'isNewVersionAvailable' => !empty($updateState['updateAvailable']),
 			'isUpdateChecked' => $lastUpdateCheckTimestamp > 0,
@@ -114,7 +117,8 @@ class AdminController extends Controller implements ISettings {
 			'newVersionString' => (empty($updateState['updateVersion'])) ? '' : $updateState['updateVersion'],
 			'downloadLink' => (empty($updateState['downloadLink'])) ? '' : $updateState['downloadLink'],
 			'updaterEnabled' => (empty($updateState['updaterEnabled'])) ? false : $updateState['updaterEnabled'],
-
+			'isDefaultUpdateServerURL' => $updateServerURL === $defaultUpdateServerURL,
+			'updateServerURL' => $updateServerURL,
 			'notify_groups' => implode('|', $notifyGroups),
 		];
 
