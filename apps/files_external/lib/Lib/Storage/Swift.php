@@ -435,7 +435,7 @@ class Swift extends \OC\Files\Storage\Common {
 		}
 		$metadata = array('timestamp' => $mtime);
 		if ($this->file_exists($path)) {
-			if ($this->is_dir($path) && $path != '.') {
+			if ($this->is_dir($path) && $path !== '.') {
 				$path .= '/';
 			}
 
@@ -640,7 +640,7 @@ class Swift extends \OC\Files\Storage\Common {
 		}, $cachedContent);
 		sort($cachedNames);
 		sort($content);
-		return $cachedNames != $content;
+		return $cachedNames !== $content;
 	}
 
 	/**

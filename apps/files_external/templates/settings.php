@@ -89,7 +89,7 @@
 
 <form data-can-create="<?php echo $canCreateMounts?'true':'false' ?>" id="files_external" class="section" data-encryption-enabled="<?php echo $_['encryptionEnabled']?'true': 'false'; ?>">
 	<h2 data-anchor-name="external-storage"><?php p($l->t('External storages')); ?></h2>
-	<?php if (isset($_['dependencies']) and ($_['dependencies']<>'') and $canCreateMounts) print_unescaped(''.$_['dependencies'].''); ?>
+	<?php if (isset($_['dependencies']) and ($_['dependencies'] !== '') and $canCreateMounts) print_unescaped(''.$_['dependencies'].''); ?>
 	<table id="externalStorage" class="grid" data-admin='<?php print_unescaped(json_encode($_['visibilityType'] === BackendService::VISIBILITY_ADMIN)); ?>'>
 		<thead>
 			<tr>
@@ -169,10 +169,10 @@
 
 	<?php if ($_['visibilityType'] === BackendService::VISIBILITY_ADMIN): ?>
 		<input type="checkbox" name="allowUserMounting" id="allowUserMounting" class="checkbox"
-			value="1" <?php if ($_['allowUserMounting'] == 'yes') print_unescaped(' checked="checked"'); ?> />
+			value="1" <?php if ($_['allowUserMounting'] === 'yes') print_unescaped(' checked="checked"'); ?> />
 		<label for="allowUserMounting"><?php p($l->t('Allow users to mount external storage')); ?></label> <span id="userMountingMsg" class="msg"></span>
 
-		<p id="userMountingBackends"<?php if ($_['allowUserMounting'] != 'yes'): ?> class="hidden"<?php endif; ?>>
+		<p id="userMountingBackends"<?php if ($_['allowUserMounting'] !== 'yes'): ?> class="hidden"<?php endif; ?>>
 			<?php p($l->t('Allow users to mount the following external storage')); ?><br />
 			<?php
 				$userBackends = array_filter($_['backends'], function($backend) {

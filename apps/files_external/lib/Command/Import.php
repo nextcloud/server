@@ -161,8 +161,8 @@ class Import extends Base {
 				if (
 					$existingMount->getMountPoint() === $mount->getMountPoint() &&
 					$existingMount->getApplicableGroups() === $mount->getApplicableGroups() &&
-					$existingMount->getApplicableUsers() == $mount->getApplicableUsers() &&
-					$existingMount->getBackendOptions() == $mount->getBackendOptions()
+					$existingMount->getApplicableUsers() === $mount->getApplicableUsers() &&
+					$existingMount->getBackendOptions() === $mount->getBackendOptions()
 				) {
 					$output->writeln("<error>Duplicate mount (" . $mount->getMountPoint() . ")</error>");
 					return 1;

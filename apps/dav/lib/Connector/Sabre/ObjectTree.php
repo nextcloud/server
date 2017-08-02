@@ -81,7 +81,7 @@ class ObjectTree extends \Sabre\DAV\Tree {
 		if (isset($_SERVER['HTTP_OC_CHUNKED'])) {
 			// resolve to real file name to find the proper node
 			list($dir, $name) = \Sabre\Uri\split($path);
-			if ($dir == '/' || $dir == '.') {
+			if ($dir === '/' || $dir === '.') {
 				$dir = '';
 			}
 

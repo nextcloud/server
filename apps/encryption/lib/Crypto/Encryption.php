@@ -449,13 +449,13 @@ class Encryption implements IEncryptionModule {
 			return false;
 		}
 
-		if ($parts[2] == 'files') {
+		if ($parts[2] === 'files') {
 			return true;
 		}
-		if ($parts[2] == 'files_versions') {
+		if ($parts[2] === 'files_versions') {
 			return true;
 		}
-		if ($parts[2] == 'files_trashbin') {
+		if ($parts[2] === 'files_trashbin') {
 			return true;
 		}
 

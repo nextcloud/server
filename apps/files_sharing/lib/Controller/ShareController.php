@@ -514,7 +514,7 @@ class ShareController extends Controller {
 
 		$this->emitAccessShareHook($share);
 
-		$server_params = array( 'head' => $this->request->getMethod() == 'HEAD' );
+		$server_params = array( 'head' => $this->request->getMethod() === 'HEAD' );
 
 		/**
 		 * Http range requests support

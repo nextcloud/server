@@ -83,7 +83,7 @@ class Folder extends File implements \OCP\Share_Backend_Collection {
 		$query = \OCP\DB::prepare('SELECT `id` FROM `*PREFIX*mimetypes` WHERE `mimetype` = ?');
 		$result = $query->execute(array('httpd/unix-directory'));
 		if ($row = $result->fetchRow()) {
-			$mimetype = $row['id'];
+			$mimetype = (int) $row['id'];
 		} else {
 			$mimetype = -1;
 		}
@@ -96,7 +96,7 @@ class Folder extends File implements \OCP\Share_Backend_Collection {
 			while ($file = $result->fetchRow()) {
 				$children[] = array('source' => $file['fileid'], 'file_path' => $file['name']);
 				// If a child folder is found look inside it
-				if ($file['mimetype'] == $mimetype) {
+				if ((int) $file['mimetype'] === $mimetype) {
 					$parents[] = $file['fileid'];
 				}
 			}

@@ -57,7 +57,7 @@ class Hooks {
 
 		if (\OCP\App::isEnabled('files_versions')) {
 			$path = $params[\OC\Files\Filesystem::signal_param_path];
-			if($path<>'') {
+			if($path !== '') {
 				Storage::store($path);
 			}
 		}
@@ -75,7 +75,7 @@ class Hooks {
 
 		if (\OCP\App::isEnabled('files_versions')) {
 			$path = $params[\OC\Files\Filesystem::signal_param_path];
-			if($path<>'') {
+			if($path !== '') {
 				Storage::delete($path);
 			}
 		}
@@ -87,7 +87,7 @@ class Hooks {
 	 */
 	public static function pre_remove_hook($params) {
 		$path = $params[\OC\Files\Filesystem::signal_param_path];
-			if($path<>'') {
+			if($path !== '') {
 				Storage::markDeletedFile($path);
 			}
 	}
@@ -104,7 +104,7 @@ class Hooks {
 		if (\OCP\App::isEnabled('files_versions')) {
 			$oldpath = $params['oldpath'];
 			$newpath = $params['newpath'];
-			if($oldpath<>'' && $newpath<>'') {
+			if($oldpath !== '' && $newpath !== '') {
 				Storage::renameOrCopy($oldpath, $newpath, 'rename');
 			}
 		}
@@ -122,7 +122,7 @@ class Hooks {
 		if (\OCP\App::isEnabled('files_versions')) {
 			$oldpath = $params['oldpath'];
 			$newpath = $params['newpath'];
-			if($oldpath<>'' && $newpath<>'') {
+			if($oldpath !== '' && $newpath !== '') {
 				Storage::renameOrCopy($oldpath, $newpath, 'copy');
 			}
 		}

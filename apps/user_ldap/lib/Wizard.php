@@ -905,7 +905,7 @@ class Wizard extends LDAPUtility {
 							$er = $this->ldap->firstEntry($cr, $rr);
 							$attrs = $this->ldap->getAttributes($cr, $er);
 							$dn = $this->ldap->getDN($cr, $er);
-							if ($dn == false || $dn === '') {
+							if ($dn === false || $dn === '') {
 								continue;
 							}
 							$filterPart = '(memberof=' . $dn . ')';
