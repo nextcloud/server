@@ -120,6 +120,7 @@ class AdminControllerTest extends TestCase {
 
 		$params = [
 			'isNewVersionAvailable' => true,
+			'isUpdateChecked' => true,
 			'lastChecked' => 'LastCheckedReturnValue',
 			'currentChannel' => \OCP\Util::getChannel(),
 			'channels' => $channels,
@@ -166,6 +167,7 @@ class AdminControllerTest extends TestCase {
 
 		$params = [
 			'isNewVersionAvailable' => false,
+			'isUpdateChecked' => true,
 			'lastChecked' => 'LastCheckedReturnValue',
 			'currentChannel' => \OCP\Util::getChannel(),
 			'channels' => $channels,
