@@ -47,7 +47,6 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 			</span>
 		</div>
 
-		<div id="logo-claim" style="display:none;"><?php p($theme->getLogoClaim()); ?></div>
 		<div class="header-right">
 			<?php if (!isset($_['hideFileList']) || (isset($_['hideFileList']) && $_['hideFileList'] === false)) {
 				if ($_['server2serversharing']) {

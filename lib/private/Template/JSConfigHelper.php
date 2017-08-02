@@ -238,7 +238,7 @@ class JSConfigHelper {
 				'docBaseUrl' => $this->defaults->getDocBaseUrl(),
 				'docPlaceholderUrl' => $this->defaults->buildDocLinkToKey('PLACEHOLDER'),
 				'slogan' => $this->defaults->getSlogan(),
-				'logoClaim' => $this->defaults->getLogoClaim(),
+				'logoClaim' => '',
 				'shortFooter' => $this->defaults->getShortFooter(),
 				'longFooter' => $this->defaults->getLongFooter(),
 				'folder' => \OC_Util::getTheme(),
