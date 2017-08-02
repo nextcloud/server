@@ -6,6 +6,8 @@
 	$isNewVersionAvailable = $_['isNewVersionAvailable'];
 	/** @var string $newVersionString */
 	$newVersionString = $_['newVersionString'];
+	/** @var bool $isUpdateChecked */
+	$isUpdateChecked = $_['isUpdateChecked'];
 	/** @var string $lastCheckedDate */
 	$lastCheckedDate = $_['lastChecked'];
 	/** @var array $channels */
@@ -22,6 +24,8 @@
 		<?php if (!empty($_['downloadLink'])) { ?>
 			<a href="<?php p($_['downloadLink']); ?>" class="button<?php if ($_['updaterEnabled']) { p(' hidden'); } ?>"><?php p($l->t('Download now')) ?></a>
 		<?php } ?>
+	<?php } elseif (!$isUpdateChecked) { ?>
+		<?php p($l->t('The update check is not yet finished. Please refresh the page.')); ?>
 	<?php } else { ?>
 		<?php p($l->t('Your version is up to date.')); ?>
 		<span class="icon-info svg" title="<?php p($l->t('Checked on %s', [$lastCheckedDate])) ?>"></span>

@@ -86,9 +86,8 @@ class AdminController extends Controller implements ISettings {
 	 * @return TemplateResponse
 	 */
 	public function displayPanel() {
-		$lastUpdateCheck = $this->dateTimeFormatter->formatDateTime(
-			$this->config->getAppValue('core', 'lastupdatedat')
-		);
+		$lastUpdateCheckTimestamp = $this->config->getAppValue('core', 'lastupdatedat');
+		$lastUpdateCheck = $this->dateTimeFormatter->formatDateTime($lastUpdateCheckTimestamp);
 
 		$channels = [
 			'daily',
@@ -108,6 +107,7 @@ class AdminController extends Controller implements ISettings {
 
 		$params = [
 			'isNewVersionAvailable' => !empty($updateState['updateAvailable']),
+			'isUpdateChecked' => $lastUpdateCheckTimestamp > 0,
 			'lastChecked' => $lastUpdateCheck,
 			'currentChannel' => $currentChannel,
 			'channels' => $channels,
