@@ -23,6 +23,7 @@
 
 namespace OC\Repair\NC12;
 
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
@@ -80,7 +81,7 @@ class UpdateLanguageCodes implements IRepairStep {
 				->set('configvalue', $qb->createNamedParameter($newCode))
 				->where($qb->expr()->eq('appid', $qb->createNamedParameter('core')))
 				->andWhere($qb->expr()->eq('configkey', $qb->createNamedParameter('lang')))
-				->andWhere($qb->expr()->eq('configvalue', $qb->createNamedParameter($oldCode)))
+				->andWhere($qb->expr()->eq('configvalue', $qb->createNamedParameter($oldCode), IQueryBuilder::PARAM_STR))
 				->execute();
 
 			$output->info('Changed ' . $affectedRows . ' setting(s) from "' . $oldCode . '" to "' . $newCode . '" in preferences table.');

@@ -1246,7 +1246,9 @@ class ShareTest extends \Test\TestCase {
 		   ->setParameter('owner', $this->user1->getUID())
 		   ->setParameter('share_type', \OCP\Share::SHARE_TYPE_LINK);
 
-		$res = $qb->execute()->fetchAll();
+		$result = $qb->execute();
+		$res = $result->fetchAll();
+		$result->closeCursor();
 		$this->assertCount(1, $res);
 		$id = $res[0]['id'];
 
@@ -1260,7 +1262,9 @@ class ShareTest extends \Test\TestCase {
 		   ->from('share')
 			->where($qb->expr()->eq('id', $qb->createParameter('id')))
 		   ->setParameter('id', $id);
-		$hash = $qb->execute()->fetch()['share_with'];
+		$result = $qb->execute();
+		$hash = $result->fetch()['share_with'];
+		$result->closeCursor();
 
 		$hasher = \OC::$server->getHasher();
 
