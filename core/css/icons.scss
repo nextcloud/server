@@ -18,20 +18,6 @@
 	background-position: center;
 	min-width: 16px;
 	min-height: 16px;
-	display: inline-flex;
-	align-self: center;
-	position: relative;
-}
-
-[class^='icon-'] svg,
-[class*=' icon-'] svg {
-	height: 16px;
-	width: 16px;
-	vertical-align: -3px; // counter default DOM offset
-}
-
-.icon-white svg path {
-	fill: $color-primary-text;
 }
 
 .icon-breadcrumb {
@@ -457,6 +443,14 @@ img, object, video, button, textarea, input, select {
 }
 .icon-calendar-dark {
 	background-image: url('../img/places/calendar-dark.svg?v=1');
+}
+
+.icon-contacts {
+	background-image: url('../img/places/contacts.svg?v=1');
+}
+
+.icon-contacts-dark {
+	background-image: url('../img/places/contacts-dark.svg?v=1');
 }
 
 .icon-files {
