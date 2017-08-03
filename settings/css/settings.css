@@ -972,6 +972,11 @@ span.version {
 	margin: 8px 0;
 }
 
+form.section {
+	padding: 0 30px;
+	margin-bottom: 0;
+}
+
 .followupsection {
 	display: block;
 	padding: 0 30px 30px 30px;
