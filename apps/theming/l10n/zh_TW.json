@@ -11,6 +11,7 @@
     "Unsupported image type" : "不支援的圖片類型",
     "You are already using a custom theme" : "你已經使用了客製化主題",
     "Theming" : "佈景主題",
+    "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "主題功能可以讓用戶能進行簡單的編輯頁面外觀與觀看感受。且所有使用者都可以看見編輯結果。",
     "Name" : "名稱",
     "Reset to default" : "重設到預設值",
     "Web address" : "網址",
