@@ -31,7 +31,7 @@
 		<div id="notification"></div>
 	</div>
 	<header role="banner"><div id="header">
-			<div id="header-left">
+			<div class="header-left">
 				<a href="<?php print_unescaped(link_to('', 'index.php')); ?>"
 					id="nextcloud" tabindex="1">
 					<div class="logo logo-icon">
@@ -96,7 +96,7 @@
 
 			</div>
 
-			<div id="header-right">
+			<div class="header-right">
 				<form class="searchbox" action="#" method="post" role="search" novalidate>
 					<label for="searchbox" class="hidden-visually">
 						<?php p($l->t('Search'));?>
@@ -107,7 +107,9 @@
 					<button class="icon-close-white" type="reset"></button>
 				</form>
 				<div id="contactsmenu">
-					<div class="icon-contacts menutoggle"></div>
+					<div class="icon-contacts icon-white menutoggle">
+						<?php echo file_get_contents('core/img/places/contacts.svg'); ?>
+					</div>
 					<div class="menu"></div>
 				</div>
 				<div id="settings">

@@ -165,14 +165,7 @@ class OCI extends AbstractDatabase {
 			$entry .= $this->trans->t('Offending command was: "%s"', array($query)) . '<br />';
 			$this->logger->warning( $entry, ['app' => 'setup.oci']);
 		}
-		$result = oci_execute($stmt);
-
-		if($result) {
-			$row = oci_fetch_row($stmt);
-		}
-		if(!$result or $row[0]==0) {
-			\OC_DB::createDbFromStructure($this->dbDefinitionFile);
-		}
+		oci_execute($stmt);
 	}
 
 	/**

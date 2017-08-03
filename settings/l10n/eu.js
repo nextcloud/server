@@ -56,8 +56,6 @@ OC.L10N.register(
     "Enable" : "Gaitu",
     "Enabling app …" : "Aplikazioa gaitzen...",
     "Error while enabling app" : "Erroea izan da aplikazioa gaitzerakoan",
-    "Error: this app cannot be enabled because it makes the server unstable" : "Akatsa: Aplikazioa hau ezin da gaitu zerbitzaria ezegonkor izatea egiten duelako",
-    "Error: could not disable broken app" : "Akatsa: ezin da hondatutako aplikazioa desgaitu",
     "Error while disabling broken app" : "Akatsa hondatutako aplikazioa desgaitzerakoan",
     "Updating...." : "Eguneratzen...",
     "Error while updating app" : "Errorea aplikazioa eguneratzen zen bitartean",

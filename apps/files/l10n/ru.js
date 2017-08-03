@@ -102,9 +102,9 @@ OC.L10N.register(
     "A file has been added to or removed from your <strong>favorites</strong>" : "Файл был добавлен или удален из вашего <strong>избранного</strong>",
     "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Фаил или каталог <strong>изменён</strong> или <strong>переименован</strong>",
     "A new file or folder has been <strong>created</strong>" : "<strong>Создан</strong> новый файл или каталог",
-    "A new file or folder has been <strong>deleted</strong>" : "Новый файл или каталог был <strong>удален</strong>",
+    "A file or folder has been <strong>deleted</strong>" : "Файл или каталог был <strong>удалён</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Ограничить уведомления о создании и изменении ваших <strong>избранных файлов</strong> <em>(отображать только в приложении события)</em>",
-    "A new file or folder has been <strong>restored</strong>" : "Новый файл или каталог был <strong>восстановлен</strong>",
+    "A file or folder has been <strong>restored</strong>" : "Файл или каталог был <strong>восстановлен</strong>",
     "Unlimited" : "Неограничено",
     "Upload (max. %s)" : "Загрузка (максимум %s)",
     "File handling" : "Управление файлами",
@@ -146,6 +146,8 @@ OC.L10N.register(
     "Copy local link" : "Копировать локальную ссылку",
     "Folder" : "Каталог",
     "Upload" : "Загрузить",
+    "A new file or folder has been <strong>deleted</strong>" : "Новый файл или каталог был <strong>удален</strong>",
+    "A new file or folder has been <strong>restored</strong>" : "Новый файл или каталог был <strong>восстановлен</strong>",
     "No favorites" : "Нет избранного"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

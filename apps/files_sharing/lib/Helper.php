@@ -132,7 +132,7 @@ class Helper {
 		Filesystem::initMountPoints($owner);
 		$info = Filesystem::getFileInfo($target);
 		$ownerView = new View('/'.$owner.'/files');
-		if ( $owner != User::getUser() ) {
+		if ( $owner !== User::getUser() ) {
 			$path = $ownerView->getPath($info['fileid']);
 		} else {
 			$path = $target;
@@ -183,7 +183,7 @@ class Helper {
 			$uid = User::getUser();
 		}
 		Filesystem::initMountPoints($uid);
-		if ( $uid != User::getUser() ) {
+		if ( $uid !== User::getUser() ) {
 			$info = Filesystem::getFileInfo($filename);
 			$ownerView = new View('/'.$uid.'/files');
 			try {

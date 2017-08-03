@@ -35,7 +35,7 @@ class QueryLogger implements IQueryLogger {
 	protected $activeQuery;
 
 	/**
-	 * @var \OC\Diagnostics\Query[]
+	 * @var CappedMemoryCache
 	 */
 	protected $queries;
 

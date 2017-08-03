@@ -43,7 +43,7 @@ class DependencyAnalyzer {
 	 * @param Platform $platform
 	 * @param \OCP\IL10N $l
 	 */
-	function __construct(Platform $platform, IL10N $l) {
+	public function __construct(Platform $platform, IL10N $l) {
 		$this->platform = $platform;
 		$this->l = $l;
 	}
@@ -179,7 +179,7 @@ class DependencyAnalyzer {
 		}, $supportedDatabases);
 		$currentDatabase = $this->platform->getDatabase();
 		if (!in_array($currentDatabase, $supportedDatabases)) {
-			$missing[] = (string)$this->l->t('Following databases are supported: %s', join(', ', $supportedDatabases));
+			$missing[] = (string)$this->l->t('Following databases are supported: %s', [implode(', ', $supportedDatabases)]);
 		}
 		return $missing;
 	}
@@ -282,7 +282,7 @@ class DependencyAnalyzer {
 		}
 		$currentOS = $this->platform->getOS();
 		if (!in_array($currentOS, $oss)) {
-			$missing[] = (string)$this->l->t('Following platforms are supported: %s', join(', ', $oss));
+			$missing[] = (string)$this->l->t('Following platforms are supported: %s', [implode(', ', $oss)]);
 		}
 		return $missing;
 	}
@@ -315,12 +315,12 @@ class DependencyAnalyzer {
 
 		if (!is_null($minVersion)) {
 			if ($this->compareSmaller($this->platform->getOcVersion(), $minVersion)) {
-				$missing[] = (string)$this->l->t('Server version %s or higher is required.', $this->toVisibleVersion($minVersion));
+				$missing[] = (string)$this->l->t('Server version %s or higher is required.', [$this->toVisibleVersion($minVersion)]);
 			}
 		}
 		if (!is_null($maxVersion)) {
 			if ($this->compareBigger($this->platform->getOcVersion(), $maxVersion)) {
-				$missing[] = (string)$this->l->t('Server version %s or lower is required.', $this->toVisibleVersion($maxVersion));
+				$missing[] = (string)$this->l->t('Server version %s or lower is required.', [$this->toVisibleVersion($maxVersion)]);
 			}
 		}
 		return $missing;
@@ -349,8 +349,9 @@ class DependencyAnalyzer {
 	 * @return mixed
 	 */
 	private function getValue($element) {
-		if (isset($element['@value']))
+		if (isset($element['@value'])) {
 			return $element['@value'];
+		}
 		return (string)$element;
 	}
 }

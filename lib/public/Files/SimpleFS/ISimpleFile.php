@@ -29,7 +29,6 @@ use OCP\Files\NotPermittedException;
  *
  * @package OCP\Files\SimpleFS
  * @since 11.0.0
- * @internal This interface is experimental and might change for NC12
  */
 interface ISimpleFile {
 

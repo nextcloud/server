@@ -57,7 +57,7 @@ function emit_css_tag($href, $opts = '') {
 
 /**
  * Prints all tags for CSS loading
- * @param hash $obj all the script information from template
+ * @param array $obj all the script information from template
 */
 function emit_css_loading_tags($obj) {
 	foreach($obj['cssfiles'] as $css) {
@@ -72,7 +72,6 @@ function emit_css_loading_tags($obj) {
  * Prints a <script> tag with nonce and defer depending on config
  * @param string $src the source URL, ignored when empty
  * @param string $script_content the inline script content, ignored when empty
- * @param bool $defer_flag deferred loading or not
 */
 function emit_script_tag($src, $script_content='') {
 	$defer_str=' defer';
@@ -93,7 +92,7 @@ function emit_script_tag($src, $script_content='') {
 
 /**
  * Print all <script> tags for loading JS
- * @param hash $obj all the script information from template
+ * @param array $obj all the script information from template
 */
 function emit_script_loading_tags($obj) {
 	foreach($obj['jsfiles'] as $jsfile) {
@@ -250,7 +249,7 @@ function mimetype_icon( $mimetype ) {
  * make preview_icon available as a simple function
  * Returns the path to the preview of the image.
  * @param string $path path of file
- * @return link to the preview
+ * @return string link to the preview
  */
 function preview_icon( $path ) {
 	return \OC::$server->getURLGenerator()->linkToRoute('core.Preview.getPreview', ['x' => 32, 'y' => 32, 'file' => $path]);
@@ -258,6 +257,8 @@ function preview_icon( $path ) {
 
 /**
  * @param string $path
+ * @param string $token
+ * @return string
  */
 function publicPreview_icon ( $path, $token ) {
 	return \OC::$server->getURLGenerator()->linkToRoute('files_sharing.PublicPreview.getPreview', ['x' => 32, 'y' => 32, 'file' => $path, 't' => $token]);
@@ -289,8 +290,8 @@ function strip_time($timestamp){
  * Formats timestamp relatively to the current time using
  * a human-friendly format like "x minutes ago" or "yesterday"
  * @param int $timestamp timestamp to format
- * @param int $fromTime timestamp to compare from, defaults to current time
- * @param bool $dateOnly whether to strip time information
+ * @param int|null $fromTime timestamp to compare from, defaults to current time
+ * @param bool|null $dateOnly whether to strip time information
  * @return string timestamp
  */
 function relative_modified_date($timestamp, $fromTime = null, $dateOnly = false) {

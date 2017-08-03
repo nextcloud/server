@@ -196,7 +196,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 				}
 			}
 
-			list(, $name) = URLUtil::splitPath($row['principaluri']);
+			list(, $name) = \Sabre\Uri\split($row['principaluri']);
 			$uri = $row['uri'] . '_shared_by_' . $name;
 			$displayName = $row['displayname'] . ' (' . $this->getUserDisplayName($name) . ')';
 
@@ -348,6 +348,9 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			'{' . Plugin::NS_CARDDAV . '}addressbook-description',
 		];
 
+		/**
+		 * @suppress SqlInjectionChecker
+		 */
 		$propPatch->handle($supportedProperties, function($mutations) use ($addressBookId) {
 
 			$updates = [];
@@ -1016,7 +1019,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			}
 			$preferred = 0;
 			foreach($property->parameters as $parameter) {
-				if ($parameter->name == 'TYPE' && strtoupper($parameter->getValue()) == 'PREF') {
+				if ($parameter->name === 'TYPE' && strtoupper($parameter->getValue()) === 'PREF') {
 					$preferred = 1;
 					break;
 				}
@@ -1088,7 +1091,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 	private function convertPrincipal($principalUri, $toV2) {
 		if ($this->principalBackend->getPrincipalPrefix() === 'principals') {
-			list(, $name) = URLUtil::splitPath($principalUri);
+			list(, $name) = \Sabre\Uri\split($principalUri);
 			if ($toV2 === true) {
 				return "principals/users/$name";
 			}

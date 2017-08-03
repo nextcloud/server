@@ -96,7 +96,7 @@ class Notifications extends Controller {
 			if($comment->getObjectType() !== 'files') {
 				return new NotFoundResponse();
 			}
-			$files = $this->folder->getById($comment->getObjectId());
+			$files = $this->folder->getById((int)$comment->getObjectId());
 			if(count($files) === 0) {
 				$this->markProcessed($comment);
 				return new NotFoundResponse();

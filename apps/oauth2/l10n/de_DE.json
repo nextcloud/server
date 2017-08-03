@@ -1,7 +1,7 @@
 { "translations": {
     "OAuth 2.0" : "OAuth 2.0",
     "OAuth 2.0 clients" : "OAuth-2.0-Clients",
-    "OAuth 2.0 allows external services to request access to your %s." : "OAuth 2.0 erlaubt es externen Services nach Zugriff auf Ihre %s zu fragen.",
+    "OAuth 2.0 allows external services to request access to %s." : "OAuth 2.0 erlaubt es externen Services nach Zugriff auf %s zu fragen.",
     "Name" : "Name",
     "Redirection URI" : "Weiterleitungs-URI",
     "Client Identifier" : "Client-Identifikationsmerkmal",

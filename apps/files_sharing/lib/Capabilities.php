@@ -71,7 +71,7 @@ class Capabilities implements ICapability {
 				$public['upload'] = $this->config->getAppValue('core', 'shareapi_allow_public_upload', 'yes') === 'yes';
 				$public['upload_files_drop'] = $public['upload'];
 			}
-			$res["public"] = $public;
+			$res['public'] = $public;
 
 			$res['resharing'] = $this->config->getAppValue('core', 'shareapi_allow_resharing', 'yes') === 'yes';
 

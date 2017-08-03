@@ -102,9 +102,9 @@ OC.L10N.register(
     "A file has been added to or removed from your <strong>favorites</strong>" : "Un file  stato aggiunto o rimosso dai tuoi <strong>preferiti</strong>",
     "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Un file o una cartella sono stati <strong>modificato</strong> o<strong>rinominati</strong> ",
     "A new file or folder has been <strong>created</strong>" : "Un nuovo file o cartella è stato <strong>creato</strong>",
-    "A new file or folder has been <strong>deleted</strong>" : "Un nuovo file o cartella è stato <strong>eliminato</strong>",
+    "A file or folder has been <strong>deleted</strong>" : "Un file o una cartella è stato <strong>eliminato</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Limita le notifiche relative alla creazione e alla modifica dei tuoi <strong>file preferiti</strong> <em>(Solo flusso)</em>",
-    "A new file or folder has been <strong>restored</strong>" : "Un nuovo file o una cartella è stato <strong>ripristinato</strong>",
+    "A file or folder has been <strong>restored</strong>" : "Un file o una cartella è stato <strong>ripristinato</strong>",
     "Unlimited" : "Illimitata",
     "Upload (max. %s)" : "Carica (massimo %s)",
     "File handling" : "Gestione file",
@@ -146,6 +146,8 @@ OC.L10N.register(
     "Copy local link" : "Copia collegamento locale",
     "Folder" : "Cartella",
     "Upload" : "Carica",
+    "A new file or folder has been <strong>deleted</strong>" : "Un nuovo file o cartella è stato <strong>eliminato</strong>",
+    "A new file or folder has been <strong>restored</strong>" : "Un nuovo file o una cartella è stato <strong>ripristinato</strong>",
     "No favorites" : "Nessun preferito"
 },
 "nplurals=2; plural=(n != 1);");

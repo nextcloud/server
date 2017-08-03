@@ -37,7 +37,7 @@ class Message {
 	/**
 	 * @param Swift_Message $swiftMessage
 	 */
-	function __construct(Swift_Message $swiftMessage) {
+	public function __construct(Swift_Message $swiftMessage) {
 		$this->swiftMessage = $swiftMessage;
 	}
 

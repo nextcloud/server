@@ -118,10 +118,10 @@ class PersonalInfo implements ISettings {
 			'usage' => \OC_Helper::humanFileSize($storageInfo['used']),
 			'usage_relative' => $storageInfo['relative'],
 			'quota' => $storageInfo['quota'],
-			'avatarChangeSupported' => \OC_User::canUserChangeAvatar($uid),
+			'avatarChangeSupported' => $user->canChangeAvatar(),
 			'lookupServerUploadEnabled' => $lookupServerUploadEnabled,
 			'avatarScope' => $userData[AccountManager::PROPERTY_AVATAR]['scope'],
-			'displayNameChangeSupported' => \OC_User::canUserChangeDisplayName($uid),
+			'displayNameChangeSupported' => $user->canChangeDisplayName(),
 			'displayName' => $userData[AccountManager::PROPERTY_DISPLAYNAME]['value'],
 			'displayNameScope' => $userData[AccountManager::PROPERTY_DISPLAYNAME]['scope'],
 			'email' => $userData[AccountManager::PROPERTY_EMAIL]['value'],
@@ -138,7 +138,7 @@ class PersonalInfo implements ISettings {
 			'twitterScope' => $userData[AccountManager::PROPERTY_TWITTER]['scope'],
 			'twitterVerification' => $userData[AccountManager::PROPERTY_TWITTER]['verified'],
 			'groups' => $this->getGroups($user),
-			'passwordChangeSupported' => \OC_User::canUserChangePassword($uid),
+			'passwordChangeSupported' => $user->canChangePassword(),
 		] + $messageParameters + $languageParameters;
 
 

@@ -248,7 +248,7 @@ class LoginController extends Controller {
 				$args['redirect_url'] = $redirect_url;
 			}
 			$response = new RedirectResponse($this->urlGenerator->linkToRoute('core.login.showLoginForm', $args));
-			$response->throttle();
+			$response->throttle(['user' => $user]);
 			$this->session->set('loginMessages', [
 				['invalidpassword'], []
 			]);

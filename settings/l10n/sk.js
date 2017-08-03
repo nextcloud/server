@@ -56,8 +56,6 @@ OC.L10N.register(
     "Enable" : "Zapnúť",
     "Enabling app …" : "Povoľujem aplikáciu …",
     "Error while enabling app" : "Chyba pri povoľovaní aplikácie",
-    "Error: this app cannot be enabled because it makes the server unstable" : "Chyba: aplikáciu nie je možné povoliť, lebo naruší stabilitu servera",
-    "Error: could not disable broken app" : "Chyba: nebolo možné zakázať poškodenú aplikáciu",
     "Error while disabling broken app" : "Nastala chyba počas zakazovania poškodenej aplikácie",
     "Updating...." : "Aktualizujem...",
     "Error while updating app" : "chyba pri aktualizácii aplikácie",

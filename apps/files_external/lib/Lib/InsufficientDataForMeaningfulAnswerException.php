@@ -34,7 +34,7 @@ class InsufficientDataForMeaningfulAnswerException extends StorageNotAvailableEx
 	 *
 	 * @param string $message
 	 * @param int $code
-	 * @param \Exception $previous
+	 * @param \Exception|null $previous
 	 * @since 6.0.0
 	 */
 	public function __construct($message = '', $code = self::STATUS_INDETERMINATE, \Exception $previous = null) {

@@ -38,8 +38,6 @@ abstract class AbstractDatabase {
 	/** @var IL10N */
 	protected $trans;
 	/** @var string */
-	protected $dbDefinitionFile;
-	/** @var string */
 	protected $dbUser;
 	/** @var string */
 	protected $dbPassword;
@@ -58,9 +56,8 @@ abstract class AbstractDatabase {
 	/** @var ISecureRandom */
 	protected $random;
 
-	public function __construct(IL10N $trans, $dbDefinitionFile, SystemConfig $config, ILogger $logger, ISecureRandom $random) {
+	public function __construct(IL10N $trans, SystemConfig $config, ILogger $logger, ISecureRandom $random) {
 		$this->trans = $trans;
-		$this->dbDefinitionFile = $dbDefinitionFile;
 		$this->config = $config;
 		$this->logger = $logger;
 		$this->random = $random;

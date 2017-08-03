@@ -334,6 +334,11 @@ class UserMountCache implements IUserMountCache {
 		$query->execute();
 	}
 
+	/**
+	 * @param array $users
+	 * @return array
+	 * @suppress SqlInjectionChecker
+	 */
 	public function getUsedSpaceForUsers(array $users) {
 		$builder = $this->connection->getQueryBuilder();
 
@@ -360,6 +365,11 @@ class UserMountCache implements IUserMountCache {
 
 		$result = $query->execute();
 
-		return $result->fetchAll(\PDO::FETCH_KEY_PAIR);
+		$results = [];
+		while ($row = $result->fetch()) {
+			$results[$row['user_id']] = $row['size'];
+		}
+		$result->closeCursor();
+		return $results;
 	}
 }

@@ -408,7 +408,7 @@ class SystemTagManager implements ISystemTagManager {
 
 			$this->connection->commit();
 		} catch (\Exception $e) {
-			$this->connection->rollback();
+			$this->connection->rollBack();
 			throw $e;
 		}
 	}

@@ -28,6 +28,7 @@ namespace OCA\Provisioning_API\Tests\Controller;
 
 use OCA\Provisioning_API\Controller\GroupsController;
 use OCP\IGroupManager;
+use OCP\ILogger;
 use OCP\IUserSession;
 
 class GroupsControllerTest extends \Test\TestCase {
@@ -37,6 +38,7 @@ class GroupsControllerTest extends \Test\TestCase {
 	protected $userSession;
 	/** @var \OC\SubAdmin|\PHPUnit_Framework_MockObject_MockObject */
 	protected $subAdminManager;
+
 	/** @var GroupsController */
 	protected $api;
 
@@ -60,11 +62,15 @@ class GroupsControllerTest extends \Test\TestCase {
 		$request = $this->getMockBuilder('OCP\IRequest')
 			->disableOriginalConstructor()
 			->getMock();
+
+		$logger = $this->createMock(ILogger::class);
+
 		$this->api = new GroupsController(
 			'provisioning_api',
 			$request,
 			$this->groupManager,
-			$this->userSession
+			$this->userSession,
+			$logger
 		);
 	}
 

@@ -52,7 +52,7 @@ class OCSMiddleware extends Middleware {
 	}
 
 	/**
-	 * @param \OCP\AppFramework\Controller $controller
+	 * @param Controller $controller
 	 * @param string $methodName
 	 */
 	public function beforeController($controller, $methodName) {
@@ -67,7 +67,7 @@ class OCSMiddleware extends Middleware {
 	}
 
 	/**
-	 * @param \OCP\AppFramework\Controller $controller
+	 * @param Controller $controller
 	 * @param string $methodName
 	 * @param \Exception $exception
 	 * @throws \Exception
@@ -87,7 +87,7 @@ class OCSMiddleware extends Middleware {
 	}
 
 	/**
-	 * @param \OCP\AppFramework\Controller $controller
+	 * @param Controller $controller
 	 * @param string $methodName
 	 * @param Response $response
 	 * @return \OCP\AppFramework\Http\Response
@@ -120,7 +120,7 @@ class OCSMiddleware extends Middleware {
 	 * @param string $message
 	 * @return V1Response|V2Response
 	 */
-	private function buildNewResponse($controller, $code, $message) {
+	private function buildNewResponse(Controller $controller, $code, $message) {
 		$format = $this->getFormat($controller);
 
 		$data = new DataResponse();
@@ -135,10 +135,10 @@ class OCSMiddleware extends Middleware {
 	}
 
 	/**
-	 * @param \OCP\AppFramework\Controller $controller
+	 * @param Controller $controller
 	 * @return string
 	 */
-	private function getFormat($controller) {
+	private function getFormat(Controller $controller) {
 		// get format from the url format or request format parameter
 		$format = $this->request->getParam('format');
 

@@ -51,7 +51,6 @@ OC.L10N.register(
     "Enable" : "Activar",
     "Enabling app …" : "Activante application...",
     "Error while enabling app" : "Error durante activation del application...",
-    "Error: this app cannot be enabled because it makes the server unstable" : "Error: iste application non pote esser activate proque illo face le servitor esser instabile",
     "Updating...." : "Actualisante...",
     "Error while updating app" : "Error durante actualisation del application",
     "Updated" : "Actualisate",

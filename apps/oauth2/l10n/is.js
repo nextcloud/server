@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "OAuth 2.0" : "OAuth 2.0",
     "OAuth 2.0 clients" : "OAuth 2.0 biðlarar",
-    "OAuth 2.0 allows external services to request access to your %s." : "OAuth 2.0 gerir utanaðkomandi þjónustum kleift að biðja um aðgang að þínu %s.",
+    "OAuth 2.0 allows external services to request access to %s." : "OAuth 2.0 gerir utanaðkomandi þjónustum kleift að biðja um aðgang að %s.",
     "Name" : "Nafn",
     "Redirection URI" : "Endurbeiningarslóð",
     "Client Identifier" : "Biðlaraauðkenni",

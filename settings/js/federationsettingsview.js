@@ -182,7 +182,7 @@
 			var $icon = this.$('#' + field + 'form > h2 > span');
 			
 			$icon.removeClass('icon-password');
-			$icon.removeClass('icon-contacts-dark');
+			$icon.removeClass('icon-contacts');
 			$icon.removeClass('icon-link');
 			$icon.addClass('hidden');
 
@@ -192,7 +192,7 @@
 					$icon.removeClass('hidden');
 					break;
 				case 'contacts':
-					$icon.addClass('icon-contacts-dark');
+					$icon.addClass('icon-contacts');
 					$icon.removeClass('hidden');
 					break;
 				case 'public':

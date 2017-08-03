@@ -22,6 +22,7 @@
 namespace OC\Settings\Controller;
 
 use OC\HintException;
+use OC\User\Session;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
@@ -46,7 +47,7 @@ class ChangePasswordController extends Controller {
 	/** @var IGroupManager */
 	private $groupManager;
 
-	/** @var IUserSession */
+	/** @var Session */
 	private $userSession;
 
 	/** @var IAppManager */

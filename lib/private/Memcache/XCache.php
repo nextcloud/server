@@ -47,28 +47,28 @@ class XCache extends Cache implements IMemcache {
 	}
 
 	public function get($key) {
-		return xcache_get($this->getNamespace() . $key);
+		return xcache_get($this->getNameSpace() . $key);
 	}
 
 	public function set($key, $value, $ttl = 0) {
 		if ($ttl > 0) {
-			return xcache_set($this->getNamespace() . $key, $value, $ttl);
+			return xcache_set($this->getNameSpace() . $key, $value, $ttl);
 		} else {
-			return xcache_set($this->getNamespace() . $key, $value);
+			return xcache_set($this->getNameSpace() . $key, $value);
 		}
 	}
 
 	public function hasKey($key) {
-		return xcache_isset($this->getNamespace() . $key);
+		return xcache_isset($this->getNameSpace() . $key);
 	}
 
 	public function remove($key) {
-		return xcache_unset($this->getNamespace() . $key);
+		return xcache_unset($this->getNameSpace() . $key);
 	}
 
 	public function clear($prefix = '') {
 		if (function_exists('xcache_unset_by_prefix')) {
-			return xcache_unset_by_prefix($this->getNamespace() . $prefix);
+			return xcache_unset_by_prefix($this->getNameSpace() . $prefix);
 		} else {
 			// Since we can not clear by prefix, we just clear the whole cache.
 			xcache_clear_cache(\XC_TYPE_VAR, 0);

@@ -588,7 +588,7 @@ class Manager implements IManager {
 
 		$users = $this->config->getUsersForUserValue('activity', 'rsstoken', $token);
 
-		if (sizeof($users) !== 1) {
+		if (count($users) !== 1) {
 			// No unique user found
 			throw new \UnexpectedValueException('The token is invalid');
 		}

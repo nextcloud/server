@@ -95,7 +95,7 @@ class Dummy extends Backend implements \OCP\IUserBackend {
 	 *
 	 * @param string $uid The username
 	 * @param string $password The password
-	 * @return string
+	 * @return string|bool
 	 *
 	 * Check if the password is correct without logging in the user
 	 * returns the user id or false
@@ -103,9 +103,9 @@ class Dummy extends Backend implements \OCP\IUserBackend {
 	public function checkPassword($uid, $password) {
 		if (isset($this->users[$uid]) && $this->users[$uid] === $password) {
 			return $uid;
-		} else {
-			return false;
 		}
+
+		return false;
 	}
 
 	/**

@@ -34,7 +34,7 @@ $url = $request->getServerProtocol() . '://' . substr($request->getServerHost() 
 $writer = new XMLWriter();
 $writer->openURI('php://output');
 $writer->startDocument('1.0','UTF-8');
-$writer->setIndent(4);
+$writer->setIndent(true);
 $writer->startElement('providers');
 $writer->startElement('provider');
 $writer->writeElement('id', 'ownCloud');

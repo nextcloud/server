@@ -78,6 +78,7 @@ class OC_User {
 	 * @return bool
 	 *
 	 * Set the User Authentication Module
+	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function useBackend($backend = 'database') {
 		if ($backend instanceof \OCP\UserInterface) {
@@ -123,6 +124,7 @@ class OC_User {
 
 	/**
 	 * setup the configured backends in config.php
+	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function setupBackends() {
 		OC_App::loadApps(['prelogin']);
@@ -156,20 +158,6 @@ class OC_User {
 	}
 
 	/**
-
-	 * Try to login a user using the magic cookie (remember login)
-	 *
-	 * @deprecated use \OCP\IUserSession::loginWithCookie()
-	 * @param string $uid The username of the user to log in
-	 * @param string $token
-	 * @param string $oldSessionId
-	 * @return bool
-	 */
-	public static function loginWithCookie($uid, $token, $oldSessionId) {
-		return self::getUserSession()->loginWithCookie($uid, $token, $oldSessionId);
-	}
-
-	/**
 	 * Try to login a user, assuming authentication
 	 * has already happened (e.g. via Single Sign On).
 	 *
@@ -187,18 +175,6 @@ class OC_User {
 		if ($uid) {
 			if (self::getUser() !== $uid) {
 				self::setUserId($uid);
-				$setUidAsDisplayName = true;
-				if($backend instanceof \OCP\UserInterface
-					&& $backend->implementsActions(OC_User_Backend::GET_DISPLAYNAME)) {
-
-					$backendDisplayName = $backend->getDisplayName($uid);
-					if(is_string($backendDisplayName) && trim($backendDisplayName) !== '') {
-						$setUidAsDisplayName = false;
-					}
-				}
-				if($setUidAsDisplayName) {
-					self::setDisplayName($uid);
-				}
 				$userSession = self::getUserSession();
 				$userSession->setLoginName($uid);
 				$request = OC::$server->getRequest();
@@ -233,7 +209,7 @@ class OC_User {
 
 			//setup extra user backends
 			self::setupBackends();
-			self::unsetMagicInCookie();
+			self::getUserSession()->unsetMagicInCookie();
 
 			return self::loginWithApache($backend);
 		}
@@ -361,7 +337,7 @@ class OC_User {
 	 * get the display name of the user currently logged in.
 	 *
 	 * @param string $uid
-	 * @return string uid or false
+	 * @return string|bool uid or false
 	 */
 	public static function getDisplayName($uid = null) {
 		if ($uid) {
@@ -382,17 +358,6 @@ class OC_User {
 	}
 
 	/**
-	 * Autogenerate a password
-	 *
-	 * @return string
-	 *
-	 * generates a password
-	 */
-	public static function generatePassword() {
-		return \OC::$server->getSecureRandom()->generate(30);
-	}
-
-	/**
 	 * Set password
 	 *
 	 * @param string $uid The username
@@ -406,57 +371,6 @@ class OC_User {
 		$user = \OC::$server->getUserManager()->get($uid);
 		if ($user) {
 			return $user->setPassword($password, $recoveryPassword);
-		} else {
-			return false;
-		}
-	}
-
-	/**
-	 * Check whether user can change his avatar
-	 *
-	 * @param string $uid The username
-	 * @return bool
-	 *
-	 * Check whether a specified user can change his avatar
-	 */
-	public static function canUserChangeAvatar($uid) {
-		$user = \OC::$server->getUserManager()->get($uid);
-		if ($user) {
-			return $user->canChangeAvatar();
-		} else {
-			return false;
-		}
-	}
-
-	/**
-	 * Check whether user can change his password
-	 *
-	 * @param string $uid The username
-	 * @return bool
-	 *
-	 * Check whether a specified user can change his password
-	 */
-	public static function canUserChangePassword($uid) {
-		$user = \OC::$server->getUserManager()->get($uid);
-		if ($user) {
-			return $user->canChangePassword();
-		} else {
-			return false;
-		}
-	}
-
-	/**
-	 * Check whether user can change his display name
-	 *
-	 * @param string $uid The username
-	 * @return bool
-	 *
-	 * Check whether a specified user can change his display name
-	 */
-	public static function canUserChangeDisplayName($uid) {
-		$user = \OC::$server->getUserManager()->get($uid);
-		if ($user) {
-			return $user->canChangeDisplayName();
 		} else {
 			return false;
 		}
@@ -547,30 +461,6 @@ class OC_User {
 	}
 
 	/**
-	 * disables a user
-	 *
-	 * @param string $uid the user to disable
-	 */
-	public static function disableUser($uid) {
-		$user = \OC::$server->getUserManager()->get($uid);
-		if ($user) {
-			$user->setEnabled(false);
-		}
-	}
-
-	/**
-	 * enable a user
-	 *
-	 * @param string $uid
-	 */
-	public static function enableUser($uid) {
-		$user = \OC::$server->getUserManager()->get($uid);
-		if ($user) {
-			$user->setEnabled(true);
-		}
-	}
-
-	/**
 	 * checks if a user is enabled
 	 *
 	 * @param string $uid
@@ -583,23 +473,6 @@ class OC_User {
 		} else {
 			return false;
 		}
-	}
-
-	/**
-	 * Set cookie value to use in next page load
-	 *
-	 * @param string $username username to be set
-	 * @param string $token
-	 */
-	public static function setMagicInCookie($username, $token) {
-		self::getUserSession()->setMagicInCookie($username, $token);
-	}
-
-	/**
-	 * Remove cookie for "remember username"
-	 */
-	public static function unsetMagicInCookie() {
-		self::getUserSession()->unsetMagicInCookie();
 	}
 
 	/**

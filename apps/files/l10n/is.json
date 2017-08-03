@@ -100,9 +100,9 @@
     "A file has been added to or removed from your <strong>favorites</strong>" : "Skrá var bætt við eða hún fjarlægð úr <strong>eftirlætum</strong>",
     "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Skrá eða möppu hefur verið <strong>breytt</strong> eða verið <strong>endurnefnt</strong>",
     "A new file or folder has been <strong>created</strong>" : "Skjal eða mappa hefur verið <strong>búin til</strong>",
-    "A new file or folder has been <strong>deleted</strong>" : "Nýrri skrá eða möppu hefur verið  <strong>eytt</strong>",
+    "A file or folder has been <strong>deleted</strong>" : "Skjali eða möppu hefur verið  <strong>eytt</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Takmarka tilkynningar um gerð og breytingar á <strong>eftirlætisskrám</strong> <em>(einungis streymi)</em>",
-    "A new file or folder has been <strong>restored</strong>" : "Ný skrá eða mappa hefur verið <strong>endurheimt</strong>",
+    "A file or folder has been <strong>restored</strong>" : "Skjal eða mappa hefur verið <strong>endurheimt</strong>",
     "Unlimited" : "Ótakmarkað",
     "Upload (max. %s)" : "Senda inn (hám. %s)",
     "File handling" : "Meðhöndlun skráar",
@@ -144,6 +144,8 @@
     "Copy local link" : "Afrita staðværan tengil",
     "Folder" : "Mappa",
     "Upload" : "Senda inn",
+    "A new file or folder has been <strong>deleted</strong>" : "Nýrri skrá eða möppu hefur verið  <strong>eytt</strong>",
+    "A new file or folder has been <strong>restored</strong>" : "Ný skrá eða mappa hefur verið <strong>endurheimt</strong>",
     "No favorites" : "Engin eftirlæti"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

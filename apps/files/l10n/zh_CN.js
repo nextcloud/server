@@ -102,9 +102,9 @@ OC.L10N.register(
     "A file has been added to or removed from your <strong>favorites</strong>" : "文件已经添加或删除到您的 <strong>收藏夹</strong> 中",
     "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "文件/文件夹已经 <strong>更改</strong> 或者 <strong>重命名</strong>",
     "A new file or folder has been <strong>created</strong>" : "新的文件/文件夹已经 <strong>创建</strong>",
-    "A new file or folder has been <strong>deleted</strong>" : "新的文件/文件夹已经 <strong>删除</strong>",
+    "A file or folder has been <strong>deleted</strong>" : "文件/文件夹已删除",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "仅限 <strong>收藏文件</strong>的创建和更改通知 <em>(仅限流)</em>",
-    "A new file or folder has been <strong>restored</strong>" : "新的文件/文件夹已经<strong>恢复</strong>",
+    "A file or folder has been <strong>restored</strong>" : "文件/文件夹已恢复",
     "Unlimited" : "无限制",
     "Upload (max. %s)" : "上传 (最大 %s)",
     "File handling" : "文件处理",
@@ -146,6 +146,8 @@ OC.L10N.register(
     "Copy local link" : "复制本地链接",
     "Folder" : "文件夹",
     "Upload" : "上传",
+    "A new file or folder has been <strong>deleted</strong>" : "新的文件/文件夹已经 <strong>删除</strong>",
+    "A new file or folder has been <strong>restored</strong>" : "新的文件/文件夹已经<strong>恢复</strong>",
     "No favorites" : "无收藏"
 },
 "nplurals=1; plural=0;");

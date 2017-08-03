@@ -39,8 +39,8 @@ $targetUserObject = \OC::$server->getUserManager()->get($username);
 $targetGroupObject = \OC::$server->getGroupManager()->get($group);
 
 $isSubAdminOfGroup = false;
-if($targetUserObject !== null && $targetUserObject !== null) {
-	$isSubAdminOfGroup = $subAdminManager->isSubAdminofGroup($targetUserObject, $targetGroupObject);
+if($targetUserObject !== null && $targetGroupObject !== null) {
+	$isSubAdminOfGroup = $subAdminManager->isSubAdminOfGroup($targetUserObject, $targetGroupObject);
 }
 
 // Toggle group

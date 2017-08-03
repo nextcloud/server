@@ -100,14 +100,14 @@ interface IGroupManager {
 	 * @return \OCP\IGroup[]
 	 * @since 8.0.0
 	 */
-	public function getUserGroups($user);
+	public function getUserGroups(IUser $user = null);
 
 	/**
 	 * @param \OCP\IUser $user
 	 * @return array with group names
 	 * @since 8.0.0
 	 */
-	public function getUserGroupIds($user);
+	public function getUserGroupIds(IUser $user);
 
 	/**
 	 * get a list of all display names in a group

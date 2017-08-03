@@ -198,6 +198,7 @@ class Mapper {
 	 * @param string $idCol
 	 * @param string $id
 	 * @param array $values
+	 * @suppress SqlInjectionChecker
 	 */
 	public function update($table, $idCol, $id, $values) {
 		$query = $this->dbc->getQueryBuilder();

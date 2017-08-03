@@ -147,7 +147,7 @@ class Provider implements IProvider {
 						trim($subjectParameters[1], '/'),
 					]))
 					->setRichSubject($this->l->t('You commented on {file}'), [
-						'file' => $this->generateFileParameter($event->getObjectId(), $subjectParameters[1]),
+						'file' => $this->generateFileParameter((int)$event->getObjectId(), $subjectParameters[1]),
 					]);
 			} else {
 				$author = $this->generateUserParameter($subjectParameters[0]);
@@ -157,7 +157,7 @@ class Provider implements IProvider {
 					]))
 					->setRichSubject($this->l->t('{author} commented on {file}'), [
 						'author' => $author,
-						'file' => $this->generateFileParameter($event->getObjectId(), $subjectParameters[1]),
+						'file' => $this->generateFileParameter((int)$event->getObjectId(), $subjectParameters[1]),
 					]);
 			}
 		} else {
@@ -173,7 +173,7 @@ class Provider implements IProvider {
 	protected function parseMessage(IEvent $event) {
 		$messageParameters = $event->getMessageParameters();
 		try {
-			$comment = $this->commentsManager->get((int) $messageParameters[0]);
+			$comment = $this->commentsManager->get((string) $messageParameters[0]);
 			$message = $comment->getMessage();
 			$message = str_replace("\n", '<br />', str_replace(['<', '>'], ['&lt;', '&gt;'], $message));
 

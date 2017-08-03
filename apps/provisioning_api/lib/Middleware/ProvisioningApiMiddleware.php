@@ -3,6 +3,7 @@
 namespace OCA\Provisioning_API\Middleware;
 
 use OCA\Provisioning_API\Middleware\Exceptions\NotSubAdminException;
+use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Middleware;
 use OCP\AppFramework\OCS\OCSException;
@@ -36,7 +37,7 @@ class ProvisioningApiMiddleware extends Middleware {
 	}
 
 	/**
-	 * @param \OCP\AppFramework\Controller $controller
+	 * @param Controller $controller
 	 * @param string $methodName
 	 *
 	 * @throws NotSubAdminException
@@ -48,7 +49,7 @@ class ProvisioningApiMiddleware extends Middleware {
 	}
 
 	/**
-	 * @param \OCP\AppFramework\Controller $controller
+	 * @param Controller $controller
 	 * @param string $methodName
 	 * @param \Exception $exception
 	 * @throws \Exception

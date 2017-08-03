@@ -338,6 +338,7 @@ class Share extends Constants {
 							}
 						}
 					}
+					$result->closeCursor();
 				}
 			}
 
@@ -913,8 +914,7 @@ class Share extends Constants {
 					$token = $oldToken;
 				} else {
 					$token = \OC::$server->getSecureRandom()->generate(self::TOKEN_LENGTH,
-						\OCP\Security\ISecureRandom::CHAR_LOWER.\OCP\Security\ISecureRandom::CHAR_UPPER.
-						\OCP\Security\ISecureRandom::CHAR_DIGITS
+						\OCP\Security\ISecureRandom::CHAR_HUMAN_READABLE
 					);
 				}
 				$result = self::put($itemType, $itemSource, $shareType, $shareWith, $uidOwner, $permissions,
@@ -1461,8 +1461,9 @@ class Share extends Constants {
 			->from('share')
 			->where($qb->expr()->eq('id', $qb->createParameter('shareId')))
 			->setParameter(':shareId', $shareId);
-		$result = $qb->execute();
-		$result = $result->fetch();
+		$dbResult = $qb->execute();
+		$result = $dbResult->fetch();
+		$dbResult->closeCursor();
 
 		if (empty($result)) {
 			throw new \Exception('Share not found');

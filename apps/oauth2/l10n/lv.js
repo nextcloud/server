@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "OAuth 2.0" : "OAuth 2.0",
     "OAuth 2.0 clients" : "OAuth 2.0 klients",
-    "OAuth 2.0 allows external services to request access to your %s." : " OAuth 2.0 atļauj ārējiem servisiem pieprasīt piekļuvi pie Jūsu %s.",
     "Name" : "Nosaukums",
     "Redirection URI" : "Pārvirzāmais URI",
     "Client Identifier" : "Klienta identifikators",

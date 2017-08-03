@@ -31,6 +31,7 @@ use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\ICache;
+use OCP\ILogger;
 use OCP\IURLGenerator;
 
 class JSCombinerTest extends \Test\TestCase {
@@ -44,6 +45,8 @@ class JSCombinerTest extends \Test\TestCase {
 	protected $depsCache;
 	/** @var JSCombiner */
 	protected $jsCombiner;
+	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	protected $logger;
 
 	protected function setUp() {
 		parent::setUp();
@@ -52,11 +55,14 @@ class JSCombinerTest extends \Test\TestCase {
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->config = $this->createMock(SystemConfig::class);
 		$this->depsCache = $this->createMock(ICache::class);
+		$this->logger = $this->createMock(ILogger::class);
 		$this->jsCombiner = new JSCombiner(
 			$this->appData,
 			$this->urlGenerator,
 			$this->depsCache,
-			$this->config);
+			$this->config,
+			$this->logger
+		);
 	}
 
 	public function testProcessDebugMode() {
@@ -280,6 +286,23 @@ class JSCombinerTest extends \Test\TestCase {
 			->method('getContent')
 			->willReturn(json_encode([__FILE__ => 1234]));
 
+		$actual = self::invokePrivate($this->jsCombiner, 'isCached', [$fileName, $folder]);
+		$this->assertFalse($actual);
+	}
+
+	public function testIsCachedWithoutContent() {
+		$fileName = 'combine.json';
+		$folder = $this->createMock(ISimpleFolder::class);
+		$file = $this->createMock(ISimpleFile::class);
+		$folder->method('getFile')
+			->with('combine.js.deps')
+			->willReturn($file);
+		$file->expects($this->once())
+			->method('getContent')
+			->willReturn('');
+		$this->logger->expects($this->once())
+			->method('info')
+			->with('JSCombiner: deps file empty: combine.js.deps');
 		$actual = self::invokePrivate($this->jsCombiner, 'isCached', [$fileName, $folder]);
 		$this->assertFalse($actual);
 	}

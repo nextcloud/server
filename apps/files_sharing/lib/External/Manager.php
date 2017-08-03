@@ -197,6 +197,7 @@ class Manager {
 	public function acceptShare($id) {
 
 		$share = $this->getShare($id);
+		$result = false;
 
 		if ($share) {
 			\OC_Util::setupFS($this->uid);
@@ -211,16 +212,18 @@ class Manager {
 					`mountpoint` = ?,
 					`mountpoint_hash` = ?
 				WHERE `id` = ? AND `user` = ?');
-			$acceptShare->execute(array(1, $mountPoint, $hash, $id, $this->uid));
-			$this->sendFeedbackToRemote($share['remote'], $share['share_token'], $share['remote_id'], 'accept');
-
-			\OC_Hook::emit('OCP\Share', 'federated_share_added', ['server' => $share['remote']]);
-
-			$this->processNotification($id);
-			return true;
+			$updated = $acceptShare->execute(array(1, $mountPoint, $hash, $id, $this->uid));
+			if ($updated === true) {
+				$this->sendFeedbackToRemote($share['remote'], $share['share_token'], $share['remote_id'], 'accept');
+				\OC_Hook::emit('OCP\Share', 'federated_share_added', ['server' => $share['remote']]);
+				$result = true;
+			}
 		}
 
-		return false;
+		// Make sure the user has no notification for something that does not exist anymore.
+		$this->processNotification($id);
+
+		return $result;
 	}
 
 	/**
@@ -366,8 +369,13 @@ class Manager {
 		$result = $getShare->execute(array($hash, $this->uid));
 
 		if ($result) {
-			$share = $getShare->fetch();
-			$this->sendFeedbackToRemote($share['remote'], $share['share_token'], $share['remote_id'], 'decline');
+			try {
+				$share = $getShare->fetch();
+				$this->sendFeedbackToRemote($share['remote'], $share['share_token'], $share['remote_id'], 'decline');
+			} catch (\Exception $e) {
+				// if we fail to notify the remote (probably cause the remote is down)
+				// we still want the share to be gone to prevent undeletable remotes
+			}
 		}
 		$getShare->closeCursor();
 

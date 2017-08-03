@@ -46,7 +46,7 @@ class Admin implements ISettings {
 	 * @return TemplateResponse
 	 */
 	public function getForm() {
-		$htaccessWorking  = (getenv('htaccessWorking') == 'true');
+		$htaccessWorking  = (getenv('htaccessWorking') === 'true');
 		$htaccessWritable = is_writable(\OC::$SERVERROOT.'/.htaccess');
 		$userIniWritable  = is_writable(\OC::$SERVERROOT.'/.user.ini');
 

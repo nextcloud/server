@@ -3,11 +3,11 @@
 /** @var $l \OCP\IL10N */
 /** @var $theme OCP\Defaults */
 // @codeCoverageIgnoreStart
-if(!isset($_)) {//also provide standalone error page
+if(!isset($_)) {//standalone  page is not supported anymore - redirect to /
 	require_once '../../lib/base.php';
-	
-	$tmpl = new OC_Template( '', '404', 'guest' );
-	$tmpl->printPage();
+
+	$urlGenerator = \OC::$server->getURLGenerator();
+	header('Location: ' . $urlGenerator->getAbsoluteURL('/'));
 	exit;
 }
 // @codeCoverageIgnoreEnd

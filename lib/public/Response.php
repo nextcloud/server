@@ -109,6 +109,7 @@ class Response {
 	 * @param string $filepath of file to send
 	 * @since 4.0.0
 	 * @deprecated 8.1.0 - Use \OCP\AppFramework\Http\StreamResponse or another AppFramework controller instead
+	 * @suppress PhanDeprecatedFunction
 	 */
 	static public function sendFile( $filepath ) {
 		\OC_Response::sendFile( $filepath );

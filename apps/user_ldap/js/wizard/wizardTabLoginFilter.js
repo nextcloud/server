@@ -142,16 +142,16 @@ OCA = OCA || {};
 				var usersFound = parseInt(result.changes.ldap_test_loginname, 10);
 				if(usersFound < 1) {
 					var filter = $('<p>').text(result.changes.ldap_test_effective_filter).html();
-					message = t('user_ldap', 'User not found. Please check your login attributes and username. Effective filter (to copy-and-paste for command line validation): <br/>' + filter);
+					message = t('user_ldap', 'User not found. Please check your login attributes and username. Effective filter (to copy-and-paste for command-line validation): <br/>' + filter);
 					console.warn(filter);
 					isHtml = true;
 				} else if(usersFound === 1) {
 					message = t('user_ldap', 'User found and settings verified.');
 				} else if(usersFound > 1) {
-					message = t('user_ldap', 'Settings verified, but more than one user found. Only the first will be able to login. Consider a more narrow filter.');
+					message = t('user_ldap', 'Consider narrowing your search, as it encompassed many users, only the first one of whom will be able to log in.');
 				}
 			} else {
-				message = t('user_ldap', 'An unspecified error occurred. Please check the settings and the log.');
+				message = t('user_ldap', 'An unspecified error occurred. Please check log and settings.');
 				if(!_.isUndefined(result.message) && result.message) {
 					message = result.message;
 				}

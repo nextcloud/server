@@ -34,7 +34,7 @@ class SchemaWrapper {
 	protected $schema;
 
 	/** @var array */
-	protected $tablesToDelete;
+	protected $tablesToDelete = [];
 
 	/**
 	 * @param IDBConnection $connection

@@ -28,6 +28,7 @@ namespace OCA\Federation;
 
 use OC\HintException;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
@@ -68,6 +69,9 @@ class TrustedServers {
 	/** @var EventDispatcherInterface */
 	private $dispatcher;
 
+	/** @var ITimeFactory */
+	private $timeFactory;
+
 	/**
 	 * @param DbHandler $dbHandler
 	 * @param IClientService $httpClientService
@@ -76,6 +80,7 @@ class TrustedServers {
 	 * @param ISecureRandom $secureRandom
 	 * @param IConfig $config
 	 * @param EventDispatcherInterface $dispatcher
+	 * @param ITimeFactory $timeFactory
 	 */
 	public function __construct(
 		DbHandler $dbHandler,
@@ -84,7 +89,8 @@ class TrustedServers {
 		IJobList $jobList,
 		ISecureRandom $secureRandom,
 		IConfig $config,
-		EventDispatcherInterface $dispatcher
+		EventDispatcherInterface $dispatcher,
+		ITimeFactory $timeFactory
 	) {
 		$this->dbHandler = $dbHandler;
 		$this->httpClientService = $httpClientService;
@@ -93,6 +99,7 @@ class TrustedServers {
 		$this->secureRandom = $secureRandom;
 		$this->config = $config;
 		$this->dispatcher = $dispatcher;
+		$this->timeFactory = $timeFactory;
 	}
 
 	/**
@@ -111,7 +118,8 @@ class TrustedServers {
 				'OCA\Federation\BackgroundJob\RequestSharedSecret',
 				[
 					'url' => $url,
-					'token' => $token
+					'token' => $token,
+					'created' => $this->timeFactory->getTime()
 				]
 			);
 		}

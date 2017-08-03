@@ -65,8 +65,6 @@
     "Enable" : "Engedélyezés",
     "Enabling app …" : "Alkalmazás engedélyezése ...",
     "Error while enabling app" : "Hiba az alkalmazás engedélyezése közben",
-    "Error: this app cannot be enabled because it makes the server unstable" : "Hiba: ezt az alkalmzást nem lehet engedélyezni, mert a szerver instabilitását eredményezné",
-    "Error: could not disable broken app" : "Hiba: nem lehet tiltani a megtört alkalmazást",
     "Error while disabling broken app" : "Hiba történt a megtört alkalmazás tiltása közben",
     "Updating...." : "Frissítés folyamatban...",
     "Error while updating app" : "Hiba történt az alkalmazás frissítése közben",

@@ -45,7 +45,6 @@ class OC_Defaults {
 	private $defaultDocBaseUrl;
 	private $defaultDocVersion;
 	private $defaultSlogan;
-	private $defaultLogoClaim;
 	private $defaultColorPrimary;
 
 	public function __construct() {
@@ -62,7 +61,6 @@ class OC_Defaults {
 		$this->defaultDocBaseUrl = 'https://docs.nextcloud.com';
 		$this->defaultDocVersion = '12'; // used to generate doc links
 		$this->defaultSlogan = $this->l->t('a safe home for all your data');
-		$this->defaultLogoClaim = '';
 		$this->defaultColorPrimary = '#0082c9';
 
 		$themePath = OC::$SERVERROOT . '/themes/' . OC_Util::getTheme() . '/defaults.php';
@@ -222,13 +220,10 @@ class OC_Defaults {
 	/**
 	 * Returns logo claim
 	 * @return string logo claim
+	 * @deprecated 13.0.0
 	 */
 	public function getLogoClaim() {
-		if ($this->themeExist('getLogoClaim')) {
-			return $this->theme->getLogoClaim();
-		} else {
-			return $this->defaultLogoClaim;
-		}
+		return '';
 	}
 
 	/**

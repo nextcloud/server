@@ -22,7 +22,6 @@
 namespace OCA\Files_Sharing\Tests\Command;
 
 use OCA\Files_Sharing\Command\CleanupRemoteStorages;
-use OCP\DB\QueryBuilder\IQueryBuilder;
 use Test\TestCase;
 
 /**

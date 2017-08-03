@@ -34,6 +34,11 @@ use OCP\IDBConnection;
 class PostgreSQL extends AbstractDatabase {
 	public $dbprettyname = 'PostgreSQL';
 
+	/**
+	 * @param string $username
+	 * @throws \OC\DatabaseSetupException
+	 * @suppress SqlInjectionChecker
+	 */
 	public function setupDatabase($username) {
 		try {
 			$connection = $this->connect([
@@ -99,11 +104,6 @@ class PostgreSQL extends AbstractDatabase {
 			$this->logger->logException($e);
 			throw new \OC\DatabaseSetupException($this->trans->t('PostgreSQL username and/or password not valid'),
 				$this->trans->t('You need to enter details of an existing account.'));
-		}
-
-
-		if (!$tablesSetup) {
-			\OC_DB::createDbFromStructure($this->dbDefinitionFile);
 		}
 	}
 

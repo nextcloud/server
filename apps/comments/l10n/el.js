@@ -8,7 +8,7 @@ OC.L10N.register(
     "Post" : "Δημοσίευση",
     "Cancel" : "Ακύρωση",
     "Edit comment" : "Επεξεργασία σχολίου",
-    "[Deleted user]" : "[Διαγραφή χρήστη]",
+    "[Deleted user]" : "[Διαγραμμένος χρήστης]",
     "No comments yet, start the conversation!" : "Δεν υπάρχουν σχόλια, ξεκινήστε την συζήτηση!",
     "More comments …" : "Περισσότερα σχόλια ...",
     "Save" : "Αποθήκευση",

@@ -21,10 +21,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-$state = OCP\Config::getSystemValue('ldapIgnoreNamingRules', 'doSet');
+$config = \OC::$server->getConfig();
+$state = $config->getSystemValue('ldapIgnoreNamingRules', 'doSet');
 if($state === 'doSet') {
 	OCP\Config::setSystemValue('ldapIgnoreNamingRules', false);
 }
 
-$helper = new \OCA\User_LDAP\Helper(\OC::$server->getConfig());
+$helper = new \OCA\User_LDAP\Helper($config);
 $helper->setLDAPProvider();

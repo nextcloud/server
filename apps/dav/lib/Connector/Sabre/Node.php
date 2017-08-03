@@ -126,8 +126,8 @@ abstract class Node implements \Sabre\DAV\INode {
 			throw new \Sabre\DAV\Exception\Forbidden();
 		}
 
-		list($parentPath,) = \Sabre\HTTP\URLUtil::splitPath($this->path);
-		list(, $newName) = \Sabre\HTTP\URLUtil::splitPath($name);
+		list($parentPath,) = \Sabre\Uri\split($this->path);
+		list(, $newName) = \Sabre\Uri\split($name);
 
 		// verify path of the target
 		$this->verifyPath();

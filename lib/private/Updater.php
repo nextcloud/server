@@ -315,10 +315,11 @@ class Updater extends BasicEmitter {
 		$apps = \OC_App::getEnabledApps();
 		$this->emit('\OC\Updater', 'appUpgradeCheckBefore');
 
+		$appManager = \OC::$server->getAppManager();
 		foreach ($apps as $appId) {
 			$info = \OC_App::getAppInfo($appId);
 			$compatible = \OC_App::isAppCompatible($version, $info);
-			$isShipped = \OC_App::isShipped($appId);
+			$isShipped = $appManager->isShipped($appId);
 
 			if ($compatible && $isShipped && \OC_App::shouldUpgrade($appId)) {
 				/**
@@ -407,11 +408,12 @@ class Updater extends BasicEmitter {
 		$apps = OC_App::getEnabledApps();
 		$version = Util::getVersion();
 		$disabledApps = [];
+		$appManager = \OC::$server->getAppManager();
 		foreach ($apps as $app) {
 			// check if the app is compatible with this version of ownCloud
 			$info = OC_App::getAppInfo($app);
 			if(!OC_App::isAppCompatible($version, $info)) {
-				if (OC_App::isShipped($app)) {
+				if ($appManager->isShipped($app)) {
 					throw new \UnexpectedValueException('The files of the app "' . $app . '" were not correctly replaced before running the update');
 				}
 				OC_App::disable($app);
@@ -422,7 +424,7 @@ class Updater extends BasicEmitter {
 				continue;
 			}
 			// shipped apps will remain enabled
-			if (OC_App::isShipped($app)) {
+			if ($appManager->isShipped($app)) {
 				continue;
 			}
 			// authentication and session apps will remain enabled as well

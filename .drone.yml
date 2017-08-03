@@ -13,7 +13,7 @@ pipeline:
       matrix:
         TESTS: jsunit
   checkers:
-    image: nextcloudci/php7.0:php7.0-7
+    image: nextcloudci/php7.0:php7.0-13
     commands:
       - ./autotest-checkers.sh
     when:
@@ -23,12 +23,12 @@ pipeline:
     image: nextcloudci/php5.6:php5.6-7
     commands:
       - composer install
-      - ./lib/composer/bin/parallel-lint --exclude lib/composer/jakub-onderka/ --exclude 3rdparty/symfony/polyfill-php70/Resources/stubs/ --exclude 3rdparty/patchwork/utf8/src/Patchwork/Utf8/Bootup/ --exclude 3rdparty/paragonie/random_compat/lib/ --exclude lib/composer/composer/autoload_static.php --exclude 3rdparty/composer/autoload_static.php .
+      - ./lib/composer/bin/parallel-lint --exclude build/.phan/ --exclude lib/composer/jakub-onderka/ --exclude 3rdparty/symfony/polyfill-php70/Resources/stubs/ --exclude 3rdparty/patchwork/utf8/src/Patchwork/Utf8/Bootup/ --exclude 3rdparty/paragonie/random_compat/lib/ --exclude lib/composer/composer/autoload_static.php --exclude 3rdparty/composer/autoload_static.php .
     when:
       matrix:
         TESTS: syntax-php5.6
   syntax-php7.0:
-    image: nextcloudci/php7.0:php7.0-7
+    image: nextcloudci/php7.0:php7.0-13
     commands:
       - composer install
       - ./lib/composer/bin/parallel-lint --exclude lib/composer/jakub-onderka/ --exclude 3rdparty/symfony/polyfill-php70/Resources/stubs/ --exclude 3rdparty/patchwork/utf8/src/Patchwork/Utf8/Bootup/ --exclude 3rdparty/paragonie/random_compat/lib/ --exclude lib/composer/composer/autoload_static.php --exclude 3rdparty/composer/autoload_static.php .
@@ -36,13 +36,24 @@ pipeline:
       matrix:
         TESTS: syntax-php7.0
   syntax-php7.1:
-    image: nextcloudci/php7.1:php7.1-11
+    image: nextcloudci/php7.1:php7.1-12
     commands:
       - composer install
       - ./lib/composer/bin/parallel-lint --exclude lib/composer/jakub-onderka/ --exclude 3rdparty/symfony/polyfill-php70/Resources/stubs/ --exclude 3rdparty/patchwork/utf8/src/Patchwork/Utf8/Bootup/ --exclude 3rdparty/paragonie/random_compat/lib/ --exclude lib/composer/composer/autoload_static.php --exclude 3rdparty/composer/autoload_static.php .
     when:
       matrix:
         TESTS: syntax-php7.1
+  phan:
+    image: nextcloudci/php7.1:php7.1-12
+    commands:
+      - rm /etc/php/7.1/cli/conf.d/20-xdebug.ini
+      - composer install
+      - composer require --dev "etsy/phan:dev-master"
+      - ./lib/composer/etsy/phan/phan -k build/.phan/config.php
+      - php ./build/.phan/plugin-checker.php
+    when:
+      matrix:
+        TESTS: phan
   litmus-v1:
     image: nextcloudci/litmus-php7.0:litmus-php7.0-4
     commands:
@@ -143,7 +154,7 @@ pipeline:
         DB: NODB
         PHP: 5.6
   nodb-php7.0:
-    image: nextcloudci/php7.0:php7.0-7
+    image: nextcloudci/php7.0:php7.0-13
     commands:
       - NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
     when:
@@ -151,7 +162,7 @@ pipeline:
         DB: NODB
         PHP: "7.0"
   nodb-php7.1:
-    image: nextcloudci/php7.1:php7.1-11
+    image: nextcloudci/php7.1:php7.1-12
     commands:
       - NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
     when:
@@ -167,7 +178,7 @@ pipeline:
         DB: sqlite
         PHP: 5.6
   sqlite-php7.0:
-    image: nextcloudci/php7.0:php7.0-7
+    image: nextcloudci/php7.0:php7.0-13
     commands:
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
     when:
@@ -175,7 +186,7 @@ pipeline:
         DB: sqlite
         PHP: "7.0"
   sqlite-php7.1:
-    image: nextcloudci/php7.1:php7.1-11
+    image: nextcloudci/php7.1:php7.1-12
     commands:
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
     when:
@@ -199,6 +210,15 @@ pipeline:
       matrix:
         DB: postgres
         PHP: 5.6
+  postgres-php7.0:
+    image: nextcloudci/php7.0:php7.0-13
+    commands:
+      - sleep 10 # gives the database enough time to initialize
+      - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh pgsql
+    when:
+      matrix:
+        DB: postgres
+        PHP: 7.0
   mysqlmb4-php5.6:
     image: nextcloudci/php5.6:php5.6-7
     commands:
@@ -459,26 +479,26 @@ pipeline:
   acceptance-access-levels:
       image: nextcloudci/integration-php7.0:integration-php7.0-4
       commands:
-        - tests/acceptance/run-local.sh --timeout-multiplier 10 allow-git-repository-modifications features/access-levels.feature
+        - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-access-levels --selenium-server selenium:4444 allow-git-repository-modifications features/access-levels.feature
       when:
         matrix:
           TESTS-ACCEPTANCE: access-levels
   acceptance-app-files:
       image: nextcloudci/integration-php7.0:integration-php7.0-4
       commands:
-        - tests/acceptance/run-local.sh --timeout-multiplier 10 allow-git-repository-modifications features/app-files.feature
+        - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-app-files --selenium-server selenium:4444 allow-git-repository-modifications features/app-files.feature
       when:
         matrix:
           TESTS-ACCEPTANCE: app-files
   acceptance-login:
       image: nextcloudci/integration-php7.0:integration-php7.0-4
       commands:
-        - tests/acceptance/run-local.sh --timeout-multiplier 10 allow-git-repository-modifications features/login.feature
+        - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-login --selenium-server selenium:4444 allow-git-repository-modifications features/login.feature
       when:
         matrix:
           TESTS-ACCEPTANCE: login
   nodb-codecov:
-    image: nextcloudci/php7.0:php7.0-7
+    image: nextcloudci/php7.0:php7.0-13
     commands:
       - TEST_SELECTION=NODB ./autotest.sh sqlite
       - wget https://codecov.io/bash -O codecov.sh
@@ -488,7 +508,7 @@ pipeline:
       matrix:
         TESTS: nodb-codecov
   db-codecov:
-    image: nextcloudci/php7.0:php7.0-7
+    image: nextcloudci/php7.0:php7.0-13
     commands:
       - TEST_SELECTION=QUICKDB ./autotest.sh sqlite
       - wget https://codecov.io/bash -O codecov.sh
@@ -498,7 +518,7 @@ pipeline:
       matrix:
         TESTS: db-codecov
   object-store:
-      image: nextcloudci/php7.0:php7.0-7
+      image: nextcloudci/php7.0:php7.0-13
       commands:
         - TEST_SELECTION=PRIMARY-${OBJECT_STORE} ./autotest.sh sqlite
         - wget https://codecov.io/bash -O codecov.sh
@@ -519,7 +539,7 @@ pipeline:
       matrix:
         TEST: memcache-memcached
   memcache-redis-cluster:
-    image: nextcloudci/php7.0:php7.0-7
+    image: nextcloudci/php7.0:php7.0-13
     commands:
       - sleep 10
       - ./autotest.sh sqlite tests/lib/Memcache/RedisTest.php
@@ -535,6 +555,36 @@ matrix:
     - TESTS: nodb-codecov
       ENABLE_REDIS: true
     - TESTS: db-codecov
+      ENABLE_REDIS: true
+    - DB: NODB
+      PHP: 5.6
+      ENABLE_REDIS: true
+    - DB: NODB
+      PHP: 7.0
+      ENABLE_REDIS: true
+    - DB: NODB
+      PHP: 7.1
+      ENABLE_REDIS: true
+    - DB: sqlite
+      PHP: 5.6
+      ENABLE_REDIS: true
+    - DB: sqlite
+      PHP: 7.0
+      ENABLE_REDIS: true
+    - DB: sqlite
+      PHP: 7.1
+      ENABLE_REDIS: true
+    - DB: mysql
+      PHP: 5.6
+      ENABLE_REDIS: true
+    - DB: postgres
+      PHP: 5.6
+      ENABLE_REDIS: true
+    - DB: postgres
+      PHP: 7.0
+      ENABLE_REDIS: true
+    - DB: mysqlmb4
+      PHP: 5.6
       ENABLE_REDIS: true
     - TESTS: integration-capabilities_features
     - TESTS: integration-federation_features
@@ -564,16 +614,17 @@ matrix:
     - TESTS: integration-transfer-ownership-features
     - TESTS: integration-ldap-features
     - TESTS: integration-trashbin
-#    - TESTS: acceptance
-#      TESTS-ACCEPTANCE: access-levels
-#    - TESTS: acceptance
-#      TESTS-ACCEPTANCE: app-files
-#    - TESTS: acceptance
-#      TESTS-ACCEPTANCE: login
+    - TESTS: acceptance
+      TESTS-ACCEPTANCE: access-levels
+    - TESTS: acceptance
+      TESTS-ACCEPTANCE: app-files
+    - TESTS: acceptance
+      TESTS-ACCEPTANCE: login
     - TESTS: jsunit
     - TESTS: syntax-php5.6
     - TESTS: syntax-php7.0
     - TESTS: syntax-php7.1
+    - TESTS: phan
     - TESTS: litmus-v1
     - TESTS: litmus-v2
     - TESTS: caldavtester-old-endpoint
@@ -588,33 +639,6 @@ matrix:
 #    - TEST: memcache-redis-cluster
 #      ENABLE_REDIS_CLUSTER: true
     - TESTS: sqlite-php7.0-webdav-apache
-      ENABLE_REDIS: true
-    - DB: NODB
-      PHP: 5.6
-      ENABLE_REDIS: true
-    - DB: NODB
-      PHP: 7.0
-      ENABLE_REDIS: true
-    - DB: NODB
-      PHP: 7.1
-      ENABLE_REDIS: true
-    - DB: sqlite
-      PHP: 5.6
-      ENABLE_REDIS: true
-    - DB: sqlite
-      PHP: 7.0
-      ENABLE_REDIS: true
-    - DB: sqlite
-      PHP: 7.1
-      ENABLE_REDIS: true
-    - DB: mysql
-      PHP: 5.6
-      ENABLE_REDIS: true
-    - DB: postgres
-      PHP: 5.6
-      ENABLE_REDIS: true
-    - DB: mysqlmb4
-      PHP: 5.6
       ENABLE_REDIS: true
 
 services:
@@ -632,7 +656,7 @@ services:
     image: postgres
     environment:
       - POSTGRES_USER=oc_autotest
-      - POSTGRES_PASSWORD=oc_autotest
+      - POSTGRES_PASSWORD=owncloud
     when:
       matrix:
         DB: postgres

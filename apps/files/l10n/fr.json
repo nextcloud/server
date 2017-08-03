@@ -100,9 +100,9 @@
     "A file has been added to or removed from your <strong>favorites</strong>" : "Un fichier a été ajouté ou retiré de vos <strong>favoris</strong>",
     "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Un fichier ou dossier a été <strong>modifié</strong> ou <strong>renommé</strong>",
     "A new file or folder has been <strong>created</strong>" : "Un nouveau fichier ou répertoire a été <strong>créé</strong>",
-    "A new file or folder has been <strong>deleted</strong>" : "Un nouveau fichier ou répertoire a été <strong>supprimé</strong>",
+    "A file or folder has been <strong>deleted</strong>" : "Un fichier ou un répertoire a été <strong>supprimé</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Limiter les notifications à ce qui concerne la création et la modification de vos <strong>fichiers favoris</strong> <em>(Flux uniquement)</em>",
-    "A new file or folder has been <strong>restored</strong>" : "Un nouveau fichier ou répertoire a été <strong>restauré</strong>",
+    "A file or folder has been <strong>restored</strong>" : "Un fichier ou un répertoire a été <strong>restauré</strong>",
     "Unlimited" : "Illimité",
     "Upload (max. %s)" : "Envoi (max. %s)",
     "File handling" : "Gestion de fichiers",
@@ -144,6 +144,8 @@
     "Copy local link" : "Copier le dossier local",
     "Folder" : "Dossier",
     "Upload" : "Téléverser",
+    "A new file or folder has been <strong>deleted</strong>" : "Un nouveau fichier ou répertoire a été <strong>supprimé</strong>",
+    "A new file or folder has been <strong>restored</strong>" : "Un nouveau fichier ou répertoire a été <strong>restauré</strong>",
     "No favorites" : "Aucun favori"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

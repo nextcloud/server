@@ -94,7 +94,6 @@ OC.L10N.register(
     "You moved {oldfile} to {newfile}" : "Bạn đã chuyển {oldfile} tới {newfile}",
     "{user} moved {oldfile} to {newfile}" : "{user} đã chuyển {oldfile} tới {newfile}",
     "A file has been added to or removed from your <strong>favorites</strong>" : "Một tệp đã được thêm hoặc bị xóa khỏi <strong>mục yêu thích của bạn</strong>",
-    "A new file or folder has been <strong>restored</strong>" : "Một tập tin hoặc thư mục mới đã được <strong>khôi phục</strong>",
     "Upload (max. %s)" : "Tải lên (tối đa. %s)",
     "File handling" : "Xử lý tập tin",
     "Maximum upload size" : "Kích thước tối đa ",
@@ -128,6 +127,7 @@ OC.L10N.register(
     "Copy local link" : "Sao chép liên kết cục bộ",
     "Folder" : "Thư mục",
     "Upload" : "Tải lên",
+    "A new file or folder has been <strong>restored</strong>" : "Một tập tin hoặc thư mục mới đã được <strong>khôi phục</strong>",
     "No favorites" : "Không có mục ưa thích nào"
 },
 "nplurals=1; plural=0;");

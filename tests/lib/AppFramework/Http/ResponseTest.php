@@ -269,4 +269,9 @@ class ResponseTest extends \Test\TestCase {
 		$this->childResponse->throttle();
 		$this->assertTrue($this->childResponse->isThrottled());
 	}
+
+	public function testGetThrottleMetadata() {
+		$this->childResponse->throttle(['foo' => 'bar']);
+		$this->assertSame(['foo' => 'bar'], $this->childResponse->getThrottleMetadata());
+	}
 }

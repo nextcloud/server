@@ -223,7 +223,7 @@ class Setup {
 				'error' => $this->l10n->t(
 					'Mac OS X is not supported and %s will not work properly on this platform. ' .
 					'Use it at your own risk! ',
-					$this->defaults->getName()
+					[$this->defaults->getName()]
 				),
 				'hint' => $this->l10n->t('For the best results, please consider using a GNU/Linux server instead.')
 			);
@@ -234,7 +234,7 @@ class Setup {
 				'error' => $this->l10n->t(
 					'It seems that this %s instance is running on a 32-bit PHP environment and the open_basedir has been configured in php.ini. ' .
 					'This will lead to problems with files over 4 GB and is highly discouraged.',
-					$this->defaults->getName()
+					[$this->defaults->getName()]
 				),
 				'hint' => $this->l10n->t('Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP.')
 			);
@@ -282,8 +282,7 @@ class Setup {
 
 		$class = self::$dbSetupClasses[$dbType];
 		/** @var \OC\Setup\AbstractDatabase $dbSetup */
-		$dbSetup = new $class($l, 'db_structure.xml', $this->config,
-			$this->logger, $this->random);
+		$dbSetup = new $class($l, $this->config, $this->logger, $this->random);
 		$error = array_merge($error, $dbSetup->validate($options));
 
 		// validate the data directory
@@ -450,10 +449,10 @@ class Setup {
 		$htaccessContent = explode($content, $htaccessContent, 2)[0];
 
 		//custom 403 error page
-		$content.= "\nErrorDocument 403 ".$webRoot."/core/templates/403.php";
+		$content.= "\nErrorDocument 403 ".$webRoot."/";
 
 		//custom 404 error page
-		$content.= "\nErrorDocument 404 ".$webRoot."/core/templates/404.php";
+		$content.= "\nErrorDocument 404 ".$webRoot."/";
 
 		// Add rewrite rules if the RewriteBase is configured
 		$rewriteBase = $config->getValue('htaccess.RewriteBase', '');

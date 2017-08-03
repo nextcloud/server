@@ -47,7 +47,7 @@ interface IL10N {
 	 * Translating
 	 * @param string $text The text we need a translation for
 	 * @param array $parameters default:array() Parameters for sprintf
-	 * @return \OC_L10N_String Translation or the same text
+	 * @return string Translation or the same text
 	 *
 	 * Returns the translation. If no translation is found, $text will be
 	 * returned.
@@ -61,7 +61,7 @@ interface IL10N {
 	 * @param string $text_plural the string to translate for n objects
 	 * @param integer $count Number of objects
 	 * @param array $parameters default:array() Parameters for sprintf
-	 * @return \OC_L10N_String Translation or the same text
+	 * @return string Translation or the same text
 	 *
 	 * Returns the translation. If no translation is found, $text will be
 	 * returned. %n will be replaced with the number of objects.

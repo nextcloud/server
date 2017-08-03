@@ -283,18 +283,6 @@ class OC_App {
 	}
 
 	/**
-	 * check if app is shipped
-	 *
-	 * @param string $appId the id of the app to check
-	 * @return bool
-	 *
-	 * Check if an app that is installed is a shipped app or installed from the appstore.
-	 */
-	public static function isShipped($appId) {
-		return \OC::$server->getAppManager()->isShipped($appId);
-	}
-
-	/**
 	 * get all enabled apps
 	 */
 	protected static $enabledAppsCache = array();
@@ -396,7 +384,7 @@ class OC_App {
 	 * @return bool
 	 */
 	public static function removeApp($app) {
-		if (self::isShipped($app)) {
+		if (\OC::$server->getAppManager()->isShipped($app)) {
 			return false;
 		}
 
@@ -777,8 +765,9 @@ class OC_App {
 	public function listAllApps() {
 		$installedApps = OC_App::getAllApps();
 
+		$appManager = \OC::$server->getAppManager();
 		//we don't want to show configuration for these
-		$blacklist = \OC::$server->getAppManager()->getAlwaysEnabledApps();
+		$blacklist = $appManager->getAlwaysEnabledApps();
 		$appList = array();
 		$langCode = \OC::$server->getL10N('core')->getLanguageCode();
 		$urlGenerator = \OC::$server->getURLGenerator();
@@ -810,7 +799,7 @@ class OC_App {
 
 				$info['active'] = $active;
 
-				if (self::isShipped($app)) {
+				if ($appManager->isShipped($app)) {
 					$info['internal'] = true;
 					$info['level'] = self::officialApp;
 					$info['removable'] = false;
@@ -823,12 +812,12 @@ class OC_App {
 				if($appPath !== false) {
 					$appIcon = $appPath . '/img/' . $app . '.svg';
 					if (file_exists($appIcon)) {
-						$info['preview'] = \OC::$server->getURLGenerator()->imagePath($app, $app . '.svg');
+						$info['preview'] = $urlGenerator->imagePath($app, $app . '.svg');
 						$info['previewAsIcon'] = true;
 					} else {
 						$appIcon = $appPath . '/img/app.svg';
 						if (file_exists($appIcon)) {
-							$info['preview'] = \OC::$server->getURLGenerator()->imagePath($app, 'app.svg');
+							$info['preview'] = $urlGenerator->imagePath($app, 'app.svg');
 							$info['previewAsIcon'] = true;
 						}
 					}
@@ -1244,7 +1233,7 @@ class OC_App {
 		$dependencyAnalyzer = new DependencyAnalyzer(new Platform($config), $l);
 		$missing = $dependencyAnalyzer->analyze($info);
 		if (!empty($missing)) {
-			$missingMsg = join(PHP_EOL, $missing);
+			$missingMsg = implode(PHP_EOL, $missing);
 			throw new \Exception(
 				$l->t('App "%s" cannot be installed because the following dependencies are not fulfilled: %s',
 					[$info['name'], $missingMsg]

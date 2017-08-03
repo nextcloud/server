@@ -20,9 +20,8 @@
  *
  */
 
-use \OCA\Comments\AppInfo\Application;
-
-$application = new Application();
-$application->registerRoutes($this, ['routes' => [
-	['name' => 'Notifications#view', 'url' => '/notifications/view/{id}', 'verb' => 'GET'],
-]]);
+return [
+	'routes' => [
+		['name' => 'Notifications#view', 'url' => '/notifications/view/{id}', 'verb' => 'GET'],
+	]
+];

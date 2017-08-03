@@ -6,6 +6,7 @@ OC.L10N.register(
     "Failed to revert {file} to revision {timestamp}." : "Nepavyko sugrąžinti {file} į {timestamp} būseną.",
     "_%n byte_::_%n bytes_" : ["%n baitas","%n baitai","%n baitų"],
     "Restore" : "Atkurti",
+    "No earlier versions available" : "Nėra ankstesnių versijų",
     "More versions …" : "Daugiau versijų …",
     "No versions available" : "Nėra prieinama jokių versijų",
     "More versions..." : "Daugiau versijų..."

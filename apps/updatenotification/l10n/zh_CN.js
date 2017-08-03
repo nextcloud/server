@@ -18,6 +18,7 @@ OC.L10N.register(
     "Checked on %s" : "检查于 %s",
     "Update channel:" : "更新通道：",
     "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "您可以随时更新到新版本 / 实验通道。但你永远不能降级到更稳定的通道。",
+    "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "请注意, 在新版本发布后, 它可能需要一段时间才能显示在这里。新版本发布后, 随着时间的推移, 当用户发现问题时我们可能会跳过一个版本。",
     "Notify members of the following groups about available updates:" : "提醒一下组群的用户关于可用的更新：",
     "Only notification for app updates are available." : "仅提醒应用更新就绪。",
     "The selected update channel makes dedicated notifications for the server obsolete." : "被选中的升级通道将会通知未更新的服务器",

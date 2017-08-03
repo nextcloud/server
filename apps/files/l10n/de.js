@@ -102,9 +102,9 @@ OC.L10N.register(
     "A file has been added to or removed from your <strong>favorites</strong>" : "Eine Datei wurde Deinen <strong>Favoriten</strong> hinzugefügt oder daraus entfernt",
     "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Eine Datei oder Ordner wurde <strong>geändert</strong> oder <strong>umbenannt</strong>",
     "A new file or folder has been <strong>created</strong>" : "Eine neue Datei oder ein neuer Ordner wurde <strong>erstellt</strong>",
-    "A new file or folder has been <strong>deleted</strong>" : "Eine neue Datei oder Ordner wurde  <strong>gelöscht</strong>",
+    "A file or folder has been <strong>deleted</strong>" : "Eine Datei oder ein Ordner wurde <strong>gelöscht</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Benachrichtigungen über Neues und Änderungen auf Deine <strong>favorisierten Dateien</strong> beschränken <em>(nur im Stream)</em>",
-    "A new file or folder has been <strong>restored</strong>" : "Neue Datei oder Ordner wurde <strong>wiederhergestellt</strong>",
+    "A file or folder has been <strong>restored</strong>" : "Eine Datei oder ein Ordner wurde <strong>wiederhergestellt</strong>",
     "Unlimited" : "Unbegrenzt",
     "Upload (max. %s)" : "Hochladen (max. %s)",
     "File handling" : "Dateibehandlung",
@@ -146,6 +146,8 @@ OC.L10N.register(
     "Copy local link" : "Lokalen Link kopieren",
     "Folder" : "Ordner",
     "Upload" : "Hochladen",
+    "A new file or folder has been <strong>deleted</strong>" : "Eine neue Datei oder Ordner wurde  <strong>gelöscht</strong>",
+    "A new file or folder has been <strong>restored</strong>" : "Neue Datei oder Ordner wurde <strong>wiederhergestellt</strong>",
     "No favorites" : "Keine Favoriten"
 },
 "nplurals=2; plural=(n != 1);");

@@ -35,18 +35,19 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 
 
 <header><div id="header" class="<?php p((isset($_['folder']) ? 'share-folder' : 'share-file')) ?>">
-		<div id="header-left">
-			<a href="<?php print_unescaped(link_to('', 'index.php')); ?>"
-				title="" id="nextcloud">
+		<div class="header-left">
+			<span id="nextcloud">
 				<div class="logo logo-icon svg"></div>
 				<h1 class="header-appname">
-					<?php p($theme->getName()); ?>
+					<?php p($_['filename']); ?>
 				</h1>
-			</a>
+				<div class="header-shared-by">
+					<?php echo p($l->t('shared by %s', [$_['displayName']])); ?>
+				</div>
+			</span>
 		</div>
 
-		<div id="logo-claim" style="display:none;"><?php p($theme->getLogoClaim()); ?></div>
-		<div id="header-right">
+		<div class="header-right">
 			<?php if (!isset($_['hideFileList']) || (isset($_['hideFileList']) && $_['hideFileList'] === false)) {
 				if ($_['server2serversharing']) {
 					?>
@@ -73,7 +74,7 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 			<?php if (isset($_['folder'])): ?>
 				<?php print_unescaped($_['folder']); ?>
 			<?php else: ?>
-				<?php if ($_['previewEnabled'] && substr($_['mimetype'], 0, strpos($_['mimetype'], '/')) == 'video'): ?>
+				<?php if ($_['previewEnabled'] && substr($_['mimetype'], 0, strpos($_['mimetype'], '/')) === 'video'): ?>
 					<div id="imgframe">
 						<video tabindex="0" controls="" preload="none" style="max-width: <?php p($_['previewMaxX']); ?>px; max-height: <?php p($_['previewMaxY']); ?>px">
 							<source src="<?php p($_['downloadURL']); ?>" type="<?php p($_['mimetype']); ?>" />

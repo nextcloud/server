@@ -57,7 +57,7 @@ class DB {
 	 * @since 4.5.0
 	 */
 	static public function prepare( $query, $limit=null, $offset=null ) {
-		return(\OC_DB::prepare($query, $limit, $offset));
+		return \OC_DB::prepare($query, $limit, $offset);
 	}
 
 	/**
@@ -90,7 +90,7 @@ class DB {
 	 * @since 4.5.0
 	 */
 	public static function insertid($table=null) {
-		return \OC::$server->getDatabaseConnection()->lastInsertId($table);
+		return (string)\OC::$server->getDatabaseConnection()->lastInsertId($table);
 	}
 
 	/**
@@ -117,7 +117,7 @@ class DB {
 	 * @since 8.0.0
 	 */
 	public static function rollback() {
-		\OC::$server->getDatabaseConnection()->rollback();
+		\OC::$server->getDatabaseConnection()->rollBack();
 	}
 
 	/**

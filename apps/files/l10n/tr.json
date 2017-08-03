@@ -100,9 +100,9 @@
     "A file has been added to or removed from your <strong>favorites</strong>" : "<strong>Sık kullandıklarınıza</strong> bir dosya eklendi ya da silindi",
     "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Bir dosya ya da klasör <strong>değiştirildi</strong> ya da <strong>yeniden adlandırıldı</strong>",
     "A new file or folder has been <strong>created</strong>" : "Yeni bir dosya ya da klasör <strong>eklendi</strong>",
-    "A new file or folder has been <strong>deleted</strong>" : "Yeni bir dosya ya da klasör <strong>silindi</strong>",
+    "A file or folder has been <strong>deleted</strong>" : "Bir dosya ya da klasör <strong>silindi</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "<strong>Sık kullanılan dosyalarınız</strong> ile ilgili ekleme ve değişiklik bildirimleri sınırlansın <em>(Yalnız akış)</em>",
-    "A new file or folder has been <strong>restored</strong>" : "Yeni bir dosya ya da klasör <strong>geri yüklendi</strong>",
+    "A file or folder has been <strong>restored</strong>" : "Bir dosya ya da klasör <strong>geri yüklendi</strong>",
     "Unlimited" : "Sınırsız",
     "Upload (max. %s)" : "Yükle (en büyük: %s)",
     "File handling" : "Dosya işlemleri",
@@ -144,6 +144,8 @@
     "Copy local link" : "Bağlantıyı kopyala",
     "Folder" : "Klasör",
     "Upload" : "Yükle",
+    "A new file or folder has been <strong>deleted</strong>" : "Yeni bir dosya ya da klasör <strong>silindi</strong>",
+    "A new file or folder has been <strong>restored</strong>" : "Yeni bir dosya ya da klasör <strong>geri yüklendi</strong>",
     "No favorites" : "Sık kullanılan bir öge yok"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

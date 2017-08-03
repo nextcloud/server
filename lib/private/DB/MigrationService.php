@@ -284,7 +284,8 @@ class MigrationService {
 			case 'latest':
 				$this->ensureMigrationsAreLoaded();
 
-				return @end($this->getAvailableVersions());
+				$migrations = $this->getAvailableVersions();
+				return @end($migrations);
 		}
 		return '0';
 	}
@@ -316,7 +317,8 @@ class MigrationService {
 		if (count($m) === 0) {
 			return '0';
 		}
-		return @end(array_values($m));
+		$migrations = array_values($m);
+		return @end($migrations);
 	}
 
 	/**

@@ -227,7 +227,7 @@ class Helper {
 
 			foreach ($filesById as $key => $fileWithTags) {
 				foreach($fileList as $key2 => $file){
-					if( $file[$fileIdentifier] == $key){
+					if( $file[$fileIdentifier] === $key){
 						$fileList[$key2] = $fileWithTags;
 					}
 				}

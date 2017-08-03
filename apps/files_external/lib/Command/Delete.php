@@ -103,7 +103,7 @@ class Delete extends Base {
 			$question = new ConfirmationQuestion('Delete this mount? [y/N] ', false);
 
 			if (!$questionHelper->ask($input, $output, $question)) {
-				return;
+				return null;
 			}
 		}
 

@@ -96,9 +96,7 @@ OC.L10N.register(
     "A file has been added to or removed from your <strong>favorites</strong>" : "Fails ir pievienots vai noņemts no jūsu <strong>izlases</strong>",
     "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Fails vai mape tika <strong>mainīts</strong> vai <strong>pārsaukts</strong>",
     "A new file or folder has been <strong>created</strong>" : "<strong>Izveidota</strong> jauna datne vai mape",
-    "A new file or folder has been <strong>deleted</strong>" : "Fails vai mape tika <strong>dzēsts</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Limitēt ziņojumus par jūsu <strong>iecienīto datņu</strong> izveidošanu un izmaiņām <em>(tikai datu straumei)</em>",
-    "A new file or folder has been <strong>restored</strong>" : "Fails vai mape tika <strong>atjaunots</strong>",
     "Upload (max. %s)" : "Augšupielādēt (maks. %s)",
     "File handling" : "Datņu pārvaldība",
     "Maximum upload size" : "Maksimālais datņu augšupielādes apjoms",
@@ -136,6 +134,8 @@ OC.L10N.register(
     "Copy local link" : "Kopēt lokālo saiti",
     "Folder" : "Mape",
     "Upload" : "Augšupielādēt",
+    "A new file or folder has been <strong>deleted</strong>" : "Fails vai mape tika <strong>dzēsts</strong>",
+    "A new file or folder has been <strong>restored</strong>" : "Fails vai mape tika <strong>atjaunots</strong>",
     "No favorites" : "Nav favorītu"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

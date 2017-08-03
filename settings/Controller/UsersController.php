@@ -45,7 +45,6 @@ use OCP\Files\Config\IUserMountCache;
 use OCP\Encryption\IEncryptionModule;
 use OCP\Encryption\IManager;
 use OCP\IConfig;
-use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IRequest;
@@ -71,7 +70,7 @@ class UsersController extends Controller {
 	private $isAdmin;
 	/** @var IUserManager */
 	private $userManager;
-	/** @var IGroupManager */
+	/** @var \OC\Group\Manager */
 	private $groupManager;
 	/** @var IConfig */
 	private $config;
@@ -113,7 +112,7 @@ class UsersController extends Controller {
 	 * @param string $appName
 	 * @param IRequest $request
 	 * @param IUserManager $userManager
-	 * @param IGroupManager $groupManager
+	 * @param \OC\Group\Manager $groupManager
 	 * @param IUserSession $userSession
 	 * @param IConfig $config
 	 * @param bool $isAdmin
@@ -136,7 +135,7 @@ class UsersController extends Controller {
 	public function __construct($appName,
 								IRequest $request,
 								IUserManager $userManager,
-								IGroupManager $groupManager,
+								\OC\Group\Manager $groupManager,
 								IUserSession $userSession,
 								IConfig $config,
 								$isAdmin,
@@ -180,14 +179,14 @@ class UsersController extends Controller {
 		$this->isEncryptionAppEnabled = $appManager->isEnabledForUser('encryption');
 		if ($this->isEncryptionAppEnabled) {
 			// putting this directly in empty is possible in PHP 5.5+
-			$result = $config->getAppValue('encryption', 'recoveryAdminEnabled', 0);
+			$result = $config->getAppValue('encryption', 'recoveryAdminEnabled', '0');
 			$this->isRestoreEnabled = !empty($result);
 		}
 	}
 
 	/**
 	 * @param IUser $user
-	 * @param array $userGroups
+	 * @param array|null $userGroups
 	 * @return array
 	 */
 	private function formatUserForIndex(IUser $user, array $userGroups = null) {

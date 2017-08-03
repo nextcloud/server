@@ -36,9 +36,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class GenerateCommand extends Command {
 
-	private static $_templateSimple =
+	protected static $_templateSimple =
 		'<?php
-namespace <namespace>;
+namespace {{<namespace}};
 
 use Doctrine\DBAL\Schema\Schema;
 use OCP\Migration\SimpleMigrationStep;
@@ -47,7 +47,7 @@ use OCP\Migration\IOutput;
 /**
  * Auto-generated migration step: Please modify to your needs!
  */
-class <classname> extends SimpleMigrationStep {
+class {{classname}} extends SimpleMigrationStep {
 
 	/**
 	 * @param IOutput $output
@@ -66,7 +66,7 @@ class <classname> extends SimpleMigrationStep {
 	 * @since 13.0.0
 	 */
 	public function changeSchema(IOutput $output, \Closure $schemaClosure, array $options) {
-		return null;
+{{schemabody}}
 	}
 
 	/**
@@ -81,7 +81,7 @@ class <classname> extends SimpleMigrationStep {
 ';
 
 	/** @var IDBConnection */
-	private $connection;
+	protected $connection;
 
 	/**
 	 * @param IDBConnection $connection
@@ -123,16 +123,24 @@ class <classname> extends SimpleMigrationStep {
 	/**
 	 * @param MigrationService $ms
 	 * @param string $className
+	 * @param string $schemaBody
 	 * @return string
 	 */
-	private function generateMigration(MigrationService $ms, $className) {
+	protected function generateMigration(MigrationService $ms, $className, $schemaBody = '') {
+		if ($schemaBody === '') {
+			$schemaBody = "\t\t" . 'return null;';
+		}
+
+
 		$placeHolders = [
-			'<namespace>',
-			'<classname>',
+			'{{namespace}}',
+			'{{classname}}',
+			'{{schemabody}}',
 		];
 		$replacements = [
 			$ms->getMigrationsNamespace(),
 			$className,
+			$schemaBody,
 		];
 		$code = str_replace($placeHolders, $replacements, self::$_templateSimple);
 		$dir = $ms->getMigrationsDirectory();
@@ -147,7 +155,7 @@ class <classname> extends SimpleMigrationStep {
 		return $path;
 	}
 
-	private function ensureMigrationDirExists($directory) {
+	protected function ensureMigrationDirExists($directory) {
 		if (file_exists($directory) && is_dir($directory)) {
 			return;
 		}

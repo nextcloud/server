@@ -104,7 +104,7 @@ class TwoFactorMiddleware extends Middleware {
 		// TODO: dont check/enforce 2FA if a auth token is used
 	}
 
-	private function checkTwoFactor($controller, $methodName, IUser $user) {
+	private function checkTwoFactor(Controller $controller, $methodName, IUser $user) {
 		// If two-factor auth is in progress disallow access to any controllers
 		// defined within "LoginController".
 		$needsSecondFactor = $this->twoFactorManager->needsSecondFactor($user);

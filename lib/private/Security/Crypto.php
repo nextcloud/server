@@ -56,7 +56,7 @@ class Crypto implements ICrypto {
 	 * @param IConfig $config
 	 * @param ISecureRandom $random
 	 */
-	function __construct(IConfig $config, ISecureRandom $random) {
+	public function __construct(IConfig $config, ISecureRandom $random) {
 		$this->cipher = new AES();
 		$this->config = $config;
 		$this->random = $random;
@@ -115,7 +115,7 @@ class Crypto implements ICrypto {
 		$this->cipher->setPassword($password);
 
 		$parts = explode('|', $authenticatedCiphertext);
-		if(sizeof($parts) !== 3) {
+		if(count($parts) !== 3) {
 			throw new \Exception('Authenticated ciphertext could not be decoded.');
 		}
 

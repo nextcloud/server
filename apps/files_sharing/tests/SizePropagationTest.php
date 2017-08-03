@@ -26,7 +26,6 @@
 namespace OCA\Files_Sharing\Tests;
 
 use OC\Files\View;
-use Test\Traits\MountProviderTrait;
 use Test\Traits\UserTrait;
 
 /**

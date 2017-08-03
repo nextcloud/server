@@ -46,8 +46,6 @@ OC.L10N.register(
     "Disable" : "Onemogoči",
     "Enable" : "Omogoči",
     "Error while enabling app" : "Napaka omogočanja programa",
-    "Error: this app cannot be enabled because it makes the server unstable" : "Napaka: ta aplikacija ne more biti aktivna, ker povzroča nestabilnost strežnika",
-    "Error: could not disable broken app" : "Napaka: ni mogoče onemogočiti okvarjenega programa",
     "Error while disabling broken app" : "Napaka onemogočanja okvarjenega programa",
     "Updating...." : "Poteka posodabljanje ...",
     "Error while updating app" : "Prišlo je do napake med posodabljanjem programa.",

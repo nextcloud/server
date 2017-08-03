@@ -58,7 +58,7 @@ class Hasher implements IHasher {
 	/**
 	 * @param IConfig $config
 	 */
-	function __construct(IConfig $config) {
+	public function __construct(IConfig $config) {
 		$this->config = $config;
 
 		$hashingCost = $this->config->getSystemValue('hashingCost', null);
@@ -86,7 +86,7 @@ class Hasher implements IHasher {
 	 */
 	protected function splitHash($prefixedHash) {
 		$explodedString = explode('|', $prefixedHash, 2);
-		if(sizeof($explodedString) === 2) {
+		if(count($explodedString) === 2) {
 			if((int)$explodedString[0] > 0) {
 				return array('version' => (int)$explodedString[0], 'hash' => $explodedString[1]);
 			}

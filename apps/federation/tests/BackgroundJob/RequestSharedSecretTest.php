@@ -29,35 +29,47 @@ use OCA\Federation\BackgroundJob\RequestSharedSecret;
 use OCA\Federation\DbHandler;
 use OCA\Federation\TrustedServers;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\Http\Client\IClient;
+use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
+use OCP\ILogger;
 use OCP\IURLGenerator;
 use OCP\OCS\IDiscoveryService;
 use Test\TestCase;
 
 class RequestSharedSecretTest extends TestCase {
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject | IClient */
+	/** @var \PHPUnit_Framework_MockObject_MockObject|IClientService */
+	private $httpClientService;
+
+	/** @var \PHPUnit_Framework_MockObject_MockObject|IClient */
 	private $httpClient;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject | IJobList */
+	/** @var \PHPUnit_Framework_MockObject_MockObject|IJobList */
 	private $jobList;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject | IURLGenerator */
+	/** @var \PHPUnit_Framework_MockObject_MockObject|IURLGenerator */
 	private $urlGenerator;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject | DbHandler */
+	/** @var \PHPUnit_Framework_MockObject_MockObject|DbHandler */
 	private $dbHandler;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject | TrustedServers */
+	/** @var \PHPUnit_Framework_MockObject_MockObject|TrustedServers */
 	private $trustedServers;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject | IResponse */
+	/** @var \PHPUnit_Framework_MockObject_MockObject|IResponse */
 	private $response;
 
-	/** @var  \PHPUnit_Framework_MockObject_MockObject | IDiscoveryService */
+	/** @var \PHPUnit_Framework_MockObject_MockObject|IDiscoveryService */
 	private $discoveryService;
+
+	/** @var \PHPUnit_Framework_MockObject_MockObject|ILogger */
+	private $logger;
+
+	/** @var \PHPUnit_Framework_MockObject_MockObject|ITimeFactory */
+	private $timeFactory;
 
 	/** @var  RequestSharedSecret */
 	private $requestSharedSecret;
@@ -65,6 +77,7 @@ class RequestSharedSecretTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
+		$this->httpClientService = $this->createMock(IClientService::class);
 		$this->httpClient = $this->getMockBuilder(IClient::class)->getMock();
 		$this->jobList = $this->getMockBuilder(IJobList::class)->getMock();
 		$this->urlGenerator = $this->getMockBuilder(IURLGenerator::class)->getMock();
@@ -74,16 +87,21 @@ class RequestSharedSecretTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 		$this->response = $this->getMockBuilder(IResponse::class)->getMock();
 		$this->discoveryService = $this->getMockBuilder(IDiscoveryService::class)->getMock();
+		$this->logger = $this->createMock(ILogger::class);
+		$this->timeFactory = $this->createMock(ITimeFactory::class);
 
 		$this->discoveryService->expects($this->any())->method('discover')->willReturn([]);
+		$this->httpClientService->expects($this->any())->method('newClient')->willReturn($this->httpClient);
 
 		$this->requestSharedSecret = new RequestSharedSecret(
-			$this->httpClient,
+			$this->httpClientService,
 			$this->urlGenerator,
 			$this->jobList,
 			$this->trustedServers,
 			$this->dbHandler,
-			$this->discoveryService
+			$this->discoveryService,
+			$this->logger,
+			$this->timeFactory
 		);
 	}
 
@@ -98,15 +116,17 @@ class RequestSharedSecretTest extends TestCase {
 		$requestSharedSecret = $this->getMockBuilder('OCA\Federation\BackgroundJob\RequestSharedSecret')
 			->setConstructorArgs(
 				[
-					$this->httpClient,
+					$this->httpClientService,
 					$this->urlGenerator,
 					$this->jobList,
 					$this->trustedServers,
 					$this->dbHandler,
-					$this->discoveryService
+					$this->discoveryService,
+					$this->logger,
+					$this->timeFactory
 				]
 			)->setMethods(['parentExecute'])->getMock();
-		$this->invokePrivate($requestSharedSecret, 'argument', [['url' => 'url']]);
+		$this->invokePrivate($requestSharedSecret, 'argument', [['url' => 'url', 'token' => 'token']]);
 
 		$this->trustedServers->expects($this->once())->method('isTrustedServer')
 			->with('url')->willReturn($isTrustedServer);
@@ -116,10 +136,23 @@ class RequestSharedSecretTest extends TestCase {
 			$requestSharedSecret->expects($this->never())->method('parentExecute');
 		}
 		$this->invokePrivate($requestSharedSecret, 'retainJob', [$retainBackgroundJob]);
+		$this->jobList->expects($this->once())->method('remove');
+
+		$this->timeFactory->method('getTime')->willReturn(42);
+
 		if ($retainBackgroundJob) {
-			$this->jobList->expects($this->never())->method('remove');
+			$this->jobList->expects($this->once())
+				->method('add')
+				->with(
+					RequestSharedSecret::class,
+					[
+						'url' => 'url',
+						'token' => 'token',
+						'created' => 42,
+					]
+				);
 		} else {
-			$this->jobList->expects($this->once())->method('remove');
+			$this->jobList->expects($this->never())->method('add');
 		}
 
 		$requestSharedSecret->execute($this->jobList);
@@ -146,6 +179,8 @@ class RequestSharedSecretTest extends TestCase {
 		$token = 'token';
 
 		$argument = ['url' => $target, 'token' => $token];
+
+		$this->timeFactory->method('getTime')->willReturn(42);
 
 		$this->urlGenerator->expects($this->once())->method('getAbsoluteURL')->with('/')
 			->willReturn($source);
@@ -194,5 +229,35 @@ class RequestSharedSecretTest extends TestCase {
 			[Http::STATUS_FORBIDDEN],
 			[Http::STATUS_CONFLICT],
 		];
+	}
+
+	public function testRunExpired() {
+		$target = 'targetURL';
+		$source = 'sourceURL';
+		$token = 'token';
+		$created = 42;
+
+		$argument = [
+			'url' => $target,
+			'token' => $token,
+			'created' => $created,
+		];
+
+		$this->urlGenerator->expects($this->once())
+			->method('getAbsoluteURL')
+			->with('/')
+			->willReturn($source);
+
+		$this->timeFactory->method('getTime')
+			->willReturn($created + 2592000 + 1);
+
+		$this->trustedServers->expects($this->once())
+			->method('setServerStatus')
+			->with(
+				$target,
+				TrustedServers::STATUS_FAILURE
+			);
+
+		$this->invokePrivate($this->requestSharedSecret, 'run', [$argument]);
 	}
 }
