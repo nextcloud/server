@@ -135,7 +135,6 @@ vendor_style('jcrop/css/jquery.Jcrop');
 					<span><?php if(isset($_['email']) && !empty($_['email'])) { p($_['email']); } else { p($l->t('No email address set')); }?></span>
 				<?php } ?>
 				<?php if($_['displayNameChangeSupported']) { ?>
-					<br />
 					<em><?php p($l->t('For password reset and notifications')); ?></em>
 				<?php } ?>
 				<span class="icon-checkmark hidden"/>
@@ -308,7 +307,6 @@ vendor_style('jcrop/css/jquery.Jcrop');
 						</option>
 					<?php endforeach;?>
 				</select>
-				<br>
 				<a href="https://www.transifex.com/nextcloud/nextcloud/"
 					target="_blank" rel="noreferrer">
 					<em><?php p($l->t('Help translate'));?></em>
@@ -324,12 +322,12 @@ vendor_style('jcrop/css/jquery.Jcrop');
 			<form id="passwordform" class="section">
 				<h2 class="inlineblock"><?php p($l->t('Password'));?></h2>
 				<div id="password-error-msg" class="msg success inlineblock" style="display: none;">Saved</div>
-				<br>
+
 				<label for="pass1" class="hidden-visually"><?php p($l->t('Current password')); ?>: </label>
 				<input type="password" id="pass1" name="oldpassword"
 					placeholder="<?php p($l->t('Current password'));?>"
 					autocomplete="off" autocapitalize="none" autocorrect="off" />
-				<br>
+
 				<div class="personal-show-container">
 					<label for="pass2" class="hidden-visually"><?php p($l->t('New password'));?>: </label>
 					<input type="password" id="pass2" name="newpassword"
@@ -338,9 +336,9 @@ vendor_style('jcrop/css/jquery.Jcrop');
 						autocomplete="off" autocapitalize="none" autocorrect="off" />
 					<input type="checkbox" id="personal-show" name="show" /><label for="personal-show" class="personal-show-label"></label>
 				</div>
-				<br>
+
 				<input id="passwordbutton" type="submit" value="<?php p($l->t('Change password')); ?>" />
-				<br/>
+
 			</form>
 			<?php
 			}

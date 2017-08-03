@@ -2,24 +2,11 @@
  This file is licensed under the Affero General Public License version 3 or later.
  See the COPYING-README file. */
 
-select#timezone {
-	width: 15em;
-}
-
-select#languageinput {
-	width: 17em;
-}
-
 input#openid, input#webdav {
 	width: 20em;
 }
 
-input#pass1, input#pass2, input#passwordbutton {
-	width: 17em;
-}
-
 /* PERSONAL */
-
 .clear {
 	clear: both;
 }
@@ -37,7 +24,6 @@ input#pass1, input#pass2, input#passwordbutton {
 .icon-federation-menu {
 	width: 44px;
 	margin: -6px;
-	margin-right: 10px;
 	float: right;
 	text-align: right;
 }
@@ -73,12 +59,6 @@ input#pass1, input#pass2, input#passwordbutton {
 
 .nav-icon-ssl-root-certificate {
 	background-image: url('../img/password.svg?v=1');
-}
-
-#avatarform {
-	min-width: 145px;
-	padding-right: 0;
-	margin-top: -2px;
 }
 
 #avatarform .avatardiv {
@@ -152,18 +132,14 @@ input#pass1, input#pass2, input#passwordbutton {
 
 #personal-settings-avatar-container,
 #personal-settings-group-container {
-	float: left;
+	display: inline-block;
+	vertical-align: top;
+	min-width: 205px;
 }
 
-.profile-settings-container {
-	position: relative;
-	margin-left: 215px;
-	max-width: 600px;
-}
-
+.profile-settings-container,
 .personal-settings-container {
-	position: relative;
-	margin-left: 215px;
+	display: inline-block;
 	max-width: 600px;
 }
 
@@ -174,13 +150,7 @@ input#pass1, input#pass2, input#passwordbutton {
 .personal-settings-container > div,
 .profile-settings-container > div {
 	float: left;
-	height: 100px;
-	min-width: 300px;
-}
-
-.personal-settings-container.no-edit > div {
-	height: 20px;
-	min-width: 200px;
+	width: 300px;
 }
 
 #avatarform > h2,
@@ -202,24 +172,32 @@ input#pass1, input#pass2, input#passwordbutton {
 	cursor: pointer;
 }
 
+.personal-show-container,
 .personal-settings-setting-box input[type="text"],
 .personal-settings-setting-box input[type="email"],
-.personal-settings-setting-box input[type="tel"] {
-	width: 17em;
+.personal-settings-setting-box input[type="tel"],
+select#timezone,
+select#languageinput,
+input#pass1,
+input#pass2,
+input#passwordbutton {
+	width: 100%;
 }
 
 .personal-settings-container > div > form span[class^="icon-checkmark"] {
-	position: absolute;
-	left: 228px;
-	top: 82px;
+	position: relative;
+	left: 90%;
+	top: -44px;
 	pointer-events: none;
+	width: 44px;
 }
 
 /* verify accounts */
 .personal-settings-container .verify {
-	position: absolute;
-	right: 14px;
-	top: 70px;
+	position: relative;
+	left: 100%;
+	top: 0;
+	height: 0;
 }
 
 .personal-settings-container .verify img {
@@ -283,12 +261,6 @@ input#pass1, input#pass2, input#passwordbutton {
 	padding-bottom: 0;
 	padding-right: 0;
 	min-width: 60%;
-}
-
-#avatarform,
-#passwordform {
-	margin-bottom: 0;
-	padding-bottom: 0;
 }
 
 #groups {
@@ -998,10 +970,6 @@ span.version {
 .section h2.app-name {
 	display: block;
 	margin: 8px 0;
-}
-
-form.section {
-	position: relative;
 }
 
 .followupsection {
