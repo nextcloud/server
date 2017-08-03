@@ -33,7 +33,6 @@
 									<img src="<?php p($theme->getLogo()); ?>"/>
 								<?php endif; ?>
 							</div>
-							<div id="logo-claim" style="display:none;"><?php p($theme->getLogoClaim()); ?></div>
 						</div>
 					</header>
 				<?php endif; ?>
