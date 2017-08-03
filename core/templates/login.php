@@ -61,7 +61,10 @@ script('core', 'merged-login');
 			</p>
 		<?php } ?>
 
-		<input type="submit" id="submit" class="login primary icon-confirm-white" title="" value="<?php p($l->t('Log in')); ?>" disabled="disabled" />
+		<div id="submit-wrapper">
+			<input type="submit" id="submit" class="login primary" title="" value="<?php p($l->t('Log in')); ?>" disabled="disabled" />
+			<div id="submit-icon" class="icon-confirm-white"></div>
+		</div>
 
 		<div class="login-additional">
 			<div class="remember-login-container">

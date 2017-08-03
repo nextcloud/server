@@ -12,9 +12,10 @@
  */
 OC.Login = _.extend(OC.Login || {}, {
 	onLogin: function () {
-		$('#submit')
+		$('#submit-icon')
 			.removeClass('icon-confirm-white')
-			.addClass('icon-loading-small')
+			.addClass('icon-loading-small');
+		$('#submit')
 			.attr('value', t('core', 'Logging in …'));
 		return true;
 	},

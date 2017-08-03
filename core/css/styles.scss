@@ -754,6 +754,22 @@ label.infield {
 
 /* Log in and install button */
 
+#body-login #submit-wrapper {
+	position: relative; /* Make the wrapper the containing block of its
+						   absolutely positioned descendant icons */
+
+	.icon-confirm-white {
+		position: absolute;
+		top: 23px;
+		right: 23px;
+	}
+	.icon-loading-small {
+		position: absolute;
+		top: 22px;
+		right: 24px;
+	}
+}
+
 #body-login input {
 	font-size: 20px;
 	margin: 5px;

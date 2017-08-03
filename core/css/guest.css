@@ -131,6 +131,21 @@ form #datadirField legend {
 }
 
 /* Buttons and input */
+#submit-wrapper {
+	position: relative; /* Make the wrapper the containing block of its
+						   absolutely positioned descendant icons */
+}
+#submit-wrapper .icon-confirm-white {
+	position: absolute;
+	top: 23px;
+	right: 23px;
+}
+#submit-wrapper .icon-loading-small {
+	position: absolute;
+	top: 22px;
+	right: 24px;
+}
+
 input, textarea, select, button {
 	font-family: 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif;
 }
