@@ -22,6 +22,7 @@
  */
 namespace OC\Share20;
 
+use OCP\Files\File;
 use OCP\Share\IShare;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -41,6 +42,8 @@ class LegacyHooks {
 		$this->eventDispatcher->addListener('OCP\Share::preUnshare', [$this, 'preUnshare']);
 		$this->eventDispatcher->addListener('OCP\Share::postUnshare', [$this, 'postUnshare']);
 		$this->eventDispatcher->addListener('OCP\Share::postUnshareFromSelf', [$this, 'postUnshareFromSelf']);
+		$this->eventDispatcher->addListener('OCP\Share::preShare', [$this, 'preShare']);
+		$this->eventDispatcher->addListener('OCP\Share::postShare', [$this, 'postShare']);
 	}
 
 	/**
@@ -111,5 +114,59 @@ class LegacyHooks {
 			'fileTarget' => $share->getTarget()
 		];
 		return $hookParams;
+	}
+
+	public function preShare(GenericEvent $e) {
+		/** @var IShare $share */
+		$share = $e->getSubject();
+
+		// Pre share hook
+		$run = true;
+		$error = '';
+		$preHookData = [
+			'itemType' => $share->getNode() instanceof File ? 'file' : 'folder',
+			'itemSource' => $share->getNode()->getId(),
+			'shareType' => $share->getShareType(),
+			'uidOwner' => $share->getSharedBy(),
+			'permissions' => $share->getPermissions(),
+			'fileSource' => $share->getNode()->getId(),
+			'expiration' => $share->getExpirationDate(),
+			'token' => $share->getToken(),
+			'itemTarget' => $share->getTarget(),
+			'shareWith' => $share->getSharedWith(),
+			'run' => &$run,
+			'error' => &$error,
+		];
+		\OC_Hook::emit('OCP\Share', 'pre_shared', $preHookData);
+
+		if ($run === false) {
+			$e->setArgument('error', $error);
+			$e->stopPropagation();
+		}
+
+		return $e;
+	}
+
+	public function postShare(GenericEvent $e) {
+		/** @var IShare $share */
+		$share = $e->getSubject();
+
+		$postHookData = [
+			'itemType' => $share->getNode() instanceof File ? 'file' : 'folder',
+			'itemSource' => $share->getNode()->getId(),
+			'shareType' => $share->getShareType(),
+			'uidOwner' => $share->getSharedBy(),
+			'permissions' => $share->getPermissions(),
+			'fileSource' => $share->getNode()->getId(),
+			'expiration' => $share->getExpirationDate(),
+			'token' => $share->getToken(),
+			'id' => $share->getId(),
+			'shareWith' => $share->getSharedWith(),
+			'itemTarget' => $share->getTarget(),
+			'fileTarget' => $share->getTarget(),
+		];
+
+		\OC_Hook::emit('OCP\Share', 'post_shared', $postHookData);
+
 	}
 }

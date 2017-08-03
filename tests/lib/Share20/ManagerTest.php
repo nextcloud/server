@@ -1705,46 +1705,45 @@ class ManagerTest extends \Test\TestCase {
 				return $share->setId(42);
 			}));
 
-		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['pre', 'post'])->getMock();
-		\OCP\Util::connectHook('OCP\Share', 'pre_shared',  $hookListner, 'pre');
-		\OCP\Util::connectHook('OCP\Share', 'post_shared', $hookListner, 'post');
+		// Pre share
+		$this->eventDispatcher->expects($this->at(0))
+			->method('dispatch')
+			->with(
+				$this->equalTo('OCP\Share::preShare'),
+				$this->callback(function(GenericEvent $e) use ($path, $date) {
+					/** @var IShare $share */
+					$share = $e->getSubject();
 
-		$hookListnerExpectsPre = [
-			'itemType' => 'file',
-			'itemSource' => 1,
-			'shareType' => \OCP\Share::SHARE_TYPE_LINK,
-			'uidOwner' => 'sharedBy',
-			'permissions' => 31,
-			'fileSource' => 1,
-			'expiration' => $date,
-			'token' => 'token',
-			'run' => true,
-			'error' => '',
-			'itemTarget' => '/target',
-			'shareWith' => null,
-		];
+					return $share->getShareType() === \OCP\Share::SHARE_TYPE_LINK &&
+						$share->getNode() === $path &&
+						$share->getSharedBy() === 'sharedBy' &&
+						$share->getPermissions() === \OCP\Constants::PERMISSION_ALL &&
+						$share->getExpirationDate() === $date &&
+						$share->getPassword() === 'hashed' &&
+						$share->getToken() === 'token';
+				})
+			);
 
-		$hookListnerExpectsPost = [
-			'itemType' => 'file',
-			'itemSource' => 1,
-			'shareType' => \OCP\Share::SHARE_TYPE_LINK,
-			'uidOwner' => 'sharedBy',
-			'permissions' => 31,
-			'fileSource' => 1,
-			'expiration' => $date,
-			'token' => 'token',
-			'id' => 42,
-			'itemTarget' => '/target',
-			'fileTarget' => '/target',
-			'shareWith' => null,
-		];
+		// Post share
+		$this->eventDispatcher->expects($this->at(1))
+			->method('dispatch')
+			->with(
+				$this->equalTo('OCP\Share::postShare'),
+				$this->callback(function(GenericEvent $e) use ($path, $date) {
+					/** @var IShare $share */
+					$share = $e->getSubject();
 
-		$hookListner->expects($this->once())
-			->method('pre')
-			->with($this->equalTo($hookListnerExpectsPre));
-		$hookListner->expects($this->once())
-			->method('post')
-			->with($this->equalTo($hookListnerExpectsPost));
+					return $share->getShareType() === \OCP\Share::SHARE_TYPE_LINK &&
+						$share->getNode() === $path &&
+						$share->getSharedBy() === 'sharedBy' &&
+						$share->getPermissions() === \OCP\Constants::PERMISSION_ALL &&
+						$share->getExpirationDate() === $date &&
+						$share->getPassword() === 'hashed' &&
+						$share->getToken() === 'token' &&
+						$share->getId() === '42' &&
+						$share->getTarget() === '/target';
+				})
+			);
 
 		/** @var IShare $share */
 		$share = $manager->createShare($share);
@@ -1817,46 +1816,45 @@ class ManagerTest extends \Test\TestCase {
 				return $share->setId(42);
 			}));
 
-		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['pre', 'post'])->getMock();
-		\OCP\Util::connectHook('OCP\Share', 'pre_shared',  $hookListner, 'pre');
-		\OCP\Util::connectHook('OCP\Share', 'post_shared', $hookListner, 'post');
+		// Pre share
+		$this->eventDispatcher->expects($this->at(0))
+			->method('dispatch')
+			->with(
+				$this->equalTo('OCP\Share::preShare'),
+				$this->callback(function(GenericEvent $e) use ($path) {
+					/** @var IShare $share */
+					$share = $e->getSubject();
 
-		$hookListnerExpectsPre = [
-			'itemType' => 'file',
-			'itemSource' => 1,
-			'shareType' => \OCP\Share::SHARE_TYPE_EMAIL,
-			'uidOwner' => 'sharedBy',
-			'permissions' => 31,
-			'fileSource' => 1,
-			'expiration' => null,
-			'token' => 'token',
-			'run' => true,
-			'error' => '',
-			'itemTarget' => '/target',
-			'shareWith' => null,
-		];
+					return $share->getShareType() === \OCP\Share::SHARE_TYPE_EMAIL &&
+						$share->getNode() === $path &&
+						$share->getSharedBy() === 'sharedBy' &&
+						$share->getPermissions() === \OCP\Constants::PERMISSION_ALL &&
+						$share->getExpirationDate() === null &&
+						$share->getPassword() === null &&
+						$share->getToken() === 'token';
+				})
+			);
 
-		$hookListnerExpectsPost = [
-			'itemType' => 'file',
-			'itemSource' => 1,
-			'shareType' => \OCP\Share::SHARE_TYPE_EMAIL,
-			'uidOwner' => 'sharedBy',
-			'permissions' => 31,
-			'fileSource' => 1,
-			'expiration' => null,
-			'token' => 'token',
-			'id' => 42,
-			'itemTarget' => '/target',
-			'fileTarget' => '/target',
-			'shareWith' => null,
-		];
+		// Post share
+		$this->eventDispatcher->expects($this->at(1))
+			->method('dispatch')
+			->with(
+				$this->equalTo('OCP\Share::postShare'),
+				$this->callback(function(GenericEvent $e) use ($path) {
+					/** @var IShare $share */
+					$share = $e->getSubject();
 
-		$hookListner->expects($this->once())
-			->method('pre')
-			->with($this->equalTo($hookListnerExpectsPre));
-		$hookListner->expects($this->once())
-			->method('post')
-			->with($this->equalTo($hookListnerExpectsPost));
+					return $share->getShareType() === \OCP\Share::SHARE_TYPE_EMAIL &&
+						$share->getNode() === $path &&
+						$share->getSharedBy() === 'sharedBy' &&
+						$share->getPermissions() === \OCP\Constants::PERMISSION_ALL &&
+						$share->getExpirationDate() === null &&
+						$share->getPassword() === null &&
+						$share->getToken() === 'token' &&
+						$share->getId() === '42' &&
+						$share->getTarget() === '/target';
+				})
+			);
 
 		/** @var IShare $share */
 		$share = $manager->createShare($share);
@@ -1919,14 +1917,17 @@ class ManagerTest extends \Test\TestCase {
 			->method('setTarget')
 			->with('/target');
 
-		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['pre'])->getMock();
-		\OCP\Util::connectHook('OCP\Share', 'pre_shared', $hookListner, 'pre');
-		$hookListner->expects($this->once())
-			->method('pre')
-			->will($this->returnCallback(function (array $data) {
-				$data['run'] = false;
-				$data['error'] = 'I won\'t let you share!';
-			}));
+		// Pre share
+		$this->eventDispatcher->expects($this->once())
+			->method('dispatch')
+			->with(
+				$this->equalTo('OCP\Share::preShare'),
+				$this->isInstanceOf(GenericEvent::class)
+			)->will($this->returnCallback(function($name, GenericEvent $e) {
+					$e->setArgument('error', 'I won\'t let you share!');
+					$e->stopPropagation();
+				})
+			);
 
 		$manager->createShare($share);
 	}

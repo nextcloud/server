@@ -636,27 +636,11 @@ class Manager implements IManager {
 		$target = \OC\Files\Filesystem::normalizePath($target);
 		$share->setTarget($target);
 
-		// Pre share hook
-		$run = true;
-		$error = '';
-		$preHookData = [
-			'itemType' => $share->getNode() instanceof \OCP\Files\File ? 'file' : 'folder',
-			'itemSource' => $share->getNode()->getId(),
-			'shareType' => $share->getShareType(),
-			'uidOwner' => $share->getSharedBy(),
-			'permissions' => $share->getPermissions(),
-			'fileSource' => $share->getNode()->getId(),
-			'expiration' => $share->getExpirationDate(),
-			'token' => $share->getToken(),
-			'itemTarget' => $share->getTarget(),
-			'shareWith' => $share->getSharedWith(),
-			'run' => &$run,
-			'error' => &$error,
-		];
-		\OC_Hook::emit('OCP\Share', 'pre_shared', $preHookData);
-
-		if ($run === false) {
-			throw new \Exception($error);
+		// Pre share event
+		$event = new GenericEvent($share);
+		$a = $this->eventDispatcher->dispatch('OCP\Share::preShare', $event);
+		if ($event->isPropagationStopped() && $event->hasArgument('error')) {
+			throw new \Exception($event->getArgument('error'));
 		}
 
 		$oldShare = $share;
@@ -665,23 +649,9 @@ class Manager implements IManager {
 		//reuse the node we already have
 		$share->setNode($oldShare->getNode());
 
-		// Post share hook
-		$postHookData = [
-			'itemType' => $share->getNode() instanceof \OCP\Files\File ? 'file' : 'folder',
-			'itemSource' => $share->getNode()->getId(),
-			'shareType' => $share->getShareType(),
-			'uidOwner' => $share->getSharedBy(),
-			'permissions' => $share->getPermissions(),
-			'fileSource' => $share->getNode()->getId(),
-			'expiration' => $share->getExpirationDate(),
-			'token' => $share->getToken(),
-			'id' => $share->getId(),
-			'shareWith' => $share->getSharedWith(),
-			'itemTarget' => $share->getTarget(),
-			'fileTarget' => $share->getTarget(),
-		];
-
-		\OC_Hook::emit('OCP\Share', 'post_shared', $postHookData);
+		// Post share event
+		$event = new GenericEvent($share);
+		$this->eventDispatcher->dispatch('OCP\Share::postShare', $event);
 
 		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER) {
 			$user = $this->userManager->get($share->getSharedWith());
