@@ -387,8 +387,7 @@ class User {
 		$lastChecked = $this->config->getUserValue($this->uid, 'user_ldap',
 			self::USER_PREFKEY_LASTREFRESH, 0);
 
-		//TODO make interval configurable
-		if((time() - intval($lastChecked)) < 86400 ) {
+		if((time() - intval($lastChecked)) < $this->config->getAppValue('user_ldap', 'updateAttribuesInterval', 86400) ) {
 			return false;
 		}
 		return  true;
