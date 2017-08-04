@@ -69,11 +69,8 @@ OC.L10N.register(
     "Verify settings and count the groups" : "Έλεγχος ρυθμίσεων και μέτρημα ομάδων",
     "When logging in, %s will find the user based on the following attributes:" : "Κατά τη σύνδεση, το %s θα βρει το χρήστη βασιζόμενος στις ακόλουθες ιδιότητες:",
     "LDAP / AD Username:" : "Όνομα χρήστη LDAP / AD:",
-    "Allows login against the LDAP / AD username, which is either uid or sAMAccountName and will be detected." : "Μπορείτε να παρακάμψετε το πρωτόκολο αν δεν επιθυμείτε SSL. Εάν είναι επιθυμητό ξεκινήστε με ldaps://",
     "LDAP / AD Email Address:" : "Διεύθυνση ηλ. ταχυδρομείου LDAP / AD:",
-    "Allows login against an email attribute. Mail and mailPrimaryAddress will be allowed." : "Επιτρέπει με χρήση μια ιδιότητας email. Τα mail και mailPrimaryAddress θα επιτραπούν.",
     "Other Attributes:" : "Άλλες Ιδιότητες:",
-    "Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\"" : "Ορίζει το φίλτρο που θα εφαρμοστεί, όταν επιχειριθεί σύνδεση. Το %%uid αντικαθιστά το όνομα χρήστη κατά τη σύνδεση. Παράδειγμα: \"uid=%%uid\"",
     "Test Loginname" : "Δοκιμή ",
     "Verify settings" : "Επιβεβαίωση ρυθμίσεων",
     "1. Server" : "1. Διακομιστής",
@@ -167,9 +164,12 @@ OC.L10N.register(
     "The %uid placeholder is missing. It will be replaced with the login name when querying LDAP / AD." : "Η κράτηση θέσης %uid απουσιάζει. Θα αντικατασταθεί με το όνομα σύνδεσης κατά το ερώτημα ",
     "Verify settings and count groups" : "Επιβεβαίωση ρυθμίσεων και καταμέτρηση ομάδων",
     "Allows login against the LDAP / AD username, which is either uid or samaccountname and will be detected." : "Επιτρέπει σύνδεση με το όνομα χρήστη στο LDAP / AD, το οποίο είναι είτε uid ή samaccountname και θα ανιχνευθεί.",
+    "Allows login against an email attribute. Mail and mailPrimaryAddress will be allowed." : "Επιτρέπει με χρήση μια ιδιότητας email. Τα mail και mailPrimaryAddress θα επιτραπούν.",
+    "Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\"" : "Ορίζει το φίλτρο που θα εφαρμοστεί, όταν επιχειριθεί σύνδεση. Το %%uid αντικαθιστά το όνομα χρήστη κατά τη σύνδεση. Παράδειγμα: \"uid=%%uid\"",
     "Add a new and blank configuration" : "Προσθέτει μια νέα και κενή διαμόρφωση",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "Μπορείτε να παραλείψετε το πρωτόκολλο, εκτός αν απαιτείται SSL. Σε αυτή την περίπτωση ξεκινήστε με ldaps://",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Προσοχή:</b> Οι εφαρμογές user_ldap και user_webdavauth είναι ασύμβατες. Μπορεί να αντιμετωπίσετε απρόβλεπτη συμπεριφορά. Παρακαλώ ζητήστε από τον διαχειριστή συστήματος να απενεργοποιήσει μία από αυτές.",
-    "in bytes" : "σε bytes"
+    "in bytes" : "σε bytes",
+    "Allows login against the LDAP / AD username, which is either uid or sAMAccountName and will be detected." : "Μπορείτε να παρακάμψετε το πρωτόκολο αν δεν επιθυμείτε SSL. Εάν είναι επιθυμητό ξεκινήστε με ldaps://"
 },
 "nplurals=2; plural=(n != 1);");

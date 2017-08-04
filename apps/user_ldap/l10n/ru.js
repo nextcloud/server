@@ -79,11 +79,8 @@ OC.L10N.register(
     "Verify settings and count the groups" : "Проверить настройки и пересчитать группы",
     "When logging in, %s will find the user based on the following attributes:" : "При входе, %s будет искать пользователя по следующим атрибутам:",
     "LDAP / AD Username:" : "Имя пользователя LDAP/AD:",
-    "Allows login against the LDAP / AD username, which is either uid or sAMAccountName and will be detected." : "Позволяет вход в LDAP / AD с помощью имени пользователя, которое может определяться как uid, так и sAMAccountName.",
     "LDAP / AD Email Address:" : "Адрес email LDAP / AD:",
-    "Allows login against an email attribute. Mail and mailPrimaryAddress will be allowed." : "Позволяет вход с помощью адреса email. Будут разрешены Mail и mailPrimaryAddress.",
     "Other Attributes:" : "Другие атрибуты:",
-    "Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\"" : "Определяет фильтр для применения при попытке входа. %%uid заменяет имя пользователя при входе в систему. Например: \"uid=%%uid\"",
     "Test Loginname" : "Проверить логин",
     "Verify settings" : "Проверить настройки",
     "1. Server" : "Сервер 1.",
@@ -190,9 +187,12 @@ OC.L10N.register(
     "The %uid placeholder is missing. It will be replaced with the login name when querying LDAP / AD." : "Отсутствует заполнитель %uid. Он будет заменен на логин при запросе к LDAP / AD.",
     "Verify settings and count groups" : "Проверить настройки и пересчитать группы",
     "Allows login against the LDAP / AD username, which is either uid or samaccountname and will be detected." : "Позволяет вход в LDAP / AD с помощью имени пользователя, которое может определяться как uid, так и samaccountname.",
+    "Allows login against an email attribute. Mail and mailPrimaryAddress will be allowed." : "Позволяет вход с помощью адреса email. Будут разрешены Mail и mailPrimaryAddress.",
+    "Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\"" : "Определяет фильтр для применения при попытке входа. %%uid заменяет имя пользователя при входе в систему. Например: \"uid=%%uid\"",
     "Add a new and blank configuration" : "Добавить новую и пустую конфигурацию",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "Можно пренебречь протоколом, за исключением использования SSL. В этом случае укажите ldaps://",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Предупреждение:</b> Приложения user_ldap и user_webdavauth несовместимы. Вы можете наблюдать некорректное поведение. Пожалуйста, попросите вашего системного администратора отключить одно из них.",
-    "in bytes" : "в байтах"
+    "in bytes" : "в байтах",
+    "Allows login against the LDAP / AD username, which is either uid or sAMAccountName and will be detected." : "Позволяет вход в LDAP / AD с помощью имени пользователя, которое может определяться как uid, так и sAMAccountName."
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");
