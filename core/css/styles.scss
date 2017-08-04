@@ -1120,6 +1120,10 @@ code {
 		.filesize {
 			text-align: right;
 		}
+		.date { 
+			display: table-cell; 
+			position: initial; 
+		}
 	}
 	.filepicker_element_selected {
 		background-color: lightblue;
