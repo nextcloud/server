@@ -11,29 +11,9 @@ input#openid, input#webdav {
 	clear: both;
 }
 
-.personal-settings-password-box {
-	margin-top: 20px;
-	margin-bottom: 136px;
-}
-
-.personal-settings-group-box,
-.personal-settings-language-box {
-	margin-top: 20px;
- }
-
 .icon-federation-menu {
-	width: 44px;
-	margin: -6px;
+	width: 16px;
 	float: right;
-	text-align: right;
-}
-
-.icon-avatar-federation-menu {
-	position: absolute;
-	width: 46px;
-	top: -6px;
-	left: 128px;
-	text-align: right;
 }
 
 /* icons for sidebar */
@@ -62,7 +42,7 @@ input#openid, input#webdav {
 }
 
 #avatarform .avatardiv {
-	margin-bottom: 10px;
+	margin: 10px auto;
 }
 
 #avatarform .warning {
@@ -84,8 +64,7 @@ input#openid, input#webdav {
 #uploadavatarbutton,
 #selectavatar,
 #removeavatar {
-	width: 33px;
-	height: 33px;
+	padding: 21px;
 }
 
 .jcrop-holder {
@@ -134,13 +113,14 @@ input#openid, input#webdav {
 #personal-settings-group-container {
 	display: inline-block;
 	vertical-align: top;
-	min-width: 205px;
+	width: 225px;
 }
 
 .profile-settings-container,
 .personal-settings-container {
 	display: inline-block;
 	max-width: 600px;
+	margin-bottom: 20px;
 }
 
 .personal-settings-container:after {
@@ -164,10 +144,9 @@ input#openid, input#webdav {
 
 .personal-settings-container > div h2 span[class^="icon-"],
 #personal-settings-avatar-container h2 span[class^="icon-"] {
-	padding: 8px;
-	margin-left: -8px;
-	margin-bottom: -10px;
+	padding-left: 16px;
 	background-size: 16px;
+	background-position: left 8px;
 	opacity: .3;
 	cursor: pointer;
 }
@@ -252,22 +231,6 @@ input#passwordbutton {
 
 .federationScopeMenu.popovermenu .menuitem .menuitem-text-detail {
 	opacity: .75;
-}
-
-#lostpassword,
-#groups {
-	display: inline-block;
-	margin-bottom: 10px;
-	padding-bottom: 0;
-	padding-right: 0;
-	min-width: 60%;
-}
-
-#groups {
-	overflow-wrap: break-word;
-	width: 125px;
-	display: block;
-	clear: both;
 }
 
 #groups-groups {
@@ -972,8 +935,8 @@ span.version {
 	margin: 8px 0;
 }
 
-form.section {
-	padding: 0 30px;
+.section {
+	padding: 10px 30px;
 	margin-bottom: 0;
 }
 

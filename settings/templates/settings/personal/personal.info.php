@@ -56,8 +56,7 @@ vendor_style('jcrop/css/jquery.Jcrop');
 	<div id="personal-settings-avatar-container">
 		<form id="avatarform" class="section" method="post" action="<?php p(\OC::$server->getURLGenerator()->linkToRoute('core.avatar.postAvatar')); ?>">
 			<h2>
-				<label><?php p($l->t('Profile picture')); ?></label>
-				<span class="icon-avatar-federation-menu icon-password">&#9662;<span/>
+				<label><?php p($l->t('Profile picture')); ?></label><span class="icon-federation-menu icon-password">&#9662;<span/>
 			</h2>
 			<div id="displayavatar">
 				<div class="avatardiv"></div>
@@ -284,6 +283,7 @@ vendor_style('jcrop/css/jquery.Jcrop');
 			</div>
 		</div>
 	</div>
+	
 	<div class="profile-settings-container">
 		<div class="personal-settings-setting-box personal-settings-language-box">
 			<?php if (isset($_['activelanguage'])) { ?>
