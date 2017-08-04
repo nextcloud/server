@@ -237,6 +237,15 @@ function image_path( $app, $image ) {
 }
 
 /**
+ * @param string $app app
+ * @param string $image image
+ * @return string content of the image
+ */
+function inline_image($app, $image) {
+	echo file_get_contents(\OC::$SERVERROOT . image_path($app, $image));
+}
+
+/**
  * make OC_Helper::mimetypeIcon available as a simple function
  * @param string $mimetype mimetype
  * @return string link to the image
