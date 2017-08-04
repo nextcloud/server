@@ -35,7 +35,12 @@
 		},
 
 		getFileContent: function (path) {
-			return $.get(OC.linkToRemoteBase('files' + path));
+			return $.ajax({
+				url: OC.linkToRemoteBase('files' + path),
+				headers: {
+					'Range': 'bytes=0-10240'
+				}
+			});
 		}
 	};
 
