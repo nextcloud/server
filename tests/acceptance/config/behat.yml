@@ -17,6 +17,7 @@ default:
         - NotificationContext
         - SettingsContext
         - SettingsMenuContext
+        - ThemingAppContext
         - UsersSettingsContext
   extensions:
     Behat\MinkExtension:
