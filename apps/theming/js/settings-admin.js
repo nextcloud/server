@@ -43,7 +43,7 @@ function preview(setting, value) {
 	var stylesheetsLoaded = 2;
 	var reloadStylesheets = function(cssFile) {
 		var queryString = '?reload=' + new Date().getTime();
-		var url = OC.generateUrl(cssFile) + queryString;
+		var url = cssFile + queryString;
 		var old = $('link[href*="' + cssFile.replace("/","\/") + '"]');
 		var stylesheet = $("<link/>", {
 			rel: "stylesheet",
@@ -62,8 +62,8 @@ function preview(setting, value) {
 		stylesheet.appendTo("head");
 	};
 
-	reloadStylesheets('/css/core/server.css');
-	reloadStylesheets('/apps/theming/styles');
+	reloadStylesheets(OC.generateUrl('/css/core/server.css'));
+	reloadStylesheets(OC.generateUrl('/apps/theming/styles'));
 
 	// Preview images
 	var timestamp = new Date().getTime();
