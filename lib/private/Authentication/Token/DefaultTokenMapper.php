@@ -82,7 +82,6 @@ class DefaultTokenMapper extends Mapper {
 		if ($data === false) {
 			throw new DoesNotExistException('token does not exist');
 		}
-;
 		return DefaultToken::fromRow($data);
 	}
 
@@ -105,12 +104,12 @@ class DefaultTokenMapper extends Mapper {
 		$result->closeCursor();
 		if ($data === false) {
 			throw new DoesNotExistException('token does not exist');
-		};
+		}
 		return DefaultToken::fromRow($data);
 	}
 
 	/**
-	 * Get all token of a user
+	 * Get all tokens of a user
 	 *
 	 * The provider may limit the number of result rows in case of an abuse
 	 * where a high number of (session) tokens is generated
@@ -157,7 +156,7 @@ class DefaultTokenMapper extends Mapper {
 	public function deleteByName($name) {
 		$qb = $this->db->getQueryBuilder();
 		$qb->delete('authtoken')
-			->where($qb->expr()->eq('name', $qb->createNamedParameter($name)));
+			->where($qb->expr()->eq('name', $qb->createNamedParameter($name), IQueryBuilder::PARAM_STR));
 		$qb->execute();
 	}
 

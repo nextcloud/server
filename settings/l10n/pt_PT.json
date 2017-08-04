@@ -44,8 +44,6 @@
     "Disable" : "Desativar",
     "Enable" : "Ativar",
     "Error while enabling app" : "Ocorreu um erro enquanto ativava a app",
-    "Error: this app cannot be enabled because it makes the server unstable" : "Erro: esta app não pode ser activada porque torna o servidor instável",
-    "Error: could not disable broken app" : "Erro: não foi possível desactivar app estragada",
     "Error while disabling broken app" : "Erro ao desactivar app estragada",
     "Updating...." : "A atualizar...",
     "Error while updating app" : "Ocorreu um erro enquanto atualizava a app",

@@ -45,7 +45,7 @@ class ManagerEvent extends Event {
 	protected $event;
 	/** @var string */
 	protected $appID;
-	/** @var \OCP\IGroup[] */
+	/** @var \OCP\IGroup[]|null */
 	protected $groups;
 
 	/**
@@ -53,7 +53,7 @@ class ManagerEvent extends Event {
 	 *
 	 * @param string $event
 	 * @param $appID
-	 * @param \OCP\IGroup[] $groups
+	 * @param \OCP\IGroup[]|null $groups
 	 * @since 9.0.0
 	 */
 	public function __construct($event, $appID, array $groups = null) {

@@ -95,8 +95,6 @@ OC.L10N.register(
     "Enable" : "Käytä",
     "Enabling app …" : "Otetaan sovellusta käyttöön...",
     "Error while enabling app" : "Virhe ottaessa sovellusta käyttöön",
-    "Error: this app cannot be enabled because it makes the server unstable" : "Virhe: tätä sovellusta ei voi ottaa käyttöön, koska se tekee palvelimesta epävakaan",
-    "Error: could not disable broken app" : "Virhe: rikkinäisen sovelluksen poistaminen käytöstä ei onnistunut",
     "Error while disabling broken app" : "Virhe rikkinäistä sovellusta käytöstä poistaessa",
     "Updating...." : "Päivitetään...",
     "Error while updating app" : "Virhe sovellusta päivittäessä",

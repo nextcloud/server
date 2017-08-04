@@ -1,6 +1,11 @@
 before_commands:
   - 'git submodule update --init --recursive'
 
+checks:
+    php:
+        excluded_dependencies:
+            - etsy/phan
+
 filter:
     excluded_paths:
         - '3rdparty/*'

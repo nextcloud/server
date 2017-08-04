@@ -46,8 +46,6 @@ OC.L10N.register(
     "Disable" : "ปิดใช้งาน",
     "Enable" : "เปิดใช้งาน",
     "Error while enabling app" : "เกิดข้อผิดพลาดขณะกำลังตรวจสอบแอพฯ",
-    "Error: this app cannot be enabled because it makes the server unstable" : "ข้อผิดพลาด: ไม่สามารถเปิดใช้งานแอพฯนี้ เพราะมันอาจทำให้เซิร์ฟเวอร์มีปัญหา",
-    "Error: could not disable broken app" : "ข้อผิดพลาด: ไม่สามารถปิดการใช้งานแอพฯที่มีปัญหา",
     "Error while disabling broken app" : "ข้อผิดพลาดขณะกำลังปิดการใช้งานแอพฯที่มีปัญหา",
     "Updating...." : "กำลังอัพเดทข้อมูล...",
     "Error while updating app" : "เกิดข้อผิดพลาดขณะกำลังอัพเดทแอพฯ",

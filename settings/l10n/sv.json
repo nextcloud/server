@@ -95,8 +95,6 @@
     "Enable" : "Aktivera",
     "Enabling app …" : "Aktiverar app ...",
     "Error while enabling app" : "Fel vid aktivering av app",
-    "Error: this app cannot be enabled because it makes the server unstable" : "Fel uppstod: Denna applikation kan ej startas för det gör servern ostabil.",
-    "Error: could not disable broken app" : "Fel: Gick inte att inaktivera trasig applikation.",
     "Error while disabling broken app" : "Fel under inaktivering av trasig applikation.",
     "Updating...." : "Uppdaterar ...",
     "Error while updating app" : "Fel uppstod vid uppdatering av appen",

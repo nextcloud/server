@@ -123,13 +123,14 @@ class OC_API {
 		$name = $parameters['_route'];
 		// Foreach registered action
 		$responses = array();
+		$appManager = \OC::$server->getAppManager();
 		foreach(self::$actions[$name] as $action) {
 			// Check authentication and availability
 			if(!self::isAuthorised($action)) {
 				$responses[] = array(
 					'app' => $action['app'],
 					'response' => new OC_OCS_Result(null, API::RESPOND_UNAUTHORISED, 'Unauthorised'),
-					'shipped' => OC_App::isShipped($action['app']),
+					'shipped' => $appManager->isShipped($action['app']),
 					);
 				continue;
 			}
@@ -137,7 +138,7 @@ class OC_API {
 				$responses[] = array(
 					'app' => $action['app'],
 					'response' => new OC_OCS_Result(null, API::RESPOND_NOT_FOUND, 'Api method not found'),
-					'shipped' => OC_App::isShipped($action['app']),
+					'shipped' => $appManager->isShipped($action['app']),
 					);
 				continue;
 			}
@@ -145,7 +146,7 @@ class OC_API {
 			$responses[] = array(
 				'app' => $action['app'],
 				'response' => call_user_func($action['action'], $parameters),
-				'shipped' => OC_App::isShipped($action['app']),
+				'shipped' => $appManager->isShipped($action['app']),
 				);
 		}
 		$response = self::mergeResponses($responses);

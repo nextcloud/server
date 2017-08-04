@@ -56,8 +56,6 @@ OC.L10N.register(
     "Disable" : "Nonaktifkan",
     "Enable" : "Aktifkan",
     "Error while enabling app" : "Terjadi kesalahan saat mengakifkan aplikasi",
-    "Error: this app cannot be enabled because it makes the server unstable" : "Kesalahan: Aplikasi ini tidak bisa diaktifkan karena membuat server tidak stabil",
-    "Error: could not disable broken app" : "Kesalahan: Tidak dapat menonaktifkan aplikasi rusak",
     "Error while disabling broken app" : "Terjadi kesalahan saat menonaktifkan aplikasi rusak",
     "Updating...." : "Memperbarui....",
     "Error while updating app" : "Terjadi kesalahan saat memperbarui aplikasi",

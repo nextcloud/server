@@ -267,7 +267,7 @@ class LostController extends Controller {
 			\OC_Hook::emit('\OC\Core\LostPassword\Controller\LostController', 'post_passwordReset', array('uid' => $userId, 'password' => $password));
 
 			$this->config->deleteUserValue($userId, 'core', 'lostpassword');
-			@\OC_User::unsetMagicInCookie();
+			@\OC::$server->getUserSession()->unsetMagicInCookie();
 		} catch (\Exception $e){
 			return $this->error($e->getMessage());
 		}

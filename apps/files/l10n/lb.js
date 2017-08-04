@@ -98,9 +98,7 @@ OC.L10N.register(
     "A file has been added to or removed from your <strong>favorites</strong>" : "Eng Datei gouf zu dengen Favoriten <strong> dobäigesat </strong> oder aus dengen Favortien <strong> geläscht </strong>",
     "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Eng Datei gouf <strong> verännert</strong> oder <strong> embenannt</strong>",
     "A new file or folder has been <strong>created</strong>" : "Eng nei Datei oder e neien Dossier gouf <strong> erstallt </strong>",
-    "A new file or folder has been <strong>deleted</strong>" : "Eng Datei oder en Dossier gouf <strong> geläscht</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Limitéier Notifikatiounen op d'Erstellen an Veränneren vun dengen <strong> Favoriten</strong> (nëmmen Floss)",
-    "A new file or folder has been <strong>restored</strong>" : "Eng Datei oder en Dossier gouf <strong> erem hier gestallt</strong>",
     "Upload (max. %s)" : "Upload (maximal ¦%s)",
     "File handling" : "Fichier handling",
     "Maximum upload size" : "Maximum Upload Gréisst ",
@@ -138,6 +136,8 @@ OC.L10N.register(
     "Copy local link" : "Lokale Link kopéiert",
     "Folder" : "Dossier",
     "Upload" : "Eroplueden",
+    "A new file or folder has been <strong>deleted</strong>" : "Eng Datei oder en Dossier gouf <strong> geläscht</strong>",
+    "A new file or folder has been <strong>restored</strong>" : "Eng Datei oder en Dossier gouf <strong> erem hier gestallt</strong>",
     "No favorites" : "Keng Favoriten"
 },
 "nplurals=2; plural=(n != 1);");

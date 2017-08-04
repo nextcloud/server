@@ -102,9 +102,9 @@ OC.L10N.register(
     "A file has been added to or removed from your <strong>favorites</strong>" : "A file has been added to or removed from your <strong>favourites</strong>",
     "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>",
     "A new file or folder has been <strong>created</strong>" : "A new file or folder has been <strong>created</strong>",
-    "A new file or folder has been <strong>deleted</strong>" : "A new file or folder has been <strong>deleted</strong>",
+    "A file or folder has been <strong>deleted</strong>" : "A file or folder has been <strong>deleted</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Limit notifications about creation and changes to your <strong>favourite files</strong> <em>(Stream only)</em>",
-    "A new file or folder has been <strong>restored</strong>" : "A new file or folder has been <strong>restored</strong>",
+    "A file or folder has been <strong>restored</strong>" : "A file or folder has been <strong>restored</strong>",
     "Unlimited" : "Unlimited",
     "Upload (max. %s)" : "Upload (max. %s)",
     "File handling" : "File handling",
@@ -146,6 +146,8 @@ OC.L10N.register(
     "Copy local link" : "Copy local link",
     "Folder" : "Folder",
     "Upload" : "Upload",
+    "A new file or folder has been <strong>deleted</strong>" : "A new file or folder has been <strong>deleted</strong>",
+    "A new file or folder has been <strong>restored</strong>" : "A new file or folder has been <strong>restored</strong>",
     "No favorites" : "No favourites"
 },
 "nplurals=2; plural=(n != 1);");

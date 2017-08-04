@@ -27,6 +27,7 @@ namespace OC\Settings\Middleware;
 use OC\AppFramework\Http;
 use OC\AppFramework\Middleware\Security\Exceptions\NotAdminException;
 use OC\AppFramework\Utility\ControllerMethodReflector;
+use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Middleware;
 
@@ -54,7 +55,7 @@ class SubadminMiddleware extends Middleware {
 
 	/**
 	 * Check if sharing is enabled before the controllers is executed
-	 * @param \OCP\AppFramework\Controller $controller
+	 * @param Controller $controller
 	 * @param string $methodName
 	 * @throws \Exception
 	 */
@@ -68,7 +69,7 @@ class SubadminMiddleware extends Middleware {
 
 	/**
 	 * Return 403 page in case of an exception
-	 * @param \OCP\AppFramework\Controller $controller
+	 * @param Controller $controller
 	 * @param string $methodName
 	 * @param \Exception $exception
 	 * @return TemplateResponse

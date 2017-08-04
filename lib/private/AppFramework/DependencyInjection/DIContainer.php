@@ -75,7 +75,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 * Put your class dependencies in here
 	 * @param string $appName the name of the app
 	 * @param array $urlParams
-	 * @param ServerContainer $server
+	 * @param ServerContainer|null $server
 	 */
 	public function __construct($appName, $urlParams = array(), ServerContainer $server = null){
 		parent::__construct();
@@ -315,7 +315,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 * @deprecated implements only deprecated methods
 	 * @return IApi
 	 */
-	function getCoreApi()
+	public function getCoreApi()
 	{
 		return $this->query('API');
 	}
@@ -323,7 +323,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	/**
 	 * @return \OCP\IServerContainer
 	 */
-	function getServer()
+	public function getServer()
 	{
 		return $this->server;
 	}
@@ -332,7 +332,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 * @param string $middleWare
 	 * @return boolean|null
 	 */
-	function registerMiddleWare($middleWare) {
+	public function registerMiddleWare($middleWare) {
 		array_push($this->middleWares, $middleWare);
 	}
 
@@ -340,7 +340,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 * used to return the appname of the set application
 	 * @return string the name of your application
 	 */
-	function getAppName() {
+	public function getAppName() {
 		return $this->query('AppName');
 	}
 
@@ -348,7 +348,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 * @deprecated use IUserSession->isLoggedIn()
 	 * @return boolean
 	 */
-	function isLoggedIn() {
+	public function isLoggedIn() {
 		return \OC::$server->getUserSession()->isLoggedIn();
 	}
 
@@ -356,7 +356,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 * @deprecated use IGroupManager->isAdmin($userId)
 	 * @return boolean
 	 */
-	function isAdminUser() {
+	public function isAdminUser() {
 		$uid = $this->getUserId();
 		return \OC_User::isAdminUser($uid);
 	}
@@ -371,7 +371,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 * @param string $level
 	 * @return mixed
 	 */
-	function log($message, $level) {
+	public function log($message, $level) {
 		switch($level){
 			case 'debug':
 				$level = \OCP\Util::DEBUG;

@@ -51,11 +51,7 @@ class MySQL extends AbstractDatabase {
 
 		//fill the database if needed
 		$query='select count(*) from information_schema.tables where table_schema=? AND table_name = ?';
-		$result = $connection->executeQuery($query, [$this->dbName, $this->tablePrefix.'users']);
-		$row = $result->fetch();
-		if (!$row or $row['count(*)'] === '0') {
-			\OC_DB::createDbFromStructure($this->dbDefinitionFile);
-		}
+		$connection->executeQuery($query, [$this->dbName, $this->tablePrefix.'users']);
 	}
 
 	/**

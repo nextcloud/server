@@ -111,6 +111,7 @@ class OC_Theme {
 	/**
 	 * Returns logo claim
 	 * @return string logo claim
+	 * @deprecated 13.0.0 not used anymore
 	 */
 	public function getLogoClaim() {
 		return '';

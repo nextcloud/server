@@ -367,15 +367,6 @@ class View {
 	}
 
 	/**
-	 * @param $handle
-	 * @return mixed
-	 */
-	public function readdir($handle) {
-		$fsLocal = new Storage\Local(array('datadir' => '/'));
-		return $fsLocal->readdir($handle);
-	}
-
-	/**
 	 * @param string $path
 	 * @return bool|mixed
 	 */
@@ -779,14 +770,18 @@ class View {
 				$this->changeLock($path1, ILockingProvider::LOCK_EXCLUSIVE, true);
 				$this->changeLock($path2, ILockingProvider::LOCK_EXCLUSIVE, true);
 
-				if ($internalPath1 === '' and $mount1 instanceof MoveableMount) {
-					if ($this->isTargetAllowed($absolutePath2)) {
-						/**
-						 * @var \OC\Files\Mount\MountPoint | \OC\Files\Mount\MoveableMount $mount1
-						 */
-						$sourceMountPoint = $mount1->getMountPoint();
-						$result = $mount1->moveMount($absolutePath2);
-						$manager->moveMount($sourceMountPoint, $mount1->getMountPoint());
+				if ($internalPath1 === '') {
+					if ($mount1 instanceof MoveableMount) {
+						if ($this->isTargetAllowed($absolutePath2)) {
+							/**
+							 * @var \OC\Files\Mount\MountPoint | \OC\Files\Mount\MoveableMount $mount1
+							 */
+							$sourceMountPoint = $mount1->getMountPoint();
+							$result = $mount1->moveMount($absolutePath2);
+							$manager->moveMount($sourceMountPoint, $mount1->getMountPoint());
+						} else {
+							$result = false;
+						}
 					} else {
 						$result = false;
 					}
@@ -1292,7 +1287,7 @@ class View {
 	 * @param \OC\Files\Storage\Storage $storage
 	 * @param string $internalPath
 	 * @param string $relativePath
-	 * @return array|bool
+	 * @return ICacheEntry|bool
 	 */
 	private function getCacheEntry($storage, $internalPath, $relativePath) {
 		$cache = $storage->getCache($internalPath);

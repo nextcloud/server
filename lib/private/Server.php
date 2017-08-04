@@ -113,6 +113,7 @@ use OCP\IServerContainer;
 use OCP\ITempManager;
 use OCP\Contacts\ContactsMenu\IActionFactory;
 use OCP\IURLGenerator;
+use OCP\Lock\ILockingProvider;
 use OCP\RichObjectStrings\IValidator;
 use OCP\Security\IContentSecurityPolicyManager;
 use OCP\Share\IShareHelper;
@@ -785,7 +786,7 @@ class Server extends ServerContainer implements IServerContainer {
 			$factory = new $factoryClass($this);
 			return $factory->getLDAPProvider();
 		});
-		$this->registerService('LockingProvider', function (Server $c) {
+		$this->registerService(ILockingProvider::class, function (Server $c) {
 			$ini = $c->getIniWrapper();
 			$config = $c->getConfig();
 			$ttl = $config->getSystemValue('filelocking.ttl', max(3600, $ini->getNumeric('max_execution_time')));
@@ -800,6 +801,7 @@ class Server extends ServerContainer implements IServerContainer {
 			}
 			return new NoopLockingProvider();
 		});
+		$this->registerAlias('LockingProvider', ILockingProvider::class);
 
 		$this->registerService(\OCP\Files\Mount\IMountManager::class, function () {
 			return new \OC\Files\Mount\Manager();
@@ -866,7 +868,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$classExists = false;
 			}
 
-			if ($classExists && $c->getConfig()->getSystemValue('installed', false) && $c->getAppManager()->isInstalled('theming')) {
+			if ($classExists && $c->getConfig()->getSystemValue('installed', false) && $c->getAppManager()->isInstalled('theming') && $c->getTrustedDomainHelper()->isTrustedDomain($c->getRequest()->getInsecureServerHost())) {
 				return new ThemingDefaults(
 					$c->getConfig(),
 					$c->getL10N('theming'),
@@ -962,7 +964,10 @@ class Server extends ServerContainer implements IServerContainer {
 				$factory,
 				$c->getUserManager(),
 				$c->getLazyRootFolder(),
-				$c->getEventDispatcher()
+				$c->getEventDispatcher(),
+				$c->getMailer(),
+				$c->getURLGenerator(),
+				$c->getThemingDefaults()
 			);
 
 			return $manager;
@@ -1247,7 +1252,6 @@ class Server extends ServerContainer implements IServerContainer {
 	}
 
 	/**
-	 * @internal For internal use only
 	 * @return \OC\SystemConfig
 	 */
 	public function getSystemConfig() {

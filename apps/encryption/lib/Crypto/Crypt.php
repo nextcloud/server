@@ -605,7 +605,7 @@ class Crypt {
 
 			$element = array_shift($exploded);
 
-			while ($element != self::HEADER_END) {
+			while ($element !== self::HEADER_END) {
 				$result[$element] = array_shift($exploded);
 				$element = array_shift($exploded);
 			}

@@ -105,7 +105,7 @@ interface IProvider {
 	public function updateTokenActivity(IToken $token);
 
 	/**
-	 * Get all token of a user
+	 * Get all tokens of a user
 	 *
 	 * The provider may limit the number of result rows in case of an abuse
 	 * where a high number of (session) tokens is generated

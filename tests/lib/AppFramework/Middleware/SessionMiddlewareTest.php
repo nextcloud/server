@@ -15,20 +15,20 @@ namespace Test\AppFramework\Middleware;
 use OC\AppFramework\Http\Request;
 use OC\AppFramework\Middleware\SessionMiddleware;
 use OC\AppFramework\Utility\ControllerMethodReflector;
+use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Response;
 
 
 class SessionMiddlewareTest extends \Test\TestCase {
 
-	/**
-	 * @var ControllerMethodReflector
-	 */
+	/** @var ControllerMethodReflector */
 	private $reflector;
 
-	/**
-	 * @var Request
-	 */
+	/** @var Request */
 	private $request;
+
+	/** @var Controller */
+	private $controller;
 
 	protected function setUp() {
 		parent::setUp();
@@ -39,6 +39,7 @@ class SessionMiddlewareTest extends \Test\TestCase {
 			$this->getMockBuilder('\OCP\IConfig')->getMock()
 		);
 		$this->reflector = new ControllerMethodReflector();
+		$this->controller = $this->createMock(Controller::class);
 	}
 
 	/**
@@ -49,7 +50,7 @@ class SessionMiddlewareTest extends \Test\TestCase {
 
 		$this->reflector->reflect($this, __FUNCTION__);
 		$middleware = new SessionMiddleware($this->request, $this->reflector, $session);
-		$middleware->beforeController($this, __FUNCTION__);
+		$middleware->beforeController($this->controller, __FUNCTION__);
 	}
 
 	/**
@@ -60,7 +61,7 @@ class SessionMiddlewareTest extends \Test\TestCase {
 
 		$this->reflector->reflect($this, __FUNCTION__);
 		$middleware = new SessionMiddleware($this->request, $this->reflector, $session);
-		$middleware->afterController($this, __FUNCTION__, new Response());
+		$middleware->afterController($this->controller, __FUNCTION__, new Response());
 	}
 
 	public function testSessionClosedOnBeforeController() {
@@ -68,7 +69,7 @@ class SessionMiddlewareTest extends \Test\TestCase {
 
 		$this->reflector->reflect($this, __FUNCTION__);
 		$middleware = new SessionMiddleware($this->request, $this->reflector, $session);
-		$middleware->beforeController($this, __FUNCTION__);
+		$middleware->beforeController($this->controller, __FUNCTION__);
 	}
 
 	public function testSessionNotClosedOnAfterController() {
@@ -76,7 +77,7 @@ class SessionMiddlewareTest extends \Test\TestCase {
 
 		$this->reflector->reflect($this, __FUNCTION__);
 		$middleware = new SessionMiddleware($this->request, $this->reflector, $session);
-		$middleware->afterController($this, __FUNCTION__, new Response());
+		$middleware->afterController($this->controller, __FUNCTION__, new Response());
 	}
 
 	/**

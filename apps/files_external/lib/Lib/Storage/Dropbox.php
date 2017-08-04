@@ -47,7 +47,7 @@ class Dropbox extends \OC\Files\Storage\Common {
 	private $oauth;
 
 	public function __construct($params) {
-		if (isset($params['configured']) && $params['configured'] == 'true'
+		if (isset($params['configured']) && $params['configured'] === 'true'
 			&& isset($params['app_key'])
 			&& isset($params['app_secret'])
 			&& isset($params['token'])
@@ -187,12 +187,12 @@ class Dropbox extends \OC\Files\Storage\Common {
 	}
 
 	public function filetype($path) {
-		if ($path == '' || $path == '/') {
+		if ($path === '' || $path === '/') {
 			return 'dir';
 		} else {
 			$metaData = $this->getDropBoxMetaData($path);
 			if ($metaData) {
-				if ($metaData['is_dir'] == 'true') {
+				if ($metaData['is_dir'] === 'true') {
 					return 'dir';
 				} else {
 					return 'file';
@@ -203,7 +203,7 @@ class Dropbox extends \OC\Files\Storage\Common {
 	}
 
 	public function file_exists($path) {
-		if ($path == '' || $path == '/') {
+		if ($path === '' || $path === '/') {
 			return true;
 		}
 		if ($this->getDropBoxMetaData($path)) {

@@ -73,7 +73,7 @@ class ListApps extends Base {
 
 		//sort enabled apps above disabled apps
 		foreach ($apps as $app) {
-			if ($shippedFilter !== null && \OC_App::isShipped($app) !== $shippedFilter){
+			if ($shippedFilter !== null && $this->manager->isShipped($app) !== $shippedFilter){
 				continue;
 			}
 			if ($this->manager->isInstalled($app)) {

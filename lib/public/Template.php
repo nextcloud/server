@@ -48,9 +48,10 @@ namespace OCP;
  *
  * @see \OCP\IURLGenerator::imagePath
  * @deprecated 8.0.0 Use \OCP\Template::image_path() instead
+ * @suppress PhanDeprecatedFunction
  */
-function image_path( $app, $image ) {
-	return(\image_path( $app, $image ));
+function image_path($app, $image) {
+	return \image_path($app, $image);
 }
 
 
@@ -59,9 +60,10 @@ function image_path( $app, $image ) {
  * @param string $mimetype
  * @return string to the image of this file type.
  * @deprecated 8.0.0 Use \OCP\Template::mimetype_icon() instead
+ * @suppress PhanDeprecatedFunction
  */
-function mimetype_icon( $mimetype ) {
-	return(\mimetype_icon( $mimetype ));
+function mimetype_icon($mimetype) {
+	return \mimetype_icon($mimetype);
 }
 
 /**
@@ -69,9 +71,10 @@ function mimetype_icon( $mimetype ) {
  * @param string $path path to file
  * @return string to the preview of the image
  * @deprecated 8.0.0 Use \OCP\Template::preview_icon() instead
+ * @suppress PhanDeprecatedFunction
  */
-function preview_icon( $path ) {
-	return(\preview_icon( $path ));
+function preview_icon($path) {
+	return \preview_icon($path);
 }
 
 /**
@@ -81,9 +84,10 @@ function preview_icon( $path ) {
  * @param string $token
  * @return string link to the preview
  * @deprecated 8.0.0 Use \OCP\Template::publicPreview_icon() instead
+ * @suppress PhanDeprecatedFunction
  */
-function publicPreview_icon ( $path, $token ) {
-	return(\publicPreview_icon( $path, $token ));
+function publicPreview_icon($path, $token) {
+	return \publicPreview_icon($path, $token);
 }
 
 /**
@@ -92,9 +96,10 @@ function publicPreview_icon ( $path, $token ) {
  * @param int $bytes in bytes
  * @return string size as string
  * @deprecated 8.0.0 Use \OCP\Template::human_file_size() instead
+ * @suppress PhanDeprecatedFunction
  */
-function human_file_size( $bytes ) {
-	return(\human_file_size( $bytes ));
+function human_file_size($bytes) {
+	return \human_file_size($bytes);
 }
 
 
@@ -102,12 +107,14 @@ function human_file_size( $bytes ) {
  * Return the relative date in relation to today. Returns something like "last hour" or "two month ago"
  * @param int $timestamp unix timestamp
  * @param boolean $dateOnly
- * @return \OC_L10N_String human readable interpretation of the timestamp
+ * @return string human readable interpretation of the timestamp
  *
  * @deprecated 8.0.0 Use \OCP\Template::relative_modified_date() instead
+ * @suppress PhanDeprecatedFunction
+ * @suppress PhanTypeMismatchArgument
  */
-function relative_modified_date( $timestamp, $dateOnly = false ) {
-	return(\relative_modified_date($timestamp, null, $dateOnly));
+function relative_modified_date($timestamp, $dateOnly = false) {
+	return \relative_modified_date($timestamp, null, $dateOnly);
 }
 
 
@@ -116,9 +123,10 @@ function relative_modified_date( $timestamp, $dateOnly = false ) {
  * @param integer $bytes size of a file in byte
  * @return string human readable interpretation of a file size
  * @deprecated 8.0.0 Use \OCP\Template::human_file_size() instead
+ * @suppress PhanDeprecatedFunction
  */
 function simple_file_size($bytes) {
-	return(\human_file_size($bytes));
+	return \human_file_size($bytes);
 }
 
 
@@ -129,9 +137,10 @@ function simple_file_size($bytes) {
  * @param array $params the parameters
  * @return string html options
  * @deprecated 8.0.0 Use \OCP\Template::html_select_options() instead
+ * @suppress PhanDeprecatedFunction
  */
 function html_select_options($options, $selected, $params=array()) {
-	return(\html_select_options($options, $selected, $params));
+	return \html_select_options($options, $selected, $params);
 }
 
 
@@ -151,6 +160,7 @@ class Template extends \OC_Template {
 	 * @param string $image
 	 * @return string to the image
 	 * @since 8.0.0
+	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function image_path($app, $image) {
 		return \image_path($app, $image);
@@ -163,6 +173,7 @@ class Template extends \OC_Template {
 	 * @param string $mimetype
 	 * @return string to the image of this file type.
 	 * @since 8.0.0
+	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function mimetype_icon($mimetype) {
 		return \mimetype_icon($mimetype);
@@ -174,6 +185,7 @@ class Template extends \OC_Template {
 	 * @param string $path path to file
 	 * @return string to the preview of the image
 	 * @since 8.0.0
+	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function preview_icon($path) {
 		return \preview_icon($path);
@@ -187,6 +199,7 @@ class Template extends \OC_Template {
 	 * @param string $token
 	 * @return string link to the preview
 	 * @since 8.0.0
+	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function publicPreview_icon($path, $token) {
 		return \publicPreview_icon($path, $token);
@@ -199,6 +212,7 @@ class Template extends \OC_Template {
 	 * @param int $bytes in bytes
 	 * @return string size as string
 	 * @since 8.0.0
+	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function human_file_size($bytes) {
 		return \human_file_size($bytes);
@@ -211,6 +225,8 @@ class Template extends \OC_Template {
 	 * @param boolean $dateOnly
 	 * @return string human readable interpretation of the timestamp
 	 * @since 8.0.0
+	 * @suppress PhanDeprecatedFunction
+	 * @suppress PhanTypeMismatchArgument
 	 */
 	public static function relative_modified_date($timestamp, $dateOnly = false) {
 		return \relative_modified_date($timestamp, null, $dateOnly);
@@ -224,6 +240,7 @@ class Template extends \OC_Template {
 	 * @param array $params the parameters
 	 * @return string html options
 	 * @since 8.0.0
+	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function html_select_options($options, $selected, $params=array()) {
 		return \html_select_options($options, $selected, $params);

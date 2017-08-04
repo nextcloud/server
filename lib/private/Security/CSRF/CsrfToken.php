@@ -62,7 +62,7 @@ class CsrfToken {
 	 * The unencrypted value of the token. Used for decrypting an already
 	 * encrypted token.
 	 *
-	 * @return int
+	 * @return string
 	 */
 	public function getDecryptedValue() {
 		$token = explode(':', $this->value);

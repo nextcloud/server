@@ -265,8 +265,8 @@ class Share extends \OC\Share\Constants {
 	 * @param string $shareWith User or group the item is being shared with
 	 * @param int $permissions CRUDS
 	 * @param string $itemSourceName
-	 * @param \DateTime $expirationDate
-	 * @param bool $passwordChanged
+	 * @param \DateTime|null $expirationDate
+	 * @param bool|null $passwordChanged
 	 * @return bool|string Returns true on success or false on failure, Returns token on success for links
 	 * @throws \OC\HintException when the share type is remote and the shareWith is invalid
 	 * @throws \Exception

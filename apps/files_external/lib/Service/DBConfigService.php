@@ -116,6 +116,7 @@ class DBConfigService {
 	 * Get admin defined mounts
 	 *
 	 * @return array
+	 * @suppress SqlInjectionChecker
 	 */
 	public function getAdminMounts() {
 		$builder = $this->connection->getQueryBuilder();
@@ -160,6 +161,7 @@ class DBConfigService {
 	 * @param int $type any of the self::APPLICABLE_TYPE_ constants
 	 * @param string|null $value user_id, group_id or null for global mounts
 	 * @return array
+	 * @suppress SqlInjectionChecker
 	 */
 	public function getAdminMountsFor($type, $value) {
 		$builder = $this->connection->getQueryBuilder();
@@ -175,6 +177,7 @@ class DBConfigService {
 	 * @param int $type any of the self::APPLICABLE_TYPE_ constants
 	 * @param string[] $values user_ids or group_ids
 	 * @return array
+	 * @suppress SqlInjectionChecker
 	 */
 	public function getAdminMountsForMultiple($type, array $values) {
 		$builder = $this->connection->getQueryBuilder();
@@ -198,6 +201,7 @@ class DBConfigService {
 	 * @param int $type any of the self::APPLICABLE_TYPE_ constants
 	 * @param string|null $value user_id, group_id or null for global mounts
 	 * @return array
+	 * @suppress SqlInjectionChecker
 	 */
 	public function getUserMountsFor($type, $value) {
 		$builder = $this->connection->getQueryBuilder();

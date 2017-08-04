@@ -137,18 +137,18 @@
 		vertical-align: middle;
 	}
 
-	#header-left,
-	#header-right {
+	#header-left, .header-left,
+	#header-right, .header-right {
 		display: inline-flex;
 		align-items: center;
 	}
 
-	#header-left {
+	#header-left, .header-left {
 		flex: 0 0;
 		flex-grow: 1;
 	}
 
-	#header-right {
+	#header-right, .header-right {
 		justify-content: flex-end;
 	}
 }
@@ -211,7 +211,8 @@ nav {
 	margin-left: -54px;
 }
 
-#navigation {
+#navigation,
+.ui-datepicker {
 	position: relative;
 	left: -100%;
 	width: 160px;
@@ -272,6 +273,7 @@ nav {
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
+			max-width: 110px;
 		}
 		svg,
 		span {

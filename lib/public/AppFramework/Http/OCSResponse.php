@@ -80,6 +80,7 @@ class OCSResponse extends Response {
 	 * @return string
 	 * @since 8.1.0
 	 * @deprecated 9.2.0 To implement an OCS endpoint extend the OCSController
+	 * @suppress PhanDeprecatedClass
 	 */
 	public function render() {
 		$r = new \OC_OCS_Result($this->data, $this->statuscode, $this->message);

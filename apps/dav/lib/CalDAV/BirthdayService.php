@@ -270,7 +270,7 @@ class BirthdayService {
 	 * @param string  $cardData
 	 * @param array $book
 	 * @param int $calendarId
-	 * @param string $type
+	 * @param string[] $type
 	 */
 	private function updateCalendar($cardUri, $cardData, $book, $calendarId, $type) {
 		$objectUri = $book['uri'] . '-' . $cardUri . $type['postfix'] . '.ics';

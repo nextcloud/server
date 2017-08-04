@@ -225,7 +225,7 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node
 			throw new \Sabre\DAV\Exception\NotFound('File with name ' . $path . ' could not be located');
 		}
 
-		if ($info['mimetype'] == 'httpd/unix-directory') {
+		if ($info['mimetype'] === 'httpd/unix-directory') {
 			$node = new \OCA\DAV\Connector\Sabre\Directory($this->fileView, $info, $this->tree, $this->shareManager);
 		} else {
 			$node = new \OCA\DAV\Connector\Sabre\File($this->fileView, $info, $this->shareManager);
@@ -387,7 +387,7 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node
 			throw new \Sabre\DAV\Exception\Forbidden('Could not copy directory ' . $sourceNode->getName() . ', target exists');
 		}
 
-		list($sourceDir,) = \Sabre\HTTP\URLUtil::splitPath($sourceNode->getPath());
+		list($sourceDir,) = \Sabre\Uri\split($sourceNode->getPath());
 		$destinationDir = $this->getPath();
 
 		$sourcePath = $sourceNode->getPath();

@@ -479,7 +479,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 						$.post(OC.webroot + '/index.php/disableapp', {appid: appId}, function() {
 							OC.Settings.Apps.showErrorMessage(
 								appId,
-								t('settings', 'Error: this app cannot be enabled because it makes the server unstable')
+								t('settings', 'Error: This app can not be enabled because it makes the server unstable')
 							);
 							appItems.forEach(function(appItem) {
 								appItem.data('errormsg', t('settings', 'Error while enabling app'));
@@ -493,7 +493,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 						}).fail(function() {
 							OC.Settings.Apps.showErrorMessage(
 								appId,
-								t('settings', 'Error: could not disable broken app')
+								t('settings', 'Error: Could not disable broken app')
 							);
 							appItems.forEach(function(appItem) {
 								appItem.data('errormsg', t('settings', 'Error while disabling broken app'));

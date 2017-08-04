@@ -101,9 +101,8 @@ OC.L10N.register(
     "A file has been added to or removed from your <strong>favorites</strong>" : "Fitxategi bat gehitu edo kendu da zure <strong>gogokoetatik</strong>",
     "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>",
     "A new file or folder has been <strong>created</strong>" : "Fitxategi edo karpeta berri bat <strong>sortu da</strong>",
-    "A new file or folder has been <strong>deleted</strong>" : "A new file or folder has been <strong>deleted</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>",
-    "A new file or folder has been <strong>restored</strong>" : "A new file or folder has been <strong>restored</strong>",
+    "Unlimited" : "Mugarik gabe",
     "Upload (max. %s)" : "Igo (max. %s)",
     "File handling" : "Fitxategien kudeaketa",
     "Maximum upload size" : "Igo daitekeen gehienezko tamaina",
@@ -142,6 +141,8 @@ OC.L10N.register(
     "Copy local link" : "Kopiatu tokiko esteka",
     "Folder" : "Karpeta",
     "Upload" : "Igo",
+    "A new file or folder has been <strong>deleted</strong>" : "A new file or folder has been <strong>deleted</strong>",
+    "A new file or folder has been <strong>restored</strong>" : "A new file or folder has been <strong>restored</strong>",
     "No favorites" : "Gogokorik ez"
 },
 "nplurals=2; plural=(n != 1);");

@@ -24,8 +24,7 @@
 namespace OCA\Files_Sharing\Tests;
 
 use OCA\Files_Sharing\Capabilities;
-use OCA\Files_Sharing\Tests\TestCase;
-use OCP\App\IAppManager;
+
 
 /**
  * Class CapabilitiesTest

@@ -89,6 +89,10 @@ $this->create('files.viewcontroller.showFile', '/f/{fileid}')->action(function($
 });
 
 // Call routes
+/**
+ * @suppress PhanUndeclaredClassConstant
+ * @suppress PhanUndeclaredClassMethod
+ */
 $this->create('spreed.pagecontroller.showCall', '/call/{token}')->action(function($urlParams) {
 	if (class_exists(\OCA\Spreed\AppInfo\Application::class, false)) {
 		$app = new \OCA\Spreed\AppInfo\Application($urlParams);

@@ -17,26 +17,30 @@ use OC\AppFramework\Middleware\Security\CORSMiddleware;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\AppFramework\Middleware\Security\Exceptions\SecurityException;
 use OC\Security\Bruteforce\Throttler;
+use OC\User\Session;
+use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
-
+use OCP\IConfig;
+use OCP\Security\ISecureRandom;
 
 class CORSMiddlewareTest extends \Test\TestCase {
 
+	/** @var ControllerMethodReflector */
 	private $reflector;
+	/** @var Session|\PHPUnit_Framework_MockObject_MockObject */
 	private $session;
 	/** @var Throttler */
 	private $throttler;
+	/** @var Controller */
+	private $controller;
 
 	protected function setUp() {
 		parent::setUp();
 		$this->reflector = new ControllerMethodReflector();
-		$this->session = $this->getMockBuilder('\OC\User\Session')
-			->disableOriginalConstructor()
-			->getMock();
-		$this->throttler =  $this->getMockBuilder('\OC\Security\Bruteforce\Throttler')
-			->disableOriginalConstructor()
-			->getMock();
+		$this->session = $this->createMock(Session::class);
+		$this->throttler =  $this->createMock(Throttler::class);
+		$this->controller = $this->createMock(Controller::class);
 	}
 
 	/**
@@ -49,13 +53,13 @@ class CORSMiddlewareTest extends \Test\TestCase {
 					'HTTP_ORIGIN' => 'test'
 				]
 			],
-			$this->getMockBuilder('\OCP\Security\ISecureRandom')->getMock(),
-			$this->getMockBuilder('\OCP\IConfig')->getMock()
+			$this->createMock(ISecureRandom::class),
+			$this->createMock(IConfig::class)
 		);
 		$this->reflector->reflect($this, __FUNCTION__);
 		$middleware = new CORSMiddleware($request, $this->reflector, $this->session, $this->throttler);
 
-		$response = $middleware->afterController($this, __FUNCTION__, new Response());
+		$response = $middleware->afterController($this->controller, __FUNCTION__, new Response());
 		$headers = $response->getHeaders();
 		$this->assertEquals('test', $headers['Access-Control-Allow-Origin']);
 	}
@@ -68,12 +72,12 @@ class CORSMiddlewareTest extends \Test\TestCase {
 					'HTTP_ORIGIN' => 'test'
 				]
 			],
-			$this->getMockBuilder('\OCP\Security\ISecureRandom')->getMock(),
-			$this->getMockBuilder('\OCP\IConfig')->getMock()
+			$this->createMock(ISecureRandom::class),
+			$this->createMock(IConfig::class)
 		);
 		$middleware = new CORSMiddleware($request, $this->reflector, $this->session, $this->throttler);
 
-		$response = $middleware->afterController($this, __FUNCTION__, new Response());
+		$response = $middleware->afterController($this->controller, __FUNCTION__, new Response());
 		$headers = $response->getHeaders();
 		$this->assertFalse(array_key_exists('Access-Control-Allow-Origin', $headers));
 	}
@@ -85,13 +89,13 @@ class CORSMiddlewareTest extends \Test\TestCase {
 	public function testNoOriginHeaderNoCORSHEADER() {
 		$request = new Request(
 			[],
-			$this->getMockBuilder('\OCP\Security\ISecureRandom')->getMock(),
-			$this->getMockBuilder('\OCP\IConfig')->getMock()
+			$this->createMock(ISecureRandom::class),
+			$this->createMock(IConfig::class)
 		);
 		$this->reflector->reflect($this, __FUNCTION__);
 		$middleware = new CORSMiddleware($request, $this->reflector, $this->session, $this->throttler);
 
-		$response = $middleware->afterController($this, __FUNCTION__, new Response());
+		$response = $middleware->afterController($this->controller, __FUNCTION__, new Response());
 		$headers = $response->getHeaders();
 		$this->assertFalse(array_key_exists('Access-Control-Allow-Origin', $headers));
 	}
@@ -108,15 +112,15 @@ class CORSMiddlewareTest extends \Test\TestCase {
 					'HTTP_ORIGIN' => 'test'
 				]
 			],
-			$this->getMockBuilder('\OCP\Security\ISecureRandom')->getMock(),
-			$this->getMockBuilder('\OCP\IConfig')->getMock()
+			$this->createMock(ISecureRandom::class),
+			$this->createMock(IConfig::class)
 		);
 		$this->reflector->reflect($this, __FUNCTION__);
 		$middleware = new CORSMiddleware($request, $this->reflector, $this->session, $this->throttler);
 
 		$response = new Response();
 		$response->addHeader('AcCess-control-Allow-Credentials ', 'TRUE');
-		$middleware->afterController($this, __FUNCTION__, $response);
+		$middleware->afterController($this->controller, __FUNCTION__, $response);
 	}
 
 	/**
@@ -126,8 +130,8 @@ class CORSMiddlewareTest extends \Test\TestCase {
 	public function testNoCORSShouldAllowCookieAuth() {
 		$request = new Request(
 			[],
-			$this->getMockBuilder('\OCP\Security\ISecureRandom')->getMock(),
-			$this->getMockBuilder('\OCP\IConfig')->getMock()
+			$this->createMock(ISecureRandom::class),
+			$this->createMock(IConfig::class)
 		);
 		$this->reflector->reflect($this, __FUNCTION__);
 		$middleware = new CORSMiddleware($request, $this->reflector, $this->session, $this->throttler);
@@ -139,7 +143,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 			->will($this->returnValue(true));
 		$this->reflector->reflect($this, __FUNCTION__);
 
-		$middleware->beforeController($this, __FUNCTION__, new Response());
+		$middleware->beforeController($this->controller, __FUNCTION__);
 	}
 
 	/**
@@ -151,8 +155,8 @@ class CORSMiddlewareTest extends \Test\TestCase {
 				'PHP_AUTH_USER' => 'user',
 				'PHP_AUTH_PW' => 'pass'
 			]],
-			$this->getMockBuilder('\OCP\Security\ISecureRandom')->getMock(),
-			$this->getMockBuilder('\OCP\IConfig')->getMock()
+			$this->createMock(ISecureRandom::class),
+			$this->createMock(IConfig::class)
 		);
 		$this->session->expects($this->once())
 			->method('logout');
@@ -163,7 +167,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 		$this->reflector->reflect($this, __FUNCTION__);
 		$middleware = new CORSMiddleware($request, $this->reflector, $this->session, $this->throttler);
 
-		$middleware->beforeController($this, __FUNCTION__, new Response());
+		$middleware->beforeController($this->controller, __FUNCTION__);
 	}
 
 	/**
@@ -176,8 +180,8 @@ class CORSMiddlewareTest extends \Test\TestCase {
 				'PHP_AUTH_USER' => 'user',
 				'PHP_AUTH_PW' => 'pass'
 			]],
-			$this->getMockBuilder('\OCP\Security\ISecureRandom')->getMock(),
-			$this->getMockBuilder('\OCP\IConfig')->getMock()
+			$this->createMock(ISecureRandom::class),
+			$this->createMock(IConfig::class)
 		);
 		$this->session->expects($this->once())
 			->method('logout');
@@ -188,7 +192,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 		$this->reflector->reflect($this, __FUNCTION__);
 		$middleware = new CORSMiddleware($request, $this->reflector, $this->session, $this->throttler);
 
-		$middleware->beforeController($this, __FUNCTION__, new Response());
+		$middleware->beforeController($this->controller, __FUNCTION__);
 	}
 
 	/**
@@ -201,8 +205,8 @@ class CORSMiddlewareTest extends \Test\TestCase {
 				'PHP_AUTH_USER' => 'user',
 				'PHP_AUTH_PW' => 'pass'
 			]],
-			$this->getMockBuilder('\OCP\Security\ISecureRandom')->getMock(),
-			$this->getMockBuilder('\OCP\IConfig')->getMock()
+			$this->createMock(ISecureRandom::class),
+			$this->createMock(IConfig::class)
 		);
 		$this->session->expects($this->once())
 			->method('logout');
@@ -213,7 +217,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 		$this->reflector->reflect($this, __FUNCTION__);
 		$middleware = new CORSMiddleware($request, $this->reflector, $this->session, $this->throttler);
 
-		$middleware->beforeController($this, __FUNCTION__, new Response());
+		$middleware->beforeController($this->controller, __FUNCTION__);
 	}
 
 	public function testAfterExceptionWithSecurityExceptionNoStatus() {
@@ -222,11 +226,11 @@ class CORSMiddlewareTest extends \Test\TestCase {
 				'PHP_AUTH_USER' => 'user',
 				'PHP_AUTH_PW' => 'pass'
 			]],
-			$this->getMockBuilder('\OCP\Security\ISecureRandom')->getMock(),
-			$this->getMockBuilder('\OCP\IConfig')->getMock()
+			$this->createMock(ISecureRandom::class),
+			$this->createMock(IConfig::class)
 		);
 		$middleware = new CORSMiddleware($request, $this->reflector, $this->session, $this->throttler);
-		$response = $middleware->afterException($this, __FUNCTION__, new SecurityException('A security exception'));
+		$response = $middleware->afterException($this->controller, __FUNCTION__, new SecurityException('A security exception'));
 
 		$expected = new JSONResponse(['message' => 'A security exception'], 500);
 		$this->assertEquals($expected, $response);
@@ -238,11 +242,11 @@ class CORSMiddlewareTest extends \Test\TestCase {
 				'PHP_AUTH_USER' => 'user',
 				'PHP_AUTH_PW' => 'pass'
 			]],
-			$this->getMockBuilder('\OCP\Security\ISecureRandom')->getMock(),
-			$this->getMockBuilder('\OCP\IConfig')->getMock()
+			$this->createMock(ISecureRandom::class),
+			$this->createMock(IConfig::class)
 		);
 		$middleware = new CORSMiddleware($request, $this->reflector, $this->session, $this->throttler);
-		$response = $middleware->afterException($this, __FUNCTION__, new SecurityException('A security exception', 501));
+		$response = $middleware->afterException($this->controller, __FUNCTION__, new SecurityException('A security exception', 501));
 
 		$expected = new JSONResponse(['message' => 'A security exception'], 501);
 		$this->assertEquals($expected, $response);
@@ -258,11 +262,11 @@ class CORSMiddlewareTest extends \Test\TestCase {
 				'PHP_AUTH_USER' => 'user',
 				'PHP_AUTH_PW' => 'pass'
 			]],
-			$this->getMockBuilder('\OCP\Security\ISecureRandom')->getMock(),
-			$this->getMockBuilder('\OCP\IConfig')->getMock()
+			$this->createMock(ISecureRandom::class),
+			$this->createMock(IConfig::class)
 		);
 		$middleware = new CORSMiddleware($request, $this->reflector, $this->session, $this->throttler);
-		$middleware->afterException($this, __FUNCTION__, new \Exception('A regular exception'));
+		$middleware->afterException($this->controller, __FUNCTION__, new \Exception('A regular exception'));
 	}
 
 }

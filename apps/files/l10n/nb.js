@@ -102,9 +102,9 @@ OC.L10N.register(
     "A file has been added to or removed from your <strong>favorites</strong>" : "En fil har blitt lagt til eller fjernet fra dine <strong>favoritter</strong>",
     "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "En fil eller mappe ble <strong>endret</strong> eller <strong>omdøpt</strong>",
     "A new file or folder has been <strong>created</strong>" : "En ny fil eller mappe ble <strong>opprettet</strong>",
-    "A new file or folder has been <strong>deleted</strong>" : "En ny fil eller mappe har blitt <strong>slettet</strong>",
+    "A file or folder has been <strong>deleted</strong>" : "En fil eller mappe ble <strong>slettet</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Begrens varsling om oppretting og endringer til <strong>favorittfilene</strong> dine <em>(Kun strøm)</em>",
-    "A new file or folder has been <strong>restored</strong>" : "En ny fil eller mappe har blitt <strong>gjenopprettet</strong>",
+    "A file or folder has been <strong>restored</strong>" : "En fil eller mappe ble <strong>gjenopprettet</strong>",
     "Unlimited" : "Ubegrenset",
     "Upload (max. %s)" : "Opplasting (maks. %s)",
     "File handling" : "Filhåndtering",
@@ -146,6 +146,8 @@ OC.L10N.register(
     "Copy local link" : "Kopier lokal lenke",
     "Folder" : "Mappe",
     "Upload" : "Last opp",
+    "A new file or folder has been <strong>deleted</strong>" : "En ny fil eller mappe har blitt <strong>slettet</strong>",
+    "A new file or folder has been <strong>restored</strong>" : "En ny fil eller mappe har blitt <strong>gjenopprettet</strong>",
     "No favorites" : "Ingen favoritter"
 },
 "nplurals=2; plural=(n != 1);");

@@ -24,6 +24,7 @@ namespace OCA\ShareByMail;
 use OC\CapabilitiesManager;
 use OC\HintException;
 use OC\Share20\Exception\InvalidShare;
+use OC\User\NoUserException;
 use OCA\ShareByMail\Settings\SettingsManager;
 use OCP\Activity\IManager;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -541,8 +542,7 @@ class ShareByMailProvider implements IShareProvider {
 	 * @return string
 	 */
 	protected function generateToken($size = 15) {
-		$token = $this->secureRandom->generate(
-			$size, ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_DIGITS);
+		$token = $this->secureRandom->generate($size, ISecureRandom::CHAR_HUMAN_READABLE);
 		return $token;
 	}
 
@@ -923,7 +923,7 @@ class ShareByMailProvider implements IShareProvider {
 	private function getNode($userId, $id) {
 		try {
 			$userFolder = $this->rootFolder->getUserFolder($userId);
-		} catch (NotFoundException $e) {
+		} catch (NoUserException $e) {
 			throw new InvalidShare();
 		}
 

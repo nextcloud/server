@@ -60,6 +60,9 @@ class Encryption implements IEncryptionModule {
 	/** @var string */
 	private $user;
 
+	/** @var  array */
+	private $owner;
+
 	/** @var string */
 	private $fileKey;
 
@@ -136,6 +139,7 @@ class Encryption implements IEncryptionModule {
 		$this->decryptAll = $decryptAll;
 		$this->logger = $logger;
 		$this->l = $il10n;
+		$this->owner = [];
 		$this->useMasterPassword = $util->isMasterKeyEnabled();
 	}
 
@@ -280,12 +284,14 @@ class Encryption implements IEncryptionModule {
 				}
 			}
 
-			$publicKeys = $this->keyManager->addSystemKeys($this->accessList, $publicKeys, $this->user);
+			$publicKeys = $this->keyManager->addSystemKeys($this->accessList, $publicKeys, $this->getOwner($path));
 			$encryptedKeyfiles = $this->crypt->multiKeyEncrypt($this->fileKey, $publicKeys);
 			$this->keyManager->setAllFileKeys($this->path, $encryptedKeyfiles);
 		}
 		return $result;
 	}
+
+
 
 	/**
 	 * encrypt data
@@ -407,7 +413,7 @@ class Encryption implements IEncryptionModule {
 				}
 			}
 
-			$publicKeys = $this->keyManager->addSystemKeys($accessList, $publicKeys, $uid);
+			$publicKeys = $this->keyManager->addSystemKeys($accessList, $publicKeys, $this->getOwner($path));
 
 			$encryptedFileKey = $this->crypt->multiKeyEncrypt($fileKey, $publicKeys);
 
@@ -443,13 +449,13 @@ class Encryption implements IEncryptionModule {
 			return false;
 		}
 
-		if ($parts[2] == 'files') {
+		if ($parts[2] === 'files') {
 			return true;
 		}
-		if ($parts[2] == 'files_versions') {
+		if ($parts[2] === 'files_versions') {
 			return true;
 		}
-		if ($parts[2] == 'files_trashbin') {
+		if ($parts[2] === 'files_trashbin') {
 			return true;
 		}
 
@@ -554,6 +560,19 @@ class Encryption implements IEncryptionModule {
 		}
 
 		return $path;
+	}
+
+	/**
+	 * get owner of a file
+	 *
+	 * @param string $path
+	 * @return string
+	 */
+	protected function getOwner($path) {
+		if (!isset($this->owner[$path])) {
+			$this->owner[$path] = $this->util->getOwner($path);
+		}
+		return $this->owner[$path];
 	}
 
 	/**

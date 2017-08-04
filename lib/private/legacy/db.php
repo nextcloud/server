@@ -45,9 +45,9 @@ class OC_DB {
 	/**
 	 * Prepare a SQL query
 	 * @param string $query Query string
-	 * @param int $limit
-	 * @param int $offset
-	 * @param bool $isManipulation
+	 * @param int|null $limit
+	 * @param int|null $offset
+	 * @param bool|null $isManipulation
 	 * @throws \OC\DatabaseException
 	 * @return OC_DB_StatementWrapper prepared SQL query
 	 *
@@ -65,7 +65,7 @@ class OC_DB {
 		try {
 			$result =$connection->prepare($query, $limit, $offset);
 		} catch (\Doctrine\DBAL\DBALException $e) {
-			throw new \OC\DatabaseException($e->getMessage(), $query);
+			throw new \OC\DatabaseException($e->getMessage());
 		}
 		// differentiate between query and manipulation
 		$result = new OC_DB_StatementWrapper($result, $isManipulation);
@@ -104,7 +104,7 @@ class OC_DB {
 	 * @param mixed $stmt OC_DB_StatementWrapper,
 	 *					  an array with 'sql' and optionally 'limit' and 'offset' keys
 	 *					.. or a simple sql query string
-	 * @param array $parameters
+	 * @param array|null $parameters
 	 * @return OC_DB_StatementWrapper
 	 * @throws \OC\DatabaseException
 	 */
@@ -151,7 +151,6 @@ class OC_DB {
 	/**
 	 * saves database schema to xml file
 	 * @param string $file name of file
-	 * @param int $mode
 	 * @return bool
 	 *
 	 * TODO: write more documentation
@@ -179,6 +178,7 @@ class OC_DB {
 	 * @param string $file file to read structure from
 	 * @throws Exception
 	 * @return string|boolean
+	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function updateDbFromStructure($file) {
 		$schemaManager = self::getMDB2SchemaManager();
@@ -214,7 +214,7 @@ class OC_DB {
 			} else {
 				$message .= ', Root cause:' . self::getErrorMessage();
 			}
-			throw new \OC\DatabaseException($message, \OC::$server->getDatabaseConnection()->errorCode());
+			throw new \OC\DatabaseException($message);
 		}
 	}
 

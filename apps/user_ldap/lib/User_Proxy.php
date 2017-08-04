@@ -119,7 +119,7 @@ class User_Proxy extends Proxy implements \OCP\IUserBackend, \OCP\UserInterface,
 	 * @return boolean
 	 *
 	 * Returns the supported actions as int to be
-	 * compared with OC_USER_BACKEND_CREATE_USER etc.
+	 * compared with \OC\User\Backend::CREATE_USER etc.
 	 */
 	public function implementsActions($actions) {
 		//it's the same across all our user backends obviously

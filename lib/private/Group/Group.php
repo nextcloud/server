@@ -29,6 +29,7 @@
 namespace OC\Group;
 
 use OCP\IGroup;
+use OCP\IUser;
 
 class Group implements IGroup {
 	/** @var null|string  */
@@ -119,10 +120,10 @@ class Group implements IGroup {
 	/**
 	 * check if a user is in the group
 	 *
-	 * @param \OC\User\User $user
+	 * @param IUser $user
 	 * @return bool
 	 */
-	public function inGroup($user) {
+	public function inGroup(IUser $user) {
 		if (isset($this->users[$user->getUID()])) {
 			return true;
 		}
@@ -138,9 +139,9 @@ class Group implements IGroup {
 	/**
 	 * add a user to the group
 	 *
-	 * @param \OC\User\User $user
+	 * @param IUser $user
 	 */
-	public function addUser($user) {
+	public function addUser(IUser $user) {
 		if ($this->inGroup($user)) {
 			return;
 		}

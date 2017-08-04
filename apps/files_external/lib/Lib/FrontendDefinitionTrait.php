@@ -49,7 +49,7 @@ trait FrontendDefinitionTrait {
 
 	/**
 	 * @param string $text
-	 * @return self
+	 * @return $this
 	 */
 	public function setText($text) {
 		$this->text = $text;

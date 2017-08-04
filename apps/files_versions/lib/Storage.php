@@ -102,7 +102,7 @@ class Storage {
 			$uid = User::getUser();
 		}
 		Filesystem::initMountPoints($uid);
-		if ( $uid != User::getUser() ) {
+		if ( $uid !== User::getUser() ) {
 			$info = Filesystem::getFileInfo($filename);
 			$ownerView = new View('/'.$uid.'/files');
 			try {
@@ -161,41 +161,39 @@ class Storage {
 	 * store a new version of a file.
 	 */
 	public static function store($filename) {
-		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
 
-			// if the file gets streamed we need to remove the .part extension
-			// to get the right target
-			$ext = pathinfo($filename, PATHINFO_EXTENSION);
-			if ($ext === 'part') {
-				$filename = substr($filename, 0, strlen($filename) - 5);
-			}
-
-			// we only handle existing files
-			if (! Filesystem::file_exists($filename) || Filesystem::is_dir($filename)) {
-				return false;
-			}
-
-			list($uid, $filename) = self::getUidAndFilename($filename);
-
-			$files_view = new View('/'.$uid .'/files');
-			$users_view = new View('/'.$uid);
-
-			// no use making versions for empty files
-			if ($files_view->filesize($filename) === 0) {
-				return false;
-			}
-
-			// create all parent folders
-			self::createMissingDirectories($filename, $users_view);
-
-			self::scheduleExpire($uid, $filename);
-
-			// store a new version of a file
-			$mtime = $users_view->filemtime('files/' . $filename);
-			$users_view->copy('files/' . $filename, 'files_versions/' . $filename . '.v' . $mtime);
-			// call getFileInfo to enforce a file cache entry for the new version
-			$users_view->getFileInfo('files_versions/' . $filename . '.v' . $mtime);
+		// if the file gets streamed we need to remove the .part extension
+		// to get the right target
+		$ext = pathinfo($filename, PATHINFO_EXTENSION);
+		if ($ext === 'part') {
+			$filename = substr($filename, 0, strlen($filename) - 5);
 		}
+
+		// we only handle existing files
+		if (! Filesystem::file_exists($filename) || Filesystem::is_dir($filename)) {
+			return false;
+		}
+
+		list($uid, $filename) = self::getUidAndFilename($filename);
+
+		$files_view = new View('/'.$uid .'/files');
+		$users_view = new View('/'.$uid);
+
+		// no use making versions for empty files
+		if ($files_view->filesize($filename) === 0) {
+			return false;
+		}
+
+		// create all parent folders
+		self::createMissingDirectories($filename, $users_view);
+
+		self::scheduleExpire($uid, $filename);
+
+		// store a new version of a file
+		$mtime = $users_view->filemtime('files/' . $filename);
+		$users_view->copy('files/' . $filename, 'files_versions/' . $filename . '.v' . $mtime);
+		// call getFileInfo to enforce a file cache entry for the new version
+		$users_view->getFileInfo('files_versions/' . $filename . '.v' . $mtime);
 	}
 
 
@@ -320,61 +318,60 @@ class Storage {
 	 */
 	public static function rollback($file, $revision) {
 
-		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
-			// add expected leading slash
-			$file = '/' . ltrim($file, '/');
-			list($uid, $filename) = self::getUidAndFilename($file);
-			if ($uid === null || trim($filename, '/') === '') {
-				return false;
-			}
-
-			$users_view = new View('/'.$uid);
-			$files_view = new View('/'. User::getUser().'/files');
-
-			$versionCreated = false;
-
-			$fileInfo = $files_view->getFileInfo($file);
-
-			// check if user has the permissions to revert a version
-			if (!$fileInfo->isUpdateable()) {
-				return false;
-			}
-
-			//first create a new version
-			$version = 'files_versions'.$filename.'.v'.$users_view->filemtime('files'.$filename);
-			if (!$users_view->file_exists($version)) {
-				$users_view->copy('files'.$filename, 'files_versions'.$filename.'.v'.$users_view->filemtime('files'.$filename));
-				$versionCreated = true;
-			}
-
-			$fileToRestore =  'files_versions' . $filename . '.v' . $revision;
-
-			// Restore encrypted version of the old file for the newly restored file
-			// This has to happen manually here since the file is manually copied below
-			$oldVersion = $users_view->getFileInfo($fileToRestore)->getEncryptedVersion();
-			$oldFileInfo = $users_view->getFileInfo($fileToRestore);
-			$cache = $fileInfo->getStorage()->getCache();
-			$cache->update(
-				$fileInfo->getId(), [
-					'encrypted' => $oldVersion,
-					'encryptedVersion' => $oldVersion,
-					'size' => $oldFileInfo->getSize()
-				]
-			);
-
-			// rollback
-			if (self::copyFileContents($users_view, $fileToRestore, 'files' . $filename)) {
-				$files_view->touch($file, $revision);
-				Storage::scheduleExpire($uid, $file);
-				\OC_Hook::emit('\OCP\Versions', 'rollback', array(
-					'path' => $filename,
-					'revision' => $revision,
-				));
-				return true;
-			} else if ($versionCreated) {
-				self::deleteVersion($users_view, $version);
-			}
+		// add expected leading slash
+		$file = '/' . ltrim($file, '/');
+		list($uid, $filename) = self::getUidAndFilename($file);
+		if ($uid === null || trim($filename, '/') === '') {
+			return false;
 		}
+
+		$users_view = new View('/'.$uid);
+		$files_view = new View('/'. User::getUser().'/files');
+
+		$versionCreated = false;
+
+		$fileInfo = $files_view->getFileInfo($file);
+
+		// check if user has the permissions to revert a version
+		if (!$fileInfo->isUpdateable()) {
+			return false;
+		}
+
+		//first create a new version
+		$version = 'files_versions'.$filename.'.v'.$users_view->filemtime('files'.$filename);
+		if (!$users_view->file_exists($version)) {
+			$users_view->copy('files'.$filename, 'files_versions'.$filename.'.v'.$users_view->filemtime('files'.$filename));
+			$versionCreated = true;
+		}
+
+		$fileToRestore =  'files_versions' . $filename . '.v' . $revision;
+
+		// Restore encrypted version of the old file for the newly restored file
+		// This has to happen manually here since the file is manually copied below
+		$oldVersion = $users_view->getFileInfo($fileToRestore)->getEncryptedVersion();
+		$oldFileInfo = $users_view->getFileInfo($fileToRestore);
+		$cache = $fileInfo->getStorage()->getCache();
+		$cache->update(
+			$fileInfo->getId(), [
+				'encrypted' => $oldVersion,
+				'encryptedVersion' => $oldVersion,
+				'size' => $oldFileInfo->getSize()
+			]
+		);
+
+		// rollback
+		if (self::copyFileContents($users_view, $fileToRestore, 'files' . $filename)) {
+			$files_view->touch($file, $revision);
+			Storage::scheduleExpire($uid, $file);
+			\OC_Hook::emit('\OCP\Versions', 'rollback', array(
+				'path' => $filename,
+				'revision' => $revision,
+			));
+			return true;
+		} else if ($versionCreated) {
+			self::deleteVersion($users_view, $version);
+		}
+
 		return false;
 
 	}
@@ -629,7 +626,7 @@ class Storage {
 
 		$interval = 1;
 		$step = Storage::$max_versions_per_interval[$interval]['step'];
-		if (Storage::$max_versions_per_interval[$interval]['intervalEndsAfter'] == -1) {
+		if (Storage::$max_versions_per_interval[$interval]['intervalEndsAfter'] === -1) {
 			$nextInterval = -1;
 		} else {
 			$nextInterval = $time - Storage::$max_versions_per_interval[$interval]['intervalEndsAfter'];
@@ -644,7 +641,7 @@ class Storage {
 		foreach ($versions as $key => $version) {
 			$newInterval = true;
 			while ($newInterval) {
-				if ($nextInterval == -1 || $prevTimestamp > $nextInterval) {
+				if ($nextInterval === -1 || $prevTimestamp > $nextInterval) {
 					if ($version['version'] > $nextVersion) {
 						//distance between two version too small, mark to delete
 						$toDelete[$key] = $version['path'] . '.v' . $version['version'];
@@ -659,7 +656,7 @@ class Storage {
 					$interval++;
 					$step = Storage::$max_versions_per_interval[$interval]['step'];
 					$nextVersion = $prevTimestamp - $step;
-					if (Storage::$max_versions_per_interval[$interval]['intervalEndsAfter'] == -1) {
+					if (Storage::$max_versions_per_interval[$interval]['intervalEndsAfter'] === -1) {
 						$nextInterval = -1;
 					} else {
 						$nextInterval = $time - Storage::$max_versions_per_interval[$interval]['intervalEndsAfter'];
@@ -698,10 +695,9 @@ class Storage {
 	 * @return bool|int|null
 	 */
 	public static function expire($filename, $uid) {
-		$config = \OC::$server->getConfig();
 		$expiration = self::getExpiration();
 
-		if($config->getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true' && $expiration->isEnabled()) {
+		if ($expiration->isEnabled()) {
 			// get available disk space for user
 			$user = \OC::$server->getUserManager()->get($uid);
 			if (is_null($user)) {

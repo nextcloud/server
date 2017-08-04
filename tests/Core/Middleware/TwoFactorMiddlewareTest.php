@@ -24,6 +24,7 @@ namespace Test\Core\Middleware;
 
 use OC\Core\Middleware\TwoFactorMiddleware;
 use OC\AppFramework\Http\Request;
+use OCP\AppFramework\Controller;
 use OCP\AppFramework\Utility\IControllerMethodReflector;
 use OCP\IConfig;
 use OCP\ISession;
@@ -43,6 +44,9 @@ class TwoFactorMiddlewareTest extends TestCase {
 
 	/** @var TwoFactorMiddleware */
 	private $middleware;
+
+	/** @var Controller */
+	private $controller;
 
 	protected function setUp() {
 		parent::setUp();
@@ -67,6 +71,7 @@ class TwoFactorMiddlewareTest extends TestCase {
 		);
 
 		$this->middleware = new TwoFactorMiddleware($this->twoFactorManager, $this->userSession, $this->session, $this->urlGenerator, $this->reflector, $this->request);
+		$this->controller = $this->createMock(Controller::class);
 	}
 
 	public function testBeforeControllerNotLoggedIn() {
@@ -81,7 +86,7 @@ class TwoFactorMiddlewareTest extends TestCase {
 		$this->userSession->expects($this->never())
 			->method('getUser');
 
-		$this->middleware->beforeController(null, 'index');
+		$this->middleware->beforeController($this->controller, 'index');
 	}
 
 	public function testBeforeControllerPublicPage() {
@@ -92,7 +97,7 @@ class TwoFactorMiddlewareTest extends TestCase {
 		$this->userSession->expects($this->never())
 			->method('isLoggedIn');
 
-		$this->middleware->beforeController(null, 'create');
+		$this->middleware->beforeController($this->controller, 'create');
 	}
 
 	public function testBeforeControllerNoTwoFactorCheckNeeded() {
@@ -113,7 +118,7 @@ class TwoFactorMiddlewareTest extends TestCase {
 			->with($user)
 			->will($this->returnValue(false));
 
-		$this->middleware->beforeController(null, 'index');
+		$this->middleware->beforeController($this->controller, 'index');
 	}
 
 	/**
@@ -141,7 +146,7 @@ class TwoFactorMiddlewareTest extends TestCase {
 			->with($user)
 			->will($this->returnValue(true));
 
-		$this->middleware->beforeController(null, 'index');
+		$this->middleware->beforeController($this->controller, 'index');
 	}
 
 	/**
@@ -184,7 +189,7 @@ class TwoFactorMiddlewareTest extends TestCase {
 			->will($this->returnValue('test/url'));
 		$expected = new \OCP\AppFramework\Http\RedirectResponse('test/url');
 
-		$this->assertEquals($expected, $this->middleware->afterException(null, 'index', $ex));
+		$this->assertEquals($expected, $this->middleware->afterException($this->controller, 'index', $ex));
 	}
 
 	public function testAfterException() {
@@ -196,7 +201,7 @@ class TwoFactorMiddlewareTest extends TestCase {
 			->will($this->returnValue('redirect/url'));
 		$expected = new \OCP\AppFramework\Http\RedirectResponse('redirect/url');
 
-		$this->assertEquals($expected, $this->middleware->afterException(null, 'index', $ex));
+		$this->assertEquals($expected, $this->middleware->afterException($this->controller, 'index', $ex));
 	}
 
 }

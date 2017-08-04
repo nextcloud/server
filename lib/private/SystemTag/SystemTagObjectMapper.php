@@ -112,7 +112,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 			->andWhere($query->expr()->eq('objecttype', $query->createNamedParameter($objectType)));
 
 		if ($limit) {
-			if (sizeof($tagIds) !== 1) {
+			if (count($tagIds) !== 1) {
 				throw new \InvalidArgumentException('Limit is only allowed with a single tag');
 			}
 

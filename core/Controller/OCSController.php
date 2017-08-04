@@ -122,11 +122,11 @@ class OCSController extends \OCP\AppFramework\OCSController {
 				]);
 			}
 
-			$response = new DataResponse(null, 102);
+			$response = new DataResponse([], 102);
 			$response->throttle();
 			return $response;
 		}
-		return new DataResponse(null, 101);
+		return new DataResponse([], 101);
 	}
 
 	/**
@@ -146,6 +146,6 @@ class OCSController extends \OCP\AppFramework\OCSController {
 			return new DataResponse($data);
 		}
 
-		return new DataResponse('User not found', 404);
+		return new DataResponse(['User not found'], 404);
 	}
 }

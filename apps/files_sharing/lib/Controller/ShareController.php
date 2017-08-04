@@ -401,7 +401,7 @@ class ShareController extends Controller {
 		}
 
 		// OpenGraph Support: http://ogp.me/
-		\OCP\Util::addHeader('meta', ['property' => "og:title", 'content' => $this->defaults->getName() . ' - ' . $this->defaults->getSlogan()]);
+		\OCP\Util::addHeader('meta', ['property' => "og:title", 'content' => $this->defaults->getName() . ($this->defaults->getSlogan() !== '' ? ' - ' . $this->defaults->getSlogan() : '')]);
 		\OCP\Util::addHeader('meta', ['property' => "og:description", 'content' => $this->l10n->t('%s is publicly shared', [$shareTmpl['filename']])]);
 		\OCP\Util::addHeader('meta', ['property' => "og:site_name", 'content' => $this->defaults->getName()]);
 		\OCP\Util::addHeader('meta', ['property' => "og:url", 'content' => $shareTmpl['shareUrl']]);
@@ -514,7 +514,7 @@ class ShareController extends Controller {
 
 		$this->emitAccessShareHook($share);
 
-		$server_params = array( 'head' => $this->request->getMethod() == 'HEAD' );
+		$server_params = array( 'head' => $this->request->getMethod() === 'HEAD' );
 
 		/**
 		 * Http range requests support

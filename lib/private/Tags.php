@@ -274,7 +274,7 @@ class Tags implements \OCP\ITags {
 		if($tagId === false) {
 			$l10n = \OC::$server->getL10N('core');
 			throw new \Exception(
-				$l10n->t('Could not find category "%s"', $tag)
+				$l10n->t('Could not find category "%s"', [$tag])
 			);
 		}
 

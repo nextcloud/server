@@ -1203,7 +1203,7 @@ OC.Notification={
 
 	/**
 	 * Updates (replaces) a sanitized notification.
-	 * 
+	 *
 	 * @param {string} text Message to display
 	 * @return {jQuery} JQuery element for notificaiton row
 	 */
@@ -1512,7 +1512,7 @@ function initCore() {
 
 	var resizeMenu = function() {
 		var appList = $('#appmenu li');
-		var headerWidth = $('#header-left').width() - $('#nextcloud').width()
+		var headerWidth = $('.header-left').width() - $('#nextcloud').width()
 		var usePercentualAppMenuLimit = 0.33;
 		var minAppsDesktop = 8;
 		var availableWidth = headerWidth - $(appList).width();

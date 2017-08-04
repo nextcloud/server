@@ -299,6 +299,7 @@ class ShareesAPIController extends OCSController {
 
 	/**
 	 * @param string $search
+	 * @suppress PhanUndeclaredClassMethod
 	 */
 	protected function getCircles($search) {
 		$this->result['circles'] = $this->result['exact']['circles'] = [];

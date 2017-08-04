@@ -72,8 +72,6 @@
     "Enable" : "Activar",
     "Enabling app …" : "Habilitando aplicación...",
     "Error while enabling app" : "Fallu mientres s'activaba l'aplicación",
-    "Error: this app cannot be enabled because it makes the server unstable" : "Fallu: esta aplicación nun pue habilitase porque fadrá inestable'l sirvidor",
-    "Error: could not disable broken app" : "Fallu: nun pudo deshabilitase l'aplicación rota",
     "Error while disabling broken app" : "Fallu entrín se deshabilitaba l'aplicación rota",
     "Updating...." : "Anovando....",
     "Error while updating app" : "Fallu mientres s'anovaba l'aplicación",

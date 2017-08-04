@@ -255,6 +255,7 @@ class DBLockingProvider extends AbstractLockingProvider {
 
 	/**
 	 * release all lock acquired by this instance which were marked using the mark* methods
+	 * @suppress SqlInjectionChecker
 	 */
 	public function releaseAll() {
 		parent::releaseAll();

@@ -60,7 +60,7 @@ interface IGroup {
 	 * @return bool
 	 * @since 8.0.0
 	 */
-	public function inGroup($user);
+	public function inGroup(IUser $user);
 
 	/**
 	 * add a user to the group
@@ -68,7 +68,7 @@ interface IGroup {
 	 * @param \OCP\IUser $user
 	 * @since 8.0.0
 	 */
-	public function addUser($user);
+	public function addUser(IUser $user);
 
 	/**
 	 * remove a user from the group

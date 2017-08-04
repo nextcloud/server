@@ -28,6 +28,10 @@
 
 namespace OC\Core\Command\Db;
 
+use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Schema\Table;
+use Doctrine\DBAL\Types\Type;
+use OC\DB\MigrationService;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use \OCP\IConfig;
 use OC\DB\Connection;
@@ -190,7 +194,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 			$this->clearSchema($toDB, $input, $output);
 		}
 
-		$this->createSchema($toDB, $input, $output);
+		$this->createSchema($fromDB, $toDB, $input, $output);
 
 		$toTables = $this->getTables($toDB);
 		$fromTables = $this->getTables($fromDB);
@@ -217,27 +221,43 @@ class ConvertType extends Command implements CompletionAwareInterface {
 		$this->convertDB($fromDB, $toDB, $intersectingTables, $input, $output);
 	}
 
-	protected function createSchema(Connection $toDB, InputInterface $input, OutputInterface $output) {
+	protected function createSchema(Connection $fromDB, Connection $toDB, InputInterface $input, OutputInterface $output) {
 		$output->writeln('<info>Creating schema in new database</info>');
+
+		$fromMS = new MigrationService('core', $fromDB);
+		$currentMigration = $fromMS->getMigration('current');
+		if ($currentMigration !== '0') {
+			$toMS = new MigrationService('core', $toDB);
+			$toMS->migrate($currentMigration);
+		}
+
 		$schemaManager = new \OC\DB\MDB2SchemaManager($toDB);
-		$schemaManager->createDbFromStructure(\OC::$SERVERROOT.'/db_structure.xml');
 		$apps = $input->getOption('all-apps') ? \OC_App::getAllApps() : \OC_App::getEnabledApps();
 		foreach($apps as $app) {
 			if (file_exists(\OC_App::getAppPath($app).'/appinfo/database.xml')) {
 				$schemaManager->createDbFromStructure(\OC_App::getAppPath($app).'/appinfo/database.xml');
+			} else {
+				// Make sure autoloading works...
+				\OC_App::loadApp($app);
+				$fromMS = new MigrationService($app, $fromDB);
+				$currentMigration = $fromMS->getMigration('current');
+				if ($currentMigration !== '0') {
+					$toMS = new MigrationService($app, $toDB);
+					$toMS->migrate($currentMigration);
+				}
 			}
 		}
 	}
 
 	protected function getToDBConnection(InputInterface $input, OutputInterface $output) {
 		$type = $input->getArgument('type');
-		$connectionParams = array(
+		$connectionParams = $this->connectionFactory->createConnectionParams();
+		$connectionParams = array_merge($connectionParams, [
 			'host' => $input->getArgument('hostname'),
 			'user' => $input->getArgument('username'),
 			'password' => $input->getOption('password'),
 			'dbname' => $input->getArgument('database'),
-			'tablePrefix' => $this->config->getSystemValue('dbtableprefix', 'oc_'),
-		);
+		]);
 		if ($input->getOption('port')) {
 			$connectionParams['port'] = $input->getOption('port');
 		}
@@ -261,13 +281,26 @@ class ConvertType extends Command implements CompletionAwareInterface {
 		return $db->getSchemaManager()->listTableNames();
 	}
 
-	protected function copyTable(Connection $fromDB, Connection $toDB, $table, InputInterface $input, OutputInterface $output) {
+	/**
+	 * @param Connection $fromDB
+	 * @param Connection $toDB
+	 * @param Table $table
+	 * @param InputInterface $input
+	 * @param OutputInterface $output
+	 * @suppress SqlInjectionChecker
+	 */
+	protected function copyTable(Connection $fromDB, Connection $toDB, Table $table, InputInterface $input, OutputInterface $output) {
+		if ($table->getName() === $toDB->getPrefix() . 'migrations') {
+			$output->writeln('<comment>Skipping migrations table because it was already filled by running the migrations</comment>');
+			return;
+		}
+
 		$chunkSize = $input->getOption('chunk-size');
 
 		$query = $fromDB->getQueryBuilder();
 		$query->automaticTablePrefix(false);
 		$query->selectAlias($query->createFunction('COUNT(*)'), 'num_entries')
-			->from($table);
+			->from($table->getName());
 		$result = $query->execute();
 		$count = $result->fetchColumn();
 		$result->closeCursor();
@@ -285,12 +318,25 @@ class ConvertType extends Command implements CompletionAwareInterface {
 		$query = $fromDB->getQueryBuilder();
 		$query->automaticTablePrefix(false);
 		$query->select('*')
-			->from($table)
+			->from($table->getName())
 			->setMaxResults($chunkSize);
+
+		try {
+			$orderColumns = $table->getPrimaryKeyColumns();
+		} catch (DBALException $e) {
+			$orderColumns = [];
+			foreach ($table->getColumns() as $column) {
+				$orderColumns[] = $column->getName();
+			}
+		}
+
+		foreach ($orderColumns as $column) {
+			$query->addOrderBy($column);
+		}
 
 		$insertQuery = $toDB->getQueryBuilder();
 		$insertQuery->automaticTablePrefix(false);
-		$insertQuery->insert($table);
+		$insertQuery->insert($table->getName());
 		$parametersCreated = false;
 
 		for ($chunk = 0; $chunk < $numChunks; $chunk++) {
@@ -322,33 +368,35 @@ class ConvertType extends Command implements CompletionAwareInterface {
 		$progress->finish();
 	}
 
-	protected function getColumnType($table, $column) {
-		if (isset($this->columnTypes[$table][$column])) {
-			return $this->columnTypes[$table][$column];
-		}
-		$prefix = $this->config->getSystemValue('dbtableprefix', 'oc_');
-
-		$this->columnTypes[$table][$column] = false;
-
-		if ($table === $prefix . 'cards' && $column === 'carddata') {
-			$this->columnTypes[$table][$column] = IQueryBuilder::PARAM_LOB;
-		} else if ($column === 'calendardata') {
-			if ($table === $prefix . 'calendarobjects' ||
-				$table === $prefix . 'schedulingobjects') {
-				$this->columnTypes[$table][$column] = IQueryBuilder::PARAM_LOB;
-			}
+	protected function getColumnType(Table $table, $columnName) {
+		$tableName = $table->getName();
+		if (isset($this->columnTypes[$tableName][$columnName])) {
+			return $this->columnTypes[$tableName][$columnName];
 		}
 
-		return $this->columnTypes[$table][$column];
+		$type = $table->getColumn($columnName)->getType()->getName();
+
+		switch ($type) {
+			case Type::BLOB:
+			case Type::TEXT:
+				$this->columnTypes[$tableName][$columnName] = IQueryBuilder::PARAM_LOB;
+				break;
+			default:
+				$this->columnTypes[$tableName][$columnName] = false;
+		}
+
+		return $this->columnTypes[$tableName][$columnName];
 	}
 
 	protected function convertDB(Connection $fromDB, Connection $toDB, array $tables, InputInterface $input, OutputInterface $output) {
 		$this->config->setSystemValue('maintenance', true);
+		$schema = $fromDB->createSchema();
+
 		try {
 			// copy table rows
 			foreach($tables as $table) {
 				$output->writeln($table);
-				$this->copyTable($fromDB, $toDB, $table, $input, $output);
+				$this->copyTable($fromDB, $toDB, $schema->getTable($table), $input, $output);
 			}
 			if ($input->getArgument('type') === 'pgsql') {
 				$tools = new \OC\DB\PgSqlTools($this->config);

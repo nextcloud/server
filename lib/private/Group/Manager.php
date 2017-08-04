@@ -246,10 +246,10 @@ class Manager extends PublicEmitter implements IGroupManager {
 	}
 
 	/**
-	 * @param \OC\User\User|null $user
+	 * @param IUser|null $user
 	 * @return \OC\Group\Group[]
 	 */
-	public function getUserGroups($user) {
+	public function getUserGroups(IUser $user= null) {
 		if (!$user instanceof IUser) {
 			return [];
 		}
@@ -303,10 +303,10 @@ class Manager extends PublicEmitter implements IGroupManager {
 
 	/**
 	 * get a list of group ids for a user
-	 * @param \OC\User\User $user
+	 * @param IUser $user
 	 * @return array with group ids
 	 */
-	public function getUserGroupIds($user) {
+	public function getUserGroupIds(IUser $user) {
 		return array_map(function($value) {
 			return (string) $value;
 		}, array_keys($this->getUserGroups($user)));

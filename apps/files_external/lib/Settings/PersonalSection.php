@@ -50,18 +50,4 @@ class PersonalSection extends Section {
 		$this->userGlobalStoragesService = $userGlobalStoragesService;
 		$this->backendService = $backendService;
 	}
-
-	public function getID() {
-		if (!$this->userSession->isLoggedIn()) {
-			// we need to return the proper id while installing/upgrading the app
-			return parent::getID();
-		}
-
-		if (count($this->userGlobalStoragesService->getStorages()) > 0 || $this->backendService->isUserMountingAllowed()) {
-			return parent::getID();
-		} else {
-			// by returning a different id, no matching settings will be found and the item will be hidden
-			return null;
-		}
-	}
 }

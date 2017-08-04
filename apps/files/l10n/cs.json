@@ -100,9 +100,9 @@
     "A file has been added to or removed from your <strong>favorites</strong>" : "Soubor byl přidán, nebo odstraněn z vašich <strong>oblíbených</strong>",
     "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Soubor nebo adresář byl <strong>změněn</strong> nebo <strong>přejmenován</strong>",
     "A new file or folder has been <strong>created</strong>" : "Byl <strong>vytvořen</strong> nový soubor nebo adresář",
-    "A new file or folder has been <strong>deleted</strong>" : "Nový soubor nebo adresář byl <strong>smazán</strong>",
+    "A file or folder has been <strong>deleted</strong>" : "Soubor nebo adresář byl <strong>smazán</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Omezovat oznámení o tvorbě a změnách <strong>oblíbených souborů</strong> <em>(Pouze v proudu)</em>",
-    "A new file or folder has been <strong>restored</strong>" : "Nový soubor nebo adresář byl <strong>obnoven</strong>",
+    "A file or folder has been <strong>restored</strong>" : "Soubor nebo adresář byl <strong>obnoven</strong>",
     "Unlimited" : "Neomezeně",
     "Upload (max. %s)" : "Nahrát (max. %s)",
     "File handling" : "Zacházení se soubory",
@@ -144,6 +144,8 @@
     "Copy local link" : "Kopírovat místní odkaz",
     "Folder" : "Adresář",
     "Upload" : "Odeslat",
+    "A new file or folder has been <strong>deleted</strong>" : "Nový soubor nebo adresář byl <strong>smazán</strong>",
+    "A new file or folder has been <strong>restored</strong>" : "Nový soubor nebo adresář byl <strong>obnoven</strong>",
     "No favorites" : "Žádné oblíbené"
 },"pluralForm" :"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;"
 }

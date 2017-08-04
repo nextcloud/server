@@ -33,7 +33,6 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Share\IShare;
 use OCP\Share\IManager;
-use OCP\Files\Mount\IMountPoint;
 
 /**
  * @group DB

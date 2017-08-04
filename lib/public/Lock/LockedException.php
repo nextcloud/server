@@ -43,7 +43,7 @@ class LockedException extends \Exception {
 	 * LockedException constructor.
 	 *
 	 * @param string $path locked path
-	 * @param \Exception $previous previous exception for cascading
+	 * @param \Exception|null $previous previous exception for cascading
 	 *
 	 * @since 8.1.0
 	 */

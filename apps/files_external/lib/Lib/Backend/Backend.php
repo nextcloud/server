@@ -82,7 +82,7 @@ class Backend implements \JsonSerializable {
 
 	/**
 	 * @param string $class
-	 * @return self
+	 * @return $this
 	 */
 	public function setStorageClass($class) {
 		$this->storageClass = $class;

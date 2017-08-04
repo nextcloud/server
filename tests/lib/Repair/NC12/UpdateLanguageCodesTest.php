@@ -24,6 +24,7 @@
 namespace Test\Repair\NC12;
 
 use OC\Repair\NC12\UpdateLanguageCodes;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
 use OCP\Migration\IOutput;
 use Test\TestCase;
@@ -152,7 +153,7 @@ class UpdateLanguageCodesTest extends TestCase {
 				->where($qb->expr()->eq('userid', $qb->createNamedParameter($user['userid'])))
 				->andWhere($qb->expr()->eq('appid', $qb->createNamedParameter('core')))
 				->andWhere($qb->expr()->eq('configkey', $qb->createNamedParameter('lang')))
-				->andWhere($qb->expr()->eq('configvalue', $qb->createNamedParameter($user['configvalue'])))
+				->andWhere($qb->expr()->eq('configvalue', $qb->createNamedParameter($user['configvalue']), IQueryBuilder::PARAM_STR))
 				->execute();
 		}
 	}

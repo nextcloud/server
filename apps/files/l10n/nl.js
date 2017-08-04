@@ -102,9 +102,9 @@ OC.L10N.register(
     "A file has been added to or removed from your <strong>favorites</strong>" : "Een bestand werd toegevoegd of verwijderd van je <strong>favorieten</strong>",
     "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Een bestand of map is <strong>gewijzigd</strong> of <strong>hernoemd</strong>",
     "A new file or folder has been <strong>created</strong>" : "Een nieuw bestand of map is <strong>aangemaakt</strong>",
-    "A new file or folder has been <strong>deleted</strong>" : "Een nieuw bestand of nieuwe map is <strong>verwijderd</strong>",
+    "A file or folder has been <strong>deleted</strong>" : "Een bestand of map is <strong>verwijderd</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Beperk meldingen over aanmaken en wijzigen aan je <strong>favoriete bestanden</strong> <em>(Alleen stream)</em>",
-    "A new file or folder has been <strong>restored</strong>" : "Een nieuw bestand of een nieuwe map is <strong>hersteld</strong>",
+    "A file or folder has been <strong>restored</strong>" : "Een bestand of een map is <strong>hersteld</strong>",
     "Unlimited" : "Ongelimiteerd",
     "Upload (max. %s)" : "Upload (max. %s)",
     "File handling" : "Bestand afhandeling",
@@ -146,6 +146,8 @@ OC.L10N.register(
     "Copy local link" : "Kopiëren lokale link",
     "Folder" : "Map",
     "Upload" : "Uploaden",
+    "A new file or folder has been <strong>deleted</strong>" : "Een nieuw bestand of nieuwe map is <strong>verwijderd</strong>",
+    "A new file or folder has been <strong>restored</strong>" : "Een nieuw bestand of een nieuwe map is <strong>hersteld</strong>",
     "No favorites" : "Geen favorieten"
 },
 "nplurals=2; plural=(n != 1);");

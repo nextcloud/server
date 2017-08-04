@@ -194,12 +194,12 @@ class RequestHandlerController extends OCSController {
 
 				$declineAction = $notification->createAction();
 				$declineAction->setLabel('decline')
-					->setLink($urlGenerator->getAbsoluteURL($urlGenerator->linkTo('', 'ocs/v1.php/apps/files_sharing/api/v1/remote_shares/pending/' . $shareId)), 'DELETE');
+					->setLink($urlGenerator->getAbsoluteURL($urlGenerator->linkTo('', 'ocs/v2.php/apps/files_sharing/api/v1/remote_shares/pending/' . $shareId)), 'DELETE');
 				$notification->addAction($declineAction);
 
 				$acceptAction = $notification->createAction();
 				$acceptAction->setLabel('accept')
-					->setLink($urlGenerator->getAbsoluteURL($urlGenerator->linkTo('', 'ocs/v1.php/apps/files_sharing/api/v1/remote_shares/pending/' . $shareId)), 'POST');
+					->setLink($urlGenerator->getAbsoluteURL($urlGenerator->linkTo('', 'ocs/v2.php/apps/files_sharing/api/v1/remote_shares/pending/' . $shareId)), 'POST');
 				$notification->addAction($acceptAction);
 
 				$notificationManager->notify($notification);

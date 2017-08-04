@@ -123,7 +123,7 @@ class File implements \OCP\Share_Backend_File_Dependent {
 	}
 
 	public function formatItems($items, $format, $parameters = null) {
-		if ($format == self::FORMAT_SHARED_STORAGE) {
+		if ($format === self::FORMAT_SHARED_STORAGE) {
 			// Only 1 item should come through for this format call
 			$item = array_shift($items);
 			return array(
@@ -133,7 +133,7 @@ class File implements \OCP\Share_Backend_File_Dependent {
 				'permissions' => $item['permissions'],
 				'uid_owner' => $item['uid_owner'],
 			);
-		} else if ($format == self::FORMAT_GET_FOLDER_CONTENTS) {
+		} else if ($format === self::FORMAT_GET_FOLDER_CONTENTS) {
 			$files = array();
 			foreach ($items as $item) {
 				$file = array();
@@ -156,13 +156,13 @@ class File implements \OCP\Share_Backend_File_Dependent {
 				$files[] = $file;
 			}
 			return $files;
-		} else if ($format == self::FORMAT_OPENDIR) {
+		} else if ($format === self::FORMAT_OPENDIR) {
 			$files = array();
 			foreach ($items as $item) {
 				$files[] = basename($item['file_target']);
 			}
 			return $files;
-		} else if ($format == self::FORMAT_GET_ALL) {
+		} else if ($format === self::FORMAT_GET_ALL) {
 			$ids = array();
 			foreach ($items as $item) {
 				$ids[] = $item['file_source'];

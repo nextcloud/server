@@ -95,6 +95,7 @@ class App {
 	 * @param \OCP\Route\IRouter $router
 	 * @param array $routes
 	 * @since 6.0.0
+	 * @suppress PhanAccessMethodInternal
 	 */
 	public function registerRoutes($router, $routes) {
 		$routeConfig = new RouteConfig($this->container, $router, $routes);

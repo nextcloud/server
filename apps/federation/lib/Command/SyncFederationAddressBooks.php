@@ -36,7 +36,7 @@ class SyncFederationAddressBooks extends Command {
 	/**
 	 * @param \OCA\Federation\SyncFederationAddressBooks $syncService
 	 */
-	function __construct(\OCA\Federation\SyncFederationAddressBooks $syncService) {
+	public function __construct(\OCA\Federation\SyncFederationAddressBooks $syncService) {
 		parent::__construct();
 
 		$this->syncService = $syncService;

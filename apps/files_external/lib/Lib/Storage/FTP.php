@@ -56,7 +56,7 @@ class FTP extends StreamWrapper{
 				$this->secure = false;
 			}
 			$this->root=isset($params['root'])?$params['root']:'/';
-			if ( ! $this->root || $this->root[0]!='/') {
+			if ( ! $this->root || $this->root[0]!=='/') {
 				$this->root='/'.$this->root;
 			}
 			if (substr($this->root, -1) !== '/') {

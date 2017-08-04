@@ -44,7 +44,6 @@ class ExpireSharesJob extends TimedJob {
 	 */
 	public function run($argument) {
 		$connection = \OC::$server->getDatabaseConnection();
-		$logger = \OC::$server->getLogger();
 
 		//Current time
 		$now = new \DateTime();

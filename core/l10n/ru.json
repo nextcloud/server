@@ -196,7 +196,7 @@
     "<strong>These are your search results<script>alert(1)</script></strong>" : "<strong>Эти результаты поиска<script>alert(1)</script></strong>",
     "new" : "новый",
     "_download %n file_::_download %n files_" : ["скачать %n файл","скачать %n файла","скачать %n файлов","скачать %n файлов"],
-    "The update is in progress, leaving this page might interrupt the process in some environments." : "Выполняется обновление. Уход с этой страницы в некоторых случаях может прервать процесс.",
+    "The update is in progress, leaving this page might interrupt the process in some environments." : "Выполняется обновление. Не уходите с этой страницы, т.к. в некоторых случаях может прервать процесс.",
     "Update to {version}" : "Обновление до {version}",
     "An error occurred." : "Произошла ошибка.",
     "Please reload the page." : "Обновите страницу.",

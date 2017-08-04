@@ -193,7 +193,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	 */
 	public function getSize() {
 		$this->updateEntryfromSubMounts();
-		return isset($this->data['size']) ? (int) $this->data['size'] : 0;
+		return isset($this->data['size']) ? 0 + $this->data['size'] : 0;
 	}
 
 	/**

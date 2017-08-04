@@ -19,5 +19,5 @@
  *
  */
 
-$app = new \OCA\Testing\Application();
+$app = new \OCA\Testing\AppInfo\Application();
 

@@ -20,63 +20,63 @@
  *
  */
 
-namespace OCA\Testing\AppInfo;
+return [
+	'routes' => [
+		[
+			'name' => 'RateLimitTest#userAndAnonProtected',
+			'url' => '/userAndAnonProtected',
+			'verb' => 'GET',
+		],
+		[
+			'name' => 'RateLimitTest#onlyAnonProtected',
+			'url' => '/anonProtected',
+			'verb' => 'GET',
+		],
+	],
 
-use OCA\Testing\Config;
-use OCA\Testing\Locking\Provisioning;
-use OCP\API;
-use OCP\AppFramework\App;
-
-$config = new Config(
-	\OC::$server->getConfig(),
-	\OC::$server->getRequest()
-);
-
-$app = new App('testing');
-$app->registerRoutes(
-	$this,
-	[
-		'routes' => [
-			[
-				'name' => 'RateLimitTest#userAndAnonProtected',
-				'url' => '/userAndAnonProtected',
-				'verb' => 'GET',
-			],
-			[
-				'name' => 'RateLimitTest#onlyAnonProtected',
-				'url' => '/anonProtected',
-				'verb' => 'GET',
-			],
-		]
-	]
-);
-
-API::register(
-	'post',
-	'/apps/testing/api/v1/app/{appid}/{configkey}',
-	[$config, 'setAppValue'],
-	'testing',
-	API::ADMIN_AUTH
-);
-
-API::register(
-	'delete',
-	'/apps/testing/api/v1/app/{appid}/{configkey}',
-	[$config, 'deleteAppValue'],
-	'testing',
-	API::ADMIN_AUTH
-);
-
-$locking = new Provisioning(
-	\OC::$server->getLockingProvider(),
-	\OC::$server->getDatabaseConnection(),
-	\OC::$server->getConfig(),
-	\OC::$server->getRequest()
-);
-API::register('get', '/apps/testing/api/v1/lockprovisioning', [$locking, 'isLockingEnabled'], 'files_lockprovisioning', API::ADMIN_AUTH);
-API::register('get', '/apps/testing/api/v1/lockprovisioning/{type}/{user}', [$locking, 'isLocked'], 'files_lockprovisioning', API::ADMIN_AUTH);
-API::register('post', '/apps/testing/api/v1/lockprovisioning/{type}/{user}', [$locking, 'acquireLock'], 'files_lockprovisioning', API::ADMIN_AUTH);
-API::register('put', '/apps/testing/api/v1/lockprovisioning/{type}/{user}', [$locking, 'changeLock'], 'files_lockprovisioning', API::ADMIN_AUTH);
-API::register('delete', '/apps/testing/api/v1/lockprovisioning/{type}/{user}', [$locking, 'releaseLock'], 'files_lockprovisioning', API::ADMIN_AUTH);
-API::register('delete', '/apps/testing/api/v1/lockprovisioning/{type}', [$locking, 'releaseAll'], 'files_lockprovisioning', API::ADMIN_AUTH);
-API::register('delete', '/apps/testing/api/v1/lockprovisioning', [$locking, 'releaseAll'], 'files_lockprovisioning', API::ADMIN_AUTH);
+	'ocs' => [
+		[
+			'name' => 'Config#setAppValue',
+			'url'  => '/api/v1/app/{appid}/{configkey}',
+			'verb' => 'POST',
+		],
+		[
+			'name' => 'Config#deleteAppValue',
+			'url'  => '/api/v1/app/{appid}/{configkey}',
+			'verb' => 'DELETE',
+		],
+		[
+			'name' => 'Locking#isLockingEnabled',
+			'url'  => '/api/v1/lockprovisioning',
+			'verb' => 'GET',
+		],
+		[
+			'name' => 'Locking#isLocked',
+			'url'  => '/api/v1/lockprovisioning/{type}/{user}',
+			'verb' => 'GET',
+		],
+		[
+			'name' => 'Locking#acquireLock',
+			'url'  => '/api/v1/lockprovisioning/{type}/{user}',
+			'verb' => 'POST',
+		],
+		[
+			'name' => 'Locking#changeLock',
+			'url'  => '/api/v1/lockprovisioning/{type}/{user}',
+			'verb' => 'PUT',
+		],
+		[
+			'name' => 'Locking#releaseLock',
+			'url'  => '/api/v1/lockprovisioning/{type}/{user}',
+			'verb' => 'DELETE',
+		],
+		[
+			'name' => 'Locking#releaseAll',
+			'url'  => '/api/v1/lockprovisioning/{type}',
+			'verb' => 'DELETE',
+			'defaults' => [
+				'type' => null
+			]
+		],
+	],
+];

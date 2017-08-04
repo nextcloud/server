@@ -45,7 +45,7 @@ abstract class Job implements IJob {
 
 	/**
 	 * @param JobList $jobList
-	 * @param ILogger $logger
+	 * @param ILogger|null $logger
 	 */
 	public function execute($jobList, ILogger $logger = null) {
 		$jobList->setLastRun($this);
