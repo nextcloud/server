@@ -79,11 +79,8 @@ OC.L10N.register(
     "Verify settings and count the groups" : "Ověřit nastavení a spočítat skupiny",
     "When logging in, %s will find the user based on the following attributes:" : "Při přihlašování, %s bude hledat uživatele na základě následujících atributů:",
     "LDAP / AD Username:" : "LDAP / AD uživatelské jméno:",
-    "Allows login against the LDAP / AD username, which is either uid or sAMAccountName and will be detected." : "Umožňuje přihlášení LDAP / AD uživatelským jménem, což je uid nebo sAMAccountName a bude detekováno.",
     "LDAP / AD Email Address:" : "LDAP / AD emailová adresa:",
-    "Allows login against an email attribute. Mail and mailPrimaryAddress will be allowed." : "Umožňuje přihlášení s atributem emailu. Jsou povoleny Mail a mailPrimaryAddress.",
     "Other Attributes:" : "Další atributy:",
-    "Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\"" : "Určuje použitý filtr při pokusu o přihlášení. %%uid nahrazuje uživatelské jméno v činnosti přihlášení. Příklad: \"uid=%%uid\"",
     "Test Loginname" : "Testovací přihlašovací jméno",
     "Verify settings" : "Ověřit nastavení",
     "1. Server" : "1. Server",
@@ -190,9 +187,12 @@ OC.L10N.register(
     "The %uid placeholder is missing. It will be replaced with the login name when querying LDAP / AD." : "Chybí zástupný znak %uid. Bude nahrazen přihlašovacím jménem při dotazování LDAP / AD.",
     "Verify settings and count groups" : "Ověřit nastavení a spočítat skupiny",
     "Allows login against the LDAP / AD username, which is either uid or samaccountname and will be detected." : "Umožňuje přihlášení s LDAP / AD uživatelským jménem, které má rozpoznatelnou hodnotu pro uid nebo samaccountname.",
+    "Allows login against an email attribute. Mail and mailPrimaryAddress will be allowed." : "Umožňuje přihlášení s atributem emailu. Jsou povoleny Mail a mailPrimaryAddress.",
+    "Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\"" : "Určuje použitý filtr při pokusu o přihlášení. %%uid nahrazuje uživatelské jméno v činnosti přihlášení. Příklad: \"uid=%%uid\"",
     "Add a new and blank configuration" : "Přidat novou a prázdnou konfiguraci",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "Můžete vynechat protokol, vyjma pokud požadujete SSL. Tehdy začněte s ldaps://",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Varování:</b> Aplikace user_ldap a user_webdavauth jsou vzájemně nekompatibilní. Můžete zaznamenat neočekávané chování. Požádejte prosím svého správce systému o zakázání jedné z nich.",
-    "in bytes" : "v bajtech"
+    "in bytes" : "v bajtech",
+    "Allows login against the LDAP / AD username, which is either uid or sAMAccountName and will be detected." : "Umožňuje přihlášení LDAP / AD uživatelským jménem, což je uid nebo sAMAccountName a bude detekováno."
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

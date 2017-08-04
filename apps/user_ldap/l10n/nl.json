@@ -69,11 +69,8 @@
     "Verify settings and count the groups" : "Verifiëren instellingen en tellen groepen",
     "When logging in, %s will find the user based on the following attributes:" : "Bij inloggen vindt %s de gebruiker gebaseerd op de volgende attributen:",
     "LDAP / AD Username:" : "LDAP / AD gebruikersnaam:",
-    "Allows login against the LDAP / AD username, which is either uid or sAMAccountName and will be detected." : "Maakt inloggen tegen de LDAP / AD gebruikersnaam mogelijk, ofwel uid of sAMAccountname en wordt gedetecteerd.",
     "LDAP / AD Email Address:" : "LDAP / AD e-mailadres:",
-    "Allows login against an email attribute. Mail and mailPrimaryAddress will be allowed." : "Maak inloggen tegen een e-mailattribuut mogelijk. E-mail en mailPrimaryAddress zijn mogelijk.",
     "Other Attributes:" : "Overige attributen:",
-    "Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\"" : "Definiëert het toe te passen filter als er geprobeerd wordt in te loggen. %%uid vervangt de gebruikersnaam bij het inloggen. Bijvoorbeeld: \"uid=%%uid\"",
     "Test Loginname" : "Test inlognaam",
     "Verify settings" : "Verifiëren instellingen",
     "1. Server" : "1. Server",
@@ -180,9 +177,12 @@
     "The %uid placeholder is missing. It will be replaced with the login name when querying LDAP / AD." : "De %uid opvultekst ontbreekt. Die wordt vervangen door de inlognaam bij het bevragen van LDAP / AD.",
     "Verify settings and count groups" : "Verifiëren instellingen en tel groepen",
     "Allows login against the LDAP / AD username, which is either uid or samaccountname and will be detected." : "Maakt inloggen tegen de LDAP / AD gebruikersnaam mogelijk, ofwel uid of samaccountname en wordt gedetecteerd.",
+    "Allows login against an email attribute. Mail and mailPrimaryAddress will be allowed." : "Maak inloggen tegen een e-mailattribuut mogelijk. E-mail en mailPrimaryAddress zijn mogelijk.",
+    "Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\"" : "Definiëert het toe te passen filter als er geprobeerd wordt in te loggen. %%uid vervangt de gebruikersnaam bij het inloggen. Bijvoorbeeld: \"uid=%%uid\"",
     "Add a new and blank configuration" : "Toevoegen nieuwe, blanco configuratie",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "Je kunt het protocol weglaten, tenzij je SSL vereist. Start in dat geval met ldaps://",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Waarschuwing:</b> De Apps user_ldap en user_webdavauth zijn incompatible. Je kunt onverwacht gedrag ervaren. Vraag je beheerder om een van beide apps de deactiveren.",
-    "in bytes" : "in bytes"
+    "in bytes" : "in bytes",
+    "Allows login against the LDAP / AD username, which is either uid or sAMAccountName and will be detected." : "Maakt inloggen tegen de LDAP / AD gebruikersnaam mogelijk, ofwel uid of sAMAccountname en wordt gedetecteerd."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

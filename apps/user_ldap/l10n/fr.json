@@ -77,11 +77,8 @@
     "Verify settings and count the groups" : "Vérifier les paramètres et compter les groupes",
     "When logging in, %s will find the user based on the following attributes:" : "Au login, %s cherchera l'utilisateur sur base de ces attributs :",
     "LDAP / AD Username:" : "Nom d'utilisateur LDAP / AD :",
-    "Allows login against the LDAP / AD username, which is either uid or sAMAccountName and will be detected." : "Autorise le login avec le nom d'utilisateur LDAP / AD, ce qui est soit uid ou sAMAccountName et il sera détecté.",
     "LDAP / AD Email Address:" : "Adresse mail LDAP / AD :",
-    "Allows login against an email attribute. Mail and mailPrimaryAddress will be allowed." : "Autoriser le login avec une adresse mail. Mail et mailPrimaryAddress sont autorisés.",
     "Other Attributes:" : "Autres attributs :",
-    "Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\"" : "Définit le filtre à appliquer lors d'une tentative de connexion. %%uid remplace le nom d'utilisateur. Exemple : \"uid=%%uid\"",
     "Test Loginname" : "Loginname de test",
     "Verify settings" : "Tester les paramètres",
     "1. Server" : "1. Serveur",
@@ -188,9 +185,12 @@
     "The %uid placeholder is missing. It will be replaced with the login name when querying LDAP / AD." : "La chaîne %uid est manquante. Cette chaîne est remplacée par l'identifiant de connexion lors des requêtes LDAP / AD.",
     "Verify settings and count groups" : "Vérifier les paramètres et compter les groupes",
     "Allows login against the LDAP / AD username, which is either uid or samaccountname and will be detected." : "Autoriser le login avec le nom d'utilisateur LDAP / AD (uid ou samaccountname, la détection est automatique). ",
+    "Allows login against an email attribute. Mail and mailPrimaryAddress will be allowed." : "Autoriser le login avec une adresse mail. Mail et mailPrimaryAddress sont autorisés.",
+    "Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\"" : "Définit le filtre à appliquer lors d'une tentative de connexion. %%uid remplace le nom d'utilisateur. Exemple : \"uid=%%uid\"",
     "Add a new and blank configuration" : "Ajouter une nouvelle configuration vierge",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "Vous pouvez omettre le protocole, sauf si vous avez besoin de SSL. Dans ce cas, préfixez avec ldaps://",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Avertissement :</b> Les applications user_ldap et user_webdavauth sont incompatibles. Des dysfonctionnements peuvent survenir. Contactez votre administrateur système pour qu'il en désactive une.",
-    "in bytes" : "en octets"
+    "in bytes" : "en octets",
+    "Allows login against the LDAP / AD username, which is either uid or sAMAccountName and will be detected." : "Autorise le login avec le nom d'utilisateur LDAP / AD, ce qui est soit uid ou sAMAccountName et il sera détecté."
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }
