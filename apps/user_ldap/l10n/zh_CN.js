@@ -79,11 +79,8 @@ OC.L10N.register(
     "Verify settings and count the groups" : "验证设置和统计组",
     "When logging in, %s will find the user based on the following attributes:" : "登录时,%s将查找基于以下属性的用户：",
     "LDAP / AD Username:" : "LDAP/AD用户名:",
-    "Allows login against the LDAP / AD username, which is either uid or sAMAccountName and will be detected." : "允许是能被检测到的UID或SAM帐户LDAP/ AD用户名登录。",
     "LDAP / AD Email Address:" : "LDAP/AD邮箱地址：",
-    "Allows login against an email attribute. Mail and mailPrimaryAddress will be allowed." : "允许email属性登录。邮件和邮件主地址将被允许。",
     "Other Attributes:" : "其他属性：",
-    "Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\"" : "当尝试登录时定义应用的过滤器。 %%uid替换登录操作的用户名。例如：“uid =%%uid”",
     "Test Loginname" : "测试登录名",
     "Verify settings" : "验证设置",
     "1. Server" : "1.服务器",
@@ -190,9 +187,12 @@ OC.L10N.register(
     "The %uid placeholder is missing. It will be replaced with the login name when querying LDAP / AD." : "该%uid占位符缺失。它将在LDAP/ AD登录名查询时进行替换。",
     "Verify settings and count groups" : "验证设置和统计组",
     "Allows login against the LDAP / AD username, which is either uid or samaccountname and will be detected." : "允许是能被检测到的UID或SAM帐户LDAP/ AD用户名登录。",
+    "Allows login against an email attribute. Mail and mailPrimaryAddress will be allowed." : "允许email属性登录。邮件和邮件主地址将被允许。",
+    "Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\"" : "当尝试登录时定义应用的过滤器。 %%uid替换登录操作的用户名。例如：“uid =%%uid”",
     "Add a new and blank configuration" : "添加一个新的空白配置",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "可以忽略协议，但如要使用SSL，则需以ldaps://开头",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>警告：</b> 应用 user_ldap 和 user_webdavauth 之间不兼容。您可能遭遇未预料的行为。请让系统管理员禁用其中一个。",
-    "in bytes" : "字节数"
+    "in bytes" : "字节数",
+    "Allows login against the LDAP / AD username, which is either uid or sAMAccountName and will be detected." : "允许是能被检测到的UID或SAM帐户LDAP/ AD用户名登录。"
 },
 "nplurals=1; plural=0;");

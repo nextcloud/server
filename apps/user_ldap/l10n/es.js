@@ -77,11 +77,8 @@ OC.L10N.register(
     "Verify settings and count the groups" : "Verifique los ajustes y cuente los grupos",
     "When logging in, %s will find the user based on the following attributes:" : "Cuando se inicia sesión, %s encontrará al usuario basado en los siguientes atributos:",
     "LDAP / AD Username:" : "Nombre de usuario LDAP /AD:",
-    "Allows login against the LDAP / AD username, which is either uid or sAMAccountName and will be detected." : "Permite identificarse contra el nombre de usuario LDAP / AD, que es o bien uid o bien sAMAccountName y será detectado.",
     "LDAP / AD Email Address:" : "LDAP / AD dirección de correo electrónico:",
-    "Allows login against an email attribute. Mail and mailPrimaryAddress will be allowed." : "Permite el inicio de sesión contra un atributo de correo electrónico. Correo y dirección primario de correo electrónico está habilitada.",
     "Other Attributes:" : "Otros atributos:",
-    "Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\"" : "Define el filtro a aplicar cuando se intenta identificar. %%uid remplazará al nombre de usuario en el proceso de identificación. Por ejemplo: \"uid=%%uid\"",
     "Test Loginname" : "Probar nombre de sesión",
     "Verify settings" : "Verificar configuración",
     "1. Server" : "1. Servidor",
@@ -188,9 +185,12 @@ OC.L10N.register(
     "The %uid placeholder is missing. It will be replaced with the login name when querying LDAP / AD." : "El marcador de posición %uid no está presente. Será reemplazado con el nombre de inicio de sesión cuando se consulte LDAP / AD.",
     "Verify settings and count groups" : "Verificar configuraciones y contar grupos",
     "Allows login against the LDAP / AD username, which is either uid or samaccountname and will be detected." : "Permite el inicio de sesión contra el nombre de usuario LDAP / AD, el cual es o el uid o samaccountname y será detectado.",
+    "Allows login against an email attribute. Mail and mailPrimaryAddress will be allowed." : "Permite el inicio de sesión contra un atributo de correo electrónico. Correo y dirección primario de correo electrónico está habilitada.",
+    "Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\"" : "Define el filtro a aplicar cuando se intenta identificar. %%uid remplazará al nombre de usuario en el proceso de identificación. Por ejemplo: \"uid=%%uid\"",
     "Add a new and blank configuration" : "Agregar una configuración nueva y en blanco",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "Puede omitir el protocolo, excepto si requiere SSL. En ese caso, empiece con ldaps://",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Advertencia:</b> Las apps user_ldap y user_webdavauth son incompatibles. Puede que experimente un comportamiento inesperado. Pídale a su administrador del sistema que desactive uno de ellos.",
-    "in bytes" : "en bytes"
+    "in bytes" : "en bytes",
+    "Allows login against the LDAP / AD username, which is either uid or sAMAccountName and will be detected." : "Permite identificarse contra el nombre de usuario LDAP / AD, que es o bien uid o bien sAMAccountName y será detectado."
 },
 "nplurals=2; plural=(n != 1);");
