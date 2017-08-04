@@ -2,18 +2,18 @@
  This file is licensed under the Affero General Public License version 3 or later.
  See the COPYING-README file. */
 
-select#languageinput, select#timezone {
-	width: 15em;
-}
-
 input#openid, input#webdav {
 	width: 20em;
 }
 
 /* PERSONAL */
-
 .clear {
 	clear: both;
+}
+
+.icon-federation-menu {
+	width: 16px;
+	float: right;
 }
 
 /* icons for sidebar */
@@ -41,13 +41,8 @@ input#openid, input#webdav {
 	background-image: url('../img/password.svg?v=1');
 }
 
-#avatarform {
-	min-width: 145px;
-	padding-right: 0;
-}
-
 #avatarform .avatardiv {
-	margin-bottom: 10px;
+	margin: 10px auto;
 }
 
 #avatarform .warning {
@@ -69,8 +64,7 @@ input#openid, input#webdav {
 #uploadavatarbutton,
 #selectavatar,
 #removeavatar {
-	width: 33px;
-	height: 33px;
+	padding: 21px;
 }
 
 .jcrop-holder {
@@ -115,79 +109,86 @@ input#openid, input#webdav {
 	float: right;
 }
 
-#personal-settings-avatar-container {
-	float: left;
+#personal-settings-avatar-container,
+#personal-settings-group-container {
+	display: inline-block;
+	vertical-align: top;
+	width: 225px;
 }
 
-#personal-settings-container {
-	position: relative;
-	float: left;
-	min-width: 280px;
-	max-width: 700px;
-	width: calc(100% - 200px);
+.profile-settings-container,
+.personal-settings-container {
+	display: inline-block;
+	max-width: 600px;
+	margin-bottom: 20px;
 }
 
-#personal-settings-container:after {
+.personal-settings-container:after {
 	clear: both;
 }
 
-#personal-settings-container > div {
+.personal-settings-container > div,
+.profile-settings-container > div {
 	float: left;
-	height: 100px;
-	min-width: 300px;
-}
-
-#personal-settings-container.no-edit > div {
-	height: 20px;
-	min-width: 200px;
+	width: 300px;
 }
 
 #avatarform > h2,
-#personal-settings-container > div h2 {
+.personal-settings-container > div h2 {
 	position: relative;
 }
 
-#personal-settings-container > div h2 span[class^="icon-"],
+.personal-settings-container > div h2 {
+	margin-bottom: 5px;
+}
+
+.personal-settings-container > div h2 span[class^="icon-"],
 #personal-settings-avatar-container h2 span[class^="icon-"] {
-	display: inline-block;
-	padding: 8px;
-	margin-left: -8px;
-	margin-bottom: -10px;
+	padding-left: 16px;
 	background-size: 16px;
+	background-position: left 8px;
 	opacity: .3;
 	cursor: pointer;
 }
 
+.personal-show-container,
 .personal-settings-setting-box input[type="text"],
 .personal-settings-setting-box input[type="email"],
-.personal-settings-setting-box input[type="tel"] {
-	width: 17em;
+.personal-settings-setting-box input[type="tel"],
+select#timezone,
+select#languageinput,
+input#pass1,
+input#pass2,
+input#passwordbutton {
+	width: 100%;
 }
 
-#personal-settings-container > div > form span[class^="icon-checkmark"] {
-	position: absolute;
-	left: 228px;
-	top: 82px;
+.personal-settings-container > div > form span[class^="icon-checkmark"] {
+	position: relative;
+	left: 90%;
+	top: -44px;
 	pointer-events: none;
+	width: 44px;
 }
 
 /* verify accounts */
-#personal-settings-container .verify {
-	position: absolute;
-	right: 14px;
-	top: 70px;
+.personal-settings-container .verify {
+	position: relative;
+	left: 100%;
+	top: 0;
+	height: 0;
 }
 
-#personal-settings-container .verify img {
+.personal-settings-container .verify img {
 	padding: 12px 7px 6px;
 }
 
 /* only show pointer cursor when popup will be there */
-#personal-settings-container .verify-action {
+.personal-settings-container .verify-action {
 	cursor: pointer;
 }
 
-#personal-settings-container input:disabled {
+.personal-settings-container input:disabled {
 	background-color: white;
 	color: black;
 	border: none;
@@ -213,7 +214,7 @@ input#openid, input#webdav {
 
 .federationScopeMenu {
 	top: 44px;
-	margin: -5px 0px 0;
+	margin: -5px 5px 0;
 }
 
 .federationScopeMenu.bubble::after {
@@ -232,26 +233,8 @@ input#openid, input#webdav {
 	opacity: .75;
 }
 
-#lostpassword,
-#groups {
-	display: inline-block;
-	margin-bottom: 0;
-	padding-bottom: 0;
-	padding-right: 0;
-	min-width: 60%;
-}
-
-#avatarform,
-#passwordform {
-	margin-bottom: 0;
-	padding-bottom: 0;
-}
-
-#groups {
-	overflow-wrap: break-word;
-	max-width: 75%;
-	display: block;;
-	clear: both;
+#groups-groups {
+	padding-top: 5px;
 }
 
 .clientsbox img {
@@ -952,8 +935,9 @@ span.version {
 	margin: 8px 0;
 }
 
-form.section {
-	position: relative;
+.section {
+	padding: 10px 30px;
+	margin-bottom: 0;
 }
 
 .followupsection {
