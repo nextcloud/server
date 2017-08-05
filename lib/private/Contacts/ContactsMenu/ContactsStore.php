@@ -85,14 +85,16 @@ class ContactsStore {
 	 * enabled it will filter all users which doens't have a common group
 	 * with the current user.
 	 * @param IUser $self
-	 * @param $entries Entry[]
-	 * @return array the filtered contacts
+	 * @param Entry[] $entries
+	 * @return Entry[] the filtered contacts
 	 */
-	private function filterContacts(IUser $self, Array $entries) {
+	private function filterContacts(IUser $self, array $entries) {
 		$excludedGroups = $this->config->getAppValue('core', 'shareapi_exclude_groups', 'no') === 'yes';
 
-		$skipLocal = false; // whether to filter out local users
-		$ownGroupsOnly = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members', 'no'); // whether to filter out all users which doesn't have the same group as the current user
+		// whether to filter out local users
+		$skipLocal = false;
+		// whether to filter out all users which doesn't have the same group as the current user
+		$ownGroupsOnly = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members', 'no');
 
 		$selfGroups = $this->groupManager->getUserGroupIds($self);
 
