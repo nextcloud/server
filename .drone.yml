@@ -209,6 +209,14 @@ pipeline:
       matrix:
         DB: mysql
         PHP: "7.0"
+  mysql-php7.1:
+    image: nextcloudci/php7.1:php7.1-12
+    commands:
+      - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
+    when:
+      matrix:
+        DB: mysql
+        PHP: 7.1
   postgres-php5.6:
     image: nextcloudci/php5.6:php5.6-7
     commands:
@@ -587,6 +595,9 @@ matrix:
       ENABLE_REDIS: true
     - DB: mysql
       PHP: 7.0
+      ENABLE_REDIS: true
+    - DB: mysql
+      PHP: 7.1
       ENABLE_REDIS: true
     - DB: postgres
       PHP: 5.6
