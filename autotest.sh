@@ -21,7 +21,7 @@ ADMINLOGIN=admin$EXECUTOR_NUMBER
 BASEDIR=$PWD
 
 PRIMARY_STORAGE_CONFIGS="local swift"
-DBCONFIGS="sqlite mysql mariadb pgsql oci mysqlmb4"
+DBCONFIGS="sqlite mysql mariadb pgsql pgsql10 oci mysqlmb4"
 
 # $PHP_EXE is run through 'which' and as such e.g. 'php' or 'hhvm' is usually
 # sufficient. Due to the behaviour of 'which', $PHP_EXE may also be a path
@@ -311,6 +311,8 @@ function execute_tests {
 			if [ ! -z "$DRONE" ] ; then
 				DATABASEHOST=postgres
 			fi
+            echo $DATABASEHOST
+
 			echo "Waiting for Postgres to be available ..."
 			if ! apps/files_external/tests/env/wait-for-connection $DATABASEHOST 5432 60; then
 				echo "[ERROR] Waited 60 seconds, no response" >&2
@@ -324,6 +326,39 @@ function execute_tests {
 			fi
 		fi
 	fi
+	if [ "$DB" == "pgsql10" ] ; then
+		if [ ! -z "$USEDOCKER" ] ; then
+			echo "Fire up the postgres10 docker"
+			DOCKER_CONTAINER_ID=$(docker run -e POSTGRES_USER="$DATABASEUSER" -e POSTGRES_PASSWORD=owncloud -d postgres:10-alpine)
+			DATABASEHOST=$(docker inspect --format="{{.NetworkSettings.IPAddress}}" "$DOCKER_CONTAINER_ID")
+
+			echo "Waiting for Postgres initialisation ..."
+
+			# grep exits on the first match and then the script continues
+			docker logs -f "$DOCKER_CONTAINER_ID" 2>&1 | grep -q "database system is ready to accept connections"
+
+			echo "Postgres is up."
+		else
+			if [ ! -z "$DRONE" ] ; then
+				DATABASEHOST=postgres10
+			fi
+
+			echo "Waiting for Postgres to be available ..."
+			if ! apps/files_external/tests/env/wait-for-connection $DATABASEHOST 5432 60; then
+				echo "[ERROR] Waited 60 seconds, no response" >&2
+				exit 1
+			fi
+			echo "Give it 10 additional seconds ..."
+			sleep 10
+
+			if [ -z "$DRONE" ] ; then # no need to drop the DB when we are on CI
+				dropdb -U "$DATABASEUSER" "$DATABASENAME" || true
+			fi
+		fi
+
+        _DB='pgsql'
+	fi
+
 	if [ "$DB" == "oci" ] ; then
 		echo "Fire up the oracle docker"
 		DOCKER_CONTAINER_ID=$(docker run -d deepdiver/docker-oracle-xe-11g)
