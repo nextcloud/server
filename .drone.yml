@@ -243,6 +243,14 @@ pipeline:
       matrix:
         DB: mysqlmb4
         PHP: 5.6
+  mysqlmb4-php7.0:
+    image: nextcloudci/php7.0:php7.0-13
+    commands:
+      - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysqlmb4
+    when:
+      matrix:
+        DB: mysqlmb4
+        PHP: "7.0"
   integration-capabilities_features:
     image: nextcloudci/integration-php7.0:integration-php7.0-4
     commands:
@@ -607,6 +615,9 @@ matrix:
       ENABLE_REDIS: true
     - DB: mysqlmb4
       PHP: 5.6
+      ENABLE_REDIS: true
+    - DB: mysqlmb4
+      PHP: 7.0
       ENABLE_REDIS: true
     - TESTS: integration-capabilities_features
     - TESTS: integration-federation_features
