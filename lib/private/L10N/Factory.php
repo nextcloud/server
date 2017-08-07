@@ -362,57 +362,79 @@ class Factory implements IFactory {
 	 * @return string
 	 */
 	public function createPluralFunction($string) {
+		if (empty($this->pluralFunctions)) {
+			$this->pluralFunctions['default'] = function ($n) {
+				return $n === 1 ? 0 : 1;
+			};
+			$this->pluralFunctions['nplurals=1; plural=0;'] = function () {
+				return 0;
+			};
+			$this->pluralFunctions['nplurals=2; plural=(n != 1);'] = function ($n) {
+				return $n !== 1 ? 1 : 0;
+			};
+			$this->pluralFunctions['nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);'] = function ($n) {
+				return ($n % 10 !== 1 || $n % 100 !== 11) ? 1 : 0;
+			};
+			$this->pluralFunctions['nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;'] = function ($n) {
+				return ($n % 10 === 1 && $n % 100 !== 11) ? 0 : 1;
+			};
+			$this->pluralFunctions['nplurals=2; plural=(n == 0 || n == 1 || (n > 10 && n < 100) ? 0 : 1;'] = function ($n) {
+				return ($n === 0 || $n === 1 || ($n > 10 && $n < 100)) ? 0 : 1;
+			};
+			$this->pluralFunctions['nplurals=2; plural=(n > 1);'] = function ($n) {
+				return ($n > 1) ? 1 : 0;
+			};
+			$this->pluralFunctions['nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);'] = function ($n) {
+				if ($n % 10 === 1 && $n % 100 !== 11) {
+					return 0;
+				}
+				if ($n !== 0) {
+					return 1;
+				}
+				return 2;
+			};
+			$this->pluralFunctions['nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);'] = function ($n) {
+				if ($n % 10 === 1 && $n % 100 !== 1) {
+					return 0;
+				}
+				if ($n % 10 >= 2 && ($n % 100 < 10 || $n % 100 >= 20)) {
+					return 1;
+				}
+				return 2;
+			};
+			$this->pluralFunctions['nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);'] = function ($n) {
+				if ($n % 10 === 1 && $n % 100 !== 11) {
+					return 0;
+				}
+				if ($n % 10 >= 2 && $n % 10 <= 4 && ($n % 100 < 10 || $n % 100 >= 20)) {
+					return 1;
+				}
+				return 2;
+			};
+			$this->pluralFunctions['nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);'] = function ($n) {
+				if ($n === 1) {
+					return 0;
+				}
+				if ($n % 10 >= 2 && $n % 10 <= 4 && ($n % 100 < 10 || $n % 100 >= 20)) {
+					return 1;
+				}
+				return 2;
+			};
+			$this->pluralFunctions['nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;'] = function ($n) {
+				if ($n === 1) {
+					return 0;
+				}
+				if ($n >= 2 && $n <= 4) {
+					return 1;
+				}
+				return 2;
+			};
+		}
+
 		if (isset($this->pluralFunctions[$string])) {
 			return $this->pluralFunctions[$string];
 		}
 
-		if (preg_match( '/^\s*nplurals\s*=\s*(\d+)\s*;\s*plural=(.*)$/u', $string, $matches)) {
-			// sanitize
-			$nplurals = preg_replace( '/[^0-9]/', '', $matches[1] );
-			$plural = preg_replace( '#[^n0-9:\(\)\?\|\&=!<>+*/\%-]#', '', $matches[2] );
-
-			$body = str_replace(
-				array( 'plural', 'n', '$n$plurals', ),
-				array( '$plural', '$n', '$nplurals', ),
-				'nplurals='. $nplurals . '; plural=' . $plural
-			);
-
-			// add parents
-			// important since PHP's ternary evaluates from left to right
-			$body .= ';';
-			$res = '';
-			$p = 0;
-			for($i = 0; $i < strlen($body); $i++) {
-				$ch = $body[$i];
-				switch ( $ch ) {
-					case '?':
-						$res .= ' ? (';
-						$p++;
-						break;
-					case ':':
-						$res .= ') : (';
-						break;
-					case ';':
-						$res .= str_repeat( ')', $p ) . ';';
-						$p = 0;
-						break;
-					default:
-						$res .= $ch;
-				}
-			}
-
-			$body = $res . 'return ($plural>=$nplurals?$nplurals-1:$plural);';
-			$function = create_function('$n', $body);
-			$this->pluralFunctions[$string] = $function;
-			return $function;
-		} else {
-			// default: one plural form for all cases but n==1 (english)
-			$function = create_function(
-				'$n',
-				'$nplurals=2;$plural=($n==1?0:1);return ($plural>=$nplurals?$nplurals-1:$plural);'
-			);
-			$this->pluralFunctions[$string] = $function;
-			return $function;
-		}
+		return $this->pluralFunctions['default'];
 	}
 }
