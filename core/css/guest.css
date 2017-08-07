@@ -146,6 +146,13 @@ form #datadirField legend {
 	right: 24px;
 }
 
+#submit-wrapper #submit-icon {
+	pointer-events: none; /* The submit icon is positioned on the submit button.
+							 From the user point of view the icon is part of the
+							 button, so the clicks on the icon have to be
+							 applied to the button instead. */
+}
+
 input, textarea, select, button {
 	font-family: 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif;
 }
