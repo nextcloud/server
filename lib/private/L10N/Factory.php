@@ -362,29 +362,31 @@ class Factory implements IFactory {
 	 * @return string
 	 */
 	public function createPluralFunction($string) {
+		$string = preg_replace('/\s/', '', $string);
+
 		if (empty($this->pluralFunctions)) {
 			$this->pluralFunctions['default'] = function ($n) {
 				return $n === 1 ? 0 : 1;
 			};
-			$this->pluralFunctions['nplurals=1; plural=0;'] = function () {
+			$this->pluralFunctions['nplurals=1;plural=0;'] = function () {
 				return 0;
 			};
-			$this->pluralFunctions['nplurals=2; plural=(n != 1);'] = function ($n) {
+			$this->pluralFunctions['nplurals=2;plural=(n!=1);'] = function ($n) {
 				return $n !== 1 ? 1 : 0;
 			};
-			$this->pluralFunctions['nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);'] = function ($n) {
+			$this->pluralFunctions['nplurals=2;plural=(n%10!=1||n%100==11);'] = function ($n) {
 				return ($n % 10 !== 1 || $n % 100 !== 11) ? 1 : 0;
 			};
-			$this->pluralFunctions['nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;'] = function ($n) {
+			$this->pluralFunctions['nplurals=2;plural=(n%10==1&&n%100!=11)?0:1;'] = function ($n) {
 				return ($n % 10 === 1 && $n % 100 !== 11) ? 0 : 1;
 			};
-			$this->pluralFunctions['nplurals=2; plural=(n == 0 || n == 1 || (n > 10 && n < 100) ? 0 : 1;'] = function ($n) {
+			$this->pluralFunctions['nplurals=2;plural=(n==0||n==1||(n>10&&n<100)?0:1;'] = function ($n) {
 				return ($n === 0 || $n === 1 || ($n > 10 && $n < 100)) ? 0 : 1;
 			};
-			$this->pluralFunctions['nplurals=2; plural=(n > 1);'] = function ($n) {
+			$this->pluralFunctions['nplurals=2;plural=(n>1);'] = function ($n) {
 				return ($n > 1) ? 1 : 0;
 			};
-			$this->pluralFunctions['nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);'] = function ($n) {
+			$this->pluralFunctions['nplurals=3;plural=(n%10==1&&n%100!=11?0:n!=0?1:2);'] = function ($n) {
 				if ($n % 10 === 1 && $n % 100 !== 11) {
 					return 0;
 				}
@@ -393,7 +395,7 @@ class Factory implements IFactory {
 				}
 				return 2;
 			};
-			$this->pluralFunctions['nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);'] = function ($n) {
+			$this->pluralFunctions['nplurals=3;plural=(n%10==1&&n%100!=11?0:n%10>=2&&(n%100<10||n%100>=20)?1:2);'] = function ($n) {
 				if ($n % 10 === 1 && $n % 100 !== 1) {
 					return 0;
 				}
@@ -402,7 +404,7 @@ class Factory implements IFactory {
 				}
 				return 2;
 			};
-			$this->pluralFunctions['nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);'] = function ($n) {
+			$this->pluralFunctions['nplurals=3;plural=(n%10==1&&n%100!=11?0:n%10>=2&&n%10<=4&&(n%100<10||n%100>=20)?1:2);'] = function ($n) {
 				if ($n % 10 === 1 && $n % 100 !== 11) {
 					return 0;
 				}
@@ -411,7 +413,7 @@ class Factory implements IFactory {
 				}
 				return 2;
 			};
-			$this->pluralFunctions['nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);'] = function ($n) {
+			$this->pluralFunctions['nplurals=3;plural=(n==1?0:n%10>=2&&n%10<=4&&(n%100<10||n%100>=20)?1:2);'] = function ($n) {
 				if ($n === 1) {
 					return 0;
 				}
@@ -420,7 +422,7 @@ class Factory implements IFactory {
 				}
 				return 2;
 			};
-			$this->pluralFunctions['nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;'] = function ($n) {
+			$this->pluralFunctions['nplurals=3;plural=(n==1)?0:(n>=2&&n<=4)?1:2;'] = function ($n) {
 				if ($n === 1) {
 					return 0;
 				}
