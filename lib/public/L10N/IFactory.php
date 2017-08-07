@@ -60,13 +60,4 @@ interface IFactory {
 	 * @since 9.0.0
 	 */
 	public function languageExists($app, $lang);
-
-	/**
-	 * Creates a function from the plural string
-	 *
-	 * @param string $string
-	 * @return string Unique function name
-	 * @since 9.0.0
-	 */
-	public function createPluralFunction($string);
 }
