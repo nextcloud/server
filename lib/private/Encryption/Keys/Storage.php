@@ -29,6 +29,7 @@ use OC\Files\Filesystem;
 use OC\Files\View;
 use OCP\Encryption\Keys\IStorage;
 use OC\User\NoUserException;
+use OCP\IUserSession;
 
 class Storage implements IStorage {
 
@@ -58,11 +59,15 @@ class Storage implements IStorage {
 	/** @var array */
 	private $keyCache = [];
 
+	/** @var string */
+	private $currentUser = null;
+
 	/**
-	 * @param View $view
-	 * @param Util $util
+	 * @param View $view view
+	 * @param Util $util encryption util class
+	 * @param IUserSession $session user session
 	 */
-	public function __construct(View $view, Util $util) {
+	public function __construct(View $view, Util $util, IUserSession $session) {
 		$this->view = $view;
 		$this->util = $util;
 
@@ -70,6 +75,10 @@ class Storage implements IStorage {
 		$this->keys_base_dir = $this->encryption_base_dir .'/keys';
 		$this->backup_base_dir = $this->encryption_base_dir .'/backup';
 		$this->root_dir = $this->util->getKeyStorageRoot();
+
+		if (!is_null($session) && !is_null($session->getUser())) {
+			$this->currentUser = $session->getUser()->getUID();
+		}
 	}
 
 	/**
@@ -189,6 +198,7 @@ class Storage implements IStorage {
 		if ($uid === null) {
 			$path = $this->root_dir . '/' . $this->encryption_base_dir . '/' . $encryptionModuleId . '/' . $keyId;
 		} else {
+			$this->setupUserMounts($uid);
 			$path = $this->root_dir . '/' . $uid . $this->encryption_base_dir . '/'
 				. $encryptionModuleId . '/' . $uid . '.' . $keyId;
 		}
@@ -254,6 +264,7 @@ class Storage implements IStorage {
 		if ($this->util->isSystemWideMountPoint($filename, $owner)) {
 			$keyPath = $this->root_dir . '/' . $this->keys_base_dir . $filename . '/';
 		} else {
+			$this->setupUserMounts($owner);
 			$keyPath = $this->root_dir . '/' . $owner . $this->keys_base_dir . $filename . '/';
 		}
 
@@ -348,6 +359,7 @@ class Storage implements IStorage {
 		if ($systemWideMountPoint) {
 			$systemPath = $this->root_dir . '/' . $this->keys_base_dir . $relativePath . '/';
 		} else {
+			$this->setupUserMounts($owner);
 			$systemPath = $this->root_dir . '/' . $owner . $this->keys_base_dir . $relativePath . '/';
 		}
 
@@ -370,6 +382,21 @@ class Storage implements IStorage {
 					$this->view->mkdir($dir);
 				}
 			}
+		}
+	}
+
+	/**
+	 * Setup the mounts of the given user if different than
+	 * the current user.
+	 *
+	 * This is needed because in many cases the keys are stored
+	 * within the user's home storage.
+	 *
+	 * @param string $uid user id
+	 */
+	protected function setupUserMounts($uid) {
+		if (!is_null($uid) && $uid !== '' && $uid !== $this->currentUser) {
+			\OC\Files\Filesystem::initMountPoints($uid);
 		}
 	}
 
