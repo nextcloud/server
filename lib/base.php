@@ -395,13 +395,13 @@ class OC {
 			}
 		}
 
+		$l10n = \OC::$server->getL10N('core');
 		if (!empty($incompatibleShippedApps)) {
-			$l = \OC::$server->getL10N('core');
-			$hint = $l->t('The files of the app %$1s were not replaced correctly. Make sure it is a version compatible with the server.', [implode(', ', $incompatibleShippedApps)]);
+			$hint = $l10n->t('The files of the app %$1s were not replaced correctly. Make sure it is a version compatible with the server.', [implode(', ', $incompatibleShippedApps)]);
 			throw new \OC\HintException('The files of the app ' . implode(', ', $incompatibleShippedApps) . ' were not replaced correctly. Make sure it is a version compatible with the server.', $hint);
 		}
 
-		$tmpl->assign('appsToUpgrade', $appManager->getAppsNeedingUpgrade($ocVersion));
+		$tmpl->assign('appsToUpgrade', $appManager->getAppsNeedingUpgrade($ocVersion, $l10n->getLanguageCode()));
 		$tmpl->assign('incompatibleAppsList', $incompatibleApps);
 		$tmpl->assign('productName', 'Nextcloud'); // for now
 		$tmpl->assign('oldTheme', $oldTheme);

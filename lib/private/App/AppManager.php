@@ -313,15 +313,16 @@ class AppManager implements IAppManager {
 	 * Returns a list of apps that need upgrade
 	 *
 	 * @param string $version Nextcloud version as array of version components
+	 * @param $l10n string User language code
 	 * @return array list of app info from apps that need an upgrade
 	 *
 	 * @internal
 	 */
-	public function getAppsNeedingUpgrade($version) {
+	public function getAppsNeedingUpgrade($version, $l10n) {
 		$appsToUpgrade = [];
 		$apps = $this->getInstalledApps();
 		foreach ($apps as $appId) {
-			$appInfo = $this->getAppInfo($appId);
+			$appInfo = $this->getAppInfo($appId, $l10n);
 			$appDbVersion = $this->appConfig->getValue($appId, 'installed_version');
 			if ($appDbVersion
 				&& isset($appInfo['version'])
@@ -339,13 +340,14 @@ class AppManager implements IAppManager {
 	 * Returns the app information from "appinfo/info.xml".
 	 *
 	 * @param string $appId app id
+	 * @param $l10n string Language Code
 	 *
 	 * @return array app info
 	 *
 	 * @internal
 	 */
-	public function getAppInfo($appId) {
-		$appInfo = \OC_App::getAppInfo($appId);
+	public function getAppInfo($appId, $l10n = null) {
+		$appInfo = \OC_App::getAppInfo($appId, false, $l10n);
 		if (!isset($appInfo['version'])) {
 			// read version from separate file
 			$appInfo['version'] = \OC_App::getAppVersion($appId);
