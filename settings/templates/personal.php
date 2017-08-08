@@ -66,7 +66,7 @@
 				<div class="inlineblock button primary" id="sendcropperbutton"><?php p($l->t('Choose as profile picture')); ?></div>
 			</div>
 		</div>
-		<span class="icon-checkmark hidden"/>
+		<span class="icon-checkmark hidden"></span>
 		<?php if($_['lookupServerUploadEnabled']) { ?>
 		<input type="hidden" id="avatarscope" value="<?php p($_['avatarScope']) ?>">
 		<?php } ?>
@@ -84,7 +84,8 @@
 				<?php if(!$_['displayNameChangeSupported']) { print_unescaped('disabled="1"'); } ?>
 				value="<?php p($_['displayName']) ?>"
 				autocomplete="on" autocapitalize="none" autocorrect="off" />
-			<span class="icon-checkmark hidden"/>
+			<span class="icon-checkmark hidden" ></span>
+			<span class="icon-error hidden" ></span>
 			<?php if($_['lookupServerUploadEnabled']) { ?>
 			<input type="hidden" id="displaynamescope" value="<?php p($_['displayNameScope']) ?>">
 			<?php } ?>
@@ -119,7 +120,8 @@
 				<br />
 				<em><?php p($l->t('For password reset and notifications')); ?></em>
 			<?php } ?>
-			<span class="icon-checkmark hidden"/>
+			<span class="icon-checkmark hidden"></span>
+			<span class="icon-error hidden" ></span>
 			<?php if($_['lookupServerUploadEnabled']) { ?>
 			<input type="hidden" id="emailscope" value="<?php p($_['emailScope']) ?>">
 			<?php } ?>

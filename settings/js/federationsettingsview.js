@@ -108,9 +108,12 @@
 				}
 			});
 
-			$.when(savingData).done(function() {
-				//OC.msg.finishedSaving('#personal-settings-container .msg', result)
-				self._showInputChangeSuccess(field);
+			$.when(savingData).done(function(data) {
+				if (data.status === "success") {
+					self._showInputChangeSuccess(field);
+				} else {
+					self._showInputChangeFail(field);
+				}
 			});
 		},
 
@@ -176,6 +179,14 @@
 					verifyStatus.attr('src', OC.imagePath('core', 'actions/verifying.svg'));
 				}
 			}
+		},
+
+		_showInputChangeFail: function(field) {
+			var $icon = this.$('#' + field + 'form > .icon-error');
+			$icon.fadeIn(200);
+			setTimeout(function() {
+				$icon.fadeOut(300);
+			}, 2000);
 		},
 
 		_setFieldScopeIcon: function(field, scope) {

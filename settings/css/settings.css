@@ -168,7 +168,7 @@ input#openid, input#webdav {
 	width: 17em;
 }
 
-#personal-settings-container > div > form span[class^="icon-checkmark"] {
+#personal-settings-container > div > form span[class^="icon-checkmark"], #personal-settings-container > div > form span[class^="icon-error"] {
 	position: absolute;
 	left: 228px;
 	top: 82px;
