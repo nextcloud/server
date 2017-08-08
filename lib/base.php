@@ -341,10 +341,14 @@ class OC {
 				$tooBig = ($row['user_count'] > 50);
 			}
 			if (!$tooBig) {
-				// count users
-				$stats = \OC::$server->getUserManager()->countUsers();
-				$totalUsers = array_sum($stats);
-				$tooBig = ($totalUsers > 50);
+				try {
+					// count users
+					$stats = \OC::$server->getUserManager()->countUsers();
+					$totalUsers = array_sum($stats);
+					$tooBig = ($totalUsers > 50);
+				} catch (\Doctrine\DBAL\Exception\TableNotFoundException $e) {
+					\OC::$server->getLogger()->logException($e, ['level' => \OCP\Util::INFO, 'app' => 'core']);
+				}
 			}
 		}
 		$ignoreTooBigWarning = isset($_GET['IKnowThatThisIsABigInstanceAndTheUpdateRequestCouldRunIntoATimeoutAndHowToRestoreABackup']) &&
