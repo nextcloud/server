@@ -958,7 +958,10 @@ class Server extends ServerContainer implements IServerContainer {
 				$factory,
 				$c->getUserManager(),
 				$c->getLazyRootFolder(),
-				$c->getEventDispatcher()
+				$c->getEventDispatcher(),
+				$c->getMailer(),
+				$c->getURLGenerator(),
+				$c->getThemingDefaults()
 			);
 
 			return $manager;
