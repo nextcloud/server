@@ -29,7 +29,7 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class RepairInvalidPaths implements IRepairStep {
-	const MAX_ROWS = 1000;
+	const MAX_ROWS = 200;
 
 	/** @var IDBConnection */
 	private $connection;
@@ -52,7 +52,7 @@ class RepairInvalidPaths implements IRepairStep {
 	}
 
 	/**
-	 * @return \Generator
+	 * @return array[]
 	 * @suppress SqlInjectionChecker
 	 */
 	private function getInvalidEntries() {
@@ -75,14 +75,11 @@ class RepairInvalidPaths implements IRepairStep {
 			->where($builder->expr()->neq('f.path', $computedPath))
 			->setMaxResults(self::MAX_ROWS);
 
-		do {
-			$result = $builder->execute();
-			$rows = $result->fetchAll();
-			foreach ($rows as $row) {
-				yield $row;
-			}
-			$result->closeCursor();
-		} while (count($rows) > 0);
+		$result = $builder->execute();
+		$rows = $result->fetchAll();
+		$result->closeCursor();
+
+		return $rows;
 	}
 
 	private function getId($storage, $path) {
@@ -176,9 +173,13 @@ class RepairInvalidPaths implements IRepairStep {
 		$versionFromBeforeUpdate = $this->config->getSystemValue('version', '0.0.0');
 		// was added to 12.0.0.30 and 13.0.0.1
 		if (version_compare($versionFromBeforeUpdate, '12.0.0.30', '<') || version_compare($versionFromBeforeUpdate, '13.0.0.0', '==')) {
-			$count = $this->repair();
+			$totalCount = 0;
+			do {
+				$count = $this->repair();
+				$totalCount += $count;
+			} while ($count === self::MAX_ROWS);
 
-			$output->info('Repaired ' . $count . ' paths');
+			$output->info('Repaired ' . $totalCount . ' paths');
 		}
 	}
 }
