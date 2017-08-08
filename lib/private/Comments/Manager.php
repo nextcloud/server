@@ -411,9 +411,12 @@ class Manager implements ICommentsManager {
 	 */
 	public function getNumberOfUnreadCommentsForFolder($folderId, IUser $user) {
 		$qb = $this->dbConn->getQueryBuilder();
-		$query = $qb->select('fileid', $qb->createFunction(
-			'COUNT(' . $qb->getColumnName('c.id') . ')')
-		)->from('comments', 'c')
+		$query = $qb->select('f.fileid')
+			->selectAlias(
+				$qb->createFunction('COUNT(' . $qb->getColumnName('c.id') . ')'),
+				'num_ids'
+			)
+			->from('comments', 'c')
 			->innerJoin('c', 'filecache', 'f', $qb->expr()->andX(
 				$qb->expr()->eq('c.object_type', $qb->createNamedParameter('files')),
 				$qb->expr()->eq('f.fileid', $qb->expr()->castColumn('c.object_id', IQueryBuilder::PARAM_INT))
@@ -431,9 +434,13 @@ class Manager implements ICommentsManager {
 			->groupBy('f.fileid');
 
 		$resultStatement = $query->execute();
-		return array_map(function ($count) {
-			return (int)$count;
-		}, $resultStatement->fetchAll(\PDO::FETCH_KEY_PAIR));
+
+		$results = [];
+		while ($row = $resultStatement->fetch()) {
+			$results[$row['fileid']] = (int) $row['num_ids'];
+		}
+		$resultStatement->closeCursor();
+		return $results;
 	}
 
 	/**

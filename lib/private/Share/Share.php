@@ -338,6 +338,7 @@ class Share extends Constants {
 							}
 						}
 					}
+					$result->closeCursor();
 				}
 			}
 
@@ -1461,8 +1462,9 @@ class Share extends Constants {
 			->from('share')
 			->where($qb->expr()->eq('id', $qb->createParameter('shareId')))
 			->setParameter(':shareId', $shareId);
-		$result = $qb->execute();
-		$result = $result->fetch();
+		$dbResult = $qb->execute();
+		$result = $dbResult->fetch();
+		$dbResult->closeCursor();
 
 		if (empty($result)) {
 			throw new \Exception('Share not found');

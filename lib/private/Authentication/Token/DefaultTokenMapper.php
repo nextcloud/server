@@ -157,7 +157,7 @@ class DefaultTokenMapper extends Mapper {
 	public function deleteByName($name) {
 		$qb = $this->db->getQueryBuilder();
 		$qb->delete('authtoken')
-			->where($qb->expr()->eq('name', $qb->createNamedParameter($name)));
+			->where($qb->expr()->eq('name', $qb->createNamedParameter($name), IQueryBuilder::PARAM_STR));
 		$qb->execute();
 	}
 

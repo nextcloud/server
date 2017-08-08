@@ -34,6 +34,7 @@
 namespace OC\User;
 
 use OC\Hooks\PublicEmitter;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IUser;
 use OCP\IUserBackend;
 use OCP\IUserManager;
@@ -436,7 +437,7 @@ class Manager extends PublicEmitter implements IUserManager {
 			->from('preferences')
 			->where($queryBuilder->expr()->eq('appid', $queryBuilder->createNamedParameter('core')))
 			->andWhere($queryBuilder->expr()->eq('configkey', $queryBuilder->createNamedParameter('enabled')))
-			->andWhere($queryBuilder->expr()->eq('configvalue', $queryBuilder->createNamedParameter('false')));
+			->andWhere($queryBuilder->expr()->eq('configvalue', $queryBuilder->createNamedParameter('false'), IQueryBuilder::PARAM_STR));
 
 		$query = $queryBuilder->execute();
 

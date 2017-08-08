@@ -60,17 +60,19 @@ class RepairInvalidPaths implements IRepairStep {
 		);
 
 		//select f.path, f.parent,p.path from oc_filecache f inner join oc_filecache p on f.parent=p.fileid and p.path!='' where f.path != p.path || '/' || f.name;
-		$query = $builder->select('f.fileid', 'f.path', 'p.path AS parent_path', 'f.name', 'f.parent', 'f.storage', 'p.storage as parent_storage')
+		$builder->select('f.fileid', 'f.path', 'f.name', 'f.parent', 'f.storage')
+			->selectAlias('p.path', 'parent_path')
+			->selectAlias('p.storage', 'parent_storage')
 			->from('filecache', 'f')
 			->innerJoin('f', 'filecache', 'p', $builder->expr()->andX(
 				$builder->expr()->eq('f.parent', 'p.fileid'),
-				$builder->expr()->neq('p.name', $builder->createNamedParameter(''))
+				$builder->expr()->nonEmptyString('p.name')
 			))
 			->where($builder->expr()->neq('f.path', $computedPath))
 			->setMaxResults(self::MAX_ROWS);
 
 		do {
-			$result = $query->execute();
+			$result = $builder->execute();
 			$rows = $result->fetchAll();
 			foreach ($rows as $row) {
 				yield $row;
