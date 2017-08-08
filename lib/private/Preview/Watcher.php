@@ -77,10 +77,16 @@ class Watcher {
 		}
 
 		/** @var Folder $node */
-		$nodes = $node->search('');
+		$this->deleteFolder($node);
+	}
+
+	private function deleteFolder(Folder $folder) {
+		$nodes = $folder->getDirectoryListing();
 		foreach ($nodes as $node) {
 			if ($node instanceof File) {
 				$this->toDelete[] = $node->getId();
+			} else if ($node instanceof Folder) {
+				$this->deleteFolder($node);
 			}
 		}
 	}
