@@ -318,7 +318,7 @@ class AppManager implements IAppManager {
 	 *
 	 * @internal
 	 */
-	public function getAppsNeedingUpgrade($version, $l10n) {
+	public function getAppsNeedingUpgrade($version, $l10n = null) {
 		$appsToUpgrade = [];
 		$apps = $this->getInstalledApps();
 		foreach ($apps as $appId) {
