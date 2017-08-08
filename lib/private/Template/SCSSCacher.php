@@ -205,6 +205,42 @@ class SCSSCacher {
 			$depFile = $folder->newFile($depFileName);
 		}
 
+		// Add img importer
+		$scss->registerFunction('url', function($args) use ($scss) {
+			$origurl = $args[0][2][0];
+
+			$urls = explode('?', $origurl);
+			$url = $urls[0];
+
+			$files = $scss->getParsedFiles();
+
+			$ext = substr($url, strrpos($url, '.')+1);
+
+			if ($ext === 'svg') {
+				foreach ($files as $file => $timestamp) {
+					$dir = dirname($file);
+					$path = $dir . '/' . $url;
+
+					if (!file_exists($path)) {
+						continue;
+					}
+
+					if (filesize($path) > 10240) {
+						break;
+					}
+
+					$scss->addParsedFile($path);
+
+					$content = file_get_contents($path);
+					$content = base64_encode($content);
+
+					return 'url(\'data:image/svg+xml;base64,'. $content . '\')';
+				}
+			}
+
+			return 'url(\'' . $origurl . '\')';
+		});
+
 		// Compile
 		try {
 			$compiledScss = $scss->compile(
