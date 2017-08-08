@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Added to the list of trusted servers" : "Dodano na spisek varnih strežnikov",
     "Server is already in the list of trusted servers." : "Strežnik je že na seznamu potrjenih strežnikov.",
+    "No server to federate with found" : "Ne najdem strežnika za federiranje",
     "Could not add server" : "Ni mogoče dodati strežnika.",
     "Federation" : "Zvezni oblaki",
     "Trusted servers" : "Zanesljivi strežniki",
