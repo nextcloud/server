@@ -47,10 +47,6 @@ form.uploadButton {
     visibility: visible;
 }
 
-#theming .icon-loading-small:after {
-    margin: -10px 0 0 -10px;
-}
-
 #theming label span {
     display: inline-block;
     min-width: 120px;
@@ -58,14 +54,8 @@ form.uploadButton {
     vertical-align: top;
 }
 
-#theming .icon-loading-small {
-    display: inline-flex;
-    padding: 8px;
-    margin: 2px 0px;
-}
-
 #theming .icon-upload,
-#theming .icon-loading-small {
+#theming .uploadButton .icon-loading-small {
     padding: 8px 20px;
     width: 20px;
     margin: 2px 0px;
@@ -76,17 +66,16 @@ form.uploadButton {
 #theming_settings_status {
     height: 26px;
     margin: 10px;
-
 }
-#theming_settings_loading.icon-loading-small {
-    float: left;
-    padding: 0;
+
+#theming_settings_loading {
+    display: inline-block;
+    vertical-align: middle;
     margin-right: 10px;
 }
-div#theming_settings_msg {
-    margin: 8px;
-    margin-left:20px;
-    display: inline-block;
+
+#theming_settings_msg {
+    vertical-align: middle;
 }
 
 #theming-preview-logo {
