@@ -1,7 +1,9 @@
 { "translations": {
     "Failed to clear the mappings." : "Ocurrió un fallo al borrar las asignaciones.",
     "Failed to delete the server configuration" : "No se pudo borrar la configuración del servidor",
+    "Invalid configuration: Anonymous binding is not allowed." : "Configuración no válida: No se permite enlazado anónimo.",
     "Valid configuration, connection established!" : "Configuración válida. ¡Conexión establecida!",
+    "Valid configuration, but binding failed. Please check the server settings and credentials." : "Configuración válida, pero falló el enlazado. Por favor compruebe los ajustes del servidor y las credenciales.",
     "Invalid configuration. Please have a look at the logs for further details." : "Configuración inválida. Por favor, echa un vistazo al registro para más detalles.",
     "No action specified" : "No se ha especificado la acción",
     "No configuration specified" : "No se ha especificado la configuración",
