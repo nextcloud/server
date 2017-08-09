@@ -13,7 +13,6 @@ OC.L10N.register(
     "You created two-factor backup codes for your account" : "Та өөрийн аккаунтад хоёр хүчин зүйлийн нөөц код үүсгэсэн",
     "Backup code" : "Нөөц код",
     "Use backup code" : "Нөөц кодыг ашиглах",
-    "Two factor backup codes" : "Нөөц кодын хоёр хүчин зүйл",
     "Second-factor backup codes" : "нөөц кодын хоёр дахь хүчин зүйл"
 },
 "nplurals=2; plural=(n != 1);");

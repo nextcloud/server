@@ -9,7 +9,6 @@ OC.L10N.register(
     "Update to %1$s is available." : "Yra prieinamas atnaujinimas į %1$s.",
     "Update for %1$s to version %2$s is available." : "Yra prieinamas %1$s atnaujinimas į versiją %2$s.",
     "Update for {app} to version %s is available." : "Galimas {app} atnaujinimas į %s versiją.",
-    "Update notification" : "Atnaujinimų pranešimai",
     "A new version is available: %s" : "Yra prieinama nauja versija: %s",
     "Open updater" : "Atverti atnaujinimo programą",
     "Download now" : "Atsisiųsti dabar",

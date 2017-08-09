@@ -96,7 +96,6 @@ OC.L10N.register(
     "OpenStack Object Storage" : "Shramba predmeta OpenStack",
     "Service name" : "Ime storitve",
     "Request timeout (seconds)" : "Zahtevan časovni zamik (sekunde)",
-    "External storage support" : "Podpora zunanjim hrambam",
     "No external storage configured" : "Ni določene zunanje shrambe",
     "You can add external storages in the personal settings" : "Med nastavitvami je mogoče dodati tudi zunanjo shrambo.",
     "Name" : "Ime",

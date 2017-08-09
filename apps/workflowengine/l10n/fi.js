@@ -51,7 +51,6 @@ OC.L10N.register(
     "The given end time is invalid" : "Annettu päättymisaika on virheellinen",
     "The given group does not exist" : "Annettua ryhmää ei ole",
     "Workflow" : "Työnkulku",
-    "Files workflow engine" : "Tiedostojen hallintatyökalu",
     "Open documentation" : "Avaa dokumentaatio",
     "Add rule group" : "Lisää sääntöryhmä",
     "Short rule description" : "Lyhyt sääntökuvaus",

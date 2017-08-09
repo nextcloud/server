@@ -187,13 +187,9 @@
     "Clear Groupname-LDAP Group Mapping" : "Clear Groupname-LDAP Group Mapping",
     "The %uid placeholder is missing. It will be replaced with the login name when querying LDAP / AD." : "The %uid placeholder is missing. It will be replaced with the login name when querying LDAP / AD.",
     "Verify settings and count groups" : "Verify settings and count groups",
-    "Allows login against the LDAP / AD username, which is either uid or samaccountname and will be detected." : "Allows login against the LDAP / AD username, which is either uid or samaccountname and will be detected.",
-    "Allows login against an email attribute. Mail and mailPrimaryAddress will be allowed." : "Allows login against an email attribute. Mail and mailPrimaryAddress will be allowed.",
-    "Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\"" : "Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\"",
     "Add a new and blank configuration" : "Add a new and blank configuration",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "You can omit the protocol, except you require SSL. Then start with ldaps://",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them.",
-    "in bytes" : "in bytes",
-    "Allows login against the LDAP / AD username, which is either uid or sAMAccountName and will be detected." : "Allows login against the LDAP / AD username, which is either uid or samAccountName and will be detected."
+    "in bytes" : "in bytes"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

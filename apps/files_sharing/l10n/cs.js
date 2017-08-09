@@ -89,7 +89,6 @@ OC.L10N.register(
     "Cannot increase permissions" : "Nelze navýšit oprávnění",
     "%s is publicly shared" : "%s je veřejně sdílen",
     "Share API is disabled" : "Sdílení API je zakázané",
-    "File sharing" : "Sdílení souborů",
     "This share is password-protected" : "Toto sdílení je chráněno heslem",
     "The password is wrong. Try again." : "Heslo není správné. Zkuste to znovu.",
     "Password" : "Heslo",

@@ -87,7 +87,6 @@
     "Cannot increase permissions" : "無法增加權限",
     "%s is publicly shared" : "%s 是被公然分享的",
     "Share API is disabled" : "分享 API 已停用",
-    "File sharing" : "檔案分享",
     "This share is password-protected" : "這個分享有密碼保護",
     "The password is wrong. Try again." : "請檢查您的密碼並再試一次",
     "Password" : "密碼",

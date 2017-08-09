@@ -13,7 +13,6 @@ OC.L10N.register(
     "You created two-factor backup codes for your account" : "Ju krijuat kodet rezervë me dy faktorë për llogarinë tuaj",
     "Backup code" : "Kod i kopjuar",
     "Use backup code" : "Përdorni kodin e kopjimit",
-    "Two factor backup codes" : "Dy kopje rezervë të faktorëve",
     "Second-factor backup codes" : "Kodet e rezervimit të dytë të faktorëve"
 },
 "nplurals=2; plural=(n != 1);");

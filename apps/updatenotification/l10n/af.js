@@ -10,7 +10,6 @@ OC.L10N.register(
     "Update to %1$s is available." : "Bywerking vir %1$s is beskikbaar.",
     "Update for %1$s to version %2$s is available." : "Bywerking vir %1$s na weergawe %2$s is beskikbaar.",
     "Update for {app} to version %s is available." : "Bywerking vir {app} na weergawe %s is beskikbaar.",
-    "Update notification" : "Bywerkingskennisgewing",
     "A new version is available: %s" : "’n nuwe weergawe is beskikbaar: %s",
     "Open updater" : "Open bywerker",
     "Download now" : "Laai nou af",

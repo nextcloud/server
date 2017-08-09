@@ -186,13 +186,9 @@ OC.L10N.register(
     "Clear Groupname-LDAP Group Mapping" : "Nullstill tilknytning av gruppenavn til LDAP-gruppe",
     "The %uid placeholder is missing. It will be replaced with the login name when querying LDAP / AD." : "Plassholder %uid mangler. Den erstattes av påloggingsnavnet ved spørring mot LDAP / AD.",
     "Verify settings and count groups" : "Sjekk innstillinger og tell gruppene",
-    "Allows login against the LDAP / AD username, which is either uid or samaccountname and will be detected." : "Tillater pålogging med LDAP / AD brukernavn, som er enten UID eller samaccountname og vil bli oppdaget.",
-    "Allows login against an email attribute. Mail and mailPrimaryAddress will be allowed." : "Alltid logg inn med en e-post-attributt. Mail og mailPrimaryAddress tillates.",
-    "Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\"" : "Definerer filteret som skal brukes når noen prøver å logge inn. %%uid erstatter brukernavnet i innloggingen. Eksempel: \"uid=%%uid\"",
     "Add a new and blank configuration" : "Legg til et nytt tomt oppsett",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "Du kan utelate protokollen, men du krever bruk av SSL.  Deretter start med ldaps://",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Advarsel:</b> Programmene user_ldap og user_webdavauth er ikke kompatible med hverandre. Uventet oppførsel kan forekomme. Be systemadministratoren om å deaktivere én av dem.",
-    "in bytes" : "i Byte",
-    "Allows login against the LDAP / AD username, which is either uid or sAMAccountName and will be detected." : "Tillater pålogging med LDAP / AD -brukernavn, som er enten UID eller sAMAccountName og vil bli oppdaget."
+    "in bytes" : "i Byte"
 },
 "nplurals=2; plural=(n != 1);");

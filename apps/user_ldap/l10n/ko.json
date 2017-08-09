@@ -176,13 +176,9 @@
     "Clear Groupname-LDAP Group Mapping" : "그룹 이름-LDAP 그룹 매핑 비우기",
     "The %uid placeholder is missing. It will be replaced with the login name when querying LDAP / AD." : "%uid 자리 비움자가 존재하지 않습니다. LDAP/AD에 조회할 때 로그인 사용자 이름으로 대체됩니다.",
     "Verify settings and count groups" : "설정을 확인하고 그룹 수 계산",
-    "Allows login against the LDAP / AD username, which is either uid or samaccountname and will be detected." : "uid 또는 samaccountname에 해당하는 LDAP/AD 사용자 이름으로 로그인을 허용합니다. 속성은 자동으로 감지됩니다.",
-    "Allows login against an email attribute. Mail and mailPrimaryAddress will be allowed." : "이메일 속성으로 로그인을 허용합니다. Mail 및 mailPrimaryAddress를 허용합니다.",
-    "Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\"" : "로그인을 시도할 때 적용할 필터를 입력하십시오. %%uid는 로그인 동작의 사용자 이름으로 대체됩니다. 예: \"uid=%%uid\"",
     "Add a new and blank configuration" : "새 빈 설정 추가",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "SSL을 사용하지 않으면 프로토콜을 입력하지 않아도 됩니다. SSL을 사용하려면 ldaps://를 입력하십시오.",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>경고:</b> user_ldap, user_webdavauth 앱은 서로 호환되지 않습니다. 예상하지 못한 행동을 할 수도 있습니다. 시스템 관리자에게 연락하여 둘 중 하나의 앱의 사용을 중단하십시오.",
-    "in bytes" : "바이트 단위",
-    "Allows login against the LDAP / AD username, which is either uid or sAMAccountName and will be detected." : "LDAP/AD 사용자 이름으로 로그인하는 것을 허용합니다. uid 및 sAMAccountName 중 하나이며 자동으로 감지합니다."
+    "in bytes" : "바이트 단위"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
