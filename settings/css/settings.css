@@ -163,12 +163,13 @@ input#passwordbutton {
 	width: 100%;
 }
 
-.personal-settings-container > div > form span[class^="icon-checkmark"] {
+.personal-settings-container > div > form span[class^="icon-checkmark"],
+.personal-settings-container > div > form span[class^="icon-error"] {
 	position: relative;
-	left: 90%;
-	top: -44px;
+	right: 8px;
+	top: -28px;
 	pointer-events: none;
-	width: 44px;
+	float: right;
 }
 
 /* verify accounts */
