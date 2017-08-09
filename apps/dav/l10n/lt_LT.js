@@ -42,7 +42,6 @@ OC.L10N.register(
     "Contact birthdays" : "Kontaktų gimtadieniai",
     "Personal" : "Asmeniniai",
     "Contacts" : "Kontaktai",
-    "WebDAV" : "WebDAV",
     "Technical details" : "Techninė informacija",
     "Remote Address: %s" : "Nuotolinis adresas: %s",
     "Request ID: %s" : "Užklausos ID: %s"

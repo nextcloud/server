@@ -8,7 +8,6 @@
     "Update to %1$s is available." : "更新版 %1$s 已經釋出",
     "Update for %1$s to version %2$s is available." : "%1$s 到 %2$s 的更新已經釋出",
     "Update for {app} to version %s is available." : "{app} 已有 %s 版本的更新",
-    "Update notification" : "更新通知",
     "A new version is available: %s" : "新版本可用：%s",
     "Open updater" : "打開更新程式",
     "Download now" : "現在下載",

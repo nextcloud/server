@@ -288,6 +288,7 @@
     "Detailed logs" : "Log xehea",
     "Update needed" : "Eguneratzea beharrezkoa da",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Laguntza lortzeko, ikusi <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">dokumentazioa</a>.",
+    "Upgrade via web on my own risk" : "Web bidezko bertsio-berritzea nire ardurapean",
     "This %s instance is currently in maintenance mode, which may take a while." : "Instantzia hau %s mantenu-moduan dago, honek denbora tarte bat iraun dezake.",
     "This page will refresh itself when the %s instance is available again." : "Orri honek bere burua eguneratuko du %s instantzia berriz prest dagoenean.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Jarri harremanetan zure sistema administratzailearekin mezu hau irauten badu edo bat-batean agertu bada.",

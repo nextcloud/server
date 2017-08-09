@@ -13,7 +13,6 @@ OC.L10N.register(
     "You created two-factor backup codes for your account" : "Вы создали двухфакторные резервные коды для своего аккаунта",
     "Backup code" : "Резервный код",
     "Use backup code" : "Использовать резервный код",
-    "Two factor backup codes" : "Второй фактор — резервные коды",
     "Second-factor backup codes" : "Резервные коды двухфакторной аутентификации"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

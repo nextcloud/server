@@ -5,12 +5,12 @@ OC.L10N.register(
     "Server is already in the list of trusted servers." : "信頼済サーバーとして既に登録されています。",
     "No server to federate with found" : "Nextcloud 連携サーバーはありません。",
     "Could not add server" : "サーバーを追加できませんでした",
-    "Federation" : "連携",
     "Trusted servers" : "信頼済サーバー",
     "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "連携では他の信頼済サーバーとユーザーリストをやり取りすること許可します。例えば、連携共有時で他のサーバーのユーザーのIDを自動補完します。",
     "Add server automatically once a federated share was created successfully" : "追加するサーバは自動的に統合され、共有が追加されました",
     "+ Add trusted server" : "+ 信頼済サーバーに追加",
     "Trusted server" : "信頼済サーバー",
-    "Add" : "追加"
+    "Add" : "追加",
+    "Federation" : "連携"
 },
 "nplurals=1; plural=0;");

@@ -13,7 +13,6 @@ OC.L10N.register(
     "You created two-factor backup codes for your account" : "Loit kaksivaiheisen tunnistautumisen varakoodit tilillesi",
     "Backup code" : "Varakoodi",
     "Use backup code" : "Käytä varakoodia",
-    "Two factor backup codes" : "Kaksivaiheisen tunnistautumisen varakoodit",
     "Second-factor backup codes" : "Kaksivaiheisen tunnistautumisen varakoodit"
 },
 "nplurals=2; plural=(n != 1);");

@@ -59,7 +59,6 @@ OC.L10N.register(
     "Check %s is invalid" : "Kontrolli %s është i pavlefshëm",
     "Check #%s does not exist" : "Kontrolli #%s nuk ekziston",
     "Workflow" : "Rrjedha e punëve",
-    "Files workflow engine" : "Motori i rrjedhës së punës së skedarëve",
     "Open documentation" : "Dokumentacion i hapur",
     "Add rule group" : "Shto rregull grupi",
     "Short rule description" : "Përshkrim i shkurtër i rregullit",

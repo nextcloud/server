@@ -184,13 +184,9 @@
     "Clear Groupname-LDAP Group Mapping" : "Pastro Përshoqërimin Emër grupi-Grup LDAP",
     "The %uid placeholder is missing. It will be replaced with the login name when querying LDAP / AD." : "Vendmbajtësja %uid mungon. Do të zëvendësohet me emrin e hyrjes, kur të kërkohet te LDAP / AD.",
     "Verify settings and count groups" : "Verifiko rregullimet dhe numëro grupet",
-    "Allows login against the LDAP / AD username, which is either uid or samaccountname and will be detected." : "Lejon hyrje kundrejt emrin të përdoruesit LDAP / AD, që është ose uid, ose samaccountname, dhe do të zbulohet.",
-    "Allows login against an email attribute. Mail and mailPrimaryAddress will be allowed." : "Lejon hyrje kundrejt një atributi email. Do të lejohen Mail dhe mailPrimaryAddress.",
-    "Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\"" : "Përcakton filtrin që duhet zbatuar kur përpiqet të bëhet hyrje. %%uid zëvendëson emrin e përdoruesi te veprimi i hyrjes. Shembull: \"uid=%%uid\"",
     "Add a new and blank configuration" : "Shtoni një formësim të ri të zbrazët",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "Protokollin mund ta lini pa vënë, hiq rastin kur ju duhet SSL. Në atë rast filloni me ldaps://",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Kujdes:</b> user_ldap dhe user_webdavauth të aplikacionit janë të papërputhshëm. Mund t’ju ndodhin sjellje të papritura. Ju lutemi, kërkojini përgjegjësit të sistemit tuaj të çaktivizojë një prej tyre.",
-    "in bytes" : "në bajte",
-    "Allows login against the LDAP / AD username, which is either uid or sAMAccountName and will be detected." : "Lejon hyrjen në emrin e përdoruesit LDAP / AD, që është ose uid ose sAMAccountName dhe do të zbulohet."
+    "in bytes" : "në bajte"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

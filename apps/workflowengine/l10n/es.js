@@ -59,7 +59,6 @@ OC.L10N.register(
     "Check %s is invalid" : "Chequeo %s no es valido",
     "Check #%s does not exist" : "El chequeo #%s no existe",
     "Workflow" : "Flujo de trabajo",
-    "Files workflow engine" : "Motor de flujo de trabajo de archivos",
     "Open documentation" : "Documentación abierta",
     "Add rule group" : "Añadir regla al grupo",
     "Short rule description" : "Descripción de la regla corta",
