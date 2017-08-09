@@ -1,7 +1,9 @@
-pipeline:
-  clone:
+clone:
+  git:
     image: plugins/git
     depth: 1
+
+pipeline:
   jsunit:
     image: nextcloudci/jsunit:jsunit-5
     commands:
