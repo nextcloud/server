@@ -131,16 +131,16 @@ vendor_style('jcrop/css/jquery.Jcrop');
 					<?php if(!$_['displayNameChangeSupported']) { print_unescaped('class="hidden"'); } ?>
 					   placeholder="<?php p($l->t('Your email address')); ?>"
 					   autocomplete="on" autocapitalize="none" autocorrect="off" />
+			   	<span class="icon-checkmark hidden"></span>
+				<span class="icon-error hidden" ></span>
 				<?php if(!$_['displayNameChangeSupported']) { ?>
 					<span><?php if(isset($_['email']) && !empty($_['email'])) { p($_['email']); } else { p($l->t('No email address set')); }?></span>
 				<?php } ?>
 				<?php if($_['displayNameChangeSupported']) { ?>
 					<em><?php p($l->t('For password reset and notifications')); ?></em>
 				<?php } ?>
-				<span class="icon-checkmark hidden"></span>
-				<span class="icon-error hidden" ></span>
 				<?php if($_['lookupServerUploadEnabled']) { ?>
-				<input type="hidden" id="emailscope" value="<?php p($_['emailScope']) ?>">
+					<input type="hidden" id="emailscope" value="<?php p($_['emailScope']) ?>">
 				<?php } ?>
 			</form>
 		</div>
@@ -285,7 +285,7 @@ vendor_style('jcrop/css/jquery.Jcrop');
 			</div>
 		</div>
 	</div>
-	
+
 	<div class="profile-settings-container">
 		<div class="personal-settings-setting-box personal-settings-language-box">
 			<?php if (isset($_['activelanguage'])) { ?>
