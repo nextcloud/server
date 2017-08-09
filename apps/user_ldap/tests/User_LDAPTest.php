@@ -135,6 +135,9 @@ class User_LDAPTest extends TestCase {
 							return false;
 					}
 			   }));
+
+		$access->method('fetchUsersByLoginName')
+			->willReturn([]);
 	}
 
 	/**
@@ -353,6 +356,9 @@ class User_LDAPTest extends TestCase {
 		$access->expects($this->any())
 			   ->method('nextcloudUserNames')
 			   ->will($this->returnArgument(0));
+
+		$access->method('fetchUsersByLoginName')
+			->willReturn([]);
 	}
 
 	public function testGetUsersNoParam() {
@@ -760,6 +766,9 @@ class User_LDAPTest extends TestCase {
 		$access->expects($this->any())
 			->method('getUserMapper')
 			->will($this->returnValue($userMapper));
+
+		$access->method('fetchUsersByLoginName')
+			->willReturn([]);
 	}
 
 	public function testGetDisplayName() {
