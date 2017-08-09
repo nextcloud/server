@@ -10,7 +10,6 @@ OC.L10N.register(
     "Update to %1$s is available." : " 可以更新到 %1$s 。",
     "Update for %1$s to version %2$s is available." : "可以从 %1$s 版本更新到 %2$s 版本。",
     "Update for {app} to version %s is available." : "可以将您的 {app} 更新到版本 %s 。",
-    "Update notification" : "升级通知",
     "A new version is available: %s" : "有可用的新版本： %s",
     "Open updater" : "打开更新器",
     "Download now" : "开始下载",

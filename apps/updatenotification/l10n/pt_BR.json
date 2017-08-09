@@ -8,7 +8,6 @@
     "Update to %1$s is available." : "Atualização para %1$s está disponível.",
     "Update for %1$s to version %2$s is available." : "Atualização de %1$s para versão %2$s está disponível.",
     "Update for {app} to version %s is available." : "Atualização para {app} para a versão %s está disponível.",
-    "Update notification" : "Atualizar notificação",
     "A new version is available: %s" : "Uma nova versão está disponível: %s",
     "Open updater" : "Abrir atualizador",
     "Download now" : "Baixar agora",

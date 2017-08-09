@@ -59,7 +59,6 @@ OC.L10N.register(
     "Check %s is invalid" : "检查%s是不可用",
     "Check #%s does not exist" : "检查#%s是不存在",
     "Workflow" : "工作流",
-    "Files workflow engine" : "文件工作流引擎",
     "Open documentation" : "打开文档",
     "Add rule group" : "添加规则组",
     "Short rule description" : "短规则说明",

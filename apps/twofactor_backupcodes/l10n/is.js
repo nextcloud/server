@@ -13,7 +13,6 @@ OC.L10N.register(
     "You created two-factor backup codes for your account" : "Þú útbjóst tveggja-þrepa öryggisafritunarkóða fyrir aðganginn þinn",
     "Backup code" : "Öryggisafritunarkóði",
     "Use backup code" : "Nota öryggisafritunarkóða",
-    "Two factor backup codes" : "Tveggja-þrepa öryggisafritunarkóðar",
     "Second-factor backup codes" : "Tveggja-þrepa öryggisafritunarkóðar"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

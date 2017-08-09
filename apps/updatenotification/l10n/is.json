@@ -8,7 +8,6 @@
     "Update to %1$s is available." : "Uppfærsla fyrir %1$s er tiltæk.",
     "Update for %1$s to version %2$s is available." : "Uppfærsla %1$s í útgáfu %2$s er tiltæk.",
     "Update for {app} to version %s is available." : "Uppfærsla fyrir {app} í útgáfu %s er tiltæk.",
-    "Update notification" : "Tilkynning um uppfærslu",
     "A new version is available: %s" : "Ný útgáfa er tiltæk: %s",
     "Open updater" : "Opna uppfærslustýringu",
     "Download now" : "Sækja núna",

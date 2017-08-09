@@ -38,7 +38,6 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Pasidalinti su manimi per #Nextcloud Centralizuoto Serverio ID, toliau %s",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Pasidalinti su manimi per #Nextcloud Centralizuoto Serverio ID",
     "Sharing" : "Dalinamasis",
-    "Federated file sharing" : "Dalinimasis centralizuotame serveryje",
     "Federated Cloud Sharing" : "Centralizuotas Dalinimasis Serveriuose",
     "Open documentation" : "Atverti dokumentaciją",
     "Adjust how people can share between servers." : "Nustatyti taisykles, kaip naudotojai gali dalintis duomenimis tarp serverių.",

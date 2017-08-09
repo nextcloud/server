@@ -59,7 +59,6 @@ OC.L10N.register(
     "Check %s is invalid" : "La validación %s no es inválida",
     "Check #%s does not exist" : "La validación #%s no existe",
     "Workflow" : "Flujo de trabajo",
-    "Files workflow engine" : "Motor de flujo de trabajo de archivos",
     "Open documentation" : "Abrir la documentación",
     "Add rule group" : "Agregar regla de grupo",
     "Short rule description" : "Descripción corta de la regla",

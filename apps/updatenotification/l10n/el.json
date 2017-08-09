@@ -8,7 +8,6 @@
     "Update to %1$s is available." : "Είναι διαθέσιμη η ενημέρωση σε %1$s.",
     "Update for %1$s to version %2$s is available." : "Είναι διαθέσιμη η ενημέρωση από την έκδοση %1$s στην %2$s.",
     "Update for {app} to version %s is available." : "Είναι διαθέσιμη η ενημέρωση της εφαρμογής {app} στην έκδοση %s",
-    "Update notification" : "Ειδοποίηση ενημέρωσης",
     "A new version is available: %s" : "Μία νέα έκδοση είναι διαθέσιμη: %s",
     "Open updater" : "Άνοιγμα εφαρμογής ενημέρωσης",
     "Download now" : "Λήψη τώρα",
