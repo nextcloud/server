@@ -264,7 +264,10 @@ OC.FileUpload.prototype = {
 			'uploads/' + encodeURIComponent(uid) + '/' + encodeURIComponent(this.getId()) + '/.file',
 			'files/' + encodeURIComponent(uid) + '/' + OC.joinPaths(this.getFullPath(), this.getFileName()),
 			true,
-			{'X-OC-Mtime': this.getFile().lastModified / 1000}
+			{
+				'X-OC-Mtime': this.getFile().lastModified / 1000,
+				'OC-Total-Length': this.getFile().size
+			}
 		);
 	},
 
