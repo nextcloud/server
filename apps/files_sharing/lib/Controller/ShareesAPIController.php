@@ -611,7 +611,7 @@ class ShareesAPIController extends OCSController {
 
 					if (isset($contact['isLocalSystemBook'])) {
 						// check whether CLOUD ends with @, which is probably a leftover from an earlier version of OwnCloud
-						if (!(strlen($contact['CLOUD'][0) > 0 && substr_compare($contact['CLOUD'][0], "@", strlen($contact['CLOUD'][0])-strlen("@"), strlen("@")) === 0) {
+						if (!(strlen($contact['CLOUD'][0) > 0 && substr_compare($contact['CLOUD'][0], "@", strlen($contact['CLOUD'][0])-strlen("@"), strlen("@")) === 0)) {
 							if ($exactEmailMatch) {
 								$cloud = $this->cloudIdManager->resolveCloudId($contact['CLOUD'][0]);
 								if (!$this->hasUserInResult($cloud->getUser())) {
