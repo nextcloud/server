@@ -411,6 +411,12 @@ class Local extends \OC\Files\Storage\Common {
 	 */
 	public function copyFromStorage(\OCP\Files\Storage $sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime = false) {
 		if ($sourceStorage->instanceOfStorage('\OC\Files\Storage\Local')) {
+			if ($sourceStorage->instanceOfStorage(Jail::class)) {
+				/**
+				 * @var \OC\Files\Storage\Wrapper\Jail $sourceStorage
+				 */
+				$sourceInternalPath = $sourceStorage->getUnjailedPath($sourceInternalPath);
+			}
 			/**
 			 * @var \OC\Files\Storage\Local $sourceStorage
 			 */
