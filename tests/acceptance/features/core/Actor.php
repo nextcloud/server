@@ -105,6 +105,15 @@ class Actor {
 	}
 
 	/**
+	 * Returns the multiplier for find timeouts.
+	 *
+	 * @return float the multiplier to apply to find timeouts.
+	 */
+	public function getFindTimeoutMultiplier() {
+		return $this->findTimeoutMultiplier;
+	}
+
+	/**
 	 * Sets the multiplier for find timeouts.
 	 *
 	 * @param float $findTimeoutMultiplier the multiplier to apply to find
