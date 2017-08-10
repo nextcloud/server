@@ -40,6 +40,7 @@ use OC\Repair\NC11\MoveAvatars;
 use OC\Repair\NC12\InstallCoreBundle;
 use OC\Repair\NC12\UpdateLanguageCodes;
 use OC\Repair\OldGroupMembershipShares;
+use OC\Repair\Owncloud\DropAccountTermsTable;
 use OC\Repair\Owncloud\SaveAccountsTableData;
 use OC\Repair\RemoveRootShares;
 use OC\Repair\NC13\RepairInvalidPaths;
@@ -174,6 +175,7 @@ class Repair implements IOutput{
 			new Collation(\OC::$server->getConfig(), \OC::$server->getLogger(), $connection, true),
 			new SqliteAutoincrement($connection),
 			new SaveAccountsTableData($connection, $config),
+			new DropAccountTermsTable($connection),
 		];
 
 		return $steps;
