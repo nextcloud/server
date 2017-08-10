@@ -25,7 +25,7 @@ class ShareInfoMiddleware extends Middleware {
 	 * @param string $methodName
 	 * @throws S2SException
 	 */
-	public function beforeController(Controller $controller, $methodName) {
+	public function beforeController($controller, $methodName) {
 		if (!($controller instanceof ShareInfoController)) {
 			return;
 		}
@@ -42,7 +42,7 @@ class ShareInfoMiddleware extends Middleware {
 	 * @throws \Exception
 	 * @return Response
 	 */
-	public function afterException(Controller $controller, $methodName, \Exception $exception) {
+	public function afterException($controller, $methodName, \Exception $exception) {
 		if (!($controller instanceof ShareInfoController)) {
 			throw $exception;
 		}
@@ -50,6 +50,8 @@ class ShareInfoMiddleware extends Middleware {
 		if ($exception instanceof S2SException) {
 			return new JSONResponse([], Http::STATUS_NOT_FOUND);
 		}
+
+		throw $exception;
 	}
 
 	/**
@@ -58,7 +60,7 @@ class ShareInfoMiddleware extends Middleware {
 	 * @param Response $response
 	 * @return Response
 	 */
-	public function afterController(Controller $controller, $methodName, Response $response) {
+	public function afterController($controller, $methodName, Response $response) {
 		if (!($controller instanceof ShareInfoController)) {
 			return $response;
 		}
