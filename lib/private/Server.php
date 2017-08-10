@@ -90,6 +90,7 @@ use OC\Security\TrustedDomainHelper;
 use OC\Session\CryptoWrapper;
 use OC\Tagging\TagMapper;
 use OCA\Theming\ThemingDefaults;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IL10N;
 use OCP\IServerContainer;
 use OCP\RichObjectStrings\IValidator;
@@ -313,7 +314,13 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 
 		$this->registerService(\OC\Authentication\TwoFactorAuth\Manager::class, function (Server $c) {
-			return new \OC\Authentication\TwoFactorAuth\Manager($c->getAppManager(), $c->getSession(), $c->getConfig());
+			return new \OC\Authentication\TwoFactorAuth\Manager(
+				$c->getAppManager(),
+				$c->getSession(),
+				$c->getConfig(),
+				$c->query(\OC\Authentication\Token\IProvider::class),
+				$c->query(ITimeFactory::class)
+			);
 		});
 
 		$this->registerService('NavigationManager', function ($c) {
