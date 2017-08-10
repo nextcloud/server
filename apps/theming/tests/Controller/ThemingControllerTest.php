@@ -70,6 +70,8 @@ class ThemingControllerTest extends TestCase {
 	private $appData;
 	/** @var SCSSCacher */
 	private $scssCacher;
+	/** @var IURLGenerator */
+	private $urlGenerator;
 
 	public function setUp() {
 		$this->request = $this->createMock(IRequest::class);
@@ -85,6 +87,7 @@ class ThemingControllerTest extends TestCase {
 			->willReturn(123);
 		$this->tempManager = \OC::$server->getTempManager();
 		$this->scssCacher = $this->createMock(SCSSCacher::class);
+		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 
 		$this->themingController = new ThemingController(
 			'theming',
@@ -96,7 +99,8 @@ class ThemingControllerTest extends TestCase {
 			$this->l10n,
 			$this->tempManager,
 			$this->appData,
-			$this->scssCacher
+			$this->scssCacher,
+			$this->urlGenerator
 		);
 
 		return parent::setUp();
@@ -129,12 +133,23 @@ class ThemingControllerTest extends TestCase {
 			->method('t')
 			->with($message)
 			->willReturn($message);
+		$this->scssCacher
+			->expects($this->once())
+			->method('getCachedSCSS')
+			->with('core', '/core/css/server.scss')
+			->willReturn('/core/css/someHash-server.scss');
+		$this->urlGenerator
+			->expects($this->once())
+			->method('linkTo')
+			->with('', '/core/css/someHash-server.scss')
+			->willReturn('/nextcloudWebroot/core/css/someHash-server.scss');
 
 		$expected = new DataResponse(
 			[
 				'data' =>
 					[
 						'message' => $message,
+						'serverCssUrl' => '/nextcloudWebroot/core/css/someHash-server.scss',
 					],
 				'status' => 'success',
 			]
@@ -448,6 +463,16 @@ class ThemingControllerTest extends TestCase {
 			->method('undo')
 			->with('MySetting')
 			->willReturn('MyValue');
+		$this->scssCacher
+			->expects($this->once())
+			->method('getCachedSCSS')
+			->with('core', '/core/css/server.scss')
+			->willReturn('/core/css/someHash-server.scss');
+		$this->urlGenerator
+			->expects($this->once())
+			->method('linkTo')
+			->with('', '/core/css/someHash-server.scss')
+			->willReturn('/nextcloudWebroot/core/css/someHash-server.scss');
 
 		$expected = new DataResponse(
 			[
@@ -455,6 +480,7 @@ class ThemingControllerTest extends TestCase {
 					[
 						'value' => 'MyValue',
 						'message' => 'Saved',
+						'serverCssUrl' => '/nextcloudWebroot/core/css/someHash-server.scss',
 					],
 				'status' => 'success'
 			]
@@ -481,6 +507,16 @@ class ThemingControllerTest extends TestCase {
 			->method('undo')
 			->with($value)
 			->willReturn($value);
+		$this->scssCacher
+			->expects($this->once())
+			->method('getCachedSCSS')
+			->with('core', '/core/css/server.scss')
+			->willReturn('/core/css/someHash-server.scss');
+		$this->urlGenerator
+			->expects($this->once())
+			->method('linkTo')
+			->with('', '/core/css/someHash-server.scss')
+			->willReturn('/nextcloudWebroot/core/css/someHash-server.scss');
 		$folder = $this->createMock(ISimpleFolder::class);
 		$file = $this->createMock(ISimpleFile::class);
 		$this->appData
@@ -503,6 +539,7 @@ class ThemingControllerTest extends TestCase {
 					[
 						'value' => $value,
 						'message' => 'Saved',
+						'serverCssUrl' => '/nextcloudWebroot/core/css/someHash-server.scss',
 					],
 				'status' => 'success'
 			]
