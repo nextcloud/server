@@ -137,12 +137,15 @@ class ThemingControllerTest extends TestCase {
 			->with($message)
 			->willReturn($message);
 
-		$expected = new DataResponse([
-			'data' => [
-				'message' => $message,
-			],
-			'status' => $status,
-		]);
+		$expected = new DataResponse(
+			[
+				'data' =>
+					[
+						'message' => $message,
+					],
+				'status' => $status,
+			]
+		);
 		$this->assertEquals($expected, $this->themingController->updateStylesheet($setting, $value));
 	}
 
