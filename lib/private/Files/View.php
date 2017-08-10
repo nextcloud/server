@@ -1941,11 +1941,18 @@ class View {
 					);
 				}
 			} catch (\OCP\Lock\LockedException $e) {
-				// rethrow with the a human-readable path
-				throw new \OCP\Lock\LockedException(
-					$this->getPathRelativeToFiles($absolutePath),
-					$e
-				);
+				try {
+					// rethrow with the a human-readable path
+					throw new \OCP\Lock\LockedException(
+						$this->getPathRelativeToFiles($absolutePath),
+						$e
+					);
+				} catch (\InvalidArgumentException $e) {
+					throw new \OCP\Lock\LockedException(
+						$absolutePath,
+						$e
+					);
+				}
 			}
 		}
 
