@@ -173,8 +173,9 @@ class EncryptionTest extends Storage {
 			->method('get')
 			->willReturnCallback(function($path) {return ['encrypted' => false, 'path' => $path];});
 
-		$this->mountManager = $this->getMockBuilder('\OC\Files\Mount\Manager')
-			->disableOriginalConstructor()->getMock();
+		$this->mountManager = $this->createMock(\OC\Files\Mount\Manager::class);
+		$this->mountManager->method('findByStorageId')
+			->willReturn([]);
 
 		$this->instance = $this->getMockBuilder('\OC\Files\Storage\Wrapper\Encryption')
 			->setConstructorArgs(

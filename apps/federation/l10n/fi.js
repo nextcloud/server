@@ -5,12 +5,12 @@ OC.L10N.register(
     "Server is already in the list of trusted servers." : "Palvelin on jo luotettujen palvelimien luettelossa.",
     "No server to federate with found" : "Palvelinta, johon liittyä, ei löytynyt",
     "Could not add server" : "Palvelimen lisääminen ei onnistunut",
-    "Federation" : "Federaatio",
     "Trusted servers" : "Luotetut palvelimet",
     "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Federointi sallii sinun liittyä toisten luotettujen palvelimien käyttäjäluetteloihin. Sitä käytetään esimerkiksi ulkoisten käyttäjänimien automaattiseen täydentämiseen.",
     "Add server automatically once a federated share was created successfully" : "Lisää palvelin automaattisesti, kun federoitu jako on luotu onnistuneesti",
     "+ Add trusted server" : "+ Lisää luotettu palvelin",
     "Trusted server" : "Luotettu palvelin",
-    "Add" : "Lisää"
+    "Add" : "Lisää",
+    "Federation" : "Federaatio"
 },
 "nplurals=2; plural=(n != 1);");

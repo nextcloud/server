@@ -87,7 +87,6 @@
     "Cannot increase permissions" : "Cannot increase permissions",
     "%s is publicly shared" : "%s is publicly shared",
     "Share API is disabled" : "Share API is disabled",
-    "File sharing" : "File sharing",
     "This share is password-protected" : "This share is password-protected",
     "The password is wrong. Try again." : "The password is wrong. Try again.",
     "Password" : "Password",

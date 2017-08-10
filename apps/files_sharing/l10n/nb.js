@@ -89,7 +89,6 @@ OC.L10N.register(
     "Cannot increase permissions" : "Kan ikke øke tillatelser",
     "%s is publicly shared" : "%s er delt offentlig",
     "Share API is disabled" : "Deling API er deaktivert",
-    "File sharing" : "Fildeling",
     "This share is password-protected" : "Denne delingen er passordbeskyttet",
     "The password is wrong. Try again." : "Passordet er feil. Prøv på nytt.",
     "Password" : "Passord",

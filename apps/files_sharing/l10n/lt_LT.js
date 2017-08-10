@@ -89,7 +89,6 @@ OC.L10N.register(
     "Cannot increase permissions" : "Negalima pridėti papildomų leidimų",
     "%s is publicly shared" : "%s yra bendrinamas viešai",
     "Share API is disabled" : "Bendrinimo API yra išjungtas",
-    "File sharing" : "Duomenų dalinimasis",
     "This share is password-protected" : "Turinys apsaugotas slaptažodžiu",
     "The password is wrong. Try again." : "Slaptažodis neteisingas. Bandykite dar kartą.",
     "Password" : "Slaptažodis",

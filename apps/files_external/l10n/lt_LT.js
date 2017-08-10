@@ -105,7 +105,6 @@ OC.L10N.register(
     "The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "cURL palaikymas yra neįjungtas arba neįdiegtas į PHP. %s prijungimas neįmanomas. Paprašykite sistemos administratoriaus pagalbos.",
     "The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "FTP palaikymas yra neįjungtas arba neįdiegtas į PHP. %s prijungimas neįmanomas. Paprašykite sistemos administratoriaus pagalbos.",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "Nėra įdiegta \"%s\". %s prijungimas yra neįmanomas. Paprašykite savo sistemos administratoriaus, kad įdiegtų trūkstamą paketą.",
-    "External storage support" : "Išorinės saugyklos priežiūra",
     "No external storage configured" : "Nėra sukonfigūruota jokia išorinė saugykla",
     "You can add external storages in the personal settings" : "Galite pridėti papildomą išorinę saugyklą nustatymų skiltyje",
     "Name" : "Pavadinimas",

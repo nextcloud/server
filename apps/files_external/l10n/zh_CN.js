@@ -105,7 +105,6 @@ OC.L10N.register(
     "The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "没有安装或启用 PHP 中的 cURL 支持. 无法挂载 %s. 请联系您的系统管理员安装.",
     "The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "没有安装或启用 PHP 中的 FTP 支持. 无法挂载 %s. 请联系您的系统管理员安装.",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "没有安装 \"%s\". 无法挂载 %s. 请联系您的系统管理员安装.",
-    "External storage support" : "外部存储支持",
     "No external storage configured" : "没有配置外部存储",
     "You can add external storages in the personal settings" : "您可以在个人设置中添加外部存储",
     "Name" : "名称",

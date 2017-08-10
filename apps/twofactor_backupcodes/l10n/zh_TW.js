@@ -13,7 +13,6 @@ OC.L10N.register(
     "You created two-factor backup codes for your account" : "你的帳戶已建立兩階段認證的備用碼。",
     "Backup code" : "備用碼",
     "Use backup code" : "使用備用碼",
-    "Two factor backup codes" : "兩階段認證備用碼",
     "Second-factor backup codes" : "第二階段認證備用碼"
 },
 "nplurals=1; plural=0;");

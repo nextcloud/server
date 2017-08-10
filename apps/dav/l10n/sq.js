@@ -42,7 +42,6 @@ OC.L10N.register(
     "Contact birthdays" : "Ditëlindjet e kontakteve",
     "Personal" : "Personale",
     "Contacts" : "Kontaktet",
-    "WebDAV" : "WebDAV",
     "Technical details" : "Detaje teknike",
     "Remote Address: %s" : "Adresa remote: %s",
     "Request ID: %s" : "ID e kërkesës: %s"

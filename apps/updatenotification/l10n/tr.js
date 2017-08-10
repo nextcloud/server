@@ -10,7 +10,6 @@ OC.L10N.register(
     "Update to %1$s is available." : "%1$s güncellemesi yayınlanmış.",
     "Update for %1$s to version %2$s is available." : "%1$s sürümünden %2$s sürümüne güncelleme yayınlanmış.",
     "Update for {app} to version %s is available." : "{app} uygulaması için %s sürümü güncellemesi yayınlanmış.",
-    "Update notification" : "Güncelleme bildirimi",
     "A new version is available: %s" : "Yeni bir sürüm yayınlanmış: %s",
     "Open updater" : "Güncelleyici aç",
     "Download now" : "İndir",

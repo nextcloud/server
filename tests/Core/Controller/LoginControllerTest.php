@@ -291,6 +291,10 @@ class LoginControllerTest extends TestCase {
 		$this->userManager->expects($this->once())
 			->method('checkPasswordNoLogging')
 			->will($this->returnValue(false));
+		$this->userManager->expects($this->once())
+			->method('getByEmail')
+			->with($user)
+			->willReturn([]);
 		$this->urlGenerator->expects($this->once())
 			->method('linkToRoute')
 			->with('core.login.showLoginForm', [

@@ -92,11 +92,11 @@ class RepairInvalidPaths implements IRepairStep {
 			$this->getIdQuery = $builder->select('fileid')
 				->from('filecache')
 				->where($builder->expr()->eq('storage', $builder->createParameter('storage')))
-				->andWhere($builder->expr()->eq('path', $builder->createParameter('path')));
+				->andWhere($builder->expr()->eq('path_hash', $builder->createParameter('path_hash')));
 		}
 
 		$this->getIdQuery->setParameter('storage', $storage, IQueryBuilder::PARAM_INT);
-		$this->getIdQuery->setParameter('path', $path);
+		$this->getIdQuery->setParameter('path_hash', md5($path));
 
 		return $this->getIdQuery->execute()->fetchColumn();
 	}

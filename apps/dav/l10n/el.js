@@ -42,7 +42,6 @@ OC.L10N.register(
     "Contact birthdays" : "Γενέθλια επαφών",
     "Personal" : "Προσωπικά",
     "Contacts" : "Επαφές",
-    "WebDAV" : "WebDAV",
     "Technical details" : "Τεχνικές λεπτομέρειες",
     "Remote Address: %s" : "Απομακρυσμένη Διεύθυνση: %s",
     "Request ID: %s" : "ID Αιτήματος: %s"

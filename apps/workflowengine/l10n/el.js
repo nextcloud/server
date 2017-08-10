@@ -59,7 +59,6 @@ OC.L10N.register(
     "Check %s is invalid" : "Έλεγχος %s δεν είναι έγκυρος",
     "Check #%s does not exist" : "Έλεγχος #%s δεν υπάρχει",
     "Workflow" : "Ροή εργασίας",
-    "Files workflow engine" : "Μηχανή αρχείων ροής εργασιών",
     "Open documentation" : "Άνοιγμ τεκμηρίωσης",
     "Add rule group" : "Προσθέστε κανόνα ομάδας",
     "Short rule description" : "Μικρή περιγραφή κανόνα",

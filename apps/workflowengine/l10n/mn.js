@@ -52,7 +52,6 @@ OC.L10N.register(
     "Check %s is invalid or does not exist" : "%sшалгахад хүчингүй эсвэл байхгүй байна",
     "Operation #%s does not exist" : "%s үйл ажиллагаа байхгүй",
     "Workflow" : "ажлын үйл явц",
-    "Files workflow engine" : "файлууд нь ажлын үйл явцын хэрэгсэл ",
     "Open documentation" : "Нээлттэй баримт бичиг",
     "Add rule group" : "Бүлэгт дүрэм нэмэх",
     "Short rule description" : "Дүрмийн тайлбар товч",

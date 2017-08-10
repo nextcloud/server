@@ -25,6 +25,7 @@ namespace OC\L10N;
 use OCP\IL10N;
 use OCP\L10N\IFactory;
 use Punic\Calendar;
+use Symfony\Component\Translation\PluralizationRules;
 
 class L10N implements IL10N {
 
@@ -191,8 +192,12 @@ class L10N implements IL10N {
 	 */
 	public function getPluralFormFunction() {
 		if (is_null($this->pluralFormFunction)) {
-			$this->pluralFormFunction = $this->factory->createPluralFunction($this->pluralFormString);
+			$lang = $this->getLanguageCode();
+			$this->pluralFormFunction = function($n) use ($lang) {
+				return PluralizationRules::get($n, $lang);
+			};
 		}
+
 		return $this->pluralFormFunction;
 	}
 

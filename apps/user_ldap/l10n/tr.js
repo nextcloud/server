@@ -189,13 +189,9 @@ OC.L10N.register(
     "Clear Groupname-LDAP Group Mapping" : "Grup Adı-LDAP Grubu Eşleştirmesini Kaldır",
     "The %uid placeholder is missing. It will be replaced with the login name when querying LDAP / AD." : "LDAP / AD sorgularında kullanıcı adı ile değiştirilecek %uid yer belirleyicisi eksik. ",
     "Verify settings and count groups" : "Ayarları doğrula ve grupları say",
-    "Allows login against the LDAP / AD username, which is either uid or samaccountname and will be detected." : "LDAP / AD kullanıcı adı ile oturum açılmasını sağlar. Kullanıcı adı uid ya da samaccountname olabilir ve algılanır.",
-    "Allows login against an email attribute. Mail and mailPrimaryAddress will be allowed." : "E-posta adresi ile oturum açılmasını sağlar. Mail ve mailPrimaryAddress kullanılabilir.",
-    "Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\"" : "Oturum açma girişiminde uygulanacak süzgeci tanımlar. Oturum açma işleminde %%uid kullanıcı adı ile değiştirilir. Örnek: \"uid=%%uid\"",
     "Add a new and blank configuration" : "Yeni ve boş bir yapılandırma ekle",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "SSL gerekmiyorsa iletişim kuralı belirtilmeyebilir. Gerekiyorsa ldaps:// ile başlayın",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Uyarı:</b> user_ldap ve user_webdavauth uygulamaları uyumlu değil. Beklenmedik bir davranışla karşılaşabilirsiniz. Lütfen ikisinden birini devre dışı bırakmak için sistem yöneticinizle görüşün.",
-    "in bytes" : "bayt cinsinden",
-    "Allows login against the LDAP / AD username, which is either uid or sAMAccountName and will be detected." : "LDAP / AD kullanıcı adı ile oturum açılmasını sağlar. Kullanıcı adı uid ya da samaccountname olabilir ve algılanır."
+    "in bytes" : "bayt cinsinden"
 },
 "nplurals=2; plural=(n > 1);");

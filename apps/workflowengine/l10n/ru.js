@@ -59,7 +59,6 @@ OC.L10N.register(
     "Check %s is invalid" : "Проверка %s неверна",
     "Check #%s does not exist" : "Проверка #%s не существует",
     "Workflow" : "Рабочий процесс",
-    "Files workflow engine" : "Механизм обработки файлов",
     "Open documentation" : "Открыть документацию",
     "Add rule group" : "Добавить группу правил",
     "Short rule description" : "Краткое описание правила",

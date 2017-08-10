@@ -38,7 +38,7 @@ class GenerateCommand extends Command {
 
 	protected static $_templateSimple =
 		'<?php
-namespace {{<namespace}};
+namespace {{namespace}};
 
 use Doctrine\DBAL\Schema\Schema;
 use OCP\Migration\SimpleMigrationStep;
