@@ -610,32 +610,35 @@ class ShareesAPIController extends OCSController {
 					$exactEmailMatch = strtolower($emailAddress) === $lowerSearch;
 
 					if (isset($contact['isLocalSystemBook'])) {
-						if ($exactEmailMatch) {
-							$cloud = $this->cloudIdManager->resolveCloudId($contact['CLOUD'][0]);
-							if (!$this->hasUserInResult($cloud->getUser())) {
-								$this->result['exact']['users'][] = [
-									'label' => $contact['FN'] . " ($emailAddress)",
-									'value' => [
-										'shareType' => Share::SHARE_TYPE_USER,
-										'shareWith' => $cloud->getUser(),
-									],
-								];
+						// check whether CLOUD ends with @, which is probably a leftover from an earlier version of OwnCloud
+						if (!(strlen($contact['CLOUD'][0) > 0 && substr_compare($contact['CLOUD'][0], "@", strlen($contact['CLOUD'][0])-strlen("@"), strlen("@")) === 0) {
+							if ($exactEmailMatch) {
+								$cloud = $this->cloudIdManager->resolveCloudId($contact['CLOUD'][0]);
+								if (!$this->hasUserInResult($cloud->getUser())) {
+									$this->result['exact']['users'][] = [
+										'label' => $contact['FN'] . " ($emailAddress)",
+										'value' => [
+											'shareType' => Share::SHARE_TYPE_USER,
+											'shareWith' => $cloud->getUser(),
+										],
+									];
+								}
+								return ['results' => [], 'exact' => [], 'exactIdMatch' => true];
 							}
-							return ['results' => [], 'exact' => [], 'exactIdMatch' => true];
-						}
-						if ($this->shareeEnumeration) {
-							$cloud = $this->cloudIdManager->resolveCloudId($contact['CLOUD'][0]);
-							if (!$this->hasUserInResult($cloud->getUser())) {
-								$this->result['users'][] = [
-									'label' => $contact['FN'] . " ($emailAddress)",
-									'value' => [
-										'shareType' => Share::SHARE_TYPE_USER,
-										'shareWith' => $cloud->getUser(),
-									],
-								];
+							if ($this->shareeEnumeration) {
+								$cloud = $this->cloudIdManager->resolveCloudId($contact['CLOUD'][0]);
+								if (!$this->hasUserInResult($cloud->getUser())) {
+									$this->result['users'][] = [
+										'label' => $contact['FN'] . " ($emailAddress)",
+										'value' => [
+											'shareType' => Share::SHARE_TYPE_USER,
+											'shareWith' => $cloud->getUser(),
+										],
+									];
+								}
 							}
+							continue;
 						}
-						continue;
 					}
 
 					if ($exactEmailMatch || strtolower($contact['FN']) === $lowerSearch) {
