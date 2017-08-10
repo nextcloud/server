@@ -30,7 +30,7 @@ function setThemingValue(setting, value) {
 		OC.generateUrl('/apps/theming/ajax/updateStylesheet'), {'setting' : setting, 'value' : value}
 	).done(function(response) {
 		hideUndoButton(setting, value);
-		preview(setting, value);
+		preview(setting, value, response.data.serverCssUrl);
 	}).fail(function(response) {
 		OC.msg.finishedSaving('#theming_settings_msg', response);
 		$('#theming_settings_loading').hide();
@@ -38,12 +38,12 @@ function setThemingValue(setting, value) {
 
 }
 
-function preview(setting, value) {
+function preview(setting, value, serverCssUrl) {
 	OC.msg.startAction('#theming_settings_msg', t('theming', 'Loading preview…'));
-	var stylesheetsLoaded = 2;
+	var stylesheetsLoaded = 1;
 	var reloadStylesheets = function(cssFile) {
 		var queryString = '?reload=' + new Date().getTime();
-		var url = OC.generateUrl(cssFile) + queryString;
+		var url = cssFile + queryString;
 		var old = $('link[href*="' + cssFile.replace("/","\/") + '"]');
 		var stylesheet = $("<link/>", {
 			rel: "stylesheet",
@@ -62,8 +62,12 @@ function preview(setting, value) {
 		stylesheet.appendTo("head");
 	};
 
-	reloadStylesheets('/css/core/server.css');
-	reloadStylesheets('/apps/theming/styles');
+	if (serverCssUrl !== undefined) {
+		stylesheetsLoaded++;
+
+		reloadStylesheets(serverCssUrl);
+	}
+	reloadStylesheets(OC.generateUrl('/apps/theming/styles'));
 
 	// Preview images
 	var timestamp = new Date().getTime();
@@ -218,7 +222,7 @@ $(document).ready(function () {
 				var input = document.getElementById('theming-'+setting);
 				input.value = response.data.value;
 			}
-			preview(setting, response.data.value);
+			preview(setting, response.data.value, response.data.serverCssUrl);
 		});
 	});
 

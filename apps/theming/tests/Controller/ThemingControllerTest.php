@@ -70,6 +70,8 @@ class ThemingControllerTest extends TestCase {
 	private $appData;
 	/** @var SCSSCacher */
 	private $scssCacher;
+	/** @var IURLGenerator */
+	private $urlGenerator;
 
 	public function setUp() {
 		$this->request = $this->createMock(IRequest::class);
@@ -85,6 +87,7 @@ class ThemingControllerTest extends TestCase {
 			->willReturn(123);
 		$this->tempManager = \OC::$server->getTempManager();
 		$this->scssCacher = $this->createMock(SCSSCacher::class);
+		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 
 		$this->themingController = new ThemingController(
 			'theming',
@@ -96,39 +99,85 @@ class ThemingControllerTest extends TestCase {
 			$this->l10n,
 			$this->tempManager,
 			$this->appData,
-			$this->scssCacher
+			$this->scssCacher,
+			$this->urlGenerator
 		);
 
 		return parent::setUp();
 	}
 
-	public function dataUpdateStylesheet() {
+	public function dataUpdateStylesheetSuccess() {
 		return [
-			['name', str_repeat('a', 250), 'success', 'Saved'],
-			['name', str_repeat('a', 251), 'error', 'The given name is too long'],
-			['url', str_repeat('a', 500), 'success', 'Saved'],
-			['url', str_repeat('a', 501), 'error', 'The given web address is too long'],
-			['slogan', str_repeat('a', 500), 'success', 'Saved'],
-			['slogan', str_repeat('a', 501), 'error', 'The given slogan is too long'],
-			['color', '#0082c9', 'success', 'Saved'],
-			['color', '#0082C9', 'success', 'Saved'],
-			['color', '0082C9', 'error', 'The given color is invalid'],
-			['color', '#0082Z9', 'error', 'The given color is invalid'],
-			['color', 'Nextcloud', 'error', 'The given color is invalid'],
+			['name', str_repeat('a', 250), 'Saved'],
+			['url', str_repeat('a', 500), 'Saved'],
+			['slogan', str_repeat('a', 500), 'Saved'],
+			['color', '#0082c9', 'Saved'],
+			['color', '#0082C9', 'Saved'],
 		];
 	}
 
 	/**
-	 * @dataProvider dataUpdateStylesheet
+	 * @dataProvider dataUpdateStylesheetSuccess
 	 *
 	 * @param string $setting
 	 * @param string $value
-	 * @param string $status
 	 * @param string $message
 	 */
-	public function testUpdateStylesheet($setting, $value, $status, $message) {
+	public function testUpdateStylesheetSuccess($setting, $value, $message) {
 		$this->themingDefaults
-			->expects($status === 'success' ? $this->once() : $this->never())
+			->expects($this->once())
+			->method('set')
+			->with($setting, $value);
+		$this->l10n
+			->expects($this->once())
+			->method('t')
+			->with($message)
+			->willReturn($message);
+		$this->scssCacher
+			->expects($this->once())
+			->method('getCachedSCSS')
+			->with('core', '/core/css/server.scss')
+			->willReturn('/core/css/someHash-server.scss');
+		$this->urlGenerator
+			->expects($this->once())
+			->method('linkTo')
+			->with('', '/core/css/someHash-server.scss')
+			->willReturn('/nextcloudWebroot/core/css/someHash-server.scss');
+
+		$expected = new DataResponse(
+			[
+				'data' =>
+					[
+						'message' => $message,
+						'serverCssUrl' => '/nextcloudWebroot/core/css/someHash-server.scss',
+					],
+				'status' => 'success',
+			]
+		);
+		$this->assertEquals($expected, $this->themingController->updateStylesheet($setting, $value));
+	}
+
+	public function dataUpdateStylesheetError() {
+		return [
+			['name', str_repeat('a', 251), 'The given name is too long'],
+			['url', str_repeat('a', 501), 'The given web address is too long'],
+			['slogan', str_repeat('a', 501), 'The given slogan is too long'],
+			['color', '0082C9', 'The given color is invalid'],
+			['color', '#0082Z9', 'The given color is invalid'],
+			['color', 'Nextcloud', 'The given color is invalid'],
+		];
+	}
+
+	/**
+	 * @dataProvider dataUpdateStylesheetError
+	 *
+	 * @param string $setting
+	 * @param string $value
+	 * @param string $message
+	 */
+	public function testUpdateStylesheetError($setting, $value, $message) {
+		$this->themingDefaults
+			->expects($this->never())
 			->method('set')
 			->with($setting, $value);
 		$this->l10n
@@ -137,12 +186,15 @@ class ThemingControllerTest extends TestCase {
 			->with($message)
 			->willReturn($message);
 
-		$expected = new DataResponse([
-			'data' => [
-				'message' => $message,
-			],
-			'status' => $status,
-		]);
+		$expected = new DataResponse(
+			[
+				'data' =>
+					[
+						'message' => $message,
+					],
+				'status' => 'error',
+			]
+		);
 		$this->assertEquals($expected, $this->themingController->updateStylesheet($setting, $value));
 	}
 
@@ -411,6 +463,16 @@ class ThemingControllerTest extends TestCase {
 			->method('undo')
 			->with('MySetting')
 			->willReturn('MyValue');
+		$this->scssCacher
+			->expects($this->once())
+			->method('getCachedSCSS')
+			->with('core', '/core/css/server.scss')
+			->willReturn('/core/css/someHash-server.scss');
+		$this->urlGenerator
+			->expects($this->once())
+			->method('linkTo')
+			->with('', '/core/css/someHash-server.scss')
+			->willReturn('/nextcloudWebroot/core/css/someHash-server.scss');
 
 		$expected = new DataResponse(
 			[
@@ -418,6 +480,7 @@ class ThemingControllerTest extends TestCase {
 					[
 						'value' => 'MyValue',
 						'message' => 'Saved',
+						'serverCssUrl' => '/nextcloudWebroot/core/css/someHash-server.scss',
 					],
 				'status' => 'success'
 			]
@@ -444,6 +507,16 @@ class ThemingControllerTest extends TestCase {
 			->method('undo')
 			->with($value)
 			->willReturn($value);
+		$this->scssCacher
+			->expects($this->once())
+			->method('getCachedSCSS')
+			->with('core', '/core/css/server.scss')
+			->willReturn('/core/css/someHash-server.scss');
+		$this->urlGenerator
+			->expects($this->once())
+			->method('linkTo')
+			->with('', '/core/css/someHash-server.scss')
+			->willReturn('/nextcloudWebroot/core/css/someHash-server.scss');
 		$folder = $this->createMock(ISimpleFolder::class);
 		$file = $this->createMock(ISimpleFile::class);
 		$this->appData
@@ -466,6 +539,7 @@ class ThemingControllerTest extends TestCase {
 					[
 						'value' => $value,
 						'message' => 'Saved',
+						'serverCssUrl' => '/nextcloudWebroot/core/css/someHash-server.scss',
 					],
 				'status' => 'success'
 			]
