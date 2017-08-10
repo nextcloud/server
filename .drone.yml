@@ -1,7 +1,9 @@
-pipeline:
-  clone:
+clone:
+  git:
     image: plugins/git
     depth: 1
+
+pipeline:
   jsunit:
     image: nextcloudci/jsunit:jsunit-5
     commands:
@@ -169,6 +171,14 @@ pipeline:
       matrix:
         DB: NODB
         PHP: 7.1
+  nodb-php7.2:
+    image: nextcloudci/php7.2:php7.2-4
+    commands:
+      - NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
+    when:
+      matrix:
+        DB: NODB
+        PHP: 7.2
   sqlite-php5.6:
     image: nextcloudci/php5.6:php5.6-7
     commands:
@@ -193,6 +203,14 @@ pipeline:
       matrix:
         DB: sqlite
         PHP: 7.1
+  sqlite-php7.2:
+    image: nextcloudci/php7.2:php7.2-4
+    commands:
+      - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
+    when:
+      matrix:
+        DB: sqlite
+        PHP: 7.2
   mysql-php5.6:
     image: nextcloudci/php5.6:php5.6-7
     commands:
@@ -216,6 +234,54 @@ pipeline:
     when:
       matrix:
         DB: mysql
+        PHP: 7.1
+  mysql5.6-php5.6:
+    image: nextcloudci/php5.6:php5.6-7
+    commands:
+      - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
+    when:
+      matrix:
+        DB: mysql5.6
+        PHP: 5.6
+  mysql5.6-php7.0:
+    image: nextcloudci/php7.0:php7.0-13
+    commands:
+      - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
+    when:
+      matrix:
+        DB: mysql5.6
+        PHP: "7.0"
+  mysql5.6-php7.1:
+    image: nextcloudci/php7.1:php7.1-12
+    commands:
+      - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
+    when:
+      matrix:
+        DB: mysql5.6
+        PHP: 7.1
+  mysql5.5-php5.6:
+    image: nextcloudci/php5.6:php5.6-7
+    commands:
+      - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
+    when:
+      matrix:
+        DB: mysql5.5
+        PHP: 5.6
+  mysql5.5-php7.0:
+    image: nextcloudci/php7.0:php7.0-13
+    commands:
+      - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
+    when:
+      matrix:
+        DB: mysql5.5
+        PHP: "7.0"
+  mysql5.5-php7.1:
+    image: nextcloudci/php7.1:php7.1-12
+    commands:
+      - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
+    when:
+      matrix:
+        DB: mysql5.5
         PHP: 7.1
   postgres-php5.6:
     image: nextcloudci/php5.6:php5.6-7
@@ -522,6 +588,13 @@ pipeline:
       when:
         matrix:
           TESTS-ACCEPTANCE: app-files
+  acceptance-app-theming:
+      image: nextcloudci/integration-php7.0:integration-php7.0-4
+      commands:
+        - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-app-theming --selenium-server selenium:4444 allow-git-repository-modifications features/app-theming.feature
+      when:
+        matrix:
+          TESTS-ACCEPTANCE: app-theming
   acceptance-login:
       image: nextcloudci/integration-php7.0:integration-php7.0-4
       commands:
@@ -573,7 +646,6 @@ pipeline:
   memcache-redis-cluster:
     image: nextcloudci/php7.0:php7.0-13
     commands:
-      - sleep 10
       - ./autotest.sh sqlite tests/lib/Memcache/RedisTest.php
       - wget https://codecov.io/bash -O codecov.sh
       - sh -c "if [ '$DRONE_BUILD_EVENT' = 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -P $DRONE_PULL_REQUEST -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-clover-sqlite.xml; fi"
@@ -597,6 +669,9 @@ matrix:
     - DB: NODB
       PHP: 7.1
       ENABLE_REDIS: true
+    - DB: NODB
+      PHP: 7.2
+      ENABLE_REDIS: false
     - DB: sqlite
       PHP: 5.6
       ENABLE_REDIS: true
@@ -606,6 +681,9 @@ matrix:
     - DB: sqlite
       PHP: 7.1
       ENABLE_REDIS: true
+    - DB: sqlite
+      PHP: 7.2
+      ENABLE_REDIS: false
     - DB: mysql
       PHP: 5.6
       ENABLE_REDIS: true
@@ -613,6 +691,24 @@ matrix:
       PHP: 7.0
       ENABLE_REDIS: true
     - DB: mysql
+      PHP: 7.1
+      ENABLE_REDIS: true
+    - DB: mysql5.6
+      PHP: 5.6
+      ENABLE_REDIS: true
+    - DB: mysql5.6
+      PHP: 7.0
+      ENABLE_REDIS: true
+    - DB: mysql5.6
+      PHP: 7.1
+      ENABLE_REDIS: true
+    - DB: mysql5.5
+      PHP: 5.6
+      ENABLE_REDIS: true
+    - DB: mysql5.5
+      PHP: 7.0
+      ENABLE_REDIS: true
+    - DB: mysql5.5
       PHP: 7.1
       ENABLE_REDIS: true
     - DB: postgres
@@ -663,6 +759,8 @@ matrix:
     - TESTS: acceptance
       TESTS-ACCEPTANCE: app-files
     - TESTS: acceptance
+      TESTS-ACCEPTANCE: app-theming
+    - TESTS: acceptance
       TESTS-ACCEPTANCE: login
     - TESTS: jsunit
     - TESTS: syntax-php5.6
@@ -680,8 +778,8 @@ matrix:
     - TESTS: sqlite-php7.0-samba-native
     - TESTS: sqlite-php7.0-samba-non-native
     - TEST: memcache-memcached
-#    - TEST: memcache-redis-cluster
-#      ENABLE_REDIS_CLUSTER: true
+    - TEST: memcache-redis-cluster
+      ENABLE_REDIS_CLUSTER: true
     - TESTS: sqlite-php7.0-webdav-apache
       ENABLE_REDIS: true
 
@@ -692,7 +790,7 @@ services:
       matrix:
        ENABLE_REDIS: true
   cache-cluster:
-    image: grokzen/redis-cluster
+    image: morrisjobke/redis-cluster
     when:
       matrix:
        ENABLE_REDIS_CLUSTER: true
@@ -705,7 +803,7 @@ services:
       matrix:
         DB: postgres
   mysql:
-    image: mysql
+    image: mysql:5.7
     environment:
       - MYSQL_ROOT_PASSWORD=owncloud
       - MYSQL_USER=oc_autotest
@@ -714,6 +812,26 @@ services:
     when:
       matrix:
         DB: mysql
+  mysql:
+    image: mysql:5.6
+    environment:
+      - MYSQL_ROOT_PASSWORD=owncloud
+      - MYSQL_USER=oc_autotest
+      - MYSQL_PASSWORD=owncloud
+      - MYSQL_DATABASE=oc_autotest
+    when:
+      matrix:
+        DB: mysql5.6
+  mysql:
+    image: mysql:5.5
+    environment:
+      - MYSQL_ROOT_PASSWORD=owncloud
+      - MYSQL_USER=oc_autotest
+      - MYSQL_PASSWORD=owncloud
+      - MYSQL_DATABASE=oc_autotest
+    when:
+      matrix:
+        DB: mysql5.5
   mysqlmb4:
     image: mysql
     environment:

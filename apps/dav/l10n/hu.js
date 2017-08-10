@@ -42,7 +42,6 @@ OC.L10N.register(
     "Contact birthdays" : "Születésnapok",
     "Personal" : "Személyes",
     "Contacts" : "Névjegyek",
-    "WebDAV" : "WebDAV",
     "Technical details" : "Technikai adatok",
     "Remote Address: %s" : "Távoli cím: %s",
     "Request ID: %s" : "Kérelem azonosító: %s"

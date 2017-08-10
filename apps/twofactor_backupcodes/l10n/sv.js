@@ -13,7 +13,6 @@ OC.L10N.register(
     "You created two-factor backup codes for your account" : "Du skapade återställningsnycklar till tvåfaktorsautentiseringen på ditt användarkonto.",
     "Backup code" : "Återställningsnyckel",
     "Use backup code" : "Använd återställningsnyckel",
-    "Two factor backup codes" : "Återställningsnycklar för Tvåfaktorautentisering",
     "Second-factor backup codes" : "Tvåfaktorsautentisering"
 },
 "nplurals=2; plural=(n != 1);");

@@ -184,7 +184,7 @@ class FailedStorage extends Common {
 		return true;
 	}
 
-	public function copyFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
+	public function copyFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime = false) {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 

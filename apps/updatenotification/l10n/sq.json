@@ -8,7 +8,6 @@
     "Update to %1$s is available." : "Përditësimi te%1$s është në dispozicion.",
     "Update for %1$s to version %2$s is available." : "Është gati përditësimi për %1$s në version %2$s.",
     "Update for {app} to version %s is available." : "Përditësimi për {app} në versionin %s është në dispozicion",
-    "Update notification" : "Njoftim rifreskimi ",
     "A new version is available: %s" : "Ka gati një version të ri: %s",
     "Open updater" : "Hape përditësuesin",
     "Download now" : "Shkarko tani",

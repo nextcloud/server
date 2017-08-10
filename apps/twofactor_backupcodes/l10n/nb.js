@@ -13,7 +13,6 @@ OC.L10N.register(
     "You created two-factor backup codes for your account" : "Du opprettet to-trinns bekreftelse sikkerhetskopi-koder",
     "Backup code" : "Sikkerhetskopi-kode",
     "Use backup code" : "Bruker sikkerhetskopi-kode",
-    "Two factor backup codes" : "Sikkerhetskopikoder for tofaktor",
     "Second-factor backup codes" : "To-trinns bekreftelse sikkerhetskopi-koder"
 },
 "nplurals=2; plural=(n != 1);");

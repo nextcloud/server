@@ -89,7 +89,6 @@ OC.L10N.register(
     "Cannot increase permissions" : "Get ekki aukið aðgangsheimildir",
     "%s is publicly shared" : "%s er deilt opinberlega",
     "Share API is disabled" : "Deilingar-API er óvirkt",
-    "File sharing" : "Skráadeiling",
     "This share is password-protected" : "Þessi sameign er varin með lykilorði",
     "The password is wrong. Try again." : "Lykilorðið er rangt. Reyndu aftur.",
     "Password" : "Lykilorð",

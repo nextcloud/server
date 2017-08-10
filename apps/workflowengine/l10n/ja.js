@@ -59,7 +59,6 @@ OC.L10N.register(
     "Check %s is invalid" : "チェック %s は無効です",
     "Check #%s does not exist" : "チェック #%s は存在しません",
     "Workflow" : "ワークフロー",
-    "Files workflow engine" : "ファイルワークフローエンジン",
     "Open documentation" : "ドキュメントを開く",
     "Add rule group" : "ルールグループを追加する",
     "Short rule description" : "ルールの簡潔な説明",

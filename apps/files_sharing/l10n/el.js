@@ -89,7 +89,6 @@ OC.L10N.register(
     "Cannot increase permissions" : "Δεν μπορούμε να αυξήσουμε δικαιώματα",
     "%s is publicly shared" : "%s είναι δημόσια διαμοιρασμένο",
     "Share API is disabled" : "API διαμοιρασμού είναι απενεργοποιημένο",
-    "File sharing" : "Διαμοιρασμός αρχείων",
     "This share is password-protected" : "Αυτός ο κοινόχρηστος φάκελος προστατεύεται με κωδικό",
     "The password is wrong. Try again." : "Εσφαλμένος κωδικός πρόσβασης. Προσπαθήστε ξανά.",
     "Password" : "Κωδικός πρόσβασης",

@@ -13,7 +13,6 @@ OC.L10N.register(
     "You created two-factor backup codes for your account" : "Vytvořil(a) jste záložní kódy dvoufázové autentizace pro váš účet",
     "Backup code" : "Záložní kód",
     "Use backup code" : "Použít záložní kód",
-    "Two factor backup codes" : "Dvoufázové záložní kódy",
     "Second-factor backup codes" : "Dvoufázové záložní kódy"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

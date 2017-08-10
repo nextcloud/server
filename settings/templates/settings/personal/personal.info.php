@@ -78,7 +78,7 @@ vendor_style('jcrop/css/jquery.Jcrop');
 					<div class="inlineblock button primary" id="sendcropperbutton"><?php p($l->t('Choose as profile picture')); ?></div>
 				</div>
 			</div>
-			<span class="icon-checkmark hidden"/>
+			<span class="icon-checkmark hidden"></span>
 			<?php if($_['lookupServerUploadEnabled']) { ?>
 			<input type="hidden" id="avatarscope" value="<?php p($_['avatarScope']) ?>">
 			<?php } ?>
@@ -99,7 +99,8 @@ vendor_style('jcrop/css/jquery.Jcrop');
 				<?php if(!$_['displayNameChangeSupported']) { ?>
 					<span><?php if(isset($_['displayName']) && !empty($_['displayName'])) { p($_['displayName']); } else { p($l->t('No display name set')); } ?></span>
 				<?php } ?>
-				<span class="icon-checkmark hidden"/>
+				<span class="icon-checkmark hidden"></span>
+				<span class="icon-error hidden" ></span>
 				<?php if($_['lookupServerUploadEnabled']) { ?>
 					<input type="hidden" id="displaynamescope" value="<?php p($_['displayNameScope']) ?>">
 				<?php } ?>
@@ -130,15 +131,16 @@ vendor_style('jcrop/css/jquery.Jcrop');
 					<?php if(!$_['displayNameChangeSupported']) { print_unescaped('class="hidden"'); } ?>
 					   placeholder="<?php p($l->t('Your email address')); ?>"
 					   autocomplete="on" autocapitalize="none" autocorrect="off" />
+			   	<span class="icon-checkmark hidden"></span>
+				<span class="icon-error hidden" ></span>
 				<?php if(!$_['displayNameChangeSupported']) { ?>
 					<span><?php if(isset($_['email']) && !empty($_['email'])) { p($_['email']); } else { p($l->t('No email address set')); }?></span>
 				<?php } ?>
 				<?php if($_['displayNameChangeSupported']) { ?>
 					<em><?php p($l->t('For password reset and notifications')); ?></em>
 				<?php } ?>
-				<span class="icon-checkmark hidden"/>
 				<?php if($_['lookupServerUploadEnabled']) { ?>
-				<input type="hidden" id="emailscope" value="<?php p($_['emailScope']) ?>">
+					<input type="hidden" id="emailscope" value="<?php p($_['emailScope']) ?>">
 				<?php } ?>
 			</form>
 		</div>
@@ -153,7 +155,7 @@ vendor_style('jcrop/css/jquery.Jcrop');
 					   value="<?php p($_['phone']) ?>"
 					   placeholder="<?php p($l->t('Your phone number')); ?>"
 				       autocomplete="on" autocapitalize="none" autocorrect="off" />
-				<span class="icon-checkmark hidden"/>
+				<span class="icon-checkmark hidden"></span>
 				<?php if($_['lookupServerUploadEnabled']) { ?>
 				<input type="hidden" id="phonescope" value="<?php p($_['phoneScope']) ?>">
 				<?php } ?>
@@ -171,7 +173,7 @@ vendor_style('jcrop/css/jquery.Jcrop');
 					   placeholder="<?php p($l->t('Your postal address')); ?>"
 					   value="<?php p($_['address']) ?>"
 					   autocomplete="on" autocapitalize="none" autocorrect="off" />
-				<span class="icon-checkmark hidden"/>
+				<span class="icon-checkmark hidden"></span>
 				<?php if($_['lookupServerUploadEnabled']) { ?>
 				<input type="hidden" id="addressscope" value="<?php p($_['addressScope']) ?>">
 				<?php } ?>
@@ -216,7 +218,7 @@ vendor_style('jcrop/css/jquery.Jcrop');
 				       autocomplete="on" autocapitalize="none" autocorrect="off"
 					   <?php if(!$_['lookupServerUploadEnabled']) print_unescaped('disabled="1"');  ?>
 				/>
-				<span class="icon-checkmark hidden"/>
+				<span class="icon-checkmark hidden"></span>
 				<?php if($_['lookupServerUploadEnabled']) { ?>
 				<input type="hidden" id="websitescope" value="<?php p($_['websiteScope']) ?>">
 				<?php } ?>
@@ -261,7 +263,7 @@ vendor_style('jcrop/css/jquery.Jcrop');
 					   autocomplete="on" autocapitalize="none" autocorrect="off"
 					   <?php if(!$_['lookupServerUploadEnabled']) print_unescaped('disabled="1"');  ?>
 				/>
-				<span class="icon-checkmark hidden"/>
+				<span class="icon-checkmark hidden"></span>
 				<?php if($_['lookupServerUploadEnabled']) { ?>
 				<input type="hidden" id="twitterscope" value="<?php p($_['twitterScope']) ?>">
 				<?php } ?>
@@ -283,7 +285,7 @@ vendor_style('jcrop/css/jquery.Jcrop');
 			</div>
 		</div>
 	</div>
-	
+
 	<div class="profile-settings-container">
 		<div class="personal-settings-setting-box personal-settings-language-box">
 			<?php if (isset($_['activelanguage'])) { ?>

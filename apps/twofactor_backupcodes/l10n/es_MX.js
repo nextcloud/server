@@ -13,7 +13,6 @@ OC.L10N.register(
     "You created two-factor backup codes for your account" : "Creaste códigos de respaldo de dos factores para tu cuenta",
     "Backup code" : "Código de respaldo",
     "Use backup code" : "Usa el código de respaldo",
-    "Two factor backup codes" : "Códigos de respaldo de dos factores",
     "Second-factor backup codes" : "Códigos de respaldo del segundo factor"
 },
 "nplurals=2; plural=(n != 1);");

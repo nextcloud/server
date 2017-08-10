@@ -73,6 +73,8 @@ class ThemingController extends Controller {
 	private $appData;
 	/** @var SCSSCacher */
 	private $scssCacher;
+	/** @var IURLGenerator */
+	private $urlGenerator;
 
 	/**
 	 * ThemingController constructor.
@@ -87,6 +89,7 @@ class ThemingController extends Controller {
 	 * @param ITempManager $tempManager
 	 * @param IAppData $appData
 	 * @param SCSSCacher $scssCacher
+	 * @param IURLGenerator $urlGenerator
 	 */
 	public function __construct(
 		$appName,
@@ -98,7 +101,8 @@ class ThemingController extends Controller {
 		IL10N $l,
 		ITempManager $tempManager,
 		IAppData $appData,
-		SCSSCacher $scssCacher
+		SCSSCacher $scssCacher,
+		IURLGenerator $urlGenerator
 	) {
 		parent::__construct($appName, $request);
 
@@ -110,6 +114,7 @@ class ThemingController extends Controller {
 		$this->tempManager = $tempManager;
 		$this->appData = $appData;
 		$this->scssCacher = $scssCacher;
+		$this->urlGenerator = $urlGenerator;
 	}
 
 	/**
@@ -172,7 +177,8 @@ class ThemingController extends Controller {
 			[
 				'data' =>
 					[
-						'message' => $this->l10n->t('Saved')
+						'message' => $this->l10n->t('Saved'),
+						'serverCssUrl' => $this->urlGenerator->linkTo('', $this->scssCacher->getCachedSCSS('core', '/core/css/server.scss'))
 					],
 				'status' => 'success'
 			]
@@ -303,7 +309,8 @@ class ThemingController extends Controller {
 				'data' =>
 					[
 						'value' => $value,
-						'message' => $this->l10n->t('Saved')
+						'message' => $this->l10n->t('Saved'),
+						'serverCssUrl' => $this->urlGenerator->linkTo('', $this->scssCacher->getCachedSCSS('core', '/core/css/server.scss'))
 					],
 				'status' => 'success'
 			]

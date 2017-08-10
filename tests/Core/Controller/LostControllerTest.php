@@ -261,6 +261,10 @@ class LostControllerTest extends \Test\TestCase {
 				array(false, $nonExistingUser)
 			)));
 
+		$this->userManager
+			->method('getByEmail')
+			->willReturn([]);
+
 		// With a non existing user
 		$response = $this->lostController->email($nonExistingUser);
 		$expectedResponse = new JSONResponse([

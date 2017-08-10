@@ -157,7 +157,7 @@ class NullStorage extends Common {
 		return false;
 	}
 
-	public function copyFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
+	public function copyFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime = false) {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
 	}
 

@@ -59,7 +59,6 @@ OC.L10N.register(
     "Check %s is invalid" : "%s denetimi geçersiz",
     "Check #%s does not exist" : "#%s denetimi bulunamadı",
     "Workflow" : "İş akışı",
-    "Files workflow engine" : "Dosya iş akışı motoru",
     "Open documentation" : "Belgeleri aç",
     "Add rule group" : "Kural grubu ekle",
     "Short rule description" : "Kısa kural açıklaması",

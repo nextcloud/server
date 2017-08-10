@@ -105,7 +105,6 @@ OC.L10N.register(
     "The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "Η cURL υποστήριξη στην PHP δεν είναι ενεργοποιημένη. Η προσάρτηση του %s δεν είναι δυνατή. Παρακαλούμε ζητήστε από τον διαχειριστή του συστήματός σας να το εγκαταστήσει. ",
     "The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "Η FTP υποστήριξη στην PHP δεν είναι ενεργοποιημένη ή εγκατεστημένη. Η προσάρτηση του %s δεν είναι δυνατή. Παρακαλούμε ζητήστε τον διαχειριστή του συστήματός σας να το εγκατασταστήσει. ",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" δεν είναι εγκατεστημένο. Η προσάρτηση του %s δεν είναι δυνατή. Παρακαλούμε ζητήστε τον διαχειριστή του συστήματός σας να το εγκαταστήσει. ",
-    "External storage support" : "Υποστήριξη εξωτερικής αποθήκευσης",
     "No external storage configured" : "Δεν έχει ρυθμιστεί κανένα εξωτερικό μέσο αποθήκευσης",
     "You can add external storages in the personal settings" : "Μπορείτε να προσθέσετε εξωτερικά μέσα αποθήκευσης στις προσωπικές ρυθμίσεις",
     "Name" : "Όνομα",

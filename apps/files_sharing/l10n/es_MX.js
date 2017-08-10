@@ -89,7 +89,6 @@ OC.L10N.register(
     "Cannot increase permissions" : "No es posible incrementar los permisos",
     "%s is publicly shared" : "%s está compartido públicamente",
     "Share API is disabled" : "El API para compartir está deshabilitado",
-    "File sharing" : "Compartir archivos",
     "This share is password-protected" : "Este elemento compartido está protegido con contraseña",
     "The password is wrong. Try again." : "La contraseña es incorrecta. Por favor inténtalo de nuevo.",
     "Password" : "Contraseña",
