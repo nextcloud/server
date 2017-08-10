@@ -152,7 +152,7 @@ class Route extends SymfonyRoute implements IRoute {
 			unset($param["_route"]);
 			$_GET=array_merge($_GET, $param);
 			unset($param);
-			require_once "'.$file.'";
+			require_once "$file";
 		} ;
 		$this->action($function);
 	}
