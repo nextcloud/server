@@ -251,13 +251,37 @@ pipeline:
       matrix:
         DB: mysql5.6
         PHP: "7.0"
-  mysql5-6-php7.1:
+  mysql5.6-php7.1:
     image: nextcloudci/php7.1:php7.1-12
     commands:
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
     when:
       matrix:
         DB: mysql5.6
+        PHP: 7.1
+  mysql5.5-php5.6:
+    image: nextcloudci/php5.6:php5.6-7
+    commands:
+      - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
+    when:
+      matrix:
+        DB: mysql5.5
+        PHP: 5.6
+  mysql5.5-php7.0:
+    image: nextcloudci/php7.0:php7.0-13
+    commands:
+      - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
+    when:
+      matrix:
+        DB: mysql5.5
+        PHP: "7.0"
+  mysql5.5-php7.1:
+    image: nextcloudci/php7.1:php7.1-12
+    commands:
+      - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
+    when:
+      matrix:
+        DB: mysql5.5
         PHP: 7.1
   postgres-php5.6:
     image: nextcloudci/php5.6:php5.6-7
@@ -671,6 +695,15 @@ matrix:
     - DB: mysql5.6
       PHP: 7.1
       ENABLE_REDIS: true
+    - DB: mysql5.5
+      PHP: 5.6
+      ENABLE_REDIS: true
+    - DB: mysql5.5
+      PHP: 7.0
+      ENABLE_REDIS: true
+    - DB: mysql5.5
+      PHP: 7.1
+      ENABLE_REDIS: true
     - DB: postgres
       PHP: 5.6
       ENABLE_REDIS: true
@@ -780,6 +813,16 @@ services:
     when:
       matrix:
         DB: mysql5.6
+  mysql:
+    image: mysql:5.5
+    environment:
+      - MYSQL_ROOT_PASSWORD=owncloud
+      - MYSQL_USER=oc_autotest
+      - MYSQL_PASSWORD=owncloud
+      - MYSQL_DATABASE=oc_autotest
+    when:
+      matrix:
+        DB: mysql5.5
   mysqlmb4:
     image: mysql
     environment:
