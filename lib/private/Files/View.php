@@ -2057,7 +2057,7 @@ class View {
 			return ($pathSegments[2] === 'files') && (count($pathSegments) > 3);
 		}
 
-		return true;
+		return strpos($path, '/appdata_') !== 0;
 	}
 
 	/**
