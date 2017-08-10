@@ -871,7 +871,7 @@ class UserTest extends \Test\TestCase {
 			->with($this->equalTo('alice'), $this->equalTo('user_ldap'),
 				$this->equalTo(User::USER_PREFKEY_LASTREFRESH),
 				$this->equalTo(0))
-				->will($this->returnValue(time() - 10));
+			->will($this->returnValue(time() - 10));
 
 		$config->expects($this->once())
 			->method('getAppValue')
