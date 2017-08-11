@@ -5,6 +5,7 @@ $color-primary-text: #ffffff;
 $color-error: #e9322d;
 $color-warning: #ffcc44;
 $color-success: #46ba61;
+$color-primary-element: $color-primary;
 
 @function nc-darken($color, $value) {
   @return darken($color, $value);
