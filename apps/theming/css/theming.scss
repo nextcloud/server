@@ -60,7 +60,8 @@
 }
 
 input.primary {
-	background-color: $color-primary;
+	background-color: $color-primary-element;
+	border: 1px solid $color-primary-text;
 	color: $color-primary-text;
 }
 
@@ -92,16 +93,16 @@ input.primary {
 				background-color: nc-darken($color-primary, 10%);
 			}
 			input[type='checkbox'].checkbox--white + label:before {
-				border-color: nc-darken($color-primary, 40%) !important;
+				border-color: nc-darken($color-primary-element, 40%) !important;
 			}
 			input[type='checkbox'].checkbox--white:not(:disabled):not(:checked) + label:hover:before,
 			input[type='checkbox'].checkbox--white:focus + label:before {
-				border-color: nc-darken($color-primary, 30%) !important;
+				border-color: nc-darken($color-primary-element, 30%) !important;
 			}
 			input[type='checkbox'].checkbox--white:checked + label:before {
-				border-color: nc-darken($color-primary, 30%) !important;
+				border-color: nc-darken($color-primary-element, 30%) !important;
 				background-image: url('../../../core/img/actions/checkbox-mark.svg');
-				background-color: nc-darken($color-primary, 30%) !important;
+				background-color: nc-darken($color-primary-element, 30%) !important;
 			}
 		} @else {
 			#submit {
