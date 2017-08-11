@@ -28,6 +28,7 @@
 namespace OCA\Files_Sharing\AppInfo;
 
 use OCA\Files_Sharing\Middleware\OCSShareAPIMiddleware;
+use OCA\Files_Sharing\Middleware\ShareInfoMiddleware;
 use OCA\Files_Sharing\MountProvider;
 use OCP\AppFramework\App;
 use OC\AppFramework\Utility\SimpleContainer;
@@ -124,9 +125,16 @@ class Application extends App {
 			);
 		});
 
+		$container->registerService(ShareInfoMiddleware::class, function () use ($server) {
+			return new ShareInfoMiddleware(
+				$server->getShareManager()
+			);
+		});
+
 		// Execute middlewares
 		$container->registerMiddleWare('SharingCheckMiddleware');
 		$container->registerMiddleWare('OCSShareAPIMiddleware');
+		$container->registerMiddleWare(ShareInfoMiddleware::class);
 
 		$container->registerService('MountProvider', function (IContainer $c) {
 			/** @var \OCP\IServerContainer $server */
