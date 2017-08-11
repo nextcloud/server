@@ -531,6 +531,11 @@ nav {
 		left: 50%;
 		bottom: 0;
 		z-index: 100;
+		display: none;
+	}
+	li a.active:before,
+	li:hover a:before,
+	li:hover a.active:before {
 		display: block;
 	}
 	&.menu-open li:hover a:before,
