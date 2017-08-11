@@ -116,3 +116,23 @@ input.primary {
 		}
 	}
 }
+
+@if ($color-primary == #ffffff) {
+	/* show grey border below header */
+	#body-user #header,
+	#body-settings #header,
+	#body-public #header {
+		border-bottom: 1px solid #ebebeb;
+	}
+
+	/* show triangle in header in grey */
+	#appmenu li a.active:before,
+	.header-right #settings #expand:before {
+		border-bottom-color:#ebebeb;
+	}
+
+	/* show border around quota bar in files app */
+	.app-files #quota .quota-container {
+		border: 1px solid #ebebeb;
+	}
+}
