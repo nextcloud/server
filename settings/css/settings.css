@@ -230,6 +230,10 @@ input#passwordbutton {
 	line-height: 1.6em;
 }
 
+.federationScopeMenu.popovermenu .menuitem .menuitem-text {
+	font-weight: 600;
+}
+
 .federationScopeMenu.popovermenu .menuitem .menuitem-text-detail {
 	opacity: .75;
 }
