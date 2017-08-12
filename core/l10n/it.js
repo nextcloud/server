@@ -255,6 +255,7 @@ OC.L10N.register(
     "Log in" : "Accedi",
     "Stay logged in" : "Rimani collegato",
     "Alternative Logins" : "Accessi alternativi",
+    "App token" : "Token applicazione",
     "Redirecting …" : "Redirezione in corso...",
     "New password" : "Nuova password",
     "New Password" : "Nuova password",
