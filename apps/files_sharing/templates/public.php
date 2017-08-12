@@ -48,22 +48,38 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 		</div>
 
 		<div class="header-right">
-			<?php if (!isset($_['hideFileList']) || (isset($_['hideFileList']) && $_['hideFileList'] === false)) {
-				if ($_['server2serversharing']) {
-					?>
-					<span id="save" data-protected="<?php p($_['protected']) ?>"
-						  data-owner-display-name="<?php p($_['displayName']) ?>" data-owner="<?php p($_['owner']) ?>" data-name="<?php p($_['filename']) ?>">
-					<button id="save-button"><?php p($l->t('Add to your Nextcloud')) ?></button>
-					<form class="save-form hidden" action="#">
-						<input type="text" id="remote_address" placeholder="user@yourNextcloud.org"/>
-						<button id="save-button-confirm" class="icon-confirm svg" disabled></button>
-					</form>
-				</span>
-				<?php } ?>
-				<a href="<?php p($_['downloadURL']); ?>" id="download" class="button">
-					<span class="icon icon-download"></span>
-					<span id="download-text"><?php p($l->t('Download'))?></span>
-				</a>
+			<?php if (!isset($_['hideFileList']) || (isset($_['hideFileList']) && $_['hideFileList'] === false)) { ?>
+			<a href="#" title="<?php p($l->t('Download & link')) ?>" id="share-menutoggle" class="menutoggle icon-more-white"></a>
+			<div id="share-menu" class="popovermenu menu hidden" style="display: block;">
+				<ul>
+					<li>
+						<a href="<?php p($_['downloadURL']); ?>" id="download">
+							<span class="icon icon-download"></span>
+							<span id="download-text"><?php p($l->t('Download'))?> (<?php p($_['fileSize']) ?>)</span>
+						</a>
+					</li>
+					<li>
+						<a href="#">
+							<span class="icon icon-public"></span>
+							<label for="directLink"><?php p($l->t('Direct link')) ?></label>
+							<input id="directLink" class="hidden" type="text" readonly value="<?php p($_['downloadURL']); ?>">
+						</a>
+					</li>
+					<?php if ($_['server2serversharing']) { ?>
+					<li>
+						<a href="#" id="save" data-protected="<?php p($_['protected']) ?>"
+							  data-owner-display-name="<?php p($_['displayName']) ?>" data-owner="<?php p($_['owner']) ?>" data-name="<?php p($_['filename']) ?>">
+							<span class="icon icon-external"></span>
+							<span id="save-button"><?php p($l->t('Add to your Nextcloud')) ?></span>
+							<form class="save-form hidden" action="#">
+								<input type="text" id="remote_address" placeholder="user@yourNextcloud.org"/>
+								<button id="save-button-confirm" class="icon-confirm svg" disabled></button>
+							</form>
+						</a>
+					</li>
+					<?php } ?>
+				</ul>
+			</div>
 			<?php } ?>
 		</div>
 	</div></header>
@@ -84,16 +100,14 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 					<!-- Preview frame is filled via JS to support SVG images for modern browsers -->
 					<div id="imgframe"></div>
 				<?php endif; ?>
+				<?php if ($_['previewURL'] === $_['downloadURL']): ?>
 				<div class="directDownload">
 					<a href="<?php p($_['downloadURL']); ?>" id="downloadFile" class="button">
 						<span class="icon icon-download"></span>
 						<?php p($l->t('Download %s', array($_['filename'])))?> (<?php p($_['fileSize']) ?>)
 					</a>
 				</div>
-				<div class="directLink">
-					<label for="directLink"><?php p($l->t('Direct link')) ?></label>
-					<input id="directLink" type="text" readonly value="<?php p($_['previewURL']); ?>">
-				</div>
+				<?php endif; ?>
 			<?php endif; ?>
 		</div>
 		</div>
