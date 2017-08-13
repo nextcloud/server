@@ -207,7 +207,7 @@ OC.Share = _.extend(OC.Share || {}, {
 		var parts = this._REMOTE_OWNER_REGEXP.exec(remoteAddress);
 		if (!parts) {
 			// display as is, most likely to be a simple owner name
-			return escapeHTML(remoteAddress);
+			return '<div class="avatar" data-userName="' + escapeHTML(remoteAddress) + '" title="' + t('core', 'Shared by') + ' ' + escapeHTML(remoteAddress) + '"></div>';
 		}
 
 		var userName = parts[1];
@@ -303,7 +303,12 @@ OC.Share = _.extend(OC.Share || {}, {
 				message = t('core', 'Shared with {recipients}', {recipients: this._formatShareList(recipients.split(", ")).join(", ")}, 0, {escape: false});
 			}
 			action.html('<span> ' + message + '</span>').prepend(icon);
+
 			if (owner || recipients) {
+				var avatarElement = action.find('.avatar');
+				avatarElement.avatar(avatarElement.data('username'), 32);
+				avatarElement.tooltip({placement: 'top'});
+
 				action.find('.remoteAddress').tooltip({placement: 'top'});
 			}
 		}

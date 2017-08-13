@@ -555,6 +555,10 @@ a.action > img {
 #fileList a.action.action-share {
 	padding: 17px 14px;
 }
+#fileList a.action.action-share .avatar {
+	display: inline-block;
+	vertical-align: middle;
+}
 
 #fileList a.action.action-menu {
 	padding-top: 17px;
