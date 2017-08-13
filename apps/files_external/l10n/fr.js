@@ -6,7 +6,7 @@ OC.L10N.register(
     "Please provide a valid app key and secret." : "Veuillez fournir une clé d'application et un mot de passe valides.",
     "Step 1 failed. Exception: %s" : "L’étape 1 a échoué. Erreur : %s",
     "Step 2 failed. Exception: %s" : "L’étape 2 a échoué. Erreur : %s",
-    "External storages" : "Stockages externe",
+    "External storages" : "Stockages externes",
     "Dropbox App Configuration" : "Configuration de l'application Dropbox",
     "Google Drive App Configuration" : "Configuration de l'application Google Drive",
     "Personal" : "Personnel",
