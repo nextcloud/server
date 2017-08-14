@@ -94,7 +94,7 @@ class ContactsStore {
 		// whether to filter out local users
 		$skipLocal = false;
 		// whether to filter out all users which doesn't have the same group as the current user
-		$ownGroupsOnly = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members', 'no');
+		$ownGroupsOnly = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes';
 
 		$selfGroups = $this->groupManager->getUserGroupIds($self);
 
@@ -172,7 +172,17 @@ class ContactsStore {
 			}
 		}
 
-		return $match ? $this->contactArrayToEntry($match) : null;
+		if ($match) {
+			$match = $this->filterContacts($user, [$this->contactArrayToEntry($match)]);
+			if (count($match) === 1) {
+				$match = $match[0];
+			} else {
+				$match = null;
+			}
+
+		}
+
+		return $match;
 	}
 
 	/**
