@@ -522,6 +522,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Core\\Middleware\\TwoFactorMiddleware' => __DIR__ . '/../../..' . '/core/Middleware/TwoFactorMiddleware.php',
         'OC\\Core\\Migrations\\Version13000Date20170705121758' => __DIR__ . '/../../..' . '/core/Migrations/Version13000Date20170705121758.php',
         'OC\\Core\\Migrations\\Version13000Date20170718121200' => __DIR__ . '/../../..' . '/core/Migrations/Version13000Date20170718121200.php',
+        'OC\\Core\\Migrations\\Version13000Date20170814074715' => __DIR__ . '/../../..' . '/core/Migrations/Version13000Date20170814074715.php',
         'OC\\DB\\Adapter' => __DIR__ . '/../../..' . '/lib/private/DB/Adapter.php',
         'OC\\DB\\AdapterMySQL' => __DIR__ . '/../../..' . '/lib/private/DB/AdapterMySQL.php',
         'OC\\DB\\AdapterOCI8' => __DIR__ . '/../../..' . '/lib/private/DB/AdapterOCI8.php',
