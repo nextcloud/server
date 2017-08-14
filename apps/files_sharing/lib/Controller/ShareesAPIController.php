@@ -335,7 +335,12 @@ class ShareesAPIController extends OCSController {
 				}
 				$lowerSearch = strtolower($search);
 				foreach ($cloudIds as $cloudId) {
-					list(, $serverUrl) = $this->splitUserRemote($cloudId);
+					try {
+						list(, $serverUrl) = $this->splitUserRemote($cloudId);
+					} catch (\InvalidArgumentException $e) {
+						continue;
+					}
+
 					if (strtolower($contact['FN']) === $lowerSearch || strtolower($cloudId) === $lowerSearch) {
 						if (strtolower($cloudId) === $lowerSearch) {
 							$result['exactIdMatch'] = true;
@@ -386,14 +391,14 @@ class ShareesAPIController extends OCSController {
 	 *
 	 * @param string $address federated share address
 	 * @return array [user, remoteURL]
-	 * @throws \Exception
+	 * @throws \InvalidArgumentException
 	 */
 	public function splitUserRemote($address) {
 		try {
 			$cloudId = $this->cloudIdManager->resolveCloudId($address);
 			return [$cloudId->getUser(), $cloudId->getRemote()];
 		} catch (\InvalidArgumentException $e) {
-			throw new \Exception('Invalid Federated Cloud ID', 0, $e);
+			throw new \InvalidArgumentException('Invalid Federated Cloud ID', 0, $e);
 		}
 	}
 
@@ -610,7 +615,12 @@ class ShareesAPIController extends OCSController {
 
 					if (isset($contact['isLocalSystemBook'])) {
 						if ($exactEmailMatch) {
-							$cloud = $this->cloudIdManager->resolveCloudId($contact['CLOUD'][0]);
+							try {
+								$cloud = $this->cloudIdManager->resolveCloudId($contact['CLOUD'][0]);
+							} catch (\InvalidArgumentException $e) {
+								continue;
+							}
+
 							if (!$this->hasUserInResult($cloud->getUser())) {
 								$this->result['exact']['users'][] = [
 									'label' => $contact['FN'] . " ($emailAddress)",
@@ -622,8 +632,14 @@ class ShareesAPIController extends OCSController {
 							}
 							return ['results' => [], 'exact' => [], 'exactIdMatch' => true];
 						}
+
 						if ($this->shareeEnumeration) {
-							$cloud = $this->cloudIdManager->resolveCloudId($contact['CLOUD'][0]);
+							try {
+								$cloud = $this->cloudIdManager->resolveCloudId($contact['CLOUD'][0]);
+							} catch (\InvalidArgumentException $e) {
+								continue;
+							}
+
 							if (!$this->hasUserInResult($cloud->getUser())) {
 								$this->result['users'][] = [
 									'label' => $contact['FN'] . " ($emailAddress)",
