@@ -276,7 +276,7 @@ class Swift extends \OC\Files\Storage\Common {
 			/** @var OpenCloud\ObjectStore\Resource\DataObject $object */
 			foreach ($objects as $object) {
 				$file = basename($object->getName());
-				if ($file !== basename($path)) {
+				if ($file !== basename($path) && $file !== '.') {
 					$files[] = $file;
 				}
 			}
