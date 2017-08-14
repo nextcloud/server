@@ -1,6 +1,8 @@
 OC.L10N.register(
     "settings",
     {
+    "{actor} changed your password" : "{actor} muutis sinu parooli",
+    "You changed your password" : "Sa muutsid oma parooli",
     "Wrong password" : "Vale parool",
     "Saved" : "Salvestatud",
     "No user supplied" : "Kasutajat ei sisestatud",
