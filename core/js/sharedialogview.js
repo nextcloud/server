@@ -70,6 +70,7 @@
 		shareeListView: undefined,
 
 		events: {
+			'focus .shareWithField': 'onShareWithFieldFocus',
 			'input .shareWithField': 'onShareWithFieldChanged'
 		},
 
@@ -118,7 +119,8 @@
 			_.bindAll(this,
 				'autocompleteHandler',
 				'_onSelectRecipient',
-				'onShareWithFieldChanged'
+				'onShareWithFieldChanged',
+				'onShareWithFieldFocus'
 			);
 
 			OC.Plugins.attach('OC.Share.ShareDialogView', this);
@@ -129,6 +131,11 @@
 			if ($el.val().length < 2) {
 				$el.removeClass('error').tooltip('hide');
 			}
+		},
+
+		/* trigger search after the field was re-selected */
+		onShareWithFieldFocus: function() {
+			this.$el.find('.shareWithField').autocomplete("search");
 		},
 
 		autocompleteHandler: function (search, response) {
