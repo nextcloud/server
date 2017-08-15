@@ -501,7 +501,7 @@ class ShareesAPIController extends OCSController {
 	 */
 	protected function isRemoteSharingAllowed($itemType) {
 		try {
-			$backend = Share::getBackend($itemType);
+			$backend = \OC\Share\Share::getBackend($itemType);
 			return $backend->isShareTypeAllowed(Share::SHARE_TYPE_REMOTE);
 		} catch (\Exception $e) {
 			return false;

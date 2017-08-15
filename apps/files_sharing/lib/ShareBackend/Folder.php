@@ -41,7 +41,7 @@ class Folder extends File implements \OCP\Share_Backend_Collection {
 		$result = array();
 		$parent = $this->getParentId($itemSource);
 		while ($parent) {
-			$shares = \OCP\Share::getItemSharedWithUser('folder', $parent, $shareWith, $owner);
+			$shares = \OC\Share\Share::getItemSharedWithUser('folder', $parent, $shareWith, $owner);
 			if ($shares) {
 				foreach ($shares as $share) {
 					$name = basename($share['path']);
