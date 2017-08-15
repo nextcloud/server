@@ -137,7 +137,7 @@ class ShareTest extends \Test\TestCase {
 	public function testShareInvalidShareType() {
 		$message = 'Share type foobar is not valid for test.txt';
 		try {
-			\OCP\Share::shareItem('test', 'test.txt', 'foobar', $this->user2, \OCP\Constants::PERMISSION_READ);
+			\OC\Share\Share::shareItem('test', 'test.txt', 'foobar', $this->user2, \OCP\Constants::PERMISSION_READ);
 		} catch (\Exception $exception) {
 			$this->assertEquals($message, $exception->getMessage());
 		}
@@ -157,7 +157,7 @@ class ShareTest extends \Test\TestCase {
 		$fileId = $fileInfo->getId();
 
 		$this->assertTrue(
-			\OCP\Share::shareItem('folder', $fileId, \OCP\Share::SHARE_TYPE_USER, $this->user2->getUID(), \OCP\Constants::PERMISSION_READ),
+			\OC\Share\Share::shareItem('folder', $fileId, \OCP\Share::SHARE_TYPE_USER, $this->user2->getUID(), \OCP\Constants::PERMISSION_READ),
 			'Failed asserting that user 1 successfully shared "test/sub" with user 2.'
 		);
 
@@ -195,7 +195,7 @@ class ShareTest extends \Test\TestCase {
 		$fileId = $fileInfo->getId();
 
 		$this->assertTrue(
-			\OCP\Share::shareItem('folder', $fileId, \OCP\Share::SHARE_TYPE_GROUP, $this->group1->getGID(), \OCP\Constants::PERMISSION_READ + \OCP\Constants::PERMISSION_CREATE),
+			\OC\Share\Share::shareItem('folder', $fileId, \OCP\Share::SHARE_TYPE_GROUP, $this->group1->getGID(), \OCP\Constants::PERMISSION_READ + \OCP\Constants::PERMISSION_CREATE),
 			'Failed asserting that user 1 successfully shared "test/sub1" with group 1.'
 		);
 
@@ -208,7 +208,7 @@ class ShareTest extends \Test\TestCase {
 		$fileId = $fileInfo->getId();
 
 		$this->assertTrue(
-			\OCP\Share::shareItem('folder', $fileId, \OCP\Share::SHARE_TYPE_USER, $this->user4->getUID(), \OCP\Constants::PERMISSION_READ),
+			\OC\Share\Share::shareItem('folder', $fileId, \OCP\Share::SHARE_TYPE_USER, $this->user4->getUID(), \OCP\Constants::PERMISSION_READ),
 			'Failed asserting that user 1 successfully shared "test/sub1/sub2" with user 4.'
 		);
 
@@ -233,12 +233,12 @@ class ShareTest extends \Test\TestCase {
 		$fileId = $fileInfo->getId();
 
 		$this->assertTrue(
-			\OCP\Share::shareItem('folder', $folderId, \OCP\Share::SHARE_TYPE_GROUP, $this->group2->getGID(), \OCP\Constants::PERMISSION_READ + \OCP\Constants::PERMISSION_UPDATE),
+			\OC\Share\Share::shareItem('folder', $folderId, \OCP\Share::SHARE_TYPE_GROUP, $this->group2->getGID(), \OCP\Constants::PERMISSION_READ + \OCP\Constants::PERMISSION_UPDATE),
 			'Failed asserting that user 1 successfully shared "test/sub1" with group 2.'
 		);
 
 		$this->assertTrue(
-			\OCP\Share::shareItem('file', $fileId, \OCP\Share::SHARE_TYPE_USER, $this->user2->getUID(), \OCP\Constants::PERMISSION_READ),
+			\OC\Share\Share::shareItem('file', $fileId, \OCP\Share::SHARE_TYPE_USER, $this->user2->getUID(), \OCP\Constants::PERMISSION_READ),
 			'Failed asserting that user 1 successfully shared "test/sub1/file.txt" with user 2.'
 		);
 
@@ -258,7 +258,7 @@ class ShareTest extends \Test\TestCase {
 	 */
 	public function testShareWithGroupThenUnshare() {
 		\OC_User::setUserId($this->user5->getUID());
-		\OCP\Share::shareItem(
+		\OC\Share\Share::shareItem(
 			'test',
 			'test.txt',
 			\OCP\Share::SHARE_TYPE_GROUP,
@@ -401,7 +401,7 @@ class ShareTest extends \Test\TestCase {
 	}
 
 	public function testGetShareSubItemsWhenUserNotInGroup() {
-		\OCP\Share::shareItem('test', 'test.txt', \OCP\Share::SHARE_TYPE_GROUP, $this->group1->getGID(), \OCP\Constants::PERMISSION_READ);
+		\OC\Share\Share::shareItem('test', 'test.txt', \OCP\Share::SHARE_TYPE_GROUP, $this->group1->getGID(), \OCP\Constants::PERMISSION_READ);
 
 		$result = \OCP\Share::getItemsSharedWithUser('test', $this->user2->getUID());
 		$this->assertCount(1, $result);
@@ -445,7 +445,7 @@ class ShareTest extends \Test\TestCase {
 		$config->setAppValue('core', 'shareapi_default_expire_date', 'yes');
 		$config->setAppValue('core', 'shareapi_expire_after_n_days', '2');
 
-		$token = \OCP\Share::shareItem('test', 'test.txt', \OCP\Share::SHARE_TYPE_LINK, null, \OCP\Constants::PERMISSION_READ);
+		$token = \OC\Share\Share::shareItem('test', 'test.txt', \OCP\Share::SHARE_TYPE_LINK, null, \OCP\Constants::PERMISSION_READ);
 		$this->assertInternalType(
 			'string',
 			$token,
@@ -491,7 +491,7 @@ class ShareTest extends \Test\TestCase {
 	 */
 	public function testShareWithRemoteUserAndRemoteIsInvalid($remoteId) {
 		\OC_User::setUserId($this->user1->getUID());
-		\OCP\Share::shareItem('test', 'test.txt', \OCP\Share::SHARE_TYPE_REMOTE, $remoteId, \OCP\Constants::PERMISSION_ALL);
+		\OC\Share\Share::shareItem('test', 'test.txt', \OCP\Share::SHARE_TYPE_REMOTE, $remoteId, \OCP\Constants::PERMISSION_ALL);
 	}
 
 	/**
@@ -572,7 +572,7 @@ class ShareTest extends \Test\TestCase {
 			->with($this->stringStartsWith('http://' . $urlHost . '/ocs/v2.php/cloud/shares'), $this->anything())
 			->willReturn(['success' => true, 'result' => json_encode(['ocs' => ['meta' => ['statuscode' => 100]]])]);
 
-		\OCP\Share::shareItem('test', 'test.txt', \OCP\Share::SHARE_TYPE_REMOTE, $shareWith, \OCP\Constants::PERMISSION_READ);
+		\OC\Share\Share::shareItem('test', 'test.txt', \OCP\Share::SHARE_TYPE_REMOTE, $shareWith, \OCP\Constants::PERMISSION_READ);
 		$shares = \OCP\Share::getItemShared('test', 'test.txt');
 		$share = array_shift($shares);
 
@@ -680,13 +680,13 @@ class ShareTest extends \Test\TestCase {
 			->with($this->stringStartsWith('https://localhost/ocs/v2.php/cloud/shares'), $this->anything())
 			->willReturn(['success' => true, 'result' => json_encode(['ocs' => ['meta' => ['statuscode' => 100]]])]);
 
-		\OCP\Share::shareItem('test', 'test.txt', \OCP\Share::SHARE_TYPE_REMOTE, 'foo@localhost', \OCP\Constants::PERMISSION_READ);
+		\OC\Share\Share::shareItem('test', 'test.txt', \OCP\Share::SHARE_TYPE_REMOTE, 'foo@localhost', \OCP\Constants::PERMISSION_READ);
 		$shares = \OCP\Share::getItemShared('test', 'test.txt');
 		$share = array_shift($shares);
 
 		//Try share again
 		try {
-			\OCP\Share::shareItem('test', 'test.txt', \OCP\Share::SHARE_TYPE_REMOTE, 'foo@localhost', \OCP\Constants::PERMISSION_READ);
+			\OC\Share\Share::shareItem('test', 'test.txt', \OCP\Share::SHARE_TYPE_REMOTE, 'foo@localhost', \OCP\Constants::PERMISSION_READ);
 			$this->fail('Identical remote shares are not allowed');
 		} catch (\Exception $e) {
 			$this->assertEquals('Sharing test.txt failed, because this item is already shared with foo@localhost', $e->getMessage());
@@ -714,11 +714,11 @@ class ShareTest extends \Test\TestCase {
 		$fileId = $fileInfo->getId();
 
 		$this->assertTrue(
-			\OCP\Share::shareItem('folder', $fileId, \OCP\Share::SHARE_TYPE_USER, $this->user2->getUID(), \OCP\Constants::PERMISSION_ALL),
+			\OC\Share\Share::shareItem('folder', $fileId, \OCP\Share::SHARE_TYPE_USER, $this->user2->getUID(), \OCP\Constants::PERMISSION_ALL),
 			'Failed asserting that user 1 successfully shared "test" with user 2.'
 		);
 		$this->assertTrue(
-			\OCP\Share::shareItem('folder', $fileId, \OCP\Share::SHARE_TYPE_USER, $this->user3->getUID(), \OCP\Constants::PERMISSION_ALL),
+			\OC\Share\Share::shareItem('folder', $fileId, \OCP\Share::SHARE_TYPE_USER, $this->user3->getUID(), \OCP\Constants::PERMISSION_ALL),
 			'Failed asserting that user 1 successfully shared "test" with user 3.'
 		);
 
@@ -729,7 +729,7 @@ class ShareTest extends \Test\TestCase {
 		$fileId = $fileInfo->getId();
 
 		$this->assertTrue(
-			\OCP\Share::shareItem('folder', $fileId, \OCP\Share::SHARE_TYPE_USER, $this->user4->getUID(), \OCP\Constants::PERMISSION_ALL),
+			\OC\Share\Share::shareItem('folder', $fileId, \OCP\Share::SHARE_TYPE_USER, $this->user4->getUID(), \OCP\Constants::PERMISSION_ALL),
 			'Failed asserting that user 1 successfully shared "test" with user 4.'
 		);
 
@@ -743,7 +743,7 @@ class ShareTest extends \Test\TestCase {
 		$this->assertCount(3, $res);
 
 		$this->assertTrue(
-			\OCP\Share::shareItem('folder', $fileId, \OCP\Share::SHARE_TYPE_USER, $this->user5->getUID(), \OCP\Constants::PERMISSION_ALL),
+			\OC\Share\Share::shareItem('folder', $fileId, \OCP\Share::SHARE_TYPE_USER, $this->user5->getUID(), \OCP\Constants::PERMISSION_ALL),
 			'Failed asserting that user 1 successfully shared "test" with user 5.'
 		);
 
@@ -767,7 +767,7 @@ class ShareTest extends \Test\TestCase {
 		$fileId = $fileInfo->getId();
 
 		try {
-			\OCP\Share::shareItem('folder', $fileId, \OCP\Share::SHARE_TYPE_USER, $this->user1->getUID(), \OCP\Constants::PERMISSION_ALL);
+			\OC\Share\Share::shareItem('folder', $fileId, \OCP\Share::SHARE_TYPE_USER, $this->user1->getUID(), \OCP\Constants::PERMISSION_ALL);
 			$this->fail();
 		} catch (\Exception $e) {
 			$this->assertEquals('Sharing /folder1 failed, because you can not share with yourself', $e->getMessage());
@@ -785,13 +785,13 @@ class ShareTest extends \Test\TestCase {
 		$fileId = $fileInfo->getId();
 
 		$this->assertTrue(
-			\OCP\Share::shareItem('folder', $fileId, \OCP\Share::SHARE_TYPE_USER, $this->user2->getUID(), \OCP\Constants::PERMISSION_ALL),
+			\OC\Share\Share::shareItem('folder', $fileId, \OCP\Share::SHARE_TYPE_USER, $this->user2->getUID(), \OCP\Constants::PERMISSION_ALL),
 			'Failed asserting that user 1 successfully shared "test" with user 2.'
 		);
 
 		\OC_User::setUserId($this->user2->getUID());
 		try {
-			\OCP\Share::shareItem('folder', $fileId, \OCP\Share::SHARE_TYPE_USER, $this->user1->getUID(), \OCP\Constants::PERMISSION_ALL);
+			\OC\Share\Share::shareItem('folder', $fileId, \OCP\Share::SHARE_TYPE_USER, $this->user1->getUID(), \OCP\Constants::PERMISSION_ALL);
 			$this->fail();
 		} catch (\Exception $e) {
 			$this->assertEquals('Sharing failed, because the user ' . $this->user1->getUID() . ' is the original sharer', $e->getMessage());
