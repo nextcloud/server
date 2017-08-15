@@ -255,7 +255,6 @@ return array(
     'OCP\\Settings\\IManager' => $baseDir . '/lib/public/Settings/IManager.php',
     'OCP\\Settings\\ISection' => $baseDir . '/lib/public/Settings/ISection.php',
     'OCP\\Settings\\ISettings' => $baseDir . '/lib/public/Settings/ISettings.php',
-    'OCP\\Share' => $baseDir . '/lib/public/Share.php',
     'OCP\\Share\\Exceptions\\GenericShareException' => $baseDir . '/lib/public/Share/Exceptions/GenericShareException.php',
     'OCP\\Share\\Exceptions\\IllegalIDChangeException' => $baseDir . '/lib/public/Share/Exceptions/IllegalIDChangeException.php',
     'OCP\\Share\\Exceptions\\ShareNotFound' => $baseDir . '/lib/public/Share/Exceptions/ShareNotFound.php',
