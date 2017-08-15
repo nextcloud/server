@@ -298,7 +298,7 @@ class SharedStorageTest extends TestCase {
 
 		//cleanup
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
-		$result = \OCP\Share::unshare('folder', $fileinfoFolder['fileid'], \OCP\Share::SHARE_TYPE_USER,
+		$result = \OC\Share\Share::unshare('folder', $fileinfoFolder['fileid'], \OCP\Share::SHARE_TYPE_USER,
 			self::TEST_FILES_SHARING_API_USER2);
 		$this->assertTrue($result);
 	}

@@ -285,7 +285,6 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\Settings\\IManager' => __DIR__ . '/../../..' . '/lib/public/Settings/IManager.php',
         'OCP\\Settings\\ISection' => __DIR__ . '/../../..' . '/lib/public/Settings/ISection.php',
         'OCP\\Settings\\ISettings' => __DIR__ . '/../../..' . '/lib/public/Settings/ISettings.php',
-        'OCP\\Share' => __DIR__ . '/../../..' . '/lib/public/Share.php',
         'OCP\\Share\\Exceptions\\GenericShareException' => __DIR__ . '/../../..' . '/lib/public/Share/Exceptions/GenericShareException.php',
         'OCP\\Share\\Exceptions\\IllegalIDChangeException' => __DIR__ . '/../../..' . '/lib/public/Share/Exceptions/IllegalIDChangeException.php',
         'OCP\\Share\\Exceptions\\ShareNotFound' => __DIR__ . '/../../..' . '/lib/public/Share/Exceptions/ShareNotFound.php',

@@ -559,7 +559,7 @@ class Share extends Constants {
 		}
 
 		// password protected shares need to be authenticated
-		if ($checkPasswordProtection && !\OCP\Share::checkPasswordProtectedShare($row)) {
+		if ($checkPasswordProtection && !\OC\Share\Share::checkPasswordProtectedShare($row)) {
 			return false;
 		}
 

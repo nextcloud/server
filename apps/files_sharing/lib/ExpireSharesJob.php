@@ -68,7 +68,7 @@ class ExpireSharesJob extends TimedJob {
 
 		$shares = $qb->execute();
 		while($share = $shares->fetch()) {
-			\OCP\Share::unshare($share['item_type'], $share['file_source'], \OCP\Share::SHARE_TYPE_LINK, null, $share['uid_owner']);
+			\OC\Share\Share::unshare($share['item_type'], $share['file_source'], \OCP\Share::SHARE_TYPE_LINK, null, $share['uid_owner']);
 		}
 		$shares->closeCursor();
 	}
