@@ -271,7 +271,6 @@ OC.L10N.register(
     "Log in" : "Accedi",
     "Stay logged in" : "Rimani collegato",
     "Alternative Logins" : "Accessi alternativi",
-    "You are about to grant \"%s\" access to your %s account." : "Stai per accordare a \"%s\" l'accesso al tuo account %s.",
     "App token" : "Token applicazione",
     "Alternative login using app token" : "Accesso alternativo utilizzando il token dell'applicazione",
     "Redirecting …" : "Redirezione in corso...",
@@ -340,6 +339,7 @@ OC.L10N.register(
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Ciao,<br><br>volevo informarti che %s ha condiviso <strong>%s</strong> con te.<br><a href=\"%s\">Guarda!</a><br><br>",
     "This Nextcloud instance is currently in single user mode." : "Questa istanza di Nextcloud è in modalità utente singolo.",
     "This means only administrators can use the instance." : "Ciò significa che solo gli amministratori possono utilizzare l'istanza.",
-    "Please use the command line updater because you have a big instance." : "Utilizza lo strumento da riga di comando per la grandezza della tua istanza."
+    "Please use the command line updater because you have a big instance." : "Utilizza lo strumento da riga di comando per la grandezza della tua istanza.",
+    "You are about to grant \"%s\" access to your %s account." : "Stai per accordare a \"%s\" l'accesso al tuo account %s."
 },
 "nplurals=2; plural=(n != 1);");

@@ -271,7 +271,6 @@ OC.L10N.register(
     "Log in" : "Zaloguj",
     "Stay logged in" : "Pozostań zalogowany",
     "Alternative Logins" : "Alternatywne loginy",
-    "You are about to grant \"%s\" access to your %s account." : "Masz zamiar przyznać \"%s\" dostep do twojego %s konta.",
     "App token" : "Token aplikacji",
     "Alternative login using app token" : "Zaloguj alternatywnie używając tokenu aplikacji",
     "Redirecting …" : "Przekierowuję...",
@@ -340,6 +339,7 @@ OC.L10N.register(
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Witam, <br><br>informuję, że %s udostępnianych zasobów <strong>%s</strong> jest z Tobą.<br><a href=\"%s\">Zobacz!</a><br><br>",
     "This Nextcloud instance is currently in single user mode." : "Ta instalacja Nextcloud działa obecnie w trybie pojedynczego użytkownika.",
     "This means only administrators can use the instance." : "To oznacza, że tylko administratorzy mogą w tej chwili używać aplikacji.",
-    "Please use the command line updater because you have a big instance." : "Ze względu na rozmiar Twojej instalacji użyj programu do aktualizacji z linii poleceń."
+    "Please use the command line updater because you have a big instance." : "Ze względu na rozmiar Twojej instalacji użyj programu do aktualizacji z linii poleceń.",
+    "You are about to grant \"%s\" access to your %s account." : "Masz zamiar przyznać \"%s\" dostep do twojego %s konta."
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

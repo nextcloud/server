@@ -271,7 +271,6 @@ OC.L10N.register(
     "Log in" : "登入",
     "Stay logged in" : "保持登入狀態",
     "Alternative Logins" : "其他登入方法",
-    "You are about to grant \"%s\" access to your %s account." : "您將授予「%s」存取您的%s帳戶",
     "App token" : "App token",
     "Alternative login using app token" : "透過應用程式憑證的方式登入",
     "Redirecting …" : "重新導向…",
@@ -340,6 +339,7 @@ OC.L10N.register(
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "嗨，<br><br>%s 與你分享了<strong>%s</strong>。<br><a href=\"%s\">檢視</a><br><br>",
     "This Nextcloud instance is currently in single user mode." : "這個 Nextcloud 伺服器目前運作於單一使用者模式",
     "This means only administrators can use the instance." : "這表示只有系統管理員能夠使用",
-    "Please use the command line updater because you have a big instance." : "請使用命令列更新工具，因為您的服務規模較大"
+    "Please use the command line updater because you have a big instance." : "請使用命令列更新工具，因為您的服務規模較大",
+    "You are about to grant \"%s\" access to your %s account." : "您將授予「%s」存取您的%s帳戶"
 },
 "nplurals=1; plural=0;");

@@ -271,7 +271,6 @@ OC.L10N.register(
     "Log in" : "Skrá inn",
     "Stay logged in" : "Haldast skráður inn",
     "Alternative Logins" : "Aðrar innskráningar",
-    "You are about to grant \"%s\" access to your %s account." : "Þú ert að fara að leyfa \"%s\" aðgang að %s notandaaðgangnum þínum.",
     "App token" : "Teikn forrits",
     "Alternative login using app token" : "Önnur innskráning með forritsteikni",
     "Redirecting …" : "Endurbeini ...",
@@ -340,6 +339,7 @@ OC.L10N.register(
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hæ þú,<br><br>bara að láta þig vita að %s deildi <strong>%s</strong> með þér.<br><a href=\"%s\">Skoðaðu það!</a><br><br>",
     "This Nextcloud instance is currently in single user mode." : "Þetta Nextcloud eintak er nú í eins-notanda ham.",
     "This means only administrators can use the instance." : "Þetta þýðir aðeins stjórnendur geta notað eintakið.",
-    "Please use the command line updater because you have a big instance." : "Endilega notaðu uppfærslutólið af skipanalínu, því þú ert með mjög stóra uppsetningu."
+    "Please use the command line updater because you have a big instance." : "Endilega notaðu uppfærslutólið af skipanalínu, því þú ert með mjög stóra uppsetningu.",
+    "You are about to grant \"%s\" access to your %s account." : "Þú ert að fara að leyfa \"%s\" aðgang að %s notandaaðgangnum þínum."
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

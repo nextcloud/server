@@ -266,7 +266,6 @@
     "Log in" : "Ingresar",
     "Stay logged in" : "Mantener la sesión abierta",
     "Alternative Logins" : "Accesos Alternativos",
-    "You are about to grant \"%s\" access to your %s account." : "Está apunto de concederle a \"%s\" acceso a su cuenta %s.",
     "App token" : "Ficha de la aplicación",
     "Alternative login using app token" : "Inicio de sesión alternativo usando la ficha de la aplicación",
     "Redirecting …" : "Redireccionando ... ",
@@ -335,6 +334,7 @@
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hola,<br><br> sólo queremos informarle que %s ha compartido <strong>%s</strong> con usted. <br><a href=\"%s\">¡Véalo!</a><br><br>",
     "This Nextcloud instance is currently in single user mode." : "Esta instalación de Nextcloud se encuentra en modo de usuario único.",
     "This means only administrators can use the instance." : "Esto significa que sólo los administradores pueden usar la instancia.",
-    "Please use the command line updater because you have a big instance." : "Favor de usar el actualizador de línea de comando porque usted tiene una instancia grande. "
+    "Please use the command line updater because you have a big instance." : "Favor de usar el actualizador de línea de comando porque usted tiene una instancia grande. ",
+    "You are about to grant \"%s\" access to your %s account." : "Está apunto de concederle a \"%s\" acceso a su cuenta %s."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

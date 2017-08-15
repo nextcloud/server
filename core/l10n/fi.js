@@ -267,7 +267,6 @@ OC.L10N.register(
     "Log in" : "Kirjaudu sisään",
     "Stay logged in" : "Pysy sisäänkirjautuneena",
     "Alternative Logins" : "Vaihtoehtoiset kirjautumistavat",
-    "You are about to grant \"%s\" access to your %s account." : "Olet antamassa \"%s\" pääsyn %s tilillesi.",
     "App token" : "Sovellusvaltuutus",
     "Alternative login using app token" : "Vaihtoehtoinen kirjautuminen käyttäen sovellusvaltuutusta",
     "Redirecting …" : "Ohjataan uudelleen…",
@@ -335,6 +334,7 @@ OC.L10N.register(
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hei,<br><br>%s jakoi kanssasi kohteen <strong>%s</strong>.<br><a href=\"%s\">Tutustu siihen!</a><br><br>",
     "This Nextcloud instance is currently in single user mode." : "Tämä Nextcloud-asennus on parhaillaan single user -tilassa.",
     "This means only administrators can use the instance." : "Se tarkoittaa, että vain ylläpitäjät voivat nyt käyttää tätä sivustoa.",
-    "Please use the command line updater because you have a big instance." : "Käytä komentorivipäivitintä, koska käyttämäsi Nextcloud on sen verran suuri."
+    "Please use the command line updater because you have a big instance." : "Käytä komentorivipäivitintä, koska käyttämäsi Nextcloud on sen verran suuri.",
+    "You are about to grant \"%s\" access to your %s account." : "Olet antamassa \"%s\" pääsyn %s tilillesi."
 },
 "nplurals=2; plural=(n != 1);");
