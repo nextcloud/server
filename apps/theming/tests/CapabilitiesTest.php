@@ -23,6 +23,9 @@ namespace OCA\Theming\Tests;
 
 use OCA\Theming\Capabilities;
 use OCA\Theming\ThemingDefaults;
+use OCA\Theming\Util;
+use OCP\App\IAppManager;
+use OCP\Files\IAppData;
 use OCP\IConfig;
 use OCP\IURLGenerator;
 use Test\TestCase;
@@ -52,34 +55,38 @@ class CapabilitiesTest extends TestCase  {
 		$this->theming = $this->createMock(ThemingDefaults::class);
 		$this->url = $this->getMockBuilder(IURLGenerator::class)->getMock();
 		$this->config = $this->createMock(IConfig::class);
-		$this->capabilities = new Capabilities($this->theming, $this->url, $this->config);
+		$util = new Util($this->config, $this->createMock(IAppManager::class), $this->createMock(IAppData::class));
+		$this->capabilities = new Capabilities($this->theming, $util, $this->url, $this->config);
 	}
 
 	public function dataGetCapabilities() {
 		return [
-			['name', 'url', 'slogan', 'color', 'logo', 'background', 'http://absolute/', [
+			['name', 'url', 'slogan', '#FFFFFF', 'logo', 'background', 'http://absolute/', [
 				'name' => 'name',
 				'url' => 'url',
 				'slogan' => 'slogan',
-				'color' => 'color',
+				'color' => '#FFFFFF',
+				'color-text' => '#000000',
 				'logo' => 'http://absolute/logo',
 				'background' => 'http://absolute/background',
 			]],
-			['name1', 'url2', 'slogan3', 'color4', 'logo5', 'background6', 'http://localhost/', [
+			['name1', 'url2', 'slogan3', '#01e4a0', 'logo5', 'background6', 'http://localhost/', [
 				'name' => 'name1',
 				'url' => 'url2',
 				'slogan' => 'slogan3',
-				'color' => 'color4',
+				'color' => '#01e4a0',
+				'color-text' => '#FFFFFF',
 				'logo' => 'http://localhost/logo5',
 				'background' => 'http://localhost/background6',
 			]],
-			['name1', 'url2', 'slogan3', 'color4', 'logo5', 'backgroundColor', 'http://localhost/', [
+			['name1', 'url2', 'slogan3', '#000000', 'logo5', 'backgroundColor', 'http://localhost/', [
 				'name' => 'name1',
 				'url' => 'url2',
 				'slogan' => 'slogan3',
-				'color' => 'color4',
+				'color' => '#000000',
+				'color-text' => '#FFFFFF',
 				'logo' => 'http://localhost/logo5',
-				'background' => 'color4',
+				'background' => '#000000',
 			]],
 		];
 	}
