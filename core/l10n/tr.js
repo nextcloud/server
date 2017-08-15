@@ -271,7 +271,6 @@ OC.L10N.register(
     "Log in" : "Oturum Aç",
     "Stay logged in" : "Bağlı kal",
     "Alternative Logins" : "Alternatif Oturum Açmalar",
-    "You are about to grant \"%s\" access to your %s account." : "\"%s\" erişim iznini %s hesabınıza vermek üzeresiniz.",
     "App token" : "Uygulama Kodu",
     "Alternative login using app token" : "Uygulama kodu ile alternatif oturum açma",
     "Redirecting …" : "Yönlendiriliyor...",
@@ -340,6 +339,7 @@ OC.L10N.register(
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Merhaba, <br><br>%s kullanıcısının sizinle <strong>%s</strong> paylaşımında bulunduğunu bildirmek istedik.<br><a href=\"%s\">Paylaşımı şuradan görebilirsiniz!</a><br><br>",
     "This Nextcloud instance is currently in single user mode." : "Bu Nextcloud kopyası şu anda tek kullanıcı kipinde.",
     "This means only administrators can use the instance." : "Yani bu kopya yalnız yöneticiler tarafından kullanılabilir.",
-    "Please use the command line updater because you have a big instance." : "Kopyanız oldukça büyük olduğundan güncelleme için komut satırını kullanın."
+    "Please use the command line updater because you have a big instance." : "Kopyanız oldukça büyük olduğundan güncelleme için komut satırını kullanın.",
+    "You are about to grant \"%s\" access to your %s account." : "\"%s\" erişim iznini %s hesabınıza vermek üzeresiniz."
 },
 "nplurals=2; plural=(n > 1);");

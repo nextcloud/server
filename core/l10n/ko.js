@@ -263,7 +263,6 @@ OC.L10N.register(
     "Log in" : "로그인",
     "Stay logged in" : "로그인 유지",
     "Alternative Logins" : "대체 로그인",
-    "You are about to grant \"%s\" access to your %s account." : "\"%s\"에 접근하기 위해서 %s 계정을 사용하려고 합니다.",
     "App token" : "앱 토큰",
     "Alternative login using app token" : "앱 토큰을 사용한 대체 로그인",
     "Redirecting …" : "전환 중 …",
@@ -329,6 +328,7 @@ OC.L10N.register(
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "안녕하세요,<br><br>%s 님이 <strong>%s</strong>을(를) 공유하였음을 알려 드립니다.<br><a href=\"%s\">보러 가기!</a><br><br>",
     "This Nextcloud instance is currently in single user mode." : "Nextcloud 인스턴스가 현재 단일 사용자 모드로 동작 중입니다.",
     "This means only administrators can use the instance." : "현재 시스템 관리자만 인스턴스를 사용할 수 있습니다.",
-    "Please use the command line updater because you have a big instance." : "현재 인스턴스 크기가 크기 때문에 명령행 업데이터를 사용하십시오."
+    "Please use the command line updater because you have a big instance." : "현재 인스턴스 크기가 크기 때문에 명령행 업데이터를 사용하십시오.",
+    "You are about to grant \"%s\" access to your %s account." : "\"%s\"에 접근하기 위해서 %s 계정을 사용하려고 합니다."
 },
 "nplurals=1; plural=0;");

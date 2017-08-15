@@ -264,7 +264,6 @@ OC.L10N.register(
     "Log in" : "Logga in",
     "Stay logged in" : "Fortsätt vara inloggad.",
     "Alternative Logins" : "Alternativa inloggningar",
-    "You are about to grant \"%s\" access to your %s account." : "Du är på väg att ge \"%s\" åtkomst till ditt konto \"%s\"",
     "App token" : "App-polett",
     "Redirecting …" : "Omdirigerar ...",
     "New password" : "Nytt lösenord",
@@ -330,6 +329,7 @@ OC.L10N.register(
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hej där,<br><br>Tänkte bara informera dig om att %s delade <strong>%s</strong> med dig.<br><a href=\"%s\">Klicka här för att se!</a><br><br>",
     "This Nextcloud instance is currently in single user mode." : "Denna Nextcloud instans är för närvarande i enanvändarläge",
     "This means only administrators can use the instance." : "Detta betyder att endast administartörer kan använda instansen.",
-    "Please use the command line updater because you have a big instance." : "Vänligen använd den kommandotolksbaserade uppdateringen eftersom du har en stor instans."
+    "Please use the command line updater because you have a big instance." : "Vänligen använd den kommandotolksbaserade uppdateringen eftersom du har en stor instans.",
+    "You are about to grant \"%s\" access to your %s account." : "Du är på väg att ge \"%s\" åtkomst till ditt konto \"%s\""
 },
 "nplurals=2; plural=(n != 1);");

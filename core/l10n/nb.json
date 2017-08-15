@@ -269,7 +269,6 @@
     "Log in" : "Logg inn",
     "Stay logged in" : "Forbli innlogget",
     "Alternative Logins" : "Alternative innlogginger",
-    "You are about to grant \"%s\" access to your %s account." : "Du er i ferd med å gi \"%s\" tilgang til din %s-konto.",
     "App token" : "Program-symbol",
     "Alternative login using app token" : "Alternativ innlogging ved bruk av program-symbol",
     "Redirecting …" : "Videresender…",
@@ -338,6 +337,7 @@
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hei,<br><br>Dette er en beskjed om at %s delte <strong>%s</strong> med deg.<br><a href=\"%s\">Vis den!</a><br><br>",
     "This Nextcloud instance is currently in single user mode." : "Denne Nextcloud-instansen er for øyeblikket i enbrukermodus.",
     "This means only administrators can use the instance." : "Dette betyr at kun administratorer kan bruke instansen.",
-    "Please use the command line updater because you have a big instance." : "Oppdater ved hjelp av kommandolinjen ettersom du har en stor installasjon."
+    "Please use the command line updater because you have a big instance." : "Oppdater ved hjelp av kommandolinjen ettersom du har en stor installasjon.",
+    "You are about to grant \"%s\" access to your %s account." : "Du er i ferd med å gi \"%s\" tilgang til din %s-konto."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

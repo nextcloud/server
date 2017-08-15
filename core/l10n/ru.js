@@ -77,9 +77,9 @@ OC.L10N.register(
     "seconds ago" : "несколько секунд назад",
     "Logging in …" : "Вход в систему …",
     "The link to reset your password has been sent to your email. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Ссылка для сброса пароля была отправлена на ваш email. Если вы не получили письмо в течении разумного промежутка времени, проверьте папку со спамом.<br>Если письма там нет, то обратитесь к вашему администратору.",
-    "Your files are encrypted. There will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Ваши файлы зашифрованы. После сброса пароля ваши данные будут недоступны. .<br />Если вы не уверены что делать дальше - обратитесь к вашему администратору.<br />Вы действительно хотите продолжить?",
+    "Your files are encrypted. There will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Ваши файлы хранятся в зашифрованном виде. После сброса пароля будет невозможно получить доступ к этим данным. <br /> Если вы не уверены что делать дальше — обратитесь к вашему системному администратору. <br /> Действительно продолжить?",
     "I know what I'm doing" : "Я понимаю, что делаю",
-    "Password can not be changed. Please contact your administrator." : "Пароль не может быть изменён. Пожалуйста, свяжитесь с вашим администратором.",
+    "Password can not be changed. Please contact your administrator." : "Пароль не может быть изменён. Свяжитесь с вашим системным администратором.",
     "No" : "Нет",
     "Yes" : "Да",
     "No files in here" : "Здесь нет файлов",
@@ -104,7 +104,7 @@ OC.L10N.register(
     "So-so password" : "Так себе пароль",
     "Good password" : "Хороший пароль",
     "Strong password" : "Надёжный пароль",
-    "Your web server is not yet set up properly to allow file synchronization because the WebDAV interface seems to be broken." : "Ваш веб-сервер еще не настроен должным образом чтобы позволить синхронизацию файлов, потому что интерфейс WebDAV, кажется, испорчен.",
+    "Your web server is not yet set up properly to allow file synchronization because the WebDAV interface seems to be broken." : "Ваш веб-сервер ещё не настроен должным образом для синхронизации файлов — интерфейс WebDAV, кажется, испорчен.",
     "Your web server is not set up properly to resolve \"{url}\". Further information can be found in our <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">documentation</a>." : "Ваш веб-сервер настроен не корректно для разрешения «{url}». Дополнительная информация может быть найдена в нашей <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">документации</a>.",
     "This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. We suggest to enable Internet connection for this server if you want to have all features." : "Этот сервер не имеет подключения к Интернету: множество конечных устройств не могут быть доступны. Это означает, что некоторые из функций, таких как подключение внешнего хранилища, уведомления об обновлениях или установка сторонних приложений не будут работать. Удалённый доступ к файлам и отправка уведомлений по электронной почте также могут не работать. Рекомендуется разрешить данному серверу доступ в Интернет, если хотите, чтобы все функции работали.",
     "No memory cache has been configured. To enhance your performance please configure a memcache if available. Further information can be found in our <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">documentation</a>." : "Не настроена система кеширования. Для увеличения производительности сервера, по возможности, настройте memcache. Более подробная информация в нашей <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">документации</a>.",
@@ -271,7 +271,6 @@ OC.L10N.register(
     "Log in" : "Войти",
     "Stay logged in" : "Оставаться в системе",
     "Alternative Logins" : "Альтернативные имена пользователя",
-    "You are about to grant \"%s\" access to your %s account." : "Вы собираетесь предоставить «%s» доступ к вашему аккаунту «%s».",
     "App token" : "Токен приложения",
     "Alternative login using app token" : "Альтернативный вход с токеном приложения",
     "Redirecting …" : "Перенаправление…",
@@ -340,6 +339,7 @@ OC.L10N.register(
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Здравствуйте,<br><br>%s поделился с вами <strong>%s</strong>.<br>Перейдите по <a href=\"%s\">ссылке</a>, чтобы посмотреть<br><br>",
     "This Nextcloud instance is currently in single user mode." : "Сервер Nextcloud в настоящее время работает в однопользовательском режиме.",
     "This means only administrators can use the instance." : "Это значит, что только администраторы могут использовать сервер.",
-    "Please use the command line updater because you have a big instance." : "Пожалуйста, используйте обновление через командную строку, так как данная установка имеет большой размер."
+    "Please use the command line updater because you have a big instance." : "Пожалуйста, используйте обновление через командную строку, так как данная установка имеет большой размер.",
+    "You are about to grant \"%s\" access to your %s account." : "Вы собираетесь предоставить «%s» доступ к вашему аккаунту «%s»."
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");
