@@ -28,8 +28,7 @@
 namespace OCA\DAV\Connector\Sabre;
 
 use OCP\ILogger;
-use Sabre\DAV\Exception;
-use Sabre\HTTP\Response;
+use Sabre\DAV\Exception\ServiceUnavailable;
 
 class ExceptionLoggerPlugin extends \Sabre\DAV\ServerPlugin {
 	protected $nonFatalExceptions = [
@@ -90,7 +89,12 @@ class ExceptionLoggerPlugin extends \Sabre\DAV\ServerPlugin {
 	public function logException(\Exception $ex) {
 		$exceptionClass = get_class($ex);
 		$level = \OCP\Util::FATAL;
-		if (isset($this->nonFatalExceptions[$exceptionClass])) {
+		if (isset($this->nonFatalExceptions[$exceptionClass]) ||
+			(
+				$exceptionClass === ServiceUnavailable::class &&
+				$ex->getMessage() === 'System in maintenance mode.'
+			)
+		) {
 			$level = \OCP\Util::DEBUG;
 		}
 
