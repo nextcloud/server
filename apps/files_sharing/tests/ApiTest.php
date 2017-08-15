@@ -1209,7 +1209,7 @@ class ApiTest extends TestCase {
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 
 		$id = PHP_INT_MAX - 1;
-		\OCP\Share::shareItem('file', $id, \OCP\Share::SHARE_TYPE_LINK, self::TEST_FILES_SHARING_API_USER2, 31);
+		\OC\Share\Share::shareItem('file', $id, \OCP\Share::SHARE_TYPE_LINK, self::TEST_FILES_SHARING_API_USER2, 31);
 	}
 
 	/**
@@ -1222,7 +1222,7 @@ class ApiTest extends TestCase {
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 
-		\OCP\Share::shareItem('file', $info->getId(), \OCP\Share::SHARE_TYPE_LINK, self::TEST_FILES_SHARING_API_USER2, 31);
+		\OC\Share\Share::shareItem('file', $info->getId(), \OCP\Share::SHARE_TYPE_LINK, self::TEST_FILES_SHARING_API_USER2, 31);
 	}
 
 	public function datesProvider() {

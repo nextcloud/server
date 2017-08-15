@@ -74,9 +74,9 @@ class BackendTest extends TestCase {
 		$fileinfo2 = $this->view->getFileInfo($this->folder . $this->subfolder . $this->subsubfolder);
 		$fileinfo3 = $this->view->getFileInfo($this->folder . $this->subfolder . $this->subsubfolder . $this->filename);
 
-		$this->assertTrue(\OCP\Share::shareItem('folder', $fileinfo1['fileid'], \OCP\Share::SHARE_TYPE_USER,
+		$this->assertTrue(\OC\Share\Share::shareItem('folder', $fileinfo1['fileid'], \OCP\Share::SHARE_TYPE_USER,
 				self::TEST_FILES_SHARING_API_USER2, 31));
-		$this->assertTrue(\OCP\Share::shareItem('folder', $fileinfo2['fileid'], \OCP\Share::SHARE_TYPE_USER,
+		$this->assertTrue(\OC\Share\Share::shareItem('folder', $fileinfo2['fileid'], \OCP\Share::SHARE_TYPE_USER,
 				self::TEST_FILES_SHARING_API_USER3, 31));
 
 		$backend = new \OCA\Files_Sharing\ShareBackend\Folder();

@@ -181,25 +181,6 @@ class Share extends \OC\Share\Constants {
 	}
 
 	/**
-	 * Share an item with a user, group, or via private link
-	 * @param string $itemType
-	 * @param string $itemSource
-	 * @param int $shareType SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_LINK
-	 * @param string $shareWith User or group the item is being shared with
-	 * @param int $permissions CRUDS
-	 * @param string $itemSourceName
-	 * @param \DateTime|null $expirationDate
-	 * @param bool|null $passwordChanged
-	 * @return bool|string Returns true on success or false on failure, Returns token on success for links
-	 * @throws \OC\HintException when the share type is remote and the shareWith is invalid
-	 * @throws \Exception
-	 * @since 5.0.0 - parameter $itemSourceName was added in 6.0.0, parameter $expirationDate was added in 7.0.0, parameter $passwordChanged added in 9.0.0
-	 */
-	public static function shareItem($itemType, $itemSource, $shareType, $shareWith, $permissions, $itemSourceName = null, \DateTime $expirationDate = null, $passwordChanged = null) {
-		return \OC\Share\Share::shareItem($itemType, $itemSource, $shareType, $shareWith, $permissions, $itemSourceName, $expirationDate, $passwordChanged);
-	}
-
-	/**
 	 * Unshare an item from a user, group, or delete a private link
 	 * @param string $itemType
 	 * @param string $itemSource

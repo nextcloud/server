@@ -138,7 +138,7 @@ class ExpireSharesJobTest extends \Test\TestCase {
 		$fileInfo = $view->getFileInfo('files/test');
 
 		$this->assertNotNull(
-			\OCP\Share::shareItem('folder', $fileInfo->getId(), \OCP\Share::SHARE_TYPE_LINK, null, \OCP\Constants::PERMISSION_READ),
+			\OC\Share\Share::shareItem('folder', $fileInfo->getId(), \OCP\Share::SHARE_TYPE_LINK, null, \OCP\Constants::PERMISSION_READ),
 			'Failed asserting that user 1 successfully shared "test" by link.'
 		);
 
@@ -192,7 +192,7 @@ class ExpireSharesJobTest extends \Test\TestCase {
 		$fileInfo = $view->getFileInfo('files/test');
 
 		$this->assertNotNull(
-			\OCP\Share::shareItem('folder', $fileInfo->getId(), \OCP\Share::SHARE_TYPE_USER, $this->user2, \OCP\Constants::PERMISSION_READ),
+			\OC\Share\Share::shareItem('folder', $fileInfo->getId(), \OCP\Share::SHARE_TYPE_USER, $this->user2, \OCP\Constants::PERMISSION_READ),
 			'Failed asserting that user 1 successfully shared "test" by link with user2.'
 		);
 
