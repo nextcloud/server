@@ -271,7 +271,6 @@ OC.L10N.register(
     "Log in" : "ログイン",
     "Stay logged in" : "ログインしたままにする",
     "Alternative Logins" : "代替ログイン",
-    "You are about to grant \"%s\" access to your %s account." : "%s アカウントで \"%s\" での接続を許可",
     "App token" : "アプリのトークン",
     "Alternative login using app token" : "アプリトークンを使って代替ログイン",
     "Redirecting …" : "転送中...",
@@ -340,6 +339,7 @@ OC.L10N.register(
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "こんにちは、<br><br>%sがあなたと »%s« を共有したことをお知らせします。<br><a href=\"%s\">それを表示</a><br><br>",
     "This Nextcloud instance is currently in single user mode." : "このNextcloudインスタンスは、現在シングルユーザーモードです。",
     "This means only administrators can use the instance." : "これは、管理者のみがインスタンスを利用できることを意味しています。",
-    "Please use the command line updater because you have a big instance." : "データ量が大きいため、コマンドラインでの更新を利用してください。"
+    "Please use the command line updater because you have a big instance." : "データ量が大きいため、コマンドラインでの更新を利用してください。",
+    "You are about to grant \"%s\" access to your %s account." : "%s アカウントで \"%s\" での接続を許可"
 },
 "nplurals=1; plural=0;");

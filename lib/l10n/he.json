@@ -30,6 +30,7 @@
     "App \"%s\" cannot be installed because appinfo file cannot be read." : "יישום \"%s\" לא ניתן להתקנה כיוון שקובץ appinfo לא ניתן לקריאה.",
     "Help" : "עזרה",
     "Apps" : "יישומים",
+    "Log out" : "התנתק",
     "Users" : "משתמשים",
     "Sharing" : "שיתוף",
     "Tips & tricks" : "טיפים וטריקים",

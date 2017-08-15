@@ -271,7 +271,6 @@ OC.L10N.register(
     "Log in" : "Log ind",
     "Stay logged in" : "Forbliv logget ind",
     "Alternative Logins" : "Alternative logins",
-    "You are about to grant \"%s\" access to your %s account." : "Du er ved at tildele \"%s\" adgang til din %s konto.",
     "App token" : "App token",
     "Alternative login using app token" : "Alternativ login ved brug af \"app token\"",
     "Redirecting …" : "Viderstiller",
@@ -340,6 +339,7 @@ OC.L10N.register(
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hej med dig,<br><br>Dette er blot for at informere dig om, at %s har delt <strong>%s</strong> med dig.<br><a href=\"%s\">Se det her!</a><br><br>",
     "This Nextcloud instance is currently in single user mode." : "Denne Nextcloud instans er lige nu i enkeltbruger tilstand.",
     "This means only administrators can use the instance." : "Det betyder at det kun er administrator, som kan benytte ownCloud.",
-    "Please use the command line updater because you have a big instance." : "Brug venligst kommandolinje til at opdatere fordi du har en stor installation"
+    "Please use the command line updater because you have a big instance." : "Brug venligst kommandolinje til at opdatere fordi du har en stor installation",
+    "You are about to grant \"%s\" access to your %s account." : "Du er ved at tildele \"%s\" adgang til din %s konto."
 },
 "nplurals=2; plural=(n != 1);");

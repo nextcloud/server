@@ -271,7 +271,6 @@ OC.L10N.register(
     "Log in" : "Είσοδος",
     "Stay logged in" : "Μείνετε συνδεδεμένος",
     "Alternative Logins" : "Εναλλακτικές είσοδοι",
-    "You are about to grant \"%s\" access to your %s account." : "Πρόκειται να δώσετε δικαίωμα πρόσβασης%sστον%sλογαριασμό.",
     "App token" : "Διακριτικό εφαρμογής",
     "Alternative login using app token" : "Εναλλακτική είσοδος με την χρήση του διακριτικού της εφαρμογής",
     "Redirecting …" : "Γίνεται ανακατεύθυνση ...",
@@ -340,6 +339,7 @@ OC.L10N.register(
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Γεια χαρά,<br><br>απλά σας ενημερώνω πως ο %s μοιράστηκε το<strong>%s</strong> με εσάς.<br><a href=\"%s\">Δείτε το!</a><br><br>",
     "This Nextcloud instance is currently in single user mode." : "Αυτή η εγκατάσταση Nextcloud είναι τώρα σε κατάσταση ενός χρήστη.",
     "This means only administrators can use the instance." : "Αυτό σημαίνει ότι μόνο οι διαχειριστές μπορούν να χρησιμοποιήσουν την εγκατάσταση.",
-    "Please use the command line updater because you have a big instance." : "Παρακαλούμε χρησιμοποιήστε την ενημέρωση μέσω γραμμής εντολών διότι έχετε μεγάλη εγκατάσταση."
+    "Please use the command line updater because you have a big instance." : "Παρακαλούμε χρησιμοποιήστε την ενημέρωση μέσω γραμμής εντολών διότι έχετε μεγάλη εγκατάσταση.",
+    "You are about to grant \"%s\" access to your %s account." : "Πρόκειται να δώσετε δικαίωμα πρόσβασης%sστον%sλογαριασμό."
 },
 "nplurals=2; plural=(n != 1);");

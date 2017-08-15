@@ -271,7 +271,6 @@ OC.L10N.register(
     "Log in" : "Hyni",
     "Stay logged in" : "Qëndro i futur",
     "Alternative Logins" : "Hyrje Alternative",
-    "You are about to grant \"%s\" access to your %s account." : "Ju jeni duke kërkuar \"%s\" akses për %s llogaritë tuaja.",
     "App token" : "Çelës identifikues i API-t",
     "Alternative login using app token" : "Hyrje alternative duke perdorur çelësin identifikues  të API-t",
     "Redirecting …" : "Duke ju lidhur...",
@@ -340,6 +339,7 @@ OC.L10N.register(
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Njatjeta,<br><br>thjesht po ju bëjmë të ditur që %s ndau me ju <strong>%s</strong>.<br><a href=\"%s\">Shiheni!</a><br><br>",
     "This Nextcloud instance is currently in single user mode." : "Kjo instancë Nextcloud është aktualisht në gjendje me përdorues të vetëm.",
     "This means only administrators can use the instance." : "Kjo do të thotë që instancën mund ta përdorin vetëm administratorët.",
-    "Please use the command line updater because you have a big instance." : "Ju lutemi, përdorni përditësuesin e rreshtit të urdhrave, sepse keni një instalim të madh."
+    "Please use the command line updater because you have a big instance." : "Ju lutemi, përdorni përditësuesin e rreshtit të urdhrave, sepse keni një instalim të madh.",
+    "You are about to grant \"%s\" access to your %s account." : "Ju jeni duke kërkuar \"%s\" akses për %s llogaritë tuaja."
 },
 "nplurals=2; plural=(n != 1);");
