@@ -501,7 +501,7 @@ class ShareTest extends \Test\TestCase {
 	 */
 	public function testCheckPasswordProtectedShare($expected, $item) {
 		\OC::$server->getSession()->set('public_link_authenticated', '100');
-		$result = \OCP\Share::checkPasswordProtectedShare($item);
+		$result = \OC\Share\Share::checkPasswordProtectedShare($item);
 		$this->assertEquals($expected, $result);
 	}
 

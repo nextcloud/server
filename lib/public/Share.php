@@ -235,15 +235,4 @@ class Share extends \OC\Share\Constants {
 	public static function getBackend($itemType) {
 		return \OC\Share\Share::getBackend($itemType);
 	}
-
-	/**
-	 * In case a password protected link is not yet authenticated this function will return false
-	 *
-	 * @param array $linkItem
-	 * @return bool
-	 * @since 7.0.0
-	 */
-	public static function checkPasswordProtectedShare(array $linkItem) {
-		return \OC\Share\Share::checkPasswordProtectedShare($linkItem);
-	}
 }
