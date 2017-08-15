@@ -164,10 +164,10 @@ class ShareTest extends \Test\TestCase {
 		$result = \OCP\Share::getItemShared('folder', $fileId, Backend::FORMAT_SOURCE);
 		$this->assertNotEmpty($result);
 
-		$result = \OCP\Share::getItemSharedWithUser('folder', $fileId, $this->user2->getUID());
+		$result = \OC\Share\Share::getItemSharedWithUser('folder', $fileId, $this->user2->getUID());
 		$this->assertNotEmpty($result);
 
-		$result = \OCP\Share::getItemsSharedWithUser('folder', $this->user2->getUID());
+		$result = \OC\Share\Share::getItemsSharedWithUser('folder', $this->user2->getUID());
 		$this->assertNotEmpty($result);
 
 		// move to trash (keeps file id)
@@ -176,10 +176,10 @@ class ShareTest extends \Test\TestCase {
 		$result = \OCP\Share::getItemShared('folder', $fileId, Backend::FORMAT_SOURCE);
 		$this->assertEmpty($result, 'Share must not be returned for files outside of "files"');
 
-		$result = \OCP\Share::getItemSharedWithUser('folder', $fileId, $this->user2->getUID());
+		$result = \OC\Share\Share::getItemSharedWithUser('folder', $fileId, $this->user2->getUID());
 		$this->assertEmpty($result, 'Share must not be returned for files outside of "files"');
 
-		$result = \OCP\Share::getItemsSharedWithUser('folder', $this->user2->getUID());
+		$result = \OC\Share\Share::getItemsSharedWithUser('folder', $this->user2->getUID());
 		$this->assertEmpty($result, 'Share must not be returned for files outside of "files"');
 	}
 
@@ -242,7 +242,7 @@ class ShareTest extends \Test\TestCase {
 			'Failed asserting that user 1 successfully shared "test/sub1/file.txt" with user 2.'
 		);
 
-		$result = \OCP\Share::getItemsSharedWithUser('file', $this->user2->getUID());
+		$result = \OC\Share\Share::getItemsSharedWithUser('file', $this->user2->getUID());
 		$this->assertCount(2, $result);
 
 		foreach ($result as $share) {
@@ -270,7 +270,7 @@ class ShareTest extends \Test\TestCase {
 
 		foreach($targetUsers as $targetUser) {
 			\OC_User::setUserId($targetUser);
-			$items = \OCP\Share::getItemsSharedWithUser(
+			$items = \OC\Share\Share::getItemsSharedWithUser(
 				'test',
 				$targetUser,
 				Backend::FORMAT_TARGET
@@ -279,7 +279,7 @@ class ShareTest extends \Test\TestCase {
 		}
 
 		\OC_User::setUserId($this->user5->getUID());
-		\OCP\Share::unshare(
+		\OC\Share\Share::unshare(
 			'test',
 			'test.txt',
 			\OCP\Share::SHARE_TYPE_GROUP,
@@ -289,7 +289,7 @@ class ShareTest extends \Test\TestCase {
 		// verify that all were deleted
 		foreach($targetUsers as $targetUser) {
 			\OC_User::setUserId($targetUser);
-			$items = \OCP\Share::getItemsSharedWithUser(
+			$items = \OC\Share\Share::getItemsSharedWithUser(
 				'test',
 				$targetUser,
 				Backend::FORMAT_TARGET
@@ -403,7 +403,7 @@ class ShareTest extends \Test\TestCase {
 	public function testGetShareSubItemsWhenUserNotInGroup() {
 		\OC\Share\Share::shareItem('test', 'test.txt', \OCP\Share::SHARE_TYPE_GROUP, $this->group1->getGID(), \OCP\Constants::PERMISSION_READ);
 
-		$result = \OCP\Share::getItemsSharedWithUser('test', $this->user2->getUID());
+		$result = \OC\Share\Share::getItemsSharedWithUser('test', $this->user2->getUID());
 		$this->assertCount(1, $result);
 
 		$groupShareId = array_keys($result)[0];
@@ -412,7 +412,7 @@ class ShareTest extends \Test\TestCase {
 		$userObject = \OC::$server->getUserManager()->get($this->user2->getUID());
 		\OC::$server->getGroupManager()->get($this->group1->getGID())->removeUser($userObject);
 
-		$result = \OCP\Share::getItemsSharedWithUser('test', $this->user2->getUID());
+		$result = \OC\Share\Share::getItemsSharedWithUser('test', $this->user2->getUID());
 		$this->assertCount(0, $result);
 
 		// test with buggy data
@@ -431,7 +431,7 @@ class ShareTest extends \Test\TestCase {
 				'stime' => $qb->expr()->literal(time()),
 			])->execute();
 
-		$result = \OCP\Share::getItemsSharedWithUser('test', $this->user2->getUID());
+		$result = \OC\Share\Share::getItemsSharedWithUser('test', $this->user2->getUID());
 		$this->assertCount(0, $result);
 
 		$qb->delete('share')->execute();
@@ -585,7 +585,7 @@ class ShareTest extends \Test\TestCase {
 			->with($this->stringStartsWith('http://' . $urlHost . '/ocs/v2.php/cloud/shares/' . $share['id'] . '/unshare'), $this->anything())
 			->willReturn(['success' => true, 'result' => json_encode(['ocs' => ['meta' => ['statuscode' => 100]]])]);
 
-		\OCP\Share::unshare('test', 'test.txt', \OCP\Share::SHARE_TYPE_REMOTE, $shareWith);
+		\OC\Share\Share::unshare('test', 'test.txt', \OCP\Share::SHARE_TYPE_REMOTE, $shareWith);
 		$this->restoreService('HTTPHelper');
 	}
 
@@ -697,7 +697,7 @@ class ShareTest extends \Test\TestCase {
 			->with($this->stringStartsWith('https://localhost/ocs/v2.php/cloud/shares/' . $share['id'] . '/unshare'), $this->anything())
 			->willReturn(['success' => true, 'result' => json_encode(['ocs' => ['meta' => ['statuscode' => 100]]])]);
 
-		\OCP\Share::unshare('test', 'test.txt', \OCP\Share::SHARE_TYPE_REMOTE, 'foo@localhost');
+		\OC\Share\Share::unshare('test', 'test.txt', \OCP\Share::SHARE_TYPE_REMOTE, 'foo@localhost');
 		$this->restoreService('HTTPHelper');
 	}
 
