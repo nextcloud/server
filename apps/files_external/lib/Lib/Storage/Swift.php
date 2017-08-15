@@ -75,11 +75,6 @@ class Swift extends \OC\Files\Storage\Common {
 	private $id;
 
 	/**
-	 * @var array
-	 */
-	private static $tmpFiles = array();
-
-	/**
 	 * Key value cache mapping path to data object. Maps path to
 	 * \OpenCloud\OpenStack\ObjectStorage\Resource\DataObject for existing
 	 * paths and path to false for not existing paths.
@@ -617,7 +612,7 @@ class Swift extends \OC\Files\Storage\Common {
 		$fileData = fopen($tmpFile, 'r');
 		$this->getContainer()->uploadObject($path, $fileData);
 		// invalidate target object to force repopulation on fetch
-		$this->objectCache->remove(self::$tmpFiles[$tmpFile]);
+		$this->objectCache->remove($path);
 		unlink($tmpFile);
 	}
 
