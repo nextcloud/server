@@ -223,7 +223,7 @@ class JSConfigHelper {
 					'enforcePasswordForPublicLink' => \OCP\Util::isPublicLinkPasswordRequired(),
 					'enableLinkPasswordByDefault' => $enableLinkPasswordByDefault,
 					'sharingDisabledForUser' => \OCP\Util::isSharingDisabledForUser(),
-					'resharingAllowed' => \OCP\Share::isResharingAllowed(),
+					'resharingAllowed' => \OC\Share\Share::isResharingAllowed(),
 					'remoteShareAllowed' => $outgoingServer2serverShareEnabled,
 					'federatedCloudShareDoc' => $this->urlGenerator->linkToDocs('user-sharing-federated'),
 					'allowGroupSharing' => \OC::$server->getShareManager()->allowGroupSharing()
