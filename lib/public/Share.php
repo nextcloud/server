@@ -53,19 +53,6 @@ namespace OCP;
 class Share extends \OC\Share\Constants {
 
 	/**
-	 * Register a sharing backend class that implements OCP\Share_Backend for an item type
-	 * @param string $itemType Item type
-	 * @param string $class Backend class
-	 * @param string $collectionOf (optional) Depends on item type
-	 * @param array $supportedFileExtensions (optional) List of supported file extensions if this item type depends on files
-	 * @return boolean true if backend is registered or false if error
-	 * @since 5.0.0
-	 */
-	public static function registerBackend($itemType, $class, $collectionOf = null, $supportedFileExtensions = null) {
-		return \OC\Share\Share::registerBackend($itemType, $class, $collectionOf, $supportedFileExtensions);
-	}
-
-	/**
 	 * Get the items of item type shared with the current user
 	 * @param string $itemType
 	 * @param int $format (optional) Format type must be defined by the backend
