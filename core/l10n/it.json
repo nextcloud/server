@@ -269,6 +269,8 @@
     "Log in" : "Accedi",
     "Stay logged in" : "Rimani collegato",
     "Alternative Logins" : "Accessi alternativi",
+    "Account access" : "Accesso account",
+    "You are about to grant %s access to your %s account." : "Stai per accordare a \"%s\" l'accesso al tuo account %s.",
     "App token" : "Token applicazione",
     "Alternative login using app token" : "Accesso alternativo utilizzando il token dell'applicazione",
     "Redirecting …" : "Redirezione in corso...",
