@@ -271,6 +271,8 @@ OC.L10N.register(
     "Log in" : "Log in",
     "Stay logged in" : "Stay logged in",
     "Alternative Logins" : "Alternative Logins",
+    "Account access" : "Account access",
+    "You are about to grant %s access to your %s account." : "You are about to grant %s access to your %s account.",
     "App token" : "App token",
     "Alternative login using app token" : "Alternative login using app token",
     "Redirecting …" : "Redirecting …",
