@@ -271,6 +271,8 @@ OC.L10N.register(
     "Log in" : "Oturum Aç",
     "Stay logged in" : "Bağlı kal",
     "Alternative Logins" : "Alternatif Oturum Açmalar",
+    "Account access" : "Hesap erişimi",
+    "You are about to grant %s access to your %s account." : "%s erişim iznini %s hesabınız için vermek üzeresiniz.",
     "App token" : "Uygulama Kodu",
     "Alternative login using app token" : "Uygulama kodu ile alternatif oturum açma",
     "Redirecting …" : "Yönlendiriliyor...",
