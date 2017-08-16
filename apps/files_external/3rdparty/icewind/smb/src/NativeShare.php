@@ -174,7 +174,7 @@ class NativeShare extends AbstractShare {
 		$sourceHandle = fopen($source, 'rb');
 		$targetHandle = $this->state->create($this->buildUrl($target));
 
-		while ($data = fread($sourceHandle, 4096)) {
+		while ($data = fread($sourceHandle, NativeReadStream::CHUNK_SIZE)) {
 			$this->state->write($targetHandle, $data);
 		}
 		$this->state->close($targetHandle);
@@ -214,7 +214,7 @@ class NativeShare extends AbstractShare {
 			throw new InvalidResourceException('Failed opening remote file "' . $source . '" for reading');
 		}
 
-		while ($data = $this->state->read($sourceHandle, 4096)) {
+		while ($data = $this->state->read($sourceHandle, NativeReadStream::CHUNK_SIZE)) {
 			fwrite($targetHandle, $data);
 		}
 		$this->state->close($sourceHandle);
@@ -233,7 +233,7 @@ class NativeShare extends AbstractShare {
 	public function read($source) {
 		$url = $this->buildUrl($source);
 		$handle = $this->state->open($url, 'r');
-		return NativeStream::wrap($this->state, $handle, 'r', $url);
+		return NativeReadStream::wrap($this->state, $handle, 'r', $url);
 	}
 
 	/**
@@ -248,7 +248,7 @@ class NativeShare extends AbstractShare {
 	public function write($source) {
 		$url = $this->buildUrl($source);
 		$handle = $this->state->create($url);
-		return NativeStream::wrap($this->state, $handle, 'w', $url);
+		return NativeWriteStream::wrap($this->state, $handle, 'w', $url);
 	}
 
 	/**
