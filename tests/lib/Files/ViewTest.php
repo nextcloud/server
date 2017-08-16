@@ -1672,7 +1672,7 @@ class ViewTest extends \Test\TestCase {
 		$this->assertFalse($view->rename('mount1', 'shareddir/sub'), 'Cannot move mount point into shared folder');
 		$this->assertFalse($view->rename('mount1', 'shareddir/sub/sub2'), 'Cannot move mount point into shared subfolder');
 
-		$this->assertTrue(Share::unshare('folder', $fileId, Share::SHARE_TYPE_USER, 'test2'));
+		$this->assertTrue(\OC\Share\Share::unshare('folder', $fileId, Share::SHARE_TYPE_USER, 'test2'));
 		$userObject->delete();
 	}
 

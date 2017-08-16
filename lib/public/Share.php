@@ -53,39 +53,6 @@ namespace OCP;
 class Share extends \OC\Share\Constants {
 
 	/**
-	 * Get the items of item type shared with the current user
-	 * @param string $itemType
-	 * @param int $format (optional) Format type must be defined by the backend
-	 * @param mixed $parameters (optional)
-	 * @param int $limit Number of items to return (optional) Returns all by default
-	 * @param bool $includeCollections (optional)
-	 * @return mixed Return depends on format
-	 * @since 5.0.0
-	 */
-	public static function getItemsSharedWith($itemType, $format = self::FORMAT_NONE,
-		$parameters = null, $limit = -1, $includeCollections = false) {
-
-		return \OC\Share\Share::getItemsSharedWith($itemType, $format, $parameters, $limit, $includeCollections);
-	}
-
-	/**
-	 * Get the items of item type shared with a user
-	 * @param string $itemType
-	 * @param string $user for which user we want the shares
-	 * @param int $format (optional) Format type must be defined by the backend
-	 * @param mixed $parameters (optional)
-	 * @param int $limit Number of items to return (optional) Returns all by default
-	 * @param bool $includeCollections (optional)
-	 * @return mixed Return depends on format
-	 * @since 7.0.0
-	 */
-	public static function getItemsSharedWithUser($itemType, $user, $format = self::FORMAT_NONE,
-		$parameters = null, $limit = -1, $includeCollections = false) {
-
-		return \OC\Share\Share::getItemsSharedWithUser($itemType, $user, $format, $parameters, $limit, $includeCollections);
-	}
-
-	/**
 	 * Get the item of item type shared with a given user by source
 	 * @param string $itemType
 	 * @param string $itemSource
@@ -168,20 +135,6 @@ class Share extends \OC\Share\Constants {
 	}
 
 	/**
-	 * Unshare an item from a user, group, or delete a private link
-	 * @param string $itemType
-	 * @param string $itemSource
-	 * @param int $shareType SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_LINK
-	 * @param string $shareWith User or group the item is being shared with
-	 * @param string $owner owner of the share, if null the current user is used
-	 * @return boolean true on success or false on failure
-	 * @since 5.0.0 - parameter $owner was added in 8.0.0
-	 */
-	public static function unshare($itemType, $itemSource, $shareType, $shareWith, $owner = null) {
-		return \OC\Share\Share::unshare($itemType, $itemSource, $shareType, $shareWith, $owner);
-	}
-
-	/**
 	 * sent status if users got informed by mail about share
 	 * @param string $itemType
 	 * @param string $itemSource
@@ -192,15 +145,5 @@ class Share extends \OC\Share\Constants {
 	 */
 	public static function setSendMailStatus($itemType, $itemSource, $shareType, $recipient, $status) {
 		return \OC\Share\Share::setSendMailStatus($itemType, $itemSource, $shareType, $recipient, $status);
-	}
-
-	/**
-	 * Get the backend class for the specified item type
-	 * @param string $itemType
-	 * @return Share_Backend
-	 * @since 5.0.0
-	 */
-	public static function getBackend($itemType) {
-		return \OC\Share\Share::getBackend($itemType);
 	}
 }
