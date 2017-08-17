@@ -1,18 +1,15 @@
 OC.L10N.register(
     "files_external",
     {
-    "Fetching request tokens failed. Verify that your app key and secret are correct." : "Abrufen des Anfrage-Tokens fehlgeschlagen. Stellen Sie sicher, dass der Anwendungsschlüssel und Sicherheitsschlüssel korrekt sind.",
-    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Abrufen des Zugriff-Tokens fehlgeschlagen. Stellen Sie sicher, dass der Anwendungsschlüssel und Sicherheitsschlüssel korrekt sind.",
-    "Please provide a valid app key and secret." : "Bitte tragen Sie einen gültigen App-Key mit Secret ein.",
     "Step 1 failed. Exception: %s" : "Schritt 1 fehlgeschlagen. Fehlermeldung: %s",
     "Step 2 failed. Exception: %s" : "Schritt 2 fehlgeschlagen. Fehlermeldung: %s",
     "External storages" : "Externer Speicher",
-    "Dropbox App Configuration" : "Dropbox-App Konfiguration",
     "Google Drive App Configuration" : "Google Drive - App Konfiguration",
     "Personal" : "Persönlich",
     "System" : "System",
     "Grant access" : "Zugriff gestatten",
     "Error configuring OAuth1" : "Fehler beim Konfigurieren von OAuth1",
+    "Please provide a valid app key and secret." : "Bitte tragen Sie einen gültigen App-Key mit Secret ein.",
     "Error configuring OAuth2" : "Fehler beim Konfigurieren von OAuth2",
     "Generate keys" : "Schlüssel erzeugen",
     "Error generating key pair" : "Fehler beim Erzeugen des Schlüsselpaares",
@@ -83,7 +80,6 @@ OC.L10N.register(
     "URL" : "Adresse",
     "Remote subfolder" : "Entfernter Unterordner",
     "Secure https://" : "Sicheres https://",
-    "Dropbox" : "Dropbox",
     "FTP" : "FTP",
     "Host" : "Host",
     "Secure ftps://" : "Sicheres ftps://",
@@ -126,7 +122,11 @@ OC.L10N.register(
     "Delete" : "Löschen",
     "Allow users to mount external storage" : "Erlauben Sie den Benutzern externen Speicher hinzuzufügen",
     "Allow users to mount the following external storage" : "Benutzern erlauben, den oder die folgenden externen Speicher einzubinden:",
+    "Fetching request tokens failed. Verify that your app key and secret are correct." : "Abrufen des Anfrage-Tokens fehlgeschlagen. Stellen Sie sicher, dass der Anwendungsschlüssel und Sicherheitsschlüssel korrekt sind.",
+    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Abrufen des Zugriff-Tokens fehlgeschlagen. Stellen Sie sicher, dass der Anwendungsschlüssel und Sicherheitsschlüssel korrekt sind.",
+    "Dropbox App Configuration" : "Dropbox-App Konfiguration",
     "Storage with id \"%i\" not found" : "Der Speicher mit der ID „%i“ wurde nicht gefunden",
-    "Storage with id \"%i\" is not user editable" : "Der Speicher mit der ID „%i“ ist nicht bearbeitbar durch Benutzer"
+    "Storage with id \"%i\" is not user editable" : "Der Speicher mit der ID „%i“ ist nicht bearbeitbar durch Benutzer",
+    "Dropbox" : "Dropbox"
 },
 "nplurals=2; plural=(n != 1);");

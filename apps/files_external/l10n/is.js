@@ -1,18 +1,15 @@
 OC.L10N.register(
     "files_external",
     {
-    "Fetching request tokens failed. Verify that your app key and secret are correct." : "Mistókst að ná í beiðniteikn (request token). Gakktu úr skugga um að forritslykill og leynilykill séu réttir.",
-    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Mistókst að ná í aðgangsteikn (access token). Gakktu úr skugga um að forritslykill og leynilykill séu réttir.",
-    "Please provide a valid app key and secret." : "Settu inn gildan forritslykil og leynilykil (secret).",
     "Step 1 failed. Exception: %s" : "Skref 1 mistókst. Undantekning: %s",
     "Step 2 failed. Exception: %s" : "Skref 2 mistókst. Undantekning: %s",
     "External storages" : "Utanáliggjandi gagnageymslur",
-    "Dropbox App Configuration" : "Uppsetning Dropbox forrits",
     "Google Drive App Configuration" : "Uppsetning Google Drive forrits",
     "Personal" : "Einka",
     "System" : "Kerfi",
     "Grant access" : "Veita aðgengi",
     "Error configuring OAuth1" : "Villa við uppsetningu OAuth1",
+    "Please provide a valid app key and secret." : "Settu inn gildan forritslykil og leynilykil (secret).",
     "Error configuring OAuth2" : "Villa við uppsetningu OAuth2",
     "Generate keys" : "Útbúa lykla",
     "Error generating key pair" : "Villa við að útbúa nýtt lyklapar",
@@ -83,7 +80,6 @@ OC.L10N.register(
     "URL" : "Slóð (URL)",
     "Remote subfolder" : "Fjartengd undirmappa",
     "Secure https://" : "Öruggt https://",
-    "Dropbox" : "Dropbox",
     "FTP" : "FTP",
     "Host" : "Netþjónn",
     "Secure ftps://" : "Öruggt ftps://",
@@ -126,7 +122,11 @@ OC.L10N.register(
     "Delete" : "Eyða",
     "Allow users to mount external storage" : "Leyfa notendum að tengja ytri gagnageymslur í skráakerfi",
     "Allow users to mount the following external storage" : "Leyfa notendum að tengja eftirfarandi ytri gagnageymslu í skráakerfi",
+    "Fetching request tokens failed. Verify that your app key and secret are correct." : "Mistókst að ná í beiðniteikn (request token). Gakktu úr skugga um að forritslykill og leynilykill séu réttir.",
+    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Mistókst að ná í aðgangsteikn (access token). Gakktu úr skugga um að forritslykill og leynilykill séu réttir.",
+    "Dropbox App Configuration" : "Uppsetning Dropbox forrits",
     "Storage with id \"%i\" not found" : "Geymsla með auðkennið '%i' fannst ekki",
-    "Storage with id \"%i\" is not user editable" : "Geymslan með auðkennið '%s' er ekki breytanleg af notanda"
+    "Storage with id \"%i\" is not user editable" : "Geymslan með auðkennið '%s' er ekki breytanleg af notanda",
+    "Dropbox" : "Dropbox"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

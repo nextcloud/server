@@ -1,9 +1,6 @@
 OC.L10N.register(
     "files_external",
     {
-    "Fetching request tokens failed. Verify that your app key and secret are correct." : "Tokener til anmodning om hentning mislykkedes. Verificér at dine app-nøgle og -hemmelighed er korrekte.",
-    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Tokener for adgang til hentning fejlede. Verificér at dine app-nøgle og -hemmelighed er korrekte.",
-    "Please provide a valid app key and secret." : "Angiv venligst gyldig app-nøgle og -hemmelighed.",
     "Step 1 failed. Exception: %s" : "Trin 1 mislykkedes. Undtagelse: %s",
     "Step 2 failed. Exception: %s" : "Trin 2 mislykkedes. Undtagelse: %s",
     "External storages" : "Eksternt lager",
@@ -11,6 +8,7 @@ OC.L10N.register(
     "System" : "System",
     "Grant access" : "Godkend adgang",
     "Error configuring OAuth1" : "Fejl under konfiguration af OAuth1",
+    "Please provide a valid app key and secret." : "Angiv venligst gyldig app-nøgle og -hemmelighed.",
     "Error configuring OAuth2" : "Fejl under konfiguration af OAuth2",
     "Generate keys" : "Opret nøgler.",
     "Error generating key pair" : "Fejl under oprettelse af nøglepar",
@@ -64,7 +62,6 @@ OC.L10N.register(
     "URL" : "URL",
     "Remote subfolder" : "Fjernundermappe",
     "Secure https://" : "Sikker https://",
-    "Dropbox" : "Dropbox",
     "FTP" : "FTP",
     "Host" : "Vært",
     "Secure ftps://" : "Sikker ftps://",
@@ -103,7 +100,10 @@ OC.L10N.register(
     "Advanced settings" : "Avancerede indstillinger",
     "Delete" : "Slet",
     "Allow users to mount the following external storage" : "Tillad brugere at montere følgende som eksternt lager",
+    "Fetching request tokens failed. Verify that your app key and secret are correct." : "Tokener til anmodning om hentning mislykkedes. Verificér at dine app-nøgle og -hemmelighed er korrekte.",
+    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Tokener for adgang til hentning fejlede. Verificér at dine app-nøgle og -hemmelighed er korrekte.",
     "Storage with id \"%i\" not found" : "Lager med ID'et \"%i% er ikke fundet",
-    "Storage with id \"%i\" is not user editable" : "Lageret med id \"%i\" kan ikke redigeres af bruger"
+    "Storage with id \"%i\" is not user editable" : "Lageret med id \"%i\" kan ikke redigeres af bruger",
+    "Dropbox" : "Dropbox"
 },
 "nplurals=2; plural=(n != 1);");

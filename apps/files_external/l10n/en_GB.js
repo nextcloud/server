@@ -1,18 +1,15 @@
 OC.L10N.register(
     "files_external",
     {
-    "Fetching request tokens failed. Verify that your app key and secret are correct." : "Fetching request tokens failed. Verify that your app key and secret are correct.",
-    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Fetching access tokens failed. Verify that your app key and secret are correct.",
-    "Please provide a valid app key and secret." : "Please provide a valid app key and secret.",
     "Step 1 failed. Exception: %s" : "Step 1 failed. Exception: %s",
     "Step 2 failed. Exception: %s" : "Step 2 failed. Exception: %s",
     "External storages" : "External storages",
-    "Dropbox App Configuration" : "Dropbox App Configuration",
     "Google Drive App Configuration" : "Google Drive App Configuration",
     "Personal" : "Personal",
     "System" : "System",
     "Grant access" : "Grant access",
     "Error configuring OAuth1" : "Error configuring OAuth1",
+    "Please provide a valid app key and secret." : "Please provide a valid app key and secret.",
     "Error configuring OAuth2" : "Error configuring OAuth2",
     "Generate keys" : "Generate keys",
     "Error generating key pair" : "Error generating key pair",
@@ -83,7 +80,6 @@ OC.L10N.register(
     "URL" : "URL",
     "Remote subfolder" : "Remote subfolder",
     "Secure https://" : "Secure https://",
-    "Dropbox" : "Dropbox",
     "FTP" : "FTP",
     "Host" : "Host",
     "Secure ftps://" : "Secure ftps://",
@@ -126,7 +122,11 @@ OC.L10N.register(
     "Delete" : "Delete",
     "Allow users to mount external storage" : "Allow users to mount external storage",
     "Allow users to mount the following external storage" : "Allow users to mount the following external storage",
+    "Fetching request tokens failed. Verify that your app key and secret are correct." : "Fetching request tokens failed. Verify that your app key and secret are correct.",
+    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Fetching access tokens failed. Verify that your app key and secret are correct.",
+    "Dropbox App Configuration" : "Dropbox App Configuration",
     "Storage with id \"%i\" not found" : "Storage with id \"%i\" not found",
-    "Storage with id \"%i\" is not user editable" : "Storage with id \"%i\" is not user editable"
+    "Storage with id \"%i\" is not user editable" : "Storage with id \"%i\" is not user editable",
+    "Dropbox" : "Dropbox"
 },
 "nplurals=2; plural=(n != 1);");

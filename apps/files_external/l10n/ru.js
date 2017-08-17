@@ -1,18 +1,15 @@
 OC.L10N.register(
     "files_external",
     {
-    "Fetching request tokens failed. Verify that your app key and secret are correct." : "Ошибка получения токенов запроса. Проверьте корректность ключа и секрета приложения.",
-    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Ошибка получения токенов доступа. Проверьте корректность ключа и секрета приложения.",
-    "Please provide a valid app key and secret." : "Пожалуйста укажите корректные ключ и секрет приложения.",
     "Step 1 failed. Exception: %s" : "Шаг 1 неудачен. Исключение: %s",
     "Step 2 failed. Exception: %s" : "Шаг 2 неудачен. Исключение: %s",
     "External storages" : "Внешние хранилища",
-    "Dropbox App Configuration" : "Настройка приложения Dropbox",
     "Google Drive App Configuration" : "Настройка приложения Google Drive",
     "Personal" : "Личное",
     "System" : "Система",
     "Grant access" : "Предоставить доступ",
     "Error configuring OAuth1" : "Ошибка настройки OAuth1",
+    "Please provide a valid app key and secret." : "Пожалуйста укажите корректные ключ и секрет приложения.",
     "Error configuring OAuth2" : "Ошибка настройки OAuth2",
     "Generate keys" : "Создать ключи",
     "Error generating key pair" : "Ошибка создания ключевой пары",
@@ -83,7 +80,6 @@ OC.L10N.register(
     "URL" : "URL",
     "Remote subfolder" : "Удаленный подкаталог",
     "Secure https://" : "Безопасный https://",
-    "Dropbox" : "Dropbox",
     "FTP" : "FTP",
     "Host" : "Сервер",
     "Secure ftps://" : "Защищённый ftps://",
@@ -126,7 +122,11 @@ OC.L10N.register(
     "Delete" : "Удалить",
     "Allow users to mount external storage" : "Разрешить пользователями монтировать внешние накопители",
     "Allow users to mount the following external storage" : "Разрешить пользователям монтировать следующие сервисы хранения данных",
+    "Fetching request tokens failed. Verify that your app key and secret are correct." : "Ошибка получения токенов запроса. Проверьте корректность ключа и секрета приложения.",
+    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Ошибка получения токенов доступа. Проверьте корректность ключа и секрета приложения.",
+    "Dropbox App Configuration" : "Настройка приложения Dropbox",
     "Storage with id \"%i\" not found" : "Хранилище с идентификатором «%i» не найдено",
-    "Storage with id \"%i\" is not user editable" : "Пользователь не может редактировать хранилище «%i»"
+    "Storage with id \"%i\" is not user editable" : "Пользователь не может редактировать хранилище «%i»",
+    "Dropbox" : "Dropbox"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

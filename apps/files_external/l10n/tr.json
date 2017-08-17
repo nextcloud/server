@@ -1,16 +1,13 @@
 { "translations": {
-    "Fetching request tokens failed. Verify that your app key and secret are correct." : "İstek kodları alınamadı. Uygulama anahtarınızın ve parolanızın doğruluğunu denetleyin.",
-    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Erişim kodları alınamadı. Uygulama anahtarınızın ve parolanızın doğruluğunu denetleyin.",
-    "Please provide a valid app key and secret." : "Lütfen geçerli bir uygulama anahtarı ve parola yazın.",
     "Step 1 failed. Exception: %s" : "1. Adım tamamlanamadı. Sorun: %s",
     "Step 2 failed. Exception: %s" : "2. Adım tamamlanamadı. Sorun: %s",
     "External storages" : "Dış depolama",
-    "Dropbox App Configuration" : "Dropbox Uygulaması Yapılandırması",
     "Google Drive App Configuration" : "Google Drive Uygulaması Yapılandırması",
     "Personal" : "Kişisel",
     "System" : "Sistem",
     "Grant access" : "Erişim ver",
     "Error configuring OAuth1" : "OAuth1 yapılandırma sorunu",
+    "Please provide a valid app key and secret." : "Lütfen geçerli bir uygulama anahtarı ve parola yazın.",
     "Error configuring OAuth2" : "OAuth2 yapılandırma sorunu",
     "Generate keys" : "Anahtarları üret",
     "Error generating key pair" : "Anahtar çifti üretilirken sorun çıktı",
@@ -81,7 +78,6 @@
     "URL" : "Adres",
     "Remote subfolder" : "Uzak alt klasör",
     "Secure https://" : "Güvenli https://",
-    "Dropbox" : "Dropbox",
     "FTP" : "FTP",
     "Host" : "Sunucu",
     "Secure ftps://" : "Güvenli ftps://",
@@ -124,7 +120,11 @@
     "Delete" : "Sil",
     "Allow users to mount external storage" : "Kullanıcılar dış depolama bağlayabilsin",
     "Allow users to mount the following external storage" : "Kullanıcıların şu dış depolamayı bağlayabilsin",
+    "Fetching request tokens failed. Verify that your app key and secret are correct." : "İstek kodları alınamadı. Uygulama anahtarınızın ve parolanızın doğruluğunu denetleyin.",
+    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Erişim kodları alınamadı. Uygulama anahtarınızın ve parolanızın doğruluğunu denetleyin.",
+    "Dropbox App Configuration" : "Dropbox Uygulaması Yapılandırması",
     "Storage with id \"%i\" not found" : "\"%i\" kimliği ile bir depolama bulunamadı",
-    "Storage with id \"%i\" is not user editable" : "\"%i\" kimlikli depolama düzenlenebilir değil"
+    "Storage with id \"%i\" is not user editable" : "\"%i\" kimlikli depolama düzenlenebilir değil",
+    "Dropbox" : "Dropbox"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }
