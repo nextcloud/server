@@ -30,7 +30,7 @@ if (getenv('OBJECT_STORE') === 's3') {
 			'autocreate' => true,
 			'key' => 'dummy',
 			'secret' => 'dummy',
-			'hostname' => 'localhost',
+			'hostname' => getenv('DRONE') === 'true' ? 'fake-s3' : 'localhost',
 			'port' => 4569,
 			'use_ssl' => false,
 			// required for some non amazon s3 implementations
