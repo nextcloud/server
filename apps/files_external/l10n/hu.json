@@ -1,16 +1,13 @@
 { "translations": {
-    "Fetching request tokens failed. Verify that your app key and secret are correct." : "Nem sikerült a kérési tokenek letöltése. Ellenőrizd, hogy az alkalmazás kulcs és titok megfelelő-e!",
-    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Nem sikerült a hozzáférési tokenek letöltése. Ellenőrizd, hogy az alkalmazás kulcs és titok megfelelő-e!",
-    "Please provide a valid app key and secret." : "Kérlek adj meg egy érvényes alkalmazás kulcsot és jelszót.",
     "Step 1 failed. Exception: %s" : "1. lépés sikertelen. Kivétel: %s",
     "Step 2 failed. Exception: %s" : "2. lépés sikertelen. Kivétel: %s",
     "External storages" : "Külső tárolók",
-    "Dropbox App Configuration" : "Dropbox alkalmazás beállítás",
     "Google Drive App Configuration" : "Google Drive alkalmazás beállítás",
     "Personal" : "Személyes",
     "System" : "Rendszer",
     "Grant access" : "Megadom a hozzáférést",
     "Error configuring OAuth1" : "OAuth1 konfigurálási hiba",
+    "Please provide a valid app key and secret." : "Kérlek adj meg egy érvényes alkalmazás kulcsot és jelszót.",
     "Error configuring OAuth2" : "OAuth2 konfigurálási hiba",
     "Generate keys" : "Kulcsok generálása",
     "Error generating key pair" : "Hiba történt a kulcspár generálása közben",
@@ -70,7 +67,6 @@
     "URL" : "URL",
     "Remote subfolder" : "Távoli almappa",
     "Secure https://" : "Biztonságos https://",
-    "Dropbox" : "Dropbox",
     "FTP" : "FTP",
     "Host" : "Kiszolgáló",
     "Secure ftps://" : "Biztonságos ftps://",
@@ -113,7 +109,11 @@
     "Delete" : "Törlés",
     "Allow users to mount external storage" : "Külső tárolók csatolásának  engedélyezése a felhasználók részére",
     "Allow users to mount the following external storage" : "A felhasználók számára engedélyezett külső tárolók csatolása:",
+    "Fetching request tokens failed. Verify that your app key and secret are correct." : "Nem sikerült a kérési tokenek letöltése. Ellenőrizd, hogy az alkalmazás kulcs és titok megfelelő-e!",
+    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Nem sikerült a hozzáférési tokenek letöltése. Ellenőrizd, hogy az alkalmazás kulcs és titok megfelelő-e!",
+    "Dropbox App Configuration" : "Dropbox alkalmazás beállítás",
     "Storage with id \"%i\" not found" : "A következő azonosítójú tároló nem található: \"%i\"",
-    "Storage with id \"%i\" is not user editable" : "A következő azonosítójú tároló a felhasználó számára nem szerkeszthető: \"%i\""
+    "Storage with id \"%i\" is not user editable" : "A következő azonosítójú tároló a felhasználó számára nem szerkeszthető: \"%i\"",
+    "Dropbox" : "Dropbox"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

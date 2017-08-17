@@ -1,18 +1,15 @@
 OC.L10N.register(
     "files_external",
     {
-    "Fetching request tokens failed. Verify that your app key and secret are correct." : "Dhënia e elementëve të kërkuar dështoi. Verifikoni që kyçi dhe e fshehta juaj për aplikacionin janë të sakta.",
-    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Dhënia e elementëve të hyrjes dështoi. Verifikoni që kyçi dhe e fshehta juaj për aplikacionin janë të sakta.",
-    "Please provide a valid app key and secret." : "Ju lutemi jepni një kyç dhe një të fshehtë aplikacioni të vlefshme.",
     "Step 1 failed. Exception: %s" : "Hapi 1 dështoi. Përjashtim: %s",
     "Step 2 failed. Exception: %s" : "Hapi 2 dështoi. Përjashtim: %s",
     "External storages" : "Kujtesë e jashtëme",
-    "Dropbox App Configuration" : "Formësim i Aplikacionit Dropbox",
     "Google Drive App Configuration" : "Formësim i Aplikacionit Google Drive",
     "Personal" : "Personale",
     "System" : "Sistem",
     "Grant access" : "Akordoji hyrje",
     "Error configuring OAuth1" : "Gabim gjatë formësimit të OAuth1",
+    "Please provide a valid app key and secret." : "Ju lutemi jepni një kyç dhe një të fshehtë aplikacioni të vlefshme.",
     "Error configuring OAuth2" : "Gabim gjatë formësimit të OAuth2",
     "Generate keys" : "Prodho kyçe",
     "Error generating key pair" : "Gabim gjatë prodhimit të çiftit të kyçeve",
@@ -83,7 +80,6 @@ OC.L10N.register(
     "URL" : "URL",
     "Remote subfolder" : "Nëndosje e largët",
     "Secure https://" : "https:// e sigurt",
-    "Dropbox" : "Dropbox",
     "FTP" : "FTP",
     "Host" : "Strehë",
     "Secure ftps://" : "ftps:// e sigurt",
@@ -126,7 +122,11 @@ OC.L10N.register(
     "Delete" : "Fshije",
     "Allow users to mount external storage" : "Lejoju përdoruesve të montojnë depozita të jashtme",
     "Allow users to mount the following external storage" : "Lejoju përdoruesve të montojnë depozitën e jashtme vijuese",
+    "Fetching request tokens failed. Verify that your app key and secret are correct." : "Dhënia e elementëve të kërkuar dështoi. Verifikoni që kyçi dhe e fshehta juaj për aplikacionin janë të sakta.",
+    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Dhënia e elementëve të hyrjes dështoi. Verifikoni që kyçi dhe e fshehta juaj për aplikacionin janë të sakta.",
+    "Dropbox App Configuration" : "Formësim i Aplikacionit Dropbox",
     "Storage with id \"%i\" not found" : "S’u gjet depozitë me id \"%i\"",
-    "Storage with id \"%i\" is not user editable" : "Depozita me id \"%i\" s’është e përpunueshme nga përdoruesi"
+    "Storage with id \"%i\" is not user editable" : "Depozita me id \"%i\" s’është e përpunueshme nga përdoruesi",
+    "Dropbox" : "Dropbox"
 },
 "nplurals=2; plural=(n != 1);");

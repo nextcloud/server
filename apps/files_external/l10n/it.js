@@ -1,18 +1,15 @@
 OC.L10N.register(
     "files_external",
     {
-    "Fetching request tokens failed. Verify that your app key and secret are correct." : "Il recupero dei token di richiesta non è riuscito. Verifica che la chiave e il segreto dell'applicazione siano corretti.",
-    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Il recupero dei token di accesso non è riuscito. Verifica che la chiave e il segreto dell'applicazione siano corretti.",
-    "Please provide a valid app key and secret." : "Fornisci chiave e segreto dell'applicazione validi.",
     "Step 1 failed. Exception: %s" : "Fase 1 non riuscita. Eccezione: %s",
     "Step 2 failed. Exception: %s" : "Fase 2 non riuscita. Eccezione: %s",
     "External storages" : "Archiviazioni esterne",
-    "Dropbox App Configuration" : "Configurazione applicazione Dropbox",
     "Google Drive App Configuration" : "Configurazione applicazione Google Drive",
     "Personal" : "Personale",
     "System" : "Sistema",
     "Grant access" : "Concedi l'accesso",
     "Error configuring OAuth1" : "Errore di configurazione OAuth1",
+    "Please provide a valid app key and secret." : "Fornisci chiave e segreto dell'applicazione validi.",
     "Error configuring OAuth2" : "Errore di configurazione OAuth2",
     "Generate keys" : "Genera la chiavi",
     "Error generating key pair" : "Errore durante la generazione della coppia di chiavi",
@@ -83,7 +80,6 @@ OC.L10N.register(
     "URL" : "URL",
     "Remote subfolder" : "Sottocartella remota",
     "Secure https://" : "Sicuro https://",
-    "Dropbox" : "Dropbox",
     "FTP" : "FTP",
     "Host" : "Host",
     "Secure ftps://" : "Sicuro ftps://",
@@ -126,7 +122,11 @@ OC.L10N.register(
     "Delete" : "Elimina",
     "Allow users to mount external storage" : "Consenti agli utenti di montare archiviazioni esterne",
     "Allow users to mount the following external storage" : "Consenti agli utenti di montare la seguente archiviazione esterna",
+    "Fetching request tokens failed. Verify that your app key and secret are correct." : "Il recupero dei token di richiesta non è riuscito. Verifica che la chiave e il segreto dell'applicazione siano corretti.",
+    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Il recupero dei token di accesso non è riuscito. Verifica che la chiave e il segreto dell'applicazione siano corretti.",
+    "Dropbox App Configuration" : "Configurazione applicazione Dropbox",
     "Storage with id \"%i\" not found" : "Archiviazione con ID \"%i\" non trovata",
-    "Storage with id \"%i\" is not user editable" : "L'archiviazione con ID \"%i\" non è modificabile dall'utente"
+    "Storage with id \"%i\" is not user editable" : "L'archiviazione con ID \"%i\" non è modificabile dall'utente",
+    "Dropbox" : "Dropbox"
 },
 "nplurals=2; plural=(n != 1);");

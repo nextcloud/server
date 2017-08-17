@@ -1,18 +1,15 @@
 OC.L10N.register(
     "files_external",
     {
-    "Fetching request tokens failed. Verify that your app key and secret are correct." : "Pyyntötunnisteen nouto epäonnistui. Tarkista että sovellusavaimesi ja -salaisuutesi ovat oikein.",
-    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Pyyntötunnisteen haku epäonnistui. Tarkista että sovellusavaimesi ja -salaisuutesi ovat oikein.",
-    "Please provide a valid app key and secret." : "Sovellusavain ja salaus ovat virheelliset",
     "Step 1 failed. Exception: %s" : "Vaihe 1 epäonnistui. Poikkeus: %s",
     "Step 2 failed. Exception: %s" : "Vaihe 2 epäonnistui. Poikkeus: %s",
     "External storages" : "Ulkoiset tallennustilat",
-    "Dropbox App Configuration" : "Dropbox-sovelluksen määritys",
     "Google Drive App Configuration" : "Google Drive -sovelluksen määritys",
     "Personal" : "Henkilökohtainen",
     "System" : "Järjestelmä",
     "Grant access" : "Salli pääsy",
     "Error configuring OAuth1" : "Virhe OAuth1:n asetuksia tehdessä",
+    "Please provide a valid app key and secret." : "Sovellusavain ja salaus ovat virheelliset",
     "Error configuring OAuth2" : "Virhe OAuth2:n asetuksia tehdessä",
     "Generate keys" : "Luo avaimet",
     "Error generating key pair" : "Virhe luotaessa avainparia",
@@ -81,7 +78,6 @@ OC.L10N.register(
     "URL" : "Verkko-osoite",
     "Remote subfolder" : "Etäalikansio",
     "Secure https://" : "Salattu https://",
-    "Dropbox" : "Dropbox",
     "FTP" : "FTP",
     "Host" : "Isäntä",
     "Secure ftps://" : "Salattu ftps://",
@@ -124,7 +120,11 @@ OC.L10N.register(
     "Delete" : "Poista",
     "Allow users to mount external storage" : "Salli käyttäjien liittää erillisiä tallennustiloja",
     "Allow users to mount the following external storage" : "Salli käyttäjien liittää seuraavat erilliset tallennusvälineet",
+    "Fetching request tokens failed. Verify that your app key and secret are correct." : "Pyyntötunnisteen nouto epäonnistui. Tarkista että sovellusavaimesi ja -salaisuutesi ovat oikein.",
+    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Pyyntötunnisteen haku epäonnistui. Tarkista että sovellusavaimesi ja -salaisuutesi ovat oikein.",
+    "Dropbox App Configuration" : "Dropbox-sovelluksen määritys",
     "Storage with id \"%i\" not found" : "Tallennustilaa tunnisteella \"%i\" ei löytynyt",
-    "Storage with id \"%i\" is not user editable" : "Tallennustila, jolla on \"%i\" id, ei ole muokattavissa."
+    "Storage with id \"%i\" is not user editable" : "Tallennustila, jolla on \"%i\" id, ei ole muokattavissa.",
+    "Dropbox" : "Dropbox"
 },
 "nplurals=2; plural=(n != 1);");

@@ -1,16 +1,13 @@
 { "translations": {
-    "Fetching request tokens failed. Verify that your app key and secret are correct." : "請求失敗，請驗證您的應用程式金鑰及密碼是否正確",
-    "Fetching access tokens failed. Verify that your app key and secret are correct." : "存取失敗，請驗證您的應用程式金鑰及密碼是否正確",
-    "Please provide a valid app key and secret." : "請提供有效的應用程式金鑰及密碼",
     "Step 1 failed. Exception: %s" : "步驟 1 失敗，出現異常: %s",
     "Step 2 failed. Exception: %s" : "步驟 2 失敗，出現異常: %s",
     "External storages" : "外部儲存",
-    "Dropbox App Configuration" : "Dropbox 應用設置",
     "Google Drive App Configuration" : "Google Drive 應用設置",
     "Personal" : "個人",
     "System" : "系統",
     "Grant access" : "允許存取",
     "Error configuring OAuth1" : "設定 OAuth1 時發生錯誤",
+    "Please provide a valid app key and secret." : "請提供有效的應用程式金鑰及密碼",
     "Error configuring OAuth2" : "設定 OAuth2 時發生錯誤",
     "Generate keys" : "產生金鑰",
     "Error generating key pair" : "產生金鑰對錯誤",
@@ -63,7 +60,6 @@
     "URL" : "URL",
     "Remote subfolder" : "遠端子資料夾",
     "Secure https://" : "安全 https://",
-    "Dropbox" : "Dropbox",
     "FTP" : "檔案傳輸協定-FTP",
     "Host" : "主機",
     "Secure ftps://" : "安全 ftps://",
@@ -100,6 +96,10 @@
     "Delete" : "刪除",
     "Allow users to mount external storage" : "允許使用者能自行掛載外部儲存",
     "Allow users to mount the following external storage" : "允許使用者自行掛載以下的外部儲存",
-    "Storage with id \"%i\" not found" : "沒有找到編號 \"%i\" 的儲存空間 "
+    "Fetching request tokens failed. Verify that your app key and secret are correct." : "請求失敗，請驗證您的應用程式金鑰及密碼是否正確",
+    "Fetching access tokens failed. Verify that your app key and secret are correct." : "存取失敗，請驗證您的應用程式金鑰及密碼是否正確",
+    "Dropbox App Configuration" : "Dropbox 應用設置",
+    "Storage with id \"%i\" not found" : "沒有找到編號 \"%i\" 的儲存空間 ",
+    "Dropbox" : "Dropbox"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

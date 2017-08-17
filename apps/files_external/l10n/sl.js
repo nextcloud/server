@@ -1,18 +1,15 @@
 OC.L10N.register(
     "files_external",
     {
-    "Fetching request tokens failed. Verify that your app key and secret are correct." : "Pridobivanje žetonov zahteve je spodletelo. Preverite, ali sta ključ in skrivno geslo programa navedena pravilno.",
-    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Pridobivanje žetonov za dostop je spodletelo. Preverite, da sta ključ in skrivno geslo navedena pravilno.",
-    "Please provide a valid app key and secret." : "Vpisati je treba veljaven ključ programa in kodo.",
     "Step 1 failed. Exception: %s" : "1. korak je spodletel. Izjemna napaka: %s",
     "Step 2 failed. Exception: %s" : "2. korak je spodletel. Izjemna napaka: %s",
     "External storages" : "Zunanje hrambe",
-    "Dropbox App Configuration" : "Nastavitve programa Dropbox",
     "Google Drive App Configuration" : "Nastavitve programa Google Drive",
     "Personal" : "Osebno",
     "System" : "Sistem",
     "Grant access" : "Odobri dostop",
     "Error configuring OAuth1" : "Napaka nastavljanja OAuth1",
+    "Please provide a valid app key and secret." : "Vpisati je treba veljaven ključ programa in kodo.",
     "Error configuring OAuth2" : "Napaka nastavljanja OAuth2",
     "Generate keys" : "Ustvari ključe",
     "Error generating key pair" : "Prišlo je do napake med ustvarjanjem para ključev",
@@ -77,7 +74,6 @@ OC.L10N.register(
     "URL" : "Naslov URL",
     "Remote subfolder" : "Oddaljena podrejena mapa",
     "Secure https://" : "Varni način https://",
-    "Dropbox" : "Dropbox",
     "FTP" : "FTP",
     "Host" : "Gostitelj",
     "Secure ftps://" : "Varni način ftps://",
@@ -117,7 +113,11 @@ OC.L10N.register(
     "Delete" : "Izbriši",
     "Allow users to mount external storage" : "Dovoli uporabnikom priklapljanje zunanje shrambe",
     "Allow users to mount the following external storage" : "Dovoli uporabnikom priklapljanje navedenih zunanjih shramb.",
+    "Fetching request tokens failed. Verify that your app key and secret are correct." : "Pridobivanje žetonov zahteve je spodletelo. Preverite, ali sta ključ in skrivno geslo programa navedena pravilno.",
+    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Pridobivanje žetonov za dostop je spodletelo. Preverite, da sta ključ in skrivno geslo navedena pravilno.",
+    "Dropbox App Configuration" : "Nastavitve programa Dropbox",
     "Storage with id \"%i\" not found" : "Shrambe z ID \"%i\" ni mogoče najti.",
-    "Storage with id \"%i\" is not user editable" : "Shramba z ID \"%i\" ni uporabniško uredljiva."
+    "Storage with id \"%i\" is not user editable" : "Shramba z ID \"%i\" ni uporabniško uredljiva.",
+    "Dropbox" : "Dropbox"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");
