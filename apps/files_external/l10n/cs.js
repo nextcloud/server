@@ -1,18 +1,15 @@
 OC.L10N.register(
     "files_external",
     {
-    "Fetching request tokens failed. Verify that your app key and secret are correct." : "Získání přístupových tokenů selhalo. Ověřte že klíč aplikace a tajné heslo jsou správné.",
-    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Získání přístupových tokenů selhalo. Ověřte že klíč aplikace a tajné heslo jsou správné.",
-    "Please provide a valid app key and secret." : "Zadejte prosím platný klíč a tajné heslo aplikace.",
     "Step 1 failed. Exception: %s" : "Selhal krok 1. Výjimka: %s",
     "Step 2 failed. Exception: %s" : "Selhal krok 2. Výjimka: %s",
     "External storages" : "Externí úložiště",
-    "Dropbox App Configuration" : "Nastavení aplikace Dropbox",
     "Google Drive App Configuration" : "Nastavení aplikace Disk Google",
     "Personal" : "Osobní",
     "System" : "Systém",
     "Grant access" : "Povolit přístup",
     "Error configuring OAuth1" : "Chyba nastavení OAuth1",
+    "Please provide a valid app key and secret." : "Zadejte prosím platný klíč a tajné heslo aplikace.",
     "Error configuring OAuth2" : "Chyba nastavení OAuth2",
     "Generate keys" : "Vytvořit klíče",
     "Error generating key pair" : "Chyba při vytváření páru klíčů",
@@ -83,7 +80,6 @@ OC.L10N.register(
     "URL" : "URL",
     "Remote subfolder" : "Vzdálený podadresář",
     "Secure https://" : "Zabezpečené https://",
-    "Dropbox" : "Dropbox",
     "FTP" : "FTP",
     "Host" : "Počítač",
     "Secure ftps://" : "Zabezpečené ftps://",
@@ -126,7 +122,11 @@ OC.L10N.register(
     "Delete" : "Smazat",
     "Allow users to mount external storage" : "Povolit uživatelům připojení externího úložiště",
     "Allow users to mount the following external storage" : "Povolit uživatelů připojit následující externí úložiště",
+    "Fetching request tokens failed. Verify that your app key and secret are correct." : "Získání přístupových tokenů selhalo. Ověřte že klíč aplikace a tajné heslo jsou správné.",
+    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Získání přístupových tokenů selhalo. Ověřte že klíč aplikace a tajné heslo jsou správné.",
+    "Dropbox App Configuration" : "Nastavení aplikace Dropbox",
     "Storage with id \"%i\" not found" : "Úložiště s id \"%i\" nebylo nalezeno",
-    "Storage with id \"%i\" is not user editable" : "Úložiště s id \"%i\" uživatelé nemohou upravovat"
+    "Storage with id \"%i\" is not user editable" : "Úložiště s id \"%i\" uživatelé nemohou upravovat",
+    "Dropbox" : "Dropbox"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

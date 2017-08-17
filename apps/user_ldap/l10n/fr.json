@@ -75,7 +75,7 @@
     "LDAP Filter:" : "Filtre LDAP :",
     "The filter specifies which LDAP groups shall have access to the %s instance." : "Le filtre spécifie quels groupes LDAP ont accès à l'instance %s.",
     "Verify settings and count the groups" : "Vérifier les paramètres et compter les groupes",
-    "When logging in, %s will find the user based on the following attributes:" : "Au login, %s cherchera l'utilisateur sur base de ces attributs :",
+    "When logging in, %s will find the user based on the following attributes:" : "À la connexion, %s cherchera l'utilisateur sur la base des attributs suivant :",
     "LDAP / AD Username:" : "Nom d'utilisateur LDAP / AD :",
     "Allows login against the LDAP / AD username, which is either \"uid\" or \"sAMAccountName\" and will be detected." : "Autorise l'authentification à partir du nom d'utilisateur LDAP / AD.Celui-ci sera détecté et pourra être soit \"uid\", soit \"sAMAccountName\".",
     "LDAP / AD Email Address:" : "Adresse mail LDAP / AD :",

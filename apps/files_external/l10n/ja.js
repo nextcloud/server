@@ -1,18 +1,15 @@
 OC.L10N.register(
     "files_external",
     {
-    "Fetching request tokens failed. Verify that your app key and secret are correct." : "リクエストトークンの取得に失敗しました。アプリのキーとパスワードが正しいことを確認してください。",
-    "Fetching access tokens failed. Verify that your app key and secret are correct." : "アクセストークンの取得に失敗しました。アプリのキーとパスワードが正しいことを確認してください。",
-    "Please provide a valid app key and secret." : "有効なアプリのキーとパスワードを入力してください。",
     "Step 1 failed. Exception: %s" : "ステップ 1 の実行に失敗しました。例外: %s",
     "Step 2 failed. Exception: %s" : "ステップ 2 の実行に失敗しました。例外: %s",
     "External storages" : "外部ストレージ",
-    "Dropbox App Configuration" : "Dropbox アプリ設定",
     "Google Drive App Configuration" : "Google アプリ設定",
     "Personal" : "個人",
     "System" : "システム",
     "Grant access" : "アクセスを許可",
     "Error configuring OAuth1" : "OAuth1 設定エラー",
+    "Please provide a valid app key and secret." : "有効なアプリのキーとパスワードを入力してください。",
     "Error configuring OAuth2" : "OAuth2 設定エラー",
     "Generate keys" : "キーを生成",
     "Error generating key pair" : "キーペアの生成エラー",
@@ -83,7 +80,6 @@ OC.L10N.register(
     "URL" : "URL",
     "Remote subfolder" : "リモートサブフォルダー",
     "Secure https://" : "セキュア https://",
-    "Dropbox" : "Dropbox",
     "FTP" : "FTP",
     "Host" : "ホスト",
     "Secure ftps://" : "Secure ftps://",
@@ -126,7 +122,11 @@ OC.L10N.register(
     "Delete" : "削除",
     "Allow users to mount external storage" : "ユーザーに外部ストレージの接続を許可する",
     "Allow users to mount the following external storage" : "ユーザーに以下の外部ストレージのマウントを許可する",
+    "Fetching request tokens failed. Verify that your app key and secret are correct." : "リクエストトークンの取得に失敗しました。アプリのキーとパスワードが正しいことを確認してください。",
+    "Fetching access tokens failed. Verify that your app key and secret are correct." : "アクセストークンの取得に失敗しました。アプリのキーとパスワードが正しいことを確認してください。",
+    "Dropbox App Configuration" : "Dropbox アプリ設定",
     "Storage with id \"%i\" not found" : "ストレージID \"%i\" が見つかりません",
-    "Storage with id \"%i\" is not user editable" : "ストレージID \"%i\" はユーザーが編集できません"
+    "Storage with id \"%i\" is not user editable" : "ストレージID \"%i\" はユーザーが編集できません",
+    "Dropbox" : "Dropbox"
 },
 "nplurals=1; plural=0;");

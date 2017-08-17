@@ -1,18 +1,15 @@
 OC.L10N.register(
     "files_external",
     {
-    "Fetching request tokens failed. Verify that your app key and secret are correct." : "Ophalen aanvraag tokens mislukt. Verifieer dat je app sleutel en geheime sleutel juist zijn.",
-    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Ophalen toegangstokens mislukt. Verifieer dat je app sleutel en geheime sleutel juist zijn.",
-    "Please provide a valid app key and secret." : "Geef een geldige app sleutel en geheime sleutel op.",
     "Step 1 failed. Exception: %s" : "Stap 1 is mislukt. Uitzondering: %s",
     "Step 2 failed. Exception: %s" : "Stap 2 is mislukt. Uitzondering: %s",
     "External storages" : "Externe opslag",
-    "Dropbox App Configuration" : "Dropbox app configuratie",
     "Google Drive App Configuration" : "Google Drive app configuratie",
     "Personal" : "Persoonlijk",
     "System" : "Systeem",
     "Grant access" : "Sta toegang toe",
     "Error configuring OAuth1" : "Fout bij configureren OAuth1",
+    "Please provide a valid app key and secret." : "Geef een geldige app sleutel en geheime sleutel op.",
     "Error configuring OAuth2" : "Fout bij configureren OAuth2",
     "Generate keys" : "Genereer sleutels",
     "Error generating key pair" : "Fout bij genereren sleutelpaar",
@@ -83,7 +80,6 @@ OC.L10N.register(
     "URL" : "URL",
     "Remote subfolder" : "Externe submap",
     "Secure https://" : "Secure https://",
-    "Dropbox" : "Dropbox",
     "FTP" : "FTP",
     "Host" : "Host",
     "Secure ftps://" : "Secure ftps://",
@@ -126,7 +122,11 @@ OC.L10N.register(
     "Delete" : "Verwijder",
     "Allow users to mount external storage" : "Sta gebruikers toe om een externe opslag aan te koppelen",
     "Allow users to mount the following external storage" : "Sta gebruikers toe de volgende externe opslag aan te koppelen",
+    "Fetching request tokens failed. Verify that your app key and secret are correct." : "Ophalen aanvraag tokens mislukt. Verifieer dat je app sleutel en geheime sleutel juist zijn.",
+    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Ophalen toegangstokens mislukt. Verifieer dat je app sleutel en geheime sleutel juist zijn.",
+    "Dropbox App Configuration" : "Dropbox app configuratie",
     "Storage with id \"%i\" not found" : "Opslag met id \"%i\" niet gevonden",
-    "Storage with id \"%i\" is not user editable" : "Opslag met id \"%i\" is niet te bewerken door gebruiker"
+    "Storage with id \"%i\" is not user editable" : "Opslag met id \"%i\" is niet te bewerken door gebruiker",
+    "Dropbox" : "Dropbox"
 },
 "nplurals=2; plural=(n != 1);");

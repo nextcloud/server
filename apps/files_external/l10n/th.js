@@ -1,15 +1,13 @@
 OC.L10N.register(
     "files_external",
     {
-    "Fetching request tokens failed. Verify that your app key and secret are correct." : "การเรียกร้องขอโทเคนล้มเหลว โปรดตรวจสอบคีย์และรหัสลับให้ถูกต้อง",
-    "Fetching access tokens failed. Verify that your app key and secret are correct." : "การเรียกร้องขอโทเคนล้มเหลว โปรดตรวจสอบคีย์และรหัสลับของแอพฯ ให้ถูกต้อง",
-    "Please provide a valid app key and secret." : "โปรดระบุคีย์และรหัสลับของแอพฯ ให้ถูกต้อง",
     "Step 1 failed. Exception: %s" : "ขั้นตอนที่ 1 ล้มเหลว ข้อยกเว้น: %s",
     "Step 2 failed. Exception: %s" : "ขั้นตอนที่ 2 ล้มเหลว ข้อยกเว้น: %s",
     "Personal" : "ส่วนตัว",
     "System" : "ระบบ",
     "Grant access" : "อนุญาตให้เข้าถึงได้",
     "Error configuring OAuth1" : "ข้อผิดพลาดในการกำหนดค่า OAuth1",
+    "Please provide a valid app key and secret." : "โปรดระบุคีย์และรหัสลับของแอพฯ ให้ถูกต้อง",
     "Error configuring OAuth2" : "ข้อผิดพลาดในการกำหนดค่า OAuth2",
     "Generate keys" : "สร้างคีย์",
     "Error generating key pair" : "ข้อผิดพลาดในการสร้างคีย์แบบเป็นคู่",
@@ -70,7 +68,6 @@ OC.L10N.register(
     "URL" : "URL",
     "Remote subfolder" : "โฟลเดอร์ย่อยรีโมท",
     "Secure https://" : "โหมดปลอดภัย https://",
-    "Dropbox" : "Dropbox",
     "FTP" : "FTP",
     "Host" : "โฮสต์",
     "Secure ftps://" : "โหมดปลอดภัย ftps://",
@@ -109,7 +106,10 @@ OC.L10N.register(
     "Delete" : "ลบ",
     "Allow users to mount external storage" : "อนุญาตให้ผู้ใช้ติดตั้งการจัดเก็บข้อมูลภายนอก",
     "Allow users to mount the following external storage" : "อนุญาตให้ผู้ใช้ติดตั้งจัดเก็บข้อมูลภายนอกต่อไปนี้",
+    "Fetching request tokens failed. Verify that your app key and secret are correct." : "การเรียกร้องขอโทเคนล้มเหลว โปรดตรวจสอบคีย์และรหัสลับให้ถูกต้อง",
+    "Fetching access tokens failed. Verify that your app key and secret are correct." : "การเรียกร้องขอโทเคนล้มเหลว โปรดตรวจสอบคีย์และรหัสลับของแอพฯ ให้ถูกต้อง",
     "Storage with id \"%i\" not found" : "ไม่พบจัดการเก็บข้อมูลของ ID \"%i\"",
-    "Storage with id \"%i\" is not user editable" : "พื้นที่เก็บข้อมูล รหัส \"%i\" ไม่อนุญาตให้ผู้ใช้แก้ไขข้อมูลได้"
+    "Storage with id \"%i\" is not user editable" : "พื้นที่เก็บข้อมูล รหัส \"%i\" ไม่อนุญาตให้ผู้ใช้แก้ไขข้อมูลได้",
+    "Dropbox" : "Dropbox"
 },
 "nplurals=1; plural=0;");

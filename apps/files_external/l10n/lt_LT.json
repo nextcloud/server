@@ -1,16 +1,13 @@
 { "translations": {
-    "Fetching request tokens failed. Verify that your app key and secret are correct." : "Užklausos prieigos raktų gavimas nepavyko. Įsitikinkite, kad jūsų programėlės raktas ir paslaptis yra teisingi.",
-    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Prieigos raktas negautas. Patikrinkite ar trečiųjų šalių programinės įrangos identifikacijos numeris ir slaptažodis yra teisingi.",
-    "Please provide a valid app key and secret." : "Prašome naudoti teisingus trečiųjų šalių programinės įrangos identifikacijos numerį ir slaptažodį.",
     "Step 1 failed. Exception: %s" : "Žingsnis 1 nepavyko. Išimtis: %s",
     "Step 2 failed. Exception: %s" : "Žingsnis 2 nepavyko. Išimtis: %s",
     "External storages" : "Išorinės saugyklos",
-    "Dropbox App Configuration" : "Dropbox programinės įrangos konfigūravimas",
     "Google Drive App Configuration" : "Google disko programėlės konfigūracija",
     "Personal" : "Asmeniniai",
     "System" : "Sistema",
     "Grant access" : "Suteikti prieigą",
     "Error configuring OAuth1" : "Klaida, konfigūruojant OAuth1",
+    "Please provide a valid app key and secret." : "Prašome naudoti teisingus trečiųjų šalių programinės įrangos identifikacijos numerį ir slaptažodį.",
     "Error configuring OAuth2" : "Klaida, konfigūruojant OAuth2",
     "Generate keys" : "Sukurti raktus",
     "Error generating key pair" : "Klaida kuriant raktus",
@@ -81,7 +78,6 @@
     "URL" : "URL",
     "Remote subfolder" : "Nuotolinis poaplankis",
     "Secure https://" : "Saugus https://",
-    "Dropbox" : "Dropbox",
     "FTP" : "FTP",
     "Host" : "Domenas",
     "Secure ftps://" : "Saugus ftps://",
@@ -124,7 +120,11 @@
     "Delete" : "Ištrinti",
     "Allow users to mount external storage" : "Leisti naudotojams prijungti išorines saugyklas",
     "Allow users to mount the following external storage" : "Leisti naudotojams prijungti šias išorines saugyklas",
+    "Fetching request tokens failed. Verify that your app key and secret are correct." : "Užklausos prieigos raktų gavimas nepavyko. Įsitikinkite, kad jūsų programėlės raktas ir paslaptis yra teisingi.",
+    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Prieigos raktas negautas. Patikrinkite ar trečiųjų šalių programinės įrangos identifikacijos numeris ir slaptažodis yra teisingi.",
+    "Dropbox App Configuration" : "Dropbox programinės įrangos konfigūravimas",
     "Storage with id \"%i\" not found" : "Nerasta saugykla su identifikacijos numeriu \"%i\"",
-    "Storage with id \"%i\" is not user editable" : "Naudotojai negali redaguoti saugyklos identifikuotos kaip \"%i\""
+    "Storage with id \"%i\" is not user editable" : "Naudotojai negali redaguoti saugyklos identifikuotos kaip \"%i\"",
+    "Dropbox" : "Dropbox"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

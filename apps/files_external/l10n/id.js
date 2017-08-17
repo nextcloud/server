@@ -1,18 +1,15 @@
 OC.L10N.register(
     "files_external",
     {
-    "Fetching request tokens failed. Verify that your app key and secret are correct." : "Permintaan pengambilan token gagal. Pastikan kunci dan kerahasiaan aplikasi Anda sudah benar.",
-    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Akses pengambilan token gagal. Pastikan kunci dan kerahasiaan aplikasi Anda sudah benar.",
-    "Please provide a valid app key and secret." : "Silakan berikan kunci dan kerahasiaan aplikasi yang benar.",
     "Step 1 failed. Exception: %s" : "Langkah 1 gagal. Kecuali: %s",
     "Step 2 failed. Exception: %s" : "Langkah 2 gagal. Kecuali: %s",
     "External storages" : "Penyimpanan Eksternal",
-    "Dropbox App Configuration" : "Konfigurasi Aplikasi Dropbox",
     "Google Drive App Configuration" : "Konfigurasi Aplikasi Google Drive",
     "Personal" : "Pribadi",
     "System" : "Sistem",
     "Grant access" : "Berikan hak akses",
     "Error configuring OAuth1" : "Kesalahan mengkonfigurasi OAuth1",
+    "Please provide a valid app key and secret." : "Silakan berikan kunci dan kerahasiaan aplikasi yang benar.",
     "Error configuring OAuth2" : "Kesalahan mengkonfigurasi OAuth2",
     "Generate keys" : "Hasilkan kunci",
     "Error generating key pair" : "Kesalahan saat menghasilkan pasangan kunci",
@@ -79,7 +76,6 @@ OC.L10N.register(
     "URL" : "URL",
     "Remote subfolder" : "Subfolder remote",
     "Secure https://" : "Secure https://",
-    "Dropbox" : "Dropbox",
     "FTP" : "FTP",
     "Host" : "Host",
     "Secure ftps://" : "Secure ftps://",
@@ -122,7 +118,11 @@ OC.L10N.register(
     "Delete" : "Hapus",
     "Allow users to mount external storage" : "Izinkan pengguna untuk mengaitkan penyimpanan eksternal",
     "Allow users to mount the following external storage" : "Izinkan pengguna untuk mengaitkan penyimpanan eksternal berikut",
+    "Fetching request tokens failed. Verify that your app key and secret are correct." : "Permintaan pengambilan token gagal. Pastikan kunci dan kerahasiaan aplikasi Anda sudah benar.",
+    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Akses pengambilan token gagal. Pastikan kunci dan kerahasiaan aplikasi Anda sudah benar.",
+    "Dropbox App Configuration" : "Konfigurasi Aplikasi Dropbox",
     "Storage with id \"%i\" not found" : "Penyimpanan dengan id \"%i\" tidak ditemukan",
-    "Storage with id \"%i\" is not user editable" : "Penyimpanan dengan id \"%i\" tidak bisa diubah pengguna"
+    "Storage with id \"%i\" is not user editable" : "Penyimpanan dengan id \"%i\" tidak bisa diubah pengguna",
+    "Dropbox" : "Dropbox"
 },
 "nplurals=1; plural=0;");

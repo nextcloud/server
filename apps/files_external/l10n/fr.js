@@ -1,18 +1,15 @@
 OC.L10N.register(
     "files_external",
     {
-    "Fetching request tokens failed. Verify that your app key and secret are correct." : "L'obtention des jetons de requête a échoué. Vérifiez que votre clé d'application et votre mot de passe sont corrects.",
-    "Fetching access tokens failed. Verify that your app key and secret are correct." : "L'obtention des jetons d'accès a échoué. Vérifiez que votre clé d'application et votre mot de passe sont corrects.",
-    "Please provide a valid app key and secret." : "Veuillez fournir une clé d'application et un mot de passe valides.",
     "Step 1 failed. Exception: %s" : "L’étape 1 a échoué. Erreur : %s",
     "Step 2 failed. Exception: %s" : "L’étape 2 a échoué. Erreur : %s",
     "External storages" : "Stockages externes",
-    "Dropbox App Configuration" : "Configuration de l'application Dropbox",
     "Google Drive App Configuration" : "Configuration de l'application Google Drive",
     "Personal" : "Personnel",
     "System" : "Système",
     "Grant access" : "Autoriser l'accès",
     "Error configuring OAuth1" : "Erreur lors de la configuration de OAuth1",
+    "Please provide a valid app key and secret." : "Veuillez fournir une clé d'application et un mot de passe valides.",
     "Error configuring OAuth2" : "Erreur lors de la configuration de OAuth2",
     "Generate keys" : "Générer des clés",
     "Error generating key pair" : "Erreur lors de la génération des clés",
@@ -83,7 +80,6 @@ OC.L10N.register(
     "URL" : "URL",
     "Remote subfolder" : "Sous-dossier distant",
     "Secure https://" : "Sécurisation https://",
-    "Dropbox" : "Dropbox",
     "FTP" : "FTP",
     "Host" : "Hôte",
     "Secure ftps://" : "Sécurisation ftps://",
@@ -126,7 +122,11 @@ OC.L10N.register(
     "Delete" : "Supprimer",
     "Allow users to mount external storage" : "Autoriser les utilisateurs à monter des espaces de stockage externes",
     "Allow users to mount the following external storage" : "Autoriser les utilisateurs à monter les stockages externes suivants",
+    "Fetching request tokens failed. Verify that your app key and secret are correct." : "L'obtention des jetons de requête a échoué. Vérifiez que votre clé d'application et votre mot de passe sont corrects.",
+    "Fetching access tokens failed. Verify that your app key and secret are correct." : "L'obtention des jetons d'accès a échoué. Vérifiez que votre clé d'application et votre mot de passe sont corrects.",
+    "Dropbox App Configuration" : "Configuration de l'application Dropbox",
     "Storage with id \"%i\" not found" : "Stockage avec l'id \"%i\" non trouvé",
-    "Storage with id \"%i\" is not user editable" : "Le support de stockage d'id \"%i\" n'est pas modifiable par les utilisateurs"
+    "Storage with id \"%i\" is not user editable" : "Le support de stockage d'id \"%i\" n'est pas modifiable par les utilisateurs",
+    "Dropbox" : "Dropbox"
 },
 "nplurals=2; plural=(n > 1);");

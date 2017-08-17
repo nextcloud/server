@@ -1,18 +1,15 @@
 OC.L10N.register(
     "files_external",
     {
-    "Fetching request tokens failed. Verify that your app key and secret are correct." : "获取 request token 失败. 请验证您的 appkey 和密钥是否正确.",
-    "Fetching access tokens failed. Verify that your app key and secret are correct." : "获取 access token 失败. 请验证您的 appkey 和密钥是否正确.",
-    "Please provide a valid app key and secret." : "请提供有效的 appkey 和密钥.",
     "Step 1 failed. Exception: %s" : "步骤 1 失败. 异常: %s",
     "Step 2 failed. Exception: %s" : "步骤 2 失败. 异常: %s",
     "External storages" : "外部存储",
-    "Dropbox App Configuration" : "Dropbox 配置",
     "Google Drive App Configuration" : "Google Drive 配置",
     "Personal" : "个人",
     "System" : "系统",
     "Grant access" : "授权",
     "Error configuring OAuth1" : "OAuth1 配置错误",
+    "Please provide a valid app key and secret." : "请提供有效的 appkey 和密钥.",
     "Error configuring OAuth2" : "OAuth2 配置错误",
     "Generate keys" : "生成密钥",
     "Error generating key pair" : "生成密钥对错误",
@@ -83,7 +80,6 @@ OC.L10N.register(
     "URL" : "URL",
     "Remote subfolder" : "远程子文件夹",
     "Secure https://" : "安全 https://",
-    "Dropbox" : "Dropbox",
     "FTP" : "FTP",
     "Host" : "主机",
     "Secure ftps://" : "安全 ftps://",
@@ -126,7 +122,11 @@ OC.L10N.register(
     "Delete" : "删除",
     "Allow users to mount external storage" : "允许用户挂载外部存储",
     "Allow users to mount the following external storage" : "允许用户挂载以下外部存储",
+    "Fetching request tokens failed. Verify that your app key and secret are correct." : "获取 request token 失败. 请验证您的 appkey 和密钥是否正确.",
+    "Fetching access tokens failed. Verify that your app key and secret are correct." : "获取 access token 失败. 请验证您的 appkey 和密钥是否正确.",
+    "Dropbox App Configuration" : "Dropbox 配置",
     "Storage with id \"%i\" not found" : "未找到 ID 为 \"%i\" 的存储",
-    "Storage with id \"%i\" is not user editable" : "无法编辑 ID 为 \"%i\" 的存储"
+    "Storage with id \"%i\" is not user editable" : "无法编辑 ID 为 \"%i\" 的存储",
+    "Dropbox" : "Dropbox"
 },
 "nplurals=1; plural=0;");
