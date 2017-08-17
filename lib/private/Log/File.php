@@ -117,7 +117,18 @@ class File {
 			'userAgent',
 			'version'
 		);
-		$entry = json_encode($entry);
+		// PHP's json_encode only accept proper UTF-8 strings, loop over all
+		// elements to ensure that they are properly UTF-8 compliant or convert
+		// them manually.
+		foreach($entry as $key => $value) {
+			if(is_string($value)) {
+				$testEncode = json_encode($value);
+				if($testEncode === false) {
+					$entry[$key] = utf8_encode($value);
+				}
+			}
+		}
+		$entry = json_encode($entry, JSON_PARTIAL_OUTPUT_ON_ERROR);
 		$handle = @fopen(self::$logFile, 'a');
 		if ((fileperms(self::$logFile) & 0777) != 0640) {
 			@chmod(self::$logFile, 0640);
