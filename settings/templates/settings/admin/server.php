@@ -156,28 +156,26 @@
 
 <div class="section" id="backgroundjobs">
 	<h2 class="inlineblock"><?php p($l->t('Background jobs'));?></h2>
-	<?php if ($_['cron_log']): ?>
-		<p class="cronlog inlineblock">
-			<?php if ($_['lastcron'] !== false):
-				$relative_time = relative_modified_date($_['lastcron']);
-				$absolute_time = OC_Util::formatDate($_['lastcron']);
-				if (time() - $_['lastcron'] <= 3600): ?>
-					<span class="status success"></span>
-					<span class="crondate" title="<?php p($absolute_time);?>">
-					<?php p($l->t("Last job ran %s.", [$relative_time]));?>
-				</span>
-				<?php else: ?>
-					<span class="status error"></span>
-					<span class="crondate" title="<?php p($absolute_time);?>">
-					<?php p($l->t("Last job execution ran %s. Something seems wrong.", [$relative_time]));?>
-				</span>
-				<?php endif;
-			else: ?>
+	<p class="cronlog inlineblock">
+		<?php if ($_['lastcron'] !== false):
+			$relative_time = relative_modified_date($_['lastcron']);
+			$absolute_time = OC_Util::formatDate($_['lastcron']);
+			if (time() - $_['lastcron'] <= 3600): ?>
+				<span class="status success"></span>
+				<span class="crondate" title="<?php p($absolute_time);?>">
+				<?php p($l->t("Last job ran %s.", [$relative_time]));?>
+			</span>
+			<?php else: ?>
 				<span class="status error"></span>
-				<?php p($l->t("Background job didn’t run yet!"));
-			endif; ?>
-		</p>
-	<?php endif; ?>
+				<span class="crondate" title="<?php p($absolute_time);?>">
+				<?php p($l->t("Last job execution ran %s. Something seems wrong.", [$relative_time]));?>
+			</span>
+			<?php endif;
+		else: ?>
+			<span class="status error"></span>
+			<?php p($l->t("Background job didn’t run yet!"));
+		endif; ?>
+	</p>
 	<a target="_blank" rel="noreferrer" class="icon-info"
 	   title="<?php p($l->t('Open documentation'));?>"
 	   href="<?php p(link_to_docs('admin-background-jobs')); ?>"></a>

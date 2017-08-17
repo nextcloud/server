@@ -130,7 +130,6 @@ class Server implements ISettings {
 
 			// Background jobs
 			'backgroundjobs_mode' => $this->config->getAppValue('core', 'backgroundjobs_mode', 'ajax'),
-			'cron_log'            => $this->config->getSystemValue('cron_log', true),
 			'lastcron'            => $this->config->getAppValue('core', 'lastcron', false),
 			'cronErrors'		  => $this->config->getAppValue('core', 'cronErrors'),
 			'cli_based_cron_possible' => function_exists('posix_getpwuid'),
