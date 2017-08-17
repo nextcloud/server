@@ -349,7 +349,10 @@ class Manager extends PublicEmitter implements IUserManager {
 		}
 
 		$this->emit('\OC\User', 'preCreateUser', [$uid, $password]);
-		$backend->createUser($uid, $password);
+		$state = $backend->createUser($uid, $password);
+		if($state === false) {
+			throw new \InvalidArgumentException($l->t('Could not create user'));
+		}
 		$user = $this->getUserObject($uid, $backend);
 		if ($user instanceof IUser) {
 			$this->emit('\OC\User', 'postCreateUser', [$user, $password]);
