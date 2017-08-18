@@ -101,7 +101,7 @@
 					var fileIcon = '<img src="' + escapeHTML(mimeTypeUrl) + '"/> ' + fileName;
 					Drop.setFileIcon(fileName,fileIcon);
 				},
-				fail: function(e, data, errorThrown) {
+				fail: function(e, data) {
 					OC.Notification.showTemporary(OC.L10N.translate(
 							'files_sharing',
 							'Could not upload "{filename}"',
