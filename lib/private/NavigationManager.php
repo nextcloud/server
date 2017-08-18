@@ -187,7 +187,7 @@ class NavigationManager implements INavigationManager {
 				'icon' => $this->urlGenerator->imagePath('settings', 'admin.svg'),
 			]);
 
-			$logoutUrl = \OC_User::getLogoutUrl();
+			$logoutUrl = \OC_User::getLogoutUrl($this->urlGenerator);
 			if($logoutUrl !== '') {
 				// Logout
 				$this->add([
