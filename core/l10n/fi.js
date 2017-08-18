@@ -267,6 +267,7 @@ OC.L10N.register(
     "Log in" : "Kirjaudu sisään",
     "Stay logged in" : "Pysy sisäänkirjautuneena",
     "Alternative Logins" : "Vaihtoehtoiset kirjautumistavat",
+    "Account access" : "Tilin käyttö",
     "App token" : "Sovellusvaltuutus",
     "Alternative login using app token" : "Vaihtoehtoinen kirjautuminen käyttäen sovellusvaltuutusta",
     "Redirecting …" : "Ohjataan uudelleen…",

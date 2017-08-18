@@ -100,6 +100,7 @@
     "the link expired" : "lejárt a hivatkozás érvényességi ideje",
     "sharing is disabled" : "letiltásra került a megosztás",
     "For more info, please ask the person who sent this link." : "További információért fordulj ahhoz, aki ezt a linket küldte neked!",
+    "shared by %s" : "megosztotta %s",
     "Add to your Nextcloud" : "Add hozzá a Nextcloudodhoz",
     "Download" : "Letöltés",
     "Download %s" : "%s letöltése",

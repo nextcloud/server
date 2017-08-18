@@ -269,6 +269,8 @@
     "Log in" : "Logg inn",
     "Stay logged in" : "Forbli innlogget",
     "Alternative Logins" : "Alternative innlogginger",
+    "Account access" : "Kontotilgang",
+    "You are about to grant %s access to your %s account." : "Du er i ferd med å gi %s tilgang til din %s konto.",
     "App token" : "Program-symbol",
     "Alternative login using app token" : "Alternativ innlogging ved bruk av program-symbol",
     "Redirecting …" : "Videresender…",
