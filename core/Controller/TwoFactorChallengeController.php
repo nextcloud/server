@@ -70,7 +70,7 @@ class TwoFactorChallengeController extends Controller {
 	 * @return string
 	 */
 	protected function getLogoutUrl() {
-		return OC_User::getLogoutUrl();
+		return OC_User::getLogoutUrl($this->urlGenerator);
 	}
 
 	/**

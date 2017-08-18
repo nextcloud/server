@@ -307,15 +307,16 @@ class OC_User {
 	/**
 	 * Returns the current logout URL valid for the currently logged-in user
 	 *
+	 * @param \OCP\IURLGenerator $urlGenerator
 	 * @return string
 	 */
-	public static function getLogoutUrl() {
+	public static function getLogoutUrl(\OCP\IURLGenerator $urlGenerator) {
 		$backend = self::findFirstActiveUsedBackend();
 		if ($backend) {
 			return $backend->getLogoutUrl();
 		}
 
-		$logoutUrl = \OC::$server->getURLGenerator()->linkToRouteAbsolute(
+		$logoutUrl = $urlGenerator->linkToRouteAbsolute(
 			'core.login.logout',
 			[
 				'requesttoken' => \OCP\Util::callRegister(),
