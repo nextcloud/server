@@ -63,11 +63,10 @@
 	
 			$('#drop-upload-done-indicator').addClass('hidden');
 			$('#drop-upload-progress-indicator').removeClass('hidden');
-			_.each(data['files'], function(file) {
-				$('#public-upload ul').append(output({isUploading: true, name: file.name}));
-				$('[data-toggle="tooltip"]').tooltip();
-				data.submit();
-			});
+
+			$('#public-upload ul').append(output({isUploading: true, name: data.files[0].name}));
+			$('[data-toggle="tooltip"]').tooltip();
+			data.submit();
 	
 			return true;
 		},
