@@ -269,6 +269,8 @@
     "Log in" : "ログイン",
     "Stay logged in" : "ログインしたままにする",
     "Alternative Logins" : "代替ログイン",
+    "Account access" : "アカウントによるアクセス許可",
+    "You are about to grant %s access to your %s account." : "%s アカウントに あなたのアカウント %s へのアクセスを許可",
     "App token" : "アプリのトークン",
     "Alternative login using app token" : "アプリトークンを使って代替ログイン",
     "Redirecting …" : "転送中...",
