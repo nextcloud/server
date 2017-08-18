@@ -14,7 +14,7 @@
 		'{{#if isUploading}}' +
 		'<span class="icon-loading-small"></span> {{name}}' +
 		'{{else}}' +
-		'<img src="' + OC.imagePath('core', 'actions/error.svg') + '"/> {{name}}' +
+		'<img src="{{iconSrc}}"/> {{name}}' +
 		'{{/if}}' +
 		'</li>';
 	var Drop = {
@@ -72,8 +72,8 @@
 			return true;
 		},
 		
-		setFileIcon: function (fileName,fileIcon) {
-			$('#public-upload ul li[data-name="' + fileName + '"]').html(fileIcon);
+		updateFileItem: function (fileName, fileItem) {
+			$('#public-upload ul li[data-name="' + fileName + '"]').replaceWith(fileItem);
 			$('[data-toggle="tooltip"]').tooltip();
 		},
 		
@@ -98,8 +98,8 @@
 				done: function(e, data) {
 					// Created
 					var mimeTypeUrl = OC.MimeType.getIconUrl(data.files[0].type);
-					var fileIcon = '<img src="' + escapeHTML(mimeTypeUrl) + '"/> ' + fileName;
-					Drop.setFileIcon(fileName,fileIcon);
+					var fileItem = output({isUploading: false, iconSrc: mimeTypeUrl, name: fileName});
+					Drop.updateFileItem(fileName, fileItem);
 				},
 				fail: function(e, data) {
 					OC.Notification.showTemporary(OC.L10N.translate(
@@ -107,8 +107,9 @@
 							'Could not upload "{filename}"',
 							{filename: fileName}
 							));
-					var fileIcon = output({isUploading: false, name: fileName});
-					Drop.setFileIcon(fileName,fileIcon);
+					var errorIconSrc = OC.imagePath('core', 'actions/error.svg');
+					var fileItem = output({isUploading: false, iconSrc: errorIconSrc, name: fileName});
+					Drop.updateFileItem(fileName, fileItem);
 				},
 				progressall: function (e, data) {
 					var progress = parseInt(data.loaded / data.total * 100, 10);
