@@ -19,7 +19,7 @@
 		</ul>
 	</p>
 	<p class="two-factor-link">
-		<a class="button" <?php print_unescaped($_['logout_attribute']); ?>><?php p($l->t('Cancel log in')) ?></a>
+		<a class="button" href="<?php print_unescaped($_['logout_url']); ?>"><?php p($l->t('Cancel log in')) ?></a>
 		<?php if (!is_null($_['backupProvider'])): ?>
 		<a class="button" href="<?php p(\OC::$server->getURLGenerator()->linkToRoute('core.TwoFactorChallenge.showChallenge',
 												[

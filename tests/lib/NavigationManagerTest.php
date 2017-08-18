@@ -260,7 +260,7 @@ class NavigationManagerTest extends TestCase {
 			[
 				'id' => 'logout',
 				'order' => 99999,
-				'href' => null,
+				'href' => \OC_User::getLogoutUrl(),
 				'icon' => '/apps/core/img/actions/logout.svg',
 				'name' => 'Log out',
 				'active' => false,
