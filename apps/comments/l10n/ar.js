@@ -2,6 +2,7 @@ OC.L10N.register(
     "comments",
     {
     "Comments" : "تعليقات",
+    "Unknown user" : "مستخدم غير معروف",
     "New comment …" : "تعليق جديد",
     "Delete comment" : "حذف التعليق",
     "Post" : "ارسال",
@@ -18,12 +19,9 @@ OC.L10N.register(
     "Comment" : "تعليق",
     "You commented" : "قمت بكتابة تعليق",
     "%1$s commented" : "%1$s كتب تعليق",
+    "You commented on {file}" : "علقت على {file}",
     "%1$s commented on %2$s" : "%1$s كتب تعليق على %2$s",
-    "<strong>Comments</strong> for files" : "<strong>تعليقات</strong> على الملفات",
-    "Type in a new comment..." : "اكتب تعليق جديد...",
-    "No other comments available" : "لا يوجد تعليقات أخرى متاحة",
-    "More comments..." : "مزيد من التعليقات...",
-    "{count} unread comments" : "{count} الرسائل الغير مقروءة",
-    "You commented on %2$s" : "انت قمت بكتابة تعليق على %2$s"
+    "{author} commented on {file}" : "{author} علّق على {file}",
+    "<strong>Comments</strong> for files" : "<strong>تعليقات</strong> على الملفات"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");
