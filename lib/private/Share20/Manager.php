@@ -1159,6 +1159,15 @@ class Manager implements IManager {
 			}
 		}
 
+		if ($share === null && $this->shareProviderExists(\OCP\Share::SHARE_TYPE_CIRCLE)) {
+			try {
+				$provider = $this->factory->getProviderForType(\OCP\Share::SHARE_TYPE_CIRCLE);
+				$share = $provider->getShareByToken($token);
+			} catch (ProviderException $e) {
+			} catch (ShareNotFound $e) {
+			}
+		}
+
 		if ($share === null) {
 			throw new ShareNotFound($this->l->t('The requested share does not exist anymore'));
 		}
