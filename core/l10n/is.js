@@ -271,6 +271,8 @@ OC.L10N.register(
     "Log in" : "Skrá inn",
     "Stay logged in" : "Haldast skráður inn",
     "Alternative Logins" : "Aðrar innskráningar",
+    "Account access" : "Aðgangur að notandaaðgangi",
+    "You are about to grant %s access to your %s account." : "Þú ert að fara að leyfa %s aðgang að %s notandaaðgangnum þínum.",
     "App token" : "Teikn forrits",
     "Alternative login using app token" : "Önnur innskráning með forritsteikni",
     "Redirecting …" : "Endurbeini ...",
