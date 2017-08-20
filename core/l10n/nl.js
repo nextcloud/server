@@ -271,6 +271,8 @@ OC.L10N.register(
     "Log in" : "Meld u aan",
     "Stay logged in" : "Ingelogd blijven",
     "Alternative Logins" : "Alternatieve inlogs",
+    "Account access" : "Account toegang",
+    "You are about to grant %s access to your %s account." : "Je staat op het punt om %s toegang te verlenen to je %s account.",
     "App token" : "App token",
     "Alternative login using app token" : "Alternatieve login doormiddel van app token",
     "Redirecting …" : "Omleiding ...",
