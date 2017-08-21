@@ -59,13 +59,6 @@ return array(
 		'password'=>'test',
 		'root'=>'',
 	),
-	'google'=>array(
-		'run'=> false,
-		'configured' => 'true',
-		'client_id' => '',
-		'client_secret' => '',
-		'token' => '',
-	),
 	'swift' => array(
 		'run' => false,
 		'user' => 'test',
