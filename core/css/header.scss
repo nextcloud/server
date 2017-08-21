@@ -280,8 +280,8 @@ nav {
 		}
 		svg,
 		span {
-			-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=50)';
-			opacity: .5;
+			-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=70)';
+			opacity: .7;
 		}
 		svg {
 			margin-bottom: 2px;
@@ -430,10 +430,10 @@ nav {
 		display: block;
 		height: 40px;
 		color: $color-main-text;
-		opacity: .5;
 		padding: 10px 12px 0;
-		-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=50)';
 		box-sizing: border-box;
+		-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=70)';
+		opacity: .7;
 		img {
 			margin-bottom: -3px;
 			margin-right: 6px;
@@ -503,7 +503,7 @@ nav {
 		border-top-left-radius: 0;
 		border-top-right-radius: 0;
 		margin-top: 0;
-		color: rgba(0, 0, 0, .6);
+		color: rgba(0, 0, 0, .7);
 		width: auto;
 		left: 50%;
 		top: 45px;
