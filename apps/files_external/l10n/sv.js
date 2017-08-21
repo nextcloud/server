@@ -2,7 +2,7 @@ OC.L10N.register(
     "files_external",
     {
     "Step 1 failed. Exception: %s" : "Steg 1 misslyckades. Undantag: %s",
-    "Step 2 failed. Exception: %s" : "Steg 2 falerade. Undantag: %s",
+    "Step 2 failed. Exception: %s" : "Steg 2 fallerade. Undantag: %s",
     "External storages" : "Extern Lagring",
     "Google Drive App Configuration" : "Google Drive Konfiguration",
     "Personal" : "Privat",
