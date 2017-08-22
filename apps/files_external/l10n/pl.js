@@ -1,10 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "Step 1 failed. Exception: %s" : "Krok 1 błędny. Błąd: %s",
-    "Step 2 failed. Exception: %s" : "Krok 2 błędny. Błąd: %s",
     "External storages" : "Magazyny zewnętrzne",
-    "Google Drive App Configuration" : "Konfiguracja aplikacji Google Drive",
     "Personal" : "Osobiste",
     "System" : "System",
     "Grant access" : "Udziel dostępu",
@@ -21,11 +18,13 @@ OC.L10N.register(
     "Saving..." : "Zapisywanie...",
     "Save" : "Zapisz",
     "Empty response from the server" : "Puste odpowiedzi z serwera",
+    "Couldn't access. Please log out and in again to activate this mount point" : "Brak dostępu. Wyloguj się i zaloguj ponownie, aby aktywować ten punkt montowania",
     "Couldn't get the information from the remote server: {code} {type}" : "Nie można otrzymać informacji od zdalnego serwera: {code} {type}",
     "Couldn't get the list of external mount points: {type}" : "Nie udało się uzyskać listy zewnętrznych punktów montowania: {type}",
     "There was an error with message: " : "Wystąpił błąd o treści:",
     "External mount error" : "Błąd przy montowaniu zewnętrznym",
     "external-storage" : "magazyn zewnętrzny",
+    "Couldn't fetch list of Windows network drive mount points: Empty response from server" : "Nie można pobrać listy punktów montowania dysku sieciowego systemu Windows: Pusta odpowiedź z serwera",
     "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Niektóre skonfigurowane zewnętrzne punkty montowania są nie podłączone. Proszę kliknąć na czerwony rząd (y), aby uzyskać więcej informacji",
     "Please enter the credentials for the {mount} mount" : "Proszę wprowadzić poświadczenia dla {mount} montażu",
     "Username" : "Nazwa użytkownika",
@@ -81,7 +80,6 @@ OC.L10N.register(
     "FTP" : "FTP",
     "Host" : "Host",
     "Secure ftps://" : "Bezpieczny ftps://",
-    "Google Drive" : "Dysk Google",
     "Local" : "Lokalny",
     "Location" : "Lokalizacja",
     "Nextcloud" : "Nextcloud",
@@ -122,9 +120,13 @@ OC.L10N.register(
     "Allow users to mount the following external storage" : "Pozwól użytkownikom montować następujące zewnętrzne zasoby dyskowe",
     "Fetching request tokens failed. Verify that your app key and secret are correct." : "Otrzymano błędne żądanie tokenów. Sprawdź, czy klucz aplikacji oraz klucz poufny są poprawne.",
     "Fetching access tokens failed. Verify that your app key and secret are correct." : "Otrzymano błędne żądanie tokenów. Sprawdź, czy klucz aplikacji oraz klucz poufny są poprawne.",
+    "Step 1 failed. Exception: %s" : "Krok 1 błędny. Błąd: %s",
+    "Step 2 failed. Exception: %s" : "Krok 2 błędny. Błąd: %s",
     "Dropbox App Configuration" : "Konfiguracja aplikacji Dropbox",
+    "Google Drive App Configuration" : "Konfiguracja aplikacji Google Drive",
     "Storage with id \"%i\" not found" : "Magazyn o ID \"%i\" nie został znaleziony",
     "Storage with id \"%i\" is not user editable" : "Magazyn o ID \"%i\" nie może być edytowany przez użytkowników",
-    "Dropbox" : "Dropbox"
+    "Dropbox" : "Dropbox",
+    "Google Drive" : "Dysk Google"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

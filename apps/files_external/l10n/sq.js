@@ -1,10 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "Step 1 failed. Exception: %s" : "Hapi 1 dështoi. Përjashtim: %s",
-    "Step 2 failed. Exception: %s" : "Hapi 2 dështoi. Përjashtim: %s",
     "External storages" : "Kujtesë e jashtëme",
-    "Google Drive App Configuration" : "Formësim i Aplikacionit Google Drive",
     "Personal" : "Personale",
     "System" : "Sistem",
     "Grant access" : "Akordoji hyrje",
@@ -83,7 +80,6 @@ OC.L10N.register(
     "FTP" : "FTP",
     "Host" : "Strehë",
     "Secure ftps://" : "ftps:// e sigurt",
-    "Google Drive" : "Google Drive",
     "Local" : "Vendore",
     "Location" : "Vendndodhje",
     "Nextcloud" : "Nextcloud",
@@ -124,9 +120,13 @@ OC.L10N.register(
     "Allow users to mount the following external storage" : "Lejoju përdoruesve të montojnë depozitën e jashtme vijuese",
     "Fetching request tokens failed. Verify that your app key and secret are correct." : "Dhënia e elementëve të kërkuar dështoi. Verifikoni që kyçi dhe e fshehta juaj për aplikacionin janë të sakta.",
     "Fetching access tokens failed. Verify that your app key and secret are correct." : "Dhënia e elementëve të hyrjes dështoi. Verifikoni që kyçi dhe e fshehta juaj për aplikacionin janë të sakta.",
+    "Step 1 failed. Exception: %s" : "Hapi 1 dështoi. Përjashtim: %s",
+    "Step 2 failed. Exception: %s" : "Hapi 2 dështoi. Përjashtim: %s",
     "Dropbox App Configuration" : "Formësim i Aplikacionit Dropbox",
+    "Google Drive App Configuration" : "Formësim i Aplikacionit Google Drive",
     "Storage with id \"%i\" not found" : "S’u gjet depozitë me id \"%i\"",
     "Storage with id \"%i\" is not user editable" : "Depozita me id \"%i\" s’është e përpunueshme nga përdoruesi",
-    "Dropbox" : "Dropbox"
+    "Dropbox" : "Dropbox",
+    "Google Drive" : "Google Drive"
 },
 "nplurals=2; plural=(n != 1);");

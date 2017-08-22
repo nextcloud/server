@@ -135,7 +135,7 @@ OC.L10N.register(
     "Press ⌘-C to copy." : "Appuyez sur ⌘-C pour copier.",
     "Press Ctrl-C to copy." : "Appuyez sur Ctrl-C pour copier.",
     "Resharing is not allowed" : "Le repartage n'est pas autorisé",
-    "Share to {name}" : "Partager à {name}",
+    "Share to {name}" : "Partager avec {name}",
     "Share link" : "Partager par lien public",
     "Link" : "Lien",
     "Password protect" : "Protéger par un mot de passe",

@@ -1,8 +1,6 @@
 OC.L10N.register(
     "files_external",
     {
-    "Step 1 failed. Exception: %s" : "Trin 1 mislykkedes. Undtagelse: %s",
-    "Step 2 failed. Exception: %s" : "Trin 2 mislykkedes. Undtagelse: %s",
     "External storages" : "Eksternt lager",
     "Personal" : "Personligt",
     "System" : "System",
@@ -65,7 +63,6 @@ OC.L10N.register(
     "FTP" : "FTP",
     "Host" : "Vært",
     "Secure ftps://" : "Sikker ftps://",
-    "Google Drive" : "Google Drev",
     "Local" : "Lokal",
     "Location" : "Placering",
     "Nextcloud" : "Nextcloud",
@@ -102,8 +99,11 @@ OC.L10N.register(
     "Allow users to mount the following external storage" : "Tillad brugere at montere følgende som eksternt lager",
     "Fetching request tokens failed. Verify that your app key and secret are correct." : "Tokener til anmodning om hentning mislykkedes. Verificér at dine app-nøgle og -hemmelighed er korrekte.",
     "Fetching access tokens failed. Verify that your app key and secret are correct." : "Tokener for adgang til hentning fejlede. Verificér at dine app-nøgle og -hemmelighed er korrekte.",
+    "Step 1 failed. Exception: %s" : "Trin 1 mislykkedes. Undtagelse: %s",
+    "Step 2 failed. Exception: %s" : "Trin 2 mislykkedes. Undtagelse: %s",
     "Storage with id \"%i\" not found" : "Lager med ID'et \"%i% er ikke fundet",
     "Storage with id \"%i\" is not user editable" : "Lageret med id \"%i\" kan ikke redigeres af bruger",
-    "Dropbox" : "Dropbox"
+    "Dropbox" : "Dropbox",
+    "Google Drive" : "Google Drev"
 },
 "nplurals=2; plural=(n != 1);");

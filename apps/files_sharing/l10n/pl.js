@@ -102,6 +102,7 @@ OC.L10N.register(
     "the link expired" : "link wygasł",
     "sharing is disabled" : "udostępnianie jest wyłączone",
     "For more info, please ask the person who sent this link." : "Aby uzyskać więcej informacji proszę poprosić osobę, która wysłał ten link.",
+    "shared by %s" : "udostępnione przez %s",
     "Add to your Nextcloud" : "Dodaj do swojego Nextcloud",
     "Download" : "Pobierz",
     "Download %s" : "Pobierz %s",

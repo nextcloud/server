@@ -1,10 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "Step 1 failed. Exception: %s" : "步骤 1 失败. 异常: %s",
-    "Step 2 failed. Exception: %s" : "步骤 2 失败. 异常: %s",
     "External storages" : "外部存储",
-    "Google Drive App Configuration" : "Google Drive 配置",
     "Personal" : "个人",
     "System" : "系统",
     "Grant access" : "授权",
@@ -83,7 +80,6 @@ OC.L10N.register(
     "FTP" : "FTP",
     "Host" : "主机",
     "Secure ftps://" : "安全 ftps://",
-    "Google Drive" : "Google Drive",
     "Local" : "本地",
     "Location" : "地点",
     "Nextcloud" : "Nextcloud",
@@ -124,9 +120,13 @@ OC.L10N.register(
     "Allow users to mount the following external storage" : "允许用户挂载以下外部存储",
     "Fetching request tokens failed. Verify that your app key and secret are correct." : "获取 request token 失败. 请验证您的 appkey 和密钥是否正确.",
     "Fetching access tokens failed. Verify that your app key and secret are correct." : "获取 access token 失败. 请验证您的 appkey 和密钥是否正确.",
+    "Step 1 failed. Exception: %s" : "步骤 1 失败. 异常: %s",
+    "Step 2 failed. Exception: %s" : "步骤 2 失败. 异常: %s",
     "Dropbox App Configuration" : "Dropbox 配置",
+    "Google Drive App Configuration" : "Google Drive 配置",
     "Storage with id \"%i\" not found" : "未找到 ID 为 \"%i\" 的存储",
     "Storage with id \"%i\" is not user editable" : "无法编辑 ID 为 \"%i\" 的存储",
-    "Dropbox" : "Dropbox"
+    "Dropbox" : "Dropbox",
+    "Google Drive" : "Google Drive"
 },
 "nplurals=1; plural=0;");

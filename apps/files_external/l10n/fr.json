@@ -1,8 +1,5 @@
 { "translations": {
-    "Step 1 failed. Exception: %s" : "L’étape 1 a échoué. Erreur : %s",
-    "Step 2 failed. Exception: %s" : "L’étape 2 a échoué. Erreur : %s",
     "External storages" : "Stockages externes",
-    "Google Drive App Configuration" : "Configuration de l'application Google Drive",
     "Personal" : "Personnel",
     "System" : "Système",
     "Grant access" : "Autoriser l'accès",
@@ -81,7 +78,6 @@
     "FTP" : "FTP",
     "Host" : "Hôte",
     "Secure ftps://" : "Sécurisation ftps://",
-    "Google Drive" : "Google Drive",
     "Local" : "Local",
     "Location" : "Emplacement",
     "Nextcloud" : "Nextcloud",
@@ -122,9 +118,13 @@
     "Allow users to mount the following external storage" : "Autoriser les utilisateurs à monter les stockages externes suivants",
     "Fetching request tokens failed. Verify that your app key and secret are correct." : "L'obtention des jetons de requête a échoué. Vérifiez que votre clé d'application et votre mot de passe sont corrects.",
     "Fetching access tokens failed. Verify that your app key and secret are correct." : "L'obtention des jetons d'accès a échoué. Vérifiez que votre clé d'application et votre mot de passe sont corrects.",
+    "Step 1 failed. Exception: %s" : "L’étape 1 a échoué. Erreur : %s",
+    "Step 2 failed. Exception: %s" : "L’étape 2 a échoué. Erreur : %s",
     "Dropbox App Configuration" : "Configuration de l'application Dropbox",
+    "Google Drive App Configuration" : "Configuration de l'application Google Drive",
     "Storage with id \"%i\" not found" : "Stockage avec l'id \"%i\" non trouvé",
     "Storage with id \"%i\" is not user editable" : "Le support de stockage d'id \"%i\" n'est pas modifiable par les utilisateurs",
-    "Dropbox" : "Dropbox"
+    "Dropbox" : "Dropbox",
+    "Google Drive" : "Google Drive"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

@@ -1,10 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "Step 1 failed. Exception: %s" : "Шаг 1 неудачен. Исключение: %s",
-    "Step 2 failed. Exception: %s" : "Шаг 2 неудачен. Исключение: %s",
     "External storages" : "Внешние хранилища",
-    "Google Drive App Configuration" : "Настройка приложения Google Drive",
     "Personal" : "Личное",
     "System" : "Система",
     "Grant access" : "Предоставить доступ",
@@ -83,7 +80,6 @@ OC.L10N.register(
     "FTP" : "FTP",
     "Host" : "Сервер",
     "Secure ftps://" : "Защищённый ftps://",
-    "Google Drive" : "Google Drive",
     "Local" : "Локально",
     "Location" : "Расположение",
     "Nextcloud" : "Nextcloud",
@@ -124,9 +120,13 @@ OC.L10N.register(
     "Allow users to mount the following external storage" : "Разрешить пользователям монтировать следующие сервисы хранения данных",
     "Fetching request tokens failed. Verify that your app key and secret are correct." : "Ошибка получения токенов запроса. Проверьте корректность ключа и секрета приложения.",
     "Fetching access tokens failed. Verify that your app key and secret are correct." : "Ошибка получения токенов доступа. Проверьте корректность ключа и секрета приложения.",
+    "Step 1 failed. Exception: %s" : "Шаг 1 неудачен. Исключение: %s",
+    "Step 2 failed. Exception: %s" : "Шаг 2 неудачен. Исключение: %s",
     "Dropbox App Configuration" : "Настройка приложения Dropbox",
+    "Google Drive App Configuration" : "Настройка приложения Google Drive",
     "Storage with id \"%i\" not found" : "Хранилище с идентификатором «%i» не найдено",
     "Storage with id \"%i\" is not user editable" : "Пользователь не может редактировать хранилище «%i»",
-    "Dropbox" : "Dropbox"
+    "Dropbox" : "Dropbox",
+    "Google Drive" : "Google Drive"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");
