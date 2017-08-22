@@ -514,7 +514,7 @@ class ShareAPIController extends OCSController {
 		}
 
 		if ($includeTags) {
-			$formatted = Helper::populateTags($formatted, 'file_source');
+			$formatted = Helper::populateTags($formatted, 'file_source', \OC::$server->getTagManager());
 		}
 
 		return new DataResponse($formatted);
@@ -644,7 +644,7 @@ class ShareAPIController extends OCSController {
 		}
 
 		if ($include_tags) {
-			$formatted = Helper::populateTags($formatted, 'file_source');
+			$formatted = Helper::populateTags($formatted, 'file_source', \OC::$server->getTagManager());
 		}
 
 		return new DataResponse($formatted);
