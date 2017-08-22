@@ -379,6 +379,8 @@ class UserMountCacheTest extends TestCase {
 		$this->assertEquals($user1, $cachedMounts[0]->getUser());
 		$this->assertEquals($rootId, $cachedMounts[0]->getRootId());
 		$this->assertEquals(2, $cachedMounts[0]->getStorageId());
+		$this->assertEquals('foo/bar', $cachedMounts[0]->getInternalPath());
+		$this->assertEquals('/foo/foo/bar', $cachedMounts[0]->getPath());
 	}
 
 	public function testGetMountsForFileIdSubFolderMount() {
@@ -411,6 +413,8 @@ class UserMountCacheTest extends TestCase {
 		$this->assertEquals($folderId, $cachedMounts[0]->getRootId());
 		$this->assertEquals(2, $cachedMounts[0]->getStorageId());
 		$this->assertEquals('foo', $cachedMounts[0]->getRootInternalPath());
+		$this->assertEquals('bar', $cachedMounts[0]->getInternalPath());
+		$this->assertEquals('/bar', $cachedMounts[0]->getPath());
 	}
 
 	public function testGetMountsForFileIdSubFolderMountOutside() {
