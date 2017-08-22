@@ -73,7 +73,7 @@ interface IUserMountCache {
 	 *
 	 * @param int $fileId
 	 * @param string|null $user optionally restrict the results to a single user @since 12.0.0
-	 * @return ICachedMountInfo[]
+	 * @return ICachedMountFileInfo[]
 	 * @since 9.0.0
 	 */
 	public function getMountsForFileId($fileId, $user = null);

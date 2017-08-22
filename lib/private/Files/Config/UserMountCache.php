@@ -27,6 +27,7 @@ namespace OC\Files\Config;
 use OC\DB\QueryBuilder\Literal;
 use OCA\Files_Sharing\SharedMount;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\Files\Config\ICachedMountFileInfo;
 use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Mount\IMountPoint;
@@ -282,7 +283,7 @@ class UserMountCache implements IUserMountCache {
 	/**
 	 * @param int $fileId
 	 * @param string|null $user optionally restrict the results to a single user
-	 * @return ICachedMountInfo[]
+	 * @return ICachedMountFileInfo[]
 	 * @since 9.0.0
 	 */
 	public function getMountsForFileId($fileId, $user = null) {
@@ -294,7 +295,7 @@ class UserMountCache implements IUserMountCache {
 		$mountsForStorage = $this->getMountsForStorageId($storageId, $user);
 
 		// filter mounts that are from the same storage but a different directory
-		return array_filter($mountsForStorage, function (ICachedMountInfo $mount) use ($internalPath, $fileId) {
+		$filteredMounts = array_filter($mountsForStorage, function (ICachedMountInfo $mount) use ($internalPath, $fileId) {
 			if ($fileId === $mount->getRootId()) {
 				return true;
 			}
@@ -302,6 +303,18 @@ class UserMountCache implements IUserMountCache {
 
 			return $internalMountPath === '' || substr($internalPath, 0, strlen($internalMountPath) + 1) === $internalMountPath . '/';
 		});
+
+		return array_map(function (ICachedMountInfo $mount) use ($internalPath) {
+			return new CachedMountFileInfo(
+				$mount->getUser(),
+				$mount->getStorageId(),
+				$mount->getRootId(),
+				$mount->getMountPoint(),
+				$mount->getMountId(),
+				$mount->getRootInternalPath(),
+				$internalPath
+			);
+		}, $filteredMounts);
 	}
 
 	/**
