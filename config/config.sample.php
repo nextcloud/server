@@ -943,6 +943,11 @@ $CONFIG = array(
 'ldapUserCleanupInterval' => 51,
 
 /**
+ * Sort groups in the user settings by name instead of the user count
+ */
+'sort_groups_by_name' => false,
+
+/**
  * Comments
  *
  * Global settings for the Comments infrastructure
