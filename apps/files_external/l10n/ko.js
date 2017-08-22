@@ -1,10 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "Step 1 failed. Exception: %s" : "1단계 실패. 예외: %s",
-    "Step 2 failed. Exception: %s" : "2단계 실패. 예외: %s",
     "External storages" : "외부 저장소",
-    "Google Drive App Configuration" : "Google 드라이브 앱 설정",
     "Personal" : "개인",
     "System" : "시스템",
     "Grant access" : "접근 권한 부여",
@@ -81,7 +78,6 @@ OC.L10N.register(
     "FTP" : "FTP",
     "Host" : "호스트",
     "Secure ftps://" : "보안 ftps://",
-    "Google Drive" : "Google 드라이브",
     "Local" : "로컬",
     "Location" : "위치",
     "Nextcloud" : "Nextcloud",
@@ -122,9 +118,13 @@ OC.L10N.register(
     "Allow users to mount the following external storage" : "사용자가 다음 외부 저장소를 마운트할 수 있도록 허용",
     "Fetching request tokens failed. Verify that your app key and secret are correct." : "요청 토큰을 가져올 수 없습니다. 앱 키와 비밀 값이 올바른지 확인하십시오.",
     "Fetching access tokens failed. Verify that your app key and secret are correct." : "접근 토큰을 가져올 수 없습니다. 앱 키와 비밀 값이 올바른지 확인하십시오.",
+    "Step 1 failed. Exception: %s" : "1단계 실패. 예외: %s",
+    "Step 2 failed. Exception: %s" : "2단계 실패. 예외: %s",
     "Dropbox App Configuration" : "Dropbox 앱 설정",
+    "Google Drive App Configuration" : "Google 드라이브 앱 설정",
     "Storage with id \"%i\" not found" : "ID가 \"%i\"인 저장소를 찾을 수 없음",
     "Storage with id \"%i\" is not user editable" : "저장소 ID \"%i\"을(를) 사용자가 편집할 수 없음",
-    "Dropbox" : "Dropbox"
+    "Dropbox" : "Dropbox",
+    "Google Drive" : "Google 드라이브"
 },
 "nplurals=1; plural=0;");

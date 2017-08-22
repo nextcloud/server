@@ -1,10 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "Step 1 failed. Exception: %s" : "Žingsnis 1 nepavyko. Išimtis: %s",
-    "Step 2 failed. Exception: %s" : "Žingsnis 2 nepavyko. Išimtis: %s",
     "External storages" : "Išorinės saugyklos",
-    "Google Drive App Configuration" : "Google disko programėlės konfigūracija",
     "Personal" : "Asmeniniai",
     "System" : "Sistema",
     "Grant access" : "Suteikti prieigą",
@@ -83,7 +80,6 @@ OC.L10N.register(
     "FTP" : "FTP",
     "Host" : "Domenas",
     "Secure ftps://" : "Saugus ftps://",
-    "Google Drive" : "Google diskas",
     "Local" : "Vietinis",
     "Location" : "Vieta",
     "Nextcloud" : "Nextcloud",
@@ -124,9 +120,13 @@ OC.L10N.register(
     "Allow users to mount the following external storage" : "Leisti naudotojams prijungti šias išorines saugyklas",
     "Fetching request tokens failed. Verify that your app key and secret are correct." : "Užklausos prieigos raktų gavimas nepavyko. Įsitikinkite, kad jūsų programėlės raktas ir paslaptis yra teisingi.",
     "Fetching access tokens failed. Verify that your app key and secret are correct." : "Prieigos raktas negautas. Patikrinkite ar trečiųjų šalių programinės įrangos identifikacijos numeris ir slaptažodis yra teisingi.",
+    "Step 1 failed. Exception: %s" : "Žingsnis 1 nepavyko. Išimtis: %s",
+    "Step 2 failed. Exception: %s" : "Žingsnis 2 nepavyko. Išimtis: %s",
     "Dropbox App Configuration" : "Dropbox programinės įrangos konfigūravimas",
+    "Google Drive App Configuration" : "Google disko programėlės konfigūracija",
     "Storage with id \"%i\" not found" : "Nerasta saugykla su identifikacijos numeriu \"%i\"",
     "Storage with id \"%i\" is not user editable" : "Naudotojai negali redaguoti saugyklos identifikuotos kaip \"%i\"",
-    "Dropbox" : "Dropbox"
+    "Dropbox" : "Dropbox",
+    "Google Drive" : "Google diskas"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);");

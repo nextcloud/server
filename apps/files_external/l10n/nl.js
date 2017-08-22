@@ -1,10 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "Step 1 failed. Exception: %s" : "Stap 1 is mislukt. Uitzondering: %s",
-    "Step 2 failed. Exception: %s" : "Stap 2 is mislukt. Uitzondering: %s",
     "External storages" : "Externe opslag",
-    "Google Drive App Configuration" : "Google Drive app configuratie",
     "Personal" : "Persoonlijk",
     "System" : "Systeem",
     "Grant access" : "Sta toegang toe",
@@ -83,7 +80,6 @@ OC.L10N.register(
     "FTP" : "FTP",
     "Host" : "Host",
     "Secure ftps://" : "Secure ftps://",
-    "Google Drive" : "Google Drive",
     "Local" : "Lokaal",
     "Location" : "Locatie",
     "Nextcloud" : "Nextcloud",
@@ -124,9 +120,13 @@ OC.L10N.register(
     "Allow users to mount the following external storage" : "Sta gebruikers toe de volgende externe opslag aan te koppelen",
     "Fetching request tokens failed. Verify that your app key and secret are correct." : "Ophalen aanvraag tokens mislukt. Verifieer dat je app sleutel en geheime sleutel juist zijn.",
     "Fetching access tokens failed. Verify that your app key and secret are correct." : "Ophalen toegangstokens mislukt. Verifieer dat je app sleutel en geheime sleutel juist zijn.",
+    "Step 1 failed. Exception: %s" : "Stap 1 is mislukt. Uitzondering: %s",
+    "Step 2 failed. Exception: %s" : "Stap 2 is mislukt. Uitzondering: %s",
     "Dropbox App Configuration" : "Dropbox app configuratie",
+    "Google Drive App Configuration" : "Google Drive app configuratie",
     "Storage with id \"%i\" not found" : "Opslag met id \"%i\" niet gevonden",
     "Storage with id \"%i\" is not user editable" : "Opslag met id \"%i\" is niet te bewerken door gebruiker",
-    "Dropbox" : "Dropbox"
+    "Dropbox" : "Dropbox",
+    "Google Drive" : "Google Drive"
 },
 "nplurals=2; plural=(n != 1);");

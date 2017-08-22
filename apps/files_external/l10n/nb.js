@@ -1,10 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "Step 1 failed. Exception: %s" : "Steg 1 mislyktes. Unntak: %s",
-    "Step 2 failed. Exception: %s" : "Steg 2 mislyktes. Unntak: %s",
     "External storages" : "Ekstern lagring",
-    "Google Drive App Configuration" : "Oppsett av Google Drive-program",
     "Personal" : "Personlig",
     "System" : "System",
     "Grant access" : "Gi tilgang",
@@ -83,7 +80,6 @@ OC.L10N.register(
     "FTP" : "FTP",
     "Host" : "Tjener",
     "Secure ftps://" : "Sikker ftps://",
-    "Google Drive" : "Google Disk",
     "Local" : "Lokal",
     "Location" : "Sted",
     "Nextcloud" : "Nextcloud",
@@ -124,9 +120,13 @@ OC.L10N.register(
     "Allow users to mount the following external storage" : "Tillat brukere å koble opp følgende eksterne lagring",
     "Fetching request tokens failed. Verify that your app key and secret are correct." : "Henting av henvendelsessymboler mislyktes. Sjekk at programnøkkelen og hemmeligheten din stemmer. ",
     "Fetching access tokens failed. Verify that your app key and secret are correct." : "Henting av adgangssymboler mislyktes. Sjekk at programnøkkelen og hemmeligheten din stemmer.",
+    "Step 1 failed. Exception: %s" : "Steg 1 mislyktes. Unntak: %s",
+    "Step 2 failed. Exception: %s" : "Steg 2 mislyktes. Unntak: %s",
     "Dropbox App Configuration" : "Oppsett for Dropbox-program",
+    "Google Drive App Configuration" : "Oppsett av Google Drive-program",
     "Storage with id \"%i\" not found" : "Lager med ID \"%i\" ikke funnet",
     "Storage with id \"%i\" is not user editable" : "Lager med ID \"%i\" kan ikke redigeres av bruker",
-    "Dropbox" : "Dropbox"
+    "Dropbox" : "Dropbox",
+    "Google Drive" : "Google Disk"
 },
 "nplurals=2; plural=(n != 1);");

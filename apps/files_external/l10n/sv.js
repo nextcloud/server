@@ -1,10 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "Step 1 failed. Exception: %s" : "Steg 1 misslyckades. Undantag: %s",
-    "Step 2 failed. Exception: %s" : "Steg 2 fallerade. Undantag: %s",
     "External storages" : "Extern Lagring",
-    "Google Drive App Configuration" : "Google Drive Konfiguration",
     "Personal" : "Privat",
     "System" : "System",
     "Grant access" : "Bevilja åtkomst",
@@ -83,7 +80,6 @@ OC.L10N.register(
     "FTP" : "FTP",
     "Host" : "Server",
     "Secure ftps://" : "Säker ftps://",
-    "Google Drive" : "Google Drive",
     "Local" : "Lokal",
     "Location" : "Plats",
     "Nextcloud" : "Nextcloud",
@@ -124,9 +120,13 @@ OC.L10N.register(
     "Allow users to mount the following external storage" : "Tillåt användare att montera följande extern lagring",
     "Fetching request tokens failed. Verify that your app key and secret are correct." : "Fel vid hämtning av åtkomst-token. Verifiera att din app-nyckel och hemlighet stämmer.",
     "Fetching access tokens failed. Verify that your app key and secret are correct." : "Kontroll av behörigheter misslyckades. Verifiera att ditt app-lösenord och hemlighet är korrekt.",
+    "Step 1 failed. Exception: %s" : "Steg 1 misslyckades. Undantag: %s",
+    "Step 2 failed. Exception: %s" : "Steg 2 fallerade. Undantag: %s",
     "Dropbox App Configuration" : "Dropbox Konfiguration",
+    "Google Drive App Configuration" : "Google Drive Konfiguration",
     "Storage with id \"%i\" not found" : "Lagring med id \"%i\" kan ej hittas",
     "Storage with id \"%i\" is not user editable" : "Lagring med id \"%i\" är inte redigerbar av användare",
-    "Dropbox" : "Dropbox"
+    "Dropbox" : "Dropbox",
+    "Google Drive" : "Google Drive"
 },
 "nplurals=2; plural=(n != 1);");

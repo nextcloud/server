@@ -1,10 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "Step 1 failed. Exception: %s" : "Schritt 1 fehlgeschlagen. Fehlermeldung: %s",
-    "Step 2 failed. Exception: %s" : "Schritt 2 fehlgeschlagen. Fehlermeldung: %s",
     "External storages" : "Externer Speicher",
-    "Google Drive App Configuration" : "Google Drive - App Konfiguration",
     "Personal" : "Persönlich",
     "System" : "System",
     "Grant access" : "Zugriff gestatten",
@@ -83,7 +80,6 @@ OC.L10N.register(
     "FTP" : "FTP",
     "Host" : "Host",
     "Secure ftps://" : "Sicherer ftps://",
-    "Google Drive" : "Google Drive",
     "Local" : "Lokal",
     "Location" : "Ort",
     "Nextcloud" : "Nextcloud",
@@ -124,9 +120,13 @@ OC.L10N.register(
     "Allow users to mount the following external storage" : "Benutzern erlauben, den oder die folgenden externen Speicher einzubinden:",
     "Fetching request tokens failed. Verify that your app key and secret are correct." : "Abrufen des Anfrage-Tokens fehlgeschlagen. Bitte sicherstellen, dass der Anwendungsschlüssel und Sicherheitsschlüssel korrekt sind.",
     "Fetching access tokens failed. Verify that your app key and secret are correct." : "Abrufen des Zugriff-Tokens fehlgeschlagen. Bitte sicherstellen, dass der Anwendungsschlüssel und Sicherheitsschlüssel korrekt sind.",
+    "Step 1 failed. Exception: %s" : "Schritt 1 fehlgeschlagen. Fehlermeldung: %s",
+    "Step 2 failed. Exception: %s" : "Schritt 2 fehlgeschlagen. Fehlermeldung: %s",
     "Dropbox App Configuration" : "Dropbox-App Konfiguration",
+    "Google Drive App Configuration" : "Google Drive - App Konfiguration",
     "Storage with id \"%i\" not found" : "Der Speicher mit der ID „%i“ wurde nicht gefunden",
     "Storage with id \"%i\" is not user editable" : "Speicher mit der ID \"%i\" kann nicht vom Benutzer bearbeitet werden",
-    "Dropbox" : "Dropbox"
+    "Dropbox" : "Dropbox",
+    "Google Drive" : "Google Drive"
 },
 "nplurals=2; plural=(n != 1);");

@@ -135,7 +135,7 @@ OC.L10N.register(
     "Press ⌘-C to copy." : "按 ⌘ + C 进行复制.",
     "Press Ctrl-C to copy." : "按  Ctrl + C 进行复制.",
     "Resharing is not allowed" : "不允许二次共享",
-    "Share to {name}" : "分享给(name)",
+    "Share to {name}" : "分享给{name}",
     "Share link" : "分享链接",
     "Link" : "链接",
     "Password protect" : "密码保护",
