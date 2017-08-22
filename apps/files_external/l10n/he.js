@@ -1,9 +1,6 @@
 OC.L10N.register(
     "files_external",
     {
-    "Step 1 failed. Exception: %s" : "שלב 1 נכשל. חריג: %s",
-    "Step 2 failed. Exception: %s" : "שלב 2 נכשל. חריג: %s",
-    "Google Drive App Configuration" : "הגדרות יישום גוגל דרייב",
     "Personal" : "אישי",
     "System" : "מערכת",
     "Grant access" : "הענקת גישה",
@@ -73,7 +70,6 @@ OC.L10N.register(
     "FTP" : "FTP",
     "Host" : "מארח",
     "Secure ftps://" : "פרוטוקול מאובטח ftps://",
-    "Google Drive" : "גוגל דרייב",
     "Local" : "מקומי",
     "Location" : "מיקום",
     "SFTP" : "SFTP",
@@ -110,9 +106,13 @@ OC.L10N.register(
     "Allow users to mount the following external storage" : "מאפשר למשתמשים לחבר אחסון חיצוני הבא",
     "Fetching request tokens failed. Verify that your app key and secret are correct." : "אחזור מחרוזת כניסה נכשל. יש לוודא שמפתח היישום והסוד נכונים.",
     "Fetching access tokens failed. Verify that your app key and secret are correct." : "אחזור מחרוזת כניסה נכשל. יש לוודא שמפתח היישום והסוד נכונים.",
+    "Step 1 failed. Exception: %s" : "שלב 1 נכשל. חריג: %s",
+    "Step 2 failed. Exception: %s" : "שלב 2 נכשל. חריג: %s",
     "Dropbox App Configuration" : "הגדרות יישום דרופבוקס",
+    "Google Drive App Configuration" : "הגדרות יישום גוגל דרייב",
     "Storage with id \"%i\" not found" : "אחסון עם מספר זיהוי \"%i\" לא אותר",
     "Storage with id \"%i\" is not user editable" : "האחסון עם זהות \"%i\" לא ניתן לעריכה",
-    "Dropbox" : "דרופבוקס"
+    "Dropbox" : "דרופבוקס",
+    "Google Drive" : "גוגל דרייב"
 },
 "nplurals=2; plural=(n != 1);");

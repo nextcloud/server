@@ -1,10 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "Step 1 failed. Exception: %s" : "Falla en el paso 1: Excepción %s",
-    "Step 2 failed. Exception: %s" : "Paso 2 falló. Excepción: %s",
     "External storages" : "Almacenamiento externo",
-    "Google Drive App Configuration" : "Configuración de Aplicación Google Drive",
     "Personal" : "Personal",
     "System" : "Sistema",
     "Grant access" : "Conceder acceso",
@@ -83,7 +80,6 @@ OC.L10N.register(
     "FTP" : "FTP",
     "Host" : "Servidor",
     "Secure ftps://" : "ftps:// seguro",
-    "Google Drive" : "Google Drive",
     "Local" : "Local",
     "Location" : "Ubicación",
     "Nextcloud" : "Nextcloud",
@@ -124,9 +120,13 @@ OC.L10N.register(
     "Allow users to mount the following external storage" : "Permitir a los usuarios montar el siguiente almacenamiento externo",
     "Fetching request tokens failed. Verify that your app key and secret are correct." : "Se presentó una falla al buscar las fichas de solicitud. Por favor verifica que tu llave de aplicación y tu secreto sean correctos. ",
     "Fetching access tokens failed. Verify that your app key and secret are correct." : "Se presentó una falla al buscar las fichas de acceso. Por favor verifica que tu llave de aplicación y tu secreto sean correctos. ",
+    "Step 1 failed. Exception: %s" : "Falla en el paso 1: Excepción %s",
+    "Step 2 failed. Exception: %s" : "Paso 2 falló. Excepción: %s",
     "Dropbox App Configuration" : "Configuración de la aplicación Dropbox",
+    "Google Drive App Configuration" : "Configuración de Aplicación Google Drive",
     "Storage with id \"%i\" not found" : "El almacenamiento con id \"%i\" no fue encontrado",
     "Storage with id \"%i\" is not user editable" : "El almacenamiento con id \"%i\" no puede ser editado por el usuario",
-    "Dropbox" : "Dropbox"
+    "Dropbox" : "Dropbox",
+    "Google Drive" : "Google Drive"
 },
 "nplurals=2; plural=(n != 1);");

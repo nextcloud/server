@@ -1,10 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "Step 1 failed. Exception: %s" : "Step 1 failed. Exception: %s",
-    "Step 2 failed. Exception: %s" : "Step 2 failed. Exception: %s",
     "External storages" : "External storages",
-    "Google Drive App Configuration" : "Google Drive App Configuration",
     "Personal" : "Personal",
     "System" : "System",
     "Grant access" : "Grant access",
@@ -83,7 +80,6 @@ OC.L10N.register(
     "FTP" : "FTP",
     "Host" : "Host",
     "Secure ftps://" : "Secure ftps://",
-    "Google Drive" : "Google Drive",
     "Local" : "Local",
     "Location" : "Location",
     "Nextcloud" : "Nextcloud",
@@ -124,9 +120,13 @@ OC.L10N.register(
     "Allow users to mount the following external storage" : "Allow users to mount the following external storage",
     "Fetching request tokens failed. Verify that your app key and secret are correct." : "Fetching request tokens failed. Verify that your app key and secret are correct.",
     "Fetching access tokens failed. Verify that your app key and secret are correct." : "Fetching access tokens failed. Verify that your app key and secret are correct.",
+    "Step 1 failed. Exception: %s" : "Step 1 failed. Exception: %s",
+    "Step 2 failed. Exception: %s" : "Step 2 failed. Exception: %s",
     "Dropbox App Configuration" : "Dropbox App Configuration",
+    "Google Drive App Configuration" : "Google Drive App Configuration",
     "Storage with id \"%i\" not found" : "Storage with id \"%i\" not found",
     "Storage with id \"%i\" is not user editable" : "Storage with id \"%i\" is not user editable",
-    "Dropbox" : "Dropbox"
+    "Dropbox" : "Dropbox",
+    "Google Drive" : "Google Drive"
 },
 "nplurals=2; plural=(n != 1);");

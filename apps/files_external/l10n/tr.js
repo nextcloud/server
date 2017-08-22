@@ -1,10 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "Step 1 failed. Exception: %s" : "1. Adım tamamlanamadı. Sorun: %s",
-    "Step 2 failed. Exception: %s" : "2. Adım tamamlanamadı. Sorun: %s",
     "External storages" : "Dış depolama",
-    "Google Drive App Configuration" : "Google Drive Uygulaması Yapılandırması",
     "Personal" : "Kişisel",
     "System" : "Sistem",
     "Grant access" : "Erişim ver",
@@ -83,7 +80,6 @@ OC.L10N.register(
     "FTP" : "FTP",
     "Host" : "Sunucu",
     "Secure ftps://" : "Güvenli ftps://",
-    "Google Drive" : "Google Drive",
     "Local" : "Yerel",
     "Location" : "Konum",
     "Nextcloud" : "Nextcloud",
@@ -124,9 +120,13 @@ OC.L10N.register(
     "Allow users to mount the following external storage" : "Kullanıcıların şu dış depolamayı bağlayabilsin",
     "Fetching request tokens failed. Verify that your app key and secret are correct." : "İstek kodları alınamadı. Uygulama anahtarınızın ve parolanızın doğruluğunu denetleyin.",
     "Fetching access tokens failed. Verify that your app key and secret are correct." : "Erişim kodları alınamadı. Uygulama anahtarınızın ve parolanızın doğruluğunu denetleyin.",
+    "Step 1 failed. Exception: %s" : "1. Adım tamamlanamadı. Sorun: %s",
+    "Step 2 failed. Exception: %s" : "2. Adım tamamlanamadı. Sorun: %s",
     "Dropbox App Configuration" : "Dropbox Uygulaması Yapılandırması",
+    "Google Drive App Configuration" : "Google Drive Uygulaması Yapılandırması",
     "Storage with id \"%i\" not found" : "\"%i\" kimliği ile bir depolama bulunamadı",
     "Storage with id \"%i\" is not user editable" : "\"%i\" kimlikli depolama düzenlenebilir değil",
-    "Dropbox" : "Dropbox"
+    "Dropbox" : "Dropbox",
+    "Google Drive" : "Google Drive"
 },
 "nplurals=2; plural=(n > 1);");

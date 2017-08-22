@@ -1,10 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "Step 1 failed. Exception: %s" : "Langkah 1 gagal. Kecuali: %s",
-    "Step 2 failed. Exception: %s" : "Langkah 2 gagal. Kecuali: %s",
     "External storages" : "Penyimpanan Eksternal",
-    "Google Drive App Configuration" : "Konfigurasi Aplikasi Google Drive",
     "Personal" : "Pribadi",
     "System" : "Sistem",
     "Grant access" : "Berikan hak akses",
@@ -79,7 +76,6 @@ OC.L10N.register(
     "FTP" : "FTP",
     "Host" : "Host",
     "Secure ftps://" : "Secure ftps://",
-    "Google Drive" : "Google Drive",
     "Local" : "Lokal",
     "Location" : "lokasi",
     "Nextcloud" : "Nextcloud",
@@ -120,9 +116,13 @@ OC.L10N.register(
     "Allow users to mount the following external storage" : "Izinkan pengguna untuk mengaitkan penyimpanan eksternal berikut",
     "Fetching request tokens failed. Verify that your app key and secret are correct." : "Permintaan pengambilan token gagal. Pastikan kunci dan kerahasiaan aplikasi Anda sudah benar.",
     "Fetching access tokens failed. Verify that your app key and secret are correct." : "Akses pengambilan token gagal. Pastikan kunci dan kerahasiaan aplikasi Anda sudah benar.",
+    "Step 1 failed. Exception: %s" : "Langkah 1 gagal. Kecuali: %s",
+    "Step 2 failed. Exception: %s" : "Langkah 2 gagal. Kecuali: %s",
     "Dropbox App Configuration" : "Konfigurasi Aplikasi Dropbox",
+    "Google Drive App Configuration" : "Konfigurasi Aplikasi Google Drive",
     "Storage with id \"%i\" not found" : "Penyimpanan dengan id \"%i\" tidak ditemukan",
     "Storage with id \"%i\" is not user editable" : "Penyimpanan dengan id \"%i\" tidak bisa diubah pengguna",
-    "Dropbox" : "Dropbox"
+    "Dropbox" : "Dropbox",
+    "Google Drive" : "Google Drive"
 },
 "nplurals=1; plural=0;");

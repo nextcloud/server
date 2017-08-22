@@ -1,10 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "Step 1 failed. Exception: %s" : "步驟 1 失敗，出現異常: %s",
-    "Step 2 failed. Exception: %s" : "步驟 2 失敗，出現異常: %s",
     "External storages" : "外部儲存",
-    "Google Drive App Configuration" : "Google Drive 應用設置",
     "Personal" : "個人",
     "System" : "系統",
     "Grant access" : "允許存取",
@@ -65,7 +62,6 @@ OC.L10N.register(
     "FTP" : "檔案傳輸協定-FTP",
     "Host" : "主機",
     "Secure ftps://" : "安全 ftps://",
-    "Google Drive" : "Google 雲端硬碟",
     "Local" : "本地",
     "Location" : "地點",
     "SFTP" : "安全檔案傳輸協定-SFTP",
@@ -100,8 +96,12 @@ OC.L10N.register(
     "Allow users to mount the following external storage" : "允許使用者自行掛載以下的外部儲存",
     "Fetching request tokens failed. Verify that your app key and secret are correct." : "請求失敗，請驗證您的應用程式金鑰及密碼是否正確",
     "Fetching access tokens failed. Verify that your app key and secret are correct." : "存取失敗，請驗證您的應用程式金鑰及密碼是否正確",
+    "Step 1 failed. Exception: %s" : "步驟 1 失敗，出現異常: %s",
+    "Step 2 failed. Exception: %s" : "步驟 2 失敗，出現異常: %s",
     "Dropbox App Configuration" : "Dropbox 應用設置",
+    "Google Drive App Configuration" : "Google Drive 應用設置",
     "Storage with id \"%i\" not found" : "沒有找到編號 \"%i\" 的儲存空間 ",
-    "Dropbox" : "Dropbox"
+    "Dropbox" : "Dropbox",
+    "Google Drive" : "Google 雲端硬碟"
 },
 "nplurals=1; plural=0;");
