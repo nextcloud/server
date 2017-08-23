@@ -803,7 +803,7 @@ services:
       matrix:
         DB: postgres
   mysql:
-    image: mysql:5.7
+    image: mysql/mysql-server:5.7
     environment:
       - MYSQL_ROOT_PASSWORD=owncloud
       - MYSQL_USER=oc_autotest
@@ -813,7 +813,7 @@ services:
       matrix:
         DB: mysql
   mysql:
-    image: mysql:5.6
+    image: mysql/mysql-server:5.6
     environment:
       - MYSQL_ROOT_PASSWORD=owncloud
       - MYSQL_USER=oc_autotest
@@ -823,7 +823,7 @@ services:
       matrix:
         DB: mysql5.6
   mysql:
-    image: mysql:5.5
+    image: mysql/mysql-server:5.5
     environment:
       - MYSQL_ROOT_PASSWORD=owncloud
       - MYSQL_USER=oc_autotest
