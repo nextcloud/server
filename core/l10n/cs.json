@@ -269,6 +269,8 @@
     "Log in" : "Přihlásit",
     "Stay logged in" : "Neodhlašovat",
     "Alternative Logins" : "Alternativní přihlášení",
+    "Account access" : "Přístup k účtu",
+    "You are about to grant %s access to your %s account." : "Chystáte se povolit %s přístup k vašemu %s účtu.",
     "App token" : "Token aplikace",
     "Alternative login using app token" : "Alternativní přihlášení pomocí tokenu aplikace",
     "Redirecting …" : "Přesměrovávání …",
