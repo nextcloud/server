@@ -1021,6 +1021,10 @@ OC.Uploader.prototype = _.extend({
 					}
 
 					var h = moment.duration(smoothRemainingSeconds, "seconds").humanize();
+					if (!(smoothRemainingSeconds >= 0 && smoothRemainingSeconds < 14400)) {
+						// show "Uploading ..." for durations longer than 4 hours
+						h = t('files', 'Uploading...');
+					}
 					$('#uploadprogressbar .label .mobile').text(h);
 					$('#uploadprogressbar .label .desktop').text(h);
 					$('#uploadprogressbar').attr('original-title',
