@@ -39,6 +39,7 @@ class StartSessionListener implements PHPUnit_Framework_TestListener {
 	}
 
 	public function startTestSuite(PHPUnit_Framework_TestSuite $suite) {
+		var_dump($suite->getName());
 	}
 
 	public function endTestSuite(PHPUnit_Framework_TestSuite $suite) {
