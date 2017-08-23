@@ -48,7 +48,6 @@ pipeline:
   phan:
     image: nextcloudci/php7.1:php7.1-15
     commands:
-      - rm /etc/php/7.1/cli/conf.d/20-xdebug.ini
       - composer install
       - composer require --dev "etsy/phan:dev-master"
       - ./lib/composer/etsy/phan/phan -k build/.phan/config.php
