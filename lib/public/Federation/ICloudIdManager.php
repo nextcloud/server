@@ -29,6 +29,7 @@ interface ICloudIdManager {
 	/**
 	 * @param string $cloudId
 	 * @return ICloudId
+	 * @throws \InvalidArgumentException
 	 *
 	 * @since 12.0.0
 	 */
