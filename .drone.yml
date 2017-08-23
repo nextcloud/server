@@ -299,7 +299,7 @@ pipeline:
     when:
       matrix:
         DB: postgres
-        PHP: 7.0
+        PHP: "7.0"
   mysqlmb4-php5.6:
     image: nextcloudci/php5.6:php5.6-8
     commands:
