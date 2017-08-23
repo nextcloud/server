@@ -92,7 +92,11 @@ class Database extends Backend implements IUserBackend {
 			$event = new GenericEvent($password);
 			$this->eventDispatcher->dispatch('OCP\PasswordPolicy::validate', $event);
 			$query = \OC_DB::prepare('INSERT INTO `*PREFIX*users` ( `uid`, `password` ) VALUES( ?, ? )');
-			$result = $query->execute(array($uid, \OC::$server->getHasher()->hash($password)));
+			try {
+				$result = $query->execute(array($uid, \OC::$server->getHasher()->hash($password)));
+			} catch (\Exception $e) {
+				$result = false;
+			}
 
 			// Clear cache
 			unset($this->cache[$uid]);
