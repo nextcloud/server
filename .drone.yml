@@ -327,7 +327,7 @@ pipeline:
   integration-capabilities_features:
     image: nextcloudci/integration-php7.0:integration-php7.0-6
     commands:
-      - ./occ maintenance:install --admin-pass=admin
+      - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
       - ./run.sh capabilities_features/capabilities.feature
     when:
@@ -345,7 +345,7 @@ pipeline:
   integration-auth:
     image: nextcloudci/integration-php7.0:integration-php7.0-6
     commands:
-      - ./occ maintenance:install --admin-pass=admin
+      - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
       - ./run.sh features/auth.feature
     when:
@@ -354,7 +354,7 @@ pipeline:
   integration-maintenance-mode:
     image: nextcloudci/integration-php7.0:integration-php7.0-6
     commands:
-      - ./occ maintenance:install --admin-pass=admin
+      - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
       - ./run.sh features/maintenance-mode.feature
     when:
@@ -363,7 +363,7 @@ pipeline:
   integration-ratelimiting:
     image: nextcloudci/integration-php7.0:integration-php7.0-6
     commands:
-      - ./occ maintenance:install --admin-pass=admin
+      - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - ./occ config:system:set redis host --value=cache
       - ./occ config:system:set redis port --value=6379 --type=integer
       - ./occ config:system:set redis timeout --value=0 --type=integer
@@ -378,7 +378,7 @@ pipeline:
   integration-carddav:
     image: nextcloudci/integration-php7.0:integration-php7.0-6
     commands:
-      - ./occ maintenance:install --admin-pass=admin
+      - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
       - ./run.sh features/carddav.feature
     when:
@@ -387,7 +387,7 @@ pipeline:
   integration-dav-v2:
     image: nextcloudci/integration-php7.0:integration-php7.0-6
     commands:
-      - ./occ maintenance:install --admin-pass=admin
+      - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
       - ./run.sh features/dav-v2.feature
     when:
@@ -396,7 +396,7 @@ pipeline:
   integration-ocs-v1:
     image: nextcloudci/integration-php7.0:integration-php7.0-6
     commands:
-      - ./occ maintenance:install --admin-pass=admin
+      - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
       - ./run.sh features/ocs-v1.feature
     when:
@@ -405,7 +405,7 @@ pipeline:
   integration-sharing-v1:
     image: nextcloudci/integration-php7.0:integration-php7.0-6
     commands:
-      - ./occ maintenance:install --admin-pass=admin
+      - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
       - ./run.sh features/sharing-v1.feature
     when:
@@ -414,7 +414,7 @@ pipeline:
   integration-sharing-v1-part2:
     image: nextcloudci/integration-php7.0:integration-php7.0-6
     commands:
-      - ./occ maintenance:install --admin-pass=admin
+      - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
       - ./run.sh features/sharing-v1-part2.feature
     when:
@@ -423,7 +423,7 @@ pipeline:
   integration-sharing-v1-part3:
     image: nextcloudci/integration-php7.0:integration-php7.0-6
     commands:
-      - ./occ maintenance:install --admin-pass=admin
+      - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
       - ./run.sh features/sharing-v1-part3.feature
     when:
@@ -432,7 +432,7 @@ pipeline:
   integration-checksums-v1:
     image: nextcloudci/integration-php7.0:integration-php7.0-6
     commands:
-      - ./occ maintenance:install --admin-pass=admin
+      - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
       - ./run.sh features/checksums.feature
     when:
@@ -441,7 +441,7 @@ pipeline:
   integration-external-storage:
     image: nextcloudci/integration-php7.0:integration-php7.0-6
     commands:
-      - ./occ maintenance:install --admin-pass=admin
+      - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
       - ./run.sh features/external-storage.feature
     when:
@@ -450,7 +450,7 @@ pipeline:
   integration-provisioning-v1:
     image: nextcloudci/integration-php7.0:integration-php7.0-6
     commands:
-      - ./occ maintenance:install --admin-pass=admin
+      - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
       - ./run.sh features/provisioning-v1.feature
     when:
@@ -459,7 +459,7 @@ pipeline:
   integration-tags:
     image: nextcloudci/integration-php7.0:integration-php7.0-6
     commands:
-      - ./occ maintenance:install --admin-pass=admin
+      - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
       - ./run.sh features/tags.feature
     when:
@@ -468,7 +468,7 @@ pipeline:
   integration-caldav:
     image: nextcloudci/integration-php7.0:integration-php7.0-6
     commands:
-      - ./occ maintenance:install --admin-pass=admin
+      - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
       - ./run.sh features/caldav.feature
     when:
@@ -477,7 +477,7 @@ pipeline:
   integration-comments:
     image: nextcloudci/integration-php7.0:integration-php7.0-6
     commands:
-      - ./occ maintenance:install --admin-pass=admin
+      - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
       - ./run.sh features/comments.feature
     when:
@@ -486,7 +486,7 @@ pipeline:
   integration-favorites:
     image: nextcloudci/integration-php7.0:integration-php7.0-6
     commands:
-      - ./occ maintenance:install --admin-pass=admin
+      - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
       - ./run.sh features/favorites.feature
     when:
@@ -495,7 +495,7 @@ pipeline:
   integration-provisioning-v2:
     image: nextcloudci/integration-php7.0:integration-php7.0-6
     commands:
-      - ./occ maintenance:install --admin-pass=admin
+      - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
       - ./run.sh features/provisioning-v2.feature
     when:
@@ -504,7 +504,7 @@ pipeline:
   integration-webdav-related:
     image: nextcloudci/integration-php7.0:integration-php7.0-6
     commands:
-      - ./occ maintenance:install --admin-pass=admin
+      - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
       - ./run.sh features/webdav-related.feature
     when:
@@ -513,7 +513,7 @@ pipeline:
   integration-sharees-features:
     image: nextcloudci/integration-php7.0:integration-php7.0-6
     commands:
-      - ./occ maintenance:install --admin-pass=admin
+      - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
       - ./run.sh sharees_features/sharees.feature
     when:
@@ -522,7 +522,7 @@ pipeline:
   integration-sharees-v2-features:
     image: nextcloudci/integration-php7.0:integration-php7.0-6
     commands:
-      - ./occ maintenance:install --admin-pass=admin
+      - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
       - ./run.sh sharees_features/sharees_provisioningapiv2.feature
     when:
@@ -539,7 +539,7 @@ pipeline:
   integration-filesdrop-features:
     image: nextcloudci/integration-php7.0:integration-php7.0-6
     commands:
-      - ./occ maintenance:install --admin-pass=admin
+      - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
       - ./run.sh filesdrop_features/filesdrop.feature
     when:
@@ -548,7 +548,7 @@ pipeline:
   integration-transfer-ownership-features:
     image: nextcloudci/integration-php7.0:integration-php7.0-6
     commands:
-      - ./occ maintenance:install --admin-pass=admin
+      - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
       - ./run.sh features/transfer-ownership.feature
     when:
@@ -557,7 +557,7 @@ pipeline:
   integration-ldap-features:
       image: nextcloudci/integration-php7.0:integration-php7.0-6
       commands:
-        - ./occ maintenance:install --admin-pass=admin
+        - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
         - ./occ app:enable user_ldap
         - cd build/integration
         - ./run.sh ldap_features/ldap-ocs.feature
@@ -567,7 +567,7 @@ pipeline:
   integration-trashbin:
     image: nextcloudci/integration-php7.0:integration-php7.0-6
     commands:
-      - ./occ maintenance:install --admin-pass=admin
+      - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
       - ./run.sh features/trashbin.feature
     when:
