@@ -1113,6 +1113,9 @@ OC.Uploader.prototype = _.extend({
 				});
 				fileupload.on('fileuploaddrop', function(e, data) {
 					self.trigger('drop', e, data);
+					if (e.isPropagationStopped()) {
+						return false;
+					}
 				});
 
 			}

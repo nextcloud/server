@@ -2795,6 +2795,7 @@
 					var isCreatable = (self.getDirectoryPermissions() & OC.PERMISSION_CREATE) !== 0;
 					if (!isCreatable) {
 						self._showPermissionDeniedNotification();
+						e.stopPropagation();
 						return false;
 					}
 
