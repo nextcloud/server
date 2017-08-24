@@ -647,9 +647,10 @@ pipeline:
       matrix:
         TEST: memcache-memcached
   memcache-redis-cluster:
-    image: nextcloudci/php7.0:php7.0-16
+    image: nextcloudci/php7.0:php7.0-17
     commands:
       - phpenmod xdebug
+      - sleep 20
       - ./autotest.sh sqlite tests/lib/Memcache/RedisTest.php
       - wget https://codecov.io/bash -O codecov.sh
       - sh -c "if [ '$DRONE_BUILD_EVENT' = 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -P $DRONE_PULL_REQUEST -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-clover-sqlite.xml; fi"
