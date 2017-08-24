@@ -188,6 +188,9 @@ class ShareesAPIController extends OCSController {
 						'shareWith' => $uid,
 					],
 				];
+				if ($user->getEMailAddress()) {
+					$userData['value']['emailAddress'] = $user->getEMailAddress();
+				}
 				$this->result['exact']['users'][] = $userData;
 			} else {
 				$userData = [
@@ -197,6 +200,9 @@ class ShareesAPIController extends OCSController {
 						'shareWith' => $uid,
 					],
 				];
+				if ($user->getEMailAddress()) {
+					$userData['value']['emailAddress'] = $user->getEMailAddress();
+				}
 				$this->result['users'][] = $userData;
 			}
 		}
@@ -222,6 +228,9 @@ class ShareesAPIController extends OCSController {
 							'shareWith' => $user->getUID(),
 						],
 					];
+					if ($user->getEMailAddress()) {
+						$userData['value']['emailAddress'] = $user->getEMailAddress();
+					}
 					$this->result['exact']['users'][] = $userData;
 				}
 			}
