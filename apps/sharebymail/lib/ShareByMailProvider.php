@@ -347,7 +347,8 @@ class ShareByMailProvider implements IShareProvider {
 				$share->getNode()->getName(),
 				$link,
 				$share->getSharedBy(),
-				$share->getSharedWith()
+				$share->getSharedWith(),
+				$share->getExpirationDate()
 			);
 		} catch (HintException $hintException) {
 			$this->logger->error('Failed to send share by mail: ' . $hintException->getMessage());
@@ -369,12 +370,14 @@ class ShareByMailProvider implements IShareProvider {
 	 * @param string $link
 	 * @param string $initiator
 	 * @param string $shareWith
+	 * @param \DateTime $expiration
 	 * @throws \Exception If mail couldn't be sent
 	 */
 	protected function sendMailNotification($filename,
 											$link,
 											$initiator,
-											$shareWith) {
+											$shareWith,
+											\DateTime $expiration) {
 		$initiatorUser = $this->userManager->get($initiator);
 		$initiatorDisplayName = ($initiatorUser instanceof IUser) ? $initiatorUser->getDisplayName() : $initiator;
 		$subject = (string)$this->l->t('%s shared »%s« with you', array($initiatorDisplayName, $filename));
@@ -382,6 +385,12 @@ class ShareByMailProvider implements IShareProvider {
 		$message = $this->mailer->createMessage();
 
 		$emailTemplate = $this->mailer->createEMailTemplate();
+		$emailTemplate->setMetaData('sharebymail.RecipientNotification', [
+			'filename' => $filename,
+			'link' => $link,
+			'initiator' => $initiatorDisplayName,
+			'expiration' => $expiration,
+		]);
 
 		$emailTemplate->addHeader();
 		$emailTemplate->addHeading($this->l->t('%s shared »%s« with you', [$initiatorDisplayName, $filename]), false);
