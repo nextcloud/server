@@ -51,7 +51,7 @@ use OC\AppFramework\Http\Request;
 use OC\AppFramework\Utility\SimpleContainer;
 use OC\AppFramework\Utility\TimeFactory;
 use OC\Authentication\LoginCredentials\Store;
-use OC\Command\AsyncBus;
+use OC\Command\CronBus;
 use OC\Contacts\ContactsMenu\ActionFactory;
 use OC\Diagnostics\EventLogger;
 use OC\Diagnostics\NullEventLogger;
@@ -695,7 +695,7 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerService('AsyncCommandBus', function (Server $c) {
 			$jobList = $c->getJobList();
-			return new AsyncBus($jobList);
+			return new CronBus($jobList);
 		});
 		$this->registerService('TrustedDomainHelper', function ($c) {
 			return new TrustedDomainHelper($this->getConfig());

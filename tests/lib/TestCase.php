@@ -190,7 +190,9 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 			self::assertEquals([], $errors, "There have been xml parsing errors");
 		}
 
-		\OC\Files\Cache\Storage::getGlobalCache()->clearCache();
+		if ($this->IsDatabaseAccessAllowed()) {
+			\OC\Files\Cache\Storage::getGlobalCache()->clearCache();
+		}
 
 		// tearDown the traits
 		$traits = $this->getTestTraits();
