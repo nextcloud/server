@@ -2,7 +2,7 @@ OC.L10N.register(
     "federatedfilesharing",
     {
     "Federated sharing" : "Federerad delning",
-    "Do you want to add the remote share {name} from {owner}@{remote}?" : "Vill du lägga till fjärrdelning {name} från {owner}@{remote}?",
+    "Do you want to add the remote share {name} from {owner}@{remote}?" : "Vill du lägga till extern delning {name} från {owner}@{remote}?",
     "Remote share" : "Extern delning",
     "Remote share password" : "Lösenord för extern delning",
     "Cancel" : "Avbryt",
