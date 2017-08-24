@@ -2696,6 +2696,8 @@ describe('OCA.Files.FileList tests', function() {
 						target: $target
 					},
 					preventDefault: function () {
+					},
+					stopPropagation: function() {
 					}
 				};
 				uploader.trigger('drop', eventData, data || {});
