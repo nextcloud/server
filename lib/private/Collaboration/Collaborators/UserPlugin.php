@@ -94,21 +94,23 @@ class UserPlugin implements ISearchPlugin {
 				if (strtolower($uid) === $lowerSearch) {
 					$foundUserById = true;
 				}
-				$result['exact'][] = [
+				$userData = [
 					'label' => $userDisplayName,
 					'value' => [
 						'shareType' => Share::SHARE_TYPE_USER,
 						'shareWith' => $uid,
 					],
 				];
+				$result['exact'][] = $userData;
 			} else {
-				$result['wide'][] = [
+				$userData = [
 					'label' => $userDisplayName,
 					'value' => [
 						'shareType' => Share::SHARE_TYPE_USER,
 						'shareWith' => $uid,
 					],
 				];
+				$result['wide'][] = $userData;
 			}
 		}
 
@@ -126,13 +128,14 @@ class UserPlugin implements ISearchPlugin {
 				}
 
 				if ($addUser) {
-					array_push($result['exact'], [
+					$userData = [
 						'label' => $user->getDisplayName(),
 						'value' => [
 							'shareType' => Share::SHARE_TYPE_USER,
 							'shareWith' => $user->getUID(),
 						],
-					]);
+					];
+					$result['exact'][] = $userData;
 				}
 			}
 		}
