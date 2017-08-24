@@ -181,21 +181,23 @@ class ShareesAPIController extends OCSController {
 				if (strtolower($uid) === $lowerSearch) {
 					$foundUserById = true;
 				}
-				$this->result['exact']['users'][] = [
+				$userData = [
 					'label' => $userDisplayName,
 					'value' => [
 						'shareType' => Share::SHARE_TYPE_USER,
 						'shareWith' => $uid,
 					],
 				];
+				$this->result['exact']['users'][] = $userData;
 			} else {
-				$this->result['users'][] = [
+				$userData = [
 					'label' => $userDisplayName,
 					'value' => [
 						'shareType' => Share::SHARE_TYPE_USER,
 						'shareWith' => $uid,
 					],
 				];
+				$this->result['users'][] = $userData;
 			}
 		}
 
@@ -213,13 +215,14 @@ class ShareesAPIController extends OCSController {
 				}
 
 				if ($addUser) {
-					array_push($this->result['exact']['users'], [
+					$userData = [
 						'label' => $user->getDisplayName(),
 						'value' => [
 							'shareType' => Share::SHARE_TYPE_USER,
 							'shareWith' => $user->getUID(),
 						],
-					]);
+					];
+					$this->result['exact']['users'][] = $userData;
 				}
 			}
 		}
