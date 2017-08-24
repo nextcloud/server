@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -29,6 +30,7 @@ use OC_Util;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\Authentication\TwoFactorAuth\IProvidesCustomCSP;
 use OCP\Authentication\TwoFactorAuth\TwoFactorException;
 use OCP\IRequest;
 use OCP\ISession;
@@ -135,7 +137,11 @@ class TwoFactorChallengeController extends Controller {
 			'redirect_url' => $redirect_url,
 			'template' => $tmpl->fetchPage(),
 		];
-		return new TemplateResponse($this->appName, 'twofactorshowchallenge', $data, 'guest');
+		$response = new TemplateResponse($this->appName, 'twofactorshowchallenge', $data, 'guest');
+		if ($provider instanceof IProvidesCustomCSP) {
+			$response->setContentSecurityPolicy($provider->getCSP());
+		}
+		return $response;
 	}
 
 	/**
