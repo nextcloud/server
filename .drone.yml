@@ -647,7 +647,7 @@ pipeline:
       matrix:
         TEST: memcache-memcached
   memcache-redis-cluster:
-    image: nextcloudci/php7.0:php7.0-16
+    image: nextcloudci/php7.0:php7.0-17
     commands:
       - phpenmod xdebug
       - sleep 20
