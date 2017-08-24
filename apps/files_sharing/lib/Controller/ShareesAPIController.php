@@ -156,9 +156,9 @@ class ShareesAPIController extends OCSController {
 			// Search in all the groups this user is part of
 			$userGroups = $this->groupManager->getUserGroupIds($this->userSession->getUser());
 			foreach ($userGroups as $userGroup) {
-				$usersTmp = $this->groupManager->displayNamesInGroup($userGroup, $search, $this->limit, $this->offset);
-				foreach ($usersTmp as $uid => $userDisplayName) {
-					$users[$uid] = $userDisplayName;
+				$usersTmp = $this->groupManager->usersInGroup($userGroup, $search, $this->limit, $this->offset);
+				foreach ($usersTmp as $uid => $user) {
+					$users[$uid] = $user;
 				}
 			}
 		} else {
@@ -166,7 +166,7 @@ class ShareesAPIController extends OCSController {
 			$usersTmp = $this->userManager->searchDisplayName($search, $this->limit, $this->offset);
 
 			foreach ($usersTmp as $user) {
-				$users[$user->getUID()] = $user->getDisplayName();
+				$users[$user->getUID()] = $user;
 			}
 		}
 
@@ -176,13 +176,13 @@ class ShareesAPIController extends OCSController {
 
 		$foundUserById = false;
 		$lowerSearch = strtolower($search);
-		foreach ($users as $uid => $userDisplayName) {
-			if (strtolower($uid) === $lowerSearch || strtolower($userDisplayName) === $lowerSearch) {
+		foreach ($users as $uid => $user) {
+			if (strtolower($uid) === $lowerSearch || strtolower($user->getDisplayName()) === $lowerSearch) {
 				if (strtolower($uid) === $lowerSearch) {
 					$foundUserById = true;
 				}
 				$userData = [
-					'label' => $userDisplayName,
+					'label' => $user->getDisplayName(),
 					'value' => [
 						'shareType' => Share::SHARE_TYPE_USER,
 						'shareWith' => $uid,
@@ -191,7 +191,7 @@ class ShareesAPIController extends OCSController {
 				$this->result['exact']['users'][] = $userData;
 			} else {
 				$userData = [
-					'label' => $userDisplayName,
+					'label' => $user->getDisplayName(),
 					'value' => [
 						'shareType' => Share::SHARE_TYPE_USER,
 						'shareWith' => $uid,

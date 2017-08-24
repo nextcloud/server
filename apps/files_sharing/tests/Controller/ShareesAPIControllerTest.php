@@ -302,7 +302,7 @@ class ShareesAPIControllerTest extends TestCase {
 				true,
 				['abc', 'xyz'],
 				[
-					['abc', 'test', 2, 0, ['test1' => 'Test One']],
+					['abc', 'test', 2, 0, ['test1' => $this->getUserMock('test1', 'Test One')]],
 					['xyz', 'test', 2, 0, []],
 				],
 				[],
@@ -318,7 +318,7 @@ class ShareesAPIControllerTest extends TestCase {
 				false,
 				['abc', 'xyz'],
 				[
-					['abc', 'test', 2, 0, ['test1' => 'Test One']],
+					['abc', 'test', 2, 0, ['test1' => $this->getUserMock('test1', 'Test One')]],
 					['xyz', 'test', 2, 0, []],
 				],
 				[],
@@ -333,12 +333,12 @@ class ShareesAPIControllerTest extends TestCase {
 				['abc', 'xyz'],
 				[
 					['abc', 'test', 2, 0, [
-						'test1' => 'Test One',
-						'test2' => 'Test Two',
+						'test1' => $this->getUserMock('test1', 'Test One'),
+						'test2' => $this->getUserMock('test2', 'Test Two'),
 					]],
 					['xyz', 'test', 2, 0, [
-						'test1' => 'Test One',
-						'test2' => 'Test Two',
+						'test1' => $this->getUserMock('test1', 'Test One'),
+						'test2' => $this->getUserMock('test2', 'Test Two'),
 					]],
 				],
 				[],
@@ -356,12 +356,12 @@ class ShareesAPIControllerTest extends TestCase {
 				['abc', 'xyz'],
 				[
 					['abc', 'test', 2, 0, [
-						'test1' => 'Test One',
-						'test2' => 'Test Two',
+						'test1' => $this->getUserMock('test1', 'Test One'),
+						'test2' => $this->getUserMock('test2', 'Test Two'),
 					]],
 					['xyz', 'test', 2, 0, [
-						'test1' => 'Test One',
-						'test2' => 'Test Two',
+						'test1' => $this->getUserMock('test1', 'Test One'),
+						'test2' => $this->getUserMock('test2', 'Test Two'),
 					]],
 				],
 				[],
@@ -376,10 +376,10 @@ class ShareesAPIControllerTest extends TestCase {
 				['abc', 'xyz'],
 				[
 					['abc', 'test', 2, 0, [
-						'test' => 'Test One',
+						'test' => $this->getUserMock('test', 'Test One'),
 					]],
 					['xyz', 'test', 2, 0, [
-						'test2' => 'Test Two',
+						'test2' => $this->getUserMock('test2', 'Test Two'),
 					]],
 				],
 				[
@@ -398,10 +398,10 @@ class ShareesAPIControllerTest extends TestCase {
 				['abc', 'xyz'],
 				[
 					['abc', 'test', 2, 0, [
-						'test' => 'Test One',
+						'test' => $this->getUserMock('test', 'Test One'),
 					]],
 					['xyz', 'test', 2, 0, [
-						'test2' => 'Test Two',
+						'test2' => $this->getUserMock('test2', 'Test Two'),
 					]],
 				],
 				[
@@ -460,7 +460,7 @@ class ShareesAPIControllerTest extends TestCase {
 			}
 
 			$this->groupManager->expects($this->exactly(sizeof($groupResponse)))
-				->method('displayNamesInGroup')
+				->method('usersInGroup')
 				->with($this->anything(), $searchTerm, $this->invokePrivate($this->sharees, 'limit'), $this->invokePrivate($this->sharees, 'offset'))
 				->willReturnMap($userResponse);
 		}
