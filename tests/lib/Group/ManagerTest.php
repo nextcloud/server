@@ -498,6 +498,306 @@ class ManagerTest extends TestCase {
 		$this->assertEquals('group2', $group2->getGID());
 	}
 
+	public function testUsersInGroupWithOneUserBackend() {
+		/**
+		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC\Group\Backend $backend
+		 */
+		$backend = $this->getTestBackend();
+		$backend->expects($this->exactly(1))
+			->method('groupExists')
+			->with('testgroup')
+			->will($this->returnValue(true));
+
+		$backend->expects($this->any())
+			->method('inGroup')
+			->will($this->returnCallback(function($uid, $gid) {
+				switch($uid) {
+					case 'user1' : return false;
+					case 'user2' : return true;
+					case 'user3' : return false;
+					case 'user33': return true;
+					default:
+						return null;
+					}
+			}));
+
+		$this->userManager->expects($this->any())
+			->method('searchDisplayName')
+			->with('user3')
+			->will($this->returnCallback(function($search, $limit, $offset) {
+				switch($offset) {
+					case 0 : return ['user3' => $this->getTestUser('user3'),
+									'user33' => $this->getTestUser('user33')];
+					case 2 : return [];
+				}
+				return null;
+			}));
+		$this->userManager->expects($this->any())
+			->method('get')
+			->will($this->returnCallback(function($uid) {
+				switch($uid) {
+					case 'user1' : return $this->getTestUser('user1');
+					case 'user2' : return $this->getTestUser('user2');
+					case 'user3' : return $this->getTestUser('user3');
+					case 'user33': return $this->getTestUser('user33');
+					default:
+						return null;
+				}
+			}));
+
+		$manager = new \OC\Group\Manager($this->userManager, $this->logger);
+		$manager->addBackend($backend);
+
+		$users = $manager->usersInGroup('testgroup', 'user3');
+		$this->assertCount(1, $users);
+		$this->assertFalse(isset($users['user1']));
+		$this->assertFalse(isset($users['user2']));
+		$this->assertFalse(isset($users['user3']));
+		$this->assertTrue(isset($users['user33']));
+	}
+
+	public function testUsersInGroupWithOneUserBackendWithLimitSpecified() {
+		/**
+		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC\Group\Backend $backend
+		 */
+		$backend = $this->getTestBackend();
+		$backend->expects($this->exactly(1))
+			->method('groupExists')
+			->with('testgroup')
+			->will($this->returnValue(true));
+
+				$backend->expects($this->any())
+			->method('inGroup')
+			->will($this->returnCallback(function($uid, $gid) {
+					switch($uid) {
+						case 'user1' : return false;
+						case 'user2' : return true;
+						case 'user3' : return false;
+						case 'user33': return true;
+						case 'user333': return true;
+						default:
+							return null;
+					}
+			}));
+
+		$this->userManager->expects($this->any())
+			->method('searchDisplayName')
+			->with('user3')
+			->will($this->returnCallback(function($search, $limit, $offset) {
+				switch($offset) {
+					case 0 : return ['user3' => $this->getTestUser('user3'),
+									'user33' => $this->getTestUser('user33')];
+					case 2 : return ['user333' => $this->getTestUser('user333')];
+				}
+				return null;
+			}));
+		$this->userManager->expects($this->any())
+			->method('get')
+			->will($this->returnCallback(function($uid) {
+				switch($uid) {
+					case 'user1' : return $this->getTestUser('user1');
+					case 'user2' : return $this->getTestUser('user2');
+					case 'user3' : return $this->getTestUser('user3');
+					case 'user33': return $this->getTestUser('user33');
+					case 'user333': return $this->getTestUser('user333');
+					default:
+						return null;
+				}
+			}));
+
+		$manager = new \OC\Group\Manager($this->userManager, $this->logger);
+		$manager->addBackend($backend);
+
+		$users = $manager->usersInGroup('testgroup', 'user3', 1);
+		$this->assertCount(1, $users);
+		$this->assertFalse(isset($users['user1']));
+		$this->assertFalse(isset($users['user2']));
+		$this->assertFalse(isset($users['user3']));
+		$this->assertTrue(isset($users['user33']));
+		$this->assertFalse(isset($users['user333']));
+	}
+
+	public function testUsersInGroupWithOneUserBackendWithLimitAndOffsetSpecified() {
+		/**
+		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC\Group\Backend $backend
+		 */
+		$backend = $this->getTestBackend();
+		$backend->expects($this->exactly(1))
+			->method('groupExists')
+			->with('testgroup')
+			->will($this->returnValue(true));
+
+		$backend->expects($this->any())
+			->method('inGroup')
+			->will($this->returnCallback(function($uid) {
+					switch($uid) {
+						case 'user1' : return false;
+						case 'user2' : return true;
+						case 'user3' : return false;
+						case 'user33': return true;
+						case 'user333': return true;
+						default:
+							return null;
+					}
+			}));
+
+		$this->userManager->expects($this->any())
+			->method('searchDisplayName')
+			->with('user3')
+			->will($this->returnCallback(function($search, $limit, $offset) {
+				switch($offset) {
+					case 0 :
+						return [
+							'user3' => $this->getTestUser('user3'),
+							'user33' => $this->getTestUser('user33'),
+							'user333' => $this->getTestUser('user333')
+						];
+				}
+				return null;
+			}));
+		$this->userManager->expects($this->any())
+			->method('get')
+			->will($this->returnCallback(function($uid) {
+				switch($uid) {
+					case 'user1' : return $this->getTestUser('user1');
+					case 'user2' : return $this->getTestUser('user2');
+					case 'user3' : return $this->getTestUser('user3');
+					case 'user33': return $this->getTestUser('user33');
+					case 'user333': return $this->getTestUser('user333');
+					default:
+						return null;
+				}
+			}));
+
+		$manager = new \OC\Group\Manager($this->userManager, $this->logger);
+		$manager->addBackend($backend);
+
+		$users = $manager->usersInGroup('testgroup', 'user3', 1, 1);
+		$this->assertCount(1, $users);
+		$this->assertFalse(isset($users['user1']));
+		$this->assertFalse(isset($users['user2']));
+		$this->assertFalse(isset($users['user3']));
+		$this->assertFalse(isset($users['user33']));
+		$this->assertTrue(isset($users['user333']));
+	}
+
+	public function testUsersInGroupWithOneUserBackendAndSearchEmpty() {
+		/**
+		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC\Group\Backend $backend
+		 */
+		$backend = $this->getTestBackend();
+		$backend->expects($this->exactly(1))
+			->method('groupExists')
+			->with('testgroup')
+			->will($this->returnValue(true));
+
+				$backend->expects($this->once())
+			->method('usersInGroup')
+			->with('testgroup', '', -1, 0)
+			->will($this->returnValue(array('user2', 'user33')));
+
+		$this->userManager->expects($this->any())
+			->method('get')
+			->will($this->returnCallback(function($uid) {
+				switch($uid) {
+					case 'user1' : return $this->getTestUser('user1');
+					case 'user2' : return $this->getTestUser('user2');
+					case 'user3' : return $this->getTestUser('user3');
+					case 'user33': return $this->getTestUser('user33');
+					default:
+						return null;
+				}
+			}));
+
+		$manager = new \OC\Group\Manager($this->userManager, $this->logger);
+		$manager->addBackend($backend);
+
+		$users = $manager->usersInGroup('testgroup', '');
+		$this->assertCount(2, $users);
+		$this->assertFalse(isset($users['user1']));
+		$this->assertTrue(isset($users['user2']));
+		$this->assertFalse(isset($users['user3']));
+		$this->assertTrue(isset($users['user33']));
+	}
+
+	public function testUsersInGroupWithOneUserBackendAndSearchEmptyAndLimitSpecified() {
+		/**
+		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC\Group\Backend $backend
+		 */
+		$backend = $this->getTestBackend();
+		$backend->expects($this->exactly(1))
+			->method('groupExists')
+			->with('testgroup')
+			->will($this->returnValue(true));
+
+		$backend->expects($this->once())
+			->method('usersInGroup')
+			->with('testgroup', '', 1, 0)
+			->will($this->returnValue(array('user2')));
+
+		$this->userManager->expects($this->any())
+			->method('get')
+			->will($this->returnCallback(function($uid) {
+				switch($uid) {
+					case 'user1' : return $this->getTestUser('user1');
+					case 'user2' : return $this->getTestUser('user2');
+					case 'user3' : return $this->getTestUser('user3');
+					case 'user33': return $this->getTestUser('user33');
+					default:
+						return null;
+				}
+			}));
+
+		$manager = new \OC\Group\Manager($this->userManager, $this->logger);
+		$manager->addBackend($backend);
+
+		$users = $manager->displayNamesInGroup('testgroup', '', 1);
+		$this->assertCount(1, $users);
+		$this->assertFalse(isset($users['user1']));
+		$this->assertTrue(isset($users['user2']));
+		$this->assertFalse(isset($users['user3']));
+		$this->assertFalse(isset($users['user33']));
+	}
+
+	public function testUsersInGroupWithOneUserBackendAndSearchEmptyAndLimitAndOffsetSpecified() {
+		/**
+		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC\Group\Backend $backend
+		 */
+		$backend = $this->getTestBackend();
+		$backend->expects($this->exactly(1))
+			->method('groupExists')
+			->with('testgroup')
+			->will($this->returnValue(true));
+
+		$backend->expects($this->once())
+			->method('usersInGroup')
+			->with('testgroup', '', 1, 1)
+			->will($this->returnValue(array('user33')));
+
+		$this->userManager->expects($this->any())
+			->method('get')
+			->will($this->returnCallback(function($uid) {
+				switch($uid) {
+					case 'user1' : return $this->getTestUser('user1');
+					case 'user2' : return $this->getTestUser('user2');
+					case 'user3' : return $this->getTestUser('user3');
+					case 'user33': return $this->getTestUser('user33');
+					default:
+						return null;
+				}
+			}));
+
+		$manager = new \OC\Group\Manager($this->userManager, $this->logger);
+		$manager->addBackend($backend);
+
+		$users = $manager->usersInGroup('testgroup', '', 1, 1);
+		$this->assertCount(1, $users);
+		$this->assertFalse(isset($users['user1']));
+		$this->assertFalse(isset($users['user2']));
+		$this->assertFalse(isset($users['user3']));
+		$this->assertTrue(isset($users['user33']));
+	}
+
 	public function testDisplayNamesInGroupWithOneUserBackend() {
 		/**
 		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC\Group\Backend $backend

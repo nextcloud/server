@@ -118,6 +118,18 @@ interface IGroupManager {
 	public function getUserGroupIds(IUser $user);
 
 	/**
+	 * get a list of all users in a group
+	 *
+	 * @param string $gid
+	 * @param string $search
+	 * @param int $limit
+	 * @param int $offset
+	 * @return array an array of users (value) and user ids (key)
+	 * @since 13.0.0
+	 */
+	public function usersInGroup($gid, $search = '', $limit = -1, $offset = 0);
+
+	/**
 	 * get a list of all display names in a group
 	 *
 	 * @param string $gid
