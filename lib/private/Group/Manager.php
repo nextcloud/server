@@ -313,14 +313,14 @@ class Manager extends PublicEmitter implements IGroupManager {
 	}
 
 	/**
-	 * get a list of all display names in a group
+	 * get a list of all users in a group
 	 * @param string $gid
 	 * @param string $search
 	 * @param int $limit
 	 * @param int $offset
-	 * @return array an array of display names (value) and user ids (key)
+	 * @return array an array of users (value) and user ids (key)
 	 */
-	public function displayNamesInGroup($gid, $search = '', $limit = -1, $offset = 0) {
+	public function usersInGroup($gid, $search = '', $limit = -1, $offset = 0) {
 		$group = $this->get($gid);
 		if(is_null($group)) {
 			return array();
@@ -358,7 +358,23 @@ class Manager extends PublicEmitter implements IGroupManager {
 
 		$matchingUsers = array();
 		foreach($groupUsers as $groupUser) {
-			$matchingUsers[$groupUser->getUID()] = $groupUser->getDisplayName();
+			$matchingUsers[$groupUser->getUID()] = $groupUser;
+		}
+		return $matchingUsers;
+	}
+
+	/**
+	 * get a list of all display names in a group
+	 * @param string $gid
+	 * @param string $search
+	 * @param int $limit
+	 * @param int $offset
+	 * @return array an array of display names (value) and user ids (key)
+	 */
+	public function displayNamesInGroup($gid, $search = '', $limit = -1, $offset = 0) {
+		$matchingUsers = array();
+		foreach($this->usersInGroup($gid, $search, $limit, $offset) as $uid => $user) {
+			$matchingUsers[$uid] = $user->getDisplayName();
 		}
 		return $matchingUsers;
 	}
