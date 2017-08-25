@@ -18,7 +18,6 @@ OC.L10N.register(
     "Password to access {file} was sent to you" : "Unviósete la contraseña p'acceder a {file}",
     "Sharing %s failed, this item is already shared with %s" : "Falló la compartición de %s, esti elementu yá se compartió con %s",
     "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Nun podemos unviate la contraseña auto-xenerada. Afita una direición de corréu válida nos tos axustes personales y volvi tentalo.",
-    "Failed to send share by E-mail" : "Fallu al unviar la compartición per corréu",
     "%s shared »%s« with you" : "%s compartió «%s» contigo",
     "%s shared »%s« with you." : "%s compartió «%s» contigo.",
     "Click the button below to open it." : "Primi'l botón d'embaxo p'abrilu.",
@@ -31,8 +30,10 @@ OC.L10N.register(
     "Could not find share" : "Nun pudo alcontrase la compartición",
     "Share by mail" : "Unviar per corréu",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Permite a los usuarios compartir un enllaz personalizáu a un ficheru o carpeta poniendo una direición de corréu.",
+    "Failed to send share by E-mail" : "Fallu al unviar la compartición per corréu",
     "Failed to create the E-mail" : "Fallu al crear el corréu",
     "Cheers!" : "¡Salú!",
+    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you on behalf of %s.<br><br>" : "Hola bones,<br><br>%scompartió<a href=\"%s\">%s</a> contigo nel nome de %s.<br><br>",
     "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you.<br><br>" : "Hola bones,<br><br>%s compartió <a href=\"%s\">%s</a> contigo.<br><br>"
 },
 "nplurals=2; plural=(n != 1);");
