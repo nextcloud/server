@@ -1148,6 +1148,118 @@ class ShareAPIControllerTest extends TestCase {
 		$ocs->createShare('valid-path', \OCP\Constants::PERMISSION_ALL, \OCP\Share::SHARE_TYPE_USER, 'validUser');
 	}
 
+	public function testResendMailNotification() {
+		$share = $this->createShare(42, \OCP\Share::SHARE_TYPE_USER, null, null, null, null, null, null, null, null, null, null);
+
+		/** @var \OCA\Files_Sharing\Controller\ShareAPIController $ocs */
+		$ocs = $this->getMockBuilder(ShareAPIController::class)
+				->setConstructorArgs([
+					$this->appName,
+					$this->request,
+					$this->shareManager,
+					$this->groupManager,
+					$this->userManager,
+					$this->rootFolder,
+					$this->urlGenerator,
+					$this->currentUser,
+					$this->l,
+				])->setMethods(['canAccessShare'])
+				->getMock();
+
+		$this->shareManager
+			->expects($this->once())
+			->method('getShareById')
+			->with('ocinternal:42')
+			->willReturn($share);
+
+		$ocs->expects($this->once())
+			->method('canAccessShare')
+			->with($share)
+			->willReturn(true);
+
+		$this->shareManager
+			->expects($this->once())
+			->method('resendMailNotification')
+			->with($share);
+
+		$ocs->resendMailNotification(42);
+	}
+
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSNotFoundException
+	 * @expectedExceptionMessage Wrong share ID, share doesn't exist
+	 */
+	public function testResendMailNotificationShareNotFound() {
+		$share = $this->createShare(42, \OCP\Share::SHARE_TYPE_USER, null, null, null, null, null, null, null, null, null, null);
+
+		/** @var \OCA\Files_Sharing\Controller\ShareAPIController $ocs */
+		$ocs = $this->getMockBuilder(ShareAPIController::class)
+				->setConstructorArgs([
+					$this->appName,
+					$this->request,
+					$this->shareManager,
+					$this->groupManager,
+					$this->userManager,
+					$this->rootFolder,
+					$this->urlGenerator,
+					$this->currentUser,
+					$this->l,
+				])->setMethods(['canAccessShare'])
+				->getMock();
+
+		$this->shareManager
+			->expects($this->once())
+			->method('getShareById')
+			->with('ocinternal:42')
+			->will($this->throwException(new \OCP\Share\Exceptions\ShareNotFound()));
+
+		$this->shareManager
+			->expects($this->never())
+			->method('resendMailNotification');
+
+		$ocs->resendMailNotification(42);
+	}
+
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSNotFoundException
+	 * @expectedExceptionMessage Wrong share ID, share doesn't exist
+	 */
+	public function testResendMailNotificationCanNotAccess() {
+		$share = $this->createShare(42, \OCP\Share::SHARE_TYPE_USER, null, null, null, null, null, null, null, null, null, null);
+
+		/** @var \OCA\Files_Sharing\Controller\ShareAPIController $ocs */
+		$ocs = $this->getMockBuilder(ShareAPIController::class)
+				->setConstructorArgs([
+					$this->appName,
+					$this->request,
+					$this->shareManager,
+					$this->groupManager,
+					$this->userManager,
+					$this->rootFolder,
+					$this->urlGenerator,
+					$this->currentUser,
+					$this->l,
+				])->setMethods(['canAccessShare'])
+				->getMock();
+
+		$this->shareManager
+			->expects($this->once())
+			->method('getShareById')
+			->with('ocinternal:42')
+			->willReturn($share);
+
+		$ocs->expects($this->once())
+			->method('canAccessShare')
+			->with($share)
+			->willReturn(false);
+
+		$this->shareManager
+			->expects($this->never())
+			->method('resendMailNotification');
+
+		$ocs->resendMailNotification(42);
+	}
+
 	/**
 	 * @expectedException \OCP\AppFramework\OCS\OCSNotFoundException
 	 * @expectedExceptionMessage Wrong share ID, share doesn't exist
