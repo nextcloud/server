@@ -5,7 +5,7 @@
 	<description>WebDAV endpoint</description>
 	<licence>AGPL</licence>
 	<author>owncloud.org</author>
-	<version>1.4.0</version>
+	<version>1.4.1</version>
 	<default_enable/>
 	<types>
 		<filesystem/>
