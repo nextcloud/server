@@ -13,6 +13,8 @@
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Nun pudo xubise {filename}, paez que ye un directoriu o tien 0 bytes",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Nun hai abondu espaciu llibre, tas xubiendo {size1} pero namái falta {size2}",
     "Not enough free space" : "Nun hai espaciu llibre abondo",
+    "Uploading …" : "Xubiendo...",
+    "…" : "…",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} de {totalSize} ({bitrate})",
     "Actions" : "Aiciones",
     "Download" : "Descargar",

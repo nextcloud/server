@@ -98,7 +98,7 @@ OC.L10N.register(
     "Expiration date" : "Дата истечения",
     "Sorry, this link doesn’t seem to work anymore." : "Эта ссылка устарела и более не действительна.",
     "Reasons might be:" : "Причиной может быть:",
-    "the item was removed" : "элемент был удалён",
+    "the item was removed" : "объект был удалён",
     "the link expired" : "срок действия ссылки истёк",
     "sharing is disabled" : "общий доступ отключён",
     "For more info, please ask the person who sent this link." : "Для получения дополнительной информации, свяжитесь с тем, кто отправил вам эту ссылку.",
