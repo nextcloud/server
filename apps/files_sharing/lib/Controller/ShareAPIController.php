@@ -491,6 +491,31 @@ class ShareAPIController extends OCSController {
 	}
 
 	/**
+	 * Sends again the e-mail notification for a share
+	 *
+	 * @NoAdminRequired
+	 *
+	 * @param string $id
+	 * @return DataResponse
+	 * @throws OCSNotFoundException
+	 */
+	public function resendMailNotification($id) {
+		try {
+			$share = $this->getShareById($id);
+		} catch (ShareNotFound $e) {
+			throw new OCSNotFoundException($this->l->t('Wrong share ID, share doesn\'t exist', $id));
+		}
+
+		if (!$this->canAccessShare($share)) {
+			throw new OCSNotFoundException($this->l->t('Wrong share ID, share doesn\'t exist', $id));
+		}
+
+		$this->shareManager->resendMailNotification($share);
+
+		return new DataResponse();
+	}
+
+	/**
 	 * @param \OCP\Files\File|\OCP\Files\Folder $node
 	 * @param boolean $includeTags
 	 * @return DataResponse
