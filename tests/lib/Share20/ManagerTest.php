@@ -2004,6 +2004,163 @@ class ManagerTest extends \Test\TestCase {
 		$manager->createShare($share);
 	}
 
+	public function testResendMailNotificationUserType() {
+		$manager = $this->createManagerMock()
+			->setMethods(['canShare', 'sendMailNotification'])
+			->getMock();
+
+		$file = $this->createMock(File::class);
+		$file->method('getId')->willReturn('fileId');
+		$file->method('getName')->willReturn('fileName');
+
+		$share = $this->createShare(null, \OCP\Share::SHARE_TYPE_USER, $file, 'user0', 'sharer', null, null);
+
+		$user = $this->createMock(IUser::class);
+		$user->method('getEMailAddress')->willReturn('user0@server.com');
+
+		$this->userManager->method('get')->with('user0')->willReturn($user);
+
+		$manager->expects($this->once())
+			->method('canShare')
+			->with($share)
+			->willReturn(true);
+
+		$this->urlGenerator
+			->method('linkToRouteAbsolute')
+			->with('files.viewcontroller.showFile',
+				   ['fileid' => 'fileId'])
+			->willReturn('absolute/route/to/file');
+
+		$manager->expects($this->once())
+			->method('sendMailNotification')
+			->with('fileName',
+				   'absolute/route/to/file',
+				   'sharer',
+				   'user0@server.com');
+
+		$manager->resendMailNotification($share);
+	}
+
+	public function testResendMailNotificationUserTypeWithoutMail() {
+		$manager = $this->createManagerMock()
+			->setMethods(['canShare', 'sendMailNotification'])
+			->getMock();
+
+		$share = $this->createShare(null, \OCP\Share::SHARE_TYPE_USER, null, 'user0', null, null, null);
+
+		$user = $this->createMock(IUser::class);
+		$user->method('getEMailAddress')->willReturn('');
+
+		$this->userManager->method('get')->with('user0')->willReturn($user);
+
+		$manager->expects($this->once())
+			->method('canShare')
+			->with($share)
+			->willReturn(true);
+
+		$manager->expects($this->never())
+			->method('sendMailNotification');
+
+		try {
+			$manager->resendMailNotification($share);
+
+			$this->fail('InvalidArgumentException was not thrown');
+		} catch (\InvalidArgumentException $e) {
+		}
+	}
+
+	public function testResendMailNotificationGroupType() {
+		$manager = $this->createManagerMock()
+			->setMethods(['canShare', 'sendMailNotification'])
+			->getMock();
+
+		$share = $this->createShare(null, \OCP\Share::SHARE_TYPE_GROUP, null, null, null, null, null);
+
+		$manager->expects($this->once())
+			->method('canShare')
+			->with($share)
+			->willReturn(true);
+
+		$manager->expects($this->never())
+			->method('sendMailNotification');
+
+		try {
+			$manager->resendMailNotification($share);
+
+			$this->fail('InvalidArgumentException was not thrown');
+		} catch (\InvalidArgumentException $e) {
+		}
+	}
+
+	public function testResendMailNotificationLinkType() {
+		$manager = $this->createManagerMock()
+			->setMethods(['canShare', 'sendMailNotification'])
+			->getMock();
+
+		$share = $this->createShare(null, \OCP\Share::SHARE_TYPE_LINK, null, null, null, null, null);
+
+		$manager->expects($this->once())
+			->method('canShare')
+			->with($share)
+			->willReturn(true);
+
+		$manager->expects($this->never())
+			->method('sendMailNotification');
+
+		try {
+			$manager->resendMailNotification($share);
+
+			$this->fail('InvalidArgumentException was not thrown');
+		} catch (\InvalidArgumentException $e) {
+		}
+	}
+
+	public function testResendMailNotificationRemoteType() {
+		$manager = $this->createManagerMock()
+			->setMethods(['canShare', 'sendMailNotification'])
+			->getMock();
+
+		$share = $this->createShare(null, \OCP\Share::SHARE_TYPE_REMOTE, null, null, null, null, null);
+
+		$manager->expects($this->once())
+			->method('canShare')
+			->with($share)
+			->willReturn(true);
+
+		$manager->expects($this->never())
+			->method('sendMailNotification');
+
+		try {
+			$manager->resendMailNotification($share);
+
+			$this->fail('InvalidArgumentException was not thrown');
+		} catch (\InvalidArgumentException $e) {
+		}
+	}
+
+	public function testResendMailNotificationEmailType() {
+		$manager = $this->createManagerMock()
+			->setMethods(['canShare', 'sendMailNotification'])
+			->getMock();
+
+		$share = $this->createShare(null, \OCP\Share::SHARE_TYPE_EMAIL, null, null, null, null, null);
+
+		$manager->expects($this->once())
+			->method('canShare')
+			->with($share)
+			->willReturn(true);
+
+		$manager->expects($this->never())
+			->method('sendMailNotification');
+
+		try {
+			$manager->resendMailNotification($share);
+
+			$this->fail('InvalidArgumentException was not thrown');
+		} catch (\InvalidArgumentException $e) {
+		}
+	}
+
 	public function testGetSharesBy() {
 		$share = $this->manager->newShare();
 

@@ -45,6 +45,18 @@ interface IManager {
 	public function createShare(IShare $share);
 
 	/**
+	 * Sends again the e-mail notification for a share
+	 *
+	 * @param IShare $share
+	 * @return IShare The share object
+	 * @throws \InvalidArgumentException if share type does not support mail
+	 *         notifications or the sharee has no known e-mail address
+	 * @throws \Exception if mail could not be sent
+	 * @since 13.0.0
+	 */
+	public function resendMailNotification(IShare $share);
+
+	/**
 	 * Update a share.
 	 * The target of the share can't be changed this way: use moveShare
 	 * The share can't be removed this way (permission 0): use deleteShare
