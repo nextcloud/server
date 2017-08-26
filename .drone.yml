@@ -234,22 +234,6 @@ pipeline:
       matrix:
         DB: mysql
         PHP: 7.1
-  mysql5.6-php5.6:
-    image: nextcloudci/php5.6:php5.6-8
-    commands:
-      - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
-    when:
-      matrix:
-        DB: mysql5.6
-        PHP: 5.6
-  mysql5.6-php7.0:
-    image: nextcloudci/php7.0:php7.0-16
-    commands:
-      - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
-    when:
-      matrix:
-        DB: mysql5.6
-        PHP: "7.0"
   mysql5.6-php7.1:
     image: nextcloudci/php7.1:php7.1-15
     commands:
@@ -258,22 +242,6 @@ pipeline:
       matrix:
         DB: mysql5.6
         PHP: 7.1
-  mysql5.5-php5.6:
-    image: nextcloudci/php5.6:php5.6-8
-    commands:
-      - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
-    when:
-      matrix:
-        DB: mysql5.5
-        PHP: 5.6
-  mysql5.5-php7.0:
-    image: nextcloudci/php7.0:php7.0-16
-    commands:
-      - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
-    when:
-      matrix:
-        DB: mysql5.5
-        PHP: "7.0"
   mysql5.5-php7.1:
     image: nextcloudci/php7.1:php7.1-15
     commands:
@@ -299,22 +267,6 @@ pipeline:
     when:
       matrix:
         DB: postgres
-        PHP: "7.0"
-  mysqlmb4-php5.6:
-    image: nextcloudci/php5.6:php5.6-8
-    commands:
-      - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysqlmb4
-    when:
-      matrix:
-        DB: mysqlmb4
-        PHP: 5.6
-  mysqlmb4-php7.0:
-    image: nextcloudci/php7.0:php7.0-16
-    commands:
-      - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysqlmb4
-    when:
-      matrix:
-        DB: mysqlmb4
         PHP: "7.0"
   mysqlmb4-php7.1:
     image: nextcloudci/php7.1:php7.1-15
@@ -699,19 +651,7 @@ matrix:
       PHP: 7.1
       ENABLE_REDIS: true
     - DB: mysql5.6
-      PHP: 5.6
-      ENABLE_REDIS: true
-    - DB: mysql5.6
-      PHP: 7.0
-      ENABLE_REDIS: true
-    - DB: mysql5.6
       PHP: 7.1
-      ENABLE_REDIS: true
-    - DB: mysql5.5
-      PHP: 5.6
-      ENABLE_REDIS: true
-    - DB: mysql5.5
-      PHP: 7.0
       ENABLE_REDIS: true
     - DB: mysql5.5
       PHP: 7.1
@@ -720,12 +660,6 @@ matrix:
       PHP: 5.6
       ENABLE_REDIS: true
     - DB: postgres
-      PHP: 7.0
-      ENABLE_REDIS: true
-    - DB: mysqlmb4
-      PHP: 5.6
-      ENABLE_REDIS: true
-    - DB: mysqlmb4
       PHP: 7.0
       ENABLE_REDIS: true
     - DB: mysqlmb4
