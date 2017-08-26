@@ -119,6 +119,10 @@ class Loader implements IMimeTypeLoader {
 				]);
 			$qb->execute();
 		} catch (UniqueConstraintViolationException $e) {
+			if ($this->dbConnection->inTransaction()) {
+				// if we're inside a transaction we can't recover safely
+				throw $e;
+			}
 			// something inserted it before us
 		}
 
