@@ -369,14 +369,14 @@ class ShareByMailProvider implements IShareProvider {
 	 * @param string $link
 	 * @param string $initiator
 	 * @param string $shareWith
-	 * @param \DateTime $expiration
+	 * @param \DateTime|null $expiration
 	 * @throws \Exception If mail couldn't be sent
 	 */
 	protected function sendMailNotification($filename,
 											$link,
 											$initiator,
 											$shareWith,
-											\DateTime $expiration) {
+											$expiration) {
 		$initiatorUser = $this->userManager->get($initiator);
 		$initiatorDisplayName = ($initiatorUser instanceof IUser) ? $initiatorUser->getDisplayName() : $initiator;
 		$subject = (string)$this->l->t('%s shared »%s« with you', array($initiatorDisplayName, $filename));
