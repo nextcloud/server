@@ -60,6 +60,7 @@ return array(
     'OCP\\Authentication\\LoginCredentials\\ICredentials' => $baseDir . '/lib/public/Authentication/LoginCredentials/ICredentials.php',
     'OCP\\Authentication\\LoginCredentials\\IStore' => $baseDir . '/lib/public/Authentication/LoginCredentials/IStore.php',
     'OCP\\Authentication\\TwoFactorAuth\\IProvider' => $baseDir . '/lib/public/Authentication/TwoFactorAuth/IProvider.php',
+    'OCP\\Authentication\\TwoFactorAuth\\IProvidesCustomCSP' => $baseDir . '/lib/public/Authentication/TwoFactorAuth/IProvidesCustomCSP.php',
     'OCP\\Authentication\\TwoFactorAuth\\TwoFactorException' => $baseDir . '/lib/public/Authentication/TwoFactorAuth/TwoFactorException.php',
     'OCP\\AutoloadNotAllowedException' => $baseDir . '/lib/public/AutoloadNotAllowedException.php',
     'OCP\\BackgroundJob' => $baseDir . '/lib/public/BackgroundJob.php',
