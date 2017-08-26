@@ -59,7 +59,10 @@ class NotifyHandler implements INotifyHandler {
 	public function listen($callback) {
 		if ($this->listening) {
 			$this->connection->read(function ($line) use ($callback) {
-				return $callback($this->parseChangeLine($line));
+				$change = $this->parseChangeLine($line);
+				if ($change) {
+					return $callback($change);
+				}
 			});
 		}
 	}
