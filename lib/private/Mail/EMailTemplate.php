@@ -45,6 +45,10 @@ class EMailTemplate implements IEMailTemplate {
 	protected $urlGenerator;
 	/** @var IL10N */
 	protected $l10n;
+	/** @var string */
+	protected $emailId;
+	/** @var array */
+	protected $data;
 
 	/** @var string */
 	protected $htmlBody = '';
@@ -346,6 +350,18 @@ EOF;
 		$this->urlGenerator = $urlGenerator;
 		$this->l10n = $l10n;
 		$this->htmlBody .= $this->head;
+	}
+
+	/**
+	 * Set meta data of an email
+	 *
+	 * @param string $emailId
+	 * @param array $data
+	 * @since 12.0.3
+	 */
+	public function setMetaData($emailId, array $data = []) {
+		$this->emailId = $emailId;
+		$this->data = $data;
 	}
 
 	/**

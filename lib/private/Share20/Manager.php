@@ -662,7 +662,8 @@ class Manager implements IManager {
 						$share->getNode()->getName(),
 						$this->urlGenerator->linkToRouteAbsolute('files.viewcontroller.showFile', [ 'fileid' => $share->getNode()->getId() ]),
 						$share->getSharedBy(),
-						$emailAddress
+						$emailAddress,
+						$share->getExpirationDate()
 					);
 					$this->logger->debug('Send share notification to ' . $emailAddress . ' for share with ID ' . $share->getId(), ['app' => 'share']);
 				} else {
@@ -681,12 +682,14 @@ class Manager implements IManager {
 	 * @param string $link link to the file/folder
 	 * @param string $initiator user ID of share sender
 	 * @param string $shareWith email address of share receiver
+	 * @param \DateTime $expiration
 	 * @throws \Exception If mail couldn't be sent
 	 */
 	protected function sendMailNotification($filename,
 											$link,
 											$initiator,
-											$shareWith) {
+											$shareWith,
+											\DateTime $expiration) {
 		$initiatorUser = $this->userManager->get($initiator);
 		$initiatorDisplayName = ($initiatorUser instanceof IUser) ? $initiatorUser->getDisplayName() : $initiator;
 		$subject = (string)$this->l->t('%s shared »%s« with you', array($initiatorDisplayName, $filename));
@@ -694,6 +697,12 @@ class Manager implements IManager {
 		$message = $this->mailer->createMessage();
 
 		$emailTemplate = $this->mailer->createEMailTemplate();
+		$emailTemplate->setMetaData('files_sharing.RecipientNotification', [
+			'filename' => $filename,
+			'link' => $link,
+			'initiator' => $initiatorDisplayName,
+			'expiration' => $expiration,
+		]);
 
 		$emailTemplate->addHeader();
 		$emailTemplate->addHeading($this->l->t('%s shared »%s« with you', [$initiatorDisplayName, $filename]), false);
