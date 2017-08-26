@@ -14,7 +14,7 @@
 		'{{#if isUploading}}' +
 		'<span class="icon-loading-small"></span> {{name}}' +
 		'{{else}}' +
-		'<img src="' + OC.imagePath('core', 'actions/error.svg') + '"/> {{name}}' +
+		'<img src="{{iconSrc}}"/> {{name}}' +
 		'{{/if}}' +
 		'</li>';
 	var Drop = {
@@ -63,17 +63,16 @@
 	
 			$('#drop-upload-done-indicator').addClass('hidden');
 			$('#drop-upload-progress-indicator').removeClass('hidden');
-			_.each(data['files'], function(file) {
-				$('#public-upload ul').append(output({isUploading: true, name: escapeHTML(file.name)}));
-				$('[data-toggle="tooltip"]').tooltip();
-				data.submit();
-			});
+
+			$('#public-upload ul').append(output({isUploading: true, name: data.files[0].name}));
+			$('[data-toggle="tooltip"]').tooltip();
+			data.submit();
 	
 			return true;
 		},
 		
-		setFileIcon: function (fileName,fileIcon) {
-			$('#public-upload ul li[data-name="' + fileName + '"]').html(fileIcon);
+		updateFileItem: function (fileName, fileItem) {
+			$('#public-upload ul li[data-name="' + fileName + '"]').replaceWith(fileItem);
 			$('[data-toggle="tooltip"]').tooltip();
 		},
 		
@@ -83,14 +82,12 @@
 				e.preventDefault();
 			});
 			var output = this.template();
-			var fileName = undefined;
 			$('#public-upload').fileupload({
 				type: 'PUT',
 				dropZone: $('#public-upload'),
 				sequentialUploads: true,
 				add: function(e, data) {
 					Drop.addFileToUpload(e, data);
-					fileName = escapeHTML(data.files[0].name);
 					//we return true to keep trying to upload next file even
 					//if addFileToUpload did not like the privious one
 					return true;
@@ -98,17 +95,18 @@
 				done: function(e, data) {
 					// Created
 					var mimeTypeUrl = OC.MimeType.getIconUrl(data.files[0].type);
-					var fileIcon = '<img src="' + escapeHTML(mimeTypeUrl) + '"/> ' + fileName;
-					Drop.setFileIcon(fileName,fileIcon);
+					var fileItem = output({isUploading: false, iconSrc: mimeTypeUrl, name: data.files[0].name});
+					Drop.updateFileItem(data.files[0].name, fileItem);
 				},
-				fail: function(e, data, errorThrown) {
+				fail: function(e, data) {
 					OC.Notification.showTemporary(OC.L10N.translate(
 							'files_sharing',
 							'Could not upload "{filename}"',
-							{filename: fileName}
+							{filename: data.files[0].name}
 							));
-					var fileIcon = output({isUploading: false, name: fileName});
-					Drop.setFileIcon(fileName,fileIcon);
+					var errorIconSrc = OC.imagePath('core', 'actions/error.svg');
+					var fileItem = output({isUploading: false, iconSrc: errorIconSrc, name: data.files[0].name});
+					Drop.updateFileItem(data.files[0].name, fileItem);
 				},
 				progressall: function (e, data) {
 					var progress = parseInt(data.loaded / data.total * 100, 10);
