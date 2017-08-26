@@ -71,8 +71,8 @@ class TwoFactorChallengeController extends Controller {
 	/**
 	 * @return string
 	 */
-	protected function getLogoutAttribute() {
-		return OC_User::getLogoutAttribute();
+	protected function getLogoutUrl() {
+		return OC_User::getLogoutUrl($this->urlGenerator);
 	}
 
 	/**
@@ -91,7 +91,7 @@ class TwoFactorChallengeController extends Controller {
 			'providers' => $providers,
 			'backupProvider' => $backupProvider,
 			'redirect_url' => $redirect_url,
-			'logout_attribute' => $this->getLogoutAttribute(),
+			'logout_url' => $this->getLogoutUrl(),
 		];
 		return new TemplateResponse($this->appName, 'twofactorselectchallenge', $data, 'guest');
 	}
@@ -133,7 +133,7 @@ class TwoFactorChallengeController extends Controller {
 			'error_message' => $errorMessage,
 			'provider' => $provider,
 			'backupProvider' => $backupProvider,
-			'logout_attribute' => $this->getLogoutAttribute(),
+			'logout_url' => $this->getLogoutUrl(),
 			'redirect_url' => $redirect_url,
 			'template' => $tmpl->fetchPage(),
 		];
