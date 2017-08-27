@@ -337,7 +337,11 @@
 			this.$el.on('urlChanged', _.bind(this._onUrlChanged, this));
 			this.$el.find('.select-all').click(_.bind(this._onClickSelectAll, this));
 			this.$el.find('.download').click(_.bind(this._onClickDownloadSelected, this));
+<<<<<<< HEAD
 			this.$el.find('.move').click(_.bind(this._onClickMoveSelected, this));
+=======
+			this.$el.find('.copy').click(_.bind(this._onClickCopySelected, this));
+>>>>>>> Allow files to be copied through action menu & multiple files actions
 			this.$el.find('.delete-selected').click(_.bind(this._onClickDeleteSelected, this));
 
 			this.$el.find('.selectedActions a').tooltip({placement:'top'});
@@ -785,7 +789,6 @@
 			}, false, "httpd/unix-directory", true);
 			return false;
 		},
-
 
 		/**
 		 * Event handler for when clicking on "Delete" for the selected files
@@ -1974,6 +1977,7 @@
 			}
 			return index;
 		},
+
 		/**
 		 * Moves a file to a given target folder.
 		 *
@@ -2035,6 +2039,86 @@
 				}
 			});
 
+		},
+
+		/**
+		 * Copies a file to a given target folder.
+		 *
+		 * @param fileNames array of file names to copy
+		 * @param targetPath absolute target path
+		 * @param callback to call when copy is finished with success
+		 */
+		copy: function(fileNames, targetPath, callback) {
+			var self = this;
+			var dir = this.getCurrentDirectory();
+			if (dir.charAt(dir.length - 1) !== '/') {
+				dir += '/';
+			}
+			if (!_.isArray(fileNames)) {
+				fileNames = [fileNames];
+			}
+			_.each(fileNames, function(fileName) {
+				var $tr = self.findFileEl(fileName);
+				self.showFileBusyState($tr, true);
+				if (targetPath.charAt(targetPath.length - 1) !== '/') {
+					// make sure we move the files into the target dir,
+					// not overwrite it
+					targetPath = targetPath + '/';
+				}
+				self.filesClient.copy(dir + fileName, targetPath + fileName)
+					.fail(function(status) {
+						if (status === 412) {
+							// TODO: some day here we should invoke the conflict dialog
+							OC.Notification.show(t('files', 'Could not copy "{file}", target exists',
+								{file: fileName}), {type: 'error'}
+							);
+						} else {
+							OC.Notification.show(t('files', 'Could not copy "{file}"',
+								{file: fileName}), {type: 'error'}
+							);
+						}
+					})
+					.always(function() {
+						self.showFileBusyState($tr, false);
+					});
+			});
+
+			// Remove leading and ending /
+			if (targetPath.slice(0, 1) === '/') {
+				targetPath = targetPath.slice(1, targetPath.length);
+			}
+			if (targetPath.slice(-1) === '/') {
+				targetPath = targetPath.slice(0, -1);
+			}
+
+			// Since there's no visual indication that the files were copied, let's send some notifications !
+			if (fileNames.length === 1) {
+				OC.Notification.show(t('files', 'Copied {origin} inside {destination}',
+					{
+						origin: fileNames[0],
+						destination: targetPath
+					}
+				), {timeout: 10});
+			} else if (fileNames.length < 4) {
+				OC.Notification.show(t('files', 'Copied {origin} inside {destination}',
+					{
+						origin: fileNames.join(', '),
+						destination: targetPath
+					}
+				), {timeout: 10});
+			} else {
+				OC.Notification.show(t('files', 'Copied {origin} and {nbfiles} other files inside {destination}',
+					{
+						origin: fileNames[0],
+						nbfiles: fileNames.length,
+						destination: targetPath,
+					}
+				), {timeout: 10});
+			}
+
+			if (callback) {
+				callback();
+			}
 		},
 
 		/**
