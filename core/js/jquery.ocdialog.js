@@ -130,6 +130,11 @@
 						});
 					this._setSizes();
 					break;
+				case 'style':
+					if (value.buttons !== undefined) {
+						this.$buttonrow.addClass(value.buttons);
+					}
+					break;
 				case 'closeButton':
 					if(value) {
 						var $closeButton = $('<a class="oc-dialog-close"></a>');

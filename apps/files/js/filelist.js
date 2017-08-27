@@ -337,11 +337,7 @@
 			this.$el.on('urlChanged', _.bind(this._onUrlChanged, this));
 			this.$el.find('.select-all').click(_.bind(this._onClickSelectAll, this));
 			this.$el.find('.download').click(_.bind(this._onClickDownloadSelected, this));
-<<<<<<< HEAD
-			this.$el.find('.move').click(_.bind(this._onClickMoveSelected, this));
-=======
-			this.$el.find('.copy').click(_.bind(this._onClickCopySelected, this));
->>>>>>> Allow files to be copied through action menu & multiple files actions
+			this.$el.find('.copy-move').click(_.bind(this._onClickCopyMoveSelected, this));
 			this.$el.find('.delete-selected').click(_.bind(this._onClickDeleteSelected, this));
 
 			this.$el.find('.selectedActions a').tooltip({placement:'top'});
@@ -765,7 +761,7 @@
 		/**
 		 * Event handler for when clicking on "Move" for the selected files
 		 */
-		_onClickMoveSelected: function(event) {
+		_onClickCopyMoveSelected: function(event) {
 			var files;
 			var self = this;
 
@@ -783,10 +779,14 @@
 				OCA.Files.FileActions.updateFileActionSpinner(moveFileAction, false);
 			};
 
-			OCA.Files.FileActions.updateFileActionSpinner(moveFileAction, true);
-			OC.dialogs.filepicker(t('files', 'Target folder'), function(targetPath) {
-				self.move(files, targetPath, disableLoadingState);
-			}, false, "httpd/unix-directory", true);
+			OC.dialogs.filepicker(t('files', 'Target folder'), function(targetPath, type) {
+				if (type === OC.dialogs.FILEPICKER_TYPE_COPY) {
+					self.copy(files, targetPath, disableLoadingState);
+				}
+				if (type === OC.dialogs.FILEPICKER_TYPE_MOVE) {
+					self.move(files, targetPath, disableLoadingState);
+				}
+			}, false, "httpd/unix-directory", true, OC.dialogs.FILEPICKER_TYPE_COPY_MOVE);
 			return false;
 		},
 

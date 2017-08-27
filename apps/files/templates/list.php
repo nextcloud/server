@@ -47,9 +47,9 @@
 					</label>
 					<a class="name sort columntitle" data-sort="name"><span><?php p($l->t( 'Name' )); ?></span><span class="sort-indicator"></span></a>
 					<span id="selectedActionsList" class="selectedActions">
-						<a href="" class="move">
+						<a href="" class="copy-move">
 							<span class="icon icon-external"></span>
-							<span><?php p($l->t('Move'))?></span>
+							<span><?php p($l->t('Copy or Move'))?></span>
 						</a>
 						<a href="" class="download">
 							<span class="icon icon-download"></span>
