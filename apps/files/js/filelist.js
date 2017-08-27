@@ -337,6 +337,7 @@
 			this.$el.on('urlChanged', _.bind(this._onUrlChanged, this));
 			this.$el.find('.select-all').click(_.bind(this._onClickSelectAll, this));
 			this.$el.find('.download').click(_.bind(this._onClickDownloadSelected, this));
+			this.$el.find('.move').click(_.bind(this._onClickMoveSelected, this));
 			this.$el.find('.delete-selected').click(_.bind(this._onClickDeleteSelected, this));
 
 			this.$el.find('.selectedActions a').tooltip({placement:'top'});
@@ -751,11 +752,40 @@
 				OCA.Files.Files.handleDownload(this.getDownloadUrl(files, dir, true), disableLoadingState);
 			}
 			else {
-				first = this.getSelectedFiles()[0];
+				var first = this.getSelectedFiles()[0];
 				OCA.Files.Files.handleDownload(this.getDownloadUrl(first.name, dir, true), disableLoadingState);
 			}
 			return false;
 		},
+
+		/**
+		 * Event handler for when clicking on "Move" for the selected files
+		 */
+		_onClickMoveSelected: function(event) {
+			var files;
+			var self = this;
+
+			files = _.pluck(this.getSelectedFiles(), 'name');
+
+			var moveFileAction = $('#selectedActionsList').find('.move');
+
+			// don't allow a second click on the download action
+			if(moveFileAction.hasClass('disabled')) {
+				event.preventDefault();
+				return;
+			}
+
+			var disableLoadingState = function(){
+				OCA.Files.FileActions.updateFileActionSpinner(moveFileAction, false);
+			};
+
+			OCA.Files.FileActions.updateFileActionSpinner(moveFileAction, true);
+			OC.dialogs.filepicker(t('files', 'Target folder'), function(targetPath) {
+				self.move(files, targetPath, disableLoadingState);
+			}, false, "httpd/unix-directory", true);
+			return false;
+		},
+
 
 		/**
 		 * Event handler for when clicking on "Delete" for the selected files
@@ -1949,8 +1979,9 @@
 		 *
 		 * @param fileNames array of file names to move
 		 * @param targetPath absolute target path
+		 * @param callback function to call when movement is finished
 		 */
-		move: function(fileNames, targetPath) {
+		move: function(fileNames, targetPath, callback) {
 			var self = this;
 			var dir = this.getCurrentDirectory();
 			if (dir.charAt(dir.length - 1) !== '/') {
@@ -1999,6 +2030,9 @@
 					.always(function() {
 						self.showFileBusyState($tr, false);
 					});
+				if (callback) {
+					callback();
+				}
 			});
 
 		},
