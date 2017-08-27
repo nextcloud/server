@@ -970,7 +970,7 @@ var OCdialogs = {
 	 * @param dir on which to change buttons text
 	 * @private
 	 */
-	_changeButtonsText(type, dir) {
+	_changeButtonsText: function(type, dir) {
 		var copyText = dir === '' ? t('core', 'Copy') : t('core', 'Copy to {folder}', {folder: dir});
 		var moveText = dir === '' ? t('core', 'Move') : t('core', 'Move to {folder}', {folder: dir});
 		var buttons = $('.oc-dialog-buttonrow button');
