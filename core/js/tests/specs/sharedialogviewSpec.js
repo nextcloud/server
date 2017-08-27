@@ -714,6 +714,62 @@ describe('OC.Share.ShareDialogView', function() {
 					expect(autocompleteStub.calledWith("option", "autoFocus", true)).toEqual(true);
 				});
 
+				it('users with an e-mail address', function () {
+					dialog.render();
+					var response = sinon.stub();
+					dialog.autocompleteHandler({term: 'bob'}, response);
+					var jsonData = JSON.stringify({
+						'ocs': {
+							'meta': {
+								'status': 'success',
+								'statuscode': 100,
+								'message': null
+							},
+							'data': {
+								'exact': {
+									'users': [],
+									'groups': [],
+									'remotes': []
+								},
+								'users': [
+									{
+										'label': 'bob',
+										'value': {
+											'shareType': OC.Share.SHARE_TYPE_USER,
+											'shareWith': 'user1',
+											'emailAddress': 'user1@server.com'
+										},
+									},
+									{
+										'label': 'bobby',
+										'value': {
+											'shareType': OC.Share.SHARE_TYPE_USER,
+											'shareWith': 'imbob'
+										}
+									}
+								],
+								'groups': [],
+								'remotes': [],
+								'lookup': []
+							}
+						}
+					});
+					fakeServer.requests[0].respond(
+						200,
+						{'Content-Type': 'application/json'},
+						jsonData
+					);
+					expect(response.calledWithExactly([{
+						'label': 'bob',
+						'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1', 'emailAddress': 'user1@server.com'},
+						'resendMailNotification': 100
+					}, {
+						'label': 'bobby',
+						'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'imbob'}
+					}])).toEqual(true);
+					expect(autocompleteStub.calledWith("option", "autoFocus", true)).toEqual(true);
+				});
+
 				it('groups', function () {
 					dialog.render();
 					var response = sinon.stub();
@@ -848,6 +904,17 @@ describe('OC.Share.ShareDialogView', function() {
 		});
 
 		describe('renders the autocomplete elements', function() {
+			it('renders a user element to resend its mail notification', function() {
+				dialog.render();
+				var el = dialog.autocompleteRenderItem(
+						$("<ul></ul>"),
+						{label: "1", value: { shareType: OC.Share.SHARE_TYPE_USER }, resendMailNotification: 'user1@server.com'}
+				);
+				expect(el.is('li')).toEqual(true);
+				expect(el.hasClass('user')).toEqual(true);
+				expect(el.has('span .icon-mail')).toBeTruthy();
+			});
+
 			it('renders a group element', function() {
 				dialog.render();
 				var el = dialog.autocompleteRenderItem(
@@ -941,6 +1008,78 @@ describe('OC.Share.ShareDialogView', function() {
 			expect($shareWith.attr('disabled')).toEqual(undefined);
 
 			addShareStub.restore();
+		});
+
+		it('calls resendMailNotification after selection', function() {
+			dialog.render();
+
+			var shareWith = $('.shareWithField')[0];
+			var $shareWith = $(shareWith);
+			var resendMailNotificationStub = sinon.stub(shareModel, 'resendMailNotification');
+			var autocompleteOptions = autocompleteStub.getCall(0).args[0];
+			autocompleteOptions.select(new $.Event('select', {target: shareWith}), {
+				item: {
+					label: 'User One',
+					value: {
+						shareType: OC.Share.SHARE_TYPE_USER,
+						shareWith: 'user1',
+						emailAddress: 'user1@server.com'
+					},
+					resendMailNotification: 100
+				}
+			});
+
+			expect(resendMailNotificationStub.calledOnce).toEqual(true);
+			expect(resendMailNotificationStub.firstCall.args[0]).toEqual(100);
+
+			//Input is locked
+			expect($shareWith.val()).toEqual('User One');
+			expect($shareWith.attr('disabled')).toEqual('disabled');
+
+			//Callback is called
+			resendMailNotificationStub.firstCall.args[1].success();
+
+			//Input is unlocked
+			expect($shareWith.val()).toEqual('');
+			expect($shareWith.attr('disabled')).toEqual(undefined);
+
+			resendMailNotificationStub.restore();
+		});
+
+		it('calls resendMailNotification after selection and fail to resend mail', function() {
+			dialog.render();
+
+			var shareWith = $('.shareWithField')[0];
+			var $shareWith = $(shareWith);
+			var resendMailNotificationStub = sinon.stub(shareModel, 'resendMailNotification');
+			var autocompleteOptions = autocompleteStub.getCall(0).args[0];
+			autocompleteOptions.select(new $.Event('select', {target: shareWith}), {
+				item: {
+					label: 'User One',
+					value: {
+						shareType: OC.Share.SHARE_TYPE_USER,
+						shareWith: 'user1',
+						emailAddress: 'user1@server.com'
+					},
+					resendMailNotification: 100
+				}
+			});
+
+			expect(resendMailNotificationStub.calledOnce).toEqual(true);
+			expect(resendMailNotificationStub.firstCall.args[0]).toEqual(100);
+
+			//Input is locked
+			expect($shareWith.val()).toEqual('User One');
+			expect($shareWith.attr('disabled')).toEqual('disabled');
+
+			//Callback is called
+			resendMailNotificationStub.firstCall.args[1].error();
+
+			//Input is unlocked
+			expect($shareWith.val()).toEqual('User One');
+			expect($shareWith.attr('disabled')).toEqual(undefined);
+
+			resendMailNotificationStub.restore();
 		});
 	});
 	describe('reshare permissions', function() {

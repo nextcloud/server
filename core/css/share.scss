@@ -70,6 +70,10 @@
 
 .share-autocomplete-item {
 	display: flex;
+	position: relative; // A relative position is needed here to place the mail
+						// icon to the right of the item and, like the text, to
+						// also get its position modified by the invisible
+						// border added when the item is focused.
 	.autocomplete-item-text {
 		margin-left: 10px;
 		margin-right: 10px;
@@ -78,6 +82,11 @@
 		overflow: hidden;
 		line-height: 32px;
 		vertical-align: middle;
+	}
+	.icon-mail {
+		position: absolute;
+		top: 8px;
+		right: 8px;
 	}
 }
 

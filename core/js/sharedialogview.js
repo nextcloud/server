@@ -238,7 +238,11 @@
 								usersLength = users.length;
 								for (j = 0; j < usersLength; j++) {
 									if (users[j].value.shareWith === share.share_with) {
-										users.splice(j, 1);
+										if (users[j].value.emailAddress !== undefined) {
+											users[j].resendMailNotification = share.id;
+										} else {
+											users.splice(j, 1);
+										}
 										break;
 									}
 								}
@@ -262,7 +266,7 @@
 								emailsLength = emails.length;
 								for (j = 0; j < emailsLength; j++) {
 									if (emails[j].value.shareWith === share.share_with) {
-										emails.splice(j, 1);
+										remotes.splice(j, 1);
 										break;
 									}
 								}
@@ -347,7 +351,14 @@
 			$("<div class='autocomplete-item-text'></div>")
 				.text(text)
 				.appendTo(insert);
-			insert.attr('title', item.value.shareWith);
+
+			if (item.resendMailNotification !== undefined) {
+				$("<span class='icon-mail'></div>").appendTo(insert);
+				insert.attr('title', t('core', 'Send e-mail notification again to {sharee}', {sharee: item.value.shareWith}));
+			} else {
+				insert.attr('title', item.value.shareWith);
+			}
+
 			insert = $("<a>")
 				.append(insert);
 			return $("<li>")
@@ -366,20 +377,37 @@
 			var $shareInfo = this.$el.find('.shareWithRemoteInfo');
 			$shareInfo.addClass('hidden');
 
-			this.model.addShare(s.item.value, {success: function() {
+			var actionSuccess = function() {
 				$(e.target).val('')
 					.attr('disabled', false);
 				$loading.addClass('hidden')
 					.removeClass('inlineblock');
 				$shareInfo.removeClass('hidden');
-			}, error: function(obj, msg) {
+			};
+
+			var actionError = function(obj, msg) {
 				OC.Notification.showTemporary(msg);
 				$(e.target).attr('disabled', false)
 					.autocomplete('search', $(e.target).val());
 				$loading.addClass('hidden')
 					.removeClass('inlineblock');
 				$shareInfo.removeClass('hidden');
-			}});
+			};
+
+			if (s.item.resendMailNotification !== undefined) {
+				this.model.resendMailNotification(s.item.resendMailNotification, {
+					success: function(msg) {
+						OC.Notification.showTemporary(msg);
+						actionSuccess();
+					},
+					error: actionError
+				});
+			} else {
+				this.model.addShare(s.item.value, {
+					success: actionSuccess,
+					error: actionError
+				});
+			}
 		},
 
 		_toggleLoading: function(state) {
