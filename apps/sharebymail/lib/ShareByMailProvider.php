@@ -377,7 +377,7 @@ class ShareByMailProvider implements IShareProvider {
 											$link,
 											$initiator,
 											$shareWith,
-											$expiration) {
+											\DateTime $expiration = null) {
 		$initiatorUser = $this->userManager->get($initiator);
 		$initiatorDisplayName = ($initiatorUser instanceof IUser) ? $initiatorUser->getDisplayName() : $initiator;
 		$subject = (string)$this->l->t('%s shared »%s« with you', array($initiatorDisplayName, $filename));
