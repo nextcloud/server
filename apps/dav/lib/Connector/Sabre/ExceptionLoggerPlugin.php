@@ -28,8 +28,7 @@
 namespace OCA\DAV\Connector\Sabre;
 
 use OCP\ILogger;
-use Sabre\DAV\Exception;
-use Sabre\HTTP\Response;
+use Sabre\DAV\Exception\ServiceUnavailable;
 
 class ExceptionLoggerPlugin extends \Sabre\DAV\ServerPlugin {
 	protected $nonFatalExceptions = [
@@ -90,30 +89,18 @@ class ExceptionLoggerPlugin extends \Sabre\DAV\ServerPlugin {
 	public function logException(\Exception $ex) {
 		$exceptionClass = get_class($ex);
 		$level = \OCP\Util::FATAL;
-		if (isset($this->nonFatalExceptions[$exceptionClass])) {
+		if (isset($this->nonFatalExceptions[$exceptionClass]) ||
+			(
+				$exceptionClass === ServiceUnavailable::class &&
+				$ex->getMessage() === 'System in maintenance mode.'
+			)
+		) {
 			$level = \OCP\Util::DEBUG;
 		}
 
-		$message = $ex->getMessage();
-		if ($ex instanceof Exception) {
-			if (empty($message)) {
-				$response = new Response($ex->getHTTPCode());
-				$message = $response->getStatusText();
-			}
-			$message = "HTTP/1.1 {$ex->getHTTPCode()} $message";
-		}
-
-		$user = \OC_User::getUser();
-
-		$exception = [
-			'Message' => $message,
-			'Exception' => $exceptionClass,
-			'Code' => $ex->getCode(),
-			'Trace' => $ex->getTraceAsString(),
-			'File' => $ex->getFile(),
-			'Line' => $ex->getLine(),
-			'User' => $user,
-		];
-		$this->logger->log($level, 'Exception: ' . json_encode($exception), ['app' => $this->appName]);
+		$this->logger->logException($ex, [
+			'app' => $this->appName,
+			'level' => $level,
+		]);
 	}
 }

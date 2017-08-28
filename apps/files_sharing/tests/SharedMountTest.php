@@ -54,8 +54,8 @@ class SharedMountTest extends TestCase {
 		$this->view->mkdir($this->folder);
 
 		// save file with content
-		$this->view->file_put_contents($this->filename, "root file");
-		$this->view->file_put_contents($this->folder . $this->filename, "file in subfolder");
+		$this->view->file_put_contents($this->filename, 'root file');
+		$this->view->file_put_contents($this->folder . $this->filename, 'file in subfolder');
 
 		$this->groupManager = \OC::$server->getGroupManager();
 		$this->userManager = \OC::$server->getUserManager();
@@ -204,18 +204,18 @@ class SharedMountTest extends TestCase {
 
 		$this->assertTrue(\OC\Files\Filesystem::file_exists($this->filename));
 
-		\OC\Files\Filesystem::rename($this->filename, "newFileName");
+		\OC\Files\Filesystem::rename($this->filename, 'newFileName');
 
 		$this->assertTrue(\OC\Files\Filesystem::file_exists('newFileName'));
 		$this->assertFalse(\OC\Files\Filesystem::file_exists($this->filename));
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER3);
 		$this->assertTrue(\OC\Files\Filesystem::file_exists($this->filename));
-		$this->assertFalse(\OC\Files\Filesystem::file_exists("newFileName"));
+		$this->assertFalse(\OC\Files\Filesystem::file_exists('newFileName'));
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER3);
 		$this->assertTrue(\OC\Files\Filesystem::file_exists($this->filename));
-		$this->assertFalse(\OC\Files\Filesystem::file_exists("newFileName"));
+		$this->assertFalse(\OC\Files\Filesystem::file_exists('newFileName'));
 
 		//cleanup
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
@@ -240,7 +240,7 @@ class SharedMountTest extends TestCase {
 			if ($exception) {
 				$this->assertSame(10, $e->getCode());
 			} else {
-				$this->assertTrue(false, "Exception catched, but expected: " . $expectedResult);
+				$this->assertTrue(false, 'Exception catched, but expected: ' . $expectedResult);
 			}
 		}
 	}
@@ -323,7 +323,7 @@ class SharedMountTest extends TestCase {
 	 *
 	 * @dataProvider dataPermissionMovedGroupShare
 	 */
-	function testPermissionMovedGroupShare($type, $beforePerm, $afterPerm) {
+	public function testPermissionMovedGroupShare($type, $beforePerm, $afterPerm) {
 
 		if ($type === 'file') {
 			$path = $this->filename;
@@ -355,7 +355,7 @@ class SharedMountTest extends TestCase {
 		$this->assertEquals($beforePerm, $result->getPermissions());
 
 		// Now move the item forcing a new entry in the share table
-		\OC\Files\Filesystem::rename($path, "newPath");
+		\OC\Files\Filesystem::rename($path, 'newPath');
 		$this->assertTrue(\OC\Files\Filesystem::file_exists('newPath'));
 		$this->assertFalse(\OC\Files\Filesystem::file_exists($path));
 
@@ -388,7 +388,7 @@ class SharedMountTest extends TestCase {
 	 * If the permissions on a group share are upgraded be sure to still respect 
 	 * removed shares by a member of that group
 	 */
-	function testPermissionUpgradeOnUserDeletedGroupShare() {
+	public function testPermissionUpgradeOnUserDeletedGroupShare() {
 		$testGroup = $this->groupManager->createGroup('testGroup');
 		$user1 = $this->userManager->get(self::TEST_FILES_SHARING_API_USER1);
 		$user2 = $this->userManager->get(self::TEST_FILES_SHARING_API_USER2);

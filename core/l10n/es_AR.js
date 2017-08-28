@@ -54,6 +54,7 @@ OC.L10N.register(
     "%s (incompatible)" : "%s (incompatible)",
     "Following apps have been disabled: %s" : "Las siguientes aplicaciones han sido deshabilitadas: %s",
     "Already up to date" : "Ya está actualizado",
+    "Search contacts …" : "Buscar contactos ...",
     "No contacts found" : "No se encontraron contactos",
     "Show all contacts …" : "Mostrar todos los contactos ...",
     "There was an error loading your contacts" : "Se presentó un error al cargar sus contactos",
@@ -112,6 +113,7 @@ OC.L10N.register(
     "The reverse proxy headers configuration is incorrect, or you are accessing Nextcloud from a trusted proxy. If you are not accessing Nextcloud from a trusted proxy, this is a security issue and can allow an attacker to spoof their IP address as visible to Nextcloud. Further information can be found in our <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">documentation</a>." : "La configuración de los encabezados del proxy inverso es incorrecta, o está accediendo a Nextcloud desde un proxy de confianza. Si no esta accediendo a Nextcloud desde un proxy de confianza, se trata de un tema de seguridad y le puede permitir a un atacante hacer a su dirección IP apócrifa visible para Nextcloud. Puede encontar más infomración en nuestra <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">documentación</a>.",
     "Memcached is configured as distributed cache, but the wrong PHP module \"memcache\" is installed. \\OC\\Memcache\\Memcached only supports \"memcached\" and not \"memcache\". See the <a target=\"_blank\" rel=\"noreferrer\" href=\"{wikiLink}\">memcached wiki about both modules</a>." : "Memcached está configurado como un caché distribuido, pero el módulo equivocado PHP \"memcache\" está instalado. \\OC\\Memcache\\Memcached sólo soporta \"memchached\" y no \"memchache\". Favor de ver el <a target=\"_blank\" rel=\"noreferrer\" href=\"{wikiLink}\">wiki de ambos módulos</a>.",
     "Some files have not passed the integrity check. Further information on how to resolve this issue can be found in our <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">documentation</a>. (<a href=\"{codeIntegrityDownloadEndpoint}\">List of invalid files…</a> / <a href=\"{rescanEndpoint}\">Rescan…</a>)" : "Algunos archivos no pasaron la verificación de integridad. Para mayor información de cómo resolver este tema consulte nuestra <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">documentación</a>. (<a href=\"{codeIntegrityDownloadEndpoint}\">Listado de archivos inválidos …</a> / <a href=\"{rescanEndpoint}\">Volver a escanear…</a>)",
+    "The PHP OPcache is not properly configured. <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">For better performance we recommend</a> to use following settings in the <code>php.ini</code>:" : "PHP Opcache no se encuentra correctamente configurado. <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">Para un mejor desempeño le recomendamos↗</a> usar las siguientes configuraciones en el archivo <code>php.ini</code>:",
     "The PHP function \"set_time_limit\" is not available. This could result in scripts being halted mid-execution, breaking your installation. We strongly recommend enabling this function." : "La fución PHP \"set_time_limit\" no está disponible. Esto podría generar scripts que se interrumpan a media ejecución, rompiendo la instalación. Le recomendamos ámpliamente habilitar esta función.",
     "Error occurred while checking server setup" : "Se presentó un error al verificar la configuración del servidor",
     "Your data directory and your files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server in a way that the data directory is no longer accessible or you move the data directory outside the web server document root." : "Posiblemente sus archivos y directorio de datos sean accesibles desde Internet. El archivo .htaccess no está funcionando. Le recomendamos ámpliamente que configure su servidor web de tal modo que el directorio de datos no sea accesible o que mueva el directorio de datos fuera de la raíz de documentos del servidor web. ",
@@ -126,6 +128,7 @@ OC.L10N.register(
     "Expiration" : "Expiración",
     "Expiration date" : "Fecha de expiración",
     "Choose a password for the public link" : "Seleccione una contraseña para el link público",
+    "Choose a password for the public link or press the \"Enter\" key" : "Favor de elegir una contraseña para el link público o presione  \"Intro  \"",
     "Copied!" : "¡Copiado!",
     "Copy" : "Copiar",
     "Not supported!" : "¡No está soportado!",
@@ -268,7 +271,8 @@ OC.L10N.register(
     "Log in" : "Ingresar",
     "Stay logged in" : "Mantener la sesión abierta",
     "Alternative Logins" : "Accesos Alternativos",
-    "You are about to grant \"%s\" access to your %s account." : "Está apunto de concederle a \"%s\" acceso a su cuenta %s.",
+    "Account access" : "Acceso a la cuenta",
+    "You are about to grant %s access to your %s account." : "Está a punto de concederle a \"%s\" acceso a su cuenta %s.",
     "App token" : "Ficha de la aplicación",
     "Alternative login using app token" : "Inicio de sesión alternativo usando la ficha de la aplicación",
     "Redirecting …" : "Redireccionando ... ",
@@ -337,6 +341,7 @@ OC.L10N.register(
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hola,<br><br> sólo queremos informarle que %s ha compartido <strong>%s</strong> con usted. <br><a href=\"%s\">¡Véalo!</a><br><br>",
     "This Nextcloud instance is currently in single user mode." : "Esta instalación de Nextcloud se encuentra en modo de usuario único.",
     "This means only administrators can use the instance." : "Esto significa que sólo los administradores pueden usar la instancia.",
-    "Please use the command line updater because you have a big instance." : "Favor de usar el actualizador de línea de comando porque usted tiene una instancia grande. "
+    "Please use the command line updater because you have a big instance." : "Favor de usar el actualizador de línea de comando porque usted tiene una instancia grande. ",
+    "You are about to grant \"%s\" access to your %s account." : "Está apunto de concederle a \"%s\" acceso a su cuenta %s."
 },
 "nplurals=2; plural=(n != 1);");

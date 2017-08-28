@@ -287,7 +287,7 @@ class TagsTest extends \Test\TestCase {
 
 	public function testShareTags() {
 		$testTag = 'TestTag';
-		\OCP\Share::registerBackend('test', 'Test\Share\Backend');
+		\OC\Share\Share::registerBackend('test', 'Test\Share\Backend');
 
 		$tagger = $this->tagMgr->load('test');
 		$tagger->tagAs(1, $testTag);
@@ -306,7 +306,7 @@ class TagsTest extends \Test\TestCase {
 		$this->assertFalse($otherTagger->hasTag($testTag));
 
 		\OC_User::setUserId($this->user->getUID());
-		\OCP\Share::shareItem('test', 1, \OCP\Share::SHARE_TYPE_USER, $otherUserId, \OCP\Constants::PERMISSION_READ);
+		\OC\Share\Share::shareItem('test', 1, \OCP\Share::SHARE_TYPE_USER, $otherUserId, \OCP\Constants::PERMISSION_READ);
 
 		\OC_User::setUserId($otherUserId);
 		$otherTagger = $otherTagMgr->load('test', array(), true); // Update tags, load shared ones.

@@ -136,7 +136,7 @@ class DeleteOrphanedSharesJobTest extends \Test\TestCase {
 		$fileId = $fileInfo->getId();
 
 		$this->assertTrue(
-			\OCP\Share::shareItem('folder', $fileId, \OCP\Share::SHARE_TYPE_USER, $this->user2, \OCP\Constants::PERMISSION_READ),
+			\OC\Share\Share::shareItem('folder', $fileId, \OCP\Share::SHARE_TYPE_USER, $this->user2, \OCP\Constants::PERMISSION_READ),
 			'Failed asserting that user 1 successfully shared "test/sub" with user 2.'
 		);
 
@@ -156,10 +156,10 @@ class DeleteOrphanedSharesJobTest extends \Test\TestCase {
 	public function testKeepNonFileShares() {
 		$this->loginAsUser($this->user1);
 
-		\OCP\Share::registerBackend('test', 'Test\Share\Backend');
+		\OC\Share\Share::registerBackend('test', 'Test\Share\Backend');
 
 		$this->assertTrue(
-			\OCP\Share::shareItem('test', 'test.txt', \OCP\Share::SHARE_TYPE_USER, $this->user2, \OCP\Constants::PERMISSION_READ),
+			\OC\Share\Share::shareItem('test', 'test.txt', \OCP\Share::SHARE_TYPE_USER, $this->user2, \OCP\Constants::PERMISSION_READ),
 			'Failed asserting that user 1 successfully shared something with user 2.'
 		);
 

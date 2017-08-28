@@ -77,7 +77,7 @@ class ListCommand extends Base {
 				'user id to list the personal mounts for, if no user is provided admin mounts will be listed'
 			)->addOption(
 				'show-password',
-				null,
+				'',
 				InputOption::VALUE_NONE,
 				'show passwords and secrets'
 			)->addOption(

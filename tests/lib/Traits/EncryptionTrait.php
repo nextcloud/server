@@ -64,6 +64,7 @@ trait EncryptionTrait {
 		/** @var Setup $userSetup */
 		$userSetup = $container->query('UserSetup');
 		$userSetup->setupUser($name, $password);
+		$this->encryptionApp->setUp();
 		$keyManager->init($name, $password);
 	}
 
@@ -99,6 +100,7 @@ trait EncryptionTrait {
 		if ($this->config) {
 			$this->config->setAppValue('core', 'encryption_enabled', $this->encryptionWasEnabled);
 			$this->config->setAppValue('core', 'default_encryption_module', $this->originalEncryptionModule);
+			$this->config->deleteAppValue('encryption', 'useMasterKey');
 		}
 	}
 }

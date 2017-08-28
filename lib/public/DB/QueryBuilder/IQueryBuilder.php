@@ -176,7 +176,7 @@ interface IQueryBuilder {
 	 *
 	 * @param string|integer $key The parameter position or name.
 	 * @param mixed $value The parameter value.
-	 * @param string|null $type One of the IQueryBuilder::PARAM_* constants.
+	 * @param string|null|int $type One of the IQueryBuilder::PARAM_* constants.
 	 *
 	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 * @since 8.2.0

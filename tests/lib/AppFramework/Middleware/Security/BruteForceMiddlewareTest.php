@@ -112,6 +112,10 @@ class BruteForceMiddlewareTest extends TestCase {
 			->expects($this->once())
 			->method('isThrottled')
 			->willReturn(true);
+		$response
+			->expects($this->once())
+			->method('getThrottleMetadata')
+			->willReturn([]);
 		$this->reflector
 			->expects($this->once())
 			->method('getAnnotationParameter')

@@ -34,6 +34,7 @@
 namespace OC\User;
 
 use OC\Hooks\PublicEmitter;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IUser;
 use OCP\IUserBackend;
 use OCP\IUserManager;
@@ -126,6 +127,9 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @return \OC\User\User|null Either the user or null if the specified user does not exist
 	 */
 	public function get($uid) {
+		if (is_null($uid) || $uid === '' || $uid === false) {
+			return null;
+		}
 		if (isset($this->cachedUsers[$uid])) { //check the cache first to prevent having to loop over the backends
 			return $this->cachedUsers[$uid];
 		}
@@ -284,7 +288,20 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @return bool|IUser the created user or false
 	 */
 	public function createUser($uid, $password) {
+		$localBackends = [];
 		foreach ($this->backends as $backend) {
+			if ($backend instanceof Database) {
+				// First check if there is another user backend
+				$localBackends[] = $backend;
+				continue;
+			}
+
+			if ($backend->implementsActions(Backend::CREATE_USER)) {
+				return $this->createUserFromBackend($uid, $password, $backend);
+			}
+		}
+
+		foreach ($localBackends as $backend) {
 			if ($backend->implementsActions(Backend::CREATE_USER)) {
 				return $this->createUserFromBackend($uid, $password, $backend);
 			}
@@ -332,7 +349,10 @@ class Manager extends PublicEmitter implements IUserManager {
 		}
 
 		$this->emit('\OC\User', 'preCreateUser', [$uid, $password]);
-		$backend->createUser($uid, $password);
+		$state = $backend->createUser($uid, $password);
+		if($state === false) {
+			throw new \InvalidArgumentException($l->t('Could not create user'));
+		}
 		$user = $this->getUserObject($uid, $backend);
 		if ($user instanceof IUser) {
 			$this->emit('\OC\User', 'postCreateUser', [$user, $password]);
@@ -420,7 +440,7 @@ class Manager extends PublicEmitter implements IUserManager {
 			->from('preferences')
 			->where($queryBuilder->expr()->eq('appid', $queryBuilder->createNamedParameter('core')))
 			->andWhere($queryBuilder->expr()->eq('configkey', $queryBuilder->createNamedParameter('enabled')))
-			->andWhere($queryBuilder->expr()->eq('configvalue', $queryBuilder->createNamedParameter('false')));
+			->andWhere($queryBuilder->expr()->eq('configvalue', $queryBuilder->createNamedParameter('false'), IQueryBuilder::PARAM_STR));
 
 		$query = $queryBuilder->execute();
 

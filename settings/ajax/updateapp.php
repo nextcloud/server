@@ -51,7 +51,7 @@ try {
 	$config->setSystemValue('maintenance', false);
 } catch(Exception $ex) {
 	$config->setSystemValue('maintenance', false);
-	OC_JSON::error(array("data" => array( "message" => $ex->getMessage() )));
+	OC_JSON::error(array('data' => array( 'message' => $ex->getMessage() )));
 	return;
 }
 
@@ -59,5 +59,5 @@ if($result !== false) {
 	OC_JSON::success(array('data' => array('appid' => $appId)));
 } else {
 	$l = \OC::$server->getL10N('settings');
-	OC_JSON::error(array("data" => array( "message" => $l->t("Couldn't update app.") )));
+	OC_JSON::error(array('data' => array( 'message' => $l->t("Couldn't update app.") )));
 }

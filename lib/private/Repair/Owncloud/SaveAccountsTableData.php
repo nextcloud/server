@@ -24,6 +24,7 @@
 namespace OC\Repair\Owncloud;
 
 use Doctrine\DBAL\Exception\InvalidFieldNameException;
+use Doctrine\DBAL\Exception\TableNotFoundException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -95,6 +96,8 @@ class SaveAccountsTableData implements IRepairStep {
 			$query->execute();
 			return true;
 		} catch (InvalidFieldNameException $e) {
+			return false;
+		} catch (TableNotFoundException $e) {
 			return false;
 		}
 	}

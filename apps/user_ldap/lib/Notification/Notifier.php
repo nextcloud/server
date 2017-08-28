@@ -63,9 +63,9 @@ class Notifier implements INotifier {
 				$params = $notification->getSubjectParameters();
 				$days = (int) $params[0];
 				if ($days === 2) {
-					$notification->setParsedSubject($l->t('Your password will expire tomorrow.', $days));
+					$notification->setParsedSubject($l->t('Your password will expire tomorrow.'));
 				} else if ($days === 1) {
-					$notification->setParsedSubject($l->t('Your password will expire today.', $days));
+					$notification->setParsedSubject($l->t('Your password will expire today.'));
 				} else {
 					$notification->setParsedSubject($l->n(
 						'Your password will expire within %n day.',

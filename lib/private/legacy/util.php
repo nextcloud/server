@@ -91,6 +91,7 @@ class OC_Util {
 	 * TODO make home storage aware of this and use the object storage instead of local disk access
 	 *
 	 * @param array $config containing 'class' and optional 'arguments'
+	 * @suppress PhanDeprecatedFunction
 	 */
 	private static function initObjectStoreRootFS($config) {
 		// check misconfiguration
@@ -124,6 +125,7 @@ class OC_Util {
 	 * necessity of a data folder being present.
 	 *
 	 * @param array $config containing 'class' and optional 'arguments'
+	 * @suppress PhanDeprecatedFunction
 	 */
 	private static function initObjectStoreMultibucketRootFS($config) {
 		// check misconfiguration
@@ -165,6 +167,8 @@ class OC_Util {
 	 * @param string $user
 	 * @return boolean
 	 * @description configure the initial filesystem based on the configuration
+	 * @suppress PhanDeprecatedFunction
+	 * @suppress PhanAccessMethodInternal
 	 */
 	public static function setupFS($user = '') {
 		//setting up the filesystem twice can only lead to trouble
@@ -202,7 +206,7 @@ class OC_Util {
 			return $storage;
 		});
 
-		\OC\Files\Filesystem::addStorageWrapper('enable_sharing', function ($mountPoint, \OCP\Files\Storage $storage, \OCP\Files\Mount\IMountPoint $mount) {
+		\OC\Files\Filesystem::addStorageWrapper('enable_sharing', function ($mountPoint, \OCP\Files\Storage\IStorage $storage, \OCP\Files\Mount\IMountPoint $mount) {
 			if (!$mount->getOption('enable_sharing', true)) {
 				return new \OC\Files\Storage\Wrapper\PermissionsMask([
 					'storage' => $storage,
@@ -213,7 +217,7 @@ class OC_Util {
 		});
 
 		// install storage availability wrapper, before most other wrappers
-		\OC\Files\Filesystem::addStorageWrapper('oc_availability', function ($mountPoint, $storage) {
+		\OC\Files\Filesystem::addStorageWrapper('oc_availability', function ($mountPoint, \OCP\Files\Storage\IStorage $storage) {
 			if (!$storage->instanceOfStorage('\OCA\Files_Sharing\SharedStorage') && !$storage->isLocal()) {
 				return new \OC\Files\Storage\Wrapper\Availability(['storage' => $storage]);
 			}
@@ -289,6 +293,7 @@ class OC_Util {
 	 * check if a password is required for each public link
 	 *
 	 * @return boolean
+	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function isPublicLinkPasswordRequired() {
 		$appConfig = \OC::$server->getAppConfig();
@@ -329,6 +334,7 @@ class OC_Util {
 	 * check if share API enforces a default expire date
 	 *
 	 * @return boolean
+	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function isDefaultExpireDateEnforced() {
 		$isDefaultExpireDateEnabled = \OCP\Config::getAppValue('core', 'shareapi_default_expire_date', 'no');
@@ -345,7 +351,7 @@ class OC_Util {
 	 * Get the quota of a user
 	 *
 	 * @param string $userId
-	 * @return int Quota bytes
+	 * @return float Quota bytes
 	 */
 	public static function getUserQuota($userId) {
 		$user = \OC::$server->getUserManager()->get($userId);
@@ -365,6 +371,7 @@ class OC_Util {
 	 * @param String $userId
 	 * @param \OCP\Files\Folder $userDirectory
 	 * @throws \RuntimeException
+	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function copySkeleton($userId, \OCP\Files\Folder $userDirectory) {
 
@@ -431,6 +438,7 @@ class OC_Util {
 
 	/**
 	 * @return void
+	 * @suppress PhanUndeclaredMethod
 	 */
 	public static function tearDownFS() {
 		\OC\Files\Filesystem::tearDown();
@@ -487,6 +495,7 @@ class OC_Util {
 
 	/**
 	 * @description load the version.php into the session as cache
+	 * @suppress PhanUndeclaredVariable
 	 */
 	private static function loadVersion() {
 		if (self::$versionCache !== null) {
@@ -563,8 +572,8 @@ class OC_Util {
 	 * add a translation JS file
 	 *
 	 * @param string $application application id
-	 * @param string $languageCode language code, defaults to the current language
-	 * @param bool $prepend prepend the Script to the beginning of the list
+	 * @param string|null $languageCode language code, defaults to the current language
+	 * @param bool|null $prepend prepend the Script to the beginning of the list
 	 */
 	public static function addTranslations($application, $languageCode = null, $prepend = false) {
 		if (is_null($languageCode)) {
@@ -1068,6 +1077,7 @@ class OC_Util {
 	 * the apps visible for the current user
 	 *
 	 * @return string URL
+	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function getDefaultPageUrl() {
 		$urlGenerator = \OC::$server->getURLGenerator();
@@ -1081,7 +1091,8 @@ class OC_Util {
 				$location = $urlGenerator->getAbsoluteURL($defaultPage);
 			} else {
 				$appId = 'files';
-				$defaultApps = explode(',', \OCP\Config::getSystemValue('defaultapp', 'files'));
+				$config = \OC::$server->getConfig();
+				$defaultApps = explode(',', $config->getSystemValue('defaultapp', 'files'));
 				// find the first app that is enabled for the current user
 				foreach ($defaultApps as $defaultApp) {
 					$defaultApp = OC_App::cleanAppId(strip_tags($defaultApp));
@@ -1091,7 +1102,7 @@ class OC_Util {
 					}
 				}
 
-				if(\OC::$server->getConfig()->getSystemValue('htaccess.IgnoreFrontController', false) === true || getenv('front_controller_active') === 'true') {
+				if($config->getSystemValue('htaccess.IgnoreFrontController', false) === true || getenv('front_controller_active') === 'true') {
 					$location = $urlGenerator->getAbsoluteURL('/apps/' . $appId . '/');
 				} else {
 					$location = $urlGenerator->getAbsoluteURL('/index.php/apps/' . $appId . '/');
@@ -1346,6 +1357,8 @@ class OC_Util {
 	 * in case the opcode cache does not re-validate files
 	 *
 	 * @return void
+	 * @suppress PhanDeprecatedFunction
+	 * @suppress PhanUndeclaredConstant
 	 */
 	public static function clearOpcodeCache() {
 		// APC

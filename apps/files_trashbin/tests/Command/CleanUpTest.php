@@ -182,7 +182,7 @@ class CleanUpTest extends TestCase {
 			->setMethods(['removeDeletedFiles'])
 			->setConstructorArgs([$this->rootFolder, $this->userManager, $this->dbConnection])
 			->getMock();
-		$backend = $this->getMockBuilder('OC_User_Interface')
+		$backend = $this->getMockBuilder(\OCP\UserInterface::class)
 			->disableOriginalConstructor()->getMock();
 		$backend->expects($this->once())->method('getUsers')
 			->with('', 500, 0)

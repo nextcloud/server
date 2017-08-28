@@ -95,6 +95,7 @@ class LoginControllerTest extends TestCase {
 			->willReturn('/login');
 
 		$expected = new RedirectResponse('/login');
+		$expected->addHeader('Clear-Site-Data', '"cache", "cookies", "storage", "executionContexts"');
 		$this->assertEquals($expected, $this->loginController->logout());
 	}
 
@@ -124,6 +125,7 @@ class LoginControllerTest extends TestCase {
 			->willReturn('/login');
 
 		$expected = new RedirectResponse('/login');
+		$expected->addHeader('Clear-Site-Data', '"cache", "cookies", "storage", "executionContexts"');
 		$this->assertEquals($expected, $this->loginController->logout());
 	}
 
@@ -289,6 +291,10 @@ class LoginControllerTest extends TestCase {
 		$this->userManager->expects($this->once())
 			->method('checkPasswordNoLogging')
 			->will($this->returnValue(false));
+		$this->userManager->expects($this->once())
+			->method('getByEmail')
+			->with($user)
+			->willReturn([]);
 		$this->urlGenerator->expects($this->once())
 			->method('linkToRoute')
 			->with('core.login.showLoginForm', [
@@ -305,7 +311,7 @@ class LoginControllerTest extends TestCase {
 			->method('deleteUserValue');
 
 		$expected = new \OCP\AppFramework\Http\RedirectResponse($loginPageUrl);
-		$expected->throttle();
+		$expected->throttle(['user' => 'MyUserName']);
 		$this->assertEquals($expected, $this->loginController->tryLogin($user, $password, '/apps/files'));
 	}
 
@@ -632,7 +638,7 @@ class LoginControllerTest extends TestCase {
 			->method('createRememberMeToken');
 
 		$expected = new RedirectResponse('');
-		$expected->throttle();
+		$expected->throttle(['user' => 'john']);
 		$this->assertEquals($expected, $this->loginController->tryLogin('john@doe.com', 'just wrong', null));
 	}
 }

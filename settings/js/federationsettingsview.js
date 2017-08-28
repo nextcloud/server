@@ -108,9 +108,12 @@
 				}
 			});
 
-			$.when(savingData).done(function() {
-				//OC.msg.finishedSaving('#personal-settings-container .msg', result)
-				self._showInputChangeSuccess(field);
+			$.when(savingData).done(function(data) {
+				if (data.status === "success") {
+					self._showInputChangeSuccess(field);
+				} else {
+					self._showInputChangeFail(field);
+				}
 			});
 		},
 
@@ -178,20 +181,34 @@
 			}
 		},
 
+		_showInputChangeFail: function(field) {
+			var $icon = this.$('#' + field + 'form > .icon-error');
+			$icon.fadeIn(200);
+			setTimeout(function() {
+				$icon.fadeOut(300);
+			}, 2000);
+		},
+
 		_setFieldScopeIcon: function(field, scope) {
 			var $icon = this.$('#' + field + 'form > h2 > span');
+			
 			$icon.removeClass('icon-password');
 			$icon.removeClass('icon-contacts-dark');
 			$icon.removeClass('icon-link');
+			$icon.addClass('hidden');
+
 			switch (scope) {
 				case 'private':
 					$icon.addClass('icon-password');
+					$icon.removeClass('hidden');
 					break;
 				case 'contacts':
 					$icon.addClass('icon-contacts-dark');
+					$icon.removeClass('hidden');
 					break;
 				case 'public':
 					$icon.addClass('icon-link');
+					$icon.removeClass('hidden');
 					break;
 			}
 		}

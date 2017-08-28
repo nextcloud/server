@@ -39,8 +39,8 @@ interface IQueryLogger extends SQLLogger {
 	 * query is finished finalized with stopQuery() method. 
 	 * 
 	 * @param string $sql
-	 * @param array $params
-	 * @param array $types
+	 * @param array|null $params
+	 * @param array|null $types
 	 * @since 8.0.0
 	 */
 	public function startQuery($sql, array $params = null, array $types = null);

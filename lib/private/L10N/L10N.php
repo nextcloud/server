@@ -25,6 +25,7 @@ namespace OC\L10N;
 use OCP\IL10N;
 use OCP\L10N\IFactory;
 use Punic\Calendar;
+use Symfony\Component\Translation\PluralizationRules;
 
 class L10N implements IL10N {
 
@@ -82,7 +83,7 @@ class L10N implements IL10N {
 	 * returned.
 	 */
 	public function t($text, $parameters = array()) {
-		return (string) new \OC_L10N_String($this, $text, $parameters);
+		return (string) new L10NString($this, $text, $parameters);
 	}
 
 	/**
@@ -103,12 +104,12 @@ class L10N implements IL10N {
 	public function n($text_singular, $text_plural, $count, $parameters = array()) {
 		$identifier = "_${text_singular}_::_${text_plural}_";
 		if (isset($this->translations[$identifier])) {
-			return (string) new \OC_L10N_String($this, $identifier, $parameters, $count);
+			return (string) new L10NString($this, $identifier, $parameters, $count);
 		} else {
 			if ($count === 1) {
-				return (string) new \OC_L10N_String($this, $text_singular, $parameters, $count);
+				return (string) new L10NString($this, $text_singular, $parameters, $count);
 			} else {
-				return (string) new \OC_L10N_String($this, $text_plural, $parameters, $count);
+				return (string) new L10NString($this, $text_plural, $parameters, $count);
 			}
 		}
 	}
@@ -191,8 +192,12 @@ class L10N implements IL10N {
 	 */
 	public function getPluralFormFunction() {
 		if (is_null($this->pluralFormFunction)) {
-			$this->pluralFormFunction = $this->factory->createPluralFunction($this->pluralFormString);
+			$lang = $this->getLanguageCode();
+			$this->pluralFormFunction = function($n) use ($lang) {
+				return PluralizationRules::get($n, $lang);
+			};
 		}
+
 		return $this->pluralFormFunction;
 	}
 

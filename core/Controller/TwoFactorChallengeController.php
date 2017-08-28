@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -29,6 +30,7 @@ use OC_Util;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\Authentication\TwoFactorAuth\IProvidesCustomCSP;
 use OCP\Authentication\TwoFactorAuth\TwoFactorException;
 use OCP\IRequest;
 use OCP\ISession;
@@ -69,8 +71,8 @@ class TwoFactorChallengeController extends Controller {
 	/**
 	 * @return string
 	 */
-	protected function getLogoutAttribute() {
-		return OC_User::getLogoutAttribute();
+	protected function getLogoutUrl() {
+		return OC_User::getLogoutUrl($this->urlGenerator);
 	}
 
 	/**
@@ -89,7 +91,7 @@ class TwoFactorChallengeController extends Controller {
 			'providers' => $providers,
 			'backupProvider' => $backupProvider,
 			'redirect_url' => $redirect_url,
-			'logout_attribute' => $this->getLogoutAttribute(),
+			'logout_url' => $this->getLogoutUrl(),
 		];
 		return new TemplateResponse($this->appName, 'twofactorselectchallenge', $data, 'guest');
 	}
@@ -131,11 +133,15 @@ class TwoFactorChallengeController extends Controller {
 			'error_message' => $errorMessage,
 			'provider' => $provider,
 			'backupProvider' => $backupProvider,
-			'logout_attribute' => $this->getLogoutAttribute(),
+			'logout_url' => $this->getLogoutUrl(),
 			'redirect_url' => $redirect_url,
 			'template' => $tmpl->fetchPage(),
 		];
-		return new TemplateResponse($this->appName, 'twofactorshowchallenge', $data, 'guest');
+		$response = new TemplateResponse($this->appName, 'twofactorshowchallenge', $data, 'guest');
+		if ($provider instanceof IProvidesCustomCSP) {
+			$response->setContentSecurityPolicy($provider->getCSP());
+		}
+		return $response;
 	}
 
 	/**

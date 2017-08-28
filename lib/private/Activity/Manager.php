@@ -57,6 +57,9 @@ class Manager implements IManager {
 	/** @var int */
 	protected $formattingObjectId;
 
+	/** @var bool */
+	protected $requirePNG;
+
 	/** @var string */
 	protected $currentUserId;
 
@@ -466,6 +469,20 @@ class Manager implements IManager {
 	}
 
 	/**
+	 * @param bool $status Set to true, when parsing events should not use SVG icons
+	 */
+	public function setRequirePNG($status) {
+		$this->requirePNG = $status;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function getRequirePNG() {
+		return $this->requirePNG;
+	}
+
+	/**
 	 * @param string $app
 	 * @param string $text
 	 * @param array $params
@@ -571,7 +588,7 @@ class Manager implements IManager {
 
 		$users = $this->config->getUsersForUserValue('activity', 'rsstoken', $token);
 
-		if (sizeof($users) !== 1) {
+		if (count($users) !== 1) {
 			// No unique user found
 			throw new \UnexpectedValueException('The token is invalid');
 		}

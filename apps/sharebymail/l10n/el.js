@@ -13,6 +13,7 @@ OC.L10N.register(
     "%3$s shared %1$s with %2$s by mail" : "%3$s Διαμοιραστηκε %1$s με %2$s μέσω mail",
     "{actor} shared {file} with {email} by mail" : "{actor} διαμοίρασε {file} με {email} μέσω mail",
     "Password to access %1$s was sent to %2s" : "Το συνθηματικό για πρόσβαση στο %1$s στάθηκε στο %2s",
+    "Password to access {file} was sent to {email}" : "Ο κωδικός πρόσβασης για πρόσβαση στο {αρχείο} έχει αποσταλεί στο {email}",
     "Password to access %1$s was sent to you" : "Σας έχει αποσταλεί το συνθηματικό για πρόσβαση στο %1$s",
     "Password to access {file} was sent to you" : "Σας έχει αποσταλεί στο συνθηματικό για πρόσβαση {file}",
     "Sharing %s failed, this item is already shared with %s" : "Διαμοιρασμός %s απέτυχε, αυτό το αντικείμενο είναι ήδη διαμοιρασμένο με %s",

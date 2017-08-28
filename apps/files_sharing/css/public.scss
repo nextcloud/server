@@ -215,3 +215,13 @@ thead {
 	max-width: 400px;
 	text-align: left;
 }
+
+#header .header-shared-by  {
+	display: inline-block;
+	color: $color-primary-text;
+	position: relative;
+	top: -10px;
+	font-weight: 300;
+	font-size: 12px;
+	margin-top: 10px;
+}

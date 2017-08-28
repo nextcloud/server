@@ -130,7 +130,7 @@ class GroupTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$userManager = $this->getUserManager();
-		$userBackend = $this->getMockBuilder('\OC_User_Backend')
+		$userBackend = $this->getMockBuilder(\OC\User\Backend::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$group = new \OC\Group\Group('group1', array($backend1, $backend2), $userManager);
@@ -227,7 +227,7 @@ class GroupTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$userManager = $this->getUserManager();
-		$userBackend = $this->getMockBuilder('\OC_User_Backend')
+		$userBackend = $this->getMockBuilder(\OC\User\Backend::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$group = new \OC\Group\Group('group1', array($backend), $userManager);

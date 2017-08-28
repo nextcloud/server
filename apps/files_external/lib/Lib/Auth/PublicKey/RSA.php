@@ -35,8 +35,6 @@ use \phpseclib\Crypt\RSA as RSACrypt;
  */
 class RSA extends AuthMechanism {
 
-	const CREATE_KEY_BITS = 1024;
-
 	/** @var IConfig */
 	private $config;
 
@@ -69,14 +67,19 @@ class RSA extends AuthMechanism {
 	/**
 	 * Generate a keypair
 	 *
+	 * @param int $keyLenth
 	 * @return array ['privatekey' => $privateKey, 'publickey' => $publicKey]
 	 */
-	public function createKey() {
+	public function createKey($keyLength) {
 		$rsa = new RSACrypt();
 		$rsa->setPublicKeyFormat(RSACrypt::PUBLIC_FORMAT_OPENSSH);
 		$rsa->setPassword($this->config->getSystemValue('secret', ''));
 
-		return $rsa->createKey(self::CREATE_KEY_BITS);
+		if ($keyLength !== 1024 && $keyLength !== 2048 && $keyLength !== 4096) {
+			$keyLength = 1024;
+		}
+
+		return $rsa->createKey($keyLength);
 	}
 
 }

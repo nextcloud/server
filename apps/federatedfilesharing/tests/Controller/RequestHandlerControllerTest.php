@@ -81,7 +81,7 @@ class RequestHandlerControllerTest extends TestCase {
 		parent::setUp();
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
-		\OCP\Share::registerBackend('test', 'Test\Share\Backend');
+		\OC\Share\Share::registerBackend('test', 'Test\Share\Backend');
 
 		$config = $this->getMockBuilder('\OCP\IConfig')
 				->disableOriginalConstructor()->getMock();

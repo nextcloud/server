@@ -97,6 +97,7 @@ class OC_EventSource implements \OCP\IEventSource {
 	 *
 	 * @throws \BadMethodCallException
 	 * if only one parameter is given, a typeless message will be send with that parameter as data
+	 * @suppress PhanDeprecatedFunction
 	 */
 	public function send($type, $data = null) {
 		if ($data and !preg_match('/^[A-Za-z0-9_]+$/', $type)) {

@@ -73,7 +73,7 @@ class Util {
 	 * @since 4.0.0
 	 */
 	public static function getVersion() {
-		return(\OC_Util::getVersion());
+		return \OC_Util::getVersion();
 	}
 	
 	/**
@@ -119,11 +119,11 @@ class Util {
 		$message->setPlainBody($mailtext);
 		$message->setFrom([$fromaddress => $fromname]);
 		if($html === 1) {
-			$message->setHTMLBody($altbody);
+			$message->setHtmlBody($altbody);
 		}
 
 		if($altbody === '') {
-			$message->setHTMLBody($mailtext);
+			$message->setHtmlBody($mailtext);
 			$message->setPlainBody('');
 		} else {
 			$message->setHtmlBody($mailtext);
@@ -150,6 +150,7 @@ class Util {
 	 * @param string $message
 	 * @param int $level
 	 * @since 4.0.0
+	 * @deprecated 13.0.0 use log of \OCP\ILogger
 	 */
 	public static function writeLog( $app, $message, $level ) {
 		$context = ['app' => $app];
@@ -251,9 +252,10 @@ class Util {
 	 *
 	 * @deprecated 8.0.0 Use \OC::$server->query('DateTimeFormatter') instead
 	 * @since 4.0.0
+	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function formatDate($timestamp, $dateOnly=false, $timeZone = null) {
-		return(\OC_Util::formatDate($timestamp, $dateOnly, $timeZone));
+		return \OC_Util::formatDate($timestamp, $dateOnly, $timeZone);
 	}
 
 	/**
@@ -350,7 +352,7 @@ class Util {
 	 * @since 5.0.0
 	 */
 	public static function getServerHostName() {
-		$host_name = self::getServerHost();
+		$host_name = \OC::$server->getRequest()->getServerHost();
 		// strip away port number (if existing)
 		$colon_pos = strpos($host_name, ':');
 		if ($colon_pos != FALSE) {
@@ -439,20 +441,20 @@ class Util {
 	 * @return string a human readable file size
 	 * @since 4.0.0
 	 */
-	public static function humanFileSize( $bytes ) {
-		return(\OC_Helper::humanFileSize( $bytes ));
+	public static function humanFileSize($bytes) {
+		return \OC_Helper::humanFileSize($bytes);
 	}
 
 	/**
 	 * Make a computer file size (2 kB to 2048)
 	 * @param string $str file size in a fancy format
-	 * @return int a file size in bytes
+	 * @return float a file size in bytes
 	 *
 	 * Inspired by: http://www.php.net/manual/en/function.filesize.php#92418
 	 * @since 4.0.0
 	 */
-	public static function computerFileSize( $str ) {
-		return(\OC_Helper::computerFileSize( $str ));
+	public static function computerFileSize($str) {
+		return \OC_Helper::computerFileSize($str);
 	}
 
 	/**
@@ -469,8 +471,8 @@ class Util {
 	 * TODO: write example
 	 * @since 4.0.0
 	 */
-	static public function connectHook($signalClass, $signalName, $slotClass, $slotName ) {
-		return(\OC_Hook::connect($signalClass, $signalName, $slotClass, $slotName ));
+	static public function connectHook($signalClass, $signalName, $slotClass, $slotName) {
+		return \OC_Hook::connect($signalClass, $signalName, $slotClass, $slotName);
 	}
 
 	/**
@@ -483,8 +485,8 @@ class Util {
 	 * TODO: write example
 	 * @since 4.0.0
 	 */
-	static public function emitHook( $signalclass, $signalname, $params = array()) {
-		return(\OC_Hook::emit( $signalclass, $signalname, $params ));
+	static public function emitHook($signalclass, $signalname, $params = array()) {
+		return \OC_Hook::emit($signalclass, $signalname, $params);
 	}
 
 	/**
@@ -517,7 +519,7 @@ class Util {
 			exit();
 		}
 
-		if (!(\OC::$server->getRequest()->passesCSRFCheck())) {
+		if (!\OC::$server->getRequest()->passesCSRFCheck()) {
 			exit();
 		}
 	}
@@ -548,7 +550,7 @@ class Util {
 	 * @since 6.0.0
 	 */
 	public static function encodePath($component) {
-		return(\OC_Util::encodePath($component));
+		return \OC_Util::encodePath($component);
 	}
 
 	/**
@@ -561,7 +563,7 @@ class Util {
 	 * @since 4.5.0
 	 */
 	public static function mb_array_change_key_case($input, $case = MB_CASE_LOWER, $encoding = 'UTF-8') {
-		return(\OC_Helper::mb_array_change_key_case($input, $case, $encoding));
+		return \OC_Helper::mb_array_change_key_case($input, $case, $encoding);
 	}
 
 	/**
@@ -601,12 +603,12 @@ class Util {
 	 *
 	 * @param array $haystack the array to be searched
 	 * @param string $needle the search string
-	 * @param int $index optional, only search this key name
+	 * @param mixed $index optional, only search this key name
 	 * @return mixed the key of the matching field, otherwise false
 	 * @since 4.5.0
 	 */
 	public static function recursiveArraySearch($haystack, $needle, $index = null) {
-		return(\OC_Helper::recursiveArraySearch($haystack, $needle, $index));
+		return \OC_Helper::recursiveArraySearch($haystack, $needle, $index);
 	}
 
 	/**
@@ -647,6 +649,7 @@ class Util {
 	 * @return bool true if the file name is valid, false otherwise
 	 * @deprecated 8.1.0 use \OC\Files\View::verifyPath()
 	 * @since 7.0.0
+	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function isValidFileName($file) {
 		return \OC_Util::isValidFileName($file);

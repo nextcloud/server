@@ -1,7 +1,9 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Saved" : "Saglabāts",
     "Saving failed:" : "Saglabāšana neizdevās:",
+    "File MIME type" : "Faila MIME tips",
     "is" : "ir",
     "is not" : "nav",
     "matches" : "atbilst",

@@ -59,8 +59,8 @@ class VersionCheckTest extends \Test\TestCase {
 		$expectedResult = [
 			'version' => '8.0.4.2',
 			'versionstring' => 'ownCloud 8.0.4',
-			'url' => 'https://download.owncloud.org/community/owncloud-8.0.4.zip',
-			'web' => 'http://doc.owncloud.org/server/8.0/admin_manual/maintenance/upgrade.html',
+			'url' => 'https://download.example.org/community/owncloud-8.0.4.zip',
+			'web' => 'http://doc.example.org/server/8.0/admin_manual/maintenance/upgrade.html',
 		];
 
 		$this->config
@@ -81,8 +81,8 @@ class VersionCheckTest extends \Test\TestCase {
 		$expectedResult = [
 			'version' => '8.0.4.2',
 			'versionstring' => 'ownCloud 8.0.4',
-			'url' => 'https://download.owncloud.org/community/owncloud-8.0.4.zip',
-			'web' => 'http://doc.owncloud.org/server/8.0/admin_manual/maintenance/upgrade.html',
+			'url' => 'https://download.example.org/community/owncloud-8.0.4.zip',
+			'web' => 'http://doc.example.org/server/8.0/admin_manual/maintenance/upgrade.html',
 			'autoupdater' => '0',
 		];
 
@@ -119,8 +119,8 @@ class VersionCheckTest extends \Test\TestCase {
 <owncloud>
   <version>8.0.4.2</version>
   <versionstring>ownCloud 8.0.4</versionstring>
-  <url>https://download.owncloud.org/community/owncloud-8.0.4.zip</url>
-  <web>http://doc.owncloud.org/server/8.0/admin_manual/maintenance/upgrade.html</web>
+  <url>https://download.example.org/community/owncloud-8.0.4.zip</url>
+  <web>http://doc.example.org/server/8.0/admin_manual/maintenance/upgrade.html</web>
   <autoupdater>0</autoupdater>
 </owncloud>';
 		$this->updater

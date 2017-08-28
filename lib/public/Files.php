@@ -50,7 +50,7 @@ class Files {
 	 * @return bool
 	 * @since 5.0.0
 	 */
-	static function rmdirr( $dir ) {
+	static public function rmdirr( $dir ) {
 		return \OC_Helper::rmdirr( $dir );
 	}
 
@@ -61,7 +61,7 @@ class Files {
 	 * does NOT work for ownClouds filesystem, use OC_FileSystem::getMimeType instead
 	 * @since 5.0.0
 	 */
-	static function getMimeType( $path ) {
+	static public function getMimeType( $path ) {
 		return \OC::$server->getMimeTypeDetector()->detect($path);
 	}
 
@@ -71,8 +71,8 @@ class Files {
 	 * @return array
 	 * @since 6.0.0
 	 */
-	static public function searchByMime( $mimetype ) {
-		return(\OC\Files\Filesystem::searchByMime( $mimetype ));
+	static public function searchByMime($mimetype) {
+		return \OC\Files\Filesystem::searchByMime($mimetype);
 	}
 
 	/**
@@ -119,8 +119,8 @@ class Files {
 	 * @return string
 	 * @since 5.0.0
 	 */
-	public static function buildNotExistingFileName( $path, $filename ) {
-		return(\OC_Helper::buildNotExistingFileName( $path, $filename ));
+	public static function buildNotExistingFileName($path, $filename) {
+		return \OC_Helper::buildNotExistingFileName($path, $filename);
 	}
 
 	/**
@@ -130,7 +130,7 @@ class Files {
 	 * @return \OC\Files\View
 	 * @since 5.0.0
 	 */
-	public static function getStorage( $app ) {
+	public static function getStorage($app) {
 		return \OC_App::getStorage( $app );
 	}
 }

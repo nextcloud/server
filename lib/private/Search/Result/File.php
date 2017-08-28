@@ -91,7 +91,7 @@ class File extends \OCP\Search\Result {
 		$this->path = $path;
 		$this->size = $data->getSize();
 		$this->modified = $data->getMtime();
-		$this->mime = $data->getMimetype();
+		$this->mime_type = $data->getMimetype();
 	}
 
 	/**

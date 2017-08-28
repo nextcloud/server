@@ -103,6 +103,11 @@ class AdminControllerTest extends TestCase {
 				['core', 'lastupdatedat', '', '12345'],
 				['updatenotification', 'notify_groups', '["admin"]', '["admin"]'],
 			]);
+		$this->config
+			->expects($this->once())
+			->method('getSystemValue')
+			->with('updater.server.url', 'https://updates.nextcloud.com/server/')
+			->willReturn('https://updates.nextcloud.com/server/');
 		$this->dateTimeFormatter
 			->expects($this->once())
 			->method('formatDateTime')
@@ -120,12 +125,15 @@ class AdminControllerTest extends TestCase {
 
 		$params = [
 			'isNewVersionAvailable' => true,
+			'isUpdateChecked' => true,
 			'lastChecked' => 'LastCheckedReturnValue',
 			'currentChannel' => \OCP\Util::getChannel(),
 			'channels' => $channels,
 			'newVersionString' => '8.1.2',
 			'downloadLink' => 'https://downloads.nextcloud.org/server',
 			'updaterEnabled' => true,
+			'isDefaultUpdateServerURL' => true,
+			'updateServerURL' => 'https://updates.nextcloud.com/server/',
 			'notify_groups' => 'admin',
 		];
 
@@ -154,6 +162,11 @@ class AdminControllerTest extends TestCase {
 				['core', 'lastupdatedat', '', '12345'],
 				['updatenotification', 'notify_groups', '["admin"]', '["admin"]'],
 			]);
+		$this->config
+			->expects($this->once())
+			->method('getSystemValue')
+			->with('updater.server.url', 'https://updates.nextcloud.com/server/')
+			->willReturn('https://updates.nextcloud.com/server/');
 		$this->dateTimeFormatter
 			->expects($this->once())
 			->method('formatDateTime')
@@ -166,12 +179,15 @@ class AdminControllerTest extends TestCase {
 
 		$params = [
 			'isNewVersionAvailable' => false,
+			'isUpdateChecked' => true,
 			'lastChecked' => 'LastCheckedReturnValue',
 			'currentChannel' => \OCP\Util::getChannel(),
 			'channels' => $channels,
 			'newVersionString' => '',
 			'downloadLink' => '',
 			'updaterEnabled' => 0,
+			'isDefaultUpdateServerURL' => true,
+			'updateServerURL' => 'https://updates.nextcloud.com/server/',
 			'notify_groups' => 'admin',
 		];
 

@@ -9,12 +9,15 @@ default:
         - ActorContext
         - NextcloudTestServerContext
 
+        - AppNavigationContext
         - FeatureContext
         - FilesAppContext
         - FilesSharingAppContext
         - LoginPageContext
         - NotificationContext
+        - SettingsContext
         - SettingsMenuContext
+        - ThemingAppContext
         - UsersSettingsContext
   extensions:
     Behat\MinkExtension:

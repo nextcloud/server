@@ -13,7 +13,7 @@ OC.L10N.register(
     "Unsupported image type" : "Ce type d'image n'est pas pris en charge",
     "You are already using a custom theme" : "Vous utilisez déjà un thème personnalisé",
     "Theming" : "Personnaliser l'apparence",
-    "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Cet extension permet de personnaliser facilement l'apparence de votre instance et des clients supportés. Cela sera visible pour tous les utilisateurs.",
+    "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Cette extension permet de personnaliser facilement l'apparence de votre instance et des clients supportés. La personnalisation de l'apparence sera visible par tous les utilisateurs.",
     "Name" : "Nom",
     "Reset to default" : "Restaurer les valeurs par défaut",
     "Web address" : "Adresse web",

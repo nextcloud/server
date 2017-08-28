@@ -82,14 +82,14 @@ interface ILDAPWrapper {
 	/**
 	 * Return the LDAP error number of the last LDAP command
 	 * @param resource $link LDAP link resource
-	 * @return string error message as string
+	 * @return int error code
 	 */
 	public function errno($link);
 
 	/**
 	 * Return the LDAP error message of the last LDAP command
 	 * @param resource $link LDAP link resource
-	 * @return int error code as integer
+	 * @return string error message
 	 */
 	public function error($link);
 

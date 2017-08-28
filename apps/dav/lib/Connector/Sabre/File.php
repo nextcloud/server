@@ -146,8 +146,8 @@ class File extends Node implements IFile {
 			// double check if the file was fully received
 			// compare expected and actual size
 			if (isset($_SERVER['CONTENT_LENGTH']) && $_SERVER['REQUEST_METHOD'] === 'PUT') {
-				$expected = $_SERVER['CONTENT_LENGTH'];
-				if ($count != $expected) {
+				$expected = (int) $_SERVER['CONTENT_LENGTH'];
+				if ($count !== $expected) {
 					throw new BadRequest('expected filesize ' . $expected . ' got ' . $count);
 				}
 			}
@@ -184,7 +184,7 @@ class File extends Node implements IFile {
 						$fileExists = $storage->file_exists($internalPath);
 					}
 					if (!$run || $renameOkay === false || $fileExists === false) {
-						\OCP\Util::writeLog('webdav', 'renaming part file to final file failed', \OCP\Util::ERROR);
+						\OCP\Util::writeLog('webdav', 'renaming part file to final file failed ($run: ' . ( $run ? 'true' : 'false' ) . ', $renameOkay: '  . ( $renameOkay ? 'true' : 'false' ) . ', $fileExists: ' . ( $fileExists ? 'true' : 'false' ) . ')', \OCP\Util::ERROR);
 						throw new Exception('Could not rename part file to final file');
 					}
 				} catch (ForbiddenException $ex) {
@@ -396,7 +396,7 @@ class File extends Node implements IFile {
 	 * @throws ServiceUnavailable
 	 */
 	private function createFileChunked($data) {
-		list($path, $name) = \Sabre\HTTP\URLUtil::splitPath($this->path);
+		list($path, $name) = \Sabre\Uri\split($this->path);
 
 		$info = \OC_FileChunking::decodeName($name);
 		if (empty($info)) {
@@ -409,8 +409,8 @@ class File extends Node implements IFile {
 		//detect aborted upload
 		if (isset ($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'PUT') {
 			if (isset($_SERVER['CONTENT_LENGTH'])) {
-				$expected = $_SERVER['CONTENT_LENGTH'];
-				if ($bytesWritten != $expected) {
+				$expected = (int) $_SERVER['CONTENT_LENGTH'];
+				if ($bytesWritten !== $expected) {
 					$chunk_handler->remove($info['index']);
 					throw new BadRequest(
 						'expected filesize ' . $expected . ' got ' . $bytesWritten);

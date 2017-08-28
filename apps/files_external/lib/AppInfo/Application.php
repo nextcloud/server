@@ -65,24 +65,6 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 	}
 
 	/**
-	 * Register settings templates
-	 */
-	public function registerSettings() {
-		$container = $this->getContainer();
-		$userSession = $container->getServer()->getUserSession();
-		if (!$userSession->isLoggedIn()) {
-			return;
-		}
-		$backendService = $container->query('OCA\\Files_External\\Service\\BackendService');
-
-		/** @var \OCA\Files_External\Service\UserGlobalStoragesService $userGlobalStoragesService */
-		$userGlobalStoragesService = $container->query('OCA\Files_External\Service\UserGlobalStoragesService');
-		if (count($userGlobalStoragesService->getStorages()) > 0 || $backendService->isUserMountingAllowed()) {
-			\OCP\App::registerPersonal('files_external', 'personal');
-		}
-	}
-
-	/**
 	 * @{inheritdoc}
 	 */
 	public function getBackends() {
@@ -95,8 +77,6 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 			$container->query('OCA\Files_External\Lib\Backend\OwnCloud'),
 			$container->query('OCA\Files_External\Lib\Backend\SFTP'),
 			$container->query('OCA\Files_External\Lib\Backend\AmazonS3'),
-			$container->query('OCA\Files_External\Lib\Backend\Dropbox'),
-			$container->query('OCA\Files_External\Lib\Backend\Google'),
 			$container->query('OCA\Files_External\Lib\Backend\Swift'),
 			$container->query('OCA\Files_External\Lib\Backend\SFTP_Key'),
 			$container->query('OCA\Files_External\Lib\Backend\SMB'),

@@ -80,7 +80,7 @@ class AuthMechanism implements \JsonSerializable {
 
 	/**
 	 * @param string $scheme
-	 * @return self
+	 * @return $this
 	 */
 	public function setScheme($scheme) {
 		$this->scheme = $scheme;

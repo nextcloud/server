@@ -332,7 +332,7 @@ class Cache implements ICache {
 	protected function buildParts(array $data) {
 		$fields = array(
 			'path', 'parent', 'name', 'mimetype', 'size', 'mtime', 'storage_mtime', 'encrypted',
-			'etag', 'permissions', 'checksum');
+			'etag', 'permissions', 'checksum', 'storage');
 
 		$doNotCopyStorageMTime = false;
 		if (array_key_exists('mtime', $data) && $data['mtime'] === null) {
@@ -502,6 +502,7 @@ class Cache implements ICache {
 	 * @param string $targetPath
 	 * @throws \OC\DatabaseException
 	 * @throws \Exception if the given storages have an invalid id
+	 * @suppress SqlInjectionChecker
 	 */
 	public function moveFromCache(ICache $sourceCache, $sourcePath, $targetPath) {
 		if ($sourceCache instanceof Cache) {
@@ -526,7 +527,7 @@ class Cache implements ICache {
 			$this->connection->beginTransaction();
 			if ($sourceData['mimetype'] === 'httpd/unix-directory') {
 				//update all child entries
-				$sourceLength = strlen($sourcePath);
+				$sourceLength = mb_strlen($sourcePath);
 				$query = $this->connection->getQueryBuilder();
 
 				$fun = $query->func();

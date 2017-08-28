@@ -16,7 +16,6 @@ OC.L10N.register(
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Không đủ dung lượng trống, bạn đang tải {size1} nhưng chỉ còn {size2} trống",
     "Target folder \"{dir}\" does not exist any more" : "Thư mục đích \"{dir}\" không còn tồn tại",
     "Not enough free space" : "Không đủ dung lượng trống",
-    "Uploading..." : "tải lên...",
     "Actions" : "Actions",
     "Download" : "Tải về",
     "Rename" : "Sửa tên",
@@ -94,7 +93,6 @@ OC.L10N.register(
     "You moved {oldfile} to {newfile}" : "Bạn đã chuyển {oldfile} tới {newfile}",
     "{user} moved {oldfile} to {newfile}" : "{user} đã chuyển {oldfile} tới {newfile}",
     "A file has been added to or removed from your <strong>favorites</strong>" : "Một tệp đã được thêm hoặc bị xóa khỏi <strong>mục yêu thích của bạn</strong>",
-    "A new file or folder has been <strong>restored</strong>" : "Một tập tin hoặc thư mục mới đã được <strong>khôi phục</strong>",
     "Upload (max. %s)" : "Tải lên (tối đa. %s)",
     "File handling" : "Xử lý tập tin",
     "Maximum upload size" : "Kích thước tối đa ",
@@ -119,6 +117,7 @@ OC.L10N.register(
     "Tags" : "Nhãn",
     "Deleted files" : "Thùng rác",
     "Text file" : "Tập tin văn bản",
+    "Uploading..." : "tải lên...",
     "_{hours}:{minutes}:{seconds} hour left_::_{hours}:{minutes}:{seconds} hours left_" : ["{hours}:{minutes}:{seconds} giờ còn lại"],
     "_{minutes}:{seconds} minute left_::_{minutes}:{seconds} minutes left_" : ["{minutes}:{seconds} phút còn lại"],
     "_{seconds} second left_::_{seconds} seconds left_" : ["{seconds} giây còn lại"],
@@ -128,6 +127,7 @@ OC.L10N.register(
     "Copy local link" : "Sao chép liên kết cục bộ",
     "Folder" : "Thư mục",
     "Upload" : "Tải lên",
+    "A new file or folder has been <strong>restored</strong>" : "Một tập tin hoặc thư mục mới đã được <strong>khôi phục</strong>",
     "No favorites" : "Không có mục ưa thích nào"
 },
 "nplurals=1; plural=0;");

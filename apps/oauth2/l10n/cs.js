@@ -1,9 +1,8 @@
 OC.L10N.register(
     "oauth2",
     {
-    "OAuth 2.0" : "OAuth 2.0",
     "OAuth 2.0 clients" : "OAuth 2.0 klienti",
-    "OAuth 2.0 allows external services to request access to your %s." : "OAuth 2.0 umožňuje cizím službám žádat přístup k vašemu %s.",
+    "OAuth 2.0 allows external services to request access to %s." : "OAuth 2.0 umožňuje cizím službám žádat přístup k %s.",
     "Name" : "Název",
     "Redirection URI" : "URL pro přesměrování",
     "Client Identifier" : "Identifikátor klienta",

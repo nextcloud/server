@@ -65,11 +65,11 @@ $application->registerRoutes($this, [
 		['name' => 'Certificate#removePersonalRootCertificate', 'url' => '/settings/personal/certificate/{certificateIdentifier}', 'verb' => 'DELETE'],
 		['name' => 'Certificate#addSystemRootCertificate', 'url' => '/settings/admin/certificate', 'verb' => 'POST'],
 		['name' => 'Certificate#removeSystemRootCertificate', 'url' => '/settings/admin/certificate/{certificateIdentifier}', 'verb' => 'DELETE'],
+		['name' => 'PersonalSettings#index', 'url' => '/settings/user/{section}', 'verb' => 'GET', 'defaults' => ['section' => 'personal-info']],
 		['name' => 'AdminSettings#index', 'url' => '/settings/admin/{section}', 'verb' => 'GET', 'defaults' => ['section' => 'server']],
 		['name' => 'AdminSettings#form', 'url' => '/settings/admin/{section}', 'verb' => 'GET'],
 		['name' => 'ChangePassword#changePersonalPassword', 'url' => '/settings/personal/changepassword', 'verb' => 'POST'],
 		['name' => 'ChangePassword#changeUserPassword', 'url' => '/settings/users/changepassword', 'verb' => 'POST'],
-		['name' => 'Personal#setLanguage', 'url' => '/settings/ajax/setlanguage.php', 'verb' => 'POST'],
 		['name' => 'Groups#index', 'url' => '/settings/users/groups', 'verb' => 'GET'],
 		['name' => 'Groups#show', 'url' => '/settings/users/groups/{id}', 'requirements' => ['id' => '[^?]*'], 'verb' => 'GET'],
 		['name' => 'Groups#create', 'url' => '/settings/users/groups', 'verb' => 'POST'],
@@ -83,8 +83,6 @@ $application->registerRoutes($this, [
 // Settings pages
 $this->create('settings_help', '/settings/help')
 	->actionInclude('settings/help.php');
-$this->create('settings_personal', '/settings/personal')
-	->actionInclude('settings/personal.php');
 $this->create('settings_users', '/settings/users')
 	->actionInclude('settings/users.php');
 // Settings ajax actions

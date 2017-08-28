@@ -14,8 +14,6 @@
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Няма достатъчно свободно място. Опитвате да качите {size1} при свободни само {size2}",
     "Target folder \"{dir}\" does not exist any more" : "Целева папка \"{dir}\" не съществува вече",
     "Not enough free space" : "Няма достатъчно свободно място",
-    "Uploading..." : "Качване...",
-    "..." : "...",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} от {totalSize} ({bitrate})",
     "Actions" : "Действия",
     "Download" : "Изтегли",
@@ -93,9 +91,7 @@
     "A file has been added to or removed from your <strong>favorites</strong>" : "Файл беше добавен или премахнат от <strong>предпочитанията</strong> ви",
     "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "<strong>Промяна</strong> или <strong>преименуване</strong> на файл / папка",
     "A new file or folder has been <strong>created</strong>" : "<strong>Създаване</strong> на нов файл / папка",
-    "A new file or folder has been <strong>deleted</strong>" : "Нов файл или папка беше <strong>изтрит/а</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Изпращай известия само при създаване / промяна на <strong>любими файлове</strong> <em>(Само за потока)</em>",
-    "A new file or folder has been <strong>restored</strong>" : "Нов файл или папка беше <strong>възстановен/а</strong>",
     "Upload (max. %s)" : "Качи (макс. %s)",
     "File handling" : "Операция с файла",
     "Maximum upload size" : "Максимален размер",
@@ -121,6 +117,8 @@
     "Deleted files" : "Изтрити файлове",
     "Text file" : "Текстов файл",
     "New text file.txt" : "Нов текст file.txt",
+    "Uploading..." : "Качване...",
+    "..." : "...",
     "{hours}:{minutes}h" : "{hours}:{minutes}ч",
     "{minutes}:{seconds}m" : "{minutes}:{seconds}м",
     "{seconds}s" : "{seconds}и",
@@ -130,6 +128,8 @@
     "Copy local link" : "Копиране на локална връзка",
     "Folder" : "Папка",
     "Upload" : "Качване",
+    "A new file or folder has been <strong>deleted</strong>" : "Нов файл или папка беше <strong>изтрит/а</strong>",
+    "A new file or folder has been <strong>restored</strong>" : "Нов файл или папка беше <strong>възстановен/а</strong>",
     "No favorites" : "Няма любими"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -1,5 +1,7 @@
 { "translations": {
+    "Saved" : "Saglabāts",
     "Saving failed:" : "Saglabāšana neizdevās:",
+    "File MIME type" : "Faila MIME tips",
     "is" : "ir",
     "is not" : "nav",
     "matches" : "atbilst",

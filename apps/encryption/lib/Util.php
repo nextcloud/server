@@ -136,7 +136,7 @@ class Util {
 	 * @return bool
 	 */
 	public function isMasterKeyEnabled() {
-		$userMasterKey = $this->config->getAppValue('encryption', 'useMasterKey', '0');
+		$userMasterKey = $this->config->getAppValue('encryption', 'useMasterKey', '1');
 		return ($userMasterKey === '1');
 	}
 

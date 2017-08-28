@@ -27,6 +27,7 @@ namespace OCA\Encryption\Tests\Controller;
 
 use OCA\Encryption\Controller\StatusController;
 use OCA\Encryption\Session;
+use OCP\Encryption\IManager;
 use OCP\IRequest;
 use Test\TestCase;
 
@@ -40,6 +41,9 @@ class StatusControllerTest extends TestCase {
 
 	/** @var  \OCA\Encryption\Session | \PHPUnit_Framework_MockObject_MockObject */
 	protected $sessionMock;
+
+	/** @var  IManager | \PHPUnit_Framework_MockObject_MockObject */
+	protected $encryptionManagerMock;
 
 	/** @var StatusController */
 	protected $controller;
@@ -59,11 +63,13 @@ class StatusControllerTest extends TestCase {
 			->will($this->returnCallback(function($message) {
 				return $message;
 			}));
+		$this->encryptionManagerMock = $this->createMock(IManager::class);
 
 		$this->controller = new StatusController('encryptionTest',
 			$this->requestMock,
 			$this->l10nMock,
-			$this->sessionMock);
+			$this->sessionMock,
+			$this->encryptionManagerMock);
 
 	}
 

@@ -432,7 +432,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		// 'application/json' must be decoded manually.
 		if (strpos($this->getHeader('Content-Type'), 'application/json') !== false) {
 			$params = json_decode(file_get_contents($this->inputStream), true);
-			if(count($params) > 0) {
+			if($params !== null && count($params) > 0) {
 				$this->items['params'] = $params;
 				if($this->method === 'POST') {
 					$this->items['post'] = $params;
@@ -721,7 +721,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 
 		// strip off the script name's dir and file name
 		// FIXME: Sabre does not really belong here
-		list($path, $name) = \Sabre\HTTP\URLUtil::splitPath($scriptName);
+		list($path, $name) = \Sabre\Uri\split($scriptName);
 		if (!empty($path)) {
 			if($path === $pathInfo || strpos($pathInfo, $path.'/') === 0) {
 				$pathInfo = substr($pathInfo, strlen($path));

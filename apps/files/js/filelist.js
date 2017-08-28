@@ -1566,11 +1566,16 @@
 			this._sort = sort;
 			this._sortDirection = (direction === 'desc')?'desc':'asc';
 			this._sortComparator = function(fileInfo1, fileInfo2) {
-				if(fileInfo1.isFavorite && !fileInfo2.isFavorite) {
+				var isFavorite = function(fileInfo) {
+					return fileInfo.tags && fileInfo.tags.indexOf(OC.TAG_FAVORITE) >= 0;
+				};
+
+				if (isFavorite(fileInfo1) && !isFavorite(fileInfo2)) {
 					return -1;
-				} else if(!fileInfo1.isFavorite && fileInfo2.isFavorite) {
+				} else if (!isFavorite(fileInfo1) && isFavorite(fileInfo2)) {
 					return 1;
 				}
+
 				return direction === 'asc' ? comparator(fileInfo1, fileInfo2) : -comparator(fileInfo1, fileInfo2);
 			};
 
@@ -2715,7 +2720,7 @@
 		 * Shows a "permission denied" notification
 		 */
 		_showPermissionDeniedNotification: function() {
-			var message = t('core', 'You don’t have permission to upload or create files here');
+			var message = t('files', 'You don’t have permission to upload or create files here');
 			OC.Notification.show(message, {type: 'error'});
 		},
 
@@ -2737,6 +2742,7 @@
 
 				if (self.$el.hasClass('hidden')) {
 					// do not upload to invisible lists
+					e.preventDefault();
 					return false;
 				}
 
@@ -2748,6 +2754,7 @@
 					&& !self.$el.has(dropTarget).length // dropped inside list
 					&& !dropTarget.is(self.$container) // dropped on main container
 					) {
+					e.preventDefault();
 					return false;
 				}
 
@@ -2788,6 +2795,7 @@
 					var isCreatable = (self.getDirectoryPermissions() & OC.PERMISSION_CREATE) !== 0;
 					if (!isCreatable) {
 						self._showPermissionDeniedNotification();
+						e.stopPropagation();
 						return false;
 					}
 

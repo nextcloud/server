@@ -59,13 +59,6 @@ return array(
 		'password'=>'test',
 		'root'=>'',
 	),
-	'google'=>array(
-		'run'=> false,
-		'configured' => 'true',
-		'client_id' => '',
-		'client_secret' => '',
-		'token' => '',
-	),
 	'swift' => array(
 		'run' => false,
 		'user' => 'test',
@@ -97,15 +90,6 @@ return array(
 		//'region' => 'eu-west-1',
 		//'test'=>'true',
 		//'timeout'=>20
-	),
-	'dropbox' => array (
-		'run'=>false,
-		'root'=>'owncloud',
-		'configured' => 'true',
-		'app_key' => '',
-		'app_secret' => '',
-		'token' => '',
-		'token_secret' => ''
 	),
 	'sftp' => array (
 		'run'=>false,

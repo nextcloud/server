@@ -29,6 +29,7 @@ namespace OCA\Federation\Tests;
 
 use OCA\Federation\DbHandler;
 use OCA\Federation\TrustedServers;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
@@ -71,6 +72,9 @@ class TrustedServersTest extends TestCase {
 	/** @var  \PHPUnit_Framework_MockObject_MockObject | EventDispatcherInterface */
 	private $dispatcher;
 
+	/** @var \PHPUnit_Framework_MockObject_MockObject|ITimeFactory */
+	private $timeFactory;
+
 	public function setUp() {
 		parent::setUp();
 
@@ -85,6 +89,7 @@ class TrustedServersTest extends TestCase {
 		$this->jobList = $this->getMockBuilder(IJobList::class)->getMock();
 		$this->secureRandom = $this->getMockBuilder(ISecureRandom::class)->getMock();
 		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
+		$this->timeFactory = $this->createMock(ITimeFactory::class);
 
 		$this->trustedServers = new TrustedServers(
 			$this->dbHandler,
@@ -93,7 +98,8 @@ class TrustedServersTest extends TestCase {
 			$this->jobList,
 			$this->secureRandom,
 			$this->config,
-			$this->dispatcher
+			$this->dispatcher,
+			$this->timeFactory
 		);
 
 	}
@@ -114,13 +120,16 @@ class TrustedServersTest extends TestCase {
 					$this->jobList,
 					$this->secureRandom,
 					$this->config,
-					$this->dispatcher
+					$this->dispatcher,
+					$this->timeFactory
 				]
 			)
 			->setMethods(['normalizeUrl', 'updateProtocol'])
 			->getMock();
 		$trustedServers->expects($this->once())->method('updateProtocol')
 				->with('url')->willReturn('https://url');
+		$this->timeFactory->method('getTime')
+			->willReturn(1234567);
 		$this->dbHandler->expects($this->once())->method('addServer')->with('https://url')
 			->willReturn($success);
 
@@ -130,7 +139,7 @@ class TrustedServersTest extends TestCase {
 			$this->dbHandler->expects($this->once())->method('addToken')->with('https://url', 'token');
 			$this->jobList->expects($this->once())->method('add')
 				->with('OCA\Federation\BackgroundJob\RequestSharedSecret',
-						['url' => 'https://url', 'token' => 'token']);
+						['url' => 'https://url', 'token' => 'token', 'created' => 1234567]);
 		} else {
 			$this->jobList->expects($this->never())->method('add');
 		}
@@ -272,7 +281,8 @@ class TrustedServersTest extends TestCase {
 					$this->jobList,
 					$this->secureRandom,
 					$this->config,
-					$this->dispatcher
+					$this->dispatcher,
+					$this->timeFactory
 				]
 			)
 			->setMethods(['checkOwnCloudVersion'])

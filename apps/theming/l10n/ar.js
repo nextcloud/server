@@ -1,6 +1,7 @@
 OC.L10N.register(
     "theming",
     {
+    "Loading preview…" : "جار تحميل المعاينة ...",
     "Saved" : "تم الحفظ",
     "Admin" : "ادارة",
     "a safe home for all your data" : "مكان آمن لكل معلوماتك",
@@ -12,7 +13,9 @@ OC.L10N.register(
     "Unsupported image type" : "صيغة الصورة غير مقبولة",
     "You are already using a custom theme" : "انت تستعمل قالب مخصص",
     "Theming" : "تخصيص القالب",
+    "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "السمات تجعل من الممكن بسهولة تخصيص الشكل والمظهر لنموذجك ودعم العملاء. سيكون هذا مرئيا لجميع المستخدمين.",
     "Name" : "الاسم",
+    "Reset to default" : "اعادة تعيين الافتراضيات",
     "Web address" : "عنوان صفحة أنترنت",
     "Web address https://…" : "عنوان صفحة أنترنت https://",
     "Slogan" : "شعار",
@@ -21,6 +24,7 @@ OC.L10N.register(
     "Upload new logo" : "رفع شعار جديد",
     "Login image" : "صورة الدخول",
     "Upload new login background" : "تحميل خلفية جديدة للدخول",
+    "Remove background image" : "إزالة صورة الخلفية",
     "reset to default" : "إلغاء كل التغييرات",
     "Log in image" : "صورة الدخول"
 },

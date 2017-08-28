@@ -37,6 +37,7 @@ namespace OC\Files\Storage;
 
 use OC\Files\Storage\Wrapper\Jail;
 use OCP\Files\ForbiddenException;
+use OCP\Files\Storage\IStorage;
 
 /**
  * for local filestore, we only have to map the paths
@@ -404,13 +405,19 @@ class Local extends \OC\Files\Storage\Common {
 	}
 
 	/**
-	 * @param \OCP\Files\Storage $sourceStorage
+	 * @param IStorage $sourceStorage
 	 * @param string $sourceInternalPath
 	 * @param string $targetInternalPath
 	 * @return bool
 	 */
-	public function copyFromStorage(\OCP\Files\Storage $sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime = false) {
+	public function copyFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime = false) {
 		if ($sourceStorage->instanceOfStorage('\OC\Files\Storage\Local')) {
+			if ($sourceStorage->instanceOfStorage(Jail::class)) {
+				/**
+				 * @var \OC\Files\Storage\Wrapper\Jail $sourceStorage
+				 */
+				$sourceInternalPath = $sourceStorage->getUnjailedPath($sourceInternalPath);
+			}
 			/**
 			 * @var \OC\Files\Storage\Local $sourceStorage
 			 */
@@ -422,12 +429,12 @@ class Local extends \OC\Files\Storage\Common {
 	}
 
 	/**
-	 * @param \OCP\Files\Storage $sourceStorage
+	 * @param IStorage $sourceStorage
 	 * @param string $sourceInternalPath
 	 * @param string $targetInternalPath
 	 * @return bool
 	 */
-	public function moveFromStorage(\OCP\Files\Storage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
+	public function moveFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
 		if ($sourceStorage->instanceOfStorage(Local::class)) {
 			if ($sourceStorage->instanceOfStorage(Jail::class)) {
 				/**

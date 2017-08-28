@@ -100,13 +100,17 @@
 
 #header {
 	.logo {
-		background-image: url('#{$image-logo}');
+		display: inline-flex;
+		background-image: url($image-logo);
 		background-repeat: no-repeat;
-		background-size: 175px;
+		background-size: contain;
 		background-position: center;
-		width: 252px;
-		height: 120px;
+		width: 256px;
+		height: 128px;
 		margin: 0 auto;
+		&.logo-icon {
+			width: 62px;
+			height: 34px;
 
 		img {
 			opacity: 0;
@@ -114,15 +118,7 @@
 			max-height: 200px;
 		}
 	}
-	.logo-icon {
-		/* display logo so appname can be shown next to it */
-		display: inline-block;
-		background-image: url($image-logo);
-		background-repeat: no-repeat;
-		background-position: center center;
-		background-size: contain;
-		width: 62px;
-		height: 34px;
+
 	}
 	.header-appname-container {
 		display: none;
@@ -141,18 +137,18 @@
 		vertical-align: middle;
 	}
 
-	#header-left,
-	#header-right {
+	#header-left, .header-left,
+	#header-right, .header-right {
 		display: inline-flex;
 		align-items: center;
 	}
 
-	#header-left {
+	#header-left, .header-left {
 		flex: 0 0;
 		flex-grow: 1;
 	}
 
-	#header-right {
+	#header-right, .header-right {
 		justify-content: flex-end;
 	}
 }
@@ -215,7 +211,8 @@ nav {
 	margin-left: -54px;
 }
 
-#navigation {
+#navigation,
+.ui-datepicker {
 	position: relative;
 	left: -100%;
 	width: 160px;
@@ -276,11 +273,12 @@ nav {
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
+			max-width: 110px;
 		}
 		svg,
 		span {
-			-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=50)';
-			opacity: .5;
+			-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=70)';
+			opacity: .7;
 		}
 		svg {
 			margin-bottom: 2px;
@@ -429,10 +427,10 @@ nav {
 		display: block;
 		height: 40px;
 		color: $color-main-text;
-		opacity: .5;
 		padding: 10px 12px 0;
-		-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=50)';
 		box-sizing: border-box;
+		-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=70)';
+		opacity: .7;
 		img {
 			margin-bottom: -3px;
 			margin-right: 6px;
@@ -502,7 +500,7 @@ nav {
 		border-top-left-radius: 0;
 		border-top-right-radius: 0;
 		margin-top: 0;
-		color: rgba(0, 0, 0, .6);
+		color: rgba(0, 0, 0, .7);
 		width: auto;
 		left: 50%;
 		top: 45px;
@@ -530,6 +528,11 @@ nav {
 		left: 50%;
 		bottom: 0;
 		z-index: 100;
+		display: none;
+	}
+	li a.active:before,
+	li:hover a:before,
+	li:hover a.active:before {
 		display: block;
 	}
 	&.menu-open li:hover a:before,

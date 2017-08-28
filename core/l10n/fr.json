@@ -133,7 +133,7 @@
     "Press ⌘-C to copy." : "Appuyez sur ⌘-C pour copier.",
     "Press Ctrl-C to copy." : "Appuyez sur Ctrl-C pour copier.",
     "Resharing is not allowed" : "Le repartage n'est pas autorisé",
-    "Share to {name}" : "Partager à {name}",
+    "Share to {name}" : "Partager avec {name}",
     "Share link" : "Partager par lien public",
     "Link" : "Lien",
     "Password protect" : "Protéger par un mot de passe",
@@ -171,8 +171,8 @@
     "{sharee} (email)" : "{sharee} (email)",
     "{sharee} ({type}, {owner})" : "{sharee} ({type}, {owner})",
     "Share" : "Partager",
-    "Share with other people by entering a user or group, a federated cloud ID or an email address." : "Partager avec d'autres personnes en indiquant un nom d'utilisateur, un groupe, un identifiant cloud ou une adresse email.",
-    "Share with other people by entering a user or group or a federated cloud ID." : "Partager avec d'autres personnes en indiquant un utilisateur, un groupe ou un identifiant cloud.",
+    "Share with other people by entering a user or group, a federated cloud ID or an email address." : "Partager avec d'autres personnes en indiquant un nom d'utilisateur, un groupe, un identifiant de cloud fédéré ou une adresse email.",
+    "Share with other people by entering a user or group or a federated cloud ID." : "Partager avec d'autres personnes en indiquant un utilisateur, un groupe ou un identifiant de cloud fédéré.",
     "Share with other people by entering a user or group or an email address." : "Partager avec d'autres personnes en indiquant un utilisateur, un groupe ou une adresse email.",
     "Name or email address..." : "Nom ou adresse mail...",
     "Name or federated cloud ID..." : "Nom ou ID du cloud fédéré...",
@@ -269,7 +269,8 @@
     "Log in" : "Se connecter",
     "Stay logged in" : "Rester connecté",
     "Alternative Logins" : "Identifiants alternatifs",
-    "You are about to grant \"%s\" access to your %s account." : "Vous êtes sur le point d'accorder à \"%s\" l'accès à votre compte \"%s\".",
+    "Account access" : "Accès au compte",
+    "You are about to grant %s access to your %s account." : "Vous êtes sur le point d'accorder à \"%s\" l'accès à votre compte \"%s\".",
     "App token" : "Jeton d'application",
     "Alternative login using app token" : "Authentification alternative utilisant un jeton d'application",
     "Redirecting …" : "Redirection en cours...",
@@ -338,6 +339,7 @@
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Bonjour,<br><br>Nous vous informons que %s a partagé <strong>%s</strong> avec vous.<br><a href=\"%s\">Cliquez ici pour y accéder !</a><br><br>",
     "This Nextcloud instance is currently in single user mode." : "Cette instance de Nextcloud est actuellement en mode utilisateur unique.",
     "This means only administrators can use the instance." : "Cela signifie que seuls les administrateurs peuvent utiliser l'instance.",
-    "Please use the command line updater because you have a big instance." : "Veuillez utiliser la mise à jour en ligne de commande car votre instance est volumineuse."
+    "Please use the command line updater because you have a big instance." : "Veuillez utiliser la mise à jour en ligne de commande car votre instance est volumineuse.",
+    "You are about to grant \"%s\" access to your %s account." : "Vous êtes sur le point d'accorder à \"%s\" l'accès à votre compte \"%s\"."
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

@@ -56,6 +56,7 @@ class RepairInvalidShares implements IRepairStep {
 
 	/**
 	 * Adjust file share permissions
+	 * @suppress SqlInjectionChecker
 	 */
 	private function adjustFileSharePermissions(IOutput $out) {
 		$mask = \OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_SHARE;

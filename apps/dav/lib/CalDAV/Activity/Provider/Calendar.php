@@ -84,7 +84,11 @@ class Calendar extends Base {
 
 		$this->l = $this->languageFactory->get('dav', $language);
 
-		$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'places/calendar-dark.svg')));
+		if ($this->activityManager->getRequirePNG()) {
+			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'places/calendar-dark.png')));
+		} else {
+			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'places/calendar-dark.svg')));
+		}
 
 		if ($event->getSubject() === self::SUBJECT_ADD) {
 			$subject = $this->l->t('{actor} created calendar {calendar}');
@@ -164,32 +168,32 @@ class Calendar extends Base {
 			case self::SUBJECT_UNSHARE_USER . '_self':
 				return [
 					'actor' => $this->generateUserParameter($parameters[0]),
-					'calendar' => $this->generateCalendarParameter($event->getObjectId(), $parameters[1]),
+					'calendar' => $this->generateCalendarParameter((int)$event->getObjectId(), $parameters[1]),
 				];
 			case self::SUBJECT_SHARE_USER . '_you':
 			case self::SUBJECT_UNSHARE_USER . '_you':
 				return [
 					'user' => $this->generateUserParameter($parameters[0]),
-					'calendar' => $this->generateCalendarParameter($event->getObjectId(), $parameters[1]),
+					'calendar' => $this->generateCalendarParameter((int)$event->getObjectId(), $parameters[1]),
 				];
 			case self::SUBJECT_SHARE_USER . '_by':
 			case self::SUBJECT_UNSHARE_USER . '_by':
 				return [
 					'user' => $this->generateUserParameter($parameters[0]),
-					'calendar' => $this->generateCalendarParameter($event->getObjectId(), $parameters[1]),
+					'calendar' => $this->generateCalendarParameter((int)$event->getObjectId(), $parameters[1]),
 					'actor' => $this->generateUserParameter($parameters[2]),
 				];
 			case self::SUBJECT_SHARE_GROUP . '_you':
 			case self::SUBJECT_UNSHARE_GROUP . '_you':
 				return [
 					'group' => $this->generateGroupParameter($parameters[0]),
-					'calendar' => $this->generateCalendarParameter($event->getObjectId(), $parameters[1]),
+					'calendar' => $this->generateCalendarParameter((int)$event->getObjectId(), $parameters[1]),
 				];
 			case self::SUBJECT_SHARE_GROUP . '_by':
 			case self::SUBJECT_UNSHARE_GROUP . '_by':
 				return [
 					'group' => $this->generateGroupParameter($parameters[0]),
-					'calendar' => $this->generateCalendarParameter($event->getObjectId(), $parameters[1]),
+					'calendar' => $this->generateCalendarParameter((int)$event->getObjectId(), $parameters[1]),
 					'actor' => $this->generateUserParameter($parameters[2]),
 				];
 		}

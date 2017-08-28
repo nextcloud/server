@@ -15,6 +15,7 @@ OC.L10N.register(
     "Theming" : "Temaer",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Theming gør det muligt nemt at tilpasse udseendet på din installation og understøttede klienter. Dette vil være synlig for alle brugere.",
     "Name" : "Navn",
+    "Reset to default" : "Nulstil",
     "Web address" : "Web adresse",
     "Web address https://…" : "Web adresse http://...",
     "Slogan" : "Slogan",

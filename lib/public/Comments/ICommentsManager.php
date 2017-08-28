@@ -104,7 +104,7 @@ interface ICommentsManager {
 	 * @param int $limit optional, number of maximum comments to be returned. if
 	 * not specified, all comments are returned.
 	 * @param int $offset optional, starting point
-	 * @param \DateTime $notOlderThan optional, timestamp of the oldest comments
+	 * @param \DateTime|null $notOlderThan optional, timestamp of the oldest comments
 	 * that may be returned
 	 * @return IComment[]
 	 * @since 9.0.0
@@ -120,7 +120,7 @@ interface ICommentsManager {
 	/**
 	 * @param $objectType string the object type, e.g. 'files'
 	 * @param $objectId string the id of the object
-	 * @param \DateTime $notOlderThan optional, timestamp of the oldest comments
+	 * @param \DateTime|null $notOlderThan optional, timestamp of the oldest comments
 	 * that may be returned
 	 * @return Int
 	 * @since 9.0.0

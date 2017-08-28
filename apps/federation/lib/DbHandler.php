@@ -88,11 +88,11 @@ class DbHandler {
 
 		if ($result) {
 			return (int)$this->connection->lastInsertId('*PREFIX*'.$this->dbTable);
-		} else {
-			$message = 'Internal failure, Could not add trusted server: ' . $url;
-			$message_t = $this->IL10N->t('Could not add server');
-			throw new HintException($message, $message_t);
 		}
+
+		$message = 'Internal failure, Could not add trusted server: ' . $url;
+		$message_t = $this->IL10N->t('Could not add server');
+		throw new HintException($message, $message_t);
 	}
 
 	/**
@@ -137,8 +137,11 @@ class DbHandler {
 	 */
 	public function getAllServer() {
 		$query = $this->connection->getQueryBuilder();
-		$query->select(['url', 'url_hash', 'id', 'status', 'shared_secret', 'sync_token'])->from($this->dbTable);
-		$result = $query->execute()->fetchAll();
+		$query->select(['url', 'url_hash', 'id', 'status', 'shared_secret', 'sync_token'])
+			->from($this->dbTable);
+		$statement = $query->execute();
+		$result = $statement->fetchAll();
+		$statement->closeCursor();
 		return $result;
 	}
 
@@ -151,10 +154,13 @@ class DbHandler {
 	public function serverExists($url) {
 		$hash = $this->hash($url);
 		$query = $this->connection->getQueryBuilder();
-		$query->select('url')->from($this->dbTable)
+		$query->select('url')
+			->from($this->dbTable)
 			->where($query->expr()->eq('url_hash', $query->createParameter('url_hash')))
 			->setParameter('url_hash', $hash);
-		$result = $query->execute()->fetchAll();
+		$statement = $query->execute();
+		$result = $statement->fetchAll();
+		$statement->closeCursor();
 
 		return !empty($result);
 	}
@@ -190,7 +196,9 @@ class DbHandler {
 			->where($query->expr()->eq('url_hash', $query->createParameter('url_hash')))
 			->setParameter('url_hash', $hash);
 
-		$result = $query->execute()->fetch();
+		$statement = $query->execute();
+		$result = $statement->fetch();
+		$statement->closeCursor();
 
 		if (!isset($result['token'])) {
 			throw new \Exception('No token found for: ' . $url);
@@ -229,7 +237,9 @@ class DbHandler {
 			->where($query->expr()->eq('url_hash', $query->createParameter('url_hash')))
 			->setParameter('url_hash', $hash);
 
-		$result = $query->execute()->fetch();
+		$statement = $query->execute();
+		$result = $statement->fetch();
+		$statement->closeCursor();
 		return $result['shared_secret'];
 	}
 
@@ -265,7 +275,9 @@ class DbHandler {
 				->where($query->expr()->eq('url_hash', $query->createParameter('url_hash')))
 				->setParameter('url_hash', $hash);
 
-		$result = $query->execute()->fetch();
+		$statement = $query->execute();
+		$result = $statement->fetch();
+		$statement->closeCursor();
 		return (int)$result['status'];
 	}
 
@@ -314,7 +326,9 @@ class DbHandler {
 		$query->select('url')->from($this->dbTable)
 				->where($query->expr()->eq('shared_secret', $query->createNamedParameter($password)));
 
-		$result = $query->execute()->fetch();
+		$statement = $query->execute();
+		$result = $statement->fetch();
+		$statement->closeCursor();
 		return !empty($result);
 	}
 

@@ -434,6 +434,9 @@ class SessionTest extends \Test\TestCase {
 			->method('getSystemValue')
 			->with('token_auth_enforced', false)
 			->will($this->returnValue(false));
+		$manager->method('getByEmail')
+			->with('unexist')
+			->willReturn([]);
 
 		$this->assertFalse($userSession->logClientIn('unexist', 'doe', $request, $this->throttler));
 	}
@@ -1163,6 +1166,10 @@ class SessionTest extends \Test\TestCase {
 			->method('getTime')
 			->will($this->returnValue(100));
 
+		$manager->method('getByEmail')
+			->with('john')
+			->willReturn([]);
+
 		$userSession->logClientIn('john', 'doe', $request, $this->throttler);
 
 		$this->assertEquals(10000, $token->getLastActivity());
@@ -1212,6 +1219,10 @@ class SessionTest extends \Test\TestCase {
 			->expects($this->any())
 			->method('getTime')
 			->will($this->returnValue(100));
+
+		$manager->method('getByEmail')
+			->with('john')
+			->willReturn([]);
 
 		$userSession->logClientIn('john', 'doe', $request, $this->throttler);
 	}

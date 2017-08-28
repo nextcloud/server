@@ -84,6 +84,9 @@ class LostControllerTest extends \Test\TestCase {
 		$this->existingUser->expects($this->any())
 			->method('getUID')
 			->willReturn('ExistingUser');
+		$this->existingUser->expects($this->any())
+			->method('isEnabled')
+			->willReturn(true);
 
 		$this->config = $this->createMock(IConfig::class);
 		$this->config->expects($this->any())
@@ -260,6 +263,10 @@ class LostControllerTest extends \Test\TestCase {
 				array(true, $existingUser),
 				array(false, $nonExistingUser)
 			)));
+
+		$this->userManager
+			->method('getByEmail')
+			->willReturn([]);
 
 		// With a non existing user
 		$response = $this->lostController->email($nonExistingUser);
@@ -680,8 +687,34 @@ class LostControllerTest extends \Test\TestCase {
 		$this->assertSame($expectedResponse, $response);
 	}
 
+	public function testSetPasswordForDisabledUser() {
+		$user = $this->createMock(IUser::class);
+		$user->expects($this->any())
+			->method('isEnabled')
+			->willReturn(false);
+		$user->expects($this->never())
+			->method('setPassword');
+
+		$this->config->method('getUserValue')
+			->with('ValidTokenUser', 'core', 'lostpassword', null)
+			->willReturn('encryptedData');
+		$this->userManager->method('get')
+			->with('DisabledUser')
+			->willReturn($this->existingUser);
+
+		$response = $this->lostController->setPassword('TheOnlyAndOnlyOneTokenToResetThePassword', 'DisabledUser', 'NewPassword', true);
+		$expectedResponse = [
+			'status' => 'error',
+			'msg' => 'Couldn\'t reset password because the token is invalid'
+			];
+		$this->assertSame($expectedResponse, $response);
+	}
+
 	public function testSendEmailNoEmail() {
 		$user = $this->createMock(IUser::class);
+		$user->expects($this->any())
+			->method('isEnabled')
+			->willReturn(true);
 		$this->userManager->method('userExists')
 			->with('ExistingUser')
 			->willReturn(true);

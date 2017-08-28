@@ -131,6 +131,7 @@ class Installer {
 
 		// check for required dependencies
 		\OC_App::checkAppDependencies($this->config, $l, $info);
+		\OC_App::registerAutoloading($appId, $basedir);
 
 		//install the database
 		if(is_file($basedir.'/appinfo/database.xml')) {
@@ -139,9 +140,11 @@ class Installer {
 			} else {
 				OC_DB::updateDbFromStructure($basedir.'/appinfo/database.xml');
 			}
+		} else {
+			$ms = new \OC\DB\MigrationService($info['id'], \OC::$server->getDatabaseConnection());
+			$ms->migrate();
 		}
 
-		\OC_App::registerAutoloading($appId, $basedir);
 		\OC_App::setupBackgroundJobs($info['background-jobs']);
 		if(isset($info['settings']) && is_array($info['settings'])) {
 			\OC::$server->getSettingsManager()->setupSettings($info['settings']);
@@ -530,6 +533,8 @@ class Installer {
 	public static function installShippedApp($app) {
 		//install the database
 		$appPath = OC_App::getAppPath($app);
+		\OC_App::registerAutoloading($app, $appPath);
+
 		if(is_file("$appPath/appinfo/database.xml")) {
 			try {
 				OC_DB::createDbFromStructure("$appPath/appinfo/database.xml");
@@ -540,10 +545,12 @@ class Installer {
 					0, $e
 				);
 			}
+		} else {
+			$ms = new \OC\DB\MigrationService($app, \OC::$server->getDatabaseConnection());
+			$ms->migrate();
 		}
 
 		//run appinfo/install.php
-		\OC_App::registerAutoloading($app, $appPath);
 		self::includeAppScript("$appPath/appinfo/install.php");
 
 		$info = OC_App::getAppInfo($app);

@@ -7,7 +7,7 @@
     "No image or file provided" : "No se especificó ningún archivo o imagen",
     "Unknown filetype" : "Tipo de archivo desconocido",
     "Invalid image" : "Imagen inválida",
-    "An error occurred. Please contact your admin." : "Un error ocurrió. Póngase en contacto con su administrador.",
+    "An error occurred. Please contact your admin." : "Ha ocurrido un error. Póngase en contacto con su administrador.",
     "No temporary profile picture available, try again" : "No hay disponible una imagen temporal de perfil, pruebe de nuevo",
     "No crop data provided" : "No se proporcionó datos del recorte",
     "No valid crop data provided" : "Recorte inválido",
@@ -17,7 +17,7 @@
     "Couldn't reset password because the token is invalid" : "No se puede restablecer la contraseña porque el vale de identificación es inválido.",
     "Couldn't reset password because the token is expired" : "No se puede restablecer la contraseña porque el vale de identificación ha caducado.",
     "Could not send reset email because there is no email address for this username. Please contact your administrator." : "No se pudo enviar el correo electrónico de restablecimiento porque no hay una dirección de correo electrónico para este nombre de usuario. Póngase en contacto con un administrador.",
-    "Password reset" : "Resetear contraseña",
+    "Password reset" : "Restablecer contraseña",
     "Click the following button to reset your password. If you have not requested the password reset, then ignore this email." : "Presione el siguiente botón para resetear su contraseña. Si usted no ha solicitado el reseteo de la contraseña, entonces ignore este correo.",
     "Click the following link to reset your password. If you have not requested the password reset, then ignore this email." : "Presione el siguiente enlace para resetear su contraseña. Si usted no ha solicitado el reseteo de la contraseña, entonces ignore este correo.",
     "Reset your password" : "Resetear su contraseña",
@@ -52,6 +52,7 @@
     "%s (incompatible)" : "%s (incompatible)",
     "Following apps have been disabled: %s" : "Las siguientes aplicaciones han sido deshabilitadas: %s",
     "Already up to date" : "Ya actualizado",
+    "Search contacts …" : "Buscar contactos...",
     "No contacts found" : "No se han encontrado contactos",
     "Show all contacts …" : "Mostrar todos los contactos...",
     "There was an error loading your contacts" : "Ha habido un error cargando tus contactos",
@@ -268,7 +269,7 @@
     "Log in" : "Iniciar sesión",
     "Stay logged in" : "Permanecer autenticado",
     "Alternative Logins" : "Inicios de sesión alternativos",
-    "You are about to grant \"%s\" access to your %s account." : "Estás a punto de conceder a \"%s\" acceso a tu cuenta %s",
+    "You are about to grant %s access to your %s account." : "Estás a punto de conceder a %s acceso a tu cuenta de %s",
     "App token" : "Token de app",
     "Alternative login using app token" : "Login alternativo usando token de app",
     "Redirecting …" : "Redireccionando...",
@@ -337,6 +338,7 @@
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hola:<br><br>Te comentamos que %s compartió <strong>%s</strong> contigo.<br><a href=\"%s\">¡Échale un vistazo!</a><br><br>",
     "This Nextcloud instance is currently in single user mode." : "Esta instalación de Nextcloud se encuentra en modo de usuario único.",
     "This means only administrators can use the instance." : "Esto quiere decir que solo un administrador puede usarla.",
-    "Please use the command line updater because you have a big instance." : "Por favor utilice la actualización mediante la linea de comandos porque tiene pendiente una gran actualización."
+    "Please use the command line updater because you have a big instance." : "Por favor utilice la actualización mediante la linea de comandos porque tiene pendiente una gran actualización.",
+    "You are about to grant \"%s\" access to your %s account." : "Estás a punto de conceder a \"%s\" acceso a tu cuenta %s"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

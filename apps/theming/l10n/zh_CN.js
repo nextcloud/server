@@ -15,6 +15,7 @@ OC.L10N.register(
     "Theming" : "主题",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "主题使得方便地定制你的实例的外观和体验成为可能。所有用户都可以使用。",
     "Name" : "名字",
+    "Reset to default" : "重置为默认设置",
     "Web address" : "网址",
     "Web address https://…" : "网址 https://...",
     "Slogan" : "标语",

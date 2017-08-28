@@ -754,6 +754,29 @@ label.infield {
 
 /* Log in and install button */
 
+#body-login #submit-wrapper {
+	position: relative; /* Make the wrapper the containing block of its
+						   absolutely positioned descendant icons */
+
+	.icon-confirm-white {
+		position: absolute;
+		top: 23px;
+		right: 23px;
+	}
+	.icon-loading-small {
+		position: absolute;
+		top: 22px;
+		right: 24px;
+	}
+
+	#submit-icon {
+		pointer-events: none; /* The submit icon is positioned on the submit
+								 button. From the user point of view the icon is
+								 part of the button, so the clicks on the icon
+								 have to be applied to the button instead. */
+	}
+}
+
 #body-login input {
 	font-size: 20px;
 	margin: 5px;
@@ -962,6 +985,85 @@ code {
 
 .ui-icon-circle-triangle-w {
 	background-image: url('../img/actions/play-previous.svg?v=1');
+}
+
+/* ---- jQuery UI datepicker ---- */
+.ui-widget.ui-datepicker {
+	margin-top: 10px;
+	padding: 4px 8px;
+	width: auto;
+	border-radius: 3px;
+	border: none;
+
+	.ui-state-default,
+	.ui-widget-content .ui-state-default,
+	.ui-widget-header .ui-state-default {
+		border: 1px solid transparent;
+		background: inherit;
+	}
+	.ui-widget-header {
+		padding: 7px;
+		font-size: 13px;
+		border:	none;
+		background-color: $color-main-background;
+		color: $color-main-text;
+
+		.ui-datepicker-title {
+			line-height: 1;
+			font-weight: 300;
+		}
+		.ui-icon {
+			opacity: .5;
+
+			&.ui-icon-circle-triangle-e {
+				background: url("../img/actions/arrow-right.svg") center center no-repeat;
+			}
+			&.ui-icon-circle-triangle-w {
+				background: url("../img/actions/arrow-left.svg") center center no-repeat;
+			}
+		}
+		.ui-state-hover .ui-icon {
+			opacity: 1;
+		}
+	}
+	.ui-datepicker-calendar {
+		th {
+			font-weight: normal;
+			color: nc-lighten($color-main-text, 33%);
+			opacity: .8;
+		}
+		tr:hover {
+			background-color: inherit;
+		}
+		td {
+			> * {
+				border-radius: 50%;
+				text-align: center;
+				font-weight: normal;
+				color: $color-main-text;
+				padding: 6px;
+				line-height: 12px;
+			}
+
+			&.ui-datepicker-today a:not(.ui-state-hover) {
+				background-color: nc-lighten($color-main-text, 86%);
+			}
+
+			&.ui-datepicker-current-day a.ui-state-active,
+			.ui-state-hover,
+			.ui-state-focus {
+				background-color: $color-primary;
+				color: $color-primary-text;
+				font-weight: bold;
+			}
+
+			&.ui-datepicker-week-end :not(.ui-state-hover),
+			.ui-priority-secondary:not(.ui-state-hover) {
+				color: nc-lighten($color-main-text, 33%);
+				opacity: .8;
+			}
+		}
+	}
 }
 
 .ui-datepicker-prev, .ui-datepicker-next {

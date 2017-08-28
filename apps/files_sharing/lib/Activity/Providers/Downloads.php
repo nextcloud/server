@@ -51,7 +51,11 @@ class Downloads extends Base {
 			throw new \InvalidArgumentException();
 		}
 
-		$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/download.svg')));
+		if ($this->activityManager->getRequirePNG()) {
+			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/download.png')));
+		} else {
+			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/download.svg')));
+		}
 		$this->setSubjects($event, $subject, $parsedParameters);
 
 		return $event;
@@ -76,7 +80,11 @@ class Downloads extends Base {
 			throw new \InvalidArgumentException();
 		}
 
-		$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/download.svg')));
+		if ($this->activityManager->getRequirePNG()) {
+			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/download.png')));
+		} else {
+			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/download.svg')));
+		}
 		$this->setSubjects($event, $subject, $parsedParameters);
 
 		return $event;

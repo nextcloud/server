@@ -39,7 +39,7 @@ class S3 implements IObjectStore {
 	 * @return string the container or bucket name where objects are stored
 	 * @since 7.0.0
 	 */
-	function getStorageId() {
+	public function getStorageId() {
 		return $this->id;
 	}
 
@@ -49,7 +49,7 @@ class S3 implements IObjectStore {
 	 * @throws \Exception when something goes wrong, message will be logged
 	 * @since 7.0.0
 	 */
-	function readObject($urn) {
+	public function readObject($urn) {
 		// Create the command and serialize the request
 		$request = $this->getConnection()->getCommand('GetObject', [
 			'Bucket' => $this->bucket,
@@ -83,7 +83,7 @@ class S3 implements IObjectStore {
 	 * @throws \Exception when something goes wrong, message will be logged
 	 * @since 7.0.0
 	 */
-	function writeObject($urn, $stream) {
+	public function writeObject($urn, $stream) {
 		$this->getConnection()->putObject([
 			'Bucket' => $this->bucket,
 			'Key' => $urn,
@@ -97,7 +97,7 @@ class S3 implements IObjectStore {
 	 * @throws \Exception when something goes wrong, message will be logged
 	 * @since 7.0.0
 	 */
-	function deleteObject($urn) {
+	public function deleteObject($urn) {
 		$this->getConnection()->deleteObject([
 			'Bucket' => $this->bucket,
 			'Key' => $urn

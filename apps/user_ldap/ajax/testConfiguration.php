@@ -67,19 +67,19 @@ try {
 				$ldapWrapper->read($connection->getConnectionResource(), '', 'objectClass=*', array('dn'));
 			} catch (\Exception $e) {
 				if($e->getCode() === 1) {
-					OCP\JSON::error(array('message' => $l->t('The configuration is invalid: anonymous bind is not allowed.')));
+					OCP\JSON::error(array('message' => $l->t('Invalid configuration: Anonymous binding is not allowed.')));
 					exit;
 				}
 			}
 			OCP\JSON::success(array('message'
-			=> $l->t('The configuration is valid and the connection could be established!')));
+			=> $l->t('Valid configuration, connection established!')));
 		} else {
 			OCP\JSON::error(array('message'
-			=> $l->t('The configuration is valid, but the Bind failed. Please check the server settings and credentials.')));
+			=> $l->t('Valid configuration, but binding failed. Please check the server settings and credentials.')));
 		}
 	} else {
 		OCP\JSON::error(array('message'
-		=> $l->t('The configuration is invalid. Please have a look at the logs for further details.')));
+		=> $l->t('Invalid configuration. Please have a look at the logs for further details.')));
 	}
 } catch (\Exception $e) {
 	OCP\JSON::error(array('message' => $e->getMessage()));

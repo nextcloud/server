@@ -180,4 +180,24 @@ class UtilTest extends TestCase {
 		$this->assertEquals($expected, $result);
 	}
 
+	public function testIsAlreadyThemedFalse() {
+		$theme = $this->config->getSystemValue('theme', '');
+		$this->config->expects($this->once())
+			->method('getSystemValue')
+			->with('theme', '')
+			->willReturn('');
+		$actual = $this->util->isAlreadyThemed();
+		$this->assertFalse($actual);
+	}
+
+	public function testIsAlreadyThemedTrue() {
+		$theme = $this->config->getSystemValue('theme', '');
+		$this->config->expects($this->once())
+			->method('getSystemValue')
+			->with('theme', '')
+			->willReturn('example');
+		$actual = $this->util->isAlreadyThemed();
+		$this->assertTrue($actual);
+	}
+
 }

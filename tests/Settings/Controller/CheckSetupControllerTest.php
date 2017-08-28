@@ -296,11 +296,11 @@ class CheckSetupControllerTest extends TestCase {
 		$this->urlGenerator->expects($this->at(0))
 			->method('linkToDocs')
 			->with('admin-performance')
-			->willReturn('http://doc.owncloud.org/server/go.php?to=admin-performance');
+			->willReturn('http://docs.example.org/server/go.php?to=admin-performance');
 		$this->urlGenerator->expects($this->at(1))
 			->method('linkToDocs')
 			->with('admin-security')
-			->willReturn('https://doc.owncloud.org/server/8.1/admin_manual/configuration_server/hardening.html');
+			->willReturn('https://docs.example.org/server/8.1/admin_manual/configuration_server/hardening.html');
 		$this->checkSetupController
 			->expects($this->once())
 			->method('isPhpOutdated')
@@ -316,19 +316,19 @@ class CheckSetupControllerTest extends TestCase {
 		$this->urlGenerator->expects($this->at(3))
 			->method('linkToDocs')
 			->with('admin-code-integrity')
-			->willReturn('http://doc.owncloud.org/server/go.php?to=admin-code-integrity');
+			->willReturn('http://docs.example.org/server/go.php?to=admin-code-integrity');
 		$this->urlGenerator->expects($this->at(4))
 			->method('linkToDocs')
 			->with('admin-php-opcache')
-			->willReturn('http://doc.owncloud.org/server/go.php?to=admin-php-opcache');
+			->willReturn('http://docs.example.org/server/go.php?to=admin-php-opcache');
 
 		$expected = new DataResponse(
 			[
 				'serverHasInternetConnection' => false,
 				'isMemcacheConfigured' => true,
-				'memcacheDocs' => 'http://doc.owncloud.org/server/go.php?to=admin-performance',
+				'memcacheDocs' => 'http://docs.example.org/server/go.php?to=admin-performance',
 				'isUrandomAvailable' => self::invokePrivate($this->checkSetupController, 'isUrandomAvailable'),
-				'securityDocs' => 'https://doc.owncloud.org/server/8.1/admin_manual/configuration_server/hardening.html',
+				'securityDocs' => 'https://docs.example.org/server/8.1/admin_manual/configuration_server/hardening.html',
 				'isUsedTlsLibOutdated' => '',
 				'phpSupported' => [
 					'eol' => true,
@@ -338,9 +338,9 @@ class CheckSetupControllerTest extends TestCase {
 				'reverseProxyDocs' => 'reverse-proxy-doc-link',
 				'isCorrectMemcachedPHPModuleInstalled' => true,
 				'hasPassedCodeIntegrityCheck' => null,
-				'codeIntegrityCheckerDocumentation' => 'http://doc.owncloud.org/server/go.php?to=admin-code-integrity',
+				'codeIntegrityCheckerDocumentation' => 'http://docs.example.org/server/go.php?to=admin-code-integrity',
 				'isOpcacheProperlySetup' => false,
-				'phpOpcacheDocumentation' => 'http://doc.owncloud.org/server/go.php?to=admin-php-opcache',
+				'phpOpcacheDocumentation' => 'http://docs.example.org/server/go.php?to=admin-php-opcache',
 				'isSettimelimitAvailable' => true,
 			]
 		);

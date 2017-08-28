@@ -376,18 +376,6 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 		return new \OCA\Files_Sharing\Scanner($storage);
 	}
 
-	public function getPropagator($storage = null) {
-		if (isset($this->propagator)) {
-			return $this->propagator;
-		}
-
-		if (!$storage) {
-			$storage = $this;
-		}
-		$this->propagator = new \OCA\Files_Sharing\SharedPropagator($storage, \OC::$server->getDatabaseConnection());
-		return $this->propagator;
-	}
-
 	public function getOwner($path) {
 		return $this->superShare->getShareOwner();
 	}

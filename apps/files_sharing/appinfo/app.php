@@ -28,8 +28,8 @@
 
 \OCA\Files_Sharing\Helper::registerHooks();
 
-\OCP\Share::registerBackend('file', 'OCA\Files_Sharing\ShareBackend\File');
-\OCP\Share::registerBackend('folder', 'OCA\Files_Sharing\ShareBackend\Folder', 'file');
+\OC\Share\Share::registerBackend('file', 'OCA\Files_Sharing\ShareBackend\File');
+\OC\Share\Share::registerBackend('folder', 'OCA\Files_Sharing\ShareBackend\Folder', 'file');
 
 $application = new \OCA\Files_Sharing\AppInfo\Application();
 $application->registerMountProviders();
@@ -51,7 +51,7 @@ if ($config->getAppValue('core', 'shareapi_enabled', 'yes') === 'yes') {
 			'id' => 'sharingin',
 			'appname' => 'files_sharing',
 			'script' => 'list.php',
-			'order' => 10,
+			'order' => 15,
 			'name' => $l->t('Shared with you'),
 		];
 	});
@@ -63,7 +63,7 @@ if ($config->getAppValue('core', 'shareapi_enabled', 'yes') === 'yes') {
 				'id' => 'sharingout',
 				'appname' => 'files_sharing',
 				'script' => 'list.php',
-				'order' => 15,
+				'order' => 16,
 				'name' => $l->t('Shared with others'),
 			];
 		});
@@ -76,7 +76,7 @@ if ($config->getAppValue('core', 'shareapi_enabled', 'yes') === 'yes') {
 					'id' => 'sharinglinks',
 					'appname' => 'files_sharing',
 					'script' => 'list.php',
-					'order' => 20,
+					'order' => 17,
 					'name' => $l->t('Shared by link'),
 				];
 			});

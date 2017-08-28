@@ -42,7 +42,6 @@ OC.L10N.register(
     "Contact birthdays" : "Cumpleaños del contacto",
     "Personal" : "Personal",
     "Contacts" : "Contactos",
-    "WebDAV" : "WebDAV",
     "Technical details" : "Detalles técnicos",
     "Remote Address: %s" : "Dirección remota: %s",
     "Request ID: %s" : "ID de la solicitud: %s"

@@ -286,6 +286,7 @@ class UsersController extends OCSController {
 		$data[AccountManager::PROPERTY_WEBSITE] = $userAccount[AccountManager::PROPERTY_WEBSITE]['value'];
 		$data[AccountManager::PROPERTY_TWITTER] = $userAccount[AccountManager::PROPERTY_TWITTER]['value'];
 		$data['groups'] = $gids;
+		$data['language'] = $this->config->getUserValue($targetUserObject->getUID(), 'core', 'lang');
 
 		return $data;
 	}
@@ -322,6 +323,10 @@ class UsersController extends OCSController {
 			}
 
 			$permittedFields[] = 'password';
+			if ($this->config->getSystemValue('force_language', false) === false ||
+				$this->groupManager->isAdmin($currentLoggedInUser->getUID())) {
+				$permittedFields[] = 'language';
+			}
 
 			if ($this->appManager->isEnabledForUser('federatedfilesharing')) {
 				$federatedFileSharing = new \OCA\FederatedFileSharing\AppInfo\Application();
@@ -348,6 +353,7 @@ class UsersController extends OCSController {
 				$permittedFields[] = AccountManager::PROPERTY_DISPLAYNAME;
 				$permittedFields[] = AccountManager::PROPERTY_EMAIL;
 				$permittedFields[] = 'password';
+				$permittedFields[] = 'language';
 				$permittedFields[] = AccountManager::PROPERTY_PHONE;
 				$permittedFields[] = AccountManager::PROPERTY_ADDRESS;
 				$permittedFields[] = AccountManager::PROPERTY_WEBSITE;
@@ -391,6 +397,13 @@ class UsersController extends OCSController {
 				break;
 			case 'password':
 				$targetUser->setPassword($value);
+				break;
+			case 'language':
+				$languagesCodes = $this->l10nFactory->findAvailableLanguages();
+				if (!in_array($value, $languagesCodes, true) && $value !== 'en') {
+					throw new OCSException('Invalid language', 102);
+				}
+				$this->config->setUserValue($targetUser->getUID(), 'core', 'lang', $value);
 				break;
 			case AccountManager::PROPERTY_EMAIL:
 				if(filter_var($value, FILTER_VALIDATE_EMAIL)) {

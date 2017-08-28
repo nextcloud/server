@@ -31,6 +31,7 @@ use OC\Cache\CappedMemoryCache;
 use OC\Files\Mount\MoveableMount;
 use OC\HintException;
 use OC\Share20\Exception\ProviderException;
+use OCP\Defaults;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
@@ -40,7 +41,10 @@ use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\ILogger;
+use OCP\IURLGenerator;
+use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Mail\IMailer;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
 use OCP\Share\Exceptions\GenericShareException;
@@ -82,6 +86,12 @@ class Manager implements IManager {
 	private $eventDispatcher;
 	/** @var LegacyHooks */
 	private $legacyHooks;
+	/** @var IMailer */
+	private $mailer;
+	/** @var IURLGenerator */
+	private $urlGenerator;
+	/** @var \OC_Defaults */
+	private $defaults;
 
 
 	/**
@@ -98,6 +108,9 @@ class Manager implements IManager {
 	 * @param IUserManager $userManager
 	 * @param IRootFolder $rootFolder
 	 * @param EventDispatcher $eventDispatcher
+	 * @param IMailer $mailer
+	 * @param IURLGenerator $urlGenerator
+	 * @param \OC_Defaults $defaults
 	 */
 	public function __construct(
 			ILogger $logger,
@@ -110,7 +123,10 @@ class Manager implements IManager {
 			IProviderFactory $factory,
 			IUserManager $userManager,
 			IRootFolder $rootFolder,
-			EventDispatcher $eventDispatcher
+			EventDispatcher $eventDispatcher,
+			IMailer $mailer,
+			IURLGenerator $urlGenerator,
+			\OC_Defaults $defaults
 	) {
 		$this->logger = $logger;
 		$this->config = $config;
@@ -125,6 +141,9 @@ class Manager implements IManager {
 		$this->eventDispatcher = $eventDispatcher;
 		$this->sharingDisabledForUsersCache = new CappedMemoryCache();
 		$this->legacyHooks = new LegacyHooks($this->eventDispatcher);
+		$this->mailer = $mailer;
+		$this->urlGenerator = $urlGenerator;
+		$this->defaults = $defaults;
 	}
 
 	/**
@@ -168,6 +187,8 @@ class Manager implements IManager {
 	 * @param \OCP\Share\IShare $share
 	 * @throws \InvalidArgumentException
 	 * @throws GenericShareException
+	 *
+	 * @suppress PhanUndeclaredClassMethod
 	 */
 	protected function generalCreateChecks(\OCP\Share\IShare $share) {
 		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER) {
@@ -193,7 +214,7 @@ class Manager implements IManager {
 				throw new \InvalidArgumentException('SharedWith should not be empty');
 			}
 		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_CIRCLE) {
-			$circle = \OCA\Circles\Api\Circles::detailsCircle($share->getSharedWith());
+			$circle = \OCA\Circles\Api\v1\Circles::detailsCircle($share->getSharedWith());
 			if ($circle === null) {
 				throw new \InvalidArgumentException('SharedWith is not a valid circle');
 			}
@@ -210,7 +231,7 @@ class Manager implements IManager {
 		// Cannot share with yourself
 		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER &&
 			$share->getSharedWith() === $share->getSharedBy()) {
-			throw new \InvalidArgumentException('Can\'t share with yourself');
+			throw new \InvalidArgumentException('Can’t share with yourself');
 		}
 
 		// The path should be set
@@ -231,7 +252,7 @@ class Manager implements IManager {
 			$sharedPath = $this->rootFolder->getUserFolder($share->getShareOwner())->getPath();
 		}
 		if ($sharedPath === $share->getNode()->getPath()) {
-			throw new \InvalidArgumentException('You can\'t share your root folder');
+			throw new \InvalidArgumentException('You can’t share your root folder');
 		}
 
 		// Check if we actually have share permissions
@@ -258,7 +279,7 @@ class Manager implements IManager {
 
 		// Check that we do not share with more permissions than we have
 		if ($share->getPermissions() & ~$permissions) {
-			$message_t = $this->l->t('Cannot increase permissions of %s', [$share->getNode()->getPath()]);
+			$message_t = $this->l->t('Can’t increase permissions of %s', [$share->getNode()->getPath()]);
 			throw new GenericShareException($message_t, $message_t, 404);
 		}
 
@@ -274,11 +295,11 @@ class Manager implements IManager {
 
 		if ($share->getNode() instanceof \OCP\Files\File) {
 			if ($share->getPermissions() & \OCP\Constants::PERMISSION_DELETE) {
-				$message_t = $this->l->t('Files can\'t be shared with delete permissions');
+				$message_t = $this->l->t('Files can’t be shared with delete permissions');
 				throw new GenericShareException($message_t);
 			}
 			if ($share->getPermissions() & \OCP\Constants::PERMISSION_CREATE) {
-				$message_t = $this->l->t('Files can\'t be shared with create permissions');
+				$message_t = $this->l->t('Files can’t be shared with create permissions');
 				throw new GenericShareException($message_t);
 			}
 		}
@@ -333,7 +354,7 @@ class Manager implements IManager {
 			$date->setTime(0, 0, 0);
 			$date->add(new \DateInterval('P' . $this->shareApiLinkDefaultExpireDays() . 'D'));
 			if ($date < $expirationDate) {
-				$message = $this->l->t('Cannot set expiration date more than %s days in the future', [$this->shareApiLinkDefaultExpireDays()]);
+				$message = $this->l->t('Can’t set expiration date more than %s days in the future', [$this->shareApiLinkDefaultExpireDays()]);
 				throw new GenericShareException($message, $message, 404);
 			}
 		}
@@ -373,7 +394,7 @@ class Manager implements IManager {
 					$this->groupManager->getUserGroupIds($sharedWith)
 			);
 			if (empty($groups)) {
-				throw new \Exception('Only sharing with group members is allowed');
+				throw new \Exception('Sharing is only allowed with group members');
 			}
 		}
 
@@ -396,7 +417,7 @@ class Manager implements IManager {
 
 			// Identical share already existst
 			if ($existingShare->getSharedWith() === $share->getSharedWith()) {
-				throw new \Exception('Path already shared with this user');
+				throw new \Exception('Path is already shared with this user');
 			}
 
 			// The share is already shared with this user via a group share
@@ -406,7 +427,7 @@ class Manager implements IManager {
 					$user = $this->userManager->get($share->getSharedWith());
 
 					if ($group->inGroup($user) && $existingShare->getShareOwner() !== $share->getShareOwner()) {
-						throw new \Exception('Path already shared with this user');
+						throw new \Exception('Path is already shared with this user');
 					}
 				}
 			}
@@ -430,7 +451,7 @@ class Manager implements IManager {
 			$sharedBy = $this->userManager->get($share->getSharedBy());
 			$sharedWith = $this->groupManager->get($share->getSharedWith());
 			if (is_null($sharedWith) || !$sharedWith->inGroup($sharedBy)) {
-				throw new \Exception('Only sharing within your own groups is allowed');
+				throw new \Exception('Sharing is only allowed within your own groups');
 			}
 		}
 
@@ -451,7 +472,7 @@ class Manager implements IManager {
 			}
 
 			if ($existingShare->getSharedWith() === $share->getSharedWith()) {
-				throw new \Exception('Path already shared with this group');
+				throw new \Exception('Path is already shared with this group');
 			}
 		}
 	}
@@ -465,18 +486,18 @@ class Manager implements IManager {
 	protected function linkCreateChecks(\OCP\Share\IShare $share) {
 		// Are link shares allowed?
 		if (!$this->shareApiAllowLinks()) {
-			throw new \Exception('Link sharing not allowed');
+			throw new \Exception('Link sharing is not allowed');
 		}
 
 		// Link shares by definition can't have share permissions
 		if ($share->getPermissions() & \OCP\Constants::PERMISSION_SHARE) {
-			throw new \InvalidArgumentException('Link shares can\'t have reshare permissions');
+			throw new \InvalidArgumentException('Link shares can’t have reshare permissions');
 		}
 
 		// Check if public upload is allowed
 		if (!$this->shareApiLinkAllowPublicUpload() &&
 			($share->getPermissions() & (\OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_DELETE))) {
-			throw new \InvalidArgumentException('Public upload not allowed');
+			throw new \InvalidArgumentException('Public upload is not allowed');
 		}
 	}
 
@@ -526,11 +547,11 @@ class Manager implements IManager {
 	 */
 	protected function canShare(\OCP\Share\IShare $share) {
 		if (!$this->shareApiEnabled()) {
-			throw new \Exception('The share API is disabled');
+			throw new \Exception('Sharing is disabled');
 		}
 
 		if ($this->sharingDisabledForUser($share->getSharedBy())) {
-			throw new \Exception('You are not allowed to share');
+			throw new \Exception('Sharing is disabled for you');
 		}
 	}
 
@@ -581,9 +602,7 @@ class Manager implements IManager {
 			$share->setToken(
 				$this->secureRandom->generate(
 					\OC\Share\Constants::TOKEN_LENGTH,
-					\OCP\Security\ISecureRandom::CHAR_LOWER.
-					\OCP\Security\ISecureRandom::CHAR_UPPER.
-					\OCP\Security\ISecureRandom::CHAR_DIGITS
+					\OCP\Security\ISecureRandom::CHAR_HUMAN_READABLE
 				)
 			);
 
@@ -601,9 +620,7 @@ class Manager implements IManager {
 			$share->setToken(
 				$this->secureRandom->generate(
 					\OC\Share\Constants::TOKEN_LENGTH,
-					\OCP\Security\ISecureRandom::CHAR_LOWER.
-					\OCP\Security\ISecureRandom::CHAR_UPPER.
-					\OCP\Security\ISecureRandom::CHAR_DIGITS
+					\OCP\Security\ISecureRandom::CHAR_HUMAN_READABLE
 				)
 			);
 		}
@@ -611,7 +628,7 @@ class Manager implements IManager {
 		// Cannot share with the owner
 		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER &&
 			$share->getSharedWith() === $share->getShareOwner()) {
-			throw new \InvalidArgumentException('Can\'t share with the share owner');
+			throw new \InvalidArgumentException('Can’t share with the share owner');
 		}
 
 		// Generate the target
@@ -619,27 +636,11 @@ class Manager implements IManager {
 		$target = \OC\Files\Filesystem::normalizePath($target);
 		$share->setTarget($target);
 
-		// Pre share hook
-		$run = true;
-		$error = '';
-		$preHookData = [
-			'itemType' => $share->getNode() instanceof \OCP\Files\File ? 'file' : 'folder',
-			'itemSource' => $share->getNode()->getId(),
-			'shareType' => $share->getShareType(),
-			'uidOwner' => $share->getSharedBy(),
-			'permissions' => $share->getPermissions(),
-			'fileSource' => $share->getNode()->getId(),
-			'expiration' => $share->getExpirationDate(),
-			'token' => $share->getToken(),
-			'itemTarget' => $share->getTarget(),
-			'shareWith' => $share->getSharedWith(),
-			'run' => &$run,
-			'error' => &$error,
-		];
-		\OC_Hook::emit('OCP\Share', 'pre_shared', $preHookData);
-
-		if ($run === false) {
-			throw new \Exception($error);
+		// Pre share event
+		$event = new GenericEvent($share);
+		$a = $this->eventDispatcher->dispatch('OCP\Share::preShare', $event);
+		if ($event->isPropagationStopped() && $event->hasArgument('error')) {
+			throw new \Exception($event->getArgument('error'));
 		}
 
 		$oldShare = $share;
@@ -648,25 +649,101 @@ class Manager implements IManager {
 		//reuse the node we already have
 		$share->setNode($oldShare->getNode());
 
-		// Post share hook
-		$postHookData = [
-			'itemType' => $share->getNode() instanceof \OCP\Files\File ? 'file' : 'folder',
-			'itemSource' => $share->getNode()->getId(),
-			'shareType' => $share->getShareType(),
-			'uidOwner' => $share->getSharedBy(),
-			'permissions' => $share->getPermissions(),
-			'fileSource' => $share->getNode()->getId(),
-			'expiration' => $share->getExpirationDate(),
-			'token' => $share->getToken(),
-			'id' => $share->getId(),
-			'shareWith' => $share->getSharedWith(),
-			'itemTarget' => $share->getTarget(),
-			'fileTarget' => $share->getTarget(),
-		];
+		// Post share event
+		$event = new GenericEvent($share);
+		$this->eventDispatcher->dispatch('OCP\Share::postShare', $event);
 
-		\OC_Hook::emit('OCP\Share', 'post_shared', $postHookData);
+		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER) {
+			$user = $this->userManager->get($share->getSharedWith());
+			if ($user !== null) {
+				$emailAddress = $user->getEMailAddress();
+				if ($emailAddress !== null && $emailAddress !== '') {
+					$this->sendMailNotification(
+						$share->getNode()->getName(),
+						$this->urlGenerator->linkToRouteAbsolute('files.viewcontroller.showFile', [ 'fileid' => $share->getNode()->getId() ]),
+						$share->getSharedBy(),
+						$emailAddress,
+						$share->getExpirationDate()
+					);
+					$this->logger->debug('Send share notification to ' . $emailAddress . ' for share with ID ' . $share->getId(), ['app' => 'share']);
+				} else {
+					$this->logger->debug('Share notification not send to ' . $share->getSharedWith() . ' because email address is not set.', ['app' => 'share']);
+				}
+			} else {
+				$this->logger->debug('Share notification not send to ' . $share->getSharedWith() . ' because user could not be found.', ['app' => 'share']);
+			}
+		}
 
 		return $share;
+	}
+
+	/**
+	 * @param string $filename file/folder name
+	 * @param string $link link to the file/folder
+	 * @param string $initiator user ID of share sender
+	 * @param string $shareWith email address of share receiver
+	 * @param \DateTime $expiration
+	 * @throws \Exception If mail couldn't be sent
+	 */
+	protected function sendMailNotification($filename,
+											$link,
+											$initiator,
+											$shareWith,
+											\DateTime $expiration) {
+		$initiatorUser = $this->userManager->get($initiator);
+		$initiatorDisplayName = ($initiatorUser instanceof IUser) ? $initiatorUser->getDisplayName() : $initiator;
+		$subject = (string)$this->l->t('%s shared »%s« with you', array($initiatorDisplayName, $filename));
+
+		$message = $this->mailer->createMessage();
+
+		$emailTemplate = $this->mailer->createEMailTemplate();
+		$emailTemplate->setMetaData('files_sharing.RecipientNotification', [
+			'filename' => $filename,
+			'link' => $link,
+			'initiator' => $initiatorDisplayName,
+			'expiration' => $expiration,
+		]);
+
+		$emailTemplate->addHeader();
+		$emailTemplate->addHeading($this->l->t('%s shared »%s« with you', [$initiatorDisplayName, $filename]), false);
+		$text = $this->l->t('%s shared »%s« with you.', [$initiatorDisplayName, $filename]);
+
+		$emailTemplate->addBodyText(
+			$text . ' ' . $this->l->t('Click the button below to open it.'),
+			$text
+		);
+		$emailTemplate->addBodyButton(
+			$this->l->t('Open »%s«', [$filename]),
+			$link
+		);
+
+		$message->setTo([$shareWith]);
+
+		// The "From" contains the sharers name
+		$instanceName = $this->defaults->getName();
+		$senderName = $this->l->t(
+			'%s via %s',
+			[
+				$initiatorDisplayName,
+				$instanceName
+			]
+		);
+		$message->setFrom([\OCP\Util::getDefaultEmailAddress($instanceName) => $senderName]);
+
+		// The "Reply-To" is set to the sharer if an mail address is configured
+		// also the default footer contains a "Do not reply" which needs to be adjusted.
+		$initiatorEmail = $initiatorUser->getEMailAddress();
+		if($initiatorEmail !== null) {
+			$message->setReplyTo([$initiatorEmail => $initiatorDisplayName]);
+			$emailTemplate->addFooter($instanceName . ' - ' . $this->defaults->getSlogan());
+		} else {
+			$emailTemplate->addFooter();
+		}
+
+		$message->setSubject($subject);
+		$message->setPlainBody($emailTemplate->renderText());
+		$message->setHtmlBody($emailTemplate->renderHtml());
+		$this->mailer->send($message);
 	}
 
 	/**
@@ -689,7 +766,7 @@ class Manager implements IManager {
 
 		// We can't change the share type!
 		if ($share->getShareType() !== $originalShare->getShareType()) {
-			throw new \InvalidArgumentException('Can\'t change share type');
+			throw new \InvalidArgumentException('Can’t change share type');
 		}
 
 		// We can only change the recipient on user shares
@@ -701,7 +778,7 @@ class Manager implements IManager {
 		// Cannot share with the owner
 		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER &&
 			$share->getSharedWith() === $share->getShareOwner()) {
-			throw new \InvalidArgumentException('Can\'t share with the share owner');
+			throw new \InvalidArgumentException('Can’t share with the share owner');
 		}
 
 		$this->generalCreateChecks($share);
@@ -873,6 +950,8 @@ class Manager implements IManager {
 		$provider = $this->factory->getProvider($providerId);
 
 		$provider->deleteFromSelf($share, $recipientId);
+		$event = new GenericEvent($share);
+		$this->eventDispatcher->dispatch('OCP\Share::postUnshareFromSelf', $event);
 	}
 
 	/**
@@ -880,7 +959,7 @@ class Manager implements IManager {
 	 */
 	public function moveShare(\OCP\Share\IShare $share, $recipientId) {
 		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK) {
-			throw new \InvalidArgumentException('Can\'t change target of link share');
+			throw new \InvalidArgumentException('Can’t change target of link share');
 		}
 
 		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER && $share->getSharedWith() !== $recipientId) {
@@ -1083,6 +1162,15 @@ class Manager implements IManager {
 		if ($share === null && $this->shareProviderExists(\OCP\Share::SHARE_TYPE_EMAIL)) {
 			try {
 				$provider = $this->factory->getProviderForType(\OCP\Share::SHARE_TYPE_EMAIL);
+				$share = $provider->getShareByToken($token);
+			} catch (ProviderException $e) {
+			} catch (ShareNotFound $e) {
+			}
+		}
+
+		if ($share === null && $this->shareProviderExists(\OCP\Share::SHARE_TYPE_CIRCLE)) {
+			try {
+				$provider = $this->factory->getProviderForType(\OCP\Share::SHARE_TYPE_CIRCLE);
 				$share = $provider->getShareByToken($token);
 			} catch (ProviderException $e) {
 			} catch (ShareNotFound $e) {

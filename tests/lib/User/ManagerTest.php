@@ -9,6 +9,7 @@
 
 namespace Test\User;
 use OC\User\Database;
+use OC\User\Manager;
 use OCP\IConfig;
 use OCP\IUser;
 use Test\TestCase;
@@ -304,7 +305,6 @@ class ManagerTest extends TestCase {
 
 		$this->setExpectedException(\InvalidArgumentException::class, $exception);
 		$manager->createUser($uid, $password);
-
 	}
 
 	public function testCreateUserSingleBackendNotExists() {
@@ -383,6 +383,25 @@ class ManagerTest extends TestCase {
 		$manager = new \OC\User\Manager($this->config);
 
 		$this->assertFalse($manager->createUser('foo', 'bar'));
+	}
+
+	/**
+	 * @expectedException \InvalidArgumentException
+	 * @expectedExceptionMessage Could not create user
+	 */
+	public function testCreateUserFromBackendWithBackendError() {
+		/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject $config */
+		$config = $this->createMock(IConfig::class);
+		/** @var \Test\Util\User\Dummy|\PHPUnit_Framework_MockObject_MockObject $backend */
+		$backend = $this->createMock(\Test\Util\User\Dummy::class);
+		$backend
+			->expects($this->once())
+			->method('createUser')
+			->with('MyUid', 'MyPassword')
+			->willReturn(false);
+
+		$manager = new Manager($config);
+		$manager->createUserFromBackend('MyUid', 'MyPassword', $backend);
 	}
 
 	/**

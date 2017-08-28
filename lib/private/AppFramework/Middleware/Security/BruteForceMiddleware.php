@@ -23,6 +23,7 @@ namespace OC\AppFramework\Middleware\Security;
 
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\Security\Bruteforce\Throttler;
+use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Middleware;
 use OCP\IRequest;
@@ -75,7 +76,7 @@ class BruteForceMiddleware extends Middleware {
 			$action = $this->reflector->getAnnotationParameter('BruteForceProtection', 'action');
 			$ip = $this->request->getRemoteAddress();
 			$this->throttler->sleepDelay($ip, $action);
-			$this->throttler->registerAttempt($action, $ip);
+			$this->throttler->registerAttempt($action, $ip, $response->getThrottleMetadata());
 		}
 
 		return parent::afterController($controller, $methodName, $response);

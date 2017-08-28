@@ -108,9 +108,9 @@ class OC_Template extends \OC\Template\Base {
 				}
 			}
 
+			OC_Util::addStyle('server', null, true);
 			OC_Util::addStyle('jquery-ui-fixes',null,true);
 			OC_Util::addVendorStyle('jquery-ui/themes/base/jquery-ui',null,true);
-			OC_Util::addStyle('server', null, true);
 			OC_Util::addVendorStyle('select2/select2', null, true);
 			OC_Util::addStyle('jquery.ocdialog');
 			OC_Util::addTranslations("core", null, true);
@@ -291,10 +291,11 @@ class OC_Template extends \OC\Template\Base {
 	}
 
 	/**
-		* Print a fatal error page and terminates the script
-		* @param string $error_msg The error message to show
-		* @param string $hint An optional hint message - needs to be properly escaped
-		*/
+	 * Print a fatal error page and terminates the script
+	 * @param string $error_msg The error message to show
+	 * @param string $hint An optional hint message - needs to be properly escape
+	 * @suppress PhanAccessMethodInternal
+	 */
 	public static function printErrorPage( $error_msg, $hint = '' ) {
 		if (\OC_App::isEnabled('theming') && !\OC_App::isAppLoaded('theming')) {
 			\OC_App::loadApp('theming');
@@ -325,7 +326,10 @@ class OC_Template extends \OC\Template\Base {
 
 	/**
 	 * print error page using Exception details
-	 * @param Exception | Throwable $exception
+	 * @param Exception|Throwable $exception
+	 * @param bool $fetchPage
+	 * @return bool|string
+	 * @suppress PhanAccessMethodInternal
 	 */
 	public static function printExceptionErrorPage($exception, $fetchPage = false) {
 		try {

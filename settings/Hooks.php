@@ -78,7 +78,8 @@ class Hooks {
 	public function onChangePassword($uid) {
 		$user = $this->userManager->get($uid);
 
-		if (!$user instanceof IUser || $user->getEMailAddress() === null) {
+		if (!$user instanceof IUser || $user->getLastLogin() === 0) {
+			// User didn't login, so don't create activities and emails.
 			return;
 		}
 
@@ -118,7 +119,7 @@ class Hooks {
 		if ($user->getEMailAddress() !== null) {
 			$template = $this->mailer->createEMailTemplate();
 			$template->addHeader();
-			$template->addHeading($this->l->t('Password changed for %s', $user->getDisplayName()), false);
+			$template->addHeading($this->l->t('Password changed for %s', [$user->getDisplayName()]), false);
 			$template->addBodyText($text . ' ' . $this->l->t('If you did not request this, please contact an administrator.'));
 			$template->addFooter();
 
@@ -141,8 +142,10 @@ class Hooks {
 	 */
 	public function onChangeEmail(IUser $user, $oldMailAddress) {
 
-		if ($oldMailAddress === $user->getEMailAddress()) {
-			// Email didn't really change, so don't create activities and emails
+		if ($oldMailAddress === $user->getEMailAddress() ||
+			$user->getLastLogin() === 0) {
+			// Email didn't really change or user didn't login,
+			// so don't create activities and emails.
 			return;
 		}
 
@@ -182,10 +185,10 @@ class Hooks {
 		if ($oldMailAddress !== null) {
 			$template = $this->mailer->createEMailTemplate();
 			$template->addHeader();
-			$template->addHeading($this->l->t('Email address changed for %s', $user->getDisplayName()), false);
+			$template->addHeading($this->l->t('Email address changed for %s', [$user->getDisplayName()]), false);
 			$template->addBodyText($text . ' ' . $this->l->t('If you did not request this, please contact an administrator.'));
 			if ($user->getEMailAddress()) {
-				$template->addBodyText($this->l->t('The new email address is %s', $user->getEMailAddress()));
+				$template->addBodyText($this->l->t('The new email address is %s', [$user->getEMailAddress()]));
 			}
 			$template->addFooter();
 

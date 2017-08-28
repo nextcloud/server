@@ -125,7 +125,7 @@ abstract class ResourceLocator {
 		}
 
 		if (!$webRoot) {
-			$tmpRoot = $root;
+			$tmpRoot = realpath($root);
 			/*
 			 * traverse the potential web roots upwards in the path
 			 *

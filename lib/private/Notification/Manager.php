@@ -142,7 +142,7 @@ class Manager implements IManager {
 		$this->notifiersInfo = [];
 		foreach ($this->notifiersInfoClosures as $closure) {
 			$notifier = $closure();
-			if (!is_array($notifier) || sizeof($notifier) !== 2 || !isset($notifier['id']) || !isset($notifier['name'])) {
+			if (!is_array($notifier) || count($notifier) !== 2 || !isset($notifier['id']) || !isset($notifier['name'])) {
 				throw new \InvalidArgumentException('The given notifier information is invalid');
 			}
 			if (isset($this->notifiersInfo[$notifier['id']])) {

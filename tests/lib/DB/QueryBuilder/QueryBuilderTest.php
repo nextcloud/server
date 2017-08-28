@@ -472,15 +472,15 @@ class QueryBuilderTest extends \Test\TestCase {
 	public function dataFrom() {
 		return [
 			['data', null, null, null, [['table' => '`*PREFIX*data`', 'alias' => null]], '`*PREFIX*data`'],
-			['data', 't', null, null, [['table' => '`*PREFIX*data`', 'alias' => 't']], '`*PREFIX*data` t'],
+			['data', 't', null, null, [['table' => '`*PREFIX*data`', 'alias' => '`t`']], '`*PREFIX*data` `t`'],
 			['data1', null, 'data2', null, [
 				['table' => '`*PREFIX*data1`', 'alias' => null],
 				['table' => '`*PREFIX*data2`', 'alias' => null]
 			], '`*PREFIX*data1`, `*PREFIX*data2`'],
 			['data', 't1', 'data', 't2', [
-				['table' => '`*PREFIX*data`', 'alias' => 't1'],
-				['table' => '`*PREFIX*data`', 'alias' => 't2']
-			], '`*PREFIX*data` t1, `*PREFIX*data` t2'],
+				['table' => '`*PREFIX*data`', 'alias' => '`t1`'],
+				['table' => '`*PREFIX*data`', 'alias' => '`t2`']
+			], '`*PREFIX*data` `t1`, `*PREFIX*data` `t2`'],
 		];
 	}
 
@@ -515,18 +515,18 @@ class QueryBuilderTest extends \Test\TestCase {
 		return [
 			[
 				'd1', 'data2', null, null,
-				['d1' => [['joinType' => 'inner', 'joinTable' => '`*PREFIX*data2`', 'joinAlias' => null, 'joinCondition' => null]]],
-				'`*PREFIX*data1` d1 INNER JOIN `*PREFIX*data2`  ON '
+				['`d1`' => [['joinType' => 'inner', 'joinTable' => '`*PREFIX*data2`', 'joinAlias' => null, 'joinCondition' => null]]],
+				'`*PREFIX*data1` `d1` INNER JOIN `*PREFIX*data2`  ON '
 			],
 			[
 				'd1', 'data2', 'd2', null,
-				['d1' => [['joinType' => 'inner', 'joinTable' => '`*PREFIX*data2`', 'joinAlias' => 'd2', 'joinCondition' => null]]],
-				'`*PREFIX*data1` d1 INNER JOIN `*PREFIX*data2` d2 ON '
+				['`d1`' => [['joinType' => 'inner', 'joinTable' => '`*PREFIX*data2`', 'joinAlias' => '`d2`', 'joinCondition' => null]]],
+				'`*PREFIX*data1` `d1` INNER JOIN `*PREFIX*data2` `d2` ON '
 			],
 			[
-				'd1', 'data2', 'd2', 'd1.`field1` = d2.`field2`',
-				['d1' => [['joinType' => 'inner', 'joinTable' => '`*PREFIX*data2`', 'joinAlias' => 'd2', 'joinCondition' => 'd1.`field1` = d2.`field2`']]],
-				'`*PREFIX*data1` d1 INNER JOIN `*PREFIX*data2` d2 ON d1.`field1` = d2.`field2`'
+				'd1', 'data2', 'd2', '`d1`.`field1` = `d2`.`field2`',
+				['`d1`' => [['joinType' => 'inner', 'joinTable' => '`*PREFIX*data2`', 'joinAlias' => '`d2`', 'joinCondition' => '`d1`.`field1` = `d2`.`field2`']]],
+				'`*PREFIX*data1` `d1` INNER JOIN `*PREFIX*data2` `d2` ON `d1`.`field1` = `d2`.`field2`'
 			],
 
 		];
@@ -596,18 +596,18 @@ class QueryBuilderTest extends \Test\TestCase {
 		return [
 			[
 				'd1', 'data2', null, null,
-				['d1' => [['joinType' => 'left', 'joinTable' => '`*PREFIX*data2`', 'joinAlias' => null, 'joinCondition' => null]]],
-				'`*PREFIX*data1` d1 LEFT JOIN `*PREFIX*data2`  ON '
+				['`d1`' => [['joinType' => 'left', 'joinTable' => '`*PREFIX*data2`', 'joinAlias' => null, 'joinCondition' => null]]],
+				'`*PREFIX*data1` `d1` LEFT JOIN `*PREFIX*data2`  ON '
 			],
 			[
 				'd1', 'data2', 'd2', null,
-				['d1' => [['joinType' => 'left', 'joinTable' => '`*PREFIX*data2`', 'joinAlias' => 'd2', 'joinCondition' => null]]],
-				'`*PREFIX*data1` d1 LEFT JOIN `*PREFIX*data2` d2 ON '
+				['`d1`' => [['joinType' => 'left', 'joinTable' => '`*PREFIX*data2`', 'joinAlias' => '`d2`', 'joinCondition' => null]]],
+				'`*PREFIX*data1` `d1` LEFT JOIN `*PREFIX*data2` `d2` ON '
 			],
 			[
-				'd1', 'data2', 'd2', 'd1.`field1` = d2.`field2`',
-				['d1' => [['joinType' => 'left', 'joinTable' => '`*PREFIX*data2`', 'joinAlias' => 'd2', 'joinCondition' => 'd1.`field1` = d2.`field2`']]],
-				'`*PREFIX*data1` d1 LEFT JOIN `*PREFIX*data2` d2 ON d1.`field1` = d2.`field2`'
+				'd1', 'data2', 'd2', '`d1`.`field1` = `d2`.`field2`',
+				['`d1`' => [['joinType' => 'left', 'joinTable' => '`*PREFIX*data2`', 'joinAlias' => '`d2`', 'joinCondition' => '`d1`.`field1` = `d2`.`field2`']]],
+				'`*PREFIX*data1` `d1` LEFT JOIN `*PREFIX*data2` `d2` ON `d1`.`field1` = `d2`.`field2`'
 			],
 		];
 	}
@@ -646,18 +646,18 @@ class QueryBuilderTest extends \Test\TestCase {
 		return [
 			[
 				'd1', 'data2', null, null,
-				['d1' => [['joinType' => 'right', 'joinTable' => '`*PREFIX*data2`', 'joinAlias' => null, 'joinCondition' => null]]],
-				'`*PREFIX*data1` d1 RIGHT JOIN `*PREFIX*data2`  ON '
+				['`d1`' => [['joinType' => 'right', 'joinTable' => '`*PREFIX*data2`', 'joinAlias' => null, 'joinCondition' => null]]],
+				'`*PREFIX*data1` `d1` RIGHT JOIN `*PREFIX*data2`  ON '
 			],
 			[
 				'd1', 'data2', 'd2', null,
-				['d1' => [['joinType' => 'right', 'joinTable' => '`*PREFIX*data2`', 'joinAlias' => 'd2', 'joinCondition' => null]]],
-				'`*PREFIX*data1` d1 RIGHT JOIN `*PREFIX*data2` d2 ON '
+				['`d1`' => [['joinType' => 'right', 'joinTable' => '`*PREFIX*data2`', 'joinAlias' => '`d2`', 'joinCondition' => null]]],
+				'`*PREFIX*data1` `d1` RIGHT JOIN `*PREFIX*data2` `d2` ON '
 			],
 			[
-				'd1', 'data2', 'd2', 'd1.`field1` = d2.`field2`',
-				['d1' => [['joinType' => 'right', 'joinTable' => '`*PREFIX*data2`', 'joinAlias' => 'd2', 'joinCondition' => 'd1.`field1` = d2.`field2`']]],
-				'`*PREFIX*data1` d1 RIGHT JOIN `*PREFIX*data2` d2 ON d1.`field1` = d2.`field2`'
+				'd1', 'data2', 'd2', '`d1`.`field1` = `d2`.`field2`',
+				['`d1`' => [['joinType' => 'right', 'joinTable' => '`*PREFIX*data2`', 'joinAlias' => '`d2`', 'joinCondition' => '`d1`.`field1` = `d2`.`field2`']]],
+				'`*PREFIX*data1` `d1` RIGHT JOIN `*PREFIX*data2` `d2` ON `d1`.`field1` = `d2`.`field2`'
 			],
 		];
 	}

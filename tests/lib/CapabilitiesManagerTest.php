@@ -24,6 +24,7 @@ namespace Test;
 use OC\CapabilitiesManager;
 use OCP\AppFramework\QueryException;
 use OCP\Capabilities\ICapability;
+use OCP\Capabilities\IPublicCapability;
 use OCP\ILogger;
 
 class CapabilitiesManagerTest extends TestCase {
@@ -35,6 +36,7 @@ class CapabilitiesManagerTest extends TestCase {
 	private $logger;
 
 	public function setUp() {
+		parent::setUp();
 		$this->logger = $this->getMockBuilder('OCP\ILogger')->getMock();
 		$this->manager = new CapabilitiesManager($this->logger);
 	}
@@ -56,6 +58,24 @@ class CapabilitiesManagerTest extends TestCase {
 		});
 
 		$res = $this->manager->getCapabilities();
+		$this->assertEquals(['foo' => 1], $res);
+	}
+
+	/**
+	 * Test a public capabilitie
+	 */
+	public function testPublicCapability() {
+		$this->manager->registerCapability(function() {
+			return new PublicSimpleCapability1();
+		});
+		$this->manager->registerCapability(function() {
+			return new SimpleCapability2();
+		});
+		$this->manager->registerCapability(function() {
+			return new SimpleCapability3();
+		});
+
+		$res = $this->manager->getCapabilities(true);
 		$this->assertEquals(['foo' => 1], $res);
 	}
 
@@ -156,6 +176,14 @@ class SimpleCapability3 implements ICapability {
 	public function getCapabilities() {
 		return [
 			'bar' => ['y' => 2]
+		];
+	}
+}
+
+class PublicSimpleCapability1 implements IPublicCapability {
+	public function getCapabilities() {
+		return [
+			'foo' => 1
 		];
 	}
 }

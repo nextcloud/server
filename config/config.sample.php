@@ -164,6 +164,17 @@ $CONFIG = array(
 'default_language' => 'en',
 
 /**
+ * With this setting a language can be forced for all users. If a language is
+ * forced, the users are also unable to change their language in the personal
+ * settings. If users shall be unable to change their language, but users have
+ * different languages, this value can be set to ``true`` instead of a language
+ * code.
+ *
+ * Defaults to ``false``
+ */
+'force_language' => 'en',
+
+/**
  * Set the default app to open on login. Use the app names as they appear in the
  * URL after clicking them in the Apps menu, such as documents, calendar, and
  * gallery. You can use a comma-separated list of app names, so if the first
@@ -728,13 +739,6 @@ $CONFIG = array(
 'log_query' => false,
 
 /**
- * Log successful cron runs.
- *
- * Defaults to ``true``
- */
-'cron_log' => true,
-
-/**
  * Enables log rotation and limits the total size of logfiles. The default is 0,
  * or no rotation. Specify a size in bytes, for example 104857600 (100 megabytes
  * = 100 * 1024 * 1024 bytes). A new logfile is created with a new name when the
@@ -890,10 +894,6 @@ $CONFIG = array(
  *  - OC\Preview\SVG
  *  - OC\Preview\TIFF
  *  - OC\Preview\Font
- *
- * .. note:: Troubleshooting steps for the MS Word previews are available
- *    at the :doc:`../configuration_files/collaborative_documents_configuration`
- *    section of the Administrators Manual.
  *
  * The following providers are not available in Microsoft Windows:
  *
@@ -1251,7 +1251,7 @@ $CONFIG = array(
  *
  * If you want to convert an existing 3-byte setup into a 4-byte setup please
  * set the parameters in MySQL as mentioned below and run the migration command:
- *  ./occ db:convert-mysql-charset
+ * ./occ db:convert-mysql-charset
  * The config setting will be set automatically after a successful run.
  *
  * Consult the documentation for more details.

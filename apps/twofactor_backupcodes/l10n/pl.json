@@ -9,9 +9,8 @@
     "An error occurred while generating your backup codes" : "Wystąpił błąd podczas generowania kodów zapasowych.",
     "Nextcloud backup codes" : "Kody zapasowe Nextcloud",
     "You created two-factor backup codes for your account" : "Stworzyłeś zapasowe kody uwierzytelnienia dwuetapowego swojego konta",
-    "Backup code" : "Kopia zapasowa kodów",
+    "Backup code" : "Kod zapasowy",
     "Use backup code" : "Użyj kodu zapasowego",
-    "Two factor backup codes" : "Kody zapasowe dla uwierzytelniania dwuetapowego",
-    "Second-factor backup codes" : "Kopie zapasowych kodów uwierzytelnienia dwuskładnikowego"
+    "Second-factor backup codes" : "Kody zapasowe uwierzytelnienia dwuskładnikowego"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

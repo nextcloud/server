@@ -130,14 +130,13 @@ class Server implements ISettings {
 
 			// Background jobs
 			'backgroundjobs_mode' => $this->config->getAppValue('core', 'backgroundjobs_mode', 'ajax'),
-			'cron_log'            => $this->config->getSystemValue('cron_log', true),
 			'lastcron'            => $this->config->getAppValue('core', 'lastcron', false),
 			'cronErrors'		  => $this->config->getAppValue('core', 'cronErrors'),
 			'cli_based_cron_possible' => function_exists('posix_getpwuid'),
 			'cli_based_cron_user' => function_exists('posix_getpwuid') ? posix_getpwuid(fileowner(\OC::$configDir . 'config.php'))['name'] : '',
 		];
 
-		return new TemplateResponse('settings', 'admin/server', $parameters, '');
+		return new TemplateResponse('settings', 'settings/admin/server', $parameters, '');
 	}
 
 	/**

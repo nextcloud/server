@@ -65,12 +65,12 @@ h3 {
 	padding-top: 100px;
 }
 #header .logo {
-	background-image: url('../img/logo-icon.svg?v=1');
+	background-image: url('../img/logo.svg?v=1');
 	background-repeat: no-repeat;
 	background-size: 175px;
 	background-position: center;
-	width: 252px;
-	min-height: 120px;
+	width: 256px;
+	min-height: 128px;
 	max-height: 200px;
 	margin: 0 auto;
 }
@@ -131,6 +131,28 @@ form #datadirField legend {
 }
 
 /* Buttons and input */
+#submit-wrapper {
+	position: relative; /* Make the wrapper the containing block of its
+						   absolutely positioned descendant icons */
+}
+#submit-wrapper .icon-confirm-white {
+	position: absolute;
+	top: 23px;
+	right: 23px;
+}
+#submit-wrapper .icon-loading-small {
+	position: absolute;
+	top: 22px;
+	right: 24px;
+}
+
+#submit-wrapper #submit-icon {
+	pointer-events: none; /* The submit icon is positioned on the submit button.
+							 From the user point of view the icon is part of the
+							 button, so the clicks on the icon have to be
+							 applied to the button instead. */
+}
+
 input, textarea, select, button {
 	font-family: 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif;
 }
@@ -391,7 +413,7 @@ form .warning input[type='checkbox']+label {
 /* Database selector on install page */
 form #selectDbType {
 	text-align:center;
-	white-space: nowrap; 
+	white-space: nowrap;
 	margin: 0;
 }
 form #selectDbType .info {
@@ -462,6 +484,10 @@ form #selectDbType label.ui-state-active {
 	text-align: left;
 	border-radius: 3px;
 	cursor: default;
+	-moz-user-select: text;
+	-webkit-user-select: text;
+	-ms-user-select: text;
+	user-select: text;
 }
 .warning {
 	margin-top: 15px;

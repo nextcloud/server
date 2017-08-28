@@ -54,6 +54,7 @@ OC.L10N.register(
     "%s (incompatible)" : "%s (nekompatibilní)",
     "Following apps have been disabled: %s" : "Následující aplikace byly vypnuty: %s",
     "Already up to date" : "Je již aktuální",
+    "Search contacts …" : "Prohledat kontakty...",
     "No contacts found" : "Nebyly nalezeny žádné kontakty",
     "Show all contacts …" : "Zobrazit všechny kontakty …",
     "There was an error loading your contacts" : "Při načítání vašich kontaktů došlo k chybě",
@@ -112,6 +113,7 @@ OC.L10N.register(
     "The reverse proxy headers configuration is incorrect, or you are accessing Nextcloud from a trusted proxy. If you are not accessing Nextcloud from a trusted proxy, this is a security issue and can allow an attacker to spoof their IP address as visible to Nextcloud. Further information can be found in our <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">documentation</a>." : "Konfigurace hlaviček reverzní proxy není správná nebo přistupujete na Nextcloud z důvěryhodné proxy. Pokud nepřistupujete k Nextcloud z důvěryhodné proxy, potom je toto bezpečností chyba a může útočníkovi umožnit falšovat IP adresu, kterou ownCloud vidí. Další informace lze nalézt v naší <a target=\"_blank\" href=\"{docLink}\">dokumentaci</a>.",
     "Memcached is configured as distributed cache, but the wrong PHP module \"memcache\" is installed. \\OC\\Memcache\\Memcached only supports \"memcached\" and not \"memcache\". See the <a target=\"_blank\" rel=\"noreferrer\" href=\"{wikiLink}\">memcached wiki about both modules</a>." : "Je nakonfigurován memcached jako distribuovaná cache, ale je nainstalovaný nesprávný PHP modul \"memcache\". \\OC\\Memcache\\Memcached podporuje pouze \"memcached\" a ne \"memcache\". Podívejte se na <a target=\"_blank\" rel=\"noreferrer\" href=\"{wikiLink}\">memcached wiki o obou modulech</a>.",
     "Some files have not passed the integrity check. Further information on how to resolve this issue can be found in our <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">documentation</a>. (<a href=\"{codeIntegrityDownloadEndpoint}\">List of invalid files…</a> / <a href=\"{rescanEndpoint}\">Rescan…</a>)" : "Některé soubory neprošly kontrolou integrity. Více informací o tom jak tento problém vyřešit, lze nalézt v naší <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">dokumentaci</a>. (<a href=\"{codeIntegrityDownloadEndpoint}\">Seznam neplatných souborů…</a> / <a href=\"{rescanEndpoint}\">Znovu ověřit…</a>)",
+    "The PHP OPcache is not properly configured. <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">For better performance we recommend</a> to use following settings in the <code>php.ini</code>:" : "PHP OPcache není správně nakonfigurována.<a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">Pro lepší výkon doporučujeme</a> použít následující nastavení v <code>php.ini</code>:",
     "The PHP function \"set_time_limit\" is not available. This could result in scripts being halted mid-execution, breaking your installation. We strongly recommend enabling this function." : "PHP funkce \"set_time_limit\" není dostupná. To může způsobit ukončení skriptů uprostřed provádění a další problémy s instalací. Doporučujeme tuto funkc povolit.",
     "Error occurred while checking server setup" : "Při ověřování nastavení serveru došlo k chybě",
     "Your data directory and your files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server in a way that the data directory is no longer accessible or you move the data directory outside the web server document root." : "Váš datový adresář a vaše soubory jsou pravděpodobně dostupné z internetu. Soubor .htaccess nefunguje. Je velmi doporučeno zajistit, aby tento adresář již nebyl dostupný z internetu, nebo byl přesunut mimo document root webového serveru.",
@@ -126,6 +128,7 @@ OC.L10N.register(
     "Expiration" : "Konec platnosti",
     "Expiration date" : "Datum vypršení platnosti",
     "Choose a password for the public link" : "Zadej heslo pro tento veřejný odkaz",
+    "Choose a password for the public link or press the \"Enter\" key" : "Zvolte heslo pro veřejný odkaz nebo stiskněte klávesu \"Enter\"",
     "Copied!" : "Zkopírováno!",
     "Copy" : "Zkopírovat",
     "Not supported!" : "Nepodporováno!",
@@ -268,7 +271,8 @@ OC.L10N.register(
     "Log in" : "Přihlásit",
     "Stay logged in" : "Neodhlašovat",
     "Alternative Logins" : "Alternativní přihlášení",
-    "You are about to grant \"%s\" access to your %s account." : "Chystáte se \"%s\" povolit přístup k vašemu %s účtu.",
+    "Account access" : "Přístup k účtu",
+    "You are about to grant %s access to your %s account." : "Chystáte se povolit %s přístup k vašemu %s účtu.",
     "App token" : "Token aplikace",
     "Alternative login using app token" : "Alternativní přihlášení pomocí tokenu aplikace",
     "Redirecting …" : "Přesměrovávání …",
@@ -337,6 +341,7 @@ OC.L10N.register(
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Ahoj,<br><br>jen ti dávám vědět, že s tebou %s sdílí <strong>%s</strong>.<br><a href=\"%s\">Zkontroluj to!</a><br><br>",
     "This Nextcloud instance is currently in single user mode." : "Tato instalace Nextcloudu je momentálně v jednouživatelském módu.",
     "This means only administrators can use the instance." : "To znamená, že pouze správci systému mohou aplikaci používat.",
-    "Please use the command line updater because you have a big instance." : "Prosím použijte aktualizační příkazový řádek, protože máte velkou instanci."
+    "Please use the command line updater because you have a big instance." : "Prosím použijte aktualizační příkazový řádek, protože máte velkou instanci.",
+    "You are about to grant \"%s\" access to your %s account." : "Chystáte se \"%s\" povolit přístup k vašemu %s účtu."
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

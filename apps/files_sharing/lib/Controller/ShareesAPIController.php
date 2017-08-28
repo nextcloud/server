@@ -299,6 +299,7 @@ class ShareesAPIController extends OCSController {
 
 	/**
 	 * @param string $search
+	 * @suppress PhanUndeclaredClassMethod
 	 */
 	protected function getCircles($search) {
 		$this->result['circles'] = $this->result['exact']['circles'] = [];
@@ -335,7 +336,12 @@ class ShareesAPIController extends OCSController {
 				}
 				$lowerSearch = strtolower($search);
 				foreach ($cloudIds as $cloudId) {
-					list(, $serverUrl) = $this->splitUserRemote($cloudId);
+					try {
+						list(, $serverUrl) = $this->splitUserRemote($cloudId);
+					} catch (\InvalidArgumentException $e) {
+						continue;
+					}
+
 					if (strtolower($contact['FN']) === $lowerSearch || strtolower($cloudId) === $lowerSearch) {
 						if (strtolower($cloudId) === $lowerSearch) {
 							$result['exactIdMatch'] = true;
@@ -386,14 +392,14 @@ class ShareesAPIController extends OCSController {
 	 *
 	 * @param string $address federated share address
 	 * @return array [user, remoteURL]
-	 * @throws \Exception
+	 * @throws \InvalidArgumentException
 	 */
 	public function splitUserRemote($address) {
 		try {
 			$cloudId = $this->cloudIdManager->resolveCloudId($address);
 			return [$cloudId->getUser(), $cloudId->getRemote()];
 		} catch (\InvalidArgumentException $e) {
-			throw new \Exception('Invalid Federated Cloud ID', 0, $e);
+			throw new \InvalidArgumentException('Invalid Federated Cloud ID', 0, $e);
 		}
 	}
 
@@ -472,7 +478,7 @@ class ShareesAPIController extends OCSController {
 			$shareTypes[] = Share::SHARE_TYPE_EMAIL;
 		}
 
-		if (\OCP\App::isEnabled('circles')) {
+		if (\OC::$server->getAppManager()->isEnabledForUser('circles') && class_exists('\OCA\Circles\ShareByCircleProvider')) {
 			$shareTypes[] = Share::SHARE_TYPE_CIRCLE;
 		}
 
@@ -500,7 +506,7 @@ class ShareesAPIController extends OCSController {
 	 */
 	protected function isRemoteSharingAllowed($itemType) {
 		try {
-			$backend = Share::getBackend($itemType);
+			$backend = \OC\Share\Share::getBackend($itemType);
 			return $backend->isShareTypeAllowed(Share::SHARE_TYPE_REMOTE);
 		} catch (\Exception $e) {
 			return false;
@@ -610,7 +616,12 @@ class ShareesAPIController extends OCSController {
 
 					if (isset($contact['isLocalSystemBook'])) {
 						if ($exactEmailMatch) {
-							$cloud = $this->cloudIdManager->resolveCloudId($contact['CLOUD'][0]);
+							try {
+								$cloud = $this->cloudIdManager->resolveCloudId($contact['CLOUD'][0]);
+							} catch (\InvalidArgumentException $e) {
+								continue;
+							}
+
 							if (!$this->hasUserInResult($cloud->getUser())) {
 								$this->result['exact']['users'][] = [
 									'label' => $contact['FN'] . " ($emailAddress)",
@@ -622,8 +633,14 @@ class ShareesAPIController extends OCSController {
 							}
 							return ['results' => [], 'exact' => [], 'exactIdMatch' => true];
 						}
+
 						if ($this->shareeEnumeration) {
-							$cloud = $this->cloudIdManager->resolveCloudId($contact['CLOUD'][0]);
+							try {
+								$cloud = $this->cloudIdManager->resolveCloudId($contact['CLOUD'][0]);
+							} catch (\InvalidArgumentException $e) {
+								continue;
+							}
+
 							if (!$this->hasUserInResult($cloud->getUser())) {
 								$this->result['users'][] = [
 									'label' => $contact['FN'] . " ($emailAddress)",

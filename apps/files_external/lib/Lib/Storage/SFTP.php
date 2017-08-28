@@ -102,11 +102,11 @@ class SFTP extends \OC\Files\Storage\Common {
 		$this->root
 			= isset($params['root']) ? $this->cleanPath($params['root']) : '/';
 
-		if ($this->root[0] != '/') {
+		if ($this->root[0] !== '/') {
 			 $this->root = '/' . $this->root;
 		}
 
-		if (substr($this->root, -1, 1) != '/') {
+		if (substr($this->root, -1, 1) !== '/') {
 			$this->root .= '/';
 		}
 	}
@@ -128,7 +128,7 @@ class SFTP extends \OC\Files\Storage\Common {
 		// The SSH Host Key MUST be verified before login().
 		$currentHostKey = $this->client->getServerPublicHostKey();
 		if (array_key_exists($this->host, $hostKeys)) {
-			if ($hostKeys[$this->host] != $currentHostKey) {
+			if ($hostKeys[$this->host] !== $currentHostKey) {
 				throw new \Exception('Host public key does not match known key');
 			}
 		} else {
@@ -248,7 +248,7 @@ class SFTP extends \OC\Files\Storage\Common {
 				if ($lines) {
 					foreach ($lines as $line) {
 						$hostKeyArray = explode("::", $line, 2);
-						if (count($hostKeyArray) == 2) {
+						if (count($hostKeyArray) === 2) {
 							$hosts[] = $hostKeyArray[0];
 							$keys[] = $hostKeyArray[1];
 						}
@@ -300,7 +300,7 @@ class SFTP extends \OC\Files\Storage\Common {
 			$id = md5('sftp:' . $path);
 			$dirStream = array();
 			foreach($list as $file) {
-				if ($file != '.' && $file != '..') {
+				if ($file !== '.' && $file !== '..') {
 					$dirStream[] = $file;
 				}
 			}
@@ -316,11 +316,11 @@ class SFTP extends \OC\Files\Storage\Common {
 	public function filetype($path) {
 		try {
 			$stat = $this->getConnection()->stat($this->absPath($path));
-			if ($stat['type'] == NET_SFTP_TYPE_REGULAR) {
+			if ((int) $stat['type'] === NET_SFTP_TYPE_REGULAR) {
 				return 'file';
 			}
 
-			if ($stat['type'] == NET_SFTP_TYPE_DIRECTORY) {
+			if ((int) $stat['type'] === NET_SFTP_TYPE_DIRECTORY) {
 				return 'dir';
 			}
 		} catch (\Exception $e) {

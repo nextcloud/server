@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_sharing",
     {
-    "Shared with you" : "分享给您的文件",
+    "Shared with you" : "收到分享",
     "Shared with others" : "您分享的文件",
     "Shared by link" : "分享链接的文件",
     "Nothing shared with you yet" : "您还没有收到任何共享的文件",
@@ -89,7 +89,6 @@ OC.L10N.register(
     "Cannot increase permissions" : "不能增加权限",
     "%s is publicly shared" : "%s 是公开共享",
     "Share API is disabled" : "共享 API 已被禁用",
-    "File sharing" : "文件共享",
     "This share is password-protected" : "这是一个密码保护的共享",
     "The password is wrong. Try again." : "用户名或密码错误！请重试",
     "Password" : "密码",
@@ -103,6 +102,7 @@ OC.L10N.register(
     "the link expired" : "链接过期",
     "sharing is disabled" : "分享已禁用",
     "For more info, please ask the person who sent this link." : "欲知详情，请联系发给你链接的人。",
+    "shared by %s" : "共享者 %s",
     "Add to your Nextcloud" : "添加到你的 Nextcloud",
     "Download" : "下载",
     "Download %s" : "下载 %s",

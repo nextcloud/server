@@ -83,6 +83,8 @@ class Response {
 
 	/** @var bool */
 	private $throttled = false;
+	/** @var array */
+	private $throttleMetadata = [];
 
 	/**
 	 * Caches the response
@@ -228,7 +230,7 @@ class Response {
 
 	/**
 	 * By default renders no output
-	 * @return null
+	 * @return string|null
 	 * @since 6.0.0
 	 */
 	public function render() {
@@ -328,10 +330,22 @@ class Response {
 	 * Marks the response as to throttle. Will be throttled when the
 	 * @BruteForceProtection annotation is added.
 	 *
+	 * @param array $metadata
 	 * @since 12.0.0
 	 */
-	public function throttle() {
+	public function throttle(array $metadata = []) {
 		$this->throttled = true;
+		$this->throttleMetadata = $metadata;
+	}
+
+	/**
+	 * Returns the throttle metadata, defaults to empty array
+	 *
+	 * @return array
+	 * @since 13.0.0
+	 */
+	public function getThrottleMetadata() {
+		return $this->throttleMetadata;
 	}
 
 	/**

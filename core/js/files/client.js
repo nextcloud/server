@@ -304,13 +304,6 @@
 				data.hasPreview = true;
 			}
 
-			var isFavorite = props['{' + Client.NS_OWNCLOUD + '}favorite'];
-			if (!_.isUndefined(isFavorite)) {
-				data.isFavorite = isFavorite === '1';
-			} else {
-				data.isFavorite = false;
-			}
-
 			var contentType = props[Client.PROPERTY_GETCONTENTTYPE];
 			if (!_.isUndefined(contentType)) {
 				data.mimetype = contentType;
@@ -338,11 +331,10 @@
 						case 'C':
 						case 'K':
 							data.permissions |= OC.PERMISSION_CREATE;
-							if (!isFile) {
-								data.permissions |= OC.PERMISSION_UPDATE;
-							}
 							break;
 						case 'W':
+						case 'N':
+						case 'V':
 							data.permissions |= OC.PERMISSION_UPDATE;
 							break;
 						case 'D':

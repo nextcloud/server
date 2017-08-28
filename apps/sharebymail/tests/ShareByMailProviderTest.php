@@ -868,6 +868,7 @@ class ShareByMailProviderTest extends TestCase {
 				'https://example.com/file.txt',
 				'OwnerUser',
 				'john@doe.com',
+				null,
 			]);
 	}
 
@@ -968,6 +969,7 @@ class ShareByMailProviderTest extends TestCase {
 				'https://example.com/file.txt',
 				'InitiatorUser',
 				'john@doe.com',
+				null,
 			]);
 	}
 }

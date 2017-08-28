@@ -23,6 +23,7 @@
 
 namespace OCA\FederatedFileSharing\Tests\Settings;
 
+use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\FederatedFileSharing\Settings\Admin;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\GlobalScale\IConfig;
@@ -38,9 +39,8 @@ class AdminTest extends TestCase {
 
 	public function setUp() {
 		parent::setUp();
-		$this->federatedShareProvider = $this->getMockBuilder('\OCA\FederatedFileSharing\FederatedShareProvider')
-			->disableOriginalConstructor()->getMock();
-		$this->gsConfig = $this->getMock(IConfig::class);
+		$this->federatedShareProvider = $this->createMock(FederatedShareProvider::class);
+		$this->gsConfig = $this->createMock(IConfig::class);
 		$this->admin = new Admin(
 			$this->federatedShareProvider,
 			$this->gsConfig

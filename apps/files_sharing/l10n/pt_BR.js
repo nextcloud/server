@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_sharing",
     {
-    "Shared with you" : "Compartilhado com Você",
+    "Shared with you" : "Compartilhado com você",
     "Shared with others" : "Compartilhado com outros",
     "Shared by link" : "Compartilhado por link",
     "Nothing shared with you yet" : "Nada foi compartilhado com você até agora",
@@ -89,7 +89,6 @@ OC.L10N.register(
     "Cannot increase permissions" : "Não foi possível aumentar as permissões",
     "%s is publicly shared" : "%s está compartilhado publicamente",
     "Share API is disabled" : "O compartilhamento de API está desabilitado.",
-    "File sharing" : "Compartilhamento de arquivo",
     "This share is password-protected" : "Este compartilhamento é protegido por senha",
     "The password is wrong. Try again." : "Senha incorreta. Tente novamente.",
     "Password" : "Senha",
@@ -103,6 +102,7 @@ OC.L10N.register(
     "the link expired" : "o link expirou",
     "sharing is disabled" : "o compartilhamento está desativado",
     "For more info, please ask the person who sent this link." : "Para mais informações, pergunte à pessoa que lhe enviou o link.",
+    "shared by %s" : "compartilhado por %s",
     "Add to your Nextcloud" : "Adicionar ao seu Nextcloud",
     "Download" : "Baixar",
     "Download %s" : "Baixar %s",

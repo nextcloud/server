@@ -100,7 +100,7 @@ class LDAP implements ILDAPWrapper {
 
 	/**
 	 * @param LDAP $link
-	 * @return mixed|string
+	 * @return integer
 	 */
 	public function errno($link) {
 		return $this->invokeLDAPMethod('errno', $link);
@@ -108,7 +108,7 @@ class LDAP implements ILDAPWrapper {
 
 	/**
 	 * @param LDAP $link
-	 * @return int|mixed
+	 * @return string
 	 */
 	public function error($link) {
 		return $this->invokeLDAPMethod('error', $link);

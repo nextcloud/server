@@ -107,7 +107,9 @@ class LoginController extends Controller {
 		}
 		$this->userSession->logout();
 
-		return new RedirectResponse($this->urlGenerator->linkToRouteAbsolute('core.login.showLoginForm'));
+		$response = new RedirectResponse($this->urlGenerator->linkToRouteAbsolute('core.login.showLoginForm'));
+		$response->addHeader('Clear-Site-Data', '"cache", "cookies", "storage", "executionContexts"');
+		return $response;
 	}
 
 	/**
@@ -246,7 +248,7 @@ class LoginController extends Controller {
 				$args['redirect_url'] = $redirect_url;
 			}
 			$response = new RedirectResponse($this->urlGenerator->linkToRoute('core.login.showLoginForm', $args));
-			$response->throttle();
+			$response->throttle(['user' => $user]);
 			$this->session->set('loginMessages', [
 				['invalidpassword'], []
 			]);

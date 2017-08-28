@@ -23,7 +23,8 @@ class DeprecationCheckTest extends TestCase {
 	 */
 	public function testFindInvalidUsage($expectedErrorToken, $expectedErrorCode, $fileToVerify) {
 		$checker = new CodeChecker(
-			new DeprecationCheck(new EmptyCheck())
+			new DeprecationCheck(new EmptyCheck()),
+			false
 		);
 		$errors = $checker->analyseFile(\OC::$SERVERROOT . "/tests/data/app/code-checker/$fileToVerify");
 
@@ -48,7 +49,8 @@ class DeprecationCheckTest extends TestCase {
 	 */
 	public function testPassValidUsage($fileToVerify) {
 		$checker = new CodeChecker(
-			new DeprecationCheck(new EmptyCheck())
+			new DeprecationCheck(new EmptyCheck()),
+			false
 		);
 		$errors = $checker->analyseFile(\OC::$SERVERROOT . "/tests/data/app/code-checker/$fileToVerify");
 

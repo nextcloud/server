@@ -68,10 +68,11 @@ class AjaxController extends Controller {
 	}
 
 	/**
+	 * @param int $keyLength
 	 * @return array
 	 */
-	private function generateSshKeys() {
-		$key = $this->rsaMechanism->createKey();
+	private function generateSshKeys($keyLength) {
+		$key = $this->rsaMechanism->createKey($keyLength);
 		// Replace the placeholder label with a more meaningful one
 		$key['publickey'] = str_replace('phpseclib-generated-key', gethostname(), $key['publickey']);
 
@@ -82,9 +83,10 @@ class AjaxController extends Controller {
 	 * Generates an SSH public/private key pair.
 	 *
 	 * @NoAdminRequired
+	 * @param int $keyLength
 	 */
-	public function getSshKeys() {
-		$key = $this->generateSshKeys();
+	public function getSshKeys($keyLength = 1024) {
+		$key = $this->generateSshKeys($keyLength);
 		return new JSONResponse(
 			array('data' => array(
 				'private_key' => $key['privatekey'],

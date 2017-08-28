@@ -37,7 +37,7 @@ class Message {
 	/**
 	 * @param Swift_Message $swiftMessage
 	 */
-	function __construct(Swift_Message $swiftMessage) {
+	public function __construct(Swift_Message $swiftMessage) {
 		$this->swiftMessage = $swiftMessage;
 	}
 
@@ -58,11 +58,11 @@ class Message {
 		foreach($addresses as $email => $readableName) {
 			if(!is_numeric($email)) {
 				list($name, $domain) = explode('@', $email, 2);
-				$domain = idn_to_ascii($domain);
+				$domain = idn_to_ascii($domain, 0, INTL_IDNA_VARIANT_UTS46);
 				$convertedAddresses[$name.'@'.$domain] = $readableName;
 			} else {
 				list($name, $domain) = explode('@', $readableName, 2);
-				$domain = idn_to_ascii($domain);
+				$domain = idn_to_ascii($domain, 0, INTL_IDNA_VARIANT_UTS46);
 				$convertedAddresses[$email] = $name.'@'.$domain;
 			}
 		}

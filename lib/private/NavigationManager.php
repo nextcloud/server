@@ -177,28 +177,28 @@ class NavigationManager implements INavigationManager {
 				]);
 			}
 
-			// Personal settings
+			// Personal and (if applicable) admin settings
 			$this->add([
 				'type' => 'settings',
-				'id' => 'personal',
+				'id' => 'settings',
 				'order' => 1,
-				'href' => $this->urlGenerator->linkToRoute('settings_personal'),
-				'name' => $l->t('Personal'),
-				'icon' => $this->urlGenerator->imagePath('settings', 'personal.svg'),
+				'href' => $this->urlGenerator->linkToRoute('settings.PersonalSettings.index'),
+				'name' => $l->t('Settings'),
+				'icon' => $this->urlGenerator->imagePath('settings', 'admin.svg'),
 			]);
 
-			// Logout
-			$this->add([
-				'type' => 'settings',
-				'id' => 'logout',
-				'order' => 99999,
-				'href' => $this->urlGenerator->linkToRouteAbsolute(
-					'core.login.logout',
-					['requesttoken' => \OCP\Util::callRegister()]
-				),
-				'name' => $l->t('Log out'),
-				'icon' => $this->urlGenerator->imagePath('core', 'actions/logout.svg'),
-			]);
+			$logoutUrl = \OC_User::getLogoutUrl($this->urlGenerator);
+			if($logoutUrl !== '') {
+				// Logout
+				$this->add([
+					'type' => 'settings',
+					'id' => 'logout',
+					'order' => 99999,
+					'href' => $logoutUrl,
+					'name' => $l->t('Log out'),
+					'icon' => $this->urlGenerator->imagePath('core', 'actions/logout.svg'),
+				]);
+			}
 
 			if ($this->isSubadmin()) {
 				// User management
@@ -211,24 +211,23 @@ class NavigationManager implements INavigationManager {
 					'icon' => $this->urlGenerator->imagePath('settings', 'users.svg'),
 				]);
 			}
-
-			if ($this->isAdmin()) {
-				// Admin settings
-				$this->add([
-					'type' => 'settings',
-					'id' => 'admin',
-					'order' => 2,
-					'href' => $this->urlGenerator->linkToRoute('settings.AdminSettings.index'),
-					'name' => $l->t('Admin'),
-					'icon' => $this->urlGenerator->imagePath('settings', 'admin.svg'),
-				]);
-			}
 		}
 
 		if ($this->appManager === 'null') {
 			return;
 		}
-		foreach ($this->appManager->getInstalledApps() as $app) {
+
+		if ($this->userSession->isLoggedIn()) {
+			$apps = $this->appManager->getEnabledAppsForUser($this->userSession->getUser());
+		} else {
+			$apps = $this->appManager->getInstalledApps();
+		}
+
+		foreach ($apps as $app) {
+			if (!$this->userSession->isLoggedIn() && !$this->appManager->isEnabledForUser($app, $this->userSession->getUser())) {
+				continue;
+			}
+
 			// load plugins and collections from info.xml
 			$info = $this->appManager->getAppInfo($app);
 			if (empty($info['navigations'])) {

@@ -47,7 +47,7 @@ class Backend implements \OCP\Share_Backend {
 		}
 
 
-		$shares = \OCP\Share::getItemsSharedWithUser('test', $shareWith);
+		$shares = \OC\Share\Share::getItemsSharedWithUser('test', $shareWith);
 
 		$knownTargets = array();
 		foreach ($shares as $share) {

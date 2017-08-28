@@ -48,7 +48,7 @@ class ManagerEvent extends Event {
 	 *
 	 * @param string $event
 	 * @param ISystemTag $tag
-	 * @param ISystemTag $beforeTag
+	 * @param ISystemTag|null $beforeTag
 	 * @since 9.0.0
 	 */
 	public function __construct($event, ISystemTag $tag, ISystemTag $beforeTag = null) {

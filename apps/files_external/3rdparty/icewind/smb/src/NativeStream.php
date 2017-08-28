@@ -20,22 +20,22 @@ class NativeStream implements File {
 	/**
 	 * @var \Icewind\SMB\NativeState
 	 */
-	private $state;
+	protected $state;
 
 	/**
 	 * @var resource
 	 */
-	private $handle;
+	protected $handle;
 
 	/**
 	 * @var bool
 	 */
-	private $eof = false;
+	protected $eof = false;
 
 	/**
 	 * @var string
 	 */
-	private $url;
+	protected $url;
 
 	/**
 	 * Wrap a stream from libsmbclient-php into a regular php stream
@@ -50,9 +50,9 @@ class NativeStream implements File {
 		stream_wrapper_register('nativesmb', '\Icewind\SMB\NativeStream');
 		$context = stream_context_create(array(
 			'nativesmb' => array(
-				'state' => $state,
+				'state'  => $state,
 				'handle' => $smbStream,
-				'url' => $url
+				'url'    => $url
 			)
 		));
 		$fh = fopen('nativesmb://', $mode, false, $context);

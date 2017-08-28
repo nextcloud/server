@@ -3,6 +3,7 @@
 namespace OCA\Files_Sharing\Middleware;
 
 use OCA\Files_Sharing\Controller\ShareAPIController;
+use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Middleware;
 use OCP\AppFramework\OCS\OCSNotFoundException;
@@ -22,7 +23,7 @@ class OCSShareAPIMiddleware extends Middleware {
 	}
 
 	/**
-	 * @param \OCP\AppFramework\Controller $controller
+	 * @param Controller $controller
 	 * @param string $methodName
 	 *
 	 * @throws OCSNotFoundException
@@ -36,7 +37,7 @@ class OCSShareAPIMiddleware extends Middleware {
 	}
 
 	/**
-	 * @param \OCP\AppFramework\Controller $controller
+	 * @param Controller $controller
 	 * @param string $methodName
 	 * @param Response $response
 	 * @return Response

@@ -28,8 +28,12 @@ $urlGenerator = $_['urlGenerator'];
 ?>
 
 <div class="picker-window">
+	<h2><?php p($l->t('Account access')) ?></h2>
 	<p class="info">
-		<?php p($l->t('You are about to grant "%s" access to your %s account.', [$_['client'], $_['instanceName']])) ?>
+		<?php print_unescaped($l->t('You are about to grant %s access to your %s account.', [
+								'<strong>' . \OCP\Util::sanitizeHTML($_['client']) . '</strong>',
+								\OCP\Util::sanitizeHTML($_['instanceName'])
+							])) ?>
 	</p>
 
 	<br/>

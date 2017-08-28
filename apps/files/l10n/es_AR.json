@@ -1,5 +1,5 @@
 { "translations": {
-    "Storage is temporarily not available" : "El almacenamiento no está  disponible temporalmente ",
+    "Storage is temporarily not available" : "El almacenamiento no está disponible temporalmente",
     "Storage invalid" : "El almacenamiento es inválido",
     "Unknown error" : "Se presentó un error desconocido",
     "All files" : "Todos los archivos",
@@ -14,8 +14,6 @@
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "No cuenta con suficiente espacio disponible, usted se encuentra cargando {size1} pero sólo cuenta con {size2} disponible",
     "Target folder \"{dir}\" does not exist any more" : "La carpeta destino \"{dir}\" ya no existe",
     "Not enough free space" : "No cuenta con suficiente espacio disponible",
-    "Uploading..." : "Cargando...",
-    "..." : "...",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} de {totalSize} ({bitrate})",
     "Actions" : "Acciones",
     "Download" : "Descargar",
@@ -100,9 +98,8 @@
     "A file has been added to or removed from your <strong>favorites</strong>" : "Un archivo ha sido agregado o eliminado de sus strong>favoritos</strong>",
     "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Un archivo o carpeta ha sido <strong>cambiado </strong> o <strong>renombrado</strong>",
     "A new file or folder has been <strong>created</strong>" : "Un nuevo archivo ha sido <strong>creado</strong>",
-    "A new file or folder has been <strong>deleted</strong>" : "Un nuevo archivo  ha sido <strong>borrado</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Limite las notificación de la creación y cambios a sus <strong>archivos favoritos</strong> <em>(sólo flujo)</em>",
-    "A new file or folder has been <strong>restored</strong>" : "Un nuevo archivo ha sido <strong>restaurado</strong>",
+    "Unlimited" : "Ilimitado",
     "Upload (max. %s)" : "Cargar (max. %s)",
     "File handling" : "Administración de archivos",
     "Maximum upload size" : "Tamaño máximo de carga",
@@ -110,6 +107,8 @@
     "Save" : "Guardar",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Con PHP-FPM podría tomar 5 minutos para que los cambios apliquen. ",
     "Missing permissions to edit from here." : "Faltan privilegios para editar desde aquí. ",
+    "%s of %s used" : "%s de %s usado",
+    "%s used" : "%s usado",
     "Settings" : "Configuraciones ",
     "Show hidden files" : "Mostrar archivos ocultos",
     "WebDAV" : "WebDAV",
@@ -129,6 +128,8 @@
     "Deleted files" : "Archivos borrados",
     "Text file" : "Archivo de texto",
     "New text file.txt" : "Nuevo ArchivoDeTexto.txt",
+    "Uploading..." : "Cargando...",
+    "..." : "...",
     "_{hours}:{minutes}:{seconds} hour left_::_{hours}:{minutes}:{seconds} hours left_" : ["falta {hours}:{minutes}:{seconds} hora","faltan {hours}:{minutes}:{seconds} horas"],
     "{hours}:{minutes}h" : "{hours}:{minutes}h",
     "_{minutes}:{seconds} minute left_::_{minutes}:{seconds} minutes left_" : ["falta {minutes}:{seconds} minuto","faltan {minutes}:{seconds} minutos"],
@@ -141,6 +142,8 @@
     "Copy local link" : "Copiar link local",
     "Folder" : "Carpeta",
     "Upload" : "Cargar",
+    "A new file or folder has been <strong>deleted</strong>" : "Un nuevo archivo  ha sido <strong>borrado</strong>",
+    "A new file or folder has been <strong>restored</strong>" : "Un nuevo archivo ha sido <strong>restaurado</strong>",
     "No favorites" : "No hay favoritos"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

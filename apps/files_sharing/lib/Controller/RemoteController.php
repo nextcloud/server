@@ -29,12 +29,16 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
+use OCP\ILogger;
 use OCP\IRequest;
 
 class RemoteController extends OCSController {
 
 	/** @var Manager */
 	private $externalManager;
+
+	/** @var ILogger */
+	private $logger;
 
 	/**
 	 * @NoAdminRequired
@@ -47,10 +51,12 @@ class RemoteController extends OCSController {
 	 */
 	public function __construct($appName,
 								IRequest $request,
-								Manager $externalManager) {
+								Manager $externalManager,
+								ILogger $logger) {
 		parent::__construct($appName, $request);
 
 		$this->externalManager = $externalManager;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -78,8 +84,8 @@ class RemoteController extends OCSController {
 			return new DataResponse();
 		}
 
-		// Make sure the user has no notification for something that does not exist anymore.
-		$this->externalManager->processNotification($id);
+		$this->logger->error('Could not accept federated share with id: ' . $id,
+			['app' => 'files_sharing']);
 
 		throw new OCSNotFoundException('wrong share ID, share doesn\'t exist.');
 	}

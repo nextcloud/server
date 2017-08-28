@@ -45,6 +45,10 @@ class EMailTemplate implements IEMailTemplate {
 	protected $urlGenerator;
 	/** @var IL10N */
 	protected $l10n;
+	/** @var string */
+	protected $emailId;
+	/** @var array */
+	protected $data;
 
 	/** @var string */
 	protected $htmlBody = '';
@@ -100,7 +104,7 @@ EOF;
 							<tbody>
 							<tr style="padding:0;text-align:left;vertical-align:top">
 								<center data-parsed="" style="min-width:580px;width:100%%">
-									<img class="logo float-center" src="%s" alt="%s" align="center" style="-ms-interpolation-mode:bicubic;Margin:0 auto;clear:both;display:block;float:none;margin:0 auto;max-height:100%%;max-width:100px;outline:0;text-align:center;text-decoration:none;width:auto">
+									<img class="logo float-center" src="%s" alt="%s" align="center" style="-ms-interpolation-mode:bicubic;Margin:0 auto;clear:both;display:block;float:none;margin:0 auto;outline:0;text-align:center;text-decoration:none" height="50">
 								</center>
 							</tr>
 							</tbody>
@@ -349,6 +353,18 @@ EOF;
 	}
 
 	/**
+	 * Set meta data of an email
+	 *
+	 * @param string $emailId
+	 * @param array $data
+	 * @since 12.0.3
+	 */
+	public function setMetaData($emailId, array $data = []) {
+		$this->emailId = $emailId;
+		$this->data = $data;
+	}
+
+	/**
 	 * Adds a header to the email
 	 */
 	public function addHeader() {
@@ -365,7 +381,7 @@ EOF;
 	 * Adds a heading to the email
 	 *
 	 * @param string $title
-	 * @param string $plainTitle|bool Title that is used in the plain text email
+	 * @param string|bool $plainTitle Title that is used in the plain text email
 	 *   if empty the $title is used, if false none will be used
 	 */
 	public function addHeading($title, $plainTitle = '') {

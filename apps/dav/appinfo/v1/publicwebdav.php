@@ -79,10 +79,12 @@ $server = $serverFactory->createServer($baseuri, $requestUri, $authPlugin, funct
 	\OC\Files\Filesystem::addStorageWrapper('sharePermissions', function ($mountPoint, $storage) use ($share) {
 		return new \OC\Files\Storage\Wrapper\PermissionsMask(array('storage' => $storage, 'mask' => $share->getPermissions() | \OCP\Constants::PERMISSION_SHARE));
 	});
+
 	\OC\Files\Filesystem::logWarningWhenAddingStorageWrapper($previousLog);
 
+	OC_Util::tearDownFS();
 	OC_Util::setupFS($owner);
-	$ownerView = \OC\Files\Filesystem::getView();
+	$ownerView = new \OC\Files\View('/'. $owner . '/files');
 	$path = $ownerView->getPath($fileId);
 	$fileInfo = $ownerView->getFileInfo($path);
 	$linkCheckPlugin->setFileInfo($fileInfo);

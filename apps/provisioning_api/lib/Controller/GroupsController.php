@@ -30,6 +30,7 @@ use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCSController;
 use OCP\IGroup;
 use OCP\IGroupManager;
+use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IUserSession;
 use OCP\IUser;
@@ -43,21 +44,27 @@ class GroupsController extends OCSController {
 	/** @var IUserSession */
 	private $userSession;
 
+	/** @var ILogger */
+	private $logger;
+
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
 	 * @param IGroupManager $groupManager
 	 * @param IUserSession $userSession
+	 * @param ILogger $logger
 	 */
 	public function __construct(
 			$appName,
 			IRequest $request,
 			IGroupManager $groupManager,
-			IUserSession $userSession) {
+			IUserSession $userSession,
+			ILogger $logger) {
 		parent::__construct($appName, $request);
 
 		$this->groupManager = $groupManager;
 		$this->userSession = $userSession;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -120,9 +127,9 @@ class GroupsController extends OCSController {
 			}, $users);
 			$users = array_values($users);
 			return new DataResponse(['users' => $users]);
-		} else {
-			throw new OCSException('User does not have access to specified group', \OCP\API::RESPOND_UNAUTHORISED);
 		}
+
+		throw new OCSException('User does not have access to specified group', \OCP\API::RESPOND_UNAUTHORISED);
 	}
 
 	/**
@@ -136,8 +143,8 @@ class GroupsController extends OCSController {
 	 */
 	public function addGroup($groupid) {
 		// Validate name
-		if(empty($groupid)){
-			\OCP\Util::writeLog('provisioning_api', 'Group name not supplied', \OCP\Util::ERROR);
+		if(empty($groupid)) {
+			$this->logger->error('Group name not supplied', ['app' => 'provisioning_api']);
 			throw new OCSException('Invalid group name', 101);
 		}
 		// Check if it exists
@@ -179,6 +186,7 @@ class GroupsController extends OCSController {
 			throw new OCSException('Group does not exist', 101);
 		}
 
+		/** @var IUser[] $subadmins */
 		$subadmins = $this->groupManager->getSubAdmin()->getGroupsSubAdmins($targetGroup);
 		// New class returns IUser[] so convert back
 		$uids = [];

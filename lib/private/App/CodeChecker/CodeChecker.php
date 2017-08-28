@@ -51,8 +51,12 @@ class CodeChecker extends BasicEmitter {
 	/** @var ICheck */
 	protected $checkList;
 
-	public function __construct(ICheck $checkList) {
+	/** @var bool */
+	protected $checkMigrationSchema;
+
+	public function __construct(ICheck $checkList, $checkMigrationSchema) {
 		$this->checkList = $checkList;
+		$this->checkMigrationSchema = $checkMigrationSchema;
 		$this->parser = new Parser(new Lexer);
 	}
 
@@ -120,11 +124,16 @@ class CodeChecker extends BasicEmitter {
 		$statements = $this->parser->parse($code);
 
 		$visitor = new NodeVisitor($this->checkList);
+		$migrationVisitor = new MigrationSchemaChecker();
 		$traverser = new NodeTraverser;
 		$traverser->addVisitor($visitor);
 
+		if ($this->checkMigrationSchema && preg_match('#^.+\\/Migration\\/Version[^\\/]{1,255}\\.php$#i', $file)) {
+			$traverser->addVisitor($migrationVisitor);
+		}
+
 		$traverser->traverse($statements);
 
-		return $visitor->errors;
+		return array_merge($visitor->errors, $migrationVisitor->errors);
 	}
 }

@@ -23,7 +23,7 @@
 
 namespace OCA\Theming;
 
-use OCP\Capabilities\ICapability;
+use OCP\Capabilities\IPublicCapability;
 use OCP\IConfig;
 use OCP\IURLGenerator;
 
@@ -32,10 +32,13 @@ use OCP\IURLGenerator;
  *
  * @package OCA\Theming
  */
-class Capabilities implements ICapability {
+class Capabilities implements IPublicCapability {
 
 	/** @var ThemingDefaults */
 	protected $theming;
+
+	/** @var Util */
+	protected $util;
 
 	/** @var IURLGenerator */
 	protected $url;
@@ -45,11 +48,13 @@ class Capabilities implements ICapability {
 
 	/**
 	 * @param ThemingDefaults $theming
+	 * @param Util $util
 	 * @param IURLGenerator $url
 	 * @param IConfig $config
 	 */
-	public function __construct(ThemingDefaults $theming, IURLGenerator $url, IConfig $config) {
+	public function __construct(ThemingDefaults $theming, Util $util, IURLGenerator $url, IConfig $config) {
 		$this->theming = $theming;
+		$this->util = $util;
 		$this->url = $url;
 		$this->config = $config;
 	}
@@ -68,6 +73,7 @@ class Capabilities implements ICapability {
 				'url' => $this->theming->getBaseUrl(),
 				'slogan' => $this->theming->getSlogan(),
 				'color' => $this->theming->getColorPrimary(),
+				'color-text' => $this->util->invertTextColor($this->theming->getColorPrimary()) ? '#000000' : '#FFFFFF',
 				'logo' => $this->url->getAbsoluteURL($this->theming->getLogo()),
 				'background' => $backgroundLogo === 'backgroundColor' ?
 					$this->theming->getColorPrimary() :
