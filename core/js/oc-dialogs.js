@@ -257,7 +257,6 @@ var OCdialogs = {
 			};
 
 			var copyCallback = function () {
-				console.log('copy callback');
 				functionToCall(OCdialogs.FILEPICKER_TYPE_COPY);
 			};
 

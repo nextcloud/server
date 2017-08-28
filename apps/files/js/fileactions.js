@@ -618,8 +618,8 @@
 			});
 
 			this.registerAction({
-				name: 'CopyMove',
-				displayName: t('files', 'Copy or Move'),
+				name: 'MoveCopy',
+				displayName: t('files', 'Move or copy'),
 				mime: 'all',
 				order: -25,
 				permissions: OC.PERMISSION_UPDATE,

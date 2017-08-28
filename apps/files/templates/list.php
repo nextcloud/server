@@ -49,7 +49,7 @@
 					<span id="selectedActionsList" class="selectedActions">
 						<a href="" class="copy-move">
 							<span class="icon icon-external"></span>
-							<span><?php p($l->t('Copy or Move'))?></span>
+							<span><?php p($l->t('Move or copy'))?></span>
 						</a>
 						<a href="" class="download">
 							<span class="icon icon-download"></span>
