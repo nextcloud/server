@@ -45,6 +45,7 @@
     "Select attributes" : "Selecteer attributen",
     "User not found. Please check your login attributes and username. Effective filter (to copy-and-paste for command-line validation): <br/>" : "Gebruiker niet gevonden. Verifieer je inloggegevens en gebruikersnaam. Geldig filter (kopiëren en plakken voor commandoregel validatie): <br/>",
     "User found and settings verified." : "Gebruiker gevonden en instellingen geverifieerd.",
+    "Consider narrowing your search, as it encompassed many users, only the first one of whom will be able to log in." : "Bekijk of je je zoekopdracht kunt verfijnen daar het nu meerdere gebruikers treft en alleen de eerste gebruiker zal kunnen inloggen.",
     "An unspecified error occurred. Please check log and settings." : "Er trad een ongedefinieerde fout op. Controleer de log en de instellingen.",
     "The search filter is invalid, probably due to syntax issues like uneven number of opened and closed brackets. Please revise." : "Het zoekfilter is ongeldig, waarschijnlijk door syntax problemen zoals een ongelijk aantal open- en sluithaakjes. Graag aanpassen.",
     "A connection error to LDAP / AD occurred, please check host, port and credentials." : "Er trad een verbindingsfout naar LDAP / AD op, verifieer servernaam, poort en inloggegevens.",
