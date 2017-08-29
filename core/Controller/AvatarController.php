@@ -143,7 +143,7 @@ class AvatarController extends Controller {
 		} catch (\Exception $e) {
 			$resp = new JSONResponse([
 				'data' => [
-					'displayname' => '',
+					'displayname' => $userId,
 				],
 			]);
 		}
