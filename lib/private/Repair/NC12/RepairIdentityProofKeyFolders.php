@@ -20,7 +20,7 @@
  */
 
 
-namespace OC\Repair\NC13;
+namespace OC\Repair\NC12;
 
 
 use OC\Files\AppData\Factory;
@@ -83,7 +83,7 @@ class RepairIdentityProofKeyFolders implements IRepairStep {
 	 */
 	public function run(IOutput $output) {
 		$versionFromBeforeUpdate = $this->config->getSystemValue('version', '0.0.0');
-		if (version_compare($versionFromBeforeUpdate, '13.0.0.1', '<=')) {
+		if (version_compare($versionFromBeforeUpdate, '12.0.1.5', '<=')) {
 			$count = $this->repair();
 			$output->info('Repaired ' . $count . ' folders');
 		}

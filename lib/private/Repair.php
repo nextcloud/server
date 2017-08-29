@@ -40,7 +40,7 @@ use OC\Repair\NC11\FixMountStorages;
 use OC\Repair\NC11\MoveAvatars;
 use OC\Repair\NC12\InstallCoreBundle;
 use OC\Repair\NC12\UpdateLanguageCodes;
-use OC\Repair\NC13\RepairIdentityProofKeyFolders;
+use OC\Repair\NC12\RepairIdentityProofKeyFolders;
 use OC\Repair\OldGroupMembershipShares;
 use OC\Repair\Owncloud\DropAccountTermsTable;
 use OC\Repair\Owncloud\SaveAccountsTableData;
