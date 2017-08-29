@@ -57,6 +57,7 @@ OC.L10N.register(
     "Migration in progress. Please wait until the migration is finished" : "Migráció folyamatban. Kérlek várj, míg a migráció befejeződik.",
     "Migration started …" : "Migráció elindítva ...",
     "Not saved" : "Nincs mentve",
+    "Sending…" : "Küldés...",
     "Email sent" : "Az e-mail elküldve!",
     "Official" : "Hivatalos",
     "All" : "Mind",
