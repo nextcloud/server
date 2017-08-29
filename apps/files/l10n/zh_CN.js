@@ -16,6 +16,7 @@ OC.L10N.register(
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "可用空间不足，您上传的文件大小为 {size1} ，但可用空间仅剩 {size2}",
     "Target folder \"{dir}\" does not exist any more" : "目标目录 \"{dir}\" 不存在",
     "Not enough free space" : "可用空间不足",
+    "Uploading …" : "正在上传...",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} / {totalSize} ({bitrate})",
     "Actions" : "操作",
     "Download" : "下载",
