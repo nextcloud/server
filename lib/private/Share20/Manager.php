@@ -702,6 +702,7 @@ class Manager implements IManager {
 			'link' => $link,
 			'initiator' => $initiatorDisplayName,
 			'expiration' => $expiration,
+			'shareWith' => $shareWith,
 		]);
 
 		$emailTemplate->addHeader();

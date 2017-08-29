@@ -390,6 +390,7 @@ class ShareByMailProvider implements IShareProvider {
 			'link' => $link,
 			'initiator' => $initiatorDisplayName,
 			'expiration' => $expiration,
+			'shareWith' => $shareWith,
 		]);
 
 		$emailTemplate->addHeader();
