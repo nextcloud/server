@@ -682,14 +682,14 @@ class Manager implements IManager {
 	 * @param string $link link to the file/folder
 	 * @param string $initiator user ID of share sender
 	 * @param string $shareWith email address of share receiver
-	 * @param \DateTime $expiration
+	 * @param \DateTime|null $expiration
 	 * @throws \Exception If mail couldn't be sent
 	 */
 	protected function sendMailNotification($filename,
 											$link,
 											$initiator,
 											$shareWith,
-											\DateTime $expiration) {
+											\DateTime $expiration = null) {
 		$initiatorUser = $this->userManager->get($initiator);
 		$initiatorDisplayName = ($initiatorUser instanceof IUser) ? $initiatorUser->getDisplayName() : $initiator;
 		$subject = (string)$this->l->t('%s shared »%s« with you', array($initiatorDisplayName, $filename));
