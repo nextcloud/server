@@ -67,7 +67,7 @@ textarea,
 	/* Primary action button, use sparingly */
 	&.primary {
 		border: 1px solid $color-primary-text;
-		background-color: $color-primary-element;
+		background-color: $color-primary;
 		color: $color-primary-text;
 		cursor: pointer;
 		&:not(:disabled) {

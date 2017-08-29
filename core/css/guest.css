@@ -191,8 +191,8 @@ input.update-continue {
 }
 input.primary,
 button.primary {
-	border: 1px solid #0082c9;
-	background-color: #00a2e9;
+	border: 1px solid #fff;
+	background-color: #0082c9;
 	color: #fff;
 }
 
