@@ -60,8 +60,7 @@
 }
 
 input.primary {
-	background-color: nc-lighten($color-primary, .9);
-	border: 1px solid $color-primary;
+	background-color: $color-primary;
 	color: $color-primary-text;
 }
 

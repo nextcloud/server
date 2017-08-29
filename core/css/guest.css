@@ -23,7 +23,7 @@ body {
 	color: #000;
 	text-align: center;
 	background-color: #0082c9;
-	background-image: url('../img/background.jpg?v=1');
+	background-image: url('../img/background.png?v=2');
 	background-position: 50% 50%;
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -213,8 +213,8 @@ input.update-continue {
 }
 input.primary,
 button.primary {
-	border: 1px solid #0082c9;
-	background-color: #00a2e9;
+	border: 1px solid #fff;
+	background-color: #0082c9;
 	color: #fff;
 }
 
