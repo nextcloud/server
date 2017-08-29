@@ -400,7 +400,7 @@ class ThemingDefaultsTest extends TestCase {
 			->willThrowException(new \Exception());
 		$this->urlGenerator->expects($this->once())
 			->method('imagePath')
-			->with('core', 'background.jpg')
+			->with('core', 'background.png')
 			->willReturn('core-background');
 		$this->assertEquals('core-background?v=0', $this->template->getBackground());
 	}
