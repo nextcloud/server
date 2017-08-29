@@ -169,7 +169,7 @@ class AvatarControllerTest extends \Test\TestCase {
 		//Comment out until JS is fixed
 		//$this->assertEquals(Http::STATUS_NOT_FOUND, $response->getStatus());
 		$this->assertEquals(Http::STATUS_OK, $response->getStatus());
-		$this->assertEquals('', $response->getData()['data']['displayname']);
+		$this->assertEquals('userDoesNotExist', $response->getData()['data']['displayname']);
 	}
 
 	/**
