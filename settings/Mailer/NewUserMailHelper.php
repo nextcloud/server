@@ -139,6 +139,14 @@ class NewUserMailHelper {
 		);
 		$emailTemplate->addFooter();
 
+		$emailTemplate->setMetaData('settings.Welcome', [
+			'link' => $link,
+			'displayname' => $displayName,
+			'username' => $userName,
+			'instancename' => $this->themingDefaults->getName(),
+			'resetTokenGenerated' => $generatePasswordResetToken,
+		]);
+
 		return $emailTemplate;
 	}
 

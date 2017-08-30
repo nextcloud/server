@@ -148,6 +148,11 @@ class MailSettingsController extends Controller {
 				$displayName = $this->userSession->getUser()->getDisplayName();
 
 				$template = $this->mailer->createEMailTemplate();
+
+				$template->setMetaData('settings.TestEmail', [
+					'displayname' => $displayName,
+				]);
+
 				$template->addHeader();
 				$template->addHeading($this->l10n->t('Well done, %s!', [$displayName]));
 				$template->addBodyText($this->l10n->t('If you received this email, the email configuration seems to be correct.'));
