@@ -206,8 +206,6 @@
     "The specified document has not been found on the server." : "Zadaný dokument nebol nájdený na serveri.",
     "You can click here to return to %s." : "Kliknite tu pre návrat do %s.",
     "Internal Server Error" : "Vnútorná chyba servera",
-    "The server encountered an internal error and was unable to complete your request." : "Na serveri došlo k vnútornej chybe a nebol schopný dokončiť vašu požiadavku.",
-    "Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report." : "Obráťte sa na správcu servera, ak sa táto chyba objaví znovu viackrát, uveďte nižšie zobrazené technické údaje vo svojej správe.",
     "More details can be found in the server log." : "Viac nájdete v logu servera.",
     "Technical details" : "Technické podrobnosti",
     "Remote Address: %s" : "Vzdialená adresa: %s",
@@ -266,8 +264,6 @@
     "Cancel log in" : "Zrušiť prihlásenie",
     "Use backup code" : "Použiť záložný kód",
     "Error while validating your second factor" : "Chyba počas overovania druhého faktora",
-    "You are accessing the server from an untrusted domain." : "Pristupujete na server v nedôveryhodnej doméne.",
-    "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "V závislosti na konfigurácii, vám môže byť ako správcovi umožnené použitie tlačidla nižšie pre označenie tejto domény ako dôveryhodnej.",
     "Add \"%s\" as trusted domain" : "Pridať \"%s\" ako dôveryhodnú doménu",
     "App update required" : "Je nutná aktualizácia aplikácie",
     "%s will be updated to version %s" : "%s bude zaktualizovaný na verziu %s.",
@@ -314,11 +310,15 @@
     "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Dobrý deň,\n\npoužívateľ %s Vám sprístupnil položku s názvom %s.\nPre zobrazenie kliknite na odkaz: %s\n",
     "The share will expire on %s." : "Sprístupnenie vyprší %s.",
     "Cheers!" : "Pekný deň!",
+    "The server encountered an internal error and was unable to complete your request." : "Na serveri došlo k vnútornej chybe a nebol schopný dokončiť vašu požiadavku.",
+    "Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report." : "Obráťte sa na správcu servera, ak sa táto chyba objaví znovu viackrát, uveďte nižšie zobrazené technické údaje vo svojej správe.",
     "Log out" : "Odhlásiť",
     "Use the following link to reset your password: {link}" : "Použite nasledujúci odkaz pre obnovenie vášho hesla: {link}",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Dobrý deň,<br><br>používateľ %s Vám sprístupnil položku s názvom »%s«.<br><a href=\"%s\">Zobraziť!</a><br><br>",
     "This Nextcloud instance is currently in single user mode." : "Táto inštancia Nextcloudu je teraz v jednopoužívateľskom móde.",
     "This means only administrators can use the instance." : "Len správca systému môže používať túto inštanciu.",
+    "You are accessing the server from an untrusted domain." : "Pristupujete na server v nedôveryhodnej doméne.",
+    "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "V závislosti na konfigurácii, vám môže byť ako správcovi umožnené použitie tlačidla nižšie pre označenie tejto domény ako dôveryhodnej.",
     "Please use the command line updater because you have a big instance." : "Vaša inštancia je veľká, použite prosím aktualizáciu cez príkazový riadok."
 },"pluralForm" :"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;"
 }
