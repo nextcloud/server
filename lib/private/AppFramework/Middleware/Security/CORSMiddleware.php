@@ -28,11 +28,9 @@ namespace OC\AppFramework\Middleware\Security;
 
 use OC\AppFramework\Middleware\Security\Exceptions\SecurityException;
 use OC\AppFramework\Utility\ControllerMethodReflector;
-use OC\Authentication\Exceptions\PasswordLoginForbiddenException;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\CORS;
-use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Middleware;
@@ -58,63 +56,7 @@ class CORSMiddleware extends Middleware {
 	}
 
 	/**
-	 * This is being run in normal order before the controller is being
-	 * called which allows several modifications and checks
-	 *
-	 * @param Controller $controller the controller that is being called
-	 * @param string $methodName the name of the method that will be called on
-	 *                           the controller
-	 * @throws SecurityException
-	 * @since 6.0.0
-	 */
-	public function beforeController($controller, $methodName) {
-		$reflectionMethod = new ReflectionMethod($controller, $methodName);
-
-		// ensure that @CORS annotated API routes are not used in conjunction
-		// with session authentication since this enables CSRF attack vectors
-		if ($this->hasAnnotationOrAttribute($reflectionMethod, 'CORS', CORS::class) &&
-			(!$this->hasAnnotationOrAttribute($reflectionMethod, 'PublicPage', PublicPage::class) || $this->session->isLoggedIn())) {
-			$user = array_key_exists('PHP_AUTH_USER', $this->request->server) ? $this->request->server['PHP_AUTH_USER'] : null;
-			$pass = array_key_exists('PHP_AUTH_PW', $this->request->server) ? $this->request->server['PHP_AUTH_PW'] : null;
-
-			// Allow to use the current session if a CSRF token is provided
-			if ($this->request->passesCSRFCheck()) {
-				return;
-			}
-			$this->session->logout();
-			try {
-				if ($user === null || $pass === null || !$this->session->logClientIn($user, $pass, $this->request, $this->throttler)) {
-					throw new SecurityException('CORS requires basic auth', Http::STATUS_UNAUTHORIZED);
-				}
-			} catch (PasswordLoginForbiddenException $ex) {
-				throw new SecurityException('Password login forbidden, use token instead', Http::STATUS_UNAUTHORIZED);
-			}
-		}
-	}
-
-	/**
-	 * @template T
-	 *
-	 * @param ReflectionMethod $reflectionMethod
-	 * @param string $annotationName
-	 * @param class-string<T> $attributeClass
-	 * @return boolean
-	 */
-	protected function hasAnnotationOrAttribute(ReflectionMethod $reflectionMethod, string $annotationName, string $attributeClass): bool {
-		if ($this->reflector->hasAnnotation($annotationName)) {
-			return true;
-		}
-
-
-		if (!empty($reflectionMethod->getAttributes($attributeClass))) {
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
-	 * This is being run after a successful controller method call and allows
+	 * This is being run after a successful controllermethod call and allows
 	 * the manipulation of a Response object. The middleware is run in reverse order
 	 *
 	 * @param Controller $controller the controller that is being called
@@ -171,5 +113,25 @@ class CORSMiddleware extends Middleware {
 		}
 
 		throw $exception;
+	}
+
+	/**
+	 * @template T
+	 *
+	 * @param ReflectionMethod $reflectionMethod
+	 * @param string $annotationName
+	 * @param class-string<T> $attributeClass
+	 * @return boolean
+	 */
+	protected function hasAnnotationOrAttribute(ReflectionMethod $reflectionMethod, string $annotationName, string $attributeClass): bool {
+		if ($this->reflector->hasAnnotation($annotationName)) {
+			return true;
+		}
+
+		if (!empty($reflectionMethod->getAttributes($attributeClass))) {
+			return true;
+		}
+
+		return false;
 	}
 }

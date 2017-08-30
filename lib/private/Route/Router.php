@@ -291,7 +291,7 @@ class Router implements IRouter {
 				\OC_API::respond($response, \OC_API::requestedFormat());
 
 				// Return since no more processing for an OPTIONS request is required
-				return;
+				return [];
 			} catch (ResourceNotFoundException $e) {
 				if (substr($url, -1) !== '/') {
 					// We allow links to apps/files? for backwards compatibility reasons
@@ -340,6 +340,10 @@ class Router implements IRouter {
 	 */
 	public function match($url) {
 		$parameters = $this->findMatchingRoute($url);
+		if (\OC::$server->getRequest()->getMethod() === "OPTIONS" && count($parameters) === 0) {
+			// nothing to do here as this is a CORS preflight
+			return;
+		}
 
 		$this->eventLogger->start('route:run', 'Run route');
 		if (isset($parameters['caller'])) {
