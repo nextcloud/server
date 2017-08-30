@@ -46,7 +46,7 @@ OC.L10N.register(
     "Federated Cloud" : "Stowarzyszona Chmura",
     "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Możesz współdzielić z każdym kto używa Nextclouda, ownClouda lub Pydio. Wystarczy, że wpiszesz ich ID chmury stowarzyszonej w pole współdzielenia. Wygląda jak osoba@przyklad.chmury.com",
     "Your Federated Cloud ID:" : "Twoje ID Stowarzyszonej Chmury:",
-    "Share it so your friends can share files with you:" : "Współdziel to, aby twoi przyjaciele mogli współdzielić pliki z tobą:",
+    "Share it so your friends can share files with you:" : "Współdziel to, aby Twoi przyjaciele mogli współdzielić pliki z Tobą:",
     "Add to your website" : "Dodaj do swojej strony",
     "Share with me via Nextcloud" : "Podziel się ze mną poprzez Nextcloud",
     "HTML Code:" : "Kod HTML:",
