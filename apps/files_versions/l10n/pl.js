@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_versions",
     {
-    "Could not revert: %s" : "Nie można było przywrócić: %s",
+    "Could not revert: %s" : "Nie można przywrócić: %s",
     "Versions" : "Wersje",
     "Failed to revert {file} to revision {timestamp}." : "Nie udało się przywrócić {file} do wersji z {timestamp}.",
     "_%n byte_::_%n bytes_" : ["%n bajt","%n bajtów","%n bajtów","%n bajtów"],
