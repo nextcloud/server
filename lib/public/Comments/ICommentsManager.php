@@ -138,6 +138,28 @@ interface ICommentsManager {
 	public function getNumberOfUnreadCommentsForFolder($folderId, IUser $user);
 
 	/**
+	 * Get the actor types and ID that commented in the tree specified by the ID
+	 *
+	 * @param string $id
+	 * @return array
+	 * @since 13.0.0
+	 *
+	 * The return array looks like this:
+	 *
+	 * [
+	 *   'users' => [
+	 *     'alice',
+	 *     'bob',
+	 *   ],
+	 *   'robots' => [
+	 *     'r2-d2',
+	 *     'c-3po',
+	 *   ]
+	 * ]
+	 */
+	public function getActorsInTree($id);
+
+	/**
 	 * creates a new comment and returns it. At this point of time, it is not
 	 * saved in the used data storage. Use save() after setting other fields
 	 * of the comment (e.g. message or verb).

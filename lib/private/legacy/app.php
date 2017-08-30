@@ -185,6 +185,8 @@ class OC_App {
 						'class' => $plugin['@value'],
 					];
 					\OC::$server->getCollaboratorSearch()->registerPlugin($pluginInfo);
+				} else if ($plugin['@attributes']['type'] === 'autocomplete-sort') {
+					\OC::$server->getAutoCompleteManager()->registerSorter($plugin['@value']);
 				}
 			}
 		}

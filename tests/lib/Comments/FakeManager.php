@@ -1,12 +1,14 @@
 <?php
 
 namespace Test\Comments;
+use OCP\Comments\IComment;
+use OCP\Comments\ICommentsManager;
 use OCP\IUser;
 
 /**
  * Class FakeManager
  */
-class FakeManager implements \OCP\Comments\ICommentsManager {
+class FakeManager implements ICommentsManager {
 
 	public function get($id) {}
 
@@ -26,17 +28,17 @@ class FakeManager implements \OCP\Comments\ICommentsManager {
 
 	public function delete($id) {}
 
-	public function save(\OCP\Comments\IComment $comment) {}
+	public function save(IComment $comment) {}
 
 	public function deleteReferencesOfActor($actorType, $actorId) {}
 
 	public function deleteCommentsAtObject($objectType, $objectId) {}
 
-	public function setReadMark($objectType, $objectId, \DateTime $dateTime, \OCP\IUser $user) {}
+	public function setReadMark($objectType, $objectId, \DateTime $dateTime, IUser $user) {}
 
-	public function getReadMark($objectType, $objectId, \OCP\IUser $user) {}
+	public function getReadMark($objectType, $objectId, IUser $user) {}
 
-	public function deleteReadMarksFromUser(\OCP\IUser $user) {}
+	public function deleteReadMarksFromUser(IUser $user) {}
 
 	public function deleteReadMarksOnObject($objectType, $objectId) {}
 
@@ -47,4 +49,6 @@ class FakeManager implements \OCP\Comments\ICommentsManager {
 	public function resolveDisplayName($type, $id) {}
 
 	public function getNumberOfUnreadCommentsForFolder($folderId, IUser $user) {}
+
+	public function getActorsInTree($id) {}
 }
