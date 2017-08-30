@@ -76,10 +76,10 @@ class TwoFactorChallengeControllerTest extends TestCase {
 				$this->session,
 				$this->urlGenerator,
 			])
-			->setMethods(['getLogoutAttribute'])
+			->setMethods(['getLogoutUrl'])
 			->getMock();
 		$this->controller->expects($this->any())
-			->method('getLogoutAttribute')
+			->method('getLogoutUrl')
 			->willReturn('logoutAttribute');
 	}
 
@@ -106,7 +106,7 @@ class TwoFactorChallengeControllerTest extends TestCase {
 			'providers' => $providers,
 			'backupProvider' => 'backup',
 			'redirect_url' => '/some/url',
-			'logout_attribute' => 'logoutAttribute',
+			'logout_url' => 'logoutAttribute',
 			], 'guest');
 
 		$this->assertEquals($expected, $this->controller->selectChallenge('/some/url'));
@@ -155,7 +155,7 @@ class TwoFactorChallengeControllerTest extends TestCase {
 			'error' => true,
 			'provider' => $provider,
 			'backupProvider' => $backupProvider,
-			'logout_attribute' => 'logoutAttribute',
+			'logout_url' => 'logoutAttribute',
 			'template' => '<html/>',
 			'redirect_url' => '/re/dir/ect/url',
 			'error_message' => null,

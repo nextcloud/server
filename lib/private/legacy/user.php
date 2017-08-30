@@ -305,26 +305,25 @@ class OC_User {
 	}
 
 	/**
-	 * Supplies an attribute to the logout hyperlink. The default behaviour
-	 * is to return an href with '?logout=true' appended. However, it can
-	 * supply any attribute(s) which are valid for <a>.
+	 * Returns the current logout URL valid for the currently logged-in user
 	 *
-	 * @return string with one or more HTML attributes.
+	 * @param \OCP\IURLGenerator $urlGenerator
+	 * @return string
 	 */
-	public static function getLogoutAttribute() {
+	public static function getLogoutUrl(\OCP\IURLGenerator $urlGenerator) {
 		$backend = self::findFirstActiveUsedBackend();
 		if ($backend) {
-			return $backend->getLogoutAttribute();
+			return $backend->getLogoutUrl();
 		}
 
-		$logoutUrl = \OC::$server->getURLGenerator()->linkToRouteAbsolute(
+		$logoutUrl = $urlGenerator->linkToRouteAbsolute(
 			'core.login.logout',
 			[
 				'requesttoken' => \OCP\Util::callRegister(),
 			]
 		);
 
-		return 'href="'.$logoutUrl.'"';
+		return $logoutUrl;
 	}
 
 	/**

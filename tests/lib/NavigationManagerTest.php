@@ -217,6 +217,16 @@ class NavigationManagerTest extends TestCase {
 		$this->urlGenerator->expects($this->any())->method('linkToRoute')->willReturnCallback(function() {
 			return "/apps/test/";
 		});
+		$this->urlGenerator
+			->expects($this->once())
+			->method('linkToRouteAbsolute')
+			->with(
+				'core.login.logout',
+				[
+					'requesttoken' => \OCP\Util::callRegister(),
+				]
+			)
+			->willReturn('https://example.com/logout');
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->any())->method('getUID')->willReturn('user001');
 		$this->userSession->expects($this->any())->method('getUser')->willReturn($user);
@@ -271,7 +281,7 @@ class NavigationManagerTest extends TestCase {
 			[
 				'id' => 'logout',
 				'order' => 99999,
-				'href' => null,
+				'href' => 'https://example.com/logout',
 				'icon' => '/apps/core/img/actions/logout.svg',
 				'name' => 'Log out',
 				'active' => false,
