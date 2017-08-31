@@ -149,6 +149,16 @@ class RepairMimeTypes implements IRepairStep {
 		$this->updateMimetypes($updatedMimetypes);
 	}
 
+	private function introduceStreamingTypes() {
+		$updatedMimetypes = [
+			'm3u' => 'audio/mpegurl',
+			'm3u8' => 'audio/mpegurl',
+			'pls' => 'audio/x-scpls'
+		];
+
+		$this->updateMimetypes($updatedMimetypes);
+	}
+
 	/**
 	 * Fix mime types
 	 */
@@ -173,6 +183,10 @@ class RepairMimeTypes implements IRepairStep {
 
 		if (version_compare($ocVersionFromBeforeUpdate, '13.0.0.3', '<') && $this->introduceInternetShortcutTypes()) {
 			$out->info('Fixed internet-shortcut mime types');
+		}
+
+		if (version_compare($ocVersionFromBeforeUpdate, '13.0.0.6', '<') && $this->introduceStreamingTypes()) {
+			$out->info('Fixed streaming mime types');
 		}
 	}
 }
