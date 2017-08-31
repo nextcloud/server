@@ -38,6 +38,7 @@ OC.L10N.register(
     "Checking whether the database schema can be updated (this can take a long time depending on the database size)" : "Kontrollitakse, kas anembaasi skeemi saab uuendada (see võib võtta kaua aega olenevalt andmebaasi suurusest)",
     "Checked database schema update" : "Andmebaasi skeemi uuendus kontrollitud",
     "Checking updates of apps" : "Rakenduste uuenduste kontroll",
+    "Checking whether the database schema for %s can be updated (this can take a long time depending on the database size)" : "Kontrollitakse, kas %s andmebaasi skeemi saab uuendada (see võib võtta kaua aega sõltuvalt andmebaasi suuruses)",
     "Checked database schema update for apps" : "Andmebaasi skeemi uuendus rakendustele on kontrollitud",
     "Updated \"%s\" to %s" : "Uuendatud \"%s\" -> %s",
     "Starting code integrity check" : "Koodi terviklikkuse kontrolli alustamine",

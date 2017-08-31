@@ -321,7 +321,7 @@ OC.L10N.register(
     "Full name" : "Volledige naam",
     "No display name set" : "Nog geen weergavenaam ingesteld",
     "Email" : "E-mailadres",
-    "Your email address" : "Jee-mailadres",
+    "Your email address" : "Je e-mailadres",
     "No email address set" : "Geen e-mailadres opgegeven",
     "For password reset and notifications" : "Voor wachtwoord reset en notificaties",
     "Phone number" : "Telefoonnummer",
