@@ -463,6 +463,13 @@ class ShareByMailProvider implements IShareProvider {
 		$message = $this->mailer->createMessage();
 
 		$emailTemplate = $this->mailer->createEMailTemplate();
+		$emailTemplate->setMetaData('sharebymail.RecipientPasswordNotification', [
+			'filename' => $filename,
+			'password' => $password,
+			'initiator' => $initiatorDisplayName,
+			'initiatorEmail' => $initiatorEmailAddress,
+			'shareWith' => $shareWith,
+		]);
 		$emailTemplate->addHeader();
 		$emailTemplate->addHeading($this->l->t('Password to access »%s«', [$filename]), false);
 		$emailTemplate->addBodyText($htmlBodyPart, $plainBodyPart);
@@ -524,6 +531,13 @@ class ShareByMailProvider implements IShareProvider {
 
 		$message = $this->mailer->createMessage();
 		$emailTemplate = $this->mailer->createEMailTemplate();
+		$emailTemplate->setMetaData('sharebymail.OwnerPasswordNotification', [
+			'filename' => $filename,
+			'password' => $password,
+			'initiator' => $initiatorDisplayName,
+			'initiatorEmail' => $initiatorEMailAddress,
+			'shareWith' => $shareWith,
+		]);
 
 		$emailTemplate->addHeader();
 		$emailTemplate->addHeading($this->l->t('Password to access »%s«', [$filename]), false);
