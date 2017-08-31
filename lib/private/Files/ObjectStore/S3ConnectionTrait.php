@@ -83,9 +83,7 @@ trait S3ConnectionTrait {
 			],
 			'endpoint' => $base_url,
 			'region' => $this->params['region'],
-			'command.params' => [
-				'PathStyle' => isset($this->params['use_path_style']) ? $this->params['use_path_style'] : false,
-			]
+			'use_path_style_endpoint' => isset($this->params['use_path_style']) ? $this->params['use_path_style'] : false
 		];
 		if (isset($this->params['proxy'])) {
 			$options['request.options'] = ['proxy' => $this->params['proxy']];
