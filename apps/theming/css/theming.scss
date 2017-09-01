@@ -10,7 +10,6 @@
 	color: $color-primary-text;
 }
 
-/* invert header icons on bright background */
 @if (lightness($color-primary) > 55) {
 	.searchbox input[type="search"] {
 		background: transparent url('../../../core/img/actions/search.svg') no-repeat 6px center;
@@ -28,6 +27,31 @@
 	}
 	#appmenu .icon-more-white {
 		background-image: url('../../../core/img/actions/more.svg');
+	}
+
+	#body-login {
+
+		input {
+			border: 1px solid nc-lighten($color-primary-text, 50%);
+		}
+		input.primary {
+			background-color: $color-primary;
+		}
+		a, label, p {
+			color: $color-primary-text !important;
+		}
+		input[type='checkbox'].checkbox--white + label:before {
+			border-color: nc-darken($color-primary-element, 40%) !important;
+		}
+		input[type='checkbox'].checkbox--white:not(:disabled):not(:checked) + label:hover:before,
+		input[type='checkbox'].checkbox--white:focus + label:before {
+			border-color: nc-darken($color-primary-element, 30%) !important;
+		}
+		input[type='checkbox'].checkbox--white:checked + label:before {
+			border-color: nc-darken($color-primary-element, 30%) !important;
+			background-image: url('../../../core/img/actions/checkbox-mark.svg');
+			background-color: nc-darken($color-primary-element, 30%) !important;
+		}
 	}
 }
 
@@ -83,37 +107,6 @@ input.primary {
 			color: $color-primary-text !important;
 		}
 
-		@if (lightness($color-primary) > 50) {
-			#submit {
-				border-color: nc-darken($color-primary, 20%);
-				background-color: nc-darken($color-primary, 20%);
-			}
-			#submit:hover {
-				border-color: nc-darken($color-primary, 10%);
-				background-color: nc-darken($color-primary, 10%);
-			}
-			input[type='checkbox'].checkbox--white + label:before {
-				border-color: nc-darken($color-primary-element, 40%) !important;
-			}
-			input[type='checkbox'].checkbox--white:not(:disabled):not(:checked) + label:hover:before,
-			input[type='checkbox'].checkbox--white:focus + label:before {
-				border-color: nc-darken($color-primary-element, 30%) !important;
-			}
-			input[type='checkbox'].checkbox--white:checked + label:before {
-				border-color: nc-darken($color-primary-element, 30%) !important;
-				background-image: url('../../../core/img/actions/checkbox-mark.svg');
-				background-color: nc-darken($color-primary-element, 30%) !important;
-			}
-		} @else {
-			#submit {
-				border-color: nc-lighten($color-primary, 20%);
-				background-color: nc-lighten($color-primary, 20%);
-			}
-			#submit:hover {
-				border-color: nc-lighten($color-primary, 10%);
-				background-color: nc-lighten($color-primary, 10%);
-			}
-		}
 	}
 }
 
