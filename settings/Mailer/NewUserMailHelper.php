@@ -118,14 +118,14 @@ class NewUserMailHelper {
 		$emailTemplate = $this->mailer->createEMailTemplate();
 		$emailTemplate->addHeader();
 		$displayName = $user->getDisplayName();
-		$userName = $user->getUID();
-		if ($displayName === $userName) {
+		$userId = $user->getUID();
+		if ($displayName === $userId) {
 			$emailTemplate->addHeading($this->l10n->t('Welcome aboard'));
 		} else {
 			$emailTemplate->addHeading($this->l10n->t('Welcome aboard %s', [$displayName]));
 		}
 		$emailTemplate->addBodyText($this->l10n->t('You have now an %s account, you can add, protect, and share your data.', [$this->themingDefaults->getName()]));
-		$emailTemplate->addBodyText($this->l10n->t('Your username is: %s', [$userName]));
+		$emailTemplate->addBodyText($this->l10n->t('Your username is: %s', [$userId]));
 		if ($generatePasswordResetToken) {
 			$leftButtonText = $this->l10n->t('Set your password');
 		} else {
@@ -142,7 +142,7 @@ class NewUserMailHelper {
 		$emailTemplate->setMetaData('settings.Welcome', [
 			'link' => $link,
 			'displayname' => $displayName,
-			'username' => $userName,
+			'userid' => $userId,
 			'instancename' => $this->themingDefaults->getName(),
 			'resetTokenGenerated' => $generatePasswordResetToken,
 		]);
