@@ -21,6 +21,10 @@
 
 namespace OCA\Files_External\Lib\Backend;
 
+use OCA\Files_External\Lib\Storage\InvalidStorage;
+use OCA\Files_External\Lib\StorageConfig;
+use OCP\IUser;
+
 /**
  * Invalid storage backend representing a backend
  * that could not be resolved
@@ -41,8 +45,7 @@ class InvalidBackend extends Backend {
 		$this
 			->setIdentifier($invalidId)
 			->setStorageClass('\OC\Files\Storage\FailedStorage')
-			->setText('Unknown storage backend ' . $invalidId)
-		;
+			->setText('Unknown storage backend ' . $invalidId);
 	}
 
 	/**
@@ -52,6 +55,10 @@ class InvalidBackend extends Backend {
 	 */
 	public function getInvalidId() {
 		return $this->invalidId;
+	}
+
+	public function manipulateStorageConfig(StorageConfig &$storage, IUser $user = null) {
+		$storage->setBackendOption('exception', new \Exception('Unknown storage backend ' . $this->invalidId));
 	}
 }
 
