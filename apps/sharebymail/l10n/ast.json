@@ -16,6 +16,7 @@
     "Password to access {file} was sent to you" : "Unviósete la contraseña p'acceder a {file}",
     "Sharing %s failed, this item is already shared with %s" : "Falló la compartición de %s, esti elementu yá se compartió con %s",
     "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Nun podemos unviate la contraseña auto-xenerada. Afita una direición de corréu válida nos tos axustes personales y volvi tentalo.",
+    "Failed to send share by email" : "Fallu al unviar la compartición per corréu",
     "%s shared »%s« with you" : "%s compartió «%s» contigo",
     "%s shared »%s« with you." : "%s compartió «%s» contigo.",
     "Click the button below to open it." : "Primi'l botón d'embaxo p'abrilu.",
