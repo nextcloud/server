@@ -8,20 +8,20 @@
 	font-family: "Lucida Grande", Arial, Verdana, sans-serif;
 }
 .ui-widget-content {
-	border: 1px solid #dddddd;
-	background: #eeeeee url('images/ui-bg_highlight-soft_100_eeeeee_1x100.png') 50% top repeat-x;
-	color: #333333;
+	border: 1px solid nc-darken($color-main-background, 20%);
+	background: $color-main-background none;
+	color: $color-main-text;
 }
 .ui-widget-content a {
-	color: #333333;
+	color: $color-main-text;
 }
 .ui-widget-header {
-	border: 1px solid #0082c9;
-	background: #0082c9;
-	color: #ffffff;
+	border: none;
+	background: $color-primary none;
+	color: $color-primary-text;
 }
 .ui-widget-header a {
-	color: #ffffff;
+	color: $color-primary-text;
 }
 
 /* Interaction states
@@ -29,8 +29,8 @@
 .ui-state-default,
 .ui-widget-content .ui-state-default,
 .ui-widget-header .ui-state-default {
-	border: 1px solid #ddd;
-	background: #f8f8f8 url('images/ui-bg_glass_100_f8f8f8_1x400.png') 50% 50% repeat-x;
+	border: 1px solid nc-darken($color-main-background, 20%);
+	background: $color-main-background none;
 	font-weight: bold;
 	color: #555;
 }
@@ -46,28 +46,28 @@
 .ui-widget-content .ui-state-focus,
 .ui-widget-header .ui-state-focus {
 	border: 1px solid #ddd;
-	background: #ffffff url('images/ui-bg_flat_100_ffffff_40x100.png') 50% 50% repeat-x;
+	background: $color-main-background none;
 	font-weight: bold;
-	color: #333;
+	color: $color-main-text;
 }
 .ui-state-hover a,
 .ui-state-hover a:hover,
 .ui-state-hover a:link,
 .ui-state-hover a:visited {
-	color: #333;
+	color: $color-main-text;
 }
 .ui-state-active,
 .ui-widget-content .ui-state-active,
 .ui-widget-header .ui-state-active {
-	border: 1px solid #0082c9;
-	background: #f8f8f8 url('images/ui-bg_glass_100_f8f8f8_1x400.png') 50% 50% repeat-x;
+	border: 1px solid $color-primary;
+	background: $color-main-background none;
 	font-weight: bold;
-	color: #0082c9;
+	color: $color-primary;
 }
 .ui-state-active a,
 .ui-state-active a:link,
 .ui-state-active a:visited {
-	color: #0082c9;
+	color: $color-primary;
 }
 
 /* Interaction Cues
@@ -75,20 +75,20 @@
 .ui-state-highlight,
 .ui-widget-content .ui-state-highlight,
 .ui-widget-header .ui-state-highlight {
-	border: 1px solid #ddd;
-	background: #f8f8f8 url('images/ui-bg_highlight-hard_100_f8f8f8_1x100.png') 50% top repeat-x;
-	color: #555;
+	border: 1px solid $color-main-background;
+	background: $color-main-background none;
+	color: nc-lighten($color-main-text, 30%);
 }
 .ui-state-highlight a,
 .ui-widget-content .ui-state-highlight a,
 .ui-widget-header .ui-state-highlight a {
-	color: #555;
+	color: nc-lighten($color-main-text, 30%);
 }
 .ui-state-error,
 .ui-widget-content .ui-state-error,
 .ui-widget-header .ui-state-error {
-	border: 1px solid #cd0a0a;
-	background: #b81900 url('images/ui-bg_diagonals-thick_18_b81900_40x40.png') 50% 50% repeat;
+	border: $color-error;
+	background: $color-error none;
 	color: #ffffff;
 }
 .ui-state-error a,
@@ -137,6 +137,67 @@
 	border-radius: 5px;
 }
 
-.ui-menu .ui-menu-item a {
-	padding: 6px;
+/* Tabs customizations */
+.ui-tabs {
+	border: none;
+
+	.ui-tabs-nav.ui-corner-all {
+		border-bottom-left-radius: 0;
+		border-bottom-right-radius: 0;
+	}
+
+	.ui-tabs-nav {
+		background: none;
+		margin-bottom: 15px;
+
+		.ui-state-default {
+			border: none;
+			border-bottom: 1px solid transparent;
+			font-weight: normal;
+			margin: 0 !important;
+			padding: 0 !important;
+		}
+
+		.ui-state-hover,
+		.ui-state-active {
+			border: none;
+			border-bottom: 1px solid $color-main-text;
+			color: $color-primary-text;
+			a, a:link, a:hover, a:visited {
+				color: $color-primary-text;
+			}
+		}
+		.ui-state-active {
+			font-weight: bold;
+		}
+	}
+}
+
+/* Select menus */
+.ui-autocomplete {
+	&.ui-menu {
+		padding: 0;
+		.ui-menu-item a {
+			&.ui-state-focus, &.ui-state-active {
+				font-weight: inherit;
+			}
+		}
+	}
+
+	&.ui-widget-content {
+		background: $color-main-background;
+		border-top: none;
+	}
+
+	&.ui-corner-all {
+		border-radius: 0;
+		border-bottom-left-radius: 3px;
+		border-bottom-right-radius: 3px;
+	}
+
+	.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus {
+		border: 1px solid transparent;
+		background: inherit;
+		color: $color-primary;
+	}
 }
