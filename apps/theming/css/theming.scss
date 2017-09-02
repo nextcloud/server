@@ -11,7 +11,7 @@
 }
 
 /* invert header icons on bright background */
-@if (lightness($color-primary) > 50) {
+@if (lightness($color-primary) > 55) {
 	.searchbox input[type="search"] {
 		background: transparent url('../../../core/img/actions/search.svg') no-repeat 6px center;
 	}
