@@ -10,11 +10,10 @@
 }
 .ui-widget-header {
 	border: none;
-	background: $color-primary none;
-	color: $color-primary-text;
+	color: $color-main-text;
 }
 .ui-widget-header a {
-	color: $color-primary-text;
+	color: $color-main-text;
 }
 
 /* Interaction states
@@ -55,12 +54,12 @@
 	border: 1px solid $color-primary;
 	background: $color-main-background none;
 	font-weight: bold;
-	color: $color-primary;
+	color: $color-main-text;
 }
 .ui-state-active a,
 .ui-state-active a:link,
 .ui-state-active a:visited {
-	color: $color-primary;
+	color: $color-main-text;
 }
 
 /* Interaction Cues
@@ -155,9 +154,9 @@
 		.ui-state-active {
 			border: none;
 			border-bottom: 1px solid $color-main-text;
-			color: $color-primary-text;
+			color: $color-main-text;
 			a, a:link, a:hover, a:visited {
-				color: $color-primary-text;
+				color: $color-main-text;
 			}
 		}
 		.ui-state-active {
