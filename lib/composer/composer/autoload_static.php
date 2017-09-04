@@ -415,6 +415,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Command\\CallableJob' => __DIR__ . '/../../..' . '/lib/private/Command/CallableJob.php',
         'OC\\Command\\ClosureJob' => __DIR__ . '/../../..' . '/lib/private/Command/ClosureJob.php',
         'OC\\Command\\CommandJob' => __DIR__ . '/../../..' . '/lib/private/Command/CommandJob.php',
+        'OC\\Command\\CronBus' => __DIR__ . '/../../..' . '/lib/private/Command/CronBus.php',
         'OC\\Command\\FileAccess' => __DIR__ . '/../../..' . '/lib/private/Command/FileAccess.php',
         'OC\\Command\\QueueBus' => __DIR__ . '/../../..' . '/lib/private/Command/QueueBus.php',
         'OC\\Comments\\Comment' => __DIR__ . '/../../..' . '/lib/private/Comments/Comment.php',
