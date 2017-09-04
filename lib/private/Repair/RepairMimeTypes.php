@@ -100,7 +100,7 @@ class RepairMimeTypes implements IRepairStep {
 				// insert mimetype
 				\OC_DB::executeAudited(self::insertStmt(), array($mimetype));
 			}
-			
+
 			// get target mimetype id
 			$result = \OC_DB::executeAudited(self::getIdStmt(), array($mimetype));
 			$mimetypeId = $result->fetchOne();
@@ -140,6 +140,15 @@ class RepairMimeTypes implements IRepairStep {
 		$this->updateMimetypes($updatedMimetypes);
 	}
 
+	private function introduceInternetShortcutTypes() {
+		$updatedMimetypes = [
+			'url' => 'application/internet-shortcut',
+			'webloc' => 'application/internet-shortcut'
+		];
+
+		$this->updateMimetypes($updatedMimetypes);
+	}
+
 	/**
 	 * Fix mime types
 	 */
@@ -160,6 +169,10 @@ class RepairMimeTypes implements IRepairStep {
 
 		if (version_compare($ocVersionFromBeforeUpdate, '13.0.0.0', '<') && $this->introduceLocationTypes()) {
 			$out->info('Fixed geospatial mime types');
+		}
+
+		if (version_compare($ocVersionFromBeforeUpdate, '13.0.0.3', '<') && $this->introduceInternetShortcutTypes()) {
+			$out->info('Fixed internet-shortcut mime types');
 		}
 	}
 }
