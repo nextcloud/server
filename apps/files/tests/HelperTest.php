@@ -112,4 +112,35 @@ class HelperTest extends \Test\TestCase {
 		);
 	}
 
+	public function testPopulateTags() {
+		$tagManager = $this->createMock(\OCP\ITagManager::class);
+		$tagger = $this->createMock(\OCP\ITags::class);
+
+		$tagManager->method('load')
+			->with('files')
+			->willReturn($tagger);
+
+		$data = [
+			['id' => 10],
+			['id' => 22, 'foo' => 'bar'],
+			['id' => 42, 'x' => 'y'],
+		];
+
+		$tags = [
+			10 => ['tag3'],
+			42 => ['tag1', 'tag2'],
+		];
+
+		$tagger->method('getTagsForObjects')
+			->with([10, 22, 42])
+			->willReturn($tags);
+
+		$result = \OCA\Files\Helper::populateTags($data, 'id', $tagManager);
+
+		$this->assertSame([
+			['id' => 10, 'tags' => ['tag3']],
+			['id' => 22, 'foo' => 'bar', 'tags' => []],
+			['id' => 42, 'x' => 'y', 'tags' => ['tag1', 'tag2']],
+		], $result);
+	}
 }
