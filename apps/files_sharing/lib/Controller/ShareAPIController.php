@@ -700,6 +700,7 @@ class ShareAPIController extends OCSController {
 
 			if ($permissions !== null) {
 				$newPermissions = (int)$permissions;
+				$newPermissions = $newPermissions & ~\OCP\Constants::PERMISSION_SHARE;
 			}
 
 			if ($newPermissions !== null &&
