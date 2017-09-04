@@ -24,17 +24,11 @@ namespace OC\Command;
 
 use OCP\Command\IBus;
 use OCP\Command\ICommand;
-use SuperClosure\Serializer;
 
 /**
  * Asynchronous command bus that uses the background job system as backend
  */
-class AsyncBus implements IBus {
-	/**
-	 * @var \OCP\BackgroundJob\IJobList
-	 */
-	private $jobList;
-
+abstract class AsyncBus implements IBus {
 	/**
 	 * List of traits for command which require sync execution
 	 *
@@ -43,24 +37,24 @@ class AsyncBus implements IBus {
 	private $syncTraits = [];
 
 	/**
-	 * @param \OCP\BackgroundJob\IJobList $jobList
-	 */
-	public function __construct($jobList) {
-		$this->jobList = $jobList;
-	}
-
-	/**
 	 * Schedule a command to be fired
 	 *
 	 * @param \OCP\Command\ICommand | callable $command
 	 */
 	public function push($command) {
 		if ($this->canRunAsync($command)) {
-			$this->jobList->add($this->getJobClass($command), $this->serializeCommand($command));
+			$this->queueCommand($command);
 		} else {
 			$this->runCommand($command);
 		}
 	}
+
+	/**
+	 * Queue a command in the bus
+	 *
+	 * @param \OCP\Command\ICommand | callable $command
+	 */
+	abstract protected function queueCommand($command);
 
 	/**
 	 * Require all commands using a trait to be run synchronous
@@ -79,37 +73,6 @@ class AsyncBus implements IBus {
 			$command->handle();
 		} else {
 			$command();
-		}
-	}
-
-	/**
-	 * @param \OCP\Command\ICommand | callable $command
-	 * @return string
-	 */
-	private function getJobClass($command) {
-		if ($command instanceof \Closure) {
-			return 'OC\Command\ClosureJob';
-		} else if (is_callable($command)) {
-			return 'OC\Command\CallableJob';
-		} else if ($command instanceof ICommand) {
-			return 'OC\Command\CommandJob';
-		} else {
-			throw new \InvalidArgumentException('Invalid command');
-		}
-	}
-
-	/**
-	 * @param \OCP\Command\ICommand | callable $command
-	 * @return string
-	 */
-	private function serializeCommand($command) {
-		if ($command instanceof \Closure) {
-			$serializer = new Serializer();
-			return $serializer->serialize($command);
-		} else if (is_callable($command) or $command instanceof ICommand) {
-			return serialize($command);
-		} else {
-			throw new \InvalidArgumentException('Invalid command');
 		}
 	}
 
