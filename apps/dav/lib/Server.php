@@ -165,6 +165,9 @@ class Server {
 
 		$this->server->addPlugin(new CopyEtagHeaderPlugin());
 
+		// allow setup of additional plugins
+		$dispatcher->dispatch('OCA\DAV\Connector\Sabre::addPlugin', $event);
+
 		// Some WebDAV clients do require Class 2 WebDAV support (locking), since
 		// we do not provide locking we emulate it using a fake locking plugin.
 		if($request->isUserAgent([
