@@ -78,6 +78,7 @@ class LoginController extends Controller {
 	 * @param IURLGenerator $urlGenerator
 	 * @param ILogger $logger
 	 * @param Manager $twoFactorManager
+	 * @param Defaults $defaults
 	 */
 	public function __construct($appName,
 								IRequest $request,
