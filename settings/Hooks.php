@@ -117,8 +117,7 @@ class Hooks {
 		$this->activityManager->publish($event);
 
 		if ($user->getEMailAddress() !== null) {
-			$template = $this->mailer->createEMailTemplate();
-			$template->setMetaData('settings.PasswordChanged', [
+			$template = $this->mailer->createEMailTemplate('settings.PasswordChanged', [
 				'displayname' => $user->getDisplayName(),
 				'emailAddress' => $user->getEMailAddress(),
 				'instanceUrl' => $instanceUrl,
@@ -188,8 +187,7 @@ class Hooks {
 
 
 		if ($oldMailAddress !== null) {
-			$template = $this->mailer->createEMailTemplate();
-			$template->setMetaData('settings.EmailChanged', [
+			$template = $this->mailer->createEMailTemplate('settings.EmailChanged', [
 				'displayname' => $user->getDisplayName(),
 				'newEMailAddress' => $user->getEMailAddress(),
 				'oldEMailAddress' => $oldMailAddress,

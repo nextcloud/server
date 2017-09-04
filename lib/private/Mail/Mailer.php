@@ -26,6 +26,7 @@ use OCP\Defaults;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
+use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OCP\ILogger;
 
@@ -89,21 +90,33 @@ class Mailer implements IMailer {
 		return new Message(new \Swift_Message());
 	}
 
-	public function createEMailTemplate() {
+	/**
+	 * Creates a new email template object
+	 *
+	 * @param string $emailId
+	 * @param array $data
+	 * @return IEMailTemplate
+	 * @since 12.0.0
+	 */
+	public function createEMailTemplate($emailId, array $data = []) {
 		$class = $this->config->getSystemValue('mail_template_class', '');
 
 		if ($class !== '' && class_exists($class) && is_a($class, EMailTemplate::class, true)) {
 			return new $class(
 				$this->defaults,
 				$this->urlGenerator,
-				$this->l10n
+				$this->l10n,
+				$emailId,
+				$data
 			);
 		}
 
 		return new EMailTemplate(
 			$this->defaults,
 			$this->urlGenerator,
-			$this->l10n
+			$this->l10n,
+			$emailId,
+			$data
 		);
 	}
 

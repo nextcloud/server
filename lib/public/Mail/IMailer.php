@@ -57,10 +57,12 @@ interface IMailer {
 	/**
 	 * Creates a new email template object
 	 *
+	 * @param string $emailId
+	 * @param array $data
 	 * @return IEMailTemplate
-	 * @since 12.0.0
+	 * @since 12.0.0 Parameters added in 12.0.3
 	 */
-	public function createEMailTemplate();
+	public function createEMailTemplate($emailId, array $data = []);
 
 	/**
 	 * Send the specified message. Also sets the from address to the value defined in config.php

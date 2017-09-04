@@ -727,8 +727,7 @@ class Manager implements IManager {
 
 		$message = $this->mailer->createMessage();
 
-		$emailTemplate = $this->mailer->createEMailTemplate();
-		$emailTemplate->setMetaData('files_sharing.RecipientNotification', [
+		$emailTemplate = $this->mailer->createEMailTemplate('files_sharing.RecipientNotification', [
 			'filename' => $filename,
 			'link' => $link,
 			'initiator' => $initiatorDisplayName,

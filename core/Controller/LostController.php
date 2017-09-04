@@ -305,8 +305,7 @@ class LostController extends Controller {
 
 		$link = $this->urlGenerator->linkToRouteAbsolute('core.lost.resetform', array('userId' => $user->getUID(), 'token' => $token));
 
-		$emailTemplate = $this->mailer->createEMailTemplate();
-		$emailTemplate->setMetaData('core.ResetPassword', [
+		$emailTemplate = $this->mailer->createEMailTemplate('core.ResetPassword', [
 			'link' => $link,
 		]);
 
