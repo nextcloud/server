@@ -21,7 +21,6 @@
 
 namespace OC\Settings\Mailer;
 
-use OC\Mail\EMailTemplate;
 use OCP\Mail\IEMailTemplate;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
@@ -96,7 +95,7 @@ class NewUserMailHelper {
 	/**
 	 * @param IUser $user
 	 * @param bool $generatePasswordResetToken
-	 * @return EMailTemplate
+	 * @return IEMailTemplate
 	 */
 	public function generateTemplate(IUser $user, $generatePasswordResetToken = false) {
 		if ($generatePasswordResetToken) {
@@ -114,11 +113,19 @@ class NewUserMailHelper {
 		} else {
 			$link = $this->urlGenerator->getAbsoluteURL('/');
 		}
-
-		$emailTemplate = $this->mailer->createEMailTemplate();
-		$emailTemplate->addHeader();
 		$displayName = $user->getDisplayName();
 		$userId = $user->getUID();
+
+		$emailTemplate = $this->mailer->createEMailTemplate();
+		$emailTemplate->setMetaData('settings.Welcome', [
+			'link' => $link,
+			'displayname' => $displayName,
+			'userid' => $userId,
+			'instancename' => $this->themingDefaults->getName(),
+			'resetTokenGenerated' => $generatePasswordResetToken,
+		]);
+
+		$emailTemplate->addHeader();
 		if ($displayName === $userId) {
 			$emailTemplate->addHeading($this->l10n->t('Welcome aboard'));
 		} else {
@@ -138,14 +145,6 @@ class NewUserMailHelper {
 			'https://nextcloud.com/install/#install-clients'
 		);
 		$emailTemplate->addFooter();
-
-		$emailTemplate->setMetaData('settings.Welcome', [
-			'link' => $link,
-			'displayname' => $displayName,
-			'userid' => $userId,
-			'instancename' => $this->themingDefaults->getName(),
-			'resetTokenGenerated' => $generatePasswordResetToken,
-		]);
 
 		return $emailTemplate;
 	}
