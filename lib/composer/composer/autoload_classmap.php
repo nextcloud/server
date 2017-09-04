@@ -385,6 +385,7 @@ return array(
     'OC\\Command\\CallableJob' => $baseDir . '/lib/private/Command/CallableJob.php',
     'OC\\Command\\ClosureJob' => $baseDir . '/lib/private/Command/ClosureJob.php',
     'OC\\Command\\CommandJob' => $baseDir . '/lib/private/Command/CommandJob.php',
+    'OC\\Command\\CronBus' => $baseDir . '/lib/private/Command/CronBus.php',
     'OC\\Command\\FileAccess' => $baseDir . '/lib/private/Command/FileAccess.php',
     'OC\\Command\\QueueBus' => $baseDir . '/lib/private/Command/QueueBus.php',
     'OC\\Comments\\Comment' => $baseDir . '/lib/private/Comments/Comment.php',
