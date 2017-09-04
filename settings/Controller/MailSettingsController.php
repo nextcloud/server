@@ -147,9 +147,7 @@ class MailSettingsController extends Controller {
 			try {
 				$displayName = $this->userSession->getUser()->getDisplayName();
 
-				$template = $this->mailer->createEMailTemplate();
-
-				$template->setMetaData('settings.TestEmail', [
+				$template = $this->mailer->createEMailTemplate('settings.TestEmail', [
 					'displayname' => $displayName,
 				]);
 

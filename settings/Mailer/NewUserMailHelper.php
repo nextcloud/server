@@ -116,8 +116,7 @@ class NewUserMailHelper {
 		$displayName = $user->getDisplayName();
 		$userId = $user->getUID();
 
-		$emailTemplate = $this->mailer->createEMailTemplate();
-		$emailTemplate->setMetaData('settings.Welcome', [
+		$emailTemplate = $this->mailer->createEMailTemplate('settings.Welcome', [
 			'link' => $link,
 			'displayname' => $displayName,
 			'userid' => $userId,
