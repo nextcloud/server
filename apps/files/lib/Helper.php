@@ -32,6 +32,7 @@
 namespace OCA\Files;
 
 use OCP\Files\FileInfo;
+use OCP\ITagManager;
 
 /**
  * Helper class for manipulating file information
@@ -206,40 +207,39 @@ class Helper {
 	 *
 	 * @param array $fileList
 	 * @param string $fileIdentifier identifier attribute name for values in $fileList
+	 * @param ITagManager $tagManager
 	 * @return array file list populated with tags
 	 */
-	public static function populateTags(array $fileList, $fileIdentifier = 'fileid') {
-		$filesById = [];
+	public static function populateTags(array $fileList, $fileIdentifier = 'fileid', ITagManager $tagManager) {
+		$ids = [];
 		foreach ($fileList as $fileData) {
-			$filesById[$fileData[$fileIdentifier]] = $fileData;
+			$ids[] = $fileData[$fileIdentifier];
 		}
-		$tagger = \OC::$server->getTagManager()->load('files');
-		$tags = $tagger->getTagsForObjects(array_keys($filesById));
+		$tagger = $tagManager->load('files');
+		$tags = $tagger->getTagsForObjects($ids);
 
 		if (!is_array($tags)) {
 			throw new \UnexpectedValueException('$tags must be an array');
 		}
 
+		// Set empty tag array
+		foreach ($fileList as $key => $fileData) {
+			$fileList[$key]['tags'] = [];
+		}
+
 		if (!empty($tags)) {
 			foreach ($tags as $fileId => $fileTags) {
-				$filesById[$fileId]['tags'] = $fileTags;
-			}
 
-			foreach ($filesById as $key => $fileWithTags) {
-				foreach($fileList as $key2 => $file){
-					if( $file[$fileIdentifier] == $key){
-						$fileList[$key2] = $fileWithTags;
+				foreach ($fileList as $key => $fileData) {
+					if ($fileId !== $fileData[$fileIdentifier]) {
+						continue;
 					}
+
+					$fileList[$key]['tags'] = $fileTags;
 				}
 			}
-
-			foreach ($fileList as $key => $file) {
-				if (!array_key_exists('tags', $file)) {
-					$fileList[$key]['tags'] = [];
-				}
-			}
-
 		}
+
 		return $fileList;
 	}
 
