@@ -24,6 +24,12 @@
 namespace OCP\Settings;
 
 /**
+ * Settings Manager
+ *
+ * Hooks available in scope \OC\Settings\Personal:
+ * - preFormRender(callable $cb)
+ *
+ * @package OC\Settings
  * @since 9.1
  */
 interface IManager {

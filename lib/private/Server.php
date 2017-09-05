@@ -1001,6 +1001,10 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getThemingDefaults(),
 				$c->getAppManager()
 			);
+			$manager->listen('\OC\Settings\Personal', 'preFormRender', function (callable $cb) {
+				// Emit event publicly
+				\OC_Hook::emit('\OC\Settings\Personal', 'preFormRender', $cb);
+			});
 			return $manager;
 		});
 		$this->registerService(\OC\Files\AppData\Factory::class, function (Server $c) {

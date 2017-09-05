@@ -24,6 +24,7 @@
 namespace OC\Settings;
 
 use OC\Accounts\AccountManager;
+use OC\Hooks\PublicEmitter;
 use OCP\App\IAppManager;
 use OCP\AppFramework\QueryException;
 use OCP\Encryption\IManager as EncryptionManager;
@@ -41,7 +42,15 @@ use OCP\Settings\ISettings;
 use OCP\Settings\IManager;
 use OCP\Settings\ISection;
 
-class Manager implements IManager {
+/**
+ * Settings Manager
+ *
+ * Hooks available in scope \OC\Settings\Personal:
+ * - preFormRender(callable $cb)
+ *
+ * @package OC\Settings
+ */
+class Manager extends PublicEmitter implements IManager {
 	/** @var ILogger */
 	private $log;
 	/** @var IDBConnection */
@@ -417,6 +426,15 @@ class Manager implements IManager {
 					$this->l
 				);
 				$forms[$form->getPriority()] = [$form];
+
+				$this->emit('\OC\Settings\Personal', 'preFormRender', array(function($form) use(&$forms) {
+					$prio = $form->getPriority();
+					if (isset($forms[$prio])) {
+						$forms[$prio][] = $form;
+					} else {
+						$forms[$prio] = [$form];
+					}
+				}));
 			}
 			if($section === 'security') {
 				/** @var ISettings $form */
