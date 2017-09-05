@@ -23,6 +23,12 @@
 
 namespace OCP\Collaboration\Collaborators;
 
+/**
+ * Interface ISearch
+ *
+ * @package OCP\Collaboration\Collaborators
+ * @since 13.0.0
+ */
 interface ISearch {
 	/**
 	 * @param string $search
