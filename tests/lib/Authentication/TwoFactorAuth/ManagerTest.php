@@ -566,6 +566,8 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testNeedsSecondFactorInvalidToken() {
+		$this->prepareNoProviders();
+
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')
 			->willReturn('user');
@@ -579,6 +581,8 @@ class ManagerTest extends TestCase {
 			->with('mysessionid')
 			->willThrowException(new OC\Authentication\Exceptions\InvalidTokenException());
 
-		$this->assertTrue($this->manager->needsSecondFactor($user));
+		$this->config->method('getUserKeys')->willReturn([]);
+
+		$this->assertFalse($this->manager->needsSecondFactor($user));
 	}
 }

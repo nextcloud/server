@@ -293,7 +293,6 @@ class Manager {
 					return false;
 				}
 			} catch (InvalidTokenException $e) {
-				return true;
 			}
 		}
 
