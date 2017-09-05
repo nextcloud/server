@@ -1124,7 +1124,7 @@ code {
 	.filelist {
 		td {
 			padding: 14px;
-			border-bottom: 1px solid nc-darken($color-main-background, 8%);
+			border-bottom: 1px solid $color-border;
 		}
 		tr:last-child td {
 			border-bottom: none;

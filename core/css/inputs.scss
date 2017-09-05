@@ -269,8 +269,8 @@ input {
 			}
 			&:checked + label:before {
 				box-shadow: inset 0px 0px 0px 2px $color-main-text;
-				background-color: nc-darken($color-main-background, 8%);
-				border-color: nc-darken($color-main-background, 8%)
+				background-color: $color-border;
+				border-color: $color-border
 			}
 			&:disabled + label:before {
 				background-color: nc-lighten($color-main-text, 33%) !important; /* override other status */
@@ -320,6 +320,7 @@ input {
 /* Select2 overriding. Merged to core with vendor stylesheet */
 .select2-drop {
 	margin-top: -2px;
+	background-color: $color-main-background;
 	&.select2-drop-active {
 		border-color: nc-lighten($color-main-text, 86%);
 	}
@@ -354,7 +355,7 @@ input {
 			position: relative;
 			display: list-item;
 			padding: 12px;
-			background-color: $color-main-background;
+			background-color: transparent;
 			cursor: pointer;
 			color: nc-lighten($color-main-text, 33%);
 		}
@@ -362,10 +363,10 @@ input {
 			&.select2-selected {
 				background-color: nc-darken($color-main-background, 3%);
 			}
-			&.select2-highlighted {
+		}
+		.select2-highlighted {
 				background-color: nc-darken($color-main-background, 3%);
 				color: $color-main-text;
-			}
 		}
 	}
 }
@@ -444,8 +445,8 @@ input {
 			}
 			&.select2-search-choice-focus,
 			&:hover {
-				background-color: nc-darken($color-main-background, 8%);
-				border-color: nc-darken($color-main-background, 8%);
+				background-color: $color-border;
+				border-color: $color-border;
 			}
 		}
 		.select2-arrow {

@@ -90,7 +90,7 @@ kbd {
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
-	border-right: 1px solid nc-darken($color-main-background, 8%);
+	border-right: 1px solid $color-border;
 	display: flex;
 	flex-direction: column;
 	li {
@@ -556,7 +556,7 @@ kbd {
 	min-width: 300px;
 	display: block;
 	background: $color-main-background;
-	border-left: 1px solid nc-darken($color-main-background, 8%);
+	border-left: 1px solid $color-border;
 	-webkit-transition: margin-right 300ms;
 	transition: margin-right 300ms;
 	overflow-x: hidden;
@@ -590,7 +590,7 @@ kbd {
 	/* restrict height of settings and make scrollable */
 	max-height: 300px;
 	overflow-y: auto;
-	border-right: 1px solid nc-darken($color-main-background, 8%);
+	border-right: 1px solid $color-border;
 	width: 250px;
 	box-sizing: border-box;
 
@@ -606,7 +606,7 @@ kbd {
 }
 
 #app-settings-header {
-	border-right: 1px solid nc-darken($color-main-background, 8%);
+	border-right: 1px solid $color-border;
 	width: 250px;
 	box-sizing: border-box;
 }
@@ -735,7 +735,7 @@ kbd {
 	.popovermenu, .popovermenu:after,
 	#app-navigation .app-navigation-entry-menu,
 	#app-navigation .app-navigation-entry-menu:after {
-		border: 1px solid nc-darken($color-main-background, 8%);
+		border: 1px solid $color-border;
 	}
 }
 

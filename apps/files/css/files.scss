@@ -32,8 +32,8 @@
 }
 
 .newFileMenu .error, #fileList .error {
-	color: #e9322d;
-	border-color: #e9322d;
+	color: $color-error;
+	border-color: $color-error;
 	-webkit-box-shadow: 0 0 6px #f8b9b7;
 	-moz-box-shadow: 0 0 6px #f8b9b7;
 	box-shadow: 0 0 6px #f8b9b7;
@@ -58,7 +58,6 @@
 }
 
 #filestable tbody tr {
-	background-color: #fff;
 	height: 51px;
 }
 
@@ -134,7 +133,6 @@
 
 #filestable tbody tr {
 	transition: background-color 0.3s ease;
-	background-color: #fff;
 	height: 40px;
 }
 #filestable tbody tr:hover,
@@ -147,9 +145,9 @@
 #filestable tbody tr.searchresult,
 table tr.mouseOver td {
 	transition: background-color 0.3s ease;
-	background-color: #f8f8f8;
+	background-color: nc-darken($color-main-background, 3%);
 }
-tbody a { color:#000; }
+tbody a { color: $color-main-text; }
 
 span.conflict-path, span.extension, span.uploading, td.date {
 	color: #999;
@@ -220,7 +218,7 @@ table th:focus .sort-indicator.hidden {
 
 table th,
 table td {
-	border-bottom: 1px solid #eee;
+	border-bottom: 1px solid $color-border;
 	text-align: left;
 	font-weight: normal;
 }
@@ -270,9 +268,6 @@ table.multiselect thead {
 	left: 250px; /* sidebar */
 }
 
-table thead th {
-	background-color: #fff;
-}
 table.multiselect thead th {
 	background-color: rgba(255, 255, 255, 0.95); /* like controls bar */
 	color: #000;
@@ -702,7 +697,7 @@ table.dragshadow td.size {
 	left: 0;
 	right: 0;
 	bottom: 0;
-	background-color: #fff;
+	background-color: $color-main-background;
 	background-repeat: no-repeat no-repeat;
 	background-position: 50%;
 	opacity: 0.7;
@@ -732,10 +727,6 @@ table.dragshadow td.size {
 
 .newFileMenu .filenameform input {
 	margin: 2px 0;
-}
-
-#fileList .popovermenu .action {
-	color: #000;
 }
 
 #filestable .filename .action .icon,
@@ -776,7 +767,11 @@ table.dragshadow td.size {
 	margin: 0 !important;
 	border: none;
 	border-radius: 0;
+	position: fixed !important;
+	bottom: 44px;
+	width: inherit !important;
 	background-color: transparent;
+	border-right: 1px solid $color-border;
 	z-index:1;
 
 	.quota-container {
