@@ -51,12 +51,6 @@ namespace OCP\Mail;
  * @since 12.0.0
  */
 interface IEMailTemplate {
-	/**
-	 * Set meta data of an email
-	 *
-	 * @since 12.0.3
-	 */
-	public function setMetaData($emailId, array $data = []);
 
 	/**
 	 * Adds a header to the email

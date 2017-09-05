@@ -117,7 +117,11 @@ class Hooks {
 		$this->activityManager->publish($event);
 
 		if ($user->getEMailAddress() !== null) {
-			$template = $this->mailer->createEMailTemplate();
+			$template = $this->mailer->createEMailTemplate('settings.PasswordChanged', [
+				'displayname' => $user->getDisplayName(),
+				'emailAddress' => $user->getEMailAddress(),
+				'instanceUrl' => $instanceUrl,
+			]);
 			$template->addHeader();
 			$template->addHeading($this->l->t('Password changed for %s', $user->getDisplayName()), false);
 			$template->addBodyText($text . ' ' . $this->l->t('If you did not request this, please contact an administrator.'));
@@ -183,7 +187,12 @@ class Hooks {
 
 
 		if ($oldMailAddress !== null) {
-			$template = $this->mailer->createEMailTemplate();
+			$template = $this->mailer->createEMailTemplate('settings.EmailChanged', [
+				'displayname' => $user->getDisplayName(),
+				'newEMailAddress' => $user->getEMailAddress(),
+				'oldEMailAddress' => $oldMailAddress,
+				'instanceUrl' => $instanceUrl,
+			]);
 			$template->addHeader();
 			$template->addHeading($this->l->t('Email address changed for %s', $user->getDisplayName()), false);
 			$template->addBodyText($text . ' ' . $this->l->t('If you did not request this, please contact an administrator.'));

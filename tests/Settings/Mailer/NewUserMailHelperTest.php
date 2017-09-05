@@ -66,7 +66,9 @@ class NewUserMailHelperTest extends TestCase {
 		$template = new EMailTemplate(
 			$this->defaults,
 			$this->urlGenerator,
-			$this->l10n
+			$this->l10n,
+			'test.TestTemplate',
+			[]
 		);
 		$this->mailer->method('createEMailTemplate')
 			->will($this->returnValue($template));

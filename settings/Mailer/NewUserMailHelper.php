@@ -21,7 +21,6 @@
 
 namespace OC\Settings\Mailer;
 
-use OC\Mail\EMailTemplate;
 use OCP\Mail\IEMailTemplate;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
@@ -96,7 +95,7 @@ class NewUserMailHelper {
 	/**
 	 * @param IUser $user
 	 * @param bool $generatePasswordResetToken
-	 * @return EMailTemplate
+	 * @return IEMailTemplate
 	 */
 	public function generateTemplate(IUser $user, $generatePasswordResetToken = false) {
 		if ($generatePasswordResetToken) {
@@ -114,18 +113,25 @@ class NewUserMailHelper {
 		} else {
 			$link = $this->urlGenerator->getAbsoluteURL('/');
 		}
-
-		$emailTemplate = $this->mailer->createEMailTemplate();
-		$emailTemplate->addHeader();
 		$displayName = $user->getDisplayName();
-		$userName = $user->getUID();
-		if ($displayName === $userName) {
+		$userId = $user->getUID();
+
+		$emailTemplate = $this->mailer->createEMailTemplate('settings.Welcome', [
+			'link' => $link,
+			'displayname' => $displayName,
+			'userid' => $userId,
+			'instancename' => $this->themingDefaults->getName(),
+			'resetTokenGenerated' => $generatePasswordResetToken,
+		]);
+
+		$emailTemplate->addHeader();
+		if ($displayName === $userId) {
 			$emailTemplate->addHeading($this->l10n->t('Welcome aboard'));
 		} else {
 			$emailTemplate->addHeading($this->l10n->t('Welcome aboard %s', [$displayName]));
 		}
 		$emailTemplate->addBodyText($this->l10n->t('You have now an %s account, you can add, protect, and share your data.', [$this->themingDefaults->getName()]));
-		$emailTemplate->addBodyText($this->l10n->t('Your username is: %s', [$userName]));
+		$emailTemplate->addBodyText($this->l10n->t('Your username is: %s', [$userId]));
 		if ($generatePasswordResetToken) {
 			$leftButtonText = $this->l10n->t('Set your password');
 		} else {
