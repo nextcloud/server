@@ -165,7 +165,10 @@ class InfoParser {
 		if (isset($array['activity']['providers']['provider']) && is_array($array['activity']['providers']['provider'])) {
 			$array['activity']['providers'] = $array['activity']['providers']['provider'];
 		}
-		if (isset($array['collaboration']['collaborators']['searchPlugins']['searchPlugin']) && is_array($array['collaboration']['collaborators']['searchPlugins']['searchPlugin'])) {
+		if (isset($array['collaboration']['collaborators']['searchPlugins']['searchPlugin'])
+			&& is_array($array['collaboration']['collaborators']['searchPlugins']['searchPlugin'])
+			&& !isset($array['collaboration']['collaborators']['searchPlugins']['searchPlugin']['class'])
+		) {
 			$array['collaboration']['collaborators']['searchPlugins'] = $array['collaboration']['collaborators']['searchPlugins']['searchPlugin'];
 		}
 
