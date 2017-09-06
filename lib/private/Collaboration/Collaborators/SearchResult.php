@@ -25,30 +25,21 @@ namespace OC\Collaboration\Collaborators;
 
 
 use OCP\Collaboration\Collaborators\ISearchResult;
+use OCP\Collaboration\Collaborators\SearchResultType;
 
 class SearchResult implements ISearchResult {
 
 	protected $result = [
-		'exact' => [
-			'users' => [],
-			'groups' => [],
-			'remotes' => [],
-			'emails' => [],
-			'circles' => [],
-		],
-		'users' => [],
-		'groups' => [],
-		'remotes' => [],
-		'emails' => [],
-		'lookup' => [],
-		'circles' => [],
+		'exact' => [],
 	];
 
 	protected $exactIdMatches = [];
 
-	public function addResultSet($type, array $matches, array $exactMatches = null) {
+	public function addResultSet(SearchResultType $type, array $matches, array $exactMatches = null) {
+		$type = $type->getLabel();
 		if(!isset($this->result[$type])) {
-			throw new \InvalidArgumentException('Invalid type provided');
+			$this->result[$type] = [];
+			$this->result['exact'][$type] = [];
 		}
 
 		$this->result[$type] = array_merge($this->result[$type], $matches);
@@ -57,17 +48,18 @@ class SearchResult implements ISearchResult {
 		}
 	}
 
-	public function markExactIdMatch($type) {
-		$this->exactIdMatches[$type] = 1;
+	public function markExactIdMatch(SearchResultType $type) {
+		$this->exactIdMatches[$type->getLabel()] = 1;
 	}
 
-	public function hasExactIdMatch($type) {
-		return isset($this->exactIdMatches[$type]);
+	public function hasExactIdMatch(SearchResultType$type) {
+		return isset($this->exactIdMatches[$type->getLabel()]);
 	}
 
-	public function hasResult($type, $collaboratorId) {
+	public function hasResult(SearchResultType $type, $collaboratorId) {
+		$type = $type->getLabel();
 		if(!isset($this->result[$type])) {
-			throw new \InvalidArgumentException('Invalid type provided');
+			return false;
 		}
 
 		$resultArrays = [$this->result['exact'][$type], $this->result[$type]];
@@ -84,11 +76,8 @@ class SearchResult implements ISearchResult {
 		return $this->result;
 	}
 
-	public function unsetResult($type) {
-		if(!isset($this->result[$type])) {
-			throw new \InvalidArgumentException('Invalid type provided');
-		}
-
+	public function unsetResult(SearchResultType $type) {
+		$type = $type->getLabel();
 		$this->result[$type] = [];
 		if(isset($this->$result['exact'][$type])) {
 			$this->result['exact'][$type] = [];

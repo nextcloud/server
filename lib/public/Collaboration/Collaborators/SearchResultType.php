@@ -21,32 +21,37 @@
  *
  */
 
-namespace OC\Collaboration\Collaborators;
+namespace OCP\Collaboration\Collaborators;
 
+/**
+ * Class SearchResultType
+ *
+ * @package OCP\Collaboration\Collaborators
+ * @since 13.0.0
+ */
+class SearchResultType {
+	/** @var string  */
+	protected $label;
 
-use OCA\Circles\Api\Sharees;
-use OCP\Collaboration\Collaborators\ISearchPlugin;
-use OCP\Collaboration\Collaborators\ISearchResult;
-use OCP\Collaboration\Collaborators\SearchResultType;
+	public function __construct($label) {
+		$this->label = $this->getValidatedType($label);
+	}
 
-class CirclePlugin implements ISearchPlugin {
+	public function getLabel() {
+		return $this->label;
+	}
 
-	public function search($search, $limit, $offset, ISearchResult $searchResult) {
-		$result = ['wide' => [], 'exact' => []];
+	protected function getValidatedType($type) {
+		$type = trim(strval($type));
 
-		if(\OC_App::isEnabled('circles')) {
-			$circles = Sharees::search($search);
-			if (array_key_exists('circles', $circles['exact'])) {
-				$result['exact'] = $circles['exact']['circles'];
-			}
-			if (array_key_exists('circles', $circles)) {
-				$result['wide'] = $circles['circles'];
-			}
-
-			$type = new SearchResultType('circles');
-			$searchResult->addResultSet($type, $result['wide'], $result['exact']);
+		if($type === '') {
+			throw new \InvalidArgumentException('Type must not be empty');
 		}
 
-		return false;
+		if(trim($type) === 'exact') {
+			throw new \InvalidArgumentException('Provided type is a reserved word');
+		}
+
+		return $type;
 	}
 }

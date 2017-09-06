@@ -26,6 +26,7 @@ namespace OC\Collaboration\Collaborators;
 
 use OCP\Collaboration\Collaborators\ISearchPlugin;
 use OCP\Collaboration\Collaborators\ISearchResult;
+use OCP\Collaboration\Collaborators\SearchResultType;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\Share;
@@ -77,7 +78,9 @@ class LookupPlugin implements ISearchPlugin {
 		} catch (\Exception $e) {
 		}
 
-		$searchResult->addResultSet('lookup', $result, []);
+		$type = new SearchResultType('lookup');
+		$searchResult->addResultSet($type, $result, []);
 
+		return false;
 	}
 }

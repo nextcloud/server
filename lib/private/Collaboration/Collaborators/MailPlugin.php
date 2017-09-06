@@ -26,6 +26,7 @@ namespace OC\Collaboration\Collaborators;
 
 use OCP\Collaboration\Collaborators\ISearchPlugin;
 use OCP\Collaboration\Collaborators\ISearchResult;
+use OCP\Collaboration\Collaborators\SearchResultType;
 use OCP\Contacts\IManager;
 use OCP\Federation\ICloudIdManager;
 use OCP\IConfig;
@@ -59,6 +60,8 @@ class MailPlugin implements ISearchPlugin {
 	 */
 	public function search($search, $limit, $offset, ISearchResult $searchResult) {
 		$result = ['wide' => [], 'exact' => []];
+		$userType = new SearchResultType('users');
+		$emailType = new SearchResultType('emails');
 
 		// Search in contacts
 		//@todo Pagination missing
@@ -81,7 +84,7 @@ class MailPlugin implements ISearchPlugin {
 								continue;
 							}
 
-							if (!$searchResult->hasResult('users', $cloud->getUser())) {
+							if (!$searchResult->hasResult($userType, $cloud->getUser())) {
 								$singleResult = [[
 									'label' => $contact['FN'] . " ($emailAddress)",
 									'value' => [
@@ -89,8 +92,8 @@ class MailPlugin implements ISearchPlugin {
 										'shareWith' => $cloud->getUser(),
 									],
 								]];
-								$searchResult->addResultSet('users', [], $singleResult);
-								$searchResult->markExactIdMatch('emails');
+								$searchResult->addResultSet($userType, [], $singleResult);
+								$searchResult->markExactIdMatch($emailType);
 							}
 							return false;
 						}
@@ -102,7 +105,7 @@ class MailPlugin implements ISearchPlugin {
 								continue;
 							}
 
-							if (!$searchResult->hasResult('users', $cloud->getUser())) {
+							if (!$searchResult->hasResult($userType, $cloud->getUser())) {
 								$singleResult = [[
 									'label' => $contact['FN'] . " ($emailAddress)",
 									'value' => [
@@ -110,8 +113,7 @@ class MailPlugin implements ISearchPlugin {
 										'shareWith' => $cloud->getUser(),
 									]],
 								];
-								$searchResult->addResultSet('users', $singleResult, []);
-								$result = [];
+								$searchResult->addResultSet($userType, $singleResult, []);
 							}
 						}
 						continue;
@@ -119,7 +121,7 @@ class MailPlugin implements ISearchPlugin {
 
 					if ($exactEmailMatch || strtolower($contact['FN']) === $lowerSearch) {
 						if ($exactEmailMatch) {
-							$searchResult->markExactIdMatch('emails');
+							$searchResult->markExactIdMatch($emailType);
 						}
 						$result['exact'][] = [
 							'label' => $contact['FN'] . " ($emailAddress)",
@@ -145,7 +147,7 @@ class MailPlugin implements ISearchPlugin {
 			$result['wide'] = [];
 		}
 
-		if (!$searchResult->hasExactIdMatch('emails') && filter_var($search, FILTER_VALIDATE_EMAIL)) {
+		if (!$searchResult->hasExactIdMatch($emailType) && filter_var($search, FILTER_VALIDATE_EMAIL)) {
 			$result['exact'][] = [
 				'label' => $search,
 				'value' => [
@@ -155,7 +157,7 @@ class MailPlugin implements ISearchPlugin {
 			];
 		}
 
-		$searchResult->addResultSet('emails', $result['wide'], $result['exact']);
+		$searchResult->addResultSet($emailType, $result['wide'], $result['exact']);
 
 		return false;
 	}

@@ -26,6 +26,7 @@ namespace OC\Collaboration\Collaborators;
 use OCP\Collaboration\Collaborators\ISearch;
 use OCP\Collaboration\Collaborators\ISearchPlugin;
 use OCP\Collaboration\Collaborators\ISearchResult;
+use OCP\Collaboration\Collaborators\SearchResultType;
 use OCP\IContainer;
 use OCP\Share;
 
@@ -71,10 +72,12 @@ class Search implements ISearch {
 		// if we have a exact match, either for the federated cloud id or for the
 		// email address we only return the exact match. It is highly unlikely
 		// that the exact same email address and federated cloud id exists
-		if($searchResult->hasExactIdMatch('emails') && !$searchResult->hasExactIdMatch('remotes')) {
-			$searchResult->unsetResult('remotes');
-		} elseif (!$searchResult->hasExactIdMatch('emails') && $searchResult->hasExactIdMatch('remotes')) {
-			$searchResult->unsetResult('emails');
+		$emailType = new SearchResultType('emails');
+		$remoteType = new SearchResultType('remotes');
+		if($searchResult->hasExactIdMatch($emailType) && !$searchResult->hasExactIdMatch($remoteType)) {
+			$searchResult->unsetResult($remoteType);
+		} elseif (!$searchResult->hasExactIdMatch($emailType) && $searchResult->hasExactIdMatch($remoteType)) {
+			$searchResult->unsetResult($emailType);
 		}
 
 		return [$searchResult->asArray(), $hasMoreResults];

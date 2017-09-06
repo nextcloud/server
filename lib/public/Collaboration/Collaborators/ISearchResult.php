@@ -31,39 +31,39 @@ namespace OCP\Collaboration\Collaborators;
  */
 interface ISearchResult {
 	/**
-	 * @param string $type one of: users, groups, remotes, email, circles, lookup
+	 * @param SearchResultType $type
 	 * @param array $matches
 	 * @param array|null $exactMatches
 	 * @since 13.0.0
 	 */
-	public function addResultSet($type, array $matches, array $exactMatches = null);
+	public function addResultSet(SearchResultType $type, array $matches, array $exactMatches = null);
 
 	/**
-	 * @param string $type one of: users, groups, remotes, email, circles, lookup
+	 * @param SearchResultType $type
 	 * @param string $collaboratorId
 	 * @return bool
 	 * @since 13.0.0
 	 */
-	public function hasResult($type, $collaboratorId);
+	public function hasResult(SearchResultType $type, $collaboratorId);
 
 	/**
-	 * @param string $type one of: users, groups, remotes, email, circles, lookup
+	 * @param SearchResultType $type
 	 * @since 13.0.0
 	 */
-	public function unsetResult($type);
+	public function unsetResult(SearchResultType $type);
 
 	/**
-	 * @param string $type one of: users, groups, remotes, email, circles, lookup
+	 * @param SearchResultType $type
 	 * @since 13.0.0
 	 */
-	public function markExactIdMatch($type);
+	public function markExactIdMatch(SearchResultType $type);
 
 	/**
-	 * @param string $type one of: users, groups, remotes, email, circles, lookup
+	 * @param SearchResultType $type
 	 * @return bool
 	 * @since 13.0.0
 	 */
-	public function hasExactIdMatch($type);
+	public function hasExactIdMatch(SearchResultType $type);
 
 	/**
 	 * @return array

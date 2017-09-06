@@ -25,6 +25,7 @@ namespace OC\Collaboration\Collaborators;
 
 use OCP\Collaboration\Collaborators\ISearchPlugin;
 use OCP\Collaboration\Collaborators\ISearchResult;
+use OCP\Collaboration\Collaborators\SearchResultType;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
@@ -115,8 +116,9 @@ class GroupPlugin implements ISearchPlugin {
 			$result['wide'] = [];
 		}
 
-		$searchResult->addResultSet('groups', $result['wide'], $result['exact']);
+		$type = new SearchResultType('groups');
+		$searchResult->addResultSet($type, $result['wide'], $result['exact']);
 
-		return [$result, $hasMoreResults];
+		return $hasMoreResults;
 	}
 }

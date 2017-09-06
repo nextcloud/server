@@ -26,6 +26,7 @@ namespace OC\Collaboration\Collaborators;
 
 use OCP\Collaboration\Collaborators\ISearchPlugin;
 use OCP\Collaboration\Collaborators\ISearchResult;
+use OCP\Collaboration\Collaborators\SearchResultType;
 use OCP\Contacts\IManager;
 use OCP\Federation\ICloudIdManager;
 use OCP\IConfig;
@@ -51,6 +52,7 @@ class RemotePlugin implements ISearchPlugin {
 
 	public function search($search, $limit, $offset, ISearchResult $searchResult) {
 		$result = ['wide' => [], 'exact' => []];
+		$resultType = new SearchResultType('remotes');
 
 		// Search in contacts
 		//@todo Pagination missing
@@ -74,7 +76,7 @@ class RemotePlugin implements ISearchPlugin {
 
 					if (strtolower($contact['FN']) === $lowerSearch || strtolower($cloudId) === $lowerSearch) {
 						if (strtolower($cloudId) === $lowerSearch) {
-							$searchResult->hasExactIdMatch('remotes');
+							$searchResult->hasExactIdMatch($resultType);
 						}
 						$result['exact'][] = [
 							'label' => $contact['FN'] . " ($cloudId)",
@@ -102,7 +104,7 @@ class RemotePlugin implements ISearchPlugin {
 			$result['wide'] = [];
 		}
 
-		if (!$searchResult->hasExactIdMatch('remotes') && $this->cloudIdManager->isValidCloudId($search) && $offset === 0) {
+		if (!$searchResult->hasExactIdMatch($resultType) && $this->cloudIdManager->isValidCloudId($search) && $offset === 0) {
 			$result['exact'][] = [
 				'label' => $search,
 				'value' => [
@@ -112,7 +114,7 @@ class RemotePlugin implements ISearchPlugin {
 			];
 		}
 
-		$searchResult->addResultSet('remotes', $result['wide'], $result['exact']);
+		$searchResult->addResultSet($resultType, $result['wide'], $result['exact']);
 
 		return false;
 	}
