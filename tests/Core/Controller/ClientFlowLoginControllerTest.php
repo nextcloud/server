@@ -149,6 +149,11 @@ class ClientFlowLoginControllerTest extends TestCase {
 			->expects($this->once())
 			->method('set')
 			->with('client.flow.state.token', 'StateToken');
+		$this->session
+			->expects($this->once())
+			->method('get')
+			->with('oauth.state')
+			->willReturn('OauthStateToken');
 		$this->defaults
 			->expects($this->once())
 			->method('getName')
@@ -168,6 +173,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 				'urlGenerator' => $this->urlGenerator,
 				'stateToken' => 'StateToken',
 				'serverHost' => 'example.com',
+				'oauthState' => 'OauthStateToken',
 			],
 			'guest'
 		);
@@ -199,6 +205,11 @@ class ClientFlowLoginControllerTest extends TestCase {
 			->expects($this->once())
 			->method('set')
 			->with('client.flow.state.token', 'StateToken');
+		$this->session
+			->expects($this->once())
+			->method('get')
+			->with('oauth.state')
+			->willReturn('OauthStateToken');
 		$this->defaults
 			->expects($this->once())
 			->method('getName')
@@ -218,6 +229,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 				'urlGenerator' => $this->urlGenerator,
 				'stateToken' => 'StateToken',
 				'serverHost' => 'example.com',
+				'oauthState' => 'OauthStateToken',
 			],
 			'guest'
 		);
