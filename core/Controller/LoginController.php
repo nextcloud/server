@@ -184,12 +184,12 @@ class LoginController extends Controller {
 		}
 
 		// OpenGraph Support: http://ogp.me/
-		Util::addHeader('meta', ['property' => "og:title", 'content' => Util::sanitizeHTML($this->defaults->getName())]);
-		Util::addHeader('meta', ['property' => "og:description", 'content' => Util::sanitizeHTML($this->defaults->getSlogan())]);
-		Util::addHeader('meta', ['property' => "og:site_name", 'content' => Util::sanitizeHTML($this->defaults->getName())]);
-		Util::addHeader('meta', ['property' => "og:url", 'content' => $this->urlGenerator->getAbsoluteURL('')]);
-		Util::addHeader('meta', ['property' => "og:type", 'content' => "website"]);
-		Util::addHeader('meta', ['property' => "og:image", 'content' => $this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core','favicon-touch.png'))]);
+		Util::addHeader('meta', ['property' => 'og:title', 'content' => Util::sanitizeHTML($this->defaults->getName())]);
+		Util::addHeader('meta', ['property' => 'og:description', 'content' => Util::sanitizeHTML($this->defaults->getSlogan())]);
+		Util::addHeader('meta', ['property' => 'og:site_name', 'content' => Util::sanitizeHTML($this->defaults->getName())]);
+		Util::addHeader('meta', ['property' => 'og:url', 'content' => $this->urlGenerator->getAbsoluteURL('/')]);
+		Util::addHeader('meta', ['property' => 'og:type', 'content' => 'website']);
+		Util::addHeader('meta', ['property' => 'og:image', 'content' => $this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core','favicon-touch.png'))]);
 
 		return new TemplateResponse(
 			$this->appName, 'login', $parameters, 'guest'
