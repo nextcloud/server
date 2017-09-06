@@ -1117,7 +1117,7 @@ class DefaultShareProvider implements IShareProvider {
 				$gid = $row['share_with'];
 				$group = $this->groupManager->get($gid);
 
-				if ($gid === null) {
+				if ($group === null) {
 					continue;
 				}
 
