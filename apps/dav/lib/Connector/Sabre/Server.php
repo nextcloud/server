@@ -33,6 +33,7 @@ namespace OCA\DAV\Connector\Sabre;
  * @see \Sabre\DAV\Server
  */
 class Server extends \Sabre\DAV\Server {
+	/** @var CachingTree $tree */
 
 	/**
 	 * @see \Sabre\DAV\Server
