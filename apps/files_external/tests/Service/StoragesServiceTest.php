@@ -22,10 +22,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\Files_External\Tests\Service;
 
 use \OC\Files\Filesystem;
 
+use OCA\Files_External\Lib\Auth\InvalidAuth;
+use OCA\Files_External\Lib\Backend\InvalidBackend;
 use OCA\Files_External\NotFoundException;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\Service\BackendService;
@@ -368,28 +371,24 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 		$this->assertEquals($priority, $storage->getPriority());
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
 	public function testCreateStorageInvalidClass() {
-		$this->service->createStorage(
+		$storage = $this->service->createStorage(
 			'mount',
 			'identifier:\OC\Not\A\Backend',
 			'identifier:\Auth\Mechanism',
 			[]
 		);
+		$this->assertInstanceOf(InvalidBackend::class, $storage->getBackend());
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
 	public function testCreateStorageInvalidAuthMechanismClass() {
-		$this->service->createStorage(
+		$storage = $this->service->createStorage(
 			'mount',
 			'identifier:\OCA\Files_External\Lib\Backend\SMB',
 			'identifier:\Not\An\Auth\Mechanism',
 			[]
 		);
+		$this->assertInstanceOf(InvalidAuth::class, $storage->getAuthMechanism());
 	}
 
 	public function testGetStoragesBackendNotVisible() {
