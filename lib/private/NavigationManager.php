@@ -230,7 +230,7 @@ class NavigationManager implements INavigationManager {
 
 			// load plugins and collections from info.xml
 			$info = $this->appManager->getAppInfo($app);
-			if (empty($info['navigations'])) {
+			if (!isset($info['navigations']) || !is_array($info['navigations'])) {
 				continue;
 			}
 			foreach ($info['navigations'] as $nav) {
