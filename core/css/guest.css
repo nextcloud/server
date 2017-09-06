@@ -400,8 +400,23 @@ form .warning input[type='checkbox']+label {
 }
 
 /* Alternative Logins */
-#alternative-logins legend { margin-bottom:10px; }
-#alternative-logins li { height:40px; display:inline-block; white-space:nowrap; }
+#alternative-logins legend {
+	margin-bottom: 10px;
+}
+#alternative-logins li {
+	height: 40px;
+	white-space: nowrap;
+	padding: 05px;
+}
+#alternative-logins li a {
+	width: 100%;
+	display: inline-block;
+	text-align: center;
+	box-sizing: border-box;
+	background-color: #0082c9;
+	color: white;
+	border-radius: 3px;
+}
 
 /* fixes for update page TODO should be fixed some time in a proper way */
 /* this is just for an error while updating the ownCloud instance */
