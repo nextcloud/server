@@ -767,11 +767,7 @@ table.dragshadow td.size {
 	margin: 0 !important;
 	border: none;
 	border-radius: 0;
-	position: fixed !important;
-	bottom: 44px;
-	width: inherit !important;
 	background-color: transparent;
-	border-right: 1px solid $color-border;
 	z-index:1;
 
 	.quota-container {

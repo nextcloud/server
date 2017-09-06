@@ -236,7 +236,6 @@ nav {
 }
 
 /* arrow look */
-
 #expanddiv:after {
 	bottom: 100%;
 	border: solid transparent;
@@ -245,8 +244,8 @@ nav {
 	width: 0;
 	position: absolute;
 	pointer-events: none;
-	border-color: rgba(0, 0, 0, 0);
-	border-bottom-color: rgba(255, 255, 255, .97);
+	border-color: transparent;
+	border-bottom-color: $color-main-background;
 	border-width: 10px;
 	margin-left: -10px;
 }

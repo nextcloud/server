@@ -165,7 +165,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-	background: nc-lighten($color-main-text, 86%);
+	background: nc-darken($color-main-background, 14%);
 	border-radius: 3px;
 }
 
@@ -1213,7 +1213,7 @@ span.ui-icon {
 		position: relative;
 		align-items: center;
 		padding: 3px 3px 3px 10px;
-		border-bottom: 1px solid #eeeeee;
+		border-bottom: 1px solid $color-border;
 
 		:last-of-type {
 			border-bottom: none;

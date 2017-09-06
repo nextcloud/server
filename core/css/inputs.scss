@@ -409,6 +409,9 @@ input {
 		}
 		.select2-search-field input {
 			line-height: 20px;
+			&.select2-active {
+				background: none !important;
+			}
 		}
 	}
 }

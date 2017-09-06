@@ -431,7 +431,7 @@ table.nostyle {
 	box-sizing: border-box;
 	background-color: transparent;
 	border: none;
-	border-bottom: 1px solid #eee;
+	border-bottom: 1px solid $color-border;
 	border-radius: 0;
 }
 
@@ -515,14 +515,14 @@ table.grid {
 	th {
 		height: 2em;
 		color: #999;
-		border-bottom: 1px solid #eee;
+		border-bottom: 1px solid $color-border;
 		padding: 0 .5em;
 		padding-left: .8em;
 		text-align: left;
 		font-weight: normal;
 	}
 	td {
-		border-bottom: 1px solid #eee;
+		border-bottom: 1px solid $color-border;
 		padding: 0 .5em;
 		padding-left: .8em;
 		text-align: left;
@@ -736,32 +736,6 @@ input.userFilter {
 }
 
 /* APPS */
-
-/* Bundle header */
-
-#apps-list .apps-header {
-	display: table-row;
-	position: relative;
-	div {
-		display: table-cell;
-		height: 70px;
-	}
-	h2 {
-		display: table-cell;
-		position: absolute;
-		padding-left: 6px;
-		padding-top: 15px;
-		.enable {
-			position: relative;
-			top: -1px;
-			margin-left: 12px;
-		}
-		+ .section {
-			margin-top: 50px;
-		}
-	}
-}
-
 #app-content > svg.app-filter {
 	float: left;
 	height: 0;
@@ -833,49 +807,6 @@ span.version {
 	position: relative;
 	top: 4px;
 	opacity: .5;
-}
-
-#apps-list {
-	position: relative;
-	height: 100%;
-	display: flex;
-	flex-wrap: wrap;
-	align-content: flex-start;
-	&.hidden {
-		display: none;
-	}
-	.section {
-		position: relative;
-		flex: 0 0 auto;
-		margin-left: 20px;
-		&.apps-experimental {
-			flex-basis: 90%;
-		}
-	}
-	.app-description {
-		p {
-			margin: 10px 0;
-		}
-		ul {
-			list-style: disc;
-		}
-		ol {
-			list-style: decimal;
-			ol, ul {
-				padding-left: 15px;
-			}
-		}
-		> {
-			ul, ol {
-				margin-left: 19px;
-			}
-		}
-		ul {
-			ol, ul {
-				padding-left: 15px;
-			}
-		}
-	}
 }
 
 @media (min-width: 1601px) {
@@ -967,10 +898,6 @@ span.version {
 	clear: both;
 }
 
-#apps-list .groups-enable {
-	margin-top: 8px;
-}
-
 #app-category-1 {
 	margin-bottom: 18px;
 }
@@ -1029,9 +956,15 @@ span.version {
 				height: initial;
 				vertical-align: middle;
 				float: none;
-				border-bottom: 1px solid #eee;
+				border-bottom: 1px solid $color-border;
 				padding: 6px;
 				box-sizing: border-box;
+			}
+		}
+		.groups-enable {
+			margin-top: 0;
+			label {
+				margin-right: 3px;
 			}
 		}
 		.app-image {
@@ -1053,21 +986,76 @@ span.version {
 		height: 64px;
 		opacity: .1;
 	}
+	position: relative;
+	height: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	align-content: flex-start;
+	&.hidden {
+		display: none;
+	}
+	.section {
+		position: relative;
+		flex: 0 0 auto;
+		margin-left: 20px;
+		&.apps-experimental {
+			flex-basis: 90%;
+		}
+	}
+	.app-description {
+		p {
+			margin: 10px 0;
+		}
+		ul {
+			list-style: disc;
+		}
+		ol {
+			list-style: decimal;
+			ol, ul {
+				padding-left: 15px;
+			}
+		}
+		> {
+			ul, ol {
+				margin-left: 19px;
+			}
+		}
+		ul {
+			ol, ul {
+				padding-left: 15px;
+			}
+		}
+	}
+	/* Bundle header */
+	.apps-header {
+		display: table-row;
+		position: relative;
+		div {
+			display: table-cell;
+			height: 70px;
+		}
+		h2 {
+			display: table-cell;
+			position: absolute;
+			padding-left: 6px;
+			padding-top: 15px;
+			.enable {
+				position: relative;
+				top: -1px;
+				margin-left: 12px;
+			}
+			+ .section {
+				margin-top: 50px;
+			}
+		}
+	}
 }
 
 .installed .actions {
 	text-align: right;
 }
 
-#apps-list.installed .groups-enable {
-	margin-top: 0;
-	label {
-		margin-right: 3px;
-	}
-}
-
 /* LOG */
-
 #log {
 	white-space: normal;
 	margin-bottom: 14px;
