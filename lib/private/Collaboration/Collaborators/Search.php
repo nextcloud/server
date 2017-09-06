@@ -34,6 +34,13 @@ class Search implements ISearch {
 	/** @var IContainer */
 	private $c;
 
+	protected $pluginList = [
+		Share::SHARE_TYPE_USER => UserPlugin::class,
+		Share::SHARE_TYPE_GROUP => GroupPlugin::class,
+		Share::SHARE_TYPE_EMAIL => MailPlugin::class,
+		Share::SHARE_TYPE_REMOTE => RemotePlugin::class,
+	];
+
 	public function __construct(IContainer $c) {
 		$this->c = $c;
 	}
@@ -41,23 +48,15 @@ class Search implements ISearch {
 	public function search($search, array $shareTypes, $lookup, $limit, $offset) {
 		$hasMoreResults = false;
 
-		$pluginList = [
-			Share::SHARE_TYPE_USER => UserPlugin::class,
-			Share::SHARE_TYPE_GROUP => GroupPlugin::class,
-			Share::SHARE_TYPE_CIRCLE => CirclePlugin::class,
-			Share::SHARE_TYPE_EMAIL => MailPlugin::class,
-			Share::SHARE_TYPE_REMOTE => RemotePlugin::class,
-		];
-
 		/** @var ISearchResult $searchResult */
 		$searchResult = $this->c->resolve(SearchResult::class);
 
 		foreach ($shareTypes as $type) {
-			if(!isset($pluginList[$type])) {
+			if(!isset($this->pluginList[$type])) {
 				continue;
 			}
 			/** @var ISearchPlugin $searchPlugin */
-			$searchPlugin = $this->c->resolve($pluginList[$type]);
+			$searchPlugin = $this->c->resolve($this->pluginList[$type]);
 			$hasMoreResults |= $searchPlugin->search($search, $limit, $offset, $searchResult);
 		}
 
@@ -81,5 +80,13 @@ class Search implements ISearch {
 		}
 
 		return [$searchResult->asArray(), $hasMoreResults];
+	}
+
+	public function registerPlugin(array $pluginInfo) {
+		$shareType = constant(Share::class . '::' . $pluginInfo['shareType']);
+		if($shareType === null) {
+			throw new \InvalidArgumentException('Provided ShareType is invalid');
+		}
+		$this->pluginList[$shareType] = $pluginInfo['class'];
 	}
 }

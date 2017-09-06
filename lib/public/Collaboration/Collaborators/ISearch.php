@@ -40,4 +40,11 @@ interface ISearch {
 	 * @since 13.0.0
 	 */
 	public function search($search, array $shareTypes, $lookup, $limit, $offset);
+
+	/**
+	 * @param array $pluginInfo with keys 'shareType' containing the name of a corresponding constant in \OCP\Share and
+	 * 	'class' with the class name of the plugin
+	 * @since 13.0.0
+	 */
+	public function registerPlugin(array $pluginInfo);
 }

@@ -174,6 +174,11 @@ class OC_App {
 				\OC::$server->getActivityManager()->registerProvider($provider);
 			}
 		}
+		if (!empty($info['collaboration']['collaborators']['searchPlugins'])) {
+			foreach ($info['collaboration']['collaborators']['searchPlugins'] as $plugin) {
+				\OC::$server->getCollaboratorSearch()->registerPlugin($plugin);
+			}
+		}
 	}
 
 	/**
