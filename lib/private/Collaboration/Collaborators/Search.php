@@ -35,10 +35,10 @@ class Search implements ISearch {
 	private $c;
 
 	protected $pluginList = [
-		Share::SHARE_TYPE_USER => UserPlugin::class,
-		Share::SHARE_TYPE_GROUP => GroupPlugin::class,
-		Share::SHARE_TYPE_EMAIL => MailPlugin::class,
-		Share::SHARE_TYPE_REMOTE => RemotePlugin::class,
+		Share::SHARE_TYPE_USER => [UserPlugin::class],
+		Share::SHARE_TYPE_GROUP => [GroupPlugin::class],
+		Share::SHARE_TYPE_EMAIL => [MailPlugin::class],
+		Share::SHARE_TYPE_REMOTE => [RemotePlugin::class],
 	];
 
 	public function __construct(IContainer $c) {
@@ -55,9 +55,11 @@ class Search implements ISearch {
 			if(!isset($this->pluginList[$type])) {
 				continue;
 			}
-			/** @var ISearchPlugin $searchPlugin */
-			$searchPlugin = $this->c->resolve($this->pluginList[$type]);
-			$hasMoreResults |= $searchPlugin->search($search, $limit, $offset, $searchResult);
+			foreach ($this->pluginList[$type] as $plugin) {
+				/** @var ISearchPlugin $searchPlugin */
+				$searchPlugin = $this->c->resolve($plugin);
+				$hasMoreResults |= $searchPlugin->search($search, $limit, $offset, $searchResult);
+			}
 		}
 
 		// Get from lookup server, not a separate share type
@@ -87,6 +89,6 @@ class Search implements ISearch {
 		if($shareType === null) {
 			throw new \InvalidArgumentException('Provided ShareType is invalid');
 		}
-		$this->pluginList[$shareType] = $pluginInfo['class'];
+		$this->pluginList[$shareType][] = $pluginInfo['class'];
 	}
 }
