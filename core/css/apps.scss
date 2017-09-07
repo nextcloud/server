@@ -101,7 +101,7 @@ kbd {
 		box-sizing: border-box;
 		> li {
 			display: inline-flex;
-			justify-content: space-between;
+			flex-wrap: wrap;
 			&:focus,
 			&:hover,
 			&.active,
@@ -110,6 +110,15 @@ kbd {
 				> a {
 					opacity: 1;
 					box-shadow: inset 2px 0 $color-primary;
+				}
+			}
+			/* Second level nesting for lists */
+			> ul {
+				display: none;
+				flex: 1 0 100%;
+				> li {
+					display: inline-flex;
+					flex-wrap: wrap;
 				}
 			}
 		}
@@ -134,6 +143,7 @@ kbd {
 			text-overflow: ellipsis;
 			color: $color-main-text;
 			opacity: .57;
+			flex: 1 1 0;
 			&:first-child img {
 			    margin-bottom: -3px;
 			    margin-right: 11px;
@@ -146,22 +156,6 @@ kbd {
 			/* Counter can also be inside the link */
 			.app-navigation-entry-utils-counter {
 				padding-right: 0 !important;
-			}
-		}
-	}
-	> {
-		/* Second level nesting for lists */
-		ul ul {
-			display: none;
-			li > a {
-				padding-left: 32px;
-			}
-		}
-		.with-icon ul li {
-			> a,
-			&.app-navigation-entry-loading > a {
-				padding-left: 68px;
-				background-position: 44px center;
 			}
 		}
 	}
@@ -289,7 +283,7 @@ kbd {
 	 * App navigation utils, buttons and counters for drop down menu
 	 */
 	.app-navigation-entry-utils {
-		flex-shrink: 0;
+		flex: 0 1 auto;
 		ul {
 			display: flex !important;
 			align-items: center;
@@ -322,10 +316,8 @@ kbd {
 		}
 		.app-navigation-entry-utils-counter {
 			overflow: hidden;
-			text-overflow: hidden;
 			text-align: right;
 			font-size: 9pt;
-			width: 38px;
 			line-height: 44px;
 			padding: 0 12px; /* Same padding as all li > a in the app-navigation */
 		}
