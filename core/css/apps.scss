@@ -93,7 +93,8 @@ kbd {
 	border-right: 1px solid nc-darken($color-main-background, 8%);
 	display: flex;
 	flex-direction: column;
-	> ul {
+	> ul,
+	.with-icon > ul {
 		position: relative;
 		height: 100%;
 		width: inherit;
