@@ -119,6 +119,7 @@ OC.L10N.register(
     "Show hidden files" : "Rodyti paslėptus failus",
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Naudokite šį adresą  <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\"> norėdami pasiekti failus per WebDAV</a>",
+    "Uploading @" : "Įkeliama @",
     "No files in here" : "Čia nėra failų",
     "Upload some content or sync with your devices!" : "Įkelkite kokį nors turinį, arba sinchronizuokite su savo įrenginiais!",
     "No entries found in this folder" : "Nerasta įrašų šiame aplanke",
