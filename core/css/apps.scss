@@ -114,12 +114,22 @@ kbd {
 			}
 			/* Second level nesting for lists */
 			> ul {
-				display: none;
+				//display: none;
 				flex: 1 0 100%;
 				padding-left: 44px;
+				width: inherit;
 				> li {
 					display: inline-flex;
 					flex-wrap: wrap;
+					&:focus,
+					&:hover,
+					&.active,
+					a.selected {
+						&,
+						> a {
+							opacity: 1;
+						}
+					}
 				}
 			}
 		}
@@ -134,7 +144,6 @@ kbd {
 			background-repeat: no-repeat;
 			display: block;
 			justify-content: space-between;
-			width: 100%;
 			line-height: 44px;
 			min-height: 44px;
 			padding: 0 12px;
@@ -155,8 +164,12 @@ kbd {
 				padding-left: 44px;
 			}
 			/* Counter can also be inside the link */
-			.app-navigation-entry-utils-counter {
-				padding-right: 0 !important;
+			> .app-navigation-entry-utils  {
+				display: inline-block;
+				float: right;
+				.app-navigation-entry-utils-counter {
+					padding-right: 0 !important;
+				}
 			}
 		}
 	}
