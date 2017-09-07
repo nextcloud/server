@@ -139,6 +139,9 @@ kbd {
 			    width: 16px;
 			    margin-left: 2px;
 			}
+			&[class*='icon-'] {
+				padding-left: 44px;
+			}
 		}
 	}
 	> {
