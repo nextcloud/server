@@ -172,6 +172,10 @@ kbd {
 				}
 			}
 		}
+		> .app-navigation-entry-menu {
+			/* fix the flex positionning of the li parent */
+			top: 44px;
+		}
 	}
 	&.hidden {
 		display: none;
