@@ -141,22 +141,31 @@ kbd {
 			}
 		}
 	}
+	> {
+		/* Second level nesting for lists */
+		ul ul {
+			display: none;
+			li > a {
+				padding-left: 32px;
+			}
+		}
+		.with-icon ul li {
+			> a,
+			&.app-navigation-entry-loading > a {
+				padding-left: 68px;
+				background-position: 44px center;
+			}
+		}
+	}
 	&.hidden {
 		display: none;
 	}
 	&.without-app-settings {
 		padding-bottom: 0;
 	}
-	.with-icon a,
-	.app-navigation-entry-loading a {
-		padding-left: 44px;
-		background-size: 16px 16px;
-		background-position: 14px center;
-		background-repeat: no-repeat;
-	}
 	.collapse {
-		display: none;
 		/* hide collapse button initially */
+		display: none;
 	}
 	.collapsible {
 		> .collapse {
@@ -199,22 +208,6 @@ kbd {
 			background-image: linear-gradient(top, nc-darken($color-main-background, 8%) 0%, nc-darken($color-main-background, 3%) 100%);
 			background-image: -webkit-linear-gradient(top, nc-darken($color-main-background, 8%) 0%, nc-darken($color-main-background, 3%) 100%);
 			background-image: -ms-linear-gradient(top, nc-darken($color-main-background, 8%) 0%, nc-darken($color-main-background, 3%) 100%);
-		}
-	}
-	> {
-		/* Second level nesting for lists */
-		ul ul {
-			display: none;
-			li > a {
-				padding-left: 32px;
-			}
-		}
-		.with-icon ul li {
-			> a,
-			&.app-navigation-entry-loading > a {
-				padding-left: 68px;
-				background-position: 44px center;
-			}
 		}
 	}
 	> ul .collapsible.open {
