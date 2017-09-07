@@ -116,6 +116,7 @@ kbd {
 			> ul {
 				display: none;
 				flex: 1 0 100%;
+				padding-left: 44px;
 				> li {
 					display: inline-flex;
 					flex-wrap: wrap;
@@ -131,7 +132,7 @@ kbd {
 			background-size: 16px 16px;
 			background-position: 14px center;
 			background-repeat: no-repeat;
-			display: inline-flex;
+			display: block;
 			justify-content: space-between;
 			width: 100%;
 			line-height: 44px;
