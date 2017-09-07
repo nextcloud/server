@@ -100,6 +100,8 @@ kbd {
 		overflow: auto;
 		box-sizing: border-box;
 		> li {
+			display: inline-flex;
+			justify-content: space-between;
 			&:focus,
 			&:hover,
 			&.active,
@@ -116,6 +118,28 @@ kbd {
 		position: relative;
 		width: 100%;
 		box-sizing: border-box;
+		> a {
+			background-size: 16px 16px;
+			background-position: 14px center;
+			background-repeat: no-repeat;
+			display: block;
+			width: 100%;
+			line-height: 44px;
+			min-height: 44px;
+			padding: 0 12px;
+			overflow: hidden;
+			box-sizing: border-box;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			color: $color-main-text;
+			opacity: .57;
+			&:first-child img {
+			    margin-bottom: -3px;
+			    margin-right: 11px;
+			    width: 16px;
+			    margin-left: 2px;
+			}
+		}
 	}
 	&.hidden {
 		display: none;
@@ -123,38 +147,12 @@ kbd {
 	&.without-app-settings {
 		padding-bottom: 0;
 	}
-	.active.with-menu > a,
-	.with-counter > a {
-		padding-right: 50px;
-	}
-	.active.with-menu.with-counter > a {
-		padding-right: 90px;
-	}
 	.with-icon a,
 	.app-navigation-entry-loading a {
 		padding-left: 44px;
 		background-size: 16px 16px;
 		background-position: 14px center;
 		background-repeat: no-repeat;
-	}
-	li > a {
-		display: block;
-		width: 100%;
-		line-height: 44px;
-		min-height: 44px;
-		padding: 0 12px;
-		overflow: hidden;
-		box-sizing: border-box;
-		white-space: nowrap;
-		text-overflow: ellipsis;
-		color: $color-main-text;
-		opacity: .57;
-	}
-	li > a:first-child img {
-	    margin-bottom: -3px;
-	    margin-right: 11px;
-	    width: 16px;
-	    margin-left: 2px;
 	}
 	.collapse {
 		display: none;
@@ -258,7 +256,7 @@ kbd {
 			opacity: 1;
 		}
 	}
-	/* counter and actions, legacy code */
+	/* counter and actions, legacy code TO BE DELETED */
 	.utils {
 		position: absolute;
 		padding: 7px 7px 0 0;
@@ -290,10 +288,7 @@ kbd {
 	 * App navigation utils, buttons and counters for drop down menu
 	 */
 	.app-navigation-entry-utils {
-		position: absolute;
-		top: 0;
-		right: 0;
-		z-index: 105;
+		flex-shrink: 0;
 		ul {
 			display: flex !important;
 			align-items: center;
@@ -303,9 +298,6 @@ kbd {
 			width: 44px !important;
 			height: 44px;
 		}
-	}
-	.active > .app-navigation-entry-utils li {
-		display: inline-block;
 	}
 	.app-navigation-entry-utils button {
 		height: 100%;
