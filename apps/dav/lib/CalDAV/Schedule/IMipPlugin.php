@@ -23,15 +23,19 @@
  */
 namespace OCA\DAV\CalDAV\Schedule;
 
+use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\IConfig;
 use OCP\ILogger;
+use OCP\L10N\IFactory as L10NFactory;
 use OCP\Mail\IMailer;
+use Sabre\CalDAV\Schedule\IMipPlugin as SabreIMipPlugin;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\DateTimeParser;
 use Sabre\VObject\ITip;
-use Sabre\CalDAV\Schedule\IMipPlugin as SabreIMipPlugin;
+use Sabre\VObject\Parameter;
 use Sabre\VObject\Recur\EventIterator;
-
+use Swift_Attachment;
 /**
  * iMIP handler.
  *
@@ -48,6 +52,15 @@ use Sabre\VObject\Recur\EventIterator;
  */
 class IMipPlugin extends SabreIMipPlugin {
 
+	/** @var string */
+	private $appName;
+
+	/** @var string */
+	private $userId;
+
+	/** @var IConfig */
+	private $config;
+
 	/** @var IMailer */
 	private $mailer;
 
@@ -57,20 +70,35 @@ class IMipPlugin extends SabreIMipPlugin {
 	/** @var ITimeFactory */
 	private $timeFactory;
 
+	/** @var L10NFactory */
+	private $l10nFactory;
+
 	const MAX_DATE = '2038-01-01';
+
+	const METHOD_REQUEST = 'request';
+	const METHOD_REPLY = 'reply';
+	const METHOD_CANCEL = 'cancel';
 
 	/**
 	 * Creates the email handler.
 	 *
+	 * @param string $appName
+	 * @param string $userId
+	 * @param IConfig $config
 	 * @param IMailer $mailer
 	 * @param ILogger $logger
 	 * @param ITimeFactory $timeFactory
+	 * @param L10NFactory $l10nFactory
 	 */
-	function __construct(IMailer $mailer, ILogger $logger, ITimeFactory $timeFactory) {
+	function __construct($appName, $userId, IConfig $config, IMailer $mailer, ILogger $logger, ITimeFactory $timeFactory, L10NFactory $l10nFactory) {
 		parent::__construct('');
+		$this->appName = $appName;
+		$this->userId = $userId;
+		$this->config = $config;
 		$this->mailer = $mailer;
 		$this->logger = $logger;
 		$this->timeFactory = $timeFactory;
+		$this->l10nFactory = $l10nFactory;
 	}
 
 	/**
@@ -112,26 +140,73 @@ class IMipPlugin extends SabreIMipPlugin {
 		$recipientName = ($iTipMessage->recipientName) ? $iTipMessage->recipientName : null;
 
 		$subject = 'SabreDAV iTIP message';
-		switch (strtoupper($iTipMessage->method)) {
-			case 'REPLY' :
-				$subject = 'Re: ' . $summary;
-				break;
-			case 'REQUEST' :
+		switch (strtolower($iTipMessage->method)) {
+			default: // Treat 'REQUEST' as the default
+			case self::METHOD_REQUEST:
 				$subject = $summary;
+				$templateName = self::METHOD_REQUEST;
 				break;
-			case 'CANCEL' :
+			case self::METHOD_REPLY:
+				$subject = 'Re: ' . $summary;
+				$templateName = self::METHOD_REPLY;
+				break;
+			case self::METHOD_CANCEL:
 				$subject = 'Cancelled: ' . $summary;
+				$templateName = self::METHOD_CANCEL;
 				break;
 		}
 
-		$contentType = 'text/calendar; charset=UTF-8; method=' . $iTipMessage->method;
+		$vevent = $iTipMessage->message->VEVENT;
 
-		$message = $this->mailer->createMessage();
+		$attendee = $this->getCurrentAttendee($iTipMessage);
+		$defaultLang = $this->config->getUserValue($this->userId, 'core', 'lang', $this->l10nFactory->findLanguage());
+		$lang = $this->getAttendeeLangOrDefault($attendee, $defaultLang);
+		$l10n = $this->l10nFactory->get($this->appName, $lang);
 
-		$message->setReplyTo([$sender => $senderName])
+		$meetingAttendeeName = !empty($recipientName) ? $recipientName : $recipient;
+		$meetingInviteeName = !empty($senderName) ? $senderName : $sender;
+
+		$meetingTitle = $vevent->SUMMARY;
+		$meetingDescription = $vevent->DESCRIPTION;
+
+		// TODO(leon): Maybe it's a good idea to make this locale dependent?
+		// TODO(leon): Don't show H:i if it's an all-day meeting
+		$dateFormatStr = 'Y-m-d H:i e';
+		$meetingStart = $vevent->DTSTART->getDateTime()->format($dateFormatStr);
+		$meetingEnd = $vevent->DTEND->getDateTime()->format($dateFormatStr);
+
+		$meetingUrl = $vevent->URL;
+
+		$defaultVal = '--';
+		$templateParams = array(
+			'attendee_name' => (string)$meetingAttendeeName ?: $defaultVal,
+			'invitee_name' => (string)$meetingInviteeName ?: $defaultVal,
+			'meeting_title' => (string)$meetingTitle ?: $defaultVal,
+			'meeting_description' => (string)$meetingDescription ?: $defaultVal,
+			'meeting_start' => (string)$meetingStart,
+			'meeting_end' => (string)$meetingEnd,
+			'meeting_url' => (string)$meetingUrl ?: $defaultVal,
+		);
+		$templates = $this->getInviteTemplates($l10n, $templateParams);
+
+		$message = $this->mailer->createMessage()
+			->setReplyTo([$sender => $senderName])
 			->setTo([$recipient => $recipientName])
 			->setSubject($subject)
-			->setBody($iTipMessage->message->serialize(), $contentType);
+			->setPlainBody($templates[$templateName]->renderText())
+		;
+		// We need to attach the event as 'attachment'
+		// Swiftmail can't properly handle inline-multipart-based files
+		// See https://github.com/swiftmailer/swiftmailer/issues/615
+		$filename = 'event.ics'; // TODO(leon): Make file name unique, e.g. add event id
+		$contentType = 'text/calendar; method=' . $iTipMessage->method;
+		$attachment = Swift_Attachment::newInstance()
+			->setFilename($filename)
+			->setContentType($contentType)
+			->setBody($iTipMessage->message->serialize())
+		;
+		$message->getSwiftMessage()->attach($attachment);
+
 		try {
 			$failed = $this->mailer->send($message);
 			if ($failed) {
@@ -190,4 +265,65 @@ class IMipPlugin extends SabreIMipPlugin {
 		$currentTime = $this->timeFactory->getTime();
 		return $lastOccurrence < $currentTime;
 	}
+
+	private function getEmptyInviteTemplate($scope) {
+		return $this->mailer->createEMailTemplate('dav.invite.' . $scope, array());
+	}
+
+	private function getInviteTemplates($l10n, $_) {
+		$ret = array();
+		$requestTmpl = $ret[self::METHOD_REQUEST] = $this->getEmptyInviteTemplate(self::METHOD_REQUEST);
+		$replyTmpl = $ret[self::METHOD_REPLY] = $this->getEmptyInviteTemplate(self::METHOD_REPLY);
+		$cancelTmpl = $ret[self::METHOD_CANCEL] = $this->getEmptyInviteTemplate(self::METHOD_CANCEL);
+
+		$commonPlainBodyStart = $l10n->t('Hello %s,', array($_['attendee_name']));
+		$commonPlainBodyEnd = $l10n->t(
+'      Title: %s
+Description: %s
+      Start: %s
+        End: %s
+        URL: %s', array(
+			$_['meeting_title'],
+			$_['meeting_description'],
+			$_['meeting_start'],
+			$_['meeting_end'],
+			$_['meeting_url'],
+		));
+
+		$requestTmpl->addBodyText('', $commonPlainBodyStart);
+		$requestTmpl->addBodyText('', $l10n->t('%s has invited you to a meeting.', array($_['invitee_name'])));
+		$requestTmpl->addBodyText('', $commonPlainBodyEnd);
+
+		$replyTmpl->addBodyText('', $commonPlainBodyStart);
+		$replyTmpl->addBodyText('', $l10n->t('the meeting with %s was updated.', array($_['invitee_name'])));
+		$replyTmpl->addBodyText('', $commonPlainBodyEnd);
+
+		$cancelTmpl->addBodyText('', $commonPlainBodyStart);
+		$cancelTmpl->addBodyText('', $l10n->t('the meeting with %s was canceled.', array($_['invitee_name'])));
+		$cancelTmpl->addBodyText('', $commonPlainBodyEnd);
+
+		return $ret;
+	}
+
+	private function getCurrentAttendee($iTipMessage) {
+		$vevent = $iTipMessage->message->VEVENT;
+		$attendees = $vevent->select('ATTENDEE');
+		foreach ($attendees as $attendee) {
+			if (strcasecmp($attendee->getValue(), $iTipMessage->recipient) === 0) {
+				return $attendee;
+			}
+		}
+		return null;
+	}
+
+	private function getAttendeeLangOrDefault($attendee, $default) {
+		if ($attendee) {
+			$lang = $attendee->offsetGet('LANGUAGE');
+			if ($lang instanceof Parameter) {
+				return $lang->getValue();
+			}
+		}
+		return $default;
+	}
+
 }
