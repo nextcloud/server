@@ -122,7 +122,8 @@ kbd {
 			background-size: 16px 16px;
 			background-position: 14px center;
 			background-repeat: no-repeat;
-			display: block;
+			display: inline-flex;
+			justify-content: space-between;
 			width: 100%;
 			line-height: 44px;
 			min-height: 44px;
@@ -141,6 +142,10 @@ kbd {
 			}
 			&[class*='icon-'] {
 				padding-left: 44px;
+			}
+			/* Counter can also be inside the link */
+			.app-navigation-entry-utils-counter {
+				padding-right: 0 !important;
 			}
 		}
 	}
@@ -294,38 +299,40 @@ kbd {
 			width: 44px !important;
 			height: 44px;
 		}
-	}
-	.app-navigation-entry-utils button {
-		height: 100%;
-		width: 100%;
-		margin: 0;
-		box-shadow: none;
-	}
-	.app-navigation-entry-utils-menu-button {
 		button {
-			border: 0;
-			opacity: .5;
-			background-color: transparent;
-			background-repeat: no-repeat;
-			background-position: center;
-			background-image: url('../img/actions/more.svg?v=1');
+			height: 100%;
+			width: 100%;
+			margin: 0;
+			box-shadow: none;
 		}
-		&:hover button,
-		&:focus button {
-			background-color: transparent;
-			opacity: 1;
+		.app-navigation-entry-utils-menu-button {
+			button {
+				border: 0;
+				opacity: .5;
+				background-color: transparent;
+				background-repeat: no-repeat;
+				background-position: center;
+				background-image: url('../img/actions/more.svg?v=1');
+			}
+			&:hover button,
+			&:focus button {
+				background-color: transparent;
+				opacity: 1;
+			}
+		}
+		.app-navigation-entry-utils-counter {
+			overflow: hidden;
+			text-overflow: hidden;
+			text-align: right;
+			font-size: 9pt;
+			width: 38px;
+			line-height: 44px;
+			padding: 0 12px; /* Same padding as all li > a in the app-navigation */
 		}
 	}
-	.app-navigation-entry-utils-counter {
-		overflow: hidden;
-		text-overflow: hidden;
-		text-align: right;
-		font-size: 9pt;
-		width: 38px;
-		line-height: 44px;
-		padding: 0 10px;
-	}
-	.app-navigation-entry-utils ul, .app-navigation-entry-menu ul {
+	
+	.app-navigation-entry-utils ul,
+	.app-navigation-entry-menu ul {
 		list-style-type: none;
 	}
 
