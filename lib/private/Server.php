@@ -55,8 +55,6 @@ use OC\Authentication\LoginCredentials\Store;
 use OC\Command\CronBus;
 use OC\Contacts\ContactsMenu\ActionFactory;
 use OC\Diagnostics\EventLogger;
-use OC\Diagnostics\NullEventLogger;
-use OC\Diagnostics\NullQueryLogger;
 use OC\Diagnostics\QueryLogger;
 use OC\Federation\CloudIdManager;
 use OC\Files\Config\UserMountCache;
@@ -114,7 +112,6 @@ use OCP\IL10N;
 use OCP\IServerContainer;
 use OCP\ITempManager;
 use OCP\Contacts\ContactsMenu\IActionFactory;
-use OCP\IURLGenerator;
 use OCP\Lock\ILockingProvider;
 use OCP\RichObjectStrings\IValidator;
 use OCP\Security\IContentSecurityPolicyManager;
@@ -980,7 +977,8 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getHasher(),
 				$c->getMountManager(),
 				$c->getGroupManager(),
-				$c->getL10N('core'),
+				$c->getL10N('lib'),
+				$c->getL10NFactory(),
 				$factory,
 				$c->getUserManager(),
 				$c->getLazyRootFolder(),
