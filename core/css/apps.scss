@@ -112,9 +112,12 @@ kbd {
 					box-shadow: inset 2px 0 $color-primary;
 				}
 			}
+			&.open > ul {
+				display: block;
+			}
 			/* Second level nesting for lists */
 			> ul {
-				//display: none;
+				display: none;
 				flex: 1 0 100%;
 				padding-left: 44px;
 				width: inherit;
@@ -131,6 +134,15 @@ kbd {
 						}
 					}
 				}
+			}
+		}
+		.collapsible.open {
+			&:hover,
+			&:focus {
+				//box-shadow: inset 0 0 3px $color-box-shadow;
+			}
+			ul {
+				display: block;
 			}
 		}
 	}
@@ -188,6 +200,7 @@ kbd {
 		display: none;
 	}
 	.collapsible {
+		border-width: 0 1 0 0 !important;
 		> .collapse {
 			position: absolute;
 			height: 44px;
@@ -203,6 +216,7 @@ kbd {
 			border-radius: 0;
 			outline: none !important;
 			box-shadow: none;
+			transition: transform 250ms ease-in-out;
 		}
 		&:hover > a,
 		&:focus > a {
@@ -225,18 +239,6 @@ kbd {
 				-ms-transform: rotate(0);
 				transform: rotate(0);
 			}
-			background-image: linear-gradient(top, nc-darken($color-main-background, 8%) 0%, nc-darken($color-main-background, 3%) 100%);
-			background-image: -webkit-linear-gradient(top, nc-darken($color-main-background, 8%) 0%, nc-darken($color-main-background, 3%) 100%);
-			background-image: -ms-linear-gradient(top, nc-darken($color-main-background, 8%) 0%, nc-darken($color-main-background, 3%) 100%);
-		}
-	}
-	> ul .collapsible.open {
-		&:hover,
-		&:focus {
-			box-shadow: inset 0 0 3px $color-box-shadow;
-		}
-		ul {
-			display: block;
 		}
 	}
 	/* Deleted entries with undo button */
