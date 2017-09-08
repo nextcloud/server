@@ -197,6 +197,10 @@ kbd {
 	&.without-app-settings {
 		padding-bottom: 0;
 	}
+
+	/**
+	 * Collapsible menus
+	 */
 	.collapse {
 		/* hide collapse button initially */
 		display: none;
@@ -243,63 +247,6 @@ kbd {
 			}
 		}
 	}
-	/* Deleted entries with undo button */
-	.app-navigation-entry-deleted {
-		display: inline-block;
-		height: 44px;
-		width: 100%;
-	}
-	.app-navigation-entry-deleted-description {
-		padding-left: 12px;
-		position: relative;
-		white-space: nowrap;
-		text-overflow: ellipsis;
-		overflow: hidden;
-		display: inline-block;
-		width: calc(100% - 49px);
-		line-height: 44px;
-		float: left;
-	}
-	.app-navigation-entry-deleted-button {
-		margin: 0;
-		height: 44px;
-		width: 44px;
-		line-height: 44px;
-		border: 0;
-		display: inline-block;
-		background-color: transparent;
-		opacity: .5;
-		&:hover, &:focus {
-			opacity: 1;
-		}
-	}
-	/* counter and actions, legacy code TO BE DELETED */
-	.utils {
-		position: absolute;
-		padding: 7px 7px 0 0;
-		right: 0;
-		top: 0;
-		bottom: 0;
-		font-size: 12px;
-		button,
-		.counter {
-			width: 44px;
-			height: 44px;
-			padding-top: 12px;
-		}
-	}
-	/* drag and drop */
-	.drag-and-drop {
-		-webkit-transition: padding-bottom 500ms ease 0s;
-		transition: padding-bottom 500ms ease 0s;
-		padding-bottom: 40px;
-	}
-	.error {
-		color: $color-error;
-	}
-	.app-navigation-separator {
-		border-bottom: 1px solid nc-lighten($color-main-text, 86%);
-	}
 
 	/**
 	 * App navigation utils, buttons and counters for drop down menu
@@ -328,6 +275,9 @@ kbd {
 				background-color: transparent;
 				background-repeat: no-repeat;
 				background-position: center;
+			}
+			/* Only apply background-image if no icon is set on the button */
+			button:not([class^='icon-']):not([class*=' icon-']) {
 				background-image: url('../img/actions/more.svg?v=1');
 			}
 			&:hover button,
@@ -344,13 +294,10 @@ kbd {
 			padding: 0 12px; /* Same padding as all li > a in the app-navigation */
 		}
 	}
-	
-	.app-navigation-entry-utils ul,
-	.app-navigation-entry-menu ul {
-		list-style-type: none;
-	}
 
-	/* editing an entry */
+	/**
+	 * Editable entries
+	 */
 	.app-navigation-entry-edit {
 		padding-left: 5px;
 		padding-right: 5px;
@@ -379,6 +326,77 @@ kbd {
 			border-left: 0;
 			margin-right: 0;
 		}
+	}
+
+	/**
+	 * Deleted entries with undo button
+	 */
+	.app-navigation-entry-deleted {
+		display: inline-block;
+		height: 44px;
+		width: 100%;
+		.app-navigation-entry-deleted-description {
+			padding-left: 12px;
+			position: relative;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			overflow: hidden;
+			display: inline-block;
+			width: calc(100% - 49px);
+			line-height: 44px;
+			float: left;
+		}
+		.app-navigation-entry-deleted-button {
+			margin: 0;
+			height: 44px;
+			width: 44px;
+			line-height: 44px;
+			border: 0;
+			display: inline-block;
+			background-color: transparent;
+			opacity: .5;
+			&:hover, &:focus {
+				opacity: 1;
+			}
+		}
+	}
+
+	/**
+	 * drag and drop
+	 */
+	.drag-and-drop {
+		-webkit-transition: padding-bottom 500ms ease 0s;
+		transition: padding-bottom 500ms ease 0s;
+		padding-bottom: 40px;
+	}
+
+	/**
+	 * Counter and actions, legacy code **TO BE DELETED**
+	 */
+	.utils {
+		position: absolute;
+		padding: 7px 7px 0 0;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		font-size: 12px;
+		button,
+		.counter {
+			width: 44px;
+			height: 44px;
+			padding-top: 12px;
+		}
+	}
+	.error {
+		color: $color-error;
+	}
+	.app-navigation-separator {
+		border-bottom: 1px solid nc-lighten($color-main-text, 86%);
+	}
+	
+	.app-navigation-entry-utils ul,
+	.app-navigation-entry-menu ul {
+		list-style-type: none;
 	}
 }
 
