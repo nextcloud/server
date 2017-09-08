@@ -113,7 +113,7 @@ kbd {
 				}
 			}
 			&.open > ul {
-				max-height: 20000px;
+				max-height: 2000px;
 			}
 			/* Second level nesting for lists */
 			> ul {
@@ -199,6 +199,23 @@ kbd {
 	}
 
 	/**
+	 * Button styling for menu, edit and undo
+	 */
+	.app-navigation-entry-utils .app-navigation-entry-utils-menu-button > button,
+	.app-navigation-entry-deleted .app-navigation-entry-deleted-button {
+		border: 0;
+		opacity: 0.5;
+		background-color: transparent;
+		background-repeat: no-repeat;
+		background-position: center;
+			&:hover,
+			&:focus {
+				background-color: transparent;
+				opacity: 1;
+			}
+	}
+
+	/**
 	 * Collapsible menus
 	 */
 	.collapse {
@@ -270,14 +287,6 @@ kbd {
 		}
 		.app-navigation-entry-utils-menu-button {
 			button {
-				border: 0;
-				opacity: .5;
-				background-color: transparent;
-				background-repeat: no-repeat;
-				background-position: center;
-			}
-			/* Only apply background-image if no icon is set on the button */
-			button:not([class^='icon-']):not([class*=' icon-']) {
 				background-image: url('../img/actions/more.svg?v=1');
 			}
 			&:hover button,
