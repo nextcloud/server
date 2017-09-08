@@ -1,6 +1,6 @@
 Welcome aboard - text
 
-You have now an Nextcloud account, you can add, protect, and share your data. - text
+You now have an Nextcloud account, you can add, protect, and share your data. - text
 
 Your username is: abc
 
