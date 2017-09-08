@@ -35,6 +35,7 @@ use OCP\IServerContainer;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\L10N\IFactory;
 use OCP\Mail\IMailer;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IProviderFactory;
@@ -80,6 +81,8 @@ class ManagerTest extends \Test\TestCase {
 	protected $groupManager;
 	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
 	protected $l;
+	/** @var IFactory|\PHPUnit_Framework_MockObject_MockObject */
+	protected $l10nFactory;
 	/** @var DummyFactory */
 	protected $factory;
 	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
@@ -110,6 +113,7 @@ class ManagerTest extends \Test\TestCase {
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->defaults = $this->createMock(\OC_Defaults::class);
 
+		$this->l10nFactory = $this->createMock(IFactory::class);
 		$this->l = $this->createMock(IL10N::class);
 		$this->l->method('t')
 			->will($this->returnCallback(function($text, $parameters = []) {
@@ -126,6 +130,7 @@ class ManagerTest extends \Test\TestCase {
 			$this->mountManager,
 			$this->groupManager,
 			$this->l,
+			$this->l10nFactory,
 			$this->factory,
 			$this->userManager,
 			$this->rootFolder,
@@ -153,6 +158,7 @@ class ManagerTest extends \Test\TestCase {
 				$this->mountManager,
 				$this->groupManager,
 				$this->l,
+				$this->l10nFactory,
 				$this->factory,
 				$this->userManager,
 				$this->rootFolder,
@@ -2089,6 +2095,7 @@ class ManagerTest extends \Test\TestCase {
 			$this->mountManager,
 			$this->groupManager,
 			$this->l,
+			$this->l10nFactory,
 			$factory,
 			$this->userManager,
 			$this->rootFolder,
@@ -2131,6 +2138,7 @@ class ManagerTest extends \Test\TestCase {
 			$this->mountManager,
 			$this->groupManager,
 			$this->l,
+			$this->l10nFactory,
 			$factory,
 			$this->userManager,
 			$this->rootFolder,
@@ -2782,6 +2790,7 @@ class ManagerTest extends \Test\TestCase {
 			$this->mountManager,
 			$this->groupManager,
 			$this->l,
+			$this->l10nFactory,
 			$factory,
 			$this->userManager,
 			$this->rootFolder,
@@ -2813,6 +2822,7 @@ class ManagerTest extends \Test\TestCase {
 			$this->mountManager,
 			$this->groupManager,
 			$this->l,
+			$this->l10nFactory,
 			$factory,
 			$this->userManager,
 			$this->rootFolder,
@@ -2875,6 +2885,7 @@ class ManagerTest extends \Test\TestCase {
 			$this->mountManager,
 			$this->groupManager,
 			$this->l,
+			$this->l10nFactory,
 			$factory,
 			$this->userManager,
 			$this->rootFolder,
