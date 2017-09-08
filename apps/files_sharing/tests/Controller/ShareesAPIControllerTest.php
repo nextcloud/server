@@ -119,9 +119,10 @@ class ShareesAPIControllerTest extends TestCase {
 	/**
 	 * @param string $uid
 	 * @param string $displayName
+	 * @param string $emailAddress
 	 * @return \OCP\IUser|\PHPUnit_Framework_MockObject_MockObject
 	 */
-	protected function getUserMock($uid, $displayName) {
+	protected function getUserMock($uid, $displayName, $emailAddress = '') {
 		$user = $this->getMockBuilder('OCP\IUser')
 			->disableOriginalConstructor()
 			->getMock();
@@ -133,6 +134,10 @@ class ShareesAPIControllerTest extends TestCase {
 		$user->expects($this->any())
 			->method('getDisplayName')
 			->willReturn($displayName);
+
+		$user->expects($this->any())
+			->method('getEMailAddress')
+			->willReturn($emailAddress);
 
 		return $user;
 	}
@@ -175,10 +180,22 @@ class ShareesAPIControllerTest extends TestCase {
 				], [], true, $this->getUserMock('test', 'Test')
 			],
 			[
+				'test', false, true, [], [],
+				[
+					['label' => 'Test', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test', 'emailAddress' => 'test@server.com']],
+				], [], true, $this->getUserMock('test', 'Test', 'test@server.com')
+			],
+			[
 				'test', false, false, [], [],
 				[
 					['label' => 'Test', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test']],
 				], [], true, $this->getUserMock('test', 'Test')
+			],
+			[
+				'test', false, false, [], [],
+				[
+					['label' => 'Test', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test', 'emailAddress' => 'test@server.com']],
+				], [], true, $this->getUserMock('test', 'Test', 'test@server.com')
 			],
 			[
 				'test', true, true, [], [],
@@ -195,12 +212,24 @@ class ShareesAPIControllerTest extends TestCase {
 				], [], true, $this->getUserMock('test', 'Test')
 			],
 			[
+				'test', true, true, ['test-group'], [['test-group', 'test', 2, 0, []]],
+				[
+					['label' => 'Test', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test', 'emailAddress' => 'test@server.com']],
+				], [], true, $this->getUserMock('test', 'Test', 'test@server.com')
+			],
+			[
 				'test', true, false, ['test-group'], [['test-group', 'test', 2, 0, []]],
 				[
 					['label' => 'Test', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test']],
 				], [], true, $this->getUserMock('test', 'Test')
 			],
 			[
+				'test', true, false, ['test-group'], [['test-group', 'test', 2, 0, []]],
+				[
+					['label' => 'Test', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test', 'emailAddress' => 'test@server.com']],
+				], [], true, $this->getUserMock('test', 'Test', 'test@server.com')
+			],
+			[
 				'test',
 				false,
 				true,
@@ -211,6 +240,21 @@ class ShareesAPIControllerTest extends TestCase {
 				[],
 				[
 					['label' => 'Test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
+				],
+				true,
+				false,
+			],
+			[
+				'test',
+				false,
+				true,
+				[],
+				[
+					$this->getUserMock('test1', 'Test One', 'test1@server.com'),
+				],
+				[],
+				[
+					['label' => 'Test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1', 'emailAddress' => 'test1@server.com']],
 				],
 				true,
 				false,
@@ -241,6 +285,23 @@ class ShareesAPIControllerTest extends TestCase {
 				[
 					['label' => 'Test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
 					['label' => 'Test Two', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test2']],
+				],
+				false,
+				false,
+			],
+			[
+				'test',
+				false,
+				true,
+				[],
+				[
+					$this->getUserMock('test1', 'Test One', 'test1@server.com'),
+					$this->getUserMock('test2', 'Test Two', 'test2@server.com'),
+				],
+				[],
+				[
+					['label' => 'Test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1', 'emailAddress' => 'test1@server.com']],
+					['label' => 'Test Two', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test2', 'emailAddress' => 'test2@server.com']],
 				],
 				false,
 				false,
@@ -282,6 +343,26 @@ class ShareesAPIControllerTest extends TestCase {
 			[
 				'test',
 				false,
+				true,
+				[],
+				[
+					$this->getUserMock('test0', 'Test', 'test0@server.com'),
+					$this->getUserMock('test1', 'Test One', 'test1@server.com'),
+					$this->getUserMock('test2', 'Test Two', 'test2@server.com'),
+				],
+				[
+					['label' => 'Test', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test0', 'emailAddress' => 'test0@server.com']],
+				],
+				[
+					['label' => 'Test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1', 'emailAddress' => 'test1@server.com']],
+					['label' => 'Test Two', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test2', 'emailAddress' => 'test2@server.com']],
+				],
+				false,
+				false,
+			],
+			[
+				'test',
+				false,
 				false,
 				[],
 				[
@@ -298,11 +379,28 @@ class ShareesAPIControllerTest extends TestCase {
 			],
 			[
 				'test',
+				false,
+				false,
+				[],
+				[
+					$this->getUserMock('test0', 'Test', 'test0@server.com'),
+					$this->getUserMock('test1', 'Test One', 'test1@server.com'),
+					$this->getUserMock('test2', 'Test Two', 'test2@server.com'),
+				],
+				[
+					['label' => 'Test', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test0', 'emailAddress' => 'test0@server.com']],
+				],
+				[],
+				true,
+				false,
+			],
+			[
+				'test',
 				true,
 				true,
 				['abc', 'xyz'],
 				[
-					['abc', 'test', 2, 0, ['test1' => 'Test One']],
+					['abc', 'test', 2, 0, ['test1' => $this->getUserMock('test1', 'Test One')]],
 					['xyz', 'test', 2, 0, []],
 				],
 				[],
@@ -315,10 +413,26 @@ class ShareesAPIControllerTest extends TestCase {
 			[
 				'test',
 				true,
+				true,
+				['abc', 'xyz'],
+				[
+					['abc', 'test', 2, 0, ['test1' => $this->getUserMock('test1', 'Test One', 'test1@server.com')]],
+					['xyz', 'test', 2, 0, []],
+				],
+				[],
+				[
+					['label' => 'Test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1', 'emailAddress' => 'test1@server.com']],
+				],
+				true,
+				false,
+			],
+			[
+				'test',
+				true,
 				false,
 				['abc', 'xyz'],
 				[
-					['abc', 'test', 2, 0, ['test1' => 'Test One']],
+					['abc', 'test', 2, 0, ['test1' => $this->getUserMock('test1', 'Test One')]],
 					['xyz', 'test', 2, 0, []],
 				],
 				[],
@@ -333,12 +447,12 @@ class ShareesAPIControllerTest extends TestCase {
 				['abc', 'xyz'],
 				[
 					['abc', 'test', 2, 0, [
-						'test1' => 'Test One',
-						'test2' => 'Test Two',
+						'test1' => $this->getUserMock('test1', 'Test One'),
+						'test2' => $this->getUserMock('test2', 'Test Two'),
 					]],
 					['xyz', 'test', 2, 0, [
-						'test1' => 'Test One',
-						'test2' => 'Test Two',
+						'test1' => $this->getUserMock('test1', 'Test One'),
+						'test2' => $this->getUserMock('test2', 'Test Two'),
 					]],
 				],
 				[],
@@ -352,16 +466,39 @@ class ShareesAPIControllerTest extends TestCase {
 			[
 				'test',
 				true,
+				true,
+				['abc', 'xyz'],
+				[
+					['abc', 'test', 2, 0, [
+						'test1' => $this->getUserMock('test1', 'Test One', 'test1@server.com'),
+						'test2' => $this->getUserMock('test2', 'Test Two', 'test2@server.com'),
+					]],
+					['xyz', 'test', 2, 0, [
+						'test1' => $this->getUserMock('test1', 'Test One', 'test1@server.com'),
+						'test2' => $this->getUserMock('test2', 'Test Two', 'test2@server.com'),
+					]],
+				],
+				[],
+				[
+					['label' => 'Test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1', 'emailAddress' => 'test1@server.com']],
+					['label' => 'Test Two', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test2', 'emailAddress' => 'test2@server.com']],
+				],
+				false,
+				false,
+			],
+			[
+				'test',
+				true,
 				false,
 				['abc', 'xyz'],
 				[
 					['abc', 'test', 2, 0, [
-						'test1' => 'Test One',
-						'test2' => 'Test Two',
+						'test1' => $this->getUserMock('test1', 'Test One'),
+						'test2' => $this->getUserMock('test2', 'Test Two'),
 					]],
 					['xyz', 'test', 2, 0, [
-						'test1' => 'Test One',
-						'test2' => 'Test Two',
+						'test1' => $this->getUserMock('test1', 'Test One'),
+						'test2' => $this->getUserMock('test2', 'Test Two'),
 					]],
 				],
 				[],
@@ -376,10 +513,10 @@ class ShareesAPIControllerTest extends TestCase {
 				['abc', 'xyz'],
 				[
 					['abc', 'test', 2, 0, [
-						'test' => 'Test One',
+						'test' => $this->getUserMock('test', 'Test One'),
 					]],
 					['xyz', 'test', 2, 0, [
-						'test2' => 'Test Two',
+						'test2' => $this->getUserMock('test2', 'Test Two'),
 					]],
 				],
 				[
@@ -394,18 +531,60 @@ class ShareesAPIControllerTest extends TestCase {
 			[
 				'test',
 				true,
+				true,
+				['abc', 'xyz'],
+				[
+					['abc', 'test', 2, 0, [
+						'test' => $this->getUserMock('test', 'Test One', 'test@server.com'),
+					]],
+					['xyz', 'test', 2, 0, [
+						'test2' => $this->getUserMock('test2', 'Test Two', 'test2@server.com'),
+					]],
+				],
+				[
+					['label' => 'Test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test', 'emailAddress' => 'test@server.com']],
+				],
+				[
+					['label' => 'Test Two', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test2', 'emailAddress' => 'test2@server.com']],
+				],
+				false,
+				false,
+			],
+			[
+				'test',
+				true,
 				false,
 				['abc', 'xyz'],
 				[
 					['abc', 'test', 2, 0, [
-						'test' => 'Test One',
+						'test' => $this->getUserMock('test', 'Test One'),
 					]],
 					['xyz', 'test', 2, 0, [
-						'test2' => 'Test Two',
+						'test2' => $this->getUserMock('test2', 'Test Two'),
 					]],
 				],
 				[
 					['label' => 'Test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test']],
+				],
+				[],
+				true,
+				false,
+			],
+			[
+				'test',
+				true,
+				false,
+				['abc', 'xyz'],
+				[
+					['abc', 'test', 2, 0, [
+						'test' => $this->getUserMock('test', 'Test One', 'test@server.com'),
+					]],
+					['xyz', 'test', 2, 0, [
+						'test2' => $this->getUserMock('test2', 'Test Two', 'test2@server.com'),
+					]],
+				],
+				[
+					['label' => 'Test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test', 'emailAddress' => 'test@server.com']],
 				],
 				[],
 				true,
@@ -460,7 +639,7 @@ class ShareesAPIControllerTest extends TestCase {
 			}
 
 			$this->groupManager->expects($this->exactly(sizeof($groupResponse)))
-				->method('displayNamesInGroup')
+				->method('usersInGroup')
 				->with($this->anything(), $searchTerm, $this->invokePrivate($this->sharees, 'limit'), $this->invokePrivate($this->sharees, 'offset'))
 				->willReturnMap($userResponse);
 		}
