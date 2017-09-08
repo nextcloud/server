@@ -113,14 +113,16 @@ kbd {
 				}
 			}
 			&.open > ul {
-				display: block;
+				max-height: 20000px;
 			}
 			/* Second level nesting for lists */
 			> ul {
-				display: none;
 				flex: 1 0 100%;
 				padding-left: 44px;
 				width: inherit;
+				max-height: 0;
+				overflow: hidden;
+				transition: all 500ms ease-in-out;
 				> li {
 					display: inline-flex;
 					flex-wrap: wrap;
