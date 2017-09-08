@@ -30,7 +30,7 @@ script('files', 'jquery.fileupload');
 
 <div id="app-navigation">
 	<ul>
-		<li class="settings-caption">Personal</li>
+		<li class="settings-caption"><?php p($l->t('Personal')); ?></li>
 		<?php
 		foreach($_['forms']['personal'] as $form) {
 			if (isset($form['anchor'])) {
@@ -57,7 +57,7 @@ script('files', 'jquery.fileupload');
 		<?php
 		if(!empty($_['forms']['admin'])) {
 			?>
-			<li class="settings-caption">Administration</li>
+			<li class="settings-caption"><?php p($l->t('Administration')); ?></li>
 			<?php
 		}
 		foreach($_['forms']['admin'] as $form) {
