@@ -70,7 +70,6 @@ OC.L10N.register(
     "Email address for %1$s changed on %2$s" : "%1$s的Email信箱在%2$s已經變更。",
     "Welcome aboard" : "歡迎加入",
     "Welcome aboard %s" : "%s,歡迎您加入",
-    "You have now an %s account, you can add, protect, and share your data." : "您現在已經是%s帳戶，你可以新增，維護且分享您的檔案了。",
     "Your username is: %s" : "你的使用者名稱為: %s",
     "Set your password" : "設定您的密碼",
     "Go to %s" : "前往 %s",
@@ -333,6 +332,7 @@ OC.L10N.register(
     "iOS app" : "iOS 應用程式",
     "Show First Run Wizard again" : "再次顯示首次使用精靈",
     "Name" : "名稱",
-    "Show last log in" : "顯示最近登入"
+    "Show last log in" : "顯示最近登入",
+    "You have now an %s account, you can add, protect, and share your data." : "您現在已經是%s帳戶，你可以新增，維護且分享您的檔案了。"
 },
 "nplurals=1; plural=0;");

@@ -43,7 +43,6 @@ OC.L10N.register(
     "Email saved" : "E-mail elmentve!",
     "Welcome aboard" : "Üdv a fedélzeten",
     "Welcome aboard %s" : "Üdv a fedélzeten %s",
-    "You have now an %s account, you can add, protect, and share your data." : "Most már van egy %s fiókod, hozzáadhatod, védheted és megoszthatod az adataidat.",
     "Your username is: %s" : "A felhasználóneved: %s",
     "Set your password" : "Állítsd be a jelszabad",
     "Go to %s" : "Menj ide: %s",
@@ -367,6 +366,7 @@ OC.L10N.register(
     "Subscribe to our twitter channel!" : "Iratkozz fel a Twitter csatornánkra!",
     "Subscribe to our news feed!" : "Iratkozz fel a hírfolyamunkra!",
     "Subscribe to our newsletter!" : "Iratkozz fel a hírlevelünkre!",
-    "Show last log in" : "Utolsó bejelentkezés megjelenítése"
+    "Show last log in" : "Utolsó bejelentkezés megjelenítése",
+    "You have now an %s account, you can add, protect, and share your data." : "Most már van egy %s fiókod, hozzáadhatod, védheted és megoszthatod az adataidat."
 },
 "nplurals=2; plural=(n != 1);");

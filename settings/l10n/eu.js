@@ -70,7 +70,6 @@ OC.L10N.register(
     "Email address for %1$s changed on %2$s" : "%1$s-(r)en %2$s-(e)ko e-posta helbidea aldatu da",
     "Welcome aboard" : "Ongi etorri barrura",
     "Welcome aboard %s" : "Ongi etorri barrura, %s",
-    "You have now an %s account, you can add, protect, and share your data." : "Orain baduzu %s kontu bat, zure datuak gehitu, babestu eta parteka ditzakezu.",
     "Your username is: %s" : "Zure erabiltzailea hau da: %s",
     "Set your password" : "Ezarri zure pasahitza",
     "Go to %s" : "%s-ra joan",
@@ -372,6 +371,7 @@ OC.L10N.register(
     "Show First Run Wizard again" : "Erakutsi berriz Lehenengo Aldiko Morroia",
     "Passcodes that give an app or device permissions to access your account." : "Zure kontuan sartzeko aplikazio edo gailuei baimena ematen dien pasahitzak.",
     "Name" : "Izena",
-    "Show last log in" : "Erakutsi azkeneko saio hasiera"
+    "Show last log in" : "Erakutsi azkeneko saio hasiera",
+    "You have now an %s account, you can add, protect, and share your data." : "Orain baduzu %s kontu bat, zure datuak gehitu, babestu eta parteka ditzakezu."
 },
 "nplurals=2; plural=(n != 1);");
