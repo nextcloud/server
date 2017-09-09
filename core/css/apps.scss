@@ -113,16 +113,13 @@ kbd {
 				}
 			}
 			&.open > ul {
-				max-height: 2000px;
+				display: block;
 			}
 			/* Second level nesting for lists */
 			> ul {
 				flex: 1 0 100%;
 				padding-left: 44px;
 				width: inherit;
-				max-height: 0;
-				overflow: hidden;
-				transition: all 500ms ease-in-out;
 				> li {
 					display: inline-flex;
 					flex-wrap: wrap;
@@ -224,6 +221,9 @@ kbd {
 	}
 	.collapsible {
 		border-width: 0 1 0 0 !important;
+		> ul {
+			display: none;
+		}
 		> .collapse {
 			position: absolute;
 			height: 44px;
