@@ -172,9 +172,13 @@ kbd {
 			    width: 16px;
 			    margin-left: 2px;
 			}
-			&[class*='icon-'] {
+
+			/* Add padding if an icon is set with a class or an inline style */
+			&[class*='icon-'],
+			&[style*="background-image:"] {
 				padding-left: 44px;
 			}
+
 			/* Counter can also be inside the link */
 			> .app-navigation-entry-utils  {
 				display: inline-block;
@@ -357,7 +361,7 @@ kbd {
 			flex: 1 1 0;
 		}
 		button,
-		input[type='submit'] {
+		input {
 			width: 36px;
 			height: 38px;
 		}
