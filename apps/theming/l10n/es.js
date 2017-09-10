@@ -22,10 +22,10 @@ OC.L10N.register(
     "Color" : "Color",
     "Logo" : "Logo",
     "Upload new logo" : "Subir nuevo logo",
-    "Login image" : "Imagen de inicio",
+    "Login image" : "Fondo de Pantalla",
     "Upload new login background" : "Subir una nueva imagen de fondo",
     "Remove background image" : "Eliminar imagen de fondo",
     "reset to default" : "restaurar a configuración inicial",
-    "Log in image" : "Imagen de inicio"
+    "Log in image" : "Fondo de Pantalla"
 },
 "nplurals=2; plural=(n != 1);");
