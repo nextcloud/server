@@ -103,6 +103,9 @@ kbd {
 		> li {
 			display: inline-flex;
 			flex-wrap: wrap;
+			position: relative;
+			width: 100%;
+			box-sizing: border-box;
 			&:focus,
 			&:hover,
 			&.active,
@@ -135,6 +138,70 @@ kbd {
 					}
 				}
 			}
+			> a {
+				background-size: 16px 16px;
+				background-position: 14px center;
+				background-repeat: no-repeat;
+				display: block;
+				justify-content: space-between;
+				line-height: 44px;
+				min-height: 44px;
+				padding: 0 12px;
+				overflow: hidden;
+				box-sizing: border-box;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				color: $color-main-text;
+				opacity: .57;
+				flex: 1 1 0;
+				&:first-child img {
+				    margin-bottom: -3px;
+				    margin-right: 11px;
+				    width: 16px;
+				    margin-left: 2px;
+				}
+
+				/* Add padding if an icon is set with a class or an inline style */
+				&[class*='icon-'],
+				&[style*="background-image:"] {
+					padding-left: 44px;
+				}
+
+				/* Counter can also be inside the link */
+				> .app-navigation-entry-utils  {
+					display: inline-block;
+					float: right;
+					.app-navigation-entry-utils-counter {
+						padding-right: 0 !important;
+					}
+				}
+			}
+			> .app-navigation-entry-menu {
+				/* fix the flex positionning of the li parent */
+				top: 44px;
+			}
+
+			/* Show edit/undo field if editing/deleted */
+			&.editing,
+			&.deleted {
+				> a,
+				> .app-navigation-entry-utils {
+					//display: none;
+					//transform: translateX(100%);
+				}
+			}
+			&.editing {
+				.app-navigation-entry-edit {
+					//display: block;
+					transform: translateX(0);
+				}
+			}
+			&.deleted {
+				.app-navigation-entry-deleted {
+					//display: inline-flex;
+					transform: translateX(0);
+				}
+			}
 		}
 		.collapsible.open {
 			&:hover,
@@ -143,75 +210,6 @@ kbd {
 			}
 			ul {
 				display: block;
-			}
-		}
-	}
-	li {
-		position: relative;
-		width: 100%;
-		box-sizing: border-box;
-		> a {
-			background-size: 16px 16px;
-			background-position: 14px center;
-			background-repeat: no-repeat;
-			display: block;
-			justify-content: space-between;
-			line-height: 44px;
-			min-height: 44px;
-			padding: 0 12px;
-			overflow: hidden;
-			box-sizing: border-box;
-			white-space: nowrap;
-			text-overflow: ellipsis;
-			color: $color-main-text;
-			opacity: .57;
-			flex: 1 1 0;
-			&:first-child img {
-			    margin-bottom: -3px;
-			    margin-right: 11px;
-			    width: 16px;
-			    margin-left: 2px;
-			}
-
-			/* Add padding if an icon is set with a class or an inline style */
-			&[class*='icon-'],
-			&[style*="background-image:"] {
-				padding-left: 44px;
-			}
-
-			/* Counter can also be inside the link */
-			> .app-navigation-entry-utils  {
-				display: inline-block;
-				float: right;
-				.app-navigation-entry-utils-counter {
-					padding-right: 0 !important;
-				}
-			}
-		}
-		> .app-navigation-entry-menu {
-			/* fix the flex positionning of the li parent */
-			top: 44px;
-		}
-
-		/* Show edit/undo field if editing/deleted */
-		&.editing,
-		&.deleted {
-			> a,
-			> .app-navigation-entry-utils {
-				//display: none;
-				//transform: translateX(100%);
-			}
-		}
-		&.editing {
-			.app-navigation-entry-edit {
-				//display: block;
-				transform: translateX(0);
-			}
-		}
-		&.deleted {
-			.app-navigation-entry-deleted {
-				//display: inline-flex;
-				transform: translateX(0);
 			}
 		}
 	}
