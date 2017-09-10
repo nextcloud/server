@@ -136,7 +136,9 @@ kbd {
 				}
 			}
 		}
-		li {
+		/* Menu and submenu */
+		> li,
+		> li > ul > li {
 			position: relative;
 			width: 100%;
 			box-sizing: border-box;
@@ -164,13 +166,13 @@ kbd {
 				    margin-left: 2px;
 				}
 
-				/* Add padding if an icon is set with a class or an inline style */
+				/* add padding if an icon is set with a class or an inline style */
 				&[class*='icon-'],
 				&[style*='background-image:'] {
 					padding-left: 44px;
 				}
 
-				/* Counter can also be inside the link */
+				/* counter can also be inside the link */
 				> .app-navigation-entry-utils  {
 					display: inline-block;
 					float: right;
@@ -180,12 +182,12 @@ kbd {
 				}
 			}
 
-			/* Popover fix the flex positionning of the li parent */
+			/* popover fix the flex positionning of the li parent */
 			> .app-navigation-entry-menu {
 				top: 44px;
 			}
 
-			/* Show edit/undo field if editing/deleted */
+			/* show edit/undo field if editing/deleted */
 			&.editing {
 				.app-navigation-entry-edit {
 					transform: translateX(0);
@@ -256,6 +258,10 @@ kbd {
 			outline: none !important;
 			box-shadow: none;
 			transition: transform 250ms ease-in-out;
+			/* force padding on link if collapse is here no matter if a has an icon class */
+			& + a {
+				padding-left: 44px;
+			}
 		}
 		&:hover > a,
 		&:focus > a {
