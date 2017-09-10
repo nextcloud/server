@@ -828,7 +828,7 @@ class ShareByMailProviderTest extends TestCase {
 			->method('setReplyTo')
 			->with(['owner@example.com' => 'Mrs. Owner User']);
 		$this->defaults
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getSlogan')
 			->willReturn('Testing like 1990');
 		$template
