@@ -182,32 +182,18 @@ kbd {
 			}
 
 			/* Show edit/undo field if editing/deleted */
-			&.editing,
-			&.deleted {
-				> a,
-				> .app-navigation-entry-utils {
-					//display: none;
-					//transform: translateX(100%);
-				}
-			}
 			&.editing {
 				.app-navigation-entry-edit {
-					//display: block;
 					transform: translateX(0);
 				}
 			}
 			&.deleted {
 				.app-navigation-entry-deleted {
-					//display: inline-flex;
 					transform: translateX(0);
 				}
 			}
 		}
 		.collapsible.open {
-			&:hover,
-			&:focus {
-				//box-shadow: inset 0 0 3px $color-box-shadow;
-			}
 			ul {
 				display: block;
 			}
