@@ -114,11 +114,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 							if (a.active !== b.active) {
 								return (a.active ? -1 : 1)
 							} else {
-								var levelDiff = b.level - a.level;
-								if (levelDiff === 0) {
-									return OC.Util.naturalSortCompare(a.name, b.name);
-								}
-								return levelDiff;
+							    	return OC.Util.naturalSortCompare(a.name, b.name);
 							}
 						});
 					}
