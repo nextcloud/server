@@ -187,6 +187,16 @@ kbd {
 			/* fix the flex positionning of the li parent */
 			top: 44px;
 		}
+		/* Show edit field if editing */
+		&.editing {
+			> a,
+			> .app-navigation-entry-utils {
+				display: none;
+			}
+			.app-navigation-entry-edit {
+				display: block;
+			}
+		}
 	}
 	&.hidden {
 		display: none;
@@ -205,11 +215,11 @@ kbd {
 		background-color: transparent;
 		background-repeat: no-repeat;
 		background-position: center;
-			&:hover,
-			&:focus {
-				background-color: transparent;
-				opacity: 1;
-			}
+		&:hover,
+		&:focus {
+			background-color: transparent;
+			opacity: 1;
+		}
 	}
 
 	/**
@@ -286,7 +296,8 @@ kbd {
 			box-shadow: none;
 		}
 		.app-navigation-entry-utils-menu-button {
-			button {
+			/* Prevent bg img override if an icon class is set */
+			button:not([class^='icon-']):not([class*=' icon-']) {
 				background-image: url('../img/actions/more.svg?v=1');
 			}
 			&:hover button,
@@ -310,18 +321,24 @@ kbd {
 	.app-navigation-entry-edit {
 		padding-left: 5px;
 		padding-right: 5px;
-		display: inline-block;
-		height: 39px;
+		display: none;
 		width: 100%;
+		form {
+			display: inline-flex;
+			width: 100%;
+		}
 		input {
 			border-bottom-right-radius: 0;
 			border-top-right-radius: 0;
-			width: calc(100% - 36px);
 			padding: 5px;
 			margin-right: 0;
 			height: 38px;
 			float: left;
 			border: 1px solid rgba(nc-lighten($color-main-text, 73%), 0.9);
+		}
+		input[type='text'] {
+			width: 100%;
+			flex: 1 1 0;
 		}
 		button,
 		input[type='submit'] {
@@ -341,7 +358,7 @@ kbd {
 	 * Deleted entries with undo button
 	 */
 	.app-navigation-entry-deleted {
-		display: inline-block;
+		display: inline-flex;
 		height: 44px;
 		width: 100%;
 		.app-navigation-entry-deleted-description {
@@ -350,20 +367,14 @@ kbd {
 			white-space: nowrap;
 			text-overflow: ellipsis;
 			overflow: hidden;
-			display: inline-block;
-			width: calc(100% - 49px);
+			flex: 1 1 0;
 			line-height: 44px;
-			float: left;
 		}
 		.app-navigation-entry-deleted-button {
 			margin: 0;
 			height: 44px;
 			width: 44px;
 			line-height: 44px;
-			border: 0;
-			display: inline-block;
-			background-color: transparent;
-			opacity: .5;
 			&:hover, &:focus {
 				opacity: 1;
 			}
