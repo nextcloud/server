@@ -97,7 +97,8 @@ kbd {
 		position: relative;
 		height: 100%;
 		width: inherit;
-		overflow: auto;
+		overflow-x: hidden;
+		overflow-y: auto;
 		box-sizing: border-box;
 		> li {
 			display: inline-flex;
@@ -373,12 +374,6 @@ kbd {
 	 */
 	.app-navigation-entry-deleted {
 		display: inline-flex;
-		height: 44px;
-		width: calc(100% - 1px); /* Avoid border overlapping */
-		transition: transform 250ms ease-in-out;
-		transform: translateX(250px);
-		position: absolute;
-		background-color: $color-main-background;
 		.app-navigation-entry-deleted-description {
 			padding-left: 12px;
 			position: relative;
@@ -397,6 +392,20 @@ kbd {
 				opacity: 1;
 			}
 		}
+	}
+
+
+
+	/**
+	 * Common rules for animation of undo and edit entries
+	 */
+	.app-navigation-entry-edit,
+	.app-navigation-entry-deleted  {
+		width: calc(100% - 1px); /* Avoid border overlapping */
+		transition: transform 250ms ease-in-out;
+		transform: translateX(250px);
+		position: absolute;
+		background-color: $color-main-background;
 	}
 
 	/**
