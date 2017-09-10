@@ -187,14 +187,26 @@ kbd {
 			/* fix the flex positionning of the li parent */
 			top: 44px;
 		}
-		/* Show edit field if editing */
-		&.editing {
+
+		/* Show edit/undo field if editing/deleted */
+		&.editing,
+		&.deleted {
 			> a,
 			> .app-navigation-entry-utils {
-				display: none;
+				//display: none;
+				//transform: translateX(100%);
 			}
+		}
+		&.editing {
 			.app-navigation-entry-edit {
-				display: block;
+				//display: block;
+				transform: translateX(0);
+			}
+		}
+		&.deleted {
+			.app-navigation-entry-deleted {
+				//display: inline-flex;
+				transform: translateX(0);
 			}
 		}
 	}
@@ -321,8 +333,12 @@ kbd {
 	.app-navigation-entry-edit {
 		padding-left: 5px;
 		padding-right: 5px;
-		display: none;
-		width: 100%;
+		display: block;
+		width: calc(100% - 1px); /* Avoid border overlapping */
+		transition: transform 250ms ease-in-out;
+		transform: translateX(250px);
+		position: absolute;
+		background-color: $color-main-background;
 		form {
 			display: inline-flex;
 			width: 100%;
@@ -333,8 +349,7 @@ kbd {
 			padding: 5px;
 			margin-right: 0;
 			height: 38px;
-			float: left;
-			border: 1px solid rgba(nc-lighten($color-main-text, 73%), 0.9);
+			border: 1px solid nc-darken($color-main-background, 8%);
 		}
 		input[type='text'] {
 			width: 100%;
@@ -344,7 +359,6 @@ kbd {
 		input[type='submit'] {
 			width: 36px;
 			height: 38px;
-			float: left;
 		}
 		.icon-checkmark {
 			border-bottom-left-radius: 0;
@@ -360,7 +374,11 @@ kbd {
 	.app-navigation-entry-deleted {
 		display: inline-flex;
 		height: 44px;
-		width: 100%;
+		width: calc(100% - 1px); /* Avoid border overlapping */
+		transition: transform 250ms ease-in-out;
+		transform: translateX(250px);
+		position: absolute;
+		background-color: $color-main-background;
 		.app-navigation-entry-deleted-description {
 			padding-left: 12px;
 			position: relative;
