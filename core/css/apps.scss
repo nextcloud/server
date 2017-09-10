@@ -103,9 +103,6 @@ kbd {
 		> li {
 			display: inline-flex;
 			flex-wrap: wrap;
-			position: relative;
-			width: 100%;
-			box-sizing: border-box;
 			&:focus,
 			&:hover,
 			&.active,
@@ -138,6 +135,11 @@ kbd {
 					}
 				}
 			}
+		}
+		li {
+			position: relative;
+			width: 100%;
+			box-sizing: border-box;
 			> a {
 				background-size: 16px 16px;
 				background-position: 14px center;
@@ -154,6 +156,7 @@ kbd {
 				color: $color-main-text;
 				opacity: .57;
 				flex: 1 1 0;
+				/* TODO: forbid using img as icon in menu? */
 				&:first-child img {
 				    margin-bottom: -3px;
 				    margin-right: 11px;
@@ -163,7 +166,7 @@ kbd {
 
 				/* Add padding if an icon is set with a class or an inline style */
 				&[class*='icon-'],
-				&[style*="background-image:"] {
+				&[style*='background-image:'] {
 					padding-left: 44px;
 				}
 
@@ -176,8 +179,9 @@ kbd {
 					}
 				}
 			}
+
+			/* Popover fix the flex positionning of the li parent */
 			> .app-navigation-entry-menu {
-				/* fix the flex positionning of the li parent */
 				top: 44px;
 			}
 
@@ -193,6 +197,7 @@ kbd {
 				}
 			}
 		}
+
 		.collapsible.open {
 			ul {
 				display: block;
@@ -333,8 +338,6 @@ kbd {
 			width: 100%;
 		}
 		input {
-			border-bottom-right-radius: 0;
-			border-top-right-radius: 0;
 			padding: 5px;
 			margin-right: 0;
 			height: 38px;
@@ -343,17 +346,23 @@ kbd {
 		input[type='text'] {
 			width: 100%;
 			flex: 1 1 0;
+			border-bottom-right-radius: 0;
+			border-top-right-radius: 0;
 		}
 		button,
-		input {
+		input:not([type='text']) {
 			width: 36px;
 			height: 38px;
-		}
-		.icon-checkmark {
-			border-bottom-left-radius: 0;
-			border-top-left-radius: 0;
-			border-left: 0;
-			margin-right: 0;
+			&:not(:last-child) {
+				border-radius: 0;
+				border-left: 0;
+			}
+			&:last-child {
+				border-bottom-left-radius: 0;
+				border-top-left-radius: 0;
+				border-left: 0;
+				margin-right: 0;	
+			}
 		}
 	}
 
