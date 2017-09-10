@@ -47,6 +47,7 @@
     "App \"%s\" cannot be installed because it is not compatible with this version of the server." : "\"%s\" alkalmazás nem lehet telepíteni, mert nem kompatibilis a szerver jelen verziójával.",
     "Help" : "Súgó",
     "Apps" : "Alkalmazások",
+    "Settings" : "Beállítások",
     "Log out" : "Kijelentkezés",
     "Users" : "Felhasználók",
     "APCu" : "APCu",
