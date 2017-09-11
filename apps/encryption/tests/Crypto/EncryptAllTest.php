@@ -149,8 +149,8 @@ class EncryptAllTest extends TestCase {
 
 		$this->util->expects($this->any())->method('isMasterKeyEnabled')->willReturn(false);
 		$encryptAll->expects($this->at(0))->method('createKeyPairs')->with();
-		$encryptAll->expects($this->at(1))->method('encryptAllUsersFiles')->with();
-		$encryptAll->expects($this->at(2))->method('outputPasswords')->with();
+		$encryptAll->expects($this->at(1))->method('outputPasswords')->with();
+		$encryptAll->expects($this->at(2))->method('encryptAllUsersFiles')->with();
 
 		$encryptAll->encryptAll($this->inputInterface, $this->outputInterface);
 
