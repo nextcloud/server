@@ -358,7 +358,7 @@ class Session implements IUserSession, Emitter {
 		}
 		$this->manager->emit('\OC\User', 'postLogin', [$user, $loginDetails['password']]);
 		if($this->isLoggedIn()) {
-			$this->prepareUserLogin($firstTimeLogin);
+			$this->prepareUserLogin($firstTimeLogin, $regenerateSessionId);
 			return true;
 		} else {
 			$message = \OC::$server->getL10N('lib')->t('Login canceled by app');
@@ -468,10 +468,13 @@ class Session implements IUserSession, Emitter {
 		}
 	}
 
-	protected function prepareUserLogin($firstTimeLogin) {
-		// TODO: mock/inject/use non-static
-		// Refresh the token
-		\OC::$server->getCsrfTokenManager()->refreshToken();
+	protected function prepareUserLogin($firstTimeLogin, $refreshCsrfToken = true) {
+		if ($refreshCsrfToken) {
+			// TODO: mock/inject/use non-static
+			// Refresh the token
+			\OC::$server->getCsrfTokenManager()->refreshToken();
+		}
+
 		//we need to pass the user name, which may differ from login name
 		$user = $this->getUser()->getUID();
 		OC_Util::setupFS($user);
