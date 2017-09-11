@@ -384,8 +384,7 @@ class ShareByMailProvider implements IShareProvider {
 
 		$message = $this->mailer->createMessage();
 
-		$emailTemplate = $this->mailer->createEMailTemplate();
-		$emailTemplate->setMetaData('sharebymail.RecipientNotification', [
+		$emailTemplate = $this->mailer->createEMailTemplate('sharebymail.RecipientNotification', [
 			'filename' => $filename,
 			'link' => $link,
 			'initiator' => $initiatorDisplayName,
@@ -462,8 +461,7 @@ class ShareByMailProvider implements IShareProvider {
 
 		$message = $this->mailer->createMessage();
 
-		$emailTemplate = $this->mailer->createEMailTemplate();
-		$emailTemplate->setMetaData('sharebymail.RecipientPasswordNotification', [
+		$emailTemplate = $this->mailer->createEMailTemplate('sharebymail.RecipientPasswordNotification', [
 			'filename' => $filename,
 			'password' => $password,
 			'initiator' => $initiatorDisplayName,
@@ -530,8 +528,7 @@ class ShareByMailProvider implements IShareProvider {
 		$bodyPart = $this->l->t("You just shared »%s« with %s. The share was already send to the recipient. Due to the security policies defined by the administrator of %s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient.", [$filename, $shareWith, $this->defaults->getName()]);
 
 		$message = $this->mailer->createMessage();
-		$emailTemplate = $this->mailer->createEMailTemplate();
-		$emailTemplate->setMetaData('sharebymail.OwnerPasswordNotification', [
+		$emailTemplate = $this->mailer->createEMailTemplate('sharebymail.OwnerPasswordNotification', [
 			'filename' => $filename,
 			'password' => $password,
 			'initiator' => $initiatorDisplayName,

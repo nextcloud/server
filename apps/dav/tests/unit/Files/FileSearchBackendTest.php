@@ -24,6 +24,7 @@ namespace OCA\DAV\Tests\Files;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchQuery;
 use OC\Files\View;
+use OCA\DAV\Connector\Sabre\CachingTree;
 use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\File;
 use OCA\DAV\Connector\Sabre\FilesPlugin;
@@ -34,7 +35,6 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Search\ISearchComparison;
 use OCP\IUser;
 use OCP\Share\IManager;
-use Sabre\DAV\Tree;
 use SearchDAV\XML\BasicSearch;
 use SearchDAV\XML\Literal;
 use SearchDAV\XML\Operator;
@@ -42,7 +42,7 @@ use SearchDAV\XML\Scope;
 use Test\TestCase;
 
 class FileSearchBackendTest extends TestCase {
-	/** @var Tree|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var CachingTree|\PHPUnit_Framework_MockObject_MockObject */
 	private $tree;
 
 	/** @var IUser */
@@ -74,7 +74,7 @@ class FileSearchBackendTest extends TestCase {
 			->method('getUID')
 			->willReturn('test');
 
-		$this->tree = $this->getMockBuilder(Tree::class)
+		$this->tree = $this->getMockBuilder(CachingTree::class)
 			->disableOriginalConstructor()
 			->getMock();
 

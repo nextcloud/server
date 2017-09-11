@@ -1941,11 +1941,18 @@ class View {
 					);
 				}
 			} catch (\OCP\Lock\LockedException $e) {
-				// rethrow with the a human-readable path
-				throw new \OCP\Lock\LockedException(
-					$this->getPathRelativeToFiles($absolutePath),
-					$e
-				);
+				try {
+					// rethrow with the a human-readable path
+					throw new \OCP\Lock\LockedException(
+						$this->getPathRelativeToFiles($absolutePath),
+						$e
+					);
+				} catch (\InvalidArgumentException $e) {
+					throw new \OCP\Lock\LockedException(
+						$absolutePath,
+						$e
+					);
+				}
 			}
 		}
 
@@ -2050,7 +2057,7 @@ class View {
 			return ($pathSegments[2] === 'files') && (count($pathSegments) > 3);
 		}
 
-		return true;
+		return strpos($path, '/appdata_') !== 0;
 	}
 
 	/**

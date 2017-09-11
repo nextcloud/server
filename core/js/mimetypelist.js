@@ -4,7 +4,7 @@
 *
 * You can update the list of MimeType Aliases in config/mimetypealiases.json
 * The list of files is fetched from core/img/filetypes
-* To regenerate this file run ./occ maintenance:mimetypesjs
+* To regenerate this file run ./occ maintenance:mimetype:update-js
 */
 OC.MimeTypeList={
 	aliases: {
@@ -94,7 +94,8 @@ OC.MimeTypeList={
     "text/x-ldif": "text/code",
     "text/x-python": "text/code",
     "text/x-shellscript": "text/code",
-    "web": "text/code"
+    "web": "text/code",
+    "application/internet-shortcut": "link"
 },
 	files: [
     "application",
@@ -108,6 +109,7 @@ OC.MimeTypeList={
     "folder-shared",
     "folder-starred",
     "image",
+    "link",
     "location",
     "package-x-generic",
     "text",

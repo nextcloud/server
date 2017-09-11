@@ -288,6 +288,11 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 * @return bool if admin
 	 */
 	public function isAdmin($userId) {
+		foreach ($this->backends as $backend) {
+			if ($backend->implementsActions(\OC\Group\Backend::IS_ADMIN) && $backend->isAdmin($userId)) {
+				return true;
+			}
+		}
 		return $this->isInGroup($userId, 'admin');
 	}
 

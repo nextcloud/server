@@ -111,6 +111,10 @@ class ConnectionTest extends \Test\TestCase {
 			->method('connect')
 			->will($this->returnValue('ldapResource'));
 
+		$this->ldap->expects($this->any())
+			->method('errno')
+			->will($this->returnValue(0));
+
 		// Not called often enough? Then, the fallback to the backup server is broken.
 		$this->connection->expects($this->exactly(4))
 			->method('getFromCache')
@@ -135,6 +139,100 @@ class ConnectionTest extends \Test\TestCase {
 		$this->connection->init();
 		$this->connection->resetConnectionResource();
 		// with the second init() we test whether caching works
+		$this->connection->init();
+	}
+
+	public function testBindWithInvalidCredentials() {
+		// background: Bind with invalid credentials should return false
+		// and not throw a ServerNotAvailableException.
+
+		$host = 'ldap://nixda.ldap';
+		$config = [
+			'ldapConfigurationActive' => true,
+			'ldapHost' => $host,
+			'ldapPort' => 389,
+			'ldapBackupHost' => '',
+			'ldapAgentName' => 'user',
+			'ldapAgentPassword' => 'password'
+		];
+
+		$this->connection->setIgnoreValidation(true);
+		$this->connection->setConfiguration($config);
+
+		$this->ldap->expects($this->any())
+			->method('isResource')
+			->will($this->returnValue(true));
+
+		$this->ldap->expects($this->any())
+			->method('setOption')
+			->will($this->returnValue(true));
+
+		$this->ldap->expects($this->any())
+			->method('connect')
+			->will($this->returnValue('ldapResource'));
+
+		$this->ldap->expects($this->exactly(2))
+			->method('bind')
+			->will($this->returnValue(false));
+
+		// LDAP_INVALID_CREDENTIALS
+		$this->ldap->expects($this->any())
+			->method('errno')
+			->will($this->returnValue(0x31));
+
+		try {
+			$this->assertFalse($this->connection->bind(), 'Connection::bind() should not return true with invalid credentials.');
+		} catch (\OC\ServerNotAvailableException $e) {
+			$this->fail('Failed asserting that exception of type "OC\ServerNotAvailableException" is not thrown.');
+		}
+	}
+
+	public function testStartTlsNegotiationFailure() {
+		// background: If Start TLS negotiation fails,
+		// a ServerNotAvailableException should be thrown.
+
+		$host = 'ldap://nixda.ldap';
+		$port = 389;
+		$config = [
+			'ldapConfigurationActive' => true,
+			'ldapHost' => $host,
+			'ldapPort' => $port,
+			'ldapTLS' => true,
+			'ldapBackupHost' => '',
+			'ldapAgentName' => 'user',
+			'ldapAgentPassword' => 'password'
+		];
+
+		$this->connection->setIgnoreValidation(true);
+		$this->connection->setConfiguration($config);
+
+		$this->ldap->expects($this->any())
+			->method('isResource')
+			->will($this->returnValue(true));
+
+		$this->ldap->expects($this->any())
+			->method('connect')
+			->will($this->returnValue('ldapResource'));
+
+		$this->ldap->expects($this->any())
+			->method('setOption')
+			->will($this->returnValue(true));
+
+		$this->ldap->expects($this->any())
+			->method('bind')
+			->will($this->returnValue(true));
+
+		$this->ldap->expects($this->any())
+			->method('errno')
+			->will($this->returnValue(0));
+
+		$this->ldap->expects($this->any())
+			->method('startTls')
+			->will($this->returnValue(false));
+
+		$this->expectException(\OC\ServerNotAvailableException::class);
+		$this->expectExceptionMessage('Start TLS failed, when connecting to LDAP host ' . $host . '.');
+
 		$this->connection->init();
 	}
 

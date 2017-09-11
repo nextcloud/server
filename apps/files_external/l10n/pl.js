@@ -112,7 +112,7 @@ OC.L10N.register(
     "External storage" : "Zewnętrzne zasoby dyskowe",
     "Authentication" : "Poświadczenie",
     "Configuration" : "Konfiguracja",
-    "Available for" : "Dostępne przez",
+    "Available for" : "Dostępne dla",
     "Add storage" : "Dodaj zewnętrzne magazyny",
     "Advanced settings" : "Ustawienia zaawansowane",
     "Delete" : "Usuń",

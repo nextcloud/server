@@ -805,6 +805,13 @@ MountConfigListView.prototype = _.extend({
 		var mountPoint = storageConfig.mountPoint;
 		var backend = this._allBackends[storageConfig.backend];
 
+		if (!backend) {
+			backend = {
+				name: 'Unknown: ' + storageConfig.backend,
+				invalid: true
+			};
+		}
+
 		// FIXME: Replace with a proper Handlebar template
 		var $tr = this.$el.find('tr#addMountPoint');
 		this.$el.find('tbody').append($tr.clone());
@@ -828,6 +835,13 @@ MountConfigListView.prototype = _.extend({
 		$tr.find('.mountPoint input').val(mountPoint);
 		$tr.addClass(backend.identifier);
 		$tr.find('.backend').data('identifier', backend.identifier);
+
+		if (backend.invalid) {
+			$tr.find('[name=mountPoint]').prop('disabled', true);
+			$tr.find('.applicable,.mountOptionsToggle').empty();
+			this.updateStatus($tr, false, 'Unknown backend: ' + backend.name);
+			return $tr;
+		}
 
 		var selectAuthMechanism = $('<select class="selectAuthMechanism"></select>');
 		var neededVisibility = (this._isPersonal) ? StorageConfig.Visibility.PERSONAL : StorageConfig.Visibility.ADMIN;

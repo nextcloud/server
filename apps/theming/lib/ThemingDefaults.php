@@ -238,6 +238,7 @@ class ThemingDefaults extends \OC_Defaults {
 			}
 			$variables['color-primary'] = $this->getColorPrimary();
 			$variables['color-primary-text'] = $colorPrimaryText;
+			$variables['color-primary-element'] = $this->util->elementColor($this->getColorPrimary());
 		}
 
 		if ($this->config->getAppValue('theming', 'backgroundMime', null) === 'backgroundColor') {

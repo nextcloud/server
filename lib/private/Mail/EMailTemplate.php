@@ -342,24 +342,18 @@ EOF;
 	 * @param Defaults $themingDefaults
 	 * @param IURLGenerator $urlGenerator
 	 * @param IL10N $l10n
+	 * @param string $emailId
+	 * @param array $data
 	 */
 	public function __construct(Defaults $themingDefaults,
 								IURLGenerator $urlGenerator,
-								IL10N $l10n) {
+								IL10N $l10n,
+								$emailId,
+								array $data) {
 		$this->themingDefaults = $themingDefaults;
 		$this->urlGenerator = $urlGenerator;
 		$this->l10n = $l10n;
 		$this->htmlBody .= $this->head;
-	}
-
-	/**
-	 * Set meta data of an email
-	 *
-	 * @param string $emailId
-	 * @param array $data
-	 * @since 12.0.3
-	 */
-	public function setMetaData($emailId, array $data = []) {
 		$this->emailId = $emailId;
 		$this->data = $data;
 	}

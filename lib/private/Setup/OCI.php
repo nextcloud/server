@@ -28,6 +28,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OC\Setup;
 
 class OCI extends AbstractDatabase {
@@ -46,201 +47,49 @@ class OCI extends AbstractDatabase {
 		$this->dbHost = $config['dbhost'];
 
 		$this->config->setValues([
-			'dbhost'		=> $this->dbHost,
-			'dbtablespace'	=> $this->dbtablespace,
+			'dbhost' => $this->dbHost,
+			'dbtablespace' => $this->dbtablespace,
 		]);
 	}
 
 	public function validate($config) {
 		$errors = array();
-		if(empty($config['dbuser']) && empty($config['dbname'])) {
+		if (empty($config['dbuser']) && empty($config['dbname'])) {
 			$errors[] = $this->trans->t("%s enter the database username and name.", array($this->dbprettyname));
-		} else if(empty($config['dbuser'])) {
+		} else if (empty($config['dbuser'])) {
 			$errors[] = $this->trans->t("%s enter the database username.", array($this->dbprettyname));
-		} else if(empty($config['dbname'])) {
+		} else if (empty($config['dbname'])) {
 			$errors[] = $this->trans->t("%s enter the database name.", array($this->dbprettyname));
 		}
 		return $errors;
 	}
 
 	public function setupDatabase($username) {
-		$e_host = addslashes($this->dbHost);
-		// casting to int to avoid malicious input
-		$e_port = (int)$this->dbPort;
-		$e_dbname = addslashes($this->dbName);
-		//check if the database user has admin right
-		if ($e_host == '') {
-			$easy_connect_string = $e_dbname; // use dbname as easy connect name
-		} else {
-			$easy_connect_string = '//'.$e_host.(!empty($e_port) ? ":{$e_port}" : "").'/'.$e_dbname;
-		}
-		$this->logger->debug('connect string: ' . $easy_connect_string, ['app' => 'setup.oci']);
-		$connection = @oci_connect($this->dbUser, $this->dbPassword, $easy_connect_string);
-		if(!$connection) {
+		try {
+			$this->connect();
+		} catch (\Exception $e) {
 			$errorMessage = $this->getLastError();
 			if ($errorMessage) {
 				throw new \OC\DatabaseSetupException($this->trans->t('Oracle connection could not be established'),
-				$errorMessage.' Check environment: ORACLE_HOME='.getenv('ORACLE_HOME')
-							.' ORACLE_SID='.getenv('ORACLE_SID')
-							.' LD_LIBRARY_PATH='.getenv('LD_LIBRARY_PATH')
-							.' NLS_LANG='.getenv('NLS_LANG')
-							.' tnsnames.ora is '.(is_readable(getenv('ORACLE_HOME').'/network/admin/tnsnames.ora')?'':'not ').'readable');
+					$errorMessage . ' Check environment: ORACLE_HOME=' . getenv('ORACLE_HOME')
+					. ' ORACLE_SID=' . getenv('ORACLE_SID')
+					. ' LD_LIBRARY_PATH=' . getenv('LD_LIBRARY_PATH')
+					. ' NLS_LANG=' . getenv('NLS_LANG')
+					. ' tnsnames.ora is ' . (is_readable(getenv('ORACLE_HOME') . '/network/admin/tnsnames.ora') ? '' : 'not ') . 'readable');
 			}
 			throw new \OC\DatabaseSetupException($this->trans->t('Oracle username and/or password not valid'),
-					'Check environment: ORACLE_HOME='.getenv('ORACLE_HOME')
-							.' ORACLE_SID='.getenv('ORACLE_SID')
-							.' LD_LIBRARY_PATH='.getenv('LD_LIBRARY_PATH')
-							.' NLS_LANG='.getenv('NLS_LANG')
-							.' tnsnames.ora is '.(is_readable(getenv('ORACLE_HOME').'/network/admin/tnsnames.ora')?'':'not ').'readable');
-		}
-		//check for roles creation rights in oracle
-
-		$query='SELECT count(*) FROM user_role_privs, role_sys_privs'
-			." WHERE user_role_privs.granted_role = role_sys_privs.role AND privilege = 'CREATE ROLE'";
-		$stmt = oci_parse($connection, $query);
-		if (!$stmt) {
-			$entry = $this->trans->t('DB Error: "%s"', array($this->getLastError($connection))) . '<br />';
-			$entry .= $this->trans->t('Offending command was: "%s"', array($query)) . '<br />';
-			$this->logger->warning($entry, ['app' => 'setup.oci']);
-		}
-		$result = oci_execute($stmt);
-		if($result) {
-			$row = oci_fetch_row($stmt);
-
-			if ($row[0] > 0) {
-				//use the admin login data for the new database user
-
-				//add prefix to the oracle user name to prevent collisions
-				$this->dbUser='oc_'.$username;
-				//create a new password so we don't need to store the admin config in the config file
-				$this->dbPassword = \OC::$server->getSecureRandom()->generate(30, \OCP\Security\ISecureRandom::CHAR_LOWER.\OCP\Security\ISecureRandom::CHAR_DIGITS);
-
-				//oracle passwords are treated as identifiers:
-				//  must start with alphanumeric char
-				//  needs to be shortened to 30 bytes, as the two " needed to escape the identifier count towards the identifier length.
-				$this->dbPassword=substr($this->dbPassword, 0, 30);
-
-				$this->createDBUser($connection);
-			}
+				'Check environment: ORACLE_HOME=' . getenv('ORACLE_HOME')
+				. ' ORACLE_SID=' . getenv('ORACLE_SID')
+				. ' LD_LIBRARY_PATH=' . getenv('LD_LIBRARY_PATH')
+				. ' NLS_LANG=' . getenv('NLS_LANG')
+				. ' tnsnames.ora is ' . (is_readable(getenv('ORACLE_HOME') . '/network/admin/tnsnames.ora') ? '' : 'not ') . 'readable');
 		}
 
 		$this->config->setValues([
-			'dbuser'		=> $this->dbUser,
-			'dbname'		=> $this->dbName,
-			'dbpassword'	=> $this->dbPassword,
+			'dbuser' => $this->dbUser,
+			'dbname' => $this->dbName,
+			'dbpassword' => $this->dbPassword,
 		]);
-
-		//create the database not necessary, oracle implies user = schema
-		//$this->createDatabase($this->dbname, $this->dbuser, $connection);
-
-		//FIXME check tablespace exists: select * from user_tablespaces
-
-		// the connection to dbname=oracle is not needed anymore
-		oci_close($connection);
-
-		// connect to the oracle database (schema=$this->dbuser) an check if the schema needs to be filled
-		$this->dbUser = $this->config->getValue('dbuser');
-		//$this->dbname = \OC_Config::getValue('dbname');
-		$this->dbPassword = $this->config->getValue('dbpassword');
-
-		$e_host = addslashes($this->dbHost);
-		$e_dbname = addslashes($this->dbName);
-
-		if ($e_host == '') {
-			$easy_connect_string = $e_dbname; // use dbname as easy connect name
-		} else {
-			$easy_connect_string = '//' . $e_host . (!empty($e_port) ? ":{$e_port}" : "") . '/' . $e_dbname;
-		}
-		$connection = @oci_connect($this->dbUser, $this->dbPassword, $easy_connect_string);
-		if(!$connection) {
-			throw new \OC\DatabaseSetupException($this->trans->t('Oracle username and/or password not valid'),
-					$this->trans->t('You need to enter details of an existing account.'));
-		}
-		$query = "SELECT count(*) FROM user_tables WHERE table_name = :un";
-		$stmt = oci_parse($connection, $query);
-		$un = $this->tablePrefix.'users';
-		oci_bind_by_name($stmt, ':un', $un);
-		if (!$stmt) {
-			$entry = $this->trans->t('DB Error: "%s"', array($this->getLastError($connection))) . '<br />';
-			$entry .= $this->trans->t('Offending command was: "%s"', array($query)) . '<br />';
-			$this->logger->warning( $entry, ['app' => 'setup.oci']);
-		}
-		oci_execute($stmt);
-	}
-
-	/**
-	 * @param resource $connection
-	 */
-	private function createDBUser($connection) {
-		$name = $this->dbUser;
-		$password = $this->dbPassword;
-		$query = "SELECT * FROM all_users WHERE USERNAME = :un";
-		$stmt = oci_parse($connection, $query);
-		if (!$stmt) {
-			$entry = $this->trans->t('DB Error: "%s"', array($this->getLastError($connection))) . '<br />';
-			$entry .= $this->trans->t('Offending command was: "%s"', array($query)) . '<br />';
-			$this->logger->warning($entry, ['app' => 'setup.oci']);
-		}
-		oci_bind_by_name($stmt, ':un', $name);
-		$result = oci_execute($stmt);
-		if(!$result) {
-			$entry = $this->trans->t('DB Error: "%s"', array($this->getLastError($connection))) . '<br />';
-			$entry .= $this->trans->t('Offending command was: "%s"', array($query)) . '<br />';
-			$this->logger->warning($entry, ['app' => 'setup.oci']);
-		}
-
-		if(! oci_fetch_row($stmt)) {
-			//user does not exists let's create it :)
-			//password must start with alphabetic character in oracle
-			$query = 'CREATE USER '.$name.' IDENTIFIED BY "'.$password.'" DEFAULT TABLESPACE '.$this->dbtablespace;
-			$stmt = oci_parse($connection, $query);
-			if (!$stmt) {
-				$entry = $this->trans->t('DB Error: "%s"', array($this->getLastError($connection))) . '<br />';
-				$entry .= $this->trans->t('Offending command was: "%s"', array($query)) . '<br />';
-				$this->logger->warning($entry, ['app' => 'setup.oci']);
-
-			}
-			//oci_bind_by_name($stmt, ':un', $name);
-			$result = oci_execute($stmt);
-			if(!$result) {
-				$entry = $this->trans->t('DB Error: "%s"', array($this->getLastError($connection))) . '<br />';
-				$entry .= $this->trans->t('Offending command was: "%s", name: %s, password: %s',
-					array($query, $name, $password)) . '<br />';
-				$this->logger->warning($entry, ['app' => 'setup.oci']);
-
-			}
-		} else { // change password of the existing role
-			$query = "ALTER USER :un IDENTIFIED BY :pw";
-			$stmt = oci_parse($connection, $query);
-			if (!$stmt) {
-				$entry = $this->trans->t('DB Error: "%s"', array($this->getLastError($connection))) . '<br />';
-				$entry .= $this->trans->t('Offending command was: "%s"', array($query)) . '<br />';
-				$this->logger->warning($entry, ['app' => 'setup.oci']);
-			}
-			oci_bind_by_name($stmt, ':un', $name);
-			oci_bind_by_name($stmt, ':pw', $password);
-			$result = oci_execute($stmt);
-			if(!$result) {
-				$entry = $this->trans->t('DB Error: "%s"', array($this->getLastError($connection))) . '<br />';
-				$entry .= $this->trans->t('Offending command was: "%s"', array($query)) . '<br />';
-				$this->logger->warning($entry, ['app' => 'setup.oci']);
-			}
-		}
-		// grant necessary roles
-		$query = 'GRANT CREATE SESSION, CREATE TABLE, CREATE SEQUENCE, CREATE TRIGGER, UNLIMITED TABLESPACE TO '.$name;
-		$stmt = oci_parse($connection, $query);
-		if (!$stmt) {
-			$entry = $this->trans->t('DB Error: "%s"', array($this->getLastError($connection))) . '<br />';
-			$entry .= $this->trans->t('Offending command was: "%s"', array($query)) . '<br />';
-			$this->logger->warning($entry, ['app' => 'setup.oci']);
-		}
-		$result = oci_execute($stmt);
-		if(!$result) {
-			$entry = $this->trans->t('DB Error: "%s"', array($this->getLastError($connection))) . '<br />';
-			$entry .= $this->trans->t('Offending command was: "%s", name: %s, password: %s',
-				array($query, $name, $password)) . '<br />';
-			$this->logger->warning($entry, ['app' => 'setup.oci']);
-		}
 	}
 
 	/**

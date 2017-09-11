@@ -50,7 +50,7 @@ textarea,
 		&:focus,
 		&.active {
 		/* active class used for multiselect */
-			border-color: $color-primary;
+			border-color: $color-primary-element;
 			outline: none;
 		}
 		&:active {
@@ -66,21 +66,21 @@ textarea,
 	}
 	/* Primary action button, use sparingly */
 	&.primary {
-		border: 1px solid #fff;
-		background-color: $color-primary;
+		background-color: $color-primary-element;
+		border: 1px solid $color-primary-text;
 		color: $color-primary-text;
 		cursor: pointer;
 		&:not(:disabled) {
 			&:hover,
 			&:focus {
-				background-color: rgba($color-primary, .85);
+				background-color: rgba($color-primary-element, .85);
 			}
 			&:active {
-				background-color: rgba($color-primary, .7);
+				background-color: rgba($color-primary-element, .7);
 			}
 		}
 		&:disabled {
-			background-color: rgba($color-primary, .7);
+			background-color: rgba($color-primary-element, .7);
 			color: nc-lighten($color-main-text, 73%);
 		}
 	}
@@ -225,15 +225,15 @@ input {
 			}
 			&:not(:disabled):not(:checked) + label:hover:before,
 			&:focus + label:before {
-				border-color: $color-primary;
+				border-color: $color-primary-element;
 			}
 			&:checked + label:before,
 			&.checkbox:indeterminate + label:before {
 			/* ^ :indeterminate have a strange behavior on radio,
 			so we respecified the checkbox class again to be safe */
 				box-shadow: inset 0px 0px 0px 2px $color-main-background;
-				background-color: $color-primary;
-				border-color: $color-primary
+				background-color: $color-primary-element;
+				border-color: $color-primary-element;
 			}
 			&:disabled + label:before {
 				border: 1px solid nc-lighten($color-main-text, 53%);
@@ -466,35 +466,6 @@ input {
 			line-height: 20px;
 		}
 	}
-}
-
-/* Select menus - TODO: move to jquery-ui-fixes.css
-----------------------------------*/
-.ui-menu {
-	padding: 0;
-	.ui-menu-item a {
-		&.ui-state-focus, &.ui-state-active {
-			font-weight: inherit;
-			margin: 0;
-		}
-	}
-}
-
-.ui-widget-content {
-	background: $color-main-background;
-	border-top: none;
-}
-
-.ui-corner-all {
-	border-radius: 0;
-	border-bottom-left-radius: 3px;
-	border-bottom-right-radius: 3px;
-}
-
-.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus {
-	border: 1px solid transparent;
-	background: inherit;
-	color: $color-primary;
 }
 
 /* Animation */

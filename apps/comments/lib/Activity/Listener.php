@@ -115,15 +115,16 @@ class Listener {
 			->setAuthor($actor)
 			->setObject($event->getComment()->getObjectType(), (int) $event->getComment()->getObjectId())
 			->setMessage('add_comment_message', [
-				$event->getComment()->getId(),
+				'commentId' => $event->getComment()->getId(),
 			]);
 
 		foreach ($users as $user => $path) {
 			$activity->setAffectedUser($user);
 
 			$activity->setSubject('add_comment_subject', [
-				$actor,
-				$path,
+				'actor' => $actor,
+				'fileId' => (int) $event->getComment()->getObjectId(),
+				'filePath' => trim($path, '/'),
 			]);
 			$this->activityManager->publish($activity);
 		}

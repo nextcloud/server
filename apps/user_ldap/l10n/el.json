@@ -1,7 +1,10 @@
 { "translations": {
     "Failed to clear the mappings." : "Αποτυχία εκκαθάρισης των αντιστοιχιών.",
     "Failed to delete the server configuration" : "Αποτυχία διαγραφής ρυθμίσεων διακομιστή",
+    "Invalid configuration: Anonymous binding is not allowed." : "Μη έγκυρη διαμόρφωση: Δεν επιτρέπεται ανώνυμη δέσμευση.",
     "Valid configuration, connection established!" : "Επιτυχής ρύθμιση, συνδεθήκατε με επιτυχία",
+    "Valid configuration, but binding failed. Please check the server settings and credentials." : "Έγκυρη διαμόρφωση, αλλά η σύνδεση απέτυχε. Ελέγξτε τις ρυθμίσεις διακομιστή και τα διαπιστευτήρια.",
+    "Invalid configuration. Please have a look at the logs for further details." : "Μη έγκυρη διαμόρφωση. Παρακαλώ ρίξτε μια ματιά στα αρχεία καταγραφής για περισσότερες λεπτομέρειες.",
     "No action specified" : "Καμμία εντολή δεν προσδιορίστηκε",
     "No configuration specified" : "Καμμία διαμόρφωση δεν προσδιορίστηκε",
     "No data specified" : "Δεν προσδιορίστηκαν δεδομένα",

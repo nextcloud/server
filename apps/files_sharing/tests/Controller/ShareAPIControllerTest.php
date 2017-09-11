@@ -1541,11 +1541,7 @@ class ShareAPIControllerTest extends TestCase {
 		$this->assertEquals($expected->getData(), $result->getData());
 	}
 
-	/**
-	 * @expectedException \OCP\AppFramework\OCS\OCSBadRequestException
-	 * @expectedExceptionMessage Can't change permissions for public share links
-	 */
-	public function testUpdateLinkShareInvalidPermissions() {
+	public function testUpdateLinkSharePermissionsShare() {
 		$ocs = $this->mockFormatShare();
 
 		$date = new \DateTime('2000-01-01');
@@ -1558,13 +1554,27 @@ class ShareAPIControllerTest extends TestCase {
 			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
 			->setPassword('password')
 			->setExpirationDate($date)
-			->setPermissions(\OCP\Constants::PERMISSION_ALL)
+			->setPermissions(\OCP\Constants::PERMISSION_READ)
 			->setNode($folder);
 
 		$this->shareManager->method('getShareById')->with('ocinternal:42')->willReturn($share);
 		$this->shareManager->method('shareApiLinkAllowPublicUpload')->willReturn(true);
 
-		$ocs->updateShare(42, 31);
+		$this->shareManager->expects($this->once())->method('updateShare')->with(
+			$this->callback(function (\OCP\Share\IShare $share) use ($date) {
+				return $share->getPermissions() === (\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_DELETE) &&
+					$share->getPassword() === 'password' &&
+					$share->getExpirationDate() === $date;
+			})
+		)->will($this->returnArgument(0));
+
+		$this->shareManager->method('getSharedWith')->willReturn([]);
+
+		$expected = new DataResponse(null);
+		$result = $ocs->updateShare(42, 31, null, null, null);
+
+		$this->assertInstanceOf(get_class($expected), $result);
+		$this->assertEquals($expected->getData(), $result->getData());
 	}
 
 	public function testUpdateOtherPermissions() {

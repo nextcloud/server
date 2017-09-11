@@ -26,6 +26,7 @@ use OC\Core\Controller\LoginController;
 use OC\User\Session;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\Defaults;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IRequest;
@@ -54,6 +55,8 @@ class LoginControllerTest extends TestCase {
 	private $logger;
 	/** @var Manager|\PHPUnit_Framework_MockObject_MockObject */
 	private $twoFactorManager;
+	/** @var Defaults|\PHPUnit_Framework_MockObject_MockObject */
+	private $defaults;
 
 	public function setUp() {
 		parent::setUp();
@@ -65,6 +68,7 @@ class LoginControllerTest extends TestCase {
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->logger = $this->createMock(ILogger::class);
 		$this->twoFactorManager = $this->createMock(Manager::class);
+		$this->defaults = $this->createMock(Defaults::class);
 
 		$this->loginController = new LoginController(
 			'core',
@@ -75,7 +79,8 @@ class LoginControllerTest extends TestCase {
 			$this->userSession,
 			$this->urlGenerator,
 			$this->logger,
-			$this->twoFactorManager
+			$this->twoFactorManager,
+			$this->defaults
 		);
 	}
 

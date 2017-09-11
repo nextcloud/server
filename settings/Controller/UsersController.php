@@ -437,7 +437,9 @@ class UsersController extends Controller {
 				);
 			}
 
-			$password = $this->secureRandom->generate(32);
+			$password = $this->secureRandom->generate(30);
+			// Make sure we pass the password_policy
+			$password .= $this->secureRandom->generate(2, '$!.,;:-~+*[]{}()');
 			$generatePasswordResetToken = true;
 		}
 

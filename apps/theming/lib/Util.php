@@ -62,7 +62,7 @@ class Util {
 	 */
 	public function invertTextColor($color) {
 		$l = $this->calculateLuminance($color);
-		if($l>0.5) {
+		if($l>0.55) {
 			return true;
 		} else {
 			return false;

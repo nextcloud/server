@@ -507,8 +507,10 @@ class ThemingDefaultsTest extends TestCase {
 		$this->config->expects($this->at(7))->method('getAppValue')->with('theming', 'color', null)->willReturn($this->defaults->getColorPrimary());
 		$this->config->expects($this->at(8))->method('getAppValue')->with('theming', 'color', $this->defaults->getColorPrimary())->willReturn($this->defaults->getColorPrimary());
 		$this->config->expects($this->at(9))->method('getAppValue')->with('theming', 'color', $this->defaults->getColorPrimary())->willReturn($this->defaults->getColorPrimary());
+		$this->config->expects($this->at(10))->method('getAppValue')->with('theming', 'color', $this->defaults->getColorPrimary())->willReturn($this->defaults->getColorPrimary());
 
 		$this->util->expects($this->any())->method('invertTextColor')->with($this->defaults->getColorPrimary())->willReturn(false);
+		$this->util->expects($this->any())->method('elementColor')->with($this->defaults->getColorPrimary())->willReturn('#aaaaaa');
 		$this->cache->expects($this->once())->method('get')->with('getScssVariables')->willReturn(null);
 		$folder = $this->createMock(ISimpleFolder::class);
 		$file = $this->createMock(ISimpleFile::class);
@@ -538,7 +540,8 @@ class ThemingDefaultsTest extends TestCase {
 			'image-login-background' => "'absolute-custom-background?v=0'",
 			'color-primary' => $this->defaults->getColorPrimary(),
 			'color-primary-text' => '#ffffff',
-			'image-login-plain' => 'false'
+			'image-login-plain' => 'false',
+			'color-primary-element' => '#aaaaaa'
 
 		];
 		$this->assertEquals($expected, $this->template->getScssVariables());

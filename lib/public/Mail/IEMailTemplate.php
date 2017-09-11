@@ -36,7 +36,7 @@ namespace OCP\Mail;
  *
  * $emailTemplate->addHeader();
  * $emailTemplate->addHeading('Welcome aboard');
- * $emailTemplate->addBodyText('You have now an Nextcloud account, you can add, protect, and share your data.');
+ * $emailTemplate->addBodyText('You now have an Nextcloud account, you can add, protect, and share your data.');
  *
  * $emailTemplate->addBodyButtonGroup(
  *     'Set your password', 'https://example.org/resetPassword/q1234567890qwertz',
@@ -51,12 +51,6 @@ namespace OCP\Mail;
  * @since 12.0.0
  */
 interface IEMailTemplate {
-	/**
-	 * Set meta data of an email
-	 *
-	 * @since 12.0.3
-	 */
-	public function setMetaData($emailId, array $data = []);
 
 	/**
 	 * Adds a header to the email

@@ -133,6 +133,6 @@ class MailerTest extends TestCase {
 	}
 
 	public function testCreateEMailTemplate() {
-		$this->assertSame(EMailTemplate::class, get_class($this->mailer->createEMailTemplate()));
+		$this->assertSame(EMailTemplate::class, get_class($this->mailer->createEMailTemplate('tests.MailerTest')));
 	}
 }

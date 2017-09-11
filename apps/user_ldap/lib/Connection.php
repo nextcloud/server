@@ -528,12 +528,13 @@ class Connection extends LDAPUtility {
 				}
 			}
 
+			$isOverrideMainServer = ($this->configuration->ldapOverrideMainServer
+				|| $this->getFromCache('overrideMainServer'));
+			$isBackupHost = (trim($this->configuration->ldapBackupHost) !== "");
 			$bindStatus = false;
 			$error = -1;
 			try {
-				if (!$this->configuration->ldapOverrideMainServer
-					&& !$this->getFromCache('overrideMainServer')
-				) {
+				if (!$isOverrideMainServer) {
 					$this->doConnect($this->configuration->ldapHost,
 						$this->configuration->ldapPort);
 					$bindStatus = $this->bind();
@@ -543,26 +544,26 @@ class Connection extends LDAPUtility {
 				if($bindStatus === true) {
 					return $bindStatus;
 				}
-			} catch (\OC\ServerNotAvailableException $e) {
-				if(trim($this->configuration->ldapBackupHost) === "") {
+			} catch (ServerNotAvailableException $e) {
+				if(!$isBackupHost) {
 					throw $e;
 				}
 			}
 
 			//if LDAP server is not reachable, try the Backup (Replica!) Server
-			if(    $error !== 0
-				|| $this->configuration->ldapOverrideMainServer
-				|| $this->getFromCache('overrideMainServer'))
-			{
+			if($isBackupHost && ($error !== 0 || $isOverrideMainServer)) {
 				$this->doConnect($this->configuration->ldapBackupHost,
 								 $this->configuration->ldapBackupPort);
 				$bindStatus = $this->bind();
-				if($bindStatus && $error === -1 && !$this->getFromCache('overrideMainServer')) {
+				$error = $this->ldap->isResource($this->ldapConnectionRes) ?
+					$this->ldap->errno($this->ldapConnectionRes) : -1;
+				if($bindStatus && $error === 0 && !$this->getFromCache('overrideMainServer')) {
 					//when bind to backup server succeeded and failed to main server,
 					//skip contacting him until next cache refresh
 					$this->writeToCache('overrideMainServer', true);
 				}
 			}
+
 			return $bindStatus;
 		}
 		return null;
@@ -578,16 +579,23 @@ class Connection extends LDAPUtility {
 		if ($host === '') {
 			return false;
 		}
+
 		$this->ldapConnectionRes = $this->ldap->connect($host, $port);
-		if($this->ldap->setOption($this->ldapConnectionRes, LDAP_OPT_PROTOCOL_VERSION, 3)) {
-			if($this->ldap->setOption($this->ldapConnectionRes, LDAP_OPT_REFERRALS, 0)) {
-				if($this->configuration->ldapTLS) {
-					$this->ldap->startTls($this->ldapConnectionRes);
-				}
-			}
-		} else {
-			throw new \OC\ServerNotAvailableException('Could not set required LDAP Protocol version.');
+
+		if(!$this->ldap->setOption($this->ldapConnectionRes, LDAP_OPT_PROTOCOL_VERSION, 3)) {
+			throw new ServerNotAvailableException('Could not set required LDAP Protocol version.');
 		}
+
+		if(!$this->ldap->setOption($this->ldapConnectionRes, LDAP_OPT_REFERRALS, 0)) {
+			throw new ServerNotAvailableException('Could not disable LDAP referrals.');
+		}
+
+		if($this->configuration->ldapTLS) {
+			if(!$this->ldap->startTls($this->ldapConnectionRes)) {
+				throw new ServerNotAvailableException('Start TLS failed, when connecting to LDAP host ' . $host . '.');
+			}
+		}
+
 		return true;
 	}
 
@@ -595,17 +603,10 @@ class Connection extends LDAPUtility {
 	 * Binds to LDAP
 	 */
 	public function bind() {
-		static $getConnectionResourceAttempt = false;
 		if(!$this->configuration->ldapConfigurationActive) {
 			return false;
 		}
-		if($getConnectionResourceAttempt) {
-			$getConnectionResourceAttempt = false;
-			return false;
-		}
-		$getConnectionResourceAttempt = true;
 		$cr = $this->getConnectionResource();
-		$getConnectionResourceAttempt = false;
 		if(!$this->ldap->isResource($cr)) {
 			return false;
 		}
@@ -613,10 +614,17 @@ class Connection extends LDAPUtility {
 										$this->configuration->ldapAgentName,
 										$this->configuration->ldapAgentPassword);
 		if(!$ldapLogin) {
+			$errno = $this->ldap->errno($cr);
+
 			\OCP\Util::writeLog('user_ldap',
-				'Bind failed: ' . $this->ldap->errno($cr) . ': ' . $this->ldap->error($cr),
+				'Bind failed: ' . $errno . ': ' . $this->ldap->error($cr),
 				\OCP\Util::WARN);
-			$this->ldapConnectionRes = null;
+
+			// Set to failure mode, if LDAP error code is not LDAP_SUCCESS or LDAP_INVALID_CREDENTIALS
+			if($errno !== 0x00 && $errno !== 0x31) {
+				$this->ldapConnectionRes = null;
+			}
+
 			return false;
 		}
 		return true;
