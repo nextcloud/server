@@ -73,10 +73,10 @@ class Swift implements IObjectStore {
 
 		if (isset($params['apiKey'])) {
 			$this->client = new Rackspace($params['url'], $params);
-			$cacheKey = $this->params['username'] . '@' . $this->params['url'] . '/' . $this->params['bucket'];
+			$cacheKey = $params['username'] . '@' . $params['url'] . '/' . $params['bucket'];
 		} else {
 			$this->client = new OpenStack($params['url'], $params);
-			$cacheKey = $this->params['username'] . '@' . $this->params['url'] . '/' . $this->params['bucket'];
+			$cacheKey = $params['username'] . '@' . $params['url'] . '/' . $params['bucket'];
 		}
 
 		$cacheFactory = \OC::$server->getMemCacheFactory();
