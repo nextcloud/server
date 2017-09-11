@@ -47,6 +47,13 @@ class IntegrationTestPaging extends AbstractIntegrationTest {
 		$this->backend = new User_LDAP($this->access, \OC::$server->getConfig(), \OC::$server->getNotificationManager());
 	}
 
+	public function initConnection() {
+		parent::initConnection();
+		$this->connection->setConfiguration([
+			'ldapPagingSize' => 1
+		]);
+	}
+
 	/**
 	 * tests that paging works properly against a simple example (reading all
 	 * of few users in smallest steps)
@@ -54,20 +61,18 @@ class IntegrationTestPaging extends AbstractIntegrationTest {
 	 * @return bool
 	 */
 	protected function case1() {
-		$limit = 1;
 		$offset = 0;
 
 		$filter = 'objectclass=inetorgperson';
 		$attributes = ['cn', 'dn'];
 		$users = [];
 		do {
-			$result = $this->access->searchUsers($filter, $attributes, $limit, $offset);
+			$result = $this->access->searchUsers($filter, $attributes, null, $offset);
 			foreach($result as $user) {
 				$users[] = $user['cn'];
 			}
-			$offset += $limit;
+			$offset += count($users);
 		} while ($this->access->hasMoreResults());
-
 		if(count($users) === 2) {
 			return true;
 		}
