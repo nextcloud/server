@@ -36,6 +36,9 @@ class IntegrationTestPaging extends AbstractIntegrationTest {
 	/** @var User_LDAP */
 	protected $backend;
 
+	/** @var int */
+	protected $pagingSize = 2;
+
 	/**
 	 * prepares the LDAP environment and sets up a test configuration for
 	 * the LDAP backend.
@@ -50,7 +53,7 @@ class IntegrationTestPaging extends AbstractIntegrationTest {
 	public function initConnection() {
 		parent::initConnection();
 		$this->connection->setConfiguration([
-			'ldapPagingSize' => 1
+			'ldapPagingSize' => $this->pagingSize
 		]);
 	}
 
@@ -61,19 +64,33 @@ class IntegrationTestPaging extends AbstractIntegrationTest {
 	 * @return bool
 	 */
 	protected function case1() {
-		$offset = 0;
-
 		$filter = 'objectclass=inetorgperson';
 		$attributes = ['cn', 'dn'];
 		$users = [];
-		do {
-			$result = $this->access->searchUsers($filter, $attributes, null, $offset);
-			foreach($result as $user) {
-				$users[] = $user['cn'];
-			}
-			$offset += count($users);
-		} while ($this->access->hasMoreResults());
-		if(count($users) === 2) {
+
+		$result = $this->access->searchUsers($filter, $attributes);
+		foreach($result as $user) {
+			$users[] = $user['cn'];
+		}
+
+		if(count($users) === 4) {
+			return true;
+		}
+
+		return false;
+	}
+
+	protected function case2() {
+		$filter = 'objectclass=inetorgperson';
+		$attributes = ['cn', 'dn'];
+		$users = [];
+
+		$result = $this->access->searchUsers($filter, $attributes, null, $this->pagingSize);
+		foreach($result as $user) {
+			$users[] = $user['cn'];
+		}
+
+		if(count($users) === 4 - $this->pagingSize) {
 			return true;
 		}
 
