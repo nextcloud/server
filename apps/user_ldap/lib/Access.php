@@ -1030,7 +1030,7 @@ class Access extends LDAPUtility implements IUserTools {
 	 * @param array $sr the array containing the LDAP search resources
 	 * @param string $filter the LDAP filter for the search
 	 * @param array $base an array containing the LDAP subtree(s) that shall be searched
-	 * @param int $iFoundItems number of results in the search operation
+	 * @param int $iFoundItems number of results in the single search operation
 	 * @param int $limit maximum results to be counted
 	 * @param int $offset a starting point
 	 * @param bool $pagedSearchOK whether a paged search has been executed
@@ -1180,15 +1180,18 @@ class Access extends LDAPUtility implements IUserTools {
 				return array();
 			}
 
+			$iFoundItems = 0;
 			foreach($sr as $res) {
 				$findings = array_merge($findings, $this->invokeLDAPMethod('getEntries', $cr, $res));
+				$iFoundItems = max($iFoundItems, $findings['count']);
+				unset($findings['count']);
 			}
 
-			$continue = $this->processPagedSearchStatus($sr, $filter, $base, $findings['count'],
+			$continue = $this->processPagedSearchStatus($sr, $filter, $base, $iFoundItems,
 				$limitPerPage, $offset, $pagedSearchOK,
 										$skipHandling);
 			$offset += $limitPerPage;
-		} while ($continue && $pagedSearchOK && ($limit === null || $findings['count'] < $limit));
+		} while ($continue && $pagedSearchOK && ($limit === null || count($findings) < $limit));
 		// reseting offset
 		$offset = $savedoffset;
 
