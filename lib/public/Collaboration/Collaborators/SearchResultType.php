@@ -55,6 +55,7 @@ class SearchResultType {
 	 * @param $type
 	 * @return string
 	 * @throws \InvalidArgumentException
+	 * @since 13.0.0
 	 */
 	protected function getValidatedType($type) {
 		$type = trim(strval($type));

@@ -79,7 +79,7 @@ class SearchResult implements ISearchResult {
 	public function unsetResult(SearchResultType $type) {
 		$type = $type->getLabel();
 		$this->result[$type] = [];
-		if(isset($this->$result['exact'][$type])) {
+		if(isset($this->result['exact'][$type])) {
 			$this->result['exact'][$type] = [];
 		}
 	}
