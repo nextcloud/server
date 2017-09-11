@@ -50,7 +50,7 @@ if (true) {
 	}
 }
 
-$users = ['alice', 'boris', 'cynthia', 'derek'];
+$users = ['alice', 'boris', 'cynthia', 'derek', 'evelina', 'fatima', 'gregor'];
 
 foreach ($users as $uid) {
 	$newDN = 'uid=' . $uid . ',' . $ouDN;
