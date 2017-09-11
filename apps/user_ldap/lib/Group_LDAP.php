@@ -333,7 +333,7 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface {
 	public function getUserGidNumber($dn) {
 		$gidNumber = false;
 		if($this->access->connection->hasGidNumber) {
-			$gidNumber = $this->getEntryGidNumber($dn, 'gidNumber');
+			$gidNumber = $this->getEntryGidNumber($dn, $this->access->connection->ldapGidNumber);
 			if($gidNumber === false) {
 				$this->access->connection->hasGidNumber = false;
 			}
