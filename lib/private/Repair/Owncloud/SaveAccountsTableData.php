@@ -23,6 +23,8 @@
 
 namespace OC\Repair\Owncloud;
 
+use OC\DB\Connection;
+use OC\DB\MDB2SchemaManager;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -38,7 +40,7 @@ class SaveAccountsTableData implements IRepairStep {
 
 	const BATCH_SIZE = 75;
 
-	/** @var IDBConnection */
+	/** @var IDBConnection|Connection */
 	protected $db;
 
 	/** @var IConfig */
@@ -84,7 +86,10 @@ class SaveAccountsTableData implements IRepairStep {
 	 * @return bool
 	 */
 	protected function shouldRun() {
-		$schema = $this->db->createSchema();
+		// This is the equivalent of the new migration code that is used in 13+
+		$filterExpression = '/^' . preg_quote($this->config->getSystemValue('dbtableprefix', 'oc_')) . '/';
+		$this->db->getConfiguration()->setFilterSchemaAssetsExpression($filterExpression);
+		$schema = $this->db->getSchemaManager()->createSchema();
 
 		$tableName = $this->config->getSystemValue('dbtableprefix', 'oc_') . 'accounts';
 		if (!$schema->hasTable($tableName)) {
