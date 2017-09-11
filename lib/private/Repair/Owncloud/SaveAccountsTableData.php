@@ -23,8 +23,8 @@
 
 namespace OC\Repair\Owncloud;
 
-use Doctrine\DBAL\Exception\InvalidFieldNameException;
-use Doctrine\DBAL\Exception\TableNotFoundException;
+use OC\DB\Connection;
+use OC\DB\MDB2SchemaManager;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -40,7 +40,7 @@ class SaveAccountsTableData implements IRepairStep {
 
 	const BATCH_SIZE = 75;
 
-	/** @var IDBConnection */
+	/** @var IDBConnection|Connection */
 	protected $db;
 
 	/** @var IConfig */
@@ -86,20 +86,18 @@ class SaveAccountsTableData implements IRepairStep {
 	 * @return bool
 	 */
 	protected function shouldRun() {
-		$query = $this->db->getQueryBuilder();
-		$query->select('*')
-			->from('accounts')
-			->where($query->expr()->isNotNull('user_id'))
-			->setMaxResults(1);
+		// This is the equivalent of the new migration code that is used in 13+
+		$filterExpression = '/^' . preg_quote($this->config->getSystemValue('dbtableprefix', 'oc_')) . '/';
+		$this->db->getConfiguration()->setFilterSchemaAssetsExpression($filterExpression);
+		$schema = $this->db->getSchemaManager()->createSchema();
 
-		try {
-			$query->execute();
-			return true;
-		} catch (InvalidFieldNameException $e) {
-			return false;
-		} catch (TableNotFoundException $e) {
+		$tableName = $this->config->getSystemValue('dbtableprefix', 'oc_') . 'accounts';
+		if (!$schema->hasTable($tableName)) {
 			return false;
 		}
+
+		$table = $schema->getTable($tableName);
+		return $table->hasColumn('user_id');
 	}
 
 	/**
