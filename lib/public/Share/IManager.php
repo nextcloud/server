@@ -40,6 +40,7 @@ interface IManager {
 	 *
 	 * @param IShare $share
 	 * @return IShare The share object
+	 * @throws \Exception
 	 * @since 9.0.0
 	 */
 	public function createShare(IShare $share);
@@ -51,6 +52,7 @@ interface IManager {
 	 *
 	 * @param IShare $share
 	 * @return IShare The share object
+	 * @throws \InvalidArgumentException
 	 * @since 9.0.0
 	 */
 	public function updateShare(IShare $share);
@@ -60,6 +62,7 @@ interface IManager {
 	 *
 	 * @param IShare $share
 	 * @throws ShareNotFound
+	 * @throws \InvalidArgumentException
 	 * @since 9.0.0
 	 */
 	public function deleteShare(IShare $share);
