@@ -249,6 +249,36 @@ class ThemingDefaults extends \OC_Defaults {
 	}
 
 	/**
+	 * Check if the image should be replaced by the theming app
+	 * and return the new image location then
+	 *
+	 * @param string $app name of the app
+	 * @param string $image filename of the image
+	 * @return bool|string false if image should not replaced, otherwise the location of the image
+	 */
+	public function replaceImagePath($app, $image) {
+		if($app==='') {
+			$app = 'core';
+		}
+		$cacheBusterValue = $this->config->getAppValue('theming', 'cachebuster', '0');
+
+		if ($image === 'favicon.ico' && $this->shouldReplaceIcons()) {
+			return $this->urlGenerator->linkToRoute('theming.Icon.getFavicon', ['app' => $app]) . '?v=' . $cacheBusterValue;
+		}
+		if ($image === 'favicon-touch.png' && $this->shouldReplaceIcons()) {
+			return $this->urlGenerator->linkToRoute('theming.Icon.getTouchIcon', ['app' => $app]) . '?v=' . $cacheBusterValue;
+		}
+		if ($image === 'manifest.json') {
+			$appPath = \OC_App::getAppPath($app);
+			if ($appPath && file_exists($appPath . '/img/manifest.json')) {
+				return false;
+			}
+			return $this->urlGenerator->linkToRoute('theming.Theming.getManifest') . '?v=' . $cacheBusterValue;
+		}
+		return false;
+	}
+
+	/**
 	 * Check if Imagemagick is enabled and if SVG is supported
 	 * otherwise we can't render custom icons
 	 *

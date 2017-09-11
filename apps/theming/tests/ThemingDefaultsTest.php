@@ -607,4 +607,36 @@ class ThemingDefaultsTest extends TestCase {
 		$this->assertEquals('1234567890', $this->template->getiTunesAppId());
 	}
 
+	public function dataReplaceImagePath() {
+		return [
+			['core', 'test.png', false],
+			['core', 'manifest.json'],
+			['core', 'favicon.ico'],
+			['core', 'favicon-touch.png']
+		];
+	}
+
+	/** @dataProvider dataReplaceImagePath */
+	public function testReplaceImagePath($app, $image, $result = 'themingRoute?v=0') {
+		$cache = $this->createMock(ICache::class);
+		$cache->expects($this->any())
+			->method('get')
+			->with('shouldReplaceIcons')
+			->willReturn(true);
+		$this->cacheFactory->expects($this->any())
+			->method('create')
+			->with('theming')
+			->willReturn($cache);
+		$this->config
+			->expects($this->any())
+			->method('getAppValue')
+			->with('theming', 'cachebuster', '0')
+			->willReturn('0');
+		$this->urlGenerator
+			->expects($this->any())
+			->method('linkToRoute')
+			->willReturn('themingRoute');
+		$this->assertEquals($result, $this->template->replaceImagePath($app, $image));
+	}
+
 }
