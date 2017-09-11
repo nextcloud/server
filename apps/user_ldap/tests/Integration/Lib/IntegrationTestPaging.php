@@ -59,38 +59,60 @@ class IntegrationTestPaging extends AbstractIntegrationTest {
 
 	/**
 	 * tests that paging works properly against a simple example (reading all
-	 * of few users in smallest steps)
+	 * of few users in small steps)
 	 *
 	 * @return bool
 	 */
 	protected function case1() {
 		$filter = 'objectclass=inetorgperson';
 		$attributes = ['cn', 'dn'];
-		$users = [];
 
 		$result = $this->access->searchUsers($filter, $attributes);
-		foreach($result as $user) {
-			$users[] = $user['cn'];
-		}
-
-		if(count($users) === 4) {
+		if(count($result) === 7) {
 			return true;
 		}
 
 		return false;
 	}
 
+	/**
+	 * fetch first three, afterwards all users
+	 *
+	 * @return bool
+	 */
 	protected function case2() {
 		$filter = 'objectclass=inetorgperson';
 		$attributes = ['cn', 'dn'];
-		$users = [];
 
-		$result = $this->access->searchUsers($filter, $attributes, null, $this->pagingSize);
-		foreach($result as $user) {
-			$users[] = $user['cn'];
+		$result = $this->access->searchUsers($filter, $attributes, 4);
+		// beware, under circumstances, the result  set can be larger then
+		// the specified limit! In this case, if we specify a limit of 3,
+		// the result will be 4, because the highest possible paging size
+		// is 2 (as configured).
+		// But also with more than one search base, the limit can be outpaced.
+		if(count($result) !== 4) {
+			return false;
 		}
 
-		if(count($users) === 4 - $this->pagingSize) {
+		$result = $this->access->searchUsers($filter, $attributes);
+		if(count($result) !== 7) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * reads all remaining users starting first page
+	 *
+	 * @return bool
+	 */
+	protected function case3() {
+		$filter = 'objectclass=inetorgperson';
+		$attributes = ['cn', 'dn'];
+
+		$result = $this->access->searchUsers($filter, $attributes, null, $this->pagingSize);
+		if(count($result) === (7 - $this->pagingSize)) {
 			return true;
 		}
 
