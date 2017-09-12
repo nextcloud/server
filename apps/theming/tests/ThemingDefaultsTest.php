@@ -623,15 +623,10 @@ class ThemingDefaultsTest extends TestCase {
 
 	/** @dataProvider dataReplaceImagePath */
 	public function testReplaceImagePath($app, $image, $result = 'themingRoute?v=0') {
-		$cache = $this->createMock(ICache::class);
-		$cache->expects($this->any())
+		$this->cache->expects($this->any())
 			->method('get')
 			->with('shouldReplaceIcons')
 			->willReturn(true);
-		$this->cacheFactory->expects($this->any())
-			->method('create')
-			->with('theming')
-			->willReturn($cache);
 		$this->config
 			->expects($this->any())
 			->method('getAppValue')
