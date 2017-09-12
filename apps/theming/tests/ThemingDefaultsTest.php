@@ -24,6 +24,7 @@
 namespace OCA\Theming\Tests;
 
 use OCA\Theming\ThemingDefaults;
+use OCP\App\IAppManager;
 use OCP\Files\IAppData;
 use OCA\Theming\Util;
 use OCP\Files\NotFoundException;
@@ -55,6 +56,8 @@ class ThemingDefaultsTest extends TestCase {
 	private $util;
 	/** @var ICache|\PHPUnit_Framework_MockObject_MockObject */
 	private $cache;
+	/** @var IAppManager|\PHPUnit_Framework_MockObject_MockObject */
+	private $appManager;
 
 	public function setUp() {
 		parent::setUp();
@@ -65,6 +68,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->cache = $this->createMock(ICache::class);
 		$this->util = $this->createMock(Util::class);
+		$this->appManager = $this->createMock(IAppManager::class);
 		$this->defaults = new \OC_Defaults();
 		$this->cacheFactory
 			->expects($this->any())
@@ -77,7 +81,8 @@ class ThemingDefaultsTest extends TestCase {
 			$this->urlGenerator,
 			$this->appData,
 			$this->cacheFactory,
-			$this->util
+			$this->util,
+			$this->appManager
 		);
 	}
 
@@ -605,6 +610,33 @@ class ThemingDefaultsTest extends TestCase {
 			->willReturn('1234567890');
 
 		$this->assertEquals('1234567890', $this->template->getiTunesAppId());
+	}
+
+	public function dataReplaceImagePath() {
+		return [
+			['core', 'test.png', false],
+			['core', 'manifest.json'],
+			['core', 'favicon.ico'],
+			['core', 'favicon-touch.png']
+		];
+	}
+
+	/** @dataProvider dataReplaceImagePath */
+	public function testReplaceImagePath($app, $image, $result = 'themingRoute?v=0') {
+		$this->cache->expects($this->any())
+			->method('get')
+			->with('shouldReplaceIcons')
+			->willReturn(true);
+		$this->config
+			->expects($this->any())
+			->method('getAppValue')
+			->with('theming', 'cachebuster', '0')
+			->willReturn('0');
+		$this->urlGenerator
+			->expects($this->any())
+			->method('linkToRoute')
+			->willReturn('themingRoute');
+		$this->assertEquals($result, $this->template->replaceImagePath($app, $image));
 	}
 
 }

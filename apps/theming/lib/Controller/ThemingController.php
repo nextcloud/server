@@ -423,4 +423,39 @@ class ThemingController extends Controller {
 		$response->cacheFor(3600);
 		return $response;
 	}
+
+	/**
+	 * @NoCSRFRequired
+	 * @PublicPage
+	 *
+	 * @return Http\JSONResponse
+	 */
+	public function getManifest($app) {
+		$cacheBusterValue = $this->config->getAppValue('theming', 'cachebuster', '0');
+		$responseJS = [
+			'name' => $this->themingDefaults->getName(),
+			'start_url' => $this->urlGenerator->getBaseUrl(),
+			'icons' =>
+				[
+					[
+						'src' => $this->urlGenerator->linkToRoute('theming.Icon.getTouchIcon',
+								['app' => $app]) . '?v=' . $cacheBusterValue,
+						'type'=> 'image/png',
+						'sizes'=> '128x128'
+					],
+					[
+						'src' => $this->urlGenerator->linkToRoute('theming.Icon.getFavicon',
+								['app' => $app]) . '?v=' . $cacheBusterValue,
+						'type' => 'image/svg+xml',
+						'sizes' => '16x16'
+					]
+				],
+			'display' => 'standalone'
+		];
+		$response = new Http\JSONResponse($responseJS);
+		$response->addHeader('Expires', date(\DateTime::RFC2822, $this->timeFactory->getTime()));
+		$response->addHeader('Pragma', 'cache');
+		$response->cacheFor(3600);
+		return $response;
+	}
 }

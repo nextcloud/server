@@ -23,6 +23,8 @@
 namespace OCA\Theming;
 
 
+use OCP\App\AppPathNotFoundException;
+use OCP\App\IAppManager;
 use OCP\Files\IAppData;
 use OCP\ICacheFactory;
 use OCP\IConfig;
@@ -41,6 +43,10 @@ class ThemingDefaults extends \OC_Defaults {
 	private $appData;
 	/** @var ICacheFactory */
 	private $cacheFactory;
+	/** @var Util */
+	private $util;
+	/** @var IAppManager */
+	private $appManager;
 	/** @var string */
 	private $name;
 	/** @var string */
@@ -49,8 +55,7 @@ class ThemingDefaults extends \OC_Defaults {
 	private $slogan;
 	/** @var string */
 	private $color;
-	/** @var Util */
-	private $util;
+
 	/** @var string */
 	private $iTunesAppId;
 	/** @var string */
@@ -68,13 +73,15 @@ class ThemingDefaults extends \OC_Defaults {
 	 * @param IAppData $appData
 	 * @param ICacheFactory $cacheFactory
 	 * @param Util $util
+	 * @param IAppManager $appManager
 	 */
 	public function __construct(IConfig $config,
 								IL10N $l,
 								IURLGenerator $urlGenerator,
 								IAppData $appData,
 								ICacheFactory $cacheFactory,
-								Util $util
+								Util $util,
+								IAppManager $appManager
 	) {
 		parent::__construct();
 		$this->config = $config;
@@ -83,6 +90,7 @@ class ThemingDefaults extends \OC_Defaults {
 		$this->appData = $appData;
 		$this->cacheFactory = $cacheFactory;
 		$this->util = $util;
+		$this->appManager = $appManager;
 
 		$this->name = parent::getName();
 		$this->url = parent::getBaseUrl();
@@ -246,6 +254,38 @@ class ThemingDefaults extends \OC_Defaults {
 		}
 		$cache->set('getScssVariables', $variables);
 		return $variables;
+	}
+
+	/**
+	 * Check if the image should be replaced by the theming app
+	 * and return the new image location then
+	 *
+	 * @param string $app name of the app
+	 * @param string $image filename of the image
+	 * @return bool|string false if image should not replaced, otherwise the location of the image
+	 */
+	public function replaceImagePath($app, $image) {
+		if($app==='') {
+			$app = 'core';
+		}
+		$cacheBusterValue = $this->config->getAppValue('theming', 'cachebuster', '0');
+
+		if ($image === 'favicon.ico' && $this->shouldReplaceIcons()) {
+			return $this->urlGenerator->linkToRoute('theming.Icon.getFavicon', ['app' => $app]) . '?v=' . $cacheBusterValue;
+		}
+		if ($image === 'favicon-touch.png' && $this->shouldReplaceIcons()) {
+			return $this->urlGenerator->linkToRoute('theming.Icon.getTouchIcon', ['app' => $app]) . '?v=' . $cacheBusterValue;
+		}
+		if ($image === 'manifest.json') {
+			try {
+				$appPath = $this->appManager->getAppPath($app);
+				if (file_exists($appPath . '/img/manifest.json')) {
+					return false;
+				}
+			} catch (AppPathNotFoundException $e) {}
+			return $this->urlGenerator->linkToRoute('theming.Theming.getManifest') . '?v=' . $cacheBusterValue;
+		}
+		return false;
 	}
 
 	/**
