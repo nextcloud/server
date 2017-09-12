@@ -133,6 +133,13 @@ kbd {
 							opacity: 1;
 						}
 					}
+					/* Submenu fix for icon */
+					> a {
+						&[class*='icon-'],
+						&[style*='background-image:'] {
+							margin-left: -32px; /* 44px padding - 12px padding */
+						}
+					}
 				}
 			}
 		}
