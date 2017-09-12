@@ -43,6 +43,7 @@ use OCP\ILogger;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\L10N\IFactory;
 use OCP\Mail\IMailer;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
@@ -75,6 +76,8 @@ class Manager implements IManager {
 	private $groupManager;
 	/** @var IL10N */
 	private $l;
+	/** @var IFactory */
+	private $l10nFactory;
 	/** @var IUserManager */
 	private $userManager;
 	/** @var IRootFolder */
@@ -103,6 +106,7 @@ class Manager implements IManager {
 	 * @param IMountManager $mountManager
 	 * @param IGroupManager $groupManager
 	 * @param IL10N $l
+	 * @param IFactory $l10nFactory
 	 * @param IProviderFactory $factory
 	 * @param IUserManager $userManager
 	 * @param IRootFolder $rootFolder
@@ -119,6 +123,7 @@ class Manager implements IManager {
 			IMountManager $mountManager,
 			IGroupManager $groupManager,
 			IL10N $l,
+			IFactory $l10nFactory,
 			IProviderFactory $factory,
 			IUserManager $userManager,
 			IRootFolder $rootFolder,
@@ -134,6 +139,7 @@ class Manager implements IManager {
 		$this->mountManager = $mountManager;
 		$this->groupManager = $groupManager;
 		$this->l = $l;
+		$this->l10nFactory = $l10nFactory;
 		$this->factory = $factory;
 		$this->userManager = $userManager;
 		$this->rootFolder = $rootFolder;
@@ -689,7 +695,10 @@ class Manager implements IManager {
 			if ($user !== null) {
 				$emailAddress = $user->getEMailAddress();
 				if ($emailAddress !== null && $emailAddress !== '') {
+					$userLang = $this->config->getUserValue($share->getSharedWith(), 'core', 'lang', null);
+					$l = $this->l10nFactory->get('lib', $userLang);
 					$this->sendMailNotification(
+						$l,
 						$share->getNode()->getName(),
 						$this->urlGenerator->linkToRouteAbsolute('files.viewcontroller.showFile', [ 'fileid' => $share->getNode()->getId() ]),
 						$share->getSharedBy(),
@@ -709,6 +718,7 @@ class Manager implements IManager {
 	}
 
 	/**
+	 * @param IL10N $l Language of the recipient
 	 * @param string $filename file/folder name
 	 * @param string $link link to the file/folder
 	 * @param string $initiator user ID of share sender
@@ -716,14 +726,15 @@ class Manager implements IManager {
 	 * @param \DateTime|null $expiration
 	 * @throws \Exception If mail couldn't be sent
 	 */
-	protected function sendMailNotification($filename,
+	protected function sendMailNotification(IL10N $l,
+											$filename,
 											$link,
 											$initiator,
 											$shareWith,
 											\DateTime $expiration = null) {
 		$initiatorUser = $this->userManager->get($initiator);
 		$initiatorDisplayName = ($initiatorUser instanceof IUser) ? $initiatorUser->getDisplayName() : $initiator;
-		$subject = (string)$this->l->t('%s shared »%s« with you', array($initiatorDisplayName, $filename));
+		$subject = $l->t('%s shared »%s« with you', array($initiatorDisplayName, $filename));
 
 		$message = $this->mailer->createMessage();
 
@@ -736,15 +747,15 @@ class Manager implements IManager {
 		]);
 
 		$emailTemplate->addHeader();
-		$emailTemplate->addHeading($this->l->t('%s shared »%s« with you', [$initiatorDisplayName, $filename]), false);
-		$text = $this->l->t('%s shared »%s« with you.', [$initiatorDisplayName, $filename]);
+		$emailTemplate->addHeading($l->t('%s shared »%s« with you', [$initiatorDisplayName, $filename]), false);
+		$text = $l->t('%s shared »%s« with you.', [$initiatorDisplayName, $filename]);
 
 		$emailTemplate->addBodyText(
-			$text . ' ' . $this->l->t('Click the button below to open it.'),
+			$text . ' ' . $l->t('Click the button below to open it.'),
 			$text
 		);
 		$emailTemplate->addBodyButton(
-			$this->l->t('Open »%s«', [$filename]),
+			$l->t('Open »%s«', [$filename]),
 			$link
 		);
 
@@ -752,7 +763,7 @@ class Manager implements IManager {
 
 		// The "From" contains the sharers name
 		$instanceName = $this->defaults->getName();
-		$senderName = $this->l->t(
+		$senderName = $l->t(
 			'%s via %s',
 			[
 				$initiatorDisplayName,
