@@ -268,7 +268,7 @@ kbd {
 			transform: rotate(-90deg);
 		}
 
-		/* force padding on link if collapse is here no matter if a has an icon class */
+		/* force padding on link no matter if 'a' has an icon class */
 		> a:first-child {
 			padding-left: 44px;
 		}
