@@ -58,7 +58,7 @@ class IconBuilder {
 			if ($icon === false) {
 				return false;
 			}
-			$icon->setImageFormat("png24");
+			$icon->setImageFormat("png32");
 			$data = $icon->getImageBlob();
 			$icon->destroy();
 			return $data;
@@ -77,7 +77,7 @@ class IconBuilder {
 			if ($icon === false) {
 				return false;
 			}
-			$icon->setImageFormat("png24");
+			$icon->setImageFormat("png32");
 			$data = $icon->getImageBlob();
 			$icon->destroy();
 			return $data;
@@ -161,8 +161,6 @@ class IconBuilder {
 		// center icon
 		$offset_w = 512 / 2 - $innerWidth / 2;
 		$offset_h = 512 / 2 - $innerHeight / 2;
-
-		$appIconFile->setImageFormat("png24");
 
 		$finalIconFile = new Imagick();
 		$finalIconFile->setBackgroundColor(new ImagickPixel('transparent'));
