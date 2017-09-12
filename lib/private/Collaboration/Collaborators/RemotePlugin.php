@@ -76,7 +76,7 @@ class RemotePlugin implements ISearchPlugin {
 
 					if (strtolower($contact['FN']) === $lowerSearch || strtolower($cloudId) === $lowerSearch) {
 						if (strtolower($cloudId) === $lowerSearch) {
-							$searchResult->hasExactIdMatch($resultType);
+							$searchResult->markExactIdMatch($resultType);
 						}
 						$result['exact'][] = [
 							'label' => $contact['FN'] . " ($cloudId)",
@@ -116,7 +116,7 @@ class RemotePlugin implements ISearchPlugin {
 
 		$searchResult->addResultSet($resultType, $result['wide'], $result['exact']);
 
-		return false;
+		return true;
 	}
 
 	/**
