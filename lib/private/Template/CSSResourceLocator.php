@@ -128,14 +128,14 @@ class CSSResourceLocator extends ResourceLocator {
 						'webRoot' => $webRoot,
 						'throw' => $throw ? 'true' : 'false'
 					]);
+
+					if ($throw) {
+						throw new ResourceNotFoundException($file, $webRoot);
+					}
 				}
 			}
 
-			if ($throw && $tmpRoot === '/') {
-				throw new ResourceNotFoundException($file, $webRoot);
-			}
-
-			$this->resources[] = array($tmpRoot, $webRoot, $file);
+			$this->resources[] = array($webRoot? : '/', $webRoot, $file);
 		}
 	}
 }
