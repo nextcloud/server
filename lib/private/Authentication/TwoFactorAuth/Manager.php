@@ -225,6 +225,11 @@ class Manager {
 			return false;
 		}
 
+		// If we are authenticated using an app password skip all this
+		if ($this->session->exists('app_password')) {
+			return false;
+		}
+
 		// First check if the session tells us we should do 2FA (99% case)
 		if (!$this->session->exists(self::SESSION_UID_KEY)) {
 
@@ -251,7 +256,6 @@ class Manager {
 			} catch (InvalidTokenException $e) {
 			}
 		}
-
 
 		if (!$this->isTwoFactorAuthenticated($user)) {
 			// There is no second factor any more -> let the user pass

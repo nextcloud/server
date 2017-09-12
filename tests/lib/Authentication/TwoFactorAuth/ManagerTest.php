@@ -320,9 +320,13 @@ class ManagerTest extends TestCase {
 		$user = $this->createMock(IUser::class);
 		$this->session->expects($this->at(0))
 			->method('exists')
+			->with('app_password')
+			->willReturn(false);
+		$this->session->expects($this->at(1))
+			->method('exists')
 			->with('two_factor_auth_uid')
 			->will($this->returnValue(false));
-		$this->session->expects($this->at(1))
+		$this->session->expects($this->at(2))
 			->method('exists')
 			->with(Manager::SESSION_UID_DONE)
 			->willReturn(false);
@@ -455,6 +459,8 @@ class ManagerTest extends TestCase {
 			->will($this->returnCallback(function($var) {
 				if ($var === Manager::SESSION_UID_KEY) {
 					return false;
+				} else if ($var === 'app_password') {
+					return false;
 				}
 				return true;
 			}));
@@ -514,6 +520,15 @@ class ManagerTest extends TestCase {
 			->willThrowException(new OC\Authentication\Exceptions\InvalidTokenException());
 
 		$this->config->method('getUserKeys')->willReturn([]);
+
+		$this->assertFalse($this->manager->needsSecondFactor($user));
+	}
+
+	public function testNeedsSecondFactorAppPassword() {
+		$user = $this->createMock(IUser::class);
+		$this->session->method('exists')
+			->with('app_password')
+			->willReturn(true);
 
 		$this->assertFalse($this->manager->needsSecondFactor($user));
 	}
