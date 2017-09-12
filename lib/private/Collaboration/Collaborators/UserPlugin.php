@@ -50,12 +50,12 @@ class UserPlugin implements ISearchPlugin {
 
 	public function __construct(IConfig $config, IUserManager $userManager, IGroupManager $groupManager, IUserSession $userSession) {
 		$this->config = $config;
-		
-		$this->shareWithGroupOnly = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes';
+
 		$this->groupManager = $groupManager;
 		$this->userSession = $userSession;
 		$this->userManager = $userManager;
 
+		$this->shareWithGroupOnly = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes';
 		$this->shareeEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
 	}
 
