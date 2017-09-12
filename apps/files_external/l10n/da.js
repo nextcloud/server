@@ -12,6 +12,7 @@ OC.L10N.register(
     "Error generating key pair" : "Fejl under oprettelse af nøglepar",
     "All users. Type to select user or group." : "Alle brugere. Indtast for at vælge bruger eller gruppe.",
     "(group)" : "(gruppe)",
+    "Compatibility with Mac NFD encoding (slow)" : "Kompatibilitet med Mac NFD encoding (langsom)",
     "Admin defined" : "Bestemt af administrator",
     "Saved" : "Gemt",
     "Saving..." : "Gemmer...",
