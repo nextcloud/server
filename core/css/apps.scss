@@ -246,6 +246,11 @@ kbd {
 	 * Collapsible menus
 	 */
 	.collapsible {
+		/* Fallback for old collapse button.
+		   TODO: to be removed. Leaved here for retro compatibility */
+		.collapse {
+			display: none;
+		}
 		&:after {
 			position: absolute;
 			height: 44px;
