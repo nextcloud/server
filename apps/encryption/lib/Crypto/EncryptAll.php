@@ -153,12 +153,8 @@ class EncryptAll {
 			$this->createKeyPairs();
 		}
 
-		//setup users file system and encrypt all files one by one (take should encrypt setting of storage into account)
-		$this->output->writeln("\n");
-		$this->output->writeln('Start to encrypt users files');
-		$this->output->writeln('----------------------------');
-		$this->output->writeln('');
-		$this->encryptAllUsersFiles();
+
+		// output generated encryption key passwords
 		if ($this->util->isMasterKeyEnabled() === false) {
 			//send-out or display password list and write it to a file
 			$this->output->writeln("\n");
@@ -167,6 +163,13 @@ class EncryptAll {
 			$this->output->writeln('');
 			$this->outputPasswords();
 		}
+
+		//setup users file system and encrypt all files one by one (take should encrypt setting of storage into account)
+		$this->output->writeln("\n");
+		$this->output->writeln('Start to encrypt users files');
+		$this->output->writeln('----------------------------');
+		$this->output->writeln('');
+		$this->encryptAllUsersFiles();
 		$this->output->writeln("\n");
 	}
 
