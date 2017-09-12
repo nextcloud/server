@@ -24,6 +24,7 @@
 namespace OCA\Theming\Tests;
 
 use OCA\Theming\ThemingDefaults;
+use OCP\App\IAppManager;
 use OCP\Files\IAppData;
 use OCA\Theming\Util;
 use OCP\Files\NotFoundException;
@@ -55,6 +56,8 @@ class ThemingDefaultsTest extends TestCase {
 	private $util;
 	/** @var ICache|\PHPUnit_Framework_MockObject_MockObject */
 	private $cache;
+	/** @var IAppManager|\PHPUnit_Framework_MockObject_MockObject */
+	private $appManager;
 
 	public function setUp() {
 		parent::setUp();
@@ -65,6 +68,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->cache = $this->createMock(ICache::class);
 		$this->util = $this->createMock(Util::class);
+		$this->appManager = $this->createMock(IAppManager::class);
 		$this->defaults = new \OC_Defaults();
 		$this->cacheFactory
 			->expects($this->any())
@@ -77,7 +81,8 @@ class ThemingDefaultsTest extends TestCase {
 			$this->urlGenerator,
 			$this->appData,
 			$this->cacheFactory,
-			$this->util
+			$this->util,
+			$this->appManager
 		);
 	}
 
