@@ -116,11 +116,23 @@ kbd {
 			&.open > ul {
 				display: block;
 			}
+			/* hide and animate the deletion of subitems */
+			&.deleted {
+				> ul {
+					opacity: 0;
+					max-height: 0;
+					overflow-y: hidden;
+				}
+			}
 			/* Second level nesting for lists */
 			> ul {
 				flex: 1 0 100%;
 				padding-left: 44px;
 				width: inherit;
+				/* bezier override the hide/slow effect due to the 2000 max-height */
+				transition: max-height 250ms cubic-bezier(0, 1, 0, 1),
+							opacity 250ms ease-in-out;
+				max-height: 2000px;
 				> li {
 					display: inline-flex;
 					flex-wrap: wrap;
@@ -240,16 +252,11 @@ kbd {
 	/**
 	 * Collapsible menus
 	 */
-	.collapse {
-		/* hide collapse button initially */
-		display: none;
-	}
 	.collapsible {
-		border-width: 0 1 0 0 !important;
 		> ul {
 			display: none;
 		}
-		> .collapse {
+		&:after {
 			position: absolute;
 			height: 44px;
 			width: 44px;
@@ -264,29 +271,35 @@ kbd {
 			border-radius: 0;
 			outline: none !important;
 			box-shadow: none;
-			transition: transform 250ms ease-in-out;
+			content: ' ';
+			opacity: 0;
+			-webkit-transform: rotate(-90deg);
+			-ms-transform: rotate(-90deg);
+			transform: rotate(-90deg);
+
 			/* force padding on link if collapse is here no matter if a has an icon class */
 			& + a {
 				padding-left: 44px;
 			}
 		}
+		&:after,
+		> a {
+			transition: background 100ms ease-in-out,
+						transform 250ms ease-in-out,
+						opacity 100ms ease-in-out;
+		}
 		&:hover > a,
 		&:focus > a {
-			background-image: none;
+			background-position-x: -50px;
 		}
 		&:hover,
 		&:focus {
-			> .collapse {
-				display: block;
+			&:after {
+				opacity: 1;
 			}
 		}
-		.collapse {
-			-webkit-transform: rotate(-90deg);
-			-ms-transform: rotate(-90deg);
-			transform: rotate(-90deg);
-		}
 		&.open {
-			.collapse {
+			&:after {
 				-webkit-transform: rotate(0);
 				-ms-transform: rotate(0);
 				transform: rotate(0);
