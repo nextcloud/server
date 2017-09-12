@@ -159,6 +159,6 @@ class MailPlugin implements ISearchPlugin {
 
 		$searchResult->addResultSet($emailType, $result['wide'], $result['exact']);
 
-		return false;
+		return true;
 	}
 }
