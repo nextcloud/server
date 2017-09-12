@@ -71,6 +71,9 @@ class IconBuilderTest extends TestCase {
 		if (count($checkImagick->queryFormats('SVG')) < 1) {
 			$this->markTestSkipped('No SVG provider present.');
 		}
+		if (count($checkImagick->queryFormats('PNG')) < 1) {
+			$this->markTestSkipped('No PNG provider present.');
+		}
 	}
 
 	public function dataRenderAppIcon() {
