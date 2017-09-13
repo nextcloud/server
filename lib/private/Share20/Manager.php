@@ -1053,6 +1053,11 @@ class Manager implements IManager {
 				}
 			}
 
+			// If we did not fetch more shares than the limit then there are no more shares
+			if (count($shares) < $limit) {
+				break;
+			}
+
 			if (count($shares2) === $limit) {
 				break;
 			}
