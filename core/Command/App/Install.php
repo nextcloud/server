@@ -25,6 +25,7 @@ namespace OC\Core\Command\App;
 use OC\Installer;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -38,6 +39,12 @@ class Install extends Command {
 				'app-id',
 				InputArgument::REQUIRED,
 				'install the specified app'
+			)
+			->addOption(
+				'enable',
+				null,
+				InputOption::VALUE_NONE,
+				'enable the app afterwards'
 			)
 		;
 	}
@@ -65,6 +72,12 @@ class Install extends Command {
 		}
 
 		$output->writeln($appId . ' installed');
+
+		if ($input->getOption('enable')) {
+			$appClass = new \OC_App();
+			$appClass->enable($appId);
+			$output->writeln($appId . ' enabled');
+		}
 
 		return 0;
 	}
