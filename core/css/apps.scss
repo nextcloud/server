@@ -119,7 +119,6 @@ kbd {
 				> ul {
 					opacity: 0;
 					max-height: 0;
-					overflow-y: hidden;
 					/* bezier override the hide/slow effect due to the 2000 max-height */
 					transition: max-height 500ms cubic-bezier(0, 1, 0, 1),
 								opacity 250ms ease-in-out;
