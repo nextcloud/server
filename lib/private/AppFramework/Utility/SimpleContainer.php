@@ -70,7 +70,11 @@ class SimpleContainer extends Container implements IContainer {
 						$parameters[] = $parameter->getDefaultValue();
 					} else if ($parameterClass !== null) {
 						$resolveName = $parameter->getName();
-						$parameters[] = $this->query($resolveName);
+						try {
+							$parameters[] = $this->query($resolveName);
+						} catch (QueryException $e2) {
+							throw $e;
+						}
 					} else {
 						throw $e;
 					}
