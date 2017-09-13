@@ -103,6 +103,32 @@ class RemotePluginTest extends TestCase {
 		$this->assertSame($reachedEnd, $moreResults);
 	}
 
+	/**
+	 * @dataProvider dataTestSplitUserRemote
+	 *
+	 * @param string $remote
+	 * @param string $expectedUser
+	 * @param string $expectedUrl
+	 */
+	public function testSplitUserRemote($remote, $expectedUser, $expectedUrl) {
+		$this->instantiatePlugin();
+
+		list($remoteUser, $remoteUrl) = $this->plugin->splitUserRemote($remote);
+		$this->assertSame($expectedUser, $remoteUser);
+		$this->assertSame($expectedUrl, $remoteUrl);
+	}
+
+	/**
+	 * @dataProvider dataTestSplitUserRemoteError
+	 *
+	 * @param string $id
+	 * @expectedException \Exception
+	 */
+	public function testSplitUserRemoteError($id) {
+		$this->instantiatePlugin();
+		$this->plugin->splitUserRemote($id);
+	}
+
 	public function dataGetRemote() {
 		return [
 			['test', [], true, ['remotes' => [], 'exact' => ['remotes' => []]], false, true],
@@ -310,5 +336,54 @@ class RemotePluginTest extends TestCase {
 				true,
 			],
 		];
+	}
+
+	public function dataTestSplitUserRemote() {
+		$userPrefix = ['user@name', 'username'];
+		$protocols = ['', 'http://', 'https://'];
+		$remotes = [
+			'localhost',
+			'local.host',
+			'dev.local.host',
+			'dev.local.host/path',
+			'dev.local.host/at@inpath',
+			'127.0.0.1',
+			'::1',
+			'::192.0.2.128',
+			'::192.0.2.128/at@inpath',
+		];
+
+		$testCases = [];
+		foreach ($userPrefix as $user) {
+			foreach ($remotes as $remote) {
+				foreach ($protocols as $protocol) {
+					$baseUrl = $user . '@' . $protocol . $remote;
+
+					$testCases[] = [$baseUrl, $user, $protocol . $remote];
+					$testCases[] = [$baseUrl . '/', $user, $protocol . $remote];
+					$testCases[] = [$baseUrl . '/index.php', $user, $protocol . $remote];
+					$testCases[] = [$baseUrl . '/index.php/s/token', $user, $protocol . $remote];
+				}
+			}
+		}
+		return $testCases;
+	}
+
+	public function dataTestSplitUserRemoteError() {
+		return array(
+			// Invalid path
+			array('user@'),
+
+			// Invalid user
+			array('@server'),
+			array('us/er@server'),
+			array('us:er@server'),
+
+			// Invalid splitting
+			array('user'),
+			array(''),
+			array('us/erserver'),
+			array('us:erserver'),
+		);
 	}
 }
