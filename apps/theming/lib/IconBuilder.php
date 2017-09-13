@@ -58,7 +58,7 @@ class IconBuilder {
 			if ($icon === false) {
 				return false;
 			}
-			$icon->setImageFormat("png24");
+			$icon->setImageFormat("png32");
 			$data = $icon->getImageBlob();
 			$icon->destroy();
 			return $data;
@@ -77,7 +77,7 @@ class IconBuilder {
 			if ($icon === false) {
 				return false;
 			}
-			$icon->setImageFormat("png24");
+			$icon->setImageFormat("png32");
 			$data = $icon->getImageBlob();
 			$icon->destroy();
 			return $data;
@@ -145,6 +145,17 @@ class IconBuilder {
 			$appIconFile->setResolution($resX, $resY);
 			$appIconFile->setBackgroundColor(new ImagickPixel('transparent'));
 			$appIconFile->readImageBlob($svg);
+
+			/**
+			 * invert app icons for bright primary colors
+			 * the default nextcloud logo will not be inverted to black
+			 */
+			if ($this->util->invertTextColor($color)
+				&& !$appIcon instanceof ISimpleFile
+				&& $app !== "core"
+			) {
+				$appIconFile->negateImage(false);
+			}
 			$appIconFile->scaleImage(512, 512, true);
 		} else {
 			$appIconFile = new Imagick();
@@ -161,8 +172,6 @@ class IconBuilder {
 		// center icon
 		$offset_w = 512 / 2 - $innerWidth / 2;
 		$offset_h = 512 / 2 - $innerHeight / 2;
-
-		$appIconFile->setImageFormat("png24");
 
 		$finalIconFile = new Imagick();
 		$finalIconFile->setBackgroundColor(new ImagickPixel('transparent'));
