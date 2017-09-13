@@ -120,7 +120,7 @@ kbd {
 					opacity: 0;
 					max-height: 0;
 					/* bezier override the hide/slow effect due to the 2000 max-height */
-					transition: max-height 500ms cubic-bezier(0, 1, 0, 1),
+					transition: max-height 1000ms cubic-bezier(0, 1, 0, 1),
 								opacity 250ms ease-in-out;
 				}
 			}
@@ -129,9 +129,9 @@ kbd {
 				flex: 1 0 100%;
 				padding-left: 44px;
 				width: inherit;
-				transition: max-height 1000ms ease-in-out,
+				transition: max-height 2000ms ease-in-out,
 							opacity 250ms ease-in-out;
-				max-height: 2000px;
+				max-height: 9999px;
 				opacity: 1;
 				> li {
 					display: inline-flex;
