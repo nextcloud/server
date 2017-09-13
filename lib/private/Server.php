@@ -52,6 +52,10 @@ use OC\AppFramework\Http\Request;
 use OC\AppFramework\Utility\SimpleContainer;
 use OC\AppFramework\Utility\TimeFactory;
 use OC\Authentication\LoginCredentials\Store;
+use OC\Collaboration\Collaborators\GroupPlugin;
+use OC\Collaboration\Collaborators\MailPlugin;
+use OC\Collaboration\Collaborators\RemotePlugin;
+use OC\Collaboration\Collaborators\UserPlugin;
 use OC\Command\CronBus;
 use OC\Contacts\ContactsMenu\ActionFactory;
 use OC\Diagnostics\EventLogger;
@@ -115,6 +119,7 @@ use OCP\Contacts\ContactsMenu\IActionFactory;
 use OCP\Lock\ILockingProvider;
 use OCP\RichObjectStrings\IValidator;
 use OCP\Security\IContentSecurityPolicyManager;
+use OCP\Share;
 use OCP\Share\IShareHelper;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -994,7 +999,15 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias('ShareManager', \OCP\Share\IManager::class);
 
 		$this->registerService(\OCP\Collaboration\Collaborators\ISearch::class, function(Server $c) {
-			return new Collaboration\Collaborators\Search($c);
+			$instance = new Collaboration\Collaborators\Search($c);
+
+			// register default plugins
+			$instance->registerPlugin(['shareType' => 'SHARE_TYPE_USER', 'class' => UserPlugin::class]);
+			$instance->registerPlugin(['shareType' => 'SHARE_TYPE_GROUP', 'class' => GroupPlugin::class]);
+			$instance->registerPlugin(['shareType' => 'SHARE_TYPE_EMAIL', 'class' => MailPlugin::class]);
+			$instance->registerPlugin(['shareType' => 'SHARE_TYPE_REMOTE', 'class' => RemotePlugin::class]);
+
+			return $instance;
 		});
 		$this->registerAlias('CollaboratorSearch', \OCP\Collaboration\Collaborators\ISearch::class);
 

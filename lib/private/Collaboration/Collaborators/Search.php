@@ -34,12 +34,7 @@ class Search implements ISearch {
 	/** @var IContainer */
 	private $c;
 
-	protected $pluginList = [
-		Share::SHARE_TYPE_USER => [UserPlugin::class],
-		Share::SHARE_TYPE_GROUP => [GroupPlugin::class],
-		Share::SHARE_TYPE_EMAIL => [MailPlugin::class],
-		Share::SHARE_TYPE_REMOTE => [RemotePlugin::class],
-	];
+	protected $pluginList = [];
 
 	public function __construct(IContainer $c) {
 		$this->c = $c;
@@ -81,7 +76,7 @@ class Search implements ISearch {
 			$searchResult->unsetResult($emailType);
 		}
 
-		return [$searchResult->asArray(), $hasMoreResults];
+		return [$searchResult->asArray(), (bool)$hasMoreResults];
 	}
 
 	public function registerPlugin(array $pluginInfo) {
