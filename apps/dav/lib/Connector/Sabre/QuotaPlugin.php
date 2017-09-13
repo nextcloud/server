@@ -25,10 +25,14 @@
  *
  */
 namespace OCA\DAV\Connector\Sabre;
+use OCA\DAV\Files\FilesHome;
+use OCA\DAV\Upload\FutureFile;
+use OCA\DAV\Upload\UploadFolder;
 use OCP\Files\FileInfo;
 use OCP\Files\StorageNotAvailableException;
 use Sabre\DAV\Exception\InsufficientStorage;
 use Sabre\DAV\Exception\ServiceUnavailable;
+use Sabre\DAV\INode;
 use Sabre\HTTP\URLUtil;
 
 /**
@@ -40,9 +44,7 @@ use Sabre\HTTP\URLUtil;
  */
 class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 
-	/**
-	 * @var \OC\Files\View
-	 */
+	/** @var \OC\Files\View */
 	private $view;
 
 	/**
@@ -74,26 +76,86 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 
 		$this->server = $server;
 
-		$server->on('beforeWriteContent', array($this, 'checkQuota'), 10);
-		$server->on('beforeCreateFile', array($this, 'checkQuota'), 10);
+		$server->on('beforeWriteContent', [$this, 'beforeWriteContent'], 10);
+		$server->on('beforeCreateFile', [$this, 'beforeCreateFile'], 10);
+		$server->on('beforeMove', [$this, 'beforeMove'], 10);
 	}
+
+	/**
+	 * Check quota before creating file
+	 *
+	 * @param string $uri target file URI
+	 * @param resource $data data
+	 * @param INode $parent Sabre Node
+	 * @param bool $modified modified
+	 */
+	public function beforeCreateFile($uri, $data, INode $parent, $modified) {
+		if (!$parent instanceof Node) {
+			return;
+		}
+
+		return $this->checkQuota($parent->getPath() . '/' . basename($uri));
+	}
+
+	/**
+	 * Check quota before writing content
+	 *
+	 * @param string $uri target file URI
+	 * @param INode $node Sabre Node
+	 * @param resource $data data
+	 * @param bool $modified modified
+	 */
+	public function beforeWriteContent($uri, INode $node, $data, $modified) {
+		if (!$node instanceof Node) {
+			return;
+		}
+
+		return $this->checkQuota($node->getPath());
+	}
+
+	/**
+	 * Check if we're moving a Futurefile in which case we need to check
+	 * the quota on the target destination.
+	 *
+	 * @param string $source source path
+	 * @param string $destination destination path
+	 */
+	public function beforeMove($source, $destination) {
+		$sourceNode = $this->server->tree->getNodeForPath($source);
+		if (!$sourceNode instanceof FutureFile) {
+			return;
+		}
+
+		// get target node for proper path conversion
+		if ($this->server->tree->nodeExists($destination)) {
+			$destinationNode = $this->server->tree->getNodeForPath($destination);
+			$path = $destinationNode->getPath();
+		} else {
+			$parentNode = $this->server->tree->getNodeForPath(dirname($destination));
+			$path = $parentNode->getPath();
+		}
+
+		return $this->checkQuota($path, $sourceNode->getSize());
+	}
+
 
 	/**
 	 * This method is called before any HTTP method and validates there is enough free space to store the file
 	 *
-	 * @param string $uri
+	 * @param string $path relative to the users home
+	 * @param int $length
 	 * @throws InsufficientStorage
 	 * @return bool
 	 */
-	public function checkQuota($uri) {
-		$length = $this->getLength();
+	public function checkQuota($path, $length = null) {
+		if ($length === null) {
+			$length = $this->getLength();
+		}
+
 		if ($length) {
-			if (substr($uri, 0, 1) !== '/') {
-				$uri = '/' . $uri;
-			}
-			list($parentUri, $newName) = \Sabre\Uri\split($uri);
-			if(is_null($parentUri)) {
-				$parentUri = '';
+			list($parentPath, $newName) = \Sabre\Uri\split($path);
+			if(is_null($parentPath)) {
+				$parentPath = '';
 			}
 			$req = $this->server->httpRequest;
 			if ($req->getHeader('OC-Chunked')) {
@@ -103,9 +165,9 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 				// there is still enough space for the remaining chunks
 				$length -= $chunkHandler->getCurrentSize();
 				// use target file name for free space check in case of shared files
-				$uri = rtrim($parentUri, '/') . '/' . $info['name'];
+				$path = rtrim($parentPath, '/') . '/' . $info['name'];
 			}
-			$freeSpace = $this->getFreeSpace($uri);
+			$freeSpace = $this->getFreeSpace($path);
 			if ($freeSpace !== FileInfo::SPACE_UNKNOWN && $freeSpace !== FileInfo::SPACE_UNLIMITED && $length > $freeSpace) {
 				if (isset($chunkHandler)) {
 					$chunkHandler->cleanup();
