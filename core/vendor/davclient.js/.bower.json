@@ -1,6 +1,6 @@
 {
   "name": "davclient.js",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "authors": [
     "Evert Pot <me@evertpot.com>"
   ],
@@ -20,14 +20,13 @@
     "test",
     "tests"
   ],
-  "_release": "0.1.1",
+  "_release": "0.1.2",
   "_resolution": {
     "type": "version",
-    "tag": "0.1.1",
-    "commit": "a2731f81540816b212c09d14596621cb070a4f10"
+    "tag": "0.1.2",
+    "commit": "c735ca284175c6f0419a2dd73de43de611afdb8f"
   },
   "_source": "https://github.com/evert/davclient.js.git",
-  "_target": "0.1.1",
-  "_originalSource": "https://github.com/evert/davclient.js.git",
-  "_direct": true
+  "_target": "0.1.2",
+  "_originalSource": "https://github.com/evert/davclient.js.git"
 }
