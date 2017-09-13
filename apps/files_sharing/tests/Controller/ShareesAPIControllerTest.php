@@ -250,14 +250,13 @@ class ShareesAPIControllerTest extends TestCase {
 	 */
 	public function testSearch($getData, $apiSetting, $enumSetting, $remoteSharingEnabled, $emailSharingEnabled, $shareTypes, $shareWithGroupOnly, $shareeEnumeration, $allowGroupSharing) {
 		$search = isset($getData['search']) ? $getData['search'] : '';
-		$itemType = isset($getData['itemType']) ? $getData['itemType'] : null;
+		$itemType = isset($getData['itemType']) ? $getData['itemType'] : 'irrelevant';
 		$page = isset($getData['page']) ? $getData['page'] : 1;
 		$perPage = isset($getData['perPage']) ? $getData['perPage'] : 200;
 		$shareType = isset($getData['shareType']) ? $getData['shareType'] : null;
 
-		$config = $this->getMockBuilder('OCP\IConfig')
-			->disableOriginalConstructor()
-			->getMock();
+		/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject $config */
+		$config = $this->createMock(IConfig::class);
 		$config->expects($this->exactly(2))
 			->method('getAppValue')
 			->with('core', $this->anything(), $this->anything())
@@ -270,41 +269,29 @@ class ShareesAPIControllerTest extends TestCase {
 			->method('allowGroupSharing')
 			->willReturn($allowGroupSharing);
 
+		/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject $request */
+		$request = $this->createMock(IRequest::class);
+		/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject $urlGenerator */
+		$urlGenerator = $this->createMock(IURLGenerator::class);
+
 		/** @var \PHPUnit_Framework_MockObject_MockObject|\OCA\Files_Sharing\Controller\ShareesAPIController $sharees */
 		$sharees = $this->getMockBuilder('\OCA\Files_Sharing\Controller\ShareesAPIController')
 			->setConstructorArgs([
 				'files_sharing',
-				$this->getMockBuilder('OCP\IRequest')->disableOriginalConstructor()->getMock(),
-				$this->groupManager,
-				$this->userManager,
-				$this->contactsManager,
+				$request,
 				$config,
-				$this->session,
-				$this->getMockBuilder('OCP\IURLGenerator')->disableOriginalConstructor()->getMock(),
-				$this->getMockBuilder('OCP\ILogger')->disableOriginalConstructor()->getMock(),
+				$urlGenerator,
 				$this->shareManager,
-				$this->clientService,
-				$this->cloudIdManager
+				$this->collaboratorSearch
 			])
-			->setMethods(array('searchSharees', 'isRemoteSharingAllowed', 'shareProviderExists'))
+			->setMethods(array('isRemoteSharingAllowed', 'shareProviderExists'))
 			->getMock();
-		$sharees->expects($this->once())
-			->method('searchSharees')
-			->willReturnCallback(function
-					($isearch, $iitemType, $ishareTypes, $ipage, $iperPage)
-				use ($search, $itemType, $shareTypes, $page, $perPage) {
 
-				// We are doing strict comparisons here, so we can differ 0/'' and null on shareType/itemType
-				$this->assertSame($search, $isearch);
-				$this->assertSame($itemType, $iitemType);
-				$this->assertSame(count($shareTypes), count($ishareTypes));
-				foreach($shareTypes as $expected) {
-					$this->assertTrue(in_array($expected, $ishareTypes));
-				}
-				$this->assertSame($page, $ipage);
-				$this->assertSame($perPage, $iperPage);
-				return new Http\DataResponse();
-			});
+		$this->collaboratorSearch->expects($this->once())
+			->method('search')
+			->with($search, $shareTypes, $this->anything(), $perPage, $this->invokePrivate($sharees, 'offset'))
+			->willReturn([[], false]);
+
 		$sharees->expects($this->any())
 			->method('isRemoteSharingAllowed')
 			->with($itemType)
