@@ -5,6 +5,7 @@ OC.L10N.register(
     "Could not start updater, please try the manual update" : "Nepavyko paleisti atnaujinimo programos, prašome bandyti atnaujinimą rankiniu būdu",
     "{version} is available. Get more information on how to update." : "Yra prieinama {version}. Gaukite daugiau informacijos apie tai kaip atnaujinti.",
     "Channel updated" : "Kanalas atnaujintas",
+    "The update server could not be reached since %d days to check for new updates." : " Atnaujinimo serveris nepasiekiamas  %d dienas.",
     "Please check the Nextcloud and server log files for errors." : "Prašome patikrinti Nextcloud ir serverio žurnalų įrašus apie galimas klaidas.",
     "Update to %1$s is available." : "Yra prieinamas atnaujinimas į %1$s.",
     "Update for %1$s to version %2$s is available." : "Yra prieinamas %1$s atnaujinimas į versiją %2$s.",

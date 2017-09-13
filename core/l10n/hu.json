@@ -145,6 +145,7 @@
     "Could not unshare" : "Nem sikerült visszavonni a megosztást",
     "Error while sharing" : "Nem sikerült létrehozni a megosztást",
     "Share details could not be loaded for this item." : "A megosztás részletei nem lehet betölteni ehhez az elemhez.",
+    "This list is maybe truncated - please refine your search term to see more results." : "Ez a lista lehet, hogy le van vágva - kérem pontosítsa a keresését, hogy több eredményt lásson.",
     "No users or groups found for {search}" : "{search} keresésre nem található felhasználó vagy csoport",
     "No users found for {search}" : "{search} keresésre nem található felhasználó",
     "An error occurred. Please try again" : "Hiba történt. Kérjük, próbálja meg újra!",
