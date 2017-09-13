@@ -25,14 +25,16 @@
 
 namespace OCA\Files_Sharing\Tests\Controller;
 
-use OC\Federation\CloudIdManager;
 use OCA\Files_Sharing\Controller\ShareesAPIController;
 use OCA\Files_Sharing\Tests\TestCase;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\OCS\OCSBadRequestException;
-use OCP\Federation\ICloudIdManager;
-use OCP\Http\Client\IClientService;
+use OCP\Collaboration\Collaborators\ISearch;
+use OCP\IConfig;
+use OCP\IRequest;
+use OCP\IURLGenerator;
 use OCP\Share;
+use OCP\Share\IManager;
 
 /**
  * Class ShareesTest
@@ -45,74 +47,36 @@ class ShareesAPIControllerTest extends TestCase {
 	/** @var ShareesAPIController */
 	protected $sharees;
 
-	/** @var \OCP\IUserManager|\PHPUnit_Framework_MockObject_MockObject */
-	protected $userManager;
-
-	/** @var \OCP\IGroupManager|\PHPUnit_Framework_MockObject_MockObject */
-	protected $groupManager;
-
-	/** @var \OCP\Contacts\IManager|\PHPUnit_Framework_MockObject_MockObject */
-	protected $contactsManager;
-
-	/** @var \OCP\IUserSession|\PHPUnit_Framework_MockObject_MockObject */
-	protected $session;
-
-	/** @var \OCP\IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
 	protected $request;
 
-	/** @var \OCP\Share\IManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IManager|\PHPUnit_Framework_MockObject_MockObject */
 	protected $shareManager;
 
-	/** @var IClientService|\PHPUnit_Framework_MockObject_MockObject */
-	private $clientService;
-
-	/** @var  ICloudIdManager */
-	private $cloudIdManager;
+	/** @var  ISearch|\PHPUnit_Framework_MockObject_MockObject */
+	protected $collaboratorSearch;
 
 	protected function setUp() {
 		parent::setUp();
 
-		$this->userManager = $this->getMockBuilder('OCP\IUserManager')
-			->disableOriginalConstructor()
-			->getMock();
+		$this->request = $this->createMock(IRequest::class);
+		$this->shareManager = $this->createMock(IManager::class);
 
-		$this->groupManager = $this->getMockBuilder('OCP\IGroupManager')
-			->disableOriginalConstructor()
-			->getMock();
+		/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject $configMock */
+		$configMock = $this->createMock(IConfig::class);
 
-		$this->contactsManager = $this->getMockBuilder('OCP\Contacts\IManager')
-			->disableOriginalConstructor()
-			->getMock();
+		/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject $urlGeneratorMock */
+		$urlGeneratorMock = $this->createMock(IURLGenerator::class);
 
-		$this->session = $this->getMockBuilder('OCP\IUserSession')
-			->disableOriginalConstructor()
-			->getMock();
-
-		$this->request = $this->getMockBuilder('OCP\IRequest')
-			->disableOriginalConstructor()
-			->getMock();
-
-		$this->shareManager = $this->getMockBuilder('OCP\Share\IManager')
-			->disableOriginalConstructor()
-			->getMock();
-
-		$this->clientService = $this->createMock(IClientService::class);
-
-		$this->cloudIdManager = new CloudIdManager();
+		$this->collaboratorSearch = $this->createMock(ISearch::class);
 
 		$this->sharees = new ShareesAPIController(
 			'files_sharing',
 			$this->request,
-			$this->groupManager,
-			$this->userManager,
-			$this->contactsManager,
-			$this->getMockBuilder('OCP\IConfig')->disableOriginalConstructor()->getMock(),
-			$this->session,
-			$this->getMockBuilder('OCP\IURLGenerator')->disableOriginalConstructor()->getMock(),
-			$this->getMockBuilder('OCP\ILogger')->disableOriginalConstructor()->getMock(),
+			$configMock,
+			$urlGeneratorMock,
 			$this->shareManager,
-			$this->clientService,
-			$this->cloudIdManager
+			$this->collaboratorSearch
 		);
 	}
 
@@ -289,7 +253,7 @@ class ShareesAPIControllerTest extends TestCase {
 
 		$this->collaboratorSearch->expects($this->once())
 			->method('search')
-			->with($search, $shareTypes, $this->anything(), $perPage, $this->invokePrivate($sharees, 'offset'))
+			->with($search, $shareTypes, $this->anything(), $perPage, $perPage * ($page -1))
 			->willReturn([[], false]);
 
 		$sharees->expects($this->any())
@@ -404,7 +368,7 @@ class ShareesAPIControllerTest extends TestCase {
 	 * @expectedExceptionMessage Missing itemType
 	 */
 	public function testSearchNoItemType() {
-		$this->sharees->search('', null, 0, 0, [], false);
+		$this->sharees->search('', null, 1, 10, [], false);
 	}
 
 	public function dataGetPaginationLink() {
