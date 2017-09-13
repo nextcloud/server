@@ -403,8 +403,8 @@ class ShareesAPIControllerTest extends TestCase {
 	 * @expectedException \OCP\AppFramework\OCS\OCSBadRequestException
 	 * @expectedExceptionMessage Missing itemType
 	 */
-	public function testSearchShareesNoItemType() {
-		$this->invokePrivate($this->sharees, 'searchSharees', ['', null, [], [], 0, 0, false]);
+	public function testSearchNoItemType() {
+		$this->sharees->search('', null, 0, 0, [], false);
 	}
 
 	public function dataGetPaginationLink() {
