@@ -161,7 +161,7 @@ class ServerFactory {
 					!$this->config->getSystemValue('debug', false)
 				)
 			);
-			$server->addPlugin(new \OCA\DAV\Connector\Sabre\QuotaPlugin($view));
+			$server->addPlugin(new \OCA\DAV\Connector\Sabre\QuotaPlugin($view, true));
 
 			if($this->userSession->isLoggedIn()) {
 				$server->addPlugin(new \OCA\DAV\Connector\Sabre\TagsPlugin($objectTree, $this->tagManager));
