@@ -412,8 +412,15 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	public function query($name) {
 		try {
 			return $this->queryNoFallback($name);
-		} catch (QueryException $e) {
-			return $this->getServer()->query($name);
+		} catch (QueryException $firstException) {
+			try {
+				return $this->getServer()->query($name);
+			} catch (QueryException $secondException) {
+				if ($firstException->getCode() === 1) {
+					throw $secondException;
+				}
+				throw $firstException;
+			}
 		}
 	}
 
@@ -438,6 +445,6 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		}
 
 		throw new QueryException('Could not resolve ' . $name . '!' .
-			' Class can not be instantiated');
+			' Class can not be instantiated', 1);
 	}
 }
