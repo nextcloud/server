@@ -103,28 +103,6 @@ class ShareesAPIController extends OCSController {
 	}
 
 	/**
-	 * Strips away a potential file names and trailing slashes:
-	 * - http://localhost
-	 * - http://localhost/
-	 * - http://localhost/index.php
-	 * - http://localhost/index.php/s/{shareToken}
-	 *
-	 * all return: http://localhost
-	 *
-	 * @param string $remote
-	 * @return string
-	 */
-	protected function fixRemoteURL($remote) {
-		$remote = str_replace('\\', '/', $remote);
-		if ($fileNamePosition = strpos($remote, '/index.php')) {
-			$remote = substr($remote, 0, $fileNamePosition);
-		}
-		$remote = rtrim($remote, '/');
-
-		return $remote;
-	}
-
-	/**
 	 * @NoAdminRequired
 	 *
 	 * @param string $search
