@@ -284,7 +284,7 @@ class ShareesAPIControllerTest extends TestCase {
 				$this->shareManager,
 				$this->collaboratorSearch
 			])
-			->setMethods(array('isRemoteSharingAllowed', 'shareProviderExists'))
+			->setMethods(['isRemoteSharingAllowed', 'shareProviderExists'])
 			->getMock();
 
 		$this->collaboratorSearch->expects($this->once())
@@ -344,34 +344,33 @@ class ShareesAPIControllerTest extends TestCase {
 		$page = isset($getData['page']) ? $getData['page'] : 1;
 		$perPage = isset($getData['perPage']) ? $getData['perPage'] : 200;
 
-		$config = $this->getMockBuilder('OCP\IConfig')
-			->disableOriginalConstructor()
-			->getMock();
+		/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject $config */
+		$config = $this->createMock(IConfig::class);
 		$config->expects($this->never())
 			->method('getAppValue');
+
+		/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject $request */
+		$request = $this->createMock(IRequest::class);
+		/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject $urlGenerator */
+		$urlGenerator = $this->createMock(IURLGenerator::class);
 
 		/** @var \PHPUnit_Framework_MockObject_MockObject|\OCA\Files_Sharing\Controller\ShareesAPIController $sharees */
 		$sharees = $this->getMockBuilder('\OCA\Files_Sharing\Controller\ShareesAPIController')
 			->setConstructorArgs([
 				'files_sharing',
-				$this->getMockBuilder('OCP\IRequest')->disableOriginalConstructor()->getMock(),
-				$this->groupManager,
-				$this->userManager,
-				$this->contactsManager,
+				$request,
 				$config,
-				$this->session,
-				$this->getMockBuilder('OCP\IURLGenerator')->disableOriginalConstructor()->getMock(),
-				$this->getMockBuilder('OCP\ILogger')->disableOriginalConstructor()->getMock(),
+				$urlGenerator,
 				$this->shareManager,
-				$this->clientService,
-				$this->cloudIdManager
+				$this->collaboratorSearch
 			])
-			->setMethods(array('searchSharees', 'isRemoteSharingAllowed'))
+			->setMethods(['isRemoteSharingAllowed'])
 			->getMock();
 		$sharees->expects($this->never())
-			->method('searchSharees');
-		$sharees->expects($this->never())
 			->method('isRemoteSharingAllowed');
+
+		$this->collaboratorSearch->expects($this->never())
+			->method('search');
 
 		try {
 			$sharees->search('', null, $page, $perPage, null);
