@@ -104,7 +104,9 @@ kbd {
 			display: inline-flex;
 			flex-wrap: wrap;
 
-			> a {
+			> a,
+			> .app-navigation-entry-deleted,
+			> .app-navigation-entry-edit {
 				/* Ugly hack for overriding the main entry link */
 				padding-left: 44px !important;
 			}
@@ -431,8 +433,8 @@ kbd {
 	 */
 	.app-navigation-entry-deleted {
 		display: inline-flex;
+		padding-left: 12px;
 		.app-navigation-entry-deleted-description {
-			padding-left: 12px;
 			position: relative;
 			white-space: nowrap;
 			text-overflow: ellipsis;
