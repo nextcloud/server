@@ -446,24 +446,7 @@ kbd {
 		transition: padding-bottom 500ms ease 0s;
 		padding-bottom: 40px;
 	}
-
-	/**
-	 * Counter and actions, legacy code **TO BE DELETED**
-	 */
-	.utils {
-		position: absolute;
-		padding: 7px 7px 0 0;
-		right: 0;
-		top: 0;
-		bottom: 0;
-		font-size: 12px;
-		button,
-		.counter {
-			width: 44px;
-			height: 44px;
-			padding-top: 12px;
-		}
-	}
+	
 	.error {
 		color: $color-error;
 	}
