@@ -113,6 +113,12 @@ kbd {
 					box-shadow: inset 2px 0 $color-primary;
 				}
 			}
+
+			/* align loader */
+			&.icon-loading-small:after {
+				left: 22px;
+			}
+
 			/* hide and animate deletion/collapse of subitems */
 			&.deleted,
 			&.collapsible:not(.open) {
@@ -124,6 +130,7 @@ kbd {
 								opacity 250ms ease-in-out;
 				}
 			}
+
 			/* Second level nesting for lists */
 			> ul {
 				flex: 1 0 100%;
@@ -145,6 +152,12 @@ kbd {
 							opacity: 1;
 						}
 					}
+
+					/* align loader */
+					&.icon-loading-small:after {
+						left: -10px;
+					}
+
 					/* Submenu fix for icon */
 					> .app-navigation-entry-bullet + a,
 					> a[class*='icon-'],
@@ -152,6 +165,7 @@ kbd {
 					.app-navigation-entry-bullet {
 						margin-left: -32px; /* 44px padding - 12px padding */
 					}
+
 					/* Submenu fix for bullet */
 					> .app-navigation-entry-bullet {
 						left: -32px;/* 44px padding - 12px padding */
@@ -165,11 +179,8 @@ kbd {
 			position: relative;
 			width: 100%;
 			box-sizing: border-box;
-			/* Align items */
+			/* hide icons if loading */
 			&.icon-loading-small {
-				&:after {
-					left: 22px;
-				}
 				> a,
 				> .app-navigation-entry-bullet {
 					background: none !important;
