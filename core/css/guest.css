@@ -24,11 +24,25 @@ body {
 	text-align: center;
 	background-color: #0082c9;
 	background-image: url('../img/background.png?v=2');
-	background-position: 50% 50%;
-	background-repeat: no-repeat;
+	background-position: 960px 0;
+	background-repeat: repeat;
 	background-size: cover;
 	background-attachment: fixed; /* fix background gradient */
 	height: 100%; /* fix sticky footer */
+	-webkit-animation: background-animation 240s linear 0s normal none infinite;
+	-moz-animation: background-animation 240s linear 0s normal none infinite;
+	-ms-animation: background-animation 240s linear 0s normal none infinite;
+	-o-animation: background-animation 240s linear 0s normal none infinite;
+	animation: background-animation 200s linear 0s normal none infinite;
+}
+
+@-webkit-keyframes background-animation {
+	from { background-position: 960px 0; }
+	to { background-position:  2880px 0; }
+}
+@keyframes background-animation {
+	from { background-position: 960px 0; }
+	to { background-position:  2880px 0; }
 }
 
 /* Various fonts settings */
@@ -65,7 +79,6 @@ h3 {
 	padding-top: 100px;
 }
 #header .logo {
-	background-image: url('../img/logo.svg?v=1');
 	background-repeat: no-repeat;
 	background-size: 175px;
 	background-position: center;
@@ -74,6 +87,31 @@ h3 {
 	max-height: 200px;
 	margin: 0 auto;
 }
+
+#header .logo {
+	background: url('../img/logo-sprite.png') 0 0 no-repeat;
+	height: 100px;
+	width: 140px;
+	display: inline-block;
+	/*-webkit-transform: scale(.5);
+	zoom: .5;*/
+	background-position-x: 0;
+	-webkit-animation: logo-animation 2s steps(33) forwards;
+	-moz-animation: logo-animation 2s steps(33) forwards;
+	-ms-animation: logo-animation 2s steps(33) forwards;
+	-o-animation: logo-animation 2s steps(33) forwards;
+	animation: logo-animation 2s steps(33) forwards;
+	/* stopped: background-position-x: -4620px;*/
+}
+@-webkit-keyframes logo-animation {
+	from { background-position: 0 0; }
+	to { background-position: -4620px 0; }
+}
+@keyframes logo-animation {
+	from { background-position: 0 0; }
+	to { background-position: -4620px 0; }
+}
+
 
 #header .logo img {
 	opacity: 0;
@@ -347,6 +385,7 @@ form fieldset .warning-info,
 form input[type='checkbox']+label {
 	text-align: center;
 	color: #fff;
+	text-shadow: 0 0 2px rgba(0, 0, 0, .3);
 }
 /* overrides another !important statement that sets this to unreadable black */
 form .warning input[type='checkbox']:hover+label,
