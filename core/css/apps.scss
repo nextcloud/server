@@ -411,6 +411,10 @@ kbd {
 			margin-right: 0;
 			height: 38px;
 			border: 1px solid nc-darken($color-main-background, 8%);
+			&:hover {
+				/* overlapp borders */
+				z-index: 1;
+			}
 		}
 		input[type='text'] {
 			width: 100%;
@@ -424,13 +428,13 @@ kbd {
 			height: 38px;
 			&:not(:last-child) {
 				border-radius: 0;
-				border-left: 0;
+			}
+			&:not(:first-child) {
+				margin-left: -1px;
 			}
 			&:last-child {
 				border-bottom-left-radius: 0;
 				border-top-left-radius: 0;
-				border-left: 0;
-				margin-right: 0;	
 			}
 		}
 	}
