@@ -219,6 +219,7 @@ OC.L10N.register(
     "The specified document has not been found on the server." : "在服务器上没找到指定的文件.",
     "You can click here to return to %s." : "你可以点击这里返回 %s.",
     "Internal Server Error" : "内部服务器错误",
+    "The server was unable to complete your request." : "服务器不能完成你的请求。",
     "More details can be found in the server log." : "更多细节可以在服务器日志中找到.",
     "Technical details" : "技术细节",
     "Remote Address: %s" : "远程地址: %s",

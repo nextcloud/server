@@ -1,15 +1,16 @@
 OC.L10N.register(
     "federation",
     {
-    "Server added to the list of trusted ownClouds" : "Serveren er føjet til listen over sikre ownCloud servere",
+    "Added to the list of trusted servers" : "Tilføjet listen af godkendte servere",
     "Server is already in the list of trusted servers." : "Serveren står allerede på listen over sikre servere",
-    "No ownCloud server found" : "Fandt ikke nogen ownCloud server",
+    "No server to federate with found" : "Ingen server at forbinde til blev fundet",
     "Could not add server" : "Kunne ikke tilføje server",
-    "Federation" : "Datafællesskab",
-    "ownCloud Federation allows you to connect with other trusted ownClouds to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "ownCloud datafællesskab giver dig mulighed for at forbinde til andre ownCloud-installationer, som du har tillid til, for at udveksle brugerkataloger. Dette vil f.eks. blive anvendt til at udfylde eksterne brugernavne automatisk ved deling af data",
+    "Trusted servers" : "Pålidelige servere",
+    "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Federation gør dig i stand til at forbinde med andre serveren du stoler på og udveksle brugerdatabaser. F. eks. dette kan blive bruge til at auto complete  eksterne brugere når du laver federated deling.",
     "Add server automatically once a federated share was created successfully" : "Tilføj serveren automatisk, når et datafællesskab er oprettet ",
-    "Trusted ownCloud Servers" : "ownCloud servere der er tillid til",
-    "+ Add ownCloud server" : "+ Tilføj ownCloud server",
-    "ownCloud Server" : "ownCloud server"
+    "+ Add trusted server" : "+ Tilføj pålidelig server",
+    "Trusted server" : "Pålidelig server",
+    "Add" : "Tilføj",
+    "Federation" : "Datafællesskab"
 },
 "nplurals=2; plural=(n != 1);");
