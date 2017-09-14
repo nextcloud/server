@@ -10,6 +10,8 @@
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
  * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vinicius Cubas Brand <vinicius@eita.org.br>
+ * @author Daniel Tygel <dtygel@eita.org.br>
  *
  * @license AGPL-3.0
  *
@@ -52,6 +54,9 @@ class Principal implements BackendInterface {
 	/** @var bool */
 	private $hasGroups;
 
+	/** @var bool */
+	private $hasCircles;
+
 	/**
 	 * @param IUserManager $userManager
 	 * @param IGroupManager $groupManager
@@ -63,7 +68,7 @@ class Principal implements BackendInterface {
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
 		$this->principalPrefix = trim($principalPrefix, '/');
-		$this->hasGroups = ($principalPrefix === 'principals/users/');
+		$this->hasGroups = $this->hasCircles = ($principalPrefix === 'principals/users/');
 	}
 
 	/**
@@ -108,6 +113,8 @@ class Principal implements BackendInterface {
 			if (!is_null($user)) {
 				return $this->userToPrincipal($user);
 			}
+		} else if ($prefix === 'principals/circles') {
+			return $this->circleToPrincipal($name);
 		}
 		return null;
 	}
@@ -230,6 +237,68 @@ class Principal implements BackendInterface {
 
 	public function getPrincipalPrefix() {
 		return $this->principalPrefix;
+	}
+
+	/**
+	 * @param string $circleUniqueId
+	 * @return array|null
+	 */
+	protected function circleToPrincipal($circleUniqueId) {
+		if (!\OC::$server->getAppManager()->isEnabledForUser('circles') || !class_exists('\OCA\Circles\ShareByCircleProvider')) {
+			return null;
+		}
+
+		$circle = \OCA\Circles\Api\v1\Circles::detailsCircle($circleUniqueId);
+
+		if (!$circle) {
+			return null;
+		}
+
+		$principal = [
+			'uri' => 'principals/circles/' . $circleUniqueId,
+			'{DAV:}displayname' => $circle->getName(),
+		];
+
+		return $principal;
+	}
+
+	/**
+	 * Returns the list of circles a principal is a member of
+	 *
+	 * @param string $principal
+	 * @param bool $needGroups
+	 * @return array
+	 * @throws Exception
+	 */
+	public function getCircleMembership($principal) {
+		if (!\OC::$server->getAppManager()->isEnabledForUser('circles') || !class_exists('\OCA\Circles\ShareByCircleProvider')) {
+			return [];
+		}
+
+		list($prefix, $name) = URLUtil::splitPath($principal);
+
+		if ($this->hasCircles && $prefix === $this->principalPrefix) {
+			$user = $this->userManager->get($name);
+			if (!$user) {
+				throw new Exception('Principal not found');
+			}
+
+			$userSession = \OC::$server->getUserSession();
+			$currentUser = $userSession->getUser();
+
+			$userSession->setUser($user);
+			$circles = \OCA\Circles\Api\v1\Circles::joinedCircles();
+			$userSession->setUser($currentUser);
+
+			$circles = array_map(function($circle) {
+				/** @var \OCA\Circles\Model\Circle $group */
+				return 'principals/circles/' . urlencode($circle->getUniqueId());
+			}, $circles);
+
+			return $circles;
+
+		}
+		return [];
 	}
 
 }
