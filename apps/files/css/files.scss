@@ -350,6 +350,10 @@ table td.filename .nametext {
 	max-width: 800px;
 	height: 100%;
 }
+/* ellipsis on file names */
+table td.filename .nametext .innernametext {
+	max-width: calc(100% - 100px) !important;
+}
 .has-favorites #fileList td.filename a.name {
 	left: 50px;
 	margin-right: 50px;
