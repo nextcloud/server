@@ -165,6 +165,16 @@ kbd {
 			position: relative;
 			width: 100%;
 			box-sizing: border-box;
+			/* Align items */
+			&.icon-loading-small {
+				&:after {
+					left: 22px;
+				}
+				> a,
+				> .app-navigation-entry-bullet {
+					background: none !important;
+				}
+			}
 			/* Main entry link */
 			> a {
 				background-size: 16px 16px;
