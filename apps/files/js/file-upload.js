@@ -833,56 +833,84 @@ OC.Uploader.prototype = _.extend({
 					}
 
 					// check free space
-					freeSpace = $('#free_space').val();
-					if (freeSpace >= 0 && selection.totalBytes > freeSpace) {
-						data.textStatus = 'notenoughspace';
-						data.errorThrown = t('files',
-							'Not enough free space, you are uploading {size1} but only {size2} is left', {
-							'size1': humanFileSize(selection.totalBytes),
-							'size2': humanFileSize($('#free_space').val())
-						});
-					}
+					davClient = OC.Files.getClient();
+					targetFolder = upload._targetFolder;
+					p = davClient._client.propFind(davClient._buildUrl(targetFolder));
 
-					// end upload for whole selection on error
-					if (data.errorThrown) {
+					p.then(function(f){
+						if(f.status < 200 || f.status >= 300){
+							return $.Deferred().reject({
+								textStatus: 'quotaqueryfailed',
+								message: t('files', 'HTTP Status {s} while querying free space on {t}',
+									{s: f.status, t:targetFolder})});
+						}
+						s = f.xhr.responseXML.getElementsByTagName("d:quota-available-bytes")[0].textContent
+						freeSpace = parseInt(s);
+						return $.Deferred().resolve(freeSpace);
+
+					}).then(function(freeSpace){
+						if (freeSpace >= 0 && selection.totalBytes > freeSpace) {
+							ts = 'notenoughspace';
+							m = t('files',
+								'Not enough free space, you are uploading {size1} but only {size2} is left', {
+								'size1': humanFileSize(selection.totalBytes),
+								'size2': humanFileSize(freeSpace)
+							});
+							return $.Deferred().reject({textStatus:ts, message:m});
+						}
+						return $.Deferred().resolve();
+
+					}).then(function(){
+						// check existing files when all is collected
+						if ( selection.uploads.length >= selection.filesToUpload ) {
+
+							//remove our selection hack:
+							delete data.originalFiles.selection;
+
+							var callbacks = {
+
+								onNoConflicts: function (selection) {
+									self.submitUploads(selection.uploads);
+								},
+								onSkipConflicts: function (selection) {
+									//TODO mark conflicting files as toskip
+								},
+								onReplaceConflicts: function (selection) {
+									//TODO mark conflicting files as toreplace
+								},
+								onChooseConflicts: function (selection) {
+									//TODO mark conflicting files as chosen
+								},
+								onCancel: function (selection) {
+									$.each(selection.uploads, function(i, upload) {
+										upload.abort();
+									});
+								}
+							};
+
+							self.checkExistingFiles(selection, callbacks);
+
+						}
+
+					}).then(null, function(err){
+						// This function is called if any of the above then()
+						// functions return a reject()ed Deferred object.
+						if(err instanceof Error){
+							// Called if a bug upstream in the then()-chain
+							// causes an Error to be thrown
+							data.errorThrown = err.name + ": " + err.message;
+							data.textStatus = "exceptionwhileupload";
+						}else{
+							// Called if a condition occurs upstream in the then()-chain
+							// which shall lead to a customized user message
+							data.textStatus = err.textStatus;
+							data.errorThrown = err.message;
+						}
+						// end upload for whole selection on error
 						// trigger fileupload fail handler
 						var fu = that.data('blueimp-fileupload') || that.data('fileupload');
 						fu._trigger('fail', e, data);
-						return false; //don't upload anything
-					}
-
-					// check existing files when all is collected
-					if ( selection.uploads.length >= selection.filesToUpload ) {
-
-						//remove our selection hack:
-						delete data.originalFiles.selection;
-
-						var callbacks = {
-
-							onNoConflicts: function (selection) {
-								self.submitUploads(selection.uploads);
-							},
-							onSkipConflicts: function (selection) {
-								//TODO mark conflicting files as toskip
-							},
-							onReplaceConflicts: function (selection) {
-								//TODO mark conflicting files as toreplace
-							},
-							onChooseConflicts: function (selection) {
-								//TODO mark conflicting files as chosen
-							},
-							onCancel: function (selection) {
-								$.each(selection.uploads, function(i, upload) {
-									upload.abort();
-								});
-							}
-						};
-
-						self.checkExistingFiles(selection, callbacks);
-
-					}
-
-					return true; // continue adding files
+					});
 				},
 				/**
 				 * called after the first add, does NOT have the data param
