@@ -165,7 +165,6 @@ kbd {
 					}
 
 					/* Submenu fix for icon */
-					> .app-navigation-entry-bullet + a,
 					> a[class*='icon-'],
 					> a[style*='background-image'],
 					.app-navigation-entry-bullet {
@@ -240,7 +239,6 @@ kbd {
 			}
 
 			/* padding in case of icon or bullet */
-			> .app-navigation-entry-bullet + a,
 			> a[class*='icon-'],
 			> a[style*='background-image'] {
 				padding-left: 44px;
