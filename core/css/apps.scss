@@ -105,10 +105,15 @@ kbd {
 			flex-wrap: wrap;
 
 			> a,
-			> .app-navigation-entry-deleted,
-			> .app-navigation-entry-edit {
+			> .app-navigation-entry-deleted {
 				/* Ugly hack for overriding the main entry link */
 				padding-left: 44px !important;
+			}
+			> .app-navigation-entry-edit {
+				/* Ugly hack for overriding the main entry link */
+				/* align the input correctly with the link text
+				   44px-6px padding for the input */
+				padding-left: 38px !important; 
 			}
 
 			&:focus,
@@ -253,7 +258,9 @@ kbd {
 			}
 
 			/* show edit/undo field if editing/deleted */
-			&.editing .app-navigation-entry-edit,
+			&.editing .app-navigation-entry-edit {
+				opacity: 1;
+			}
 			&.deleted .app-navigation-entry-deleted {
 				transform: translateX(0);
 			}
@@ -391,8 +398,8 @@ kbd {
 		padding-right: 5px;
 		display: block;
 		width: calc(100% - 1px); /* Avoid border overlapping */
-		transition: transform 250ms ease-in-out;
-		transform: translateX(250px);
+		transition: opacity 250ms ease-in-out;
+		opacity: 0;
 		position: absolute;
 		background-color: $color-main-background;
 		form {
@@ -434,6 +441,7 @@ kbd {
 	.app-navigation-entry-deleted {
 		display: inline-flex;
 		padding-left: 12px;
+		transform: translateX(250px);
 		.app-navigation-entry-deleted-description {
 			position: relative;
 			white-space: nowrap;
@@ -459,8 +467,8 @@ kbd {
 	.app-navigation-entry-edit,
 	.app-navigation-entry-deleted  {
 		width: calc(100% - 1px); /* Avoid border overlapping */
-		transition: transform 250ms ease-in-out;
-		transform: translateX(250px);
+		transition: transform 250ms ease-in-out,
+					opacity 250ms ease-in-out;
 		position: absolute;
 		background-color: $color-main-background;
 		z-index: 250;
