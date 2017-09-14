@@ -617,6 +617,16 @@ a.action > img {
 	opacity: .7;
 }
 
+// Ellipsize long sharer names
+#fileList .action.action-share.permanent.shared-style span:not(.icon) {
+	display: inline-block;
+	max-width: 70px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	vertical-align: bottom;
+	padding-left: 6px;
+}
+
 #fileList .fileActionsMenu a.action:hover,
 #fileList .fileActionsMenu a.action:focus,
 /* show share action of shared items darker to distinguish from non-shared */
