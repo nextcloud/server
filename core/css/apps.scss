@@ -435,6 +435,7 @@ kbd {
 		transform: translateX(250px);
 		position: absolute;
 		background-color: $color-main-background;
+		z-index: 250;
 	}
 
 	/**
