@@ -146,11 +146,15 @@ kbd {
 						}
 					}
 					/* Submenu fix for icon */
-					> a {
-						&[class*='icon-'],
-						&[style*='background-image:'] {
-							margin-left: -32px; /* 44px padding - 12px padding */
-						}
+					> .app-navigation-entry-bullet + a,
+					> a[class*='icon-'],
+					> a[style*='background-image:'],
+					.app-navigation-entry-bullet {
+						margin-left: -32px; /* 44px padding - 12px padding */
+					}
+					/* Submenu fix for bullet */
+					> .app-navigation-entry-bullet {
+						left: -32px;/* 44px padding - 12px padding */
 					}
 				}
 			}
@@ -161,6 +165,7 @@ kbd {
 			position: relative;
 			width: 100%;
 			box-sizing: border-box;
+			/* Main entry link */
 			> a {
 				background-size: 16px 16px;
 				background-position: 14px center;
@@ -177,18 +182,13 @@ kbd {
 				color: $color-main-text;
 				opacity: .57;
 				flex: 1 1 0;
+				z-index: 100; /* above the bullet */
 				/* TODO: forbid using img as icon in menu? */
 				&:first-child img {
 				    margin-bottom: -3px;
 				    margin-right: 11px;
 				    width: 16px;
 				    margin-left: 2px;
-				}
-
-				/* add padding if an icon is set with a class or an inline style */
-				&[class*='icon-'],
-				&[style*='background-image:'] {
-					padding-left: 44px;
 				}
 
 				/* counter can also be inside the link */
@@ -200,6 +200,24 @@ kbd {
 					}
 				}
 			}
+			/* Bullet icon */
+			> .app-navigation-entry-bullet {
+				position: absolute;
+				display: block;
+				margin: 16px;
+				width: 12px;
+				height: 12px;
+				border: none;
+				border-radius: 50%;
+				cursor: pointer;				
+			}
+
+			/* padding in case of icon or bullet */
+			> .app-navigation-entry-bullet + a,
+			> a[class*='icon-'],
+			> a[style*='background-image:'] {
+				padding-left: 44px;
+			}
 
 			/* popover fix the flex positionning of the li parent */
 			> .app-navigation-entry-menu {
@@ -207,15 +225,9 @@ kbd {
 			}
 
 			/* show edit/undo field if editing/deleted */
-			&.editing {
-				.app-navigation-entry-edit {
-					transform: translateX(0);
-				}
-			}
-			&.deleted {
-				.app-navigation-entry-deleted {
-					transform: translateX(0);
-				}
+			&.editing .app-navigation-entry-edit,
+			&.deleted .app-navigation-entry-deleted {
+				transform: translateX(0);
 			}
 		}
 	}
