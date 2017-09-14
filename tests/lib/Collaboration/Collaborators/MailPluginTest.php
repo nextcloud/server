@@ -55,7 +55,6 @@ class MailPluginTest extends TestCase {
 
 		$this->config = $this->createMock(IConfig::class);
 		$this->contactsManager = $this->createMock(IManager::class);
-		//$this->cloudIdManager = $this->createMock(ICloudIdManager::class);
 		$this->cloudIdManager = new CloudIdManager();
 		$this->searchResult = new SearchResult();
 	}

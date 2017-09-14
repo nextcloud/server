@@ -50,7 +50,7 @@ class LookupPlugin implements ISearchPlugin {
 
 		$lookupServerUrl = $this->config->getSystemValue('lookup_server', 'https://lookup.nextcloud.com');
 		$lookupServerUrl = rtrim($lookupServerUrl, '/');
-		$result = ['wide' => [], 'exact' => []];
+		$result = [];
 
 		try {
 			$client = $this->clientService->newClient();
@@ -64,7 +64,6 @@ class LookupPlugin implements ISearchPlugin {
 
 			$body = json_decode($response->getBody(), true);
 
-			$result = [];
 			foreach ($body as $lookup) {
 				$result[] = [
 					'label' => $lookup['federationId'],
