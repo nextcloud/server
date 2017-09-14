@@ -129,7 +129,7 @@ class CSSResourceLocator extends ResourceLocator {
 						'throw' => $throw ? 'true' : 'false'
 					]);
 
-					if ($throw) {
+					if ($throw && $root === '/') {
 						throw new ResourceNotFoundException($file, $webRoot);
 					}
 				}
