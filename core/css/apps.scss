@@ -103,6 +103,12 @@ kbd {
 		> li {
 			display: inline-flex;
 			flex-wrap: wrap;
+
+			> a {
+				/* Ugly hack for overriding the main entry link */
+				padding-left: 44px !important;
+			}
+
 			&:focus,
 			&:hover,
 			&.active,
@@ -134,7 +140,7 @@ kbd {
 			/* Second level nesting for lists */
 			> ul {
 				flex: 1 0 100%;
-				padding-left: 44px;
+				padding-left: 62px;
 				width: inherit;
 				transition: max-height 2000ms ease-in-out,
 							opacity 250ms ease-in-out;
