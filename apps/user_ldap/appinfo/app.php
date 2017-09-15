@@ -44,9 +44,10 @@ if(count($configPrefixes) > 0) {
 			'name' => $l->t('LDAP user and group backend'),
 		];
 	});
+	$userSession = \OC::$server->getUserSession();
 
 	$userBackend  = new OCA\User_LDAP\User_Proxy(
-		$configPrefixes, $ldapWrapper, $ocConfig, $notificationManager
+		$configPrefixes, $ldapWrapper, $ocConfig, $notificationManager, $userSession
 	);
 	$groupBackend  = new OCA\User_LDAP\Group_Proxy($configPrefixes, $ldapWrapper);
 	// register user backend
