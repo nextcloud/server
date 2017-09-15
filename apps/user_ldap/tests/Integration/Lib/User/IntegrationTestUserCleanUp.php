@@ -46,7 +46,7 @@ class IntegrationTestUserCleanUp extends AbstractIntegrationTest {
 		$this->mapping->clear();
 		$this->access->setUserMapper($this->mapping);
 
-		$userBackend  = new User_LDAP($this->access, \OC::$server->getConfig(), \OC::$server->getNotificationManager());
+		$userBackend  = new User_LDAP($this->access, \OC::$server->getConfig(), \OC::$server->getNotificationManager(), \OC::$server->getUserSession());
 		\OC_User::useBackend($userBackend);
 	}
 
@@ -76,16 +76,18 @@ class IntegrationTestUserCleanUp extends AbstractIntegrationTest {
 		$dn = 'uid=alice,ou=Users,' . $this->base;
 		$this->prepareUser($dn, $username);
 
-		$user = \OC::$server->getUserManager()->get($username);
-		if($user === null) {
-			return false;
-		}
-
 		$this->deleteUserFromLDAP($dn);
 
 		$job = new CleanUp();
 		$job->run([]);
 
+		// user instance must not be requested from global user manager, before
+		// it is deleted from the LDAP server. The instance will be returned
+		// from cache and may false-positively confirm the correctness.
+		$user = \OC::$server->getUserManager()->get($username);
+		if($user === null) {
+			return false;
+		}
 		$user->delete();
 
 		return null === \OC::$server->getUserManager()->get($username);

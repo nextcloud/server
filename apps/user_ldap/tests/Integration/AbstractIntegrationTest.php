@@ -144,11 +144,17 @@ abstract class AbstractIntegrationTest {
 		foreach($methods as $method) {
 			if(strpos($method, 'case') === 0) {
 				print("running $method " . PHP_EOL);
-				if(!$this->$method()) {
-					print(PHP_EOL . '>>> !!! Test ' . $method . ' FAILED !!! <<<' . PHP_EOL . PHP_EOL);
+				try {
+					if(!$this->$method()) {
+						print(PHP_EOL . '>>> !!! Test ' . $method . ' FAILED !!! <<<' . PHP_EOL . PHP_EOL);
+						exit(1);
+					}
+					$atLeastOneCaseRan = true;
+				} catch(\Exception $e) {
+					print(PHP_EOL . '>>> !!! Test ' . $method . ' RAISED AN EXCEPTION !!! <<<' . PHP_EOL);
+					print($e->getMessage() . PHP_EOL . PHP_EOL);
 					exit(1);
 				}
-				$atLeastOneCaseRan = true;
 			}
 		}
 		if($atLeastOneCaseRan) {

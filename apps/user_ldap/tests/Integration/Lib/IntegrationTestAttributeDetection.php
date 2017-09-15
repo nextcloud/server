@@ -49,7 +49,7 @@ class IntegrationTestAttributeDetection extends AbstractIntegrationTest {
 		$groupMapper->clear();
 		$this->access->setGroupMapper($groupMapper);
 
-		$userBackend = new User_LDAP($this->access, \OC::$server->getConfig(), \OC::$server->getNotificationManager());
+		$userBackend = new User_LDAP($this->access, \OC::$server->getConfig(), \OC::$server->getNotificationManager(), \OC::$server->getUserSession());
 		$userManager = \OC::$server->getUserManager();
 		$userManager->clearBackends();
 		$userManager->registerBackend($userBackend);
