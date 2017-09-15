@@ -12,7 +12,7 @@ OC.L10N.register(
     "This directory is unavailable, please check the logs or contact the administrator" : "Ce répertoire n'est pas disponible. Consultez les logs ou contactez votre administrateur",
     "restored" : "restauré",
     "No deleted files" : "Aucun fichier supprimé",
-    "You will be able to recover deleted files from here" : "Vous pourrez restaurer vos fichiers supprimés ici",
+    "You will be able to recover deleted files from here" : "Ici, vous verrez et pourrez restaurer vos fichiers supprimés",
     "No entries found in this folder" : "Aucune entrée trouvée dans ce dossier",
     "Select all" : "Tout sélectionner",
     "Name" : "Nom",

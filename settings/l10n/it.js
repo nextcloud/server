@@ -311,7 +311,7 @@ OC.L10N.register(
     "Personal" : "Personale",
     "Administration" : "Amministrazione",
     "You are using <strong>%s</strong> of <strong>%s</strong>" : "Stai utilizzando <strong>%s</strong> di <strong>%s</strong>",
-    "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Stai utilizzando <strong>%s</strong> di <strong>%s</strong> (strong>%s %%</strong>)",
+    "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Stai utilizzando <strong>%s</strong> di <strong>%s</strong> (<strong>%s %%</strong>)",
     "Profile picture" : "Immagine del profilo",
     "Upload new" : "Carica nuova",
     "Select from Files" : "Seleziona da file",
