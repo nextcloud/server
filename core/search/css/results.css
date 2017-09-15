@@ -88,8 +88,6 @@
 	color: #545454;
 }
 #searchresults .path {
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
-	filter: alpha(opacity=50);
 	opacity: .5;
 }
 #searchresults .text em {
