@@ -159,9 +159,7 @@ class MailSettingsController extends Controller {
 
 				$message = $this->mailer->createMessage();
 				$message->setTo([$email => $displayName]);
-				$message->setSubject($template->renderSubject());
-				$message->setHtmlBody($template->renderHtml());
-				$message->setPlainBody($template->renderText());
+				$message->useTemplate($template);
 				$errors = $this->mailer->send($message);
 				if (!empty($errors)) {
 					throw new \RuntimeException($this->l10n->t('Email could not be sent. Check your mail server log'));

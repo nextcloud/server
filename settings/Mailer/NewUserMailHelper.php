@@ -160,10 +160,8 @@ class NewUserMailHelper {
 							 IEMailTemplate $emailTemplate) {
 		$message = $this->mailer->createMessage();
 		$message->setTo([$user->getEMailAddress() => $user->getDisplayName()]);
-		$message->setSubject($emailTemplate->renderSubject());
-		$message->setHtmlBody($emailTemplate->renderHtml());
-		$message->setPlainBody($emailTemplate->renderText());
 		$message->setFrom([$this->fromAddress => $this->themingDefaults->getName()]);
+		$message->useTemplate($emailTemplate);
 		$this->mailer->send($message);
 	}
 }

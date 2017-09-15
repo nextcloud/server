@@ -427,9 +427,7 @@ class ShareByMailProvider implements IShareProvider {
 			$emailTemplate->addFooter();
 		}
 
-		$message->setSubject($emailTemplate->renderSubject());
-		$message->setPlainBody($emailTemplate->renderText());
-		$message->setHtmlBody($emailTemplate->renderHtml());
+		$message->useTemplate($emailTemplate);
 		$this->mailer->send($message);
 	}
 
@@ -491,9 +489,7 @@ class ShareByMailProvider implements IShareProvider {
 		}
 
 		$message->setTo([$shareWith]);
-		$message->setSubject($emailTemplate->renderSubject());
-		$message->setBody($emailTemplate->renderText(), 'text/plain');
-		$message->setHtmlBody($emailTemplate->renderHtml());
+		$message->useTemplate($emailTemplate);
 		$this->mailer->send($message);
 
 		$this->createPasswordSendActivity($share, $shareWith, false);
@@ -547,9 +543,7 @@ class ShareByMailProvider implements IShareProvider {
 			$message->setFrom([$initiatorEMailAddress => $initiatorDisplayName]);
 		}
 		$message->setTo([$initiatorEMailAddress => $initiatorDisplayName]);
-		$message->setSubject($emailTemplate->renderSubject());
-		$message->setBody($emailTemplate->renderText(), 'text/plain');
-		$message->setHtmlBody($emailTemplate->renderHtml());
+		$message->useTemplate($emailTemplate);
 		$this->mailer->send($message);
 
 		$this->createPasswordSendActivity($share, $shareWith, true);

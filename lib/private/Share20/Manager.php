@@ -750,9 +750,7 @@ class Manager implements IManager {
 			$emailTemplate->addFooter();
 		}
 
-		$message->setSubject($emailTemplate->renderSubject());
-		$message->setPlainBody($emailTemplate->renderText());
-		$message->setHtmlBody($emailTemplate->renderHtml());
+		$message->useTemplate($emailTemplate);
 		$this->mailer->send($message);
 	}
 

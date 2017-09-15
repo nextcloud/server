@@ -132,10 +132,7 @@ class Hooks {
 
 			$message = $this->mailer->createMessage();
 			$message->setTo([$user->getEMailAddress() => $user->getDisplayName()]);
-			$message->setSubject($template->renderSubject());
-			$message->setBody($template->renderText(), 'text/plain');
-			$message->setHtmlBody($template->renderHtml());
-
+			$message->useTemplate($template);
 			$this->mailer->send($message);
 		}
 	}
@@ -208,10 +205,7 @@ class Hooks {
 
 			$message = $this->mailer->createMessage();
 			$message->setTo([$oldMailAddress => $user->getDisplayName()]);
-			$message->setSubject($template->renderSubject());
-			$message->setBody($template->renderText(), 'text/plain');
-			$message->setHtmlBody($template->renderHtml());
-
+			$message->useTemplate($template);
 			$this->mailer->send($message);
 		}
 	}
