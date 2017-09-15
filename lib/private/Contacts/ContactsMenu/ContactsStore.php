@@ -1,9 +1,10 @@
 <?php
-
 /**
  * @copyright 2017 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @copyright 2017 Lukas Reschke <lukas@statuscode.ch>
  *
  * @author 2017 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author 2017 Lukas Reschke <lukas@statuscode.ch>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -53,7 +54,10 @@ class ContactsStore {
 	 * @param IUserManager $userManager
 	 * @param IGroupManager $groupManager
 	 */
-	public function __construct(IManager $contactsManager, IConfig $config, IUserManager $userManager, IGroupManager $groupManager) {
+	public function __construct(IManager $contactsManager,
+								IConfig $config,
+								IUserManager $userManager,
+								IGroupManager $groupManager) {
 		$this->contactsManager = $contactsManager;
 		$this->config = $config;
 		$this->userManager = $userManager;
@@ -68,27 +72,39 @@ class ContactsStore {
 	public function getContacts(IUser $user, $filter) {
 		$allContacts = $this->contactsManager->search($filter ?: '', [
 			'FN',
+			'EMAIL'
 		]);
 
 		$entries = array_map(function(array $contact) {
 			return $this->contactArrayToEntry($contact);
 		}, $allContacts);
-		return $this->filterContacts($user, $entries);
+		return $this->filterContacts(
+			$user,
+			$entries,
+			$filter
+		);
 	}
 
 	/**
-	 * @brief filters the contacts. Applies 3 filters:
+	 * Filters the contacts. Applies 3 filters:
 	 *  1. filter the current user
-	 *  2. if the `shareapi_exclude_groups` config option is enabled and the
+	 *  2. if the `shareapi_allow_share_dialog_user_enumeration` config option is
+	 * enabled it will filter all local users
+	 *  3. if the `shareapi_exclude_groups` config option is enabled and the
 	 * current user is in an excluded group it will filter all local users.
-	 *  3. if the `shareapi_only_share_with_group_members` config option is
+	 *  4. if the `shareapi_only_share_with_group_members` config option is
 	 * enabled it will filter all users which doens't have a common group
 	 * with the current user.
+	 *
 	 * @param IUser $self
 	 * @param Entry[] $entries
+	 * @param string $filter
 	 * @return Entry[] the filtered contacts
 	 */
-	private function filterContacts(IUser $self, array $entries) {
+	private function filterContacts(IUser $self,
+									array $entries,
+									$filter) {
+		$disallowEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') !== 'yes';
 		$excludedGroups = $this->config->getAppValue('core', 'shareapi_exclude_groups', 'no') === 'yes';
 
 		// whether to filter out local users
@@ -101,7 +117,7 @@ class ContactsStore {
 		if ($excludedGroups) {
 			$excludedGroups = $this->config->getAppValue('core', 'shareapi_exclude_groups_list', '');
 			$decodedExcludeGroups = json_decode($excludedGroups, true);
-			$excludeGroupsList = !is_null($decodedExcludeGroups) ? $decodedExcludeGroups :  [];
+			$excludeGroupsList = ($decodedExcludeGroups !== null) ? $decodedExcludeGroups :  [];
 
 			if (count(array_intersect($excludeGroupsList, $selfGroups)) !== 0) {
 				// a group of the current user is excluded -> filter all local users
@@ -111,10 +127,30 @@ class ContactsStore {
 
 		$selfUID = $self->getUID();
 
-		return array_filter($entries, function(IEntry $entry) use ($self, $skipLocal, $ownGroupsOnly, $selfGroups, $selfUID) {
-
+		return array_values(array_filter($entries, function(IEntry $entry) use ($self, $skipLocal, $ownGroupsOnly, $selfGroups, $selfUID, $disallowEnumeration, $filter) {
 			if ($skipLocal && $entry->getProperty('isLocalSystemBook') === true) {
 				return false;
+			}
+
+			// Prevent enumerating local users
+			if($disallowEnumeration && $entry->getProperty('isLocalSystemBook')) {
+				$filterUser = true;
+
+				$mailAddresses = $entry->getEMailAddresses();
+				foreach($mailAddresses as $mailAddress) {
+					if($mailAddress === $filter) {
+						$filterUser = false;
+						break;
+					}
+				}
+
+				if($entry->getProperty('UID') && $entry->getProperty('UID') === $filter) {
+					$filterUser = false;
+				}
+
+				if($filterUser) {
+					return false;
+				}
 			}
 
 			if ($ownGroupsOnly && $entry->getProperty('isLocalSystemBook') === true) {
@@ -126,9 +162,7 @@ class ContactsStore {
 			}
 
 			return $entry->getProperty('UID') !== $selfUID;
-		});
-
-
+		}));
 	}
 
 	/**
@@ -173,7 +207,7 @@ class ContactsStore {
 		}
 
 		if ($match) {
-			$match = $this->filterContacts($user, [$this->contactArrayToEntry($match)]);
+			$match = $this->filterContacts($user, [$this->contactArrayToEntry($match)], $shareWith);
 			if (count($match) === 1) {
 				$match = $match[0];
 			} else {
