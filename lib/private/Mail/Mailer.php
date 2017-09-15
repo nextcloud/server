@@ -29,6 +29,7 @@ use OCP\IURLGenerator;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OCP\ILogger;
+use OCP\Mail\IMessage;
 
 /**
  * Class Mailer provides some basic functions to create a mail message that can be used in combination with
@@ -84,7 +85,7 @@ class Mailer implements IMailer {
 	/**
 	 * Creates a new message object that can be passed to send()
 	 *
-	 * @return Message
+	 * @return IMessage
 	 */
 	public function createMessage() {
 		return new Message(new \Swift_Message());
@@ -124,13 +125,13 @@ class Mailer implements IMailer {
 	 * Send the specified message. Also sets the from address to the value defined in config.php
 	 * if no-one has been passed.
 	 *
-	 * @param Message $message Message to send
+	 * @param IMessage|Message $message Message to send
 	 * @return string[] Array with failed recipients. Be aware that this depends on the used mail backend and
 	 * therefore should be considered
 	 * @throws \Exception In case it was not possible to send the message. (for example if an invalid mail address
 	 * has been supplied.)
 	 */
-	public function send(Message $message) {
+	public function send(IMessage $message) {
 		$debugMode = $this->config->getSystemValue('mail_smtpdebug', false);
 
 		if (empty($message->getFrom())) {
