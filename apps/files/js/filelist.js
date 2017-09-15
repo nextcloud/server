@@ -2050,10 +2050,14 @@
 		 */
 		copy: function(fileNames, targetPath, callback) {
 			var self = this;
+			var filesToNotify = [];
+			var count = 0;
+
 			var dir = this.getCurrentDirectory();
 			if (dir.charAt(dir.length - 1) !== '/') {
 				dir += '/';
 			}
+			var target = OC.basename(targetPath);
 			if (!_.isArray(fileNames)) {
 				fileNames = [fileNames];
 			}
@@ -2066,6 +2070,20 @@
 					targetPath = targetPath + '/';
 				}
 				self.filesClient.copy(dir + fileName, targetPath + fileName)
+					.done(function () {
+						filesToNotify.push(fileName);
+
+						// if still viewing the same directory
+						if (OC.joinPaths(self.getCurrentDirectory(), '/') === dir) {
+							// recalculate folder size
+							var oldFile = self.findFileEl(target);
+							var newFile = self.findFileEl(fileName);
+							var oldSize = oldFile.data('size');
+							var newSize = oldSize + newFile.data('size');
+							oldFile.data('size', newSize);
+							oldFile.find('td.filesize').text(OC.Util.humanFileSize(newSize));
+						}
+					})
 					.fail(function(status) {
 						if (status === 412) {
 							// TODO: some day here we should invoke the conflict dialog
@@ -2080,41 +2098,49 @@
 					})
 					.always(function() {
 						self.showFileBusyState($tr, false);
+						count++;
+
+						/**
+						 * We only show the notifications once the last file has been copied
+						 */
+						if (count === fileNames.length) {
+							// Remove leading and ending /
+							if (targetPath.slice(0, 1) === '/') {
+								targetPath = targetPath.slice(1, targetPath.length);
+							}
+							if (targetPath.slice(-1) === '/') {
+								targetPath = targetPath.slice(0, -1);
+							}
+
+							if (filesToNotify.length > 0) {
+								// Since there's no visual indication that the files were copied, let's send some notifications !
+								if (filesToNotify.length === 1) {
+									OC.Notification.show(t('files', 'Copied {origin} inside {destination}',
+										{
+											origin: filesToNotify[0],
+											destination: targetPath
+										}
+									), {timeout: 10});
+								} else if (filesToNotify.length > 0 && filesToNotify.length < 3) {
+									OC.Notification.show(t('files', 'Copied {origin} inside {destination}',
+										{
+											origin: filesToNotify.join(', '),
+											destination: targetPath
+										}
+									), {timeout: 10});
+								} else {
+									OC.Notification.show(t('files', 'Copied {origin} and {nbfiles} other files inside {destination}',
+										{
+											origin: filesToNotify[0],
+											nbfiles: filesToNotify.length - 1,
+											destination: targetPath
+										}
+									), {timeout: 10});
+								}
+							}
+						}
 					});
 			});
-
-			// Remove leading and ending /
-			if (targetPath.slice(0, 1) === '/') {
-				targetPath = targetPath.slice(1, targetPath.length);
-			}
-			if (targetPath.slice(-1) === '/') {
-				targetPath = targetPath.slice(0, -1);
-			}
-
-			// Since there's no visual indication that the files were copied, let's send some notifications !
-			if (fileNames.length === 1) {
-				OC.Notification.show(t('files', 'Copied {origin} inside {destination}',
-					{
-						origin: fileNames[0],
-						destination: targetPath
-					}
-				), {timeout: 10});
-			} else if (fileNames.length < 4) {
-				OC.Notification.show(t('files', 'Copied {origin} inside {destination}',
-					{
-						origin: fileNames.join(', '),
-						destination: targetPath
-					}
-				), {timeout: 10});
-			} else {
-				OC.Notification.show(t('files', 'Copied {origin} and {nbfiles} other files inside {destination}',
-					{
-						origin: fileNames[0],
-						nbfiles: fileNames.length,
-						destination: targetPath,
-					}
-				), {timeout: 10});
-			}
 
 			if (callback) {
 				callback();
