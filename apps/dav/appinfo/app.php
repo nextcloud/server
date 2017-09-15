@@ -50,13 +50,7 @@ $eventDispatcher->addListener('OCP\Federation\TrustedServerEvent::remove',
 $cm = \OC::$server->getContactsManager();
 $cm->register(function() use ($cm, $app) {
 	$user = \OC::$server->getUserSession()->getUser();
-	if (is_null($user)) {
-		return;
+	if (!is_null($user)) {
+		$app->setupContactsProvider($cm, $user->getUID());
 	}
-	if (\OC::$server->getConfig()->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') !== 'yes') {
-		// Don't include system users
-		// This prevents user enumeration in the contacts menu and the mail app
-		return;
-	}
-	$app->setupContactsProvider($cm, $user->getUID());
 });
