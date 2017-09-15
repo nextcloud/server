@@ -124,6 +124,7 @@ class NewUserMailHelper {
 			'resetTokenGenerated' => $generatePasswordResetToken,
 		]);
 
+		$emailTemplate->setSubject($this->l10n->t('Your %s account was created', [$this->themingDefaults->getName()]));
 		$emailTemplate->addHeader();
 		if ($displayName === $userId) {
 			$emailTemplate->addHeading($this->l10n->t('Welcome aboard'));
@@ -159,7 +160,7 @@ class NewUserMailHelper {
 							 IEMailTemplate $emailTemplate) {
 		$message = $this->mailer->createMessage();
 		$message->setTo([$user->getEMailAddress() => $user->getDisplayName()]);
-		$message->setSubject($this->l10n->t('Your %s account was created', [$this->themingDefaults->getName()]));
+		$message->setSubject($emailTemplate->renderSubject());
 		$message->setHtmlBody($emailTemplate->renderHtml());
 		$message->setPlainBody($emailTemplate->renderText());
 		$message->setFrom([$this->fromAddress => $this->themingDefaults->getName()]);

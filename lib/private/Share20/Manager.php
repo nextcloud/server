@@ -702,7 +702,6 @@ class Manager implements IManager {
 											\DateTime $expiration = null) {
 		$initiatorUser = $this->userManager->get($initiator);
 		$initiatorDisplayName = ($initiatorUser instanceof IUser) ? $initiatorUser->getDisplayName() : $initiator;
-		$subject = $l->t('%s shared »%s« with you', array($initiatorDisplayName, $filename));
 
 		$message = $this->mailer->createMessage();
 
@@ -714,6 +713,7 @@ class Manager implements IManager {
 			'shareWith' => $shareWith,
 		]);
 
+		$emailTemplate->setSubject($l->t('%s shared »%s« with you', array($initiatorDisplayName, $filename)));
 		$emailTemplate->addHeader();
 		$emailTemplate->addHeading($l->t('%s shared »%s« with you', [$initiatorDisplayName, $filename]), false);
 		$text = $l->t('%s shared »%s« with you.', [$initiatorDisplayName, $filename]);
@@ -750,7 +750,7 @@ class Manager implements IManager {
 			$emailTemplate->addFooter();
 		}
 
-		$message->setSubject($subject);
+		$message->setSubject($emailTemplate->renderSubject());
 		$message->setPlainBody($emailTemplate->renderText());
 		$message->setHtmlBody($emailTemplate->renderHtml());
 		$this->mailer->send($message);

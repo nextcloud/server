@@ -122,6 +122,8 @@ class Hooks {
 				'emailAddress' => $user->getEMailAddress(),
 				'instanceUrl' => $instanceUrl,
 			]);
+
+			$template->setSubject($this->l->t('Password for %1$s changed on %2$s', [$user->getDisplayName(), $instanceUrl]));
 			$template->addHeader();
 			$template->addHeading($this->l->t('Password changed for %s', [$user->getDisplayName()]), false);
 			$template->addBodyText($text . ' ' . $this->l->t('If you did not request this, please contact an administrator.'));
@@ -130,7 +132,7 @@ class Hooks {
 
 			$message = $this->mailer->createMessage();
 			$message->setTo([$user->getEMailAddress() => $user->getDisplayName()]);
-			$message->setSubject($this->l->t('Password for %1$s changed on %2$s', [$user->getDisplayName(), $instanceUrl]));
+			$message->setSubject($template->renderSubject());
 			$message->setBody($template->renderText(), 'text/plain');
 			$message->setHtmlBody($template->renderHtml());
 
@@ -193,6 +195,8 @@ class Hooks {
 				'oldEMailAddress' => $oldMailAddress,
 				'instanceUrl' => $instanceUrl,
 			]);
+
+			$template->setSubject($this->l->t('Email address for %1$s changed on %2$s', [$user->getDisplayName(), $instanceUrl]));
 			$template->addHeader();
 			$template->addHeading($this->l->t('Email address changed for %s', [$user->getDisplayName()]), false);
 			$template->addBodyText($text . ' ' . $this->l->t('If you did not request this, please contact an administrator.'));
@@ -204,7 +208,7 @@ class Hooks {
 
 			$message = $this->mailer->createMessage();
 			$message->setTo([$oldMailAddress => $user->getDisplayName()]);
-			$message->setSubject($this->l->t('Email address for %1$s changed on %2$s', [$user->getDisplayName(), $instanceUrl]));
+			$message->setSubject($template->renderSubject());
 			$message->setBody($template->renderText(), 'text/plain');
 			$message->setHtmlBody($template->renderHtml());
 
