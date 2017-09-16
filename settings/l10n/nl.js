@@ -307,6 +307,8 @@ OC.L10N.register(
     "Theming" : "Thema's",
     "Check the security of your Nextcloud over our security scan" : "Controleer de beveiliging van je Nextcloud met onze securityscan",
     "Hardening and security guidance" : "Hardening en security advies",
+    "Personal" : "Persoonlijk",
+    "Administration" : "Beheer",
     "You are using <strong>%s</strong> of <strong>%s</strong>" : "Je gebruikt <strong>%s</strong> van <strong>%s</strong>",
     "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Je gebruikt <strong>%s</strong> van <strong>%s</strong> (<strong>%s %%</strong>)",
     "Profile picture" : "Profielafbeelding",
