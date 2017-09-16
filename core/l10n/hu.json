@@ -12,6 +12,7 @@
     "No crop data provided" : "Vágáshoz nincs adat megadva",
     "No valid crop data provided" : "Nem lett valós levágási adat megadva",
     "Crop is not square" : "Levágás nem négyzet alakú",
+    "State token does not match" : "Állapot tokenek nem egyeznek",
     "Password reset is disabled" : "Jelszó visszaállítás letiltva",
     "Couldn't reset password because the token is invalid" : "Nem lehet a jelszót törölni, mert a token érvénytelen.",
     "Couldn't reset password because the token is expired" : "Nem lehet a jelszót törölni, mert a token lejárt.",
