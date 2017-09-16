@@ -63,6 +63,7 @@ use OC\Collaboration\Collaborators\RemotePlugin;
 use OC\Collaboration\Collaborators\UserPlugin;
 use OC\Command\CronBus;
 use OC\Contacts\ContactsMenu\ActionFactory;
+use OC\Contacts\ContactsMenu\ContactsStore;
 use OC\Diagnostics\EventLogger;
 use OC\Diagnostics\QueryLogger;
 use OC\Federation\CloudIdManager;
@@ -1127,6 +1128,15 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService(IInstanceFactory::class, function(Server $c) {
 			$memcacheFactory = $c->getMemCacheFactory();
 			return new InstanceFactory($memcacheFactory->createLocal('remoteinstance.'), $c->getHTTPClientService());
+		});
+
+		$this->registerService(\OCP\Contacts\ContactsMenu\IContactsStore::class, function(Server $c) {
+			return new ContactsStore(
+				$c->getContactsManager(),
+				$c->getConfig(),
+				$c->getUserManager(),
+				$c->getGroupManager()
+			);
 		});
 
 		$this->connectDispatcher();
