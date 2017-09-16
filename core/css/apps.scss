@@ -100,6 +100,8 @@ kbd {
 		overflow-x: hidden;
 		overflow-y: auto;
 		box-sizing: border-box;
+		display: flex;
+		flex-direction: column;
 		> li {
 			display: inline-flex;
 			flex-wrap: wrap;
