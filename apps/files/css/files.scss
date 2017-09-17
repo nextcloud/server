@@ -108,9 +108,8 @@
 .nav-icon-trashbin {
 	background-image: url('../img/delete.svg?v=1');
 }
-/* no icon for the quota bar */
 .nav-icon-quota {
-	padding-left: 15px !important;
+	background-image: url('../img/quota.svg?v=1');
 }
 
 #app-navigation .nav-files a.nav-icon-files {
@@ -777,12 +776,9 @@ table.dragshadow td.size {
 	margin: 0 !important;
 	border: none;
 	border-radius: 0;
-	position: fixed !important;
-	bottom: 44px;
-	width: inherit !important;
-	background-color: #fff;
-	border-right: 1px solid #eee;
+	background-color: transparent;
 	z-index:1;
+	order: 3; /* after the trash */
 
 	.quota-container {
 		height: 5px;
