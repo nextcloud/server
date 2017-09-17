@@ -20,17 +20,3 @@
 	display: none;
 }
 
-/* move Deleted Files to bottom of sidebar */
-.nav-trashbin {
-	position: fixed !important;
-	bottom: 88px;
-	width: inherit !important;
-	background-color: #fff;
-	border-right: 1px solid #eee;
-	margin-bottom: 0px !important;
-}
-/* double padding to account for Deleted files entry, issue with Firefox */
-.app-files #app-navigation > ul li:nth-last-child(2) {
-	margin-bottom: 88px;
-}
-
