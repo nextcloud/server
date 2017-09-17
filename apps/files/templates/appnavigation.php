@@ -1,7 +1,10 @@
 <div id="app-navigation">
 	<ul class="with-icon">
-		<?php foreach ($_['navigationItems'] as $item) { ?>
-		<li data-id="<?php p($item['id']) ?>" class="nav-<?php p($item['id']) ?> <?php p($item['classes']) ?>">
+	<?php $pinned = 0 ?>
+		<?php foreach ($_['navigationItems'] as $item) {
+			strpos($item['classes'], 'pinned')!==false ? $pinned++ : '';
+		?>
+		<li data-id="<?php p($item['id']) ?>" class="nav-<?php p($item['id']) ?> <?php p($item['classes']) ?> <?php p($pinned===1?'first-pinned':'') ?>">
 			<a href="<?php p(isset($item['href']) ? $item['href'] : '#') ?>"
 				class="nav-icon-<?php p($item['icon'] !== '' ? $item['icon'] : $item['id']) ?> svg">
 				<?php p($item['name']);?>
