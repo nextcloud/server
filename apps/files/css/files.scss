@@ -791,11 +791,6 @@ table.dragshadow td.size {
 	}
 }
 
-/* increase the padding of the last item to not hide below the quota item */
-.app-files #app-navigation > ul li:nth-last-child(1) {
-	margin-bottom: 44px;
-}
-
 #quotatext {
 	padding: 0;
 	height: 30px;
