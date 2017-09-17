@@ -1,5 +1,13 @@
 <div id="app-navigation">
 	<ul class="with-icon">
+		<?php foreach ($_['navigationItems'] as $item) { ?>
+		<li data-id="<?php p($item['id']) ?>" class="nav-<?php p($item['id']) ?> <?php p($item['classes']) ?>">
+			<a href="<?php p(isset($item['href']) ? $item['href'] : '#') ?>"
+				class="nav-icon-<?php p($item['icon'] !== '' ? $item['icon'] : $item['id']) ?> svg">
+				<?php p($item['name']);?>
+			</a>
+		</li>
+		<?php } ?>
 		<li id="quota" class="section pinned <?php
 		if ($_['quota'] !== \OCP\Files\FileInfo::SPACE_UNLIMITED) {
 			?>has-tooltip" title="<?php p($_['usage_relative'] . '%');
@@ -18,14 +26,6 @@
 				</div>
 			</a>
 		</li>
-		<?php foreach ($_['navigationItems'] as $item) { ?>
-		<li data-id="<?php p($item['id']) ?>" class="nav-<?php p($item['id']) ?> <?php p($item['classes']) ?>">
-			<a href="<?php p(isset($item['href']) ? $item['href'] : '#') ?>"
-				class="nav-icon-<?php p($item['icon'] !== '' ? $item['icon'] : $item['id']) ?> svg">
-				<?php p($item['name']);?>
-			</a>
-		</li>
-		<?php } ?>
 	</ul>
 	<div id="app-settings">
 		<div id="app-settings-header">
