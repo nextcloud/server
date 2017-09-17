@@ -36,5 +36,6 @@
 		'script' => 'list.php',
 		'order' => 50,
 		'name' => $l->t('Deleted files'),
+		'classes' => 'pinned',
 	];
 });
