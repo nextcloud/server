@@ -111,9 +111,10 @@ kbd {
 			/* Pinned-to-bottom entries */
 			&.pinned {
 				order: 2;
-				&:first-child {
-					margin-top: auto !important;
-				}
+			}
+			/* hack, select first occurence of class */
+			&[class*='pinned']:not(:last-of-type) {
+				margin-top: auto !important;
 			}
 
 			> a,
