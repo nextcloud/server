@@ -105,6 +105,16 @@ kbd {
 		> li {
 			display: inline-flex;
 			flex-wrap: wrap;
+			order: 1;
+			flex-shrink: 0;
+
+			/* Pinned-to-bottom entries */
+			&.pinned {
+				order: 2;
+				&:first-child {
+					margin-top: auto !important;
+				}
+			}
 
 			> a,
 			> .app-navigation-entry-deleted {
