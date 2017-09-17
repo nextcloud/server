@@ -729,4 +729,53 @@ class ThemingControllerTest extends TestCase {
 		$expected->cacheFor(3600);
 		@$this->assertEquals($expected, $this->themingController->getJavascript());
 	}
+
+	public function testGetManifest() {
+		$this->config
+			->expects($this->once())
+			->method('getAppValue')
+			->with('theming', 'cachebuster', '0')
+			->willReturn('0');
+		$this->themingDefaults
+			->expects($this->any())
+			->method('getName')
+			->willReturn('Nextcloud');
+		$this->urlGenerator
+			->expects($this->at(0))
+			->method('getBaseUrl')
+			->willReturn('localhost');
+		$this->urlGenerator
+			->expects($this->at(1))
+			->method('linkToRoute')
+			->with('theming.Icon.getTouchIcon', ['app' => 'core'])
+			->willReturn('touchicon');
+		$this->urlGenerator
+			->expects($this->at(2))
+			->method('linkToRoute')
+			->with('theming.Icon.getFavicon', ['app' => 'core'])
+			->willReturn('favicon');
+		$response = new Http\JSONResponse([
+			'name' => 'Nextcloud',
+			'start_url' => 'localhost',
+			'icons' =>
+				[
+					[
+						'src' => 'touchicon?v=0',
+						'type'=> 'image/png',
+						'sizes'=> '128x128'
+					],
+					[
+						'src' => 'favicon?v=0',
+						'type' => 'image/svg+xml',
+						'sizes' => '16x16'
+					]
+				],
+			'display' => 'standalone'
+		]);
+		$response->addHeader('Expires', date(\DateTime::RFC2822, $this->timeFactory->getTime()));
+		$response->addHeader('Pragma', 'cache');
+		$response->cacheFor(3600);
+		$this->assertEquals($response, $this->themingController->getManifest('core'));
+	}
+
 }

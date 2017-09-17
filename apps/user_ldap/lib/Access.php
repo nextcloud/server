@@ -1030,7 +1030,7 @@ class Access extends LDAPUtility implements IUserTools {
 	 * @param array $sr the array containing the LDAP search resources
 	 * @param string $filter the LDAP filter for the search
 	 * @param array $base an array containing the LDAP subtree(s) that shall be searched
-	 * @param int $iFoundItems number of results in the search operation
+	 * @param int $iFoundItems number of results in the single search operation
 	 * @param int $limit maximum results to be counted
 	 * @param int $offset a starting point
 	 * @param bool $pagedSearchOK whether a paged search has been executed
@@ -1149,9 +1149,9 @@ class Access extends LDAPUtility implements IUserTools {
 	 * @return array with the search result
 	 */
 	public function search($filter, $base, $attr = null, $limit = null, $offset = null, $skipHandling = false) {
-		if($limit <= 0) {
-			//otherwise search will fail
-			$limit = null;
+		$limitPerPage = intval($this->connection->ldapPagingSize);
+		if(!is_null($limit) && $limit < $limitPerPage && $limit > 0) {
+			$limitPerPage = $limit;
 		}
 
 		/* ++ Fixing RHDS searches with pages with zero results ++
@@ -1163,7 +1163,7 @@ class Access extends LDAPUtility implements IUserTools {
 		$findings = array();
 		$savedoffset = $offset;
 		do {
-			$search = $this->executeSearch($filter, $base, $attr, $limit, $offset);
+			$search = $this->executeSearch($filter, $base, $attr, $limitPerPage, $offset);
 			if($search === false) {
 				return array();
 			}
@@ -1174,21 +1174,24 @@ class Access extends LDAPUtility implements IUserTools {
 				//i.e. result do not need to be fetched, we just need the cookie
 				//thus pass 1 or any other value as $iFoundItems because it is not
 				//used
-				$this->processPagedSearchStatus($sr, $filter, $base, 1, $limit,
+				$this->processPagedSearchStatus($sr, $filter, $base, 1, $limitPerPage,
 								$offset, $pagedSearchOK,
 								$skipHandling);
 				return array();
 			}
 
+			$iFoundItems = 0;
 			foreach($sr as $res) {
 				$findings = array_merge($findings, $this->invokeLDAPMethod('getEntries', $cr, $res));
+				$iFoundItems = max($iFoundItems, $findings['count']);
+				unset($findings['count']);
 			}
 
-			$continue = $this->processPagedSearchStatus($sr, $filter, $base, $findings['count'],
-								$limit, $offset, $pagedSearchOK,
+			$continue = $this->processPagedSearchStatus($sr, $filter, $base, $iFoundItems,
+				$limitPerPage, $offset, $pagedSearchOK,
 										$skipHandling);
-			$offset += $limit;
-		} while ($continue && $pagedSearchOK && $findings['count'] < $limit);
+			$offset += $limitPerPage;
+		} while ($continue && $pagedSearchOK && ($limit === null || count($findings) < $limit));
 		// reseting offset
 		$offset = $savedoffset;
 

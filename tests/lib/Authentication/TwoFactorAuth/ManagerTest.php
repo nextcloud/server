@@ -25,9 +25,11 @@ namespace Test\Authentication\TwoFactorAuth;
 use Exception;
 use OC;
 use OC\App\AppManager;
+use OC\Authentication\Token\IProvider as TokenProvider;
 use OC\Authentication\TwoFactorAuth\Manager;
 use OCP\Activity\IEvent;
 use OCP\Activity\IManager;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\IConfig;
 use OCP\ILogger;
@@ -37,32 +39,38 @@ use Test\TestCase;
 
 class ManagerTest extends TestCase {
 
-	/** @var IUser|PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUser|\PHPUnit_Framework_MockObject_MockObject */
 	private $user;
 
-	/** @var AppManager|PHPUnit_Framework_MockObject_MockObject */
+	/** @var AppManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $appManager;
 
-	/** @var ISession|PHPUnit_Framework_MockObject_MockObject */
+	/** @var ISession|\PHPUnit_Framework_MockObject_MockObject */
 	private $session;
 
 	/** @var Manager */
 	private $manager;
 
-	/** @var IConfig|PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
 	private $config;
 
-	/** @var IManager|PHPUnit_Framework_MockObject_MockObject */
+	/** @var IManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $activityManager;
 
-	/** @var ILogger|PHPUnit_Framework_MockObject_MockObject */
+	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
 	private $logger;
 
-	/** @var IProvider|PHPUnit_Framework_MockObject_MockObject */
+	/** @var IProvider|\PHPUnit_Framework_MockObject_MockObject */
 	private $fakeProvider;
 
-	/** @var IProvider|PHPUnit_Framework_MockObject_MockObject */
+	/** @var IProvider|\PHPUnit_Framework_MockObject_MockObject */
 	private $backupProvider;
+
+	/** @var TokenProvider|\PHPUnit_Framework_MockObject_MockObject */
+	private $tokenProvider;
+
+	/** @var ITimeFactory|\PHPUnit_Framework_MockObject_MockObject */
+	private $timeFactory;
 
 	protected function setUp() {
 		parent::setUp();
@@ -73,9 +81,19 @@ class ManagerTest extends TestCase {
 		$this->config = $this->createMock(IConfig::class);
 		$this->activityManager = $this->createMock(IManager::class);
 		$this->logger = $this->createMock(ILogger::class);
+		$this->tokenProvider = $this->createMock(TokenProvider::class);
+		$this->timeFactory = $this->createMock(ITimeFactory::class);
 
-		$this->manager = $this->getMockBuilder('\OC\Authentication\TwoFactorAuth\Manager')
-			->setConstructorArgs([$this->appManager, $this->session, $this->config, $this->activityManager, $this->logger])
+		$this->manager = $this->getMockBuilder(Manager::class)
+			->setConstructorArgs([
+				$this->appManager,
+				$this->session,
+				$this->config,
+				$this->activityManager,
+				$this->logger,
+				$this->tokenProvider,
+				$this->timeFactory
+			])
 			->setMethods(['loadTwoFactorApp']) // Do not actually load the apps
 			->getMock();
 
@@ -242,6 +260,7 @@ class ManagerTest extends TestCase {
 			->method('verifyChallenge')
 			->with($this->user, $challenge)
 			->will($this->returnValue(true));
+
 		$this->session->expects($this->once())
 			->method('get')
 			->with('two_factor_remember_login')
@@ -252,12 +271,20 @@ class ManagerTest extends TestCase {
 		$this->session->expects($this->at(2))
 			->method('remove')
 			->with('two_factor_remember_login');
+		$this->session->expects($this->at(3))
+			->method('set')
+			->with(Manager::SESSION_UID_DONE, 'jos');
+		$this->session->method('getId')
+			->willReturn('mysessionid');
+
 		$this->activityManager->expects($this->once())
 			->method('generateEvent')
 			->willReturn($event);
+
 		$this->user->expects($this->any())
 			->method('getUID')
 			->willReturn('jos');
+
 		$event->expects($this->once())
 			->method('setApp')
 			->with($this->equalTo('core'))
@@ -283,6 +310,17 @@ class ManagerTest extends TestCase {
 				'provider' => 'Fake 2FA',
 			]))
 			->willReturnSelf();
+
+		$token = $this->createMock(OC\Authentication\Token\IToken::class);
+		$this->tokenProvider->method('getToken')
+			->with('mysessionid')
+			->willReturn($token);
+		$token->method('getId')
+			->willReturn(42);
+
+		$this->config->expects($this->once())
+			->method('deleteUserValue')
+			->with('jos', 'login_token_2fa', 42);
 
 		$this->assertTrue($this->manager->verifyChallenge('email', $this->user, $challenge));
 	}
@@ -348,12 +386,54 @@ class ManagerTest extends TestCase {
 
 	public function testNeedsSecondFactor() {
 		$user = $this->createMock(IUser::class);
-		$this->session->expects($this->once())
+		$this->session->expects($this->at(0))
+			->method('exists')
+			->with('app_password')
+			->willReturn(false);
+		$this->session->expects($this->at(1))
 			->method('exists')
 			->with('two_factor_auth_uid')
 			->will($this->returnValue(false));
+		$this->session->expects($this->at(2))
+			->method('exists')
+			->with(Manager::SESSION_UID_DONE)
+			->willReturn(false);
 
-		$this->assertFalse($this->manager->needsSecondFactor($user));
+		$this->session->method('getId')
+			->willReturn('mysessionid');
+		$token = $this->createMock(OC\Authentication\Token\IToken::class);
+		$this->tokenProvider->method('getToken')
+			->with('mysessionid')
+			->willReturn($token);
+		$token->method('getId')
+			->willReturn(42);
+
+		$user->method('getUID')
+			->willReturn('user');
+		$this->config->method('getUserKeys')
+			->with('user', 'login_token_2fa')
+			->willReturn([
+				42
+			]);
+
+		$manager = $this->getMockBuilder(Manager::class)
+			->setConstructorArgs([
+				$this->appManager,
+				$this->session,
+				$this->config,
+				$this->activityManager,
+				$this->logger,
+				$this->tokenProvider,
+				$this->timeFactory
+			])
+			->setMethods(['loadTwoFactorApp','isTwoFactorAuthenticated']) // Do not actually load the apps
+			->getMock();
+
+		$manager->method('isTwoFactorAuthenticated')
+			->with($user)
+			->willReturn(true);
+
+		$this->assertTrue($manager->needsSecondFactor($user));
 	}
 
 	public function testNeedsSecondFactorUserIsNull() {
@@ -380,8 +460,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testPrepareTwoFactorLogin() {
-		$this->user->expects($this->once())
-			->method('getUID')
+		$this->user->method('getUID')
 			->will($this->returnValue('ferdinand'));
 
 		$this->session->expects($this->at(0))
@@ -391,12 +470,27 @@ class ManagerTest extends TestCase {
 			->method('set')
 			->with('two_factor_remember_login', true);
 
+		$this->session->method('getId')
+			->willReturn('mysessionid');
+		$token = $this->createMock(OC\Authentication\Token\IToken::class);
+		$this->tokenProvider->method('getToken')
+			->with('mysessionid')
+			->willReturn($token);
+		$token->method('getId')
+			->willReturn(42);
+
+		$this->timeFactory->method('getTime')
+			->willReturn(1337);
+
+		$this->config->method('setUserValue')
+			->with('ferdinand', 'login_token_2fa', 42, 1337);
+
+
 		$this->manager->prepareTwoFactorLogin($this->user, true);
 	}
 
 	public function testPrepareTwoFactorLoginDontRemember() {
-		$this->user->expects($this->once())
-			->method('getUID')
+		$this->user->method('getUID')
 			->will($this->returnValue('ferdinand'));
 
 		$this->session->expects($this->at(0))
@@ -406,7 +500,104 @@ class ManagerTest extends TestCase {
 			->method('set')
 			->with('two_factor_remember_login', false);
 
+		$this->session->method('getId')
+			->willReturn('mysessionid');
+		$token = $this->createMock(OC\Authentication\Token\IToken::class);
+		$this->tokenProvider->method('getToken')
+			->with('mysessionid')
+			->willReturn($token);
+		$token->method('getId')
+			->willReturn(42);
+
+		$this->timeFactory->method('getTime')
+			->willReturn(1337);
+
+		$this->config->method('setUserValue')
+			->with('ferdinand', 'login_token_2fa', 42, 1337);
+
 		$this->manager->prepareTwoFactorLogin($this->user, false);
 	}
 
+	public function testNeedsSecondFactorSessionAuth() {
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')
+			->willReturn('user');
+
+		$this->session->method('exists')
+			->will($this->returnCallback(function($var) {
+				if ($var === Manager::SESSION_UID_KEY) {
+					return false;
+				} else if ($var === 'app_password') {
+					return false;
+				}
+				return true;
+			}));
+		$this->session->expects($this->once())
+			->method('get')
+			->with(Manager::SESSION_UID_DONE)
+			->willReturn('user');
+
+		$this->assertFalse($this->manager->needsSecondFactor($user));
+	}
+
+	public function testNeedsSecondFactorSessionAuthFailDBPass() {
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')
+			->willReturn('user');
+
+		$this->session->method('exists')
+			->willReturn(false);
+		$this->session->method('getId')
+			->willReturn('mysessionid');
+
+		$token = $this->createMock(OC\Authentication\Token\IToken::class);
+		$token->method('getId')
+			->willReturn(40);
+
+		$this->tokenProvider->method('getToken')
+			->with('mysessionid')
+			->willReturn($token);
+
+		$this->config->method('getUserKeys')
+			->with('user', 'login_token_2fa')
+			->willReturn([
+				42, 43, 44
+			]);
+
+		$this->session->expects($this->once())
+			->method('set')
+			->with(Manager::SESSION_UID_DONE, 'user');
+
+		$this->assertFalse($this->manager->needsSecondFactor($user));
+	}
+
+	public function testNeedsSecondFactorInvalidToken() {
+		$this->prepareNoProviders();
+
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')
+			->willReturn('user');
+
+		$this->session->method('exists')
+			->willReturn(false);
+		$this->session->method('getId')
+			->willReturn('mysessionid');
+
+		$this->tokenProvider->method('getToken')
+			->with('mysessionid')
+			->willThrowException(new OC\Authentication\Exceptions\InvalidTokenException());
+
+		$this->config->method('getUserKeys')->willReturn([]);
+
+		$this->assertFalse($this->manager->needsSecondFactor($user));
+	}
+
+	public function testNeedsSecondFactorAppPassword() {
+		$user = $this->createMock(IUser::class);
+		$this->session->method('exists')
+			->with('app_password')
+			->willReturn(true);
+
+		$this->assertFalse($this->manager->needsSecondFactor($user));
+	}
 }

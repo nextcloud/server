@@ -39,7 +39,7 @@ use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\Lock\LockedException;
 
-class ObjectTree extends \Sabre\DAV\Tree {
+class ObjectTree extends CachingTree {
 
 	/**
 	 * @var \OC\Files\View
@@ -95,10 +95,6 @@ class ObjectTree extends \Sabre\DAV\Tree {
 			}
 		}
 		return $path;
-	}
-
-	public function cacheNode(Node $node) {
-		$this->cache[trim($node->getPath(), '/')] = $node;
 	}
 
 	/**

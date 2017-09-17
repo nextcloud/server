@@ -24,6 +24,7 @@
 namespace OCA\Theming\Tests;
 
 use OCA\Theming\ThemingDefaults;
+use OCP\App\IAppManager;
 use OCP\Files\IAppData;
 use OCA\Theming\Util;
 use OCP\Files\NotFoundException;
@@ -55,6 +56,8 @@ class ThemingDefaultsTest extends TestCase {
 	private $util;
 	/** @var ICache|\PHPUnit_Framework_MockObject_MockObject */
 	private $cache;
+	/** @var IAppManager|\PHPUnit_Framework_MockObject_MockObject */
+	private $appManager;
 
 	public function setUp() {
 		parent::setUp();
@@ -65,6 +68,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->cache = $this->createMock(ICache::class);
 		$this->util = $this->createMock(Util::class);
+		$this->appManager = $this->createMock(IAppManager::class);
 		$this->defaults = new \OC_Defaults();
 		$this->cacheFactory
 			->expects($this->any())
@@ -77,7 +81,8 @@ class ThemingDefaultsTest extends TestCase {
 			$this->urlGenerator,
 			$this->appData,
 			$this->cacheFactory,
-			$this->util
+			$this->util,
+			$this->appManager
 		);
 	}
 
@@ -400,7 +405,7 @@ class ThemingDefaultsTest extends TestCase {
 			->willThrowException(new \Exception());
 		$this->urlGenerator->expects($this->once())
 			->method('imagePath')
-			->with('core', 'background.jpg')
+			->with('core', 'background.png')
 			->willReturn('core-background');
 		$this->assertEquals('core-background?v=0', $this->template->getBackground());
 	}
@@ -507,8 +512,10 @@ class ThemingDefaultsTest extends TestCase {
 		$this->config->expects($this->at(7))->method('getAppValue')->with('theming', 'color', null)->willReturn($this->defaults->getColorPrimary());
 		$this->config->expects($this->at(8))->method('getAppValue')->with('theming', 'color', $this->defaults->getColorPrimary())->willReturn($this->defaults->getColorPrimary());
 		$this->config->expects($this->at(9))->method('getAppValue')->with('theming', 'color', $this->defaults->getColorPrimary())->willReturn($this->defaults->getColorPrimary());
+		$this->config->expects($this->at(10))->method('getAppValue')->with('theming', 'color', $this->defaults->getColorPrimary())->willReturn($this->defaults->getColorPrimary());
 
 		$this->util->expects($this->any())->method('invertTextColor')->with($this->defaults->getColorPrimary())->willReturn(false);
+		$this->util->expects($this->any())->method('elementColor')->with($this->defaults->getColorPrimary())->willReturn('#aaaaaa');
 		$this->cache->expects($this->once())->method('get')->with('getScssVariables')->willReturn(null);
 		$folder = $this->createMock(ISimpleFolder::class);
 		$file = $this->createMock(ISimpleFile::class);
@@ -538,7 +545,8 @@ class ThemingDefaultsTest extends TestCase {
 			'image-login-background' => "'absolute-custom-background?v=0'",
 			'color-primary' => $this->defaults->getColorPrimary(),
 			'color-primary-text' => '#ffffff',
-			'image-login-plain' => 'false'
+			'image-login-plain' => 'false',
+			'color-primary-element' => '#aaaaaa'
 
 		];
 		$this->assertEquals($expected, $this->template->getScssVariables());
@@ -602,6 +610,33 @@ class ThemingDefaultsTest extends TestCase {
 			->willReturn('1234567890');
 
 		$this->assertEquals('1234567890', $this->template->getiTunesAppId());
+	}
+
+	public function dataReplaceImagePath() {
+		return [
+			['core', 'test.png', false],
+			['core', 'manifest.json'],
+			['core', 'favicon.ico'],
+			['core', 'favicon-touch.png']
+		];
+	}
+
+	/** @dataProvider dataReplaceImagePath */
+	public function testReplaceImagePath($app, $image, $result = 'themingRoute?v=0') {
+		$this->cache->expects($this->any())
+			->method('get')
+			->with('shouldReplaceIcons')
+			->willReturn(true);
+		$this->config
+			->expects($this->any())
+			->method('getAppValue')
+			->with('theming', 'cachebuster', '0')
+			->willReturn('0');
+		$this->urlGenerator
+			->expects($this->any())
+			->method('linkToRoute')
+			->willReturn('themingRoute');
+		$this->assertEquals($result, $this->template->replaceImagePath($app, $image));
 	}
 
 }

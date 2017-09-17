@@ -120,7 +120,7 @@
 	"ogg": ["audio/ogg"],
 	"ogv": ["video/ogg"],
 	"one": ["application/msonenote"],
-	"opus": ["audio/ogg"],	
+	"opus": ["audio/ogg"],
 	"orf": ["image/x-dcraw"],
 	"otf": ["application/font-sfnt"],
 	"pages": ["application/x-iwork-pages-sffpages"],
@@ -193,5 +193,7 @@
 	"xrf": ["image/x-dcraw"],
 	"yaml": ["application/yaml", "text/plain"],
 	"yml": ["application/yaml", "text/plain"],
-	"zip": ["application/zip"]
+	"zip": ["application/zip"],
+	"url": ["application/internet-shortcut"],
+	"webloc": ["application/internet-shortcut"]
 }

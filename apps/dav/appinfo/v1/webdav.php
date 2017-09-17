@@ -67,5 +67,10 @@ $server = $serverFactory->createServer($baseuri, $requestUri, $authPlugin, funct
 	return \OC\Files\Filesystem::getView();
 });
 
+$dispatcher = \OC::$server->getEventDispatcher();
+// allow setup of additional plugins
+$event = new \OCP\SabrePluginEvent($server);
+$dispatcher->dispatch('OCA\DAV\Connector\Sabre::addPlugin', $event);
+
 // And off we go!
 $server->exec();

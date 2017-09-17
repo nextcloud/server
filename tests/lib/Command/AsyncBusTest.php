@@ -12,7 +12,6 @@ namespace Test\Command;
 use OC\Command\FileAccess;
 use OCP\Command\IBus;
 use OCP\Command\ICommand;
-use Test\BackgroundJob\DummyJobList;
 use Test\TestCase;
 
 class SimpleCommand implements ICommand {
@@ -58,18 +57,13 @@ class ThisClosureTest {
 	}
 }
 
-class AsyncBusTest extends TestCase {
+abstract class AsyncBusTest extends TestCase {
 	/**
 	 * Basic way to check output from a command
 	 *
 	 * @var string
 	 */
 	public static $lastCommand;
-
-	/**
-	 * @var \OCP\BackgroundJob\IJobList
-	 */
-	private $jobList;
 
 	/**
 	 * @var \OCP\Command\IBus
@@ -80,47 +74,60 @@ class AsyncBusTest extends TestCase {
 		self::$lastCommand = 'static';
 	}
 
+	/**
+	 * @return IBus
+	 */
+	protected function getBus() {
+		if (!$this->bus instanceof IBus) {
+			$this->bus = $this->createBus();
+		}
+		return $this->bus;
+	}
+
+	/**
+	 * @return IBus
+	 */
+	abstract protected function createBus();
+
 	public function setUp() {
-		$this->jobList = new DummyJobList();
-		$this->bus = new \OC\Command\AsyncBus($this->jobList);
 		self::$lastCommand = '';
 	}
 
 	public function testSimpleCommand() {
 		$command = new SimpleCommand();
-		$this->bus->push($command);
+		$this->getBus()->push($command);
 		$this->runJobs();
 		$this->assertEquals('SimpleCommand', self::$lastCommand);
 	}
 
 	public function testStateFullCommand() {
 		$command = new StateFullCommand('foo');
-		$this->bus->push($command);
+		$this->getBus()->push($command);
 		$this->runJobs();
 		$this->assertEquals('foo', self::$lastCommand);
 	}
 
 	public function testStaticCallable() {
-		$this->bus->push(['\Test\Command\AsyncBusTest', 'DummyCommand']);
+		$this->getBus()->push(['\Test\Command\AsyncBusTest', 'DummyCommand']);
 		$this->runJobs();
 		$this->assertEquals('static', self::$lastCommand);
 	}
 
 	public function testMemberCallable() {
 		$command = new StateFullCommand('bar');
-		$this->bus->push([$command, 'handle']);
+		$this->getBus()->push([$command, 'handle']);
 		$this->runJobs();
 		$this->assertEquals('bar', self::$lastCommand);
 	}
 
 	public function testFunctionCallable() {
-		$this->bus->push('\Test\Command\BasicFunction');
+		$this->getBus()->push('\Test\Command\BasicFunction');
 		$this->runJobs();
 		$this->assertEquals('function', self::$lastCommand);
 	}
 
 	public function testClosure() {
-		$this->bus->push(function () {
+		$this->getBus()->push(function () {
 			AsyncBusTest::$lastCommand = 'closure';
 		});
 		$this->runJobs();
@@ -128,7 +135,7 @@ class AsyncBusTest extends TestCase {
 	}
 
 	public function testClosureSelf() {
-		$this->bus->push(function () {
+		$this->getBus()->push(function () {
 			self::$lastCommand = 'closure-self';
 		});
 		$this->runJobs();
@@ -139,14 +146,14 @@ class AsyncBusTest extends TestCase {
 	public function testClosureThis() {
 		// clean class to prevent phpunit putting closure in $this
 		$test = new ThisClosureTest();
-		$test->test($this->bus);
+		$test->test($this->getBus());
 		$this->runJobs();
 		$this->assertEquals('closure-this', self::$lastCommand);
 	}
 
 	public function testClosureBind() {
 		$state = 'bar';
-		$this->bus->push(function () use ($state) {
+		$this->getBus()->push(function () use ($state) {
 			self::$lastCommand = 'closure-' . $state;
 		});
 		$this->runJobs();
@@ -154,15 +161,15 @@ class AsyncBusTest extends TestCase {
 	}
 
 	public function testFileFileAccessCommand() {
-		$this->bus->push(new FilesystemCommand());
+		$this->getBus()->push(new FilesystemCommand());
 		$this->assertEquals('', self::$lastCommand);
 		$this->runJobs();
 		$this->assertEquals('FileAccess', self::$lastCommand);
 	}
 
 	public function testFileFileAccessCommandSync() {
-		$this->bus->requireSync('\OC\Command\FileAccess');
-		$this->bus->push(new FilesystemCommand());
+		$this->getBus()->requireSync('\OC\Command\FileAccess');
+		$this->getBus()->push(new FilesystemCommand());
 		$this->assertEquals('FileAccess', self::$lastCommand);
 		self::$lastCommand = '';
 		$this->runJobs();
@@ -170,10 +177,5 @@ class AsyncBusTest extends TestCase {
 	}
 
 
-	private function runJobs() {
-		$jobs = $this->jobList->getAll();
-		foreach ($jobs as $job) {
-			$job->execute($this->jobList);
-		}
-	}
+	abstract protected function runJobs();
 }

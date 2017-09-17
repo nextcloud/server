@@ -1,8 +1,10 @@
 <?php
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright Copyright (c) 2017, Georg Ehrke
  *
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Georg Ehrke <oc.list@georgehrke.com>
  *
  * @license AGPL-3.0
  *
@@ -21,10 +23,15 @@
  */
 namespace OCA\DAV\CalDAV\Schedule;
 
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\ILogger;
 use OCP\Mail\IMailer;
+use Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\DateTimeParser;
 use Sabre\VObject\ITip;
 use Sabre\CalDAV\Schedule\IMipPlugin as SabreIMipPlugin;
+use Sabre\VObject\Recur\EventIterator;
+
 /**
  * iMIP handler.
  *
@@ -47,15 +54,23 @@ class IMipPlugin extends SabreIMipPlugin {
 	/** @var ILogger */
 	private $logger;
 
+	/** @var ITimeFactory */
+	private $timeFactory;
+
+	const MAX_DATE = '2038-01-01';
+
 	/**
 	 * Creates the email handler.
 	 *
 	 * @param IMailer $mailer
+	 * @param ILogger $logger
+	 * @param ITimeFactory $timeFactory
 	 */
-	function __construct(IMailer $mailer, ILogger $logger) {
+	function __construct(IMailer $mailer, ILogger $logger, ITimeFactory $timeFactory) {
 		parent::__construct('');
 		$this->mailer = $mailer;
 		$this->logger = $logger;
+		$this->timeFactory = $timeFactory;
 	}
 
 	/**
@@ -82,6 +97,11 @@ class IMipPlugin extends SabreIMipPlugin {
 		}
 
 		if (parse_url($iTipMessage->recipient, PHP_URL_SCHEME) !== 'mailto') {
+			return;
+		}
+
+		// don't send out mails for events that already took place
+		if ($this->isEventInThePast($iTipMessage->message)) {
 			return;
 		}
 
@@ -125,4 +145,49 @@ class IMipPlugin extends SabreIMipPlugin {
 		}
 	}
 
+	/**
+	 * check if event took place in the past already
+	 * @param VCalendar $vObject
+	 * @return bool
+	 */
+	private function isEventInThePast(VCalendar $vObject) {
+		$component = $vObject->VEVENT;
+
+		$firstOccurrence = $component->DTSTART->getDateTime()->getTimeStamp();
+		// Finding the last occurrence is a bit harder
+		if (!isset($component->RRULE)) {
+			if (isset($component->DTEND)) {
+				$lastOccurrence = $component->DTEND->getDateTime()->getTimeStamp();
+			} elseif (isset($component->DURATION)) {
+				$endDate = clone $component->DTSTART->getDateTime();
+				// $component->DTEND->getDateTime() returns DateTimeImmutable
+				$endDate = $endDate->add(DateTimeParser::parse($component->DURATION->getValue()));
+				$lastOccurrence = $endDate->getTimeStamp();
+			} elseif (!$component->DTSTART->hasTime()) {
+				$endDate = clone $component->DTSTART->getDateTime();
+				// $component->DTSTART->getDateTime() returns DateTimeImmutable
+				$endDate = $endDate->modify('+1 day');
+				$lastOccurrence = $endDate->getTimeStamp();
+			} else {
+				$lastOccurrence = $firstOccurrence;
+			}
+		} else {
+			$it = new EventIterator($vObject, (string)$component->UID);
+			$maxDate = new \DateTime(self::MAX_DATE);
+			if ($it->isInfinite()) {
+				$lastOccurrence = $maxDate->getTimestamp();
+			} else {
+				$end = $it->getDtEnd();
+				while($it->valid() && $end < $maxDate) {
+					$end = $it->getDtEnd();
+					$it->next();
+
+				}
+				$lastOccurrence = $end->getTimestamp();
+			}
+		}
+
+		$currentTime = $this->timeFactory->getTime();
+		return $lastOccurrence < $currentTime;
+	}
 }

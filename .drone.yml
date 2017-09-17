@@ -171,7 +171,7 @@ pipeline:
         DB: NODB
         PHP: 7.1
   nodb-php7.2:
-    image: nextcloudci/php7.2:php7.2-7
+    image: nextcloudci/php7.2:php7.2-8
     commands:
       - NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
     when:
@@ -203,7 +203,7 @@ pipeline:
         DB: sqlite
         PHP: 7.1
   sqlite-php7.2:
-    image: nextcloudci/php7.2:php7.2-7
+    image: nextcloudci/php7.2:php7.2-8
     commands:
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
     when:
@@ -234,6 +234,14 @@ pipeline:
       matrix:
         DB: mysql
         PHP: 7.1
+  mysql-php7.2:
+    image: nextcloudci/php7.2:php7.2-4
+    commands:
+      - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
+    when:
+      matrix:
+        DB: mysql
+        PHP: 7.2
   mysql5.6-php5.6:
     image: nextcloudci/php5.6:php5.6-8
     commands:
@@ -300,6 +308,15 @@ pipeline:
       matrix:
         DB: postgres
         PHP: "7.0"
+  postgres-php7.1:
+    image: nextcloudci/php7.1:php7.1-15
+    commands:
+      - sleep 10 # gives the database enough time to initialize
+      - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh pgsql
+    when:
+      matrix:
+        DB: postgres
+        PHP: 7.1
   mysqlmb4-php5.6:
     image: nextcloudci/php5.6:php5.6-8
     commands:
@@ -324,6 +341,14 @@ pipeline:
       matrix:
         DB: mysqlmb4
         PHP: 7.1
+  mysqlmb4-php7.2:
+    image: nextcloudci/php7.2:php7.2-4
+    commands:
+      - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysqlmb4
+    when:
+      matrix:
+        DB: mysqlmb4
+        PHP: 7.2
   integration-capabilities_features:
     image: nextcloudci/integration-php7.0:integration-php7.0-6
     commands:
@@ -698,6 +723,9 @@ matrix:
     - DB: mysql
       PHP: 7.1
       ENABLE_REDIS: true
+    - DB: mysql
+      PHP: 7.2
+      ENABLE_REDIS: false
     - DB: mysql5.6
       PHP: 5.6
       ENABLE_REDIS: true
@@ -722,6 +750,9 @@ matrix:
     - DB: postgres
       PHP: 7.0
       ENABLE_REDIS: true
+    - DB: postgres
+      PHP: 7.1
+      ENABLE_REDIS: true
     - DB: mysqlmb4
       PHP: 5.6
       ENABLE_REDIS: true
@@ -731,6 +762,9 @@ matrix:
     - DB: mysqlmb4
       PHP: 7.1
       ENABLE_REDIS: true
+    - DB: mysqlmb4
+      PHP: 7.2
+      ENABLE_REDIS: false
     - TESTS: integration-capabilities_features
     - TESTS: integration-federation_features
     - TESTS: integration-maintenance-mode
@@ -804,6 +838,8 @@ services:
     environment:
       - POSTGRES_USER=oc_autotest
       - POSTGRES_PASSWORD=owncloud
+    tmpfs:
+      - /var/lib/postgresql/data
     when:
       matrix:
         DB: postgres
@@ -814,6 +850,8 @@ services:
       - MYSQL_USER=oc_autotest
       - MYSQL_PASSWORD=owncloud
       - MYSQL_DATABASE=oc_autotest
+    tmpfs:
+      - /var/lib/mysql
     when:
       matrix:
         DB: mysql
@@ -824,6 +862,8 @@ services:
       - MYSQL_USER=oc_autotest
       - MYSQL_PASSWORD=owncloud
       - MYSQL_DATABASE=oc_autotest
+    tmpfs:
+      - /var/lib/mysql
     when:
       matrix:
         DB: mysql5.6
@@ -834,6 +874,8 @@ services:
       - MYSQL_USER=oc_autotest
       - MYSQL_PASSWORD=owncloud
       - MYSQL_DATABASE=oc_autotest
+    tmpfs:
+      - /var/lib/mysql
     when:
       matrix:
         DB: mysql5.5
@@ -845,6 +887,8 @@ services:
       - MYSQL_PASSWORD=owncloud
       - MYSQL_DATABASE=oc_autotest
     command: [ "--innodb_large_prefix=true", "--innodb_file_format=barracuda", "--innodb_file_per_table=true" ]
+    tmpfs:
+      - /var/lib/mysql
     when:
       matrix:
         DB: mysqlmb4

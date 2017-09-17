@@ -38,6 +38,7 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Authentication\TwoFactorAuth\IProvider;
+use OCP\Defaults;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IRequest;
@@ -47,6 +48,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OC\Hooks\PublicEmitter;
+use OCP\Util;
 
 class LoginController extends Controller {
 	/** @var IUserManager */
@@ -63,6 +65,8 @@ class LoginController extends Controller {
 	private $logger;
 	/** @var Manager */
 	private $twoFactorManager;
+	/** @var Defaults */
+	private $defaults;
 
 	/**
 	 * @param string $appName
@@ -74,16 +78,18 @@ class LoginController extends Controller {
 	 * @param IURLGenerator $urlGenerator
 	 * @param ILogger $logger
 	 * @param Manager $twoFactorManager
+	 * @param Defaults $defaults
 	 */
 	public function __construct($appName,
-						 IRequest $request,
-						 IUserManager $userManager,
-						 IConfig $config,
-						 ISession $session,
-						 IUserSession $userSession,
-						 IURLGenerator $urlGenerator,
-						 ILogger $logger,
-						 Manager $twoFactorManager) {
+								IRequest $request,
+								IUserManager $userManager,
+								IConfig $config,
+								ISession $session,
+								IUserSession $userSession,
+								IURLGenerator $urlGenerator,
+								ILogger $logger,
+								Manager $twoFactorManager,
+								Defaults $defaults) {
 		parent::__construct($appName, $request);
 		$this->userManager = $userManager;
 		$this->config = $config;
@@ -92,6 +98,7 @@ class LoginController extends Controller {
 		$this->urlGenerator = $urlGenerator;
 		$this->logger = $logger;
 		$this->twoFactorManager = $twoFactorManager;
+		$this->defaults = $defaults;
 	}
 
 	/**
@@ -175,6 +182,14 @@ class LoginController extends Controller {
 			$parameters['loginName'] = '';
 			$parameters['user_autofocus'] = true;
 		}
+
+		// OpenGraph Support: http://ogp.me/
+		Util::addHeader('meta', ['property' => 'og:title', 'content' => Util::sanitizeHTML($this->defaults->getName())]);
+		Util::addHeader('meta', ['property' => 'og:description', 'content' => Util::sanitizeHTML($this->defaults->getSlogan())]);
+		Util::addHeader('meta', ['property' => 'og:site_name', 'content' => Util::sanitizeHTML($this->defaults->getName())]);
+		Util::addHeader('meta', ['property' => 'og:url', 'content' => $this->urlGenerator->getAbsoluteURL('/')]);
+		Util::addHeader('meta', ['property' => 'og:type', 'content' => 'website']);
+		Util::addHeader('meta', ['property' => 'og:image', 'content' => $this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core','favicon-touch.png'))]);
 
 		return new TemplateResponse(
 			$this->appName, 'login', $parameters, 'guest'

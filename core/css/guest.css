@@ -23,7 +23,7 @@ body {
 	color: #000;
 	text-align: center;
 	background-color: #0082c9;
-	background-image: url('../img/background.jpg?v=1');
+	background-image: url('../img/background.png?v=2');
 	background-position: 50% 50%;
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -213,8 +213,8 @@ input.update-continue {
 }
 input.primary,
 button.primary {
-	border: 1px solid #0082c9;
-	background-color: #00a2e9;
+	border: 1px solid #fff;
+	background-color: #0082c9;
 	color: #fff;
 }
 
@@ -400,8 +400,23 @@ form .warning input[type='checkbox']+label {
 }
 
 /* Alternative Logins */
-#alternative-logins legend { margin-bottom:10px; }
-#alternative-logins li { height:40px; display:inline-block; white-space:nowrap; }
+#alternative-logins legend {
+	margin-bottom: 10px;
+}
+#alternative-logins li {
+	height: 40px;
+	white-space: nowrap;
+	padding: 05px;
+}
+#alternative-logins li a {
+	width: 100%;
+	display: inline-block;
+	text-align: center;
+	box-sizing: border-box;
+	background-color: #0082c9;
+	color: white;
+	border-radius: 3px;
+}
 
 /* fixes for update page TODO should be fixed some time in a proper way */
 /* this is just for an error while updating the ownCloud instance */
@@ -491,6 +506,11 @@ form #selectDbType label.ui-state-active {
 }
 .warning {
 	margin-top: 15px;
+}
+.warning h2,
+.update h2,
+.error h2 {
+	text-align: center;
 }
 .warning.updateAnyways {
 	text-align: center;

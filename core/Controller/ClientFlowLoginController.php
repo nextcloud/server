@@ -193,6 +193,7 @@ class ClientFlowLoginController extends Controller {
 				'urlGenerator' => $this->urlGenerator,
 				'stateToken' => $stateToken,
 				'serverHost' => $this->request->getServerHost(),
+				'oauthState' => $this->session->get('oauth.state'),
 			],
 			'guest'
 		);

@@ -172,7 +172,7 @@ describe('OC.Settings.Apps tests', function() {
 			return results;
 		}
 
-		it('sorts all applications using the level', function() {
+		it('does not sort applications using the level', function() {
 			Apps.loadCategory('TestId');
 
 			suite.server.requests[0].respond(
@@ -223,7 +223,7 @@ describe('OC.Settings.Apps tests', function() {
 
 			var results = getResultsFromDom();
 			expect(results.length).toEqual(5);
-			expect(results).toEqual(['alpha', 'delta', 'zork', 'foo', 'nolevel']);
+			expect(results).toEqual(['alpha', 'foo', 'delta', 'nolevel', 'zork']);
 			expect(OC.Settings.Apps.State.apps).toEqual({
 				'foo': {
 					id: 'foo',

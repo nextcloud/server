@@ -31,7 +31,13 @@ namespace OCA\Files_Trashbin\Tests;
 
 use OC\Files\Storage\Temporary;
 use OC\Files\Filesystem;
+use OCA\Files_Trashbin\Events\MoveToTrashEvent;
+use OCA\Files_Trashbin\Storage;
+use OCP\Files\Cache\ICache;
+use OCP\Files\IRootFolder;
+use OCP\Files\Node;
 use OCP\ILogger;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
  * Class Storage
@@ -522,19 +528,40 @@ class StorageTest extends \Test\TestCase {
 	/**
 	 * @dataProvider dataTestShouldMoveToTrash
 	 */
-	public function testShouldMoveToTrash($mountPoint, $path, $userExists, $expected) {
+	public function testShouldMoveToTrash($mountPoint, $path, $userExists, $appDisablesTrash, $expected) {
+		$fileID = 1;
+		$cache = $this->getMock(ICache::class);
+		$cache->expects($this->any())->method('getId')->willReturn($fileID);
 		$tmpStorage = $this->getMockBuilder('\OC\Files\Storage\Temporary')
-			->disableOriginalConstructor()->getMock();
+			->disableOriginalConstructor()->getMock($cache);
+		$tmpStorage->expects($this->any())->method('getCache')->willReturn($cache);
 		$userManager = $this->getMockBuilder('OCP\IUserManager')
 			->disableOriginalConstructor()->getMock();
 		$userManager->expects($this->any())
 			->method('userExists')->willReturn($userExists);
 		$logger = $this->getMockBuilder(ILogger::class)->getMock();
-		$storage = new \OCA\Files_Trashbin\Storage(
-			['mountPoint' => $mountPoint, 'storage' => $tmpStorage],
-			$userManager,
-			$logger
-		);
+		$eventDispatcher = $this->getMockBuilder(EventDispatcher::class)
+			->disableOriginalConstructor()->getMock();
+		$rootFolder = $this->getMock(IRootFolder::class);
+		$node = $this->getMockBuilder(Node::class)->disableOriginalConstructor()->getMock();
+		$event = $this->getMockBuilder(MoveToTrashEvent::class)->disableOriginalConstructor()->getMock();
+		$event->expects($this->any())->method('shouldMoveToTrashBin')->willReturn(!$appDisablesTrash);
+
+		$rootFolder->expects($this->any())->method('getById')->with($fileID)->willReturn([$node]);
+
+		$storage = $this->getMockBuilder(Storage::class)
+			->setConstructorArgs(
+				[
+					['mountPoint' => $mountPoint, 'storage' => $tmpStorage],
+					$userManager,
+					$logger,
+					$eventDispatcher,
+					$rootFolder
+				]
+			)->setMethods(['createMoveToTrashEvent'])->getMock();
+
+		$storage->expects($this->any())->method('createMoveToTrashEvent')->with($node)
+			->willReturn($event);
 
 		$this->assertSame($expected,
 			$this->invokePrivate($storage, 'shouldMoveToTrash', [$path])
@@ -544,10 +571,13 @@ class StorageTest extends \Test\TestCase {
 
 	public function dataTestShouldMoveToTrash() {
 		return [
-			['/schiesbn/', '/files/test.txt', true, true],
-			['/schiesbn/', '/files/test.txt', false, false],
-			['/schiesbn/', '/test.txt', true, false],
-			['/schiesbn/', '/test.txt', false, false],
+			['/schiesbn/', '/files/test.txt', true, false, true],
+			['/schiesbn/', '/files/test.txt', false, false, false],
+			['/schiesbn/', '/test.txt', true, false, false],
+			['/schiesbn/', '/test.txt', false, false, false],
+			// other apps disables the trashbin
+			['/schiesbn/', '/files/test.txt', true, true, false],
+			['/schiesbn/', '/files/test.txt', false, true, false],
 		];
 	}
 

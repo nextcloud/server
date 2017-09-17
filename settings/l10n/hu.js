@@ -43,7 +43,6 @@ OC.L10N.register(
     "Email saved" : "E-mail elmentve!",
     "Welcome aboard" : "Üdv a fedélzeten",
     "Welcome aboard %s" : "Üdv a fedélzeten %s",
-    "You have now an %s account, you can add, protect, and share your data." : "Most már van egy %s fiókod, hozzáadhatod, védheted és megoszthatod az adataidat.",
     "Your username is: %s" : "A felhasználóneved: %s",
     "Set your password" : "Állítsd be a jelszabad",
     "Go to %s" : "Menj ide: %s",
@@ -57,6 +56,7 @@ OC.L10N.register(
     "Migration in progress. Please wait until the migration is finished" : "Migráció folyamatban. Kérlek várj, míg a migráció befejeződik.",
     "Migration started …" : "Migráció elindítva ...",
     "Not saved" : "Nincs mentve",
+    "Sending…" : "Küldés...",
     "Email sent" : "Az e-mail elküldve!",
     "Official" : "Hivatalos",
     "All" : "Mind",
@@ -116,6 +116,7 @@ OC.L10N.register(
     "Visible to local users and to trusted servers" : "Helyi felhasználók és megbízható szereverek láthatják",
     "Public" : "Nyilvános",
     "Will be synced to a global and public address book" : "Globális és nyilvános névjegyek számára lesz szinkronizálva",
+    "Verifying …" : "Ellenőrzés...",
     "Select a profile picture" : "Válasszon profilképet!",
     "Very weak password" : "Nagyon gyenge jelszó",
     "Weak password" : "Gyenge jelszó",
@@ -128,6 +129,7 @@ OC.L10N.register(
     "A valid group name must be provided" : "Érvényes csoportnevet kell megadni",
     "deleted {groupName}" : "törölve: {groupName}",
     "undo" : "visszavonás",
+    "{size} used" : "{size} felhasználva",
     "never" : "soha",
     "deleted {userName}" : "törölve: {userName}",
     "No user found for <strong>{pattern}</strong>" : "Nem található erre felhasználó: <strong>{pattern}</strong>",
@@ -366,6 +368,7 @@ OC.L10N.register(
     "Subscribe to our twitter channel!" : "Iratkozz fel a Twitter csatornánkra!",
     "Subscribe to our news feed!" : "Iratkozz fel a hírfolyamunkra!",
     "Subscribe to our newsletter!" : "Iratkozz fel a hírlevelünkre!",
-    "Show last log in" : "Utolsó bejelentkezés megjelenítése"
+    "Show last log in" : "Utolsó bejelentkezés megjelenítése",
+    "You have now an %s account, you can add, protect, and share your data." : "Most már van egy %s fiókod, hozzáadhatod, védheted és megoszthatod az adataidat."
 },
 "nplurals=2; plural=(n != 1);");

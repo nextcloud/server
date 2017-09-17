@@ -28,9 +28,13 @@ namespace OCA\Files_Trashbin;
 use OC\Files\Filesystem;
 use OC\Files\Storage\Wrapper\Wrapper;
 use OC\Files\View;
+use OCA\Files_Trashbin\Events\MoveToTrashEvent;
 use OCP\Encryption\Exceptions\GenericEncryptionException;
+use OCP\Files\IRootFolder;
+use OCP\Files\Node;
 use OCP\ILogger;
 use OCP\IUserManager;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class Storage extends Wrapper {
 
@@ -60,18 +64,31 @@ class Storage extends Wrapper {
 	/** @var ILogger */
 	private $logger;
 
+	/** @var EventDispatcher */
+	private $eventDispatcher;
+
+	/** @var IRootFolder */
+	private $rootFolder;
+
 	/**
 	 * Storage constructor.
 	 *
 	 * @param array $parameters
 	 * @param IUserManager|null $userManager
+	 * @param ILogger|null $logger
+	 * @param EventDispatcher|null $eventDispatcher
+	 * @param IRootFolder|null $rootFolder
 	 */
 	public function __construct($parameters,
 								IUserManager $userManager = null,
-								ILogger $logger = null) {
+								ILogger $logger = null,
+								EventDispatcher $eventDispatcher = null,
+								IRootFolder $rootFolder = null) {
 		$this->mountPoint = $parameters['mountPoint'];
 		$this->userManager = $userManager;
 		$this->logger = $logger;
+		$this->eventDispatcher = $eventDispatcher;
+		$this->rootFolder = $rootFolder;
 		parent::__construct($parameters);
 	}
 
@@ -200,6 +217,18 @@ class Storage extends Wrapper {
 	 * @return bool
 	 */
 	protected function shouldMoveToTrash($path){
+
+		// check if there is a app which want to disable the trash bin for this file
+		$fileId = $this->storage->getCache()->getId($path);
+		$nodes = $this->rootFolder->getById($fileId);
+		foreach ($nodes as $node) {
+			$event = $this->createMoveToTrashEvent($node);
+			$this->eventDispatcher->dispatch('OCA\Files_Trashbin::moveToTrash', $event);
+			if ($event->shouldMoveToTrashBin() === false) {
+				return false;
+			}
+		}
+
 		$normalized = Filesystem::normalizePath($this->mountPoint . '/' . $path);
 		$parts = explode('/', $normalized);
 		if (count($parts) < 4) {
@@ -211,6 +240,17 @@ class Storage extends Wrapper {
 		}
 
 		return false;
+	}
+
+	/**
+	 * get move to trash event
+	 *
+	 * @param Node $node
+	 * @return MoveToTrashEvent
+	 */
+	protected function createMoveToTrashEvent(Node $node) {
+		$event = new MoveToTrashEvent($node);
+		return $event;
 	}
 
 	/**
@@ -269,7 +309,9 @@ class Storage extends Wrapper {
 			return new \OCA\Files_Trashbin\Storage(
 				array('storage' => $storage, 'mountPoint' => $mountPoint),
 				\OC::$server->getUserManager(),
-				\OC::$server->getLogger()
+				\OC::$server->getLogger(),
+				\OC::$server->getEventDispatcher(),
+				\OC::$server->getLazyRootFolder()
 			);
 		}, 1);
 	}

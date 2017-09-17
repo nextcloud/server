@@ -19,7 +19,7 @@ OC.L10N.register(
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Solicitud de elemento compartido Federado enviada, recibiras una invitación. Verifica tus notificaciones.",
     "The mountpoint name contains invalid characters." : "El nombre del punto de montaje contiene caracteres inválidos.",
     "Not allowed to create a federated share with the owner." : "No está permitido crear un elemento compartido federado con el dueño. ",
-    "Invalid or untrusted SSL certificate" : "Certificado SSL inválido o no confiable",
+    "Invalid or untrusted SSL certificate" : "Certificado SSL inválido o no de confianza",
     "Could not authenticate to remote share, password might be wrong" : "No fue posible autenticarse ante el elemento compartido remoto, la contraseña puede estar incorrecta",
     "Storage not valid" : "Almacenamiento inválido",
     "Federated share added" : "Elemento compartido Federado agregado",

@@ -28,8 +28,11 @@ use Exception;
 use OC;
 use OC\App\AppManager;
 use OC_App;
+use OC\Authentication\Exceptions\InvalidTokenException;
+use OC\Authentication\Token\IProvider as TokenProvider;
 use OCP\Activity\IManager;
 use OCP\AppFramework\QueryException;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\IConfig;
 use OCP\ILogger;
@@ -39,6 +42,7 @@ use OCP\IUser;
 class Manager {
 
 	const SESSION_UID_KEY = 'two_factor_auth_uid';
+	const SESSION_UID_DONE = 'two_factor_auth_passed';
 	const BACKUP_CODES_APP_ID = 'twofactor_backupcodes';
 	const BACKUP_CODES_PROVIDER_ID = 'backup_codes';
 	const REMEMBER_LOGIN = 'two_factor_remember_login';
@@ -58,20 +62,35 @@ class Manager {
 	/** @var ILogger */
 	private $logger;
 
+	/** @var TokenProvider */
+	private $tokenProvider;
+
+	/** @var ITimeFactory */
+	private $timeFactory;
+
 	/**
 	 * @param AppManager $appManager
 	 * @param ISession $session
 	 * @param IConfig $config
 	 * @param IManager $activityManager
 	 * @param ILogger $logger
+	 * @param TokenProvider $tokenProvider
+	 * @param ITimeFactory $timeFactory
 	 */
-	public function __construct(AppManager $appManager, ISession $session, IConfig $config, IManager $activityManager,
-		ILogger $logger) {
+	public function __construct(AppManager $appManager,
+								ISession $session,
+								IConfig $config,
+								IManager $activityManager,
+								ILogger $logger,
+								TokenProvider $tokenProvider,
+								ITimeFactory $timeFactory) {
 		$this->appManager = $appManager;
 		$this->session = $session;
 		$this->config = $config;
 		$this->activityManager = $activityManager;
 		$this->logger = $logger;
+		$this->tokenProvider = $tokenProvider;
+		$this->timeFactory = $timeFactory;
 	}
 
 	/**
@@ -199,6 +218,13 @@ class Manager {
 			}
 			$this->session->remove(self::SESSION_UID_KEY);
 			$this->session->remove(self::REMEMBER_LOGIN);
+			$this->session->set(self::SESSION_UID_DONE, $user->getUID());
+
+			// Clear token from db
+			$sessionId = $this->session->getId();
+			$token = $this->tokenProvider->getToken($sessionId);
+			$tokenId = $token->getId();
+			$this->config->deleteUserValue($user->getUID(), 'login_token_2fa', $tokenId);
 
 			$this->publishEvent($user, 'twofactor_success', [
 				'provider' => $provider->getDisplayName(),
@@ -239,8 +265,40 @@ class Manager {
 	 * @return boolean
 	 */
 	public function needsSecondFactor(IUser $user = null) {
-		if (is_null($user) || !$this->session->exists(self::SESSION_UID_KEY)) {
+		if ($user === null) {
 			return false;
+		}
+
+		// If we are authenticated using an app password skip all this
+		if ($this->session->exists('app_password')) {
+			return false;
+		}
+
+		// First check if the session tells us we should do 2FA (99% case)
+		if (!$this->session->exists(self::SESSION_UID_KEY)) {
+
+			// Check if the session tells us it is 2FA authenticated already
+			if ($this->session->exists(self::SESSION_UID_DONE) &&
+				$this->session->get(self::SESSION_UID_DONE) === $user->getUID()) {
+				return false;
+			}
+
+			/*
+			 * If the session is expired check if we are not logged in by a token
+			 * that still needs 2FA auth
+			 */
+			try {
+				$sessionId = $this->session->getId();
+				$token = $this->tokenProvider->getToken($sessionId);
+				$tokenId = $token->getId();
+				$tokensNeeding2FA = $this->config->getUserKeys($user->getUID(), 'login_token_2fa');
+
+				if (!in_array($tokenId, $tokensNeeding2FA, true)) {
+					$this->session->set(self::SESSION_UID_DONE, $user->getUID());
+					return false;
+				}
+			} catch (InvalidTokenException $e) {
+			}
 		}
 
 		if (!$this->isTwoFactorAuthenticated($user)) {
@@ -249,6 +307,11 @@ class Manager {
 			//   to solve the 2FA challenge, and the provider app is
 			//   disabled the same time
 			$this->session->remove(self::SESSION_UID_KEY);
+
+			$keys = $this->config->getUserKeys($user->getUID(), 'login_token_2fa');
+			foreach ($keys as $key) {
+				$this->config->deleteUserValue($user->getUID(), 'login_token_2fa', $key);
+			}
 			return false;
 		}
 
@@ -264,6 +327,10 @@ class Manager {
 	public function prepareTwoFactorLogin(IUser $user, $rememberMe) {
 		$this->session->set(self::SESSION_UID_KEY, $user->getUID());
 		$this->session->set(self::REMEMBER_LOGIN, $rememberMe);
+
+		$id = $this->session->getId();
+		$token = $this->tokenProvider->getToken($id);
+		$this->config->setUserValue($user->getUID(), 'login_token_2fa', $token->getId(), $this->timeFactory->getTime());
 	}
 
 }

@@ -135,6 +135,19 @@ class Manager {
 	}
 
 	/**
+	 * removes a user entry from the cache
+	 * @param $uid
+	 */
+	public function invalidate($uid) {
+		if(!isset($this->usersByUid[$uid])) {
+			return;
+		}
+		$dn = $this->usersByUid[$uid]->getDN();
+		unset($this->usersByUid[$uid]);
+		unset($this->usersByDN[$dn]);
+	}
+
+	/**
 	 * @brief checks whether the Access instance has been set
 	 * @throws \Exception if Access has not been set
 	 * @return null

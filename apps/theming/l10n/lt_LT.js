@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Loading preview…" : "Įkeliama peržiūra…",
     "Saved" : "Įrašyta",
+    "Admin" : "Administravimas",
     "a safe home for all your data" : "saugūs namai visiems jūsų duomenims",
     "The given name is too long" : "Nurodytas pavadinimas yra per ilgas",
     "The given web address is too long" : "Nurodytas adresas yra per ilgas",
@@ -11,7 +12,10 @@ OC.L10N.register(
     "No file uploaded" : "Neįkeltas joks failas",
     "Unsupported image type" : "Nepalaikomas paveikslo tipas",
     "You are already using a custom theme" : "Jūs jau naudojate tinkintą temą",
+    "Theming" : "Tema",
+    "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Temos  leidžia lengvai parinkti ir pritaikyti administruojamų naudotojų atvaizdavimą. ",
     "Name" : "Pavadinimas",
+    "Reset to default" : "Atstatyti į numatytąją",
     "Web address" : "Saityno adresas",
     "Web address https://…" : "Saityno adresas https://…",
     "Slogan" : "Šūkis",
@@ -20,6 +24,8 @@ OC.L10N.register(
     "Upload new logo" : "Įkelti naują logotipą",
     "Login image" : "Prisijungimo paveikslas",
     "Upload new login background" : "Įkelti naują prisijungimo foną",
-    "Remove background image" : "Šalinti foninį paveikslą"
+    "Remove background image" : "Šalinti foninį paveikslą",
+    "reset to default" : "atstatyta į numatytąją",
+    "Log in image" : "Prisijungimo vaizdas"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);");

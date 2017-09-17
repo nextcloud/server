@@ -47,8 +47,8 @@ table td.filename .nametext {
 	margin-right: 6px;
 }
 /* hide text of the share action on mobile */
-#fileList a.action-share span {
-	display: none;
+#fileList a.action-share span:not(.icon) {
+	display: none !important;
 }
 #fileList a.action.action-favorite {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)" !important;
@@ -61,7 +61,7 @@ table td.filename .nametext {
 
 /* ellipsis on file names */
 table td.filename .nametext .innernametext {
-	max-width: calc(100% - 175px);
+	max-width: calc(100% - 175px) !important;
 }
 
 /* proper notification area for multi line messages */
