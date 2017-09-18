@@ -96,7 +96,7 @@
 	<p class="<?php if ($_['shareAPIEnabled'] === 'no') p('hidden');?>">
 		<input type="checkbox" name="shareapi_allow_share_dialog_user_enumeration" value="1" id="shareapi_allow_share_dialog_user_enumeration" class="checkbox"
 			<?php if ($_['allowShareDialogUserEnumeration'] === 'yes') print_unescaped('checked="checked"'); ?> />
-		<label for="shareapi_allow_share_dialog_user_enumeration"><?php p($l->t('Allow username autocompletion in share dialog. If this is disabled the full username needs to be entered.'));?></label><br />
+		<label for="shareapi_allow_share_dialog_user_enumeration"><?php p($l->t('Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered.'));?></label><br />
 	</p>
 	<p>
 		<input type="checkbox" id="publicShareDisclaimer" class="checkbox noJSAutoUpdate"
