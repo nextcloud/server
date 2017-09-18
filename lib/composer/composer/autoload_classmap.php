@@ -591,6 +591,7 @@ return array(
     'OC\\Files\\ObjectStore\\ObjectStoreStorage' => $baseDir . '/lib/private/Files/ObjectStore/ObjectStoreStorage.php',
     'OC\\Files\\ObjectStore\\S3' => $baseDir . '/lib/private/Files/ObjectStore/S3.php',
     'OC\\Files\\ObjectStore\\S3ConnectionTrait' => $baseDir . '/lib/private/Files/ObjectStore/S3ConnectionTrait.php',
+    'OC\\Files\\ObjectStore\\S3ObjectTrait' => $baseDir . '/lib/private/Files/ObjectStore/S3ObjectTrait.php',
     'OC\\Files\\ObjectStore\\StorageObjectStore' => $baseDir . '/lib/private/Files/ObjectStore/StorageObjectStore.php',
     'OC\\Files\\ObjectStore\\Swift' => $baseDir . '/lib/private/Files/ObjectStore/Swift.php',
     'OC\\Files\\Search\\SearchBinaryOperator' => $baseDir . '/lib/private/Files/Search/SearchBinaryOperator.php',

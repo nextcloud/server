@@ -621,6 +621,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Files\\ObjectStore\\ObjectStoreStorage' => __DIR__ . '/../../..' . '/lib/private/Files/ObjectStore/ObjectStoreStorage.php',
         'OC\\Files\\ObjectStore\\S3' => __DIR__ . '/../../..' . '/lib/private/Files/ObjectStore/S3.php',
         'OC\\Files\\ObjectStore\\S3ConnectionTrait' => __DIR__ . '/../../..' . '/lib/private/Files/ObjectStore/S3ConnectionTrait.php',
+        'OC\\Files\\ObjectStore\\S3ObjectTrait' => __DIR__ . '/../../..' . '/lib/private/Files/ObjectStore/S3ObjectTrait.php',
         'OC\\Files\\ObjectStore\\StorageObjectStore' => __DIR__ . '/../../..' . '/lib/private/Files/ObjectStore/StorageObjectStore.php',
         'OC\\Files\\ObjectStore\\Swift' => __DIR__ . '/../../..' . '/lib/private/Files/ObjectStore/Swift.php',
         'OC\\Files\\Search\\SearchBinaryOperator' => __DIR__ . '/../../..' . '/lib/private/Files/Search/SearchBinaryOperator.php',
