@@ -21,6 +21,8 @@
 
 namespace OC\Files\ObjectStore;
 
+use Aws\Exception\MultipartUploadException;
+use Aws\S3\MultipartUploader;
 use Aws\S3\S3Client;
 use Psr\Http\Message\StreamInterface;
 
@@ -60,11 +62,26 @@ trait S3ObjectTrait {
 	 * @since 7.0.0
 	 */
 	function writeObject($urn, $stream) {
-		$this->getConnection()->putObject([
-			'Bucket' => $this->bucket,
-			'Key' => $urn,
-			'Body' => $stream
+		$uploader = new MultipartUploader($this->getConnection(), $stream, [
+			'bucket' => $this->bucket,
+			'key' => $urn,
 		]);
+		$tries = 0;
+		do {
+			try {
+				$result = $uploader->upload();
+			} catch (MultipartUploadException $e) {
+				rewind($stream);
+				$tries++;
+				if ($tries < 5) {
+					$uploader = new MultipartUploader($this->getConnection(), $stream, [
+						'state' => $e->getState()
+					]);
+				} else {
+					$this->getConnection()->abortMultipartUpload($e->getState()->getId());
+				}
+			}
+		} while (!isset($result) && $tries < 5);
 	}
 
 	/**
