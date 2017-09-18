@@ -195,6 +195,7 @@ class DefaultTokenProvider implements IProvider {
 		$newToken->setRemember($token->getRemember());
 		$newToken->setLastActivity($this->time->getTime());
 		$this->mapper->insert($newToken);
+		$this->mapper->delete($token);
 	}
 
 	/**
