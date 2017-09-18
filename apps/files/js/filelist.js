@@ -837,7 +837,7 @@
 
 			if ($targetDir !== undefined && e.which === 1) {
 				e.preventDefault();
-				this.changeDirectory($targetDir);
+				this.changeDirectory($targetDir, true, true);
 				this.updateSearch();
 			}
 		},
