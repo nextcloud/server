@@ -207,7 +207,7 @@ OC.Share = _.extend(OC.Share || {}, {
 		var parts = this._REMOTE_OWNER_REGEXP.exec(remoteAddress);
 		if (!parts) {
 			// display as is, most likely to be a simple owner name
-			return '<div class="avatar" data-userName="' + escapeHTML(remoteAddress) + '" title="' + t('core', 'Shared by') + ' ' + escapeHTML(remoteAddress) + '"></div>';
+			return '<span class="avatar icon" data-userName="' + escapeHTML(remoteAddress) + '" title="' + t('core', 'Shared by') + ' ' + escapeHTML(remoteAddress) + '"></span><span class="hidden-visually">' + t('core', 'Shared by {recipient}', {recipient: escapeHTML(remoteAddress)}) + '</span>';
 		}
 
 		var userName = parts[1];
