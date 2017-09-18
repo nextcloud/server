@@ -47,6 +47,7 @@ use OC\Files\Filesystem;
 use OC\Files\View;
 use OCA\Files_Versions\AppInfo\Application;
 use OCA\Files_Versions\Command\Expire;
+use OCA\Files_Versions\Events\CreateVersionEvent;
 use OCP\Files\NotFoundException;
 use OCP\Lock\ILockingProvider;
 use OCP\User;
@@ -178,6 +179,17 @@ class Storage {
 
 		$files_view = new View('/'.$uid .'/files');
 		$users_view = new View('/'.$uid);
+
+		$eventDispatcher = \OC::$server->getEventDispatcher();
+		$id = $files_view->getFileInfo($filename)->getId();
+		$nodes = \OC::$server->getRootFolder()->getById($id);
+		foreach ($nodes as $node) {
+			$event = new CreateVersionEvent($node);
+			$eventDispatcher->dispatch('OCA\Files_Versions::createVersion', $event);
+			if ($event->shouldCreateVersion() === false) {
+				return false;
+			}
+		}
 
 		// no use making versions for empty files
 		if ($files_view->filesize($filename) === 0) {
