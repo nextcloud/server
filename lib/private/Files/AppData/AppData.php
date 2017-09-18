@@ -109,7 +109,16 @@ class AppData implements IAppData {
 	}
 
 	public function newFolder($name) {
-		$folder = $this->getAppDataFolder()->newFolder($name);
+		$folder = $this->getAppDataFolder();
+		$dirs = explode(DIRECTORY_SEPARATOR, $name);
+
+		foreach ($dirs as $dir) {
+			try {
+				$folder = $folder->get($dir);
+			} catch (NotFoundException $e) {
+				$folder = $folder->newFolder($dir);
+			}
+		}
 
 		return new SimpleFolder($folder);
 	}
