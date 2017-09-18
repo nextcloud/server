@@ -212,6 +212,7 @@ class ViewControllerTest extends TestCase {
 				'active' => false,
 				'icon' => '',
 				'type' => 'link',
+				'classes' => 'pinned',
 			],
 		]);
 
