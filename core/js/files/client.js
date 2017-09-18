@@ -737,6 +737,51 @@
 		},
 
 		/**
+		 * Copies path to another path
+		 *
+		 * @param {String} path path to copy
+		 * @param {String} destinationPath destination path
+		 * @param {boolean} [allowOverwrite=false] true to allow overwriting,
+		 * false otherwise
+		 *
+		 * @return {Promise} promise
+		 */
+		copy: function (path, destinationPath, allowOverwrite) {
+			if (!path) {
+				throw 'Missing argument "path"';
+			}
+			if (!destinationPath) {
+				throw 'Missing argument "destinationPath"';
+			}
+
+			var self = this;
+			var deferred = $.Deferred();
+			var promise = deferred.promise();
+			var headers = {
+				'Destination' : this._buildUrl(destinationPath)
+			};
+
+			if (!allowOverwrite) {
+				headers.Overwrite = 'F';
+			}
+
+			this._client.request(
+				'COPY',
+				this._buildUrl(path),
+				headers
+			).then(
+				function(response) {
+					if (self._isSuccessStatus(response.status)) {
+						deferred.resolve(response.status);
+					} else {
+						deferred.reject(response.status);
+					}
+				}
+			);
+			return promise;
+		},
+
+		/**
 		 * Add a file info parser function
 		 *
 		 * @param {OC.Files.Client~parseFileInfo>}

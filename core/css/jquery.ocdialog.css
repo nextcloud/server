@@ -38,6 +38,9 @@
 .oc-dialog-buttonrow.twobuttons button:nth-child(1) {
 	float: left;
 }
+.oc-dialog-buttonrow.twobuttons.aside button:nth-child(1) {
+	float: none;
+}
 .oc-dialog-buttonrow.twobuttons button:nth-child(2) {
 	float: right;
 }

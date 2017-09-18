@@ -337,7 +337,7 @@
 			this.$el.on('urlChanged', _.bind(this._onUrlChanged, this));
 			this.$el.find('.select-all').click(_.bind(this._onClickSelectAll, this));
 			this.$el.find('.download').click(_.bind(this._onClickDownloadSelected, this));
-			this.$el.find('.move').click(_.bind(this._onClickMoveSelected, this));
+			this.$el.find('.copy-move').click(_.bind(this._onClickCopyMoveSelected, this));
 			this.$el.find('.delete-selected').click(_.bind(this._onClickDeleteSelected, this));
 
 			this.$el.find('.selectedActions a').tooltip({placement:'top'});
@@ -761,7 +761,7 @@
 		/**
 		 * Event handler for when clicking on "Move" for the selected files
 		 */
-		_onClickMoveSelected: function(event) {
+		_onClickCopyMoveSelected: function(event) {
 			var files;
 			var self = this;
 
@@ -779,13 +779,16 @@
 				OCA.Files.FileActions.updateFileActionSpinner(moveFileAction, false);
 			};
 
-			OCA.Files.FileActions.updateFileActionSpinner(moveFileAction, true);
-			OC.dialogs.filepicker(t('files', 'Target folder'), function(targetPath) {
-				self.move(files, targetPath, disableLoadingState);
-			}, false, "httpd/unix-directory", true);
+			OC.dialogs.filepicker(t('files', 'Target folder'), function(targetPath, type) {
+				if (type === OC.dialogs.FILEPICKER_TYPE_COPY) {
+					self.copy(files, targetPath, disableLoadingState);
+				}
+				if (type === OC.dialogs.FILEPICKER_TYPE_MOVE) {
+					self.move(files, targetPath, disableLoadingState);
+				}
+			}, false, "httpd/unix-directory", true, OC.dialogs.FILEPICKER_TYPE_COPY_MOVE);
 			return false;
 		},
-
 
 		/**
 		 * Event handler for when clicking on "Delete" for the selected files
@@ -1974,6 +1977,7 @@
 			}
 			return index;
 		},
+
 		/**
 		 * Moves a file to a given target folder.
 		 *
@@ -2035,6 +2039,112 @@
 				}
 			});
 
+		},
+
+		/**
+		 * Copies a file to a given target folder.
+		 *
+		 * @param fileNames array of file names to copy
+		 * @param targetPath absolute target path
+		 * @param callback to call when copy is finished with success
+		 */
+		copy: function(fileNames, targetPath, callback) {
+			var self = this;
+			var filesToNotify = [];
+			var count = 0;
+
+			var dir = this.getCurrentDirectory();
+			if (dir.charAt(dir.length - 1) !== '/') {
+				dir += '/';
+			}
+			var target = OC.basename(targetPath);
+			if (!_.isArray(fileNames)) {
+				fileNames = [fileNames];
+			}
+			_.each(fileNames, function(fileName) {
+				var $tr = self.findFileEl(fileName);
+				self.showFileBusyState($tr, true);
+				if (targetPath.charAt(targetPath.length - 1) !== '/') {
+					// make sure we move the files into the target dir,
+					// not overwrite it
+					targetPath = targetPath + '/';
+				}
+				self.filesClient.copy(dir + fileName, targetPath + fileName)
+					.done(function () {
+						filesToNotify.push(fileName);
+
+						// if still viewing the same directory
+						if (OC.joinPaths(self.getCurrentDirectory(), '/') === dir) {
+							// recalculate folder size
+							var oldFile = self.findFileEl(target);
+							var newFile = self.findFileEl(fileName);
+							var oldSize = oldFile.data('size');
+							var newSize = oldSize + newFile.data('size');
+							oldFile.data('size', newSize);
+							oldFile.find('td.filesize').text(OC.Util.humanFileSize(newSize));
+						}
+					})
+					.fail(function(status) {
+						if (status === 412) {
+							// TODO: some day here we should invoke the conflict dialog
+							OC.Notification.show(t('files', 'Could not copy "{file}", target exists',
+								{file: fileName}), {type: 'error'}
+							);
+						} else {
+							OC.Notification.show(t('files', 'Could not copy "{file}"',
+								{file: fileName}), {type: 'error'}
+							);
+						}
+					})
+					.always(function() {
+						self.showFileBusyState($tr, false);
+						count++;
+
+						/**
+						 * We only show the notifications once the last file has been copied
+						 */
+						if (count === fileNames.length) {
+							// Remove leading and ending /
+							if (targetPath.slice(0, 1) === '/') {
+								targetPath = targetPath.slice(1, targetPath.length);
+							}
+							if (targetPath.slice(-1) === '/') {
+								targetPath = targetPath.slice(0, -1);
+							}
+
+							if (filesToNotify.length > 0) {
+								// Since there's no visual indication that the files were copied, let's send some notifications !
+								if (filesToNotify.length === 1) {
+									OC.Notification.show(t('files', 'Copied {origin} inside {destination}',
+										{
+											origin: filesToNotify[0],
+											destination: targetPath
+										}
+									), {timeout: 10});
+								} else if (filesToNotify.length > 0 && filesToNotify.length < 3) {
+									OC.Notification.show(t('files', 'Copied {origin} inside {destination}',
+										{
+											origin: filesToNotify.join(', '),
+											destination: targetPath
+										}
+									), {timeout: 10});
+								} else {
+									OC.Notification.show(t('files', 'Copied {origin} and {nbfiles} other files inside {destination}',
+										{
+											origin: filesToNotify[0],
+											nbfiles: filesToNotify.length - 1,
+											destination: targetPath
+										}
+									), {timeout: 10});
+								}
+							}
+						}
+					});
+			});
+
+			if (callback) {
+				callback();
+			}
 		},
 
 		/**

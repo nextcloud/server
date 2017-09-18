@@ -618,16 +618,21 @@
 			});
 
 			this.registerAction({
-				name: 'Move',
-				displayName: t('files', 'Move'),
+				name: 'MoveCopy',
+				displayName: t('files', 'Move or copy'),
 				mime: 'all',
 				order: -25,
 				permissions: OC.PERMISSION_UPDATE,
 				iconClass: 'icon-external',
 				actionHandler: function (filename, context) {
-					OC.dialogs.filepicker(t('files', 'Target folder'), function(targetPath) {
-						context.fileList.move(filename, targetPath);
-					}, false, "httpd/unix-directory", true);
+					OC.dialogs.filepicker(t('files', 'Target folder'), function(targetPath, type) {
+						if (type === OC.dialogs.FILEPICKER_TYPE_COPY) {
+							context.fileList.copy(filename, targetPath);
+						}
+						if (type === OC.dialogs.FILEPICKER_TYPE_MOVE) {
+							context.fileList.move(filename, targetPath);
+						}
+					}, false, "httpd/unix-directory", true, OC.dialogs.FILEPICKER_TYPE_COPY_MOVE);
 				}
 			});
 

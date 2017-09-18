@@ -853,6 +853,104 @@ describe('OCA.Files.FileList tests', function() {
 				.toEqual(OC.imagePath('core', 'filetypes/text.svg'));
 		});
 	});
+
+	describe('Copying files', function() {
+		var deferredCopy;
+		var copyStub;
+
+		beforeEach(function() {
+			deferredCopy = $.Deferred();
+			copyStub = sinon.stub(filesClient, 'copy').returns(deferredCopy.promise());
+
+			fileList.setFiles(testFiles);
+		});
+		afterEach(function() {
+			copyStub.restore();
+		});
+
+		it('Copies single file to target folder', function() {
+			fileList.copy('One.txt', '/somedir');
+
+			expect(copyStub.calledOnce).toEqual(true);
+			expect(copyStub.getCall(0).args[0]).toEqual('/subdir/One.txt');
+			expect(copyStub.getCall(0).args[1]).toEqual('/somedir/One.txt');
+
+			deferredCopy.resolve(201);
+
+			// File is still here
+			expect(fileList.findFileEl('One.txt').length).toEqual(1);
+
+			// folder size has increased
+			expect(fileList.findFileEl('somedir').data('size')).toEqual(262);
+			expect(fileList.findFileEl('somedir').find('.filesize').text()).toEqual('262 B');
+
+			// Copying sents a notification to tell that we've successfully copied file
+			expect(notificationStub.notCalled).toEqual(false);
+		});
+		it('Copies list of files to target folder', function() {
+			var deferredCopy1 = $.Deferred();
+			var deferredCopy2 = $.Deferred();
+			copyStub.onCall(0).returns(deferredCopy1.promise());
+			copyStub.onCall(1).returns(deferredCopy2.promise());
+
+			fileList.copy(['One.txt', 'Two.jpg'], '/somedir');
+
+			expect(copyStub.calledTwice).toEqual(true);
+			expect(copyStub.getCall(0).args[0]).toEqual('/subdir/One.txt');
+			expect(copyStub.getCall(0).args[1]).toEqual('/somedir/One.txt');
+			expect(copyStub.getCall(1).args[0]).toEqual('/subdir/Two.jpg');
+			expect(copyStub.getCall(1).args[1]).toEqual('/somedir/Two.jpg');
+
+			deferredCopy1.resolve(201);
+
+			expect(fileList.findFileEl('One.txt').length).toEqual(1);
+
+			// folder size has increased during copy
+			expect(fileList.findFileEl('somedir').data('size')).toEqual(262);
+			expect(fileList.findFileEl('somedir').find('.filesize').text()).toEqual('262 B');
+
+			deferredCopy2.resolve(201);
+
+			expect(fileList.findFileEl('Two.jpg').length).toEqual(1);
+
+			// folder size has increased
+			expect(fileList.findFileEl('somedir').data('size')).toEqual(12311);
+			expect(fileList.findFileEl('somedir').find('.filesize').text()).toEqual('12 KB');
+
+			expect(notificationStub.notCalled).toEqual(false);
+		});
+		it('Shows notification if a file could not be copied', function() {
+			fileList.copy('One.txt', '/somedir');
+
+			expect(copyStub.calledOnce).toEqual(true);
+
+			deferredCopy.reject(409);
+
+			expect(fileList.findFileEl('One.txt').length).toEqual(1);
+
+			expect(notificationStub.calledOnce).toEqual(true);
+			expect(notificationStub.getCall(0).args[0]).toEqual('Could not copy "One.txt"');
+		});
+		it('Restores thumbnail if a file could not be copied', function() {
+			fileList.copy('One.txt', '/somedir');
+
+			expect(OC.TestUtil.getImageUrl(fileList.findFileEl('One.txt').find('.thumbnail')))
+				.toEqual(OC.imagePath('core', 'loading.gif'));
+
+			expect(copyStub.calledOnce).toEqual(true);
+
+			deferredCopy.reject(409);
+
+			expect(fileList.findFileEl('One.txt').length).toEqual(1);
+
+			expect(notificationStub.calledOnce).toEqual(true);
+			expect(notificationStub.getCall(0).args[0]).toEqual('Could not copy "One.txt"');
+
+			expect(OC.TestUtil.getImageUrl(fileList.findFileEl('One.txt').find('.thumbnail')))
+				.toEqual(OC.imagePath('core', 'filetypes/text.svg'));
+		});
+	});
+
 	describe('Update file', function() {
 		it('does not change summary', function() {
 			var $summary = $('#filestable .summary');

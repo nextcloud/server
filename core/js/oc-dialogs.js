@@ -29,6 +29,12 @@ var OCdialogs = {
 	// dialog button types
 	YES_NO_BUTTONS:		70,
 	OK_BUTTONS:		71,
+
+	FILEPICKER_TYPE_CHOOSE: 1,
+	FILEPICKER_TYPE_MOVE: 2,
+	FILEPICKER_TYPE_COPY: 3,
+	FILEPICKER_TYPE_COPY_MOVE: 4,
+
 	// used to name each dialog
 	dialogsCounter: 0,
 	/**
@@ -174,13 +180,19 @@ var OCdialogs = {
 	 * @param multiselect whether it should be possible to select multiple files
 	 * @param mimetypeFilter mimetype to filter by - directories will always be included
 	 * @param modal make the dialog modal
+	 * @param type Type of file picker : Choose, copy, move, copy and move
 	*/
-	filepicker:function(title, callback, multiselect, mimetypeFilter, modal) {
+	filepicker:function(title, callback, multiselect, mimetypeFilter, modal, type) {
 		var self = this;
 		// avoid opening the picker twice
 		if (this.filepicker.loading) {
 			return;
 		}
+
+		if (type === undefined) {
+			type = this.FILEPICKER_TYPE_CHOOSE;
+		}
+
 		this.filepicker.loading = true;
 		this.filepicker.filesClient = (OCA.Sharing && OCA.Sharing.PublicApp && OCA.Sharing.PublicApp.fileList)? OCA.Sharing.PublicApp.fileList.filesClient: OC.Files.getClient();
 		$.when(this._getFilePickerTemplate()).then(function($tmpl) {
@@ -210,15 +222,17 @@ var OCdialogs = {
 			self.$filePicker.ready(function() {
 				self.$filelist = self.$filePicker.find('.filelist tbody');
 				self.$dirTree = self.$filePicker.find('.dirtree');
-				self.$dirTree.on('click', 'div:not(:last-child)', self, self._handleTreeListSelect.bind(self));
+				self.$dirTree.on('click', 'div:not(:last-child)', self, function (event) {
+					self._handleTreeListSelect(event, type);
+				});
 				self.$filelist.on('click', 'tr', function(event) {
-					self._handlePickerClick(event, $(this));
+					self._handlePickerClick(event, $(this), type);
 				});
 				self._fillFilePicker('');
 			});
 
 			// build buttons
-			var functionToCall = function() {
+			var functionToCall = function(returnType) {
 				if (callback !== undefined) {
 					var datapath;
 					if (multiselect === true) {
@@ -233,15 +247,46 @@ var OCdialogs = {
 							datapath += '/' + selectedName;
 						}
 					}
-					callback(datapath);
+					callback(datapath, returnType);
 					self.$filePicker.ocdialog('close');
 				}
 			};
-			var buttonlist = [{
-				text: t('core', 'Choose'),
-				click: functionToCall,
-				defaultButton: true
-			}];
+
+			var chooseCallback = function () {
+				functionToCall(OCdialogs.FILEPICKER_TYPE_CHOOSE);
+			};
+
+			var copyCallback = function () {
+				functionToCall(OCdialogs.FILEPICKER_TYPE_COPY);
+			};
+
+			var moveCallback = function () {
+				functionToCall(OCdialogs.FILEPICKER_TYPE_MOVE);
+			};
+
+			var buttonlist = [];
+			if (type === OCdialogs.FILEPICKER_TYPE_CHOOSE) {
+				buttonlist.push({
+					text: t('core', 'Choose'),
+					click: chooseCallback,
+					defaultButton: true
+				});
+			} else {
+				if (type === OCdialogs.FILEPICKER_TYPE_COPY || type === OCdialogs.FILEPICKER_TYPE_COPY_MOVE) {
+					buttonlist.push({
+						text: t('core', 'Copy'),
+						click: copyCallback,
+						defaultButton: false
+					});
+				}
+				if (type === OCdialogs.FILEPICKER_TYPE_MOVE || type === OCdialogs.FILEPICKER_TYPE_COPY_MOVE) {
+					buttonlist.push({
+						text: t('core', 'Move'),
+						click: moveCallback,
+						defaultButton: true
+					});
+				}
+			}
 
 			self.$filePicker.ocdialog({
 				closeOnEscape: true,
@@ -250,6 +295,9 @@ var OCdialogs = {
 				height: 500,
 				modal: modal,
 				buttons: buttonlist,
+				style: {
+					buttons: 'aside',
+				},
 				close: function() {
 					try {
 						$(this).ocdialog('destroy').remove();
@@ -879,12 +927,13 @@ var OCdialogs = {
 	/**
 	 * handle selection made in the tree list
 	*/
-	_handleTreeListSelect:function(event) {
+	_handleTreeListSelect:function(event, type) {
 		var self = event.data;
 		var dir = $(event.target).parent().data('dir');
 		self._fillFilePicker(dir);
 		var getOcDialog = (event.target).closest('.oc-dialog');
 		var buttonEnableDisable = $('.primary', getOcDialog);
+		this._changeButtonsText(type, dir.split(/[/]+/).pop());
 		if (this.$filePicker.data('mimetype') === "httpd/unix-directory") {
 			buttonEnableDisable.prop("disabled", false);
 		} else {
@@ -894,7 +943,7 @@ var OCdialogs = {
 	/**
 	 * handle clicks made in the filepicker
 	*/
-	_handlePickerClick:function(event, $element) {
+	_handlePickerClick:function(event, $element, type) {
 		var getOcDialog = this.$filePicker.closest('.oc-dialog');
 		var buttonEnableDisable = getOcDialog.find('.primary');
 		if ($element.data('type') === 'file') {
@@ -905,11 +954,38 @@ var OCdialogs = {
 			buttonEnableDisable.prop("disabled", false);
 		} else if ( $element.data('type') === 'dir' ) {
 			this._fillFilePicker(this.$filePicker.data('path') + '/' + $element.data('entryname'));
+			this._changeButtonsText(type, $element.data('entryname'));
 			if (this.$filePicker.data('mimetype') === "httpd/unix-directory") {
 				buttonEnableDisable.prop("disabled", false);
 			} else {
 				buttonEnableDisable.prop("disabled", true);
 			}
+		}
+	},
+
+	/**
+	 * Handle
+	 * @param type of action
+	 * @param dir on which to change buttons text
+	 * @private
+	 */
+	_changeButtonsText: function(type, dir) {
+		var copyText = dir === '' ? t('core', 'Copy') : t('core', 'Copy to {folder}', {folder: dir});
+		var moveText = dir === '' ? t('core', 'Move') : t('core', 'Move to {folder}', {folder: dir});
+		var buttons = $('.oc-dialog-buttonrow button');
+		switch (type) {
+			case this.FILEPICKER_TYPE_CHOOSE:
+				break;
+			case this.FILEPICKER_TYPE_COPY:
+				buttons.text(copyText);
+				break;
+			case this.FILEPICKER_TYPE_MOVE:
+				buttons.text(moveText);
+				break;
+			case this.FILEPICKER_TYPE_COPY_MOVE:
+				buttons.eq(0).text(copyText);
+				buttons.eq(1).text(moveText);
+				break;
 		}
 	}
 };
