@@ -450,7 +450,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			$mtime = time();
 		}
 		$metadata = [
-			'lastmodified' => gmdate(\Aws\Common\Enum\DateFormat::RFC1123, $mtime)
+			'lastmodified' => gmdate(\DateTime::RFC1123, $mtime)
 		];
 
 		$fileType = $this->filetype($path);
