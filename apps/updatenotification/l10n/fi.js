@@ -13,6 +13,7 @@ OC.L10N.register(
     "A new version is available: %s" : "Uusi versio on saatavilla: %s",
     "Open updater" : "Avaa päivittäjä",
     "Download now" : "Lataa heti",
+    "The update check is not yet finished. Please refresh the page." : "Päivitystarkistus ei ole vielä valmis. Päivitä sivu.",
     "Your version is up to date." : "Versiosi on ajan tasalla.",
     "Checked on %s" : "Tarkistettu %s",
     "Update channel:" : "Päivityskanava:",
