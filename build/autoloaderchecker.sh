@@ -46,6 +46,7 @@ then
     echo "The autoloader is not up to date"
     echo "Please run: bash build/autoloaderchecker.sh"
     echo "And commit the result"
+    git diff  lib/composer
     exit 1
 else
     echo "Autoloader up to date. Carry on"
