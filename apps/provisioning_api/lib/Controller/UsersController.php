@@ -604,7 +604,7 @@ class UsersController extends OCSController {
 	public function removeFromGroup($userId, $groupid) {
 		$loggedInUser = $this->userSession->getUser();
 
-		if($groupid === null) {
+		if($groupid === null || trim($groupid) === '') {
 			throw new OCSException('', 101);
 		}
 
