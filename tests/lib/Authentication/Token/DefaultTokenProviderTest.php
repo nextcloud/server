@@ -318,6 +318,10 @@ class DefaultTokenProviderTest extends TestCase {
 			->expects($this->at(1))
 			->method('insert')
 			->with($newToken);
+		$this->mapper
+			->expects($this->at(2))
+			->method('delete')
+			->with($token);
 
 		$this->tokenProvider->renewSessionToken('oldId', 'newId');
 	}
@@ -384,6 +388,10 @@ class DefaultTokenProviderTest extends TestCase {
 			->expects($this->at(1))
 			->method('insert')
 			->with($this->equalTo($newToken));
+		$this->mapper
+			->expects($this->at(2))
+			->method('delete')
+			->with($token);
 
 		$this->tokenProvider->renewSessionToken('oldId', 'newId');
 	}
