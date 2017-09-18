@@ -68,6 +68,8 @@ class EmptyContentSecurityPolicy {
 	protected $allowedFontDomains = null;
 	/** @var array Domains from which web-workers and nested browsing content can load elements */
 	protected $allowedChildSrcDomains = null;
+	/** @var array Domains which can embed this Nextcloud instance */
+	protected $allowedFrameAncestors = null;
 
 	/**
 	 * Whether inline JavaScript snippets are allowed or forbidden
@@ -327,6 +329,30 @@ class EmptyContentSecurityPolicy {
 	}
 
 	/**
+	 * Domains which can embed an iFrame of the Nextcloud instance
+	 *
+	 * @param string $domain
+	 * @return $this
+	 * @since 13.0.0
+	 */
+	public function addAllowedFrameAncestorDomain($domain) {
+		$this->allowedFrameAncestors[] = $domain;
+		return $this;
+	}
+
+	/**
+	 * Domains which can embed an iFrame of the Nextcloud instance
+	 *
+	 * @param string $domain
+	 * @return $this
+	 * @since 13.0.0
+	 */
+	public function disallowFrameAncestorDomain($domain) {
+		$this->allowedFrameAncestors = array_diff($this->allowedFrameAncestors, [$domain]);
+		return $this;
+	}
+
+	/**
 	 * Get the generated Content-Security-Policy as a string
 	 * @return string
 	 * @since 8.1.0
@@ -402,6 +428,11 @@ class EmptyContentSecurityPolicy {
 
 		if(!empty($this->allowedChildSrcDomains)) {
 			$policy .= 'child-src ' . implode(' ', $this->allowedChildSrcDomains);
+			$policy .= ';';
+		}
+
+		if(!empty($this->allowedFrameAncestors)) {
+			$policy .= 'frame-ancestors ' . implode(' ', $this->allowedFrameAncestors);
 			$policy .= ';';
 		}
 
