@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="16" height="16" version="1.1" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
- <path d="m8 1.5a6.5 6.5 0 0 0-6.5 6.5 6.5 6.5 0 0 0 6.5 6.5 6.5 6.5 0 0 0 6.5-6.5h-6.5v-6.5z" style="paint-order:stroke fill markers"/>
- <path d="m9 0.5v6.5h6.5a6.5 6.5 0 0 0-6.5-6.5z" style="paint-order:stroke fill markers"/>
+<svg width="16" height="16" version="1" xmlns="http://www.w3.org/2000/svg">
+ <path d="m8 1c-3.8553 0-7 3.1448-7 7 0 3.8552 3.1448 7 7 7 3.8553 0 7-3.1448 7-7 0-3.8553-3.1447-7-7-7zm0 1.75c2.9103 0 5.25 2.3398 5.25 5.25 0 1.4192-0.55825 2.7011-1.4665 3.6435l-3.7835-3.6435z" />
 </svg>
