@@ -139,6 +139,13 @@ EOT
 EOT
 					);
 				}
+				if ($column->getUnsigned()) {
+					$content .= <<<'EOT'
+				'unsigned' => true,
+
+EOT;
+				}
+
 				$content .= <<<'EOT'
 			]);
 
