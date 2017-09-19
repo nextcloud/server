@@ -84,6 +84,7 @@ OC.L10N.register(
     "Yes" : "Sí",
     "No files in here" : "No hay archivos aquí",
     "Choose" : "Seleccionar",
+    "Copy" : "Copiar",
     "Error loading file picker template: {error}" : "Se presentó un error al cargar la plantilla del seleccionador de archivos: {error}",
     "OK" : "OK",
     "Error loading message template: {error}" : "Se presentó un error al cargar la plantilla del mensaje: {error}",
@@ -130,7 +131,6 @@ OC.L10N.register(
     "Choose a password for the public link" : "Seleccione una contraseña para el link público",
     "Choose a password for the public link or press the \"Enter\" key" : "Favor de elegir una contraseña para el link público o presione  \"Intro  \"",
     "Copied!" : "¡Copiado!",
-    "Copy" : "Copiar",
     "Not supported!" : "¡No está soportado!",
     "Press ⌘-C to copy." : "Presione ⌘-C para copiar.",
     "Press Ctrl-C to copy." : "Presione Ctrl-C para copiar.",

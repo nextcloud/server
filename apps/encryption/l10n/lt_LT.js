@@ -1,8 +1,8 @@
 OC.L10N.register(
     "encryption",
     {
-    "Missing recovery key password" : "Atkūrimo raktui apsaugoti reikalingas slaptažodis",
-    "Please repeat the recovery key password" : "Prašome pakartoti slaptažodį atkūrimo raktui apsaugoti",
+    "Missing recovery key password" : "Trūksta atkūrimo rakto slaptažodžio",
+    "Please repeat the recovery key password" : "Prašome pakartoti atkūrimo rakto slaptažodį",
     "Repeated recovery key password does not match the provided recovery key password" : "Pakartotas atstatymo rakto slaptažodis nesutampa su atstatymo rakto slaptažodžiu",
     "Recovery key successfully enabled" : "Atkūrimo raktas pradėtas naudoti",
     "Could not enable recovery key. Please check your recovery key password!" : "Nepavyko panaudoti atkūrimo rakto. Prašome patikrinti savo atkūrimo rakto slaptažodį!",
