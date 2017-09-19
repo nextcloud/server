@@ -1447,7 +1447,9 @@
 				path = fileData.path || this.getCurrentDirectory(),
 				permissions = parseInt(fileData.permissions, 10) || 0;
 
-			if (fileData.isShareMountPoint) {
+			var isEndToEndEncrypted = (type === 'dir' && fileData.isEncrypted);
+
+			if (!isEndToEndEncrypted && fileData.isShareMountPoint) {
 				permissions = permissions | OC.PERMISSION_UPDATE;
 			}
 
