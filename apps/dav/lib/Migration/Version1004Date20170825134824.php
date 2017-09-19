@@ -26,7 +26,7 @@ use Doctrine\DBAL\Schema\Schema;
 use OCP\Migration\SimpleMigrationStep;
 use OCP\Migration\IOutput;
 
-class Version1004001Date20170825134824 extends SimpleMigrationStep {
+class Version1004Date20170825134824 extends SimpleMigrationStep {
 	/**
 	 * @param IOutput $output
 	 * @param \Closure $schemaClosure The `\Closure` returns a `Schema`
@@ -44,7 +44,7 @@ class Version1004001Date20170825134824 extends SimpleMigrationStep {
 				'autoincrement' => true,
 				'notnull' => true,
 				'length' => 11,
-				'unsgined' => true,
+				'unsigned' => true,
 			]);
 			$table->addColumn('principaluri', 'string', [
 				'notnull' => false,
@@ -143,7 +143,7 @@ class Version1004001Date20170825134824 extends SimpleMigrationStep {
 				'autoincrement' => true,
 				'notnull' => true,
 				'length' => 11,
-				'unsgined' => true,
+				'unsigned' => true,
 			]);
 			$table->addColumn('calendardata', 'blob', [
 				'notnull' => false,
@@ -256,7 +256,7 @@ class Version1004001Date20170825134824 extends SimpleMigrationStep {
 				'autoincrement' => true,
 				'notnull' => true,
 				'length' => 11,
-				'unsgiend' => true,
+				'unsigned' => true,
 			]);
 			$table->addColumn('uri', 'string', [
 				'notnull' => false,
