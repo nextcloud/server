@@ -104,6 +104,7 @@ OC.MimeTypeList={
     "file",
     "folder",
     "folder-drag-accept",
+    "folder-encrypted",
     "folder-external",
     "folder-public",
     "folder-shared",

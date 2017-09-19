@@ -1455,6 +1455,32 @@ describe('OCA.Files.FileList tests', function() {
 			expect(OC.TestUtil.getImageUrl($td.find('.thumbnail'))).toEqual(OC.webroot + '/core/img/filetypes/folder.svg');
 			expect(previewLoadStub.notCalled).toEqual(true);
 		});
+		it('render encrypted folder icon for encrypted root', function() {
+			var fileData = {
+				type: 'dir',
+				mimetype: 'httpd/unix-directory',
+				name: 'test dir',
+				isEncrypted: true
+			};
+			var $tr = fileList.add(fileData);
+			var $td = $tr.find('td.filename');
+			expect(OC.TestUtil.getImageUrl($td.find('.thumbnail'))).toEqual(OC.webroot + '/core/img/filetypes/folder-encrypted.svg');
+			expect(previewLoadStub.notCalled).toEqual(true);
+		});
+		it('render encrypted folder icon for encrypted subdir', function() {
+			var fileData = {
+				type: 'dir',
+				mimetype: 'httpd/unix-directory',
+				name: 'test dir',
+				isEncrypted: true
+			};
+			var $tr = fileList.add(fileData);
+			var $td = $tr.find('td.filename');
+			expect(OC.TestUtil.getImageUrl($td.find('.thumbnail'))).toEqual(OC.webroot + '/core/img/filetypes/folder-encrypted.svg');
+			expect(previewLoadStub.notCalled).toEqual(true);
+			// default icon override
+			expect($tr.attr('data-icon')).toEqual(OC.webroot + '/core/img/filetypes/folder-encrypted.svg');
+		});
 		it('render external storage icon for external storage root', function() {
 			var fileData = {
 				type: 'dir',
