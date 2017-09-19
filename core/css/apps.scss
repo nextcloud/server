@@ -93,6 +93,9 @@ kbd {
 	border-right: 1px solid nc-darken($color-main-background, 8%);
 	display: flex;
 	flex-direction: column;
+	li {
+		position: relative;
+	}
 	> ul {
 		position: relative;
 		height: 100%;
@@ -125,7 +128,7 @@ kbd {
 				/* Ugly hack for overriding the main entry link */
 				/* align the input correctly with the link text
 				   44px-6px padding for the input */
-				padding-left: 38px !important; 
+				padding-left: 38px !important;
 			}
 
 			&:focus,
@@ -255,7 +258,7 @@ kbd {
 				height: 12px;
 				border: none;
 				border-radius: 50%;
-				cursor: pointer;				
+				cursor: pointer;
 			}
 
 			/* padding in case of icon or bullet */
@@ -498,14 +501,14 @@ kbd {
 		transition: padding-bottom 500ms ease 0s;
 		padding-bottom: 40px;
 	}
-	
+
 	.error {
 		color: $color-error;
 	}
 	.app-navigation-separator {
 		border-bottom: 1px solid nc-lighten($color-main-text, 86%);
 	}
-	
+
 	.app-navigation-entry-utils ul,
 	.app-navigation-entry-menu ul {
 		list-style-type: none;
