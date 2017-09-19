@@ -600,7 +600,7 @@ class OC_App {
 			$file = $appPath . '/appinfo/info.xml';
 		}
 
-		$parser = new InfoParser(\OC::$server->getMemCacheFactory()->create('core.appinfo'));
+		$parser = new InfoParser(\OC::$server->getMemCacheFactory()->createLocal('core.appinfo'));
 		$data = $parser->parse($file);
 
 		if (is_array($data)) {
