@@ -206,7 +206,7 @@ class Manager implements IManager {
 			return;
 		}
 		$table = $this->getSectionTableForType($type);
-		if(!$this->hasSection(get_class($section), $table)) {
+		if(!$this->hasSection($section->getID(), $table)) {
 			$this->addSection($section, $table);
 		} else {
 			$this->updateSection($section, $table);
@@ -232,10 +232,10 @@ class Manager implements IManager {
 	private function updateSettings(ISettings $settings, $table) {
 		$this->mapper->update(
 			$table,
-			'class',
-			get_class($settings),
+			'section',
+			$settings->getSection(),
 			[
-				'section' => $settings->getSection(),
+				'class' => get_class($settings),
 				'priority' => $settings->getPriority(),
 			]
 		);
@@ -244,30 +244,33 @@ class Manager implements IManager {
 	private function updateSection(ISection $section, $table) {
 		$this->mapper->update(
 			$table,
-			'class',
-			get_class($section),
+			'id',
+			$section->getID(),
 			[
-				'id' => $section->getID(),
+				'class' => get_class($section),
 				'priority' => $section->getPriority(),
 			]
 		);
 	}
 
 	/**
-	 * @param string $className
+	 * @param string $sectionId
 	 * @param string $table
+	 *
 	 * @return bool
 	 */
-	private function hasSection($className, $table) {
-		return $this->mapper->has($table, $className);
+	private function hasSection($sectionId, $table) {
+		return $this->mapper->has($table, 'id', $sectionId);
 	}
 
 	/**
-	 * @param string $className
+	 * @param string $sectionId
+	 * @param $table
+	 *
 	 * @return bool
 	 */
-	private function hasSettings($className, $table) {
-		return $this->mapper->has($table, $className);
+	private function hasSettings($sectionId, $table) {
+		return $this->mapper->has($table, 'section', $sectionId);
 	}
 
 	private function setupSettingsEntry($settingsClassName, $type) {
@@ -292,7 +295,7 @@ class Manager implements IManager {
 			return;
 		}
 		$table = $this->getSettingsTableForType($type);
-		if (!$this->hasSettings(get_class($settings), $table)) {
+		if (!$this->hasSettings($settings->getSection(), $table)) {
 			$this->addSettings($settings, $table);
 		} else {
 			$this->updateSettings($settings, $table);
