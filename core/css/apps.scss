@@ -1,5 +1,5 @@
 /**
- * @copyright Copyright (c) 2016, John Molakvoæ <skjnldsv@protonmail.com>
+ * @copyright Copyright (c) 2016-2017, John Molakvoæ <skjnldsv@protonmail.com>
  * @copyright Copyright (c) 2016, Julius Haertl <jus@bitgrid.net>
  * @copyright Copyright (c) 2016, Morris Jobke <hey@morrisjobke.de>
  * @copyright Copyright (c) 2016, pgys <info@pexlab.space>
@@ -275,9 +275,11 @@ kbd {
 			/* show edit/undo field if editing/deleted */
 			&.editing .app-navigation-entry-edit {
 				opacity: 1;
+				z-index: 250;
 			}
 			&.deleted .app-navigation-entry-deleted {
 				transform: translateX(0);
+				z-index: 250;
 			}
 		}
 	}
@@ -417,6 +419,7 @@ kbd {
 		opacity: 0;
 		position: absolute;
 		background-color: $color-main-background;
+		z-index: -1;
 		form {
 			display: inline-flex;
 			width: 100%;
@@ -487,10 +490,10 @@ kbd {
 	.app-navigation-entry-deleted  {
 		width: calc(100% - 1px); /* Avoid border overlapping */
 		transition: transform 250ms ease-in-out,
-					opacity 250ms ease-in-out;
+					opacity 250ms ease-in-out,
+					z-index 250ms ease-in-out;
 		position: absolute;
 		background-color: $color-main-background;
-		z-index: 250;
 	}
 
 	/**
