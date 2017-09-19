@@ -436,7 +436,7 @@ kbd {
 		}
 		input[type='text'] {
 			width: 100%;
-			flex: 1 1 0;
+			min-width: 0; /* firefox hack: override auto */
 			border-bottom-right-radius: 0;
 			border-top-right-radius: 0;
 		}
@@ -444,6 +444,7 @@ kbd {
 		input:not([type='text']) {
 			width: 36px;
 			height: 38px;
+			flex: 0 0 36px;
 			&:not(:last-child) {
 				border-radius: 0;
 			}
