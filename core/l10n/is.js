@@ -84,6 +84,7 @@ OC.L10N.register(
     "Yes" : "Já",
     "No files in here" : "Engar skrár hér",
     "Choose" : "Veldu",
+    "Copy" : "Afrita",
     "Error loading file picker template: {error}" : "Villa við að hlaða inn sniðmáti fyrir skráaveljara: {error}",
     "OK" : "Í lagi",
     "Error loading message template: {error}" : "Villa við að hlaða inn sniðmáti fyrir skilaboð: {error}",
@@ -130,7 +131,6 @@ OC.L10N.register(
     "Choose a password for the public link" : "Veldu þér lykilorð fyrir almenningstengil",
     "Choose a password for the public link or press the \"Enter\" key" : "Veldu þér lykilorð fyrir opinbera tengilinn eða ýttu á \"Enter  \" lykilinn",
     "Copied!" : "Afritað!",
-    "Copy" : "Afrita",
     "Not supported!" : "Óstutt!",
     "Press ⌘-C to copy." : "Ýttu á ⌘-C til að afrita.",
     "Press Ctrl-C to copy." : "Ýttu á Ctrl-C til að afrita.",
