@@ -113,7 +113,7 @@ class Provider implements IProvider {
 	 * @throws \InvalidArgumentException
 	 */
 	protected function parseShortVersion(IEvent $event) {
-		$subjectParameters = $event->getSubjectParameters();
+		$subjectParameters = $this->getSubjectParameters($event);
 
 		if ($event->getSubject() === 'add_comment_subject') {
 			if ($subjectParameters['actor'] === $this->activityManager->getCurrentUserId()) {
@@ -139,7 +139,7 @@ class Provider implements IProvider {
 	 * @throws \InvalidArgumentException
 	 */
 	protected function parseLongVersion(IEvent $event) {
-		$subjectParameters = $event->getSubjectParameters();
+		$subjectParameters = $this->getSubjectParameters($event);
 
 		if ($event->getSubject() === 'add_comment_subject') {
 			if ($subjectParameters['actor'] === $this->activityManager->getCurrentUserId()) {
