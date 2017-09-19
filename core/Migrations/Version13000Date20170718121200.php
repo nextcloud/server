@@ -33,15 +33,6 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 	 * @param IOutput $output
 	 * @param \Closure $schemaClosure The `\Closure` returns a `Schema`
 	 * @param array $options
-	 * @since 13.0.0
-	 */
-	public function preSchemaChange(IOutput $output, \Closure $schemaClosure, array $options) {
-	}
-
-	/**
-	 * @param IOutput $output
-	 * @param \Closure $schemaClosure The `\Closure` returns a `Schema`
-	 * @param array $options
 	 * @return null|Schema
 	 * @since 13.0.0
 	 */
@@ -416,6 +407,7 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 				'autoincrement' => true,
 				'notnull' => true,
 				'length' => 4,
+				'unsigned' => true,
 			]);
 			$table->addColumn('class', 'string', [
 				'notnull' => true,
@@ -472,6 +464,7 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 				'autoincrement' => true,
 				'notnull' => true,
 				'length' => 4,
+				'unsigned' => true,
 			]);
 			$table->addColumn('uid', 'string', [
 				'notnull' => true,
@@ -499,21 +492,25 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 				'notnull' => true,
 				'length' => 2,
 				'default' => 0,
+				'unsigned' => true,
 			]);
 			$table->addColumn('remember', 'smallint', [
 				'notnull' => true,
 				'length' => 1,
 				'default' => 0,
+				'unsigned' => true,
 			]);
 			$table->addColumn('last_activity', 'integer', [
 				'notnull' => true,
 				'length' => 4,
 				'default' => 0,
+				'unsigned' => true,
 			]);
 			$table->addColumn('last_check', 'integer', [
 				'notnull' => true,
 				'length' => 4,
 				'default' => 0,
+				'unsigned' => true,
 			]);
 			$table->addColumn('scope', 'text', [
 				'notnull' => false,
@@ -529,6 +526,7 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 				'autoincrement' => true,
 				'notnull' => true,
 				'length' => 4,
+				'unsigned' => true,
 			]);
 			$table->addColumn('action', 'string', [
 				'notnull' => true,
@@ -539,6 +537,7 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 				'notnull' => true,
 				'length' => 4,
 				'default' => 0,
+				'unsigned' => true,
 			]);
 			$table->addColumn('ip', 'string', [
 				'notnull' => true,
@@ -566,6 +565,7 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 				'autoincrement' => true,
 				'notnull' => true,
 				'length' => 4,
+				'unsigned' => true,
 			]);
 			$table->addColumn('uid', 'string', [
 				'notnull' => true,
@@ -594,11 +594,13 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 				'notnull' => true,
 				'length' => 4,
 				'default' => 0,
+				'unsigned' => true,
 			]);
 			$table->addColumn('categoryid', 'integer', [
 				'notnull' => true,
 				'length' => 4,
 				'default' => 0,
+				'unsigned' => true,
 			]);
 			$table->addColumn('type', 'string', [
 				'notnull' => true,
@@ -615,6 +617,7 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 				'autoincrement' => true,
 				'notnull' => true,
 				'length' => 4,
+				'unsigned' => true,
 			]);
 			$table->addColumn('name', 'string', [
 				'notnull' => true,
@@ -651,6 +654,7 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 				'notnull' => true,
 				'length' => 4,
 				'default' => 0,
+				'unsigned' => true,
 			]);
 			$table->addUniqueIndex(['objecttype', 'objectid', 'systemtagid'], 'mapping');
 		}
@@ -661,6 +665,7 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 				'notnull' => true,
 				'length' => 4,
 				'default' => 0,
+				'unsigned' => true,
 			]);
 			$table->addColumn('gid', 'string', [
 				'notnull' => true,
@@ -674,6 +679,7 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 				'autoincrement' => true,
 				'notnull' => true,
 				'length' => 4,
+				'unsigned' => true,
 			]);
 			$table->addColumn('lock', 'integer', [
 				'notnull' => true,
@@ -700,21 +706,25 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 				'autoincrement' => true,
 				'notnull' => true,
 				'length' => 4,
+				'unsigned' => true,
 			]);
 			$table->addColumn('parent_id', 'integer', [
 				'notnull' => true,
 				'length' => 4,
 				'default' => 0,
+				'unsigned' => true,
 			]);
 			$table->addColumn('topmost_parent_id', 'integer', [
 				'notnull' => true,
 				'length' => 4,
 				'default' => 0,
+				'unsigned' => true,
 			]);
 			$table->addColumn('children_count', 'integer', [
 				'notnull' => true,
 				'length' => 4,
 				'default' => 0,
+				'unsigned' => true,
 			]);
 			$table->addColumn('actor_type', 'string', [
 				'notnull' => true,
@@ -905,12 +915,4 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 		return $schema;
 	}
 
-	/**
-	 * @param IOutput $output
-	 * @param \Closure $schemaClosure The `\Closure` returns a `Schema`
-	 * @param array $options
-	 * @since 13.0.0
-	 */
-	public function postSchemaChange(IOutput $output, \Closure $schemaClosure, array $options) {
-	}
 }
