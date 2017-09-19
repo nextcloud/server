@@ -74,6 +74,7 @@
 	Client.PROPERTY_PERMISSIONS	= '{' + Client.NS_OWNCLOUD + '}permissions';
 	Client.PROPERTY_SIZE	= '{' + Client.NS_OWNCLOUD + '}size';
 	Client.PROPERTY_GETCONTENTLENGTH	= '{' + Client.NS_DAV + '}getcontentlength';
+	Client.PROPERTY_ISENCRYPTED	= '{' + Client.NS_DAV + '}is-encrypted';
 
 	Client.PROTOCOL_HTTP	= 'http';
 	Client.PROTOCOL_HTTPS	= 'https';
@@ -120,6 +121,10 @@
 		 * Mount type
 		 */
 		[Client.NS_NEXTCLOUD, 'mount-type'],
+		/**
+		 * Encryption state
+		 */
+		[Client.NS_NEXTCLOUD, 'is-encrypted'],
 	];
 
 	/**
@@ -303,6 +308,13 @@
 				data.hasPreview = hasPreviewProp === 'true';
 			} else {
 				data.hasPreview = true;
+			}
+
+			var isEncryptedProp = props['{' + Client.NS_NEXTCLOUD + '}is-encrypted'];
+			if (!_.isUndefined(isEncryptedProp)) {
+				data.isEncrypted = isEncryptedProp === '1';
+			} else {
+				data.isEncrypted = false;
 			}
 
 			var contentType = props[Client.PROPERTY_GETCONTENTTYPE];
