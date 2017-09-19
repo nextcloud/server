@@ -39,7 +39,7 @@ class Api {
 	private static function formatMount($mountPoint, $mountConfig) {
 		// strip "/$user/files" from mount point
 		$mountPoint = explode('/', trim($mountPoint, '/'), 3);
-		$mountPoint = $mountPoint[2];
+		$mountPoint = isset($mountPoint[2]) ? $mountPoint[2] : '';
 
 		// split path from mount point
 		$path = dirname($mountPoint);
