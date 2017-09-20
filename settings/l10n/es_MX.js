@@ -293,6 +293,7 @@ OC.L10N.register(
     "Restrict users to only share with users in their groups" : "Limitar a los usuarios a sólo compartir con otros usuarios en sus grupos",
     "Exclude groups from sharing" : "Evitar que los grupos compartan",
     "These groups will still be able to receive shares, but not to initiate them." : "Estos grupos aún podrán recibir elementos compartidos, pero no los podrán iniciar.",
+    "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Permitir el autocompletado de usuarios en la ventana de diálogo de compartir. Si esto está deshabilitado, se deberá ingresar el correo electrónico o nombre completo. ",
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Mostrar el texto de exención de responsabilidad legal en la página de carga de ligas públicas. (Sólo se muestra cuando la lista de archivos está oculta.)",
     "This text will be shown on the public link upload page when the file list is hidden." : "Este texto se mostrará en la página de carga de la liga pública cuando la lista de archivos esté oculta. ",
     "Tips & tricks" : "Consejos & trucos",

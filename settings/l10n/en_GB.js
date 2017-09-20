@@ -293,6 +293,7 @@ OC.L10N.register(
     "Restrict users to only share with users in their groups" : "Restrict users to only share with users in their groups",
     "Exclude groups from sharing" : "Exclude groups from sharing",
     "These groups will still be able to receive shares, but not to initiate them." : "These groups will still be able to receive shares, but not to initiate them.",
+    "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered.",
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)",
     "This text will be shown on the public link upload page when the file list is hidden." : "This text will be shown on the public link upload page when the file list is hidden.",
     "Tips & tricks" : "Tips & tricks",
