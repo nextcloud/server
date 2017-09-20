@@ -1754,6 +1754,20 @@ class UsersControllerTest extends OriginalTest {
 
 	/**
 	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 * @expectedExceptionCode 101
+	 */
+	public function testRemoveFromGroupWithEmptyTargetGroup() {
+		$loggedInUser = $this->getMockBuilder('\OCP\IUser')->disableOriginalConstructor()->getMock();
+		$this->userSession
+			->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($loggedInUser));
+
+		$this->api->removeFromGroup('TargetUser', '');
+	}
+
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
 	 * @expectedExceptionCode 102
 	 */
 	public function testRemoveFromGroupWithNotExistingTargetGroup() {
