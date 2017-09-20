@@ -350,6 +350,10 @@ table td.filename .nametext {
 	max-width: 800px;
 	height: 100%;
 }
+/* ellipsis on file names */
+table td.filename .nametext .innernametext {
+	max-width: calc(100% - 100px) !important;
+}
 .has-favorites #fileList td.filename a.name {
 	left: 50px;
 	margin-right: 50px;
@@ -615,6 +619,16 @@ a.action > img {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
 	filter: alpha(opacity=70);
 	opacity: .7;
+}
+
+// Ellipsize long sharer names
+#fileList .action.action-share.permanent.shared-style span:not(.icon) {
+	display: inline-block;
+	max-width: 70px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	vertical-align: bottom;
+	padding-left: 6px;
 }
 
 #fileList .fileActionsMenu a.action:hover,
