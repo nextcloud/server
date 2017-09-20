@@ -248,6 +248,18 @@ class ThemingController extends Controller {
 
 		if (!empty($newLogo)) {
 			$target = $folder->newFile('logo');
+			$supportedFormats = ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml', 'text/svg'];
+			if (!in_array($newLogo['type'], $supportedFormats)) {
+				return new DataResponse(
+					[
+						'data' => [
+							'message' => $this->l10n->t('Unsupported image type'),
+						],
+						'status' => 'failure',
+					],
+					Http::STATUS_UNPROCESSABLE_ENTITY
+				);
+			}
 			$target->putContent(file_get_contents($newLogo['tmp_name'], 'r'));
 			$this->themingDefaults->set('logoMime', $newLogo['type']);
 			$name = $newLogo['name'];
