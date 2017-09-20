@@ -291,6 +291,7 @@
     "Restrict users to only share with users in their groups" : "Takmarka notendur við að deila með notendum í þeirra eigin hópum",
     "Exclude groups from sharing" : "Undanskilja hópa frá því að deila",
     "These groups will still be able to receive shares, but not to initiate them." : "Þessir hópar munu samt geta tekið við deildum sameignum, en ekki geta útbúið þær.",
+    "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Leyfa sjálfklárun notandanafns í deilingarglugga. Ef þetta er óvirkt þarf að setja inn fullt nafn eða tölvupóstfang notanda.",
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Birta fyrirvara á opinberu upphleðslusíðunni. (Birtist einungis þegar listi yfir skrár er falinn).",
     "This text will be shown on the public link upload page when the file list is hidden." : "Þessi texti birtist á opinberu upphleðslusíðunni þegar listi yfir skrár er falinn.",
     "Tips & tricks" : "Ábendingar og góð ráð",

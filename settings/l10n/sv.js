@@ -293,6 +293,7 @@ OC.L10N.register(
     "Restrict users to only share with users in their groups" : "Begränsa användare till att enbart kunna dela med användare i deras grupper",
     "Exclude groups from sharing" : "Exkludera grupp från att dela",
     "These groups will still be able to receive shares, but not to initiate them." : "Dessa grupper kommer fortfarande kunna ta emot delningar, men inte skapa delningar.",
+    "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Tillåt autokomplettering av användarnamn i delningsdialogen. Om detta är inaktiverat måste fullständigt användarnamn och epostadress anges.",
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Visa friskrivningstext på offentliga uppladdningssidan. (Visas endast när fil-listan är gömd.)",
     "This text will be shown on the public link upload page when the file list is hidden." : "Denna text kommer att visa på den offentliga uppladdnings-sidan när fil-listan är gömd.",
     "Tips & tricks" : "Tips & tricks",
