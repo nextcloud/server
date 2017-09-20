@@ -131,8 +131,9 @@ class ThemingControllerTest extends TestCase {
 		$this->l10n
 			->expects($this->once())
 			->method('t')
-			->with($message)
-			->willReturn($message);
+			->will($this->returnCallback(function($str) {
+				return $str;
+			}));
 		$this->scssCacher
 			->expects($this->once())
 			->method('getCachedSCSS')
@@ -183,8 +184,9 @@ class ThemingControllerTest extends TestCase {
 		$this->l10n
 			->expects($this->once())
 			->method('t')
-			->with($message)
-			->willReturn($message);
+			->will($this->returnCallback(function($str) {
+				return $str;
+			}));
 
 		$expected = new DataResponse(
 			[
@@ -215,10 +217,11 @@ class ThemingControllerTest extends TestCase {
 			->with('upload-login-background')
 			->willReturn(null);
 		$this->l10n
-			->expects($this->once())
+			->expects($this->any())
 			->method('t')
-			->with('No file uploaded')
-			->willReturn('No file uploaded');
+			->will($this->returnCallback(function($str) {
+				return $str;
+			}));
 
 		$expected = new DataResponse(
 			[
@@ -282,6 +285,7 @@ class ThemingControllerTest extends TestCase {
 				'tmp_name' => $tmpLogo,
 				'type' => 'text/svg',
 				'name' => 'logo.svg',
+				'error' => 0,
 			]);
 		$this->request
 			->expects($this->at(2))
@@ -289,10 +293,11 @@ class ThemingControllerTest extends TestCase {
 			->with('upload-login-background')
 			->willReturn(null);
 		$this->l10n
-			->expects($this->once())
+			->expects($this->any())
 			->method('t')
-			->with('Saved')
-			->willReturn('Saved');
+			->will($this->returnCallback(function($str) {
+				return $str;
+			}));
 
 
 		$file = $this->createMock(ISimpleFile::class);
@@ -357,12 +362,14 @@ class ThemingControllerTest extends TestCase {
 				'tmp_name' => $tmpLogo,
 				'type' => 'text/svg',
 				'name' => 'logo.svg',
+				'error' => 0,
 			]);
 		$this->l10n
-			->expects($this->once())
+			->expects($this->any())
 			->method('t')
-			->with('Saved')
-			->willReturn('Saved');
+			->will($this->returnCallback(function($str) {
+				return $str;
+			}));
 
 		$file = $this->createMock(ISimpleFile::class);
 		$folder = $this->createMock(ISimpleFolder::class);
@@ -425,12 +432,14 @@ class ThemingControllerTest extends TestCase {
 				'tmp_name' => $tmpLogo,
 				'type' => 'text/svg',
 				'name' => 'logo.svg',
+				'error' => 0,
 			]);
 		$this->l10n
-			->expects($this->once())
+			->expects($this->any())
 			->method('t')
-			->with('Unsupported image type')
-			->willReturn('Unsupported image type');
+			->will($this->returnCallback(function($str) {
+				return $str;
+			}));
 
 		$folder = $this->createMock(ISimpleFolder::class);
 		$this->appData

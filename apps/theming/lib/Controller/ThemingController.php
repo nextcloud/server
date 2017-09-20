@@ -207,11 +207,32 @@ class ThemingController extends Controller {
 		}
 		$newLogo = $this->request->getUploadedFile('uploadlogo');
 		$newBackgroundLogo = $this->request->getUploadedFile('upload-login-background');
+		$error = null;
+		$phpFileUploadErrors = array(
+			0 => $this->l10n->t('There is no error, the file uploaded with success'),
+			1 => $this->l10n->t('The uploaded file exceeds the upload_max_filesize directive in php.ini'),
+			2 => $this->l10n->t('The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form'),
+			3 => $this->l10n->t('The uploaded file was only partially uploaded'),
+			4 => $this->l10n->t('No file was uploaded'),
+			6 => $this->l10n->t('Missing a temporary folder'),
+			7 => $this->l10n->t('Failed to write file to disk.'),
+			8 => $this->l10n->t('A PHP extension stopped the file upload.'),
+		);
 		if (empty($newLogo) && empty($newBackgroundLogo)) {
+			$error = $this->l10n->t('No file uploaded');
+		}
+		if (!empty($newLogo) && array_key_exists('error', $newLogo) && $newLogo['error'] !== UPLOAD_ERR_OK) {
+			$error = $phpFileUploadErrors[$newLogo['error']];
+		}
+		if (!empty($newBackgroundLogo) && array_key_exists('error', $newBackgroundLogo) && $newBackgroundLogo['error'] !== UPLOAD_ERR_OK) {
+			$error = $phpFileUploadErrors[$newBackgroundLogo['error']];
+		}
+
+		if ($error !== null) {
 			return new DataResponse(
 				[
 					'data' => [
-						'message' => $this->l10n->t('No file uploaded')
+						'message' => $error
 					]
 				],
 				Http::STATUS_UNPROCESSABLE_ENTITY
