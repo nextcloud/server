@@ -25,6 +25,8 @@
 namespace OCA\User_LDAP\User;
 
 use OCA\User_LDAP\Mapping\UserMapping;
+use OCP\IConfig;
+use OCP\IDBConnection;
 
 class OfflineUser {
 	/**
@@ -60,11 +62,11 @@ class OfflineUser {
 	 */
 	protected $hasActiveShares;
 	/**
-	 * @var \OCP\IConfig $config
+	 * @var IConfig $config
 	 */
 	protected $config;
 	/**
-	 * @var \OCP\IDBConnection $db
+	 * @var IDBConnection $db
 	 */
 	protected $db;
 	/**
@@ -74,11 +76,11 @@ class OfflineUser {
 
 	/**
 	 * @param string $ocName
-	 * @param \OCP\IConfig $config
-	 * @param \OCP\IDBConnection $db
+	 * @param IConfig $config
+	 * @param IDBConnection $db
 	 * @param \OCA\User_LDAP\Mapping\UserMapping $mapping
 	 */
-	public function __construct($ocName, \OCP\IConfig $config, \OCP\IDBConnection $db, UserMapping $mapping) {
+	public function __construct($ocName, IConfig $config, IDBConnection $db, UserMapping $mapping) {
 		$this->ocName = $ocName;
 		$this->config = $config;
 		$this->db = $db;

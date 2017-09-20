@@ -295,7 +295,7 @@ class UserTest extends \Test\TestCase {
 	}
 
 	public function testUpdateQuotaToNoneAllProvided() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
+		list(, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
