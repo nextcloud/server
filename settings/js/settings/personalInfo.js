@@ -41,8 +41,9 @@ jQuery.fn.keyUpDelayedOrEnter = function (callback, allowEmptyValue) {
 };
 
 function updateAvatar (hidedefault) {
-	var $headerdiv = $('#header .avatardiv');
-	var $displaydiv = $('#displayavatar .avatardiv');
+	var $headerdiv = $('#header .avatardiv'),
+		$displaydiv = $('#displayavatar .avatardiv'),
+		user = OC.getCurrentUser();
 
 	//Bump avatar avatarversion
 	oc_userconfig.avatar.version = -(Math.floor(Math.random() * 1000));
@@ -52,11 +53,11 @@ function updateAvatar (hidedefault) {
 		$('#header .avatardiv').removeClass('avatardiv-shown');
 	} else {
 		$headerdiv.css({'background-color': ''});
-		$headerdiv.avatar(OC.currentUser, 32, true);
+		$headerdiv.avatar(user.uid, 32, true, false, undefined, user.displayName);
 		$('#header .avatardiv').addClass('avatardiv-shown');
 	}
 	$displaydiv.css({'background-color': ''});
-	$displaydiv.avatar(OC.currentUser, 145, true, null, function() {
+	$displaydiv.avatar(user.uid, 145, true, null, function() {
 		$displaydiv.removeClass('loading');
 		$('#displayavatar img').show();
 		if($('#displayavatar img').length === 0) {
@@ -64,7 +65,7 @@ function updateAvatar (hidedefault) {
 		} else {
 			$('#removeavatar').removeClass('hidden').addClass('inlineblock');
 		}
-	});
+	}, user.displayName);
 }
 
 function showAvatarCropper () {
@@ -388,13 +389,14 @@ $(document).ready(function () {
 	});
 
 	// Load the big avatar
-	$('#avatarform .avatardiv').avatar(OC.currentUser, 145, true, null, function() {
+	var user = OC.getCurrentUser();
+	$('#avatarform .avatardiv').avatar(user.uid, 145, true, null, function() {
 		if($('#displayavatar img').length === 0) {
 			$('#removeavatar').removeClass('inlineblock').addClass('hidden');
 		} else {
 			$('#removeavatar').removeClass('hidden').addClass('inlineblock');
 		}
-	});
+	}, user.displayName);
 });
 
 OC.Settings.updateAvatar = updateAvatar;
