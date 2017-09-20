@@ -211,7 +211,7 @@ class Server {
 				);
 				if ($view !== null) {
 					$this->server->addPlugin(
-						new QuotaPlugin($view));
+						new QuotaPlugin($view, false));
 				}
 				$this->server->addPlugin(
 					new TagsPlugin(
