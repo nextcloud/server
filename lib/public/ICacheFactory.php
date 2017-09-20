@@ -31,13 +31,14 @@ namespace OCP;
  */
 interface ICacheFactory{
 	/**
-	 * Get a memory cache instance
+	 * Get a distributed memory cache instance
 	 *
 	 * All entries added trough the cache instance will be namespaced by $prefix to prevent collisions between apps
 	 *
 	 * @param string $prefix
 	 * @return \OCP\ICache
 	 * @since 7.0.0
+	 * @deprecated 13.0.0 Use either createLocking, createDistributed or createLocal
 	 */
 	public function create($prefix = '');
 
@@ -48,4 +49,31 @@ interface ICacheFactory{
 	 * @since 7.0.0
 	 */
 	public function isAvailable();
+
+	/**
+	 * create a cache instance for storing locks
+	 *
+	 * @param string $prefix
+	 * @return \OCP\IMemcache
+	 * @since 13.0.0
+	 */
+	public function createLocking($prefix = '');
+
+	/**
+	 * create a distributed cache instance
+	 *
+	 * @param string $prefix
+	 * @return \OCP\ICache
+	 * @since 13.0.0
+	 */
+	public function createDistributed($prefix = '');
+
+	/**
+	 * create a local cache instance
+	 *
+	 * @param string $prefix
+	 * @return \OCP\ICache
+	 * @since 13.0.0
+	 */
+	public function createLocal($prefix = '');
 }
