@@ -93,6 +93,16 @@ class Backend {
 	}
 
 	/**
+	 * Creates activities when a calendar was (un)published
+	 *
+	 * @param array $calendarData
+	 * @param bool $publishStatus
+	 */
+	public function onCalendarPublication(array $calendarData, $publishStatus) {
+		$this->triggerCalendarActivity($publishStatus ? Calendar::SUBJECT_PUBLISH : Calendar::SUBJECT_UNPUBLISH, $calendarData);
+	}
+
+	/**
 	 * Creates activities for all related users when a calendar was touched
 	 *
 	 * @param string $action
