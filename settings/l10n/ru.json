@@ -291,6 +291,7 @@
     "Restrict users to only share with users in their groups" : "Разрешить пользователям делиться только с членами их групп",
     "Exclude groups from sharing" : "Исключить группы из общего доступа",
     "These groups will still be able to receive shares, but not to initiate them." : "Эти группы смогут получать общие ресурсы, но не могут их создавать.",
+    "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Включить автоматическое завершение имен пользователей в диалоге предоставления общего доступа. Если отключено, то необходимо вводить полное имя или адрес эл. почты.",
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Показывать текст об отказе на странице загрузки публичной ссылки (Показывать только когда список файлов скрыт)",
     "This text will be shown on the public link upload page when the file list is hidden." : "Этот текст будет показан при переходе по публичной ссылке на загрузку при скрытом списке файлов",
     "Tips & tricks" : "Советы и трюки",
