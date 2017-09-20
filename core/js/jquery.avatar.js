@@ -73,6 +73,7 @@
 				user = this.data('user');
 			} else {
 				this.imageplaceholder('?');
+				this.css('background-color', '#b9b9b9');
 				return;
 			}
 		}
