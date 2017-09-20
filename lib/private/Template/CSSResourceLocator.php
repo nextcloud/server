@@ -119,7 +119,7 @@ class CSSResourceLocator extends ResourceLocator {
 			if (!$webRoot) {
 				$webRoot = $this->findWebRoot($root);
 
-				if (!$webRoot) {
+				if ($webRoot === null) {
 					$webRoot = '';
 					$this->logger->error('ResourceLocator can not find a web root (root: {root}, file: {file}, webRoot: {webRoot}, throw: {throw})', [
 						'app' => 'lib',
