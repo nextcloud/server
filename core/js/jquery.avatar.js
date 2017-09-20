@@ -48,6 +48,11 @@
 
 (function ($) {
 	$.fn.avatar = function(user, size, ie8fix, hidedefault, callback, displayname) {
+		var setAvatarForUnknownUser = function(target) {
+			target.imageplaceholder('?');
+			target.css('background-color', '#b9b9b9');
+		};
+
 		if (typeof(user) !== 'undefined') {
 			user = String(user);
 		}
@@ -72,8 +77,7 @@
 			if (typeof(this.data('user')) !== 'undefined') {
 				user = this.data('user');
 			} else {
-				this.imageplaceholder('?');
-				this.css('background-color', '#b9b9b9');
+				setAvatarForUnknownUser(this);
 				return;
 			}
 		}
@@ -113,8 +117,7 @@
 							$div.imageplaceholder(user, result.data.displayname);
 						} else {
 							// User does not exist
-							$div.imageplaceholder('?');
-							$div.css('background-color', '#b9b9b9');
+							setAvatarForUnknownUser($div);
 						}
 					} else {
 						$div.hide();
