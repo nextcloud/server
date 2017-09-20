@@ -99,7 +99,7 @@ describe('jquery.avatar tests', function() {
 				})
 			);
 
-			expect($div.imageplaceholder).toHaveBeenCalledWith('foo', '?');
+			expect($div.imageplaceholder).toHaveBeenCalledWith('?');
 			expect($div.css).toHaveBeenCalledWith('background-color', '#b9b9b9');
 		});
 

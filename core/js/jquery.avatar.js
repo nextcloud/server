@@ -113,7 +113,7 @@
 							$div.imageplaceholder(user, result.data.displayname);
 						} else {
 							// User does not exist
-							$div.imageplaceholder(user, '?');
+							$div.imageplaceholder('?');
 							$div.css('background-color', '#b9b9b9');
 						}
 					} else {
