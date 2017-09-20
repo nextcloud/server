@@ -1,16 +1,26 @@
+form fieldset {
+	display: flex !important;
+	flex-direction: column;
+}
+
 #password {
-	padding: 10px;
-	margin:	6px;
+	margin-right: 0 !important;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+	height: 45px;
+	flex: 1 1 auto;
+	width: 100% !important;
+	min-width: 0; /* FF hack for to override default value */
 }
 
 input[type='submit'] {
 	width: 45px;
 	height: 45px;
-	margin:	6px;
+	margin-left: 0 !important;
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
 }
 
 fieldset > p {
-	position: relative;
-	display: flex;
-	align-items: center;
+	display: inline-flex;
 }
