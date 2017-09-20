@@ -288,7 +288,14 @@ class Installer {
 					$archive = new TAR($tempFile);
 
 					if($archive) {
-						$archive->extract($extractDir);
+						if (!$archive->extract($extractDir)) {
+							throw new \Exception(
+								sprintf(
+									'Could not extract app %s',
+									$appId
+								)
+							);
+						}
 						$allFiles = scandir($extractDir);
 						$folders = array_diff($allFiles, ['.', '..']);
 						$folders = array_values($folders);
