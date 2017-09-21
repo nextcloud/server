@@ -295,7 +295,7 @@ OC.Share = _.extend(OC.Share || {}, {
 			recipients = $tr.attr('data-share-recipients');
 			action.addClass('shared-style');
 
-			message = t('core', 'Shared');
+			avatars = '<span>' + t('core', 'Shared') + '</span>';
 			// even if reshared, only show "Shared by"
 			if (owner) {
 				message = t('core', 'Shared by ');
@@ -312,8 +312,7 @@ OC.Share = _.extend(OC.Share || {}, {
 
 				action.find('.remoteAddress').tooltip({placement: 'top'});
 			}
-		}
-		else {
+		} else {
 			action.html('<span class="hidden-visually">' + t('core', 'Shared') + '</span>').prepend(icon);
 		}
 		if (hasLink) {
