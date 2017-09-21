@@ -100,6 +100,7 @@
     "the link expired" : "링크가 만료됨",
     "sharing is disabled" : "공유가 비활성화됨",
     "For more info, please ask the person who sent this link." : "자세한 정보는 링크를 보낸 사람에게 문의하십시오.",
+    "shared by %s" : "%s에 의해 공유됨",
     "Add to your Nextcloud" : "내 Nextcloud에 추가",
     "Download" : "다운로드",
     "Download %s" : "%s 다운로드",
