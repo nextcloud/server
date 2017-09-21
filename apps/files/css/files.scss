@@ -594,8 +594,8 @@ a.action > img {
 	max-width: 70px;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	vertical-align: bottom;
-	padding-left: 6px;
+	vertical-align: middle;
+	margin-left: 6px;
 }
 
 #fileList .favorite-mark.permanent {

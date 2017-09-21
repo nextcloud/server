@@ -203,11 +203,13 @@ OC.Share = _.extend(OC.Share || {}, {
 	 * @param {String} remoteAddress full remote share
 	 * @return {String} HTML code to display
 	 */
-	_formatRemoteShare: function(remoteAddress) {
+	_formatRemoteShare: function(remoteAddress, message) {
 		var parts = this._REMOTE_OWNER_REGEXP.exec(remoteAddress);
 		if (!parts) {
-			// display as is, most likely to be a simple owner name
-			return '<span class="avatar icon" data-userName="' + escapeHTML(remoteAddress) + '" title="' + t('core', 'Shared by') + ' ' + escapeHTML(remoteAddress) + '"></span><span class="hidden-visually">' + t('core', 'Shared by {recipient}', {recipient: escapeHTML(remoteAddress)}) + '</span>';
+			// display avatar of the user
+			var avatar = '<span class="avatar" data-userName="' + escapeHTML(remoteAddress) + '" title="' + message + escapeHTML(remoteAddress) + '"></span>';
+			var hidden = '<span class="hidden-visually">' + message + escapeHTML(remoteAddress) + '</span>';
+			return avatar + hidden;
 		}
 
 		var userName = parts[1];
@@ -243,7 +245,7 @@ OC.Share = _.extend(OC.Share || {}, {
 	_formatShareList: function(recipients) {
 		var _parent = this;
 		return $.map(recipients, function(recipient) {
-			recipient = _parent._formatRemoteShare(recipient);
+			recipient = _parent._formatRemoteShare(recipient, t('core', 'Shared with '));
 			return recipient;
 		});
 	},
@@ -259,8 +261,7 @@ OC.Share = _.extend(OC.Share || {}, {
 		var action = $tr.find('.fileactions .action[data-action="Share"]');
 		var type = $tr.data('type');
 		var icon = action.find('.icon');
-		var message;
-		var recipients;
+		var message, recipients, avatars;
 		var owner = $tr.attr('data-share-owner');
 		var shareFolderIcon;
 		var iconClass = 'icon-shared';
@@ -297,12 +298,12 @@ OC.Share = _.extend(OC.Share || {}, {
 			message = t('core', 'Shared');
 			// even if reshared, only show "Shared by"
 			if (owner) {
-				message = this._formatRemoteShare(owner);
+				message = t('core', 'Shared by ');
+				avatars = this._formatRemoteShare(owner, message);
+			} else if (recipients) {
+				avatars = this._formatShareList(recipients.split(", ")).join("");
 			}
-			else if (recipients) {
-				message = t('core', 'Shared with {recipients}', {recipients: this._formatShareList(recipients.split(", ")).join(", ")}, 0, {escape: false});
-			}
-			action.html('<span> ' + message + '</span>').prepend(icon);
+			action.html(avatars).prepend(icon);
 
 			if (owner || recipients) {
 				var avatarElement = action.find('.avatar');
