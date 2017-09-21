@@ -135,6 +135,14 @@ $this->create('files_sharing.sharecontroller.downloadShare', '/s/{token}/downloa
 		throw new \OC\HintException('App file sharing is not enabled');
 	}
 });
+$this->create('files_sharing.publicpreview.directLink', '/s/{token}/preview')->get()->action(function($urlParams) {
+	if (class_exists(\OCA\Files_Sharing\AppInfo\Application::class, false)) {
+		$app = new \OCA\Files_Sharing\AppInfo\Application($urlParams);
+		$app->dispatch('PublicPreviewController', 'directLink');
+	} else {
+		throw new \OC\HintException('App file sharing is not enabled');
+	}
+});
 
 // used for heartbeat
 $this->create('heartbeat', '/heartbeat')->action(function(){
