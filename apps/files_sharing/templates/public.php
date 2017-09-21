@@ -92,7 +92,7 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 				</div>
 				<div class="directLink">
 					<label for="directLink"><?php p($l->t('Direct link')) ?></label>
-					<input id="directLink" type="text" readonly value="<?php p($_['downloadURL']); ?>">
+					<input id="directLink" type="text" readonly value="<?php p($_['previewURL']); ?>">
 				</div>
 			<?php endif; ?>
 		</div>
