@@ -577,9 +577,11 @@ kbd {
 	/* change to 100% when layout positions are absolute */
 	bottom: 0;
 	z-index: 140;
-	&.open #app-settings-content,
-	&.opened #app-settings-content {
-		display: block;
+	&.open,
+	&.opened {
+		#app-settings-content {
+			display: block;
+		}
 	}
 }
 
@@ -618,7 +620,7 @@ kbd {
 	padding: 0;
 	margin: 0;
 	background-color: $color-main-background;
-	background-image: url('../img/actions/settings.svg?v=1');
+	background-image: url('../img/actions/settings-dark.svg?v=1');
 	background-position: 14px center;
 	background-repeat: no-repeat;
 	box-shadow: none;
@@ -627,14 +629,16 @@ kbd {
 	text-align: left;
 	padding-left: 42px;
 	font-weight: 400;
-	&:hover,
-	&:focus {
+
+	/* like app-navigation a */
+	color: $color-main-text;
+	opacity: .57;
+
+	&.opened,
+	&:hover {
 		background-color: $color-main-background;
-	}
-	&.opened {
-		&:hover, &:focus {
-			background-color: $color-main-background;
-		}
+		opacity: 1;
+		box-shadow: inset 2px 0 $color-primary;
 	}
 }
 
