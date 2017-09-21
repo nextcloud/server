@@ -74,7 +74,7 @@ trait S3ObjectTrait {
 
 	}
 
-	private function singlePartUpload($urn, $stream) {
+	protected function singlePartUpload($urn, $stream) {
 		$this->getConnection()->putObject([
 			'Bucket' => $this->bucket,
 			'Key' => $urn,
@@ -82,7 +82,7 @@ trait S3ObjectTrait {
 		]);
 	}
 
-	private function multiPartUpload($urn, $stream) {
+	protected function multiPartUpload($urn, $stream) {
 		$uploader = new MultipartUploader($this->getConnection(), $stream, [
 			'bucket' => $this->bucket,
 			'key' => $urn,

@@ -23,19 +23,32 @@ namespace Test\Files\ObjectStore;
 
 use OC\Files\ObjectStore\S3;
 
+class MultiPartUploadS3 extends S3 {
+	public function multiPartUpload($urn, $stream) {
+		parent::multiPartUpload($urn, $stream);
+	}
+}
+
 /**
  * @group PRIMARY-s3
  */
 class S3Test extends ObjectStoreTest {
-	/**
-	 * @return \OCP\Files\ObjectStore\IObjectStore
-	 */
 	protected function getInstance() {
 		$config = \OC::$server->getConfig()->getSystemValue('objectstore');
 		if (!is_array($config) || $config['class'] !== 'OC\\Files\\ObjectStore\\S3') {
 			$this->markTestSkipped('objectstore not configured for s3');
 		}
 
-		return new S3($config['arguments']);
+		return new MultiPartUploadS3($config['arguments']);
+	}
+
+	public function testMultiPartUploader() {
+		$s3 = $this->getInstance();
+
+		$s3->multiPartUpload('multiparttest', fopen(__FILE__, 'r'));
+
+		$result = $s3->readObject('multiparttest');
+
+		$this->assertEquals(file_get_contents(__FILE__), stream_get_contents($result));
 	}
 }
