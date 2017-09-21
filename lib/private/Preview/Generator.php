@@ -110,6 +110,12 @@ class Generator {
 		$maxPreview = $this->getMaxPreview($previewFolder, $file, $mimeType);
 		list($maxWidth, $maxHeight) = $this->getPreviewSize($maxPreview);
 
+		// If both width and heigth are -1 we just want the max preview
+		if ($width === -1 && $height === -1) {
+			$width = $maxWidth;
+			$height = $maxHeight;
+		}
+
 		// Calculate the preview size
 		list($width, $height) = $this->calculateSize($width, $height, $crop, $mode, $maxWidth, $maxHeight);
 
