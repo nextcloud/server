@@ -16,7 +16,7 @@ class APITest extends \Test\TestCase {
 	 * @param string $message
 	 */
 	function buildResponse($shipped, $data, $code, $message=null) {
-		$resp = new \OC_OCS_Result($data, $code, $message);
+		$resp = new \OC\OCS\Result($data, $code, $message);
 		$resp->addHeader('KEY', 'VALUE');
 		return [
 			'shipped' => $shipped,
@@ -28,13 +28,13 @@ class APITest extends \Test\TestCase {
 	// Validate details of the result
 
 	/**
-	 * @param \OC_OCS_Result $result
+	 * @param \OC\OCS\Result $result
 	 */
 	function checkResult($result, $success) {
 		// Check response is of correct type
-		$this->assertInstanceOf('OC_OCS_Result', $result);
+		$this->assertInstanceOf(\OC\OCS\Result::class, $result);
 		// Check if it succeeded
-		/** @var $result \OC_OCS_Result */
+		/** @var $result \OC\OCS\Result */
 		$this->assertEquals($success, $result->succeeded());
 	}
 

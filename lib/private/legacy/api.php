@@ -129,7 +129,7 @@ class OC_API {
 			if(!self::isAuthorised($action)) {
 				$responses[] = array(
 					'app' => $action['app'],
-					'response' => new OC_OCS_Result(null, API::RESPOND_UNAUTHORISED, 'Unauthorised'),
+					'response' => new \OC\OCS\Result(null, API::RESPOND_UNAUTHORISED, 'Unauthorised'),
 					'shipped' => $appManager->isShipped($action['app']),
 					);
 				continue;
@@ -137,7 +137,7 @@ class OC_API {
 			if(!is_callable($action['action'])) {
 				$responses[] = array(
 					'app' => $action['app'],
-					'response' => new OC_OCS_Result(null, API::RESPOND_NOT_FOUND, 'Api method not found'),
+					'response' => new \OC\OCS\Result(null, API::RESPOND_NOT_FOUND, 'Api method not found'),
 					'shipped' => $appManager->isShipped($action['app']),
 					);
 				continue;
@@ -161,7 +161,7 @@ class OC_API {
 	/**
 	 * merge the returned result objects into one response
 	 * @param array $responses
-	 * @return OC_OCS_Result
+	 * @return \OC\OCS\Result
 	 */
 	public static function mergeResponses($responses) {
 		// Sort into shipped and third-party
@@ -205,7 +205,7 @@ class OC_API {
 			$code = $picked['response']->getStatusCode();
 			$meta = $picked['response']->getMeta();
 			$headers = $picked['response']->getHeaders();
-			$response = new OC_OCS_Result($data, $code, $meta['message'], $headers);
+			$response = new \OC\OCS\Result($data, $code, $meta['message'], $headers);
 			return $response;
 		} elseif(!empty($shipped['succeeded'])) {
 			$responses = array_merge($shipped['succeeded'], $thirdparty['succeeded']);
@@ -219,7 +219,7 @@ class OC_API {
 			$code = $picked['response']->getStatusCode();
 			$meta = $picked['response']->getMeta();
 			$headers = $picked['response']->getHeaders();
-			$response = new OC_OCS_Result($data, $code, $meta['message'], $headers);
+			$response = new \OC\OCS\Result($data, $code, $meta['message'], $headers);
 			return $response;
 		} else {
 			$responses = $thirdparty['succeeded'];
@@ -251,7 +251,7 @@ class OC_API {
 			}
 		}
 
-		return new OC_OCS_Result($data, $statusCode, $statusMessage, $header);
+		return new \OC\OCS\Result($data, $statusCode, $statusMessage, $header);
 	}
 
 	/**
@@ -351,7 +351,7 @@ class OC_API {
 
 	/**
 	 * respond to a call
-	 * @param OC_OCS_Result $result
+	 * @param \OC\OCS\Result $result
 	 * @param string $format the format xml|json
 	 */
 	public static function respond($result, $format='xml') {

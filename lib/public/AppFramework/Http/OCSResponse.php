@@ -83,7 +83,7 @@ class OCSResponse extends Response {
 	 * @suppress PhanDeprecatedClass
 	 */
 	public function render() {
-		$r = new \OC_OCS_Result($this->data, $this->statuscode, $this->message);
+		$r = new \OC\OCS\Result($this->data, $this->statuscode, $this->message);
 		$r->setTotalItems($this->itemscount);
 		$r->setItemsPerPage($this->itemsperpage);
 
