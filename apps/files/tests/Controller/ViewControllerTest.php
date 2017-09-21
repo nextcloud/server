@@ -142,6 +142,7 @@ class ViewControllerTest extends TestCase {
 				'active' => false,
 				'icon' => '',
 				'type' => 'link',
+				'classes' => '',
 			],
 			[
 				'id' => 'recent',
@@ -152,6 +153,7 @@ class ViewControllerTest extends TestCase {
 				'active' => false,
 				'icon' => '',
 				'type' => 'link',
+				'classes' => '',
 			],
 			[
 				'id' => 'favorites',
@@ -162,6 +164,7 @@ class ViewControllerTest extends TestCase {
 				'active' => false,
 				'icon' => '',
 				'type' => 'link',
+				'classes' => '',
 			],
 			[
 			'id' => 'sharingin',
@@ -172,6 +175,7 @@ class ViewControllerTest extends TestCase {
 				'active' => false,
 				'icon' => '',
 				'type' => 'link',
+				'classes' => '',
 			],
 			[
 			'id' => 'sharingout',
@@ -182,6 +186,7 @@ class ViewControllerTest extends TestCase {
 				'active' => false,
 				'icon' => '',
 				'type' => 'link',
+				'classes' => '',
 			],
 			[
 				'id' => 'sharinglinks',
@@ -192,6 +197,7 @@ class ViewControllerTest extends TestCase {
 				'active' => false,
 				'icon' => '',
 				'type' => 'link',
+				'classes' => '',
 			],
 			[
 				'id' => 'systemtagsfilter',
@@ -202,6 +208,7 @@ class ViewControllerTest extends TestCase {
 				'active' => false,
 				'icon' => '',
 				'type' => 'link',
+				'classes' => '',
 			],
 			[
 				'id' => 'trashbin',
@@ -212,6 +219,7 @@ class ViewControllerTest extends TestCase {
 				'active' => false,
 				'icon' => '',
 				'type' => 'link',
+				'classes' => 'pinned',
 			],
 		]);
 

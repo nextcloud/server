@@ -1,5 +1,5 @@
 /**
- * @copyright Copyright (c) 2016, John Molakvoæ <skjnldsv@protonmail.com>
+ * @copyright Copyright (c) 2016-2017, John Molakvoæ <skjnldsv@protonmail.com>
  * @copyright Copyright (c) 2016, Julius Haertl <jus@bitgrid.net>
  * @copyright Copyright (c) 2016, Morris Jobke <hey@morrisjobke.de>
  * @copyright Copyright (c) 2016, pgys <info@pexlab.space>
@@ -93,13 +93,44 @@ kbd {
 	border-right: 1px solid nc-darken($color-main-background, 8%);
 	display: flex;
 	flex-direction: column;
+	li {
+		position: relative;
+	}
 	> ul {
 		position: relative;
 		height: 100%;
 		width: inherit;
-		overflow: auto;
+		overflow-x: hidden;
+		overflow-y: auto;
 		box-sizing: border-box;
+		display: flex;
+		flex-direction: column;
 		> li {
+			display: inline-flex;
+			flex-wrap: wrap;
+			order: 1;
+			flex-shrink: 0;
+
+			/* Pinned-to-bottom entries */
+			&.pinned {
+				order: 2;
+				&.first-pinned {
+					margin-top: auto !important;
+				}
+			}
+
+			> a,
+			> .app-navigation-entry-deleted {
+				/* Ugly hack for overriding the main entry link */
+				padding-left: 44px !important;
+			}
+			> .app-navigation-entry-edit {
+				/* Ugly hack for overriding the main entry link */
+				/* align the input correctly with the link text
+				   44px-6px padding for the input */
+				padding-left: 38px !important;
+			}
+
 			&:focus,
 			&:hover,
 			&.active,
@@ -110,12 +141,147 @@ kbd {
 					box-shadow: inset 2px 0 $color-primary;
 				}
 			}
+
+			/* align loader */
+			&.icon-loading-small:after {
+				left: 22px;
+				top: 22px;
+			}
+
+			/* hide and animate deletion/collapse of subitems */
+			&.deleted,
+			&.collapsible:not(.open) {
+				> ul {
+					opacity: 0;
+					max-height: 0;
+					/* bezier override the hide/slow effect due to the 2000 max-height */
+					transition: max-height 1000ms cubic-bezier(0, 1, 0, 1),
+								opacity 250ms ease-in-out;
+				}
+			}
+
+			/* Second level nesting for lists */
+			> ul {
+				flex: 1 0 100%;
+				padding-left: 62px;
+				width: inherit;
+				transition: max-height 2000ms ease-in-out,
+							opacity 250ms ease-in-out;
+				max-height: 9999px;
+				opacity: 1;
+				> li {
+					display: inline-flex;
+					flex-wrap: wrap;
+					&:focus,
+					&:hover,
+					&.active,
+					a.selected {
+						&,
+						> a {
+							opacity: 1;
+						}
+					}
+
+					/* align loader */
+					&.icon-loading-small:after {
+						left: -10px;
+					}
+
+					/* Submenu fix for icon */
+					> a[class*='icon-'],
+					> a[style*='background-image'],
+					.app-navigation-entry-bullet {
+						margin-left: -32px; /* 44px padding - 12px padding */
+					}
+
+					/* Submenu fix for bullet */
+					> .app-navigation-entry-bullet {
+						left: -32px;/* 44px padding - 12px padding */
+					}
+				}
+			}
 		}
-	}
-	li {
-		position: relative;
-		width: 100%;
-		box-sizing: border-box;
+		/* Menu and submenu */
+		> li,
+		> li > ul > li {
+			position: relative;
+			width: 100%;
+			box-sizing: border-box;
+			/* hide icons if loading */
+			&.icon-loading-small {
+				> a,
+				> .app-navigation-entry-bullet {
+					background: none !important;
+				}
+			}
+			/* Main entry link */
+			> a {
+				background-size: 16px 16px;
+				background-position: 14px center;
+				background-repeat: no-repeat;
+				display: block;
+				justify-content: space-between;
+				line-height: 44px;
+				min-height: 44px;
+				padding: 0 12px;
+				overflow: hidden;
+				box-sizing: border-box;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				color: $color-main-text;
+				opacity: .57;
+				flex: 1 1 0;
+				z-index: 100; /* above the bullet */
+				/* TODO: forbid using img as icon in menu? */
+				&:first-child img {
+				    margin-bottom: -3px;
+				    margin-right: 11px;
+				    width: 16px;
+				    margin-left: 2px;
+				}
+
+				/* counter can also be inside the link */
+				> .app-navigation-entry-utils  {
+					display: inline-block;
+					float: right;
+					.app-navigation-entry-utils-counter {
+						padding-right: 0 !important;
+					}
+				}
+			}
+			/* Bullet icon */
+			> .app-navigation-entry-bullet {
+				position: absolute;
+				display: block;
+				margin: 16px;
+				width: 12px;
+				height: 12px;
+				border: none;
+				border-radius: 50%;
+				cursor: pointer;
+			}
+
+			/* padding in case of icon or bullet */
+			> a[class*='icon-'],
+			> a[style*='background-image'] {
+				padding-left: 44px;
+			}
+
+			/* popover fix the flex positionning of the li parent */
+			> .app-navigation-entry-menu {
+				top: 44px;
+			}
+
+			/* show edit/undo field if editing/deleted */
+			&.editing .app-navigation-entry-edit {
+				opacity: 1;
+				z-index: 250;
+			}
+			&.deleted .app-navigation-entry-deleted {
+				transform: translateX(0);
+				z-index: 250;
+			}
+		}
 	}
 	&.hidden {
 		display: none;
@@ -123,45 +289,34 @@ kbd {
 	&.without-app-settings {
 		padding-bottom: 0;
 	}
-	.active.with-menu > a,
-	.with-counter > a {
-		padding-right: 50px;
-	}
-	.active.with-menu.with-counter > a {
-		padding-right: 90px;
-	}
-	.with-icon a,
-	.app-navigation-entry-loading a {
-		padding-left: 44px;
-		background-size: 16px 16px;
-		background-position: 14px center;
+
+	/**
+	 * Button styling for menu, edit and undo
+	 */
+	.app-navigation-entry-utils .app-navigation-entry-utils-menu-button > button,
+	.app-navigation-entry-deleted .app-navigation-entry-deleted-button {
+		border: 0;
+		opacity: 0.5;
+		background-color: transparent;
 		background-repeat: no-repeat;
+		background-position: center;
+		&:hover,
+		&:focus {
+			background-color: transparent;
+			opacity: 1;
+		}
 	}
-	li > a {
-		display: block;
-		width: 100%;
-		line-height: 44px;
-		min-height: 44px;
-		padding: 0 12px;
-		overflow: hidden;
-		box-sizing: border-box;
-		white-space: nowrap;
-		text-overflow: ellipsis;
-		color: $color-main-text;
-		opacity: .57;
-	}
-	li > a:first-child img {
-	    margin-bottom: -3px;
-	    margin-right: 11px;
-	    width: 16px;
-	    margin-left: 2px;
-	}
-	.collapse {
-		display: none;
-		/* hide collapse button initially */
-	}
+
+	/**
+	 * Collapsible menus
+	 */
 	.collapsible {
-		> .collapse {
+		/* Fallback for old collapse button.
+		   TODO: to be removed. Leaved here for retro compatibility */
+		.collapse {
+			display: none;
+		}
+		&:after {
 			position: absolute;
 			height: 44px;
 			width: 44px;
@@ -176,124 +331,47 @@ kbd {
 			border-radius: 0;
 			outline: none !important;
 			box-shadow: none;
-		}
-		&:hover > a,
-		&:focus > a {
-			background-image: none;
-		}
-		&:hover,
-		&:focus {
-			> .collapse {
-				display: block;
-			}
-		}
-		.collapse {
+			content: ' ';
+			opacity: 0;
 			-webkit-transform: rotate(-90deg);
 			-ms-transform: rotate(-90deg);
 			transform: rotate(-90deg);
 		}
+
+		/* force padding on link no matter if 'a' has an icon class */
+		> a:first-child {
+			padding-left: 44px;
+		}
+		&:after,
+		> a {
+			transition: background 100ms ease-in-out,
+						transform 250ms ease-in-out,
+						opacity 100ms ease-in-out;
+		}
+		&:hover > a,
+		&:focus > a {
+			background-position-x: -50px;
+		}
+		&:hover,
+		&:focus {
+			&:after {
+				opacity: 1;
+			}
+		}
 		&.open {
-			.collapse {
+			&:after {
 				-webkit-transform: rotate(0);
 				-ms-transform: rotate(0);
 				transform: rotate(0);
 			}
-			background-image: linear-gradient(top, nc-darken($color-main-background, 8%) 0%, nc-darken($color-main-background, 3%) 100%);
-			background-image: -webkit-linear-gradient(top, nc-darken($color-main-background, 8%) 0%, nc-darken($color-main-background, 3%) 100%);
-			background-image: -ms-linear-gradient(top, nc-darken($color-main-background, 8%) 0%, nc-darken($color-main-background, 3%) 100%);
 		}
-	}
-	> {
-		/* Second level nesting for lists */
-		ul ul {
-			display: none;
-			li > a {
-				padding-left: 32px;
-			}
-		}
-		.with-icon ul li {
-			> a,
-			&.app-navigation-entry-loading > a {
-				padding-left: 68px;
-				background-position: 44px center;
-			}
-		}
-	}
-	> ul .collapsible.open {
-		&:hover,
-		&:focus {
-			box-shadow: inset 0 0 3px $color-box-shadow;
-		}
-		ul {
-			display: block;
-		}
-	}
-	/* Deleted entries with undo button */
-	.app-navigation-entry-deleted {
-		display: inline-block;
-		height: 44px;
-		width: 100%;
-	}
-	.app-navigation-entry-deleted-description {
-		padding-left: 12px;
-		position: relative;
-		white-space: nowrap;
-		text-overflow: ellipsis;
-		overflow: hidden;
-		display: inline-block;
-		width: calc(100% - 49px);
-		line-height: 44px;
-		float: left;
-	}
-	.app-navigation-entry-deleted-button {
-		margin: 0;
-		height: 44px;
-		width: 44px;
-		line-height: 44px;
-		border: 0;
-		display: inline-block;
-		background-color: transparent;
-		opacity: .5;
-		&:hover, &:focus {
-			opacity: 1;
-		}
-	}
-	/* counter and actions, legacy code */
-	.utils {
-		position: absolute;
-		padding: 7px 7px 0 0;
-		right: 0;
-		top: 0;
-		bottom: 0;
-		font-size: 12px;
-		button,
-		.counter {
-			width: 44px;
-			height: 44px;
-			padding-top: 12px;
-		}
-	}
-	/* drag and drop */
-	.drag-and-drop {
-		-webkit-transition: padding-bottom 500ms ease 0s;
-		transition: padding-bottom 500ms ease 0s;
-		padding-bottom: 40px;
-	}
-	.error {
-		color: $color-error;
-	}
-	.app-navigation-separator {
-		border-bottom: 1px solid nc-lighten($color-main-text, 86%);
 	}
 
 	/**
 	 * App navigation utils, buttons and counters for drop down menu
 	 */
 	.app-navigation-entry-utils {
-		position: absolute;
-		top: 0;
-		right: 0;
-		z-index: 105;
+		flex: 0 1 auto;
 		ul {
 			display: flex !important;
 			align-items: center;
@@ -303,73 +381,141 @@ kbd {
 			width: 44px !important;
 			height: 44px;
 		}
-	}
-	.active > .app-navigation-entry-utils li {
-		display: inline-block;
-	}
-	.app-navigation-entry-utils button {
-		height: 100%;
-		width: 100%;
-		margin: 0;
-		box-shadow: none;
-	}
-	.app-navigation-entry-utils-menu-button {
 		button {
-			border: 0;
-			opacity: .5;
-			background-color: transparent;
-			background-repeat: no-repeat;
-			background-position: center;
-			background-image: url('../img/actions/more.svg?v=1');
+			height: 100%;
+			width: 100%;
+			margin: 0;
+			box-shadow: none;
 		}
-		&:hover button,
-		&:focus button {
-			background-color: transparent;
-			opacity: 1;
+		.app-navigation-entry-utils-menu-button {
+			/* Prevent bg img override if an icon class is set */
+			button:not([class^='icon-']):not([class*=' icon-']) {
+				background-image: url('../img/actions/more.svg?v=1');
+			}
+			&:hover button,
+			&:focus button {
+				background-color: transparent;
+				opacity: 1;
+			}
 		}
-	}
-	.app-navigation-entry-utils-counter {
-		overflow: hidden;
-		text-overflow: hidden;
-		text-align: right;
-		font-size: 9pt;
-		width: 38px;
-		line-height: 44px;
-		padding: 0 10px;
-	}
-	.app-navigation-entry-utils ul, .app-navigation-entry-menu ul {
-		list-style-type: none;
+		.app-navigation-entry-utils-counter {
+			overflow: hidden;
+			text-align: right;
+			font-size: 9pt;
+			line-height: 44px;
+			padding: 0 12px; /* Same padding as all li > a in the app-navigation */
+		}
 	}
 
-	/* editing an entry */
+	/**
+	 * Editable entries
+	 */
 	.app-navigation-entry-edit {
 		padding-left: 5px;
 		padding-right: 5px;
-		display: inline-block;
-		height: 39px;
-		width: 100%;
+		display: block;
+		width: calc(100% - 1px); /* Avoid border overlapping */
+		transition: opacity 250ms ease-in-out;
+		opacity: 0;
+		position: absolute;
+		background-color: $color-main-background;
+		z-index: -1;
+		form {
+			display: inline-flex;
+			width: 100%;
+		}
 		input {
-			border-bottom-right-radius: 0;
-			border-top-right-radius: 0;
-			width: calc(100% - 36px);
 			padding: 5px;
 			margin-right: 0;
 			height: 38px;
-			float: left;
-			border: 1px solid rgba(nc-lighten($color-main-text, 73%), 0.9);
+			border: 1px solid nc-darken($color-main-background, 8%);
+			&:hover {
+				/* overlapp borders */
+				z-index: 1;
+			}
+		}
+		input[type='text'] {
+			width: 100%;
+			min-width: 0; /* firefox hack: override auto */
+			border-bottom-right-radius: 0;
+			border-top-right-radius: 0;
 		}
 		button,
-		input[type='submit'] {
+		input:not([type='text']) {
 			width: 36px;
 			height: 38px;
-			float: left;
+			flex: 0 0 36px;
+			&:not(:last-child) {
+				border-radius: 0;
+			}
+			&:not(:first-child) {
+				margin-left: -1px;
+			}
+			&:last-child {
+				border-bottom-left-radius: 0;
+				border-top-left-radius: 0;
+			}
 		}
-		.icon-checkmark {
-			border-bottom-left-radius: 0;
-			border-top-left-radius: 0;
-			border-left: 0;
-			margin-right: 0;
+	}
+
+	/**
+	 * Deleted entries with undo button
+	 */
+	.app-navigation-entry-deleted {
+		display: inline-flex;
+		padding-left: 12px;
+		transform: translateX(250px);
+		.app-navigation-entry-deleted-description {
+			position: relative;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			overflow: hidden;
+			flex: 1 1 0;
+			line-height: 44px;
 		}
+		.app-navigation-entry-deleted-button {
+			margin: 0;
+			height: 44px;
+			width: 44px;
+			line-height: 44px;
+			&:hover, &:focus {
+				opacity: 1;
+			}
+		}
+	}
+
+	/**
+	 * Common rules for animation of undo and edit entries
+	 */
+	.app-navigation-entry-edit,
+	.app-navigation-entry-deleted  {
+		width: calc(100% - 1px); /* Avoid border overlapping */
+		transition: transform 250ms ease-in-out,
+					opacity 250ms ease-in-out,
+					z-index 250ms ease-in-out;
+		position: absolute;
+		background-color: $color-main-background;
+	}
+
+	/**
+	 * drag and drop
+	 */
+	.drag-and-drop {
+		-webkit-transition: padding-bottom 500ms ease 0s;
+		transition: padding-bottom 500ms ease 0s;
+		padding-bottom: 40px;
+	}
+
+	.error {
+		color: $color-error;
+	}
+	.app-navigation-separator {
+		border-bottom: 1px solid nc-lighten($color-main-text, 86%);
+	}
+
+	.app-navigation-entry-utils ul,
+	.app-navigation-entry-menu ul {
+		list-style-type: none;
 	}
 }
 

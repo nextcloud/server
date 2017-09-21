@@ -91,6 +91,9 @@ class NavigationManager implements INavigationManager {
 		if(!isset($entry['icon'])) {
 			$entry['icon'] = '';
 		}
+		if(!isset($entry['classes'])) {
+			$entry['classes'] = '';
+		}
 		if(!isset($entry['type'])) {
 			$entry['type'] = 'link';
 		}
