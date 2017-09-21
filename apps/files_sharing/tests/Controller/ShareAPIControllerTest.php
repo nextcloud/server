@@ -220,7 +220,7 @@ class ShareAPIControllerTest extends TestCase {
 			->with('ocinternal:42')
 			->will($this->throwException(new \OC\Share20\Exception\ShareNotFound()));
 
-		$expected = new \OC_OCS_Result(null, 404, 'wrong share ID, share doesn\'t exist.');
+		$expected = new \OC\OCS\Result(null, 404, 'wrong share ID, share doesn\'t exist.');
 		$this->assertEquals($expected, $this->ocs->getShare(42));
 	}
 	*/

@@ -72,7 +72,7 @@ class Api {
 	 * Returns the mount points visible for this user.
 	 *
 	 * @param array $params
-	 * @return \OC_OCS_Result share information
+	 * @return \OC\OCS\Result share information
 	 */
 	public static function getUserMounts($params) {
 		$entries = array();
@@ -83,6 +83,6 @@ class Api {
 			$entries[] = self::formatMount($mountPoint, $mount);
 		}
 
-		return new \OC_OCS_Result($entries);
+		return new \OC\OCS\Result($entries);
 	}
 }

@@ -36,7 +36,7 @@ if (\OCP\Util::needUpgrade()
 	// since the behavior of apps or remotes are unpredictable during
 	// an upgrade, return a 503 directly
 	OC_Response::setStatus(OC_Response::STATUS_SERVICE_UNAVAILABLE);
-	$response = new OC_OCS_Result(null, OC_Response::STATUS_SERVICE_UNAVAILABLE, 'Service unavailable');
+	$response = new \OC\OCS\Result(null, OC_Response::STATUS_SERVICE_UNAVAILABLE, 'Service unavailable');
 	OC_API::respond($response, OC_API::requestedFormat());
 	exit;
 }
@@ -81,14 +81,14 @@ try {
 	$format = \OC::$server->getRequest()->getParam('format', 'xml');
 	$txt='Invalid query, please check the syntax. API specifications are here:'
 		.' http://www.freedesktop.org/wiki/Specifications/open-collaboration-services. DEBUG OUTPUT:'."\n";
-	OC_API::respond(new OC_OCS_Result(null, \OCP\API::RESPOND_NOT_FOUND, $txt), $format);
+	OC_API::respond(new \OC\OCS\Result(null, \OCP\API::RESPOND_NOT_FOUND, $txt), $format);
 } catch (MethodNotAllowedException $e) {
 	OC_API::setContentType();
 	OC_Response::setStatus(405);
 } catch (\OC\OCS\Exception $ex) {
 	OC_API::respond($ex->getResult(), OC_API::requestedFormat());
 } catch (\OC\User\LoginException $e) {
-	OC_API::respond(new OC_OCS_Result(null, \OCP\API::RESPOND_UNAUTHORISED, 'Unauthorised'));
+	OC_API::respond(new \OC\OCS\Result(null, \OCP\API::RESPOND_UNAUTHORISED, 'Unauthorised'));
 } catch (\Exception $e) {
 	\OC::$server->getLogger()->logException($e);
 	OC_API::setContentType();
@@ -96,6 +96,6 @@ try {
 	$format = \OC::$server->getRequest()->getParam('format', 'xml');
 	$txt='Invalid query, please check the syntax. API specifications are here:'
 		.' http://www.freedesktop.org/wiki/Specifications/open-collaboration-services. DEBUG OUTPUT:'."\n";
-	OC_API::respond(new OC_OCS_Result(null, \OCP\API::RESPOND_NOT_FOUND, $txt), $format);
+	OC_API::respond(new \OC\OCS\Result(null, \OCP\API::RESPOND_NOT_FOUND, $txt), $format);
 }
 
