@@ -38,6 +38,7 @@
     "Checking whether the database schema can be updated (this can take a long time depending on the database size)" : "데이터베이스 스키마 업데이트 가능 여부 확인 중(데이터베이스 크기에 따라서 오래 걸릴 수도 있습니다)",
     "Checked database schema update" : "데이터베이스 스키마 업데이트 확인됨",
     "Checking updates of apps" : "앱 업데이트 확인 중",
+    "Checking for update of app \"%s\" in appstore" : "앱스토어에서 %s 앱의 업데이트를 확인하는 중",
     "Checking whether the database schema for %s can be updated (this can take a long time depending on the database size)" : "%s의 데이터베이스 스키마 업데이트 가능 여부 확인 중(데이터베이스 크기에 따라서 오래 걸릴 수도 있습니다)",
     "Checked database schema update for apps" : "앱용 데이터베이스 스키마 업데이트 확인됨",
     "Updated \"%s\" to %s" : "\"%s\"을(를) %s(으)로 업데이트함",
