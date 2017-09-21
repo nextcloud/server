@@ -296,11 +296,19 @@ table td.filename a.name {
 	line-height: 50px;
 	padding: 0;
 }
+table td.filename label.icon-loading-small {
+	&:after {
+		z-index: 10;
+	}
+	.thumbnail {
+		opacity: 0.2;
+	}
+}
 table td.filename .thumbnail {
 	display: inline-block;
 	width: 32px;
 	height: 32px;
-	margin-left: 8px;
+	margin-left: 9px;
 	margin-top: 9px;
 	cursor: pointer;
 	float: left;
