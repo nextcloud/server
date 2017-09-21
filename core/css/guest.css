@@ -43,7 +43,6 @@ p.info a:hover {
 }
 em {
 	font-style: normal;
-	-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=50)';
 	opacity: .5;
 }
 
@@ -309,7 +308,6 @@ label.infield {
 	padding: 14px !important;
 }
 #show:checked + label, #dbpassword-toggle:checked + label, #personal-show:checked + label {
-	-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=80)';
 	opacity: .8;
 }
 #show + label, #dbpassword-toggle + label, #personal-show + label {
@@ -319,7 +317,6 @@ label.infield {
 	background-image: url('../img/actions/toggle.svg?v=1');
 	background-repeat: no-repeat;
 	background-position: center;
-	-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=30)';
 	opacity: .3;
 }
 #show + label:before, #dbpassword-toggle + label:before, #personal-show + label:before {
@@ -520,7 +517,6 @@ form #selectDbType label.ui-state-active {
 .error a {
 	color: #fff !important;
 	font-weight: 600 !important;
-	-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=100)';
 	opacity: 1;
 }
 .error a.button {

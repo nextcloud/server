@@ -51,11 +51,9 @@ table td.filename .nametext {
 	display: none !important;
 }
 #fileList a.action.action-favorite {
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)" !important;
 	opacity: .7 !important;
 }
 #fileList a.action.action-favorite {
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)" !important;
 	opacity: .3 !important;
 }
 

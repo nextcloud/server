@@ -86,14 +86,11 @@
 	height: 45px;
 	/* header height */
 	box-sizing: border-box;
-	-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=100)';
 	opacity: 1;
 	&:focus {
-		-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=75)';
 		opacity: .75;
 	}
 	&:hover, &:active {
-		-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=100)';
 		opacity: 1;
 	}
 }
@@ -156,30 +153,25 @@
 /* hover effect for app switcher label */
 
 .header-appname-container .header-appname {
-	-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=75)';
 	opacity: .75;
 }
 
 .menutoggle {
 	.icon-caret {
-		-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=75)';
 		opacity: .75;
 	}
 	&:hover {
 		.header-appname, .icon-caret {
-			-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=100)';
 			opacity: 1;
 		}
 	}
 	&:focus {
 		.header-appname, .icon-caret {
-			-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=100)';
 			opacity: 1;
 		}
 	}
 	&.active {
 		.header-appname, .icon-caret {
-			-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=100)';
 			opacity: 1;
 		}
 	}
@@ -276,7 +268,6 @@ nav {
 		}
 		svg,
 		span {
-			-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=70)';
 			opacity: .7;
 		}
 		svg {
@@ -286,12 +277,10 @@ nav {
 		&:focus svg,
 		&:hover span,
 		&:focus span {
-			-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=100)';
 			opacity: 1;
 		}
 		&.active {
 			svg, span {
-				-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=100)';
 				opacity: 1;
 			}
 		}
@@ -315,7 +304,6 @@ nav {
 		height: 16px;
 	}
 	.app-icon {
-		-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=0)';
 		opacity: 0;
 	}
 }
@@ -356,7 +344,6 @@ nav {
 		cursor: pointer;
 	}
 	img {
-		-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=70)';
 		opacity: .7;
 		margin-bottom: -2px;
 	}
@@ -366,7 +353,6 @@ nav {
 		color: $color-primary-text;
 		img,
 		#expandDisplayName {
-			-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=100)';
 			opacity: 1;
 		}
 	}
@@ -428,7 +414,6 @@ nav {
 		color: $color-main-text;
 		padding: 10px 12px 0;
 		box-sizing: border-box;
-		-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=70)';
 		opacity: .7;
 		img {
 			margin-bottom: -3px;
@@ -438,7 +423,6 @@ nav {
 		&:focus,
 		&:active,
 		&.active {
-			-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=100)';
 			opacity: 1;
 		}
 	}
