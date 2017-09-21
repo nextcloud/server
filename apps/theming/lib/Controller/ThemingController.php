@@ -208,16 +208,16 @@ class ThemingController extends Controller {
 		$newLogo = $this->request->getUploadedFile('uploadlogo');
 		$newBackgroundLogo = $this->request->getUploadedFile('upload-login-background');
 		$error = null;
-		$phpFileUploadErrors = array(
-			0 => $this->l10n->t('There is no error, the file uploaded with success'),
-			1 => $this->l10n->t('The uploaded file exceeds the upload_max_filesize directive in php.ini'),
-			2 => $this->l10n->t('The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form'),
-			3 => $this->l10n->t('The uploaded file was only partially uploaded'),
-			4 => $this->l10n->t('No file was uploaded'),
-			6 => $this->l10n->t('Missing a temporary folder'),
-			7 => $this->l10n->t('Failed to write file to disk.'),
-			8 => $this->l10n->t('A PHP extension stopped the file upload.'),
-		);
+		$phpFileUploadErrors = [
+			UPLOAD_ERR_OK => $this->l10n->t('There is no error, the file uploaded with success'),
+			UPLOAD_ERR_INI_SIZE => $this->l10n->t('The uploaded file exceeds the upload_max_filesize directive in php.ini'),
+			UPLOAD_ERR_FORM_SIZE => $this->l10n->t('The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form'),
+			UPLOAD_ERR_PARTIAL => $this->l10n->t('The uploaded file was only partially uploaded'),
+			UPLOAD_ERR_NO_FILE => $this->l10n->t('No file was uploaded'),
+			UPLOAD_ERR_NO_TMP_DIR => $this->l10n->t('Missing a temporary folder'),
+			UPLOAD_ERR_CANT_WRITE => $this->l10n->t('Failed to write file to disk.'),
+			UPLOAD_ERR_EXTENSION => $this->l10n->t('A PHP extension stopped the file upload.'),
+		];
 		if (empty($newLogo) && empty($newBackgroundLogo)) {
 			$error = $this->l10n->t('No file uploaded');
 		}
@@ -233,7 +233,8 @@ class ThemingController extends Controller {
 				[
 					'data' => [
 						'message' => $error
-					]
+					],
+					'status' => 'failure',
 				],
 				Http::STATUS_UNPROCESSABLE_ENTITY
 			);
