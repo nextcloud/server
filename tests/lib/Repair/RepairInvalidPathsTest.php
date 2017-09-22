@@ -48,7 +48,7 @@ class RepairInvalidPathsTest extends TestCase {
 		$config->expects($this->any())
 			->method('getSystemValue')
 			->with('version', '0.0.0')
-			->willReturn('12.0.0.0');
+			->willReturn('11.0.0.1');
 		$this->repair = new RepairInvalidPaths(\OC::$server->getDatabaseConnection(), $config);
 	}
 
