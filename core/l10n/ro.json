@@ -83,6 +83,7 @@
     "No files in here" : "Nu există fișiere aici",
     "Choose" : "Alege",
     "Copy" : "Copiază",
+    "Move" : "Mută",
     "Error loading file picker template: {error}" : "Eroare la încărcarea șablonului selectorului de fișiere: {error}",
     "OK" : "OK",
     "Error loading message template: {error}" : "Eroare la încărcarea şablonului de mesaje: {error}",
@@ -98,6 +99,8 @@
     "({count} selected)" : "({count} selectate)",
     "Error loading file exists template" : "Eroare la încărcarea fișierelor șablon",
     "Pending" : "În așteptare",
+    "Copy to {folder}" : "Copiază la {folder}",
+    "Move to {folder}" : "Mută la {folder}",
     "Very weak password" : "Parolă foarte slabă",
     "Weak password" : "Parolă slabă",
     "So-so password" : "Parolă medie",
@@ -134,7 +137,7 @@
     "Press Ctrl-C to copy." : "Apasă Ctrl+C pentru a copia.",
     "Resharing is not allowed" : "Repartajarea nu este permisă",
     "Share to {name}" : "Distribuie către {name}",
-    "Share link" : "Împărtășește link-ul",
+    "Share link" : "Partajează link-ul",
     "Link" : "Legătură",
     "Password protect" : "Protejare cu parolă",
     "Allow editing" : "Permite editarea",
@@ -343,6 +346,7 @@
     "You are accessing the server from an untrusted domain." : "Accesezi serverul dintr-un domeniu care nu a fost configurat ca fiind de încredere.",
     "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domains\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "Te rugăm să contactezi administratorul. Dacă ești administratorul acestei instanțe, configurează setarea ”trusted_domains” în config/config.php. Un exemplu de configurare se găsește în config/config.sample.php.",
     "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "În funcție de configurare, ca și administrator poți utiliza butonul de mai jos pentru a acorda încredere acestui domeniu.",
-    "Please use the command line updater because you have a big instance." : "Folosește actualizarea din linia de comandă deoarece ai o instanță mare."
+    "Please use the command line updater because you have a big instance." : "Folosește actualizarea din linia de comandă deoarece ai o instanță mare.",
+    "You are about to grant \"%s\" access to your %s account." : "Ești pe cale sa permiți \"%s\" accesul la %s contul tău."
 },"pluralForm" :"nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));"
 }
