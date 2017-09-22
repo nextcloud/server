@@ -305,6 +305,8 @@ OC.L10N.register(
     "Theming" : "Vzhledy",
     "Check the security of your Nextcloud over our security scan" : "Zkontrolujte bezpečnost vašeho Nextcloudu pomocí našeho bezpečnostního skenu",
     "Hardening and security guidance" : "Průvodce vylepšením bezpečnosti",
+    "Personal" : "Osobní",
+    "Administration" : "Administrace",
     "You are using <strong>%s</strong> of <strong>%s</strong>" : "Používáte <strong>%s</strong> z <strong>%s</strong>",
     "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Používáte <strong>%s</strong> z <strong>%s</strong> (<strong>%s %%</strong>)",
     "Profile picture" : "Profilový obrázek",

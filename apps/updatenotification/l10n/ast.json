@@ -14,6 +14,7 @@
     "The update check is not yet finished. Please refresh the page." : "Entá nun finó la comprobación d'anovamientu. Refresca la páxina, por favor.",
     "Your version is up to date." : "La to versión ta anovada",
     "Checked on %s" : "Comprobóse'l %s",
+    "A non-default update server is in use to be checked for updates:" : "Úsase un sirvidor non predetermináu pa comprobar anovamientos:",
     "Update channel:" : "Canal d'anovamientu:",
     "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Siempres pues anovar a una canal esperimental pero enxamás nun afites una canal más estable.",
     "Notify members of the following groups about available updates:" : "Avisar a los miembros de los grupos de darréu tocante a anovamientos disponibles:",
