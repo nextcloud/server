@@ -105,6 +105,7 @@ class PublicPreviewController extends Controller {
 	/**
 	 * @PublicPage
 	 * @NoCSRFRequired
+	 * @NoSameSiteCookieRequired
 	 *
 	 * @param $token
 	 * @return DataResponse|FileDisplayResponse
