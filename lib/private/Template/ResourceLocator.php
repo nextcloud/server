@@ -168,7 +168,7 @@ abstract class ResourceLocator {
 			return;
 		}
 
-		if ($webRoot === null) {
+		if (!$webRoot) {
 			$webRoot = $this->findWebRoot($root);
 
 			if ($webRoot === null) {
