@@ -507,7 +507,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 *
 	 * @return array
 	 */
-	protected function getCookieParams() {
+	public function getCookieParams() {
 		return session_get_cookie_params();
 	}
 
