@@ -39,6 +39,8 @@ OC.L10N.register(
     "Could not move \"{file}\"" : "Impossible de déplacer \"{file}\"",
     "Could not copy \"{file}\", target exists" : "Impossible de copier \"{file}\", la cible existe",
     "Could not copy \"{file}\"" : "Impossible de copier \"{file}\"",
+    "Copied {origin} inside {destination}" : "{origin} copié dans {destination}",
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "{origin} et {nbfiles} autres fichiers copiés dans {destination}",
     "{newName} already exists" : "{newName} existe déjà",
     "Could not rename \"{fileName}\", it does not exist any more" : "Impossible de renommer \"{file}\", il n'existe plus",
     "The name \"{targetName}\" is already used in the folder \"{dir}\". Please choose a different name." : "Le nom \"{targetName}\" est déjà utilisé dans le dossier \"{dir}\". Merci de choisir un nom différent.",
