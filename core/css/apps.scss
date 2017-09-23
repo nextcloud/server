@@ -494,6 +494,7 @@ kbd {
 					z-index 250ms ease-in-out;
 		position: absolute;
 		background-color: $color-main-background;
+		box-sizing: border-box;
 	}
 
 	/**
