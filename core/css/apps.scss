@@ -234,10 +234,8 @@ kbd {
 				z-index: 100; /* above the bullet */
 				/* TODO: forbid using img as icon in menu? */
 				&:first-child img {
-				    margin-bottom: -3px;
 				    margin-right: 11px;
 				    width: 16px;
-				    margin-left: 2px;
 				}
 
 				/* counter can also be inside the link */
