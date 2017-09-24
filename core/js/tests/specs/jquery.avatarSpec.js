@@ -62,10 +62,12 @@ describe('jquery.avatar tests', function() {
 
 	it('undefined user', function() {
 		spyOn($div, 'imageplaceholder');
+		spyOn($div, 'css');
 
 		$div.avatar();
 		
 		expect($div.imageplaceholder).toHaveBeenCalledWith('?');
+		expect($div.css).toHaveBeenCalledWith('background-color', '#b9b9b9');
 	});
 
 	describe('no avatar', function() {
@@ -86,6 +88,7 @@ describe('jquery.avatar tests', function() {
 
 		it('show placeholder for non existing user', function() {
 			spyOn($div, 'imageplaceholder');
+			spyOn($div, 'css');
 			$div.avatar('foo');
 
 			fakeServer.requests[0].respond(
@@ -96,7 +99,8 @@ describe('jquery.avatar tests', function() {
 				})
 			);
 
-			expect($div.imageplaceholder).toHaveBeenCalledWith('foo', '?');
+			expect($div.imageplaceholder).toHaveBeenCalledWith('?');
+			expect($div.css).toHaveBeenCalledWith('background-color', '#b9b9b9');
 		});
 
 		it('show no placeholder', function() {
