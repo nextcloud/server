@@ -1568,8 +1568,18 @@ class RequestTest extends \Test\TestCase {
 	}
 
 	public function testGetCookieParams() {
-		$request = $this->createMock(Request::class);
-		$actual = $this->invokePrivate($request, 'getCookieParams');
+		/** @var Request $request */
+		$request = $this->getMockBuilder(Request::class)
+			->setMethods(['getScriptName'])
+			->setConstructorArgs([
+				[],
+				$this->secureRandom,
+				$this->config,
+				$this->csrfTokenManager,
+				$this->stream
+			])
+			->getMock();
+		$actual = $request->getCookieParams();
 		$this->assertSame(session_get_cookie_params(), $actual);
 	}
 

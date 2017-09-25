@@ -559,23 +559,19 @@ class OC {
 			if($currentUrl === '/index.php/apps/user_saml/saml/acs' || $currentUrl === '/apps/user_saml/saml/acs') {
 				return;
 			}
-			// For the "index.php" endpoint only a lax cookie is required.
+			// index.php routes are handled in the middleware
 			if($processingScript === 'index.php') {
-				if(!$request->passesLaxCookieCheck()) {
-					self::sendSameSiteCookies();
-					header('Location: '.$_SERVER['REQUEST_URI']);
+				return;
+			}
+
+			// All other endpoints require the lax and the strict cookie
+			if(!$request->passesStrictCookieCheck()) {
+				self::sendSameSiteCookies();
+				// Debug mode gets access to the resources without strict cookie
+				// due to the fact that the SabreDAV browser also lives there.
+				if(!\OC::$server->getConfig()->getSystemValue('debug', false)) {
+					http_response_code(\OCP\AppFramework\Http::STATUS_SERVICE_UNAVAILABLE);
 					exit();
-				}
-			} else {
-				// All other endpoints require the lax and the strict cookie
-				if(!$request->passesStrictCookieCheck()) {
-					self::sendSameSiteCookies();
-					// Debug mode gets access to the resources without strict cookie
-					// due to the fact that the SabreDAV browser also lives there.
-					if(!\OC::$server->getConfig()->getSystemValue('debug', false)) {
-						http_response_code(\OCP\AppFramework\Http::STATUS_SERVICE_UNAVAILABLE);
-						exit();
-					}
 				}
 			}
 		} elseif(!isset($_COOKIE['nc_sameSiteCookielax']) || !isset($_COOKIE['nc_sameSiteCookiestrict'])) {
