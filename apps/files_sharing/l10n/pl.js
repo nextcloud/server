@@ -77,7 +77,7 @@ OC.L10N.register(
     "Public link sharing is disabled by the administrator" : "Udostępnianie linków publicznych zostało zablokowane przez twojego administratora",
     "Public upload disabled by the administrator" : "Publiczne wczytywanie zostało zablokowane przez twojego administratora",
     "Public upload is only possible for publicly shared folders" : "Publiczne wczytywanie jest możliwe wyłącznie do katalogów publicznych",
-    "Invalid date, date format must be YYYY-MM-DD" : "Nieprawidłowa data, format daty musi być YYYY-MM-DD",
+    "Invalid date, date format must be YYYY-MM-DD" : "Nieprawidłowa data, format daty musi być w formacie YYYY-MM-DD",
     "Sharing %s failed because the back end does not allow shares from type %s" : "Udostępnienie %s nie powiodło się ponieważ backend nie zezwala na udziały typu %s",
     "You cannot share to a Circle if the app is not enabled" : "Nie możesz udostępnić do Kręgów jeśli aplikacja jest wyłączona",
     "Please specify a valid circle" : "Proszę podać właściwy krąg",
