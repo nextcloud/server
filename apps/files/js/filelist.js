@@ -2540,11 +2540,9 @@
 				$tr.toggleClass('busy', state);
 
 				if (state) {
-					$thumbEl.attr('data-oldimage', $thumbEl.css('background-image'));
-					$thumbEl.css('background-image', 'url('+ OC.imagePath('core', 'loading.gif') + ')');
+					$thumbEl.parent().addClass('icon-loading-small');
 				} else {
-					$thumbEl.css('background-image', $thumbEl.attr('data-oldimage'));
-					$thumbEl.removeAttr('data-oldimage');
+					$thumbEl.parent().removeClass('icon-loading-small');
 				}
 			});
 		},

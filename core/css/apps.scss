@@ -34,7 +34,6 @@ h3 {
 /* do not use italic typeface style, instead lighter color */
 em {
 	font-style: normal;
-	-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=50)';
 	opacity: .5;
 }
 
@@ -90,7 +89,7 @@ kbd {
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
-	border-right: 1px solid nc-darken($color-main-background, 8%);
+	border-right: 1px solid $color-border;
 	display: flex;
 	flex-direction: column;
 	li {
@@ -556,7 +555,7 @@ kbd {
 	min-width: 300px;
 	display: block;
 	background: $color-main-background;
-	border-left: 1px solid nc-darken($color-main-background, 8%);
+	border-left: 1px solid $color-border;
 	-webkit-transition: margin-right 300ms;
 	transition: margin-right 300ms;
 	overflow-x: hidden;
@@ -577,9 +576,11 @@ kbd {
 	/* change to 100% when layout positions are absolute */
 	bottom: 0;
 	z-index: 140;
-	&.open #app-settings-content,
-	&.opened #app-settings-content {
-		display: block;
+	&.open,
+	&.opened {
+		#app-settings-content {
+			display: block;
+		}
 	}
 }
 
@@ -590,7 +591,7 @@ kbd {
 	/* restrict height of settings and make scrollable */
 	max-height: 300px;
 	overflow-y: auto;
-	border-right: 1px solid nc-darken($color-main-background, 8%);
+	border-right: 1px solid $color-border;
 	width: 250px;
 	box-sizing: border-box;
 
@@ -606,7 +607,7 @@ kbd {
 }
 
 #app-settings-header {
-	border-right: 1px solid nc-darken($color-main-background, 8%);
+	border-right: 1px solid $color-border;
 	width: 250px;
 	box-sizing: border-box;
 }
@@ -618,7 +619,7 @@ kbd {
 	padding: 0;
 	margin: 0;
 	background-color: $color-main-background;
-	background-image: url('../img/actions/settings.svg?v=1');
+	background-image: url('../img/actions/settings-dark.svg?v=1');
 	background-position: 14px center;
 	background-repeat: no-repeat;
 	box-shadow: none;
@@ -627,14 +628,16 @@ kbd {
 	text-align: left;
 	padding-left: 42px;
 	font-weight: 400;
-	&:hover,
-	&:focus {
+
+	/* like app-navigation a */
+	color: $color-main-text;
+	opacity: .57;
+
+	&.opened,
+	&:hover {
 		background-color: $color-main-background;
-	}
-	&.opened {
-		&:hover, &:focus {
-			background-color: $color-main-background;
-		}
+		opacity: 1;
+		box-shadow: inset 2px 0 $color-primary;
 	}
 }
 
@@ -735,7 +738,7 @@ kbd {
 	.popovermenu, .popovermenu:after,
 	#app-navigation .app-navigation-entry-menu,
 	#app-navigation .app-navigation-entry-menu:after {
-		border: 1px solid nc-darken($color-main-background, 8%);
+		border: 1px solid $color-border;
 	}
 }
 
@@ -816,12 +819,8 @@ kbd {
 			box-shadow: none;
 			width: 100%;
 			/* Override the app-navigation li opacity */
-			-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=70)' !important;
-			filter: alpha(opacity = 70) !important;
 			opacity: .7 !important;
 			&:hover, &:focus, &.active {
-				-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=100)' !important;
-				filter: alpha(opacity = 100) !important;
 				opacity: 1 !important;
 			}
 			/* prevent .action class to break the design */

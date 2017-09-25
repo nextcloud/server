@@ -12,18 +12,6 @@
 	margin-left: 10px;
 }
 
-#app-content-systemtagsfilter .select2-choices {
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	background: #fff;
-	color: #555;
-	box-sizing: content-box;
-	border-radius: 3px;
-	border: 1px solid #ddd;
-	padding: 0;
-	min-height: auto;
-}
-
 .nav-icon-systemtagsfilter {
 	background-image: url('../img/tag.svg');
 }

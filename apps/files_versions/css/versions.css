@@ -16,8 +16,6 @@
 .versionsTabView a,
 .versionsTabView div > span {
 	vertical-align: middle;
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
-	filter: alpha(opacity=50);
 	opacity: .5;
 }
 
@@ -27,8 +25,6 @@
 
 .versionsTabView a:hover,
 .versionsTabView a:focus {
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
-	filter: alpha(opacity=100);
 	opacity: 1;
 }
 

@@ -31,10 +31,8 @@
 	font-size: 12px;
 	opacity: 0;
 	z-index: 100000;
-	filter: alpha(opacity = 0);
 	&.in {
 		opacity: 1;
-		filter: alpha(opacity = 100);
 	}
 
 	&.top {
