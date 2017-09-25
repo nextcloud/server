@@ -90,7 +90,6 @@ use OC\Security\TrustedDomainHelper;
 use OC\Session\CryptoWrapper;
 use OC\Tagging\TagMapper;
 use OCA\Theming\ThemingDefaults;
-use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IL10N;
 use OCP\IServerContainer;
 use OCP\RichObjectStrings\IValidator;
@@ -318,8 +317,8 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getAppManager(),
 				$c->getSession(),
 				$c->getConfig(),
-				$c->query(\OC\Authentication\Token\IProvider::class),
-				$c->query(ITimeFactory::class)
+				$c->query('OC\Authentication\Token\IProvider'),
+				$c->query(TimeFactory::class)
 			);
 		});
 
