@@ -271,9 +271,6 @@ class ManagerTest extends TestCase {
 			->method('getUID')
 			->willReturn('jos');
 
-		$this->fakeProvider->expects($this->once())
-			->method('getDisplayName')
-			->willReturn('Fake 2FA');
 
 		$token = $this->createMock(OC\Authentication\Token\IToken::class);
 		$this->tokenProvider->method('getToken')
@@ -353,8 +350,6 @@ class ManagerTest extends TestCase {
 				$this->appManager,
 				$this->session,
 				$this->config,
-				$this->activityManager,
-				$this->logger,
 				$this->tokenProvider,
 				$this->timeFactory
 			])
