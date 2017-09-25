@@ -18,13 +18,13 @@ script(
 <script id="categories-template" type="text/x-handlebars-template">
 {{#each this}}
 	<li id="app-category-{{ident}}" data-category-id="{{ident}}" tabindex="0">
-		<a href="#">{{displayName}}</a>
+		<a href="#" class="icon-category-{{ident}}">{{displayName}}</a>
 	</li>
 {{/each}}
 
 <?php if($_['appstoreEnabled']): ?>
 	<li>
-		<a class="app-external" target="_blank" rel="noreferrer" href="https://docs.nextcloud.org/server/12/developer_manual/"><?php p($l->t('Developer documentation'));?> ↗</a>
+		<a class="app-external icon-info" target="_blank" rel="noreferrer" href="https://docs.nextcloud.org/server/12/developer_manual/"><?php p($l->t('Developer documentation'));?> ↗</a>
 	</li>
 <?php endif; ?>
 </script>

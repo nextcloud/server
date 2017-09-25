@@ -41,9 +41,9 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		}
 
 		var categories = [
-			{displayName: t('settings', 'Enabled apps'), ident: 'enabled', id: '0'},
-			{displayName: t('settings', 'Disabled apps'), ident: 'disabled', id: '1'},
-			{displayName: t('settings', 'Your apps'), ident: 'installed', id: '2'}
+			{displayName: t('settings', 'Your apps'), ident: 'installed', id: '0'},
+			{displayName: t('settings', 'Enabled apps'), ident: 'enabled', id: '1'},
+			{displayName: t('settings', 'Disabled apps'), ident: 'disabled', id: '2'}
 		];
 
 		var source   = $("#categories-template").html();
