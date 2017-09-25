@@ -396,7 +396,8 @@ class ShareControllerTest extends \Test\TestCase {
 			'shareOwner' => 'ownerDisplay',
 			'disclaimer' => 'My disclaimer text',
 			'shareUrl' => null,
-			'previewImage' => null
+			'previewImage' => null,
+			'previewURL' => null,
 		);
 
 		$csp = new \OCP\AppFramework\Http\ContentSecurityPolicy();
