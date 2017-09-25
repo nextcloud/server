@@ -749,8 +749,8 @@ describe('OCA.Files.FileList tests', function() {
 		it('Restores thumbnail when rename was cancelled', function() {
 			doRename();
 
-			expect(OC.TestUtil.getImageUrl(fileList.findFileEl('Tu_after_three.txt').find('.thumbnail')))
-				.toEqual(OC.imagePath('core', 'loading.gif'));
+			expect(fileList.findFileEl('Tu_after_three.txt').find('.thumbnail').parent().attr('class'))
+				.toEqual('icon-loading-small');
 
 			deferredRename.reject(409);
 
@@ -837,8 +837,8 @@ describe('OCA.Files.FileList tests', function() {
 		it('Restores thumbnail if a file could not be moved', function() {
 			fileList.move('One.txt', '/somedir');
 
-			expect(OC.TestUtil.getImageUrl(fileList.findFileEl('One.txt').find('.thumbnail')))
-				.toEqual(OC.imagePath('core', 'loading.gif'));
+			expect(fileList.findFileEl('One.txt').find('.thumbnail').parent().attr('class'))
+				.toEqual('icon-loading-small');
 
 			expect(moveStub.calledOnce).toEqual(true);
 
@@ -934,8 +934,8 @@ describe('OCA.Files.FileList tests', function() {
 		it('Restores thumbnail if a file could not be copied', function() {
 			fileList.copy('One.txt', '/somedir');
 
-			expect(OC.TestUtil.getImageUrl(fileList.findFileEl('One.txt').find('.thumbnail')))
-				.toEqual(OC.imagePath('core', 'loading.gif'));
+			expect(fileList.findFileEl('One.txt').find('.thumbnail').parent().attr('class'))
+				.toEqual('icon-loading-small');
 
 			expect(copyStub.calledOnce).toEqual(true);
 
@@ -3149,8 +3149,9 @@ describe('OCA.Files.FileList tests', function() {
 		it('shows spinner on busy rows', function() {
 			fileList.showFileBusyState('Two.jpg', true);
 			expect($tr.hasClass('busy')).toEqual(true);
-			expect(OC.TestUtil.getImageUrl($tr.find('.thumbnail')))
-				.toEqual(OC.imagePath('core', 'loading.gif'));
+			expect($tr.find('.thumbnail').parent().attr('class'))
+				.toEqual('icon-loading-small');
+
 
 			fileList.showFileBusyState('Two.jpg', false);
 			expect($tr.hasClass('busy')).toEqual(false);
