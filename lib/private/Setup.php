@@ -293,6 +293,10 @@ class Setup {
 			$error[] = $l->t("Can't create or write into the data directory %s", array($dataDir));
 		}
 
+		if (!$this->validateDatabaseHost($options['dbhost'])) {
+			$error[] = $l->t('Given database host is invalid and must not contain the port: %s', [$options['dbhost']]);
+		}
+
 		if(count($error) != 0) {
 			return $error;
 		}
@@ -408,6 +412,18 @@ class Setup {
 		}
 
 		return $error;
+	}
+
+	/**
+	 * @param string $host
+	 * @return bool
+	 */
+	protected function validateDatabaseHost($host) {
+		if (strpos($host, ':') === false) {
+			return true;
+		}
+
+		return filter_var($host, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) !== false;
 	}
 
 	public static function installBackgroundJobs() {
