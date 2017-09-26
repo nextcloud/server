@@ -47,7 +47,16 @@ try {
 	OC_Template::printExceptionErrorPage($ex);
 } catch (\OC\HintException $ex) {
 	OC_Response::setStatus(OC_Response::STATUS_SERVICE_UNAVAILABLE);
-	OC_Template::printErrorPage($ex->getMessage(), $ex->getHint());
+	try {
+		OC_Template::printErrorPage($ex->getMessage(), $ex->getHint());
+	} catch (Exception $ex2) {
+		\OC::$server->getLogger()->logException($ex, array('app' => 'index'));
+		\OC::$server->getLogger()->logException($ex2, array('app' => 'index'));
+
+		//show the user a detailed error page
+		OC_Response::setStatus(OC_Response::STATUS_INTERNAL_SERVER_ERROR);
+		OC_Template::printExceptionErrorPage($ex);
+	}
 } catch (\OC\User\LoginException $ex) {
 	OC_Response::setStatus(OC_Response::STATUS_FORBIDDEN);
 	OC_Template::printErrorPage($ex->getMessage(), $ex->getMessage());
