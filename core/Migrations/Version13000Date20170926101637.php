@@ -9,7 +9,7 @@ use OCP\Migration\IOutput;
 /**
  * Auto-generated migration step: Please modify to your needs!
  */
-class Version13000Date20170919101637 extends BigIntMigration {
+class Version13000Date20170926101637 extends BigIntMigration {
 
 	/**
 	 * @return array Returns an array with the following structure
