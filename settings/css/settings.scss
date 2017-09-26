@@ -547,6 +547,9 @@ td {
 		width: 12em;
 		cursor: pointer;
 	}
+	&.mailAddress {
+		cursor: pointer;
+	}
 	&.password > span, &.quota > span {
 		margin-right: 1.2em;
 		color: #C7C7C7;
@@ -636,11 +639,11 @@ span.usersLastLoginTooltip {
 }
 
 tr:hover > td {
-	&.password > span, &.displayName > span {
+	&.password > span, &.displayName > span, &.mailAddress > span {
 		margin: 0;
 		cursor: pointer;
 	}
-	&.password > img, &.displayName > img, &.quota > img {
+	&.password > img, &.displayName > img, &.mailAddress > img, &.quota > img {
 		visibility: visible;
 		cursor: pointer;
 	}
