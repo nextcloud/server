@@ -148,6 +148,7 @@
 				$div.show();
 				$div.text('');
 				$div.append(img);
+				$div.clearimageplaceholder();
 			};
 
 			img.width = size;

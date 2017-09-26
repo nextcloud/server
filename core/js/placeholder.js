@@ -148,4 +148,13 @@
 			this.html(text[0].toUpperCase());
 		}
 	};
+
+	$.fn.clearimageplaceholder = function() {
+		this.css('background-color', '');
+		this.css('color', '');
+		this.css('font-weight', '');
+		this.css('text-align', '');
+		this.css('line-height', '');
+		this.css('font-size', '');
+	};
 }(jQuery));
