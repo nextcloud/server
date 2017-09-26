@@ -331,6 +331,9 @@ class Log implements ILogger {
 			'Line' => $exception->getLine(),
 		);
 		$data['Trace'] = preg_replace('!(' . implode('|', $this->methodsWithSensitiveParameters) . ')\(.*\)!', '$1(*** sensitive parameters replaced ***)', $data['Trace']);
+		if ($exception instanceof HintException) {
+			$data['Hint'] = $exception->getHint();
+		}
 		$msg = isset($context['message']) ? $context['message'] : 'Exception';
 		$msg .= ': ' . json_encode($data);
 		$this->log($level, $msg, $context);
