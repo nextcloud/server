@@ -183,6 +183,8 @@ class SCSSCacher {
 			$path,
 			\OC::$SERVERROOT . '/core/css/',
 		]);
+		// Continue after throw
+		$scss->setIgnoreErrors(true);
 		if($this->config->getSystemValue('debug')) {
 			// Debug mode
 			$scss->setFormatter(Expanded::class);
