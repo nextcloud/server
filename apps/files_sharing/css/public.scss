@@ -94,6 +94,10 @@ thead {
 	margin-right: auto;
 }
 
+.download-size {
+	opacity: .5;
+}
+
 .directLink label {
 	font-weight: normal;
 	opacity: .5;
@@ -129,7 +133,6 @@ thead {
 
 #remote_address {
 	width: 200px;
-
 	margin-right: 4px;
 	height: 31px;
 }
