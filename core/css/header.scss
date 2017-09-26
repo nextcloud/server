@@ -143,6 +143,8 @@
 	#header-left, .header-left {
 		flex: 0 0;
 		flex-grow: 1;
+		overflow: hidden;
+		white-space: nowrap;
 	}
 
 	#header-right, .header-right {

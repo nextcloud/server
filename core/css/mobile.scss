@@ -31,11 +31,6 @@
 	align-items: center;
 }
 
-/* on mobile public share, show only the icon of the logo, hide the text */
-#body-public #header .header-appname-container {
-	display: none;
-}
-
 /* do not show update notification on mobile */
 #update-notification {
 	display: none !important;
