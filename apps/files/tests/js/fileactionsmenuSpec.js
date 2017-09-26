@@ -205,6 +205,34 @@ describe('OCA.Files.FileActionsMenu tests', function() {
 			expect(displayNameStub.calledWith(menuContext)).toEqual(true);
 			expect(menu.$el.find('a[data-action=Something]').text()).toEqual('Test');
 		});
+		it('uses plain iconClass', function() {
+			fileActions.registerAction({
+				name: 'Something',
+				mime: 'text/plain',
+				permissions: OC.PERMISSION_ALL,
+				iconClass: 'test'
+			});
+
+			menu.render();
+
+			expect(menu.$el.find('a[data-action=Something]').children('span.icon').hasClass('test')).toEqual(true);
+		});
+		it('calls iconClass function', function() {
+			var iconClassStub = sinon.stub().returns('test');
+
+			fileActions.registerAction({
+				name: 'Something',
+				mime: 'text/plain',
+				permissions: OC.PERMISSION_ALL,
+				iconClass: iconClassStub
+			});
+
+			menu.render();
+
+			expect(iconClassStub.calledOnce).toEqual(true);
+			expect(iconClassStub.calledWith(menuContext.$file.attr('data-file'), menuContext)).toEqual(true);
+			expect(menu.$el.find('a[data-action=Something]').children('span.icon').hasClass('test')).toEqual(true);
+		});
 	});
 
 	describe('action handler', function() {
