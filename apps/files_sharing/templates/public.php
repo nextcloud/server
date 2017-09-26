@@ -49,7 +49,7 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 
 		<div class="header-right">
 			<?php if (!isset($_['hideFileList']) || (isset($_['hideFileList']) && $_['hideFileList'] === false)) { ?>
-			<a href="#" title="<?php p($l->t('Download & link')) ?>" id="share-menutoggle" class="menutoggle icon-more-white"></a>
+			<a href="#" id="share-menutoggle" class="menutoggle icon-more-white"><?php p($l->t('Download')) ?></a>
 			<div id="share-menu" class="popovermenu menu hidden" style="display: block;">
 				<ul>
 					<li>
