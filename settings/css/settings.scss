@@ -543,7 +543,7 @@ td {
 	&.displayName > img, &.quota > img {
 		visibility: hidden;
 	}
-	&.password, &.quota, &.displayName {
+	&.password, &.displayName {
 		width: 12em;
 		cursor: pointer;
 	}
