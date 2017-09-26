@@ -87,7 +87,7 @@
     "OK" : "У реду",
     "Error loading message template: {error}" : "Грешка при учитавању шаблона поруке: {error}",
     "read-only" : "само-за-читање",
-    "_{count} file conflict_::_{count} file conflicts_" : ["{count} сукоб фајла","{count} сукоба фајлова","{count} сукоба фајлова"],
+    "_{count} file conflict_::_{count} file conflicts_" : ["{count} сукоб фајлова","{count} сукоба фајлова","{count} сукоба фајлова"],
     "One file conflict" : "Један сукоб фајлова",
     "New Files" : "Нови фајлови",
     "Already existing files" : "Постојећи фајлови",
