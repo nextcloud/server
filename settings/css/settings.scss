@@ -237,11 +237,13 @@ input {
 		.menuitem {
 			font-size: 12.8px;
 			line-height: 1.6em;
-			.menuitem-text {
-				font-weight: 600;
-			}
 			.menuitem-text-detail {
 				opacity: .75;
+			}
+			&.active {
+				.menuitem-text {
+					font-weight: 600;
+				}
 			}
 		}
 	}
