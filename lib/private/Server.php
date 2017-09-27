@@ -124,6 +124,7 @@ use OCP\IL10N;
 use OCP\IServerContainer;
 use OCP\ITempManager;
 use OCP\Contacts\ContactsMenu\IActionFactory;
+use OCP\IUser;
 use OCP\Lock\ILockingProvider;
 use OCP\Remote\Api\IApiFactory;
 use OCP\Remote\IInstanceFactory;
@@ -1126,6 +1127,8 @@ class Server extends ServerContainer implements IServerContainer {
 			$memcacheFactory = $c->getMemCacheFactory();
 			return new InstanceFactory($memcacheFactory->createLocal('remoteinstance.'), $c->getHTTPClientService());
 		});
+
+		$this->connectDispatcher();
 	}
 
 	/**
@@ -1133,6 +1136,26 @@ class Server extends ServerContainer implements IServerContainer {
 	 */
 	public function getCalendarManager() {
 		return $this->query('CalendarManager');
+	}
+
+	private function connectDispatcher() {
+		$dispatcher = $this->getEventDispatcher();
+
+		// Delete avatar on user deletion
+		$dispatcher->addListener('OCP\IUser::preDelete', function(GenericEvent $e) {
+			$logger = $this->getLogger();
+			$manager = $this->getAvatarManager();
+			/** @var IUser $user */
+			$user = $e->getSubject();
+
+			try {
+				$avatar = $manager->getAvatar($user->getUID());
+				$avatar->remove();
+			} catch (\Exception $e) {
+				// Ignore exceptions
+				$logger->info('Could not cleanup avatar of ' . $user->getUID());
+			}
+		});
 	}
 
 	/**
