@@ -4,7 +4,7 @@ OC.L10N.register(
     "Loading preview…" : "Laddar förhandsvisning...",
     "Saved" : "Sparat",
     "Admin" : "Admin",
-    "a safe home for all your data" : "En säker plats för alla dina filer och data",
+    "a safe home for all your data" : "En säker lagringsplats för all din data",
     "The given name is too long" : "Det angivna namnet är för långt",
     "The given web address is too long" : "Den angivna adressen är för lång",
     "The given slogan is too long" : "Den angivna slogan är för lång",
