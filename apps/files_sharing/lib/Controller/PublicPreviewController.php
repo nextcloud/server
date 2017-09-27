@@ -101,4 +101,51 @@ class PublicPreviewController extends Controller {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
 	}
+
+	/**
+	 * @PublicPage
+	 * @NoCSRFRequired
+	 * @NoSameSiteCookieRequired
+	 *
+	 * @param $token
+	 * @return DataResponse|FileDisplayResponse
+	 */
+	public function directLink($token) {
+		// No token no image
+		if ($token === '') {
+			return new DataResponse([], Http::STATUS_BAD_REQUEST);
+		}
+
+		// No share no image
+		try {
+			$share = $this->shareManager->getShareByToken($token);
+		} catch (ShareNotFound $e) {
+			return new DataResponse([], Http::STATUS_NOT_FOUND);
+		}
+
+		// No permissions no image
+		if (($share->getPermissions() & Constants::PERMISSION_READ) === 0) {
+			return new DataResponse([], Http::STATUS_FORBIDDEN);
+		}
+
+		// Password protected shares have no direct link!
+		if ($share->getPassword() !== null) {
+			return new DataResponse([], Http::STATUS_FORBIDDEN);
+		}
+
+		try {
+			$node = $share->getNode();
+			if ($node instanceof Folder) {
+				// Direct link only works for single files
+				return new DataResponse([], Http::STATUS_BAD_REQUEST);
+			}
+
+			$f = $this->previewManager->getPreview($node, -1, -1, false);
+			return new FileDisplayResponse($f, Http::STATUS_OK, ['Content-Type' => $f->getMimeType()]);
+		} catch (NotFoundException $e) {
+			return new DataResponse([], Http::STATUS_NOT_FOUND);
+		} catch (\InvalidArgumentException $e) {
+			return new DataResponse([], Http::STATUS_BAD_REQUEST);
+		}
+	}
 }
