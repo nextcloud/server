@@ -181,7 +181,7 @@ class OC_App {
 			foreach ($plugins as $plugin) {
 				if($plugin['@attributes']['type'] === 'collaborator-search') {
 					$pluginInfo = [
-						'shareType' => $plugin['@attributes']['shareType'],
+						'shareType' => $plugin['@attributes']['share-type'],
 						'class' => $plugin['@value'],
 					];
 					\OC::$server->getCollaboratorSearch()->registerPlugin($pluginInfo);
