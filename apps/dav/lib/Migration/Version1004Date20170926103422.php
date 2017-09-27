@@ -20,15 +20,15 @@ class Version1004Date20170926103422 extends BigIntMigration {
 		return [
 			'addressbooks' => ['id'],
 			'addressbookchanges' => ['id', 'addressbookid'],
-			'calendars' => ['id', 'calendarid'],
+			'calendars' => ['id'],
 			'calendarchanges' => ['id', 'calendarid'],
 			'calendarobjects' => ['id', 'calendarid'],
 			'calendarobjects_props' => ['id', 'calendarid', 'objectid'],
-			'calendarsubscriptions' => ['id', 'calendarid'],
+			'calendarsubscriptions' => ['id'],
 			'cards' => ['id', 'addressbookid'],
 			'cards_properties' => ['id', 'addressbookid', 'cardid'],
 			'dav_shares' => ['id', 'resourceid'],
-			'schedulingobjects' => ['id', 'addressbookid'],
+			'schedulingobjects' => ['id'],
 		];
 	}
 
