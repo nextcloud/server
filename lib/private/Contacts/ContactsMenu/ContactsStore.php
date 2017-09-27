@@ -1,9 +1,10 @@
 <?php
-
 /**
  * @copyright 2017 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @copyright 2017 Lukas Reschke <lukas@statuscode.ch>
  *
  * @author 2017 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author 2017 Lukas Reschke <lukas@statuscode.ch>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -24,20 +25,43 @@
 
 namespace OC\Contacts\ContactsMenu;
 
+use OC\Share\Share;
 use OCP\Contacts\ContactsMenu\IEntry;
 use OCP\Contacts\IManager;
+use OCP\IConfig;
+use OCP\IGroupManager;
 use OCP\IUser;
+use OCP\IUserManager;
+use OCP\IUserSession;
 
 class ContactsStore {
 
 	/** @var IManager */
 	private $contactsManager;
 
+	/** @var IConfig */
+	private $config;
+
+	/** @var IUserManager */
+	private $userManager;
+
+	/** @var IGroupManager */
+	private $groupManager;
+
 	/**
 	 * @param IManager $contactsManager
+	 * @param IConfig $config
+	 * @param IUserManager $userManager
+	 * @param IGroupManager $groupManager
 	 */
-	public function __construct(IManager $contactsManager) {
+	public function __construct(IManager $contactsManager,
+								IConfig $config,
+								IUserManager $userManager,
+								IGroupManager $groupManager) {
 		$this->contactsManager = $contactsManager;
+		$this->config = $config;
+		$this->userManager = $userManager;
+		$this->groupManager = $groupManager;
 	}
 
 	/**
@@ -48,15 +72,97 @@ class ContactsStore {
 	public function getContacts(IUser $user, $filter) {
 		$allContacts = $this->contactsManager->search($filter ?: '', [
 			'FN',
+			'EMAIL'
 		]);
 
-		$self = $user->getUID();
 		$entries = array_map(function(array $contact) {
 			return $this->contactArrayToEntry($contact);
 		}, $allContacts);
-		return array_filter($entries, function(IEntry $entry) use ($self) {
-			return $entry->getProperty('UID') !== $self;
-		});
+		return $this->filterContacts(
+			$user,
+			$entries,
+			$filter
+		);
+	}
+
+	/**
+	 * Filters the contacts. Applies 3 filters:
+	 *  1. filter the current user
+	 *  2. if the `shareapi_allow_share_dialog_user_enumeration` config option is
+	 * enabled it will filter all local users
+	 *  3. if the `shareapi_exclude_groups` config option is enabled and the
+	 * current user is in an excluded group it will filter all local users.
+	 *  4. if the `shareapi_only_share_with_group_members` config option is
+	 * enabled it will filter all users which doens't have a common group
+	 * with the current user.
+	 *
+	 * @param IUser $self
+	 * @param Entry[] $entries
+	 * @param string $filter
+	 * @return Entry[] the filtered contacts
+	 */
+	private function filterContacts(IUser $self,
+									array $entries,
+									$filter) {
+		$disallowEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') !== 'yes';
+		$excludedGroups = $this->config->getAppValue('core', 'shareapi_exclude_groups', 'no') === 'yes';
+
+		// whether to filter out local users
+		$skipLocal = false;
+		// whether to filter out all users which doesn't have the same group as the current user
+		$ownGroupsOnly = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes';
+
+		$selfGroups = $this->groupManager->getUserGroupIds($self);
+
+		if ($excludedGroups) {
+			$excludedGroups = $this->config->getAppValue('core', 'shareapi_exclude_groups_list', '');
+			$decodedExcludeGroups = json_decode($excludedGroups, true);
+			$excludeGroupsList = ($decodedExcludeGroups !== null) ? $decodedExcludeGroups :  [];
+
+			if (count(array_intersect($excludeGroupsList, $selfGroups)) !== 0) {
+				// a group of the current user is excluded -> filter all local users
+				$skipLocal = true;
+			}
+		}
+
+		$selfUID = $self->getUID();
+
+		return array_values(array_filter($entries, function(IEntry $entry) use ($self, $skipLocal, $ownGroupsOnly, $selfGroups, $selfUID, $disallowEnumeration, $filter) {
+			if ($skipLocal && $entry->getProperty('isLocalSystemBook') === true) {
+				return false;
+			}
+
+			// Prevent enumerating local users
+			if($disallowEnumeration && $entry->getProperty('isLocalSystemBook')) {
+				$filterUser = true;
+
+				$mailAddresses = $entry->getEMailAddresses();
+				foreach($mailAddresses as $mailAddress) {
+					if($mailAddress === $filter) {
+						$filterUser = false;
+						break;
+					}
+				}
+
+				if($entry->getProperty('UID') && $entry->getProperty('UID') === $filter) {
+					$filterUser = false;
+				}
+
+				if($filterUser) {
+					return false;
+				}
+			}
+
+			if ($ownGroupsOnly && $entry->getProperty('isLocalSystemBook') === true) {
+				$contactGroups = $this->groupManager->getUserGroupIds($this->userManager->get($entry->getProperty('UID')));
+				if (count(array_intersect($contactGroups, $selfGroups)) === 0) {
+					// no groups in common, so shouldn't see the contact
+					return false;
+				}
+			}
+
+			return $entry->getProperty('UID') !== $selfUID;
+		}));
 	}
 
 	/**
@@ -100,7 +206,17 @@ class ContactsStore {
 			}
 		}
 
-		return $match ? $this->contactArrayToEntry($match) : null;
+		if ($match) {
+			$match = $this->filterContacts($user, [$this->contactArrayToEntry($match)], $shareWith);
+			if (count($match) === 1) {
+				$match = $match[0];
+			} else {
+				$match = null;
+			}
+
+		}
+
+		return $match;
 	}
 
 	/**
