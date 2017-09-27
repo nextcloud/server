@@ -278,16 +278,16 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
-	public static function favoriteActionForFile($fileName) {
-		return Locator::forThe()->css(".action-favorite")->descendantOf(self::rowForFile($fileName))->
-				describedAs("Favorite action for file $fileName in Files app");
+	public static function favoriteMarkForFile($fileName) {
+		return Locator::forThe()->css(".favorite-mark")->descendantOf(self::rowForFile($fileName))->
+				describedAs("Favorite mark for file $fileName in Files app");
 	}
 
 	/**
 	 * @return Locator
 	 */
 	public static function notFavoritedStateIconForFile($fileName) {
-		return Locator::forThe()->css(".icon-star")->descendantOf(self::favoriteActionForFile($fileName))->
+		return Locator::forThe()->css(".icon-star")->descendantOf(self::favoriteMarkForFile($fileName))->
 				describedAs("Not favorited state icon for file $fileName in Files app");
 	}
 
@@ -295,7 +295,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function favoritedStateIconForFile($fileName) {
-		return Locator::forThe()->css(".icon-starred")->descendantOf(self::favoriteActionForFile($fileName))->
+		return Locator::forThe()->css(".icon-starred")->descendantOf(self::favoriteMarkForFile($fileName))->
 				describedAs("Favorited state icon for file $fileName in Files app");
 	}
 

@@ -49,24 +49,24 @@ describe('OCA.Files.TagsPlugin tests', function() {
 
 	describe('Favorites icon', function() {
 		it('renders favorite icon and extra data', function() {
-			var $action, $tr;
+			var $favoriteMark, $tr;
 			fileList.setFiles(testFiles);
 			$tr = fileList.$el.find('tbody tr:first');
-			$action = $tr.find('.action-favorite');
-			expect($action.length).toEqual(1);
-			expect($action.hasClass('permanent')).toEqual(false);
+			$favoriteMark = $tr.find('.favorite-mark');
+			expect($favoriteMark.length).toEqual(1);
+			expect($favoriteMark.hasClass('permanent')).toEqual(false);
 
 			expect($tr.attr('data-tags').split('|')).toEqual(['tag1', 'tag2']);
 			expect($tr.attr('data-favorite')).not.toBeDefined();
 		});
 		it('renders permanent favorite icon and extra data', function() {
-			var $action, $tr;
+			var $favoriteMark, $tr;
 			testFiles[0].tags.push(OC.TAG_FAVORITE);
 			fileList.setFiles(testFiles);
 			$tr = fileList.$el.find('tbody tr:first');
-			$action = $tr.find('.action-favorite');
-			expect($action.length).toEqual(1);
-			expect($action.hasClass('permanent')).toEqual(true);
+			$favoriteMark = $tr.find('.favorite-mark');
+			expect($favoriteMark.length).toEqual(1);
+			expect($favoriteMark.hasClass('permanent')).toEqual(true);
 
 			expect($tr.attr('data-tags').split('|')).toEqual(['tag1', 'tag2', OC.TAG_FAVORITE]);
 			expect($tr.attr('data-favorite')).toEqual('true');
@@ -76,58 +76,11 @@ describe('OCA.Files.TagsPlugin tests', function() {
 		});
 	});
 	describe('Applying tags', function() {
-		it('sends request to server and updates icon', function() {
-			var request;
-			fileList.setFiles(testFiles);
-			var $tr = fileList.findFileEl('One.txt');
-			var $action = $tr.find('.action-favorite');
-			$action.click();
-
-			expect(fakeServer.requests.length).toEqual(1);
-			request = fakeServer.requests[0];
-			expect(JSON.parse(request.requestBody)).toEqual({
-				tags: ['tag1', 'tag2', OC.TAG_FAVORITE]
-			});
-			request.respond(200, {'Content-Type': 'application/json'}, JSON.stringify({
-				tags: ['tag1', 'tag2', 'tag3', OC.TAG_FAVORITE]
-			}));
-
-			// re-read the element as it was re-inserted
-			$tr = fileList.findFileEl('One.txt');
-			$action = $tr.find('.action-favorite');
-
-			expect($tr.attr('data-favorite')).toEqual('true');
-			expect($tr.attr('data-tags').split('|')).toEqual(['tag1', 'tag2', 'tag3', OC.TAG_FAVORITE]);
-			expect(fileList.files[0].tags).toEqual(['tag1', 'tag2', 'tag3', OC.TAG_FAVORITE]);
-			expect($action.find('.icon').hasClass('icon-star')).toEqual(false);
-			expect($action.find('.icon').hasClass('icon-starred')).toEqual(true);
-
-			$action.click();
-
-			expect(fakeServer.requests.length).toEqual(2);
-			request = fakeServer.requests[1];
-			expect(JSON.parse(request.requestBody)).toEqual({
-				tags: ['tag1', 'tag2', 'tag3']
-			});
-			request.respond(200, {'Content-Type': 'application/json'}, JSON.stringify({
-				tags: ['tag1', 'tag2', 'tag3']
-			}));
-
-			// re-read the element as it was re-inserted
-			$tr = fileList.findFileEl('One.txt');
-			$action = $tr.find('.action-favorite');
-
-			expect($tr.attr('data-favorite')).toBeFalsy();
-			expect($tr.attr('data-tags').split('|')).toEqual(['tag1', 'tag2', 'tag3']);
-			expect(fileList.files[0].tags).toEqual(['tag1', 'tag2', 'tag3']);
-			expect($action.find('.icon').hasClass('icon-star')).toEqual(true);
-			expect($action.find('.icon').hasClass('icon-starred')).toEqual(false);
-		});
 		it('through FileActionsMenu sends request to server and updates icon', function() {
 			var request;
 			fileList.setFiles(testFiles);
 			var $tr = fileList.findFileEl('One.txt');
-			var $action = $tr.find('.action-favorite');
+			var $favoriteMark = $tr.find('.favorite-mark');
 			var $showMenuAction = $tr.find('.action-menu');
 			$showMenuAction.click();
 			var $favoriteActionInMenu = $tr.find('.fileActionsMenu .action-favorite');
@@ -144,14 +97,14 @@ describe('OCA.Files.TagsPlugin tests', function() {
 
 			// re-read the element as it was re-inserted
 			$tr = fileList.findFileEl('One.txt');
-			$action = $tr.find('.action-favorite');
+			$favoriteMark = $tr.find('.favorite-mark');
 			$showMenuAction = $tr.find('.action-menu');
 
 			expect($tr.attr('data-favorite')).toEqual('true');
 			expect($tr.attr('data-tags').split('|')).toEqual(['tag1', 'tag2', 'tag3', OC.TAG_FAVORITE]);
 			expect(fileList.files[0].tags).toEqual(['tag1', 'tag2', 'tag3', OC.TAG_FAVORITE]);
-			expect($action.find('.icon').hasClass('icon-star')).toEqual(false);
-			expect($action.find('.icon').hasClass('icon-starred')).toEqual(true);
+			expect($favoriteMark.find('.icon').hasClass('icon-star')).toEqual(false);
+			expect($favoriteMark.find('.icon').hasClass('icon-starred')).toEqual(true);
 
 			// show again the menu and get the new action, as the menu was
 			// closed and removed (and with it, the previous action) when that
@@ -171,13 +124,13 @@ describe('OCA.Files.TagsPlugin tests', function() {
 
 			// re-read the element as it was re-inserted
 			$tr = fileList.findFileEl('One.txt');
-			$action = $tr.find('.action-favorite');
+			$favoriteMark = $tr.find('.favorite-mark');
 
 			expect($tr.attr('data-favorite')).toBeFalsy();
 			expect($tr.attr('data-tags').split('|')).toEqual(['tag1', 'tag2', 'tag3']);
 			expect(fileList.files[0].tags).toEqual(['tag1', 'tag2', 'tag3']);
-			expect($action.find('.icon').hasClass('icon-star')).toEqual(true);
-			expect($action.find('.icon').hasClass('icon-starred')).toEqual(false);
+			expect($favoriteMark.find('.icon').hasClass('icon-star')).toEqual(true);
+			expect($favoriteMark.find('.icon').hasClass('icon-starred')).toEqual(false);
 		});
 	});
 	describe('elementToFile', function() {

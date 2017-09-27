@@ -17,12 +17,12 @@
 		PROPERTY_FAVORITE:	'{' + OC.Files.Client.NS_OWNCLOUD + '}favorite'
 	});
 
-	var TEMPLATE_FAVORITE_ACTION =
-		'<a href="#" ' +
-		'class="action action-favorite {{#isFavorite}}permanent{{/isFavorite}}">' +
+	var TEMPLATE_FAVORITE_MARK =
+		'<div ' +
+		'class="favorite-mark {{#isFavorite}}permanent{{/isFavorite}}">' +
 		'<span class="icon {{iconClass}}" />' +
 		'<span class="hidden-visually">{{altText}}</span>' +
-		'</a>';
+		'</div>';
 
 	/**
 	 * Returns the icon class for the matching state
@@ -42,24 +42,24 @@
 	 */
 	function renderStar(state) {
 		if (!this._template) {
-			this._template = Handlebars.compile(TEMPLATE_FAVORITE_ACTION);
+			this._template = Handlebars.compile(TEMPLATE_FAVORITE_MARK);
 		}
 		return this._template({
 			isFavorite: state,
-			altText: state ? t('files', 'Favorited') : t('files', 'Favorite'),
+			altText: state ? t('files', 'Favorited') : t('files', 'Not favorited'),
 			iconClass: getStarIconClass(state)
 		});
 	}
 
 	/**
-	 * Toggle star icon on action element
+	 * Toggle star icon on favorite mark element
 	 *
-	 * @param {Object} action element
+	 * @param {Object} $favoriteMarkEl favorite mark element
 	 * @param {boolean} state true if starred, false otherwise
 	 */
-	function toggleStar($actionEl, state) {
-		$actionEl.removeClass('icon-star icon-starred').addClass(getStarIconClass(state));
-		$actionEl.toggleClass('permanent', state);
+	function toggleStar($favoriteMarkEl, state) {
+		$favoriteMarkEl.removeClass('icon-star icon-starred').addClass(getStarIconClass(state));
+		$favoriteMarkEl.toggleClass('permanent', state);
 	}
 
 	OCA.Files = OCA.Files || {};
@@ -67,8 +67,9 @@
 	/**
 	 * @namespace OCA.Files.TagsPlugin
 	 *
-	 * Extends the file actions and file list to include a favorite action icon
-	 * and addition "data-tags" and "data-favorite" attributes.
+	 * Extends the file actions and file list to include a favorite mark icon
+	 * and a favorite action in the file actions menu; it also adds "data-tags"
+	 * and "data-favorite" attributes to file elements.
 	 */
 	OCA.Files.TagsPlugin = {
 		name: 'Tags',
@@ -84,63 +85,6 @@
 
 		_extendFileActions: function(fileActions) {
 			var self = this;
-			// register "star" action
-			fileActions.registerAction({
-				name: 'FavoriteInline',
-				displayName: t('files', 'Favorite'),
-				mime: 'all',
-				permissions: OC.PERMISSION_READ,
-				type: OCA.Files.FileActions.TYPE_INLINE,
-				render: function(actionSpec, isDefault, context) {
-					var $file = context.$file;
-					var isFavorite = $file.data('favorite') === true;
-					var $icon = $(renderStar(isFavorite));
-					$file.find('td:first>.favorite').replaceWith($icon);
-					return $icon;
-				},
-				actionHandler: function(fileName, context) {
-					var $actionEl = context.$file.find('.action-favorite');
-					var $file = context.$file;
-					var fileInfo = context.fileList.files[$file.index()];
-					var dir = context.dir || context.fileList.getCurrentDirectory();
-					var tags = $file.attr('data-tags');
-					if (_.isUndefined(tags)) {
-						tags = '';
-					}
-					tags = tags.split('|');
-					tags = _.without(tags, '');
-					var isFavorite = tags.indexOf(OC.TAG_FAVORITE) >= 0;
-					if (isFavorite) {
-						// remove tag from list
-						tags = _.without(tags, OC.TAG_FAVORITE);
-					} else {
-						tags.push(OC.TAG_FAVORITE);
-					}
-
-					// pre-toggle the star
-					toggleStar($actionEl, !isFavorite);
-
-					context.fileInfoModel.trigger('busy', context.fileInfoModel, true);
-
-					self.applyFileTags(
-						dir + '/' + fileName,
-						tags,
-						$actionEl,
-						isFavorite
-					).then(function(result) {
-						context.fileInfoModel.trigger('busy', context.fileInfoModel, false);
-						// response from server should contain updated tags
-						var newTags = result.tags;
-						if (_.isUndefined(newTags)) {
-							newTags = tags;
-						}
-						context.fileInfoModel.set({
-							'tags': newTags,
-							'favorite': !isFavorite
-						});
-					});
-				}
-			});
 
 			fileActions.registerAction({
 				name: 'Favorite',
@@ -172,7 +116,7 @@
 					return 'icon-star';
 				},
 				actionHandler: function(fileName, context) {
-					var $actionEl = context.$file.find('.action-favorite');
+					var $favoriteMarkEl = context.$file.find('.favorite-mark');
 					var $file = context.$file;
 					var fileInfo = context.fileList.files[$file.index()];
 					var dir = context.dir || context.fileList.getCurrentDirectory();
@@ -191,14 +135,14 @@
 					}
 
 					// pre-toggle the star
-					toggleStar($actionEl, !isFavorite);
+					toggleStar($favoriteMarkEl, !isFavorite);
 
 					context.fileInfoModel.trigger('busy', context.fileInfoModel, true);
 
 					self.applyFileTags(
 						dir + '/' + fileName,
 						tags,
-						$actionEl,
+						$favoriteMarkEl,
 						isFavorite
 					).then(function(result) {
 						context.fileInfoModel.trigger('busy', context.fileInfoModel, false);
@@ -222,13 +166,16 @@
 			var oldCreateRow = fileList._createRow;
 			fileList._createRow = function(fileData) {
 				var $tr = oldCreateRow.apply(this, arguments);
+				var isFavorite = false;
 				if (fileData.tags) {
 					$tr.attr('data-tags', fileData.tags.join('|'));
 					if (fileData.tags.indexOf(OC.TAG_FAVORITE) >= 0) {
 						$tr.attr('data-favorite', true);
+						isFavorite = true;
 					}
 				}
-				$tr.find('td:first').prepend('<div class="favorite"></div>');
+				var $icon = $(renderStar(isFavorite));
+				$tr.find('td:first').prepend($icon);
 				return $tr;
 			};
 			var oldElementToFile = fileList.elementToFile;
@@ -288,10 +235,10 @@
 		 *
 		 * @param {String} fileName path to the file or folder to tag
 		 * @param {Array.<String>} tagNames array of tag names
-		 * @param {Object} $actionEl element
+		 * @param {Object} $favoriteMarkEl favorite mark element
 		 * @param {boolean} isFavorite Was the item favorited before
 		 */
-		applyFileTags: function(fileName, tagNames, $actionEl, isFavorite) {
+		applyFileTags: function(fileName, tagNames, $favoriteMarkEl, isFavorite) {
 			var encodedPath = OC.encodePath(fileName);
 			while (encodedPath[0] === '/') {
 				encodedPath = encodedPath.substr(1);
@@ -311,7 +258,7 @@
 					message = ': ' + response.responseJSON.message;
 				}
 				OC.Notification.show(t('files', 'An error occurred while trying to update the tags' + message), {type: 'error'});
-				toggleStar($actionEl, isFavorite);
+				toggleStar($favoriteMarkEl, isFavorite);
 			});
 		}
 	};
