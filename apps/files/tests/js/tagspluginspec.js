@@ -123,6 +123,62 @@ describe('OCA.Files.TagsPlugin tests', function() {
 			expect($action.find('.icon').hasClass('icon-star')).toEqual(true);
 			expect($action.find('.icon').hasClass('icon-starred')).toEqual(false);
 		});
+		it('through FileActionsMenu sends request to server and updates icon', function() {
+			var request;
+			fileList.setFiles(testFiles);
+			var $tr = fileList.findFileEl('One.txt');
+			var $action = $tr.find('.action-favorite');
+			var $showMenuAction = $tr.find('.action-menu');
+			$showMenuAction.click();
+			var $favoriteActionInMenu = $tr.find('.fileActionsMenu .action-favorite');
+			$favoriteActionInMenu.click();
+
+			expect(fakeServer.requests.length).toEqual(1);
+			request = fakeServer.requests[0];
+			expect(JSON.parse(request.requestBody)).toEqual({
+				tags: ['tag1', 'tag2', OC.TAG_FAVORITE]
+			});
+			request.respond(200, {'Content-Type': 'application/json'}, JSON.stringify({
+				tags: ['tag1', 'tag2', 'tag3', OC.TAG_FAVORITE]
+			}));
+
+			// re-read the element as it was re-inserted
+			$tr = fileList.findFileEl('One.txt');
+			$action = $tr.find('.action-favorite');
+			$showMenuAction = $tr.find('.action-menu');
+
+			expect($tr.attr('data-favorite')).toEqual('true');
+			expect($tr.attr('data-tags').split('|')).toEqual(['tag1', 'tag2', 'tag3', OC.TAG_FAVORITE]);
+			expect(fileList.files[0].tags).toEqual(['tag1', 'tag2', 'tag3', OC.TAG_FAVORITE]);
+			expect($action.find('.icon').hasClass('icon-star')).toEqual(false);
+			expect($action.find('.icon').hasClass('icon-starred')).toEqual(true);
+
+			// show again the menu and get the new action, as the menu was
+			// closed and removed (and with it, the previous action) when that
+			// action was clicked
+			$showMenuAction.click();
+			$favoriteActionInMenu = $tr.find('.fileActionsMenu .action-favorite');
+			$favoriteActionInMenu.click();
+
+			expect(fakeServer.requests.length).toEqual(2);
+			request = fakeServer.requests[1];
+			expect(JSON.parse(request.requestBody)).toEqual({
+				tags: ['tag1', 'tag2', 'tag3']
+			});
+			request.respond(200, {'Content-Type': 'application/json'}, JSON.stringify({
+				tags: ['tag1', 'tag2', 'tag3']
+			}));
+
+			// re-read the element as it was re-inserted
+			$tr = fileList.findFileEl('One.txt');
+			$action = $tr.find('.action-favorite');
+
+			expect($tr.attr('data-favorite')).toBeFalsy();
+			expect($tr.attr('data-tags').split('|')).toEqual(['tag1', 'tag2', 'tag3']);
+			expect(fileList.files[0].tags).toEqual(['tag1', 'tag2', 'tag3']);
+			expect($action.find('.icon').hasClass('icon-star')).toEqual(true);
+			expect($action.find('.icon').hasClass('icon-starred')).toEqual(false);
+		});
 	});
 	describe('elementToFile', function() {
 		it('returns tags', function() {

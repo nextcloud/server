@@ -86,7 +86,7 @@
 			var self = this;
 			// register "star" action
 			fileActions.registerAction({
-				name: 'Favorite',
+				name: 'FavoriteInline',
 				displayName: t('files', 'Favorite'),
 				mime: 'all',
 				permissions: OC.PERMISSION_READ,
@@ -97,6 +97,79 @@
 					var $icon = $(renderStar(isFavorite));
 					$file.find('td:first>.favorite').replaceWith($icon);
 					return $icon;
+				},
+				actionHandler: function(fileName, context) {
+					var $actionEl = context.$file.find('.action-favorite');
+					var $file = context.$file;
+					var fileInfo = context.fileList.files[$file.index()];
+					var dir = context.dir || context.fileList.getCurrentDirectory();
+					var tags = $file.attr('data-tags');
+					if (_.isUndefined(tags)) {
+						tags = '';
+					}
+					tags = tags.split('|');
+					tags = _.without(tags, '');
+					var isFavorite = tags.indexOf(OC.TAG_FAVORITE) >= 0;
+					if (isFavorite) {
+						// remove tag from list
+						tags = _.without(tags, OC.TAG_FAVORITE);
+					} else {
+						tags.push(OC.TAG_FAVORITE);
+					}
+
+					// pre-toggle the star
+					toggleStar($actionEl, !isFavorite);
+
+					context.fileInfoModel.trigger('busy', context.fileInfoModel, true);
+
+					self.applyFileTags(
+						dir + '/' + fileName,
+						tags,
+						$actionEl,
+						isFavorite
+					).then(function(result) {
+						context.fileInfoModel.trigger('busy', context.fileInfoModel, false);
+						// response from server should contain updated tags
+						var newTags = result.tags;
+						if (_.isUndefined(newTags)) {
+							newTags = tags;
+						}
+						context.fileInfoModel.set({
+							'tags': newTags,
+							'favorite': !isFavorite
+						});
+					});
+				}
+			});
+
+			fileActions.registerAction({
+				name: 'Favorite',
+				displayName: function(context) {
+					var $file = context.$file;
+					var isFavorite = $file.data('favorite') === true;
+
+					if (isFavorite) {
+						return t('files', 'Remove from favorites');
+					}
+
+					// As it is currently not possible to provide a context for
+					// the i18n strings "Add to favorites" was used instead of
+					// "Favorite" to remove the ambiguity between verb and noun
+					// when it is translated.
+					return t('files', 'Add to favorites');
+				},
+				mime: 'all',
+				order: -23,
+				permissions: OC.PERMISSION_READ,
+				iconClass: function(fileName, context) {
+					var $file = context.$file;
+					var isFavorite = $file.data('favorite') === true;
+
+					if (isFavorite) {
+						return 'icon-starred';
+					}
+
+					return 'icon-star';
 				},
 				actionHandler: function(fileName, context) {
 					var $actionEl = context.$file.find('.action-favorite');

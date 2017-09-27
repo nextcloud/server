@@ -502,7 +502,7 @@ table td.filename .uploadtext {
 	display: inline-block;
 	float: left;
 }
-#fileList tr td.filename .action-favorite {
+#fileList tr td.filename .action-favorite:not(.menuitem) {
 	display: block;
 	float: left;
 	width: 30px;
