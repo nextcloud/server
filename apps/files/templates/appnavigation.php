@@ -11,7 +11,7 @@
 			</a>
 		</li>
 		<?php } ?>
-		<li id="quota" class="section pinned <?php
+		<li id="quota" class="pinned <?php
 		if ($_['quota'] !== \OCP\Files\FileInfo::SPACE_UNLIMITED) {
 			?>has-tooltip" title="<?php p($_['usage_relative'] . '%');
 		} ?>">
@@ -23,9 +23,8 @@
 						p($l->t('%s used', [$_['usage']]));
 					} ?></p>
 				<div class="quota-container">
-					<div style="width:<?php p($_['usage_relative']);?>%"
-						 <?php if($_['usage_relative'] > 80): ?>class="quota-warning"<?php endif; ?>>
-					</div>
+					<progress value="<?php p($_['usage_relative']); ?>" max="100"
+						<?php if($_['usage_relative'] > 80): ?> class="quota-warning" <?php endif; ?>></progress>
 				</div>
 			</a>
 		</li>
