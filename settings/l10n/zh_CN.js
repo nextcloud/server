@@ -293,6 +293,7 @@ OC.L10N.register(
     "Restrict users to only share with users in their groups" : "限制仅与组内用户分享",
     "Exclude groups from sharing" : "在分享中排除组",
     "These groups will still be able to receive shares, but not to initiate them." : "这些组将仍可以获取分享, 但无法向他人分享.",
+    "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "在共享对话框中允许用户名自动完成。 如果被禁用，则需要输入完整的用户名或电子邮件地址。",
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "在公开链接上传页中显示免责声明. (仅当文件列表隐藏时显示)",
     "This text will be shown on the public link upload page when the file list is hidden." : "这些内容将在公开链接上传页中当文件列表隐藏时显示.",
     "Tips & tricks" : "小提示",
