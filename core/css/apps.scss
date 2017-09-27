@@ -753,7 +753,7 @@ kbd {
 	margin: 5px;
 	margin-top: -5px;
 	right: 0;
-	filter: drop-shadow(0 1px 10px $color-box-shadow);
+	filter: drop-shadow(0 1px 3px $color-box-shadow);
 	display: none;
 
 	&:after {
