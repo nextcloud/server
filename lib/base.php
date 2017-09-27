@@ -543,22 +543,7 @@ class OC {
 			$requestUri = $request->getScriptName();
 			$processingScript = explode('/', $requestUri);
 			$processingScript = $processingScript[count($processingScript)-1];
-			// FIXME: In a SAML scenario we don't get any strict or lax cookie
-			// send for the ACS endpoint. Since we have some legacy code in Nextcloud
-			// (direct PHP files) the enforcement of lax cookies is performed here
-			// instead of the middleware.
-			//
-			// This means we cannot exclude some routes from the cookie validation,
-			// which normally is not a problem but is a little bit cumbersome for
-			// this use-case.
-			// Once the old legacy PHP endpoints have been removed we can move
-			// the verification into a middleware and also adds some exemptions.
-			//
-			// Questions about this code? Ask Lukas ;-)
-			$currentUrl = substr(explode('?',$request->getRequestUri(), 2)[0], strlen(\OC::$WEBROOT));
-			if($currentUrl === '/index.php/apps/user_saml/saml/acs' || $currentUrl === '/apps/user_saml/saml/acs') {
-				return;
-			}
+
 			// index.php routes are handled in the middleware
 			if($processingScript === 'index.php') {
 				return;
