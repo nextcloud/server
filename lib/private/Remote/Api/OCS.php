@@ -22,6 +22,7 @@
 namespace OC\Remote\Api;
 
 
+use GuzzleHttp\Exception\ClientException;
 use OC\ForbiddenException;
 use OC\Remote\User;
 use OCP\API;
@@ -39,8 +40,18 @@ class OCS extends ApiBase {
 	 * @throws \Exception
 	 */
 	protected function request($method, $url, array $body = [], array $query = [], array $headers = []) {
-		$response = json_decode(parent::request($method, '/ocs/v2.php/' . $url, $body, $query, $headers), true);
-		if (!isset($result['ocs']) || !isset($result['ocs']['meta'])) {
+		try {
+			$response = json_decode(parent::request($method, '/ocs/v2.php/' . $url, $body, $query, $headers), true);
+		} catch (ClientException $e) {
+			if ($e->getResponse()->getStatusCode() === 404) {
+				throw new NotFoundException();
+			} else if ($e->getResponse()->getStatusCode() === 403 || $e->getResponse()->getStatusCode() === 401) {
+				throw new ForbiddenException();
+			} else {
+				throw $e;
+			}
+		}
+		if (!isset($response['ocs']) || !isset($response['ocs']['meta'])) {
 			throw new \Exception('Invalid ocs response');
 		}
 		if ($response['ocs']['meta']['statuscode'] === API::RESPOND_UNAUTHORISED) {
@@ -60,7 +71,11 @@ class OCS extends ApiBase {
 		return new User($this->request('get', 'cloud/users/' . $userId));
 	}
 
+	/**
+	 * @return array The capabilities in the form of [$appId => [$capability => $value]]
+	 */
 	public function getCapabilities() {
-		return $this->request('get', 'cloud/capabilities');
+		$result = $this->request('get', 'cloud/capabilities');
+		return $result['capabilities'];
 	}
 }

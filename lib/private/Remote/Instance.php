@@ -21,6 +21,7 @@
 
 namespace OC\Remote;
 
+use OC\Remote\Api\NotFoundException;
 use OCP\Http\Client\IClientService;
 use OCP\ICache;
 
@@ -111,6 +112,8 @@ class Instance {
 			if ($status) {
 				$this->cache->set($key, $status, 5 * 60);
 				$this->status = $status;
+			} else {
+				throw new NotFoundException('Remote server not found at address ' . $this->url);
 			}
 		}
 		return $status;
