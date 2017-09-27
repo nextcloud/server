@@ -341,6 +341,20 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
+	public static function addToFavoritesMenuItem() {
+		return self::fileActionsMenuItemFor("Add to favorites");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function removeFromFavoritesMenuItem() {
+		return self::fileActionsMenuItemFor("Remove from favorites");
+	}
+
+	/**
+	 * @return Locator
+	 */
 	public static function viewFileInFolderMenuItem() {
 		return self::fileActionsMenuItemFor("View in folder");
 	}
@@ -393,7 +407,9 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	public function iMarkAsFavorite($fileName) {
 		$this->iSeeThatIsNotMarkedAsFavorite($fileName);
 
-		$this->actor->find(self::favoriteActionForFile($fileName), 10)->click();
+		$this->actor->find(self::fileActionsMenuButtonForFile($fileName), 10)->click();
+
+		$this->actor->find(self::addToFavoritesMenuItem(), 2)->click();
 	}
 
 	/**
@@ -402,7 +418,9 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	public function iUnmarkAsFavorite($fileName) {
 		$this->iSeeThatIsMarkedAsFavorite($fileName);
 
-		$this->actor->find(self::favoriteActionForFile($fileName), 10)->click();
+		$this->actor->find(self::fileActionsMenuButtonForFile($fileName), 10)->click();
+
+		$this->actor->find(self::removeFromFavoritesMenuItem(), 2)->click();
 	}
 
 	/**
