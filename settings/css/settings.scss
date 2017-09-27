@@ -13,11 +13,6 @@ input {
 	clear: both;
 }
 
-.icon-federation-menu {
-	width: 16px;
-	float: right;
-}
-
 /* icons for sidebar */
 .nav-icon-personal-settings {
 	background-image: url('../img/personal.svg?v=1');
@@ -121,12 +116,19 @@ input {
 	}
 }
 
-#personal-settings-avatar-container h2 span[class^="icon-"] {
+.icon-federation-menu {
+	float: right;
 	padding-left: 16px;
 	background-size: 16px;
 	background-position: left 8px;
 	opacity: .3;
 	cursor: pointer;
+
+	.icon-triangle-s {
+		display: inline-block;
+		vertical-align: middle;
+		cursor: pointer;
+	}
 }
 
 .personal-show-container {
@@ -167,13 +169,6 @@ input {
 		h2 {
 			position: relative;
 			margin-bottom: 5px;
-			span[class^="icon-"] {
-				padding-left: 16px;
-				background-size: 16px;
-				background-position: left 8px;
-				opacity: .3;
-				cursor: pointer;
-			}
 		}
 		> form span {
 			&[class^="icon-checkmark"], &[class^="icon-error"] {
@@ -224,7 +219,7 @@ input {
 
 .federationScopeMenu {
 	top: 44px;
-	margin: -5px 5px 0;
+	margin-right: calc(-50% + 30px); /* half - the triangle icon width - borders */
 	&.bubble::after {
 		right: 50%;
 		transform: translate(50%, 0);
