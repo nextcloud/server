@@ -537,14 +537,17 @@ td {
 			visibility: hidden;
 		}
 	}
-	&.displayName > img, &.quota > img {
+	&.displayName > img {
 		visibility: hidden;
 	}
-	&.password, &.quota, &.displayName {
+	&.password, &.displayName {
 		width: 12em;
 		cursor: pointer;
 	}
-	&.password > span, &.quota > span {
+	&.mailAddress {
+		cursor: pointer;
+	}
+	&.password > span {
 		margin-right: 1.2em;
 		color: #C7C7C7;
 	}
@@ -633,11 +636,11 @@ span.usersLastLoginTooltip {
 }
 
 tr:hover > td {
-	&.password > span, &.displayName > span {
+	&.password > span, &.displayName > span, &.mailAddress > span {
 		margin: 0;
 		cursor: pointer;
 	}
-	&.password > img, &.displayName > img, &.quota > img {
+	&.password > img, &.displayName > img, &.mailAddress > img {
 		visibility: visible;
 		cursor: pointer;
 	}
