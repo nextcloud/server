@@ -571,7 +571,12 @@ var UserList = {
 			//asymptotic curve approaching 50% at 10GB to visualize used stace with infinite quota
 			usedQuota = 95 * (1 - (1 / (usedInGB + 1)));
 		}
-		$tr.find('.quota_progress').width(usedQuota + '%');
+		$tr.find('.quota-user-progress').val(usedQuota);
+		if (usedQuota > 80) {
+			$tr.find('.quota-user-progress').addClass('warn');
+		} else {
+			$tr.find('.quota-user-progress').removeClass('warn');
+		}
 	},
 
 	/**

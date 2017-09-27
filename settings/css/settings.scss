@@ -680,37 +680,35 @@ input#recoveryPassword {
 #userlist td.quota {
 	position: relative;
 	width: 10em;
+	progress.quota-user-progress {
+		position: absolute;
+		width: calc(10em + 0px);
+		margin-top: -7px;
+		z-index: 0;
+		margin-left: 1px;
+		height: 3px;
+	}
 }
 
 select {
 	&.quota-user {
-		position: absolute;
-		left: 0;
-		top: 0;
 		width: 10em;
 		height: 34px;
+		z-index: 150;
+		position: relative;
 	}
-	&.quota.active {
-		background: #fff;
+	+ progress.quota-user-progress {
+		position: absolute;
+		width: calc(10em + 0px);
+		margin-top: -7px;
+		z-index: 0;
+		margin-left: 1px;
+		height: 3px;
 	}
 }
 
 input.userFilter {
 	width: 200px;
-}
-
-.quota_progress_container {
-	position: absolute;
-	left: 0;
-	top: 0;
-	width: 10em;
-	margin: 3px 3px 3px 0;
-	border-radius: 3px;
-}
-
-.quota_progress {
-	background-color: #eee;
-	height: 34px;
 }
 
 #newusergroups + input[type='submit'] {
