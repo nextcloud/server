@@ -38,9 +38,23 @@ vendor_style('jcrop/css/jquery.Jcrop');
 ?>
 
 <div id="quota" class="section">
-	<div style="width:<?php p($_['usage_relative']);?>%"
-		<?php if($_['usage_relative'] > 80): ?> class="quota-warning" <?php endif; ?>>
-		<p id="quotatext">
+	<progress value="<?php p($_['usage_relative']); ?>" max="100"
+	<?php if($_['usage_relative'] > 80): ?> class="quota-warning" <?php endif; ?>></progress>
+
+	<div style="width:<?php p($_['usage_relative']);?>%" class="quotatext-fg
+		<?php if($_['usage_relative'] > 80): ?> quota-warning <?php endif; ?>">
+		<p class="quotatext">
+			<?php if ($_['quota'] === \OCP\Files\FileInfo::SPACE_UNLIMITED): ?>
+				<?php print_unescaped($l->t('You are using <strong>%s</strong> of <strong>%s</strong>',
+					[$_['usage'], $_['total_space']]));?>
+			<?php else: ?>
+				<?php print_unescaped($l->t('You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)',
+					[$_['usage'], $_['total_space'],  $_['usage_relative']]));?>
+			<?php endif ?>
+		</p>
+	</div>
+	<div class="quotatext-bg">
+		<p class="quotatext">
 			<?php if ($_['quota'] === \OCP\Files\FileInfo::SPACE_UNLIMITED): ?>
 				<?php print_unescaped($l->t('You are using <strong>%s</strong> of <strong>%s</strong>',
 					[$_['usage'], $_['total_space']]));?>
