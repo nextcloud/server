@@ -219,7 +219,7 @@ input {
 
 .federationScopeMenu {
 	top: 44px;
-	margin: -5px 5px 0;
+	margin-right: calc(-50% + 30px); /* half - the triangle icon width - borders */
 	&.bubble::after {
 		right: 50%;
 		transform: translate(50%, 0);
