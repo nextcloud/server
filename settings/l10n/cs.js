@@ -70,6 +70,7 @@ OC.L10N.register(
     "Email address for %1$s changed on %2$s" : "E-mailová adresa pro %1$s se na %2$s změnila",
     "Welcome aboard" : "Vítejte na palubě",
     "Welcome aboard %s" : "Vítej na palubě, %s",
+    "You now have an %s account, you can add, protect, and share your data." : "Nyní máte účet %s. Můžete přidat, ochránit a sdílet vaše data.",
     "Your username is: %s" : "Vaše uživatelské jméno je: %s",
     "Set your password" : "Nastavte vaše heslo",
     "Go to %s" : "Jít na %s",

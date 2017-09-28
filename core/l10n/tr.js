@@ -74,7 +74,7 @@ OC.L10N.register(
     "Cancel" : "İptal",
     "Confirm" : "Onayla",
     "Failed to authenticate, try again" : "Kimlik doğrulanamadı, yeniden deneyin",
-    "seconds ago" : "saniye önce",
+    "seconds ago" : "saniyeler önce",
     "Logging in …" : "Oturum açılıyor ...",
     "The link to reset your password has been sent to your email. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Parola sıfırlama bağlantısı e-posta adresinize gönderildi. Bir kaç dakika içinde e-postayı almazsanız spam/gereksiz klasörlerinize bakın.<br>E-postayı göremiyorsanız yerel sistem yöneticinizle görüşün.",
     "Your files are encrypted. There will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Dosyalarınız şifrelenmiş. Parola sıfırlama işleminden sonra verilerinize erişemeyeceksiniz.<br />Ne yapacağınızdan emin değilseniz, ilerlemeden önce sistem yöneticiniz ile görüşün.<br />Gerçekten devam etmek istiyor musunuz?",
