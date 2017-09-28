@@ -117,7 +117,7 @@
 	color: $color-main-text;
 	box-shadow: 0 1px 10px $color-box-shadow;
 	text-align: center;
-	border-radius: 3px;
+	border-radius: $border-radius;
 }
 
 .tooltip-arrow {
