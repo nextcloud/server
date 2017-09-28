@@ -171,6 +171,7 @@
     "Username must not consist of dots only" : "Uživatelské jméno se nesmí skládat ze samých teček",
     "A valid password must be provided" : "Musíte zadat platné heslo",
     "The username is already being used" : "Uživatelské jméno je již využíváno",
+    "Could not create user" : "Nepodařilo se vytvořit uživatele",
     "User disabled" : "Uživatel zakázán",
     "Login canceled by app" : "Přihlášení zrušeno aplikací",
     "No app name specified" : "Nebyl zadan název aplikace",
