@@ -44,6 +44,7 @@ textarea,
 	border: 1px solid nc-lighten($color-main-text, 86%);
 	outline: none;
 	border-radius: 3px;
+	cursor: text;
 	&:not(:disabled):not(.primary) {
 		&:hover,
 		&:focus,
@@ -293,21 +294,6 @@ input {
 			}
 			&:indeterminate:disabled + label:after {
 				background-color: nc-lighten($color-main-text, 73%);
-			}
-		}
-	}
-}
-#app-settings-content {
-	input {
-		&[type='checkbox'],
-		&[type='radio'] {
-			&.radio,
-			&.checkbox {
-				+ label {
-					display: inline-block;
-					width: 100%;
-					padding: 5px 0;
-				}
 			}
 		}
 	}

@@ -604,6 +604,19 @@ kbd {
 		padding: 5px 0 7px 22px;
 		color: rgba($color-main-text, .4);
 	}
+	input {
+		&[type='checkbox'],
+		&[type='radio'] {
+			&.radio,
+			&.checkbox {
+				+ label {
+					display: inline-block;
+					width: 100%;
+					padding: 5px 0;
+				}
+			}
+		}
+	}
 }
 
 #app-settings-header {
