@@ -78,11 +78,15 @@
 					area.slideUp(OC.menuSpeed*4, function() {
 						area.trigger(new $.Event('hide'));
 					});
+					area.removeClass('opened');
+					$(button).removeClass('opened');
 				}
 				function showArea() {
 					area.slideDown(OC.menuSpeed*4, function() {
 						area.trigger(new $.Event('show'));
 					});
+					area.addClass('opened');
+					$(button).addClass('opened');
 					var input = $(areaSelector + ' [autofocus]');
 					if (input.length === 1) {
 						input.focus();
