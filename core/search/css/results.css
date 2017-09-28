@@ -30,6 +30,9 @@
 	padding: 28px 0 28px 56px;
 	font-size: 18px;
 }
+.has-selection:not(.hidden) ~ #searchresults .status {
+	padding-left: 105px;
+}
 #searchresults .status.fixed {
 	position: fixed;
 	bottom: 0;
@@ -51,7 +54,7 @@
 }
 
 #searchresults td {
-	padding: 5px 19px;
+	padding: 5px 14px;
 	font-style: normal;
 	vertical-align: middle;
 	border-bottom: none;
@@ -63,6 +66,10 @@
 	padding: 5px 0;
 	background-position: right center;
 	background-repeat: no-repeat;
+}
+.has-selection:not(.hidden) ~ #searchresults td.icon {
+	width: 91px;
+	background-size: 32px;
 }
 
 #searchresults tr.template {
