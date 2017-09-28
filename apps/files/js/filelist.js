@@ -565,6 +565,7 @@
 		 */
 		_onShow: function(e) {
 			if (this.shown) {
+				this._setCurrentDir('/', false);
 				this.reload();
 			}
 			this.shown = true;
