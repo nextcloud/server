@@ -175,7 +175,7 @@
 					}
 				}
 				var $icon = $(renderStar(isFavorite));
-				$tr.find('td:first').prepend($icon);
+				$tr.find('td.filename .thumbnail').append($icon);
 				return $tr;
 			};
 			var oldElementToFile = fileList.elementToFile;

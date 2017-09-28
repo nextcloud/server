@@ -1207,17 +1207,16 @@
 				td.append(
 					'<input id="select-' + this.id + '-' + fileData.id +
 					'" type="checkbox" class="selectCheckBox checkbox"/><label for="select-' + this.id + '-' + fileData.id + '">' +
-					'<div class="thumbnail" style="background-image:url(' + icon + ');"></div>' +
 					'<span class="hidden-visually">' + t('files', 'Select') + '</span>' +
 					'</label>'
 				);
-			} else {
-				td.append('<div class="thumbnail" style="background-image:url(' + icon + ');"></div>');
 			}
 			var linkElem = $('<a></a>').attr({
 				"class": "name",
 				"href": linkUrl
 			});
+
+			linkElem.append('<div class="thumbnail-wrapper"><div class="thumbnail" style="background-image:url(' + icon + ');"></div></div>');
 
 			// from here work on the display name
 			name = fileData.displayName || name;

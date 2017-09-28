@@ -750,7 +750,7 @@ describe('OCA.Files.FileList tests', function() {
 			doRename();
 
 			expect(fileList.findFileEl('Tu_after_three.txt').find('.thumbnail').parent().attr('class'))
-				.toEqual('icon-loading-small');
+				.toContain('icon-loading-small');
 
 			deferredRename.reject(409);
 
@@ -838,7 +838,7 @@ describe('OCA.Files.FileList tests', function() {
 			fileList.move('One.txt', '/somedir');
 
 			expect(fileList.findFileEl('One.txt').find('.thumbnail').parent().attr('class'))
-				.toEqual('icon-loading-small');
+				.toContain('icon-loading-small');
 
 			expect(moveStub.calledOnce).toEqual(true);
 
@@ -935,7 +935,7 @@ describe('OCA.Files.FileList tests', function() {
 			fileList.copy('One.txt', '/somedir');
 
 			expect(fileList.findFileEl('One.txt').find('.thumbnail').parent().attr('class'))
-				.toEqual('icon-loading-small');
+				.toContain('icon-loading-small');
 
 			expect(copyStub.calledOnce).toEqual(true);
 
@@ -3150,7 +3150,7 @@ describe('OCA.Files.FileList tests', function() {
 			fileList.showFileBusyState('Two.jpg', true);
 			expect($tr.hasClass('busy')).toEqual(true);
 			expect($tr.find('.thumbnail').parent().attr('class'))
-				.toEqual('icon-loading-small');
+				.toContain('icon-loading-small');
 
 
 			fileList.showFileBusyState('Two.jpg', false);

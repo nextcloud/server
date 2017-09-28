@@ -232,9 +232,6 @@ table th#headerName {
 	position: relative;
 	height: 50px;
 }
-.has-favorites #headerName-container {
-	padding-left: 50px;
-}
 
 table th#headerSize, table td.filesize {
 	text-align: right;
@@ -296,7 +293,12 @@ table td.filename a.name {
 	line-height: 50px;
 	padding: 0;
 }
-table td.filename label.icon-loading-small {
+table td.filename .thumbnail-wrapper {
+	position: absolute;
+	width: 50px;
+	height: 50px;
+}
+table td.filename .thumbnail-wrapper.icon-loading-small {
 	&:after {
 		z-index: 10;
 	}
@@ -312,7 +314,6 @@ table td.filename .thumbnail {
 	margin-left: 9px;
 	margin-top: 9px;
 	cursor: pointer;
-	float: left;
 	position: absolute;
 	z-index: 4;
 }
@@ -322,12 +323,9 @@ table td.filename input.filename {
 	margin-left: 48px;
 	cursor: text;
 }
-.has-favorites table td.filename input.filename {
-	margin-left: 52px;
-}
 
 table td.filename a, table td.login, table td.logout, table td.download, table td.upload, table td.create, table td.delete { padding:3px 8px 8px 3px; }
-table td.filename .nametext, .uploadtext, .modified, .column-last>span:first-child { float:left; padding:15px 0; }
+table td.filename .nametext, .modified, .column-last>span:first-child { float:left; padding:15px 0; }
 
 .modified, .column-last>span:first-child {
 	position: relative;
@@ -347,13 +345,13 @@ table td.filename .nametext {
 	max-width: 800px;
 	height: 100%;
 }
+table td.filename .uploadtext {
+	position: absolute;
+	left: 55px;
+}
 /* ellipsis on file names */
 table td.filename .nametext .innernametext {
 	max-width: calc(100% - 100px) !important;
-}
-.has-favorites #fileList td.filename a.name {
-	left: 50px;
-	margin-right: 50px;
 }
 
 .hide-hidden-files #fileList tr.hidden-file,
@@ -481,9 +479,6 @@ table td.filename .uploadtext {
 	left: 18px;
 	z-index: 10;
 }
-.has-favorites .select-all {
-	left: 68px;
-}
 
 #fileList tr td.filename {
 	position: relative;
@@ -504,9 +499,10 @@ table td.filename .uploadtext {
 	float: left;
 }
 #fileList tr td.filename .favorite-mark {
+	position: absolute;
 	display: block;
-	float: left;
-	width: 30px;
+	top: -6px;
+	right: -6px;
 	line-height: 100%;
 	text-align: center;
 }
@@ -570,8 +566,7 @@ a.action > img {
 	margin-bottom: -1px;
 }
 
-#fileList a.action,
-#fileList div.favorite-mark {
+#fileList a.action {
 	display: inline;
 	padding: 17px 8px;
 	line-height: 50px;
@@ -662,9 +657,6 @@ table tr.summary td {
 }
 .summary .info {
 	margin-left: 40px;
-}
-.has-favorites .summary .info {
-	margin-left: 90px;
 }
 
 table.dragshadow {
