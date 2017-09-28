@@ -19,8 +19,34 @@ if (!OCA.Sharing) {
  */
 OCA.Sharing.App = {
 
+	_sharingFileList: null,
 	_inFileList: null,
 	_outFileList: null,
+	_linkFileList: null,
+
+	initSharing: function($el) {
+		if (this._sharingFileList) {
+			return this._sharingFileList;
+		}
+
+		this._sharingFileList = new OCA.Sharing.FileList(
+			$el,
+			{
+				id: 'shares.all',
+				scrollContainer: $('#app-content'),
+				sharedWithUser: true,
+				fileActions: this._createFileActions(),
+				config: OCA.Files.App.getFilesConfig()
+			}
+		);
+
+		this._extendFileList(this._sharingFileList);
+		this._sharingFileList.appName = t('files_sharing', 'Shared');
+		this._sharingFileList.$el.find('#emptycontent').html('<div class="icon-shared"></div>' +
+			'<h2>' + t('files_sharing', 'Nothing shared yet') + '</h2>' +
+			'<p>' + t('files_sharing', 'Shared files and folders will show up here') + '</p>');
+		return this._sharingFileList;
+	},
 
 	initSharingIn: function($el) {
 		if (this._inFileList) {
@@ -92,6 +118,12 @@ OCA.Sharing.App = {
 		return this._linkFileList;
 	},
 
+	removeSharing: function() {
+		if (this._sharingFileList) {
+			this._sharingFileList.$fileList.empty();
+		}
+	},
+
 	removeSharingIn: function() {
 		if (this._inFileList) {
 			this._inFileList.$fileList.empty();
@@ -116,9 +148,11 @@ OCA.Sharing.App = {
 	destroy: function() {
 		OCA.Files.fileActions.off('setDefault.app-sharing', this._onActionsUpdated);
 		OCA.Files.fileActions.off('registerAction.app-sharing', this._onActionsUpdated);
+		this.removeSharing();
 		this.removeSharingIn();
 		this.removeSharingOut();
 		this.removeSharingLinks();
+		this._sharingFileList = null;
 		this._inFileList = null;
 		this._outFileList = null;
 		this._linkFileList = null;
@@ -175,6 +209,12 @@ OCA.Sharing.App = {
 };
 
 $(document).ready(function() {
+	$('#app-content-sharing').on('show', function(e) {
+		OCA.Sharing.App.initSharing($(e.target));
+	});
+	$('#app-content-sharing').on('hide', function() {
+		OCA.Sharing.App.removeSharing();
+	});
 	$('#app-content-sharingin').on('show', function(e) {
 		OCA.Sharing.App.initSharingIn($(e.target));
 	});
