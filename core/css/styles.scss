@@ -361,7 +361,7 @@ body {
 		}
 		a {
 			color: $color-primary-text;
-			border-bottom: 1px solid nc-lighten($color-main-text, 73%);
+			border-bottom: 1px solid nc-darken($color-main-background, 27%);
 		}
 	}
 	.infogroup {
@@ -627,7 +627,7 @@ label.infield {
 			background: nc-darken($color-main-background, 3%);
 			color: nc-lighten($color-main-text, 53%);
 			cursor: pointer;
-			border: 1px solid nc-lighten($color-main-text, 86%);
+			border: 1px solid nc-darken($color-main-background, 14%);
 			span {
 				cursor: pointer;
 				padding: 10px 20px;
@@ -1064,7 +1064,7 @@ code {
 }
 
 .ui-datepicker-prev, .ui-datepicker-next {
-	border: nc-lighten($color-main-text, 86%);
+	border: nc-darken($color-main-background, 14%);
 	background: $color-main-background;
 }
 
@@ -1287,7 +1287,7 @@ span.ui-icon {
 	}
 	.scrollarea {
 		overflow: auto;
-		border: 1px solid nc-lighten($color-main-text, 86%);
+		border: 1px solid nc-darken($color-main-background, 14%);
 		width: 100%;
 		height: 240px;
 	}
