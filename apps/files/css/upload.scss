@@ -50,28 +50,29 @@
 	text-align: center;
 }
 #uploadprogressbar .ui-progressbar-value.ui-widget-header.ui-corner-left {
-    height: 100%;
-    top: 0px;
-    left: 0px;
-    position: absolute;
-    overflow: hidden;
+	height: 100%;
+	top: 0px;
+	left: 0px;
+	position: absolute;
+	overflow: hidden;
+	background-color: $color-primary;
 }
 #uploadprogressbar .label {
-    top: 6px;
-    opacity: 1;
-    overflow: hidden;
-    white-space: nowrap;
+	top: 6px;
+	opacity: 1;
+	overflow: hidden;
+	white-space: nowrap;
 	font-weight: normal;
 }
 #uploadprogressbar .label.inner {
-    color:white; 
-    position: absolute;
-    display: block;
-    width: 200px;
+	color: $color-primary-text;
+	position: absolute;
+	display: block;
+	width: 200px;
 }
 #uploadprogressbar .label.outer {
-    position: relative;
-    color: black;
+	position: relative;
+	color: $color-main-text;
 }
 #uploadprogressbar .desktop {
 	display: block;

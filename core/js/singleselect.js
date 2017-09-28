@@ -42,7 +42,6 @@
 						input.tipsy({gravity: gravity, trigger: 'manual'});
 						input.tipsy('show');
 					}
-					select.css('background-color', 'white');
 					input.focus();
 				}
 			});

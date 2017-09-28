@@ -43,7 +43,6 @@
 			</td>
 		<?php endif;?>
 			<td class="quota">
-				<div class="quota_progress_container"><div class="quota_progress"></div></div>
 				<select class="quota-user" data-inputtitle="<?php p($l->t('Please enter storage quota (ex: "512 MB" or "12 GB")')) ?>">
 					<option	value='default'>
 						<?php p($l->t('Default'));?>
@@ -60,12 +59,13 @@
 						<?php p($l->t('Other'));?> ...
 					</option>
 				</select>
+				<progress class="quota-user-progress" value="" max="100"></progress>
 			</td>
 			<td class="storageLocation"></td>
 			<td class="userBackend"></td>
 			<td class="lastLogin"></td>
 			<td class="userActions"><span></span>
-				<div class="popovermenu bubble open menu">
+				<div class="popovermenu bubble menu">
 					<ul class="userActionsMenu">
 						<li>
 							<a href="#" class="menuitem action-togglestate permanent" data-action="togglestate"></a>

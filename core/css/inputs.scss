@@ -35,7 +35,7 @@ select,
 button, .button,
 input:not([type='range']),
 textarea,
-#quota,	.pager li a {
+.pager li a {
 	margin: 3px 3px 3px 0;
 	padding: 7px 6px;
 	font-size: 13px;
@@ -45,8 +45,7 @@ textarea,
 	outline: none;
 	border-radius: 3px;
 	&:not(:disabled):not(.primary) {
-		/* no border on quota */
-		&:not(#quota):hover,
+		&:hover,
 		&:focus,
 		&.active {
 		/* active class used for multiselect */
@@ -184,9 +183,6 @@ select {
 button img,
 .button img {
 	cursor: pointer;
-}
-#quota {
-	color: nc-lighten($color-main-text, 33%);
 }
 select,
 .button.multiselect {
@@ -469,6 +465,40 @@ input {
 		.select2-search-field input {
 			line-height: 20px;
 		}
+	}
+}
+
+/* Progressbar */
+progress {
+	display: block;
+	width: 100%;
+	padding: 0;
+	border: 0 none;
+	background-color: nc-darken($color-main-background, 10%);
+	border-radius: 3px;
+	flex-basis: 100%;
+	height: 5px;
+	overflow: hidden;
+	&.warn {
+		&::-moz-progress-bar {
+			background: $color-error;
+		}
+		&::-webkit-progress-value {
+			background: $color-error;
+		}
+	}
+	&::-webkit-progress-bar {
+		background: transparent;
+	}
+	&::-moz-progress-bar {
+		border-radius: 3px;
+		background: $color-primary;
+		transition: 250ms all ease-in-out;
+	}
+	&::-webkit-progress-value {
+		border-radius: 3px;
+		background: $color-primary;
+		transition: 250ms all ease-in-out;
 	}
 }
 

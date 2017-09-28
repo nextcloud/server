@@ -579,42 +579,6 @@ span.usersLastLoginTooltip {
 	.groupsListContainer.hidden {
 		display: none;
 	}
-	.bubble {
-		z-index: 1;
-		right: -6px;
-		top: auto;
-		&:after {
-			right: 5px;
-		}
-	}
-	.popovermenu {
-		a.menuitem {
-			height: 20px;
-			margin: 0;
-			padding: 0;
-			line-height: initial;
-		}
-		margin-top: 4px;
-		border-top-right-radius: 3px;
-		right: 3px;
-		opacity: 0;
-		display: block;
-		visibility: hidden;
-		transition: opacity 0.1s, visibility 0.1s;
-	}
-	tr.active .popovermenu {
-		opacity: 1;
-		visibility: visible;
-	}
-	.popovermenu > ul.userActionsMenu {
-		right: 15px;
-		a {
-			margin: 5px 0;
-			span:last-child {
-				margin-left: 5px;
-			}
-		}
-	}
 }
 
 /* because of accessibility the name cell is <th> - therefore we enforce the black color */
@@ -649,9 +613,23 @@ tr:hover > td {
 td.userActions {
 	width: 25px;
 	text-align: center;
+	position: relative;
 	.action {
 		position: relative;
 		top: 3px;
+	}
+	.toggleUserActions {
+		border: none;
+		background-color: rgba(0, 0, 0, 0);
+		width: 34px;
+		height: 34px;
+		margin: 0;
+		opacity: 0.5;
+		&:hover,
+		&:focus {
+			background-color: transparent;
+			opacity: 1;
+		}
 	}
 }
 
@@ -683,37 +661,35 @@ input#recoveryPassword {
 #userlist td.quota {
 	position: relative;
 	width: 10em;
+	progress.quota-user-progress {
+		position: absolute;
+		width: calc(10em + 0px);
+		margin-top: -7px;
+		z-index: 0;
+		margin-left: 1px;
+		height: 3px;
+	}
 }
 
 select {
 	&.quota-user {
-		position: absolute;
-		left: 0;
-		top: 0;
 		width: 10em;
 		height: 34px;
+		z-index: 50;
+		position: relative;
 	}
-	&.quota.active {
-		background: #fff;
+	+ progress.quota-user-progress {
+		position: absolute;
+		width: calc(10em + 0px);
+		margin-top: -7px;
+		z-index: 0;
+		margin-left: 1px;
+		height: 3px;
 	}
 }
 
 input.userFilter {
 	width: 200px;
-}
-
-.quota_progress_container {
-	position: absolute;
-	left: 0;
-	top: 0;
-	width: 10em;
-	margin: 3px 3px 3px 0;
-	border-radius: 3px;
-}
-
-.quota_progress {
-	background-color: #eee;
-	height: 34px;
 }
 
 #newusergroups + input[type='submit'] {
