@@ -325,7 +325,7 @@ OC.L10N.register(
     "Email" : "Correo electrónico",
     "Your email address" : "Tu dirección de correo electrónico",
     "No email address set" : "No se ha establecido la dirección de correo electrónico",
-    "For password reset and notifications" : "Para reestablecer contraseña y notificaciones",
+    "For password reset and notifications" : "Para restablecer contraseña y notificaciones",
     "Phone number" : "Número de teléfono",
     "Your phone number" : "Su número telefónico",
     "Address" : "Dirección",
