@@ -478,6 +478,7 @@ progress {
 	border-radius: 3px;
 	flex-basis: 100%;
 	height: 5px;
+	overflow: hidden;
 	&.warn {
 		&::-moz-progress-bar {
 			background: $color-error;

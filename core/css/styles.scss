@@ -932,6 +932,12 @@ code {
 	padding: 0 !important;
 	progress {
 		height: 36px;
+		&::-moz-progress-bar {
+			border-radius: 3px 0 0 3px;
+		}
+		&::-webkit-progress-value {
+			border-radius: 3px 0 0 3px;
+		}
 	}
 	div {
 		font-weight: normal;
