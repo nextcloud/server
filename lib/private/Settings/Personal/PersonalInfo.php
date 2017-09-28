@@ -116,7 +116,7 @@ class PersonalInfo implements ISettings {
 		$parameters = [
 			'total_space' => $totalSpace,
 			'usage' => \OC_Helper::humanFileSize($storageInfo['used']),
-			'usage_relative' => $storageInfo['relative'],
+			'usage_relative' => round($storageInfo['relative']),
 			'quota' => $storageInfo['quota'],
 			'avatarChangeSupported' => $user->canChangeAvatar(),
 			'lookupServerUploadEnabled' => $lookupServerUploadEnabled,
