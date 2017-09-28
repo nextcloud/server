@@ -65,7 +65,7 @@
 			<td class="userBackend"></td>
 			<td class="lastLogin"></td>
 			<td class="userActions"><span></span>
-				<div class="popovermenu bubble open menu">
+				<div class="popovermenu bubble menu">
 					<ul class="userActionsMenu">
 						<li>
 							<a href="#" class="menuitem action-togglestate permanent" data-action="togglestate"></a>

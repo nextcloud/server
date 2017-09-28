@@ -955,9 +955,12 @@ $(document).ready(function () {
 
 		if ($tr.is('.active')) {
 			$tr.removeClass('active');
+			menudiv.removeClass('open');
 			return;
 		}
 		$('#userlist tr.active').removeClass('active');
+		$('#userlist .popovermenu').removeClass('open');
+		menudiv.addClass('open');
 		menudiv.find('.action-togglestate').empty();
 		if ($tr.data('userEnabled')) {
 			$('.action-togglestate', $td).html('<span class="icon icon-close"></span><span>' + t('settings', 'Disable') + '</span>');

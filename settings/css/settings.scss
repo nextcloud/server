@@ -576,42 +576,6 @@ span.usersLastLoginTooltip {
 	.groupsListContainer.hidden {
 		display: none;
 	}
-	.bubble {
-		z-index: 1;
-		right: -6px;
-		top: auto;
-		&:after {
-			right: 5px;
-		}
-	}
-	.popovermenu {
-		a.menuitem {
-			height: 20px;
-			margin: 0;
-			padding: 0;
-			line-height: initial;
-		}
-		margin-top: 4px;
-		border-top-right-radius: 3px;
-		right: 3px;
-		opacity: 0;
-		display: block;
-		visibility: hidden;
-		transition: opacity 0.1s, visibility 0.1s;
-	}
-	tr.active .popovermenu {
-		opacity: 1;
-		visibility: visible;
-	}
-	.popovermenu > ul.userActionsMenu {
-		right: 15px;
-		a {
-			margin: 5px 0;
-			span:last-child {
-				margin-left: 5px;
-			}
-		}
-	}
 }
 
 /* because of accessibility the name cell is <th> - therefore we enforce the black color */
@@ -646,9 +610,23 @@ tr:hover > td {
 td.userActions {
 	width: 25px;
 	text-align: center;
+	position: relative;
 	.action {
 		position: relative;
 		top: 3px;
+	}
+	.toggleUserActions {
+		border: none;
+		background-color: rgba(0, 0, 0, 0);
+		width: 34px;
+		height: 34px;
+		margin: 0;
+		opacity: 0.5;
+		&:hover,
+		&:focus {
+			background-color: transparent;
+			opacity: 1;
+		}
 	}
 }
 
@@ -694,7 +672,7 @@ select {
 	&.quota-user {
 		width: 10em;
 		height: 34px;
-		z-index: 150;
+		z-index: 50;
 		position: relative;
 	}
 	+ progress.quota-user-progress {
