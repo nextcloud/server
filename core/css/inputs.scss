@@ -257,43 +257,40 @@ input {
 		}
 		&.radio--white,
 		&.checkbox--white {
-			+ label:before {
-				border-color: nc-darken($color-main-background, 14%);
-			}
-			&:not(:disabled):not(:checked) + label:hover:before,
+			+ label:before,
 			&:focus + label:before {
-				border-color: $color-main-background;
+				border-color: darken(#fff, 27%);
+			}
+			&:not(:disabled):not(:checked) + label:hover:before {
+				border-color: #fff;
 			}
 			&:checked + label:before {
-				box-shadow: inset 0px 0px 0px 2px $color-main-text;
-				background-color: $color-border;
-				border-color: $color-border
+				box-shadow: inset 0px 0px 0px 2px $color-main-background;
+				background-color: darken(#fff, 14%);
+				border-color: darken(#fff, 14%);
 			}
 			&:disabled + label:before {
-				background-color: nc-darken($color-main-background, 23%) !important; /* override other status */
-				border-color: rgba($color-main-background, 0.4) !important; /* override other status */
+				background-color: darken(#fff, 27%) !important; /* override other status */
+				border-color: rgba(#fff, 0.4) !important; /* override other status */
 			}
 			&:checked:disabled + label:before {
-				box-shadow: inset 0px 0px 0px 2px $color-main-text;
-				border-color: nc-darken($color-main-background, 27%);
-				background-color: nc-darken($color-main-background, 27%);
+				box-shadow: inset 0px 0px 0px 2px $color-main-background;
+				border-color: rgba(#fff, 0.4) !important; /* override other status */
+				background-color: darken(#fff, 27%);
 			}
 		}
 		&.checkbox--white {
 			&:checked + label:before,
 			&:indeterminate + label:before {
 				background-color: transparent !important; /* Override default checked */
-				border-color: $color-main-background !important; /* Override default checked */
+				border-color: #fff !important; /* Override default checked */
 				background-image: url('../img/actions/checkbox-mark-white.svg');
 			}
 			&:indeterminate + label:before {
 				background-image: url('../img/actions/checkbox-mixed-white.svg');
 			}
-			&:checked:disabled + label:after {
-				border-color: nc-darken($color-main-background, 27%);
-			}
-			&:indeterminate:disabled + label:after {
-				background-color: nc-darken($color-main-background, 27%);
+			&:disabled + label:before {
+				opacity: 0.7; /* No other choice for white background image */
 			}
 		}
 	}
