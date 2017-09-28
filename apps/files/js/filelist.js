@@ -1207,12 +1207,12 @@
 				td.append(
 					'<input id="select-' + this.id + '-' + fileData.id +
 					'" type="checkbox" class="selectCheckBox checkbox"/><label for="select-' + this.id + '-' + fileData.id + '">' +
-					'<div class="thumbnail" style="background-image:url(' + icon + '); background-size: 32px;"></div>' +
+					'<div class="thumbnail" style="background-image:url(' + icon + ');"></div>' +
 					'<span class="hidden-visually">' + t('files', 'Select') + '</span>' +
 					'</label>'
 				);
 			} else {
-				td.append('<div class="thumbnail" style="background-image:url(' + icon + '); background-size: 32px;"></div>');
+				td.append('<div class="thumbnail" style="background-image:url(' + icon + ');"></div>');
 			}
 			var linkElem = $('<a></a>').attr({
 				"class": "name",
