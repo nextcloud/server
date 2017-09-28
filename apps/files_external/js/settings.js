@@ -1129,14 +1129,21 @@ MountConfigListView.prototype = _.extend({
 			return;
 		}
 		var storage = new this._storageConfigClass(configId);
-		this.updateStatus($tr, StorageConfig.Status.IN_PROGRESS);
 
-		storage.destroy({
-			success: function() {
-				$tr.remove();
-			},
-			error: function() {
-				self.updateStatus($tr, StorageConfig.Status.ERROR);
+		OC.dialogs.confirm(t('files_external', 'Are you sure you want to delete this external storage', {
+				storage: this.mountPoint
+			}), t('files_external', 'Delete storage?'), function(confirm) {
+			if (confirm) {
+				this.updateStatus($tr, StorageConfig.Status.IN_PROGRESS);
+
+				storage.destroy({
+					success: function () {
+						$tr.remove();
+					},
+					error: function () {
+						self.updateStatus($tr, StorageConfig.Status.ERROR);
+					}
+				});
 			}
 		});
 	},
