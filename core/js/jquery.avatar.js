@@ -126,9 +126,9 @@
 				} else {
 					$div.show();
 					if (ie8fix === true) {
-						$div.html('<img width="' + size + '" height="' + size + '" src="'+url+'#'+Math.floor(Math.random()*1000)+'">');
+						$div.html('<img width="' + size + '" height="' + size + '" src="'+url+'#'+Math.floor(Math.random()*1000)+'" alt="">');
 					} else {
-						$div.html('<img width="' + size + '" height="' + size + '" src="'+url+'">');
+						$div.html('<img width="' + size + '" height="' + size + '" src="'+url+'" alt="">');
 					}
 				}
 				if(typeof callback === 'function') {
