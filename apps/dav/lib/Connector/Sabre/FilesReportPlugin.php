@@ -45,6 +45,7 @@ class FilesReportPlugin extends ServerPlugin {
 	const NS_OWNCLOUD = 'http://owncloud.org/ns';
 	const REPORT_NAME            = '{http://owncloud.org/ns}filter-files';
 	const SYSTEMTAG_PROPERTYNAME = '{http://owncloud.org/ns}systemtag';
+	const CIRCLE_PROPERTYNAME = '{http://owncloud.org/ns}circle';
 
 	/**
 	 * Reference to main server object
@@ -255,14 +256,19 @@ class FilesReportPlugin extends ServerPlugin {
 		$ns = '{' . $this::NS_OWNCLOUD . '}';
 		$resultFileIds = null;
 		$systemTagIds = [];
+		$circlesIds = [];
 		$favoriteFilter = null;
 		foreach ($filterRules as $filterRule) {
 			if ($filterRule['name'] === $ns . 'systemtag') {
 				$systemTagIds[] = $filterRule['value'];
 			}
+			if ($filterRule['name'] === $ns . 'circle') {
+				$circlesIds[] = $filterRule['value'];
+			}
 			if ($filterRule['name'] === $ns . 'favorite') {
 				$favoriteFilter = true;
 			}
+
 		}
 
 		if ($favoriteFilter !== null) {
@@ -274,6 +280,15 @@ class FilesReportPlugin extends ServerPlugin {
 
 		if (!empty($systemTagIds)) {
 			$fileIds = $this->getSystemTagFileIds($systemTagIds);
+			if (empty($resultFileIds)) {
+				$resultFileIds = $fileIds;
+			} else {
+				$resultFileIds = array_intersect($fileIds, $resultFileIds);
+			}
+		}
+
+		if (!empty($circlesIds)) {
+			$fileIds = $this->getCirclesFileIds($circlesIds);
 			if (empty($resultFileIds)) {
 				$resultFileIds = $fileIds;
 			} else {
@@ -325,6 +340,29 @@ class FilesReportPlugin extends ServerPlugin {
 			}
 		}
 		return $resultFileIds;
+	}
+
+	private function getCirclesFileIds($circlesIds) {
+
+		// check user permissions, if applicable
+		/*
+		if (!$this->isAdmin()) {
+			// check visibility/permission
+			$tags = $this->tagManager->getTagsByIds($circlesIds);
+			$unknownTagIds = [];
+			foreach ($tags as $tag) {
+				if (!$tag->isUserVisible()) {
+					$unknownTagIds[] = $tag->getId();
+				}
+			}
+
+			if (!empty($unknownTagIds)) {
+				throw new TagNotFoundException('Tag with ids ' . implode(', ', $unknownTagIds) . ' not found');
+			}
+		}
+		*/
+
+		return \OCA\Circles\Api\v1\Circles::getObjectIdsForCircles($circlesIds);
 	}
 
 	/**
