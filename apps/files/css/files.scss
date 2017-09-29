@@ -337,13 +337,14 @@ table td.filename .nametext, .modified, .column-last>span:first-child { float:le
 /* TODO fix usability bug (accidental file/folder selection) */
 table td.filename .nametext {
 	position: absolute;
-	left: 55px;
 	padding: 0;
+	padding-left: 55px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	width: 70%;
 	max-width: 800px;
 	height: 100%;
+	z-index: 10;
 }
 table td.filename .uploadtext {
 	position: absolute;
