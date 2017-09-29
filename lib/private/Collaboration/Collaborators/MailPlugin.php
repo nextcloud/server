@@ -90,6 +90,7 @@ class MailPlugin implements ISearchPlugin {
 									'value' => [
 										'shareType' => Share::SHARE_TYPE_USER,
 										'shareWith' => $cloud->getUser(),
+										'hasEmailAddress' => true,
 									],
 								]];
 								$searchResult->addResultSet($userType, [], $singleResult);
@@ -111,6 +112,7 @@ class MailPlugin implements ISearchPlugin {
 									'value' => [
 										'shareType' => Share::SHARE_TYPE_USER,
 										'shareWith' => $cloud->getUser(),
+										'hasEmailAddress' => true,
 									]],
 								];
 								$searchResult->addResultSet($userType, $singleResult, []);
