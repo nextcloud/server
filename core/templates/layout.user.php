@@ -33,7 +33,7 @@
 	<header role="banner"><div id="header">
 			<div class="header-left">
 				<a href="<?php print_unescaped(link_to('', 'index.php')); ?>"
-					id="nextcloud" tabindex="1">
+					id="nextcloud">
 					<div class="logo logo-icon">
 						<h1 class="hidden-visually">
 							<?php p($theme->getName()); ?> <?php p(!empty($_['application'])?$_['application']: $l->t('Apps')); ?>
@@ -45,7 +45,6 @@
 					<?php foreach ($_['navigation'] as $entry): ?>
 						<li data-id="<?php p($entry['id']); ?>" class="hidden">
 							<a href="<?php print_unescaped($entry['href']); ?>"
-							   tabindex="3"
 								<?php if ($entry['active']): ?> class="active"<?php endif; ?>>
 								<img src="<?php print_unescaped($entry['icon'] . '?v=' . $_['versionHash']); ?>"
 									 class="app-icon" alt="<?php p($entry['name']); ?>" />
@@ -71,7 +70,7 @@
 							<ul>
 								<?php foreach($_['navigation'] as $entry): ?>
 									<li data-id="<?php p($entry['id']); ?>">
-									<a href="<?php print_unescaped($entry['href']); ?>" tabindex="3"
+									<a href="<?php print_unescaped($entry['href']); ?>"
 										<?php if( $entry['active'] ): ?> class="active"<?php endif; ?>>
 										<svg width="16" height="16" viewBox="0 0 16 16">
 											<defs><filter id="invert-<?php p($entry['id']); ?>"><feColorMatrix in="SourceGraphic" type="matrix" values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0"></feColorMatrix></filter></defs>
@@ -96,15 +95,15 @@
 					</label>
 					<input id="searchbox" type="search" name="query"
 						value="" required
-						autocomplete="off" tabindex="5">
+						autocomplete="off">
 					<button class="icon-close-white" type="reset"><span class="hidden-visually"><?php p($l->t('Reset search'));?></span></button>
 				</form>
 				<div id="contactsmenu">
-					<div class="icon-contacts menutoggle"></div>
+					<div class="icon-contacts menutoggle" tabindex="0" role="link"></div>
 					<div class="menu"></div>
 				</div>
 				<div id="settings">
-					<div id="expand" tabindex="6" role="link" class="menutoggle">
+					<div id="expand" tabindex="0" role="link" class="menutoggle">
 						<div class="avatardiv<?php if ($_['userAvatarSet']) { print_unescaped(' avatardiv-shown'); } else { print_unescaped('" style="display: none'); } ?>">
 							<?php if ($_['userAvatarSet']): ?>
 								<img alt="" width="32" height="32"
