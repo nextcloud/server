@@ -31,6 +31,7 @@ namespace OCA\User_LDAP;
 
 use OCA\User_LDAP\User\User;
 use OCP\IConfig;
+use OCP\IUserSession;
 use OCP\Notification\IManager as INotificationManager;
 
 class User_Proxy extends Proxy implements \OCP\IUserBackend, \OCP\UserInterface, IUserLDAP {
@@ -39,14 +40,19 @@ class User_Proxy extends Proxy implements \OCP\IUserBackend, \OCP\UserInterface,
 
 	/**
 	 * Constructor
+	 *
 	 * @param array $serverConfigPrefixes array containing the config Prefixes
+	 * @param ILDAPWrapper $ldap
+	 * @param IConfig $ocConfig
+	 * @param INotificationManager $notificationManager
+	 * @param IUserSession $userSession
 	 */
 	public function __construct(array $serverConfigPrefixes, ILDAPWrapper $ldap, IConfig $ocConfig,
-		INotificationManager $notificationManager) {
+		INotificationManager $notificationManager, IUserSession $userSession) {
 		parent::__construct($ldap);
 		foreach($serverConfigPrefixes as $configPrefix) {
 			$this->backends[$configPrefix] =
-				new User_LDAP($this->getAccess($configPrefix), $ocConfig, $notificationManager);
+				new User_LDAP($this->getAccess($configPrefix), $ocConfig, $notificationManager, $userSession);
 			if(is_null($this->refBackend)) {
 				$this->refBackend = &$this->backends[$configPrefix];
 			}

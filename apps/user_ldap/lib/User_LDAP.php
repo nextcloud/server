@@ -42,6 +42,7 @@ use OCA\User_LDAP\User\OfflineUser;
 use OCA\User_LDAP\User\User;
 use OCP\IConfig;
 use OCP\IUser;
+use OCP\IUserSession;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\Util;
 
@@ -59,24 +60,21 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	 * @param Access $access
 	 * @param \OCP\IConfig $ocConfig
 	 * @param \OCP\Notification\IManager $notificationManager
+	 * @param IUserSession $userSession
 	 */
-	public function __construct(Access $access, IConfig $ocConfig, INotificationManager $notificationManager) {
+	public function __construct(Access $access, IConfig $ocConfig, INotificationManager $notificationManager, IUserSession $userSession) {
 		parent::__construct($access);
 		$this->ocConfig = $ocConfig;
 		$this->notificationManager = $notificationManager;
-		$this->registerHooks();
+		$this->registerHooks($userSession);
 	}
 
-	protected function registerHooks() {
-		Util::connectHook('OC_User','pre_deleteUser', $this, 'preDeleteUser');
-		Util::connectHook('OC_User','post_deleteUser', $this, 'postDeleteUser');
+	protected function registerHooks(IUserSession $userSession) {
+		$userSession->listen('\OC\User', 'preDelete', [$this, 'preDeleteUser']);
+		$userSession->listen('\OC\User', 'postDelete', [$this, 'postDeleteUser']);
 	}
 
-	public function preDeleteUser(array $param) {
-		$user = $param[0];
-		if(!$user instanceof IUser) {
-			throw new \RuntimeException('IUser expected');
-		}
+	public function preDeleteUser(IUser $user) {
 		$this->currentUserInDeletionProcess = $user->getUID();
 	}
 
@@ -376,8 +374,6 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 		\OC::$server->getLogger()->info('Cleaning up after user ' . $uid,
 			array('app' => 'user_ldap'));
 
-		//Get Home Directory out of user preferences so we can return it later,
-		//necessary for removing directories as done by OC_User.
 		$this->access->getUserMapper()->unmap($uid);
 		$this->access->userManager->invalidate($uid);
 		return true;
@@ -406,7 +402,9 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 		// early return path if it is a deleted user
 		$user = $this->access->userManager->get($uid);
 		if($user instanceof OfflineUser) {
-			if($this->currentUserInDeletionProcess === $user->getUID()) {
+			if($this->currentUserInDeletionProcess !== null
+				&& $this->currentUserInDeletionProcess === $user->getOCName()
+			) {
 				return $user->getHomePath();
 			} else {
 				throw new NoUserException($uid . ' is not a valid user anymore');
