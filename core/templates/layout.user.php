@@ -55,7 +55,7 @@
 							   tabindex="3"
 								<?php if ($entry['active']): ?> class="active"<?php endif; ?>>
 								<img src="<?php print_unescaped($entry['icon'] . '?v=' . $_['versionHash']); ?>"
-									 class="app-icon"/>
+									 class="app-icon" alt="<?php p($entry['name']); ?>" />
 								<div class="icon-loading-small-dark"
 									 style="display:none;"></div>
 							</a>
