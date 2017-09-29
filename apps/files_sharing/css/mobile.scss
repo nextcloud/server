@@ -46,5 +46,13 @@ table td.filename .nametext {
 	text-overflow: ellipsis;
 }
 
+// Hide Download label of 3-dot-menu on public share pages
+.share-menutoggle-text {
+	display: none;
+}
+#header .menutoggle {
+    padding-right: 14px;
+    background-position: center;
+}
 
 }
