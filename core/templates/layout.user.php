@@ -104,7 +104,7 @@
 					<input id="searchbox" type="search" name="query"
 						value="" required
 						autocomplete="off" tabindex="5">
-					<button class="icon-close-white" type="reset"></button>
+					<button class="icon-close-white" type="reset"><span class="hidden-visually"><?php p($l->t('Reset search'));?></span></button>
 				</form>
 				<div id="contactsmenu">
 					<div class="icon-contacts menutoggle"></div>
@@ -142,10 +142,12 @@
 
 		<div id="sudo-login-background" class="hidden"></div>
 		<form id="sudo-login-form" class="hidden">
-			<?php p($l->t('This action requires you to confirm your password:')); ?><br>
-			<input type="password" class="question" autocomplete="new-password" name="question" value=" <?php /* Hack against browsers ignoring autocomplete="off" */ ?>"
+			<label>
+				<?php p($l->t('This action requires you to confirm your password')); ?><br/>
+				<input type="password" class="question" autocomplete="new-password" name="question" value=" <?php /* Hack against browsers ignoring autocomplete="off" */ ?>"
 				placeholder="<?php p($l->t('Confirm your password')); ?>" />
-			<input class="confirm icon-confirm" title="<?php p($l->t('Confirm')); ?>" value="" type="submit">
+			</label>
+			<input class="confirm" value="<?php p($l->t('Confirm')); ?>" type="submit">
 		</form>
 
 		<div id="content-wrapper">

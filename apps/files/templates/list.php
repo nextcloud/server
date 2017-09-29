@@ -4,7 +4,9 @@
 				<div id="uploadprogressbar">
 					<em class="label outer" style="display:none"><span class="desktop"><?php p($l->t('Uploading @'));?></span><span class="mobile"><?php p($l->t('…'));?></span></em>
 				</div>
-				<input type="button" class="stop icon-close" style="display:none" value="" />
+				<button class="stop icon-close" style="display:none">
+					<span class="hidden-visually"><?php p($l->t('Cancel upload')) ?></span>
+				</button>
 			</div>
 		</div>
 		<div id="file_action_panel"></div>
