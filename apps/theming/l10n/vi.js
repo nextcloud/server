@@ -1,7 +1,10 @@
 OC.L10N.register(
     "theming",
     {
+    "Loading preview…" : "Đang nạp để xem trước",
     "Saved" : "Đã lưu",
+    "Admin" : "Quản trị hệ thống",
+    "a safe home for all your data" : "Một ngôi nhà an toàn cho toàn bộ dữ liệu của bạn",
     "The given name is too long" : "Tên quá dài",
     "The given web address is too long" : "Địa chỉ web quá dài",
     "The given slogan is too long" : "Khẩu hiệu quá dài",
@@ -9,8 +12,10 @@ OC.L10N.register(
     "No file uploaded" : "Không có tệp nào được tải lên",
     "Unsupported image type" : "Loại hình ảnh không được hỗ trợ",
     "You are already using a custom theme" : "Bạn đã sử dụng một chủ đề tuỳ chỉnh",
+    "Theming" : "Điều chỉnh giao diện",
+    "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Điều chỉnh giao diện cho phép bạn có thể dễ dàng tùy biến bố cục trình bày của hệ thống. Khi thực hiện nó sẽ hiện hữu đối với tất cả người dùng",
     "Name" : "Tên",
-    "reset to default" : "đặt lại về mặc định",
+    "Reset to default" : "Đặt lại về mặc định",
     "Web address" : "Địa chỉ web",
     "Web address https://…" : "Địa chỉ web https://...",
     "Slogan" : "Khẩu hiệu",
@@ -19,6 +24,8 @@ OC.L10N.register(
     "Upload new logo" : "Tải lên logo mới",
     "Login image" : "Hình ảnh trang đăng nhập",
     "Upload new login background" : "Tải lên ảnh nền trang đăng nhập mới",
+    "Remove background image" : "Xóa bỏ ảnh nền",
+    "reset to default" : "đặt lại về mặc định",
     "Log in image" : "Ảnh đăng nhập"
 },
 "nplurals=1; plural=0;");
