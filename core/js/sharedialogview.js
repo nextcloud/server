@@ -238,7 +238,7 @@
 								usersLength = users.length;
 								for (j = 0; j < usersLength; j++) {
 									if (users[j].value.shareWith === share.share_with) {
-										if (users[j].value.emailAddress !== undefined) {
+										if (users[j].value.hasEmailAddress === true) {
 											users[j].resendMailNotification = share.id;
 										} else {
 											users.splice(j, 1);

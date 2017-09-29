@@ -122,7 +122,7 @@ class UserPluginTest extends TestCase {
 			[
 				'test', false, true, [], [],
 				[
-					['label' => 'Test', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test', 'emailAddress' => 'test@server.com']],
+					['label' => 'Test', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test', 'hasEmailAddress' => true]],
 				], [], true, $this->getUserMock('test', 'Test', 'test@server.com')
 			],
 			[
@@ -134,7 +134,7 @@ class UserPluginTest extends TestCase {
 			[
 				'test', false, false, [], [],
 				[
-					['label' => 'Test', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test', 'emailAddress' => 'test@server.com']],
+					['label' => 'Test', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test', 'hasEmailAddress' => true]],
 				], [], true, $this->getUserMock('test', 'Test', 'test@server.com')
 			],
 			[
@@ -154,7 +154,7 @@ class UserPluginTest extends TestCase {
 			[
 				'test', true, true, ['test-group'], [['test-group', 'test', 2, 0, []]],
 				[
-					['label' => 'Test', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test', 'emailAddress' => 'test@server.com']],
+					['label' => 'Test', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test', 'hasEmailAddress' => true]],
 				], [], true, $this->getUserMock('test', 'Test', 'test@server.com')
 			],
 			[
@@ -166,7 +166,7 @@ class UserPluginTest extends TestCase {
 			[
 				'test', true, false, ['test-group'], [['test-group', 'test', 2, 0, []]],
 				[
-					['label' => 'Test', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test', 'emailAddress' => 'test@server.com']],
+					['label' => 'Test', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test', 'hasEmailAddress' => true]],
 				], [], true, $this->getUserMock('test', 'Test', 'test@server.com')
 			],
 			[
@@ -194,7 +194,7 @@ class UserPluginTest extends TestCase {
 				],
 				[],
 				[
-					['label' => 'Test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1', 'emailAddress' => 'test1@server.com']],
+					['label' => 'Test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1', 'hasEmailAddress' => true]],
 				],
 				true,
 				false,
@@ -240,8 +240,8 @@ class UserPluginTest extends TestCase {
 				],
 				[],
 				[
-					['label' => 'Test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1', 'emailAddress' => 'test1@server.com']],
-					['label' => 'Test Two', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test2', 'emailAddress' => 'test2@server.com']],
+					['label' => 'Test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1', 'hasEmailAddress' => true]],
+					['label' => 'Test Two', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test2', 'hasEmailAddress' => true]],
 				],
 				false,
 				false,
@@ -291,11 +291,11 @@ class UserPluginTest extends TestCase {
 					$this->getUserMock('test2', 'Test Two', 'test2@server.com'),
 				],
 				[
-					['label' => 'Test', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test0', 'emailAddress' => 'test0@server.com']],
+					['label' => 'Test', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test0', 'hasEmailAddress' => true]],
 				],
 				[
-					['label' => 'Test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1', 'emailAddress' => 'test1@server.com']],
-					['label' => 'Test Two', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test2', 'emailAddress' => 'test2@server.com']],
+					['label' => 'Test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1', 'hasEmailAddress' => true]],
+					['label' => 'Test Two', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test2', 'hasEmailAddress' => true]],
 				],
 				false,
 				false,
@@ -328,7 +328,7 @@ class UserPluginTest extends TestCase {
 					$this->getUserMock('test2', 'Test Two', 'test2@server.com'),
 				],
 				[
-					['label' => 'Test', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test0', 'emailAddress' => 'test0@server.com']],
+					['label' => 'Test', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test0', 'hasEmailAddress' => true]],
 				],
 				[],
 				true,
@@ -361,7 +361,7 @@ class UserPluginTest extends TestCase {
 				],
 				[],
 				[
-					['label' => 'Test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1', 'emailAddress' => 'test1@server.com']],
+					['label' => 'Test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1', 'hasEmailAddress' => true]],
 				],
 				true,
 				false,
@@ -420,8 +420,8 @@ class UserPluginTest extends TestCase {
 				],
 				[],
 				[
-					['label' => 'Test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1', 'emailAddress' => 'test1@server.com']],
-					['label' => 'Test Two', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test2', 'emailAddress' => 'test2@server.com']],
+					['label' => 'Test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1', 'hasEmailAddress' => true]],
+					['label' => 'Test Two', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test2', 'hasEmailAddress' => true]],
 				],
 				false,
 				false,
@@ -482,10 +482,10 @@ class UserPluginTest extends TestCase {
 					]],
 				],
 				[
-					['label' => 'Test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test', 'emailAddress' => 'test@server.com']],
+					['label' => 'Test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test', 'hasEmailAddress' => true]],
 				],
 				[
-					['label' => 'Test Two', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test2', 'emailAddress' => 'test2@server.com']],
+					['label' => 'Test Two', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test2', 'hasEmailAddress' => true]],
 				],
 				false,
 				false,
@@ -524,7 +524,7 @@ class UserPluginTest extends TestCase {
 					]],
 				],
 				[
-					['label' => 'Test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test', 'emailAddress' => 'test@server.com']],
+					['label' => 'Test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test', 'hasEmailAddress' => true]],
 				],
 				[],
 				true,

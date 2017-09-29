@@ -737,7 +737,7 @@ describe('OC.Share.ShareDialogView', function() {
 										'value': {
 											'shareType': OC.Share.SHARE_TYPE_USER,
 											'shareWith': 'user1',
-											'emailAddress': 'user1@server.com'
+											'hasEmailAddress': true
 										},
 									},
 									{
@@ -761,7 +761,7 @@ describe('OC.Share.ShareDialogView', function() {
 					);
 					expect(response.calledWithExactly([{
 						'label': 'bob',
-						'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1', 'emailAddress': 'user1@server.com'},
+						'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1', 'hasEmailAddress': true},
 						'resendMailNotification': 100
 					}, {
 						'label': 'bobby',
@@ -1023,7 +1023,7 @@ describe('OC.Share.ShareDialogView', function() {
 					value: {
 						shareType: OC.Share.SHARE_TYPE_USER,
 						shareWith: 'user1',
-						emailAddress: 'user1@server.com'
+						hasEmailAddress: true
 					},
 					resendMailNotification: 100
 				}
@@ -1059,7 +1059,7 @@ describe('OC.Share.ShareDialogView', function() {
 					value: {
 						shareType: OC.Share.SHARE_TYPE_USER,
 						shareWith: 'user1',
-						emailAddress: 'user1@server.com'
+						hasEmailAddress: true
 					},
 					resendMailNotification: 100
 				}
