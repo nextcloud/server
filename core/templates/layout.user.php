@@ -36,16 +36,9 @@
 					id="nextcloud" tabindex="1">
 					<div class="logo logo-icon">
 						<h1 class="hidden-visually">
-							<?php p($theme->getName()); ?>
+							<?php p($theme->getName()); ?> <?php p(!empty($_['application'])?$_['application']: $l->t('Apps')); ?>
 						</h1>
 					</div>
-				</a>
-
-				<a href="#" class="header-appname-container menutoggle" tabindex="2">
-					<h1 class="header-appname">
-						<?php p(!empty($_['application'])?$_['application']: $l->t('Apps')); ?>
-					</h1>
-					<div class="icon-caret"></div>
 				</a>
 
 				<ul id="appmenu">
