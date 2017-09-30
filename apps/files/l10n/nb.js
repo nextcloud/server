@@ -135,7 +135,7 @@ OC.L10N.register(
     "Shared with you" : "Delt med deg",
     "Shared with others" : "Delt med andre",
     "Shared by link" : "Delt med lenke",
-    "Tags" : "Knagger",
+    "Tags" : "Merkelapper",
     "Deleted files" : "Slettede filer",
     "Text file" : "Tekstfil",
     "New text file.txt" : "Ny tekstfil.txt",

@@ -14,6 +14,8 @@ OC.L10N.register(
     "(group)" : "(gruppe)",
     "Compatibility with Mac NFD encoding (slow)" : "Kompatibilitet med Mac NFD encoding (langsom)",
     "Admin defined" : "Bestemt af administrator",
+    "Are you sure you want to delete this external storage" : "Er du sikker på at du vil slette denne eksterne lager?",
+    "Delete storage?" : "Slet lager?",
     "Saved" : "Gemt",
     "Saving..." : "Gemmer...",
     "Save" : "Gem",

@@ -29,7 +29,7 @@
     "Base DN could not be auto-detected, please revise credentials, host and port." : "Die Base DN konnte nicht automatisch erkannt werden, bitte überprüfe die Anmeldeinformationen, den Host und den Port.",
     "Could not detect Base DN, please enter it manually." : "Die Base DN konnte nicht erkannt werden, bitte manuell eingeben.",
     "{nthServer}. Server" : "{nthServer}. - Server",
-    "No object found in the given Base DN. Please revise." : "Keine Objekte in der Base DN gefunden, bitte überprüfen.",
+    "No object found in the given Base DN. Please revise." : "Keine Objekte in der Base-DN gefunden, bitte überprüfen.",
     "More than 1,000 directory entries available." : "Mehr als 1.000 Einträge stehen zur Verfügung.",
     " entries available within the provided Base DN" : "Einträge in der Vorgesehenen Base DN verfügbar",
     "An error occurred. Please check the Base DN, as well as connection settings and credentials." : "Ein Fehler ist aufgetreten. Bitte die Base DN sowie die Verbindungs- und Anmeldeeinstellungen überprüfen.",

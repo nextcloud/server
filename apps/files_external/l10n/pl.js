@@ -14,6 +14,8 @@ OC.L10N.register(
     "(group)" : "(grupa)",
     "Compatibility with Mac NFD encoding (slow)" : "Zgodność z kodowaniem Mac NFD (powolny)",
     "Admin defined" : "Zdefiniowane przez Administratora",
+    "Are you sure you want to delete this external storage" : "Czy na pewno chcesz usunąć zewnętrzny magazyn?",
+    "Delete storage?" : "Usunąć magazyn?",
     "Saved" : "Zapisano",
     "Saving..." : "Zapisywanie...",
     "Save" : "Zapisz",
