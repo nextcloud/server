@@ -13,7 +13,7 @@ OC.L10N.register(
     "Unsupported image type" : "Nieobsługiwany typ zdjęcia",
     "You are already using a custom theme" : "Używasz już motywu niestandarowego",
     "Theming" : "Motyw",
-    "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Motywy pozwalają na łatwą personalizację wyglądu Twojej instancji i wpsieranych klientów. Efekty będą widoczne dla wszystkich użytkowników.",
+    "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Motywy pozwalają na łatwą personalizację wyglądu Twojej instancji i wspieranych klientów. Efekty będą widoczne dla wszystkich użytkowników.",
     "Name" : "Nazwa",
     "Reset to default" : "Przywróć domyślne",
     "Web address" : "adres internetowy",

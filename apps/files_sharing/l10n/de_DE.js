@@ -84,7 +84,7 @@ OC.L10N.register(
     "Unknown share type" : "Unbekannter Freigabetyp",
     "Not a directory" : "Kein Verzeichnis",
     "Could not lock path" : "Pfad konnte nicht gesperrt werden",
-    "Wrong or no update parameter given" : "Es wurde ein falscher oder kein Updateparameter übergeben",
+    "Wrong or no update parameter given" : "Es wurde ein falscher oder kein Updateparameter angegeben",
     "Can't change permissions for public share links" : "Berechtigungen für öffentlich freigegebene Links konnten nicht geändert werden",
     "Cannot increase permissions" : "Berechtigungen können nicht erhöht werden",
     "%s is publicly shared" : "%s ist öffentlich geteilt",

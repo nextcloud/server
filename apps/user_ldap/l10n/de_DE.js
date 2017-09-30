@@ -31,7 +31,7 @@ OC.L10N.register(
     "Base DN could not be auto-detected, please revise credentials, host and port." : "Die Base DN konnte nicht automatisch erkannt werden, bitte überprüfen Sie Anmeldeinformationen, Host und Port.",
     "Could not detect Base DN, please enter it manually." : "Die Base DN konnte nicht erkannt werden, bitte geben Sie sie manuell ein.",
     "{nthServer}. Server" : "{nthServer}. - Server",
-    "No object found in the given Base DN. Please revise." : "Keine Objekte in der angegebenen Base DN gefunden, bitte überprüfen.",
+    "No object found in the given Base DN. Please revise." : "Keine Objekte in der angegebenen Base-DN gefunden, bitte überprüfen.",
     "More than 1,000 directory entries available." : "Es sind mehr als 1.000 Verzeichniseinträge verfügbar.",
     " entries available within the provided Base DN" : "Einträge in der angegebenen Base DN verfügbar",
     "An error occurred. Please check the Base DN, as well as connection settings and credentials." : "Es ist ein Fehler aufgetreten. Bitte überprüfen Sie die Base DN wie auch die Verbindungseinstellungen und Anmeldeinformationen.",
