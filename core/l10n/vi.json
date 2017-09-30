@@ -346,6 +346,8 @@
     "This means only administrators can use the instance." : "Điều này có nghĩa chỉ có người quản trị có thể sử dụng trong trường hợp này.",
     "You are accessing the server from an untrusted domain." : "Bạn đang truy nhập máy chủ từ một tên miền không đáng tin.",
     "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domains\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "Xin vui lòng liên hệ quản trị viên hệ thống của bạn. Nếu bạn là một quản trị viên của bản cài đặt hệ thống này, xin vui lòng cấu hình thiết lập \"trusted_domains\" trong tệp config/config.php. Một ví dụ cấu hình được cung cấp cho bạn để tham khảo trong tệp tin config/config.sample.php",
-    "Please use the command line updater because you have a big instance." : "Hãy sử dụng dòng lệnh để cập nhật bởi vì bạn có một hệ thống lớn."
+    "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "Phụ thuộc vào cấu hình của ban, với tư cách là quản trị viên ban có thể cho phép sử dụng nút lệnh dưới đây để tạo sự tin tưởng cho tên miền này.",
+    "Please use the command line updater because you have a big instance." : "Hãy sử dụng dòng lệnh để cập nhật bởi vì bạn có một hệ thống lớn.",
+    "You are about to grant \"%s\" access to your %s account." : "Bạn đang sắp phân quyền cho \"%s\" được phép truy cập vào tài khoản %s của bạn."
 },"pluralForm" :"nplurals=1; plural=0;"
 }
