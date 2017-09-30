@@ -231,6 +231,7 @@ class Manager {
 			]);
 		} else {
 			$this->publishEvent($user, 'twofactor_failed', [
+				$this->logger->warning('twofactor authentication failed', ['app' => 'core']);
 				'provider' => $provider->getDisplayName(),
 			]);
 		}
