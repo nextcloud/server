@@ -183,13 +183,62 @@ class Principal implements BackendInterface {
 	}
 
 	/**
+	 * Search user principals
+	 *
+	 * @param array $searchProperties
+	 * @param string $test
+	 * @return array
+	 */
+	function searchUserPrincipals(array $searchProperties, $test = 'allof') {
+		$results = [];
+
+		//TODO: If more properties should be supported, hook this up to a db query
+		foreach ($searchProperties as $prop => $value) {
+			switch ($prop) {
+				case '{http://sabredav.org/ns}email-address':
+					$users = $this->userManager->getByEmail($value);
+					$results[] =  array_map(function ($user) {
+						return $this->principalPrefix . '/' . $user->getUID();
+					}, $users);
+					break;
+				default:
+					$results[] = [];
+					break;
+			}
+		}
+
+		if (count($results) == 1) {
+			return $results[0];
+		}
+
+		switch ($test) {
+			case 'allof':
+
+				return array_intersect(...$results);
+			case 'anyof':
+				return array_unique(array_merge(...$results));
+		}
+
+		return [];
+	}
+
+	/**
 	 * @param string $prefixPath
 	 * @param array $searchProperties
 	 * @param string $test
 	 * @return array
 	 */
 	function searchPrincipals($prefixPath, array $searchProperties, $test = 'allof') {
-		return [];
+		if (count($searchProperties) == 0) {
+			return [];
+		}
+
+		switch ($prefixPath) {
+			case 'principals/users':
+				return $this->searchUserPrincipals($searchProperties, $test);
+			default:
+				return [];
+		}
 	}
 
 	/**
@@ -199,10 +248,12 @@ class Principal implements BackendInterface {
 	 */
 	function findByUri($uri, $principalPrefix) {
 		if (substr($uri, 0, 7) === 'mailto:') {
-			$email = substr($uri, 7);
-			$users = $this->userManager->getByEmail($email);
-			if (count($users) === 1) {
-				return $this->principalPrefix . '/' . $users[0]->getUID();
+			if ($principalPrefix === principals/users) {
+				$email = substr($uri, 7);
+				$users = $this->userManager->getByEmail($email);
+				if (count($users) === 1) {
+					return $this->principalPrefix . '/' . $users[0]->getUID();
+				}
 			}
 		}
 

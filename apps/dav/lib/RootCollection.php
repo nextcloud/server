@@ -32,7 +32,7 @@ use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCA\DAV\DAV\GroupPrincipalBackend;
 use OCA\DAV\DAV\SystemPrincipalBackend;
-use Sabre\CalDAV\Principal\Collection;
+use OCA\DAV\CalDAV\Principal\Collection;
 use Sabre\DAV\SimpleCollection;
 
 class RootCollection extends SimpleCollection {
