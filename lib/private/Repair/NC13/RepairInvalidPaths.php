@@ -172,10 +172,18 @@ class RepairInvalidPaths implements IRepairStep {
 		return $count;
 	}
 
-	public function run(IOutput $output) {
+	private function shouldRun() {
 		$versionFromBeforeUpdate = $this->config->getSystemValue('version', '0.0.0');
-		// was added to 12.0.0.30 and 13.0.0.1
-		if (version_compare($versionFromBeforeUpdate, '12.0.0.30', '<') || version_compare($versionFromBeforeUpdate, '13.0.0.0', '==')) {
+
+		// was added to 11.0.5.2, 12.0.0.30 and 13.0.0.1
+		$shouldRun = version_compare($versionFromBeforeUpdate, '11.0.5.2', '<');
+		$shouldRun |= version_compare($versionFromBeforeUpdate, '12.0.0.0', '>=') && version_compare($versionFromBeforeUpdate, '12.0.0.30', '<');
+		$shouldRun |= version_compare($versionFromBeforeUpdate, '13.0.0.0', '==');
+		return $shouldRun;
+	}
+
+	public function run(IOutput $output) {
+		if ($this->shouldRun()) {
 			$count = $this->repair();
 
 			$output->info('Repaired ' . $count . ' paths');
