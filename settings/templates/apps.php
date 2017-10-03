@@ -208,7 +208,7 @@ script(
 	</svg>
 	<div id="apps-list"></div>
 	<div id="apps-list-empty" class="hidden emptycontent emptycontent-search">
-		<div class="icon-search"></div>
+		<div id="app-list-empty-icon" class="icon-search"></div>
 		<h2><?php p($l->t('No apps found for your version')) ?></h2>
 	</div>
 </div>

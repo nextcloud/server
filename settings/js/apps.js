@@ -62,11 +62,13 @@ OC.Settings.Apps = OC.Settings.Apps || {
 				var updateCategory = $.grep(jsondata, function(element, index) {
 					return element.ident === 'updates'
 				});
-				if (updateCategory.length === 1) {
-					OC.Settings.Apps.State.availableUpdates = updateCategory[0].counter;
-				}
 				$('#apps-categories').html(html);
 				$('#app-category-' + OC.Settings.Apps.State.currentCategory).addClass('active');
+				if (updateCategory.length === 1) {
+					console.log(updateCategory);
+					OC.Settings.Apps.State.availableUpdates = updateCategory[0].counter;
+					OC.Settings.Apps.refreshUpdateCounter();
+				}
 			},
 			complete: function() {
 				$('#app-navigation').removeClass('icon-loading');
@@ -143,8 +145,13 @@ OC.Settings.Apps = OC.Settings.Apps || {
 						}
 					});
 				} else {
-					$('#apps-list').addClass('hidden');
-					$('#apps-list-empty').removeClass('hidden').find('h2').text(t('settings', 'No apps found for your version'));
+					if (categoryId === 'updates') {
+						OC.Settings.Apps.showEmptyUpdates();
+					} else {
+						$('#apps-list').addClass('hidden');
+						$('#apps-list-empty').removeClass('hidden').find('h2').text(t('settings', 'No apps found for your version'));
+						$('#app-list-empty-icon').addClass('icon-search').removeClass('icon-download');
+					}
 				}
 
 				$('.enable.needs-download').tooltip({
@@ -518,6 +525,12 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		}
 	},
 
+	showEmptyUpdates: function() {
+		$('#apps-list').addClass('hidden');
+		$('#apps-list-empty').removeClass('hidden').find('h2').text(t('settings', 'No app updates available'));
+		$('#app-list-empty-icon').removeClass('icon-search').addClass('icon-download');
+	},
+
 	updateApp:function(appId, element) {
 		var oldButtonText = element.val();
 		element.val(t('settings','Updating....'));
@@ -542,6 +555,13 @@ OC.Settings.Apps = OC.Settings.Apps || {
 
 				OC.Settings.Apps.State.availableUpdates--;
 				OC.Settings.Apps.refreshUpdateCounter();
+
+				if (OC.Settings.Apps.State.currentCategory === 'updates') {
+					$('#app-' + appId).remove();
+					if (OC.Settings.Apps.State.availableUpdates === 0) {
+						OC.Settings.Apps.showEmptyUpdates();
+					}
+				}
 			}
 		},'json');
 	},
@@ -652,7 +672,12 @@ OC.Settings.Apps = OC.Settings.Apps || {
 	},
 
 	refreshUpdateCounter: function() {
-		$('#app-category-updates').find('.app-navigation-entry-utils-counter').html(OC.Settings.Apps.State.availableUpdates);
+		var $updateCount = $('#app-category-updates').find('.app-navigation-entry-utils-counter');
+		if (OC.Settings.Apps.State.availableUpdates > 0) {
+			$updateCount.html(OC.Settings.Apps.State.availableUpdates);
+		} else {
+			$updateCount.empty();
+		}
 	},
 
 	showErrorMessage: function(appId, message) {
