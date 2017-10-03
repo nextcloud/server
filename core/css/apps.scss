@@ -312,7 +312,12 @@ kbd {
 		/* Fallback for old collapse button.
 		   TODO: to be removed. Leaved here for retro compatibility */
 		.collapse {
-			display: none;
+			opacity: 0;
+			position: absolute;
+			width: 44px;
+			height: 44px;
+			margin: 0;
+			z-index: 110;
 		}
 		&:after {
 			position: absolute;
