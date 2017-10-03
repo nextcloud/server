@@ -61,7 +61,7 @@ h3 {
 
 /* Global content */
 #header {
-	padding-top: 100px;
+	padding-top: 30px;
 }
 #header .logo {
 	background-image: url('../img/logo.svg?v=1');
