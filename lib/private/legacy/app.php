@@ -768,6 +768,8 @@ class OC_App {
 			}
 		}
 
+		$apps = array_unique($apps);
+
 		return $apps;
 	}
 
