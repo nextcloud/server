@@ -42,6 +42,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 
 		var categories = [
 			{displayName: t('settings', 'Your apps'), ident: 'installed', id: '0'},
+			{displayName: t('settings', 'Updates'), ident: 'updates', id: '3'},
 			{displayName: t('settings', 'Enabled apps'), ident: 'enabled', id: '1'},
 			{displayName: t('settings', 'Disabled apps'), ident: 'disabled', id: '2'}
 		];
@@ -58,6 +59,12 @@ OC.Settings.Apps = OC.Settings.Apps || {
 			type:'GET',
 			success:function (jsondata) {
 				var html = template(jsondata);
+				var updateCategory = $.grep(jsondata, function(element, index) {
+					return element.ident === 'updates'
+				});
+				if (updateCategory.length === 1) {
+					OC.Settings.Apps.State.availableUpdates = updateCategory[0].counter;
+				}
 				$('#apps-categories').html(html);
 				$('#app-category-' + OC.Settings.Apps.State.currentCategory).addClass('active');
 			},
@@ -99,7 +106,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 					return _.extend({level: 0}, app);
 				});
 				var source;
-				if (categoryId === 'enabled' || categoryId === 'disabled' || categoryId === 'installed' || categoryId === 'app-bundles') {
+				if (categoryId === 'enabled' || categoryId === 'updates' || categoryId === 'disabled' || categoryId === 'installed' || categoryId === 'app-bundles') {
 					source = $("#app-template-installed").html();
 					$('#apps-list').addClass('installed');
 				} else {
@@ -134,13 +141,8 @@ OC.Settings.Apps = OC.Settings.Apps || {
 							var $update = $('#app-' + app.id + ' .update');
 							$update.removeClass('hidden');
 							$update.val(t('settings', 'Update to %s').replace(/%s/g, app.update));
-							OC.Settings.Apps.State.availableUpdates++;
 						}
 					});
-
-					if (OC.Settings.Apps.State.availableUpdates > 0) {
-						OC.Settings.Apps.State.$updateNotification = OC.Notification.show(n('settings', 'You have %n app update pending', 'You have %n app updates pending', OC.Settings.Apps.State.availableUpdates));
-					}
 				} else {
 					$('#apps-list').addClass('hidden');
 					$('#apps-list-empty').removeClass('hidden').find('h2').text(t('settings', 'No apps found for your version'));
@@ -539,14 +541,8 @@ OC.Settings.Apps = OC.Settings.Apps || {
 				var $version = $('#app-' + appId + ' .app-version');
 				$version.text(OC.Settings.Apps.State.apps[appId]['update']);
 
-				if (OC.Settings.Apps.State.$updateNotification) {
-					OC.Notification.hide(OC.Settings.Apps.State.$updateNotification);
-				}
-
 				OC.Settings.Apps.State.availableUpdates--;
-				if (OC.Settings.Apps.State.availableUpdates > 0) {
-					OC.Settings.Apps.State.$updateNotification = OC.Notification.show(n('settings', 'You have %n app update pending', 'You have %n app updates pending', OC.Settings.Apps.State.availableUpdates));
-				}
+				OC.Settings.Apps.refreshUpdateCounter();
 			}
 		},'json');
 	},
@@ -654,6 +650,10 @@ OC.Settings.Apps = OC.Settings.Apps || {
 				$(window).trigger('resize');
 			}
 		});
+	},
+
+	refreshUpdateCounter: function() {
+		$('#app-category-updates').find('.app-navigation-entry-utils-counter').html(OC.Settings.Apps.State.availableUpdates);
 	},
 
 	showErrorMessage: function(appId, message) {
