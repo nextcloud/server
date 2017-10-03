@@ -91,7 +91,6 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		$('#app-category-' + OC.Settings.Apps.State.currentCategory).removeClass('active');
 		$('#app-category-' + categoryId).addClass('active');
 		OC.Settings.Apps.State.currentCategory = categoryId;
-		OC.Settings.Apps.State.availableUpdates = 0;
 
 		this._loadCategoryCall = $.ajax(OC.generateUrl('settings/apps/list?category={categoryId}', {
 			categoryId: categoryId
