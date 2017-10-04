@@ -174,6 +174,20 @@ class OC_App {
 				\OC::$server->getActivityManager()->registerProvider($provider);
 			}
 		}
+		if (!empty($info['collaboration']['plugins'])) {
+			// deal with one or many plugin entries
+			$plugins = isset($info['collaboration']['plugins']['plugin']['@value']) ?
+				[$info['collaboration']['plugins']['plugin']] : $info['collaboration']['plugins']['plugin'];
+			foreach ($plugins as $plugin) {
+				if($plugin['@attributes']['type'] === 'collaborator-search') {
+					$pluginInfo = [
+						'shareType' => $plugin['@attributes']['share-type'],
+						'class' => $plugin['@value'],
+					];
+					\OC::$server->getCollaboratorSearch()->registerPlugin($pluginInfo);
+				}
+			}
+		}
 	}
 
 	/**
