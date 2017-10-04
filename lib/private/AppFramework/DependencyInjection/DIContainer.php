@@ -298,6 +298,12 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			);
 		});
 
+		$this->registerService(OC\AppFramework\Middleware\Share\PublicShareMiddleware::class, function (SimpleContainer $c) {
+			return new OC\AppFramework\Middleware\Share\PublicShareMiddleware(
+				$c->query(\OCP\IConfig::class)
+			);
+		});
+
 		$middleWares = &$this->middleWares;
 		$this->registerService('MiddlewareDispatcher', function($c) use (&$middleWares) {
 			$dispatcher = new MiddlewareDispatcher();
@@ -308,6 +314,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			$dispatcher->registerMiddleware($c['TwoFactorMiddleware']);
 			$dispatcher->registerMiddleware($c['BruteForceMiddleware']);
 			$dispatcher->registerMiddleware($c['RateLimitingMiddleware']);
+			$dispatcher->registerMiddleware($c[OC\AppFramework\Middleware\Share\PublicShareMiddleware::class]);
 
 			foreach($middleWares as $middleWare) {
 				$dispatcher->registerMiddleware($c[$middleWare]);
