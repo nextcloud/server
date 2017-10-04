@@ -149,8 +149,7 @@ class DateTimeFormatter implements \OCP\IDateTimeFormatter {
 		$l = $this->getLocale($l);
 		$timestamp = $this->getDateTime($timestamp);
 		$timestamp->setTime(0, 0, 0);
-        
-        
+
 		if ($baseTimestamp === null) {
 			$baseTimestamp = time();
 		}
@@ -158,49 +157,43 @@ class DateTimeFormatter implements \OCP\IDateTimeFormatter {
 		$baseTimestamp->setTime(0, 0, 0);
 		$dateInterval = $timestamp->diff($baseTimestamp);
 
-		If ($timestamp > $baseTimestamp) {
-            		$future = true;
-		} else {
-		    $future = false;
-		}
-
 		if ($dateInterval->y == 0 && $dateInterval->m == 0 && $dateInterval->d == 0) {
 			return (string) $l->t('today');
 		} else if ($dateInterval->y == 0 && $dateInterval->m == 0 && $dateInterval->d == 1) {
-		    If ($future) {
-			return (string) $l->t('tomorrow');
-		    } else {
-			return (string) $l->t('yesterday');
-		    }
-			} else if ($dateInterval->y == 0 && $dateInterval->m == 0) {
-		    If ($future) {
-			return (string) $l->n('in %n day', 'in %n days', $dateInterval->d);
-		    } else {
-			return (string) $l->n('%n day ago', '%n days ago', $dateInterval->d);
-		    }
-			} else if ($dateInterval->y == 0 && $dateInterval->m == 1) {
-		    If ($future) {
-			return (string) $l->t('next month');
-		    } else {
-			return (string) $l->t('last month');
-		    }
-			} else if ($dateInterval->y == 0) {
-		    If ($future) {
-			return (string) $l->n('in %n month', 'in %n months', $dateInterval->m);
-		    } else {
-			return (string) $l->n('%n month ago', '%n months ago', $dateInterval->m);
-		    }
-			} else if ($dateInterval->y == 1) {
-		    If ($future) {
-			return (string) $l->t('next year');
-		    } else {
-			return (string) $l->t('last year');
-		    }
+			if ($timestamp > $baseTimestamp) {
+				return (string) $l->t('tomorrow');
+			} else {
+				return (string) $l->t('yesterday');
 			}
-		If ($future) {
-		    return (string) $l->n('in %n year', 'in %n years', $dateInterval->y);
+		} else if ($dateInterval->y == 0 && $dateInterval->m == 0) {
+			if ($timestamp > $baseTimestamp) {
+				return (string) $l->n('in %n day', 'in %n days', $dateInterval->d);
+			} else {
+				return (string) $l->n('%n day ago', '%n days ago', $dateInterval->d);
+			}
+		} else if ($dateInterval->y == 0 && $dateInterval->m == 1) {
+			if ($timestamp > $baseTimestamp) {
+				return (string) $l->t('next month');
+			} else {
+				return (string) $l->t('last month');
+			}
+		} else if ($dateInterval->y == 0) {
+			if ($timestamp > $baseTimestamp) {
+				return (string) $l->n('in %n month', 'in %n months', $dateInterval->m);
+			} else {
+				return (string) $l->n('%n month ago', '%n months ago', $dateInterval->m);
+			}
+		} else if ($dateInterval->y == 1) {
+			if ($timestamp > $baseTimestamp) {
+				return (string) $l->t('next year');
+			} else {
+				return (string) $l->t('last year');
+			}
+		}
+		if ($timestamp > $baseTimestamp) {
+			return (string) $l->n('in %n year', 'in %n years', $dateInterval->y);
 		} else {
-		    return (string) $l->n('%n year ago', '%n years ago', $dateInterval->y);
+			return (string) $l->n('%n year ago', '%n years ago', $dateInterval->y);
 		}
 	}
 
@@ -245,34 +238,28 @@ class DateTimeFormatter implements \OCP\IDateTimeFormatter {
 		}
 		$baseTimestamp = $this->getDateTime($baseTimestamp);
 
-		If ($timestamp > $baseTimestamp) {
-		    $future = true;
-		} else {
-		    $future = false;
-		}
-
 		$diff = $timestamp->diff($baseTimestamp);
 		if ($diff->y > 0 || $diff->m > 0 || $diff->d > 0) {
 			return (string) $this->formatDateSpan($timestamp, $baseTimestamp, $l);
 		}
 
 		if ($diff->h > 0) {
-		    If ($future) {
-			return (string) $l->n('in %n hour', 'in %n hours', $diff->h);
-		    } else {
-			return (string) $l->n('%n hour ago', '%n hours ago', $diff->h);
-		    }
-			} else if ($diff->i > 0) {
-		    If ($future) {
-			return (string) $l->n('in %n minute', 'in %n minutes', $diff->i);
-		    } else {
-			return (string) $l->n('%n minute ago', '%n minutes ago', $diff->i);
-		    }
+			if ($timestamp > $baseTimestamp) {
+				return (string) $l->n('in %n hour', 'in %n hours', $diff->h);
+			} else {
+				return (string) $l->n('%n hour ago', '%n hours ago', $diff->h);
+			}
+		} else if ($diff->i > 0) {
+			if ($timestamp > $baseTimestamp) {
+				return (string) $l->n('in %n minute', 'in %n minutes', $diff->i);
+			} else {
+				return (string) $l->n('%n minute ago', '%n minutes ago', $diff->i);
+			}
 		}
-		If ($future) {
-		    return (string) $l->t('in a moment');
+		if ($timestamp > $baseTimestamp) {
+			return (string) $l->t('in a moment');
 		} else {
-		    return (string) $l->t('seconds ago');
+			return (string) $l->t('seconds ago');
 		}
 	}
 
