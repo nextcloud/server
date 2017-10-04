@@ -122,6 +122,21 @@ class InfoParser {
 		if (!array_key_exists('providers', $array['activity'])) {
 			$array['activity']['providers'] = [];
 		}
+		if (!array_key_exists('settings', $array)) {
+			$array['settings'] = [];
+		}
+		if (!array_key_exists('admin', $array['settings'])) {
+			$array['settings']['admin'] = [];
+		}
+		if (!array_key_exists('admin-section', $array['settings'])) {
+			$array['settings']['admin-section'] = [];
+		}
+		if (!array_key_exists('personal', $array['settings'])) {
+			$array['settings']['personal'] = [];
+		}
+		if (!array_key_exists('personal-section', $array['settings'])) {
+			$array['settings']['personal-section'] = [];
+		}
 
 		if (array_key_exists('types', $array)) {
 			if (is_array($array['types'])) {
@@ -170,6 +185,18 @@ class InfoParser {
 			&& !isset($array['collaboration']['collaborators']['searchPlugins']['searchPlugin']['class'])
 		) {
 			$array['collaboration']['collaborators']['searchPlugins'] = $array['collaboration']['collaborators']['searchPlugins']['searchPlugin'];
+		}
+		if (isset($array['settings']['admin']) && !is_array($array['settings']['admin'])) {
+			$array['settings']['admin'] = [$array['settings']['admin']];
+		}
+		if (isset($array['settings']['admin-section']) && !is_array($array['settings']['admin-section'])) {
+			$array['settings']['admin-section'] = [$array['settings']['admin-section']];
+		}
+		if (isset($array['settings']['personal']) && !is_array($array['settings']['personal'])) {
+			$array['settings']['personal'] = [$array['settings']['personal']];
+		}
+		if (isset($array['settings']['personal-section']) && !is_array($array['settings']['personal-section'])) {
+			$array['settings']['personal-section'] = [$array['settings']['personal-section']];
 		}
 
 		if(!is_null($this->cache)) {

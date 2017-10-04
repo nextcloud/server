@@ -147,7 +147,7 @@ class ManagerTest extends TestCase {
 			->method('add');
 
 		$this->manager->setupSettings([
-			$type => $className,
+			$type => [$className],
 		]);
 	}
 
@@ -174,7 +174,7 @@ class ManagerTest extends TestCase {
 			->method('update');
 
 		$this->manager->setupSettings([
-			$type => 'OCA\Files\Settings\Admin',
+			$type => ['OCA\Files\Settings\Admin'],
 		]);
 	}
 
