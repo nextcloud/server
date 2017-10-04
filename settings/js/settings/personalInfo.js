@@ -180,7 +180,7 @@ $(document).ready(function () {
 						{
 							'status' : 'error',
 							'data' : {
-								'message' : t('core', 'Unable to change password')
+								'message' : t('settings', 'Unable to change password')
 							}
 						}
 					);
@@ -195,7 +195,7 @@ $(document).ready(function () {
 				{
 					'status' : 'error',
 					'data' : {
-						'message' : t('core', 'Unable to change password')
+						'message' : t('settings', 'Unable to change password')
 					}
 				}
 			);
@@ -234,7 +234,7 @@ $(document).ready(function () {
 			).done(function (data) {
 				var dialog = verify.children('.verification-dialog');
 				showVerifyDialog($(dialog), data.msg, data.code);
-				indicator.attr('data-origin-title', t('core', 'Verifying …'));
+				indicator.attr('data-origin-title', t('settings', 'Verifying …'));
 				indicator.attr('src', OC.imagePath('core', 'actions/verifying.svg'));
 				indicator.data('status', '1');
 			});
@@ -379,11 +379,11 @@ $(document).ready(function () {
 	$('#pass2').strengthify({
 		zxcvbn: OC.linkTo('core','vendor/zxcvbn/dist/zxcvbn.js'),
 		titles: [
-			t('core', 'Very weak password'),
-			t('core', 'Weak password'),
-			t('core', 'So-so password'),
-			t('core', 'Good password'),
-			t('core', 'Strong password')
+			t('settings', 'Very weak password'),
+			t('settings', 'Weak password'),
+			t('settings', 'So-so password'),
+			t('settings', 'Good password'),
+			t('settings', 'Strong password')
 		],
 		drawTitles: true,
 	});
