@@ -944,9 +944,6 @@ code {
 		white-space: nowrap;
 		position: absolute;;
 		top: 0;
-		&.quota-warning {
-			background-color: $color-warning;
-		}
 		&.quotatext-bg {
 			mix-blend-mode: luminosity;
 		}
@@ -954,6 +951,7 @@ code {
 			color: $color-primary-text;
 			overflow: hidden;
 			z-index: 50;
+			max-width: 100%;
 		}
 		.quotatext {
 			padding: .6em 1em;
