@@ -255,35 +255,36 @@ input {
 				background-image: url('../img/actions/checkbox-mixed.svg');
 			}
 		}
+		$color-checkbox-white: #fff;
 		&.radio--white,
 		&.checkbox--white {
 			+ label:before,
 			&:focus + label:before {
-				border-color: darken(#fff, 27%);
+				border-color: darken($color-checkbox-white, 27%);
 			}
 			&:not(:disabled):not(:checked) + label:hover:before {
-				border-color: #fff;
+				border-color: $color-checkbox-white;
 			}
 			&:checked + label:before {
 				box-shadow: inset 0px 0px 0px 2px $color-main-background;
-				background-color: darken(#fff, 14%);
-				border-color: darken(#fff, 14%);
+				background-color: darken($color-checkbox-white, 14%);
+				border-color: darken($color-checkbox-white, 14%);
 			}
 			&:disabled + label:before {
-				background-color: darken(#fff, 27%) !important; /* override other status */
-				border-color: rgba(#fff, 0.4) !important; /* override other status */
+				background-color: darken($color-checkbox-white, 27%) !important; /* override other status */
+				border-color: rgba($color-checkbox-white, 0.4) !important; /* override other status */
 			}
 			&:checked:disabled + label:before {
 				box-shadow: inset 0px 0px 0px 2px $color-main-background;
-				border-color: rgba(#fff, 0.4) !important; /* override other status */
-				background-color: darken(#fff, 27%);
+				border-color: rgba($color-checkbox-white, 0.4) !important; /* override other status */
+				background-color: darken($color-checkbox-white, 27%);
 			}
 		}
 		&.checkbox--white {
 			&:checked + label:before,
 			&:indeterminate + label:before {
 				background-color: transparent !important; /* Override default checked */
-				border-color: #fff !important; /* Override default checked */
+				border-color: $color-checkbox-white !important; /* Override default checked */
 				background-image: url('../img/actions/checkbox-mark-white.svg');
 			}
 			&:indeterminate + label:before {
