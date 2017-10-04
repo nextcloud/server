@@ -42,7 +42,6 @@ OC.Settings.Apps = OC.Settings.Apps || {
 
 		var categories = [
 			{displayName: t('settings', 'Your apps'), ident: 'installed', id: '0'},
-			{displayName: t('settings', 'Updates'), ident: 'updates', id: '3'},
 			{displayName: t('settings', 'Enabled apps'), ident: 'enabled', id: '1'},
 			{displayName: t('settings', 'Disabled apps'), ident: 'disabled', id: '2'}
 		];
@@ -65,7 +64,6 @@ OC.Settings.Apps = OC.Settings.Apps || {
 				$('#apps-categories').html(html);
 				$('#app-category-' + OC.Settings.Apps.State.currentCategory).addClass('active');
 				if (updateCategory.length === 1) {
-					console.log(updateCategory);
 					OC.Settings.Apps.State.availableUpdates = updateCategory[0].counter;
 					OC.Settings.Apps.refreshUpdateCounter();
 				}
@@ -130,6 +128,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 					}
 
 					var firstExperimental = false;
+					var hasNewUpdates = false;
 					_.each(appList, function(app) {
 						if(app.level === 0 && firstExperimental === false) {
 							firstExperimental = true;
@@ -139,11 +138,20 @@ OC.Settings.Apps = OC.Settings.Apps || {
 						}
 
 						if (app.update) {
+							hasNewUpdates = true;
 							var $update = $('#app-' + app.id + ' .update');
 							$update.removeClass('hidden');
 							$update.val(t('settings', 'Update to %s').replace(/%s/g, app.update));
 						}
 					});
+					// reload updates if a list with new updates is loaded
+					if (hasNewUpdates) {
+						OC.Settings.Apps.reloadUpdates();
+					} else {
+						// hide update category after all updates are installed
+						// and the user is switching away from the empty updates view
+						OC.Settings.Apps.refreshUpdateCounter();
+					}
 				} else {
 					if (categoryId === 'updates') {
 						OC.Settings.Apps.showEmptyUpdates();
@@ -671,12 +679,30 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		});
 	},
 
+	reloadUpdates: function() {
+		if (this._loadUpdatesCall) {
+			this._loadUpdatesCall.abort();
+		}
+		this._loadUpdatesCall = $.ajax(OC.generateUrl('settings/apps/list?category=updates'), {
+			type:'GET',
+			success: function (apps) {
+				OC.Settings.Apps.State.availableUpdates = apps.apps.length;
+				OC.Settings.Apps.refreshUpdateCounter();
+			}
+		});
+	},
+
 	refreshUpdateCounter: function() {
-		var $updateCount = $('#app-category-updates').find('.app-navigation-entry-utils-counter');
+		var $appCategoryUpdates = $('#app-category-updates');
+		var $updateCount = $appCategoryUpdates.find('.app-navigation-entry-utils-counter');
 		if (OC.Settings.Apps.State.availableUpdates > 0) {
 			$updateCount.html(OC.Settings.Apps.State.availableUpdates);
+			$appCategoryUpdates.show();
 		} else {
 			$updateCount.empty();
+			if (OC.Settings.Apps.State.currentCategory !== 'updates') {
+				$appCategoryUpdates.hide();
+			}
 		}
 	},
 
@@ -727,6 +753,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 	filter: function(query) {
 		var $appList = $('#apps-list'),
 			$emptyList = $('#apps-list-empty');
+		$('#app-list-empty-icon').addClass('icon-search').removeClass('icon-download');
 		$appList.removeClass('hidden');
 		$appList.find('.section').removeClass('hidden');
 		$emptyList.addClass('hidden');
