@@ -113,9 +113,11 @@ OC.Settings.Apps = OC.Settings.Apps || {
 						appList.sort(function (a, b) {
 							if (a.active !== b.active) {
 								return (a.active ? -1 : 1)
-							} else {
-							    	return OC.Util.naturalSortCompare(a.name, b.name);
 							}
+							if (a.update !== b.update) {
+								return (a.update ? -1 : 1)
+							}
+							return OC.Util.naturalSortCompare(a.name, b.name);
 						});
 					}
 
