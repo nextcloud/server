@@ -13,11 +13,32 @@
  */
 
 /* GLOBAL ------------------------------------------------------------------- */
+[class^='svg-'], [class*=' svg-'],
 [class^='icon-'], [class*=' icon-'] {
 	background-repeat: no-repeat;
 	background-position: center;
 	min-width: 16px;
 	min-height: 16px;
+}
+
+[class^='svg-'], [class*=' svg-'] {
+	display: inline-flex;
+	align-self: center;
+	position: relative;
+}
+
+[class^='svg-'] svg, [class*=' svg-'] svg {
+	height: 16px;
+	width: 16px;
+	vertical-align: -3px; // counter default DOM offset
+}
+
+[class^='svg-'] svg path, [class*=' svg-'] svg path {
+	fill: #000;
+}
+
+.icon-white svg path {
+	fill: $color-primary-text;
 }
 
 .icon-breadcrumb {

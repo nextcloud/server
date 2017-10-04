@@ -166,6 +166,17 @@ class Template extends \OC_Template {
 		return \image_path($app, $image);
 	}
 
+	/**
+	 * @param string $app
+	 * @param string $image
+	 * @return string content of the image
+	 * @since 13.0.0
+	 * @suppress PhanDeprecatedFunction
+	 */
+	public static function inline_image($app, $image) {
+		inline_image($app, $image);
+	}
+
 
 	/**
 	 * Make OC_Helper::mimetypeIcon available as a simple function
