@@ -176,6 +176,11 @@ input {
 			flex-wrap: nowrap;
 			justify-content: space-between;
 			width: 100%;
+			> label {
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				overflow: hidden;
+			}
 		}
 		> form span {
 			&[class^="icon-checkmark"], &[class^="icon-error"] {
