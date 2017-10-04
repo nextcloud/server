@@ -35,11 +35,12 @@ input {
 }
 
 #avatarform {
-	> h2 {
-		position: relative;
-	}
 	.avatardiv {
 		margin: 10px auto;
+	}
+	.federationScopeMenu {
+		/* popover magic fix */
+		margin-right: calc(-50% - 7px);
 	}
 	.warning {
 		width: 100%;
@@ -117,11 +118,11 @@ input {
 }
 
 .icon-federation-menu {
-	float: right;
 	padding-left: 16px;
 	background-size: 16px;
 	background-position: left 8px;
 	opacity: .3;
+	margin-left: 10px;
 	cursor: pointer;
 
 	.icon-triangle-s {
@@ -163,12 +164,18 @@ input {
 	&:after {
 		clear: both;
 	}
-	> div {
+	&:not(#personal-settings-avatar-container) > div {
 		float: left;
 		width: 300px;
+	}
+	> div {
 		h2 {
 			position: relative;
 			margin-bottom: 5px;
+			display: inline-flex;
+			flex-wrap: nowrap;
+			justify-content: space-between;
+			width: 100%;
 		}
 		> form span {
 			&[class^="icon-checkmark"], &[class^="icon-error"] {
