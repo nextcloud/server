@@ -186,4 +186,34 @@ class RepairInvalidPathsTest extends TestCase {
 		$this->assertEquals($folderId, $this->cache2->get('foo2/bar/asd')['parent']);
 		$this->assertEquals($folderId, $this->cache2->getId('foo2/bar'));
 	}
+
+	public function shouldRunDataProvider() {
+		return [
+			['11.0.0.0', true],
+			['11.0.0.31', true],
+			['11.0.5.2', false],
+			['12.0.0.0', true],
+			['12.0.0.1', true],
+			['12.0.0.31', false],
+			['13.0.0.0', true],
+			['13.0.0.1', false]
+		];
+	}
+
+	/**
+	 * @dataProvider shouldRunDataProvider
+	 *
+	 * @param string $from
+	 * @param boolean $expected
+	 */
+	public function testShouldRun($from, $expected) {
+		$config = $this->createMock(IConfig::class);
+		$config->expects($this->any())
+			->method('getSystemValue')
+			->with('version', '0.0.0')
+			->willReturn($from);
+		$repair = new RepairInvalidPaths(\OC::$server->getDatabaseConnection(), $config);
+
+		$this->assertEquals($expected, $this->invokePrivate($repair, 'shouldRun'));
+	}
 }
