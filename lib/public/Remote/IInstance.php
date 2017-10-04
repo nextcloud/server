@@ -19,37 +19,48 @@
  *
  */
 
-namespace OC\Remote;
+namespace OCP\Remote;
 
-
-use OCP\Remote\ICredentials;
-
-class Credentials implements ICredentials {
-	/** @var string */
-	private $user;
-	/** @var string */
-	private $password;
+/**
+ * Provides some basic info about a remote Nextcloud instance
+ *
+ * @since 13.0.0
+ */
+interface IInstance {
+	/**
+	 * @return string The url of the remote server without protocol
+	 *
+	 * @since 13.0.0
+	 */
+	public function getUrl();
 
 	/**
-	 * @param string $user
-	 * @param string $password
+	 * @return string The of of the remote server with protocol
+	 *
+	 * @since 13.0.0
 	 */
-	public function __construct($user, $password) {
-		$this->user = $user;
-		$this->password = $password;
-	}
+	public function getFullUrl();
 
 	/**
-	 * @return string
+	 * @return string The full version string in '13.1.2.3' format
+	 *
+	 * @since 13.0.0
 	 */
-	public function getUsername() {
-		return $this->user;
-	}
+	public function getVersion();
 
 	/**
-	 * @return string
+	 * @return string 'http' or 'https'
+	 *
+	 * @since 13.0.0
 	 */
-	public function getPassword() {
-		return $this->password;
-	}
+	public function getProtocol();
+
+	/**
+	 * Check that the remote server is installed and not in maintenance mode
+	 *
+	 * @since 13.0.0
+	 *
+	 * @return bool
+	 */
+	public function isActive();
 }

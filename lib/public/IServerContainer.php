@@ -541,4 +541,16 @@ interface IServerContainer extends IContainer {
 	 * @since 12.0.0
 	 */
 	public function getCloudIdManager();
+
+	/**
+	 * @return \OCP\Remote\Api\IApiFactory
+	 * @since 13.0.0
+	 */
+	public function getRemoteApiFactory();
+
+	/**
+	 * @return \OCP\Remote\IInstanceFactory
+	 * @since 13.0.0
+	 */
+	public function getRemoteInstanceFactory();
 }

@@ -26,8 +26,10 @@ use GuzzleHttp\Exception\ClientException;
 use OC\ForbiddenException;
 use OC\Remote\User;
 use OCP\API;
+use OCP\Remote\Api\ICapabilitiesApi;
+use OCP\Remote\Api\IUserApi;
 
-class OCS extends ApiBase {
+class OCS extends ApiBase implements ICapabilitiesApi, IUserApi {
 	/**
 	 * @param string $method
 	 * @param string $url

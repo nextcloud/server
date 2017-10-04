@@ -22,34 +22,20 @@
 namespace OC\Remote;
 
 
-use OCP\Remote\ICredentials;
+use OCP\Http\Client\IClientService;
+use OCP\ICache;
+use OCP\Remote\IInstanceFactory;
 
-class Credentials implements ICredentials {
-	/** @var string */
-	private $user;
-	/** @var string */
-	private $password;
+class InstanceFactory implements IInstanceFactory {
+	private $cache;
+	private $clientService;
 
-	/**
-	 * @param string $user
-	 * @param string $password
-	 */
-	public function __construct($user, $password) {
-		$this->user = $user;
-		$this->password = $password;
+	public function __construct(ICache $cache, IClientService $clientService) {
+		$this->cache = $cache;
+		$this->clientService = $clientService;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getUsername() {
-		return $this->user;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getPassword() {
-		return $this->password;
+	public function getInstance($url) {
+		return new Instance($url, $this->cache, $this->clientService);
 	}
 }

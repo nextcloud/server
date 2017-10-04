@@ -19,37 +19,22 @@
  *
  */
 
-namespace OC\Remote;
+namespace OC\Remote\Api;
 
 
+use OCP\Http\Client\IClientService;
+use OCP\Remote\Api\IApiFactory;
 use OCP\Remote\ICredentials;
+use OCP\Remote\IInstance;
 
-class Credentials implements ICredentials {
-	/** @var string */
-	private $user;
-	/** @var string */
-	private $password;
+class ApiFactory implements IApiFactory {
+	private $clientService;
 
-	/**
-	 * @param string $user
-	 * @param string $password
-	 */
-	public function __construct($user, $password) {
-		$this->user = $user;
-		$this->password = $password;
+	public function __construct(IClientService $clientService) {
+		$this->clientService = $clientService;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getUsername() {
-		return $this->user;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getPassword() {
-		return $this->password;
+	public function getApiCollection(IInstance $instance, ICredentials $credentials) {
+		return new ApiCollection($instance, $credentials, $this->clientService);
 	}
 }

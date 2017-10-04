@@ -19,108 +19,102 @@
  *
  */
 
-namespace OC\Remote;
+namespace OCP\Remote;
 
-
-use OCP\Remote\IUser;
-
-class User implements IUser {
-	/** @var array */
-	private $data;
-
-	public function __construct(array $data) {
-		$this->data = $data;
-	}
-
+/**
+ * User info for a remote user
+ *
+ * @since 13.0.0
+ */
+interface IUser {
+	/**
+	 * @return string
+	 *
+	 * @since 13.0.0
+	 */
+	public function getUserId();
 
 	/**
 	 * @return string
+	 *
+	 * @since 13.0.0
 	 */
-	public function getUserId() {
-		return $this->data['id'];
-	}
+	public function getEmail();
 
 	/**
 	 * @return string
+	 *
+	 * @since 13.0.0
 	 */
-	public function getEmail() {
-		return $this->data['email'];
-	}
+	public function getDisplayName();
 
 	/**
 	 * @return string
+	 *
+	 * @since 13.0.0
 	 */
-	public function getDisplayName() {
-		return $this->data['displayname'];
-	}
+	public function getPhone();
 
 	/**
 	 * @return string
+	 *
+	 * @since 13.0.0
 	 */
-	public function getPhone() {
-		return $this->data['phone'];
-	}
+	public function getAddress();
 
 	/**
 	 * @return string
+	 *
+	 * @since 13.0.0
 	 */
-	public function getAddress() {
-		return $this->data['address'];
-	}
+	public function getWebsite();
 
 	/**
 	 * @return string
+	 *
+	 * @since 13.0.0
 	 */
-	public function getWebsite() {
-		return $this->data['website'];
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getTwitter() {
-		return isset($this->data['twitter']) ? $this->data['twitter'] : '';
-	}
+	public function getTwitter();
 
 	/**
 	 * @return string[]
+	 *
+	 * @since 13.0.0
 	 */
-	public function getGroups() {
-		return $this->data['groups'];
-	}
+	public function getGroups();
 
 	/**
 	 * @return string
+	 *
+	 * @since 13.0.0
 	 */
-	public function getLanguage() {
-		return $this->data['language'];
-	}
+	public function getLanguage();
 
 	/**
 	 * @return int
+	 *
+	 * @since 13.0.0
 	 */
-	public function getUsedSpace() {
-		return $this->data['quota']['used'];
-	}
+	public function getUsedSpace();
 
 	/**
 	 * @return int
+	 *
+	 * @since 13.0.0
 	 */
-	public function getFreeSpace() {
-		return $this->data['quota']['free'];
-	}
+	public function getFreeSpace();
 
 	/**
 	 * @return int
+	 *
+	 * @since 13.0.0
 	 */
-	public function getTotalSpace() {
-		return $this->data['quota']['total'];
-	}
+	public function getTotalSpace();
 
 	/**
 	 * @return int
+	 *
+	 * @since 13.0.0
 	 */
-	public function getQuota() {
-		return $this->data['quota']['quota'];
-	}
+	public function getQuota();
 }

@@ -21,19 +21,19 @@
 
 namespace OC\Remote\Api;
 
-use OC\Remote\Credentials;
-use OC\Remote\Instance;
 use OCP\Http\Client\IClientService;
+use OCP\Remote\ICredentials;
+use OCP\Remote\IInstance;
 
 class ApiBase {
-	/** @var Instance */
+	/** @var IInstance */
 	private $instance;
-	/** @var Credentials */
+	/** @var ICredentials */
 	private $credentials;
 	/** @var IClientService */
 	private $clientService;
 
-	public function __construct(Instance $instance, Credentials $credentials, IClientService $clientService) {
+	public function __construct(IInstance $instance, ICredentials $credentials, IClientService $clientService) {
 		$this->instance = $instance;
 		$this->credentials = $credentials;
 		$this->clientService = $clientService;

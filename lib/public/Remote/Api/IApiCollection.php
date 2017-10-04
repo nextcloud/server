@@ -19,37 +19,25 @@
  *
  */
 
-namespace OC\Remote;
+namespace OCP\Remote\Api;
 
-
-use OCP\Remote\ICredentials;
-
-class Credentials implements ICredentials {
-	/** @var string */
-	private $user;
-	/** @var string */
-	private $password;
+/**
+ * Provides access to the various apis of a remote instance
+ *
+ * @since 13.0.0
+ */
+interface IApiCollection {
+	/**
+	 * @return IUserApi
+	 *
+	 * @since 13.0.0
+	 */
+	public function getUserApi();
 
 	/**
-	 * @param string $user
-	 * @param string $password
+	 * @return ICapabilitiesApi
+	 *
+	 * @since 13.0.0
 	 */
-	public function __construct($user, $password) {
-		$this->user = $user;
-		$this->password = $password;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getUsername() {
-		return $this->user;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getPassword() {
-		return $this->password;
-	}
+	public function getCapabilitiesApi();
 }

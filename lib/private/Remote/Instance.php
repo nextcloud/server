@@ -24,11 +24,12 @@ namespace OC\Remote;
 use OC\Remote\Api\NotFoundException;
 use OCP\Http\Client\IClientService;
 use OCP\ICache;
+use OCP\Remote\IInstance;
 
 /**
  * Provides some basic info about a remote Nextcloud instance
  */
-class Instance {
+class Instance implements IInstance {
 	/** @var string */
 	private $url;
 
