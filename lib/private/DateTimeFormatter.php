@@ -158,42 +158,42 @@ class DateTimeFormatter implements \OCP\IDateTimeFormatter {
 		$dateInterval = $timestamp->diff($baseTimestamp);
 
 		if ($dateInterval->y == 0 && $dateInterval->m == 0 && $dateInterval->d == 0) {
-			return (string) $l->t('today');
+			return $l->t('today');
 		} else if ($dateInterval->y == 0 && $dateInterval->m == 0 && $dateInterval->d == 1) {
 			if ($timestamp > $baseTimestamp) {
-				return (string) $l->t('tomorrow');
+				return $l->t('tomorrow');
 			} else {
-				return (string) $l->t('yesterday');
+				return $l->t('yesterday');
 			}
 		} else if ($dateInterval->y == 0 && $dateInterval->m == 0) {
 			if ($timestamp > $baseTimestamp) {
-				return (string) $l->n('in %n day', 'in %n days', $dateInterval->d);
+				return $l->n('in %n day', 'in %n days', $dateInterval->d);
 			} else {
-				return (string) $l->n('%n day ago', '%n days ago', $dateInterval->d);
+				return $l->n('%n day ago', '%n days ago', $dateInterval->d);
 			}
 		} else if ($dateInterval->y == 0 && $dateInterval->m == 1) {
 			if ($timestamp > $baseTimestamp) {
-				return (string) $l->t('next month');
+				return $l->t('next month');
 			} else {
-				return (string) $l->t('last month');
+				return $l->t('last month');
 			}
 		} else if ($dateInterval->y == 0) {
 			if ($timestamp > $baseTimestamp) {
-				return (string) $l->n('in %n month', 'in %n months', $dateInterval->m);
+				return $l->n('in %n month', 'in %n months', $dateInterval->m);
 			} else {
-				return (string) $l->n('%n month ago', '%n months ago', $dateInterval->m);
+				return $l->n('%n month ago', '%n months ago', $dateInterval->m);
 			}
 		} else if ($dateInterval->y == 1) {
 			if ($timestamp > $baseTimestamp) {
-				return (string) $l->t('next year');
+				return $l->t('next year');
 			} else {
-				return (string) $l->t('last year');
+				return $l->t('last year');
 			}
 		}
 		if ($timestamp > $baseTimestamp) {
-			return (string) $l->n('in %n year', 'in %n years', $dateInterval->y);
+			return $l->n('in %n year', 'in %n years', $dateInterval->y);
 		} else {
-			return (string) $l->n('%n year ago', '%n years ago', $dateInterval->y);
+			return $l->n('%n year ago', '%n years ago', $dateInterval->y);
 		}
 	}
 
@@ -240,26 +240,26 @@ class DateTimeFormatter implements \OCP\IDateTimeFormatter {
 
 		$diff = $timestamp->diff($baseTimestamp);
 		if ($diff->y > 0 || $diff->m > 0 || $diff->d > 0) {
-			return (string) $this->formatDateSpan($timestamp, $baseTimestamp, $l);
+			return $this->formatDateSpan($timestamp, $baseTimestamp, $l);
 		}
 
 		if ($diff->h > 0) {
 			if ($timestamp > $baseTimestamp) {
-				return (string) $l->n('in %n hour', 'in %n hours', $diff->h);
+				return $l->n('in %n hour', 'in %n hours', $diff->h);
 			} else {
-				return (string) $l->n('%n hour ago', '%n hours ago', $diff->h);
+				return $l->n('%n hour ago', '%n hours ago', $diff->h);
 			}
 		} else if ($diff->i > 0) {
 			if ($timestamp > $baseTimestamp) {
-				return (string) $l->n('in %n minute', 'in %n minutes', $diff->i);
+				return $l->n('in %n minute', 'in %n minutes', $diff->i);
 			} else {
-				return (string) $l->n('%n minute ago', '%n minutes ago', $diff->i);
+				return $l->n('%n minute ago', '%n minutes ago', $diff->i);
 			}
 		}
 		if ($timestamp > $baseTimestamp) {
-			return (string) $l->t('in a moment');
+			return $l->t('in a moment');
 		} else {
-			return (string) $l->t('seconds ago');
+			return $l->t('seconds ago');
 		}
 	}
 
@@ -311,7 +311,7 @@ class DateTimeFormatter implements \OCP\IDateTimeFormatter {
 		$timeZone = $this->getTimeZone($timeZone);
 		$timestamp = $this->getDateTime($timestamp, $timeZone);
 
-		return (string) $l->l($type, $timestamp, array(
+		return $l->l($type, $timestamp, array(
 			'width' => $format,
 		));
 	}
