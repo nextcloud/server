@@ -79,7 +79,7 @@ class CreateCalendar extends Command {
 		$dispatcher = \OC::$server->getEventDispatcher();
 
 		$name = $input->getArgument('name');
-		$caldav = new CalDavBackend($this->dbConnection, $principalBackend, $this->userManager, $random, $dispatcher);
+		$caldav = new CalDavBackend($this->dbConnection, $principalBackend, $this->userManager, $this->groupManager, $random, $dispatcher);
 		$caldav->createCalendar("principals/users/$user", $name, []);
 	}
 }

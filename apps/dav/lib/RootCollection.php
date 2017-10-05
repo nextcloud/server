@@ -41,15 +41,14 @@ class RootCollection extends SimpleCollection {
 		$config = \OC::$server->getConfig();
 		$random = \OC::$server->getSecureRandom();
 		$userManager = \OC::$server->getUserManager();
+		$groupManager = \OC::$server->getGroupManager();
 		$db = \OC::$server->getDatabaseConnection();
 		$dispatcher = \OC::$server->getEventDispatcher();
 		$userPrincipalBackend = new Principal(
 			$userManager,
-			\OC::$server->getGroupManager()
+			$groupManager
 		);
-		$groupPrincipalBackend = new GroupPrincipalBackend(
-			\OC::$server->getGroupManager()
-		);
+		$groupPrincipalBackend = new GroupPrincipalBackend($groupManager);
 		// as soon as debug mode is enabled we allow listing of principals
 		$disableListing = !$config->getSystemValue('debug', false);
 
@@ -62,7 +61,7 @@ class RootCollection extends SimpleCollection {
 		$systemPrincipals->disableListing = $disableListing;
 		$filesCollection = new Files\RootCollection($userPrincipalBackend, 'principals/users');
 		$filesCollection->disableListing = $disableListing;
-		$caldavBackend = new CalDavBackend($db, $userPrincipalBackend, $userManager, $random, $dispatcher);
+		$caldavBackend = new CalDavBackend($db, $userPrincipalBackend, $userManager, $groupManager, $random, $dispatcher);
 		$calendarRoot = new CalendarRoot($userPrincipalBackend, $caldavBackend, 'principals/users');
 		$calendarRoot->disableListing = $disableListing;
 		$publicCalendarRoot = new PublicCalendarRoot($caldavBackend);
@@ -71,28 +70,28 @@ class RootCollection extends SimpleCollection {
 		$systemTagCollection = new SystemTag\SystemTagsByIdCollection(
 			\OC::$server->getSystemTagManager(),
 			\OC::$server->getUserSession(),
-			\OC::$server->getGroupManager()
+			$groupManager
 		);
 		$systemTagRelationsCollection = new SystemTag\SystemTagsRelationsCollection(
 			\OC::$server->getSystemTagManager(),
 			\OC::$server->getSystemTagObjectMapper(),
 			\OC::$server->getUserSession(),
-			\OC::$server->getGroupManager(),
+			$groupManager,
 			\OC::$server->getEventDispatcher()
 		);
 		$commentsCollection = new Comments\RootCollection(
 			\OC::$server->getCommentsManager(),
-			\OC::$server->getUserManager(),
+			$userManager,
 			\OC::$server->getUserSession(),
 			\OC::$server->getEventDispatcher(),
 			\OC::$server->getLogger()
 		);
 
-		$usersCardDavBackend = new CardDavBackend($db, $userPrincipalBackend, \OC::$server->getUserManager(), $dispatcher);
+		$usersCardDavBackend = new CardDavBackend($db, $userPrincipalBackend, $userManager, $groupManager, $dispatcher);
 		$usersAddressBookRoot = new AddressBookRoot($userPrincipalBackend, $usersCardDavBackend, 'principals/users');
 		$usersAddressBookRoot->disableListing = $disableListing;
 
-		$systemCardDavBackend = new CardDavBackend($db, $userPrincipalBackend, \OC::$server->getUserManager(), $dispatcher);
+		$systemCardDavBackend = new CardDavBackend($db, $userPrincipalBackend, $userManager, $groupManager, $dispatcher);
 		$systemAddressBookRoot = new AddressBookRoot(new SystemPrincipalBackend(), $systemCardDavBackend, 'principals/system');
 		$systemAddressBookRoot->disableListing = $disableListing;
 
