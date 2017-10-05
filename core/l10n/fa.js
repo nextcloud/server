@@ -260,7 +260,6 @@ OC.L10N.register(
     "See the documentation" : "مشاهده‌ی مستندات",
     "More apps" : "برنامه های بیشتر",
     "Search" : "جست‌و‌جو",
-    "This action requires you to confirm your password:" : "این اقدام نیاز به تایید رمز عبور شما دارد",
     "Confirm your password" : "گذرواژه خود را تأیید کنید",
     "Server side authentication failed!" : "تأیید هویت از سوی سرور انجام نشد!",
     "Please contact your administrator." : "لطفا با مدیر وب‌سایت تماس بگیرید.",
@@ -309,6 +308,7 @@ OC.L10N.register(
     "The share will expire on %s." : "اشتراک‌گذاری در %s منقضی خواهد شد.",
     "Cheers!" : "سلامتی!",
     "Log out" : "خروج",
+    "This action requires you to confirm your password:" : "این اقدام نیاز به تایید رمز عبور شما دارد",
     "Use the following link to reset your password: {link}" : "از لینک زیر جهت دوباره سازی پسورد استفاده کنید :\n{link}"
 },
 "nplurals=1; plural=0;");
