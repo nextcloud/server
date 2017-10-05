@@ -36,6 +36,7 @@ use OC\Files\Node\Folder;
 use OC_Files;
 use OC_Util;
 use OCA\FederatedFileSharing\FederatedShareProvider;
+use OCP\AppFramework\PublicShareController;
 use OCP\Defaults;
 use OCP\IL10N;
 use OCP\Template;
@@ -56,36 +57,29 @@ use \OCP\Files\NotFoundException;
 use OCP\Files\IRootFolder;
 use OCP\Share\Exceptions\ShareNotFound;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * Class ShareController
  *
  * @package OCA\Files_Sharing\Controllers
  */
-class ShareController extends Controller {
+class ShareController extends PublicShareController {
 
 	/** @var IConfig */
 	protected $config;
-	/** @var IURLGenerator */
-	protected $urlGenerator;
 	/** @var IUserManager */
 	protected $userManager;
 	/** @var ILogger */
 	protected $logger;
 	/** @var \OCP\Activity\IManager */
 	protected $activityManager;
-	/** @var \OCP\Share\IManager */
-	protected $shareManager;
-	/** @var ISession */
-	protected $session;
 	/** @var IPreview */
 	protected $previewManager;
 	/** @var IRootFolder */
 	protected $rootFolder;
 	/** @var FederatedShareProvider */
 	protected $federatedShareProvider;
-	/** @var EventDispatcherInterface */
-	protected $eventDispatcher;
 	/** @var IL10N */
 	protected $l10n;
 	/** @var Defaults */
@@ -123,97 +117,39 @@ class ShareController extends Controller {
 								EventDispatcherInterface $eventDispatcher,
 								IL10N $l10n,
 								Defaults $defaults) {
-		parent::__construct($appName, $request);
+		parent::__construct($appName, $request, $shareManager, $urlGenerator, $session, $eventDispatcher);
 
 		$this->config = $config;
-		$this->urlGenerator = $urlGenerator;
 		$this->userManager = $userManager;
 		$this->logger = $logger;
 		$this->activityManager = $activityManager;
-		$this->shareManager = $shareManager;
-		$this->session = $session;
 		$this->previewManager = $previewManager;
 		$this->rootFolder = $rootFolder;
 		$this->federatedShareProvider = $federatedShareProvider;
-		$this->eventDispatcher = $eventDispatcher;
 		$this->l10n = $l10n;
 		$this->defaults = $defaults;
+
+		$this->eventDispatcher->addListener('OCP\Share::share_link_access', function(GenericEvent $e) {
+			$share = $e->getSubject();
+			$errorCode = $e->hasArgument('errorCode') ? $e->getArgument('errorCode') : 200;
+			$errorMessage = $e->hasArgument('errorMessage') ? $e->getArgument('errorMessage') : '';
+
+			$this->emitAccessShareHook($share, $errorCode, $errorMessage);
+		});
 	}
 
 	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 *
-	 * @param string $token
-	 * @return TemplateResponse|RedirectResponse
+	 * @return string
 	 */
-	public function showAuthenticate($token) {
-		$share = $this->shareManager->getShareByToken($token);
-
-		if($this->linkShareAuth($share)) {
-			return new RedirectResponse($this->urlGenerator->linkToRoute('files_sharing.sharecontroller.showShare', array('token' => $token)));
-		}
-
-		return new TemplateResponse($this->appName, 'authenticate', array(), 'guest');
+	protected function getAuthenticateRoute() {
+		return 'files_sharing.sharecontroller.authenticate';
 	}
 
 	/**
-	 * @PublicPage
-	 * @UseSession
-	 * @BruteForceProtection(action=publicLinkAuth)
-	 *
-	 * Authenticates against password-protected shares
-	 * @param string $token
-	 * @param string $password
-	 * @return RedirectResponse|TemplateResponse|NotFoundResponse
+	 * @return string
 	 */
-	public function authenticate($token, $password = '') {
-
-		// Check whether share exists
-		try {
-			$share = $this->shareManager->getShareByToken($token);
-		} catch (ShareNotFound $e) {
-			return new NotFoundResponse();
-		}
-
-		$authenticate = $this->linkShareAuth($share, $password);
-
-		if($authenticate === true) {
-			return new RedirectResponse($this->urlGenerator->linkToRoute('files_sharing.sharecontroller.showShare', array('token' => $token)));
-		}
-
-		$response = new TemplateResponse($this->appName, 'authenticate', array('wrongpw' => true), 'guest');
-		$response->throttle();
-		return $response;
-	}
-
-	/**
-	 * Authenticate a link item with the given password.
-	 * Or use the session if no password is provided.
-	 *
-	 * This is a modified version of Helper::authenticate
-	 * TODO: Try to merge back eventually with Helper::authenticate
-	 *
-	 * @param \OCP\Share\IShare $share
-	 * @param string|null $password
-	 * @return bool
-	 */
-	private function linkShareAuth(\OCP\Share\IShare $share, $password = null) {
-		if ($password !== null) {
-			if ($this->shareManager->checkPassword($share, $password)) {
-				$this->session->set('public_link_authenticated', (string)$share->getId());
-			} else {
-				$this->emitAccessShareHook($share, 403, 'Wrong password');
-				return false;
-			}
-		} else {
-			// not authenticated ?
-			if ( ! $this->session->exists('public_link_authenticated')
-				|| $this->session->get('public_link_authenticated') !== (string)$share->getId()) {
-				return false;
-			}
-		}
-		return true;
+	protected function getShowShareRoute() {
+		return 'files_sharing.sharecontroller.showShare';
 	}
 
 	/**
@@ -272,24 +208,15 @@ class ShareController extends Controller {
 	 * @param string $path
 	 * @return TemplateResponse|RedirectResponse|NotFoundResponse
 	 * @throws NotFoundException
+	 * @throws ShareNotFound
 	 * @throws \Exception
 	 */
 	public function showShare($token, $path = '') {
+		parent::showShare($token);
+
 		\OC_User::setIncognitoMode(true);
 
-		// Check whether share exists
-		try {
-			$share = $this->shareManager->getShareByToken($token);
-		} catch (ShareNotFound $e) {
-			$this->emitAccessShareHook($token, 404, 'Share not found');
-			return new NotFoundResponse();
-		}
-
-		// Share is password protected - check whether the user is permitted to access the share
-		if ($share->getPassword() !== null && !$this->linkShareAuth($share)) {
-			return new RedirectResponse($this->urlGenerator->linkToRoute('files_sharing.sharecontroller.authenticate',
-				array('token' => $token)));
-		}
+		$share = $this->share;
 
 		if (!$this->validateShare($share)) {
 			throw new NotFoundException();
@@ -446,7 +373,7 @@ class ShareController extends Controller {
 		}
 
 		// Share is password protected - check whether the user is permitted to access the share
-		if ($share->getPassword() !== null && !$this->linkShareAuth($share)) {
+		if (!$this->isAuthenticated($share)) {
 			return new RedirectResponse($this->urlGenerator->linkToRoute('files_sharing.sharecontroller.authenticate',
 				['token' => $token]));
 		}
