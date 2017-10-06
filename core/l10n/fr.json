@@ -260,6 +260,7 @@
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Cette application requiert JavaScript pour fonctionner correctement. Veuillez {linkstart}activer JavaScript{linkend} et recharger la page.",
     "More apps" : "Plus d'applications",
     "Search" : "Rechercher",
+    "Reset search" : "Réinitialiser la recherche",
     "Confirm your password" : "Confirmer votre mot de passe",
     "Server side authentication failed!" : "L'authentification sur le serveur a échoué !",
     "Please contact your administrator." : "Veuillez contacter votre administrateur.",
