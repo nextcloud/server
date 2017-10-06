@@ -124,6 +124,7 @@ OC.L10N.register(
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Diese Adresse benutzen, um <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">über WebDAV auf Deine Dateien zuzugreifen</a>",
     "Uploading @" : "Lade @ hoch",
+    "Cancel upload" : "Hochladen abbrechen",
     "No files in here" : "Keine Dateien vorhanden",
     "Upload some content or sync with your devices!" : "Inhalte hochladen oder mit deinen Geräten synchronisieren!",
     "No entries found in this folder" : "Keine Einträge in diesem Ordner gefunden",

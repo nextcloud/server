@@ -262,6 +262,7 @@ OC.L10N.register(
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Для корректной работы приложения требуется JavaScript. Пожалуйста, {linkstart}включите JavaScript{linkend} и обновите страницу.",
     "More apps" : "Ещё приложения",
     "Search" : "Найти",
+    "Reset search" : "Очистить поиск",
     "Confirm your password" : "Подтвердите свой пароль",
     "Server side authentication failed!" : "Ошибка аутентификации на стороне сервера!",
     "Please contact your administrator." : "Пожалуйста, обратитесь к администратору.",
