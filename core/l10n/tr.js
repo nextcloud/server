@@ -262,6 +262,7 @@ OC.L10N.register(
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Bu uygulamanın düzgün çalışabilmesi için JavaScript gereklidir. Lütfen {linkstart}JavaScript uygulamasını etkinleştirip{linkend} sayfayı yeniden yükleyin.",
     "More apps" : "Diğer uygulamalar",
     "Search" : "Arama",
+    "Reset search" : "Aramayı sıfırla",
     "Confirm your password" : "Parolanızı onaylayın",
     "Server side authentication failed!" : "Kimlik sunucu tarafında doğrulanamadı!",
     "Please contact your administrator." : "Lütfen sistem yöneticiniz ile görüşün.",

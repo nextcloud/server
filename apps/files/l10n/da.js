@@ -124,6 +124,7 @@ OC.L10N.register(
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Brug denne adresse til at <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">tilgå dine filer via WebDAV</a>",
     "Uploading @" : "Uploader @",
+    "Cancel upload" : "Annuller upload ",
     "No files in here" : "Her er ingen filer",
     "Upload some content or sync with your devices!" : "Overfør indhold eller synkronisér med dine enheder!",
     "No entries found in this folder" : "Der blev ikke fundet poster i denne mappe",

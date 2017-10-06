@@ -260,6 +260,7 @@
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Denne applikation kræver JavaScript for at fungere korrekt. {linkstart}Slå venligst JavaScript til{linkend} og genindlæs siden.",
     "More apps" : "Flere apps",
     "Search" : "Søg",
+    "Reset search" : "Nulstil søgning",
     "Confirm your password" : "Bekræft dit password",
     "Server side authentication failed!" : "Server side godkendelse mislykkedes!",
     "Please contact your administrator." : "Kontakt venligst din administrator.",
