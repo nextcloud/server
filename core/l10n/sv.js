@@ -262,6 +262,7 @@ OC.L10N.register(
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Denna applikationen kräver JavaScript för att fungera korrekt. Var god {linkstart}aktivera JavaScript{linkend} och ladda om sidan.",
     "More apps" : "Fler appar",
     "Search" : "Sök",
+    "Reset search" : "Återställ sökning",
     "Confirm your password" : "Bekräfta ditt lösenord",
     "Server side authentication failed!" : "Servern misslyckades med autentisering!",
     "Please contact your administrator." : "Kontakta din administratör.",
