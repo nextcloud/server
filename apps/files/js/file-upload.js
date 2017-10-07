@@ -971,7 +971,7 @@ OC.Uploader.prototype = _.extend({
 					$('#uploadprogressbar').progressbar({value: 0});
 					$('#uploadprogressbar .ui-progressbar-value').
 						html('<em class="label inner"><span class="desktop">'
-							+ t('files', 'Uploading …')
+							+ t('files', 'Uploading…')
 							+ '</span><span class="mobile">'
 							+ t('files', '…')
 							+ '</span></em>');
@@ -1023,7 +1023,7 @@ OC.Uploader.prototype = _.extend({
 					var h = moment.duration(smoothRemainingSeconds, "seconds").humanize();
 					if (!(smoothRemainingSeconds >= 0 && smoothRemainingSeconds < 14400)) {
 						// show "Uploading ..." for durations longer than 4 hours
-						h = t('files', 'Uploading …');
+						h = t('files', 'Uploading…');
 					}
 					$('#uploadprogressbar .label .mobile').text(h);
 					$('#uploadprogressbar .label .desktop').text(h);
