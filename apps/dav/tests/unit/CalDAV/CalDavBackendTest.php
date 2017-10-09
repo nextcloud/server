@@ -134,7 +134,7 @@ class CalDavBackendTest extends AbstractCalDavBackend {
 			->method('userExists')
 			->willReturn(true);
 
-		$this->userManager->expects($this->any())
+		$this->groupManager->expects($this->any())
 			->method('groupExists')
 			->willReturn(true);
 
