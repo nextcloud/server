@@ -287,6 +287,9 @@
 		/** @type {undefined|ContactCollection} */
 		_contacts: undefined,
 
+		/** @type {string} */
+		_searchTerm: '',
+
 		events: {
 			'input #contactsmenu-search': '_onSearch'
 		},
@@ -294,8 +297,16 @@
 		/**
 		 * @returns {undefined}
 		 */
-		_onSearch: _.debounce(function() {
-			this.trigger('search', this.$('#contactsmenu-search').val());
+		_onSearch: _.debounce(function(e) {
+			var searchTerm = this.$('#contactsmenu-search').val();
+			// IE11 triggers an 'input' event after the view has been rendered
+			// resulting in an endless loading loop. To prevent this, we remember
+			// the last search term to savely ignore some events
+			// See https://github.com/nextcloud/server/issues/5281
+			if (searchTerm !== this._searchTerm) {
+				this.trigger('search', this.$('#contactsmenu-search').val());
+				this._searchTerm = searchTerm;
+			}
 		}, 700),
 
 		/**
