@@ -834,7 +834,7 @@ services:
       matrix:
        ENABLE_REDIS_CLUSTER: true
   postgres:
-    image: postgres
+    image: postgres:9
     environment:
       - POSTGRES_USER=oc_autotest
       - POSTGRES_PASSWORD=owncloud
