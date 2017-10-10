@@ -146,7 +146,7 @@ class ChangeKeyStorageRoot extends Command {
 			'ownCloud will detect this folder as key storage root only if this file exists'
 		);
 
-		if ($result === false) {
+		if ($result !== true) {
 			throw new \Exception("Can't write to new root folder. Please check the permissions and try again");
 		}
 
