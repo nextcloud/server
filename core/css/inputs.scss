@@ -41,7 +41,7 @@ textarea,
 	font-size: 13px;
 	background-color: $color-main-background;
 	color: nc-lighten($color-main-text, 33%);
-	border: 1px solid nc-lighten($color-main-text, 86%);
+	border: 1px solid nc-darken($color-main-background, 14%);
 	outline: none;
 	border-radius: 3px;
 	cursor: text;
@@ -163,7 +163,7 @@ textarea {
 		&:active,
 		&:hover,
 		&:focus {
-			border-color: nc-lighten($color-main-text, 86%) !important;
+			border-color: nc-darken($color-main-background, 14%) !important;
 			background-color: $color-main-background !important;
 		}
 	}
@@ -258,7 +258,7 @@ input {
 		&.radio--white,
 		&.checkbox--white {
 			+ label:before {
-				border-color: nc-lighten($color-main-text, 86%);
+				border-color: nc-darken($color-main-background, 14%);
 			}
 			&:not(:disabled):not(:checked) + label:hover:before,
 			&:focus + label:before {
@@ -304,7 +304,7 @@ input {
 	margin-top: -2px;
 	background-color: $color-main-background;
 	&.select2-drop-active {
-		border-color: nc-lighten($color-main-text, 86%);
+		border-color: nc-darken($color-main-background, 14%);
 	}
 	.avatar {
 		display: inline-block;
@@ -369,7 +369,7 @@ input {
 		color: nc-lighten($color-main-text, 33%);
 		box-sizing: content-box;
 		border-radius: 3px;
-		border: 1px solid nc-lighten($color-main-text, 86%);
+		border: 1px solid nc-darken($color-main-background, 14%);
 		margin: 0;
 		padding: 2px 0;
 		min-height: auto;
@@ -383,7 +383,7 @@ input {
 				background-image: none;
 				background-color: $color-main-background;
 				color: nc-lighten($color-main-text, 33%);
-				border: 1px solid nc-lighten($color-main-text, 86%);
+				border: 1px solid nc-darken($color-main-background, 14%);
 			}
 			.select2-search-choice-close {
 				display: none;
@@ -414,7 +414,7 @@ input {
 		color: nc-lighten($color-main-text, 33%);
 		box-sizing: content-box;
 		border-radius: 3px;
-		border: 1px solid nc-lighten($color-main-text, 86%);
+		border: 1px solid nc-darken($color-main-background, 14%);
 		margin: 0;
 		padding: 2px 0;
 		padding-left: 6px;
@@ -430,8 +430,8 @@ input {
 			}
 			&.select2-search-choice-focus,
 			&:hover {
-				background-color: $color-border;
-				border-color: $color-border;
+				background-color: nc-darken($color-main-background, 8%);
+				border-color: nc-darken($color-main-background, 8%);
 			}
 		}
 		.select2-arrow {
