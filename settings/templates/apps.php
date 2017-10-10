@@ -19,6 +19,11 @@ script(
 {{#each this}}
 	<li id="app-category-{{ident}}" data-category-id="{{ident}}" tabindex="0">
 		<a href="#" class="icon-category-{{ident}}">{{displayName}}</a>
+		<div class="app-navigation-entry-utils">
+			<ul>
+				<li class="app-navigation-entry-utils-counter">{{ counter }}</li>
+			</ul>
+		</div>
 	</li>
 {{/each}}
 
@@ -65,9 +70,6 @@ script(
 	</div>
 
 	<div class="actions">
-		<div class="app-dependencies update hidden">
-			<p><?php p($l->t('This app has an update available.')); ?></p>
-		</div>
 		<div class="warning hidden"></div>
 		<input class="update hidden" type="submit" value="<?php p($l->t('Update to %s', array('{{update}}'))); ?>" data-appid="{{id}}" />
 		{{#if canUnInstall}}
@@ -206,7 +208,7 @@ script(
 	</svg>
 	<div id="apps-list"></div>
 	<div id="apps-list-empty" class="hidden emptycontent emptycontent-search">
-		<div class="icon-search"></div>
+		<div id="app-list-empty-icon" class="icon-search"></div>
 		<h2><?php p($l->t('No apps found for your version')) ?></h2>
 	</div>
 </div>

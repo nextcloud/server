@@ -102,6 +102,12 @@ class AppSettingsControllerTest extends TestCase {
 				'displayName' => 'Your apps',
 			],
 			[
+				'id' => 4,
+				'ident' => 'updates',
+				'displayName' => 'Updates',
+				'counter' => 0,
+			],
+			[
 				'id' => 0,
 				'ident' => 'enabled',
 				'displayName' => 'Enabled apps',
