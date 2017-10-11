@@ -59,7 +59,7 @@ class CommentersSorterTest extends TestCase {
 		$workArray = $data['input'];
 		$this->sorter->sort($workArray, ['itemType' => 'files', 'itemId' => '24']);
 
-		$this->assertSame($data['expected'], $workArray);
+		$this->assertEquals($data['expected'], $workArray);
 	}
 
 	public function sortDataProvider() {

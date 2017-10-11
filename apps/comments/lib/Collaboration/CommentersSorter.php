@@ -58,12 +58,23 @@ class CommentersSorter implements ISorter {
 				continue;
 			}
 
-			usort($byType, function ($a, $b) use ($commenters, $type) {
-				$r = $this->compare($a, $b, $commenters[$type]);
+			// at least on PHP 5.6 usort turned out to be not stable. So we add
+			// the current index to the value and compare it on a draw
+			$i = 0;
+			$workArray = array_map(function($element) use (&$i) {
+				return [$i++, $element];
+			}, $byType);
+
+			usort($workArray, function ($a, $b) use ($commenters, $type) {
+				$r = $this->compare($a[1], $b[1], $commenters[$type]);
+				if($r === 0) {
+					$r = $a[0] - $b[0];
+				}
 				return $r;
 			});
 
-			$s = '';
+			// and remove the index values again
+			$byType = array_column($workArray, 1);
 		}
 	}
 
