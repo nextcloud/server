@@ -260,6 +260,7 @@
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "对于正确的操作, 该应用需要使用 JavaScript. 请 {linkstart}启用 JavaScript{linkend}, 并重新加载页面.",
     "More apps" : "更多的应用程序",
     "Search" : "搜索",
+    "Reset search" : "重置搜索",
     "Confirm your password" : "确认您的密码",
     "Server side authentication failed!" : "服务端认证失败!",
     "Please contact your administrator." : "请联系您的管理员.",
