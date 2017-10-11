@@ -340,12 +340,12 @@ class Manager implements ICommentsManager {
 	public function getActorsInTree($id) {
 		$tree = $this->getTree($id);
 		$actors = [];
-		$this->extractActor($tree, $actors);
+		$this->walkTree($tree, $actors, [$this, 'extractActor']);
 		return $actors;
 	}
 
 	/**
-	 * @param array $node
+	 * @param IComment $comment
 	 * @param array &$actors
 	 *
 	 * build an array that looks like:
@@ -362,23 +362,34 @@ class Manager implements ICommentsManager {
 	 * ]
 	 *
 	 */
-	protected function extractActor(array $node, array &$actors) {
+	protected function extractActor(IComment $comment, &$actors) {
+		if(!isset($actors[$comment->getActorType()])) {
+			$actors[$comment->getActorType()] = [];
+		}
+		if(!isset($actors[$comment->getActorType()][$comment->getActorId()])) {
+			$actors[$comment->getActorType()][$comment->getActorId()] = 1;
+		} else {
+			$actors[$comment->getActorType()][$comment->getActorId()] += 1;
+		}
+	}
+
+	/**
+	 * walks through a comment tree (as returned by getTree() and invokes a callback
+	 * with the current IComment instance (and optionally custom parameters)
+	 *
+	 * @param array $node
+	 * @param array &$results
+	 * @param callable $callback
+	 * @param array|null $parameters
+	 */
+	protected function walkTree($node, array &$results, callable $callback, array $parameters = null) {
 		if(isset($node['replies'])) {
 			foreach ($node['replies'] as $subNode) {
-				$this->extractActor($subNode, $actors);
+				$this->walkTree($subNode, $results, $callback, $parameters);
 			}
 		}
 		if(isset($node['comment']) && $node['comment'] instanceof IComment) {
-			/** @var IComment $comment */
-			$comment = $node['comment'];
-			if(!isset($actors[$comment->getActorType()])) {
-				$actors[$comment->getActorType()] = [];
-			}
-			if(!isset($actors[$comment->getActorType()][$comment->getActorId()])) {
-				$actors[$comment->getActorType()][$comment->getActorId()] = 1;
-			} else {
-				$actors[$comment->getActorType()][$comment->getActorId()] += 1;
-			}
+			$callback($node['comment'], $results, $parameters);
 		}
 	}
 
