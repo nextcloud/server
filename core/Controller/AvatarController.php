@@ -115,6 +115,7 @@ class AvatarController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
+	 * @NoSameSiteCookieRequired
 	 * @PublicPage
 	 *
 	 * @param string $userId
