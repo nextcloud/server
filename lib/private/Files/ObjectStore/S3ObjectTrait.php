@@ -26,7 +26,7 @@ use Aws\S3\MultipartUploader;
 use Aws\S3\S3Client;
 use Psr\Http\Message\StreamInterface;
 
-const S3_UPLOAD_PART_SIZE = 5368709120;
+const S3_UPLOAD_PART_SIZE = 524288000; // 500MB
 
 trait S3ObjectTrait {
 	/**
@@ -86,6 +86,7 @@ trait S3ObjectTrait {
 		$uploader = new MultipartUploader($this->getConnection(), $stream, [
 			'bucket' => $this->bucket,
 			'key' => $urn,
+			'part_size' => S3_UPLOAD_PART_SIZE
 		]);
 
 		$tries = 0;
@@ -94,6 +95,7 @@ trait S3ObjectTrait {
 			try {
 				$result = $uploader->upload();
 			} catch (MultipartUploadException $e) {
+				\OC::$server->getLogger()->logException($e);
 				rewind($stream);
 				$tries++;
 
