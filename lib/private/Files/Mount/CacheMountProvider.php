@@ -58,10 +58,12 @@ class CacheMountProvider implements IMountProvider {
 			$cacheDir = rtrim($cacheBaseDir, '/') . '/' . $user->getUID();
 			if (!file_exists($cacheDir)) {
 				mkdir($cacheDir, 0770, true);
+				mkdir($cacheDir . '/uploads', 0770, true);
 			}
 
 			return [
-				new MountPoint('\OC\Files\Storage\Local', '/' . $user->getUID() . '/cache', ['datadir' => $cacheDir, $loader])
+				new MountPoint('\OC\Files\Storage\Local', '/' . $user->getUID() . '/cache', ['datadir' => $cacheDir, $loader]),
+				new MountPoint('\OC\Files\Storage\Local', '/' . $user->getUID() . '/uploads', ['datadir' => $cacheDir . '/uploads', $loader])
 			];
 		} else {
 			return [];
