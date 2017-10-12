@@ -31,7 +31,7 @@
 
 	<collaboration>
 		<plugins>
-			<plugin type="autocomplete-sort">OCA\Comments\Collaboration\Sorter</plugin>
+			<plugin type="autocomplete-sort">OCA\Comments\Collaboration\CommentersSorter</plugin>
 		</plugins>
 	</collaboration>
 </info>
