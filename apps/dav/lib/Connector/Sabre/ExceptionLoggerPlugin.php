@@ -48,7 +48,7 @@ class ExceptionLoggerPlugin extends \Sabre\DAV\ServerPlugin {
 		'Sabre\DAV\Exception\Forbidden' => true,
 		// Happens when an external storage or federated share is temporarily
 		// not available
-		'Sabre\DAV\Exception\StorageNotAvailableException' => true,
+		'OCP\Files\StorageNotAvailableException' => true,
 	];
 
 	/** @var string */
