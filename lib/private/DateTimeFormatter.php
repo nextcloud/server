@@ -257,7 +257,7 @@ class DateTimeFormatter implements \OCP\IDateTimeFormatter {
 			}
 		}
 		if ($timestamp > $baseTimestamp) {
-			return $l->t('in a moment');
+			return $l->t('in a few seconds');
 		} else {
 			return $l->t('seconds ago');
 		}
