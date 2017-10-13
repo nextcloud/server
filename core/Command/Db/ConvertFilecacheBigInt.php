@@ -52,6 +52,8 @@ class ConvertFilecacheBigInt extends Command {
 
 	protected function getColumnsByTable() {
 		return [
+			'activity' => ['activity_id', 'object_id'],
+			'activity_mq' => ['mail_id'],
 			'filecache' => ['fileid', 'storage', 'parent', 'mimetype', 'mimepart'],
 			'mimetypes' => ['id'],
 			'storages' => ['numeric_id'],
@@ -65,6 +67,10 @@ class ConvertFilecacheBigInt extends Command {
 
 		$tables = $this->getColumnsByTable();
 		foreach ($tables as $tableName => $columns) {
+			if (!$schema->hasTable($tableName)) {
+				continue;
+			}
+
 			$table = $schema->getTable($tableName);
 
 			foreach ($columns as $columnName) {
