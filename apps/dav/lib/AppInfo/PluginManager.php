@@ -71,7 +71,7 @@ class PluginManager {
 	 * @return array
 	 */
 	public function getAppPlugins() {
-		if (is_null($this->plugins)) {
+		if (null === $this->plugins) {
 			$this->populate();
 		}
 		return $this->plugins;
@@ -83,7 +83,7 @@ class PluginManager {
 	 * @return array
 	 */
 	public function getAppCollections() {
-		if (is_null($this->collections)) {
+		if (null === $this->collections) {
 			$this->populate();
 		}
 		return $this->collections;
@@ -98,7 +98,7 @@ class PluginManager {
 		foreach ($this->appManager->getInstalledApps() as $app) {
 			// load plugins and collections from info.xml
 			$info = $this->appManager->getAppInfo($app);
-			if (!isset($info['types']) || !in_array('dav', $info['types'])) {
+			if (!isset($info['types']) || !in_array('dav', $info['types'], true)) {
 				continue;
 			}
 			// FIXME: switch to public API once available
@@ -109,7 +109,7 @@ class PluginManager {
 		}
 	}
 
-	private function extractPluginList($array) {
+	private function extractPluginList(array $array) {
 		if (isset($array['sabre']) && is_array($array['sabre'])) {
 			if (isset($array['sabre']['plugins']) && is_array($array['sabre']['plugins'])) {
 				if (isset($array['sabre']['plugins']['plugin'])) {
@@ -124,7 +124,7 @@ class PluginManager {
 		return [];
 	}
 
-	private function extractCollectionList($array) {
+	private function extractCollectionList(array $array) {
 		if (isset($array['sabre']) && is_array($array['sabre'])) {
 			if (isset($array['sabre']['collections']) && is_array($array['sabre']['collections'])) {
 				if (isset($array['sabre']['collections']['collection'])) {
@@ -139,7 +139,7 @@ class PluginManager {
 		return [];
 	}
 
-	private function loadSabrePluginsFromInfoXml($plugins) {
+	private function loadSabrePluginsFromInfoXml(array $plugins) {
 		foreach ($plugins as $plugin) {
 			try {
 				$this->plugins[] = $this->container->query($plugin);
@@ -153,7 +153,7 @@ class PluginManager {
 		}
 	}
 
-	private function loadSabreCollectionsFromInfoXml($collections) {
+	private function loadSabreCollectionsFromInfoXml(array $collections) {
 		foreach ($collections as $collection) {
 			try {
 				$this->collections[] = $this->container->query($collection);
@@ -164,7 +164,7 @@ class PluginManager {
 					throw new \Exception("Sabre collection class '$collection' is unknown and could not be loaded");
 				}
 			}
-		};
+		}
 	}
 
 }
