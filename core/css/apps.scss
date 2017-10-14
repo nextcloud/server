@@ -432,7 +432,6 @@ kbd {
 			padding: 5px;
 			margin-right: 0;
 			height: 38px;
-			border: 1px solid nc-darken($color-main-background, 8%);
 			&:hover {
 				/* overlapp borders */
 				z-index: 1;
