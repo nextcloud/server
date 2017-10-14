@@ -66,38 +66,40 @@ vendor_style('jcrop/css/jquery.Jcrop');
 </div>
 
 <div id="personal-settings">
-	<div id="personal-settings-avatar-container">
-		<form id="avatarform" class="section" method="post" action="<?php p(\OC::$server->getURLGenerator()->linkToRoute('core.avatar.postAvatar')); ?>">
-			<h2>
-				<label><?php p($l->t('Profile picture')); ?></label><span class="icon-federation-menu icon-password">
-					<span class="icon-triangle-s"></span>
-				</span>
-			</h2>
-			<div id="displayavatar">
-				<div class="avatardiv"></div>
-				<div class="warning hidden"></div>
-				<?php if ($_['avatarChangeSupported']): ?>
-					<label for="uploadavatar" class="inlineblock button icon-upload svg" id="uploadavatarbutton" title="<?php p($l->t('Upload new')); ?>"></label>
-					<div class="inlineblock button icon-folder svg" id="selectavatar" title="<?php p($l->t('Select from Files')); ?>"></div>
-					<div class="hidden button icon-delete svg" id="removeavatar" title="<?php p($l->t('Remove image')); ?>"></div>
-					<input type="file" name="files[]" id="uploadavatar" class="hiddenuploadfield">
-					<p><em><?php p($l->t('png or jpg, max. 20 MB')); ?></em></p>
-				<?php else: ?>
-					<?php p($l->t('Picture provided by original account')); ?>
-				<?php endif; ?>
-			</div>
-
-			<div id="cropper" class="hidden">
-				<div class="inner-container">
-					<div class="inlineblock button" id="abortcropperbutton"><?php p($l->t('Cancel')); ?></div>
-					<div class="inlineblock button primary" id="sendcropperbutton"><?php p($l->t('Choose as profile picture')); ?></div>
+	<div id="personal-settings-avatar-container" class="personal-settings-container">
+		<div>
+			<form id="avatarform" class="section" method="post" action="<?php p(\OC::$server->getURLGenerator()->linkToRoute('core.avatar.postAvatar')); ?>">
+				<h2>
+					<label><?php p($l->t('Profile picture')); ?></label><span class="icon-federation-menu icon-password">
+						<span class="icon-triangle-s"></span>
+					</span>
+				</h2>
+				<div id="displayavatar">
+					<div class="avatardiv"></div>
+					<div class="warning hidden"></div>
+					<?php if ($_['avatarChangeSupported']): ?>
+						<label for="uploadavatar" class="inlineblock button icon-upload svg" id="uploadavatarbutton" title="<?php p($l->t('Upload new')); ?>"></label>
+						<div class="inlineblock button icon-folder svg" id="selectavatar" title="<?php p($l->t('Select from Files')); ?>"></div>
+						<div class="hidden button icon-delete svg" id="removeavatar" title="<?php p($l->t('Remove image')); ?>"></div>
+						<input type="file" name="files[]" id="uploadavatar" class="hiddenuploadfield">
+						<p><em><?php p($l->t('png or jpg, max. 20 MB')); ?></em></p>
+					<?php else: ?>
+						<?php p($l->t('Picture provided by original account')); ?>
+					<?php endif; ?>
 				</div>
-			</div>
-			<span class="icon-checkmark hidden"></span>
-			<?php if($_['lookupServerUploadEnabled']) { ?>
-			<input type="hidden" id="avatarscope" value="<?php p($_['avatarScope']) ?>">
-			<?php } ?>
-		</form>
+
+				<div id="cropper" class="hidden">
+					<div class="inner-container">
+						<div class="inlineblock button" id="abortcropperbutton"><?php p($l->t('Cancel')); ?></div>
+						<div class="inlineblock button primary" id="sendcropperbutton"><?php p($l->t('Choose as profile picture')); ?></div>
+					</div>
+				</div>
+				<span class="icon-checkmark hidden"></span>
+				<?php if($_['lookupServerUploadEnabled']) { ?>
+				<input type="hidden" id="avatarscope" value="<?php p($_['avatarScope']) ?>">
+				<?php } ?>
+			</form>
+		</div>
 	</div>
 
 	<div class="personal-settings-container">

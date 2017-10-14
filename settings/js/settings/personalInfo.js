@@ -128,6 +128,7 @@ function avatarResponseHandler (data) {
 	var $warning = $('#avatarform .warning');
 	$warning.hide();
 	if (data.status === "success") {
+		$('#displayavatar .avatardiv').removeClass('icon-loading');
 		updateAvatar();
 	} else if (data.data === "notsquare") {
 		showAvatarCropper();
@@ -302,7 +303,7 @@ $(document).ready(function () {
 		},
 		submit: function(e, data) {
 			$('#displayavatar img').hide();
-			$('#displayavatar .avatardiv').addClass('loading');
+			$('#displayavatar .avatardiv').addClass('icon-loading');
 			data.formData = _.extend(data.formData || {}, {
 				requesttoken: OC.requestToken
 			});
