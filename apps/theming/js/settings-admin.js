@@ -141,6 +141,7 @@ $(document).ready(function () {
 		fail: function (e, response){
 			OC.msg.finishedError('#theming_settings_msg', response._response.jqXHR.responseJSON.data.message);
 			$('label#uploadlogo').addClass('icon-upload').removeClass('icon-loading-small');
+			$('#theming_settings_loading').hide();
 		}
 	};
 	var uploadParamsLogin = {
@@ -159,6 +160,7 @@ $(document).ready(function () {
 		fail: function (e, response){
 			$('label#upload-login-background').removeClass('icon-loading-small').addClass('icon-upload');
 			OC.msg.finishedError('#theming_settings_msg', response._response.jqXHR.responseJSON.data.message);
+			$('#theming_settings_loading').hide();
 		}
 	};
 
