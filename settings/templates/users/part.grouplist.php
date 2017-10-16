@@ -31,9 +31,11 @@
 	<?php foreach($_["adminGroup"] as $adminGroup): ?>
 		<li data-gid="admin" data-usercount="<?php if($adminGroup['usercount'] > 0) { p($adminGroup['usercount']); } ?>" class="isgroup">
 			<a href="#"><span class="groupname"><?php p($l->t('Admins')); ?></span></a>
-			<span class="utils">
-				<span class="usercount"><?php if($adminGroup['usercount'] > 0) { p($adminGroup['usercount']); } ?></span>
-			</span>
+			<div class="app-navigation-entry-utils">
+				<ul>
+					<li class="app-navigation-entry-utils-counter"><?php if($adminGroup['usercount'] > 0) { p($adminGroup['usercount']); } ?></li>
+				</ul>
+			</div>
 		</li>
 	<?php endforeach; ?>
 
@@ -41,9 +43,11 @@
 	<?php $disabledUsersGroup = $_["disabledUsersGroup"] ?>
 	<li data-gid="_disabledUsers" data-usercount="<?php if($disabledUsersGroup['usercount'] > 0) { p($disabledUsersGroup['usercount']); } ?>" class="isgroup">
 		<a href="#"><span class="groupname"><?php p($l->t('Disabled')); ?></span></a>
-		<span class="utils">
-			<span class="usercount"><?php if($disabledUsersGroup['usercount'] > 0) { p($disabledUsersGroup['usercount']); } ?></span>
-		</span>
+		<div class="app-navigation-entry-utils">
+			<ul>
+				<li class="app-navigation-entry-utils-counter"><?php if($disabledUsersGroup['usercount'] > 0) { p($disabledUsersGroup['usercount']); } ?></li>
+			</ul>
+		</div>
 	</li>
 
 	<!--List of Groups-->
@@ -52,14 +56,16 @@
 			<a href="#" class="dorename">
 				<span class="groupname"><?php p($group['name']); ?></span>
 			</a>
-			<span class="utils">
-				<span class="usercount"><?php if($group['usercount'] > 0) { p($group['usercount']); } ?></span>
-				<?php if($_['isAdmin']): ?>
-				<a href="#" class="action delete" original-title="<?php p($l->t('Delete'))?>">
-					<img src="<?php print_unescaped(image_path('core', 'actions/delete.svg')) ?>" />
-				</a>
-				<?php endif; ?>
-			</span>
+			<div class="app-navigation-entry-utils">
+				<ul>
+				 	<?php if($_['isAdmin']): ?>
+				 		<li class="app-navigation-entry-utils-menu-button delete">
+							<button class="icon-delete"></button>
+						</li>
+					<?php endif; ?>
+					<li class="app-navigation-entry-utils-counter"><?php if($group['usercount'] > 0) { p($group['usercount']); } ?></li>
+				</ul>
+			</div>
 		</li>
 	<?php endforeach; ?>
 </ul>

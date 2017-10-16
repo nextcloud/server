@@ -249,6 +249,10 @@ body {
 	left: 0;
 }
 
+#app-navigation * {
+	box-sizing: border-box;
+}
+
 #controls {
 	.button, button {
 		box-sizing: border-box;

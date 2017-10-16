@@ -472,38 +472,17 @@ table.nostyle {
 }
 
 li.active {
-	span.utils .delete {
-		float: left;
-		position: relative;
-		opacity: 0.5;
-		top: -7px;
-		left: 7px;
-		width: 44px;
-		height: 44px;
-	}
+	.delete,
 	.rename {
-		padding: 8px 14px 20px 14px;
-		top: 0px;
-		position: absolute;
-		width: 16px;
-		height: 16px;
-		opacity: 0.5;
-		display: inline-block !important;
-	}
-	span.utils .delete img {
-		margin: 14px;
-	}
-	.rename {
-		opacity: 0.5;
-	}
-	span.utils .delete:hover, .rename:hover {
-		opacity: 1;
+		display: block;
 	}
 }
 
-span.utils .delete,
-.rename {
-	display: none;
+.app-navigation-entry-utils {
+	.delete,
+	.rename {
+		display: none;
+	}
 }
 
 #usersearchform {
