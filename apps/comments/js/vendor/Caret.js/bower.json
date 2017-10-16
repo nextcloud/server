@@ -1,0 +1,20 @@
+{
+  "name": "Caret.js",
+  "version": "0.2.2",
+  "main": "src/jquery.caret.js",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "spec",
+    "index.html"
+  ],
+  "dependencies": {
+    "jquery": ">=1.7.0"
+  },
+  "devDependencies": {
+    "jasmine-jquery": "~1.5.8"
+  }
+}

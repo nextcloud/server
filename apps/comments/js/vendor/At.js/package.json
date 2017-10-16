@@ -1,0 +1,54 @@
+{
+  "name": "at.js",
+  "main": "dist/js/jquery.atwho.js",
+  "author": {
+    "name": "chord.luo",
+    "email": "chord.luo@gmail.com"
+  },
+  "homepage": "http://ichord.github.com/At.js",
+  "license": "MIT",
+  "version": "1.5.4",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ichord/At.js"
+  },
+  "engines": {
+    "node": ">= 0.6.0"
+  },
+  "scripts": {
+    "test": "gulp test"
+  },
+  "peerDependencies": {
+    "jquery": ">=1.7.0 <4.0.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-bump": "^1.0.0",
+    "gulp-coffee": "^2.3.1",
+    "gulp-concat": "^2.6.0",
+    "gulp-cssmin": "^0.1.7",
+    "gulp-debug": "^2.1.2",
+    "gulp-header": "^1.7.1",
+    "gulp-jasmine": "^2.2.1",
+    "gulp-jasmine-phantom": "^2.0.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^1.5.1",
+    "gulp-umd": "^0.2.0",
+    "gulp-util": "^3.0.7",
+    "jasmine-ajax": "^3.2.0",
+    "jasmine-jquery": "^2.1.1",
+    "phantomjs": "^1.9.19"
+  },
+  "spm": {
+    "main": "dist/js/jquery.atwho.js",
+    "dependencies": {
+      "jquery": ">=1.7.2",
+      "caret.js": "~0.2.2"
+    },
+    "ignore": [
+      "examples",
+      "spec",
+      "src"
+    ]
+  }
+}

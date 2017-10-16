@@ -27,6 +27,7 @@ $eventDispatcher->addListener(
 	function() {
 		\OCP\Util::addScript('oc-backbone-webdav');
 		\OCP\Util::addScript('comments', 'merged');
+		\OCP\Util::addStyle('comments', 'vendor/At.js/jquery.atwho.min');
 		\OCP\Util::addStyle('comments', 'comments');
 	}
 );

@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta http-equiv="x-ua-compatible" content="IE=Edge"/>
+  <title>At.js</title>
+  <link rel="stylesheet" href="../dist/css/jquery.atwho.css" />
+  <link rel="stylesheet" type="text/css" href="http://dfimg.com/medium-editor/dist/css/medium-editor.css">
+  <link rel="stylesheet" type="text/css" href="http://dfimg.com/medium-editor/dist/css/themes/default.css">
+  <link rel="stylesheet" href="./style.css" />
+  <!-- // <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script> -->
+  <!-- // <script type="text/javascript" src="http://ichord.github.io/Caret.js/src/jquery.caret.js"></script> -->
+  <script type="text/javascript" src="../bower_components/jquery/dist/jquery.js"></script>
+  <script type="text/javascript" src="../bower_components/Caret.js/dist/jquery.caret.js"></script>
+  <script type="text/javascript" src="../dist/js/jquery.atwho.js"></script>
+  <script src="http://dfimg.com/medium-editor/dist/js/medium-editor.js"></script>
+
+  <script type="text/javascript">
+  $(function(){
+    var jeremy = decodeURI("J%C3%A9r%C3%A9my") // Jérémy
+    var names = ["Jacob","Isabella","Ethan","Emma","Michael","Olivia","Alexander","Sophia","William","Ava","Joshua","Emily","Daniel","Madison","Jayden","Abigail","Noah","Chloe","你好","你你你", jeremy];
+    var editor = new MediumEditor('#editor');
+    $('#editor').atwho({at: "@", data: names});
+  });
+  </script>
+</head>
+
+<body>
+  <div class="container wrapper">
+    <header>
+      <h3>Example for medium-editor</h3>
+    </header>
+    <div id="main">
+      <div id="editor" contentEditable>Easy! You should check out MoxieManager!</div>
+      <footer>
+        <h2>
+          -> <a class="github" href="https://github.com/ichord/At.js">Fork me on GitHub!</a>
+        </h2>
+      </footer>
+
+    </div>
+  </div>
+</body>
+
+</html>

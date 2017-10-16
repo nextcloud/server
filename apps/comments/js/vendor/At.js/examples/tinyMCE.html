@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta http-equiv="x-ua-compatible" content="IE=Edge"/>
+  <title>At.js</title>
+  <link rel="stylesheet" href="../dist/css/jquery.atwho.css" />
+  <link rel="stylesheet" href="./style.css" />
+  <!-- // <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script> -->
+  <!-- // <script type="text/javascript" src="http://ichord.github.io/Caret.js/src/jquery.caret.js"></script> -->
+  <script type="text/javascript" src="../bower_components/jquery/dist/jquery.js"></script>
+  <script type="text/javascript" src="../bower_components/Caret.js/dist/jquery.caret.js"></script>
+  <script type="text/javascript" src="../dist/js/jquery.atwho.js"></script>
+  <script src="http://tinymce.cachefly.net/4.1/tinymce.min.js"></script>
+
+  <script type="text/javascript">
+  $(function(){
+    var jeremy = decodeURI("J%C3%A9r%C3%A9my") // Jérémy
+    var names = ["Jacob","Isabella","Ethan","Emma","Michael","Olivia","Alexander","Sophia","William","Ava","Joshua","Emily","Daniel","Madison","Jayden","Abigail","Noah","Chloe","你好","你你你", jeremy];
+    tinymce.init({
+      selector: "#editor",
+      init_instance_callback: function(editor) {
+        $(editor.contentDocument.activeElement).atwho({at: "@", data: names});
+      },
+      setup: function(editor) {
+        editor.on('keydown', function(e) {
+          if(e.keyCode == 13 && $(editor.contentDocument.activeElement).atwho('isSelecting'))
+            return false
+        })
+      }
+    });
+
+  });
+  </script>
+</head>
+
+<body>
+  <div class="container wrapper">
+    <header>
+      <h3>Example for tinyMCE editor</h3>
+    </header>
+    <div id="main">
+      <textarea id="editor">Easy! You should check out MoxieManager!</textarea>
+      <footer>
+        <h2>
+          -> <a class="github" href="https://github.com/ichord/At.js">Fork me on GitHub!</a>
+        </h2>
+      </footer>
+
+    </div>
+  </div>
+</body>
+
+</html>

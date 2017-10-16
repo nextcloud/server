@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta http-equiv="x-ua-compatible" content="IE=Edge"/>
+  <title>At.js</title>
+  <link rel="stylesheet" href="../dist/css/jquery.atwho.css" />
+  <link rel="stylesheet" href="./style.css" />
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <script type="text/javascript" src="http://ichord.github.io/Caret.js/src/jquery.caret.js"></script>
+  <!-- // <script type="text/javascript" src="../bower_components/jquery/dist/jquery.js"></script> -->
+  <!-- // <script type="text/javascript" src="../bower_components/Caret.js/dist/jquery.caret.js"></script> -->
+  <script type="text/javascript" src="../dist/js/jquery.atwho.js"></script>
+  <script type="text/javascript">
+  $(function(){
+    var jeremy = decodeURI("J%C3%A9r%C3%A9my") // Jérémy
+    var tags = ["Jacob","Isabella","Ethan","Emma","Michael","Olivia","Alexander","Sophia","William","Ava","Joshua","Emily","Daniel","Madison","Jayden","Abigail","Noah","Chloe","你好","你你你", jeremy];
+    $('#editable').atwho({
+      at: "#",
+      data: tags,
+      limit: 200,
+      callbacks: {
+        afterMatchFailed: function(at, el) {
+          // 32 is spacebar
+          if (at == '#') {
+            tags.push(el.text().trim().slice(1));
+            this.model.save(tags);
+            this.insert(el.text().trim());
+            return false;
+          }
+        }
+      }
+    });
+  });
+  </script>
+  <style type="text/css">
+    /*override atwho's style*/
+    .atwho-inserted {
+      color: #4183C4;
+    }
+    .atwho-query {
+      color: #4183C4;
+    }
+  </style>
+</head>
+<body>
+  <div class="container wrapper">
+    <header>
+      <h3>Type `#` to autocomplete tags</h3>
+    </header>
+    <div id="main">
+      <div id="editable" class="inputor" contentEditable="true"></div>
+      <footer>
+        <h2>
+          -> <a class="github" href="https://github.com/ichord/At.js">Fork me on GitHub!</a>
+        </h2>
+      </footer>
+
+    </div>
+  </div>
+</body>
+</html>

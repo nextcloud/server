@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet"  href="http://ueditor.baidu.com/ueditor/themes/default/css/ueditor.css" />
+  <link rel="stylesheet" href="../dist/css/jquery.atwho.css" />
+
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+  <script type="text/javascript" src="http://ichord.github.io/Caret.js/src/jquery.caret.js"></script>
+  <script type="text/javascript" src="../dist/js/jquery.atwho.js"></script>
+
+  <title>ueditor</title>
+</head>
+<body>
+  <script id="container" name="content" type="text/plain">
+    test
+  </script>
+  <script src="http://ueditor.baidu.com/ueditor/ueditor.config.js"></script>
+  <script src="http://ueditor.baidu.com/ueditor/ueditor.all.js"></script>
+
+  <script type="text/javascript">
+    var ue = UE.getEditor('container');
+    $(function(){
+      var at_config = {
+        at: "@",
+        data:['Peter', 'Tom', 'Anne', 'zhangsan', 'lisi', 'wangwu', 'laoliu', 'libai', 'dupu', 'xiaozhou'],
+        limit: 20
+      }
+
+      var ue = UE.getEditor('container',{
+        contextMenu:[],
+        //focus时自动清空初始化时的内容
+        autoClearinitialContent:true,
+        //关闭字数统计
+        wordCount:false,
+        //关闭elementPath
+        elementPathEnabled:false,
+      });
+      ue.addListener('ready', function(editor){
+        $(this.document.body).atwho(at_config);
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Data Iframe</title>
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <script type="text/javascript" src="http://ichord.github.io/Caret.js/src/jquery.caret.js"></script>
+  <script type="text/javascript" src="../../dist/js/jquery.atwho.js"></script>
+  <script type="text/javascript">
+    $(function(){
+      var names = ["Jacob","Isabella","Ethan","Emma","Michael","Olivia","Alexander","Sophia","William","Ava","Joshua","Emily","Daniel","Madison","Jayden","Abigail","Noah","Chloe","你好","你你你"];
+
+      var names = $.map(names,function(value,i) {
+        return {'id':i,'name':value,'email':value+"@email.com"};
+      });
+
+      viewFrame = parent.frames.viewFrame
+      var at_config = {
+        at: "@",
+        data: names,
+        displayTpl: "<li>${name} <small>${email}</small></li>"
+      }
+      $(viewFrame.document.body)
+        .atwho('setIframe', viewFrame.frameElement, true)
+        .atwho(at_config);
+    });
+  </script>
+</head>
+<body>
+</body>
+</html>

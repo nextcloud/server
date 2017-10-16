@@ -1,0 +1,20 @@
+{
+  "name": "Caret.js",
+  "repo": "ichord/Caret.js",
+  "description": "Add Github like mentions autocomplete to your application.",
+  "version": "0.2.2",
+  "keywords": [
+    "At.js",
+    "caret",
+    "ui"
+  ],
+  "dependencies": {
+    "component/jquery": "*"
+  },
+  "demo": "http://ichord.github.com/Caret.js",
+  "main": "src/jquery.caret.js",
+  "scripts": [
+    "src/jquery.caret.js"
+  ],
+  "license": "MIT"
+}
