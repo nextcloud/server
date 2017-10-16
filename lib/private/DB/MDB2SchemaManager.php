@@ -89,7 +89,7 @@ class MDB2SchemaManager {
 		} else if ($platform instanceof PostgreSqlPlatform) {
 			return new PostgreSqlMigrator($this->conn, $random, $config, $dispatcher);
 		} else {
-			return new NoCheckMigrator($this->conn, $random, $config, $dispatcher);
+			return new Migrator($this->conn, $random, $config, $dispatcher);
 		}
 	}
 

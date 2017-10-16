@@ -32,7 +32,7 @@ use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Schema\ForeignKeyConstraint;
 
-class OracleMigrator extends NoCheckMigrator {
+class OracleMigrator extends Migrator {
 
 	/**
 	 * Quote a column's name but changing the name requires recreating
