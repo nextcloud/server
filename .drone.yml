@@ -49,8 +49,8 @@ pipeline:
     image: nextcloudci/php7.1:php7.1-15
     commands:
       - composer install
-      - composer require --dev "etsy/phan:dev-master"
-      - ./lib/composer/etsy/phan/phan -k build/.phan/config.php
+      - composer require --dev "phan/phan:dev-master"
+      - ./lib/composer/phan/phan/phan -k build/.phan/config.php
       - php ./build/.phan/plugin-checker.php
     when:
       matrix:
