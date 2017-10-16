@@ -34,7 +34,7 @@ build/.phan/tests/SqlInjectionCheckerTest.php:70 SqlInjectionChecker Potential S
 
 EOT;
 
-$result = shell_exec('php '. __DIR__ . '/../../lib/composer/etsy/phan/phan -k build/.phan/config.php --include-analysis-file-list build/.phan/tests/* --directory build/.phan/tests/');
+$result = shell_exec('php '. __DIR__ . '/../../lib/composer/phan/phan/phan -k build/.phan/config.php --include-analysis-file-list build/.phan/tests/* --directory build/.phan/tests/');
 
 if($result !== $expected) {
 	echo("Output of phan doesn't match expectation\n");
