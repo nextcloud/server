@@ -105,6 +105,7 @@ trait S3ObjectTrait {
 					]);
 				} else {
 					$this->getConnection()->abortMultipartUpload($e->getState()->getId());
+					throw $e;
 				}
 			}
 		} while (!isset($result) && $tries < 5);
