@@ -200,17 +200,25 @@ class OC_App {
 		if(isset(self::$alreadyRegistered[$key])) {
 			return;
 		}
+
 		self::$alreadyRegistered[$key] = true;
+
 		// Register on PSR-4 composer autoloader
 		$appNamespace = \OC\AppFramework\App::buildAppNamespace($app);
 		\OC::$server->registerNamespace($app, $appNamespace);
-		\OC::$composerAutoloader->addPsr4($appNamespace . '\\', $path . '/lib/', true);
+
+		if (file_exists($path . '/composer/autoload.php')) {
+			require_once $path . '/composer/autoload.php';
+		} else {
+			\OC::$composerAutoloader->addPsr4($appNamespace . '\\', $path . '/lib/', true);
+			// Register on legacy autoloader
+			\OC::$loader->addValidRoot($path);
+		}
+
+		// Register Test namespace only when testing
 		if (defined('PHPUNIT_RUN') || defined('CLI_TEST_RUN')) {
 			\OC::$composerAutoloader->addPsr4($appNamespace . '\\Tests\\', $path . '/tests/', true);
 		}
-
-		// Register on legacy autoloader
-		\OC::$loader->addValidRoot($path);
 	}
 
 	/**
