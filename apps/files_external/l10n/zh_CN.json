@@ -12,6 +12,8 @@
     "(group)" : "(分组)",
     "Compatibility with Mac NFD encoding (slow)" : "兼用 Mac NFD 编码 (慢)",
     "Admin defined" : "管理员定义",
+    "Are you sure you want to delete this external storage" : "是否要删除该外部存储",
+    "Delete storage?" : "删除存储？",
     "Saved" : "已保存",
     "Saving..." : "正在保存...",
     "Save" : "保存",
