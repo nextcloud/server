@@ -13,7 +13,7 @@
  */
 
  /* Specifically override browser styles */
-input, textarea, select, button {
+input, textarea, select, button, div[contenteditable=true] {
 	font-family: 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif;
 }
 .select2-container-multi .select2-choices .select2-search-field input, .select2-search input, .ui-widget {
@@ -24,7 +24,8 @@ input, textarea, select, button {
 select,
 button,
 input,
-textarea {
+textarea,
+div[contenteditable=true] {
 	width: 130px;
 	min-height: 32px;
 	box-sizing: border-box;
@@ -35,6 +36,7 @@ select,
 button, .button,
 input:not([type='range']),
 textarea,
+div[contenteditable=true],
 .pager li a {
 	margin: 3px 3px 3px 0;
 	padding: 7px 6px;
@@ -154,7 +156,7 @@ button, .button {
 	}
 }
 
-textarea {
+textarea, div[contenteditable=true] {
 	color: nc-lighten($color-main-text, 33%);
 	cursor: text;
 	font-family: inherit;
