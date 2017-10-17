@@ -140,6 +140,29 @@
 		setFileInfo: function(fileInfo) {
 			if (fileInfo) {
 				this.model = fileInfo;
+
+				var s = this;
+				_.defer(function () {
+					$.get(
+						OC.generateUrl('/autocomplete/get'),
+						{
+							itemType: 'files',
+							itemId: fileInfo.get('id'),
+							sorter: 'comments|share-recipients'
+						},
+						function (data) {
+							console.warn(data);
+							$('textarea.message').atwho({
+								at: '@',
+								data: data,
+								displayTpl: "<li>${label}</li>",
+								insertTpl: "${atwho-at}${label}",
+								searchKey: "label"
+							});
+						}
+					)
+				});
+
 				this.render();
 				this.collection.setObjectId(fileInfo.id);
 				// reset to first page
