@@ -30,7 +30,7 @@
 		'{{/if}}' +
 		'    </div>' +
 		'    <form class="newCommentForm">' +
-		'        <textarea rows="1" class="message" placeholder="{{newMessagePlaceholder}}">{{message}}</textarea>' +
+		'        <div contentEditable="true" class="message" data-placeholder="{{newMessagePlaceholder}}">{{message}}</div>' +
 		'        <input class="submit icon-confirm" type="submit" value="" />' +
 		'{{#if isEditMode}}' +
 		'        <input class="cancel pull-right" type="button" value="{{cancelText}}" />' +
@@ -69,7 +69,11 @@
 			'click .action.edit': '_onClickEditComment',
 			'click .action.delete': '_onClickDeleteComment',
 			'click .cancel': '_onClickCloseComment',
-			'click .comment': '_onClickComment'
+			'click .comment': '_onClickComment',
+			'keyup div.message': '_onTextChange',
+			'change div.message': '_onTextChange',
+			'input div.message': '_onTextChange',
+			'paste div.message': '_onPaste'
 		},
 
 		_commentMaxLength: 1000,
@@ -152,11 +156,11 @@
 						},
 						function (data) {
 							console.warn(data);
-							$('textarea.message').atwho({
+							$('#commentsTabView .newCommentForm .message').atwho({
 								at: '@',
 								data: data,
 								displayTpl: "<li>${label}</li>",
-								insertTpl: "${atwho-at}${label}",
+								insertTpl: "<span data-uid='${id}'>${label}</span>",
 								searchKey: "label"
 							});
 						}
@@ -187,7 +191,7 @@
 			this.delegateEvents();
 			this.$el.find('.message').on('keydown input change', this._onTypeComment);
 
-			autosize(this.$el.find('.newCommentRow textarea'))
+			autosize(this.$el.find('.newCommentRow .message'))
 		},
 
 		_formatItem: function(commentModel) {
@@ -333,14 +337,14 @@
 			// spawn form
 			$comment.after($formRow);
 			$formRow.data('commentEl', $comment);
-			$formRow.find('textarea').on('keydown input change', this._onTypeComment);
+			$formRow.find('.message').on('keydown input change', this._onTypeComment);
 
 			// copy avatar element from original to avoid flickering
 			$formRow.find('.avatar:first').replaceWith($comment.find('.avatar:first').clone());
 			$formRow.find('.has-tooltip').tooltip();
 
 			// Enable autosize
-			autosize($formRow.find('textarea'));
+			autosize($formRow.find('.message'));
 
 			return false;
 		},
@@ -428,7 +432,7 @@
 			var self = this;
 			var $submit = $form.find('.submit');
 			var $loading = $form.find('.submitLoading');
-			var $textArea = $form.find('.message');
+			var $commentField = $form.find('.message');
 
 			model.fetch({
 				success: function(model) {
@@ -443,7 +447,7 @@
 						$row.remove();
 					} else {
 						$target = $('.commentsTabView .comments').find('li:first');
-						$textArea.val('').prop('disabled', false);
+						$commentField.text('').prop('disabled', false);
 					}
 
 					var $message = $target.find('.message');
@@ -467,15 +471,15 @@
 			var currentUser = OC.getCurrentUser();
 			var $submit = $form.find('.submit');
 			var $loading = $form.find('.submitLoading');
-			var $textArea = $form.find('.message');
-			var message = $textArea.val().trim();
+			var $commentField = $form.find('.message');
+			var message = $commentField.text().trim();
 			e.preventDefault();
 
 			if (!message.length || message.length > this._commentMaxLength) {
 				return;
 			}
 
-			$textArea.prop('disabled', true);
+			$commentField.prop('disabled', true);
 			$submit.addClass('hidden');
 			$loading.removeClass('hidden');
 
@@ -483,7 +487,7 @@
 				// edit mode
 				var comment = this.collection.get(commentId);
 				comment.save({
-					message: $textArea.val()
+					message: $commentField.text()
 				}, {
 					success: function(model) {
 						self._onSubmitSuccess(model, $form, commentId);
@@ -498,7 +502,7 @@
 					actorDisplayName: currentUser.displayName,
 					actorType: 'users',
 					verb: 'comment',
-					message: $textArea.val(),
+					message: $commentField.text(),
 					creationDateTime: (new Date()).toUTCString()
 				}, {
 					at: 0,
@@ -534,6 +538,31 @@
 			} else {
 				OC.Notification.show(t('comments', 'Error occurred while posting comment'), {type: 'error'});
 			}
+		},
+
+		/**
+		 * ensures the contenteditable div is really empty, when user removed
+		 * all input, so that the placeholder will be shown again
+		 *
+		 * @private
+		 */
+		_onTextChange: function() {
+			var $message = $('#commentsTabView .newCommentForm div.message');
+			if(!$message.text().trim().length) {
+				$message.empty();
+			}
+		},
+
+		/**
+		 * Limit pasting to plain text
+		 *
+		 * @param e
+		 * @private
+		 */
+		_onPaste: function (e) {
+			e.preventDefault();
+			var text = e.originalEvent.clipboardData.getData("text/plain");
+			document.execCommand('insertText', false, text);
 		},
 
 		/**

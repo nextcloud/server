@@ -48,8 +48,13 @@
 	margin-right: 6px;
 }
 
-#commentsTabView .newCommentForm textarea {
+#commentsTabView .newCommentForm div.message {
 	resize: none;
+}
+
+#commentsTabView .newCommentForm div.message:empty:before {
+	content: attr(data-placeholder);
+	color: grey;
 }
 
 #commentsTabView .comment {
