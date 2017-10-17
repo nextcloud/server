@@ -1,5 +1,6 @@
 <?php
 /**
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @copyright Copyright (c) 2016, ownCloud GmbH.
@@ -21,21 +22,70 @@
 
 namespace OCA\DAV\CalDAV;
 
-use Sabre\HTTP\URLUtil;
+use Sabre\DAV\Server;
+use Sabre\DAV;
+use Sabre\DAV\Xml\Property\LocalHref;
+use Sabre\DAVACL\IPrincipal;
 
-class Plugin extends \Sabre\CalDAV\Plugin {
+class Plugin extends \Sabre\CalDAV\Plugin implements ICalendarHomePlugin {
 
 	/**
+	 * Initializes the plugin
+	 *
+	 * @param Server $server
+	 * @return void
+	 */
+	public function initialize(Server $server) {
+		parent::initialize($server);
+		$server->on('propFind', [$this, 'propFind']);
+	}
+
+	/**
+	 * PropFind
+	 *
+	 * This method handler is invoked before any after properties for a
+	 * resource are fetched. This allows us to add in any CalDAV specific
+	 * properties.
+	 *
+	 * @param DAV\PropFind $propFind
+	 * @param DAV\INode $node
+	 * @return void
+	 */
+	public function propFind(DAV\PropFind $propFind, DAV\INode $node) {
+		parent::propFind($propFind, $node);
+		if ($node instanceof IPrincipal) {
+			$principalUrl = $node->getPrincipalUrl();
+			$propFind->handle('{' . self::NS_CALDAV . '}calendar-home-set', function () use ($principalUrl) {
+				$calendarHomes = [];
+				// Make sure the dav apps caldav endpoint is at the first place
+				$calendarHomePath = $this->getCalendarHomeForPrincipal($principalUrl);
+				if ($calendarHomePath !== null) {
+					$calendarHomes[] = $calendarHomePath;
+				}
+				foreach ($this->server->getPlugins() as $plugin) {
+					if ($plugin instanceof ICalendarHomePlugin && $plugin !== $this) {
+						$calendarHomePath = $plugin->getCalendarHomeForPrincipal($principalUrl);
+						if ($calendarHomePath !== null) {
+							$calendarHomes[] = $calendarHomePath;
+						}
+					}
+				}
+				return new LocalHref($calendarHomes);
+			});
+		}
+	}
+
+	/**
+	 * Add the Nextcloud default calendar home
+	 *
 	 * @inheritdoc
 	 */
-	function getCalendarHomeForPrincipal($principalUrl) {
-
+	public function getCalendarHomeForPrincipal($principalUrl) {
 		if (strrpos($principalUrl, 'principals/users', -strlen($principalUrl)) !== false) {
 			list(, $principalId) = \Sabre\Uri\split($principalUrl);
 			return self::CALENDAR_ROOT .'/' . $principalId;
 		}
-
-		return;
+		return null;
 	}
 
 }
