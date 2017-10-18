@@ -278,7 +278,7 @@ function human_file_size( $bytes ) {
 /**
  * Strips the timestamp of its time value
  * @param int $timestamp UNIX timestamp to strip
- * @return $timestamp without time value
+ * @return int timestamp without time value
  */
 function strip_time($timestamp){
 	$date = new \DateTime("@{$timestamp}");

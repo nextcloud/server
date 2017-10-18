@@ -431,7 +431,7 @@ class OC_Image implements \OCP\IImage {
 	 * (I'm open for suggestions on better method name ;)
 	 * Fixes orientation based on EXIF data.
 	 *
-	 * @return bool.
+	 * @return bool
 	 */
 	public function fixOrientation() {
 		$o = $this->getOrientation();

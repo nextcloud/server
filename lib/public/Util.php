@@ -670,7 +670,7 @@ class Util {
 	 * Compare two strings to provide a natural sort
 	 * @param string $a first string to compare
 	 * @param string $b second string to compare
-	 * @return -1 if $b comes before $a, 1 if $a comes before $b
+	 * @return int -1 if $b comes before $a, 1 if $a comes before $b
 	 * or 0 if the strings are identical
 	 * @since 7.0.0
 	 */
