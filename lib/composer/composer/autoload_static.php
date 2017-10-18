@@ -256,6 +256,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\Lockdown\\ILockdownManager' => __DIR__ . '/../../..' . '/lib/public/Lockdown/ILockdownManager.php',
         'OCP\\Mail\\IEMailTemplate' => __DIR__ . '/../../..' . '/lib/public/Mail/IEMailTemplate.php',
         'OCP\\Mail\\IMailer' => __DIR__ . '/../../..' . '/lib/public/Mail/IMailer.php',
+        'OCP\\Mail\\IMessage' => __DIR__ . '/../../..' . '/lib/public/Mail/IMessage.php',
         'OCP\\Migration\\BigIntMigration' => __DIR__ . '/../../..' . '/lib/public/Migration/BigIntMigration.php',
         'OCP\\Migration\\IMigrationStep' => __DIR__ . '/../../..' . '/lib/public/Migration/IMigrationStep.php',
         'OCP\\Migration\\IOutput' => __DIR__ . '/../../..' . '/lib/public/Migration/IOutput.php',

@@ -53,6 +53,15 @@ namespace OCP\Mail;
 interface IEMailTemplate {
 
 	/**
+	 * Sets the subject of the email
+	 *
+	 * @param string $subject
+	 *
+	 * @since 13.0.0
+	 */
+	public function setSubject($subject);
+
+	/**
 	 * Adds a header to the email
 	 *
 	 * @since 12.0.0
@@ -129,6 +138,15 @@ interface IEMailTemplate {
 	 * @since 12.0.0
 	 */
 	public function addFooter($text = '');
+
+	/**
+	 * Returns the rendered email subject as string
+	 *
+	 * @return string
+	 *
+	 * @since 13.0.0
+	 */
+	public function renderSubject();
 
 	/**
 	 * Returns the rendered HTML email as string

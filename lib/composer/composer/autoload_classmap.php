@@ -226,6 +226,7 @@ return array(
     'OCP\\Lockdown\\ILockdownManager' => $baseDir . '/lib/public/Lockdown/ILockdownManager.php',
     'OCP\\Mail\\IEMailTemplate' => $baseDir . '/lib/public/Mail/IEMailTemplate.php',
     'OCP\\Mail\\IMailer' => $baseDir . '/lib/public/Mail/IMailer.php',
+    'OCP\\Mail\\IMessage' => $baseDir . '/lib/public/Mail/IMessage.php',
     'OCP\\Migration\\BigIntMigration' => $baseDir . '/lib/public/Migration/BigIntMigration.php',
     'OCP\\Migration\\IMigrationStep' => $baseDir . '/lib/public/Migration/IMigrationStep.php',
     'OCP\\Migration\\IOutput' => $baseDir . '/lib/public/Migration/IOutput.php',

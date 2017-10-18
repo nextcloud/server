@@ -309,6 +309,7 @@ class LostController extends Controller {
 			'link' => $link,
 		]);
 
+		$emailTemplate->setSubject($this->l10n->t('%s password reset', [$this->defaults->getName()]));
 		$emailTemplate->addHeader();
 		$emailTemplate->addHeading($this->l10n->t('Password reset'));
 
@@ -327,10 +328,8 @@ class LostController extends Controller {
 		try {
 			$message = $this->mailer->createMessage();
 			$message->setTo([$email => $user->getUID()]);
-			$message->setSubject($this->l10n->t('%s password reset', [$this->defaults->getName()]));
-			$message->setPlainBody($emailTemplate->renderText());
-			$message->setHtmlBody($emailTemplate->renderHtml());
 			$message->setFrom([$this->from => $this->defaults->getName()]);
+			$message->useTemplate($emailTemplate);
 			$this->mailer->send($message);
 		} catch (\Exception $e) {
 			throw new \Exception($this->l10n->t(
