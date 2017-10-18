@@ -80,6 +80,15 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
+	public static function closeDetailsViewButton() {
+		return Locator::forThe()->css(".icon-close")->
+				descendantOf(self::currentSectionDetailsView())->
+				describedAs("Close current section details view in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
 	public static function fileDetailsInCurrentSectionDetailsViewWithText($fileDetailsText) {
 		return Locator::forThe()->xpath("//span[normalize-space() = '$fileDetailsText']")->
 				descendantOf(self::fileDetailsInCurrentSectionDetailsView())->
@@ -385,6 +394,13 @@ class FilesAppContext implements Context, ActorAwareInterface {
 		$this->actor->find(self::fileActionsMenuButtonForFile($fileName), 10)->click();
 
 		$this->actor->find(self::detailsMenuItem(), 2)->click();
+	}
+
+	/**
+	 * @Given I close the details view
+	 */
+	public function iCloseTheDetailsView() {
+		$this->actor->find(self::closeDetailsViewButton(), 10)->click();
 	}
 
 	/**
