@@ -1621,7 +1621,9 @@ describe('OCA.Files.FileList tests', function() {
 			var setDirSpy = sinon.spy(fileList.breadcrumb, 'setDirectory');
 			fileList.changeDirectory('/anothersubdir');
 			deferredList.resolve(200, [testRoot].concat(testFiles));
-			expect(fileList.breadcrumb.setDirectory.calledOnce).toEqual(true);
+			// twice because setDirectory gets called by _setCurrentDir which
+			// gets called directly by changeDirectory and via reload()
+			expect(fileList.breadcrumb.setDirectory.calledTwice).toEqual(true);
 			expect(fileList.breadcrumb.setDirectory.calledWith('/anothersubdir')).toEqual(true);
 			setDirSpy.restore();
 			getFolderContentsStub.restore();
