@@ -122,6 +122,7 @@
     "WebDAV" : "ВебДАВ",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Користи ову адресу да <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">приступате Вашим фајловима преко ВебДАВа</a>",
     "Uploading @" : "Отпремам @",
+    "Cancel upload" : "Откажи отпремање",
     "No files in here" : "Овде нема фајлова",
     "Upload some content or sync with your devices!" : "Отпремите неки садржај или синхронизујте са вашим уређајима!",
     "No entries found in this folder" : "Нема ничега у овој фасцикли",
