@@ -234,6 +234,9 @@
 		},
 
 		reload: function() {
+			// there is only root
+			this._setCurrentDir('/', false);
+
 			if (!this._systemTagIds.length) {
 				// don't reload
 				this.updateEmptyContent();
