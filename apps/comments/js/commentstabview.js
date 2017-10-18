@@ -156,12 +156,30 @@
 						},
 						function (data) {
 							console.warn(data);
-							$('#commentsTabView .newCommentForm .message').atwho({
+							var $inputor = $('#commentsTabView .newCommentForm .message');
+							$inputor.atwho({
 								at: '@',
 								data: data,
 								displayTpl: "<li>${label}</li>",
-								insertTpl: "<span data-uid='${id}'>${label}</span>",
+								insertTpl: ''
+									+ '<span class="avatar-name-wrapper">'
+									+ '<div class="avatar" '
+									+ 'data-username="${id}"'	// for avatars
+									+ ' data-user="${id}"'		// for contactsmenu
+									+ ' data-user-display-name="${label}"></div>'
+									+ ' <strong>${label}</strong>'
+									+ '</span>',
 								searchKey: "label"
+							});
+							$inputor.on('inserted.atwho', function (je, $el) {
+								s._postRenderItem(
+									// we need to pass the parent of the inserted element
+									// passing the whole comments form would re-apply and request
+									// avatars from the server
+									$(je.target).find(
+										'div[data-user-display-name="' + $el.text().trim() + '"]'
+									).parent()
+								);
 							});
 						}
 					)
@@ -252,7 +270,6 @@
 
 			this._postRenderItem($el);
 		},
-
 		_postRenderItem: function($el) {
 			$el.find('.has-tooltip').tooltip();
 			$el.find('.avatar').each(function() {
@@ -267,6 +284,10 @@
 			}
 
 			var $message = $el.find('.message');
+			if($message.length === 0) {
+				// it is the case when writing a comment and mentioning a person
+				$message = $el;
+			}
 			this._postRenderMessage($message);
 		},
 
@@ -290,17 +311,10 @@
 			for(var i in mentions) {
 				var mention = '@' + mentions[i].mentionId;
 
-				var avatar = '<div class="avatar" '
-					+ 'data-user="' + _.escape(mentions[i].mentionId) + '"'
-					+' data-user-display-name="'
-					+ _.escape(mentions[i].mentionDisplayName) + '"></div>';
-
 				// escape possible regex characters in the name
 				mention = mention.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-				var displayName = ''
-					+ '<span class="avatar-name-wrapper">'
-					+ avatar + ' <strong>'+ _.escape(mentions[i].mentionDisplayName)+'</strong>'
-					+ '</span>';
+
+				var displayName = this._composeHTMLMention(mentions[i].mentionId, mentions[i].mentionDisplayName);
 
 				// replace every mention either at the start of the input or after a whitespace
 				// followed by a non-word character.
@@ -313,6 +327,18 @@
 			}
 
 			return message;
+		},
+
+		_composeHTMLMention: function(uid, displayName) {
+			var avatar = '<div class="avatar" '
+				+ 'data-username="' + _.escape(uid) + '"'
+				+' data-user-display-name="'
+				+ _.escape(displayName) + '"></div>';
+
+			return ''
+				+ '<span class="avatar-name-wrapper">'
+				+ avatar + ' <strong>'+ _.escape(displayName)+'</strong>'
+				+ '</span>';
 		},
 
 		nextPage: function() {
