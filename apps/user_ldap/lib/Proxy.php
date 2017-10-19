@@ -65,7 +65,7 @@ abstract class Proxy {
 		static $db;
 		static $coreUserManager;
 		static $coreNotificationManager;
-		if(is_null($fs)) {
+		if($fs === null) {
 			$ocConfig = \OC::$server->getConfig();
 			$fs       = new FilesystemHelper();
 			$log      = new LogWrapper();
@@ -158,7 +158,7 @@ abstract class Proxy {
 	 */
 	private function getCacheKey($key) {
 		$prefix = 'LDAP-Proxy-';
-		if(is_null($key)) {
+		if($key === null) {
 			return $prefix;
 		}
 		return $prefix.md5($key);
@@ -187,16 +187,16 @@ abstract class Proxy {
 	 * @param mixed $value
 	 */
 	public function writeToCache($key, $value) {
-		if(is_null($this->cache)) {
+		if($this->cache === null) {
 			return;
 		}
 		$key   = $this->getCacheKey($key);
 		$value = base64_encode(json_encode($value));
-		$this->cache->set($key, $value, '2592000');
+		$this->cache->set($key, $value, 2592000);
 	}
 
 	public function clearCache() {
-		if(is_null($this->cache)) {
+		if($this->cache === null) {
 			return;
 		}
 		$this->cache->clear($this->getCacheKey(null));
