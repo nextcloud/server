@@ -28,8 +28,11 @@ use OCP\Remote\ICredentials;
 use OCP\Remote\IInstance;
 
 class ApiCollection implements IApiCollection {
+	/** @var IInstance */
 	private $instance;
+	/** @var ICredentials */
 	private $credentials;
+	/** @var IClientService */
 	private $clientService;
 
 	public function __construct(IInstance $instance, ICredentials $credentials, IClientService $clientService) {

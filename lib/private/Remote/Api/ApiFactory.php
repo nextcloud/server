@@ -28,6 +28,7 @@ use OCP\Remote\ICredentials;
 use OCP\Remote\IInstance;
 
 class ApiFactory implements IApiFactory {
+	/** @var IClientService */
 	private $clientService;
 
 	public function __construct(IClientService $clientService) {

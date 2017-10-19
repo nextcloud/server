@@ -57,6 +57,7 @@ class ApiBase {
 	 * @param array $query
 	 * @param array $headers
 	 * @return resource|string
+	 * @throws \InvalidArgumentException
 	 */
 	protected function request($method, $url, array $body = [], array $query = [], array $headers = []) {
 		$fullUrl = trim($this->instance->getFullUrl(), '/') . '/' . $url;

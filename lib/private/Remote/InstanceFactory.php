@@ -27,7 +27,9 @@ use OCP\ICache;
 use OCP\Remote\IInstanceFactory;
 
 class InstanceFactory implements IInstanceFactory {
+	/** @var ICache */
 	private $cache;
+	/** @var IClientService */
 	private $clientService;
 
 	public function __construct(ICache $cache, IClientService $clientService) {

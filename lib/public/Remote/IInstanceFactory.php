@@ -26,7 +26,7 @@ namespace OCP\Remote;
  */
 interface IInstanceFactory {
 	/**
-	 * @param $url
+	 * @param string $url
 	 * @return IInstance
 	 *
 	 * @since 13.0.0

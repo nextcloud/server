@@ -39,6 +39,7 @@ class Instance implements IInstance {
 	/** @var IClientService */
 	private $clientService;
 
+	/** @var array|null */
 	private $status;
 
 	/**
@@ -93,6 +94,10 @@ class Instance implements IInstance {
 		return $status['installed'] && !$status['maintenance'];
 	}
 
+	/**
+	 * @return array
+	 * @throws NotFoundException
+	 */
 	private function getStatus() {
 		if ($this->status) {
 			return $this->status;
@@ -120,6 +125,10 @@ class Instance implements IInstance {
 		return $status;
 	}
 
+	/**
+	 * @param string $url
+	 * @return bool|string
+	 */
 	private function downloadStatus($url) {
 		try {
 			$request = $this->clientService->newClient()->get($url);
