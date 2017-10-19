@@ -45,6 +45,7 @@ return [
 		'lib/composer',
 		'apps/admin_audit/composer',
 		'apps/admin_audit/tests',
+		'apps/comments/composer',
 		'apps/comments/tests',
 		'apps/dav/tests',
 		'apps/encryption/tests',
