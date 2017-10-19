@@ -84,6 +84,7 @@
 			this.collection.on('request', this._onRequest, this);
 			this.collection.on('sync', this._onEndRequest, this);
 			this.collection.on('add', this._onAddModel, this);
+			this.collection.on('change:message', this._onChangeModel, this);
 
 			this._commentMaxThreshold = this._commentMaxLength * 0.9;
 
@@ -155,7 +156,6 @@
 							sorter: 'comments|share-recipients'
 						},
 						function (data) {
-							console.warn(data);
 							var $inputor = $('#commentsTabView .newCommentForm .message');
 							$inputor.atwho({
 								at: '@',
@@ -260,16 +260,78 @@
 			}
 		},
 
+		/**
+		 * takes care of post-rendering after a new comment was added to the
+		 * collection
+		 *
+		 * @param model
+		 * @param collection
+		 * @param options
+		 * @private
+		 */
 		_onAddModel: function(model, collection, options) {
-			var $el = $(this.commentTemplate(this._formatItem(model)));
-			if (!_.isUndefined(options.at) && collection.length > 1) {
-				this.$container.find('li').eq(options.at).before($el);
-			} else {
-				this.$container.append($el);
+			var self = this;
+			// we need to update the model, because it consists of client data
+			// only, but the server might add meta data, e.g. about mentions
+			model.fetch({
+				success: function (model) {
+					var $el = $(self.commentTemplate(self._formatItem(model)));
+					if (!_.isUndefined(options.at) && collection.length > 1) {
+						self.$container.find('li').eq(options.at).before($el);
+					} else {
+						self.$container.append($el);
+					}
+
+					self._postRenderItem($el);
+					$('#commentsTabView').find('.newCommentForm div.message').text('').prop('disabled', false);
+				},
+				error: function () {
+					self._onSubmitError($('#commentsTabView').find('.newCommentForm'), undefined);
+				}
+			})
+
+		},
+
+		/**
+		 * takes care of post-rendering after a new comment was edited
+		 *
+		 * @param model
+		 * @param collection
+		 * @param options
+		 * @private
+		 */
+		_onChangeModel: function (model, collection, options) {
+			if(model.get('message').trim() === model.previous('message').trim()) {
+				return;
 			}
 
-			this._postRenderItem($el);
+			var $form = $('.comment[data-id="' + model.id + '"] form');
+			var $row = $form.closest('.comment');
+			var $target = $row.data('commentEl');
+			if(_.isUndefined($target)) {
+				// ignore noise – this is only set after editing a comment and hitting post
+				return;
+			}
+
+			var self = this;
+
+			// we need to update the model, because it consists of client data
+			// only, but the server might add meta data, e.g. about mentions
+			model.fetch({
+				success: function (model) {
+					$target.removeClass('hidden');
+					$row.remove();
+
+					var $message = $target.find('.message');
+					$message
+						.html(self._formatMessage(model.get('message'), model.get('mentions')))
+						.find('.avatar')
+						.each(function () { $(this).avatar(); });
+					self._postRenderItem($message);
+				}
+			});
 		},
+
 		_postRenderItem: function($el) {
 			$el.find('.has-tooltip').tooltip();
 			$el.find('.avatar').each(function() {
@@ -325,7 +387,6 @@
 					}
 				);
 			}
-
 			return message;
 		},
 
@@ -446,48 +507,31 @@
 		},
 
 		/**
-		 * takes care of updating comment elements after submit (either new
+		 * takes care of updating comment element states after submit (either new
 		 * comment or edit).
 		 *
 		 * @param {OC.Backbone.Model} model
 		 * @param {jQuery} $form
-		 * @param {string|undefined} commentId
 		 * @private
 		 */
-		_onSubmitSuccess: function(model, $form, commentId) {
-			var self = this;
+		_onSubmitSuccess: function(model, $form) {
 			var $submit = $form.find('.submit');
 			var $loading = $form.find('.submitLoading');
-			var $commentField = $form.find('.message');
 
-			model.fetch({
-				success: function(model) {
-					$submit.removeClass('hidden');
-					$loading.addClass('hidden');
-					var $target;
+			$submit.removeClass('hidden');
+			$loading.addClass('hidden');
+		},
 
-					if(!_.isUndefined(commentId)) {
-						var $row = $form.closest('.comment');
-						$target = $row.data('commentEl');
-						$target.removeClass('hidden');
-						$row.remove();
-					} else {
-						$target = $('.commentsTabView .comments').find('li:first');
-						$commentField.text('').prop('disabled', false);
-					}
+		_commentBodyHTML2Plain: function($el) {
+			var $comment = $el.clone();
 
-					var $message = $target.find('.message');
-					$message
-						.html(self._formatMessage(model.get('message'), model.get('mentions')))
-						.find('.avatar')
-						.each(function () { $(this).avatar(); });
-
-					self._postRenderMessage($message);
-				},
-				error: function () {
-					self._onSubmitError($form, commentId);
-				}
+			$comment.find('.avatar-name-wrapper').each(function () {
+				var $this = $(this);
+				var $inserted = $this.parent();
+				$inserted.html('@' + $this.find('.avatar').data('username'));
 			});
+
+			return $comment.text();
 		},
 
 		_onSubmitComment: function(e) {
@@ -509,11 +553,13 @@
 			$submit.addClass('hidden');
 			$loading.removeClass('hidden');
 
+			message = this._commentBodyHTML2Plain($commentField);
+
 			if (commentId) {
 				// edit mode
 				var comment = this.collection.get(commentId);
 				comment.save({
-					message: $commentField.text()
+					message: message
 				}, {
 					success: function(model) {
 						self._onSubmitSuccess(model, $form, commentId);
@@ -528,17 +574,17 @@
 					actorDisplayName: currentUser.displayName,
 					actorType: 'users',
 					verb: 'comment',
-					message: $commentField.text(),
+					message: message,
 					creationDateTime: (new Date()).toUTCString()
 				}, {
 					at: 0,
 					// wait for real creation before adding
 					wait: true,
 					success: function(model) {
-						self._onSubmitSuccess(model, $form);
+						self._onSubmitSuccess(model, $form, undefined);
 					},
 					error: function() {
-						self._onSubmitError($form);
+						self._onSubmitError($form, undefined);
 					}
 				});
 			}
@@ -573,7 +619,7 @@
 		 * @private
 		 */
 		_onTextChange: function() {
-			var $message = $('#commentsTabView .newCommentForm div.message');
+			var $message = $('#commentsTabView').find('.newCommentForm div.message');
 			if(!$message.text().trim().length) {
 				$message.empty();
 			}
