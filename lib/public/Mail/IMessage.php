@@ -30,10 +30,21 @@ namespace OCP\Mail;
 interface IMessage {
 
 	/**
+	 * @param string $data
+	 * @param string $filename
+	 * @param string $contentType
 	 * @return IAttachment
 	 * @since 13.0.0
 	 */
-	public function createAttachment();
+	public function createAttachment($data = null, $filename = null, $contentType = null);
+
+	/**
+	 * @param string $path
+	 * @param string $contentType
+	 * @return IAttachment
+	 * @since 13.0.0
+	 */
+	public function createAttachmentFromPath($path, $contentType = null);
 
 	/**
 	 * @param IAttachment $attachment

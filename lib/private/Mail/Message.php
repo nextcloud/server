@@ -45,11 +45,24 @@ class Message implements IMessage {
 	}
 
 	/**
+	 * @param string $data
+	 * @param string $filename
+	 * @param string $contentType
 	 * @return IAttachment
 	 * @since 13.0.0
 	 */
-	public function createAttachment() {
-		return new Attachment(\Swift_Attachment::newInstance());
+	public function createAttachment($data = null, $filename = null, $contentType = null) {
+		return new Attachment(\Swift_Attachment::newInstance($data, $filename, $contentType));
+	}
+
+	/**
+	 * @param string $path
+	 * @param string $contentType
+	 * @return IAttachment
+	 * @since 13.0.0
+	 */
+	public function createAttachmentFromPath($path, $contentType = null) {
+		return new Attachment(\Swift_Attachment::fromPath($path, $contentType));
 	}
 
 	/**
