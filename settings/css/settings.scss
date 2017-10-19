@@ -248,6 +248,8 @@ input {
 				opacity: .75;
 			}
 			&.active {
+				box-shadow: inset 2px 0 $color-primary;
+
 				.menuitem-text {
 					font-weight: 600;
 				}
