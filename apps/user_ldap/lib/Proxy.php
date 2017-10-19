@@ -169,24 +169,17 @@ abstract class Proxy {
 	 * @return mixed|null
 	 */
 	public function getFromCache($key) {
-		if(is_null($this->cache) || !$this->isCached($key)) {
+		if($this->cache === null) {
 			return null;
 		}
+
 		$key = $this->getCacheKey($key);
-
-		return json_decode(base64_decode($this->cache->get($key)));
-	}
-
-	/**
-	 * @param string $key
-	 * @return bool
-	 */
-	public function isCached($key) {
-		if(is_null($this->cache)) {
-			return false;
+		$value = $this->cache->get($key);
+		if ($value === null) {
+			return null;
 		}
-		$key = $this->getCacheKey($key);
-		return $this->cache->hasKey($key);
+
+		return json_decode(base64_decode($value));
 	}
 
 	/**
