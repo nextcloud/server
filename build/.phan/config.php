@@ -47,6 +47,7 @@ return [
 		'apps/admin_audit/tests',
 		'apps/comments/composer',
 		'apps/comments/tests',
+		'apps/dav/composer',
 		'apps/dav/tests',
 		'apps/encryption/tests',
 		'apps/federatedfilesharing/tests',
