@@ -24,16 +24,26 @@ $COMPOSER_COMMAND self-update
 
 REPODIR=`git rev-parse --show-toplevel`
 
-#Redump the autoloader
+#Redump the main autoloader
 echo
-echo "Regenerating autoloader"
+echo "Regenerating main autoloader"
 $COMPOSER_COMMAND dump-autoload -d $REPODIR
+
+for app in ${REPODIR}/apps/*; do
+    if [[ -d $app ]]; then
+        if [[ -e ${app}/composer/composer.json ]]; then
+            echo
+            echo "Regenerating autoloader for ${app}"
+            $COMPOSER_COMMAND dump-autoload -d ${app}/composer
+        fi
+    fi
+done
 
 files=`git diff --name-only`
 composerfile=false
 for file in $files
 do
-    if [[ $file == lib/composer/* ]]
+    if [[ $file == *autoload_classmap* ]]
     then
         composerfile=true
         break
@@ -43,10 +53,9 @@ done
 echo
 if [ $composerfile = true ]
 then
-    echo "The autoloader is not up to date"
+    echo "The autoloaders are not up to date"
     echo "Please run: bash build/autoloaderchecker.sh"
     echo "And commit the result"
-    git diff  lib/composer
     exit 1
 else
     echo "Autoloader up to date. Carry on"

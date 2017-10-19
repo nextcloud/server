@@ -52,6 +52,7 @@ return [
 		'apps/files/tests',
 		'apps/files_external/3rdparty',
 		'apps/files_external/tests',
+		'apps/files_sharing/composer',
 		'apps/files_sharing/tests',
 		'apps/files_trashbin/tests',
 		'apps/files_versions/tests',
