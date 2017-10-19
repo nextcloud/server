@@ -417,42 +417,6 @@ table.nostyle {
 }
 
 /* USERS */
-#newgroup-init a span {
-	margin-left: 20px;
-	&:before {
-		position: absolute;
-		left: 12px;
-		top: -2px;
-		content: '+';
-		font-weight: bold;
-		font-size: 150%;
-	}
-}
-
-#newgroup-form {
-	height: 44px;
-}
-
-#newgroupname {
-	margin: 0;
-	width: 100%;
-	padding: 12px 40px 12px 12px;
-	box-sizing: border-box;
-	background-color: transparent;
-	border: none;
-	border-bottom: 1px solid $color-border;
-	border-radius: 0;
-}
-
-#newgroup-form .button {
-	position: absolute;
-	right: 0;
-	top: 0;
-	padding: 10px 20px;
-	background-color: transparent;
-	border: none;
-	opacity: .5;
-}
 
 .isgroup {
 	.groupname {
@@ -464,11 +428,6 @@ table.nostyle {
 	&.active .groupname {
 		width: 65%;
 	}
-}
-
-.usercount {
-	float: left;
-	margin: 5px;
 }
 
 li.active {

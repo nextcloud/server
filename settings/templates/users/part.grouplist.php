@@ -1,18 +1,16 @@
 <ul id="usergrouplist" data-sort-groups="<?php p($_['sortGroups']); ?>">
 	<!-- Add new group -->
 	<?php if ($_['isAdmin']) { ?>
-	<li id="newgroup-init">
-		<a href="#">
-			<span><?php p($l->t('Add group'))?></span>
-		</a>
+	<li id="newgroup-entry">
+		<a href="#" class="icon-add" id="newgroup-init"><?php p($l->t('Add group'))?></a>
+		<div class="app-navigation-entry-edit" id="newgroup-form">
+			<form>
+				<input type="text" id="newgroupname" placeholder="<?php p($l->t('Add group'))?>">
+				<input type="submit" value="" class="icon-checkmark">
+			</form>
+		</div>
 	</li>
 	<?php } ?>
-	<li id="newgroup-form" style="display: none">
-		<form>
-			<input type="text" id="newgroupname" placeholder="<?php p($l->t('Group name')); ?> …" />
-			<input type="submit" class="button icon-add" value="" />
-		</form>
-	</li>
 	<!-- Everyone -->
 	<li id="everyonegroup" data-gid="_everyone" data-usercount="" class="isgroup">
 		<a href="#">
@@ -20,11 +18,11 @@
 				<?php p($l->t('Everyone')); ?>
 			</span>
 		</a>
-		<span class="utils">
-			<span class="usercount" id="everyonecount">
-
-			</span>
-		</span>
+		<div class="app-navigation-entry-utils">
+			<ul>
+				<li class="usercount app-navigation-entry-utils-counter" id="everyonecount"></li>
+			</ul>
+		</div>
 	</li>
 
 	<!-- The Admin Group -->
