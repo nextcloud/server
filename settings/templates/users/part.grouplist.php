@@ -56,12 +56,12 @@
 			</a>
 			<div class="app-navigation-entry-utils">
 				<ul>
+					<li class="app-navigation-entry-utils-counter"><?php if($group['usercount'] > 0) { p($group['usercount']); } ?></li>
 				 	<?php if($_['isAdmin']): ?>
 				 		<li class="app-navigation-entry-utils-menu-button delete">
 							<button class="icon-delete"></button>
 						</li>
 					<?php endif; ?>
-					<li class="app-navigation-entry-utils-counter"><?php if($group['usercount'] > 0) { p($group['usercount']); } ?></li>
 				</ul>
 			</div>
 		</li>
