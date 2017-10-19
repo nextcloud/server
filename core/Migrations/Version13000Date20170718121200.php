@@ -24,6 +24,7 @@
 namespace OC\Core\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
+use Doctrine\DBAL\Types\Type;
 use OCP\Migration\SimpleMigrationStep;
 use OCP\Migration\IOutput;
 
@@ -66,10 +67,10 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 				'notnull' => false,
 				'length' => 64,
 			]);
-			$table->addColumn('numeric_id', 'integer', [
+			$table->addColumn('numeric_id', Type::BIGINT, [
 				'autoincrement' => true,
 				'notnull' => true,
-				'length' => 4,
+				'length' => 20,
 			]);
 			$table->addColumn('available', 'integer', [
 				'notnull' => true,
@@ -116,10 +117,10 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 
 		if (!$schema->hasTable('mimetypes')) {
 			$table = $schema->createTable('mimetypes');
-			$table->addColumn('id', 'integer', [
+			$table->addColumn('id', Type::BIGINT, [
 				'autoincrement' => true,
 				'notnull' => true,
-				'length' => 4,
+				'length' => 20,
 			]);
 			$table->addColumn('mimetype', 'string', [
 				'notnull' => true,
@@ -132,14 +133,14 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 
 		if (!$schema->hasTable('filecache')) {
 			$table = $schema->createTable('filecache');
-			$table->addColumn('fileid', 'integer', [
+			$table->addColumn('fileid', Type::BIGINT, [
 				'autoincrement' => true,
 				'notnull' => true,
-				'length' => 4,
+				'length' => 20,
 			]);
-			$table->addColumn('storage', 'integer', [
+			$table->addColumn('storage', Type::BIGINT, [
 				'notnull' => true,
-				'length' => 4,
+				'length' => 20,
 				'default' => 0,
 			]);
 			$table->addColumn('path', 'string', [
@@ -151,23 +152,23 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 				'length' => 32,
 				'default' => '',
 			]);
-			$table->addColumn('parent', 'integer', [
+			$table->addColumn('parent', Type::BIGINT, [
 				'notnull' => true,
-				'length' => 4,
+				'length' => 20,
 				'default' => 0,
 			]);
 			$table->addColumn('name', 'string', [
 				'notnull' => false,
 				'length' => 250,
 			]);
-			$table->addColumn('mimetype', 'integer', [
+			$table->addColumn('mimetype', Type::BIGINT, [
 				'notnull' => true,
-				'length' => 4,
+				'length' => 20,
 				'default' => 0,
 			]);
-			$table->addColumn('mimepart', 'integer', [
+			$table->addColumn('mimepart', Type::BIGINT, [
 				'notnull' => true,
-				'length' => 4,
+				'length' => 20,
 				'default' => 0,
 			]);
 			$table->addColumn('size', 'bigint', [
