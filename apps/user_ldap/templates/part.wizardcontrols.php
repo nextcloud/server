@@ -9,7 +9,7 @@
 		<?php p($l->t('Continue'));?>
 	</button>
 	<a href="<?php p(link_to_docs('admin-ldap')); ?>"
-		target="_blank" rel="noreferrer">
+		target="_blank" rel="noreferrer noopener">
 		<img src="<?php print_unescaped(image_path('', 'actions/info.svg')); ?>"
 			style="height:1.75ex" />
 		<span class="ldap_grey"><?php p($l->t('Help'));?></span>

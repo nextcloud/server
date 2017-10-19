@@ -36,7 +36,7 @@
 			?>
 			<li>
 				<?php p($l->t('PHP does not seem to be setup properly to query system environment variables. The test with getenv("PATH") only returns an empty response.')); ?><br>
-				<?php print_unescaped($l->t('Please check the <a target="_blank" rel="noreferrer" href="%s">installation documentation ↗</a> for PHP configuration notes and the PHP configuration of your server, especially when using php-fpm.', link_to_docs('admin-php-fpm'))); ?>
+				<?php print_unescaped($l->t('Please check the <a target="_blank" rel="noreferrer noopener" href="%s">installation documentation ↗</a> for PHP configuration notes and the PHP configuration of your server, especially when using php-fpm.', link_to_docs('admin-php-fpm'))); ?>
 			</li>
 			<?php
 		}
@@ -91,7 +91,7 @@
 		if ($_['fileLockingType'] === 'none') {
 			?>
 			<li>
-				<?php print_unescaped($l->t('Transactional file locking is disabled, this might lead to issues with race conditions. Enable \'filelocking.enabled\' in config.php to avoid these problems. See the <a target="_blank" rel="noreferrer" href="%s">documentation ↗</a> for more information.', link_to_docs('admin-transactional-locking'))); ?>
+				<?php print_unescaped($l->t('Transactional file locking is disabled, this might lead to issues with race conditions. Enable \'filelocking.enabled\' in config.php to avoid these problems. See the <a target="_blank" rel="noreferrer noopener" href="%s">documentation ↗</a> for more information.', link_to_docs('admin-transactional-locking'))); ?>
 			</li>
 			<?php
 		}
@@ -146,7 +146,7 @@
 		<ul class="warnings hidden"></ul>
 		<ul class="info hidden"></ul>
 		<p class="hint hidden">
-			<?php print_unescaped($l->t('Please double check the <a target="_blank" rel="noreferrer" href="%s">installation guides ↗</a>, and check for any errors or warnings in the <a href="%s">log</a>.', [link_to_docs('admin-install'), \OC::$server->getURLGenerator()->linkToRoute('settings.AdminSettings.index', ['section' => 'logging'])] )); ?>
+			<?php print_unescaped($l->t('Please double check the <a target="_blank" rel="noreferrer noopener" href="%s">installation guides ↗</a>, and check for any errors or warnings in the <a href="%s">log</a>.', [link_to_docs('admin-install'), \OC::$server->getURLGenerator()->linkToRoute('settings.AdminSettings.index', ['section' => 'logging'])] )); ?>
 		</p>
 	</div>
 	<div id="security-warning-state">
@@ -176,7 +176,7 @@
 			<?php p($l->t("Background job didn’t run yet!"));
 		endif; ?>
 	</p>
-	<a target="_blank" rel="noreferrer" class="icon-info"
+	<a target="_blank" rel="noreferrer noopener" class="icon-info"
 	   title="<?php p($l->t('Open documentation'));?>"
 	   href="<?php p(link_to_docs('admin-background-jobs')); ?>"></a>
 
@@ -223,5 +223,5 @@
 <div class="section">
 	<!-- should be the last part, so Updater can follow if enabled (it has no heading therefore). -->
 	<h2><?php p($l->t('Version'));?></h2>
-	<p><strong><a href="<?php print_unescaped($theme->getBaseUrl()); ?>" rel="noreferrer" target="_blank"><?php p($theme->getTitle()); ?></a> <?php p(OC_Util::getHumanVersion()) ?></strong></p>
+	<p><strong><a href="<?php print_unescaped($theme->getBaseUrl()); ?>" rel="noreferrer noopener" target="_blank"><?php p($theme->getTitle()); ?></a> <?php p(OC_Util::getHumanVersion()) ?></strong></p>
 </div>

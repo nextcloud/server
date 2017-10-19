@@ -37,15 +37,15 @@
 			<li>
 				<?php p($l->t('SQLite is currently being used as the backend database. For larger installations we recommend that you switch to a different database backend.')); ?><br>
 				<?php p($l->t('This is particularly recommended when using the desktop client for file synchronisation.')); ?><br>
-				<?php print_unescaped($l->t('To migrate to another database use the command line tool: \'occ db:convert-type\', or see the <a target="_blank" rel="noreferrer" href="%s">documentation ↗</a>.', link_to_docs('admin-db-conversion') )); ?>
+				<?php print_unescaped($l->t('To migrate to another database use the command line tool: \'occ db:convert-type\', or see the <a target="_blank" rel="noreferrer noopener" href="%s">documentation ↗</a>.', link_to_docs('admin-db-conversion') )); ?>
 			</li>
 		<?php } ?>
-		<li><a target="_blank" rel="noreferrer" href="<?php p(link_to_docs('admin-backup')); ?>"><?php p($l->t('How to do backups'));?> ↗</a></li>
-		<li><a target="_blank" rel="noreferrer" href="<?php p(link_to_docs('admin-monitoring')); ?>"><?php p($l->t('Advanced monitoring'));?> ↗</a></li>
-		<li><a target="_blank" rel="noreferrer" href="<?php p(link_to_docs('admin-performance')); ?>"><?php p($l->t('Performance tuning'));?> ↗</a></li>
-		<li><a target="_blank" rel="noreferrer" href="<?php p(link_to_docs('admin-config')); ?>"><?php p($l->t('Improving the config.php'));?> ↗</a></li>
-		<li><a target="_blank" rel="noreferrer" href="<?php p(link_to_docs('developer-theming')); ?>"><?php p($l->t('Theming'));?> ↗</a></li>
-		<li><a target="_blank" rel="noreferrer" href="https://scan.nextcloud.com"><?php p($l->t('Check the security of your Nextcloud over our security scan'));?> ↗</a></li>
-		<li><a target="_blank" rel="noreferrer" href="<?php p(link_to_docs('admin-security')); ?>"><?php p($l->t('Hardening and security guidance'));?> ↗</a></li>
+		<li><a target="_blank" rel="noreferrer noopener" href="<?php p(link_to_docs('admin-backup')); ?>"><?php p($l->t('How to do backups'));?> ↗</a></li>
+		<li><a target="_blank" rel="noreferrer noopener" href="<?php p(link_to_docs('admin-monitoring')); ?>"><?php p($l->t('Advanced monitoring'));?> ↗</a></li>
+		<li><a target="_blank" rel="noreferrer noopener" href="<?php p(link_to_docs('admin-performance')); ?>"><?php p($l->t('Performance tuning'));?> ↗</a></li>
+		<li><a target="_blank" rel="noreferrer noopener" href="<?php p(link_to_docs('admin-config')); ?>"><?php p($l->t('Improving the config.php'));?> ↗</a></li>
+		<li><a target="_blank" rel="noreferrer noopener" href="<?php p(link_to_docs('developer-theming')); ?>"><?php p($l->t('Theming'));?> ↗</a></li>
+		<li><a target="_blank" rel="noreferrer noopener" href="https://scan.nextcloud.com"><?php p($l->t('Check the security of your Nextcloud over our security scan'));?> ↗</a></li>
+		<li><a target="_blank" rel="noreferrer noopener" href="<?php p(link_to_docs('admin-security')); ?>"><?php p($l->t('Hardening and security guidance'));?> ↗</a></li>
 	</ul>
 </div>
