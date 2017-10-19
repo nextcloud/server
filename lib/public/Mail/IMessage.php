@@ -30,9 +30,9 @@ namespace OCP\Mail;
 interface IMessage {
 
 	/**
-	 * @param string $data
-	 * @param string $filename
-	 * @param string $contentType
+	 * @param string|null $data
+	 * @param string|null $filename
+	 * @param string|null $contentType
 	 * @return IAttachment
 	 * @since 13.0.0
 	 */
@@ -40,7 +40,7 @@ interface IMessage {
 
 	/**
 	 * @param string $path
-	 * @param string $contentType
+	 * @param string|null $contentType
 	 * @return IAttachment
 	 * @since 13.0.0
 	 */

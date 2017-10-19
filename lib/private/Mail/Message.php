@@ -45,9 +45,9 @@ class Message implements IMessage {
 	}
 
 	/**
-	 * @param string $data
-	 * @param string $filename
-	 * @param string $contentType
+	 * @param string|null $data
+	 * @param string|null $filename
+	 * @param string|null $contentType
 	 * @return IAttachment
 	 * @since 13.0.0
 	 */
@@ -57,7 +57,7 @@ class Message implements IMessage {
 
 	/**
 	 * @param string $path
-	 * @param string $contentType
+	 * @param string|null $contentType
 	 * @return IAttachment
 	 * @since 13.0.0
 	 */
