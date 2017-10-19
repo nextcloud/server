@@ -52,6 +52,7 @@ $dispatcher = \OC::$server->getEventDispatcher();
 $calDavBackend = new CalDavBackend($db, $principalBackend, $userManager, \OC::$server->getGroupManager(), $random, $dispatcher, true);
 
 $debugging = \OC::$server->getConfig()->getSystemValue('debug', false);
+$sendInvitations = \OC::$server->getConfig()->getAppValue('dav', 'sendInvitations', 'yes') === 'yes';
 
 // Root nodes
 $principalCollection = new \Sabre\CalDAV\Principal\Collection($principalBackend);
@@ -84,7 +85,11 @@ if ($debugging) {
 $server->addPlugin(new \Sabre\DAV\Sync\Plugin());
 $server->addPlugin(new \Sabre\CalDAV\ICSExportPlugin());
 $server->addPlugin(new \OCA\DAV\CalDAV\Schedule\Plugin());
-$server->addPlugin(new \OCA\DAV\CalDAV\Schedule\IMipPlugin( \OC::$server->getMailer(), \OC::$server->getLogger(), new \OC\AppFramework\Utility\TimeFactory()));
+
+if ($sendInvitations) {
+	$server->addPlugin(new \OCA\DAV\CalDAV\Schedule\IMipPlugin( \OC::$server->getMailer(), \OC::$server->getLogger(), new \OC\AppFramework\Utility\TimeFactory()));
+}
+
 $server->addPlugin(new ExceptionLoggerPlugin('caldav', \OC::$server->getLogger()));
 
 // And off we go!
