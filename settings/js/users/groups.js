@@ -227,7 +227,7 @@ GroupList = {
 	},
 
 	isAddGroupButtonVisible: function () {
-		return $('#newgroup-init').is(":visible");
+		return !$('#newgroup-entry').hasClass('editing');
 	},
 
 	toggleAddGroup: function (event) {
