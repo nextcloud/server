@@ -70,7 +70,14 @@ class OCS extends ApiBase implements ICapabilitiesApi, IUserApi {
 	}
 
 	public function getUser($userId) {
-		return new User($this->request('get', 'cloud/users/' . $userId));
+		$result = $this->request('get', 'cloud/users/' . $userId);
+		$keys = ['id', 'email', 'displayname', 'phone', 'address', 'website', 'groups', 'language', 'quota'];
+		foreach ($keys as $key) {
+			if (!isset($result[$key])) {
+				throw new \Exception('Invalid user response, expected field ' . $key . ' not found');
+			}
+		}
+		return new User($result);
 	}
 
 	/**
