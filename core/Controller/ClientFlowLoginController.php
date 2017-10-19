@@ -302,7 +302,7 @@ class ClientFlowLoginController extends Controller {
 			);
 			$this->session->remove('oauth.state');
 		} else {
-			$serverPath = substr($this->request->getRequestUri(), 0, strpos($this->request->getRequestUri(), "/index.php"));
+			$serverPath = $this->request->getServerProtocol() . "://" . $this->request->getServerHost() . substr($this->request->getRequestUri(), 0, strpos($this->request->getRequestUri(), "/index.php"));
 			$redirectUri = 'nc://login/server:' . $serverPath . '&user:' . urlencode($loginName) . '&password:' . urlencode($token);
 		}
 
