@@ -97,19 +97,26 @@ class Instance implements IInstance {
 	/**
 	 * @return array
 	 * @throws NotFoundException
+	 * @throws \Exception
 	 */
 	private function getStatus() {
 		if ($this->status) {
 			return $this->status;
 		}
 		$key = 'remote/' . $this->url . '/status';
+		$httpsKey = 'remote/' . $this->url . '/https';
 		$status = $this->cache->get($key);
 		if (!$status) {
 			$response = $this->downloadStatus('https://' . $this->getUrl() . '/status.php');
 			$protocol = 'https';
 			if (!$response) {
+				if ($status = $this->cache->get($httpsKey)) {
+					throw new \Exception('refusing to connect to remote instance(' . $this->url . ') over http that was previously accessible over https');
+				}
 				$response = $this->downloadStatus('http://' . $this->getUrl() . '/status.php');
 				$protocol = 'http';
+			} else {
+				$this->cache->set($httpsKey, true, 60 * 60 * 24 * 365);
 			}
 			$status = json_decode($response, true);
 			if ($status) {
