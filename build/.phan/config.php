@@ -43,6 +43,7 @@ return [
 	"exclude_analysis_directory_list" => [
 		'3rdparty',
 		'lib/composer',
+		'apps/admin_audit/composer',
 		'apps/admin_audit/tests',
 		'apps/comments/tests',
 		'apps/dav/tests',
