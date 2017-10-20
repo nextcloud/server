@@ -38,9 +38,13 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 	/** @var \OCP\IL10N */
 	private $l10n;
 
+	/** @var \OCP\IConfig */
+	private $config;
+
 	public function __construct(BackendInterface $caldavBackend, $principalInfo) {
 		parent::__construct($caldavBackend, $principalInfo);
 		$this->l10n = \OC::$server->getL10N('dav');
+		$this->config = \OC::$server->getConfig();
 	}
 
 	/**
@@ -57,7 +61,7 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 		$calendars = $this->caldavBackend->getCalendarsForUser($this->principalInfo['uri']);
 		$objects = [];
 		foreach ($calendars as $calendar) {
-			$objects[] = new Calendar($this->caldavBackend, $calendar, $this->l10n);
+			$objects[] = new Calendar($this->caldavBackend, $calendar, $this->l10n, $this->config);
 		}
 
 		if ($this->caldavBackend instanceof SchedulingSupport) {
@@ -98,7 +102,7 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 		// Calendars
 		foreach ($this->caldavBackend->getCalendarsForUser($this->principalInfo['uri']) as $calendar) {
 			if ($calendar['uri'] === $name) {
-				return new Calendar($this->caldavBackend, $calendar, $this->l10n);
+				return new Calendar($this->caldavBackend, $calendar, $this->l10n, $this->config);
 			}
 		}
 

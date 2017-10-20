@@ -30,6 +30,7 @@ namespace OCA\DAV\Tests\unit\CalDAV;
 use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\CalDAV\PublicCalendar;
 use OCA\DAV\Connector\Sabre\Principal;
+use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCA\DAV\CalDAV\CalDavBackend;
@@ -61,6 +62,8 @@ class PublicCalendarRootTest extends TestCase {
 	protected $userManager;
 	/** @var IGroupManager|\PHPUnit_Framework_MockObject_MockObject */
 	protected $groupManager;
+	/** @var IConfig */
+	protected $config;
 
 	/** @var ISecureRandom */
 	private $random;
@@ -87,11 +90,12 @@ class PublicCalendarRootTest extends TestCase {
 			$this->random,
 			$dispatcher
 		);
-
-		$this->publicCalendarRoot = new PublicCalendarRoot($this->backend);
-
 		$this->l10n = $this->getMockBuilder(IL10N::class)
 			->disableOriginalConstructor()->getMock();
+		$this->config = $this->createMock(IConfig::class);
+
+		$this->publicCalendarRoot = new PublicCalendarRoot($this->backend,
+			$this->l10n, $this->config);
 	}
 
 	public function tearDown() {
@@ -141,11 +145,11 @@ class PublicCalendarRootTest extends TestCase {
 		$this->backend->createCalendar(self::UNIT_TEST_USER, 'Example', []);
 
 		$calendarInfo = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER)[0];
-		$calendar = new PublicCalendar($this->backend, $calendarInfo, $this->l10n);
+		$calendar = new PublicCalendar($this->backend, $calendarInfo, $this->l10n, $this->config);
 		$publicUri = $calendar->setPublishStatus(true);
 
 		$calendarInfo = $this->backend->getPublicCalendar($publicUri);
-		$calendar = new PublicCalendar($this->backend, $calendarInfo, $this->l10n);
+		$calendar = new PublicCalendar($this->backend, $calendarInfo, $this->l10n, $this->config);
 
 		return $calendar;
 	}
