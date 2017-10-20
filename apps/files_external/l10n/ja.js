@@ -14,6 +14,8 @@ OC.L10N.register(
     "(group)" : "(グループ)",
     "Compatibility with Mac NFD encoding (slow)" : "Mac NFD エンコード互換 (遅い)",
     "Admin defined" : "管理者設定済",
+    "Are you sure you want to delete this external storage" : "この外部ストレージを本当に削除しますか?",
+    "Delete storage?" : "ストレージを削除しますか?",
     "Saved" : "保存されました",
     "Saving..." : "保存中...",
     "Save" : "保存",
