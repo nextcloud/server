@@ -138,6 +138,13 @@ class Avatar implements IAvatar {
 		$this->remove();
 		$file = $this->folder->newFile('avatar.'.$type);
 		$file->putContent($data);
+
+		try {
+			$generated = $this->folder->getFile('generated');
+			$generated->delete();
+		} catch (NotFoundException $e) {
+			//
+		}
 		$this->user->triggerChange('avatar', $file);
 	}
 
