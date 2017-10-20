@@ -1112,4 +1112,108 @@ describe('Core base tests', function() {
 			expect(OC._ajaxConnectionLostHandler.calls.count()).toBe(1);
 		});
 	});
+	describe('Snapper', function() {
+		var snapConstructorStub;
+		var snapperStub;
+		var clock;
+
+		beforeEach(function() {
+			snapConstructorStub = sinon.stub(window, 'Snap');
+
+			snapperStub = {};
+			snapperStub.enable = sinon.stub();
+			snapperStub.disable = sinon.stub();
+			snapperStub.close = sinon.stub();
+
+			snapConstructorStub.returns(snapperStub);
+
+			clock = sinon.useFakeTimers();
+
+			// _.now could have been set to Date.now before Sinon replaced it
+			// with a fake version, so _.now must be stubbed to ensure that the
+			// fake Date.now will be called instead of the original one.
+			_.now = sinon.stub(_, 'now').callsFake(function() {
+				return new Date().getTime();
+			});
+
+			$('#testArea').append('<div id="app-navigation">The navigation bar</div><div id="app-content">Content</div>');
+		});
+		afterEach(function() {
+			snapConstructorStub.restore();
+
+			clock.restore();
+
+			_.now.restore();
+
+			// Remove the event handler for the resize event added to the window
+			// due to calling window.initCore() when there is an #app-navigation
+			// element.
+			$(window).off('resize');
+
+			viewport.reset();
+		});
+
+		it('is enabled on a narrow screen', function() {
+			viewport.set(480);
+
+			window.initCore();
+
+			expect(snapConstructorStub.calledOnce).toBe(true);
+			expect(snapperStub.enable.calledOnce).toBe(true);
+			expect(snapperStub.disable.called).toBe(false);
+		});
+		it('is disabled on a wide screen', function() {
+			viewport.set(1280);
+
+			window.initCore();
+
+			expect(snapConstructorStub.calledOnce).toBe(true);
+			expect(snapperStub.enable.called).toBe(false);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+		});
+		it('is enabled when resizing to a narrow screen', function() {
+			viewport.set(1280);
+
+			window.initCore();
+
+			expect(snapperStub.enable.called).toBe(false);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+
+			viewport.set(480);
+
+			// Setting the viewport width does not automatically trigger a
+			// resize.
+			$(window).resize();
+
+			// The resize handler is debounced to be executed a few milliseconds
+			// after the resize event.
+			clock.tick(1000);
+
+			expect(snapperStub.enable.calledOnce).toBe(true);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+		});
+		it('is disabled when resizing to a wide screen', function() {
+			viewport.set(480);
+
+			window.initCore();
+
+			expect(snapperStub.enable.calledOnce).toBe(true);
+			expect(snapperStub.disable.called).toBe(false);
+			expect(snapperStub.close.called).toBe(false);
+
+			viewport.set(1280);
+
+			// Setting the viewport width does not automatically trigger a
+			// resize.
+			$(window).resize();
+
+			// The resize handler is debounced to be executed a few milliseconds
+			// after the resize event.
+			clock.tick(1000);
+
+			expect(snapperStub.enable.calledOnce).toBe(true);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+			expect(snapperStub.close.calledOnce).toBe(true);
+		});
+	});
 });
