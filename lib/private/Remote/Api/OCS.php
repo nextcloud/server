@@ -43,7 +43,7 @@ class OCS extends ApiBase implements ICapabilitiesApi, IUserApi {
 	 */
 	protected function request($method, $url, array $body = [], array $query = [], array $headers = []) {
 		try {
-			$response = json_decode(parent::request($method, '/ocs/v2.php/' . $url, $body, $query, $headers), true);
+			$response = json_decode(parent::request($method, 'ocs/v2.php/' . $url, $body, $query, $headers), true);
 		} catch (ClientException $e) {
 			if ($e->getResponse()->getStatusCode() === 404) {
 				throw new NotFoundException();
@@ -69,14 +69,23 @@ class OCS extends ApiBase implements ICapabilitiesApi, IUserApi {
 		return $response['ocs']['data'];
 	}
 
-	public function getUser($userId) {
-		$result = $this->request('get', 'cloud/users/' . $userId);
-		$keys = ['id', 'email', 'displayname', 'phone', 'address', 'website', 'groups', 'language', 'quota'];
+	/**
+	 * @param array $data
+	 * @param string $type
+	 * @param string[] $keys
+	 * @throws \Exception
+	 */
+	private function checkResponseArray(array $data, $type, array $keys) {
 		foreach ($keys as $key) {
-			if (!isset($result[$key])) {
-				throw new \Exception('Invalid user response, expected field ' . $key . ' not found');
+			if (!array_key_exists($key, $data)) {
+				throw new \Exception('Invalid ' . $type . ' response, expected field ' . $key . ' not found');
 			}
 		}
+	}
+
+	public function getUser($userId) {
+		$result = $this->request('get', 'cloud/users/' . $userId);
+		$this->checkResponseArray($result, 'user', User::EXPECTED_KEYS);
 		return new User($result);
 	}
 

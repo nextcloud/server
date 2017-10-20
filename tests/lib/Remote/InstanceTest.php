@@ -24,62 +24,25 @@ namespace Test\Remote;
 
 use OC\Memcache\ArrayCache;
 use OC\Remote\Instance;
-use OCP\Http\Client\IClient;
-use OCP\Http\Client\IClientService;
-use OCP\Http\Client\IResponse;
 use OCP\ICache;
 use Test\TestCase;
+use Test\Traits\ClientServiceTrait;
 
 class InstanceTest extends TestCase {
-	/** @var IClientService|\PHPUnit_Framework_MockObject_MockObject */
-	private $clientService;
-	/** @var IClient|\PHPUnit_Framework_MockObject_MockObject */
-	private $client;
+	use ClientServiceTrait;
+
 	/** @var ICache */
 	private $cache;
-	private $expectedRequests = [];
 
 	protected function setUp() {
 		parent::setUp();
 
 		$this->cache = new ArrayCache();
-
-		$this->clientService = $this->createMock(IClientService::class);
-		$this->client = $this->createMock(IClient::class);
-		$this->clientService->expects($this->any())
-			->method('newClient')
-			->willReturn($this->client);
-		$this->client->expects($this->any())
-			->method('get')
-			->willReturnCallback(function ($url) {
-				if (!isset($this->expectedRequests[$url])) {
-					throw new \Exception('unexpected request');
-				}
-				$result = $this->expectedRequests[$url];
-
-				if ($result instanceof \Exception) {
-					throw $result;
-				} else {
-					$response = $this->createMock(IResponse::class);
-					$response->expects($this->any())
-						->method('getBody')
-						->willReturn($result);
-					return $response;
-				}
-			});
-	}
-
-	/**
-	 * @param string $url
-	 * @param string|\Exception $result
-	 */
-	protected function expectRequest($url, $result) {
-		$this->expectedRequests[$url] = $result;
 	}
 
 	public function testBasicStatus() {
-		$instance = new Instance('example.com', $this->cache, $this->clientService);
-		$this->expectRequest('https://example.com/status.php', '{"installed":true,"maintenance":false,"needsDbUpgrade":false,"version":"13.0.0.5","versionstring":"13.0.0 alpha","edition":"","productname":"Nextcloud"}');
+		$instance = new Instance('example.com', $this->cache, $this->getClientService());
+		$this->expectGetRequest('https://example.com/status.php', '{"installed":true,"maintenance":false,"needsDbUpgrade":false,"version":"13.0.0.5","versionstring":"13.0.0 alpha","edition":"","productname":"Nextcloud"}');
 
 		$this->assertEquals(true, $instance->isActive());
 		$this->assertEquals('13.0.0.5', $instance->getVersion());
@@ -88,24 +51,24 @@ class InstanceTest extends TestCase {
 	}
 
 	public function testHttpFallback() {
-		$instance = new Instance('example.com', $this->cache, $this->clientService);
-		$this->expectRequest('https://example.com/status.php', new \Exception());
-		$this->expectRequest('http://example.com/status.php', '{"installed":true,"maintenance":false,"needsDbUpgrade":false,"version":"13.0.0.5","versionstring":"13.0.0 alpha","edition":"","productname":"Nextcloud"}');
+		$instance = new Instance('example.com', $this->cache, $this->getClientService());
+		$this->expectGetRequest('https://example.com/status.php', new \Exception());
+		$this->expectGetRequest('http://example.com/status.php', '{"installed":true,"maintenance":false,"needsDbUpgrade":false,"version":"13.0.0.5","versionstring":"13.0.0 alpha","edition":"","productname":"Nextcloud"}');
 
 		$this->assertEquals('http', $instance->getProtocol());
 		$this->assertEquals('http://example.com', $instance->getFullUrl());
 	}
 
 	public function testRerequestHttps() {
-		$instance = new Instance('example.com', $this->cache, $this->clientService);
-		$this->expectRequest('https://example.com/status.php', '{"installed":true,"maintenance":false,"needsDbUpgrade":false,"version":"13.0.0.5","versionstring":"13.0.0 alpha","edition":"","productname":"Nextcloud"}');
+		$instance = new Instance('example.com', $this->cache, $this->getClientService());
+		$this->expectGetRequest('https://example.com/status.php', '{"installed":true,"maintenance":false,"needsDbUpgrade":false,"version":"13.0.0.5","versionstring":"13.0.0 alpha","edition":"","productname":"Nextcloud"}');
 
 		$this->assertEquals('https', $instance->getProtocol());
 		$this->assertEquals(true, $instance->isActive());
 
 		$this->cache->remove('remote/example.com/status');
-		$this->expectRequest('https://example.com/status.php', '{"installed":true,"maintenance":true,"needsDbUpgrade":false,"version":"13.0.0.5","versionstring":"13.0.0 alpha","edition":"","productname":"Nextcloud"}');
-		$instance2 = new Instance('example.com', $this->cache, $this->clientService);
+		$this->expectGetRequest('https://example.com/status.php', '{"installed":true,"maintenance":true,"needsDbUpgrade":false,"version":"13.0.0.5","versionstring":"13.0.0 alpha","edition":"","productname":"Nextcloud"}');
+		$instance2 = new Instance('example.com', $this->cache, $this->getClientService());
 		$this->assertEquals('https', $instance2->getProtocol());
 		$this->assertEquals(false, $instance2->isActive());
 	}
@@ -115,14 +78,14 @@ class InstanceTest extends TestCase {
 	 * @expectedExceptionMessage refusing to connect to remote instance(example.com) over http that was previously accessible over https
 	 */
 	public function testPreventDowngradeAttach() {
-		$instance = new Instance('example.com', $this->cache, $this->clientService);
-		$this->expectRequest('https://example.com/status.php', '{"installed":true,"maintenance":false,"needsDbUpgrade":false,"version":"13.0.0.5","versionstring":"13.0.0 alpha","edition":"","productname":"Nextcloud"}');
+		$instance = new Instance('example.com', $this->cache, $this->getClientService());
+		$this->expectGetRequest('https://example.com/status.php', '{"installed":true,"maintenance":false,"needsDbUpgrade":false,"version":"13.0.0.5","versionstring":"13.0.0 alpha","edition":"","productname":"Nextcloud"}');
 
 		$this->assertEquals('https', $instance->getProtocol());
 
-		$this->expectRequest('https://example.com/status.php', new \Exception());
+		$this->expectGetRequest('https://example.com/status.php', new \Exception());
 		$this->cache->remove('remote/example.com/status');
-		$instance2 = new Instance('example.com', $this->cache, $this->clientService);
+		$instance2 = new Instance('example.com', $this->cache, $this->getClientService());
 		$instance2->getProtocol();
 	}
 }

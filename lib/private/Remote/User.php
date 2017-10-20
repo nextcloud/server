@@ -25,6 +25,18 @@ namespace OC\Remote;
 use OCP\Remote\IUser;
 
 class User implements IUser {
+	const EXPECTED_KEYS = [
+		'id',
+		'email',
+		'displayname',
+		'phone',
+		'address',
+		'website',
+		'groups',
+		'language',
+		'quota'
+	];
+
 	/** @var array */
 	private $data;
 
