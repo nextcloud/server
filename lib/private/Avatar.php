@@ -146,16 +146,13 @@ class Avatar implements IAvatar {
 	 * @return void
 	*/
 	public function remove () {
-		$regex = '/^avatar\.([0-9]+\.)?(jpg|png)$/';
 		$avatars = $this->folder->getDirectoryListing();
 
 		$this->config->setUserValue($this->user->getUID(), 'avatar', 'version',
 			(int)$this->config->getUserValue($this->user->getUID(), 'avatar', 'version', 0) + 1);
 
 		foreach ($avatars as $avatar) {
-			if (preg_match($regex, $avatar->getName())) {
-				$avatar->delete();
-			}
+			$avatar->delete();
 		}
 		$this->user->triggerChange('avatar', '');
 	}
