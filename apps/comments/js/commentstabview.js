@@ -393,6 +393,7 @@
 		_composeHTMLMention: function(uid, displayName) {
 			var avatar = '<div class="avatar" '
 				+ 'data-username="' + _.escape(uid) + '"'
+				+ 'data-user="' + _.escape(uid) + '"'
 				+' data-user-display-name="'
 				+ _.escape(displayName) + '"></div>';
 
