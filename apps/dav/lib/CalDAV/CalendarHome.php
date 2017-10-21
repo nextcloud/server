@@ -32,6 +32,8 @@ use Sabre\CalDAV\Schedule\Inbox;
 use Sabre\CalDAV\Schedule\Outbox;
 use Sabre\CalDAV\Subscriptions\Subscription;
 use Sabre\DAV\Exception\NotFound;
+use Sabre\DAV\Exception\MethodNotAllowed;
+use Sabre\DAV\MkCol;
 
 class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 
@@ -52,6 +54,19 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 	 */
 	public function getCalDAVBackend() {
 		return $this->caldavBackend;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	function createExtendedCollection($name, MkCol $mkCol) {
+		$reservedNames = [BirthdayService::BIRTHDAY_CALENDAR_URI];
+
+		if (in_array($name, $reservedNames)) {
+			throw new MethodNotAllowed('The resource you tried to create has a reserved name');
+		}
+
+		parent::createExtendedCollection($name, $mkCol);
 	}
 
 	/**
