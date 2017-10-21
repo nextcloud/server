@@ -44,6 +44,9 @@ OC.L10N.register(
     "Contacts" : "Kişiler",
     "Technical details" : "Teknik ayrıntılar",
     "Remote Address: %s" : "Uzak Adres: %s",
-    "Request ID: %s" : "İstek Kodu: %s"
+    "Request ID: %s" : "İstek Kodu: %s",
+    "CalDAV server" : "CalDAV sunucusu",
+    "Send invitations to attendees" : "Katılımcılara çağrıları gönder",
+    "Please make sure to properly setup the email settings above." : "Lütfen yukarıdaki e-posta ayarlarını doğru şekilde ayarladığınızdan emin olun."
 },
 "nplurals=2; plural=(n > 1);");

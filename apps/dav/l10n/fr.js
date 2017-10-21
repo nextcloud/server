@@ -44,6 +44,8 @@ OC.L10N.register(
     "Contacts" : "Contacts",
     "Technical details" : "Détails techniques",
     "Remote Address: %s" : "Adresse distante : %s",
-    "Request ID: %s" : "ID de la requête : %s"
+    "Request ID: %s" : "ID de la requête : %s",
+    "CalDAV server" : "Serveur CalDAV",
+    "Send invitations to attendees" : "Envoyer des invitations aux participants"
 },
 "nplurals=2; plural=(n > 1);");
