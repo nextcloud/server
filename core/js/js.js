@@ -1612,12 +1612,46 @@ function initCore() {
 			snapper.close();
 		});
 
+		var navigationBarSlideGestureEnabled = false;
+		var navigationBarSlideGestureAllowed = true;
+		var navigationBarSlideGestureEnablePending = false;
+
+		OC.allowNavigationBarSlideGesture = function() {
+			navigationBarSlideGestureAllowed = true;
+
+			if (navigationBarSlideGestureEnablePending) {
+				snapper.enable();
+
+				navigationBarSlideGestureEnabled = true;
+				navigationBarSlideGestureEnablePending = false;
+			}
+		};
+
+		OC.disallowNavigationBarSlideGesture = function() {
+			navigationBarSlideGestureAllowed = false;
+
+			if (navigationBarSlideGestureEnabled) {
+				snapper.disable();
+
+				navigationBarSlideGestureEnabled = false;
+				navigationBarSlideGestureEnablePending = true;
+			}
+		};
+
 		var toggleSnapperOnSize = function() {
 			if($(window).width() > 768) {
 				snapper.close();
 				snapper.disable();
-			} else {
+
+				navigationBarSlideGestureEnabled = false;
+				navigationBarSlideGestureEnablePending = false;
+			} else if (navigationBarSlideGestureAllowed) {
 				snapper.enable();
+
+				navigationBarSlideGestureEnabled = true;
+				navigationBarSlideGestureEnablePending = false;
+			} else {
+				navigationBarSlideGestureEnablePending = true;
 			}
 		};
 

@@ -1162,6 +1162,90 @@ describe('Core base tests', function() {
 			expect(snapperStub.enable.calledOnce).toBe(true);
 			expect(snapperStub.disable.called).toBe(false);
 		});
+		it('is disabled when disallowing the gesture on a narrow screen', function() {
+			viewport.set(480);
+
+			window.initCore();
+
+			expect(snapperStub.enable.calledOnce).toBe(true);
+			expect(snapperStub.disable.called).toBe(false);
+			expect(snapperStub.close.called).toBe(false);
+
+			OC.disallowNavigationBarSlideGesture();
+
+			expect(snapperStub.enable.calledOnce).toBe(true);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+			expect(snapperStub.close.called).toBe(false);
+		});
+		it('is not disabled again when disallowing the gesture twice on a narrow screen', function() {
+			viewport.set(480);
+
+			window.initCore();
+
+			expect(snapperStub.enable.calledOnce).toBe(true);
+			expect(snapperStub.disable.called).toBe(false);
+			expect(snapperStub.close.called).toBe(false);
+
+			OC.disallowNavigationBarSlideGesture();
+
+			expect(snapperStub.enable.calledOnce).toBe(true);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+			expect(snapperStub.close.called).toBe(false);
+
+			OC.disallowNavigationBarSlideGesture();
+
+			expect(snapperStub.enable.calledOnce).toBe(true);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+			expect(snapperStub.close.called).toBe(false);
+		});
+		it('is enabled when allowing the gesture after disallowing it on a narrow screen', function() {
+			viewport.set(480);
+
+			window.initCore();
+
+			expect(snapperStub.enable.calledOnce).toBe(true);
+			expect(snapperStub.disable.called).toBe(false);
+			expect(snapperStub.close.called).toBe(false);
+
+			OC.disallowNavigationBarSlideGesture();
+
+			expect(snapperStub.enable.calledOnce).toBe(true);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+			expect(snapperStub.close.called).toBe(false);
+
+			OC.allowNavigationBarSlideGesture();
+
+			expect(snapperStub.enable.calledTwice).toBe(true);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+			expect(snapperStub.close.called).toBe(false);
+		});
+		it('is not enabled again when allowing the gesture twice after disallowing it on a narrow screen', function() {
+			viewport.set(480);
+
+			window.initCore();
+
+			expect(snapperStub.enable.calledOnce).toBe(true);
+			expect(snapperStub.disable.called).toBe(false);
+			expect(snapperStub.close.called).toBe(false);
+
+			OC.disallowNavigationBarSlideGesture();
+
+			expect(snapperStub.enable.calledOnce).toBe(true);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+			expect(snapperStub.close.called).toBe(false);
+
+			OC.allowNavigationBarSlideGesture();
+
+			expect(snapperStub.enable.calledTwice).toBe(true);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+			expect(snapperStub.close.called).toBe(false);
+
+			OC.allowNavigationBarSlideGesture();
+
+			expect(snapperStub.enable.calledTwice).toBe(true);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+			expect(snapperStub.close.called).toBe(false);
+		});
 		it('is disabled on a wide screen', function() {
 			viewport.set(1280);
 
@@ -1170,6 +1254,42 @@ describe('Core base tests', function() {
 			expect(snapConstructorStub.calledOnce).toBe(true);
 			expect(snapperStub.enable.called).toBe(false);
 			expect(snapperStub.disable.calledOnce).toBe(true);
+		});
+		it('is not disabled again when disallowing the gesture on a wide screen', function() {
+			viewport.set(1280);
+
+			window.initCore();
+
+			expect(snapperStub.enable.called).toBe(false);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+			expect(snapperStub.close.calledOnce).toBe(true);
+
+			OC.disallowNavigationBarSlideGesture();
+
+			expect(snapperStub.enable.called).toBe(false);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+			expect(snapperStub.close.calledOnce).toBe(true);
+		});
+		it('is not enabled when allowing the gesture after disallowing it on a wide screen', function() {
+			viewport.set(1280);
+
+			window.initCore();
+
+			expect(snapperStub.enable.called).toBe(false);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+			expect(snapperStub.close.calledOnce).toBe(true);
+
+			OC.disallowNavigationBarSlideGesture();
+
+			expect(snapperStub.enable.called).toBe(false);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+			expect(snapperStub.close.calledOnce).toBe(true);
+
+			OC.allowNavigationBarSlideGesture();
+
+			expect(snapperStub.enable.called).toBe(false);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+			expect(snapperStub.close.calledOnce).toBe(true);
 		});
 		it('is enabled when resizing to a narrow screen', function() {
 			viewport.set(1280);
@@ -1191,6 +1311,130 @@ describe('Core base tests', function() {
 
 			expect(snapperStub.enable.calledOnce).toBe(true);
 			expect(snapperStub.disable.calledOnce).toBe(true);
+		});
+		it('is not enabled when resizing to a narrow screen after disallowing the gesture', function() {
+			viewport.set(1280);
+
+			window.initCore();
+
+			expect(snapperStub.enable.called).toBe(false);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+
+			OC.disallowNavigationBarSlideGesture();
+
+			expect(snapperStub.enable.called).toBe(false);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+
+			viewport.set(480);
+
+			// Setting the viewport width does not automatically trigger a
+			// resize.
+			$(window).resize();
+
+			// The resize handler is debounced to be executed a few milliseconds
+			// after the resize event.
+			clock.tick(1000);
+
+			expect(snapperStub.enable.called).toBe(false);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+		});
+		it('is enabled when resizing to a narrow screen after disallowing the gesture and allowing it', function() {
+			viewport.set(1280);
+
+			window.initCore();
+
+			expect(snapperStub.enable.called).toBe(false);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+
+			OC.disallowNavigationBarSlideGesture();
+
+			expect(snapperStub.enable.called).toBe(false);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+
+			OC.allowNavigationBarSlideGesture();
+
+			expect(snapperStub.enable.called).toBe(false);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+
+			viewport.set(480);
+
+			// Setting the viewport width does not automatically trigger a
+			// resize.
+			$(window).resize();
+
+			// The resize handler is debounced to be executed a few milliseconds
+			// after the resize event.
+			clock.tick(1000);
+
+			expect(snapperStub.enable.calledOnce).toBe(true);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+		});
+		it('is enabled when allowing the gesture after disallowing it and resizing to a narrow screen', function() {
+			viewport.set(1280);
+
+			window.initCore();
+
+			expect(snapperStub.enable.called).toBe(false);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+
+			OC.disallowNavigationBarSlideGesture();
+
+			expect(snapperStub.enable.called).toBe(false);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+
+			viewport.set(480);
+
+			// Setting the viewport width does not automatically trigger a
+			// resize.
+			$(window).resize();
+
+			// The resize handler is debounced to be executed a few milliseconds
+			// after the resize event.
+			clock.tick(1000);
+
+			expect(snapperStub.enable.called).toBe(false);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+
+			OC.allowNavigationBarSlideGesture();
+
+			expect(snapperStub.enable.calledOnce).toBe(true);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+		});
+		it('is disabled when disallowing the gesture after disallowing it, resizing to a narrow screen and allowing it', function() {
+			viewport.set(1280);
+
+			window.initCore();
+
+			expect(snapperStub.enable.called).toBe(false);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+
+			OC.disallowNavigationBarSlideGesture();
+
+			expect(snapperStub.enable.called).toBe(false);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+
+			viewport.set(480);
+
+			// Setting the viewport width does not automatically trigger a
+			// resize.
+			$(window).resize();
+
+			// The resize handler is debounced to be executed a few milliseconds
+			// after the resize event.
+			clock.tick(1000);
+
+			expect(snapperStub.enable.called).toBe(false);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+
+			OC.allowNavigationBarSlideGesture();
+
+			expect(snapperStub.enable.calledOnce).toBe(true);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+
+			OC.disallowNavigationBarSlideGesture();
+
+			expect(snapperStub.enable.calledOnce).toBe(true);
+			expect(snapperStub.disable.calledTwice).toBe(true);
 		});
 		it('is disabled when resizing to a wide screen', function() {
 			viewport.set(480);
@@ -1214,6 +1458,80 @@ describe('Core base tests', function() {
 			expect(snapperStub.enable.calledOnce).toBe(true);
 			expect(snapperStub.disable.calledOnce).toBe(true);
 			expect(snapperStub.close.calledOnce).toBe(true);
+		});
+		it('is not disabled again when disallowing the gesture after resizing to a wide screen', function() {
+			viewport.set(480);
+
+			window.initCore();
+
+			expect(snapperStub.enable.calledOnce).toBe(true);
+			expect(snapperStub.disable.called).toBe(false);
+			expect(snapperStub.close.called).toBe(false);
+
+			viewport.set(1280);
+
+			// Setting the viewport width does not automatically trigger a
+			// resize.
+			$(window).resize();
+
+			// The resize handler is debounced to be executed a few milliseconds
+			// after the resize event.
+			clock.tick(1000);
+
+			expect(snapperStub.enable.calledOnce).toBe(true);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+			expect(snapperStub.close.calledOnce).toBe(true);
+
+			OC.disallowNavigationBarSlideGesture();
+
+			expect(snapperStub.enable.calledOnce).toBe(true);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+			expect(snapperStub.close.calledOnce).toBe(true);
+		});
+		it('is not enabled when allowing the gesture after disallowing it, resizing to a narrow screen and resizing to a wide screen', function() {
+			viewport.set(1280);
+
+			window.initCore();
+
+			expect(snapperStub.enable.called).toBe(false);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+			expect(snapperStub.close.calledOnce).toBe(true);
+
+			OC.disallowNavigationBarSlideGesture();
+
+			expect(snapperStub.enable.called).toBe(false);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+			expect(snapperStub.close.calledOnce).toBe(true);
+
+			viewport.set(480);
+
+			// Setting the viewport width does not automatically trigger a
+			// resize.
+			$(window).resize();
+
+			// The resize handler is debounced to be executed a few milliseconds
+			// after the resize event.
+			clock.tick(1000);
+
+			expect(snapperStub.enable.called).toBe(false);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+			expect(snapperStub.close.calledOnce).toBe(true);
+
+			viewport.set(1280);
+
+			$(window).resize();
+
+			clock.tick(1000);
+
+			expect(snapperStub.enable.called).toBe(false);
+			expect(snapperStub.disable.calledTwice).toBe(true);
+			expect(snapperStub.close.calledTwice).toBe(true);
+
+			OC.allowNavigationBarSlideGesture();
+
+			expect(snapperStub.enable.called).toBe(false);
+			expect(snapperStub.disable.calledTwice).toBe(true);
+			expect(snapperStub.close.calledTwice).toBe(true);
 		});
 	});
 });
