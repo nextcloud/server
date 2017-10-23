@@ -8,7 +8,7 @@ OC.L10N.register(
     "You changed your email address" : "Je wijzigde je e-mailadres",
     "Your email address was changed by an administrator" : "Je e-mailadres is gewijzigd door een beheerder",
     "Security" : "Beveiliging",
-    "You successfully logged in using two-factor authentication (%1$s)" : "Je bent succesvol ingelogd via tweefactot authenticatie (%1$s)",
+    "You successfully logged in using two-factor authentication (%1$s)" : "Je bent succesvol ingelogd via twee-factor authenticatie (%1$s)",
     "A login attempt using two-factor authentication failed (%1$s)" : "Een inlogpoging via tweefactor authenticatie is mislukt (%1$s)",
     "Your <strong>password</strong> or <strong>email</strong> was modified" : "Je <strong>wachtwoord</strong> of <strong>e-mailadres</strong> is gewijzigd",
     "Your apps" : "Jouw apps",
