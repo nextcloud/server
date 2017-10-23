@@ -62,6 +62,7 @@
 		/** @lends OCA.Comments.CommentsTabView.prototype */ {
 		id: 'commentsTabView',
 		className: 'tab commentsTabView',
+		_autoCompleteData: undefined,
 
 		events: {
 			'submit .newCommentForm': '_onSubmitComment',
@@ -89,7 +90,7 @@
 			this._commentMaxThreshold = this._commentMaxLength * 0.9;
 
 			// TODO: error handling
-			_.bindAll(this, '_onTypeComment');
+			_.bindAll(this, '_onTypeComment', '_initAutoComplete');
 		},
 
 		template: function(params) {
@@ -146,47 +147,9 @@
 			if (fileInfo) {
 				this.model = fileInfo;
 
-				var s = this;
-				_.defer(function () {
-					$.get(
-						OC.generateUrl('/autocomplete/get'),
-						{
-							itemType: 'files',
-							itemId: fileInfo.get('id'),
-							sorter: 'comments|share-recipients'
-						},
-						function (data) {
-							var $inputor = $('#commentsTabView .newCommentForm .message');
-							$inputor.atwho({
-								at: '@',
-								data: data,
-								displayTpl: "<li>${label}</li>",
-								insertTpl: ''
-									+ '<span class="avatar-name-wrapper">'
-									+ '<div class="avatar" '
-									+ 'data-username="${id}"'	// for avatars
-									+ ' data-user="${id}"'		// for contactsmenu
-									+ ' data-user-display-name="${label}"></div>'
-									+ ' <strong>${label}</strong>'
-									+ '</span>',
-								searchKey: "label"
-							});
-							$inputor.on('inserted.atwho', function (je, $el) {
-								s._postRenderItem(
-									// we need to pass the parent of the inserted element
-									// passing the whole comments form would re-apply and request
-									// avatars from the server
-									$(je.target).find(
-										'div[data-user-display-name="' + $el.text().trim() + '"]'
-									).parent()
-								);
-							});
-						}
-					)
-				});
-
 				this.render();
-				this.collection.setObjectId(fileInfo.id);
+				this._initAutoComplete($('#commentsTabView').find('.newCommentForm .message'));
+				this.collection.setObjectId(this.model.id);
 				// reset to first page
 				this.collection.reset([], {silent: true});
 				this.nextPage();
@@ -210,6 +173,57 @@
 			this.$el.find('.message').on('keydown input change', this._onTypeComment);
 
 			autosize(this.$el.find('.newCommentRow .message'))
+		},
+
+		_applyAutoComplete: function($target) {
+			var s = this;
+			$target.atwho({
+				at: '@',
+				data: this._autoCompleteData,
+				displayTpl: "<li>${label}</li>",
+				insertTpl: ''
+				+ '<span class="avatar-name-wrapper">'
+				+ '<div class="avatar" '
+				+ 'data-username="${id}"'	// for avatars
+				+ ' data-user="${id}"'		// for contactsmenu
+				+ ' data-user-display-name="${label}"></div>'
+				+ ' <strong>${label}</strong>'
+				+ '</span>',
+				searchKey: "label"
+			});
+			$target.on('inserted.atwho', function (je, $el) {
+				s._postRenderItem(
+					// we need to pass the parent of the inserted element
+					// passing the whole comments form would re-apply and request
+					// avatars from the server
+					$(je.target).find(
+						'div[data-user-display-name="' + $el.text().trim() + '"]'
+					).parent()
+				);
+			});
+		},
+
+		_initAutoComplete: function ($target) {
+			if(!_.isUndefined(this._autoCompleteData)) {
+				this._applyAutoComplete($target);
+				return;
+			}
+
+			var s = this;
+			_.defer(function () {
+				$.get(
+					OC.generateUrl('/autocomplete/get'),
+					{
+						itemType: 'files',
+						itemId: s.model.get('id'),
+						sorter: 'comments|share-recipients'
+					},
+					function (data) {
+						s._autoCompleteData = data;
+						s._applyAutoComplete($target);
+					}
+				)
+			});
 		},
 
 		_formatItem: function(commentModel) {
@@ -303,11 +317,9 @@
 		 * takes care of post-rendering after a new comment was edited
 		 *
 		 * @param model
-		 * @param collection
-		 * @param options
 		 * @private
 		 */
-		_onChangeModel: function (model, collection, options) {
+		_onChangeModel: function (model) {
 			if(model.get('message').trim() === model.previous('message').trim()) {
 				return;
 			}
@@ -377,6 +389,9 @@
 			message = escapeHTML(message).replace(/\n/g, '<br/>');
 
 			for(var i in mentions) {
+				if(!mentions.hasOwnProperty(i)) {
+					return;
+				}
 				var mention = '@' + mentions[i].mentionId;
 
 				// escape possible regex characters in the name
@@ -399,13 +414,15 @@
 		_composeHTMLMention: function(uid, displayName) {
 			var avatar = '<div class="avatar" '
 				+ 'data-username="' + _.escape(uid) + '"'
-				+ 'data-user="' + _.escape(uid) + '"'
-				+' data-user-display-name="'
+				+ ' data-user="' + _.escape(uid) + '"'
+				+ ' data-user-display-name="'
 				+ _.escape(displayName) + '"></div>';
 
 			return ''
+				+ '<span class="atwho-inserted" contenteditable="false">'
 				+ '<span class="avatar-name-wrapper">'
 				+ avatar + ' <strong>'+ _.escape(displayName)+'</strong>'
+				+ '</span>'
 				+ '</span>';
 		},
 
@@ -437,8 +454,18 @@
 			$formRow.find('.avatar:first').replaceWith($comment.find('.avatar:first').clone());
 			$formRow.find('.has-tooltip').tooltip();
 
+			var $message = $formRow.find('.message');
+			$message
+				.html(this._formatMessage(commentToEdit.get('message'), commentToEdit.get('mentions')))
+				.find('.avatar')
+				.each(function () { $(this).avatar(); });
+			this._postRenderItem($message);
+
 			// Enable autosize
 			autosize($formRow.find('.message'));
+
+			// enable autocomplete
+			this._initAutoComplete($formRow.find('.message'));
 
 			return false;
 		},
@@ -561,7 +588,6 @@
 			$loading.removeClass('hidden');
 
 			message = this._commentBodyHTML2Plain($commentField);
-
 			if (commentId) {
 				// edit mode
 				var comment = this.collection.get(commentId);
@@ -569,7 +595,7 @@
 					message: message
 				}, {
 					success: function(model) {
-						self._onSubmitSuccess(model, $form, commentId);
+						self._onSubmitSuccess(model, $form);
 					},
 					error: function() {
 						self._onSubmitError($form, commentId);
@@ -588,7 +614,7 @@
 					// wait for real creation before adding
 					wait: true,
 					success: function(model) {
-						self._onSubmitSuccess(model, $form, undefined);
+						self._onSubmitSuccess(model, $form);
 					},
 					error: function() {
 						self._onSubmitError($form, undefined);
