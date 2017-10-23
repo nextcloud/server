@@ -112,7 +112,11 @@ class Todo extends Event {
 			}
 		}
 
-		// Legacy
+		// Legacy - Do NOT Remove unless necessary
+		// Removing this will break parsing of activities that were created on
+		// Nextcloud 12, so we should keep this as long as it's acceptable.
+		// Otherwise if people upgrade over multiple releases in a short period,
+		// they will get the dead entries in their stream.
 		switch ($subject) {
 			case self::SUBJECT_OBJECT_ADD . '_todo':
 			case self::SUBJECT_OBJECT_DELETE . '_todo':
