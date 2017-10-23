@@ -270,23 +270,30 @@
 		 * @private
 		 */
 		_onAddModel: function(model, collection, options) {
-			var self = this;
+			// we need to render it immediately, to ensure that the right
+			// order of comments is kept on opening comments tab
+			var $comment = $(this.commentTemplate(this._formatItem(model)));
+			if (!_.isUndefined(options.at) && collection.length > 1) {
+				this.$container.find('li').eq(options.at).before($comment);
+			} else {
+				this.$container.append($comment);
+			}
+			this._postRenderItem($comment);
+			$('#commentsTabView').find('.newCommentForm div.message').text('').prop('disabled', false);
+
 			// we need to update the model, because it consists of client data
 			// only, but the server might add meta data, e.g. about mentions
+			var oldMentions = model.get('mentions');
+			var self = this;
 			model.fetch({
 				success: function (model) {
-					var $el = $(self.commentTemplate(self._formatItem(model)));
-					if (!_.isUndefined(options.at) && collection.length > 1) {
-						self.$container.find('li').eq(options.at).before($el);
-					} else {
-						self.$container.append($el);
+					if(_.isEqual(oldMentions, model.get('mentions'))) {
+						// don't attempt to render if unnecessary, avoids flickering
+						return;
 					}
-
-					self._postRenderItem($el);
-					$('#commentsTabView').find('.newCommentForm div.message').text('').prop('disabled', false);
-				},
-				error: function () {
-					self._onSubmitError($('#commentsTabView').find('.newCommentForm'), undefined);
+					var $updated = $(self.commentTemplate(self._formatItem(model)));
+					$comment.html($updated.html());
+					self._postRenderItem($comment);
 				}
 			})
 
@@ -312,7 +319,6 @@
 				// ignore noise – this is only set after editing a comment and hitting post
 				return;
 			}
-
 			var self = this;
 
 			// we need to update the model, because it consists of client data
