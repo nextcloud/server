@@ -28,6 +28,7 @@ use OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin as PluginToTest;
 use OC\Log;
 use PHPUnit_Framework_MockObject_MockObject;
 use Sabre\DAV\Exception\NotFound;
+use Sabre\DAV\Exception\ServiceUnavailable;
 use Sabre\DAV\Server;
 use Test\TestCase;
 
@@ -77,6 +78,8 @@ class ExceptionLoggerPluginTest extends TestCase {
 	public function providesExceptions() {
 		return [
 			[0, '', new NotFound()],
+			[0, 'System in maintenance mode.', new ServiceUnavailable('System in maintenance mode.')],
+			[4, 'Upgrade needed', new ServiceUnavailable('Upgrade needed')],
 			[4, 'This path leads to nowhere', new InvalidPath('This path leads to nowhere')]
 		];
 	}
