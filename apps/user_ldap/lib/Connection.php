@@ -436,8 +436,8 @@ class Connection extends LDAPUtility {
 			|| ($agent !== '' && $pwd === '')
 		) {
 			\OCP\Util::writeLog('user_ldap',
-								$errorStr.'either no password is given for the'.
-								'user agent or a password is given, but not an'.
+								$errorStr.'either no password is given for the '.
+								'user agent or a password is given, but not an '.
 								'LDAP agent.',
 				\OCP\Util::WARN);
 			$configurationOK = false;

@@ -529,7 +529,6 @@ class User {
 				$targetUser->setQuota($quota);
 			} else {
 				$this->log->log('not suitable default quota found for user ' . $this->uid . ': [' . $defaultQuota . ']', \OCP\Util::WARN);
-				$targetUser->setQuota('default');
 			}
 		} else {
 			$this->log->log('trying to set a quota for user ' . $this->uid . ' but the user is missing', \OCP\Util::ERROR);

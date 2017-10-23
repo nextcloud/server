@@ -453,9 +453,8 @@ class UserTest extends \Test\TestCase {
 			->will($this->returnValue(false));
 
 		$user = $this->createMock('\OCP\IUser');
-		$user->expects($this->once())
-			->method('setQuota')
-			->with('default');
+		$user->expects($this->never())
+			->method('setQuota');
 
 		$userMgr->expects($this->once())
 			->method('get')
@@ -495,9 +494,8 @@ class UserTest extends \Test\TestCase {
 			->method('__get');
 
 		$user = $this->createMock('\OCP\IUser');
-		$user->expects($this->once())
-			->method('setQuota')
-			->with('default');
+		$user->expects($this->never())
+			->method('setQuota');
 
 		$userMgr->expects($this->once())
 			->method('get')
@@ -633,9 +631,8 @@ class UserTest extends \Test\TestCase {
 			->will($this->returnValue(false));
 
 		$user = $this->createMock('\OCP\IUser');
-		$user->expects($this->once())
-			->method('setQuota')
-			->with('default');
+		$user->expects($this->never())
+			->method('setQuota');
 
 		$userMgr->expects($this->once())
 			->method('get')
@@ -681,9 +678,8 @@ class UserTest extends \Test\TestCase {
 			->will($this->returnValue(array('23 flush')));
 
 		$user = $this->createMock('\OCP\IUser');
-		$user->expects($this->once())
-			->method('setQuota')
-			->with('default');
+		$user->expects($this->never())
+			->method('setQuota');
 
 		$userMgr->expects($this->once())
 			->method('get')
@@ -726,9 +722,8 @@ class UserTest extends \Test\TestCase {
 			->method('readAttribute');
 
 		$user = $this->createMock('\OCP\IUser');
-		$user->expects($this->once())
-			->method('setQuota')
-			->with('default');
+		$user->expects($this->never())
+			->method('setQuota');
 
 		$userMgr->expects($this->once())
 			->method('get')
