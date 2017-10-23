@@ -297,7 +297,7 @@ class OC_Template extends \OC\Template\Base {
 	 * @suppress PhanAccessMethodInternal
 	 */
 	public static function printErrorPage( $error_msg, $hint = '' ) {
-		if (\OC_App::isEnabled('theming') && !\OC_App::isAppLoaded('theming')) {
+		if (\OC::$server->getAppManager()->isEnabledForUser('theming') && !\OC_App::isAppLoaded('theming')) {
 			\OC_App::loadApp('theming');
 		}
 

@@ -1159,7 +1159,7 @@ class OC_App {
 	 * @return \OC\Files\View|false
 	 */
 	public static function getStorage($appId) {
-		if (OC_App::isEnabled($appId)) { //sanity check
+		if (\OC::$server->getAppManager()->isEnabledForUser($appId)) { //sanity check
 			if (\OC::$server->getUserSession()->isLoggedIn()) {
 				$view = new \OC\Files\View('/' . OC_User::getUser());
 				if (!$view->file_exists($appId)) {

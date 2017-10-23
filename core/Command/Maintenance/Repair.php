@@ -78,9 +78,10 @@ class Repair extends Command {
 			}
 		}
 
-		$apps = \OC::$server->getAppManager()->getInstalledApps();
+		$appManager = \OC::$server->getAppManager();
+		$apps = $appManager->getInstalledApps();
 		foreach ($apps as $app) {
-			if (!\OC_App::isEnabled($app)) {
+			if (!$appManager->isEnabledForUser($app)) {
 				continue;
 			}
 			$info = \OC_App::getAppInfo($app);
