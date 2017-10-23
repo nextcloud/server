@@ -37,7 +37,7 @@ OC.L10N.register(
     "Share by mail" : "Gedeeld per email",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Staat gebruikers toe om een gepersonaliseerde link of map te delen door een emailadres in te voegen.",
     "Send password by mail" : "Wachtwoord per email verzenden",
-    "Enforce password protection" : "Afdwingenwachtwoordbeveiliging",
+    "Enforce password protection" : "Afdwingen wachtwoord beveiliging",
     "Failed to send share by E-mail" : "delen per email is mislukt",
     "%s shared »%s« with you on behalf of %s" : "%s deelde »%s« met jou in naam van %s",
     "Failed to create the E-mail" : "Maken van de mail is mislukt",
