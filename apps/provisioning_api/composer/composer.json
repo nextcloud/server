@@ -1,0 +1,13 @@
+{
+    "config" : {
+        "vendor-dir": ".",
+        "optimize-autoloader": true,
+        "authorative-autoloader": true,
+        "autoloader-suffix": "Provisioning_API"
+    },
+    "autoload" : {
+        "psr-4": {
+            "OCA\\Provisioning_API\\": "../lib/"
+        }
+    }
+}
