@@ -46,10 +46,13 @@ class DateTimeFormatterTest extends TestCase {
 		$deL10N = \OC::$server->getL10N('lib', 'de');
 		return array(
 			array('seconds ago',	$time, $time),
+			array('in a few seconds', $time + 5 , $time),
 			array('1 minute ago',	$this->getTimestampAgo($time, 30, 1), $time),
 			array('15 minutes ago',	$this->getTimestampAgo($time, 30, 15), $time),
+			array('in 15 minutes',	$time, $this->getTimestampAgo($time, 30, 15)),
 			array('1 hour ago',		$this->getTimestampAgo($time, 30, 15, 1), $time),
 			array('3 hours ago',	$this->getTimestampAgo($time, 30, 15, 3), $time),
+			array('in 3 hours',		$time, $this->getTimestampAgo($time, 30, 15, 3)),
 			array('4 days ago',		$this->getTimestampAgo($time, 30, 15, 3, 4), $time),
 
 			array('seconds ago', new \DateTime('Wed, 02 Oct 2013 23:59:58 +0000'), new \DateTime('Wed, 02 Oct 2013 23:59:59 +0000')),
@@ -86,9 +89,15 @@ class DateTimeFormatterTest extends TestCase {
 			// Normal testing
 			array('today',			$this->getTimestampAgo($time, 30, 15), $time),
 			array('yesterday',		$this->getTimestampAgo($time, 0, 0, 0, 1), $time),
+			array('tomorrow',		$time, $this->getTimestampAgo($time, 0, 0, 0, 1)),
 			array('4 days ago',		$this->getTimestampAgo($time, 0, 0, 0, 4), $time),
+			array('in 4 days',		$time, $this->getTimestampAgo($time, 0, 0, 0, 4)),
 			array('5 months ago',	$this->getTimestampAgo($time, 0, 0, 0, 155), $time),
+			array('next month',		$time, $this->getTimestampAgo($time, 0, 0, 0, 32)),
+			array('in 5 months',	$time, $this->getTimestampAgo($time, 0, 0, 0, 155)),
 			array('2 years ago',	$this->getTimestampAgo($time, 0, 0, 0, 0, 2), $time),
+			array('next year',		$time, $this->getTimestampAgo($time, 0, 0, 0, 0, 1)),
+			array('in 2 years',		$time, $this->getTimestampAgo($time, 0, 0, 0, 0, 2)),
 
 			// Test with compare timestamp
 			array('today',			$this->getTimestampAgo($time,  0,  0, 0, 0, 1), $this->getTimestampAgo($time, 0, 0, 0, 0, 1)),
