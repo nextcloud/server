@@ -203,13 +203,14 @@ class MigrationTest extends \Test\TestCase {
 		$this->createDummySystemWideKeys();
 
 		/** @var \PHPUnit_Framework_MockObject_MockObject|\OCA\Encryption\Migration $m */
-		$m = $this->getMockBuilder('OCA\Encryption\Migration')
+		$m = $this->getMockBuilder(Migration::class)
 			->setConstructorArgs(
 				[
 					\OC::$server->getConfig(),
 					new \OC\Files\View(),
 					\OC::$server->getDatabaseConnection(),
-					$this->logger
+					$this->logger,
+					\OC::$server->getAppManager()
 				]
 			)->setMethods(['getSystemMountPoints'])->getMock();
 
@@ -366,7 +367,7 @@ class MigrationTest extends \Test\TestCase {
 	public function testUpdateDB() {
 		$this->prepareDB();
 
-		$m = new Migration(\OC::$server->getConfig(), new \OC\Files\View(), \OC::$server->getDatabaseConnection(), $this->logger);
+		$m = new Migration(\OC::$server->getConfig(), new \OC\Files\View(), \OC::$server->getDatabaseConnection(), $this->logger, \OC::$server->getAppManager());
 		$this->invokePrivate($m, 'installedVersion', ['0.7']);
 		$m->updateDB();
 
@@ -386,7 +387,7 @@ class MigrationTest extends \Test\TestCase {
 		$config->setAppValue('encryption', 'publicShareKeyId', 'wrong_share_id');
 		$config->setUserValue(self::TEST_ENCRYPTION_MIGRATION_USER1, 'encryption', 'recoverKeyEnabled', '9');
 
-		$m = new Migration(\OC::$server->getConfig(), new \OC\Files\View(), \OC::$server->getDatabaseConnection(), $this->logger);
+		$m = new Migration(\OC::$server->getConfig(), new \OC\Files\View(), \OC::$server->getDatabaseConnection(), $this->logger, \OC::$server->getAppManager());
 		$this->invokePrivate($m, 'installedVersion', ['0.7']);
 		$m->updateDB();
 
@@ -455,7 +456,7 @@ class MigrationTest extends \Test\TestCase {
 	 */
 	public function testUpdateFileCache() {
 		$this->prepareFileCache();
-		$m = new Migration(\OC::$server->getConfig(), new \OC\Files\View(), \OC::$server->getDatabaseConnection(), $this->logger);
+		$m = new Migration(\OC::$server->getConfig(), new \OC\Files\View(), \OC::$server->getDatabaseConnection(), $this->logger, \OC::$server->getAppManager());
 		$this->invokePrivate($m, 'installedVersion', ['0.7']);
 		self::invokePrivate($m, 'updateFileCache');
 
@@ -527,13 +528,14 @@ class MigrationTest extends \Test\TestCase {
 			->disableOriginalConstructor()->getMock();
 		$view->expects($this->any())->method('file_exists')->willReturn(true);
 
-		$m = $this->getMockBuilder('OCA\Encryption\Migration')
+		$m = $this->getMockBuilder(Migration::class)
 			->setConstructorArgs(
 				[
 					\OC::$server->getConfig(),
 					$view,
 					\OC::$server->getDatabaseConnection(),
-					$this->logger
+					$this->logger,
+					\OC::$server->getAppManager()
 				]
 			)->setMethods(['getSystemMountPoints'])->getMock();
 
