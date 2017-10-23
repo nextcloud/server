@@ -35,7 +35,7 @@ class DataDisplayResponse extends Response {
 
 	/**
 	 * response data
-	 * @var string;
+	 * @var string
 	 */
 	protected $data;
 
