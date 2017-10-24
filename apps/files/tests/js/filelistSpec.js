@@ -712,8 +712,14 @@ describe('OCA.Files.FileList tests', function() {
 				fileList.add(testFiles[i], {silent: true});
 			}
 
+			$tr = fileList.findFileEl('One.txt');
+			expect($tr.find('a.name').css('display')).not.toEqual('none');
+
 			// trigger rename prompt
 			fileList.rename('One.txt');
+
+			expect($tr.find('a.name').css('display')).toEqual('none');
+
 			$input = fileList.$fileList.find('input.filename');
 			$input.val('Two.jpg');
 
@@ -735,12 +741,12 @@ describe('OCA.Files.FileList tests', function() {
 			$tr = fileList.findFileEl('One.txt');
 			expect($tr.length).toEqual(1);
 			expect($tr.find('a .nametext').text().trim()).toEqual('One.txt');
-			expect($tr.find('a.name').is(':visible')).toEqual(true);
+			expect($tr.find('a.name').css('display')).not.toEqual('none');
 
 			$tr = fileList.findFileEl('Two.jpg');
 			expect($tr.length).toEqual(1);
 			expect($tr.find('a .nametext').text().trim()).toEqual('Two.jpg');
-			expect($tr.find('a.name').is(':visible')).toEqual(true);
+			expect($tr.find('a.name').css('display')).not.toEqual('none');
 
 			// input and form are gone
 			expect(fileList.$fileList.find('input.filename').length).toEqual(0);
@@ -750,7 +756,7 @@ describe('OCA.Files.FileList tests', function() {
 			doRename();
 
 			expect(fileList.findFileEl('Tu_after_three.txt').find('.thumbnail').parent().attr('class'))
-				.toEqual('icon-loading-small');
+				.toContain('icon-loading-small');
 
 			deferredRename.reject(409);
 
@@ -838,7 +844,7 @@ describe('OCA.Files.FileList tests', function() {
 			fileList.move('One.txt', '/somedir');
 
 			expect(fileList.findFileEl('One.txt').find('.thumbnail').parent().attr('class'))
-				.toEqual('icon-loading-small');
+				.toContain('icon-loading-small');
 
 			expect(moveStub.calledOnce).toEqual(true);
 
@@ -935,7 +941,7 @@ describe('OCA.Files.FileList tests', function() {
 			fileList.copy('One.txt', '/somedir');
 
 			expect(fileList.findFileEl('One.txt').find('.thumbnail').parent().attr('class'))
-				.toEqual('icon-loading-small');
+				.toContain('icon-loading-small');
 
 			expect(copyStub.calledOnce).toEqual(true);
 
@@ -1741,7 +1747,7 @@ describe('OCA.Files.FileList tests', function() {
 		it('Selects a file when clicking its checkbox', function() {
 			var $tr = fileList.findFileEl('One.txt');
 			expect($tr.find('input:checkbox').prop('checked')).toEqual(false);
-			$tr.find('td.filename input:checkbox').click();
+			$tr.find('td.selection input:checkbox').click();
 
 			expect($tr.find('input:checkbox').prop('checked')).toEqual(true);
 		});
@@ -1779,7 +1785,7 @@ describe('OCA.Files.FileList tests', function() {
 			var $tr = fileList.findFileEl('One.txt');
 			var $tr2 = fileList.findFileEl('Three.pdf');
 			var e;
-			$tr.find('td.filename input:checkbox').click();
+			$tr.find('td.selection input:checkbox').click();
 			e = new $.Event('click');
 			e.shiftKey = true;
 			$tr2.find('td.filename .name').trigger(e);
@@ -1797,7 +1803,7 @@ describe('OCA.Files.FileList tests', function() {
 			var $tr = fileList.findFileEl('One.txt');
 			var $tr2 = fileList.findFileEl('Three.pdf');
 			var e;
-			$tr2.find('td.filename input:checkbox').click();
+			$tr2.find('td.selection input:checkbox').click();
 			e = new $.Event('click');
 			e.shiftKey = true;
 			$tr.find('td.filename .name').trigger(e);
@@ -1813,13 +1819,13 @@ describe('OCA.Files.FileList tests', function() {
 		});
 		it('Selecting all files will automatically check "select all" checkbox', function() {
 			expect($('.select-all').prop('checked')).toEqual(false);
-			$('#fileList tr td.filename input:checkbox').click();
+			$('#fileList tr td.selection input:checkbox').click();
 			expect($('.select-all').prop('checked')).toEqual(true);
 		});
 		it('Selecting all files on the first visible page will not automatically check "select all" checkbox', function() {
 			fileList.setFiles(generateFiles(0, 41));
 			expect($('.select-all').prop('checked')).toEqual(false);
-			$('#fileList tr td.filename input:checkbox').click();
+			$('#fileList tr td.selection input:checkbox').click();
 			expect($('.select-all').prop('checked')).toEqual(false);
 		});
 		it('Selecting all files also selects hidden files when invisible', function() {
@@ -1831,7 +1837,7 @@ describe('OCA.Files.FileList tests', function() {
 				size: 150
 			}));
 			$('.select-all').click();
-			expect($tr.find('td.filename input:checkbox').prop('checked')).toEqual(true);
+			expect($tr.find('td.selection input:checkbox').prop('checked')).toEqual(true);
 			expect(_.pluck(fileList.getSelectedFiles(), 'name')).toContain('.hidden');
 		});
 		it('Clicking "select all" will select/deselect all files', function() {
@@ -3150,7 +3156,7 @@ describe('OCA.Files.FileList tests', function() {
 			fileList.showFileBusyState('Two.jpg', true);
 			expect($tr.hasClass('busy')).toEqual(true);
 			expect($tr.find('.thumbnail').parent().attr('class'))
-				.toEqual('icon-loading-small');
+				.toContain('icon-loading-small');
 
 
 			fileList.showFileBusyState('Two.jpg', false);
