@@ -780,6 +780,7 @@ return array(
     'OC\\Repair\\NC12\\InstallCoreBundle' => $baseDir . '/lib/private/Repair/NC12/InstallCoreBundle.php',
     'OC\\Repair\\NC12\\RepairIdentityProofKeyFolders' => $baseDir . '/lib/private/Repair/NC12/RepairIdentityProofKeyFolders.php',
     'OC\\Repair\\NC12\\UpdateLanguageCodes' => $baseDir . '/lib/private/Repair/NC12/UpdateLanguageCodes.php',
+    'OC\\Repair\\NC13\\AddLogRotateJob' => $baseDir . '/lib/private/Repair/NC13/AddLogRotateJob.php',
     'OC\\Repair\\NC13\\RepairInvalidPaths' => $baseDir . '/lib/private/Repair/NC13/RepairInvalidPaths.php',
     'OC\\Repair\\OldGroupMembershipShares' => $baseDir . '/lib/private/Repair/OldGroupMembershipShares.php',
     'OC\\Repair\\Owncloud\\DropAccountTermsTable' => $baseDir . '/lib/private/Repair/Owncloud/DropAccountTermsTable.php',

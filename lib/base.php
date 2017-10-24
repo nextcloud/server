@@ -730,7 +730,6 @@ class OC {
 		self::registerCacheHooks();
 		self::registerFilesystemHooks();
 		self::registerShareHooks();
-		self::registerLogRotate();
 		self::registerEncryptionWrapper();
 		self::registerEncryptionHooks();
 		self::registerAccountHooks();
@@ -860,18 +859,6 @@ class OC {
 	private static function registerAccountHooks() {
 		$hookHandler = new \OC\Accounts\Hooks(\OC::$server->getLogger());
 		\OCP\Util::connectHook('OC_User', 'changeUser', $hookHandler, 'changeUserHook');
-	}
-
-	/**
-	 * register hooks for the cache
-	 */
-	public static function registerLogRotate() {
-		$systemConfig = \OC::$server->getSystemConfig();
-		if ($systemConfig->getValue('installed', false) && $systemConfig->getValue('log_rotate_size', false) && !self::checkUpgrade(false)) {
-			//don't try to do this before we are properly setup
-			//use custom logfile path if defined, otherwise use default of nextcloud.log in data directory
-			\OC::$server->getJobList()->add('OC\Log\Rotate');
-		}
 	}
 
 	/**
