@@ -47,7 +47,7 @@ class RootTest extends \Test\TestCase {
 			->getMock();
 
 		$this->user = new \OC\User\User('', new \Test\Util\User\Dummy, null, $config, $urlgenerator);
-		$this->manager = $this->getMockBuilder('\OC\Files\Mount\Manager')
+		$this->manager = $this->getMockBuilder(Manager::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->userMountCache = $this->getMockBuilder('\OCP\Files\Config\IUserMountCache')

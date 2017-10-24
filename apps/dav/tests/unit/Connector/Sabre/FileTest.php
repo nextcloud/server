@@ -882,7 +882,7 @@ class FileTest extends \Test\TestCase {
 
 		$wasLockedPre = false;
 		$wasLockedPost = false;
-		$eventHandler = $this->getMockBuilder('\stdclass')
+		$eventHandler = $this->getMockBuilder(\stdclass::class)
 			->setMethods(['writeCallback', 'postWriteCallback'])
 			->getMock();
 

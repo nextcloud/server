@@ -29,6 +29,7 @@ use OC\SystemTag\SystemTag;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\TagNotFoundException;
 
 class SystemTagsByIdCollectionTest extends \Test\TestCase {
@@ -46,7 +47,7 @@ class SystemTagsByIdCollectionTest extends \Test\TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->tagManager = $this->getMockBuilder('\OCP\SystemTag\ISystemTagManager')
+		$this->tagManager = $this->getMockBuilder(ISystemTagManager::class)
 			->getMock();
 	}
 

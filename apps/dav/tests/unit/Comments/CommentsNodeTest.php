@@ -33,6 +33,7 @@ use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use Sabre\DAV\PropPatch;
 
 class CommentsNodeTest extends \Test\TestCase {
 
@@ -361,7 +362,7 @@ class CommentsNodeTest extends \Test\TestCase {
 	}
 
 	public function testPropPatch() {
-		$propPatch = $this->getMockBuilder('Sabre\DAV\PropPatch')
+		$propPatch = $this->getMockBuilder(PropPatch::class)
 			->disableOriginalConstructor()
 			->getMock();
 

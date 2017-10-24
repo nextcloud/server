@@ -33,6 +33,7 @@ use OCP\IRequest;
 use OCP\ITagManager;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagObjectMapper;
 use OC\Files\View;
 use OCP\Files\Folder;
@@ -550,7 +551,7 @@ class FilesReportPluginTest extends \Test\TestCase {
 			->method('isAdmin')
 			->will($this->returnValue(true));
 
-		$tag1 = $this->getMockBuilder('\OCP\SystemTag\ISystemTag')
+		$tag1 = $this->getMockBuilder(ISystemTag::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$tag1->expects($this->any())
@@ -560,7 +561,7 @@ class FilesReportPluginTest extends \Test\TestCase {
 			->method('isUserVisible')
 			->will($this->returnValue(true));
 
-		$tag2 = $this->getMockBuilder('\OCP\SystemTag\ISystemTag')
+		$tag2 = $this->getMockBuilder(ISystemTag::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$tag2->expects($this->any())
@@ -599,7 +600,7 @@ class FilesReportPluginTest extends \Test\TestCase {
 			->method('isAdmin')
 			->will($this->returnValue(false));
 
-		$tag1 = $this->getMockBuilder('\OCP\SystemTag\ISystemTag')
+		$tag1 = $this->getMockBuilder(ISystemTag::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$tag1->expects($this->any())
@@ -609,7 +610,7 @@ class FilesReportPluginTest extends \Test\TestCase {
 			->method('isUserVisible')
 			->will($this->returnValue(true));
 
-		$tag2 = $this->getMockBuilder('\OCP\SystemTag\ISystemTag')
+		$tag2 = $this->getMockBuilder(ISystemTag::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$tag2->expects($this->any())
@@ -637,7 +638,7 @@ class FilesReportPluginTest extends \Test\TestCase {
 			->method('isAdmin')
 			->will($this->returnValue(false));
 
-		$tag1 = $this->getMockBuilder('\OCP\SystemTag\ISystemTag')
+		$tag1 = $this->getMockBuilder(ISystemTag::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$tag1->expects($this->any())
@@ -647,7 +648,7 @@ class FilesReportPluginTest extends \Test\TestCase {
 			->method('isUserVisible')
 			->will($this->returnValue(true));
 
-		$tag2 = $this->getMockBuilder('\OCP\SystemTag\ISystemTag')
+		$tag2 = $this->getMockBuilder(ISystemTag::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$tag2->expects($this->any())

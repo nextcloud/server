@@ -89,7 +89,7 @@ class MountPublicLinkControllerTest extends \Test\TestCase {
 		$this->request = $this->getMockBuilder(IRequest::class)->disableOriginalConstructor()->getMock();
 		$this->federatedShareProvider = $this->getMockBuilder('OCA\FederatedFileSharing\FederatedShareProvider')
 			->disableOriginalConstructor()->getMock();
-		$this->shareManager = $this->getMockBuilder('OCP\Share\IManager')->disableOriginalConstructor()->getMock();
+		$this->shareManager = $this->getMockBuilder(IManager::class)->disableOriginalConstructor()->getMock();
 		$this->addressHandler = $this->getMockBuilder('OCA\FederatedFileSharing\AddressHandler')
 			->disableOriginalConstructor()->getMock();
 		$this->rootFolder = $this->getMockBuilder('OCP\Files\IRootFolder')->disableOriginalConstructor()->getMock();

@@ -24,7 +24,9 @@
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OCA\DAV\Connector\Sabre\CopyEtagHeaderPlugin;
+use OCA\DAV\Connector\Sabre\File;
 use Sabre\DAV\Server;
+use Sabre\DAV\Tree;
 use Test\TestCase;
 
 /**
@@ -68,13 +70,13 @@ class CopyEtagHeaderPluginTest extends TestCase {
 	}
 
 	public function testAfterMove() {
-		$node = $this->getMockBuilder('OCA\DAV\Connector\Sabre\File')
+		$node = $this->getMockBuilder(File::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$node->expects($this->once())
 			->method('getETag')
 			->willReturn('123456');
-		$tree = $this->getMockBuilder('Sabre\DAV\Tree')
+		$tree = $this->getMockBuilder(Tree::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$tree->expects($this->once())
