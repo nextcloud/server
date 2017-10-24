@@ -27,6 +27,7 @@
 namespace OC\Core\Command\Maintenance;
 
 use Exception;
+use OCP\App\IAppManager;
 use OCP\IConfig;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -47,15 +48,20 @@ class Repair extends Command {
 	private $progress;
 	/** @var OutputInterface */
 	private $output;
+	/** @var IAppManager */
+	private $appManager;
 
 	/**
 	 * @param \OC\Repair $repair
 	 * @param IConfig $config
+	 * @param EventDispatcherInterface $dispatcher
+	 * @param IAppManager $appManager
 	 */
-	public function __construct(\OC\Repair $repair, IConfig $config, EventDispatcherInterface $dispatcher) {
+	public function __construct(\OC\Repair $repair, IConfig $config, EventDispatcherInterface $dispatcher, IAppManager $appManager) {
 		$this->repair = $repair;
 		$this->config = $config;
 		$this->dispatcher = $dispatcher;
+		$this->appManager = $appManager;
 		parent::__construct();
 	}
 
@@ -78,8 +84,7 @@ class Repair extends Command {
 			}
 		}
 
-		$appManager = \OC::$server->getAppManager();
-		$apps = $appManager->getInstalledApps();
+		$apps = $this->appManager->getInstalledApps();
 		foreach ($apps as $app) {
 			if (!$appManager->isEnabledForUser($app)) {
 				continue;
