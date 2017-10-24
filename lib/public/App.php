@@ -127,9 +127,10 @@ class App {
 	 *
 	 * This function checks whether or not an app is enabled.
 	 * @since 4.0.0
+	 * @deprecated 13.0.0 use \OC::$server->getAppManager()->isEnabledForUser($appId)
 	 */
 	public static function isEnabled( $app ) {
-		return \OC_App::isEnabled( $app );
+		return \OC::$server->getAppManager()->isEnabledForUser( $app );
 	}
 
 	/**

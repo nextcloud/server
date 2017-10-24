@@ -41,6 +41,7 @@ OC_Util::checkSubAdminUser();
 
 $userManager = \OC::$server->getUserManager();
 $groupManager = \OC::$server->getGroupManager();
+$appManager = \OC::$server->getAppManager();
 
 // Set the sort option: SORT_USERCOUNT or SORT_GROUPNAME
 $sortGroupsBy = \OC\Group\MetaData::SORT_USERCOUNT;
@@ -51,7 +52,7 @@ if ($config->getSystemValue('sort_groups_by_name', false)) {
 	$sortGroupsBy = \OC\Group\MetaData::SORT_GROUPNAME;
 } else {
 	$isLDAPUsed = false;
-	if (\OC_App::isEnabled('user_ldap')) {
+	if ($appManager->isEnabledForUser('user_ldap')) {
 		$isLDAPUsed =
 			$groupManager->isBackendUsed('\OCA\User_LDAP\Group_LDAP')
 			|| $groupManager->isBackendUsed('\OCA\User_LDAP\Group_Proxy');
@@ -76,7 +77,7 @@ $groupsInfo = new \OC\Group\MetaData(
 $groupsInfo->setSorting($sortGroupsBy);
 list($adminGroup, $groups) = $groupsInfo->get();
 
-$recoveryAdminEnabled = OC_App::isEnabled('encryption') &&
+$recoveryAdminEnabled = $appManager->isEnabledForUser('encryption') &&
 					    $config->getAppValue( 'encryption', 'recoveryAdminEnabled', '0');
 
 if($isAdmin) {

@@ -55,7 +55,7 @@ class OC_JSON{
 	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function checkAppEnabled($app) {
-		if( !OC_App::isEnabled($app)) {
+		if( !\OC::$server->getAppManager()->isEnabledForUser($app)) {
 			$l = \OC::$server->getL10N('lib');
 			self::error(array( 'data' => array( 'message' => $l->t('Application is not enabled'), 'error' => 'application_not_enabled' )));
 			exit();
