@@ -38,6 +38,7 @@ use OCP\Image;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Notification\IManager as INotificationManager;
+use OCP\Notification\INotification;
 
 /**
  * Class UserTest
@@ -134,7 +135,7 @@ class UserTest extends \Test\TestCase {
 		$uid = 'alice';
 		$dn  = 'uid=alice,dc=foo,dc=bar';
 
-		$uuser = $this->getMockBuilder('\OCP\IUser')
+		$uuser = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$uuser->expects($this->once())
@@ -1279,7 +1280,7 @@ class UserTest extends \Test\TestCase {
 				return array();
 			}));
 
-		$notification = $this->getMockBuilder('OCP\Notification\INotification')
+		$notification = $this->getMockBuilder(INotification::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$notification->expects($this->any())
@@ -1353,7 +1354,7 @@ class UserTest extends \Test\TestCase {
 				return array();
 			}));
 
-		$notification = $this->getMockBuilder('OCP\Notification\INotification')
+		$notification = $this->getMockBuilder(INotification::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$notification->expects($this->any())

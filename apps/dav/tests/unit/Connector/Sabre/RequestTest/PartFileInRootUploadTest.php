@@ -24,6 +24,8 @@
 
 namespace OCA\DAV\Tests\unit\Connector\Sabre\RequestTest;
 
+use OCP\IConfig;
+
 /**
  * Class PartFileInRootUploadTest
  *
@@ -34,7 +36,7 @@ namespace OCA\DAV\Tests\unit\Connector\Sabre\RequestTest;
 class PartFileInRootUploadTest extends UploadTest {
 	protected function setUp() {
 		$config = \OC::$server->getConfig();
-		$mockConfig = $this->getMockBuilder('\OCP\IConfig')
+		$mockConfig = $this->getMockBuilder(IConfig::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$mockConfig->expects($this->any())

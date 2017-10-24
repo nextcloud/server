@@ -24,6 +24,10 @@
  */
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
+use OCA\DAV\Connector\Sabre\Directory;
+use OCA\DAV\Connector\Sabre\File;
+use Sabre\DAV\Tree;
+
 /**
  * Copyright (c) 2014 Vincent Petry <pvince81@owncloud.com>
  * This file is licensed under the Affero General Public License version 3 or
@@ -42,7 +46,7 @@ class TagsPluginTest extends \Test\TestCase {
 	private $server;
 
 	/**
-	 * @var \Sabre\DAV\Tree
+	 * @var Tree
 	 */
 	private $tree;
 
@@ -64,7 +68,7 @@ class TagsPluginTest extends \Test\TestCase {
 	public function setUp() {
 		parent::setUp();
 		$this->server = new \Sabre\DAV\Server();
-		$this->tree = $this->getMockBuilder('\Sabre\DAV\Tree')
+		$this->tree = $this->getMockBuilder(Tree::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->tagger = $this->getMockBuilder('\OCP\ITags')
@@ -124,13 +128,13 @@ class TagsPluginTest extends \Test\TestCase {
 	 * @dataProvider tagsGetPropertiesDataProvider
 	 */
 	public function testPreloadThenGetProperties($tags, $requestedProperties, $expectedProperties) {
-		$node1 = $this->getMockBuilder('\OCA\DAV\Connector\Sabre\File')
+		$node1 = $this->getMockBuilder(File::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$node1->expects($this->any())
 			->method('getId')
 			->will($this->returnValue(111));
-		$node2 = $this->getMockBuilder('\OCA\DAV\Connector\Sabre\File')
+		$node2 = $this->getMockBuilder(File::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$node2->expects($this->any())
@@ -145,7 +149,7 @@ class TagsPluginTest extends \Test\TestCase {
 			$expectedCallCount = 1;
 		}
 
-		$node = $this->getMockBuilder('\OCA\DAV\Connector\Sabre\Directory')
+		$node = $this->getMockBuilder(Directory::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$node->expects($this->any())

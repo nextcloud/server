@@ -51,7 +51,7 @@ class IconBuilderTest extends TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->config = $this->getMockBuilder('\OCP\IConfig')->getMock();
+		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
 		$this->appData = $this->createMock(IAppData::class);
 		$this->themingDefaults = $this->getMockBuilder('OCA\Theming\ThemingDefaults')
 			->disableOriginalConstructor()->getMock();

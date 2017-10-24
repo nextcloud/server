@@ -71,7 +71,7 @@ class ListenerTest extends TestCase {
 	 */
 	public function testEvaluate($eventType, $notificationMethod) {
 		/** @var IComment|\PHPUnit_Framework_MockObject_MockObject $comment */
-		$comment = $this->getMockBuilder('\OCP\Comments\IComment')->getMock();
+		$comment = $this->getMockBuilder(IComment::class)->getMock();
 		$comment->expects($this->any())
 			->method('getObjectType')
 			->will($this->returnValue('files'));
@@ -90,7 +90,7 @@ class ListenerTest extends TestCase {
 			]);
 
 		/** @var CommentsEvent|\PHPUnit_Framework_MockObject_MockObject $event */
-		$event = $this->getMockBuilder('\OCP\Comments\CommentsEvent')
+		$event = $this->getMockBuilder(CommentsEvent::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$event->expects($this->once())
@@ -101,7 +101,7 @@ class ListenerTest extends TestCase {
 			->will($this->returnValue($eventType));
 
 		/** @var INotification|\PHPUnit_Framework_MockObject_MockObject $notification */
-		$notification = $this->getMockBuilder('\OCP\Notification\INotification')->getMock();
+		$notification = $this->getMockBuilder(INotification::class)->getMock();
 		$notification->expects($this->any())
 			->method($this->anything())
 			->will($this->returnValue($notification));
@@ -136,7 +136,7 @@ class ListenerTest extends TestCase {
 	 */
 	public function testEvaluateNoMentions($eventType) {
 		/** @var IComment|\PHPUnit_Framework_MockObject_MockObject $comment */
-		$comment = $this->getMockBuilder('\OCP\Comments\IComment')->getMock();
+		$comment = $this->getMockBuilder(IComment::class)->getMock();
 		$comment->expects($this->any())
 			->method('getObjectType')
 			->will($this->returnValue('files'));
@@ -148,7 +148,7 @@ class ListenerTest extends TestCase {
 			->willReturn([]);
 
 		/** @var CommentsEvent|\PHPUnit_Framework_MockObject_MockObject $event */
-		$event = $this->getMockBuilder('\OCP\Comments\CommentsEvent')
+		$event = $this->getMockBuilder(CommentsEvent::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$event->expects($this->once())
@@ -173,7 +173,7 @@ class ListenerTest extends TestCase {
 
 	public function testEvaluateUserDoesNotExist() {
 		/** @var IComment|\PHPUnit_Framework_MockObject_MockObject $comment */
-		$comment = $this->getMockBuilder('\OCP\Comments\IComment')->getMock();
+		$comment = $this->getMockBuilder(IComment::class)->getMock();
 		$comment->expects($this->any())
 			->method('getObjectType')
 			->will($this->returnValue('files'));
@@ -185,7 +185,7 @@ class ListenerTest extends TestCase {
 			->willReturn([[ 'type' => 'user', 'id' => 'foobar']]);
 
 		/** @var CommentsEvent|\PHPUnit_Framework_MockObject_MockObject $event */
-		$event = $this->getMockBuilder('\OCP\Comments\CommentsEvent')
+		$event = $this->getMockBuilder(CommentsEvent::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$event->expects($this->once())
@@ -196,7 +196,7 @@ class ListenerTest extends TestCase {
 			->will($this->returnValue(CommentsEvent::EVENT_ADD));
 
 		/** @var INotification|\PHPUnit_Framework_MockObject_MockObject $notification */
-		$notification = $this->getMockBuilder('\OCP\Notification\INotification')->getMock();
+		$notification = $this->getMockBuilder(INotification::class)->getMock();
 		$notification->expects($this->any())
 			->method($this->anything())
 			->will($this->returnValue($notification));

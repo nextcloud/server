@@ -24,6 +24,7 @@
 namespace Test\Encryption\Keys;
 
 use OC\Encryption\Keys\Storage;
+use OCP\IConfig;
 use Test\TestCase;
 
 class StorageTest extends TestCase {
@@ -51,7 +52,7 @@ class StorageTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->config = $this->getMockBuilder('OCP\IConfig')
+		$this->config = $this->getMockBuilder(IConfig::class)
 			->disableOriginalConstructor()
 			->getMock();
 

@@ -21,6 +21,7 @@
 
 namespace OCA\WorkflowEngine\Tests\Check;
 
+use OCP\IL10N;
 
 class RequestTimeTest extends \Test\TestCase {
 
@@ -31,7 +32,7 @@ class RequestTimeTest extends \Test\TestCase {
 	 * @return \OCP\IL10N|\PHPUnit_Framework_MockObject_MockObject
 	 */
 	protected function getL10NMock() {
-		$l = $this->getMockBuilder('OCP\IL10N')
+		$l = $this->getMockBuilder(IL10N::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$l->expects($this->any())

@@ -35,6 +35,8 @@ use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
+use OCP\IL10N;
+use OCP\IRequest;
 
 /**
  * Class ApiTest
@@ -96,7 +98,7 @@ class ApiTest extends TestCase {
 	 * @return \OCA\Files_Sharing\Controller\ShareAPIController
 	 */
 	private function createOCS($userId) {
-		$l = $this->getMockBuilder('\OCP\IL10N')->getMock();
+		$l = $this->getMockBuilder(IL10N::class)->getMock();
 		$l->method('t')
 			->will($this->returnCallback(function($text, $parameters = []) {
 				return vsprintf($text, $parameters);
@@ -104,7 +106,7 @@ class ApiTest extends TestCase {
 
 		return new ShareAPIController(
 			self::APP_NAME,
-			$this->getMockBuilder('OCP\IRequest')->getMock(),
+			$this->getMockBuilder(IRequest::class)->getMock(),
 			$this->shareManager,
 			\OC::$server->getGroupManager(),
 			\OC::$server->getUserManager(),

@@ -25,6 +25,8 @@
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OCA\DAV\Connector\Sabre\FakeLockerPlugin;
+use Sabre\DAV\INode;
+use Sabre\DAV\Server;
 use Sabre\HTTP\Response;
 use Test\TestCase;
 
@@ -43,8 +45,8 @@ class FakeLockerPluginTest extends TestCase {
 	}
 
 	public function testInitialize() {
-		/** @var \Sabre\DAV\Server $server */
-		$server = $this->getMockBuilder('\Sabre\DAV\Server')
+		/** @var Server $server */
+		$server = $this->getMockBuilder(Server::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$server
@@ -86,7 +88,7 @@ class FakeLockerPluginTest extends TestCase {
 		$propFind = $this->getMockBuilder('\Sabre\DAV\PropFind')
 			->disableOriginalConstructor()
 			->getMock();
-		$node = $this->getMockBuilder('\Sabre\DAV\INode')
+		$node = $this->getMockBuilder(INode::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -155,7 +157,7 @@ class FakeLockerPluginTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$response = new Response();
-		$server = $this->getMockBuilder('\Sabre\DAV\Server')
+		$server = $this->getMockBuilder(Server::class)
 			->getMock();
 		$this->fakeLockerPlugin->initialize($server);
 

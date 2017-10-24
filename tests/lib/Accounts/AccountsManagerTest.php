@@ -71,7 +71,7 @@ class AccountsManagerTest extends TestCase {
 	 * @return \PHPUnit_Framework_MockObject_MockObject | AccountManager
 	 */
 	public function getInstance($mockedMethods = null) {
-		return $this->getMockBuilder('OC\Accounts\AccountManager')
+		return $this->getMockBuilder(AccountManager::class)
 			->setConstructorArgs([$this->connection, $this->eventDispatcher, $this->jobList])
 			->setMethods($mockedMethods)
 			->getMock();
@@ -146,7 +146,7 @@ class AccountsManagerTest extends TestCase {
 	 * @param array $setData
 	 * @param IUser $askUser
 	 * @param array $expectedData
-	 * @param book $userAlreadyExists
+	 * @param bool $userAlreadyExists
 	 */
 	public function testGetUser($setUser, $setData, $askUser, $expectedData, $userAlreadyExists) {
 		$accountManager = $this->getInstance(['buildDefaultUserRecord', 'insertNewUser', 'addMissingDefaultValues']);
@@ -172,9 +172,9 @@ class AccountsManagerTest extends TestCase {
 	}
 
 	public function dataTestGetUser() {
-		$user1 = $this->getMockBuilder('OCP\IUser')->getMock();
+		$user1 = $this->getMockBuilder(IUser::class)->getMock();
 		$user1->expects($this->any())->method('getUID')->willReturn('user1');
-		$user2 = $this->getMockBuilder('OCP\IUser')->getMock();
+		$user2 = $this->getMockBuilder(IUser::class)->getMock();
 		$user2->expects($this->any())->method('getUID')->willReturn('user2');
 		return [
 			['user1', ['key' => 'value'], $user1, ['key' => 'value'], true],
@@ -183,7 +183,7 @@ class AccountsManagerTest extends TestCase {
 	}
 
 	public function testUpdateExistingUser() {
-		$user = $this->getMockBuilder('OCP\IUser')->getMock();
+		$user = $this->getMockBuilder(IUser::class)->getMock();
 		$user->expects($this->once())->method('getUID')->willReturn('uid');
 		$oldData = ['key' => 'value'];
 		$newData = ['newKey' => 'newValue'];
@@ -196,7 +196,7 @@ class AccountsManagerTest extends TestCase {
 	}
 
 	public function testInsertNewUser() {
-		$user = $this->getMockBuilder('OCP\IUser')->getMock();
+		$user = $this->getMockBuilder(IUser::class)->getMock();
 		$uid = 'uid';
 		$data = ['key' => 'value'];
 

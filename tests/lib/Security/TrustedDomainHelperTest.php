@@ -21,7 +21,7 @@ class TrustedDomainHelperTest extends \Test\TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->config = $this->getMockBuilder('\OCP\IConfig')->getMock();
+		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
 	}
 
 	/**

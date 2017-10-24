@@ -27,6 +27,7 @@ namespace OCA\Encryption\Tests\Command;
 
 use OCA\Encryption\Command\EnableMasterKey;
 use OCA\Encryption\Util;
+use OCP\IConfig;
 use Test\TestCase;
 
 class TestEnableMasterKey extends TestCase {
@@ -54,7 +55,7 @@ class TestEnableMasterKey extends TestCase {
 
 		$this->util = $this->getMockBuilder('OCA\Encryption\Util')
 			->disableOriginalConstructor()->getMock();
-		$this->config = $this->getMockBuilder('OCP\IConfig')
+		$this->config = $this->getMockBuilder(IConfig::class)
 			->disableOriginalConstructor()->getMock();
 		$this->questionHelper = $this->getMockBuilder('Symfony\Component\Console\Helper\QuestionHelper')
 			->disableOriginalConstructor()->getMock();

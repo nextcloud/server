@@ -59,7 +59,7 @@ class DependencyAnalyzerTest extends TestCase {
 			->method('getOcVersion')
 			->will( $this->returnValue('8.0.2'));
 
-		$this->l10nMock = $this->getMockBuilder('\OCP\IL10N')
+		$this->l10nMock = $this->getMockBuilder(IL10N::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->l10nMock->expects($this->any())

@@ -11,9 +11,11 @@
 namespace Tests\Settings\Controller;
 
 use OC\Accounts\AccountManager;
+use OC\Group\Group;
 use OC\Group\Manager;
 use OC\Settings\Controller\UsersController;
 use OC\Settings\Mailer\NewUserMailHelper;
+use OC\SubAdmin;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
@@ -326,7 +328,7 @@ class UsersControllerTest extends \Test\TestCase {
 			->with('bar')
 			->will($this->returnValue($bar));
 
-		$subadmin = $this->getMockBuilder('\OC\SubAdmin')
+		$subadmin = $this->getMockBuilder(SubAdmin::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$subadmin
@@ -546,19 +548,19 @@ class UsersControllerTest extends \Test\TestCase {
 			->with('admin')
 			->will($this->returnValue($admin));
 
-		$subgroup1 = $this->getMockBuilder('\OCP\IGroup')
+		$subgroup1 = $this->getMockBuilder(IGroup::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$subgroup1->expects($this->any())
 			->method('getGID')
 			->will($this->returnValue('SubGroup1'));
-		$subgroup2 = $this->getMockBuilder('\OCP\IGroup')
+		$subgroup2 = $this->getMockBuilder(IGroup::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$subgroup2->expects($this->any())
 			->method('getGID')
 			->will($this->returnValue('SubGroup2'));
-		$subadmin = $this->getMockBuilder('\OC\SubAdmin')
+		$subadmin = $this->getMockBuilder(SubAdmin::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$subadmin
@@ -746,7 +748,7 @@ class UsersControllerTest extends \Test\TestCase {
 			->method('getUserGroupIds')
 			->will($this->onConsecutiveCalls(array('Users', 'Support'), array('admins', 'Support'), array('External Users')));
 
-		$subadmin = $this->getMockBuilder('\OC\SubAdmin')
+		$subadmin = $this->getMockBuilder(SubAdmin::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$subadmin->expects($this->any())
@@ -865,7 +867,7 @@ class UsersControllerTest extends \Test\TestCase {
 			->with('')
 			->will($this->returnValue([$user]));
 
-		$subadmin = $this->getMockBuilder('\OC\SubAdmin')
+		$subadmin = $this->getMockBuilder(SubAdmin::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$subadmin->expects($this->once())
@@ -951,7 +953,7 @@ class UsersControllerTest extends \Test\TestCase {
 			->method('createUser')
 			->will($this->onConsecutiveCalls($user));
 
-		$subadmin = $this->getMockBuilder('\OC\SubAdmin')
+		$subadmin = $this->getMockBuilder(SubAdmin::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$subadmin
@@ -1006,13 +1008,13 @@ class UsersControllerTest extends \Test\TestCase {
 		$user->expects($this->any())
 			->method('isEnabled')
 			->willReturn(true);
-		$existingGroup = $this->getMockBuilder('\OCP\IGroup')
+		$existingGroup = $this->getMockBuilder(IGroup::class)
 			->disableOriginalConstructor()->getMock();
 		$existingGroup
 			->expects($this->once())
 			->method('addUser')
 			->with($user);
-		$newGroup = $this->getMockBuilder('\OCP\IGroup')
+		$newGroup = $this->getMockBuilder(IGroup::class)
 			->disableOriginalConstructor()->getMock();
 		$newGroup
 			->expects($this->once())
@@ -1038,7 +1040,7 @@ class UsersControllerTest extends \Test\TestCase {
 			->with($user)
 			->will($this->onConsecutiveCalls(array('NewGroup', 'ExistingGroup')));
 
-		$subadmin = $this->getMockBuilder('\OC\SubAdmin')
+		$subadmin = $this->getMockBuilder(SubAdmin::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$subadmin
@@ -1358,7 +1360,7 @@ class UsersControllerTest extends \Test\TestCase {
 			->with('UserToDelete')
 			->will($this->returnValue($toDeleteUser));
 
-		$subadmin = $this->getMockBuilder('\OC\SubAdmin')
+		$subadmin = $this->getMockBuilder(SubAdmin::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$subadmin->expects($this->once())
@@ -1441,7 +1443,7 @@ class UsersControllerTest extends \Test\TestCase {
 			->with('UserToDelete')
 			->will($this->returnValue($toDeleteUser));
 
-		$subadmin = $this->getMockBuilder('\OC\SubAdmin')
+		$subadmin = $this->getMockBuilder(SubAdmin::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$subadmin->expects($this->once())
@@ -1487,7 +1489,7 @@ class UsersControllerTest extends \Test\TestCase {
 			->with('UserToDelete')
 			->will($this->returnValue($toDeleteUser));
 
-		$subadmin = $this->getMockBuilder('\OC\SubAdmin')
+		$subadmin = $this->getMockBuilder(SubAdmin::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$subadmin->expects($this->once())
@@ -1571,7 +1573,7 @@ class UsersControllerTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('createUser')
 			->will($this->onConsecutiveCalls($user));
-		$subadmin = $this->getMockBuilder('\OC\SubAdmin')
+		$subadmin = $this->getMockBuilder(SubAdmin::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$subadmin->expects($this->once())
@@ -1637,7 +1639,7 @@ class UsersControllerTest extends \Test\TestCase {
 
 		list($user, $expectedResult) = $this->mockUser();
 
-		$subadmin = $this->getMockBuilder('\OC\SubAdmin')
+		$subadmin = $this->getMockBuilder(SubAdmin::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$subadmin->expects($this->once())
@@ -1684,7 +1686,7 @@ class UsersControllerTest extends \Test\TestCase {
 			)
 			->will($this->returnValue('1'));
 
-		$subadmin = $this->getMockBuilder('\OC\SubAdmin')
+		$subadmin = $this->getMockBuilder(SubAdmin::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$subadmin->expects($this->once())
@@ -1722,7 +1724,7 @@ class UsersControllerTest extends \Test\TestCase {
 		// without the master key enabled we use per-user keys -> restore is disabled
 		$expectedResult['isRestoreDisabled'] = !$masterKeyEnabled;
 
-		$subadmin = $this->getMockBuilder('\OC\SubAdmin')
+		$subadmin = $this->getMockBuilder(SubAdmin::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$subadmin->expects($this->once())
@@ -1779,7 +1781,7 @@ class UsersControllerTest extends \Test\TestCase {
 
 		$expectedResult['isRestoreDisabled'] = true;
 
-		$subadmin = $this->getMockBuilder('\OC\SubAdmin')
+		$subadmin = $this->getMockBuilder(SubAdmin::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$subadmin->expects($this->once())
@@ -1801,7 +1803,7 @@ class UsersControllerTest extends \Test\TestCase {
 
 		list($user, $expectedResult) = $this->mockUser();
 
-		$subadmin = $this->getMockBuilder('\OC\SubAdmin')
+		$subadmin = $this->getMockBuilder(SubAdmin::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$subadmin->expects($this->once())
@@ -1853,21 +1855,21 @@ class UsersControllerTest extends \Test\TestCase {
 			->method('getUser')
 			->will($this->returnValue($user));
 
-		$group1 = $this->getMockBuilder('\OC\Group\Group')
+		$group1 = $this->getMockBuilder(Group::class)
 			->disableOriginalConstructor()->getMock();
 		$group1
 			->expects($this->once())
 			->method('getUsers')
 			->will($this->returnValue(['foo' => 'M. Foo', 'admin' => 'S. Admin']));
 
-		$group2 = $this->getMockBuilder('\OC\Group\Group')
+		$group2 = $this->getMockBuilder(Group::class)
 			->disableOriginalConstructor()->getMock();
 		$group2
 			->expects($this->once())
 			->method('getUsers')
 			->will($this->returnValue(['bar' => 'B. Ar']));
 
-		$subadmin = $this->getMockBuilder('\OC\SubAdmin')
+		$subadmin = $this->getMockBuilder(SubAdmin::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$subadmin
@@ -1971,7 +1973,7 @@ class UsersControllerTest extends \Test\TestCase {
 			->willReturn($editUser);
 		$this->accountManager->expects($this->any())->method('getUser')->willReturn([]);
 
-		$subadmin = $this->getMockBuilder('\OC\SubAdmin')
+		$subadmin = $this->getMockBuilder(SubAdmin::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$subadmin
@@ -2036,7 +2038,7 @@ class UsersControllerTest extends \Test\TestCase {
 			->with($user->getUID())
 			->willReturn($user);
 
-		$subadmin = $this->getMockBuilder('\OC\SubAdmin')
+		$subadmin = $this->getMockBuilder(SubAdmin::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$subadmin
@@ -2437,7 +2439,7 @@ class UsersControllerTest extends \Test\TestCase {
 			->method('createUser')
 			->will($this->onConsecutiveCalls($user));
 
-		$subadmin = $this->getMockBuilder('\OC\SubAdmin')
+		$subadmin = $this->getMockBuilder(SubAdmin::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$subadmin
@@ -2576,7 +2578,7 @@ class UsersControllerTest extends \Test\TestCase {
 	}
 
 	public function testDisableUserFailsDueSameUser() {
-		$user = $this->getMockBuilder('\OC\User\User')
+		$user = $this->getMockBuilder(User::class)
 			->disableOriginalConstructor()->getMock();
 		$user->expects($this->once())
 			->method('getUID')
@@ -2599,7 +2601,7 @@ class UsersControllerTest extends \Test\TestCase {
 	}
 
 	public function testDisableUserFailsDueNoAdminAndNoSubadmin() {
-		$user = $this->getMockBuilder('\OC\User\User')
+		$user = $this->getMockBuilder(User::class)
 			->disableOriginalConstructor()->getMock();
 		$user->expects($this->once())
 			->method('getUID')
@@ -2608,7 +2610,7 @@ class UsersControllerTest extends \Test\TestCase {
 			->expects($this->exactly(2))
 			->method('getUser')
 			->will($this->returnValue($user));
-		$user2 = $this->getMockBuilder('\OC\User\User')
+		$user2 = $this->getMockBuilder(User::class)
 			->disableOriginalConstructor()->getMock();
 		$user2->expects($this->never())
 			->method('setEnabled');
@@ -2618,7 +2620,7 @@ class UsersControllerTest extends \Test\TestCase {
 			->with('abc')
 			->willReturn($user2);
 
-		$subadmin = $this->createMock('\OC\SubAdmin');
+		$subadmin = $this->createMock(SubAdmin::class);
 		$subadmin->expects($this->once())
 			->method('isUserAccessible')
 			->will($this->returnValue(false));
@@ -2641,7 +2643,7 @@ class UsersControllerTest extends \Test\TestCase {
 	}
 
 	public function testDisableUserFailsDueNoUser() {
-		$user = $this->getMockBuilder('\OC\User\User')
+		$user = $this->getMockBuilder(User::class)
 			->disableOriginalConstructor()->getMock();
 		$user->expects($this->once())
 			->method('getUID')
@@ -2674,7 +2676,7 @@ class UsersControllerTest extends \Test\TestCase {
 	}
 
 	public function testDisableUserFailsDueNoUserForSubAdmin() {
-		$user = $this->getMockBuilder('\OC\User\User')
+		$user = $this->getMockBuilder(User::class)
 			->disableOriginalConstructor()->getMock();
 		$user->expects($this->once())
 			->method('getUID')
@@ -2707,7 +2709,7 @@ class UsersControllerTest extends \Test\TestCase {
 	}
 
 	public function testDisableUserSuccessForAdmin() {
-		$user = $this->getMockBuilder('\OC\User\User')
+		$user = $this->getMockBuilder(User::class)
 			->disableOriginalConstructor()->getMock();
 		$user->expects($this->once())
 			->method('getUID')
@@ -2716,7 +2718,7 @@ class UsersControllerTest extends \Test\TestCase {
 			->expects($this->exactly(1))
 			->method('getUser')
 			->will($this->returnValue($user));
-		$user2 = $this->getMockBuilder('\OC\User\User')
+		$user2 = $this->getMockBuilder(User::class)
 			->disableOriginalConstructor()->getMock();
 		$user2->expects($this->once())
 			->method('setEnabled')
@@ -2745,7 +2747,7 @@ class UsersControllerTest extends \Test\TestCase {
 	}
 
 	public function testDisableUserSuccessForSubAdmin() {
-		$user = $this->getMockBuilder('\OC\User\User')
+		$user = $this->getMockBuilder(User::class)
 			->disableOriginalConstructor()->getMock();
 		$user->expects($this->once())
 			->method('getUID')
@@ -2754,7 +2756,7 @@ class UsersControllerTest extends \Test\TestCase {
 			->expects($this->exactly(2))
 			->method('getUser')
 			->will($this->returnValue($user));
-		$user2 = $this->getMockBuilder('\OC\User\User')
+		$user2 = $this->getMockBuilder(User::class)
 			->disableOriginalConstructor()->getMock();
 		$user2->expects($this->once())
 			->method('setEnabled');
@@ -2764,7 +2766,7 @@ class UsersControllerTest extends \Test\TestCase {
 			->with('abc')
 			->willReturn($user2);
 
-		$subadmin = $this->createMock('\OC\SubAdmin');
+		$subadmin = $this->createMock(SubAdmin::class);
 		$subadmin->expects($this->once())
 			->method('isUserAccessible')
 			->will($this->returnValue(true));
@@ -2787,7 +2789,7 @@ class UsersControllerTest extends \Test\TestCase {
 	}
 
 	public function testEnableUserFailsDueSameUser() {
-		$user = $this->getMockBuilder('\OC\User\User')
+		$user = $this->getMockBuilder(User::class)
 			->disableOriginalConstructor()->getMock();
 		$user->expects($this->once())
 			->method('getUID')
@@ -2810,7 +2812,7 @@ class UsersControllerTest extends \Test\TestCase {
 	}
 
 	public function testEnableUserFailsDueNoAdminAndNoSubadmin() {
-		$user = $this->getMockBuilder('\OC\User\User')
+		$user = $this->getMockBuilder(User::class)
 			->disableOriginalConstructor()->getMock();
 		$user->expects($this->once())
 			->method('getUID')
@@ -2819,7 +2821,7 @@ class UsersControllerTest extends \Test\TestCase {
 			->expects($this->exactly(2))
 			->method('getUser')
 			->will($this->returnValue($user));
-		$user2 = $this->getMockBuilder('\OC\User\User')
+		$user2 = $this->getMockBuilder(User::class)
 			->disableOriginalConstructor()->getMock();
 		$user2->expects($this->never())
 			->method('setEnabled');
@@ -2829,7 +2831,7 @@ class UsersControllerTest extends \Test\TestCase {
 			->with('abc')
 			->willReturn($user2);
 
-		$subadmin = $this->createMock('\OC\SubAdmin');
+		$subadmin = $this->createMock(SubAdmin::class);
 		$subadmin->expects($this->once())
 			->method('isUserAccessible')
 			->will($this->returnValue(false));
@@ -2852,7 +2854,7 @@ class UsersControllerTest extends \Test\TestCase {
 	}
 
 	public function testEnableUserFailsDueNoUser() {
-		$user = $this->getMockBuilder('\OC\User\User')
+		$user = $this->getMockBuilder(User::class)
 			->disableOriginalConstructor()->getMock();
 		$user->expects($this->once())
 			->method('getUID')
@@ -2885,7 +2887,7 @@ class UsersControllerTest extends \Test\TestCase {
 	}
 
 	public function testEnableUserFailsDueNoUserForSubAdmin() {
-		$user = $this->getMockBuilder('\OC\User\User')
+		$user = $this->getMockBuilder(User::class)
 			->disableOriginalConstructor()->getMock();
 		$user->expects($this->once())
 			->method('getUID')
@@ -2918,7 +2920,7 @@ class UsersControllerTest extends \Test\TestCase {
 	}
 
 	public function testEnableUserSuccessForAdmin() {
-		$user = $this->getMockBuilder('\OC\User\User')
+		$user = $this->getMockBuilder(User::class)
 			->disableOriginalConstructor()->getMock();
 		$user->expects($this->once())
 			->method('getUID')
@@ -2927,7 +2929,7 @@ class UsersControllerTest extends \Test\TestCase {
 			->expects($this->exactly(1))
 			->method('getUser')
 			->will($this->returnValue($user));
-		$user2 = $this->getMockBuilder('\OC\User\User')
+		$user2 = $this->getMockBuilder(User::class)
 			->disableOriginalConstructor()->getMock();
 		$user2->expects($this->once())
 			->method('setEnabled');
@@ -2955,7 +2957,7 @@ class UsersControllerTest extends \Test\TestCase {
 	}
 
 	public function testEnableUserSuccessForSubAdmin() {
-		$user = $this->getMockBuilder('\OC\User\User')
+		$user = $this->getMockBuilder(User::class)
 			->disableOriginalConstructor()->getMock();
 		$user->expects($this->once())
 			->method('getUID')
@@ -2964,7 +2966,7 @@ class UsersControllerTest extends \Test\TestCase {
 			->expects($this->exactly(2))
 			->method('getUser')
 			->will($this->returnValue($user));
-		$user2 = $this->getMockBuilder('\OC\User\User')
+		$user2 = $this->getMockBuilder(User::class)
 			->disableOriginalConstructor()->getMock();
 		$user2->expects($this->once())
 			->method('setEnabled')
@@ -2975,7 +2977,7 @@ class UsersControllerTest extends \Test\TestCase {
 			->with('abc')
 			->willReturn($user2);
 
-		$subadmin = $this->createMock('\OC\SubAdmin');
+		$subadmin = $this->createMock(SubAdmin::class);
 		$subadmin->expects($this->once())
 			->method('isUserAccessible')
 			->will($this->returnValue(true));

@@ -27,7 +27,9 @@ namespace OCA\Encryption\Tests\Crypto;
 
 
 use OCA\Encryption\Crypto\Crypt;
+use OCP\IConfig;
 use OCP\IL10N;
+use OCP\ILogger;
 use Test\TestCase;
 
 class CryptTest extends TestCase {
@@ -51,7 +53,7 @@ class CryptTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->logger = $this->getMockBuilder('OCP\ILogger')
+		$this->logger = $this->getMockBuilder(ILogger::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->logger->expects($this->any())
@@ -60,7 +62,7 @@ class CryptTest extends TestCase {
 		$this->userSession = $this->getMockBuilder('OCP\IUserSession')
 			->disableOriginalConstructor()
 			->getMock();
-		$this->config = $this->getMockBuilder('OCP\IConfig')
+		$this->config = $this->getMockBuilder(IConfig::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->l = $this->createMock(IL10N::class);

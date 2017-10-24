@@ -43,7 +43,7 @@ class AdminTest extends TestCase {
 
 	public function setUp() {
 		parent::setUp();
-		$this->l10n = $this->getMockBuilder('\OCP\IL10N')->getMock();
+		$this->l10n = $this->getMockBuilder(IL10N::class)->getMock();
 
 		$this->admin = new Admin(
 			$this->l10n

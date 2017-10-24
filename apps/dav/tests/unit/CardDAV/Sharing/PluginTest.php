@@ -51,7 +51,7 @@ class PluginTest extends TestCase {
 		$authBackend->method('isDavAuthenticated')->willReturn(true);
 
 		/** @var IRequest $request */
-		$request = $this->getMockBuilder('OCP\IRequest')->disableOriginalConstructor()->getMock();
+		$request = $this->getMockBuilder(IRequest::class)->disableOriginalConstructor()->getMock();
 		$this->plugin = new Plugin($authBackend, $request);
 
 		$root = new SimpleCollection('root');

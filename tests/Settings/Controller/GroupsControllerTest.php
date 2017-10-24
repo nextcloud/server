@@ -10,6 +10,7 @@
 
 namespace Tests\Settings\Controller;
 
+use OC\Group\Group;
 use OC\Group\MetaData;
 use OC\Settings\Controller\GroupsController;
 use OCP\AppFramework\Http;
@@ -59,7 +60,7 @@ class GroupsControllerTest extends \Test\TestCase {
 	 * to test for subadmins. Thus the test always assumes you have admin permissions...
 	 */
 	public function testIndexSortByName() {
-		$firstGroup = $this->getMockBuilder('\OC\Group\Group')
+		$firstGroup = $this->getMockBuilder(Group::class)
 			->disableOriginalConstructor()->getMock();
 		$firstGroup
 			->method('getGID')
@@ -67,7 +68,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		$firstGroup
 			->method('count')
 			->will($this->returnValue(12));
-		$secondGroup = $this->getMockBuilder('\OC\Group\Group')
+		$secondGroup = $this->getMockBuilder(Group::class)
 			->disableOriginalConstructor()->getMock();
 		$secondGroup
 			->method('getGID')
@@ -75,7 +76,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		$secondGroup
 			->method('count')
 			->will($this->returnValue(25));
-		$thirdGroup = $this->getMockBuilder('\OC\Group\Group')
+		$thirdGroup = $this->getMockBuilder(Group::class)
 			->disableOriginalConstructor()->getMock();
 		$thirdGroup
 			->method('getGID')
@@ -83,7 +84,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		$thirdGroup
 			->method('count')
 			->will($this->returnValue(14));
-		$fourthGroup = $this->getMockBuilder('\OC\Group\Group')
+		$fourthGroup = $this->getMockBuilder(Group::class)
 			->disableOriginalConstructor()->getMock();
 		$fourthGroup
 			->method('getGID')
@@ -151,7 +152,7 @@ class GroupsControllerTest extends \Test\TestCase {
 	 * to test for subadmins. Thus the test always assumes you have admin permissions...
 	 */
 	public function testIndexSortbyCount() {
-		$firstGroup = $this->getMockBuilder('\OC\Group\Group')
+		$firstGroup = $this->getMockBuilder(Group::class)
 			->disableOriginalConstructor()->getMock();
 		$firstGroup
 			->method('getGID')
@@ -159,7 +160,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		$firstGroup
 			->method('count')
 			->will($this->returnValue(12));
-		$secondGroup = $this->getMockBuilder('\OC\Group\Group')
+		$secondGroup = $this->getMockBuilder(Group::class)
 			->disableOriginalConstructor()->getMock();
 		$secondGroup
 			->method('getGID')
@@ -167,7 +168,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		$secondGroup
 			->method('count')
 			->will($this->returnValue(25));
-		$thirdGroup = $this->getMockBuilder('\OC\Group\Group')
+		$thirdGroup = $this->getMockBuilder(Group::class)
 			->disableOriginalConstructor()->getMock();
 		$thirdGroup
 			->method('getGID')
@@ -175,7 +176,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		$thirdGroup
 			->method('count')
 			->will($this->returnValue(14));
-		$fourthGroup = $this->getMockBuilder('\OC\Group\Group')
+		$fourthGroup = $this->getMockBuilder(Group::class)
 			->disableOriginalConstructor()->getMock();
 		$fourthGroup
 			->method('getGID')
@@ -302,7 +303,7 @@ class GroupsControllerTest extends \Test\TestCase {
 	}
 
 	public function testDestroySuccessful() {
-		$group = $this->getMockBuilder('\OC\Group\Group')
+		$group = $this->getMockBuilder(Group::class)
 			->disableOriginalConstructor()->getMock();
 		$this->groupManager
 			->expects($this->once())

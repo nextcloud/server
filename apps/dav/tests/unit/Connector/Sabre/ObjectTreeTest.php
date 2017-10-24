@@ -156,13 +156,13 @@ class ObjectTreeTest extends \Test\TestCase {
 			$_SERVER['HTTP_OC_CHUNKED'] = true;
 		}
 
-		$rootNode = $this->getMockBuilder('\OCA\DAV\Connector\Sabre\Directory')
+		$rootNode = $this->getMockBuilder(Directory::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$mountManager = $this->getMockBuilder('\OC\Files\Mount\Manager')
 			->disableOriginalConstructor()
 			->getMock();
-		$view = $this->getMockBuilder('\OC\Files\View')
+		$view = $this->getMockBuilder(View::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$fileInfo = $this->getMockBuilder('\OCP\Files\FileInfo')
@@ -275,7 +275,7 @@ class ObjectTreeTest extends \Test\TestCase {
 
 		$storage = new Temporary([]);
 
-		$view = $this->getMockBuilder('\OC\Files\View')
+		$view = $this->getMockBuilder(View::class)
 			->setMethods(['resolvePath'])
 			->getMock();
 		$view->expects($this->once())
@@ -284,7 +284,7 @@ class ObjectTreeTest extends \Test\TestCase {
 			return [$storage, ltrim($path, '/')];
 		}));
 
-		$rootNode = $this->getMockBuilder('\OCA\DAV\Connector\Sabre\Directory')
+		$rootNode = $this->getMockBuilder(Directory::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$mountManager = $this->getMockBuilder('\OC\Files\Mount\Manager')
@@ -302,7 +302,7 @@ class ObjectTreeTest extends \Test\TestCase {
 
 		$storage = new Temporary([]);
 
-		$view = $this->getMockBuilder('\OC\Files\View')
+		$view = $this->getMockBuilder(View::class)
 			->setMethods(['resolvePath'])
 			->getMock();
 		$view->expects($this->any())
@@ -311,7 +311,7 @@ class ObjectTreeTest extends \Test\TestCase {
 				return [$storage, ltrim($path, '/')];
 			}));
 
-		$rootNode = $this->getMockBuilder('\OCA\DAV\Connector\Sabre\Directory')
+		$rootNode = $this->getMockBuilder(Directory::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$mountManager = $this->getMockBuilder('\OC\Files\Mount\Manager')

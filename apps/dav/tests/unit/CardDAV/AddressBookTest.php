@@ -33,7 +33,7 @@ class AddressBookTest extends TestCase {
 
 	public function testDelete() {
 		/** @var \PHPUnit_Framework_MockObject_MockObject | CardDavBackend $backend */
-		$backend = $this->getMockBuilder('OCA\DAV\CardDAV\CardDavBackend')->disableOriginalConstructor()->getMock();
+		$backend = $this->getMockBuilder(CardDavBackend::class)->disableOriginalConstructor()->getMock();
 		$backend->expects($this->once())->method('updateShares');
 		$backend->expects($this->any())->method('getShares')->willReturn([
 			['href' => 'principal:user2']
@@ -55,7 +55,7 @@ class AddressBookTest extends TestCase {
 	 */
 	public function testDeleteFromGroup() {
 		/** @var \PHPUnit_Framework_MockObject_MockObject | CardDavBackend $backend */
-		$backend = $this->getMockBuilder('OCA\DAV\CardDAV\CardDavBackend')->disableOriginalConstructor()->getMock();
+		$backend = $this->getMockBuilder(CardDavBackend::class)->disableOriginalConstructor()->getMock();
 		$backend->expects($this->never())->method('updateShares');
 		$backend->expects($this->any())->method('getShares')->willReturn([
 			['href' => 'principal:group2']
@@ -77,7 +77,7 @@ class AddressBookTest extends TestCase {
 	 */
 	public function testPropPatch() {
 		/** @var \PHPUnit_Framework_MockObject_MockObject | CardDavBackend $backend */
-		$backend = $this->getMockBuilder('OCA\DAV\CardDAV\CardDavBackend')->disableOriginalConstructor()->getMock();
+		$backend = $this->getMockBuilder(CardDavBackend::class)->disableOriginalConstructor()->getMock();
 		$calendarInfo = [
 			'{http://owncloud.org/ns}owner-principal' => 'user1',
 			'{DAV:}displayname' => 'Test address book',
@@ -95,7 +95,7 @@ class AddressBookTest extends TestCase {
 	 */
 	public function testAcl($expectsWrite, $readOnlyValue, $hasOwnerSet) {
 		/** @var \PHPUnit_Framework_MockObject_MockObject | CardDavBackend $backend */
-		$backend = $this->getMockBuilder('OCA\DAV\CardDAV\CardDavBackend')->disableOriginalConstructor()->getMock();
+		$backend = $this->getMockBuilder(CardDavBackend::class)->disableOriginalConstructor()->getMock();
 		$backend->expects($this->any())->method('applyShareAcl')->willReturnArgument(1);
 		$calendarInfo = [
 			'{DAV:}displayname' => 'Test address book',

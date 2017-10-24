@@ -24,6 +24,7 @@
 namespace OCA\Files_Versions\Tests;
 
 use \OCA\Files_Versions\Expiration;
+use OCP\IConfig;
 
 class ExpirationTest extends \Test\TestCase {
 	const SECONDS_PER_DAY = 86400; //60*60*24
@@ -172,7 +173,7 @@ class ExpirationTest extends \Test\TestCase {
 	 * @return \OCP\IConfig
 	 */
 	private function getMockedConfig($returnValue){
-		$mockedConfig = $this->getMockBuilder('\OCP\IConfig')
+		$mockedConfig = $this->getMockBuilder(IConfig::class)
 				->disableOriginalConstructor()
 				->setMethods(
 					[
