@@ -868,21 +868,6 @@ class OC_App {
 		return $appList;
 	}
 
-	/**
-	 * Returns the internal app ID or false
-	 * @param string $ocsID
-	 * @return string|false
-	 */
-	public static function getInternalAppIdByOcs($ocsID) {
-		if(is_numeric($ocsID)) {
-			$idArray = \OC::$server->getAppConfig()->getValues(false, 'ocsid');
-			if(array_search($ocsID, $idArray)) {
-				return array_search($ocsID, $idArray);
-			}
-		}
-		return false;
-	}
-
 	public static function shouldUpgrade($app) {
 		$versions = self::getAppVersions();
 		$currentVersion = OC_App::getAppVersion($app);
