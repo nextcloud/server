@@ -16,7 +16,6 @@ OC.L10N.register(
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Nie je dostatok voľného miesta, chcete nahrať {size1} ale k dispozíciji je len {size2}",
     "Target folder \"{dir}\" does not exist any more" : "Cieľový priečinok \"{dir}\" už neexistuje",
     "Not enough free space" : "Nedostatok voľného miesta",
-    "Uploading …" : "Nahráva sa ...",
     "…" : "...",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} z {totalSize} ({bitrate})",
     "Actions" : "Akcie",

@@ -14,7 +14,6 @@
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Yeterli boş alan yok. Yüklemek istediğiniz boyut {size1} ancak yalnız {size2} boş alan var",
     "Target folder \"{dir}\" does not exist any more" : "\"{dir}\" hedef klasörü artık yok",
     "Not enough free space" : "Yeterli boş alan yok",
-    "Uploading …" : "Yükleniyor…",
     "…" : "…",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} / {totalSize} ({bitrate})",
     "Actions" : "İşlemler",

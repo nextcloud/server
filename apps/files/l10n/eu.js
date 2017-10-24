@@ -16,7 +16,6 @@ OC.L10N.register(
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Ez dago leku nahikorik, zu {size1} igotzen ari zara baina bakarrik {size2} libre dago",
     "Target folder \"{dir}\" does not exist any more" : "\"{dir}\" karpeta ez du gehiago existitzen",
     "Not enough free space" : "Ez dago nahiko leku librea",
-    "Uploading …" : "Igotzen …",
     "…" : "…",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} of {totalSize} ({bitrate})",
     "Actions" : "Ekintzak",

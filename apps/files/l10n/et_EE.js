@@ -16,7 +16,6 @@ OC.L10N.register(
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Pole piisavalt vaba ruumi. Sa laadid üles {size1}, kuid ainult {size2} on saadaval.",
     "Target folder \"{dir}\" does not exist any more" : "Kausta \"{dir}\" pole enam olemas",
     "Not enough free space" : "Pole piisavalt vaba ruumi",
-    "Uploading …" : "Üleslaadminie ...",
     "…" : "...",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize}/{loadedSize} ({bitrate})",
     "Actions" : "Tegevused",

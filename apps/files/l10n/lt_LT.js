@@ -16,7 +16,6 @@ OC.L10N.register(
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Nepakanka laisvos vietos. Jūs bandote įkelti {size1} dydžio bylą, bet liko tik  {size2} vietos",
     "Target folder \"{dir}\" does not exist any more" : "Paskirties aplanko \"{dir}\" daugiau nebėra",
     "Not enough free space" : "Trūksta laisvos vietos",
-    "Uploading …" : "Įkeliama ...",
     "…" : "...",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} iš {totalSize} ({bitrate})",
     "Actions" : "Veiksmai",
