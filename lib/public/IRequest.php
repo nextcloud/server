@@ -69,6 +69,11 @@ interface IRequest {
 	const USER_AGENT_CLIENT_ANDROID = '/^Mozilla\/5\.0 \(Android\) ownCloud\-android.*$/';
 
 	/**
+	 * @since 13.0.0
+	 */
+	const USER_AGENT_TALK_ANDROID = '/^Mozilla\/5\.0 \(Android\) Nextcloud\-Talk v.*$/';
+
+	/**
 	 * @since 9.1.0
 	 */
 	const USER_AGENT_CLIENT_DESKTOP = '/^Mozilla\/5\.0 \([A-Za-z ]+\) (mirall|csyncoC)\/.*$/';
@@ -77,6 +82,11 @@ interface IRequest {
 	 * @since 9.1.0
 	 */
 	const USER_AGENT_CLIENT_IOS = '/^Mozilla\/5\.0 \(iOS\) (ownCloud|Nextcloud)\-iOS.*$/';
+
+	/**
+	 * @since 13.0.0
+	 */
+	const USER_AGENT_TALK_IOS = '/^Mozilla\/5\.0 \(iOS\) Nextcloud\-Talk v.*$/';
 
 	/**
 	 * @param string $name
