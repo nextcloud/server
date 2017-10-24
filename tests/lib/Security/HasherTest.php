@@ -9,6 +9,7 @@
 namespace Test\Security;
 
 use OC\Security\Hasher;
+use OCP\IConfig;
 
 /**
  * Class HasherTest
@@ -75,13 +76,13 @@ class HasherTest extends \Test\TestCase {
 	/** @var Hasher */
 	protected $hasher;
 
-	/** @var \OCP\IConfig */
+	/** @var IConfig */
 	protected $config;
 
 	protected function setUp() {
 		parent::setUp();
 
-		$this->config = $this->getMockBuilder('\OCP\IConfig')
+		$this->config = $this->getMockBuilder(IConfig::class)
 			->disableOriginalConstructor()->getMock();
 
 		$this->hasher = new Hasher($this->config);

@@ -21,11 +21,12 @@
 
 namespace OCA\WorkflowEngine\Tests\Check;
 
+use OCP\IL10N;
 
 class AbstractStringCheckTest extends \Test\TestCase {
 
 	protected function getCheckMock() {
-		$l = $this->getMockBuilder('OCP\IL10N')
+		$l = $this->getMockBuilder(IL10N::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$l->expects($this->any())

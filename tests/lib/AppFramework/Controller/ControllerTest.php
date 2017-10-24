@@ -29,6 +29,7 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\IConfig;
 
 
 class ChildController extends Controller {
@@ -79,7 +80,7 @@ class ControllerTest extends \Test\TestCase {
 			$this->getMockBuilder('\OCP\Security\ISecureRandom')
 				->disableOriginalConstructor()
 				->getMock(),
-			$this->getMockBuilder('\OCP\IConfig')
+			$this->getMockBuilder(IConfig::class)
 				->disableOriginalConstructor()
 				->getMock()
 		);

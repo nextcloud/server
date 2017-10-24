@@ -10,6 +10,8 @@
 namespace Test\Group;
 
 use OC\User\User;
+use OCP\IConfig;
+use OCP\IURLGenerator;
 
 class GroupTest extends \Test\TestCase {
 
@@ -19,10 +21,10 @@ class GroupTest extends \Test\TestCase {
 	 * @return User
 	 */
 	private function newUser($uid, \OC\User\Backend $backend) {
-		$config = $this->getMockBuilder('\OCP\IConfig')
+		$config = $this->getMockBuilder(IConfig::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$urlgenerator = $this->getMockBuilder('\OCP\IURLGenerator')
+		$urlgenerator = $this->getMockBuilder(IURLGenerator::class)
 			->disableOriginalConstructor()
 			->getMock();
 

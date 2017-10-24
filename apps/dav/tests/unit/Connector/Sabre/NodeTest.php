@@ -25,6 +25,8 @@
  */
 
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
+use OC\Files\View;
+use OCP\Files\Storage;
 
 /**
  * Class NodeTest
@@ -67,7 +69,7 @@ class NodeTest extends \Test\TestCase {
 		$info->expects($this->any())
 			->method('getType')
 			->will($this->returnValue($type));
-		$view = $this->getMockBuilder('\OC\Files\View')
+		$view = $this->getMockBuilder(View::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -119,7 +121,7 @@ class NodeTest extends \Test\TestCase {
 	 * @dataProvider sharePermissionsProvider
 	 */
 	public function testSharePermissions($type, $user, $permissions, $expected) {
-		$storage = $this->getMockBuilder('\OCP\Files\Storage')
+		$storage = $this->getMockBuilder(Storage::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$storage->method('getPermissions')->willReturn($permissions);
@@ -149,7 +151,7 @@ class NodeTest extends \Test\TestCase {
 		$info->method('getType')->willReturn($type);
 		$info->method('getMountPoint')->willReturn($mountpoint);
 
-		$view = $this->getMockBuilder('\OC\Files\View')
+		$view = $this->getMockBuilder(View::class)
 			->disableOriginalConstructor()
 			->getMock();
 

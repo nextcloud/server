@@ -53,13 +53,13 @@ class PublicAuthTest extends \Test\TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->session = $this->getMockBuilder('\OCP\ISession')
+		$this->session = $this->getMockBuilder(ISession::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->request = $this->getMockBuilder('\OCP\IRequest')
+		$this->request = $this->getMockBuilder(IRequest::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->shareManager = $this->getMockBuilder('\OCP\Share\IManager')
+		$this->shareManager = $this->getMockBuilder(IManager::class)
 			->disableOriginalConstructor()
 			->getMock();
 

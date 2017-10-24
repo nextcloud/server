@@ -25,6 +25,7 @@
 
 namespace OCA\Encryption\Tests;
 
+use OC\Files\View;
 use OCA\Encryption\Migration;
 use OCP\ILogger;
 
@@ -68,7 +69,7 @@ class MigrationTest extends \Test\TestCase {
 
 
 	public function setUp() {
-		$this->logger = $this->getMockBuilder('\OCP\ILogger')->disableOriginalConstructor()->getMock();
+		$this->logger = $this->getMockBuilder(ILogger::class)->disableOriginalConstructor()->getMock();
 		$this->view = new \OC\Files\View();
 		$this->moduleId = \OCA\Encryption\Crypto\Encryption::ID;
 	}
@@ -524,7 +525,7 @@ class MigrationTest extends \Test\TestCase {
 	 */
 	public function testGetTargetDir($user, $keyPath, $filename, $trash, $systemMounts, $expected) {
 
-		$view = $this->getMockBuilder('\OC\Files\View')
+		$view = $this->getMockBuilder(View::class)
 			->disableOriginalConstructor()->getMock();
 		$view->expects($this->any())->method('file_exists')->willReturn(true);
 

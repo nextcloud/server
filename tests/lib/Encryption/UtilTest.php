@@ -4,6 +4,7 @@ namespace Test\Encryption;
 
 use OC\Encryption\Util;
 use OCP\Encryption\IEncryptionModule;
+use OCP\IConfig;
 use Test\TestCase;
 
 class UtilTest extends TestCase {
@@ -44,7 +45,7 @@ class UtilTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->config = $this->getMockBuilder('OCP\IConfig')
+		$this->config = $this->getMockBuilder(IConfig::class)
 			->disableOriginalConstructor()
 			->getMock();
 

@@ -615,7 +615,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testDeleteUser() {
-		$config = $this->getMockBuilder('OCP\IConfig')
+		$config = $this->getMockBuilder(IConfig::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$config

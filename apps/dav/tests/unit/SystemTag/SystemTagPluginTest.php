@@ -32,6 +32,9 @@ use OCP\IUserSession;
 use OCP\SystemTag\TagAlreadyExistsException;
 use OCP\IUser;
 use OCP\SystemTag\ISystemTag;
+use Sabre\DAV\Tree;
+use Sabre\HTTP\RequestInterface;
+use Sabre\HTTP\ResponseInterface;
 
 class SystemTagPluginTest extends \Test\TestCase {
 
@@ -79,7 +82,7 @@ class SystemTagPluginTest extends \Test\TestCase {
 
 	public function setUp() {
 		parent::setUp();
-		$this->tree = $this->getMockBuilder('\Sabre\DAV\Tree')
+		$this->tree = $this->getMockBuilder(Tree::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -87,11 +90,11 @@ class SystemTagPluginTest extends \Test\TestCase {
 
 		$this->tagManager = $this->getMockBuilder('\OCP\SystemTag\ISystemTagManager')
 			->getMock();
-		$this->groupManager = $this->getMockBuilder('\OCP\IGroupManager')
+		$this->groupManager = $this->getMockBuilder(IGroupManager::class)
 			->getMock();
-		$this->user = $this->getMockBuilder('\OCP\IUser')
+		$this->user = $this->getMockBuilder(IUser::class)
 			->getMock();
-		$this->userSession = $this->getMockBuilder('\OCP\IUserSession')
+		$this->userSession = $this->getMockBuilder(IUserSession::class)
 			->getMock();
 		$this->userSession
 			->expects($this->any())
@@ -413,10 +416,10 @@ class SystemTagPluginTest extends \Test\TestCase {
 			->with('/systemtags')
 			->will($this->returnValue($node));
 
-		$request = $this->getMockBuilder('Sabre\HTTP\RequestInterface')
+		$request = $this->getMockBuilder(RequestInterface::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$response = $this->getMockBuilder('Sabre\HTTP\ResponseInterface')
+		$response = $this->getMockBuilder(ResponseInterface::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -458,10 +461,10 @@ class SystemTagPluginTest extends \Test\TestCase {
 			->with('/systemtags')
 			->will($this->returnValue($node));
 
-		$request = $this->getMockBuilder('Sabre\HTTP\RequestInterface')
+		$request = $this->getMockBuilder(RequestInterface::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$response = $this->getMockBuilder('Sabre\HTTP\ResponseInterface')
+		$response = $this->getMockBuilder(ResponseInterface::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -545,10 +548,10 @@ class SystemTagPluginTest extends \Test\TestCase {
 			->with('/systemtags')
 			->will($this->returnValue($node));
 
-		$request = $this->getMockBuilder('Sabre\HTTP\RequestInterface')
+		$request = $this->getMockBuilder(RequestInterface::class)
 				->disableOriginalConstructor()
 				->getMock();
-		$response = $this->getMockBuilder('Sabre\HTTP\ResponseInterface')
+		$response = $this->getMockBuilder(ResponseInterface::class)
 				->disableOriginalConstructor()
 				->getMock();
 
@@ -619,10 +622,10 @@ class SystemTagPluginTest extends \Test\TestCase {
 			->method('createFile')
 			->with(1);
 
-		$request = $this->getMockBuilder('Sabre\HTTP\RequestInterface')
+		$request = $this->getMockBuilder(RequestInterface::class)
 				->disableOriginalConstructor()
 				->getMock();
-		$response = $this->getMockBuilder('Sabre\HTTP\ResponseInterface')
+		$response = $this->getMockBuilder(ResponseInterface::class)
 				->disableOriginalConstructor()
 				->getMock();
 
@@ -668,10 +671,10 @@ class SystemTagPluginTest extends \Test\TestCase {
 		$node->expects($this->never())
 			->method('createFile');
 
-		$request = $this->getMockBuilder('Sabre\HTTP\RequestInterface')
+		$request = $this->getMockBuilder(RequestInterface::class)
 				->disableOriginalConstructor()
 				->getMock();
-		$response = $this->getMockBuilder('Sabre\HTTP\ResponseInterface')
+		$response = $this->getMockBuilder(ResponseInterface::class)
 				->disableOriginalConstructor()
 				->getMock();
 
@@ -715,10 +718,10 @@ class SystemTagPluginTest extends \Test\TestCase {
 			->with('/systemtags')
 			->will($this->returnValue($node));
 
-		$request = $this->getMockBuilder('Sabre\HTTP\RequestInterface')
+		$request = $this->getMockBuilder(RequestInterface::class)
 				->disableOriginalConstructor()
 				->getMock();
-		$response = $this->getMockBuilder('Sabre\HTTP\ResponseInterface')
+		$response = $this->getMockBuilder(ResponseInterface::class)
 				->disableOriginalConstructor()
 				->getMock();
 

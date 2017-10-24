@@ -39,7 +39,7 @@ class RepairMimeTypesTest extends \Test\TestCase {
 		$this->mimetypeLoader = \OC::$server->getMimeTypeLoader();
 
 		/** @var IConfig | \PHPUnit_Framework_MockObject_MockObject $config */
-		$config = $this->getMockBuilder('OCP\IConfig')
+		$config = $this->getMockBuilder(IConfig::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$config->expects($this->any())

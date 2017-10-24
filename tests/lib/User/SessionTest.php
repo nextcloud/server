@@ -769,7 +769,7 @@ class SessionTest extends \Test\TestCase {
 
 		$session = new Memory('');
 		$session->set('user_id', 'foo');
-		$userSession = $this->getMockBuilder('\OC\User\Session')
+		$userSession = $this->getMockBuilder(Session::class)
 			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager])
 			->setMethods([
 				'validateSession'
@@ -950,7 +950,7 @@ class SessionTest extends \Test\TestCase {
 		$token->setUid('fritz0');
 		$token->setLastCheck(100); // Needs check
 		$user = $this->createMock(IUser::class);
-		$userSession = $this->getMockBuilder('\OC\User\Session')
+		$userSession = $this->getMockBuilder(Session::class)
 			->setMethods(['logout'])
 			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager])
 			->getMock();
@@ -980,7 +980,7 @@ class SessionTest extends \Test\TestCase {
 		$session = $this->createMock(ISession::class);
 		$timeFactory = $this->createMock(ITimeFactory::class);
 		$tokenProvider = $this->createMock(IProvider::class);
-		$userSession = $this->getMockBuilder('\OC\User\Session')
+		$userSession = $this->getMockBuilder(Session::class)
 			->setConstructorArgs([$userManager, $session, $timeFactory, $tokenProvider, $this->config, $this->random, $this->lockdownManager])
 			->setMethods(['logout'])
 			->getMock();
@@ -1027,7 +1027,7 @@ class SessionTest extends \Test\TestCase {
 		$session = $this->createMock(ISession::class);
 		$timeFactory = $this->createMock(ITimeFactory::class);
 		$tokenProvider = $this->createMock(IProvider::class);
-		$userSession = $this->getMockBuilder('\OC\User\Session')
+		$userSession = $this->getMockBuilder(Session::class)
 			->setConstructorArgs([$userManager, $session, $timeFactory, $tokenProvider, $this->config, $this->random, $this->lockdownManager])
 			->setMethods(['logout'])
 			->getMock();

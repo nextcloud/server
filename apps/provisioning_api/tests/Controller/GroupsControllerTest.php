@@ -29,6 +29,8 @@ namespace OCA\Provisioning_API\Tests\Controller;
 use OCA\Provisioning_API\Controller\GroupsController;
 use OCP\IGroupManager;
 use OCP\ILogger;
+use OCP\IRequest;
+use OCP\IUser;
 use OCP\IUserSession;
 
 class GroupsControllerTest extends \Test\TestCase {
@@ -59,7 +61,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		$this->userSession = $this->getMockBuilder('OCP\IUserSession')
 			->disableOriginalConstructor()
 			->getMock();
-		$request = $this->getMockBuilder('OCP\IRequest')
+		$request = $this->getMockBuilder(IRequest::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -91,7 +93,7 @@ class GroupsControllerTest extends \Test\TestCase {
 	 * @return \OCP\IUser|\PHPUnit_Framework_MockObject_MockObject
 	 */
 	private function createUser($uid) {
-		$user = $this->getMockBuilder('\OCP\IUser')->disableOriginalConstructor()->getMock();
+		$user = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
 		$user
 			->method('getUID')
 			->willReturn($uid);

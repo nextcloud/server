@@ -52,12 +52,12 @@ class AdminTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->l = $this->getMockBuilder('\OCP\IL10N')->getMock();
-		$this->logger = $this->getMockBuilder('\OCP\ILogger')->getMock();
-		$this->userSession = $this->getMockBuilder('\OCP\IUserSession')->getMock();
-		$this->config = $this->getMockBuilder('\OCP\IConfig')->getMock();
-		$this->userManager = $this->getMockBuilder('\OCP\IUserManager')->getMock();
-		$this->session = $this->getMockBuilder('\OCP\ISession')->getMock();
+		$this->l = $this->getMockBuilder(IL10N::class)->getMock();
+		$this->logger = $this->getMockBuilder(ILogger::class)->getMock();
+		$this->userSession = $this->getMockBuilder(IUserSession::class)->getMock();
+		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
+		$this->userManager = $this->getMockBuilder(IUserManager::class)->getMock();
+		$this->session = $this->getMockBuilder(ISession::class)->getMock();
 
 		$this->admin = new Admin(
 			$this->l,

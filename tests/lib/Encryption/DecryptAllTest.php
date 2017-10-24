@@ -29,6 +29,7 @@ use OC\Encryption\Manager;
 use OC\Files\FileInfo;
 use OC\Files\View;
 use OCP\IUserManager;
+use OCP\UserInterface;
 use Symfony\Component\Console\Formatter\OutputFormatterInterface;
 use Test\TestCase;
 
@@ -65,7 +66,7 @@ class DecryptAllTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->userManager = $this->getMockBuilder('OCP\IUserManager')
+		$this->userManager = $this->getMockBuilder(IUserManager::class)
 			->disableOriginalConstructor()->getMock();
 		$this->encryptionManager = $this->getMockBuilder('OC\Encryption\Manager')
 			->disableOriginalConstructor()->getMock();
@@ -75,7 +76,7 @@ class DecryptAllTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 		$this->outputInterface = $this->getMockBuilder('Symfony\Component\Console\Output\OutputInterface')
 			->disableOriginalConstructor()->getMock();
-		$this->userInterface = $this->getMockBuilder('OCP\UserInterface')
+		$this->userInterface = $this->getMockBuilder(UserInterface::class)
 			->disableOriginalConstructor()->getMock();
 
 		$this->outputInterface->expects($this->any())->method('getFormatter')

@@ -27,6 +27,9 @@ namespace OCA\Encryption\Tests\Controller;
 
 use OCA\Encryption\Controller\RecoveryController;
 use OCP\AppFramework\Http;
+use OCP\IConfig;
+use OCP\IL10N;
+use OCP\IRequest;
 use Test\TestCase;
 
 class RecoveryControllerTest extends TestCase {
@@ -151,15 +154,15 @@ class RecoveryControllerTest extends TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->requestMock = $this->getMockBuilder('OCP\IRequest')
+		$this->requestMock = $this->getMockBuilder(IRequest::class)
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->configMock = $this->getMockBuilder('OCP\IConfig')
+		$this->configMock = $this->getMockBuilder(IConfig::class)
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->l10nMock = $this->getMockBuilder('OCP\IL10N')
+		$this->l10nMock = $this->getMockBuilder(IL10N::class)
 			->disableOriginalConstructor()
 			->getMock();
 

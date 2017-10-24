@@ -25,6 +25,7 @@ namespace Tests\Settings\Controller;
 use OC\Settings\Admin\TipsTricks;
 use OC\Settings\Controller\AdminSettingsController;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\IConfig;
 use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\Settings\IManager;
@@ -52,9 +53,9 @@ class AdminSettingsControllerTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->request = $this->getMockBuilder('\OCP\IRequest')->getMock();
-		$this->navigationManager = $this->getMockBuilder('\OCP\INavigationManager')->getMock();
-		$this->settingsManager = $this->getMockBuilder('\OCP\Settings\IManager')->getMock();
+		$this->request = $this->getMockBuilder(IRequest::class)->getMock();
+		$this->navigationManager = $this->getMockBuilder(INavigationManager::class)->getMock();
+		$this->settingsManager = $this->getMockBuilder(IManager::class)->getMock();
 
 		$this->adminSettingsController = new AdminSettingsController(
 			'settings',
@@ -87,7 +88,7 @@ class AdminSettingsControllerTest extends TestCase {
 			->expects($this->once())
 			->method('getAdminSettings')
 			->with('test')
-			->willReturn([5 => new TipsTricks($this->getMockBuilder('\OCP\IConfig')->getMock())]);
+			->willReturn([5 => new TipsTricks($this->getMockBuilder(IConfig::class)->getMock())]);
 
 		$expected = new TemplateResponse('settings', 'settings/frame', ['forms' => ['personal' => [], 'admin' => []], 'content' => '']);
 		$this->assertEquals($expected, $this->adminSettingsController->index('test'));

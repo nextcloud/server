@@ -25,10 +25,16 @@
  */
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
+use OCA\DAV\Connector\Sabre\File;
 use OCA\DAV\Connector\Sabre\FilesPlugin;
 use OCP\Files\StorageNotAvailableException;
+use OCP\IConfig;
+use OCP\IPreview;
+use OCP\IRequest;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\PropPatch;
+use Sabre\DAV\Server;
+use Sabre\DAV\Tree;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 use Test\TestCase;
@@ -87,20 +93,20 @@ class FilesPluginTest extends TestCase {
 
 	public function setUp() {
 		parent::setUp();
-		$this->server = $this->getMockBuilder('\Sabre\DAV\Server')
+		$this->server = $this->getMockBuilder(Server::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->tree = $this->getMockBuilder('\Sabre\DAV\Tree')
+		$this->tree = $this->getMockBuilder(Tree::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->config = $this->createMock('\OCP\IConfig');
+		$this->config = $this->createMock(IConfig::class);
 		$this->config->expects($this->any())->method('getSystemValue')
 			->with($this->equalTo('data-fingerprint'), $this->equalTo(''))
 			->willReturn('my_fingerprint');
-		$this->request = $this->getMockBuilder('\OCP\IRequest')
+		$this->request = $this->getMockBuilder(IRequest::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->previewManager = $this->getMockBuilder('\OCP\IPreview')
+		$this->previewManager = $this->getMockBuilder(IPreview::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -245,7 +251,7 @@ class FilesPluginTest extends TestCase {
 		$this->plugin = new FilesPlugin(
 			$this->tree,
 			$this->config,
-			$this->getMockBuilder('\OCP\IRequest')
+			$this->getMockBuilder(IRequest::class)
 				->disableOriginalConstructor()
 				->getMock(),
 			$this->previewManager,
@@ -311,7 +317,7 @@ class FilesPluginTest extends TestCase {
 
 	public function testGetPropertiesForRootDirectory() {
 		/** @var \OCA\DAV\Connector\Sabre\Directory | \PHPUnit_Framework_MockObject_MockObject $node */
-		$node = $this->getMockBuilder('\OCA\DAV\Connector\Sabre\Directory')
+		$node = $this->getMockBuilder(Directory::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$node->expects($this->any())->method('getPath')->willReturn('/');
@@ -347,7 +353,7 @@ class FilesPluginTest extends TestCase {
 		// $this->expectException(\Sabre\DAV\Exception\NotFound::class);
 
 		/** @var \OCA\DAV\Connector\Sabre\Directory|\PHPUnit_Framework_MockObject_MockObject $node */
-		$node = $this->getMockBuilder('\OCA\DAV\Connector\Sabre\Directory')
+		$node = $this->getMockBuilder(Directory::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$node->expects($this->any())->method('getPath')->willReturn('/');
@@ -539,7 +545,7 @@ class FilesPluginTest extends TestCase {
 			->method('getPath')
 			->will($this->returnValue('test/somefile.xml'));
 
-		$node = $this->getMockBuilder('\OCA\DAV\Connector\Sabre\File')
+		$node = $this->getMockBuilder(File::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$node

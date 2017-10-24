@@ -35,6 +35,12 @@ use OC\Files\Filesystem;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Files_Sharing\Controller\ShareController;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\IConfig;
+use OCP\IL10N;
+use OCP\ILogger;
+use OCP\IPreview;
+use OCP\IRequest;
+use OCP\IUser;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\RedirectResponse;
@@ -83,11 +89,11 @@ class ShareControllerTest extends \Test\TestCase {
 		$this->appName = 'files_sharing';
 
 		$this->shareManager = $this->getMockBuilder('\OC\Share20\Manager')->disableOriginalConstructor()->getMock();
-		$this->urlGenerator = $this->getMockBuilder('\OCP\IURLGenerator')->getMock();
-		$this->session = $this->getMockBuilder('\OCP\ISession')->getMock();
-		$this->previewManager = $this->getMockBuilder('\OCP\IPreview')->getMock();
-		$this->config = $this->getMockBuilder('\OCP\IConfig')->getMock();
-		$this->userManager = $this->getMockBuilder('\OCP\IUserManager')->getMock();
+		$this->urlGenerator = $this->getMockBuilder(IURLGenerator::class)->getMock();
+		$this->session = $this->getMockBuilder(ISession::class)->getMock();
+		$this->previewManager = $this->getMockBuilder(IPreview::class)->getMock();
+		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
+		$this->userManager = $this->getMockBuilder(IUserManager::class)->getMock();
 		$this->federatedShareProvider = $this->getMockBuilder('OCA\FederatedFileSharing\FederatedShareProvider')
 			->disableOriginalConstructor()->getMock();
 		$this->federatedShareProvider->expects($this->any())
@@ -98,11 +104,11 @@ class ShareControllerTest extends \Test\TestCase {
 
 		$this->shareController = new \OCA\Files_Sharing\Controller\ShareController(
 			$this->appName,
-			$this->getMockBuilder('\OCP\IRequest')->getMock(),
+			$this->getMockBuilder(IRequest::class)->getMock(),
 			$this->config,
 			$this->urlGenerator,
 			$this->userManager,
-			$this->getMockBuilder('\OCP\ILogger')->getMock(),
+			$this->getMockBuilder(ILogger::class)->getMock(),
 			$this->getMockBuilder('\OCP\Activity\IManager')->getMock(),
 			$this->shareManager,
 			$this->session,
@@ -110,7 +116,7 @@ class ShareControllerTest extends \Test\TestCase {
 			$this->getMockBuilder('\OCP\Files\IRootFolder')->getMock(),
 			$this->federatedShareProvider,
 			$this->eventDispatcher,
-			$this->getMockBuilder('\OCP\IL10N')->getMock(),
+			$this->getMockBuilder(IL10N::class)->getMock(),
 			$this->getMockBuilder('\OCP\Defaults')->getMock()
 		);
 
@@ -320,7 +326,7 @@ class ShareControllerTest extends \Test\TestCase {
 
 
 	public function testShowShare() {
-		$owner = $this->getMockBuilder('OCP\IUser')->getMock();
+		$owner = $this->getMockBuilder(IUser::class)->getMock();
 		$owner->method('getDisplayName')->willReturn('ownerDisplay');
 		$owner->method('getUID')->willReturn('ownerUID');
 
@@ -412,7 +418,7 @@ class ShareControllerTest extends \Test\TestCase {
 	 * @expectedException \OCP\Files\NotFoundException
 	 */
 	public function testShowShareInvalid() {
-		$owner = $this->getMockBuilder('OCP\IUser')->getMock();
+		$owner = $this->getMockBuilder(IUser::class)->getMock();
 		$owner->method('getDisplayName')->willReturn('ownerDisplay');
 		$owner->method('getUID')->willReturn('ownerUID');
 

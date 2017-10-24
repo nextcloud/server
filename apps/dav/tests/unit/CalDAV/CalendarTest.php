@@ -38,7 +38,7 @@ class CalendarTest extends TestCase {
 
 	public function setUp() {
 		parent::setUp();
-		$this->l10n = $this->getMockBuilder('\OCP\IL10N')
+		$this->l10n = $this->getMockBuilder(IL10N::class)
 			->disableOriginalConstructor()->getMock();
 		$this->l10n
 			->expects($this->any())

@@ -37,7 +37,7 @@ class CapabilitiesManagerTest extends TestCase {
 
 	public function setUp() {
 		parent::setUp();
-		$this->logger = $this->getMockBuilder('OCP\ILogger')->getMock();
+		$this->logger = $this->getMockBuilder(ILogger::class)->getMock();
 		$this->manager = new CapabilitiesManager($this->logger);
 	}
 

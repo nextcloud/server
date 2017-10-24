@@ -103,17 +103,17 @@ class ShareByMailProviderTest extends TestCase {
 		$this->shareManager = \OC::$server->getShareManager();
 		$this->connection = \OC::$server->getDatabaseConnection();
 
-		$this->l = $this->getMockBuilder('OCP\IL10N')->getMock();
+		$this->l = $this->getMockBuilder(IL10N::class)->getMock();
 		$this->l->method('t')
 			->will($this->returnCallback(function($text, $parameters = []) {
 				return vsprintf($text, $parameters);
 			}));
-		$this->logger = $this->getMockBuilder('OCP\ILogger')->getMock();
+		$this->logger = $this->getMockBuilder(ILogger::class)->getMock();
 		$this->rootFolder = $this->getMockBuilder('OCP\Files\IRootFolder')->getMock();
-		$this->userManager = $this->getMockBuilder('OCP\IUserManager')->getMock();
+		$this->userManager = $this->getMockBuilder(IUserManager::class)->getMock();
 		$this->secureRandom = $this->getMockBuilder('\OCP\Security\ISecureRandom')->getMock();
 		$this->mailer = $this->getMockBuilder('\OCP\Mail\IMailer')->getMock();
-		$this->urlGenerator = $this->getMockBuilder('\OCP\IUrlGenerator')->getMock();
+		$this->urlGenerator = $this->getMockBuilder(IURLGenerator::class)->getMock();
 		$this->share = $this->getMockBuilder('\OCP\Share\IShare')->getMock();
 		$this->activityManager = $this->getMockBuilder('OCP\Activity\IManager')->getMock();
 		$this->settingsManager = $this->getMockBuilder(SettingsManager::class)->disableOriginalConstructor()->getMock();

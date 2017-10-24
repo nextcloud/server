@@ -11,6 +11,7 @@ namespace Test\Repair;
 
 use OC\Repair\RepairInvalidShares;
 use OC\Share\Constants;
+use OCP\IConfig;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 use Test\TestCase;
@@ -33,7 +34,7 @@ class RepairInvalidSharesTest extends TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$config = $this->getMockBuilder('OCP\IConfig')
+		$config = $this->getMockBuilder(IConfig::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$config->expects($this->any())

@@ -16,6 +16,7 @@ use OCP\Encryption\IFile;
 use OCP\Encryption\Keys\IStorage;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Mount\IMountPoint;
+use OCP\IConfig;
 use OCP\ILogger;
 use Test\Files\Storage\Storage;
 
@@ -120,7 +121,7 @@ class EncryptionTest extends Storage {
 			->willReturn($mockModule);
 
 		$this->arrayCache = $this->createMock(ArrayCache::class);
-		$this->config = $this->getMockBuilder('\OCP\IConfig')
+		$this->config = $this->getMockBuilder(IConfig::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->groupManager = $this->getMockBuilder('\OC\Group\Manager')

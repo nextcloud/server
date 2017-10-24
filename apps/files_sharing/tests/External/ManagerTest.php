@@ -27,7 +27,6 @@ namespace OCA\Files_Sharing\Tests\External;
 
 use OC\Federation\CloudIdManager;
 use OC\Files\Storage\StorageFactory;
-use OCA\FederatedFileSharing\DiscoveryManager;
 use OCA\Files_Sharing\External\Manager;
 use OCA\Files_Sharing\External\MountProvider;
 use OCA\Files_Sharing\Tests\TestCase;
@@ -68,7 +67,7 @@ class ManagerTest extends TestCase {
 		$this->createUser($this->uid, '');
 		$this->user = \OC::$server->getUserManager()->get($this->uid);
 		$this->mountManager = new \OC\Files\Mount\Manager();
-		$this->clientService = $this->getMockBuilder('\OCP\Http\Client\IClientService')
+		$this->clientService = $this->getMockBuilder(IClientService::class)
 			->disableOriginalConstructor()->getMock();
 
 		$this->manager = new Manager(

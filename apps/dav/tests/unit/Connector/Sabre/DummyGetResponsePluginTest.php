@@ -26,6 +26,7 @@
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OCA\DAV\Connector\Sabre\DummyGetResponsePlugin;
+use Sabre\DAV\Server;
 use Test\TestCase;
 
 /**
@@ -44,8 +45,8 @@ class DummyGetResponsePluginTest extends TestCase {
 	}
 
 	public function testInitialize() {
-		/** @var \Sabre\DAV\Server $server */
-		$server = $this->getMockBuilder('\Sabre\DAV\Server')
+		/** @var Server $server */
+		$server = $this->getMockBuilder(Server::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$server

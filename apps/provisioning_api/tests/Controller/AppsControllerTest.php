@@ -28,10 +28,9 @@
 namespace OCA\Provisioning_API\Tests\Controller;
 
 
-use OC\OCSClient;
 use OCA\Provisioning_API\Controller\AppsController;
-use OCP\API;
 use OCP\App\IAppManager;
+use OCP\IRequest;
 use OCP\IUserSession;
 
 /**
@@ -56,7 +55,7 @@ class AppsControllerTest extends \OCA\Provisioning_API\Tests\TestCase {
 		$this->groupManager = \OC::$server->getGroupManager();
 		$this->userSession = \OC::$server->getUserSession();
 
-		$request = $this->getMockBuilder('OCP\IRequest')
+		$request = $this->getMockBuilder(IRequest::class)
 			->disableOriginalConstructor()
 			->getMock();
 

@@ -25,6 +25,7 @@
 namespace OCA\DAV\Tests\unit\SystemTag;
 
 use OC\SystemTag\SystemTag;
+use OCP\IUser;
 use OCP\SystemTag\TagNotFoundException;
 use OCP\SystemTag\ISystemTag;
 
@@ -52,7 +53,7 @@ class SystemTagMappingNodeTest extends \Test\TestCase {
 			->getMock();
 		$this->tagMapper = $this->getMockBuilder('\OCP\SystemTag\ISystemTagObjectMapper')
 			->getMock();
-		$this->user = $this->getMockBuilder('\OCP\IUser')
+		$this->user = $this->getMockBuilder(IUser::class)
 			->getMock();
 	}
 

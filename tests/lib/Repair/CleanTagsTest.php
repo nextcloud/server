@@ -8,6 +8,7 @@
 
 namespace Test\Repair;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\IUserManager;
 use OCP\Migration\IOutput;
 
 /**
@@ -41,7 +42,7 @@ class CleanTagsTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->userManager = $this->getMockBuilder('\OCP\IUserManager')
+		$this->userManager = $this->getMockBuilder(IUserManager::class)
 			->disableOriginalConstructor()
 			->getMock();
 

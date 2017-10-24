@@ -26,6 +26,11 @@ namespace OCA\Encryption\Tests\Crypto;
 
 
 use OCA\Encryption\Crypto\EncryptAll;
+use OCP\IConfig;
+use OCP\IL10N;
+use OCP\IUserManager;
+use OCP\Mail\IMailer;
+use OCP\UserInterface;
 use Symfony\Component\Console\Formatter\OutputFormatterInterface;
 use Test\TestCase;
 
@@ -81,15 +86,15 @@ class EncryptAllTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 		$this->util = $this->getMockBuilder('OCA\Encryption\Util')
 			->disableOriginalConstructor()->getMock();
-		$this->userManager = $this->getMockBuilder('OCP\IUserManager')
+		$this->userManager = $this->getMockBuilder(IUserManager::class)
 			->disableOriginalConstructor()->getMock();
 		$this->view = $this->getMockBuilder('OC\Files\View')
 			->disableOriginalConstructor()->getMock();
-		$this->config = $this->getMockBuilder('OCP\IConfig')
+		$this->config = $this->getMockBuilder(IConfig::class)
 			->disableOriginalConstructor()->getMock();
-		$this->mailer = $this->getMockBuilder('OCP\Mail\IMailer')
+		$this->mailer = $this->getMockBuilder(IMailer::class)
 			->disableOriginalConstructor()->getMock();
-		$this->l = $this->getMockBuilder('OCP\IL10N')
+		$this->l = $this->getMockBuilder(IL10N::class)
 			->disableOriginalConstructor()->getMock();
 		$this->questionHelper = $this->getMockBuilder('Symfony\Component\Console\Helper\QuestionHelper')
 			->disableOriginalConstructor()->getMock();
@@ -97,7 +102,7 @@ class EncryptAllTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 		$this->outputInterface = $this->getMockBuilder('Symfony\Component\Console\Output\OutputInterface')
 			->disableOriginalConstructor()->getMock();
-		$this->userInterface = $this->getMockBuilder('OCP\UserInterface')
+		$this->userInterface = $this->getMockBuilder(UserInterface::class)
 			->disableOriginalConstructor()->getMock();
 
 
