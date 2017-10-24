@@ -16,7 +16,6 @@ OC.L10N.register(
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Ekki nægilegt laust pláss, þú ert að senda inn {size1} en einungis {size2} eru eftir",
     "Target folder \"{dir}\" does not exist any more" : "Markmappan \"{dir}\" er ekki lengur til",
     "Not enough free space" : "Ekki nægilegt pláss",
-    "Uploading …" : "Sendi inn …",
     "…" : "…",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} af {totalSize} ({bitrate})",
     "Actions" : "Aðgerðir",

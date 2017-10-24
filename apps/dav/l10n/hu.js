@@ -46,7 +46,6 @@ OC.L10N.register(
     "Remote Address: %s" : "Távoli cím: %s",
     "Request ID: %s" : "Kérelem azonosító: %s",
     "CalDAV server" : "CalDAV szerver",
-    "Send invitations to attendees" : "Meghívó küldése a résztvevőknek",
-    "Please make sure to properly setup the email settings above." : "Kérlek győződj meg a fenti e-mail beállítások helyességéről."
+    "Send invitations to attendees" : "Meghívó küldése a résztvevőknek"
 },
 "nplurals=2; plural=(n != 1);");

@@ -311,7 +311,6 @@ OC.L10N.register(
     "Create" : "Sortu",
     "Admin Recovery Password" : "Administratzailearen pasahitza berreskuratzea",
     "Enter the recovery password in order to recover the users files during password change" : "Berreskuratze pasahitza idatzi pasahitz aldaketan erabiltzaileen fitxategiak berreskuratzeko",
-    "Group name" : "Taldearen izena",
     "Everyone" : "Edonor",
     "Admins" : "Administratzaileak",
     "Default quota" : "Kuota lehenetsia",
@@ -372,6 +371,7 @@ OC.L10N.register(
     "Passcodes that give an app or device permissions to access your account." : "Zure kontuan sartzeko aplikazio edo gailuei baimena ematen dien pasahitzak.",
     "Name" : "Izena",
     "Show last log in" : "Erakutsi azkeneko saio hasiera",
+    "Group name" : "Taldearen izena",
     "You have now an %s account, you can add, protect, and share your data." : "Orain baduzu %s kontu bat, zure datuak gehitu, babestu eta parteka ditzakezu."
 },
 "nplurals=2; plural=(n != 1);");

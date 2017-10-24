@@ -16,7 +16,6 @@ OC.L10N.register(
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Na voljo ni dovolj prostora. Velikost poslane datoteke je {size1}, na voljo pa je je {size2}.",
     "Target folder \"{dir}\" does not exist any more" : "Ciljna mapa \"{dir}\" ne obstaja več",
     "Not enough free space" : "Ni dovolj prostora",
-    "Uploading …" : "Nalaganje",
     "…" : "...",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} od {totalSize} ({bitrate})",
     "Actions" : "Dejanja",

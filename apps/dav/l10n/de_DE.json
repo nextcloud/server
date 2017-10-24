@@ -44,7 +44,6 @@
     "Remote Address: %s" : "Entfernte Adresse: %s",
     "Request ID: %s" : "Anfragekennung: %s",
     "CalDAV server" : "CalDAV-Server",
-    "Send invitations to attendees" : "Einladungen an die Teilnehmer versenden",
-    "Please make sure to properly setup the email settings above." : "Stellen Sie sicher, dass die obigen E-Mail-Einstellungen korrekt sind."
+    "Send invitations to attendees" : "Einladungen an die Teilnehmer versenden"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

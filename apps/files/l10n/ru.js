@@ -16,7 +16,6 @@ OC.L10N.register(
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Недостаточно свободного места, вы выгружаете {size1}, но только {size2} доступно",
     "Target folder \"{dir}\" does not exist any more" : "Целевой каталог «{dir}» более не существует",
     "Not enough free space" : "Недостаточно свободного места",
-    "Uploading …" : "Выгрузка...",
     "…" : "...",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} из {totalSize} ({bitrate})",
     "Actions" : "Действия",
