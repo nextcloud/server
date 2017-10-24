@@ -24,6 +24,7 @@ namespace Tests\Settings\Controller;
 use OC\DB\Connection;
 use OC\Files\View;
 use OC\Settings\Controller\EncryptionController;
+use OCP\App\IAppManager;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\ILogger;
@@ -51,6 +52,8 @@ class EncryptionControllerTest extends TestCase {
 	private $view;
 	/** @var ILogger */
 	private $logger;
+	/** @var IAppManager */
+	private $appManager;
 	/** @var EncryptionController */
 	private $encryptionController;
 
@@ -75,6 +78,8 @@ class EncryptionControllerTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 		$this->logger = $this->getMockBuilder('\\OCP\\ILogger')
 			->disableOriginalConstructor()->getMock();
+		$this->appManager = $this->getMockBuilder('\\OCP\\App\\IAppManager')
+			->disableOriginalConstructor()->getMock();
 
 		$this->encryptionController = $this->getMockBuilder('\\OC\\Settings\\Controller\\EncryptionController')
 			->setConstructorArgs([
@@ -86,6 +91,7 @@ class EncryptionControllerTest extends TestCase {
 				$this->userManager,
 				$this->view,
 				$this->logger,
+				$this->appManager,
 			])
 			->setMethods(['getMigration'])
 			->getMock();

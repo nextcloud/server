@@ -26,6 +26,7 @@ namespace OC\Settings\Controller;
 
 use OC\Files\View;
 use OCA\Encryption\Migration;
+use OCP\App\IAppManager;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\AppFramework\Controller;
@@ -57,6 +58,9 @@ class EncryptionController extends Controller {
 	/** @var ILogger */
 	private $logger;
 
+	/** @var IAppManager */
+	private $appManager;
+
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
@@ -66,6 +70,7 @@ class EncryptionController extends Controller {
 	 * @param IUserManager $userManager
 	 * @param View $view
 	 * @param ILogger $logger
+	 * @param IAppManager $appManager
 	 */
 	public function __construct($appName,
 								IRequest $request,
@@ -74,7 +79,8 @@ class EncryptionController extends Controller {
 								IDBConnection $connection,
 								IUserManager $userManager,
 								View $view,
-								ILogger  $logger) {
+								ILogger $logger,
+								IAppManager $appManager) {
 		parent::__construct($appName, $request);
 		$this->l10n = $l10n;
 		$this->config = $config;
@@ -82,6 +88,7 @@ class EncryptionController extends Controller {
 		$this->view = $view;
 		$this->userManager = $userManager;
 		$this->logger = $logger;
+		$this->appManager = $appManager;
 	}
 
 	/**
@@ -89,13 +96,15 @@ class EncryptionController extends Controller {
 	 * @param View $view
 	 * @param IDBConnection $connection
 	 * @param ILogger $logger
+	 * @param IAppManager $appManager
 	 * @return Migration
 	 */
 	protected function getMigration(IConfig $config,
 								 View $view,
 								 IDBConnection $connection,
-								 ILogger $logger) {
-		return new Migration($config, $view, $connection, $logger);
+								 ILogger $logger,
+								 IAppManager $appManager) {
+		return new Migration($config, $view, $connection, $logger, $appManager);
 	}
 
 	/**
@@ -111,7 +120,7 @@ class EncryptionController extends Controller {
 
 		try {
 
-			$migration = $this->getMigration($this->config, $this->view, $this->connection, $this->logger);
+			$migration = $this->getMigration($this->config, $this->view, $this->connection, $this->logger, $this->appManager);
 			$migration->reorganizeSystemFolderStructure();
 			$migration->updateDB();
 
