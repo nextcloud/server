@@ -42,6 +42,8 @@
     "Contacts" : "Kontakter",
     "Technical details" : "Tekniske detaljer",
     "Remote Address: %s" : "Fjernadresse: %s",
-    "Request ID: %s" : "Forespørgsels-ID: %s"
+    "Request ID: %s" : "Forespørgsels-ID: %s",
+    "CalDAV server" : "CalDAV server",
+    "Send invitations to attendees" : "Send invitation til deltagere"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

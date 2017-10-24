@@ -1,12 +1,26 @@
 OC.L10N.register(
     "settings",
     {
+    "{actor} changed your password" : "{actor} zmenil Vaše heslo",
+    "You changed your password" : "Zmenili ste si heslo",
+    "Your password was reset by an administrator" : "Vaše heslo bolo resetované administrátorom",
+    "{actor} changed your email address" : "{actor} zmenil Vašu emailovú adresu",
+    "You changed your email address" : "Zmenili ste si emailovú adresu",
+    "Your email address was changed by an administrator" : "Vaša emailová adresa bola zmenená administrátorom",
+    "Security" : "Zabezpečenie",
+    "Your apps" : "Vaše aplikácie",
+    "Updates" : "Aktualizácie",
+    "Enabled apps" : "Povolené aplikácie",
+    "Disabled apps" : "Zakázané aplikácie",
+    "App bundles" : "Aplikačné balíky",
     "Wrong password" : "Nesprávne heslo",
     "Saved" : "Uložené",
     "No user supplied" : "Nebol uvedený používateľ",
     "Unable to change password" : "Zmena hesla sa nepodarila",
     "Authentication error" : "Chyba autentifikácie",
+    "Please provide an admin recovery password; otherwise, all user data will be lost." : "Zadajte administrátorské heslo pre obnovu, inak budú všetky používateľské dáta stratené.",
     "Wrong admin recovery password. Please check the password and try again." : "Chybné administrátorské heslo pre obnovu. Skontrolujte správnosť hesla a skúste to znovu.",
+    "Backend doesn't support password change, but the user's encryption key was updated." : "Backend nepodporuje zmenu hesla, ale šifrovací kľúč používateľa bol zmenený.",
     "Federated Cloud Sharing" : "Sprístupnenie prostredníctvom Federated Cloud",
     "A problem occurred, please check your log files (Error: %s)" : "Nastala chyba, skontrolujte prosím váš log súbor (Chyba: %s)",
     "Migration Completed" : "Migrácia ukončená",
@@ -251,7 +265,6 @@ OC.L10N.register(
     "Create" : "Vytvoriť",
     "Admin Recovery Password" : "Obnovenie hesla administrátora",
     "Enter the recovery password in order to recover the users files during password change" : "Zadajte heslo pre obnovenie súborov používateľa pri zmene hesla",
-    "Group name" : "Názov skupiny",
     "Everyone" : "Všetci",
     "Admins" : "Administrátori",
     "Default quota" : "Predvolená kvóta",
@@ -314,6 +327,7 @@ OC.L10N.register(
     "Passcodes that give an app or device permissions to access your account." : "Prístupové heslá, ktoré dovolia aplikáciam alebo zariadeniam prístup na váš účet.",
     "Name" : "Názov",
     "Follow us on Google Plus!" : "Sleduj nás na Google Plus!",
-    "Show last log in" : "Zobraziť posledné prihlásenie"
+    "Show last log in" : "Zobraziť posledné prihlásenie",
+    "Group name" : "Názov skupiny"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

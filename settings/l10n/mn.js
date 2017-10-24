@@ -88,7 +88,6 @@ OC.L10N.register(
     "Send email to new user" : "Шинэ хэрэглэгч рүү цахим шуудан илгээх",
     "E-Mail" : "Цахим шуудангийн хаяг",
     "Create" : "Шинээр үүсгэх",
-    "Group name" : "Бүлгийн нэр",
     "Everyone" : "Бүх хэрэглэгчид",
     "Admins" : "Админууд",
     "Disabled" : "Идэвхигүй",
@@ -109,6 +108,7 @@ OC.L10N.register(
     "Uninstall app" : "Аппликэйшныг устгах",
     "Your website" : "Таны цахим хуудас",
     "Name" : "Нэр",
-    "Show last log in" : "Хамгийн сүүлд нэвтэрсэн огноог харуулах"
+    "Show last log in" : "Хамгийн сүүлд нэвтэрсэн огноог харуулах",
+    "Group name" : "Бүлгийн нэр"
 },
 "nplurals=2; plural=(n != 1);");

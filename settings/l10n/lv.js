@@ -230,7 +230,6 @@ OC.L10N.register(
     "Create" : "Izveidot",
     "Admin Recovery Password" : "Administratora atgūšanas parole",
     "Enter the recovery password in order to recover the users files during password change" : "Ievadiet atgūšanas paroli, lai varētu atgūt lietotāja failus paroles maiņas laikā.",
-    "Group name" : "Grupas nosaukums",
     "Everyone" : "Visi",
     "Admins" : "Admins",
     "Default quota" : "Apjoms pēc noklusējuma",
@@ -279,6 +278,7 @@ OC.L10N.register(
     "Name" : "Nosaukums",
     "Follow us on Google Plus!" : "Seko mums Google Plus!",
     "Subscribe to our newsletter!" : "Abonēt mūsu jaunumus!",
-    "Show last log in" : "Rādīt pēdējo autorizāciju"
+    "Show last log in" : "Rādīt pēdējo autorizāciju",
+    "Group name" : "Grupas nosaukums"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

@@ -16,7 +16,6 @@ OC.L10N.register(
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Brak wolnej przestrzeni, przesyłasz {size1} a pozostało tylko {size2}",
     "Target folder \"{dir}\" does not exist any more" : "Folder docelowy \"{dir}\" już nie istnieje",
     "Not enough free space" : "Za mało wolnego miejsca",
-    "Uploading …" : "Wysyłanie...",
     "…" : "...",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} z {totalSize} ({bitrate})",
     "Actions" : "Akcje",

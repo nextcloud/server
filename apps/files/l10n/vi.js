@@ -16,7 +16,6 @@ OC.L10N.register(
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Không đủ dung lượng trống, bạn đang tải {size1} nhưng chỉ còn {size2} trống",
     "Target folder \"{dir}\" does not exist any more" : "Thư mục đích \"{dir}\" không còn tồn tại",
     "Not enough free space" : "Không đủ dung lượng trống",
-    "Uploading …" : "Đang tải lên …",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} trong tổng số {totalSize} ({bitrate})",
     "Actions" : "Actions",
     "Download" : "Tải về",
