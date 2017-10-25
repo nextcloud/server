@@ -390,7 +390,15 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 		$stat['size'] = filesize($tmpFile);
 		$stat['mtime'] = $mTime;
 		$stat['storage_mtime'] = $mTime;
-		$stat['mimetype'] = \OC::$server->getMimeTypeDetector()->detect($tmpFile);
+
+		// run path based detection first, to use file extension because $tmpFile is only a random string
+		$mimetypeDetector =  \OC::$server->getMimeTypeDetector();
+		$mimetype = $mimetypeDetector->detectPath($path);
+		if ($mimetype === 'application/octet-stream') {
+			$mimetype = $mimetypeDetector->detect($tmpFile);
+		}
+
+		$stat['mimetype'] = $mimetype;
 		$stat['etag'] = $this->getETag($path);
 
 		$fileId = $this->getCache()->put($path, $stat);
