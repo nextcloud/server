@@ -115,7 +115,6 @@
     "Show hidden files" : "Показати приховані файли",
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Використайте цю адресу для <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">доступу через WebDAV</a>",
-    "Uploading @" : "Вивантаження @",
     "No files in here" : "Тут немає файлів",
     "Upload some content or sync with your devices!" : "Вивантажте щось або синхронізуйте з пристроями!",
     "No entries found in this folder" : "В цій теці нічого немає",

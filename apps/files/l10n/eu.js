@@ -117,7 +117,6 @@ OC.L10N.register(
     "Show hidden files" : "Erakutsi ezkutuko fitxategiak",
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Erabili helbide hau <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">WebDAV bidez zure fitxategietara sartzeko </a> ",
-    "Uploading @" : "Igotzen @",
     "No files in here" : "Ez dago fitxategirik hemen",
     "Upload some content or sync with your devices!" : "Igo edukiren bat edo sinkronizatu zure gailuekin!",
     "No entries found in this folder" : "Ez da sarrerarik aurkitu karpeta honetan",
