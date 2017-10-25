@@ -90,7 +90,7 @@
 			this._commentMaxThreshold = this._commentMaxLength * 0.9;
 
 			// TODO: error handling
-			_.bindAll(this, '_onTypeComment', '_initAutoComplete');
+			_.bindAll(this, '_onTypeComment', '_initAutoComplete', '_onAutoComplete');
 		},
 
 		template: function(params) {
@@ -175,11 +175,13 @@
 			autosize(this.$el.find('.newCommentRow .message'))
 		},
 
-		_applyAutoComplete: function($target) {
+		_initAutoComplete: function($target) {
 			var s = this;
 			$target.atwho({
 				at: '@',
-				data: this._autoCompleteData,
+				callbacks: {
+					remoteFilter: s._onAutoComplete
+				},
 				displayTpl: "<li>${label}</li>",
 				insertTpl: ''
 				+ '<span class="avatar-name-wrapper">'
@@ -203,27 +205,31 @@
 			});
 		},
 
-		_initAutoComplete: function ($target) {
-			if(!_.isUndefined(this._autoCompleteData)) {
-				this._applyAutoComplete($target);
+		_onAutoComplete: function(query, callback) {
+			if(_.isEmpty(query)) {
 				return;
 			}
-
 			var s = this;
-			_.defer(function () {
-				$.get(
+			if(!_.isUndefined(this._autoCompleteRequestTimer)) {
+				clearTimeout(this._autoCompleteRequestTimer);
+			}
+			this._autoCompleteRequestTimer = _.delay(function() {
+				if(!_.isUndefined(this._autoCompleteRequestCall)) {
+					this._autoCompleteRequestCall.abort();
+				}
+				this._autoCompleteRequestCall = $.get(
 					OC.generateUrl('/autocomplete/get'),
 					{
+						search: query,
 						itemType: 'files',
 						itemId: s.model.get('id'),
 						sorter: 'comments|share-recipients'
 					},
 					function (data) {
-						s._autoCompleteData = data;
-						s._applyAutoComplete($target);
+						callback(data);
 					}
-				)
-			});
+				);
+			}, 200);
 		},
 
 		_formatItem: function(commentModel) {
