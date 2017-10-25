@@ -5551,9 +5551,6 @@ dav.Client.prototype = {
             '  <d:prop>\n';
 
         for(var ii in properties) {
-            if (!properties.hasOwnProperty(ii)) {
-                continue;
-            }
 
             var property = this.parseClarkNotation(properties[ii]);
             if (this.xmlNamespaces[property.namespace]) {
@@ -5599,10 +5596,6 @@ dav.Client.prototype = {
             '   <d:prop>\n';
 
         for(var ii in properties) {
-            if (!properties.hasOwnProperty(ii)) {
-                continue;
-            }
-
             var property = this.parseClarkNotation(ii);
             var propName;
             var propValue = properties[ii];
