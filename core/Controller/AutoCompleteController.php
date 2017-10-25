@@ -27,6 +27,7 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\Collaboration\AutoComplete\IManager;
 use OCP\Collaboration\Collaborators\ISearch;
+use OCP\IConfig;
 use OCP\IRequest;
 use OCP\Share;
 
@@ -35,27 +36,38 @@ class AutoCompleteController extends Controller {
 	private $collaboratorSearch;
 	/** @var IManager */
 	private $autoCompleteManager;
+	/** @var IConfig */
+	private $config;
 
-	public function __construct($appName, IRequest $request, ISearch $collaboratorSearch, IManager $autoCompleteManager) {
+	public function __construct(
+		$appName,
+		IRequest $request,
+		ISearch $collaboratorSearch,
+		IManager $autoCompleteManager,
+		IConfig $config
+	) {
 		parent::__construct($appName, $request);
 
 		$this->collaboratorSearch = $collaboratorSearch;
 		$this->autoCompleteManager = $autoCompleteManager;
+		$this->config = $config;
 	}
 
 	/**
 	 * @NoAdminRequired
 	 *
+	 * @param string $search
 	 * @param string $itemType
 	 * @param string $itemId
 	 * @param string|null $sorter can be piped, top prio first, e.g.: "commenters|share-recipients"
 	 * @param array $shareTypes
 	 * @return DataResponse
 	 */
-	public function get($itemType, $itemId, $sorter = null, $shareTypes = [Share::SHARE_TYPE_USER]) {
+	public function get($search, $itemType, $itemId, $sorter = null, $shareTypes = [Share::SHARE_TYPE_USER]) {
 		// if enumeration/user listings are disabled, we'll receive an empty
 		// result from search() – thus nothing else to do here.
-		list($results,) = $this->collaboratorSearch->search('', $shareTypes, false, 20, 0);
+		$limit = $this->config->getSystemValue('collaboration.maxAutocompleteResults', 50);
+		list($results,) = $this->collaboratorSearch->search($search, $shareTypes, false, $limit, 0);
 
 		// there won't be exact matches without a search string
 		unset($results['exact']);
