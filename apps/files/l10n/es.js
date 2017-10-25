@@ -122,7 +122,6 @@ OC.L10N.register(
     "Show hidden files" : "Mostrar archivos ocultos",
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Usa esta dirección para <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">acceder tus archivos mediante WebDAV</a>",
-    "Uploading @" : "Subiendo a ",
     "Cancel upload" : "Cancelar subida",
     "No files in here" : "Aquí no hay archivos",
     "Upload some content or sync with your devices!" : "¡Suba contenidos o sincronice sus dispositivos!",

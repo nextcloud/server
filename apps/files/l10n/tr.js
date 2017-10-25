@@ -122,7 +122,6 @@ OC.L10N.register(
     "Show hidden files" : "Gizli dosyaları görüntüle",
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Dosyalarınıza WebDAV üzerinden erişmek için <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">bu adresi kullanın</a>",
-    "Uploading @" : "Yükleniyor @",
     "Cancel upload" : "Yüklemeyi iptal et",
     "No files in here" : "Burada herhangi bir dosya yok",
     "Upload some content or sync with your devices!" : "Bir şeyler yükleyin ya da aygıtlarınızla eşitleyin!",

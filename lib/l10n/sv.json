@@ -29,6 +29,7 @@
     "Invalid image" : "Ogiltig bild",
     "Avatar image is not square" : "Profilbilden är inte fyrkantig",
     "today" : "i dag",
+    "tomorrow" : "i morgon",
     "yesterday" : "i går",
     "_%n day ago_::_%n days ago_" : ["%n dag sedan","%n dagar sedan"],
     "last month" : "förra månaden",

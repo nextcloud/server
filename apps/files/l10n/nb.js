@@ -122,7 +122,6 @@ OC.L10N.register(
     "Show hidden files" : "Vis skjulte filer",
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Bruk adressen <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">for å få tilgang til WebDAV</a>",
-    "Uploading @" : "Laster opp @",
     "Cancel upload" : "Avbryt opplasting",
     "No files in here" : "Ingen filer her",
     "Upload some content or sync with your devices!" : "Last opp noe innhold eller synkroniser med enhetene dine!",

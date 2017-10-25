@@ -122,7 +122,6 @@ OC.L10N.register(
     "Show hidden files" : "Mostra els fitxers ocults",
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Utilitzeu aquesta adreça per <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">accedir als vostres fitxers a través de WebDAV</a>",
-    "Uploading @" : "S'està carregant @",
     "No files in here" : "No hi ha arxius",
     "Upload some content or sync with your devices!" : "Pugi continguts o sincronitzi els seus dispositius.",
     "No entries found in this folder" : "No hi ha entrades en aquesta carpeta",

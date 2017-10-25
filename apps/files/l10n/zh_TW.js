@@ -117,7 +117,6 @@ OC.L10N.register(
     "Show hidden files" : "顯示隱藏檔",
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "使用這個位址來<a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">使用 WebDAV 存取檔案</a>",
-    "Uploading @" : "正在上傳 @",
     "No files in here" : "沒有任何檔案",
     "Upload some content or sync with your devices!" : "在您的裝置中同步或上傳一些內容",
     "No entries found in this folder" : "在此資料夾中沒有任何項目",
