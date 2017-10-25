@@ -318,6 +318,82 @@ class Manager implements ICommentsManager {
 	}
 
 	/**
+	 * Get the actor types and ID that commented in the tree specified by the ID
+	 *
+	 * @param string $id
+	 * @return array
+	 * @since 13.0.0
+	 *
+	 * The return array looks like this:
+	 *
+	 * [
+	 *   'user' => [
+	 *     'alice' => 2,
+	 *     'bob' => 3
+	 *   ],
+	 *   'robot' => [
+	 *     'r2-d2' => 5,
+	 *     'c-3po' => 17,
+	 *   ]
+	 * ]
+	 */
+	public function getActorsInTree($id) {
+		$tree = $this->getTree($id);
+		$actors = [];
+		$this->walkTree($tree, $actors, [$this, 'extractActor']);
+		return $actors;
+	}
+
+	/**
+	 * @param IComment $comment
+	 * @param array &$actors
+	 *
+	 * build an array that looks like:
+	 *
+	 * [
+	 *   'user' => [
+	 *     'alice' => 2,
+	 *     'bob' => 3
+	 *   ],
+	 *   'robot' => [
+	 *     'r2-d2' => 5,
+	 *     'c-3po' => 17,
+	 *   ]
+	 * ]
+	 *
+	 */
+	protected function extractActor(IComment $comment, &$actors) {
+		if(!isset($actors[$comment->getActorType()])) {
+			$actors[$comment->getActorType()] = [];
+		}
+		if(!isset($actors[$comment->getActorType()][$comment->getActorId()])) {
+			$actors[$comment->getActorType()][$comment->getActorId()] = 1;
+		} else {
+			$actors[$comment->getActorType()][$comment->getActorId()] += 1;
+		}
+	}
+
+	/**
+	 * walks through a comment tree (as returned by getTree() and invokes a callback
+	 * with the current IComment instance (and optionally custom parameters)
+	 *
+	 * @param array $node
+	 * @param array &$results
+	 * @param callable $callback
+	 * @param array|null $parameters
+	 */
+	protected function walkTree($node, array &$results, callable $callback, array $parameters = null) {
+		if(isset($node['replies'])) {
+			foreach ($node['replies'] as $subNode) {
+				$this->walkTree($subNode, $results, $callback, $parameters);
+			}
+		}
+		if(isset($node['comment']) && $node['comment'] instanceof IComment) {
+			$callback($node['comment'], $results, $parameters);
+		}
+	}
+
+	/**
 	 * returns comments for a specific object (e.g. a file).
 	 *
 	 * The sort order is always newest to oldest.

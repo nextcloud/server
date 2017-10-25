@@ -1322,7 +1322,7 @@ class Manager implements IManager {
 	 *
 	 * @param \OCP\Files\Node $path
 	 * @param bool $recursive Should we check all parent folders as well
-	 * @param bool $currentAccess Should the user have currently access to the file
+	 * @param bool $currentAccess Ensure the recipient has access to the file (e.g. did not unshare it)
 	 * @return array
 	 */
 	public function getAccessList(\OCP\Files\Node $path, $recursive = true, $currentAccess = false) {

@@ -1011,6 +1011,11 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerAlias('CollaboratorSearch', \OCP\Collaboration\Collaborators\ISearch::class);
 
+		$this->registerService(\OCP\Collaboration\AutoComplete\IManager::class, function (Server $c) {
+			return new Collaboration\AutoComplete\Manager($c);
+		});
+		$this->registerAlias('AutoCompleteManager', \OCP\Collaboration\AutoComplete\IManager::class);
+
 		$this->registerService('SettingsManager', function (Server $c) {
 			$manager = new \OC\Settings\Manager(
 				$c->getLogger(),
@@ -1799,6 +1804,13 @@ class Server extends ServerContainer implements IServerContainer {
 	 */
 	public function getCollaboratorSearch() {
 		return $this->query('CollaboratorSearch');
+	}
+
+	/**
+	 * @return \OCP\Collaboration\AutoComplete\IManager
+	 */
+	public function getAutoCompleteManager(){
+		return $this->query('AutoCompleteManager');
 	}
 
 	/**
