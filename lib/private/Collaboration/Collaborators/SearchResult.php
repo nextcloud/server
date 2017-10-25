@@ -52,7 +52,7 @@ class SearchResult implements ISearchResult {
 		$this->exactIdMatches[$type->getLabel()] = 1;
 	}
 
-	public function hasExactIdMatch(SearchResultType$type) {
+	public function hasExactIdMatch(SearchResultType $type) {
 		return isset($this->exactIdMatches[$type->getLabel()]);
 	}
 
