@@ -122,7 +122,7 @@ class Connection extends LDAPUtility {
 
 	/**
 	 * @param string $name
-	 * @return bool|mixed|void
+	 * @return bool|mixed
 	 */
 	public function __get($name) {
 		if(!$this->configured) {

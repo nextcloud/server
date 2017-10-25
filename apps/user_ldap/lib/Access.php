@@ -1853,20 +1853,19 @@ class Access extends LDAPUtility implements IUserTools {
 
 				$cookie = $this->getPagedResultCookie($base, $filter, $limit, $offset);
 				if(empty($cookie) && $cookie !== "0" && ($offset > 0)) {
-					// no cookie known, although the offset is not 0. Maybe cache run out. We need
-					// to start all over *sigh* (btw, Dear Reader, did you know LDAP paged
-					// searching was designed by MSFT?)
-					// 		Lukas: No, but thanks to reading that source I finally know!
-					// '0' is valid, because 389ds
-					$reOffset = ($offset - $limit) < 0 ? 0 : $offset - $limit;
-					//a bit recursive, $offset of 0 is the exit
-					\OCP\Util::writeLog('user_ldap', 'Looking for cookie L/O '.$limit.'/'.$reOffset, \OCP\Util::INFO);
-					$this->search($filter, array($base), $attr, $limit, $reOffset, true);
+					// no cookie known from a potential previous search. We need
+					// to start from 0 to come to the desired page. cookie value
+					// of '0' is valid, because 389ds
+					$reOffset = 0;
+					while($reOffset < $offset) {
+						$this->search($filter, array($base), $attr, $limit, $reOffset, true);
+						$reOffset += $limit;
+					}
 					$cookie = $this->getPagedResultCookie($base, $filter, $limit, $offset);
 					//still no cookie? obviously, the server does not like us. Let's skip paging efforts.
+					// '0' is valid, because 389ds
 					//TODO: remember this, probably does not change in the next request...
 					if(empty($cookie) && $cookie !== '0') {
-						// '0' is valid, because 389ds
 						$cookie = null;
 					}
 				}
