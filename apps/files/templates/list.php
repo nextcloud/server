@@ -2,7 +2,7 @@
 		<div class="actions creatable hidden">
 			<div id="uploadprogresswrapper">
 				<div id="uploadprogressbar">
-					<em class="label outer" style="display:none"><span class="desktop"><?php p($l->t('Uploading...'));?></span><span class="mobile"><?php p($l->t('...'));?></span></em>
+					<em class="label outer" style="display:none"><span class="desktop"><?php p($l->t('Uploading …'));?></span><span class="mobile"><?php p($l->t('…'));?></span></em>
 				</div>
 				<input type="button" class="stop icon-close" style="display:none" value="" />
 			</div>
