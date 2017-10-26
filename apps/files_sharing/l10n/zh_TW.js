@@ -87,7 +87,6 @@ OC.L10N.register(
     "Wrong or no update parameter given" : "更新參數不正確或未提供",
     "Can't change permissions for public share links" : "無法由公開分享的連結變更權限",
     "Cannot increase permissions" : "無法增加權限",
-    "%s is publicly shared" : "%s 是被公然分享的",
     "Share API is disabled" : "分享 API 已停用",
     "This share is password-protected" : "這個分享有密碼保護",
     "The password is wrong. Try again." : "請檢查您的密碼並再試一次",
@@ -110,6 +109,7 @@ OC.L10N.register(
     "Upload files to %s" : "上傳檔案到 %s",
     "Select or drop files" : "選擇或拖曳檔案至此",
     "Uploading files…" : "上傳檔案中…",
-    "Uploaded files:" : "已上傳的檔案："
+    "Uploaded files:" : "已上傳的檔案：",
+    "%s is publicly shared" : "%s 是被公然分享的"
 },
 "nplurals=1; plural=0;");

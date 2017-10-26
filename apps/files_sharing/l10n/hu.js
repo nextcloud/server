@@ -87,7 +87,6 @@ OC.L10N.register(
     "Wrong or no update parameter given" : "Hibás vagy üres frissítési paraméter",
     "Can't change permissions for public share links" : "Nem lehet módosítani a nyilvános megosztási hivatkozások jogosultságait",
     "Cannot increase permissions" : "Nem lehet növelni az engedélyeket",
-    "%s is publicly shared" : "%s nyilvánosan megosztva",
     "Share API is disabled" : "Megosztás API letiltva",
     "This share is password-protected" : "Ez egy jelszóval védett megosztás",
     "The password is wrong. Try again." : "A megadott jelszó nem megfelelő. Próbálja újra!",
@@ -110,6 +109,7 @@ OC.L10N.register(
     "Upload files to %s" : "Fájlok felöltése ide: %s",
     "Select or drop files" : "Válassz ki vagy dobj ide fájlokat",
     "Uploading files…" : "Fájlok feltöltése...",
-    "Uploaded files:" : "Felöltött fájlok:"
+    "Uploaded files:" : "Felöltött fájlok:",
+    "%s is publicly shared" : "%s nyilvánosan megosztva"
 },
 "nplurals=2; plural=(n != 1);");

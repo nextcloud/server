@@ -85,7 +85,6 @@
     "Wrong or no update parameter given" : "Parametro fornito non valido o non di aggiornamento",
     "Can't change permissions for public share links" : "Impossibile cambiare i permessi per i collegamenti di condivisione pubblici",
     "Cannot increase permissions" : "Impossibile aumentare i permessi",
-    "%s is publicly shared" : "%s è condiviso pubblicamente",
     "Share API is disabled" : "API di condivisione disabilitate",
     "This share is password-protected" : "Questa condivisione è protetta da password",
     "The password is wrong. Try again." : "La password è errata. Prova ancora.",
@@ -108,6 +107,7 @@
     "Upload files to %s" : "Carica file su %s",
     "Select or drop files" : "Seleziona o deseleziona file",
     "Uploading files…" : "Caricamento file in corso...",
-    "Uploaded files:" : "File caricati:"
+    "Uploaded files:" : "File caricati:",
+    "%s is publicly shared" : "%s è condiviso pubblicamente"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

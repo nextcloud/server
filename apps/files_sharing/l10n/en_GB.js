@@ -87,7 +87,6 @@ OC.L10N.register(
     "Wrong or no update parameter given" : "Wrong or no update parameter given",
     "Can't change permissions for public share links" : "Can't change permissions for public share links",
     "Cannot increase permissions" : "Cannot increase permissions",
-    "%s is publicly shared" : "%s is publicly shared",
     "Share API is disabled" : "Share API is disabled",
     "This share is password-protected" : "This share is password-protected",
     "The password is wrong. Try again." : "The password is wrong. Try again.",
@@ -110,6 +109,7 @@ OC.L10N.register(
     "Upload files to %s" : "Upload files to %s",
     "Select or drop files" : "Select or drop files",
     "Uploading files…" : "Uploading files…",
-    "Uploaded files:" : "Uploaded files:"
+    "Uploaded files:" : "Uploaded files:",
+    "%s is publicly shared" : "%s is publicly shared"
 },
 "nplurals=2; plural=(n != 1);");

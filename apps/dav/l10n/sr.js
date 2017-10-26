@@ -46,6 +46,7 @@ OC.L10N.register(
     "Remote Address: %s" : "Удаљена адреса: %s",
     "Request ID: %s" : "ИД захтева: %s",
     "CalDAV server" : "CalDAV сервер",
-    "Send invitations to attendees" : "Пошаљи позивницу учесницима"
+    "Send invitations to attendees" : "Пошаљи позивницу учесницима",
+    "Please make sure to properly set up the email settings above." : "Пазите да правилно подесите поставке е-поште изнад."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");
