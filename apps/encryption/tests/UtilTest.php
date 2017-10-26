@@ -27,11 +27,14 @@ namespace OCA\Encryption\Tests;
 
 
 use OC\Files\View;
+use OCA\Encryption\Crypto\Crypt;
 use OCA\Encryption\Util;
 use OCP\Files\Mount\IMountPoint;
+use OCP\Files\Storage;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IUserManager;
+use OCP\IUserSession;
 use Test\TestCase;
 
 class UtilTest extends TestCase {
@@ -80,13 +83,13 @@ class UtilTest extends TestCase {
 		$this->userManagerMock = $this->createMock(IUserManager::class);
 
 		/** @var \OCA\Encryption\Crypto\Crypt $cryptMock */
-		$cryptMock = $this->getMockBuilder('OCA\Encryption\Crypto\Crypt')
+		$cryptMock = $this->getMockBuilder(Crypt::class)
 			->disableOriginalConstructor()
 			->getMock();
 		/** @var \OCP\ILogger $loggerMock */
 		$loggerMock = $this->createMock(ILogger::class);
 		/** @var \OCP\IUserSession|\PHPUnit_Framework_MockObject_MockObject $userSessionMock */
-		$userSessionMock = $this->getMockBuilder('OCP\IUserSession')
+		$userSessionMock = $this->getMockBuilder(IUserSession::class)
 			->disableOriginalConstructor()
 			->setMethods([
 				'isLoggedIn',
@@ -205,7 +208,7 @@ class UtilTest extends TestCase {
 	}
 
 	public function testGetStorage() {
-		$return = $this->getMockBuilder('OC\Files\Storage\Storage')
+		$return = $this->getMockBuilder(Storage::class)
 			->disableOriginalConstructor()
 			->getMock();
 

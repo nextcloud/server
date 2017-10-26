@@ -24,11 +24,16 @@
 namespace OCA\Encryption\Tests\Controller;
 
 use OCA\Encryption\Controller\SettingsController;
+use OCA\Encryption\Crypto\Crypt;
+use OCA\Encryption\KeyManager;
 use OCA\Encryption\Session;
+use OCA\Encryption\Util;
 use OCP\AppFramework\Http;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\ISession;
 use OCP\IUserManager;
+use OCP\IUserSession;
 use Test\TestCase;
 
 class SettingsControllerTest extends TestCase {
@@ -81,13 +86,13 @@ class SettingsControllerTest extends TestCase {
 		$this->userManagerMock = $this->getMockBuilder(IUserManager::class)
 			->disableOriginalConstructor()->getMock();
 
-		$this->keyManagerMock = $this->getMockBuilder('OCA\Encryption\KeyManager')
+		$this->keyManagerMock = $this->getMockBuilder(KeyManager::class)
 			->disableOriginalConstructor()->getMock();
 
-		$this->cryptMock = $this->getMockBuilder('OCA\Encryption\Crypto\Crypt')
+		$this->cryptMock = $this->getMockBuilder(Crypt::class)
 			->disableOriginalConstructor()->getMock();
 
-		$this->userSessionMock = $this->getMockBuilder('OCP\IUserSession')
+		$this->userSessionMock = $this->getMockBuilder(IUserSession::class)
 			->disableOriginalConstructor()
 			->setMethods([
 				'isLoggedIn',
@@ -100,7 +105,7 @@ class SettingsControllerTest extends TestCase {
 			])
 			->getMock();
 
-		$this->ocSessionMock = $this->getMockBuilder('OCP\ISession')->disableOriginalConstructor()->getMock();
+		$this->ocSessionMock = $this->getMockBuilder(ISession::class)->disableOriginalConstructor()->getMock();
 
 		$this->userSessionMock->expects($this->any())
 			->method('getUID')
@@ -110,10 +115,10 @@ class SettingsControllerTest extends TestCase {
 			->method($this->anything())
 			->will($this->returnSelf());
 
-		$this->sessionMock = $this->getMockBuilder('OCA\Encryption\Session')
+		$this->sessionMock = $this->getMockBuilder(Session::class)
 			->disableOriginalConstructor()->getMock();
 
-		$this->utilMock = $this->getMockBuilder('OCA\Encryption\Util')
+		$this->utilMock = $this->getMockBuilder(Util::class)
 			->disableOriginalConstructor()
 			->getMock();
 

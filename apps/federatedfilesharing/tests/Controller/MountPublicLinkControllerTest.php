@@ -95,9 +95,9 @@ class MountPublicLinkControllerTest extends \Test\TestCase {
 		$this->rootFolder = $this->getMockBuilder('OCP\Files\IRootFolder')->disableOriginalConstructor()->getMock();
 		$this->userManager = $this->getMockBuilder(IUserManager::class)->disableOriginalConstructor()->getMock();
 		$this->share = new \OC\Share20\Share($this->rootFolder, $this->userManager);
-		$this->session = $this->getMockBuilder('OCP\ISession')->disableOriginalConstructor()->getMock();
+		$this->session = $this->getMockBuilder(ISession::class)->disableOriginalConstructor()->getMock();
 		$this->l10n = $this->getMockBuilder(IL10N::class)->disableOriginalConstructor()->getMock();
-		$this->userSession = $this->getMockBuilder('OCP\IUserSession')->disableOriginalConstructor()->getMock();
+		$this->userSession = $this->getMockBuilder(IUserSession::class)->disableOriginalConstructor()->getMock();
 		$this->clientService = $this->getMockBuilder('OCP\Http\Client\IClientService')->disableOriginalConstructor()->getMock();
 		$this->cloudIdManager = new CloudIdManager();
 

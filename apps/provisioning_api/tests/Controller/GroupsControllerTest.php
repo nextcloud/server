@@ -58,7 +58,7 @@ class GroupsControllerTest extends \Test\TestCase {
 			->method('getSubAdmin')
 			->willReturn($this->subAdminManager);
 
-		$this->userSession = $this->getMockBuilder('OCP\IUserSession')
+		$this->userSession = $this->getMockBuilder(IUserSession::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$request = $this->getMockBuilder(IRequest::class)

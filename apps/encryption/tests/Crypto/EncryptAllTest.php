@@ -25,13 +25,22 @@
 namespace OCA\Encryption\Tests\Crypto;
 
 
+use OC\Files\View;
 use OCA\Encryption\Crypto\EncryptAll;
+use OCA\Encryption\KeyManager;
+use OCA\Encryption\Users\Setup;
+use OCA\Encryption\Util;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IUserManager;
 use OCP\Mail\IMailer;
+use OCP\Security\ISecureRandom;
 use OCP\UserInterface;
 use Symfony\Component\Console\Formatter\OutputFormatterInterface;
+use Symfony\Component\Console\Helper\ProgressBar;
+use Symfony\Component\Console\Helper\QuestionHelper;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class EncryptAllTest extends TestCase {
@@ -80,15 +89,15 @@ class EncryptAllTest extends TestCase {
 
 	function setUp() {
 		parent::setUp();
-		$this->setupUser = $this->getMockBuilder('OCA\Encryption\Users\Setup')
+		$this->setupUser = $this->getMockBuilder(Setup::class)
 			->disableOriginalConstructor()->getMock();
-		$this->keyManager = $this->getMockBuilder('OCA\Encryption\KeyManager')
+		$this->keyManager = $this->getMockBuilder(KeyManager::class)
 			->disableOriginalConstructor()->getMock();
-		$this->util = $this->getMockBuilder('OCA\Encryption\Util')
+		$this->util = $this->getMockBuilder(Util::class)
 			->disableOriginalConstructor()->getMock();
 		$this->userManager = $this->getMockBuilder(IUserManager::class)
 			->disableOriginalConstructor()->getMock();
-		$this->view = $this->getMockBuilder('OC\Files\View')
+		$this->view = $this->getMockBuilder(View::class)
 			->disableOriginalConstructor()->getMock();
 		$this->config = $this->getMockBuilder(IConfig::class)
 			->disableOriginalConstructor()->getMock();
@@ -96,11 +105,11 @@ class EncryptAllTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 		$this->l = $this->getMockBuilder(IL10N::class)
 			->disableOriginalConstructor()->getMock();
-		$this->questionHelper = $this->getMockBuilder('Symfony\Component\Console\Helper\QuestionHelper')
+		$this->questionHelper = $this->getMockBuilder(QuestionHelper::class)
 			->disableOriginalConstructor()->getMock();
-		$this->inputInterface = $this->getMockBuilder('Symfony\Component\Console\Input\InputInterface')
+		$this->inputInterface = $this->getMockBuilder(InputInterface::class)
 			->disableOriginalConstructor()->getMock();
-		$this->outputInterface = $this->getMockBuilder('Symfony\Component\Console\Output\OutputInterface')
+		$this->outputInterface = $this->getMockBuilder(OutputInterface::class)
 			->disableOriginalConstructor()->getMock();
 		$this->userInterface = $this->getMockBuilder(UserInterface::class)
 			->disableOriginalConstructor()->getMock();
@@ -112,7 +121,7 @@ class EncryptAllTest extends TestCase {
 		$this->userManager->expects($this->any())->method('getBackends')->willReturn([$this->userInterface]);
 		$this->userInterface->expects($this->any())->method('getUsers')->willReturn(['user1', 'user2']);
 
-		$this->secureRandom = $this->getMockBuilder('OCP\Security\ISecureRandom')->disableOriginalConstructor()->getMock();
+		$this->secureRandom = $this->getMockBuilder(ISecureRandom::class)->disableOriginalConstructor()->getMock();
 		$this->secureRandom->expects($this->any())->method('getMediumStrengthGenerator')->willReturn($this->secureRandom);
 		$this->secureRandom->expects($this->any())->method('getLowStrengthGenerator')->willReturn($this->secureRandom);
 		$this->secureRandom->expects($this->any())->method('generate')->willReturn('12345678');
@@ -134,7 +143,7 @@ class EncryptAllTest extends TestCase {
 
 	public function testEncryptAll() {
 		/** @var EncryptAll  | \PHPUnit_Framework_MockObject_MockObject  $encryptAll */
-		$encryptAll = $this->getMockBuilder('OCA\Encryption\Crypto\EncryptAll')
+		$encryptAll = $this->getMockBuilder(EncryptAll::class)
 			->setConstructorArgs(
 				[
 					$this->setupUser,
@@ -163,7 +172,7 @@ class EncryptAllTest extends TestCase {
 
 	public function testEncryptAllWithMasterKey() {
 		/** @var EncryptAll  | \PHPUnit_Framework_MockObject_MockObject  $encryptAll */
-		$encryptAll = $this->getMockBuilder('OCA\Encryption\Crypto\EncryptAll')
+		$encryptAll = $this->getMockBuilder(EncryptAll::class)
 			->setConstructorArgs(
 				[
 					$this->setupUser,
@@ -193,7 +202,7 @@ class EncryptAllTest extends TestCase {
 
 	public function testCreateKeyPairs() {
 		/** @var EncryptAll  | \PHPUnit_Framework_MockObject_MockObject  $encryptAll */
-		$encryptAll = $this->getMockBuilder('OCA\Encryption\Crypto\EncryptAll')
+		$encryptAll = $this->getMockBuilder(EncryptAll::class)
 			->setConstructorArgs(
 				[
 					$this->setupUser,
@@ -242,7 +251,7 @@ class EncryptAllTest extends TestCase {
 
 	public function testEncryptAllUsersFiles() {
 		/** @var EncryptAll  | \PHPUnit_Framework_MockObject_MockObject  $encryptAll */
-		$encryptAll = $this->getMockBuilder('OCA\Encryption\Crypto\EncryptAll')
+		$encryptAll = $this->getMockBuilder(EncryptAll::class)
 			->setConstructorArgs(
 				[
 					$this->setupUser,
@@ -275,7 +284,7 @@ class EncryptAllTest extends TestCase {
 
 	public function testEncryptUsersFiles() {
 		/** @var EncryptAll  | \PHPUnit_Framework_MockObject_MockObject  $encryptAll */
-		$encryptAll = $this->getMockBuilder('OCA\Encryption\Crypto\EncryptAll')
+		$encryptAll = $this->getMockBuilder(EncryptAll::class)
 			->setConstructorArgs(
 				[
 					$this->setupUser,
@@ -323,7 +332,7 @@ class EncryptAllTest extends TestCase {
 		$encryptAll->expects($this->at(1))->method('encryptFile')->with('/user1/files/bar');
 		$encryptAll->expects($this->at(2))->method('encryptFile')->with('/user1/files/foo/subfile');
 
-		$progressBar = $this->getMockBuilder('Symfony\Component\Console\Helper\ProgressBar')
+		$progressBar = $this->getMockBuilder(ProgressBar::class)
 			->disableOriginalConstructor()->getMock();
 
 		$this->invokePrivate($encryptAll, 'encryptUsersFiles', ['user1', $progressBar, '']);

@@ -22,6 +22,8 @@
 namespace OCA\Files_Sharing\Tests\Command;
 
 use OCA\Files_Sharing\Command\CleanupRemoteStorages;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 /**
@@ -158,10 +160,10 @@ class CleanupRemoteStoragesTest extends TestCase {
 	 * Test cleanup of orphaned storages
 	 */
 	public function testCleanup() {
-		$input = $this->getMockBuilder('Symfony\Component\Console\Input\InputInterface')
+		$input = $this->getMockBuilder(InputInterface::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$output = $this->getMockBuilder('Symfony\Component\Console\Output\OutputInterface')
+		$output = $this->getMockBuilder(OutputInterface::class)
 			->disableOriginalConstructor()
 			->getMock();
 

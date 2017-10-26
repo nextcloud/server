@@ -28,9 +28,13 @@ use OC\Encryption\Exceptions\DecryptionFailedException;
 use OC\Encryption\Manager;
 use OC\Files\FileInfo;
 use OC\Files\View;
+use OCP\Files\Storage;
 use OCP\IUserManager;
 use OCP\UserInterface;
 use Symfony\Component\Console\Formatter\OutputFormatterInterface;
+use Symfony\Component\Console\Helper\ProgressBar;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 /**
@@ -70,11 +74,11 @@ class DecryptAllTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 		$this->encryptionManager = $this->getMockBuilder('OC\Encryption\Manager')
 			->disableOriginalConstructor()->getMock();
-		$this->view = $this->getMockBuilder('OC\Files\View')
+		$this->view = $this->getMockBuilder(View::class)
 			->disableOriginalConstructor()->getMock();
-		$this->inputInterface = $this->getMockBuilder('Symfony\Component\Console\Input\InputInterface')
+		$this->inputInterface = $this->getMockBuilder(InputInterface::class)
 			->disableOriginalConstructor()->getMock();
-		$this->outputInterface = $this->getMockBuilder('Symfony\Component\Console\Output\OutputInterface')
+		$this->outputInterface = $this->getMockBuilder(OutputInterface::class)
 			->disableOriginalConstructor()->getMock();
 		$this->userInterface = $this->getMockBuilder(UserInterface::class)
 			->disableOriginalConstructor()->getMock();
@@ -253,11 +257,11 @@ class DecryptAllTest extends TestCase {
 			->setMethods(['decryptFile'])
 			->getMock();
 
-		$storage = $this->getMockBuilder('OCP\Files\Storage')
+		$storage = $this->getMockBuilder(Storage::class)
 			->disableOriginalConstructor()->getMock();
 
 
-		$sharedStorage = $this->getMockBuilder('OCP\Files\Storage')
+		$sharedStorage = $this->getMockBuilder(Storage::class)
 			->disableOriginalConstructor()->getMock();
 
 		$sharedStorage->expects($this->once())->method('instanceOfStorage')
@@ -296,7 +300,7 @@ class DecryptAllTest extends TestCase {
 			->method('decryptFile')
 			->with('/user1/files/foo/subfile');
 
-		$progressBar = $this->getMockBuilder('Symfony\Component\Console\Helper\ProgressBar')
+		$progressBar = $this->getMockBuilder(ProgressBar::class)
 			->disableOriginalConstructor()->getMock();
 
 		$this->invokePrivate($instance, 'decryptUsersFiles', ['user1', $progressBar, '']);
