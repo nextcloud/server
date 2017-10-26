@@ -532,8 +532,8 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService(\OCP\Route\IRouter::class, function (Server $c) {
 			$cacheFactory = $c->getMemCacheFactory();
 			$logger = $c->getLogger();
-			if ($cacheFactory->isAvailable()) {
-				$router = new \OC\Route\CachingRouter($cacheFactory->create('route'), $logger);
+			if ($cacheFactory->isAvailableLowLatency()) {
+				$router = new \OC\Route\CachingRouter($cacheFactory->createLocal('route'), $logger);
 			} else {
 				$router = new \OC\Route\Router($logger);
 			}
