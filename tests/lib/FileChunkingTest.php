@@ -47,7 +47,7 @@ class FileChunkingTest extends \Test\TestCase {
 	 * @param $expected
 	 */
 	public function testIsComplete($total, array $present, $expected) {
-		$fileChunking = $this->getMockBuilder('\OC_FileChunking')
+		$fileChunking = $this->getMockBuilder(\OC_FileChunking::class)
 			->setMethods(['getCache'])
 			->setConstructorArgs([[
 				'name' => 'file',

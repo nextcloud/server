@@ -31,8 +31,9 @@ namespace OCA\DAV\Tests\unit\Connector\Sabre;
  * See the COPYING-README file.
  */
 
+use OCA\DAV\Connector\Sabre\Directory;
+use OCA\DAV\Connector\Sabre\File;
 use OCP\IUser;
-use Sabre\DAV\File;
 use Sabre\DAV\Tree;
 
 /**
@@ -179,7 +180,7 @@ class CustomPropertiesBackendTest extends \Test\TestCase {
 	 * Test setting/getting properties
 	 */
 	public function testSetGetPropertiesForFile() {
-		$node = $this->createTestNode('\OCA\DAV\Connector\Sabre\File');
+		$node = $this->createTestNode(File::class);
 		$this->tree->expects($this->any())
 			->method('getNodeForPath')
 			->with('/dummypath')
@@ -211,7 +212,7 @@ class CustomPropertiesBackendTest extends \Test\TestCase {
 	 * Test getting properties from directory
 	 */
 	public function testGetPropertiesForDirectory() {
-		$rootNode = $this->createTestNode('\OCA\DAV\Connector\Sabre\Directory');
+		$rootNode = $this->createTestNode(Directory::class);
 
 		$nodeSub = $this->getMockBuilder(File::class)
 			->disableOriginalConstructor()
@@ -295,7 +296,7 @@ class CustomPropertiesBackendTest extends \Test\TestCase {
 	 * Test delete property
 	 */
 	public function testDeleteProperty() {
-		$node = $this->createTestNode('\OCA\DAV\Connector\Sabre\File');
+		$node = $this->createTestNode(File::class);
 		$this->tree->expects($this->any())
 			->method('getNodeForPath')
 			->with('/dummypath')
