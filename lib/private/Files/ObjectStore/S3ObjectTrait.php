@@ -49,12 +49,15 @@ trait S3ObjectTrait {
 			'Bucket' => $this->bucket,
 			'Key' => $urn
 		]);
-		$command['@http']['stream'] = true;
-		$result = $client->execute($command);
-		/** @var StreamInterface $body */
-		$body = $result['Body'];
+		$request = \Aws\serialize($command);
+		$opts = [
+			'http' => [
+				'header' => $request->getHeaders()
+			]
+		];
 
-		return $body->detach();
+		$context = stream_context_create($opts);
+		return fopen($request->getUri(), 'r', false, $context);
 	}
 
 	/**
