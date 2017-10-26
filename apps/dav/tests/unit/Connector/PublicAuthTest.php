@@ -28,6 +28,7 @@ use OCP\IRequest;
 use OCP\ISession;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
+use OCP\Share\IShare;
 
 /**
  * Class PublicAuthTest
@@ -94,7 +95,7 @@ class PublicAuthTest extends \Test\TestCase {
 	}
 
 	public function testShareNoPassword() {
-		$share = $this->getMockBuilder('OCP\Share\IShare')
+		$share = $this->getMockBuilder(IShare::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$share->method('getPassword')->willReturn(null);
@@ -109,7 +110,7 @@ class PublicAuthTest extends \Test\TestCase {
 	}
 
 	public function testSharePasswordFancyShareType() {
-		$share = $this->getMockBuilder('OCP\Share\IShare')
+		$share = $this->getMockBuilder(IShare::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$share->method('getPassword')->willReturn('password');
@@ -126,7 +127,7 @@ class PublicAuthTest extends \Test\TestCase {
 
 
 	public function testSharePasswordRemote() {
-		$share = $this->getMockBuilder('OCP\Share\IShare')
+		$share = $this->getMockBuilder(IShare::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$share->method('getPassword')->willReturn('password');
@@ -142,7 +143,7 @@ class PublicAuthTest extends \Test\TestCase {
 	}
 
 	public function testSharePasswordLinkValidPassword() {
-		$share = $this->getMockBuilder('OCP\Share\IShare')
+		$share = $this->getMockBuilder(IShare::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$share->method('getPassword')->willReturn('password');
@@ -164,7 +165,7 @@ class PublicAuthTest extends \Test\TestCase {
 	}
 
 	public function testSharePasswordMailValidPassword() {
-		$share = $this->getMockBuilder('OCP\Share\IShare')
+		$share = $this->getMockBuilder(IShare::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$share->method('getPassword')->willReturn('password');
@@ -186,7 +187,7 @@ class PublicAuthTest extends \Test\TestCase {
 	}
 
 	public function testSharePasswordLinkValidSession() {
-		$share = $this->getMockBuilder('OCP\Share\IShare')
+		$share = $this->getMockBuilder(IShare::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$share->method('getPassword')->willReturn('password');
@@ -212,7 +213,7 @@ class PublicAuthTest extends \Test\TestCase {
 	}
 
 	public function testSharePasswordLinkInvalidSession() {
-		$share = $this->getMockBuilder('OCP\Share\IShare')
+		$share = $this->getMockBuilder(IShare::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$share->method('getPassword')->willReturn('password');
@@ -239,7 +240,7 @@ class PublicAuthTest extends \Test\TestCase {
 
 
 	public function testSharePasswordMailInvalidSession() {
-		$share = $this->getMockBuilder('OCP\Share\IShare')
+		$share = $this->getMockBuilder(IShare::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$share->method('getPassword')->willReturn('password');
