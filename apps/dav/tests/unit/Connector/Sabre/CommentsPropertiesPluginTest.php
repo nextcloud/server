@@ -29,6 +29,7 @@ use OCA\DAV\Connector\Sabre\File;
 use OCP\Comments\ICommentsManager;
 use OCP\IUser;
 use OCP\IUserSession;
+use Sabre\DAV\PropFind;
 
 class CommentsPropertiesPluginTest extends \Test\TestCase {
 
@@ -77,7 +78,7 @@ class CommentsPropertiesPluginTest extends \Test\TestCase {
 	 * @param $expectedSuccessful
 	 */
 	public function testHandleGetProperties($node, $expectedSuccessful) {
-		$propFind = $this->getMockBuilder('\Sabre\DAV\PropFind')
+		$propFind = $this->getMockBuilder(PropFind::class)
 			->disableOriginalConstructor()
 			->getMock();
 

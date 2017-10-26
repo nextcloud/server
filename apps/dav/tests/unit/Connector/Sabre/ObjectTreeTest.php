@@ -31,6 +31,7 @@ namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OC\Files\FileInfo;
 use OC\Files\Filesystem;
+use OC\Files\Mount\Manager;
 use OC\Files\Storage\Temporary;
 use OC\Files\View;
 use OCA\DAV\Connector\Sabre\Directory;
@@ -159,13 +160,13 @@ class ObjectTreeTest extends \Test\TestCase {
 		$rootNode = $this->getMockBuilder(Directory::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$mountManager = $this->getMockBuilder('\OC\Files\Mount\Manager')
+		$mountManager = $this->getMockBuilder(Manager::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$view = $this->getMockBuilder(View::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$fileInfo = $this->getMockBuilder('\OCP\Files\FileInfo')
+		$fileInfo = $this->getMockBuilder(FileInfo::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$fileInfo->expects($this->once())
@@ -287,7 +288,7 @@ class ObjectTreeTest extends \Test\TestCase {
 		$rootNode = $this->getMockBuilder(Directory::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$mountManager = $this->getMockBuilder('\OC\Files\Mount\Manager')
+		$mountManager = $this->getMockBuilder(Manager::class)
 			->getMock();
 
 		$tree = new \OCA\DAV\Connector\Sabre\ObjectTree();
@@ -314,7 +315,7 @@ class ObjectTreeTest extends \Test\TestCase {
 		$rootNode = $this->getMockBuilder(Directory::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$mountManager = $this->getMockBuilder('\OC\Files\Mount\Manager')
+		$mountManager = $this->getMockBuilder(Manager::class)
 			->getMock();
 
 		$tree = new \OCA\DAV\Connector\Sabre\ObjectTree();

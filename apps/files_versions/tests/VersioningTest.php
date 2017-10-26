@@ -682,7 +682,7 @@ class VersioningTest extends \Test\TestCase {
 			return;
 		}
 
-		$eventHandler = $this->getMockBuilder('\stdclass')
+		$eventHandler = $this->getMockBuilder(\stdclass::class)
 			->setMethods(['callback'])
 			->getMock();
 

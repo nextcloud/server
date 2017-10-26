@@ -28,6 +28,8 @@ use OCP\Files\Folder;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\SystemTag\ISystemTagManager;
+use OCP\SystemTag\ISystemTagObjectMapper;
 
 class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 
@@ -54,9 +56,9 @@ class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->tagManager = $this->getMockBuilder('\OCP\SystemTag\ISystemTagManager')
+		$this->tagManager = $this->getMockBuilder(ISystemTagManager::class)
 			->getMock();
-		$this->tagMapper = $this->getMockBuilder('\OCP\SystemTag\ISystemTagObjectMapper')
+		$this->tagMapper = $this->getMockBuilder(ISystemTagObjectMapper::class)
 			->getMock();
 
 		$user = $this->getMockBuilder(IUser::class)

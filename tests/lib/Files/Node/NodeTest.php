@@ -9,6 +9,7 @@
 namespace Test\Files\Node;
 
 use OC\Files\FileInfo;
+use OC\Files\Mount\Manager;
 use OC\Files\View;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\IRootFolder;
@@ -52,7 +53,7 @@ abstract class NodeTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$this->user = new \OC\User\User('', new \Test\Util\User\Dummy, null, $config, $urlGenerator);
-		$this->manager = $this->getMockBuilder('\OC\Files\Mount\Manager')
+		$this->manager = $this->getMockBuilder(Manager::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->view = $this->getMockBuilder(View::class)

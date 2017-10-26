@@ -23,6 +23,8 @@
  */
 namespace OCA\DAV\Tests\unit\Upload;
 
+use Sabre\DAV\File;
+
 class AssemblyStreamTest extends \Test\TestCase {
 
 	/**
@@ -120,7 +122,7 @@ class AssemblyStreamTest extends \Test\TestCase {
 	}
 
 	private function buildNode($name, $data) {
-		$node = $this->getMockBuilder('\Sabre\DAV\File')
+		$node = $this->getMockBuilder(File::class)
 			->setMethods(['getName', 'get', 'getSize'])
 			->getMockForAbstractClass();
 
