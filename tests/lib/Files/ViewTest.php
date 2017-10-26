@@ -2350,7 +2350,7 @@ class ViewTest extends \Test\TestCase {
 			return;
 		}
 
-		$eventHandler = $this->getMockBuilder('\stdclass')
+		$eventHandler = $this->getMockBuilder(\stdclass::class)
 			->setMethods(['preCallback', 'postCallback'])
 			->getMock();
 
@@ -2425,7 +2425,7 @@ class ViewTest extends \Test\TestCase {
 		Filesystem::getMountManager()->addMount($mount);
 
 		// Listen for events
-		$eventHandler = $this->getMockBuilder('\stdclass')
+		$eventHandler = $this->getMockBuilder(\stdclass::class)
 			->setMethods(['umount', 'post_umount'])
 			->getMock();
 		$eventHandler->expects($this->once())
