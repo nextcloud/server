@@ -87,7 +87,6 @@ OC.L10N.register(
     "Wrong or no update parameter given" : "El parametro de actualización está erróneo o falta",
     "Can't change permissions for public share links" : "No es posible cambiar los permisos para ligas públicas compartidas",
     "Cannot increase permissions" : "No es posible incrementar los permisos",
-    "%s is publicly shared" : "%s está compartido públicamente",
     "Share API is disabled" : "El API para compartir está deshabilitado",
     "This share is password-protected" : "Este elemento compartido está protegido con contraseña",
     "The password is wrong. Try again." : "La contraseña es incorrecta. Por favor inténtalo de nuevo.",
@@ -110,6 +109,7 @@ OC.L10N.register(
     "Upload files to %s" : "Cargar archivos a %s",
     "Select or drop files" : "Selecciona o suelta los archivos",
     "Uploading files…" : "Cargando archivos...",
-    "Uploaded files:" : "Archivos cargados:"
+    "Uploaded files:" : "Archivos cargados:",
+    "%s is publicly shared" : "%s está compartido públicamente"
 },
 "nplurals=2; plural=(n != 1);");

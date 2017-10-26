@@ -16,7 +16,6 @@ OC.L10N.register(
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Inte tillräckligt med ledigt utrymme, du laddar upp {size1} men endast {size2} finns kvar.",
     "Target folder \"{dir}\" does not exist any more" : "Målmapp \"{dir}\" existerar inte mer",
     "Not enough free space" : "Inte tillräckligt med ledigt utrymme",
-    "Uploading…" : "Laddar upp...",
     "…" : "...",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} av {totalSize} ({bitrate})",
     "Actions" : "Åtgärder",
