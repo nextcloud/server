@@ -26,7 +26,9 @@ namespace OCA\Files_Sharing\Collaboration;
 
 use OCP\Collaboration\AutoComplete\ISorter;
 use OCP\Files\Folder;
+use OCP\Files\IRootFolder;
 use OCP\Files\Node;
+use OCP\IUserSession;
 use OCP\Share\IManager;
 
 class ShareRecipientSorter implements ISorter {
@@ -34,11 +36,14 @@ class ShareRecipientSorter implements ISorter {
 	/** @var IManager */
 	private $shareManager;
 	/** @var Folder */
-	private $userFolder;
+	private $rootFolder;
+	/** @var IUserSession */
+	private $userSession;
 
-	public function __construct(IManager $shareManager, Folder $userFolder) {
+	public function __construct(IManager $shareManager, IRootFolder $rootFolder, IUserSession $userSession) {
 		$this->shareManager = $shareManager;
-		$this->userFolder = $userFolder;
+		$this->rootFolder = $rootFolder;
+		$this->userSession = $userSession;
 	}
 
 	public function getId() {
@@ -51,7 +56,12 @@ class ShareRecipientSorter implements ISorter {
 			return;
 		}
 		/** @var Node[] $nodes */
-		$nodes = $this->userFolder->getById((int)$context['itemId']);
+		$user = $this->userSession->getUser();
+		if($user === null) {
+			return;
+		}
+		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
+		$nodes = $userFolder->getById((int)$context['itemId']);
 		if(count($nodes) === 0) {
 			return;
 		}

@@ -54,7 +54,7 @@ class Manager implements IManager {
 	}
 
 	public function registerSorter($className) {
-		$sorters[] = $className;
+		$this->sorters[] = $className;
 	}
 
 	protected function getSorters() {
