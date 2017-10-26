@@ -180,9 +180,23 @@
 			$target.atwho({
 				at: '@',
 				callbacks: {
-					remoteFilter: s._onAutoComplete
+					remoteFilter: s._onAutoComplete,
+					highlighter: function (li) {
+						// misuse the highlighter callback to instead of
+						// highlighting loads the avatars.
+						var $li = $(li);
+						$li.find('.avatar').avatar(undefined, 32);
+						return $li;
+					}
 				},
-				displayTpl: "<li>${label}</li>",
+				displayTpl: '<li>'
+				+ '<span class="avatar-name-wrapper">'
+				+ '<div class="avatar" '
+				+ 'data-username="${id}"'	// for avatars
+				+ ' data-user="${id}"'		// for contactsmenu
+				+ ' data-user-display-name="${label}"></div>'
+				+ ' <strong>${label}</strong>'
+				+ '</span></li>',
 				insertTpl: ''
 				+ '<span class="avatar-name-wrapper">'
 				+ '<div class="avatar" '
@@ -229,7 +243,7 @@
 						callback(data);
 					}
 				);
-			}, 200);
+			}, 400);
 		},
 
 		_formatItem: function(commentModel) {
