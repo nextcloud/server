@@ -30,6 +30,7 @@ use OCA\Encryption\Crypto\Crypt;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\ILogger;
+use OCP\IUserSession;
 use Test\TestCase;
 
 class CryptTest extends TestCase {
@@ -59,7 +60,7 @@ class CryptTest extends TestCase {
 		$this->logger->expects($this->any())
 			->method('warning')
 			->willReturn(true);
-		$this->userSession = $this->getMockBuilder('OCP\IUserSession')
+		$this->userSession = $this->getMockBuilder(IUserSession::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->config = $this->getMockBuilder(IConfig::class)
@@ -391,7 +392,7 @@ class CryptTest extends TestCase {
 	 */
 	public function testDecryptPrivateKey($header, $privateKey, $expectedCipher, $isValidKey, $expected) {
 		/** @var \OCA\Encryption\Crypto\Crypt | \PHPUnit_Framework_MockObject_MockObject $crypt */
-		$crypt = $this->getMockBuilder('OCA\Encryption\Crypto\Crypt')
+		$crypt = $this->getMockBuilder(Crypt::class)
 			->setConstructorArgs(
 				[
 					$this->logger,
