@@ -26,6 +26,9 @@ namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\File;
+use OCA\DAV\Connector\Sabre\Node;
+use OCP\ITagManager;
+use OCP\ITags;
 use Sabre\DAV\Tree;
 
 /**
@@ -71,10 +74,10 @@ class TagsPluginTest extends \Test\TestCase {
 		$this->tree = $this->getMockBuilder(Tree::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->tagger = $this->getMockBuilder('\OCP\ITags')
+		$this->tagger = $this->getMockBuilder(ITags::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->tagManager = $this->getMockBuilder('\OCP\ITagManager')
+		$this->tagManager = $this->getMockBuilder(ITagManager::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->tagManager->expects($this->any())
@@ -89,7 +92,7 @@ class TagsPluginTest extends \Test\TestCase {
 	 * @dataProvider tagsGetPropertiesDataProvider
 	 */
 	public function testGetProperties($tags, $requestedProperties, $expectedProperties) {
-		$node = $this->getMockBuilder('\OCA\DAV\Connector\Sabre\Node')
+		$node = $this->getMockBuilder(Node::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$node->expects($this->any())
@@ -264,7 +267,7 @@ class TagsPluginTest extends \Test\TestCase {
 	public function testUpdateTags() {
 		// this test will replace the existing tags "tagremove" with "tag1" and "tag2"
 		// and keep "tagkeep"
-		$node = $this->getMockBuilder('\OCA\DAV\Connector\Sabre\Node')
+		$node = $this->getMockBuilder(Node::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$node->expects($this->any())
@@ -315,7 +318,7 @@ class TagsPluginTest extends \Test\TestCase {
 	}
 
 	public function testUpdateTagsFromScratch() {
-		$node = $this->getMockBuilder('\OCA\DAV\Connector\Sabre\Node')
+		$node = $this->getMockBuilder(Node::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$node->expects($this->any())
@@ -363,7 +366,7 @@ class TagsPluginTest extends \Test\TestCase {
 	public function testUpdateFav() {
 		// this test will replace the existing tags "tagremove" with "tag1" and "tag2"
 		// and keep "tagkeep"
-		$node = $this->getMockBuilder('\OCA\DAV\Connector\Sabre\Node')
+		$node = $this->getMockBuilder(Node::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$node->expects($this->any())
