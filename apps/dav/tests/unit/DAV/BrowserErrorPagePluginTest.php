@@ -26,6 +26,7 @@ namespace OCA\DAV\Tests\unit\DAV;
 use OCA\DAV\Files\BrowserErrorPagePlugin;
 use PHPUnit_Framework_MockObject_MockObject;
 use Sabre\DAV\Exception\NotFound;
+use Sabre\HTTP\Response;
 
 class BrowserErrorPagePluginTest extends \Test\TestCase {
 
@@ -36,13 +37,13 @@ class BrowserErrorPagePluginTest extends \Test\TestCase {
 	 */
 	public function test($expectedCode, $exception) {
 		/** @var BrowserErrorPagePlugin | PHPUnit_Framework_MockObject_MockObject $plugin */
-		$plugin = $this->getMockBuilder('OCA\DAV\Files\BrowserErrorPagePlugin')->setMethods(['sendResponse', 'generateBody'])->getMock();
+		$plugin = $this->getMockBuilder(BrowserErrorPagePlugin::class)->setMethods(['sendResponse', 'generateBody'])->getMock();
 		$plugin->expects($this->once())->method('generateBody')->willReturn(':boom:');
 		$plugin->expects($this->once())->method('sendResponse');
 		/** @var \Sabre\DAV\Server | PHPUnit_Framework_MockObject_MockObject $server */
 		$server = $this->getMockBuilder('Sabre\DAV\Server')->disableOriginalConstructor()->getMock();
 		$server->expects($this->once())->method('on');
-		$httpResponse = $this->getMockBuilder('Sabre\HTTP\Response')->disableOriginalConstructor()->getMock();
+		$httpResponse = $this->getMockBuilder(Response::class)->disableOriginalConstructor()->getMock();
 		$httpResponse->expects($this->once())->method('addHeaders');
 		$httpResponse->expects($this->once())->method('setStatus')->with($expectedCode);
 		$httpResponse->expects($this->once())->method('setBody')->with(':boom:');
