@@ -87,7 +87,6 @@ OC.L10N.register(
     "Wrong or no update parameter given" : "間違っている、もしくはパラメータが更新されていません",
     "Can't change permissions for public share links" : "URLリンク共有のパーミッションを変更できません",
     "Cannot increase permissions" : "パーミッションを追加できません",
-    "%s is publicly shared" : "%s が公開共有されました",
     "Share API is disabled" : "共有APIが無効です。",
     "This share is password-protected" : "この共有はパスワードで保護されています",
     "The password is wrong. Try again." : "パスワードが間違っています。再試行してください。",
@@ -110,6 +109,7 @@ OC.L10N.register(
     "Upload files to %s" : "%s にファイルをアップロード",
     "Select or drop files" : "ファイルを選択するか、ドラッグ&ドロップしてください",
     "Uploading files…" : "ファイルをアップロード中...",
-    "Uploaded files:" : "アップロード済ファイル:"
+    "Uploaded files:" : "アップロード済ファイル:",
+    "%s is publicly shared" : "%s が公開共有されました"
 },
 "nplurals=1; plural=0;");

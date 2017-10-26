@@ -87,7 +87,6 @@ OC.L10N.register(
     "Wrong or no update parameter given" : "Feil eller ingen parametre for oppdatering er angitt",
     "Can't change permissions for public share links" : "Kan ikke endre rettigheter for offentlige lenker",
     "Cannot increase permissions" : "Kan ikke øke tillatelser",
-    "%s is publicly shared" : "%s er delt offentlig",
     "Share API is disabled" : "Deling API er deaktivert",
     "This share is password-protected" : "Denne delingen er passordbeskyttet",
     "The password is wrong. Try again." : "Passordet er feil. Prøv på nytt.",
@@ -110,6 +109,7 @@ OC.L10N.register(
     "Upload files to %s" : "Last opp filer til %s",
     "Select or drop files" : "Velg eller slipp filer",
     "Uploading files…" : "Laster opp filer...",
-    "Uploaded files:" : "Opplastede filer:"
+    "Uploaded files:" : "Opplastede filer:",
+    "%s is publicly shared" : "%s er delt offentlig"
 },
 "nplurals=2; plural=(n != 1);");

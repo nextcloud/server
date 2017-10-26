@@ -44,6 +44,9 @@ OC.L10N.register(
     "Contacts" : "Контакты",
     "Technical details" : "Технические подробности",
     "Remote Address: %s" : "Удаленный адрес: %s",
-    "Request ID: %s" : "ID запроса: %s"
+    "Request ID: %s" : "ID запроса: %s",
+    "CalDAV server" : "CalDAV сервер",
+    "Send invitations to attendees" : "Отправить приглашения",
+    "Please make sure to properly set up the email settings above." : "Пожалуйста проверьте правильность настройки почты выше."
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");
