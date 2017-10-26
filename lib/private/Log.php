@@ -69,6 +69,8 @@ class Log implements ILogger {
 		'loginWithPassword',
 		'updatePrivateKeyPassword',
 		'validateUserPass',
+		'loginWithToken',
+		'\{closure\}',
 
 		// TokenProvider
 		'getToken',
@@ -96,6 +98,10 @@ class Log implements ILogger {
 		'bind',
 		'areCredentialsValid',
 		'invokeLDAPMethod',
+
+		// Encryption
+		'storeKeyPair',
+		'setupUser',
 	];
 
 	/**
