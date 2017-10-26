@@ -26,8 +26,11 @@ namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OCA\DAV\Connector\Sabre\FakeLockerPlugin;
 use Sabre\DAV\INode;
+use Sabre\DAV\PropFind;
 use Sabre\DAV\Server;
+use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\Response;
+use Sabre\HTTP\ResponseInterface;
 use Test\TestCase;
 
 /**
@@ -85,7 +88,7 @@ class FakeLockerPluginTest extends TestCase {
 	}
 
 	public function testPropFind() {
-		$propFind = $this->getMockBuilder('\Sabre\DAV\PropFind')
+		$propFind = $this->getMockBuilder(PropFind::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$node = $this->getMockBuilder(INode::class)
@@ -145,7 +148,7 @@ class FakeLockerPluginTest extends TestCase {
 	 * @param array $expected
 	 */
 	public function testValidateTokens(array $input, array $expected) {
-		$request = $this->getMockBuilder('\Sabre\HTTP\RequestInterface')
+		$request = $this->getMockBuilder(RequestInterface::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->fakeLockerPlugin->validateTokens($request, $input);
@@ -153,7 +156,7 @@ class FakeLockerPluginTest extends TestCase {
 	}
 
 	public function testFakeLockProvider() {
-		$request = $this->getMockBuilder('\Sabre\HTTP\RequestInterface')
+		$request = $this->getMockBuilder(RequestInterface::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$response = new Response();
@@ -173,10 +176,10 @@ class FakeLockerPluginTest extends TestCase {
 	}
 
 	public function testFakeUnlockProvider() {
-		$request = $this->getMockBuilder('\Sabre\HTTP\RequestInterface')
+		$request = $this->getMockBuilder(RequestInterface::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$response = $this->getMockBuilder('\Sabre\HTTP\ResponseInterface')
+		$response = $this->getMockBuilder(ResponseInterface::class)
 			->disableOriginalConstructor()
 			->getMock();
 
