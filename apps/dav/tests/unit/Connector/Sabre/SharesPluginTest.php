@@ -25,10 +25,12 @@ namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\File;
+use OCA\DAV\Connector\Sabre\Node;
 use OCP\Files\Folder;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Share\IManager;
+use OCP\Share\IShare;
 use Sabre\DAV\Tree;
 
 class SharesPluginTest extends \Test\TestCase {
@@ -99,7 +101,7 @@ class SharesPluginTest extends \Test\TestCase {
 	 * @dataProvider sharesGetPropertiesDataProvider
 	 */
 	public function testGetProperties($shareTypes) {
-		$sabreNode = $this->getMockBuilder('\OCA\DAV\Connector\Sabre\Node')
+		$sabreNode = $this->getMockBuilder(Node::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$sabreNode->expects($this->any())
@@ -214,7 +216,7 @@ class SharesPluginTest extends \Test\TestCase {
 			->will($this->returnValue($node));
 		
 		$dummyShares = array_map(function($type) {
-			$share = $this->getMockBuilder('\OCP\Share\IShare')->getMock();
+			$share = $this->getMockBuilder(IShare::class)->getMock();
 			$share->expects($this->any())
 				->method('getShareType')
 				->will($this->returnValue($type));
