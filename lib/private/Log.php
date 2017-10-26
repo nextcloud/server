@@ -68,6 +68,8 @@ class Log implements ILogger {
 		'loginWithPassword',
 		'updatePrivateKeyPassword',
 		'validateUserPass',
+		'loginWithToken',
+		'\{closure\}',
 
 		// TokenProvider
 		'getToken',
@@ -90,6 +92,10 @@ class Log implements ILogger {
 		//LoginController
 		'tryLogin',
 		'confirmPassword',
+
+		// Encryption
+		'storeKeyPair',
+		'setupUser',
 	];
 
 	/**
