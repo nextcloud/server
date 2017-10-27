@@ -179,6 +179,7 @@
 			var s = this;
 			$target.atwho({
 				at: '@',
+				limit: OC.appConfig.comments.maxAutoCompleteResults,
 				callbacks: {
 					remoteFilter: s._onAutoComplete,
 					highlighter: function (li) {
@@ -237,7 +238,8 @@
 						search: query,
 						itemType: 'files',
 						itemId: s.model.get('id'),
-						sorter: 'comments|share-recipients'
+						sorter: 'comments|share-recipients',
+						limit: OC.appConfig.comments.maxAutoCompleteResults
 					},
 					function (data) {
 						callback(data);

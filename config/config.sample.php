@@ -1233,25 +1233,6 @@ $CONFIG = array(
 'sharing.minSearchStringLength' => 0,
 
 /**
- * Collaboration
- *
- * Global settings for collaboration
- */
-
-/**
- * Defines the maximum number of auto complete results. The default is 50. This
- * is used by the auto complete backend, which for example is consumed by
- * auto completion feature in comments.
- *
- * It may look similar to sharing.maxAutocompleteResults, but there are some key
- * differences in utilization. Thus, an unlimited default is very bad. Also,
- * does not control the number of displayed results, but results fetched from
- * each user backend. A small number is crucial for performance and a positive
- * user experience.
- */
-'collaboration.maxAutocompleteResults' => 50,
-
-/**
  * All other configuration options
  */
 

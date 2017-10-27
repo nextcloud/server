@@ -61,12 +61,12 @@ class AutoCompleteController extends Controller {
 	 * @param string $itemId
 	 * @param string|null $sorter can be piped, top prio first, e.g.: "commenters|share-recipients"
 	 * @param array $shareTypes
+	 * @param int $limit
 	 * @return DataResponse
 	 */
-	public function get($search, $itemType, $itemId, $sorter = null, $shareTypes = [Share::SHARE_TYPE_USER]) {
+	public function get($search, $itemType, $itemId, $sorter = null, $shareTypes = [Share::SHARE_TYPE_USER], $limit = 10) {
 		// if enumeration/user listings are disabled, we'll receive an empty
 		// result from search() – thus nothing else to do here.
-		$limit = $this->config->getSystemValue('collaboration.maxAutocompleteResults', 50);
 		list($results,) = $this->collaboratorSearch->search($search, $shareTypes, false, $limit, 0);
 
 		// there won't be exact matches without a search string
