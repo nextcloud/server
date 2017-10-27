@@ -44,6 +44,9 @@ OC.L10N.register(
     "Contacts" : "Tengiliðir",
     "Technical details" : "Tæknilegar upplýsingar",
     "Remote Address: %s" : "Fjartengt vistfang: %s",
-    "Request ID: %s" : "Beiðni um auðkenni: %s"
+    "Request ID: %s" : "Beiðni um auðkenni: %s",
+    "CalDAV server" : "CalDAV-þjónn",
+    "Send invitations to attendees" : "Senda boð til þátttakenda",
+    "Please make sure to properly set up the email settings above." : "Gakktu úr skugga um að tölvupóststillingarnar hér fyrir ofan séu réttar."
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

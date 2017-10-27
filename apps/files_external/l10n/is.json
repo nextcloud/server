@@ -12,6 +12,8 @@
     "(group)" : "(hópur)",
     "Compatibility with Mac NFD encoding (slow)" : "Samhæfni við Mac NFD kóðun (hægvirkt)",
     "Admin defined" : "Skilgreindur kerfisstjóri",
+    "Are you sure you want to delete this external storage" : "Ertu viss um að þú viljir eyða þessari ytri geymslu?",
+    "Delete storage?" : "Eyða geymslu?",
     "Saved" : "Vistað",
     "Saving..." : "Er að vista ...",
     "Save" : "Vista",
