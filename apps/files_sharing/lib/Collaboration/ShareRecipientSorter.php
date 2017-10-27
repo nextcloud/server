@@ -55,12 +55,12 @@ class ShareRecipientSorter implements ISorter {
 		if($context['itemType'] !== 'files' && $context['itemType'] !== 'file') {
 			return;
 		}
-		/** @var Node[] $nodes */
 		$user = $this->userSession->getUser();
 		if($user === null) {
 			return;
 		}
 		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
+		/** @var Node[] $nodes */
 		$nodes = $userFolder->getById((int)$context['itemId']);
 		if(count($nodes) === 0) {
 			return;
