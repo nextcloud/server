@@ -62,13 +62,16 @@
 	margin-bottom: 30px;
 }
 
-#commentsTabView .comment .avatar {
+#commentsTabView .comment .avatar,
+.atwho-view-ul * .avatar{
 	width: 32px;
 	height: 32px;
 	line-height: 32px;
 }
 
-#commentsTabView .comment .message .avatar {
+#commentsTabView .comment .message .avatar,
+.atwho-view-ul * .avatar
+{
 	display: inline-block;
 }
 
@@ -117,9 +120,14 @@
 }
 
 #commentsTabView .comments li .message .avatar-name-wrapper,
+.atwho-view-ul * .avatar-name-wrapper,
 #commentsTabView .comment .authorRow {
 	position: relative;
 	cursor: pointer;
+}
+
+.atwho-view-ul * .avatar-name-wrapper {
+	white-space: nowrap;
 }
 
 #commentsTabView .comment .author,
