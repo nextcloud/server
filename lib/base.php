@@ -247,12 +247,16 @@ class OC {
 				echo $l->t('See %s', [ $urlGenerator->linkToDocs('admin-dir_permissions') ])."\n";
 				exit;
 			} else {
+
+				header('HTTP/1.1 500 Internal Server Error');
+				header('Status: 500 Internal Server Error');
 				OC_Template::printErrorPage(
 					$l->t('Cannot write into "config" directory!'),
 					$l->t('This can usually be fixed by giving the webserver write access to the config directory. See %s',
 					 [ $urlGenerator->linkToDocs('admin-dir_permissions') ])
 				);
 			}
+
 		}
 	}
 
