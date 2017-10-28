@@ -1,8 +1,8 @@
 OC.L10N.register(
     "core",
     {
-    "Please select a file." : "Hãy chọn một tệp tin.",
-    "File is too big" : "File quá lớn",
+    "Please select a file." : "Hãy chọn một tệp.",
+    "File is too big" : "Tệp quá lớn",
     "The selected file is not an image." : "Tệp tin được chọn không phải là ảnh.",
     "The selected file cannot be read." : "Tệp tin được chọn không thể đọc.",
     "Invalid file provided" : "File không hợp lệ",
@@ -231,7 +231,7 @@ OC.L10N.register(
     "Type: %s" : "Loại: %s",
     "Code: %s" : "Mã: %s",
     "Message: %s" : "Thông điệp:%s",
-    "File: %s" : "%sTệp:",
+    "File: %s" : "Tệp: %s",
     "Line: %s" : "Dòng: %s",
     "Trace" : "Theo dõi",
     "Security warning" : "Cảnh báo bảo mật",
@@ -262,6 +262,7 @@ OC.L10N.register(
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Ứng dụng này yêu cầu JavaScript để hoạt động chính xác. Vui lòng {linkstart} bật JavaScript {linkend} và tải lại trang.",
     "More apps" : "Thêm ứng dụng",
     "Search" : "Tìm kiếm",
+    "Reset search" : "Đặt lại tìm kiếm",
     "Confirm your password" : "Xác nhận mật khẩu của bạn",
     "Server side authentication failed!" : "Xác thực phía máy chủ không thành công!",
     "Please contact your administrator." : "Vui lòng liên hệ với quản trị viên.",
