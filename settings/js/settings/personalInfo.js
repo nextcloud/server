@@ -128,6 +128,7 @@ function avatarResponseHandler (data) {
 	var $warning = $('#avatarform .warning');
 	$warning.hide();
 	if (data.status === "success") {
+		$('#displayavatar .avatardiv').removeClass('icon-loading');
 		updateAvatar();
 	} else if (data.data === "notsquare") {
 		showAvatarCropper();
@@ -180,7 +181,7 @@ $(document).ready(function () {
 						{
 							'status' : 'error',
 							'data' : {
-								'message' : t('core', 'Unable to change password')
+								'message' : t('settings', 'Unable to change password')
 							}
 						}
 					);
@@ -195,7 +196,7 @@ $(document).ready(function () {
 				{
 					'status' : 'error',
 					'data' : {
-						'message' : t('core', 'Unable to change password')
+						'message' : t('settings', 'Unable to change password')
 					}
 				}
 			);
@@ -234,7 +235,7 @@ $(document).ready(function () {
 			).done(function (data) {
 				var dialog = verify.children('.verification-dialog');
 				showVerifyDialog($(dialog), data.msg, data.code);
-				indicator.attr('data-origin-title', t('core', 'Verifying …'));
+				indicator.attr('data-origin-title', t('settings', 'Verifying …'));
 				indicator.attr('src', OC.imagePath('core', 'actions/verifying.svg'));
 				indicator.data('status', '1');
 			});
@@ -302,7 +303,7 @@ $(document).ready(function () {
 		},
 		submit: function(e, data) {
 			$('#displayavatar img').hide();
-			$('#displayavatar .avatardiv').addClass('loading');
+			$('#displayavatar .avatardiv').addClass('icon-loading');
 			data.formData = _.extend(data.formData || {}, {
 				requesttoken: OC.requestToken
 			});
@@ -379,11 +380,11 @@ $(document).ready(function () {
 	$('#pass2').strengthify({
 		zxcvbn: OC.linkTo('core','vendor/zxcvbn/dist/zxcvbn.js'),
 		titles: [
-			t('core', 'Very weak password'),
-			t('core', 'Weak password'),
-			t('core', 'So-so password'),
-			t('core', 'Good password'),
-			t('core', 'Strong password')
+			t('settings', 'Very weak password'),
+			t('settings', 'Weak password'),
+			t('settings', 'So-so password'),
+			t('settings', 'Good password'),
+			t('settings', 'Strong password')
 		],
 		drawTitles: true,
 	});

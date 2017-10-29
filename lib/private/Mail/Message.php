@@ -23,6 +23,8 @@
 
 namespace OC\Mail;
 
+use OCP\Mail\IEMailTemplate;
+use OCP\Mail\IMessage;
 use Swift_Message;
 
 /**
@@ -30,7 +32,7 @@ use Swift_Message;
  *
  * @package OC\Mail
  */
-class Message {
+class Message implements IMessage {
 	/** @var Swift_Message */
 	private $swiftMessage;
 
@@ -248,6 +250,17 @@ class Message {
 	 */
 	public function setBody($body, $contentType) {
 		$this->swiftMessage->setBody($body, $contentType);
+		return $this;
+	}
+
+	/**
+	 * @param IEMailTemplate $emailTemplate
+	 * @return $this
+	 */
+	public function useTemplate(IEMailTemplate $emailTemplate) {
+		$this->setSubject($emailTemplate->renderSubject());
+		$this->setPlainBody($emailTemplate->renderText());
+		$this->setHtmlBody($emailTemplate->renderHtml());
 		return $this;
 	}
 }

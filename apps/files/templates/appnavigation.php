@@ -24,7 +24,7 @@
 					} ?></p>
 				<div class="quota-container">
 					<progress value="<?php p($_['usage_relative']); ?>" max="100"
-						<?php if($_['usage_relative'] > 80): ?> class="quota-warning" <?php endif; ?>></progress>
+						<?php if($_['usage_relative'] > 80): ?> class="warn" <?php endif; ?>></progress>
 				</div>
 			</a>
 		</li>

@@ -332,7 +332,7 @@
 
 			this.$fileList.on('click','td.filename>a.name, td.filesize, td.date', _.bind(this._onClickFile, this));
 
-			this.$fileList.on('change', 'td.filename>.selectCheckBox', _.bind(this._onClickFileCheckbox, this));
+			this.$fileList.on('change', 'td.selection>.selectCheckBox', _.bind(this._onClickFileCheckbox, this));
 			this.$el.on('show', _.bind(this._onShow, this));
 			this.$el.on('urlChanged', _.bind(this._onUrlChanged, this));
 			this.$el.find('.select-all').click(_.bind(this._onClickSelectAll, this));
@@ -593,7 +593,7 @@
 		 * @param {bool} state true to select, false to deselect
 		 */
 		_selectFileEl: function($tr, state, showDetailsView) {
-			var $checkbox = $tr.find('td.filename>.selectCheckBox');
+			var $checkbox = $tr.find('td.selection>.selectCheckBox');
 			var oldData = !!this._selectedFiles[$tr.data('id')];
 			var data;
 			$checkbox.prop('checked', state);
@@ -649,7 +649,7 @@
 				else {
 					this._lastChecked = $tr;
 				}
-				var $checkbox = $tr.find('td.filename>.selectCheckBox');
+				var $checkbox = $tr.find('td.selection>.selectCheckBox');
 				this._selectFileEl($tr, !$checkbox.prop('checked'));
 				this.updateSelectionSummary();
 			} else {
@@ -704,7 +704,7 @@
 		 */
 		_onClickSelectAll: function(e) {
 			var checked = $(e.target).prop('checked');
-			this.$fileList.find('td.filename>.selectCheckBox').prop('checked', checked)
+			this.$fileList.find('td.selection>.selectCheckBox').prop('checked', checked)
 				.closest('tr').toggleClass('selected', checked);
 			this._selectedFiles = {};
 			this._selectionSummary.clear();
@@ -1063,6 +1063,13 @@
 
 			this.$fileList.empty();
 
+			if (this._allowSelection) {
+				// The results table, which has no selection column, checks
+				// whether the main table has a selection column or not in order
+				// to align its contents with those of the main table.
+				this.$el.addClass('has-selection');
+			}
+
 			// clear "Select all" checkbox
 			this.$el.find('.select-all').prop('checked', false);
 
@@ -1192,6 +1199,20 @@
 				path = this.getCurrentDirectory();
 			}
 
+			// selection td
+			if (this._allowSelection) {
+				td = $('<td class="selection"></td>');
+
+				td.append(
+					'<input id="select-' + this.id + '-' + fileData.id +
+					'" type="checkbox" class="selectCheckBox checkbox"/><label for="select-' + this.id + '-' + fileData.id + '">' +
+					'<span class="hidden-visually">' + t('files', 'Select') + '</span>' +
+					'</label>'
+				);
+
+				tr.append(td);
+			}
+
 			// filename td
 			td = $('<td class="filename"></td>');
 
@@ -1203,21 +1224,12 @@
 			else {
 				linkUrl = this.getDownloadUrl(name, path, type === 'dir');
 			}
-			if (this._allowSelection) {
-				td.append(
-					'<input id="select-' + this.id + '-' + fileData.id +
-					'" type="checkbox" class="selectCheckBox checkbox"/><label for="select-' + this.id + '-' + fileData.id + '">' +
-					'<div class="thumbnail" style="background-image:url(' + icon + '); background-size: 32px;"></div>' +
-					'<span class="hidden-visually">' + t('files', 'Select') + '</span>' +
-					'</label>'
-				);
-			} else {
-				td.append('<div class="thumbnail" style="background-image:url(' + icon + '); background-size: 32px;"></div>');
-			}
 			var linkElem = $('<a></a>').attr({
 				"class": "name",
 				"href": linkUrl
 			});
+
+			linkElem.append('<div class="thumbnail-wrapper"><div class="thumbnail" style="background-image:url(' + icon + ');"></div></div>');
 
 			// from here work on the display name
 			name = fileData.displayName || name;
@@ -1673,6 +1685,7 @@
 				// close sidebar
 				this._updateDetailsView(null);
 			}
+			this._setCurrentDir(this.getCurrentDirectory(), false);
 			var callBack = this.reloadCallback.bind(this);
 			return this._reloadCall.then(callBack, callBack);
 		},
@@ -2614,6 +2627,13 @@
 		 */
 		_createSummary: function() {
 			var $tr = $('<tr class="summary"></tr>');
+
+			if (this._allowSelection) {
+				// Dummy column for selection, as all rows must have the same
+				// number of columns.
+				$tr.append('<td></td>');
+			}
+
 			this.$el.find('tfoot').append($tr);
 
 			return new OCA.Files.FileSummary($tr, {config: this._filesConfig});

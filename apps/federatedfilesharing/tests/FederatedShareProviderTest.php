@@ -31,6 +31,7 @@ use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\FederatedFileSharing\Notifications;
 use OCA\FederatedFileSharing\TokenHandler;
 use OCP\Federation\ICloudIdManager;
+use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -87,15 +88,15 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		$this->tokenHandler = $this->getMockBuilder('OCA\FederatedFileSharing\TokenHandler')
 			->disableOriginalConstructor()
 			->getMock();
-		$this->l = $this->getMockBuilder('OCP\IL10N')->getMock();
+		$this->l = $this->getMockBuilder(IL10N::class)->getMock();
 		$this->l->method('t')
 			->will($this->returnCallback(function($text, $parameters = []) {
 				return vsprintf($text, $parameters);
 			}));
-		$this->logger = $this->getMockBuilder('OCP\ILogger')->getMock();
+		$this->logger = $this->getMockBuilder(ILogger::class)->getMock();
 		$this->rootFolder = $this->getMockBuilder('OCP\Files\IRootFolder')->getMock();
-		$this->config = $this->getMockBuilder('OCP\IConfig')->getMock();
-		$this->userManager = $this->getMockBuilder('OCP\IUserManager')->getMock();
+		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
+		$this->userManager = $this->getMockBuilder(IUserManager::class)->getMock();
 		//$this->addressHandler = new AddressHandler(\OC::$server->getURLGenerator(), $this->l);
 		$this->addressHandler = $this->getMockBuilder('OCA\FederatedFileSharing\AddressHandler')->disableOriginalConstructor()->getMock();
 		$this->cloudIdManager = new CloudIdManager();
@@ -129,7 +130,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 	public function testCreate() {
 		$share = $this->shareManager->newShare();
 
-		$node = $this->getMockBuilder('\OCP\Files\File')->getMock();
+		$node = $this->getMockBuilder(File::class)->getMock();
 		$node->method('getId')->willReturn(42);
 		$node->method('getName')->willReturn('myFile');
 
@@ -200,7 +201,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 	public function testCreateCouldNotFindServer() {
 		$share = $this->shareManager->newShare();
 
-		$node = $this->getMockBuilder('\OCP\Files\File')->getMock();
+		$node = $this->getMockBuilder(File::class)->getMock();
 		$node->method('getId')->willReturn(42);
 		$node->method('getName')->willReturn('myFile');
 
@@ -256,7 +257,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 	public function testCreateException() {
 		$share = $this->shareManager->newShare();
 
-		$node = $this->getMockBuilder('\OCP\Files\File')->getMock();
+		$node = $this->getMockBuilder(File::class)->getMock();
 		$node->method('getId')->willReturn(42);
 		$node->method('getName')->willReturn('myFile');
 
@@ -312,7 +313,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 	public function testCreateShareWithSelf() {
 		$share = $this->shareManager->newShare();
 
-		$node = $this->getMockBuilder('\OCP\Files\File')->getMock();
+		$node = $this->getMockBuilder(File::class)->getMock();
 		$node->method('getId')->willReturn(42);
 		$node->method('getName')->willReturn('myFile');
 
@@ -351,7 +352,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 	public function testCreateAlreadyShared() {
 		$share = $this->shareManager->newShare();
 
-		$node = $this->getMockBuilder('\OCP\Files\File')->getMock();
+		$node = $this->getMockBuilder(File::class)->getMock();
 		$node->method('getId')->willReturn(42);
 		$node->method('getName')->willReturn('myFile');
 
@@ -419,7 +420,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 
 		$share = $this->shareManager->newShare();
 
-		$node = $this->getMockBuilder('\OCP\Files\File')->getMock();
+		$node = $this->getMockBuilder(File::class)->getMock();
 		$node->method('getId')->willReturn(42);
 		$node->method('getName')->willReturn('myFile');
 
@@ -476,7 +477,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 	}
 
 	public function testGetSharedBy() {
-		$node = $this->getMockBuilder('\OCP\Files\File')->getMock();
+		$node = $this->getMockBuilder(File::class)->getMock();
 		$node->method('getId')->willReturn(42);
 		$node->method('getName')->willReturn('myFile');
 
@@ -517,7 +518,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 	}
 
 	public function testGetSharedByWithNode() {
-		$node = $this->getMockBuilder('\OCP\Files\File')->getMock();
+		$node = $this->getMockBuilder(File::class)->getMock();
 		$node->method('getId')->willReturn(42);
 		$node->method('getName')->willReturn('myFile');
 
@@ -536,7 +537,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			->setNode($node);
 		$this->provider->create($share);
 
-		$node2 = $this->getMockBuilder('\OCP\Files\File')->getMock();
+		$node2 = $this->getMockBuilder(File::class)->getMock();
 		$node2->method('getId')->willReturn(43);
 		$node2->method('getName')->willReturn('myOtherFile');
 
@@ -555,7 +556,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 	}
 
 	public function testGetSharedByWithReshares() {
-		$node = $this->getMockBuilder('\OCP\Files\File')->getMock();
+		$node = $this->getMockBuilder(File::class)->getMock();
 		$node->method('getId')->willReturn(42);
 		$node->method('getName')->willReturn('myFile');
 
@@ -588,7 +589,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 	}
 
 	public function testGetSharedByWithLimit() {
-		$node = $this->getMockBuilder('\OCP\Files\File')->getMock();
+		$node = $this->getMockBuilder(File::class)->getMock();
 		$node->method('getId')->willReturn(42);
 		$node->method('getName')->willReturn('myFile');
 

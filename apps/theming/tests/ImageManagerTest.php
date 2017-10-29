@@ -40,7 +40,7 @@ class ImageManager extends TestCase {
 
 	protected function setUp() {
 		parent::setUp();
-		$this->config = $this->getMockBuilder('\OCP\IConfig')->getMock();
+		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
 		$this->appData = $this->getMockBuilder('OCP\Files\IAppData')->getMock();
 		$this->imageManager = new \OCA\Theming\ImageManager(
 			$this->config,

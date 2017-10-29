@@ -276,7 +276,7 @@ class UserTest extends TestCase {
 			->method('implementsActions')
 			->will($this->returnValue(false));
 
-		$allConfig = $this->getMockBuilder('\OCP\IConfig')
+		$allConfig = $this->getMockBuilder(IConfig::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$allConfig->expects($this->any())

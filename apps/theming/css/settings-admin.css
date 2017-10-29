@@ -78,6 +78,7 @@ form.uploadButton {
 
 #theming_settings_msg {
     vertical-align: middle;
+    border-radius: 3px;
 }
 
 #theming-preview-logo {

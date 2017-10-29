@@ -5,6 +5,7 @@ namespace OCA\DAV\Tests\unit\CalDAV;
 use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\CalDAV\PublicCalendar;
 use OCA\DAV\Connector\Sabre\Principal;
+use OCP\IGroupManager;
 use OCP\IL10N;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\PublicCalendarRoot;
@@ -33,6 +34,8 @@ class PublicCalendarRootTest extends TestCase {
 	private $principal;
 	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
 	protected $userManager;
+	/** @var IGroupManager|\PHPUnit_Framework_MockObject_MockObject */
+	protected $groupManager;
 
 	/** @var ISecureRandom */
 	private $random;
@@ -43,6 +46,7 @@ class PublicCalendarRootTest extends TestCase {
 		$db = \OC::$server->getDatabaseConnection();
 		$this->principal = $this->createMock('OCA\DAV\Connector\Sabre\Principal');
 		$this->userManager = $this->createMock(IUserManager::class);
+		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->random = \OC::$server->getSecureRandom();
 		$dispatcher = $this->createMock(EventDispatcherInterface::class);
 
@@ -54,13 +58,14 @@ class PublicCalendarRootTest extends TestCase {
 			$db,
 			$this->principal,
 			$this->userManager,
+			$this->groupManager,
 			$this->random,
 			$dispatcher
 		);
 
 		$this->publicCalendarRoot = new PublicCalendarRoot($this->backend);
 
-		$this->l10n = $this->getMockBuilder('\OCP\IL10N')
+		$this->l10n = $this->getMockBuilder(IL10N::class)
 			->disableOriginalConstructor()->getMock();
 	}
 

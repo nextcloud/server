@@ -9,11 +9,15 @@
 namespace Test\Files\Node;
 
 use OC\Files\FileInfo;
+use OC\Files\Mount\Manager;
 use OC\Files\View;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
+use OCP\Files\Storage;
+use OCP\IConfig;
 use OCP\ILogger;
+use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Files\NotFoundException;
 
@@ -41,17 +45,18 @@ abstract class NodeTest extends \Test\TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$config = $this->getMockBuilder('\OCP\IConfig')
+		$config = $this->getMockBuilder(IConfig::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$urlGenerator = $this->getMockBuilder('\OCP\IURLGenerator')
+		$urlGenerator = $this->getMockBuilder(IURLGenerator
+		::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->user = new \OC\User\User('', new \Test\Util\User\Dummy, null, $config, $urlGenerator);
-		$this->manager = $this->getMockBuilder('\OC\Files\Mount\Manager')
+		$this->manager = $this->getMockBuilder(Manager::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->view = $this->getMockBuilder('\OC\Files\View')
+		$this->view = $this->getMockBuilder(View::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->userMountCache = $this->getMockBuilder('\OCP\Files\Config\IUserMountCache')
@@ -88,7 +93,7 @@ abstract class NodeTest extends \Test\TestCase {
 	protected abstract function getViewDeleteMethod();
 
 	protected function getMockStorage() {
-		$storage = $this->getMockBuilder('\OCP\Files\Storage')
+		$storage = $this->getMockBuilder(Storage::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$storage->expects($this->any())

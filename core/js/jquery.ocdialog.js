@@ -212,8 +212,10 @@
 			// Ugly hack to catch remaining keyup events.
 			setTimeout(function() {
 				self._trigger('close', self);
-				self.$dialog.hide();
 			}, 200);
+
+			self.$dialog.remove();
+			this.destroy();
 		},
 		destroy: function() {
 			if(this.$title) {

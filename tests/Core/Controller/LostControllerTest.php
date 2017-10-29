@@ -105,9 +105,9 @@ class LostControllerTest extends \Test\TestCase {
 			}));
 		$this->defaults = $this->getMockBuilder('\OCP\Defaults')
 			->disableOriginalConstructor()->getMock();
-		$this->userManager = $this->getMockBuilder('\OCP\IUserManager')
+		$this->userManager = $this->getMockBuilder(IUserManager::class)
 			->disableOriginalConstructor()->getMock();
-		$this->urlGenerator = $this->getMockBuilder('\OCP\IURLGenerator')
+		$this->urlGenerator = $this->getMockBuilder(IURLGenerator::class)
 			->disableOriginalConstructor()->getMock();
 		$this->mailer = $this->getMockBuilder('\OCP\Mail\IMailer')
 			->disableOriginalConstructor()->getMock();
@@ -115,7 +115,7 @@ class LostControllerTest extends \Test\TestCase {
 			->disableOriginalConstructor()->getMock();
 		$this->timeFactory = $this->getMockBuilder('\OCP\AppFramework\Utility\ITimeFactory')
 			->disableOriginalConstructor()->getMock();
-		$this->request = $this->getMockBuilder('OCP\IRequest')
+		$this->request = $this->getMockBuilder(IRequest::class)
 			->disableOriginalConstructor()->getMock();
 		$this->encryptionManager = $this->getMockBuilder(IManager::class)
 			->disableOriginalConstructor()->getMock();
@@ -324,20 +324,9 @@ class LostControllerTest extends \Test\TestCase {
 			->with(['test@example.com' => 'ExistingUser']);
 		$message
 			->expects($this->at(1))
-			->method('setSubject')
-			->with(' password reset');
-		$message
-			->expects($this->at(2))
-			->method('setPlainBody')
-			->with('text body');
-		$message
-			->expects($this->at(3))
-			->method('setHtmlBody')
-			->with('HTML body');
-		$message
-			->expects($this->at(4))
 			->method('setFrom')
 			->with(['lostpassword-noreply@localhost' => null]);
+
 		$emailTemplate = $this->createMock(IEMailTemplate::class);
 		$emailTemplate->expects($this->any())
 			->method('renderHtml')
@@ -345,6 +334,12 @@ class LostControllerTest extends \Test\TestCase {
 		$emailTemplate->expects($this->any())
 			->method('renderText')
 			->willReturn('text body');
+
+		$message
+			->expects($this->at(2))
+			->method('useTemplate')
+			->with($emailTemplate);
+
 		$this->mailer
 			->expects($this->at(0))
 			->method('createEMailTemplate')
@@ -407,20 +402,9 @@ class LostControllerTest extends \Test\TestCase {
 			->with(['test@example.com' => 'ExistingUser']);
 		$message
 			->expects($this->at(1))
-			->method('setSubject')
-			->with(' password reset');
-		$message
-			->expects($this->at(2))
-			->method('setPlainBody')
-			->with('text body');
-		$message
-			->expects($this->at(3))
-			->method('setHtmlBody')
-			->with('HTML body');
-		$message
-			->expects($this->at(4))
 			->method('setFrom')
 			->with(['lostpassword-noreply@localhost' => null]);
+
 		$emailTemplate = $this->createMock(IEMailTemplate::class);
 		$emailTemplate->expects($this->any())
 			->method('renderHtml')
@@ -428,6 +412,12 @@ class LostControllerTest extends \Test\TestCase {
 		$emailTemplate->expects($this->any())
 			->method('renderText')
 			->willReturn('text body');
+
+		$message
+			->expects($this->at(2))
+			->method('useTemplate')
+			->with($emailTemplate);
+
 		$this->mailer
 			->expects($this->at(0))
 			->method('createEMailTemplate')
@@ -484,20 +474,9 @@ class LostControllerTest extends \Test\TestCase {
 			->with(['test@example.com' => 'ExistingUser']);
 		$message
 			->expects($this->at(1))
-			->method('setSubject')
-			->with(' password reset');
-		$message
-			->expects($this->at(2))
-			->method('setPlainBody')
-			->with('text body');
-		$message
-			->expects($this->at(3))
-			->method('setHtmlBody')
-			->with('HTML body');
-		$message
-			->expects($this->at(4))
 			->method('setFrom')
 			->with(['lostpassword-noreply@localhost' => null]);
+
 		$emailTemplate = $this->createMock(IEMailTemplate::class);
 		$emailTemplate->expects($this->any())
 			->method('renderHtml')
@@ -505,6 +484,12 @@ class LostControllerTest extends \Test\TestCase {
 		$emailTemplate->expects($this->any())
 			->method('renderText')
 			->willReturn('text body');
+
+		$message
+			->expects($this->at(2))
+			->method('useTemplate')
+			->with($emailTemplate);
+
 		$this->mailer
 			->expects($this->at(0))
 			->method('createEMailTemplate')

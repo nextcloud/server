@@ -46,15 +46,15 @@ class ConverterTest extends  TestCase {
 
 	public function setUp() {
 		parent::setUp();
-		$this->databaseConnection = $this->getMockBuilder('OCP\IDBConnection')->getMock();
-		$this->eventDispatcher = $this->getMockBuilder('Symfony\Component\EventDispatcher\EventDispatcher')
+		$this->databaseConnection = $this->getMockBuilder(IDBConnection::class)->getMock();
+		$this->eventDispatcher = $this->getMockBuilder(EventDispatcher::class)
 			->disableOriginalConstructor()->getMock();
-		$this->accountManager = $this->getMockBuilder('OC\Accounts\AccountManager')
+		$this->accountManager = $this->getMockBuilder(AccountManager::class)
 			->disableOriginalConstructor()->getMock();
 	}
 
 	public function getAccountManager(IUser $user) {
-		$accountManager = $this->getMockBuilder('OC\Accounts\AccountManager')
+		$accountManager = $this->getMockBuilder(AccountManager::class)
 			->disableOriginalConstructor()->getMock();
 		$accountManager->expects($this->any())->method('getUser')->willReturn(
 			[

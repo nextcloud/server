@@ -5,6 +5,7 @@ namespace Test\AppFramework\Routing;
 use OC\AppFramework\DependencyInjection\DIContainer;
 use OC\AppFramework\Routing\RouteActionHandler;
 use OC\AppFramework\Routing\RouteConfig;
+use OCP\ILogger;
 
 class RoutingTest extends \Test\TestCase
 {
@@ -130,7 +131,7 @@ class RoutingTest extends \Test\TestCase
 		// router mock
 		$router = $this->getMockBuilder('\OC\Route\Router')
 			->setMethods(['create'])
-			->setConstructorArgs([$this->getMockBuilder('\OCP\ILogger')->getMock()])
+			->setConstructorArgs([$this->getMockBuilder(ILogger::class)->getMock()])
 			->getMock();
 
 		// load route configuration
@@ -151,7 +152,7 @@ class RoutingTest extends \Test\TestCase
 		// router mock
 		$router = $this->getMockBuilder('\OC\Route\Router')
 			->setMethods(['create'])
-			->setConstructorArgs([$this->getMockBuilder('\OCP\ILogger')->getMock()])
+			->setConstructorArgs([$this->getMockBuilder(ILogger::class)->getMock()])
 			->getMock();
 
 		// load route configuration
@@ -212,7 +213,7 @@ class RoutingTest extends \Test\TestCase
 		// router mock
 		$router = $this->getMockBuilder('\OC\Route\Router')
 			->setMethods(['create'])
-			->setConstructorArgs([$this->getMockBuilder('\OCP\ILogger')->getMock()])
+			->setConstructorArgs([$this->getMockBuilder(ILogger::class)->getMock()])
 			->getMock();
 
 		// we expect create to be called once:
@@ -260,7 +261,7 @@ class RoutingTest extends \Test\TestCase
 		// router mock
 		$router = $this->getMockBuilder('\OC\Route\Router')
 			->setMethods(['create'])
-			->setConstructorArgs([$this->getMockBuilder('\OCP\ILogger')->getMock()])
+			->setConstructorArgs([$this->getMockBuilder(ILogger::class)->getMock()])
 			->getMock();
 
 		// we expect create to be called once:
@@ -287,7 +288,7 @@ class RoutingTest extends \Test\TestCase
 		// router mock
 		$router = $this->getMockBuilder('\OC\Route\Router')
 			->setMethods(['create'])
-			->setConstructorArgs([$this->getMockBuilder('\OCP\ILogger')->getMock()])
+			->setConstructorArgs([$this->getMockBuilder(ILogger::class)->getMock()])
 			->getMock();
 
 		// route mocks

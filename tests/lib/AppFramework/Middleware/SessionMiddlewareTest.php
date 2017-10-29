@@ -17,6 +17,7 @@ use OC\AppFramework\Middleware\SessionMiddleware;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Response;
+use OCP\IConfig;
 
 
 class SessionMiddlewareTest extends \Test\TestCase {
@@ -36,7 +37,7 @@ class SessionMiddlewareTest extends \Test\TestCase {
 		$this->request = new Request(
 			[],
 			$this->getMockBuilder('\OCP\Security\ISecureRandom')->getMock(),
-			$this->getMockBuilder('\OCP\IConfig')->getMock()
+			$this->getMockBuilder(IConfig::class)->getMock()
 		);
 		$this->reflector = new ControllerMethodReflector();
 		$this->controller = $this->createMock(Controller::class);

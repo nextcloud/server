@@ -27,7 +27,9 @@ namespace OCA\Files_External\Tests\Service;
 
 use \OC\Files\Filesystem;
 
+use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\Auth\InvalidAuth;
+use OCA\Files_External\Lib\Backend\Backend;
 use OCA\Files_External\Lib\Backend\InvalidBackend;
 use OCA\Files_External\NotFoundException;
 use OCA\Files_External\Lib\StorageConfig;
@@ -179,7 +181,7 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 	}
 
 	protected function getBackendMock($class = '\OCA\Files_External\Lib\Backend\SMB', $storageClass = '\OCA\Files_External\Lib\Storage\SMB') {
-		$backend = $this->getMockBuilder('\OCA\Files_External\Lib\Backend\Backend')
+		$backend = $this->getMockBuilder(Backend::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$backend->method('getStorageClass')
@@ -190,7 +192,7 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 	}
 
 	protected function getAuthMechMock($scheme = 'null', $class = '\OCA\Files_External\Lib\Auth\NullMechanism') {
-		$authMech = $this->getMockBuilder('\OCA\Files_External\Lib\Auth\AuthMechanism')
+		$authMech = $this->getMockBuilder(AuthMechanism::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$authMech->method('getScheme')
@@ -204,7 +206,7 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 	/**
 	 * Creates a StorageConfig instance based on array data
 	 *
-	 * @param array data
+	 * @param array $data
 	 *
 	 * @return StorageConfig storage config instance
 	 */

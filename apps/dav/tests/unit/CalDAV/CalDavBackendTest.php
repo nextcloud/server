@@ -42,7 +42,7 @@ use Sabre\DAVACL\IACL;
  *
  * @package OCA\DAV\Tests\unit\CalDAV
  */
-class CalDavBackendTest extends AbstractCalDavBackendTest {
+class CalDavBackendTest extends AbstractCalDavBackend {
 
 	public function testCalendarOperations() {
 
@@ -129,6 +129,14 @@ class CalDavBackendTest extends AbstractCalDavBackendTest {
 			->will($this->returnCallback(function ($text, $parameters = array()) {
 				return vsprintf($text, $parameters);
 			}));
+
+		$this->userManager->expects($this->any())
+			->method('userExists')
+			->willReturn(true);
+
+		$this->groupManager->expects($this->any())
+			->method('groupExists')
+			->willReturn(true);
 
 		$calendarId = $this->createTestCalendar();
 		$calendars = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);

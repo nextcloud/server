@@ -108,7 +108,6 @@
     "A valid password must be provided" : "Jānorāda derīga parole",
     "A valid email must be provided" : "Jānorāda derīga e-pasta adrese",
     "Developer documentation" : "Izstrādātāja dokumentācija",
-    "This app has an update available." : "Šai programmai ir pieejams jauninājums",
     "%s-licensed" : "%s-licencēts",
     "Documentation:" : "Dokumentācija:",
     "User documentation" : "Lietotāja dokumentācija",
@@ -117,6 +116,7 @@
     "Report a bug" : "Ziņot par kļūdu",
     "Show description …" : "Rādīt aprakstu …",
     "Hide description …" : "Slēpt aprakstu …",
+    "This app has an update available." : "Šai programmai ir pieejams jauninājums",
     "Enable only for specific groups" : "Iespējot tikai konkrētām grupām",
     "SSL Root Certificates" : "SSL Root Sertifikāti",
     "Common Name" : "Kopīgais nosaukums",
@@ -228,7 +228,6 @@
     "Create" : "Izveidot",
     "Admin Recovery Password" : "Administratora atgūšanas parole",
     "Enter the recovery password in order to recover the users files during password change" : "Ievadiet atgūšanas paroli, lai varētu atgūt lietotāja failus paroles maiņas laikā.",
-    "Group name" : "Grupas nosaukums",
     "Everyone" : "Visi",
     "Admins" : "Admins",
     "Default quota" : "Apjoms pēc noklusējuma",
@@ -277,6 +276,7 @@
     "Name" : "Nosaukums",
     "Follow us on Google Plus!" : "Seko mums Google Plus!",
     "Subscribe to our newsletter!" : "Abonēt mūsu jaunumus!",
-    "Show last log in" : "Rādīt pēdējo autorizāciju"
+    "Show last log in" : "Rādīt pēdējo autorizāciju",
+    "Group name" : "Grupas nosaukums"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);"
 }

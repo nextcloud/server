@@ -26,6 +26,7 @@
 	'use strict';
 
 	var MENU_TEMPLATE = ''
+			+ '<label class="hidden-visually" for="contactsmenu-search">' + t('core', 'Search contacts …') + '</label>'
 			+ '<input id="contactsmenu-search" type="search" placeholder="' + t('core', 'Search contacts …') + '" value="{{searchTerm}}">'
 			+ '<div class="content">'
 			+ '</div>';
@@ -51,7 +52,7 @@
 	var CONTACT_TEMPLATE = ''
 			+ '{{#if contact.avatar}}'
 			+ '<img src="{{contact.avatar}}&size=32" class="avatar"'
-			+ 'srcset="{{contact.avatar}}&size=32 1x, {{contact.avatar}}&size=64 2x, {{contact.avatar}}&size=128 4x">'
+			+ 'srcset="{{contact.avatar}}&size=32 1x, {{contact.avatar}}&size=64 2x, {{contact.avatar}}&size=128 4x" alt="">'
 			+ '{{else}}'
 			+ '<div class="avatar"></div>'
 			+ '{{/if}}'
@@ -61,12 +62,12 @@
 			+ '</div>'
 			+ '{{#if contact.topAction}}'
 			+ '<a class="top-action" href="{{contact.topAction.hyperlink}}" title="{{contact.topAction.title}}">'
-			+ '    <img src="{{contact.topAction.icon}}">'
+			+ '    <img src="{{contact.topAction.icon}}" alt="{{contact.topAction.title}}">'
 			+ '</a>'
 			+ '{{/if}}'
 			+ '{{#if contact.hasTwoActions}}'
 			+ '<a class="second-action" href="{{contact.secondAction.hyperlink}}" title="{{contact.secondAction.title}}">'
-			+ '    <img src="{{contact.secondAction.icon}}">'
+			+ '    <img src="{{contact.secondAction.icon}}" alt="{{contact.secondAction.title}}">'
 			+ '</a>'
 			+ '{{/if}}'
 			+ '{{#if contact.hasManyActions}}'
@@ -76,7 +77,7 @@
 			+ '            {{#each contact.actions}}'
 			+ '            <li>'
 			+ '                <a href="{{hyperlink}}">'
-			+ '                    <img src="{{icon}}">'
+			+ '                    <img src="{{icon}}" alt="">'
 			+ '                    <span>{{title}}</span>'
 			+ '                </a>'
 			+ '            </li>'
@@ -224,7 +225,7 @@
 			}));
 			this.delegateEvents();
 
-			// Show placeholder iff no avatar is available (avatar is rendered as img, not div)
+			// Show placeholder if no avatar is available (avatar is rendered as img, not div)
 			this.$('div.avatar').imageplaceholder(this._model.get('fullName'));
 
 			// Show tooltip for top action
@@ -286,6 +287,9 @@
 		/** @type {undefined|ContactCollection} */
 		_contacts: undefined,
 
+		/** @type {string} */
+		_searchTerm: '',
+
 		events: {
 			'input #contactsmenu-search': '_onSearch'
 		},
@@ -293,8 +297,16 @@
 		/**
 		 * @returns {undefined}
 		 */
-		_onSearch: _.debounce(function() {
-			this.trigger('search', this.$('#contactsmenu-search').val());
+		_onSearch: _.debounce(function(e) {
+			var searchTerm = this.$('#contactsmenu-search').val();
+			// IE11 triggers an 'input' event after the view has been rendered
+			// resulting in an endless loading loop. To prevent this, we remember
+			// the last search term to savely ignore some events
+			// See https://github.com/nextcloud/server/issues/5281
+			if (searchTerm !== this._searchTerm) {
+				this.trigger('search', this.$('#contactsmenu-search').val());
+				this._searchTerm = searchTerm;
+			}
 		}, 700),
 
 		/**

@@ -23,6 +23,16 @@
  */
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
+use OCA\DAV\Connector\Sabre\Directory;
+use OCA\DAV\Connector\Sabre\File;
+use OCA\DAV\Connector\Sabre\Node;
+use OCP\Files\Folder;
+use OCP\IUser;
+use OCP\IUserSession;
+use OCP\Share\IManager;
+use OCP\Share\IShare;
+use Sabre\DAV\Tree;
+
 class SharesPluginTest extends \Test\TestCase {
 
 	const SHARETYPES_PROPERTYNAME = \OCA\DAV\Connector\Sabre\SharesPlugin::SHARETYPES_PROPERTYNAME;
@@ -55,26 +65,26 @@ class SharesPluginTest extends \Test\TestCase {
 	public function setUp() {
 		parent::setUp();
 		$this->server = new \Sabre\DAV\Server();
-		$this->tree = $this->getMockBuilder('\Sabre\DAV\Tree')
+		$this->tree = $this->getMockBuilder(Tree::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->shareManager = $this->getMockBuilder('\OCP\Share\IManager')
+		$this->shareManager = $this->getMockBuilder(IManager::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$user = $this->getMockBuilder('\OCP\IUser')
+		$user = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$user->expects($this->once())
 			->method('getUID')
 			->will($this->returnValue('user1'));
-		$userSession = $this->getMockBuilder('\OCP\IUserSession')
+		$userSession = $this->getMockBuilder(IUserSession::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$userSession->expects($this->once())
 			->method('getUser')
 			->will($this->returnValue($user));
 
-		$this->userFolder = $this->getMockBuilder('\OCP\Files\Folder')
+		$this->userFolder = $this->getMockBuilder(Folder::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -91,7 +101,7 @@ class SharesPluginTest extends \Test\TestCase {
 	 * @dataProvider sharesGetPropertiesDataProvider
 	 */
 	public function testGetProperties($shareTypes) {
-		$sabreNode = $this->getMockBuilder('\OCA\DAV\Connector\Sabre\Node')
+		$sabreNode = $this->getMockBuilder(Node::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$sabreNode->expects($this->any())
@@ -102,7 +112,7 @@ class SharesPluginTest extends \Test\TestCase {
 			->will($this->returnValue('/subdir'));
 
 		// node API nodes
-		$node = $this->getMockBuilder('\OCP\Files\Folder')
+		$node = $this->getMockBuilder(Folder::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -149,7 +159,7 @@ class SharesPluginTest extends \Test\TestCase {
 	 * @dataProvider sharesGetPropertiesDataProvider
 	 */
 	public function testPreloadThenGetProperties($shareTypes) {
-		$sabreNode1 = $this->getMockBuilder('\OCA\DAV\Connector\Sabre\File')
+		$sabreNode1 = $this->getMockBuilder(File::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$sabreNode1->expects($this->any())
@@ -157,7 +167,7 @@ class SharesPluginTest extends \Test\TestCase {
 			->will($this->returnValue(111));
 		$sabreNode1->expects($this->any())
 			->method('getPath');
-		$sabreNode2 = $this->getMockBuilder('\OCA\DAV\Connector\Sabre\File')
+		$sabreNode2 = $this->getMockBuilder(File::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$sabreNode2->expects($this->any())
@@ -167,7 +177,7 @@ class SharesPluginTest extends \Test\TestCase {
 			->method('getPath')
 			->will($this->returnValue('/subdir/foo'));
 
-		$sabreNode = $this->getMockBuilder('\OCA\DAV\Connector\Sabre\Directory')
+		$sabreNode = $this->getMockBuilder(Directory::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$sabreNode->expects($this->any())
@@ -181,19 +191,19 @@ class SharesPluginTest extends \Test\TestCase {
 			->will($this->returnValue('/subdir'));
 
 		// node API nodes
-		$node = $this->getMockBuilder('\OCP\Files\Folder')
+		$node = $this->getMockBuilder(Folder::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$node->expects($this->any())
 			->method('getId')
 			->will($this->returnValue(123));
-		$node1 = $this->getMockBuilder('\OCP\Files\File')
+		$node1 = $this->getMockBuilder(File::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$node1->expects($this->any())
 			->method('getId')
 			->will($this->returnValue(111));
-		$node2 = $this->getMockBuilder('\OCP\Files\File')
+		$node2 = $this->getMockBuilder(File::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$node2->expects($this->any())
@@ -206,7 +216,7 @@ class SharesPluginTest extends \Test\TestCase {
 			->will($this->returnValue($node));
 		
 		$dummyShares = array_map(function($type) {
-			$share = $this->getMockBuilder('\OCP\Share\IShare')->getMock();
+			$share = $this->getMockBuilder(IShare::class)->getMock();
 			$share->expects($this->any())
 				->method('getShareType')
 				->will($this->returnValue($type));

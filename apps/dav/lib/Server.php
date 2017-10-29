@@ -55,8 +55,8 @@ use OCP\SabrePluginEvent;
 use Sabre\CardDAV\VCFExportPlugin;
 use Sabre\DAV\Auth\Plugin;
 use OCA\DAV\Connector\Sabre\TagsPlugin;
-use Sabre\HTTP\Auth\Bearer;
 use SearchDAV\DAV\SearchPlugin;
+use OCA\DAV\AppInfo\PluginManager;
 
 class Server {
 
@@ -76,6 +76,7 @@ class Server {
 		$mailer = \OC::$server->getMailer();
 		$dispatcher = \OC::$server->getEventDispatcher();
 		$timezone = new TimeFactory();
+		$sendInvitations = \OC::$server->getConfig()->getAppValue('dav', 'sendInvitations', 'yes') === 'yes';
 
 		$root = new RootCollection();
 		$this->server = new \OCA\DAV\Connector\Sabre\Server(new CachingTree($root));
@@ -137,7 +138,9 @@ class Server {
 		$this->server->addPlugin(new \OCA\DAV\CalDAV\Plugin());
 		$this->server->addPlugin(new \Sabre\CalDAV\ICSExportPlugin());
 		$this->server->addPlugin(new \OCA\DAV\CalDAV\Schedule\Plugin());
-		$this->server->addPlugin(new IMipPlugin($mailer, $logger, $timezone));
+		if ($sendInvitations) {
+			$this->server->addPlugin(new IMipPlugin($mailer, $logger, $timezone));
+		}
 		$this->server->addPlugin(new \Sabre\CalDAV\Subscriptions\Plugin());
 		$this->server->addPlugin(new \Sabre\CalDAV\Notifications\Plugin());
 		$this->server->addPlugin(new DAV\Sharing\Plugin($authBackend, \OC::$server->getRequest()));
@@ -184,7 +187,7 @@ class Server {
 		}
 
 		// wait with registering these until auth is handled and the filesystem is setup
-		$this->server->on('beforeMethod', function () {
+		$this->server->on('beforeMethod', function () use ($root) {
 			// custom properties plugin must be the last one
 			$userSession = \OC::$server->getUserSession();
 			$user = $userSession->getUser();
@@ -251,6 +254,18 @@ class Server {
 						$view
 					)));
 				}
+			}
+
+			// register plugins from apps
+			$pluginManager = new PluginManager(
+				\OC::$server,
+				\OC::$server->getAppManager()
+			);
+			foreach ($pluginManager->getAppPlugins() as $appPlugin) {
+				$this->server->addPlugin($appPlugin);
+			}
+			foreach ($pluginManager->getAppCollections() as $appCollection) {
+				$root->addChild($appCollection);
 			}
 		});
 	}

@@ -44,6 +44,7 @@ use Exception;
 use OC\App\AppStore\Bundles\BundleFetcher;
 use OC\Authentication\Token\DefaultTokenCleanupJob;
 use OC\Authentication\Token\DefaultTokenProvider;
+use OC\Log\Rotate;
 use OCP\Defaults;
 use OCP\IL10N;
 use OCP\ILogger;
@@ -426,7 +427,9 @@ class Setup {
 	}
 
 	public static function installBackgroundJobs() {
-		\OC::$server->getJobList()->add(DefaultTokenCleanupJob::class);
+		$jobList = \OC::$server->getJobList();
+		$jobList->add(DefaultTokenCleanupJob::class);
+		$jobList->add(Rotate::class);
 	}
 
 	/**

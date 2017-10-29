@@ -31,8 +31,6 @@ ul.multiselectoptions {
 		border-bottom-right-radius: 3px;
 		width: 100%;
 		/* do not cut off group names */
-		-webkit-box-shadow: 0 1px 10px $color-box-shadow;
-		-moz-box-shadow: 0 1px 10px $color-box-shadow;
 		box-shadow: 0 1px 10px $color-box-shadow;
 	}
 	&.up {

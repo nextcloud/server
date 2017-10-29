@@ -34,8 +34,6 @@
 .newFileMenu .error, #fileList .error {
 	color: $color-error;
 	border-color: $color-error;
-	-webkit-box-shadow: 0 0 6px #f8b9b7;
-	-moz-box-shadow: 0 0 6px #f8b9b7;
 	box-shadow: 0 0 6px #f8b9b7;
 }
 
@@ -232,9 +230,6 @@ table th#headerName {
 	position: relative;
 	height: 50px;
 }
-.has-favorites #headerName-container {
-	padding-left: 50px;
-}
 
 table th#headerSize, table td.filesize {
 	text-align: right;
@@ -296,7 +291,12 @@ table td.filename a.name {
 	line-height: 50px;
 	padding: 0;
 }
-table td.filename label.icon-loading-small {
+table td.filename .thumbnail-wrapper {
+	position: absolute;
+	width: 50px;
+	height: 50px;
+}
+table td.filename .thumbnail-wrapper.icon-loading-small {
 	&:after {
 		z-index: 10;
 	}
@@ -308,10 +308,10 @@ table td.filename .thumbnail {
 	display: inline-block;
 	width: 32px;
 	height: 32px;
+	background-size: 32px;
 	margin-left: 9px;
 	margin-top: 9px;
 	cursor: pointer;
-	float: left;
 	position: absolute;
 	z-index: 4;
 }
@@ -321,12 +321,9 @@ table td.filename input.filename {
 	margin-left: 48px;
 	cursor: text;
 }
-.has-favorites table td.filename input.filename {
-	margin-left: 52px;
-}
 
 table td.filename a, table td.login, table td.logout, table td.download, table td.upload, table td.create, table td.delete { padding:3px 8px 8px 3px; }
-table td.filename .nametext, .uploadtext, .modified, .column-last>span:first-child { float:left; padding:15px 0; }
+table td.filename .nametext, .modified, .column-last>span:first-child { float:left; padding:15px 0; }
 
 .modified, .column-last>span:first-child {
 	position: relative;
@@ -338,21 +335,22 @@ table td.filename .nametext, .uploadtext, .modified, .column-last>span:first-chi
 /* TODO fix usability bug (accidental file/folder selection) */
 table td.filename .nametext {
 	position: absolute;
-	left: 55px;
 	padding: 0;
+	padding-left: 55px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	width: 70%;
 	max-width: 800px;
 	height: 100%;
+	z-index: 10;
+}
+table td.filename .uploadtext {
+	position: absolute;
+	left: 55px;
 }
 /* ellipsis on file names */
 table td.filename .nametext .innernametext {
 	max-width: calc(100% - 100px) !important;
-}
-.has-favorites #fileList td.filename a.name {
-	left: 50px;
-	margin-right: 50px;
 }
 
 .hide-hidden-files #fileList tr.hidden-file,
@@ -439,49 +437,27 @@ table td.filename .uploadtext {
 	opacity: .5;
 }
 
-/* File checkboxes */
-#fileList tr td.filename>.selectCheckBox + label:before {
-	opacity: 0;
-	position: absolute;
-	bottom: 4px;
-	right: 0;
-	z-index: 10;
+table td.selection {
+	padding: 0;
 }
 
-/* Show checkbox when hovering, checked, or selected */
-#fileList tr:hover td.filename>.selectCheckBox + label:before,
-#fileList tr:focus td.filename>.selectCheckBox + label:before,
-#fileList tr td.filename>.selectCheckBox:checked + label:before,
-#fileList tr.selected td.filename>.selectCheckBox + label:before {
+/* File checkboxes */
+#fileList tr td.selection>.selectCheckBox + label:before {
+	opacity: 0.3;
+}
+
+/* Show checkbox with full opacity when hovering, checked, or selected */
+#fileList tr:hover td.selection>.selectCheckBox + label:before,
+#fileList tr:focus td.selection>.selectCheckBox + label:before,
+#fileList tr td.selection>.selectCheckBox:checked + label:before,
+#fileList tr.selected td.selection>.selectCheckBox + label:before {
 	opacity: 1;
 }
 
 /* Use label to have bigger clickable size for checkbox */
-#fileList tr td.filename>.selectCheckBox + label,
+#fileList tr td.selection>.selectCheckBox + label,
 .select-all + label {
-	background-position: 30px 30px;
-	height: 50px;
-	position: absolute;
-	width: 50px;
-	z-index: 5;
-}
-#fileList tr td.filename>.selectCheckBox {
-	/* sometimes checkbox height is bigger (KDE/Qt), so setting to absolute
-	 * to prevent it to increase the height */
-	position: absolute;
-	z-index: 10;
-}
-.select-all + label {
-	top: 0;
-}
-.select-all + label:before {
-	position: absolute;
-	top: 18px;
-	left: 18px;
-	z-index: 10;
-}
-.has-favorites .select-all {
-	left: 68px;
+	padding: 16px;
 }
 
 #fileList tr td.filename {
@@ -502,10 +478,11 @@ table td.filename .uploadtext {
 	display: inline-block;
 	float: left;
 }
-#fileList tr td.filename .action-favorite {
+#fileList tr td.filename .favorite-mark {
+	position: absolute;
 	display: block;
-	float: left;
-	width: 30px;
+	top: -6px;
+	right: -6px;
 	line-height: 100%;
 	text-align: center;
 }
@@ -617,7 +594,7 @@ a.action > img {
 	padding-left: 6px;
 }
 
-#fileList .action.action-favorite.permanent {
+#fileList .favorite-mark.permanent {
 	opacity: 1;
 }
 
@@ -660,9 +637,6 @@ table tr.summary td {
 }
 .summary .info {
 	margin-left: 40px;
-}
-.has-favorites .summary .info {
-	margin-left: 90px;
 }
 
 table.dragshadow {
@@ -716,10 +690,22 @@ table.dragshadow td.size {
 
 #filestable .filename .action .icon,
 #filestable .selectedActions a .icon,
+#filestable .filename .favorite-mark .icon,
 #controls .actions .button .icon {
 	display: inline-block;
 	vertical-align: middle;
 	background-size: 16px 16px;
+}
+
+#filestable .filename .favorite-mark {
+	// Override default icons to always hide the star icon and always show the
+	// starred icon even when hovered or focused.
+	& .icon-star {
+		background-image: none;
+	}
+	& .icon-starred {
+		background-image: url('../../../core/img/actions/starred.svg?v=1');
+	}
 }
 
 #filestable .filename .action .icon.hidden,

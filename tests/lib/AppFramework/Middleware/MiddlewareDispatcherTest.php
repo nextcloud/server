@@ -29,6 +29,7 @@ use OC\AppFramework\Middleware\MiddlewareDispatcher;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Middleware;
 use OCP\AppFramework\Http\Response;
+use OCP\IConfig;
 
 
 // needed to test ordering
@@ -133,7 +134,7 @@ class MiddlewareDispatcherTest extends \Test\TestCase {
 				new Request(
 					['method' => 'GET'],
 					$this->getMockBuilder('\OCP\Security\ISecureRandom')->getMock(),
-					$this->getMockBuilder('\OCP\IConfig')->getMock()
+					$this->getMockBuilder(IConfig::class)->getMock()
 				)
 			])->getMock();
 	}

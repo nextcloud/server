@@ -21,7 +21,8 @@
 
 namespace Test\Files\Type;
 
-use \OC\Files\Type\Detection;
+use OC\Files\Type\Detection;
+use OCP\IURLGenerator;
 
 class DetectionTest extends \Test\TestCase {
 	/** @var Detection */
@@ -107,7 +108,7 @@ class DetectionTest extends \Test\TestCase {
 		 */
 
 		//Mock UrlGenerator
-		$urlGenerator = $this->getMockBuilder('\OCP\IURLGenerator')
+		$urlGenerator = $this->getMockBuilder(IURLGenerator::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -126,7 +127,7 @@ class DetectionTest extends \Test\TestCase {
 		 * Test dir-shareed mimetype
 		 */
 		//Mock UrlGenerator
-		$urlGenerator = $this->getMockBuilder('\OCP\IURLGenerator')
+		$urlGenerator = $this->getMockBuilder(IURLGenerator::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -146,7 +147,7 @@ class DetectionTest extends \Test\TestCase {
 		 */
 
 		//Mock UrlGenerator
-		$urlGenerator = $this->getMockBuilder('\OCP\IURLGenerator')
+		$urlGenerator = $this->getMockBuilder(IURLGenerator::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -166,7 +167,7 @@ class DetectionTest extends \Test\TestCase {
 		 */
 
 		//Mock UrlGenerator
-		$urlGenerator = $this->getMockBuilder('\OCP\IURLGenerator')
+		$urlGenerator = $this->getMockBuilder(IURLGenerator::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -186,7 +187,7 @@ class DetectionTest extends \Test\TestCase {
 		 */
 
 		//Mock UrlGenerator
-		$urlGenerator = $this->getMockBuilder('\OCP\IURLGenerator')
+		$urlGenerator = $this->getMockBuilder(IURLGenerator::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -216,7 +217,7 @@ class DetectionTest extends \Test\TestCase {
 		 */
 
 		//Mock UrlGenerator
-		$urlGenerator = $this->getMockBuilder('\OCP\IURLGenerator')
+		$urlGenerator = $this->getMockBuilder(IURLGenerator::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -246,7 +247,7 @@ class DetectionTest extends \Test\TestCase {
 		 */
 
 		//Mock UrlGenerator
-		$urlGenerator = $this->getMockBuilder('\OCP\IURLGenerator')
+		$urlGenerator = $this->getMockBuilder(IURLGenerator::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -272,7 +273,7 @@ class DetectionTest extends \Test\TestCase {
 		$mimetypealiases_dist->setContent(json_encode(['foo' => 'foobar/baz'], JSON_FORCE_OBJECT));
 
 		//Mock UrlGenerator
-		$urlGenerator = $this->getMockBuilder('\OCP\IURLGenerator')
+		$urlGenerator = $this->getMockBuilder(IURLGenerator::class)
 			->disableOriginalConstructor()
 			->getMock();
 

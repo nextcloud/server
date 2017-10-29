@@ -103,18 +103,18 @@ class ShareByMailProviderTest extends TestCase {
 		$this->shareManager = \OC::$server->getShareManager();
 		$this->connection = \OC::$server->getDatabaseConnection();
 
-		$this->l = $this->getMockBuilder('OCP\IL10N')->getMock();
+		$this->l = $this->getMockBuilder(IL10N::class)->getMock();
 		$this->l->method('t')
 			->will($this->returnCallback(function($text, $parameters = []) {
 				return vsprintf($text, $parameters);
 			}));
-		$this->logger = $this->getMockBuilder('OCP\ILogger')->getMock();
+		$this->logger = $this->getMockBuilder(ILogger::class)->getMock();
 		$this->rootFolder = $this->getMockBuilder('OCP\Files\IRootFolder')->getMock();
-		$this->userManager = $this->getMockBuilder('OCP\IUserManager')->getMock();
+		$this->userManager = $this->getMockBuilder(IUserManager::class)->getMock();
 		$this->secureRandom = $this->getMockBuilder('\OCP\Security\ISecureRandom')->getMock();
 		$this->mailer = $this->getMockBuilder('\OCP\Mail\IMailer')->getMock();
-		$this->urlGenerator = $this->getMockBuilder('\OCP\IUrlGenerator')->getMock();
-		$this->share = $this->getMockBuilder('\OCP\Share\IShare')->getMock();
+		$this->urlGenerator = $this->getMockBuilder(IURLGenerator::class)->getMock();
+		$this->share = $this->getMockBuilder(IShare::class)->getMock();
 		$this->activityManager = $this->getMockBuilder('OCP\Activity\IManager')->getMock();
 		$this->settingsManager = $this->getMockBuilder(SettingsManager::class)->disableOriginalConstructor()->getMock();
 		$this->defaults = $this->createMock(Defaults::class);
@@ -181,7 +181,7 @@ class ShareByMailProviderTest extends TestCase {
 	}
 
 	public function testCreate() {
-		$share = $this->getMockBuilder('\OCP\Share\IShare')->getMock();
+		$share = $this->getMockBuilder(IShare::class)->getMock();
 		$share->expects($this->any())->method('getSharedWith')->willReturn('user1');
 
 		$node = $this->getMockBuilder(File::class)->getMock();
@@ -835,26 +835,14 @@ class ShareByMailProviderTest extends TestCase {
 			->expects($this->once())
 			->method('addFooter')
 			->with('UnitTestCloud - Testing like 1990');
-		$message
+		$template
 			->expects($this->once())
 			->method('setSubject')
-			->willReturn('Mrs. Owner User shared »file.txt« with you');
-		$template
-			->expects($this->once())
-			->method('renderText')
-			->willReturn('Text Render');
+			->with('Mrs. Owner User shared »file.txt« with you');
 		$message
 			->expects($this->once())
-			->method('setPlainBody')
-			->with('Text Render');
-		$template
-			->expects($this->once())
-			->method('renderHtml')
-			->willReturn('HTML Render');
-		$message
-			->expects($this->once())
-			->method('setHtmlBody')
-			->with('HTML Render');
+			->method('useTemplate')
+			->with($template);
 		$this->mailer
 			->expects($this->once())
 			->method('send')
@@ -936,26 +924,14 @@ class ShareByMailProviderTest extends TestCase {
 			->expects($this->once())
 			->method('addFooter')
 			->with('');
-		$message
+		$template
 			->expects($this->once())
 			->method('setSubject')
-			->willReturn('Mr. Initiator User shared »file.txt« with you');
-		$template
-			->expects($this->once())
-			->method('renderText')
-			->willReturn('Text Render');
+			->with('Mr. Initiator User shared »file.txt« with you');
 		$message
 			->expects($this->once())
-			->method('setPlainBody')
-			->with('Text Render');
-		$template
-			->expects($this->once())
-			->method('renderHtml')
-			->willReturn('HTML Render');
-		$message
-			->expects($this->once())
-			->method('setHtmlBody')
-			->with('HTML Render');
+			->method('useTemplate')
+			->with($template);
 		$this->mailer
 			->expects($this->once())
 			->method('send')

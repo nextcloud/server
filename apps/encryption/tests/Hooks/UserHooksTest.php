@@ -29,8 +29,15 @@ namespace OCA\Encryption\Tests\Hooks;
 
 use OCA\Encryption\Crypto\Crypt;
 use OCA\Encryption\Hooks\UserHooks;
+use OCA\Encryption\KeyManager;
+use OCA\Encryption\Recovery;
+use OCA\Encryption\Session;
+use OCA\Encryption\Users\Setup;
+use OCA\Encryption\Util;
 use OCP\ILogger;
 use OCP\IUser;
+use OCP\IUserManager;
+use OCP\IUserSession;
 use Test\TestCase;
 
 /**
@@ -151,7 +158,7 @@ class UserHooksTest extends TestCase {
 	public function testPreSetPassphrase($canChange) {
 
 		/** @var UserHooks | \PHPUnit_Framework_MockObject_MockObject  $instance */
-		$instance = $this->getMockBuilder('OCA\Encryption\Hooks\UserHooks')
+		$instance = $this->getMockBuilder(UserHooks::class)
 			->setConstructorArgs(
 				[
 					$this->keyManagerMock,
@@ -230,7 +237,7 @@ class UserHooksTest extends TestCase {
 			->willReturnOnConsecutiveCalls(true, false);
 
 
-		$this->instance = $this->getMockBuilder('OCA\Encryption\Hooks\UserHooks')
+		$this->instance = $this->getMockBuilder(UserHooks::class)
 			->setConstructorArgs(
 				[
 					$this->keyManagerMock,
@@ -291,7 +298,7 @@ class UserHooksTest extends TestCase {
 			->method('getPrivateKey')
 			->willReturn(true);
 
-		$userSessionMock = $this->getMockBuilder('OCP\IUserSession')
+		$userSessionMock = $this->getMockBuilder(IUserSession::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -302,7 +309,7 @@ class UserHooksTest extends TestCase {
 			->with('testUser')
 			->willReturn(false);
 
-		$userHooks = $this->getMockBuilder('OCA\Encryption\Hooks\UserHooks')
+		$userHooks = $this->getMockBuilder(UserHooks::class)
 			->setConstructorArgs(
 				[
 					$this->keyManagerMock,
@@ -324,17 +331,17 @@ class UserHooksTest extends TestCase {
 	protected function setUp() {
 		parent::setUp();
 		$this->loggerMock = $this->createMock(ILogger::class);
-		$this->keyManagerMock = $this->getMockBuilder('OCA\Encryption\KeyManager')
+		$this->keyManagerMock = $this->getMockBuilder(KeyManager::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->userManagerMock = $this->getMockBuilder('OCP\IUserManager')
+		$this->userManagerMock = $this->getMockBuilder(IUserManager::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->userSetupMock = $this->getMockBuilder('OCA\Encryption\Users\Setup')
+		$this->userSetupMock = $this->getMockBuilder(Setup::class)
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->userSessionMock = $this->getMockBuilder('OCP\IUserSession')
+		$this->userSessionMock = $this->getMockBuilder(IUserSession::class)
 			->disableOriginalConstructor()
 			->setMethods([
 				'isLoggedIn',
@@ -353,18 +360,18 @@ class UserHooksTest extends TestCase {
 			->method($this->anything())
 			->will($this->returnSelf());
 
-		$utilMock = $this->getMockBuilder('OCA\Encryption\Util')
+		$utilMock = $this->getMockBuilder(Util::class)
 			->disableOriginalConstructor()
 			->getMock();
 
-		$sessionMock = $this->getMockBuilder('OCA\Encryption\Session')
+		$sessionMock = $this->getMockBuilder(Session::class)
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->cryptMock = $this->getMockBuilder('OCA\Encryption\Crypto\Crypt')
+		$this->cryptMock = $this->getMockBuilder(Crypt::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$recoveryMock = $this->getMockBuilder('OCA\Encryption\Recovery')
+		$recoveryMock = $this->getMockBuilder(Recovery::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -373,7 +380,7 @@ class UserHooksTest extends TestCase {
 		$this->utilMock = $utilMock;
 		$this->utilMock->expects($this->any())->method('isMasterKeyEnabled')->willReturn(false);
 
-		$this->instance = $this->getMockBuilder('OCA\Encryption\Hooks\UserHooks')
+		$this->instance = $this->getMockBuilder(UserHooks::class)
 			->setConstructorArgs(
 				[
 					$this->keyManagerMock,

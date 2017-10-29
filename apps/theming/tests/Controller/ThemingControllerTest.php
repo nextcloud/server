@@ -131,8 +131,9 @@ class ThemingControllerTest extends TestCase {
 		$this->l10n
 			->expects($this->once())
 			->method('t')
-			->with($message)
-			->willReturn($message);
+			->will($this->returnCallback(function($str) {
+				return $str;
+			}));
 		$this->scssCacher
 			->expects($this->once())
 			->method('getCachedSCSS')
@@ -183,8 +184,9 @@ class ThemingControllerTest extends TestCase {
 		$this->l10n
 			->expects($this->once())
 			->method('t')
-			->with($message)
-			->willReturn($message);
+			->will($this->returnCallback(function($str) {
+				return $str;
+			}));
 
 		$expected = new DataResponse(
 			[
@@ -215,10 +217,11 @@ class ThemingControllerTest extends TestCase {
 			->with('upload-login-background')
 			->willReturn(null);
 		$this->l10n
-			->expects($this->once())
+			->expects($this->any())
 			->method('t')
-			->with('No file uploaded')
-			->willReturn('No file uploaded');
+			->will($this->returnCallback(function($str) {
+				return $str;
+			}));
 
 		$expected = new DataResponse(
 			[
@@ -226,6 +229,56 @@ class ThemingControllerTest extends TestCase {
 					[
 						'message' => 'No file uploaded',
 					],
+				'status' => 'failure',
+			],
+			Http::STATUS_UNPROCESSABLE_ENTITY
+		);
+
+		$this->assertEquals($expected, $this->themingController->updateLogo());
+	}
+
+	public function testUpdateLogoInvalidMimeType() {
+		$this->request
+			->expects($this->at(0))
+			->method('getParam')
+			->with('backgroundColor')
+			->willReturn(false);
+		$this->request
+			->expects($this->at(1))
+			->method('getUploadedFile')
+			->with('uploadlogo')
+			->willReturn([
+				'tmp_name' => 'logo.pdf',
+				'type' => 'application/pdf',
+				'name' => 'logo.pdf',
+				'error' => 0,
+			]);
+		$this->request
+			->expects($this->at(2))
+			->method('getUploadedFile')
+			->with('upload-login-background')
+			->willReturn(null);
+		$this->l10n
+			->expects($this->any())
+			->method('t')
+			->will($this->returnCallback(function($str) {
+				return $str;
+			}));
+
+		$folder = $this->createMock(ISimpleFolder::class);
+		$this->appData
+			->expects($this->once())
+			->method('getFolder')
+			->with('images')
+			->willReturn($folder);
+
+		$expected = new DataResponse(
+			[
+				'data' =>
+					[
+						'message' => 'Unsupported image type',
+					],
+				'status' => 'failure'
 			],
 			Http::STATUS_UNPROCESSABLE_ENTITY
 		);
@@ -258,13 +311,17 @@ class ThemingControllerTest extends TestCase {
 
 	public function dataUpdateImages() {
 		return [
-			[false],
-			[true]
+			['image/jpeg', false],
+			['image/jpeg', true],
+			['image/gif'],
+			['image/png'],
+			['image/svg+xml'],
+			['text/svg'],
 		];
 	}
 
 	/** @dataProvider dataUpdateImages */
-	public function testUpdateLogoNormalLogoUpload($folderExists) {
+	public function testUpdateLogoNormalLogoUpload($mimeType, $folderExists=true) {
 		$tmpLogo = \OC::$server->getTempManager()->getTemporaryFolder() . '/logo.svg';
 		$destination = \OC::$server->getTempManager()->getTemporaryFolder();
 
@@ -280,8 +337,9 @@ class ThemingControllerTest extends TestCase {
 			->with('uploadlogo')
 			->willReturn([
 				'tmp_name' => $tmpLogo,
-				'type' => 'text/svg',
+				'type' => $mimeType,
 				'name' => 'logo.svg',
+				'error' => 0,
 			]);
 		$this->request
 			->expects($this->at(2))
@@ -289,10 +347,11 @@ class ThemingControllerTest extends TestCase {
 			->with('upload-login-background')
 			->willReturn(null);
 		$this->l10n
-			->expects($this->once())
+			->expects($this->any())
 			->method('t')
-			->with('Saved')
-			->willReturn('Saved');
+			->will($this->returnCallback(function($str) {
+				return $str;
+			}));
 
 
 		$file = $this->createMock(ISimpleFile::class);
@@ -357,12 +416,14 @@ class ThemingControllerTest extends TestCase {
 				'tmp_name' => $tmpLogo,
 				'type' => 'text/svg',
 				'name' => 'logo.svg',
+				'error' => 0,
 			]);
 		$this->l10n
-			->expects($this->once())
+			->expects($this->any())
 			->method('t')
-			->with('Saved')
-			->willReturn('Saved');
+			->will($this->returnCallback(function($str) {
+				return $str;
+			}));
 
 		$file = $this->createMock(ISimpleFile::class);
 		$folder = $this->createMock(ISimpleFolder::class);
@@ -425,12 +486,14 @@ class ThemingControllerTest extends TestCase {
 				'tmp_name' => $tmpLogo,
 				'type' => 'text/svg',
 				'name' => 'logo.svg',
+				'error' => 0,
 			]);
 		$this->l10n
-			->expects($this->once())
+			->expects($this->any())
 			->method('t')
-			->with('Unsupported image type')
-			->willReturn('Unsupported image type');
+			->will($this->returnCallback(function($str) {
+				return $str;
+			}));
 
 		$folder = $this->createMock(ISimpleFolder::class);
 		$this->appData
@@ -444,6 +507,106 @@ class ThemingControllerTest extends TestCase {
 				'data' =>
 					[
 						'message' => 'Unsupported image type',
+					],
+				'status' => 'failure'
+			],
+			Http::STATUS_UNPROCESSABLE_ENTITY
+		);
+		$this->assertEquals($expected, $this->themingController->updateLogo());
+	}
+
+	public function dataPhpUploadErrors() {
+		return [
+			[UPLOAD_ERR_INI_SIZE, 'The uploaded file exceeds the upload_max_filesize directive in php.ini'],
+			[UPLOAD_ERR_FORM_SIZE, 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form'],
+			[UPLOAD_ERR_PARTIAL, 'The uploaded file was only partially uploaded'],
+			[UPLOAD_ERR_NO_FILE, 'No file was uploaded'],
+			[UPLOAD_ERR_NO_TMP_DIR, 'Missing a temporary folder'],
+			[UPLOAD_ERR_CANT_WRITE, 'Failed to write file to disk.'],
+			[UPLOAD_ERR_EXTENSION, 'A PHP extension stopped the file upload.'],
+		];
+	}
+
+	/**
+	 * @dataProvider dataPhpUploadErrors
+	 */
+	public function testUpdateLogoLoginScreenUploadWithInvalidImageUpload($error, $expectedErrorMessage) {
+		$this->request
+			->expects($this->at(0))
+			->method('getParam')
+			->with('backgroundColor')
+			->willReturn(false);
+		$this->request
+			->expects($this->at(1))
+			->method('getUploadedFile')
+			->with('uploadlogo')
+			->willReturn(null);
+		$this->request
+			->expects($this->at(2))
+			->method('getUploadedFile')
+			->with('upload-login-background')
+			->willReturn([
+				'tmp_name' => '',
+				'type' => 'text/svg',
+				'name' => 'logo.svg',
+				'error' => $error,
+			]);
+		$this->l10n
+			->expects($this->any())
+			->method('t')
+			->will($this->returnCallback(function($str) {
+				return $str;
+			}));
+
+		$expected = new DataResponse(
+			[
+				'data' =>
+					[
+						'message' => $expectedErrorMessage,
+					],
+				'status' => 'failure'
+			],
+			Http::STATUS_UNPROCESSABLE_ENTITY
+		);
+		$this->assertEquals($expected, $this->themingController->updateLogo());
+	}
+
+	/**
+	 * @dataProvider dataPhpUploadErrors
+	 */
+	public function testUpdateLogoUploadWithInvalidImageUpload($error, $expectedErrorMessage) {
+		$this->request
+			->expects($this->at(0))
+			->method('getParam')
+			->with('backgroundColor')
+			->willReturn(false);
+		$this->request
+			->expects($this->at(1))
+			->method('getUploadedFile')
+			->with('uploadlogo')
+			->willReturn([
+				'tmp_name' => '',
+				'type' => 'text/svg',
+				'name' => 'logo.svg',
+				'error' => $error,
+			]);
+		$this->request
+			->expects($this->at(2))
+			->method('getUploadedFile')
+			->with('upload-login-background')
+			->willReturn(null);
+		$this->l10n
+			->expects($this->any())
+			->method('t')
+			->will($this->returnCallback(function($str) {
+				return $str;
+			}));
+
+		$expected = new DataResponse(
+			[
+				'data' =>
+					[
+						'message' => $expectedErrorMessage
 					],
 				'status' => 'failure'
 			],

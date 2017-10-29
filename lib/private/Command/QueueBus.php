@@ -27,7 +27,7 @@ use OCP\Command\ICommand;
 
 class QueueBus implements IBus {
 	/**
-	 * @var (ICommand|callable)[]
+	 * @var ICommand[]|callable[]
 	 */
 	private $queue = [];
 

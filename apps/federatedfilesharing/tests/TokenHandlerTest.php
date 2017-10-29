@@ -42,7 +42,7 @@ class TokenHandlerTest extends \Test\TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->secureRandom = $this->getMockBuilder('OCP\Security\ISecureRandom')->getMock();
+		$this->secureRandom = $this->getMockBuilder(ISecureRandom::class)->getMock();
 
 		$this->tokenHandler = new TokenHandler($this->secureRandom);
 	}

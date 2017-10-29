@@ -12,6 +12,7 @@ namespace Test\Activity;
 
 use OCP\IConfig;
 use OCP\IRequest;
+use OCP\IUser;
 use OCP\IUserSession;
 use OCP\RichObjectStrings\IValidator;
 use Test\TestCase;
@@ -247,7 +248,7 @@ class ManagerTest extends TestCase {
 	}
 
 	protected function mockUserSession($user) {
-		$mockUser = $this->getMockBuilder('\OCP\IUser')
+		$mockUser = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$mockUser->expects($this->any())
@@ -314,7 +315,7 @@ class ManagerTest extends TestCase {
 	 */
 	public function testPublish($author, $expected) {
 		if ($author !== null) {
-			$authorObject = $this->getMockBuilder('OCP\IUser')
+			$authorObject = $this->getMockBuilder(IUser::class)
 				->disableOriginalConstructor()
 				->getMock();
 			$authorObject->expects($this->once())

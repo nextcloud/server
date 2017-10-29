@@ -174,6 +174,20 @@ class OC_App {
 				\OC::$server->getActivityManager()->registerProvider($provider);
 			}
 		}
+		if (!empty($info['collaboration']['plugins'])) {
+			// deal with one or many plugin entries
+			$plugins = isset($info['collaboration']['plugins']['plugin']['@value']) ?
+				[$info['collaboration']['plugins']['plugin']] : $info['collaboration']['plugins']['plugin'];
+			foreach ($plugins as $plugin) {
+				if($plugin['@attributes']['type'] === 'collaborator-search') {
+					$pluginInfo = [
+						'shareType' => $plugin['@attributes']['share-type'],
+						'class' => $plugin['@value'],
+					];
+					\OC::$server->getCollaboratorSearch()->registerPlugin($pluginInfo);
+				}
+			}
+		}
 	}
 
 	/**
@@ -186,17 +200,25 @@ class OC_App {
 		if(isset(self::$alreadyRegistered[$key])) {
 			return;
 		}
+
 		self::$alreadyRegistered[$key] = true;
+
 		// Register on PSR-4 composer autoloader
 		$appNamespace = \OC\AppFramework\App::buildAppNamespace($app);
 		\OC::$server->registerNamespace($app, $appNamespace);
-		\OC::$composerAutoloader->addPsr4($appNamespace . '\\', $path . '/lib/', true);
+
+		if (file_exists($path . '/composer/autoload.php')) {
+			require_once $path . '/composer/autoload.php';
+		} else {
+			\OC::$composerAutoloader->addPsr4($appNamespace . '\\', $path . '/lib/', true);
+			// Register on legacy autoloader
+			\OC::$loader->addValidRoot($path);
+		}
+
+		// Register Test namespace only when testing
 		if (defined('PHPUNIT_RUN') || defined('CLI_TEST_RUN')) {
 			\OC::$composerAutoloader->addPsr4($appNamespace . '\\Tests\\', $path . '/tests/', true);
 		}
-
-		// Register on legacy autoloader
-		\OC::$loader->addValidRoot($path);
 	}
 
 	/**
@@ -326,6 +348,7 @@ class OC_App {
 	 *
 	 * @param string $app app
 	 * @return bool
+	 * @deprecated 13.0.0 use \OC::$server->getAppManager()->isEnabledForUser($appId)
 	 *
 	 * This function checks whether or not an app is enabled.
 	 */
@@ -754,6 +777,8 @@ class OC_App {
 			}
 		}
 
+		$apps = array_unique($apps);
+
 		return $apps;
 	}
 
@@ -841,21 +866,6 @@ class OC_App {
 		}
 
 		return $appList;
-	}
-
-	/**
-	 * Returns the internal app ID or false
-	 * @param string $ocsID
-	 * @return string|false
-	 */
-	public static function getInternalAppIdByOcs($ocsID) {
-		if(is_numeric($ocsID)) {
-			$idArray = \OC::$server->getAppConfig()->getValues(false, 'ocsid');
-			if(array_search($ocsID, $idArray)) {
-				return array_search($ocsID, $idArray);
-			}
-		}
-		return false;
 	}
 
 	public static function shouldUpgrade($app) {
@@ -1135,7 +1145,7 @@ class OC_App {
 	 * @return \OC\Files\View|false
 	 */
 	public static function getStorage($appId) {
-		if (OC_App::isEnabled($appId)) { //sanity check
+		if (\OC::$server->getAppManager()->isEnabledForUser($appId)) { //sanity check
 			if (\OC::$server->getUserSession()->isLoggedIn()) {
 				$view = new \OC\Files\View('/' . OC_User::getUser());
 				if (!$view->file_exists($appId)) {

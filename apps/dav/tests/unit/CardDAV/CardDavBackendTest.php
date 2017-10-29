@@ -33,6 +33,7 @@ use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
+use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IUserManager;
 use Sabre\DAV\PropPatch;
@@ -60,6 +61,9 @@ class CardDavBackendTest extends TestCase {
 	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $userManager;
 
+	/** @var IGroupManager|\PHPUnit_Framework_MockObject_MockObject */
+	private $groupManager;
+
 	/** @var EventDispatcherInterface|\PHPUnit_Framework_MockObject_MockObject */
 	private $dispatcher;
 
@@ -80,7 +84,8 @@ class CardDavBackendTest extends TestCase {
 		parent::setUp();
 
 		$this->userManager = $this->createMock(IUserManager::class);
-		$this->principal = $this->getMockBuilder('OCA\DAV\Connector\Sabre\Principal')
+		$this->groupManager = $this->createMock(IGroupManager::class);
+		$this->principal = $this->getMockBuilder(Principal::class)
 			->disableOriginalConstructor()
 			->setMethods(['getPrincipalByPath', 'getGroupMembership'])
 			->getMock();
@@ -96,7 +101,7 @@ class CardDavBackendTest extends TestCase {
 
 		$this->db = \OC::$server->getDatabaseConnection();
 
-		$this->backend = new CardDavBackend($this->db, $this->principal, $this->userManager, $this->dispatcher);
+		$this->backend = new CardDavBackend($this->db, $this->principal, $this->userManager, $this->groupManager, $this->dispatcher);
 		// start every test with a empty cards_properties and cards table
 		$query = $this->db->getQueryBuilder();
 		$query->delete('cards_properties')->execute();
@@ -154,6 +159,14 @@ class CardDavBackendTest extends TestCase {
 
 	public function testAddressBookSharing() {
 
+		$this->userManager->expects($this->any())
+			->method('userExists')
+			->willReturn(true);
+
+		$this->groupManager->expects($this->any())
+			->method('groupExists')
+			->willReturn(true);
+
 		$this->backend->createAddressBook(self::UNIT_TEST_USER, 'Example', []);
 		$books = $this->backend->getAddressBooksForUser(self::UNIT_TEST_USER);
 		$this->assertEquals(1, count($books));
@@ -180,7 +193,7 @@ class CardDavBackendTest extends TestCase {
 
 		/** @var CardDavBackend | \PHPUnit_Framework_MockObject_MockObject $backend */
 		$backend = $this->getMockBuilder(CardDavBackend::class)
-				->setConstructorArgs([$this->db, $this->principal, $this->userManager, $this->dispatcher])
+				->setConstructorArgs([$this->db, $this->principal, $this->userManager, $this->groupManager, $this->dispatcher])
 				->setMethods(['updateProperties', 'purgeProperties'])->getMock();
 
 		// create a new address book
@@ -253,7 +266,7 @@ class CardDavBackendTest extends TestCase {
 	public function testMultiCard() {
 
 		$this->backend = $this->getMockBuilder(CardDavBackend::class)
-			->setConstructorArgs([$this->db, $this->principal, $this->userManager, $this->dispatcher])
+			->setConstructorArgs([$this->db, $this->principal, $this->userManager, $this->groupManager, $this->dispatcher])
 			->setMethods(['updateProperties'])->getMock();
 
 		// create a new address book
@@ -299,7 +312,7 @@ class CardDavBackendTest extends TestCase {
 
 	public function testDeleteWithoutCard() {
 		$this->backend = $this->getMockBuilder(CardDavBackend::class)
-			->setConstructorArgs([$this->db, $this->principal, $this->userManager, $this->dispatcher])
+			->setConstructorArgs([$this->db, $this->principal, $this->userManager, $this->groupManager, $this->dispatcher])
 			->setMethods([
 				'getCardId',
 				'addChange',
@@ -339,7 +352,7 @@ class CardDavBackendTest extends TestCase {
 
 	public function testSyncSupport() {
 		$this->backend = $this->getMockBuilder(CardDavBackend::class)
-			->setConstructorArgs([$this->db, $this->principal, $this->userManager, $this->dispatcher])
+			->setConstructorArgs([$this->db, $this->principal, $this->userManager, $this->groupManager, $this->dispatcher])
 			->setMethods(['updateProperties'])->getMock();
 
 		// create a new address book
@@ -362,32 +375,41 @@ class CardDavBackendTest extends TestCase {
 	}
 
 	public function testSharing() {
+
+		$this->userManager->expects($this->any())
+			->method('userExists')
+			->willReturn(true);
+
+		$this->groupManager->expects($this->any())
+			->method('groupExists')
+			->willReturn(true);
+
 		$this->backend->createAddressBook(self::UNIT_TEST_USER, 'Example', []);
 		$books = $this->backend->getAddressBooksForUser(self::UNIT_TEST_USER);
 		$this->assertEquals(1, count($books));
 
 		$l = $this->createMock(IL10N::class);
 		$exampleBook = new AddressBook($this->backend, $books[0], $l);
-		$this->backend->updateShares($exampleBook, [['href' => 'principal:principals/best-friend']], []);
+		$this->backend->updateShares($exampleBook, [['href' => 'principal:' . self::UNIT_TEST_USER1]], []);
 
 		$shares = $this->backend->getShares($exampleBook->getResourceId());
 		$this->assertEquals(1, count($shares));
 
 		// adding the same sharee again has no effect
-		$this->backend->updateShares($exampleBook, [['href' => 'principal:principals/best-friend']], []);
+		$this->backend->updateShares($exampleBook, [['href' => 'principal:' . self::UNIT_TEST_USER1]], []);
 
 		$shares = $this->backend->getShares($exampleBook->getResourceId());
 		$this->assertEquals(1, count($shares));
 
-		$books = $this->backend->getAddressBooksForUser('principals/best-friend');
+		$books = $this->backend->getAddressBooksForUser(self::UNIT_TEST_USER1);
 		$this->assertEquals(1, count($books));
 
-		$this->backend->updateShares($exampleBook, [], ['principal:principals/best-friend']);
+		$this->backend->updateShares($exampleBook, [], ['principal:' . self::UNIT_TEST_USER1]);
 
 		$shares = $this->backend->getShares($exampleBook->getResourceId());
 		$this->assertEquals(0, count($shares));
 
-		$books = $this->backend->getAddressBooksForUser('principals/best-friend');
+		$books = $this->backend->getAddressBooksForUser(self::UNIT_TEST_USER1);
 		$this->assertEquals(0, count($books));
 	}
 
@@ -398,7 +420,7 @@ class CardDavBackendTest extends TestCase {
 		$cardId = 2;
 
 		$backend = $this->getMockBuilder(CardDavBackend::class)
-			->setConstructorArgs([$this->db, $this->principal, $this->userManager, $this->dispatcher])
+			->setConstructorArgs([$this->db, $this->principal, $this->userManager, $this->groupManager, $this->dispatcher])
 			->setMethods(['getCardId'])->getMock();
 
 		$backend->expects($this->any())->method('getCardId')->willReturn($cardId);

@@ -127,18 +127,26 @@ class Manager implements IManager {
 	 * @inheritdoc
 	 */
 	public function setupSettings(array $settings) {
-		if (isset($settings[IManager::KEY_ADMIN_SECTION])) {
-			$this->setupSectionEntry($settings[IManager::KEY_ADMIN_SECTION], 'admin');
+		if (!empty($settings[IManager::KEY_ADMIN_SECTION])) {
+			foreach ($settings[IManager::KEY_ADMIN_SECTION] as $className) {
+				$this->setupSectionEntry($className, 'admin');
+			}
 		}
-		if (isset($settings[IManager::KEY_ADMIN_SETTINGS])) {
-			$this->setupSettingsEntry($settings[IManager::KEY_ADMIN_SETTINGS], 'admin');
+		if (!empty($settings[IManager::KEY_ADMIN_SETTINGS])) {
+			foreach ($settings[IManager::KEY_ADMIN_SETTINGS] as $className) {
+				$this->setupSettingsEntry($className, 'admin');
+			}
 		}
 
-		if (isset($settings[IManager::KEY_PERSONAL_SECTION])) {
-			$this->setupSectionEntry($settings[IManager::KEY_PERSONAL_SECTION], 'personal');
+		if (!empty($settings[IManager::KEY_PERSONAL_SECTION])) {
+			foreach ($settings[IManager::KEY_PERSONAL_SECTION] as $className) {
+				$this->setupSectionEntry($className, 'personal');
+			}
 		}
-		if (isset($settings[IManager::KEY_PERSONAL_SETTINGS])) {
-			$this->setupSettingsEntry($settings[IManager::KEY_PERSONAL_SETTINGS], 'personal');
+		if (!empty($settings[IManager::KEY_PERSONAL_SETTINGS])) {
+			foreach ($settings[IManager::KEY_PERSONAL_SETTINGS] as $className) {
+				$this->setupSettingsEntry($className, 'personal');
+			}
 		}
 	}
 
@@ -153,18 +161,26 @@ class Manager implements IManager {
 	public function onAppDisabled($appId) {
 		$appInfo = \OC_App::getAppInfo($appId); // hello static legacy
 
-		if (isset($appInfo['settings'][IManager::KEY_ADMIN_SECTION])) {
-			$this->mapper->remove(Mapper::TABLE_ADMIN_SECTIONS, trim($appInfo['settings'][IManager::KEY_ADMIN_SECTION], '\\'));
+		if (!empty($appInfo['settings'][IManager::KEY_ADMIN_SECTION])) {
+			foreach ($appInfo['settings'][IManager::KEY_ADMIN_SECTION] as $className) {
+				$this->mapper->remove(Mapper::TABLE_ADMIN_SECTIONS, trim($className, '\\'));
+			}
 		}
-		if (isset($appInfo['settings'][IManager::KEY_ADMIN_SETTINGS])) {
-			$this->mapper->remove(Mapper::TABLE_ADMIN_SETTINGS, trim($appInfo['settings'][IManager::KEY_ADMIN_SETTINGS], '\\'));
+		if (!empty($appInfo['settings'][IManager::KEY_ADMIN_SETTINGS])) {
+			foreach ($appInfo['settings'][IManager::KEY_ADMIN_SETTINGS] as $className) {
+				$this->mapper->remove(Mapper::TABLE_ADMIN_SETTINGS, trim($className, '\\'));
+			}
 		}
 
-		if (isset($appInfo['settings'][IManager::KEY_PERSONAL_SECTION])) {
-			$this->mapper->remove(Mapper::TABLE_PERSONAL_SECTIONS, trim($appInfo['settings'][IManager::KEY_PERSONAL_SECTION], '\\'));
+		if (!empty($appInfo['settings'][IManager::KEY_PERSONAL_SECTION])) {
+			foreach ($appInfo['settings'][IManager::KEY_PERSONAL_SECTION] as $className) {
+				$this->mapper->remove(Mapper::TABLE_PERSONAL_SECTIONS, trim($className, '\\'));
+			}
 		}
-		if (isset($appInfo['settings'][IManager::KEY_PERSONAL_SETTINGS])) {
-			$this->mapper->remove(Mapper::TABLE_PERSONAL_SETTINGS, trim($appInfo['settings'][IManager::KEY_PERSONAL_SETTINGS], '\\'));
+		if (!empty($appInfo['settings'][IManager::KEY_PERSONAL_SETTINGS])) {
+			foreach ($appInfo['settings'][IManager::KEY_PERSONAL_SETTINGS] as $className) {
+				$this->mapper->remove(Mapper::TABLE_PERSONAL_SETTINGS, trim($className, '\\'));
+			}
 		}
 	}
 

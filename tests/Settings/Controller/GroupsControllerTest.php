@@ -10,8 +10,10 @@
 
 namespace Tests\Settings\Controller;
 
+use OC\Group\Group;
 use OC\Group\MetaData;
 use OC\Settings\Controller\GroupsController;
+use OC\User\User;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IGroupManager;
@@ -59,7 +61,7 @@ class GroupsControllerTest extends \Test\TestCase {
 	 * to test for subadmins. Thus the test always assumes you have admin permissions...
 	 */
 	public function testIndexSortByName() {
-		$firstGroup = $this->getMockBuilder('\OC\Group\Group')
+		$firstGroup = $this->getMockBuilder(Group::class)
 			->disableOriginalConstructor()->getMock();
 		$firstGroup
 			->method('getGID')
@@ -67,7 +69,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		$firstGroup
 			->method('count')
 			->will($this->returnValue(12));
-		$secondGroup = $this->getMockBuilder('\OC\Group\Group')
+		$secondGroup = $this->getMockBuilder(Group::class)
 			->disableOriginalConstructor()->getMock();
 		$secondGroup
 			->method('getGID')
@@ -75,7 +77,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		$secondGroup
 			->method('count')
 			->will($this->returnValue(25));
-		$thirdGroup = $this->getMockBuilder('\OC\Group\Group')
+		$thirdGroup = $this->getMockBuilder(Group::class)
 			->disableOriginalConstructor()->getMock();
 		$thirdGroup
 			->method('getGID')
@@ -83,7 +85,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		$thirdGroup
 			->method('count')
 			->will($this->returnValue(14));
-		$fourthGroup = $this->getMockBuilder('\OC\Group\Group')
+		$fourthGroup = $this->getMockBuilder(Group::class)
 			->disableOriginalConstructor()->getMock();
 		$fourthGroup
 			->method('getGID')
@@ -98,7 +100,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		$groups[] = $thirdGroup;
 		$groups[] = $fourthGroup;
 
-		$user = $this->getMockBuilder('\OC\User\User')
+		$user = $this->getMockBuilder(User::class)
 			->disableOriginalConstructor()->getMock();
 		$this->userSession
 			->expects($this->once())
@@ -151,7 +153,7 @@ class GroupsControllerTest extends \Test\TestCase {
 	 * to test for subadmins. Thus the test always assumes you have admin permissions...
 	 */
 	public function testIndexSortbyCount() {
-		$firstGroup = $this->getMockBuilder('\OC\Group\Group')
+		$firstGroup = $this->getMockBuilder(Group::class)
 			->disableOriginalConstructor()->getMock();
 		$firstGroup
 			->method('getGID')
@@ -159,7 +161,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		$firstGroup
 			->method('count')
 			->will($this->returnValue(12));
-		$secondGroup = $this->getMockBuilder('\OC\Group\Group')
+		$secondGroup = $this->getMockBuilder(Group::class)
 			->disableOriginalConstructor()->getMock();
 		$secondGroup
 			->method('getGID')
@@ -167,7 +169,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		$secondGroup
 			->method('count')
 			->will($this->returnValue(25));
-		$thirdGroup = $this->getMockBuilder('\OC\Group\Group')
+		$thirdGroup = $this->getMockBuilder(Group::class)
 			->disableOriginalConstructor()->getMock();
 		$thirdGroup
 			->method('getGID')
@@ -175,7 +177,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		$thirdGroup
 			->method('count')
 			->will($this->returnValue(14));
-		$fourthGroup = $this->getMockBuilder('\OC\Group\Group')
+		$fourthGroup = $this->getMockBuilder(Group::class)
 			->disableOriginalConstructor()->getMock();
 		$fourthGroup
 			->method('getGID')
@@ -190,7 +192,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		$groups[] = $thirdGroup;
 		$groups[] = $fourthGroup;
 
-		$user = $this->getMockBuilder('\OC\User\User')
+		$user = $this->getMockBuilder(User::class)
 			->disableOriginalConstructor()->getMock();
 		$this->userSession
 			->expects($this->once())
@@ -302,7 +304,7 @@ class GroupsControllerTest extends \Test\TestCase {
 	}
 
 	public function testDestroySuccessful() {
-		$group = $this->getMockBuilder('\OC\Group\Group')
+		$group = $this->getMockBuilder(Group::class)
 			->disableOriginalConstructor()->getMock();
 		$this->groupManager
 			->expects($this->once())

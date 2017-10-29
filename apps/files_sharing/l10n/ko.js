@@ -87,7 +87,6 @@ OC.L10N.register(
     "Wrong or no update parameter given" : "업데이트 인자가 잘못되었거나 지정되지 않았음",
     "Can't change permissions for public share links" : "공개 공유 링크의 권한을 변경할 수 없음",
     "Cannot increase permissions" : "권한을 늘릴 수 없음",
-    "%s is publicly shared" : "%s이(가) 공개 공유됨",
     "Share API is disabled" : "공유 API가 비활성화됨",
     "This share is password-protected" : "이 공유는 암호로 보호되어 있습니다",
     "The password is wrong. Try again." : "암호가 잘못되었습니다. 다시 입력해 주십시오.",
@@ -110,6 +109,7 @@ OC.L10N.register(
     "Upload files to %s" : "%s에 파일 업로드",
     "Select or drop files" : "파일을 선택하거나 끌어다 놓기",
     "Uploading files…" : "파일 업로드 중…",
-    "Uploaded files:" : "업로드한 파일:"
+    "Uploaded files:" : "업로드한 파일:",
+    "%s is publicly shared" : "%s이(가) 공개 공유됨"
 },
 "nplurals=1; plural=0;");

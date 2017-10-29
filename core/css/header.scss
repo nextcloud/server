@@ -424,6 +424,7 @@ nav {
 		&:active,
 		&.active {
 			opacity: 1;
+			box-shadow: inset 2px 0 $color-primary;
 		}
 	}
 }
@@ -459,6 +460,7 @@ nav {
 
 
 	li:hover a,
+	li a:focus,
 	li a.active {
 		opacity: 1;
 	}
@@ -477,8 +479,6 @@ nav {
 		background-color: rgba($color-main-background, .97);
 		white-space: nowrap;
 		border: none;
-		-webkit-border-radius: 3px;
-		-moz-border-radius: 3px;
 		border-radius: 3px;
 		border-top-left-radius: 0;
 		border-top-right-radius: 0;

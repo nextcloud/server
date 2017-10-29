@@ -33,6 +33,7 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCA\DAV\DAV\Sharing\Backend;
 use OCA\DAV\DAV\Sharing\IShareable;
 use OCP\IDBConnection;
+use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
 use PDO;
@@ -88,17 +89,19 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @param IDBConnection $db
 	 * @param Principal $principalBackend
 	 * @param IUserManager $userManager
+	 * @param IGroupManager $groupManager
 	 * @param EventDispatcherInterface $dispatcher
 	 */
 	public function __construct(IDBConnection $db,
 								Principal $principalBackend,
 								IUserManager $userManager,
+								IGroupManager $groupManager,
 								EventDispatcherInterface $dispatcher) {
 		$this->db = $db;
 		$this->principalBackend = $principalBackend;
 		$this->userManager = $userManager;
 		$this->dispatcher = $dispatcher;
-		$this->sharingBackend = new Backend($this->db, $principalBackend, 'addressbook');
+		$this->sharingBackend = new Backend($this->db, $this->userManager, $groupManager, $principalBackend, 'addressbook');
 	}
 
 	/**

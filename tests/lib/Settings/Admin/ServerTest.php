@@ -49,11 +49,11 @@ class ServerTest extends TestCase {
 
 	public function setUp() {
 		parent::setUp();
-		$this->config = $this->getMockBuilder('\OCP\IConfig')->getMock();
+		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
 		$this->request = $this->createMock(IRequest::class);
 		$this->dbConnection = $this->getMockBuilder('\OCP\IDBConnection')->getMock();
 		$this->lockingProvider = $this->getMockBuilder('\OCP\Lock\ILockingProvider')->getMock();
-		$this->l10n = $this->getMockBuilder('\OCP\IL10N')->getMock();
+		$this->l10n = $this->getMockBuilder(IL10N::class)->getMock();
 
 		$this->admin = new Server(
 			$this->dbConnection,

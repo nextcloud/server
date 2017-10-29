@@ -24,6 +24,7 @@ namespace OCA\DAV\Tests\unit\CalDAV;
 
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\Connector\Sabre\Principal;
+use OCP\IGroupManager;
 use OCP\IUserManager;
 use OCP\Security\ISecureRandom;
 use Sabre\CalDAV\Xml\Property\SupportedCalendarComponentSet;
@@ -37,7 +38,7 @@ use Test\TestCase;
  *
  * @package OCA\DAV\Tests\unit\CalDAV
  */
-abstract class AbstractCalDavBackendTest extends TestCase {
+abstract class AbstractCalDavBackend extends TestCase {
 
 	/** @var CalDavBackend */
 	protected $backend;
@@ -46,6 +47,8 @@ abstract class AbstractCalDavBackendTest extends TestCase {
 	protected $principal;
 	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
 	protected $userManager;
+	/** @var IGroupManager|\PHPUnit_Framework_MockObject_MockObject */
+	protected $groupManager;
 	/** @var EventDispatcherInterface|\PHPUnit_Framework_MockObject_MockObject */
 	protected $dispatcher;
 
@@ -61,8 +64,9 @@ abstract class AbstractCalDavBackendTest extends TestCase {
 		parent::setUp();
 
 		$this->userManager = $this->createMock(IUserManager::class);
+		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->dispatcher = $this->createMock(EventDispatcherInterface::class);
-		$this->principal = $this->getMockBuilder('OCA\DAV\Connector\Sabre\Principal')
+		$this->principal = $this->getMockBuilder(Principal::class)
 			->disableOriginalConstructor()
 			->setMethods(['getPrincipalByPath', 'getGroupMembership'])
 			->getMock();
@@ -77,7 +81,7 @@ abstract class AbstractCalDavBackendTest extends TestCase {
 
 		$db = \OC::$server->getDatabaseConnection();
 		$this->random = \OC::$server->getSecureRandom();
-		$this->backend = new CalDavBackend($db, $this->principal, $this->userManager, $this->random, $this->dispatcher);
+		$this->backend = new CalDavBackend($db, $this->principal, $this->userManager, $this->groupManager, $this->random, $this->dispatcher);
 
 		$this->cleanUpBackend();
 	}

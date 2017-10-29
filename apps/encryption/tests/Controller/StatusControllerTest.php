@@ -28,6 +28,7 @@ namespace OCA\Encryption\Tests\Controller;
 use OCA\Encryption\Controller\StatusController;
 use OCA\Encryption\Session;
 use OCP\Encryption\IManager;
+use OCP\IL10N;
 use OCP\IRequest;
 use Test\TestCase;
 
@@ -52,11 +53,11 @@ class StatusControllerTest extends TestCase {
 
 		parent::setUp();
 
-		$this->sessionMock = $this->getMockBuilder('OCA\Encryption\Session')
+		$this->sessionMock = $this->getMockBuilder(Session::class)
 			->disableOriginalConstructor()->getMock();
 		$this->requestMock = $this->createMock(IRequest::class);
 
-		$this->l10nMock = $this->getMockBuilder('OCP\IL10N')
+		$this->l10nMock = $this->getMockBuilder(IL10N::class)
 			->disableOriginalConstructor()->getMock();
 		$this->l10nMock->expects($this->any())
 			->method('t')

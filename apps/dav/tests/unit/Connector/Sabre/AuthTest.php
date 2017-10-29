@@ -34,6 +34,7 @@ use OC\User\Session;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUser;
+use Sabre\DAV\Server;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 use Test\TestCase;
@@ -60,16 +61,16 @@ class AuthTest extends TestCase {
 
 	public function setUp() {
 		parent::setUp();
-		$this->session = $this->getMockBuilder('\OCP\ISession')
+		$this->session = $this->getMockBuilder(ISession::class)
 			->disableOriginalConstructor()->getMock();
-		$this->userSession = $this->getMockBuilder('\OC\User\Session')
+		$this->userSession = $this->getMockBuilder(Session::class)
 			->disableOriginalConstructor()->getMock();
-		$this->request = $this->getMockBuilder('\OCP\IRequest')
+		$this->request = $this->getMockBuilder(IRequest::class)
 			->disableOriginalConstructor()->getMock();
-		$this->twoFactorManager = $this->getMockBuilder('\OC\Authentication\TwoFactorAuth\Manager')
+		$this->twoFactorManager = $this->getMockBuilder(Manager::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->throttler = $this->getMockBuilder('\OC\Security\Bruteforce\Throttler')
+		$this->throttler = $this->getMockBuilder(Throttler::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->auth = new \OCA\DAV\Connector\Sabre\Auth(
@@ -112,7 +113,7 @@ class AuthTest extends TestCase {
 	}
 
 	public function testValidateUserPassOfAlreadyDAVAuthenticatedUser() {
-		$user = $this->getMockBuilder('\OCP\IUser')
+		$user = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$user->expects($this->exactly(2))
@@ -139,7 +140,7 @@ class AuthTest extends TestCase {
 	}
 
 	public function testValidateUserPassOfInvalidDAVAuthenticatedUser() {
-		$user = $this->getMockBuilder('\OCP\IUser')
+		$user = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$user->expects($this->once())
@@ -166,7 +167,7 @@ class AuthTest extends TestCase {
 	}
 
 	public function testValidateUserPassOfInvalidDAVAuthenticatedUserWithValidPassword() {
-		$user = $this->getMockBuilder('\OCP\IUser')
+		$user = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$user->expects($this->exactly(3))
@@ -258,7 +259,7 @@ class AuthTest extends TestCase {
 			->method('get')
 			->with('AUTHENTICATED_TO_DAV_BACKEND')
 			->will($this->returnValue(null));
-		$user = $this->getMockBuilder('\OCP\IUser')
+		$user = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$user->expects($this->any())
@@ -310,7 +311,7 @@ class AuthTest extends TestCase {
 			->method('get')
 			->with('AUTHENTICATED_TO_DAV_BACKEND')
 			->will($this->returnValue('LoggedInUser'));
-		$user = $this->getMockBuilder('\OCP\IUser')
+		$user = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$user->expects($this->any())
@@ -360,7 +361,7 @@ class AuthTest extends TestCase {
 			->method('get')
 			->with('AUTHENTICATED_TO_DAV_BACKEND')
 			->will($this->returnValue('LoggedInUser'));
-		$user = $this->getMockBuilder('\OCP\IUser')
+		$user = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$user->expects($this->any())
@@ -414,7 +415,7 @@ class AuthTest extends TestCase {
 			->method('get')
 			->with('AUTHENTICATED_TO_DAV_BACKEND')
 			->will($this->returnValue('AnotherUser'));
-		$user = $this->getMockBuilder('\OCP\IUser')
+		$user = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$user->expects($this->any())
@@ -460,7 +461,7 @@ class AuthTest extends TestCase {
 			->method('get')
 			->with('AUTHENTICATED_TO_DAV_BACKEND')
 			->will($this->returnValue(null));
-		$user = $this->getMockBuilder('\OCP\IUser')
+		$user = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$user->expects($this->any())
@@ -494,7 +495,7 @@ class AuthTest extends TestCase {
 			->method('get')
 			->with('AUTHENTICATED_TO_DAV_BACKEND')
 			->will($this->returnValue(null));
-		$user = $this->getMockBuilder('\OCP\IUser')
+		$user = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$user->expects($this->any())
@@ -529,7 +530,7 @@ class AuthTest extends TestCase {
 			->method('get')
 			->with('AUTHENTICATED_TO_DAV_BACKEND')
 			->will($this->returnValue(null));
-		$user = $this->getMockBuilder('\OCP\IUser')
+		$user = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$user->expects($this->any())
@@ -549,7 +550,7 @@ class AuthTest extends TestCase {
 	}
 
 	public function testAuthenticateNoBasicAuthenticateHeadersProvided() {
-		$server = $this->getMockBuilder('\Sabre\DAV\Server')
+		$server = $this->getMockBuilder(Server::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$server->httpRequest = $this->getMockBuilder(RequestInterface::class)
@@ -597,7 +598,7 @@ class AuthTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		/** @var IUser */
-		$user = $this->getMockBuilder('OCP\IUser')
+		$user = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$user->method('getUID')->willReturn('MyTestUser');
@@ -630,7 +631,7 @@ class AuthTest extends TestCase {
 	}
 
 	public function testAuthenticateValidCredentials() {
-		$server = $this->getMockBuilder('\Sabre\DAV\Server')
+		$server = $this->getMockBuilder(Server::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$server->httpRequest = $this->getMockBuilder(RequestInterface::class)
@@ -654,7 +655,7 @@ class AuthTest extends TestCase {
 			->method('logClientIn')
 			->with('username', 'password')
 			->will($this->returnValue(true));
-		$user = $this->getMockBuilder('\OCP\IUser')
+		$user = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$user->expects($this->exactly(3))
@@ -669,7 +670,7 @@ class AuthTest extends TestCase {
 	}
 
 	public function testAuthenticateInvalidCredentials() {
-		$server = $this->getMockBuilder('\Sabre\DAV\Server')
+		$server = $this->getMockBuilder(Server::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$server->httpRequest = $this->getMockBuilder(RequestInterface::class)

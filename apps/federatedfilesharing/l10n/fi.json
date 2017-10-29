@@ -14,6 +14,7 @@
     "Server to server sharing is not enabled on this server" : "Palvelimien kesken jakaminen ei ole käytössä tällä palvelimella",
     "Couldn't establish a federated share." : "Ei voinut muodostaa federoitua jakoa.",
     "Couldn't establish a federated share, maybe the password was wrong." : "Ei voinut muodostaa federoitua jakoa. Ehkä salasana oli väärin.",
+    "Federated Share request sent, you will receive an invitation. Check your notifications." : "Federoidun jakamisen pyyntö lähetetty, saat kutsun. Tarkista ilmoitukset.",
     "The mountpoint name contains invalid characters." : "Liitospisteen nimi sisältää virheellisiä merkkejä.",
     "Not allowed to create a federated share with the owner." : "Omistajan kanssa ei ole sallittua luoda federoitua jakoa.",
     "Invalid or untrusted SSL certificate" : "Virheellinen tai ei-luotettu SSL-varmenne",

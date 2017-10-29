@@ -39,10 +39,8 @@ class Hooks {
 	 * to remove the used space for the trash bin stored in the database
 	 */
 	public static function deleteUser_hook($params) {
-		if( \OCP\App::isEnabled('files_trashbin') ) {
-			$uid = $params['uid'];
-			Trashbin::deleteUser($uid);
-		}
+		$uid = $params['uid'];
+		Trashbin::deleteUser($uid);
 	}
 
 	public static function post_write_hook($params) {

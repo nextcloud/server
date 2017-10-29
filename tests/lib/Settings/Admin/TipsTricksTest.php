@@ -36,7 +36,7 @@ class TipsTrickTest extends TestCase {
 
 	public function setUp() {
 		parent::setUp();
-		$this->config = $this->getMockBuilder('\OCP\IConfig')->getMock();
+		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
 
 		$this->admin = new TipsTricks(
 			$this->config

@@ -61,7 +61,7 @@ class IconControllerTest extends TestCase {
 	private $imageManager;
 
 	public function setUp() {
-		$this->request = $this->getMockBuilder('OCP\IRequest')->getMock();
+		$this->request = $this->getMockBuilder(IRequest::class)->getMock();
 		$this->themingDefaults = $this->getMockBuilder('OCA\Theming\ThemingDefaults')
 			->disableOriginalConstructor()->getMock();
 		$this->util = $this->getMockBuilder('\OCA\Theming\Util')->disableOriginalConstructor()
@@ -69,7 +69,7 @@ class IconControllerTest extends TestCase {
 		$this->timeFactory = $this->getMockBuilder('OCP\AppFramework\Utility\ITimeFactory')
 			->disableOriginalConstructor()
 			->getMock();
-		$this->config = $this->getMockBuilder('OCP\IConfig')->getMock();
+		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
 		$this->iconBuilder = $this->getMockBuilder('OCA\Theming\IconBuilder')
 			->disableOriginalConstructor()->getMock();
 		$this->imageManager = $this->getMockBuilder('OCA\Theming\ImageManager')->disableOriginalConstructor()->getMock();

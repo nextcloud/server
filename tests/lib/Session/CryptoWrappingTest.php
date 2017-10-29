@@ -22,6 +22,7 @@
 namespace Test\Session;
 
 use OC\Session\CryptoSessionData;
+use OCP\ISession;
 use Test\TestCase;
 
 class CryptoWrappingTest extends TestCase {
@@ -37,7 +38,7 @@ class CryptoWrappingTest extends TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->wrappedSession = $this->getMockBuilder('OCP\ISession')
+		$this->wrappedSession = $this->getMockBuilder(ISession::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->crypto = $this->getMockBuilder('OCP\Security\ICrypto')

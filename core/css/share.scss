@@ -149,7 +149,7 @@ a {
 }
 
 #link {
-	border-top: 1px solid nc-lighten($color-main-text, 86%);
+	border-top: 1px solid nc-darken($color-main-background, 14%);
 	padding-top: 8px;
 	#showPassword img {
 		padding-left: 5px;

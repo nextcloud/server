@@ -24,6 +24,8 @@ namespace Test\Encryption;
 
 
 use OC\Encryption\Update;
+use OC\Files\Mount\Manager;
+use OC\Files\View;
 use Test\TestCase;
 
 class UpdateTest extends TestCase {
@@ -55,11 +57,11 @@ class UpdateTest extends TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->view = $this->getMockBuilder('\OC\Files\View')
+		$this->view = $this->getMockBuilder(View::class)
 			->disableOriginalConstructor()->getMock();
 		$this->util = $this->getMockBuilder('\OC\Encryption\Util')
 			->disableOriginalConstructor()->getMock();
-		$this->mountManager = $this->getMockBuilder('\OC\Files\Mount\Manager')
+		$this->mountManager = $this->getMockBuilder(Manager::class)
 			->disableOriginalConstructor()->getMock();
 		$this->encryptionManager = $this->getMockBuilder('\OC\Encryption\Manager')
 			->disableOriginalConstructor()->getMock();

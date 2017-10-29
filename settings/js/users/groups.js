@@ -227,7 +227,7 @@ GroupList = {
 	},
 
 	isAddGroupButtonVisible: function () {
-		return $('#newgroup-init').is(":visible");
+		return !$('#newgroup-entry').hasClass('editing');
 	},
 
 	toggleAddGroup: function (event) {
@@ -235,14 +235,12 @@ GroupList = {
 			if (event) {
 				event.stopPropagation();
 			}
-			$('#newgroup-form').show();
-			$('#newgroup-init').hide();
-			$('#newgroupname').focus();
+			$('#newgroup-entry').addClass('editing');
+			$('#newgroupname').select();
 			GroupList.handleAddGroupInput('');
 		}
 		else {
-			$('#newgroup-form').hide();
-			$('#newgroup-init').show();
+			$('#newgroup-entry').removeClass('editing');
 			$('#newgroupname').val('');
 		}
 	},
@@ -299,7 +297,7 @@ GroupList = {
 			}
 
 			// Call function for handling delete/undo
-			GroupDeleteHandler.mark(GroupList.getElementGID(this));
+			GroupDeleteHandler.mark(GroupList.getElementGID($(this).parent()));
 		};
 		$userGroupList.on('click', '.delete', deleteAction);
 
@@ -340,7 +338,6 @@ $(document).ready( function () {
 	}
 
 	// Display or hide of Create Group List Element
-	$('#newgroup-form').hide();
 	$('#newgroup-init').on('click', function (e) {
 		GroupList.toggleAddGroup(e);
 	});

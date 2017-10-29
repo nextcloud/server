@@ -14,6 +14,7 @@
     "The update check is not yet finished. Please refresh the page." : "Atnaujinimų patikrinimas dar neužbaigtas. Prašome įkelti puslapį iš naujo.",
     "Your version is up to date." : "Jūsų versija yra naujausia.",
     "Checked on %s" : "Tikrinta %s",
+    "A non-default update server is in use to be checked for updates:" : "Atnaujinimų aptikimui yra naudojamas ne nenumatytasis serveris: ",
     "Update channel:" : "Atnaujinimo kanalas:",
     "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Visada galite atnaujinti į naujesnę versiją / eksperimentinį kanalą. Tačiau niekada negalite sendinti versijos ar persijungti į stabilų kanalą.",
     "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Turėkite omenyje, kad po naujos versijos išleidimo, gali praeiti šiek tiek laiko, kol ji čia taps matoma. Mes išleidžiame naujas versijas paskirstytas pagal laiką savo naudotojams ir, kartais, pastebėjus klaidas, praleidžiame versiją.",

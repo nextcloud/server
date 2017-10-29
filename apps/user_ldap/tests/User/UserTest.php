@@ -38,6 +38,7 @@ use OCP\Image;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Notification\IManager as INotificationManager;
+use OCP\Notification\INotification;
 
 /**
  * Class UserTest
@@ -134,7 +135,7 @@ class UserTest extends \Test\TestCase {
 		$uid = 'alice';
 		$dn  = 'uid=alice,dc=foo,dc=bar';
 
-		$uuser = $this->getMockBuilder('\OCP\IUser')
+		$uuser = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$uuser->expects($this->once())
@@ -453,9 +454,8 @@ class UserTest extends \Test\TestCase {
 			->will($this->returnValue(false));
 
 		$user = $this->createMock('\OCP\IUser');
-		$user->expects($this->once())
-			->method('setQuota')
-			->with('default');
+		$user->expects($this->never())
+			->method('setQuota');
 
 		$userMgr->expects($this->once())
 			->method('get')
@@ -495,9 +495,8 @@ class UserTest extends \Test\TestCase {
 			->method('__get');
 
 		$user = $this->createMock('\OCP\IUser');
-		$user->expects($this->once())
-			->method('setQuota')
-			->with('default');
+		$user->expects($this->never())
+			->method('setQuota');
 
 		$userMgr->expects($this->once())
 			->method('get')
@@ -633,9 +632,8 @@ class UserTest extends \Test\TestCase {
 			->will($this->returnValue(false));
 
 		$user = $this->createMock('\OCP\IUser');
-		$user->expects($this->once())
-			->method('setQuota')
-			->with('default');
+		$user->expects($this->never())
+			->method('setQuota');
 
 		$userMgr->expects($this->once())
 			->method('get')
@@ -681,9 +679,8 @@ class UserTest extends \Test\TestCase {
 			->will($this->returnValue(array('23 flush')));
 
 		$user = $this->createMock('\OCP\IUser');
-		$user->expects($this->once())
-			->method('setQuota')
-			->with('default');
+		$user->expects($this->never())
+			->method('setQuota');
 
 		$userMgr->expects($this->once())
 			->method('get')
@@ -726,9 +723,8 @@ class UserTest extends \Test\TestCase {
 			->method('readAttribute');
 
 		$user = $this->createMock('\OCP\IUser');
-		$user->expects($this->once())
-			->method('setQuota')
-			->with('default');
+		$user->expects($this->never())
+			->method('setQuota');
 
 		$userMgr->expects($this->once())
 			->method('get')
@@ -1284,7 +1280,7 @@ class UserTest extends \Test\TestCase {
 				return array();
 			}));
 
-		$notification = $this->getMockBuilder('OCP\Notification\INotification')
+		$notification = $this->getMockBuilder(INotification::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$notification->expects($this->any())
@@ -1358,7 +1354,7 @@ class UserTest extends \Test\TestCase {
 				return array();
 			}));
 
-		$notification = $this->getMockBuilder('OCP\Notification\INotification')
+		$notification = $this->getMockBuilder(INotification::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$notification->expects($this->any())

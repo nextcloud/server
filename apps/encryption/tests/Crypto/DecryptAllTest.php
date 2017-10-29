@@ -56,15 +56,15 @@ class DecryptAllTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->util = $this->getMockBuilder('OCA\Encryption\Util')
+		$this->util = $this->getMockBuilder(Util::class)
 			->disableOriginalConstructor()->getMock();
-		$this->keyManager = $this->getMockBuilder('OCA\Encryption\KeyManager')
+		$this->keyManager = $this->getMockBuilder(KeyManager::class)
 			->disableOriginalConstructor()->getMock();
-		$this->crypt = $this->getMockBuilder('OCA\Encryption\Crypto\Crypt')
+		$this->crypt = $this->getMockBuilder(Crypt::class)
 			->disableOriginalConstructor()->getMock();
-		$this->session = $this->getMockBuilder('OCA\Encryption\Session')
+		$this->session = $this->getMockBuilder(Session::class)
 			->disableOriginalConstructor()->getMock();
-		$this->questionHelper = $this->getMockBuilder('Symfony\Component\Console\Helper\QuestionHelper')
+		$this->questionHelper = $this->getMockBuilder(QuestionHelper::class)
 			->disableOriginalConstructor()->getMock();
 
 		$this->instance = new DecryptAll(

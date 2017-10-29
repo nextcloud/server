@@ -82,13 +82,13 @@ OC.L10N.register(
     "A valid password must be provided" : "Трябва да бъде зададена валидна парола",
     "A valid email must be provided" : "Трябва да бъде зададена валидна електронна поща",
     "Developer documentation" : "Документация за разработчици",
-    "This app has an update available." : "Това приложение има налично обновление.",
     "by %s" : "от %s",
     "Documentation:" : "Документация:",
     "Visit website" : "Посещаване на интернет страница",
     "Report a bug" : "Докладване на грешка",
     "Show description …" : "Покажи описание ...",
     "Hide description …" : "Скрии описание ...",
+    "This app has an update available." : "Това приложение има налично обновление.",
     "This app cannot be installed because the following dependencies are not fulfilled:" : "Приложението не може да бъде инсталирано, защото следните зависимости не са удовлетворени:",
     "Enable only for specific groups" : "Включи само за определени групи",
     "Common Name" : "Познато Име",
@@ -184,7 +184,6 @@ OC.L10N.register(
     "Create" : "Създаване",
     "Admin Recovery Password" : "Възстановяване на администраторската парола",
     "Enter the recovery password in order to recover the users files during password change" : "Въведете паролата за възстановяване, за да възстановиш файловете на потребителите при промяна на паролата.",
-    "Group name" : "Име на група",
     "Everyone" : "Всички",
     "Admins" : "Администратори",
     "Default quota" : "Стандартна квота",
@@ -239,6 +238,7 @@ OC.L10N.register(
     "Show First Run Wizard again" : "Покажи отново помощника за настройване",
     "Name" : "Име",
     "Subscribe to our newsletter!" : "Абонирайте се за нашата емисия!",
-    "Show last log in" : "Покажи последно вписване"
+    "Show last log in" : "Покажи последно вписване",
+    "Group name" : "Име на група"
 },
 "nplurals=2; plural=(n != 1);");

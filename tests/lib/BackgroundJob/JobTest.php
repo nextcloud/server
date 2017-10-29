@@ -8,6 +8,8 @@
 
 namespace Test\BackgroundJob;
 
+use OCP\ILogger;
+
 class JobTest extends \Test\TestCase {
 	private $run = false;
 
@@ -24,7 +26,7 @@ class JobTest extends \Test\TestCase {
 		});
 		$jobList->add($job);
 
-		$logger = $this->getMockBuilder('OCP\ILogger')
+		$logger = $this->getMockBuilder(ILogger::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$logger->expects($this->once())

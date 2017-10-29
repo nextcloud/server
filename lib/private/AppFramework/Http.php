@@ -111,7 +111,7 @@ class Http extends BaseHttp {
 
 	/**
 	 * Gets the correct header
-	 * @param Http::CONSTANT $status the constant from the Http class
+	 * @param int Http::CONSTANT $status the constant from the Http class
 	 * @param \DateTime $lastModified formatted last modified date
 	 * @param string $ETag the etag
 	 * @return string

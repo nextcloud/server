@@ -87,7 +87,6 @@ OC.L10N.register(
     "Wrong or no update parameter given" : "Rangt eða ekkert uppfærsluviðfang gefið",
     "Can't change permissions for public share links" : "Ekki tókst að breyta aðgangsheimildum fyrir opinbera deilingartengla",
     "Cannot increase permissions" : "Get ekki aukið aðgangsheimildir",
-    "%s is publicly shared" : "%s er deilt opinberlega",
     "Share API is disabled" : "Deilingar-API er óvirkt",
     "This share is password-protected" : "Þessi sameign er varin með lykilorði",
     "The password is wrong. Try again." : "Lykilorðið er rangt. Reyndu aftur.",
@@ -110,6 +109,7 @@ OC.L10N.register(
     "Upload files to %s" : "Senda inn skrár á %s",
     "Select or drop files" : "Veldu eða slepptu skrám",
     "Uploading files…" : "Sendi inn skrár…",
-    "Uploaded files:" : "Innsendar skrár:"
+    "Uploaded files:" : "Innsendar skrár:",
+    "%s is publicly shared" : "%s er deilt opinberlega"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

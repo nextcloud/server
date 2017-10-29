@@ -72,7 +72,7 @@ class BackgroundRepairTest extends TestCase {
 		$this->jobList = $this->getMockBuilder('OC\BackgroundJob\JobList')
 			->disableOriginalConstructor()
 			->getMock();
-		$this->logger = $this->getMockBuilder('OCP\ILogger')
+		$this->logger = $this->getMockBuilder(ILogger::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->job = $this->getMockBuilder(BackgroundRepair::class)

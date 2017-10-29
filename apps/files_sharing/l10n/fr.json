@@ -75,7 +75,7 @@
     "Public link sharing is disabled by the administrator" : "Le partage de lien public a été désactivé par l'administrateur",
     "Public upload disabled by the administrator" : "Téléversement public désactivé par l'administrateur",
     "Public upload is only possible for publicly shared folders" : "Le téléversement public est possible uniquement pour les dossiers partagés publiquement",
-    "Invalid date, date format must be YYYY-MM-DD" : "Date invalide, le format doit être YYYY-MM-DD",
+    "Invalid date, date format must be YYYY-MM-DD" : "Date non valide, le format doit être DD/MM/YYYY",
     "Sharing %s failed because the back end does not allow shares from type %s" : "Le partage %s a échoué parce que l'infrastructure n'autorise pas les partages du type %s",
     "You cannot share to a Circle if the app is not enabled" : "Vous ne pouvez pas partager au Cercle si l'application n'est pas activée",
     "Please specify a valid circle" : "Veuillez entrer un cercle valide",
@@ -85,7 +85,6 @@
     "Wrong or no update parameter given" : "Mauvais ou aucun paramètre donné ",
     "Can't change permissions for public share links" : "Impossible de changer les permissions pour les liens de partage public",
     "Cannot increase permissions" : "Impossible d'augmenter les permissions",
-    "%s is publicly shared" : "%s a été partagé publiquement",
     "Share API is disabled" : "l'API de partage est désactivée",
     "This share is password-protected" : "Ce partage est protégé par un mot de passe",
     "The password is wrong. Try again." : "Le mot de passe est incorrect. Veuillez réessayer.",
@@ -108,6 +107,7 @@
     "Upload files to %s" : "Téléversement des fichiers vers %s",
     "Select or drop files" : "Sélectionner ou glisser-déposer vos fichiers",
     "Uploading files…" : "Téléversement des fichiers...",
-    "Uploaded files:" : "Fichiers téléversés :"
+    "Uploaded files:" : "Fichiers téléversés :",
+    "%s is publicly shared" : "%s a été partagé publiquement"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

@@ -1,0 +1,12 @@
+{
+    "config" : {
+        "vendor-dir": ".",
+        "optimize-autoloader": true,
+        "authorative-autoloader": true
+    },
+    "autoload" : {
+        "psr-4": {
+            "OCA\\Files_Sharing\\": "../lib/"
+        }
+    }
+}

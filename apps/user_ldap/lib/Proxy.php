@@ -65,7 +65,7 @@ abstract class Proxy {
 		static $db;
 		static $coreUserManager;
 		static $coreNotificationManager;
-		if(is_null($fs)) {
+		if($fs === null) {
 			$ocConfig = \OC::$server->getConfig();
 			$fs       = new FilesystemHelper();
 			$log      = new LogWrapper();
@@ -158,7 +158,7 @@ abstract class Proxy {
 	 */
 	private function getCacheKey($key) {
 		$prefix = 'LDAP-Proxy-';
-		if(is_null($key)) {
+		if($key === null) {
 			return $prefix;
 		}
 		return $prefix.md5($key);
@@ -169,24 +169,17 @@ abstract class Proxy {
 	 * @return mixed|null
 	 */
 	public function getFromCache($key) {
-		if(is_null($this->cache) || !$this->isCached($key)) {
+		if($this->cache === null) {
 			return null;
 		}
+
 		$key = $this->getCacheKey($key);
-
-		return json_decode(base64_decode($this->cache->get($key)));
-	}
-
-	/**
-	 * @param string $key
-	 * @return bool
-	 */
-	public function isCached($key) {
-		if(is_null($this->cache)) {
-			return false;
+		$value = $this->cache->get($key);
+		if ($value === null) {
+			return null;
 		}
-		$key = $this->getCacheKey($key);
-		return $this->cache->hasKey($key);
+
+		return json_decode(base64_decode($value));
 	}
 
 	/**
@@ -194,16 +187,16 @@ abstract class Proxy {
 	 * @param mixed $value
 	 */
 	public function writeToCache($key, $value) {
-		if(is_null($this->cache)) {
+		if($this->cache === null) {
 			return;
 		}
 		$key   = $this->getCacheKey($key);
 		$value = base64_encode(json_encode($value));
-		$this->cache->set($key, $value, '2592000');
+		$this->cache->set($key, $value, 2592000);
 	}
 
 	public function clearCache() {
-		if(is_null($this->cache)) {
+		if($this->cache === null) {
 			return;
 		}
 		$this->cache->clear($this->getCacheKey(null));

@@ -20,8 +20,8 @@ OC.L10N.register(
     "Unable to add group." : "Бүлэг нэмэх боломжгүй",
     "Unable to delete group." : "Бүлэг устгах боломжгүй",
     "Invalid SMTP password." : "SMTP -н нууц үг буруу байна ",
-    "If you received this email, the email configuration seems to be correct." : "Хэрэв та энэ цахим захидалыг хүлээн авсан бол цахим шуудангийн тохиргоо нь зөв байна.",
     "Email setting test" : "Цахим шуудангийн тохиргоог шалгах",
+    "If you received this email, the email configuration seems to be correct." : "Хэрэв та энэ цахим захидалыг хүлээн авсан бол цахим шуудангийн тохиргоо нь зөв байна.",
     "Email could not be sent. Check your mail server log" : "Цахим захидлыг илгээж чадсангүй. Цахим шуудангийн серверийн лог шалгана уу.",
     "Unable to create user." : "Хэрэглэгч үүсгэх боломжгүй",
     "Unable to delete user." : "Хэрэглэгч устгах боломжгүй",
@@ -88,7 +88,6 @@ OC.L10N.register(
     "Send email to new user" : "Шинэ хэрэглэгч рүү цахим шуудан илгээх",
     "E-Mail" : "Цахим шуудангийн хаяг",
     "Create" : "Шинээр үүсгэх",
-    "Group name" : "Бүлгийн нэр",
     "Everyone" : "Бүх хэрэглэгчид",
     "Admins" : "Админууд",
     "Disabled" : "Идэвхигүй",
@@ -109,6 +108,7 @@ OC.L10N.register(
     "Uninstall app" : "Аппликэйшныг устгах",
     "Your website" : "Таны цахим хуудас",
     "Name" : "Нэр",
-    "Show last log in" : "Хамгийн сүүлд нэвтэрсэн огноог харуулах"
+    "Show last log in" : "Хамгийн сүүлд нэвтэрсэн огноог харуулах",
+    "Group name" : "Бүлгийн нэр"
 },
 "nplurals=2; plural=(n != 1);");

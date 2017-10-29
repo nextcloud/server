@@ -35,11 +35,12 @@ input {
 }
 
 #avatarform {
-	> h2 {
-		position: relative;
-	}
 	.avatardiv {
 		margin: 10px auto;
+	}
+	.federationScopeMenu {
+		/* popover magic fix */
+		margin-right: calc(-50% - 7px);
 	}
 	.warning {
 		width: 100%;
@@ -117,11 +118,11 @@ input {
 }
 
 .icon-federation-menu {
-	float: right;
 	padding-left: 16px;
 	background-size: 16px;
 	background-position: left 8px;
 	opacity: .3;
+	margin-left: 10px;
 	cursor: pointer;
 
 	.icon-triangle-s {
@@ -163,12 +164,23 @@ input {
 	&:after {
 		clear: both;
 	}
-	> div {
+	&:not(#personal-settings-avatar-container) > div {
 		float: left;
 		width: 300px;
+	}
+	> div {
 		h2 {
 			position: relative;
 			margin-bottom: 5px;
+			display: inline-flex;
+			flex-wrap: nowrap;
+			justify-content: space-between;
+			width: 100%;
+			> label {
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				overflow: hidden;
+			}
 		}
 		> form span {
 			&[class^="icon-checkmark"], &[class^="icon-error"] {
@@ -236,6 +248,8 @@ input {
 				opacity: .75;
 			}
 			&.active {
+				box-shadow: inset 2px 0 $color-primary;
+
 				.menuitem-text {
 					font-weight: 600;
 				}
@@ -405,42 +419,6 @@ table.nostyle {
 }
 
 /* USERS */
-#newgroup-init a span {
-	margin-left: 20px;
-	&:before {
-		position: absolute;
-		left: 12px;
-		top: -2px;
-		content: '+';
-		font-weight: bold;
-		font-size: 150%;
-	}
-}
-
-#newgroup-form {
-	height: 44px;
-}
-
-#newgroupname {
-	margin: 0;
-	width: 100%;
-	padding: 12px 40px 12px 12px;
-	box-sizing: border-box;
-	background-color: transparent;
-	border: none;
-	border-bottom: 1px solid $color-border;
-	border-radius: 0;
-}
-
-#newgroup-form .button {
-	position: absolute;
-	right: 0;
-	top: 0;
-	padding: 10px 20px;
-	background-color: transparent;
-	border: none;
-	opacity: .5;
-}
 
 .isgroup {
 	.groupname {
@@ -454,44 +432,18 @@ table.nostyle {
 	}
 }
 
-.usercount {
-	float: left;
-	margin: 5px;
-}
-
 li.active {
-	span.utils .delete {
-		float: left;
-		position: relative;
-		opacity: 0.5;
-		top: -7px;
-		left: 7px;
-		width: 44px;
-		height: 44px;
-	}
+	.delete,
 	.rename {
-		padding: 8px 14px 20px 14px;
-		top: 0px;
-		position: absolute;
-		width: 16px;
-		height: 16px;
-		opacity: 0.5;
-		display: inline-block !important;
-	}
-	span.utils .delete img {
-		margin: 14px;
-	}
-	.rename {
-		opacity: 0.5;
-	}
-	span.utils .delete:hover, .rename:hover {
-		opacity: 1;
+		display: block;
 	}
 }
 
-span.utils .delete,
-.rename {
-	display: none;
+.app-navigation-entry-utils {
+	.delete,
+	.rename {
+		display: none;
+	}
 }
 
 #usersearchform {
@@ -1134,8 +1086,6 @@ table.grid td.date {
 }
 
 #selectGroups select {
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 	display: inline-block;
 	height: 36px;
