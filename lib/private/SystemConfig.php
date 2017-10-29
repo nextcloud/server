@@ -37,22 +37,28 @@ class SystemConfig {
 
 	/** @var array */
 	protected $sensitiveValues = [
+		'instanceid' => true,
+		'datadirectory' => true,
 		'dbname' => true,
+		'dbhost' => true,
 		'dbpassword' => true,
 		'dbuser' => true,
 		'mail_from_address' => true,
 		'mail_domain' => true,
+		'mail_smtphost' => true,
 		'mail_smtpname' => true,
 		'mail_smtppassword' => true,
 		'passwordsalt' => true,
 		'secret' => true,
 		'updater.secret' => true,
+		'trusted_proxies' => true,
 		'proxyuserpwd' => true,
 		'log.condition' => [
 			'shared_secret' => true,
 		],
 		'license-key' => true,
 		'redis' => [
+			'host' => true,
 			'password' => true,
 		],
 		'objectstore' => [
