@@ -52,6 +52,7 @@ class AppSettingsController extends Controller {
 	const CAT_DISABLED = 1;
 	const CAT_ALL_INSTALLED = 2;
 	const CAT_APP_BUNDLES = 3;
+	const CAT_UPDATES = 4;
 
 	/** @var \OCP\IL10N */
 	private $l10n;
@@ -130,8 +131,10 @@ class AppSettingsController extends Controller {
 	private function getAllCategories() {
 		$currentLanguage = substr($this->l10nFactory->findLanguage(), 0, 2);
 
+		$updateCount = count($this->getAppsWithUpdates());
 		$formattedCategories = [
 			['id' => self::CAT_ALL_INSTALLED, 'ident' => 'installed', 'displayName' => (string)$this->l10n->t('Your apps')],
+			['id' => self::CAT_UPDATES, 'ident' => 'updates', 'displayName' => (string)$this->l10n->t('Updates'), 'counter' => $updateCount],
 			['id' => self::CAT_ENABLED, 'ident' => 'enabled', 'displayName' => (string)$this->l10n->t('Enabled apps')],
 			['id' => self::CAT_DISABLED, 'ident' => 'disabled', 'displayName' => (string)$this->l10n->t('Disabled apps')],
 			['id' => self::CAT_APP_BUNDLES, 'ident' => 'app-bundles', 'displayName' => (string)$this->l10n->t('App bundles')],
@@ -273,6 +276,28 @@ class AppSettingsController extends Controller {
 		return $formattedApps;
 	}
 
+	private function getAppsWithUpdates() {
+		$appClass = new \OC_App();
+		$apps = $appClass->listAllApps();
+		foreach($apps as $key => $app) {
+			$newVersion = \OC\Installer::isUpdateAvailable($app['id'], $this->appFetcher);
+			if($newVersion !== false) {
+				$apps[$key]['update'] = $newVersion;
+			} else {
+				unset($apps[$key]);
+			}
+		}
+		usort($apps, function ($a, $b) {
+			$a = (string)$a['name'];
+			$b = (string)$b['name'];
+			if ($a === $b) {
+				return 0;
+			}
+			return ($a < $b) ? -1 : 1;
+		});
+		return $apps;
+	}
+
 	/**
 	 * Get all available apps in a category
 	 *
@@ -300,6 +325,10 @@ class AppSettingsController extends Controller {
 					}
 					return ($a < $b) ? -1 : 1;
 				});
+				break;
+			// updates
+			case 'updates':
+				$apps = $this->getAppsWithUpdates();
 				break;
 			// enabled apps
 			case 'enabled':

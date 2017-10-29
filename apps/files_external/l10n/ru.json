@@ -12,6 +12,8 @@
     "(group)" : "(группа)",
     "Compatibility with Mac NFD encoding (slow)" : "Совместимость с кодировкой Mac NFD (медленно)",
     "Admin defined" : "Определено админом",
+    "Are you sure you want to delete this external storage" : "Действительно удалить это внешнее хранилище?",
+    "Delete storage?" : "Удалить хранилище?",
     "Saved" : "Сохранено",
     "Saving..." : "Сохранение...",
     "Save" : "Сохранить",

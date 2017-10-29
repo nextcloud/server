@@ -32,6 +32,7 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCA\DAV\DAV\Sharing\Backend;
 use OCP\IDBConnection;
+use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Security\ISecureRandom;
@@ -158,6 +159,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @param IDBConnection $db
 	 * @param Principal $principalBackend
 	 * @param IUserManager $userManager
+	 * @param IGroupManager $groupManager
 	 * @param ISecureRandom $random
 	 * @param EventDispatcherInterface $dispatcher
 	 * @param bool $legacyEndpoint
@@ -165,13 +167,14 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	public function __construct(IDBConnection $db,
 								Principal $principalBackend,
 								IUserManager $userManager,
+								IGroupManager $groupManager,
 								ISecureRandom $random,
 								EventDispatcherInterface $dispatcher,
 								$legacyEndpoint = false) {
 		$this->db = $db;
 		$this->principalBackend = $principalBackend;
 		$this->userManager = $userManager;
-		$this->sharingBackend = new Backend($this->db, $principalBackend, 'calendar');
+		$this->sharingBackend = new Backend($this->db, $this->userManager, $groupManager, $principalBackend, 'calendar');
 		$this->random = $random;
 		$this->dispatcher = $dispatcher;
 		$this->legacyEndpoint = $legacyEndpoint;

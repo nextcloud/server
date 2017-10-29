@@ -1134,7 +1134,7 @@ MountConfigListView.prototype = _.extend({
 				storage: this.mountPoint
 			}), t('files_external', 'Delete storage?'), function(confirm) {
 			if (confirm) {
-				this.updateStatus($tr, StorageConfig.Status.IN_PROGRESS);
+				self.updateStatus($tr, StorageConfig.Status.IN_PROGRESS);
 
 				storage.destroy({
 					success: function () {

@@ -122,6 +122,7 @@
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Użyj tego adresu aby uzyskać <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">dostęp do swoich plików poprzez WebDAV</a>",
     "Uploading @" : "Wysyłanie",
+    "Cancel upload" : "Anuluj wysyłanie",
     "No files in here" : "Brak plików",
     "Upload some content or sync with your devices!" : "Wgraj coś, albo wykonaj synchronizację ze swoimi urządzeniami.",
     "No entries found in this folder" : "Brak wpisów w tym folderze",

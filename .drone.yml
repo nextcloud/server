@@ -49,8 +49,8 @@ pipeline:
     image: nextcloudci/php7.1:php7.1-15
     commands:
       - composer install
-      - composer require --dev "etsy/phan:dev-master"
-      - ./lib/composer/etsy/phan/phan -k build/.phan/config.php
+      - composer require --dev "phan/phan:dev-master"
+      - ./lib/composer/phan/phan/phan -k build/.phan/config.php
       - php ./build/.phan/plugin-checker.php
     when:
       matrix:
@@ -171,7 +171,7 @@ pipeline:
         DB: NODB
         PHP: 7.1
   nodb-php7.2:
-    image: nextcloudci/php7.2:php7.2-8
+    image: nextcloudci/php7.2:php7.2-9
     commands:
       - NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
     when:
@@ -203,7 +203,7 @@ pipeline:
         DB: sqlite
         PHP: 7.1
   sqlite-php7.2:
-    image: nextcloudci/php7.2:php7.2-8
+    image: nextcloudci/php7.2:php7.2-9
     commands:
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
     when:
@@ -235,7 +235,7 @@ pipeline:
         DB: mysql
         PHP: 7.1
   mysql-php7.2:
-    image: nextcloudci/php7.2:php7.2-4
+    image: nextcloudci/php7.2:php7.2-9
     commands:
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
     when:
@@ -342,7 +342,7 @@ pipeline:
         DB: mysqlmb4
         PHP: 7.1
   mysqlmb4-php7.2:
-    image: nextcloudci/php7.2:php7.2-4
+    image: nextcloudci/php7.2:php7.2-9
     commands:
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysqlmb4
     when:
@@ -834,7 +834,7 @@ services:
       matrix:
        ENABLE_REDIS_CLUSTER: true
   postgres:
-    image: postgres
+    image: postgres:9
     environment:
       - POSTGRES_USER=oc_autotest
       - POSTGRES_PASSWORD=owncloud

@@ -620,26 +620,18 @@ EOF;
 			->expects($this->at(0))
 			->method('setTo')
 			->with(['recipient@example.com' => 'John Doe']);
-		$this->defaults
-			->expects($this->exactly(2))
-			->method('getName')
-			->willReturn('TestCloud');
 		$message
 			->expects($this->at(1))
-			->method('setSubject')
-			->with('Your TestCloud account was created');
-		$message
-			->expects($this->at(2))
-			->method('setHtmlBody')
-			->with($emailTemplate->renderHtml());
-		$message
-			->expects($this->at(3))
-			->method('setPlainBody')
-			->with($emailTemplate->renderText());
-		$message
-			->expects($this->at(4))
 			->method('setFrom')
 			->with(['no-reply@nextcloud.com' => 'TestCloud']);
+		$message
+			->expects($this->at(2))
+			->method('useTemplate')
+			->with($emailTemplate);
+		$this->defaults
+			->expects($this->exactly(1))
+			->method('getName')
+			->willReturn('TestCloud');
 		$this->mailer
 			->expects($this->once())
 			->method('createMessage')

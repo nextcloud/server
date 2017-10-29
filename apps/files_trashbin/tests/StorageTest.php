@@ -530,7 +530,7 @@ class StorageTest extends \Test\TestCase {
 	 */
 	public function testShouldMoveToTrash($mountPoint, $path, $userExists, $appDisablesTrash, $expected) {
 		$fileID = 1;
-		$cache = $this->getMock(ICache::class);
+		$cache = $this->createMock(ICache::class);
 		$cache->expects($this->any())->method('getId')->willReturn($fileID);
 		$tmpStorage = $this->getMockBuilder('\OC\Files\Storage\Temporary')
 			->disableOriginalConstructor()->getMock($cache);
@@ -542,7 +542,7 @@ class StorageTest extends \Test\TestCase {
 		$logger = $this->getMockBuilder(ILogger::class)->getMock();
 		$eventDispatcher = $this->getMockBuilder(EventDispatcher::class)
 			->disableOriginalConstructor()->getMock();
-		$rootFolder = $this->getMock(IRootFolder::class);
+		$rootFolder = $this->createMock(IRootFolder::class);
 		$node = $this->getMockBuilder(Node::class)->disableOriginalConstructor()->getMock();
 		$event = $this->getMockBuilder(MoveToTrashEvent::class)->disableOriginalConstructor()->getMock();
 		$event->expects($this->any())->method('shouldMoveToTrashBin')->willReturn(!$appDisablesTrash);

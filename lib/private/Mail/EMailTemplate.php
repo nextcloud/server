@@ -51,6 +51,8 @@ class EMailTemplate implements IEMailTemplate {
 	protected $data;
 
 	/** @var string */
+	protected $subject = '';
+	/** @var string */
 	protected $htmlBody = '';
 	/** @var string */
 	protected $plainBody = '';
@@ -359,6 +361,15 @@ EOF;
 	}
 
 	/**
+	 * Sets the subject of the email
+	 *
+	 * @param string $subject
+	 */
+	public function setSubject($subject) {
+		$this->subject = $subject;
+	}
+
+	/**
 	 * Adds a header to the email
 	 */
 	public function addHeader() {
@@ -593,6 +604,15 @@ EOF;
 		$this->htmlBody .= $this->tail;
 		$this->plainBody .= PHP_EOL . '-- ' . PHP_EOL;
 		$this->plainBody .= str_replace('<br>', PHP_EOL, $text);
+	}
+
+	/**
+	 * Returns the rendered email subject as string
+	 *
+	 * @return string
+	 */
+	public function renderSubject() {
+		return $this->subject;
 	}
 
 	/**

@@ -27,28 +27,34 @@
 
 namespace OCA\DAV\Connector\Sabre;
 
+use OCA\DAV\Connector\Sabre\Exception\PasswordLoginForbidden;
+use OCP\Files\StorageNotAvailableException;
 use OCP\ILogger;
+use Sabre\DAV\Exception\Forbidden;
+use Sabre\DAV\Exception\NotAuthenticated;
+use Sabre\DAV\Exception\NotFound;
+use Sabre\DAV\Exception\PreconditionFailed;
 use Sabre\DAV\Exception\ServiceUnavailable;
 
 class ExceptionLoggerPlugin extends \Sabre\DAV\ServerPlugin {
 	protected $nonFatalExceptions = [
-		'Sabre\DAV\Exception\NotAuthenticated' => true,
+		NotAuthenticated::class => true,
 		// If tokenauth can throw this exception (which is basically as
 		// NotAuthenticated. So not fatal.
-		'OCA\DAV\Connector\Sabre\Exception\PasswordLoginForbidden' => true,
+		PasswordLoginForbidden::class => true,
 		// the sync client uses this to find out whether files exist,
 		// so it is not always an error, log it as debug
-		'Sabre\DAV\Exception\NotFound' => true,
+		NotFound::class => true,
 		// this one mostly happens when the same file is uploaded at
 		// exactly the same time from two clients, only one client
 		// wins, the second one gets "Precondition failed"
-		'Sabre\DAV\Exception\PreconditionFailed' => true,
+		PreconditionFailed::class => true,
 		// forbidden can be expected when trying to upload to
 		// read-only folders for example
-		'Sabre\DAV\Exception\Forbidden' => true,
+		Forbidden::class => true,
 		// Happens when an external storage or federated share is temporarily
 		// not available
-		'Sabre\DAV\Exception\StorageNotAvailableException' => true,
+		StorageNotAvailableException::class => true,
 	];
 
 	/** @var string */

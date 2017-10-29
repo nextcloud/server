@@ -81,5 +81,11 @@
 		"filters": [],
 		"settings": [],
 		"providers": []
+	},
+	"settings": {
+		"admin": [],
+		"admin-section": [],
+		"personal": [],
+		"personal-section": []
 	}
 }

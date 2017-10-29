@@ -26,11 +26,17 @@ namespace OCA\DAV\DAV\Sharing;
 
 use OCA\DAV\Connector\Sabre\Principal;
 use OCP\IDBConnection;
+use OCP\IGroupManager;
+use OCP\IUserManager;
 
 class Backend {
 
 	/** @var IDBConnection */
 	private $db;
+	/** @var IUserManager */
+	private $userManager;
+	/** @var IGroupManager */
+	private $groupManager;
 	/** @var Principal */
 	private $principalBackend;
 	/** @var string */
@@ -42,11 +48,15 @@ class Backend {
 
 	/**
 	 * @param IDBConnection $db
+	 * @param IUserManager $userManager
+	 * @param IGroupManager $groupManager
 	 * @param Principal $principalBackend
 	 * @param string $resourceType
 	 */
-	public function __construct(IDBConnection $db, Principal $principalBackend, $resourceType) {
+	public function __construct(IDBConnection $db, IUserManager $userManager, IGroupManager $groupManager, Principal $principalBackend, $resourceType) {
 		$this->db = $db;
+		$this->userManager = $userManager;
+		$this->groupManager = $groupManager;
 		$this->principalBackend = $principalBackend;
 		$this->resourceType = $resourceType;
 	}
@@ -78,6 +88,18 @@ class Backend {
 
 		// don't share with owner
 		if ($shareable->getOwner() === $parts[1]) {
+			return;
+		}
+
+		$principal = explode('/', $parts[1], 3);
+		if (count($principal) !== 3 || $principal[0] !== 'principals' || !in_array($principal[1], ['users', 'groups'], true)) {
+			// Invalid principal
+			return;
+		}
+
+		if (($principal[1] === 'users' && !$this->userManager->userExists($principal[2])) ||
+			($principal[1] === 'groups' && !$this->groupManager->groupExists($principal[2]))) {
+			// User or group does not exist
 			return;
 		}
 

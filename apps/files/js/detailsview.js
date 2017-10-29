@@ -23,7 +23,7 @@
 		'	{{/if}}' +
 		'	<div class="tabsContainer">' +
 		'	</div>' +
-		'	<a class="close icon-close" href="#" alt="{{closeLabel}}"></a>';
+		'	<a class="close icon-close" href="#"><span class="hidden-visually">{{closeLabel}}</span></a>';
 
 	/**
 	 * @class OCA.Files.DetailsView

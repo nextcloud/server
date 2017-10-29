@@ -29,7 +29,7 @@
 				<a id="modified" class="columntitle" data-sort="mtime"><span><?php p($l->t( 'Modified' )); ?></span><span class="sort-indicator"></span></a>
 					<span class="selectedActions"><a href="" class="delete-selected">
 						<?php p($l->t('Delete'))?>
-						<img class="svg" alt="<?php p($l->t('Delete'))?>"
+						<img class="svg" alt=""
 							 src="<?php print_unescaped(OCP\image_path("core", "actions/delete.svg")); ?>" />
 					</a></span>
 			</th>

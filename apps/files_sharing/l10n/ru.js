@@ -96,7 +96,7 @@ OC.L10N.register(
     "Name" : "Имя",
     "Share time" : "Дата публикации",
     "Expiration date" : "Дата истечения",
-    "Sorry, this link doesn’t seem to work anymore." : "Эта ссылка устарела и более не действительна.",
+    "Sorry, this link doesn’t seem to work anymore." : "Похоже, эта ссылка больше не работает.",
     "Reasons might be:" : "Причиной может быть:",
     "the item was removed" : "объект был удалён",
     "the link expired" : "срок действия ссылки истёк",
