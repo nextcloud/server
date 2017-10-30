@@ -384,12 +384,21 @@ form .warning input[type='checkbox']+label {
 #remember_login {
 	margin: 18px 5px 0 16px !important;
 }
-.remember-login-container {
+.remember-login-container,
+.lost-password-container {
 	display: inline-block;
 	margin: 10px 0;
 	text-align: center;
 	width: 100%;
 	text-shadow: 0 0 2px rgba(0, 0, 0, .4); // better readability on bright background
+}
+.lost-password-container {
+	margin: 0;
+}
+.lost-password-container #lost-password {
+	color: #fff;
+	padding: 10px;
+	opacity: .7;
 }
 #forgot-password {
 	padding: 11px;

@@ -75,6 +75,13 @@ script('core', 'merged-login');
 				<?php } ?>
 				<label for="remember_login"><?php p($l->t('Stay logged in')); ?></label>
 			</div>
+			<?php if (!empty($_['canResetPassword'])) { ?>
+			<div class="lost-password-container">
+				<a id="lost-password" href="<?php p($_['resetPasswordLink']); ?>">
+					<?php p($l->t('Forgot password?')); ?>
+				</a>
+			</div>
+			<?php } ?>
 		</div>
 
 		<input type="hidden" name="timezone_offset" id="timezone_offset"/>
