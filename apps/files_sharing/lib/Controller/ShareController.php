@@ -458,6 +458,10 @@ class ShareController extends Controller {
 			if ($files_list === null) {
 				$files_list = [$files];
 			}
+			// Just in case $files is a single int like '1234'
+			if (!is_array($files_list)) {
+				$files_list = [$files_list];
+			}
 		}
 
 		$userFolder = $this->rootFolder->getUserFolder($share->getShareOwner());
