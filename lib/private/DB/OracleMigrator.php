@@ -103,6 +103,28 @@ class OracleMigrator extends NoCheckMigrator {
 			$tableDiff->changedColumns = array_filter($tableDiff->changedColumns, function (ColumnDiff $column) {
 				return count($column->changedProperties) > 0;
 			});
+
+			$tableDiff->addedIndexes = array_map(function(Index $index) {
+				return new Index(
+					$this->connection->quoteIdentifier($index->getName()),
+					array_map([$this->connection, 'quoteIdentifier'], $index->getColumns()),
+					$index->isUnique(),
+					$index->isPrimary(),
+					$index->getFlags(),
+					$index->getOptions()
+				);
+			}, $tableDiff->addedIndexes);
+
+			$tableDiff->changedIndexes = array_map(function(Index $index) {
+				return new Index(
+					$this->connection->quoteIdentifier($index->getName()),
+					array_map([$this->connection, 'quoteIdentifier'], $index->getColumns()),
+					$index->isUnique(),
+					$index->isPrimary(),
+					$index->getFlags(),
+					$index->getOptions()
+				);
+			}, $tableDiff->changedIndexes);
 		}
 
 		return $schemaDiff;
