@@ -110,10 +110,10 @@
 					var isFavorite = $file.data('favorite') === true;
 
 					if (isFavorite) {
-						return 'icon-starred';
+						return 'icon-star-dark';
 					}
 
-					return 'icon-star';
+					return 'icon-starred';
 				},
 				actionHandler: function(fileName, context) {
 					var $favoriteMarkEl = context.$file.find('.favorite-mark');
