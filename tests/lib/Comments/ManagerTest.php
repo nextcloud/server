@@ -253,37 +253,6 @@ class ManagerTest extends TestCase {
 		} while (count($comments) > 0);
 	}
 
-	public function testGetActorsInTree() {
-		$manager = $this->getManager();
-
-		$headId = $this->addDatabaseEntry(0, 0);
-
-		$id = $this->addDatabaseEntry($headId, $headId, new \DateTime('-3 hours'));
-		$comment = $manager->get($id)->setActor('users', 'bob');
-		$manager->save($comment);
-
-		$this->addDatabaseEntry($headId, $headId, new \DateTime('-2 hours'));
-		$this->addDatabaseEntry($headId, $headId, new \DateTime('-2 hours'));
-
-		$id = $this->addDatabaseEntry($headId, $headId, new \DateTime('-1 hour'));
-		$comment = $manager->get($id)->setActor('users', 'bob');
-		$manager->save($comment);
-
-		$id = $this->addDatabaseEntry($headId, $headId, new \DateTime('-4 hour'));
-		$comment = $manager->get($id)->setActor('users', 'cynthia');
-		$manager->save($comment);
-
-		$actors = $manager->getActorsInTree($headId);
-		$this->assertTrue(isset($actors['users']));
-		$this->assertCount(3, $actors['users']);
-		$this->assertTrue(isset($actors['users']['alice']));
-		$this->assertTrue(isset($actors['users']['bob']));
-		$this->assertTrue(isset($actors['users']['cynthia']));
-		$this->assertSame(3, $actors['users']['alice']);
-		$this->assertSame(2, $actors['users']['bob']);
-		$this->assertSame(1, $actors['users']['cynthia']);
-	}
-
 	public function testGetForObjectWithDateTimeConstraint() {
 		$this->addDatabaseEntry(0, 0, new \DateTime('-6 hours'));
 		$this->addDatabaseEntry(0, 0, new \DateTime('-5 hours'));

@@ -27,6 +27,7 @@ namespace OCA\Comments\Tests\Unit\Collaboration;
 use OCA\Comments\Collaboration\CommentersSorter;
 use OCP\Comments\IComment;
 use OCP\Comments\ICommentsManager;
+use OCP\IConfig;
 use Test\TestCase;
 
 class CommentersSorterTest extends TestCase {
@@ -48,13 +49,25 @@ class CommentersSorterTest extends TestCase {
 	 * @param $data
 	 */
 	public function testSort($data) {
-		$this->commentsManager->expects($this->once())
-			->method('getForObject')
-			->willReturn([$this->createMock(IComment::class)]);
+		$commentMocks = [];
+		foreach($data['actors'] as $actorType => $actors) {
+			foreach ($actors as $actorId => $noOfComments) {
+				for($i=0;$i<$noOfComments;$i++) {
+					$mock = $this->createMock(IComment::class);
+					$mock->expects($this->atLeastOnce())
+						->method('getActorType')
+						->willReturn($actorType);
+					$mock->expects($this->atLeastOnce())
+						->method('getActorId')
+						->willReturn($actorId);
+					$commentMocks[] = $mock;
+				}
+			}
+		}
 
 		$this->commentsManager->expects($this->once())
-			->method('getActorsInTree')
-			->willReturn($data['actors']);
+			->method('getForObject')
+			->willReturn($commentMocks);
 
 		$workArray = $data['input'];
 		$this->sorter->sort($workArray, ['itemType' => 'files', 'itemId' => '24']);

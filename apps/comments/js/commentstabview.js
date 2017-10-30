@@ -238,7 +238,7 @@
 						search: query,
 						itemType: 'files',
 						itemId: s.model.get('id'),
-						sorter: 'comments|share-recipients',
+						sorter: 'commenters|share-recipients',
 						limit: OC.appConfig.comments.maxAutoCompleteResults
 					},
 					function (data) {

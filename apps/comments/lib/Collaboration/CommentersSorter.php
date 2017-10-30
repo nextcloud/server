@@ -84,12 +84,23 @@ class CommentersSorter implements ISorter {
 	 * @return array
 	 */
 	protected function retrieveCommentsInformation($type, $id) {
-		$comments = $this->commentsManager->getForObject($type, $id, 1);
+		$comments = $this->commentsManager->getForObject($type, $id);
 		if(count($comments) === 0) {
 			return [];
 		}
 
-		return $this->commentsManager->getActorsInTree($comments[0]->getTopmostParentId());
+		$actors = [];
+		foreach ($comments as $comment) {
+			if(!isset($actors[$comment->getActorType()])) {
+				$actors[$comment->getActorType()] = [];
+			}
+			if(!isset($actors[$comment->getActorType()][$comment->getActorId()])) {
+				$actors[$comment->getActorType()][$comment->getActorId()] = 1;
+			} else {
+				$actors[$comment->getActorType()][$comment->getActorId()]++;
+			}
+		}
+		return $actors;
 	}
 
 	protected function compare(array $a, array $b, array $commenters) {
