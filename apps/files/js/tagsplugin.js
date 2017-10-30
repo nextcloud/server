@@ -103,7 +103,7 @@
 					return t('files', 'Add to favorites');
 				},
 				mime: 'all',
-				order: -23,
+				order: -100,
 				permissions: OC.PERMISSION_READ,
 				iconClass: function(fileName, context) {
 					var $file = context.$file;
