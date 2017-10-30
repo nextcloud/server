@@ -22,12 +22,20 @@
 namespace OCP\Mail;
 
 /**
- * Class Message
+ * Interface IMessage
  *
  * @package OCP\Mail
  * @since 13.0.0
  */
 interface IMessage {
+
+	/**
+	 * @param IAttachment $attachment
+	 * @return $this
+	 * @since 13.0.0
+	 */
+	public function attach(IAttachment $attachment);
+
 	/**
 	 * Set the from address of this message.
 	 *
