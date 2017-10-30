@@ -28,54 +28,13 @@
 			'<div class="oneline">' +
 			'<label for="linkText-{{cid}}" class="hidden-visually">{{urlLabel}}</label>' +
 			'<input id="linkText-{{cid}}" class="linkText {{#unless isLinkShare}}hidden{{/unless}}" type="text" readonly="readonly" value="{{shareLinkURL}}" />' +
-			'{{#if singleAction}}' +
-				'<a class="{{#unless isLinkShare}}hidden-visually{{/unless}} clipboardButton icon icon-clippy" data-clipboard-target="#linkText-{{cid}}"></a>' +
-			'{{else}}' +
-				'<a class="{{#unless isLinkShare}}hidden-visually{{/unless}}" href="#"><span class="linkMore icon icon-more"></span></a>' +
+			'<a class="{{#unless isLinkShare}}hidden-visually{{/unless}}" href="#"><span class="linkMore icon icon-more"></span></a>' +
 				'{{{popoverMenu}}}' +
-			'{{/if}}' +
-			'</div>' +
-			'{{#if publicUpload}}' +
-				'<div>' +
-					'<span class="icon-loading-small hidden"></span>' +
-					'<input type="radio" name="publicUpload" value="{{publicUploadRValue}}" id="sharingDialogAllowPublicUpload-r-{{cid}}" class="radio publicUploadRadio" {{{publicUploadRChecked}}} />' +
-					'<label for="sharingDialogAllowPublicUpload-r-{{cid}}">{{publicUploadRLabel}}</label>' +
-				'</div>' +
-				'<div>' +
-					'<span class="icon-loading-small hidden"></span>' +
-					'<input type="radio" name="publicUpload" value="{{publicUploadRWValue}}" id="sharingDialogAllowPublicUpload-rw-{{cid}}" class="radio publicUploadRadio" {{{publicUploadRWChecked}}} />' +
-					'<label for="sharingDialogAllowPublicUpload-rw-{{cid}}">{{publicUploadRWLabel}}</label>' +
-				'</div>' +
-				'<div>' +
-					'<span class="icon-loading-small hidden"></span>' +
-					'<input type="radio" name="publicUpload" value="{{publicUploadWValue}}" id="sharingDialogAllowPublicUpload-w-{{cid}}" class="radio publicUploadRadio" {{{publicUploadWChecked}}} />' +
-					'<label for="sharingDialogAllowPublicUpload-w-{{cid}}">{{publicUploadWLabel}}</label>' +
-				'</div>' +
-			'{{/if}}' +
-			'     {{#if publicEditing}}' +
-			'<div id="allowPublicEditingWrapper">' +
-			'    <span class="icon-loading-small hidden"></span>' +
-			'    <input type="checkbox" value="1" name="allowPublicEditing" id="sharingDialogAllowPublicEditing-{{cid}}" class="checkbox publicEditingCheckbox" {{{publicEditingChecked}}} />' +
-			'<label for="sharingDialogAllowPublicEditing-{{cid}}">{{publicEditingLabel}}</label>' +
-			'</div>' +
-			'    {{/if}}' +
-			'    {{#if showPasswordCheckBox}}' +
-			'<input type="checkbox" name="showPassword" id="showPassword-{{cid}}" class="checkbox showPasswordCheckbox" {{#if isPasswordSet}}checked="checked"{{/if}} value="1" />' +
-			'<label for="showPassword-{{cid}}">{{enablePasswordLabel}}</label>' +
-			'    {{/if}}' +
-			'<div id="linkPass" class="oneline linkPass {{#unless isPasswordSet}}hidden{{/unless}}">' +
-			'    <label for="linkPassText-{{cid}}" class="hidden-visually">{{passwordLabel}}</label>' +
-			'    {{#if showPasswordCheckBox}}' +
-			'    <input id="linkPassText-{{cid}}" class="linkPassText" type="password" placeholder="{{passwordPlaceholder}}" />' +
-			'    {{else}}' +
-			'    <input id="linkPassText-{{cid}}" class="linkPassText" type="password" placeholder="{{passwordPlaceholderInitial}}" />' +
-			'    {{/if}}' +
-			'    <span class="icon icon-loading-small hidden"></span>' +
-			'</div>' +
 			'{{else}}' +
 			// FIXME: this doesn't belong in this view
 			'{{#if noSharingPlaceholder}}<input id="shareWith-{{cid}}" class="shareWithField" type="text" placeholder="{{noSharingPlaceholder}}" disabled="disabled"/>{{/if}}' +
 			'{{/if}}'
+			'</div>'
 		;
 	var TEMPLATE_POPOVER_MENU =
 		'<div class="popovermenu bubble hidden menu socialSharingMenu">' +
@@ -95,6 +54,43 @@
 						'</a>' +
 					'</li>' +
 				'{{/each}}' +
+				'{{#if publicUpload}}' +
+					'<li>' +
+						'<span class="icon-loading-small hidden"></span>' +
+						'<input type="radio" name="publicUpload" value="{{publicUploadRValue}}" id="sharingDialogAllowPublicUpload-r-{{cid}}" class="radio publicUploadRadio" {{{publicUploadRChecked}}} />' +
+						'<label for="sharingDialogAllowPublicUpload-r-{{cid}}">{{publicUploadRLabel}}</label>' +
+					'</li>' +
+					'<li>' +
+						'<span class="icon-loading-small hidden"></span>' +
+						'<input type="radio" name="publicUpload" value="{{publicUploadRWValue}}" id="sharingDialogAllowPublicUpload-rw-{{cid}}" class="radio publicUploadRadio" {{{publicUploadRWChecked}}} />' +
+						'<label for="sharingDialogAllowPublicUpload-rw-{{cid}}">{{publicUploadRWLabel}}</label>' +
+					'</li>' +
+					'<li>' +
+						'<span class="icon-loading-small hidden"></span>' +
+						'<input type="radio" name="publicUpload" value="{{publicUploadWValue}}" id="sharingDialogAllowPublicUpload-w-{{cid}}" class="radio publicUploadRadio" {{{publicUploadWChecked}}} />' +
+						'<label for="sharingDialogAllowPublicUpload-w-{{cid}}">{{publicUploadWLabel}}</label>' +
+					'</li>' +
+				'{{/if}}' +
+				'     {{#if publicEditing}}' +
+				'<div id="allowPublicEditingWrapper">' +
+				'    <span class="icon-loading-small hidden"></span>' +
+				'    <input type="checkbox" value="1" name="allowPublicEditing" id="sharingDialogAllowPublicEditing-{{cid}}" class="checkbox publicEditingCheckbox" {{{publicEditingChecked}}} />' +
+				'<label for="sharingDialogAllowPublicEditing-{{cid}}">{{publicEditingLabel}}</label>' +
+				'</div>' +
+				'    {{/if}}' +
+				'    {{#if showPasswordCheckBox}}' +
+				'<input type="checkbox" name="showPassword" id="showPassword-{{cid}}" class="checkbox showPasswordCheckbox" {{#if isPasswordSet}}checked="checked"{{/if}} value="1" />' +
+				'<label for="showPassword-{{cid}}">{{enablePasswordLabel}}</label>' +
+				'    {{/if}}' +
+				'<div id="linkPass" class="oneline linkPass {{#unless isPasswordSet}}hidden{{/unless}}">' +
+				'    <label for="linkPassText-{{cid}}" class="hidden-visually">{{passwordLabel}}</label>' +
+				'    {{#if showPasswordCheckBox}}' +
+				'    <input id="linkPassText-{{cid}}" class="linkPassText" type="password" placeholder="{{passwordPlaceholder}}" />' +
+				'    {{else}}' +
+				'    <input id="linkPassText-{{cid}}" class="linkPassText" type="password" placeholder="{{passwordPlaceholderInitial}}" />' +
+				'    {{/if}}' +
+				'    <span class="icon icon-loading-small hidden"></span>' +
+				'</div>' +
 			'</ul>' +
 		'</div>';
 
@@ -437,7 +433,6 @@
 				publicEditingLabel: t('core', 'Allow editing'),
 				mailPrivatePlaceholder: t('core', 'Email link to person'),
 				mailButtonText: t('core', 'Send'),
-				singleAction: OC.Share.Social.Collection.size() == 0,
 				popoverMenu: popover,
 				publicUploadRWLabel: t('core', 'Allow upload and editing'),
 				publicUploadRLabel: t('core', 'Read only'),
