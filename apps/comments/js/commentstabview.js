@@ -587,6 +587,16 @@
 				$inserted.html('@' + $this.find('.avatar').data('username'));
 			});
 
+			var oldHtml;
+			var html = $comment.html();
+			do {
+				// replace works one by one
+				oldHtml = html;
+				html = oldHtml.replace("<br>", "\n");	// preserve line breaks
+				console.warn(html)
+			} while(oldHtml !== html);
+			$comment.html(html);
+
 			return $comment.text();
 		},
 
