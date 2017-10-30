@@ -864,6 +864,12 @@ kbd {
 				width: 16px;
 				padding: 0 10px;
 			}
+			> input.checkbox + label {
+				padding: 0 !important;
+				&::before {
+					margin: -2px 12px 0;
+				}
+			}
 		}
 		[class^='icon-'],
 		[class*=' icon-']{
