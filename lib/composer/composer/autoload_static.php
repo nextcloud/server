@@ -559,7 +559,6 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\DB\\Migrator' => __DIR__ . '/../../..' . '/lib/private/DB/Migrator.php',
         'OC\\DB\\MySQLMigrator' => __DIR__ . '/../../..' . '/lib/private/DB/MySQLMigrator.php',
         'OC\\DB\\MySqlTools' => __DIR__ . '/../../..' . '/lib/private/DB/MySqlTools.php',
-        'OC\\DB\\NoCheckMigrator' => __DIR__ . '/../../..' . '/lib/private/DB/NoCheckMigrator.php',
         'OC\\DB\\OCPostgreSqlPlatform' => __DIR__ . '/../../..' . '/lib/private/DB/OCPostgreSqlPlatform.php',
         'OC\\DB\\OCSqlitePlatform' => __DIR__ . '/../../..' . '/lib/private/DB/OCSqlitePlatform.php',
         'OC\\DB\\OracleConnection' => __DIR__ . '/../../..' . '/lib/private/DB/OracleConnection.php',
