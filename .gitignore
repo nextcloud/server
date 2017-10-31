@@ -136,3 +136,7 @@ Vagrantfile
 /config/config-autotest-backup.php
 /config/autoconfig.php
 clover.xml
+
+# Tests - dependencies
+tests/acceptance/composer.lock
+tests/acceptance/vendor/
