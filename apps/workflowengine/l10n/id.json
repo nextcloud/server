@@ -1,7 +1,7 @@
 { "translations": {
-    "Successfully saved" : "Berhasil disimpan",
+    "Saved" : "Disimpan",
     "Saving failed:" : "Penyimpanan gagal:",
-    "File mime type" : "Tipe MIME berkas",
+    "File MIME type" : "Berkas tipe MIME",
     "is" : "adalah",
     "is not" : "bukan",
     "matches" : "cocok dengan",
@@ -48,6 +48,24 @@
     "The given time span is invalid" : "Rentang waktu yang diberikan tidak sah",
     "The given start time is invalid" : "Waktu mulai yang diberikan tidak sah",
     "The given end time is invalid" : "Waktu selesai yang diberikan tidak sah",
-    "The given group does not exist" : "Grup yang diberikan tidak ada"
+    "The given group does not exist" : "Grup yang diberikan tidak ada",
+    "Check %s is invalid or does not exist" : "Cek %s tidak valid atau tidak ada",
+    "Operation #%s does not exist" : "Operasi #%s tidak ada",
+    "Operation %s does not exist" : "Operasi %s tidak ada",
+    "Operation %s is invalid" : "Operasi %s tidak valid",
+    "Check %s does not exist" : "Cek %s tidak ada",
+    "Check %s is invalid" : "Cek %s tidak valid",
+    "Check #%s does not exist" : "Cek #%s tidak ada",
+    "Workflow" : "Alur kerja",
+    "Open documentation" : "Buka dokumentasi",
+    "Add rule group" : "Tambahkan aturan grup ",
+    "Short rule description" : "Deskripsi aturan singkat",
+    "Add rule" : "Tambahkan aturan",
+    "Reset" : "Setel ulang",
+    "Save" : "Simpan",
+    "Saving…" : "Menyimpan...",
+    "Loading…" : "Memuat...",
+    "Successfully saved" : "Berhasil disimpan",
+    "File mime type" : "Tipe MIME berkas"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
