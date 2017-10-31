@@ -41,6 +41,9 @@ class MigratorTest extends \Test\TestCase {
 	/** @var string */
 	private $tableName;
 
+	/** @var string */
+	private $tableNameTmp;
+
 	protected function setUp() {
 		parent::setUp();
 
@@ -50,11 +53,23 @@ class MigratorTest extends \Test\TestCase {
 			$this->markTestSkipped('DB migration tests are not supported on OCI');
 		}
 		$this->manager = new \OC\DB\MDB2SchemaManager($this->connection);
-		$this->tableName = strtolower($this->getUniqueID($this->config->getSystemValue('dbtableprefix', 'oc_') . 'test_'));
+		$this->tableName = $this->getUniqueTableName();
+		$this->tableNameTmp = $this->getUniqueTableName();
+	}
+
+	private function getUniqueTableName() {
+		return strtolower($this->getUniqueID($this->config->getSystemValue('dbtableprefix', 'oc_') . 'test_'));
 	}
 
 	protected function tearDown() {
-		$this->connection->exec('DROP TABLE ' . $this->tableName);
+		// Try to delete if exists (IF EXISTS NOT SUPPORTED IN ORACLE)
+		try {
+			$this->connection->exec('DROP TABLE ' . $this->connection->quoteIdentifier($this->tableNameTmp));
+		} catch (\Doctrine\DBAL\DBALException $e) {}
+
+		try {
+			$this->connection->exec('DROP TABLE ' . $this->connection->quoteIdentifier($this->tableName));
+		} catch (\Doctrine\DBAL\DBALException $e) {}
 		parent::tearDown();
 	}
 
@@ -199,5 +214,25 @@ class MigratorTest extends \Test\TestCase {
 		$migrator->migrate($endSchema);
 
 		$this->assertTrue(true);
+	}
+
+	public function testAddingForeignKey() {
+		$startSchema = new Schema([], [], $this->getSchemaConfig());
+		$table = $startSchema->createTable($this->tableName);
+		$table->addColumn('id', 'integer', ['autoincrement' => true]);
+		$table->addColumn('name', 'string');
+		$table->setPrimaryKey(['id']);
+
+		$fkName = "fkc";
+		$tableFk = $startSchema->createTable($this->tableNameTmp);
+		$tableFk->addColumn('fk_id', 'integer');
+		$tableFk->addColumn('name', 'string');
+		$tableFk->addForeignKeyConstraint($this->tableName, array('fk_id'), array('id'), array(), $fkName);
+
+		$migrator = $this->manager->getMigrator();
+		$migrator->migrate($startSchema);
+
+
+		$this->assertTrue($startSchema->getTable($this->tableNameTmp)->hasForeignKey($fkName));
 	}
 }
