@@ -370,6 +370,7 @@ form .warning input[type='checkbox']+label {
 	margin: 10px 0;
 	text-align: center;
 	width: 100%;
+	text-shadow: 0 0 2px rgba(0, 0, 0, .4); // better readability on bright background
 }
 #forgot-password {
 	padding: 11px;
@@ -517,6 +518,7 @@ fieldset.update legend + p {
 p.info {
 	margin: 0 auto;
 	padding-top: 20px;
+	text-shadow: 0 0 2px rgba(0, 0, 0, .4); // better readability on bright background
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
