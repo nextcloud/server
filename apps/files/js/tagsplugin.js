@@ -103,17 +103,17 @@
 					return t('files', 'Add to favorites');
 				},
 				mime: 'all',
-				order: -23,
+				order: -100,
 				permissions: OC.PERMISSION_READ,
 				iconClass: function(fileName, context) {
 					var $file = context.$file;
 					var isFavorite = $file.data('favorite') === true;
 
 					if (isFavorite) {
-						return 'icon-starred';
+						return 'icon-star-dark';
 					}
 
-					return 'icon-star';
+					return 'icon-starred';
 				},
 				actionHandler: function(fileName, context) {
 					var $favoriteMarkEl = context.$file.find('.favorite-mark');

@@ -54,6 +54,23 @@ interface IMailer {
 	public function createMessage();
 
 	/**
+	 * @param string|null $data
+	 * @param string|null $filename
+	 * @param string|null $contentType
+	 * @return IAttachment
+	 * @since 13.0.0
+	 */
+	public function createAttachment($data = null, $filename = null, $contentType = null);
+
+	/**
+	 * @param string $path
+	 * @param string|null $contentType
+	 * @return IAttachment
+	 * @since 13.0.0
+	 */
+	public function createAttachmentFromPath($path, $contentType = null);
+
+	/**
 	 * Creates a new email template object
 	 *
 	 * @param string $emailId
