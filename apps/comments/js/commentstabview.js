@@ -215,7 +215,7 @@
 					// passing the whole comments form would re-apply and request
 					// avatars from the server
 					$(je.target).find(
-						'div[data-user-display-name="' + $el.text().trim() + '"]'
+						'div[data-username="' + $el.find('[data-username]').data('username') + '"]'
 					).parent()
 				);
 			});
