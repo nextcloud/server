@@ -58,6 +58,15 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 interface IServerContainer extends IContainer {
 
 	/**
+	 * The calendar manager will act as a broker between consumers for calendar information and
+	 * providers which actual deliver the calendar information.
+	 *
+	 * @return \OCP\Calendar\IManager
+	 * @since 13.0.0
+	 */
+	public function getCalendarManager();
+
+	/**
 	 * The contacts manager will act as a broker between consumers for contacts information and
 	 * providers which actual deliver the contact information.
 	 *

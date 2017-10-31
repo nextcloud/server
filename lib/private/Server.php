@@ -153,6 +153,9 @@ class Server extends ServerContainer implements IServerContainer {
 			return $c;
 		});
 
+		$this->registerAlias(\OCP\Calendar\IManager::class, \OC\Calendar\Manager::class);
+		$this->registerAlias('CalendarManager', \OC\Calendar\Manager::class);
+
 		$this->registerAlias(\OCP\Contacts\IManager::class, \OC\ContactsManager::class);
 		$this->registerAlias('ContactsManager', \OCP\Contacts\IManager::class);
 
@@ -1092,6 +1095,13 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->query(\OCP\Share\IManager::class)
 			);
 		});
+	}
+
+	/**
+	 * @return \OCP\Calendar\IManager
+	 */
+	public function getCalendarManager() {
+		return $this->query('CalendarManager');
 	}
 
 	/**
