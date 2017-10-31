@@ -23,17 +23,19 @@
  */
 namespace OCA\DAV\CalDAV\Schedule;
 
-use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
+use OCP\IL10N;
 use OCP\ILogger;
 use OCP\L10N\IFactory as L10NFactory;
 use OCP\Mail\IMailer;
 use Sabre\CalDAV\Schedule\IMipPlugin as SabreIMipPlugin;
 use Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\DateTimeParser;
-use Sabre\VObject\ITip;
+use Sabre\VObject\ITip\Message;
 use Sabre\VObject\Parameter;
+use Sabre\VObject\Property;
 use Sabre\VObject\Recur\EventIterator;
 use Swift_Attachment;
 /**
@@ -51,9 +53,6 @@ use Swift_Attachment;
  * @license http://sabre.io/license/ Modified BSD License
  */
 class IMipPlugin extends SabreIMipPlugin {
-
-	/** @var string */
-	private $appName;
 
 	/** @var string */
 	private $userId;
@@ -80,19 +79,15 @@ class IMipPlugin extends SabreIMipPlugin {
 	const METHOD_CANCEL = 'cancel';
 
 	/**
-	 * Creates the email handler.
-	 *
-	 * @param string $appName
-	 * @param string $userId
 	 * @param IConfig $config
 	 * @param IMailer $mailer
 	 * @param ILogger $logger
 	 * @param ITimeFactory $timeFactory
 	 * @param L10NFactory $l10nFactory
+	 * @param string $userId
 	 */
-	function __construct($appName, $userId, IConfig $config, IMailer $mailer, ILogger $logger, ITimeFactory $timeFactory, L10NFactory $l10nFactory) {
+	public function __construct(IConfig $config, IMailer $mailer, ILogger $logger, ITimeFactory $timeFactory, L10NFactory $l10nFactory, $userId) {
 		parent::__construct('');
-		$this->appName = $appName;
 		$this->userId = $userId;
 		$this->config = $config;
 		$this->mailer = $mailer;
@@ -104,10 +99,10 @@ class IMipPlugin extends SabreIMipPlugin {
 	/**
 	 * Event handler for the 'schedule' event.
 	 *
-	 * @param ITip\Message $iTipMessage
+	 * @param Message $iTipMessage
 	 * @return void
 	 */
-	function schedule(ITip\Message $iTipMessage) {
+	public function schedule(Message $iTipMessage) {
 
 		// Not sending any emails if the system considers the update
 		// insignificant.
@@ -133,19 +128,14 @@ class IMipPlugin extends SabreIMipPlugin {
 			return;
 		}
 
+		// Strip off mailto:
 		$sender = substr($iTipMessage->sender, 7);
 		$recipient = substr($iTipMessage->recipient, 7);
 
-		$senderName = ($iTipMessage->senderName) ? $iTipMessage->senderName : null;
-		$recipientName = ($iTipMessage->recipientName) ? $iTipMessage->recipientName : null;
+		$senderName = $iTipMessage->senderName ?: null;
+		$recipientName = $iTipMessage->recipientName ?: null;
 
-		$subject = 'SabreDAV iTIP message';
 		switch (strtolower($iTipMessage->method)) {
-			default: // Treat 'REQUEST' as the default
-			case self::METHOD_REQUEST:
-				$subject = $summary;
-				$templateName = self::METHOD_REQUEST;
-				break;
 			case self::METHOD_REPLY:
 				$subject = 'Re: ' . $summary;
 				$templateName = self::METHOD_REPLY;
@@ -154,17 +144,23 @@ class IMipPlugin extends SabreIMipPlugin {
 				$subject = 'Cancelled: ' . $summary;
 				$templateName = self::METHOD_CANCEL;
 				break;
+			case self::METHOD_REQUEST:
+			default: // Treat 'REQUEST' as the default
+				$subject = $summary;
+				$templateName = self::METHOD_REQUEST;
+				break;
 		}
 
+		/** @var VEvent $vevent */
 		$vevent = $iTipMessage->message->VEVENT;
 
 		$attendee = $this->getCurrentAttendee($iTipMessage);
 		$defaultLang = $this->config->getUserValue($this->userId, 'core', 'lang', $this->l10nFactory->findLanguage());
-		$lang = $this->getAttendeeLangOrDefault($attendee, $defaultLang);
-		$l10n = $this->l10nFactory->get($this->appName, $lang);
+		$lang = $this->getAttendeeLangOrDefault($defaultLang, $attendee);
+		$l10n = $this->l10nFactory->get('dav', $lang);
 
-		$meetingAttendeeName = !empty($recipientName) ? $recipientName : $recipient;
-		$meetingInviteeName = !empty($senderName) ? $senderName : $sender;
+		$meetingAttendeeName = $recipientName ?: $recipient;
+		$meetingInviteeName = $senderName ?: $sender;
 
 		$meetingTitle = $vevent->SUMMARY;
 		$meetingDescription = $vevent->DESCRIPTION;
@@ -209,11 +205,11 @@ class IMipPlugin extends SabreIMipPlugin {
 
 		try {
 			$failed = $this->mailer->send($message);
+			$iTipMessage->scheduleStatus = '1.1; Scheduling message is sent via iMip';
 			if ($failed) {
 				$this->logger->error('Unable to deliver message to {failed}', ['app' => 'dav', 'failed' =>  implode(', ', $failed)]);
 				$iTipMessage->scheduleStatus = '5.0; EMail delivery failed';
 			}
-			$iTipMessage->scheduleStatus = '1.1; Scheduling message is sent via iMip';
 		} catch(\Exception $ex) {
 			$this->logger->logException($ex, ['app' => 'dav']);
 			$iTipMessage->scheduleStatus = '5.0; EMail delivery failed';
@@ -226,6 +222,7 @@ class IMipPlugin extends SabreIMipPlugin {
 	 * @return bool
 	 */
 	private function isEventInThePast(VCalendar $vObject) {
+		/** @var VEvent $component */
 		$component = $vObject->VEVENT;
 
 		$firstOccurrence = $component->DTSTART->getDateTime()->getTimeStamp();
@@ -234,15 +231,17 @@ class IMipPlugin extends SabreIMipPlugin {
 			if (isset($component->DTEND)) {
 				$lastOccurrence = $component->DTEND->getDateTime()->getTimeStamp();
 			} elseif (isset($component->DURATION)) {
+				/** @var \DateTime $endDate */
 				$endDate = clone $component->DTSTART->getDateTime();
 				// $component->DTEND->getDateTime() returns DateTimeImmutable
 				$endDate = $endDate->add(DateTimeParser::parse($component->DURATION->getValue()));
-				$lastOccurrence = $endDate->getTimeStamp();
+				$lastOccurrence = $endDate->getTimestamp();
 			} elseif (!$component->DTSTART->hasTime()) {
+				/** @var \DateTime $endDate */
 				$endDate = clone $component->DTSTART->getDateTime();
 				// $component->DTSTART->getDateTime() returns DateTimeImmutable
 				$endDate = $endDate->modify('+1 day');
-				$lastOccurrence = $endDate->getTimeStamp();
+				$lastOccurrence = $endDate->getTimestamp();
 			} else {
 				$lastOccurrence = $firstOccurrence;
 			}
@@ -266,12 +265,21 @@ class IMipPlugin extends SabreIMipPlugin {
 		return $lastOccurrence < $currentTime;
 	}
 
+	/**
+	 * @param string $scope
+	 * @return \OCP\Mail\IEMailTemplate
+	 */
 	private function getEmptyInviteTemplate($scope) {
-		return $this->mailer->createEMailTemplate('dav.invite.' . $scope, array());
+		return $this->mailer->createEMailTemplate('dav.invite.' . $scope, []);
 	}
 
-	private function getInviteTemplates($l10n, $_) {
-		$ret = array();
+	/**
+	 * @param IL10N $l10n
+	 * @param array $_
+	 * @return array
+	 */
+	private function getInviteTemplates(IL10N $l10n, array $_) {
+		$ret = [];
 		$requestTmpl = $ret[self::METHOD_REQUEST] = $this->getEmptyInviteTemplate(self::METHOD_REQUEST);
 		$replyTmpl = $ret[self::METHOD_REPLY] = $this->getEmptyInviteTemplate(self::METHOD_REPLY);
 		$cancelTmpl = $ret[self::METHOD_CANCEL] = $this->getEmptyInviteTemplate(self::METHOD_CANCEL);
@@ -305,10 +313,16 @@ Description: %s
 		return $ret;
 	}
 
-	private function getCurrentAttendee($iTipMessage) {
+	/**
+	 * @param Message $iTipMessage
+	 * @return null|Property
+	 */
+	private function getCurrentAttendee(Message $iTipMessage) {
+		/** @var VEvent $vevent */
 		$vevent = $iTipMessage->message->VEVENT;
 		$attendees = $vevent->select('ATTENDEE');
 		foreach ($attendees as $attendee) {
+			/** @var Property $attendee */
 			if (strcasecmp($attendee->getValue(), $iTipMessage->recipient) === 0) {
 				return $attendee;
 			}
@@ -316,8 +330,13 @@ Description: %s
 		return null;
 	}
 
-	private function getAttendeeLangOrDefault($attendee, $default) {
-		if ($attendee) {
+	/**
+	 * @param string $default
+	 * @param Property|null $attendee
+	 * @return string
+	 */
+	private function getAttendeeLangOrDefault($default, Property $attendee = null) {
+		if ($attendee !== null) {
 			$lang = $attendee->offsetGet('LANGUAGE');
 			if ($lang instanceof Parameter) {
 				return $lang->getValue();

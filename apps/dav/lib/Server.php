@@ -140,15 +140,7 @@ class Server {
 		$this->server->addPlugin(new \Sabre\CalDAV\ICSExportPlugin());
 		$this->server->addPlugin(new \OCA\DAV\CalDAV\Schedule\Plugin());
 		if ($sendInvitations) {
-			$this->server->addPlugin(new IMipPlugin(
-				'dav', // TODO(leon): Retrieve dynamically, but where to find it? :(
-				\OC::$server->getUserSession()->getUser()->getUID(),
-				\OC::$server->getConfig(),
-				$mailer,
-				$logger,
-				$timezone,
-				$l10nFactory
-			));
+			$this->server->addPlugin(\OC::$server->query(\OCA\DAV\CalDAV\Schedule\IMipPlugin::class));
 		}
 		$this->server->addPlugin(new \Sabre\CalDAV\Subscriptions\Plugin());
 		$this->server->addPlugin(new \Sabre\CalDAV\Notifications\Plugin());
