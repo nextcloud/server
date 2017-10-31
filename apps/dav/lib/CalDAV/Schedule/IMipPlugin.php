@@ -165,11 +165,8 @@ class IMipPlugin extends SabreIMipPlugin {
 		$meetingTitle = $vevent->SUMMARY;
 		$meetingDescription = $vevent->DESCRIPTION;
 
-		// TODO(leon): Maybe it's a good idea to make this locale dependent?
-		// TODO(leon): Don't show H:i if it's an all-day meeting
-		$dateFormatStr = 'Y-m-d H:i e';
-		$meetingStart = $vevent->DTSTART->getDateTime()->format($dateFormatStr);
-		$meetingEnd = $vevent->DTEND->getDateTime()->format($dateFormatStr);
+		$meetingStart = $l10n->l('datetime', $vevent->DTSTART->getDateTime()->getTimestamp());
+		$meetingEnd = $l10n->l('datetime', $vevent->DTEND->getDateTime()->getTimestamp());
 
 		$meetingUrl = $vevent->URL;
 
