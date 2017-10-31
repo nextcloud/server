@@ -58,6 +58,8 @@ use OCP\IServerContainer;
  * @package OCA\User_LDAP
  */
 class Access extends LDAPUtility implements IUserTools {
+	const UUID_ATTRIBUTES = ['entryuuid', 'nsuniqueid', 'objectguid', 'guid', 'ipauniqueid'];
+
 	/** @var \OCA\User_LDAP\Connection */
 	public $connection;
 	/** @var Manager */
@@ -518,13 +520,15 @@ class Access extends LDAPUtility implements IUserTools {
 
 	/**
 	 * returns an internal Nextcloud name for the given LDAP DN, false on DN outside of search DN
+	 *
 	 * @param string $fdn the dn of the user object
 	 * @param string $ldapName optional, the display name of the object
 	 * @param bool $isUser optional, whether it is a user object (otherwise group assumed)
 	 * @param bool|null $newlyMapped
-	 * @return string|false with with the name to use in Nextcloud
+	 * @param array|null $record
+	 * @return false|string with with the name to use in Nextcloud
 	 */
-	public function dn2ocname($fdn, $ldapName = null, $isUser = true, &$newlyMapped = null) {
+	public function dn2ocname($fdn, $ldapName = null, $isUser = true, &$newlyMapped = null, array $record = null) {
 		$newlyMapped = false;
 		if($isUser) {
 			$mapper = $this->getUserMapper();
@@ -541,7 +545,7 @@ class Access extends LDAPUtility implements IUserTools {
 		}
 
 		//second try: get the UUID and check if it is known. Then, update the DN and return the name.
-		$uuid = $this->getUUID($fdn, $isUser);
+		$uuid = $this->getUUID($fdn, $isUser, $record);
 		if(is_string($uuid)) {
 			$ncName = $mapper->getNameByUUID($uuid);
 			if(is_string($ncName)) {
@@ -800,7 +804,7 @@ class Access extends LDAPUtility implements IUserTools {
 	 * utilizing the login filter.
 	 *
 	 * @param string $loginName
-	 * @return array
+	 * @return int
 	 */
 	public function countUsersByLoginName($loginName) {
 		$loginName = $this->escapeFilterPart($loginName);
@@ -814,11 +818,22 @@ class Access extends LDAPUtility implements IUserTools {
 	 * @param string|string[] $attr
 	 * @param int $limit
 	 * @param int $offset
+	 * @param bool $forceApplyAttributes
 	 * @return array
 	 */
-	public function fetchListOfUsers($filter, $attr, $limit = null, $offset = null) {
+	public function fetchListOfUsers($filter, $attr, $limit = null, $offset = null, $forceApplyAttributes = false) {
 		$ldapRecords = $this->searchUsers($filter, $attr, $limit, $offset);
-		$this->batchApplyUserAttributes($ldapRecords);
+		$recordsToUpdate = $ldapRecords;
+		if(!$forceApplyAttributes) {
+			$isBackgroundJobModeAjax = $this->c->getConfig()
+					->getAppValue('core', 'backgroundjobs_mode', 'ajax') === 'ajax';
+			$recordsToUpdate = array_filter($ldapRecords, function($record) use ($isBackgroundJobModeAjax) {
+				$newlyMapped = false;
+				$uid = $this->dn2ocname($record['dn'][0], null, true, $newlyMapped, $record);
+				return ($uid !== false) && ($newlyMapped || $isBackgroundJobModeAjax);
+			});
+		}
+		$this->batchApplyUserAttributes($recordsToUpdate);
 		return $this->fetchList($ldapRecords, (count($attr) > 1));
 	}
 
@@ -830,16 +845,13 @@ class Access extends LDAPUtility implements IUserTools {
 	 */
 	public function batchApplyUserAttributes(array $ldapRecords){
 		$displayNameAttribute = strtolower($this->connection->ldapUserDisplayName);
-		$config = $this->c->getConfig();
-		$isBackgroundJobModeAjax = $config->getAppValue('core', 'backgroundjobs_mode', 'ajax') === 'ajax';
 		foreach($ldapRecords as $userRecord) {
 			if(!isset($userRecord[$displayNameAttribute])) {
 				// displayName is obligatory
 				continue;
 			}
-			$newlyMapped = false;
-			$ocName  = $this->dn2ocname($userRecord['dn'][0], null, true, $newlyMapped);
-			if($ocName === false || ($newlyMapped === false && !$isBackgroundJobModeAjax)) {
+			$ocName  = $this->dn2ocname($userRecord['dn'][0], null, true);
+			if($ocName === false) {
 				continue;
 			}
 			$this->cacheUserExists($ocName);
@@ -1235,7 +1247,9 @@ class Access extends LDAPUtility implements IUserTools {
 						if($key !== 'dn') {
 							$selection[$i][$key] = $this->resemblesDN($key) ?
 								$this->helper->sanitizeDN($item[$key])
-								: $item[$key];
+								: $key === 'objectguid' || $key === 'guid' ?
+									$selection[$i][$key] = $this->convertObjectGUID2Str($item[$key])
+									: $item[$key];
 						} else {
 							$selection[$i][$key] = [$this->helper->sanitizeDN($item[$key])];
 						}
@@ -1527,12 +1541,14 @@ class Access extends LDAPUtility implements IUserTools {
 
 	/**
 	 * auto-detects the directory's UUID attribute
+	 *
 	 * @param string $dn a known DN used to check against
 	 * @param bool $isUser
 	 * @param bool $force the detection should be run, even if it is not set to auto
+	 * @param array|null $ldapRecord
 	 * @return bool true on success, false otherwise
 	 */
-	private function detectUuidAttribute($dn, $isUser = true, $force = false) {
+	private function detectUuidAttribute($dn, $isUser = true, $force = false, array $ldapRecord = null) {
 		if($isUser) {
 			$uuidAttr     = 'ldapUuidUserAttribute';
 			$uuidOverride = $this->connection->ldapExpertUUIDUserAttr;
@@ -1550,10 +1566,17 @@ class Access extends LDAPUtility implements IUserTools {
 			return true;
 		}
 
-		// for now, supported attributes are entryUUID, nsuniqueid, objectGUID, ipaUniqueID
-		$testAttributes = array('entryuuid', 'nsuniqueid', 'objectguid', 'guid', 'ipauniqueid');
+		foreach(self::UUID_ATTRIBUTES as $attribute) {
+			if($ldapRecord !== null) {
+				// we have the info from LDAP already, we don't need to talk to the server again
+				if(isset($ldapRecord[$attribute])) {
+					$this->connection->$uuidAttr = $attribute;
+					return true;
+				} else {
+					continue;
+				}
+			}
 
-		foreach($testAttributes as $attribute) {
 			$value = $this->readAttribute($dn, $attribute);
 			if(is_array($value) && isset($value[0]) && !empty($value[0])) {
 				\OCP\Util::writeLog('user_ldap',
@@ -1573,9 +1596,10 @@ class Access extends LDAPUtility implements IUserTools {
 	/**
 	 * @param string $dn
 	 * @param bool $isUser
-	 * @return string|bool
+	 * @param null $ldapRecord
+	 * @return bool|string
 	 */
-	public function getUUID($dn, $isUser = true) {
+	public function getUUID($dn, $isUser = true, $ldapRecord = null) {
 		if($isUser) {
 			$uuidAttr     = 'ldapUuidUserAttribute';
 			$uuidOverride = $this->connection->ldapExpertUUIDUserAttr;
@@ -1585,14 +1609,16 @@ class Access extends LDAPUtility implements IUserTools {
 		}
 
 		$uuid = false;
-		if($this->detectUuidAttribute($dn, $isUser)) {
+		if($this->detectUuidAttribute($dn, $isUser, false, $ldapRecord)) {
 			$attr = $this->connection->$uuidAttr;
-			$uuid = $this->readAttribute($dn, $attr);
+			$uuid = isset($ldapRecord[$attr]) ? $ldapRecord[$attr] : $this->readAttribute($dn, $attr);
 			if( !is_array($uuid)
 				&& $uuidOverride !== ''
-				&& $this->detectUuidAttribute($dn, $isUser, true)) {
-					$uuid = $this->readAttribute($dn,
-												 $this->connection->$uuidAttr);
+				&& $this->detectUuidAttribute($dn, $isUser, true, $ldapRecord))
+			{
+				$uuid = isset($ldapRecord[$this->connection->$uuidAttr])
+					? $ldapRecord[$this->connection->$uuidAttr]
+					: $this->readAttribute($dn, $this->connection->$uuidAttr);
 			}
 			if(is_array($uuid) && isset($uuid[0]) && !empty($uuid[0])) {
 				$uuid = $uuid[0];

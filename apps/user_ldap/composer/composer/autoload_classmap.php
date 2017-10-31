@@ -34,6 +34,7 @@ return array(
     'OCA\\User_LDAP\\ILDAPWrapper' => $baseDir . '/../lib/ILDAPWrapper.php',
     'OCA\\User_LDAP\\IUserLDAP' => $baseDir . '/../lib/IUserLDAP.php',
     'OCA\\User_LDAP\\Jobs\\CleanUp' => $baseDir . '/../lib/Jobs/CleanUp.php',
+    'OCA\\User_LDAP\\Jobs\\Sync' => $baseDir . '/../lib/Jobs/Sync.php',
     'OCA\\User_LDAP\\Jobs\\UpdateGroups' => $baseDir . '/../lib/Jobs/UpdateGroups.php',
     'OCA\\User_LDAP\\LDAP' => $baseDir . '/../lib/LDAP.php',
     'OCA\\User_LDAP\\LDAPProvider' => $baseDir . '/../lib/LDAPProvider.php',

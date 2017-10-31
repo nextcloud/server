@@ -278,7 +278,7 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 		Util::writeLog('user_ldap',
 			'getUsers: Options: search '.$search.' limit '.$limit.' offset '.$offset.' Filter: '.$filter,
 			Util::DEBUG);
-		//do the search and translate results to owncloud names
+		//do the search and translate results to Nextcloud names
 		$ldap_users = $this->access->fetchListOfUsers(
 			$filter,
 			$this->access->userManager->getAttributes(true),

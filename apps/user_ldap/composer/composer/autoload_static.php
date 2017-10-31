@@ -49,6 +49,7 @@ class ComposerStaticInitUser_LDAP
         'OCA\\User_LDAP\\ILDAPWrapper' => __DIR__ . '/..' . '/../lib/ILDAPWrapper.php',
         'OCA\\User_LDAP\\IUserLDAP' => __DIR__ . '/..' . '/../lib/IUserLDAP.php',
         'OCA\\User_LDAP\\Jobs\\CleanUp' => __DIR__ . '/..' . '/../lib/Jobs/CleanUp.php',
+        'OCA\\User_LDAP\\Jobs\\Sync' => __DIR__ . '/..' . '/../lib/Jobs/Sync.php',
         'OCA\\User_LDAP\\Jobs\\UpdateGroups' => __DIR__ . '/..' . '/../lib/Jobs/UpdateGroups.php',
         'OCA\\User_LDAP\\LDAP' => __DIR__ . '/..' . '/../lib/LDAP.php',
         'OCA\\User_LDAP\\LDAPProvider' => __DIR__ . '/..' . '/../lib/LDAPProvider.php',

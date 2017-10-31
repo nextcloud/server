@@ -190,13 +190,6 @@ class User {
 		}
 		unset($attr);
 
-		//Email
-		$attr = strtolower($this->connection->ldapEmailAttribute);
-		if(isset($ldapEntry[$attr])) {
-			$this->updateEmail($ldapEntry[$attr][0]);
-		}
-		unset($attr);
-
 		//displayName
 		$displayName = $displayName2 = '';
 		$attr = strtolower($this->connection->ldapUserDisplayName);
@@ -214,6 +207,15 @@ class User {
 				$displayName,
 				$displayName2
 			);
+		}
+		unset($attr);
+
+		//Email
+		//email must be stored after displayname, because it would cause a user
+		//change event that will trigger fetching the display name again
+		$attr = strtolower($this->connection->ldapEmailAttribute);
+		if(isset($ldapEntry[$attr])) {
+			$this->updateEmail($ldapEntry[$attr][0]);
 		}
 		unset($attr);
 

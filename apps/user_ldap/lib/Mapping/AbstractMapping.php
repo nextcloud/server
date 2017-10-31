@@ -277,4 +277,19 @@ abstract class AbstractMapping {
 			->getTruncateTableSQL('`' . $this->getTableName() . '`');
 		return $this->dbc->prepare($sql)->execute();
 	}
+
+	/**
+	 * returns the number of entries in the mappings table
+	 *
+	 * @return int
+	 */
+	public function count() {
+		$qb = $this->dbc->getQueryBuilder();
+		$query = $qb->select($qb->createFunction('COUNT(`ldap_dn`)'))
+			->from($this->getTableName());
+		$res = $query->execute();
+		$count = $res->fetchColumn();
+		$res->closeCursor();
+		return (int)$count;
+	}
 }
