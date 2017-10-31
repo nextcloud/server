@@ -69,8 +69,9 @@ class AutoCompleteController extends Controller {
 		// result from search() – thus nothing else to do here.
 		list($results,) = $this->collaboratorSearch->search($search, $shareTypes, false, $limit, 0);
 
-		// there won't be exact matches without a search string
+		$exactMatches = $results['exact'];
 		unset($results['exact']);
+		$results = array_merge_recursive($exactMatches, $results);
 
 		$sorters = array_reverse(explode('|', $sorter));
 		$this->autoCompleteManager->runSorters($sorters, $results, [

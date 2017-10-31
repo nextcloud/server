@@ -86,4 +86,33 @@ class AutoCompleteControllerTest extends TestCase {
 		$this->assertEquals($expected, $list);	// has better error output…
 		$this->assertSame($expected, $list);
 	}
+
+	public function testGetWithExactMatch() {
+		$searchResults = [
+			'exact' => [
+				'users' => [
+					['label' => 'Bob Y.', 'value' => ['shareWith' => 'bob']],
+				],
+				'robots' => [],
+			],
+			'users' => [
+				['label' => 'Robert R.', 'value' => ['shareWith' => 'bobby']],
+			],
+		];
+
+		$expected = [
+			[ 'id' => 'bob', 'label' => 'Bob Y.', 'source' => 'users'],
+			[ 'id' => 'bobby', 'label' => 'Robert R.', 'source' => 'users'],
+		];
+
+		$this->collaboratorSearch->expects($this->once())
+			->method('search')
+			->willReturn([$searchResults, false]);
+
+		$response = $this->controller->get('bob', 'files', '42', null);
+
+		$list = $response->getData();
+		$this->assertEquals($expected, $list);	// has better error output…
+		$this->assertSame($expected, $list);
+	}
 }
