@@ -37,10 +37,24 @@ class CalendarObject extends \Sabre\CalDAV\CalendarObject {
 	 */
 	function get() {
 		$data = parent::get();
-		if ($this->isShared() && $this->objectData['classification'] === CalDavBackend::CLASSIFICATION_CONFIDENTIAL) {
-			return $this->createConfidentialObject($data);
+
+		if (!$this->isShared()) {
+			return $data;
 		}
-		return $data;
+
+		$vObject = Reader::read($data);
+
+		// remove VAlarms if calendar is shared read-only
+		if (!$this->canWrite()) {
+			$this->removeVAlarms($vObject);
+		}
+
+		// shows as busy if event is declared confidential
+		if ($this->objectData['classification'] === CalDavBackend::CLASSIFICATION_CONFIDENTIAL) {
+			$this->createConfidentialObject($vObject);
+		}
+
+		return $vObject->serialize();
 	}
 
 	protected function isShared() {
@@ -52,13 +66,10 @@ class CalendarObject extends \Sabre\CalDAV\CalendarObject {
 	}
 
 	/**
-	 * @param string $calData
-	 * @return string
+	 * @param Component\VCalendar $vObject
+	 * @return void
 	 */
-	private static function createConfidentialObject($calData) {
-
-		$vObject = Reader::read($calData);
-
+	private static function createConfidentialObject(Component\VCalendar $vObject) {
 		/** @var Component $vElement */
 		$vElement = null;
 		if(isset($vObject->VEVENT)) {
@@ -92,8 +103,27 @@ class CalendarObject extends \Sabre\CalDAV\CalendarObject {
 				}
 			}
 		}
-		
-		return $vObject->serialize();
 	}
 
+	/**
+	 * @param Component\VCalendar $vObject
+	 * @return void
+	 */
+	private function removeVAlarms(Component\VCalendar $vObject) {
+		$subcomponents = $vObject->getComponents();
+
+		foreach($subcomponents as $subcomponent) {
+			unset($subcomponent->VALARM);
+		}
+	}
+
+	/**
+	 * @return bool
+	 */
+	private function canWrite() {
+		if (isset($this->calendarInfo['{http://owncloud.org/ns}read-only'])) {
+			return !$this->calendarInfo['{http://owncloud.org/ns}read-only'];
+		}
+		return true;
+	}
 }
