@@ -26,8 +26,8 @@ class TemporaryNoTouch extends \OC\Files\Storage\Temporary {
 }
 
 class TemporaryNoCross extends \OC\Files\Storage\Temporary {
-	public function copyFromStorage(\OCP\Files\Storage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
-		return Common::copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
+	public function copyFromStorage(\OCP\Files\Storage $sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime = false) {
+		return Common::copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime);
 	}
 
 	public function moveFromStorage(\OCP\Files\Storage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
