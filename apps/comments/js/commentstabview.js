@@ -188,7 +188,8 @@
 						var $li = $(li);
 						$li.find('.avatar').avatar(undefined, 32);
 						return $li;
-					}
+					},
+					sorter: function (q, items) { return items; }
 				},
 				displayTpl: '<li>'
 				+ '<span class="avatar-name-wrapper">'
