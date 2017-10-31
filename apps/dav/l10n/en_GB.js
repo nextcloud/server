@@ -44,6 +44,9 @@ OC.L10N.register(
     "Contacts" : "Contacts",
     "Technical details" : "Technical details",
     "Remote Address: %s" : "Remote Address: %s",
-    "Request ID: %s" : "Request ID: %s"
+    "Request ID: %s" : "Request ID: %s",
+    "CalDAV server" : "CalDAV server",
+    "Send invitations to attendees" : "Send invitations to attendees",
+    "Please make sure to properly set up the email settings above." : "Please make sure to properly set up the email settings above."
 },
 "nplurals=2; plural=(n != 1);");
