@@ -108,11 +108,13 @@ class BackendTest extends TestCase {
 			[Calendar::SUBJECT_ADD, [
 				'principaluri' => 'principal/user/admin',
 				'id' => 42,
+				'uri' => 'this-uri',
 				'{DAV:}displayname' => 'Name of calendar',
 			], [], [], '', 'admin', null, ['admin']],
 			[Calendar::SUBJECT_ADD, [
 				'principaluri' => 'principal/user/admin',
 				'id' => 42,
+				'uri' => 'this-uri',
 				'{DAV:}displayname' => 'Name of calendar',
 			], [], [], 'test2', 'test2', null, ['admin']],
 
@@ -122,17 +124,20 @@ class BackendTest extends TestCase {
 			[Calendar::SUBJECT_UPDATE, [
 				'principaluri' => 'principal/user/admin',
 				'id' => 42,
+				'uri' => 'this-uri',
 				'{DAV:}displayname' => 'Name of calendar',
 			], ['shares'], [], '', 'admin', null, ['admin']],
 			// Visible change
 			[Calendar::SUBJECT_UPDATE, [
 				'principaluri' => 'principal/user/admin',
 				'id' => 42,
+				'uri' => 'this-uri',
 				'{DAV:}displayname' => 'Name of calendar',
 			], ['shares'], ['{DAV:}displayname' => 'Name'], '', 'admin', ['user1'], ['user1', 'admin']],
 			[Calendar::SUBJECT_UPDATE, [
 				'principaluri' => 'principal/user/admin',
 				'id' => 42,
+				'uri' => 'this-uri',
 				'{DAV:}displayname' => 'Name of calendar',
 			], ['shares'], ['{DAV:}displayname' => 'Name'], 'test2', 'test2', ['user1'], ['user1', 'admin']],
 
@@ -141,16 +146,19 @@ class BackendTest extends TestCase {
 			[Calendar::SUBJECT_DELETE, [
 				'principaluri' => 'principal/user/admin',
 				'id' => 42,
+				'uri' => 'this-uri',
 				'{DAV:}displayname' => 'Name of calendar',
 			], ['shares'], [], '', 'admin', [], ['admin']],
 			[Calendar::SUBJECT_DELETE, [
 				'principaluri' => 'principal/user/admin',
 				'id' => 42,
+				'uri' => 'this-uri',
 				'{DAV:}displayname' => 'Name of calendar',
 			], ['shares'], [], '', 'admin', ['user1'], ['user1', 'admin']],
 			[Calendar::SUBJECT_DELETE, [
 				'principaluri' => 'principal/user/admin',
 				'id' => 42,
+				'uri' => 'this-uri',
 				'{DAV:}displayname' => 'Name of calendar',
 			], ['shares'], [], 'test2', 'test2', ['user1'], ['user1', 'admin']],
 		];
