@@ -36,8 +36,8 @@ class Plugin extends \Sabre\CalDAV\Plugin implements ICalendarHomePlugin {
 	 * @return void
 	 */
 	public function initialize(Server $server) {
-		parent::initialize($server);
-		$server->on('propFind', [$this, 'propFind']);
+		$this->server = $server;
+		$server->on('propFind', [$this, 'propFind'], 90);
 	}
 
 	/**
@@ -52,7 +52,6 @@ class Plugin extends \Sabre\CalDAV\Plugin implements ICalendarHomePlugin {
 	 * @return void
 	 */
 	public function propFind(DAV\PropFind $propFind, DAV\INode $node) {
-		parent::propFind($propFind, $node);
 		if ($node instanceof IPrincipal) {
 			$principalUrl = $node->getPrincipalUrl();
 			$propFind->handle('{' . self::NS_CALDAV . '}calendar-home-set', function () use ($principalUrl) {
