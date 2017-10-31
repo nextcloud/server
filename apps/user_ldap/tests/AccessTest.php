@@ -48,6 +48,7 @@ use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Image;
+use OCP\IServerContainer;
 use OCP\IUserManager;
 use OCP\Notification\IManager as INotificationManager;
 use Test\TestCase;
@@ -68,6 +69,8 @@ class AccessTest extends TestCase {
 	private $userManager;
 	/** @var Helper|\PHPUnit_Framework_MockObject_MockObject */
 	private $helper;
+	/** @var  IServerContainer|\PHPUnit_Framework_MockObject_MockObject */
+	private $c;
 	/** @var Access */
 	private $access;
 
@@ -76,12 +79,14 @@ class AccessTest extends TestCase {
 		$this->ldap = $this->createMock(LDAP::class);
 		$this->userManager = $this->createMock(Manager::class);
 		$this->helper = $this->createMock(Helper::class);
+		$this->c  = $this->createMock(IServerContainer::class);
 
 		$this->access = new Access(
 			$this->connection,
 			$this->ldap,
 			$this->userManager,
-			$this->helper
+			$this->helper,
+			$this->c
 		);
 	}
 
@@ -216,7 +221,9 @@ class AccessTest extends TestCase {
 	 */
 	public function testStringResemblesDN($case) {
 		list($lw, $con, $um, $helper) = $this->getConnectorAndLdapMock();
-		$access = new Access($con, $lw, $um, $helper);
+		/** @var IServerContainer|\PHPUnit_Framework_MockObject_MockObject $c */
+		$c = $this->createMock(IServerContainer::class);
+		$access = new Access($con, $lw, $um, $helper, $c);
 
 		$lw->expects($this->exactly(1))
 			->method('explodeDN')
@@ -236,8 +243,10 @@ class AccessTest extends TestCase {
 	 */
 	public function testStringResemblesDNLDAPmod($case) {
 		list(, $con, $um, $helper) = $this->getConnectorAndLdapMock();
+		/** @var IServerContainer|\PHPUnit_Framework_MockObject_MockObject $c */
+		$c = $this->createMock(IServerContainer::class);
 		$lw = new LDAP();
-		$access = new Access($con, $lw, $um, $helper);
+		$access = new Access($con, $lw, $um, $helper, $c);
 
 		if(!function_exists('ldap_explode_dn')) {
 			$this->markTestSkipped('LDAP Module not available');
@@ -303,6 +312,10 @@ class AccessTest extends TestCase {
 			->method('get')
 			->will($this->returnValue($userMock));
 
+		$this->c->expects($this->any())
+			->method('getConfig')
+			->willReturn($this->createMock(IConfig::class));
+
 		$this->access->batchApplyUserAttributes($data);
 	}
 
@@ -343,6 +356,61 @@ class AccessTest extends TestCase {
 		$this->userManager->expects($this->never())
 			->method('get');
 
+		$this->c->expects($this->any())
+			->method('getConfig')
+			->willReturn($this->createMock(IConfig::class));
+
+		$this->access->batchApplyUserAttributes($data);
+	}
+
+	public function testBatchApplyUserAttributesDontSkip() {
+		/** @var UserMapping|\PHPUnit_Framework_MockObject_MockObject $mapperMock */
+		$mapperMock = $this->createMock(UserMapping::class);
+		$mapperMock->expects($this->any())
+			->method('getNameByDN')
+			->will($this->returnValue('a_username'));
+
+		$userMock = $this->createMock(User::class);
+
+		$this->access->connection->expects($this->any())
+			->method('__get')
+			->will($this->returnValue('displayName'));
+
+		$this->access->setUserMapper($mapperMock);
+
+		$displayNameAttribute = strtolower($this->access->connection->ldapUserDisplayName);
+		$data = [
+			[
+				'dn' => ['foobar'],
+				$displayNameAttribute => 'barfoo'
+			],
+			[
+				'dn' => ['foo'],
+				$displayNameAttribute => 'bar'
+			],
+			[
+				'dn' => ['raboof'],
+				$displayNameAttribute => 'oofrab'
+			]
+		];
+
+		$userMock->expects($this->exactly(count($data)))
+			->method('processAttributes');
+
+		$this->userManager->expects($this->exactly(count($data)))
+			->method('get')
+			->will($this->returnValue($userMock));
+
+		$configMock = $this->createMock(IConfig::class);
+		$configMock->expects($this->once())
+			->method('getAppValue')
+			->with('core', 'backgroundjobs_mode', $this->anything())
+			->willReturn('ajax');
+
+		$this->c->expects($this->any())
+			->method('getConfig')
+			->willReturn($configMock);
+
 		$this->access->batchApplyUserAttributes($data);
 	}
 
@@ -362,6 +430,8 @@ class AccessTest extends TestCase {
 	 */
 	public function testSanitizeDN($attribute) {
 		list($lw, $con, $um, $helper) = $this->getConnectorAndLdapMock();
+		/** @var IServerContainer|\PHPUnit_Framework_MockObject_MockObject $c */
+		$c = $this->createMock(IServerContainer::class);
 
 		$dnFromServer = 'cn=Mixed Cases,ou=Are Sufficient To,ou=Test,dc=example,dc=org';
 
@@ -374,7 +444,7 @@ class AccessTest extends TestCase {
 				$attribute => array('count' => 1, $dnFromServer)
 			)));
 
-		$access = new Access($con, $lw, $um, $helper);
+		$access = new Access($con, $lw, $um, $helper, $c);
 		$values = $access->readAttribute('uid=whoever,dc=example,dc=org', $attribute);
 		$this->assertSame($values[0], strtolower($dnFromServer));
 	}
