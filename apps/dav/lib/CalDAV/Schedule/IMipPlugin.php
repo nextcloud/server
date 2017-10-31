@@ -25,7 +25,6 @@ namespace OCA\DAV\CalDAV\Schedule;
 
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
-use OCP\IL10N;
 use OCP\ILogger;
 use OCP\L10N\IFactory as L10NFactory;
 use OCP\Mail\IMailer;
@@ -37,7 +36,6 @@ use Sabre\VObject\ITip\Message;
 use Sabre\VObject\Parameter;
 use Sabre\VObject\Property;
 use Sabre\VObject\Recur\EventIterator;
-use Swift_Attachment;
 /**
  * iMIP handler.
  *
@@ -135,22 +133,6 @@ class IMipPlugin extends SabreIMipPlugin {
 		$senderName = $iTipMessage->senderName ?: null;
 		$recipientName = $iTipMessage->recipientName ?: null;
 
-		switch (strtolower($iTipMessage->method)) {
-			case self::METHOD_REPLY:
-				$subject = 'Re: ' . $summary;
-				$templateName = self::METHOD_REPLY;
-				break;
-			case self::METHOD_CANCEL:
-				$subject = 'Cancelled: ' . $summary;
-				$templateName = self::METHOD_CANCEL;
-				break;
-			case self::METHOD_REQUEST:
-			default: // Treat 'REQUEST' as the default
-				$subject = $summary;
-				$templateName = self::METHOD_REQUEST;
-				break;
-		}
-
 		/** @var VEvent $vevent */
 		$vevent = $iTipMessage->message->VEVENT;
 
@@ -171,7 +153,18 @@ class IMipPlugin extends SabreIMipPlugin {
 		$meetingUrl = $vevent->URL;
 
 		$defaultVal = '--';
-		$templateParams = array(
+
+		$method = self::METHOD_REQUEST;
+		switch (strtolower($iTipMessage->method)) {
+			case self::METHOD_REPLY:
+				$method = self::METHOD_REPLY;
+				break;
+			case self::METHOD_CANCEL:
+				$method = self::METHOD_CANCEL;
+				break;
+		}
+
+		$data = array(
 			'attendee_name' => (string)$meetingAttendeeName ?: $defaultVal,
 			'invitee_name' => (string)$meetingInviteeName ?: $defaultVal,
 			'meeting_title' => (string)$meetingTitle ?: $defaultVal,
@@ -180,25 +173,46 @@ class IMipPlugin extends SabreIMipPlugin {
 			'meeting_end' => (string)$meetingEnd,
 			'meeting_url' => (string)$meetingUrl ?: $defaultVal,
 		);
-		$templates = $this->getInviteTemplates($l10n, $templateParams);
 
 		$message = $this->mailer->createMessage()
 			->setReplyTo([$sender => $senderName])
 			->setTo([$recipient => $recipientName])
-			->setSubject($subject)
-			->setPlainBody($templates[$templateName]->renderText())
 		;
-		// We need to attach the event as 'attachment'
-		// Swiftmail can't properly handle inline-multipart-based files
-		// See https://github.com/swiftmailer/swiftmailer/issues/615
-		$filename = 'event.ics'; // TODO(leon): Make file name unique, e.g. add event id
-		$contentType = 'text/calendar; method=' . $iTipMessage->method;
-		$attachment = Swift_Attachment::newInstance()
-			->setFilename($filename)
-			->setContentType($contentType)
-			->setBody($iTipMessage->message->serialize())
-		;
-		$message->getSwiftMessage()->attach($attachment);
+
+		$template = $this->mailer->createEMailTemplate('dav.calendarInvite.' . $method, $data);
+		$template->addHeader();
+
+		if ($method === self::METHOD_CANCEL) {
+			$template->setSubject('Cancelled: ' . $summary);
+			$template->addHeading($l10n->t('Event canceled'), $l10n->t('Hello %s,', [$data['attendee_name']]));
+			$template->addBodyText($l10n->t('The meeting with %s was canceled.', [$data['invitee_name']]));
+		} else if ($method === self::METHOD_REPLY) {
+			$template->setSubject('Re: ' . $summary);
+			$template->addHeading($l10n->t('Event updated'), $l10n->t('Hello %s,', [$data['attendee_name']]));
+			$template->addBodyText($l10n->t('The meeting with %s was updated.', [$data['invitee_name']]));
+		} else {
+			$template->setSubject($summary);
+			$template->addHeading($l10n->t('Event invitation'), $l10n->t('Hello %s,', [$data['attendee_name']]));
+			$template->addBodyText($l10n->t('%s has invited you to a meeting.', [$data['invitee_name']]));
+		}
+
+		$template->addBodyText($l10n->t('Title: %s', [$data['meeting_title']]));
+		$template->addBodyText($l10n->t('Description: %s', [$data['meeting_description']]));
+		$template->addBodyText($l10n->t('Start: %s', [$data['meeting_start']]));
+		$template->addBodyText($l10n->t('End: %s', [$data['meeting_end']]));
+		if ($data['meeting_url']) {
+			$template->addBodyText($l10n->t('URL: %s', [$data['meeting_url']]));
+		}
+		$template->addFooter();
+
+		$message->useTemplate($template);
+
+		$attachment = $this->mailer->createAttachment(
+			$iTipMessage->message->serialize(),
+			'event.ics',// TODO(leon): Make file name unique, e.g. add event id
+			'text/calendar; method=' . $iTipMessage->method
+		);
+		$message->attach($attachment);
 
 		try {
 			$failed = $this->mailer->send($message);
@@ -262,53 +276,6 @@ class IMipPlugin extends SabreIMipPlugin {
 		return $lastOccurrence < $currentTime;
 	}
 
-	/**
-	 * @param string $scope
-	 * @return \OCP\Mail\IEMailTemplate
-	 */
-	private function getEmptyInviteTemplate($scope) {
-		return $this->mailer->createEMailTemplate('dav.invite.' . $scope, []);
-	}
-
-	/**
-	 * @param IL10N $l10n
-	 * @param array $_
-	 * @return array
-	 */
-	private function getInviteTemplates(IL10N $l10n, array $_) {
-		$ret = [];
-		$requestTmpl = $ret[self::METHOD_REQUEST] = $this->getEmptyInviteTemplate(self::METHOD_REQUEST);
-		$replyTmpl = $ret[self::METHOD_REPLY] = $this->getEmptyInviteTemplate(self::METHOD_REPLY);
-		$cancelTmpl = $ret[self::METHOD_CANCEL] = $this->getEmptyInviteTemplate(self::METHOD_CANCEL);
-
-		$commonPlainBodyStart = $l10n->t('Hello %s,', array($_['attendee_name']));
-		$commonPlainBodyEnd = $l10n->t(
-'      Title: %s
-Description: %s
-      Start: %s
-        End: %s
-        URL: %s', array(
-			$_['meeting_title'],
-			$_['meeting_description'],
-			$_['meeting_start'],
-			$_['meeting_end'],
-			$_['meeting_url'],
-		));
-
-		$requestTmpl->addBodyText('', $commonPlainBodyStart);
-		$requestTmpl->addBodyText('', $l10n->t('%s has invited you to a meeting.', array($_['invitee_name'])));
-		$requestTmpl->addBodyText('', $commonPlainBodyEnd);
-
-		$replyTmpl->addBodyText('', $commonPlainBodyStart);
-		$replyTmpl->addBodyText('', $l10n->t('the meeting with %s was updated.', array($_['invitee_name'])));
-		$replyTmpl->addBodyText('', $commonPlainBodyEnd);
-
-		$cancelTmpl->addBodyText('', $commonPlainBodyStart);
-		$cancelTmpl->addBodyText('', $l10n->t('the meeting with %s was canceled.', array($_['invitee_name'])));
-		$cancelTmpl->addBodyText('', $commonPlainBodyEnd);
-
-		return $ret;
-	}
 
 	/**
 	 * @param Message $iTipMessage
