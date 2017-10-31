@@ -57,9 +57,7 @@ use OC\ServerNotAvailableException;
  * @package OCA\User_LDAP
  */
 class Access extends LDAPUtility implements IUserTools {
-	/**
-	 * @var \OCA\User_LDAP\Connection
-	 */
+	/** @var \OCA\User_LDAP\Connection */
 	public $connection;
 	/** @var Manager */
 	public $userManager;
@@ -86,7 +84,7 @@ class Access extends LDAPUtility implements IUserTools {
 	* @var AbstractMapping $userMapper
 	*/
 	protected $groupMapper;
-	
+
 	/**
 	 * @var \OCA\User_LDAP\Helper
 	 */
@@ -511,12 +509,14 @@ class Access extends LDAPUtility implements IUserTools {
 
 	/**
 	 * returns an internal Nextcloud name for the given LDAP DN, false on DN outside of search DN
-	 * @param string $dn the dn of the user object
+	 * @param string $fdn the dn of the user object
 	 * @param string $ldapName optional, the display name of the object
 	 * @param bool $isUser optional, whether it is a user object (otherwise group assumed)
+	 * @param bool|null $newlyMapped
 	 * @return string|false with with the name to use in Nextcloud
 	 */
-	public function dn2ocname($fdn, $ldapName = null, $isUser = true) {
+	public function dn2ocname($fdn, $ldapName = null, $isUser = true, &$newlyMapped = null) {
+		$newlyMapped = false;
 		if($isUser) {
 			$mapper = $this->getUserMapper();
 			$nameAttribute = $this->connection->ldapUserDisplayName;
@@ -526,18 +526,18 @@ class Access extends LDAPUtility implements IUserTools {
 		}
 
 		//let's try to retrieve the Nextcloud name from the mappings table
-		$ocName = $mapper->getNameByDN($fdn);
-		if(is_string($ocName)) {
-			return $ocName;
+		$ncName = $mapper->getNameByDN($fdn);
+		if(is_string($ncName)) {
+			return $ncName;
 		}
 
 		//second try: get the UUID and check if it is known. Then, update the DN and return the name.
 		$uuid = $this->getUUID($fdn, $isUser);
 		if(is_string($uuid)) {
-			$ocName = $mapper->getNameByUUID($uuid);
-			if(is_string($ocName)) {
+			$ncName = $mapper->getNameByUUID($uuid);
+			if(is_string($ncName)) {
 				$mapper->setDNbyUUID($fdn, $uuid);
-				return $ocName;
+				return $ncName;
 			}
 		} else {
 			//If the UUID can't be detected something is foul.
@@ -577,6 +577,7 @@ class Access extends LDAPUtility implements IUserTools {
 			|| (!$isUser && !\OC::$server->getGroupManager()->groupExists($intName))) {
 			if($mapper->map($fdn, $intName, $uuid)) {
 				$this->connection->setConfiguration(array('ldapCacheTTL' => $originalTTL));
+				$newlyMapped = true;
 				return $intName;
 			}
 		}
@@ -584,6 +585,7 @@ class Access extends LDAPUtility implements IUserTools {
 
 		$altName = $this->createAltInternalOwnCloudName($intName, $isUser);
 		if(is_string($altName) && $mapper->map($fdn, $altName, $uuid)) {
+			$newlyMapped = true;
 			return $altName;
 		}
 
@@ -824,8 +826,9 @@ class Access extends LDAPUtility implements IUserTools {
 				// displayName is obligatory
 				continue;
 			}
-			$ocName  = $this->dn2ocname($userRecord['dn'][0]);
-			if($ocName === false) {
+			$newlyMapped = false;
+			$ocName  = $this->dn2ocname($userRecord['dn'][0], null, true, $newlyMapped);
+			if($ocName === false || $newlyMapped === false) {
 				continue;
 			}
 			$this->cacheUserExists($ocName);
@@ -1572,7 +1575,8 @@ class Access extends LDAPUtility implements IUserTools {
 
 		$uuid = false;
 		if($this->detectUuidAttribute($dn, $isUser)) {
-			$uuid = $this->readAttribute($dn, $this->connection->$uuidAttr);
+			$attr = $this->connection->$uuidAttr;
+			$uuid = $this->readAttribute($dn, $attr);
 			if( !is_array($uuid)
 				&& $uuidOverride !== ''
 				&& $this->detectUuidAttribute($dn, $isUser, true)) {
