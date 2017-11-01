@@ -40,7 +40,7 @@ $urlGenerator = $_['urlGenerator'];
 
 	<p id="redirect-link">
 		<a href="<?php p($urlGenerator->linkToRouteAbsolute('core.ClientFlowLogin.redirectPage', ['stateToken' => $_['stateToken'], 'clientIdentifier' => $_['clientIdentifier'], 'oauthState' => $_['oauthState']])) ?>">
-			<input type="submit" class="login primary icon-confirm-white" value="<?php p('Grant access') ?>">
+			<input type="submit" class="login primary icon-confirm-white" value="<?php p($l->t('Grant access')) ?>">
 		</a>
 	</p>
 
@@ -54,7 +54,7 @@ $urlGenerator = $_['urlGenerator'];
 			<label for="password" class="infield"><?php p($l->t('Password')) ?></label>
 		</p>
 		<input type="hidden" id="serverHost" value="<?php p($_['serverHost']) ?>" />
-		<input id="submit-app-token-login" type="submit" class="login primary icon-confirm-white" value="<?php p('Grant access') ?>">
+		<input id="submit-app-token-login" type="submit" class="login primary icon-confirm-white" value="<?php p($l->t('Grant access')) ?>">
 	</fieldset>
 </div>
 
