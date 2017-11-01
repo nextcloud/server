@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Calendar" : "Kalendarz",
     "Todos" : "Zadania",
+    "Personal" : "Osobiste",
     "{actor} created calendar {calendar}" : "{actor} utworzył/-a kalendarz {calendar}",
     "You created calendar {calendar}" : "Utworzyłeś/-aś kalendarz {calendar}",
     "{actor} deleted calendar {calendar}" : "{actor} usunął/-ęła kalendarz {calendar} .",
@@ -40,7 +41,6 @@ OC.L10N.register(
     "A calendar <strong>event</strong> was modified" : "<strong>Zdarzenie</strong> kalendarza zostało zmodyfikowane",
     "A calendar <strong>todo</strong> was modified" : "Kalendarz <strong>zadań</strong> został zmieniony",
     "Contact birthdays" : "Urodziny kontaktu",
-    "Personal" : "Osobiste",
     "Contacts" : "Kontakty",
     "Technical details" : "Szczegóły techniczne",
     "Remote Address: %s" : "Adres zdalny: %s",

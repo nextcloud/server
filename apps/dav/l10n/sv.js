@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Calendar" : "Kalender",
     "Todos" : "Uppgifter",
+    "Personal" : "Privat",
     "{actor} created calendar {calendar}" : "{actor} skapade kalender {calendar}",
     "You created calendar {calendar}" : "Du skapade kalender {calendar}",
     "{actor} deleted calendar {calendar}" : "{actor} raderade kalender {calendar}",
@@ -40,7 +41,6 @@ OC.L10N.register(
     "A calendar <strong>event</strong> was modified" : "En kalender-<strong>händelse</strong> modifierades",
     "A calendar <strong>todo</strong> was modified" : "En kalender <strong>uppgift</strong> modifierades",
     "Contact birthdays" : "Födelsedagar",
-    "Personal" : "Privat",
     "Contacts" : "Kontakter",
     "Technical details" : "Tekniska detaljer",
     "Remote Address: %s" : "Extern adress: %s",

@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Calendar" : "Kalenteri",
     "Todos" : "Tehtävät",
+    "Personal" : "Henkilökohtainen",
     "{actor} created calendar {calendar}" : "{actor} loi kalenterin {calendar}",
     "You created calendar {calendar}" : "Loit kalenterin {calendar}",
     "{actor} deleted calendar {calendar}" : "{actor} poisti kalenterin {calendar}",
@@ -40,7 +41,6 @@ OC.L10N.register(
     "A calendar <strong>event</strong> was modified" : "Kalenterin <strong>tapahtumaa</strong> on muokattu",
     "A calendar <strong>todo</strong> was modified" : "Kalenterin <strong>tehtävää</strong> on muokattu",
     "Contact birthdays" : "Yhteystietojen syntymäpäivät",
-    "Personal" : "Henkilökohtainen",
     "Contacts" : "Yhteystiedot",
     "Technical details" : "Tekniset yksityiskohdat",
     "Remote Address: %s" : "Etäosoite: %s",

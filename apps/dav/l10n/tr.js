@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Calendar" : "Takvim",
     "Todos" : "Yapılacak İşler",
+    "Personal" : "Kişisel",
     "{actor} created calendar {calendar}" : "{actor}, {calendar} takvimini ekledi",
     "You created calendar {calendar}" : "{calendar} takvimini eklediniz",
     "{actor} deleted calendar {calendar}" : "{actor}, {calendar} takvimini sildi",
@@ -40,7 +41,6 @@ OC.L10N.register(
     "A calendar <strong>event</strong> was modified" : "Bir takvim <strong>etkinliği</strong> düzenlendi",
     "A calendar <strong>todo</strong> was modified" : "Bir takvim <strong>yapılacak işi</strong> düzenlendi",
     "Contact birthdays" : "Kişi doğum günleri",
-    "Personal" : "Kişisel",
     "Contacts" : "Kişiler",
     "Technical details" : "Teknik ayrıntılar",
     "Remote Address: %s" : "Uzak Adres: %s",
