@@ -1191,7 +1191,14 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 .settings-caption {
 	font-weight: bold;
 	line-height: 44px;
-	padding: 0 12px;
+	padding: 0 44px;
 	white-space: nowrap;
 	text-overflow: ellipsis;
+	// !important to overwrite specific hover and focus
+	opacity: .4 !important;
+	box-shadow: none !important;
+
+	&:not(:first-child) {
+		margin-top: 22px;
+	}
 }
