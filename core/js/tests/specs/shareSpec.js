@@ -47,7 +47,7 @@ describe('OC.Share tests', function() {
 				$file.attr('data-share-owner', input);
 				OC.Share.markFileAsShared($file);
 
-				$action = $file.find('.action-share>span');
+				$action = $file.find('.action-share>span').parent();
 				expect($action.text().trim()).toEqual(output);
 				if (_.isString(title)) {
 					expect($action.find('.remoteAddress').attr('title')).toEqual(title);
@@ -65,34 +65,34 @@ describe('OC.Share tests', function() {
 				checkOwner(
 					'User One@someserver.com',
 					'User One@…',
-					'User One@someserver.com'
+					'Shared by User One@someserver.com'
 				);
 				checkOwner(
 					'User One@someserver.com/',
 					'User One@…',
-					'User One@someserver.com'
+					'Shared by User One@someserver.com'
 				);
 				checkOwner(
 					'User One@someserver.com/root/of/owncloud',
 					'User One@…',
-					'User One@someserver.com'
+					'Shared by User One@someserver.com'
 				);
 			});
 			it('displays the user name part with domain of a remote share owner', function() {
 				checkOwner(
 					'User One@example.com@someserver.com',
 					'User One@example.com',
-					'User One@example.com@someserver.com'
+					'Shared by User One@example.com@someserver.com'
 				);
 				checkOwner(
 					'User One@example.com@someserver.com/',
 					'User One@example.com',
-					'User One@example.com@someserver.com'
+					'Shared by User One@example.com@someserver.com'
 				);
 				checkOwner(
 					'User One@example.com@someserver.com/root/of/owncloud',
 					'User One@example.com',
-					'User One@example.com@someserver.com'
+					'Shared by User One@example.com@someserver.com'
 				);
 			});
 		});
@@ -151,14 +151,14 @@ describe('OC.Share tests', function() {
 			});
 		});
 
-		describe('displaying the recipoients', function() {
+		describe('displaying the recipients', function() {
 			function checkRecipients(input, output, title) {
 				var $action;
 
 				$file.attr('data-share-recipients', input);
 				OC.Share.markFileAsShared($file, true);
 
-				$action = $file.find('.action-share>span');
+				$action = $file.find('.action-share>span').parent();
 				expect($action.text().trim()).toEqual(output);
 				if (_.isString(title)) {
 					expect($action.find('.remoteAddress').attr('title')).toEqual(title);
@@ -182,59 +182,59 @@ describe('OC.Share tests', function() {
 			it('displays the user name part of a remote recipient', function() {
 				checkRecipients(
 					'User One@someserver.com',
-					'Shared with User One@…',
-					'User One@someserver.com'
+					'User One@…',
+					'Shared with User One@someserver.com'
 				);
 				checkRecipients(
 					'User One@someserver.com/',
-					'Shared with User One@…',
-					'User One@someserver.com'
+					'User One@…',
+					'Shared with User One@someserver.com'
 				);
 				checkRecipients(
 					'User One@someserver.com/root/of/owncloud',
-					'Shared with User One@…',
-					'User One@someserver.com'
+					'User One@…',
+					'Shared with User One@someserver.com'
 				);
 			});
 			it('displays the user name part with domain of a remote share owner', function() {
 				checkRecipients(
 					'User One@example.com@someserver.com',
-					'Shared with User One@example.com',
-					'User One@example.com@someserver.com'
+					'User One@example.com',
+					'Shared with User One@example.com@someserver.com'
 				);
 				checkRecipients(
 					'User One@example.com@someserver.com/',
-					'Shared with User One@example.com',
-					'User One@example.com@someserver.com'
+					'User One@example.com',
+					'Shared with User One@example.com@someserver.com'
 				);
 				checkRecipients(
 					'User One@example.com@someserver.com/root/of/owncloud',
-					'Shared with User One@example.com',
-					'User One@example.com@someserver.com'
+					'User One@example.com',
+					'Shared with User One@example.com@someserver.com'
 				);
 			});
 			it('display multiple remote recipients', function() {
 				checkRecipients(
 					'One@someserver.com, two@otherserver.com',
-					'Shared with One@…, two@…',
-					['One@someserver.com', 'two@otherserver.com']
+					'One@… two@…',
+					['Shared with One@someserver.com', 'Shared with two@otherserver.com']
 				);
 				checkRecipients(
 					'One@someserver.com/, two@otherserver.com',
-					'Shared with One@…, two@…',
-					['One@someserver.com', 'two@otherserver.com']
+					'One@… two@…',
+					['Shared with One@someserver.com', 'Shared with two@otherserver.com']
 				);
 				checkRecipients(
 					'One@someserver.com/root/of/owncloud, two@otherserver.com',
-					'Shared with One@…, two@…',
-					['One@someserver.com', 'two@otherserver.com']
+					'One@… two@…',
+					['Shared with One@someserver.com', 'Shared with two@otherserver.com']
 				);
 			});
 			it('display mixed recipients', function() {
 				checkRecipients(
 					'One, two@otherserver.com',
-					'Shared with One, two@…',
-					['two@otherserver.com']
+					'Shared with One two@…',
+					['Shared with two@otherserver.com']
 				);
 			});
 		});

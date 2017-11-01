@@ -207,16 +207,15 @@ OC.Share = _.extend(OC.Share || {}, {
 		var parts = this._REMOTE_OWNER_REGEXP.exec(remoteAddress);
 		if (!parts) {
 			// display avatar of the user
-			var avatar = '<span class="avatar" data-userName="' + escapeHTML(remoteAddress) + '" title="' + message + escapeHTML(remoteAddress) + '"></span>';
-			var hidden = '<span class="hidden-visually">' + message + escapeHTML(remoteAddress) + '</span>';
+			var avatar = '<span class="avatar" data-userName="' + escapeHTML(remoteAddress) + '" title="' + message + " " + escapeHTML(remoteAddress) + '"></span>';
+			var hidden = '<span class="hidden-visually">' + message + " " + escapeHTML(remoteAddress) + '</span> ';
 			return avatar + hidden;
 		}
 
 		var userName = parts[1];
 		var userDomain = parts[3];
 		var server = parts[4];
-		var dir = parts[6];
-		var tooltip = userName;
+		var tooltip = message + " " + userName;
 		if (userDomain) {
 			tooltip += '@' + userDomain;
 		}
@@ -232,7 +231,7 @@ OC.Share = _.extend(OC.Share || {}, {
 		if (userDomain) {
 			html += '<span class="userDomain">@' + escapeHTML(userDomain) + '</span>';
 		}
-		html += '</span>';
+		html += '</span> ';
 		return html;
 	},
 	/**
@@ -245,7 +244,7 @@ OC.Share = _.extend(OC.Share || {}, {
 	_formatShareList: function(recipients) {
 		var _parent = this;
 		return $.map(recipients, function(recipient) {
-			recipient = _parent._formatRemoteShare(recipient, t('core', 'Shared with '));
+			recipient = _parent._formatRemoteShare(recipient, t('core', 'Shared with'));
 			return recipient;
 		});
 	},
@@ -298,7 +297,7 @@ OC.Share = _.extend(OC.Share || {}, {
 			avatars = '<span>' + t('core', 'Shared') + '</span>';
 			// even if reshared, only show "Shared by"
 			if (owner) {
-				message = t('core', 'Shared by ');
+				message = t('core', 'Shared by');
 				avatars = this._formatRemoteShare(owner, message);
 			} else if (recipients) {
 				avatars = this._formatShareList(recipients.split(', ')).join('');
