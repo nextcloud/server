@@ -16,6 +16,7 @@
 <input type="hidden" id="isPublic" name="isPublic" value="1">
 <input type="hidden" name="dir" value="<?php p($_['dir']) ?>" id="dir">
 <input type="hidden" name="downloadURL" value="<?php p($_['downloadURL']) ?>" id="downloadURL">
+<input type="hidden" name="previewURL" value="<?php p($_['previewURL']) ?>" id="previewURL">
 <input type="hidden" name="sharingToken" value="<?php p($_['sharingToken']) ?>" id="sharingToken">
 <input type="hidden" name="filename" value="<?php p($_['filename']) ?>" id="filename">
 <input type="hidden" name="mimetype" value="<?php p($_['mimetype']) ?>" id="mimetype">
