@@ -45,7 +45,7 @@ class FilesReportPlugin extends ServerPlugin {
 	const NS_OWNCLOUD = 'http://owncloud.org/ns';
 	const REPORT_NAME            = '{http://owncloud.org/ns}filter-files';
 	const SYSTEMTAG_PROPERTYNAME = '{http://owncloud.org/ns}systemtag';
-	const CIRCLE_PROPERTYNAME = '{http://owncloud.org/ns}circle';
+	const CIRCLE_PROPERTYNAME = '{http://nextcloud.com/ns}circle';
 
 	/**
 	 * Reference to main server object
@@ -343,25 +343,9 @@ class FilesReportPlugin extends ServerPlugin {
 	}
 
 	private function getCirclesFileIds($circlesIds) {
-
-		// check user permissions, if applicable
-		/*
-		if (!$this->isAdmin()) {
-			// check visibility/permission
-			$tags = $this->tagManager->getTagsByIds($circlesIds);
-			$unknownTagIds = [];
-			foreach ($tags as $tag) {
-				if (!$tag->isUserVisible()) {
-					$unknownTagIds[] = $tag->getId();
-				}
-			}
-
-			if (!empty($unknownTagIds)) {
-				throw new TagNotFoundException('Tag with ids ' . implode(', ', $unknownTagIds) . ' not found');
-			}
+		if (!\OC::$server->getAppManager()->isEnabledForUser('circles') || !class_exists('\OCA\Circles\ShareByCircleProvider')) {
+			return array();
 		}
-		*/
-
 		return \OCA\Circles\Api\v1\Circles::getFilesForCircles($circlesIds);
 	}
 
