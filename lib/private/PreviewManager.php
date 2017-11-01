@@ -360,6 +360,7 @@ class PreviewManager implements IPreview {
 			$checkImagick = new \Imagick();
 
 			$imagickProviders = [
+				'JPEG'	=> ['mimetype' => '/image\/jpeg/', 'class' => '\OC\Preview\JPEGImagick'],
 				'SVG'	=> ['mimetype' => '/image\/svg\+xml/', 'class' => '\OC\Preview\SVG'],
 				'TIFF'	=> ['mimetype' => '/image\/tiff/', 'class' => '\OC\Preview\TIFF'],
 				'PDF'	=> ['mimetype' => '/application\/pdf/', 'class' => '\OC\Preview\PDF'],
