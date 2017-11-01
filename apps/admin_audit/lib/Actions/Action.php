@@ -44,10 +44,7 @@ class Action {
 	 * @param array $elements
 	 * @param bool $obfuscateParameters
 	 */
-	public function log($text,
-						array $params,
-						array $elements,
-						$obfuscateParameters = false) {
+	public function log($text,array $params,array $elements,$obfuscateParameters = false) {
 		foreach($elements as $element) {
 			if(!isset($params[$element])) {
 				if ($obfuscateParameters) {
@@ -57,8 +54,7 @@ class Action {
 					);
 				} else {
 					$this->logger->critical(
-						sprintf(
-							'$params["'.$element.'"] was missing. Transferred value: %s',
+						sprintf('$params["'.$element.'"] was missing. Transferred value: %s',
 							print_r($params, true)
 						),
 						['app' => 'admin_audit']
@@ -81,9 +77,7 @@ class Action {
 				$text,
 				$replaceArray
 			),
-			[
-				'app' => 'admin_audit'
-			]
+			['app' => 'admin_audit']
 		);
 	}
 }
