@@ -114,6 +114,10 @@ img.icon-loading-small-dark, object.icon-loading-small-dark, video.icon-loading-
 	background-image: url('../img/actions/add.svg?v=1');
 }
 
+.icon-address {
+	background-image: url('../img/actions/address.svg?v=1');
+}
+
 .icon-audio {
 	background-image: url('../img/actions/audio.svg?v=1');
 }
