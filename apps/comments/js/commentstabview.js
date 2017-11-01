@@ -30,7 +30,7 @@
 		'{{/if}}' +
 		'    </div>' +
 		'    <form class="newCommentForm">' +
-		'        <textarea rows="1" class="message" placeholder="{{newMessagePlaceholder}}">{{message}}</textarea>' +
+		'        <div contentEditable="true" class="message" data-placeholder="{{newMessagePlaceholder}}">{{message}}</div>' +
 		'        <input class="submit icon-confirm" type="submit" value="" />' +
 		'{{#if isEditMode}}' +
 		'        <input class="cancel pull-right" type="button" value="{{cancelText}}" />' +
@@ -62,6 +62,7 @@
 		/** @lends OCA.Comments.CommentsTabView.prototype */ {
 		id: 'commentsTabView',
 		className: 'tab commentsTabView',
+		_autoCompleteData: undefined,
 
 		events: {
 			'submit .newCommentForm': '_onSubmitComment',
@@ -69,7 +70,11 @@
 			'click .action.edit': '_onClickEditComment',
 			'click .action.delete': '_onClickDeleteComment',
 			'click .cancel': '_onClickCloseComment',
-			'click .comment': '_onClickComment'
+			'click .comment': '_onClickComment',
+			'keyup div.message': '_onTextChange',
+			'change div.message': '_onTextChange',
+			'input div.message': '_onTextChange',
+			'paste div.message': '_onPaste'
 		},
 
 		_commentMaxLength: 1000,
@@ -80,11 +85,12 @@
 			this.collection.on('request', this._onRequest, this);
 			this.collection.on('sync', this._onEndRequest, this);
 			this.collection.on('add', this._onAddModel, this);
+			this.collection.on('change:message', this._onChangeModel, this);
 
 			this._commentMaxThreshold = this._commentMaxLength * 0.9;
 
 			// TODO: error handling
-			_.bindAll(this, '_onTypeComment');
+			_.bindAll(this, '_onTypeComment', '_initAutoComplete', '_onAutoComplete');
 		},
 
 		template: function(params) {
@@ -140,8 +146,10 @@
 		setFileInfo: function(fileInfo) {
 			if (fileInfo) {
 				this.model = fileInfo;
+
 				this.render();
-				this.collection.setObjectId(fileInfo.id);
+				this._initAutoComplete($('#commentsTabView').find('.newCommentForm .message'));
+				this.collection.setObjectId(this.model.id);
 				// reset to first page
 				this.collection.reset([], {silent: true});
 				this.nextPage();
@@ -164,7 +172,85 @@
 			this.delegateEvents();
 			this.$el.find('.message').on('keydown input change', this._onTypeComment);
 
-			autosize(this.$el.find('.newCommentRow textarea'))
+			autosize(this.$el.find('.newCommentRow .message'))
+		},
+
+		_initAutoComplete: function($target) {
+			var s = this;
+			var limit = 10;
+			if(!_.isUndefined(OC.appConfig.comments)) {
+				limit = OC.appConfig.comments.maxAutoCompleteResults;
+			}
+			$target.atwho({
+				at: '@',
+				limit: limit,
+				callbacks: {
+					remoteFilter: s._onAutoComplete,
+					highlighter: function (li) {
+						// misuse the highlighter callback to instead of
+						// highlighting loads the avatars.
+						var $li = $(li);
+						$li.find('.avatar').avatar(undefined, 32);
+						return $li;
+					},
+					sorter: function (q, items) { return items; }
+				},
+				displayTpl: '<li>'
+				+ '<span class="avatar-name-wrapper">'
+				+ '<div class="avatar" '
+				+ 'data-username="${id}"'	// for avatars
+				+ ' data-user="${id}"'		// for contactsmenu
+				+ ' data-user-display-name="${label}"></div>'
+				+ ' <strong>${label}</strong>'
+				+ '</span></li>',
+				insertTpl: ''
+				+ '<span class="avatar-name-wrapper">'
+				+ '<div class="avatar" '
+				+ 'data-username="${id}"'	// for avatars
+				+ ' data-user="${id}"'		// for contactsmenu
+				+ ' data-user-display-name="${label}"></div>'
+				+ ' <strong>${label}</strong>'
+				+ '</span>',
+				searchKey: "label"
+			});
+			$target.on('inserted.atwho', function (je, $el) {
+				s._postRenderItem(
+					// we need to pass the parent of the inserted element
+					// passing the whole comments form would re-apply and request
+					// avatars from the server
+					$(je.target).find(
+						'div[data-username="' + $el.find('[data-username]').data('username') + '"]'
+					).parent()
+				);
+			});
+		},
+
+		_onAutoComplete: function(query, callback) {
+			if(_.isEmpty(query)) {
+				return;
+			}
+			var s = this;
+			if(!_.isUndefined(this._autoCompleteRequestTimer)) {
+				clearTimeout(this._autoCompleteRequestTimer);
+			}
+			this._autoCompleteRequestTimer = _.delay(function() {
+				if(!_.isUndefined(this._autoCompleteRequestCall)) {
+					this._autoCompleteRequestCall.abort();
+				}
+				this._autoCompleteRequestCall = $.get(
+					OC.generateUrl('/autocomplete/get'),
+					{
+						search: query,
+						itemType: 'files',
+						itemId: s.model.get('id'),
+						sorter: 'commenters|share-recipients',
+						limit: OC.appConfig.comments.maxAutoCompleteResults
+					},
+					function (data) {
+						callback(data);
+					}
+				);
+			}, 400);
 		},
 
 		_formatItem: function(commentModel) {
@@ -215,15 +301,80 @@
 			}
 		},
 
+		/**
+		 * takes care of post-rendering after a new comment was added to the
+		 * collection
+		 *
+		 * @param model
+		 * @param collection
+		 * @param options
+		 * @private
+		 */
 		_onAddModel: function(model, collection, options) {
-			var $el = $(this.commentTemplate(this._formatItem(model)));
+			// we need to render it immediately, to ensure that the right
+			// order of comments is kept on opening comments tab
+			var $comment = $(this.commentTemplate(this._formatItem(model)));
 			if (!_.isUndefined(options.at) && collection.length > 1) {
-				this.$container.find('li').eq(options.at).before($el);
+				this.$container.find('li').eq(options.at).before($comment);
 			} else {
-				this.$container.append($el);
+				this.$container.append($comment);
+			}
+			this._postRenderItem($comment);
+			$('#commentsTabView').find('.newCommentForm div.message').text('').prop('disabled', false);
+
+			// we need to update the model, because it consists of client data
+			// only, but the server might add meta data, e.g. about mentions
+			var oldMentions = model.get('mentions');
+			var self = this;
+			model.fetch({
+				success: function (model) {
+					if(_.isEqual(oldMentions, model.get('mentions'))) {
+						// don't attempt to render if unnecessary, avoids flickering
+						return;
+					}
+					var $updated = $(self.commentTemplate(self._formatItem(model)));
+					$comment.html($updated.html());
+					self._postRenderItem($comment);
+				}
+			})
+
+		},
+
+		/**
+		 * takes care of post-rendering after a new comment was edited
+		 *
+		 * @param model
+		 * @private
+		 */
+		_onChangeModel: function (model) {
+			if(model.get('message').trim() === model.previous('message').trim()) {
+				return;
 			}
 
-			this._postRenderItem($el);
+			var $form = this.$container.find('.comment[data-id="' + model.id + '"] form');
+			var $row = $form.closest('.comment');
+			var $target = $row.data('commentEl');
+			if(_.isUndefined($target)) {
+				// ignore noise – this is only set after editing a comment and hitting post
+				return;
+			}
+			var self = this;
+
+			// we need to update the model, because it consists of client data
+			// only, but the server might add meta data, e.g. about mentions
+			model.fetch({
+				success: function (model) {
+					$target.removeClass('hidden');
+					$row.remove();
+
+					var $message = $target.find('.message');
+					$message
+						.html(self._formatMessage(model.get('message'), model.get('mentions')))
+						.find('.avatar')
+						.each(function () { $(this).avatar(); });
+					self._postRenderItem($message);
+				}
+			});
 		},
 
 		_postRenderItem: function($el) {
@@ -240,6 +391,10 @@
 			}
 
 			var $message = $el.find('.message');
+			if($message.length === 0) {
+				// it is the case when writing a comment and mentioning a person
+				$message = $el;
+			}
 			this._postRenderMessage($message);
 		},
 
@@ -261,19 +416,15 @@
 			message = escapeHTML(message).replace(/\n/g, '<br/>');
 
 			for(var i in mentions) {
+				if(!mentions.hasOwnProperty(i)) {
+					return;
+				}
 				var mention = '@' + mentions[i].mentionId;
-
-				var avatar = '<div class="avatar" '
-					+ 'data-user="' + _.escape(mentions[i].mentionId) + '"'
-					+' data-user-display-name="'
-					+ _.escape(mentions[i].mentionDisplayName) + '"></div>';
 
 				// escape possible regex characters in the name
 				mention = mention.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-				var displayName = ''
-					+ '<span class="avatar-name-wrapper">'
-					+ avatar + ' <strong>'+ _.escape(mentions[i].mentionDisplayName)+'</strong>'
-					+ '</span>';
+
+				var displayName = this._composeHTMLMention(mentions[i].mentionId, mentions[i].mentionDisplayName);
 
 				// replace every mention either at the start of the input or after a whitespace
 				// followed by a non-word character.
@@ -284,8 +435,22 @@
 					}
 				);
 			}
-
 			return message;
+		},
+
+		_composeHTMLMention: function(uid, displayName) {
+			var avatar = '<div class="avatar" '
+				+ 'data-username="' + _.escape(uid) + '"'
+				+ ' data-user="' + _.escape(uid) + '"'
+				+ ' data-user-display-name="'
+				+ _.escape(displayName) + '"></div>';
+
+			return ''
+				+ '<span class="atwho-inserted" contenteditable="false">'
+				+ '<span class="avatar-name-wrapper">'
+				+ avatar + ' <strong>'+ _.escape(displayName)+'</strong>'
+				+ '</span>'
+				+ '</span>';
 		},
 
 		nextPage: function() {
@@ -310,14 +475,24 @@
 			// spawn form
 			$comment.after($formRow);
 			$formRow.data('commentEl', $comment);
-			$formRow.find('textarea').on('keydown input change', this._onTypeComment);
+			$formRow.find('.message').on('keydown input change', this._onTypeComment);
 
 			// copy avatar element from original to avoid flickering
 			$formRow.find('.avatar:first').replaceWith($comment.find('.avatar:first').clone());
 			$formRow.find('.has-tooltip').tooltip();
 
+			var $message = $formRow.find('.message');
+			$message
+				.html(this._formatMessage(commentToEdit.get('message'), commentToEdit.get('mentions')))
+				.find('.avatar')
+				.each(function () { $(this).avatar(); });
+			this._postRenderItem($message);
+
 			// Enable autosize
-			autosize($formRow.find('textarea'));
+			autosize($formRow.find('.message'));
+
+			// enable autocomplete
+			this._initAutoComplete($formRow.find('.message'));
 
 			return false;
 		},
@@ -393,48 +568,41 @@
 		},
 
 		/**
-		 * takes care of updating comment elements after submit (either new
+		 * takes care of updating comment element states after submit (either new
 		 * comment or edit).
 		 *
 		 * @param {OC.Backbone.Model} model
 		 * @param {jQuery} $form
-		 * @param {string|undefined} commentId
 		 * @private
 		 */
-		_onSubmitSuccess: function(model, $form, commentId) {
-			var self = this;
+		_onSubmitSuccess: function(model, $form) {
 			var $submit = $form.find('.submit');
 			var $loading = $form.find('.submitLoading');
-			var $textArea = $form.find('.message');
 
-			model.fetch({
-				success: function(model) {
-					$submit.removeClass('hidden');
-					$loading.addClass('hidden');
-					var $target;
+			$submit.removeClass('hidden');
+			$loading.addClass('hidden');
+		},
 
-					if(!_.isUndefined(commentId)) {
-						var $row = $form.closest('.comment');
-						$target = $row.data('commentEl');
-						$target.removeClass('hidden');
-						$row.remove();
-					} else {
-						$target = $('.commentsTabView .comments').find('li:first');
-						$textArea.val('').prop('disabled', false);
-					}
+		_commentBodyHTML2Plain: function($el) {
+			var $comment = $el.clone();
 
-					var $message = $target.find('.message');
-					$message
-						.html(self._formatMessage(model.get('message'), model.get('mentions')))
-						.find('.avatar')
-						.each(function () { $(this).avatar(); });
-
-					self._postRenderMessage($message);
-				},
-				error: function () {
-					self._onSubmitError($form, commentId);
-				}
+			$comment.find('.avatar-name-wrapper').each(function () {
+				var $this = $(this);
+				var $inserted = $this.parent();
+				$inserted.html('@' + $this.find('.avatar').data('username'));
 			});
+
+			var oldHtml;
+			var html = $comment.html();
+			do {
+				// replace works one by one
+				oldHtml = html;
+				html = oldHtml.replace("<br>", "\n");	// preserve line breaks
+				console.warn(html)
+			} while(oldHtml !== html);
+			$comment.html(html);
+
+			return $comment.text();
 		},
 
 		_onSubmitComment: function(e) {
@@ -444,26 +612,27 @@
 			var currentUser = OC.getCurrentUser();
 			var $submit = $form.find('.submit');
 			var $loading = $form.find('.submitLoading');
-			var $textArea = $form.find('.message');
-			var message = $textArea.val().trim();
+			var $commentField = $form.find('.message');
+			var message = $commentField.text().trim();
 			e.preventDefault();
 
 			if (!message.length || message.length > this._commentMaxLength) {
 				return;
 			}
 
-			$textArea.prop('disabled', true);
+			$commentField.prop('disabled', true);
 			$submit.addClass('hidden');
 			$loading.removeClass('hidden');
 
+			message = this._commentBodyHTML2Plain($commentField);
 			if (commentId) {
 				// edit mode
 				var comment = this.collection.get(commentId);
 				comment.save({
-					message: $textArea.val()
+					message: message
 				}, {
 					success: function(model) {
-						self._onSubmitSuccess(model, $form, commentId);
+						self._onSubmitSuccess(model, $form);
 					},
 					error: function() {
 						self._onSubmitError($form, commentId);
@@ -475,7 +644,7 @@
 					actorDisplayName: currentUser.displayName,
 					actorType: 'users',
 					verb: 'comment',
-					message: $textArea.val(),
+					message: message,
 					creationDateTime: (new Date()).toUTCString()
 				}, {
 					at: 0,
@@ -485,7 +654,7 @@
 						self._onSubmitSuccess(model, $form);
 					},
 					error: function() {
-						self._onSubmitError($form);
+						self._onSubmitError($form, undefined);
 					}
 				});
 			}
@@ -511,6 +680,31 @@
 			} else {
 				OC.Notification.show(t('comments', 'Error occurred while posting comment'), {type: 'error'});
 			}
+		},
+
+		/**
+		 * ensures the contenteditable div is really empty, when user removed
+		 * all input, so that the placeholder will be shown again
+		 *
+		 * @private
+		 */
+		_onTextChange: function() {
+			var $message = $('#commentsTabView').find('.newCommentForm div.message');
+			if(!$message.text().trim().length) {
+				$message.empty();
+			}
+		},
+
+		/**
+		 * Limit pasting to plain text
+		 *
+		 * @param e
+		 * @private
+		 */
+		_onPaste: function (e) {
+			e.preventDefault();
+			var text = e.originalEvent.clipboardData.getData("text/plain");
+			document.execCommand('insertText', false, text);
 		},
 
 		/**

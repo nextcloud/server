@@ -59,4 +59,10 @@ Turning the feature off removes shared files and folders on the server for all s
 			<step>OCA\Files_Sharing\Migration\SetPasswordColumn</step>
 		</post-migration>
 	</repair-steps>
+
+	<collaboration>
+		<plugins>
+			<plugin type="autocomplete-sort">OCA\Files_Sharing\Collaboration\ShareRecipientSorter</plugin>
+		</plugins>
+	</collaboration>
 </info>

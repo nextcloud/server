@@ -106,6 +106,7 @@ use OCA\Theming\ThemingDefaults;
 
 use OCP\App\IAppManager;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Collaboration\AutoComplete\IManager;
 use OCP\Defaults;
 use OCA\Theming\Util;
 use OCP\Federation\ICloudIdManager;
@@ -1011,6 +1012,8 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerAlias('CollaboratorSearch', \OCP\Collaboration\Collaborators\ISearch::class);
 
+		$this->registerAlias(\OCP\Collaboration\AutoComplete\IManager::class, \OC\Collaboration\AutoComplete\Manager::class);
+
 		$this->registerService('SettingsManager', function (Server $c) {
 			$manager = new \OC\Settings\Manager(
 				$c->getLogger(),
@@ -1799,6 +1802,13 @@ class Server extends ServerContainer implements IServerContainer {
 	 */
 	public function getCollaboratorSearch() {
 		return $this->query('CollaboratorSearch');
+	}
+
+	/**
+	 * @return \OCP\Collaboration\AutoComplete\IManager
+	 */
+	public function getAutoCompleteManager(){
+		return $this->query(IManager::class);
 	}
 
 	/**

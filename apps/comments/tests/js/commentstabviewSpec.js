@@ -157,7 +157,7 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 			expect($comment.find('.avatar[data-user=macbeth] ~ .contactsmenu-popover').length).toEqual(1);
 
 			expect($comment.find('.avatar[data-user=banquo]').length).toEqual(1);
-			expect($comment.find('.avatar-name-wrapper:last-child strong').text()).toEqual('Lord Banquo');
+			expect($comment.find('.avatar[data-user=banquo] ~ strong').text()).toEqual('Lord Banquo');
 			expect($comment.find('.avatar[data-user=banquo] ~ .contactsmenu-popover').length).toEqual(1);
 		});
 
@@ -239,7 +239,7 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 		});
 
 		it('creates a new comment when clicking post button', function() {
-			view.$el.find('.message').val('New message');
+			view.$el.find('.message').text('New message');
 			view.$el.find('form').submit();
 
 			expect(createStub.calledOnce).toEqual(true);
@@ -253,7 +253,7 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 			});
 		});
 		it('creates a new comment with mentions when clicking post button', function() {
-			view.$el.find('.message').val('New message @anotheruser');
+			view.$el.find('.message').text('New message @anotheruser');
 			view.$el.find('form').submit();
 
 			var createStubExpectedData = {
@@ -439,7 +439,7 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 			var $formRow = view.$el.find('.newCommentRow.comment[data-id=1]');
 			expect($formRow.length).toEqual(1);
 
-			$formRow.find('textarea').val('modified message');
+			$formRow.find('div.message').text('modified message');
 			$formRow.find('form').submit();
 
 			expect(saveStub.calledOnce).toEqual(true);
@@ -451,8 +451,9 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 			// simulate the fact that save sets the attribute
 			model.set('message', 'modified\nmessage');
 			saveStub.yieldTo('success', model);
+			view.collection.get(model);
 
-			expect(fetchStub.calledOnce).toEqual(true);
+			expect(fetchStub.called).toEqual(true);
 			fetchStub.yieldTo('success', model);
 
 			// original comment element is visible again
@@ -472,7 +473,7 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 			var $formRow = view.$el.find('.newCommentRow.comment[data-id=3]');
 			expect($formRow.length).toEqual(1);
 
-			$formRow.find('textarea').val('modified\nmessage @anotheruser');
+			$formRow.find('div.message').text('modified\nmessage @anotheruser');
 			$formRow.find('form').submit();
 
 			expect(saveStub.calledOnce).toEqual(true);
@@ -485,7 +486,7 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 			model.set('message', 'modified\nmessage @anotheruser');
 			saveStub.yieldTo('success', model);
 
-			expect(fetchStub.calledOnce).toEqual(true);
+			expect(fetchStub.called).toEqual(true);
 
 			// simulate the fact that fetch sets the attribute
 			model.set('mentions', {

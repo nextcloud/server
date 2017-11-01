@@ -28,4 +28,10 @@
 			<provider>OCA\Comments\Activity\Provider</provider>
 		</providers>
 	</activity>
+
+	<collaboration>
+		<plugins>
+			<plugin type="autocomplete-sort">OCA\Comments\Collaboration\CommentersSorter</plugin>
+		</plugins>
+	</collaboration>
 </info>

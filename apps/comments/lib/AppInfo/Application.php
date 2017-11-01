@@ -22,7 +22,9 @@
 namespace OCA\Comments\AppInfo;
 
 use OCA\Comments\Controller\Notifications;
+use OCA\Comments\JSSettingsHelper;
 use OCP\AppFramework\App;
+use OCP\Util;
 
 class Application extends App {
 
@@ -31,5 +33,8 @@ class Application extends App {
 		$container = $this->getContainer();
 
 		$container->registerAlias('NotificationsController', Notifications::class);
+
+		$jsSettingsHelper = new JSSettingsHelper($container->getServer());
+		Util::connectHook('\OCP\Config', 'js', $jsSettingsHelper, 'extend');
 	}
 }
