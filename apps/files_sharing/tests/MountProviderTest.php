@@ -60,11 +60,11 @@ class MountProviderTest extends \Test\TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->config = $this->getMockBuilder('OCP\IConfig')->getMock();
-		$this->user = $this->getMockBuilder('OCP\IUser')->getMock();
+		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
+		$this->user = $this->getMockBuilder(IUser::class)->getMock();
 		$this->loader = $this->getMockBuilder('OCP\Files\Storage\IStorageFactory')->getMock();
-		$this->shareManager = $this->getMockBuilder('\OCP\Share\IManager')->getMock();
-		$this->logger = $this->getMockBuilder('\OCP\ILogger')->getMock();
+		$this->shareManager = $this->getMockBuilder(IManager::class)->getMock();
+		$this->logger = $this->getMockBuilder(ILogger::class)->getMock();
 
 		$this->provider = new MountProvider($this->config, $this->shareManager, $this->logger);
 	}

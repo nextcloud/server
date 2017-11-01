@@ -2,7 +2,7 @@
 		<div class="actions creatable hidden">
 			<div id="uploadprogresswrapper">
 				<div id="uploadprogressbar">
-					<em class="label outer" style="display:none"><span class="desktop"><?php p($l->t('Uploading @'));?></span><span class="mobile"><?php p($l->t('…'));?></span></em>
+					<em class="label outer" style="display:none"><span class="desktop"><?php p($l->t('Uploading …'));?></span><span class="mobile"><?php p($l->t('…'));?></span></em>
 				</div>
 				<button class="stop icon-close" style="display:none">
 					<span class="hidden-visually"><?php p($l->t('Cancel upload')) ?></span>
@@ -41,12 +41,14 @@
 <table id="filestable" data-allow-public-upload="<?php p($_['publicUploadEnabled'])?>" data-preview-x="32" data-preview-y="32">
 	<thead>
 		<tr>
+			<th id="headerSelection" class="hidden column-selection">
+				<input type="checkbox" id="select_all_files" class="select-all checkbox"/>
+				<label for="select_all_files">
+					<span class="hidden-visually"><?php p($l->t('Select all'))?></span>
+				</label>
+			</th>
 			<th id='headerName' class="hidden column-name">
 				<div id="headerName-container">
-					<input type="checkbox" id="select_all_files" class="select-all checkbox"/>
-					<label for="select_all_files">
-						<span class="hidden-visually"><?php p($l->t('Select all'))?></span>
-					</label>
 					<a class="name sort columntitle" data-sort="name"><span><?php p($l->t( 'Name' )); ?></span><span class="sort-indicator"></span></a>
 					<span id="selectedActionsList" class="selectedActions">
 						<a href="" class="copy-move">

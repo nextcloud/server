@@ -13,6 +13,7 @@ namespace Test\SystemTag;
 use OC\SystemTag\SystemTagManager;
 use OC\SystemTag\SystemTagObjectMapper;
 use OCP\IDBConnection;
+use OCP\IUser;
 use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -56,7 +57,7 @@ class SystemTagManagerTest extends TestCase {
 		$this->dispatcher = $this->getMockBuilder('Symfony\Component\EventDispatcher\EventDispatcherInterface')
 			->getMock();
 
-		$this->groupManager = $this->getMockBuilder('\OCP\IGroupManager')->getMock();
+		$this->groupManager = $this->getMockBuilder(IGroupManager::class)->getMock();
 
 		$this->tagManager = new SystemTagManager(
 			$this->connection,
@@ -433,7 +434,7 @@ class SystemTagManagerTest extends TestCase {
 	 * @dataProvider visibilityCheckProvider
 	 */
 	public function testVisibilityCheck($userVisible, $userAssignable, $isAdmin, $expectedResult) {
-		$user = $this->getMockBuilder('\OCP\IUser')->getMock();
+		$user = $this->getMockBuilder(IUser::class)->getMock();
 		$user->expects($this->any())
 			->method('getUID')
 			->will($this->returnValue('test'));
@@ -480,7 +481,7 @@ class SystemTagManagerTest extends TestCase {
 	 * @dataProvider assignabilityCheckProvider
 	 */
 	public function testAssignabilityCheck($userVisible, $userAssignable, $isAdmin, $expectedResult, $userGroupIds = [], $tagGroupIds = []) {
-		$user = $this->getMockBuilder('\OCP\IUser')->getMock();
+		$user = $this->getMockBuilder(IUser::class)->getMock();
 		$user->expects($this->any())
 			->method('getUID')
 			->will($this->returnValue('test'));

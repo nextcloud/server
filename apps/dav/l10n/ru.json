@@ -1,6 +1,7 @@
 { "translations": {
     "Calendar" : "Календарь",
     "Todos" : "Задачи",
+    "Personal" : "Личное",
     "{actor} created calendar {calendar}" : "{actor} создал календарь {calendar}",
     "You created calendar {calendar}" : "Вы создали календарь {calendar}",
     "{actor} deleted calendar {calendar}" : "{actor} удалил календарь {calendar}",
@@ -38,10 +39,12 @@
     "A calendar <strong>event</strong> was modified" : "<strong>Событие</strong> календаря была изменена",
     "A calendar <strong>todo</strong> was modified" : "<strong>Задача</strong> календаря была изменена",
     "Contact birthdays" : "Дни рождения контакта",
-    "Personal" : "Личное",
     "Contacts" : "Контакты",
     "Technical details" : "Технические подробности",
     "Remote Address: %s" : "Удаленный адрес: %s",
-    "Request ID: %s" : "ID запроса: %s"
+    "Request ID: %s" : "ID запроса: %s",
+    "CalDAV server" : "CalDAV сервер",
+    "Send invitations to attendees" : "Отправить приглашения",
+    "Please make sure to properly set up the email settings above." : "Пожалуйста проверьте правильность настройки почты выше."
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

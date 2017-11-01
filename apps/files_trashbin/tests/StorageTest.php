@@ -37,6 +37,7 @@ use OCP\Files\Cache\ICache;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\ILogger;
+use OCP\IUserManager;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
@@ -535,7 +536,7 @@ class StorageTest extends \Test\TestCase {
 		$tmpStorage = $this->getMockBuilder('\OC\Files\Storage\Temporary')
 			->disableOriginalConstructor()->getMock($cache);
 		$tmpStorage->expects($this->any())->method('getCache')->willReturn($cache);
-		$userManager = $this->getMockBuilder('OCP\IUserManager')
+		$userManager = $this->getMockBuilder(IUserManager::class)
 			->disableOriginalConstructor()->getMock();
 		$userManager->expects($this->any())
 			->method('userExists')->willReturn($userExists);

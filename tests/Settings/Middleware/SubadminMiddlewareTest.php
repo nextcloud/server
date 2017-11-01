@@ -34,9 +34,9 @@ class SubadminMiddlewareTest extends \Test\TestCase {
 
 	protected function setUp() {
 		parent::setUp();
-		$this->reflector = $this->getMockBuilder('\OC\AppFramework\Utility\ControllerMethodReflector')
+		$this->reflector = $this->getMockBuilder(ControllerMethodReflector::class)
 			->disableOriginalConstructor()->getMock();
-		$this->controller = $this->getMockBuilder('\OCP\AppFramework\Controller')
+		$this->controller = $this->getMockBuilder(Controller::class)
 			->disableOriginalConstructor()->getMock();
 
 		$this->subadminMiddlewareAsSubAdmin = new SubadminMiddleware($this->reflector, true);

@@ -23,6 +23,7 @@
 namespace Test\Updater;
 
 use OC\Updater\VersionCheck;
+use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\Util;
 
@@ -34,10 +35,10 @@ class VersionCheckTest extends \Test\TestCase {
 
 	public function setUp() {
 		parent::setUp();
-		$this->config = $this->getMockBuilder('\OCP\IConfig')
+		$this->config = $this->getMockBuilder(IConfig::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$clientService = $this->getMockBuilder('\OCP\Http\Client\IClientService')
+		$clientService = $this->getMockBuilder(IClientService::class)
 			->disableOriginalConstructor()
 			->getMock();
 

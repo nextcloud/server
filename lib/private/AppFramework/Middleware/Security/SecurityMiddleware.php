@@ -39,6 +39,7 @@ use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\Security\CSP\ContentSecurityPolicyManager;
 use OC\Security\CSP\ContentSecurityPolicyNonceManager;
 use OC\Security\CSRF\CsrfTokenManager;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\EmptyContentSecurityPolicy;
 use OCP\AppFramework\Http\RedirectResponse;
@@ -87,6 +88,8 @@ class SecurityMiddleware extends Middleware {
 	private $csrfTokenManager;
 	/** @var ContentSecurityPolicyNonceManager */
 	private $cspNonceManager;
+	/** @var IAppManager */
+	private $appManager;
 
 	/**
 	 * @param IRequest $request
@@ -101,6 +104,7 @@ class SecurityMiddleware extends Middleware {
 	 * @param ContentSecurityPolicyManager $contentSecurityPolicyManager
 	 * @param CSRFTokenManager $csrfTokenManager
 	 * @param ContentSecurityPolicyNonceManager $cspNonceManager
+	 * @param IAppManager $appManager
 	 */
 	public function __construct(IRequest $request,
 								ControllerMethodReflector $reflector,
@@ -113,7 +117,8 @@ class SecurityMiddleware extends Middleware {
 								$isAdminUser,
 								ContentSecurityPolicyManager $contentSecurityPolicyManager,
 								CsrfTokenManager $csrfTokenManager,
-								ContentSecurityPolicyNonceManager $cspNonceManager) {
+								ContentSecurityPolicyNonceManager $cspNonceManager,
+								IAppManager $appManager) {
 		$this->navigationManager = $navigationManager;
 		$this->request = $request;
 		$this->reflector = $reflector;
@@ -126,6 +131,7 @@ class SecurityMiddleware extends Middleware {
 		$this->contentSecurityPolicyManager = $contentSecurityPolicyManager;
 		$this->csrfTokenManager = $csrfTokenManager;
 		$this->cspNonceManager = $cspNonceManager;
+		$this->appManager = $appManager;
 	}
 
 	/**
@@ -190,7 +196,7 @@ class SecurityMiddleware extends Middleware {
 		 * The getAppPath() check is here since components such as settings also use the AppFramework and
 		 * therefore won't pass this check.
 		 */
-		if(\OC_App::getAppPath($this->appName) !== false && !\OC_App::isEnabled($this->appName)) {
+		if(\OC_App::getAppPath($this->appName) !== false && !$this->appManager->isEnabledForUser($this->appName)) {
 			throw new AppNotEnabledException();
 		}
 

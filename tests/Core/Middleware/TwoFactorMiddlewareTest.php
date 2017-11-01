@@ -22,8 +22,10 @@
 
 namespace Test\Core\Middleware;
 
+use OC\Authentication\TwoFactorAuth\Manager;
 use OC\Core\Middleware\TwoFactorMiddleware;
 use OC\AppFramework\Http\Request;
+use OC\User\Session;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Utility\IControllerMethodReflector;
 use OCP\IConfig;
@@ -51,10 +53,10 @@ class TwoFactorMiddlewareTest extends TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->twoFactorManager = $this->getMockBuilder('\OC\Authentication\TwoFactorAuth\Manager')
+		$this->twoFactorManager = $this->getMockBuilder(Manager::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->userSession = $this->getMockBuilder('\OC\User\Session')
+		$this->userSession = $this->getMockBuilder(Session::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->session = $this->createMock(ISession::class);

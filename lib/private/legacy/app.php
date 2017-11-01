@@ -350,6 +350,7 @@ class OC_App {
 	 *
 	 * @param string $app app
 	 * @return bool
+	 * @deprecated 13.0.0 use \OC::$server->getAppManager()->isEnabledForUser($appId)
 	 *
 	 * This function checks whether or not an app is enabled.
 	 */
@@ -869,21 +870,6 @@ class OC_App {
 		return $appList;
 	}
 
-	/**
-	 * Returns the internal app ID or false
-	 * @param string $ocsID
-	 * @return string|false
-	 */
-	public static function getInternalAppIdByOcs($ocsID) {
-		if(is_numeric($ocsID)) {
-			$idArray = \OC::$server->getAppConfig()->getValues(false, 'ocsid');
-			if(array_search($ocsID, $idArray)) {
-				return array_search($ocsID, $idArray);
-			}
-		}
-		return false;
-	}
-
 	public static function shouldUpgrade($app) {
 		$versions = self::getAppVersions();
 		$currentVersion = OC_App::getAppVersion($app);
@@ -1161,7 +1147,7 @@ class OC_App {
 	 * @return \OC\Files\View|false
 	 */
 	public static function getStorage($appId) {
-		if (OC_App::isEnabled($appId)) { //sanity check
+		if (\OC::$server->getAppManager()->isEnabledForUser($appId)) { //sanity check
 			if (\OC::$server->getUserSession()->isLoggedIn()) {
 				$view = new \OC\Files\View('/' . OC_User::getUser());
 				if (!$view->file_exists($appId)) {

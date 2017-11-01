@@ -26,6 +26,11 @@ namespace OCA\DAV\Tests\unit\Comments;
 
 use OCA\DAV\Comments\EntityTypeCollection as EntityTypeCollectionImplementation;
 use OCP\Comments\CommentsEntityEvent;
+use OCP\Comments\ICommentsManager;
+use OCP\ILogger;
+use OCP\IUser;
+use OCP\IUserManager;
+use OCP\IUserSession;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class RootCollectionTest extends \Test\TestCase {
@@ -48,21 +53,21 @@ class RootCollectionTest extends \Test\TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->user = $this->getMockBuilder('\OCP\IUser')
+		$this->user = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->commentsManager = $this->getMockBuilder('\OCP\Comments\ICommentsManager')
+		$this->commentsManager = $this->getMockBuilder(ICommentsManager::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->userManager = $this->getMockBuilder('\OCP\IUserManager')
+		$this->userManager = $this->getMockBuilder(IUserManager::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->userSession = $this->getMockBuilder('\OCP\IUserSession')
+		$this->userSession = $this->getMockBuilder(IUserSession::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->dispatcher = new EventDispatcher();
-		$this->logger = $this->getMockBuilder('\OCP\ILogger')
+		$this->logger = $this->getMockBuilder(ILogger::class)
 			->disableOriginalConstructor()
 			->getMock();
 

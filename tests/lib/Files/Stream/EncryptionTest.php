@@ -4,6 +4,7 @@ namespace Test\Files\Stream;
 
 use OC\Files\View;
 use OC\Memcache\ArrayCache;
+use OCP\IConfig;
 
 class EncryptionTest extends \Test\TestCase {
 
@@ -29,7 +30,7 @@ class EncryptionTest extends \Test\TestCase {
 			->disableOriginalConstructor()->getMock();
 		$encStorage = $this->getMockBuilder('\OC\Files\Storage\Wrapper\Encryption')
 			->disableOriginalConstructor()->getMock();
-		$config = $this->getMockBuilder('\OCP\IConfig')
+		$config = $this->getMockBuilder(IConfig::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$arrayCache = $this->createMock(ArrayCache::class);

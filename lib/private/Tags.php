@@ -140,7 +140,7 @@ class Tags implements \OCP\ITags {
 	/**
 	* Check if any tags are saved for this type and user.
 	*
-	* @return boolean.
+	* @return boolean
 	*/
 	public function isEmpty() {
 		return count($this->tags) === 0;

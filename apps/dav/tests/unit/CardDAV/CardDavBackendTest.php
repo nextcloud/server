@@ -85,7 +85,7 @@ class CardDavBackendTest extends TestCase {
 
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
-		$this->principal = $this->getMockBuilder('OCA\DAV\Connector\Sabre\Principal')
+		$this->principal = $this->getMockBuilder(Principal::class)
 			->disableOriginalConstructor()
 			->setMethods(['getPrincipalByPath', 'getGroupMembership'])
 			->getMock();

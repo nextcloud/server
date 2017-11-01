@@ -23,10 +23,13 @@
 
 namespace OCA\Files_External\Tests;
 
+use OCA\Files_External\Lib\DefinitionParameter;
+use OCA\Files_External\Lib\StorageConfig;
+
 class FrontendDefinitionTraitTest extends \Test\TestCase {
 
 	public function testJsonSerialization() {
-		$param = $this->getMockBuilder('\OCA\Files_External\Lib\DefinitionParameter')
+		$param = $this->getMockBuilder(DefinitionParameter::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$param->method('getName')->willReturn('foo');
@@ -60,7 +63,7 @@ class FrontendDefinitionTraitTest extends \Test\TestCase {
 	public function testValidateStorage($expectedSuccess, $params) {
 		$backendParams = [];
 		foreach ($params as $name => $valid) {
-			$param = $this->getMockBuilder('\OCA\Files_External\Lib\DefinitionParameter')
+			$param = $this->getMockBuilder(DefinitionParameter::class)
 				->disableOriginalConstructor()
 				->getMock();
 			$param->method('getName')
@@ -73,7 +76,7 @@ class FrontendDefinitionTraitTest extends \Test\TestCase {
 			$backendParams[] = $param;
 		}
 
-		$storageConfig = $this->getMockBuilder('\OCA\Files_External\Lib\StorageConfig')
+		$storageConfig = $this->getMockBuilder(StorageConfig::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$storageConfig->expects($this->any())
@@ -90,7 +93,7 @@ class FrontendDefinitionTraitTest extends \Test\TestCase {
 	}
 
 	public function testValidateStorageSet() {
-		$param = $this->getMockBuilder('\OCA\Files_External\Lib\DefinitionParameter')
+		$param = $this->getMockBuilder(DefinitionParameter::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$param->method('getName')
@@ -102,7 +105,7 @@ class FrontendDefinitionTraitTest extends \Test\TestCase {
 				return true;
 			}));
 
-		$storageConfig = $this->getMockBuilder('\OCA\Files_External\Lib\StorageConfig')
+		$storageConfig = $this->getMockBuilder(StorageConfig::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$storageConfig->expects($this->once())

@@ -13,7 +13,9 @@ use OC\Files\FileInfo;
 use OC\Files\Mount\Manager;
 use OC\Files\Node\Folder;
 use OC\Files\View;
+use OCP\IConfig;
 use OCP\ILogger;
+use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 
@@ -37,15 +39,15 @@ class RootTest extends \Test\TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$config = $this->getMockBuilder('\OCP\IConfig')
+		$config = $this->getMockBuilder(IConfig::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$urlgenerator = $this->getMockBuilder('\OCP\IURLGenerator')
+		$urlgenerator = $this->getMockBuilder(IURLGenerator::class)
 			->disableOriginalConstructor()
 			->getMock();
 
 		$this->user = new \OC\User\User('', new \Test\Util\User\Dummy, null, $config, $urlgenerator);
-		$this->manager = $this->getMockBuilder('\OC\Files\Mount\Manager')
+		$this->manager = $this->getMockBuilder(Manager::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->userMountCache = $this->getMockBuilder('\OCP\Files\Config\IUserMountCache')
@@ -69,7 +71,7 @@ class RootTest extends \Test\TestCase {
 		/**
 		 * @var \OC\Files\View | \PHPUnit_Framework_MockObject_MockObject $view
 		 */
-		$view = $this->getMockBuilder('\OC\Files\View')
+		$view = $this->getMockBuilder(View::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$root = new \OC\Files\Node\Root(
@@ -105,7 +107,7 @@ class RootTest extends \Test\TestCase {
 		/**
 		 * @var \OC\Files\View | \PHPUnit_Framework_MockObject_MockObject $view
 		 */
-		$view = $this->getMockBuilder('\OC\Files\View')
+		$view = $this->getMockBuilder(View::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$root = new \OC\Files\Node\Root(
@@ -133,7 +135,7 @@ class RootTest extends \Test\TestCase {
 		/**
 		 * @var \OC\Files\View | \PHPUnit_Framework_MockObject_MockObject $view
 		 */
-		$view = $this->getMockBuilder('\OC\Files\View')
+		$view = $this->getMockBuilder(View::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$root = new \OC\Files\Node\Root(
@@ -155,7 +157,7 @@ class RootTest extends \Test\TestCase {
 		/**
 		 * @var \OC\Files\View | \PHPUnit_Framework_MockObject_MockObject $view
 		 */
-		$view = $this->getMockBuilder('\OC\Files\View')
+		$view = $this->getMockBuilder(View::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$root = new \OC\Files\Node\Root(

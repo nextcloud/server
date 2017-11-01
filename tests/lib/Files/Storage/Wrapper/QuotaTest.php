@@ -185,7 +185,7 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 	}
 
 	public function testSpaceRoot() {
-		$storage = $this->getMockBuilder('\OC\Files\Storage\Local')->disableOriginalConstructor()->getMock();
+		$storage = $this->getMockBuilder(Local::class)->disableOriginalConstructor()->getMock();
 		$cache = $this->getMockBuilder('\OC\Files\Cache\Cache')->disableOriginalConstructor()->getMock();
 		$storage->expects($this->once())
 			->method('getCache')

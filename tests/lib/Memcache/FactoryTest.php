@@ -20,6 +20,8 @@
  */
 namespace Test\Memcache;
 
+use OCP\ILogger;
+
 class Test_Factory_Available_Cache1 {
 	public function __construct($prefix = '') {
 	}
@@ -114,7 +116,7 @@ class FactoryTest extends \Test\TestCase {
 	 */
 	public function testCacheAvailability($localCache, $distributedCache, $lockingCache,
 		$expectedLocalCache, $expectedDistributedCache, $expectedLockingCache) {
-		$logger = $this->getMockBuilder('\OCP\ILogger')->getMock();
+		$logger = $this->getMockBuilder(ILogger::class)->getMock();
 		$factory = new \OC\Memcache\Factory('abc', $logger, $localCache, $distributedCache, $lockingCache);
 		$this->assertTrue(is_a($factory->createLocal(), $expectedLocalCache));
 		$this->assertTrue(is_a($factory->createDistributed(), $expectedDistributedCache));
@@ -126,7 +128,7 @@ class FactoryTest extends \Test\TestCase {
 	 * @expectedException \OC\HintException
 	 */
 	public function testCacheNotAvailableException($localCache, $distributedCache) {
-		$logger = $this->getMockBuilder('\OCP\ILogger')->getMock();
+		$logger = $this->getMockBuilder(ILogger::class)->getMock();
 		new \OC\Memcache\Factory('abc', $logger, $localCache, $distributedCache);
 	}
 }

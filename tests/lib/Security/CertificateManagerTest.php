@@ -9,6 +9,7 @@
 namespace Test\Security;
 
 use OC\Files\Storage\Temporary;
+use OC\Files\View;
 use \OC\Security\CertificateManager;
 use OCP\IConfig;
 use OCP\ILogger;
@@ -152,7 +153,7 @@ class CertificateManagerTest extends \Test\TestCase {
 								$expected
 	) {
 
-		$view = $this->getMockBuilder('OC\Files\View')
+		$view = $this->getMockBuilder(View::class)
 			->disableOriginalConstructor()->getMock();
 		$config = $this->createMock(IConfig::class);
 

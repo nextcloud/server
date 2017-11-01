@@ -26,6 +26,8 @@ namespace OCA\DAV\Tests\unit\SystemTag;
 
 
 use OC\SystemTag\SystemTag;
+use OCP\IUser;
+use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\TagNotFoundException;
 use OCP\SystemTag\TagAlreadyExistsException;
 use OCP\SystemTag\ISystemTag;
@@ -46,9 +48,9 @@ class SystemTagNodeTest extends \Test\TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->tagManager = $this->getMockBuilder('\OCP\SystemTag\ISystemTagManager')
+		$this->tagManager = $this->getMockBuilder(ISystemTagManager::class)
 			->getMock();
-		$this->user = $this->getMockBuilder('\OCP\IUser')
+		$this->user = $this->getMockBuilder(IUser::class)
 			->getMock();
 	}
 

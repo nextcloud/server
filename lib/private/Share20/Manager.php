@@ -1395,7 +1395,7 @@ class Manager implements IManager {
 
 	/**
 	 * Create a new share
-	 * @return \OCP\Share\IShare;
+	 * @return \OCP\Share\IShare
 	 */
 	public function newShare() {
 		return new \OC\Share20\Share($this->rootFolder, $this->userManager);

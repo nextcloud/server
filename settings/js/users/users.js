@@ -592,7 +592,7 @@ var UserList = {
 		if (quota === 'other') {
 			return;
 		}
-		if ((quota !== 'default' && quota !== "none") && (!OC.Util.computerFileSize(quota))) {
+		if (quota !== 'default' && quota !== "none" && OC.Util.computerFileSize(quota) === null) {
 			// the select component has added the bogus value, delete it again
 			$select.find('option[selected]').remove();
 			OC.Notification.showTemporary(t('core', 'Invalid quota value "{val}"', {val: quota}));

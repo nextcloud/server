@@ -85,16 +85,16 @@ class AvatarControllerTest extends \Test\TestCase {
 		$this->avatarManager = $this->getMockBuilder('OCP\IAvatarManager')->getMock();
 		$this->cache = $this->getMockBuilder('OCP\ICache')
 			->disableOriginalConstructor()->getMock();
-		$this->l = $this->getMockBuilder('OCP\IL10N')->getMock();
+		$this->l = $this->getMockBuilder(IL10N::class)->getMock();
 		$this->l->method('t')->will($this->returnArgument(0));
-		$this->userManager = $this->getMockBuilder('OCP\IUserManager')->getMock();
-		$this->request = $this->getMockBuilder('OCP\IRequest')->getMock();
+		$this->userManager = $this->getMockBuilder(IUserManager::class)->getMock();
+		$this->request = $this->getMockBuilder(IRequest::class)->getMock();
 		$this->rootFolder = $this->getMockBuilder('OCP\Files\IRootFolder')->getMock();
-		$this->logger = $this->getMockBuilder('OCP\ILogger')->getMock();
+		$this->logger = $this->getMockBuilder(ILogger::class)->getMock();
 		$this->timeFactory = $this->getMockBuilder('OC\AppFramework\Utility\TimeFactory')->getMock();
 
 		$this->avatarMock = $this->getMockBuilder('OCP\IAvatar')->getMock();
-		$this->userMock = $this->getMockBuilder('OCP\IUser')->getMock();
+		$this->userMock = $this->getMockBuilder(IUser::class)->getMock();
 
 		$this->avatarController = new AvatarController(
 			'core',

@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Calendar" : "日历",
     "Todos" : "待办事项",
+    "Personal" : "个人",
     "{actor} created calendar {calendar}" : "{actor} 创建了日历 {calendar}",
     "You created calendar {calendar}" : "您创建的日历 {calendar}",
     "{actor} deleted calendar {calendar}" : "{actor} 删除了日历 {calendar}",
@@ -40,7 +41,6 @@ OC.L10N.register(
     "A calendar <strong>event</strong> was modified" : "日历中<strong>事件</strong>已经修改",
     "A calendar <strong>todo</strong> was modified" : "列表中<strong>待办事项</strong>已经修改",
     "Contact birthdays" : "联系人生日",
-    "Personal" : "个人",
     "Contacts" : "联系人",
     "Technical details" : "技术细节",
     "Remote Address: %s" : "远程地址: %s",

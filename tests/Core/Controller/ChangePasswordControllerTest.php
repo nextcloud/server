@@ -29,6 +29,7 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\IUser;
 use OCP\IUserManager;
 
 class ChangePasswordControllerTest extends \Test\TestCase {
@@ -91,7 +92,7 @@ class ChangePasswordControllerTest extends \Test\TestCase {
 	}
 
 	public function testChangePersonalPasswordCommonPassword() {
-		$user = $this->getMockBuilder('OCP\IUser')->getMock();
+		$user = $this->getMockBuilder(IUser::class)->getMock();
 		$this->userManager->expects($this->once())
 			->method('checkPassword')
 			->with($this->userId, 'old')
@@ -114,7 +115,7 @@ class ChangePasswordControllerTest extends \Test\TestCase {
 	}
 
 	public function testChangePersonalPasswordNoNewPassword() {
-		$user = $this->getMockBuilder('OCP\IUser')->getMock();
+		$user = $this->getMockBuilder(IUser::class)->getMock();
 		$this->userManager->expects($this->once())
 			->method('checkPassword')
 			->with($this->userId, 'old')
@@ -130,7 +131,7 @@ class ChangePasswordControllerTest extends \Test\TestCase {
 	}
 
 	public function testChangePersonalPasswordCantSetPassword() {
-		$user = $this->getMockBuilder('OCP\IUser')->getMock();
+		$user = $this->getMockBuilder(IUser::class)->getMock();
 		$this->userManager->expects($this->once())
 			->method('checkPassword')
 			->with($this->userId, 'old')
@@ -150,7 +151,7 @@ class ChangePasswordControllerTest extends \Test\TestCase {
 	}
 
 	public function testChangePersonalPassword() {
-		$user = $this->getMockBuilder('OCP\IUser')->getMock();
+		$user = $this->getMockBuilder(IUser::class)->getMock();
 		$this->userManager->expects($this->once())
 			->method('checkPassword')
 			->with($this->userId, 'old')

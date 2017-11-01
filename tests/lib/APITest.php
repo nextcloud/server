@@ -8,6 +8,8 @@
 
 namespace Test;
 
+use OCP\IRequest;
+
 class APITest extends \Test\TestCase {
 
 	// Helps build a response variable
@@ -71,7 +73,7 @@ class APITest extends \Test\TestCase {
 	 * @param bool $expected
 	 */
 	public function testIsV2($scriptName, $expected) {
-		$request = $this->getMockBuilder('\OCP\IRequest')
+		$request = $this->getMockBuilder(IRequest::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$request

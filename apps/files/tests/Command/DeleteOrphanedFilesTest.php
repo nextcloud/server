@@ -27,6 +27,8 @@ namespace OCA\Files\Tests\Command;
 use OC\Files\View;
 use OCA\Files\Command\DeleteOrphanedFiles;
 use OCP\Files\StorageNotAvailableException;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 /**
@@ -87,10 +89,10 @@ class DeleteOrphanedFilesTest extends TestCase {
 	 * Test clearing orphaned files
 	 */
 	public function testClearFiles() {
-		$input = $this->getMockBuilder('Symfony\Component\Console\Input\InputInterface')
+		$input = $this->getMockBuilder(InputInterface::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$output = $this->getMockBuilder('Symfony\Component\Console\Output\OutputInterface')
+		$output = $this->getMockBuilder(OutputInterface::class)
 			->disableOriginalConstructor()
 			->getMock();
 

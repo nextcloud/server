@@ -174,6 +174,12 @@ class Provider implements IProvider {
 		}
 
 		// Fix subjects from 12.0.3 and older
+		//
+		// Do NOT Remove unless necessary
+		// Removing this will break parsing of activities that were created on
+		// Nextcloud 12, so we should keep this as long as it's acceptable.
+		// Otherwise if people upgrade over multiple releases in a short period,
+		// they will get the dead entries in their stream.
 		return [
 			'actor' => $subjectParameters[0],
 			'fileId' => (int) $event->getObjectId(),

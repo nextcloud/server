@@ -52,7 +52,7 @@ class SearchResult implements ISearchResult {
 		$this->exactIdMatches[$type->getLabel()] = 1;
 	}
 
-	public function hasExactIdMatch(SearchResultType$type) {
+	public function hasExactIdMatch(SearchResultType $type) {
 		return isset($this->exactIdMatches[$type->getLabel()]);
 	}
 
@@ -64,8 +64,10 @@ class SearchResult implements ISearchResult {
 
 		$resultArrays = [$this->result['exact'][$type], $this->result[$type]];
 		foreach($resultArrays as $resultArray) {
-			if ($resultArray['value']['shareWith'] === $collaboratorId) {
-				return true;
+			foreach ($resultArray as $result) {
+				if ($result['value']['shareWith'] === $collaboratorId) {
+					return true;
+				}
 			}
 		}
 

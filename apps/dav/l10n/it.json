@@ -1,6 +1,7 @@
 { "translations": {
     "Calendar" : "Calendario",
     "Todos" : "Cose da fare",
+    "Personal" : "Personale",
     "{actor} created calendar {calendar}" : "{actor} ha creato il calendario {calendar}",
     "You created calendar {calendar}" : "Hai creato il calendario {calendar}",
     "{actor} deleted calendar {calendar}" : "{actor} ha eliminato il calendario {calendar}",
@@ -38,10 +39,12 @@
     "A calendar <strong>event</strong> was modified" : "Un <strong>evento</strong> del calendario è stato modificato",
     "A calendar <strong>todo</strong> was modified" : "Una <strong>cosa da fare</strong> del calendario è stata modificata",
     "Contact birthdays" : "Date di nascita dei contatti",
-    "Personal" : "Personale",
     "Contacts" : "Contatti",
     "Technical details" : "Dettagli tecnici",
     "Remote Address: %s" : "Indirizzo remoto: %s",
-    "Request ID: %s" : "ID richiesta: %s"
+    "Request ID: %s" : "ID richiesta: %s",
+    "CalDAV server" : "Server CalDAV",
+    "Send invitations to attendees" : "Invia gli inviti ai partecipanti",
+    "Please make sure to properly set up the email settings above." : "Assicurati di configurare correttamente le impostazioni di posta sopra."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

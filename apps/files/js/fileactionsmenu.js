@@ -115,6 +115,11 @@
 					item = _.extend({}, item);
 					item.displayName = item.displayName(self._context);
 				}
+				if (_.isFunction(item.iconClass)) {
+					var fileName = self._context.$file.attr('data-file');
+					item = _.extend({}, item);
+					item.iconClass = item.iconClass(fileName, self._context);
+				}
 				return item;
 			});
 			items = items.sort(function(actionA, actionB) {

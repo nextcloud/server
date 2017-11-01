@@ -184,7 +184,6 @@ OC.L10N.register(
     "Create" : "Създаване",
     "Admin Recovery Password" : "Възстановяване на администраторската парола",
     "Enter the recovery password in order to recover the users files during password change" : "Въведете паролата за възстановяване, за да възстановиш файловете на потребителите при промяна на паролата.",
-    "Group name" : "Име на група",
     "Everyone" : "Всички",
     "Admins" : "Администратори",
     "Default quota" : "Стандартна квота",
@@ -239,6 +238,7 @@ OC.L10N.register(
     "Show First Run Wizard again" : "Покажи отново помощника за настройване",
     "Name" : "Име",
     "Subscribe to our newsletter!" : "Абонирайте се за нашата емисия!",
-    "Show last log in" : "Покажи последно вписване"
+    "Show last log in" : "Покажи последно вписване",
+    "Group name" : "Име на група"
 },
 "nplurals=2; plural=(n != 1);");

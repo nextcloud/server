@@ -38,11 +38,11 @@ class IMipPluginTest extends TestCase {
 	public function testDelivery() {
 		$mailMessage = new \OC\Mail\Message(new \Swift_Message());
 		/** @var Mailer | \PHPUnit_Framework_MockObject_MockObject $mailer */
-		$mailer = $this->getMockBuilder('OC\Mail\Mailer')->disableOriginalConstructor()->getMock();
+		$mailer = $this->getMockBuilder(Mailer::class)->disableOriginalConstructor()->getMock();
 		$mailer->method('createMessage')->willReturn($mailMessage);
 		$mailer->expects($this->once())->method('send');
 		/** @var ILogger | \PHPUnit_Framework_MockObject_MockObject $logger */
-		$logger = $this->getMockBuilder('OC\Log')->disableOriginalConstructor()->getMock();
+		$logger = $this->getMockBuilder(ILogger::class)->disableOriginalConstructor()->getMock();
 		$timeFactory = $this->getMockBuilder(ITimeFactory::class)->disableOriginalConstructor()->getMock();
 		$timeFactory->method('getTime')->willReturn(1);
 
@@ -70,11 +70,11 @@ class IMipPluginTest extends TestCase {
 	public function testFailedDelivery() {
 		$mailMessage = new \OC\Mail\Message(new \Swift_Message());
 		/** @var Mailer | \PHPUnit_Framework_MockObject_MockObject $mailer */
-		$mailer = $this->getMockBuilder('OC\Mail\Mailer')->disableOriginalConstructor()->getMock();
+		$mailer = $this->getMockBuilder(Mailer::class)->disableOriginalConstructor()->getMock();
 		$mailer->method('createMessage')->willReturn($mailMessage);
 		$mailer->method('send')->willThrowException(new \Exception());
 		/** @var ILogger | \PHPUnit_Framework_MockObject_MockObject $logger */
-		$logger = $this->getMockBuilder('OC\Log')->disableOriginalConstructor()->getMock();
+		$logger = $this->getMockBuilder(ILogger::class)->disableOriginalConstructor()->getMock();
 		$timeFactory = $this->getMockBuilder(ITimeFactory::class)->disableOriginalConstructor()->getMock();
 		$timeFactory->method('getTime')->willReturn(1);
 
@@ -105,7 +105,7 @@ class IMipPluginTest extends TestCase {
 	public function testNoMessageSendForPastEvents($veventParams, $expectsMail) {
 		$mailMessage = new \OC\Mail\Message(new \Swift_Message());
 		/** @var Mailer | \PHPUnit_Framework_MockObject_MockObject $mailer */
-		$mailer = $this->getMockBuilder('OC\Mail\Mailer')->disableOriginalConstructor()->getMock();
+		$mailer = $this->getMockBuilder(Mailer::class)->disableOriginalConstructor()->getMock();
 		$mailer->method('createMessage')->willReturn($mailMessage);
 		if ($expectsMail) {
 			$mailer->expects($this->once())->method('send');
@@ -113,7 +113,7 @@ class IMipPluginTest extends TestCase {
 			$mailer->expects($this->never())->method('send');
 		}
 		/** @var ILogger | \PHPUnit_Framework_MockObject_MockObject $logger */
-		$logger = $this->getMockBuilder('OC\Log')->disableOriginalConstructor()->getMock();
+		$logger = $this->getMockBuilder(ILogger::class)->disableOriginalConstructor()->getMock();
 		$timeFactory = $this->getMockBuilder(ITimeFactory::class)->disableOriginalConstructor()->getMock();
 		$timeFactory->method('getTime')->willReturn(1496912528);
 

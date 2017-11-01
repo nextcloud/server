@@ -80,6 +80,15 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
+	public static function closeDetailsViewButton() {
+		return Locator::forThe()->css(".icon-close")->
+				descendantOf(self::currentSectionDetailsView())->
+				describedAs("Close current section details view in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
 	public static function fileDetailsInCurrentSectionDetailsViewWithText($fileDetailsText) {
 		return Locator::forThe()->xpath("//span[normalize-space() = '$fileDetailsText']")->
 				descendantOf(self::fileDetailsInCurrentSectionDetailsView())->
@@ -278,16 +287,16 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
-	public static function favoriteActionForFile($fileName) {
-		return Locator::forThe()->css(".action-favorite")->descendantOf(self::rowForFile($fileName))->
-				describedAs("Favorite action for file $fileName in Files app");
+	public static function favoriteMarkForFile($fileName) {
+		return Locator::forThe()->css(".favorite-mark")->descendantOf(self::rowForFile($fileName))->
+				describedAs("Favorite mark for file $fileName in Files app");
 	}
 
 	/**
 	 * @return Locator
 	 */
 	public static function notFavoritedStateIconForFile($fileName) {
-		return Locator::forThe()->css(".icon-star")->descendantOf(self::favoriteActionForFile($fileName))->
+		return Locator::forThe()->css(".icon-star")->descendantOf(self::favoriteMarkForFile($fileName))->
 				describedAs("Not favorited state icon for file $fileName in Files app");
 	}
 
@@ -295,7 +304,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function favoritedStateIconForFile($fileName) {
-		return Locator::forThe()->css(".icon-starred")->descendantOf(self::favoriteActionForFile($fileName))->
+		return Locator::forThe()->css(".icon-starred")->descendantOf(self::favoriteMarkForFile($fileName))->
 				describedAs("Favorited state icon for file $fileName in Files app");
 	}
 
@@ -341,6 +350,20 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
+	public static function addToFavoritesMenuItem() {
+		return self::fileActionsMenuItemFor("Add to favorites");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function removeFromFavoritesMenuItem() {
+		return self::fileActionsMenuItemFor("Remove from favorites");
+	}
+
+	/**
+	 * @return Locator
+	 */
 	public static function viewFileInFolderMenuItem() {
 		return self::fileActionsMenuItemFor("View in folder");
 	}
@@ -374,6 +397,13 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	}
 
 	/**
+	 * @Given I close the details view
+	 */
+	public function iCloseTheDetailsView() {
+		$this->actor->find(self::closeDetailsViewButton(), 10)->click();
+	}
+
+	/**
 	 * @Given I open the input field for tags in the details view
 	 */
 	public function iOpenTheInputFieldForTagsInTheDetailsView() {
@@ -393,7 +423,9 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	public function iMarkAsFavorite($fileName) {
 		$this->iSeeThatIsNotMarkedAsFavorite($fileName);
 
-		$this->actor->find(self::favoriteActionForFile($fileName), 10)->click();
+		$this->actor->find(self::fileActionsMenuButtonForFile($fileName), 10)->click();
+
+		$this->actor->find(self::addToFavoritesMenuItem(), 2)->click();
 	}
 
 	/**
@@ -402,7 +434,9 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	public function iUnmarkAsFavorite($fileName) {
 		$this->iSeeThatIsMarkedAsFavorite($fileName);
 
-		$this->actor->find(self::favoriteActionForFile($fileName), 10)->click();
+		$this->actor->find(self::fileActionsMenuButtonForFile($fileName), 10)->click();
+
+		$this->actor->find(self::removeFromFavoritesMenuItem(), 2)->click();
 	}
 
 	/**

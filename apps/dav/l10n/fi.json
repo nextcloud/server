@@ -1,6 +1,7 @@
 { "translations": {
     "Calendar" : "Kalenteri",
     "Todos" : "Tehtävät",
+    "Personal" : "Henkilökohtainen",
     "{actor} created calendar {calendar}" : "{actor} loi kalenterin {calendar}",
     "You created calendar {calendar}" : "Loit kalenterin {calendar}",
     "{actor} deleted calendar {calendar}" : "{actor} poisti kalenterin {calendar}",
@@ -38,10 +39,12 @@
     "A calendar <strong>event</strong> was modified" : "Kalenterin <strong>tapahtumaa</strong> on muokattu",
     "A calendar <strong>todo</strong> was modified" : "Kalenterin <strong>tehtävää</strong> on muokattu",
     "Contact birthdays" : "Yhteystietojen syntymäpäivät",
-    "Personal" : "Henkilökohtainen",
     "Contacts" : "Yhteystiedot",
     "Technical details" : "Tekniset yksityiskohdat",
     "Remote Address: %s" : "Etäosoite: %s",
-    "Request ID: %s" : "Pyynnön tunniste: %s"
+    "Request ID: %s" : "Pyynnön tunniste: %s",
+    "CalDAV server" : "CalDAV-palvelin",
+    "Send invitations to attendees" : "Lähetä kutsut osallistujille",
+    "Please make sure to properly set up the email settings above." : "Varmista, että määrität sähköpostiasetukset oikein yläpuolelle. "
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

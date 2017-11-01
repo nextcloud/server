@@ -10,6 +10,8 @@ namespace Test;
 
 use OC_Util;
 use OCP\App\IAppManager;
+use OCP\IConfig;
+use OCP\IUser;
 
 /**
  * Class UtilTest
@@ -259,9 +261,9 @@ class UtilTest extends \Test\TestCase {
 	 * @param bool $expected expected result
 	 */
 	function testIsSharingDisabledForUser($groups, $membership, $excludedGroups, $expected) {
-		$config = $this->getMockBuilder('OCP\IConfig')->disableOriginalConstructor()->getMock();
+		$config = $this->getMockBuilder(IConfig::class)->disableOriginalConstructor()->getMock();
 		$groupManager = $this->getMockBuilder('OCP\IGroupManager')->disableOriginalConstructor()->getMock();
-		$user = $this->getMockBuilder('OCP\IUser')->disableOriginalConstructor()->getMock();
+		$user = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
 
 		$config
 				->expects($this->at(0))

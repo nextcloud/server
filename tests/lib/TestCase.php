@@ -491,7 +491,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 			->method('getName')
 			->willReturn('Nextcloud');
 		/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject $l10n */
-		$l10n = $this->getMockBuilder('\OCP\IL10N')
+		$l10n = $this->getMockBuilder(IL10N::class)
 			->disableOriginalConstructor()->getMock();
 		$l10n
 			->expects($this->any())

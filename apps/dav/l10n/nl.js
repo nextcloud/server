@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Calendar" : "Kalender",
     "Todos" : "Te doen",
+    "Personal" : "Persoonlijk",
     "{actor} created calendar {calendar}" : "{actor} creëerde agenda {calendar}",
     "You created calendar {calendar}" : "Jij creëerde agenda {calendar}",
     "{actor} deleted calendar {calendar}" : "{actor} verwijderde agenda {calendar}",
@@ -40,10 +41,11 @@ OC.L10N.register(
     "A calendar <strong>event</strong> was modified" : "Een agenda <strong>gebeurtenis</strong> is aangepast",
     "A calendar <strong>todo</strong> was modified" : "Een agenda <strong>Te doen</strong> was aangepast",
     "Contact birthdays" : "Verjaardagen",
-    "Personal" : "Persoonlijk",
     "Contacts" : "Contactpersonen",
     "Technical details" : "Technische details",
     "Remote Address: %s" : "Extern adres: %s",
-    "Request ID: %s" : "Aanvraag-ID: %s"
+    "Request ID: %s" : "Aanvraag-ID: %s",
+    "CalDAV server" : "CalDAV server",
+    "Send invitations to attendees" : "Verzend uitnodigingen naar deelnemers"
 },
 "nplurals=2; plural=(n != 1);");

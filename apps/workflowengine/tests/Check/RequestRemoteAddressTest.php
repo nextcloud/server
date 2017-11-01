@@ -21,6 +21,8 @@
 
 namespace OCA\WorkflowEngine\Tests\Check;
 
+use OCP\IL10N;
+use OCP\IRequest;
 
 class RequestRemoteAddressTest extends \Test\TestCase {
 
@@ -31,7 +33,7 @@ class RequestRemoteAddressTest extends \Test\TestCase {
 	 * @return \OCP\IL10N|\PHPUnit_Framework_MockObject_MockObject
 	 */
 	protected function getL10NMock() {
-		$l = $this->getMockBuilder('OCP\IL10N')
+		$l = $this->getMockBuilder(IL10N::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$l->expects($this->any())
@@ -45,7 +47,7 @@ class RequestRemoteAddressTest extends \Test\TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->request = $this->getMockBuilder('OCP\IRequest')
+		$this->request = $this->getMockBuilder(IRequest::class)
 			->getMock();
 	}
 

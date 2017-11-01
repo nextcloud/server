@@ -26,6 +26,7 @@ namespace Test\AppFramework\Controller;
 
 use OC\AppFramework\Http\Request;
 use OCP\AppFramework\ApiController;
+use OCP\IConfig;
 
 
 class ChildApiController extends ApiController {};
@@ -41,7 +42,7 @@ class ApiControllerTest extends \Test\TestCase {
 			$this->getMockBuilder('\OCP\Security\ISecureRandom')
 				->disableOriginalConstructor()
 				->getMock(),
-			$this->getMockBuilder('\OCP\IConfig')
+			$this->getMockBuilder(IConfig::class)
 				->disableOriginalConstructor()
 				->getMock()
 		);

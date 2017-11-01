@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Calendar" : "Kalender",
     "Todos" : "Aufgaben",
+    "Personal" : "Persönlich",
     "{actor} created calendar {calendar}" : "{actor} hat den Kalender {calendar} erstellt",
     "You created calendar {calendar}" : "Du hast den Kalender {calendar} erstellt",
     "{actor} deleted calendar {calendar}" : "{actor} hat den Kalender {calendar} gelöscht",
@@ -40,13 +41,12 @@ OC.L10N.register(
     "A calendar <strong>event</strong> was modified" : "Ein Kalender-<strong>Ereignis</strong> wurde bearbeitet",
     "A calendar <strong>todo</strong> was modified" : "Eine Kalender-<strong>Aufgabe</strong> wurde bearbeitet",
     "Contact birthdays" : "Geburtstage von Kontakten",
-    "Personal" : "Persönlich",
     "Contacts" : "Kontakte",
     "Technical details" : "Technische Details",
     "Remote Address: %s" : "Entfernte Adresse: %s",
     "Request ID: %s" : "Anfragekennung: %s",
     "CalDAV server" : "CalDAV-Server",
     "Send invitations to attendees" : "Einladungen an die Teilnehmer versenden",
-    "Please make sure to properly setup the email settings above." : "Stelle sicher, dass die obigen E-Mail-Einstellungen korrekt sind."
+    "Please make sure to properly set up the email settings above." : "Bitte sicherstellen, dass die E-Mail Einstellungen oben korrekt angegeben sind."
 },
 "nplurals=2; plural=(n != 1);");

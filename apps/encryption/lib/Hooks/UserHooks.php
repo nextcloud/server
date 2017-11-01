@@ -170,11 +170,6 @@ class UserHooks implements IHook {
 	 * @return boolean|null
 	 */
 	public function login($params) {
-
-		if (!App::isEnabled('encryption')) {
-			return true;
-		}
-
 		// ensure filesystem is loaded
 		if (!\OC\Files\Filesystem::$loaded) {
 			$this->setupFS($params['uid']);
@@ -200,10 +195,7 @@ class UserHooks implements IHook {
 	 * @param array $params
 	 */
 	public function postCreateUser($params) {
-
-		if (App::isEnabled('encryption')) {
-			$this->userSetup->setupUser($params['uid'], $params['password']);
-		}
+		$this->userSetup->setupUser($params['uid'], $params['password']);
 	}
 
 	/**
@@ -213,17 +205,12 @@ class UserHooks implements IHook {
 	 * @note This method should never be called for users using client side encryption
 	 */
 	public function postDeleteUser($params) {
-
-		if (App::isEnabled('encryption')) {
-			$this->keyManager->deletePublicKey($params['uid']);
-		}
+		$this->keyManager->deletePublicKey($params['uid']);
 	}
 
 	public function prePasswordReset($params) {
-		if (App::isEnabled('encryption')) {
-			$user = $params['uid'];
-			self::$passwordResetUsers[$user] = true;
-		}
+		$user = $params['uid'];
+		self::$passwordResetUsers[$user] = true;
 	}
 
 	public function postPasswordReset($params) {

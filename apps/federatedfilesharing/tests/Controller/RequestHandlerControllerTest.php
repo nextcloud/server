@@ -29,13 +29,13 @@ namespace OCA\FederatedFileSharing\Tests;
 
 use OC\Federation\CloudIdManager;
 use OC\Files\Filesystem;
-use OCA\FederatedFileSharing\DiscoveryManager;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\FederatedFileSharing\Controller\RequestHandlerController;
 use OCP\Federation\ICloudIdManager;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
+use OCP\IConfig;
 use OCP\IUserManager;
 use OCP\Share\IShare;
 
@@ -83,14 +83,14 @@ class RequestHandlerControllerTest extends TestCase {
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 		\OC\Share\Share::registerBackend('test', 'Test\Share\Backend');
 
-		$config = $this->getMockBuilder('\OCP\IConfig')
+		$config = $this->getMockBuilder(IConfig::class)
 				->disableOriginalConstructor()->getMock();
-		$clientService = $this->getMockBuilder('\OCP\Http\Client\IClientService')->getMock();
+		$clientService = $this->getMockBuilder(IClientService::class)->getMock();
 		$httpHelperMock = $this->getMockBuilder('\OC\HTTPHelper')
 				->setConstructorArgs([$config, $clientService])
 				->getMock();
 		$httpHelperMock->expects($this->any())->method('post')->with($this->anything())->will($this->returnValue(true));
-		$this->share = $this->getMockBuilder('\OCP\Share\IShare')->getMock();
+		$this->share = $this->getMockBuilder(IShare::class)->getMock();
 		$this->federatedShareProvider = $this->getMockBuilder('OCA\FederatedFileSharing\FederatedShareProvider')
 			->disableOriginalConstructor()->getMock();
 		$this->federatedShareProvider->expects($this->any())
@@ -104,7 +104,7 @@ class RequestHandlerControllerTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 		$this->addressHandler = $this->getMockBuilder('OCA\FederatedFileSharing\AddressHandler')
 			->disableOriginalConstructor()->getMock();
-		$this->userManager = $this->getMockBuilder('OCP\IUserManager')->getMock();
+		$this->userManager = $this->getMockBuilder(IUserManager::class)->getMock();
 
 		$this->cloudIdManager = new CloudIdManager();
 

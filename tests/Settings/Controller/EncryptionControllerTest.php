@@ -24,11 +24,14 @@ namespace Tests\Settings\Controller;
 use OC\DB\Connection;
 use OC\Files\View;
 use OC\Settings\Controller\EncryptionController;
+use OCP\App\IAppManager;
+use OCA\Encryption\Migration;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IUserManager;
+use OCP\UserInterface;
 use Test\TestCase;
 
 /**
@@ -51,32 +54,36 @@ class EncryptionControllerTest extends TestCase {
 	private $view;
 	/** @var ILogger */
 	private $logger;
+	/** @var IAppManager */
+	private $appManager;
 	/** @var EncryptionController */
 	private $encryptionController;
 
 	public function setUp() {
 		parent::setUp();
-		$this->request = $this->getMockBuilder('\\OCP\\IRequest')
+		$this->request = $this->getMockBuilder(IRequest::class)
 			->disableOriginalConstructor()->getMock();
-		$this->l10n = $this->getMockBuilder('\\OCP\\IL10N')
+		$this->l10n = $this->getMockBuilder(IL10N::class)
 			->disableOriginalConstructor()->getMock();
 		$this->l10n->expects($this->any())
 			->method('t')
 			->will($this->returnCallback(function($message, array $replace) {
 				return vsprintf($message, $replace);
 			}));
-		$this->config = $this->getMockBuilder('\\OCP\\IConfig')
+		$this->config = $this->getMockBuilder(IConfig::class)
 			->disableOriginalConstructor()->getMock();
-		$this->connection = $this->getMockBuilder('\\OC\\DB\\Connection')
+		$this->connection = $this->getMockBuilder(Connection::class)
 			->disableOriginalConstructor()->getMock();
-		$this->userManager = $this->getMockBuilder('\\OCP\\IUserManager')
+		$this->userManager = $this->getMockBuilder(IUserManager::class)
 			->disableOriginalConstructor()->getMock();
-		$this->view = $this->getMockBuilder('\\OC\\Files\\View')
+		$this->view = $this->getMockBuilder(View::class)
 			->disableOriginalConstructor()->getMock();
-		$this->logger = $this->getMockBuilder('\\OCP\\ILogger')
+		$this->logger = $this->getMockBuilder(ILogger::class)
+			->disableOriginalConstructor()->getMock();
+		$this->appManager = $this->getMockBuilder('\\OCP\\App\\IAppManager')
 			->disableOriginalConstructor()->getMock();
 
-		$this->encryptionController = $this->getMockBuilder('\\OC\\Settings\\Controller\\EncryptionController')
+		$this->encryptionController = $this->getMockBuilder(EncryptionController::class)
 			->setConstructorArgs([
 				'settings',
 				$this->request,
@@ -86,6 +93,7 @@ class EncryptionControllerTest extends TestCase {
 				$this->userManager,
 				$this->view,
 				$this->logger,
+				$this->appManager,
 			])
 			->setMethods(['getMigration'])
 			->getMock();
@@ -95,7 +103,7 @@ class EncryptionControllerTest extends TestCase {
 		// we need to be able to autoload the class we're mocking
 		\OC_App::registerAutoloading('encryption', \OC_App::getAppPath('encryption'));
 
-		$migration = $this->getMockBuilder('\\OCA\\Encryption\\Migration')
+		$migration = $this->getMockBuilder(Migration::class)
 			->disableOriginalConstructor()->getMock();
 		$this->encryptionController
 			->expects($this->once())
@@ -108,7 +116,7 @@ class EncryptionControllerTest extends TestCase {
 		$migration
 			->expects($this->once())
 			->method('updateDB');
-		$backend = $this->getMockBuilder('\OCP\UserInterface')
+		$backend = $this->getMockBuilder(UserInterface::class)
 			->getMock();
 		$this->userManager
 			->expects($this->once())

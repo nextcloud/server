@@ -786,7 +786,7 @@ class FolderTest extends NodeTest {
 			->setConstructorArgs([$manager, $view, $this->user, $this->userMountCache, $this->logger, $this->userManager])
 			->getMock();
 		/** @var \PHPUnit_Framework_MockObject_MockObject|\OC\Files\FileInfo $folderInfo */
-		$folderInfo = $this->getMockBuilder('\OC\Files\FileInfo')
+		$folderInfo = $this->getMockBuilder(FileInfo::class)
 			->disableOriginalConstructor()->getMock();
 
 		$baseTime = 1000;
@@ -847,7 +847,7 @@ class FolderTest extends NodeTest {
 			->setConstructorArgs([$manager, $view, $this->user, $this->userMountCache, $this->logger, $this->userManager])
 			->getMock();
 		/** @var \PHPUnit_Framework_MockObject_MockObject|\OC\Files\FileInfo $folderInfo */
-		$folderInfo = $this->getMockBuilder('\OC\Files\FileInfo')
+		$folderInfo = $this->getMockBuilder(FileInfo::class)
 			->disableOriginalConstructor()->getMock();
 
 		$baseTime = 1000;
@@ -906,7 +906,7 @@ class FolderTest extends NodeTest {
 			->setConstructorArgs([$manager, $view, $this->user, $this->userMountCache, $this->logger, $this->userManager])
 			->getMock();
 		/** @var \PHPUnit_Framework_MockObject_MockObject|\OC\Files\FileInfo $folderInfo */
-		$folderInfo = $this->getMockBuilder('\OC\Files\FileInfo')
+		$folderInfo = $this->getMockBuilder(FileInfo::class)
 			->disableOriginalConstructor()->getMock();
 
 		$baseTime = 1000;

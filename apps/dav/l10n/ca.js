@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Calendar" : "Calendari",
     "Todos" : "Tots",
+    "Personal" : "Personal",
     "{actor} created calendar {calendar}" : "{actor} ha creat el calendari {calendar}",
     "You created calendar {calendar}" : "Vosté ha creat el calentari {calendar}",
     "{actor} deleted calendar {calendar}" : "{actor} ha esborrat el calendari {calendar}",
@@ -40,7 +41,6 @@ OC.L10N.register(
     "A calendar <strong>event</strong> was modified" : "S'ha modificat un <strong> esdeveniment </strong> del calendari",
     "A calendar <strong>todo</strong> was modified" : "<strong>Tot</strong> un calendari va ser modificat",
     "Contact birthdays" : "Aniversaris dels contactes",
-    "Personal" : "Personal",
     "Contacts" : "Contactes",
     "Technical details" : "Detalls tècnics",
     "Remote Address: %s" : "Adreça remota: %s",

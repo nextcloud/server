@@ -1,6 +1,4 @@
 #upload {
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 	height: 36px;
 	width: 39px;
@@ -26,8 +24,6 @@
 .file_upload_form { display:inline; float:left; margin:0; padding:0; cursor:pointer; overflow:visible; }
 
 #uploadprogresswrapper, #uploadprogresswrapper * {
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 }
 

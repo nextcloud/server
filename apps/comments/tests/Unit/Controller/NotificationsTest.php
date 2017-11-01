@@ -22,7 +22,17 @@
 namespace OCA\Comments\Tests\Unit\Controller;
 
 use OCA\Comments\Controller\Notifications;
+use OCP\Comments\IComment;
+use OCP\Comments\ICommentsManager;
 use OCP\Comments\NotFoundException;
+use OCP\Files\Folder;
+use OCP\Files\Node;
+use OCP\IRequest;
+use OCP\IURLGenerator;
+use OCP\IUser;
+use OCP\IUserSession;
+use OCP\Notification\IManager;
+use OCP\Notification\INotification;
 use Test\TestCase;
 
 class NotificationsTest extends TestCase {
@@ -44,24 +54,24 @@ class NotificationsTest extends TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->commentsManager = $this->getMockBuilder('\OCP\Comments\ICommentsManager')->getMock();
-		$this->folder = $this->getMockBuilder('\OCP\Files\Folder')->getMock();
-		$this->session = $this->getMockBuilder('\OCP\IUserSession')->getMock();
-		$this->notificationManager = $this->getMockBuilder('\OCP\Notification\IManager')->getMock();
+		$this->commentsManager = $this->getMockBuilder(ICommentsManager::class)->getMock();
+		$this->folder = $this->getMockBuilder(Folder::class)->getMock();
+		$this->session = $this->getMockBuilder(IUserSession::class)->getMock();
+		$this->notificationManager = $this->getMockBuilder(IManager::class)->getMock();
 
 		$this->notificationsController = new Notifications(
 			'comments',
-			$this->getMockBuilder('\OCP\IRequest')->getMock(),
+			$this->getMockBuilder(IRequest::class)->getMock(),
 			$this->commentsManager,
 			$this->folder,
-			$this->getMockBuilder('\OCP\IURLGenerator')->getMock(),
+			$this->getMockBuilder(IURLGenerator::class)->getMock(),
 			$this->notificationManager,
 			$this->session
 		);
 	}
 	
 	public function testViewSuccess() {
-		$comment = $this->getMockBuilder('\OCP\Comments\IComment')->getMock();
+		$comment = $this->getMockBuilder(IComment::class)->getMock();
 		$comment->expects($this->any())
 			->method('getObjectType')
 			->will($this->returnValue('files'));
@@ -71,7 +81,7 @@ class NotificationsTest extends TestCase {
 			->with('42')
 			->will($this->returnValue($comment));
 
-		$file = $this->getMockBuilder('\OCP\Files\Node')->getMock();
+		$file = $this->getMockBuilder(Node::class)->getMock();
 
 		$this->folder->expects($this->once())
 			->method('getById')
@@ -79,9 +89,9 @@ class NotificationsTest extends TestCase {
 
 		$this->session->expects($this->once())
 			->method('getUser')
-			->will($this->returnValue($this->getMockBuilder('\OCP\IUser')->getMock()));
+			->will($this->returnValue($this->getMockBuilder(IUser::class)->getMock()));
 
-		$notification = $this->getMockBuilder('\OCP\Notification\INotification')->getMock();
+		$notification = $this->getMockBuilder(INotification::class)->getMock();
 		$notification->expects($this->any())
 			->method($this->anything())
 			->will($this->returnValue($notification));
@@ -119,7 +129,7 @@ class NotificationsTest extends TestCase {
 	}
 
 	public function testViewNoFile() {
-		$comment = $this->getMockBuilder('\OCP\Comments\IComment')->getMock();
+		$comment = $this->getMockBuilder(IComment::class)->getMock();
 		$comment->expects($this->any())
 			->method('getObjectType')
 			->will($this->returnValue('files'));
@@ -135,9 +145,9 @@ class NotificationsTest extends TestCase {
 
 		$this->session->expects($this->once())
 			->method('getUser')
-			->will($this->returnValue($this->getMockBuilder('\OCP\IUser')->getMock()));
+			->will($this->returnValue($this->getMockBuilder(IUser::class)->getMock()));
 
-		$notification = $this->getMockBuilder('\OCP\Notification\INotification')->getMock();
+		$notification = $this->getMockBuilder(INotification::class)->getMock();
 		$notification->expects($this->any())
 			->method($this->anything())
 			->will($this->returnValue($notification));

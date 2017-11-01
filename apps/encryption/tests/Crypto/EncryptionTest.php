@@ -23,7 +23,16 @@
 
 namespace OCA\Encryption\Tests\Crypto;
 
+use OCA\Encryption\Crypto\Crypt;
+use OCA\Encryption\Crypto\DecryptAll;
+use OCA\Encryption\Crypto\EncryptAll;
 use OCA\Encryption\Exceptions\PublicKeyMissingException;
+use OCA\Encryption\KeyManager;
+use OCA\Encryption\Session;
+use OCA\Encryption\Util;
+use OCP\Files\Storage;
+use OCP\IL10N;
+use OCP\ILogger;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
@@ -64,30 +73,30 @@ class EncryptionTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->storageMock = $this->getMockBuilder('OCP\Files\Storage')
+		$this->storageMock = $this->getMockBuilder(Storage::class)
 			->disableOriginalConstructor()->getMock();
-		$this->cryptMock = $this->getMockBuilder('OCA\Encryption\Crypto\Crypt')
+		$this->cryptMock = $this->getMockBuilder(Crypt::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->utilMock = $this->getMockBuilder('OCA\Encryption\Util')
+		$this->utilMock = $this->getMockBuilder(Util::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->keyManagerMock = $this->getMockBuilder('OCA\Encryption\KeyManager')
+		$this->keyManagerMock = $this->getMockBuilder(KeyManager::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->sessionMock = $this->getMockBuilder('OCA\Encryption\Session')
+		$this->sessionMock = $this->getMockBuilder(Session::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->encryptAllMock = $this->getMockBuilder('OCA\Encryption\Crypto\EncryptAll')
+		$this->encryptAllMock = $this->getMockBuilder(EncryptAll::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->decryptAllMock = $this->getMockBuilder('OCA\Encryption\Crypto\DecryptAll')
+		$this->decryptAllMock = $this->getMockBuilder(DecryptAll::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->loggerMock = $this->getMockBuilder('OCP\ILogger')
+		$this->loggerMock = $this->getMockBuilder(ILogger::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->l10nMock = $this->getMockBuilder('OCP\IL10N')
+		$this->l10nMock = $this->getMockBuilder(IL10N::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->l10nMock->expects($this->any())

@@ -44,7 +44,7 @@ class BlockLegacyClientPluginTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->config = $this->getMockBuilder('\OCP\IConfig')
+		$this->config = $this->getMockBuilder(IConfig::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->blockLegacyClientVersionPlugin = new BlockLegacyClientPlugin($this->config);

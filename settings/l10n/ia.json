@@ -208,7 +208,6 @@
     "E-Mail" : "E-posta",
     "Create" : "Crear",
     "Admin Recovery Password" : "Recuperation de Contrasigno del Administrator",
-    "Group name" : "Nomine del gruppo",
     "Everyone" : "Totos",
     "Admins" : "Administratores",
     "Default quota" : "Quota predefinite",
@@ -244,6 +243,7 @@
     "Name" : "Nomine",
     "Follow us on Google Plus!" : "Seque nos in Google Plus!",
     "Subscribe to our twitter channel!" : "Subscribe a nostre canal Twitter!",
-    "Subscribe to our news feed!" : "Subscribe a nostre syndication de novas!"
+    "Subscribe to our news feed!" : "Subscribe a nostre syndication de novas!",
+    "Group name" : "Nomine del gruppo"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

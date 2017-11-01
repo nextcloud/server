@@ -70,7 +70,6 @@ OC.L10N.register(
     "Send email to new user" : "Stuur e-pos aan nuwe gebruiker",
     "E-Mail" : "E-pos",
     "Create" : "Skep",
-    "Group name" : "Groepnaam",
     "Everyone" : "Almal",
     "Default quota" : "Verstekkwota",
     "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")" : "Voer asb. ’n verstekkwota in (bv.: “512 MB” of “12 GB”)",
@@ -98,6 +97,7 @@ OC.L10N.register(
     "Subscribe to our twitter channel!" : "Teken in op ons twitterkanaal",
     "Subscribe to our news feed!" : "Teken in op ons nuusvoer!",
     "Subscribe to our newsletter!" : "Teken in op ons nuusbrief!",
+    "Group name" : "Groepnaam",
     "Follow us on Google+!" : "Volg ons op Google+!",
     "Follow us on Twitter!" : "Volg ons op Twitter!",
     "Check out our blog!" : "Besoek ons woernaal!"
