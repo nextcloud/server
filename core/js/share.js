@@ -301,16 +301,15 @@ OC.Share = _.extend(OC.Share || {}, {
 				message = t('core', 'Shared by ');
 				avatars = this._formatRemoteShare(owner, message);
 			} else if (recipients) {
-				avatars = this._formatShareList(recipients.split(", ")).join("");
+				avatars = this._formatShareList(recipients.split(', ')).join('');
 			}
 			action.html(avatars).prepend(icon);
 
 			if (owner || recipients) {
 				var avatarElement = action.find('.avatar');
 				avatarElement.avatar(avatarElement.data('username'), 32);
-				avatarElement.tooltip({placement: 'top'});
 
-				action.find('.remoteAddress').tooltip({placement: 'top'});
+				action.find('.icon-shared + span').tooltip({placement: 'top'});
 			}
 		} else {
 			action.html('<span class="hidden-visually">' + t('core', 'Shared') + '</span>').prepend(icon);

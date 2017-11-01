@@ -598,6 +598,10 @@ a.action > img {
 	margin-left: 6px;
 }
 
+#fileList .remoteAddress .userDomain {
+	margin-left: 0 !important;
+}
+
 #fileList .favorite-mark.permanent {
 	opacity: 1;
 }

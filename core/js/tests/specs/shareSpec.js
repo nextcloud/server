@@ -58,8 +58,8 @@ describe('OC.Share tests', function() {
 				tooltipStub.reset();
 			}
 
-			it('displays the local share owner as is', function() {
-				checkOwner('User One', 'User One', null);
+			it('displays the local share owner with "Shared by" prefix', function() {
+				checkOwner('User One', 'Shared by User One', null);
 			});
 			it('displays the user name part of a remote share owner', function() {
 				checkOwner(
@@ -240,4 +240,3 @@ describe('OC.Share tests', function() {
 		});
 	});
 });
-
