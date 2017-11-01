@@ -26,8 +26,10 @@ class ComposerStaticInitComments
         'OCA\\Comments\\Activity\\Provider' => __DIR__ . '/..' . '/../lib/Activity/Provider.php',
         'OCA\\Comments\\Activity\\Setting' => __DIR__ . '/..' . '/../lib/Activity/Setting.php',
         'OCA\\Comments\\AppInfo\\Application' => __DIR__ . '/..' . '/../lib/AppInfo/Application.php',
+        'OCA\\Comments\\Collaboration\\CommentersSorter' => __DIR__ . '/..' . '/../lib/Collaboration/CommentersSorter.php',
         'OCA\\Comments\\Controller\\Notifications' => __DIR__ . '/..' . '/../lib/Controller/Notifications.php',
         'OCA\\Comments\\EventHandler' => __DIR__ . '/..' . '/../lib/EventHandler.php',
+        'OCA\\Comments\\JSSettingsHelper' => __DIR__ . '/..' . '/../lib/JSSettingsHelper.php',
         'OCA\\Comments\\Notification\\Listener' => __DIR__ . '/..' . '/../lib/Notification/Listener.php',
         'OCA\\Comments\\Notification\\Notifier' => __DIR__ . '/..' . '/../lib/Notification/Notifier.php',
     );
