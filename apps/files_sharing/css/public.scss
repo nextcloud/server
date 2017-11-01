@@ -101,14 +101,13 @@ thead {
 	opacity: .5;
 }
 
-.directLink label {
-	font-weight: normal;
-	opacity: .5;
+#directLink-container {
+	flex-wrap: wrap;
 }
-.directLink input {
-	margin-left: 5px;
-	width: 300px;
-	max-width: 90%;
+
+#directLink {
+	margin-left: 30px;
+	flex-basis: 100%;
 }
 
 /* header buttons */

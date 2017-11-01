@@ -59,10 +59,10 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 						</a>
 					</li>
 					<li>
-						<a href="#">
+						<a href="#" id="directLink-container">
 							<span class="icon icon-public"></span>
 							<label for="directLink"><?php p($l->t('Direct link')) ?></label>
-							<input id="directLink" class="hidden" type="text" readonly value="<?php p($_['downloadURL']); ?>">
+							<input id="directLink" type="text" readonly value="<?php p($_['previewURL']); ?>">
 						</a>
 					</li>
 					<?php if ($_['server2serversharing']) { ?>
