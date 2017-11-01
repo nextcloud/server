@@ -3,11 +3,11 @@
         "vendor-dir": ".",
         "optimize-autoloader": true,
         "authorative-autoloader": true,
-        "autoloader-suffix": "Files_Sharing"
+        "autoloader-suffix": "Provisioning_API"
     },
     "autoload" : {
         "psr-4": {
-            "OCA\\Files_Sharing\\": "../lib/"
+            "OCA\\Provisioning_API\\": "../lib/"
         }
     }
 }
