@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Calendar" : "Kalendář",
     "Todos" : "Úkoly",
+    "Personal" : "Osobní",
     "{actor} created calendar {calendar}" : "{actor} vytvořil(a) kalendář {calendar}",
     "You created calendar {calendar}" : "Vytvořil(a",
     "{actor} deleted calendar {calendar}" : "{actor} smazal(a) kalendář {calendar}",
@@ -40,7 +41,6 @@ OC.L10N.register(
     "A calendar <strong>event</strong> was modified" : "<strong>Událost</strong> v kalendáři byla změněna",
     "A calendar <strong>todo</strong> was modified" : "<strong>Úkol</strong> v kalendáři byl změněn",
     "Contact birthdays" : "Narozeniny kontaktů",
-    "Personal" : "Osobní",
     "Contacts" : "Kontakty",
     "Technical details" : "Technické detaily",
     "Remote Address: %s" : "Vzdálená adresa: %s",

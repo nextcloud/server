@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Calendar" : "Календар",
     "Todos" : "Задачи",
+    "Personal" : "Личен",
     "{actor} created calendar {calendar}" : "{actor} направи календар {calendar}",
     "You created calendar {calendar}" : "Направихте календар {calendar}",
     "{actor} deleted calendar {calendar}" : "{actor} изтри календар {calendar}",
@@ -40,7 +41,6 @@ OC.L10N.register(
     "A calendar <strong>event</strong> was modified" : "Календарно <strong>събитие</strong> беше променено",
     "A calendar <strong>todo</strong> was modified" : "Календарна <strong>задача</strong> беше променена",
     "Contact birthdays" : "Рождени дни на контакти",
-    "Personal" : "Личен",
     "Contacts" : "Контакти",
     "Technical details" : "Технически детайли",
     "Remote Address: %s" : "Отдалечен адрес: %s",

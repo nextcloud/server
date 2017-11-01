@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Calendar" : "Ημερολόγιο",
     "Todos" : "Εργασίες προς εκτέλεση",
+    "Personal" : "Προσωπικά",
     "{actor} created calendar {calendar}" : "{actor} δημιουργήθηκε το ημερολόγιο {calendar}",
     "You created calendar {calendar}" : "Δημιουργήσατε ημερολόγιο {ημερολόγιο}",
     "{actor} deleted calendar {calendar}" : "{actor} διέγραψε το ημερολόγιο {calendar}",
@@ -40,7 +41,6 @@ OC.L10N.register(
     "A calendar <strong>event</strong> was modified" : "Τροποποιήθηκε ένα <strong>γεγονός</strong> του ημερολογίου",
     "A calendar <strong>todo</strong> was modified" : "Ενός ημερολογίου η <strong>εκκρεμότητα</strong> τροποποιήθηκε",
     "Contact birthdays" : "Γενέθλια επαφών",
-    "Personal" : "Προσωπικά",
     "Contacts" : "Επαφές",
     "Technical details" : "Τεχνικές λεπτομέρειες",
     "Remote Address: %s" : "Απομακρυσμένη Διεύθυνση: %s",

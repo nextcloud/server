@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Calendar" : "Dagatal",
     "Todos" : "Verkþættir",
+    "Personal" : "Einka",
     "{actor} created calendar {calendar}" : "{actor} bjó til dagatalið {calendar}",
     "You created calendar {calendar}" : "Þú bjóst til dagatalið {calendar}",
     "{actor} deleted calendar {calendar}" : "{actor} eyddi dagatalinu {calendar}",
@@ -40,7 +41,6 @@ OC.L10N.register(
     "A calendar <strong>event</strong> was modified" : "<strong>Atburði</strong> dagatals var breytt",
     "A calendar <strong>todo</strong> was modified" : "<strong>Verkefnalista</strong> dagatals var breytt",
     "Contact birthdays" : "Afmælisdagar tengiliðar",
-    "Personal" : "Einka",
     "Contacts" : "Tengiliðir",
     "Technical details" : "Tæknilegar upplýsingar",
     "Remote Address: %s" : "Fjartengt vistfang: %s",

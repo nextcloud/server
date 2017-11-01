@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Calendar" : "Naptár",
     "Todos" : "Teendők",
+    "Personal" : "Személyes",
     "{actor} created calendar {calendar}" : "{actor} létrehozta a naptárt: {calendar}",
     "You created calendar {calendar}" : "Létrehoztad a naptárt: {calendar}",
     "{actor} deleted calendar {calendar}" : "{actor} törölte a naptárt: {calendar}",
@@ -40,7 +41,6 @@ OC.L10N.register(
     "A calendar <strong>event</strong> was modified" : "Egy naptár <strong>esemény</strong> megváltozott",
     "A calendar <strong>todo</strong> was modified" : "Egy naptár <strong>teendő</strong> megváltozott",
     "Contact birthdays" : "Születésnapok",
-    "Personal" : "Személyes",
     "Contacts" : "Névjegyek",
     "Technical details" : "Technikai adatok",
     "Remote Address: %s" : "Távoli cím: %s",
