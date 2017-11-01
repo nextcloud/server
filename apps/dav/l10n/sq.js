@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Calendar" : "Kalendar",
     "Todos" : "Për tu bërë",
+    "Personal" : "Personale",
     "{actor} created calendar {calendar}" : "{aktori} krijoi kalendarin {kalendarin}",
     "You created calendar {calendar}" : "Ju krijuat kalendarin {calendar}",
     "{actor} deleted calendar {calendar}" : "{actor} fshiu kalendarin {calendar}",
@@ -40,7 +41,6 @@ OC.L10N.register(
     "A calendar <strong>event</strong> was modified" : "Një <strong>event</strong> në kalendar u modifikua",
     "A calendar <strong>todo</strong> was modified" : "Një kalendar <strong>todo<strong> u modifikua",
     "Contact birthdays" : "Ditëlindjet e kontakteve",
-    "Personal" : "Personale",
     "Contacts" : "Kontaktet",
     "Technical details" : "Detaje teknike",
     "Remote Address: %s" : "Adresa remote: %s",

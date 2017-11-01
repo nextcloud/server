@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Calendar" : "Calendar",
     "Todos" : "De făcut",
+    "Personal" : "Personal",
     "{actor} created calendar {calendar}" : "{actor} a creat calendarul {calendar}",
     "You created calendar {calendar}" : "Ai creat calendarul {calendar}",
     "{actor} deleted calendar {calendar}" : "{actor} a șters calendarul {calendar}",
@@ -40,7 +41,6 @@ OC.L10N.register(
     "A calendar <strong>event</strong> was modified" : "Un <strong>eveniment</strong> din calendar a fost modificat",
     "A calendar <strong>todo</strong> was modified" : "O <strong>listă</strong> din calendar a fost modificată",
     "Contact birthdays" : "Zile de naștere ale persoanelor de contact",
-    "Personal" : "Personal",
     "Contacts" : "Persoane de contact",
     "Technical details" : "Detalii tehnice",
     "Remote Address: %s" : "Adresă la distanță: %s",
