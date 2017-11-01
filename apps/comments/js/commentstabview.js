@@ -177,9 +177,13 @@
 
 		_initAutoComplete: function($target) {
 			var s = this;
+			var limit = 10;
+			if(!_.isUndefined(OC.appConfig.comments)) {
+				limit = OC.appConfig.comments.maxAutoCompleteResults;
+			}
 			$target.atwho({
 				at: '@',
-				limit: OC.appConfig.comments.maxAutoCompleteResults,
+				limit: limit,
 				callbacks: {
 					remoteFilter: s._onAutoComplete,
 					highlighter: function (li) {
@@ -347,7 +351,7 @@
 				return;
 			}
 
-			var $form = $('.comment[data-id="' + model.id + '"] form');
+			var $form = this.$container.find('.comment[data-id="' + model.id + '"] form');
 			var $row = $form.closest('.comment');
 			var $target = $row.data('commentEl');
 			if(_.isUndefined($target)) {
