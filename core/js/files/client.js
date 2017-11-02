@@ -319,7 +319,7 @@
 				}
 			}
 
-			data.permissions = OC.PERMISSION_READ;
+			data.permissions = OC.PERMISSION_NONE;
 			var permissionProp = props[Client.PROPERTY_PERMISSIONS];
 			if (!_.isUndefined(permissionProp)) {
 				var permString = permissionProp || '';
@@ -331,6 +331,9 @@
 						case 'C':
 						case 'K':
 							data.permissions |= OC.PERMISSION_CREATE;
+							break;
+						case 'G':
+							data.permissions |= OC.PERMISSION_READ;
 							break;
 						case 'W':
 						case 'N':

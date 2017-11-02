@@ -164,7 +164,7 @@ describe('OC.Files.Client tests', function() {
 				'd:resourcetype': '<d:collection/>',
 				'oc:id': '00000011oc2d13a6a068',
 				'oc:fileid': '11',
-				'oc:permissions': 'RDNVCK',
+				'oc:permissions': 'GRDNVCK',
 				'oc:size': '120'
 			},
 			[
@@ -196,7 +196,7 @@ describe('OC.Files.Client tests', function() {
 				'd:resourcetype': '<d:collection/>',
 				'oc:id': '00000015oc2d13a6a068',
 				'oc:fileid': '15',
-				'oc:permissions': 'RDNVCK',
+				'oc:permissions': 'GRDNVCK',
 				'oc:size': '100'
 			},
 			[
@@ -257,7 +257,7 @@ describe('OC.Files.Client tests', function() {
 				expect(info.id).toEqual(51);
 				expect(info.path).toEqual('/path/to space/文件夹');
 				expect(info.name).toEqual('One.txt');
-				expect(info.permissions).toEqual(27);
+				expect(info.permissions).toEqual(26);
 				expect(info.size).toEqual(250);
 				expect(info.mtime).toEqual(1436535485000);
 				expect(info.mimetype).toEqual('text/plain');
@@ -482,7 +482,7 @@ describe('OC.Files.Client tests', function() {
 				'd:resourcetype': '<d:collection/>',
 				'oc:id': '00000011oc2d13a6a068',
 				'oc:fileid': '11',
-				'oc:permissions': 'RDNVCK',
+				'oc:permissions': 'GRDNVCK',
 				'oc:size': '120'
 			},
 			[
@@ -549,7 +549,7 @@ describe('OC.Files.Client tests', function() {
 					'd:resourcetype': '<d:collection/>',
 					'oc:id': '00000011oc2d13a6a068',
 					'oc:fileid': '11',
-					'oc:permissions': 'RDNVCK',
+					'oc:permissions': 'GRDNVCK',
 					'oc:size': '120'
 				},
 				[
@@ -655,13 +655,14 @@ describe('OC.Files.Client tests', function() {
 		it('properly parses file permissions', function() {
 			// permission, isFile, expectedPermissions
 			var testCases = [
-				['', true, OC.PERMISSION_READ],
-				['C', true, OC.PERMISSION_READ | OC.PERMISSION_CREATE],
-				['K', true, OC.PERMISSION_READ | OC.PERMISSION_CREATE],
-				['W', true, OC.PERMISSION_READ | OC.PERMISSION_UPDATE],
-				['D', true, OC.PERMISSION_READ | OC.PERMISSION_DELETE],
-				['R', true, OC.PERMISSION_READ | OC.PERMISSION_SHARE],
-				['CKWDR', true, OC.PERMISSION_ALL]
+				['', true, OC.PERMISSION_NONE],
+				['C', true, OC.PERMISSION_CREATE],
+				['K', true, OC.PERMISSION_CREATE],
+				['G', true, OC.PERMISSION_READ],
+				['W', true, OC.PERMISSION_UPDATE],
+				['D', true, OC.PERMISSION_DELETE],
+				['R', true, OC.PERMISSION_SHARE],
+				['CKGWDR', true, OC.PERMISSION_ALL]
 			];
 			_.each(testCases, function(testCase) {
 				return testPermission.apply(this, testCase);
@@ -669,7 +670,7 @@ describe('OC.Files.Client tests', function() {
 		});
 		it('properly parses mount types', function() {
 			var testCases = [
-				['CKWDR', false, null],
+				['CKGWDR', false, null],
 				['M', false, 'external'],
 				['S', false, 'shared'],
 				['SM', false, 'shared']
