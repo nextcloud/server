@@ -208,14 +208,14 @@ OC.Share = _.extend(OC.Share || {}, {
 		if (!parts) {
 			// display avatar of the user
 			var avatar = '<span class="avatar" data-userName="' + escapeHTML(remoteAddress) + '" title="' + message + " " + escapeHTML(remoteAddress) + '"></span>';
-			var hidden = '<span class="hidden-visually">' + message + " " + escapeHTML(remoteAddress) + '</span> ';
+			var hidden = '<span class="hidden-visually">' + message + ' ' + escapeHTML(remoteAddress) + '</span> ';
 			return avatar + hidden;
 		}
 
 		var userName = parts[1];
 		var userDomain = parts[3];
 		var server = parts[4];
-		var tooltip = message + " " + userName;
+		var tooltip = message + ' ' + userName;
 		if (userDomain) {
 			tooltip += '@' + userDomain;
 		}
