@@ -1,6 +1,14 @@
 #content {
 	height: initial;
-	min-height: calc(100vh - 120px);
+	min-height: calc(100vh - 160px);
+}
+
+#header .menutoggle {
+	padding: 14px;
+	padding-right: 40px;
+	background-position: right 15px center;
+	color: $color-primary-text;
+	cursor: pointer;
 }
 
 /* force layout to make sure the content element's height matches its contents' height */
@@ -78,12 +86,6 @@ thead {
 	margin: 0;
 }
 
-
-.directDownload,
-.directLink {
-	margin-bottom: 20px;
-}
-
 /* keep long file names in one line to not overflow download button on mobile */
 .directDownload #downloadFile {
 	white-space: nowrap;
@@ -95,14 +97,17 @@ thead {
 	margin-right: auto;
 }
 
-.directLink label {
-	font-weight: normal;
+.download-size {
 	opacity: .5;
 }
-.directLink input {
-	margin-left: 5px;
-	width: 300px;
-	max-width: 90%;
+
+#directLink-container {
+	flex-wrap: wrap;
+}
+
+#directLink {
+	margin-left: 30px;
+	flex-basis: 100%;
 }
 
 /* header buttons */
@@ -125,11 +130,11 @@ thead {
 /* within #save */
 #save .save-form {
 	position: relative;
+	margin-right: -10px;
 }
 
 #remote_address {
 	width: 200px;
-
 	margin-right: 4px;
 	height: 31px;
 }
@@ -138,10 +143,9 @@ thead {
 	position: absolute;
 	background-color: transparent;
 	border: none;
-	margin: 2px 4px !important;
-	right: 7px;
-	top: -8px;
-	height: 30px;
+	margin: 0;
+	right: 0px;
+	height: 40px;
 }
 
 #public-upload .avatardiv {
@@ -220,6 +224,7 @@ thead {
 	position: relative;
 	top: -10px;
 	font-weight: 300;
-	font-size: 12px;
+	font-size: 11px;
+	opacity: .57;
 	margin-top: 10px;
 }

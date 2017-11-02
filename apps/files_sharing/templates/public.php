@@ -16,6 +16,7 @@
 <input type="hidden" id="isPublic" name="isPublic" value="1">
 <input type="hidden" name="dir" value="<?php p($_['dir']) ?>" id="dir">
 <input type="hidden" name="downloadURL" value="<?php p($_['downloadURL']) ?>" id="downloadURL">
+<input type="hidden" name="previewURL" value="<?php p($_['previewURL']) ?>" id="previewURL">
 <input type="hidden" name="sharingToken" value="<?php p($_['sharingToken']) ?>" id="sharingToken">
 <input type="hidden" name="filename" value="<?php p($_['filename']) ?>" id="filename">
 <input type="hidden" name="mimetype" value="<?php p($_['mimetype']) ?>" id="mimetype">
@@ -48,22 +49,38 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 		</div>
 
 		<div class="header-right">
-			<?php if (!isset($_['hideFileList']) || (isset($_['hideFileList']) && $_['hideFileList'] === false)) {
-				if ($_['server2serversharing']) {
-					?>
-					<span id="save" data-protected="<?php p($_['protected']) ?>"
-						  data-owner-display-name="<?php p($_['displayName']) ?>" data-owner="<?php p($_['owner']) ?>" data-name="<?php p($_['filename']) ?>">
-					<button id="save-button"><?php p($l->t('Add to your Nextcloud')) ?></button>
-					<form class="save-form hidden" action="#">
-						<input type="text" id="remote_address" placeholder="user@yourNextcloud.org"/>
-						<button id="save-button-confirm" class="icon-confirm svg" disabled></button>
-					</form>
-				</span>
-				<?php } ?>
-				<a href="<?php p($_['downloadURL']); ?>" id="download" class="button">
-					<span class="icon icon-download"></span>
-					<span id="download-text"><?php p($l->t('Download'))?></span>
-				</a>
+			<?php if (!isset($_['hideFileList']) || (isset($_['hideFileList']) && $_['hideFileList'] === false)) { ?>
+			<a href="#" id="share-menutoggle" class="menutoggle icon-more-white"><span class="share-menutoggle-text"><?php p($l->t('Download')) ?></span></a>
+			<div id="share-menu" class="popovermenu menu">
+				<ul>
+					<li>
+						<a href="<?php p($_['downloadURL']); ?>" id="download">
+							<span class="icon icon-download"></span>
+							<?php p($l->t('Download'))?>&nbsp;<span class="download-size">(<?php p($_['fileSize']) ?>)</span>
+						</a>
+					</li>
+					<li>
+						<a href="#" id="directLink-container">
+							<span class="icon icon-public"></span>
+							<label for="directLink"><?php p($l->t('Direct link')) ?></label>
+							<input id="directLink" type="text" readonly value="<?php p($_['previewURL']); ?>">
+						</a>
+					</li>
+					<?php if ($_['server2serversharing']) { ?>
+					<li>
+						<a href="#" id="save" data-protected="<?php p($_['protected']) ?>"
+							  data-owner-display-name="<?php p($_['displayName']) ?>" data-owner="<?php p($_['owner']) ?>" data-name="<?php p($_['filename']) ?>">
+							<span class="icon icon-external"></span>
+							<span id="save-button"><?php p($l->t('Add to your Nextcloud')) ?></span>
+							<form class="save-form hidden" action="#">
+								<input type="text" id="remote_address" placeholder="user@yourNextcloud.org"/>
+								<button id="save-button-confirm" class="icon-confirm svg" disabled></button>
+							</form>
+						</a>
+					</li>
+					<?php } ?>
+				</ul>
+			</div>
 			<?php } ?>
 		</div>
 	</div></header>
@@ -84,16 +101,14 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 					<!-- Preview frame is filled via JS to support SVG images for modern browsers -->
 					<div id="imgframe"></div>
 				<?php endif; ?>
+				<?php if ($_['previewURL'] === $_['downloadURL']): ?>
 				<div class="directDownload">
 					<a href="<?php p($_['downloadURL']); ?>" id="downloadFile" class="button">
 						<span class="icon icon-download"></span>
 						<?php p($l->t('Download %s', array($_['filename'])))?> (<?php p($_['fileSize']) ?>)
 					</a>
 				</div>
-				<div class="directLink">
-					<label for="directLink"><?php p($l->t('Direct link')) ?></label>
-					<input id="directLink" type="text" readonly value="<?php p($_['previewURL']); ?>">
-				</div>
+				<?php endif; ?>
 			<?php endif; ?>
 		</div>
 		</div>
