@@ -116,7 +116,8 @@ OCA.Sharing.PublicApp = {
 			scalingup: 0
 		};
 
-		var imgcontainer = $('<a href="' + $('#previewURL').val() + '" target="_blank"><img class="publicpreview" alt=""></a>');
+		var imgcontainer = $('<a href="' + $('#previewURL').val()
+			+ '" target="_blank"><img class="publicpreview" alt=""></a>');
 		var img = imgcontainer.find('.publicpreview');
 		img.css({
 			'max-width': previewWidth,
