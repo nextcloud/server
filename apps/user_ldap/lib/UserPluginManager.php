@@ -51,26 +51,28 @@ class UserPluginManager {
 
 	/**
 	 * Registers a group plugin that may implement some actions, overriding User_LDAP's user actions.
-	 * @param ILDAPGroupPlugin $plugin
+	 *
+	 * @param ILDAPUserPlugin $plugin
 	 */
 	public function register(ILDAPUserPlugin $plugin) {
 		$respondToActions = $plugin->respondToActions();
 		$this->respondToActions |= $respondToActions;
 
 		foreach($this->which as $action => $v) {
-			if ((bool)($respondToActions & $action)) {
+			if (is_int($action) && (bool)($respondToActions & $action)) {
 				$this->which[$action] = $plugin;
 				\OC::$server->getLogger()->debug("Registered action ".$action." to plugin ".get_class($plugin), ['app' => 'user_ldap']);
 			}
 		}
 		if (method_exists($plugin,'deleteUser')) {
 			$this->which['deleteUser'] = $plugin;
+			\OC::$server->getLogger()->debug("Registered action deleteUser to plugin ".get_class($plugin), ['app' => 'user_ldap']);
 		}
 	}
 
 	/**
 	 * Signal if there is a registered plugin that implements some given actions
-	 * @param int $action Actions defined in \OC\User\Backend, like Backend::CREATE_USER
+	 * @param int $actions Actions defined in \OC\User\Backend, like Backend::CREATE_USER
 	 * @return bool
 	 */
 	public function implementsActions($actions) {
@@ -80,7 +82,7 @@ class UserPluginManager {
 	/**
 	 * Create a new user in LDAP Backend
 	 *
-	 * @param string $uid The username of the user to create
+	 * @param string $username The username of the user to create
 	 * @param string $password The password of the new user
 	 * @return bool
 	 * @throws \Exception

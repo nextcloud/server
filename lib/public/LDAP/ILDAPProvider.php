@@ -124,6 +124,13 @@ interface ILDAPProvider {
 	public function clearCache($uid);
 
 	/**
+	 * Clear the cache if a cache is used, otherwise do nothing.
+	 * @param string $gid group id
+	 * @since 13.0.0
+	 */
+	public function clearGroupCache($gid);
+
+	/**
 	 * Get the LDAP attribute name for the user's display name
 	 * @param string $uid user id
 	 * @return string the display name field

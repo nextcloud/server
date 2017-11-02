@@ -29,7 +29,7 @@
 
 namespace OCA\User_LDAP\Tests;
 
-use OC\Group\Backend;
+use OCP\GroupInterface;
 use OCA\User_LDAP\Group_LDAP as GroupLDAP;
 use OCA\User_LDAP\ILDAPWrapper;
 
@@ -157,7 +157,7 @@ class Group_LDAPTest extends \Test\TestCase {
 
 		$pluginManager->expects($this->once())
 			->method('implementsActions')
-			->with(Backend::COUNT_USERS)
+			->with(GroupInterface::COUNT_USERS)
 			->willReturn(true);
 
 		$pluginManager->expects($this->once())
@@ -727,7 +727,7 @@ class Group_LDAPTest extends \Test\TestCase {
 
 		$pluginManager->expects($this->once())
 			->method('implementsActions')
-			->with(Backend::CREATE_GROUP)
+			->with(GroupInterface::CREATE_GROUP)
 			->willReturn(true);
 
 		$pluginManager->expects($this->once())
@@ -753,7 +753,7 @@ class Group_LDAPTest extends \Test\TestCase {
 
 		$pluginManager->expects($this->once())
 			->method('implementsActions')
-			->with(Backend::CREATE_GROUP)
+			->with(GroupInterface::CREATE_GROUP)
 			->willReturn(false);
 
 		$ldap = new GroupLDAP(
@@ -771,7 +771,7 @@ class Group_LDAPTest extends \Test\TestCase {
 
 		$pluginManager->expects($this->once())
 			->method('implementsActions')
-			->with(Backend::DELETE_GROUP)
+			->with(GroupInterface::DELETE_GROUP)
 			->willReturn(true);
 
 		$pluginManager->expects($this->once())
@@ -808,7 +808,7 @@ class Group_LDAPTest extends \Test\TestCase {
 
 		$pluginManager->expects($this->once())
 			->method('implementsActions')
-			->with(Backend::DELETE_GROUP)
+			->with(GroupInterface::DELETE_GROUP)
 			->willReturn(false);
 
 		$ldap = new GroupLDAP(
@@ -826,7 +826,7 @@ class Group_LDAPTest extends \Test\TestCase {
 
 		$pluginManager->expects($this->once())
 			->method('implementsActions')
-			->with(Backend::ADD_TO_GROUP)
+			->with(GroupInterface::ADD_TO_GROUP)
 			->willReturn(true);
 
 		$pluginManager->expects($this->once())
@@ -852,7 +852,7 @@ class Group_LDAPTest extends \Test\TestCase {
 
 		$pluginManager->expects($this->once())
 			->method('implementsActions')
-			->with(Backend::ADD_TO_GROUP)
+			->with(GroupInterface::ADD_TO_GROUP)
 			->willReturn(false);
 
 		$ldap = new GroupLDAP(
@@ -870,7 +870,7 @@ class Group_LDAPTest extends \Test\TestCase {
 
 		$pluginManager->expects($this->once())
 			->method('implementsActions')
-			->with(Backend::REMOVE_FROM_GROUP)
+			->with(GroupInterface::REMOVE_FROM_GROUP)
 			->willReturn(true);
 
 		$pluginManager->expects($this->once())
@@ -896,7 +896,7 @@ class Group_LDAPTest extends \Test\TestCase {
 
 		$pluginManager->expects($this->once())
 			->method('implementsActions')
-			->with(Backend::REMOVE_FROM_GROUP)
+			->with(GroupInterface::REMOVE_FROM_GROUP)
 			->willReturn(false);
 
 		$ldap = new GroupLDAP(
@@ -914,7 +914,7 @@ class Group_LDAPTest extends \Test\TestCase {
 
 		$pluginManager->expects($this->once())
 			->method('implementsActions')
-			->with(Backend::GROUP_DETAILS)
+			->with(GroupInterface::GROUP_DETAILS)
 			->willReturn(true);
 
 		$pluginManager->expects($this->once())
@@ -940,7 +940,7 @@ class Group_LDAPTest extends \Test\TestCase {
 
 		$pluginManager->expects($this->once())
 			->method('implementsActions')
-			->with(Backend::GROUP_DETAILS)
+			->with(GroupInterface::GROUP_DETAILS)
 			->willReturn(false);
 
 		$ldap = new GroupLDAP(

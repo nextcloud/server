@@ -23,7 +23,7 @@
 namespace OCA\User_LDAP\Tests;
 
 
-use OC\Group\Backend;
+use OCP\GroupInterface;
 use OCA\User_LDAP\GroupPluginManager;
 
 class GroupLDAPPluginTest extends \Test\TestCase {
@@ -44,7 +44,7 @@ class GroupLDAPPluginTest extends \Test\TestCase {
 
 		$plugin->expects($this->any())
 			->method('respondToActions')
-			->willReturn(Backend::CREATE_GROUP);
+			->willReturn(GroupInterface::CREATE_GROUP);
 
 		$plugin2 = $this->getMockBuilder('OCA\User_LDAP\Tests\LDAPGroupPluginDummy')
 			->setMethods(['respondToActions'])
@@ -52,14 +52,14 @@ class GroupLDAPPluginTest extends \Test\TestCase {
 
 		$plugin2->expects($this->any())
 			->method('respondToActions')
-			->willReturn(Backend::ADD_TO_GROUP);
+			->willReturn(GroupInterface::ADD_TO_GROUP);
 
 		$pluginManager->register($plugin);
 		$pluginManager->register($plugin2);
 
-		$this->assertEquals($pluginManager->getImplementedActions(), Backend::CREATE_GROUP | Backend::ADD_TO_GROUP);
-		$this->assertTrue($pluginManager->implementsActions(Backend::CREATE_GROUP));
-		$this->assertTrue($pluginManager->implementsActions(Backend::ADD_TO_GROUP));
+		$this->assertEquals($pluginManager->getImplementedActions(), GroupInterface::CREATE_GROUP | GroupInterface::ADD_TO_GROUP);
+		$this->assertTrue($pluginManager->implementsActions(GroupInterface::CREATE_GROUP));
+		$this->assertTrue($pluginManager->implementsActions(GroupInterface::ADD_TO_GROUP));
 	}
 
 	public function testCreateGroup() {
@@ -71,7 +71,7 @@ class GroupLDAPPluginTest extends \Test\TestCase {
 
 		$plugin->expects($this->any())
 			->method('respondToActions')
-			->willReturn(Backend::CREATE_GROUP);
+			->willReturn(GroupInterface::CREATE_GROUP);
 
 		$plugin->expects($this->once())
 			->method('createGroup')
@@ -101,7 +101,7 @@ class GroupLDAPPluginTest extends \Test\TestCase {
 
 		$plugin->expects($this->any())
 			->method('respondToActions')
-			->willReturn(Backend::DELETE_GROUP);
+			->willReturn(GroupInterface::DELETE_GROUP);
 
 		$plugin->expects($this->once())
 			->method('deleteGroup')
@@ -131,7 +131,7 @@ class GroupLDAPPluginTest extends \Test\TestCase {
 
 		$plugin->expects($this->any())
 			->method('respondToActions')
-			->willReturn(Backend::ADD_TO_GROUP);
+			->willReturn(GroupInterface::ADD_TO_GROUP);
 
 		$plugin->expects($this->once())
 			->method('addToGroup')
@@ -162,7 +162,7 @@ class GroupLDAPPluginTest extends \Test\TestCase {
 
 		$plugin->expects($this->any())
 			->method('respondToActions')
-			->willReturn(Backend::REMOVE_FROM_GROUP);
+			->willReturn(GroupInterface::REMOVE_FROM_GROUP);
 
 		$plugin->expects($this->once())
 			->method('removeFromGroup')
@@ -193,7 +193,7 @@ class GroupLDAPPluginTest extends \Test\TestCase {
 
 		$plugin->expects($this->any())
 			->method('respondToActions')
-			->willReturn(Backend::COUNT_USERS);
+			->willReturn(GroupInterface::COUNT_USERS);
 
 		$plugin->expects($this->once())
 			->method('countUsersInGroup')
@@ -224,7 +224,7 @@ class GroupLDAPPluginTest extends \Test\TestCase {
 
 		$plugin->expects($this->any())
 			->method('respondToActions')
-			->willReturn(Backend::GROUP_DETAILS);
+			->willReturn(GroupInterface::GROUP_DETAILS);
 
 		$plugin->expects($this->once())
 			->method('getGroupDetails')

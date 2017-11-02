@@ -46,6 +46,8 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 	/**
 	 * Create new LDAPProvider
 	 * @param \OCP\IServerContainer $serverContainer
+	 * @param Helper $helper
+	 * @param DeletedUsersIndex $deletedUsersIndex
 	 * @throws \Exception if user_ldap app was not enabled
 	 */
 	public function __construct(IServerContainer $serverContainer, Helper $helper, DeletedUsersIndex $deletedUsersIndex) {

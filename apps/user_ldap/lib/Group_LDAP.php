@@ -39,7 +39,7 @@
 namespace OCA\User_LDAP;
 
 use OC\Cache\CappedMemoryCache;
-use OC\Group\Backend;
+use OCP\GroupInterface;
 
 class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLDAP {
 	protected $enabled = false;
@@ -865,7 +865,7 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 	 * @return int|bool
 	 */
 	public function countUsersInGroup($gid, $search = '') {
-		if ($this->groupPluginManager->implementsActions(Backend::COUNT_USERS)) {
+		if ($this->groupPluginManager->implementsActions(GroupInterface::COUNT_USERS)) {
 			return $this->groupPluginManager->countUsersInGroup($gid, $search);
 		}
 
@@ -1076,10 +1076,10 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 	* @return boolean
 	*
 	* Returns the supported actions as int to be
-	* compared with \OC\Group\Backend::CREATE_GROUP etc.
+	* compared with GroupInterface::CREATE_GROUP etc.
 	*/
 	public function implementsActions($actions) {
-		return (bool)((\OC\Group\Backend::COUNT_USERS |
+		return (bool)((GroupInterface::COUNT_USERS |
 				$this->groupPluginManager->getImplementedActions()) & $actions);
 	}
 
@@ -1098,7 +1098,7 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 	 * @throws \Exception
 	 */
 	public function createGroup($gid) {
-		if ($this->groupPluginManager->implementsActions(Backend::CREATE_GROUP)) {
+		if ($this->groupPluginManager->implementsActions(GroupInterface::CREATE_GROUP)) {
 			if ($dn = $this->groupPluginManager->createGroup($gid)) {
 				//updates group mapping
 				$this->access->dn2ocname($dn, $gid, false);
@@ -1116,7 +1116,7 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 	 * @throws \Exception
 	 */
 	public function deleteGroup($gid) {
-		if ($this->groupPluginManager->implementsActions(Backend::DELETE_GROUP)) {
+		if ($this->groupPluginManager->implementsActions(GroupInterface::DELETE_GROUP)) {
 			if ($ret = $this->groupPluginManager->deleteGroup($gid)) {
 				#delete group in nextcloud internal db
 				$this->access->getGroupMapper()->unmap($gid);
@@ -1135,9 +1135,9 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 	 * @throws \Exception
 	 */
 	public function addToGroup($uid, $gid) {
-		if ($this->groupPluginManager->implementsActions(Backend::ADD_TO_GROUP)) {
+		if ($this->groupPluginManager->implementsActions(GroupInterface::ADD_TO_GROUP)) {
 			if ($ret = $this->groupPluginManager->addToGroup($uid, $gid)) {
-				#$this->access->connection->clearCache();
+				$this->access->connection->clearCache();
 			}
 			return $ret;
 		}
@@ -1152,9 +1152,9 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 	 * @throws \Exception
 	 */
 	public function removeFromGroup($uid, $gid) {
-		if ($this->groupPluginManager->implementsActions(Backend::REMOVE_FROM_GROUP)) {
+		if ($this->groupPluginManager->implementsActions(GroupInterface::REMOVE_FROM_GROUP)) {
 			if ($ret = $this->groupPluginManager->removeFromGroup($uid, $gid)) {
-				#$this->access->connection->clearCache();
+				$this->access->connection->clearCache();
 			}
 			return $ret;
 		}
@@ -1168,7 +1168,7 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 	 * @throws \Exception
 	 */
 	public function getGroupDetails($gid) {
-		if ($this->groupPluginManager->implementsActions(Backend::GROUP_DETAILS)) {
+		if ($this->groupPluginManager->implementsActions(GroupInterface::GROUP_DETAILS)) {
 			return $this->groupPluginManager->getGroupDetails($gid);
 		}
 		throw new \Exception('Could not get group details in LDAP backend.');

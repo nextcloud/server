@@ -431,6 +431,51 @@ class LDAPProviderTest extends \Test\TestCase {
 		$ldapProvider->clearCache('existing_user');
 		$this->assertTrue(TRUE);
 	}
+
+	/**
+	 * @expectedException \Exception
+	 * @expectedExceptionMessage Group id not found in LDAP
+	 */
+	public function testClearGroupCacheGroupIDNotFound() {
+		$userBackend = $this->getMockBuilder('OCA\User_LDAP\User_LDAP')
+			->disableOriginalConstructor()
+			->getMock();
+		$groupBackend = $this->getMockBuilder('OCA\User_LDAP\Group_LDAP')
+			->setMethods(['groupExists'])
+			->disableOriginalConstructor()
+			->getMock();
+		$groupBackend->expects($this->any())->method('groupExists')->willReturn(false);
+
+		$server = $this->getServerMock($userBackend, $groupBackend);
+
+		$ldapProvider = $this->getLDAPProvider($server);
+		$ldapProvider->clearGroupCache('nonexisting_group');
+	}
+
+	public function testClearGroupCache() {
+		$userBackend = $this->getMockBuilder('OCA\User_LDAP\User_LDAP')
+			->disableOriginalConstructor()
+			->getMock();
+		$groupBackend = $this->getMockBuilder('OCA\User_LDAP\Group_LDAP')
+			->setMethods(['groupExists', 'getLDAPAccess', 'getConnection', 'clearCache'])
+			->disableOriginalConstructor()
+			->getMock();
+		$groupBackend->expects($this->at(0))
+			->method('groupExists')
+			->willReturn(true);
+		$groupBackend->expects($this->at(3))
+			->method('clearCache')
+			->willReturn(true);
+		$groupBackend->expects($this->any())
+			->method($this->anything())
+			->willReturnSelf();
+
+		$server = $this->getServerMock($userBackend, $groupBackend);
+
+		$ldapProvider = $this->getLDAPProvider($server);
+		$ldapProvider->clearGroupCache('existing_group');
+		$this->assertTrue(TRUE);
+	}
 	
 	public function testDnExists() {
 		$userBackend = $this->getMockBuilder('OCA\User_LDAP\User_LDAP')

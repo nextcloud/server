@@ -23,19 +23,19 @@
 
 namespace OCA\User_LDAP;
 
-use OC\Group\Backend;
+use OCP\GroupInterface;
 
 class GroupPluginManager {
 
 	private $respondToActions = 0;
 
 	private $which = array(
-		Backend::CREATE_GROUP => null,
-		Backend::DELETE_GROUP => null,
-		Backend::ADD_TO_GROUP => null,
-		Backend::REMOVE_FROM_GROUP => null,
-		Backend::COUNT_USERS => null,
-		Backend::GROUP_DETAILS => null
+		GroupInterface::CREATE_GROUP => null,
+		GroupInterface::DELETE_GROUP => null,
+		GroupInterface::ADD_TO_GROUP => null,
+		GroupInterface::REMOVE_FROM_GROUP => null,
+		GroupInterface::COUNT_USERS => null,
+		GroupInterface::GROUP_DETAILS => null
 	);
 
 	/**
@@ -63,7 +63,7 @@ class GroupPluginManager {
 
 	/**
 	 * Signal if there is a registered plugin that implements some given actions
-	 * @param int $action Actions defined in \OC\Group\Backend, like Backend::REMOVE_FROM_GROUP
+	 * @param int $actions Actions defined in \OCP\GroupInterface, like GroupInterface::REMOVE_FROM_GROUP
 	 * @return bool
 	 */
 	public function implementsActions($actions) {
@@ -77,7 +77,7 @@ class GroupPluginManager {
 	 * @throws \Exception
 	 */
 	public function createGroup($gid) {
-		$plugin = $this->which[Backend::CREATE_GROUP];
+		$plugin = $this->which[GroupInterface::CREATE_GROUP];
 
 		if ($plugin) {
 			return $plugin->createGroup($gid);
@@ -92,7 +92,7 @@ class GroupPluginManager {
 	 * @throws \Exception
 	 */
 	public function deleteGroup($gid) {
-		$plugin = $this->which[Backend::DELETE_GROUP];
+		$plugin = $this->which[GroupInterface::DELETE_GROUP];
 
 		if ($plugin) {
 			return $plugin->deleteGroup($gid);
@@ -110,7 +110,7 @@ class GroupPluginManager {
 	 * Adds a user to a group.
 	 */
 	public function addToGroup($uid, $gid) {
-		$plugin = $this->which[Backend::ADD_TO_GROUP];
+		$plugin = $this->which[GroupInterface::ADD_TO_GROUP];
 
 		if ($plugin) {
 			return $plugin->addToGroup($uid, $gid);
@@ -128,7 +128,7 @@ class GroupPluginManager {
 	 * removes the user from a group.
 	 */
 	public function removeFromGroup($uid, $gid) {
-		$plugin = $this->which[Backend::REMOVE_FROM_GROUP];
+		$plugin = $this->which[GroupInterface::REMOVE_FROM_GROUP];
 
 		if ($plugin) {
 			return $plugin->removeFromGroup($uid, $gid);
@@ -144,7 +144,7 @@ class GroupPluginManager {
 	 * @throws \Exception
 	 */
 	public function countUsersInGroup($gid, $search = '') {
-		$plugin = $this->which[Backend::COUNT_USERS];
+		$plugin = $this->which[GroupInterface::COUNT_USERS];
 
 		if ($plugin) {
 			return $plugin->countUsersInGroup($gid,$search);
@@ -159,7 +159,7 @@ class GroupPluginManager {
 	 * @throws \Exception
 	 */
 	public function getGroupDetails($gid) {
-		$plugin = $this->which[Backend::GROUP_DETAILS];
+		$plugin = $this->which[GroupInterface::GROUP_DETAILS];
 
 		if ($plugin) {
 			return $plugin->getGroupDetails($gid);

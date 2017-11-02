@@ -245,7 +245,7 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP {
 	 * @return boolean
 	 *
 	 * Returns the supported actions as int to be
-	 * compared with \OC\Group\Backend::CREATE_GROUP etc.
+	 * compared with \OCP\GroupInterface::CREATE_GROUP etc.
 	 */
 	public function implementsActions($actions) {
 		//it's the same across all our user backends obviously
