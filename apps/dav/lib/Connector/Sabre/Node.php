@@ -299,6 +299,9 @@ abstract class Node implements \Sabre\DAV\INode {
 		if ($this->info->isMounted()) {
 			$p .= 'M';
 		}
+		if ($this->info->isReadable()) {
+			$p .= 'G';
+		}
 		if ($this->info->isDeletable()) {
 			$p .= 'D';
 		}
