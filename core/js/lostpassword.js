@@ -14,11 +14,33 @@ OC.Lostpassword = {
 
 	init : function() {
 		$('#lost-password').click(OC.Lostpassword.resetLink);
-		$('#reset-password #submit').click(OC.Lostpassword.resetPassword);
+		$('#reset-password-submit').click(OC.Lostpassword.resetPassword);
+		$('#lost-password-back').click(OC.Lostpassword.backToLogin);
+	},
+
+	backToLogin : function(event){
+		event.preventDefault();
+
+		$('#reset-password-wrapper').slideUp().fadeOut();
+		$('#lost-password').slideDown().fadeIn();
+		$('.remember-login-container').slideDown().fadeIn();
+		$('#submit-wrapper').slideDown().fadeIn();
+		$('.groupbottom').slideDown().fadeIn();
+		$('#user').parent().addClass('grouptop');
+		$('#user').focus();
 	},
 
 	resetLink : function(event){
 		event.preventDefault();
+
+		$('#lost-password').slideUp().fadeOut();
+		$('.remember-login-container').slideUp().fadeOut();
+		$('#submit-wrapper').slideUp().fadeOut();
+		$('.groupbottom').slideUp().fadeOut();
+		$('#user').parent().removeClass('grouptop');
+		$('#reset-password-wrapper').slideDown().fadeIn();
+		$('#user').focus();
+
 		if (!$('#user').val().length){
 			$('#submit').trigger('click');
 		} else {
