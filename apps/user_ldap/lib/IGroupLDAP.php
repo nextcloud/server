@@ -1,8 +1,9 @@
 <?php
 /**
- * @copyright Copyright (c) 2017 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @copyright Copyright (c) 2017, EITA Cooperative (eita.org.br)
+ *
+ * @author Vinicius Brand <vinicius@eita.org.br>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -21,18 +22,24 @@
  *
  */
 
-namespace OCA\User_LDAP\Migration;
+namespace OCA\User_LDAP;
 
-use OCA\User_LDAP\Helper;
-use OCA\User_LDAP\LDAP;
-use OCA\User_LDAP\Mapping\UserMapping;
-use OCA\User_LDAP\Group_Proxy;
-use OCP\IConfig;
+interface IGroupLDAP {
 
-class UUIDFixUser extends UUIDFix {
-	public function __construct(UserMapping $mapper, LDAP $ldap, IConfig $config, Helper $helper) {
-		$this->mapper = $mapper;
-		$groupPluginManager = \OC::$server->query('LDAPGroupPluginManager');
-		$this->proxy = new Group_Proxy($helper->getServerConfigurationPrefixes(true), $ldap, $groupPluginManager);
-	}
+	//Used by LDAPProvider
+
+	/**
+	 * Return access for LDAP interaction.
+	 * @param string $gid
+	 * @return Access instance of Access for LDAP interaction
+	 */
+	public function getLDAPAccess($gid);
+
+	/**
+	 * Return a new LDAP connection for the specified group.
+	 * @param string $gid
+	 * @return resource of the LDAP connection
+	 */
+	public function getNewLDAPConnection($gid);
+
 }

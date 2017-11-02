@@ -100,7 +100,8 @@ class CleanUp extends TimedJob {
 				new LDAP(),
 				$this->ocConfig,
 				\OC::$server->getNotificationManager(),
-				\OC::$server->getUserSession()
+				\OC::$server->getUserSession(),
+				\OC::$server->query('LDAPUserPluginManager')
 			);
 		}
 

@@ -66,6 +66,13 @@ interface IGroupManager {
 	public function clearBackends();
 
 	/**
+	 * Get the active backends
+	 * @return \OCP\GroupInterface[]
+	 * @since 13.0.0
+	 */
+	public function getBackends();
+
+	/**
 	 * @param string $gid
 	 * @return \OCP\IGroup
 	 * @since 8.0.0

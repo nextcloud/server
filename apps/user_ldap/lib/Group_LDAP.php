@@ -39,8 +39,9 @@
 namespace OCA\User_LDAP;
 
 use OC\Cache\CappedMemoryCache;
+use OC\Group\Backend;
 
-class Group_LDAP extends BackendUtility implements \OCP\GroupInterface {
+class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLDAP {
 	protected $enabled = false;
 
 	/**
@@ -53,7 +54,10 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface {
 	 */
 	protected $cachedGroupsByMember;
 
-	public function __construct(Access $access) {
+	/** @var GroupPluginManager */
+	protected $groupPluginManager;
+
+	public function __construct(Access $access, GroupPluginManager $groupPluginManager) {
 		parent::__construct($access);
 		$filter = $this->access->connection->ldapGroupFilter;
 		$gassoc = $this->access->connection->ldapGroupMemberAssocAttr;
@@ -63,6 +67,7 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface {
 
 		$this->cachedGroupMembers = new CappedMemoryCache();
 		$this->cachedGroupsByMember = new CappedMemoryCache();
+		$this->groupPluginManager = $groupPluginManager;
 	}
 
 	/**
@@ -860,6 +865,10 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface {
 	 * @return int|bool
 	 */
 	public function countUsersInGroup($gid, $search = '') {
+		if ($this->groupPluginManager->implementsActions(Backend::COUNT_USERS)) {
+			return $this->groupPluginManager->countUsersInGroup($gid, $search);
+		}
+
 		$cacheKey = 'countUsersInGroup-'.$gid.'-'.$search;
 		if(!$this->enabled || !$this->groupExists($gid)) {
 			return false;
@@ -1067,17 +1076,114 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface {
 	* @return boolean
 	*
 	* Returns the supported actions as int to be
-	* compared with \OC\User\Backend::CREATE_USER etc.
+	* compared with \OC\Group\Backend::CREATE_GROUP etc.
 	*/
 	public function implementsActions($actions) {
-		return (bool)(\OC\Group\Backend::COUNT_USERS & $actions);
+		return (bool)((\OC\Group\Backend::COUNT_USERS |
+				$this->groupPluginManager->getImplementedActions()) & $actions);
 	}
 
 	/**
 	 * Return access for LDAP interaction.
 	 * @return Access instance of Access for LDAP interaction
 	 */
-	public function getLDAPAccess() {
+	public function getLDAPAccess($gid) {
 		return $this->access;
 	}
+
+	/**
+	 * create a group
+	 * @param string $gid
+	 * @return bool
+	 * @throws \Exception
+	 */
+	public function createGroup($gid) {
+		if ($this->groupPluginManager->implementsActions(Backend::CREATE_GROUP)) {
+			if ($dn = $this->groupPluginManager->createGroup($gid)) {
+				//updates group mapping
+				$this->access->dn2ocname($dn, $gid, false);
+				$this->access->connection->writeToCache("groupExists".$gid, true);
+			}
+			return $dn != null;
+		}
+		throw new \Exception('Could not create group in LDAP backend.');
+	}
+
+	/**
+	 * delete a group
+	 * @param string $gid gid of the group to delete
+	 * @return bool
+	 * @throws \Exception
+	 */
+	public function deleteGroup($gid) {
+		if ($this->groupPluginManager->implementsActions(Backend::DELETE_GROUP)) {
+			if ($ret = $this->groupPluginManager->deleteGroup($gid)) {
+				#delete group in nextcloud internal db
+				$this->access->getGroupMapper()->unmap($gid);
+				$this->access->connection->writeToCache("groupExists".$gid, false);
+			}
+			return $ret;
+		}
+		throw new \Exception('Could not delete group in LDAP backend.');
+	}
+
+	/**
+	 * Add a user to a group
+	 * @param string $uid Name of the user to add to group
+	 * @param string $gid Name of the group in which add the user
+	 * @return bool
+	 * @throws \Exception
+	 */
+	public function addToGroup($uid, $gid) {
+		if ($this->groupPluginManager->implementsActions(Backend::ADD_TO_GROUP)) {
+			if ($ret = $this->groupPluginManager->addToGroup($uid, $gid)) {
+				#$this->access->connection->clearCache();
+			}
+			return $ret;
+		}
+		throw new \Exception('Could not add user to group in LDAP backend.');
+	}
+
+	/**
+	 * Removes a user from a group
+	 * @param string $uid Name of the user to remove from group
+	 * @param string $gid Name of the group from which remove the user
+	 * @return bool
+	 * @throws \Exception
+	 */
+	public function removeFromGroup($uid, $gid) {
+		if ($this->groupPluginManager->implementsActions(Backend::REMOVE_FROM_GROUP)) {
+			if ($ret = $this->groupPluginManager->removeFromGroup($uid, $gid)) {
+				#$this->access->connection->clearCache();
+			}
+			return $ret;
+		}
+		throw new \Exception('Could not remove user from group in LDAP backend.');
+	}
+
+	/**
+	 * Gets group details
+	 * @param string $gid Name of the group
+	 * @return array | false
+	 * @throws \Exception
+	 */
+	public function getGroupDetails($gid) {
+		if ($this->groupPluginManager->implementsActions(Backend::GROUP_DETAILS)) {
+			return $this->groupPluginManager->getGroupDetails($gid);
+		}
+		throw new \Exception('Could not get group details in LDAP backend.');
+	}
+
+	/**
+	 * Return LDAP connection resource from a cloned connection.
+	 * The cloned connection needs to be closed manually.
+	 * of the current access.
+	 * @param string $gid
+	 * @return resource of the LDAP connection
+	 */
+	public function getNewLDAPConnection($gid) {
+		$connection = clone $this->access->getConnection();
+		return $connection->getConnectionResource();
+	}
+
 }

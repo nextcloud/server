@@ -33,6 +33,7 @@ class UUIDFixGroup extends UUIDFix {
 	public function __construct(GroupMapping $mapper, LDAP $ldap, IConfig $config, Helper $helper) {
 		$this->mapper = $mapper;
 		$this->proxy = new User_Proxy($helper->getServerConfigurationPrefixes(true), $ldap, $config, 
-			\OC::$server->getNotificationManager(), \OC::$server->getUserSession());
+			\OC::$server->getNotificationManager(), \OC::$server->getUserSession(),
+			\OC::$server->query('LDAPUserPluginManager'));
 	}
 }

@@ -74,7 +74,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	private $cachedGroups = array();
 
 	/**
-	 * @var \OC\Group\Group[][]
+	 * @var \OC\Group\Group[]
 	 */
 	private $cachedUserGroups = array();
 
@@ -144,7 +144,16 @@ class Manager extends PublicEmitter implements IGroupManager {
 		$this->backends = array();
 		$this->clearCaches();
 	}
-	
+
+	/**
+	 * Get the active backends
+	 * @return \OCP\GroupInterface[]
+	 */
+	public function getBackends() {
+		return $this->backends;
+	}
+
+
 	protected function clearCaches() {
 		$this->cachedGroups = array();
 		$this->cachedUserGroups = array();
