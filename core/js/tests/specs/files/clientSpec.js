@@ -658,26 +658,11 @@ describe('OC.Files.Client tests', function() {
 				['', true, OC.PERMISSION_READ],
 				['C', true, OC.PERMISSION_READ | OC.PERMISSION_CREATE],
 				['K', true, OC.PERMISSION_READ | OC.PERMISSION_CREATE],
-				['W', true, OC.PERMISSION_READ | OC.PERMISSION_CREATE | OC.PERMISSION_UPDATE],
+				['W', true, OC.PERMISSION_READ | OC.PERMISSION_UPDATE],
 				['D', true, OC.PERMISSION_READ | OC.PERMISSION_DELETE],
 				['R', true, OC.PERMISSION_READ | OC.PERMISSION_SHARE],
 				['CKWDR', true, OC.PERMISSION_ALL]
 			];
-			_.each(testCases, function(testCase) {
-				return testPermission.apply(this, testCase);
-			});
-		});
-		it('properly parses folder permissions', function() {
-			var testCases = [
-				['', false, OC.PERMISSION_READ],
-				['C', false, OC.PERMISSION_READ | OC.PERMISSION_CREATE | OC.PERMISSION_UPDATE],
-				['K', false, OC.PERMISSION_READ | OC.PERMISSION_CREATE | OC.PERMISSION_UPDATE],
-				['W', false, OC.PERMISSION_READ | OC.PERMISSION_UPDATE],
-				['D', false, OC.PERMISSION_READ | OC.PERMISSION_DELETE],
-				['R', false, OC.PERMISSION_READ | OC.PERMISSION_SHARE],
-				['CKWDR', false, OC.PERMISSION_ALL]
-			];
-
 			_.each(testCases, function(testCase) {
 				return testPermission.apply(this, testCase);
 			});
