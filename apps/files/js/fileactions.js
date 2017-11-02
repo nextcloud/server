@@ -235,7 +235,7 @@
 			}
 			var filteredActions = {};
 			$.each(actions, function (name, action) {
-				if (action.permissions & permissions) {
+				if ((action.permissions === OC.PERMISSION_NONE) || (action.permissions & permissions)) {
 					filteredActions[name] = action;
 				}
 			});

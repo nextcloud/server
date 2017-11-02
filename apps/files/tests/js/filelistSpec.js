@@ -296,6 +296,15 @@ describe('OCA.Files.FileList tests', function() {
 			expect($tr.find('.filesize').text()).toEqual('Pending');
 			expect($tr.find('.date').text()).not.toEqual('?');
 		});
+		it('generates file element with no permissions when permissions are explicitly none', function() {
+			var fileData = {
+				type: 'dir',
+				name: 'testFolder',
+				permissions: OC.PERMISSION_NONE
+			};
+			var $tr = fileList.add(fileData);
+			expect($tr.attr('data-permissions')).toEqual('0');
+		});
 		it('generates file element with zero size when size is explicitly zero', function() {
 			var fileData = {
 				type: 'dir',
