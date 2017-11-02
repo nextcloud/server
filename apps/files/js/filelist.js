@@ -407,7 +407,7 @@
 					mime: 'all',
 					order: -50,
 					iconClass: 'icon-details',
-					permissions: OC.PERMISSION_READ,
+					permissions: OC.PERMISSION_NONE,
 					actionHandler: function(fileName, context) {
 						self._updateDetailsView(fileName);
 					}
