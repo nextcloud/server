@@ -555,6 +555,10 @@ a.action > img {
 #fileList a.action.action-share {
 	padding: 17px 14px;
 }
+#fileList a.action.action-share .avatar {
+	display: inline-block;
+	vertical-align: middle;
+}
 
 #fileList a.action.action-menu {
 	padding-top: 17px;
@@ -590,8 +594,12 @@ a.action > img {
 	max-width: 70px;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	vertical-align: bottom;
-	padding-left: 6px;
+	vertical-align: middle;
+	margin-left: 6px;
+}
+
+#fileList .remoteAddress .userDomain {
+	margin-left: 0 !important;
 }
 
 #fileList .favorite-mark.permanent {

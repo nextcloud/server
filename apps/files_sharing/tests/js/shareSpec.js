@@ -145,7 +145,7 @@ describe('OCA.Sharing.Util tests', function() {
 			}]);
 			$tr = fileList.$el.find('tbody tr:first');
 			$action = $tr.find('.action-share');
-			expect($action.find('>span').text().trim()).toEqual('User One');
+			expect($action.find('>span').text().trim()).toEqual('Shared by User One');
 			expect($action.find('.icon').hasClass('icon-shared')).toEqual(true);
 			expect($action.find('.icon').hasClass('icon-public')).toEqual(false);
 			expect(OC.basename(getImageUrl($tr.find('.filename .thumbnail')))).toEqual('folder-shared.svg');
@@ -166,7 +166,7 @@ describe('OCA.Sharing.Util tests', function() {
 			}]);
 			$tr = fileList.$el.find('tbody tr:first');
 			$action = $tr.find('.action-share');
-			expect($action.find('>span').text().trim()).toEqual('Shared with User One, User Two');
+			expect($action.text().trim()).toEqual('Shared with User One Shared with User Two');
 			expect($action.find('.icon').hasClass('icon-shared')).toEqual(true);
 			expect($action.find('.icon').hasClass('icon-public')).toEqual(false);
 			expect(OC.basename(getImageUrl($tr.find('.filename .thumbnail')))).toEqual('folder-shared.svg');
@@ -273,7 +273,7 @@ describe('OCA.Sharing.Util tests', function() {
 
 			expect($tr.attr('data-share-recipients')).toEqual('Group One, Group Two, User One, User Two');
 
-			expect($action.find('>span').text().trim()).toEqual('Shared with Group One, Group Two, User One, User Two');
+			expect($action.text().trim()).toEqual('Shared with Group One Shared with Group Two Shared with User One Shared with User Two');
 			expect($action.find('.icon').hasClass('icon-shared')).toEqual(true);
 			expect($action.find('.icon').hasClass('icon-public')).toEqual(false);
 		});
@@ -306,7 +306,7 @@ describe('OCA.Sharing.Util tests', function() {
 
 			expect($tr.attr('data-share-recipients')).toEqual('User One, User Three, User Two');
 
-			expect($action.find('>span').text().trim()).toEqual('Shared with User One, User Three, User Two');
+			expect($action.text().trim()).toEqual('Shared with User One Shared with User Three Shared with User Two');
 			expect($action.find('.icon').hasClass('icon-shared')).toEqual(true);
 			expect($action.find('.icon').hasClass('icon-public')).toEqual(false);
 		});
@@ -362,7 +362,7 @@ describe('OCA.Sharing.Util tests', function() {
 
 			expect($tr.attr('data-share-recipients')).toEqual('User Two');
 
-			expect($action.find('>span').text().trim()).toEqual('User One');
+			expect($action.find('>span').text().trim()).toEqual('Shared by User One');
 			expect($action.find('.icon').hasClass('icon-shared')).toEqual(true);
 			expect($action.find('.icon').hasClass('icon-public')).toEqual(false);
 		});
@@ -393,7 +393,7 @@ describe('OCA.Sharing.Util tests', function() {
 
 			expect($tr.attr('data-share-recipients')).not.toBeDefined();
 
-			expect($action.find('>span').text().trim()).toEqual('User One');
+			expect($action.find('>span').text().trim()).toEqual('Shared by User One');
 			expect($action.find('.icon').hasClass('icon-shared')).toEqual(true);
 			expect($action.find('.icon').hasClass('icon-public')).toEqual(false);
 		});
