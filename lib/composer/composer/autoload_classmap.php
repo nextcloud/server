@@ -512,6 +512,7 @@ return array(
     'OC\\Core\\Controller\\SetupController' => $baseDir . '/core/Controller/SetupController.php',
     'OC\\Core\\Controller\\TwoFactorChallengeController' => $baseDir . '/core/Controller/TwoFactorChallengeController.php',
     'OC\\Core\\Controller\\UserController' => $baseDir . '/core/Controller/UserController.php',
+    'OC\\Core\\Controller\\WalledGardenController' => $baseDir . '/core/Controller/WalledGardenController.php',
     'OC\\Core\\Middleware\\TwoFactorMiddleware' => $baseDir . '/core/Middleware/TwoFactorMiddleware.php',
     'OC\\Core\\Migrations\\Version13000Date20170705121758' => $baseDir . '/core/Migrations/Version13000Date20170705121758.php',
     'OC\\Core\\Migrations\\Version13000Date20170718121200' => $baseDir . '/core/Migrations/Version13000Date20170718121200.php',
