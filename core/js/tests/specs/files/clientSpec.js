@@ -640,14 +640,14 @@ describe('OC.Files.Client tests', function() {
 
 		function testPermission(permission, isFile, expectedPermissions) {
 			var promise = getFileInfoWithPermission(permission, isFile);
-			promise.then(function(result) {
+			promise.then(function(status, result) {
 				expect(result.permissions).toEqual(expectedPermissions);
 			});
 		}
 
 		function testMountType(permission, isFile, expectedMountType) {
 			var promise = getFileInfoWithPermission(permission, isFile);
-			promise.then(function(result) {
+			promise.then(function(status, result) {
 				expect(result.mountType).toEqual(expectedMountType);
 			});
 		}
@@ -664,7 +664,7 @@ describe('OC.Files.Client tests', function() {
 				['CKWDR', true, OC.PERMISSION_ALL]
 			];
 			_.each(testCases, function(testCase) {
-				return testPermission.apply(testCase);
+				return testPermission.apply(this, testCase);
 			});
 		});
 		it('properly parses folder permissions', function() {
@@ -679,7 +679,7 @@ describe('OC.Files.Client tests', function() {
 			];
 
 			_.each(testCases, function(testCase) {
-				return testPermission.apply(testCase);
+				return testPermission.apply(this, testCase);
 			});
 		});
 		it('properly parses mount types', function() {
@@ -691,7 +691,7 @@ describe('OC.Files.Client tests', function() {
 			];
 
 			_.each(testCases, function(testCase) {
-				return testMountType.apply(testCase);
+				return testMountType.apply(this, testCase);
 			});
 		});
 	});
