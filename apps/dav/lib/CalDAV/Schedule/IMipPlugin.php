@@ -25,10 +25,14 @@ namespace OCA\DAV\CalDAV\Schedule;
 
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
+use OCP\IL10N;
 use OCP\ILogger;
+use OCP\IURLGenerator;
 use OCP\L10N\IFactory as L10NFactory;
+use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use Sabre\CalDAV\Schedule\IMipPlugin as SabreIMipPlugin;
+use Sabre\DAV\Xml\Element\Prop;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\DateTimeParser;
@@ -70,6 +74,9 @@ class IMipPlugin extends SabreIMipPlugin {
 	/** @var L10NFactory */
 	private $l10nFactory;
 
+	/** @var IURLGenerator */
+	private $urlGenerator;
+
 	const MAX_DATE = '2038-01-01';
 
 	const METHOD_REQUEST = 'request';
@@ -82,9 +89,10 @@ class IMipPlugin extends SabreIMipPlugin {
 	 * @param ILogger $logger
 	 * @param ITimeFactory $timeFactory
 	 * @param L10NFactory $l10nFactory
+	 * @param IUrlGenerator $urlGenerator
 	 * @param string $userId
 	 */
-	public function __construct(IConfig $config, IMailer $mailer, ILogger $logger, ITimeFactory $timeFactory, L10NFactory $l10nFactory, $userId) {
+	public function __construct(IConfig $config, IMailer $mailer, ILogger $logger, ITimeFactory $timeFactory, L10NFactory $l10nFactory, IURLGenerator $urlGenerator, $userId) {
 		parent::__construct('');
 		$this->userId = $userId;
 		$this->config = $config;
@@ -92,6 +100,7 @@ class IMipPlugin extends SabreIMipPlugin {
 		$this->logger = $logger;
 		$this->timeFactory = $timeFactory;
 		$this->l10nFactory = $l10nFactory;
+		$this->urlGenerator = $urlGenerator;
 	}
 
 	/**
@@ -147,10 +156,29 @@ class IMipPlugin extends SabreIMipPlugin {
 		$meetingTitle = $vevent->SUMMARY;
 		$meetingDescription = $vevent->DESCRIPTION;
 
-		$meetingStart = $l10n->l('datetime', $vevent->DTSTART->getDateTime()->getTimestamp());
-		$meetingEnd = $l10n->l('datetime', $vevent->DTEND->getDateTime()->getTimestamp());
+		$start = $vevent->DTSTART;
+		if (isset($vevent->DTEND)) {
+			$end = $vevent->DTEND;
+		} elseif (isset($vevent->DURATION)) {
+			$isFloating = $vevent->DTSTART->isFloating();
+			$end = clone $vevent->DTSTART;
+			$endDateTime = $end->getDateTime();
+			$endDateTime = $endDateTime->add(DateTimeParser::parse($vevent->DURATION->getValue()));
+			$end->setDateTime($endDateTime, $isFloating);
+		} elseif (!$vevent->DTSTART->hasTime()) {
+			$isFloating = $vevent->DTSTART->isFloating();
+			$end = clone $vevent->DTSTART;
+			$endDateTime = $end->getDateTime();
+			$endDateTime = $endDateTime->modify('+1 day');
+			$end->setDateTime($endDateTime, $isFloating);
+		} else {
+			$end = clone $vevent->DTSTART;
+		}
+
+		$meetingWhen = $this->generateWhenString($l10n, $start, $end);
 
 		$meetingUrl = $vevent->URL;
+		$meetingLocation = $vevent->LOCATION;
 
 		$defaultVal = '--';
 
@@ -169,42 +197,22 @@ class IMipPlugin extends SabreIMipPlugin {
 			'invitee_name' => (string)$meetingInviteeName ?: $defaultVal,
 			'meeting_title' => (string)$meetingTitle ?: $defaultVal,
 			'meeting_description' => (string)$meetingDescription ?: $defaultVal,
-			'meeting_start' => (string)$meetingStart,
-			'meeting_end' => (string)$meetingEnd,
 			'meeting_url' => (string)$meetingUrl ?: $defaultVal,
 		);
 
 		$message = $this->mailer->createMessage()
 			->setReplyTo([$sender => $senderName])
-			->setTo([$recipient => $recipientName])
-		;
+			->setTo([$recipient => $recipientName]);
 
 		$template = $this->mailer->createEMailTemplate('dav.calendarInvite.' . $method, $data);
 		$template->addHeader();
 
-		if ($method === self::METHOD_CANCEL) {
-			$template->setSubject('Cancelled: ' . $summary);
-			$template->addHeading($l10n->t('Event canceled'), $l10n->t('Hello %s,', [$data['attendee_name']]));
-			$template->addBodyText($l10n->t('The meeting with %s was canceled.', [$data['invitee_name']]));
-		} else if ($method === self::METHOD_REPLY) {
-			$template->setSubject('Re: ' . $summary);
-			$template->addHeading($l10n->t('Event updated'), $l10n->t('Hello %s,', [$data['attendee_name']]));
-			$template->addBodyText($l10n->t('The meeting with %s was updated.', [$data['invitee_name']]));
-		} else {
-			$template->setSubject($summary);
-			$template->addHeading($l10n->t('Event invitation'), $l10n->t('Hello %s,', [$data['attendee_name']]));
-			$template->addBodyText($l10n->t('%s has invited you to a meeting.', [$data['invitee_name']]));
-		}
+		$this->addSubjectAndHeading($template, $l10n, $method, $summary,
+			$meetingAttendeeName, $meetingInviteeName);
+		$this->addBulletList($template, $l10n, $meetingWhen, $meetingLocation,
+			$meetingDescription, $meetingUrl);
 
-		$template->addBodyText($l10n->t('Title: %s', [$data['meeting_title']]));
-		$template->addBodyText($l10n->t('Description: %s', [$data['meeting_description']]));
-		$template->addBodyText($l10n->t('Start: %s', [$data['meeting_start']]));
-		$template->addBodyText($l10n->t('End: %s', [$data['meeting_end']]));
-		if ($data['meeting_url']) {
-			$template->addBodyText($l10n->t('URL: %s', [$data['meeting_url']]));
-		}
 		$template->addFooter();
-
 		$message->useTemplate($template);
 
 		$attachment = $this->mailer->createAttachment(
@@ -309,4 +317,142 @@ class IMipPlugin extends SabreIMipPlugin {
 		return $default;
 	}
 
+	/**
+	 * @param IL10N $l10n
+	 * @param Property $dtstart
+	 * @param Property $dtend
+	 */
+	private function generateWhenString(IL10N $l10n, Property $dtstart, Property $dtend) {
+		$isAllDay = $dtstart instanceof Property\ICalendar\Date;
+
+		/** @var Property\ICalendar\Date | Property\ICalendar\DateTime $dtstart */
+		/** @var Property\ICalendar\Date | Property\ICalendar\DateTime $dtend */
+		/** @var \DateTimeImmutable $dtstartDt */
+		$dtstartDt = $dtstart->getDateTime();
+		/** @var \DateTimeImmutable $dtendDt */
+		$dtendDt = $dtend->getDateTime();
+
+		$diff = $dtstartDt->diff($dtendDt);
+
+		$dtstartDt = new \DateTime($dtstartDt->format(\DateTime::ATOM));
+		$dtendDt = new \DateTime($dtendDt->format(\DateTime::ATOM));
+
+		if ($isAllDay) {
+			// One day event
+			if ($diff->days === 1) {
+				return $l10n->l('date', $dtstartDt, ['width' => 'medium']);
+			}
+
+			//event that spans over multiple days
+			$localeStart = $l10n->l('date', $dtstartDt, ['width' => 'medium']);
+			$localeEnd = $l10n->l('date', $dtendDt, ['width' => 'medium']);
+
+			return $localeStart . ' - ' . $localeEnd;
+		}
+
+		/** @var Property\ICalendar\DateTime $dtstart */
+		/** @var Property\ICalendar\DateTime $dtend */
+		$isFloating = $dtstart->isFloating();
+		$startTimezone = $endTimezone = null;
+		if (!$isFloating) {
+			$prop = $dtstart->offsetGet('TZID');
+			if ($prop instanceof Parameter) {
+				$startTimezone = $prop->getValue();
+			}
+
+			$prop = $dtend->offsetGet('TZID');
+			if ($prop instanceof Parameter) {
+				$endTimezone = $prop->getValue();
+			}
+		}
+
+		$localeStart = $l10n->l('datetime', $dtstartDt, ['width' => 'medium']);
+
+		// always show full date with timezone if timezones are different
+		if ($startTimezone !== $endTimezone) {
+			$localeEnd = $l10n->l('datetime', $dtendDt, ['width' => 'medium']);
+
+			return $localeStart . ' (' . $startTimezone . ') - ' .
+				$localeEnd . ' (' . $endTimezone . ')';
+		}
+
+		// show only end time if date is the same
+		if ($this->isDayEqual($dtstartDt, $dtendDt)) {
+			$localeEnd = $l10n->l('time', $dtendDt, ['width' => 'medium']);
+		} else {
+			$localeEnd = $l10n->l('datetime', $dtendDt, ['width' => 'medium']);
+		}
+
+		return  $localeStart . ' - ' . $localeEnd . ' (' . $startTimezone . ')';
+	}
+
+	/**
+	 * @param \DateTime $dtStart
+	 * @param \DateTime $dtEnd
+	 * @return bool
+	 */
+	private function isDayEqual(\DateTime $dtStart, \DateTime $dtEnd) {
+		return $dtStart->format('Y-m-d') === $dtEnd->format('Y-m-d');
+	}
+
+	/**
+	 * @param IEMailTemplate $template
+	 * @param IL10N $l10n
+	 * @param string $method
+	 * @param string $summary
+	 * @param string $attendeeName
+	 * @param string $inviteeName
+	 */
+	private function addSubjectAndHeading(IEMailTemplate $template, IL10N $l10n,
+										  $method, $summary, $attendeeName, $inviteeName) {
+		if ($method === self::METHOD_CANCEL) {
+			$template->setSubject('Cancelled: ' . $summary);
+			$template->addHeading($l10n->t('Invitation canceled'), $l10n->t('Hello %s,', [$attendeeName]));
+			$template->addBodyText($l10n->t('The meeting »%s« with %s was canceled.', [$summary, $inviteeName]));
+		} else if ($method === self::METHOD_REPLY) {
+			$template->setSubject('Re: ' . $summary);
+			$template->addHeading($l10n->t('Invitation updated'), $l10n->t('Hello %s,', [$attendeeName]));
+			$template->addBodyText($l10n->t('The meeting »%s« with %s was updated.', [$summary, $inviteeName]));
+		} else {
+			$template->setSubject('Invitation: ' . $summary);
+			$template->addHeading($l10n->t('%s invited you to »%s«', [$inviteeName, $summary]), $l10n->t('Hello %s,', [$attendeeName]));
+		}
+
+	}
+
+	/**
+	 * @param IEMailTemplate $template
+	 * @param IL10N $l10n
+	 * @param string $time
+	 * @param string $location
+	 * @param string $description
+	 * @param string $url
+	 */
+	private function addBulletList(IEMailTemplate $template, IL10N $l10n, $time, $location, $description, $url) {
+		$template->addBodyListItem($time, $l10n->t('When:'),
+			$this->getAbsoluteImagePath('filetypes/text-calendar.svg'));
+
+		if ($location) {
+			$template->addBodyListItem($location, $l10n->t('Where:'),
+				$this->getAbsoluteImagePath('filetypes/location.svg'));
+		}
+		if ($description) {
+			$template->addBodyListItem((string)$description, $l10n->t('Description:'),
+				$this->getAbsoluteImagePath('filetypes/text.svg'));
+		}
+		if ($url) {
+			$template->addBodyListItem((string)$url, $l10n->t('Link:'),
+				$this->getAbsoluteImagePath('filetypes/link.svg'));
+		}
+	}
+
+	/**
+	 * @param string $path
+	 * @return string
+	 */
+	private function getAbsoluteImagePath($path) {
+		return $this->urlGenerator->getAbsoluteURL(
+			$this->urlGenerator->imagePath('core', $path)
+		);
+	}
 }
