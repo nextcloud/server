@@ -94,6 +94,7 @@ describe('OCA.Files.FileList tests', function() {
 			'<input type="checkbox" id="select_all_files" class="select-all checkbox">' +
 			'<a class="name columntitle" data-sort="name"><span>Name</span><span class="sort-indicator"></span></a>' +
 			'<span id="selectedActionsList" class="selectedActions hidden">' +
+			'<a href class="copy-move">Move or copy</a>' +
 			'<a href class="download"><img src="actions/download.svg">Download</a>' +
 			'<a href class="delete-selected">Delete</a></span>' +
 			'</th>' +
@@ -2024,6 +2025,28 @@ describe('OCA.Files.FileList tests', function() {
 			});
 		});
 		describe('Selection overlay', function() {
+			it('show doesnt show the copy/move action if one or more files are not copiable/movable', function () {
+				fileList.setFiles(testFiles);
+				$('#permissions').val(OC.PERMISSION_READ | OC.PERMISSION_UPDATE);
+				$('.select-all').click();
+				expect(fileList.$el.find('.selectedActions .copy-move').hasClass('hidden')).toEqual(false);
+				testFiles[0].permissions = OC.PERMISSION_READ;
+				$('.select-all').click();
+				fileList.setFiles(testFiles);
+				$('.select-all').click();
+				expect(fileList.$el.find('.selectedActions .copy-move').hasClass('hidden')).toEqual(true);
+			});
+			it('show doesnt show the download action if one or more files are not downloadable', function () {
+				fileList.setFiles(testFiles);
+				$('#permissions').val(OC.PERMISSION_READ | OC.PERMISSION_UPDATE);
+				$('.select-all').click();
+				expect(fileList.$el.find('.selectedActions .download').hasClass('hidden')).toEqual(false);
+				testFiles[0].permissions = OC.PERMISSION_UPDATE;
+				$('.select-all').click();
+				fileList.setFiles(testFiles);
+				$('.select-all').click();
+				expect(fileList.$el.find('.selectedActions .download').hasClass('hidden')).toEqual(true);
+			});
 			it('show doesnt show the delete action if one or more files are not deletable', function () {
 				fileList.setFiles(testFiles);
 				$('#permissions').val(OC.PERMISSION_READ | OC.PERMISSION_DELETE);
