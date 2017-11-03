@@ -85,7 +85,7 @@ input {
 		transform: translate(-50%, -50%);
 		background: #fff;
 		color: #333;
-		border-radius: 3px;
+		border-radius: $border-radius;
 		box-shadow: 0 0 7px #888;
 		padding: 15px;
 		.jcrop-holder {
@@ -716,7 +716,7 @@ span.version {
 		color: #555;
 		background-color: transparent;
 		border: 1px solid #555;
-		border-radius: 3px;
+		border-radius: $border-radius;
 		padding: 3px 6px;
 	}
 	a {
@@ -1103,7 +1103,7 @@ table.grid td.date {
 span {
 	&.success {
 		background: #37ce02;
-		border-radius: 3px;
+		border-radius: $border-radius;
 	}
 	&.error {
 		background: #ce3702;

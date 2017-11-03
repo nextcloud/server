@@ -752,7 +752,7 @@ table.dragshadow td.size {
 
 	.quota-container {
 		height: 5px;
-		border-radius: 3px;
+		border-radius: $border-radius;
 
 		div {
 			height: 100%;

@@ -12,7 +12,7 @@
 	background: $color-main-background;
 	color: $color-main-text;
 	border: 1px solid $color-border;
-	border-radius: 3px;
+	border-radius: $border-radius;
 	box-shadow: 0 0 5px $color-box-shadow;
 	min-width: 120px;
 	z-index: 11110 !important;

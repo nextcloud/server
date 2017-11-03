@@ -481,7 +481,7 @@ nav {
 		background-color: rgba($color-main-background, .97);
 		white-space: nowrap;
 		border: none;
-		border-radius: 3px;
+		border-radius: $border-radius;
 		border-top-left-radius: 0;
 		border-top-right-radius: 0;
 		margin-top: 0;
