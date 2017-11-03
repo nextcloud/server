@@ -226,7 +226,8 @@
 		 * Return the number of items to hide
 		 */
 		_toShrink: function() {
-			var maxWidth = this.$el.width();
+			var maxWidth = this.$el.parent().width();
+			console.log('Available width:' +maxWidth);
 			var smallestWidth = 50;
 			// 50px by default for the ellipsis crumb
 			return Math.ceil((this.totalWidth + 50 - maxWidth) / smallestWidth);
@@ -240,7 +241,7 @@
 		 _hideCrumbs: function(toHide) {
 			 var min = Math.round(this.breadcrumbs.length/2 - toHide/2);
 			 var max = Math.round(this.breadcrumbs.length/2 + toHide/2 - 1);
-			 console.log(this.$el.find('.crumb').slice(min, max));
+			 console.log('toShrink: '+toHide);
 			 this.$el.find('.crumb').removeClass('hidden')
 			 	.slice(min, max).addClass('hidden');
 		 },
