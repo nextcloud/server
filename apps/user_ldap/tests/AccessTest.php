@@ -353,8 +353,9 @@ class AccessTest extends TestCase {
 		$userMock->expects($this->never())
 			->method('processAttributes');
 
-		$this->userManager->expects($this->never())
-			->method('get');
+		$this->userManager->expects($this->any())
+			->method('get')
+			->willReturn($this->createMock(User::class));
 
 		$this->c->expects($this->any())
 			->method('getConfig')
@@ -402,10 +403,6 @@ class AccessTest extends TestCase {
 			->will($this->returnValue($userMock));
 
 		$configMock = $this->createMock(IConfig::class);
-		$configMock->expects($this->once())
-			->method('getAppValue')
-			->with('core', 'backgroundjobs_mode', $this->anything())
-			->willReturn('ajax');
 
 		$this->c->expects($this->any())
 			->method('getConfig')
