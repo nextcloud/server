@@ -1070,6 +1070,72 @@ code {
 	background: $color-main-background;
 }
 
+
+/* ---- jQuery UI timepicker ---- */
+.ui-widget.ui-timepicker {
+	margin-top: 10px !important;
+	width: auto !important;
+	border-radius: $border-radius;
+
+	.ui-widget-content {
+		border: none !important;
+	}
+
+	.ui-state-default,
+	.ui-widget-content .ui-state-default,
+	.ui-widget-header .ui-state-default {
+		border: 1px solid transparent;
+		background: inherit;
+	}
+	.ui-widget-header {
+		padding: 7px;
+		font-size: 13px;
+		border:	none;
+		background-color: $color-main-background;
+		color: $color-main-text;
+
+		.ui-timepicker-title {
+			line-height: 1;
+			font-weight: 300;
+		}
+	}
+	.ui-timepicker-table {
+		th {
+			font-weight: normal;
+			color: nc-lighten($color-main-text, 33%);
+			opacity: .8;
+		}
+		tr:hover {
+			background-color: inherit;
+		}
+		td {
+			> * {
+				border-radius: 50%;
+				text-align: center;
+				font-weight: normal;
+				color: $color-main-text;
+				padding: 8px 7px;
+				font-size: .9em;
+				line-height: 12px;
+			}
+
+			&.ui-timepicker-hour-cell a.ui-state-active,
+			&.ui-timepicker-minute-cell a.ui-state-active,
+			.ui-state-hover,
+			.ui-state-focus {
+				background-color: $color-primary;
+				color: $color-primary-text;
+				font-weight: bold;
+			}
+
+			&.ui-timepicker-minutes:not(.ui-state-hover) {
+				color: nc-lighten($color-main-text, 33%);
+				opacity: .8;
+			}
+		}
+	}
+}
+
 /* ---- DIALOGS ---- */
 
 #oc-dialog-filepicker-content {
