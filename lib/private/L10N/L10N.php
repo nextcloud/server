@@ -169,6 +169,8 @@ class L10N implements IL10N {
 				return (string) Calendar::formatDatetime($value, $width, $locale);
 			case 'time':
 				return (string) Calendar::formatTime($value, $width, $locale);
+			case 'weekdayName':
+				return (string) Calendar::getWeekdayName($value, $width, $locale);
 			default:
 				return false;
 		}

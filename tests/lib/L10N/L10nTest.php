@@ -164,4 +164,9 @@ class L10nTest extends TestCase {
 		$l = \OC::$server->getL10N('lib', 'de');
 		$this->assertEquals('de', $l->getLanguageCode());
 	}
+
+	public function testWeekdayName() {
+		$l = \OC::$server->getL10N('lib', 'de');
+		$this->assertEquals('Mo.', $l->l('weekdayName', new \DateTime('2017-11-6'), ['width' => 'abbreviated']));
+	}
 }
