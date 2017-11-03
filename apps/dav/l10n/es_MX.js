@@ -46,6 +46,7 @@ OC.L10N.register(
     "Remote Address: %s" : "Dirección remota: %s",
     "Request ID: %s" : "ID de solicitud: %s",
     "CalDAV server" : "Servidor CalDAV",
-    "Send invitations to attendees" : "Enviar invitaciones a los asistentes"
+    "Send invitations to attendees" : "Enviar invitaciones a los asistentes",
+    "Please make sure to properly set up the email settings above." : "Por favor asegurarte de establecer correctamente las configuraciones de correo anteriores. "
 },
 "nplurals=2; plural=(n != 1);");
