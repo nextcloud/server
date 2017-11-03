@@ -493,6 +493,7 @@ table td.selection {
 .fileactions {
 	position: absolute;
 	right: 0;
+	z-index: 50;
 }
 
 .busy .fileactions, .busy .action {
