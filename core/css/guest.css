@@ -69,7 +69,6 @@ body {
 }
 
 #header .logo {
-	background-image: url('../img/logo.svg?v=1');
 	background-repeat: no-repeat;
 	background-size: 175px;
 	background-position: center;
@@ -77,6 +76,24 @@ body {
 	min-height: 128px;
 	max-height: 200px;
 	margin: 0 auto;
+
+	background: url('../img/logo-sprite.png') 0 0 no-repeat;
+	height: 100px;
+	width: 140px;
+	display: inline-block;
+	transform: scale(.5);
+	zoom: .5;
+	background-position-x: 0;
+	animation: logo-animation 2s steps(33) forwards; /* should be disabled when themed */
+}
+
+@-webkit-keyframes logo-animation {
+	from { background-position: 0 0; }
+	to { background-position: -4620px 0; }
+}
+@keyframes logo-animation {
+	from { background-position: 0 0; }
+	to { background-position: -4620px 0; }
 }
 
 #header .logo img {

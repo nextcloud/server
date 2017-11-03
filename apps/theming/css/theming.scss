@@ -93,7 +93,7 @@
 /* override styles for login screen in guest.css */
 @if variable_exists('theming-logo-mime') and $theming-logo-mime != '' {
 	#header .logo {
-		background-image: url(#{$image-logo});
+		// background-image: url(#{$image-logo}); // needs to be disabled when not themed
 		background-size: contain;
 	}
 	#body-login #header .logo {
