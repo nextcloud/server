@@ -1132,6 +1132,10 @@ code {
 				color: nc-lighten($color-main-text, 33%);
 				opacity: .8;
 			}
+
+			&.ui-timepicker-hours {
+				border-right: 1px solid $color-border;
+			}
 		}
 	}
 }
