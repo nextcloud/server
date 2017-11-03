@@ -60,10 +60,6 @@ table td.filename .nametext .innernametext {
 
 /* proper notification area for multi line messages */
 #notification-container {
-	display: -webkit-box;
-	display: -moz-box;
-	display: -ms-flexbox;
-	display: -webkit-flex;
 	display: flex;
 }
 
