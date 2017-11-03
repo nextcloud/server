@@ -34,11 +34,12 @@ use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\LogWrapper;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\User\Manager;
-use OCA\User_LDAP\User_LDAP;
 use OCP\Image;
 use OCP\IServerContainer;
 
 class Sync extends TimedJob {
+	const MAX_INTERVAL = 12 * 60 * 60; // 12h
+	const MIN_INTERVAL = 30 * 60; // 30min
 	/** @var IServerContainer */
 	protected $c;
 	/** @var  Helper */
@@ -49,17 +50,13 @@ class Sync extends TimedJob {
 	protected $userManager;
 	/** @var UserMapping */
 	protected $mapper;
-	/** @var int */
-	protected $maxInterval = 12 * 60 * 60; // 12h
-	/** @var int */
-	protected $minInterval = 30 * 60; // 30min
 
 	public function __construct() {
 		$this->setInterval(
 			\OC::$server->getConfig()->getAppValue(
 				'user_ldap',
 				'background_sync_interval',
-				$this->minInterval
+				self::MIN_INTERVAL
 			)
 		);
 	}
@@ -75,9 +72,10 @@ class Sync extends TimedJob {
 		$minPagingSize = $this->getMinPagingSize();
 		$mappedUsers = $this->mapper->count();
 
-		$runsPerDay = ($minPagingSize === 0) ? $this->maxInterval : $mappedUsers / $minPagingSize;
+		$runsPerDay = ($minPagingSize === 0 || $mappedUsers === 0) ? self::MAX_INTERVAL
+			: $mappedUsers / $minPagingSize;
 		$interval = floor(24 * 60 * 60 / $runsPerDay);
-		$interval = min(max($interval, $this->minInterval), $this->maxInterval);
+		$interval = min(max($interval, self::MIN_INTERVAL), self::MAX_INTERVAL);
 
 		$this->c->getConfig()->setAppValue('user_ldap', 'background_sync_interval', $interval);
 	}
