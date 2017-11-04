@@ -125,6 +125,8 @@ OC.L10N.register(
     "The \"Strict-Transport-Security\" HTTP header is not configured to at least \"{seconds}\" seconds. For enhanced security we recommend enabling HSTS as described in our <a href=\"{docUrl}\" rel=\"noreferrer\">security tips</a>." : "L'en-tête HTTP \"Strict-Transport-Security\" n'est pas configurée à au moins \"{seconds}\" secondes. Pour renforcer la sécurité nous recommandons d'activer HSTS comme décrit dans nos <a href=\"{docUrl}\" rel=\"noreferrer\">conseils de sécurisation</a>.",
     "You are accessing this site via HTTP. We strongly suggest you configure your server to require using HTTPS instead as described in our <a href=\"{docUrl}\">security tips</a>." : "Vous accédez à ce site via HTTP. Nous vous recommandons fortement de configurer votre serveur pour forcer l'utilisation de HTTPS, comme expliqué dans nos <a href=\"{docUrl}\">conseils de sécurisation</a>.",
     "Shared" : "Partagé",
+    "Shared with" : "Partagé avec",
+    "Shared by" : "Partagé par",
     "Error setting expiration date" : "Erreur lors de la configuration de la date d'expiration",
     "The public link will expire no later than {days} days after it is created" : "Ce lien public expirera dans {days} jours après sa création.",
     "Set expiration date" : "Spécifier une date d'expiration",
