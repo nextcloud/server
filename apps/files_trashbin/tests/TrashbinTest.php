@@ -147,50 +147,8 @@ class TrashbinTest extends \Test\TestCase {
 		parent::tearDown();
 	}
 
-	/**
-	 * test expiration of files older then the max storage time defined for the trash
-	 */
-	public function testExpireOldFiles() {
 
-		$currentTime = time();
-		$expireAt = $currentTime - 2 * 24 * 60 * 60;
-		$expiredDate = $currentTime - 3 * 24 * 60 * 60;
 
-		// create some files
-		\OC\Files\Filesystem::file_put_contents('file1.txt', 'file1');
-		\OC\Files\Filesystem::file_put_contents('file2.txt', 'file2');
-		\OC\Files\Filesystem::file_put_contents('file3.txt', 'file3');
-
-		// delete them so that they end up in the trash bin
-		\OC\Files\Filesystem::unlink('file1.txt');
-		\OC\Files\Filesystem::unlink('file2.txt');
-		\OC\Files\Filesystem::unlink('file3.txt');
-
-		//make sure that files are in the trash bin
-		$filesInTrash = OCA\Files_Trashbin\Helper::getTrashFiles('/', self::TEST_TRASHBIN_USER1, 'name');
-		$this->assertSame(3, count($filesInTrash));
-
-		// every second file will get a date in the past so that it will get expired
-		$manipulatedList = $this->manipulateDeleteTime($filesInTrash, $this->trashRoot1, $expiredDate);
-
-		$testClass = new TrashbinForTesting();
-		list($sizeOfDeletedFiles, $count) = $testClass->dummyDeleteExpiredFiles($manipulatedList, $expireAt);
-
-		$this->assertSame(10, $sizeOfDeletedFiles);
-		$this->assertSame(2, $count);
-
-		// only file2.txt should be left
-		$remainingFiles = array_slice($manipulatedList, $count);
-		$this->assertSame(1, count($remainingFiles));
-		$remainingFile = reset($remainingFiles);
-		$this->assertSame('file2.txt', $remainingFile['name']);
-
-		// check that file1.txt and file3.txt was really deleted
-		$newTrashContent = OCA\Files_Trashbin\Helper::getTrashFiles('/', self::TEST_TRASHBIN_USER1);
-		$this->assertSame(1, count($newTrashContent));
-		$element = reset($newTrashContent);
-		$this->assertSame('file2.txt', $element['name']);
-	}
 
 	/**
 	 * test expiration of files older then the max storage time defined for the trash
@@ -267,6 +225,52 @@ class TrashbinTest extends \Test\TestCase {
 
 		$this->verifyArray($filesInTrashUser1AfterDelete, array('user1-2.txt', 'user1-4.txt'));
 	}
+
+	/**
+	 * test expiration of files older then the max storage time defined for the trash
+	 */
+	public function testExpireOldFiles() {
+
+		$currentTime = time();
+		$expireAt = $currentTime - 2 * 24 * 60 * 60;
+		$expiredDate = $currentTime - 3 * 24 * 60 * 60;
+
+		// create some files
+		\OC\Files\Filesystem::file_put_contents('file1.txt', 'file1');
+		\OC\Files\Filesystem::file_put_contents('file2.txt', 'file2');
+		\OC\Files\Filesystem::file_put_contents('file3.txt', 'file3');
+
+		// delete them so that they end up in the trash bin
+		\OC\Files\Filesystem::unlink('file1.txt');
+		\OC\Files\Filesystem::unlink('file2.txt');
+		\OC\Files\Filesystem::unlink('file3.txt');
+
+		//make sure that files are in the trash bin
+		$filesInTrash = OCA\Files_Trashbin\Helper::getTrashFiles('/', self::TEST_TRASHBIN_USER1, 'name');
+		$this->assertSame(3, count($filesInTrash));
+
+		// every second file will get a date in the past so that it will get expired
+		$manipulatedList = $this->manipulateDeleteTime($filesInTrash, $this->trashRoot1, $expiredDate);
+
+		$testClass = new TrashbinForTesting();
+		list($sizeOfDeletedFiles, $count) = $testClass->dummyDeleteExpiredFiles($manipulatedList, $expireAt);
+
+		$this->assertSame(10, $sizeOfDeletedFiles);
+		$this->assertSame(2, $count);
+
+		// only file2.txt should be left
+		$remainingFiles = array_slice($manipulatedList, $count);
+		$this->assertSame(1, count($remainingFiles));
+		$remainingFile = reset($remainingFiles);
+		$this->assertSame('file2.txt', $remainingFile['name']);
+
+		// check that file1.txt and file3.txt was really deleted
+		$newTrashContent = OCA\Files_Trashbin\Helper::getTrashFiles('/', self::TEST_TRASHBIN_USER1);
+		$this->assertSame(1, count($newTrashContent));
+		$element = reset($newTrashContent);
+		$this->assertSame('file2.txt', $element['name']);
+	}
+
 
 	/**
 	 * verify that the array contains the expected results
