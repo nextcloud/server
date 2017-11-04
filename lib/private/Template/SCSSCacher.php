@@ -94,7 +94,7 @@ class SCSSCacher {
 		$fileNameSCSS = array_pop($path);
 		$fileNameCSS = $this->prependBaseurlPrefix(str_replace('.scss', '.css', $fileNameSCSS));
 
-		$path = implode('/', $path);
+		$path = realpath(implode('/', $path));
 
 		$webDir = substr($path, strlen($this->serverRoot)+1);
 
