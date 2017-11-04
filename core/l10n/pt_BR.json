@@ -123,6 +123,8 @@
     "The \"Strict-Transport-Security\" HTTP header is not configured to at least \"{seconds}\" seconds. For enhanced security we recommend enabling HSTS as described in our <a href=\"{docUrl}\" rel=\"noreferrer\">security tips</a>." : "O cabeçalho HTTP \"Strict-Transport-Security\" não está configurado para pelo menos \"{segundos}\" segundos. Para maior segurança recomendamos a ativação HSTS como descrito em nossas <a href=\"{docUrl}\" rel=\"noreferrer\">dicas de segurança</a>.",
     "You are accessing this site via HTTP. We strongly suggest you configure your server to require using HTTPS instead as described in our <a href=\"{docUrl}\">security tips</a>." : "Você está acessando este site via HTTP. Sugerimos fortemente que você configure o servidor para exigir o uso de HTTPS como descrito em nossas  <a href=\"{docUrl}\">dicas de segurança</a>.",
     "Shared" : "Compartilhado",
+    "Shared with" : "Compartilhado com",
+    "Shared by" : "Compartilhado por",
     "Error setting expiration date" : "Erro ao definir data de expiração",
     "The public link will expire no later than {days} days after it is created" : "O link público irá expirar não antes de {days} depois de criado",
     "Set expiration date" : "Definir data de expiração",
