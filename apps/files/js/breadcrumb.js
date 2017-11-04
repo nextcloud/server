@@ -136,7 +136,6 @@
 					$crumb.on('click', this.onClick);
 				}
 			}
-			$crumb.addClass('last');
 
 			_.each(this._detailViews, function(view) {
 				view.render({
@@ -160,8 +159,7 @@
 					hoverClass: 'canDrop'
 				});
 			}
-
-			this._updateTotalWidth();
+			this._resize();
 		},
 
 		/**
@@ -197,54 +195,35 @@
 			return crumbs;
 		},
 
-		/**
-		 * Calculate the total breadcrumb width when
-		 * all crumbs are expanded
-		 */
-		_updateTotalWidth: function () {
-			this.totalWidth = 0;
-			for (var i = 0; i < this.breadcrumbs.length; i++ ) {
-				var $crumb = $(this.breadcrumbs[i]);
-				this.totalWidth += $crumb.width();
-			}
-			this._resize();
-		},
+ 		/**
+ 		 * Hide the middle crumb
+ 		 */
+ 		 _hideCrumb: function() {
+			 var length = this.$el.find('.crumb:not(.hidden)').length;
+			 // Get the middle one floored down
+			 var elmt = Math.floor(length / 2 - 0.5);
+			 this.$el.find('.crumb:not(.hidden):eq('+elmt+')').addClass('hidden');
+ 		 },
 
-		/**
-		 * Show/hide breadcrumbs to fit the given width
-		 *
-		 * @param {int} availableWidth available width
-		 */
-		setMaxWidth: function (availableWidth) {
-			if (this.availableWidth !== availableWidth) {
-				this.availableWidth = availableWidth;
-				this._resize();
-			}
-		},
-
-		/**
-		 * Return the number of items to hide
-		 */
-		_toShrink: function() {
-			var maxWidth = this.$el.parent().width();
-			console.log('Available width:' +maxWidth);
-			var smallestWidth = 50;
-			// 50px by default for the ellipsis crumb
-			return Math.ceil((this.totalWidth + 50 - maxWidth) / smallestWidth);
-		},
-
-		/**
-		 * Hide the desired number of items
-		 *
-		 * @param {int} number to hide
-		 */
-		 _hideCrumbs: function(toHide) {
-			 var min = Math.round(this.breadcrumbs.length/2 - toHide/2);
-			 var max = Math.round(this.breadcrumbs.length/2 + toHide/2 - 1);
-			 console.log('toShrink: '+toHide);
-			 this.$el.find('.crumb').removeClass('hidden')
-			 	.slice(min, max).addClass('hidden');
+ 		/**
+ 		 * Get the crumb to show
+ 		 */
+ 		 _getCrumbElement: function() {
+			 var length = this.$el.find('.crumb.hidden').length;
+			 // Get the outer one with priority to the highest
+			 var elmt = (length % 2) * (length - 1);
+			 return this.$el.find('.crumb.hidden:eq('+elmt+')');
 		 },
+
+ 		/**
+ 		 * Show the middle crumb
+ 		 */
+ 		 _showCrumb: function() {
+			 if(this.$el.find('.crumb.hidden').length === 1) {
+				 this.$el.find('.crumb.hidden').removeClass('hidden');
+			 }
+			 this._getCrumbElement().removeClass('hidden');
+ 		 },
 
 		_resize: function() {
 			var i, $crumb, $ellipsisCrumb;
@@ -256,9 +235,17 @@
 			if (this.breadcrumbs.length <= 1) {
 				return;
 			}
-			this._hideCrumbs(this._toShrink());
 
-
+			// If container is smaller than content
+			while (this.$el.width() > this.$el.parent().width()) {
+				this._hideCrumb();
+			}
+			// If container is bigger than content + element to be shown
+			// AND if there is at least one hidden crumb
+			while (this.$el.find('.crumb.hidden').length > 0
+				&& this.$el.width() + this._getCrumbElement().width() < this.$el.parent().width()) {
+				this._showCrumb();
+			}
 
 		}
 	};
