@@ -228,7 +228,7 @@ body {
 	right: 0;
 	left: 0;
 	height: 44px;
-	width: 100%;
+	width: calc(100% - 250px);
 	padding: 0;
 	margin: 0;
 	background-color: rgba($color-main-background, 0.95);
@@ -1391,7 +1391,6 @@ span.ui-icon {
 /* ---- BREADCRUMB ---- */
 div.breadcrumb {
 	display: inline-flex;
-	overflow: hidden;
 }
 div.crumb {
 	display: inline-flex;
@@ -1400,33 +1399,27 @@ div.crumb {
 	background-position: right center;
 	height: 44px;
 	background-size: auto 24px;
-	flex: 1 2 50px;
-	max-width: 200px;
+	flex: 0 0 auto;
 	&.hidden {
 		display: none;
 	}
-	a, > span {
+	a,
+	> span {
 		position: relative;
-		padding: 14px 24px 14px 17px;
+		padding: 12px 24px 12px 17px;
 		color: nc-lighten($color-main-text, 33%);
 		text-overflow: ellipsis;
 		white-space: nowrap;
 		overflow: hidden;
 	}
-	&.last a {
-		padding-right: 0;
+	&:not(:first-child) a {
 	}
-	&.last {
+	&:last-child {
 		font-weight: 600;
 		margin-right: 10px;
-	}
-	&.ellipsized {
-		padding: 0 10px 0 5px;
-	}
-	a.ellipsislink {
-		padding: 0 !important;
-		position: relative;
-		top: 8px !important;
+		a {
+			padding-right: 0;
+		}
 	}
 	&:hover, &:focus, a:focus, &:active {
 		opacity: .7;
