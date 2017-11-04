@@ -33,7 +33,7 @@
 	 */
 	var BreadCrumb = function(options){
 		this.$el = $('<div class="breadcrumb"></div>');
-		this.$menu = $('<div class="popovermenu menu-center open"><ul></ul></div>');
+		this.$menu = $('<div class="popovermenu menu menu-center"><ul></ul></div>');
 		options = options || {};
 		if (options.onClick) {
 			this.onClick = options.onClick;
@@ -48,6 +48,7 @@
 		}
 		this._detailViews = [];
 	};
+
 	/**
 	 * @memberof OCA.Files
 	 */
@@ -74,8 +75,6 @@
 		 * @param dir path to be displayed as breadcrumb
 		 */
 		setDirectory: function(dir) {
-			var err = new Error();
-			console.log(err.stack);
 			dir = dir.replace(/\\/g, '/');
 			dir = dir || '/';
 			if (dir !== this.dir) {
@@ -115,6 +114,7 @@
 		render: function() {
 			var parts = this._makeCrumbs(this.dir || '/');
 			var $crumb;
+			var $menuItem;
 			this.$el.empty();
 			this.breadcrumbs = [];
 
@@ -122,6 +122,7 @@
 				var part = parts[i];
 				var $image;
 				var $link = $('<a></a>');
+				$crumb = $('<div class="crumb svg"></div>');
 				if(part.dir) {
 					$link.attr('href', this.getCrumbUrl(part, i));
 				}
@@ -129,9 +130,10 @@
 					$link.text(part.name);
 				}
 				$link.addClass(part.linkclass);
-				$crumb = $('<div class="crumb svg"></div>');
 				$crumb.append($link);
-				$crumb.attr('data-dir', part.dir);
+				$crumb.data('dir', part.dir);
+				// Ignore menu button
+				$crumb.data('crumb-id', i - 1);
 				$crumb.addClass(part.class);
 
 				if (part.img) {
@@ -144,6 +146,23 @@
 				this.$el.append($crumb);
 				if (this.onClick) {
 					$crumb.on('click', this.onClick);
+				}
+			}
+
+				var err = new Error();
+				console.log(err.stack);
+			// Menu creation
+			this._createMenu();
+			for (var i = 0; i < parts.length; i++) {
+				var part = parts[i];
+				if(part.dir) {
+					$menuItem = $('<li><a><span></span></a></li>');
+					$menuItem.find('a').attr('href', this.getCrumbUrl(part, i));
+					$menuItem.find('span').text(part.name);
+					this.$menu.children('ul').append($menuItem);
+					if (this.onClick) {
+						$menuItem.on('click', this.onClick);
+					}
 				}
 			}
 
@@ -170,7 +189,6 @@
 				});
 			}
 
-			this._createMenu();
 			this._resize();
 		},
 
@@ -189,15 +207,16 @@
 			if (dir === '') {
 				parts = [];
 			}
-			// root part
-			crumbs.push({
-				dir: '/',
-				linkclass: 'icon-home'
-			});
 			// menu part
 			crumbs.push({
 				class: 'crumbmenu',
 				linkclass: 'icon-more'
+			});
+			// root part
+			crumbs.push({
+				name: t('core', 'Home'),
+				dir: '/',
+				linkclass: 'icon-home'
 			});
 			for (var i = 0; i < parts.length; i++) {
 				var part = parts[i];
@@ -213,57 +232,56 @@
  		/**
  		 * Hide the middle crumb
  		 */
- 		 _hideCrumb: function() {
-			 var selector = '.crumb:not(.hidden):not(.crumbmenu)';
-			 var length = this.$el.find(selector).length;
-			 // Get the middle one floored down
-			 var elmt = Math.floor(length / 2 - 0.5);
-			 this.$el.find(selector+':eq('+elmt+')').addClass('hidden');
- 		 },
+ 		_hideCrumb: function() {
+			var selector = '.crumb:not(.hidden):not(.crumbmenu)';
+			var length = this.$el.find(selector).length;
+			// Get the middle one floored down
+			var elmt = Math.floor(length / 2 - 0.5);
+			this.$el.find(selector+':eq('+elmt+')').addClass('hidden');
+ 		},
 
  		/**
  		 * Get the crumb to show
  		 */
- 		 _getCrumbElement: function() {
-			 var length = this.$el.find('.crumb.hidden').length;
-			 // Get the outer one with priority to the highest
-			 var elmt = (length % 2) * (length - 1);
-			 return this.$el.find('.crumb.hidden:eq('+elmt+')');
-		 },
+ 		_getCrumbElement: function() {
+			var length = this.$el.find('.crumb.hidden').length;
+			// Get the outer one with priority to the highest
+			var elmt = (length % 2) * (length - 1);
+			return this.$el.find('.crumb.hidden:eq('+elmt+')');
+		},
 
  		/**
  		 * Show the middle crumb
  		 */
- 		 _showCrumb: function() {
-			 if(this.$el.find('.crumb.hidden').length === 1) {
-				 this.$el.find('.crumb.hidden').removeClass('hidden');
-			 }
-			 this._getCrumbElement().removeClass('hidden');
- 		 },
+ 		_showCrumb: function() {
+			if(this.$el.find('.crumb.hidden').length === 1) {
+				this.$el.find('.crumb.hidden').removeClass('hidden');
+			}
+			this._getCrumbElement().removeClass('hidden');
+ 		},
 
-		 /**
+		/**
 		 * Create and append the popovermenu
 		 */
-		 _createMenu: function() {
-			 this.$el.find('.crumbmenu').append(this.$menu);
-		 },
+		_createMenu: function() {
+			this.$el.find('.crumbmenu').append(this.$menu);
+			this.$menu.children('ul').empty();
+		},
 
-		 /**
+		/**
 		 * Update the popovermenu
 		 */
-		 _updateMenu: function() {
-			 var menuItems = this.$el.children('.crumb.hidden').clone();
-			 // Hide the crumb menu if no elements
-			 this.$el.find('.crumbmenu').toggleClass('hidden', menuItems.length===0)
+		_updateMenu: function() {
+			var menuItems = this.$el.children('.crumb.hidden');
+			// Hide the crumb menu if no elements
+			this.$el.find('.crumbmenu').toggleClass('hidden', menuItems.length===0)
 
-			 this.$menu.children('ul').html(menuItems);
-			 this.$menu.find('div').replaceWith(function(){
-				 return $('<li/>', {
-					 html: this.innerHTML
-				 })
-			 });
-			 this.$menu.find('a').addClass('icon-triangle-e').wrapInner('<span/>');
-		 },
+			this.$menu.find('li').addClass('in-breadcrumb');
+			for (var i = 0; i < menuItems.length; i++) {
+				var crumbId = $(menuItems[i]).data('crumb-id');
+				this.$menu.find('li:eq('+crumbId+')').removeClass('in-breadcrumb');
+			}
+		},
 
 		_resize: function() {
 			var i, $crumb, $ellipsisCrumb;
