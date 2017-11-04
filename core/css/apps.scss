@@ -889,6 +889,12 @@ kbd {
 					margin: -2px 12px 0;
 				}
 			}
+			> input.radio + label {
+				padding: 0 !important;
+				&::before {
+					margin: -2px 11px 0;
+				}
+			}
 		}
 		> button {
 			padding: 0;
