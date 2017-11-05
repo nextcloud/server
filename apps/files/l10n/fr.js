@@ -77,6 +77,7 @@ OC.L10N.register(
     "Favorite" : "Favoris",
     "New folder" : "Nouveau dossier",
     "Upload file" : "Téléverser un fichier",
+    "Not favorited" : "Non marqué comme favori",
     "Remove from favorites" : "Retirer des favoris",
     "Add to favorites" : "Ajouter aux favoris",
     "An error occurred while trying to update the tags" : "Une erreur est survenue lors de la mise à jour des étiquettes",
