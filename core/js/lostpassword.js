@@ -14,16 +14,23 @@ OC.Lostpassword = {
 
 	init : function() {
 		$('#lost-password').click(OC.Lostpassword.resetLink);
-		$('#reset-password-submit').click(OC.Lostpassword.resetPassword);
 		$('#lost-password-back').click(OC.Lostpassword.backToLogin);
-		$('#reset-password-wrapper .submit-icon')
-			.addClass('icon-confirm-white')
-			.removeClass('icon-loading-small');
-		$('#reset-password-submit')
-			.attr('value', t('core', 'Reset password'));
+		$('form[name=login]').submit(OC.Lostpassword.onSendLink);
+		OC.Lostpassword.resetButtons();
 	},
 
-	backToLogin : function(event){
+	resetButtons : function() {
+		$('#reset-password-wrapper .submit-icon')
+			.addClass('icon-confirm-white')
+			.removeClass('icon-loading-small-dark');
+		$('#reset-password-submit')
+			.attr('value', t('core', 'Reset password'))
+			.prop('disabled', false);
+		$('#user').prop('disabled', false);
+		$('.login-additional').fadeIn();
+	},
+
+	backToLogin : function(event) {
 		event.preventDefault();
 
 		$('#reset-password-wrapper').slideUp().fadeOut();
@@ -32,6 +39,8 @@ OC.Lostpassword = {
 		$('#submit-wrapper').slideDown().fadeIn();
 		$('.groupbottom').slideDown().fadeIn();
 		$('#user').parent().addClass('grouptop');
+		$('#password').attr('required', true);
+		$('form[name=login]').removeAttr('action');
 		$('#user').focus();
 	},
 
@@ -41,12 +50,15 @@ OC.Lostpassword = {
 		$('#lost-password').slideUp().fadeOut();
 		$('.remember-login-container').slideUp().fadeOut();
 		$('#submit-wrapper').slideUp().fadeOut();
-		$('.groupbottom').slideUp().fadeOut();
-		$('#user').parent().removeClass('grouptop');
+		$('.groupbottom').slideUp().fadeOut(function(){
+			$('#user').parent().removeClass('grouptop');
+		});
 		$('#reset-password-wrapper').slideDown().fadeIn();
+		$('#password').attr('required', false);
+		$('form[name=login]').attr('action', 'lostpassword/email');
 		$('#user').focus();
 
-		// Generate a browser warning if field empty
+		// Generate a browser warning for required fields if field empty
 		if ($('#user').val().length === 0) {
 			$('#submit').trigger('click');
 		} else {
@@ -56,26 +68,34 @@ OC.Lostpassword = {
 				window.location = OC.config.lost_password_link;
 			} else {
 				OC.Lostpassword.onSendLink();
-				$.post(
-					OC.generateUrl('/lostpassword/email'),
-					{
-						user : $('#user').val()
-					},
-					OC.Lostpassword.sendLinkDone
-				).fail(function() {
-					OC.Lostpassword.sendLinkError(OC.Lostpassword.sendErrorMsg);
-				});
 			}
 		}
 	},
 
-	onSendLink: function () {
-		$('.submit-icon')
-			.removeClass('icon-confirm-white')
-			.addClass('icon-loading-small');
-		$('#reset-password-submit')
-			.attr('value', t('core', 'Sending email …'));
-		return true;
+	onSendLink: function (event) {
+		// Only if password reset form is active
+		if($('form[name=login][action]').length === 1) {
+			if (event) {
+				event.preventDefault();
+			}
+			$('#reset-password-wrapper .submit-icon')
+				.removeClass('icon-confirm-white')
+				.addClass('icon-loading-small-dark');
+			$('#reset-password-submit')
+				.attr('value', t('core', 'Sending email …'))
+				.prop('disabled', true);
+			$('#user').prop('disabled', true);
+			$('.login-additional').fadeOut();
+			$.post(
+				OC.generateUrl('/lostpassword/email'),
+				{
+					user : $('#user').val()
+				},
+				OC.Lostpassword.sendLinkDone
+			).fail(function() {
+				OC.Lostpassword.sendLinkError(OC.Lostpassword.sendErrorMsg);
+			});
+		}
 	},
 
 	sendLinkDone : function(result){
@@ -104,7 +124,7 @@ OC.Lostpassword = {
 		var node = OC.Lostpassword.getSendStatusNode();
 		node.addClass('warning');
 		node.html(msg);
-		OC.Lostpassword.init();
+		OC.Lostpassword.resetButtons();
 	},
 
 	getSendStatusNode : function(){
