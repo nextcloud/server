@@ -35,6 +35,7 @@ OC.Lostpassword = {
 
 		$('#reset-password-wrapper').slideUp().fadeOut();
 		$('#lost-password').slideDown().fadeIn();
+		$('#lost-password-back').hide();
 		$('.remember-login-container').slideDown().fadeIn();
 		$('#submit-wrapper').slideDown().fadeIn();
 		$('.groupbottom').slideDown().fadeIn();
@@ -47,7 +48,8 @@ OC.Lostpassword = {
 	resetLink : function(event){
 		event.preventDefault();
 
-		$('#lost-password').slideUp().fadeOut();
+		$('#lost-password').hide();
+		$('#lost-password-back').slideDown().fadeIn();
 		$('.remember-login-container').slideUp().fadeOut();
 		$('#submit-wrapper').slideUp().fadeOut();
 		$('.groupbottom').slideUp().fadeOut(function(){
@@ -118,6 +120,7 @@ OC.Lostpassword = {
 		// update is the better success message styling
 		node.addClass('update').css({width:'auto'});
 		node.html(OC.Lostpassword.sendSuccessMsg);
+		OC.Lostpassword.resetButtons();
 	},
 
 	sendLinkError : function(msg){
