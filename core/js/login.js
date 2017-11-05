@@ -12,7 +12,7 @@
  */
 OC.Login = _.extend(OC.Login || {}, {
 	onLogin: function () {
-		$('#submit-icon')
+		$('#submit-wrapper .submit-icon')
 			.removeClass('icon-confirm-white')
 			.addClass('icon-loading-small');
 		$('#submit')

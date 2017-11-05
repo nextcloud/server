@@ -16,6 +16,11 @@ OC.Lostpassword = {
 		$('#lost-password').click(OC.Lostpassword.resetLink);
 		$('#reset-password-submit').click(OC.Lostpassword.resetPassword);
 		$('#lost-password-back').click(OC.Lostpassword.backToLogin);
+		$('#reset-password-wrapper .submit-icon')
+			.addClass('icon-confirm-white')
+			.removeClass('icon-loading-small');
+		$('#reset-password-submit')
+			.attr('value', t('core', 'Reset password'));
 	},
 
 	backToLogin : function(event){
@@ -41,7 +46,8 @@ OC.Lostpassword = {
 		$('#reset-password-wrapper').slideDown().fadeIn();
 		$('#user').focus();
 
-		if (!$('#user').val().length){
+		// Generate a browser warning if field empty
+		if ($('#user').val().length === 0) {
 			$('#submit').trigger('click');
 		} else {
 			if (OC.config.lost_password_link === 'disabled') {
@@ -49,6 +55,7 @@ OC.Lostpassword = {
 			} else if (OC.config.lost_password_link) {
 				window.location = OC.config.lost_password_link;
 			} else {
+				OC.Lostpassword.onSendLink();
 				$.post(
 					OC.generateUrl('/lostpassword/email'),
 					{
@@ -60,6 +67,15 @@ OC.Lostpassword = {
 				});
 			}
 		}
+	},
+
+	onSendLink: function () {
+		$('.submit-icon')
+			.removeClass('icon-confirm-white')
+			.addClass('icon-loading-small');
+		$('#reset-password-submit')
+			.attr('value', t('core', 'Sending email …'));
+		return true;
 	},
 
 	sendLinkDone : function(result){

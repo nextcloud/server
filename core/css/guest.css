@@ -393,9 +393,6 @@ form .warning input[type='checkbox']+label {
 	width: 100%;
 	text-shadow: 0 0 2px rgba(0, 0, 0, .4); // better readability on bright background
 }
-.lost-password-container {
-	margin: 0;
-}
 .lost-password-container #lost-password,
 .lost-password-container #lost-password-back {
 	display: inline-block;
