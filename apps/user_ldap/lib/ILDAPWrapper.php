@@ -163,7 +163,7 @@ interface ILDAPWrapper {
 	 * @return resource|false an LDAP search result resource, false on error
 	 */
 	public function search($link, $baseDN, $filter, $attr, $attrsOnly = 0, $limit = 0);
-	
+
 	/**
 	 * Replace the value of a userPassword by $password
 	 * @param resource $link LDAP link resource

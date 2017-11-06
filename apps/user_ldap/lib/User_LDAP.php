@@ -16,6 +16,8 @@
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Tom Needham <tom@owncloud.com>
  * @author Roger Szabo <roger.szabo@web.de>
+ * @author Vinicius Brand <vinicius@eita.org.br>
+ * @author Daniel Tygel <dtygel@eita.org.br>
  *
  * @license AGPL-3.0
  *
@@ -56,16 +58,20 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	/** @var string */
 	protected $currentUserInDeletionProcess;
 
+	/** @var UserPluginManager */
+	protected $userPluginManager;
+
 	/**
 	 * @param Access $access
 	 * @param \OCP\IConfig $ocConfig
 	 * @param \OCP\Notification\IManager $notificationManager
 	 * @param IUserSession $userSession
 	 */
-	public function __construct(Access $access, IConfig $ocConfig, INotificationManager $notificationManager, IUserSession $userSession) {
+	public function __construct(Access $access, IConfig $ocConfig, INotificationManager $notificationManager, IUserSession $userSession, UserPluginManager $userPluginManager) {
 		parent::__construct($access);
 		$this->ocConfig = $ocConfig;
 		$this->notificationManager = $notificationManager;
+		$this->userPluginManager = $userPluginManager;
 		$this->registerHooks($userSession);
 	}
 
@@ -88,6 +94,10 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	 * @return boolean either the user can or cannot
 	 */
 	public function canChangeAvatar($uid) {
+		if ($this->userPluginManager->implementsActions(Backend::PROVIDE_AVATAR)) {
+			return $this->userPluginManager->canChangeAvatar($uid);
+		}
+
 		$user = $this->access->userManager->get($uid);
 		if(!$user instanceof User) {
 			return false;
@@ -207,6 +217,10 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	 * @return bool
 	 */
 	public function setPassword($uid, $password) {
+		if ($this->userPluginManager->implementsActions(Backend::SET_PASSWORD)) {
+			return $this->userPluginManager->setPassword($uid, $password);
+		}
+
 		$user = $this->access->userManager->get($uid);
 
 		if(!$user instanceof User) {
@@ -364,6 +378,10 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	* @return bool
 	*/
 	public function deleteUser($uid) {
+		if ($this->userPluginManager->canDeleteUser()) {
+			return $this->userPluginManager->deleteUser($uid);
+		}
+
 		$marked = $this->ocConfig->getUserValue($uid, 'user_ldap', 'isDeleted', 0);
 		if(intval($marked) === 0) {
 			\OC::$server->getLogger()->notice(
@@ -391,6 +409,10 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 		// user Exists check required as it is not done in user proxy!
 		if(!$this->userExists($uid)) {
 			return false;
+		}
+
+		if ($this->userPluginManager->implementsActions(Backend::GET_HOME)) {
+			return $this->userPluginManager->getHome($uid);
 		}
 
 		$cacheKey = 'getHome'.$uid;
@@ -425,6 +447,10 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	 * @return string|false display name
 	 */
 	public function getDisplayName($uid) {
+		if ($this->userPluginManager->implementsActions(Backend::GET_DISPLAYNAME)) {
+			return $this->userPluginManager->getDisplayName($uid);
+		}
+
 		if(!$this->userExists($uid)) {
 			return false;
 		}
@@ -470,6 +496,19 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	}
 
 	/**
+	 * set display name of the user
+	 * @param string $uid user ID of the user
+	 * @param string $displayName new display name of the user
+	 * @return string|false display name
+	 */
+	public function setDisplayName($uid, $displayName) {
+		if ($this->userPluginManager->implementsActions(Backend::SET_DISPLAYNAME)) {
+			return $this->userPluginManager->setDisplayName($uid, $displayName);
+		}
+		return false;
+	}
+
+	/**
 	 * Get a list of all display names
 	 *
 	 * @param string $search
@@ -506,7 +545,8 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 			| Backend::GET_DISPLAYNAME
 			| Backend::PROVIDE_AVATAR
 			| Backend::COUNT_USERS
-			| ((intval($this->access->connection->turnOnPasswordChange) === 1)?(Backend::SET_PASSWORD):0))
+			| ((intval($this->access->connection->turnOnPasswordChange) === 1)?(Backend::SET_PASSWORD):0)
+			| $this->userPluginManager->getImplementedActions())
 			& $actions);
 	}
 
@@ -523,6 +563,10 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	 * @return int|bool
 	 */
 	public function countUsers() {
+		if ($this->userPluginManager->implementsActions(Backend::COUNT_USERS)) {
+			return $this->userPluginManager->countUsers();
+		}
+
 		$filter = $this->access->getFilterForUserCount();
 		$cacheKey = 'countUsers-'.$filter;
 		if(!is_null($entries = $this->access->connection->getFromCache($cacheKey))) {
@@ -561,4 +605,18 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 		$connection = clone $this->access->getConnection();
 		return $connection->getConnectionResource();
 	}
+
+	/**
+	 * create new user
+	 * @param string $username username of the new user
+	 * @param string $password password of the new user
+	 * @return bool was the user created?
+	 */
+	public function createUser($username, $password) {
+		if ($this->userPluginManager->implementsActions(Backend::CREATE_USER)) {
+			return $this->userPluginManager->createUser($username, $password);
+		}
+		return false;
+	}
+
 }

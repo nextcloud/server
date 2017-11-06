@@ -2,6 +2,9 @@
 /**
  * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
  *
+ * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Vinicius Brand <vinicius@eita.org.br>
+ *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,8 +24,10 @@
 
 namespace OCA\User_LDAP\Tests;
 
+use OCA\User_LDAP\ILDAPUserPlugin;
 use OCA\User_LDAP\ILDAPWrapper;
 use OCA\User_LDAP\User_Proxy;
+use OCA\User_LDAP\UserPluginManager;
 use OCP\IConfig;
 use OCP\IUserSession;
 use OCP\Notification\IManager as INotificationManager;
@@ -39,6 +44,8 @@ class User_ProxyTest extends TestCase  {
 	private $userSession;
 	/** @var User_Proxy|\PHPUnit_Framework_MockObject_MockObject */
 	private $proxy;
+	/** @var UserPluginManager|\PHPUnit_Framework_MockObject_MockObject */
+	private $userPluginManager;
 
 	public function setUp() {
 		parent::setUp();
@@ -47,6 +54,7 @@ class User_ProxyTest extends TestCase  {
 		$this->config = $this->createMock(IConfig::class);
 		$this->notificationManager = $this->createMock(INotificationManager::class);
 		$this->userSession = $this->createMock(IUserSession::class);
+		$this->userPluginManager = $this->createMock(UserPluginManager::class);
 		$this->proxy = $this->getMockBuilder(User_Proxy::class)
 			->setConstructorArgs([
 				[],
@@ -54,6 +62,7 @@ class User_ProxyTest extends TestCase  {
 				$this->config,
 				$this->notificationManager,
 				$this->userSession,
+				$this->userPluginManager
 			])
 			->setMethods(['handleRequest'])
 			->getMock();
@@ -67,5 +76,24 @@ class User_ProxyTest extends TestCase  {
 			->willReturn(true);
 
 		$this->assertTrue($this->proxy->setPassword('MyUid', 'MyPassword'));
+	}
+
+	public function testSetDisplayName() {
+		$this->proxy
+			->expects($this->once())
+			->method('handleRequest')
+			->with('MyUid', 'setDisplayName', ['MyUid', 'MyPassword'])
+			->willReturn(true);
+
+		$this->assertTrue($this->proxy->setDisplayName('MyUid', 'MyPassword'));	}
+
+	public function testCreateUser() {
+		$this->proxy
+			->expects($this->once())
+			->method('handleRequest')
+			->with('MyUid', 'createUser', ['MyUid', 'MyPassword'])
+			->willReturn(true);
+
+		$this->assertTrue($this->proxy->createUser('MyUid', 'MyPassword'));
 	}
 }

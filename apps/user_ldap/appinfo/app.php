@@ -10,6 +10,8 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Vinicius Brand <vinicius@eita.org.br>
+ * @author Daniel Tygel <dtygel@eita.org.br>
  *
  * @license AGPL-3.0
  *
@@ -26,6 +28,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
+\OC::$server->registerService('LDAPUserPluginManager', function() {
+	return new OCA\User_LDAP\UserPluginManager();
+});
+\OC::$server->registerService('LDAPGroupPluginManager', function() {
+	return new OCA\User_LDAP\GroupPluginManager();
+});
 
 $helper = new \OCA\User_LDAP\Helper(\OC::$server->getConfig());
 $configPrefixes = $helper->getServerConfigurationPrefixes(true);
@@ -46,12 +55,19 @@ if(count($configPrefixes) > 0) {
 	});
 	$userSession = \OC::$server->getUserSession();
 
+	$userPluginManager = \OC::$server->query('LDAPUserPluginManager');
+	$groupPluginManager = \OC::$server->query('LDAPGroupPluginManager');
+
 	$userBackend  = new OCA\User_LDAP\User_Proxy(
-		$configPrefixes, $ldapWrapper, $ocConfig, $notificationManager, $userSession
+		$configPrefixes, $ldapWrapper, $ocConfig, $notificationManager, $userSession, $userPluginManager
 	);
-	$groupBackend  = new OCA\User_LDAP\Group_Proxy($configPrefixes, $ldapWrapper);
+	$groupBackend  = new OCA\User_LDAP\Group_Proxy($configPrefixes, $ldapWrapper, $groupPluginManager);
 	// register user backend
 	OC_User::useBackend($userBackend);
+
+	// Hook to allow plugins to work on registered backends
+	OC::$server->getEventDispatcher()->dispatch('OCA\\User_LDAP\\User\\User::postLDAPBackendAdded');
+
 	\OC::$server->getGroupManager()->addBackend($groupBackend);
 }
 

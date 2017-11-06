@@ -294,10 +294,12 @@ class Helper {
 		$ldapWrapper = new LDAP();
 		$ocConfig = \OC::$server->getConfig();
 		$notificationManager = \OC::$server->getNotificationManager();
+
 		$userSession = \OC::$server->getUserSession();
+		$userPluginManager = \OC::$server->query('LDAPUserPluginManager');
 
 		$userBackend  = new User_Proxy(
-			$configPrefixes, $ldapWrapper, $ocConfig, $notificationManager, $userSession
+			$configPrefixes, $ldapWrapper, $ocConfig, $notificationManager, $userSession, $userPluginManager
 		);
 		$uid = $userBackend->loginName2UserName($param['uid'] );
 		if($uid !== false) {
