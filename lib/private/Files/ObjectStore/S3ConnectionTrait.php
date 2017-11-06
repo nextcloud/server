@@ -90,8 +90,8 @@ trait S3ConnectionTrait {
 		}
 		$this->connection = new S3Client($options);
 
-		if (!S3Client::isBucketDnsCompatible($this->bucket)) {
-			throw new \Exception("The configured bucket name is invalid.");
+		if (!$this->connection->isBucketDnsCompatible($this->bucket)) {
+			throw new \Exception("The configured bucket name is invalid: " . $this->bucket);
 		}
 
 		if (!$this->connection->doesBucketExist($this->bucket)) {
