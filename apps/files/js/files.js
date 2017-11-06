@@ -96,7 +96,7 @@
 		 */
 		isFileNameValid: function (name) {
 			var trimmedName = name.trim();
-			if (trimmedName === '.'	|| trimmedName === '..')
+			if (trimmedName === '.' || trimmedName === '..')
 			{
 				throw t('files', '"{name}" is an invalid file name.', {name: name});
 			} else if (trimmedName.length === 0) {
