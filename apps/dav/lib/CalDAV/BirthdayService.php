@@ -4,7 +4,7 @@
  * @copyright Copyright (c) 2016, Georg Ehrke
  *
  * @author Achim Königs <garfonso@tratschtante.de>
- * @author Georg Ehrke <georg@owncloud.com>
+ * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>

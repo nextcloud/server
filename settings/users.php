@@ -6,7 +6,7 @@
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Clark Tomlinson <fallen013@gmail.com>
  * @author Daniel Molkentin <daniel@molkentin.de>
- * @author Georg Ehrke <georg@owncloud.com>
+ * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>

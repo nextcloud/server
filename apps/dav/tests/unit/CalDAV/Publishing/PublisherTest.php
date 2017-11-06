@@ -2,6 +2,7 @@
 /**
  *
  *
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Thomas Citharel <tcit@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version

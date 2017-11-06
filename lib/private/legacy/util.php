@@ -17,7 +17,7 @@
  * @author Felix Epp <work@felixepp.de>
  * @author Florin Peter <github@florin-peter.de>
  * @author Frank Karlitschek <frank@karlitschek.de>
- * @author Georg Ehrke <georg@owncloud.com>
+ * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author helix84 <helix84@centrum.sk>
  * @author Ilja Neumann <ineumann@owncloud.com>
  * @author Individual IT Services <info@individual-it.net>
