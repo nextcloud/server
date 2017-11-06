@@ -13,11 +13,10 @@
 # @copyright 2012-2015 Thomas Müller thomas.mueller@tmit.eu
 #
 
-#$EXECUTOR_NUMBER is set by Jenkins and allows us to run autotest in parallel
-DATABASENAME=oc_autotest$EXECUTOR_NUMBER
-DATABASEUSER=oc_autotest$EXECUTOR_NUMBER
+DATABASENAME=oc_autotest
+DATABASEUSER=oc_autotest
 DATABASEHOST=localhost
-ADMINLOGIN=admin$EXECUTOR_NUMBER
+ADMINLOGIN=admin
 BASEDIR=$PWD
 
 PRIMARY_STORAGE_CONFIGS="local swift"
