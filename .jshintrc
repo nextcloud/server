@@ -28,7 +28,10 @@
 		"_": true,
 		"OC": true,
 		"OCA": true,
+		"OCP": true,
 		"t": true,
-		"n": true
+		"n": true,
+		"escapeHTML": true,
+		"Promise": true
 	}
 }
