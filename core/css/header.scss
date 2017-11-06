@@ -143,7 +143,6 @@
 	#header-left, .header-left {
 		flex: 0 0;
 		flex-grow: 1;
-		overflow: hidden;
 		white-space: nowrap;
 	}
 
@@ -318,6 +317,10 @@ nav {
 	overflow: auto;
 	.in-header {
 		display: none;
+	}
+	ul {
+		display: flex;
+		flex-direction: column;
 	}
 }
 
