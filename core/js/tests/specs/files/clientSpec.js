@@ -448,7 +448,7 @@ describe('OC.Files.Client tests', function() {
 				expect(info.id).toEqual(11);
 
 				// file entry
-				var info = response[1];
+				info = response[1];
 				expect(info instanceof OC.Files.FileInfo).toEqual(true);
 				expect(info.id).toEqual(51);
 

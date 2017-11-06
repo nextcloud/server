@@ -26,17 +26,17 @@ describe('MimeType tests', function() {
 	beforeEach(function() {
 		_files = OC.MimeTypeList.files;
 		_aliases = OC.MimeTypeList.aliases;
-		_theme = OC.MimeTypeList.themes['abc'];
+		_theme = OC.MimeTypeList.themes.abc;
 
 		OC.MimeTypeList.files = ['folder', 'folder-shared', 'folder-external', 'foo-bar', 'foo', 'file'];
 		OC.MimeTypeList.aliases = {'app/foobar': 'foo/bar'};
-		OC.MimeTypeList.themes['abc'] = ['folder'];
+		OC.MimeTypeList.themes.abc = ['folder'];
 	});
 
 	afterEach(function() {
 		OC.MimeTypeList.files = _files;
 		OC.MimeTypeList.aliases = _aliases;
-		OC.MimeTypeList.themes['abc'] = _theme;
+		OC.MimeTypeList.themes.abc = _theme;
 	});
 
 	describe('_getFile', function() {
@@ -109,9 +109,9 @@ describe('MimeType tests', function() {
 
 				var res = OC.MimeType.getIconUrl('dir');
 				expect(Object.keys(OC.MimeType._mimeTypeIcons).length).toEqual(1);
-				expect(OC.MimeType._mimeTypeIcons['dir']).toEqual(res);
+				expect(OC.MimeType._mimeTypeIcons.dir).toEqual(res);
 
-				var res = OC.MimeType.getIconUrl('dir-shared');
+				res = OC.MimeType.getIconUrl('dir-shared');
 				expect(Object.keys(OC.MimeType._mimeTypeIcons).length).toEqual(2);
 				expect(OC.MimeType._mimeTypeIcons['dir-shared']).toEqual(res);
 			});
