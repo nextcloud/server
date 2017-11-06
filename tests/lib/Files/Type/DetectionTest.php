@@ -83,6 +83,8 @@ class DetectionTest extends \Test\TestCase {
 		$this->assertEquals('application/octet-stream', $this->detection->detectPath('..hidden'));
 		$this->assertEquals('application/octet-stream', $this->detection->detectPath('foo'));
 		$this->assertEquals('application/octet-stream', $this->detection->detectPath(''));
+		$this->assertEquals('image/png', $this->detection->detectPath('foo.png.ocTransferId123456789.part'));
+		$this->assertEquals('image/png', $this->detection->detectPath('foo.png.v1234567890'));
 	}
 
 	public function testDetectString() {
