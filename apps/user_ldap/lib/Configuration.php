@@ -2,8 +2,8 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author Alexander Bergolth <leo@strike.wu.ac.at>
  * @author Alex Weirig <alex.weirig@technolink.lu>
+ * @author Alexander Bergolth <leo@strike.wu.ac.at>
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
@@ -12,6 +12,8 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roger Szabo <roger.szabo@web.de>
+ * @author Victor Dubiniuk <dubiniuk@owncloud.com>
+ * @author Xuanwo <xuanwo@yunify.com>
  *
  * @license AGPL-3.0
  *

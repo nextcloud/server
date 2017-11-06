@@ -7,6 +7,7 @@
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Knut Ahlers <knut@ahlers.me>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author macjohnny <estebanmarin@gmx.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -15,6 +16,8 @@
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Roman Kreisel <mail@romankreisel.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vinicius Cubas Brand <vinicius@eita.org.br>
  * @author voxsim <Simon Vocella>
  *
  * @license AGPL-3.0

@@ -2,6 +2,8 @@
 /**
  * @copyright Copyright (c) 2017 Roger Szabo <roger.szabo@web.de>
  *
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Roger Szabo <roger.szabo@web.de>
  *
  * @license GNU AGPL version 3 or any later version

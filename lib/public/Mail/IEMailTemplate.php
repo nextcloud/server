@@ -2,6 +2,9 @@
 /**
  * @copyright 2017, Morris Jobke <hey@morrisjobke.de>
  *
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Leon Klingele <leon@struktur.de>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  *
  * @license GNU AGPL version 3 or any later version

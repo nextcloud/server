@@ -1,10 +1,12 @@
 <?php
-
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Christoph Wurst <christoph@owncloud.com>
+ * @author Cornelius Kölbel <cornelius.koelbel@netknights.it>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *

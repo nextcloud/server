@@ -3,8 +3,12 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @copyright Copyright (c) 2016, Björn Schießle <bjoern@schiessle.org>
  *
+ * @author Allan Nordhøy <epost@anotheragency.no>
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *

@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Ardinis <Ardinis@users.noreply.github.com>
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Björn Schießle <bjoern@schiessle.org>
@@ -9,7 +10,6 @@
  * @author Clark Tomlinson <fallen013@gmail.com>
  * @author Fabian Henze <flyser42@gmx.de>
  * @author Felix Moeller <mail@felixmoeller.de>
- * @author Georg Ehrke <georg@owncloud.com>
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
  * @author Joas Schilling <coding@schilljs.com>
@@ -19,6 +19,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Olivier Paroz <github@oparoz.com>
  * @author Pellaeon Lin <nfsmwlin@gmail.com>
+ * @author RealRancor <fisch.666@gmx.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>

@@ -6,7 +6,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Olivier Paroz <github@oparoz.com>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *

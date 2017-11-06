@@ -5,6 +5,8 @@
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author davitol <dtoledo@solidgear.es>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Marius Blüm <marius@lineone.io>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Sergio Bertolín <sbertolin@solidgear.es>
  * @author Vincent Petry <pvince81@owncloud.com>
  *

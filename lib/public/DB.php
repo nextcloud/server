@@ -4,12 +4,13 @@
  *
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Dan Bartram <daneybartram@gmail.com>
- * @author Felix Moeller <mail@felixmoeller.de>
  * @author Frank Karlitschek <frank@karlitschek.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
  *

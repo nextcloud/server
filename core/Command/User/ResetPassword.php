@@ -8,6 +8,8 @@
  * @author Joas Schilling <coding@schilljs.com>
  * @author Laurens Post <lkpost@scept.re>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Sujith H <sharidasan@owncloud.com>
  *
  * @license AGPL-3.0
  *

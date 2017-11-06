@@ -5,6 +5,7 @@
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @license AGPL-3.0

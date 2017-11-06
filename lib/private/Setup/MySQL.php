@@ -2,13 +2,15 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
+ * @author Hemanth Kumar Veeranki <hems.india1997@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Michael Göhler <somebody.here@gmx.de>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Stefan Weil <sw@weilnetz.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @license AGPL-3.0
  *

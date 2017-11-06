@@ -1,10 +1,10 @@
 <?php
 /**
- *
  * @copyright Copyright (c) 2016, Roger Szabo (roger.szabo@web.de)
  *
- * @author Roger Szabo <roger.szabo@web.de>
- * @author Vinicius Brand <vinicius@eita.org.br>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author root <root@localhost.localdomain>
+ * @author Vinicius Cubas Brand <vinicius@eita.org.br>
  *
  * @license GNU AGPL version 3 or any later version
  *

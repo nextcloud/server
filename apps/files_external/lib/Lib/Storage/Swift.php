@@ -2,12 +2,16 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Benjamin Liles <benliles@arch.tamu.edu>
  * @author Christian Berendt <berendt@b1-systems.de>
+ * @author Christopher Bartz <bartz@dkrz.de>
  * @author Daniel Tosello <tosello.daniel@gmail.com>
  * @author Felix Moeller <mail@felixmoeller.de>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Martin Mattel <martin.mattel@diemattels.at>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Philipp Kapfer <philipp.kapfer@gmx.at>

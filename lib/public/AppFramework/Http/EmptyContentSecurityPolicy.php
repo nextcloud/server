@@ -3,6 +3,9 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Pierre Rudloff <contact@rudloff.pro>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Thomas Citharel <tcit@tcit.fr>
  *
  * @license AGPL-3.0
  *

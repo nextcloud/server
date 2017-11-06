@@ -5,7 +5,9 @@
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Manish Bisht <manish.bisht490@gmail.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Pulzer <t.pulzer@kniel.de>
  *

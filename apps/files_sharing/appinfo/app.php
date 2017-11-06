@@ -2,12 +2,13 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Gadzy <dev@gadzy.fr>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Michael Gapczynski <GapczynskiM@gmail.com>
+ * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
+ * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @license AGPL-3.0

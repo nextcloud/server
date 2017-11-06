@@ -7,16 +7,19 @@
  * @author Clark Tomlinson <fallen013@gmail.com>
  * @author Hendrik Leppelsack <hendrik@leppelsack.de>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author Julius Haertl <jus@bitgrid.net>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Nils <git@to.nilsschnabel.de>
  * @author Remco Brenninkmeijer <requist1@starmail.nl>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  *
  * @license AGPL-3.0
  *

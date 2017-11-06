@@ -7,7 +7,12 @@
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Georg Ehrke <georg@owncloud.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Stefan Weil <sw@weilnetz.de>
+ * @author Thomas Citharel <tcit@tcit.fr>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0

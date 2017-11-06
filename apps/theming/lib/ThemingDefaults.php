@@ -3,6 +3,17 @@
  * @copyright Copyright (c) 2016 Bjoern Schiessle <bjoern@schiessle.org>
  * @copyright Copyright (c) 2017 Lukas Reschke <lukas@statuscode.ch>
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
+ * @author Joachim Bauch <bauch@struktur.de>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Haertl <jus@bitgrid.net>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify

@@ -1,7 +1,11 @@
 <?php
 /**
  *
+ *
  * @author Christoph Wurst <christoph@owncloud.com>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Phil Davis <phil.davis@inf.org>
  *
  * @license GNU AGPL version 3 or any later version
  *

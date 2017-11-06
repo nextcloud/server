@@ -4,11 +4,16 @@
  * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author Sandro Lutz <sandro.lutz@temparus.ch>
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@owncloud.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author justin-sleep <justin@quarterfull.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Sandro Lutz <sandro.lutz@temparus.ch>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Ujjwal Bhardwaj <ujjwalb1996@gmail.com>
  *
  * @license AGPL-3.0
  *

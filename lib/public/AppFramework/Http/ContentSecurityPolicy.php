@@ -5,6 +5,7 @@
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author sualko <klaus@jsxc.org>
+ * @author Thomas Citharel <tcit@tcit.fr>
  *
  * @license AGPL-3.0
  *

@@ -3,8 +3,10 @@
  * @copyright 2017, Morris Jobke <hey@morrisjobke.de>
  * @copyright 2017, Lukas Reschke <lukas@statuscode.ch>
  *
- * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Morris Jobke <hey@morrisjobke.de>
  *
  * @license GNU AGPL version 3 or any later version
  *

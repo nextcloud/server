@@ -3,6 +3,12 @@
  * @copyright Copyright (c) 2016 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author iamfool <praveenraonp@gmail.com>
+ * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
+ * @author Julius Haertl <jus@bitgrid.net>
+ * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *

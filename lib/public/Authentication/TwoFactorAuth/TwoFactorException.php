@@ -1,8 +1,9 @@
 <?php
-
 /**
- * @author Cornelius Kölbel <cornelius.koelbel@netknights.it>
  * @copyright Copyright (c) 2016, ownCloud GmbH.
+ *
+ * @author Christoph Wurst <christoph@owncloud.com>
+ * @author Cornelius Kölbel <cornelius.koelbel@netknights.it>
  *
  * @license AGPL-3.0
  *

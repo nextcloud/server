@@ -5,8 +5,18 @@
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
+ * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Maxence Lange <maxence@artificial-owl.com>
+ * @author Maxence Lange <maxence@nextcloud.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Pauli Järvinen <pauli.jarvinen@gmail.com>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Stephan Müller <mail@stephanmueller.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @license AGPL-3.0

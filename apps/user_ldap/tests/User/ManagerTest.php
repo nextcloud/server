@@ -6,6 +6,8 @@
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Philippe Jung <phil.jung@free.fr>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Roger Szabo <roger.szabo@web.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0

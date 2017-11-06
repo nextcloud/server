@@ -13,11 +13,12 @@
  * @author Renaud Fortier <Renaud.Fortier@fsaa.ulaval.ca>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Roger Szabo <roger.szabo@web.de>
+ * @author root <root@localhost.localdomain>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Tom Needham <tom@owncloud.com>
- * @author Roger Szabo <roger.szabo@web.de>
- * @author Vinicius Brand <vinicius@eita.org.br>
- * @author Daniel Tygel <dtygel@eita.org.br>
+ * @author Victor Dubiniuk <dubiniuk@owncloud.com>
+ * @author Vinicius Cubas Brand <vinicius@eita.org.br>
  *
  * @license AGPL-3.0
  *

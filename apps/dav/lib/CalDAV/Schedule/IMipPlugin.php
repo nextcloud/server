@@ -3,8 +3,10 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @copyright Copyright (c) 2017, Georg Ehrke
  *
+ * @author Georg Ehrke <georg@owncloud.com>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Leon Klingele <leon@struktur.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Georg Ehrke <oc.list@georgehrke.com>
  *
  * @license AGPL-3.0
  *

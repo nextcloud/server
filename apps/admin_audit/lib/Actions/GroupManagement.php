@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016 Bjoern Schiessle <bjoern@schiessle.org>
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Roger Szabo <roger.szabo@web.de>
  *

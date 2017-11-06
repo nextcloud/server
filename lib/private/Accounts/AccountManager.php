@@ -1,9 +1,12 @@
 <?php
 /**
- * @author Björn Schießle <bjoern@schiessle.org>
- *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @copyright Copyright (c) 2016, Björn Schießle
+ *
+ * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Joas Schilling <coding@schilljs.com>
+ *
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify

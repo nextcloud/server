@@ -3,8 +3,8 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Andreas Fischer <bantu@owncloud.com>
- * @author Bartek Przybylski <bart.p.pl@gmail.com>
  * @author Bart Visscher <bartv@thisnet.nl>
+ * @author Bartek Przybylski <bart.p.pl@gmail.com>
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Byron Marohn <combustible@live.com>
  * @author Christopher Schäpers <kondou@ts.unde.re>
@@ -12,13 +12,16 @@
  * @author j-ed <juergen@eisfair.org>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Johannes Willnecker <johannes@willnecker.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Olivier Paroz <github@oparoz.com>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
+ * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  *
  * @license AGPL-3.0
  *

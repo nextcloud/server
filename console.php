@@ -4,8 +4,12 @@
  *
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Ko- <k.stoffelen@cs.ru.nl>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Patrick Paysant <patrick.paysant@linagora.com>
+ * @author RealRancor <fisch.666@gmx.de>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  *

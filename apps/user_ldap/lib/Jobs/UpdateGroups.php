@@ -10,7 +10,11 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Roger Szabo <roger.szabo@web.de>
+ * @author root <root@localhost.localdomain>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Vinicius Cubas Brand <vinicius@eita.org.br>
  *
  * @license AGPL-3.0
  *

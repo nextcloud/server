@@ -1,9 +1,9 @@
 <?php
-
 /**
  * @copyright 2016 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author 2016 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christoph Wurst <christoph@owncloud.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
  *
  * @license GNU AGPL version 3 or any later version
  *

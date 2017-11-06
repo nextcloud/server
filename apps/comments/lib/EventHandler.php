@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @copyright Copyright (c) 2016 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *

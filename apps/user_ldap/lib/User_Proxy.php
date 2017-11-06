@@ -8,10 +8,10 @@
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Roger Szabo <roger.szabo@web.de>
- * @author Vinicius Brand <vinicius@eita.org.br>
- * @author Daniel Tygel <dtygel@eita.org.br>
+ * @author root <root@localhost.localdomain>
+ * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Vinicius Cubas Brand <vinicius@eita.org.br>
  *
  * @license AGPL-3.0
  *

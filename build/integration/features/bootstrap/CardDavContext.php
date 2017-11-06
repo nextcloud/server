@@ -4,6 +4,7 @@
  *
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Phil Davis <phil.davis@inf.org>
  *
  * @license AGPL-3.0
  *

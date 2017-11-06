@@ -2,9 +2,11 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
- * @author Vincent Petry <PVince81@owncloud.com>
+ * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @license AGPL-3.0
  *

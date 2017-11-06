@@ -2,7 +2,9 @@
 /**
  * @copyright Copyright (c) 2016 Julius Härtl <jus@bitgrid.net>
  *
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Haertl <jus@bitgrid.net>
+ * @author Julius Härtl <jus@bitgrid.net>
  *
  * @license GNU AGPL version 3 or any later version
  *

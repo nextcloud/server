@@ -4,17 +4,18 @@
  *
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Brice Maron <brice@bmaron.net>
+ * @author Christoph Wurst <christoph@owncloud.com>
  * @author Frank Karlitschek <frank@karlitschek.de>
- * @author Hendrik Leppelsack <hendrik@leppelsack.de>
  * @author Individual IT Services <info@individual-it.net>
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@users.noreply.github.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Michael Letzgus <develope@michael-letzgus.de>
+ * @author Marin Treselj <marin@pixelipo.com>
+ * @author Michael Letzgus <www@chronos.michael-letzgus.de>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Raghu Nayyar <hey@raghunayyar.com>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>

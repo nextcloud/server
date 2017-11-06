@@ -5,7 +5,6 @@
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Björn Schießle <bjoern@schiessle.org>
- * @author cmeh <cmeh@users.noreply.github.com>
  * @author Florin Peter <github@florin-peter.de>
  * @author Jesús Macias <jmacias@solidgear.es>
  * @author Joas Schilling <coding@schilljs.com>
@@ -14,7 +13,6 @@
  * @author Klaas Freitag <freitag@owncloud.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Luke Policinski <lpolicinski@gmail.com>
- * @author Martin Mattel <martin.mattel@diemattels.at>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Petr Svoboda <weits666@gmail.com>
