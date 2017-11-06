@@ -77,6 +77,7 @@ class Server {
 		$dispatcher = \OC::$server->getEventDispatcher();
 		$timezone = new TimeFactory();
 		$sendInvitations = \OC::$server->getConfig()->getAppValue('dav', 'sendInvitations', 'yes') === 'yes';
+		$l10nFactory = \OC::$server->getL10NFactory();
 
 		$root = new RootCollection();
 		$this->server = new \OCA\DAV\Connector\Sabre\Server(new CachingTree($root));
@@ -139,7 +140,7 @@ class Server {
 		$this->server->addPlugin(new \Sabre\CalDAV\ICSExportPlugin());
 		$this->server->addPlugin(new \OCA\DAV\CalDAV\Schedule\Plugin());
 		if ($sendInvitations) {
-			$this->server->addPlugin(new IMipPlugin($mailer, $logger, $timezone));
+			$this->server->addPlugin(\OC::$server->query(\OCA\DAV\CalDAV\Schedule\IMipPlugin::class));
 		}
 		$this->server->addPlugin(new \Sabre\CalDAV\Subscriptions\Plugin());
 		$this->server->addPlugin(new \Sabre\CalDAV\Notifications\Plugin());
