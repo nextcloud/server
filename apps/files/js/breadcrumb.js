@@ -216,6 +216,7 @@
 			crumbs.push({
 				name: t('core', 'Home'),
 				dir: '/',
+				class: 'crumbhome',
 				linkclass: 'icon-home'
 			});
 			for (var i = 0; i < parts.length; i++) {
@@ -233,7 +234,7 @@
  		 * Hide the middle crumb
  		 */
  		_hideCrumb: function() {
-			var selector = '.crumb:not(.hidden):not(.crumbmenu)';
+			var selector = '.crumb:not(.hidden):not(.crumbhome):not(.crumbmenu)';
 			var length = this.$el.find(selector).length;
 			// Get the middle one floored down
 			var elmt = Math.floor(length / 2 - 0.5);
