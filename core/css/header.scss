@@ -224,7 +224,7 @@ nav {
 		position: absolute;
 		pointer-events: none;
 		border-color: rgba(0, 0, 0, 0);
-		border-bottom-color: rgba(255, 255, 255, .97);
+		border-bottom-color: $color-main-background;
 		border-width: 9px;
 		margin-left: -9px;
 	}
