@@ -60,9 +60,6 @@ h3 {
 }
 
 /* Global content */
-#header {
-	padding-top: 100px;
-}
 #header .logo {
 	background-image: url('../img/logo.svg?v=1');
 	background-repeat: no-repeat;
@@ -85,7 +82,10 @@ h3 {
 	width: 300px;
 }
 .v-align {
-	width: inherit;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 }
 
 /* Default FORM */
