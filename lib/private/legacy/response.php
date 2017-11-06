@@ -4,10 +4,12 @@
  *
  * @author Andreas Fischer <bantu@owncloud.com>
  * @author Bart Visscher <bartv@thisnet.nl>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Sergio Bertolín <sbertolin@solidgear.es>
  * @author Stefan Weil <sw@weilnetz.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>

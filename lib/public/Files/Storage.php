@@ -3,12 +3,14 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Michael Roth <michael.roth@rz.uni-augsburg.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vinicius Cubas Brand <vinicius@eita.org.br>
  *
  * @license AGPL-3.0
  *

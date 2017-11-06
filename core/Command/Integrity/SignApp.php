@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  *
  * @license AGPL-3.0
  *

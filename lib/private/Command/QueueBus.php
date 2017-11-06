@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Robin Appelman <robin@icewind.nl>
  *
  * @license AGPL-3.0

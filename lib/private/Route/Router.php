@@ -4,7 +4,7 @@
  *
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
- * @author Felix Anand Epp <work@felixepp.de>
+ * @author Felix Epp <work@felixepp.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@statuscode.ch>

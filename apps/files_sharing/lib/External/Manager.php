@@ -2,7 +2,9 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Daniel Hansson <daniel@techandme.se>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@statuscode.ch>

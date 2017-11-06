@@ -4,6 +4,7 @@
  *
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Stefan Weil <sw@weilnetz.de>
  *
  * @license AGPL-3.0

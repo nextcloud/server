@@ -2,7 +2,12 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Maxence Lange <maxence@nextcloud.com>
+ * @author Michael Jobst <mjobst+github@tecratech.de>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Vincent Petry <pvince81@owncloud.com>
  *

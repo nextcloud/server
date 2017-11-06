@@ -3,6 +3,8 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
+ * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Olivier Paroz <github@oparoz.com>
  * @author Robin McCorkell <robin@mccorkell.me.uk>

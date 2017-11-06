@@ -4,12 +4,12 @@
  *
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Christopher Schäpers <kondou@ts.unde.re>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @license AGPL-3.0

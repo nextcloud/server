@@ -1,6 +1,11 @@
 <?php
 /**
  *
+ *
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Matthew Setter <matthew@matthewsetter.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version

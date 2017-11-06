@@ -3,7 +3,10 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Noveen Sachdeva <noveen.sachdeva@research.iiit.ac.in>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  *

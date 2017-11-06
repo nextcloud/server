@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0

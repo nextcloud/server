@@ -4,6 +4,7 @@
  *
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *

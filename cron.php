@@ -2,14 +2,18 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Artem Sidorenko <artem@posteo.de>
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
  * @author Christopher Schäpers <kondou@ts.unde.re>
+ * @author Damjan Georgievski <gdamjan@gmail.com>
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Ko- <k.stoffelen@cs.ru.nl>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Oliver Kohl D.Sc. <oliver@kohl.bz>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Steffen Lindner <mail@steffen-lindner.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>

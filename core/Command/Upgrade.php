@@ -5,9 +5,12 @@
  * @author Andreas Fischer <bantu@owncloud.com>
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Jürgen Haas <juergen@paragon-es.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Owen Winkler <a_github@midnightcircus.com>
+ * @author Robin Appelman <robin@icewind.nl>
+ * @author Sander Ruitenbeek <sander@grids.be>
  * @author Steffen Lindner <mail@steffen-lindner.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Pulzer <t.pulzer@kniel.de>

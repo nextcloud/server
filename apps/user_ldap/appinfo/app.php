@@ -3,15 +3,13 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Christopher Schäpers <kondou@ts.unde.re>
  * @author Dominik Schmidt <dev@dominik-schmidt.de>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Juan Pablo VillafÃ¡Ã±ez <jvillafanez@solidgear.es>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vinicius Brand <vinicius@eita.org.br>
- * @author Daniel Tygel <dtygel@eita.org.br>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Roger Szabo <roger.szabo@web.de>
+ * @author Vinicius Cubas Brand <vinicius@eita.org.br>
  *
  * @license AGPL-3.0
  *

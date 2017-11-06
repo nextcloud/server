@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Frédéric Fortier <frederic.fortier@oronospolytechnique.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>

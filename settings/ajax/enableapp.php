@@ -4,7 +4,6 @@
  *
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Christopher Schäpers <kondou@ts.unde.re>
- * @author Joas Schilling <coding@schilljs.com>
  * @author Kamil Domanski <kdomanski@kdemail.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Robin Appelman <robin@icewind.nl>

@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Semih Serhat Karakaya <karakayasemi@itu.edu.tr>
  *
  * @license AGPL-3.0
  *

@@ -5,7 +5,9 @@
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roger Szabo <roger.szabo@web.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Vinicius Cubas Brand <vinicius@eita.org.br>
  *
  * @license AGPL-3.0
  *

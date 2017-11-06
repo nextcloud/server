@@ -8,8 +8,10 @@
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Benjamin Diele <benjamin@diele.be>
+ * @author bline <scottbeck@gmail.com>
  * @author Christopher Schäpers <kondou@ts.unde.re>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Juan Pablo Villafáñez <jvillafanez@solidgear.es>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lorenzo M. Catucci <lorenzo@sancho.ccd.uniroma2.it>
  * @author Lukas Reschke <lukas@statuscode.ch>
@@ -18,9 +20,10 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Nicolas Grekas <nicolas.grekas@gmail.com>
  * @author Ralph Krimmel <rkrimme1@gwdg.de>
- * @author Renaud Fortier <Renaud.Fortier@fsaa.ulaval.ca>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roger Szabo <roger.szabo@web.de>
+ * @author root <root@localhost.localdomain>
+ * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  *
  * @license AGPL-3.0
  *

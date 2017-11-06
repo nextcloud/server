@@ -8,10 +8,13 @@
  * @author Georg Ehrke <georg@owncloud.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Maxence Lange <maxence@pontapreta.net>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Piotr Filiciak <piotr@filiciak.pl>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Sascha Sambale <mastixmc@gmail.com>
+ * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @license AGPL-3.0

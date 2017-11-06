@@ -8,9 +8,8 @@
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Manish Bisht <manish.bisht490@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Thomas Pulzer <t.pulzer@kniel.de>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  *
  * @license AGPL-3.0

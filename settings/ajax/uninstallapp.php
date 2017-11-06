@@ -5,6 +5,7 @@
  * @author Georg Ehrke <georg@owncloud.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *

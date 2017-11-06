@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Joas Schilling <coding@schilljs.com>
  *
  * @license GNU AGPL version 3 or any later version
  *

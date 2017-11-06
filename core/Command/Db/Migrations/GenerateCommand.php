@@ -1,10 +1,9 @@
 <?php
 /**
- * @author Joas Schilling <coding@schilljs.com>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
  * @copyright Copyright (c) 2017 Joas Schilling <coding@schilljs.com>
  * @copyright Copyright (c) 2017, ownCloud GmbH
+ *
+ * @author Joas Schilling <coding@schilljs.com>
  *
  * @license AGPL-3.0
  *

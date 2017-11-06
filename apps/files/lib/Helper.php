@@ -6,6 +6,7 @@
  * @author brumsel <brumsel@losecatcher.de>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Michael Jobst <mjobst+github@tecratech.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>

@@ -1,9 +1,8 @@
 <?php
 /**
- *
  * @copyright Copyright (c) 2017, EITA Cooperative (eita.org.br)
  *
- * @author Vinicius Brand <vinicius@eita.org.br>
+ * @author Vinicius Cubas Brand <vinicius@eita.org.br>
  *
  * @license GNU AGPL version 3 or any later version
  *

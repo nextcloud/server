@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Ardinis <Ardinis@users.noreply.github.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Robin Appelman <robin@icewind.nl>
  *

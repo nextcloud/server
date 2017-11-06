@@ -4,9 +4,13 @@
  * @copyright Copyright (c) 2016, Lukas Reschke <lukas@statuscode.ch>
  *
  * @author Christoph Wurst <christoph@owncloud.com>
+ * @author Felix A. Epp <work@felixepp.de>
+ * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0

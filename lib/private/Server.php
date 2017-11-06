@@ -9,20 +9,25 @@
  * @author Bernhard Reiter <ockham@raz.or.at>
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christopher Schäpers <kondou@ts.unde.re>
  * @author Christoph Wurst <christoph@owncloud.com>
+ * @author Christopher Schäpers <kondou@ts.unde.re>
+ * @author Damjan Georgievski <gdamjan@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author Julius Haertl <jus@bitgrid.net>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Piotr Mrówczyński <mrow4a@yahoo.com>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author root <root@localhost.localdomain>
  * @author Sander <brantje@gmail.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
  * @author Vincent Petry <pvince81@owncloud.com>
- * @author Roger Szabo <roger.szabo@web.de>
  *
  * @license AGPL-3.0
  *

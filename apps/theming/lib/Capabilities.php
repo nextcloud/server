@@ -2,7 +2,9 @@
 /**
  * @copyright Copyright (c) 2016, Joas Schilling <coding@schilljs.com>
  *
+ * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  *
  * @license GNU AGPL version 3 or any later version
  *

@@ -3,8 +3,10 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Andreas Fischer <bantu@owncloud.com>
+ * @author Artem Kochnev <MrJeos@gmail.com>
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Florin Peter <github@florin-peter.de>
+ * @author Frédéric Fortier <frederic.fortier@oronospolytechnique.com>
  * @author Jens-Christian Fischer <jens-christian.fischer@switch.ch>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
@@ -14,10 +16,8 @@
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author TheSFReader <TheSFReader@gmail.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
- * @author Xuanwo <xuanwo@yunify.com>
  *
  * @license AGPL-3.0
  *

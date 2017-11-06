@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016 Morris Jobke <hey@morrisjobke.de>
  *
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  *
  * @license GNU AGPL version 3 or any later version

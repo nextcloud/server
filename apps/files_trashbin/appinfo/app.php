@@ -2,10 +2,10 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author Bart Visscher <bartv@thisnet.nl>
  * @author Christopher Schäpers <kondou@ts.unde.re>
  * @author Florin Peter <github@florin-peter.de>
- * @author Robin Appelman <robin@icewind.nl>
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  * @author Vincent Petry <pvince81@owncloud.com>
  *

@@ -7,6 +7,7 @@
  * @author Christoph Schaefer <christophł@wolkesicher.de>
  * @author Christoph Wurst <christoph@owncloud.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Haertl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>

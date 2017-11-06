@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Christian Jürges <christian@eqipe.ch>
  * @author Joas Schilling <coding@schilljs.com>

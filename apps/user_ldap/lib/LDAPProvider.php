@@ -1,11 +1,11 @@
 <?php
 /**
- *
  * @copyright Copyright (c) 2016, Roger Szabo (roger.szabo@web.de)
  *
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Roger Szabo <roger.szabo@web.de>
- * @author Vinicius Brand <vinicius@eita.org.br>
- * @author Daniel Tygel <dtygel@eita.org.br>
+ * @author root <root@localhost.localdomain>
+ * @author Vinicius Cubas Brand <vinicius@eita.org.br>
  *
  * @license GNU AGPL version 3 or any later version
  *

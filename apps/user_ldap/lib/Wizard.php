@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Alexander Bergolth <leo@strike.wu.ac.at>
+ * @author Allan Nordhøy <epost@anotheragency.no>
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Jean-Louis Dupond <jean-louis@dupond.be>
@@ -13,7 +14,9 @@
  * @author Nicolas Grekas <nicolas.grekas@gmail.com>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Stefan Weil <sw@weilnetz.de>
+ * @author Tobias Brunner <tobias@tobru.ch>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  * @author Xuanwo <xuanwo@yunify.com>
  *

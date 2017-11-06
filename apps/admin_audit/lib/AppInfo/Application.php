@@ -2,6 +2,9 @@
 /**
  * @copyright Copyright (c) 2017 Joas Schilling <coding@schilljs.com>
  *
+ * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Joas Schilling <coding@schilljs.com>
+ *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify

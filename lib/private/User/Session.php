@@ -3,18 +3,21 @@
  * @copyright Copyright (c) 2017, Sandro Lutz <sandro.lutz@temparus.ch>
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author Sandro Lutz <sandro.lutz@temparus.ch>
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
+ * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Christoph Wurst <christoph@owncloud.com>
+ * @author Felix Rupp <github@felixrupp.com>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Sandro Lutz <sandro.lutz@temparus.ch>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
- * @author Felix Rupp <kontakt@felixrupp.com>
  *
  * @license AGPL-3.0
  *

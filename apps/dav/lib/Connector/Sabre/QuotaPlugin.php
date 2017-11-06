@@ -3,8 +3,9 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Felix Moeller <mail@felixmoeller.de>
- * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author scambra <sergio@entrecables.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>

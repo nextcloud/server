@@ -2,6 +2,7 @@
 /**
  * @copyright 2017, Roeland Jago Douma <roeland@famdouma.nl>
  *
+ * @author Pauli Järvinen <pauli.jarvinen@gmail.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version

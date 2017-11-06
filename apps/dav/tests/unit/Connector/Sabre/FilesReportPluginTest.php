@@ -3,6 +3,8 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Vincent Petry <pvince81@owncloud.com>
  *

@@ -8,12 +8,14 @@
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
  * @author Brice Maron <brice@bmaron.net>
  * @author Christoph Wurst <christoph@owncloud.com>
+ * @author Frank Isemann <frank@isemann.name>
  * @author François Kubler <francois@kubler.org>
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author KB7777 <k.burkowski@gmail.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Martin Mattel <martin.mattel@diemattels.at>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Robert Scheck <robert@fedoraproject.org>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Sean Comeau <sean@ftlnetworks.ca>

@@ -10,9 +10,11 @@
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Ko- <k.stoffelen@cs.ru.nl>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Nicolai Ehemann <en@enlightened.de>
+ * @author noveens <noveen.sachdeva@research.iiit.ac.in>
  * @author Piotr Filiciak <piotr@filiciak.pl>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>

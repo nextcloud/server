@@ -4,6 +4,8 @@
  * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  *
  * @license GNU AGPL version 3 or any later version

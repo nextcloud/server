@@ -2,7 +2,9 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
  *
  * @license AGPL-3.0
  *

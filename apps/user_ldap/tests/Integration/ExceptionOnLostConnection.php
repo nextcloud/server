@@ -4,6 +4,7 @@
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
  *
  * @license AGPL-3.0
  *

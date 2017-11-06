@@ -4,6 +4,9 @@
  *
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Phil Davis <phil.davis@inf.org>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Sergio Bertolin <sbertolin@solidgear.es>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @license AGPL-3.0

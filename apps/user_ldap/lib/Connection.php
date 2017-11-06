@@ -4,6 +4,8 @@
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
+ * @author Brent Bloxam <brent.bloxam@gmail.com>
+ * @author Jarkko Lehtoranta <devel@jlranta.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
@@ -11,7 +13,9 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roger Szabo <roger.szabo@web.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author root <root@localhost.localdomain>
+ * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  * @author Xuanwo <xuanwo@yunify.com>
  *
  * @license AGPL-3.0

@@ -4,7 +4,10 @@
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Juan Pablo Villafáñez <jvillafanez@solidgear.es>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Vinicius Cubas Brand <vinicius@eita.org.br>
  *
  * @license AGPL-3.0
  *

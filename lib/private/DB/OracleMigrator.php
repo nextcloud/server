@@ -2,9 +2,13 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Piotr Mrowczynski <mrow4a@yahoo.com>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  *
  * @license AGPL-3.0
  *

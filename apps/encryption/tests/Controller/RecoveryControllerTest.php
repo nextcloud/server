@@ -4,6 +4,7 @@
  *
  * @author Clark Tomlinson <fallen013@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
  *
  * @license AGPL-3.0
  *

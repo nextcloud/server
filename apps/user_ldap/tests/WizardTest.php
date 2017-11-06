@@ -5,7 +5,9 @@
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  * @author Viktor Szépe <viktor@szepe.net>
  *
  * @license AGPL-3.0

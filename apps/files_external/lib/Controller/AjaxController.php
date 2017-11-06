@@ -3,9 +3,11 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Martin Mattel <martin.mattel@diemattels.at>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Ross Nicoll <jrn@jrn.me.uk>
  *
  * @license AGPL-3.0

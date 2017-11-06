@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Andreas Fischer <bantu@owncloud.com>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Markus Goetz <markus@woboq.com>
  * @author Morris Jobke <hey@morrisjobke.de>

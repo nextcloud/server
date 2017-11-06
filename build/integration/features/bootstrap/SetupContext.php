@@ -1,9 +1,8 @@
 <?php
 /**
-
+ * @copyright Morris Jobke
  *
  * @author Morris Jobke <hey@morrisjobke.de>
- * @copyright Morris Jobke
  *
  * @license GNU AGPL version 3 or any later version
  *

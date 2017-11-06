@@ -3,6 +3,12 @@
  * @copyright Copyright (c) 2016 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Marius Blüm <marius@lineone.io>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *

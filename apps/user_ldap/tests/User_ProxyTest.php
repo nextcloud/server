@@ -2,8 +2,10 @@
 /**
  * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Vinicius Brand <vinicius@eita.org.br>
+ * @author Roger Szabo <roger.szabo@web.de>
+ * @author Vinicius Cubas Brand <vinicius@eita.org.br>
  *
  * @license GNU AGPL version 3 or any later version
  *

@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  *
  * @license AGPL-3.0
  *

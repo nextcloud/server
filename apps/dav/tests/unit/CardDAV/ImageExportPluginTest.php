@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Georg Ehrke <georg@owncloud.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0

@@ -2,6 +2,9 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Rello <Rello@users.noreply.github.com>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  *
  * @license AGPL-3.0

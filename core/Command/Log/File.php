@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Thomas Pulzer <t.pulzer@kniel.de>
  *

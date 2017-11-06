@@ -5,10 +5,12 @@
  * @author Andreas Fischer <bantu@owncloud.com>
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Sander Ruitenbeek <sander@grids.be>
  * @author tbelau666 <thomas.belau@gmx.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author unclejamal3000 <andreas.pramhaas@posteo.de>
  *
  * @license AGPL-3.0
  *
