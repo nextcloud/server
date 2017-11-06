@@ -199,7 +199,7 @@ XML;
 </nc:calendar-search>
 XML;
 
-		$result = $this->parse($xml);
+		$this->parse($xml);
 	}
 
 	/**

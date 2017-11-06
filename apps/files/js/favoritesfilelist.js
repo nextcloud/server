@@ -66,7 +66,6 @@ $(document).ready(function() {
 			},
 
 			reload: function() {
-				var tagName = OC.TAG_FAVORITE;
 				this.showMask();
 				if (this._reloadCall) {
 					this._reloadCall.abort();

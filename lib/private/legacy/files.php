@@ -338,7 +338,7 @@ class OC_Files {
 	 *
 	 * @param int $size file size in bytes
 	 * @param array $files override '.htaccess' and '.user.ini' locations
-	 * @return bool false on failure, size on success
+	 * @return bool|int false on failure, size on success
 	 */
 	public static function setUploadLimit($size, $files = []) {
 		//don't allow user to break his config
