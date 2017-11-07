@@ -55,3 +55,11 @@ $cm->register(function() use ($cm, $app) {
 		$app->setupContactsProvider($cm, $user->getUID());
 	}
 });
+
+$calendarManager = \OC::$server->getCalendarManager();
+$calendarManager->register(function() use ($calendarManager, $app) {
+	$user = \OC::$server->getUserSession()->getUser();
+	if ($user !== null) {
+		$app->setupCalendarProvider($calendarManager, $user->getUID());
+	}
+});

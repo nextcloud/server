@@ -51,8 +51,12 @@ use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\PropPatch;
 use Sabre\HTTP\URLUtil;
+use Sabre\VObject\Component;
 use Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\Component\VEvent;
+use Sabre\VObject\Component\VTimeZone;
 use Sabre\VObject\DateTimeParser;
+use Sabre\VObject\Property;
 use Sabre\VObject\Reader;
 use Sabre\VObject\Recur\EventIterator;
 use Sabre\Uri;
@@ -1342,6 +1346,167 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		}
 
 		return $result;
+	}
+
+	/**
+	 * used for Nextcloud's calendar API
+	 *
+	 * @param array $calendarInfo
+	 * @param string $pattern
+	 * @param array $searchProperties
+	 * @param array $options
+	 * @param integer|null $limit
+	 * @param integer|null $offset
+	 *
+	 * @return array
+	 */
+	public function search(array $calendarInfo, $pattern, array $searchProperties,
+						   array $options, $limit, $offset) {
+		$outerQuery = $this->db->getQueryBuilder();
+		$innerQuery = $this->db->getQueryBuilder();
+
+		$innerQuery->selectDistinct('op.objectid')
+			->from($this->dbObjectPropertiesTable, 'op')
+			->andWhere($innerQuery->expr()->eq('op.calendarid',
+				$outerQuery->createNamedParameter($calendarInfo['id'])));
+
+		// only return public items for shared calendars for now
+		if ($calendarInfo['principaluri'] !== $calendarInfo['{http://owncloud.org/ns}owner-principal']) {
+			$innerQuery->andWhere($innerQuery->expr()->eq('c.classification',
+				$outerQuery->createNamedParameter(self::CLASSIFICATION_PUBLIC)));
+		}
+
+		$or = $innerQuery->expr()->orX();
+		foreach($searchProperties as $searchProperty) {
+			$or->add($innerQuery->expr()->eq('op.name',
+				$outerQuery->createNamedParameter($searchProperty)));
+		}
+		$innerQuery->andWhere($or);
+
+		// TODO - add component-type
+
+		if ($pattern !== '') {
+			$innerQuery->andWhere($innerQuery->expr()->iLike('op.value',
+				$outerQuery->createNamedParameter('%' .
+					$this->db->escapeLikeParameter($pattern) . '%')));
+		}
+
+		$outerQuery->select('c.id', 'c.calendardata', 'c.componenttype', 'c.uid', 'c.uri')
+			->from('calendarobjects', 'c');
+
+		if (isset($options['timerange'])) {
+			if (isset($options['timerange']['start'])) {
+				$outerQuery->andWhere($outerQuery->expr()->gt('lastoccurence',
+					$outerQuery->createNamedParameter($options['timerange']['start']->getTimeStamp)));
+
+			}
+			if (isset($options['timerange']['end'])) {
+				$outerQuery->andWhere($outerQuery->expr()->lt('firstoccurence',
+					$outerQuery->createNamedParameter($options['timerange']['end']->getTimeStamp)));
+			}
+
+		}
+
+		$outerQuery->andWhere($outerQuery->expr()->in('c.id',
+			$outerQuery->createFunction($innerQuery->getSQL())));
+
+		if ($offset) {
+			$outerQuery->setFirstResult($offset);
+		}
+		if ($limit) {
+			$outerQuery->setMaxResults($limit);
+		}
+
+		$result = $outerQuery->execute();
+		$calendarObjects = $result->fetchAll();
+
+		return array_map(function($o) {
+			$calendarData = Reader::read($o['calendardata']);
+			$comps = $calendarData->getComponents();
+			$objects = [];
+			$timezones = [];
+			foreach($comps as $comp) {
+				if ($comp instanceof VTimeZone) {
+					$timezones[] = $comp;
+				} else {
+					$objects[] = $comp;
+				}
+			}
+
+			return [
+				'id' => $o['id'],
+				'type' => $o['componenttype'],
+				'uid' => $o['uid'],
+				'uri' => $o['uri'],
+				'objects' => array_map(function($c) {
+					return $this->transformSearchData($c);
+				}, $objects),
+				'timezones' => array_map(function($c) {
+					return $this->transformSearchData($c);
+				}, $timezones),
+			];
+		}, $calendarObjects);
+	}
+
+	/**
+	 * @param Component $comp
+	 * @return array
+	 */
+	private function transformSearchData(Component $comp) {
+		$data = [];
+		/** @var Component[] $subComponents */
+		$subComponents = $comp->getComponents();
+		/** @var Property[] $properties */
+		$properties = array_filter($comp->children(), function($c) {
+			return $c instanceof Property;
+		});
+		$validationRules = $comp->getValidationRules();
+
+		foreach($subComponents as $subComponent) {
+			$name = $subComponent->name;
+			if (!isset($data[$name])) {
+				$data[$name] = [];
+			}
+			$data[$name][] = $this->transformSearchData($subComponent);
+		}
+
+		foreach($properties as $property) {
+			$name = $property->name;
+			if (!isset($validationRules[$name])) {
+				$validationRules[$name] = '*';
+			}
+
+			$rule = $validationRules[$property->name];
+			if ($rule === '+' || $rule === '*') { // multiple
+				if (!isset($data[$name])) {
+					$data[$name] = [];
+				}
+
+				$data[$name][] = $this->transformSearchProperty($property);
+			} else { // once
+				$data[$name] = $this->transformSearchProperty($property);
+			}
+		}
+
+		return $data;
+	}
+
+	/**
+	 * @param Property $prop
+	 * @return array
+	 */
+	private function transformSearchProperty(Property $prop) {
+		// No need to check Date, as it extends DateTime
+		if ($prop instanceof Property\ICalendar\DateTime) {
+			$value = $prop->getDateTime();
+		} else {
+			$value = $prop->getValue();
+		}
+
+		return [
+			$value,
+			$prop->parameters()
+		];
 	}
 
 	/**

@@ -721,4 +721,113 @@ EOD;
 		]);
 		$this->assertEquals(count($search5), 0);
 	}
+
+	/**
+	 * @dataProvider searchDataProvider
+	 */
+	public function testSearch($isShared, $count) {
+		$calendarId = $this->createTestCalendar();
+
+		$uris = [];
+		$calData = [];
+
+		$uris[] = static::getUniqueID('calobj');
+		$calData[] = <<<EOD
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:Nextcloud Calendar
+BEGIN:VEVENT
+CREATED;VALUE=DATE-TIME:20130910T125139Z
+UID:47d15e3ec8-1
+LAST-MODIFIED;VALUE=DATE-TIME:20130910T125139Z
+DTSTAMP;VALUE=DATE-TIME:20130910T125139Z
+SUMMARY:Test Event
+DTSTART;VALUE=DATE-TIME:20130912T130000Z
+DTEND;VALUE=DATE-TIME:20130912T140000Z
+CLASS:PUBLIC
+END:VEVENT
+END:VCALENDAR
+EOD;
+
+		$uris[] = static::getUniqueID('calobj');
+		$calData[] = <<<EOD
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:Nextcloud Calendar
+BEGIN:VEVENT
+CREATED;VALUE=DATE-TIME:20130910T125139Z
+UID:47d15e3ec8-2
+LAST-MODIFIED;VALUE=DATE-TIME:20130910T125139Z
+DTSTAMP;VALUE=DATE-TIME:20130910T125139Z
+SUMMARY:123
+LOCATION:Test
+DTSTART;VALUE=DATE-TIME:20130912T130000Z
+DTEND;VALUE=DATE-TIME:20130912T140000Z
+CLASS:PUBLIC
+END:VEVENT
+END:VCALENDAR
+EOD;
+
+		$uris[] = static::getUniqueID('calobj');
+		$calData[] = <<<EOD
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:Nextcloud Calendar
+BEGIN:VEVENT
+CREATED;VALUE=DATE-TIME:20130910T125139Z
+UID:47d15e3ec8-3
+LAST-MODIFIED;VALUE=DATE-TIME:20130910T125139Z
+DTSTAMP;VALUE=DATE-TIME:20130910T125139Z
+SUMMARY:123
+ATTENDEE;CN=test:mailto:foo@bar.com
+DTSTART;VALUE=DATE-TIME:20130912T130000Z
+DTEND;VALUE=DATE-TIME:20130912T140000Z
+CLASS:PRIVATE
+END:VEVENT
+END:VCALENDAR
+EOD;
+
+		$uris[] = static::getUniqueID('calobj');
+		$calData[] = <<<EOD
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:Nextcloud Calendar
+BEGIN:VEVENT
+CREATED;VALUE=DATE-TIME:20130910T125139Z
+UID:47d15e3ec8-4
+LAST-MODIFIED;VALUE=DATE-TIME:20130910T125139Z
+DTSTAMP;VALUE=DATE-TIME:20130910T125139Z
+SUMMARY:123
+ATTENDEE;CN=foobar:mailto:test@bar.com
+DTSTART;VALUE=DATE-TIME:20130912T130000Z
+DTEND;VALUE=DATE-TIME:20130912T140000Z
+CLASS:CONFIDENTIAL
+END:VEVENT
+END:VCALENDAR
+EOD;
+
+		$uriCount = count($uris);
+		for ($i=0; $i < $uriCount; $i++) {
+			$this->backend->createCalendarObject($calendarId,
+				$uris[$i], $calData[$i]);
+		}
+
+		$calendarInfo = [
+			'id' => $calendarId,
+			'principaluri' => 'user1',
+			'{http://owncloud.org/ns}owner-principal' => $isShared ? 'user2' : 'user1',
+		];
+
+		$result = $this->backend->search($calendarInfo, 'Test',
+			['SUMMARY', 'LOCATION', 'ATTENDEE'], [], null, null);
+
+		$this->assertCount($count, $result);
+	}
+
+	public function searchDataProvider() {
+		return [
+			[false, 4],
+			[true, 2],
+		];
+	}
 }
