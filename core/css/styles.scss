@@ -1145,6 +1145,7 @@ code {
 #oc-dialog-filepicker-content {
 	.dirtree {
 		width: 92%;
+		flex-wrap: wrap;
 		div:first-child a {
 			background-image: url('../img/places/home.svg?v=1');
 			background-repeat: no-repeat;
