@@ -1443,8 +1443,9 @@ div.crumb {
 	&:last-child {
 		font-weight: 600;
 		margin-right: 10px;
-		a {
-			padding-right: 0;
+		// Allow multiple span next to the main 'a'
+		a ~ span {
+			padding-left: 0;
 		}
 	}
 	&:hover, &:focus, a:focus, &:active {
