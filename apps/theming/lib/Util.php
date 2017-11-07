@@ -81,9 +81,8 @@ class Util {
 		$l = $this->calculateLuminance($color);
 		if($l>0.8) {
 			return '#555555';
-		} else {
-			return $color;
 		}
+		return $color;
 	}
 
 	/**
