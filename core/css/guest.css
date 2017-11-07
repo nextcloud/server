@@ -582,6 +582,8 @@ p.info {
 .float-spinner {
 	margin-top: -32px;
 	padding-top: 32px;
+	height: 32px;
+	display: none;
 }
 [class^='icon-'], [class*=' icon-'] {
 	background-repeat: no-repeat;
