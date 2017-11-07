@@ -1145,9 +1145,6 @@ code {
 #oc-dialog-filepicker-content {
 	.dirtree {
 		width: 92%;
-		float: left;
-		margin-left: 15px;
-		overflow: hidden;
 		div:first-child a {
 			background-image: url('../img/places/home.svg?v=1');
 			background-repeat: no-repeat;
@@ -1182,7 +1179,7 @@ code {
 		display: none;
 	}
 	.filelist {
-		background-color: white;
+		background-color: $color-main-background;
 		width: 100%;
 	}
 	#filestable.filelist {
@@ -1389,7 +1386,7 @@ span.ui-icon {
 }
 
 /* ---- BREADCRUMB ---- */
-div.breadcrumb {
+.breadcrumb {
 	display: inline-flex;
 }
 div.crumb {
@@ -1401,6 +1398,7 @@ div.crumb {
 	background-size: auto 24px;
 	flex: 0 0 auto;
 	order: 1;
+	padding-right: 7px;
 	&.crumbmenu {
 		order: 2;
 		position: relative;
@@ -1425,7 +1423,7 @@ div.crumb {
 	> a,
 	> span {
 		position: relative;
-		padding: 12px 24px 12px 17px;
+		padding: 12px;
 		opacity: 0.5;
 		text-overflow: ellipsis;
 		white-space: nowrap;
