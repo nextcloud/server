@@ -39,9 +39,7 @@ class SystemConfig {
 	/** @var array */
 	protected $sensitiveValues = [
 		'instanceid' => true,
-		'trusted_domains' => true,
 		'datadirectory' => true,
-		'overwrite.cli.url' => true,
 		'dbname' => true,
 		'dbhost' => true,
 		'dbpassword' => true,
