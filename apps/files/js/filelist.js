@@ -836,8 +836,8 @@
 		 * Event handler when clicking on a bread crumb
 		 */
 		_onClickBreadCrumb: function(e) {
-			console.log('Clicked breadcrumb ', e);
-			var $el = $(e.target).closest('.crumb'),
+			// Select a crumb or a crumb in the menu
+			var $el = $(e.target).closest('.crumb, .crumblist'),
 				$targetDir = $el.data('dir');
 
 			if ($targetDir !== undefined && e.which === 1) {

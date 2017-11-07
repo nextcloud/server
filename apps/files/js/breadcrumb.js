@@ -113,6 +113,9 @@
 		 * Renders the breadcrumb elements
 		 */
 		render: function() {
+			// Hide menu on render
+			OC.hideMenus();
+
 			var parts = this._makeCrumbs(this.dir || '/');
 			var $crumb;
 			var $menuItem;
@@ -156,7 +159,8 @@
 			for (var i = 0; i < parts.length; i++) {
 				var part = parts[i];
 				if(part.dir) {
-					$menuItem = $('<li><a><span></span></a></li>');
+					$menuItem = $('<li class="crumblist"><a><span></span></a></li>');
+					$menuItem.data('dir', part.dir);
 					$menuItem.find('a').attr('href', this.getCrumbUrl(part, i));
 					$menuItem.find('span').text(part.name);
 					this.$menu.children('ul').append($menuItem);
