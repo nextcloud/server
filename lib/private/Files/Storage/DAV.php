@@ -13,7 +13,7 @@
  * @author Robin Appelman <robin@icewind.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
- * @author vkuimov <vkuimov@nextcloud>
+ * @author vkuimov "vkuimov@nextcloud"
  *
  * @license AGPL-3.0
  *

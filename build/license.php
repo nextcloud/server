@@ -322,6 +322,7 @@ With help from many libraries and frameworks including:
 		}
 
 		$authors = array_map(function($author){
+			$author = $this->fixInvalidEmail($author);
 			$this->authors[$author] = $author;
 			return " * @author $author";
 		}, $authors);
@@ -345,6 +346,14 @@ With help from many libraries and frameworks including:
 
 		if (isset($this->mailMap[$author])) {
 			return $this->mailMap[$author];
+		}
+		return $author;
+	}
+
+	private function fixInvalidEmail($author) {
+		preg_match('/<(.*)>/', $author, $mailMatch);
+		if (count($mailMatch) === 2 && !filter_var($mailMatch[1], FILTER_VALIDATE_EMAIL)) {
+			$author = str_replace('<'.$mailMatch[1].'>', '"'.$mailMatch[1].'"', $author);
 		}
 		return $author;
 	}
