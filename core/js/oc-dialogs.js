@@ -929,7 +929,7 @@ var OCdialogs = {
 	*/
 	_handleTreeListSelect:function(event, type) {
 		var self = event.data;
-		var dir = $(event.target).parent().data('dir');
+		var dir = $(event.target).closest('.crumb').data('dir');
 		self._fillFilePicker(dir);
 		var getOcDialog = (event.target).closest('.oc-dialog');
 		var buttonEnableDisable = $('.primary', getOcDialog);
