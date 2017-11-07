@@ -99,7 +99,8 @@ class CleanUp extends TimedJob {
 				$this->ldapHelper->getServerConfigurationPrefixes(true),
 				new LDAP(),
 				$this->ocConfig,
-				\OC::$server->getNotificationManager()
+				\OC::$server->getNotificationManager(),
+				\OC::$server->getUserSession()
 			);
 		}
 
