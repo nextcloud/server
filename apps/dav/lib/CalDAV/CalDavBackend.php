@@ -961,6 +961,20 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	function createCalendarObject($calendarId, $objectUri, $calendarData) {
 		$extraData = $this->getDenormalizedData($calendarData);
 
+		$q = $this->db->getQueryBuilder();
+		$q->select($q->createFunction('COUNT(*)'))
+			->from('calendarobjects')
+			->where($q->expr()->eq('calendarid', $q->createNamedParameter($calendarId)))
+			->andWhere($q->expr()->eq('uid', $q->createNamedParameter($extraData['uid'])));
+
+		$result = $q->execute();
+		$count = (int) $result->fetchColumn();
+		$result->closeCursor();
+
+		if ($count !== 0) {
+			throw new \Sabre\DAV\Exception\BadRequest('Calendar object with uid already exists in this calendar collection.');
+		}
+
 		$query = $this->db->getQueryBuilder();
 		$query->insert('calendarobjects')
 			->values([

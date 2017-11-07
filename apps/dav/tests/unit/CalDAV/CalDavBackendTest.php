@@ -275,18 +275,20 @@ EOD;
 		$this->assertCount(0, $calendarObjects);
 	}
 
-	public function testMultiCalendarObjects() {
-
+	/**
+	 * @expectedException \Sabre\DAV\Exception\BadRequest
+	 * @expectedExceptionMessage Calendar object with uid already exists in this calendar collection.
+	 */
+	public function testMultipleCalendarObjectsWithSameUID() {
 		$calendarId = $this->createTestCalendar();
 
-		// create an event
 		$calData = <<<'EOD'
 BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:ownCloud Calendar
 BEGIN:VEVENT
 CREATED;VALUE=DATE-TIME:20130910T125139Z
-UID:47d15e3ec8
+UID:47d15e3ec8-1
 LAST-MODIFIED;VALUE=DATE-TIME:20130910T125139Z
 DTSTAMP;VALUE=DATE-TIME:20130910T125139Z
 SUMMARY:Test Event
@@ -296,21 +298,85 @@ CLASS:PUBLIC
 END:VEVENT
 END:VCALENDAR
 EOD;
+
+		$uri0 = static::getUniqueID('event');
+		$uri1 = static::getUniqueID('event');
+		$this->backend->createCalendarObject($calendarId, $uri0, $calData);
+		$this->backend->createCalendarObject($calendarId, $uri1, $calData);
+	}
+
+	public function testMultiCalendarObjects() {
+
+		$calendarId = $this->createTestCalendar();
+
+		// create an event
+		$calData = [];
+		$calData[] = <<<'EOD'
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:ownCloud Calendar
+BEGIN:VEVENT
+CREATED;VALUE=DATE-TIME:20130910T125139Z
+UID:47d15e3ec8-1
+LAST-MODIFIED;VALUE=DATE-TIME:20130910T125139Z
+DTSTAMP;VALUE=DATE-TIME:20130910T125139Z
+SUMMARY:Test Event
+DTSTART;VALUE=DATE-TIME:20130912T130000Z
+DTEND;VALUE=DATE-TIME:20130912T140000Z
+CLASS:PUBLIC
+END:VEVENT
+END:VCALENDAR
+EOD;
+
+		$calData[] = <<<'EOD'
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:ownCloud Calendar
+BEGIN:VEVENT
+CREATED;VALUE=DATE-TIME:20130910T125139Z
+UID:47d15e3ec8-2
+LAST-MODIFIED;VALUE=DATE-TIME:20130910T125139Z
+DTSTAMP;VALUE=DATE-TIME:20130910T125139Z
+SUMMARY:Test Event
+DTSTART;VALUE=DATE-TIME:20130912T130000Z
+DTEND;VALUE=DATE-TIME:20130912T140000Z
+CLASS:PUBLIC
+END:VEVENT
+END:VCALENDAR
+EOD;
+
+		$calData[] = <<<'EOD'
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:ownCloud Calendar
+BEGIN:VEVENT
+CREATED;VALUE=DATE-TIME:20130910T125139Z
+UID:47d15e3ec8-3
+LAST-MODIFIED;VALUE=DATE-TIME:20130910T125139Z
+DTSTAMP;VALUE=DATE-TIME:20130910T125139Z
+SUMMARY:Test Event
+DTSTART;VALUE=DATE-TIME:20130912T130000Z
+DTEND;VALUE=DATE-TIME:20130912T140000Z
+CLASS:PUBLIC
+END:VEVENT
+END:VCALENDAR
+EOD;
+
 		$uri0 = static::getUniqueID('card');
 		$this->dispatcher->expects($this->at(0))
 			->method('dispatch')
 			->with('\OCA\DAV\CalDAV\CalDavBackend::createCalendarObject');
-		$this->backend->createCalendarObject($calendarId, $uri0, $calData);
+		$this->backend->createCalendarObject($calendarId, $uri0, $calData[0]);
 		$uri1 = static::getUniqueID('card');
 		$this->dispatcher->expects($this->at(0))
 			->method('dispatch')
 			->with('\OCA\DAV\CalDAV\CalDavBackend::createCalendarObject');
-		$this->backend->createCalendarObject($calendarId, $uri1, $calData);
+		$this->backend->createCalendarObject($calendarId, $uri1, $calData[1]);
 		$uri2 = static::getUniqueID('card');
 		$this->dispatcher->expects($this->at(0))
 			->method('dispatch')
 			->with('\OCA\DAV\CalDAV\CalDavBackend::createCalendarObject');
-		$this->backend->createCalendarObject($calendarId, $uri2, $calData);
+		$this->backend->createCalendarObject($calendarId, $uri2, $calData[2]);
 
 		// get all the cards
 		$calendarObjects = $this->backend->getCalendarObjects($calendarId);
@@ -326,8 +392,14 @@ EOD;
 			$this->assertArrayHasKey('etag', $card);
 			$this->assertArrayHasKey('size', $card);
 			$this->assertArrayHasKey('classification', $card);
-			$this->assertEquals($calData, $card['calendardata']);
 		}
+
+		usort($calendarObjects, function($a, $b) {
+			return $a['id'] - $b['id'];
+		});
+
+		$this->assertEquals($calData[1], $calendarObjects[0]['calendardata']);
+		$this->assertEquals($calData[2], $calendarObjects[1]['calendardata']);
 
 		// delete the card
 		$this->dispatcher->expects($this->at(0))
@@ -371,7 +443,26 @@ EOD;
 
 	public function testGetCalendarObjectByUID() {
 		$calendarId = $this->createTestCalendar();
-		$this->createEvent($calendarId, '20130912T130000Z', '20130912T140000Z');
+		$uri = static::getUniqueID('calobj');
+		$calData = <<<'EOD'
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:ownCloud Calendar
+BEGIN:VEVENT
+CREATED;VALUE=DATE-TIME:20130910T125139Z
+UID:47d15e3ec8
+LAST-MODIFIED;VALUE=DATE-TIME:20130910T125139Z
+DTSTAMP;VALUE=DATE-TIME:20130910T125139Z
+SUMMARY:Test Event
+DTSTART;VALUE=DATE-TIME:20130912T130000Z
+DTEND;VALUE=DATE-TIME:20130912T140000Z
+CLASS:PUBLIC
+END:VEVENT
+END:VCALENDAR
+EOD;
+
+
+		$this->backend->createCalendarObject($calendarId, $uri, $calData);
 
 		$co = $this->backend->getCalendarObjectByUID(self::UNIT_TEST_USER, '47d15e3ec8');
 		$this->assertNotNull($co);
