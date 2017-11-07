@@ -836,11 +836,13 @@
 		 * Event handler when clicking on a bread crumb
 		 */
 		_onClickBreadCrumb: function(e) {
+			console.log('Clicked breadcrumb ', e);
 			var $el = $(e.target).closest('.crumb'),
 				$targetDir = $el.data('dir');
 
 			if ($targetDir !== undefined && e.which === 1) {
 				e.preventDefault();
+				console.log('Triggered dir change');
 				this.changeDirectory($targetDir, true, true);
 				this.updateSearch();
 			}

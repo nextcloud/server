@@ -33,7 +33,7 @@
 	 */
 	var BreadCrumb = function(options){
 		this.$el = $('<div class="breadcrumb"></div>');
-		this.$menu = $('<div class="popovermenu menu menu-center"><ul></ul></div>');
+		this.$menu = $('<div class="popovermenu menu-center"><ul></ul></div>');
 		options = options || {};
 		if (options.onClick) {
 			this.onClick = options.onClick;
@@ -84,6 +84,7 @@
 		},
 
 		setDirectoryInfo: function(dirInfo) {
+			console.log(dirInfo);
 			if (dirInfo !== this.dirInfo) {
 				this.dirInfo = dirInfo;
 				this.render();
@@ -144,13 +145,12 @@
 				}
 				this.breadcrumbs.push($crumb);
 				this.$el.append($crumb);
-				if (this.onClick) {
-					$crumb.on('click', this.onClick);
+				// Only add feedback if not menu
+				if (this.onClick && i !== 0) {
+					$link.on('click', this.onClick);
 				}
 			}
 
-				var err = new Error();
-				console.log(err.stack);
 			// Menu creation
 			this._createMenu();
 			for (var i = 0; i < parts.length; i++) {
@@ -165,7 +165,6 @@
 					}
 				}
 			}
-
 			_.each(this._detailViews, function(view) {
 				view.render({
 					dirInfo: this.dirInfo
@@ -188,7 +187,8 @@
 					hoverClass: 'canDrop'
 				});
 			}
-
+			// Menu is destroyed on every change, we need to init it
+			OC.registerMenu($('.crumbmenu'), $('.crumbmenu > .popovermenu'));
 			this._resize();
 		},
 
