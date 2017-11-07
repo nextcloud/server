@@ -68,14 +68,15 @@ class Capabilities implements IPublicCapability {
 	 */
 	public function getCapabilities() {
 		$backgroundLogo = $this->config->getAppValue('theming', 'backgroundMime', false);
-
+		$color = $this->theming->getColorPrimary();
 		return [
 			'theming' => [
 				'name' => $this->theming->getName(),
 				'url' => $this->theming->getBaseUrl(),
 				'slogan' => $this->theming->getSlogan(),
-				'color' => $this->theming->getColorPrimary(),
-				'color-text' => $this->util->invertTextColor($this->theming->getColorPrimary()) ? '#000000' : '#FFFFFF',
+				'color' => $color,
+				'color-text' => $this->util->invertTextColor($color) ? '#000000' : '#FFFFFF',
+				'color-element' => $this->util->elementColor($color),
 				'logo' => $this->url->getAbsoluteURL($this->theming->getLogo()),
 				'background' => $backgroundLogo === 'backgroundColor' ?
 					$this->theming->getColorPrimary() :
