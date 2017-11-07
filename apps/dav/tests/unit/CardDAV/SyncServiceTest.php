@@ -81,7 +81,7 @@ class SyncServiceTest extends TestCase {
 		$logger = $this->getMockBuilder(ILogger::class)->disableOriginalConstructor()->getMock();
 		$accountManager = $this->getMockBuilder(AccountManager::class)->disableOriginalConstructor()->getMock();
 		$ss = new SyncService($backend, $userManager, $logger, $accountManager);
-		$book = $ss->ensureSystemAddressBookExists('principals/users/adam', 'contacts', []);
+		$ss->ensureSystemAddressBookExists('principals/users/adam', 'contacts', []);
 	}
 
 	public function testUpdateAndDeleteUser() {

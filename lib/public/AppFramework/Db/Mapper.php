@@ -244,7 +244,7 @@ abstract class Mapper {
 			}
 		}
 
-		$result = $query->execute();
+		$query->execute();
 
 		return $query;
 	}
