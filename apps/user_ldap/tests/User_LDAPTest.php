@@ -210,9 +210,11 @@ class User_LDAPTest extends TestCase {
 
 		$access = $this->getAccessMock();
 		$this->prepareAccessForCheckPassword($access);
+		$access->userManager->expects($this->any())
+			->method('get')
+			->willReturn($user);
 
 		$backend = new UserLDAP($access, $this->createMock(IConfig::class), $this->createMock(INotificationManager::class), $this->createMock(Session::class), $this->getDefaultPluginManagerMock());
-			->willReturn($user);
 
 		\OC_User::useBackend($backend);
 
@@ -266,10 +268,11 @@ class User_LDAPTest extends TestCase {
 
 		$access = $this->getAccessMock();
 		$this->prepareAccessForCheckPassword($access);
-		$backend = new UserLDAP($access, $this->createMock(IConfig::class), $this->createMock(INotificationManager::class), $this->createMock(Session::class), $this->getDefaultPluginManagerMock());
+		$access->userManager->expects($this->any())
 			->method('get')
 			->willReturn($user);
 
+		$backend = new UserLDAP($access, $this->createMock(IConfig::class), $this->createMock(INotificationManager::class), $this->createMock(Session::class), $this->getDefaultPluginManagerMock());
 		\OC_User::useBackend($backend);
 
 		$result = \OCP\User::checkPassword('roland', 'dt19');
@@ -1196,6 +1199,7 @@ class User_LDAPTest extends TestCase {
 			->with($this->equalTo('loginName2UserName-'.$loginName), $this->equalTo($username));
 
 		$backend = new UserLDAP($access, $this->createMock(IConfig::class), $this->createMock(INotificationManager::class), $this->createMock(Session::class), $this->getDefaultPluginManagerMock());
+		$user = $this->createMock(User::class);
 		$user->expects($this->any())
 			->method('getUsername')
 			->willReturn('alice');
@@ -1363,6 +1367,11 @@ class User_LDAPTest extends TestCase {
 		$access = $this->getAccessMock();
 
 		$this->prepareAccessForSetPassword($access);
+
+		$access->userManager->expects($this->any())
+			->method('get')
+			->willReturn($this->createMock(User::class));
+
 		$backend = new UserLDAP($access, $this->createMock(IConfig::class), $this->createMock(INotificationManager::class), $this->createMock(Session::class), $this->getDefaultPluginManagerMock());
 		$access->userManager->expects($this->any())
 			->method('get')
