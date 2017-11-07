@@ -266,7 +266,6 @@ class Principal implements BackendInterface {
 	 * Returns the list of circles a principal is a member of
 	 *
 	 * @param string $principal
-	 * @param bool $needGroups
 	 * @return array
 	 * @throws Exception
 	 */
@@ -283,21 +282,15 @@ class Principal implements BackendInterface {
 				throw new Exception('Principal not found');
 			}
 
-			$userSession = \OC::$server->getUserSession();
-			$currentUser = $userSession->getUser();
-
-			$userSession->setUser($user);
-			$circles = \OCA\Circles\Api\v1\Circles::joinedCircles();
-			$userSession->setUser($currentUser);
-
-			$circles = array_map(function($circle) {
+			$circles = \OCA\Circles\Api\v1\Circles::joinedCircles($user->getUID());
+			$circles = array_map(function ($circle) {
 				/** @var \OCA\Circles\Model\Circle $group */
 				return 'principals/circles/' . urlencode($circle->getUniqueId());
 			}, $circles);
 
 			return $circles;
-
 		}
+
 		return [];
 	}
 

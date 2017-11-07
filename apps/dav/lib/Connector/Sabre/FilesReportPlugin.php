@@ -342,12 +342,17 @@ class FilesReportPlugin extends ServerPlugin {
 		return $resultFileIds;
 	}
 
-	private function getCirclesFileIds($circlesIds) {
+	/**
+	 * @param array $circlesIds
+	 * @return array
+	 */
+	private function getCirclesFileIds(array $circlesIds) {
 		if (!\OC::$server->getAppManager()->isEnabledForUser('circles') || !class_exists('\OCA\Circles\ShareByCircleProvider')) {
 			return array();
 		}
 		return \OCA\Circles\Api\v1\Circles::getFilesForCircles($circlesIds);
 	}
+
 
 	/**
 	 * Prepare propfind response for the given nodes
