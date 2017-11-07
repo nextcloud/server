@@ -18,7 +18,7 @@
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  * @author Vinicius Cubas Brand <vinicius@eita.org.br>
- * @author voxsim <Simon Vocella>
+ * @author voxsim "Simon Vocella"
  *
  * @license AGPL-3.0
  *

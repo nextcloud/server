@@ -4,7 +4,7 @@ Nextcloud is written by:
  - Aaron Wood <aaronjwood@gmail.com>
  - Achim Königs <garfonso@tratschtante.de>
  - Adam Williamson <awilliam@redhat.com>
- - Administrator <Administrator@WINDOWS-2012>
+ - Administrator "Administrator@WINDOWS-2012"
  - Aldo "xoen" Giambelluca <xoen@xoen.org>
  - Alex Weirig <alex.weirig@technolink.lu>
  - Alexander Bergolth <leo@strike.wu.ac.at>
@@ -41,7 +41,7 @@ Nextcloud is written by:
  - Christian Jürges <christian@eqipe.ch>
  - Christian Kampka <christian@kampka.net>
  - Christian Weiske <cweiske@cweiske.de>
- - Christoph Schaefer <christophł@wolkesicher.de>
+ - Christoph Schaefer "christophł@wolkesicher.de"
  - Christoph Wickert <cwickert@suse.de>
  - Christoph Wurst <christoph@owncloud.com>
  - Christopher Bartz <bartz@dkrz.de>
@@ -60,7 +60,7 @@ Nextcloud is written by:
  - David Toledo <dtoledo@solidgear.es>
  - Derek <derek.kelly27@gmail.com>
  - Dominik Schmidt <dev@dominik-schmidt.de>
- - Donquixote <marjunebatac@gmailcom>
+ - Donquixote <marjunebatac@gmail.com>
  - Fabian Henze <flyser42@gmx.de>
  - Fabrizio Steiner <fabrizio.steiner@gmail.com>
  - Felix A. Epp <work@felixepp.de>
@@ -279,8 +279,8 @@ Nextcloud is written by:
  - oparoz <owncloud@interfasys.ch>
  - phisch <git@philippschaffrath.de>
  - rakekniven <mark.ziegler@rakekniven.de>
+ - root "root@oc.(none)"
  - root <root@localhost.localdomain>
- - root <root@oc.(none)>
  - scambra <sergio@entrecables.com>
  - scolebrook <scolebrook@mac.com>
  - shkdee <louis.traynard@m4x.org>
@@ -289,8 +289,8 @@ Nextcloud is written by:
  - tbelau666 <thomas.belau@gmx.de>
  - tux-rampage <tux-rampage@users.noreply.github.com>
  - v1r0x <vinzenz.rosenkranz@gmail.com>
- - vkuimov <vkuimov@nextcloud>
- - voxsim <Simon Vocella>
+ - vkuimov "vkuimov@nextcloud"
+ - voxsim "Simon Vocella"
 
 With help from many libraries and frameworks including:
 	Open Collaboration Services
