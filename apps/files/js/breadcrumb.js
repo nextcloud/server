@@ -34,6 +34,8 @@
 	var BreadCrumb = function(options){
 		this.$el = $('<div class="breadcrumb"></div>');
 		this.$menu = $('<div class="popovermenu menu-center"><ul></ul></div>');
+
+		this.crumbSelector = '.crumb:not(.hidden):not(.crumbhome):not(.crumbmenu)';
 		options = options || {};
 		if (options.onClick) {
 			this.onClick = options.onClick;
@@ -84,7 +86,6 @@
 		},
 
 		setDirectoryInfo: function(dirInfo) {
-			console.log(dirInfo);
 			if (dirInfo !== this.dirInfo) {
 				this.dirInfo = dirInfo;
 				this.render();
@@ -264,7 +265,7 @@
 			var totalWidth = 0;
 			for (var i = 0; i < this.breadcrumbs.length; i++ ) {
 				var $crumb = $(this.breadcrumbs[i]);
-				if(!$crumb.hasClass('hidden') || ignoreHidden) {
+				if(!$crumb.hasClass('hidden') || ignoreHidden === true) {
 					totalWidth += $crumb.width();
 				}
 			}
@@ -275,11 +276,10 @@
  		 * Hide the middle crumb
  		 */
  		_hideCrumb: function() {
-			var selector = '.crumb:not(.hidden):not(.crumbhome):not(.crumbmenu)';
-			var length = this.$el.find(selector).length;
+			var length = this.$el.find(this.crumbSelector).length;
 			// Get the middle one floored down
 			var elmt = Math.floor(length / 2 - 0.5);
-			this.$el.find(selector+':eq('+elmt+')').addClass('hidden');
+			this.$el.find(this.crumbSelector+':eq('+elmt+')').addClass('hidden');
  		},
 
  		/**
@@ -287,7 +287,7 @@
  		 */
  		_getCrumbElement: function() {
 			var hidden = this.$el.find('.crumb.hidden').length;
-			var shown = this.$el.find('.crumb:not(.hidden):not(.crumbhome):not(.crumbmenu)').length;
+			var shown = this.$el.find(this.crumbSelector).length;
 			// Get the outer one with priority to the highest
 			var elmt = (1 - shown % 2) * (hidden - 1);
 			return this.$el.find('.crumb.hidden:eq('+elmt+')');
@@ -327,6 +327,12 @@
 		},
 
 		_resize: function() {
+
+			if (this.breadcrumbs.length <= 2) {
+				// home & menu
+				return;
+			}
+
 			// Used for testing since this.$el.parent fails
 			if (!this.availableWidth) {
 				this.usedWidth = this.$el.parent().width();
@@ -334,12 +340,10 @@
 				this.usedWidth = this.availableWidth;
 			}
 
-			if (this.breadcrumbs.length <= 1) {
-				return;
-			}
-
 			// If container is smaller than content
-			while (this.getTotalWidth() > this.usedWidth) {
+			// AND if there are crumbs left to hide
+			while (this.getTotalWidth() > this.usedWidth
+			&& this.$el.find(this.crumbSelector).length > 0) {
 				this._hideCrumb();
 			}
 			// If container is bigger than content + element to be shown
