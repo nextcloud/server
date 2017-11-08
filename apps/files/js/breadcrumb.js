@@ -221,7 +221,7 @@
 			}
 			// menu part
 			crumbs.push({
-				class: 'crumbmenu',
+				class: 'crumbmenu hidden',
 				linkclass: 'icon-more'
 			});
 			// root part
@@ -315,9 +315,9 @@
 		 * Update the popovermenu
 		 */
 		_updateMenu: function() {
-			var menuItems = this.$el.children('.crumb.hidden');
+			var menuItems = this.$el.find('.crumb.hidden');
 			// Hide the crumb menu if no elements
-			this.$el.find('.crumbmenu').toggleClass('hidden', menuItems.length===0)
+			this.$el.find('.crumbmenu').toggleClass('hidden', menuItems.length === 0)
 
 			this.$menu.find('li').addClass('in-breadcrumb');
 			for (var i = 0; i < menuItems.length; i++) {
