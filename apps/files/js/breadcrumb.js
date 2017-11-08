@@ -249,9 +249,10 @@
  		 * Get the crumb to show
  		 */
  		_getCrumbElement: function() {
-			var length = this.$el.find('.crumb.hidden').length;
+			var hidden = this.$el.find('.crumb.hidden').length;
+			var shown = this.$el.find('.crumb:not(.hidden):not(.crumbhome):not(.crumbmenu)').length;
 			// Get the outer one with priority to the highest
-			var elmt = (length % 2) * (length - 1);
+			var elmt = (1 - shown % 2) * (hidden - 1);
 			return this.$el.find('.crumb.hidden:eq('+elmt+')');
 		},
 
