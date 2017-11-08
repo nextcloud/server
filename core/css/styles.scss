@@ -1410,6 +1410,10 @@ div.crumb {
 		.popovermenu {
 			top: 100%;
 			margin-right: 3px;
+			ul {
+				max-height: 345px;
+				overflow-y: scroll;
+			}
 			.in-breadcrumb {
 				display: none;
 			}
