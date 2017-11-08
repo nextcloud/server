@@ -30,7 +30,7 @@ script('core', [
 		<legend><strong><?php p($l->t('Security warning'));?></strong></legend>
 		<p><?php p($l->t('Your data directory and files are probably accessible from the internet because the .htaccess file does not work.'));?><br>
 		<?php print_unescaped($l->t(
-			'For information how to properly configure your server, please see the <a href="%s" target="_blank" rel="noreferrer">documentation</a>.',
+			'For information how to properly configure your server, please see the <a href="%s" target="_blank" rel="noreferrer noopener">documentation</a>.',
 			link_to_docs('admin-install')
 		)); ?></p>
 	</fieldset>
@@ -84,7 +84,7 @@ script('core', [
 		<p class="info">
 			<?php p($l->t( 'Only %s is available.', array($label) )); ?>
 			<?php p($l->t( 'Install and activate additional PHP modules to choose other database types.' )); ?><br>
-			<a href="<?php print_unescaped(link_to_docs('admin-source_install')); ?>" target="_blank" rel="noreferrer">
+			<a href="<?php print_unescaped(link_to_docs('admin-source_install')); ?>" target="_blank" rel="noreferrer noopener">
 				<?php p($l->t( 'For more details check out the documentation.' )); ?> ↗</a>
 		</p>
 		<input type="hidden" id="dbtype" name="dbtype" value="<?php p($type) ?>">
@@ -166,6 +166,6 @@ script('core', [
 	<p class="info">
 		<span class="icon-info-white"></span>
 		<?php p($l->t('Need help?'));?>
-		<a target="_blank" rel="noreferrer" href="<?php p(link_to_docs('admin-install')); ?>"><?php p($l->t('See the documentation'));?> ↗</a>
+		<a target="_blank" rel="noreferrer noopener" href="<?php p(link_to_docs('admin-install')); ?>"><?php p($l->t('See the documentation'));?> ↗</a>
 	</p>
 </form>

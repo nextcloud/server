@@ -145,7 +145,7 @@ class ThemingDefaults extends \OC_Defaults {
 	public function getShortFooter() {
 		$slogan = $this->getSlogan();
 		$footer = '<a href="'. $this->getBaseUrl() . '" target="_blank"' .
-			' rel="noreferrer">' .$this->getEntity() . '</a>'.
+			' rel="noreferrer noopener">' .$this->getEntity() . '</a>'.
 			($slogan !== '' ? ' – ' . $slogan : '');
 
 		return $footer;

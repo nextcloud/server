@@ -8,7 +8,7 @@ script('federatedfilesharing', 'settings-admin');
 
 <div id="fileSharingSettings" class="followupsection">
 	<h3><?php p($l->t('Federated Cloud Sharing'));?></h3>
-	<a target="_blank" rel="noreferrer" class="icon-info svg"
+	<a target="_blank" rel="noreferrer noopener" class="icon-info svg"
 		title="<?php p($l->t('Open documentation'));?>"
 		href="<?php p(link_to_docs('admin-sharing-federated')); ?>"></a>
 	<p class="settings-hint"><?php p($l->t('Adjust how people can share between servers.')); ?></p>

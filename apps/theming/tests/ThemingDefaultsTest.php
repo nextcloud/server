@@ -223,7 +223,7 @@ class ThemingDefaultsTest extends TestCase {
 				['theming', 'slogan', $this->defaults->getSlogan(), 'Slogan'],
 			]);
 
-		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer">Name</a> – Slogan', $this->template->getShortFooter());
+		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer noopener">Name</a> – Slogan', $this->template->getShortFooter());
 	}
 
 	public function testGetShortFooterEmptySlogan() {
@@ -236,7 +236,7 @@ class ThemingDefaultsTest extends TestCase {
 				['theming', 'slogan', $this->defaults->getSlogan(), ''],
 			]);
 
-		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer">Name</a>', $this->template->getShortFooter());
+		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer noopener">Name</a>', $this->template->getShortFooter());
 	}
 
 	public function testgetColorPrimaryWithDefault() {

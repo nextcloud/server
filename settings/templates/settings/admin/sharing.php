@@ -28,7 +28,7 @@
 
 <div class="section" id="shareAPI">
 	<h2><?php p($l->t('Sharing'));?></h2>
-	<a target="_blank" rel="noreferrer" class="icon-info"
+	<a target="_blank" rel="noreferrer noopener" class="icon-info"
 	   title="<?php p($l->t('Open documentation'));?>"
 	   href="<?php p(link_to_docs('admin-sharing')); ?>"></a>
         <p class="settings-hint"><?php p($l->t('As admin you can fine-tune the sharing behavior. Please see the documentation for more information.'));?></p>

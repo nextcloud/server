@@ -8,7 +8,7 @@
 				p($l->t('Please use the command line updater because automatic updating is disabled in the config.php.'));
 			} ?><br><br>
 			<?php
-			print_unescaped($l->t('For help, see the  <a target="_blank" rel="noreferrer" href="%s">documentation</a>.', [link_to_docs('admin-cli-upgrade')])); ?><br><br>
+			print_unescaped($l->t('For help, see the  <a target="_blank" rel="noreferrer noopener" href="%s">documentation</a>.', [link_to_docs('admin-cli-upgrade')])); ?><br><br>
 		</div>
 	</div>
 

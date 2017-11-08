@@ -29,7 +29,7 @@ script(
 
 <?php if($_['appstoreEnabled']): ?>
 	<li>
-		<a class="app-external icon-info" target="_blank" rel="noreferrer" href="https://docs.nextcloud.org/server/12/developer_manual/"><?php p($l->t('Developer documentation'));?> ↗</a>
+		<a class="app-external icon-info" target="_blank" rel="noreferrer noopener" href="https://docs.nextcloud.org/server/12/developer_manual/"><?php p($l->t('Developer documentation'));?> ↗</a>
 	</li>
 <?php endif; ?>
 </script>
@@ -49,7 +49,7 @@ script(
 	<div class="app-image app-image-icon"></div>
 	<div class="app-name">
 		{{#if detailpage}}
-			<a href="{{detailpage}}" target="_blank" rel="noreferrer">{{name}}</a>
+			<a href="{{detailpage}}" target="_blank" rel="noreferrer noopener">{{name}}</a>
 		{{else}}
 			{{name}}
 		{{/if}}
@@ -92,7 +92,7 @@ script(
 	{{/if}}
 	<h2 class="app-name">
 		{{#if detailpage}}
-			<a href="{{detailpage}}" target="_blank" rel="noreferrer">{{name}}</a>
+			<a href="{{detailpage}}" target="_blank" rel="noreferrer noopener">{{name}}</a>
 		{{else}}
 			{{name}}
 		{{/if}}
@@ -107,7 +107,7 @@ script(
 
 	<div class="app-description-container hidden">
 		<div class="app-version">{{version}}</div>
-		{{#if profilepage}}<a href="{{profilepage}}" target="_blank" rel="noreferrer">{{/if}}
+		{{#if profilepage}}<a href="{{profilepage}}" target="_blank" rel="noreferrer noopener">{{/if}}
 		<div class="app-author"><?php p($l->t('by %s', ['{{author}}']));?>
 			{{#if licence}}
 			(<?php p($l->t('%s-licensed', ['{{licence}}'])); ?>)
@@ -121,30 +121,30 @@ script(
 			<?php p($l->t("Documentation:"));?>
 			{{#if documentation.user}}
 			<span class="userDocumentation">
-			<a id="userDocumentation" class="appslink" href="{{documentation.user}}" target="_blank" rel="noreferrer"><?php p($l->t('User documentation'));?> ↗</a>
+			<a id="userDocumentation" class="appslink" href="{{documentation.user}}" target="_blank" rel="noreferrer noopener"><?php p($l->t('User documentation'));?> ↗</a>
 			</span>
 			{{/if}}
 
 			{{#if documentation.admin}}
 			<span class="adminDocumentation">
-			<a id="adminDocumentation" class="appslink" href="{{documentation.admin}}" target="_blank" rel="noreferrer"><?php p($l->t('Admin documentation'));?> ↗</a>
+			<a id="adminDocumentation" class="appslink" href="{{documentation.admin}}" target="_blank" rel="noreferrer noopener"><?php p($l->t('Admin documentation'));?> ↗</a>
 			</span>
 			{{/if}}
 
 			{{#if documentation.developer}}
 			<span class="developerDocumentation">
-			<a id="developerDocumentation" class="appslink" href="{{documentation.developer}}" target="_blank" rel="noreferrer"><?php p($l->t('Developer documentation'));?> ↗</a>
+			<a id="developerDocumentation" class="appslink" href="{{documentation.developer}}" target="_blank" rel="noreferrer noopener"><?php p($l->t('Developer documentation'));?> ↗</a>
 			</span>
 			{{/if}}
 		</p>
 		{{/if}}
 
 		{{#if website}}
-		<a id="userDocumentation" class="appslink" href="{{website}}" target="_blank" rel="noreferrer"><?php p($l->t('Visit website'));?> ↗</a>
+		<a id="userDocumentation" class="appslink" href="{{website}}" target="_blank" rel="noreferrer noopener"><?php p($l->t('Visit website'));?> ↗</a>
 		{{/if}}
 
 		{{#if bugs}}
-		<a id="adminDocumentation" class="appslink" href="{{bugs}}" target="_blank" rel="noreferrer"><?php p($l->t('Report a bug'));?> ↗</a>
+		<a id="adminDocumentation" class="appslink" href="{{bugs}}" target="_blank" rel="noreferrer noopener"><?php p($l->t('Report a bug'));?> ↗</a>
 		{{/if}}
 	</div><!-- end app-description-container -->
 	<div class="app-description-toggle-show" role="link"><?php p($l->t("Show description …"));?></div>

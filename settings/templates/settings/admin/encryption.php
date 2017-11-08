@@ -28,7 +28,7 @@
 
 <div class="section" id='encryptionAPI'>
 	<h2><?php p($l->t('Server-side encryption')); ?></h2>
-	<a target="_blank" rel="noreferrer" class="icon-info"
+	<a target="_blank" rel="noreferrer noopener" class="icon-info"
 	   title="<?php p($l->t('Open documentation'));?>"
 	   href="<?php p(link_to_docs('admin-encryption')); ?>"></a>
 	<p class="settings-hint"><?php p($l->t('Server-side encryption makes it possible to encrypt files which are uploaded to this server. This comes with limitations like a performance penalty, so enable this only if needed.')); ?></p>

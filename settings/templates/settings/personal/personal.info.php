@@ -339,7 +339,7 @@ vendor_style('jcrop/css/jquery.Jcrop');
 					<?php endforeach;?>
 				</select>
 				<a href="https://www.transifex.com/nextcloud/nextcloud/"
-					target="_blank" rel="noreferrer">
+					target="_blank" rel="noreferrer noopener">
 					<em><?php p($l->t('Help translate'));?></em>
 				</a>
 			</form>

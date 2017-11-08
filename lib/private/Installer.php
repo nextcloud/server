@@ -542,7 +542,7 @@ class Installer {
 			} catch (TableExistsException $e) {
 				throw new HintException(
 					'Failed to enable app ' . $app,
-					'Please ask for help via one of our <a href="https://nextcloud.com/support/" target="_blank" rel="noreferrer">support channels</a>.',
+					'Please ask for help via one of our <a href="https://nextcloud.com/support/" target="_blank" rel="noreferrer noopener">support channels</a>.',
 					0, $e
 				);
 			}
