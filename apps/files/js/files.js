@@ -117,32 +117,32 @@
 				ownerDisplayName = $('#ownerDisplayName').val();
 			if (usedSpacePercent > 98) {
 				if (owner !== oc_current_user) {
-					OC.Notification.show(t('files', 'Storage of {owner} is full, files can not be updated or synced anymore!', 
+					OC.Notification.show(t('files', 'Storage of {owner} is full, files can not be updated or synced anymore!',
 						{owner: ownerDisplayName}), {type: 'error'}
 					);
 					return;
 				}
-				OC.Notification.show(t('files', 
-					'Your storage is full, files can not be updated or synced anymore!'), 
+				OC.Notification.show(t('files',
+					'Your storage is full, files can not be updated or synced anymore!'),
 					{type : 'error'}
 				);
 				return;
 			}
 			if (usedSpacePercent > 90) {
 				if (owner !== oc_current_user) {
-					OC.Notification.show(t('files', 'Storage of {owner} is almost full ({usedSpacePercent}%)', 
+					OC.Notification.show(t('files', 'Storage of {owner} is almost full ({usedSpacePercent}%)',
 						{
-							usedSpacePercent: usedSpacePercent,  
+							usedSpacePercent: usedSpacePercent,
 							owner: ownerDisplayName
 						}),
-						{  
+						{
 							type: 'error'
 						}
 					);
 					return;
 				}
 				OC.Notification.show(t('files', 'Your storage is almost full ({usedSpacePercent}%)',
-					{usedSpacePercent: usedSpacePercent}), 
+					{usedSpacePercent: usedSpacePercent}),
 					{type : 'error'}
 				);
 			}
@@ -396,6 +396,8 @@ var dragOptions={
 		}
 		$selectedFiles.closest('tr').addClass('animate-opacity dragging');
 		$selectedFiles.closest('tr').filter('.ui-droppable').droppable( 'disable' );
+		// Show breadcrumbs menu
+		$('.crumbmenu').addClass('canDropChildren');
 
 	},
 	stop: function(event, ui) {
@@ -411,6 +413,8 @@ var dragOptions={
 		setTimeout(function() {
 			$tr.removeClass('animate-opacity');
 		}, 300);
+		// Hide breadcrumbs menu
+		$('.crumbmenu').removeClass('canDropChildren');
 	},
 	drag: function(event, ui) {
 		var scrollingArea = FileList.$container;

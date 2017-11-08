@@ -189,14 +189,8 @@
 					over: this.onOver,
 					out: this.onOut,
 					tolerance: 'pointer',
-					hoverClass: 'canDrop'
-				});
-				// Only toggle class to open the menu
-				this.$el.find('.crumb.crumbmenu').droppable({
-					over: this.onOver,
-					out: this.onOut,
-					tolerance: 'pointer',
-					hoverClass: 'canDrop'
+					hoverClass: 'canDrop',
+					greedy: true
 				});
 			}
 			// Menu is destroyed on every change, we need to init it

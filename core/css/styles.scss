@@ -1406,8 +1406,11 @@ div.crumb {
 		a {
 			opacity: 0.5
 		}
-		&.canDrop .popovermenu {
-			display: block;
+		&.canDropChildren,
+		&.canDrop {
+			.popovermenu {
+				display: block;
+			}
 		}
 		// Fix because of the display flex
 		.popovermenu {

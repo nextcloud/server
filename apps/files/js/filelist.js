@@ -842,7 +842,6 @@
 
 			if ($targetDir !== undefined && e.which === 1) {
 				e.preventDefault();
-				console.log('Triggered dir change');
 				this.changeDirectory($targetDir, true, true);
 				this.updateSearch();
 			}
@@ -864,8 +863,8 @@
 		_onDropOnBreadCrumb: function( event, ui ) {
 			var self = this;
 			var $target = $(event.target);
-			if (!$target.is('.crumb')) {
-				$target = $target.closest('.crumb');
+			if (!$target.is('.crumb, .crumblist')) {
+				$target = $target.closest('.crumb, .crumblist');
 			}
 			var targetPath = $(event.target).data('dir');
 			var dir = this.getCurrentDirectory();
