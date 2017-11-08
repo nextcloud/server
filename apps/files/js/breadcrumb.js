@@ -260,7 +260,7 @@
 			for (var i = 0; i < this.breadcrumbs.length; i++ ) {
 				var $crumb = $(this.breadcrumbs[i]);
 				if(!$crumb.hasClass('hidden') || ignoreHidden === true) {
-					totalWidth += $crumb.width();
+					totalWidth += $crumb.outerWidth();
 				}
 			}
 			return totalWidth;
@@ -329,10 +329,11 @@
 
 			// Used for testing since this.$el.parent fails
 			if (!this.availableWidth) {
-				this.usedWidth = this.$el.parent().width();
+				this.usedWidth = this.$el.parent().width() - this.$el.next('.actions').width();
 			} else {
 				this.usedWidth = this.availableWidth;
 			}
+			console.log(this.usedWidth, this.getTotalWidth());
 
 			// If container is smaller than content
 			// AND if there are crumbs left to hide

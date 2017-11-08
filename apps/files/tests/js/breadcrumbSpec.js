@@ -156,7 +156,7 @@ describe('OCA.Files.BreadCrumb tests', function() {
 				onDrop: handler
 			});
 			bc.setDirectory('/one/two/three/four');
-			expect(droppableStub.calledOnce).toEqual(false);
+			expect(droppableStub.calledOnce).toEqual(true);
 
 			expect(droppableStub.getCall(0).args[0].drop).toBeDefined();
 			// simulate drop
