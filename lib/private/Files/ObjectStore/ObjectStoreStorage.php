@@ -364,7 +364,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 			$fileId = $this->getCache()->put($path, $stat);
 			try {
 				//read an empty file from memory
-				$this->objectStore->writeObject($this->getURN($fileId), fopen('php://memory', 'r'));
+				$this->file_put_contents($path, ' ');
 			} catch (\Exception $ex) {
 				$this->getCache()->remove($path);
 				$this->logger->logException($ex, [
@@ -392,7 +392,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 		$stat['storage_mtime'] = $mTime;
 
 		// run path based detection first, to use file extension because $tmpFile is only a random string
-		$mimetypeDetector =  \OC::$server->getMimeTypeDetector();
+		$mimetypeDetector = \OC::$server->getMimeTypeDetector();
 		$mimetype = $mimetypeDetector->detectPath($path);
 		if ($mimetype === 'application/octet-stream') {
 			$mimetype = $mimetypeDetector->detect($tmpFile);
