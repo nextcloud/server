@@ -157,13 +157,13 @@
 
 			// Menu creation
 			this._createMenu();
-			for (var i = 0; i < parts.length; i++) {
-				var part = parts[i];
-				if(part.dir) {
+			for (var j = 0; j < parts.length; j++) {
+				var menuPart = parts[j];
+				if(menuPart.dir) {
 					$menuItem = $('<li class="crumblist"><a><span class="icon-folder"></span><span></span></a></li>');
-					$menuItem.data('dir', part.dir);
-					$menuItem.find('a').attr('href', this.getCrumbUrl(part, i));
-					$menuItem.find('span:eq(1)').text(part.name);
+					$menuItem.data('dir', menuPart.dir);
+					$menuItem.find('a').attr('href', this.getCrumbUrl(part, j));
+					$menuItem.find('span:eq(1)').text(menuPart.name);
 					this.$menu.children('ul').append($menuItem);
 					if (this.onClick) {
 						$menuItem.on('click', this.onClick);
@@ -311,7 +311,7 @@
 		_updateMenu: function() {
 			var menuItems = this.$el.find('.crumb.hidden');
 			// Hide the crumb menu if no elements
-			this.$el.find('.crumbmenu').toggleClass('hidden', menuItems.length === 0)
+			this.$el.find('.crumbmenu').toggleClass('hidden', menuItems.length === 0);
 
 			this.$menu.find('li').addClass('in-breadcrumb');
 			for (var i = 0; i < menuItems.length; i++) {
