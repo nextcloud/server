@@ -1656,7 +1656,7 @@ describe('OCA.Files.FileList tests', function() {
 			fileList.changeDirectory('/subdir/two/three with space/four/five');
 			deferredList.resolve(200, [testRoot].concat(testFiles));
 			var changeDirStub = sinon.stub(fileList, 'changeDirectory');
-			fileList.breadcrumb.$el.find('.crumb:eq(0)').trigger({type: 'click', which: 1});
+			fileList.breadcrumb.$el.find('.crumb:eq(1) > a').trigger({type: 'click', which: 1});
 
 			expect(changeDirStub.calledOnce).toEqual(true);
 			expect(changeDirStub.getCall(0).args[0]).toEqual('/');
@@ -1666,7 +1666,7 @@ describe('OCA.Files.FileList tests', function() {
 			fileList.changeDirectory('/subdir/two/three with space/four/five');
 			deferredList.resolve(200, [testRoot].concat(testFiles));
 			var changeDirStub = sinon.stub(fileList, 'changeDirectory');
-			fileList.breadcrumb.$el.find('.crumb:eq(3)').trigger({type: 'click', which: 1});
+			fileList.breadcrumb.$el.find('.crumb:eq(4) > a').trigger({type: 'click', which: 1});
 
 			expect(changeDirStub.calledOnce).toEqual(true);
 			expect(changeDirStub.getCall(0).args[0]).toEqual('/subdir/two/three with space');
@@ -1677,7 +1677,7 @@ describe('OCA.Files.FileList tests', function() {
 			var moveStub = sinon.stub(filesClient, 'move').returns($.Deferred().promise());
 			fileList.changeDirectory(testDir);
 			deferredList.resolve(200, [testRoot].concat(testFiles));
-			var $crumb = fileList.breadcrumb.$el.find('.crumb:eq(3)');
+			var $crumb = fileList.breadcrumb.$el.find('.crumb:eq(4)');
 			// no idea what this is but is required by the handler
 			var ui = {
 				helper: {
@@ -2990,7 +2990,7 @@ describe('OCA.Files.FileList tests', function() {
 			it('drop on a breadcrumb inside the table triggers upload to target folder', function() {
 				var ev;
 				fileList.changeDirectory('a/b/c/d');
-				ev = dropOn(fileList.$el.find('.crumb:eq(2)'), uploadData);
+				ev = dropOn(fileList.$el.find('.crumb:eq(3)'), uploadData);
 
 				expect(ev).not.toEqual(false);
 				expect(uploadData.targetDir).toEqual('/a/b');

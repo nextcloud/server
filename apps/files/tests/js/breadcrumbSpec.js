@@ -208,7 +208,7 @@ describe('OCA.Files.BreadCrumb tests', function() {
 			expect($crumbs.eq(0).hasClass('hidden')).toEqual(false);
 			expect($crumbs.eq(1).hasClass('hidden')).toEqual(false);
 
-			expect($crumbs.eq(2).hasClass('hidden')).toEqual(true);
+			expect($crumbs.eq(2).hasClass('hidden')).toEqual(false);
 			expect($crumbs.eq(3).hasClass('hidden')).toEqual(true);
 			expect($crumbs.eq(4).hasClass('hidden')).toEqual(true);
 			expect($crumbs.eq(5).hasClass('hidden')).toEqual(true);
