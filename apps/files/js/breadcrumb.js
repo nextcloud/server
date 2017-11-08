@@ -183,8 +183,15 @@
 
 			// setup drag and drop
 			if (this.onDrop) {
-				this.$el.find('.crumb:not(.last)').droppable({
+				this.$el.find('.crumb:not(:last-child):not(.crumbmenu), .crumblist:not(:last-child)').droppable({
 					drop: this.onDrop,
+					over: this.onOver,
+					out: this.onOut,
+					tolerance: 'pointer',
+					hoverClass: 'canDrop'
+				});
+				// Only toggle class to open the menu
+				this.$el.find('.crumb.crumbmenu').droppable({
 					over: this.onOver,
 					out: this.onOut,
 					tolerance: 'pointer',

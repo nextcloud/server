@@ -1406,6 +1406,9 @@ div.crumb {
 		a {
 			opacity: 0.5
 		}
+		&.canDrop .popovermenu {
+			display: block;
+		}
 		// Fix because of the display flex
 		.popovermenu {
 			top: 100%;
@@ -1413,6 +1416,9 @@ div.crumb {
 			ul {
 				max-height: 345px;
 				overflow-y: scroll;
+				li.canDrop span:first-child {
+					background-image: url('../img/filetypes/folder-drag-accept.svg?v=1') !important;
+				}
 			}
 			.in-breadcrumb {
 				display: none;

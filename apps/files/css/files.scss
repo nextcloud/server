@@ -732,9 +732,9 @@ table.dragshadow td.size {
 	margin-bottom: 2px;
 }
 
-.canDrop,
+.breadcrumb .canDrop > a,
 #filestable tbody tr.canDrop {
-	background-color: rgba(255, 255, 140, 1);
+	background-color: rgb(179, 230, 255);
 }
 
 
