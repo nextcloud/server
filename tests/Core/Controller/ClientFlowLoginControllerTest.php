@@ -295,7 +295,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 				'clientIdentifier' => 'Identifier',
 				'oauthState' => 'MyOauthStateToken',
 			],
-			'empty'
+			'guest'
 		);
 		$this->assertEquals($expected, $this->clientFlowLoginController->redirectPage('MyStateToken', 'Identifier'));
 	}

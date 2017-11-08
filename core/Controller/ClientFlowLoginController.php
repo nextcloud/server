@@ -223,7 +223,7 @@ class ClientFlowLoginController extends Controller {
 				'clientIdentifier' => $clientIdentifier,
 				'oauthState' => $this->session->get('oauth.state'),
 			],
-			'empty'
+			'guest'
 		);
 	}
 
