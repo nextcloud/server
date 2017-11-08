@@ -4,9 +4,12 @@
  *
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Bastien Ho <bastienho@urbancube.fr>
+ * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Florin Peter <github@florin-peter.de>
- * @author Georg Ehrke <georg@owncloud.com>
+ * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Juan Pablo Villafáñez <jvillafanez@solidgear.es>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -15,7 +18,7 @@
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Sjors van der Pluijm <sjors@desjors.nl>
- * @author Stefan Weil <sw@weilnetz.de>
+ * @author Steven Bühner <buehner@me.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  * @author Vincent Petry <pvince81@owncloud.com>

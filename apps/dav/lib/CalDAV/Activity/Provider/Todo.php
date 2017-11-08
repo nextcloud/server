@@ -2,6 +2,8 @@
 /**
  * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
  *
+ * @author Joas Schilling <coding@schilljs.com>
+ *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -87,6 +89,36 @@ class Todo extends Event {
 		$subject = $event->getSubject();
 		$parameters = $event->getSubjectParameters();
 
+		// Nextcloud 13+
+		if (isset($parameters['calendar'])) {
+			switch ($subject) {
+				case self::SUBJECT_OBJECT_ADD . '_todo':
+				case self::SUBJECT_OBJECT_DELETE . '_todo':
+				case self::SUBJECT_OBJECT_UPDATE . '_todo':
+				case self::SUBJECT_OBJECT_UPDATE . '_todo_completed':
+				case self::SUBJECT_OBJECT_UPDATE . '_todo_needs_action':
+					return [
+						'actor' => $this->generateUserParameter($parameters['actor']),
+						'calendar' => $this->generateCalendarParameter($parameters['calendar'], $this->l),
+						'todo' => $this->generateObjectParameter($parameters['object']),
+					];
+				case self::SUBJECT_OBJECT_ADD . '_todo_self':
+				case self::SUBJECT_OBJECT_DELETE . '_todo_self':
+				case self::SUBJECT_OBJECT_UPDATE . '_todo_self':
+				case self::SUBJECT_OBJECT_UPDATE . '_todo_completed_self':
+				case self::SUBJECT_OBJECT_UPDATE . '_todo_needs_action_self':
+					return [
+						'calendar' => $this->generateCalendarParameter($parameters['calendar'], $this->l),
+						'todo' => $this->generateObjectParameter($parameters['object']),
+					];
+			}
+		}
+
+		// Legacy - Do NOT Remove unless necessary
+		// Removing this will break parsing of activities that were created on
+		// Nextcloud 12, so we should keep this as long as it's acceptable.
+		// Otherwise if people upgrade over multiple releases in a short period,
+		// they will get the dead entries in their stream.
 		switch ($subject) {
 			case self::SUBJECT_OBJECT_ADD . '_todo':
 			case self::SUBJECT_OBJECT_DELETE . '_todo':
@@ -95,7 +127,7 @@ class Todo extends Event {
 			case self::SUBJECT_OBJECT_UPDATE . '_todo_needs_action':
 				return [
 					'actor' => $this->generateUserParameter($parameters[0]),
-					'calendar' => $this->generateCalendarParameter((int)$event->getObjectId(), $parameters[1]),
+					'calendar' => $this->generateLegacyCalendarParameter((int)$event->getObjectId(), $parameters[1]),
 					'todo' => $this->generateObjectParameter($parameters[2]),
 				];
 			case self::SUBJECT_OBJECT_ADD . '_todo_self':
@@ -104,7 +136,7 @@ class Todo extends Event {
 			case self::SUBJECT_OBJECT_UPDATE . '_todo_completed_self':
 			case self::SUBJECT_OBJECT_UPDATE . '_todo_needs_action_self':
 				return [
-					'calendar' => $this->generateCalendarParameter((int)$event->getObjectId(), $parameters[1]),
+					'calendar' => $this->generateLegacyCalendarParameter((int)$event->getObjectId(), $parameters[1]),
 					'todo' => $this->generateObjectParameter($parameters[2]),
 				];
 		}

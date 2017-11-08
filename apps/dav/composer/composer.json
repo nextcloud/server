@@ -1,0 +1,13 @@
+{
+    "config" : {
+        "vendor-dir": ".",
+        "optimize-autoloader": true,
+        "authorative-autoloader": true,
+        "autoloader-suffix": "DAV"
+    },
+    "autoload" : {
+        "psr-4": {
+            "OCA\\DAV\\": "../lib/"
+        }
+    }
+}

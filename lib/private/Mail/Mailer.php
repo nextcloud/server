@@ -2,7 +2,10 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -26,6 +29,7 @@ use OCP\Defaults;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
+use OCP\Mail\IAttachment;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OCP\ILogger;
@@ -89,6 +93,27 @@ class Mailer implements IMailer {
 	 */
 	public function createMessage() {
 		return new Message(new \Swift_Message());
+	}
+
+	/**
+	 * @param string|null $data
+	 * @param string|null $filename
+	 * @param string|null $contentType
+	 * @return IAttachment
+	 * @since 13.0.0
+	 */
+	public function createAttachment($data = null, $filename = null, $contentType = null) {
+		return new Attachment(\Swift_Attachment::newInstance($data, $filename, $contentType));
+	}
+
+	/**
+	 * @param string $path
+	 * @param string|null $contentType
+	 * @return IAttachment
+	 * @since 13.0.0
+	 */
+	public function createAttachmentFromPath($path, $contentType = null) {
+		return new Attachment(\Swift_Attachment::fromPath($path, $contentType));
 	}
 
 	/**

@@ -2,7 +2,9 @@
 /**
  * @copyright Copyright (c) 2016 Julius Härtl <jus@bitgrid.net>
  *
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Haertl <jus@bitgrid.net>
+ * @author Julius Härtl <jus@bitgrid.net>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -79,9 +81,8 @@ class Util {
 		$l = $this->calculateLuminance($color);
 		if($l>0.8) {
 			return '#555555';
-		} else {
-			return $color;
 		}
+		return $color;
 	}
 
 	/**

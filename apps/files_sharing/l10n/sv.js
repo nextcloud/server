@@ -87,7 +87,6 @@ OC.L10N.register(
     "Wrong or no update parameter given" : "Fel eller ingen uppdateringsparameter angiven",
     "Can't change permissions for public share links" : "Det går inte att ändra behörigheterna för offentliga länkar",
     "Cannot increase permissions" : "Kan inte utöka behörigheter",
-    "%s is publicly shared" : "%s är offentligt delad",
     "Share API is disabled" : "Delning av API är inaktiverad",
     "This share is password-protected" : "Den här delningen är lösenordsskyddad",
     "The password is wrong. Try again." : "Lösenordet är fel. Försök igen.",
@@ -103,13 +102,14 @@ OC.L10N.register(
     "sharing is disabled" : "delning är inaktiverat",
     "For more info, please ask the person who sent this link." : "För mer information, kontakta den person som skickade den här länken.",
     "shared by %s" : "delad av %s",
-    "Add to your Nextcloud" : "Lägg till i molnet",
     "Download" : "Ladda ned",
-    "Download %s" : "Ladda ned %s",
     "Direct link" : "Direktlänk",
+    "Add to your Nextcloud" : "Lägg till i molnet",
+    "Download %s" : "Ladda ned %s",
     "Upload files to %s" : "Ladda upp filer till %s",
     "Select or drop files" : "Välj eller dra filer hit",
     "Uploading files…" : "Laddar upp filer...",
-    "Uploaded files:" : "Uppladdade filer:"
+    "Uploaded files:" : "Uppladdade filer:",
+    "%s is publicly shared" : "%s är offentligt delad"
 },
 "nplurals=2; plural=(n != 1);");

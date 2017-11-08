@@ -12,10 +12,11 @@
  * @author Christopher Schäpers <kondou@ts.unde.re>
  * @author Felix Moeller <mail@felixmoeller.de>
  * @author Frank Karlitschek <frank@karlitschek.de>
- * @author Georg Ehrke <georg@owncloud.com>
+ * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Jakob Sack <mail@jakobsack.de>
- * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Haertl <jus@bitgrid.net>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Kamil Domanski <kdomanski@kdemail.net>
  * @author Klaas Freitag <freitag@owncloud.com>
@@ -27,6 +28,7 @@
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Sam Tuke <mail@samtuke.com>
+ * @author Sebastian Wessalowski <sebastian@wessalowski.org>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
  * @author Tom Needham <tom@owncloud.com>
@@ -185,6 +187,8 @@ class OC_App {
 						'class' => $plugin['@value'],
 					];
 					\OC::$server->getCollaboratorSearch()->registerPlugin($pluginInfo);
+				} else if ($plugin['@attributes']['type'] === 'autocomplete-sort') {
+					\OC::$server->getAutoCompleteManager()->registerSorter($plugin['@value']);
 				}
 			}
 		}

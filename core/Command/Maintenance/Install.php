@@ -4,9 +4,11 @@
  *
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
  * @author Christian Kampka <christian@kampka.net>
+ * @author Daniel Hansson <daniel@techandme.se>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Pulzer <t.pulzer@kniel.de>
  *

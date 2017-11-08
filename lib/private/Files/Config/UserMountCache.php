@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
@@ -194,7 +195,11 @@ class UserMountCache implements IUserMountCache {
 		if (is_null($user)) {
 			return null;
 		}
-		return new CachedMountInfo($user, (int)$row['storage_id'], (int)$row['root_id'], $row['mount_point'], $row['mount_id'], isset($row['path']) ? $row['path'] : '');
+		$mount_id = $row['mount_id'];
+		if (!is_null($mount_id)) {
+			$mount_id = (int) $mount_id;
+		}
+		return new CachedMountInfo($user, (int)$row['storage_id'], (int)$row['root_id'], $row['mount_point'], $mount_id, isset($row['path']) ? $row['path'] : '');
 	}
 
 	/**

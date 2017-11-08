@@ -85,7 +85,6 @@
     "Wrong or no update parameter given" : "Параметр для изменения неправилен или не задан",
     "Can't change permissions for public share links" : "Для общедоступных ссылок изменение прав невозможно",
     "Cannot increase permissions" : "Нельзя увеличить права",
-    "%s is publicly shared" : "%s опубликован ",
     "Share API is disabled" : "API общего доступа отключён",
     "This share is password-protected" : "Общий ресурс защищен паролем",
     "The password is wrong. Try again." : "Неверный пароль. Попробуйте еще раз.",
@@ -101,13 +100,14 @@
     "sharing is disabled" : "общий доступ отключён",
     "For more info, please ask the person who sent this link." : "Для получения дополнительной информации, свяжитесь с тем, кто отправил вам эту ссылку.",
     "shared by %s" : "начато %s",
-    "Add to your Nextcloud" : "Добавить к вашему Nextcloud",
     "Download" : "Скачать",
-    "Download %s" : "Скачать %s",
     "Direct link" : "Прямая ссылка",
+    "Add to your Nextcloud" : "Добавить к вашему Nextcloud",
+    "Download %s" : "Скачать %s",
     "Upload files to %s" : "Загрузка файлов пользователю %s",
     "Select or drop files" : "Выберите или перетащите файлы",
     "Uploading files…" : "Загрузка файлов...",
-    "Uploaded files:" : "Загруженные файлы:"
+    "Uploaded files:" : "Загруженные файлы:",
+    "%s is publicly shared" : "%s опубликован "
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

@@ -2,8 +2,9 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
@@ -80,7 +81,7 @@ class SyncServiceTest extends TestCase {
 		$logger = $this->getMockBuilder(ILogger::class)->disableOriginalConstructor()->getMock();
 		$accountManager = $this->getMockBuilder(AccountManager::class)->disableOriginalConstructor()->getMock();
 		$ss = new SyncService($backend, $userManager, $logger, $accountManager);
-		$book = $ss->ensureSystemAddressBookExists('principals/users/adam', 'contacts', []);
+		$ss->ensureSystemAddressBookExists('principals/users/adam', 'contacts', []);
 	}
 
 	public function testUpdateAndDeleteUser() {

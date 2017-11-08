@@ -10,6 +10,7 @@ default:
         - NextcloudTestServerContext
 
         - AppNavigationContext
+        - CommentsAppContext
         - FeatureContext
         - FilesAppContext
         - FilesSharingAppContext

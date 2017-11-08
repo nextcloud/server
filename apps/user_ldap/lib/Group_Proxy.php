@@ -7,6 +7,7 @@
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Vinicius Cubas Brand <vinicius@eita.org.br>
  *
  * @license AGPL-3.0
  *
@@ -26,7 +27,7 @@
 
 namespace OCA\User_LDAP;
 
-class Group_Proxy extends Proxy implements \OCP\GroupInterface {
+class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP {
 	private $backends = array();
 	private $refBackend = null;
 
@@ -34,11 +35,11 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface {
 	 * Constructor
 	 * @param string[] $serverConfigPrefixes array containing the config Prefixes
 	 */
-	public function __construct($serverConfigPrefixes, ILDAPWrapper $ldap) {
+	public function __construct($serverConfigPrefixes, ILDAPWrapper $ldap, GroupPluginManager $groupPluginManager) {
 		parent::__construct($ldap);
 		foreach($serverConfigPrefixes as $configPrefix) {
 			$this->backends[$configPrefix] =
-				new \OCA\User_LDAP\Group_LDAP($this->getAccess($configPrefix));
+				new \OCA\User_LDAP\Group_LDAP($this->getAccess($configPrefix), $groupPluginManager);
 			if(is_null($this->refBackend)) {
 				$this->refBackend = &$this->backends[$configPrefix];
 			}
@@ -146,6 +147,51 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface {
 	}
 
 	/**
+	 * @param string $gid
+	 * @return bool
+	 */
+	public function createGroup($gid) {
+		return $this->handleRequest(
+			$gid, 'createGroup', array($gid));
+	}
+
+	/**
+	 * delete a group
+	 * @param string $gid gid of the group to delete
+	 * @return bool
+	 */
+	public function deleteGroup($gid) {
+		return $this->handleRequest(
+			$gid, 'deleteGroup', array($gid));
+	}
+
+	/**
+	 * Add a user to a group
+	 * @param string $uid Name of the user to add to group
+	 * @param string $gid Name of the group in which add the user
+	 * @return bool
+	 *
+	 * Adds a user to a group.
+	 */
+	public function addToGroup($uid, $gid) {
+		return $this->handleRequest(
+			$gid, 'addToGroup', array($uid, $gid));
+	}
+
+	/**
+	 * Removes a user from a group
+	 * @param string $uid Name of the user to remove from group
+	 * @param string $gid Name of the group from which remove the user
+	 * @return bool
+	 *
+	 * removes the user from a group.
+	 */
+	public function removeFromGroup($uid, $gid) {
+		return $this->handleRequest(
+			$gid, 'removeFromGroup', array($uid, $gid));
+	}
+
+	/**
 	 * returns the number of users in a group, who match the search term
 	 * @param string $gid the internal group name
 	 * @param string $search optional, a search string
@@ -154,6 +200,16 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface {
 	public function countUsersInGroup($gid, $search = '') {
 		return $this->handleRequest(
 			$gid, 'countUsersInGroup', array($gid, $search));
+	}
+
+	/**
+	 * get an array with group details
+	 * @param string $gid
+	 * @return array|false
+	 */
+	public function getGroupDetails($gid) {
+		return $this->handleRequest(
+			$gid, 'getGroupDetails', array($gid));
 	}
 
 	/**
@@ -190,7 +246,7 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface {
 	 * @return boolean
 	 *
 	 * Returns the supported actions as int to be
-	 * compared with \OC\User\Backend::CREATE_USER etc.
+	 * compared with \OCP\GroupInterface::CREATE_GROUP etc.
 	 */
 	public function implementsActions($actions) {
 		//it's the same across all our user backends obviously
@@ -203,6 +259,17 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface {
 	 * @return Access instance of Access for LDAP interaction
 	 */
 	public function getLDAPAccess($gid) {
-		return $this->handleRequest($gid, 'getLDAPAccess', []);
+		return $this->handleRequest($gid, 'getLDAPAccess', [$gid]);
 	}
+
+	/**
+	 * Return a new LDAP connection for the specified group.
+	 * The connection needs to be closed manually.
+	 * @param string $gid
+	 * @return resource of the LDAP connection
+	 */
+	public function getNewLDAPConnection($gid) {
+		return $this->handleRequest($gid, 'getNewLDAPConnection', array($gid));
+	}
+
 }

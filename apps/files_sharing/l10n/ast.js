@@ -64,7 +64,6 @@ OC.L10N.register(
     "Could not lock path" : "Nun pudo bloquiase'l camín",
     "Can't change permissions for public share links" : "Nun puen camudase los permisos pa los enllaces de comparticiones públiques",
     "Cannot increase permissions" : "Nun puen aumentase los permisos",
-    "%s is publicly shared" : "%s compartióse públicamente",
     "Share API is disabled" : "L'API de compartición ta desactivada",
     "This share is password-protected" : "Esta compartición tien contraseña protexida",
     "The password is wrong. Try again." : "La contraseña ye incorreuta. Inténtalo otra vegada.",
@@ -80,10 +79,11 @@ OC.L10N.register(
     "sharing is disabled" : "la compartición ta deshabilitada",
     "For more info, please ask the person who sent this link." : "Pa más información, entrúga-y a la persona qu'unvió esti enllaz",
     "Download" : "Baxar",
-    "Download %s" : "Descargar %s",
     "Direct link" : "Enllaz direutu",
+    "Download %s" : "Descargar %s",
     "Select or drop files" : "Esbilla o suelta ficheros",
     "Uploading files…" : "Xubiendo ficheros...",
-    "Uploaded files:" : "Ficheros xubíos:"
+    "Uploaded files:" : "Ficheros xubíos:",
+    "%s is publicly shared" : "%s compartióse públicamente"
 },
 "nplurals=2; plural=(n != 1);");

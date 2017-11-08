@@ -2,6 +2,8 @@
 /**
  * @copyright Copyright (c) 2017 Joas Schilling <coding@schilljs.com>
  *
+ * @author Joas Schilling <coding@schilljs.com>
+ *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,12 +24,20 @@
 namespace OCP\Mail;
 
 /**
- * Class Message
+ * Interface IMessage
  *
  * @package OCP\Mail
  * @since 13.0.0
  */
 interface IMessage {
+
+	/**
+	 * @param IAttachment $attachment
+	 * @return $this
+	 * @since 13.0.0
+	 */
+	public function attach(IAttachment $attachment);
+
 	/**
 	 * Set the from address of this message.
 	 *

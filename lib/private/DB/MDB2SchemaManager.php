@@ -9,6 +9,7 @@
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @license AGPL-3.0
@@ -89,7 +90,7 @@ class MDB2SchemaManager {
 		} else if ($platform instanceof PostgreSqlPlatform) {
 			return new PostgreSqlMigrator($this->conn, $random, $config, $dispatcher);
 		} else {
-			return new NoCheckMigrator($this->conn, $random, $config, $dispatcher);
+			return new Migrator($this->conn, $random, $config, $dispatcher);
 		}
 	}
 

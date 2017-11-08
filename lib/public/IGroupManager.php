@@ -9,6 +9,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Vinicius Cubas Brand <vinicius@eita.org.br>
  *
  * @license AGPL-3.0
  *
@@ -64,6 +65,13 @@ interface IGroupManager {
 	 * @since 8.0.0
 	 */
 	public function clearBackends();
+
+	/**
+	 * Get the active backends
+	 * @return \OCP\GroupInterface[]
+	 * @since 13.0.0
+	 */
+	public function getBackends();
 
 	/**
 	 * @param string $gid

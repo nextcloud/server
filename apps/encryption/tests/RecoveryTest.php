@@ -6,6 +6,8 @@
  * @author Clark Tomlinson <fallen013@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -28,10 +30,13 @@ namespace OCA\Encryption\Tests;
 
 
 use OC\Files\View;
+use OCA\Encryption\Crypto\Crypt;
+use OCA\Encryption\KeyManager;
 use OCA\Encryption\Recovery;
 use OCP\Encryption\IFile;
 use OCP\Encryption\Keys\IStorage;
 use OCP\IConfig;
+use OCP\IUserSession;
 use OCP\Security\ISecureRandom;
 use Test\TestCase;
 
@@ -253,7 +258,7 @@ class RecoveryTest extends TestCase {
 		parent::setUp();
 
 
-		$this->userSessionMock = $this->getMockBuilder('OCP\IUserSession')
+		$this->userSessionMock = $this->getMockBuilder(IUserSession::class)
 			->disableOriginalConstructor()
 			->setMethods([
 				'isLoggedIn',
@@ -271,10 +276,10 @@ class RecoveryTest extends TestCase {
 			->method($this->anything())
 			->will($this->returnSelf());
 
-		$this->cryptMock = $this->getMockBuilder('OCA\Encryption\Crypto\Crypt')->disableOriginalConstructor()->getMock();
+		$this->cryptMock = $this->getMockBuilder(Crypt::class)->disableOriginalConstructor()->getMock();
 		/** @var \OCP\Security\ISecureRandom $randomMock */
 		$randomMock = $this->createMock(ISecureRandom::class);
-		$this->keyManagerMock = $this->getMockBuilder('OCA\Encryption\KeyManager')->disableOriginalConstructor()->getMock();
+		$this->keyManagerMock = $this->getMockBuilder(KeyManager::class)->disableOriginalConstructor()->getMock();
 		$this->configMock = $this->createMock(IConfig::class);
 		/** @var \OCP\Encryption\Keys\IStorage $keyStorageMock */
 		$keyStorageMock = $this->createMock(IStorage::class);

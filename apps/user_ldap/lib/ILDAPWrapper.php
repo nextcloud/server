@@ -8,6 +8,8 @@
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Roger Szabo <roger.szabo@web.de>
+ * @author Vinicius Cubas Brand <vinicius@eita.org.br>
  *
  * @license AGPL-3.0
  *
@@ -163,7 +165,7 @@ interface ILDAPWrapper {
 	 * @return resource|false an LDAP search result resource, false on error
 	 */
 	public function search($link, $baseDN, $filter, $attr, $attrsOnly = 0, $limit = 0);
-	
+
 	/**
 	 * Replace the value of a userPassword by $password
 	 * @param resource $link LDAP link resource

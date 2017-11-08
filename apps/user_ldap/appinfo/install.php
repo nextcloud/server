@@ -4,7 +4,8 @@
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christopher Schäpers <kondou@ts.unde.re>
- * @author Roger Szabo <roger.szabo@web.de>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author root <root@localhost.localdomain>
  *
  * @license AGPL-3.0
  *

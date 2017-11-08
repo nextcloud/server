@@ -2,6 +2,8 @@
 /**
  * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
  *
+ * @author Joas Schilling <coding@schilljs.com>
+ *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,8 +23,10 @@
 
 namespace OCA\DAV\CalDAV\Activity\Provider;
 
+use OCA\DAV\CalDAV\CalDavBackend;
 use OCP\Activity\IEvent;
 use OCP\Activity\IProvider;
+use OCP\IL10N;
 use OCP\IUser;
 use OCP\IUserManager;
 
@@ -64,7 +68,7 @@ abstract class Base implements IProvider {
 	protected function generateObjectParameter($eventData) {
 		if (!is_array($eventData) || !isset($eventData['id']) || !isset($eventData['name'])) {
 			throw new \InvalidArgumentException();
-		};
+		}
 
 		return [
 			'type' => 'calendar-event',
@@ -74,11 +78,33 @@ abstract class Base implements IProvider {
 	}
 
 	/**
+	 * @param array $data
+	 * @param IL10N $l
+	 * @return array
+	 */
+	protected function generateCalendarParameter($data, IL10N $l) {
+		if ($data['uri'] === CalDavBackend::PERSONAL_CALENDAR_URI &&
+			$data['name'] === CalDavBackend::PERSONAL_CALENDAR_NAME) {
+			return [
+				'type' => 'calendar',
+				'id' => $data['id'],
+				'name' => $l->t('Personal'),
+			];
+		}
+
+		return [
+			'type' => 'calendar',
+			'id' => $data['id'],
+			'name' => $data['name'],
+		];
+	}
+
+	/**
 	 * @param int $id
 	 * @param string $name
 	 * @return array
 	 */
-	protected function generateCalendarParameter($id, $name) {
+	protected function generateLegacyCalendarParameter($id, $name) {
 		return [
 			'type' => 'calendar',
 			'id' => $id,

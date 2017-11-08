@@ -85,7 +85,6 @@
     "Wrong or no update parameter given" : "間違っている、もしくはパラメータが更新されていません",
     "Can't change permissions for public share links" : "URLリンク共有のパーミッションを変更できません",
     "Cannot increase permissions" : "パーミッションを追加できません",
-    "%s is publicly shared" : "%s が公開共有されました",
     "Share API is disabled" : "共有APIが無効です。",
     "This share is password-protected" : "この共有はパスワードで保護されています",
     "The password is wrong. Try again." : "パスワードが間違っています。再試行してください。",
@@ -101,13 +100,14 @@
     "sharing is disabled" : "共有は無効になっています",
     "For more info, please ask the person who sent this link." : "不明な点は、こちらのリンクの提供者に確認をお願いします。",
     "shared by %s" : "%s が共有",
-    "Add to your Nextcloud" : "あなたのNextcloudに追加",
     "Download" : "ダウンロード",
-    "Download %s" : "%s をダウンロード",
     "Direct link" : "リンク",
+    "Add to your Nextcloud" : "あなたのNextcloudに追加",
+    "Download %s" : "%s をダウンロード",
     "Upload files to %s" : "%s にファイルをアップロード",
     "Select or drop files" : "ファイルを選択するか、ドラッグ&ドロップしてください",
     "Uploading files…" : "ファイルをアップロード中...",
-    "Uploaded files:" : "アップロード済ファイル:"
+    "Uploaded files:" : "アップロード済ファイル:",
+    "%s is publicly shared" : "%s が公開共有されました"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -2,9 +2,15 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Andrius <andrius.kulbis@ktu.lt>
+ * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Jan-Philipp Litza <jplitza@users.noreply.github.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author phisch <git@philippschaffrath.de>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @license AGPL-3.0
  *

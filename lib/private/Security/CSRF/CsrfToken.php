@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Leon Klingele <git@leonklingele.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
  *
  * @license AGPL-3.0

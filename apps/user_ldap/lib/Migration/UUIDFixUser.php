@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2017 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Vinicius Cubas Brand <vinicius@eita.org.br>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -32,6 +33,7 @@ use OCP\IConfig;
 class UUIDFixUser extends UUIDFix {
 	public function __construct(UserMapping $mapper, LDAP $ldap, IConfig $config, Helper $helper) {
 		$this->mapper = $mapper;
-		$this->proxy = new Group_Proxy($helper->getServerConfigurationPrefixes(true), $ldap, $config);
+		$groupPluginManager = \OC::$server->query('LDAPGroupPluginManager');
+		$this->proxy = new Group_Proxy($helper->getServerConfigurationPrefixes(true), $ldap, $groupPluginManager);
 	}
 }

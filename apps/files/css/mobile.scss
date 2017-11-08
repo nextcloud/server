@@ -46,12 +46,6 @@ table td.filename .nametext {
 #fileList a.action-share span:not(.icon) {
 	display: none !important;
 }
-#fileList a.action.action-favorite {
-	opacity: .7 !important;
-}
-#fileList a.action.action-favorite {
-	opacity: .3 !important;
-}
 
 /* ellipsis on file names */
 table td.filename .nametext .innernametext {
@@ -60,10 +54,6 @@ table td.filename .nametext .innernametext {
 
 /* proper notification area for multi line messages */
 #notification-container {
-	display: -webkit-box;
-	display: -moz-box;
-	display: -ms-flexbox;
-	display: -webkit-flex;
 	display: flex;
 }
 

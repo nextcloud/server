@@ -87,7 +87,6 @@ OC.L10N.register(
     "Wrong or no update parameter given" : "Погрешан или ненаведен параметер",
     "Can't change permissions for public share links" : "Не могу се променити привилегије за јавно доступне везе",
     "Cannot increase permissions" : "Не могу да повећам привилегије",
-    "%s is publicly shared" : "%s је јавно дељен",
     "Share API is disabled" : "API за дељене је искључен",
     "This share is password-protected" : "Дељење је заштићено лозинком",
     "The password is wrong. Try again." : "Лозинка је погрешна. Покушајте поново.",
@@ -103,13 +102,14 @@ OC.L10N.register(
     "sharing is disabled" : "дељење је искључено",
     "For more info, please ask the person who sent this link." : "За више информација, питајте особу која вам је послала везу.",
     "shared by %s" : "поделио %s",
-    "Add to your Nextcloud" : "Додајте у свој облак",
     "Download" : "Преузми",
-    "Download %s" : "Преузми %s",
     "Direct link" : "Директна веза",
+    "Add to your Nextcloud" : "Додајте у свој облак",
+    "Download %s" : "Преузми %s",
     "Upload files to %s" : "Отпремите фајлове на%s",
     "Select or drop files" : "Одаберите или превуците фајлове",
     "Uploading files…" : "Отпремам фајлове…",
-    "Uploaded files:" : "Отпремљени фајлови:"
+    "Uploaded files:" : "Отпремљени фајлови:",
+    "%s is publicly shared" : "%s је јавно дељен"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

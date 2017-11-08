@@ -58,7 +58,7 @@ kbd {
 	padding: 4px 10px;
 	border: 1px solid #ccc;
 	box-shadow: 0 1px 0 rgba(0, 0, 0, .2);
-	border-radius: 3px;
+	border-radius: $border-radius;
 	display: inline-block;
 	white-space: nowrap;
 }
@@ -767,7 +767,7 @@ kbd {
 	position: absolute;
 	background-color: $color-main-background;
 	color: $color-main-text;
-	border-radius: 3px;
+	border-radius: $border-radius;
 	z-index: 110;
 	margin: 5px;
 	margin-top: -5px;
@@ -863,6 +863,12 @@ kbd {
 			> img {
 				width: 16px;
 				padding: 0 10px;
+			}
+			> input.checkbox + label {
+				padding: 0 !important;
+				&::before {
+					margin: -2px 12px 0;
+				}
 			}
 		}
 		[class^='icon-'],

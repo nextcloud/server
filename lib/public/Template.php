@@ -4,14 +4,13 @@
  *
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Frank Karlitschek <frank@karlitschek.de>
- * @author Georg Ehrke <georg@owncloud.com>
- * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
+ * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *

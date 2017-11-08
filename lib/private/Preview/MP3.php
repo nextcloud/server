@@ -2,11 +2,11 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author Georg Ehrke <georg@owncloud.com>
- * @author Hendrik Leppelsack <hendrik@leppelsack.de>
+ * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Olivier Paroz <github@oparoz.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Tanghus <thomas@tanghus.net>
  *
  * @license AGPL-3.0

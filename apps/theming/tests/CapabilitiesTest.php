@@ -2,6 +2,10 @@
 /**
  * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
  *
+ * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Härtl <jus@bitgrid.net>
+ *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -67,6 +71,7 @@ class CapabilitiesTest extends TestCase  {
 				'slogan' => 'slogan',
 				'color' => '#FFFFFF',
 				'color-text' => '#000000',
+				'color-element' => '#555555',
 				'logo' => 'http://absolute/logo',
 				'background' => 'http://absolute/background',
 			]],
@@ -76,6 +81,7 @@ class CapabilitiesTest extends TestCase  {
 				'slogan' => 'slogan3',
 				'color' => '#01e4a0',
 				'color-text' => '#FFFFFF',
+				'color-element' => '#01e4a0',
 				'logo' => 'http://localhost/logo5',
 				'background' => 'http://localhost/background6',
 			]],
@@ -85,6 +91,7 @@ class CapabilitiesTest extends TestCase  {
 				'slogan' => 'slogan3',
 				'color' => '#000000',
 				'color-text' => '#FFFFFF',
+				'color-element' => '#000000',
 				'logo' => 'http://localhost/logo5',
 				'background' => '#000000',
 			]],

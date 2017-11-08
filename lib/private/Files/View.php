@@ -5,7 +5,6 @@
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Björn Schießle <bjoern@schiessle.org>
- * @author cmeh <cmeh@users.noreply.github.com>
  * @author Florin Peter <github@florin-peter.de>
  * @author Jesús Macias <jmacias@solidgear.es>
  * @author Joas Schilling <coding@schilljs.com>
@@ -14,7 +13,6 @@
  * @author Klaas Freitag <freitag@owncloud.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Luke Policinski <lpolicinski@gmail.com>
- * @author Martin Mattel <martin.mattel@diemattels.at>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Petr Svoboda <weits666@gmail.com>
@@ -447,8 +445,28 @@ class View {
 		@ob_end_clean();
 		$handle = $this->fopen($path, 'rb');
 		if ($handle) {
-			if (fseek($handle, $from) === 0) {
-				$chunkSize = 8192; // 8 kB chunks
+			$chunkSize = 8192; // 8 kB chunks
+			$startReading = true;
+
+			if ($from !== 0 && $from !== '0' && fseek($handle, $from) !== 0) {
+				// forward file handle via chunked fread because fseek seem to have failed
+
+				$end = $from + 1;
+				while (!feof($handle) && ftell($handle) < $end) {
+					$len = $from - ftell($handle);
+					if ($len > $chunkSize) {
+						$len = $chunkSize;
+					}
+					$result = fread($handle, $len);
+
+					if ($result === false) {
+						$startReading = false;
+						break;
+					}
+				}
+			}
+
+			if ($startReading) {
 				$end = $to + 1;
 				while (!feof($handle) && ftell($handle) < $end) {
 					$len = $end - ftell($handle);

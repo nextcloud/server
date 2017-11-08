@@ -4,9 +4,10 @@
  *
  * @author Christopher Schäpers <kondou@ts.unde.re>
  * @author Frank Karlitschek <frank@karlitschek.de>
- * @author Georg Ehrke <georg@owncloud.com>
+ * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0

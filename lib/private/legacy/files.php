@@ -10,9 +10,11 @@
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Ko- <k.stoffelen@cs.ru.nl>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Nicolai Ehemann <en@enlightened.de>
+ * @author noveens <noveen.sachdeva@research.iiit.ac.in>
  * @author Piotr Filiciak <piotr@filiciak.pl>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
@@ -338,7 +340,7 @@ class OC_Files {
 	 *
 	 * @param int $size file size in bytes
 	 * @param array $files override '.htaccess' and '.user.ini' locations
-	 * @return bool false on failure, size on success
+	 * @return bool|int false on failure, size on success
 	 */
 	public static function setUploadLimit($size, $files = []) {
 		//don't allow user to break his config

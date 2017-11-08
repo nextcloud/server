@@ -256,10 +256,10 @@ describe('Core base tests', function() {
 	describe('filePath', function() {
 		beforeEach(function() {
 			OC.webroot = 'http://localhost';
-			OC.appswebroots['files'] = OC.webroot + '/apps3/files';
+			OC.appswebroots.files = OC.webroot + '/apps3/files';
 		});
 		afterEach(function() {
-			delete OC.appswebroots['files'];
+			delete OC.appswebroots.files;
 		});
 
 		it('Uses a direct link for css and images,' , function() {

@@ -11,7 +11,7 @@
 describe('jquery.avatar tests', function() {
 	
 	var $div;
-	var devicePixelRatio
+	var devicePixelRatio;
 
 	beforeEach(function() {
 		$('#testArea').append($('<div id="avatardiv">'));
@@ -24,7 +24,7 @@ describe('jquery.avatar tests', function() {
 	afterEach(function() {
 		$div.remove();
 
-		window.devicePixelRatio = devicePixelRatio
+		window.devicePixelRatio = devicePixelRatio;
 	});
 
 	describe('size', function() {

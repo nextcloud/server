@@ -10,7 +10,11 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Roger Szabo <roger.szabo@web.de>
+ * @author root <root@localhost.localdomain>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Vinicius Cubas Brand <vinicius@eita.org.br>
  *
  * @license AGPL-3.0
  *
@@ -193,9 +197,9 @@ class UpdateGroups extends \OC\BackgroundJob\TimedJob {
 			$userMapper  = new UserMapping($dbc);
 			$ldapAccess->setGroupMapper($groupMapper);
 			$ldapAccess->setUserMapper($userMapper);
-			self::$groupBE = new \OCA\User_LDAP\Group_LDAP($ldapAccess);
+			self::$groupBE = new \OCA\User_LDAP\Group_LDAP($ldapAccess, \OC::$server->query('LDAPGroupPluginManager'));
 		} else {
-			self::$groupBE = new \OCA\User_LDAP\Group_Proxy($configPrefixes, $ldapWrapper);
+			self::$groupBE = new \OCA\User_LDAP\Group_Proxy($configPrefixes, $ldapWrapper, \OC::$server->query('LDAPGroupPluginManager'));
 		}
 
 		return self::$groupBE;

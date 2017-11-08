@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Calendar" : "Calendar",
     "Todos" : "Todos",
+    "Personal" : "Personal",
     "{actor} created calendar {calendar}" : "{actor} created calendar {calendar}",
     "You created calendar {calendar}" : "You created calendar {calendar}",
     "{actor} deleted calendar {calendar}" : "{actor} deleted calendar {calendar}",
@@ -40,10 +41,22 @@ OC.L10N.register(
     "A calendar <strong>event</strong> was modified" : "A calendar <strong>event</strong> was modified",
     "A calendar <strong>todo</strong> was modified" : "A calendar <strong>todo</strong> was modified",
     "Contact birthdays" : "Contact birthdays",
-    "Personal" : "Personal",
+    "Invitation canceled" : "Invitation canceled",
+    "Hello %s," : "Hello %s,",
+    "The meeting »%s« with %s was canceled." : "The meeting »%s« with %s was canceled.",
+    "Invitation updated" : "Invitation updated",
+    "The meeting »%s« with %s was updated." : "The meeting »%s« with %s was updated.",
+    "%s invited you to »%s«" : "%s invited you to »%s«",
+    "When:" : "When:",
+    "Where:" : "Where:",
+    "Description:" : "Description:",
+    "Link:" : "Link:",
     "Contacts" : "Contacts",
     "Technical details" : "Technical details",
     "Remote Address: %s" : "Remote Address: %s",
-    "Request ID: %s" : "Request ID: %s"
+    "Request ID: %s" : "Request ID: %s",
+    "CalDAV server" : "CalDAV server",
+    "Send invitations to attendees" : "Send invitations to attendees",
+    "Please make sure to properly set up the email settings above." : "Please make sure to properly set up the email settings above."
 },
 "nplurals=2; plural=(n != 1);");

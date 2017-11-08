@@ -2,11 +2,13 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -90,7 +92,7 @@ class RequestHandlerControllerTest extends TestCase {
 				->setConstructorArgs([$config, $clientService])
 				->getMock();
 		$httpHelperMock->expects($this->any())->method('post')->with($this->anything())->will($this->returnValue(true));
-		$this->share = $this->getMockBuilder('\OCP\Share\IShare')->getMock();
+		$this->share = $this->getMockBuilder(IShare::class)->getMock();
 		$this->federatedShareProvider = $this->getMockBuilder('OCA\FederatedFileSharing\FederatedShareProvider')
 			->disableOriginalConstructor()->getMock();
 		$this->federatedShareProvider->expects($this->any())

@@ -3,8 +3,10 @@
  * @copyright 2017 Christoph Wurst <christoph@winzerhof-wurst.at>
  * @copyright 2017 Lukas Reschke <lukas@statuscode.ch>
  *
- * @author 2017 Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author 2017 Lukas Reschke <lukas@statuscode.ch>
+ * @author Christoph Wurst <christoph@owncloud.com>
+ * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Tobia De Koninck <tobia@ledfan.be>
  *
  * @license GNU AGPL version 3 or any later version
  *

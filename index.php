@@ -2,10 +2,13 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Sergio Bertolín <sbertolin@solidgear.es>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
@@ -67,7 +70,29 @@ try {
 	OC_Response::setStatus(OC_Response::STATUS_INTERNAL_SERVER_ERROR);
 	OC_Template::printExceptionErrorPage($ex);
 } catch (Error $ex) {
-	\OC::$server->getLogger()->logException($ex, array('app' => 'index'));
+	try {
+		\OC::$server->getLogger()->logException($ex, array('app' => 'index'));
+	} catch (Error $e) {
+
+		$claimedProtocol = strtoupper($_SERVER['SERVER_PROTOCOL']);
+		$validProtocols = [
+			'HTTP/1.0',
+			'HTTP/1.1',
+			'HTTP/2',
+		];
+		$protocol = 'HTTP/1.1';
+		if(in_array($claimedProtocol, $validProtocols, true)) {
+			$protocol = $claimedProtocol;
+		}
+		header($protocol . ' 500 Internal Server Error');
+		header('Content-Type: text/plain; charset=utf-8');
+		print("Internal Server Error\n\n");
+		print("The server encountered an internal error and was unable to complete your request.\n");
+		print("Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report.\n");
+		print("More details can be found in the webserver log.\n");
+
+		throw $e;
+	}
 	OC_Response::setStatus(OC_Response::STATUS_INTERNAL_SERVER_ERROR);
 	OC_Template::printExceptionErrorPage($ex);
 }

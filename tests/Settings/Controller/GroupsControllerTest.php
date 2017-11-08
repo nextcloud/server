@@ -13,6 +13,7 @@ namespace Tests\Settings\Controller;
 use OC\Group\Group;
 use OC\Group\MetaData;
 use OC\Settings\Controller\GroupsController;
+use OC\User\User;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IGroupManager;
@@ -99,7 +100,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		$groups[] = $thirdGroup;
 		$groups[] = $fourthGroup;
 
-		$user = $this->getMockBuilder('\OC\User\User')
+		$user = $this->getMockBuilder(User::class)
 			->disableOriginalConstructor()->getMock();
 		$this->userSession
 			->expects($this->once())
@@ -191,7 +192,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		$groups[] = $thirdGroup;
 		$groups[] = $fourthGroup;
 
-		$user = $this->getMockBuilder('\OC\User\User')
+		$user = $this->getMockBuilder(User::class)
 			->disableOriginalConstructor()->getMock();
 		$this->userSession
 			->expects($this->once())

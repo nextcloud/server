@@ -3,6 +3,9 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Markus Goetz <markus@woboq.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Stefan Weil <sw@weilnetz.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
@@ -25,8 +28,10 @@
  */
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
+use OC\User\User;
 use OCA\DAV\Connector\Sabre\File;
 use OCA\DAV\Connector\Sabre\FilesPlugin;
+use OCA\DAV\Connector\Sabre\Node;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IConfig;
 use OCP\IPreview;
@@ -188,7 +193,7 @@ class FilesPluginTest extends TestCase {
 			0
 		);
 
-		$user = $this->getMockBuilder('\OC\User\User')
+		$user = $this->getMockBuilder(User::class)
 			->disableOriginalConstructor()->getMock();
 		$user
 			->expects($this->once())
@@ -457,14 +462,14 @@ class FilesPluginTest extends TestCase {
 	 * @expectedExceptionMessage FolderA/test.txt cannot be deleted
 	 */
 	public function testMoveSrcNotDeletable() {
-		$fileInfoFolderATestTXT = $this->getMockBuilder('\OCP\Files\FileInfo')
+		$fileInfoFolderATestTXT = $this->getMockBuilder(FileInfo::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$fileInfoFolderATestTXT->expects($this->once())
 			->method('isDeletable')
 			->willReturn(false);
 
-		$node = $this->getMockBuilder('\OCA\DAV\Connector\Sabre\Node')
+		$node = $this->getMockBuilder(Node::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$node->expects($this->once())
@@ -478,14 +483,14 @@ class FilesPluginTest extends TestCase {
 	}
 
 	public function testMoveSrcDeletable() {
-		$fileInfoFolderATestTXT = $this->getMockBuilder('\OCP\Files\FileInfo')
+		$fileInfoFolderATestTXT = $this->getMockBuilder(FileInfo::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$fileInfoFolderATestTXT->expects($this->once())
 			->method('isDeletable')
 			->willReturn(true);
 
-		$node = $this->getMockBuilder('\OCA\DAV\Connector\Sabre\Node')
+		$node = $this->getMockBuilder(Node::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$node->expects($this->once())
@@ -503,7 +508,7 @@ class FilesPluginTest extends TestCase {
 	 * @expectedExceptionMessage FolderA/test.txt does not exist
 	 */
 	public function testMoveSrcNotExist() {
-		$node = $this->getMockBuilder('\OCA\DAV\Connector\Sabre\Node')
+		$node = $this->getMockBuilder(Node::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$node->expects($this->once())

@@ -116,7 +116,9 @@ OCA.Sharing.PublicApp = {
 			scalingup: 0
 		};
 
-		var img = $('<img class="publicpreview" alt="">');
+		var imgcontainer = $('<a href="' + $('#previewURL').val()
+			+ '" target="_blank"><img class="publicpreview" alt=""></a>');
+		var img = imgcontainer.find('.publicpreview');
 		img.css({
 			'max-width': previewWidth,
 			'max-height': previewHeight
@@ -128,7 +130,7 @@ OCA.Sharing.PublicApp = {
 		if (mimetype === 'image/gif' &&
 			(maxGifSize === -1 || fileSize <= (maxGifSize * 1024 * 1024))) {
 			img.attr('src', $('#downloadURL').val());
-			img.appendTo('#imgframe');
+			imgcontainer.appendTo('#imgframe');
 		} else if (mimetype.substr(0, mimetype.indexOf('/')) === 'text' && window.btoa) {
 			// Undocumented Url to public WebDAV endpoint
 			var url = parent.location.protocol + '//' + location.host + OC.linkTo('', 'public.php/webdav');
@@ -145,11 +147,11 @@ OCA.Sharing.PublicApp = {
 			mimetype.substr(0, mimetype.indexOf('/')) === 'image' &&
 			mimetype !== 'image/svg+xml') {
 			img.attr('src', OC.filePath('files_sharing', 'ajax', 'publicpreview.php') + '?' + OC.buildQueryString(params));
-			img.appendTo('#imgframe');
+			imgcontainer.appendTo('#imgframe');
 		} else if (mimetype.substr(0, mimetype.indexOf('/')) !== 'video') {
 			img.attr('src', OC.Util.replaceSVGIcon(mimetypeIcon));
 			img.attr('width', 128);
-			img.appendTo('#imgframe');
+			imgcontainer.appendTo('#imgframe');
 		}
 		else if (previewSupported === 'true') {
 			$('#imgframe > video').attr('poster', OC.filePath('files_sharing', 'ajax', 'publicpreview.php') + '?' + OC.buildQueryString(params));
@@ -423,5 +425,19 @@ $(document).ready(function () {
 		Files.generatePreviewUrl = function (urlSpec) {
 			return App.fileList.generatePreviewUrl(urlSpec);
 		};
+	}
+
+	$('#share-menutoggle').click(function() {
+		$('#share-menu').toggleClass('open');
+	});
+});
+
+
+$(document).mouseup(function(e) {
+	var container = $('#share-menu');
+
+	// if the target of the click isn't the container nor a descendant of the container
+	if (!container.is(e.target) && container.has(e.target).length === 0) {
+		container.removeClass('open');
 	}
 });

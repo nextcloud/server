@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Christoph Wurst <christoph@owncloud.com>
+ * @author Joas Schilling <coding@schilljs.com>
  *
  * @license AGPL-3.0
  *

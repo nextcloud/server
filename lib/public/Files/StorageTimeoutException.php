@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Jesús Macias <jmacias@solidgear.es>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  *
  * @license AGPL-3.0
  *

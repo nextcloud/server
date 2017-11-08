@@ -4,6 +4,7 @@
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Vinicius Cubas Brand <vinicius@eita.org.br>
  *
  * @license AGPL-3.0
  *
@@ -47,7 +48,7 @@ class IntegrationTestFetchUsersByLoginName extends AbstractIntegrationTest {
 		$this->mapping = new UserMapping(\OC::$server->getDatabaseConnection());
 		$this->mapping->clear();
 		$this->access->setUserMapper($this->mapping);
-		$this->backend = new User_LDAP($this->access, \OC::$server->getConfig(), \OC::$server->getNotificationManager(), \OC::$server->getUserSession());
+		$this->backend = new User_LDAP($this->access, \OC::$server->getConfig(), \OC::$server->getNotificationManager(), \OC::$server->getUserSession(), \OC::$server->query('LDAPUserPluginManager'));
 	}
 
 	/**

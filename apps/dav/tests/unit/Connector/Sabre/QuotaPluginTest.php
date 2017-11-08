@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
@@ -176,7 +177,7 @@ class QuotaPluginTest extends TestCase {
 	public function testCheckQuotaChunkedOk($quota, $chunkTotalSize, $headers) {
 		$this->init($quota, 'sub/test.txt');
 
-		$mockChunking = $this->getMockBuilder('\OC_FileChunking')
+		$mockChunking = $this->getMockBuilder(\OC_FileChunking::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$mockChunking->expects($this->once())
@@ -212,7 +213,7 @@ class QuotaPluginTest extends TestCase {
 	public function testCheckQuotaChunkedFail($quota, $chunkTotalSize, $headers) {
 		$this->init($quota, 'sub/test.txt');
 
-		$mockChunking = $this->getMockBuilder('\OC_FileChunking')
+		$mockChunking = $this->getMockBuilder(\OC_FileChunking::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$mockChunking->expects($this->once())

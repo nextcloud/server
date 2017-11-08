@@ -4,7 +4,7 @@
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
- * @author Georg Ehrke <georg@owncloud.com>
+ * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -49,6 +49,7 @@ use OCP\ISession;
 use OCP\IUserManager;
 use OCP\Security\ISecureRandom;
 use OCP\IURLGenerator;
+use OCP\Share\IShare;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -463,7 +464,7 @@ class ShareControllerTest extends \Test\TestCase {
 	}
 
 	public function testDownloadShare() {
-		$share = $this->getMockBuilder('\OCP\Share\IShare')->getMock();
+		$share = $this->getMockBuilder(IShare::class)->getMock();
 		$share->method('getPassword')->willReturn('password');
 		$share
 			->expects($this->once())
@@ -488,7 +489,7 @@ class ShareControllerTest extends \Test\TestCase {
 	}
 
 	public function testDownloadShareWithCreateOnlyShare() {
-		$share = $this->getMockBuilder('\OCP\Share\IShare')->getMock();
+		$share = $this->getMockBuilder(IShare::class)->getMock();
 		$share->method('getPassword')->willReturn('password');
 		$share
 			->expects($this->once())

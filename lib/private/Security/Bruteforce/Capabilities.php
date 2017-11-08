@@ -2,6 +2,8 @@
 /**
  * @copyright Copyright (c) 2017 Roeland Jago Douma <roeland@famdouma.nl>
  *
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify

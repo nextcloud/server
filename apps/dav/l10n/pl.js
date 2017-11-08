@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Calendar" : "Kalendarz",
     "Todos" : "Zadania",
+    "Personal" : "Osobiste",
     "{actor} created calendar {calendar}" : "{actor} utworzył/-a kalendarz {calendar}",
     "You created calendar {calendar}" : "Utworzyłeś/-aś kalendarz {calendar}",
     "{actor} deleted calendar {calendar}" : "{actor} usunął/-ęła kalendarz {calendar} .",
@@ -40,12 +41,12 @@ OC.L10N.register(
     "A calendar <strong>event</strong> was modified" : "<strong>Zdarzenie</strong> kalendarza zostało zmodyfikowane",
     "A calendar <strong>todo</strong> was modified" : "Kalendarz <strong>zadań</strong> został zmieniony",
     "Contact birthdays" : "Urodziny kontaktu",
-    "Personal" : "Osobiste",
     "Contacts" : "Kontakty",
     "Technical details" : "Szczegóły techniczne",
     "Remote Address: %s" : "Adres zdalny: %s",
     "Request ID: %s" : "ID żądania: %s",
     "CalDAV server" : "Serwer CalDAV",
-    "Send invitations to attendees" : "Wyślij uczestnikom zaproszenia"
+    "Send invitations to attendees" : "Wyślij uczestnikom zaproszenia",
+    "Please make sure to properly set up the email settings above." : "Upewnij się, że dobrze skonfigurowano powyżej ustawienia poczty e-mail."
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

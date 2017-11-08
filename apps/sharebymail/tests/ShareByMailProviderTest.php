@@ -114,7 +114,7 @@ class ShareByMailProviderTest extends TestCase {
 		$this->secureRandom = $this->getMockBuilder('\OCP\Security\ISecureRandom')->getMock();
 		$this->mailer = $this->getMockBuilder('\OCP\Mail\IMailer')->getMock();
 		$this->urlGenerator = $this->getMockBuilder(IURLGenerator::class)->getMock();
-		$this->share = $this->getMockBuilder('\OCP\Share\IShare')->getMock();
+		$this->share = $this->getMockBuilder(IShare::class)->getMock();
 		$this->activityManager = $this->getMockBuilder('OCP\Activity\IManager')->getMock();
 		$this->settingsManager = $this->getMockBuilder(SettingsManager::class)->disableOriginalConstructor()->getMock();
 		$this->defaults = $this->createMock(Defaults::class);
@@ -181,7 +181,7 @@ class ShareByMailProviderTest extends TestCase {
 	}
 
 	public function testCreate() {
-		$share = $this->getMockBuilder('\OCP\Share\IShare')->getMock();
+		$share = $this->getMockBuilder(IShare::class)->getMock();
 		$share->expects($this->any())->method('getSharedWith')->willReturn('user1');
 
 		$node = $this->getMockBuilder(File::class)->getMock();

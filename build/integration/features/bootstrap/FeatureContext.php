@@ -1,7 +1,8 @@
 <?php
 /**
-
  *
+ *
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Sergio Bertolin <sbertolin@solidgear.es>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *

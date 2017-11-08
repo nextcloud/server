@@ -2,7 +2,9 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -23,6 +25,7 @@
 
 namespace OC\Mail;
 
+use OCP\Mail\IAttachment;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMessage;
 use Swift_Message;
@@ -41,6 +44,17 @@ class Message implements IMessage {
 	 */
 	public function __construct(Swift_Message $swiftMessage) {
 		$this->swiftMessage = $swiftMessage;
+	}
+
+	/**
+	 * @param IAttachment $attachment
+	 * @return $this
+	 * @since 13.0.0
+	 */
+	public function attach(IAttachment $attachment) {
+		/** @var Attachment $attachment */
+		$this->swiftMessage->attach($attachment->getSwiftAttachment());
+		return $this;
 	}
 
 	/**

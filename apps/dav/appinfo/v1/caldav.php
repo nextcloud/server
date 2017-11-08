@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Christoph Wurst <christoph@owncloud.com>
+ * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
@@ -87,9 +88,8 @@ $server->addPlugin(new \Sabre\CalDAV\ICSExportPlugin());
 $server->addPlugin(new \OCA\DAV\CalDAV\Schedule\Plugin());
 
 if ($sendInvitations) {
-	$server->addPlugin(new \OCA\DAV\CalDAV\Schedule\IMipPlugin( \OC::$server->getMailer(), \OC::$server->getLogger(), new \OC\AppFramework\Utility\TimeFactory()));
+	$server->addPlugin(\OC::$server->query(\OCA\DAV\CalDAV\Schedule\IMipPlugin::class));
 }
-
 $server->addPlugin(new ExceptionLoggerPlugin('caldav', \OC::$server->getLogger()));
 
 // And off we go!

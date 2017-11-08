@@ -12,8 +12,11 @@
  * @author Owen Winkler <a_github@midnightcircus.com>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Semih Serhat Karakaya <karakayasemi@itu.edu.tr>
+ * @author Stefan Schneider <stefan.schneider@squareweave.com.au>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vinicius Cubas Brand <vinicius@eita.org.br>
  *
  * @license AGPL-3.0
  *

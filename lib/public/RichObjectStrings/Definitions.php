@@ -2,6 +2,10 @@
 /**
  * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
  *
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Maxence Lange <maxence@nextcloud.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -248,6 +252,31 @@ class Definitions {
 					'since' => '11.0.0',
 					'required' => false,
 					'description' => 'The full URL to the file',
+					'example' => 'http://localhost/index.php/f/42',
+				],
+			],
+		],
+		'highlight' => [
+			'author' => 'Nextcloud',
+			'app' => 'core',
+			'since' => '13.0.0',
+			'parameters' => [
+				'id' => [
+					'since' => '13.0.0',
+					'required' => true,
+					'description' => 'The id used to identify the highlighted object on the instance',
+					'example' => '42',
+				],
+				'name' => [
+					'since' => '13.0.0',
+					'required' => true,
+					'description' => 'The string that should be highlighted.',
+					'example' => 'Hello World',
+				],
+				'link' => [
+					'since' => '13.0.0',
+					'required' => false,
+					'description' => 'The full URL that should be opened when clicking the highlighted text.',
 					'example' => 'http://localhost/index.php/f/42',
 				],
 			],

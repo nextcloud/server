@@ -5,11 +5,11 @@
  * @author Aldo "xoen" Giambelluca <xoen@xoen.org>
  * @author Andreas Fischer <bantu@owncloud.com>
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bartek Przybylski <bart.p.pl@gmail.com>
  * @author Bart Visscher <bartv@thisnet.nl>
+ * @author Bartek Przybylski <bart.p.pl@gmail.com>
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Christoph Wurst <christoph@owncloud.com>
- * @author Georg Ehrke <georg@owncloud.com>
+ * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
@@ -20,6 +20,7 @@
  * @author shkdee <louis.traynard@m4x.org>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Tom Needham <tom@owncloud.com>
+ * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @license AGPL-3.0
  *

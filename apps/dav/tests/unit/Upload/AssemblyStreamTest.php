@@ -4,7 +4,10 @@
  *
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Markus Goetz <markus@woboq.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @license AGPL-3.0
  *
@@ -22,6 +25,8 @@
  *
  */
 namespace OCA\DAV\Tests\unit\Upload;
+
+use Sabre\DAV\File;
 
 class AssemblyStreamTest extends \Test\TestCase {
 
@@ -120,7 +125,7 @@ class AssemblyStreamTest extends \Test\TestCase {
 	}
 
 	private function buildNode($name, $data) {
-		$node = $this->getMockBuilder('\Sabre\DAV\File')
+		$node = $this->getMockBuilder(File::class)
 			->setMethods(['getName', 'get', 'getSize'])
 			->getMockForAbstractClass();
 

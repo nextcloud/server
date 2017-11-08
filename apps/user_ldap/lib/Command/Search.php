@@ -4,7 +4,10 @@
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Juan Pablo Villafáñez <jvillafanez@solidgear.es>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Vinicius Cubas Brand <vinicius@eita.org.br>
  *
  * @license AGPL-3.0
  *
@@ -111,7 +114,7 @@ class Search extends Command {
 		$this->validateOffsetAndLimit($offset, $limit);
 
 		if($input->getOption('group')) {
-			$proxy = new Group_Proxy($configPrefixes, $ldapWrapper);
+			$proxy = new Group_Proxy($configPrefixes, $ldapWrapper, \OC::$server->query('LDAPGroupPluginManager'));
 			$getMethod = 'getGroups';
 			$printID = false;
 			// convert the limit of groups to null. This will show all the groups available instead of
@@ -125,7 +128,8 @@ class Search extends Command {
 				$ldapWrapper,
 				$this->ocConfig,
 				\OC::$server->getNotificationManager(),
-				\OC::$server->getUserSession()
+				\OC::$server->getUserSession(),
+				\OC::$server->query('LDAPUserPluginManager')
 			);
 			$getMethod = 'getDisplayNames';
 			$printID = true;

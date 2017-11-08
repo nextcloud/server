@@ -2,7 +2,7 @@
 /**
  * @copyright 2016, Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Joas Schilling <coding@schilljs.com>
  *
  * @license GNU AGPL version 3 or any later version
  *

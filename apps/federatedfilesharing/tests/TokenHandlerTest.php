@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
@@ -42,7 +43,7 @@ class TokenHandlerTest extends \Test\TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->secureRandom = $this->getMockBuilder('OCP\Security\ISecureRandom')->getMock();
+		$this->secureRandom = $this->getMockBuilder(ISecureRandom::class)->getMock();
 
 		$this->tokenHandler = new TokenHandler($this->secureRandom);
 	}

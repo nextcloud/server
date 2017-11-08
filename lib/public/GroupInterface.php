@@ -4,7 +4,9 @@
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Knut Ahlers <knut@ahlers.me>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @license AGPL-3.0
  *

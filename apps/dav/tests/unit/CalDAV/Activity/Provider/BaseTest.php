@@ -2,6 +2,8 @@
 /**
  * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
  *
+ * @author Joas Schilling <coding@schilljs.com>
+ *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,6 +26,7 @@ namespace OCA\DAV\Tests\unit\CalDAV\Activity\Provider;
 use OCA\DAV\CalDAV\Activity\Provider\Base;
 use OCP\Activity\IEvent;
 use OCP\Activity\IProvider;
+use OCP\IL10N;
 use OCP\IUser;
 use OCP\IUserManager;
 use Test\TestCase;
@@ -113,22 +116,51 @@ class BaseTest extends TestCase {
 
 	public function dataGenerateCalendarParameter() {
 		return [
+			[['id' => 23, 'uri' => 'foo', 'name' => 'bar'], 'bar'],
+			[['id' => 42, 'uri' => 'foo', 'name' => 'Personal'], 'Personal'],
+			[['id' => 42, 'uri' => 'personal', 'name' => 'bar'], 'bar'],
+			[['id' => 42, 'uri' => 'personal', 'name' => 'Personal'], 't(Personal)'],
+		];
+	}
+
+	/**
+	 * @dataProvider dataGenerateCalendarParameter
+	 * @param array $data
+	 * @param string $name
+	 */
+	public function testGenerateCalendarParameter(array $data, $name) {
+		$l = $this->createMock(IL10N::class);
+		$l->expects($this->any())
+			->method('t')
+			->willReturnCallback(function($string, $args) {
+				return 't(' . vsprintf($string, $args) . ')';
+			});
+
+		$this->assertEquals([
+			'type' => 'calendar',
+			'id' => $data['id'],
+			'name' => $name,
+		], $this->invokePrivate($this->provider, 'generateCalendarParameter', [$data, $l]));
+	}
+
+	public function dataGenerateLegacyCalendarParameter() {
+		return [
 			[23, 'c1'],
 			[42, 'c2'],
 		];
 	}
 
 	/**
-	 * @dataProvider dataGenerateCalendarParameter
+	 * @dataProvider dataGenerateLegacyCalendarParameter
 	 * @param int $id
 	 * @param string $name
 	 */
-	public function testGenerateCalendarParameter($id, $name) {
+	public function testGenerateLegacyCalendarParameter($id, $name) {
 		$this->assertEquals([
 			'type' => 'calendar',
 			'id' => $id,
 			'name' => $name,
-		], $this->invokePrivate($this->provider, 'generateCalendarParameter', [$id, $name]));
+		], $this->invokePrivate($this->provider, 'generateLegacyCalendarParameter', [$id, $name]));
 	}
 
 	public function dataGenerateGroupParameter() {

@@ -1,8 +1,9 @@
 <?php
 /**
-
+ *
  *
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Sergio Bertolin <sbertolin@solidgear.es>
  *
  * @license GNU AGPL version 3 or any later version
  *

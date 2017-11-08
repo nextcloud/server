@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -47,7 +48,7 @@ class PluginTest extends TestCase {
 		parent::setUp();
 		
 		/** @var Auth | \PHPUnit_Framework_MockObject_MockObject $authBackend */
-		$authBackend = $this->getMockBuilder('OCA\DAV\Connector\Sabre\Auth')->disableOriginalConstructor()->getMock();
+		$authBackend = $this->getMockBuilder(Auth::class)->disableOriginalConstructor()->getMock();
 		$authBackend->method('isDavAuthenticated')->willReturn(true);
 
 		/** @var IRequest $request */
@@ -57,7 +58,7 @@ class PluginTest extends TestCase {
 		$root = new SimpleCollection('root');
 		$this->server = new \Sabre\DAV\Server($root);
 		/** @var SimpleCollection $node */
-		$this->book = $this->getMockBuilder('OCA\DAV\DAV\Sharing\IShareable')->
+		$this->book = $this->getMockBuilder(IShareable::class)->
 			disableOriginalConstructor()->
 			getMock();
 		$this->book->method('getName')->willReturn('addressbook1.vcf');

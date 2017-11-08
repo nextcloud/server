@@ -1,8 +1,10 @@
 <?php
 /**
+ * @copyright Copyright (c) 2017, ownCloud GmbH
+ *
+ * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2017, ownCloud GmbH
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify

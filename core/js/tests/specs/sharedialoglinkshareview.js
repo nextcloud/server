@@ -48,7 +48,6 @@ describe('OC.Share.ShareDialogLinkShareView', function () {
 		configModel = new OC.Share.ShareConfigModel({
 			enforcePasswordForPublicLink: false,
 			isResharingAllowed: true,
-			enforcePasswordForPublicLink: false,
 			isDefaultExpireDateEnabled: false,
 			isDefaultExpireDateEnforced: false,
 			defaultExpireDate: 7

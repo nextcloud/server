@@ -2,11 +2,15 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Clark Tomlinson <fallen013@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @license AGPL-3.0
  *
@@ -27,9 +31,15 @@
 namespace OCA\Encryption\Tests;
 
 
+use OC\Files\FileInfo;
+use OC\Files\View;
+use OCA\Encryption\Crypto\Crypt;
 use OCA\Encryption\KeyManager;
 use OCA\Encryption\Session;
+use OCA\Encryption\Util;
 use OCP\Encryption\Keys\IStorage;
+use OCP\Files\Cache\ICache;
+use OCP\Files\Storage;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IUserSession;
@@ -74,7 +84,7 @@ class KeyManagerTest extends TestCase {
 		$this->userId = 'user1';
 		$this->systemKeyId = 'systemKeyId';
 		$this->keyStorageMock = $this->createMock(IStorage::class);
-		$this->cryptMock = $this->getMockBuilder('OCA\Encryption\Crypto\Crypt')
+		$this->cryptMock = $this->getMockBuilder(Crypt::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->configMock = $this->createMock(IConfig::class);
@@ -82,11 +92,11 @@ class KeyManagerTest extends TestCase {
 			->method('getAppValue')
 			->willReturn($this->systemKeyId);
 		$this->userMock = $this->createMock(IUserSession::class);
-		$this->sessionMock = $this->getMockBuilder('OCA\Encryption\Session')
+		$this->sessionMock = $this->getMockBuilder(Session::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->logMock = $this->createMock(ILogger::class);
-		$this->utilMock = $this->getMockBuilder('OCA\Encryption\Util')
+		$this->utilMock = $this->getMockBuilder(Util::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -251,7 +261,7 @@ class KeyManagerTest extends TestCase {
 	public function testInit($useMasterKey) {
 
 		/** @var \OCA\Encryption\KeyManager|\PHPUnit_Framework_MockObject_MockObject $instance */
-		$instance = $this->getMockBuilder('OCA\Encryption\KeyManager')
+		$instance = $this->getMockBuilder(KeyManager::class)
 			->setConstructorArgs(
 				[
 					$this->keyStorageMock,
@@ -544,7 +554,7 @@ class KeyManagerTest extends TestCase {
 	public function testValidateMasterKey($masterKey) {
 
 		/** @var \OCA\Encryption\KeyManager | \PHPUnit_Framework_MockObject_MockObject $instance */
-		$instance = $this->getMockBuilder('OCA\Encryption\KeyManager')
+		$instance = $this->getMockBuilder(KeyManager::class)
 			->setConstructorArgs(
 				[
 					$this->keyStorageMock,
@@ -592,7 +602,7 @@ class KeyManagerTest extends TestCase {
 	}
 
 	public function testGetVersionWithoutFileInfo() {
-		$view = $this->getMockBuilder('\\OC\\Files\\View')
+		$view = $this->getMockBuilder(View::class)
 			->disableOriginalConstructor()->getMock();
 		$view->expects($this->once())
 			->method('getFileInfo')
@@ -604,9 +614,9 @@ class KeyManagerTest extends TestCase {
 	}
 
 	public function testGetVersionWithFileInfo() {
-		$view = $this->getMockBuilder('\\OC\\Files\\View')
+		$view = $this->getMockBuilder(View::class)
 			->disableOriginalConstructor()->getMock();
-		$fileInfo = $this->getMockBuilder('\\OC\\Files\\FileInfo')
+		$fileInfo = $this->getMockBuilder(FileInfo::class)
 			->disableOriginalConstructor()->getMock();
 		$fileInfo->expects($this->once())
 			->method('getEncryptedVersion')
@@ -621,19 +631,19 @@ class KeyManagerTest extends TestCase {
 	}
 
 	public function testSetVersionWithFileInfo() {
-		$view = $this->getMockBuilder('\\OC\\Files\\View')
+		$view = $this->getMockBuilder(View::class)
 			->disableOriginalConstructor()->getMock();
-		$cache = $this->getMockBuilder('\\OCP\\Files\\Cache\\ICache')
+		$cache = $this->getMockBuilder(ICache::class)
 			->disableOriginalConstructor()->getMock();
 		$cache->expects($this->once())
 			->method('update')
 			->with(123, ['encrypted' => 5, 'encryptedVersion' => 5]);
-		$storage = $this->getMockBuilder('\\OCP\\Files\\Storage')
+		$storage = $this->getMockBuilder(Storage::class)
 			->disableOriginalConstructor()->getMock();
 		$storage->expects($this->once())
 			->method('getCache')
 			->willReturn($cache);
-		$fileInfo = $this->getMockBuilder('\\OC\\Files\\FileInfo')
+		$fileInfo = $this->getMockBuilder(FileInfo::class)
 			->disableOriginalConstructor()->getMock();
 		$fileInfo->expects($this->once())
 			->method('getStorage')
@@ -651,7 +661,7 @@ class KeyManagerTest extends TestCase {
 	}
 
 	public function testSetVersionWithoutFileInfo() {
-		$view = $this->getMockBuilder('\\OC\\Files\\View')
+		$view = $this->getMockBuilder(View::class)
 			->disableOriginalConstructor()->getMock();
 		$view->expects($this->once())
 			->method('getFileInfo')

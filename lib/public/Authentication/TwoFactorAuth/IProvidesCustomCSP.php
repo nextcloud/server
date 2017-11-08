@@ -1,7 +1,8 @@
 <?php
-
 /**
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ *
+ *
+ * @author Christoph Wurst <christoph@owncloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *

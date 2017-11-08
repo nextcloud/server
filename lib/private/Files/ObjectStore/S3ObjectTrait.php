@@ -2,6 +2,8 @@
 /**
  * @copyright Copyright (c) 2017 Robin Appelman <robin@icewind.nl>
  *
+ * @author Robin Appelman <robin@icewind.nl>
+ *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -49,12 +51,15 @@ trait S3ObjectTrait {
 			'Bucket' => $this->bucket,
 			'Key' => $urn
 		]);
-		$command['@http']['stream'] = true;
-		$result = $client->execute($command);
-		/** @var StreamInterface $body */
-		$body = $result['Body'];
+		$request = \Aws\serialize($command);
+		$opts = [
+			'http' => [
+				'header' => $request->getHeaders()
+			]
+		];
 
-		return $body->detach();
+		$context = stream_context_create($opts);
+		return fopen($request->getUri(), 'r', false, $context);
 	}
 
 	/**

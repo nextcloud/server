@@ -87,7 +87,6 @@ OC.L10N.register(
     "Wrong or no update parameter given" : "Λάθος ή καμία παράμετρος αναβάθμισης δεν δόθηκε",
     "Can't change permissions for public share links" : "Δεν μπορούμε να αλλάξουμε δικαιώματα για δημόσια διαμοιρασμένους συνδέσμους",
     "Cannot increase permissions" : "Δεν μπορούμε να αυξήσουμε δικαιώματα",
-    "%s is publicly shared" : "%s είναι δημόσια διαμοιρασμένο",
     "Share API is disabled" : "API διαμοιρασμού είναι απενεργοποιημένο",
     "This share is password-protected" : "Αυτός ο κοινόχρηστος φάκελος προστατεύεται με κωδικό",
     "The password is wrong. Try again." : "Εσφαλμένος κωδικός πρόσβασης. Προσπαθήστε ξανά.",
@@ -103,13 +102,14 @@ OC.L10N.register(
     "sharing is disabled" : "ο διαμοιρασμός απενεργοποιήθηκε",
     "For more info, please ask the person who sent this link." : "Για περισσότερες πληροφορίες, παρακαλώ ρωτήστε το άτομο που σας έστειλε αυτόν τον σύνδεσμο.",
     "shared by %s" : "Διαμοιράστηκε από 1 %s",
-    "Add to your Nextcloud" : "Προσθήκη στο Nextcloud σου",
     "Download" : "Λήψη",
-    "Download %s" : "Λήψη %s",
     "Direct link" : "Άμεσος σύνδεσμος",
+    "Add to your Nextcloud" : "Προσθήκη στο Nextcloud σου",
+    "Download %s" : "Λήψη %s",
     "Upload files to %s" : "Αποστολή αρχείων σε %s",
     "Select or drop files" : "Επιλέξτε ή ρίξτε αρχεία",
     "Uploading files…" : "Αποστολή αρχείων ...",
-    "Uploaded files:" : "Αποστολή αρχείων:"
+    "Uploaded files:" : "Αποστολή αρχείων:",
+    "%s is publicly shared" : "%s είναι δημόσια διαμοιρασμένο"
 },
 "nplurals=2; plural=(n != 1);");

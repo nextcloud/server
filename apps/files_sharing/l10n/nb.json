@@ -85,7 +85,6 @@
     "Wrong or no update parameter given" : "Feil eller ingen parametre for oppdatering er angitt",
     "Can't change permissions for public share links" : "Kan ikke endre rettigheter for offentlige lenker",
     "Cannot increase permissions" : "Kan ikke øke tillatelser",
-    "%s is publicly shared" : "%s er delt offentlig",
     "Share API is disabled" : "Deling API er deaktivert",
     "This share is password-protected" : "Denne delingen er passordbeskyttet",
     "The password is wrong. Try again." : "Passordet er feil. Prøv på nytt.",
@@ -101,13 +100,14 @@
     "sharing is disabled" : "deling er avskrudd",
     "For more info, please ask the person who sent this link." : "For mer informasjon, spør personen som sendte lenken.",
     "shared by %s" : "delt av %s",
-    "Add to your Nextcloud" : "Legg til i din Nextcloud",
     "Download" : "Last ned",
-    "Download %s" : "Last ned %s",
     "Direct link" : "Direkte lenke",
+    "Add to your Nextcloud" : "Legg til i din Nextcloud",
+    "Download %s" : "Last ned %s",
     "Upload files to %s" : "Last opp filer til %s",
     "Select or drop files" : "Velg eller slipp filer",
     "Uploading files…" : "Laster opp filer...",
-    "Uploaded files:" : "Opplastede filer:"
+    "Uploaded files:" : "Opplastede filer:",
+    "%s is publicly shared" : "%s er delt offentlig"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

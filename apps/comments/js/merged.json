@@ -5,5 +5,7 @@
   "commentsummarymodel.js",
   "commentstabview.js",
   "filesplugin.js",
-  "activitytabviewplugin.js"
+  "activitytabviewplugin.js",
+  "vendor/Caret.js/dist/jquery.caret.min.js",
+  "vendor/At.js/dist/js/jquery.atwho.min.js"
 ]

@@ -5,7 +5,9 @@
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roger Szabo <roger.szabo@web.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Vinicius Cubas Brand <vinicius@eita.org.br>
  *
  * @license AGPL-3.0
  *
@@ -50,7 +52,7 @@ class IntegrationTestUserAvatar extends AbstractIntegrationTest {
 		$this->mapping = new UserMapping(\OC::$server->getDatabaseConnection());
 		$this->mapping->clear();
 		$this->access->setUserMapper($this->mapping);
-		$userBackend  = new User_LDAP($this->access, \OC::$server->getConfig(), \OC::$server->getNotificationManager(), \OC::$server->getUserSession());
+		$userBackend  = new User_LDAP($this->access, \OC::$server->getConfig(), \OC::$server->getNotificationManager(), \OC::$server->getUserSession(), \OC::$server->query('LDAPUserPluginManager'));
 		\OC_User::useBackend($userBackend);
 	}
 

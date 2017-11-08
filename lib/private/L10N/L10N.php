@@ -2,7 +2,9 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -169,6 +171,8 @@ class L10N implements IL10N {
 				return (string) Calendar::formatDatetime($value, $width, $locale);
 			case 'time':
 				return (string) Calendar::formatTime($value, $width, $locale);
+			case 'weekdayName':
+				return (string) Calendar::getWeekdayName($value, $width, $locale);
 			default:
 				return false;
 		}

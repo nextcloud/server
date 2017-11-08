@@ -1,6 +1,6 @@
 <?php
 /**
-
+ *
  *
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>

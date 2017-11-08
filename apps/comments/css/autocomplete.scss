@@ -1,0 +1,77 @@
+/**
+ * based upon apps/comments/js/vendor/At.js/dist/css/jquery.atwho.css,
+ * only changed colors and font-weight
+ */
+
+.atwho-view {
+	position:absolute;
+	top: 0;
+	left: 0;
+	display: none;
+	margin-top: 18px;
+	background: $color-main-background;
+	color: $color-main-text;
+	border: 1px solid $color-border;
+	border-radius: $border-radius;
+	box-shadow: 0 0 5px $color-box-shadow;
+	min-width: 120px;
+	z-index: 11110 !important;
+}
+
+.atwho-view .atwho-header {
+	padding: 5px;
+	margin: 5px;
+	cursor: pointer;
+	border-bottom: solid 1px $color-border;
+	color: $color-main-text;
+	font-size: 11px;
+	font-weight: bold;
+}
+
+.atwho-view .atwho-header .small {
+	color: $color-main-text;
+	float: right;
+	padding-top: 2px;
+	margin-right: -5px;
+	font-size: 12px;
+	font-weight: normal;
+}
+
+.atwho-view .atwho-header:hover {
+	cursor: default;
+}
+
+.atwho-view .cur {
+	background: $color-primary;
+	color: $color-primary-text;
+}
+.atwho-view .cur small {
+	color: $color-primary-text;
+}
+.atwho-view strong {
+	color: $color-main-text;
+	font-weight: normal;
+}
+.atwho-view .cur strong {
+	color: $color-primary-text;
+	font-weight: normal;
+}
+.atwho-view ul {
+	/* width: 100px; */
+	list-style:none;
+	padding:0;
+	margin:auto;
+	max-height: 200px;
+	overflow-y: auto;
+}
+.atwho-view ul li {
+	display: block;
+	padding: 5px 10px;
+	border-bottom: 1px solid $color-border;
+	cursor: pointer;
+}
+.atwho-view small {
+	font-size: smaller;
+	color: $color-main-text;
+	font-weight: normal;
+}

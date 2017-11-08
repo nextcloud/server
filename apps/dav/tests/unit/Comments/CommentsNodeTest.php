@@ -4,6 +4,7 @@
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
@@ -33,6 +34,7 @@ use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use Sabre\DAV\PropPatch;
 
 class CommentsNodeTest extends \Test\TestCase {
 
@@ -361,7 +363,7 @@ class CommentsNodeTest extends \Test\TestCase {
 	}
 
 	public function testPropPatch() {
-		$propPatch = $this->getMockBuilder('Sabre\DAV\PropPatch')
+		$propPatch = $this->getMockBuilder(PropPatch::class)
 			->disableOriginalConstructor()
 			->getMock();
 

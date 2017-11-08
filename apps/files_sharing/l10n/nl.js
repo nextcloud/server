@@ -87,7 +87,6 @@ OC.L10N.register(
     "Wrong or no update parameter given" : "Verkeerde of geen update parameter opgegeven",
     "Can't change permissions for public share links" : "Kan rechten voor openbaar gedeelde links niet wijzigen",
     "Cannot increase permissions" : "Kan de rechten niet verruimen",
-    "%s is publicly shared" : "%s is openbaar gedeeld",
     "Share API is disabled" : "Delen API is uitgeschakeld",
     "This share is password-protected" : "Deze gedeelde folder is met een wachtwoord beveiligd",
     "The password is wrong. Try again." : "Wachtwoord ongeldig. Probeer het nogmaals.",
@@ -103,13 +102,14 @@ OC.L10N.register(
     "sharing is disabled" : "delen is uitgeschakeld",
     "For more info, please ask the person who sent this link." : "Voor meer informatie, neem contact op met de persoon die u deze link heeft gestuurd.",
     "shared by %s" : "Gedeeld door %s",
-    "Add to your Nextcloud" : "Toevoegen aan je Nextcloud",
     "Download" : "Downloaden",
-    "Download %s" : "Download %s",
     "Direct link" : "Directe link",
+    "Add to your Nextcloud" : "Toevoegen aan je Nextcloud",
+    "Download %s" : "Download %s",
     "Upload files to %s" : "Upload bestanden naar %s",
     "Select or drop files" : "Selecteer of leg bestanden neer",
     "Uploading files…" : "Uploaden bestanden...",
-    "Uploaded files:" : "Geüploade bestanden"
+    "Uploaded files:" : "Geüploade bestanden",
+    "%s is publicly shared" : "%s is openbaar gedeeld"
 },
 "nplurals=2; plural=(n != 1);");

@@ -87,7 +87,6 @@ OC.L10N.register(
     "Wrong or no update parameter given" : "Rangt eða ekkert uppfærsluviðfang gefið",
     "Can't change permissions for public share links" : "Ekki tókst að breyta aðgangsheimildum fyrir opinbera deilingartengla",
     "Cannot increase permissions" : "Get ekki aukið aðgangsheimildir",
-    "%s is publicly shared" : "%s er deilt opinberlega",
     "Share API is disabled" : "Deilingar-API er óvirkt",
     "This share is password-protected" : "Þessi sameign er varin með lykilorði",
     "The password is wrong. Try again." : "Lykilorðið er rangt. Reyndu aftur.",
@@ -103,13 +102,14 @@ OC.L10N.register(
     "sharing is disabled" : "slökkt er á skráadeilingu",
     "For more info, please ask the person who sent this link." : "Til að vita meira skaltu hafa samband við þann sem sendi þér þennan tengil.",
     "shared by %s" : "Deilt af %s",
-    "Add to your Nextcloud" : "Bæta í þitt eigið Nextcloud",
     "Download" : "Niðurhal",
-    "Download %s" : "Sækja %s",
     "Direct link" : "Beinn tengill",
+    "Add to your Nextcloud" : "Bæta í þitt eigið Nextcloud",
+    "Download %s" : "Sækja %s",
     "Upload files to %s" : "Senda inn skrár á %s",
     "Select or drop files" : "Veldu eða slepptu skrám",
     "Uploading files…" : "Sendi inn skrár…",
-    "Uploaded files:" : "Innsendar skrár:"
+    "Uploaded files:" : "Innsendar skrár:",
+    "%s is publicly shared" : "%s er deilt opinberlega"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

@@ -5,6 +5,7 @@
  * @author Andreas Fischer <bantu@owncloud.com>
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author hkjolhede <hkjolhede@gmail.com>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lennart Rosam <lennart.rosam@medien-systempartner.de>
  * @author Lukas Reschke <lukas@statuscode.ch>

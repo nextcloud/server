@@ -87,7 +87,6 @@ OC.L10N.register(
     "Wrong or no update parameter given" : "Ose u dha parametër i gabuar përditësimesh, pse s’u dha fare ",
     "Can't change permissions for public share links" : "S’mund të ndryshohen lejet për lidhje ndarjesh publike",
     "Cannot increase permissions" : "S’mund të fuqizohen lejet",
-    "%s is publicly shared" : "%s është ndarë publikisht",
     "Share API is disabled" : "API i ndarjeve është çaktivizuar",
     "This share is password-protected" : "Kjo pjesë është e mbrojtur me fjalëkalim",
     "The password is wrong. Try again." : "Fjalëkalimi është i gabuar. Riprovoni.",
@@ -103,13 +102,14 @@ OC.L10N.register(
     "sharing is disabled" : "ndarjet janë çaktivizuar",
     "For more info, please ask the person who sent this link." : "Për më shumë të dhëna, ju lutemi, pyetni personin që ju dërgoi këtë lidhje.",
     "shared by %s" : "ndarë nga %s",
-    "Add to your Nextcloud" : "Shtojeni tek Nextcloud-i juaj",
     "Download" : "Shkarko",
-    "Download %s" : "Shkarko %s",
     "Direct link" : "Lidhje e drejtpërdrejtë",
+    "Add to your Nextcloud" : "Shtojeni tek Nextcloud-i juaj",
+    "Download %s" : "Shkarko %s",
     "Upload files to %s" : "Ngrako skedarët tek %s",
     "Select or drop files" : "Përzgjidh ose hiq skedarët",
     "Uploading files…" : "Skedarët po ngarkohen...",
-    "Uploaded files:" : "Skedarët e ngarkuar:"
+    "Uploaded files:" : "Skedarët e ngarkuar:",
+    "%s is publicly shared" : "%s është ndarë publikisht"
 },
 "nplurals=2; plural=(n != 1);");

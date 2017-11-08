@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2017 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Vinicius Cubas Brand <vinicius@eita.org.br>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -49,12 +50,12 @@ class IntegrationTestAttributeDetection extends AbstractIntegrationTest {
 		$groupMapper->clear();
 		$this->access->setGroupMapper($groupMapper);
 
-		$userBackend = new User_LDAP($this->access, \OC::$server->getConfig(), \OC::$server->getNotificationManager(), \OC::$server->getUserSession());
+		$userBackend = new User_LDAP($this->access, \OC::$server->getConfig(), \OC::$server->getNotificationManager(), \OC::$server->getUserSession(), \OC::$server->query('LDAPUserPluginManager'));
 		$userManager = \OC::$server->getUserManager();
 		$userManager->clearBackends();
 		$userManager->registerBackend($userBackend);
 
-		$groupBackend = new Group_LDAP($this->access);
+		$groupBackend = new Group_LDAP($this->access, \OC::$server->query('LDAPGroupPluginManager'));
 		$groupManger = \OC::$server->getGroupManager();
 		$groupManger->clearBackends();
 		$groupManger->addBackend($groupBackend);

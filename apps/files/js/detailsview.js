@@ -78,9 +78,6 @@
 			this._detailFileInfoViews = [];
 
 			this._dirty = true;
-
-			// uncomment to add some dummy tabs for testing
-			//this._addTestTabs();
 		},
 
 		_onClose: function(event) {
@@ -100,21 +97,6 @@
 			}
 
 			this.selectTab(tabId);
-		},
-
-		_addTestTabs: function() {
-			for (var j = 0; j < 2; j++) {
-				var testView = new OCA.Files.DetailTabView({id: 'testtab' + j});
-				testView.index = j;
-				testView.getLabel = function() { return 'Test tab ' + this.index; };
-				testView.render = function() {
-					this.$el.empty();
-					for (var i = 0; i < 100; i++) {
-						this.$el.append('<div>Test tab ' + this.index + ' row ' + i + '</div>');
-					}
-				};
-				this._tabViews.push(testView);
-			}
 		},
 
 		template: function(vars) {

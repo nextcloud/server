@@ -85,7 +85,6 @@
     "Wrong or no update parameter given" : "错误或没有更新参数给出",
     "Can't change permissions for public share links" : "不能改变公共分享链接权限",
     "Cannot increase permissions" : "不能增加权限",
-    "%s is publicly shared" : "%s 是公开共享",
     "Share API is disabled" : "共享 API 已被禁用",
     "This share is password-protected" : "这是一个密码保护的共享",
     "The password is wrong. Try again." : "用户名或密码错误！请重试",
@@ -101,13 +100,14 @@
     "sharing is disabled" : "分享已禁用",
     "For more info, please ask the person who sent this link." : "欲知详情，请联系发给你链接的人。",
     "shared by %s" : "共享者 %s",
-    "Add to your Nextcloud" : "添加到你的 Nextcloud",
     "Download" : "下载",
-    "Download %s" : "下载 %s",
     "Direct link" : "直接链接",
+    "Add to your Nextcloud" : "添加到你的 Nextcloud",
+    "Download %s" : "下载 %s",
     "Upload files to %s" : "上传文件到 %s",
     "Select or drop files" : "选择或删除文件",
     "Uploading files…" : "上传文件 … ",
-    "Uploaded files:" : "上传的文件： "
+    "Uploaded files:" : "上传的文件： ",
+    "%s is publicly shared" : "%s 是公开共享"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

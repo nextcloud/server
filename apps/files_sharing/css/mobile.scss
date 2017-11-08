@@ -5,11 +5,6 @@
 	position: absolute !important;
 }
 
-/* hide text of download button, only show icon */
-#download-text {
-	display: none;
-}
-
 /* hide size and date columns */
 table th#headerSize,
 table td.filesize,
@@ -51,5 +46,13 @@ table td.filename .nametext {
 	text-overflow: ellipsis;
 }
 
+// Hide Download label of 3-dot-menu on public share pages
+.share-menutoggle-text {
+	display: none;
+}
+#header .menutoggle {
+    padding-right: 14px;
+    background-position: center;
+}
 
 }

@@ -61,7 +61,7 @@
 }
 
 /* Css replaced elements don't have ::after nor ::before */
-img, object, video, button, textarea, input, select {
+img, object, video, button, textarea, input, select, div[contenteditable=true] {
 	.icon-loading {
 		background-image: url('../img/loading.gif');
 	}
@@ -92,6 +92,10 @@ img, object, video, button, textarea, input, select {
 /* ICONS -------------------------------------------------------------------- */
 .icon-add {
 	background-image: url('../img/actions/add.svg?v=1');
+}
+
+.icon-address {
+	background-image: url('../img/actions/address.svg?v=1');
 }
 
 .icon-audio {
@@ -346,6 +350,10 @@ img, object, video, button, textarea, input, select {
 
 .icon-star {
 	background-image: url('../img/actions/star.svg?v=1');
+}
+
+.icon-star-dark {
+	background-image: url('../img/actions/star-dark.svg?v=1');
 }
 
 .icon-starred {

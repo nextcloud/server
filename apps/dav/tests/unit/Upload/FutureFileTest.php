@@ -4,6 +4,7 @@
  *
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -22,6 +23,8 @@
  *
  */
 namespace OCA\DAV\Tests\unit\Upload;
+
+use OCA\DAV\Connector\Sabre\Directory;
 
 class FutureFileTest extends \Test\TestCase {
 
@@ -57,7 +60,7 @@ class FutureFileTest extends \Test\TestCase {
 	}
 
 	public function testDelete() {
-		$d = $this->getMockBuilder('OCA\DAV\Connector\Sabre\Directory')
+		$d = $this->getMockBuilder(Directory::class)
 			->disableOriginalConstructor()
 			->setMethods(['delete'])
 			->getMock();
@@ -89,7 +92,7 @@ class FutureFileTest extends \Test\TestCase {
 	 * @return \OCA\DAV\Upload\FutureFile
 	 */
 	private function mockFutureFile() {
-		$d = $this->getMockBuilder('OCA\DAV\Connector\Sabre\Directory')
+		$d = $this->getMockBuilder(Directory::class)
 			->disableOriginalConstructor()
 			->setMethods(['getETag', 'getLastModified', 'getChildren'])
 			->getMock();

@@ -87,7 +87,6 @@ OC.L10N.register(
     "Wrong or no update parameter given" : "Es wurde ein falscher oder kein Updateparameter angegeben",
     "Can't change permissions for public share links" : "Berechtigungen für öffentlich freigegebene Links konnten nicht geändert werden",
     "Cannot increase permissions" : "Berechtigungen können nicht erhöht werden",
-    "%s is publicly shared" : "%s ist öffentlich geteilt",
     "Share API is disabled" : "Teilen-API ist deaktivert",
     "This share is password-protected" : "Freigabe ist passwortgeschützt",
     "The password is wrong. Try again." : "Das Passwort ist falsch. Versuche es erneut.",
@@ -103,13 +102,14 @@ OC.L10N.register(
     "sharing is disabled" : "Teilen ist deaktiviert",
     "For more info, please ask the person who sent this link." : "Um nähere Informationen zu erhalten, wende dich bitte an die Person, die dir diesen Link geschickt hat.",
     "shared by %s" : "von %s geteilt",
-    "Add to your Nextcloud" : "Zu Deiner Nextcloud hinzufügen",
     "Download" : "Herunterladen",
-    "Download %s" : "Download %s",
     "Direct link" : "Direkter Link",
+    "Add to your Nextcloud" : "Zu Deiner Nextcloud hinzufügen",
+    "Download %s" : "Download %s",
     "Upload files to %s" : "Dateien für %s hochladen",
     "Select or drop files" : "Dateien auswählen oder hierher ziehen",
     "Uploading files…" : "Dateien werden hochgeladen…",
-    "Uploaded files:" : "Hochgeladene Dateien: "
+    "Uploaded files:" : "Hochgeladene Dateien: ",
+    "%s is publicly shared" : "%s ist öffentlich geteilt"
 },
 "nplurals=2; plural=(n != 1);");

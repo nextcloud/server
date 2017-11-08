@@ -9,11 +9,9 @@
  * @author Michael U <mdusher@users.noreply.github.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Chan <plus.vincchan@gmail.com>
- * @author Volkan Gezer <volkangezer@gmail.com>
  *
  * @license AGPL-3.0
  *

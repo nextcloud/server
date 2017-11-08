@@ -3,8 +3,10 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Bart Visscher <bartv@thisnet.nl>
- * @author Felix Anand Epp <work@felixepp.de>
+ * @author Felix Epp <work@felixepp.de>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Haertl <jus@bitgrid.net>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author mmccarn <mmccarn-github@mmsionline.us>

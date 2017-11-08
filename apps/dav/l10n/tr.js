@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Calendar" : "Takvim",
     "Todos" : "Yapılacak İşler",
+    "Personal" : "Kişisel",
     "{actor} created calendar {calendar}" : "{actor}, {calendar} takvimini ekledi",
     "You created calendar {calendar}" : "{calendar} takvimini eklediniz",
     "{actor} deleted calendar {calendar}" : "{actor}, {calendar} takvimini sildi",
@@ -40,12 +41,22 @@ OC.L10N.register(
     "A calendar <strong>event</strong> was modified" : "Bir takvim <strong>etkinliği</strong> düzenlendi",
     "A calendar <strong>todo</strong> was modified" : "Bir takvim <strong>yapılacak işi</strong> düzenlendi",
     "Contact birthdays" : "Kişi doğum günleri",
-    "Personal" : "Kişisel",
+    "Invitation canceled" : "Çağrı iptal edildi",
+    "Hello %s," : "Merhaba %s,",
+    "The meeting »%s« with %s was canceled." : "Bu »%s« görüşmesi %s ile yapılacakken iptal edildi.",
+    "Invitation updated" : "Çağrı güncellendi",
+    "The meeting »%s« with %s was updated." : "Bu »%s« görüşmesi %s ile yapılacakken güncellendi.",
+    "%s invited you to »%s«" : "%s sizi şu görüşmeye çağırdı »%s«",
+    "When:" : "Zaman:",
+    "Where:" : "Yer:",
+    "Description:" : "Açıklama:",
+    "Link:" : "Bağlantı:",
     "Contacts" : "Kişiler",
     "Technical details" : "Teknik ayrıntılar",
     "Remote Address: %s" : "Uzak Adres: %s",
     "Request ID: %s" : "İstek Kodu: %s",
     "CalDAV server" : "CalDAV sunucusu",
-    "Send invitations to attendees" : "Katılımcılara çağrıları gönder"
+    "Send invitations to attendees" : "Katılımcılara çağrıları gönder",
+    "Please make sure to properly set up the email settings above." : "Lütfen yukarıdaki e-posta ayarlarını doğru olarak yaptığınızdan emin olun."
 },
 "nplurals=2; plural=(n > 1);");

@@ -3,14 +3,18 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Bart Visscher <bartv@thisnet.nl>
+ * @author Boris Rybalkin <ribalkin@gmail.com>
  * @author Brice Maron <brice@bmaron.net>
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Klaas Freitag <freitag@owncloud.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Martin Mattel <martin.mattel@diemattels.at>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Sjors van der Pluijm <sjors@desjors.nl>
  * @author Stefan Weil <sw@weilnetz.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
@@ -408,10 +412,11 @@ class Local extends \OC\Files\Storage\Common {
 	 * @param IStorage $sourceStorage
 	 * @param string $sourceInternalPath
 	 * @param string $targetInternalPath
+	 * @param bool $preserveMtime
 	 * @return bool
 	 */
 	public function copyFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime = false) {
-		if ($sourceStorage->instanceOfStorage('\OC\Files\Storage\Local')) {
+		if ($sourceStorage->instanceOfStorage(Local::class)) {
 			if ($sourceStorage->instanceOfStorage(Jail::class)) {
 				/**
 				 * @var \OC\Files\Storage\Wrapper\Jail $sourceStorage

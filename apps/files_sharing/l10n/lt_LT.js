@@ -87,7 +87,6 @@ OC.L10N.register(
     "Wrong or no update parameter given" : "Neperduoti atnaujinimo parametrai",
     "Can't change permissions for public share links" : "Negalima keisti leidimų viešai bendrinamoms nuorodoms",
     "Cannot increase permissions" : "Negalima pridėti papildomų leidimų",
-    "%s is publicly shared" : "%s yra bendrinamas viešai",
     "Share API is disabled" : "Bendrinimo API yra išjungtas",
     "This share is password-protected" : "Turinys apsaugotas slaptažodžiu",
     "The password is wrong. Try again." : "Slaptažodis neteisingas. Bandykite dar kartą.",
@@ -103,13 +102,14 @@ OC.L10N.register(
     "sharing is disabled" : "dalinimasis yra išjungtas",
     "For more info, please ask the person who sent this link." : "Dėl tikslesnės informacijos susisiekite su asmeniu atsiuntusiu nuorodą.",
     "shared by %s" : "pasidalino %s",
-    "Add to your Nextcloud" : "Pridėti į jūsų NextCloud",
     "Download" : "Atsisiųsti",
-    "Download %s" : "Atsisiųsti %s",
     "Direct link" : "Tiesioginė nuoroda",
+    "Add to your Nextcloud" : "Pridėti į jūsų NextCloud",
+    "Download %s" : "Atsisiųsti %s",
     "Upload files to %s" : "Įkelti duomenis į %s",
     "Select or drop files" : "Pasirinkite arba vilkite failus",
     "Uploading files…" : "Įkeliami failai…",
-    "Uploaded files:" : "Įkelti failai:"
+    "Uploaded files:" : "Įkelti failai:",
+    "%s is publicly shared" : "%s yra bendrinamas viešai"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);");

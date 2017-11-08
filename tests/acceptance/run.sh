@@ -138,7 +138,7 @@ function prepareDocker() {
 	# Selenium server.
 	# The container exits immediately if no command is given, so a Bash session
 	# is created to prevent that.
-	docker run --detach --name=$NEXTCLOUD_LOCAL_CONTAINER --network=container:$SELENIUM_CONTAINER --interactive --tty nextcloudci/php7.0:php7.0-7 bash
+	docker run --detach --name=$NEXTCLOUD_LOCAL_CONTAINER --network=container:$SELENIUM_CONTAINER --interactive --tty nextcloudci/php7.1:php7.1-15 bash
 
 	# Use the $TMPDIR or, if not set, fall back to /tmp.
 	NEXTCLOUD_LOCAL_TAR="$($MKTEMP --tmpdir="${TMPDIR:-/tmp}" --suffix=.tar nextcloud-local-XXXXXXXXXX)"

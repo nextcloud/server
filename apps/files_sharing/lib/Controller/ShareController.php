@@ -5,13 +5,16 @@
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
- * @author Georg Ehrke <georg@owncloud.com>
+ * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Maxence Lange <maxence@pontapreta.net>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Piotr Filiciak <piotr@filiciak.pl>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Sascha Sambale <mastixmc@gmail.com>
+ * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @license AGPL-3.0
@@ -373,15 +376,20 @@ class ShareController extends Controller {
 		$shareTmpl['previewMaxY'] = $this->config->getSystemValue('preview_max_y', 1024);
 		$shareTmpl['disclaimer'] = $this->config->getAppValue('core', 'shareapi_public_link_disclaimertext', null);
 		$shareTmpl['previewURL'] = $shareTmpl['downloadURL'];
+		$ogPreview = '';
 		if ($shareTmpl['previewSupported']) {
 			$shareTmpl['previewImage'] = $this->urlGenerator->linkToRouteAbsolute( 'files_sharing.PublicPreview.getPreview',
 				['x' => 200, 'y' => 200, 'file' => $shareTmpl['directory_path'], 't' => $shareTmpl['dirToken']]);
+			$ogPreview = $shareTmpl['previewImage'];
+
 			// We just have direct previews for image files
 			if ($share->getNode()->getMimePart() === 'image') {
 				$shareTmpl['previewURL'] = $this->urlGenerator->linkToRouteAbsolute('files_sharing.publicpreview.directLink', ['token' => $token]);
+				$ogPreview = $shareTmpl['previewURL'];
 			}
 		} else {
 			$shareTmpl['previewImage'] = $this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'favicon-fb.png'));
+			$ogPreview = $shareTmpl['previewImage'];
 		}
 
 		// Load files we need
@@ -406,12 +414,12 @@ class ShareController extends Controller {
 		}
 
 		// OpenGraph Support: http://ogp.me/
-		\OCP\Util::addHeader('meta', ['property' => "og:title", 'content' => $this->defaults->getName() . ($this->defaults->getSlogan() !== '' ? ' - ' . $this->defaults->getSlogan() : '')]);
-		\OCP\Util::addHeader('meta', ['property' => "og:description", 'content' => $this->l10n->t('%s is publicly shared', [$shareTmpl['filename']])]);
+		\OCP\Util::addHeader('meta', ['property' => "og:title", 'content' => $shareTmpl['filename']]);
+		\OCP\Util::addHeader('meta', ['property' => "og:description", 'content' => $this->defaults->getName() . ($this->defaults->getSlogan() !== '' ? ' - ' . $this->defaults->getSlogan() : '')]);
 		\OCP\Util::addHeader('meta', ['property' => "og:site_name", 'content' => $this->defaults->getName()]);
 		\OCP\Util::addHeader('meta', ['property' => "og:url", 'content' => $shareTmpl['shareUrl']]);
 		\OCP\Util::addHeader('meta', ['property' => "og:type", 'content' => "object"]);
-		\OCP\Util::addHeader('meta', ['property' => "og:image", 'content' => $shareTmpl['previewImage']]);
+		\OCP\Util::addHeader('meta', ['property' => "og:image", 'content' => $ogPreview]);
 
 		$this->eventDispatcher->dispatch('OCA\Files_Sharing::loadAdditionalScripts');
 
@@ -457,6 +465,10 @@ class ShareController extends Controller {
 			// in case we get only a single file
 			if ($files_list === null) {
 				$files_list = [$files];
+			}
+			// Just in case $files is a single int like '1234'
+			if (!is_array($files_list)) {
+				$files_list = [$files_list];
 			}
 		}
 

@@ -2,6 +2,8 @@
 /**
  * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
  *
+ * @author Joas Schilling <coding@schilljs.com>
+ *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -118,20 +120,46 @@ class Event extends Base {
 		$subject = $event->getSubject();
 		$parameters = $event->getSubjectParameters();
 
+		// Nextcloud 13+
+		if (isset($parameters['calendar'])) {
+			switch ($subject) {
+				case self::SUBJECT_OBJECT_ADD . '_event':
+				case self::SUBJECT_OBJECT_DELETE . '_event':
+				case self::SUBJECT_OBJECT_UPDATE . '_event':
+					return [
+						'actor' => $this->generateUserParameter($parameters['actor']),
+						'calendar' => $this->generateCalendarParameter($parameters['calendar'], $this->l),
+						'event' => $this->generateObjectParameter($parameters['object']),
+					];
+				case self::SUBJECT_OBJECT_ADD . '_event_self':
+				case self::SUBJECT_OBJECT_DELETE . '_event_self':
+				case self::SUBJECT_OBJECT_UPDATE . '_event_self':
+					return [
+						'calendar' => $this->generateCalendarParameter($parameters['calendar'], $this->l),
+						'event' => $this->generateObjectParameter($parameters['object']),
+					];
+			}
+		}
+
+		// Legacy - Do NOT Remove unless necessary
+		// Removing this will break parsing of activities that were created on
+		// Nextcloud 12, so we should keep this as long as it's acceptable.
+		// Otherwise if people upgrade over multiple releases in a short period,
+		// they will get the dead entries in their stream.
 		switch ($subject) {
 			case self::SUBJECT_OBJECT_ADD . '_event':
 			case self::SUBJECT_OBJECT_DELETE . '_event':
 			case self::SUBJECT_OBJECT_UPDATE . '_event':
 				return [
 					'actor' => $this->generateUserParameter($parameters[0]),
-					'calendar' => $this->generateCalendarParameter((int)$event->getObjectId(), $parameters[1]),
+					'calendar' => $this->generateLegacyCalendarParameter((int)$event->getObjectId(), $parameters[1]),
 					'event' => $this->generateObjectParameter($parameters[2]),
 				];
 			case self::SUBJECT_OBJECT_ADD . '_event_self':
 			case self::SUBJECT_OBJECT_DELETE . '_event_self':
 			case self::SUBJECT_OBJECT_UPDATE . '_event_self':
 				return [
-					'calendar' => $this->generateCalendarParameter((int)$event->getObjectId(), $parameters[1]),
+					'calendar' => $this->generateLegacyCalendarParameter((int)$event->getObjectId(), $parameters[1]),
 					'event' => $this->generateObjectParameter($parameters[2]),
 				];
 		}

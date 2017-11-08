@@ -87,7 +87,6 @@ OC.L10N.register(
     "Wrong or no update parameter given" : "Brakujący lub błędny parametr aktualizacji",
     "Can't change permissions for public share links" : "Nie można zmienić uprawnień dla publicznych udziałów",
     "Cannot increase permissions" : "Nie można zwiększyć uprawnień",
-    "%s is publicly shared" : "%s jest publicznie dostępny",
     "Share API is disabled" : "API udostępniania jest wyłączone",
     "This share is password-protected" : "Udostępniony folder chroniony jest hasłem",
     "The password is wrong. Try again." : "To hasło jest niewłaściwe. Spróbuj ponownie.",
@@ -103,13 +102,14 @@ OC.L10N.register(
     "sharing is disabled" : "udostępnianie jest wyłączone",
     "For more info, please ask the person who sent this link." : "Aby uzyskać więcej informacji proszę poprosić osobę, która wysłał ten link.",
     "shared by %s" : "udostępnione przez %s",
-    "Add to your Nextcloud" : "Dodaj do swojego Nextcloud",
     "Download" : "Pobierz",
-    "Download %s" : "Pobierz %s",
     "Direct link" : "Bezpośredni link",
+    "Add to your Nextcloud" : "Dodaj do swojego Nextcloud",
+    "Download %s" : "Pobierz %s",
     "Upload files to %s" : "Prześlij pliki do %s",
     "Select or drop files" : "Wybierz lub upuść pliki",
     "Uploading files…" : "Wysyłanie plików...",
-    "Uploaded files:" : "Wysłane pliki:"
+    "Uploaded files:" : "Wysłane pliki:",
+    "%s is publicly shared" : "%s jest publicznie dostępny"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

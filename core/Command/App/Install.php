@@ -2,7 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author Klaus Herberth <klaus@jsxc.org>
+ * @author sualko <klaus@jsxc.org>
  *
  * @license AGPL-3.0
  *

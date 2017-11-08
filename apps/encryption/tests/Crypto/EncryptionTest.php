@@ -2,8 +2,11 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -23,7 +26,14 @@
 
 namespace OCA\Encryption\Tests\Crypto;
 
+use OCA\Encryption\Crypto\Crypt;
+use OCA\Encryption\Crypto\DecryptAll;
+use OCA\Encryption\Crypto\EncryptAll;
 use OCA\Encryption\Exceptions\PublicKeyMissingException;
+use OCA\Encryption\KeyManager;
+use OCA\Encryption\Session;
+use OCA\Encryption\Util;
+use OCP\Files\Storage;
 use OCP\IL10N;
 use OCP\ILogger;
 use Symfony\Component\Console\Input\InputInterface;
@@ -66,24 +76,24 @@ class EncryptionTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->storageMock = $this->getMockBuilder('OCP\Files\Storage')
+		$this->storageMock = $this->getMockBuilder(Storage::class)
 			->disableOriginalConstructor()->getMock();
-		$this->cryptMock = $this->getMockBuilder('OCA\Encryption\Crypto\Crypt')
+		$this->cryptMock = $this->getMockBuilder(Crypt::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->utilMock = $this->getMockBuilder('OCA\Encryption\Util')
+		$this->utilMock = $this->getMockBuilder(Util::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->keyManagerMock = $this->getMockBuilder('OCA\Encryption\KeyManager')
+		$this->keyManagerMock = $this->getMockBuilder(KeyManager::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->sessionMock = $this->getMockBuilder('OCA\Encryption\Session')
+		$this->sessionMock = $this->getMockBuilder(Session::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->encryptAllMock = $this->getMockBuilder('OCA\Encryption\Crypto\EncryptAll')
+		$this->encryptAllMock = $this->getMockBuilder(EncryptAll::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->decryptAllMock = $this->getMockBuilder('OCA\Encryption\Crypto\DecryptAll')
+		$this->decryptAllMock = $this->getMockBuilder(DecryptAll::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->loggerMock = $this->getMockBuilder(ILogger::class)

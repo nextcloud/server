@@ -85,7 +85,7 @@ input {
 		transform: translate(-50%, -50%);
 		background: #fff;
 		color: #333;
-		border-radius: 3px;
+		border-radius: $border-radius;
 		box-shadow: 0 0 7px #888;
 		padding: 15px;
 		.jcrop-holder {
@@ -248,6 +248,8 @@ input {
 				opacity: .75;
 			}
 			&.active {
+				box-shadow: inset 2px 0 $color-primary;
+
 				.menuitem-text {
 					font-weight: 600;
 				}
@@ -714,7 +716,7 @@ span.version {
 		color: #555;
 		background-color: transparent;
 		border: 1px solid #555;
-		border-radius: 3px;
+		border-radius: $border-radius;
 		padding: 3px 6px;
 	}
 	a {
@@ -785,8 +787,11 @@ span.version {
 		display: block;
 		margin: 8px 0;
 	}
-	padding: 10px 30px;
 	margin-bottom: 0;
+}
+
+.personal-settings-setting-box .section {
+	padding: 10px 30px;
 }
 
 .followupsection {
@@ -1098,7 +1103,7 @@ table.grid td.date {
 span {
 	&.success {
 		background: #37ce02;
-		border-radius: 3px;
+		border-radius: $border-radius;
 	}
 	&.error {
 		background: #ce3702;
@@ -1189,7 +1194,14 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 .settings-caption {
 	font-weight: bold;
 	line-height: 44px;
-	padding: 0 12px;
+	padding: 0 44px;
 	white-space: nowrap;
 	text-overflow: ellipsis;
+	// !important to overwrite specific hover and focus
+	opacity: .4 !important;
+	box-shadow: none !important;
+
+	&:not(:first-child) {
+		margin-top: 22px;
+	}
 }

@@ -1685,6 +1685,7 @@
 				// close sidebar
 				this._updateDetailsView(null);
 			}
+			this._setCurrentDir(this.getCurrentDirectory(), false);
 			var callBack = this.reloadCallback.bind(this);
 			return this._reloadCall.then(callBack, callBack);
 		},

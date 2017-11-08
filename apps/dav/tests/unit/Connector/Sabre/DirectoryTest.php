@@ -3,8 +3,8 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
@@ -26,6 +26,7 @@
 
 namespace OCA\DAV\Tests\Unit\Connector\Sabre;
 
+use OC\Files\Storage\Wrapper\Quota;
 use OCP\Files\ForbiddenException;
 use OC\Files\FileInfo;
 use OCA\DAV\Connector\Sabre\Directory;
@@ -179,10 +180,10 @@ class DirectoryTest extends \Test\TestCase {
 	}
 
 	public function testGetChildren() {
-		$info1 = $this->getMockBuilder('OC\Files\FileInfo')
+		$info1 = $this->getMockBuilder(FileInfo::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$info2 = $this->getMockBuilder('OC\Files\FileInfo')
+		$info2 = $this->getMockBuilder(FileInfo::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$info1->expects($this->any())
@@ -269,7 +270,7 @@ class DirectoryTest extends \Test\TestCase {
 	}
 
 	public function testGetQuotaInfoUnlimited() {
-		$storage = $this->getMockBuilder('\OC\Files\Storage\Wrapper\Quota')
+		$storage = $this->getMockBuilder(Quota::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -300,7 +301,7 @@ class DirectoryTest extends \Test\TestCase {
 	}
 
 	public function testGetQuotaInfoSpecific() {
-		$storage = $this->getMockBuilder('\OC\Files\Storage\Wrapper\Quota')
+		$storage = $this->getMockBuilder(Quota::class)
 			->disableOriginalConstructor()
 			->getMock();
 

@@ -13,7 +13,7 @@
  */
 
  /* Specifically override browser styles */
-input, textarea, select, button {
+input, textarea, select, button, div[contenteditable=true] {
 	font-family: 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif;
 }
 .select2-container-multi .select2-choices .select2-search-field input, .select2-search input, .ui-widget {
@@ -24,7 +24,8 @@ input, textarea, select, button {
 select,
 button,
 input,
-textarea {
+textarea,
+div[contenteditable=true] {
 	width: 130px;
 	min-height: 32px;
 	box-sizing: border-box;
@@ -35,6 +36,7 @@ select,
 button, .button,
 input:not([type='range']),
 textarea,
+div[contenteditable=true],
 .pager li a {
 	margin: 3px 3px 3px 0;
 	padding: 7px 6px;
@@ -43,7 +45,7 @@ textarea,
 	color: nc-lighten($color-main-text, 33%);
 	border: 1px solid nc-darken($color-main-background, 14%);
 	outline: none;
-	border-radius: 3px;
+	border-radius: $border-radius;
 	cursor: text;
 	&:not(:disabled):not(.primary) {
 		&:hover,
@@ -154,7 +156,7 @@ button, .button {
 	}
 }
 
-textarea {
+textarea, div[contenteditable=true] {
 	color: nc-lighten($color-main-text, 33%);
 	cursor: text;
 	font-family: inherit;
@@ -370,7 +372,7 @@ input {
 		background: $color-main-background;
 		color: nc-lighten($color-main-text, 33%);
 		box-sizing: content-box;
-		border-radius: 3px;
+		border-radius: $border-radius;
 		border: 1px solid nc-darken($color-main-background, 14%);
 		margin: 0;
 		padding: 2px 0;
@@ -415,7 +417,7 @@ input {
 		background: $color-main-background;
 		color: nc-lighten($color-main-text, 33%);
 		box-sizing: content-box;
-		border-radius: 3px;
+		border-radius: $border-radius;
 		border: 1px solid nc-darken($color-main-background, 14%);
 		margin: 0;
 		padding: 2px 0;
@@ -463,7 +465,7 @@ progress {
 	padding: 0;
 	border: 0 none;
 	background-color: nc-darken($color-main-background, 10%);
-	border-radius: 3px;
+	border-radius: $border-radius;
 	flex-basis: 100%;
 	height: 5px;
 	overflow: hidden;
@@ -479,12 +481,12 @@ progress {
 		background: transparent;
 	}
 	&::-moz-progress-bar {
-		border-radius: 3px;
+		border-radius: $border-radius;
 		background: $color-primary;
 		transition: 250ms all ease-in-out;
 	}
 	&::-webkit-progress-value {
-		border-radius: 3px;
+		border-radius: $border-radius;
 		background: $color-primary;
 		transition: 250ms all ease-in-out;
 	}

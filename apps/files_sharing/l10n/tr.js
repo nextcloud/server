@@ -87,7 +87,6 @@ OC.L10N.register(
     "Wrong or no update parameter given" : "Parametre yanlış ya da herhangi bir parametre belirtilmemiş",
     "Can't change permissions for public share links" : "Herkese açık paylaşılan bağlantıların erişim hakları değiştirilemez",
     "Cannot increase permissions" : "Erişim izinleri yükseltilemez",
-    "%s is publicly shared" : "%s herkese açık olarak paylaşıldı",
     "Share API is disabled" : "Paylaşım API arayüzü devre dışı",
     "This share is password-protected" : "Bu paylaşım parola korumalı",
     "The password is wrong. Try again." : "Parola yanlış. Yeniden deneyin.",
@@ -103,13 +102,14 @@ OC.L10N.register(
     "sharing is disabled" : "paylaşım devre dışı bırakılmış",
     "For more info, please ask the person who sent this link." : "Ayrıntılı bilgi almak için bu bağlantıyı aldığınız kişi ile görüşün.",
     "shared by %s" : "%s tarafından paylaşıldı",
-    "Add to your Nextcloud" : "Nextcloud hesabınıza ekleyin",
     "Download" : "İndir",
-    "Download %s" : "%s İndir",
     "Direct link" : "Doğrudan bağlantı",
+    "Add to your Nextcloud" : "Nextcloud hesabınıza ekleyin",
+    "Download %s" : "%s İndir",
     "Upload files to %s" : "Dosyaları %s konumuna yükle",
     "Select or drop files" : "Dosyaları seçin ya da sürükleyip bırakın",
     "Uploading files…" : "Dosyalar yükleniyor...",
-    "Uploaded files:" : "Yüklenmiş dosyalar:"
+    "Uploaded files:" : "Yüklenmiş dosyalar:",
+    "%s is publicly shared" : "%s herkese açık olarak paylaşıldı"
 },
 "nplurals=2; plural=(n > 1);");

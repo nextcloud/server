@@ -4,6 +4,7 @@
  *
  * @author Clark Tomlinson <fallen013@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
  *
  * @license AGPL-3.0
  *
@@ -26,6 +27,7 @@ namespace OCA\Encryption\Tests\Controller;
 
 
 use OCA\Encryption\Controller\RecoveryController;
+use OCA\Encryption\Recovery;
 use OCP\AppFramework\Http;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -171,7 +173,7 @@ class RecoveryControllerTest extends TestCase {
 			->method('t')
 			->willReturnArgument(0);
 
-		$this->recoveryMock = $this->getMockBuilder('OCA\Encryption\Recovery')
+		$this->recoveryMock = $this->getMockBuilder(Recovery::class)
 			->disableOriginalConstructor()
 			->getMock();
 

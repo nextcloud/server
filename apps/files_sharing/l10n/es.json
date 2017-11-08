@@ -85,7 +85,6 @@
     "Wrong or no update parameter given" : "No se ha suministrado un parametro correcto",
     "Can't change permissions for public share links" : "No se pueden cambiar los permisos para los enlaces de recursos compartidos públicos",
     "Cannot increase permissions" : "No es posible aumentar permisos",
-    "%s is publicly shared" : "%s ha sido compartido",
     "Share API is disabled" : "El API de compartir está deshabilitado",
     "This share is password-protected" : "Este elemento compartido está protegido por contraseña",
     "The password is wrong. Try again." : "La contraseña introducida es errónea. Inténtelo de nuevo.",
@@ -101,13 +100,14 @@
     "sharing is disabled" : "compartir está desactivado",
     "For more info, please ask the person who sent this link." : "Para mayor información, contacte a la persona que le envió el enlace.",
     "shared by %s" : "compartido por %s",
-    "Add to your Nextcloud" : "Añadir a tu Nextcloud",
     "Download" : "Descargar",
-    "Download %s" : "Descargar %s",
     "Direct link" : "Enlace directo",
+    "Add to your Nextcloud" : "Añadir a tu Nextcloud",
+    "Download %s" : "Descargar %s",
     "Upload files to %s" : "Subir archivos a %s",
     "Select or drop files" : "Seleccione o arrastre y suelte archivos",
     "Uploading files…" : "Subiendo archivos...",
-    "Uploaded files:" : "Archivos subidos:"
+    "Uploaded files:" : "Archivos subidos:",
+    "%s is publicly shared" : "%s ha sido compartido"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -5,6 +5,8 @@
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Clark Tomlinson <fallen013@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -26,8 +28,11 @@
 namespace OCA\Encryption\Tests\Users;
 
 
+use OCA\Encryption\Crypto\Crypt;
+use OCA\Encryption\KeyManager;
 use OCA\Encryption\Users\Setup;
 use OCP\ILogger;
+use OCP\IUserSession;
 use Test\TestCase;
 
 class SetupTest extends TestCase {
@@ -47,14 +52,14 @@ class SetupTest extends TestCase {
 	protected function setUp() {
 		parent::setUp();
 		$logMock = $this->createMock(ILogger::class);
-		$userSessionMock = $this->getMockBuilder('OCP\IUserSession')
+		$userSessionMock = $this->getMockBuilder(IUserSession::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->cryptMock = $this->getMockBuilder('OCA\Encryption\Crypto\Crypt')
+		$this->cryptMock = $this->getMockBuilder(Crypt::class)
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->keyManagerMock = $this->getMockBuilder('OCA\Encryption\KeyManager')
+		$this->keyManagerMock = $this->getMockBuilder(KeyManager::class)
 			->disableOriginalConstructor()
 			->getMock();
 

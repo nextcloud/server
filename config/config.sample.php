@@ -1232,7 +1232,6 @@ $CONFIG = array(
  */
 'sharing.minSearchStringLength' => 0,
 
-
 /**
  * All other configuration options
  */

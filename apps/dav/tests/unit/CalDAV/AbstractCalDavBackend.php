@@ -2,6 +2,9 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -137,13 +140,15 @@ abstract class AbstractCalDavBackend extends TestCase {
 
 	protected function createEvent($calendarId, $start = '20130912T130000Z', $end = '20130912T140000Z') {
 
+		$randomPart = self::getUniqueID();
+
 		$calData = <<<EOD
 BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:ownCloud Calendar
 BEGIN:VEVENT
 CREATED;VALUE=DATE-TIME:20130910T125139Z
-UID:47d15e3ec8
+UID:47d15e3ec8-$randomPart
 LAST-MODIFIED;VALUE=DATE-TIME:20130910T125139Z
 DTSTAMP;VALUE=DATE-TIME:20130910T125139Z
 SUMMARY:Test Event

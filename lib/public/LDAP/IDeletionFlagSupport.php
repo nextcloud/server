@@ -1,7 +1,10 @@
 <?php
 /**
- *
  * @copyright Copyright (c) 2016, Roger Szabo (roger.szabo@web.de)
+ *
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Roger Szabo <roger.szabo@web.de>
+ * @author root <root@localhost.localdomain>
  *
  * @license GNU AGPL version 3 or any later version
  *

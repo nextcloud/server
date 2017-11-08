@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Calendar" : "Kalendorius",
     "Todos" : "Užduotys",
+    "Personal" : "Asmeniniai",
     "{actor} created calendar {calendar}" : "{actor} sukūrė kalendorių {calendar}",
     "You created calendar {calendar}" : "Jūs sukūrėte kalendorių {calendar}",
     "{actor} deleted calendar {calendar}" : "{actor} ištrynė kalendorių {calendar}",
@@ -40,7 +41,6 @@ OC.L10N.register(
     "A calendar <strong>event</strong> was modified" : "Kalendoriaus <strong>įvykis</strong> buvo pakeistas",
     "A calendar <strong>todo</strong> was modified" : "Kalendoriaus <strong>užduotis</strong> buvo pakeista",
     "Contact birthdays" : "Kontaktų gimtadieniai",
-    "Personal" : "Asmeniniai",
     "Contacts" : "Kontaktai",
     "Technical details" : "Techninė informacija",
     "Remote Address: %s" : "Nuotolinis adresas: %s",

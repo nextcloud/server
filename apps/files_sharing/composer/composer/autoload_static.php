@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitf32f03f7cd82bff20d6a51be16689441
+class ComposerStaticInitFiles_Sharing
 {
     public static $prefixLengthsPsr4 = array (
         'O' => 
@@ -34,6 +34,7 @@ class ComposerStaticInitf32f03f7cd82bff20d6a51be16689441
         'OCA\\Files_Sharing\\AppInfo\\Application' => __DIR__ . '/..' . '/../lib/AppInfo/Application.php',
         'OCA\\Files_Sharing\\Cache' => __DIR__ . '/..' . '/../lib/Cache.php',
         'OCA\\Files_Sharing\\Capabilities' => __DIR__ . '/..' . '/../lib/Capabilities.php',
+        'OCA\\Files_Sharing\\Collaboration\\ShareRecipientSorter' => __DIR__ . '/..' . '/../lib/Collaboration/ShareRecipientSorter.php',
         'OCA\\Files_Sharing\\Command\\CleanupRemoteStorages' => __DIR__ . '/..' . '/../lib/Command/CleanupRemoteStorages.php',
         'OCA\\Files_Sharing\\Controller\\ExternalSharesController' => __DIR__ . '/..' . '/../lib/Controller/ExternalSharesController.php',
         'OCA\\Files_Sharing\\Controller\\PublicPreviewController' => __DIR__ . '/..' . '/../lib/Controller/PublicPreviewController.php',
@@ -73,9 +74,9 @@ class ComposerStaticInitf32f03f7cd82bff20d6a51be16689441
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitf32f03f7cd82bff20d6a51be16689441::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitf32f03f7cd82bff20d6a51be16689441::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitf32f03f7cd82bff20d6a51be16689441::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitFiles_Sharing::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitFiles_Sharing::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitFiles_Sharing::$classMap;
 
         }, null, ClassLoader::class);
     }
