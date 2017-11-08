@@ -32,22 +32,6 @@ use OCP\ICache;
 use OC\Template\SCSSCacher;
 use OC\Template\CSSResourceLocator;
 
-function rrmdir($directory) {
-	$files = array_diff(scandir($directory), array('.','..'));
-	foreach ($files as $file) {
-		if (is_dir($directory . '/' . $file)) {
-			rrmdir($directory . '/' . $file);
-		} else {
-			unlink($directory . '/' . $file);
-		}
-	}
-	return rmdir($directory);
-}
-
-function randomString() {
-	return sha1(uniqid(mt_rand(), true));
-}
-
 class CSSResourceLocatorTest extends \Test\TestCase {
 	/** @var IAppData|\PHPUnit_Framework_MockObject_MockObject */
 	protected $appData;
@@ -95,6 +79,22 @@ class CSSResourceLocatorTest extends \Test\TestCase {
 		);
 	}
 
+	private function rrmdir($directory) {
+		$files = array_diff(scandir($directory), array('.','..'));
+		foreach ($files as $file) {
+			if (is_dir($directory . '/' . $file)) {
+				$this->rrmdir($directory . '/' . $file);
+			} else {
+				unlink($directory . '/' . $file);
+			}
+		}
+		return rmdir($directory);
+	}
+
+	private function randomString() {
+		return sha1(uniqid(mt_rand(), true));
+	}
+
 	public function testConstructor() {
 		$locator = $this->cssResourceLocator();
 		$this->assertAttributeEquals('theme', 'theme', $locator);
@@ -107,24 +107,24 @@ class CSSResourceLocatorTest extends \Test\TestCase {
 
 	public function testFindWithAppPathSymlink() {
 		// First create new apps path, and a symlink to it
-		$apps_dirname = randomString();
+		$apps_dirname = $this->randomString();
 		$new_apps_path = sys_get_temp_dir() . '/' . $apps_dirname;
 		$new_apps_path_symlink = $new_apps_path . '_link';
 		mkdir($new_apps_path);
 		symlink($apps_dirname, $new_apps_path_symlink);
 
 		// Create an app within that path
-		mkdir($new_apps_path . '/' . 'test-app');
+		mkdir($new_apps_path . '/' . 'test-css-app');
 
 		// Use the symlink as the app path
 		\OC::$APPSROOTS[] = [
                         'path' => $new_apps_path_symlink,
-                        'url' => '/apps-test',
+                        'url' => '/css-apps-test',
                         'writable' => false,
                 ];
 
 		$locator = $this->cssResourceLocator();
-		$locator->find(array('test-app/test-file'));
+		$locator->find(array('test-css-app/test-file'));
 
 		$resources = $locator->getResources();
 		$this->assertCount(1, $resources);
@@ -134,8 +134,8 @@ class CSSResourceLocatorTest extends \Test\TestCase {
 		$webRoot = $resource[1];
 		$file = $resource[2];
 
-		$expectedRoot = $new_apps_path . '/test-app';
-		$expectedWebRoot = '/apps-test/test-app';
+		$expectedRoot = $new_apps_path . '/test-css-app';
+		$expectedWebRoot = \OC::$WEBROOT . '/css-apps-test/test-css-app';
 		$expectedFile = 'test-file.css';
 
 		$this->assertEquals($expectedRoot, $root,
@@ -143,6 +143,8 @@ class CSSResourceLocatorTest extends \Test\TestCase {
 		$this->assertEquals($expectedWebRoot, $webRoot);
 		$this->assertEquals($expectedFile, $file);
 
-		rrmdir($new_apps_path);
+		array_pop(\OC::$APPSROOTS);
+		unlink($new_apps_path_symlink);
+		$this->rrmdir($new_apps_path);
 	}
 }
