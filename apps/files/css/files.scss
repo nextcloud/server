@@ -547,46 +547,49 @@ a.action > img {
 	margin-bottom: -1px;
 }
 
-#fileList a.action {
-	display: inline;
-	padding: 17px 8px;
-	line-height: 50px;
-	opacity: 0;
-}
-#fileList a.action.action-share {
-	padding: 17px 14px;
-}
-#fileList a.action.action-share .avatar {
-	display: inline-block;
-	vertical-align: middle;
-}
-
-#fileList a.action.action-menu {
-	padding-top: 17px;
-	padding-bottom: 17px;
-	padding-left: 14px;
-	padding-right: 14px;
-}
-
-#fileList a.action,
-#fileList a.action.no-permission:hover,
-#fileList a.action.no-permission:focus,
-/* also enforce the low opacity for disabled links that are hovered/focused */
-#fileList a.action.disabled:hover,
-#fileList a.action.disabled:focus,
-#fileList a.action.disabled img {
-	opacity: .3;
-}
-
-#fileList a.action.disabled.action-download,
-#fileList a.action.disabled.action-download:hover,
-#fileList a.action.disabled.action-download:focus,
-#fileList a.action:hover,
-#fileList a.action:focus,
-#fileList .fileActionsMenu a.action,
-/* show share action of shared items darker to distinguish from non-shared */
-#fileList a.action.action-share.shared-style {
-	opacity: .7;
+#fileList td a {
+	a.action {
+		display: inline;
+		padding: 17px 8px;
+		line-height: 50px;
+		opacity: .3;
+		&.action-share {
+			padding: 17px 14px;
+			.avatar {
+				display: inline-block;
+				vertical-align: middle;
+			}
+		}
+		&.action-menu {
+			padding-top: 17px;
+			padding-bottom: 17px;
+			padding-left: 14px;
+			padding-right: 14px;
+		}
+		&.no-permission {
+			&:hover, &:focus {
+				opacity: .3;
+			}
+		}
+		&.disabled {
+			&:hover, &:focus,
+			img {
+				opacity: .3;
+			}
+			&.action-download {
+				opacity: .7;
+				&:hover, &:focus {
+					opacity: .7;
+				}
+			}
+		}
+		&:hover, &:focus {
+			opacity: .7;
+		}
+	}
+	.fileActionsMenu a.action, a.action.action-share.shared-style {
+		opacity: .7;
+	}
 }
 
 // Ellipsize long sharer names
@@ -739,7 +742,7 @@ table.dragshadow td.size {
 
 .canDrop,
 #filestable tbody tr.canDrop {
-  background-color: rgba(255, 255, 140, 1);
+	background-color: rgba(255, 255, 140, 1);
 }
 
 

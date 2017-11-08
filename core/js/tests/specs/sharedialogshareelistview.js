@@ -122,20 +122,6 @@ describe('OC.Share.ShareDialogShareeListView', function () {
 			expect(listView.$el.find("input[name='edit']").is(':checked')).toEqual(true);
 			expect(updateShareStub.calledOnce).toEqual(true);
 		});
-
-		it('shows cruds checkboxes when toggled', function () {
-			shareModel.set('shares', [{
-				id: 100,
-				item_source: 123,
-				permissions: 1,
-				share_type: OC.Share.SHARE_TYPE_USER,
-				share_with: 'user1',
-				share_with_displayname: 'User One'
-			}]);
-			listView.render();
-			listView.$el.find('a.showCruds').click();
-			expect(listView.$el.find('li.cruds').hasClass('hidden')).toEqual(false);
-		});
 	});
 
 });

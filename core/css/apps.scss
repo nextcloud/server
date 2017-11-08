@@ -837,8 +837,28 @@ kbd {
 			font-weight: 300;
 			box-shadow: none;
 			width: 100%;
+			color: $color-main-text;
 			/* Override the app-navigation li opacity */
 			opacity: .7 !important;
+			[class^='icon-'],
+			[class*=' icon-'],
+			&[class^='icon-'],
+			&[class*=' icon-'] {
+				min-width: 0; /* Overwrite icons*/
+				min-height: 0;
+				background-position: 10px center;
+				background-size: 16px;
+			}
+			[class^='icon-'],
+			[class*=' icon-'] {
+				/* Keep padding to define the width to
+				 assure correct position of a possible text */
+				padding: 18px 0 18px 36px;
+			}
+			&[class^='icon-'],
+			&[class*=' icon-'] {
+				padding: 0 10px 0 36px !important;
+			}
 			&:hover, &:focus, &.active {
 				opacity: 1 !important;
 			}
@@ -857,7 +877,6 @@ kbd {
 			}
 			/* Add padding if contains icon+text */
 			&:not(:empty) {
-				padding: 0 !important;
 				padding-right: 10px !important;
 			}
 			> img {
@@ -870,15 +889,19 @@ kbd {
 					margin: -2px 12px 0;
 				}
 			}
+			> input.radio + label {
+				padding: 0 !important;
+				&::before {
+					margin: -2px 11px 0;
+				}
+			}
 		}
-		[class^='icon-'],
-		[class*=' icon-']{
-			/* Keep padding to define the width to
-			 assure correct position of a possible text */
-			padding: 18px 0 18px 36px;
-			min-width: 0; /* Overwrite icons*/
-			min-height: 0;
-			background-position: 10px center;
+		> button {
+			padding: 0;
+			span {
+				opacity: 1;
+			}
 		}
+
 	}
 }

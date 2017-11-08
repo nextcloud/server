@@ -104,7 +104,6 @@
 		.popovermenu {
 			right: -11px;
 			top: 35px;
-			padding: 3px 6px;
 		}
 	}
 
@@ -112,8 +111,7 @@
 		white-space: nowrap;
 		display: inline-block;
 	}
-	.unshare img,
-	.showCruds img {
+	.unshare img {
 		vertical-align: text-bottom;
 		/* properly align icons */
 	}
@@ -129,22 +127,6 @@
 		overflow: hidden;
 		vertical-align: middle;
 		flex-grow: 5;
-	}
-}
-
-a {
-	&.showCruds {
-		display: inline;
-		opacity: .5;
-	}
-	&.unshare {
-		display: inline-block;
-		opacity: .5;
-		padding: 10px;
-	}
-	&.showCruds:hover,
-	&.unshare:hover {
-		opacity: 1;
 	}
 }
 
