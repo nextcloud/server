@@ -28,16 +28,17 @@ use OCA\User_LDAP\Jobs\Sync;
 use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\User\Manager;
+use OCP\IAvatarManager;
 use OCP\IConfig;
-use OCP\IServerContainer;
+use OCP\IDBConnection;
+use OCP\IUserManager;
+use OCP\Notification\IManager;
 use Test\TestCase;
 
 class SyncTest extends TestCase {
 
 	/** @var  array */
 	protected $arguments;
-	/** @var  IServerContainer|\PHPUnit_Framework_MockObject_MockObject */
-	protected $c;
 	/** @var  Helper|\PHPUnit_Framework_MockObject_MockObject */
 	protected $helper;
 	/** @var  LDAP|\PHPUnit_Framework_MockObject_MockObject */
@@ -48,22 +49,40 @@ class SyncTest extends TestCase {
 	protected $mapper;
 	/** @var  Sync */
 	protected $sync;
+	/** @var  IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	protected $config;
+	/** @var  IAvatarManager|\PHPUnit_Framework_MockObject_MockObject */
+	protected $avatarManager;
+	/** @var  IDBConnection|\PHPUnit_Framework_MockObject_MockObject */
+	protected $dbc;
+	/** @var  IUserManager|\PHPUnit_Framework_MockObject_MockObject */
+	protected $ncUserManager;
+	/** @var  IManager|\PHPUnit_Framework_MockObject_MockObject */
+	protected $notificationManager;
 
 	public function setUp() {
 		parent::setUp();
 
-		$this->c = $this->createMock(IServerContainer::class);
 		$this->helper = $this->createMock(Helper::class);
 		$this->ldapWrapper = $this->createMock(LDAP::class);
 		$this->userManager = $this->createMock(Manager::class);
 		$this->mapper = $this->createMock(UserMapping::class);
+		$this->config = $this->createMock(IConfig::class);
+		$this->avatarManager = $this->createMock(IAvatarManager::class);
+		$this->dbc = $this->createMock(IDBConnection::class);
+		$this->ncUserManager = $this->createMock(IUserManager::class);
+		$this->notificationManager = $this->createMock(IManager::class);
 
 		$this->arguments = [
-			'c' => $this->c,
 			'helper' => $this->helper,
 			'ldapWrapper' => $this->ldapWrapper,
 			'userManager' => $this->userManager,
 			'mapper' => $this->mapper,
+			'config' => $this->config,
+			'avatarManager' => $this->avatarManager,
+			'dbc' => $this->dbc,
+			'ncUserManager' => $this->ncUserManager,
+			'notificationManager' => $this->notificationManager,
 		];
 
 		$this->sync = new Sync();
@@ -93,8 +112,7 @@ class SyncTest extends TestCase {
 	 * @dataProvider intervalDataProvider
 	 */
 	public function testUpdateInterval($userCount, $pagingSize1, $pagingSize2) {
-		$config = $this->createMock(IConfig::class);
-		$config->expects($this->once())
+		$this->config->expects($this->once())
 			->method('setAppValue')
 			->with('user_ldap', 'background_sync_interval', $this->anything())
 			->willReturnCallback(function($a, $k, $interval) {
@@ -102,7 +120,7 @@ class SyncTest extends TestCase {
 				$this->assertTrue($interval <= SYNC::MAX_INTERVAL);
 				return true;
 			});
-		$config->expects($this->atLeastOnce())
+		$this->config->expects($this->atLeastOnce())
 			->method('getAppKeys')
 			->willReturn([
 				'blabla',
@@ -111,13 +129,9 @@ class SyncTest extends TestCase {
 				'installed',
 				's07ldap_paging_size'
 			]);
-		$config->expects($this->exactly(2))
+		$this->config->expects($this->exactly(2))
 			->method('getAppValue')
 			->willReturnOnConsecutiveCalls($pagingSize1, $pagingSize2);
-
-		$this->c->expects($this->any())
-			->method('getConfig')
-			->willReturn($config);
 
 		$this->mapper->expects($this->atLeastOnce())
 			->method('count')

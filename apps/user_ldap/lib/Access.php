@@ -51,7 +51,7 @@ use OCA\User_LDAP\User\OfflineUser;
 use OCA\User_LDAP\Mapping\AbstractMapping;
 
 use OC\ServerNotAvailableException;
-use OCP\IServerContainer;
+use OCP\IConfig;
 
 /**
  * Class Access
@@ -92,22 +92,22 @@ class Access extends LDAPUtility implements IUserTools {
 	 * @var \OCA\User_LDAP\Helper
 	 */
 	private $helper;
-	/** @var IServerContainer */
-	private $c;
+	/** @var IConfig */
+	private $config;
 
 	public function __construct(
 		Connection $connection,
 		ILDAPWrapper $ldap,
 		Manager $userManager,
 		Helper $helper,
-		IServerContainer $c
+		IConfig $config
 	) {
 		parent::__construct($ldap);
 		$this->connection = $connection;
 		$this->userManager = $userManager;
 		$this->userManager->setLdapAccess($this);
 		$this->helper = $helper;
-		$this->c = $c;
+		$this->config = $config;
 	}
 
 	/**
@@ -522,7 +522,7 @@ class Access extends LDAPUtility implements IUserTools {
 	 * returns an internal Nextcloud name for the given LDAP DN, false on DN outside of search DN
 	 *
 	 * @param string $fdn the dn of the user object
-	 * @param string $ldapName optional, the display name of the object
+	 * @param string|null $ldapName optional, the display name of the object
 	 * @param bool $isUser optional, whether it is a user object (otherwise group assumed)
 	 * @param bool|null $newlyMapped
 	 * @param array|null $record
@@ -825,7 +825,7 @@ class Access extends LDAPUtility implements IUserTools {
 		$ldapRecords = $this->searchUsers($filter, $attr, $limit, $offset);
 		$recordsToUpdate = $ldapRecords;
 		if(!$forceApplyAttributes) {
-			$isBackgroundJobModeAjax = $this->c->getConfig()
+			$isBackgroundJobModeAjax = $this->config
 					->getAppValue('core', 'backgroundjobs_mode', 'ajax') === 'ajax';
 			$recordsToUpdate = array_filter($ldapRecords, function($record) use ($isBackgroundJobModeAjax) {
 				$newlyMapped = false;

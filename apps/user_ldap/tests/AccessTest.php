@@ -48,7 +48,6 @@ use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Image;
-use OCP\IServerContainer;
 use OCP\IUserManager;
 use OCP\Notification\IManager as INotificationManager;
 use Test\TestCase;
@@ -69,8 +68,8 @@ class AccessTest extends TestCase {
 	private $userManager;
 	/** @var Helper|\PHPUnit_Framework_MockObject_MockObject */
 	private $helper;
-	/** @var  IServerContainer|\PHPUnit_Framework_MockObject_MockObject */
-	private $c;
+	/** @var  IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	private $config;
 	/** @var Access */
 	private $access;
 
@@ -79,14 +78,14 @@ class AccessTest extends TestCase {
 		$this->ldap = $this->createMock(LDAP::class);
 		$this->userManager = $this->createMock(Manager::class);
 		$this->helper = $this->createMock(Helper::class);
-		$this->c  = $this->createMock(IServerContainer::class);
+		$this->config  = $this->createMock(IConfig::class);
 
 		$this->access = new Access(
 			$this->connection,
 			$this->ldap,
 			$this->userManager,
 			$this->helper,
-			$this->c
+			$this->config
 		);
 	}
 
@@ -221,9 +220,9 @@ class AccessTest extends TestCase {
 	 */
 	public function testStringResemblesDN($case) {
 		list($lw, $con, $um, $helper) = $this->getConnectorAndLdapMock();
-		/** @var IServerContainer|\PHPUnit_Framework_MockObject_MockObject $c */
-		$c = $this->createMock(IServerContainer::class);
-		$access = new Access($con, $lw, $um, $helper, $c);
+		/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject $config */
+		$config = $this->createMock(IConfig::class);
+		$access = new Access($con, $lw, $um, $helper, $config);
 
 		$lw->expects($this->exactly(1))
 			->method('explodeDN')
@@ -243,10 +242,10 @@ class AccessTest extends TestCase {
 	 */
 	public function testStringResemblesDNLDAPmod($case) {
 		list(, $con, $um, $helper) = $this->getConnectorAndLdapMock();
-		/** @var IServerContainer|\PHPUnit_Framework_MockObject_MockObject $c */
-		$c = $this->createMock(IServerContainer::class);
+		/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject $config */
+		$config = $this->createMock(IConfig::class);
 		$lw = new LDAP();
-		$access = new Access($con, $lw, $um, $helper, $c);
+		$access = new Access($con, $lw, $um, $helper, $config);
 
 		if(!function_exists('ldap_explode_dn')) {
 			$this->markTestSkipped('LDAP Module not available');
@@ -312,10 +311,6 @@ class AccessTest extends TestCase {
 			->method('get')
 			->will($this->returnValue($userMock));
 
-		$this->c->expects($this->any())
-			->method('getConfig')
-			->willReturn($this->createMock(IConfig::class));
-
 		$this->access->batchApplyUserAttributes($data);
 	}
 
@@ -356,10 +351,6 @@ class AccessTest extends TestCase {
 		$this->userManager->expects($this->any())
 			->method('get')
 			->willReturn($this->createMock(User::class));
-
-		$this->c->expects($this->any())
-			->method('getConfig')
-			->willReturn($this->createMock(IConfig::class));
 
 		$this->access->batchApplyUserAttributes($data);
 	}
@@ -402,12 +393,6 @@ class AccessTest extends TestCase {
 			->method('get')
 			->will($this->returnValue($userMock));
 
-		$configMock = $this->createMock(IConfig::class);
-
-		$this->c->expects($this->any())
-			->method('getConfig')
-			->willReturn($configMock);
-
 		$this->access->batchApplyUserAttributes($data);
 	}
 
@@ -427,8 +412,8 @@ class AccessTest extends TestCase {
 	 */
 	public function testSanitizeDN($attribute) {
 		list($lw, $con, $um, $helper) = $this->getConnectorAndLdapMock();
-		/** @var IServerContainer|\PHPUnit_Framework_MockObject_MockObject $c */
-		$c = $this->createMock(IServerContainer::class);
+		/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject $config */
+		$config = $this->createMock(IConfig::class);
 
 		$dnFromServer = 'cn=Mixed Cases,ou=Are Sufficient To,ou=Test,dc=example,dc=org';
 
@@ -441,7 +426,7 @@ class AccessTest extends TestCase {
 				$attribute => array('count' => 1, $dnFromServer)
 			)));
 
-		$access = new Access($con, $lw, $um, $helper, $c);
+		$access = new Access($con, $lw, $um, $helper, $config);
 		$values = $access->readAttribute('uid=whoever,dc=example,dc=org', $attribute);
 		$this->assertSame($values[0], strtolower($dnFromServer));
 	}

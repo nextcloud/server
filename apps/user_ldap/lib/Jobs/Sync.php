@@ -34,14 +34,16 @@ use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\LogWrapper;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\User\Manager;
+use OCP\IAvatarManager;
+use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\Image;
-use OCP\IServerContainer;
+use OCP\IUserManager;
+use OCP\Notification\IManager;
 
 class Sync extends TimedJob {
 	const MAX_INTERVAL = 12 * 60 * 60; // 12h
 	const MIN_INTERVAL = 30 * 60; // 30min
-	/** @var IServerContainer */
-	protected $c;
 	/** @var  Helper */
 	protected $ldapHelper;
 	/** @var  LDAP */
@@ -50,6 +52,16 @@ class Sync extends TimedJob {
 	protected $userManager;
 	/** @var UserMapping */
 	protected $mapper;
+	/** @var  IConfig */
+	protected $config;
+	/** @var  IAvatarManager */
+	protected $avatarManager;
+	/** @var  IDBConnection */
+	protected $dbc;
+	/** @var  IUserManager */
+	protected $ncUserManager;
+	/** @var  IManager */
+	protected $notificationManager;
 
 	public function __construct() {
 		$this->setInterval(
@@ -77,7 +89,7 @@ class Sync extends TimedJob {
 		$interval = floor(24 * 60 * 60 / $runsPerDay);
 		$interval = min(max($interval, self::MIN_INTERVAL), self::MAX_INTERVAL);
 
-		$this->c->getConfig()->setAppValue('user_ldap', 'background_sync_interval', $interval);
+		$this->config->setAppValue('user_ldap', 'background_sync_interval', $interval);
 	}
 
 	/**
@@ -85,14 +97,13 @@ class Sync extends TimedJob {
 	 * @return int
 	 */
 	protected function getMinPagingSize() {
-		$config = $this->c->getConfig();
-		$configKeys = $config->getAppKeys('user_ldap');
+		$configKeys = $this->config->getAppKeys('user_ldap');
 		$configKeys = array_filter($configKeys, function($key) {
 			return strpos($key, 'ldap_paging_size') !== false;
 		});
 		$minPagingSize = null;
 		foreach ($configKeys as $configKey) {
-			$pagingSize = $config->getAppValue('user_ldap', $configKey, $minPagingSize);
+			$pagingSize = $this->config->getAppValue('user_ldap', $configKey, $minPagingSize);
 			$minPagingSize = $minPagingSize === null ? $pagingSize : min($minPagingSize, $pagingSize);
 		}
 		return (int)$minPagingSize;
@@ -104,7 +115,7 @@ class Sync extends TimedJob {
 	protected function run($argument) {
 		$this->setArgument($argument);
 
-		$isBackgroundJobModeAjax = $this->c->getConfig()
+		$isBackgroundJobModeAjax = $this->config
 				->getAppValue('core', 'backgroundjobs_mode', 'ajax') === 'ajax';
 		if($isBackgroundJobModeAjax) {
 			return;
@@ -143,7 +154,7 @@ class Sync extends TimedJob {
 	 */
 	public function runCycle($cycleData) {
 		$connection = new Connection($this->ldap, $cycleData['prefix']);
-		$access = new Access($connection, $this->ldap, $this->userManager, $this->ldapHelper, $this->c);
+		$access = new Access($connection, $this->ldap, $this->userManager, $this->ldapHelper, $this->config);
 		$access->setUserMapper($this->mapper);
 
 		$filter = $access->combineFilterWithAnd(array(
@@ -177,10 +188,9 @@ class Sync extends TimedJob {
 			return null;
 		}
 
-		$config = $this->c->getConfig();
 		$cycleData = [
-			'prefix' => $config->getAppValue('user_ldap', 'background_sync_prefix', null),
-			'offset' => (int)$config->getAppValue('user_ldap', 'background_sync_offset', 0),
+			'prefix' => $this->config->getAppValue('user_ldap', 'background_sync_prefix', null),
+			'offset' => (int)$this->config->getAppValue('user_ldap', 'background_sync_offset', 0),
 		];
 
 		if(
@@ -199,9 +209,8 @@ class Sync extends TimedJob {
 	 * @param array $cycleData
 	 */
 	public function setCycle(array $cycleData) {
-		$config = $this->c->getConfig();
-		$config->setAppValue('user_ldap', 'background_sync_prefix', $cycleData['prefix']);
-		$config->setAppValue('user_ldap', 'background_sync_offset', $cycleData['offset']);
+		$this->config->setAppValue('user_ldap', 'background_sync_prefix', $cycleData['prefix']);
+		$this->config->setAppValue('user_ldap', 'background_sync_offset', $cycleData['offset']);
 	}
 
 	/**
@@ -238,8 +247,7 @@ class Sync extends TimedJob {
 	 * @return bool
 	 */
 	protected function qualifiesToRun($cycleData) {
-		$config = $this->c->getConfig();
-		$lastChange = $config->getAppValue('user_ldap', $cycleData['prefix'] . '_lastChange', 0);
+		$lastChange = $this->config->getAppValue('user_ldap', $cycleData['prefix'] . '_lastChange', 0);
 		if((time() - $lastChange) > 60 * 30) {
 			return true;
 		}
@@ -288,16 +296,16 @@ class Sync extends TimedJob {
 	 * @param array $argument
 	 */
 	public function setArgument($argument) {
-		if(isset($argument['c'])) {
-			$this->c = $argument['c'];
+		if(isset($argument['config'])) {
+			$this->config = $argument['config'];
 		} else {
-			$this->c = \OC::$server;
+			$this->config = \OC::$server->getConfig();
 		}
 
 		if(isset($argument['helper'])) {
 			$this->ldapHelper = $argument['helper'];
 		} else {
-			$this->ldapHelper = new Helper($this->c->getConfig());
+			$this->ldapHelper = new Helper($this->config);
 		}
 
 		if(isset($argument['ldapWrapper'])) {
@@ -306,25 +314,49 @@ class Sync extends TimedJob {
 			$this->ldap = new LDAP();
 		}
 
+		if(isset($argument['avatarManager'])) {
+			$this->avatarManager = $argument['avatarManager'];
+		} else {
+			$this->avatarManager = \OC::$server->getAvatarManager();
+		}
+
+		if(isset($argument['dbc'])) {
+			$this->dbc = $argument['dbc'];
+		} else {
+			$this->dbc = \OC::$server->getDatabaseConnection();
+		}
+
+		if(isset($argument['ncUserManager'])) {
+			$this->ncUserManager = $argument['ncUserManager'];
+		} else {
+			$this->ncUserManager = \OC::$server->getUserManager();
+		}
+
+		if(isset($argument['notificationManager'])) {
+			$this->notificationManager = $argument['notificationManager'];
+		} else {
+			$this->notificationManager = \OC::$server->getNotificationManager();
+		}
+
 		if(isset($argument['userManager'])) {
 			$this->userManager = $argument['userManager'];
 		} else {
 			$this->userManager = new Manager(
-				$this->c->getConfig(),
+				$this->config,
 				new FilesystemHelper(),
 				new LogWrapper(),
-				$this->c->getAvatarManager(),
+				$this->avatarManager,
 				new Image(),
-				$this->c->getDatabaseConnection(),
-				$this->c->getUserManager(),
-				$this->c->getNotificationManager()
+				$this->dbc,
+				$this->ncUserManager,
+				$this->notificationManager
 			);
 		}
 
 		if(isset($argument['mapper'])) {
 			$this->mapper = $argument['mapper'];
 		} else {
-			$this->mapper = new UserMapping($this->c->getDatabaseConnection());
+			$this->mapper = new UserMapping($this->dbc);
 		}
 	}
 }

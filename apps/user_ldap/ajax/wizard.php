@@ -64,9 +64,13 @@ $userManager = new \OCA\User_LDAP\User\Manager(
 	\OC::$server->getUserManager(),
 	\OC::$server->getNotificationManager());
 
-$access = new \OCA\User_LDAP\Access($con, $ldapWrapper, $userManager, new \OCA\User_LDAP\Helper(
+$access = new \OCA\User_LDAP\Access(
+	$con,
+	$ldapWrapper,
+	$userManager,
+	new \OCA\User_LDAP\Helper(\OC::$server->getConfig()),
 	\OC::$server->getConfig()
-));
+);
 
 $wizard = new \OCA\User_LDAP\Wizard($configuration, $ldapWrapper, $access);
 
