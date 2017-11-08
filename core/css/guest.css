@@ -161,6 +161,7 @@ input {
 	padding: 11px 10px 9px;
 	outline: none;
 	border-radius: 3px;
+	-webkit-appearance: none;
 }
 input[type='submit'],
 input[type='button'],
