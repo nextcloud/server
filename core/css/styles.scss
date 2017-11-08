@@ -1433,6 +1433,7 @@ div.crumb {
 		text-overflow: ellipsis;
 		white-space: nowrap;
 		overflow: hidden;
+		flex: 0 0 auto;
 		&.icon-home {
 			// Hide home text
 			text-indent: -9999px;

@@ -234,6 +234,36 @@
 			return crumbs;
 		},
 
+		/**
+		 * Show/hide breadcrumbs to fit the given width
+		 * Mostly used by tests
+		 *
+		 * @param {int} availableWidth available width
+		 */
+		setMaxWidth: function (availableWidth) {
+			if (this.availableWidth !== availableWidth) {
+				this.availableWidth = availableWidth;
+				this._resize();
+			}
+		},
+
+		/**
+		 * Calculate real width based on individual crumbs
+		 * More accurate and works with tests
+		 *
+		 * @param {boolean} ignoreHidden ignore hidden crumbs
+		 */
+		getTotalWidth: function(ignoreHidden) {
+			var totalWidth = 0;
+			for (var i = 0; i < this.breadcrumbs.length; i++ ) {
+				var $crumb = $(this.breadcrumbs[i]);
+				if(!$crumb.hasClass('hidden') || ignoreHidden) {
+					totalWidth += $crumb.width();
+				}
+			}
+			return totalWidth;
+		},
+
  		/**
  		 * Hide the middle crumb
  		 */
@@ -290,10 +320,11 @@
 		},
 
 		_resize: function() {
-			var i, $crumb, $ellipsisCrumb;
-
+			// Used for testing since this.$el.parent fails
 			if (!this.availableWidth) {
-				this.availableWidth = this.$el.width();
+				this.usedWidth = this.$el.parent().width();
+			} else {
+				this.usedWidth = this.availableWidth;
 			}
 
 			if (this.breadcrumbs.length <= 1) {
@@ -301,13 +332,13 @@
 			}
 
 			// If container is smaller than content
-			while (this.$el.width() > this.$el.parent().width()) {
+			while (this.getTotalWidth() > this.usedWidth) {
 				this._hideCrumb();
 			}
 			// If container is bigger than content + element to be shown
 			// AND if there is at least one hidden crumb
 			while (this.$el.find('.crumb.hidden').length > 0
-				&& this.$el.width() + this._getCrumbElement().width() < this.$el.parent().width()) {
+				&& this.getTotalWidth() + this._getCrumbElement().width() < this.usedWidth) {
 				this._showCrumb();
 			}
 

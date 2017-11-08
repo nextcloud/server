@@ -43,80 +43,93 @@ describe('OCA.Files.BreadCrumb tests', function() {
 			var $crumbs;
 			bc.render();
 			$crumbs = bc.$el.find('.crumb');
-			expect($crumbs.length).toEqual(1);
-			expect($crumbs.eq(0).find('a').attr('href')).toEqual('/#0');
-			expect($crumbs.eq(0).find('img').length).toEqual(1);
-			expect($crumbs.eq(0).attr('data-dir')).toEqual('/');
+			// menu and home
+			expect($crumbs.length).toEqual(2);
+			expect($crumbs.eq(0).find('a').hasClass('icon-more')).toEqual(true);
+			expect($crumbs.eq(0).find('div.popovermenu').length).toEqual(1);
+			expect($crumbs.eq(0).data('dir')).not.toBeDefined();
+			expect($crumbs.eq(1).find('a').attr('href')).toEqual('/#1');
+			expect($crumbs.eq(1).find('a').hasClass('icon-home')).toEqual(true);
+			expect($crumbs.eq(1).data('dir')).toEqual('/');
 		});
 		it('Renders root when switching to root', function() {
 			var $crumbs;
 			bc.setDirectory('/somedir');
 			bc.setDirectory('/');
 			$crumbs = bc.$el.find('.crumb');
-			expect($crumbs.length).toEqual(1);
-			expect($crumbs.eq(0).attr('data-dir')).toEqual('/');
-		});
-		it('Renders last crumb with "last" class', function() {
-			bc.setDirectory('/abc/def');
-			expect(bc.$el.find('.crumb:last').hasClass('last')).toEqual(true);
+			expect($crumbs.length).toEqual(2);
+			expect($crumbs.eq(1).data('dir')).toEqual('/');
 		});
 		it('Renders single path section', function() {
 			var $crumbs;
 			bc.setDirectory('/somedir');
 			$crumbs = bc.$el.find('.crumb');
-			expect($crumbs.length).toEqual(2);
-			expect($crumbs.eq(0).find('a').attr('href')).toEqual('/#0');
-			expect($crumbs.eq(0).find('img').length).toEqual(1);
-			expect($crumbs.eq(0).attr('data-dir')).toEqual('/');
-			expect($crumbs.eq(1).find('a').attr('href')).toEqual('/somedir#1');
-			expect($crumbs.eq(1).find('img').length).toEqual(0);
-			expect($crumbs.eq(1).attr('data-dir')).toEqual('/somedir');
+			expect($crumbs.length).toEqual(3);
+			expect($crumbs.eq(0).find('a').hasClass('icon-more')).toEqual(true);
+			expect($crumbs.eq(0).find('div.popovermenu').length).toEqual(1);
+			expect($crumbs.eq(0).data('dir')).not.toBeDefined();
+
+			expect($crumbs.eq(1).find('a').attr('href')).toEqual('/#1');
+			expect($crumbs.eq(1).find('a').hasClass('icon-home')).toEqual(true);
+			expect($crumbs.eq(1).data('dir')).toEqual('/');
+
+			expect($crumbs.eq(2).find('a').attr('href')).toEqual('/somedir#2');
+			expect($crumbs.eq(2).find('img').length).toEqual(0);
+			expect($crumbs.eq(2).data('dir')).toEqual('/somedir');
 		});
 		it('Renders multiple path sections and special chars', function() {
 			var $crumbs;
 			bc.setDirectory('/somedir/with space/abc');
 			$crumbs = bc.$el.find('.crumb');
-			expect($crumbs.length).toEqual(4);
-			expect($crumbs.eq(0).find('a').attr('href')).toEqual('/#0');
-			expect($crumbs.eq(0).find('img').length).toEqual(1);
-			expect($crumbs.eq(0).attr('data-dir')).toEqual('/');
+			expect($crumbs.length).toEqual(5);
+			expect($crumbs.eq(0).find('a').hasClass('icon-more')).toEqual(true);
+			expect($crumbs.eq(0).find('div.popovermenu').length).toEqual(1);
+			expect($crumbs.eq(0).data('dir')).not.toBeDefined();
 
-			expect($crumbs.eq(1).find('a').attr('href')).toEqual('/somedir#1');
-			expect($crumbs.eq(1).find('img').length).toEqual(0);
-			expect($crumbs.eq(1).attr('data-dir')).toEqual('/somedir');
+			expect($crumbs.eq(1).find('a').attr('href')).toEqual('/#1');
+			expect($crumbs.eq(1).find('a').hasClass('icon-home')).toEqual(true);
+			expect($crumbs.eq(1).data('dir')).toEqual('/');
 
-			expect($crumbs.eq(2).find('a').attr('href')).toEqual('/somedir/with space#2');
+			expect($crumbs.eq(2).find('a').attr('href')).toEqual('/somedir#2');
 			expect($crumbs.eq(2).find('img').length).toEqual(0);
-			expect($crumbs.eq(2).attr('data-dir')).toEqual('/somedir/with space');
+			expect($crumbs.eq(2).data('dir')).toEqual('/somedir');
 
-			expect($crumbs.eq(3).find('a').attr('href')).toEqual('/somedir/with space/abc#3');
+			expect($crumbs.eq(3).find('a').attr('href')).toEqual('/somedir/with space#3');
 			expect($crumbs.eq(3).find('img').length).toEqual(0);
-			expect($crumbs.eq(3).attr('data-dir')).toEqual('/somedir/with space/abc');
+			expect($crumbs.eq(3).data('dir')).toEqual('/somedir/with space');
+
+			expect($crumbs.eq(4).find('a').attr('href')).toEqual('/somedir/with space/abc#4');
+			expect($crumbs.eq(4).find('img').length).toEqual(0);
+			expect($crumbs.eq(4).data('dir')).toEqual('/somedir/with space/abc');
 		});
 		it('Renders backslashes as regular directory separator', function() {
 			var $crumbs;
 			bc.setDirectory('/somedir\\with/mixed\\separators');
 			$crumbs = bc.$el.find('.crumb');
-			expect($crumbs.length).toEqual(5);
-			expect($crumbs.eq(0).find('a').attr('href')).toEqual('/#0');
-			expect($crumbs.eq(0).find('img').length).toEqual(1);
-			expect($crumbs.eq(0).attr('data-dir')).toEqual('/');
+			expect($crumbs.length).toEqual(6);
+			expect($crumbs.eq(0).find('a').hasClass('icon-more')).toEqual(true);
+			expect($crumbs.eq(0).find('div.popovermenu').length).toEqual(1);
+			expect($crumbs.eq(0).data('dir')).not.toBeDefined();
 
-			expect($crumbs.eq(1).find('a').attr('href')).toEqual('/somedir#1');
-			expect($crumbs.eq(1).find('img').length).toEqual(0);
-			expect($crumbs.eq(1).attr('data-dir')).toEqual('/somedir');
+			expect($crumbs.eq(1).find('a').attr('href')).toEqual('/#1');
+			expect($crumbs.eq(1).find('a').hasClass('icon-home')).toEqual(true);
+			expect($crumbs.eq(1).data('dir')).toEqual('/');
 
-			expect($crumbs.eq(2).find('a').attr('href')).toEqual('/somedir/with#2');
+			expect($crumbs.eq(2).find('a').attr('href')).toEqual('/somedir#2');
 			expect($crumbs.eq(2).find('img').length).toEqual(0);
-			expect($crumbs.eq(2).attr('data-dir')).toEqual('/somedir/with');
+			expect($crumbs.eq(2).data('dir')).toEqual('/somedir');
 
-			expect($crumbs.eq(3).find('a').attr('href')).toEqual('/somedir/with/mixed#3');
+			expect($crumbs.eq(3).find('a').attr('href')).toEqual('/somedir/with#3');
 			expect($crumbs.eq(3).find('img').length).toEqual(0);
-			expect($crumbs.eq(3).attr('data-dir')).toEqual('/somedir/with/mixed');
+			expect($crumbs.eq(3).data('dir')).toEqual('/somedir/with');
 
-			expect($crumbs.eq(4).find('a').attr('href')).toEqual('/somedir/with/mixed/separators#4');
+			expect($crumbs.eq(4).find('a').attr('href')).toEqual('/somedir/with/mixed#4');
 			expect($crumbs.eq(4).find('img').length).toEqual(0);
-			expect($crumbs.eq(4).attr('data-dir')).toEqual('/somedir/with/mixed/separators');
+			expect($crumbs.eq(4).data('dir')).toEqual('/somedir/with/mixed');
+
+			expect($crumbs.eq(5).find('a').attr('href')).toEqual('/somedir/with/mixed/separators#5');
+			expect($crumbs.eq(5).find('img').length).toEqual(0);
+			expect($crumbs.eq(5).data('dir')).toEqual('/somedir/with/mixed/separators');
 		});
 	});
 	describe('Events', function() {
@@ -126,14 +139,15 @@ describe('OCA.Files.BreadCrumb tests', function() {
 				onClick: handler
 			});
 			bc.setDirectory('/one/two/three/four');
-			bc.$el.find('.crumb:eq(3)').click();
-			expect(handler.calledOnce).toEqual(true);
-			expect(handler.getCall(0).thisValue).toEqual(bc.$el.find('.crumb').get(3));
+			// Click on crumb does not work, only link
+			bc.$el.find('.crumb:eq(4)').click();
+			expect(handler.calledOnce).toEqual(false);
 
 			handler.reset();
-			bc.$el.find('.crumb:eq(0) a').click();
+			// Click on crumb link works
+			bc.$el.find('.crumb:eq(1) a').click();
 			expect(handler.calledOnce).toEqual(true);
-			expect(handler.getCall(0).thisValue).toEqual(bc.$el.find('.crumb').get(0));
+			expect(handler.getCall(0).thisValue).toEqual(bc.$el.find('.crumb > a').get(1));
 		});
 		it('Calls onDrop handler when dropping on a crumb', function() {
 			var droppableStub = sinon.stub($.fn, 'droppable');
@@ -163,17 +177,12 @@ describe('OCA.Files.BreadCrumb tests', function() {
 
 			// using hard-coded widths (pre-measured) to avoid getting different
 			// results on different browsers due to font engine differences
-			widths = [41, 106, 112, 160, 257, 251, 91];
+			// 51px is default size for menu and home
+			widths = [51, 51, 106, 112, 160, 257, 251, 91];
 
-			oldUpdateTotalWidth = BreadCrumb.prototype._updateTotalWidth;
-			BreadCrumb.prototype._updateTotalWidth = function() {
-				// pre-set a width to simulate consistent measurement
-				$('div.crumb').each(function(index){
-					$(this).css('width', widths[index]);
-				});
-
-				return oldUpdateTotalWidth.apply(this, arguments);
-			};
+			$('div.crumb').each(function(index){
+				$(this).css('width', widths[index]);
+			});
 
 			bc = new BreadCrumb();
 			// append dummy navigation and controls
@@ -184,30 +193,26 @@ describe('OCA.Files.BreadCrumb tests', function() {
 			$('#controls').append(bc.$el);
 		});
 		afterEach(function() {
-			BreadCrumb.prototype._updateTotalWidth = oldUpdateTotalWidth;
 			bc = null;
 		});
 		it('Hides breadcrumbs to fit max allowed width', function() {
 			var $crumbs;
 
 			bc.setMaxWidth(500);
+
 			// triggers resize implicitly
 			bc.setDirectory(dummyDir);
 			$crumbs = bc.$el.find('.crumb');
 
-			// first one is always visible
+			// Menu and home are always visible
 			expect($crumbs.eq(0).hasClass('hidden')).toEqual(false);
-			// second one has ellipsis
 			expect($crumbs.eq(1).hasClass('hidden')).toEqual(false);
-			expect($crumbs.eq(1).find('.ellipsis').length).toEqual(1);
-			// there is only one ellipsis in total
-			expect($crumbs.find('.ellipsis').length).toEqual(1);
-			// subsequent elements are hidden
+
 			expect($crumbs.eq(2).hasClass('hidden')).toEqual(true);
 			expect($crumbs.eq(3).hasClass('hidden')).toEqual(true);
 			expect($crumbs.eq(4).hasClass('hidden')).toEqual(true);
 			expect($crumbs.eq(5).hasClass('hidden')).toEqual(true);
-			expect($crumbs.eq(6).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(6).hasClass('hidden')).toEqual(true);
 			expect($crumbs.eq(7).hasClass('hidden')).toEqual(false);
 		});
 		it('Updates the breadcrumbs when reducing max allowed width', function() {
@@ -215,56 +220,27 @@ describe('OCA.Files.BreadCrumb tests', function() {
 
 			// enough space
 			bc.setMaxWidth(1800);
+			$crumbs = bc.$el.find('.crumb');
 
-			expect(bc.$el.find('.ellipsis').length).toEqual(0);
+			// Menu is hidden
+			expect($crumbs.eq(0).hasClass('hidden')).toEqual(false);
 
 			// triggers resize implicitly
 			bc.setDirectory(dummyDir);
 
-			// simulate increase
+			// simulate decrease
 			bc.setMaxWidth(950);
 
-			$crumbs = bc.$el.find('.crumb');
-			// first one is always visible
-			expect($crumbs.eq(0).hasClass('hidden')).toEqual(false);
-			// second one has ellipsis
-			expect($crumbs.eq(1).hasClass('hidden')).toEqual(false);
-			expect($crumbs.eq(1).find('.ellipsis').length).toEqual(1);
-			// there is only one ellipsis in total
-			expect($crumbs.find('.ellipsis').length).toEqual(1);
-			// subsequent elements are hidden
-			expect($crumbs.eq(2).hasClass('hidden')).toEqual(true);
-			expect($crumbs.eq(3).hasClass('hidden')).toEqual(true);
-			// the rest is visible
-			expect($crumbs.eq(4).hasClass('hidden')).toEqual(false);
-			expect($crumbs.eq(5).hasClass('hidden')).toEqual(false);
-			expect($crumbs.eq(6).hasClass('hidden')).toEqual(false);
-		});
-		it('Removes the ellipsis when there is enough space', function() {
-			var $crumbs;
-
-			bc.setMaxWidth(500);
-			// triggers resize implicitly
-			bc.setDirectory(dummyDir);
-			$crumbs = bc.$el.find('.crumb');
-
-			// ellipsis
-			expect(bc.$el.find('.ellipsis').length).toEqual(1);
-
-			// simulate increase
-			bc.setMaxWidth(1800);
-
-			// no ellipsis
-			expect(bc.$el.find('.ellipsis').length).toEqual(0);
-
-			// all are visible
+			// Menu and home are always visible
 			expect($crumbs.eq(0).hasClass('hidden')).toEqual(false);
 			expect($crumbs.eq(1).hasClass('hidden')).toEqual(false);
+
 			expect($crumbs.eq(2).hasClass('hidden')).toEqual(false);
 			expect($crumbs.eq(3).hasClass('hidden')).toEqual(false);
 			expect($crumbs.eq(4).hasClass('hidden')).toEqual(false);
 			expect($crumbs.eq(5).hasClass('hidden')).toEqual(false);
 			expect($crumbs.eq(6).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(7).hasClass('hidden')).toEqual(false);
 		});
 	});
 });
