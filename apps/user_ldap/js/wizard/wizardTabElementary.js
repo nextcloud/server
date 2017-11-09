@@ -43,11 +43,15 @@ OCA = OCA || {};
 				},
 				ldap_dn: {
 					$element: $('#ldap_dn'),
-					setMethod: 'setAgentDN'
+					setMethod: 'setAgentDN',
+					preventAutoSave: true,
+					$saveButton: $('.ldapSaveAgentCredentials')
 				},
 				ldap_agent_password: {
 					$element: $('#ldap_agent_password'),
-					setMethod: 'setAgentPwd'
+					setMethod: 'setAgentPwd',
+					preventAutoSave: true,
+					$saveButton: $('.ldapSaveAgentCredentials')
 				},
 				ldap_base: {
 					$element: $('#ldap_base'),
@@ -65,7 +69,11 @@ OCA = OCA || {};
 				}
 			};
 			this.setManagedItems(items);
-			_.bindAll(this, 'onPortButtonClick', 'onBaseDNButtonClick', 'onBaseDNTestButtonClick');
+			_.bindAll(this,
+				'onPortButtonClick',
+				'onBaseDNButtonClick',
+				'onBaseDNTestButtonClick'
+			);
 			this.managedItems.ldap_port.$relatedElements.click(this.onPortButtonClick);
 			this.managedItems.ldap_base.$detectButton.click(this.onBaseDNButtonClick);
 			this.managedItems.ldap_base.$testButton.click(this.onBaseDNTestButtonClick);

@@ -1,10 +1,3 @@
-<div class="outoftheway">
-	<!-- Hack for Safari and Chromium/Chrome which ignore autocomplete="off" -->
-	<input type="text" id="fake_user" name="fake_user" autocomplete="off" />
-	<input type="password" id="fake_password" name="fake_password"
-				autocomplete="off" />
-</div>
-
 <fieldset id="ldapWizard1">
 		<p>
 		<select id="ldap_serverconfig_chooser" name="ldap_serverconfig_chooser">
@@ -54,6 +47,7 @@
 					</div>
 				</div>
 			</div>
+			<div class="tablerow">&nbsp;</div>
 			<div class="tablerow">
 				<input type="text" id="ldap_dn" name="ldap_dn"
 				class="tablecell"
@@ -68,7 +62,11 @@
 				placeholder="<?php p($l->t('Password'));?>" autocomplete="off"
 				title="<?php p($l->t('For anonymous access, leave DN and Password empty.'));?>"
 				/>
+				<button class="ldapSaveAgentCredentials" name="ldapSaveAgentCredentials" type="button">
+					<?php p($l->t('Save Credentials'));?>
+				</button>
 			</div>
+			<div class="tablerow">&nbsp;</div>
 
 			<div class="tablerow">
 				<textarea id="ldap_base" name="ldap_base"
