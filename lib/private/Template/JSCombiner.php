@@ -104,6 +104,10 @@ class JSCombiner {
 			}
 			$deps = json_decode($deps, true);
 
+			if ($deps === NULL) {
+				return false;
+			}
+
 			foreach ($deps as $file=>$mtime) {
 				if (!file_exists($file) || filemtime($file) > $mtime) {
 					return false;
