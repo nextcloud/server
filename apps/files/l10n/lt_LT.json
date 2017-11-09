@@ -114,7 +114,6 @@
     "Settings" : "Nustatymai",
     "Show hidden files" : "Rodyti paslėptus failus",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Naudokite šį adresą  <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\"> norėdami pasiekti failus per WebDAV</a>",
     "No files in here" : "Čia nėra failų",
     "Upload some content or sync with your devices!" : "Įkelkite kokį nors turinį, arba sinchronizuokite su savo įrenginiais!",
     "No entries found in this folder" : "Nerasta įrašų šiame aplanke",
@@ -147,6 +146,7 @@
     "Upload" : "Įkelti",
     "A new file or folder has been <strong>deleted</strong>" : "Naujas failas arba aplankas buvo <strong>ištrintas</strong>",
     "A new file or folder has been <strong>restored</strong>" : "Naujas failas arba aplankas buvo <strong>atkurtas</strong>",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Naudokite šį adresą  <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\"> norėdami pasiekti failus per WebDAV</a>",
     "No favorites" : "Nėra mėgstamiausių"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

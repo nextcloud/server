@@ -241,7 +241,6 @@
     "Start update" : "Aniciar anovamientu",
     "Detailed logs" : "Rexistros detallaos",
     "Please use the command line updater because you have a big instance with more than 50 users." : "Usa l'anovador en llinia de comandos porque tienes una instancia grande con más de 50 usuarios.",
-    "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "P'ayuda, mira la  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentación</a>.",
     "I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure." : "Sé que si sigo faciendo l'anovamientu pela IU web pue escosar el tiempu de la solicitú y causar una perda de datos, pero teo un respaldu y sé cómo restaurar la mio instancia en casu de fallu.",
     "This page will refresh itself when the %s instance is available again." : "Esta páxina refrescaráse sola cuando la instancia %s vuelva tar disponible.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contauta col alministrador si esti problema sigui apaeciendo.",
@@ -276,6 +275,7 @@
     "This Nextcloud instance is currently in single user mode." : "Esta instalación de Nextcloud ta en mou d'usuariu únicu.",
     "This means only administrators can use the instance." : "Esto quier dicir que namái pue usala un alministrador.",
     "You are accessing the server from an untrusted domain." : "Tas accediendo al sirvidor dende un dominiu non confiáu.",
+    "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "P'ayuda, mira la  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentación</a>.",
     "You are about to grant \"%s\" access to your %s account." : "Tas a piques de conceder l'accesu «%s» a la to cuenta %s."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -91,7 +91,6 @@
     "Set an admin username." : "Bir yönetici kullanıcı adı yazın.",
     "Set an admin password." : "Bir yönetici parolası yazın.",
     "Can't create or write into the data directory %s" : "%s veri klasörü oluşturulamadı ya da içine yazılamadı",
-    "Given database host is invalid and must not contain the port: %s" : "Belirtilen veritabanı sunucusu geçersiz ve şu kapıyı kullanmamalı: %s",
     "Invalid Federated Cloud ID" : "Birleşmiş Bulut Kimliği Geçersiz",
     "Sharing %s failed, because the backend does not allow shares from type %i" : "Arka uç %s türündeki paylaşımlara izin vermediğinden %s paylaşılamadı",
     "Sharing %s failed, because the file does not exist" : "Dosya bulunamadığından %s paylaşılamadı",

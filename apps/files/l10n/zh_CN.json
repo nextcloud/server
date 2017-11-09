@@ -119,7 +119,6 @@
     "Settings" : "设置",
     "Show hidden files" : "显示隐藏文件",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "使用这个地址 <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">通过 WebDAV 访问您的文件</a>",
     "Cancel upload" : "取消上传",
     "No files in here" : "无文件",
     "Upload some content or sync with your devices!" : "上传或从您的设备中同步!",
@@ -153,6 +152,7 @@
     "Upload" : "上传",
     "A new file or folder has been <strong>deleted</strong>" : "新的文件/文件夹已经 <strong>删除</strong>",
     "A new file or folder has been <strong>restored</strong>" : "新的文件/文件夹已经<strong>恢复</strong>",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "使用这个地址 <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">通过 WebDAV 访问您的文件</a>",
     "No favorites" : "无收藏"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

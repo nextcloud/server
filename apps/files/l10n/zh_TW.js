@@ -123,7 +123,6 @@ OC.L10N.register(
     "Settings" : "設定",
     "Show hidden files" : "顯示隱藏檔",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "使用這個位址來<a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">使用 WebDAV 存取檔案</a>",
     "Cancel upload" : "取消上傳",
     "No files in here" : "沒有任何檔案",
     "Upload some content or sync with your devices!" : "在您的裝置中同步或上傳一些內容",
@@ -157,6 +156,7 @@ OC.L10N.register(
     "Upload" : "上傳",
     "A new file or folder has been <strong>deleted</strong>" : "檔案或目錄已被 <strong>刪除</strong>",
     "A new file or folder has been <strong>restored</strong>" : "檔案或目錄已被 <strong>恢復</strong>",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "使用這個位址來<a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">使用 WebDAV 存取檔案</a>",
     "No favorites" : "沒有最愛"
 },
 "nplurals=1; plural=0;");

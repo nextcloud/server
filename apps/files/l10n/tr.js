@@ -125,7 +125,6 @@ OC.L10N.register(
     "Settings" : "Ayarlar",
     "Show hidden files" : "Gizli dosyaları görüntüle",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Dosyalarınıza WebDAV üzerinden erişmek için <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">bu adresi kullanın</a>",
     "Cancel upload" : "Yüklemeyi iptal et",
     "No files in here" : "Burada herhangi bir dosya yok",
     "Upload some content or sync with your devices!" : "Bir şeyler yükleyin ya da aygıtlarınızla eşitleyin!",
@@ -159,6 +158,7 @@ OC.L10N.register(
     "Upload" : "Yükle",
     "A new file or folder has been <strong>deleted</strong>" : "Yeni bir dosya ya da klasör <strong>silindi</strong>",
     "A new file or folder has been <strong>restored</strong>" : "Yeni bir dosya ya da klasör <strong>geri yüklendi</strong>",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Dosyalarınıza WebDAV üzerinden erişmek için <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">bu adresi kullanın</a>",
     "No favorites" : "Sık kullanılan bir öge yok"
 },
 "nplurals=2; plural=(n > 1);");

@@ -205,7 +205,6 @@
     "Trace" : "Izsekot",
     "Security warning" : "Drošības brīdinājums",
     "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." : "Visticamāk, jūsu datu direktorija un datnes ir pieejamas no interneta, jo .htaccess datne nedarbojas.",
-    "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">documentation</a>." : "Priekš informācijas kā pareizi konfigurēt jūsu serveri skatiet <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">dokumentācijā</a>.",
     "Create an <strong>admin account</strong>" : "Izveidot <strong>administratora kontu</strong>",
     "Username" : "Lietotājvārds",
     "Storage & database" : "Krātuve & datubāze",
@@ -265,7 +264,6 @@
     "Detailed logs" : "Detalizētas informācijas žurnālfaili",
     "Update needed" : "Nepieciešama atjaunināšana",
     "Please use the command line updater because you have a big instance with more than 50 users." : "Lūdzu, izmantojiet komandrindas atjauninātāju, jo jums ir vairāk nekā 50 lietotāji.",
-    "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Lai saņemtu palīdzību, skatiet  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">dokumentāciju</a>.",
     "I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure." : "Es zinu ka ja es turpināšu atjauninājumu caur tīmekļa atjauninātāju ir risks ka pieprasījumam būs noliedze , kas var radīt  datu zudumu, bet man ir dublējumkopija un es zinu kā atjaunot instanci neveiksmes gadijumā.",
     "Upgrade via web on my own risk" : "Atjaunināt caur tīmekļa atjauninātāju uz mana paša risku.",
     "This %s instance is currently in maintenance mode, which may take a while." : "Šis %s serveris pašlaik darbojas uzturēšanas režīmā, tas var ilgt kādu laiku.",
@@ -303,6 +301,7 @@
     "Cheers!" : "Priekā!",
     "The server encountered an internal error and was unable to complete your request." : "Serverī radās iekšēja kļūda, un tas nevarēja pabeigt jūsu pieprasījumu.",
     "Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report." : "Lūdzu sazinieties ar servera administrātoru ja šī kļūda parādās vairākas reizes,  lūdzu iekļaujiet zemāk redzamās tehniskās detaļas jūsu ziņojumā.",
+    "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">documentation</a>." : "Priekš informācijas kā pareizi konfigurēt jūsu serveri skatiet <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">dokumentācijā</a>.",
     "Log out" : "Izrakstīties",
     "This action requires you to confirm your password:" : "Šī darbība ir nepieciešama, lai apstiprinātu jūsu paroli:",
     "Use the following link to reset your password: {link}" : "Izmantojiet šo saiti, lai mainītu paroli: {link}",
@@ -310,6 +309,7 @@
     "You are accessing the server from an untrusted domain." : "Jums ir piekļuve serverim no neuzticama domēna.",
     "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domains\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "Lūdzu sazinieties ar jūsu administrātoru. Ja jūs esat šīs instances administrātors, konfigurējiet \"trusted_domains\" iestatījumu config/config.php failā. Piemēra konfigurācija ir pieejama config/config.sample.php failā.",
     "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "Atkarīgi no jūsu konfigurācijas, kā administrātors jūs varētu izmantot zemāk redzamo pogu lai uzticētos šim domēnam.",
-    "Please use the command line updater because you have a big instance." : "Lūdzu, izmantojiet komandrindas atjauninātāju, jo jums ir liels datu apjoms."
+    "Please use the command line updater because you have a big instance." : "Lūdzu, izmantojiet komandrindas atjauninātāju, jo jums ir liels datu apjoms.",
+    "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Lai saņemtu palīdzību, skatiet  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">dokumentāciju</a>."
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);"
 }

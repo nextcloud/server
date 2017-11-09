@@ -121,7 +121,6 @@ OC.L10N.register(
     "Settings" : "Arranjament",
     "Show hidden files" : "Mostra els fitxers ocults",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Utilitzeu aquesta adreça per <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">accedir als vostres fitxers a través de WebDAV</a>",
     "No files in here" : "No hi ha arxius",
     "Upload some content or sync with your devices!" : "Pugi continguts o sincronitzi els seus dispositius.",
     "No entries found in this folder" : "No hi ha entrades en aquesta carpeta",
@@ -154,6 +153,7 @@ OC.L10N.register(
     "Upload" : "Puja",
     "A new file or folder has been <strong>deleted</strong>" : "S'ha <strong>eliminat</strong> un nou fitxer o carpeta",
     "A new file or folder has been <strong>restored</strong>" : "S'ha <strong>restaurat</strong> un nou fitxer o carpeta",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Utilitzeu aquesta adreça per <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">accedir als vostres fitxers a través de WebDAV</a>",
     "No favorites" : "No hi ha favorits"
 },
 "nplurals=2; plural=(n != 1);");

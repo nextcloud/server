@@ -16,6 +16,7 @@ OC.L10N.register(
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Ikke nok ledig plass. Du laster opp size1} men bare {size2} er ledig",
     "Target folder \"{dir}\" does not exist any more" : "Målmappen \"{dir}\" finnes ikke lenger",
     "Not enough free space" : "Ikke nok ledig diskplass",
+    "Uploading …" : "Laster opp…",
     "…" : "…",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} av {totalSize} ({bitrate})",
     "Actions" : "Handlinger",
@@ -124,7 +125,6 @@ OC.L10N.register(
     "Settings" : "Innstillinger",
     "Show hidden files" : "Vis skjulte filer",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Bruk adressen <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">for å få tilgang til WebDAV</a>",
     "Cancel upload" : "Avbryt opplasting",
     "No files in here" : "Ingen filer her",
     "Upload some content or sync with your devices!" : "Last opp noe innhold eller synkroniser med enhetene dine!",
@@ -158,6 +158,7 @@ OC.L10N.register(
     "Upload" : "Last opp",
     "A new file or folder has been <strong>deleted</strong>" : "En ny fil eller mappe har blitt <strong>slettet</strong>",
     "A new file or folder has been <strong>restored</strong>" : "En ny fil eller mappe har blitt <strong>gjenopprettet</strong>",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Bruk adressen <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">for å få tilgang til WebDAV</a>",
     "No favorites" : "Ingen favoritter"
 },
 "nplurals=2; plural=(n != 1);");

@@ -125,7 +125,6 @@ OC.L10N.register(
     "Settings" : "Settings",
     "Show hidden files" : "Show hidden files",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>",
     "Cancel upload" : "Cancel upload",
     "No files in here" : "No files in here",
     "Upload some content or sync with your devices!" : "Upload some content or sync with your devices!",
@@ -159,6 +158,7 @@ OC.L10N.register(
     "Upload" : "Upload",
     "A new file or folder has been <strong>deleted</strong>" : "A new file or folder has been <strong>deleted</strong>",
     "A new file or folder has been <strong>restored</strong>" : "A new file or folder has been <strong>restored</strong>",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>",
     "No favorites" : "No favourites"
 },
 "nplurals=2; plural=(n != 1);");
