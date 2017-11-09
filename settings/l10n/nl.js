@@ -72,7 +72,6 @@ OC.L10N.register(
     "Your %s account was created" : "Je %s account is aangemaakt",
     "Welcome aboard" : "Welkom aan boord",
     "Welcome aboard %s" : "Welkom aan boord %s",
-    "You now have an %s account, you can add, protect, and share your data." : "Je hebt nu een %s account; je kunt je data toevoegen, beschermen en delen.",
     "Your username is: %s" : "Je gebruikersnaam is: %s",
     "Set your password" : "Stel je wachtwoord in",
     "Go to %s" : "Ga naar %s",

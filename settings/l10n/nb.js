@@ -72,7 +72,6 @@ OC.L10N.register(
     "Your %s account was created" : "%s-kontoen din ble opprettet",
     "Welcome aboard" : "Velkommen ombord",
     "Welcome aboard %s" : "Velkommen ombord i %s",
-    "You now have an %s account, you can add, protect, and share your data." : "Du har nå en %s-konto, og kan legge til, beskytte og dele din data.",
     "Your username is: %s" : "Ditt brukernavn er: %s",
     "Set your password" : "Sett passordet ditt",
     "Go to %s" : "Gå til %s",
