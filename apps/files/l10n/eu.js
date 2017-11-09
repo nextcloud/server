@@ -125,7 +125,6 @@ OC.L10N.register(
     "Settings" : "Ezarpenak",
     "Show hidden files" : "Erakutsi ezkutuko fitxategiak",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Erabili helbide hau <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">WebDAV bidez zure fitxategietara sartzeko </a> ",
     "Cancel upload" : "Igoera bertan behera utzita",
     "No files in here" : "Ez dago fitxategirik hemen",
     "Upload some content or sync with your devices!" : "Igo edukiren bat edo sinkronizatu zure gailuekin!",
@@ -159,6 +158,7 @@ OC.L10N.register(
     "Upload" : "Igo",
     "A new file or folder has been <strong>deleted</strong>" : "A new file or folder has been <strong>deleted</strong>",
     "A new file or folder has been <strong>restored</strong>" : "A new file or folder has been <strong>restored</strong>",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Erabili helbide hau <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">WebDAV bidez zure fitxategietara sartzeko </a> ",
     "No favorites" : "Gogokorik ez"
 },
 "nplurals=2; plural=(n != 1);");

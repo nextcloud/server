@@ -27,7 +27,7 @@ OC.L10N.register(
     "External mount error" : "გარე მონტაჟის შეცდომა",
     "external-storage" : "გარე-საცავი",
     "Couldn't fetch list of Windows network drive mount points: Empty response from server" : "Windows-ის ქსელის დრაივის მონტაჯის წერტილების სიის მოპოვება ვერ მოხერხდა: ცარიელი პასუხი სერვერიდან",
-    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "ზოგი კონფიგურირებული გარე მონტაჟის წერიტილი არაა დაკავშირებული. მეტი ინფორმაციისთვის გთხოვთ დააწკაპუნოთ წითელ რიგებს.",
+    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "ზოგი კონფიგურირებული გარე მონტაჟის წერიტილი არაა დაკავშირებული. მეტი ინფორმაციისთვის გთხოვთ დააწკაპუნოთ წითელ რიგ(ებ)ს.",
     "Please enter the credentials for the {mount} mount" : "გთხოვთ მონტაჟისთვის {mount} შეიყვანოთ მონაცემები",
     "Username" : "მომხმარებლის სახელი",
     "Password" : "პაროლი",

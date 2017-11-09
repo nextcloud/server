@@ -116,7 +116,6 @@ OC.L10N.register(
     "Settings" : "Налаштування",
     "Show hidden files" : "Показати приховані файли",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Використайте цю адресу для <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">доступу через WebDAV</a>",
     "No files in here" : "Тут немає файлів",
     "Upload some content or sync with your devices!" : "Вивантажте щось або синхронізуйте з пристроями!",
     "No entries found in this folder" : "В цій теці нічого немає",
@@ -145,6 +144,7 @@ OC.L10N.register(
     "Upload" : "Вивантажити",
     "A new file or folder has been <strong>deleted</strong>" : "Новий файл або теку було <strong>видалено</strong>",
     "A new file or folder has been <strong>restored</strong>" : "Новий файл або теку було <strong>відновлено</strong>",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Використайте цю адресу для <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">доступу через WebDAV</a>",
     "No favorites" : "Немає улюблених"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

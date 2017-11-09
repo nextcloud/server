@@ -125,7 +125,6 @@ OC.L10N.register(
     "Settings" : "Поставке",
     "Show hidden files" : "Прикажи скривене фајлове",
     "WebDAV" : "ВебДАВ",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Користи ову адресу да <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">приступате Вашим фајловима преко ВебДАВа</a>",
     "Cancel upload" : "Откажи отпремање",
     "No files in here" : "Овде нема фајлова",
     "Upload some content or sync with your devices!" : "Отпремите неки садржај или синхронизујте са вашим уређајима!",
@@ -159,6 +158,7 @@ OC.L10N.register(
     "Upload" : "Отпреми",
     "A new file or folder has been <strong>deleted</strong>" : "Нови фајл или фасцикла су <strong>обрисани</strong>",
     "A new file or folder has been <strong>restored</strong>" : "Нови фајл или фасцикла су <strong>враћени</strong>",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Користи ову адресу да <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">приступате Вашим фајловима преко ВебДАВа</a>",
     "No favorites" : "Нема омиљених"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

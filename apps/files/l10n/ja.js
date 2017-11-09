@@ -118,7 +118,6 @@ OC.L10N.register(
     "Settings" : "設定",
     "Show hidden files" : "隠しファイルを表示",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "<a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">WebDAV 経由でファイルにアクセス</a>するにはこのアドレスを利用してください",
     "No files in here" : "ファイルがありません",
     "Upload some content or sync with your devices!" : "何かコンテンツをアップロードするか、デバイスからファイルを同期してください。",
     "No entries found in this folder" : "このフォルダーにはエントリーがありません",
@@ -151,6 +150,7 @@ OC.L10N.register(
     "Upload" : "アップロード",
     "A new file or folder has been <strong>deleted</strong>" : "新しいファイルまたはフォルダが<strong>削除</strong>されたとき",
     "A new file or folder has been <strong>restored</strong>" : "新しいファイルまたはフォルダが<strong>復元されました</strong>",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "<a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">WebDAV 経由でファイルにアクセス</a>するにはこのアドレスを利用してください",
     "No favorites" : "お気に入りなし"
 },
 "nplurals=1; plural=0;");

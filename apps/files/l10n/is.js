@@ -125,7 +125,6 @@ OC.L10N.register(
     "Settings" : "Stillingar",
     "Show hidden files" : "Sýna faldar skrár",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Notaðu þetta vistfang til að <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">nálgast skrárnar þínar með WebDAV</a>",
     "Cancel upload" : "Hætta við innsendingu",
     "No files in here" : "Engar skrár hér",
     "Upload some content or sync with your devices!" : "Sendu inn eitthvað efni eða samstilltu við tækin þín!",
@@ -159,6 +158,7 @@ OC.L10N.register(
     "Upload" : "Senda inn",
     "A new file or folder has been <strong>deleted</strong>" : "Nýrri skrá eða möppu hefur verið  <strong>eytt</strong>",
     "A new file or folder has been <strong>restored</strong>" : "Ný skrá eða mappa hefur verið <strong>endurheimt</strong>",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Notaðu þetta vistfang til að <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">nálgast skrárnar þínar með WebDAV</a>",
     "No favorites" : "Engin eftirlæti"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

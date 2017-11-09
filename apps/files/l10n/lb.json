@@ -104,7 +104,6 @@
     "Settings" : "Astellungen",
     "Show hidden files" : "Weis déi verstoppten Dateien",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Benotz dess Address  <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">, fir op deng Dateien via WebDAV zouzegräifen</a>",
     "No files in here" : "Keng Dokumenter hei",
     "Upload some content or sync with your devices!" : "Lued Dateien erop oder synchroniséier se mat dengen Appartaten",
     "No entries found in this folder" : "Keng Elementer an dësem Dossier fonnt",
@@ -136,6 +135,7 @@
     "Upload" : "Eroplueden",
     "A new file or folder has been <strong>deleted</strong>" : "Eng Datei oder en Dossier gouf <strong> geläscht</strong>",
     "A new file or folder has been <strong>restored</strong>" : "Eng Datei oder en Dossier gouf <strong> erem hier gestallt</strong>",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Benotz dess Address  <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">, fir op deng Dateien via WebDAV zouzegräifen</a>",
     "No favorites" : "Keng Favoriten"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

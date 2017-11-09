@@ -91,7 +91,6 @@
     "Set an admin username." : "Поставите име за администратора.",
     "Set an admin password." : "Поставите лозинку за администратора.",
     "Can't create or write into the data directory %s" : "Не могу креирати или уписивати у директоријум података %s",
-    "Given database host is invalid and must not contain the port: %s" : "Задата адреса базе није исправна и не сме да садржи порт: %s",
     "Invalid Federated Cloud ID" : "Неисправан ИД Здруженог облака",
     "Sharing %s failed, because the backend does not allow shares from type %i" : "Дељење %s није успело зато што позадина не дозвољава дељење од типа %i",
     "Sharing %s failed, because the file does not exist" : "Дељење %s није успело зато што фајл не постоји",

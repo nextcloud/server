@@ -115,7 +115,6 @@ OC.L10N.register(
     "Settings" : "Ρυθμίσεις",
     "Show hidden files" : "Εμφάνιση κρυφών αρχείων",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Χρησιμοποιήστε αυτή τη διεύθυνση για να έχετε <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">πρόσβαση στα Αρχεία σας μέσω WebDAV</a>",
     "No files in here" : "Δεν υπάρχουν αρχεία",
     "Upload some content or sync with your devices!" : "Μεταφόρτωση περιεχομένου ή συγχρονισμός με τις συσκευές σας!",
     "No entries found in this folder" : "Δεν βρέθηκαν καταχωρήσεις σε αυτόν το φάκελο",
@@ -148,6 +147,7 @@ OC.L10N.register(
     "Upload" : "Μεταφόρτωση",
     "A new file or folder has been <strong>deleted</strong>" : "Ένα νέο αρχείο ή φάκελος έχει <strong>διαγραφεί</strong>",
     "A new file or folder has been <strong>restored</strong>" : "Ένα νέο αρχείο ή φάκελος έχει <strong>επαναφερθεί</strong>",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Χρησιμοποιήστε αυτή τη διεύθυνση για να έχετε <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">πρόσβαση στα Αρχεία σας μέσω WebDAV</a>",
     "No favorites" : "Δεν υπάρχουν αγαπημένα"
 },
 "nplurals=2; plural=(n != 1);");

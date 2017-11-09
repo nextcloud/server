@@ -114,7 +114,6 @@
     "Settings" : "Seaded",
     "Show hidden files" : "Näita peidetud faile",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Kasuta seda aadressi, et <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">oma failidele WebDAV kaudu ligi pääseda</a>",
     "No files in here" : "Siin ei ole faile",
     "Upload some content or sync with your devices!" : "Laadi sisu üles või süngi oma seadmetega!",
     "No entries found in this folder" : "Selles kaustast ei leitud kirjeid",
@@ -147,6 +146,7 @@
     "Upload" : "Lae üles",
     "A new file or folder has been <strong>deleted</strong>" : "Uus fail või kaust on <strong>kustutatud</strong>",
     "A new file or folder has been <strong>restored</strong>" : "Uus fail või kaust on <strong>taastatud</strong>",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Kasuta seda aadressi, et <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">oma failidele WebDAV kaudu ligi pääseda</a>",
     "No favorites" : "Lemmikuid pole"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

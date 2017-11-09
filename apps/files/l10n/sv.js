@@ -121,7 +121,6 @@ OC.L10N.register(
     "Settings" : "Inställningar",
     "Show hidden files" : "Visa dolda filer",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Använd den här adressen för att <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">komma åt dina filer via WebDAV</a>",
     "Cancel upload" : "Avbryt uppladdning",
     "No files in here" : "Inga filer kunde hittas",
     "Upload some content or sync with your devices!" : "Ladda upp innehåll eller synkronisera med dina enheter!",
@@ -155,6 +154,7 @@ OC.L10N.register(
     "Upload" : "Ladda upp",
     "A new file or folder has been <strong>deleted</strong>" : "En ny fil har blivit <strong>raderad</strong>",
     "A new file or folder has been <strong>restored</strong>" : "En ny fil eller mapp har blivit <strong>återställd</strong>",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Använd den här adressen för att <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">komma åt dina filer via WebDAV</a>",
     "No favorites" : "Inga favoriter"
 },
 "nplurals=2; plural=(n != 1);");
