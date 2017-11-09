@@ -72,7 +72,6 @@ OC.L10N.register(
     "Your %s account was created" : "Ваш %s налог је направљен",
     "Welcome aboard" : "Добродошли",
     "Welcome aboard %s" : "Добродошли %s",
-    "You now have an %s account, you can add, protect, and share your data." : "Сада имате %s налог, можете додавати, штитити и делити Ваше податке.",
     "Your username is: %s" : "Ваше корисничко име је: %s",
     "Set your password" : "Поставите лозинку",
     "Go to %s" : "Иди на %s",

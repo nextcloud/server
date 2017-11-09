@@ -72,7 +72,6 @@ OC.L10N.register(
     "Your %s account was created" : "Ihr %s-Konto wurde erstellt",
     "Welcome aboard" : "Willkommen an Bord",
     "Welcome aboard %s" : "Willkommen an Bord %s",
-    "You now have an %s account, you can add, protect, and share your data." : "Sie haben jetzt ein %s-Konto. Sie können Ihre Daten hinzufügen, schützen und teilen.",
     "Your username is: %s" : "Ihr Benutzername lautet: %s",
     "Set your password" : "Vergeben Sie Ihr Passwort",
     "Go to %s" : "Gehe zu %s",
