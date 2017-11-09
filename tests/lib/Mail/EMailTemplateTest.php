@@ -76,7 +76,7 @@ class EMailTemplateTest extends TestCase {
 
 		$this->emailTemplate->addHeader();
 		$this->emailTemplate->addHeading('Welcome aboard');
-		$this->emailTemplate->addBodyText('You now have an Nextcloud account, you can add, protect, and share your data.');
+		$this->emailTemplate->addBodyText('Welcome to your Nextcloud account, you can add, protect, and share your data.');
 		$this->emailTemplate->addBodyText('Your username is: abc');
 		$this->emailTemplate->addBodyButtonGroup(
 			'Set your password', 'https://example.org/resetPassword/123',
@@ -117,7 +117,7 @@ class EMailTemplateTest extends TestCase {
 
 		$this->emailTemplate->addHeader();
 		$this->emailTemplate->addHeading('Welcome aboard');
-		$this->emailTemplate->addBodyText('You now have an Nextcloud account, you can add, protect, and share your data.');
+		$this->emailTemplate->addBodyText('Welcome to your Nextcloud account, you can add, protect, and share your data.');
 		$this->emailTemplate->addBodyText('Your username is: abc');
 		$this->emailTemplate->addBodyButtonGroup(
 			'Set your password', 'https://example.org/resetPassword/123',
@@ -156,7 +156,7 @@ class EMailTemplateTest extends TestCase {
 
 		$this->emailTemplate->addHeader();
 		$this->emailTemplate->addHeading('Welcome aboard');
-		$this->emailTemplate->addBodyText('You now have an Nextcloud account, you can add, protect, and share your data.');
+		$this->emailTemplate->addBodyText('Welcome to your Nextcloud account, you can add, protect, and share your data.');
 		$this->emailTemplate->addBodyText('Your username is: abc');
 		$this->emailTemplate->addBodyButton(
 			'Set your password', 'https://example.org/resetPassword/123',
@@ -197,7 +197,7 @@ class EMailTemplateTest extends TestCase {
 
 		$this->emailTemplate->addHeader();
 		$this->emailTemplate->addHeading('Welcome aboard', 'Welcome aboard - text');
-		$this->emailTemplate->addBodyText('You now have an Nextcloud account, you can add, protect, and share your data.', 'You now have an Nextcloud account, you can add, protect, and share your data. - text');
+		$this->emailTemplate->addBodyText('Welcome to your Nextcloud account, you can add, protect, and share your data.', 'Welcome to your Nextcloud account, you can add, protect, and share your data. - text');
 		$this->emailTemplate->addBodyText('Your username is: abc');
 		$this->emailTemplate->addBodyButtonGroup(
 			'Set your password', 'https://example.org/resetPassword/123',

@@ -136,7 +136,7 @@ class NewUserMailHelper {
 		} else {
 			$emailTemplate->addHeading($this->l10n->t('Welcome aboard %s', [$displayName]));
 		}
-		$emailTemplate->addBodyText($this->l10n->t('You now have an %s account, you can add, protect, and share your data.', [$this->themingDefaults->getName()]));
+		$emailTemplate->addBodyText($this->l10n->t('Welcome to your %s account, you can add, protect, and share your data.', [$this->themingDefaults->getName()]));
 		$emailTemplate->addBodyText($this->l10n->t('Your username is: %s', [$userId]));
 		if ($generatePasswordResetToken) {
 			$leftButtonText = $this->l10n->t('Set your password');
