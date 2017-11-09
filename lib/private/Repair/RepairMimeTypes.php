@@ -92,6 +92,7 @@ class RepairMimeTypes implements IRepairStep {
 			$this->folderMimeTypeId = (int)$result->fetchOne();
 		}
 
+		$count = 0;
 		foreach ($updatedMimetypes as $extension => $mimetype) {
 			$result = \OC_DB::executeAudited(self::existsStmt(), array($mimetype));
 			$exists = $result->fetchOne();
@@ -106,8 +107,10 @@ class RepairMimeTypes implements IRepairStep {
 			$mimetypeId = $result->fetchOne();
 
 			// change mimetype for files with x extension
-			\OC_DB::executeAudited(self::updateByNameStmt(), array($mimetypeId, $this->folderMimeTypeId, $mimetypeId, '%.' . $extension));
+			$count += \OC_DB::executeAudited(self::updateByNameStmt(), array($mimetypeId, $this->folderMimeTypeId, $mimetypeId, '%.' . $extension));
 		}
+
+		return $count;
 	}
 
 	private function introduceImageTypes() {
@@ -116,7 +119,7 @@ class RepairMimeTypes implements IRepairStep {
 			'webp' => 'image/webp',
 		);
 
-		$this->updateMimetypes($updatedMimetypes);
+		return $this->updateMimetypes($updatedMimetypes);
 	}
 
 	private function introduceWindowsProgramTypes() {
@@ -126,7 +129,7 @@ class RepairMimeTypes implements IRepairStep {
 			'cmd' => 'application/cmd',
 		);
 
-		$this->updateMimetypes($updatedMimetypes);
+		return $this->updateMimetypes($updatedMimetypes);
 	}
 
 	private function introduceLocationTypes() {
@@ -137,7 +140,7 @@ class RepairMimeTypes implements IRepairStep {
 			'tcx' => 'application/vnd.garmin.tcx+xml',
 		];
 
-		$this->updateMimetypes($updatedMimetypes);
+		return $this->updateMimetypes($updatedMimetypes);
 	}
 
 	private function introduceInternetShortcutTypes() {
@@ -146,7 +149,17 @@ class RepairMimeTypes implements IRepairStep {
 			'webloc' => 'application/internet-shortcut'
 		];
 
-		$this->updateMimetypes($updatedMimetypes);
+		return $this->updateMimetypes($updatedMimetypes);
+	}
+
+	private function introduceStreamingTypes() {
+		$updatedMimetypes = [
+			'm3u' => 'audio/mpegurl',
+			'm3u8' => 'audio/mpegurl',
+			'pls' => 'audio/x-scpls'
+		];
+
+		return $this->updateMimetypes($updatedMimetypes);
 	}
 
 	/**
@@ -173,6 +186,10 @@ class RepairMimeTypes implements IRepairStep {
 
 		if (version_compare($ocVersionFromBeforeUpdate, '13.0.0.3', '<') && $this->introduceInternetShortcutTypes()) {
 			$out->info('Fixed internet-shortcut mime types');
+		}
+
+		if (version_compare($ocVersionFromBeforeUpdate, '13.0.0.6', '<') && $this->introduceStreamingTypes()) {
+			$out->info('Fixed streaming mime types');
 		}
 	}
 }
