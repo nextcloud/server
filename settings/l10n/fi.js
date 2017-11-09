@@ -71,7 +71,6 @@ OC.L10N.register(
     "Your %s account was created" : "%s-tilisi luotiin",
     "Welcome aboard" : "Tervetuloa mukaan",
     "Welcome aboard %s" : "Tervetuloa mukaan %s",
-    "You now have an %s account, you can add, protect, and share your data." : "Sinulla on nyt %s-tili. Voit lisätä, suojata ja jakaa tietojasi.",
     "Your username is: %s" : "Käyttäjätunnuksesi on: %s",
     "Set your password" : "Aseta salasanasi",
     "Go to %s" : "Siirry %s-palveluun",

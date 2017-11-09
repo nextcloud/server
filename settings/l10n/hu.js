@@ -72,7 +72,6 @@ OC.L10N.register(
     "Your %s account was created" : "%s fiók létrehozva",
     "Welcome aboard" : "Üdv a fedélzeten",
     "Welcome aboard %s" : "Üdv a fedélzeten %s",
-    "You now have an %s account, you can add, protect, and share your data." : "Mostantól van egy %s fiókod, hozzáadhatsz, védhetsz és megoszthatsz adatokat.",
     "Your username is: %s" : "A felhasználóneved: %s",
     "Set your password" : "Állítsd be a jelszabad",
     "Go to %s" : "Menj ide: %s",

@@ -71,7 +71,6 @@ OC.L10N.register(
     "Your %s account was created" : "Účet %s byl vytvořen",
     "Welcome aboard" : "Vítejte na palubě",
     "Welcome aboard %s" : "Vítej na palubě, %s",
-    "You now have an %s account, you can add, protect, and share your data." : "Nyní máte účet %s. Můžete přidat, ochránit a sdílet vaše data.",
     "Your username is: %s" : "Vaše uživatelské jméno je: %s",
     "Set your password" : "Nastavte vaše heslo",
     "Go to %s" : "Jít na %s",
