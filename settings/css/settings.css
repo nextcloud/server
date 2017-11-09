@@ -22,7 +22,7 @@ input#openid, input#webdav {
 }
 
 .nav-icon-security {
-	background-image: url('../img/toggle-filelist.svg?v=1');
+	background-image: url('../img/password.svg?v=1');
 }
 
 .nav-icon-apppasswords {
