@@ -2825,8 +2825,28 @@
 				this.$el.find('#headerName a.name>span:first').text(selection);
 				this.$el.find('#modified a>span:first').text('');
 				this.$el.find('table').addClass('multiselect');
+				this.$el.find('.selectedActions .copy-move').toggleClass('hidden', !this.isSelectedCopiableOrMovable());
+				this.$el.find('.selectedActions .download').toggleClass('hidden', !this.isSelectedDownloadable());
 				this.$el.find('.delete-selected').toggleClass('hidden', !this.isSelectedDeletable());
 			}
+		},
+
+		/**
+		 * Check whether all selected files are copiable or movable
+		 */
+		isSelectedCopiableOrMovable: function() {
+			return _.reduce(this.getSelectedFiles(), function(copiableOrMovable, file) {
+				return copiableOrMovable && (file.permissions & OC.PERMISSION_UPDATE);
+			}, true);
+		},
+
+		/**
+		 * Check whether all selected files are downloadable
+		 */
+		isSelectedDownloadable: function() {
+			return _.reduce(this.getSelectedFiles(), function(downloadable, file) {
+				return downloadable && (file.permissions & OC.PERMISSION_READ);
+			}, true);
 		},
 
 		/**
