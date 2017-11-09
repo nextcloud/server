@@ -36,7 +36,7 @@ namespace OCP\Mail;
  *
  * $emailTemplate->addHeader();
  * $emailTemplate->addHeading('Welcome aboard');
- * $emailTemplate->addBodyText('You now have an Nextcloud account, you can add, protect, and share your data.');
+ * $emailTemplate->addBodyText('Welcome to your Nextcloud account, you can add, protect, and share your data.');
  *
  * $emailTemplate->addBodyButtonGroup(
  *     'Set your password', 'https://example.org/resetPassword/q1234567890qwertz',

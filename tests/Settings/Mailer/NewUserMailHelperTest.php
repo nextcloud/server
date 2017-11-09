@@ -237,7 +237,7 @@ class NewUserMailHelperTest extends TestCase {
 			<table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
 				<tr style="padding:0;text-align:left;vertical-align:top">
 					<th style="Margin:0;color:#0a0a0a;font-family:Lucida Grande,Geneva,Verdana,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left">
-						<p class="text-left" style="Margin:0;Margin-bottom:10px;color:#777;font-family:Lucida Grande,Geneva,Verdana,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;margin-bottom:10px;padding:0;text-align:left">You now have an TestCloud account, you can add, protect, and share your data.</p>
+						<p class="text-left" style="Margin:0;Margin-bottom:10px;color:#777;font-family:Lucida Grande,Geneva,Verdana,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;margin-bottom:10px;padding:0;text-align:left">Welcome to your TestCloud account, you can add, protect, and share your data.</p>
 					</th>
 					<th class="expander" style="Margin:0;color:#0a0a0a;font-family:Lucida Grande,Geneva,Verdana,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0!important;text-align:left;visibility:hidden;width:0"></th>
 				</tr>
@@ -350,7 +350,7 @@ EOF;
 		$expectedTextBody = <<<EOF
 Welcome aboard
 
-You now have an TestCloud account, you can add, protect, and share your data.
+Welcome to your TestCloud account, you can add, protect, and share your data.
 
 Your username is: john
 
@@ -470,7 +470,7 @@ EOF;
 			<table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
 				<tr style="padding:0;text-align:left;vertical-align:top">
 					<th style="Margin:0;color:#0a0a0a;font-family:Lucida Grande,Geneva,Verdana,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left">
-						<p class="text-left" style="Margin:0;Margin-bottom:10px;color:#777;font-family:Lucida Grande,Geneva,Verdana,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;margin-bottom:10px;padding:0;text-align:left">You now have an TestCloud account, you can add, protect, and share your data.</p>
+						<p class="text-left" style="Margin:0;Margin-bottom:10px;color:#777;font-family:Lucida Grande,Geneva,Verdana,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;margin-bottom:10px;padding:0;text-align:left">Welcome to your TestCloud account, you can add, protect, and share your data.</p>
 					</th>
 					<th class="expander" style="Margin:0;color:#0a0a0a;font-family:Lucida Grande,Geneva,Verdana,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0!important;text-align:left;visibility:hidden;width:0"></th>
 				</tr>
@@ -583,7 +583,7 @@ EOF;
 		$expectedTextBody = <<<EOF
 Welcome aboard John Doe
 
-You now have an TestCloud account, you can add, protect, and share your data.
+Welcome to your TestCloud account, you can add, protect, and share your data.
 
 Your username is: john
 
