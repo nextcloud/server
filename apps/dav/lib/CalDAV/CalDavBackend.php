@@ -1383,8 +1383,6 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		}
 		$innerQuery->andWhere($or);
 
-		// TODO - add component-type
-
 		if ($pattern !== '') {
 			$innerQuery->andWhere($innerQuery->expr()->iLike('op.value',
 				$outerQuery->createNamedParameter('%' .
@@ -1404,7 +1402,15 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				$outerQuery->andWhere($outerQuery->expr()->lt('firstoccurence',
 					$outerQuery->createNamedParameter($options['timerange']['end']->getTimeStamp)));
 			}
+		}
 
+		if (isset($options['types'])) {
+			$or = $outerQuery->expr()->orX();
+			foreach($options['types'] as $type) {
+				$or->add($outerQuery->expr()->eq('componenttype',
+					$outerQuery->createNamedParameter($type)));
+			}
+			$outerQuery->andWhere($or);
 		}
 
 		$outerQuery->andWhere($outerQuery->expr()->in('c.id',
