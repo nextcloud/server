@@ -1418,7 +1418,9 @@ div.crumb {
 			margin-right: 3px;
 			ul {
 				max-height: 345px;
-				overflow-y: scroll;
+				overflow-y: auto;
+				overflow-x: hidden;
+				padding-right: 5px;
 				li.canDrop span:first-child {
 					background-image: url('../img/filetypes/folder-drag-accept.svg?v=1') !important;
 				}
