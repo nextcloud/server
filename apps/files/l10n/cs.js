@@ -121,7 +121,6 @@ OC.L10N.register(
     "Settings" : "Nastavení",
     "Show hidden files" : "Zobrazit skryté soubory",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Použijte tuto adresu pro <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">přístup ke svým Souborům přes WebDAV</a>",
     "No files in here" : "Žádné soubory",
     "Upload some content or sync with your devices!" : "Nahrajte nějaký obsah nebo synchronizujte se svými přístroji!",
     "No entries found in this folder" : "V tomto adresáři nebylo nic nalezeno",
@@ -154,6 +153,7 @@ OC.L10N.register(
     "Upload" : "Odeslat",
     "A new file or folder has been <strong>deleted</strong>" : "Nový soubor nebo adresář byl <strong>smazán</strong>",
     "A new file or folder has been <strong>restored</strong>" : "Nový soubor nebo adresář byl <strong>obnoven</strong>",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Použijte tuto adresu pro <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">přístup ke svým Souborům přes WebDAV</a>",
     "No favorites" : "Žádné oblíbené"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

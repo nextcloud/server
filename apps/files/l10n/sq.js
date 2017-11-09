@@ -115,7 +115,6 @@ OC.L10N.register(
     "Settings" : "Rregullime",
     "Show hidden files" : "Shfaq kartela të fshehura",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Përdorni këtë adresë për <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">të hyrë te Kartelat tuaja përmes WebDAV-it</a>",
     "No files in here" : "S’ka kartela këtu",
     "Upload some content or sync with your devices!" : "Ngarkoni ca lëndë ose bëni njëkohësim me pajisjet tuaja!",
     "No entries found in this folder" : "Në këtë dosje s’u gjetën zëra",
@@ -148,6 +147,7 @@ OC.L10N.register(
     "Upload" : "Ngarkoje",
     "A new file or folder has been <strong>deleted</strong>" : "Një skedar ose dosje e re është <strong>fshirë</strong>",
     "A new file or folder has been <strong>restored</strong>" : "Një skedar ose dosje e re është <strong>rikthyer</strong>",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Përdorni këtë adresë për <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">të hyrë te Kartelat tuaja përmes WebDAV-it</a>",
     "No favorites" : "Pa të parapëlqyera"
 },
 "nplurals=2; plural=(n != 1);");

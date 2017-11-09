@@ -104,7 +104,6 @@ OC.L10N.register(
     "Settings" : "Iestatījumi",
     "Show hidden files" : "Rādīt slēptās datnes",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Izmanto šo adresi, lai <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">sasniegtu savas datnes caur WebDAV</a>",
     "No files in here" : "Šeit nav datņu",
     "Upload some content or sync with your devices!" : "Augšupielādē kaut ko vai sinhronizē saturu ar savām ierīcēm!",
     "No entries found in this folder" : "Šajā mapē nekas nav atrasts",
@@ -136,6 +135,7 @@ OC.L10N.register(
     "Upload" : "Augšupielādēt",
     "A new file or folder has been <strong>deleted</strong>" : "Fails vai mape tika <strong>dzēsts</strong>",
     "A new file or folder has been <strong>restored</strong>" : "Fails vai mape tika <strong>atjaunots</strong>",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Izmanto šo adresi, lai <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">sasniegtu savas datnes caur WebDAV</a>",
     "No favorites" : "Nav favorītu"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

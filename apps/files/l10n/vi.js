@@ -112,7 +112,6 @@ OC.L10N.register(
     "Settings" : "Cài đặt",
     "Show hidden files" : "Hiển thị cac file bị ẩn",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Sử dụng địa chỉ này để <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">Truy cập tệp của bạn qua WebDAV</a>",
     "No files in here" : "Không có tệp nào",
     "Upload some content or sync with your devices!" : "Tải lên một số nội dung hoặc đồng bộ với thiết bị của bạn!",
     "No entries found in this folder" : "Chưa có mục nào trong thư mục",
@@ -138,6 +137,7 @@ OC.L10N.register(
     "Folder" : "Thư mục",
     "Upload" : "Tải lên",
     "A new file or folder has been <strong>restored</strong>" : "Một tập tin hoặc thư mục mới đã được <strong>khôi phục</strong>",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Sử dụng địa chỉ này để <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">Truy cập tệp của bạn qua WebDAV</a>",
     "No favorites" : "Không có mục ưa thích nào"
 },
 "nplurals=1; plural=0;");

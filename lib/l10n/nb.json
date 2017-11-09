@@ -91,7 +91,6 @@
     "Set an admin username." : "Sett et admin-brukernavn.",
     "Set an admin password." : "Sett et admin-passord.",
     "Can't create or write into the data directory %s" : "Kan ikke opprette eller skrive i datamappen %s",
-    "Given database host is invalid and must not contain the port: %s" : "Oppgitt databasevert er ugyldig og kan ikke inneholde porten: %s",
     "Invalid Federated Cloud ID" : "Ugyldig ID for sammenknyttet sky",
     "Sharing %s failed, because the backend does not allow shares from type %i" : "Deling av %s mislyktes, fordi tjeneren ikke tillater delinger fra type %i",
     "Sharing %s failed, because the file does not exist" : "Deling av %s mislyktes, fordi filen ikke eksisterer",

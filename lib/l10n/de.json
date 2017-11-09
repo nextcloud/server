@@ -91,7 +91,6 @@
     "Set an admin username." : "Einen Administrator-Benutzernamen setzen.",
     "Set an admin password." : "Ein Administrator-Passwort setzen.",
     "Can't create or write into the data directory %s" : "Das Datenverzeichnis %s kann nicht erstellt oder es kann darin nicht geschrieben werden.",
-    "Given database host is invalid and must not contain the port: %s" : "Der angegebene Datenbank-Host ist ungültig und muss den Port beinhalten: %s",
     "Invalid Federated Cloud ID" : "Ungültige Federated-Cloud-ID",
     "Sharing %s failed, because the backend does not allow shares from type %i" : "Freigabe von %s fehlgeschlagen, da das Backend die Freigabe vom Typ %i nicht erlaubt.",
     "Sharing %s failed, because the file does not exist" : "Freigabe von %s fehlgeschlagen, da die Datei nicht existiert",

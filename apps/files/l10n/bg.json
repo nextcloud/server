@@ -101,7 +101,6 @@
     "Settings" : "Настройки",
     "Show hidden files" : "Показвай и скрити файлове",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Ползвайте горния адрес <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">за да достъпите файловете чрез WebDAV</a>",
     "No files in here" : "Тук няма файлове",
     "Upload some content or sync with your devices!" : "Качи съдържание или синхронизирай с твоите устройства!",
     "No entries found in this folder" : "Няма намерени записи в тази папка",
@@ -130,6 +129,7 @@
     "Upload" : "Качване",
     "A new file or folder has been <strong>deleted</strong>" : "Нов файл или папка беше <strong>изтрит/а</strong>",
     "A new file or folder has been <strong>restored</strong>" : "Нов файл или папка беше <strong>възстановен/а</strong>",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Ползвайте горния адрес <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">за да достъпите файловете чрез WebDAV</a>",
     "No favorites" : "Няма любими"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
