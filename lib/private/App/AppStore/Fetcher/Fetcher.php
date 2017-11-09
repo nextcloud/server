@@ -128,8 +128,9 @@ abstract class Fetcher {
 	 */
 	public function get() {
 		$appstoreenabled = $this->config->getSystemValue('appstoreenabled', true);
+		$internetavailable = $this->config->getSystemValue('has_internet_connection', true);
 
-		if (!$appstoreenabled) {
+		if (!$appstoreenabled || !$internetavailable) {
 			return [];
 		}
 
