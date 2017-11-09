@@ -333,7 +333,6 @@
 			} else {
 				this.usedWidth = this.availableWidth;
 			}
-			console.log(this.usedWidth, this.getTotalWidth());
 
 			// If container is smaller than content
 			// AND if there are crumbs left to hide
