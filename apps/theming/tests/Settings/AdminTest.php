@@ -101,6 +101,8 @@ class AdminTest extends TestCase {
 			'logoMime' => null,
 			'background' => null,
 			'backgroundMime' => null,
+			'canThemeIcons' => null,
+			'iconDocs' => null,
 		];
 
 		$expected = new TemplateResponse('theming', 'settings-admin', $params, '');
@@ -151,6 +153,8 @@ class AdminTest extends TestCase {
 			'logoMime' => null,
 			'background' => null,
 			'backgroundMime' => null,
+			'canThemeIcons' => null,
+			'iconDocs' => null,
 		];
 
 		$expected = new TemplateResponse('theming', 'settings-admin', $params, '');
