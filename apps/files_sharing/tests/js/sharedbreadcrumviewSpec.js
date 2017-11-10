@@ -57,6 +57,7 @@ describe('OCA.Sharing.ShareBreadCrumbView tests', function() {
 			bc.setDirectory('');
 			bc.render();
 			expect(bc.$el.hasClass('breadcrumb')).toEqual(true);
+			expect(bc.$el.find('.icon-more').length).toEqual(0);
 			expect(bc.$el.find('.icon-shared').length).toEqual(0);
 			expect(bc.$el.find('.shared').length).toEqual(0);
 			expect(bc.$el.find('.icon-public').length).toEqual(0);
@@ -71,7 +72,8 @@ describe('OCA.Sharing.ShareBreadCrumbView tests', function() {
 			bc.setDirectory('/foo');
 			bc.render();
 			expect(bc.$el.hasClass('breadcrumb')).toEqual(true);
-			expect(bc.$el.find('.icon-shared').length).toEqual(1);
+			expect(bc.$el.find('.icon-more').length).toEqual(1);
+			expect(bc.$el.find('.icon-share').length).toEqual(0);
 			expect(bc.$el.find('.shared').length).toEqual(0);
 			expect(bc.$el.find('.icon-public').length).toEqual(0);
 		});
@@ -86,6 +88,7 @@ describe('OCA.Sharing.ShareBreadCrumbView tests', function() {
 			bc.setDirectory('/foo');
 			bc.render();
 			expect(bc.$el.hasClass('breadcrumb')).toEqual(true);
+			expect(bc.$el.find('.icon-more').length).toEqual(0);
 			expect(bc.$el.find('.icon-shared').length).toEqual(1);
 			expect(bc.$el.find('.shared').length).toEqual(1);
 			expect(bc.$el.find('.icon-public').length).toEqual(0);
@@ -101,6 +104,7 @@ describe('OCA.Sharing.ShareBreadCrumbView tests', function() {
 			bc.setDirectory('/foo');
 			bc.render();
 			expect(bc.$el.hasClass('breadcrumb')).toEqual(true);
+			expect(bc.$el.find('.icon-more').length).toEqual(0);
 			expect(bc.$el.find('.icon-shared').length).toEqual(1);
 			expect(bc.$el.find('.shared').length).toEqual(1);
 			expect(bc.$el.find('.icon-public').length).toEqual(0);
@@ -116,6 +120,7 @@ describe('OCA.Sharing.ShareBreadCrumbView tests', function() {
 			bc.setDirectory('/foo');
 			bc.render();
 			expect(bc.$el.hasClass('breadcrumb')).toEqual(true);
+			expect(bc.$el.find('.icon-more').length).toEqual(0);
 			expect(bc.$el.find('.icon-shared').length).toEqual(0);
 			expect(bc.$el.find('.shared').length).toEqual(1);
 			expect(bc.$el.find('.icon-public').length).toEqual(1);
@@ -131,6 +136,7 @@ describe('OCA.Sharing.ShareBreadCrumbView tests', function() {
 			bc.setDirectory('/foo');
 			bc.render();
 			expect(bc.$el.hasClass('breadcrumb')).toEqual(true);
+			expect(bc.$el.find('.icon-more').length).toEqual(0);
 			expect(bc.$el.find('.icon-shared').length).toEqual(1);
 			expect(bc.$el.find('.shared').length).toEqual(1);
 			expect(bc.$el.find('.icon-public').length).toEqual(0);
@@ -146,6 +152,7 @@ describe('OCA.Sharing.ShareBreadCrumbView tests', function() {
 			bc.setDirectory('/foo');
 			bc.render();
 			expect(bc.$el.hasClass('breadcrumb')).toEqual(true);
+			expect(bc.$el.find('.icon-more').length).toEqual(0);
 			expect(bc.$el.find('.icon-shared').length).toEqual(1);
 			expect(bc.$el.find('.shared').length).toEqual(1);
 			expect(bc.$el.find('.icon-public').length).toEqual(0);
@@ -168,6 +175,7 @@ describe('OCA.Sharing.ShareBreadCrumbView tests', function() {
 			bc.setDirectory('/foo');
 			bc.render();
 			expect(bc.$el.hasClass('breadcrumb')).toEqual(true);
+			expect(bc.$el.find('.icon-more').length).toEqual(0);
 			expect(bc.$el.find('.icon-shared').length).toEqual(0);
 			expect(bc.$el.find('.shared').length).toEqual(1);
 			expect(bc.$el.find('.icon-public').length).toEqual(1);
@@ -199,7 +207,8 @@ describe('OCA.Sharing.ShareBreadCrumbView tests', function() {
 			shareTab.trigger('sharesChanged', model);
 
 			expect(bc.$el.hasClass('breadcrumb')).toEqual(true);
-			expect(bc.$el.find('.icon-shared').length).toEqual(1);
+			expect(bc.$el.find('.icon-more').length).toEqual(1);
+			expect(bc.$el.find('.icon-shared').length).toEqual(0);
 			expect(bc.$el.find('.shared').length).toEqual(0);
 			expect(bc.$el.find('.icon-public').length).toEqual(0);
 		});
@@ -232,6 +241,7 @@ describe('OCA.Sharing.ShareBreadCrumbView tests', function() {
 			shareTab.trigger('sharesChanged', model);
 
 			expect(bc.$el.hasClass('breadcrumb')).toEqual(true);
+			expect(bc.$el.find('.icon-more').length).toEqual(0);
 			expect(bc.$el.find('.icon-shared').length).toEqual(0);
 			expect(bc.$el.find('.shared').length).toEqual(1);
 			expect(bc.$el.find('.icon-public').length).toEqual(1);
