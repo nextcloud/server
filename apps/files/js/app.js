@@ -93,7 +93,8 @@
 						direction: $('#defaultFileSortingDirection').val()
 					},
 					config: this._filesConfig,
-					enableUpload: true
+					enableUpload: true,
+					maxChunkSize: OC.appConfig.files && OC.appConfig.files.max_chunk_size
 				}
 			);
 			this.files.initialize();

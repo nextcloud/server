@@ -357,7 +357,8 @@
 					this._uploader = new OC.Uploader($uploadEl, {
 						fileList: this,
 						filesClient: this.filesClient,
-						dropZone: $('#content')
+						dropZone: $('#content'),
+						maxChunkSize: options.maxChunkSize
 					});
 
 					this.setupUploadEvents(this._uploader);
