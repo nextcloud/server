@@ -28,8 +28,11 @@
 
 namespace OCA\User_LDAP\Tests;
 
+use OCA\User_LDAP\Access;
+use OCA\User_LDAP\Configuration;
 use OCA\User_LDAP\ILDAPWrapper;
 use \OCA\User_LDAP\Wizard;
+use Test\TestCase;
 
 /**
  * Class Test_Wizard
@@ -38,7 +41,7 @@ use \OCA\User_LDAP\Wizard;
  *
  * @package OCA\User_LDAP\Tests
  */
-class WizardTest extends \Test\TestCase {
+class WizardTest extends TestCase {
 	protected function setUp() {
 		parent::setUp();
 		//we need to make sure the consts are defined, otherwise tests will fail
@@ -62,30 +65,22 @@ class WizardTest extends \Test\TestCase {
 			$connMethods = get_class_methods('\OCA\User_LDAP\Connection');
 			$accMethods  = get_class_methods('\OCA\User_LDAP\Access');
 		}
+		/** @var ILDAPWrapper|\PHPUnit_Framework_MockObject_MockObject $lw */
 		$lw   = $this->createMock(ILDAPWrapper::class);
-		$conf = $this->getMockBuilder('\OCA\User_LDAP\Configuration')
+
+		/** @var Configuration|\PHPUnit_Framework_MockObject_MockObject $conf */
+		$conf = $this->getMockBuilder(Configuration::class)
 			->setMethods($confMethods)
 			->setConstructorArgs([$lw, null, null])
 			->getMock();
 
-		$connector = $this->getMockBuilder('\OCA\User_LDAP\Connection')
-			->setMethods($connMethods)
-			->setConstructorArgs([$lw, null, null])
-			->getMock();
-			
-		$um = $this->getMockBuilder('\OCA\User_LDAP\User\Manager')
-			->disableOriginalConstructor()
-			->getMock();
-		$helper = new \OCA\User_LDAP\Helper(\OC::$server->getConfig());
-		$access = $this->getMockBuilder('\OCA\User_LDAP\Access')
-			->setMethods($accMethods)
-			->setConstructorArgs([$connector, $lw, $um, $helper])
-			->getMock();
+		/** @var Access|\PHPUnit_Framework_MockObject_MockObject $access */
+		$access = $this->createMock(Access::class);
 
 		return array(new Wizard($conf, $lw, $access), $conf, $lw, $access);
 	}
 
-	private function prepareLdapWrapperForConnections(&$ldap) {
+	private function prepareLdapWrapperForConnections(\PHPUnit_Framework_MockObject_MockObject &$ldap) {
 		$ldap->expects($this->once())
 			->method('connect')
 			//dummy value, usually invalid

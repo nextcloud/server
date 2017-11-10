@@ -192,7 +192,7 @@ class UpdateGroups extends \OC\BackgroundJob\TimedJob {
 				\OC::$server->getUserManager(),
 				\OC::$server->getNotificationManager());
 			$connector = new Connection($ldapWrapper, $configPrefixes[0]);
-			$ldapAccess = new Access($connector, $ldapWrapper, $userManager, $helper);
+			$ldapAccess = new Access($connector, $ldapWrapper, $userManager, $helper, \OC::$server->getConfig());
 			$groupMapper = new GroupMapping($dbc);
 			$userMapper  = new UserMapping($dbc);
 			$ldapAccess->setGroupMapper($groupMapper);

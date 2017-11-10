@@ -54,6 +54,8 @@ use OC\ServerNotAvailableException;
  * @property bool|mixed|void ldapGroupMemberAssocAttr
  * @property string ldapUuidUserAttribute
  * @property string ldapUuidGroupAttribute
+ * @property string ldapExpertUUIDUserAttr
+ * @property string ldapExpertUUIDGroupAttr
  */
 class Connection extends LDAPUtility {
 	private $ldapConnectionRes = null;
@@ -350,8 +352,8 @@ class Connection extends LDAPUtility {
 			if(!empty($uuidOverride)) {
 				$this->configuration->$effectiveSetting = $uuidOverride;
 			} else {
-				$uuidAttributes = array('auto', 'entryuuid', 'nsuniqueid',
-										'objectguid', 'guid', 'ipauniqueid');
+				$uuidAttributes = Access::UUID_ATTRIBUTES;
+				array_unshift($uuidAttributes, 'auto');
 				if(!in_array($this->configuration->$effectiveSetting,
 							$uuidAttributes)
 					&& (!is_null($this->configID))) {
