@@ -29,6 +29,7 @@ namespace OCA\Files_Sharing;
 
 use OC\Files\Cache\FailedCache;
 use OC\Files\Cache\Wrapper\CacheJail;
+use OC\Files\Storage\Wrapper\Jail;
 use OCP\Files\Cache\ICacheEntry;
 
 /**
@@ -61,9 +62,21 @@ class Cache extends CacheJail {
 		$this->storage = $storage;
 		$this->sourceRootInfo = $sourceRootInfo;
 		$this->numericId = $sourceRootInfo->getStorageId();
+
+		$absoluteRoot = $this->sourceRootInfo->getPath();
+
+		// the sourceRootInfo path is the absolute path of the folder in the "real" storage
+		// in the case where a folder is shared from a Jail we need to ensure that the share Jail
+		// has it's root set relative to the source Jail
+		$currentStorage = $storage->getSourceStorage();
+		if ($currentStorage->instanceOfStorage(Jail::class)) {
+			/** @var Jail $currentStorage */
+			$absoluteRoot = $currentStorage->getJailedPath($absoluteRoot);
+		}
+
 		parent::__construct(
 			null,
-			$this->sourceRootInfo->getPath()
+			$absoluteRoot
 		);
 	}
 
