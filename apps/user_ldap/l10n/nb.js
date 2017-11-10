@@ -99,6 +99,7 @@ OC.L10N.register(
     "The DN of the client user with which the bind shall be done, e.g. uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password empty." : "DN for klientbrukeren som binding skal gjøres med, f.eks. uid=agent,dc=example,dc=com. For anonym tilgang, la DN og passord stå tomme.",
     "Password" : "Passord",
     "For anonymous access, leave DN and Password empty." : "For anonym tilgang, la DN- og passord-feltet stå tomt.",
+    "Save Credentials" : "Lagre påloggingsdetaljer",
     "One Base DN per line" : "En base-DN pr. linje",
     "You can specify Base DN for users and groups in the Advanced tab" : "Du kan spesifisere base-DN for brukere og grupper under 'Avansert'-fanen",
     "Detect Base DN" : "Påvis base-DN",
