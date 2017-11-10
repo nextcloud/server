@@ -125,6 +125,7 @@ OC.L10N.register(
     "Settings" : "Einstellungen",
     "Show hidden files" : "Versteckte Dateien anzeigen",
     "WebDAV" : "WebDAV",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Diese Adresse benutzen, um <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">über WebDAV auf Deine Dateien zuzugreifen</a>",
     "Cancel upload" : "Hochladen abbrechen",
     "No files in here" : "Keine Dateien vorhanden",
     "Upload some content or sync with your devices!" : "Inhalte hochladen oder mit deinen Geräten synchronisieren!",
