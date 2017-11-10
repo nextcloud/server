@@ -114,8 +114,8 @@
 		 * Renders the breadcrumb elements
 		 */
 		render: function() {
-			// Hide menu on render
-			OC.hideMenus();
+			// Menu is destroyed on every change, we need to init it
+			OC.unregisterMenu($('.crumbmenu'), $('.crumbmenu > .popovermenu'));
 
 			var parts = this._makeCrumbs(this.dir || '/');
 			var $crumb;
@@ -193,8 +193,10 @@
 					greedy: true
 				});
 			}
+
 			// Menu is destroyed on every change, we need to init it
 			OC.registerMenu($('.crumbmenu'), $('.crumbmenu > .popovermenu'));
+
 			this._resize();
 		},
 
@@ -329,7 +331,7 @@
 
 			// Used for testing since this.$el.parent fails
 			if (!this.availableWidth) {
-				this.usedWidth = this.$el.parent().width() - this.$el.next('.actions').width();
+				this.usedWidth = this.$el.parent().width() - (this.$el.parent().find('.button').length + 1) * 44;
 			} else {
 				this.usedWidth = this.availableWidth;
 			}
@@ -337,7 +339,7 @@
 			// If container is smaller than content
 			// AND if there are crumbs left to hide
 			while (this.getTotalWidth() > this.usedWidth
-			&& this.$el.find(this.crumbSelector).length > 0) {
+				&& this.$el.find(this.crumbSelector).length > 0) {
 				this._hideCrumb();
 			}
 			// If container is bigger than content + element to be shown
