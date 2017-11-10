@@ -125,6 +125,7 @@ OC.L10N.register(
     "Settings" : "პარამეტრები",
     "Show hidden files" : "დამალული ფაილების ჩვენება",
     "WebDAV" : "WebDAV",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "გამოიყენეთ ეს მისამართი რომ <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">იქონიოთ წვდომა თქვენს ფაილებთან WebDAV-ით</a>",
     "Cancel upload" : "ატვირთვის შეჩერება",
     "No files in here" : "აქ ფაილები არაა",
     "Upload some content or sync with your devices!" : "ატვირთეთ რამე ან მოახდინეთ სინქრონიზაცია თქვენს მოწყობილობებთან!",

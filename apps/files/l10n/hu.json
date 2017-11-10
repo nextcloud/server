@@ -123,6 +123,7 @@
     "Settings" : "Beállítások",
     "Show hidden files" : "Rejtett fájlok megjelenítése",
     "WebDAV" : "WebDAV",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Használd ezt a címet a <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">fájlok WebDAV-al való eléréséhez</a>",
     "Cancel upload" : "Feltöltés megszakítása",
     "No files in here" : "Itt nincsenek fájlok",
     "Upload some content or sync with your devices!" : "Tölts fel néhány tartalmat, vagy szinkronizálj az eszközöddel!",

@@ -99,6 +99,7 @@ OC.L10N.register(
     "The DN of the client user with which the bind shall be done, e.g. uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password empty." : "Der DN des Benutzers, mit dem der LDAP-Bind durchgeführt werden soll, z.B. uid=agent,dc=example,dc=com. Für einen anonymen Zugriff lassen Sie DN und Passwort leer.",
     "Password" : "Passwort",
     "For anonymous access, leave DN and Password empty." : "Lassen Sie die Felder DN und Passwort für einen anonymen Zugang leer.",
+    "Save Credentials" : "Zugangsdaten speichern",
     "One Base DN per line" : "Einen Basis-DN pro Zeile",
     "You can specify Base DN for users and groups in the Advanced tab" : " Sie können die Basis-DN für Benutzer und Gruppen im Reiter „Fortgeschritten“ angeben",
     "Detect Base DN" : "Base-DN ermitteln",
