@@ -23,10 +23,15 @@
 
 namespace OCA\DAV\Tests\Unit\DAV\Controller;
 
+use OCA\DAV\BackgroundJob\GenerateBirthdayCalendarBackgroundJob;
+use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\Controller\BirthdayCalendarController;
+use OCP\BackgroundJob\IJobList;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IRequest;
+use OCP\IUser;
+use OCP\IUserManager;
 use Test\TestCase;
 
 class BirthdayCalendarControllerTest extends TestCase {
@@ -40,6 +45,15 @@ class BirthdayCalendarControllerTest extends TestCase {
 	/** @var IDBConnection|\PHPUnit_Framework_MockObject_MockObject */
 	private $db;
 
+	/** @var IJobList|\PHPUnit_Framework_MockObject_MockObject */
+	private $jobList;
+
+	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
+	private $userManager;
+
+	/** @var CalDavBackend|\PHPUnit_Framework_MockObject_MockObject */
+	private $caldav;
+
 	/** @var BirthdayCalendarController|\PHPUnit_Framework_MockObject_MockObject */
 	private $controller;
 
@@ -49,15 +63,44 @@ class BirthdayCalendarControllerTest extends TestCase {
 		$this->config = $this->createMock(IConfig::class);
 		$this->request = $this->createMock(IRequest::class);
 		$this->db = $this->createMock(IDBConnection::class);
+		$this->jobList = $this->createMock(IJobList::class);
+		$this->userManager = $this->createMock(IUserManager::class);
+		$this->caldav = $this->createMock(CalDavBackend::class);
 
 		$this->controller = new BirthdayCalendarController('dav',
-			$this->request, $this->db, $this->config);
+			$this->request, $this->db, $this->config, $this->jobList,
+			$this->userManager, $this->caldav);
 	}
 
 	public function testEnable() {
 		$this->config->expects($this->once())
 			->method('setAppValue')
 			->with('dav', 'generateBirthdayCalendar', 'yes');
+
+		$this->userManager->expects($this->once())
+			->method('callForAllUsers')
+			->will($this->returnCallback(function($closure) {
+				$user1 = $this->createMock(IUser::class);
+				$user1->method('getUID')->will($this->returnValue('uid1'));
+				$user2 = $this->createMock(IUser::class);
+				$user2->method('getUID')->will($this->returnValue('uid2'));
+				$user3 = $this->createMock(IUser::class);
+				$user3->method('getUID')->will($this->returnValue('uid3'));
+
+				$closure($user1);
+				$closure($user2);
+				$closure($user3);
+			}));
+
+		$this->jobList->expects($this->at(0))
+			->method('add')
+			->with(GenerateBirthdayCalendarBackgroundJob::class, ['userId' => 'uid1']);
+		$this->jobList->expects($this->at(1))
+			->method('add')
+			->with(GenerateBirthdayCalendarBackgroundJob::class, ['userId' => 'uid2']);
+		$this->jobList->expects($this->at(2))
+			->method('add')
+			->with(GenerateBirthdayCalendarBackgroundJob::class, ['userId' => 'uid3']);
 
 		$response = $this->controller->enable();
 		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $response);
@@ -67,6 +110,11 @@ class BirthdayCalendarControllerTest extends TestCase {
 		$this->config->expects($this->once())
 			->method('setAppValue')
 			->with('dav', 'generateBirthdayCalendar', 'no');
+		$this->jobList->expects($this->once())
+			->method('remove')
+			->with(GenerateBirthdayCalendarBackgroundJob::class);
+		$this->caldav->expects($this->once())
+			->method('deleteAllBirthdayCalendars');
 
 		$response = $this->controller->disable();
 		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $response);

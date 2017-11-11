@@ -23,12 +23,17 @@
 
 namespace OCA\DAV\Controller;
 
+use OCA\DAV\BackgroundJob\GenerateBirthdayCalendarBackgroundJob;
+use OCA\DAV\CalDAV\CalDavBackend;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
+use OCP\BackgroundJob\IJobList;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IRequest;
+use OCP\IUser;
+use OCP\IUserManager;
 
 class BirthdayCalendarController extends Controller {
 
@@ -43,18 +48,42 @@ class BirthdayCalendarController extends Controller {
 	protected $config;
 
 	/**
+	 * @var IUserManager
+	 */
+	protected $userManager;
+
+	/**
+	 * @var CalDavBackend
+	 */
+	protected $caldavBackend;
+
+	/**
+	 * @var IJobList
+	 */
+	protected $jobList;
+
+	/**
 	 * BirthdayCalendar constructor.
 	 *
 	 * @param string $appName
 	 * @param IRequest $request
 	 * @param IDBConnection $db
 	 * @param IConfig $config
+	 * @param IJobList $jobList
+	 * @param IUserManager $userManager
+	 * @param CalDavBackend $calDavBackend
 	 */
 	public function __construct($appName, IRequest $request,
-								IDBConnection $db, IConfig $config){
+								IDBConnection $db, IConfig $config,
+								IJobList $jobList,
+								IUserManager $userManager,
+								CalDavBackend $calDavBackend){
 		parent::__construct($appName, $request);
 		$this->db = $db;
 		$this->config = $config;
+		$this->userManager = $userManager;
+		$this->jobList = $jobList;
+		$this->caldavBackend = $calDavBackend;
 	}
 
 	/**
@@ -63,7 +92,12 @@ class BirthdayCalendarController extends Controller {
 	public function enable() {
 		$this->config->setAppValue($this->appName, 'generateBirthdayCalendar', 'yes');
 
-		// TODO schedule background job to regenerate
+		// add background job for each user
+		$this->userManager->callForAllUsers(function(IUser $user) {
+			$this->jobList->add(GenerateBirthdayCalendarBackgroundJob::class, [
+				'userId' => $user->getUID(),
+			]);
+		});
 
 		return new JSONResponse([]);
 	}
@@ -74,7 +108,8 @@ class BirthdayCalendarController extends Controller {
 	public function disable() {
 		$this->config->setAppValue($this->appName, 'generateBirthdayCalendar', 'no');
 
-		// TODO delete all birthday calendars
+		$this->jobList->remove(GenerateBirthdayCalendarBackgroundJob::class);
+		$this->caldavBackend->deleteAllBirthdayCalendars();
 
 		return new JSONResponse([]);
 	}
