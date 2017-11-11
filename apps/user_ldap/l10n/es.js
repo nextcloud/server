@@ -99,6 +99,7 @@ OC.L10N.register(
     "The DN of the client user with which the bind shall be done, e.g. uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password empty." : "El DN del usuario cliente con el que se hará la asociación, p.ej. uid=agente,dc=ejemplo,dc=com. Para acceso anónimo, deje DN y contraseña vacíos.",
     "Password" : "Contraseña",
     "For anonymous access, leave DN and Password empty." : "Para acceso anónimo, deje DN y contraseña vacíos.",
+    "Save Credentials" : "Guardar credenciales",
     "One Base DN per line" : "Un DN Base por línea",
     "You can specify Base DN for users and groups in the Advanced tab" : "Puede especificar el DN base para usuarios y grupos en la pestaña Avanzado",
     "Detect Base DN" : "Detectar Base DN",

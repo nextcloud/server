@@ -41,6 +41,7 @@ OC.L10N.register(
     "A calendar <strong>event</strong> was modified" : "En kalender <strong>hendelse</strong> ble endret",
     "A calendar <strong>todo</strong> was modified" : "En kalende <strong>gjøremål</strong> ble endret",
     "Contact birthdays" : "Kontakters fødelsdag",
+    "Invitation canceled" : "Invitasjon tilbakekalt",
     "Hello %s," : "Hei %s,",
     "The meeting »%s« with %s was canceled." : "Møtet \"%s\" med %s ble kansellert.",
     "Invitation updated" : "Invitasjon oppdatert",
@@ -55,6 +56,7 @@ OC.L10N.register(
     "Remote Address: %s" : "Ekstern adresse: %s",
     "Request ID: %s" : "Forespørsel ID: %s",
     "CalDAV server" : "DalDAV-tjener",
-    "Send invitations to attendees" : "Send invitasjoner til oppmøtte"
+    "Send invitations to attendees" : "Send invitasjoner til oppmøtte",
+    "Please make sure to properly set up the email settings above." : "Sett opp e-postinnstillingene ovenfor på riktig måte."
 },
 "nplurals=2; plural=(n != 1);");

@@ -33,6 +33,7 @@ OC.L10N.register(
     "Login image" : "Bejelentkező kép",
     "Upload new login background" : "Új bejelentkező kép feltöltése",
     "Remove background image" : "Háttérkép eltávolítása",
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Telepítsd az Imagemagick PHP kiterjesztést SVG kép támogatással a feltöltött logóból és színből való automatikus favikon generáláshoz.",
     "reset to default" : "Visszaállítás alapértelmezettre",
     "Log in image" : "Bejelentkező kép"
 },

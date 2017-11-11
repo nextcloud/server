@@ -440,7 +440,6 @@
     "Subscribe to our newsletter!" : " Bültenimize abone olun!",
     "Show last log in" : "Son oturum açma zamanı görüntülensin",
     "Group name" : "Grup adı",
-    "You have now an %s account, you can add, protect, and share your data." : "%s hesabınız açıldı. Verilerinizi ekleyip koruyabilir ve paylaşabilirsiniz.",
     "Verifying" : "Doğrulanıyor",
     "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the Tips & Ticks section and the documentation for more information." : "Kopyanızın güvenli ve yüksek başarımla çalışması için ayarların doğru yapılmış olması önemlidir. Bunu sağlamak için bazı otomatik denetimler yapılır. Ayrıntılı bilgi almak için İpuçları bölümüne ve belgelere bakın.",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with MIME type detection." : "PHP 'fileinfo' modülü bulunamadı. MIME türü algılamasında en iyi sonuçları elde etmek için bu modülü etkinleştirmeniz önerilir.",

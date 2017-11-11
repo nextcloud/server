@@ -408,7 +408,6 @@ OC.L10N.register(
     "Subscribe to our newsletter!" : "Prihlás sa na odber noviniek emailom!",
     "Show last log in" : "Zobraziť posledné prihlásenie",
     "Group name" : "Názov skupiny",
-    "You have now an %s account, you can add, protect, and share your data." : "Teraz máte účet %s, môžete pridávať, chrániť a sprístupňovať Vaše dáta.",
     "Verifying" : "Overovanie",
     "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the Tips & Ticks section and the documentation for more information." : "Pre bezpečnosť a maximálny výkon Vašej inštancie je dôležité aby všetko bolo nakonfigurované korektne.  Aby sme Vám pomohli, robíme nejaké automatizované kontroly.  Pre viac informácií pozrite časť Tipy a Triky a dokumentáciu.",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with MIME type detection." : "Chýba PHP modul 'fileinfo'. Dôrazne doporučujeme ho povoliť pre dosiahnutie najlepších výsledkov zisťovania MIME-typu.",

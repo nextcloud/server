@@ -41,6 +41,8 @@ OC.L10N.register(
     "A calendar <strong>event</strong> was modified" : "<strong>Zdarzenie</strong> kalendarza zostało zmodyfikowane",
     "A calendar <strong>todo</strong> was modified" : "Kalendarz <strong>zadań</strong> został zmieniony",
     "Contact birthdays" : "Urodziny kontaktu",
+    "When:" : "Kiedy:",
+    "Description:" : "Opis:",
     "Contacts" : "Kontakty",
     "Technical details" : "Szczegóły techniczne",
     "Remote Address: %s" : "Adres zdalny: %s",

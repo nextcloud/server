@@ -445,7 +445,6 @@
     "Subscribe to our newsletter!" : "გამოიწერეთ ჩვენი სიახლეები!",
     "Show last log in" : "ბოლო ავტორიზაციის ჩვენება",
     "Group name" : "ჯგუფის სახელი",
-    "You have now an %s account, you can add, protect, and share your data." : "ახლა გაქვთ %s ანგარიში, შეგიძლიათ დაამატოთ, დაიცვათ და გააზიაროთ თქვენი მონაცემები.",
     "Verifying" : "მოწმდება",
     "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the Tips & Ticks section and the documentation for more information." : "თქვენი ნიმუშის უსაფრთხოებისა და გამართული მოქმედებისთვის მნიშვნელოვანია ყველაფერი სწორად იყოს კონფიგურირებული. თქვენს დასახმარებლად ვატარებთ გარკვეულ ავტომატიზირებულ შემოწმებს. გთხოვთ იხილოთ რჩევებისა და ხრიკების სექცია და მეტი ინფორმაციისთვის გადახედოთ დოკუმენტაციას.",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with MIME type detection." : "PHP მოდული 'fileinfo' არ არსებობს. ჩვენ გირჩევთ რომ აუცილებლად ჩართოთ ეს მოდული, რომ მიიღოთ კარგი შედეგები MIME type–ის აღმოჩენისას.",

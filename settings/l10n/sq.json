@@ -434,7 +434,6 @@
     "Subscribe to our newsletter!" : "Abonohuni në buletinin tonë informativ!",
     "Show last log in" : "Shfaq hyrjen e fundit",
     "Group name" : "Emri i grupit",
-    "You have now an %s account, you can add, protect, and share your data." : "Ju keni tani një %s llogari, ju mund të shtoni, mbroni dhe shpërndanin të dhënat tuaja.",
     "Verifying" : "Duke verifikuar",
     "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the Tips & Ticks section and the documentation for more information." : "Është e rëndësishme për sigurinë dhe performancën e instancës tuaj që gjithçka të konfigurohet në mënyrë korrekte. Për t'ju ndihmuar me këtë ne po bëjmë disa kontrolle automatike. Ju lutemi shikoni seksionin e këshillave dhe dokumentacionin për më shumë informacion.",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with MIME type detection." : "Moduli PHP 'fileinfo' mungon. Ne ju rekomandojmë që të mundësohet ky modul për të marrë rezultatet më të mira me zbulimin e llojit MIME.",

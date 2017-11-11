@@ -425,7 +425,6 @@ OC.L10N.register(
     "Subscribe to our newsletter!" : "Izena eman gure berrietan!",
     "Show last log in" : "Erakutsi azkeneko saio hasiera",
     "Group name" : "Taldearen izena",
-    "You have now an %s account, you can add, protect, and share your data." : "Orain baduzu %s kontu bat, zure datuak gehitu, babestu eta parteka ditzakezu.",
     "Verifying" : "Konprobatzen",
     "Follow us on Google+!" : "Jarrai gaitzazu Google+en!",
     "Follow us on Twitter!" : "Jarrai gaitzazu Twitterren!",
