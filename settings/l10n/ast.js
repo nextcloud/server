@@ -372,7 +372,6 @@ OC.L10N.register(
     "Subscribe to our twitter channel!" : "¡Soscríbite a la nuesa canal de Twitter!",
     "Subscribe to our newsletter!" : "¡Soscríbite al nuesu boletín!",
     "Group name" : "Nome del grupu",
-    "You have now an %s account, you can add, protect, and share your data." : "Agora tienes una cuenta %s, pues amestar, protexer y compartir los tos datos.",
     "Verifying" : "Verificando",
     "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the Tips & Ticks section and the documentation for more information." : "El que too tea configurao afayadizamente ye importante pa la seguranza y rindimientu de la to instancia. P'ayudate con ello, tamos faciendo delles comprobaciones automátiques. Mira la estaya Conseyos y trucos, y la documentación pa más información.",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with MIME type detection." : "Falta'l módulu PHP «fileinfo». Encamentámoste activalu pa consiguir los meyores resultaos pa cola deteición de tribes MIME.",

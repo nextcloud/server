@@ -447,7 +447,6 @@ OC.L10N.register(
     "Subscribe to our newsletter!" : "Gerstu áskrifandi að fréttabréfinu okkar!",
     "Show last log in" : "Birta síðustu innskráningu",
     "Group name" : "Heiti hóps",
-    "You have now an %s account, you can add, protect, and share your data." : "Þú ert núna með %s aðgang, þú getur bætt við, varið og deilt gögnunum þínum.",
     "Verifying" : "Sannreyni",
     "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the Tips & Ticks section and the documentation for more information." : "Það er mikilvægt fyrir öryggi og afköst uppsetningarinnar þinnar að allt sé rétt stillt. Til að hjálpa við að svo sé, eru gerðar ýmsar sjálfvirkar prófanir. Skoðaðu 'Ábendingar og góð ráð' (Tips & Tricks) og hjálparskjölin til að sjá ítarlegar upplýsingar.",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with MIME type detection." : "PHP-eininguna 'fileinfo' vantar. Við mælum eindregið með notkun þessarar einingar til að fá bestu útkomu við greiningu á MIME-skráagerðum.",

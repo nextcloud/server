@@ -436,7 +436,6 @@
     "Subscribe to our newsletter!" : "Odebírejte náš newsletter!",
     "Show last log in" : "Poslední přihlášení",
     "Group name" : "Jméno skupiny",
-    "You have now an %s account, you can add, protect, and share your data." : "Nyní máte %s účet, můžete přidat, ochránit a sdílet svá data.",
     "Verifying" : "Ověřování",
     "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the Tips & Ticks section and the documentation for more information." : "Pro optimální zabezpečení a výkon instance je důležitě, aby vše bylo správně nakonfigurováno. Abychom vám v tom pomohli, automaticky ověřujeme některá nastavení. Pro více informací nahlédněte do sekce Tipy a Triky a do dokumentace.",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with MIME type detection." : "PHP modul 'fileinfo' chybí. Velmi ho kvůli lepším výsledkům detekce MIME typu souburu doporučujeme povolit.",

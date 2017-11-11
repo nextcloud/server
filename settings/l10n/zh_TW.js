@@ -336,7 +336,6 @@ OC.L10N.register(
     "iOS app" : "iOS 應用程式",
     "Show First Run Wizard again" : "再次顯示首次使用精靈",
     "Name" : "名稱",
-    "Show last log in" : "顯示最近登入",
-    "You have now an %s account, you can add, protect, and share your data." : "您現在已經是%s帳戶，你可以新增，維護且分享您的檔案了。"
+    "Show last log in" : "顯示最近登入"
 },
 "nplurals=1; plural=0;");

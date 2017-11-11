@@ -440,7 +440,6 @@
     "Subscribe to our newsletter!" : "Subscribe to our newsletter!",
     "Show last log in" : "Show last log in",
     "Group name" : "Group name",
-    "You have now an %s account, you can add, protect, and share your data." : "You have now an %s account, you can add, protect, and share your data.",
     "Verifying" : "Verifying",
     "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the Tips & Ticks section and the documentation for more information." : "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the Tips & Ticks section and the documentation for more information.",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with MIME type detection." : "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with MIME type detection.",

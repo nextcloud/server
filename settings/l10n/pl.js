@@ -442,7 +442,6 @@ OC.L10N.register(
     "Subscribe to our newsletter!" : "Zapisz się do naszego newslettera!",
     "Show last log in" : "Pokaż ostatni login",
     "Group name" : "Nazwa grupy",
-    "You have now an %s account, you can add, protect, and share your data." : "Masz teraz konto na %s, możesz edytować, chronić i współdzielić dane.",
     "Verifying" : "Sprawdzanie",
     "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the Tips & Ticks section and the documentation for more information." : "Poprawna konfiguracja jest ważna dla bezpieczeństwa i wydajności Twojej instancji. W celach pomocniczych przeprowadzane są automatyczne kontrole. Więcej informacji można znaleźć w dziale  Wskazówki i Porady oraz w dokumentacji.",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with MIME type detection." : "Brakuje modułu PHP 'fileinfo'. Silnie zalecamy włączenie tego modułu, aby osiągać lepsze wyniki w wykrywaniu typów plików MIME.",

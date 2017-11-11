@@ -445,7 +445,6 @@
     "Subscribe to our newsletter!" : "Iratkozz fel a hírlevelünkre!",
     "Show last log in" : "Utolsó bejelentkezés megjelenítése",
     "Group name" : "Csoport neve",
-    "You have now an %s account, you can add, protect, and share your data." : "Most már van egy %s fiókod, hozzáadhatod, védheted és megoszthatod az adataidat.",
     "Verifying" : "Ellenőrzés",
     "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the Tips & Ticks section and the documentation for more information." : "A telepítésed biztonságához és megfelelő teljesítményéhez fontos, hogy minden beállítás helyes legyen. Ennek érdekében segítünk pár automatikus ellenőrzéssel. Kérlek tekintsd meg a tippek&trükkök részt a dokumentációban több információért.",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with MIME type detection." : "A 'fileinfo' PHP modul nincs meg. Erősen javasoljuk használatát, hogy a MIME típus felismerés megfelelően működjön.",
