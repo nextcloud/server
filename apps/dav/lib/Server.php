@@ -33,6 +33,7 @@
 namespace OCA\DAV;
 
 use OC\AppFramework\Utility\TimeFactory;
+use OCA\DAV\CalDAV\BirthdayService;
 use OCA\DAV\CalDAV\Schedule\IMipPlugin;
 use OCA\DAV\CardDAV\ImageExportPlugin;
 use OCA\DAV\CardDAV\PhotoCache;
@@ -260,7 +261,8 @@ class Server {
 					)));
 				}
 				$this->server->addPlugin(new \OCA\DAV\CalDAV\BirthdayCalendar\EnablePlugin(
-					\OC::$server->getConfig()
+					\OC::$server->getConfig(),
+					\OC::$server->query(BirthdayService::class)
 				));
 			}
 

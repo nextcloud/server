@@ -22,6 +22,7 @@
 namespace OCA\DAV\Tests\unit\CalDAV\BirthdayCalendar;
 
 use OCA\DAV\CalDAV\BirthdayCalendar\EnablePlugin;
+use OCA\DAV\CalDAV\BirthdayService;
 use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\CalDAV\CalendarHome;
 use OCP\IConfig;
@@ -34,6 +35,9 @@ class EnablePluginTest extends TestCase {
 
 	/** @var \OCP\IConfig|\PHPUnit_Framework_MockObject_MockObject */
 	protected $config;
+
+	/** @var BirthdayService |\PHPUnit_Framework_MockObject_MockObject */
+	protected $birthdayService;
 
 	/** @var \OCA\DAV\CalDAV\BirthdayCalendar\EnablePlugin $plugin */
 	protected $plugin;
@@ -51,8 +55,9 @@ class EnablePluginTest extends TestCase {
 		$this->server->xml = $this->createMock(\Sabre\DAV\Xml\Service::class);
 
 		$this->config = $this->createMock(IConfig::class);
+		$this->birthdayService = $this->createMock(BirthdayService::class);
 
-		$this->plugin = new EnablePlugin($this->config);
+		$this->plugin = new EnablePlugin($this->config, $this->birthdayService);
 		$this->plugin->initialize($this->server);
 
 		$this->request = $this->createMock(\Sabre\HTTP\RequestInterface::class);
@@ -70,7 +75,7 @@ class EnablePluginTest extends TestCase {
 	public function testInitialize() {
 		$server = $this->createMock(\Sabre\DAV\Server::class);
 
-		$plugin = new EnablePlugin($this->config);
+		$plugin = new EnablePlugin($this->config, $this->birthdayService);
 
 		$server->expects($this->at(0))
 			->method('on')
@@ -92,6 +97,9 @@ class EnablePluginTest extends TestCase {
 
 		$this->config->expects($this->never())
 			->method('setUserValue');
+
+		$this->birthdayService->expects($this->never())
+			->method('syncUser');
 
 		$this->plugin->httpPost($this->request, $this->response);
 	}
@@ -123,6 +131,9 @@ class EnablePluginTest extends TestCase {
 
 		$this->config->expects($this->never())
 			->method('setUserValue');
+
+		$this->birthdayService->expects($this->never())
+			->method('syncUser');
 
 		$this->plugin->httpPost($this->request, $this->response);
 	}
@@ -159,6 +170,10 @@ class EnablePluginTest extends TestCase {
 		$this->config->expects($this->once())
 			->method('setUserValue')
 			->with('BlaBlub', 'dav', 'generateBirthdayCalendar', 'yes');
+
+		$this->birthdayService->expects($this->once())
+			->method('syncUser')
+			->with('BlaBlub');
 
 		$this->server->httpResponse->expects($this->once())
 			->method('setStatus')
