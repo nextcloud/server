@@ -168,6 +168,60 @@ describe('OCA.Files.BreadCrumb tests', function() {
 			droppableStub.restore();
 		});
 	});
+
+	describe('Menu tests', function() {
+		var bc, dummyDir, $crumbmenuLink, $popovermenu;
+
+		beforeEach(function() {
+			dummyDir = '/one/two/three/four/five'
+
+			$('div.crumb').each(function(index){
+				$(this).css('width', 50);
+			});
+
+			bc = new BreadCrumb();
+			// append dummy navigation and controls
+			// as they are currently used for measurements
+			$('#testArea').append(
+				'<div id="controls"></div>'
+			);
+			$('#controls').append(bc.$el);
+
+			// Shrink to show popovermenu
+			bc.setMaxWidth(300);
+
+			// triggers resize implicitly
+			bc.setDirectory(dummyDir);
+
+			$crumbmenuLink = bc.$el.find('.crumbmenu > a');
+			$popovermenu = $crumbmenuLink.next('.popovermenu');
+		});
+		afterEach(function() {
+			bc = null;
+		});
+
+		it('Opens and closes the menu on click', function() {
+			// Menu exists
+			expect($popovermenu.length).toEqual(1);
+
+			// Disable jQuery delay
+			jQuery.fx.off = true
+
+			// Click on menu
+			$crumbmenuLink.click();
+			expect($popovermenu.is(':visible')).toEqual(true);
+
+			// Click on home
+			$(document).mouseup();
+			expect($popovermenu.is(':visible')).toEqual(false);
+
+		});
+		it('Shows only items not in the breadcrumb', function() {
+			var hiddenCrumbs = bc.$el.find('.crumb:not(.crumbmenu).hidden');
+			expect($popovermenu.find('li:not(.in-breadcrumb)').length).toEqual(hiddenCrumbs.length);
+		});
+	});
+
 	describe('Resizing', function() {
 		var bc, dummyDir, widths;
 
