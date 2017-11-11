@@ -33,6 +33,7 @@ OC.L10N.register(
     "Login image" : "Imagem de login",
     "Upload new login background" : "Enviar nova imagem de fundo para o login",
     "Remove background image" : "Excluir a imagem de fundo",
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instale a extensão PHP Imagemagick com suporte a imagens SVG para gerar favicons automaticamente, com base no logotipo e na cor enviados.",
     "reset to default" : "restaurar ao padrão",
     "Log in image" : "Imagem do login"
 },

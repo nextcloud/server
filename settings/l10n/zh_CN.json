@@ -440,7 +440,6 @@
     "Subscribe to our newsletter!" : "订阅我们的最新消息!",
     "Show last log in" : "显示最后登录",
     "Group name" : "分组名",
-    "You have now an %s account, you can add, protect, and share your data." : "你现在有%s个账户，你可以添加，保护和分享你的数据。",
     "Verifying" : "正在验证",
     "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the Tips & Ticks section and the documentation for more information." : "为了您服务的安全和性能, 请将所有设置配置正确. 我们将会进行一些自动化检查以帮助您完成这项工作. 详情请查看 \"小提示\" 部分及相关文档.",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with MIME type detection." : "PHP 模块 'fileinfo' 缺失. 我们强烈建议启用此模块以便在 MIME 类型检测时获得最准确的结果.",

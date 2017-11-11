@@ -427,7 +427,6 @@
     "Subscribe to our newsletter!" : "ニュースレターを購読する！",
     "Show last log in" : "最終ログインを表示",
     "Group name" : "グループ名",
-    "You have now an %s account, you can add, protect, and share your data." : "今のアカウントは、%s です。データを追加、保護、共有できます。",
     "Verifying" : "検証中",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with MIME type detection." : "PHP のモジュール 'fileinfo' が見つかりません。mimeタイプの検出を精度良く行うために、このモジュールを有効にすることを強くお勧めします。",
     "Web, desktop, mobile clients and app specific passwords that currently have access to your account." : "現在、あなたのアカウントに接続している ブラウザー、デスクトップアプリ、モバイルアプリ、パスワード指定のアプリのリストです。",

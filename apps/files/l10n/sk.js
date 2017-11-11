@@ -125,6 +125,7 @@ OC.L10N.register(
     "Settings" : "Nastavenia",
     "Show hidden files" : "Zobraziť skryté súbory",
     "WebDAV" : "WebDAV",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Použiť túto adresu pre <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">prístup ku svojím súborom cez WebDAV</a>",
     "Cancel upload" : "Zrušiť nahrávanie",
     "No files in here" : "Nie sú tu žiadne súbory",
     "Upload some content or sync with your devices!" : "Nahrajte nejaký obsah alebo synchronizujte zo svojimi zariadeniami!",

@@ -382,7 +382,6 @@ OC.L10N.register(
     "Follow us on Google Plus!" : "Segueix-nos al Google Plus!",
     "Show last log in" : "Mostrar l'últim accés",
     "Group name" : "Nom del grup",
-    "You have now an %s account, you can add, protect, and share your data." : "Ara tens un compte %s, pot afegir, protegir i compartir les teves dades.",
     "Verifying" : "Verificant",
     "Follow us on Google+!" : "Segueix-nos al Google+!",
     "Follow us on Twitter!" : "Segueix-nos al Twitter!",

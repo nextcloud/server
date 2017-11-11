@@ -445,7 +445,6 @@
     "Subscribe to our newsletter!" : "Inscreva-se para receber nosso boletim informativo!",
     "Show last log in" : "Mostrar o último acesso",
     "Group name" : "Nome do grupo",
-    "You have now an %s account, you can add, protect, and share your data." : "Agora que você tem uma conta %s, pode adicionar, proteger e compartilhar seus dados.",
     "Verifying" : "Verificando",
     "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the Tips & Ticks section and the documentation for more information." : "É importante para a segurança e o desempenho de sua instância que tudo esteja configurado corretamente. Para ajudá-lo com isso, estamos fazendo algumas verificações automáticas. Consulte a seção Dicas e a documentação para obter mais informações.",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with MIME type detection." : "O módulo PHP 'fileinfo' está faltando. Recomendamos fortemente habilitá-lo para obter um melhor resultado com a detecção de tipo MIME.",

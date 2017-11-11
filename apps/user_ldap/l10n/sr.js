@@ -99,6 +99,7 @@ OC.L10N.register(
     "The DN of the client user with which the bind shall be done, e.g. uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password empty." : "DN корисника клијента са којим треба да се успостави веза, нпр. uid=agent,dc=example,dc=com. За анониман приступ, оставите поља DN и лозинка празним.",
     "Password" : "Лозинка",
     "For anonymous access, leave DN and Password empty." : "За анониман приступ, оставите поља DN и лозинка празним.",
+    "Save Credentials" : "Сачувај акредитиве",
     "One Base DN per line" : "Један Base DN по линији",
     "You can specify Base DN for users and groups in the Advanced tab" : "Можете навести Base DN за кориснике и групе у картици Напредно",
     "Detect Base DN" : "Откриј Base DN",
