@@ -19,6 +19,8 @@ OC.L10N.register(
     "Uploading …" : "Feltöltés...",
     "…" : "...",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} / {totalSize} ({bitrate})",
+    "Target folder does not exist any more" : "A célmappa már nem létezik",
+    "Error when assembling chunks, status code {status}" : "Hiba a darabok összerakásakor, Állapotkód {status}",
     "Actions" : "Műveletek",
     "Download" : "Letöltés",
     "Rename" : "Átnevezés",

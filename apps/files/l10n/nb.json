@@ -17,6 +17,8 @@
     "Uploading …" : "Laster opp…",
     "…" : "…",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} av {totalSize} ({bitrate})",
+    "Target folder does not exist any more" : "Målmappen finnes ikke lenger",
+    "Error when assembling chunks, status code {status}" : "Feil under sammenkobling av biter, statuskode {status}",
     "Actions" : "Handlinger",
     "Download" : "Last ned",
     "Rename" : "Gi nytt navn",

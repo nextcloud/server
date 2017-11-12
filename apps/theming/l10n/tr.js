@@ -33,6 +33,7 @@ OC.L10N.register(
     "Login image" : "Oturum açma görseli",
     "Upload new login background" : "Yeni oturum açma art alanı yükle",
     "Remove background image" : "Art alan görselini kaldır",
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Yüklenen logo ve renge göre otomatik olarak favicon üretilmesi için Imagemagick PHP eklentisini SVG desteği ile kurun.",
     "reset to default" : "varsayılana dön",
     "Log in image" : "Oturum açma görseli"
 },

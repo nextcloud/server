@@ -33,6 +33,7 @@ OC.L10N.register(
     "Login image" : "Слика на пријави",
     "Upload new login background" : "Отпремите нову позадину на пријави",
     "Remove background image" : "Уклони позадину",
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Инсталирајте Imagemagick PHP екстензију која подржава SVG слике, да аутоматски направи иконе од отпремљеног логоа и боје.",
     "reset to default" : "ресетуј на подразумевано",
     "Log in image" : "Слика на пријави"
 },

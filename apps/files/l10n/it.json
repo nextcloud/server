@@ -17,6 +17,8 @@
     "Uploading …" : "Caricamento in corso...",
     "…" : "…",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} di {totalSize} ({bitrate})",
+    "Target folder does not exist any more" : "La cartella di destinazione non esiste più",
+    "Error when assembling chunks, status code {status}" : "Errore durante l'assemblaggio dei blocchi, codice di stato {status}",
     "Actions" : "Azioni",
     "Download" : "Scarica",
     "Rename" : "Rinomina",

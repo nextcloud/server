@@ -19,6 +19,8 @@ OC.L10N.register(
     "Uploading …" : "იტვირთება ...",
     "…" : "...",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} სულ {totalSize}-დან ({bitrate})",
+    "Target folder does not exist any more" : "დანიშნულების დირექტორია აღარ არსებობს",
+    "Error when assembling chunks, status code {status}" : "ნაჭრების შეგროვებისას წარმოიშვა შეცდომა, სტატუსის კოდი {status}",
     "Actions" : "მოქმედებები",
     "Download" : "ჩამოტვირთვა",
     "Rename" : "გადარქმევა",
