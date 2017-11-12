@@ -215,6 +215,19 @@ describe('OCA.Files.BreadCrumb tests', function() {
 			$(document).mouseup();
 			expect($popovermenu.is(':visible')).toEqual(false);
 
+			// Change directory and reset elements
+			bc.setDirectory('/one/two/three/four/five/six/seven/eight/nine/ten');
+			$crumbmenuLink = bc.$el.find('.crumbmenu > a');
+			$popovermenu = $crumbmenuLink.next('.popovermenu');
+
+			// Click on menu again
+			$crumbmenuLink.click();
+			expect($popovermenu.is(':visible')).toEqual(true);
+
+			// Click on home again
+			$(document).mouseup();
+			expect($popovermenu.is(':visible')).toEqual(false);
+
 		});
 		it('Shows only items not in the breadcrumb', function() {
 			var hiddenCrumbs = bc.$el.find('.crumb:not(.crumbmenu).hidden');
