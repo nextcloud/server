@@ -19,6 +19,8 @@ OC.L10N.register(
     "Uploading …" : "Enviando...",
     "…" : "…",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} de {totalSize} ({bitrate})",
+    "Target folder does not exist any more" : "Pasta destino não existe mais",
+    "Error when assembling chunks, status code {status}" : "Erro ao montar partes, código de status {status}",
     "Actions" : "Ações",
     "Download" : "Baixar",
     "Rename" : "Renomear",

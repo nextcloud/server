@@ -19,6 +19,8 @@ OC.L10N.register(
     "Uploading …" : "Lade hoch...",
     "…" : "…",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} von {totalSize} ({bitrate})",
+    "Target folder does not exist any more" : "Zielordner existiert nicht mehr",
+    "Error when assembling chunks, status code {status}" : "Fehler beim Zusammenführen der Teile (Chunks), Fehlermeldung {status}",
     "Actions" : "Aktionen",
     "Download" : "Herunterladen",
     "Rename" : "Umbenennen",

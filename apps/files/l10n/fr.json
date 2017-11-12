@@ -17,6 +17,7 @@
     "Uploading …" : "Téléversement en cours...",
     "…" : "…",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} sur {totalSize} ({bitrate})",
+    "Target folder does not exist any more" : "Le dossier cible n'existe plus",
     "Actions" : "Actions",
     "Download" : "Télécharger",
     "Rename" : "Renommer",
