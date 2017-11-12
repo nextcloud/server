@@ -36,7 +36,8 @@ namespace OC;
 
 use InterfaSys\LogNormalizer\Normalizer;
 
-use \OCP\ILogger;
+use OCP\ILogger;
+use OCP\Support\CrashReport\IRegistry;
 use OCP\Util;
 
 /**
@@ -62,6 +63,9 @@ class Log implements ILogger {
 
 	/** @var Normalizer */
 	private $normalizer;
+
+	/** @var IRegistry */
+	private $crashReporters;
 
 	protected $methodsWithSensitiveParameters = [
 		// Session/User
@@ -110,9 +114,10 @@ class Log implements ILogger {
 	/**
 	 * @param string $logger The logger that should be used
 	 * @param SystemConfig $config the system config object
-	 * @param null $normalizer
+	 * @param Normalizer|null $normalizer
+	 * @param IRegistry|null $registry
 	 */
-	public function __construct($logger = null, SystemConfig $config = null, $normalizer = null) {
+	public function __construct($logger = null, SystemConfig $config = null, $normalizer = null, IRegistry $registry = null) {
 		// FIXME: Add this for backwards compatibility, should be fixed at some point probably
 		if($config === null) {
 			$config = \OC::$server->getSystemConfig();
@@ -133,7 +138,7 @@ class Log implements ILogger {
 		} else {
 			$this->normalizer = $normalizer;
 		}
-
+		$this->crashReporters = $registry;
 	}
 
 	/**
@@ -346,6 +351,9 @@ class Log implements ILogger {
 		$msg = isset($context['message']) ? $context['message'] : 'Exception';
 		$msg .= ': ' . json_encode($data);
 		$this->log($level, $msg, $context);
+		if (!is_null($this->crashReporters)) {
+			$this->crashReporters->delegateReport($exception);
+		}
 	}
 
 	/**
