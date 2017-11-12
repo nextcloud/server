@@ -31,6 +31,7 @@
     "Login image" : "Login image",
     "Upload new login background" : "Upload new login background",
     "Remove background image" : "Remove background image",
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color.",
     "reset to default" : "reset to default",
     "Log in image" : "Log in image"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
