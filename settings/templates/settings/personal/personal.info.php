@@ -341,6 +341,33 @@ vendor_style('jcrop/css/jquery.Jcrop');
 					</a>
 				</form>
 			<?php } ?>
+			<?php if (isset($_['activelocale'])) { ?>
+				<form id="locale" class="section">
+					<h2>
+						<label for="localeinput"><?php p($l->t('Locale'));?></label>
+					</h2>
+					<select id="localeinput" name="lang" data-placeholder="<?php p($l->t('Locale'));?>">
+						<option value="<?php p($_['activelocale']['code']);?>">
+							<?php p($_['activelocale']['name']);?>
+						</option>
+						<optgroup label="––––––––––"></optgroup>
+						<?php foreach($_['localesforlanguage'] as $locale):?>
+							<option value="<?php p($locale['code']);?>">
+								<?php p($locale['name']);?>
+							</option>
+						<?php endforeach;?>
+						<optgroup label="––––––––––"></optgroup>
+						<option value="<?php p($_['activelocale']['code']);?>">
+							<?php p($_['activelocale']['name']);?>
+						</option>
+						<?php foreach($_['locales'] as $locale):?>
+							<option value="<?php p($locale['code']);?>">
+								<?php p($locale['name']);?>
+							</option>
+						<?php endforeach;?>
+					</select>
+				</form>
+			<?php } ?>
 		</div>
 		<div class="personal-settings-setting-box personal-settings-password-box">
 			<?php
@@ -380,31 +407,3 @@ vendor_style('jcrop/css/jquery.Jcrop');
 	</div>
 
 </div>
-
-<?php if (isset($_['activelocale'])) { ?>
-<form id="locale" class="section">
-	<h2>
-		<label for="localeinput"><?php p($l->t('Locale'));?></label>
-	</h2>
-	<select id="localeinput" name="lang" data-placeholder="<?php p($l->t('Locale'));?>">
-		<option value="<?php p($_['activelocale']['code']);?>">
-			<?php p($_['activelocale']['name']);?>
-		</option>
-		<optgroup label="––––––––––"></optgroup>
-		<?php foreach($_['localesforlanguage'] as $locale):?>
-			<option value="<?php p($locale['code']);?>">
-				<?php p($locale['name']);?>
-			</option>
-		<?php endforeach;?>
-		<optgroup label="––––––––––"></optgroup>
-		<option value="<?php p($_['activelocale']['code']);?>">
-			<?php p($_['activelocale']['name']);?>
-		</option>
-		<?php foreach($_['locales'] as $locale):?>
-			<option value="<?php p($locale['code']);?>">
-				<?php p($locale['name']);?>
-			</option>
-		<?php endforeach;?>
-	</select>
-</form>
-<?php } ?>
