@@ -312,7 +312,7 @@ $(document).ready(function () {
 				value: selectedLocale
 			},
 			success: function() {
-				location.reload();
+				moment.locale(selectedLocale);
 			},
 			fail: function() {
 				OC.Notification.showTemporary(t('settings', 'An error occured while changing your locale. Please reload the page and try again.'));
@@ -440,5 +440,13 @@ $(document).ready(function () {
 		}
 	}, user.displayName);
 });
+
+window.setInterval(function() {
+	$('#localeexample-time').text(moment().format('LTS'));
+	$('#localeexample-date').text(moment().format('L'));
+	$('#localeexample-fdow').text(t('settings', 'Week starts on {fdow}',
+		{fdow: moment().weekday(0).format('dddd')}));
+
+}, 1000);
 
 OC.Settings.updateAvatar = updateAvatar;

@@ -366,6 +366,11 @@ vendor_style('jcrop/css/jquery.Jcrop');
 							</option>
 						<?php endforeach;?>
 					</select>
+					<div id="localeexample">
+						<p id="localeexample-time"></p>
+						<p id="localeexample-date"></p>
+						<p id="localeexample-fdow"></p>
+					</div>
 				</form>
 			<?php } ?>
 		</div>
