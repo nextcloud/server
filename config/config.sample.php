@@ -852,7 +852,7 @@ $CONFIG = array(
 'preview_max_scale_factor' => 10,
 
 /**
- * max file size for generating image previews with imagegd (default behaviour)
+ * max file size for generating image previews with imagegd (default behavior)
  * If the image is bigger, it'll try other preview generators, but will most
  * likely show the default mimetype icon. Set to -1 for no limit.
  *
