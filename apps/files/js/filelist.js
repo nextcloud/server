@@ -322,7 +322,7 @@
 
 			this.$el.find('thead th .columntitle').click(_.bind(this._onClickHeader, this));
 
-			this._onResize = _.debounce(_.bind(this._onResize, this), 100);
+			this._onResize = _.debounce(_.bind(this._onResize, this), 250);
 			$('#app-content').on('appresized', this._onResize);
 			$(window).resize(this._onResize);
 
@@ -556,7 +556,7 @@
 			// subtract app navigation toggle when visible
 			containerWidth -= $('#app-navigation-toggle').width();
 
-			this.breadcrumb.setMaxWidth(containerWidth - actionsWidth - 10);
+			this.breadcrumb._resize();
 
 			this.$table.find('>thead').width($('#app-content').width() - OC.Util.getScrollBarWidth());
 		},
@@ -837,7 +837,8 @@
 		 * Event handler when clicking on a bread crumb
 		 */
 		_onClickBreadCrumb: function(e) {
-			var $el = $(e.target).closest('.crumb'),
+			// Select a crumb or a crumb in the menu
+			var $el = $(e.target).closest('.crumb, .crumblist'),
 				$targetDir = $el.data('dir');
 
 			if ($targetDir !== undefined && e.which === 1) {
@@ -863,8 +864,8 @@
 		_onDropOnBreadCrumb: function( event, ui ) {
 			var self = this;
 			var $target = $(event.target);
-			if (!$target.is('.crumb')) {
-				$target = $target.closest('.crumb');
+			if (!$target.is('.crumb, .crumblist')) {
+				$target = $target.closest('.crumb, .crumblist');
 			}
 			var targetPath = $(event.target).data('dir');
 			var dir = this.getCurrentDirectory();
@@ -1713,7 +1714,7 @@
 			if (status === 500) {
 				// Go home
 				this.changeDirectory('/');
-				OC.Notification.show(t('files', 'This directory is unavailable, please check the logs or contact the administrator'), 
+				OC.Notification.show(t('files', 'This directory is unavailable, please check the logs or contact the administrator'),
 					{type: 'error'}
 				);
 				return false;
@@ -1724,7 +1725,7 @@
 				if (this.getCurrentDirectory() !== '/') {
 					this.changeDirectory('/');
 					// TODO: read error message from exception
-					OC.Notification.show(t('files', 'Storage is temporarily not available'), 
+					OC.Notification.show(t('files', 'Storage is temporarily not available'),
 						{type: 'error'}
 					);
 				}
@@ -2040,11 +2041,11 @@
 					.fail(function(status) {
 						if (status === 412) {
 							// TODO: some day here we should invoke the conflict dialog
-							OC.Notification.show(t('files', 'Could not move "{file}", target exists', 
+							OC.Notification.show(t('files', 'Could not move "{file}", target exists',
 								{file: fileName}), {type: 'error'}
 							);
 						} else {
-							OC.Notification.show(t('files', 'Could not move "{file}"', 
+							OC.Notification.show(t('files', 'Could not move "{file}"',
 								{file: fileName}), {type: 'error'}
 							);
 						}
@@ -2271,7 +2272,7 @@
 								// TODO: 409 means current folder does not exist, redirect ?
 								if (status === 404) {
 									// source not found, so remove it from the list
-									OC.Notification.show(t('files', 'Could not rename "{fileName}", it does not exist any more', 
+									OC.Notification.show(t('files', 'Could not rename "{fileName}", it does not exist any more',
 										{fileName: oldName}), {timeout: 7, type: 'error'}
 									);
 
@@ -2291,7 +2292,7 @@
 									);
 								} else {
 									// restore the item to its previous state
-									OC.Notification.show(t('files', 'Could not rename "{fileName}"', 
+									OC.Notification.show(t('files', 'Could not rename "{fileName}"',
 										{fileName: oldName}), {type: 'error'}
 									);
 								}
@@ -2376,18 +2377,18 @@
 					self.addAndFetchFileInfo(targetPath, '', {scrollTo: true}).then(function(status, data) {
 						deferred.resolve(status, data);
 					}, function() {
-						OC.Notification.show(t('files', 'Could not create file "{file}"', 
+						OC.Notification.show(t('files', 'Could not create file "{file}"',
 							{file: name}), {type: 'error'}
 						);
 					});
 				})
 				.fail(function(status) {
 					if (status === 412) {
-						OC.Notification.show(t('files', 'Could not create file "{file}" because it already exists', 
+						OC.Notification.show(t('files', 'Could not create file "{file}" because it already exists',
 							{file: name}), {type: 'error'}
 						);
 					} else {
-						OC.Notification.show(t('files', 'Could not create file "{file}"', 
+						OC.Notification.show(t('files', 'Could not create file "{file}"',
 							{file: name}), {type: 'error'}
 						);
 					}
@@ -2426,7 +2427,7 @@
 					self.addAndFetchFileInfo(targetPath, '', {scrollTo:true}).then(function(status, data) {
 						deferred.resolve(status, data);
 					}, function() {
-						OC.Notification.show(t('files', 'Could not create folder "{dir}"', 
+						OC.Notification.show(t('files', 'Could not create folder "{dir}"',
 							{dir: name}), {type: 'error'}
 						);
 					});
@@ -2437,20 +2438,20 @@
 						// add it to the list, for completeness
 						self.addAndFetchFileInfo(targetPath, '', {scrollTo:true})
 							.done(function(status, data) {
-								OC.Notification.show(t('files', 'Could not create folder "{dir}" because it already exists', 
+								OC.Notification.show(t('files', 'Could not create folder "{dir}" because it already exists',
 									{dir: name}), {type: 'error'}
 								);
 								// still consider a failure
 								deferred.reject(createStatus, data);
 							})
 							.fail(function() {
-								OC.Notification.show(t('files', 'Could not create folder "{dir}"', 
+								OC.Notification.show(t('files', 'Could not create folder "{dir}"',
 									{dir: name}), {type: 'error'}
 								);
 								deferred.reject(status);
 							});
 					} else {
-						OC.Notification.show(t('files', 'Could not create folder "{dir}"', 
+						OC.Notification.show(t('files', 'Could not create folder "{dir}"',
 							{dir: name}), {type: 'error'}
 						);
 						deferred.reject(createStatus);
@@ -2507,7 +2508,7 @@
 					deferred.resolve(status, data);
 				})
 				.fail(function(status) {
-					OC.Notification.show(t('files', 'Could not create file "{file}"', 
+					OC.Notification.show(t('files', 'Could not create file "{file}"',
 						{file: name}), {type: 'error'}
 					);
 					deferred.reject(status);
@@ -2616,7 +2617,7 @@
 							removeFromList(file);
 						} else {
 							// only reset the spinner for that one file
-							OC.Notification.show(t('files', 'Error deleting file "{fileName}".', 
+							OC.Notification.show(t('files', 'Error deleting file "{fileName}".',
 								{fileName: file}), {type: 'error'}
 							);
 							var deleteAction = self.findFileEl(file).find('.action.delete');

@@ -33,6 +33,9 @@
 	 */
 	var BreadCrumb = function(options){
 		this.$el = $('<div class="breadcrumb"></div>');
+		this.$menu = $('<div class="popovermenu menu-center"><ul></ul></div>');
+
+		this.crumbSelector = '.crumb:not(.hidden):not(.crumbhome):not(.crumbmenu)';
 		options = options || {};
 		if (options.onClick) {
 			this.onClick = options.onClick;
@@ -47,6 +50,7 @@
 		}
 		this._detailViews = [];
 	};
+
 	/**
 	 * @memberof OCA.Files
 	 */
@@ -110,19 +114,32 @@
 		 * Renders the breadcrumb elements
 		 */
 		render: function() {
+			// Menu is destroyed on every change, we need to init it
+			OC.unregisterMenu($('.crumbmenu'), $('.crumbmenu > .popovermenu'));
+
 			var parts = this._makeCrumbs(this.dir || '/');
 			var $crumb;
+			var $menuItem;
 			this.$el.empty();
 			this.breadcrumbs = [];
 
 			for (var i = 0; i < parts.length; i++) {
 				var part = parts[i];
 				var $image;
-				var $link = $('<a></a>').attr('href', this.getCrumbUrl(part, i));
-				$link.text(part.name);
+				var $link = $('<a></a>');
 				$crumb = $('<div class="crumb svg"></div>');
+				if(part.dir) {
+					$link.attr('href', this.getCrumbUrl(part, i));
+				}
+				if(part.name) {
+					$link.text(part.name);
+				}
+				$link.addClass(part.linkclass);
 				$crumb.append($link);
-				$crumb.attr('data-dir', part.dir);
+				$crumb.data('dir', part.dir);
+				// Ignore menu button
+				$crumb.data('crumb-id', i - 1);
+				$crumb.addClass(part.class);
 
 				if (part.img) {
 					$image = $('<img class="svg"></img>');
@@ -132,12 +149,27 @@
 				}
 				this.breadcrumbs.push($crumb);
 				this.$el.append($crumb);
-				if (this.onClick) {
-					$crumb.on('click', this.onClick);
+				// Only add feedback if not menu
+				if (this.onClick && i !== 0) {
+					$link.on('click', this.onClick);
 				}
 			}
-			$crumb.addClass('last');
 
+			// Menu creation
+			this._createMenu();
+			for (var j = 0; j < parts.length; j++) {
+				var menuPart = parts[j];
+				if(menuPart.dir) {
+					$menuItem = $('<li class="crumblist"><a><span class="icon-folder"></span><span></span></a></li>');
+					$menuItem.data('dir', menuPart.dir);
+					$menuItem.find('a').attr('href', this.getCrumbUrl(part, j));
+					$menuItem.find('span:eq(1)').text(menuPart.name);
+					this.$menu.children('ul').append($menuItem);
+					if (this.onClick) {
+						$menuItem.on('click', this.onClick);
+					}
+				}
+			}
 			_.each(this._detailViews, function(view) {
 				view.render({
 					dirInfo: this.dirInfo
@@ -152,16 +184,20 @@
 
 			// setup drag and drop
 			if (this.onDrop) {
-				this.$el.find('.crumb:not(.last)').droppable({
+				this.$el.find('.crumb:not(:last-child):not(.crumbmenu), .crumblist:not(:last-child)').droppable({
 					drop: this.onDrop,
 					over: this.onOver,
 					out: this.onOut,
 					tolerance: 'pointer',
-					hoverClass: 'canDrop'
+					hoverClass: 'canDrop',
+					greedy: true
 				});
 			}
 
-			this._updateTotalWidth();
+			// Menu is destroyed on every change, we need to init it
+			OC.registerMenu($('.crumbmenu'), $('.crumbmenu > .popovermenu'));
+
+			this._resize();
 		},
 
 		/**
@@ -179,12 +215,17 @@
 			if (dir === '') {
 				parts = [];
 			}
+			// menu part
+			crumbs.push({
+				class: 'crumbmenu hidden',
+				linkclass: 'icon-more'
+			});
 			// root part
 			crumbs.push({
+				name: t('core', 'Home'),
 				dir: '/',
-				name: '',
-				alt: t('files', 'Home'),
-				img: OC.imagePath('core', 'places/home.svg')
+				class: 'crumbhome',
+				linkclass: 'icon-home'
 			});
 			for (var i = 0; i < parts.length; i++) {
 				var part = parts[i];
@@ -198,22 +239,9 @@
 		},
 
 		/**
-		 * Calculate the total breadcrumb width when
-		 * all crumbs are expanded
-		 */
-		_updateTotalWidth: function () {
-			this.totalWidth = 0;
-			for (var i = 0; i < this.breadcrumbs.length; i++ ) {
-				var $crumb = $(this.breadcrumbs[i]);
-				$crumb.data('real-width', $crumb.width());
-				this.totalWidth += $crumb.width();
-			}
-			this._resize();
-		},
-
-		/**
 		 * Show/hide breadcrumbs to fit the given width
-		 * 
+		 * Mostly used by tests
+		 *
 		 * @param {int} availableWidth available width
 		 */
 		setMaxWidth: function (availableWidth) {
@@ -223,74 +251,107 @@
 			}
 		},
 
-		_resize: function() {
-			var i, $crumb, $ellipsisCrumb;
-
-			if (!this.availableWidth) {
-				this.availableWidth = this.$el.width();
-			}
-
-			if (this.breadcrumbs.length <= 1) {
-				return;
-			}
-
-			// reset crumbs
-			this.$el.find('.crumb.ellipsized').remove();
-
-			// unhide all
-			this.$el.find('.crumb.hidden').removeClass('hidden');
-
-			if (this.totalWidth <= this.availableWidth) {
-				// no need to compute breadcrumbs, there is enough space
-				return;
-			}
-
-			// running width, considering the hidden crumbs
-			var currentTotalWidth = $(this.breadcrumbs[0]).data('real-width');
-			var firstHidden = true;
-
-			// insert ellipsis after root part (root part is always visible)
-			$ellipsisCrumb = $('<div class="crumb ellipsized svg"><span class="ellipsis">...</span></div>');
-			$(this.breadcrumbs[0]).after($ellipsisCrumb);
-			currentTotalWidth += $ellipsisCrumb.width();
-
-			i = this.breadcrumbs.length - 1;
-
-			// find the first section that would cause the overflow
-			// then hide everything in front of that
-			//
-			// this ensures that the last crumb section stays visible
-			// for most of the cases and is always the last one to be
-			// hidden when the screen becomes very narrow
-			while (i > 0) {
-				$crumb = $(this.breadcrumbs[i]);
-				// if the current breadcrumb would cause overflow
-				if (!firstHidden || currentTotalWidth + $crumb.data('real-width') > this.availableWidth) {
-					// hide it
-					$crumb.addClass('hidden');
-					if (firstHidden) {
-						// set the path of this one as title for the ellipsis
-						this.$el.find('.crumb.ellipsized')
-							.attr('title', $crumb.attr('data-dir'))
-							.tooltip();
-						this.$el.find('.ellipsis')
-							.wrap('<a class="ellipsislink" href="' + encodeURI(OC.generateUrl('apps/files/?dir=' + $crumb.attr('data-dir'))) + '"></a>');
-					}
-					// and all the previous ones (going backwards)
-					firstHidden = false;
-				} else {
-					// add to total width
-					currentTotalWidth += $crumb.data('real-width');
+		/**
+		 * Calculate real width based on individual crumbs
+		 * More accurate and works with tests
+		 *
+		 * @param {boolean} ignoreHidden ignore hidden crumbs
+		 */
+		getTotalWidth: function(ignoreHidden) {
+			var totalWidth = 0;
+			for (var i = 0; i < this.breadcrumbs.length; i++ ) {
+				var $crumb = $(this.breadcrumbs[i]);
+				if(!$crumb.hasClass('hidden') || ignoreHidden === true) {
+					totalWidth += $crumb.outerWidth();
 				}
-				i--;
+			}
+			return totalWidth;
+		},
+
+ 		/**
+ 		 * Hide the middle crumb
+ 		 */
+ 		_hideCrumb: function() {
+			var length = this.$el.find(this.crumbSelector).length;
+			// Get the middle one floored down
+			var elmt = Math.floor(length / 2 - 0.5);
+			this.$el.find(this.crumbSelector+':eq('+elmt+')').addClass('hidden');
+ 		},
+
+ 		/**
+ 		 * Get the crumb to show
+ 		 */
+ 		_getCrumbElement: function() {
+			var hidden = this.$el.find('.crumb.hidden').length;
+			var shown = this.$el.find(this.crumbSelector).length;
+			// Get the outer one with priority to the highest
+			var elmt = (1 - shown % 2) * (hidden - 1);
+			return this.$el.find('.crumb.hidden:eq('+elmt+')');
+		},
+
+ 		/**
+ 		 * Show the middle crumb
+ 		 */
+ 		_showCrumb: function() {
+			if(this.$el.find('.crumb.hidden').length === 1) {
+				this.$el.find('.crumb.hidden').removeClass('hidden');
+			}
+			this._getCrumbElement().removeClass('hidden');
+ 		},
+
+		/**
+		 * Create and append the popovermenu
+		 */
+		_createMenu: function() {
+			this.$el.find('.crumbmenu').append(this.$menu);
+			this.$menu.children('ul').empty();
+		},
+
+		/**
+		 * Update the popovermenu
+		 */
+		_updateMenu: function() {
+			var menuItems = this.$el.find('.crumb.hidden');
+			// Hide the crumb menu if no elements
+			this.$el.find('.crumbmenu').toggleClass('hidden', menuItems.length === 0);
+
+			this.$menu.find('li').addClass('in-breadcrumb');
+			for (var i = 0; i < menuItems.length; i++) {
+				var crumbId = $(menuItems[i]).data('crumb-id');
+				this.$menu.find('li:eq('+crumbId+')').removeClass('in-breadcrumb');
+			}
+		},
+
+		_resize: function() {
+
+			if (this.breadcrumbs.length <= 2) {
+				// home & menu
+				return;
 			}
 
-			if (!OC.Util.hasSVGSupport()) {
-				OC.Util.replaceSVG(this.$el);
+			// Used for testing since this.$el.parent fails
+			if (!this.availableWidth) {
+				this.usedWidth = this.$el.parent().width() - (this.$el.parent().find('.button').length + 1) * 44;
+			} else {
+				this.usedWidth = this.availableWidth;
 			}
+
+			// If container is smaller than content
+			// AND if there are crumbs left to hide
+			while (this.getTotalWidth() > this.usedWidth
+				&& this.$el.find(this.crumbSelector).length > 0) {
+				this._hideCrumb();
+			}
+			// If container is bigger than content + element to be shown
+			// AND if there is at least one hidden crumb
+			while (this.$el.find('.crumb.hidden').length > 0
+				&& this.getTotalWidth() + this._getCrumbElement().width() < this.usedWidth) {
+				this._showCrumb();
+			}
+
+			this._updateMenu();
 		}
 	};
 
 	OCA.Files.BreadCrumb = BreadCrumb;
 })();
-

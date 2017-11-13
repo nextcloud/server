@@ -228,7 +228,7 @@ body {
 	right: 0;
 	left: 0;
 	height: 44px;
-	width: 100%;
+	width: calc(100% - 250px);
 	padding: 0;
 	margin: 0;
 	background-color: rgba($color-main-background, 0.95);
@@ -237,6 +237,7 @@ body {
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
+	display: inline-flex;
 }
 
 /* position controls for apps with app-navigation */
@@ -1144,9 +1145,7 @@ code {
 #oc-dialog-filepicker-content {
 	.dirtree {
 		width: 92%;
-		float: left;
-		margin-left: 15px;
-		overflow: hidden;
+		flex-wrap: wrap;
 		div:first-child a {
 			background-image: url('../img/places/home.svg?v=1');
 			background-repeat: no-repeat;
@@ -1181,7 +1180,7 @@ code {
 		display: none;
 	}
 	.filelist {
-		background-color: white;
+		background-color: $color-main-background;
 		width: 100%;
 	}
 	#filestable.filelist {
@@ -1388,46 +1387,88 @@ span.ui-icon {
 }
 
 /* ---- BREADCRUMB ---- */
-
+.breadcrumb {
+	display: inline-flex;
+}
 div.crumb {
-	float: left;
-	display: block;
+	display: inline-flex;
 	background-image: url('../img/breadcrumb.svg?v=1');
 	background-repeat: no-repeat;
 	background-position: right center;
 	height: 44px;
 	background-size: auto 24px;
+	flex: 0 0 auto;
+	order: 1;
+	padding-right: 7px;
+	&.crumbmenu {
+		order: 2;
+		position: relative;
+		a {
+			opacity: 0.5
+		}
+		&.canDropChildren,
+		&.canDrop {
+			.popovermenu {
+				display: block;
+			}
+		}
+		// Fix because of the display flex
+		.popovermenu {
+			top: 100%;
+			margin-right: 3px;
+			ul {
+				max-height: 345px;
+				overflow-y: auto;
+				overflow-x: hidden;
+				padding-right: 5px;
+				li.canDrop span:first-child {
+					background-image: url('../img/filetypes/folder-drag-accept.svg?v=1') !important;
+				}
+			}
+			.in-breadcrumb {
+				display: none;
+			}
+		}
+	}
 	&.hidden {
 		display: none;
+		~ .crumb {
+			order: 3;
+		}
 	}
-	a, > span {
+	> a,
+	> span {
 		position: relative;
-		top: 12px;
-		padding: 14px 24px 14px 17px;
-		color: nc-lighten($color-main-text, 33%);
+		padding: 12px;
+		opacity: 0.5;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+		flex: 0 0 auto;
+		&.icon-home {
+			// Hide home text
+			text-indent: -9999px;
+		}
 	}
-	&.last a {
-		padding-right: 0;
+	> a[class^='icon-'] {
+		padding: 0;
+		width: 44px;
 	}
-	&:first-child a {
-		position: relative;
-		top: 13px;
-		padding-right: 14px;
+	&:not(:first-child) a {
 	}
-	&.last {
+	&:last-child {
 		font-weight: 600;
 		margin-right: 10px;
-	}
-	&.ellipsized {
-		padding: 0 10px 0 5px;
-	}
-	a.ellipsislink {
-		padding: 0 !important;
-		position: relative;
-		top: 8px !important;
+		// Allow multiple span next to the main 'a'
+		a ~ span {
+			padding-left: 0;
+		}
 	}
 	&:hover, &:focus, a:focus, &:active {
-		opacity: .7;
+		> a,
+		> span {
+			opacity: .7;
+		}
 	}
 }
 

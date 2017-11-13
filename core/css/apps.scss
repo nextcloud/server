@@ -822,6 +822,7 @@ kbd {
 	}
 	li {
 		display: flex;
+		flex: 0 0 auto;
 		> button,
 		> a,
 		> .menuitem {

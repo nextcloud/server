@@ -81,16 +81,11 @@
 	opacity: 1;
 }
 
-
-/* controls bar for mobile */
-#controls {
-	min-width: initial !important;
-	left: 0 !important;
-	padding-left: 0;
-}
 /* position controls for apps with app-navigation */
 #app-navigation+#app-content #controls {
+	left: 0 !important;
 	padding-left: 44px;
+	width: 100%;
 }
 
 /* .viewer-mode is when text editor, PDF viewer, etc is open */

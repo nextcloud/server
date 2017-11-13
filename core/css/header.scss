@@ -22,30 +22,6 @@
 	-ms-user-select: none;
 }
 
-/* Header menu */
-.menu {
-	position: absolute;
-	top: 45px;
-	background-color: $color-main-background;
-	box-shadow: 0 1px 10px $color-box-shadow;
-	border-radius: 0 0 3px 3px;
-	display: none;
-	box-sizing: border-box;
-	z-index: 2000;
-
-	/* Dropdown arrow */
-	&:after {
-		border: 10px solid transparent;
-		border-bottom-color: $color-main-background;
-		bottom: 100%;
-		content: ' ';
-		height: 0;
-		width: 0;
-		position: absolute;
-		pointer-events: none;
-	}
-}
-
 /* removed until content-focusing issue is fixed */
 #skip-to-content a {
 	position: absolute;
@@ -96,6 +72,29 @@
 }
 
 #header {
+	/* Header menu */
+	.menu {
+		top: 45px;
+		background-color: $color-main-background;
+		filter: drop-shadow(0 1px 3px $color-box-shadow);
+		border-radius: 0 0 3px 3px;
+		display: none;
+		box-sizing: border-box;
+		z-index: 2000;
+		position: absolute;
+
+		/* Dropdown arrow */
+		&:after {
+			border: 10px solid transparent;
+			border-bottom-color: $color-main-background;
+			bottom: 100%;
+			content: ' ';
+			height: 0;
+			width: 0;
+			position: absolute;
+			pointer-events: none;
+		}
+	}
 	.logo {
 		display: inline-flex;
 		background-image: url($image-logo);
@@ -204,14 +203,14 @@ nav {
 	margin-left: -54px;
 }
 
-#navigation,
+.header-left #navigation,
 .ui-datepicker,
 .ui-timepicker.ui-widget {
 	position: relative;
 	left: -100%;
 	width: 160px;
 	background-color: $color-main-background;
-	box-shadow: 0 1px 10px $color-box-shadow;
+	filter: drop-shadow(0 1px 3px $color-box-shadow);
 	&:after {
 		/* position of dropdown arrow */
 		left: 47%;

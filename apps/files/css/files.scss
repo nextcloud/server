@@ -47,14 +47,6 @@
 	top: 44px;
 }
 
-/* make sure there's enough room for the file actions */
-#body-user #filestable {
-	min-width: 688px; /* 768 (mobile break) - 80 (nav width) */
-}
-#body-user #controls {
-	min-width: 688px; /* 768 (mobile break) - 80 (nav width) */
-}
-
 #filestable tbody tr {
 	height: 51px;
 }
@@ -74,12 +66,16 @@
 	background-color: rgb(179, 230, 255)!important;
 }
 
-.app-files #app-content.dir-drop, .file-drag #filestable tbody tr, .file-drag #filestable tbody tr:hover{
-	background-color: rgba(0, 0, 0, 0)!important;
+.app-files #app-content.dir-drop {
+	background-color: $color-main-background !important;
+}
+
+.file-drag #filestable tbody tr, .file-drag #filestable tbody tr:hover{
+	background-color: transparent !important;
 }
 
 .app-files #app-content.dir-drop #filestable tbody tr.dropping-to-dir{
-	background-color: rgb(179, 230, 255)!important;
+	background-color: rgb(179, 230, 255) !important;
 }
 
 /* icons for sidebar */
@@ -740,9 +736,9 @@ table.dragshadow td.size {
 	margin-bottom: 2px;
 }
 
-.canDrop,
+.breadcrumb .canDrop > a,
 #filestable tbody tr.canDrop {
-	background-color: rgba(255, 255, 140, 1);
+	background-color: rgb(179, 230, 255);
 }
 
 
