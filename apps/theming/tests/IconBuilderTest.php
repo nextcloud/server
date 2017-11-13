@@ -71,6 +71,9 @@ class IconBuilderTest extends TestCase {
 		if (count($checkImagick->queryFormats('SVG')) < 1) {
 			$this->markTestSkipped('No SVG provider present.');
 		}
+		if (count($checkImagick->queryFormats('PNG')) < 1) {
+			$this->markTestSkipped('No PNG provider present.');
+		}
 	}
 
 	public function dataRenderAppIcon() {
@@ -147,16 +150,22 @@ class IconBuilderTest extends TestCase {
 	public function testGetFavicon($app, $color, $file) {
 		$this->checkImagick();
 		$this->themingDefaults->expects($this->once())
+			->method('shouldReplaceIcons')
+			->willReturn(true);
+		$this->themingDefaults->expects($this->once())
 			->method('getColorPrimary')
 			->willReturn($color);
 
 		$expectedIcon = new \Imagick(realpath(dirname(__FILE__)). "/data/" . $file);
+		$actualIcon = $this->iconBuilder->getFavicon($app);
+
 		$icon = new \Imagick();
-		$icon->readImageBlob($this->iconBuilder->getFavicon($app));
+		$icon->setFormat('ico');
+		$icon->readImageBlob($actualIcon);
 
 		$this->assertEquals(true, $icon->valid());
-		$this->assertEquals(32, $icon->getImageWidth());
-		$this->assertEquals(32, $icon->getImageHeight());
+		$this->assertEquals(128, $icon->getImageWidth());
+		$this->assertEquals(128, $icon->getImageHeight());
 		$icon->destroy();
 		$expectedIcon->destroy();
 		// FIXME: We may need some comparison of the generated and the test images
@@ -167,8 +176,12 @@ class IconBuilderTest extends TestCase {
 	 * @expectedException \PHPUnit_Framework_Error_Warning
 	 */
 	public function testGetFaviconNotFound() {
+		$this->checkImagick();
 		$util = $this->getMockBuilder(Util::class)->disableOriginalConstructor()->getMock();
 		$iconBuilder = new IconBuilder($this->themingDefaults, $util);
+		$this->themingDefaults->expects($this->once())
+			->method('shouldReplaceIcons')
+			->willReturn(true);
 		$util->expects($this->once())
 			->method('getAppIcon')
 			->willReturn('notexistingfile');
@@ -179,6 +192,7 @@ class IconBuilderTest extends TestCase {
 	 * @expectedException \PHPUnit_Framework_Error_Warning
 	 */
 	public function testGetTouchIconNotFound() {
+		$this->checkImagick();
 		$util = $this->getMockBuilder(Util::class)->disableOriginalConstructor()->getMock();
 		$iconBuilder = new IconBuilder($this->themingDefaults, $util);
 		$util->expects($this->once())
@@ -191,6 +205,7 @@ class IconBuilderTest extends TestCase {
 	 * @expectedException \PHPUnit_Framework_Error_Warning
 	 */
 	public function testColorSvgNotFound() {
+		$this->checkImagick();
 		$util = $this->getMockBuilder(Util::class)->disableOriginalConstructor()->getMock();
 		$iconBuilder = new IconBuilder($this->themingDefaults, $util);
 		$util->expects($this->once())

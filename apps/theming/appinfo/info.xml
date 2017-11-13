@@ -5,7 +5,7 @@
 	<description>Adjust the Nextcloud theme</description>
 	<licence>AGPL</licence>
 	<author>Nextcloud</author>
-	<version>1.4.0</version>
+	<version>1.4.1</version>
 	<namespace>Theming</namespace>
 	<category>other</category>
 
