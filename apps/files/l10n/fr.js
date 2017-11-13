@@ -20,6 +20,7 @@ OC.L10N.register(
     "…" : "…",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} sur {totalSize} ({bitrate})",
     "Target folder does not exist any more" : "Le dossier cible n'existe plus",
+    "Error when assembling chunks, status code {status}" : "Erreur lors de l'assemblage des blocs, code d'état {status}",
     "Actions" : "Actions",
     "Download" : "Télécharger",
     "Rename" : "Renommer",
