@@ -19,6 +19,8 @@ OC.L10N.register(
     "Uploading …" : "Subiendo...",
     "…" : "...",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} de {totalSize} ({bitrate})",
+    "Target folder does not exist any more" : "La carpeta destino yano existe",
+    "Error when assembling chunks, status code {status}" : "Error al reunir las partes, código de estado {status}",
     "Actions" : "Acciones",
     "Download" : "Descargar",
     "Rename" : "Renombrar",
