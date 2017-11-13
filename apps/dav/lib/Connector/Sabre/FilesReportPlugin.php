@@ -263,7 +263,7 @@ class FilesReportPlugin extends ServerPlugin {
 			if ($filterRule['name'] === $ns . 'systemtag') {
 				$systemTagIds[] = $filterRule['value'];
 			}
-			if ($filterRule['name'] === $ns . 'circle') {
+			if ($filterRule['name'] === self::CIRCLE_PROPERTYNAME) {
 				$circlesIds[] = $filterRule['value'];
 			}
 			if ($filterRule['name'] === $ns . 'favorite') {
