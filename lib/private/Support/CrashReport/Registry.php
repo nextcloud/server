@@ -48,6 +48,7 @@ class Registry implements IRegistry {
 	 * @param array $context
 	 */
 	public function delegateReport($exception, array $context = []) {
+		/** @var IReporter $reporter */
 		foreach ($this->reporters as $reporter) {
 			$reporter->report($exception, $context);
 		}
