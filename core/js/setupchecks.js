@@ -248,18 +248,22 @@
 
 			if (xhr.status === 200) {
 				var securityHeaders = {
-					'X-XSS-Protection': '1; mode=block',
-					'X-Content-Type-Options': 'nosniff',
-					'X-Robots-Tag': 'none',
-					'X-Frame-Options': 'SAMEORIGIN',
-					'X-Download-Options': 'noopen',
-					'X-Permitted-Cross-Domain-Policies': 'none',
+					'X-XSS-Protection': ['1; mode=block'],
+					'X-Content-Type-Options': ['nosniff'],
+					'X-Robots-Tag': ['none'],
+					'X-Frame-Options': ['SAMEORIGIN', 'DENY'],
+					'X-Download-Options': ['noopen'],
+					'X-Permitted-Cross-Domain-Policies': ['none'],
 				};
-
 				for (var header in securityHeaders) {
-					if(!xhr.getResponseHeader(header) || xhr.getResponseHeader(header).toLowerCase() !== securityHeaders[header].toLowerCase()) {
+					var option = securityHeaders[header][0];
+					if(!xhr.getResponseHeader(header) || xhr.getResponseHeader(header).toLowerCase() !== option.toLowerCase()) {
+						var msg = t('core', 'The "{header}" HTTP header is not configured to equal to "{expected}". This is a potential security or privacy risk and we recommend adjusting this setting.', {header: header, expected: option});
+						if(xhr.getResponseHeader(header) && securityHeaders[header].length > 1 && xhr.getResponseHeader(header).toLowerCase() === securityHeaders[header][1].toLowerCase()) {
+							msg = t('core', 'The "{header}" HTTP header is not configured to equal to "{expected}". Some features might not work correctly and we recommend adjusting this setting.', {header: header, expected: option});
+						}
 						messages.push({
-							msg: t('core', 'The "{header}" HTTP header is not configured to equal to "{expected}". This is a potential security or privacy risk and we recommend adjusting this setting.', {header: header, expected: securityHeaders[header]}),
+							msg: msg,
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						});
 					}
