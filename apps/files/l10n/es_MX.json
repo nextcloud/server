@@ -17,6 +17,8 @@
     "Uploading …" : "Cargando...",
     "…" : "...",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} de {totalSize} ({bitrate})",
+    "Target folder does not exist any more" : "La carpeta destino ya no existe",
+    "Error when assembling chunks, status code {status}" : "Se presentó un error al ensamblar los bloques, código de estatus {status}",
     "Actions" : "Acciones",
     "Download" : "Descargar",
     "Rename" : "Renombrar",
