@@ -1,10 +1,1 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" version="1.1" viewBox="0 0 16 16">
- <defs>
-  <filter id="a" style="color-interpolation-filters:sRGB" height="1.3738" width="1.3471" y="-.18692" x="-.17357">
-   <feGaussianBlur stdDeviation="1.0125"/>
-  </filter>
- </defs>
- <path opacity=".5" d="m2 2c-0.554 0-1 0.446-1 1v8c0 0.554 0.446 1 1 1h5v1h-2v2h6v-2h-2v-1h5c0.554 0 1-0.446 1-1v-8c0-0.554-0.446-1-1-1zm1 2h10v6h-10z" fill-rule="evenodd" filter="url(#a)"/>
- <path d="m2 2c-0.554 0-1 0.446-1 1v8c0 0.554 0.446 1 1 1h5v1h-2v2h6v-2h-2v-1h5c0.554 0 1-0.446 1-1v-8c0-0.554-0.446-1-1-1zm1 2h10v6h-10z" fill-rule="evenodd" fill="#fff"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" version="1.1" viewBox="0 0 16 16"><defs><filter id="a" height="21"><feGaussianBlur stdDeviation="1" in="SourceAlpha"/><feComponentTransfer><feFuncA slope="0.5" type="linear"/></feComponentTransfer><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><path filter="url(#a)" fill="#fff" d="m2 2c-0.554 0-1 0.446-1 1v8c0 0.554 0.446 1 1 1h5v1h-2v2h6v-2h-2v-1h5c0.554 0 1-0.446 1-1v-8c0-0.554-0.446-1-1-1zm1 2h10v6h-10z"/></svg>
