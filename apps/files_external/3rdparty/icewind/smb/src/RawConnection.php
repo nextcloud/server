@@ -7,6 +7,7 @@
 
 namespace Icewind\SMB;
 
+use Icewind\SMB\Exception\ConnectException;
 use Icewind\SMB\Exception\ConnectionException;
 
 class RawConnection {
@@ -25,6 +26,9 @@ class RawConnection {
 	 *
 	 * $pipes[0] holds STDIN for smbclient
 	 * $pipes[1] holds STDOUT for smbclient
+	 * $pipes[3] holds the authfile for smbclient
+	 * $pipes[4] holds the stream for writing files
+	 * $pipes[5] holds the stream for reading files
 	 */
 	private $pipes;
 
@@ -33,32 +37,44 @@ class RawConnection {
 	 */
 	private $process;
 
-	public function __construct($command, $env = array()) {
+	/**
+	 * @var resource|null $authStream
+	 */
+	private $authStream = null;
+
+	private $connected = false;
+
+	public function __construct($command, array $env = []) {
 		$this->command = $command;
 		$this->env = $env;
-		$this->connect();
 	}
 
-	private function connect() {
-		$descriptorSpec = array(
-			0 => array('pipe', 'r'), // child reads from stdin
-			1 => array('pipe', 'w'), // child writes to stdout
-			2 => array('pipe', 'w'), // child writes to stderr
-			3 => array('pipe', 'r'), // child reads from fd#3
-			4 => array('pipe', 'r'), // child reads from fd#4
-			5 => array('pipe', 'w')  // child writes to fd#5
-		);
+	public function connect() {
+		if (is_null($this->getAuthStream())) {
+			throw new ConnectException('Authentication not set before connecting');
+		}
+
+		$descriptorSpec = [
+			0 => ['pipe', 'r'], // child reads from stdin
+			1 => ['pipe', 'w'], // child writes to stdout
+			2 => ['pipe', 'w'], // child writes to stderr
+			3 => $this->getAuthStream(), // child reads from fd#3
+			4 => ['pipe', 'r'], // child reads from fd#4
+			5 => ['pipe', 'w']  // child writes to fd#5
+		];
+
 		setlocale(LC_ALL, Server::LOCALE);
-		$env = array_merge($this->env, array(
+		$env = array_merge($this->env, [
 			'CLI_FORCE_INTERACTIVE' => 'y', // Needed or the prompt isn't displayed!!
-			'LC_ALL' => Server::LOCALE,
-			'LANG' => Server::LOCALE,
-			'COLUMNS' => 8192 // prevent smbclient from line-wrapping it's output
-		));
+			'LC_ALL'                => Server::LOCALE,
+			'LANG'                  => Server::LOCALE,
+			'COLUMNS'               => 8192 // prevent smbclient from line-wrapping it's output
+		]);
 		$this->process = proc_open($this->command, $descriptorSpec, $this->pipes, '/', $env);
 		if (!$this->isValid()) {
 			throw new ConnectionException();
 		}
+		$this->connected = true;
 	}
 
 	/**
@@ -129,7 +145,7 @@ class RawConnection {
 	}
 
 	public function getAuthStream() {
-		return $this->pipes[3];
+		return $this->authStream;
 	}
 
 	public function getFileInputStream() {
@@ -143,14 +159,10 @@ class RawConnection {
 	public function writeAuthentication($user, $password) {
 		$auth = ($password === false)
 			? "username=$user"
-			: "username=$user\npassword=$password";
+			: "username=$user\npassword=$password\n";
 
-		if (fwrite($this->getAuthStream(), $auth) === false) {
-			fclose($this->getAuthStream());
-			return false;
-		}
-		fclose($this->getAuthStream());
-		return true;
+		$this->authStream = fopen('php://temp', 'w+');
+		fwrite($this->getAuthStream(), $auth);
 	}
 
 	public function close($terminate = true) {
@@ -163,8 +175,8 @@ class RawConnection {
 				$status = proc_get_status($this->process);
 				$ppid = $status['pid'];
 				$pids = preg_split('/\s+/', `ps -o pid --no-heading --ppid $ppid`);
-				foreach($pids as $pid) {
-					if(is_numeric($pid)) {
+				foreach ($pids as $pid) {
+					if (is_numeric($pid)) {
 						//9 is the SIGKILL signal
 						posix_kill($pid, 9);
 					}

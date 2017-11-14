@@ -15,7 +15,7 @@ class ErrorCodes {
 	const BadHostName = 'NT_STATUS_BAD_NETWORK_NAME';
 	const Unsuccessful = 'NT_STATUS_UNSUCCESSFUL';
 	const ConnectionRefused = 'NT_STATUS_CONNECTION_REFUSED';
-	const NoLogonServers =  'NT_STATUS_NO_LOGON_SERVERS';
+	const NoLogonServers = 'NT_STATUS_NO_LOGON_SERVERS';
 
 	const PathNotFound = 'NT_STATUS_OBJECT_PATH_NOT_FOUND';
 	const NoSuchFile = 'NT_STATUS_NO_SUCH_FILE';
@@ -26,4 +26,6 @@ class ErrorCodes {
 	const FileIsADirectory = 'NT_STATUS_FILE_IS_A_DIRECTORY';
 	const NotADirectory = 'NT_STATUS_NOT_A_DIRECTORY';
 	const SharingViolation = 'NT_STATUS_SHARING_VIOLATION';
+	const InvalidParameter = 'NT_STATUS_INVALID_PARAMETER';
+	const RevisionMismatch = 'NT_STATUS_REVISION_MISMATCH';
 }
