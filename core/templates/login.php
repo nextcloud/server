@@ -51,11 +51,7 @@ script('core', 'merged-login');
 			<label for="password" class="infield"><?php p($l->t('Password')); ?></label>
 		</p>
 
-		<?php if (!empty($_['invalidpassword']) && !empty($_['canResetPassword'])) { ?>
-		<a id="lost-password" class="warning" href="<?php p($_['resetPasswordLink']); ?>">
-			<?php p($l->t('Wrong password. Reset it?')); ?>
-		</a>
-		<?php } else if (!empty($_['invalidpassword'])) { ?>
+		<?php if (!empty($_['invalidpassword'])) { ?>
 			<p class="warning">
 				<?php p($l->t('Wrong password.')); ?>
 			</p>
@@ -63,8 +59,15 @@ script('core', 'merged-login');
 
 		<div id="submit-wrapper">
 			<input type="submit" id="submit" class="login primary" title="" value="<?php p($l->t('Log in')); ?>" disabled="disabled" />
-			<div id="submit-icon" class="icon-confirm-white"></div>
+			<div class="submit-icon icon-confirm-white"></div>
 		</div>
+
+		<?php if (!empty($_['canResetPassword'])) { ?>
+		<div id="reset-password-wrapper" style="display: none;">
+			<input type="submit" id="reset-password-submit" class="login primary" title="" value="<?php p($l->t('Reset password')); ?>" disabled="disabled" />
+			<div class="submit-icon icon-confirm-white"></div>
+		</div>
+		<?php } ?>
 
 		<div class="login-additional">
 			<div class="remember-login-container">
@@ -75,6 +78,16 @@ script('core', 'merged-login');
 				<?php } ?>
 				<label for="remember_login"><?php p($l->t('Stay logged in')); ?></label>
 			</div>
+			<?php if (!empty($_['canResetPassword'])) { ?>
+			<div class="lost-password-container">
+				<a id="lost-password" href="<?php p($_['resetPasswordLink']); ?>">
+					<?php p($l->t('Forgot password?')); ?>
+				</a>
+				<a id="lost-password-back" href="" style="display:none;">
+					<?php p($l->t('Back to log in')); ?>
+				</a>
+			</div>
+			<?php } ?>
 		</div>
 
 		<input type="hidden" name="timezone_offset" id="timezone_offset"/>

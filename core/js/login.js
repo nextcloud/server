@@ -12,12 +12,17 @@
  */
 OC.Login = _.extend(OC.Login || {}, {
 	onLogin: function () {
-		$('#submit-icon')
-			.removeClass('icon-confirm-white')
-			.addClass('icon-loading-small');
-		$('#submit')
-			.attr('value', t('core', 'Logging in …'));
-		return true;
+		// Only if password reset form is not active
+		if($('form[name=login][action]').length === 0) {
+			$('#submit-wrapper .submit-icon')
+				.removeClass('icon-confirm-white')
+				.addClass('icon-loading-small-dark');
+			$('#submit')
+				.attr('value', t('core', 'Logging in …'));
+			$('.login-additional').fadeOut();
+			return true;
+		}
+		return false;
 	},
 
 	rememberLogin: function(){

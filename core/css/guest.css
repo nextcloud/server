@@ -130,26 +130,27 @@ form #datadirField legend {
 }
 
 /* Buttons and input */
-#submit-wrapper {
+#submit-wrapper,
+#reset-password-wrapper {
 	position: relative; /* Make the wrapper the containing block of its
 						   absolutely positioned descendant icons */
 }
-#submit-wrapper .icon-confirm-white {
+
+#submit-wrapper .submit-icon,
+#reset-password-wrapper .submit-icon {
 	position: absolute;
 	top: 23px;
 	right: 23px;
-}
-#submit-wrapper .icon-loading-small {
-	position: absolute;
-	top: 22px;
-	right: 24px;
-}
-
-#submit-wrapper #submit-icon {
 	pointer-events: none; /* The submit icon is positioned on the submit button.
 							 From the user point of view the icon is part of the
 							 button, so the clicks on the icon have to be
 							 applied to the button instead. */
+}
+
+#submit-wrapper .icon-loading-small {
+	position: absolute;
+	top: 22px;
+	right: 24px;
 }
 
 input, textarea, select, button, div[contenteditable=true] {
@@ -385,12 +386,21 @@ form .warning input[type='checkbox']+label {
 #remember_login {
 	margin: 18px 5px 0 16px !important;
 }
-.remember-login-container {
+.remember-login-container,
+.lost-password-container {
 	display: inline-block;
 	margin: 10px 0;
 	text-align: center;
 	width: 100%;
 	text-shadow: 0 0 2px rgba(0, 0, 0, .4); // better readability on bright background
+}
+.lost-password-container #lost-password,
+.lost-password-container #lost-password-back {
+	display: inline-block;
+	padding: 12px;
+	margin-top: -6px;
+	color: #fff;
+	opacity: .7;
 }
 #forgot-password {
 	padding: 11px;
