@@ -516,12 +516,16 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerAlias('AvatarManager', \OCP\IAvatarManager::class);
 
+		$this->registerAlias(\OCP\Support\CrashReport\IRegistry::class, \OC\Support\CrashReport\Registry::class);
+
 		$this->registerService(\OCP\ILogger::class, function (Server $c) {
 			$logType = $c->query('AllConfig')->getSystemValue('log_type', 'file');
 			$logger = Log::getLogClass($logType);
 			call_user_func(array($logger, 'init'));
+			$config = $this->getSystemConfig();
+			$registry = $c->query(\OCP\Support\CrashReport\IRegistry::class);
 
-			return new Log($logger);
+			return new Log($logger, $config, null, $registry);
 		});
 		$this->registerAlias('Logger', \OCP\ILogger::class);
 
