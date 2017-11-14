@@ -30,6 +30,7 @@ use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\ILogger;
+use OCP\IUserManager;
 
 class CleanPreviewsBackgroundJob extends QueuedJob {
 	/** @var IRootFolder */
@@ -44,6 +45,9 @@ class CleanPreviewsBackgroundJob extends QueuedJob {
 	/** @var ITimeFactory */
 	private $timeFactory;
 
+	/** @var IUserManager */
+	private $userManager;
+
 	/**
 	 * CleanPreviewsBackgroundJob constructor.
 	 *
@@ -51,19 +55,26 @@ class CleanPreviewsBackgroundJob extends QueuedJob {
 	 * @param ILogger $logger
 	 * @param IJobList $jobList
 	 * @param ITimeFactory $timeFactory
+	 * @param IUserManager $userManager
 	 */
 	public function __construct(IRootFolder $rootFolder,
 								ILogger $logger,
 								IJobList $jobList,
-								ITimeFactory $timeFactory) {
+								ITimeFactory $timeFactory,
+								IUserManager $userManager) {
 		$this->rootFolder = $rootFolder;
 		$this->logger = $logger;
 		$this->jobList = $jobList;
 		$this->timeFactory = $timeFactory;
+		$this->userManager = $userManager;
 	}
 
 	public function run($arguments) {
 		$uid = $arguments['uid'];
+		if (!$this->userManager->userExists($uid)) {
+			$this->logger->info('User no longer exists, skip user ' . $uid);
+			return;
+		}
 		$this->logger->info('Started preview cleanup for ' . $uid);
 		$empty = $this->cleanupPreviews($uid);
 

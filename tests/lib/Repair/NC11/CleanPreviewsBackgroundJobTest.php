@@ -30,6 +30,7 @@ use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\ILogger;
+use OCP\IUserManager;
 use Test\TestCase;
 
 class CleanPreviewsBackgroundJobTest extends TestCase {
@@ -48,6 +49,9 @@ class CleanPreviewsBackgroundJobTest extends TestCase {
 	/** @var CleanPreviewsBackgroundJob */
 	private $job;
 
+	/** @var  IUserManager|\PHPUnit_Framework_MockObject_MockObject */
+	private $userManager;
+
 	public function setUp() {
 		parent::setUp();
 
@@ -55,12 +59,17 @@ class CleanPreviewsBackgroundJobTest extends TestCase {
 		$this->logger = $this->createMock(ILogger::class);
 		$this->jobList = $this->createMock(IJobList::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
+		$this->userManager = $this->createMock(IUserManager::class);
+
+		$this->userManager->expects($this->any())->method('userExists')->willReturn(true);
 
 		$this->job = new CleanPreviewsBackgroundJob(
 			$this->rootFolder,
 			$this->logger,
 			$this->jobList,
-			$this->timeFactory);
+			$this->timeFactory,
+			$this->userManager
+		);
 	}
 
 	public function testCleanupPreviewsUnfinished() {
