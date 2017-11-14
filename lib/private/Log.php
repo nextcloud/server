@@ -352,7 +352,7 @@ class Log implements ILogger {
 		$msg .= ': ' . json_encode($data);
 		$this->log($level, $msg, $context);
 		if (!is_null($this->crashReporters)) {
-			$this->crashReporters->delegateReport($exception);
+			$this->crashReporters->delegateReport($exception, $context);
 		}
 	}
 

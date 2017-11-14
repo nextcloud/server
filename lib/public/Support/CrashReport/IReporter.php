@@ -35,6 +35,7 @@ interface IReporter {
 	 *
 	 * @since 13.0.0
 	 * @param Exception|Throwable $exception
+	 * @param array $context
 	 */
-	public function report($exception);
+	public function report($exception, array $context = []);
 }

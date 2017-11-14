@@ -45,10 +45,11 @@ class Registry implements IRegistry {
 	 * Delegate crash reporting to all registered reporters
 	 *
 	 * @param Exception|Throwable $exception
+	 * @param array $context
 	 */
-	public function delegateReport($exception) {
+	public function delegateReport($exception, array $context = []) {
 		foreach ($this->reporters as $reporter) {
-			$reporter->report($exception);
+			$reporter->report($exception, $context);
 		}
 	}
 
