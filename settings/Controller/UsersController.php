@@ -308,7 +308,7 @@ class UsersController extends Controller {
 		$userObjects = [];
 		$users = [];
 		if ($this->isAdmin) {
-			if ($gid !== '' && $gid !== '_disabledUsers') {
+			if ($gid !== '' && $gid !== '_disabledUsers' && $gid !== '_everyone') {
 				$batch = $this->getUsersForUID($this->groupManager->displayNamesInGroup($gid, $pattern, $limit, $offset));
 			} else {
 				$batch = $this->userManager->search($pattern, $limit, $offset);
