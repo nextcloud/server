@@ -311,7 +311,34 @@ class UsersController extends Controller {
 			if ($gid !== '' && $gid !== '_disabledUsers' && $gid !== '_everyone') {
 				$batch = $this->getUsersForUID($this->groupManager->displayNamesInGroup($gid, $pattern, $limit, $offset));
 			} else {
-				$batch = $this->userManager->search($pattern, $limit, $offset);
+
+                
+				$batch = array();
+
+				$uidSearchResult = $this->userManager->search($pattern, $limit, $offset);
+				//split display name into individual words for flexible matching
+				$subPatterns = explode(" ", $pattern);
+				//if the pattern to search for isn't potentially complex, just call searchDisplayName with it
+				if (count($subPatterns) == 1) {
+					$displayNameSearchResult = $this->userManager->searchDisplayName($pattern, $limit, $offset);
+				} else {
+					//get array of matches for each substring
+					$subMatch = array();
+					$subMatches = array();
+					foreach ($subPatterns as $sub) {
+						$subMatch = $this->userManager->searchDisplayName($sub, $limit, $offset);
+						if(is_array($subMatch)) { 
+							array_push($subMatches,$subMatch);
+						}
+					}
+
+					//only keep users with display names matched by all substrings
+					$displayNameSearchResult = call_user_func_array('array_intersect', $subMatches);
+				}
+
+				// TODO: allow partial strings for email matches
+				$emailSearchResult = $this->userManager->getByEmail($pattern);
+				$batch = array_merge($uidSearchResult, $displayNameSearchResult, $emailSearchResult);
 			}
 
 			foreach ($batch as $user) {
