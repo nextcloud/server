@@ -359,6 +359,10 @@ OCA = OCA || {};
 					item.$saveButton.click(function(event) {
 						event.preventDefault();
 						view._requestSave(item.$element);
+						item.$saveButton.removeClass('primary');
+					});
+					item.$element.change(function () {
+						item.$saveButton.addClass('primary');
 					});
 				})(this.managedItems[id]);
 			}
