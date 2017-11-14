@@ -76,6 +76,11 @@ class CSSResourceLocator extends ResourceLocator {
 			return;
 		}
 
+		// Account for the possibility of having symlinks in app path. Doing
+		// this here instead of above as an empty argument to realpath gets
+		// turned into cwd.
+		$app_path = realpath($app_path);
+
 		if(!$this->cacheAndAppendScssIfExist($app_path, $style.'.scss', $app)) {
 			$this->append($app_path, $style.'.css', $app_url);
 		}
