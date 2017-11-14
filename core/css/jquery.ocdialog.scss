@@ -29,7 +29,7 @@
 	padding-bottom: 0;
 	box-sizing: border-box;
 	width: 100%;
-	background-image: linear-gradient(transparent, $color-main-background);
+	background-image: linear-gradient(rgba(255, 255, 255, 0.0), $color-main-background);
 	border-bottom-left-radius: 3px;
 	border-bottom-right-radius: 3px;
 }
