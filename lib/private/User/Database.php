@@ -290,6 +290,8 @@ class Database extends Backend implements IUserBackend {
 		if ($search !== '') {
 			$parameters[] = '%' . \OC::$server->getDatabaseConnection()->escapeLikeParameter($search) . '%';
 			$searchLike = ' WHERE LOWER(`uid`) LIKE LOWER(?)';
+			$parameters[] = '%' . \OC::$server->getDatabaseConnection()->escapeLikeParameter($search) . '%';
+			$searchLike .= ' OR LOWER(`displayname`) LIKE LOWER(?)';
 		}
 
 		$query = \OC_DB::prepare('SELECT `uid` FROM `*PREFIX*users`' . $searchLike . ' ORDER BY LOWER(`uid`) ASC', $limit, $offset);
