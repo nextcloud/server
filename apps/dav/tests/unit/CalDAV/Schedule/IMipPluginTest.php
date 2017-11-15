@@ -29,6 +29,7 @@ namespace OCA\DAV\Tests\unit\CalDAV\Schedule;
 use OC\Mail\Mailer;
 use OCA\DAV\CalDAV\Schedule\IMipPlugin;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Defaults;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\ILogger;
@@ -46,6 +47,7 @@ class IMipPluginTest extends TestCase {
 
 	public function testDelivery() {
 		$mailMessage = $this->createMock(IMessage::class);
+		$mailMessage->method('setFrom')->willReturn($mailMessage);
 		$mailMessage->method('setReplyTo')->willReturn($mailMessage);
 		$mailMessage->method('setTo')->willReturn($mailMessage);
 		/** @var Mailer | \PHPUnit_Framework_MockObject_MockObject $mailer */
@@ -68,8 +70,13 @@ class IMipPluginTest extends TestCase {
 		$l10nFactory->method('get')->willReturn($l10n);
 		/** @var IURLGenerator | \PHPUnit_Framework_MockObject_MockObject $urlGenerator */
 		$urlGenerator = $this->createMock(IURLGenerator::class);
+		/** @var Defaults | \PHPUnit_Framework_MockObject_MockObject $defaults */
+		$defaults = $this->createMock(Defaults::class);
+		$defaults->expects($this->once())
+			->method('getName')
+			->will($this->returnValue('Instance Name 123'));
 
-		$plugin = new IMipPlugin($config, $mailer, $logger, $timeFactory, $l10nFactory, $urlGenerator, 'user123');
+		$plugin = new IMipPlugin($config, $mailer, $logger, $timeFactory, $l10nFactory, $urlGenerator, $defaults, 'user123');
 		$message = new Message();
 		$message->method = 'REQUEST';
 		$message->message = new VCalendar();
@@ -98,6 +105,7 @@ class IMipPluginTest extends TestCase {
 
 	public function testFailedDelivery() {
 		$mailMessage = $this->createMock(IMessage::class);
+		$mailMessage->method('setFrom')->willReturn($mailMessage);
 		$mailMessage->method('setReplyTo')->willReturn($mailMessage);
 		$mailMessage->method('setTo')->willReturn($mailMessage);
 		/** @var Mailer | \PHPUnit_Framework_MockObject_MockObject $mailer */
@@ -120,8 +128,10 @@ class IMipPluginTest extends TestCase {
 		$l10nFactory->method('get')->willReturn($l10n);
 		/** @var IURLGenerator | \PHPUnit_Framework_MockObject_MockObject $urlGenerator */
 		$urlGenerator = $this->createMock(IURLGenerator::class);
+		/** @var Defaults | \PHPUnit_Framework_MockObject_MockObject $defaults */
+		$defaults = $this->createMock(Defaults::class);
 
-		$plugin = new IMipPlugin($config, $mailer, $logger, $timeFactory, $l10nFactory, $urlGenerator, 'user123');
+		$plugin = new IMipPlugin($config, $mailer, $logger, $timeFactory, $l10nFactory, $urlGenerator, $defaults, 'user123');
 		$message = new Message();
 		$message->method = 'REQUEST';
 		$message->message = new VCalendar();
@@ -153,6 +163,7 @@ class IMipPluginTest extends TestCase {
 	 */
 	public function testNoMessageSendForPastEvents($veventParams, $expectsMail) {
 		$mailMessage = $this->createMock(IMessage::class);
+		$mailMessage->method('setFrom')->willReturn($mailMessage);
 		$mailMessage->method('setReplyTo')->willReturn($mailMessage);
 		$mailMessage->method('setTo')->willReturn($mailMessage);
 		/** @var Mailer | \PHPUnit_Framework_MockObject_MockObject $mailer */
@@ -179,8 +190,10 @@ class IMipPluginTest extends TestCase {
 		$l10nFactory->method('get')->willReturn($l10n);
 		/** @var IURLGenerator | \PHPUnit_Framework_MockObject_MockObject $urlGenerator */
 		$urlGenerator = $this->createMock(IURLGenerator::class);
+		/** @var Defaults | \PHPUnit_Framework_MockObject_MockObject $defaults */
+		$defaults = $this->createMock(Defaults::class);
 
-		$plugin = new IMipPlugin($config, $mailer, $logger, $timeFactory, $l10nFactory, $urlGenerator, 'user123');
+		$plugin = new IMipPlugin($config, $mailer, $logger, $timeFactory, $l10nFactory, $urlGenerator, $defaults, 'user123');
 		$message = new Message();
 		$message->method = 'REQUEST';
 		$message->message = new VCalendar();

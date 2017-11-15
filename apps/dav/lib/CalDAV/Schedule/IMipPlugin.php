@@ -26,6 +26,7 @@
 namespace OCA\DAV\CalDAV\Schedule;
 
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Defaults;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\ILogger;
@@ -79,6 +80,9 @@ class IMipPlugin extends SabreIMipPlugin {
 	/** @var IURLGenerator */
 	private $urlGenerator;
 
+	/** @var Defaults */
+	private $defaults;
+
 	const MAX_DATE = '2038-01-01';
 
 	const METHOD_REQUEST = 'request';
@@ -92,9 +96,10 @@ class IMipPlugin extends SabreIMipPlugin {
 	 * @param ITimeFactory $timeFactory
 	 * @param L10NFactory $l10nFactory
 	 * @param IUrlGenerator $urlGenerator
+	 * @param Defaults $defaults
 	 * @param string $userId
 	 */
-	public function __construct(IConfig $config, IMailer $mailer, ILogger $logger, ITimeFactory $timeFactory, L10NFactory $l10nFactory, IURLGenerator $urlGenerator, $userId) {
+	public function __construct(IConfig $config, IMailer $mailer, ILogger $logger, ITimeFactory $timeFactory, L10NFactory $l10nFactory, IURLGenerator $urlGenerator, Defaults $defaults, $userId) {
 		parent::__construct('');
 		$this->userId = $userId;
 		$this->config = $config;
@@ -103,6 +108,7 @@ class IMipPlugin extends SabreIMipPlugin {
 		$this->timeFactory = $timeFactory;
 		$this->l10nFactory = $l10nFactory;
 		$this->urlGenerator = $urlGenerator;
+		$this->defaults = $defaults;
 	}
 
 	/**
@@ -202,7 +208,11 @@ class IMipPlugin extends SabreIMipPlugin {
 			'meeting_url' => (string)$meetingUrl ?: $defaultVal,
 		);
 
+		$fromEMail = \OCP\Util::getDefaultEmailAddress('invitations-noreply');
+		$fromName = $l10n->t('%s via %s', [$senderName, $this->defaults->getName()]);
+
 		$message = $this->mailer->createMessage()
+			->setFrom([$fromEMail => $fromName])
 			->setReplyTo([$sender => $senderName])
 			->setTo([$recipient => $recipientName]);
 
