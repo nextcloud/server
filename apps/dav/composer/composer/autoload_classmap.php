@@ -25,6 +25,8 @@ return array(
     'OCA\\DAV\\CalDAV\\CalDavBackend' => $baseDir . '/../lib/CalDAV/CalDavBackend.php',
     'OCA\\DAV\\CalDAV\\Calendar' => $baseDir . '/../lib/CalDAV/Calendar.php',
     'OCA\\DAV\\CalDAV\\CalendarHome' => $baseDir . '/../lib/CalDAV/CalendarHome.php',
+    'OCA\\DAV\\CalDAV\\CalendarImpl' => $baseDir . '/../lib/CalDAV/CalendarImpl.php',
+    'OCA\\DAV\\CalDAV\\CalendarManager' => $baseDir . '/../lib/CalDAV/CalendarManager.php',
     'OCA\\DAV\\CalDAV\\CalendarObject' => $baseDir . '/../lib/CalDAV/CalendarObject.php',
     'OCA\\DAV\\CalDAV\\CalendarRoot' => $baseDir . '/../lib/CalDAV/CalendarRoot.php',
     'OCA\\DAV\\CalDAV\\Plugin' => $baseDir . '/../lib/CalDAV/Plugin.php',
