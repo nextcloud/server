@@ -14,6 +14,8 @@ OC.L10N.register(
     "(group)" : "(skupina)",
     "Compatibility with Mac NFD encoding (slow)" : "Kompatibilita s Mac NFD kódováním (pomalé)",
     "Admin defined" : "Nastaveno administrátorem",
+    "Are you sure you want to delete this external storage" : "Opravdu chcete odstranit toto externí úložiště",
+    "Delete storage?" : "Odstranit úložiště?",
     "Saved" : "Uloženo",
     "Saving..." : "Ukládá se...",
     "Save" : "Uložit",
