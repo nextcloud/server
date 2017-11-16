@@ -913,7 +913,7 @@ kbd {
 }
 .app-content-list {
 	width: 300px;
-	height: 100%;
+	min-height: 100%;
 	overflow-x: hidden;
 	overflow-y: auto;
 	border-right: 1px solid nc-darken($color-main-background, 8%);
@@ -921,6 +921,30 @@ kbd {
 	flex-direction: column;
 	transition: transform 250ms ease-in-out;
 
+	/* Icon fixes */
+	[class^='icon-'],
+	[class*=' icon-'] {
+		order: 4;
+		width: 24px;
+		height: 24px;
+		opacity: 0.3;
+		&:hover, &:focus {
+			opacity: 0.7;
+		}
+		&[class^='icon-star'],
+		&[class*=' icon-star'] {
+			opacity: 0.7;
+			&:hover, &:focus {
+				opacity: 1 ;
+			}
+
+		}
+		&.icon-starred {
+			opacity: 1 ;
+		}
+	}
+
+	/* Default item */
 	.app-content-list-item {
 		position: relative;
 		height: 68px;
@@ -936,10 +960,32 @@ kbd {
 			background-color: nc-darken($color-main-background, 6%);
 		}
 
+		.app-content-list-item-checkbox.checkbox + label,
+		.app-content-list-item-star {
+			position: absolute;
+			height: 20px;
+			width: 20px;
+			display: flex;
+			z-index: 50;
+			+ .app-content-list-item-icon {
+				opacity: .7;
+			}
+		}
+
+		.app-content-list-item-checkbox.checkbox + label {
+			top: 14px;
+			left: 7px;
+			&::before {
+				margin: 0;
+			}
+			/* Hide the star, priority to the checkbox */
+			~ .app-content-list-item-star {
+				display: none;
+			}
+		}
+
 		.app-content-list-item-icon {
 			position: absolute;
-			left: 6px;
-			top: 14px;
 			display: inline-block;
 			height: 40px;
 			width: 40px;
@@ -956,13 +1002,9 @@ kbd {
 		}
 
 		.app-content-list-item-star {
-			position: absolute;
-			display: none; /* change to inline-block when we implement it */
-			left: 16px;
-			top: 28px;
-			padding: 20px;
+			top: 10px;
+			left: 3px;
 			background-size: 16px;
-			z-index: 100;
 		}
 
 		.app-content-list-item-line-one,
@@ -991,17 +1033,6 @@ kbd {
 			max-width: 100px;
 			opacity: 0.5;
 			user-select: none;
-		}
-
-		[class^='icon-'],
-		[class*=' icon-'] {
-			order: 4;
-			width: 24px;
-			height: 24px;
-			opacity: 0.3;
-			&:hover, &:focus {
-				opacity: 0.7;
-			}
 		}
 	}
 }
