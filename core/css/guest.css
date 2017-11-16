@@ -136,8 +136,7 @@ form #datadirField legend {
 						   absolutely positioned descendant icons */
 }
 
-#submit-wrapper .submit-icon,
-#reset-password-wrapper .submit-icon {
+#submit-wrapper .submit-icon {
 	position: absolute;
 	top: 23px;
 	right: 23px;
@@ -145,6 +144,16 @@ form #datadirField legend {
 							 From the user point of view the icon is part of the
 							 button, so the clicks on the icon have to be
 							 applied to the button instead. */
+}
+
+#reset-password-submit {
+	padding: 10px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+#reset-password-wrapper .submit-icon {
+	display: none;
 }
 
 #submit-wrapper .icon-loading-small {
