@@ -472,22 +472,6 @@ describe('OC.Share.ShareDialogView', function() {
 			});
 		});
 	});
-	describe('remote sharing', function() {
-		it('shows remote share info when allowed', function() {
-			configModel.set({
-				isRemoteShareAllowed: true
-			});
-			dialog.render();
-			expect(dialog.$el.find('.shareWithRemoteInfo').length).toEqual(1);
-		});
-		it('does not show remote share info when not allowed', function() {
-			configModel.set({
-				isRemoteShareAllowed: false
-			});
-			dialog.render();
-			expect(dialog.$el.find('.shareWithRemoteInfo').length).toEqual(0);
-		});
-	});
 	describe('autocompletion of users', function() {
 		it('triggers autocomplete display and focus with data when ajax search succeeds', function () {
 			dialog.render();

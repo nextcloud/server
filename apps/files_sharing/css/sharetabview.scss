@@ -13,13 +13,21 @@
 	top: 0px;
 }
 
-.shareTabView .shareWithRemoteInfo,
+.shareTabView .shareWithConfirm,
 .shareTabView .clipboardButton,
 .shareTabView .linkPass .icon-loading-small {
 	position: absolute;
 	right: -7px;
-	top: -4px;
+	top: -2px;
 	padding: 14px;
+}
+
+.shareTabView .shareWithConfirm {
+	opacity: .5;
+}
+
+.shareTabView .shareWithField:focus ~ .shareWithConfirm {
+	opacity: 1;
 }
 
 .shareTabView .linkMore {
