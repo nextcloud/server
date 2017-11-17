@@ -41,6 +41,7 @@ OC.L10N.register(
     "A calendar <strong>event</strong> was modified" : "Egy naptár <strong>esemény</strong> megváltozott",
     "A calendar <strong>todo</strong> was modified" : "Egy naptár <strong>teendő</strong> megváltozott",
     "Contact birthdays" : "Születésnapok",
+    "%s via %s" : "%s - %s",
     "Invitation canceled" : "Meghívás visszavonva",
     "Hello %s," : "Üdv %s,",
     "The meeting »%s« with %s was canceled." : "A »%s« találkozó vele: %s lemondásra került.",
