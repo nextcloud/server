@@ -60,6 +60,8 @@
 #commentsTabView .comment {
 	position: relative;
 	margin-bottom: 30px;
+	word-wrap: break-word;
+	overflow-wrap: break-word;
 }
 
 #commentsTabView .comment .avatar,
