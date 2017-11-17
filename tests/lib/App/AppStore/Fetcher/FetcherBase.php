@@ -78,6 +78,11 @@ abstract class FetcherBase extends TestCase {
 		$this->config
 			->expects($this->at(1))
 			->method('getSystemValue')
+			->with('has_internet_connection', true)
+			->willReturn(true);
+		$this->config
+			->expects($this->at(2))
+			->method('getSystemValue')
 			->with(
 				$this->equalTo('version'),
 				$this->anything()
@@ -121,10 +126,15 @@ abstract class FetcherBase extends TestCase {
 		$this->config
 			->expects($this->at(1))
 			->method('getSystemValue')
-			->with('appstoreenabled', true)
+			->with('has_internet_connection', true)
 			->willReturn(true);
 		$this->config
 			->expects($this->at(2))
+			->method('getSystemValue')
+			->with('appstoreenabled', true)
+			->willReturn(true);
+		$this->config
+			->expects($this->at(3))
 			->method('getSystemValue')
 			->with(
 				$this->equalTo('version'),
@@ -277,10 +287,15 @@ abstract class FetcherBase extends TestCase {
 		$this->config
 			->expects($this->at(1))
 			->method('getSystemValue')
-			->with('appstoreenabled', true)
+			->with('has_internet_connection', true)
 			->willReturn(true);
 		$this->config
 			->expects($this->at(2))
+			->method('getSystemValue')
+			->with('appstoreenabled', true)
+			->willReturn(true);
+		$this->config
+			->expects($this->at(3))
 			->method('getSystemValue')
 			->with(
 				$this->equalTo('version'),
@@ -356,10 +371,15 @@ abstract class FetcherBase extends TestCase {
 		$this->config
 			->expects($this->at(1))
 			->method('getSystemValue')
-			->with('appstoreenabled', true)
+			->with('has_internet_connection', true)
 			->willReturn(true);
 		$this->config
 			->expects($this->at(2))
+			->method('getSystemValue')
+			->with('appstoreenabled', true)
+			->willReturn(true);
+		$this->config
+			->expects($this->at(3))
 			->method('getSystemValue')
 			->with(
 				$this->equalTo('version'),
