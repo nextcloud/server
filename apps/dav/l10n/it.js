@@ -41,6 +41,7 @@ OC.L10N.register(
     "A calendar <strong>event</strong> was modified" : "Un <strong>evento</strong> del calendario è stato modificato",
     "A calendar <strong>todo</strong> was modified" : "Una <strong>cosa da fare</strong> del calendario è stata modificata",
     "Contact birthdays" : "Date di nascita dei contatti",
+    "%s via %s" : "%s tramite %s",
     "Invitation canceled" : "Invito annullato",
     "Hello %s," : "Ciao %s,",
     "The meeting »%s« with %s was canceled." : "L'incontro «%s» con %s è stato annullato.",

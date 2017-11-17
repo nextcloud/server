@@ -41,6 +41,7 @@ OC.L10N.register(
     "A calendar <strong>event</strong> was modified" : "<strong>Догађај</strong> из календара је измењен",
     "A calendar <strong>todo</strong> was modified" : "<strong>Подсетник</strong> из календара је измењен",
     "Contact birthdays" : "Рођендани контаката",
+    "%s via %s" : "%s путем %s",
     "Invitation canceled" : "Позивница отказана",
     "Hello %s," : "Здраво %s,",
     "The meeting »%s« with %s was canceled." : "Састанак »%s« са  %s је отказан.",
