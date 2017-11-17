@@ -50,9 +50,15 @@ trait S3ObjectTrait {
 			'Key' => $urn
 		]);
 		$request = \Aws\serialize($command);
+		$headers = [];
+		foreach ($request->getHeaders() as $key => $values) {
+			foreach ($values as $value) {
+				$headers[] = "$key: $value";
+			}
+		}
 		$opts = [
 			'http' => [
-				'header' => $request->getHeaders()
+				'header' => $headers
 			]
 		];
 
