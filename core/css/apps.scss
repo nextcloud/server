@@ -963,8 +963,8 @@ kbd {
 		.app-content-list-item-checkbox.checkbox + label,
 		.app-content-list-item-star {
 			position: absolute;
-			height: 20px;
-			width: 20px;
+			height: 40px;
+			width: 40px;
 			display: flex;
 			z-index: 50;
 			+ .app-content-list-item-icon {
@@ -984,6 +984,14 @@ kbd {
 			}
 		}
 
+		.app-content-list-item-star {
+			top: 10px;
+			left: 3px;
+			background-size: 16px;
+			height: 20px;
+			width: 20px;
+		}
+
 		.app-content-list-item-icon {
 			position: absolute;
 			display: inline-block;
@@ -999,12 +1007,6 @@ kbd {
 			text-transform: capitalize;
 			object-fit: cover;
 			user-select: none;
-		}
-
-		.app-content-list-item-star {
-			top: 10px;
-			left: 3px;
-			background-size: 16px;
 		}
 
 		.app-content-list-item-line-one,
