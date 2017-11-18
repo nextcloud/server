@@ -81,6 +81,7 @@ OC.L10N.register(
     "I know what I'm doing" : "Ik weet wat ik doe",
     "Password can not be changed. Please contact your administrator." : "Het wachtwoord kan niet worden gewijzigd. Neem contact op met je beheerder.",
     "Reset password" : "Reset wachtwoord",
+    "Sending email …" : "Versturen e-mail...",
     "No" : "Nee",
     "Yes" : "Ja",
     "No files in here" : "Hier geen bestanden",

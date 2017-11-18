@@ -41,6 +41,7 @@ OC.L10N.register(
     "A calendar <strong>event</strong> was modified" : "კალენდრის <strong>მოვლენა</strong> შეიცვალა",
     "A calendar <strong>todo</strong> was modified" : "კალენდრის <strong>შესასრულებელი დავალება</strong> შეიცვალა",
     "Contact birthdays" : "კონტაქტების დაბადების დღეები",
+    "%s via %s" : "%s %s-ით",
     "Invitation canceled" : "მოწვევა გაუქმდა",
     "Hello %s," : "გამარჯობა %s,",
     "The meeting »%s« with %s was canceled." : "შეხვედრა »%s« %s-სთან გაუქმდა.",
