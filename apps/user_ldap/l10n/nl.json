@@ -97,6 +97,7 @@
     "The DN of the client user with which the bind shall be done, e.g. uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password empty." : "De DN van de client gebruiker waarmee de verbinding zal worden gemaakt, bijv. uid=agent,dc=example,dc=com. Voor anonieme toegang laat je het DN en het wachtwoord leeg.",
     "Password" : "Wachtwoord",
     "For anonymous access, leave DN and Password empty." : "Voor anonieme toegang, laat de DN en het wachtwoord leeg.",
+    "Save Credentials" : "Opslaan inloggegevens",
     "One Base DN per line" : "Een Base DN per regel",
     "You can specify Base DN for users and groups in the Advanced tab" : "Je kunt het Base DN voor gebruikers en groepen specificeren in het tab Geavanceerd.",
     "Detect Base DN" : "Detecteren basis DN",
