@@ -31,6 +31,7 @@
     "Login image" : "Inlog afbeelding",
     "Upload new login background" : "Uploaden nieuwe inlog achtergrond",
     "Remove background image" : "Achtergrond beeld verwijderen",
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installeer de Imagemagick PHP extensie met ondersteuning voor SVG afbeeldingen om automatisch favicons te genereren op basis van het geuploade logo en kleur.",
     "reset to default" : "herstellen naar standaard",
     "Log in image" : "Inlog afbeelding"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
