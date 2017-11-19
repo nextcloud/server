@@ -197,6 +197,12 @@ OC.Share = _.extend(OC.Share || {}, {
 			delete OC.Share.statuses[itemSource];
 		}
 	},
+	_formatRegularShare: function(shareWith, shareWithDisplayName, message) {
+		// display avatar of the user
+		var avatar = '<span class="avatar" data-username="' + escapeHTML(shareWith) + '" title="' + message + " " + escapeHTML(shareWithDisplayName) + '"></span>';
+		var hidden = '<span class="hidden-visually">' + message + ' ' + escapeHTML(shareWithDisplayName) + '</span> ';
+		return avatar + hidden;
+	},
 	/**
 	 * Format a remote address
 	 *
@@ -207,7 +213,7 @@ OC.Share = _.extend(OC.Share || {}, {
 		var parts = this._REMOTE_OWNER_REGEXP.exec(remoteAddress);
 		if (!parts) {
 			// display avatar of the user
-			var avatar = '<span class="avatar" data-userName="' + escapeHTML(remoteAddress) + '" title="' + message + " " + escapeHTML(remoteAddress) + '"></span>';
+			var avatar = '<span class="avatar" data-username="' + escapeHTML(remoteAddress) + '" title="' + message + " " + escapeHTML(remoteAddress) + '"></span>';
 			var hidden = '<span class="hidden-visually">' + message + ' ' + escapeHTML(remoteAddress) + '</span> ';
 			return avatar + hidden;
 		}
@@ -243,9 +249,8 @@ OC.Share = _.extend(OC.Share || {}, {
 	 */
 	_formatShareList: function(recipients) {
 		var _parent = this;
-		return $.map(recipients, function(recipient) {
-			recipient = _parent._formatRemoteShare(recipient, t('core', 'Shared with'));
-			return recipient;
+		return $.map(recipients, function(shareWithDisplayName, shareWith) {
+			return _parent._formatRegularShare(shareWith, shareWithDisplayName, t('core', 'Shared with'));
 		});
 	},
 	/**
@@ -291,7 +296,7 @@ OC.Share = _.extend(OC.Share || {}, {
 		}
 		// update share action text / icon
 		if (hasShares || owner) {
-			recipients = $tr.attr('data-share-recipients');
+			recipients = $tr.data('share-recipient-data');
 			action.addClass('shared-style');
 
 			avatars = '<span>' + t('core', 'Shared') + '</span>';
@@ -300,13 +305,15 @@ OC.Share = _.extend(OC.Share || {}, {
 				message = t('core', 'Shared by');
 				avatars = this._formatRemoteShare(owner, message);
 			} else if (recipients) {
-				avatars = this._formatShareList(recipients.split(', ')).join('');
+				avatars = this._formatShareList(recipients);
 			}
 			action.html(avatars).prepend(icon);
 
 			if (owner || recipients) {
 				var avatarElement = action.find('.avatar');
-				avatarElement.avatar(avatarElement.data('username'), 32);
+				avatarElement.each(function () {
+					$(this).avatar($(this).data('username'), 32);
+				});
 
 				action.find('.icon-shared + span').tooltip({placement: 'top'});
 			}

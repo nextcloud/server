@@ -307,6 +307,7 @@
 					else {
 						if (share.share_type !== OC.Share.SHARE_TYPE_LINK) {
 							file.share.targetDisplayName = share.share_with_displayname;
+							file.share.targetShareWithId = share.share_with;
 						}
 						file.name = OC.basename(share.path);
 						file.path = OC.dirname(share.path);
@@ -325,12 +326,14 @@
 				.reduce(function(memo, file) {
 					var data = memo[file.id];
 					var recipient = file.share.targetDisplayName;
+					var recipientId = file.share.targetShareWithId;
 					if (!data) {
 						data = memo[file.id] = file;
 						data.shares = [file.share];
 						// using a hash to make them unique,
 						// this is only a list to be displayed
 						data.recipients = {};
+						data.recipientData = {};
 						// share types
 						data.shareTypes = {};
 						// counter is cheaper than calling _.keys().length
@@ -351,6 +354,7 @@
 							// only store the first ones, they will be the only ones
 							// displayed
 							data.recipients[recipient] = true;
+							data.recipientData[recipientId] = recipient;
 						}
 						data.recipientsCount++;
 					}

@@ -53,6 +53,7 @@
 				}
 				if (fileData.recipientsDisplayName) {
 					tr.attr('data-share-recipients', fileData.recipientsDisplayName);
+					tr.attr('data-share-recipient-data', JSON.stringify(fileData.recipientData));
 				}
 				if (fileData.shareTypes) {
 					tr.attr('data-share-types', fileData.shareTypes.join(','));
@@ -67,8 +68,7 @@
 				fileInfo.shareOwner = $el.attr('data-share-owner') || undefined;
 
 				if( $el.attr('data-share-types')){
-					var shareTypes = $el.attr('data-share-types').split(',');
-					fileInfo.shareTypes = shareTypes;
+					fileInfo.shareTypes = $el.attr('data-share-types').split(',');
 				}
 
 				if( $el.attr('data-expiration')){
