@@ -297,6 +297,7 @@
 					};
 					if (self._sharedWithUser) {
 						file.shareOwner = share.displayname_owner;
+						file.shareOwnerId = share.uid_owner;
 						file.name = OC.basename(share.file_target);
 						file.path = OC.dirname(share.file_target);
 						file.permissions = share.permissions;

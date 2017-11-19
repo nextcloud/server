@@ -266,12 +266,13 @@ OC.Share = _.extend(OC.Share || {}, {
 		var type = $tr.data('type');
 		var icon = action.find('.icon');
 		var message, recipients, avatars;
+		var ownerId = $tr.attr('data-share-owner-id');
 		var owner = $tr.attr('data-share-owner');
 		var shareFolderIcon;
 		var iconClass = 'icon-shared';
 		action.removeClass('shared-style');
 		// update folder icon
-		if (type === 'dir' && (hasShares || hasLink || owner)) {
+		if (type === 'dir' && (hasShares || hasLink || ownerId)) {
 			if (hasLink) {
 				shareFolderIcon = OC.MimeType.getIconUrl('dir-public');
 			}
@@ -295,21 +296,21 @@ OC.Share = _.extend(OC.Share || {}, {
 			$tr.find('.filename .thumbnail').css('background-image', 'url(' + shareFolderIcon + ')');
 		}
 		// update share action text / icon
-		if (hasShares || owner) {
+		if (hasShares || ownerId) {
 			recipients = $tr.data('share-recipient-data');
 			action.addClass('shared-style');
 
 			avatars = '<span>' + t('core', 'Shared') + '</span>';
 			// even if reshared, only show "Shared by"
-			if (owner) {
+			if (ownerId) {
 				message = t('core', 'Shared by');
-				avatars = this._formatRemoteShare(owner, message);
+				avatars = this._formatRegularShare(ownerId, owner, message);
 			} else if (recipients) {
 				avatars = this._formatShareList(recipients);
 			}
 			action.html(avatars).prepend(icon);
 
-			if (owner || recipients) {
+			if (ownerId || recipients) {
 				var avatarElement = action.find('.avatar');
 				avatarElement.each(function () {
 					$(this).avatar($(this).data('username'), 32);
