@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Saved" : "შენახულია",
     "Saving failed:" : "შენახვა ვერ მოხერხდა:",
-    "File MIME type" : "ფაილის MIME ტიპი",
+    "File MIME type" : "ფაილის MIME სახეობა",
     "is" : "არის",
     "is not" : "არ არის",
     "matches" : "ემთხვევა",
@@ -11,13 +11,13 @@ OC.L10N.register(
     "Example: {placeholder}" : "მაგალითი: {placeholder}",
     "File size (upload)" : "ფაილის ზომა (ატვირთვა)",
     "less" : "უფრო ნაკლები",
-    "less or equals" : "უფრო ნაკლებია ან ტოლია",
-    "greater or equals" : "უფრო მეტია ან ტოლია",
+    "less or equals" : "უფრო ნაკლები ან ტოლი",
+    "greater or equals" : "უფრო მეტი ან ტოლი",
     "greater" : "უფრო მეტია",
     "File system tag" : "ფაილის სისტემური ტეგი",
     "is tagged with" : "დატეგილია როგორც",
     "is not tagged with" : "არაა დატეგილი როგორც",
-    "Select tag…" : "აირჩიეთ ტეგი",
+    "Select tag…" : "აირჩიეთ ტეგი...",
     "Request remote address" : "დისტანციური მისამართის მოთხოვნა",
     "matches IPv4" : "ემთხვევა IPv4-ს",
     "does not match IPv4" : "არ ემთხვევა IPv4-ს",
@@ -33,7 +33,7 @@ OC.L10N.register(
     "Predefined URLs" : "წინასწარ განსაზღვრული URL-ები",
     "Files WebDAV" : "ფაილები WebDAV",
     "Request user agent" : "მოთხოვნის მომხმარებლის აგენტი",
-    "Sync clients" : "Sync. კლიენტები",
+    "Sync clients" : "სინქ. კლიენტები",
     "Android client" : "Android კლიენტი",
     "iOS client" : "iOS კლიენტი",
     "Desktop client" : "დესკტოპ კლიენტი",
@@ -68,6 +68,6 @@ OC.L10N.register(
     "Saving…" : "მიმდინარეობს დამახსოვრება...",
     "Loading…" : "იტვირთება...",
     "Successfully saved" : "წარმატებით დამახსოვრდა",
-    "File mime type" : "ფაილის mime ტიპი"
+    "File mime type" : "ფაილის mime სახეობა"
 },
 "nplurals=1; plural=0;");
