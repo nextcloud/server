@@ -45,6 +45,7 @@ describe('OC.Share tests', function() {
 				var $action;
 
 				$file.attr('data-share-owner', input);
+				$file.attr('data-share-owner-id', input);
 				OC.Share.markFileAsShared($file);
 
 				$action = $file.find('.action-share>span').parent();
@@ -119,6 +120,7 @@ describe('OC.Share tests', function() {
 			it('shows a shared folder icon for folders shared with the current user', function() {
 				$file.attr('data-type', 'dir');
 				$file.attr('data-share-owner', 'someoneelse');
+				$file.attr('data-share-owner-id', 'someoneelse');
 				OC.Share.markFileAsShared($file);
 
 				checkIcon('filetypes/folder-shared');
@@ -155,7 +157,9 @@ describe('OC.Share tests', function() {
 			function checkRecipients(input, output, title) {
 				var $action;
 
-				$file.attr('data-share-recipients', input);
+				var concatenated = _.values(input).join(', ');
+				$file.attr('data-share-recipients', concatenated);
+				$file.attr('data-share-recipient-data', JSON.stringify(input));
 				OC.Share.markFileAsShared($file, true);
 
 				$action = $file.find('.action-share>span').parent();
@@ -177,63 +181,86 @@ describe('OC.Share tests', function() {
 			}
 
 			it('displays the local share owner as is', function() {
-				checkRecipients('User One', 'Shared with User One', null);
+				checkRecipients({'User One': 'User One'}, 'Shared with User One', null);
 			});
 			it('displays the user name part of a remote recipient', function() {
 				checkRecipients(
-					'User One@someserver.com',
+					{'User One@someserver.com': 'User One@someserver.com'},
 					'User One@…',
 					'Shared with User One@someserver.com'
 				);
 				checkRecipients(
-					'User One@someserver.com/',
+					'{User One@someserver.com/: User One@someserver.com/}',
 					'User One@…',
 					'Shared with User One@someserver.com'
 				);
 				checkRecipients(
-					'User One@someserver.com/root/of/owncloud',
+					{'User One@someserver.com/root/of/owncloud': 'User One@someserver.com/root/of/owncloud'},
 					'User One@…',
 					'Shared with User One@someserver.com'
 				);
 			});
 			it('displays the user name part with domain of a remote share owner', function() {
 				checkRecipients(
-					'User One@example.com@someserver.com',
+					{'User One@example.com@someserver.com': 'User One@example.com@someserver.com'},
 					'User One@example.com',
 					'Shared with User One@example.com@someserver.com'
 				);
 				checkRecipients(
-					'User One@example.com@someserver.com/',
+					{'User One@example.com@someserver.com/': 'User One@example.com@someserver.com/'},
 					'User One@example.com',
 					'Shared with User One@example.com@someserver.com'
 				);
 				checkRecipients(
-					'User One@example.com@someserver.com/root/of/owncloud',
+					{'User One@example.com@someserver.com/root/of/nextcloud': 'User One@example.com@someserver.com/root/of/nextcloud'},
 					'User One@example.com',
 					'Shared with User One@example.com@someserver.com'
 				);
 			});
 			it('display multiple remote recipients', function() {
 				checkRecipients(
-					'One@someserver.com, two@otherserver.com',
+					{
+						'One@someserver.com': 'One@someserver.com',
+						'two@otherserver.com': 'two@otherserver.com'
+					},
 					'One@… two@…',
 					['Shared with One@someserver.com', 'Shared with two@otherserver.com']
 				);
 				checkRecipients(
-					'One@someserver.com/, two@otherserver.com',
+					{
+						'One@someserver.com/': 'One@someserver.com/',
+						'two@otherserver.com': 'two@otherserver.com'
+					},
 					'One@… two@…',
 					['Shared with One@someserver.com', 'Shared with two@otherserver.com']
 				);
 				checkRecipients(
-					'One@someserver.com/root/of/owncloud, two@otherserver.com',
+					{
+						'One@someserver.com/root/of/owncloud': 'One@someserver.com/root/of/owncloud',
+						'two@otherserver.com': 'two@otherserver.com'
+					},
 					'One@… two@…',
 					['Shared with One@someserver.com', 'Shared with two@otherserver.com']
 				);
 			});
 			it('display mixed recipients', function() {
 				checkRecipients(
-					'One, two@otherserver.com',
+					{
+						'One': 'One',
+						'two@otherserver.com': 'two@otherserver.com'
+					},
 					'Shared with One two@…',
+					['Shared with two@otherserver.com']
+				);
+			});
+			it('display multiple with divergent displaynames', function() {
+				checkRecipients(
+					{
+						'One': 'Yoko Ono',
+						'two@otherserver.com': 'two@otherserver.com',
+						'Three': 'Green, Mina'
+					},
+					'Shared with Yoko Ono two@… Shared with Green, Mina',
 					['Shared with two@otherserver.com']
 				);
 			});
