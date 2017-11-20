@@ -19,6 +19,8 @@ OC.L10N.register(
     "Uploading …" : "Wysyłanie...",
     "…" : "...",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} z {totalSize} ({bitrate})",
+    "Target folder does not exist any more" : "Folder docelowy już nie istnieje",
+    "Error when assembling chunks, status code {status}" : "Błąd podczas łączenia fragmentów, kod statusu {status}",
     "Actions" : "Akcje",
     "Download" : "Pobierz",
     "Rename" : "Zmień nazwę",

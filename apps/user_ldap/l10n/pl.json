@@ -97,6 +97,7 @@
     "The DN of the client user with which the bind shall be done, e.g. uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password empty." : "DN użytkownika klienta, z którym powiązanie wykonuje się, np. uid=agent,dc=example,dc=com. Dla dostępu anonimowego pozostawić DN i hasło puste",
     "Password" : "Hasło",
     "For anonymous access, leave DN and Password empty." : "Dla dostępu anonimowego pozostawić DN i hasło puste.",
+    "Save Credentials" : "Zapisz poświadczenia",
     "One Base DN per line" : "Jedna baza DN na linię",
     "You can specify Base DN for users and groups in the Advanced tab" : "Bazę DN można określić dla użytkowników i grup w karcie Zaawansowane",
     "Detect Base DN" : "Wykryj bazowy DN",
