@@ -75,6 +75,13 @@ class JSResourceLocator extends ResourceLocator {
 		$app_path = \OC_App::getAppPath($app);
 		$app_url = \OC_App::getAppWebPath($app);
 
+		if ($app_path !== false) {
+			// Account for the possibility of having symlinks in app path. Only
+			// do this if $app_path is set, because an empty argument to realpath
+			// gets turned into cwd.
+			$app_path = realpath($app_path);
+		}
+
 		// missing translations files fill be ignored
 		if (strpos($script, 'l10n/') === 0) {
 			$this->appendIfExist($app_path, $script . '.js', $app_url);
