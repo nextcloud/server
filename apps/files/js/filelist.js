@@ -953,7 +953,8 @@
 				type: $el.attr('data-type'),
 				etag: $el.attr('data-etag'),
 				permissions: parseInt($el.attr('data-permissions'), 10),
-				hasPreview: $el.attr('data-has-preview') === 'true'
+				hasPreview: $el.attr('data-has-preview') === 'true',
+				isEncrypted: $el.attr('data-e2eencrypted') === 'true'
 			};
 			var size = $el.attr('data-size');
 			if (size) {
@@ -1176,7 +1177,8 @@
 				"data-mtime": mtime,
 				"data-etag": fileData.etag,
 				"data-permissions": permissions,
-				"data-has-preview": fileData.hasPreview !== false
+				"data-has-preview": fileData.hasPreview !== false,
+				"data-e2eencrypted": fileData.isEncrypted === true
 			});
 
 			if (dataIcon) {
