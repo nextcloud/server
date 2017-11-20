@@ -1033,7 +1033,8 @@ kbd {
 			overflow: hidden;
 			text-overflow: ellipsis;
 			max-width: 100px;
-			opacity: 0.5;
+			opacity: .5;
+			font-size: 80%;
 			user-select: none;
 		}
 	}
