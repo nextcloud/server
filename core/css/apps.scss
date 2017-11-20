@@ -927,13 +927,15 @@ kbd {
 		order: 4;
 		width: 24px;
 		height: 24px;
-		opacity: 0.3;
+		margin: -10px;
+		padding: 22px;
+		opacity: .3;
 		&:hover, &:focus {
-			opacity: 0.7;
+			opacity: .7;
 		}
 		&[class^='icon-star'],
 		&[class*=' icon-star'] {
-			opacity: 0.7;
+			opacity: .7;
 			&:hover, &:focus {
 				opacity: 1 ;
 			}
@@ -990,6 +992,8 @@ kbd {
 			background-size: 16px;
 			height: 20px;
 			width: 20px;
+			margin: 0;
+			padding: 0;
 		}
 
 		.app-content-list-item-icon {
