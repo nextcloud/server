@@ -517,9 +517,10 @@
 			$field.toggleClass('error', limitExceeded);
 			$submitButton.prop('disabled', limitExceeded);
 
-			//submits form on ctrl+Enter or cmd+Enter
-			if (ev.keyCode === 13 && (ev.ctrlKey || ev.metaKey)) {
+			// Submits form with Enter, but Shift+Enter is a new line
+			if (ev.keyCode === 13 && !ev.shiftKey) {
 				$submitButton.click();
+				ev.preventDefault();
 			}
 		},
 
