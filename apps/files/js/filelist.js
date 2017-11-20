@@ -408,7 +408,7 @@
 					mime: 'all',
 					order: -50,
 					iconClass: 'icon-details',
-					permissions: OC.PERMISSION_READ,
+					permissions: OC.PERMISSION_NONE,
 					actionHandler: function(fileName, context) {
 						self._updateDetailsView(fileName);
 					}
@@ -1161,6 +1161,11 @@
 				}
 			}
 
+			var permissions = fileData.permissions;
+			if (permissions === undefined || permissions === null) {
+				permissions = this.getDirectoryPermissions();
+			}
+
 			//containing tr
 			var tr = $('<tr></tr>').attr({
 				"data-id" : fileData.id,
@@ -1170,7 +1175,7 @@
 				"data-mime": mime,
 				"data-mtime": mtime,
 				"data-etag": fileData.etag,
-				"data-permissions": fileData.permissions || this.getDirectoryPermissions(),
+				"data-permissions": permissions,
 				"data-has-preview": fileData.hasPreview !== false
 			});
 

@@ -60,6 +60,7 @@ function fileDownloadPath(dir, file) {
 /** @namespace */
 var OCP = {},
 	OC = {
+	PERMISSION_NONE:0,
 	PERMISSION_CREATE:4,
 	PERMISSION_READ:1,
 	PERMISSION_UPDATE:2,
