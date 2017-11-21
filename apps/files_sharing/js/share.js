@@ -220,9 +220,14 @@
 			// note: we only update the data attribute because updateIcon()
 			if (recipients.length) {
 				$tr.attr('data-share-recipients', OCA.Sharing.Util.formatRecipients(recipients));
+				var recipientData = _.mapObject(shareModel.get('shares'), function (share) {
+					return {shareWith: share.share_with, shareWithDisplayName: share.share_with_displayname};
+				});
+				$tr.attr('data-share-recipient-data', JSON.stringify(recipientData));
 			}
 			else {
 				$tr.removeAttr('data-share-recipients');
+				$tr.removeAttr('data-share-recipient-data');
 			}
 		},
 

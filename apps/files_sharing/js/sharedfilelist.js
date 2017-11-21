@@ -355,7 +355,10 @@
 							// only store the first ones, they will be the only ones
 							// displayed
 							data.recipients[recipient] = true;
-							data.recipientData[recipientId] = recipient;
+							data.recipientData[data.recipientsCount] = {
+								'shareWith': recipientId,
+								'shareWithDisplayName': recipient
+							};
 						}
 						data.recipientsCount++;
 					}

@@ -240,13 +240,14 @@ OC.Share = _.extend(OC.Share || {}, {
 	 * Loop over all recipients in the list and format them using
 	 * all kind of fancy magic.
 	 *
-	 * @param {String[]} recipients array of all the recipients
+	 * @param {Object} recipients array of all the recipients
 	 * @return {String[]} modified list of recipients
 	 */
 	_formatShareList: function(recipients) {
 		var _parent = this;
-		return $.map(recipients, function(shareWithDisplayName, shareWith) {
-			return _parent._formatRemoteShare(shareWith, shareWithDisplayName, t('core', 'Shared with'));
+		recipients = _.sortBy(_.toArray(recipients), 'shareWithDisplayName');
+		return $.map(recipients, function(recipient) {
+			return _parent._formatRemoteShare(recipient.shareWith, recipient.shareWithDisplayName, t('core', 'Shared with'));
 		});
 	},
 	/**

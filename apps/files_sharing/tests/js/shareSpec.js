@@ -140,6 +140,7 @@ describe('OCA.Sharing.Util tests', function() {
 				size: 12,
 				permissions: OC.PERMISSION_ALL,
 				shareOwner: 'User One',
+				shareOwnerId: 'User One',
 				etag: 'abc',
 				shareTypes: []
 			}]);
@@ -161,6 +162,16 @@ describe('OCA.Sharing.Util tests', function() {
 				size: 12,
 				permissions: OC.PERMISSION_ALL,
 				recipientsDisplayName: 'User One, User Two',
+				recipientData: {
+					0: {
+						shareWith: 'User One',
+						shareWithDisplayName: 'User One'
+					},
+					1: {
+						shareWith: 'User Two',
+						shareWithDisplayName: 'User Two'
+					}
+				},
 				etag: 'abc',
 				shareTypes: [OC.Share.SHARE_TYPE_USER]
 			}]);
@@ -264,10 +275,10 @@ describe('OCA.Sharing.Util tests', function() {
 			// simulate updating shares
 			shareTab._dialog.model.set({
 				shares: [
-					{share_with_displayname: 'User One'},
-					{share_with_displayname: 'User Two'},
-					{share_with_displayname: 'Group One'},
-					{share_with_displayname: 'Group Two'}
+					{share_with_displayname: 'User One', share_with: 'User One'},
+					{share_with_displayname: 'User Two', share_with: 'User Two'},
+					{share_with_displayname: 'Group One', share_with: 'Group One'},
+					{share_with_displayname: 'Group Two', share_with: 'Group Two'}
 				]
 			});
 
@@ -298,9 +309,9 @@ describe('OCA.Sharing.Util tests', function() {
 			// simulate updating shares
 			shareTab._dialog.model.set({
 				shares: [
-					{share_with_displayname: 'User One'},
-					{share_with_displayname: 'User Two'},
-					{share_with_displayname: 'User Three'}
+					{share_with_displayname: 'User One', share_with: 'User One'},
+					{share_with_displayname: 'User Two', share_with: 'User Two'},
+					{share_with_displayname: 'User Three', share_with: 'User Three'}
 				]
 			});
 
@@ -348,7 +359,8 @@ describe('OCA.Sharing.Util tests', function() {
 				size: 12,
 				permissions: OC.PERMISSION_ALL,
 				etag: 'abc',
-				shareOwner: 'User One'
+				shareOwner: 'User One',
+				shareOwnerId: 'User One'
 			}]);
 			$action = fileList.$el.find('tbody tr:first .action-share');
 			$tr = fileList.$el.find('tr:first');
@@ -379,7 +391,9 @@ describe('OCA.Sharing.Util tests', function() {
 				permissions: OC.PERMISSION_ALL,
 				etag: 'abc',
 				shareOwner: 'User One',
-				recipients: 'User Two'
+				shareOwnerId: 'User One',
+				recipients: 'User Two',
+				recipientData: {'User Two': 'User Two'}
 			}]);
 			$action = fileList.$el.find('tbody tr:first .action-share');
 			$tr = fileList.$el.find('tr:first');
