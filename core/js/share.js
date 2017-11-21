@@ -314,9 +314,8 @@ OC.Share = _.extend(OC.Share || {}, {
 				var avatarElement = action.find('.avatar');
 				avatarElement.each(function () {
 					$(this).avatar($(this).data('username'), 32);
+					$(this).tooltip({placement: 'top'});
 				});
-
-				action.find('.icon-shared + span').tooltip({placement: 'top'});
 			}
 		} else {
 			action.html('<span class="hidden-visually">' + t('core', 'Shared') + '</span>').prepend(icon);
