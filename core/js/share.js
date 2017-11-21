@@ -245,7 +245,10 @@ OC.Share = _.extend(OC.Share || {}, {
 	 */
 	_formatShareList: function(recipients) {
 		var _parent = this;
-		recipients = _.sortBy(_.toArray(recipients), 'shareWithDisplayName');
+		recipients = _.toArray(recipients);
+		recipients.sort(function(a, b) {
+			return a.shareWithDisplayName.localeCompare(b.shareWithDisplayName);
+		});
 		return $.map(recipients, function(recipient) {
 			return _parent._formatRemoteShare(recipient.shareWith, recipient.shareWithDisplayName, t('core', 'Shared with'));
 		});

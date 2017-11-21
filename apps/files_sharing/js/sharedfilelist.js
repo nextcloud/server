@@ -375,11 +375,6 @@
 					// convert the recipients map to a flat
 					// array of sorted names
 					data.mountType = 'shared';
-					data.recipients = _.keys(data.recipients);
-					data.recipientsDisplayName = OCA.Sharing.Util.formatRecipients(
-						data.recipients,
-						data.recipientsCount
-					);
 					delete data.recipientsCount;
 					if (self._sharedWithUser) {
 						// only for outgoing shres
@@ -413,7 +408,16 @@
 	 * @property {int} stime share timestamp in milliseconds
 	 * @property {String} [targetDisplayName] display name of the recipient
 	 * (only when shared with others)
+	 * @property {String} [targetShareWithId] id of the recipient
 	 *
+	 */
+
+	/**
+	 * Recipient attributes
+	 *
+	 * @typedef {Object} OCA.Sharing.RecipientInfo
+	 * @property {String} shareWith the id of the recipient
+	 * @property {String} shareWithDisplayName the display name of the recipient
 	 */
 
 	/**
@@ -427,7 +431,8 @@
 	 * @property {String} shareOwner name of the share owner
 	 * @property {Array.<String>} recipients name of the first 4 recipients
 	 * (this is mostly for display purposes)
-	 * @property {String} recipientsDisplayName display name
+	 * @property {Object.<OCA.Sharing.RecipientInfo>} recipientData (as object for easier
+	 * passing to HTML data attributes with jQuery)
 	 */
 
 	OCA.Sharing.FileList = FileList;

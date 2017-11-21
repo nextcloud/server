@@ -157,8 +157,6 @@ describe('OC.Share tests', function() {
 			function checkRecipients(input, output, title) {
 				var $action;
 
-				var concatenated = _.values(input).join(', ');
-				$file.attr('data-share-recipients', concatenated);
 				$file.attr('data-share-recipient-data', JSON.stringify(input));
 				OC.Share.markFileAsShared($file, true);
 
@@ -270,8 +268,8 @@ describe('OC.Share tests', function() {
 						shareWithDisplayName: 'One@someserver.com'
 					},
 					1: {
-						shareWith: 'two@someserver.com',
-						shareWithDisplayName: 'two@someserver.com'
+						shareWith: 'two@otherserver.com',
+						shareWithDisplayName: 'two@otherserver.com'
 					}
 				};
 				checkRecipients(
@@ -320,8 +318,8 @@ describe('OC.Share tests', function() {
 							shareWithDisplayName: 'One'
 						},
 						1: {
-							shareWith: 'two@someserver.com',
-							shareWithDisplayName: 'two@someserver.com'
+							shareWith: 'two@otherserver.com',
+							shareWithDisplayName: 'two@otherserver.com'
 						}
 					},
 					'Shared with One two@…',
@@ -336,15 +334,15 @@ describe('OC.Share tests', function() {
 							shareWithDisplayName: 'Yoko Ono'
 						},
 						1: {
-							shareWith: 'two@someserver.com',
-							shareWithDisplayName: 'two@someserver.com'
+							shareWith: 'two@otherserver.com',
+							shareWithDisplayName: 'two@othererver.com'
 						},
 						2: {
 							shareWith: 'Three',
 							shareWithDisplayName: 'Green, Mina'
 						}
 					},
-					'Shared with Yoko Ono two@… Shared with Green, Mina',
+					'Shared with Green, Mina two@… Shared with Yoko Ono',
 					['Shared with two@otherserver.com']
 				);
 			});
