@@ -275,6 +275,7 @@
     "Log in" : "Se connecter",
     "Stay logged in" : "Rester connecté",
     "Forgot password?" : "Mot de passe oublié ?",
+    "Back to log in" : "Retour à la page de connexion",
     "Alternative Logins" : "Identifiants alternatifs",
     "Account access" : "Accès au compte",
     "You are about to grant %s access to your %s account." : "Vous êtes sur le point d'accorder à \"%s\" l'accès à votre compte \"%s\".",
