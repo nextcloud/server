@@ -90,7 +90,7 @@ class TemplateLayout extends \OC_Template {
 					break;
 				}
 			}
-			
+
 			foreach($settingsNavigation as $entry) {
 				if ($entry['active']) {
 					$this->assign( 'application', $entry['name'] );
@@ -125,7 +125,7 @@ class TemplateLayout extends \OC_Template {
 			if (empty(self::$versionHash)) {
 				$v = \OC_App::getAppVersions();
 				$v['core'] = implode('.', \OCP\Util::getVersion());
-				self::$versionHash = md5(implode(',', $v));
+				self::$versionHash = substr(md5(implode(',', $v)), 0, 8);
 			}
 		} else {
 			self::$versionHash = md5('not installed');
@@ -188,16 +188,25 @@ class TemplateLayout extends \OC_Template {
 			if (substr($file, -strlen('print.css')) === 'print.css') {
 				$this->append( 'printcssfiles', $web.'/'.$file . $this->getVersionHashSuffix() );
 			} else {
-				$this->append( 'cssfiles', $web.'/'.$file . $this->getVersionHashSuffix()  );
+				$this->append( 'cssfiles', $web.'/'.$file . $this->getVersionHashSuffix($web)  );
 			}
 		}
 	}
 
-	protected function getVersionHashSuffix() {
-		if(\OC::$server->getConfig()->getSystemValue('debug', false)) {
+	protected function getVersionHashSuffix($app=false) {
+		if (\OC::$server->getConfig()->getSystemValue('debug', false)) {
 			// allows chrome workspace mapping in debug mode
 			return "";
 		}
+		if ($app !== false && $app !== '') {
+			$v = \OC_App::getAppVersions();
+			$appName = end(explode('/', $app));
+			if(array_key_exists($appName, $v)) {
+				$appVersion = $v[$appName];
+				return '?v=' . substr(md5(implode(',', $appVersion)), 0, 8) . '-' . $this->config->getAppValue('theming', 'cachebuster', '0');
+			}
+		}
+
 		if ($this->config->getSystemValue('installed', false) && \OC::$server->getAppManager()->isInstalled('theming')) {
 			return '?v=' . self::$versionHash . '-' . $this->config->getAppValue('theming', 'cachebuster', '0');
 		}
