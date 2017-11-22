@@ -4,7 +4,7 @@
 
 /* Default and reset */
 html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, dialog, figure, footer, header, hgroup, nav, section { margin:0; padding:0; border:0; outline:0; font-weight:inherit; font-size:100%; font-family:inherit; vertical-align:baseline; cursor:default; }
-html, body { height:100%; }
+html { height:100%; }
 article, aside, dialog, figure, footer, header, hgroup, nav, section { display:block; }
 body { line-height:1.5; }
 table { border-collapse:separate; border-spacing:0; white-space:nowrap; }
@@ -28,7 +28,8 @@ body {
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-attachment: fixed; /* fix background gradient */
-	height: 100%; /* fix sticky footer */
+	min-height: 100%; /* fix sticky footer */
+	height: auto;
 }
 
 /* Various fonts settings */
