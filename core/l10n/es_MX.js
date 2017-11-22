@@ -81,6 +81,7 @@ OC.L10N.register(
     "I know what I'm doing" : "Sé lo que estoy haciendo",
     "Password can not be changed. Please contact your administrator." : "Las contraseñas no se pueden cambiar. Por favor contacta a tu adminstrador",
     "Reset password" : "Restablecer contraseña",
+    "Sending email …" : "Enviando correo electrónico ...",
     "No" : "No",
     "Yes" : "Sí",
     "No files in here" : "No hay archivos aquí",
