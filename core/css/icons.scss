@@ -89,6 +89,10 @@ img, object, video, button, textarea, input, select, div[contenteditable=true] {
 	background-size: 32px !important;
 }
 
+.icon-shadow {
+	filter: drop-shadow(0 1px 3px $color-box-shadow);
+}
+
 /* ICONS -------------------------------------------------------------------- */
 .icon-add {
 	background-image: url('../img/actions/add.svg?v=1');
