@@ -41,6 +41,7 @@ $OC_VersionCanBeUpgradedFrom = [
 		'10.0.1.5' => true,
 		'10.0.2.1' => true,
 		'10.0.3.3' => true,
+		'10.0.4' => true, // TODO adjust to 4 digits once it is final
 	],
 ];
 

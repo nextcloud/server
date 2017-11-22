@@ -188,6 +188,7 @@ class Updater extends BasicEmitter {
 	public function isUpgradePossible($oldVersion, $newVersion, array $allowedPreviousVersions) {
 		$version = explode('.', $oldVersion);
 		$majorMinor = $version[0] . '.' . $version[1];
+		$patch = $version[0] . '.' . $version[1] . '.' . $version[2];
 
 		$currentVendor = $this->config->getAppValue('core', 'vendor', '');
 
@@ -199,7 +200,8 @@ class Updater extends BasicEmitter {
 				'11.0.0.10',
 			], true)) {
 				$currentVendor = 'nextcloud';
-			} else if (isset($allowedPreviousVersions['owncloud'][$oldVersion])) {
+			} else if (isset($allowedPreviousVersions['owncloud'][$oldVersion])
+				|| isset($allowedPreviousVersions['owncloud'][$patch])) {
 				$currentVendor = 'owncloud';
 			}
 		}
@@ -212,7 +214,8 @@ class Updater extends BasicEmitter {
 
 		// Check if the instance can be migrated
 		return isset($allowedPreviousVersions[$currentVendor][$majorMinor]) ||
-			isset($allowedPreviousVersions[$currentVendor][$oldVersion]);
+			isset($allowedPreviousVersions[$currentVendor][$oldVersion]) ||
+			isset($allowedPreviousVersions[$currentVendor][$patch]);
 	}
 
 	/**
