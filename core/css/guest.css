@@ -60,6 +60,13 @@ h3 {
 }
 
 /* Global content */
+body {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
 #header .logo {
 	background-image: url('../img/logo.svg?v=1');
 	background-repeat: no-repeat;
@@ -77,15 +84,8 @@ h3 {
 	max-height: 200px;
 }
 .wrapper {
-	min-height: 100%;
-	margin: 0 auto -70px;
 	width: 300px;
-}
-.v-align {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
+	margin-top: auto;
 }
 
 /* Default FORM */
@@ -723,6 +723,7 @@ img.icon-loading-small-dark, object.icon-loading-small-dark, video.icon-loading-
 footer,
 .push {
 	height: 70px;
+	margin-top: auto;
 }
 
 footer .info a {
