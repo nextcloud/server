@@ -112,7 +112,7 @@
 	background-repeat: no-repeat;
 }
 
-#commentsTabView .authorRow>div {
+#commentsTabView .authorRow>div:not(.contactsmenu-popover) {
 	display: inline-block;
 	vertical-align: middle;
 }
