@@ -320,7 +320,7 @@
 				this.$container.append($comment);
 			}
 			this._postRenderItem($comment);
-			$('#commentsTabView').find('.newCommentForm div.message').text('').prop('disabled', false);
+			$('#commentsTabView').find('.newCommentForm div.message').text('').prop('contenteditable', true);
 
 			// we need to update the model, because it consists of client data
 			// only, but the server might add meta data, e.g. about mentions
@@ -620,7 +620,7 @@
 				return;
 			}
 
-			$commentField.prop('disabled', true);
+			$commentField.prop('contenteditable', false);
 			$submit.addClass('hidden');
 			$loading.removeClass('hidden');
 
@@ -673,7 +673,7 @@
 		_onSubmitError: function($form, commentId) {
 			$form.find('.submit').removeClass('hidden');
 			$form.find('.submitLoading').addClass('hidden');
-			$form.find('.message').prop('disabled', false);
+			$form.find('.message').prop('contenteditable', true);
 
 			if(!_.isUndefined(commentId)) {
 				OC.Notification.show(t('comments', 'Error occurred while updating comment with id {id}', {id: commentId}), {type: 'error'});
