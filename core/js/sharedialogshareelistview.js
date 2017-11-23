@@ -376,7 +376,7 @@
 				var sharee = this.getShareeObject(shareWithIndex);
 				$.extend(sharee, this.getShareProperties());
 				var $li = this.$('li[data-share-id=' + permissionChangeShareId + ']');
-				$li.find('.popovermenu').replaceWith(this.popoverMenuTemplate(sharee));
+				$li.find('.sharingOptionsGroup .popovermenu').replaceWith(this.popoverMenuTemplate(sharee));
 
 				var checkBoxId = 'canEdit-' + this.cid + '-' + sharee.shareWith;
 				checkBoxId = '#' + checkBoxId.replace( /(:|\.|\[|\]|,|=|@)/g, "\\$1");
@@ -403,12 +403,12 @@
 					}
 				}
 			});
-			if (this._menuOpen != false) {
+			if (this._menuOpen !== false) {
 				// Open menu again if it was opened before
 				var shareId = parseInt(this._menuOpen, 10);
 				if(!_.isNaN(shareId)) {
 					var liSelector = 'li[data-share-id=' + shareId + ']';
-					OC.showMenu(null, this.$(liSelector + '.sharingOptionsGroup .popovermenu'));
+					OC.showMenu(null, this.$(liSelector + ' .sharingOptionsGroup .popovermenu'));
 				}
 			}
 
