@@ -1390,7 +1390,7 @@ class Manager implements IManager {
 			foreach ($tmp as $k => $v) {
 				if (isset($al[$k])) {
 					if (is_array($al[$k])) {
-						$al[$k] = array_merge($al[$k], $v);
+						$al[$k] += $v;
 					} else {
 						$al[$k] = $al[$k] || $v;
 					}
