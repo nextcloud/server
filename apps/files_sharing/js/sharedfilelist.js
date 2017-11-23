@@ -153,6 +153,27 @@
 			// storage info like free space / used space
 		},
 
+		updateRow: function($tr, fileInfo, options) {
+			if(!fileInfo instanceof OCA.Sharing.SharedFileInfo) {
+				// recycle SharedFileInfo values if something tries to overwrite it
+				var oldModel = this.getModelForFile($tr);
+
+				if(_.isUndefined(fileInfo.recipientData) && oldModel.recipientData) {
+					fileInfo.recipientData = oldModel.recipientData;
+				}
+				if(_.isUndefined(fileInfo.recipients) && oldModel.recipientData) {
+					fileInfo.recipientData = oldModel.recipientData;
+				}
+				if(_.isUndefined(fileInfo.shares) && oldModel.shares) {
+					fileInfo.shares = oldModel.shares;
+				}
+				if(_.isUndefined(fileInfo.shareOwner) && oldModel.shareOwner) {
+					fileInfo.shareOwner = oldModel.shareOwner;
+				}
+			}
+			OCA.Files.FileList.prototype._createRow.updateRow(this, arguments);
+		},
+
 		reload: function() {
 			this.showMask();
 			if (this._reloadCall) {
@@ -225,7 +246,6 @@
 		},
 
 		_makeFilesFromRemoteShares: function(data) {
-			var self = this;
 			var files = data;
 
 			files = _.chain(files)

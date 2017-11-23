@@ -161,7 +161,6 @@ OC.Share = _.extend(OC.Share || {}, {
 	updateIcon:function(itemType, itemSource) {
 		var shares = false;
 		var link = false;
-		var image = OC.imagePath('core', 'actions/share');
 		var iconClass = '';
 		$.each(OC.Share.itemShares, function(index) {
 			if (OC.Share.itemShares[index]) {
