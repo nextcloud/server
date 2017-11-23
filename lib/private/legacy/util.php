@@ -1408,16 +1408,6 @@ class OC_Util {
 	}
 
 	/**
-	 * @param boolean|string $file
-	 * @return string
-	 */
-	public static function basename($file) {
-		$file = rtrim($file, '/');
-		$t = explode('/', $file);
-		return array_pop($t);
-	}
-
-	/**
 	 * A human readable string is generated based on version and build number
 	 *
 	 * @return string
