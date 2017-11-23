@@ -275,6 +275,8 @@ OC.L10N.register(
     "Wrong password." : "Contraseña inválida. ",
     "Log in" : "Ingresar",
     "Stay logged in" : "Mantener la sesión abierta",
+    "Forgot password?" : "¿Olvidaste tu contraseña?",
+    "Back to log in" : "Regresar al inicio de sesión",
     "Alternative Logins" : "Accesos Alternativos",
     "Account access" : "Acceo de cuenta",
     "You are about to grant %s access to your %s account." : "Estas a punto de otorgar acceso de %s a tu cuenta %s.",
