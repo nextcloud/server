@@ -23,8 +23,8 @@
 	var EDIT_COMMENT_TEMPLATE =
 		'<div class="newCommentRow comment" data-id="{{id}}">' +
 		'    <div class="authorRow">' +
-		'        <div class="avatar" data-username="{{actorId}}"></div>' +
-		'        <div class="author">{{actorDisplayName}}</div>' +
+		'        <div class="avatar currentUser" data-username="{{actorId}}"></div>' +
+		'        <div class="author currentUser">{{actorDisplayName}}</div>' +
 		'{{#if isEditMode}}' +
 		'        <a href="#" class="action delete icon icon-delete has-tooltip" title="{{deleteTooltip}}"></a>' +
 		'{{/if}}' +
@@ -42,8 +42,8 @@
 	var COMMENT_TEMPLATE =
 		'<li class="comment{{#if isUnread}} unread{{/if}}{{#if isLong}} collapsed{{/if}}" data-id="{{id}}">' +
 		'    <div class="authorRow">' +
-		'        <div class="avatar" {{#if actorId}}data-username="{{actorId}}"{{/if}}> </div>' +
-		'        <div class="author">{{actorDisplayName}}</div>' +
+		'        <div class="avatar{{#if isUserAuthor}} currentUser{{/if}}" {{#if actorId}}data-username="{{actorId}}"{{/if}}> </div>' +
+		'        <div class="author{{#if isUserAuthor}} currentUser{{/if}}">{{actorDisplayName}}</div>' +
 		'{{#if isUserAuthor}}' +
 		'        <a href="#" class="action edit icon icon-rename has-tooltip" title="{{editTooltip}}"></a>' +
 		'{{/if}}' +
