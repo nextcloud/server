@@ -395,7 +395,11 @@ class Installer {
 			return false;
 		}
 
-		$apps = $appFetcher->get();
+		static $apps = null;
+		if ($apps === null) {
+			$apps = $appFetcher->get();
+		}
+
 		foreach($apps as $app) {
 			if($app['id'] === $appId) {
 				$currentVersion = OC_App::getAppVersion($appId);
