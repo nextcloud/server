@@ -24,6 +24,9 @@
 namespace Test\Template;
 
 use OC\Files\AppData\Factory;
+use OCP\Files\IAppData;
+use OCP\Files\SimpleFS\ISimpleFolder;
+use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\ILogger;
 use OCP\IURLGenerator;
 use OCP\IConfig;
@@ -45,6 +48,10 @@ class CSSResourceLocatorTest extends \Test\TestCase {
 	protected $depsCache;
 	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
 	protected $logger;
+	protected $appname;
+	protected $appdir;
+	protected $appdirLink;
+	protected $appurl;
 
 	protected function setUp() {
 		parent::setUp();
@@ -55,6 +62,20 @@ class CSSResourceLocatorTest extends \Test\TestCase {
 		$this->config = $this->createMock(IConfig::class);
 		$this->depsCache = $this->createMock(ICache::class);
 		$this->themingDefaults = $this->createMock(ThemingDefaults::class);
+
+		$this->appdir = null;
+		$this->themingDefaults
+			->expects($this->any())
+			->method('getScssVariables')
+			->willReturn([]);
+	}
+
+	protected function tearDown() {
+		if (!is_null($this->appdir)) {
+			array_pop(\OC::$APPSROOTS);
+        	        unlink($this->appdirLink);
+			$this->rrmdir($this->appdir);
+		}
 	}
 
 	private function cssResourceLocator() {
@@ -95,6 +116,43 @@ class CSSResourceLocatorTest extends \Test\TestCase {
 		return sha1(uniqid(mt_rand(), true));
 	}
 
+	private function setupAppDir() {
+		$this->appname = 'test-app-'.$this->randomString();
+		$folder = $this->createMock(ISimpleFolder::class);
+		$this->appData->method('getFolder')
+			->with($this->appname)
+			->willReturn($folder);
+
+		$file = $this->createMock(ISimpleFile::class);
+		$folder->method('getFile')
+			->will($this->returnCallback(function($path) use ($file) {
+				return $file;
+			}));
+
+		$this->urlGenerator
+			->method('linkToRoute')
+			->willReturn(\OC::$WEBROOT . '/test-file');
+
+		// First create new apps path, and a symlink to it
+		$apps_dirname = $this->randomString();
+		$this->appdir = sys_get_temp_dir() . '/' . $apps_dirname;
+		$this->appdirLink = $this->appdir . '_link';
+		mkdir($this->appdir);
+		symlink($apps_dirname, $this->appdirLink);
+
+		// Create an app within that path
+		mkdir($this->appdir . '/' . $this->appname);
+
+		$this->appurl = 'css-apps-test';
+
+		// Use the symlink as the app path
+		\OC::$APPSROOTS[] = [
+                        'path' => $this->appdirLink,
+                        'url' => '/' . $this->appurl,
+                        'writable' => false,
+                ];
+	}
+
 	public function testConstructor() {
 		$locator = $this->cssResourceLocator();
 		$this->assertAttributeEquals('theme', 'theme', $locator);
@@ -105,26 +163,11 @@ class CSSResourceLocatorTest extends \Test\TestCase {
 		$this->assertAttributeEquals(array(), 'resources', $locator);
 	}
 
-	public function testFindWithAppPathSymlink() {
-		// First create new apps path, and a symlink to it
-		$apps_dirname = $this->randomString();
-		$new_apps_path = sys_get_temp_dir() . '/' . $apps_dirname;
-		$new_apps_path_symlink = $new_apps_path . '_link';
-		mkdir($new_apps_path);
-		symlink($apps_dirname, $new_apps_path_symlink);
-
-		// Create an app within that path
-		mkdir($new_apps_path . '/' . 'test-css-app');
-
-		// Use the symlink as the app path
-		\OC::$APPSROOTS[] = [
-                        'path' => $new_apps_path_symlink,
-                        'url' => '/css-apps-test',
-                        'writable' => false,
-                ];
+	public function testFindCSSWithAppPathSymlink() {
+		$this->setupAppDir();
 
 		$locator = $this->cssResourceLocator();
-		$locator->find(array('test-css-app/test-file'));
+		$locator->find(array($this->appname . '/test-file'));
 
 		$resources = $locator->getResources();
 		$this->assertCount(1, $resources);
@@ -134,17 +177,40 @@ class CSSResourceLocatorTest extends \Test\TestCase {
 		$webRoot = $resource[1];
 		$file = $resource[2];
 
-		$expectedRoot = $new_apps_path . '/test-css-app';
-		$expectedWebRoot = \OC::$WEBROOT . '/css-apps-test/test-css-app';
+		$expectedRoot = $this->appdir . '/' . $this->appname;
+		$expectedWebRoot = \OC::$WEBROOT . '/' . $this->appurl . '/' . $this->appname;
 		$expectedFile = 'test-file.css';
 
 		$this->assertEquals($expectedRoot, $root,
 			'Ensure the app path symlink is resolved into the real path');
 		$this->assertEquals($expectedWebRoot, $webRoot);
 		$this->assertEquals($expectedFile, $file);
+	}
 
-		array_pop(\OC::$APPSROOTS);
-		unlink($new_apps_path_symlink);
-		$this->rrmdir($new_apps_path);
+	public function testFindSCSSWithAppPathSymlink() {
+		$this->setupAppDir();
+
+		// Create an SCSS file there
+		touch($this->appdir . '/' . $this->appname . '/test-file.scss');
+
+		$locator = $this->cssResourceLocator();
+		$locator->find(array($this->appname . '/test-file'));
+
+		$resources = $locator->getResources();
+		$this->assertCount(1, $resources);
+		$resource = $resources[0];
+		$this->assertCount(3, $resource);
+		$root = $resource[0];
+		$webRoot = $resource[1];
+		$file = $resource[2];
+
+		$expectedRoot = '/';
+		$expectedWebRoot = '';
+		$expectedFile = 'test-file';
+
+		$this->assertEquals($expectedRoot, $root,
+			'Ensure the app path symlink is resolved into the real path');
+		$this->assertEquals($expectedWebRoot, $webRoot);
+		$this->assertEquals($expectedFile, $file);
 	}
 }
