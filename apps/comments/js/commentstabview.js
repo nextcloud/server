@@ -544,9 +544,16 @@
 			var $comment = $(ev.target).closest('.comment');
 			var commentId = $comment.data('id');
 			var $loading = $comment.find('.submitLoading');
+			var $commentField = $comment.find('.message');
+			var $submit = $comment.find('.submit');
+			var $cancel = $comment.find('.cancel');
 
+			$commentField.prop('contenteditable', false);
+			$submit.prop('disabled', true);
+			$cancel.prop('disabled', true);
 			$comment.addClass('disabled');
 			$loading.removeClass('hidden');
+
 			this.collection.get(commentId).destroy({
 				success: function() {
 					$comment.data('commentEl').remove();
@@ -555,6 +562,10 @@
 				error: function() {
 					$loading.addClass('hidden');
 					$comment.removeClass('disabled');
+					$commentField.prop('contenteditable', true);
+					$submit.prop('disabled', false);
+					$cancel.prop('disabled', false);
+
 					OC.Notification.showTemporary(t('comments', 'Error occurred while retrieving comment with id {id}', {id: commentId}));
 				}
 			});

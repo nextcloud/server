@@ -35,8 +35,8 @@
 	border: none;
 	opacity: .3;
 }
-#commentsTabView .newCommentForm .submit:hover,
-#commentsTabView .newCommentForm .submit:focus {
+#commentsTabView .newCommentForm .submit:not(:disabled):hover,
+#commentsTabView .newCommentForm .submit:not(:disabled):focus {
 	opacity: 1;
 }
 
