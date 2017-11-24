@@ -51,13 +51,7 @@ class Install extends Command {
 		}
 
 		try {
-			$installer = new Installer(
-				\OC::$server->getAppFetcher(),
-				\OC::$server->getHTTPClientService(),
-				\OC::$server->getTempManager(),
-				\OC::$server->getLogger(),
-				\OC::$server->getConfig()
-			);
+			$installer = \OC::$server->query(Installer::class);
 			$installer->downloadApp($appId);
 			$result = $installer->installApp($appId);
 		} catch(\Exception $e) {

@@ -22,6 +22,7 @@
 
 namespace Test;
 
+use OC\Installer;
 use OC\Updater;
 use OCP\IConfig;
 use OCP\ILogger;
@@ -36,6 +37,8 @@ class UpdaterTest extends TestCase {
 	private $updater;
 	/** @var Checker | \PHPUnit_Framework_MockObject_MockObject */
 	private $checker;
+	/** @var Installer|\PHPUnit_Framework_MockObject_MockObject */
+	private $installer;
 
 	public function setUp() {
 		parent::setUp();
@@ -46,13 +49,17 @@ class UpdaterTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$this->checker = $this->getMockBuilder(Checker::class)
-				->disableOriginalConstructor()
-				->getMock();
+			->disableOriginalConstructor()
+			->getMock();
+		$this->installer = $this->getMockBuilder(Installer::class)
+			->disableOriginalConstructor()
+			->getMock();
 
 		$this->updater = new Updater(
 			$this->config,
 			$this->checker,
-			$this->logger
+			$this->logger,
+			$this->installer
 		);
 	}
 

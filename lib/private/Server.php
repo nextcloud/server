@@ -1099,6 +1099,16 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->query(\OCP\Share\IManager::class)
 			);
 		});
+
+		$this->registerService(Installer::class, function(Server $c) {
+			return new Installer(
+				$c->getAppFetcher(),
+				$c->getHTTPClientService(),
+				$c->getTempManager(),
+				$c->getLogger(),
+				$c->getConfig()
+			);
+		});
 	}
 
 	/**

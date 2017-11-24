@@ -41,13 +41,7 @@ $appId = OC_App::cleanAppId($appId);
 $config = \OC::$server->getConfig();
 $config->setSystemValue('maintenance', true);
 try {
-	$installer = new \OC\Installer(
-		\OC::$server->getAppFetcher(),
-		\OC::$server->getHTTPClientService(),
-		\OC::$server->getTempManager(),
-		\OC::$server->getLogger(),
-		\OC::$server->getConfig()
-	);
+	$installer = \OC::$server->query(\OC\Installer::class);
 	$result = $installer->updateAppstoreApp($appId);
 	$config->setSystemValue('maintenance', false);
 } catch(Exception $ex) {

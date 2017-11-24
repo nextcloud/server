@@ -35,6 +35,7 @@
 namespace OC\Core\Command;
 
 use OC\Console\TimestampFormatter;
+use OC\Installer;
 use OC\Updater;
 use OCP\IConfig;
 use OCP\ILogger;
@@ -63,11 +64,13 @@ class Upgrade extends Command {
 	/**
 	 * @param IConfig $config
 	 * @param ILogger $logger
+	 * @param Installer $installer
 	 */
-	public function __construct(IConfig $config, ILogger $logger) {
+	public function __construct(IConfig $config, ILogger $logger, Installer $installer) {
 		parent::__construct();
 		$this->config = $config;
 		$this->logger = $logger;
+		$this->installer = $installer;
 	}
 
 	protected function configure() {
@@ -101,7 +104,8 @@ class Upgrade extends Command {
 			$updater = new Updater(
 					$this->config,
 					\OC::$server->getIntegrityCodeChecker(),
-					$this->logger
+					$this->logger,
+					$this->installer
 			);
 
 			if ($input->getOption('no-app-disable')) {

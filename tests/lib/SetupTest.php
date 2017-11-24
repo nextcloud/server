@@ -9,6 +9,7 @@
 namespace Test;
 
 use bantu\IniGetWrapper\IniGetWrapper;
+use OC\Installer;
 use OC\SystemConfig;
 use OCP\Defaults;
 use OCP\IL10N;
@@ -31,6 +32,8 @@ class SetupTest extends \Test\TestCase {
 	protected $logger;
 	/** @var \OCP\Security\ISecureRandom|\PHPUnit_Framework_MockObject_MockObject */
 	protected $random;
+	/** @var Installer|\PHPUnit_Framework_MockObject_MockObject */
+	protected $installer;
 
 	protected function setUp() {
 		parent::setUp();
@@ -41,9 +44,10 @@ class SetupTest extends \Test\TestCase {
 		$this->defaults = $this->createMock(Defaults::class);
 		$this->logger = $this->createMock(ILogger::class);
 		$this->random = $this->createMock(ISecureRandom::class);
+		$this->installer = $this->createMock(Installer::class);
 		$this->setupClass = $this->getMockBuilder('\OC\Setup')
 			->setMethods(['class_exists', 'is_callable', 'getAvailableDbDriversForPdo'])
-			->setConstructorArgs([$this->config, $this->iniWrapper, $this->l10n, $this->defaults, $this->logger, $this->random])
+			->setConstructorArgs([$this->config, $this->iniWrapper, $this->l10n, $this->defaults, $this->logger, $this->random, $this->installer])
 			->getMock();
 	}
 

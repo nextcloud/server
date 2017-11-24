@@ -65,6 +65,8 @@ class Setup {
 	protected $logger;
 	/** @var ISecureRandom */
 	protected $random;
+	/** @var Installer */
+	protected $installer;
 
 	/**
 	 * @param SystemConfig $config
@@ -73,13 +75,15 @@ class Setup {
 	 * @param Defaults $defaults
 	 * @param ILogger $logger
 	 * @param ISecureRandom $random
+	 * @param Installer $installer
 	 */
 	public function __construct(SystemConfig $config,
 						 IniGetWrapper $iniWrapper,
 						 IL10N $l10n,
 						 Defaults $defaults,
 						 ILogger $logger,
-						 ISecureRandom $random
+						 ISecureRandom $random,
+						 Installer $installer
 		) {
 		$this->config = $config;
 		$this->iniWrapper = $iniWrapper;
@@ -87,6 +91,7 @@ class Setup {
 		$this->defaults = $defaults;
 		$this->logger = $logger;
 		$this->random = $random;
+		$this->installer = $installer;
 	}
 
 	static protected $dbSetupClasses = [
@@ -371,18 +376,11 @@ class Setup {
 
 			// Install shipped apps and specified app bundles
 			Installer::installShippedApps();
-			$installer = new Installer(
-				\OC::$server->getAppFetcher(),
-				\OC::$server->getHTTPClientService(),
-				\OC::$server->getTempManager(),
-				\OC::$server->getLogger(),
-				\OC::$server->getConfig()
-			);
 			$bundleFetcher = new BundleFetcher(\OC::$server->getL10N('lib'));
 			$defaultInstallationBundles = $bundleFetcher->getDefaultInstallationBundle();
 			foreach($defaultInstallationBundles as $bundle) {
 				try {
-					$installer->installAppBundle($bundle);
+					$this->installer->installAppBundle($bundle);
 				} catch (Exception $e) {}
 			}
 
@@ -444,9 +442,15 @@ class Setup {
 			$webRoot = !empty(\OC::$WEBROOT) ? \OC::$WEBROOT : '/';
 		}
 
-		$setupHelper = new \OC\Setup($config, \OC::$server->getIniWrapper(),
-			\OC::$server->getL10N('lib'), \OC::$server->query(Defaults::class), \OC::$server->getLogger(),
-			\OC::$server->getSecureRandom());
+		$setupHelper = new \OC\Setup(
+			$config,
+			\OC::$server->getIniWrapper(),
+			\OC::$server->getL10N('lib'),
+			\OC::$server->query(Defaults::class),
+			\OC::$server->getLogger(),
+			\OC::$server->getSecureRandom(),
+			\OC::$server->query(Installer::class)
+		);
 
 		$htaccessContent = file_get_contents($setupHelper->pathToHtaccess());
 		$content = "#### DO NOT CHANGE ANYTHING ABOVE THIS LINE ####\n";
