@@ -37,6 +37,7 @@ use OC\App\AppStore\Fetcher\CategoryFetcher;
 use OC\App\AppStore\Version\VersionParser;
 use OC\App\DependencyAnalyzer;
 use OC\App\Platform;
+use OC\Installer;
 use OCP\App\IAppManager;
 use \OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
@@ -74,6 +75,8 @@ class AppSettingsController extends Controller {
 	private $l10nFactory;
 	/** @var BundleFetcher */
 	private $bundleFetcher;
+	/** @var Installer */
+	private $installer;
 
 	/**
 	 * @param string $appName
@@ -86,6 +89,7 @@ class AppSettingsController extends Controller {
 	 * @param AppFetcher $appFetcher
 	 * @param IFactory $l10nFactory
 	 * @param BundleFetcher $bundleFetcher
+	 * @param Installer $installer
 	 */
 	public function __construct($appName,
 								IRequest $request,
@@ -96,7 +100,8 @@ class AppSettingsController extends Controller {
 								CategoryFetcher $categoryFetcher,
 								AppFetcher $appFetcher,
 								IFactory $l10nFactory,
-								BundleFetcher $bundleFetcher) {
+								BundleFetcher $bundleFetcher,
+								Installer $installer) {
 		parent::__construct($appName, $request);
 		$this->l10n = $l10n;
 		$this->config = $config;
@@ -106,6 +111,7 @@ class AppSettingsController extends Controller {
 		$this->appFetcher = $appFetcher;
 		$this->l10nFactory = $l10nFactory;
 		$this->bundleFetcher = $bundleFetcher;
+		$this->installer = $installer;
 	}
 
 	/**
@@ -270,8 +276,7 @@ class AppSettingsController extends Controller {
 			];
 
 
-			$appFetcher = \OC::$server->getAppFetcher();
-			$newVersion = \OC\Installer::isUpdateAvailable($app['id'], $appFetcher);
+			$newVersion = $this->installer->isUpdateAvailable($app['id']);
 			if($newVersion && $this->appManager->isInstalled($app['id'])) {
 				$formattedApps[count($formattedApps)-1]['update'] = $newVersion;
 			}
@@ -284,7 +289,7 @@ class AppSettingsController extends Controller {
 		$appClass = new \OC_App();
 		$apps = $appClass->listAllApps();
 		foreach($apps as $key => $app) {
-			$newVersion = \OC\Installer::isUpdateAvailable($app['id'], $this->appFetcher);
+			$newVersion = $this->installer->isUpdateAvailable($app['id']);
 			if($newVersion !== false) {
 				$apps[$key]['update'] = $newVersion;
 			} else {
@@ -317,7 +322,7 @@ class AppSettingsController extends Controller {
 				$apps = $appClass->listAllApps();
 
 				foreach($apps as $key => $app) {
-					$newVersion = \OC\Installer::isUpdateAvailable($app['id'], $this->appFetcher);
+					$newVersion = $this->installer->isUpdateAvailable($app['id']);
 					$apps[$key]['update'] = $newVersion;
 				}
 
@@ -342,7 +347,7 @@ class AppSettingsController extends Controller {
 				});
 
 				foreach($apps as $key => $app) {
-					$newVersion = \OC\Installer::isUpdateAvailable($app['id'], $this->appFetcher);
+					$newVersion = $this->installer->isUpdateAvailable($app['id']);
 					$apps[$key]['update'] = $newVersion;
 				}
 
@@ -363,7 +368,7 @@ class AppSettingsController extends Controller {
 				});
 
 				$apps = array_map(function ($app) {
-					$newVersion = \OC\Installer::isUpdateAvailable($app['id'], $this->appFetcher);
+					$newVersion = $this->installer->isUpdateAvailable($app['id']);
 					if ($newVersion !== false) {
 						$app['update'] = $newVersion;
 					}

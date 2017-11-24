@@ -154,7 +154,8 @@ class InstallerTest extends TestCase {
 			->method('get')
 			->willReturn($appArray);
 
-		$this->assertSame($updateAvailable, Installer::isUpdateAvailable('files', $this->appFetcher));
+		$installer = $this->getInstaller();
+		$this->assertSame($updateAvailable, $installer->isUpdateAvailable('files'));
 	}
 
 	/**

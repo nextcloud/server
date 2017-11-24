@@ -23,6 +23,7 @@
 namespace OCA\UpdateNotification\Tests\Notification;
 
 
+use OC\Installer;
 use OCA\UpdateNotification\Notification\BackgroundJob;
 use OCP\App\IAppManager;
 use OCP\Http\Client\IClientService;
@@ -47,6 +48,8 @@ class BackgroundJobTest extends TestCase {
 	protected $appManager;
 	/** @var IClientService|\PHPUnit_Framework_MockObject_MockObject */
 	protected $client;
+	/** @var Installer|\PHPUnit_Framework_MockObject_MockObject */
+	protected $installer;
 
 	public function setUp() {
 		parent::setUp();
@@ -56,6 +59,7 @@ class BackgroundJobTest extends TestCase {
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->client = $this->createMock(IClientService::class);
+		$this->installer = $this->createMock(Installer::class);
 	}
 
 	/**
@@ -69,7 +73,8 @@ class BackgroundJobTest extends TestCase {
 				$this->notificationManager,
 				$this->groupManager,
 				$this->appManager,
-				$this->client
+				$this->client,
+				$this->installer
 			);
 		} {
 			return $this->getMockBuilder(BackgroundJob::class)
@@ -79,6 +84,7 @@ class BackgroundJobTest extends TestCase {
 					$this->groupManager,
 					$this->appManager,
 					$this->client,
+					$this->installer,
 				])
 				->setMethods($methods)
 				->getMock();

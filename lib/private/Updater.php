@@ -468,7 +468,7 @@ class Updater extends BasicEmitter {
 		foreach($disabledApps as $app) {
 			try {
 				$this->emit('\OC\Updater', 'checkAppStoreAppBefore', [$app]);
-				if (Installer::isUpdateAvailable($app, \OC::$server->getAppFetcher())) {
+				if ($this->installer->isUpdateAvailable($app)) {
 					$this->emit('\OC\Updater', 'upgradeAppStoreApp', [$app]);
 					$this->installer->updateAppstoreApp($app);
 				}
