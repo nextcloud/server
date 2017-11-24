@@ -109,7 +109,7 @@ class Notifier implements INotifier {
 							[$node->getName()]
 						))
 						->setRichSubject(
-							$l->t('You were mentioned in “{file}”, in a comment by a user that has since been deleted'),
+							$l->t('You were mentioned on “{file}”, in a comment by a user that has since been deleted'),
 							[
 								'file' => [
 									'type' => 'file',

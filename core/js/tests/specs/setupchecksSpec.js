@@ -30,7 +30,7 @@ describe('OC.SetupChecks tests', function() {
 
 			async.done(function( data, s, x ){
 				expect(data).toEqual([{
-					msg: 'Your web server is not yet set up properly to allow file synchronization because the WebDAV interface seems to be broken.',
+					msg: 'Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken.',
 					type: OC.SetupChecks.MESSAGE_TYPE_ERROR
 				}]);
 				done();
@@ -68,7 +68,7 @@ describe('OC.SetupChecks tests', function() {
 
 			async.done(function( data, s, x ){
 				expect(data).toEqual([{
-					msg: 'Your web server is not set up properly to resolve "/.well-known/caldav/". Further information can be found in our <a href="http://example.org/admin-setup-well-known-URL" rel="noreferrer noopener">documentation</a>.',
+					msg: 'Your web server is not properly set up to resolve "/.well-known/caldav/". Further information can be found in the <a href="http://example.org/admin-setup-well-known-URL" rel="noreferrer noopener">documentation</a>.',
 					type: OC.SetupChecks.MESSAGE_TYPE_INFO
 				}]);
 				done();
@@ -108,7 +108,7 @@ describe('OC.SetupChecks tests', function() {
 			async.done(function( data, s, x ){
 				expect(data).toEqual([
 					{
-						msg: 'Your data directory and your files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server in a way that the data directory is no longer accessible or you move the data directory outside the web server document root.',
+						msg: 'Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root.',
 						type: OC.SetupChecks.MESSAGE_TYPE_ERROR
 					}]);
 				done();
@@ -163,10 +163,10 @@ describe('OC.SetupChecks tests', function() {
 			async.done(function( data, s, x ){
 				expect(data).toEqual([
 					{
-						msg: 'This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. We suggest to enable Internet connection for this server if you want to have all features.',
+						msg: 'This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the Internet to enjoy all features.',
 						type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 					}, {
-						msg: 'No memory cache has been configured. To enhance your performance please configure a memcache if available. Further information can be found in our <a href="https://docs.nextcloud.com/server/go.php?to=admin-performance" rel="noreferrer noopener">documentation</a>.',
+						msg: 'No memory cache has been configured. To enhance performance, please configure a memcache, if available. Further information can be found in the <a href="https://docs.nextcloud.com/server/go.php?to=admin-performance" rel="noreferrer noopener">documentation</a>.',
 						type: OC.SetupChecks.MESSAGE_TYPE_INFO
 					}]);
 				done();
@@ -196,11 +196,11 @@ describe('OC.SetupChecks tests', function() {
 			async.done(function( data, s, x ){
 				expect(data).toEqual([
 					{
-						msg: 'This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. We suggest to enable Internet connection for this server if you want to have all features.',
+						msg: 'This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the Internet to enjoy all features.',
 						type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 					},
 					{
-						msg: 'No memory cache has been configured. To enhance your performance please configure a memcache if available. Further information can be found in our <a href="https://docs.nextcloud.com/server/go.php?to=admin-performance" rel="noreferrer noopener">documentation</a>.',
+						msg: 'No memory cache has been configured. To enhance performance, please configure a memcache, if available. Further information can be found in the <a href="https://docs.nextcloud.com/server/go.php?to=admin-performance" rel="noreferrer noopener">documentation</a>.',
 						type: OC.SetupChecks.MESSAGE_TYPE_INFO
 					}]);
 				done();
@@ -230,7 +230,7 @@ describe('OC.SetupChecks tests', function() {
 			async.done(function( data, s, x ){
 				expect(data).toEqual([
 				{
-					msg: 'This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. We suggest to enable Internet connection for this server if you want to have all features.',
+					msg: 'This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the Internet to enjoy all features.',
 					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 				}
 				]);
@@ -261,7 +261,7 @@ describe('OC.SetupChecks tests', function() {
 
 			async.done(function( data, s, x ){
 				expect(data).toEqual([{
-					msg: '/dev/urandom is not readable by PHP which is highly discouraged for security reasons. Further information can be found in our <a href="https://docs.owncloud.org/myDocs.html" rel="noreferrer noopener">documentation</a>.',
+					msg: '/dev/urandom is not readable by PHP which is highly discouraged for security reasons. Further information can be found in the <a href="https://docs.owncloud.org/myDocs.html" rel="noreferrer noopener">documentation</a>.',
 					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 				}]);
 				done();
@@ -321,7 +321,7 @@ describe('OC.SetupChecks tests', function() {
 
 			async.done(function( data, s, x ){
 				expect(data).toEqual([{
-					msg: 'The reverse proxy headers configuration is incorrect, or you are accessing Nextcloud from a trusted proxy. If you are not accessing Nextcloud from a trusted proxy, this is a security issue and can allow an attacker to spoof their IP address as visible to Nextcloud. Further information can be found in our <a href="https://docs.owncloud.org/foo/bar.html" rel="noreferrer noopener">documentation</a>.',
+					msg: 'The reverse proxy header configuration is incorrect, or you are accessing Nextcloud from a trusted proxy. If not, this is a security issue and can allow an attacker to spoof their IP address as visible to the Nextcloud. Further information can be found in the <a href="https://docs.owncloud.org/foo/bar.html" rel="noreferrer noopener">documentation</a>.',
 					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 				}]);
 				done();
@@ -351,7 +351,7 @@ describe('OC.SetupChecks tests', function() {
 
 			async.done(function( data, s, x ){
 				expect(data).toEqual([{
-					msg: 'The PHP function "set_time_limit" is not available. This could result in scripts being halted mid-execution, breaking your installation. We strongly recommend enabling this function.',
+					msg: 'The PHP function "set_time_limit" is not available. This could result in scripts being halted mid-execution, breaking your installation. Enabling this function is strongly recommended.',
 					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 				}]);
 				done();
@@ -402,7 +402,7 @@ describe('OC.SetupChecks tests', function() {
 
 			async.done(function( data, s, x ){
 				expect(data).toEqual([{
-					msg: 'You are currently running PHP 5.4.0. We encourage you to upgrade your PHP version to take advantage of <a href="https://secure.php.net/supported-versions.php" rel="noreferrer noopener">performance and security updates provided by the PHP Group</a> as soon as your distribution supports it.',
+					msg: 'You are currently running PHP 5.4.0. Upgrade your PHP version to take advantage of <a href="https://secure.php.net/supported-versions.php" rel="noreferrer noopener">performance and security updates provided by the PHP Group</a> as soon as your distribution supports it.',
 					type: OC.SetupChecks.MESSAGE_TYPE_INFO
 				}]);
 				done();
@@ -433,7 +433,7 @@ describe('OC.SetupChecks tests', function() {
 
 			async.done(function( data, s, x ){
 				expect(data).toEqual([{
-						msg: 'The PHP OPcache is not properly configured. <a href="https://example.org/link/to/doc" rel="noreferrer noopener">For better performance we recommend</a> to use following settings in the <code>php.ini</code>:' + "<pre><code>opcache.enable=1\nopcache.enable_cli=1\nopcache.interned_strings_buffer=8\nopcache.max_accelerated_files=10000\nopcache.memory_consumption=128\nopcache.save_comments=1\nopcache.revalidate_freq=1</code></pre>",
+						msg: 'The PHP OPcache is not properly configured. <a href="https://example.org/link/to/doc" rel="noreferrer noopener">For better performance it is recommended</a> to use the following settings in the <code>php.ini</code>:' + "<pre><code>opcache.enable=1\nopcache.enable_cli=1\nopcache.interned_strings_buffer=8\nopcache.max_accelerated_files=10000\nopcache.memory_consumption=128\nopcache.save_comments=1\nopcache.revalidate_freq=1</code></pre>",
 						type: OC.SetupChecks.MESSAGE_TYPE_INFO
 					}]);
 				done();
@@ -479,23 +479,23 @@ describe('OC.SetupChecks tests', function() {
 			async.done(function( data, s, x ){
 				expect(data).toEqual([
 				{
-					msg: 'The "X-XSS-Protection" HTTP header is not configured to equal to "1; mode=block". This is a potential security or privacy risk and we recommend adjusting this setting.',
+					msg: 'The "X-XSS-Protection" HTTP header is not set to "1; mode=block". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.',
 					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 				}, {
-					msg: 'The "X-Content-Type-Options" HTTP header is not configured to equal to "nosniff". This is a potential security or privacy risk and we recommend adjusting this setting.',
+					msg: 'The "X-Content-Type-Options" HTTP header is not set to "nosniff". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.',
 					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 				}, {
-					msg: 'The "X-Robots-Tag" HTTP header is not configured to equal to "none". This is a potential security or privacy risk and we recommend adjusting this setting.',
+					msg: 'The "X-Robots-Tag" HTTP header is not set to "none". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.',
 					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 
 				}, {
-					msg: 'The "X-Frame-Options" HTTP header is not configured to equal to "SAMEORIGIN". This is a potential security or privacy risk and we recommend adjusting this setting.',
+					msg: 'The "X-Frame-Options" HTTP header is not set to "SAMEORIGIN". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.',
 					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 				}, {
-					msg: 'The "X-Download-Options" HTTP header is not configured to equal to "noopen". This is a potential security or privacy risk and we recommend adjusting this setting.',
+					msg: 'The "X-Download-Options" HTTP header is not set to "noopen". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.',
 					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 				}, {
-					msg: 'The "X-Permitted-Cross-Domain-Policies" HTTP header is not configured to equal to "none". This is a potential security or privacy risk and we recommend adjusting this setting.',
+					msg: 'The "X-Permitted-Cross-Domain-Policies" HTTP header is not set to "none". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.',
 					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 				},
 				]);
@@ -520,10 +520,10 @@ describe('OC.SetupChecks tests', function() {
 
 			async.done(function( data, s, x ){
 				expect(data).toEqual([{
-					msg: 'The "X-XSS-Protection" HTTP header is not configured to equal to "1; mode=block". This is a potential security or privacy risk and we recommend adjusting this setting.', 
+					msg: 'The "X-XSS-Protection" HTTP header is not set to "1; mode=block". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.',
 					type: OC.SetupChecks.MESSAGE_TYPE_WARNING,
 				}, {
-					msg: 'The "X-Content-Type-Options" HTTP header is not configured to equal to "nosniff". This is a potential security or privacy risk and we recommend adjusting this setting.',
+					msg: 'The "X-Content-Type-Options" HTTP header is not set to "nosniff". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.',
 					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 				}]);
 				done();
@@ -571,7 +571,7 @@ describe('OC.SetupChecks tests', function() {
 
 		async.done(function( data, s, x ){
 			expect(data).toEqual([{
-				msg: 'You are accessing this site via HTTP. We strongly suggest you configure your server to require using HTTPS instead as described in our <a href="http://localhost/index.php/settings/admin/tips-tricks">security tips</a>.',
+				msg: 'Accessing site insecurely via HTTP. You are strongly adviced to set up your server to require HTTPS instead, as described in the <a href="http://localhost/index.php/settings/admin/tips-tricks">security tips</a>.',
 				type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 			}]);
 			done();
@@ -617,7 +617,7 @@ describe('OC.SetupChecks tests', function() {
 
 		async.done(function( data, s, x ){
 			expect(data).toEqual([{
-				msg: 'The "Strict-Transport-Security" HTTP header is not configured to at least "15552000" seconds. For enhanced security we recommend enabling HSTS as described in our <a rel="noreferrer noopener" href="http://localhost/index.php/settings/admin/tips-tricks">security tips</a>.',
+				msg: 'The "Strict-Transport-Security" HTTP header is not set to at least "15552000" seconds. For enhanced security, it is recommended to enable HSTS as described in the <a rel="noreferrer noopener" href="http://localhost/index.php/settings/admin/tips-tricks">security tips</a>.',
 				type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 			}]);
 			done();
@@ -642,7 +642,7 @@ describe('OC.SetupChecks tests', function() {
 
 		async.done(function( data, s, x ){
 			expect(data).toEqual([{
-				msg: 'The "Strict-Transport-Security" HTTP header is not configured to at least "15552000" seconds. For enhanced security we recommend enabling HSTS as described in our <a rel="noreferrer noopener" href="http://localhost/index.php/settings/admin/tips-tricks">security tips</a>.',
+				msg: 'The "Strict-Transport-Security" HTTP header is not set to at least "15552000" seconds. For enhanced security, it is recommended to enable HSTS as described in the <a rel="noreferrer noopener" href="http://localhost/index.php/settings/admin/tips-tricks">security tips</a>.',
 				type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 			}]);
 			done();
@@ -667,7 +667,7 @@ describe('OC.SetupChecks tests', function() {
 
 		async.done(function( data, s, x ){
 			expect(data).toEqual([{
-				msg: 'The "Strict-Transport-Security" HTTP header is not configured to at least "15552000" seconds. For enhanced security we recommend enabling HSTS as described in our <a rel="noreferrer noopener" href="http://localhost/index.php/settings/admin/tips-tricks">security tips</a>.',
+				msg: 'The "Strict-Transport-Security" HTTP header is not set to at least "15552000" seconds. For enhanced security, it is recommended to enable HSTS as described in the <a rel="noreferrer noopener" href="http://localhost/index.php/settings/admin/tips-tricks">security tips</a>.',
 				type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 			}]);
 			done();
