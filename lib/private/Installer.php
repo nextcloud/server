@@ -589,23 +589,6 @@ class Installer {
 	}
 
 	/**
-	 * check the code of an app with some static code checks
-	 * @param string $folder the folder of the app to check
-	 * @return boolean true for app is o.k. and false for app is not o.k.
-	 */
-	public static function checkCode($folder) {
-		// is the code checker enabled?
-		if(!\OC::$server->getConfig()->getSystemValue('appcodechecker', false)) {
-			return true;
-		}
-
-		$codeChecker = new CodeChecker(new PrivateCheck(new EmptyCheck()));
-		$errors = $codeChecker->analyseFolder(basename($folder), $folder);
-
-		return empty($errors);
-	}
-
-	/**
 	 * @param string $script
 	 */
 	private static function includeAppScript($script) {
