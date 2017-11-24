@@ -327,22 +327,36 @@ describe('OC.Share tests', function() {
 				);
 			});
 			it('display multiple with divergent displaynames', function() {
-				checkRecipients(
-					{
-						0: {
-							shareWith: 'One',
-							shareWithDisplayName: 'Yoko Ono'
-						},
-						1: {
-							shareWith: 'two@otherserver.com',
-							shareWithDisplayName: 'two@othererver.com'
-						},
-						2: {
-							shareWith: 'Three',
-							shareWithDisplayName: 'Green, Mina'
-						}
+				var recipients = {
+					0: {
+						shareWith: 'One',
+						shareWithDisplayName: 'Yoko Ono',
+						_output: 'Shared with Yoko Ono'
 					},
-					'Shared with Green, Mina two@… Shared with Yoko Ono',
+					1: {
+						shareWith: 'two@otherserver.com',
+						shareWithDisplayName: 'two@othererver.com',
+						_output: 'two@…'
+					},
+					2: {
+						shareWith: 'Three',
+						shareWithDisplayName: 'Green, Mina',
+						_output: 'Shared with Green, Mina'
+					}
+				};
+
+				// we cannot assume the locale, also because PhantomJS has a bug.
+				var sortArray = _.toArray(recipients)
+					.sort(function(a, b) {
+						return a.shareWithDisplayName.localeCompare(b.shareWithDisplayName);
+					});
+				var sortedOutput = _.map(sortArray, function(recipient) {
+					return recipient._output;
+				}).join(' ');
+
+				checkRecipients(
+					recipients,
+					sortedOutput,
 					['Shared with two@otherserver.com']
 				);
 			});
