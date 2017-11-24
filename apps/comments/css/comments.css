@@ -42,6 +42,20 @@
 
 #commentsTabView .newCommentForm .submitLoading {
 	background-position: left;
+
+	/* Match rules for '#commentsTabView .newCommentForm .submit' to place the
+	   loading icon at the same position as the confirm icon */
+	position: absolute;
+	bottom: 0px;
+	right: 8px;
+	width: 30px;
+	margin: 0;
+	padding: 7px 9px;
+
+	/* Match rules for 'input[type="submit"]' to place the loading icon at the
+	   same position as the confirm icon */
+	min-height: 34px;
+	box-sizing: border-box;
 }
 
 #commentsTabView .newCommentForm .cancel {
