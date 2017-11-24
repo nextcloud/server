@@ -730,7 +730,7 @@ class OC {
 			OC_User::setIncognitoMode(true);
 		}
 
-		self::registerCacheHooks();
+		self::registerCleanupHooks();
 		self::registerFilesystemHooks();
 		self::registerShareHooks();
 		self::registerEncryptionWrapper();
@@ -802,15 +802,23 @@ class OC {
 	}
 
 	/**
-	 * register hooks for the cache
+	 * register hooks for the cleanup of cache and bruteforce protection
 	 */
-	public static function registerCacheHooks() {
+	public static function registerCleanupHooks() {
 		//don't try to do this before we are properly setup
 		if (\OC::$server->getSystemConfig()->getValue('installed', false) && !self::checkUpgrade(false)) {
 
 			// NOTE: This will be replaced to use OCP
 			$userSession = self::$server->getUserSession();
-			$userSession->listen('\OC\User', 'postLogin', function () {
+			$userSession->listen('\OC\User', 'postLogin', function () use ($userSession) {
+				if (!defined('PHPUNIT_RUN')) {
+					// reset brute force delay for this IP address and username
+					$uid = \OC::$server->getUserSession()->getUser()->getUID();
+					$request = \OC::$server->getRequest();
+					$throttler = \OC::$server->getBruteForceThrottler();
+					$throttler->resetDelay($request->getRemoteAddress(), 'login', ['user' => $uid]);
+				}
+
 				try {
 					$cache = new \OC\Cache\File();
 					$cache->gc();
