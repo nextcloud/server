@@ -97,6 +97,7 @@
     "The DN of the client user with which the bind shall be done, e.g. uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password empty." : "どのクライアントユーザーのDNで接続するか指定します。例えば uid=agent,dc=example,dc=com になります。匿名アクセスの場合、DNとパスワードは空のままにしてください。",
     "Password" : "パスワード",
     "For anonymous access, leave DN and Password empty." : "匿名アクセスの場合は、DNとパスワードを空のままにしてください。",
+    "Save Credentials" : "資格情報を保存",
     "One Base DN per line" : "1行に1つのベースDNを記入",
     "You can specify Base DN for users and groups in the Advanced tab" : "詳細設定でユーザーとグループのベースDNを指定することができます。",
     "Detect Base DN" : "ベース DN を検出",
