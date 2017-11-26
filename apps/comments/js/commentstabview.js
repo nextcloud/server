@@ -410,7 +410,10 @@
 				var strong = $(this).next();
 				var appendTo = $(this).parent();
 
-				$.merge(avatar, strong).contactsMenu(avatar.data('user'), 0, appendTo);
+				var username = $(this).data('username');
+				if (username !== oc_current_user) {
+					$.merge(avatar, strong).contactsMenu(avatar.data('user'), 0, appendTo);
+				}
 			});
 		},
 
@@ -451,9 +454,11 @@
 				+ ' data-user-display-name="'
 				+ _.escape(displayName) + '"></div>';
 
+			var isCurrentUser = (uid === oc_current_user);
+
 			return ''
 				+ '<span class="atwho-inserted" contenteditable="false">'
-				+ '<span class="avatar-name-wrapper">'
+				+ '<span class="avatar-name-wrapper' + (isCurrentUser ? ' currentUser' : '') + '">'
 				+ avatar + ' <strong>'+ _.escape(displayName)+'</strong>'
 				+ '</span>'
 				+ '</span>';
