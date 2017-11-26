@@ -127,8 +127,8 @@
 	position: relative;
 }
 
-#commentsTabView .comment .message .avatar-name-wrapper,
-#commentsTabView .comment .message .avatar-name-wrapper .avatar,
+#commentsTabView .comment:not(.newCommentRow) .message .avatar-name-wrapper,
+#commentsTabView .comment:not(.newCommentRow) .message .avatar-name-wrapper .avatar,
 #commentsTabView .comment .authorRow .avatar:not(.currentUser),
 #commentsTabView .comment .authorRow .author:not(.currentUser) {
 	cursor: pointer;

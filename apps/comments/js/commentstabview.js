@@ -214,13 +214,15 @@
 				searchKey: "label"
 			});
 			$target.on('inserted.atwho', function (je, $el) {
+				var editionMode = true;
 				s._postRenderItem(
 					// we need to pass the parent of the inserted element
 					// passing the whole comments form would re-apply and request
 					// avatars from the server
 					$(je.target).find(
 						'div[data-username="' + $el.find('[data-username]').data('username') + '"]'
-					).parent()
+					).parent(),
+					editionMode
 				);
 			});
 		},
@@ -377,7 +379,7 @@
 			});
 		},
 
-		_postRenderItem: function($el) {
+		_postRenderItem: function($el, editionMode) {
 			$el.find('.has-tooltip').tooltip();
 			$el.find('.avatar').each(function() {
 				var $this = $(this);
@@ -395,10 +397,14 @@
 				// it is the case when writing a comment and mentioning a person
 				$message = $el;
 			}
-			this._postRenderMessage($message);
+			this._postRenderMessage($message, editionMode);
 		},
 
-		_postRenderMessage: function($el) {
+		_postRenderMessage: function($el, editionMode) {
+			if (editionMode) {
+				return;
+			}
+
 			$el.find('.avatar').each(function() {
 				var avatar = $(this);
 				var strong = $(this).next();
@@ -486,7 +492,8 @@
 				.html(this._formatMessage(commentToEdit.get('message'), commentToEdit.get('mentions')))
 				.find('.avatar')
 				.each(function () { $(this).avatar(); });
-			this._postRenderItem($message);
+			var editionMode = true;
+			this._postRenderItem($message, editionMode);
 
 			// Enable autosize
 			autosize($formRow.find('.message'));
