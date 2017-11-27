@@ -23,8 +23,8 @@
 	var EDIT_COMMENT_TEMPLATE =
 		'<div class="newCommentRow comment" data-id="{{id}}">' +
 		'    <div class="authorRow">' +
-		'        <div class="avatar" data-username="{{actorId}}"></div>' +
-		'        <div class="author">{{actorDisplayName}}</div>' +
+		'        <div class="avatar currentUser" data-username="{{actorId}}"></div>' +
+		'        <div class="author currentUser">{{actorDisplayName}}</div>' +
 		'{{#if isEditMode}}' +
 		'        <a href="#" class="action delete icon icon-delete has-tooltip" title="{{deleteTooltip}}"></a>' +
 		'        <div class="deleteLoading icon-loading-small hidden"></div>'+
@@ -43,8 +43,8 @@
 	var COMMENT_TEMPLATE =
 		'<li class="comment{{#if isUnread}} unread{{/if}}{{#if isLong}} collapsed{{/if}}" data-id="{{id}}">' +
 		'    <div class="authorRow">' +
-		'        <div class="avatar" {{#if actorId}}data-username="{{actorId}}"{{/if}}> </div>' +
-		'        <div class="author">{{actorDisplayName}}</div>' +
+		'        <div class="avatar{{#if isUserAuthor}} currentUser{{/if}}" {{#if actorId}}data-username="{{actorId}}"{{/if}}> </div>' +
+		'        <div class="author{{#if isUserAuthor}} currentUser{{/if}}">{{actorDisplayName}}</div>' +
 		'{{#if isUserAuthor}}' +
 		'        <a href="#" class="action edit icon icon-rename has-tooltip" title="{{editTooltip}}"></a>' +
 		'{{/if}}' +
@@ -215,13 +215,15 @@
 				searchKey: "label"
 			});
 			$target.on('inserted.atwho', function (je, $el) {
+				var editionMode = true;
 				s._postRenderItem(
 					// we need to pass the parent of the inserted element
 					// passing the whole comments form would re-apply and request
 					// avatars from the server
 					$(je.target).find(
 						'div[data-username="' + $el.find('[data-username]').data('username') + '"]'
-					).parent()
+					).parent(),
+					editionMode
 				);
 			});
 		},
@@ -378,7 +380,7 @@
 			});
 		},
 
-		_postRenderItem: function($el) {
+		_postRenderItem: function($el, editionMode) {
 			$el.find('.has-tooltip').tooltip();
 			$el.find('.avatar').each(function() {
 				var $this = $(this);
@@ -396,16 +398,23 @@
 				// it is the case when writing a comment and mentioning a person
 				$message = $el;
 			}
-			this._postRenderMessage($message);
+			this._postRenderMessage($message, editionMode);
 		},
 
-		_postRenderMessage: function($el) {
+		_postRenderMessage: function($el, editionMode) {
+			if (editionMode) {
+				return;
+			}
+
 			$el.find('.avatar').each(function() {
 				var avatar = $(this);
 				var strong = $(this).next();
 				var appendTo = $(this).parent();
 
-				$.merge(avatar, strong).contactsMenu(avatar.data('user'), 0, appendTo);
+				var username = $(this).data('username');
+				if (username !== oc_current_user) {
+					$.merge(avatar, strong).contactsMenu(avatar.data('user'), 0, appendTo);
+				}
 			});
 		},
 
@@ -446,9 +455,11 @@
 				+ ' data-user-display-name="'
 				+ _.escape(displayName) + '"></div>';
 
+			var isCurrentUser = (uid === OC.getCurrentUser().uid);
+
 			return ''
 				+ '<span class="atwho-inserted" contenteditable="false">'
-				+ '<span class="avatar-name-wrapper">'
+				+ '<span class="avatar-name-wrapper' + (isCurrentUser ? ' currentUser' : '') + '">'
 				+ avatar + ' <strong>'+ _.escape(displayName)+'</strong>'
 				+ '</span>'
 				+ '</span>';
@@ -487,7 +498,8 @@
 				.html(this._formatMessage(commentToEdit.get('message'), commentToEdit.get('mentions')))
 				.find('.avatar')
 				.each(function () { $(this).avatar(); });
-			this._postRenderItem($message);
+			var editionMode = true;
+			this._postRenderItem($message, editionMode);
 
 			// Enable autosize
 			autosize($formRow.find('.message'));
