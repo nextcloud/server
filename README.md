@@ -60,7 +60,7 @@ More information how to contribute: [https://nextcloud.com/contribute/](https://
 
 Third-party components are handled as git submodules which have to be initialized first. So aside from the regular git checkout invoking `git submodule update --init` or a similar command is needed, for details see Git documentation.
 
-Several apps by default included in regular releases like [firstrunwizard](https://github.com/nextcloud/firstrunwizard) or [gallery](https://github.com/nextcloud/gallery) are missing in `master` and have to be installed manually as required.
+Several apps that are included by default in regular releases such as [firstrunwizard](https://github.com/nextcloud/firstrunwizard) or [gallery](https://github.com/nextcloud/gallery) are missing in `master` and have to be installed manually.
 
 That aside Git checkouts can be handled the same as release archives.
 
