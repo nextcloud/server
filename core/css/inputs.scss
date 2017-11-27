@@ -13,7 +13,7 @@
  */
 
  /* Specifically override browser styles */
-input, textarea, select, button, div[contenteditable=true] {
+input, textarea, select, button, div[contenteditable=true], div[contenteditable=false] {
 	font-family: 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif;
 }
 .select2-container-multi .select2-choices .select2-search-field input, .select2-search input, .ui-widget {
@@ -25,7 +25,8 @@ select,
 button,
 input,
 textarea,
-div[contenteditable=true] {
+div[contenteditable=true],
+div[contenteditable=false] {
 	width: 130px;
 	min-height: 32px;
 	box-sizing: border-box;
@@ -86,6 +87,23 @@ div[contenteditable=true],
 			color: nc-lighten($color-main-text, 73%);
 		}
 	}
+}
+
+div[contenteditable=false] {
+	margin: 3px 3px 3px 0;
+	padding: 7px 6px;
+	font-size: 13px;
+	background-color: $color-main-background;
+	color: nc-lighten($color-main-text, 33%);
+	border: 1px solid nc-darken($color-main-background, 14%);
+	outline: none;
+	border-radius: $border-radius;
+	cursor: text;
+
+	background-color: nc-darken($color-main-background, 8%);
+	color: rgba($color-main-text, 0.4);
+	cursor: default;
+	opacity: 0.5;
 }
 
 /* Specific override */
@@ -169,6 +187,13 @@ textarea, div[contenteditable=true] {
 			background-color: $color-main-background !important;
 		}
 	}
+}
+
+div[contenteditable=false] {
+	color: nc-lighten($color-main-text, 33%);
+	cursor: text;
+	font-family: inherit;
+	height: auto;
 }
 
 /* Override the ugly select arrow */
