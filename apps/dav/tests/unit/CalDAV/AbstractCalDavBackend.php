@@ -28,6 +28,7 @@ namespace OCA\DAV\Tests\unit\CalDAV;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCP\IGroupManager;
+use OCP\ILogger;
 use OCP\IUserManager;
 use OCP\Security\ISecureRandom;
 use Sabre\CalDAV\Xml\Property\SupportedCalendarComponentSet;
@@ -57,6 +58,8 @@ abstract class AbstractCalDavBackend extends TestCase {
 
 	/** @var ISecureRandom */
 	private $random;
+	/** @var ILogger */
+	private $logger;
 
 	const UNIT_TEST_USER = 'principals/users/caldav-unit-test';
 	const UNIT_TEST_USER1 = 'principals/users/caldav-unit-test1';
@@ -84,7 +87,8 @@ abstract class AbstractCalDavBackend extends TestCase {
 
 		$db = \OC::$server->getDatabaseConnection();
 		$this->random = \OC::$server->getSecureRandom();
-		$this->backend = new CalDavBackend($db, $this->principal, $this->userManager, $this->groupManager, $this->random, $this->dispatcher);
+		$this->logger = $this->createMock(ILogger::class);
+		$this->backend = new CalDavBackend($db, $this->principal, $this->userManager, $this->groupManager, $this->random, $this->logger, $this->dispatcher);
 
 		$this->cleanUpBackend();
 	}

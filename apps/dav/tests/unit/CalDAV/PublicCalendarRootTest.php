@@ -34,6 +34,7 @@ use OCP\IGroupManager;
 use OCP\IL10N;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\PublicCalendarRoot;
+use OCP\ILogger;
 use OCP\IUserManager;
 use OCP\Security\ISecureRandom;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -64,6 +65,8 @@ class PublicCalendarRootTest extends TestCase {
 
 	/** @var ISecureRandom */
 	private $random;
+	/** @var ILogger */
+	private $logger;
 
 	public function setUp() {
 		parent::setUp();
@@ -73,6 +76,7 @@ class PublicCalendarRootTest extends TestCase {
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->random = \OC::$server->getSecureRandom();
+		$this->logger = $this->createMock(ILogger::class);
 		$dispatcher = $this->createMock(EventDispatcherInterface::class);
 
 		$this->principal->expects($this->any())->method('getGroupMembership')
@@ -85,6 +89,7 @@ class PublicCalendarRootTest extends TestCase {
 			$this->userManager,
 			$this->groupManager,
 			$this->random,
+			$this->logger,
 			$dispatcher
 		);
 

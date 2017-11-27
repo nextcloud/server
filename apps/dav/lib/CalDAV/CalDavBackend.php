@@ -37,6 +37,7 @@ use OCA\DAV\Connector\Sabre\Principal;
 use OCA\DAV\DAV\Sharing\Backend;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
+use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Security\ISecureRandom;
@@ -56,6 +57,8 @@ use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\Component\VTimeZone;
 use Sabre\VObject\DateTimeParser;
+use Sabre\VObject\InvalidDataException;
+use Sabre\VObject\ParseException;
 use Sabre\VObject\Property;
 use Sabre\VObject\Reader;
 use Sabre\VObject\Recur\EventIterator;
@@ -152,6 +155,9 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	/** @var ISecureRandom */
 	private $random;
 
+	/** @var ILogger */
+	private $logger;
+
 	/** @var EventDispatcherInterface */
 	private $dispatcher;
 
@@ -169,6 +175,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @param IUserManager $userManager
 	 * @param IGroupManager $groupManager
 	 * @param ISecureRandom $random
+	 * @param ILogger $logger
 	 * @param EventDispatcherInterface $dispatcher
 	 * @param bool $legacyEndpoint
 	 */
@@ -177,6 +184,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 								IUserManager $userManager,
 								IGroupManager $groupManager,
 								ISecureRandom $random,
+								ILogger $logger,
 								EventDispatcherInterface $dispatcher,
 								$legacyEndpoint = false) {
 		$this->db = $db;
@@ -184,6 +192,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$this->userManager = $userManager;
 		$this->sharingBackend = new Backend($this->db, $this->userManager, $groupManager, $principalBackend, 'calendar');
 		$this->random = $random;
+		$this->logger = $logger;
 		$this->dispatcher = $dispatcher;
 		$this->legacyEndpoint = $legacyEndpoint;
 	}
@@ -1219,7 +1228,25 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$result = [];
 		while($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
 			if ($requirePostFilter) {
-				if (!$this->validateFilterForObject($row, $filters)) {
+				// validateFilterForObject will parse the calendar data
+				// catch parsing errors
+				try {
+					$matches = $this->validateFilterForObject($row, $filters);
+				} catch(ParseException $ex) {
+					$this->logger->logException($ex, [
+						'app' => 'dav',
+						'message' => 'Caught parsing exception for calendar data. This usually indicates invalid calendar data. calendar-id:'.$calendarId.' uri:'.$row['uri']
+					]);
+					continue;
+				} catch (InvalidDataException $ex) {
+					$this->logger->logException($ex, [
+						'app' => 'dav',
+						'message' => 'Caught invalid data exception for calendar data. This usually indicates invalid calendar data. calendar-id:'.$calendarId.' uri:'.$row['uri']
+					]);
+					continue;
+				}
+
+				if (!$matches) {
 					continue;
 				}
 			}
