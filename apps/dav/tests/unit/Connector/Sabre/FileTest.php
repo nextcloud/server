@@ -31,6 +31,7 @@ use OC\Files\Storage\Local;
 use OC\Files\View;
 use OCP\Files\ForbiddenException;
 use OCP\Files\Storage;
+use OCP\IConfig;
 use Test\HookHelper;
 use OC\Files\Filesystem;
 use OCP\Lock\ILockingProvider;
@@ -49,6 +50,9 @@ class FileTest extends \Test\TestCase {
 	 */
 	private $user;
 
+	/** @var IConfig | \PHPUnit_Framework_MockObject_MockObject */
+	protected $config;
+
 	public function setUp() {
 		parent::setUp();
 		unset($_SERVER['HTTP_OC_CHUNKED']);
@@ -62,6 +66,8 @@ class FileTest extends \Test\TestCase {
 		$userManager->createUser($this->user, 'pass');
 
 		$this->loginAsUser($this->user);
+
+		$this->config = $this->getMockBuilder('\OCP\IConfig')->getMock();
 	}
 
 	public function tearDown() {
@@ -322,6 +328,114 @@ class FileTest extends \Test\TestCase {
 	 */
 	public function testPutSingleFile() {
 		$this->assertNotEmpty($this->doPut('/foo.txt'));
+	}
+
+	public function legalMtimeProvider() {
+		return [
+			"string" => [
+					'HTTP_X_OC_MTIME' => "string",
+					'expected result' => null
+			],
+			"castable string (int)" => [
+					'HTTP_X_OC_MTIME' => "34",
+					'expected result' => 34
+			],
+			"castable string (float)" => [
+					'HTTP_X_OC_MTIME' => "34.56",
+					'expected result' => 34
+			],
+			"float" => [
+					'HTTP_X_OC_MTIME' => 34.56,
+					'expected result' => 34
+			],
+			"zero" => [
+					'HTTP_X_OC_MTIME' => 0,
+					'expected result' => 0
+			],
+			"zero string" => [
+					'HTTP_X_OC_MTIME' => "0",
+					'expected result' => 0
+			],
+			"negative zero string" => [
+					'HTTP_X_OC_MTIME' => "-0",
+					'expected result' => 0
+			],
+			"string starting with number following by char" => [
+					'HTTP_X_OC_MTIME' => "2345asdf",
+					'expected result' => null
+			],
+			"string castable hex int" => [
+					'HTTP_X_OC_MTIME' => "0x45adf",
+					'expected result' => 0
+			],
+			"string that looks like invalid hex int" => [
+					'HTTP_X_OC_MTIME' => "0x123g",
+					'expected result' => null
+			],
+			"negative int" => [
+					'HTTP_X_OC_MTIME' => -34,
+					'expected result' => -34
+			],
+			"negative float" => [
+					'HTTP_X_OC_MTIME' => -34.43,
+					'expected result' => -34
+			],
+		];
+	}
+
+	/**
+	 * Test putting a file with string Mtime
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 * @dataProvider legalMtimeProvider
+	 */
+	public function testPutSingleFileLegalMtime($requestMtime, $resultMtime) {
+		$request = new \OC\AppFramework\Http\Request([
+				'server' => [
+						'HTTP_X_OC_MTIME' => $requestMtime,
+				]
+		], null, $this->config, null);
+		$file = 'foo.txt';
+
+		if ($resultMtime === null) {
+			$this->expectException(\InvalidArgumentException::class);
+			$this->expectExceptionMessage("X-OC-MTime header must be an integer (unix timestamp).");
+		}
+
+		$this->doPut($file, null, $request);
+
+		if ($resultMtime !== null) {
+			$this->assertEquals($resultMtime, $this->getFileInfos($file)['mtime']);
+		}
+	}
+
+	/**
+	 * Test putting a file with string Mtime using chunking
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 * @dataProvider legalMtimeProvider
+	 */
+	public function testChunkedPutLegalMtime($requestMtime, $resultMtime) {
+		$request = new \OC\AppFramework\Http\Request([
+				'server' => [
+						'HTTP_X_OC_MTIME' => $requestMtime,
+				]
+		], null, $this->config, null);
+
+		$_SERVER['HTTP_OC_CHUNKED'] = true;
+		$file = 'foo.txt';
+
+		if ($resultMtime === null) {
+			$this->expectException(\Sabre\DAV\Exception::class);
+			$this->expectExceptionMessage("X-OC-MTime header must be an integer (unix timestamp).");
+		}
+
+		$this->doPut($file.'-chunking-12345-2-0', null, $request);
+		$this->doPut($file.'-chunking-12345-2-1', null, $request);
+
+		if ($resultMtime !== null) {
+			$this->assertEquals($resultMtime, $this->getFileInfos($file)['mtime']);
+		}
 	}
 
 	/**
@@ -966,6 +1080,25 @@ class FileTest extends \Test\TestCase {
 			closedir($dh);
 		}
 		return $files;
+	}
+
+	/**
+	 * returns an array of file information filesize, mtime, filetype,  mimetype
+	 *
+	 * @param string $path
+	 * @param View $userView
+	 * @return array
+	 */
+	private function getFileInfos($path = '', View $userView = null) {
+		if ($userView === null) {
+			$userView = Filesystem::getView();
+		}
+		return [
+				"filesize" => $userView->filesize($path),
+				"mtime" => $userView->filemtime($path),
+				"filetype" => $userView->filetype($path),
+				"mimetype" => $userView->getMimeType($path)
+		];
 	}
 
 	/**
