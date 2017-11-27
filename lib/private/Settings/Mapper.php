@@ -164,14 +164,15 @@ class Mapper {
 	 * Check if a class is configured in the database
 	 *
 	 * @param string $table one of the Mapper::TABLE_* constants
-	 * @param string $className
+	 * @param $field
+	 * @param string $sectionId
 	 * @return bool
 	 */
-	public function has($table, $className) {
+	public function has($table, $field, $sectionId) {
 		$query = $this->dbc->getQueryBuilder();
-		$query->select('class')
+		$query->select('id')
 			->from($table)
-			->where($query->expr()->eq('class', $query->createNamedParameter($className)))
+			->where($query->expr()->eq($field, $query->createNamedParameter($sectionId)))
 			->setMaxResults(1);
 
 		$result = $query->execute();
