@@ -708,8 +708,15 @@ class OC_Util {
 		}
 
 		$webServerRestart = false;
-		$setup = new \OC\Setup($config, \OC::$server->getIniWrapper(), \OC::$server->getL10N('lib'),
-			\OC::$server->query(\OCP\Defaults::class), \OC::$server->getLogger(), \OC::$server->getSecureRandom());
+		$setup = new \OC\Setup(
+			$config,
+			\OC::$server->getIniWrapper(),
+			\OC::$server->getL10N('lib'),
+			\OC::$server->query(\OCP\Defaults::class),
+			\OC::$server->getLogger(),
+			\OC::$server->getSecureRandom(),
+			\OC::$server->query(\OC\Installer::class)
+		);
 
 		$urlGenerator = \OC::$server->getURLGenerator();
 

@@ -53,6 +53,9 @@ class BackgroundJob extends TimedJob {
 	/** @var IClientService */
 	protected $client;
 
+	/** @var Installer */
+	protected $installer;
+
 	/** @var string[] */
 	protected $users;
 
@@ -64,8 +67,9 @@ class BackgroundJob extends TimedJob {
 	 * @param IGroupManager $groupManager
 	 * @param IAppManager $appManager
 	 * @param IClientService $client
+	 * @param Installer $installer
 	 */
-	public function __construct(IConfig $config, IManager $notificationManager, IGroupManager $groupManager, IAppManager $appManager, IClientService $client) {
+	public function __construct(IConfig $config, IManager $notificationManager, IGroupManager $groupManager, IAppManager $appManager, IClientService $client, Installer $installer) {
 		// Run once a day
 		$this->setInterval(60 * 60 * 24);
 
@@ -74,6 +78,7 @@ class BackgroundJob extends TimedJob {
 		$this->groupManager = $groupManager;
 		$this->appManager = $appManager;
 		$this->client = $client;
+		$this->installer = $installer;
 	}
 
 	protected function run($argument) {
@@ -257,6 +262,6 @@ class BackgroundJob extends TimedJob {
 	 * @return string|false
 	 */
 	protected function isUpdateAvailable($app) {
-		return Installer::isUpdateAvailable($app, \OC::$server->getAppFetcher());
+		return $this->installer->isUpdateAvailable($app);
 	}
 }

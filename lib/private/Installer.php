@@ -67,6 +67,10 @@ class Installer {
 	private $logger;
 	/** @var IConfig */
 	private $config;
+	/** @var array - for caching the result of app fetcher */
+	private $apps = null;
+	/** @var bool|null - for caching the result of the ready status */
+	private $isInstanceReadyForUpdates = null;
 
 	/**
 	 * @param AppFetcher $appFetcher
@@ -187,7 +191,7 @@ class Installer {
 	 * @return bool
 	 */
 	public function updateAppstoreApp($appId) {
-		if(self::isUpdateAvailable($appId, $this->appFetcher)) {
+		if($this->isUpdateAvailable($appId)) {
 			try {
 				$this->downloadApp($appId);
 			} catch (\Exception $e) {
@@ -375,27 +379,26 @@ class Installer {
 	 * Check if an update for the app is available
 	 *
 	 * @param string $appId
-	 * @param AppFetcher $appFetcher
 	 * @return string|false false or the version number of the update
 	 */
-	public static function isUpdateAvailable($appId,
-									  AppFetcher $appFetcher) {
-		static $isInstanceReadyForUpdates = null;
-
-		if ($isInstanceReadyForUpdates === null) {
+	public function isUpdateAvailable($appId) {
+		if ($this->isInstanceReadyForUpdates === null) {
 			$installPath = OC_App::getInstallPath();
 			if ($installPath === false || $installPath === null) {
-				$isInstanceReadyForUpdates = false;
+				$this->isInstanceReadyForUpdates = false;
 			} else {
-				$isInstanceReadyForUpdates = true;
+				$this->isInstanceReadyForUpdates = true;
 			}
 		}
 
-		if ($isInstanceReadyForUpdates === false) {
+		if ($this->isInstanceReadyForUpdates === false) {
 			return false;
 		}
 
-		$apps = $appFetcher->get();
+		if ($this->apps === null) {
+			$apps = $this->appFetcher->get();
+		}
+
 		foreach($apps as $app) {
 			if($app['id'] === $appId) {
 				$currentVersion = OC_App::getAppVersion($appId);

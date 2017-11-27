@@ -375,13 +375,7 @@ class OC_App {
 		self::$enabledAppsCache = []; // flush
 
 		// Check if app is already downloaded
-		$installer = new Installer(
-			\OC::$server->getAppFetcher(),
-			\OC::$server->getHTTPClientService(),
-			\OC::$server->getTempManager(),
-			\OC::$server->getLogger(),
-			\OC::$server->getConfig()
-		);
+		$installer = \OC::$server->query(Installer::class);
 		$isDownloaded = $installer->isDownloaded($appId);
 
 		if(!$isDownloaded) {
@@ -415,13 +409,7 @@ class OC_App {
 			return false;
 		}
 
-		$installer = new Installer(
-			\OC::$server->getAppFetcher(),
-			\OC::$server->getHTTPClientService(),
-			\OC::$server->getTempManager(),
-			\OC::$server->getLogger(),
-			\OC::$server->getConfig()
-		);
+		$installer = \OC::$server->query(Installer::class);
 		return $installer->removeApp($app);
 	}
 

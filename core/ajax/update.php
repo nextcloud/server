@@ -116,7 +116,8 @@ if (OC::checkUpgrade(false)) {
 	$updater = new \OC\Updater(
 			$config,
 			\OC::$server->getIntegrityCodeChecker(),
-			$logger
+			$logger,
+			\OC::$server->query(\OC\Installer::class)
 	);
 	$incompatibleApps = [];
 	$disabledThirdPartyApps = [];

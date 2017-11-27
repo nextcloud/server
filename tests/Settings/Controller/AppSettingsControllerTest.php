@@ -25,6 +25,7 @@ namespace Tests\Settings\Controller;
 use OC\App\AppStore\Bundles\BundleFetcher;
 use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\App\AppStore\Fetcher\CategoryFetcher;
+use OC\Installer;
 use OC\Settings\Controller\AppSettingsController;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\JSONResponse;
@@ -63,6 +64,8 @@ class AppSettingsControllerTest extends TestCase {
 	private $l10nFactory;
 	/** @var BundleFetcher|\PHPUnit_Framework_MockObject_MockObject */
 	private $bundleFetcher;
+	/** @var Installer|\PHPUnit_Framework_MockObject_MockObject */
+	private $installer;
 
 	public function setUp() {
 		parent::setUp();
@@ -79,6 +82,7 @@ class AppSettingsControllerTest extends TestCase {
 		$this->appFetcher = $this->createMock(AppFetcher::class);
 		$this->l10nFactory = $this->createMock(IFactory::class);
 		$this->bundleFetcher = $this->createMock(BundleFetcher::class);
+		$this->installer = $this->createMock(Installer::class);
 
 		$this->appSettingsController = new AppSettingsController(
 			'settings',
@@ -90,11 +94,15 @@ class AppSettingsControllerTest extends TestCase {
 			$this->categoryFetcher,
 			$this->appFetcher,
 			$this->l10nFactory,
-			$this->bundleFetcher
+			$this->bundleFetcher,
+			$this->installer
 		);
 	}
 
 	public function testListCategories() {
+		$this->installer->expects($this->any())
+			->method('isUpdateAvailable')
+			->willReturn(false);
 		$expected = new JSONResponse([
 			[
 				'id' => 2,
