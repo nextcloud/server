@@ -90,7 +90,7 @@ class LoggerTest extends TestCase {
 		$e = new \Exception('test');
 		$this->registry->expects($this->once())
 			->method('delegateReport')
-			->with($e, []);
+			->with($e, ['level' => 3]);
 
 		$this->logger->logException($e);
 
@@ -109,7 +109,7 @@ class LoggerTest extends TestCase {
 		$e = new \Exception('test');
 		$this->registry->expects($this->once())
 			->method('delegateReport')
-			->with($e, []);
+			->with($e, ['level' => 3]);
 
 		$this->logger->logException($e);
 
@@ -128,7 +128,7 @@ class LoggerTest extends TestCase {
 		$e = new \Exception('test');
 		$this->registry->expects($this->once())
 			->method('delegateReport')
-			->with($e, []);
+			->with($e, ['level' => 3]);
 
 		$this->logger->logException($e);
 
@@ -147,7 +147,7 @@ class LoggerTest extends TestCase {
 		$e = new \Exception('test');
 		$this->registry->expects($this->once())
 			->method('delegateReport')
-			->with($e, []);
+			->with($e, ['level' => 3]);
 
 		$this->logger->logException($e);
 
