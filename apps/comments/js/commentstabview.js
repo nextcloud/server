@@ -27,6 +27,7 @@
 		'        <div class="author">{{actorDisplayName}}</div>' +
 		'{{#if isEditMode}}' +
 		'        <a href="#" class="action delete icon icon-delete has-tooltip" title="{{deleteTooltip}}"></a>' +
+		'        <div class="deleteLoading icon-loading-small hidden"></div>'+
 		'{{/if}}' +
 		'    </div>' +
 		'    <form class="newCommentForm">' +
@@ -543,7 +544,7 @@
 			ev.preventDefault();
 			var $comment = $(ev.target).closest('.comment');
 			var commentId = $comment.data('id');
-			var $loading = $comment.find('.submitLoading');
+			var $loading = $comment.find('.deleteLoading');
 			var $commentField = $comment.find('.message');
 			var $submit = $comment.find('.submit');
 			var $cancel = $comment.find('.cancel');
