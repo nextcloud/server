@@ -69,6 +69,7 @@
 	width: 32px;
 	height: 32px;
 	line-height: 32px;
+	margin-right: 5px;
 }
 
 #commentsTabView .comment .message .avatar,
@@ -112,7 +113,7 @@
 	background-repeat: no-repeat;
 }
 
-#commentsTabView .authorRow>div {
+#commentsTabView .authorRow>div:not(.contactsmenu-popover) {
 	display: inline-block;
 	vertical-align: middle;
 }
@@ -126,6 +127,13 @@
 #commentsTabView .comment .authorRow {
 	position: relative;
 	cursor: pointer;
+	display: inline-flex;
+	align-items: center;
+	width: 100%;
+}
+
+#commentsTabView .comments li .message .atwho-inserted {
+	margin-left: 5px;
 }
 
 .atwho-view-ul * .avatar-name-wrapper {
@@ -136,23 +144,20 @@
 #commentsTabView .comment .date {
 	opacity: .5;
 }
-#commentsTabView .comment .author {
-	margin-left: 5px;
-}
 #commentsTabView .comment .date {
-	position: absolute;
-	right: 0;
-	top: 5px;
+	margin-left: auto;
 }
 
 #commentsTabView .comments li .message {
 	padding-left: 40px;
+	display: inline-flex;
+	flex-wrap: wrap;
+	align-items: center;
 }
 
 #commentsTabView .comment .action {
 	opacity: 0;
-	vertical-align: middle;
-	display: inline-block;
+	padding: 5px;
 }
 
 #commentsTabView .comment:hover .action {
