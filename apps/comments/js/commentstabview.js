@@ -454,7 +454,7 @@
 				+ ' data-user-display-name="'
 				+ _.escape(displayName) + '"></div>';
 
-			var isCurrentUser = (uid === oc_current_user);
+			var isCurrentUser = (uid === OC.getCurrentUser().uid);
 
 			return ''
 				+ '<span class="atwho-inserted" contenteditable="false">'
