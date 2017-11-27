@@ -30,6 +30,7 @@ use OCA\DAV\Connector\Sabre\Exception\PasswordLoginForbidden;
 use OCP\Files\StorageNotAvailableException;
 use OCP\ILogger;
 use Sabre\DAV\Exception\Forbidden;
+use Sabre\DAV\Exception\InvalidSyncToken;
 use Sabre\DAV\Exception\NotAuthenticated;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Exception\NotImplemented;
@@ -42,6 +43,8 @@ class ExceptionLoggerPlugin extends \Sabre\DAV\ServerPlugin {
 		// If tokenauth can throw this exception (which is basically as
 		// NotAuthenticated. So not fatal.
 		PasswordLoginForbidden::class => true,
+		// basically a NotAuthenticated
+		InvalidSyncToken::class => true,
 		// the sync client uses this to find out whether files exist,
 		// so it is not always an error, log it as debug
 		NotFound::class => true,
