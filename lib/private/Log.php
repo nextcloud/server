@@ -351,6 +351,7 @@ class Log implements ILogger {
 		$msg = isset($context['message']) ? $context['message'] : 'Exception';
 		$msg .= ': ' . json_encode($data);
 		$this->log($level, $msg, $context);
+		$context['level'] = $level;
 		if (!is_null($this->crashReporters)) {
 			$this->crashReporters->delegateReport($exception, $context);
 		}
