@@ -553,9 +553,6 @@
 				actionsWidth += $(action).outerWidth();
 			});
 
-			// subtract app navigation toggle when visible
-			containerWidth -= $('#app-navigation-toggle').width();
-
 			this.breadcrumb._resize();
 
 			this.$table.find('>thead').width($('#app-content').width() - OC.Util.getScrollBarWidth());
@@ -1369,7 +1366,7 @@
 		 * @return new tr element (not appended to the table)
 		 */
 		add: function(fileData, options) {
-			var index = -1;
+			var index;
 			var $tr;
 			var $rows;
 			var $insertionPoint;

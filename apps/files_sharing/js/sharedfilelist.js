@@ -153,6 +153,27 @@
 			// storage info like free space / used space
 		},
 
+		updateRow: function($tr, fileInfo, options) {
+			if(!fileInfo instanceof OCA.Sharing.SharedFileInfo) {
+				// recycle SharedFileInfo values if something tries to overwrite it
+				var oldModel = this.getModelForFile($tr);
+
+				if(_.isUndefined(fileInfo.recipientData) && oldModel.recipientData) {
+					fileInfo.recipientData = oldModel.recipientData;
+				}
+				if(_.isUndefined(fileInfo.recipients) && oldModel.recipientData) {
+					fileInfo.recipientData = oldModel.recipientData;
+				}
+				if(_.isUndefined(fileInfo.shares) && oldModel.shares) {
+					fileInfo.shares = oldModel.shares;
+				}
+				if(_.isUndefined(fileInfo.shareOwner) && oldModel.shareOwner) {
+					fileInfo.shareOwner = oldModel.shareOwner;
+				}
+			}
+			OCA.Files.FileList.prototype._createRow.updateRow(this, arguments);
+		},
+
 		reload: function() {
 			this.showMask();
 			if (this._reloadCall) {
@@ -225,7 +246,6 @@
 		},
 
 		_makeFilesFromRemoteShares: function(data) {
-			var self = this;
 			var files = data;
 
 			files = _.chain(files)
@@ -297,6 +317,7 @@
 					};
 					if (self._sharedWithUser) {
 						file.shareOwner = share.displayname_owner;
+						file.shareOwnerId = share.uid_owner;
 						file.name = OC.basename(share.file_target);
 						file.path = OC.dirname(share.file_target);
 						file.permissions = share.permissions;
@@ -307,6 +328,7 @@
 					else {
 						if (share.share_type !== OC.Share.SHARE_TYPE_LINK) {
 							file.share.targetDisplayName = share.share_with_displayname;
+							file.share.targetShareWithId = share.share_with;
 						}
 						file.name = OC.basename(share.path);
 						file.path = OC.dirname(share.path);
@@ -325,12 +347,14 @@
 				.reduce(function(memo, file) {
 					var data = memo[file.id];
 					var recipient = file.share.targetDisplayName;
+					var recipientId = file.share.targetShareWithId;
 					if (!data) {
 						data = memo[file.id] = file;
 						data.shares = [file.share];
 						// using a hash to make them unique,
 						// this is only a list to be displayed
 						data.recipients = {};
+						data.recipientData = {};
 						// share types
 						data.shareTypes = {};
 						// counter is cheaper than calling _.keys().length
@@ -351,6 +375,10 @@
 							// only store the first ones, they will be the only ones
 							// displayed
 							data.recipients[recipient] = true;
+							data.recipientData[data.recipientsCount] = {
+								'shareWith': recipientId,
+								'shareWithDisplayName': recipient
+							};
 						}
 						data.recipientsCount++;
 					}
@@ -367,11 +395,6 @@
 					// convert the recipients map to a flat
 					// array of sorted names
 					data.mountType = 'shared';
-					data.recipients = _.keys(data.recipients);
-					data.recipientsDisplayName = OCA.Sharing.Util.formatRecipients(
-						data.recipients,
-						data.recipientsCount
-					);
 					delete data.recipientsCount;
 					if (self._sharedWithUser) {
 						// only for outgoing shres
@@ -405,7 +428,16 @@
 	 * @property {int} stime share timestamp in milliseconds
 	 * @property {String} [targetDisplayName] display name of the recipient
 	 * (only when shared with others)
+	 * @property {String} [targetShareWithId] id of the recipient
 	 *
+	 */
+
+	/**
+	 * Recipient attributes
+	 *
+	 * @typedef {Object} OCA.Sharing.RecipientInfo
+	 * @property {String} shareWith the id of the recipient
+	 * @property {String} shareWithDisplayName the display name of the recipient
 	 */
 
 	/**
@@ -419,7 +451,8 @@
 	 * @property {String} shareOwner name of the share owner
 	 * @property {Array.<String>} recipients name of the first 4 recipients
 	 * (this is mostly for display purposes)
-	 * @property {String} recipientsDisplayName display name
+	 * @property {Object.<OCA.Sharing.RecipientInfo>} recipientData (as object for easier
+	 * passing to HTML data attributes with jQuery)
 	 */
 
 	OCA.Sharing.FileList = FileList;

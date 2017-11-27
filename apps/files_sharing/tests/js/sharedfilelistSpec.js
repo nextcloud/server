@@ -628,7 +628,7 @@ describe('OCA.Sharing.FileList tests', function() {
 			expect($tr.attr('data-permissions')).toEqual('31'); // read and delete
 			expect($tr.attr('data-mime')).toEqual('text/plain');
 			expect($tr.attr('data-mtime')).toEqual('11111000');
-			expect($tr.attr('data-share-recipients')).not.toBeDefined();
+			expect($tr.attr('data-share-recipient-data')).not.toBeDefined();
 			expect($tr.attr('data-share-owner')).not.toBeDefined();
 			expect($tr.attr('data-share-id')).toEqual('7');
 			expect($tr.attr('data-favorite')).toEqual('true');
@@ -681,7 +681,7 @@ describe('OCA.Sharing.FileList tests', function() {
 			expect($tr.attr('data-permissions')).toEqual('31'); // read and delete
 			expect($tr.attr('data-mime')).toEqual('text/plain');
 			expect($tr.attr('data-mtime')).toEqual('11111000');
-			expect($tr.attr('data-share-recipients')).not.toBeDefined();
+			expect($tr.attr('data-share-recipient-data')).not.toBeDefined();
 			expect($tr.attr('data-share-owner')).not.toBeDefined();
 			expect($tr.attr('data-share-id')).toEqual('7');
 			expect($tr.attr('data-favorite')).toEqual('true');
