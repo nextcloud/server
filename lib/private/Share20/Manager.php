@@ -669,26 +669,31 @@ class Manager implements IManager {
 		$this->eventDispatcher->dispatch('OCP\Share::postShare', $event);
 
 		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER) {
-			$user = $this->userManager->get($share->getSharedWith());
-			if ($user !== null) {
-				$emailAddress = $user->getEMailAddress();
-				if ($emailAddress !== null && $emailAddress !== '') {
-					$userLang = $this->config->getUserValue($share->getSharedWith(), 'core', 'lang', null);
-					$l = $this->l10nFactory->get('lib', $userLang);
-					$this->sendMailNotification(
-						$l,
-						$share->getNode()->getName(),
-						$this->urlGenerator->linkToRouteAbsolute('files.viewcontroller.showFile', [ 'fileid' => $share->getNode()->getId() ]),
-						$share->getSharedBy(),
-						$emailAddress,
-						$share->getExpirationDate()
-					);
-					$this->logger->debug('Send share notification to ' . $emailAddress . ' for share with ID ' . $share->getId(), ['app' => 'share']);
+			$mailSend = $share->getMailSend();
+			if($mailSend === true) {
+				$user = $this->userManager->get($share->getSharedWith());
+				if ($user !== null) {
+					$emailAddress = $user->getEMailAddress();
+					if ($emailAddress !== null && $emailAddress !== '') {
+						$userLang = $this->config->getUserValue($share->getSharedWith(), 'core', 'lang', null);
+						$l = $this->l10nFactory->get('lib', $userLang);
+						$this->sendMailNotification(
+							$l,
+							$share->getNode()->getName(),
+							$this->urlGenerator->linkToRouteAbsolute('files.viewcontroller.showFile', ['fileid' => $share->getNode()->getId()]),
+							$share->getSharedBy(),
+							$emailAddress,
+							$share->getExpirationDate()
+						);
+						$this->logger->debug('Send share notification to ' . $emailAddress . ' for share with ID ' . $share->getId(), ['app' => 'share']);
+					} else {
+						$this->logger->debug('Share notification not send to ' . $share->getSharedWith() . ' because email address is not set.', ['app' => 'share']);
+					}
 				} else {
-					$this->logger->debug('Share notification not send to ' . $share->getSharedWith() . ' because email address is not set.', ['app' => 'share']);
+					$this->logger->debug('Share notification not send to ' . $share->getSharedWith() . ' because user could not be found.', ['app' => 'share']);
 				}
 			} else {
-				$this->logger->debug('Share notification not send to ' . $share->getSharedWith() . ' because user could not be found.', ['app' => 'share']);
+				$this->logger->debug('Share notification not send because mailsend is false.', ['app' => 'share']);
 			}
 		}
 

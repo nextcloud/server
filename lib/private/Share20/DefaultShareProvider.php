@@ -183,6 +183,9 @@ class DefaultShareProvider implements IShareProvider {
 			throw new ShareNotFound();
 		}
 
+		$mailSendValue = $share->getMailSend();
+		$data['mail_send'] = ($mailSendValue === null) ? true : $mailSendValue;
+
 		$share = $this->createShare($data);
 		return $share;
 	}
