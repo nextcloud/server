@@ -310,7 +310,11 @@ class FileTest extends \Test\TestCase {
 			null
 		);
 
-		$file = new \OCA\DAV\Connector\Sabre\File($view, $info, null, $request);
+		/** @var \OCA\DAV\Connector\Sabre\File | \PHPUnit_Framework_MockObject_MockObject $file */
+		$file = $this->getMockBuilder(\OCA\DAV\Connector\Sabre\File::class)
+			->setConstructorArgs([$view, $info, null, $request])
+			->setMethods(['header'])
+			->getMock();
 
 		// beforeMethod locks
 		$view->lockFile($path, ILockingProvider::LOCK_SHARED);
@@ -385,8 +389,6 @@ class FileTest extends \Test\TestCase {
 
 	/**
 	 * Test putting a file with string Mtime
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
 	 * @dataProvider legalMtimeProvider
 	 */
 	public function testPutSingleFileLegalMtime($requestMtime, $resultMtime) {
@@ -411,8 +413,6 @@ class FileTest extends \Test\TestCase {
 
 	/**
 	 * Test putting a file with string Mtime using chunking
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
 	 * @dataProvider legalMtimeProvider
 	 */
 	public function testChunkedPutLegalMtime($requestMtime, $resultMtime) {
