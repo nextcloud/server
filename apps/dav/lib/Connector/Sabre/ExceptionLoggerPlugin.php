@@ -32,6 +32,7 @@ use OCP\ILogger;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotAuthenticated;
 use Sabre\DAV\Exception\NotFound;
+use Sabre\DAV\Exception\NotImplemented;
 use Sabre\DAV\Exception\PreconditionFailed;
 use Sabre\DAV\Exception\ServiceUnavailable;
 
@@ -54,6 +55,9 @@ class ExceptionLoggerPlugin extends \Sabre\DAV\ServerPlugin {
 		// Happens when an external storage or federated share is temporarily
 		// not available
 		StorageNotAvailableException::class => true,
+		// happens if some a client uses the wrong method for a given URL
+		// the error message itself is visible on the client side anyways
+		NotImplemented::class => true,
 	];
 
 	/** @var string */
