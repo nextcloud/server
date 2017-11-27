@@ -106,32 +106,32 @@ return [
 	// an analysis. You should consider setting this
 	// to true only when you wish you had more issues
 	// to fix in your code base.
-	'quick_mode' => true,
+	'quick_mode' => false,
 
 	// If enabled, check all methods that override a
 	// parent method to make sure its signature is
 	// compatible with the parent's. This check
 	// can add quite a bit of time to the analysis.
-	'analyze_signature_compatibility' => false,
+	'analyze_signature_compatibility' => true,
 
 	// The minimum severity level to report on. This can be
 	// set to Issue::SEVERITY_LOW, Issue::SEVERITY_NORMAL or
 	// Issue::SEVERITY_CRITICAL. Setting it to only
 	// critical issues is a good place to start on a big
 	// sloppy mature code base.
-	'minimum_severity' => 10,
+	'minimum_severity' => \Phan\Issue::SEVERITY_CRITICAL,
 
 	// If true, missing properties will be created when
 	// they are first seen. If false, we'll report an
 	// error message if there is an attempt to write
 	// to a class property that wasn't explicitly
 	// defined.
-	'allow_missing_properties' => true,
+	'allow_missing_properties' => false,
 
 	// Allow null to be cast as any type and for any
 	// type to be cast to null. Setting this to false
 	// will cut down on false positives.
-	'null_casts_as_any_type' => true,
+	'null_casts_as_any_type' => false,
 
 	// Allow null to be cast as any array-like type (Requires 0.9.3+)
 	// This is an incremental step in migrating away from null_casts_as_any_type.
