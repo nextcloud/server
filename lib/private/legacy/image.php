@@ -63,22 +63,6 @@ class OC_Image implements \OCP\IImage {
 	private $exif;
 
 	/**
-	 * Get mime type for an image file.
-	 *
-	 * @param string|null $filePath The path to a local image file.
-	 * @return string The mime type if the it could be determined, otherwise an empty string.
-	 */
-	static public function getMimeTypeForFile($filePath) {
-		// exif_imagetype throws "read error!" if file is less than 12 byte
-		if ($filePath !== null && filesize($filePath) > 11) {
-			$imageType = exif_imagetype($filePath);
-		} else {
-			$imageType = false;
-		}
-		return $imageType ? image_type_to_mime_type($imageType) : '';
-	}
-
-	/**
 	 * Constructor.
 	 *
 	 * @param resource|string $imageRef The path to a local file, a base64 encoded string or a resource created by
