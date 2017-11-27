@@ -299,6 +299,7 @@ pipeline:
       matrix:
         DB: postgres
         PHP: 5.6
+        POSTGRES: 9
   postgres-php7.0:
     image: nextcloudci/php7.0:php7.0-16
     commands:
@@ -746,12 +747,19 @@ matrix:
       ENABLE_REDIS: true
     - DB: postgres
       PHP: 5.6
+      POSTGRES: 9
       ENABLE_REDIS: true
     - DB: postgres
       PHP: 7.0
+      POSTGRES: 9
       ENABLE_REDIS: true
     - DB: postgres
       PHP: 7.1
+      POSTGRES: 9
+      ENABLE_REDIS: true
+    - DB: postgres
+      PHP: 7.1
+      POSTGRES: 10
       ENABLE_REDIS: true
     - DB: mysqlmb4
       PHP: 5.6
@@ -833,7 +841,7 @@ services:
     when:
       matrix:
        ENABLE_REDIS_CLUSTER: true
-  postgres:
+  postgres-9:
     image: postgres:9
     environment:
       - POSTGRES_USER=oc_autotest
@@ -843,6 +851,18 @@ services:
     when:
       matrix:
         DB: postgres
+        POSTGRES: 9
+  postgres-10:
+      image: postgres:10
+      environment:
+        - POSTGRES_USER=oc_autotest
+        - POSTGRES_PASSWORD=owncloud
+      tmpfs:
+        - /var/lib/postgresql/data
+      when:
+        matrix:
+          DB: postgres
+          POSTGRES: 10
   mysql:
     image: mysql:5.7
     environment:

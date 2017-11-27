@@ -139,9 +139,6 @@ class ConnectionFactory {
 				unset($additionalConnectionParams['host']);
 				break;
 
-			case 'pgsql':
-				$additionalConnectionParams['platform'] = new OCPostgreSqlPlatform();
-				break;
 			case 'sqlite3':
 				$journalMode = $additionalConnectionParams['sqlite.journal_mode'];
 				$additionalConnectionParams['platform'] = new OCSqlitePlatform();

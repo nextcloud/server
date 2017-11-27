@@ -308,11 +308,11 @@ function execute_tests {
 			echo "Postgres is up."
 		else
 			if [ ! -z "$DRONE" ] ; then
-				DATABASEHOST=postgres
+				DATABASEHOST="postgres-$POSTGRES"
 			fi
 			echo "Waiting for Postgres to be available ..."
 			if ! apps/files_external/tests/env/wait-for-connection $DATABASEHOST 5432 60; then
-				echo "[ERROR] Waited 60 seconds, no response" >&2
+				echo "[ERROR] Waited 60 seconds for $DATABASEHOST, no response" >&2
 				exit 1
 			fi
 			echo "Give it 10 additional seconds ..."
