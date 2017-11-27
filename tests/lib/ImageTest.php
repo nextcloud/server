@@ -19,20 +19,6 @@ class ImageTest extends \Test\TestCase {
 		parent::tearDownAfterClass();
 	}
 
-	public function testGetMimeTypeForFile() {
-		$mimetype = \OC_Image::getMimeTypeForFile(OC::$SERVERROOT.'/tests/data/testimage.png');
-		$this->assertEquals('image/png', $mimetype);
-
-		$mimetype = \OC_Image::getMimeTypeForFile(OC::$SERVERROOT.'/tests/data/testimage.jpg');
-		$this->assertEquals('image/jpeg', $mimetype);
-
-		$mimetype = \OC_Image::getMimeTypeForFile(OC::$SERVERROOT.'/tests/data/testimage.gif');
-		$this->assertEquals('image/gif', $mimetype);
-
-		$mimetype = \OC_Image::getMimeTypeForFile(null);
-		$this->assertEquals('', $mimetype);
-	}
-
 	public function testConstructDestruct() {
 		$img = new \OC_Image(OC::$SERVERROOT.'/tests/data/testimage.png');
 		$this->assertInstanceOf('\OC_Image', $img);
@@ -337,7 +323,6 @@ class ImageTest extends \Test\TestCase {
 		$tempFile = tempnam(sys_get_temp_dir(), 'img-test');
 
 		$img->save($tempFile, $mimeType);
-		$actualMimeType = \OC_Image::getMimeTypeForFile($tempFile);
-		$this->assertEquals($mimeType, $actualMimeType);
+		$this->assertEquals($mimeType, image_type_to_mime_type(exif_imagetype($tempFile)));
 	}
 }
