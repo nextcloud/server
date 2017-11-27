@@ -313,7 +313,13 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 
 		$this->registerService(\OC\Authentication\TwoFactorAuth\Manager::class, function (Server $c) {
-			return new \OC\Authentication\TwoFactorAuth\Manager($c->getAppManager(), $c->getSession(), $c->getConfig());
+			return new \OC\Authentication\TwoFactorAuth\Manager(
+				$c->getAppManager(),
+				$c->getSession(),
+				$c->getConfig(),
+				$c->query('OC\Authentication\Token\IProvider'),
+				$c->query(TimeFactory::class)
+			);
 		});
 
 		$this->registerService('NavigationManager', function ($c) {

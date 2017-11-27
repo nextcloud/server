@@ -340,6 +340,10 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return $c->query(Validator::class);
 		});
 
+		$this->registerService(\OC\Authentication\TwoFactorAuth\Manager::class, function ($c) {
+			return $this->getServer()->getTwoFactorAuthManager();
+		});
+
 
 		/**
 		 * App Framework APIs
