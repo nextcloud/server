@@ -122,7 +122,6 @@ OC.L10N.register(
     "Wrong password. Reset it?" : "Hibás jelszó. Visszaállítja?",
     "Wrong password." : "Hibás jelszó.",
     "Cancel" : "Mégsem",
-    "LDAP" : "LDAP",
     "Server" : "Szerver",
     "Users" : "Felhasználók",
     "Login Attributes" : "Bejelentkezési attribútumok",
@@ -192,6 +191,7 @@ OC.L10N.register(
     "Verify settings and count groups" : "Ellenőrizd a beállításokat és számold meg a csoportokat",
     "Add a new and blank configuration" : "Új üres konfiguráció hozzáadása",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "A protokoll előtag elhagyható, kivéve, ha SSL-t kíván használni. Ebben az esetben kezdje így:  ldaps://",
+    "LDAP" : "LDAP",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Figyelem:</b> a user_ldap és user_webdavauth alkalmazások nem kompatibilisek. Együttes használatuk váratlan eredményekhez vezethet. Kérje meg a rendszergazdát, hogy a kettő közül kapcsolja ki az egyiket.",
     "in bytes" : "bájtban"
 },

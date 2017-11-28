@@ -122,7 +122,6 @@ OC.L10N.register(
     "Wrong password. Reset it?" : "Погрешна лозинка. Желите ли да је ресетујете?",
     "Wrong password." : "Лоша лозинка.",
     "Cancel" : "Одустани",
-    "LDAP" : "LDAP",
     "Server" : "Сервер",
     "Users" : "Корисници",
     "Login Attributes" : "Атрибути пријаве",
@@ -192,6 +191,7 @@ OC.L10N.register(
     "Verify settings and count groups" : "Провери поставке и преброј групе",
     "Add a new and blank configuration" : "Додај нову празну поставу",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "Можете да изоставите протокол, осим ако захтевате ССЛ. У том случају почните са ldaps://",
+    "LDAP" : "LDAP",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Упозорење:</b> Апликације user_ldap и user_webdavauth нису компатибилне. Можете имати проблема. Питајте систем администратора да искључи једну од њих.",
     "in bytes" : "у бајтовима"
 },

@@ -122,7 +122,6 @@ OC.L10N.register(
     "Wrong password. Reset it?" : "Onjuist wachtwoord. Resetten?",
     "Wrong password." : "Onjuist wachtwoord.",
     "Cancel" : "Annuleren",
-    "LDAP" : "LDAP",
     "Server" : "Server",
     "Users" : "Gebruikers",
     "Login Attributes" : "Inlogattributen",
@@ -192,6 +191,7 @@ OC.L10N.register(
     "Verify settings and count groups" : "Verifiëren instellingen en tel groepen",
     "Add a new and blank configuration" : "Toevoegen nieuwe, blanco configuratie",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "Je kunt het protocol weglaten, tenzij je SSL vereist. Start in dat geval met ldaps://",
+    "LDAP" : "LDAP",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Waarschuwing:</b> De Apps user_ldap en user_webdavauth zijn incompatible. Je kunt onverwacht gedrag ervaren. Vraag je beheerder om een van beide apps de deactiveren.",
     "in bytes" : "in bytes"
 },

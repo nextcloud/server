@@ -26,9 +26,9 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s a commenté %2$s",
     "{author} commented on {file}" : "{author} a commenté sur {file}",
     "<strong>Comments</strong> for files" : "<strong>Commentaires</strong> sur les fichiers",
-    "A (now) deleted user mentioned you in a comment on “%s”" : "Un·e utilisateur·trice (maintenant supprimé·e) vous a mentionné·e dans un commentaire sur “%s”",
-    "A (now) deleted user mentioned you in a comment on “{file}”" : "Un·e utilisateur·trice (maintenant supprimé·e) vous a mentionné·e dans un commentaire sur “{file}”",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s vous a mentionné⋅e dans un commentaire sur “%2$s”",
-    "{user} mentioned you in a comment on “{file}”" : "{user} vous a mentionné⋅e dans un commentaire sur “{file}”"
+    "{user} mentioned you in a comment on “{file}”" : "{user} vous a mentionné⋅e dans un commentaire sur “{file}”",
+    "A (now) deleted user mentioned you in a comment on “%s”" : "Un·e utilisateur·trice (maintenant supprimé·e) vous a mentionné·e dans un commentaire sur “%s”",
+    "A (now) deleted user mentioned you in a comment on “{file}”" : "Un·e utilisateur·trice (maintenant supprimé·e) vous a mentionné·e dans un commentaire sur “{file}”"
 },
 "nplurals=2; plural=(n > 1);");

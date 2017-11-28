@@ -24,9 +24,9 @@
     "%1$s commented on %2$s" : "%1$s heeft gereageerd op %2$s",
     "{author} commented on {file}" : "{author} reageerde op {file}",
     "<strong>Comments</strong> for files" : "<strong>Reacties</strong> voor bestanden",
-    "A (now) deleted user mentioned you in a comment on “%s”" : "Een (nu) verwijderde gebruiker vermeldde jou in een reactie op \"%s\"",
-    "A (now) deleted user mentioned you in a comment on “{file}”" : "Een (nu) verwijderde gebruiker vermeldde jou in een reactie op {file}\"",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s vermeldde jou in een reactie op “%2$s\"",
-    "{user} mentioned you in a comment on “{file}”" : "{user} vermeldde jou in een reactie op “{file}\""
+    "{user} mentioned you in a comment on “{file}”" : "{user} vermeldde jou in een reactie op “{file}\"",
+    "A (now) deleted user mentioned you in a comment on “%s”" : "Een (nu) verwijderde gebruiker vermeldde jou in een reactie op \"%s\"",
+    "A (now) deleted user mentioned you in a comment on “{file}”" : "Een (nu) verwijderde gebruiker vermeldde jou in een reactie op {file}\""
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

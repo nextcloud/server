@@ -120,7 +120,6 @@
     "Wrong password. Reset it?" : "Contraseña incorrecta. ¿Deseas restablecerla?",
     "Wrong password." : "Contraseña incorrecta. ",
     "Cancel" : "Cancelar",
-    "LDAP" : "LDAP",
     "Server" : "Servidor",
     "Users" : "Usuarios",
     "Login Attributes" : "Atributos de Inicio de Sesión",
@@ -190,6 +189,7 @@
     "Verify settings and count groups" : "Verificar configuraciones y contar grupos",
     "Add a new and blank configuration" : "Agregar una configuración nueva y en blanco",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "Puedes omitir el protocolo, excepto si requieres SSL. En ese caso, empieza con ldaps://",
+    "LDAP" : "LDAP",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Advertencia:</b> Las aplicaciones user_ldap y user_webdavauth son incompatibles. Puedes expermientar comportamientos inesperados. Por favor solicita a tu administrador del sistema deshabilitar alguno de ellos.",
     "in bytes" : "en bytes"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

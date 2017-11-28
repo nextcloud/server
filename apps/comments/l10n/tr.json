@@ -24,9 +24,9 @@
     "%1$s commented on %2$s" : "%1$s, %2$s için yorum yaptı",
     "{author} commented on {file}" : "{author}, {file} hakkında yorum yaptı",
     "<strong>Comments</strong> for files" : "Dosyalar için <strong>yorumlar</strong>",
-    "A (now) deleted user mentioned you in a comment on “%s”" : "Bir (artık) silinmiş kullanıcı “%s” hakkındaki bir yorumda sizden bahsetti",
-    "A (now) deleted user mentioned you in a comment on “{file}”" : "Bir (artık) silinmiş kullanıcı “{file}” hakkındaki bir yorumda sizden bahsetti",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s, “%2$s” hakkındaki bir yorumda sizden bahsetti",
-    "{user} mentioned you in a comment on “{file}”" : "{user}, “{file}” hakkındaki bir yorumda sizden bahsetti"
+    "{user} mentioned you in a comment on “{file}”" : "{user}, “{file}” hakkındaki bir yorumda sizden bahsetti",
+    "A (now) deleted user mentioned you in a comment on “%s”" : "Bir (artık) silinmiş kullanıcı “%s” hakkındaki bir yorumda sizden bahsetti",
+    "A (now) deleted user mentioned you in a comment on “{file}”" : "Bir (artık) silinmiş kullanıcı “{file}” hakkındaki bir yorumda sizden bahsetti"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

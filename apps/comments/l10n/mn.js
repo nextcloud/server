@@ -25,8 +25,8 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s нь %2$s-д сэтгэгдэл бичсэн",
     "{author} commented on {file}" : "{author} нь {file}-д сэтгэгдэл бичсэн",
     "<strong>Comments</strong> for files" : "Файлууд дахь<strong>Сэтгэгдэлүүд</strong>",
-    "A (now) deleted user mentioned you in a comment on “%s”" : "A (now) deleted user mentioned you in a comment on “%s”",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s нь таныг “%2$s”-ы сэтгэгдэлд дурдсан",
-    "{user} mentioned you in a comment on “{file}”" : "{user} нь таныг “{file}”-ын сэтгэгдэлд дурдсан"
+    "{user} mentioned you in a comment on “{file}”" : "{user} нь таныг “{file}”-ын сэтгэгдэлд дурдсан",
+    "A (now) deleted user mentioned you in a comment on “%s”" : "A (now) deleted user mentioned you in a comment on “%s”"
 },
 "nplurals=2; plural=(n != 1);");
