@@ -140,6 +140,9 @@
 .atwho-view-ul * .avatar-name-wrapper,
 #commentsTabView .comment .authorRow {
 	position: relative;
+	display: inline-flex;
+	align-items: center;
+	width: 100%;
 }
 
 #commentsTabView .comment:not(.newCommentRow) .message .avatar-name-wrapper:not(.currentUser),
@@ -152,9 +155,6 @@
 .atwho-view-ul .avatar-name-wrapper,
 .atwho-view-ul .avatar-name-wrapper .avatar {
 	cursor: pointer;
-	display: inline-flex;
-	align-items: center;
-	width: 100%;
 }
 
 #commentsTabView .comments li .message .atwho-inserted {
