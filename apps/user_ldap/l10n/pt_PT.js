@@ -83,7 +83,6 @@ OC.L10N.register(
     "Saving" : "Guardando",
     "Back" : "Voltar",
     "Continue" : "Continuar",
-    "LDAP" : "LDAP",
     "Server" : "Servidor",
     "Users" : "Utilizadores",
     "Login Attributes" : "Atributos de Sessão",
@@ -144,6 +143,7 @@ OC.L10N.register(
     "Verify settings and count groups" : "Verificar condições e contar grupos",
     "Add a new and blank configuration" : "Adicione uma nova configuração em branco",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "Pode omitir o protocolo, excepto se necessitar de SSL. Neste caso, comece com ldaps://",
+    "LDAP" : "LDAP",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Aviso:</b> A aplicação user_ldap e user_webdavauth são incompativeis. A aplicação pode tornar-se instável. Por favor, peça ao seu administrador para desactivar uma das aplicações.",
     "in bytes" : "em bytes"
 },

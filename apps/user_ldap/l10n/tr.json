@@ -120,7 +120,6 @@
     "Wrong password. Reset it?" : "Parola yanlış. Sıfırlamak ister misiniz?",
     "Wrong password." : "Parola yanlış.",
     "Cancel" : "İptal",
-    "LDAP" : "LDAP",
     "Server" : "Sunucu",
     "Users" : "Kullanıcılar",
     "Login Attributes" : "Oturum Açma Öznitelikleri",
@@ -190,6 +189,7 @@
     "Verify settings and count groups" : "Ayarları doğrula ve grupları say",
     "Add a new and blank configuration" : "Yeni ve boş bir yapılandırma ekle",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "SSL gerekmiyorsa iletişim kuralı belirtilmeyebilir. Gerekiyorsa ldaps:// ile başlayın",
+    "LDAP" : "LDAP",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Uyarı:</b> user_ldap ve user_webdavauth uygulamaları uyumlu değil. Beklenmedik bir davranışla karşılaşabilirsiniz. Lütfen ikisinden birini devre dışı bırakmak için sistem yöneticinizle görüşün.",
     "in bytes" : "bayt cinsinden"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"

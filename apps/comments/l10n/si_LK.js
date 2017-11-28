@@ -25,9 +25,9 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s, %2$s තුල අදහස් දක්වා ඇත",
     "{author} commented on {file}" : "{author}, {file} තුල අදහසක් දක්වා ඇත",
     "<strong>Comments</strong> for files" : "ගොනු සදහා <strong>අදහස් </strong>",
-    "A (now) deleted user mentioned you in a comment on “%s”" : "මකන ලද සේවාදායකයෙක් (now) ඔබව %s අදහස තුල මතක් කර ඇත",
-    "A (now) deleted user mentioned you in a comment on “{file}”" : "{file} තුල අදහස් දැක්වීමකදී, (now) ඉවත්කරන ලද සේවාදායකයෙක් ඔබව මතක් කර ඇත",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s ඔබව %2$s හි අදහසක මතක් කර ඇත",
-    "{user} mentioned you in a comment on “{file}”" : "{user} ඔබව {file} තුලදී මතක් කර ඇත"
+    "{user} mentioned you in a comment on “{file}”" : "{user} ඔබව {file} තුලදී මතක් කර ඇත",
+    "A (now) deleted user mentioned you in a comment on “%s”" : "මකන ලද සේවාදායකයෙක් (now) ඔබව %s අදහස තුල මතක් කර ඇත",
+    "A (now) deleted user mentioned you in a comment on “{file}”" : "{file} තුල අදහස් දැක්වීමකදී, (now) ඉවත්කරන ලද සේවාදායකයෙක් ඔබව මතක් කර ඇත"
 },
 "nplurals=2; plural=(n != 1);");

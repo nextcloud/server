@@ -83,7 +83,6 @@
     "Saving" : "Menyimpan",
     "Back" : "Kembali",
     "Continue" : "Lanjutkan",
-    "LDAP" : "LDAP",
     "Server" : "Server",
     "Users" : "Pengguna",
     "Login Attributes" : "Atribut Login",
@@ -148,6 +147,7 @@
     "Verify settings and count groups" : "Verifikasi setelan dan hitung grup",
     "Add a new and blank configuration" : "Tambah konfigurasi kosong yang baru",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "Anda dapat mengabaikan protokol, kecuali Anda membutuhkan SSL. Lalu jalankan dengan ldaps://",
+    "LDAP" : "LDAP",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Peringatan:</b> Aplikasi user_ldap dan user_webdavauth tidak kompatibel. Anda mungkin akan mengalami perilaku yang tidak terduga. Silakan minta administrator Anda untuk menonaktifkan salah satunya.",
     "in bytes" : "dalam bytes"
 },"pluralForm" :"nplurals=1; plural=0;"

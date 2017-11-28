@@ -26,9 +26,9 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s komentoi te %2$s",
     "{author} commented on {file}" : "{author} komentoi në {file}",
     "<strong>Comments</strong> for files" : "<strong>Komente</strong> për skedarët",
-    "A (now) deleted user mentioned you in a comment on “%s”" : "Një përdorues i fshirë (tani) ju ka përmendur në një koment në \"%s\"",
-    "A (now) deleted user mentioned you in a comment on “{file}”" : "Një përdorues i fshirë (tani) ju ka përmendur në një koment në “{file}”",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s ju ka përmendur në një koment në “%2$s”",
-    "{user} mentioned you in a comment on “{file}”" : "{user} ju ka përmendur në një koment në “{file}”"
+    "{user} mentioned you in a comment on “{file}”" : "{user} ju ka përmendur në një koment në “{file}”",
+    "A (now) deleted user mentioned you in a comment on “%s”" : "Një përdorues i fshirë (tani) ju ka përmendur në një koment në \"%s\"",
+    "A (now) deleted user mentioned you in a comment on “{file}”" : "Një përdorues i fshirë (tani) ju ka përmendur në një koment në “{file}”"
 },
 "nplurals=2; plural=(n != 1);");

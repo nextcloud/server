@@ -26,9 +26,9 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s comentó en %2$s",
     "{author} commented on {file}" : "{autor} comentó en {ficheru}",
     "<strong>Comments</strong> for files" : "<strong>Comentarios</strong> pa ficheros",
-    "A (now) deleted user mentioned you in a comment on “%s”" : "Un usuariu (agora) desaniciáu mentóte nun comentariu de «%s»",
-    "A (now) deleted user mentioned you in a comment on “{file}”" : "Un usuariu (agora) desaniciáu mentóte nun comentariu de «{file}»",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s mentóte nun comentariu de «%2$s»",
-    "{user} mentioned you in a comment on “{file}”" : "{user} mentóte nun comentariu de «{file}»"
+    "{user} mentioned you in a comment on “{file}”" : "{user} mentóte nun comentariu de «{file}»",
+    "A (now) deleted user mentioned you in a comment on “%s”" : "Un usuariu (agora) desaniciáu mentóte nun comentariu de «%s»",
+    "A (now) deleted user mentioned you in a comment on “{file}”" : "Un usuariu (agora) desaniciáu mentóte nun comentariu de «{file}»"
 },
 "nplurals=2; plural=(n != 1);");

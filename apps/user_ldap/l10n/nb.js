@@ -122,7 +122,6 @@ OC.L10N.register(
     "Wrong password. Reset it?" : "Feilpassord. Tilbakestill?",
     "Wrong password." : "Feil passord.",
     "Cancel" : "Avbryt",
-    "LDAP" : "LDAP",
     "Server" : "Tjener",
     "Users" : "Brukere",
     "Login Attributes" : "Påloggingsattributter",
@@ -192,6 +191,7 @@ OC.L10N.register(
     "Verify settings and count groups" : "Sjekk innstillinger og tell gruppene",
     "Add a new and blank configuration" : "Legg til et nytt tomt oppsett",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "Du kan utelate protokollen, men du krever bruk av SSL.  Deretter start med ldaps://",
+    "LDAP" : "LDAP",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Advarsel:</b> Programmene user_ldap og user_webdavauth er ikke kompatible med hverandre. Uventet oppførsel kan forekomme. Be systemadministratoren om å deaktivere én av dem.",
     "in bytes" : "i Byte"
 },

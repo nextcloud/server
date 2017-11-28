@@ -26,9 +26,9 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s okomentoval %2$s",
     "{author} commented on {file}" : "{author} okomentoval(a) {file}",
     "<strong>Comments</strong> for files" : "<strong>Komentáře</strong> souborů",
-    "A (now) deleted user mentioned you in a comment on “%s”" : "A (now) deleted user mentioned you in a comment on “%s”",
-    "A (now) deleted user mentioned you in a comment on “{file}”" : "Nyní již smazaný uživatel vás zmínil v komentáři u \"{file}\"",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s vás zmínil(a) v komentáři u %2$s",
-    "{user} mentioned you in a comment on “{file}”" : "{user} vás zmínil v komentáři u “{file}”"
+    "{user} mentioned you in a comment on “{file}”" : "{user} vás zmínil v komentáři u “{file}”",
+    "A (now) deleted user mentioned you in a comment on “%s”" : "A (now) deleted user mentioned you in a comment on “%s”",
+    "A (now) deleted user mentioned you in a comment on “{file}”" : "Nyní již smazaný uživatel vás zmínil v komentáři u \"{file}\""
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

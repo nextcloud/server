@@ -110,7 +110,6 @@ OC.L10N.register(
     "Wrong password. Reset it?" : "암호가 잘못되었습니다. 초기화하시겠습니까?",
     "Wrong password." : "암호가 잘못되었습니다.",
     "Cancel" : "취소",
-    "LDAP" : "LDAP",
     "Server" : "서버",
     "Users" : "사용자",
     "Login Attributes" : "로그인 속성",
@@ -180,6 +179,7 @@ OC.L10N.register(
     "Verify settings and count groups" : "설정을 확인하고 그룹 수 계산",
     "Add a new and blank configuration" : "새 빈 설정 추가",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "SSL을 사용하지 않으면 프로토콜을 입력하지 않아도 됩니다. SSL을 사용하려면 ldaps://를 입력하십시오.",
+    "LDAP" : "LDAP",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>경고:</b> user_ldap, user_webdavauth 앱은 서로 호환되지 않습니다. 예상하지 못한 행동을 할 수도 있습니다. 시스템 관리자에게 연락하여 둘 중 하나의 앱의 사용을 중단하십시오.",
     "in bytes" : "바이트 단위"
 },

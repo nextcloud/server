@@ -122,7 +122,6 @@ OC.L10N.register(
     "Wrong password. Reset it?" : "Senha errada. Redefini-la?",
     "Wrong password." : "Senha errada.",
     "Cancel" : "Cancelar",
-    "LDAP" : "LDAP",
     "Server" : "Servidor",
     "Users" : "Usuários",
     "Login Attributes" : "Atributos de Acesso",
@@ -192,6 +191,7 @@ OC.L10N.register(
     "Verify settings and count groups" : "Verificar as configurações e grupos de conta",
     "Add a new and blank configuration" : "Adiciona uma configuração nova em branco",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "Você pode omitir o protocolo, exceto quando o SSL é requerido. Então inicie com ldaps://",
+    "LDAP" : "LDAP",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Aviso:</b> Os aplicativos user_ldap e user_webdavauth são incompatíveis e pode haver um comportamento inesperado. Por favor, peça ao administrador do sistema para desabilitar um deles.",
     "in bytes" : "em bytes"
 },

@@ -26,9 +26,9 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s 评论了 %2$s",
     "{author} commented on {file}" : "{author} 对 {file} 的评论",
     "<strong>Comments</strong> for files" : "文件的<strong>评论</strong>",
-    "A (now) deleted user mentioned you in a comment on “%s”" : "一个(已)被删除的用户在 “%s” 的评论中提到了您",
-    "A (now) deleted user mentioned you in a comment on “{file}”" : "一个(已)被删除的用户在 “{file}” 的评论中提到了您",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s 在 “%2$s” 的评论中提到了您",
-    "{user} mentioned you in a comment on “{file}”" : "{user} 在 “{file}” 的评论中提到了您"
+    "{user} mentioned you in a comment on “{file}”" : "{user} 在 “{file}” 的评论中提到了您",
+    "A (now) deleted user mentioned you in a comment on “%s”" : "一个(已)被删除的用户在 “%s” 的评论中提到了您",
+    "A (now) deleted user mentioned you in a comment on “{file}”" : "一个(已)被删除的用户在 “{file}” 的评论中提到了您"
 },
 "nplurals=1; plural=0;");

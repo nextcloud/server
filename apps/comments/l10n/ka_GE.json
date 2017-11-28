@@ -24,9 +24,9 @@
     "%1$s commented on %2$s" : "%1$s მომხმარებელმა გააკეთა კომენტარი %2$s-ზე",
     "{author} commented on {file}" : "{author} მომხმარებელმა გააკეთა კომენტარი {file}-ზე",
     "<strong>Comments</strong> for files" : "<strong>კომენტარები</strong> ფაილებზე",
-    "A (now) deleted user mentioned you in a comment on “%s”" : "(ახლა) წაშლილმა მოხმარებელმა მოგიხსენიათ კომენტარში “%s”-ზე",
-    "A (now) deleted user mentioned you in a comment on “{file}”" : "(ახლა) წაშლილმა მოხმარებელმა მოგიხსენიათ კომენტარში ფაილზე \"{file}\"",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s გახსენათ  “%2$s”-ზე გაკეთებულ კომენტარში",
-    "{user} mentioned you in a comment on “{file}”" : "{user} გახსენათ “{file}” ფაილზე გაკეტებულ კომენტარში"
+    "{user} mentioned you in a comment on “{file}”" : "{user} გახსენათ “{file}” ფაილზე გაკეტებულ კომენტარში",
+    "A (now) deleted user mentioned you in a comment on “%s”" : "(ახლა) წაშლილმა მოხმარებელმა მოგიხსენიათ კომენტარში “%s”-ზე",
+    "A (now) deleted user mentioned you in a comment on “{file}”" : "(ახლა) წაშლილმა მოხმარებელმა მოგიხსენიათ კომენტარში ფაილზე \"{file}\""
 },"pluralForm" :"nplurals=1; plural=0;"
 }

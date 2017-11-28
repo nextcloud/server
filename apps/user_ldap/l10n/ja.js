@@ -122,7 +122,6 @@ OC.L10N.register(
     "Wrong password. Reset it?" : "パスワードが間違っています。リセットしますか？",
     "Wrong password." : "パスワードが間違っています。",
     "Cancel" : "キャンセル",
-    "LDAP" : "LDAP",
     "Server" : "サーバー",
     "Users" : "ユーザー",
     "Login Attributes" : "ログイン属性",
@@ -192,6 +191,7 @@ OC.L10N.register(
     "Verify settings and count groups" : "設定を検証し、グループを数える",
     "Add a new and blank configuration" : "空欄の新しい設定を追加",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "SSL通信しない場合には、プロトコル名を省略することができます。そうでない場合には、ldaps:// から始めてください。",
+    "LDAP" : "LDAP",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>警告:</b> user_ldap と user_webdavauth のアプリには互換性がありません。予期せぬ動作をする可能性があります。システム管理者にどちらかを無効にするよう問い合わせてください。",
     "in bytes" : "バイト"
 },

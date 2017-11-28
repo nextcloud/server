@@ -24,9 +24,9 @@
     "%1$s commented on %2$s" : "%1$s kommentierte %2$s",
     "{author} commented on {file}" : "{author} hat {file} kommentiert",
     "<strong>Comments</strong> for files" : "<strong>Kommentare</strong> für Dateien",
-    "A (now) deleted user mentioned you in a comment on “%s”" : "Ein (nun) gelöschter Benutzer hat Sie in einem Kommentar zu \"%s\" erwähnt",
-    "A (now) deleted user mentioned you in a comment on “{file}”" : "Ein (nun) gelöschter Benutzer hat Sie in einem Kommentar zu “{file}” erwähnt",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s hat Sie in einem Kommentar zu “%2$s” erwähnt.",
-    "{user} mentioned you in a comment on “{file}”" : "{user} hat Sie in einem Kommentar zu “{file}” erwähnt"
+    "{user} mentioned you in a comment on “{file}”" : "{user} hat Sie in einem Kommentar zu “{file}” erwähnt",
+    "A (now) deleted user mentioned you in a comment on “%s”" : "Ein (nun) gelöschter Benutzer hat Sie in einem Kommentar zu \"%s\" erwähnt",
+    "A (now) deleted user mentioned you in a comment on “{file}”" : "Ein (nun) gelöschter Benutzer hat Sie in einem Kommentar zu “{file}” erwähnt"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
