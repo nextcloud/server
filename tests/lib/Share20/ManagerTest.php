@@ -2973,6 +2973,115 @@ class ManagerTest extends \Test\TestCase {
 		$this->defaultProvider->method('getAccessList')
 			->with(
 				$this->equalTo([$file, $folder]),
+				false
+			)
+			->willReturn([
+				'users' => [
+					'user1',
+					'user2',
+					'user3',
+					'123456',
+				],
+				'public' => true,
+			]);
+
+		$extraProvider->method('getAccessList')
+			->with(
+				$this->equalTo([$file, $folder]),
+				false
+			)
+			->willReturn([
+				'users' => [
+					'user3',
+					'user4',
+					'user5',
+					'234567',
+				],
+				'remote' => true,
+			]);
+
+		$this->rootFolder->method('getUserFolder')
+			->with($this->equalTo('owner'))
+			->willReturn($userFolder);
+
+		$expected = [
+			'users' => ['owner', 'user1', 'user2', 'user3', '123456','user4', 'user5', '234567'],
+			'remote' => true,
+			'public' => true,
+		];
+
+		$result = $manager->getAccessList($node, true, false);
+
+		$this->assertSame($expected['public'], $result['public']);
+		$this->assertSame($expected['remote'], $result['remote']);
+		$this->assertSame($expected['users'], $result['users']);
+
+	}
+
+	public function testGetAccessListWithCurrentAccess() {
+		$factory = new DummyFactory2($this->createMock(IServerContainer::class));
+
+		$manager = new Manager(
+			$this->logger,
+			$this->config,
+			$this->secureRandom,
+			$this->hasher,
+			$this->mountManager,
+			$this->groupManager,
+			$this->l,
+			$this->l10nFactory,
+			$factory,
+			$this->userManager,
+			$this->rootFolder,
+			$this->eventDispatcher,
+			$this->mailer,
+			$this->urlGenerator,
+			$this->defaults
+		);
+
+		$factory->setProvider($this->defaultProvider);
+		$extraProvider = $this->createMock(IShareProvider::class);
+		$factory->setSecondProvider($extraProvider);
+
+		$owner = $this->createMock(IUser::class);
+		$owner->expects($this->once())
+			->method('getUID')
+			->willReturn('owner');
+
+		$node = $this->createMock(Node::class);
+		$node->expects($this->once())
+			->method('getOwner')
+			->willReturn($owner);
+		$node->method('getId')
+			->willReturn(42);
+
+		$userFolder = $this->createMock(Folder::class);
+		$file = $this->createMock(File::class);
+		$folder = $this->createMock(Folder::class);
+
+		$file->method('getParent')
+			->willReturn($folder);
+		$file->method('getPath')
+			->willReturn('/owner/files/folder/file');
+		$file->method('getId')
+			->willReturn(23);
+		$folder->method('getParent')
+			->willReturn($userFolder);
+		$folder->method('getPath')
+			->willReturn('/owner/files/folder');
+		$userFolder->method('getById')
+			->with($this->equalTo(42))
+			->willReturn([$file]);
+		$userFolder->method('getPath')
+			->willReturn('/owner/files');
+
+		$this->userManager->method('userExists')
+			->with($this->equalTo('owner'))
+			->willReturn(true);
+
+		$this->defaultProvider->method('getAccessList')
+			->with(
+				$this->equalTo([$file, $folder]),
 				true
 			)
 			->willReturn([
@@ -2980,6 +3089,7 @@ class ManagerTest extends \Test\TestCase {
 					'user1' => [],
 					'user2' => [],
 					'user3' => [],
+					'123456' => [],
 				],
 				'public' => true,
 			]);
@@ -2994,6 +3104,7 @@ class ManagerTest extends \Test\TestCase {
 					'user3' => [],
 					'user4' => [],
 					'user5' => [],
+					'234567' => [],
 				],
 				'remote' => [
 					'remote1',
@@ -3010,7 +3121,7 @@ class ManagerTest extends \Test\TestCase {
 					'node_id' => 23,
 					'node_path' => '/folder/file'
 				]
-				, 'user1' => [], 'user2' => [], 'user3' => [], 'user4' => [], 'user5' => []],
+				, 'user1' => [], 'user2' => [], 'user3' => [], '123456' => [], 'user4' => [], 'user5' => [], '234567' => []],
 			'remote' => [
 				'remote1',
 			],
@@ -3021,7 +3132,7 @@ class ManagerTest extends \Test\TestCase {
 
 		$this->assertSame($expected['public'], $result['public']);
 		$this->assertSame($expected['remote'], $result['remote']);
-		$this->assertSame(array_values($expected['users']), array_values($result['users']));
+		$this->assertSame($expected['users'], $result['users']);
 
 	}
 }
