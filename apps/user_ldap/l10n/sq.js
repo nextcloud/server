@@ -118,7 +118,6 @@ OC.L10N.register(
     "Wrong password. Reset it?" : "Fjalëkalim i gabuar. Do ta rivendosësh?",
     "Wrong password." : "Fjalëkalim i gabuar.",
     "Cancel" : "Anullo",
-    "LDAP" : "LDAP",
     "Server" : "Shërbyes",
     "Users" : "Përdorues",
     "Login Attributes" : "Atribute Hyrjesh",
@@ -188,6 +187,7 @@ OC.L10N.register(
     "Verify settings and count groups" : "Verifiko rregullimet dhe numëro grupet",
     "Add a new and blank configuration" : "Shtoni një formësim të ri të zbrazët",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "Protokollin mund ta lini pa vënë, hiq rastin kur ju duhet SSL. Në atë rast filloni me ldaps://",
+    "LDAP" : "LDAP",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Kujdes:</b> user_ldap dhe user_webdavauth të aplikacionit janë të papërputhshëm. Mund t’ju ndodhin sjellje të papritura. Ju lutemi, kërkojini përgjegjësit të sistemit tuaj të çaktivizojë një prej tyre.",
     "in bytes" : "në bajte"
 },

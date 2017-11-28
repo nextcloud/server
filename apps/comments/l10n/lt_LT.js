@@ -26,9 +26,9 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s pakomentavo %2$s",
     "{author} commented on {file}" : "{author} pakomentavo {file}",
     "<strong>Comments</strong> for files" : "<strong>Failų komentarai</strong>",
-    "A (now) deleted user mentioned you in a comment on “%s”" : "Ištrintas vartotojas paminėjo jus komentare \"%s\"",
-    "A (now) deleted user mentioned you in a comment on “{file}”" : "Ištrintas vartotojas paminėjo jus komentare \"{file}\"",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s paminėjo jus komentare \"%2$s\"",
-    "{user} mentioned you in a comment on “{file}”" : "{user} paminėjo jus komentare “{file}”"
+    "{user} mentioned you in a comment on “{file}”" : "{user} paminėjo jus komentare “{file}”",
+    "A (now) deleted user mentioned you in a comment on “%s”" : "Ištrintas vartotojas paminėjo jus komentare \"%s\"",
+    "A (now) deleted user mentioned you in a comment on “{file}”" : "Ištrintas vartotojas paminėjo jus komentare \"{file}\""
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);");

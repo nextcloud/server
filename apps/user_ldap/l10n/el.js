@@ -110,7 +110,6 @@ OC.L10N.register(
     "Wrong password. Reset it?" : "Λάθος συνθηματικο. Επαναφορά;",
     "Wrong password." : "Εσφαλμένο συνθηματικό.",
     "Cancel" : "Ακύρωση",
-    "LDAP" : "LDAP",
     "Server" : "Διακομιστής",
     "Users" : "Χρήστες",
     "Login Attributes" : "Ιδιότητες Σύνδεσης",
@@ -168,6 +167,7 @@ OC.L10N.register(
     "Verify settings and count groups" : "Επιβεβαίωση ρυθμίσεων και καταμέτρηση ομάδων",
     "Add a new and blank configuration" : "Προσθέτει μια νέα και κενή διαμόρφωση",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "Μπορείτε να παραλείψετε το πρωτόκολλο, εκτός αν απαιτείται SSL. Σε αυτή την περίπτωση ξεκινήστε με ldaps://",
+    "LDAP" : "LDAP",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Προσοχή:</b> Οι εφαρμογές user_ldap και user_webdavauth είναι ασύμβατες. Μπορεί να αντιμετωπίσετε απρόβλεπτη συμπεριφορά. Παρακαλώ ζητήστε από τον διαχειριστή συστήματος να απενεργοποιήσει μία από αυτές.",
     "in bytes" : "σε bytes"
 },

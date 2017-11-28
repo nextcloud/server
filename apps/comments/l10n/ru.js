@@ -26,9 +26,9 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s прокомментировано на %2$s",
     "{author} commented on {file}" : "{author} прокомментировал {file}",
     "<strong>Comments</strong> for files" : "<strong>Комментарии</strong> к файлам",
-    "A (now) deleted user mentioned you in a comment on “%s”" : "Пользователь (удалённый в настоящее время) упомянул вас в комментарии к “%s”.",
-    "A (now) deleted user mentioned you in a comment on “{file}”" : "Пользователь (удалённый в настоящее время) упомянул вас в комментарии к “{file}”.",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s упомянул вас в комментарии к \"%2$s\"",
-    "{user} mentioned you in a comment on “{file}”" : "{user} упомянул вас в комментарии к “{file}”."
+    "{user} mentioned you in a comment on “{file}”" : "{user} упомянул вас в комментарии к “{file}”.",
+    "A (now) deleted user mentioned you in a comment on “%s”" : "Пользователь (удалённый в настоящее время) упомянул вас в комментарии к “%s”.",
+    "A (now) deleted user mentioned you in a comment on “{file}”" : "Пользователь (удалённый в настоящее время) упомянул вас в комментарии к “{file}”."
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

@@ -116,7 +116,6 @@ OC.L10N.register(
     "Wrong password. Reset it?" : "Neteisingas slaptažodis. Atstatyti jį?",
     "Wrong password." : "Neteisingas slaptažodis.",
     "Cancel" : "Atsisakyti",
-    "LDAP" : "LDAP",
     "Server" : "Serveris",
     "Users" : "Naudotojai",
     "Login Attributes" : "Prisijungimo atributai",
@@ -181,6 +180,7 @@ OC.L10N.register(
     "Verify settings and count groups" : "Patikrinkite nustatymus ir suskaičiuokite grupes",
     "Add a new and blank configuration" : "Pridėkite naują konfigūraciją",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "Jūs galite praleisti protokolą, nebent Jums reikalingas SSL. Jei taip, pradėkite su ldaps://",
+    "LDAP" : "LDAP",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Įspėjimas: </b> Programėlės user_ldap ir user_webdavauth yra nesuderinami. Tai gali sukelti nepageidaujamą veikimą.  Paprašykite, kad sistemos administratorius vieną jų išjungtų.",
     "in bytes" : "baitais"
 },

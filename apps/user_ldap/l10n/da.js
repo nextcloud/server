@@ -122,7 +122,6 @@ OC.L10N.register(
     "Wrong password. Reset it?" : "Forkert password.\nSkal det nulstilles?",
     "Wrong password." : "Forkert password.",
     "Cancel" : "Annullér",
-    "LDAP" : "LDAP",
     "Server" : "Server",
     "Users" : "Brugere",
     "Login Attributes" : "Login-attributter",
@@ -192,6 +191,7 @@ OC.L10N.register(
     "Verify settings and count groups" : "Verificér indstillinger og optællingsgrupper",
     "Add a new and blank configuration" : "Tilføj en ny og tom konfiguration",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "Du kan udelade protokollen, medmindre du skal bruge SSL. Start i så fald med ldaps://",
+    "LDAP" : "LDAP",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Advarsel:</b> Apps'ene user_ldap og user_webdavauth er ikke kompatible. Du kan opleve uventet adfærd. Spørg venligst din systemadministrator om at slå én af dem fra.",
     "in bytes" : "i bytes"
 },

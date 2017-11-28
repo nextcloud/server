@@ -122,7 +122,6 @@ OC.L10N.register(
     "Wrong password. Reset it?" : "Chybné heslo. Resetovat?",
     "Wrong password." : "Chybné heslo.",
     "Cancel" : "Zrušit",
-    "LDAP" : "LDAP",
     "Server" : "Server",
     "Users" : "Uživatelé",
     "Login Attributes" : "Přihlašovací atributy",
@@ -192,6 +191,7 @@ OC.L10N.register(
     "Verify settings and count groups" : "Ověřit nastavení a spočítat skupiny",
     "Add a new and blank configuration" : "Přidat novou a prázdnou konfiguraci",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "Můžete vynechat protokol, vyjma pokud požadujete SSL. Tehdy začněte s ldaps://",
+    "LDAP" : "LDAP",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Varování:</b> Aplikace user_ldap a user_webdavauth jsou vzájemně nekompatibilní. Můžete zaznamenat neočekávané chování. Požádejte prosím svého správce systému o zakázání jedné z nich.",
     "in bytes" : "v bajtech"
 },

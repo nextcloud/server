@@ -122,7 +122,6 @@ OC.L10N.register(
     "Wrong password. Reset it?" : "არასწორი პაროლი. აღვადგინოთ?",
     "Wrong password." : "არასწორი პაროლი.",
     "Cancel" : "უარყოფა",
-    "LDAP" : "LDAP",
     "Server" : "სერვერი",
     "Users" : "მომხმარებლები",
     "Login Attributes" : "ავტორიზაციის ატრიბუტები",
@@ -192,6 +191,7 @@ OC.L10N.register(
     "Verify settings and count groups" : "დაამოწმეთ პარამეტრები და დათვალეთ ჯგუფები",
     "Add a new and blank configuration" : "დაამტეთ ახალი და ცარიელი კონფიგურაცია",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "იმ შემთხვევაში, თუ არ საჭიროებთ SSL-ს, შეგიზლიათ გამოტოვოთ პროტოკოლი. სხვა შემთხვევაში, დაიწყეთ ldaps://",
+    "LDAP" : "LDAP",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>გაფრთხილება:</b> აპლიკაციები user_ldap და user_webdavauth არაა თავსებადი. შესაძლოა შეგვხდეთ მოულოდნელი ქმედება. გთხოვთ სთხოვოთ თქვენი სისტემის ადმინისტრატორს ერთ-ერთის გათიშვა.",
     "in bytes" : "ბაიტებში"
 },

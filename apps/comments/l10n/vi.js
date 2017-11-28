@@ -26,9 +26,9 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s đã bình luận về%2$s",
     "{author} commented on {file}" : "{author} đã bình luận về tệp tin {file}",
     "<strong>Comments</strong> for files" : "<strong>bình luận</strong> đối với các tệp tin",
-    "A (now) deleted user mentioned you in a comment on “%s”" : "Có một người sử dụng (now) bị xóa đã đề cập tới bạn trong một bình luận về “%s”",
-    "A (now) deleted user mentioned you in a comment on “{file}”" : "Có một người sử dụng (now) bị xóa đã đề cập tới bạn trong một bình luận về “{file}”",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s đề cập tới bạn trong một bình luận về “%2$s”",
-    "{user} mentioned you in a comment on “{file}”" : "{user} đề cập tới bạn trong một bình luận về “{file}”"
+    "{user} mentioned you in a comment on “{file}”" : "{user} đề cập tới bạn trong một bình luận về “{file}”",
+    "A (now) deleted user mentioned you in a comment on “%s”" : "Có một người sử dụng (now) bị xóa đã đề cập tới bạn trong một bình luận về “%s”",
+    "A (now) deleted user mentioned you in a comment on “{file}”" : "Có một người sử dụng (now) bị xóa đã đề cập tới bạn trong một bình luận về “{file}”"
 },
 "nplurals=1; plural=0;");

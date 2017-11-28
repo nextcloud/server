@@ -102,7 +102,6 @@ OC.L10N.register(
     "Renew password" : "Renovar contraseña",
     "Wrong password." : "Contraseña incorreuta.",
     "Cancel" : "Encaboxar",
-    "LDAP" : "LDAP",
     "Server" : "Sirvidor",
     "Users" : "Usuarios",
     "Login Attributes" : "Los atributos d'aniciu de sesión",
@@ -164,6 +163,7 @@ OC.L10N.register(
     "Verify settings and count groups" : "Comprobar la configuración y grupos de recuentu",
     "Add a new and blank configuration" : "Amestar una configuración nueva y en blancu",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "Pues omitir el protocolu, sacantes si necesites SSL. Nesi casu, entama con ldaps://",
+    "LDAP" : "LDAP",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Avisu:</b> Les apps user_ldap y user_webdavauth son incompatibles. Pues esperimentar un comportamientu inesperáu. Entruga al to alministrador de sistemes pa desactivar una d'elles.",
     "in bytes" : "en bytes"
 },

@@ -26,9 +26,9 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s %2$s-en iruzkin du",
     "{author} commented on {file}" : "{author}-(e)k {file}-en iruzkin du",
     "<strong>Comments</strong> for files" : "Fitxategientzako <strong>iruzkinak",
-    "A (now) deleted user mentioned you in a comment on “%s”" : "(Orain) ezabatutako erabiltzaile batek aipatu zaitu iruzkinean \"%s\"",
-    "A (now) deleted user mentioned you in a comment on “{file}”" : "(Orain) ezabatutako erabiltzaile batek aipatu zaitu iruzkinean “{file}”",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s-(e)k aipatu zaitu iruzkinean “%2$s”",
-    "{user} mentioned you in a comment on “{file}”" : "{user}-(e)k aipatu zaitu iruzkinean “{file}”"
+    "{user} mentioned you in a comment on “{file}”" : "{user}-(e)k aipatu zaitu iruzkinean “{file}”",
+    "A (now) deleted user mentioned you in a comment on “%s”" : "(Orain) ezabatutako erabiltzaile batek aipatu zaitu iruzkinean \"%s\"",
+    "A (now) deleted user mentioned you in a comment on “{file}”" : "(Orain) ezabatutako erabiltzaile batek aipatu zaitu iruzkinean “{file}”"
 },
 "nplurals=2; plural=(n != 1);");

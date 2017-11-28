@@ -24,9 +24,9 @@
     "%1$s commented on %2$s" : "%1$s a comentat la %2$s",
     "{author} commented on {file}" : " {author} a comentat la {file}",
     "<strong>Comments</strong> for files" : "<strong>Comentarii</strong> la fișiere",
-    "A (now) deleted user mentioned you in a comment on “%s”" : "Un utilizator (momentan) șters te-a menționat într-un comentariu la ”%s”",
-    "A (now) deleted user mentioned you in a comment on “{file}”" : "Un utilizator (momentan) șters te-a menționat într-un comentariu la ”{file}”",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s te-a menționat într-un comentariu la ”%2$s”",
-    "{user} mentioned you in a comment on “{file}”" : "{user} te-a menționat într-un comentariu la ”{file}”"
+    "{user} mentioned you in a comment on “{file}”" : "{user} te-a menționat într-un comentariu la ”{file}”",
+    "A (now) deleted user mentioned you in a comment on “%s”" : "Un utilizator (momentan) șters te-a menționat într-un comentariu la ”%s”",
+    "A (now) deleted user mentioned you in a comment on “{file}”" : "Un utilizator (momentan) șters te-a menționat într-un comentariu la ”{file}”"
 },"pluralForm" :"nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));"
 }
