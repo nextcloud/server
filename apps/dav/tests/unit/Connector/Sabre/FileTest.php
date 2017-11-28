@@ -370,7 +370,7 @@ class FileTest extends \Test\TestCase {
 			],
 			"string castable hex int" => [
 					'HTTP_X_OC_MTIME' => "0x45adf",
-					'expected result' => 0
+					'expected result' => null
 			],
 			"string that looks like invalid hex int" => [
 					'HTTP_X_OC_MTIME' => "0x123g",

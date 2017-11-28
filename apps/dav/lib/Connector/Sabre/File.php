@@ -590,7 +590,11 @@ class File extends Node implements IFile {
 	}
 
 	private function sanitizeMtime($mtimeFromRequest) {
-		if (!is_numeric($mtimeFromRequest)) {
+		// In PHP 5.X "is_numeric" returns true for strings in hexadecimal
+		// notation. This is no longer the case in PHP 7.X, so this check
+		// ensures that strings with hexadecimal notations fail too in PHP 5.X.
+		$isHexadecimal = is_string($mtimeFromRequest) && preg_match('/^\s*0[xX]/', $mtimeFromRequest);
+		if ($isHexadecimal || !is_numeric($mtimeFromRequest)) {
 			throw new \InvalidArgumentException('X-OC-MTime header must be an integer (unix timestamp).');
 		}
 
