@@ -31,6 +31,7 @@
 namespace OCA\Federation\BackgroundJob;
 
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ConnectException;
 use OC\BackgroundJob\JobList;
 use OC\BackgroundJob\Job;
 use OCA\Federation\DbHandler;
@@ -196,6 +197,8 @@ class GetSharedSecret extends Job {
 			} else {
 				$this->logger->info($target . ' responded with a ' . $status . ' containing: ' . $e->getMessage(), ['app' => 'federation']);
 			}
+		} catch (ConnectException $e) {
+			$this->logger->info('Could not connect to ' . $target, ['app' => 'federation']);
 		} catch (\Exception $e) {
 			$status = Http::STATUS_INTERNAL_SERVER_ERROR;
 			$this->logger->logException($e, ['app' => 'federation']);
