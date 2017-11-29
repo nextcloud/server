@@ -61,6 +61,9 @@ class ExceptionLoggerPlugin extends \Sabre\DAV\ServerPlugin {
 		// happens if some a client uses the wrong method for a given URL
 		// the error message itself is visible on the client side anyways
 		NotImplemented::class => true,
+		// Happens when a user has 2 factor auth enabled and tries to login
+		// with their normal password.
+		PasswordLoginForbidden::class => true,
 	];
 
 	/** @var string */
