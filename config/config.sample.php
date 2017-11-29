@@ -242,6 +242,9 @@ $CONFIG = array(
  * The directory where the skeleton files are located. These files will be
  * copied to the data directory of new users. Leave empty to not copy any
  * skeleton files.
+ * ``{lang}`` can be used as a placeholder for the language of the user.
+ * If the directory does not exist, it falls back to non dialect (from ``de_DE``
+ * to ``de``). If that does not exist either, it falls back to ``en``
  *
  * Defaults to ``core/skeleton`` in the Nextcloud directory.
  */
