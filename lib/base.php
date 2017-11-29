@@ -237,7 +237,6 @@ class OC {
 		$configFileWritable = is_writable($configFilePath);
 		if (!$configFileWritable && !OC_Helper::isReadOnlyConfigEnabled()
 			|| !$configFileWritable && self::checkUpgrade(false)) {
-
 			$urlGenerator = \OC::$server->getURLGenerator();
 
 			if (self::$CLI) {
@@ -249,9 +248,7 @@ class OC {
 				echo $l->t('See %s', [ $urlGenerator->linkToDocs('admin-config') ])."\n";
 				exit;
 			} else {
-
-				header('HTTP/1.1 500 Internal Server Error');
-				header('Status: 500 Internal Server Error');
+				http_response_code(500);
 				OC_Template::printErrorPage(
 					$l->t('Cannot write into "config" directory!'),
 					$l->t('This can usually be fixed by giving the webserver write access to the config directory. See %s',
