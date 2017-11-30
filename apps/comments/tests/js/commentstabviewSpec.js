@@ -255,6 +255,34 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 				creationDateTime: new Date(Date.UTC(2016, 1, 3, 10, 5, 9)).toUTCString()
 			});
 		});
+		it('creates a new comment when typing enter', function() {
+			$newCommentForm.find('.message').text('New message');
+			var keydownEvent = new $.Event('keydown', {keyCode: 13});
+			$newCommentForm.find('.message').trigger(keydownEvent);
+
+			expect(createStub.calledOnce).toEqual(true);
+			expect(createStub.lastCall.args[0]).toEqual({
+				actorId: 'testuser',
+				actorDisplayName: 'Test User',
+				actorType: 'users',
+				verb: 'comment',
+				message: 'New message',
+				creationDateTime: new Date(Date.UTC(2016, 1, 3, 10, 5, 9)).toUTCString()
+			});
+			expect(keydownEvent.isDefaultPrevented()).toEqual(true);
+		});
+		it('creates a new line when typing shift+enter', function() {
+			$newCommentForm.find('.message').text('New message');
+			var keydownEvent = new $.Event('keydown', {keyCode: 13, shiftKey: true});
+			$newCommentForm.find('.message').trigger(keydownEvent);
+
+			expect(createStub.calledOnce).toEqual(false);
+			// PhantomJS does not seem to handle typing in a contenteditable, so
+			// instead of looking for a new line the best that can be done is
+			// checking that the default behaviour would have been executed.
+			expect($newCommentForm.find('.message').text()).toContain('New message');
+			expect(keydownEvent.isDefaultPrevented()).toEqual(false);
+		});
 		it('creates a new comment with mentions when clicking post button', function() {
 			$newCommentForm.find('.message').text('New message @anotheruser');
 			$newCommentForm.submit();
