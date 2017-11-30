@@ -108,7 +108,7 @@ OC.L10N.register(
     "Download %s" : "Last ned %s",
     "Upload files to %s" : "Last opp filer til %s",
     "Select or drop files" : "Velg eller slipp filer",
-    "Uploading files…" : "Laster opp filer...",
+    "Uploading files…" : "Laster opp filer…",
     "Uploaded files:" : "Opplastede filer:",
     "%s is publicly shared" : "%s er delt offentlig"
 },

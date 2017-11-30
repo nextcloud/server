@@ -26,7 +26,7 @@
     "not between" : "ikke mellom",
     "Start" : "Start",
     "End" : "Slutt",
-    "Select timezone…" : "Velg tidssone ...",
+    "Select timezone…" : "Velg tidssone…",
     "Request URL" : "Ønsk en URL",
     "Predefined URLs" : "Forhåndsdefinerte URLer",
     "Files WebDAV" : "Filer WebDAV",
@@ -63,8 +63,8 @@
     "Add rule" : "Legg til regel",
     "Reset" : "Tilbakestill",
     "Save" : "Lagre",
-    "Saving…" : "Lagrer ...",
-    "Loading…" : "Laster ...",
+    "Saving…" : "Lagrer…",
+    "Loading…" : "Laster…",
     "Successfully saved" : "Lagret",
     "File mime type" : "Filens MIME-type"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

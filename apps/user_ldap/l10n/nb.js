@@ -20,7 +20,7 @@ OC.L10N.register(
     "Good password" : "Bra passord",
     "Strong password" : "Sterkt passord",
     "The Base DN appears to be wrong" : "Basis-DN ser ut til å være feil",
-    "Testing configuration…" : "Tester konfigurasjonen...",
+    "Testing configuration…" : "Tester oppsettet…",
     "Configuration incorrect" : "Oppsettet er galt",
     "Configuration incomplete" : "Ufullstendig oppsett",
     "Configuration OK" : "Oppsett OK",
