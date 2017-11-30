@@ -291,15 +291,14 @@ class OC {
 
 	/**
 	 * Prints the upgrade page
+	 *
+	 * @param \OC\SystemConfig $systemConfig
 	 */
-	private static function printUpgradePage() {
-		$systemConfig = \OC::$server->getSystemConfig();
-
+	private static function printUpgradePage(\OC\SystemConfig $systemConfig) {
 		$disableWebUpdater = $systemConfig->getValue('upgrade.disable-web', false);
 		$tooBig = false;
 		if (!$disableWebUpdater) {
 			$apps = \OC::$server->getAppManager();
-			$tooBig = false;
 			if ($apps->isInstalled('user_ldap')) {
 				$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
 
@@ -903,7 +902,7 @@ class OC {
 		if (!$systemConfig->getValue('installed', false)) {
 			\OC::$server->getSession()->clear();
 			$setupHelper = new OC\Setup(
-				\OC::$server->getSystemConfig(),
+				$systemConfig,
 				\OC::$server->getIniWrapper(),
 				\OC::$server->getL10N('lib'),
 				\OC::$server->query(\OCP\Defaults::class),
@@ -929,7 +928,7 @@ class OC {
 					opcache_reset();
 				}
 				if (!$systemConfig->getValue('maintenance', false)) {
-					self::printUpgradePage();
+					self::printUpgradePage($systemConfig);
 					exit();
 				}
 			}
