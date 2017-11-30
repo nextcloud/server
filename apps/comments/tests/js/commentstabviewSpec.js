@@ -219,6 +219,7 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 	describe('posting comments', function() {
 		var createStub;
 		var currentUserStub;
+		var $newCommentForm;
 
 		beforeEach(function() {
 			view.collection.set(testComments);
@@ -228,6 +229,8 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 				uid: 'testuser',
 				displayName: 'Test User'
 			});
+
+			$newCommentForm = view.$el.find('.newCommentForm');
 
 			// Required for the absolute selector used to find the new comment
 			// after a successful creation in _onSubmitSuccess.
@@ -239,8 +242,8 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 		});
 
 		it('creates a new comment when clicking post button', function() {
-			view.$el.find('.message').text('New message');
-			view.$el.find('form').submit();
+			$newCommentForm.find('.message').text('New message');
+			$newCommentForm.submit();
 
 			expect(createStub.calledOnce).toEqual(true);
 			expect(createStub.lastCall.args[0]).toEqual({
@@ -253,8 +256,8 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 			});
 		});
 		it('creates a new comment with mentions when clicking post button', function() {
-			view.$el.find('.message').text('New message @anotheruser');
-			view.$el.find('form').submit();
+			$newCommentForm.find('.message').text('New message @anotheruser');
+			$newCommentForm.submit();
 
 			var createStubExpectedData = {
 				actorId: 'testuser',
@@ -297,8 +300,8 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 			expect($message.find('.avatar[data-user=anotheruser] ~ .contactsmenu-popover').length).toEqual(1);
 		});
 		it('does not create a comment if the field is empty', function() {
-			view.$el.find('.message').val('   ');
-			view.$el.find('form').submit();
+			$newCommentForm.find('.message').val('   ');
+			$newCommentForm.submit();
 
 			expect(createStub.notCalled).toEqual(true);
 		});
@@ -307,8 +310,8 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 			for (var i = 0; i < view._commentMaxLength * 2; i++) {
 				bigMessage += 'a';
 			}
-			view.$el.find('.message').val(bigMessage);
-			view.$el.find('form').submit();
+			$newCommentForm.find('.message').val(bigMessage);
+			$newCommentForm.submit();
 
 			expect(createStub.notCalled).toEqual(true);
 		});
@@ -319,8 +322,8 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 
 			beforeEach(function() {
 				tooltipStub = sinon.stub($.fn, 'tooltip');
-				$message = view.$el.find('.message');
-				$submitButton = view.$el.find('.submit');
+				$message = $newCommentForm.find('.message');
+				$submitButton = $newCommentForm.find('.submit');
 			});
 			afterEach(function() { 
 				tooltipStub.restore(); 
