@@ -236,7 +236,7 @@ class OC {
 		// Check if config is writable
 		$configFileWritable = is_writable($configFilePath);
 		if (!$configFileWritable && !OC_Helper::isReadOnlyConfigEnabled()
-			|| !$configFileWritable && self::checkUpgrade(false)) {
+			|| !$configFileWritable && \OCP\Util::needUpgrade()) {
 
 			$urlGenerator = \OC::$server->getURLGenerator();
 
@@ -287,27 +287,6 @@ class OC {
 			$template->printPage();
 			die();
 		}
-	}
-
-	/**
-	 * Checks if the version requires an update and shows
-	 * @param bool $showTemplate Whether an update screen should get shown
-	 * @return bool|void
-	 */
-	public static function checkUpgrade($showTemplate = true) {
-		if (\OCP\Util::needUpgrade()) {
-			if (function_exists('opcache_reset')) {
-				opcache_reset();
-			}
-			$systemConfig = \OC::$server->getSystemConfig();
-			if ($showTemplate && !$systemConfig->getValue('maintenance', false)) {
-				self::printUpgradePage();
-				exit();
-			} else {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	/**
@@ -723,7 +702,7 @@ class OC {
 		);
 
 		//setup extra user backends
-		if (!self::checkUpgrade(false)) {
+		if (!\OCP\Util::needUpgrade()) {
 			OC_User::setupBackends();
 		} else {
 			// Run upgrades in incognito mode
@@ -806,7 +785,7 @@ class OC {
 	 */
 	public static function registerCleanupHooks() {
 		//don't try to do this before we are properly setup
-		if (\OC::$server->getSystemConfig()->getValue('installed', false) && !self::checkUpgrade(false)) {
+		if (\OC::$server->getSystemConfig()->getValue('installed', false) && !\OCP\Util::needUpgrade()) {
 
 			// NOTE: This will be replaced to use OCP
 			$userSession = self::$server->getUserSession();
@@ -944,7 +923,16 @@ class OC {
 		}
 		if (substr($requestPath, -3) !== '.js') { // we need these files during the upgrade
 			self::checkMaintenanceMode();
-			self::checkUpgrade();
+
+			if (\OCP\Util::needUpgrade()) {
+				if (function_exists('opcache_reset')) {
+					opcache_reset();
+				}
+				if (!$systemConfig->getValue('maintenance', false)) {
+					self::printUpgradePage();
+					exit();
+				}
+			}
 		}
 
 		// emergency app disabling
@@ -967,7 +955,7 @@ class OC {
 		OC_App::loadApps(['authentication']);
 
 		// Load minimum set of apps
-		if (!self::checkUpgrade(false)
+		if (!\OCP\Util::needUpgrade()
 			&& !$systemConfig->getValue('maintenance', false)) {
 			// For logged-in users: Load everything
 			if(\OC::$server->getUserSession()->isLoggedIn()) {
@@ -981,7 +969,7 @@ class OC {
 
 		if (!self::$CLI) {
 			try {
-				if (!$systemConfig->getValue('maintenance', false) && !self::checkUpgrade(false)) {
+				if (!$systemConfig->getValue('maintenance', false) && !\OCP\Util::needUpgrade()) {
 					OC_App::loadApps(array('filesystem', 'logging'));
 					OC_App::loadApps();
 				}
