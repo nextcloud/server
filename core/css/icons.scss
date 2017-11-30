@@ -89,15 +89,10 @@ img, object, video, button, textarea, input, select, div[contenteditable=true] {
 	background-size: 32px !important;
 }
 
-.icon-shadow {
-	filter: drop-shadow(1px 1px 4px $color-box-shadow);
-	&.icon-white {
-		filter: invert(100%) drop-shadow(1px 1px 4px $color-box-shadow);
-	}
-}
-
 .icon-white {
 	filter: invert(100%);
+	&.icon-shadow {
+		filter: invert(100%) drop-shadow(1px 1px 4px $color-box-shadow);
 }
 
 /* ICONS -------------------------------------------------------------------- */
