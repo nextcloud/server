@@ -26,6 +26,8 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s kommenterede %2$s",
     "{author} commented on {file}" : "{author} kommenterede {file}",
     "<strong>Comments</strong> for files" : "<strong>Kommentarer</strong> for filer",
+    "You were mentioned on “%s”, in a comment by a user that has since been deleted" : "Du blev nævnt i \"%s”, I en kommentar af en bruger der siden er blevet slettet",
+    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Du blev nævnt i \"{file}”, I en kommentar af en bruger der siden er blevet slettet",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s nævnte dig i en kommentarer på “%2$s”",
     "{user} mentioned you in a comment on “{file}”" : "{user} nævnte dig i en kommentarer på \"{file}\"",
     "A (now) deleted user mentioned you in a comment on “%s”" : "En (nu) slettet bruger nævnte dig i en kommentarer på “%s”",

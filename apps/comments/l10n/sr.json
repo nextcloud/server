@@ -24,6 +24,8 @@
     "%1$s commented on %2$s" : "%1$s коментарисао на %2$s",
     "{author} commented on {file}" : "{author} коментарисао на {file}",
     "<strong>Comments</strong> for files" : "<strong>Коментари</strong> на фајлове",
+    "You were mentioned on “%s”, in a comment by a user that has since been deleted" : "Поменути сте у \"%s\", у коментару који је оставио корисник који је од тада избрисан",
+    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Поменути сте на фајлу \"{file}\", у коментару који је оставио корисник који је од тада избрисан",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s Вас је поменуо у коментару на \"%2$s\"",
     "{user} mentioned you in a comment on “{file}”" : "{user} Вас је поменуо у коментару на “{file}”",
     "A (now) deleted user mentioned you in a comment on “%s”" : "(Сада) обрисани корисник Вас је поменуо у коментару на “%s”",

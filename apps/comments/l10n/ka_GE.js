@@ -26,6 +26,8 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s მომხმარებელმა გააკეთა კომენტარი %2$s-ზე",
     "{author} commented on {file}" : "{author} მომხმარებელმა გააკეთა კომენტარი {file}-ზე",
     "<strong>Comments</strong> for files" : "<strong>კომენტარები</strong> ფაილებზე",
+    "You were mentioned on “%s”, in a comment by a user that has since been deleted" : "თქვენ მოგიხსენიეს “%s”-ში, ახლა უკვე გაუქმებული მომხმარებლის კომენტარში",
+    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "თქვენ მოგიხსენიეს “{file}”-ში, ახლა უკვე გაუქმებული მომხმარებლის კომენტარში",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s გახსენათ  “%2$s”-ზე გაკეთებულ კომენტარში",
     "{user} mentioned you in a comment on “{file}”" : "{user} გახსენათ “{file}” ფაილზე გაკეტებულ კომენტარში",
     "A (now) deleted user mentioned you in a comment on “%s”" : "(ახლა) წაშლილმა მოხმარებელმა მოგიხსენიათ კომენტარში “%s”-ზე",
