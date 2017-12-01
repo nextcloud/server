@@ -290,8 +290,9 @@ class Factory implements IFactory {
 
 		// use formal version of german ("Sie" instead of "Du") if the default
 		// language is set to 'de_DE' if possible
-		if (strtolower($lang) === 'de'
-			&& strtolower($defaultLanguage) === 'de_de' &&
+		if (is_string($defaultLanguage) &&
+			strtolower($lang) === 'de' &&
+			strtolower($defaultLanguage) === 'de_de' &&
 			$this->languageExists($app, 'de_DE')
 		) {
 			$result = 'de_DE';
