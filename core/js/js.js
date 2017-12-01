@@ -80,6 +80,13 @@ var OCP = {},
 	 */
 	webroot:oc_webroot,
 
+	/**
+	 * Capabilities
+	 *
+	 * @type array
+	 */
+	_capabilities: window.oc_capabilities || null,
+
 	appswebroots:(typeof oc_appswebroots !== 'undefined') ? oc_appswebroots:false,
 	/**
 	 * Currently logged in user or null if none
@@ -306,6 +313,18 @@ var OCP = {},
 	 */
 	getRootPath: function() {
 		return OC.webroot;
+	},
+
+
+	/**
+	 * Returns the capabilities
+	 *
+	 * @return {array} capabilities
+	 *
+	 * @since 13.0
+	 */
+	getCapabilities: function() {
+		return OC._capabilities;
 	},
 
 	/**

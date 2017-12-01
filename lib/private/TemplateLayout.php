@@ -156,7 +156,8 @@ class TemplateLayout extends \OC_Template {
 					$this->config,
 					\OC::$server->getGroupManager(),
 					\OC::$server->getIniWrapper(),
-					\OC::$server->getURLGenerator()
+					\OC::$server->getURLGenerator(),
+					\OC::$server->getCapabilitiesManager()
 				);
 				$this->assign('inline_ocjs', $jsConfigHelper->getConfig());
 			} else {
