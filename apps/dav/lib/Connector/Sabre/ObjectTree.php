@@ -160,7 +160,7 @@ class ObjectTree extends \Sabre\DAV\Tree {
 			try {
 				$info = $this->fileView->getFileInfo($path);
 
-				if ($info->getStorage()->instanceOfStorage(FailedStorage::class)) {
+				if ($info instanceof \OCP\Files\FileInfo && $info->getStorage()->instanceOfStorage(FailedStorage::class)) {
 					throw new StorageNotAvailableException();
 				}
 			} catch (StorageNotAvailableException $e) {
