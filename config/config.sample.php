@@ -1083,7 +1083,7 @@ $CONFIG = array(
  * server configuration above, and perform HA on the hostname.
  *
  * Redis Cluster support requires the php module phpredis in version 3.0.0 or
- * higher for PHP 7+ or phpredis in version 2.2.8 for PHP 5.6.
+ * higher.
  *
  * Available failover modes:
  *  - \RedisCluster::FAILOVER_NONE - only send commands to master nodes (default)
