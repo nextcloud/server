@@ -39,6 +39,7 @@
     "A calendar <strong>event</strong> was modified" : "<strong>Událost</strong> v kalendáři byla změněna",
     "A calendar <strong>todo</strong> was modified" : "<strong>Úkol</strong> v kalendáři byl změněn",
     "Contact birthdays" : "Narozeniny kontaktů",
+    "%s via %s" : "%s přes %s",
     "Invitation canceled" : "Pozvánka zrušena",
     "Hello %s," : "Dobrý den %s,",
     "The meeting »%s« with %s was canceled." : "Setkání »%s« s %s bylo zrušeno.",
