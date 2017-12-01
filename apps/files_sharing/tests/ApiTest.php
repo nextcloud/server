@@ -37,6 +37,7 @@ use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
+use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 
@@ -105,6 +106,7 @@ class ApiTest extends TestCase {
 			->will($this->returnCallback(function($text, $parameters = []) {
 				return vsprintf($text, $parameters);
 			}));
+		$config = $this->createMock(IConfig::class);
 
 		return new ShareAPIController(
 			self::APP_NAME,
@@ -115,7 +117,8 @@ class ApiTest extends TestCase {
 			\OC::$server->getRootFolder(),
 			\OC::$server->getURLGenerator(),
 			$userId,
-			$l
+			$l,
+			$config
 		);
 	}
 

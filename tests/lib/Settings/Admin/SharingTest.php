@@ -25,6 +25,7 @@ namespace Test\Settings\Admin;
 
 use OC\Settings\Admin\Sharing;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\Constants;
 use OCP\IConfig;
 use OCP\IL10N;
 use Test\TestCase;
@@ -114,6 +115,11 @@ class SharingTest extends TestCase {
 			->method('getAppValue')
 			->with('core', 'shareapi_enable_link_password_by_default', 'no')
 			->willReturn('yes');
+		$this->config
+			->expects($this->at(13))
+			->method('getAppValue')
+			->with('core', 'shareapi_default_permissions', Constants::PERMISSION_ALL)
+			->willReturn(Constants::PERMISSION_ALL);
 
 		$expected = new TemplateResponse(
 			'settings',
@@ -133,7 +139,9 @@ class SharingTest extends TestCase {
 				'shareExcludeGroups'              => false,
 				'shareExcludedGroupsList'         => '',
 				'publicShareDisclaimerText'       => 'Lorem ipsum',
-				'enableLinkPasswordByDefault'     => 'yes'
+				'enableLinkPasswordByDefault'     => 'yes',
+				'shareApiDefaultPermissions'      => Constants::PERMISSION_ALL,
+				'shareApiDefaultPermissionsCheckboxes' => $this->invokePrivate($this->admin, 'getSharePermissionList', [])
 			],
 			''
 		);
@@ -207,6 +215,12 @@ class SharingTest extends TestCase {
 			->method('getAppValue')
 			->with('core', 'shareapi_enable_link_password_by_default', 'no')
 			->willReturn('yes');
+		$this->config
+			->expects($this->at(13))
+			->method('getAppValue')
+			->with('core', 'shareapi_default_permissions', Constants::PERMISSION_ALL)
+			->willReturn(Constants::PERMISSION_ALL);
+
 
 		$expected = new TemplateResponse(
 			'settings',
@@ -226,7 +240,9 @@ class SharingTest extends TestCase {
 				'shareExcludeGroups'              => true,
 				'shareExcludedGroupsList'         => 'NoSharers|OtherNoSharers',
 				'publicShareDisclaimerText'       => 'Lorem ipsum',
-				'enableLinkPasswordByDefault'     => 'yes'
+				'enableLinkPasswordByDefault'     => 'yes',
+				'shareApiDefaultPermissions'      => Constants::PERMISSION_ALL,
+				'shareApiDefaultPermissionsCheckboxes' => $this->invokePrivate($this->admin, 'getSharePermissionList', [])
 			],
 			''
 		);
