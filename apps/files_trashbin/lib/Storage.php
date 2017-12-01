@@ -237,7 +237,7 @@ class Storage extends Wrapper {
 			return false;
 		}
 
-		if ($this->userManager->userExists($parts[1]) && $parts[2] === 'files') {
+		if ($parts[2] === 'files' && $this->userManager->userExists($parts[1])) {
 			return true;
 		}
 
