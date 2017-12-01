@@ -271,7 +271,7 @@ class Manager implements IManager {
 		}
 		if ($section === 'sharing') {
 			/** @var ISettings $form */
-			$form = new Admin\Sharing($this->config);
+			$form = new Admin\Sharing($this->config, $this->l);
 			$forms[$form->getPriority()] = [$form];
 		}
 		if ($section === 'additional') {

@@ -26,6 +26,7 @@ namespace Test\Settings\Admin;
 use OC\Settings\Admin\Sharing;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
+use OCP\IL10N;
 use Test\TestCase;
 
 class SharingTest extends TestCase {
@@ -33,13 +34,17 @@ class SharingTest extends TestCase {
 	private $admin;
 	/** @var IConfig */
 	private $config;
+	/** @var  IL10N|\PHPUnit_Framework_MockObject_MockObject */
+	private $l10n;
 
 	public function setUp() {
 		parent::setUp();
 		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
+		$this->l10n = $this->getMockBuilder(IL10N::class)->getMock();
 
 		$this->admin = new Sharing(
-			$this->config
+			$this->config,
+			$this->l10n
 		);
 	}
 

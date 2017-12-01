@@ -121,6 +121,28 @@ $(document).ready(function(){
 		}
 	});
 
+	$('#shareApiDefaultPermissionsSection input').change(function(ev) {
+		var $el = $('#shareApiDefaultPermissions');
+		var $target = $(ev.target);
+
+		var value = $el.val();
+		if ($target.is(':checked')) {
+			value = value | $target.val();
+		} else {
+			value = value & ~$target.val();
+		}
+
+		// always set read permission
+		value |= OC.PERMISSION_READ;
+
+		// this will trigger the field's change event and will save it
+		$el.val(value).change();
+
+		ev.preventDefault();
+
+		return false;
+	});
+
 	var savePublicShareDisclaimerText = _.debounce(function(value) {
 		var options = {
 			success: function() {
