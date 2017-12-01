@@ -257,6 +257,8 @@ OC.L10N.register(
     "Stay logged in" : "Μείνετε συνδεδεμένος",
     "Alternative Logins" : "Εναλλακτικές είσοδοι",
     "Account access" : "Πρόσβαση λογαριασμού",
+    "You are about to grant %s access to your %s account." : "Πρόκειται να δώσετε άδεια πρόσβασης στο \"%s\" στον λογαριασμό σας \" %s\".",
+    "Grant access" : "Παροχή άδειας πρόσβασης",
     "App token" : "Διακριτικό εφαρμογής",
     "Alternative login using app token" : "Εναλλακτική είσοδος με την χρήση του διακριτικού της εφαρμογής",
     "Redirecting …" : "Γίνεται ανακατεύθυνση ...",
