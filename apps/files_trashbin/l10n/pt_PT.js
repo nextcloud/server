@@ -14,7 +14,7 @@ OC.L10N.register(
     "No deleted files" : "Sem ficheiros eliminados",
     "You will be able to recover deleted files from here" : "Poderá recuperar ficheiros eliminados a partir daqui",
     "No entries found in this folder" : "Não foram encontradas entradas nesta pasta",
-    "Select all" : "Selecionar todos",
+    "Select all" : "Selecionar tudo",
     "Name" : "Nome",
     "Deleted" : "Eliminado"
 },
