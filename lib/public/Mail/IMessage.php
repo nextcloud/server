@@ -44,10 +44,11 @@ interface IMessage {
 	 * If no "From" address is used \OC\Mail\Mailer will use mail_from_address and mail_domain from config.php
 	 *
 	 * @param array $addresses Example: array('sender@domain.org', 'other@domain.org' => 'A name')
+	 * @param array $fingerprints, empty if know keys Provided, '' if only a set of keys is unknown,
 	 * @return $this
 	 * @since 13.0.0
 	 */
-	public function setFrom(array $addresses);
+	public function setFrom(array $addresses, array $fingerprints = []);
 
 	/**
 	 * Set the Reply-To address of this message
@@ -62,28 +63,31 @@ interface IMessage {
 	 * Set the to addresses of this message.
 	 *
 	 * @param array $recipients Example: array('recipient@domain.org', 'other@domain.org' => 'A name')
+	 * @param array $fingerprints, empty if know keys Provided, '' if only a set of keys is unknown,
 	 * @return $this
 	 * @since 13.0.0
 	 */
-	public function setTo(array $recipients);
+	public function setTo(array $recipients, array $fingerprints = []);
 
 	/**
 	 * Set the CC recipients of this message.
 	 *
 	 * @param array $recipients Example: array('recipient@domain.org', 'other@domain.org' => 'A name')
+	 * @param array $fingerprints, empty if know keys Provided, '' if only a set of keys is unknown,
 	 * @return $this
 	 * @since 13.0.0
 	 */
-	public function setCc(array $recipients);
+	public function setCc(array $recipients, array $fingerprints = []);
 
 	/**
 	 * Set the BCC recipients of this message.
 	 *
 	 * @param array $recipients Example: array('recipient@domain.org', 'other@domain.org' => 'A name')
+	 * @param array $fingerprints, empty if know keys Provided, '' if only a set of keys is unknown,
 	 * @return $this
 	 * @since 13.0.0
 	 */
-	public function setBcc(array $recipients);
+	public function setBcc(array $recipients, array $fingerprints = []);
 
 	/**
 	 * @param IEMailTemplate $emailTemplate
@@ -91,4 +95,25 @@ interface IMessage {
 	 * @since 13.0.0
 	 */
 	public function useTemplate(IEMailTemplate $emailTemplate);
+
+    /**
+     * GPG sign the Message
+     *
+     * @return $this
+     */
+    public function sign();
+
+    /**
+     * GPG encrypt the Message
+     *
+     * @return $this
+     */
+    public function encrypt();
+
+    /**
+     * GPG encrypt and sign the Message
+     *
+     * @return $this
+     */
+    public function encryptsign();
 }
