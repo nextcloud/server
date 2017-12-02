@@ -198,6 +198,7 @@ return array(
     'OCP\\IDateTimeFormatter' => $baseDir . '/lib/public/IDateTimeFormatter.php',
     'OCP\\IDateTimeZone' => $baseDir . '/lib/public/IDateTimeZone.php',
     'OCP\\IEventSource' => $baseDir . '/lib/public/IEventSource.php',
+    'OCP\\IGpg'	=> $baseDir	 . '/lib/public/IGpg.php',
     'OCP\\IGroup' => $baseDir . '/lib/public/IGroup.php',
     'OCP\\IGroupManager' => $baseDir . '/lib/public/IGroupManager.php',
     'OCP\\IHelper' => $baseDir . '/lib/public/IHelper.php',

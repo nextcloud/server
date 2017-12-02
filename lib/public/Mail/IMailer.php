@@ -102,3 +102,4 @@ interface IMailer {
 	 */
 	public function validateMailAddress($email);
 }
+

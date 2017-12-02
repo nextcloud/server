@@ -76,6 +76,7 @@ use OC\Files\Node\HookConnector;
 use OC\Files\Node\LazyRoot;
 use OC\Files\Node\Root;
 use OC\Files\View;
+use OC\Gpg;
 use OC\Http\Client\ClientService;
 use OC\IntegrityCheck\Checker;
 use OC\IntegrityCheck\Helpers\AppLocator;
@@ -832,6 +833,17 @@ class Server extends ServerContainer implements IServerContainer {
 			);
 		});
 		$this->registerAlias('Mailer', \OCP\Mail\IMailer::class);
+
+		$this->registerService(\OCP\IGpg::class, function (Server $c) {
+			return new Gpg(
+				$c->getConfig(),
+				$c->getLogger(),
+				$c->query(Defaults::class),
+				$c->getURLGenerator(),
+				$c->getL10N('lib')
+			);
+		});
+		$this->registerAlias('Gpg', \OCP\IGpg::class);
 
 		$this->registerService('LDAPProvider', function (Server $c) {
 			$config = $c->getConfig();
@@ -1679,6 +1691,15 @@ class Server extends ServerContainer implements IServerContainer {
 	 */
 	public function getMailer() {
 		return $this->query('Mailer');
+	}
+
+	/**
+	 * Creates a new Ggp
+	 *
+	 * @return \OCP\IGpg
+	 */
+	public function getGpg() {
+		return $this->query('Gpg');
 	}
 
 	/**

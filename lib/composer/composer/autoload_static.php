@@ -228,6 +228,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\IDateTimeFormatter' => __DIR__ . '/../../..' . '/lib/public/IDateTimeFormatter.php',
         'OCP\\IDateTimeZone' => __DIR__ . '/../../..' . '/lib/public/IDateTimeZone.php',
         'OCP\\IEventSource' => __DIR__ . '/../../..' . '/lib/public/IEventSource.php',
+        'OCP\\IGpg' => __DIR__ . '/../../..' . '/lib/public/IGpg.php',
         'OCP\\IGroup' => __DIR__ . '/../../..' . '/lib/public/IGroup.php',
         'OCP\\IGroupManager' => __DIR__ . '/../../..' . '/lib/public/IGroupManager.php',
         'OCP\\IHelper' => __DIR__ . '/../../..' . '/lib/public/IHelper.php',
