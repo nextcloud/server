@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Failed to clear the mappings." : "Nepodarilo sa vymazať mapovania.",
     "Failed to delete the server configuration" : "Zlyhalo zmazanie nastavenia servera.",
+    "Valid configuration, connection established!" : "Platná konfigurácia, spojenie nadviazané!",
     "No action specified" : "Nie je vybraná akcia",
     "No configuration specified" : "Nie je určená konfigurácia",
     "No data specified" : "Nie sú vybraté dáta",
@@ -73,6 +74,7 @@ OC.L10N.register(
     "Verify settings" : "Overiť nastavenia",
     "1. Server" : "1. Server",
     "%s. Server:" : "%s. Server:",
+    "Add a new configuration" : "Pridať novú konfiguráciu",
     "Copy current configuration into new directory binding" : "Skopírovať súčasnú konfiguráciu do nového adresárového pripojenia",
     "Delete the current configuration" : "Vymazať súčasnú konfiguráciu",
     "Host" : "Hostiteľ",
@@ -96,6 +98,7 @@ OC.L10N.register(
     "Continue" : "Pokračovať",
     "New password" : "Nové heslo",
     "Wrong password." : "Nesprávne heslo.",
+    "Cancel" : "Zrušiť",
     "Server" : "Server",
     "Users" : "Používatelia",
     "Login Attributes" : "Prihlasovacie atribúty",
