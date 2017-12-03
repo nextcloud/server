@@ -206,8 +206,8 @@ $(document).ready(function () {
 	});
 
 	$('#theming-color').change(function (e) {
-                var color = $(this).val();
-                if (color.indexOf('#') !== 0) {
+		var color = $(this).val();
+		if (color.indexOf('#') !== 0) {
                     color = '#' + color;
                 }
 		setThemingValue('color', color);
