@@ -62,7 +62,7 @@ style('theming', 'settings-admin');
 	<div>
 		<label>
 			<span><?php p($l->t('Color')) ?></span>
-			<input id="theming-color" type="text" class="jscolor" maxlength="6" value="<?php p($_['color']) ?>" />
+			<input id="theming-color" type="text" class="jscolor" data-jscolor="{hash:true}" maxlength="7" value="<?php p($_['color']) ?>" />
 			<div data-setting="color" data-toggle="tooltip" data-original-title="<?php p($l->t('Reset to default')); ?>" class="theme-undo icon icon-history"></div>
 		</label>
 	</div>

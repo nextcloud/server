@@ -206,7 +206,11 @@ $(document).ready(function () {
 	});
 
 	$('#theming-color').change(function (e) {
-		setThemingValue('color', '#' + $(this).val());
+		var color = $(this).val();
+		if (color.indexOf('#') !== 0) {
+			color = '#' + color;
+		}
+		setThemingValue('color', color);
 	});
 
 	$('.theme-undo').click(function (e) {
