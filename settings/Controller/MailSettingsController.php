@@ -159,7 +159,8 @@ class MailSettingsController extends Controller {
 				$template->addFooter();
 
 				$message = $this->mailer->createMessage();
-				$message->setTo([$email => $displayName]);
+				$gpg = \OC::$server->getGpg();
+				$message->setTo([$email => $displayName],[$gpg->getPublicKeyFromEmail($email)]);
 				$message->useTemplate($template);
 				$errors = $this->mailer->send($message);
 				if (!empty($errors)) {

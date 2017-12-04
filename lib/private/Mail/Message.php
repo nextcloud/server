@@ -364,6 +364,75 @@ class Message implements IMessage {
         $sign_fingerprints = $this->getFromFingerprints();
         $gpg = \OC::$server->getGpg();
 
+        $originalMessage = new Swift_Message('',$this->swiftMessage->getBody(), $this->swiftMessage->getContentType(), $this->swiftMessage->getCharset());
+        $originalMessage->setChildren($this->swiftMessage->getChildren());
+        $originalMessage->getHeaders()->remove('Message-ID');
+        $originalMessage->getHeaders()->remove('Date');
+        $originalMessage->getHeaders()->remove('Subject');
+        $originalMessage->getHeaders()->remove('MIME-Version');
+        $originalMessage->getHeaders()->remove('To');
+        $originalMessage->getHeaders()->remove('From');
+        $originalMessage->getHeaders()->remove('CC');
+        $originalMessage->getHeaders()->remove('Bcc');
+
+        $this->swiftMessage->setEncoder(new \Swift_Mime_ContentEncoder_RawContentEncoder);
+        $this->swiftMessage->setChildren(array());
+        $this->swiftMessage->getHeaders()->get('Content-Type')->setValue('multipart/signed');
+        $this->swiftMessage->getHeaders()->get('Content-Type')->setParameters(array(
+            'micalg' => "pgp-sha256",
+            'protocol' => 'application/pgp-signature',
+            'boundary' => $this->swiftMessage->getBoundary(),
+        ));
+
+        $signedBody = $originalMessage->toString();
+        $lines = preg_split('/(\r\n|\r|\n)/',trim($signedBody));
+        for ($i=0; $i<count($lines); $i++) {
+            $lines[$i] = rtrim($lines[$i])."\r\n";
+        }
+        // Remove excess trailing newlines (RFC3156 section 5.4)
+        $signedBody = rtrim(implode('',$lines))."\r\n";
+
+        $signature = $gpg->sign($sign_fingerprints,$signedBody);
+        //Swiftmailer is automatically changing content type and this is the hack to prevent it
+        $body = <<<EOT
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+
+--{$this->swiftMessage->getBoundary()}
+$signedBody
+--{$this->swiftMessage->getBoundary()}
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+$signature
+--{$this->swiftMessage->getBoundary()}--
+EOT;
+        $this->swiftMessage->setBody($body);
+
+        $messageHeaders = $this->swiftMessage->getHeaders();
+        $messageHeaders->removeAll('Content-Transfer-Encoding');
+
+        $this->signed = TRUE;
+        return $this;
+    }
+
+    /**
+     * GPG encrypt the Message
+     *
+     * @return $this
+     */
+    public function encrypt() {
+        if ($this->signed) {
+            return $this;
+        }
+        if ($this->encrypted) {
+            /* encrypted Messages cannot be signed*/
+            return $this;
+        }
+        $gpg = \OC::$server->getGpg();
+        $encrypt_fingerprints = $this->getToFingerprints() + $this->getCCFingerprints() + $this->getBccFingerprints();
+
         $originalMessage = new Swift_Message('', $this->swiftMessage->getBody(), $this->swiftMessage->getContentType(), $this->swiftMessage->getCharset());
         $originalMessage->setChildren($this->swiftMessage->getChildren());
         $originalMessage->getHeaders()->remove('Message-ID');
@@ -378,12 +447,80 @@ class Message implements IMessage {
 
         $this->swiftMessage->setChildren(array());
         $this->swiftMessage->setEncoder(new \Swift_Mime_ContentEncoder_RawContentEncoder);
-        $this->swiftMessage->setContentType('multipart/signed');
-        //$this->swiftMessage->setBoundary( $this->swiftMessage->getBoundary());
+        $this->swiftMessage->getHeaders()->get('Content-Type')->setValue('multipart/encrypted');
+        $this->swiftMessage->getHeaders()->get('Content-Type')->setParameters(array(
+            'protocol' => 'application/pgp-encrypted',
+            'boundary' => $this->swiftMessage->getBoundary(),
+        ));
+
+        $encryptedBody = $originalMessage->toString();
+        $lines = preg_split('/(\r\n|\r|\n)/',rtrim($encryptedBody));
+        for ($i=0; $i<count($lines); $i++) {
+            $lines[$i] = rtrim($lines[$i])."\r\n";
+        }
+        // Remove excess trailing newlines (RFC3156 section 5.4)
+        $encryptedBody = rtrim(implode('',$lines))."\r\n";
+
+        $encryptedBody = $gpg->encrypt($encrypt_fingerprints,$encryptedBody);
+        $body = <<<EOT
+This is an OpenPGP/MIME encrypted message (RFC 4880 and 3156)
+--{$this->swiftMessage->getBoundary()}
+Content-Type: application/pgp-encrypted
+Content-Description: PGP/MIME version identification
+
+Version: 1
+
+--{$this->swiftMessage->getBoundary()}
+Content-Type: application/octet-stream; name="encrypted.asc"
+Content-Description: OpenPGP encrypted message
+Content-ID: <0>
+Content-Disposition: inline; filename="encrypted.asc"
+
+$encryptedBody
+
+--{$this->swiftMessage->getBoundary()}--
+EOT;
+        $this->swiftMessage->setBody($body);
+        $messageHeaders = $this->swiftMessage->getHeaders();
+        $messageHeaders->removeAll('Content-Transfer-Encoding');
+        $this->encrypted = TRUE;
+        return $this;
+    }
+
+    /**
+     * GPG encrypt and sign the Message
+     *
+     * @return $this
+     */
+    public function encryptsign() {
+        if ($this->signed) {
+            return $this;
+        }
+        if ($this->encrypted) {
+            /* encrypted Messages cannot be signed*/
+            return $this;
+        }
+        $gpg = \OC::$server->getGpg();
+        $sign_fingerprints = $this->getFromFingerprints();
+        $encrypt_fingerprints = $this->getToFingerprints() + $this->getCCFingerprints() + $this->getBccFingerprints();
+        $originalMessage = new Swift_Message('', $this->swiftMessage->getBody(), $this->swiftMessage->getContentType(), $this->swiftMessage->getCharset());
+        $originalMessage->setChildren($this->swiftMessage->getChildren());
+        $originalMessage->getHeaders()->remove('Message-ID');
+        $originalMessage->getHeaders()->remove('Date');
+        $originalMessage->getHeaders()->remove('Subject');
+        $originalMessage->getHeaders()->remove('MIME-Version');
+        $originalMessage->getHeaders()->remove('To');
+        $originalMessage->getHeaders()->remove('From');
+        $originalMessage->getHeaders()->remove('CC');
+        $originalMessage->getHeaders()->remove('Bcc');
+
+        $this->swiftMessage->setEncoder(new \Swift_Mime_ContentEncoder_RawContentEncoder);
+        $this->swiftMessage->setChildren(array());
+        $this->swiftMessage->getHeaders()->get('Content-Type')->setValue('multipart/signed');
         $this->swiftMessage->getHeaders()->get('Content-Type')->setParameters(array(
             'micalg' => "pgp-sha256",
             'protocol' => 'application/pgp-signature',
-            'boundary' => $this->swiftMessage->getBoundary()
+            'boundary' => $this->swiftMessage->getBoundary(),
         ));
 
         $signedBody = $originalMessage->toString();
@@ -405,33 +542,48 @@ $signedBody
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
+
 $signature
+
 --{$this->swiftMessage->getBoundary()}--
 EOT;
-        $this->swiftMessage->setBody($body);
+
 
         $messageHeaders = $this->swiftMessage->getHeaders();
         $messageHeaders->removeAll('Content-Transfer-Encoding');
 
         $this->signed = TRUE;
-        return $this;
-    }
+        $signed = sprintf("%s%s",$this->swiftMessage->getHeaders()->get('Content-Type')->toString(),$body);
+        $encryptedBody = $gpg->encrypt($encrypt_fingerprints,$signed);
 
-    /**
-     * GPG encrypt the Message
-     *
-     * @return $this
-     */
-    public function encrypt() {
-        return $this;
-    }
+        $this->swiftMessage->getHeaders()->get('Content-Type')->setValue('multipart/encrypted');
+        $this->swiftMessage->getHeaders()->get('Content-Type')->setParameters(array(
+            'protocol' => 'application/pgp-encrypted',
+            'boundary' => $this->swiftMessage->getBoundary()
+        ));
 
-    /**
-     * GPG encrypt and sign the Message
-     *
-     * @return $this
-     */
-    public function encryptsign() {
+        $body = <<<EOT
+This is an OpenPGP/MIME encrypted message (RFC 4880 and 3156)
+--{$this->swiftMessage->getBoundary()}
+Content-Type: application/pgp-encrypted
+Content-Description: PGP/MIME version identification
+
+Version: 1
+
+--{$this->swiftMessage->getBoundary()}
+Content-Type: application/octet-stream; name="encrypted.asc"
+Content-Description: OpenPGP encrypted message
+Content-ID: <0>
+Content-Disposition: inline; filename="encrypted.asc"
+
+$encryptedBody
+
+--{$this->swiftMessage->getBoundary()}--
+EOT;
+        $this->swiftMessage->setBody($body);
+        $messageHeaders = $this->swiftMessage->getHeaders();
+        $messageHeaders->removeAll('Content-Transfer-Encoding');
+        $this->encrypted = TRUE;
         return $this;
     }
 }
