@@ -93,6 +93,7 @@ img, object, video, button, textarea, input, select, div[contenteditable=true] {
 	filter: invert(100%);
 	&.icon-shadow {
 		filter: invert(100%) drop-shadow(1px 1px 4px $color-box-shadow);
+	}
 }
 
 /* ICONS -------------------------------------------------------------------- */
