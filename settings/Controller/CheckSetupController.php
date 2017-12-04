@@ -238,7 +238,7 @@ class CheckSetupController extends Controller {
 	 * @return bool
 	 */
 	protected function isPhpOutdated() {
-		if (version_compare(PHP_VERSION, '5.5.0') === -1) {
+		if (version_compare(PHP_VERSION, '7.0.0', '<')) {
 			return true;
 		}
 

@@ -122,6 +122,12 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						});
 					}
+					if(data.phpSupported && data.phpSupported.version.substr(0, 3) === '5.6') {
+						messages.push({
+							msg: t('core', 'You are currently running PHP 5.6. The current major version of Nextcloud is the last that is supported on PHP 5.6. It is recommended to upgrade the PHP version to 7.0+ to be able to upgrade to Nextcloud 14.'),
+							type: OC.SetupChecks.MESSAGE_TYPE_INFO
+						});
+					}
 					if(!data.forwardedForHeadersWorking) {
 						messages.push({
 							msg: t('core', 'The reverse proxy header configuration is incorrect, or you are accessing Nextcloud from a trusted proxy. If not, this is a security issue and can allow an attacker to spoof their IP address as visible to the Nextcloud. Further information can be found in the <a target="_blank" rel="noreferrer noopener" href="{docLink}">documentation</a>.', {docLink: data.reverseProxyDocs}),
