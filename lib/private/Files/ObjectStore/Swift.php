@@ -26,6 +26,7 @@
 namespace OC\Files\ObjectStore;
 
 use Guzzle\Http\Exception\ClientErrorResponseException;
+use Icewind\Streams\RetryWrapper;
 use OCP\Files\ObjectStore\IObjectStore;
 use OCP\Files\StorageAuthException;
 use OCP\Files\StorageNotAvailableException;
@@ -264,7 +265,7 @@ class Swift implements IObjectStore {
 		// save the object content in the context of the stream to prevent it being gc'd until the stream is closed
 		stream_context_set_option($stream, 'swift', 'content', $objectContent);
 
-		return $stream;
+		RetryWrapper::wrap($stream);
 	}
 
 	/**
