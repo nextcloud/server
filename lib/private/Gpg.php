@@ -209,7 +209,7 @@ class Gpg implements IGpg{
 		if(sizeof($keys)> 0) {
 			foreach($keys as $key){
 				if (!$key['disabled'] and !$key['expired'] and !$key['revoked']) {
-					return $key[0]['subkeys'][0]['fingerprint'];
+					return $key['subkeys'][0]['fingerprint'];
 				}
 			}
 		}
@@ -228,7 +228,7 @@ class Gpg implements IGpg{
 		if(sizeof($keys)> 0) {
 			foreach($keys as $key){
 				if (!$key['disabled'] and !$key['expired'] and !$key['revoked'] and $key['is_secret']) {
-					return $key[0]['subkeys'][0]['fingerprint'];
+					return $key['subkeys'][0]['fingerprint'];
 				}
 			}
 		}
