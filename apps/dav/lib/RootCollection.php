@@ -43,11 +43,14 @@ class RootCollection extends SimpleCollection {
 		$logger = \OC::$server->getLogger();
 		$userManager = \OC::$server->getUserManager();
 		$groupManager = \OC::$server->getGroupManager();
+		$shareManager = \OC::$server->getShareManager();
 		$db = \OC::$server->getDatabaseConnection();
 		$dispatcher = \OC::$server->getEventDispatcher();
 		$userPrincipalBackend = new Principal(
 			$userManager,
-			$groupManager
+			$groupManager,
+			$shareManager,
+			\OC::$server->getUserSession()
 		);
 		$groupPrincipalBackend = new GroupPrincipalBackend($groupManager);
 		// as soon as debug mode is enabled we allow listing of principals
