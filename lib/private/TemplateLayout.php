@@ -188,22 +188,32 @@ class TemplateLayout extends \OC_Template {
 			if (substr($file, -strlen('print.css')) === 'print.css') {
 				$this->append( 'printcssfiles', $web.'/'.$file . $this->getVersionHashSuffix() );
 			} else {
-				$this->append( 'cssfiles', $web.'/'.$file . $this->getVersionHashSuffix($web)  );
+				$this->append( 'cssfiles', $web.'/'.$file . $this->getVersionHashSuffix($web, $file)  );
 			}
 		}
 	}
 
-	protected function getVersionHashSuffix($app=false) {
+	protected function getVersionHashSuffix($path = false, $file = false) {
 		if (\OC::$server->getConfig()->getSystemValue('debug', false)) {
 			// allows chrome workspace mapping in debug mode
 			return "";
 		}
-		if ($app !== false && $app !== '') {
-			$v = \OC_App::getAppVersions();
-			$appName = end(explode('/', $app));
+		$v = \OC_App::getAppVersions();
+
+		// Try the webroot path for a match
+		if ($path !== false && $path !== '') {
+			$appName = $this->getAppNamefromPath($path);
 			if(array_key_exists($appName, $v)) {
 				$appVersion = $v[$appName];
-				return '?v=' . substr(md5(implode(',', $appVersion)), 0, 8) . '-' . $this->config->getAppValue('theming', 'cachebuster', '0');
+				return '?v=' . substr(md5($appVersion), 0, 8) . '-' . $this->config->getAppValue('theming', 'cachebuster', '0');
+			}
+		}
+		// fallback to the file path instead
+		if ($file !== false && $file !== '') {
+			$appName = $this->getAppNamefromPath($file);
+			if(array_key_exists($appName, $v)) {
+				$appVersion = $v[$appName];
+				return '?v=' . substr(md5($appVersion), 0, 8) . '-' . $this->config->getAppValue('theming', 'cachebuster', '0');
 			}
 		}
 
@@ -236,6 +246,22 @@ class TemplateLayout extends \OC_Template {
 		);
 		$locator->find($styles);
 		return $locator->getResources();
+	}
+
+	/**
+	 * @param string $path
+	 * @return string
+	 */
+	static public function getAppNamefromPath($path) {
+		if ($path !== '' && is_string($path)) {
+			$pathParts = explode('/', $path);
+			if ($pathParts[0] === 'css') {
+				// This is a scss request
+				return $pathParts[1];
+			}
+			return end($pathParts);
+		}
+
 	}
 
 	/**
