@@ -55,7 +55,7 @@ OC.L10N.register(
     "Contacts" : "Contactos",
     "Technical details" : "Detalles técnicos",
     "Remote Address: %s" : "Dirección remota: %s",
-    "Request ID: %s" : "ID de la solicitud: %s",
+    "Request ID: %s" : "ID de solicitud: %s",
     "CalDAV server" : "Servidor CalDAV",
     "Send invitations to attendees" : "Enviar invitaciones a los asistentes",
     "Please make sure to properly set up the email settings above." : "Por favor, asegúrate de que las configuraciones de correo de arriba son correctas"
