@@ -133,7 +133,7 @@ class Mailer implements IMailer {
 	public function send(Message $message) {
 		$debugMode = $this->config->getSystemValue('mail_smtpdebug', false);
 
-		if (sizeof($message->getFrom()) === 0) {
+		if (empty($message->getFrom())) {
 			$message->setFrom([\OCP\Util::getDefaultEmailAddress($this->defaults->getName()) => $this->defaults->getName()]);
 		}
 
