@@ -194,7 +194,7 @@ pipeline:
         DB: sqlite
         PHP: 7.1
   sqlite-php7.2:
-    image: nextcloudci/php7.2:php7.1-9
+    image: nextcloudci/php7.2:php7.2-9
     commands:
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
     when:
