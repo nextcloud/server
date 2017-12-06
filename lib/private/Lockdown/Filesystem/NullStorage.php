@@ -22,6 +22,7 @@ namespace OC\Lockdown\Filesystem;
 use Icewind\Streams\IteratorDirectory;
 use OC\Files\FileInfo;
 use OC\Files\Storage\Common;
+use OCP\Files\Storage\IStorage;
 
 class NullStorage extends Common {
 	public function __construct($parameters) {
@@ -156,7 +157,7 @@ class NullStorage extends Common {
 		return false;
 	}
 
-	public function copyFromStorage(\OCP\Files\Storage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
+	public function copyFromStorage(\OCP\Files\Storage $sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime = false) {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
 	}
 

@@ -1264,6 +1264,7 @@ class UserTest extends \Test\TestCase {
 					return array(
 						array(
 							'pwdchangedtime' => array((new \DateTime())->sub(new \DateInterval('P28D'))->format('Ymdhis').'Z'),
+							'pwdgraceusetime' => [],
 						),
 					);
 				}
@@ -1337,6 +1338,7 @@ class UserTest extends \Test\TestCase {
 						array(
 							'pwdpolicysubentry' => array('cn=custom,ou=policies,dc=foo,dc=bar'),
 							'pwdchangedtime' => array((new \DateTime())->sub(new \DateInterval('P28D'))->format('Ymdhis').'Z'),
+							'pwdgraceusetime' => [],
 						)
 					);
 				}

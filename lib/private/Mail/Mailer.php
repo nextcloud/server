@@ -133,7 +133,7 @@ class Mailer implements IMailer {
 	public function send(Message $message) {
 		$debugMode = $this->config->getSystemValue('mail_smtpdebug', false);
 
-		if (sizeof($message->getFrom()) === 0) {
+		if (empty($message->getFrom())) {
 			$message->setFrom([\OCP\Util::getDefaultEmailAddress($this->defaults->getName()) => $this->defaults->getName()]);
 		}
 
@@ -183,7 +183,7 @@ class Mailer implements IMailer {
 		}
 
 		list($name, $domain) = explode('@', $email, 2);
-		$domain = idn_to_ascii($domain);
+		$domain = idn_to_ascii($domain, 0,INTL_IDNA_VARIANT_UTS46);
 		return $name.'@'.$domain;
 	}
 
