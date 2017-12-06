@@ -281,10 +281,14 @@ OC.Share = _.extend(OC.Share || {}, {
 			$tr.find('.filename .thumbnail').css('background-image', 'url(' + shareFolderIcon + ')');
 			$tr.attr('data-icon', shareFolderIcon);
 		} else if (type === 'dir') {
+			var isEncrypted = $tr.attr('data-e2eencrypted');
 			var mountType = $tr.attr('data-mounttype');
 			// FIXME: duplicate of FileList._createRow logic for external folder,
 			// need to refactor the icon logic into a single code path eventually
-			if (mountType && mountType.indexOf('external') === 0) {
+			if (isEncrypted === 'true') {
+				shareFolderIcon = OC.MimeType.getIconUrl('dir-encrypted');
+				$tr.attr('data-icon', shareFolderIcon);
+			} else if (mountType && mountType.indexOf('external') === 0) {
 				shareFolderIcon = OC.MimeType.getIconUrl('dir-external');
 				$tr.attr('data-icon', shareFolderIcon);
 			} else {
