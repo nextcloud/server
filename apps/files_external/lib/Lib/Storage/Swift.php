@@ -43,6 +43,7 @@ use Guzzle\Http\Url;
 use Guzzle\Http\Exception\ClientErrorResponseException;
 use Icewind\Streams\CallbackWrapper;
 use Icewind\Streams\IteratorDirectory;
+use Icewind\Streams\RetryWrapper;
 use OpenCloud;
 use OpenCloud\Common\Exceptions;
 use OpenCloud\OpenStack;
@@ -389,7 +390,7 @@ class Swift extends \OC\Files\Storage\Common {
 					stream_context_set_option($stream, 'swift','content', $streamInterface);
 					if(!strrpos($streamInterface
 						->getMetaData('wrapper_data')[0], '404 Not Found')) {
-						return $stream;
+						return RetryWrapper::wrap($stream);
 					}
 					return false;
 				} catch (\Guzzle\Http\Exception\BadResponseException $e) {
