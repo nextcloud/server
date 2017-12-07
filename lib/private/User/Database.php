@@ -194,7 +194,10 @@ class Database extends Backend implements IUserBackend {
 		if ($search !== '') {
 			$parameters[] = '%' . \OC::$server->getDatabaseConnection()->escapeLikeParameter($search) . '%';
 			$parameters[] = '%' . \OC::$server->getDatabaseConnection()->escapeLikeParameter($search) . '%';
-			$searchLike = ' WHERE LOWER(`displayname`) LIKE LOWER(?) OR '
+			$parameters[] = '%' . \OC::$server->getDatabaseConnection()->escapeLikeParameter($search) . '%';
+			$searchLike .= ' LEFT JOIN `*PREFIX*preferences` ON `userid` = `uid` AND `appid` = "settings" AND `configkey` = "email"';
+			$searchLike .= ' WHERE LOWER(`configvalue`) LIKE LOWER(?)';
+			$searchLike .= ' OR LOWER(`displayname`) LIKE LOWER(?) OR '
 				. 'LOWER(`uid`) LIKE LOWER(?)';
 		}
 
@@ -288,12 +291,19 @@ class Database extends Backend implements IUserBackend {
 		$parameters = [];
 		$searchLike = '';
 		if ($search !== '') {
+			// Email
 			$parameters[] = '%' . \OC::$server->getDatabaseConnection()->escapeLikeParameter($search) . '%';
-			$searchLike = ' WHERE LOWER(`uid`) LIKE LOWER(?)';
+			$searchLike .= ' LEFT JOIN `*PREFIX*preferences` ON `userid` = `uid` AND `appid` = "settings" AND `configkey` = "email"';
+			$searchLike .= ' WHERE LOWER(`configvalue`) LIKE LOWER(?)';
+
+			// UID
+			$parameters[] = '%' . \OC::$server->getDatabaseConnection()->escapeLikeParameter($search) . '%';
+			$searchLike .= ' OR LOWER(`uid`) LIKE LOWER(?)';
+
+			// Display name
 			$parameters[] = '%' . \OC::$server->getDatabaseConnection()->escapeLikeParameter($search) . '%';
 			$searchLike .= ' OR LOWER(`displayname`) LIKE LOWER(?)';
 		}
-
 		$query = \OC_DB::prepare('SELECT `uid` FROM `*PREFIX*users`' . $searchLike . ' ORDER BY LOWER(`uid`) ASC', $limit, $offset);
 		$result = $query->execute($parameters);
 		$users = array();
