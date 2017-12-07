@@ -18,7 +18,7 @@
 	var TEMPLATE_BASE =
 		'<div class="resharerInfoView subView"></div>' +
 		'{{#if isSharingAllowed}}' +
-		'<label for="shareWith-{{cid}}" class="hidden-visually">{{shareLabel}}</label>' +
+		'<label for="shareWith-{{cid}}">{{shareLabel}}</label>' +
 		'<div class="oneline">' +
 		'    <input id="shareWith-{{cid}}" class="shareWithField" type="text" placeholder="{{sharePlaceholder}}" />' +
 		'    <span class="shareWithLoading icon-loading-small hidden"></span>'+
@@ -414,7 +414,7 @@
 
 			this.$el.html(baseTemplate({
 				cid: this.cid,
-				shareLabel: t('core', 'Share'),
+				shareLabel: t('core', 'Share via email or with users'),
 				sharePlaceholder: this._renderSharePlaceholderPart(),
 				shareInfo: this._renderShareInfoPart(),
 				isSharingAllowed: this.model.sharePermissionPossible()
