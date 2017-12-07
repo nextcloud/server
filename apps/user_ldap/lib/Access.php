@@ -830,6 +830,7 @@ class Access extends LDAPUtility implements IUserTools {
 			$recordsToUpdate = array_filter($ldapRecords, function($record) use ($isBackgroundJobModeAjax) {
 				$newlyMapped = false;
 				$uid = $this->dn2ocname($record['dn'][0], null, true, $newlyMapped, $record);
+				$this->cacheUserExists($uid);
 				return ($uid !== false) && ($newlyMapped || $isBackgroundJobModeAjax);
 			});
 		}
@@ -854,7 +855,6 @@ class Access extends LDAPUtility implements IUserTools {
 			if($ocName === false) {
 				continue;
 			}
-			$this->cacheUserExists($ocName);
 			$user = $this->userManager->get($ocName);
 			if($user instanceof OfflineUser) {
 				$user->unmark();
@@ -1019,11 +1019,15 @@ class Access extends LDAPUtility implements IUserTools {
 
 	/**
 	 * retrieved. Results will according to the order in the array.
+	 *
+	 * @param $filter
+	 * @param $base
+	 * @param null $attr
 	 * @param int $limit optional, maximum results to be counted
 	 * @param int $offset optional, a starting point
 	 * @return array|false array with the search result as first value and pagedSearchOK as
 	 * second | false if not successful
-	 * @throws \OC\ServerNotAvailableException
+	 * @throws ServerNotAvailableException
 	 */
 	private function executeSearch($filter, $base, &$attr = null, $limit = null, $offset = null) {
 		if(!is_null($attr) && !is_array($attr)) {
@@ -1169,6 +1173,7 @@ class Access extends LDAPUtility implements IUserTools {
 
 	/**
 	 * Executes an LDAP search
+	 *
 	 * @param string $filter the LDAP filter for the search
 	 * @param array $base an array containing the LDAP subtree(s) that shall be searched
 	 * @param string|string[] $attr optional, array, one or more attributes that shall be
@@ -1176,6 +1181,7 @@ class Access extends LDAPUtility implements IUserTools {
 	 * @param int $offset
 	 * @param bool $skipHandling
 	 * @return array with the search result
+	 * @throws ServerNotAvailableException
 	 */
 	public function search($filter, $base, $attr = null, $limit = null, $offset = null, $skipHandling = false) {
 		$limitPerPage = intval($this->connection->ldapPagingSize);
@@ -1189,12 +1195,12 @@ class Access extends LDAPUtility implements IUserTools {
 		 * loops through until we get $continue equals true and
 		 * $findings['count'] < $limit
 		 */
-		$findings = array();
+		$findings = [];
 		$savedoffset = $offset;
 		do {
 			$search = $this->executeSearch($filter, $base, $attr, $limitPerPage, $offset);
 			if($search === false) {
-				return array();
+				return [];
 			}
 			list($sr, $pagedSearchOK) = $search;
 			$cr = $this->connection->getConnectionResource();
@@ -1231,7 +1237,7 @@ class Access extends LDAPUtility implements IUserTools {
 		}
 
 		if(!is_null($attr)) {
-			$selection = array();
+			$selection = [];
 			$i = 0;
 			foreach($findings as $item) {
 				if(!is_array($item)) {
@@ -1239,7 +1245,6 @@ class Access extends LDAPUtility implements IUserTools {
 				}
 				$item = \OCP\Util::mb_array_change_key_case($item, MB_CASE_LOWER, 'UTF-8');
 				foreach($attr as $key) {
-					$key = mb_strtolower($key, 'UTF-8');
 					if(isset($item[$key])) {
 						if(is_array($item[$key]) && isset($item[$key]['count'])) {
 							unset($item[$key]['count']);
