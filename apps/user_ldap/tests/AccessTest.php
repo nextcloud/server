@@ -620,6 +620,13 @@ class AccessTest extends TestCase {
 			->method('writeToCache')
 			->with($this->stringStartsWith('userExists'), true);
 
+		$this->userMapper->expects($this->exactly($fakeLdapEntries['count']))
+			->method('getNameByDN')
+			->willReturnCallback(function($fdn) {
+				$parts = ldap_explode_dn($fdn, false);
+				return $parts[0];
+			});
+
 		/** @noinspection PhpUnhandledExceptionInspection */
 		$list = $this->access->fetchListOfUsers($filter, $attrs);
 		$this->assertSame($expected, $list);
