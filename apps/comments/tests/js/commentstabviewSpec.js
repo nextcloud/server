@@ -271,6 +271,51 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 			});
 			expect(keydownEvent.isDefaultPrevented()).toEqual(true);
 		});
+		it('creates a new mention when typing enter in the autocomplete popover', function() {
+			var autoCompleteStub = sinon.stub(view, '_onAutoComplete');
+			autoCompleteStub.callsArgWith(1, [{"id":"userId", "label":"User Name", "source":"users"}]);
+
+			// Force the autocomplete to be initialized
+			view._initAutoComplete($newCommentForm.find('.message'));
+
+			// PhantomJS does not seem to handle typing in a contenteditable, so
+			// some tricks are needed to show the autocomplete popover.
+			//
+			// Instead of sending key events to type "@u" the characters are
+			// programatically set in the input field.
+			$newCommentForm.find('.message').text('Mention to @u');
+
+			// When focusing on the input field the caret is not guaranteed to
+			// be at the end; instead of calling "focus()" on the input field
+			// the caret is explicitly set at the end of the input field, that
+			// is, after "@u".
+			var range = document.createRange();
+			range.selectNodeContents($newCommentForm.find('.message')[0]);
+			range.collapse(false);
+			var selection = window.getSelection();
+			selection.removeAllRanges();
+			selection.addRange(range);
+
+			// As PhantomJS does not handle typing in a contenteditable the key
+			// typed here is in practice ignored by At.js, but despite that it
+			// will cause the popover to be shown.
+			$newCommentForm.find('.message').trigger(new $.Event('keydown', {keyCode: 's'}));
+			$newCommentForm.find('.message').trigger(new $.Event('keyup', {keyCode: 's'}));
+
+			expect(autoCompleteStub.calledOnce).toEqual(true);
+
+			var keydownEvent = new $.Event('keydown', {keyCode: 13});
+			$newCommentForm.find('.message').trigger(keydownEvent);
+
+			expect(createStub.calledOnce).toEqual(false);
+			expect($newCommentForm.find('.message').html()).toContain('Mention to <span');
+			expect($newCommentForm.find('.message').html()).toContain('<div class="avatar"');
+			expect($newCommentForm.find('.message').html()).toContain('<strong>User Name</strong>');
+			expect($newCommentForm.find('.message').text()).not.toContain('@');
+			// In this case the default behaviour is prevented by the
+			// "onKeydown" event handler of At.js.
+			expect(keydownEvent.isDefaultPrevented()).toEqual(true);
+		});
 		it('creates a new line when typing shift+enter', function() {
 			$newCommentForm.find('.message').text('New message');
 			var keydownEvent = new $.Event('keydown', {keyCode: 13, shiftKey: true});
