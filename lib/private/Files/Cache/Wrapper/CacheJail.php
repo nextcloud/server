@@ -27,6 +27,7 @@
  */
 
 namespace OC\Files\Cache\Wrapper;
+
 use OC\Files\Cache\Cache;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Search\ISearchQuery;
@@ -49,11 +50,15 @@ class CacheJail extends CacheWrapper {
 		$this->root = $root;
 	}
 
+	protected function getRoot() {
+		return $this->root;
+	}
+
 	protected function getSourcePath($path) {
 		if ($path === '') {
-			return $this->root;
+			return $this->getRoot();
 		} else {
-			return $this->root . '/' . ltrim($path, '/');
+			return $this->getRoot() . '/' . ltrim($path, '/');
 		}
 	}
 
@@ -62,13 +67,13 @@ class CacheJail extends CacheWrapper {
 	 * @return null|string the jailed path or null if the path is outside the jail
 	 */
 	protected function getJailedPath($path) {
-		if ($this->root === '') {
+		if ($this->getRoot() === '') {
 			return $path;
 		}
-		$rootLength = strlen($this->root) + 1;
-		if ($path === $this->root) {
+		$rootLength = strlen($this->getRoot()) + 1;
+		if ($path === $this->getRoot()) {
 			return '';
-		} else if (substr($path, 0, $rootLength) === $this->root . '/') {
+		} else if (substr($path, 0, $rootLength) === $this->getRoot() . '/') {
 			return substr($path, $rootLength);
 		} else {
 			return null;
@@ -87,8 +92,8 @@ class CacheJail extends CacheWrapper {
 	}
 
 	protected function filterCacheEntry($entry) {
-		$rootLength = strlen($this->root) + 1;
-		return ($entry['path'] === $this->root) or (substr($entry['path'], 0, $rootLength) === $this->root . '/');
+		$rootLength = strlen($this->getRoot()) + 1;
+		return ($entry['path'] === $this->getRoot()) or (substr($entry['path'], 0, $rootLength) === $this->getRoot() . '/');
 	}
 
 	/**
@@ -190,7 +195,7 @@ class CacheJail extends CacheWrapper {
 	 * remove all entries for files that are stored on the storage from the cache
 	 */
 	public function clear() {
-		$this->getCache()->remove($this->root);
+		$this->getCache()->remove($this->getRoot());
 	}
 
 	/**

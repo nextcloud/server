@@ -44,6 +44,8 @@ OC.MimeType = {
 		// Generate path
 		if (mimeType === 'dir' && $.inArray('folder', files) !== -1) {
 			return 'folder';
+		} else if (mimeType === 'dir-encrypted' && $.inArray('folder-encrypted', files) !== -1) {
+			return 'folder-encrypted';
 		} else if (mimeType === 'dir-shared' && $.inArray('folder-shared', files) !== -1) {
 			return 'folder-shared';
 		} else if (mimeType === 'dir-public' && $.inArray('folder-public', files) !== -1) {

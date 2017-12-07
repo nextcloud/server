@@ -89,8 +89,11 @@ img, object, video, button, textarea, input, select, div[contenteditable=true] {
 	background-size: 32px !important;
 }
 
-.icon-shadow {
-	filter: drop-shadow(0 1px 3px $color-box-shadow);
+.icon-white {
+	filter: invert(100%);
+	&.icon-shadow {
+		filter: invert(100%) drop-shadow(1px 1px 4px $color-box-shadow);
+	}
 }
 
 /* ICONS -------------------------------------------------------------------- */
@@ -106,16 +109,20 @@ img, object, video, button, textarea, input, select, div[contenteditable=true] {
 	background-image: url('../img/actions/audio.svg?v=1');
 }
 
+/* TODO: to be deprecated; use .icon-audio.icon-white.icon-shadow */
 .icon-audio-white {
-	background-image: url('../img/actions/audio-white.svg?v=2');
+	background-image: url('../img/actions/audio.svg?v=2');
+	filter: invert(100%) drop-shadow(1px 1px 4px $color-box-shadow);
 }
 
 .icon-audio-off {
 	background-image: url('../img/actions/audio-off.svg?v=1');
 }
 
+/* TODO: to be deprecated; use .icon-audio-off.icon-white.icon-shadow */
 .icon-audio-off-white {
-	background-image: url('../img/actions/audio-off-white.svg?v=1');
+	background-image: url('../img/actions/audio-off.svg?v=1');
+	filter: invert(100%) drop-shadow(1px 1px 4px $color-box-shadow);
 }
 
 .icon-caret {
@@ -171,6 +178,7 @@ img, object, video, button, textarea, input, select, div[contenteditable=true] {
 	}
 	&:hover, &:focus {
 		background-image: url('../img/actions/delete-hover.svg?v=1');
+		filter: initial;
 	}
 }
 
@@ -222,8 +230,10 @@ img, object, video, button, textarea, input, select, div[contenteditable=true] {
 	background-image: url('../img/actions/fullscreen.svg?v=1');
 }
 
+/* TODO: to be deprecated; use .icon-fullscreen.icon-white.icon-shadow */
 .icon-fullscreen-white {
-	background-image: url('../img/actions/fullscreen-white.svg?v=2');
+	background-image: url('../img/actions/fullscreen.svg?v=1');
+	filter: invert(100%) drop-shadow(1px 1px 4px $color-box-shadow);
 }
 
 .icon-history {
@@ -294,16 +304,20 @@ img, object, video, button, textarea, input, select, div[contenteditable=true] {
 	background-image: url('../img/actions/screen.svg?v=1');
 }
 
+/* TODO: to be deprecated; use .icon-screen.icon-white.icon-shadow */
 .icon-screen-white {
-	background-image: url('../img/actions/screen-white.svg?v=1');
+	background-image: url('../img/actions/screen.svg?v=1');
+	filter: invert(100%) drop-shadow(1px 1px 4px $color-box-shadow);
 }
 
 .icon-screen-off {
 	background-image: url('../img/actions/screen-off.svg?v=1');
 }
 
+/* TODO: to be deprecated; use .icon-screen-off.icon-white.icon-shadow */
 .icon-screen-off-white {
-	background-image: url('../img/actions/screen-off-white.svg?v=1');
+	background-image: url('../img/actions/screen-off.svg?v=1');
+	filter: invert(100%) drop-shadow(1px 1px 4px $color-box-shadow);
 }
 
 .icon-search {
@@ -373,6 +387,10 @@ img, object, video, button, textarea, input, select, div[contenteditable=true] {
 	background-image: url('../img/actions/toggle.svg?v=1');
 }
 
+.icon-toggle-background {
+	background-image: url('../img/actions/toggle-background.svg?v=1');
+}
+
 .icon-toggle-pictures {
 	background-image: url('../img/actions/toggle-pictures.svg?v=1');
 }
@@ -405,16 +423,20 @@ img, object, video, button, textarea, input, select, div[contenteditable=true] {
 	background-image: url('../img/actions/video.svg?v=1');
 }
 
+/* TODO: to be deprecated; use .icon-video-off.icon-white.icon-shadow */
 .icon-video-white {
-	background-image: url('../img/actions/video-white.svg?v=2');
+	background-image: url('../img/actions/video.svg?v=2');
+	filter: invert(100%) drop-shadow(1px 1px 4px $color-box-shadow);
 }
 
 .icon-video-off {
 	background-image: url('../img/actions/video-off.svg?v=1');
 }
 
+/* TODO: to be deprecated; use .icon-video-off.icon-white.icon-shadow */
 .icon-video-off-white {
-	background-image: url('../img/actions/video-off-white.svg?v=1');
+	background-image: url('../img/actions/video-off.svg?v=1');
+	filter: invert(100%) drop-shadow(1px 1px 4px $color-box-shadow);
 }
 
 .icon-view-close {
@@ -426,7 +448,7 @@ img, object, video, button, textarea, input, select, div[contenteditable=true] {
 }
 
 .icon-view-next {
-	background-image: url('../img/actions/view-next.svg?v=1');
+	background-image: url('../img/actions/arrow-right.svg?v=1');
 }
 
 .icon-view-pause {
@@ -438,13 +460,14 @@ img, object, video, button, textarea, input, select, div[contenteditable=true] {
 }
 
 .icon-view-previous {
-	background-image: url('../img/actions/view-previous.svg?v=1');
+	background-image: url('../img/actions/arrow-left.svg?v=1');
 }
 
 /* PLACES ------------------------------------------------------------------- */
 .icon-calendar {
 	background-image: url('../img/places/calendar.svg?v=1');
 }
+
 .icon-calendar-dark {
 	background-image: url('../img/places/calendar-dark.svg?v=1');
 }

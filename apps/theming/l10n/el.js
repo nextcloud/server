@@ -9,6 +9,7 @@ OC.L10N.register(
     "The given web address is too long" : "Η διεύθυνση ιστοσελίδας που δόθηκε είναι πολύ μεγάλη.",
     "The given slogan is too long" : "Το ρητό που δόθηκε είναι πολύ μεγάλο",
     "The given color is invalid" : "Δόθηκε μη έγκυρο χρώμα",
+    "There is no error, the file uploaded with success" : "Δεν υπάρχει σφάλμα, το αρχείο μεταφορτώθηκε με επιτυχία",
     "No file uploaded" : "Δεν έχει μεταφορτωθεί αρχείο",
     "Unsupported image type" : "Μη υποστηριζόμενος τύπος εικόνας",
     "You are already using a custom theme" : "Χρησιμοποιείτε ήδη προσαρμοσμένο θέμα",

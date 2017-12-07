@@ -157,7 +157,11 @@ $CONFIG = array(
  * language codes such as ``en`` for English, ``de`` for German, and ``fr`` for
  * French. It overrides automatic language detection on public pages like login
  * or shared items. User's language preferences configured under "personal ->
- * language" override this setting after they have logged in.
+ * language" override this setting after they have logged in. Nextcloud has two
+ * distinguished language codes for German, 'de' and 'de_DE'. 'de' is used for
+ * informal German and 'de_DE' for formal German. By setting this value to 'de_DE'
+ * you can enforce the formal version of German unless the user has chosen
+ * something different explicitly.
  *
  * Defaults to ``en``
  */
@@ -817,7 +821,6 @@ $CONFIG = array(
  * @see appcodechecker
  */
 
-
 /**
  * Previews
  *
@@ -1094,8 +1097,8 @@ $CONFIG = array(
  *
  * WARNING: FAILOVER_DISTRIBUTE is a not recommended setting and we strongly
  * suggest to not use it if you use Redis for file locking. Due to the way Redis
- * is synchronised it could happen, that the read for an existing lock is
- * scheduled to a slave that is not fully synchronised with the connected master
+ * is synchronized it could happen, that the read for an existing lock is
+ * scheduled to a slave that is not fully synchronized with the connected master
  * which then causes a FileLocked exception.
  *
  * See https://redis.io/topics/cluster-spec for details about the Redis cluster

@@ -24,6 +24,8 @@
     "%1$s commented on %2$s" : "%1$s прокомментировано на %2$s",
     "{author} commented on {file}" : "{author} прокомментировал {file}",
     "<strong>Comments</strong> for files" : "<strong>Комментарии</strong> к файлам",
+    "You were mentioned on “%s”, in a comment by a user that has since been deleted" : "Вы были упомянуты в комментарии к файлу «%s» пользователем, учётная запись которого была удалена",
+    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Вы были упомянуты в комментарии к файлу «{file}» пользователем, учётная запись которого была удалена",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s упомянул вас в комментарии к \"%2$s\"",
     "{user} mentioned you in a comment on “{file}”" : "{user} упомянул вас в комментарии к “{file}”.",
     "A (now) deleted user mentioned you in a comment on “%s”" : "Пользователь (удалённый в настоящее время) упомянул вас в комментарии к “%s”.",

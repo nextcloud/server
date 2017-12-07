@@ -950,7 +950,8 @@
 				type: $el.attr('data-type'),
 				etag: $el.attr('data-etag'),
 				permissions: parseInt($el.attr('data-permissions'), 10),
-				hasPreview: $el.attr('data-has-preview') === 'true'
+				hasPreview: $el.attr('data-has-preview') === 'true',
+				isEncrypted: $el.attr('data-e2eencrypted') === 'true'
 			};
 			var size = $el.attr('data-size');
 			if (size) {
@@ -1152,7 +1153,10 @@
 			if (type === 'dir') {
 				mime = mime || 'httpd/unix-directory';
 
-				if (fileData.mountType && fileData.mountType.indexOf('external') === 0) {
+				if (fileData.isEncrypted) {
+					icon = OC.MimeType.getIconUrl('dir-encrypted');
+					dataIcon = icon;
+				} else if (fileData.mountType && fileData.mountType.indexOf('external') === 0) {
 					icon = OC.MimeType.getIconUrl('dir-external');
 					dataIcon = icon;
 				}
@@ -1173,7 +1177,8 @@
 				"data-mtime": mtime,
 				"data-etag": fileData.etag,
 				"data-permissions": permissions,
-				"data-has-preview": fileData.hasPreview !== false
+				"data-has-preview": fileData.hasPreview !== false,
+				"data-e2eencrypted": fileData.isEncrypted === true
 			});
 
 			if (dataIcon) {
@@ -1444,7 +1449,9 @@
 				path = fileData.path || this.getCurrentDirectory(),
 				permissions = parseInt(fileData.permissions, 10) || 0;
 
-			if (fileData.isShareMountPoint) {
+			var isEndToEndEncrypted = (type === 'dir' && fileData.isEncrypted);
+
+			if (!isEndToEndEncrypted && fileData.isShareMountPoint) {
 				permissions = permissions | OC.PERMISSION_UPDATE;
 			}
 

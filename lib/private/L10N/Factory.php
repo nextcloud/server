@@ -260,7 +260,7 @@ class Factory implements IFactory {
 
 				foreach ($available as $available_language) {
 					if ($preferred_language === strtolower($available_language)) {
-						return $available_language;
+						return $this->respectDefaultLanguage($app, $available_language);
 					}
 				}
 
@@ -274,6 +274,31 @@ class Factory implements IFactory {
 		}
 
 		throw new LanguageNotFoundException();
+	}
+
+	/**
+	 * if default language is set to de_DE (formal German) this should be
+	 * preferred to 'de' (non-formal German) if possible
+	 *
+	 * @param string|null $app
+	 * @param string $lang
+	 * @return string
+	 */
+	protected function respectDefaultLanguage($app, $lang) {
+		$result = $lang;
+		$defaultLanguage = $this->config->getSystemValue('default_language', false);
+
+		// use formal version of german ("Sie" instead of "Du") if the default
+		// language is set to 'de_DE' if possible
+		if (is_string($defaultLanguage) &&
+			strtolower($lang) === 'de' &&
+			strtolower($defaultLanguage) === 'de_de' &&
+			$this->languageExists($app, 'de_DE')
+		) {
+			$result = 'de_DE';
+		}
+
+		return $result;
 	}
 
 	/**

@@ -151,6 +151,13 @@ describe('OC.Share tests', function() {
 
 				checkIcon('filetypes/folder-external');
 			});
+			it('shows encrypted icon if encrypted folder', function() {
+				$file.attr('data-type', 'dir');
+				$file.attr('data-e2eencrypted', true);
+				OC.Share.markFileAsShared($file, false, false);
+
+				checkIcon('filetypes/folder-encrypted');
+			});
 		});
 
 		describe('displaying the recipients', function() {

@@ -217,6 +217,7 @@ describe('OCA.Files.FileList tests', function() {
 			expect($tr.attr('data-permissions')).toEqual('31');
 			expect($tr.attr('data-mime')).toEqual('text/plain');
 			expect($tr.attr('data-mtime')).toEqual('123456');
+			expect($tr.attr('data-e2eencrypted')).toEqual('false');
 			expect($tr.find('a.name').attr('href'))
 				.toEqual(OC.webroot + '/remote.php/webdav/subdir/testName.txt');
 			expect($tr.find('.nametext').text().trim()).toEqual('testName.txt');
@@ -246,6 +247,7 @@ describe('OCA.Files.FileList tests', function() {
 			expect($tr.attr('data-permissions')).toEqual('31');
 			expect($tr.attr('data-mime')).toEqual('httpd/unix-directory');
 			expect($tr.attr('data-mtime')).toEqual('123456');
+			expect($tr.attr('data-e2eencrypted')).toEqual('false');
 
 			expect($tr.find('.filesize').text()).toEqual('1 KB');
 			expect($tr.find('.date').text()).not.toEqual('?');
@@ -271,6 +273,7 @@ describe('OCA.Files.FileList tests', function() {
 			expect($tr.attr('data-permissions')).toEqual('31');
 			expect($tr.attr('data-mime')).toBeUndefined();
 			expect($tr.attr('data-mtime')).toEqual('123456');
+			expect($tr.attr('data-e2eencrypted')).toEqual('false');
 
 			expect($tr.find('.filesize').text()).toEqual('Pending');
 			expect($tr.find('.date').text()).not.toEqual('?');
@@ -293,9 +296,19 @@ describe('OCA.Files.FileList tests', function() {
 			expect($tr.attr('data-permissions')).toEqual('31');
 			expect($tr.attr('data-mime')).toEqual('httpd/unix-directory');
 			expect($tr.attr('data-mtime')).toEqual('123456');
+			expect($tr.attr('data-e2eencrypted')).toEqual('false');
 
 			expect($tr.find('.filesize').text()).toEqual('Pending');
 			expect($tr.find('.date').text()).not.toEqual('?');
+		});
+		it('generates dir element with true e2eencrypted attribute when calling add() with minimal data including isEncrypted', function() {
+			var fileData = {
+				type: 'dir',
+				name: 'testFolder',
+				isEncrypted: true
+			};
+			var $tr = fileList.add(fileData);
+			expect($tr.attr('data-e2eencrypted')).toEqual('true');
 		});
 		it('generates file element with no permissions when permissions are explicitly none', function() {
 			var fileData = {
@@ -1442,6 +1455,32 @@ describe('OCA.Files.FileList tests', function() {
 			expect(OC.TestUtil.getImageUrl($td.find('.thumbnail'))).toEqual(OC.webroot + '/core/img/filetypes/folder.svg');
 			expect(previewLoadStub.notCalled).toEqual(true);
 		});
+		it('render encrypted folder icon for encrypted root', function() {
+			var fileData = {
+				type: 'dir',
+				mimetype: 'httpd/unix-directory',
+				name: 'test dir',
+				isEncrypted: true
+			};
+			var $tr = fileList.add(fileData);
+			var $td = $tr.find('td.filename');
+			expect(OC.TestUtil.getImageUrl($td.find('.thumbnail'))).toEqual(OC.webroot + '/core/img/filetypes/folder-encrypted.svg');
+			expect(previewLoadStub.notCalled).toEqual(true);
+		});
+		it('render encrypted folder icon for encrypted subdir', function() {
+			var fileData = {
+				type: 'dir',
+				mimetype: 'httpd/unix-directory',
+				name: 'test dir',
+				isEncrypted: true
+			};
+			var $tr = fileList.add(fileData);
+			var $td = $tr.find('td.filename');
+			expect(OC.TestUtil.getImageUrl($td.find('.thumbnail'))).toEqual(OC.webroot + '/core/img/filetypes/folder-encrypted.svg');
+			expect(previewLoadStub.notCalled).toEqual(true);
+			// default icon override
+			expect($tr.attr('data-icon')).toEqual(OC.webroot + '/core/img/filetypes/folder-encrypted.svg');
+		});
 		it('render external storage icon for external storage root', function() {
 			var fileData = {
 				type: 'dir',
@@ -2086,7 +2125,8 @@ describe('OCA.Files.FileList tests', function() {
 					size: 12,
 					etag: 'abc',
 					permissions: OC.PERMISSION_ALL,
-					hasPreview: true
+					hasPreview: true,
+					isEncrypted: false
 				});
 				expect(files[1]).toEqual({
 					id: 3,
@@ -2097,7 +2137,8 @@ describe('OCA.Files.FileList tests', function() {
 					size: 58009,
 					etag: '123',
 					permissions: OC.PERMISSION_ALL,
-					hasPreview: true
+					hasPreview: true,
+					isEncrypted: false
 				});
 				expect(files[2]).toEqual({
 					id: 4,
@@ -2108,7 +2149,8 @@ describe('OCA.Files.FileList tests', function() {
 					size: 250,
 					etag: '456',
 					permissions: OC.PERMISSION_ALL,
-					hasPreview: true
+					hasPreview: true,
+					isEncrypted: false
 				});
 				expect(files[0].id).toEqual(1);
 				expect(files[0].name).toEqual('One.txt');
@@ -2130,7 +2172,8 @@ describe('OCA.Files.FileList tests', function() {
 					size: 12,
 					etag: 'abc',
 					permissions: OC.PERMISSION_ALL,
-					hasPreview: true
+					hasPreview: true,
+					isEncrypted: false
 				});
 				expect(files[1]).toEqual({
 					id: 4,
@@ -2141,7 +2184,8 @@ describe('OCA.Files.FileList tests', function() {
 					size: 250,
 					etag: '456',
 					permissions: OC.PERMISSION_ALL,
-					hasPreview: true
+					hasPreview: true,
+					isEncrypted: false
 				});
 			});
 			describe('Download', function() {
@@ -3231,6 +3275,16 @@ describe('OCA.Files.FileList tests', function() {
 			expect(fileInfo.mimetype).toEqual('text/plain');
 			expect(fileInfo.type).toEqual('file');
 			expect(fileInfo.path).not.toBeDefined();
+			expect(fileInfo.isEncrypted).toEqual(false);
+		});
+		it('sets isEncrypted attribute if data includes true e2eencrypted', function() {
+			testFiles[3].isEncrypted = true;
+
+			fileList.setFiles(testFiles);
+			$tr = fileList.findFileEl('somedir');
+
+			var fileInfo = fileList.elementToFile($tr);
+			expect(fileInfo.isEncrypted).toEqual(true);
 		});
 		it('adds path attribute if available', function() {
 			$tr.attr('data-path', '/subdir');
