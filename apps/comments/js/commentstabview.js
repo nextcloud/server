@@ -530,9 +530,13 @@
 			$field.toggleClass('error', limitExceeded);
 			$submitButton.prop('disabled', limitExceeded);
 
-			//submits form on ctrl+Enter or cmd+Enter
-			if (ev.keyCode === 13 && (ev.ctrlKey || ev.metaKey)) {
+			// Submits form with Enter, but Shift+Enter is a new line. If the
+			// autocomplete popover is being shown Enter does not submit the
+			// form either; it will be handled by At.js which will add the
+			// currently selected item to the message.
+			if (ev.keyCode === 13 && !ev.shiftKey && !$field.atwho('isSelecting')) {
 				$submitButton.click();
+				ev.preventDefault();
 			}
 		},
 
