@@ -389,7 +389,10 @@ class OC_Util {
 				$skeletonDirectory = str_replace('{lang}', substr($userLang, 0, $dialectStart), $plainSkeletonDirectory);
 			}
 			if ($dialectStart === false || !file_exists($skeletonDirectory)) {
-				$skeletonDirectory = str_replace('{lang}', 'en', $plainSkeletonDirectory);
+				$skeletonDirectory = str_replace('{lang}', 'default', $plainSkeletonDirectory);
+			}
+			if (!file_exists($skeletonDirectory)) {
+				$skeletonDirectory = '';
 			}
 		}
 
