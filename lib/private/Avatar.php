@@ -246,13 +246,14 @@ class Avatar implements IAvatar {
 		$white = imagecolorallocate($im, 255, 255, 255);
 		imagefilledrectangle($im, 0, 0, $size, $size, $background);
 
-		$font = __DIR__ . '/../../core/fonts/OpenSans-Light.woff';
+		$font = __DIR__ . '/../../core/fonts/OpenSans-Semibold.woff';
 
 		$fontSize = $size * 0.4;
 		$box = imagettfbbox($fontSize, 0, $font, $text);
 
 		$x = ($size - ($box[2] - $box[0])) / 2;
 		$y = ($size - ($box[1] - $box[7])) / 2;
+		$x += 1;
 		$y -= $box[7];
 		imagettftext($im, $fontSize, 0, $x, $y, $white, $font, $text);
 
