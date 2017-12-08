@@ -910,12 +910,20 @@ kbd {
 
 #app-content-wrapper {
 	display: flex;
+	position: relative;
+	align-items: start;
+	height: 100%;
+	width: 100%;
+	.app-content-list,
+	.app-content-detail {
+		min-height: 100%;
+		max-height: 100%;
+		overflow-x: hidden;
+		overflow-y: auto;
+	}
 }
 .app-content-list {
 	width: 300px;
-	min-height: 100%;
-	overflow-x: hidden;
-	overflow-y: auto;
 	border-right: 1px solid nc-darken($color-main-background, 8%);
 	display: flex;
 	flex-direction: column;
@@ -931,6 +939,7 @@ kbd {
 		display: flex;
 		flex-wrap: wrap;
 		align-items: center;
+		flex: 0 0 auto;
 
 		/* Icon fixes */
 		&,
