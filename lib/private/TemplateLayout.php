@@ -193,6 +193,11 @@ class TemplateLayout extends \OC_Template {
 		}
 	}
 
+	/**
+	 * @param string $path
+ 	 * @param string $file
+	 * @return string
+	 */
 	protected function getVersionHashSuffix($path = false, $file = false) {
 		if (\OC::$server->getConfig()->getSystemValue('debug', false)) {
 			// allows chrome workspace mapping in debug mode
@@ -250,9 +255,9 @@ class TemplateLayout extends \OC_Template {
 
 	/**
 	 * @param string $path
-	 * @return string
+	 * @return string|boolean
 	 */
-	static public function getAppNamefromPath($path) {
+	public function getAppNamefromPath($path) {
 		if ($path !== '' && is_string($path)) {
 			$pathParts = explode('/', $path);
 			if ($pathParts[0] === 'css') {
@@ -261,6 +266,7 @@ class TemplateLayout extends \OC_Template {
 			}
 			return end($pathParts);
 		}
+		return false
 
 	}
 
