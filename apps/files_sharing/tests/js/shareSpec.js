@@ -498,7 +498,7 @@ describe('OCA.Sharing.Util tests', function() {
 			var changeHandler = sinon.stub();
 			fileInfoModel.on('change', changeHandler);
 
-			shareTabSpy.getCall(0).thisValue.trigger('sharesChanged', shareModel);
+			shareTabSpy.getCall(0).returnValue.trigger('sharesChanged', shareModel);
 
 			expect(changeHandler.calledOnce).toEqual(true);
 			expect(changeHandler.getCall(0).args[0].changed).toEqual({
