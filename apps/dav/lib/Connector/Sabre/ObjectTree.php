@@ -29,6 +29,7 @@
 
 namespace OCA\DAV\Connector\Sabre;
 
+use OC\Files\Storage\FailedStorage;
 use OCA\DAV\Connector\Sabre\Exception\Forbidden;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
 use OCA\DAV\Connector\Sabre\Exception\FileLocked;
@@ -158,6 +159,10 @@ class ObjectTree extends \Sabre\DAV\Tree {
 			// read from cache
 			try {
 				$info = $this->fileView->getFileInfo($path);
+
+				if ($info instanceof \OCP\Files\FileInfo && $info->getStorage()->instanceOfStorage(FailedStorage::class)) {
+					throw new StorageNotAvailableException();
+				}
 			} catch (StorageNotAvailableException $e) {
 				throw new \Sabre\DAV\Exception\ServiceUnavailable('Storage is temporarily not available');
 			} catch (StorageInvalidException $e) {
