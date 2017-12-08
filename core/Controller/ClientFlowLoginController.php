@@ -307,7 +307,16 @@ class ClientFlowLoginController extends Controller {
 			);
 			$this->session->remove('oauth.state');
 		} else {
-			$redirectUri = 'nc://login/server:' . $this->request->getServerHost() . '&user:' . urlencode($loginName) . '&password:' . urlencode($token);
+			$serverPostfix = '';
+
+			if (strpos($this->request->getRequestUri(), '/index.php') !== false) {
+				$serverPostfix = substr($this->request->getRequestUri(), 0, strpos($this->request->getRequestUri(), '/index.php'));
+			} else if (strpos($this->request->getRequestUri(), '/login/flow') !== false) {
+				$serverPostfix = substr($this->request->getRequestUri(), 0, strpos($this->request->getRequestUri(), '/login/flow'));
+			}
+
+			$serverPath = $this->request->getServerProtocol() . "://" . $this->request->getServerHost() . $serverPostfix;
+			$redirectUri = 'nc://login/server:' . $serverPath . '&user:' . urlencode($loginName) . '&password:' . urlencode($token);
 		}
 
 		return new Http\RedirectResponse($redirectUri);
