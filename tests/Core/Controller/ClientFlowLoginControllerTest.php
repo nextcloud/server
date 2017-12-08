@@ -160,10 +160,6 @@ class ClientFlowLoginControllerTest extends TestCase {
 			->willReturn('ExampleCloud');
 		$this->request
 			->expects($this->once())
-			->method('getServerProtocol')
-			->willReturn('http');
-		$this->request
-			->expects($this->once())
 			->method('getServerHost')
 			->willReturn('example.com');
 
@@ -218,10 +214,6 @@ class ClientFlowLoginControllerTest extends TestCase {
 			->expects($this->once())
 			->method('getName')
 			->willReturn('ExampleCloud');
-		$this->request
-			->expects($this->once())
-			->method('getServerProtocol')
-			->willReturn('http');
 		$this->request
 			->expects($this->once())
 			->method('getServerHost')
