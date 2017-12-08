@@ -73,7 +73,7 @@ class Capabilities implements ICapability {
 				'url' => $this->theming->getBaseUrl(),
 				'slogan' => $this->theming->getSlogan(),
 				'color' => $this->theming->getColorPrimary(),
-				'color-text' => $this->util->invertTextColor($this->theming->getColorPrimary()) ? '#000000' : '#FFFFFF',
+				'color-text' => $this->theming->getTextColorPrimary(),
 				'logo' => $this->url->getAbsoluteURL($this->theming->getLogo()),
 				'background' => $backgroundLogo === 'backgroundColor' ?
 					$this->theming->getColorPrimary() :
