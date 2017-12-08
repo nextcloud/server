@@ -111,6 +111,9 @@ class AvatarController extends Controller {
 		$this->timeFactory = $timeFactory;
 	}
 
+
+
+
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
@@ -133,19 +136,10 @@ class AvatarController extends Controller {
 			$resp = new FileDisplayResponse($avatar,
 				Http::STATUS_OK,
 				['Content-Type' => $avatar->getMimeType()]);
-		} catch (NotFoundException $e) {
-			$user = $this->userManager->get($userId);
-			$resp = new JSONResponse([
-				'data' => [
-					'displayname' => $user->getDisplayName(),
-				],
-			]);
 		} catch (\Exception $e) {
-			$resp = new JSONResponse([
-				'data' => [
-					'displayname' => $userId,
-				],
-			]);
+			$resp = new Http\Response();
+			$resp->setStatus(Http::STATUS_NOT_FOUND);
+			return $resp;
 		}
 
 		// Let cache this!

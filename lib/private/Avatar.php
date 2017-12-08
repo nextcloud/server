@@ -124,20 +124,27 @@ class Avatar implements IAvatar {
 			$type = 'jpg';
 		}
 		if ($type !== 'jpg' && $type !== 'png') {
-			throw new \Exception($this->l->t("Unknown filetype"));
+			throw new \Exception($this->l->t('Unknown filetype'));
 		}
 
 		if (!$img->valid()) {
-			throw new \Exception($this->l->t("Invalid image"));
+			throw new \Exception($this->l->t('Invalid image'));
 		}
 
 		if (!($img->height() === $img->width())) {
-			throw new NotSquareException($this->l->t("Avatar image is not square"));
+			throw new NotSquareException($this->l->t('Avatar image is not square'));
 		}
 
 		$this->remove();
 		$file = $this->folder->newFile('avatar.'.$type);
 		$file->putContent($data);
+
+		try {
+			$generated = $this->folder->getFile('generated');
+			$generated->delete();
+		} catch (NotFoundException $e) {
+			//
+		}
 		$this->user->triggerChange('avatar', $file);
 	}
 
@@ -146,16 +153,13 @@ class Avatar implements IAvatar {
 	 * @return void
 	*/
 	public function remove () {
-		$regex = '/^avatar\.([0-9]+\.)?(jpg|png)$/';
 		$avatars = $this->folder->getDirectoryListing();
 
 		$this->config->setUserValue($this->user->getUID(), 'avatar', 'version',
 			(int)$this->config->getUserValue($this->user->getUID(), 'avatar', 'version', 0) + 1);
 
 		foreach ($avatars as $avatar) {
-			if (preg_match($regex, $avatar->getName())) {
-				$avatar->delete();
-			}
+			$avatar->delete();
 		}
 		$this->user->triggerChange('avatar', '');
 	}
@@ -164,7 +168,16 @@ class Avatar implements IAvatar {
 	 * @inheritdoc
 	 */
 	public function getFile($size) {
-		$ext = $this->getExtension();
+		try {
+			$ext = $this->getExtension();
+		} catch (NotFoundException $e) {
+			$data = $this->generateAvatar($this->user->getDisplayName(), 1024);
+			$avatar = $this->folder->newFile('avatar.png');
+			$avatar->putContent($data);
+			$ext = 'png';
+
+			$this->folder->newFile('generated');
+		}
 
 		if ($size === -1) {
 			$path = 'avatar.' . $ext;
@@ -179,19 +192,26 @@ class Avatar implements IAvatar {
 				throw new NotFoundException;
 			}
 
-			$avatar = new OC_Image();
-			/** @var ISimpleFile $file */
-			$file = $this->folder->getFile('avatar.' . $ext);
-			$avatar->loadFromData($file->getContent());
-			if ($size !== -1) {
+			if ($this->folder->fileExists('generated')) {
+				$data = $this->generateAvatar($this->user->getDisplayName(), $size);
+
+			} else {
+				$avatar = new OC_Image();
+				/** @var ISimpleFile $file */
+				$file = $this->folder->getFile('avatar.' . $ext);
+				$avatar->loadFromData($file->getContent());
 				$avatar->resize($size);
+				$data = $avatar->data();
 			}
+
 			try {
 				$file = $this->folder->newFile($path);
-				$file->putContent($avatar->data());
+				$file->putContent($data);
 			} catch (NotPermittedException $e) {
 				$this->logger->error('Failed to save avatar for ' . $this->user->getUID());
+				throw new NotFoundException();
 			}
+
 		}
 
 		return $file;
@@ -211,4 +231,166 @@ class Avatar implements IAvatar {
 		}
 		throw new NotFoundException;
 	}
+
+	/**
+	 * @param string $userDisplayName
+	 * @param int $size
+	 * @return string
+	 */
+	private function generateAvatar($userDisplayName, $size) {
+		$text = strtoupper(substr($userDisplayName, 0, 1));
+		$backgroundColor = $this->avatarBackgroundColor($userDisplayName);
+
+		$im = imagecreatetruecolor($size, $size);
+		$background = imagecolorallocate($im, $backgroundColor[0], $backgroundColor[1], $backgroundColor[2]);
+		$white = imagecolorallocate($im, 255, 255, 255);
+		imagefilledrectangle($im, 0, 0, $size, $size, $background);
+
+		$font = __DIR__ . '/../../core/fonts/OpenSans-Semibold.woff';
+
+		$fontSize = $size * 0.4;
+		$box = imagettfbbox($fontSize, 0, $font, $text);
+
+		$x = ($size - ($box[2] - $box[0])) / 2;
+		$y = ($size - ($box[1] - $box[7])) / 2;
+		$x += 1;
+		$y -= $box[7];
+		imagettftext($im, $fontSize, 0, $x, $y, $white, $font, $text);
+
+		ob_start();
+		imagepng($im);
+		$data = ob_get_contents();
+		ob_end_clean();
+
+		return $data;
+	}
+
+	/**
+	 * @param int $r
+	 * @param int $g
+	 * @param int $b
+	 * @return double[] Array containing h s l in [0, 1] range
+	 */
+	private function rgbToHsl($r, $g, $b) {
+		$r /= 255.0;
+		$g /= 255.0;
+		$b /= 255.0;
+
+		$max = max($r, $g, $b);
+		$min = min($r, $g, $b);
+
+
+		$h = ($max + $min) / 2.0;
+		$l = ($max + $min) / 2.0;
+
+		if($max === $min) {
+			$h = $s = 0; // Achromatic
+		} else {
+			$d = $max - $min;
+			$s = $l > 0.5 ? $d / (2 - $max - $min) : $d / ($max + $min);
+			switch($max) {
+				case $r:
+					$h = ($g - $b) / $d + ($g < $b ? 6 : 0);
+					break;
+				case $g:
+					$h = ($b - $r) / $d + 2.0;
+					break;
+				case $b:
+					$h = ($r - $g) / $d + 4.0;
+					break;
+			}
+			$h /= 6.0;
+		}
+		return [$h, $s, $l];
+
+	}
+
+	/**
+	 * @param string $text
+	 * @return int[] Array containting r g b in the range [0, 255]
+	 */
+	private function avatarBackgroundColor($text) {
+		$hash = preg_replace('/[^0-9a-f]+/', '', $text);
+
+		$hash = md5($hash);
+		$hashChars = str_split($hash);
+
+
+		// Init vars
+		$result = ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'];
+		$rgb = [0, 0, 0];
+		$sat = 0.70;
+		$lum = 0.68;
+		$modulo = 16;
+
+
+		// Splitting evenly the string
+		foreach($hashChars as  $i => $char) {
+			$result[$i % $modulo] .= intval($char, 16);
+		}
+
+		// Converting our data into a usable rgb format
+		// Start at 1 because 16%3=1 but 15%3=0 and makes the repartition even
+		for($count = 1; $count < $modulo; $count++) {
+			$rgb[$count%3] += (int)$result[$count];
+		}
+
+		// Reduce values bigger than rgb requirements
+		$rgb[0] %= 255;
+		$rgb[1] %= 255;
+		$rgb[2] %= 255;
+
+		$hsl = $this->rgbToHsl($rgb[0], $rgb[1], $rgb[2]);
+
+		// Classic formula to check the brightness for our eye
+		// If too bright, lower the sat
+		$bright = sqrt(0.299 * ($rgb[0] ** 2) + 0.587 * ($rgb[1] ** 2) + 0.114 * ($rgb[2] ** 2));
+		if ($bright >= 200) {
+			$sat = 0.60;
+		}
+
+		return $this->hslToRgb($hsl[0], $sat, $lum);
+	}
+
+	/**
+	 * @param double $h Hue in range [0, 1]
+	 * @param double $s Saturation in range [0, 1]
+	 * @param double $l Lightness in range [0, 1]
+	 * @return int[] Array containing r g b in the range [0, 255]
+	 */
+	private function hslToRgb($h, $s, $l){
+		$hue2rgb = function ($p, $q, $t){
+			if($t < 0) {
+				$t += 1;
+			}
+			if($t > 1) {
+				$t -= 1;
+			}
+			if($t < 1/6) {
+				return $p + ($q - $p) * 6 * $t;
+			}
+			if($t < 1/2) {
+				return $q;
+			}
+			if($t < 2/3) {
+				return $p + ($q - $p) * (2/3 - $t) * 6;
+			}
+			return $p;
+		};
+
+		if($s === 0){
+			$r = $l;
+			$g = $l;
+			$b = $l; // achromatic
+		}else{
+			$q = $l < 0.5 ? $l * (1 + $s) : $l + $s - $l * $s;
+			$p = 2 * $l - $q;
+			$r = $hue2rgb($p, $q, $h + 1/3);
+			$g = $hue2rgb($p, $q, $h);
+			$b = $hue2rgb($p, $q, $h - 1/3);
+		}
+
+		return array(round($r * 255), round($g * 255), round($b * 255));
+	}
+
 }
