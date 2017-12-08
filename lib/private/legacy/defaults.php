@@ -50,6 +50,7 @@ class OC_Defaults {
 	private $defaultDocVersion;
 	private $defaultSlogan;
 	private $defaultColorPrimary;
+	private $defaultTextColorPrimary;
 
 	public function __construct() {
 		$this->l = \OC::$server->getL10N('lib');
@@ -66,6 +67,7 @@ class OC_Defaults {
 		$this->defaultDocVersion = '12'; // used to generate doc links
 		$this->defaultSlogan = $this->l->t('a safe home for all your data');
 		$this->defaultColorPrimary = '#0082c9';
+		$this->defaultTextColorPrimary = '#ffffff';
 
 		$themePath = OC::$SERVERROOT . '/themes/' . OC_Util::getTheme() . '/defaults.php';
 		if (file_exists($themePath)) {
@@ -317,5 +319,12 @@ class OC_Defaults {
 			$logo = \OC::$server->getURLGenerator()->imagePath('core', 'logo.png');
 		}
 	    return $logo . '?v=' . hash('sha1', implode('.', \OCP\Util::getVersion()));
+	}
+
+	public function getTextColorPrimary() {
+		if ($this->themeExist('getTextColorPrimary')) {
+			return $this->theme->getTextColorPrimary();
+		}
+		return $this->defaultTextColorPrimary;
 	}
 }

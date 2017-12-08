@@ -234,7 +234,7 @@ EOF;
 										<table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%%">
 											<tr style="padding:0;text-align:left;vertical-align:top">
 												<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;background:%s;border:0 solid %s;border-collapse:collapse!important;color:#fefefe;font-family:Lucida Grande,Geneva,Verdana,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
-													<a href="%s" style="Margin:0;border:0 solid %s;border-radius:2px;color:#fefefe;display:inline-block;font-family:Lucida Grande,Geneva,Verdana,sans-serif;font-size:16px;font-weight:regular;line-height:1.3;margin:0;padding:10px 25px 10px 25px;text-align:left;text-decoration:none">%s</a>
+													<a href="%s" style="Margin:0;border:0 solid %s;border-radius:2px;color:%s;display:inline-block;font-family:Lucida Grande,Geneva,Verdana,sans-serif;font-size:16px;font-weight:regular;line-height:1.3;margin:0;padding:10px 25px 10px 25px;text-align:left;outline:1px solid %s;text-decoration:none">%s</a>
 												</td>
 											</tr>
 										</table>
@@ -287,7 +287,7 @@ EOF;
 										<table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%%">
 											<tr style="padding:0;text-align:left;vertical-align:top">
 												<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;background:%s;border:0 solid %s;border-collapse:collapse!important;color:#fefefe;font-family:Lucida Grande,Geneva,Verdana,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
-													<a href="%s" style="Margin:0;border:0 solid %s;border-radius:2px;color:#fefefe;display:inline-block;font-family:Lucida Grande,Geneva,Verdana,sans-serif;font-size:16px;font-weight:regular;line-height:1.3;margin:0;padding:10px 25px 10px 25px;text-align:left;text-decoration:none">%s</a>
+													<a href="%s" style="Margin:0;border:0 solid %s;border-radius:2px;color:%s;display:inline-block;font-family:Lucida Grande,Geneva,Verdana,sans-serif;font-size:16px;font-weight:regular;line-height:1.3;margin:0;padding:10px 25px 10px 25px;text-align:left;outline:1px solid %s;text-decoration:none">%s</a>
 												</td>
 											</tr>
 										</table>
@@ -531,8 +531,9 @@ EOF;
 		$this->ensureBodyListClosed();
 
 		$color = $this->themingDefaults->getColorPrimary();
+		$textColor = $this->themingDefaults->getTextColorPrimary();
 
-		$this->htmlBody .= vsprintf($this->buttonGroup, [$color, $color, $urlLeft, $color, htmlspecialchars($textLeft), $urlRight, htmlspecialchars($textRight)]);
+		$this->htmlBody .= vsprintf($this->buttonGroup, [$color, $color, $urlLeft, $color, $textColor, $textColor, htmlspecialchars($textLeft), $urlRight, htmlspecialchars($textRight)]);
 		$this->plainBody .= $plainTextLeft . ': ' . $urlLeft . PHP_EOL;
 		$this->plainBody .= $plainTextRight . ': ' . $urlRight . PHP_EOL . PHP_EOL;
 
@@ -561,7 +562,8 @@ EOF;
 		}
 
 		$color = $this->themingDefaults->getColorPrimary();
-		$this->htmlBody .= vsprintf($this->button, [$color, $color, $url, $color, htmlspecialchars($text)]);
+		$textColor = $this->themingDefaults->getTextColorPrimary();
+		$this->htmlBody .= vsprintf($this->button, [$color, $color, $url, $color, $textColor, $textColor, htmlspecialchars($text)]);
 
 		if ($plainText !== false) {
 			$this->plainBody .= $plainText . ': ';

@@ -65,7 +65,7 @@ class CapabilitiesTest extends TestCase  {
 
 	public function dataGetCapabilities() {
 		return [
-			['name', 'url', 'slogan', '#FFFFFF', 'logo', 'background', 'http://absolute/', [
+			['name', 'url', 'slogan', '#FFFFFF', '#000000', 'logo', 'background', 'http://absolute/', [
 				'name' => 'name',
 				'url' => 'url',
 				'slogan' => 'slogan',
@@ -75,22 +75,22 @@ class CapabilitiesTest extends TestCase  {
 				'logo' => 'http://absolute/logo',
 				'background' => 'http://absolute/background',
 			]],
-			['name1', 'url2', 'slogan3', '#01e4a0', 'logo5', 'background6', 'http://localhost/', [
+			['name1', 'url2', 'slogan3', '#01e4a0', '#ffffff', 'logo5', 'background6', 'http://localhost/', [
 				'name' => 'name1',
 				'url' => 'url2',
 				'slogan' => 'slogan3',
 				'color' => '#01e4a0',
-				'color-text' => '#FFFFFF',
+				'color-text' => '#ffffff',
 				'color-element' => '#01e4a0',
 				'logo' => 'http://localhost/logo5',
 				'background' => 'http://localhost/background6',
 			]],
-			['name1', 'url2', 'slogan3', '#000000', 'logo5', 'backgroundColor', 'http://localhost/', [
+			['name1', 'url2', 'slogan3', '#000000', '#ffffff', 'logo5', 'backgroundColor', 'http://localhost/', [
 				'name' => 'name1',
 				'url' => 'url2',
 				'slogan' => 'slogan3',
 				'color' => '#000000',
-				'color-text' => '#FFFFFF',
+				'color-text' => '#ffffff',
 				'color-element' => '#000000',
 				'logo' => 'http://localhost/logo5',
 				'background' => '#000000',
@@ -105,11 +105,12 @@ class CapabilitiesTest extends TestCase  {
 	 * @param string $slogan
 	 * @param string $color
 	 * @param string $logo
+	 * @param string $textColor
 	 * @param string $background
 	 * @param string $baseUrl
 	 * @param string[] $expected
 	 */
-	public function testGetCapabilities($name, $url, $slogan, $color, $logo, $background, $baseUrl, array $expected) {
+	public function testGetCapabilities($name, $url, $slogan, $color, $textColor, $logo, $background, $baseUrl, array $expected) {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->willReturn($background);
@@ -128,6 +129,9 @@ class CapabilitiesTest extends TestCase  {
 		$this->theming->expects($this->once())
 			->method('getLogo')
 			->willReturn($logo);
+		$this->theming->expects($this->once())
+			->method('getTextColorPrimary')
+			->willReturn($textColor);
 
 		if($background !== 'backgroundColor') {
 			$this->theming->expects($this->once())
