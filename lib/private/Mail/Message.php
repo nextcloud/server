@@ -348,6 +348,27 @@ class Message implements IMessage {
         return $this;
     }
 
+    private function messageContentToString($message) {
+		$originalMessage = clone $message;
+		$originalMessage->getHeaders()->remove('Message-ID');
+		$originalMessage->getHeaders()->remove('Date');
+		$originalMessage->getHeaders()->remove('Subject');
+		$originalMessage->getHeaders()->remove('MIME-Version');
+		$originalMessage->getHeaders()->remove('To');
+		$originalMessage->getHeaders()->remove('From');
+		$originalMessage->getHeaders()->remove('CC');
+		$originalMessage->getHeaders()->remove('Bcc');
+		$messageString = $originalMessage->toString();
+
+		$lines = preg_split('/(\r\n|\r|\n)/',trim($messageString));
+		for ($i=0; $i<count($lines); $i++) {
+			$lines[$i] = rtrim($lines[$i])."\r\n";
+		}
+		// Remove excess trailing newlines (RFC3156 section 5.4)
+		return rtrim(implode('',$lines))."\r\n";
+
+	}
+
     /**
      * GPG sign the Message
      *
@@ -364,35 +385,21 @@ class Message implements IMessage {
         $sign_fingerprints = $this->getFromFingerprints();
         $gpg = \OC::$server->getGpg();
 
-        $originalMessage = new Swift_Message('',$this->swiftMessage->getBody(), $this->swiftMessage->getContentType(), $this->swiftMessage->getCharset());
-        $originalMessage->setChildren($this->swiftMessage->getChildren());
-        $originalMessage->getHeaders()->remove('Message-ID');
-        $originalMessage->getHeaders()->remove('Date');
-        $originalMessage->getHeaders()->remove('Subject');
-        $originalMessage->getHeaders()->remove('MIME-Version');
-        $originalMessage->getHeaders()->remove('To');
-        $originalMessage->getHeaders()->remove('From');
-        $originalMessage->getHeaders()->remove('CC');
-        $originalMessage->getHeaders()->remove('Bcc');
+
+		$signedBody = $this->messageContentToString($this->swiftMessage);
+		$signature = $gpg->sign($sign_fingerprints,$signedBody);
 
         $this->swiftMessage->setEncoder(new \Swift_Mime_ContentEncoder_RawContentEncoder);
         $this->swiftMessage->setChildren(array());
-        $this->swiftMessage->getHeaders()->get('Content-Type')->setValue('multipart/signed');
+		$this->swiftMessage->setBoundary('_=_swift_v4_'.time().'_'.md5(getmypid().mt_rand().uniqid('', true)).'_=_');
+
+		$this->swiftMessage->getHeaders()->get('Content-Type')->setValue('multipart/signed');
         $this->swiftMessage->getHeaders()->get('Content-Type')->setParameters(array(
             'micalg' => "pgp-sha256",
             'protocol' => 'application/pgp-signature',
             'boundary' => $this->swiftMessage->getBoundary(),
         ));
 
-        $signedBody = $originalMessage->toString();
-        $lines = preg_split('/(\r\n|\r|\n)/',trim($signedBody));
-        for ($i=0; $i<count($lines); $i++) {
-            $lines[$i] = rtrim($lines[$i])."\r\n";
-        }
-        // Remove excess trailing newlines (RFC3156 section 5.4)
-        $signedBody = rtrim(implode('',$lines))."\r\n";
-
-        $signature = $gpg->sign($sign_fingerprints,$signedBody);
         //Swiftmailer is automatically changing content type and this is the hack to prevent it
         $body = <<<EOT
 
@@ -406,12 +413,11 @@ Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 $signature
+
 --{$this->swiftMessage->getBoundary()}--
 EOT;
         $this->swiftMessage->setBody($body);
-
-        $messageHeaders = $this->swiftMessage->getHeaders();
-        $messageHeaders->removeAll('Content-Transfer-Encoding');
+		$this->swiftMessage->getHeaders()->removeAll('Content-Transfer-Encoding');
 
         $this->signed = TRUE;
         return $this;
@@ -433,35 +439,21 @@ EOT;
         $gpg = \OC::$server->getGpg();
         $encrypt_fingerprints = $this->getToFingerprints() + $this->getCCFingerprints() + $this->getBccFingerprints();
 
-        $originalMessage = new Swift_Message('', $this->swiftMessage->getBody(), $this->swiftMessage->getContentType(), $this->swiftMessage->getCharset());
-        $originalMessage->setChildren($this->swiftMessage->getChildren());
-        $originalMessage->getHeaders()->remove('Message-ID');
-        $originalMessage->getHeaders()->remove('Date');
-        $originalMessage->getHeaders()->remove('Subject');
-        $originalMessage->getHeaders()->remove('MIME-Version');
-        $originalMessage->getHeaders()->remove('To');
-        $originalMessage->getHeaders()->remove('From');
-        $originalMessage->getHeaders()->remove('CC');
-        $originalMessage->getHeaders()->remove('Bcc');
 
+		$encryptedBody = $this->messageContentToString($this->swiftMessage);
+		$encryptedBody = $gpg->encrypt($encrypt_fingerprints,$encryptedBody);
 
-        $this->swiftMessage->setChildren(array());
-        $this->swiftMessage->setEncoder(new \Swift_Mime_ContentEncoder_RawContentEncoder);
+		$this->swiftMessage->setChildren(array());
+		$this->swiftMessage->setBoundary('_=_swift_v4_'.time().'_'.md5(getmypid().mt_rand().uniqid('', true)).'_=_');
+
+		$this->swiftMessage->setEncoder(new \Swift_Mime_ContentEncoder_RawContentEncoder);
         $this->swiftMessage->getHeaders()->get('Content-Type')->setValue('multipart/encrypted');
         $this->swiftMessage->getHeaders()->get('Content-Type')->setParameters(array(
             'protocol' => 'application/pgp-encrypted',
             'boundary' => $this->swiftMessage->getBoundary(),
         ));
 
-        $encryptedBody = $originalMessage->toString();
-        $lines = preg_split('/(\r\n|\r|\n)/',rtrim($encryptedBody));
-        for ($i=0; $i<count($lines); $i++) {
-            $lines[$i] = rtrim($lines[$i])."\r\n";
-        }
-        // Remove excess trailing newlines (RFC3156 section 5.4)
-        $encryptedBody = rtrim(implode('',$lines))."\r\n";
 
-        $encryptedBody = $gpg->encrypt($encrypt_fingerprints,$encryptedBody);
         $body = <<<EOT
 This is an OpenPGP/MIME encrypted message (RFC 4880 and 3156)
 --{$this->swiftMessage->getBoundary()}
@@ -481,8 +473,7 @@ $encryptedBody
 --{$this->swiftMessage->getBoundary()}--
 EOT;
         $this->swiftMessage->setBody($body);
-        $messageHeaders = $this->swiftMessage->getHeaders();
-        $messageHeaders->removeAll('Content-Transfer-Encoding');
+        $this->swiftMessage->getHeaders()->removeAll('Content-Transfer-Encoding');
         $this->encrypted = TRUE;
         return $this;
     }
@@ -503,35 +494,22 @@ EOT;
         $gpg = \OC::$server->getGpg();
         $sign_fingerprints = $this->getFromFingerprints();
         $encrypt_fingerprints = $this->getToFingerprints() + $this->getCCFingerprints() + $this->getBccFingerprints();
-        $originalMessage = new Swift_Message('', $this->swiftMessage->getBody(), $this->swiftMessage->getContentType(), $this->swiftMessage->getCharset());
-        $originalMessage->setChildren($this->swiftMessage->getChildren());
-        $originalMessage->getHeaders()->remove('Message-ID');
-        $originalMessage->getHeaders()->remove('Date');
-        $originalMessage->getHeaders()->remove('Subject');
-        $originalMessage->getHeaders()->remove('MIME-Version');
-        $originalMessage->getHeaders()->remove('To');
-        $originalMessage->getHeaders()->remove('From');
-        $originalMessage->getHeaders()->remove('CC');
-        $originalMessage->getHeaders()->remove('Bcc');
+
+		$signedBody = $this->messageContentToString($this->swiftMessage);
+		$signature = $gpg->sign($sign_fingerprints,$signedBody);
 
         $this->swiftMessage->setEncoder(new \Swift_Mime_ContentEncoder_RawContentEncoder);
         $this->swiftMessage->setChildren(array());
-        $this->swiftMessage->getHeaders()->get('Content-Type')->setValue('multipart/signed');
+		$this->swiftMessage->setBoundary('_=_swift_v4_'.time().'_'.md5(getmypid().mt_rand().uniqid('', true)).'_=_');
+		$this->swiftMessage->getHeaders()->get('Content-Type')->setValue('multipart/signed');
         $this->swiftMessage->getHeaders()->get('Content-Type')->setParameters(array(
             'micalg' => "pgp-sha256",
             'protocol' => 'application/pgp-signature',
             'boundary' => $this->swiftMessage->getBoundary(),
         ));
 
-        $signedBody = $originalMessage->toString();
-        $lines = preg_split('/(\r\n|\r|\n)/',rtrim($signedBody));
-        for ($i=0; $i<count($lines); $i++) {
-            $lines[$i] = rtrim($lines[$i])."\r\n";
-        }
-        // Remove excess trailing newlines (RFC3156 section 5.4)
-        $signedBody = rtrim(implode('',$lines))."\r\n";
 
-        $signature = $gpg->sign($sign_fingerprints,$signedBody);
+
         //Swiftmailer is automatically changing content type and this is the hack to prevent it
         $body = <<<EOT
 
@@ -549,8 +527,7 @@ $signature
 EOT;
 
 
-        $messageHeaders = $this->swiftMessage->getHeaders();
-        $messageHeaders->removeAll('Content-Transfer-Encoding');
+        $this->swiftMessage->getHeaders()->removeAll('Content-Transfer-Encoding');
 
         $this->signed = TRUE;
         $signed = sprintf("%s%s",$this->swiftMessage->getHeaders()->get('Content-Type')->toString(),$body);
@@ -581,8 +558,7 @@ $encryptedBody
 --{$this->swiftMessage->getBoundary()}--
 EOT;
         $this->swiftMessage->setBody($body);
-        $messageHeaders = $this->swiftMessage->getHeaders();
-        $messageHeaders->removeAll('Content-Transfer-Encoding');
+        $this->swiftMessage->getHeaders()->removeAll('Content-Transfer-Encoding');
         $this->encrypted = TRUE;
         return $this;
     }
