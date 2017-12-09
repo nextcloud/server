@@ -30,6 +30,8 @@ return array(
     'OCA\\DAV\\CalDAV\\CalendarObject' => $baseDir . '/../lib/CalDAV/CalendarObject.php',
     'OCA\\DAV\\CalDAV\\CalendarRoot' => $baseDir . '/../lib/CalDAV/CalendarRoot.php',
     'OCA\\DAV\\CalDAV\\Plugin' => $baseDir . '/../lib/CalDAV/Plugin.php',
+    'OCA\\DAV\\CalDAV\\Principal\\Collection' => $baseDir . '/../lib/CalDAV/Principal/Collection.php',
+    'OCA\\DAV\\CalDAV\\Principal\\User' => $baseDir . '/../lib/CalDAV/Principal/User.php',
     'OCA\\DAV\\CalDAV\\PublicCalendar' => $baseDir . '/../lib/CalDAV/PublicCalendar.php',
     'OCA\\DAV\\CalDAV\\PublicCalendarObject' => $baseDir . '/../lib/CalDAV/PublicCalendarObject.php',
     'OCA\\DAV\\CalDAV\\PublicCalendarRoot' => $baseDir . '/../lib/CalDAV/PublicCalendarRoot.php',
