@@ -115,6 +115,7 @@ use OCA\Theming\ThemingDefaults;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Collaboration\AutoComplete\IManager;
+use OCP\Contacts\ContactsMenu\IContactsStore;
 use OCP\Defaults;
 use OCA\Theming\Util;
 use OCP\Federation\ICloudIdManager;
@@ -1130,7 +1131,7 @@ class Server extends ServerContainer implements IServerContainer {
 			return new InstanceFactory($memcacheFactory->createLocal('remoteinstance.'), $c->getHTTPClientService());
 		});
 
-		$this->registerService(\OCP\Contacts\ContactsMenu\IContactsStore::class, function(Server $c) {
+		$this->registerService(IContactsStore::class, function(Server $c) {
 			return new ContactsStore(
 				$c->getContactsManager(),
 				$c->getConfig(),
@@ -1138,6 +1139,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getGroupManager()
 			);
 		});
+		$this->registerAlias(IContactsStore::class, ContactsStore::class);
 
 		$this->connectDispatcher();
 	}
