@@ -46,13 +46,17 @@ OC.L10N.register(
     "The meeting »%s« with %s was canceled." : "Koosolek »%s« osaleja(te)ga %s tühistati.",
     "Invitation updated" : "Kutse uuendatud",
     "The meeting »%s« with %s was updated." : "Koosolek »%s« osaleja(te)ga %s uuendati.",
+    "%s invited you to »%s«" : "%s kutsus sind »%s«",
     "When:" : "Millal:",
     "Where:" : "Kus:",
     "Description:" : "Kirjeldus:",
     "Link:" : "Link:",
     "Contacts" : "Kontaktid",
     "Technical details" : "Tehnilised detailid",
+    "Remote Address: %s" : "Kaugaadress: %s",
+    "Request ID: %s" : "Päringu ID: %s",
     "CalDAV server" : "CalDAV server",
-    "Send invitations to attendees" : "Saada osalejatele kutsed"
+    "Send invitations to attendees" : "Saada osalejatele kutsed",
+    "Please make sure to properly set up the email settings above." : "Veendu, et e-posti seaded oleksid eespool õigesti seadistatud."
 },
 "nplurals=2; plural=(n != 1);");
