@@ -18,6 +18,8 @@
     "Unable to change password" : "Ei suuda parooli muuta",
     "Authentication error" : "Autentimise viga",
     "Wrong admin recovery password. Please check the password and try again." : "Vale administraatori taasteparool. Palun kontrolli parooli ning proovi uuesti.",
+    "installing and updating apps via the app store or Federated Cloud Sharing" : "Paigaldan ja uuendan rakendusi läbi rakenduste poe või liitpilve jagamise",
+    "Federated Cloud Sharing" : "Jagamine liitpilves",
     "A problem occurred, please check your log files (Error: %s)" : "Ilmnes viga, palun kontrollige logifaile. (Viga: %s)",
     "Migration Completed" : "Kolimine on lõpetatud",
     "Group already exists." : "Grupp on juba olemas.",
