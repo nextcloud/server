@@ -266,7 +266,7 @@ class TemplateLayout extends \OC_Template {
 			}
 			return end($pathParts);
 		}
-		return false
+		return false;
 
 	}
 
