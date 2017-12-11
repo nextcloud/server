@@ -1069,7 +1069,8 @@ kbd {
 }
 /* App content */
 .app-content-detail {
-	width: 70%;
+	/* grow full width */
+	flex-grow: 1;
 
 	#app-navigation-toggle-back {
 		display: none;
