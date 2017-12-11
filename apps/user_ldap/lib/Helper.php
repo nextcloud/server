@@ -229,7 +229,7 @@ class Helper {
 	/**
 	 * sanitizes a DN received from the LDAP server
 	 * @param array $dn the DN in question
-	 * @return array the sanitized DN
+	 * @return array|string the sanitized DN
 	 */
 	public function sanitizeDN($dn) {
 		//treating multiple base DNs

@@ -60,6 +60,8 @@ use Test\TestCase;
  * @package OCA\User_LDAP\Tests
  */
 class AccessTest extends TestCase {
+	/** @var UserMapping|\PHPUnit_Framework_MockObject_MockObject */
+	protected $userMapper;
 	/** @var Connection|\PHPUnit_Framework_MockObject_MockObject */
 	private $connection;
 	/** @var LDAP|\PHPUnit_Framework_MockObject_MockObject */
@@ -79,6 +81,7 @@ class AccessTest extends TestCase {
 		$this->userManager = $this->createMock(Manager::class);
 		$this->helper = $this->createMock(Helper::class);
 		$this->config  = $this->createMock(IConfig::class);
+		$this->userMapper = $this->createMock(UserMapping::class);
 
 		$this->access = new Access(
 			$this->connection,
@@ -87,6 +90,7 @@ class AccessTest extends TestCase {
 			$this->helper,
 			$this->config
 		);
+		$this->access->setUserMapper($this->userMapper);
 	}
 
 	private function getConnectorAndLdapMock() {
@@ -217,6 +221,7 @@ class AccessTest extends TestCase {
 
 	/**
 	 * @dataProvider dnInputDataProvider
+	 * @param array $case
 	 */
 	public function testStringResemblesDN($case) {
 		list($lw, $con, $um, $helper) = $this->getConnectorAndLdapMock();
@@ -440,6 +445,7 @@ class AccessTest extends TestCase {
 			->method('__get')
 			->willReturn(false);
 
+		/** @noinspection PhpUnhandledExceptionInspection */
 		$this->access->setPassword('CN=foo', 'MyPassword');
 	}
 
@@ -458,6 +464,7 @@ class AccessTest extends TestCase {
 			->with($connection)
 			->willReturn(false);
 
+		/** @noinspection PhpUnhandledExceptionInspection */
 		$this->assertFalse($this->access->setPassword('CN=foo', 'MyPassword'));
 	}
 
@@ -485,6 +492,7 @@ class AccessTest extends TestCase {
 			->with($connection, 'CN=foo', 'MyPassword')
 			->willThrowException(new ConstraintViolationException());
 
+		/** @noinspection PhpUnhandledExceptionInspection */
 		$this->access->setPassword('CN=foo', 'MyPassword');
 	}
 
@@ -508,6 +516,121 @@ class AccessTest extends TestCase {
 			->with($connection, 'CN=foo', 'MyPassword')
 			->willReturn(true);
 
+		/** @noinspection PhpUnhandledExceptionInspection */
 		$this->assertTrue($this->access->setPassword('CN=foo', 'MyPassword'));
 	}
+
+	protected function prepareMocksForSearchTests(
+		$base,
+		$fakeConnection,
+		$fakeSearchResultResource,
+		$fakeLdapEntries
+	) {
+		$this->connection
+			->expects($this->any())
+			->method('getConnectionResource')
+			->willReturn($fakeConnection);
+		$this->connection->expects($this->any())
+			->method('__get')
+			->willReturnCallback(function($key) use ($base) {
+				if(stripos($key, 'base') !== false) {
+					return $base;
+				}
+				return null;
+			});
+
+		$this->ldap
+			->expects($this->any())
+			->method('isResource')
+			->willReturnCallback(function ($resource) use ($fakeConnection) {
+				return $resource === $fakeConnection;
+			});
+		$this->ldap
+			->expects($this->any())
+			->method('errno')
+			->willReturn(0);
+		$this->ldap
+			->expects($this->once())
+			->method('search')
+			->willReturn([$fakeSearchResultResource]);
+		$this->ldap
+			->expects($this->exactly(count($base)))
+			->method('getEntries')
+			->willReturn($fakeLdapEntries);
+
+		$this->helper->expects($this->any())
+			->method('sanitizeDN')
+			->willReturnArgument(0);
+	}
+
+	public function testSearchNoPagedSearch() {
+		// scenario: no pages search, 1 search base
+		$filter = 'objectClass=nextcloudUser';
+		$base = ['ou=zombies,dc=foobar,dc=nextcloud,dc=com'];
+
+		$fakeConnection = new \stdClass();
+		$fakeSearchResultResource = new \stdClass();
+		$fakeLdapEntries = [
+			'count' => 2,
+			[
+				'dn' => 'uid=sgarth,' . $base[0],
+			],
+			[
+				'dn' => 'uid=wwilson,' . $base[0],
+			]
+		];
+
+		$expected = $fakeLdapEntries;
+		unset($expected['count']);
+
+		$this->prepareMocksForSearchTests($base, $fakeConnection, $fakeSearchResultResource, $fakeLdapEntries);
+
+		/** @noinspection PhpUnhandledExceptionInspection */
+		$result = $this->access->search($filter, $base);
+		$this->assertSame($expected, $result);
+	}
+
+	public function testFetchListOfUsers() {
+		$filter = 'objectClass=nextcloudUser';
+		$base = ['ou=zombies,dc=foobar,dc=nextcloud,dc=com'];
+		$attrs = ['dn', 'uid'];
+
+		$fakeConnection = new \stdClass();
+		$fakeSearchResultResource = new \stdClass();
+		$fakeLdapEntries = [
+			'count' => 2,
+			[
+				'dn' => 'uid=sgarth,' . $base[0],
+				'uid' => [ 'sgarth' ],
+			],
+			[
+				'dn' => 'uid=wwilson,' . $base[0],
+				'uid' => [ 'wwilson' ],
+			]
+		];
+		$expected = $fakeLdapEntries;
+		unset($expected['count']);
+		array_walk($expected, function(&$v) {
+			$v['dn'] = [$v['dn']];	// dn is translated into an array internally for consistency
+		});
+
+		$this->prepareMocksForSearchTests($base, $fakeConnection, $fakeSearchResultResource, $fakeLdapEntries);
+
+		$this->connection->expects($this->exactly($fakeLdapEntries['count']))
+			->method('writeToCache')
+			->with($this->stringStartsWith('userExists'), true);
+
+		$this->userMapper->expects($this->exactly($fakeLdapEntries['count']))
+			->method('getNameByDN')
+			->willReturnCallback(function($fdn) {
+				$parts = ldap_explode_dn($fdn, false);
+				return $parts[0];
+			});
+
+		/** @noinspection PhpUnhandledExceptionInspection */
+		$list = $this->access->fetchListOfUsers($filter, $attrs);
+		$this->assertSame($expected, $list);
+	}
+
+
 }
