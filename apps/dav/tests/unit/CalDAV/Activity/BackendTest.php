@@ -170,6 +170,7 @@ class BackendTest extends TestCase {
 			[Calendar::SUBJECT_PUBLISH, [
 				'principaluri' => 'principal/user/admin',
 				'id' => 42,
+				'uri' => 'this-uri',
 				'{DAV:}displayname' => 'Name of calendar',
 			], ['shares'], [], '', 'admin', [], ['admin']],
 
@@ -178,6 +179,7 @@ class BackendTest extends TestCase {
 			[Calendar::SUBJECT_UNPUBLISH, [
 				'principaluri' => 'principal/user/admin',
 				'id' => 42,
+				'uri' => 'this-uri',
 				'{DAV:}displayname' => 'Name of calendar',
 			], ['shares'], [], '', 'admin', [], ['admin']],
 		];
