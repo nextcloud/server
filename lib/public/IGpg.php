@@ -69,6 +69,16 @@ interface IGpg {
 	public function import($keydata);
 
 	/**
+	 * Mapper for gnupg_export,
+	 * exports the public key for finterprint.
+	 *
+	 * @param string $fingerprint
+	 * @return array
+	 */
+	public function export($fingerprint);
+
+
+	/**
 	 * Mapper for gnupg_keyinfo
 	 *
 	 * @param string $pattern
@@ -102,6 +112,25 @@ interface IGpg {
 	 * @return string
 	 */
 	public function getPrivatKeyFromEmail($email);
+
+	/**
+	 * generate a new Key Pair, if no parameter given the key is for the server is generated
+	 *
+	 * @param string $email = ''
+	 * @param string $name = ''
+	 * @param string $commend = ''
+	 */
+	public function generateKey($email = '', $name = '', $commend = '');
+
+
+	/**
+	 * Change the GPG home from nextcloud-data/.gnupg to user-home/.gnugp
+	 * Takes an empty string to reset it to nextcloud-data
+	 *
+	 * @param string $uid
+	 * @return $this
+	 */
+	public function setUser(string $uid);
 
 
 }

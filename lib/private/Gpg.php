@@ -30,6 +30,8 @@ use OCP\ILogger;
 use OCP\IGpg;
 use OCP\IURLGenerator;
 use OCP\IL10N;
+use OCP\Util;
+
 use gnupg;
 
 
@@ -46,6 +48,8 @@ class Gpg implements IGpg{
 	private $urlGenerator;
 	/** @var IL10N */
 	private $l10n;
+	/** string $uid */
+	private $uid = '';
 	/**
 	 * Gpg constructor.
 	 *
@@ -54,6 +58,7 @@ class Gpg implements IGpg{
 	 * @param Defaults $defaults
 	 * @param IURLGenerator $urlGenerator
 	 * @param IL10N $l10n
+	 * @param string $uid = ''
 	 */
 	public function __construct(IConfig $config,
 								ILogger $logger,
@@ -65,14 +70,16 @@ class Gpg implements IGpg{
 		$this->defaults = $defaults;
 		$this->urlGenerator = $urlGenerator;
 		$this->l10n = $l10n;
-		putenv('GNUPGHOME='.$this->config->getSystemValue("datadirectory").'.gnupg');
+		$home = $this->config->getSystemValue("datadirectory");
+
+		putenv('GNUPGHOME='.$home.'.gnupg');
+
 		$this->gpg = new gnupg();
 		$this->gpg -> setarmor(1);
 		$this->gpg->setsignmode(gnupg::SIG_MODE_DETACH);
 		$debugMode = $this->config->getSystemValue('debug', false);
 		if ($debugMode) {
 			$this->gpg->seterrormode(gnupg::ERROR_WARNING);
-			$this->logger->debug("All gpg Keys:" . print_r($this->gpg->keyinfo("")), ['app' => 'core']);
 		}
 	}
 
@@ -95,7 +102,7 @@ class Gpg implements IGpg{
 			foreach ($fingerprints as $encrypt_fingerprint) {
 				$encrypt_fingerprints_text = $encrypt_fingerprints_text . "," . $encrypt_fingerprint;
 			}
-			$this->logger->debug("GPG encrypted plain message: with encrypt Keys:" . $encrypt_fingerprints_text . " to gpg text", ['app' => 'core']);
+			$this->logger->debug("GPG encrypted plain message: with encrypt keys:" . $encrypt_fingerprints_text . " to gpg text", ['app' => 'core']);
 		}
 		return $gpg_text;
 	}
@@ -131,7 +138,7 @@ class Gpg implements IGpg{
 			foreach ($encrypt_fingerprints as $encrypt_fingerprint) {
 				$encrypt_fingerprints_text = $encrypt_fingerprints_text . "," . $encrypt_fingerprint;
 			}
-			$this->logger->debug("GPG encryptsigned plain message: with encrypt Keys:" . $encrypt_fingerprints_text . " with sign Keys:" . $sign_fingerprints_text . " to gpg text", ['app' => 'core']);
+			$this->logger->debug("GPG encryptsigned plain message: with encrypt keys:" . $encrypt_fingerprints_text . " with sign Keys:" . $sign_fingerprints_text . " to gpg text", ['app' => 'core']);
 		}
 
 		return $gpg_text;
@@ -157,7 +164,7 @@ class Gpg implements IGpg{
 			foreach ($fingerprints as $sign_fingerprint) {
 				$sign_fingerprints_text = $sign_fingerprints_text . "," . $sign_fingerprint;
 			}
-			$this->logger->debug("GPG signed plain message: with sign Keys:" . $sign_fingerprints_text . " to gpg text", ['app' => 'core']);
+			$this->logger->debug("GPG signed plain message: with sign keys:" . $sign_fingerprints_text, ['app' => 'core']);
 		}
 		return $gpg_text;
 	}
@@ -173,6 +180,18 @@ class Gpg implements IGpg{
 	public function import($keydata) {
 		return $this->gpg->import($keydata);
 	}
+
+	/**
+	 * Mapper for gnupg_export,
+	 * exports the public key for finterprint.
+	 *
+	 * @param string $fingerprint
+	 * @return array
+	 */
+	public function export($fingerprint) {
+		return $this->gpg->export($fingerprint);
+	}
+
 
 	/**
 	 * Mapper for gnupg_keyinfo
@@ -235,26 +254,106 @@ class Gpg implements IGpg{
 		return $fingerprint;
 	}
 
-/*	public function setup(){
+	/**
+	 * generate a new Key Pair, if no parameter given the key is for the server is generated
+	 *
+	 * @param string $email = ''
+	 * @param string $name = ''
+	 * @param string $commend = ''
+	 */
+	public function generateKey($email = '', $name = '', $commend = ''){
+		$debugMode = $this->config->getSystemValue('debug', false);
+		if ($email === '') {
+			/* otherwise setUser(X); generateKey(); Would generate a server key for User X); */
+			if ($this->uid === '') {
+				$email = \OCP\Util::getDefaultEmailAddress($this->defaults->getName());
+				$name = $this->defaults->getName();
+				$commend = $this->defaults->getSlogan();
+			}
+		}
+
+
+		$home = $this->config->getSystemValue("datadirectory");
+
+		if ($debugMode) {
+			$this->logger->debug("Generate server key for email:".$email, ['app' => 'core']);
+		}
+
 		//generate Keys
-		putenv('GNUPGHOME="'.$this->config->getSystemValue("datadirectory").'/.gnupg"');
-		passthru("cat >foo <<EOF
-     %echo Generating a basic OpenPGP key
-     %echo Generating a default key
-     Key-Type: default
-     Subkey-Type: default
-     Name-Real: Nextcloud "./*FIXME Name aus Theme lesen/"
-     Name-Comment: with stupid passphrase"./*FIXME Slogan aus Theme lesen/"
-     Name-Email: ".$this->config->getSystemValue("mail_from_address")."
-     Expire-Date: 0
-     Passphrase: abc
-     %no-protection
-     # Do a commit here, so that we can later print \"done\" :-)
-     %commit
-     %echo done
-EOF");
-		system("gpg --batch --gen-key foo");
-		$fingerprint=$this->import(openssl_pkey_new())[fingerprint];
+
+		putenv('GNUPGHOME='.$home.'.gnupg');
+		$email = escapeshellcmd($email);
+		$name = escapeshellcmd($name);
+		$commend = escapeshellcmd($commend);
+		$foo = system(
+			<<<EFF
+cat >foo <<EOF
+Key-Type: default
+Subkey-Type: default
+Name-Real: {$name}
+Name-Comment: {$commend}
+Name-Email: {$email}
+Expire-Date: 0
+%no-protection
+EFF
+		,$out1);
+
+
+		$timestamp_before = time();
+		$foo = exec("gpg --batch --gen-key foo 2>&1",$out2);
+		$timestamp_after = time();
+		if ($debugMode) {
+			$this->logger->debug("gpg --batch --gen-key foo:\n" . print_r($out2,TRUE)."\n This took ".($timestamp_after-$timestamp_before)."seconds.", ['app' => 'core']);
+		}
+		$foo = system("rm foo",$out);
+
+
+
+		$keys = $this->gpg->keyinfo($email);
+		$fingerprint = "";
+		foreach ($keys as $key) {
+			if ($key["subkeys"][0]["timestamp"] >= $timestamp_before AND $key["subkeys"][0]["timestamp"] <= $timestamp_after) {
+				if ($debugMode){
+					$this->logger->debug("Found new server key:" .$key["subkeys"][0]["fingerprint"], ['app' => 'core']);
+				}
+				$fingerprint = $key['subkeys'][0]['fingerprint'];
+				$timestamp_before = $key["subkeys"][0]["timestamp"];
+			}
+		}
+
+
+		if ($fingerprint === "") {
+			$this->logger->warning("No server GPG key found so no signed emails are possible", ['app' => 'core']);
+		}
+		if ($debugMode){
+			$this->logger->debug("Saved server key fingerprint:".$fingerprint." to system config", ['app' => 'core']);
+		}
 		$this->config->setSystemValue("GpgServerKey",$fingerprint);
-	}*/
+	}
+
+	/**
+	 * Change the GPG home from nextcloud-data/.gnupg to user-home/.gnugp
+	 * Takes an empty string to reset it to nextcloud-data
+	 *
+	 * @param string $uid
+	 * @return $this
+	 */
+	public function setUser(string $uid) {
+		// TODO: Implement setUser() method.
+		$this->uid = $uid;
+		$home = \OC::$server->getUserManager()->get($uid)->getHome();
+		if ($home === null ) {
+			$home = $this->config->getSystemValue("datadirectory");
+		}
+		putenv('GNUPGHOME='.$home.'.gnupg');
+		$this->gpg = new gnupg();
+		$this->gpg->setarmor(1);
+		$this->gpg->setsignmode(gnupg::SIG_MODE_DETACH);
+		$debugMode = $this->config->getSystemValue('debug', false);
+		if ($debugMode) {
+			$this->gpg->seterrormode(gnupg::ERROR_WARNING);
+			$this->logger->debug("All gpg keys:" . print_r($this->gpg->keyinfo(""),TRUE ), ['app' => 'core']);
+		}
+		return $this;
+	}
 }
