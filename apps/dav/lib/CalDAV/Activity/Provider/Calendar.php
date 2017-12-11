@@ -108,9 +108,9 @@ class Calendar extends Base {
 			$subject = $this->l->t('You updated calendar {calendar}');
 
 		} else if ($event->getSubject() === self::SUBJECT_PUBLISH . '_self') {
-			$subject = $this->l->t('You published calendar {calendar}');
+			$subject = $this->l->t('You shared calendar {calendar} as public link');
 		} else if ($event->getSubject() === self::SUBJECT_UNPUBLISH . '_self') {
-			$subject = $this->l->t('You unpublished calendar {calendar}');
+			$subject = $this->l->t('You removed public link for calendar {calendar}');
 
 		} else if ($event->getSubject() === self::SUBJECT_SHARE_USER) {
 			$subject = $this->l->t('{actor} shared calendar {calendar} with you');
