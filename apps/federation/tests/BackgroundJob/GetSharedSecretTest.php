@@ -29,6 +29,7 @@ namespace OCA\Federation\Tests\BackgroundJob;
 
 
 use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Ring\Exception\RingException;
 use OCA\Federation\BackgroundJob\GetSharedSecret;
 use OCA\Files_Sharing\Tests\TestCase;
 use OCA\Federation\DbHandler;
@@ -307,6 +308,43 @@ class GetSharedSecretTest extends TestCase {
 					'connect_timeout' => 3,
 				]
 			)->willThrowException($this->createMock(ConnectException::class));
+
+		$this->dbHandler->expects($this->never())->method('addToken');
+		$this->trustedServers->expects($this->never())->method('addSharedSecret');
+
+		$this->invokePrivate($this->getSharedSecret, 'run', [$argument]);
+
+		$this->assertTrue($this->invokePrivate($this->getSharedSecret, 'retainJob'));
+	}
+
+	public function testRunRingException() {
+		$target = 'targetURL';
+		$source = 'sourceURL';
+		$token = 'token';
+
+		$argument = ['url' => $target, 'token' => $token];
+
+		$this->timeFactory->method('getTime')
+			->willReturn(42);
+
+		$this->urlGenerator
+			->expects($this->once())
+			->method('getAbsoluteURL')
+			->with('/')
+			->willReturn($source);
+		$this->httpClient->expects($this->once())->method('get')
+			->with(
+				$target . '/ocs/v2.php/apps/federation/api/v1/shared-secret?format=json',
+				[
+					'query' =>
+						[
+							'url' => $source,
+							'token' => $token
+						],
+					'timeout' => 3,
+					'connect_timeout' => 3,
+				]
+			)->willThrowException($this->createMock(RingException::class));
 
 		$this->dbHandler->expects($this->never())->method('addToken');
 		$this->trustedServers->expects($this->never())->method('addSharedSecret');
