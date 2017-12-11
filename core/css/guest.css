@@ -4,7 +4,7 @@
 
 /* Default and reset */
 html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, dialog, figure, footer, header, hgroup, nav, section { margin:0; padding:0; border:0; outline:0; font-weight:inherit; font-size:100%; font-family:inherit; vertical-align:baseline; cursor:default; }
-html, body { height:100%; }
+html { height:100%; }
 article, aside, dialog, figure, footer, header, hgroup, nav, section { display:block; }
 body { line-height:1.5; }
 table { border-collapse:separate; border-spacing:0; white-space:nowrap; }
@@ -28,7 +28,8 @@ body {
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-attachment: fixed; /* fix background gradient */
-	height: 100%; /* fix sticky footer */
+	min-height: 100%; /* fix sticky footer */
+	height: auto;
 }
 
 /* Various fonts settings */
@@ -60,6 +61,13 @@ h3 {
 }
 
 /* Global content */
+body {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
 #header .logo {
 	background-image: url('../img/logo.svg?v=1');
 	background-repeat: no-repeat;
@@ -77,15 +85,8 @@ h3 {
 	max-height: 200px;
 }
 .wrapper {
-	min-height: 100%;
-	margin: 0 auto -70px;
 	width: 300px;
-}
-.v-align {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
+	margin-top: 10%;
 }
 
 /* Default FORM */
@@ -723,6 +724,7 @@ img.icon-loading-small-dark, object.icon-loading-small-dark, video.icon-loading-
 footer,
 .push {
 	height: 70px;
+	margin-top: auto;
 }
 
 footer .info a {
