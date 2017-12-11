@@ -146,7 +146,7 @@ class DAV extends Common {
 		}
 
 		$proxy = \OC::$server->getConfig()->getSystemValue('proxy', '');
-		if($proxy !== '') {
+		if ($proxy !== '') {
 			$settings['proxy'] = $proxy;
 		}
 
@@ -343,11 +343,11 @@ class DAV extends Common {
 			case 'rb':
 				try {
 					$response = $this->httpClientService
-							->newClient()
-							->get($this->createBaseUri() . $this->encodePath($path), [
-									'auth' => [$this->user, $this->password],
-									'stream' => true
-							]);
+						->newClient()
+						->get($this->createBaseUri() . $this->encodePath($path), [
+							'auth' => [$this->user, $this->password],
+							'stream' => true
+						]);
 				} catch (RequestException $e) {
 					if ($e->getResponse() instanceof ResponseInterface
 						&& $e->getResponse()->getStatusCode() === 404) {
@@ -590,6 +590,15 @@ class DAV extends Common {
 
 	/** {@inheritdoc} */
 	public function getMimeType($path) {
+		$remoteMimetype = $this->getMimeTypeFromRemote($path);
+		if ($remoteMimetype === 'application/octet-stream') {
+			return \OC::$server->getMimeTypeDetector()->detectPath($path);
+		} else {
+			return $remoteMimetype;
+		}
+	}
+
+	public function getMimeTypeFromRemote($path) {
 		try {
 			$response = $this->propfind($path);
 			if ($response === false) {
@@ -606,12 +615,11 @@ class DAV extends Common {
 			} elseif (isset($response['{DAV:}getcontenttype'])) {
 				return $response['{DAV:}getcontenttype'];
 			} else {
-				return false;
+				return 'application/octet-stream';
 			}
 		} catch (\Exception $e) {
-			$this->convertException($e, $path);
+			return false;
 		}
-		return false;
 	}
 
 	/**

@@ -28,6 +28,7 @@
 namespace OCA\Files_External\Tests\Storage;
 
 use \OC\Files\Storage\DAV;
+use OC\Files\Type\Detection;
 
 /**
  * Class WebdavTest
@@ -43,7 +44,7 @@ class WebdavTest extends \Test\Files\Storage\Storage {
 
 		$id = $this->getUniqueID();
 		$config = include('files_external/tests/config.webdav.php');
-		if ( ! is_array($config) or !$config['run']) {
+		if (!is_array($config) or !$config['run']) {
 			$this->markTestSkipped('WebDAV backend not configured');
 		}
 		if (isset($config['wait'])) {
@@ -60,5 +61,15 @@ class WebdavTest extends \Test\Files\Storage\Storage {
 		}
 
 		parent::tearDown();
+	}
+
+	public function testMimetypeFallback() {
+		$this->instance->file_put_contents('foo.bar', 'asd');
+
+		/** @var Detection $mimeDetector */
+		$mimeDetector = \OC::$server->getMimeTypeDetector();
+		$mimeDetector->registerType('bar', 'application/x-bar');
+
+		$this->assertEquals('application/x-bar', $this->instance->getMimeType('foo.bar'));
 	}
 }
