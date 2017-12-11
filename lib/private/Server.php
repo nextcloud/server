@@ -118,6 +118,7 @@ use OCP\Defaults;
 use OCA\Theming\Util;
 use OCP\Federation\ICloudIdManager;
 use OCP\Authentication\LoginCredentials\IStore;
+use OCP\Files\NotFoundException;
 use OCP\ICacheFactory;
 use OCP\IDBConnection;
 use OCP\IL10N;
@@ -1151,6 +1152,8 @@ class Server extends ServerContainer implements IServerContainer {
 			try {
 				$avatar = $manager->getAvatar($user->getUID());
 				$avatar->remove();
+			} catch (NotFoundException $e) {
+				// no avatar to remove
 			} catch (\Exception $e) {
 				// Ignore exceptions
 				$logger->info('Could not cleanup avatar of ' . $user->getUID());
