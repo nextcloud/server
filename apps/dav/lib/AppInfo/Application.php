@@ -178,6 +178,15 @@ class Application extends App {
 			);
 		});
 
+		$dispatcher->addListener('\OCA\DAV\CalDAV\CalDavBackend::publishCalendar', function(GenericEvent $event) {
+			/** @var Backend $backend */
+			$backend = $this->getContainer()->query(Backend::class);
+			$backend->onCalendarPublication(
+				$event->getArgument('calendarData'),
+				$event->getArgument('public')
+			);
+		});
+
 		$listener = function(GenericEvent $event, $eventName) {
 			/** @var Backend $backend */
 			$backend = $this->getContainer()->query(Backend::class);

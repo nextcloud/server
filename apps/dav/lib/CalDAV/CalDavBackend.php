@@ -2151,6 +2151,16 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @return string|null
 	 */
 	public function setPublishStatus($value, $calendar) {
+
+		$calendarId = $calendar->getResourceId();
+		$this->dispatcher->dispatch('\OCA\DAV\CalDAV\CalDavBackend::publishCalendar', new GenericEvent(
+			'\OCA\DAV\CalDAV\CalDavBackend::updateShares',
+			[
+				'calendarId' => $calendarId,
+				'calendarData' => $this->getCalendarById($calendarId),
+				'public' => $value,
+			]));
+
 		$query = $this->db->getQueryBuilder();
 		if ($value) {
 			$publicUri = $this->random->generate(16, ISecureRandom::CHAR_HUMAN_READABLE);
