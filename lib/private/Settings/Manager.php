@@ -24,6 +24,7 @@
 namespace OC\Settings;
 
 use OCP\AppFramework\QueryException;
+use OCP\AutoloadNotAllowedException;
 use OCP\Encryption\IManager as EncryptionManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -352,6 +353,10 @@ class Manager implements IManager {
 				$settings[$row['priority']][] = $this->query($row['class']);
 			} catch (QueryException $e) {
 				// skip
+			} catch (AutoloadNotAllowedException $e) {
+				// skip error and remove remnant of disabled app
+				$this->log->warning('Orphan setting entry will be removed from admin_settings: ' . json_encode($row));
+				$this->mapper->remove(Mapper::TABLE_ADMIN_SETTINGS, $row['class']);
 			}
 		}
 
