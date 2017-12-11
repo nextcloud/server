@@ -87,14 +87,28 @@ describe('OC.Files.Client tests', function() {
 		promise.done(successHandler);
 		promise.fail(failHandler);
 
+		var errorXml =
+			'<d:error xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns">' +
+			'    <s:exception>Sabre\\DAV\\Exception\\SomeException</s:exception>' +
+			'    <s:message>Some error message</s:message>' +
+			'</d:error>';
+
+		var parser = new DOMParser();
+
 		requestDeferred.resolve({
 			status: status,
-			body: ''
+			body: errorXml,
+			xhr: {
+				responseXML: parser.parseFromString(errorXml, 'application/xml')
+			}
 		});
 
 		promise.then(function() {
 			expect(failHandler.calledOnce).toEqual(true);
-			expect(failHandler.calledWith(status)).toEqual(true);
+			expect(failHandler.getCall(0).args[0]).toEqual(status);
+			expect(failHandler.getCall(0).args[1].status).toEqual(status);
+			expect(failHandler.getCall(0).args[1].message).toEqual('Some error message');
+			expect(failHandler.getCall(0).args[1].exception).toEqual('Sabre\\DAV\\Exception\\SomeException');
 
 			expect(successHandler.notCalled).toEqual(true);
 		});
