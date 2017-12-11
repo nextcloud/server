@@ -89,6 +89,8 @@ use OC\Memcache\ArrayCache;
 use OC\Memcache\Factory;
 use OC\Notification\Manager;
 use OC\OCS\DiscoveryService;
+use OC\Remote\Api\ApiFactory;
+use OC\Remote\InstanceFactory;
 use OC\Repair\NC11\CleanPreviewsBackgroundJob;
 use OC\RichObjectStrings\Validator;
 use OC\Security\Bruteforce\Throttler;
@@ -123,6 +125,8 @@ use OCP\IServerContainer;
 use OCP\ITempManager;
 use OCP\Contacts\ContactsMenu\IActionFactory;
 use OCP\Lock\ILockingProvider;
+use OCP\Remote\Api\IApiFactory;
+use OCP\Remote\IInstanceFactory;
 use OCP\RichObjectStrings\IValidator;
 use OCP\Security\IContentSecurityPolicyManager;
 use OCP\Share;
@@ -1109,6 +1113,15 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getConfig()
 			);
 		});
+
+		$this->registerService(IApiFactory::class, function(Server $c) {
+			return new ApiFactory($c->getHTTPClientService());
+		});
+
+		$this->registerService(IInstanceFactory::class, function(Server $c) {
+			$memcacheFactory = $c->getMemCacheFactory();
+			return new InstanceFactory($memcacheFactory->createLocal('remoteinstance.'), $c->getHTTPClientService());
+		});
 	}
 
 	/**
@@ -1877,5 +1890,19 @@ class Server extends ServerContainer implements IServerContainer {
 	 */
 	public function getCloudIdManager() {
 		return $this->query(ICloudIdManager::class);
+	}
+
+	/**
+	 * @return \OCP\Remote\Api\IApiFactory
+	 */
+	public function getRemoteApiFactory() {
+		return $this->query(IApiFactory::class);
+	}
+
+	/**
+	 * @return \OCP\Remote\IInstanceFactory
+	 */
+	public function getRemoteInstanceFactory() {
+		return $this->query(IInstanceFactory::class);
 	}
 }

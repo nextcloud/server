@@ -599,6 +599,15 @@ pipeline:
     when:
       matrix:
         TESTS: integration-trashbin
+  integration-remote-api:
+    image: nextcloudci/integration-php7.0:integration-php7.0-6
+    commands:
+      - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
+      - cd build/integration
+      - ./run.sh remoteapi_features/remote.feature
+    when:
+      matrix:
+        TESTS: integration-remote-api
   acceptance-access-levels:
       image: nextcloudci/integration-php7.0:integration-php7.0-6
       commands:
@@ -801,6 +810,7 @@ matrix:
     - TESTS: integration-transfer-ownership-features
     - TESTS: integration-ldap-features
     - TESTS: integration-trashbin
+    - TESTS: integration-remote-api
     - TESTS: acceptance
       TESTS-ACCEPTANCE: access-levels
     - TESTS: acceptance

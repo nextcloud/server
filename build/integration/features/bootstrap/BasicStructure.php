@@ -62,6 +62,11 @@ trait BasicStructure {
 	/** @var string */
 	private $requestToken;
 
+	protected $adminUser;
+	protected $regularUser;
+	protected $localBaseUrl;
+	protected $remoteBaseUrl;
+
 	public function __construct($baseUrl, $admin, $regular_user_password) {
 
 		// Initialize your context here
