@@ -34,6 +34,8 @@ use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\IUserSession;
+use OCP\Share\IManager as IShareManager;
 use Sabre\DAV\Exception;
 use \Sabre\DAV\PropPatch;
 use Sabre\DAVACL\PrincipalBackend\BackendInterface;
@@ -47,6 +49,12 @@ class Principal implements BackendInterface {
 	/** @var IGroupManager */
 	private $groupManager;
 
+	/** @var IShareManager */
+	private $shareManager;
+
+	/** @var IUserSession */
+	private $userSession;
+
 	/** @var string */
 	private $principalPrefix;
 
@@ -56,13 +64,19 @@ class Principal implements BackendInterface {
 	/**
 	 * @param IUserManager $userManager
 	 * @param IGroupManager $groupManager
+	 * @param IShareManager $shareManager
+	 * @param IUserSession $userSession
 	 * @param string $principalPrefix
 	 */
 	public function __construct(IUserManager $userManager,
 								IGroupManager $groupManager,
+								IShareManager $shareManager,
+								IUserSession $userSession,
 								$principalPrefix = 'principals/users/') {
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
+		$this->shareManager = $shareManager;
+		$this->userSession = $userSession;
 		$this->principalPrefix = trim($principalPrefix, '/');
 		$this->hasGroups = ($principalPrefix === 'principals/users/');
 	}
@@ -106,7 +120,7 @@ class Principal implements BackendInterface {
 		if ($prefix === $this->principalPrefix) {
 			$user = $this->userManager->get($name);
 
-			if (!is_null($user)) {
+			if ($user !== null) {
 				return $this->userToPrincipal($user);
 			}
 		}
@@ -183,13 +197,91 @@ class Principal implements BackendInterface {
 	}
 
 	/**
+	 * Search user principals
+	 *
+	 * @param array $searchProperties
+	 * @param string $test
+	 * @return array
+	 */
+	protected function searchUserPrincipals(array $searchProperties, $test = 'allof') {
+		$results = [];
+
+		// If sharing is disabled, return the empty array
+		if (!$this->shareManager->shareApiEnabled()) {
+			return [];
+		}
+
+		// If sharing is restricted to group members only,
+		// return only members that have groups in common
+		$restrictGroups = false;
+		if ($this->shareManager->shareWithGroupMembersOnly()) {
+			$user = $this->userSession->getUser();
+			if (!$user) {
+				return [];
+			}
+
+			$restrictGroups = $this->groupManager->getUserGroupIds($user);
+		}
+
+		foreach ($searchProperties as $prop => $value) {
+			switch ($prop) {
+				case '{http://sabredav.org/ns}email-address':
+					$users = $this->userManager->getByEmail($value);
+
+					$results[] = array_reduce($users, function(array $carry, IUser $user) use ($restrictGroups) {
+						// is sharing restricted to groups only?
+						if ($restrictGroups !== false) {
+							$userGroups = $this->groupManager->getUserGroupIds($user);
+							if (count(array_intersect($userGroups, $restrictGroups)) === 0) {
+								return $carry;
+							}
+						}
+
+						$carry[] = $this->principalPrefix . '/' . $user->getUID();
+						return $carry;
+					}, []);
+					break;
+
+				default:
+					$results[] = [];
+					break;
+			}
+		}
+
+		// results is an array of arrays, so this is not the first search result
+		// but the results of the first searchProperty
+		if (count($results) === 1) {
+			return $results[0];
+		}
+
+		switch ($test) {
+			case 'anyof':
+				return array_unique(array_merge(...$results));
+
+			case 'allof':
+			default:
+				return array_intersect(...$results);
+		}
+	}
+
+	/**
 	 * @param string $prefixPath
 	 * @param array $searchProperties
 	 * @param string $test
 	 * @return array
 	 */
 	function searchPrincipals($prefixPath, array $searchProperties, $test = 'allof') {
-		return [];
+		if (count($searchProperties) === 0) {
+			return [];
+		}
+
+		switch ($prefixPath) {
+			case 'principals/users':
+				return $this->searchUserPrincipals($searchProperties, $test);
+
+			default:
+				return [];
+		}
 	}
 
 	/**
@@ -198,15 +290,43 @@ class Principal implements BackendInterface {
 	 * @return string
 	 */
 	function findByUri($uri, $principalPrefix) {
-		if (substr($uri, 0, 7) === 'mailto:') {
-			$email = substr($uri, 7);
-			$users = $this->userManager->getByEmail($email);
-			if (count($users) === 1) {
-				return $this->principalPrefix . '/' . $users[0]->getUID();
+		// If sharing is disabled, return null as in user not found
+		if (!$this->shareManager->shareApiEnabled()) {
+			return null;
+		}
+
+		// If sharing is restricted to group members only,
+		// return only members that have groups in common
+		$restrictGroups = false;
+		if ($this->shareManager->shareWithGroupMembersOnly()) {
+			$user = $this->userSession->getUser();
+			if (!$user) {
+				return null;
+			}
+
+			$restrictGroups = $this->groupManager->getUserGroupIds($user);
+		}
+
+		if (strpos($uri, 'mailto:') === 0) {
+			if ($principalPrefix === 'principals/users') {
+				$users = $this->userManager->getByEmail(substr($uri, 7));
+				if (count($users) !== 1) {
+					return null;
+				}
+				$user = $users[0];
+
+				if ($restrictGroups !== false) {
+					$userGroups = $this->groupManager->getUserGroupIds($user);
+					if (count(array_intersect($userGroups, $restrictGroups)) === 0) {
+						return null;
+					}
+				}
+
+				return $this->principalPrefix . '/' . $user->getUID();
 			}
 		}
 
-		return '';
+		return null;
 	}
 
 	/**

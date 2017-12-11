@@ -45,6 +45,8 @@ $authBackend = new Auth(
 $principalBackend = new Principal(
 	\OC::$server->getUserManager(),
 	\OC::$server->getGroupManager(),
+	\OC::$server->getShareManager(),
+	\OC::$server->getUserSession(),
 	'principals/'
 );
 $db = \OC::$server->getDatabaseConnection();

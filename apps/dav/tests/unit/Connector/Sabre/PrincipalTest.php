@@ -29,6 +29,9 @@ namespace OCA\DAV\Tests\unit\Connector\Sabre;
 use OC\User\User;
 use OCP\IGroup;
 use OCP\IGroupManager;
+use OCP\IUser;
+use OCP\IUserSession;
+use OCP\Share\IManager;
 use \Sabre\DAV\PropPatch;
 use OCP\IUserManager;
 use Test\TestCase;
@@ -40,14 +43,22 @@ class PrincipalTest extends TestCase {
 	private $connector;
 	/** @var IGroupManager | \PHPUnit_Framework_MockObject_MockObject */
 	private $groupManager;
+	/** @var IManager | \PHPUnit_Framework_MockObject_MockObject */
+	private $shareManager;
+	/** @var IUserSession | \PHPUnit_Framework_MockObject_MockObject */
+	private $userSession;
 
 	public function setUp() {
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
+		$this->shareManager = $this->createMock(IManager::class);
+		$this->userSession = $this->createMock(IUserSession::class);
 
 		$this->connector = new \OCA\DAV\Connector\Sabre\Principal(
 			$this->userManager,
-			$this->groupManager);
+			$this->groupManager,
+			$this->shareManager,
+			$this->userSession);
 		parent::setUp();
 	}
 
@@ -255,21 +266,172 @@ class PrincipalTest extends TestCase {
 		$this->assertSame(0, $this->connector->updatePrincipal('foo', new PropPatch(array())));
 	}
 
-	public function testSearchPrincipals() {
+	public function testSearchPrincipalsWithEmptySearchProperties() {
 		$this->assertSame([], $this->connector->searchPrincipals('principals/users', []));
 	}
 
-	public function testFindByUri() {
-		$fooUser = $this->createMock(User::class);
-		$fooUser
-			->expects($this->exactly(1))
-			->method('getUID')
-			->will($this->returnValue('foo'));
+	public function testSearchPrincipalsWithWrongPrefixPath() {
+		$this->assertSame([], $this->connector->searchPrincipals('principals/groups',
+			['{http://sabredav.org/ns}email-address' => 'foo']));
+	}
 
-		$this->userManager->expects($this->once())->method('getByEmail')->willReturn([
-			$fooUser
-		]);
-		$ret = $this->connector->findByUri('mailto:foo@bar.net', 'principals/users');
-		$this->assertSame('principals/users/foo', $ret);
+	/**
+	 * @dataProvider searchPrincipalsDataProvider
+	 */
+	public function testSearchPrincipals($sharingEnabled, $groupsOnly, $result) {
+		$this->shareManager->expects($this->once())
+			->method('shareAPIEnabled')
+			->will($this->returnValue($sharingEnabled));
+
+		if ($sharingEnabled) {
+			$this->shareManager->expects($this->once())
+				->method('shareWithGroupMembersOnly')
+				->will($this->returnValue($groupsOnly));
+
+			if ($groupsOnly) {
+				$user = $this->createMock(IUser::class);
+				$this->userSession->expects($this->once())
+					->method('getUser')
+					->will($this->returnValue($user));
+
+				$this->groupManager->expects($this->at(0))
+					->method('getUserGroupIds')
+					->with($user)
+					->will($this->returnValue(['group1', 'group2']));
+			}
+		} else {
+			$this->shareManager->expects($this->never())
+				->method('shareWithGroupMembersOnly');
+			$this->groupManager->expects($this->never())
+				->method($this->anything());
+		}
+
+		$user2 = $this->createMock(IUser::class);
+		$user2->method('getUID')->will($this->returnValue('user2'));
+		$user3 = $this->createMock(IUser::class);
+		$user3->method('getUID')->will($this->returnValue('user3'));
+
+		if ($sharingEnabled) {
+			$this->userManager->expects($this->at(0))
+				->method('getByEmail')
+				->with('user')
+				->will($this->returnValue([$user2, $user3]));
+		}
+
+		if ($sharingEnabled && $groupsOnly) {
+			$this->groupManager->expects($this->at(1))
+				->method('getUserGroupIds')
+				->with($user2)
+				->will($this->returnValue(['group1', 'group3']));
+			$this->groupManager->expects($this->at(2))
+				->method('getUserGroupIds')
+				->with($user3)
+				->will($this->returnValue(['group3', 'group4']));
+		}
+
+		$this->assertEquals($result, $this->connector->searchPrincipals('principals/users',
+			['{http://sabredav.org/ns}email-address' => 'user']));
+	}
+
+	public function searchPrincipalsDataProvider() {
+		return [
+			[true, false, ['principals/users/user2', 'principals/users/user3']],
+			[true, true, ['principals/users/user2']],
+			[false, false, []],
+		];
+	}
+
+	public function testFindByUriSharingApiDisabled() {
+		$this->shareManager->expects($this->once())
+			->method('shareApiEnabled')
+			->will($this->returnValue(false));
+
+		$this->assertEquals(null, $this->connector->findByUri('mailto:user@foo.com', 'principals/users'));
+	}
+
+	/**
+	 * @dataProvider findByUriWithGroupRestrictionDataProvider
+	 */
+	public function testFindByUriWithGroupRestriction($uri, $email, $expects) {
+		$this->shareManager->expects($this->once())
+			->method('shareApiEnabled')
+			->will($this->returnValue(true));
+
+		$this->shareManager->expects($this->once())
+			->method('shareWithGroupMembersOnly')
+			->will($this->returnValue(true));
+
+		$user = $this->createMock(IUser::class);
+		$this->userSession->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($user));
+
+		$this->groupManager->expects($this->at(0))
+			->method('getUserGroupIds')
+			->with($user)
+			->will($this->returnValue(['group1', 'group2']));
+
+		$user2 = $this->createMock(IUser::class);
+		$user2->method('getUID')->will($this->returnValue('user2'));
+		$user3 = $this->createMock(IUser::class);
+		$user3->method('getUID')->will($this->returnValue('user3'));
+
+		$this->userManager->expects($this->once())
+			->method('getByEmail')
+			->with($email)
+			->will($this->returnValue([$email === 'user2@foo.bar' ? $user2 : $user3]));
+
+		if ($email === 'user2@foo.bar') {
+			$this->groupManager->expects($this->at(1))
+				->method('getUserGroupIds')
+				->with($user2)
+				->will($this->returnValue(['group1', 'group3']));
+		} else {
+			$this->groupManager->expects($this->at(1))
+				->method('getUserGroupIds')
+				->with($user3)
+				->will($this->returnValue(['group3', 'group3']));
+		}
+
+		$this->assertEquals($expects, $this->connector->findByUri($uri, 'principals/users'));
+	}
+
+	public function findByUriWithGroupRestrictionDataProvider() {
+		return [
+			['mailto:user2@foo.bar', 'user2@foo.bar', 'principals/users/user2'],
+			['mailto:user3@foo.bar', 'user3@foo.bar', null],
+		];
+	}
+
+	/**
+	 * @dataProvider findByUriWithoutGroupRestrictionDataProvider
+	 */
+	public function testFindByUriWithoutGroupRestriction($uri, $email, $expects) {
+		$this->shareManager->expects($this->once())
+			->method('shareApiEnabled')
+			->will($this->returnValue(true));
+
+		$this->shareManager->expects($this->once())
+			->method('shareWithGroupMembersOnly')
+			->will($this->returnValue(false));
+
+		$user2 = $this->createMock(IUser::class);
+		$user2->method('getUID')->will($this->returnValue('user2'));
+		$user3 = $this->createMock(IUser::class);
+		$user3->method('getUID')->will($this->returnValue('user3'));
+
+		$this->userManager->expects($this->once())
+			->method('getByEmail')
+			->with($email)
+			->will($this->returnValue([$email === 'user2@foo.bar' ? $user2 : $user3]));
+
+		$this->assertEquals($expects, $this->connector->findByUri($uri, 'principals/users'));
+	}
+
+	public function findByUriWithoutGroupRestrictionDataProvider() {
+		return [
+			['mailto:user2@foo.bar', 'user2@foo.bar', 'principals/users/user2'],
+			['mailto:user3@foo.bar', 'user3@foo.bar', 'principals/users/user3'],
+		];
 	}
 }

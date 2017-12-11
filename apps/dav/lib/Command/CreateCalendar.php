@@ -75,7 +75,9 @@ class CreateCalendar extends Command {
 		}
 		$principalBackend = new Principal(
 			$this->userManager,
-			$this->groupManager
+			$this->groupManager,
+			\OC::$server->getShareManager(),
+			\OC::$server->getUserSession()
 		);
 		$random = \OC::$server->getSecureRandom();
 		$logger = \OC::$server->getLogger();
