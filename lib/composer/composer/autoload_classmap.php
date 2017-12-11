@@ -93,6 +93,7 @@ return array(
     'OCP\\Contacts' => $baseDir . '/lib/public/Contacts.php',
     'OCP\\Contacts\\ContactsMenu\\IAction' => $baseDir . '/lib/public/Contacts/ContactsMenu/IAction.php',
     'OCP\\Contacts\\ContactsMenu\\IActionFactory' => $baseDir . '/lib/public/Contacts/ContactsMenu/IActionFactory.php',
+    'OCP\\Contacts\\ContactsMenu\\IContactsStore' => $baseDir . '/lib/public/Contacts/ContactsMenu/IContactsStore.php',
     'OCP\\Contacts\\ContactsMenu\\IEntry' => $baseDir . '/lib/public/Contacts/ContactsMenu/IEntry.php',
     'OCP\\Contacts\\ContactsMenu\\ILinkAction' => $baseDir . '/lib/public/Contacts/ContactsMenu/ILinkAction.php',
     'OCP\\Contacts\\ContactsMenu\\IProvider' => $baseDir . '/lib/public/Contacts/ContactsMenu/IProvider.php',

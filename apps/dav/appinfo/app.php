@@ -53,6 +53,8 @@ $cm->register(function() use ($cm, $app) {
 	$user = \OC::$server->getUserSession()->getUser();
 	if (!is_null($user)) {
 		$app->setupContactsProvider($cm, $user->getUID());
+	} else {
+		$app->setupSystemContactsProvider($cm);
 	}
 });
 

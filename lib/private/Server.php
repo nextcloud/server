@@ -63,6 +63,7 @@ use OC\Collaboration\Collaborators\RemotePlugin;
 use OC\Collaboration\Collaborators\UserPlugin;
 use OC\Command\CronBus;
 use OC\Contacts\ContactsMenu\ActionFactory;
+use OC\Contacts\ContactsMenu\ContactsStore;
 use OC\Diagnostics\EventLogger;
 use OC\Diagnostics\QueryLogger;
 use OC\Federation\CloudIdManager;
@@ -114,6 +115,7 @@ use OCA\Theming\ThemingDefaults;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Collaboration\AutoComplete\IManager;
+use OCP\Contacts\ContactsMenu\IContactsStore;
 use OCP\Defaults;
 use OCA\Theming\Util;
 use OCP\Federation\ICloudIdManager;
@@ -1128,6 +1130,16 @@ class Server extends ServerContainer implements IServerContainer {
 			$memcacheFactory = $c->getMemCacheFactory();
 			return new InstanceFactory($memcacheFactory->createLocal('remoteinstance.'), $c->getHTTPClientService());
 		});
+
+		$this->registerService(IContactsStore::class, function(Server $c) {
+			return new ContactsStore(
+				$c->getContactsManager(),
+				$c->getConfig(),
+				$c->getUserManager(),
+				$c->getGroupManager()
+			);
+		});
+		$this->registerAlias(IContactsStore::class, ContactsStore::class);
 
 		$this->connectDispatcher();
 	}

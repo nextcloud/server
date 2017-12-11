@@ -35,8 +35,9 @@ use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\Contacts\ContactsMenu\IContactsStore;
 
-class ContactsStore {
+class ContactsStore implements IContactsStore {
 
 	/** @var IManager */
 	private $contactsManager;
