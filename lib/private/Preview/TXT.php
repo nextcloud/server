@@ -46,6 +46,11 @@ class TXT extends Provider {
 	 */
 	public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {
 		$content = $fileview->fopen($path, 'r');
+
+		if ($content === false) {
+			return false;
+		}
+
 		$content = stream_get_contents($content,3000);
 
 		//don't create previews of empty text files
