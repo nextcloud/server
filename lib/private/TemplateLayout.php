@@ -102,7 +102,7 @@ class TemplateLayout extends \OC_Template {
 				$this->assign('userAvatarSet', false);
 			} else {
 				$this->assign('userAvatarSet', \OC::$server->getAvatarManager()->getAvatar(\OC_User::getUser())->exists());
-				$this->assign('userAvatarVersion', \OC::$server->getConfig()->getUserValue(\OC_User::getUser(), 'avatar', 'version', 0));
+				$this->assign('userAvatarVersion', $this->config->getUserValue(\OC_User::getUser(), 'avatar', 'version', 0));
 			}
 
 			// check if app menu icons should be inverted
@@ -148,7 +148,7 @@ class TemplateLayout extends \OC_Template {
 					\OC::$server->getAppManager(),
 					\OC::$server->getSession(),
 					\OC::$server->getUserSession()->getUser(),
-					\OC::$server->getConfig(),
+					$this->config,
 					\OC::$server->getGroupManager(),
 					\OC::$server->getIniWrapper(),
 					\OC::$server->getURLGenerator()
@@ -205,18 +205,26 @@ class TemplateLayout extends \OC_Template {
 	 * @return string
 	 */
 	protected function getVersionHashSuffix($path = false, $file = false) {
-		if (\OC::$server->getConfig()->getSystemValue('debug', false)) {
+		if ($this->config->getSystemValue('debug', false)) {
 			// allows chrome workspace mapping in debug mode
 			return "";
 		}
-		$v = \OC_App::getAppVersions();
+		$themingSuffix = '';
+		$v = [];
+
+		if ($this->config->getSystemValue('installed', false)) {
+			if (\OC::$server->getAppManager()->isInstalled('theming')) {
+				$themingSuffix = '-' . $this->config->getAppValue('theming', 'cachebuster', '0');
+			}
+			$v = \OC_App::getAppVersions();
+		}
 
 		// Try the webroot path for a match
 		if ($path !== false && $path !== '') {
 			$appName = $this->getAppNamefromPath($path);
 			if(array_key_exists($appName, $v)) {
 				$appVersion = $v[$appName];
-				return '?v=' . substr(md5($appVersion), 0, 8) . '-' . $this->config->getAppValue('theming', 'cachebuster', '0');
+				return '?v=' . substr(md5($appVersion), 0, 8) . $themingSuffix;
 			}
 		}
 		// fallback to the file path instead
@@ -224,14 +232,11 @@ class TemplateLayout extends \OC_Template {
 			$appName = $this->getAppNamefromPath($file);
 			if(array_key_exists($appName, $v)) {
 				$appVersion = $v[$appName];
-				return '?v=' . substr(md5($appVersion), 0, 8) . '-' . $this->config->getAppValue('theming', 'cachebuster', '0');
+				return '?v=' . substr(md5($appVersion), 0, 8) . $themingSuffix;
 			}
 		}
 
-		if ($this->config->getSystemValue('installed', false) && \OC::$server->getAppManager()->isInstalled('theming')) {
-			return '?v=' . self::$versionHash . '-' . $this->config->getAppValue('theming', 'cachebuster', '0');
-		}
-		return '?v=' . self::$versionHash;
+		return '?v=' . self::$versionHash . $themingSuffix;
 	}
 
 	/**
