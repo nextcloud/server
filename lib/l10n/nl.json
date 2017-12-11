@@ -249,7 +249,7 @@
     "This can usually be fixed by <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">giving the webserver write access to the root directory</a>." : "Dit kan hersteld worden door <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\"> de webserver schrijfrechten te geven tot de hoofd directory</a>.",
     "Permissions can usually be fixed by %sgiving the webserver write access to the root directory%s." : "Toegang kan hersteld worden door %s in de hoofd directory %s op de webserver schrijfrechten te geven.",
     "Data directory (%s) is readable by other users" : "De data directory (%s) is alleen lezen voor andere gebruikers",
-    "Data directory (%s) must be an absolute path" : "De data directory (%s) moet een absolute bestand locatie hebben",
+    "Data directory (%s) must be an absolute path" : "De data directory (%s) moet een absolute bestandslocatie hebben",
     "Data directory (%s) is invalid" : "Data directory (%s) is ongeldig",
     "Please check that the data directory contains a file \".ocdata\" in its root." : "Verifieer dat de data directory een bestand \".ocdata\" in de hoofdmap heeft."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
