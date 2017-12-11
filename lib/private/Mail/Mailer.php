@@ -35,7 +35,7 @@ use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OCP\ILogger;
 use OCP\Mail\IMessage;
-use OCP\IGpg;
+
 
 /**
  * Class Mailer provides some basic functions to create a mail message that can be used in combination with
@@ -162,7 +162,7 @@ class Mailer implements IMailer {
 		$debugMode = $this->config->getSystemValue('mail_smtpdebug', false);
 
 		if (empty($message->getFrom())) {
-			$message->setFrom([\OCP\Util::getDefaultEmailAddress($this->defaults->getName()) => $this->defaults->getName()],[$this->config->getSystemValue('key_fingerprint', '')]);
+			$message->setFrom([\OCP\Util::getDefaultEmailAddress($this->defaults->getName()) => $this->defaults->getName()],[$this->config->getSystemValue('GpgServerKey', '')]);
 			}
 
 		$failedRecipients = [];
@@ -307,8 +307,8 @@ class Mailer implements IMailer {
 
 
 
-		if (sizeof($encrypt_fingerprints) == sizeof($message->getTo()) + sizeof($message->getCc()) + sizeof($message->getBcc())){
-			if(sizeof($sign_fingerprints) > 0) {
+		if ($this->countValidFingerprint($encrypt_fingerprints) == sizeof($message->getTo()) + sizeof($message->getCc()) + sizeof($message->getBcc())){
+			if($this->countValidFingerprint($sign_fingerprints) > 0) {
 				if($debugMode) {
 					$sign_fingerprints_text = '';
 					foreach ($sign_fingerprints as $sign_fingerprint) {
@@ -334,7 +334,7 @@ class Mailer implements IMailer {
 				/* FIXME add encryption of Attachments */
 			}
 		}  else {
-			if(sizeof($sign_fingerprints) > 0) {
+			if($this->countValidFingerprint($sign_fingerprints) > 0) {
 				$message->sign();
 			} else {
 				if($debugMode) {
@@ -344,6 +344,20 @@ class Mailer implements IMailer {
 			}
 		}
 		return $message;
+	}
+
+	private function countValidFingerprint(array $fingerprints) {
+		$int = 0;
+		foreach ($fingerprints as $f) {
+			if ($this->validFingerprint($f)) {
+				$int++;
+			}
+		}
+		return $int;
+	}
+
+	private function validFingerprint(string $fingerprint) {
+		return $fingerprint != '';
 	}
 
 
