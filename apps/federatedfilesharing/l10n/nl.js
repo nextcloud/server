@@ -27,7 +27,7 @@ OC.L10N.register(
     "Sharing %s failed, because this item is already shared with %s" : "Delen van %s is mislukt, omdat het object al wordt gedeeld met %s",
     "Not allowed to create a federated share with the same user" : "Het is niet toegestaan om een gefedereerde share met dezelfde gebruikersserver te maken",
     "File is already shared with %s" : "Bestand is al gedeeld met %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Delen van %s mislukt, kon %s niet vinden, misschien is de server niet bereikbaar of u gebruikt een zelf getekend certificaat.",
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Delen van %s mislukt, kon %s niet vinden, misschien is de server niet bereikbaar of je gebruikt een zelf getekend certificaat.",
     "Could not find share" : "Kon share niet vinden",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Je ontving \"%3$s\" als een extern deel verzoek van %1$s (namens %2$s)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Je ontving {share} als een extern deel verzoek van {user} (namens {behalf})",
