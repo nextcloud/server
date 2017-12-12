@@ -126,7 +126,7 @@ return array(
     'OCP\\Files\\Cache\\IScanner' => $baseDir . '/lib/public/Files/Cache/IScanner.php',
     'OCP\\Files\\Cache\\IUpdater' => $baseDir . '/lib/public/Files/Cache/IUpdater.php',
     'OCP\\Files\\Cache\\IWatcher' => $baseDir . '/lib/public/Files/Cache/IWatcher.php',
-    'OCP\\Files\\Config\\ICachedMountFileInfo' => $baseDir . '/lib/public/Files/Config/ICachedMountFieInfo.php',
+    'OCP\\Files\\Config\\ICachedMountFileInfo' => $baseDir . '/lib/public/Files/Config/ICachedMountFileInfo.php',
     'OCP\\Files\\Config\\ICachedMountInfo' => $baseDir . '/lib/public/Files/Config/ICachedMountInfo.php',
     'OCP\\Files\\Config\\IHomeMountProvider' => $baseDir . '/lib/public/Files/Config/IHomeMountProvider.php',
     'OCP\\Files\\Config\\IMountProvider' => $baseDir . '/lib/public/Files/Config/IMountProvider.php',

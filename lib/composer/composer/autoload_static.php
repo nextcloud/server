@@ -156,7 +156,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\Files\\Cache\\IScanner' => __DIR__ . '/../../..' . '/lib/public/Files/Cache/IScanner.php',
         'OCP\\Files\\Cache\\IUpdater' => __DIR__ . '/../../..' . '/lib/public/Files/Cache/IUpdater.php',
         'OCP\\Files\\Cache\\IWatcher' => __DIR__ . '/../../..' . '/lib/public/Files/Cache/IWatcher.php',
-        'OCP\\Files\\Config\\ICachedMountFileInfo' => __DIR__ . '/../../..' . '/lib/public/Files/Config/ICachedMountFieInfo.php',
+        'OCP\\Files\\Config\\ICachedMountFileInfo' => __DIR__ . '/../../..' . '/lib/public/Files/Config/ICachedMountFileInfo.php',
         'OCP\\Files\\Config\\ICachedMountInfo' => __DIR__ . '/../../..' . '/lib/public/Files/Config/ICachedMountInfo.php',
         'OCP\\Files\\Config\\IHomeMountProvider' => __DIR__ . '/../../..' . '/lib/public/Files/Config/IHomeMountProvider.php',
         'OCP\\Files\\Config\\IMountProvider' => __DIR__ . '/../../..' . '/lib/public/Files/Config/IMountProvider.php',
