@@ -38,7 +38,6 @@
 					</header>
 				<?php endif; ?>
 				<?php print_unescaped($_['content']); ?>
-				<div class="push"></div><!-- for sticky footer -->
 			</div>
 		</div>
 		<footer role="contentinfo">
