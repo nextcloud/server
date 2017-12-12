@@ -859,6 +859,20 @@ class RequestTest extends \Test\TestCase {
 				],
 				false,
 			],
+			[
+				'Mozilla/5.0 (Android) ownCloud-android/2.0.0',
+				[
+					Request::USER_AGENT_CLIENT_ANDROID
+				],
+				true,
+			],
+			[
+				'Mozilla/5.0 (Android) Nextcloud-android/2.0.0',
+				[
+					Request::USER_AGENT_CLIENT_ANDROID
+				],
+				true,
+			],
 		];
 	}
 
