@@ -67,7 +67,7 @@ interface IRequest {
 	/**
 	 * @since 9.1.0
 	 */
-	const USER_AGENT_CLIENT_ANDROID = '/^Mozilla\/5\.0 \(Android\) ownCloud\-android.*$/';
+	const USER_AGENT_CLIENT_ANDROID = '/^Mozilla\/5\.0 \(Android\) (ownCloud|Nextcloud)\-android.*$/';
 
 	/**
 	 * @since 13.0.0
