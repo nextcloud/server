@@ -897,7 +897,21 @@ class Server extends ServerContainer implements IServerContainer {
 			$factoryClass = $config->getSystemValue('comments.managerFactory', '\OC\Comments\ManagerFactory');
 			/** @var \OCP\Comments\ICommentsManagerFactory $factory */
 			$factory = new $factoryClass($this);
-			return $factory->getManager();
+			$manager = $factory->getManager();
+
+			$manager->registerDisplayNameResolver('user', function($id) use ($c) {
+				$manager = $c->getUserManager();
+				$user = $manager->get($id);
+				if(is_null($user)) {
+					$l = $c->getL10N('core');
+					$displayName = $l->t('Unknown user');
+				} else {
+					$displayName = $user->getDisplayName();
+				}
+				return $displayName;
+			});
+
+			return $manager;
 		});
 		$this->registerAlias('CommentsManager', \OCP\Comments\ICommentsManager::class);
 
