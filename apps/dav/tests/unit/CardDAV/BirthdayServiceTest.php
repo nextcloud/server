@@ -28,6 +28,7 @@ use OCA\DAV\CalDAV\BirthdayService;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\DAV\GroupPrincipalBackend;
+use OCP\IConfig;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Reader;
 use Test\TestCase;
@@ -42,15 +43,19 @@ class BirthdayServiceTest extends TestCase {
 	private $cardDav;
 	/** @var GroupPrincipalBackend | \PHPUnit_Framework_MockObject_MockObject */
 	private $groupPrincipalBackend;
+	/** @var IConfig | \PHPUnit_Framework_MockObject_MockObject */
+	private $config;
 
 	public function setUp() {
 		parent::setUp();
 
-		$this->calDav = $this->getMockBuilder(CalDavBackend::class)->disableOriginalConstructor()->getMock();
-		$this->cardDav = $this->getMockBuilder(CardDavBackend::class)->disableOriginalConstructor()->getMock();
-		$this->groupPrincipalBackend = $this->getMockBuilder(GroupPrincipalBackend::class)->disableOriginalConstructor()->getMock();
+		$this->calDav = $this->createMock(CalDavBackend::class);
+		$this->cardDav = $this->createMock(CardDavBackend::class);
+		$this->groupPrincipalBackend = $this->createMock(GroupPrincipalBackend::class);
+		$this->config = $this->createMock(IConfig::class);
 
-		$this->service = new BirthdayService($this->calDav, $this->cardDav, $this->groupPrincipalBackend);
+		$this->service = new BirthdayService($this->calDav, $this->cardDav,
+			$this->groupPrincipalBackend, $this->config);
 	}
 
 	/**
@@ -71,7 +76,52 @@ class BirthdayServiceTest extends TestCase {
 		}
 	}
 
+	public function testOnCardDeleteGloballyDisabled() {
+		$this->config->expects($this->once())
+			->method('getAppValue')
+			->with('dav', 'generateBirthdayCalendar', 'yes')
+			->will($this->returnValue('no'));
+
+		$this->cardDav->expects($this->never())->method('getAddressBookById');
+
+		$this->service->onCardDeleted(666, 'gump.vcf');
+	}
+
+	public function testOnCardDeleteUserDisabled() {
+		$this->config->expects($this->once())
+			->method('getAppValue')
+			->with('dav', 'generateBirthdayCalendar', 'yes')
+			->will($this->returnValue('yes'));
+
+		$this->config->expects($this->once())
+			->method('getUserValue')
+			->with('user01', 'dav', 'generateBirthdayCalendar', 'yes')
+			->will($this->returnValue('no'));
+
+		$this->cardDav->expects($this->once())->method('getAddressBookById')
+			->with(666)
+			->willReturn([
+				'principaluri' => 'principals/users/user01',
+				'uri' => 'default'
+			]);
+		$this->cardDav->expects($this->once())->method('getShares')->willReturn([]);
+		$this->calDav->expects($this->never())->method('getCalendarByUri');
+		$this->calDav->expects($this->never())->method('deleteCalendarObject');
+
+		$this->service->onCardDeleted(666, 'gump.vcf');
+	}
+
 	public function testOnCardDeleted() {
+		$this->config->expects($this->once())
+			->method('getAppValue')
+			->with('dav', 'generateBirthdayCalendar', 'yes')
+			->will($this->returnValue('yes'));
+
+		$this->config->expects($this->once())
+			->method('getUserValue')
+			->with('user01', 'dav', 'generateBirthdayCalendar', 'yes')
+			->will($this->returnValue('yes'));
+
 		$this->cardDav->expects($this->once())->method('getAddressBookById')
 			->with(666)
 			->willReturn([
@@ -91,10 +141,65 @@ class BirthdayServiceTest extends TestCase {
 		$this->service->onCardDeleted(666, 'gump.vcf');
 	}
 
+	public function testOnCardChangedGloballyDisabled() {
+		$this->config->expects($this->once())
+			->method('getAppValue')
+			->with('dav', 'generateBirthdayCalendar', 'yes')
+			->will($this->returnValue('no'));
+
+		$this->cardDav->expects($this->never())->method('getAddressBookById');
+
+		$service = $this->getMockBuilder(BirthdayService::class)
+			->setMethods(['buildDateFromContact', 'birthdayEvenChanged'])
+			->setConstructorArgs([$this->calDav, $this->cardDav, $this->groupPrincipalBackend, $this->config])
+			->getMock();
+
+		$service->onCardChanged(666, 'gump.vcf', '');
+	}
+
+	public function testOnCardChangedUserDisabled() {
+		$this->config->expects($this->once())
+			->method('getAppValue')
+			->with('dav', 'generateBirthdayCalendar', 'yes')
+			->will($this->returnValue('yes'));
+
+		$this->config->expects($this->once())
+			->method('getUserValue')
+			->with('user01', 'dav', 'generateBirthdayCalendar', 'yes')
+			->will($this->returnValue('no'));
+
+		$this->cardDav->expects($this->once())->method('getAddressBookById')
+			->with(666)
+			->willReturn([
+				'principaluri' => 'principals/users/user01',
+				'uri' => 'default'
+			]);
+		$this->cardDav->expects($this->once())->method('getShares')->willReturn([]);
+		$this->calDav->expects($this->never())->method('getCalendarByUri');
+
+		/** @var BirthdayService | \PHPUnit_Framework_MockObject_MockObject $service */
+		$service = $this->getMockBuilder(BirthdayService::class)
+			->setMethods(['buildDateFromContact', 'birthdayEvenChanged'])
+			->setConstructorArgs([$this->calDav, $this->cardDav, $this->groupPrincipalBackend, $this->config])
+			->getMock();
+
+		$service->onCardChanged(666, 'gump.vcf', '');
+	}
+
 	/**
 	 * @dataProvider providesCardChanges
 	 */
 	public function testOnCardChanged($expectedOp) {
+		$this->config->expects($this->once())
+			->method('getAppValue')
+			->with('dav', 'generateBirthdayCalendar', 'yes')
+			->will($this->returnValue('yes'));
+
+		$this->config->expects($this->once())
+			->method('getUserValue')
+			->with('user01', 'dav', 'generateBirthdayCalendar', 'yes')
+			->will($this->returnValue('yes'));
+
 		$this->cardDav->expects($this->once())->method('getAddressBookById')
 			->with(666)
 			->willReturn([
@@ -111,7 +216,7 @@ class BirthdayServiceTest extends TestCase {
 		/** @var BirthdayService | \PHPUnit_Framework_MockObject_MockObject $service */
 		$service = $this->getMockBuilder(BirthdayService::class)
 			->setMethods(['buildDateFromContact', 'birthdayEvenChanged'])
-			->setConstructorArgs([$this->calDav, $this->cardDav, $this->groupPrincipalBackend])
+			->setConstructorArgs([$this->calDav, $this->cardDav, $this->groupPrincipalBackend, $this->config])
 			->getMock();
 
 		if ($expectedOp === 'delete') {

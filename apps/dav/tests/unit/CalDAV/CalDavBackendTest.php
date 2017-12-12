@@ -31,6 +31,7 @@ use DateTime;
 use DateTimeZone;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
+use OCP\IConfig;
 use OCP\IL10N;
 use Sabre\DAV\PropPatch;
 use Sabre\DAV\Xml\Property\Href;
@@ -131,6 +132,8 @@ class CalDavBackendTest extends AbstractCalDavBackend {
 				return vsprintf($text, $parameters);
 			}));
 
+		$config = $this->createMock(IConfig::class);
+
 		$this->userManager->expects($this->any())
 			->method('userExists')
 			->willReturn(true);
@@ -142,14 +145,14 @@ class CalDavBackendTest extends AbstractCalDavBackend {
 		$calendarId = $this->createTestCalendar();
 		$calendars = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
 		$this->assertCount(1, $calendars);
-		$calendar = new Calendar($this->backend, $calendars[0], $l10n);
+		$calendar = new Calendar($this->backend, $calendars[0], $l10n, $config);
 		$this->dispatcher->expects($this->at(0))
 			->method('dispatch')
 			->with('\OCA\DAV\CalDAV\CalDavBackend::updateShares');
 		$this->backend->updateShares($calendar, $add, []);
 		$calendars = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER1);
 		$this->assertCount(1, $calendars);
-		$calendar = new Calendar($this->backend, $calendars[0], $l10n);
+		$calendar = new Calendar($this->backend, $calendars[0], $l10n, $config);
 		$acl = $calendar->getACL();
 		$this->assertAcl(self::UNIT_TEST_USER, '{DAV:}read', $acl);
 		$this->assertAcl(self::UNIT_TEST_USER, '{DAV:}write', $acl);
@@ -505,8 +508,9 @@ EOD;
 
 		/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject $l10n */
 		$l10n = $this->createMock(IL10N::class);
+		$config = $this->createMock(IConfig::class);
 
-		$calendar = new Calendar($this->backend, $calendarInfo, $l10n);
+		$calendar = new Calendar($this->backend, $calendarInfo, $l10n, $config);
 		$calendar->setPublishStatus(true);
 		$this->assertNotEquals(false, $calendar->getPublishStatus());
 

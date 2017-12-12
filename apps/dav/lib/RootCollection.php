@@ -39,6 +39,7 @@ class RootCollection extends SimpleCollection {
 
 	public function __construct() {
 		$config = \OC::$server->getConfig();
+		$l10n = \OC::$server->getL10N('dav');
 		$random = \OC::$server->getSecureRandom();
 		$logger = \OC::$server->getLogger();
 		$userManager = \OC::$server->getUserManager();
@@ -68,7 +69,7 @@ class RootCollection extends SimpleCollection {
 		$caldavBackend = new CalDavBackend($db, $userPrincipalBackend, $userManager, $groupManager, $random, $logger, $dispatcher);
 		$calendarRoot = new CalendarRoot($userPrincipalBackend, $caldavBackend, 'principals/users');
 		$calendarRoot->disableListing = $disableListing;
-		$publicCalendarRoot = new PublicCalendarRoot($caldavBackend);
+		$publicCalendarRoot = new PublicCalendarRoot($caldavBackend, $l10n, $config);
 		$publicCalendarRoot->disableListing = $disableListing;
 
 		$systemTagCollection = new SystemTag\SystemTagsByIdCollection(

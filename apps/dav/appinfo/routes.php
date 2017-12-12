@@ -1,3 +1,4 @@
+<?php
 /**
  * @copyright 2017, Georg Ehrke <oc.list@georgehrke.com>
  *
@@ -19,20 +20,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-"use strict";
 
-$('#caldavSendInvitations').change(function() {
-	var val = $(this)[0].checked;
-
-	OCP.AppConfig.setValue('dav', 'sendInvitations', val ? 'yes' : 'no');
-});
-
-$('#caldavGenerateBirthdayCalendar').change(function() {
-	var val = $(this)[0].checked;
-
-	if (val) {
-		$.post(OC.generateUrl(OC.linkTo("dav", "enableBirthdayCalendar")));
-	} else {
-		$.post(OC.generateUrl(OC.linkTo("dav", "disableBirthdayCalendar")));
-	}
-});
+return [
+	'routes' => [
+		['name' => 'birthday_calendar#enable', 'url' => '/enableBirthdayCalendar', 'verb' => 'POST'],
+		['name' => 'birthday_calendar#disable', 'url' => '/disableBirthdayCalendar', 'verb' => 'POST'],
+	]
+];

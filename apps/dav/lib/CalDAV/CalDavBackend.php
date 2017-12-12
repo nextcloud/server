@@ -2285,6 +2285,22 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	}
 
 	/**
+	 * deletes all birthday calendars
+	 */
+	public function deleteAllBirthdayCalendars() {
+		$query = $this->db->getQueryBuilder();
+		$result = $query->select(['id'])->from('calendars')
+			->where($query->expr()->eq('uri',
+				$query->createNamedParameter(BirthdayService::BIRTHDAY_CALENDAR_URI)))
+			->execute();
+
+		$ids = $result->fetchAll();
+		foreach($ids as $id) {
+			$this->deleteCalendar($id['id']);
+		}
+	}
+
+	/**
 	 * read VCalendar data into a VCalendar object
 	 *
 	 * @param string $objectData
