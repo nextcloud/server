@@ -721,8 +721,7 @@ img.icon-loading-small-dark, object.icon-loading-small-dark, video.icon-loading-
 }
 
 /* FOOTER */
-footer,
-.push {
+footer {
 	height: 70px;
 	margin-top: auto;
 }
