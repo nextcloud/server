@@ -60,14 +60,3 @@ $commentsManager->registerEventHandler(function () {
 	$handler = $application->getContainer()->query(\OCA\Comments\EventHandler::class);
 	return $handler;
 });
-$commentsManager->registerDisplayNameResolver('user', function($id) {
-	$manager = \OC::$server->getUserManager();
-	$user = $manager->get($id);
-	if(is_null($user)) {
-		$l = \OC::$server->getL10N('comments');
-		$displayName = $l->t('Unknown user');
-	} else {
-		$displayName = $user->getDisplayName();
-	}
-	return $displayName;
-});
