@@ -24,6 +24,7 @@
 namespace OCA\DAV\CalDAV;
 
 use OCP\Calendar\IManager;
+use OCP\IConfig;
 use OCP\IL10N;
 
 class CalendarManager {
@@ -34,15 +35,20 @@ class CalendarManager {
 	/** @var IL10N */
 	private $l10n;
 
+	/** @var IConfig */
+	private $config;
+
 	/**
 	 * CalendarManager constructor.
 	 *
 	 * @param CalDavBackend $backend
 	 * @param IL10N $l10n
+	 * @param IConfig $config
 	 */
-	public function __construct(CalDavBackend $backend, IL10N $l10n) {
+	public function __construct(CalDavBackend $backend, IL10N $l10n, IConfig $config) {
 		$this->backend = $backend;
 		$this->l10n = $l10n;
+		$this->config = $config;
 	}
 
 	/**
@@ -60,7 +66,7 @@ class CalendarManager {
 	 */
 	private function register(IManager $cm, array $calendars) {
 		foreach($calendars as $calendarInfo) {
-			$calendar = new Calendar($this->backend, $calendarInfo, $this->l10n);
+			$calendar = new Calendar($this->backend, $calendarInfo, $this->l10n, $this->config);
 			$cm->registerCalendar(new CalendarImpl(
 				$calendar,
 				$calendarInfo,

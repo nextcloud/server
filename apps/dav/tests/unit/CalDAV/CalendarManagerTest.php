@@ -28,6 +28,7 @@ use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\CalendarImpl;
 use OCA\DAV\CalDAV\CalendarManager;
 use OCP\Calendar\IManager;
+use OCP\IConfig;
 use OCP\IL10N;
 
 class CalendarManagerTest extends \Test\TestCase {
@@ -38,6 +39,9 @@ class CalendarManagerTest extends \Test\TestCase {
 	/** @var IL10N | \PHPUnit_Framework_MockObject_MockObject */
 	private $l10n;
 
+	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	private $config;
+
 	/** @var CalendarManager */
 	private $manager;
 
@@ -45,8 +49,9 @@ class CalendarManagerTest extends \Test\TestCase {
 		parent::setUp();
 		$this->backend = $this->createMock(CalDavBackend::class);
 		$this->l10n = $this->createMock(IL10N::class);
+		$this->config = $this->createMock(IConfig::class);
 		$this->manager = new CalendarManager($this->backend,
-			$this->l10n);
+			$this->l10n, $this->config);
 	}
 
 	public function testSetupCalendarProvider() {
