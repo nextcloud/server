@@ -410,6 +410,14 @@ Raw output
 	}
 
 	/**
+	 * Check if the required FreeType functions are present
+	 * @return bool
+	 */
+	protected function hasFreeTypeSupport() {
+		return function_exists('imagettfbbox') && function_exists('imagettftext');
+	}
+
+	/**
 	 * @return DataResponse
 	 */
 	public function check() {
@@ -430,6 +438,7 @@ Raw output
 				'isOpcacheProperlySetup' => $this->isOpcacheProperlySetup(),
 				'phpOpcacheDocumentation' => $this->urlGenerator->linkToDocs('admin-php-opcache'),
 				'isSettimelimitAvailable' => $this->isSettimelimitAvailable(),
+				'hasFreeTypeSupport' => $this->hasFreeTypeSupport(),
 			]
 		);
 	}

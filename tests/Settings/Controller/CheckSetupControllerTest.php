@@ -96,7 +96,7 @@ class CheckSetupControllerTest extends TestCase {
 				$this->checker,
 				$this->logger
 				])
-			->setMethods(['getCurlVersion', 'isPhpOutdated', 'isOpcacheProperlySetup'])->getMock();
+			->setMethods(['getCurlVersion', 'isPhpOutdated', 'isOpcacheProperlySetup', 'hasFreeTypeSupport'])->getMock();
 	}
 
 	public function testIsInternetConnectionWorkingDisabledViaConfig() {
@@ -321,6 +321,9 @@ class CheckSetupControllerTest extends TestCase {
 			->method('linkToDocs')
 			->with('admin-php-opcache')
 			->willReturn('http://docs.example.org/server/go.php?to=admin-php-opcache');
+		$this->checkSetupController
+			->method('hasFreeTypeSupport')
+			->willReturn(false);
 
 		$expected = new DataResponse(
 			[
@@ -342,6 +345,7 @@ class CheckSetupControllerTest extends TestCase {
 				'isOpcacheProperlySetup' => false,
 				'phpOpcacheDocumentation' => 'http://docs.example.org/server/go.php?to=admin-php-opcache',
 				'isSettimelimitAvailable' => true,
+				'hasFreeTypeSupport' => false,
 			]
 		);
 		$this->assertEquals($expected, $this->checkSetupController->check());
