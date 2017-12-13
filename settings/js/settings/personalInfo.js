@@ -256,8 +256,14 @@ $(document).ready(function () {
 	});
 
 
+	var userSettings = new OC.Settings.UserSettings();
 	var federationSettingsView = new OC.Settings.FederationSettingsView({
-		el: '#personal-settings'
+		el: '#personal-settings',
+		config: userSettings
+	});
+
+	userSettings.on("sync", function() {
+		updateAvatar(false);
 	});
 	federationSettingsView.render();
 
