@@ -28,7 +28,7 @@
  *
  */
 
-require_once __DIR__ . '/lib/versioncheck.php';
+require_once __DIR__ . '/lib/check.php';
 
 try {
 
