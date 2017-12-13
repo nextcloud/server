@@ -136,11 +136,6 @@
 				}
 			});
 		} else {
-			// We already have the displayname so set the placeholder (to show at least something)
-			if (!hidedefault) {
-				$div.imageplaceholder(displayname);
-			}
-
 			var img = new Image();
 
 			// If the new image loads successfully set it.
