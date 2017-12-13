@@ -331,7 +331,7 @@
 
 			// Used for testing since this.$el.parent fails
 			if (!this.availableWidth) {
-				this.usedWidth = this.$el.parent().width() - (this.$el.parent().find('.button').length + 1) * 44;
+				this.usedWidth = this.$el.parent().width() - this.$el.parent().find('.actions.creatable').width();
 			} else {
 				this.usedWidth = this.availableWidth;
 			}
