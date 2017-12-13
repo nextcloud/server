@@ -513,19 +513,14 @@
 			var shareId = li.data('share-id');
 			var expirationDatePicker = '#expirationDatePicker-' + this.cid + '-' + shareId;
 			var view = this;
-			$(expirationDatePicker).closest('div').datepicker({
+			$(expirationDatePicker).datepicker({
 				dateFormat : 'dd-mm-yy',
-				onSelect:
-					function (expireDate) {
-						view.setExpirationDate(shareId, expireDate);
-					},
-				onClose:
-					function () {
-						$(expirationDatePicker).removeClass('hidden-visually');
-					}
+				onSelect: function (expireDate) {
+					view.setExpirationDate(shareId, expireDate);
+				}
 			});
+			$(expirationDatePicker).focus();
 
-			$(expirationDatePicker).addClass('hidden-visually');
 		},
 
 		setExpirationDate: function(shareId, expireDate) {
