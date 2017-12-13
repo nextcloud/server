@@ -748,6 +748,7 @@ class Session implements IUserSession, Emitter {
 		if(!$this->validateToken($token)) {
 			return false;
 		}
+		$this->session->set('last-password-confirm', $this->timeFactory->getTime());
 		return true;
 	}
 
