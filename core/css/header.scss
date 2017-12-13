@@ -206,12 +206,15 @@ nav {
 	margin-left: -54px;
 }
 
-.header-left #navigation,
-.ui-datepicker,
-.ui-timepicker.ui-widget {
+.header-left #navigation {
 	position: relative;
 	left: -100%;
 	width: 160px;
+}
+
+.header-left #navigation,
+.ui-datepicker,
+.ui-timepicker.ui-widget {
 	background-color: $color-main-background;
 	filter: drop-shadow(0 1px 10px $color-box-shadow);
 	&:after {
