@@ -81,11 +81,10 @@ class DiscoveryService implements IDiscoveryService {
 			}
 		} catch (\Exception $e) {
 			// if we couldn't discover the service or any end-points we return a empty array
-			return [];
 		}
 
 		// Write into cache
-		$this->cache->set($remote . '#' . $service, json_encode($discoveredServices));
+		$this->cache->set($remote . '#' . $service, json_encode($discoveredServices), 60*60*24);
 		return $discoveredServices;
 	}
 
