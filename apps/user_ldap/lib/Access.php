@@ -1253,11 +1253,13 @@ class Access extends LDAPUtility implements IUserTools {
 							unset($item[$key]['count']);
 						}
 						if($key !== 'dn') {
-							$selection[$i][$key] = $this->resemblesDN($key) ?
-								$this->helper->sanitizeDN($item[$key])
-								: $key === 'objectguid' || $key === 'guid' ?
-									$selection[$i][$key] = $this->convertObjectGUID2Str($item[$key])
-									: $item[$key];
+							if($this->resemblesDN($key)) {
+								$selection[$i][$key] = $this->helper->sanitizeDN($item[$key]);
+							} else if($key === 'objectguid' || $key === 'guid') {
+								$selection[$i][$key] = [$this->convertObjectGUID2Str($item[$key][0])];
+							} else {
+								$selection[$i][$key] = $item[$key];
+							}
 						} else {
 							$selection[$i][$key] = [$this->helper->sanitizeDN($item[$key])];
 						}
