@@ -234,7 +234,8 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 				$server->getContentSecurityPolicyManager(),
 				$server->getCsrfTokenManager(),
 				$server->getContentSecurityPolicyNonceManager(),
-				$server->getAppManager()
+				$server->getAppManager(),
+				$server->getUserSession()
 			);
 
 		});

@@ -50,6 +50,8 @@ use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
+use OCP\IUser;
+use OCP\IUserSession;
 use OCP\Security\ISecureRandom;
 
 class SecurityMiddlewareTest extends \Test\TestCase {
@@ -82,6 +84,8 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 	private $cspNonceManager;
 	/** @var IAppManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $appManager;
+	/** @var IUserSession|\PHPUnit_Framework_MockObject_MockObject */
+	private $userSession;
 
 	protected function setUp() {
 		parent::setUp();
@@ -100,6 +104,10 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		$this->appManager->expects($this->any())
 			->method('isEnabledForUser')
 			->willReturn(true);
+		$this->userSession = $this->createMock(IUserSession::class);
+		$user = $this->createMock(IUser::class);
+		$user->expects($this->any())->method('getBackendClassName')->willReturn('user_ldap');
+		$this->userSession->expects($this->any())->method('getUser')->willReturn($user);
 		$this->middleware = $this->getMiddleware(true, true);
 		$this->secException = new SecurityException('hey', false);
 		$this->secAjaxException = new SecurityException('hey', true);
@@ -124,7 +132,8 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			$this->contentSecurityPolicyManager,
 			$this->csrfTokenManager,
 			$this->cspNonceManager,
-			$this->appManager
+			$this->appManager,
+			$this->userSession
 		);
 	}
 

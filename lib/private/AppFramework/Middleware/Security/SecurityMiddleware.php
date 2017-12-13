@@ -55,6 +55,7 @@ use OCP\IURLGenerator;
 use OCP\IRequest;
 use OCP\ILogger;
 use OCP\AppFramework\Controller;
+use OCP\IUserSession;
 use OCP\Util;
 use OC\AppFramework\Middleware\Security\Exceptions\SecurityException;
 
@@ -91,6 +92,8 @@ class SecurityMiddleware extends Middleware {
 	private $cspNonceManager;
 	/** @var IAppManager */
 	private $appManager;
+	/** @var IUserSession */
+	private $userSession;
 
 	/**
 	 * @param IRequest $request
@@ -106,6 +109,7 @@ class SecurityMiddleware extends Middleware {
 	 * @param CSRFTokenManager $csrfTokenManager
 	 * @param ContentSecurityPolicyNonceManager $cspNonceManager
 	 * @param IAppManager $appManager
+	 * @param IUserSession $userSession
 	 */
 	public function __construct(IRequest $request,
 								ControllerMethodReflector $reflector,
@@ -119,7 +123,9 @@ class SecurityMiddleware extends Middleware {
 								ContentSecurityPolicyManager $contentSecurityPolicyManager,
 								CsrfTokenManager $csrfTokenManager,
 								ContentSecurityPolicyNonceManager $cspNonceManager,
-								IAppManager $appManager) {
+								IAppManager $appManager,
+								IUserSession $userSession
+	) {
 		$this->navigationManager = $navigationManager;
 		$this->request = $request;
 		$this->reflector = $reflector;
@@ -133,6 +139,7 @@ class SecurityMiddleware extends Middleware {
 		$this->csrfTokenManager = $csrfTokenManager;
 		$this->cspNonceManager = $cspNonceManager;
 		$this->appManager = $appManager;
+		$this->userSession = $userSession;
 	}
 
 	/**
@@ -164,8 +171,15 @@ class SecurityMiddleware extends Middleware {
 		}
 
 		if ($this->reflector->hasAnnotation('PasswordConfirmationRequired')) {
+			$user = $this->userSession->getUser();
+			$backendClassName = '';
+			if ($user !== null) {
+				$backendClassName = $user->getBackendClassName();
+			}
+
 			$lastConfirm = (int) $this->session->get('last-password-confirm');
-			if ($lastConfirm < (time() - (30 * 60 + 15))) { // allow 15 seconds delay
+			// we can't check the password against a SAML backend, so skip password confirmation in this case
+			if ($backendClassName !== 'user_saml' && $lastConfirm < (time() - (30 * 60 + 15))) { // allow 15 seconds delay
 				throw new NotConfirmedException();
 			}
 		}
