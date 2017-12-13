@@ -223,12 +223,8 @@ body {
 
 #controls {
 	box-sizing: border-box;
-	position: fixed;
-	top: 45px;
-	right: 0;
-	left: 0;
+	position: relative;
 	height: 44px;
-	width: calc(100% - 250px);
 	padding: 0;
 	margin: 0;
 	background-color: rgba($color-main-background, 0.95);
@@ -237,14 +233,10 @@ body {
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
-	display: inline-flex;
+	display: flex;
 }
 
 /* position controls for apps with app-navigation */
-
-#app-navigation + #app-content #controls {
-	left: 250px;
-}
 
 .viewer-mode #app-navigation + #app-content #controls {
 	left: 0;
