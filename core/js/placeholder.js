@@ -2,7 +2,7 @@
  * ownCloud
  *
  * @author John Molakvoæ
- * @copyright 2016 John Molakvoæ <fremulon@protonmail.com>
+ * @copyright 2016-2017 John Molakvoæ <skjnldsv@protonmail.com>
  * @author Morris Jobke
  * @copyright 2013 Morris Jobke <morris.jobke@gmail.com>
  *
@@ -47,7 +47,7 @@
  * <div id="albumart" style="background-color: hsl(123, 90%, 65%); ... ">A</div>
  *
  */
- 
+
  /*
  * Alternatively, you can use the prototype function to convert your string to hsl colors:
  *
@@ -156,5 +156,6 @@
 		this.css('text-align', '');
 		this.css('line-height', '');
 		this.css('font-size', '');
+		this.removeClass('icon-loading');
 	};
 }(jQuery));

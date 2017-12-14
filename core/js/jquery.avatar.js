@@ -140,12 +140,13 @@
 
 			// If the new image loads successfully set it.
 			img.onload = function() {
-				$div.show();
 				$div.text('');
 				$div.append(img);
 				$div.clearimageplaceholder();
 			};
 
+			$div.addClass('icon-loading');
+			$div.show();
 			img.width = size;
 			img.height = size;
 			img.src = url;
