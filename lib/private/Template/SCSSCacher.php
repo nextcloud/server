@@ -285,7 +285,7 @@ class SCSSCacher {
 		$re = '/url\([\'"]([\.\w?=\/-]*)[\'"]\)/x';
 		// OC\Route\Router:75
 		if(($this->config->getSystemValue('htaccess.IgnoreFrontController', false) === true || getenv('front_controller_active') === 'true')) {
-			$subst = 'url(\'../../'.$webDir.'/$1\')';	
+			$subst = 'url(\'../../'.$webDir.'/$1\')';
 		} else {
 			$subst = 'url(\'../../../'.$webDir.'/$1\')';
 		}
@@ -313,6 +313,6 @@ class SCSSCacher {
 	 */
 	private function prependBaseurlPrefix($cssFile) {
 		$frontendController = ($this->config->getSystemValue('htaccess.IgnoreFrontController', false) === true || getenv('front_controller_active') === 'true');
-		return md5($this->urlGenerator->getBaseUrl() . $frontendController) . '-' . $cssFile;
+		return substr(md5($this->urlGenerator->getBaseUrl() . $frontendController), 0, 8) . '-' . $cssFile;
 	}
 }
