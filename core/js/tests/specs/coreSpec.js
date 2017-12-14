@@ -1175,6 +1175,7 @@ describe('Core base tests', function() {
 
 			expect(snapperStub.enable.calledOnce).toBe(true);
 			expect(snapperStub.disable.calledOnce).toBe(true);
+			expect(snapperStub.disable.alwaysCalledWithExactly(true)).toBe(true);
 			expect(snapperStub.close.called).toBe(false);
 		});
 		it('is not disabled again when disallowing the gesture twice on a narrow screen', function() {
@@ -1190,6 +1191,7 @@ describe('Core base tests', function() {
 
 			expect(snapperStub.enable.calledOnce).toBe(true);
 			expect(snapperStub.disable.calledOnce).toBe(true);
+			expect(snapperStub.disable.alwaysCalledWithExactly(true)).toBe(true);
 			expect(snapperStub.close.called).toBe(false);
 
 			OC.disallowNavigationBarSlideGesture();
@@ -1211,6 +1213,7 @@ describe('Core base tests', function() {
 
 			expect(snapperStub.enable.calledOnce).toBe(true);
 			expect(snapperStub.disable.calledOnce).toBe(true);
+			expect(snapperStub.disable.alwaysCalledWithExactly(true)).toBe(true);
 			expect(snapperStub.close.called).toBe(false);
 
 			OC.allowNavigationBarSlideGesture();
@@ -1232,6 +1235,7 @@ describe('Core base tests', function() {
 
 			expect(snapperStub.enable.calledOnce).toBe(true);
 			expect(snapperStub.disable.calledOnce).toBe(true);
+			expect(snapperStub.disable.alwaysCalledWithExactly(true)).toBe(true);
 			expect(snapperStub.close.called).toBe(false);
 
 			OC.allowNavigationBarSlideGesture();
@@ -1435,6 +1439,7 @@ describe('Core base tests', function() {
 
 			expect(snapperStub.enable.calledOnce).toBe(true);
 			expect(snapperStub.disable.calledTwice).toBe(true);
+			expect(snapperStub.disable.getCall(1).calledWithExactly(true)).toBe(true);
 		});
 		it('is disabled when resizing to a wide screen', function() {
 			viewport.set(480);

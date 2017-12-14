@@ -1631,7 +1631,8 @@ function initCore() {
 			navigationBarSlideGestureAllowed = false;
 
 			if (navigationBarSlideGestureEnabled) {
-				snapper.disable();
+				var endCurrentDrag = true;
+				snapper.disable(endCurrentDrag);
 
 				navigationBarSlideGestureEnabled = false;
 				navigationBarSlideGestureEnablePending = true;
