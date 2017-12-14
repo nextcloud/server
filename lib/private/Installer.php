@@ -395,12 +395,12 @@ class Installer {
 			return false;
 		}
 
-		if ($this->apps === null) {
-			$apps = $this->appFetcher->get();
-		}
-
 		if ($this->isInstalledFromGit($appId) === true) {
 			return false;
+		}
+
+		if ($this->apps === null) {
+			$apps = $this->appFetcher->get();
 		}
 
 		foreach($apps as $app) {
