@@ -143,6 +143,10 @@
 				$div.text('');
 				$div.append(img);
 				$div.clearimageplaceholder();
+
+				if(typeof callback === 'function') {
+					callback();
+				}
 			};
 
 			$div.addClass('icon-loading');
