@@ -280,7 +280,7 @@ class Storage extends DAV implements ISharedStorage {
 			$returnValue = false;
 		}
 
-		$cache->set($url, $returnValue);
+		$cache->set($url, $returnValue, 60*60*24);
 		return $returnValue;
 	}
 
