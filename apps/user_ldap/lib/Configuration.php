@@ -101,6 +101,7 @@ class Configuration {
 		'turnOnPasswordChange' => false,
 		'ldapDynamicGroupMemberURL' => null,
 		'ldapDefaultPPolicyDN' => null,
+		'ldapMedialSearch' => false
 	);
 
 	/**

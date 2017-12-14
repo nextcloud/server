@@ -57,6 +57,7 @@ use OCP\ILogger;
  * @property string ldapUuidGroupAttribute
  * @property string ldapExpertUUIDUserAttr
  * @property string ldapExpertUUIDGroupAttr
+ * @property boolean ldapMedialSearch
  */
 class Connection extends LDAPUtility {
 	private $ldapConnectionRes = null;
