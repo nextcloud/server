@@ -156,6 +156,7 @@ class InstallerTest extends TestCase {
 
 		$installer = $this->getInstaller();
 		$this->assertSame($updateAvailable, $installer->isUpdateAvailable('files'));
+		$this->assertSame($updateAvailable, $installer->isUpdateAvailable('files'), 'Cached result should be returned and fetcher should be only called once');
 	}
 
 	/**
