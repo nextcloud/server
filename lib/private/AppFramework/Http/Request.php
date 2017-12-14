@@ -406,6 +406,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		if ($this->method === 'PUT'
 			&& $this->getHeader('Content-Length') !== 0
 			&& $this->getHeader('Content-Length') !== null
+			&& $this->getHeader('Content-Length') !== ''
 			&& strpos($this->getHeader('Content-Type'), 'application/x-www-form-urlencoded') === false
 			&& strpos($this->getHeader('Content-Type'), 'application/json') === false
 		) {
