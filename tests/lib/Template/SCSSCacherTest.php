@@ -185,7 +185,7 @@ class SCSSCacherTest extends \Test\TestCase {
 		$fileDeps->expects($this->any())->method('getSize')->willReturn(1);
 
 		$gzFile = $this->createMock(ISimpleFile::class);
-		$filePrefix = md5('http://localhost/nextcloud') . '-';
+		$filePrefix = substr(md5('http://localhost/nextcloud'), 0, 8) . '-';
 		$folder->method('getFile')
 			->will($this->returnCallback(function($name) use ($file, $fileDeps, $gzFile, $filePrefix) {
 				if ($name === $filePrefix.'styles.css') {
@@ -385,7 +385,7 @@ class SCSSCacherTest extends \Test\TestCase {
 		$this->urlGenerator->expects($this->once())
 			->method('linkToRoute')
 			->with('core.Css.getCss', [
-				'fileName' => md5('http://localhost/nextcloud') . '-styles.css',
+				'fileName' => substr(md5('http://localhost/nextcloud'), 0, 8) . '-styles.css',
 				'appName' => $appName
 			])
 			->willReturn(\OC::$WEBROOT . $result);
