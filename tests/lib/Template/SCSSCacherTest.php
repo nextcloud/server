@@ -88,7 +88,7 @@ class SCSSCacherTest extends \Test\TestCase {
 
 		$fileDeps = $this->createMock(ISimpleFile::class);
 		$gzfile = $this->createMock(ISimpleFile::class);
-		$filePrefix = md5('http://localhost/nextcloud') . '-';
+		$filePrefix = substr(md5('http://localhost/nextcloud'), 0, 8) . '-';
 
 		$folder->method('getFile')
 			->will($this->returnCallback(function($path) use ($file, $gzfile, $filePrefix) {
@@ -122,7 +122,7 @@ class SCSSCacherTest extends \Test\TestCase {
 		$file->expects($this->any())->method('getSize')->willReturn(1);
 		$fileDeps = $this->createMock(ISimpleFile::class);
 		$gzfile = $this->createMock(ISimpleFile::class);
-		$filePrefix = md5('http://localhost/nextcloud') . '-';
+		$filePrefix = substr(md5('http://localhost/nextcloud'), 0, 8) . '-';
 
 		$folder->method('getFile')
 			->will($this->returnCallback(function($path) use ($file, $gzfile, $filePrefix) {
@@ -152,7 +152,7 @@ class SCSSCacherTest extends \Test\TestCase {
 		$fileDeps = $this->createMock(ISimpleFile::class);
 		$fileDeps->expects($this->any())->method('getSize')->willReturn(1);
 		$gzFile = $this->createMock(ISimpleFile::class);
-		$filePrefix = md5('http://localhost/nextcloud') . '-';
+		$filePrefix = substr(md5('http://localhost/nextcloud'), 0, 8) . '-';
 
 		$folder->method('getFile')
 			->will($this->returnCallback(function($name) use ($file, $fileDeps, $gzFile, $filePrefix) {
