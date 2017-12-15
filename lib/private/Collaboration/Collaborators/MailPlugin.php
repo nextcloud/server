@@ -30,10 +30,13 @@ use OCP\Collaboration\Collaborators\SearchResultType;
 use OCP\Contacts\IManager;
 use OCP\Federation\ICloudIdManager;
 use OCP\IConfig;
+use OCP\IGroupManager;
+use OCP\IUserSession;
 use OCP\Share;
 
 class MailPlugin implements ISearchPlugin {
 	protected $shareeEnumeration;
+	protected $shareWithGroupOnly;
 
 	/** @var IManager */
 	private $contactsManager;
@@ -42,12 +45,21 @@ class MailPlugin implements ISearchPlugin {
 	/** @var IConfig */
 	private $config;
 
-	public function __construct(IManager $contactsManager, ICloudIdManager $cloudIdManager, IConfig $config) {
+	/** @var IGroupManager */
+	private $groupManager;
+
+	/** @var IUserSession */
+	private $userSession;
+
+	public function __construct(IManager $contactsManager, ICloudIdManager $cloudIdManager, IConfig $config, IGroupManager $groupManager, IUserSession $userSession) {
 		$this->contactsManager = $contactsManager;
 		$this->cloudIdManager = $cloudIdManager;
 		$this->config = $config;
+		$this->groupManager = $groupManager;
+		$this->userSession = $userSession;
 
 		$this->shareeEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
+		$this->shareWithGroupOnly = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes';
 	}
 
 	/**
@@ -77,6 +89,22 @@ class MailPlugin implements ISearchPlugin {
 					$exactEmailMatch = strtolower($emailAddress) === $lowerSearch;
 
 					if (isset($contact['isLocalSystemBook'])) {
+						if ($this->shareWithGroupOnly) {
+							/*
+							 * Check if the user may share with the user associated with the e-mail of the just found contact
+							 */
+							$userGroups = $this->groupManager->getUserGroupIds($this->userSession->getUser());
+							$found = false;
+							foreach ($userGroups as $userGroup) {
+								if ($this->groupManager->isInGroup($contact['UID'], $userGroup)) {
+									$found = true;
+									break;
+								}
+							}
+							if (!$found) {
+								continue;
+							}
+						}
 						if ($exactEmailMatch) {
 							try {
 								$cloud = $this->cloudIdManager->resolveCloudId($contact['CLOUD'][0]);
