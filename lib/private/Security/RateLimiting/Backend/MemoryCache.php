@@ -45,7 +45,7 @@ class MemoryCache implements IBackend {
 	 */
 	public function __construct(ICacheFactory $cacheFactory,
 								ITimeFactory $timeFactory) {
-		$this->cache = $cacheFactory->create(__CLASS__);
+		$this->cache = $cacheFactory->createDistributed(__CLASS__);
 		$this->timeFactory = $timeFactory;
 	}
 

@@ -82,7 +82,7 @@ class Swift implements IObjectStore {
 		}
 
 		$cacheFactory = \OC::$server->getMemCacheFactory();
-		$this->memcache = $cacheFactory->create('swift::' . $cacheKey);
+		$this->memcache = $cacheFactory->createDistributed('swift::' . $cacheKey);
 
 		$this->params = $params;
 	}

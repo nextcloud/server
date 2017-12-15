@@ -240,7 +240,7 @@ class ThemingDefaults extends \OC_Defaults {
 	 * @return array scss variables to overwrite
 	 */
 	public function getScssVariables() {
-		$cache = $this->cacheFactory->create('theming');
+		$cache = $this->cacheFactory->createDistributed('theming');
 		if ($value = $cache->get('getScssVariables')) {
 			return $value;
 		}
@@ -307,7 +307,7 @@ class ThemingDefaults extends \OC_Defaults {
 	 * @return bool
 	 */
 	public function shouldReplaceIcons() {
-		$cache = $this->cacheFactory->create('theming');
+		$cache = $this->cacheFactory->createDistributed('theming');
 		if($value = $cache->get('shouldReplaceIcons')) {
 			return (bool)$value;
 		}
@@ -329,7 +329,7 @@ class ThemingDefaults extends \OC_Defaults {
 	private function increaseCacheBuster() {
 		$cacheBusterKey = $this->config->getAppValue('theming', 'cachebuster', '0');
 		$this->config->setAppValue('theming', 'cachebuster', (int)$cacheBusterKey+1);
-		$this->cacheFactory->create('theming')->clear('getScssVariables');
+		$this->cacheFactory->createDistributed('theming')->clear('getScssVariables');
 	}
 
 	/**

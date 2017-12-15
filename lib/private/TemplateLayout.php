@@ -291,7 +291,7 @@ class TemplateLayout extends \OC_Template {
 			new JSCombiner(
 				\OC::$server->getAppDataDir('js'),
 				\OC::$server->getURLGenerator(),
-				\OC::$server->getMemCacheFactory()->create('JS'),
+				\OC::$server->getMemCacheFactory()->createDistributed('JS'),
 				\OC::$server->getSystemConfig(),
 				\OC::$server->getLogger()
 			)
