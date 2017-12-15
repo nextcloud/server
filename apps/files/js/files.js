@@ -383,7 +383,6 @@ var dragOptions={
 	revert: 'invalid',
 	revertDuration: 300,
 	opacity: 0.7,
-	zIndex: 100,
 	appendTo: 'body',
 	cursorAt: { left: 24, top: 18 },
 	helper: createDragShadow,
