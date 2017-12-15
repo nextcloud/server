@@ -28,7 +28,15 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class AddIndexToShareTable extends Command {
+/**
+ * Class AddMissingIndices
+ *
+ * if you added any new indices to the database, this is the right place to add
+ * it your update routine for existing instances
+ *
+ * @package OC\Core\Command\Db
+ */
+class AddMissingIndices extends Command {
 
 	/** @var IDBConnection */
 	private $connection;
@@ -43,11 +51,24 @@ class AddIndexToShareTable extends Command {
 
 	protected function configure() {
 		$this
-			->setName('db:add-index-to-share-table')
-			->setDescription('Add a index to share_with at the share table to increase performance');
+			->setName('db:add-missing-indices')
+			->setDescription('Add missing indices to the database tables');
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
+		$this->addShareTableIndicies($output);
+
+	}
+
+	/**
+	 * add missing indices to the share table
+	 *
+	 * @param OutputInterface $output
+	 * @throws \Doctrine\DBAL\Schema\SchemaException
+	 */
+	private function addShareTableIndicies(OutputInterface $output) {
+
+		$output->writeln('<info>Check indices of the share table.</info>');
 
 		$schema = new SchemaWrapper($this->connection);
 		$updated = false;
@@ -64,10 +85,7 @@ class AddIndexToShareTable extends Command {
 		}
 
 		if (!$updated) {
-			$output->writeln('<info>All index already existed, nothing to do.</info>');
+			$output->writeln('<info>Done.</info>');
 		}
-
-		return 0;
-
 	}
 }
