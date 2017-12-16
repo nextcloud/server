@@ -60,7 +60,7 @@ function updateAvatar (hidedefault) {
 	$displaydiv.avatar(user.uid, 145, true, null, function() {
 		$displaydiv.removeClass('loading');
 		$('#displayavatar img').show();
-		if($('#displayavatar img').length === 0) {
+		if($('#displayavatar img').length === 0 || oc_userconfig.avatar.generated) {
 			$('#removeavatar').removeClass('inlineblock').addClass('hidden');
 		} else {
 			$('#removeavatar').removeClass('hidden').addClass('inlineblock');
@@ -129,6 +129,7 @@ function avatarResponseHandler (data) {
 	$warning.hide();
 	if (data.status === "success") {
 		$('#displayavatar .avatardiv').removeClass('icon-loading');
+		oc_userconfig.avatar.generated = false;
 		updateAvatar();
 	} else if (data.data === "notsquare") {
 		showAvatarCropper();
@@ -368,6 +369,7 @@ $(document).ready(function () {
 			type: 'DELETE',
 			url: OC.generateUrl('/avatar/'),
 			success: function () {
+				oc_userconfig.avatar.generated = true;
 				updateAvatar(true);
 			}
 		});
@@ -398,7 +400,7 @@ $(document).ready(function () {
 	// Load the big avatar
 	var user = OC.getCurrentUser();
 	$('#avatarform .avatardiv').avatar(user.uid, 145, true, null, function() {
-		if($('#displayavatar img').length === 0) {
+		if($('#displayavatar img').length === 0 || oc_userconfig.avatar.generated) {
 			$('#removeavatar').removeClass('inlineblock').addClass('hidden');
 		} else {
 			$('#removeavatar').removeClass('hidden').addClass('inlineblock');
