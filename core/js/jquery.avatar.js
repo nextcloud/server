@@ -106,54 +106,35 @@
 				});
 		}
 
-		// If the displayname is not defined we use the old code path
-		if (typeof(displayname) === 'undefined') {
-			$.get(url).always(function(result, status) {
-				// if there is an error or an object returned (contains user information):
-				// -> show the fallback placeholder
-				if (typeof(result) === 'object' || status === 'error') {
-					if (!hidedefault) {
-						if (result.data && result.data.displayname) {
-							$div.imageplaceholder(user, result.data.displayname);
-						} else {
-							// User does not exist
-							setAvatarForUnknownUser($div);
-						}
-					} else {
-						$div.hide();
-					}
-				// else an image is transferred and should be shown
-				} else {
-					$div.show();
-					if (ie8fix === true) {
-						$div.html('<img width="' + size + '" height="' + size + '" src="'+url+'#'+Math.floor(Math.random()*1000)+'" alt="">');
-					} else {
-						$div.html('<img width="' + size + '" height="' + size + '" src="'+url+'" alt="">');
-					}
-				}
-				if(typeof callback === 'function') {
-					callback();
-				}
-			});
-		} else {
-			var img = new Image();
+		var img = new Image();
 
-			// If the new image loads successfully set it.
-			img.onload = function() {
-				$div.text('');
-				$div.append(img);
-				$div.clearimageplaceholder();
+		// If the new image loads successfully set it.
+		img.onload = function() {
+			$div.text('');
+			$div.append(img);
+			$div.clearimageplaceholder();
 
-				if(typeof callback === 'function') {
-					callback();
-				}
-			};
+			if(typeof callback === 'function') {
+				callback();
+			}
+		};
+		// Fallback when avatar loading fails:
+		// Use old placeholder when a displayname attribute is defined,
+		// otherwise show the unknown user placeholder.
+		img.onerror = function () {
+			$div.clearimageplaceholder();
+			if (typeof(displayname) !== 'undefined') {
+				$div.imageplaceholder(user, displayname);
+			} else {
+				setAvatarForUnknownUser($div);
+				$div.removeClass('icon-loading');
+			}
+		};
 
-			$div.addClass('icon-loading');
-			$div.show();
-			img.width = size;
-			img.height = size;
-			img.src = url;
-		}
+		$div.addClass('icon-loading');
+		$div.show();
+		img.width = size;
+		img.height = size;
+		img.src = url;
 	};
 }(jQuery));
