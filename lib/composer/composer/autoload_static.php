@@ -489,6 +489,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Core\\Command\\Config\\System\\DeleteConfig' => __DIR__ . '/../../..' . '/core/Command/Config/System/DeleteConfig.php',
         'OC\\Core\\Command\\Config\\System\\GetConfig' => __DIR__ . '/../../..' . '/core/Command/Config/System/GetConfig.php',
         'OC\\Core\\Command\\Config\\System\\SetConfig' => __DIR__ . '/../../..' . '/core/Command/Config/System/SetConfig.php',
+        'OC\\Core\\Command\\Db\\AddMissingIndices' => __DIR__ . '/../../..' . '/core/Command/Db/AddMissingIndices.php',
         'OC\\Core\\Command\\Db\\ConvertFilecacheBigInt' => __DIR__ . '/../../..' . '/core/Command/Db/ConvertFilecacheBigInt.php',
         'OC\\Core\\Command\\Db\\ConvertMysqlToMB4' => __DIR__ . '/../../..' . '/core/Command/Db/ConvertMysqlToMB4.php',
         'OC\\Core\\Command\\Db\\ConvertType' => __DIR__ . '/../../..' . '/core/Command/Db/ConvertType.php',

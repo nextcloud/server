@@ -459,6 +459,7 @@ return array(
     'OC\\Core\\Command\\Config\\System\\DeleteConfig' => $baseDir . '/core/Command/Config/System/DeleteConfig.php',
     'OC\\Core\\Command\\Config\\System\\GetConfig' => $baseDir . '/core/Command/Config/System/GetConfig.php',
     'OC\\Core\\Command\\Config\\System\\SetConfig' => $baseDir . '/core/Command/Config/System/SetConfig.php',
+    'OC\\Core\\Command\\Db\\AddMissingIndices' => $baseDir . '/core/Command/Db/AddMissingIndices.php',
     'OC\\Core\\Command\\Db\\ConvertFilecacheBigInt' => $baseDir . '/core/Command/Db/ConvertFilecacheBigInt.php',
     'OC\\Core\\Command\\Db\\ConvertMysqlToMB4' => $baseDir . '/core/Command/Db/ConvertMysqlToMB4.php',
     'OC\\Core\\Command\\Db\\ConvertType' => $baseDir . '/core/Command/Db/ConvertType.php',
