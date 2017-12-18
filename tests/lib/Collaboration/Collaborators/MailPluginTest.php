@@ -31,6 +31,8 @@ use OCP\Collaboration\Collaborators\SearchResultType;
 use OCP\Contacts\IManager;
 use OCP\Federation\ICloudIdManager;
 use OCP\IConfig;
+use OCP\IGroupManager;
+use OCP\IUserSession;
 use OCP\Share;
 use Test\TestCase;
 
@@ -50,17 +52,25 @@ class MailPluginTest extends TestCase {
 	/** @var  SearchResult */
 	protected $searchResult;
 
+	/** @var  IGroupManager|\PHPUnit_Framework_MockObject_MockObject */
+	protected $groupManager;
+
+	/** @var  IUserSession|\PHPUnit_Framework_MockObject_MockObject */
+	protected $userSession;
+
 	public function setUp() {
 		parent::setUp();
 
 		$this->config = $this->createMock(IConfig::class);
 		$this->contactsManager = $this->createMock(IManager::class);
+		$this->groupManager = $this->createMock(IGroupManager::class);
+		$this->userSession = $this->createMock(IUserSession::class);
 		$this->cloudIdManager = new CloudIdManager();
 		$this->searchResult = new SearchResult();
 	}
 
 	public function instantiatePlugin() {
-		$this->plugin = new MailPlugin($this->contactsManager, $this->cloudIdManager, $this->config);
+		$this->plugin = new MailPlugin($this->contactsManager, $this->cloudIdManager, $this->config, $this->groupManager, $this->userSession);
 	}
 
 	/**
@@ -330,6 +340,133 @@ class MailPluginTest extends TestCase {
 				['users' => [], 'exact' => ['users' => [['label' => 'User (test@example.com)','value' => ['shareType' => 0, 'shareWith' => 'test'],]]]],
 				true,
 				false,
+			]
+		];
+	}
+
+	/**
+	 * @dataProvider dataGetEmailGroupsOnly
+	 *
+	 * @param string $searchTerm
+	 * @param array $contacts
+	 * @param array $expected
+	 * @param bool $exactIdMatch
+	 * @param bool $reachedEnd
+	 * @param array groups
+	 */
+	public function testSearchGroupsOnly($searchTerm, $contacts, $expected, $exactIdMatch, $reachedEnd, $userToGroupMapping) {
+		$this->config->expects($this->any())
+			->method('getAppValue')
+			->willReturnCallback(
+				function($appName, $key, $default) {
+					if ($appName === 'core' && $key === 'shareapi_allow_share_dialog_user_enumeration') {
+						return 'yes';
+					} else if ($appName === 'core' && $key === 'shareapi_only_share_with_group_members') {
+						return 'yes';
+					}
+					return $default;
+				}
+			);
+
+		$this->instantiatePlugin();
+
+		/** @var \OCP\IUser | \PHPUnit_Framework_MockObject_MockObject */
+		$currentUser = $this->createMock('\OCP\IUser');
+
+		$currentUser->expects($this->any())
+			->method('getUID')
+			->willReturn('currentUser');
+
+		$this->contactsManager->expects($this->any())
+			->method('search')
+			->with($searchTerm, ['EMAIL', 'FN'])
+			->willReturn($contacts);
+
+		$this->userSession->expects($this->any())
+			->method('getUser')
+			->willReturn($currentUser);
+
+		$this->groupManager->expects($this->any())
+			->method('getUserGroupIds')
+			->willReturnCallback(function(\OCP\IUser $user) use ($userToGroupMapping) {
+				return $userToGroupMapping[$user->getUID()];
+			});
+
+		$this->groupManager->expects($this->any())
+			->method('isInGroup')
+			->willReturnCallback(function($userId, $group) use ($userToGroupMapping) {
+				return in_array($group, $userToGroupMapping[$userId]);
+			});
+
+		$moreResults = $this->plugin->search($searchTerm, 0, 0, $this->searchResult);
+		$result = $this->searchResult->asArray();
+
+		$this->assertSame($exactIdMatch, $this->searchResult->hasExactIdMatch(new SearchResultType('emails')));
+		$this->assertEquals($expected, $result);
+		$this->assertSame($reachedEnd, $moreResults);
+	}
+
+	public function dataGetEmailGroupsOnly() {
+		return [
+			// The user `User` can share with the current user
+			[
+				'test',
+				[
+					[
+						'FN' => 'User',
+						'EMAIL' => ['test@example.com'],
+						'CLOUD' => ['test@localhost'],
+						'isLocalSystemBook' => true,
+						'UID' => 'User'
+					]
+				],
+				['users' => [['label' => 'User (test@example.com)','value' => ['shareType' => 0, 'shareWith' => 'test'],]], 'emails' => [], 'exact' => ['emails' => [], 'users' => []]],
+				false,
+				true,
+				[
+					"currentUser" => ["group1"],
+					"User" => ["group1"]
+				]
+			],
+			// The user `User` cannot share with the current user
+			[
+			'test',
+				[
+					[
+						'FN' => 'User',
+						'EMAIL' => ['test@example.com'],
+						'CLOUD' => ['test@localhost'],
+						'isLocalSystemBook' => true,
+						'UID' => 'User'
+					]
+				],
+				['emails'=> [], 'exact' => ['emails' => []]],
+				false,
+				true,
+				[
+					"currentUser" => ["group1"],
+					"User" => ["group2"]
+				]
+			],
+			// The user `User` cannot share with the current user, but there is an exact match on the e-mail address -> share by e-mail
+			[
+			'test@example.com',
+				[
+					[
+						'FN' => 'User',
+						'EMAIL' => ['test@example.com'],
+						'CLOUD' => ['test@localhost'],
+						'isLocalSystemBook' => true,
+						'UID' => 'User'
+					]
+				],
+				['emails' => [], 'exact' => ['emails' => [['label' => 'test@example.com', 'value' => ['shareType' => 4,'shareWith' => 'test@example.com']]]]],
+				false,
+				true,
+				[
+					"currentUser" => ["group1"],
+					"User" => ["group2"]
+				]
 			]
 		];
 	}
