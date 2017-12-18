@@ -52,6 +52,7 @@ use OCP\Files\Notify\IChange;
 use OCP\Files\Notify\IRenameChange;
 use OCP\Files\Storage\INotifyStorage;
 use OCP\Files\StorageNotAvailableException;
+use OCP\Util;
 
 class SMB extends Common implements INotifyStorage {
 	/**
@@ -199,6 +200,7 @@ class SMB extends Common implements INotifyStorage {
 			$this->remove($target);
 			$result = $this->share->rename($absoluteSource, $absoluteTarget);
 		} catch (\Exception $e) {
+			\OC::$server->getLogger()->logException($e, ['level' => Util::WARN]);
 			return false;
 		}
 		unset($this->statCache[$absoluteSource], $this->statCache[$absoluteTarget]);
