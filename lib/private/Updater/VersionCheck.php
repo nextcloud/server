@@ -101,12 +101,10 @@ class VersionCheck {
 			} else {
 				libxml_clear_errors();
 			}
-		} else {
-			$data = [];
 		}
 
 		// Cache the result
-		$this->config->setAppValue('core', 'lastupdateResult', json_encode($data));
+		$this->config->setAppValue('core', 'lastupdateResult', json_encode($tmp));
 		return $tmp;
 	}
 
