@@ -186,7 +186,7 @@ class Gpg implements IGpg{
 	 * exports the public key for finterprint.
 	 *
 	 * @param string $fingerprint
-	 * @return array
+	 * @return string
 	 */
 	public function export($fingerprint) {
 		return $this->gpg->export($fingerprint);

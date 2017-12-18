@@ -285,6 +285,8 @@ class UsersController extends OCSController {
 		$data['id'] = $targetUserObject->getUID();
 		$data['quota'] = $this->fillStorageInfo($targetUserObject->getUID());
 		$data[AccountManager::PROPERTY_EMAIL] = $targetUserObject->getEMailAddress();
+		$data[AccountManager::PROPERTY_PUBLICKEY] = $targetUserObject->getDefaultPublicKey()();
+		$data[AccountManager::PROPERTY_PUBLICKEYS] = $targetUserObject->getPublicKeys();
 		$data[AccountManager::PROPERTY_DISPLAYNAME] = $targetUserObject->getDisplayName();
 		$data[AccountManager::PROPERTY_PHONE] = $userAccount[AccountManager::PROPERTY_PHONE]['value'];
 		$data[AccountManager::PROPERTY_ADDRESS] = $userAccount[AccountManager::PROPERTY_ADDRESS]['value'];
@@ -327,6 +329,7 @@ class UsersController extends OCSController {
 				$permittedFields[] = AccountManager::PROPERTY_EMAIL;
 			}
 
+			$permittedFields[] = AccountManager::PROPERTY_PUBLICKEY;
 			$permittedFields[] = 'password';
 			if ($this->config->getSystemValue('force_language', false) === false ||
 				$this->groupManager->isAdmin($currentLoggedInUser->getUID())) {
@@ -357,6 +360,7 @@ class UsersController extends OCSController {
 				$permittedFields[] = 'display';
 				$permittedFields[] = AccountManager::PROPERTY_DISPLAYNAME;
 				$permittedFields[] = AccountManager::PROPERTY_EMAIL;
+				$permittedFields[] = AccountManager::PROPERTY_PUBLICKEY;
 				$permittedFields[] = 'password';
 				$permittedFields[] = 'language';
 				$permittedFields[] = AccountManager::PROPERTY_PHONE;
@@ -416,6 +420,9 @@ class UsersController extends OCSController {
 				} else {
 					throw new OCSException('', 102);
 				}
+				break;
+			case AccountManager::PROPERTY_PUBLICKEY:
+				$targetUser->addDefaultPublicKey($value);
 				break;
 			case AccountManager::PROPERTY_PHONE:
 			case AccountManager::PROPERTY_ADDRESS:

@@ -98,6 +98,8 @@ class UpdateLookupServer {
 		if (!empty($publicData)) {
 			$dataArray['name'] = isset($publicData[AccountManager::PROPERTY_DISPLAYNAME]) ? $publicData[AccountManager::PROPERTY_DISPLAYNAME]['value'] : '';
 			$dataArray['email'] = isset($publicData[AccountManager::PROPERTY_EMAIL]) ? $publicData[AccountManager::PROPERTY_EMAIL]['value'] : '';
+			$dataArray['pubkey'] = isset($publicData[AccountManager::PROPERTY_PUBLICKEY]) ? $user->getDefaultPublicKey(FALSE) : '';
+			$dataArray['pubkeys'] = isset($publicData[AccountManager::PROPERTY_PUBLICKEYS]) ? $user->getPublicKeys(FALSE) : '';
 			$dataArray['address'] = isset($publicData[AccountManager::PROPERTY_ADDRESS]) ? $publicData[AccountManager::PROPERTY_ADDRESS]['value'] : '';
 			$dataArray['website'] = isset($publicData[AccountManager::PROPERTY_WEBSITE]) ? $publicData[AccountManager::PROPERTY_WEBSITE]['value'] : '';
 			$dataArray['twitter'] = isset($publicData[AccountManager::PROPERTY_TWITTER]) ? $publicData[AccountManager::PROPERTY_TWITTER]['value'] : '';

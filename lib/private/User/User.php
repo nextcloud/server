@@ -172,6 +172,56 @@ class User implements IUser {
 	}
 
 	/**
+	 * set the default public Key of the user
+	 *
+	 * @param string|null $fingerprint
+	 * @return void
+	 */
+	public function setDefaultPublicKey($fingerprint){
+		if($fingerprint === '') {
+			$this->config->deleteUserValue($this->uid, 'settings', 'pubkey');
+		} else {
+			$this->config->setUserValue($this->uid, 'settings', 'pubkey', $fingerprint);
+		}
+	}
+
+	/**
+	 * @param $key
+	 * @return string
+	 * @throws \OCP\PreConditionNotMetException
+	 */
+	public function addPublicKey($key){
+		$gpg = \OC::$server->getGpg();
+		$fingerprint = $gpg->import($key)['fingerprint'];
+		if ($fingerprint !== NULL) {
+			$fingerprints = json_decode($this->config->getUserValue($this->uid, 'settings', 'pubkeys'));
+			if (!in_array($fingerprint,$fingerprints)){
+				$fingerprints[] = $fingerprint;
+			}
+			foreach ($fingerprints as $i => $fingerprint) {
+				if ($fingerprint === '' ||
+					$fingerprint === NULL) {
+					array_splice($fingerprints,$i,1);
+				}
+			}
+			$fingerprints = json_encode($fingerprints);
+			$this->config->setUserValue($this->uid, 'settings', 'pubkeys', $fingerprints);
+		} /*else {
+			FIXME: Throw import error
+		}*/
+		return $fingerprint;
+	}
+
+	/**
+	 * @param $key
+	 * @throws \OCP\PreConditionNotMetException
+	 */
+	public function addDefaultPublicKey($key) {
+		$fingerprint = $this->addPublicKey($key);
+		$fingerprint = $fingerprint ?? '';
+		$this->setDefaultPublicKey($fingerprint);
+	}
+	/**
 	 * returns the timestamp of the user's last login or 0 if the user did never
 	 * login
 	 *
@@ -367,6 +417,43 @@ class User implements IUser {
 	 */
 	public function getEMailAddress() {
 		return $this->config->getUserValue($this->uid, 'settings', 'email', null);
+	}
+
+
+	/**
+	 * get the default public key fingerprint of the user. Defaults it returns only the fingerprint with $fingerprint = FALSE it returns the key.
+	 *
+	 *
+	 * @param bool $fingerprint = TRUE
+	 * @return array
+	 */
+	public function getPublicKeys($fingerprint = TRUE){
+		$keys = json_decode($this->config->getUserValue($this->uid, 'settings', 'pubkeys', null));
+		if ($fingerprint) {
+			return $keys;
+		} else {
+			$gpg = \OC::$server->getGpg();
+			$export = array();
+			foreach ($keys as $key) {
+				$export[] = $gpg->export($key);
+			}
+			return $export;
+		}
+	}
+
+	/**
+	 * returns the default public key of the user. Defaults it returns only the fingerprint with $fingerprint = FALSE it returns the key.
+	 *
+	 * @param bool $fingerprint
+	 * @return string
+	 */
+	public function getDefaultPublicKey($fingerprint = TRUE){
+		if ($fingerprint) {
+			return $this->config->getUserValue($this->uid, 'settings', 'pubkey', null);
+		} else {
+			$gpg = \OC::$server->getGpg();
+			return $gpg->export($this->config->getUserValue($this->uid, 'settings', 'pubkey', null));
+		}
 	}
 
 	/**
