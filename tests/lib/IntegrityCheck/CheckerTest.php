@@ -60,7 +60,7 @@ class CheckerTest extends TestCase {
 
 		$this->cacheFactory
 			->expects($this->any())
-			->method('create')
+			->method('createDistributed')
 			->with('oc.integritycheck.checker')
 			->will($this->returnValue(new NullCache()));
 

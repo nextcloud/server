@@ -100,7 +100,7 @@ class Connection extends LDAPUtility {
 												 !is_null($configID));
 		$memcache = \OC::$server->getMemCacheFactory();
 		if($memcache->isAvailable()) {
-			$this->cache = $memcache->create();
+			$this->cache = $memcache->createDistributed();
 		}
 		$helper = new Helper(\OC::$server->getConfig());
 		$this->doNotValidate = !in_array($this->configPrefix,

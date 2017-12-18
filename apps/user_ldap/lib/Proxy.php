@@ -50,7 +50,7 @@ abstract class Proxy {
 		$this->ldap = $ldap;
 		$memcache = \OC::$server->getMemCacheFactory();
 		if($memcache->isAvailable()) {
-			$this->cache = $memcache->create();
+			$this->cache = $memcache->createDistributed();
 		}
 	}
 

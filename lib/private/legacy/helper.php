@@ -497,7 +497,7 @@ class OC_Helper {
 	 * @return null|string
 	 */
 	public static function findBinaryPath($program) {
-		$memcache = \OC::$server->getMemCacheFactory()->create('findBinaryPath');
+		$memcache = \OC::$server->getMemCacheFactory()->createDistributed('findBinaryPath');
 		if ($memcache->hasKey($program)) {
 			return $memcache->get($program);
 		}

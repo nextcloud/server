@@ -306,7 +306,7 @@ class AppManager implements IAppManager {
 	 * Clear the cached list of apps when enabling/disabling an app
 	 */
 	public function clearAppsCache() {
-		$settingsMemCache = $this->memCacheFactory->create('settings');
+		$settingsMemCache = $this->memCacheFactory->createDistributed('settings');
 		$settingsMemCache->clear('listApps');
 	}
 

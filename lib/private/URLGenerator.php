@@ -151,7 +151,7 @@ class URLGenerator implements IURLGenerator {
 	 * Returns the path to the image.
 	 */
 	public function imagePath($app, $image) {
-		$cache = $this->cacheFactory->create('imagePath-'.md5($this->getBaseUrl()).'-');
+		$cache = $this->cacheFactory->createDistributed('imagePath-'.md5($this->getBaseUrl()).'-');
 		$cacheKey = $app.'-'.$image;
 		if($key = $cache->get($cacheKey)) {
 			return $key;

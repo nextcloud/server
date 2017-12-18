@@ -100,7 +100,7 @@ class AppManagerTest extends TestCase {
 		$this->cache = $this->createMock(ICache::class);
 		$this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
 		$this->cacheFactory->expects($this->any())
-			->method('create')
+			->method('createDistributed')
 			->with('settings')
 			->willReturn($this->cache);
 		$this->manager = new AppManager($this->userSession, $this->appConfig, $this->groupManager, $this->cacheFactory, $this->eventDispatcher);

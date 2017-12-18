@@ -87,7 +87,7 @@ class Checker {
 		$this->fileAccessHelper = $fileAccessHelper;
 		$this->appLocator = $appLocator;
 		$this->config = $config;
-		$this->cache = $cacheFactory->create(self::CACHE_KEY);
+		$this->cache = $cacheFactory->createDistributed(self::CACHE_KEY);
 		$this->appManager = $appManager;
 		$this->tempManager = $tempManager;
 	}
