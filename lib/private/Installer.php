@@ -395,6 +395,10 @@ class Installer {
 			return false;
 		}
 
+		if ($this->isInstalledFromGit($appId) === true) {
+			return false;
+		}
+
 		if ($this->apps === null) {
 			$this->apps = $this->appFetcher->get();
 		}
@@ -412,6 +416,22 @@ class Installer {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Check if app has been installed from git
+	 * @param string $name name of the application to remove
+	 * @return boolean
+	 *
+	 * The function will check if the path contains a .git folder
+	 */
+	private function isInstalledFromGit($appId) {
+		$app = \OC_App::findAppInDirectories($appId);
+		if($app === false) {
+			return false;
+		}
+		$basedir = $app['path'].'/'.$appId;
+		return file_exists($basedir.'/.git/');
 	}
 
 	/**
