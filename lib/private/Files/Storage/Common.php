@@ -229,6 +229,9 @@ abstract class Common implements Storage, ILockingStorage {
 			$source = $this->fopen($path1, 'r');
 			$target = $this->fopen($path2, 'w');
 			list(, $result) = \OC_Helper::streamCopy($source, $target);
+			if (!$result) {
+				\OC::$server->getLogger()->warning("Failed to write data while copying $path1 to $path2");
+			}
 			$this->removeCachedFile($path2);
 			return $result;
 		}
