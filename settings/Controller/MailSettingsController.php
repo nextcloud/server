@@ -143,6 +143,7 @@ class MailSettingsController extends Controller {
 	 */
 	public function sendTestMail() {
 		$email = $this->config->getUserValue($this->userSession->getUser()->getUID(), $this->appName, 'email', '');
+		$pubkey = $this->config->getUserValue($this->userSession->getUser()->getUID(), $this->appName, 'pubkey', '');
 
 		if (!empty($email)) {
 			try {
@@ -160,7 +161,7 @@ class MailSettingsController extends Controller {
 
 				$message = $this->mailer->createMessage();
 				$gpg = \OC::$server->getGpg();
-				$message->setTo([$email => $displayName],[$gpg->getPublicKeyFromEmail($email)]);
+				$message->setTo([$email => $displayName],[$pubkey]);
 				$message->useTemplate($template);
 				$errors = $this->mailer->send($message);
 				if (!empty($errors)) {

@@ -73,7 +73,7 @@ interface IGpg {
 	 * exports the public key for finterprint.
 	 *
 	 * @param string $fingerprint
-	 * @return array
+	 * @return string
 	 */
 	public function export($fingerprint);
 

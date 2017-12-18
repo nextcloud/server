@@ -157,6 +157,24 @@ interface IUser {
 	public function getEMailAddress();
 
 	/**
+	 * get the default public key fingerprint of the user. Defaults it returns only the fingerprint with $fingerprint = FALSE it returns the key.
+	 *
+	 *
+	 * @param bool $fingerprint = TRUE
+	 * @return array
+	 */
+	public function getPublicKeys($fingerprint = TRUE);
+
+	/**
+	* returns the default public key of the user. Defaults it returns only the fingerprint with $fingerprint = FALSE it returns the key.
+	*
+	* @param bool $fingerprint
+	* @return string
+	*/
+	public function getDefaultPublicKey($fingerprint = TRUE);
+
+
+	/**
 	 * get the avatar image if it exists
 	 *
 	 * @param int $size
@@ -181,6 +199,26 @@ interface IUser {
 	 * @since 9.0.0
 	 */
 	public function setEMailAddress($mailAddress);
+
+	/**
+	 * set the default public Key of the user
+	 *
+	 * @param string|null $key
+	 * @return void
+	 */
+	public function setDefaultPublicKey($key);
+	/**
+	 * @param $key
+	 * @return array
+	 * @throws \OCP\PreConditionNotMetException
+	 */
+	public function addPublicKey($key);
+
+	/**
+	 * @param $key
+	 * @throws \OCP\PreConditionNotMetException
+	 */
+	public function addDefaultPublicKey($key);
 
 	/**
 	 * get the users' quota in human readable form. If a specific quota is not

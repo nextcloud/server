@@ -53,6 +53,8 @@ class AccountManager {
 	const PROPERTY_DISPLAYNAME = 'displayname';
 	const PROPERTY_PHONE = 'phone';
 	const PROPERTY_EMAIL = 'email';
+	const PROPERTY_PUBLICKEY = 'pubkey';
+	const PROPERTY_PUBLICKEYS = 'pubkeys';
 	const PROPERTY_WEBSITE = 'website';
 	const PROPERTY_ADDRESS = 'address';
 	const PROPERTY_TWITTER = 'twitter';
@@ -323,6 +325,16 @@ class AccountManager {
 					'value' => $user->getEMailAddress(),
 					'scope' => self::VISIBILITY_CONTACTS_ONLY,
 					'verified' => self::NOT_VERIFIED,
+				],
+			self::PROPERTY_PUBLICKEY =>
+				[
+					'value' => $user->getDefaultPublicKey() ?? '',
+					'scope' => self::VISIBILITY_PRIVATE,
+				],
+			self::PROPERTY_PUBLICKEYS =>
+				[
+					'value' => $user->getPublicKeys() ?? '',
+					'scope' => self::VISIBILITY_PRIVATE,
 				],
 			self::PROPERTY_AVATAR =>
 				[
