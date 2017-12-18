@@ -205,12 +205,14 @@ class SMB extends Common implements INotifyStorage {
 		return $result;
 	}
 
-	/**
-	 * @param string $path
-	 * @return array
-	 */
 	public function stat($path) {
-		$result = $this->formatInfo($this->getFileInfo($path));
+		try {
+			$result = $this->formatInfo($this->getFileInfo($path));
+		} catch (ForbiddenException $e) {
+			return false;
+		} catch (NotFoundException $e) {
+			return false;
+		}
 		if ($this->remoteIsShare() && $this->isRootDir($path)) {
 			$result['mtime'] = $this->shareMTime();
 		}
