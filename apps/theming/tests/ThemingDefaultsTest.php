@@ -78,7 +78,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->defaults = new \OC_Defaults();
 		$this->cacheFactory
 			->expects($this->any())
-			->method('create')
+			->method('createDistributed')
 			->with('theming')
 			->willReturn($this->cache);
 		$this->template = new ThemingDefaults(

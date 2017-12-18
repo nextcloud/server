@@ -46,7 +46,7 @@ class MemoryCacheTest extends TestCase {
 
 		$this->cacheFactory
 			->expects($this->once())
-			->method('create')
+			->method('createDistributed')
 			->with('OC\Security\RateLimiting\Backend\MemoryCache')
 			->willReturn($this->cache);
 
