@@ -1093,16 +1093,6 @@ class Server extends ServerContainer implements IServerContainer {
 			return new CloudIdManager();
 		});
 
-		/* To trick DI since we don't extend the DIContainer here */
-		$this->registerService(CleanPreviewsBackgroundJob::class, function (Server $c) {
-			return new CleanPreviewsBackgroundJob(
-				$c->getRootFolder(),
-				$c->getLogger(),
-				$c->getJobList(),
-				new TimeFactory()
-			);
-		});
-
 		$this->registerAlias(\OCP\AppFramework\Utility\IControllerMethodReflector::class, \OC\AppFramework\Utility\ControllerMethodReflector::class);
 		$this->registerAlias('ControllerMethodReflector', \OCP\AppFramework\Utility\IControllerMethodReflector::class);
 
