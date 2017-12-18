@@ -157,6 +157,10 @@ class NewUserMailHelperTest extends TestCase {
 			->expects($this->any())
 			->method('getName')
 			->willReturn('TestCloud');
+		$this->defaults
+			->expects($this->any())
+			->method('getTextColorPrimary')
+			->willReturn('#ffffff');
 
 		$expectedHtmlBody = <<<EOF
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -281,7 +285,7 @@ class NewUserMailHelperTest extends TestCase {
 										<table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
 											<tr style="padding:0;text-align:left;vertical-align:top">
 												<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;background:;border:0 solid ;border-collapse:collapse!important;color:#fefefe;font-family:Lucida Grande,Geneva,Verdana,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
-													<a href="https://example.com/resetPassword/MySuperLongSecureRandomToken" style="Margin:0;border:0 solid ;border-radius:2px;color:#fefefe;display:inline-block;font-family:Lucida Grande,Geneva,Verdana,sans-serif;font-size:16px;font-weight:regular;line-height:1.3;margin:0;padding:10px 25px 10px 25px;text-align:left;text-decoration:none">Set your password</a>
+													<a href="https://example.com/resetPassword/MySuperLongSecureRandomToken" style="Margin:0;border:0 solid ;border-radius:2px;color:#ffffff;display:inline-block;font-family:Lucida Grande,Geneva,Verdana,sans-serif;font-size:16px;font-weight:regular;line-height:1.3;margin:0;padding:10px 25px 10px 25px;text-align:left;outline:1px solid #ffffff;text-decoration:none">Set your password</a>
 												</td>
 											</tr>
 										</table>
@@ -390,6 +394,10 @@ EOF;
 			->expects($this->any())
 			->method('getName')
 			->willReturn('TestCloud');
+		$this->defaults
+			->expects($this->any())
+			->method('getTextColorPrimary')
+			->willReturn('#ffffff');
 
 		$expectedHtmlBody = <<<EOF
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -514,7 +522,7 @@ EOF;
 										<table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
 											<tr style="padding:0;text-align:left;vertical-align:top">
 												<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;background:;border:0 solid ;border-collapse:collapse!important;color:#fefefe;font-family:Lucida Grande,Geneva,Verdana,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
-													<a href="https://example.com/" style="Margin:0;border:0 solid ;border-radius:2px;color:#fefefe;display:inline-block;font-family:Lucida Grande,Geneva,Verdana,sans-serif;font-size:16px;font-weight:regular;line-height:1.3;margin:0;padding:10px 25px 10px 25px;text-align:left;text-decoration:none">Go to TestCloud</a>
+													<a href="https://example.com/" style="Margin:0;border:0 solid ;border-radius:2px;color:#ffffff;display:inline-block;font-family:Lucida Grande,Geneva,Verdana,sans-serif;font-size:16px;font-weight:regular;line-height:1.3;margin:0;padding:10px 25px 10px 25px;text-align:left;outline:1px solid #ffffff;text-decoration:none">Go to TestCloud</a>
 												</td>
 											</tr>
 										</table>

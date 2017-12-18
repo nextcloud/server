@@ -231,13 +231,8 @@ class ThemingDefaults extends \OC_Defaults {
 		$variables['image-login-plain'] = 'false';
 
 		if ($this->config->getAppValue('theming', 'color', null) !== null) {
-			if ($this->util->invertTextColor($this->getColorPrimary())) {
-				$colorPrimaryText = '#000000';
-			} else {
-				$colorPrimaryText = '#ffffff';
-			}
 			$variables['color-primary'] = $this->getColorPrimary();
-			$variables['color-primary-text'] = $colorPrimaryText;
+			$variables['color-primary-text'] = $this->getTextColorPrimary();
 			$variables['color-primary-element'] = $this->util->elementColor($this->getColorPrimary());
 		}
 
@@ -320,5 +315,14 @@ class ThemingDefaults extends \OC_Defaults {
 		}
 
 		return $returnValue;
+	}
+
+	/**
+	 * Color of text in the header and primary buttons
+	 *
+	 * @return string
+	 */
+	public function getTextColorPrimary() {
+		return $this->util->invertTextColor($this->getColorPrimary()) ? '#000000' : '#ffffff';
 	}
 }
