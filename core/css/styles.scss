@@ -223,7 +223,7 @@ body {
 
 #controls {
 	box-sizing: border-box;
-	position: relative;
+	position: sticky;
 	height: 44px;
 	padding: 0;
 	margin: 0;
@@ -234,6 +234,7 @@ body {
 	-ms-user-select: none;
 	user-select: none;
 	display: flex;
+	top: 0;
 }
 
 /* position controls for apps with app-navigation */
