@@ -23,6 +23,17 @@ Feature: app-files
     When I open the details view for "welcome.txt"
     Then I see that the details view for "All files" section is open
 
+  Scenario: open the menu in a public shared link
+    Given I act as John
+    And I am logged in
+    And I share the link for "welcome.txt"
+    And I write down the shared link
+    When I act as Jane
+    And I visit the shared link I wrote down
+    And I see that the current page is the shared link I wrote down
+    And I open the Share menu
+    Then I see that the Share menu is shown
+
   Scenario: set a password to a shared link
     Given I am logged in
     And I share the link for "welcome.txt"

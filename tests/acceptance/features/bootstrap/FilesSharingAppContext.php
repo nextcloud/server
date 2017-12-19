@@ -54,6 +54,49 @@ class FilesSharingAppContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
+	public static function shareMenuButton() {
+		return Locator::forThe()->id("share-menutoggle")->
+				describedAs("Share menu button in Shared file page");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function shareMenu() {
+		return Locator::forThe()->id("share-menu")->
+				describedAs("Share menu in Shared file page");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function downloadItemInShareMenu() {
+		return Locator::forThe()->id("download")->
+				descendantOf(self::shareMenu())->
+				describedAs("Download item in Share menu in Shared file page");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function directLinkItemInShareMenu() {
+		return Locator::forThe()->id("directLink-container")->
+				descendantOf(self::shareMenu())->
+				describedAs("Direct link item in Share menu in Shared file page");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function saveItemInShareMenu() {
+		return Locator::forThe()->id("save")->
+				descendantOf(self::shareMenu())->
+				describedAs("Save item in Share menu in Shared file page");
+	}
+
+	/**
+	 * @return Locator
+	 */
 	public static function textPreview() {
 		return Locator::forThe()->css(".text-preview")->
 				describedAs("Text preview in Shared file page");
@@ -72,6 +115,13 @@ class FilesSharingAppContext implements Context, ActorAwareInterface {
 	public function iAuthenticateWithPassword($password) {
 		$this->actor->find(self::passwordField(), 10)->setValue($password);
 		$this->actor->find(self::authenticateButton())->click();
+	}
+
+	/**
+	 * @When I open the Share menu
+	 */
+	public function iOpenTheShareMenu() {
+		$this->actor->find(self::shareMenuButton(), 10)->click();
 	}
 
 	/**
@@ -101,10 +151,44 @@ class FilesSharingAppContext implements Context, ActorAwareInterface {
 	}
 
 	/**
+	 * @Then I see that the Share menu is shown
+	 */
+	public function iSeeThatTheShareMenuIsShown() {
+		// Unlike other menus, the Share menu is always present in the DOM, so
+		// the element could be found when it was no made visible yet due to the
+		// command not having been processed by the browser.
+		if (!$this->waitForElementToBeEventuallyShown(
+				self::shareMenu(), $timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
+			PHPUnit_Framework_Assert::fail("The Share menu is not visible yet after $timeout seconds");
+		}
+
+		PHPUnit_Framework_Assert::assertTrue(
+				$this->actor->find(self::downloadItemInShareMenu())->isVisible());
+		PHPUnit_Framework_Assert::assertTrue(
+				$this->actor->find(self::directLinkItemInShareMenu())->isVisible());
+		PHPUnit_Framework_Assert::assertTrue(
+				$this->actor->find(self::saveItemInShareMenu())->isVisible());
+	}
+
+	/**
 	 * @Then I see that the shared file preview shows the text :text
 	 */
 	public function iSeeThatTheSharedFilePreviewShowsTheText($text) {
 		PHPUnit_Framework_Assert::assertContains($text, $this->actor->find(self::textPreview(), 10)->getText());
+	}
+
+	private function waitForElementToBeEventuallyShown($elementLocator, $timeout = 10, $timeoutStep = 1) {
+		$actor = $this->actor;
+
+		$elementShownCallback = function() use ($actor, $elementLocator) {
+			try {
+				return $actor->find($elementLocator)->isVisible();
+			} catch (NoSuchElementException $exception) {
+				return false;
+			}
+		};
+
+		return Utils::waitFor($elementShownCallback, $timeout, $timeoutStep);
 	}
 
 }
