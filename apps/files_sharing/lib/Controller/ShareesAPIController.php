@@ -614,6 +614,22 @@ class ShareesAPIController extends OCSController {
 					$exactEmailMatch = strtolower($emailAddress) === $lowerSearch;
 
 					if (isset($contact['isLocalSystemBook'])) {
+						if ($this->shareWithGroupOnly) {
+							/*
+							 * Check if the user may share with the user associated with the e-mail of the just found contact
+							 */
+							$userGroups = $this->groupManager->getUserGroupIds($this->userSession->getUser());
+							$found = false;
+							foreach ($userGroups as $userGroup) {
+								if ($this->groupManager->isInGroup($contact['UID'], $userGroup)) {
+									$found = true;
+									break;
+								}
+							}
+							if (!$found) {
+								continue;
+							}
+						}
 						if ($exactEmailMatch) {
 							try {
 								$cloud = $this->cloudIdManager->resolveCloudId($contact['CLOUD'][0]);
