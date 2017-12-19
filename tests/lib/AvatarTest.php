@@ -210,7 +210,7 @@ class AvatarTest extends \Test\TestCase {
 			->method('putContent')
 			->with($image->data());
 
-		$this->config->expects($this->once())
+		$this->config->expects($this->exactly(3))
 			->method('setUserValue');
 		$this->config->expects($this->once())
 			->method('getUserValue');
