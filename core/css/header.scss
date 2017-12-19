@@ -76,7 +76,7 @@
 	.menu {
 		top: 45px;
 		background-color: $color-main-background;
-		filter: drop-shadow(0 1px 3px $color-box-shadow);
+		filter: drop-shadow(0 1px 10px $color-box-shadow);
 		border-radius: 0 0 3px 3px;
 		display: none;
 		box-sizing: border-box;
@@ -210,7 +210,7 @@ nav {
 	left: -100%;
 	width: 160px;
 	background-color: $color-main-background;
-	filter: drop-shadow(0 1px 3px $color-box-shadow);
+	filter: drop-shadow(0 1px 10px $color-box-shadow);
 	&:after {
 		/* position of dropdown arrow */
 		left: 47%;
@@ -408,7 +408,6 @@ nav {
 #expanddiv {
 	right: 13px;
 	background: $color-main-background;
-	box-shadow: 0 1px 10px $color-box-shadow;
 	&:after {
 		/* position of dropdown arrow */
 		right: 13px;
@@ -483,7 +482,7 @@ nav {
 		display: none;
 		position: absolute;
 		overflow: visible;
-		background-color: rgba($color-main-background, .97);
+		background-color: $color-main-background;
 		white-space: nowrap;
 		border: none;
 		border-radius: $border-radius;
@@ -496,7 +495,7 @@ nav {
 		top: 45px;
 		transform: translateX(-50%);
 		padding: 4px 10px;
-		box-shadow: 0 1px 10px $color-box-shadow;
+		filter: drop-shadow(0 1px 10px $color-box-shadow);
 	}
 
 	li:hover span {
