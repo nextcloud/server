@@ -535,20 +535,20 @@ OC.Settings.Apps = OC.Settings.Apps || {
 
 	showEmptyUpdates: function() {
 		$('#apps-list').addClass('hidden');
-		$('#apps-list-empty').removeClass('hidden').find('h2').text(t('settings', 'No app updates available'));
+		$('#apps-list-empty').removeClass('hidden').find('h2').text(t('settings', 'App up to date'));
 		$('#app-list-empty-icon').removeClass('icon-search').addClass('icon-download');
 	},
 
 	updateApp:function(appId, element) {
 		var oldButtonText = element.val();
-		element.val(t('settings','Updating....'));
+		element.val(t('settings','Upgrading …'));
 		OC.Settings.Apps.hideErrorMessage(appId);
 		$.post(OC.filePath('settings','ajax','updateapp.php'),{appid:appId},function(result) {
 			if(!result || result.status !== 'success') {
 				if (result.data && result.data.message) {
 					OC.Settings.Apps.showErrorMessage(appId, result.data.message);
 				} else {
-					OC.Settings.Apps.showErrorMessage(appId, t('settings','Error while updating app'));
+					OC.Settings.Apps.showErrorMessage(appId, t('settings','Could not upgrade app'));
 				}
 				element.val(oldButtonText);
 			}
@@ -584,7 +584,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		element.val(t('settings','Removing …'));
 		$.post(OC.filePath('settings','ajax','uninstallapp.php'),{appid:appId},function(result) {
 			if(!result || result.status !== 'success') {
-				OC.Settings.Apps.showErrorMessage(appId, t('settings','Error while removing app'));
+				OC.Settings.Apps.showErrorMessage(appId, t('settings','Could not remove app'));
 				element.val(t('settings','Remove'));
 			} else {
 				OC.Settings.Apps.rebuildNavigation();
@@ -722,9 +722,9 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		OC.dialogs.info(
 			t(
 				'settings',
-				'The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds.'
+				'The app has been enabled but needs to be upgraded. You will be redirected to the upgrade page in 5 seconds.'
 			),
-			t('settings','App update'),
+			t('settings','App upgrade'),
 			function () {
 				window.location.reload();
 			},
@@ -803,8 +803,8 @@ OC.Settings.Apps = OC.Settings.Apps || {
 				if (!_.isUndefined(app.author['@attributes']['homepage'])) {
 					authors.push(app.author['@attributes']['homepage']);
 				}
-				if (!_.isUndefined(app.author['@attributes']['mail'])) {
-					authors.push(app.author['@attributes']['mail']);
+				if (!_.isUndefined(app.author['@attributes']['email'])) {
+					authors.push(app.author['@attributes']['email']);
 				}
 				return OC.Settings.Apps._search(authors.join(' '), query);
 			}
