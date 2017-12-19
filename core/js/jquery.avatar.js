@@ -129,6 +129,10 @@
 				setAvatarForUnknownUser($div);
 				$div.removeClass('icon-loading');
 			}
+
+			if(typeof callback === 'function') {
+				callback();
+			}
 		};
 
 		$div.addClass('icon-loading');
