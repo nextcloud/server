@@ -78,10 +78,13 @@
 		background-color: $color-main-background;
 		filter: drop-shadow(0 1px 3px $color-box-shadow);
 		border-radius: 0 0 3px 3px;
-		display: none;
 		box-sizing: border-box;
 		z-index: 2000;
 		position: absolute;
+
+		&:not(.popovermenu) {
+			display: none;
+		}
 
 		/* Dropdown arrow */
 		&:after {
