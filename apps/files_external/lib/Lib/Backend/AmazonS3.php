@@ -53,6 +53,8 @@ class AmazonS3 extends Backend {
 					->setType(DefinitionParameter::VALUE_BOOLEAN),
 				(new DefinitionParameter('use_path_style', $l->t('Enable Path Style')))
 					->setType(DefinitionParameter::VALUE_BOOLEAN),
+				(new DefinitionParameter('legacy_auth', $l->t('Legacy (v2) authentication')))
+					->setType(DefinitionParameter::VALUE_BOOLEAN),
 			])
 			->addAuthScheme(AccessKey::SCHEME_AMAZONS3_ACCESSKEY)
 			->setLegacyAuthMechanism($legacyAuth)
