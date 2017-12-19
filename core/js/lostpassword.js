@@ -16,6 +16,7 @@ OC.Lostpassword = {
 		$('#lost-password').click(OC.Lostpassword.resetLink);
 		$('#lost-password-back').click(OC.Lostpassword.backToLogin);
 		$('form[name=login]').submit(OC.Lostpassword.onSendLink);
+		$('#reset-password #submit').click(OC.Lostpassword.resetPassword);
 		OC.Lostpassword.resetButtons();
 	},
 
