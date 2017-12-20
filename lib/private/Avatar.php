@@ -141,6 +141,7 @@ class Avatar implements IAvatar {
 
 		try {
 			$generated = $this->folder->getFile('generated');
+			$this->config->setUserValue($this->user->getUID(), 'avatar', 'generated', 'false');
 			$generated->delete();
 		} catch (NotFoundException $e) {
 			//
@@ -161,6 +162,7 @@ class Avatar implements IAvatar {
 		foreach ($avatars as $avatar) {
 			$avatar->delete();
 		}
+		$this->config->setUserValue($this->user->getUID(), 'avatar', 'generated', 'true');
 		$this->user->triggerChange('avatar', '');
 	}
 
@@ -177,6 +179,7 @@ class Avatar implements IAvatar {
 			$ext = 'png';
 
 			$this->folder->newFile('generated');
+			$this->config->setUserValue($this->user->getUID(), 'avatar', 'generated', 'true');
 		}
 
 		if ($size === -1) {
@@ -391,6 +394,20 @@ class Avatar implements IAvatar {
 		}
 
 		return array(round($r * 255), round($g * 255), round($b * 255));
+	}
+
+	public function userChanged($feature, $oldValue, $newValue) {
+		// We only change the avatar on display name changes
+		if ($feature !== 'displayName') {
+			return;
+		}
+
+		// If the avatar is not generated (so an uploaded image) we skip this
+		if (!$this->folder->fileExists('generated')) {
+			return;
+		}
+
+		$this->remove();
 	}
 
 }

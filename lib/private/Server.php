@@ -394,9 +394,10 @@ class Server extends ServerContainer implements IServerContainer {
 			$userSession->listen('\OC\User', 'logout', function () {
 				\OC_Hook::emit('OC_User', 'logout', array());
 			});
-			$userSession->listen('\OC\User', 'changeUser', function ($user, $feature, $value, $oldValue) {
+			$userSession->listen('\OC\User', 'changeUser', function ($user, $feature, $value, $oldValue) use ($dispatcher) {
 				/** @var $user \OC\User\User */
 				\OC_Hook::emit('OC_User', 'changeUser', array('run' => true, 'user' => $user, 'feature' => $feature, 'value' => $value, 'old_value' => $oldValue));
+				$dispatcher->dispatch('OCP\IUser::changeUser', new GenericEvent($user, ['feature' => $feature, 'oldValue' => $oldValue, 'value' => $value]));
 			});
 			return $userSession;
 		});
@@ -1173,6 +1174,22 @@ class Server extends ServerContainer implements IServerContainer {
 			} catch (\Exception $e) {
 				// Ignore exceptions
 				$logger->info('Could not cleanup avatar of ' . $user->getUID());
+			}
+		});
+
+		$dispatcher->addListener('OCP\IUser::changeUser', function (GenericEvent $e) {
+			$manager = $this->getAvatarManager();
+			/** @var IUser $user */
+			$user = $e->getSubject();
+			$feature = $e->getArgument('feature');
+			$oldValue = $e->getArgument('oldValue');
+			$value = $e->getArgument('value');
+
+			try {
+				$avatar = $manager->getAvatar($user->getUID());
+				$avatar->userChanged($feature, $oldValue, $value);
+			} catch (NotFoundException $e) {
+				// no avatar to remove
 			}
 		});
 	}
