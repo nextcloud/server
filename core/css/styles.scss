@@ -1086,16 +1086,19 @@ code {
 		}
 	}
 	/* AM/PM fix */
-	table.ui-timepicker tr th {
-		position: absolute;
-		margin-left: -24px;
-		top: calc(50% + 5px);
+	table.ui-timepicker tr .ui-timepicker-hour-cell:first-child {
+		margin-left: 30px;
 	}
 	.ui-timepicker-table {
 		th {
 			font-weight: normal;
 			color: nc-lighten($color-main-text, 33%);
 			opacity: .8;
+			&.periods {
+				padding: 0;
+				width: 30px;
+				line-height: 30px;
+			}
 		}
 		tr:hover {
 			background-color: inherit;
@@ -1116,11 +1119,6 @@ code {
 
 			&.ui-timepicker-hours {
 				border-right: 1px solid $color-border;
-				/* AM/PM fix */
-				.ui-timepicker tr {
-					position: relative;
-					margin-left: 25px;
-				}
 			}
 		}
 	}
