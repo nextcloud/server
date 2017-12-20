@@ -223,6 +223,7 @@ body {
 
 #controls {
 	box-sizing: border-box;
+	position: -webkit-sticky;
 	position: sticky;
 	height: 44px;
 	padding: 0;
