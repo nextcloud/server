@@ -59,4 +59,8 @@ class FunctionBuilder implements IFunctionBuilder {
 	public function sum($field) {
 		return new QueryFunction('SUM(' . $this->helper->quoteColumnName($field) . ')');
 	}
+
+	public function lower($field) {
+		return new QueryFunction('LOWER(' . $this->helper->quoteColumnName($field) . ')');
+	}
 }

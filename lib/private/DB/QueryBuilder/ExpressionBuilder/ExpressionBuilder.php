@@ -26,6 +26,7 @@ namespace OC\DB\QueryBuilder\ExpressionBuilder;
 
 use Doctrine\DBAL\Query\Expression\ExpressionBuilder as DoctrineExpressionBuilder;
 use OC\DB\QueryBuilder\CompositeExpression;
+use OC\DB\QueryBuilder\FunctionBuilder\FunctionBuilder;
 use OC\DB\QueryBuilder\Literal;
 use OC\DB\QueryBuilder\QueryFunction;
 use OC\DB\QueryBuilder\QuoteHelper;
@@ -45,6 +46,9 @@ class ExpressionBuilder implements IExpressionBuilder {
 	/** @var IDBConnection */
 	protected $connection;
 
+	/** @var FunctionBuilder */
+	protected $functionBuilder;
+
 	/**
 	 * Initializes a new <tt>ExpressionBuilder</tt>.
 	 *
@@ -54,6 +58,7 @@ class ExpressionBuilder implements IExpressionBuilder {
 		$this->connection = $connection;
 		$this->helper = new QuoteHelper();
 		$this->expressionBuilder = new DoctrineExpressionBuilder($connection);
+		$this->functionBuilder = $connection->getQueryBuilder()->func();
 	}
 
 	/**
@@ -298,9 +303,7 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @since 9.0.0
 	 */
 	public function iLike($x, $y, $type = null) {
-		$x = $this->helper->quoteColumnName($x);
-		$y = $this->helper->quoteColumnName($y);
-		return $this->expressionBuilder->comparison("LOWER($x)", 'LIKE', "LOWER($y)");
+		return $this->expressionBuilder->like($this->functionBuilder->lower($x), $this->functionBuilder->lower($y));
 	}
 
 	/**

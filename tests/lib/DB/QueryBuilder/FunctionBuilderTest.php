@@ -79,4 +79,14 @@ class FunctionBuilderTest extends TestCase {
 
 		$this->assertEquals('oobar', $query->execute()->fetchColumn());
 	}
+
+	public function testLower() {
+		$query = $this->connection->getQueryBuilder();
+
+		$query->select($query->func()->lower($query->createNamedParameter('FooBar')));
+		$query->from('appconfig')
+			->setMaxResults(1);
+
+		$this->assertEquals('foobar', $query->execute()->fetchColumn());
+	}
 }

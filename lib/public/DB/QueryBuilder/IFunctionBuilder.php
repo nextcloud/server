@@ -71,4 +71,13 @@ interface IFunctionBuilder {
 	 * @since 12.0.0
 	 */
 	public function sum($field);
+
+	/**
+	 * Transforms a string field or value to lower case
+	 *
+	 * @param mixed $field
+	 * @return IQueryFunction
+	 * @since 13.0.0
+	 */
+	public function lower($field);
 }

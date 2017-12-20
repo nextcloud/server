@@ -401,7 +401,7 @@ class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
 	}
 
 	/**
-	 * Espace a parameter to be used in a LIKE query
+	 * Escape a parameter to be used in a LIKE query
 	 *
 	 * @param string $param
 	 * @return string

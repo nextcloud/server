@@ -129,13 +129,24 @@ class DatabaseTest extends Backend {
 		$emailAddr1 = "$user1@nextcloud.com";
 		$emailAddr2 = "$user2@nextcloud.com";
 
+		$user1Obj->setDisplayName('User 1 Display');
+
+		$result = $this->backend->getDisplayNames('display');
+		$this->assertCount(1, $result);
+
+		$result = $this->backend->getDisplayNames(strtoupper($user1));
+		$this->assertCount(1, $result);
+
 		$user1Obj->setEMailAddress($emailAddr1);
 		$user2Obj->setEMailAddress($emailAddr2);
 
 		$result = $this->backend->getUsers('@nextcloud.com');
-		$this->assertSame(2, count($result));
+		$this->assertCount(2, $result);
 
 		$result = $this->backend->getDisplayNames('@nextcloud.com');
-		$this->assertSame(2, count($result));
+		$this->assertCount(2, $result);
+
+		$result = $this->backend->getDisplayNames('@nextcloud.COM');
+		$this->assertCount(2, $result);
 	}
 }
