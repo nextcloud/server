@@ -1095,8 +1095,11 @@ class Access extends LDAPUtility implements IUserTools {
 				$this->pagedSearchedSuccessful = true;
 			}
 		} else {
-			if(!is_null($limit)) {
-				\OCP\Util::writeLog('user_ldap', 'Paged search was not available', \OCP\Util::INFO);
+			if(!is_null($limit) && intval($this->connection->ldapPagingSize) !== 0) {
+				\OC::$server->getLogger()->debug(
+					'Paged search was not available',
+					[ 'app' => 'user_ldap' ]
+				);
 			}
 		}
 		/* ++ Fixing RHDS searches with pages with zero results ++
