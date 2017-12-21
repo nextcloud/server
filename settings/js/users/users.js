@@ -2,6 +2,7 @@
  * Copyright (c) 2014, Arthur Schiwon <blizzz@owncloud.com>
  * Copyright (c) 2014, Raghu Nayyar <beingminimal@gmail.com>
  * Copyright (c) 2011, Robin Appelman <icewind1991@gmail.com>
+ * Copyright (c) 2017, John Molakvoæ <skjnldsv@protonmail.com>
  * This file is licensed under the Affero General Public License version 3 or later.
  * See the COPYING-README file.
  */
@@ -31,6 +32,7 @@ var UserList = {
 		// initially the list might already contain user entries (not fully ajaxified yet)
 		// initialize these entries
 		this.$el.find('.quota-user').singleSelect().on('change', this.onQuotaSelect);
+		OC.registerMenu($('.app-navigation-new > button'), $('#newuser'))
 	},
 
 	/**
@@ -508,7 +510,7 @@ var UserList = {
 			checked: checked,
 			oncheck: addUserToGroup,
 			onuncheck: removeUserFromGroup,
-			minWidth: 100
+			minWidth: 150
 		});
 	},
 
@@ -542,7 +544,7 @@ var UserList = {
 			checked: checked,
 			oncheck: checkHandler,
 			onuncheck: checkHandler,
-			minWidth: 100
+			minWidth: 150
 		});
 	},
 

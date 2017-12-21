@@ -549,7 +549,10 @@ span.usersLastLoginTooltip {
 /* use same height as in files app */
 #newuser {
 	/* positioning fixes */
-	padding-left: 3px;
+	margin: 2px 0;
+	display: flex;
+	flex-direction: column;
+
 	.groups {
 		display: inline;
 	}
@@ -560,6 +563,19 @@ span.usersLastLoginTooltip {
 		min-width: 150px !important;
 		position: relative;
 		top: -1px;
+	}
+	input:not([type='submit']) {
+		width: 100%;
+		margin: 2px 0;
+	}
+	input[type='submit'] {
+		flex-grow: 2;
+	}
+	> div {
+		display: inline-flex;
+		label {
+			display: block;
+		}
 	}
 }
 

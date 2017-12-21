@@ -1,6 +1,7 @@
 <?php
 /**
  * Copyright (c) 2011, Robin Appelman <icewind1991@gmail.com>
+ * Copyright (c) 2017, John Molakvoæ <skjnldsv@protonmail.com>
  * This file is licensed under the Affero General Public License version 3 or later.
  * See the COPYING-README file.
  */
@@ -35,6 +36,7 @@ translation('settings');
 ?>
 
 <div id="app-navigation">
+	<?php print_unescaped($this->inc('users/part.createuser')); ?>
 	<?php print_unescaped($this->inc('users/part.grouplist')); ?>
 	<div id="app-settings">
 		<div id="app-settings-header">
@@ -88,6 +90,5 @@ translation('settings');
 </div>
 
 <div id="app-content">
-	<?php print_unescaped($this->inc('users/part.createuser')); ?>
 	<?php print_unescaped($this->inc('users/part.userlist', $userlistParams)); ?>
 </div>
