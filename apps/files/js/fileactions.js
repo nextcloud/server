@@ -47,14 +47,6 @@
 		 */
 		$el: null,
 
-		/**
-		 * List of handlers to be notified whenever a register() or
-		 * setDefault() was called.
-		 *
-		 * @member {Function[]}
-		 */
-		_updateListeners: {},
-
 		_fileActionTriggerTemplate: null,
 
 		/**
@@ -189,7 +181,6 @@
 			this.defaults = {};
 			this.icons = {};
 			this.currentFile = null;
-			this._updateListeners = [];
 		},
 		/**
 		 * Sets the default action for a given mime type.
