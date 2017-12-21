@@ -1042,17 +1042,29 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			if(strtolower($property->name) === 'key') {
 				/*FIXME check if URL or DATA is provided TYPE=GPG and ENCODING=B for DATA*/
 				$gpg = \OC::$server->getGpg();
-				$gpgremoteprotocols = ['http','ftp:','ftps'];
-				if(in_array(strtolower(substr($property->getValue(),0,4)),$gpgremoteprotocols)){
+				$gpgremoteprotocols = ['http://','https://','ftp://','ftps://'];
+				$value = $property->getValue();
+				$local = true;
+				foreach ($gpgremoteprotocols as $protocol) {
+					if(strtolower(substr($value,0,strlen($protocol))) === $protocol) {
+						$local = false;
+						break;
+					}
+				}
+				if(!$local){
 					$logger = \OC::$server->getLogger();
-					$logger->debug("Downloading Keydata from:".$property->getValue());
-					$keydata = stream_get_contents(fopen($property->getValue(),'r'),35000000);
+					$logger->debug("Downloading Keydata from:".$value);
+					$keydata = file_get_contents($property->getValue(),$maxlen = 35000000);
 					$keystart = strpos($keydata,"-----BEGIN PGP PUBLIC KEY BLOCK-----");
 					$keyend = strpos($keydata, "-----END PGP PUBLIC KEY BLOCK-----");
-					$keydata = substr($keydata,$keystart ,($keyend - $keystart + 34));
-					$logger->debug("Downloaded Keydata");
+					if ($keystart !== FALSE && $keyend !== FALSE) {
+						$keydata = substr($keydata,$keystart ,($keyend - $keystart + 34));
+						$logger->debug("Downloaded Keydata");
+					} else {
+						$logger->debug("Failed to Download Keydata got:".$keydata);
+					}
 				} else {
-					$keydata = $property->getValue();
+					$keydata = $value;
 				}
 				$fingerprint = $gpg->import($keydata)['fingerprint'];
 
