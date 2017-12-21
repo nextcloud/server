@@ -75,7 +75,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	/** @var array properties to index */
 	public static $indexProperties = array(
 			'BDAY', 'UID', 'N', 'FN', 'TITLE', 'ROLE', 'NOTE', 'NICKNAME',
-			'ORG', 'CATEGORIES', 'EMAIL', 'TEL', 'IMPP', 'ADR', 'URL', 'GEO', 'CLOUD');
+			'ORG', 'CATEGORIES', 'EMAIL', 'TEL', 'IMPP', 'ADR', 'URL', 'GEO', 'CLOUD', 'X-KEY-FINGERPRINT');
 
 	/**
 	 * @var string[] Map of uid => display name
@@ -624,7 +624,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			->execute();
 
 		$this->addChange($addressBookId, $cardUri, 1);
-		$this->updateProperties($addressBookId, $cardUri, $cardData);
+		$cardData = $this->updateProperties($addressBookId, $cardUri, $cardData);
 
 		$this->dispatcher->dispatch('\OCA\DAV\CardDAV\CardDavBackend::createCard',
 			new GenericEvent(null, [
@@ -674,7 +674,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			->execute();
 
 		$this->addChange($addressBookId, $cardUri, 2);
-		$this->updateProperties($addressBookId, $cardUri, $cardData);
+		$cardData = $this->updateProperties($addressBookId, $cardUri, $cardData);
 
 		$this->dispatcher->dispatch('\OCA\DAV\CardDAV\CardDavBackend::updateCard',
 			new GenericEvent(null, [
@@ -1026,9 +1026,10 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			);
 
 		foreach ($vCard->children() as $property) {
-			if(!in_array($property->name, self::$indexProperties)) {
+			if(!in_array($property->name, self::$indexProperties) && strtolower($property->name) !== 'key') {
 				continue;
 			}
+
 			$preferred = 0;
 			foreach($property->parameters as $parameter) {
 				if ($parameter->name === 'TYPE' && strtoupper($parameter->getValue()) === 'PREF') {
@@ -1036,11 +1037,28 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 					break;
 				}
 			}
+
+			if(strtolower($property->name) === 'key') {
+				/*FIXME check if URL or DATA is provided TYPE=GPG and ENCODING=B for DATA*/
+					$gpg = \OC::$server->getGpg();
+
+					$fingerprint = $gpg->import($property->getValue())['fingerprint'];
+
+					$keyFingerprintProperty = 'X-KEY-FINGERPRINT';
+					$vCard->$keyFingerprintProperty = $vCard->createProperty($keyFingerprintProperty,$fingerprint);
+
+					$query->setParameter('name', 'X-KEY-FINGERPRINT');
+					$query->setParameter('value', substr($fingerprint, 0, 254));
+					$query->setParameter('preferred', $preferred);
+					$query->execute();
+					continue;
+			}
 			$query->setParameter('name', $property->name);
 			$query->setParameter('value', substr($property->getValue(), 0, 254));
 			$query->setParameter('preferred', $preferred);
 			$query->execute();
 		}
+		return $vCard->serialize();
 	}
 
 	/**

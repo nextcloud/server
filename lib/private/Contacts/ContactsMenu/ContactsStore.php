@@ -248,6 +248,12 @@ class ContactsStore implements IContactsStore {
 			}
 		}
 
+		if (isset($contact['PUBLICKEY'])) {
+			foreach ($contact['PUBLICKEY'] as $key) {
+				$entry->addPublicKey($key);
+			}
+		}
+
 		// Attach all other properties to the entry too because some
 		// providers might make use of it.
 		$entry->setProperties($contact);

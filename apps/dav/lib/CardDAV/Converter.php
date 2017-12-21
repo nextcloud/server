@@ -54,6 +54,7 @@ class Converter {
 		$uid = $user->getUID();
 		$cloudId = $user->getCloudId();
 		$image = $this->getAvatarImage($user);
+		$gpg = \OC::$server->getGpg();
 
 		$vCard = new VCard();
 		$vCard->VERSION = '3.0';
@@ -87,6 +88,13 @@ class Converter {
 						break;
 					case AccountManager::PROPERTY_EMAIL:
 						$vCard->add(new Text($vCard, 'EMAIL', $value['value'], ['TYPE' => 'OTHER']));
+						break;
+					case AccountManager::PROPERTY_PUBLICKEYS:
+						$keys = json_decode($value['value']);
+						foreach ($keys as $key) {
+							$vCard->add(new Text($vCard, 'KEY', $gpg->export($key), ['TYPE' => 'GPG']));
+							$vCard->add(new Text($vCard, 'X-KEY-FINGERPRINT', $key));
+						}
 						break;
 					case AccountManager::PROPERTY_WEBSITE:
 						$vCard->add(new Text($vCard, 'URL', $value['value']));
