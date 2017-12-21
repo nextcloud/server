@@ -525,7 +525,7 @@
 					}
 			});
 
-			$(expirationDatePicker).addClass('hidden-visually');
+			// $(expirationDatePicker).addClass('hidden-visually');
 		},
 
 		setExpirationDate: function(shareId, expireDate) {
