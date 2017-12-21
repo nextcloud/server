@@ -623,8 +623,9 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			])
 			->execute();
 
-		$this->addChange($addressBookId, $cardUri, 1);
+
 		$cardData = $this->updateProperties($addressBookId, $cardUri, $cardData);
+		$this->addChange($addressBookId, $cardUri, 1);
 
 		$this->dispatcher->dispatch('\OCA\DAV\CardDAV\CardDavBackend::createCard',
 			new GenericEvent(null, [
@@ -673,8 +674,8 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			->andWhere($query->expr()->eq('addressbookid', $query->createNamedParameter($addressBookId)))
 			->execute();
 
-		$this->addChange($addressBookId, $cardUri, 2);
 		$cardData = $this->updateProperties($addressBookId, $cardUri, $cardData);
+		$this->addChange($addressBookId, $cardUri, 2);
 
 		$this->dispatcher->dispatch('\OCA\DAV\CardDAV\CardDavBackend::updateCard',
 			new GenericEvent(null, [
@@ -1040,18 +1041,29 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 			if(strtolower($property->name) === 'key') {
 				/*FIXME check if URL or DATA is provided TYPE=GPG and ENCODING=B for DATA*/
-					$gpg = \OC::$server->getGpg();
+				$gpg = \OC::$server->getGpg();
+				$gpgremoteprotocols = ['http','ftp:','ftps'];
+				if(in_array(strtolower(substr($property->getValue(),0,4)),$gpgremoteprotocols)){
+					$logger = \OC::$server->getLogger();
+					$logger->debug("Downloading Keydata from:".$property->getValue());
+					$keydata = stream_get_contents(fopen($property->getValue(),'r'),35000000);
+					$keystart = strpos($keydata,"-----BEGIN PGP PUBLIC KEY BLOCK-----");
+					$keyend = strpos($keydata, "-----END PGP PUBLIC KEY BLOCK-----");
+					$keydata = substr($keydata,$keystart ,($keyend - $keystart + 34));
+					$logger->debug("Downloaded Keydata");
+				} else {
+					$keydata = $property->getValue();
+				}
+				$fingerprint = $gpg->import($keydata)['fingerprint'];
 
-					$fingerprint = $gpg->import($property->getValue())['fingerprint'];
+				$keyFingerprintProperty = 'X-KEY-FINGERPRINT';
+				$vCard->$keyFingerprintProperty = $vCard->createProperty($keyFingerprintProperty,$fingerprint);
 
-					$keyFingerprintProperty = 'X-KEY-FINGERPRINT';
-					$vCard->$keyFingerprintProperty = $vCard->createProperty($keyFingerprintProperty,$fingerprint);
-
-					$query->setParameter('name', 'X-KEY-FINGERPRINT');
-					$query->setParameter('value', substr($fingerprint, 0, 254));
-					$query->setParameter('preferred', $preferred);
-					$query->execute();
-					continue;
+				$query->setParameter('name', 'X-KEY-FINGERPRINT');
+				$query->setParameter('value', substr($fingerprint, 0, 254));
+				$query->setParameter('preferred', $preferred);
+				$query->execute();
+				continue;
 			}
 			$query->setParameter('name', $property->name);
 			$query->setParameter('value', substr($property->getValue(), 0, 254));
