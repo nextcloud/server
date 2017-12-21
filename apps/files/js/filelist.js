@@ -3054,6 +3054,7 @@
 
 				var uploadText = self.$fileList.find('tr .uploadtext');
 				self.showFileBusyState(uploadText.closest('tr'), false);
+				self.updateStorageStatistics(true);
 				uploadText.fadeOut();
 				uploadText.attr('currentUploads', 0);
 			});

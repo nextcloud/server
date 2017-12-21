@@ -29,6 +29,7 @@
 				state.dir = null;
 				state.call = null;
 				Files.updateMaxUploadFilesize(response);
+				Files.updateQuota(response);
 			});
 		},
 		/**
@@ -73,6 +74,33 @@
 				$('#upload.button').attr('data-original-title', response[0].maxHumanFilesize);
 				$('#usedSpacePercent').val(response[0].usedSpacePercent);
 				Files.displayStorageWarnings();
+			}
+
+		},
+
+		updateQuota:function(response) {
+			console.log('updateQuota');
+			if (response === undefined) {
+				return;
+			}
+			if (response.data !== undefined
+			 && response.data.quota !== undefined
+			 && response.data.used !== undefined
+			 && response.data.usedSpacePercent !== undefined) {
+				var humanUsed = OC.Util.humanFileSize(response.data.used, true);
+				var humanQuota = OC.Util.humanFileSize(response.data.quota, true);
+				if (response.data.quota > 0) {
+					$('#quota').attr('data-original-title', Math.floor(response.data.used/response.data.quota*1000)/10 + '%');
+					$('#quota progress').val(response.data.usedSpacePercent);
+					$('#quotatext').text(t('files', '{used} of {quota} used', {used: humanUsed, quota: humanQuota}));
+				} else {
+					$('#quotatext').text(t('files', '{used} used', {used: humanUsed}));
+				}
+				if (response.data.usedSpacePercent > 80) {
+					$('#quota progress').addClass('warn');
+				} else {
+					$('#quota progress').removeClass('warn');
+				}
 			}
 
 		},
