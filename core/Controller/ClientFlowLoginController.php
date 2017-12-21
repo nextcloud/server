@@ -316,7 +316,7 @@ class ClientFlowLoginController extends Controller {
 			}
 
 			$serverPath = $this->request->getServerProtocol() . "://" . $this->request->getServerHost() . $serverPostfix;
-			$redirectUri = 'nc://login/server:' . $serverPath . '&user:' . urlencode($loginName) . '&password:' . urlencode($token);
+			$redirectUri = 'nc://login/server:' . $serverPath . '&user:' . urlencode($uid) . '&password:' . urlencode($token);
 		}
 
 		return new Http\RedirectResponse($redirectUri);
