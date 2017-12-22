@@ -676,8 +676,25 @@
 						$(event.target).closest('a').blur();
 					}
 				} else {
-					this._updateDetailsView($tr.attr('data-file'));
+					// Even if there is no Details action the default event
+					// handler is prevented for consistency (although there
+					// should always be a Details action); otherwise the link
+					// would be downloaded by the browser when the user expected
+					// the details to be shown.
 					event.preventDefault();
+					var filename = $tr.attr('data-file');
+					var mime = this.fileActions.getCurrentMimeType();
+					var type = this.fileActions.getCurrentType();
+					var permissions = this.fileActions.getCurrentPermissions();
+					var action = this.fileActions.get(mime, type, permissions)['Details'];
+					if (action) {
+						action(filename, {
+							$file: $tr,
+							fileList: this,
+							fileActions: this.fileActions,
+							dir: $tr.attr('data-path') || this.getCurrentDirectory()
+						});
+					}
 				}
 			}
 		},

@@ -47,14 +47,6 @@
 		 */
 		$el: null,
 
-		/**
-		 * List of handlers to be notified whenever a register() or
-		 * setDefault() was called.
-		 *
-		 * @member {Function[]}
-		 */
-		_updateListeners: {},
-
 		_fileActionTriggerTemplate: null,
 
 		/**
@@ -142,7 +134,22 @@
 			var mime = action.mime;
 			var name = action.name;
 			var actionSpec = {
-				action: action.actionHandler,
+				action: function(fileName, context) {
+					// Actions registered in one FileAction may be executed on a
+					// different one (for example, due to the "merge" function),
+					// so the listeners have to be updated on the FileActions
+					// from the context instead of on the one in which it was
+					// originally registered.
+					if (context && context.fileActions) {
+						context.fileActions._notifyUpdateListeners('beforeTriggerAction', {action: actionSpec, fileName: fileName, context: context});
+					}
+
+					action.actionHandler(fileName, context);
+
+					if (context && context.fileActions) {
+						context.fileActions._notifyUpdateListeners('afterTriggerAction', {action: actionSpec, fileName: fileName, context: context});
+					}
+				},
 				name: name,
 				displayName: action.displayName,
 				mime: mime,
@@ -174,7 +181,6 @@
 			this.defaults = {};
 			this.icons = {};
 			this.currentFile = null;
-			this._updateListeners = [];
 		},
 		/**
 		 * Sets the default action for a given mime type.
