@@ -452,7 +452,16 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @Given I write down the shared link
 	 */
 	public function iWriteDownTheSharedLink() {
-		$this->actor->getSharedNotebook()["shared link"] = $this->actor->find(self::shareLinkField(), 10)->getValue();
+		// The shared link field always exists in the DOM (once the "Sharing"
+		// tab is loaded), but its value is the actual shared link only when it
+		// is visible.
+		if (!$this->waitForElementToBeEventuallyShown(
+				self::shareLinkField(),
+				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
+			PHPUnit_Framework_Assert::fail("The shared link was not shown yet after $timeout seconds");
+		}
+
+		$this->actor->getSharedNotebook()["shared link"] = $this->actor->find(self::shareLinkField())->getValue();
 	}
 
 	/**
@@ -606,7 +615,9 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @When I see that the :tabName tab in the details view is eventually loaded
 	 */
 	public function iSeeThatTheTabInTheDetailsViewIsEventuallyLoaded($tabName) {
-		if (!$this->waitForElementToBeEventuallyNotShown(self::loadingIconForTabInCurrentSectionDetailsViewNamed($tabName), $timeout = 10)) {
+		if (!$this->waitForElementToBeEventuallyNotShown(
+				self::loadingIconForTabInCurrentSectionDetailsViewNamed($tabName),
+				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
 			PHPUnit_Framework_Assert::fail("The $tabName tab in the details view has not been loaded after $timeout seconds");
 		}
 	}
@@ -622,7 +633,9 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @Then I see that the working icon for password protect is eventually not shown
 	 */
 	public function iSeeThatTheWorkingIconForPasswordProtectIsEventuallyNotShown() {
-		if (!$this->waitForElementToBeEventuallyNotShown(self::passwordProtectWorkingIcon(), $timeout = 10)) {
+		if (!$this->waitForElementToBeEventuallyNotShown(
+				self::passwordProtectWorkingIcon(),
+				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
 			PHPUnit_Framework_Assert::fail("The working icon for password protect is still shown after $timeout seconds");
 		}
 	}
@@ -637,10 +650,24 @@ class FilesAppContext implements Context, ActorAwareInterface {
 		$this->iSeeThatTheWorkingIconForPasswordProtectIsEventuallyNotShown();
 	}
 
+	private function waitForElementToBeEventuallyShown($elementLocator, $timeout = 10, $timeoutStep = 1) {
+		$actor = $this->actor;
+
+		$elementShownCallback = function() use ($actor, $elementLocator) {
+			try {
+				return $actor->find($elementLocator)->isVisible();
+			} catch (NoSuchElementException $exception) {
+				return false;
+			}
+		};
+
+		return Utils::waitFor($elementShownCallback, $timeout, $timeoutStep);
+	}
+
 	private function waitForElementToBeEventuallyNotShown($elementLocator, $timeout = 10, $timeoutStep = 1) {
 		$actor = $this->actor;
 
-		$elementNotFoundCallback = function() use ($actor, $elementLocator) {
+		$elementNotShownCallback = function() use ($actor, $elementLocator) {
 			try {
 				return !$actor->find($elementLocator)->isVisible();
 			} catch (NoSuchElementException $exception) {
@@ -648,6 +675,6 @@ class FilesAppContext implements Context, ActorAwareInterface {
 			}
 		};
 
-		return Utils::waitFor($elementNotFoundCallback, $timeout, $timeoutStep);
+		return Utils::waitFor($elementNotShownCallback, $timeout, $timeoutStep);
 	}
 }
