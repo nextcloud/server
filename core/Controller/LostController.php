@@ -224,6 +224,12 @@ class LostController extends Controller {
 			return new JSONResponse($this->error($this->l10n->t('Password reset is disabled')));
 		}
 
+		\OCP\Util::emitHook(
+			'\OCA\Files_Sharing\API\Server2Server',
+			'preLoginNameUsedAsUserName',
+			['uid' => &$user]
+		);
+
 		// FIXME: use HTTP error codes
 		try {
 			$this->sendEmail($user);
