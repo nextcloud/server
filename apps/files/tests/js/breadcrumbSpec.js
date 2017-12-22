@@ -242,6 +242,17 @@ describe('OCA.Files.BreadCrumb tests', function() {
 			dummyDir = '/short name/longer name/looooooooooooonger/' +
 				'even longer long long long longer long/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/last one';
 
+			bc = new BreadCrumb();
+			// append dummy navigation and controls
+			// as they are currently used for measurements
+			$('#testArea').append(
+				'<div id="controls"></div>'
+			);
+			$('#controls').append(bc.$el);
+
+			// triggers resize implicitly
+			bc.setDirectory(dummyDir);
+
 			// using hard-coded widths (pre-measured) to avoid getting different
 			// results on different browsers due to font engine differences
 			// 51px is default size for menu and home
@@ -250,14 +261,6 @@ describe('OCA.Files.BreadCrumb tests', function() {
 			$('div.crumb').each(function(index){
 				$(this).css('width', widths[index]);
 			});
-
-			bc = new BreadCrumb();
-			// append dummy navigation and controls
-			// as they are currently used for measurements
-			$('#testArea').append(
-				'<div id="controls"></div>'
-			);
-			$('#controls').append(bc.$el);
 		});
 		afterEach(function() {
 			bc = null;
@@ -267,8 +270,6 @@ describe('OCA.Files.BreadCrumb tests', function() {
 
 			bc.setMaxWidth(500);
 
-			// triggers resize implicitly
-			bc.setDirectory(dummyDir);
 			$crumbs = bc.$el.find('.crumb');
 
 			// Menu and home are always visible
@@ -282,6 +283,24 @@ describe('OCA.Files.BreadCrumb tests', function() {
 			expect($crumbs.eq(6).hasClass('hidden')).toEqual(true);
 			expect($crumbs.eq(7).hasClass('hidden')).toEqual(false);
 		});
+		it('Hides breadcrumbs to fit max allowed width', function() {
+			var $crumbs;
+
+			bc.setMaxWidth(700);
+
+			$crumbs = bc.$el.find('.crumb');
+
+			// Menu and home are always visible
+			expect($crumbs.eq(0).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(1).hasClass('hidden')).toEqual(false);
+
+			expect($crumbs.eq(2).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(3).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(4).hasClass('hidden')).toEqual(true);
+			expect($crumbs.eq(5).hasClass('hidden')).toEqual(true);
+			expect($crumbs.eq(6).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(7).hasClass('hidden')).toEqual(false);
+		});
 		it('Updates the breadcrumbs when reducing max allowed width', function() {
 			var $crumbs;
 
@@ -290,7 +309,7 @@ describe('OCA.Files.BreadCrumb tests', function() {
 			$crumbs = bc.$el.find('.crumb');
 
 			// Menu is hidden
-			expect($crumbs.eq(0).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(0).hasClass('hidden')).toEqual(true);
 
 			// triggers resize implicitly
 			bc.setDirectory(dummyDir);
@@ -304,7 +323,7 @@ describe('OCA.Files.BreadCrumb tests', function() {
 
 			expect($crumbs.eq(2).hasClass('hidden')).toEqual(false);
 			expect($crumbs.eq(3).hasClass('hidden')).toEqual(false);
-			expect($crumbs.eq(4).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(4).hasClass('hidden')).toEqual(true);
 			expect($crumbs.eq(5).hasClass('hidden')).toEqual(false);
 			expect($crumbs.eq(6).hasClass('hidden')).toEqual(false);
 			expect($crumbs.eq(7).hasClass('hidden')).toEqual(false);

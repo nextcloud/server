@@ -223,28 +223,22 @@ body {
 
 #controls {
 	box-sizing: border-box;
-	position: fixed;
-	top: 45px;
-	right: 0;
-	left: 0;
+	position: -webkit-sticky;
+	position: sticky;
 	height: 44px;
-	width: calc(100% - 250px);
 	padding: 0;
 	margin: 0;
 	background-color: rgba($color-main-background, 0.95);
-	z-index: 50;
+	z-index: 55;
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
-	display: inline-flex;
+	display: flex;
+	top: 0;
 }
 
 /* position controls for apps with app-navigation */
-
-#app-navigation + #app-content #controls {
-	left: 250px;
-}
 
 .viewer-mode #app-navigation + #app-content #controls {
 	left: 0;

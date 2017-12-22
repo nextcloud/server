@@ -20,7 +20,11 @@
 
 .actions.creatable {
 	position: relative;
-	z-index: -30;
+	display: flex;
+	flex: 1 1;
+	.button:not(:last-child) {
+		margin-right: 3px;
+	}
 }
 
 #trash {
@@ -41,10 +45,6 @@
 #filestable {
 	position: relative;
 	width: 100%;
-}
-
-#filestable.has-controls {
-	top: 44px;
 }
 
 #filestable tbody tr {
