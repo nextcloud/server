@@ -184,6 +184,9 @@ class ManagerTest extends TestCase {
 			->method('userExists')
 			->with($this->equalTo('foo'))
 			->will($this->returnValue(true));
+		$backend->expects($this->once())
+			->method('loginName2UserName')
+			->willReturn(false);
 
 		$manager = new \OC\User\Manager($this->config);
 		$manager->registerBackend($backend);
@@ -235,6 +238,9 @@ class ManagerTest extends TestCase {
 			->method('getUsers')
 			->with($this->equalTo('fo'), $this->equalTo(3), $this->equalTo(1))
 			->will($this->returnValue(array('foo1', 'foo2')));
+		$backend1->expects($this->exactly(2))
+			->method('loginName2UserName')
+			->willReturn(false);
 
 		/**
 		 * @var \Test\Util\User\Dummy | \PHPUnit_Framework_MockObject_MockObject $backend2
@@ -244,6 +250,9 @@ class ManagerTest extends TestCase {
 			->method('getUsers')
 			->with($this->equalTo('fo'), $this->equalTo(3), $this->equalTo(1))
 			->will($this->returnValue(array('foo3')));
+		$backend2->expects($this->once())
+			->method('loginName2UserName')
+			->willReturn(false);
 
 		$manager = new \OC\User\Manager($this->config);
 		$manager->registerBackend($backend1);
@@ -316,6 +325,9 @@ class ManagerTest extends TestCase {
 			->method('userExists')
 			->with($this->equalTo('foo'))
 			->will($this->returnValue(false));
+		$backend->expects($this->once())
+			->method('loginName2UserName')
+			->willReturn(false);
 
 		$manager = new \OC\User\Manager($this->config);
 		$manager->registerBackend($backend);
