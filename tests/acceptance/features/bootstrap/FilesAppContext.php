@@ -452,7 +452,16 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @Given I write down the shared link
 	 */
 	public function iWriteDownTheSharedLink() {
-		$this->actor->getSharedNotebook()["shared link"] = $this->actor->find(self::shareLinkField(), 10)->getValue();
+		// The shared link field always exists in the DOM (once the "Sharing"
+		// tab is loaded), but its value is the actual shared link only when it
+		// is visible.
+		if (!$this->waitForElementToBeEventuallyShown(
+				self::shareLinkField(),
+				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
+			PHPUnit_Framework_Assert::fail("The shared link was not shown yet after $timeout seconds");
+		}
+
+		$this->actor->getSharedNotebook()["shared link"] = $this->actor->find(self::shareLinkField())->getValue();
 	}
 
 	/**
@@ -639,6 +648,20 @@ class FilesAppContext implements Context, ActorAwareInterface {
 		$this->iProtectTheSharedLinkWithThePassword($password);
 		$this->iSeeThatTheWorkingIconForPasswordProtectIsShown();
 		$this->iSeeThatTheWorkingIconForPasswordProtectIsEventuallyNotShown();
+	}
+
+	private function waitForElementToBeEventuallyShown($elementLocator, $timeout = 10, $timeoutStep = 1) {
+		$actor = $this->actor;
+
+		$elementShownCallback = function() use ($actor, $elementLocator) {
+			try {
+				return $actor->find($elementLocator)->isVisible();
+			} catch (NoSuchElementException $exception) {
+				return false;
+			}
+		};
+
+		return Utils::waitFor($elementShownCallback, $timeout, $timeoutStep);
 	}
 
 	private function waitForElementToBeEventuallyNotShown($elementLocator, $timeout = 10, $timeoutStep = 1) {
