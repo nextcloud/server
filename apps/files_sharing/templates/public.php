@@ -50,7 +50,7 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 
 		<div class="header-right">
 			<?php if (!isset($_['hideFileList']) || (isset($_['hideFileList']) && $_['hideFileList'] === false)) { ?>
-			<a href="#" id="share-menutoggle" class="menutoggle icon-more-white"><span class="share-menutoggle-text"><?php p($l->t('Download')) ?></span></a>
+			<a id="share-menutoggle" class="menutoggle icon-more-white"><span class="share-menutoggle-text"><?php p($l->t('Download')) ?></span></a>
 			<div id="share-menu" class="popovermenu menu">
 				<ul>
 					<li>
@@ -60,7 +60,7 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 						</a>
 					</li>
 					<li>
-						<a href="#" id="directLink-container">
+						<a id="directLink-container">
 							<span class="icon icon-public"></span>
 							<label for="directLink"><?php p($l->t('Direct link')) ?></label>
 							<input id="directLink" type="text" readonly value="<?php p($_['previewURL']); ?>">
@@ -68,7 +68,7 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 					</li>
 					<?php if ($_['server2serversharing']) { ?>
 					<li>
-						<a href="#" id="save" data-protected="<?php p($_['protected']) ?>"
+						<a id="save" data-protected="<?php p($_['protected']) ?>"
 							  data-owner-display-name="<?php p($_['displayName']) ?>" data-owner="<?php p($_['owner']) ?>" data-name="<?php p($_['filename']) ?>">
 							<span class="icon icon-external"></span>
 							<span id="save-button"><?php p($l->t('Add to your Nextcloud')) ?></span>
