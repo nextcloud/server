@@ -640,7 +640,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	private function waitForElementToBeEventuallyNotShown($elementLocator, $timeout = 10, $timeoutStep = 1) {
 		$actor = $this->actor;
 
-		$elementNotFoundCallback = function() use ($actor, $elementLocator) {
+		$elementNotShownCallback = function() use ($actor, $elementLocator) {
 			try {
 				return !$actor->find($elementLocator)->isVisible();
 			} catch (NoSuchElementException $exception) {
@@ -648,6 +648,6 @@ class FilesAppContext implements Context, ActorAwareInterface {
 			}
 		};
 
-		return Utils::waitFor($elementNotFoundCallback, $timeout, $timeoutStep);
+		return Utils::waitFor($elementNotShownCallback, $timeout, $timeoutStep);
 	}
 }
