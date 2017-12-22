@@ -495,7 +495,9 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @When I see that the :tabName tab in the details view is eventually loaded
 	 */
 	public function iSeeThatTheTabInTheDetailsViewIsEventuallyLoaded($tabName) {
-		if (!$this->waitForElementToBeEventuallyNotShown(self::loadingIconForTabInCurrentSectionDetailsViewNamed($tabName), $timeout = 10)) {
+		if (!$this->waitForElementToBeEventuallyNotShown(
+				self::loadingIconForTabInCurrentSectionDetailsViewNamed($tabName),
+				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
 			PHPUnit_Framework_Assert::fail("The $tabName tab in the details view has not been loaded after $timeout seconds");
 		}
 	}
@@ -511,7 +513,9 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @Then I see that the working icon for password protect is eventually not shown
 	 */
 	public function iSeeThatTheWorkingIconForPasswordProtectIsEventuallyNotShown() {
-		if (!$this->waitForElementToBeEventuallyNotShown(self::passwordProtectWorkingIcon(), $timeout = 10)) {
+		if (!$this->waitForElementToBeEventuallyNotShown(
+				self::passwordProtectWorkingIcon(),
+				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
 			PHPUnit_Framework_Assert::fail("The working icon for password protect is still shown after $timeout seconds");
 		}
 	}
