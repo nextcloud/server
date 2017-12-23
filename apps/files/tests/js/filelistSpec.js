@@ -2489,6 +2489,30 @@ describe('OCA.Files.FileList tests', function() {
 			expect(context.fileActions).toBeDefined();
 			expect(context.dir).toEqual('/subdir');
 		});
+		it('Clicking on an empty space of the file row will trigger the "Details" action', function() {
+			var detailsActionStub = sinon.stub();
+			fileList.setFiles(testFiles);
+			// Override the "Details" action set internally by the FileList for
+			// easier testing.
+			fileList.fileActions.registerAction({
+				mime: 'all',
+				name: 'Details',
+				permissions: OC.PERMISSION_NONE,
+				actionHandler: detailsActionStub
+			});
+			// Ensure that the action works even if fileActions.currentFile is
+			// not set.
+			fileList.fileActions.currentFile = null;
+			var $tr = fileList.findFileEl('One.txt');
+			$tr.find('td.filename a.name').click();
+			expect(detailsActionStub.calledOnce).toEqual(true);
+			expect(detailsActionStub.getCall(0).args[0]).toEqual('One.txt');
+			var context = detailsActionStub.getCall(0).args[1];
+			expect(context.$file.is($tr)).toEqual(true);
+			expect(context.fileList).toBe(fileList);
+			expect(context.fileActions).toBe(fileList.fileActions);
+			expect(context.dir).toEqual('/subdir');
+		});
 		it('redisplays actions when new actions have been registered', function() {
 			var actionStub = sinon.stub();
 			var readyHandler = sinon.stub();

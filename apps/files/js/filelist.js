@@ -683,11 +683,14 @@
 					// the details to be shown.
 					event.preventDefault();
 					var filename = $tr.attr('data-file');
+					this.fileActions.currentFile = $tr.find('td');
 					var mime = this.fileActions.getCurrentMimeType();
 					var type = this.fileActions.getCurrentType();
 					var permissions = this.fileActions.getCurrentPermissions();
 					var action = this.fileActions.get(mime, type, permissions)['Details'];
 					if (action) {
+						// also set on global object for legacy apps
+						window.FileActions.currentFile = this.fileActions.currentFile;
 						action(filename, {
 							$file: $tr,
 							fileList: this,
