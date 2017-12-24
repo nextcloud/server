@@ -1,6 +1,7 @@
 <?php
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright Copyright (c) 2017, CVO-Technologies
  *
  * @author Andreas Fischer <bantu@owncloud.com>
  * @author Joas Schilling <coding@schilljs.com>
@@ -8,6 +9,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Marlin Cremers <m.cremers@cvo-technologies.com>
  *
  * @license AGPL-3.0
  *
@@ -193,7 +195,7 @@ class ConnectionFactory {
 			$connectionParams['path'] = $dataDir . '/' . $name . '.db';
 		} else {
 			$host = $this->config->getValue('dbhost', '');
-			if (strpos($host, ':')) {
+			if (strpos($host, ':') && !strstr($host, '[')) {
 				// Host variable may carry a port or socket.
 				list($host, $portOrSocket) = explode(':', $host, 2);
 				if (ctype_digit($portOrSocket)) {
