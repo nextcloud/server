@@ -1751,7 +1751,6 @@
 				return true;
 			}
 
-			// TODO: parse remaining quota from PROPFIND response
 			this.updateStorageStatistics(true);
 
 			// first entry is the root
@@ -3054,7 +3053,6 @@
 
 				var uploadText = self.$fileList.find('tr .uploadtext');
 				self.showFileBusyState(uploadText.closest('tr'), false);
-				self.updateStorageStatistics(true);
 				uploadText.fadeOut();
 				uploadText.attr('currentUploads', 0);
 			});

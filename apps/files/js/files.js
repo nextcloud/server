@@ -79,7 +79,6 @@
 		},
 
 		updateQuota:function(response) {
-			console.log('updateQuota');
 			if (response === undefined) {
 				return;
 			}
