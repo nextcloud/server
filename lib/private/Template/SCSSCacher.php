@@ -2,6 +2,13 @@
 /**
  * @copyright Copyright (c) 2016, John Molakvoæ (skjnldsv@protonmail.com)
  *
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author Julius Haertl <jus@bitgrid.net>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -276,12 +283,7 @@ class SCSSCacher {
 	 */
 	private function rebaseUrls($css, $webDir) {
 		$re = '/url\([\'"]([\.\w?=\/-]*)[\'"]\)/x';
-		// OC\Route\Router:75
-		if(($this->config->getSystemValue('htaccess.IgnoreFrontController', false) === true || getenv('front_controller_active') === 'true')) {
-			$subst = 'url(\'../../'.$webDir.'/$1\')';	
-		} else {
-			$subst = 'url(\'../../../'.$webDir.'/$1\')';
-		}
+		$subst = 'url(\''.$webDir.'/$1\')';
 		return preg_replace($re, $subst, $css);
 	}
 
@@ -292,6 +294,7 @@ class SCSSCacher {
 	 * @return string
 	 */
 	public function getCachedSCSS($appName, $fileName) {
+		//var_dump([$appName, $fileName]);
 		$tmpfileLoc = explode('/', $fileName);
 		$fileName = array_pop($tmpfileLoc);
 		$fileName = $this->prependBaseurlPrefix(str_replace('.scss', '.css', $fileName));
