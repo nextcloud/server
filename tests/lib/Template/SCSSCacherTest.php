@@ -352,19 +352,10 @@ class SCSSCacherTest extends \Test\TestCase {
 	}
 
 	public function testRebaseUrls() {
-		$webDir = 'apps/files/css';
+		$webDir = '/apps/files/css';
 		$css = '#id { background-image: url(\'../img/image.jpg\'); }';
 		$actual = self::invokePrivate($this->scssCacher, 'rebaseUrls', [$css, $webDir]);
-		$expected = '#id { background-image: url(\'../../../apps/files/css/../img/image.jpg\'); }';
-		$this->assertEquals($expected, $actual);
-	}
-
-	public function testRebaseUrlsIgnoreFrontendController() {
-		$this->config->expects($this->once())->method('getSystemValue')->with('htaccess.IgnoreFrontController', false)->willReturn(true);
-		$webDir = 'apps/files/css';
-		$css = '#id { background-image: url(\'../img/image.jpg\'); }';
-		$actual = self::invokePrivate($this->scssCacher, 'rebaseUrls', [$css, $webDir]);
-		$expected = '#id { background-image: url(\'../../apps/files/css/../img/image.jpg\'); }';
+		$expected = '#id { background-image: url(\'/apps/files/css/../img/image.jpg\'); }';
 		$this->assertEquals($expected, $actual);
 	}
 
