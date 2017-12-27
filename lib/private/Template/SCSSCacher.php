@@ -102,16 +102,19 @@ class SCSSCacher {
 		$fileNameCSS = $this->prependBaseurlPrefix(str_replace('.scss', '.css', $fileNameSCSS));
 
 		$path = implode('/', $path);
+		$webDir = null;
 
 		// Detect if path is within an app path
 		$app_paths = $this->config->getSystemValue('apps_paths');
-		foreach ($app_paths as $app_path) {
-			if(strpos($path, $app_path["path"]) === 0) {
-				$webDir = $app_path["url"].str_replace($app_path["path"], '', $path);
-				break;
+		if (!empty($app_paths)) {
+			foreach ($app_paths as $app_path) {
+				if (strpos($path, $app_path["path"]) === 0) {
+					$webDir = $app_path["url"].str_replace($app_path["path"], '', $path);
+					break;
+				}
 			}
 		}
-		if(is_null($webDir)) {
+		if (is_null($webDir)) {
 			$webDir = substr($path, strlen($this->serverRoot));
 		}
 
@@ -165,7 +168,7 @@ class SCSSCacher {
 					}
 				}
 			}
-			return false;
+			return true;
 		} catch(NotFoundException $e) {
 			return false;
 		}
@@ -304,7 +307,6 @@ class SCSSCacher {
 	 * @return string
 	 */
 	public function getCachedSCSS($appName, $fileName) {
-		//var_dump([$appName, $fileName]);
 		$tmpfileLoc = explode('/', $fileName);
 		$fileName = array_pop($tmpfileLoc);
 		$fileName = $this->prependBaseurlPrefix(str_replace('.scss', '.css', $fileName));
