@@ -102,21 +102,7 @@ class SCSSCacher {
 		$fileNameCSS = $this->prependBaseurlPrefix(str_replace('.scss', '.css', $fileNameSCSS));
 
 		$path = implode('/', $path);
-		$webDir = null;
-
-		// Detect if path is within an app path
-		$app_paths = $this->config->getSystemValue('apps_paths');
-		if (!empty($app_paths)) {
-			foreach ($app_paths as $app_path) {
-				if (strpos($path, $app_path["path"]) === 0) {
-					$webDir = $app_path["url"].str_replace($app_path["path"], '', $path);
-					break;
-				}
-			}
-		}
-		if (is_null($webDir)) {
-			$webDir = substr($path, strlen($this->serverRoot));
-		}
+		$webDir = $this->getWebDir($path);
 
 		try {
 			$folder = $this->appData->getFolder($app);
@@ -322,5 +308,23 @@ class SCSSCacher {
 	private function prependBaseurlPrefix($cssFile) {
 		$frontendController = ($this->config->getSystemValue('htaccess.IgnoreFrontController', false) === true || getenv('front_controller_active') === 'true');
 		return substr(md5($this->urlGenerator->getBaseUrl() . $frontendController), 0, 8) . '-' . $cssFile;
+	}
+
+	/**
+	 * Prepend hashed base url to the css file
+	 * @param string $path the css file path
+	 * @return string the webDir
+	 */
+	private function getWebDir($path) {
+		// Detect if path is within an app path
+		$app_paths = $this->config->getSystemValue('apps_paths');
+		if (!empty($app_paths)) {
+			foreach ($app_paths as $app_path) {
+				if (strpos($path, $app_path["path"]) === 0) {
+					return $app_path["url"].str_replace($app_path["path"], '', $path);
+				}
+			}
+		}
+		return substr($path, strlen($this->serverRoot));
 	}
 }
