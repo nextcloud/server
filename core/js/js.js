@@ -1675,13 +1675,16 @@ function initCore() {
 
 OC.PasswordConfirmation = {
 	callback: null,
-
+	pageLoadTime: null,
 	init: function() {
 		$('.password-confirm-required').on('click', _.bind(this.requirePasswordConfirmation, this));
+		this.pageLoadTime = moment.now();
 	},
 
 	requiresPasswordConfirmation: function() {
-		var timeSinceLogin = moment.now() - (nc_lastLogin * 1000);
+		var serverTimeDiff = this.pageLoadTime - (nc_pageLoad * 1000);
+		var timeSinceLogin = moment.now() - (serverTimeDiff + (nc_lastLogin * 1000));
+		
 		// if timeSinceLogin > 30 minutes and user backend allows password confirmation
 		return (backendAllowsPasswordConfirmation && timeSinceLogin > 30 * 60 * 1000);
 	},
