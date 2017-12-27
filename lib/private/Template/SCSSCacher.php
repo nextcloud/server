@@ -103,7 +103,17 @@ class SCSSCacher {
 
 		$path = implode('/', $path);
 
-		$webDir = substr($path, strlen($this->serverRoot)+1);
+		// Detect if path is within an app path
+		$app_paths = $this->config->getSystemValue('apps_paths');
+		foreach ($app_paths as $app_path) {
+			if(strpos($path, $app_path["path"]) === 0) {
+				$webDir = $app_path["url"].str_replace($app_path["path"], '', $path);
+				break;
+			}
+		}
+		if(is_null($webDir)) {
+			$webDir = substr($path, strlen($this->serverRoot));
+		}
 
 		try {
 			$folder = $this->appData->getFolder($app);
@@ -155,7 +165,7 @@ class SCSSCacher {
 					}
 				}
 			}
-			return true;
+			return false;
 		} catch(NotFoundException $e) {
 			return false;
 		}
@@ -283,12 +293,7 @@ class SCSSCacher {
 	 */
 	private function rebaseUrls($css, $webDir) {
 		$re = '/url\([\'"]([\.\w?=\/-]*)[\'"]\)/x';
-		// OC\Route\Router:75
-		if(($this->config->getSystemValue('htaccess.IgnoreFrontController', false) === true || getenv('front_controller_active') === 'true')) {
-			$subst = 'url(\'../../'.$webDir.'/$1\')';
-		} else {
-			$subst = 'url(\'../../../'.$webDir.'/$1\')';
-		}
+		$subst = 'url(\''.$webDir.'/$1\')';
 		return preg_replace($re, $subst, $css);
 	}
 
@@ -299,6 +304,7 @@ class SCSSCacher {
 	 * @return string
 	 */
 	public function getCachedSCSS($appName, $fileName) {
+		//var_dump([$appName, $fileName]);
 		$tmpfileLoc = explode('/', $fileName);
 		$fileName = array_pop($tmpfileLoc);
 		$fileName = $this->prependBaseurlPrefix(str_replace('.scss', '.css', $fileName));
