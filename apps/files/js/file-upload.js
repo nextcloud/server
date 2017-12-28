@@ -130,7 +130,7 @@ OC.FileUpload.prototype = {
 	},
 
 	/**
-	 * Get full path for the target file, 
+	 * Get full path for the target file,
 	 * including relative path and file name.
 	 *
 	 * @return {String} full path

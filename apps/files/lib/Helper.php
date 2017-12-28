@@ -56,6 +56,8 @@ class Helper {
 			'uploadMaxFilesize' => $maxUploadFileSize,
 			'maxHumanFilesize'  => $maxHumanFileSize,
 			'freeSpace' => $storageInfo['free'],
+			'quota' => $storageInfo['quota'],
+			'used' => $storageInfo['used'],
 			'usedSpacePercent'  => (int)$storageInfo['relative'],
 			'owner' => $storageInfo['owner'],
 			'ownerDisplayName' => $storageInfo['ownerDisplayName'],

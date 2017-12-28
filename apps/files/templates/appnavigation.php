@@ -11,7 +11,7 @@
 			</a>
 		</li>
 		<?php } ?>
-		<li id="quota" class="pinned <?php
+		<li id="quota" class="pinned <?php p($pinned===0?'first-pinned ':'') ?><?php
 		if ($_['quota'] !== \OCP\Files\FileInfo::SPACE_UNLIMITED) {
 			?>has-tooltip" title="<?php p($_['usage_relative'] . '%');
 		} ?>">
