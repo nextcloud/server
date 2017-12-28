@@ -399,6 +399,18 @@ class SCSSCacherTest extends \Test\TestCase {
 		return sha1(uniqid(mt_rand(), true));
 	}
 
+	private function rrmdir($directory) {
+		$files = array_diff(scandir($directory), array('.','..'));
+		foreach ($files as $file) {
+			if (is_dir($directory . '/' . $file)) {
+				$this->rrmdir($directory . '/' . $file);
+			} else {
+				unlink($directory . '/' . $file);
+			}
+		}
+		return rmdir($directory);
+	}
+
 	/**
 	 * @param $path
 	 * @param $appName
@@ -418,7 +430,7 @@ class SCSSCacherTest extends \Test\TestCase {
 		$actual = self::invokePrivate($this->scssCacher, 'getWebDir', [$tmpDir.$path, $appName, $tmpDir.$serverRoot, $webRoot]);
 		$this->assertEquals($correctWebDir, $actual);
 		array_pop(\OC::$APPSROOTS);
-		rmdir($tmpDir.$path);
+		$this->rrmdir($tmpDir.$path);
 	}
 
 }
