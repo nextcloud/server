@@ -102,7 +102,7 @@ class SCSSCacher {
 		$fileNameCSS = $this->prependBaseurlPrefix(str_replace('.scss', '.css', $fileNameSCSS));
 
 		$path = implode('/', $path);
-		$webDir = $this->getWebDir($path);
+		$webDir = $this->getWebDir($path, $app);
 
 		try {
 			$folder = $this->appData->getFolder($app);
@@ -311,20 +311,23 @@ class SCSSCacher {
 	}
 
 	/**
-	 * Prepend hashed base url to the css file
+	 * Get WebDir root
 	 * @param string $path the css file path
+	 * @param string $app the app name
 	 * @return string the webDir
 	 */
-	private function getWebDir($path) {
-		// Detect if path is within an app path
-		$app_paths = $this->config->getSystemValue('apps_paths');
-		if (!empty($app_paths)) {
-			foreach ($app_paths as $app_path) {
-				if (strpos($path, $app_path["path"]) === 0) {
-					return $app_path["url"].str_replace($app_path["path"], '', $path);
-				}
-			}
+	private function getWebDir($path, $app) {
+		// Detect if path is within server root
+		if(strpos($path, $this->serverRoot) > -1) {
+			return \OC::$WEBROOT.substr($path, strlen($this->serverRoot));
 		}
-		return substr($path, strlen($this->serverRoot));
+		// Detect if path is within an app path
+		if($appWebPath = \OC_App::getAppWebPath($app)) {
+			// Get the file path within the app directory
+			$appDirectoryPath = explode($app, $path)[1];
+			// Remove the webroot
+			return str_replace(\OC::$WEBROOT, '', $appWebPath.$appDirectoryPath);
+		}
+		return \OC::$WEBROOT.substr($path, strlen($this->serverRoot));
 	}
 }
