@@ -384,17 +384,6 @@ class SCSSCacherTest extends \Test\TestCase {
 		$this->assertEquals(substr($result, 1), $actual);
 	}
 
-	public function dataGetWebDir() {
-		return [
-			['/http/core/css', 'core', '', '/http', '/core/css'],
-			['/http/apps/test/css', 'test', '', '/http', '/apps/test/css'],
-			['/http/nextcloud/core/css', 'core', '/nextcloud', '/http/nextcloud', '/nextcloud/core/css'],
-			['/http/nextcloud/apps/test/css', 'test', '/nextcloud', '/http/nextcloud', '/nextcloud/apps/test/css'],
-			['/srv/apps2/test/css', 'test', '', '/http', '/apps2/test/css'],
-			['/srv/apps2/test/css', 'test', '/nextcloud', '/http/nextcloud', '/apps2/test/css']
-		];
-	}
-
 	private function randomString() {
 		return sha1(uniqid(mt_rand(), true));
 	}
@@ -409,6 +398,19 @@ class SCSSCacherTest extends \Test\TestCase {
 			}
 		}
 		return rmdir($directory);
+	}
+
+	public function dataGetWebDir() {
+		return [
+			// Root installation
+			['/http/core/css', 		'core', '', '/http', '/core/css'],
+			['/http/apps/scss/css', 'scss', '', '/http', '/apps/scss/css'],
+			['/srv/apps2/scss/css', 'scss', '', '/http', '/apps2/scss/css'],
+			// Sub directory install
+			['/http/nextcloud/core/css', 	  'core', 	'/nextcloud', '/http/nextcloud', '/nextcloud/core/css'],
+			['/http/nextcloud/apps/scss/css', 'scss', 	'/nextcloud', '/http/nextcloud', '/nextcloud/apps/scss/css'],
+			['/srv/apps2/scss/css', 		  'scss', 	'/nextcloud', '/http/nextcloud', '/apps2/scss/css']
+		];
 	}
 
 	/**

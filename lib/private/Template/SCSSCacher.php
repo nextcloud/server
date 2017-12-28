@@ -320,7 +320,7 @@ class SCSSCacher {
 	 */
 	private function getWebDir($path, $appName, $serverRoot, $webRoot) {
 		// Detect if path is within server root AND if path is within an app path
-		if ( !strpos($path, $serverRoot) && $appWebPath = \OC_App::getAppWebPath($appName) ) {
+		if ( strpos($path, $serverRoot) === false && $appWebPath = \OC_App::getAppWebPath($appName)) {
 			// Get the file path within the app directory
 			$appDirectoryPath = explode($appName, $path)[1];
 			// Remove the webroot
