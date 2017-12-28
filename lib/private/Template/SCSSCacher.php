@@ -102,7 +102,7 @@ class SCSSCacher {
 		$fileNameCSS = $this->prependBaseurlPrefix(str_replace('.scss', '.css', $fileNameSCSS));
 
 		$path = implode('/', $path);
-		$webDir = $this->getWebDir($path, $app);
+		$webDir = $this->getWebDir($path, $app, $this->serverRoot, \OC::$WEBROOT);
 
 		try {
 			$folder = $this->appData->getFolder($app);
@@ -187,7 +187,7 @@ class SCSSCacher {
 		$scss = new Compiler();
 		$scss->setImportPaths([
 			$path,
-			\OC::$SERVERROOT . '/core/css/',
+			$this->serverRoot . '/core/css/',
 		]);
 		// Continue after throw
 		$scss->setIgnoreErrors(true);
@@ -313,17 +313,19 @@ class SCSSCacher {
 	/**
 	 * Get WebDir root
 	 * @param string $path the css file path
-	 * @param string $app the app name
+	 * @param string $appName the app name
+	 * @param string $serverRoot the server root path
+	 * @param string $webRoot the nextcloud installation root path
 	 * @return string the webDir
 	 */
-	private function getWebDir($path, $app) {
+	private function getWebDir($path, $appName, $serverRoot, $webRoot) {
 		// Detect if path is within server root AND if path is within an app path
-		if ( strpos($path, $this->serverRoot) === -1 && $appWebPath = \OC_App::getAppWebPath($app) ) {
+		if ( !strpos($path, $serverRoot) && $appWebPath = \OC_App::getAppWebPath($appName) ) {
 			// Get the file path within the app directory
-			$appDirectoryPath = explode($app, $path)[1];
+			$appDirectoryPath = explode($appName, $path)[1];
 			// Remove the webroot
-			return str_replace(\OC::$WEBROOT, '', $appWebPath.$appDirectoryPath);
+			return str_replace($webRoot, '', $appWebPath.$appDirectoryPath);
 		}
-		return \OC::$WEBROOT.substr($path, strlen($this->serverRoot));
+		return $webRoot.substr($path, strlen($serverRoot));
 	}
 }
