@@ -573,7 +573,7 @@ OCA.External.StatusManager.Utils = {
 		if (filename instanceof $) {
 			link = filename;
 		} else {
-			link = $("#fileList tr[data-file=\"" + this.jqSelEscape(filename) + "\"] > td:first-child a.name");
+			link = $("#fileList tr[data-file=\"" + this.jqSelEscape(filename) + "\"] > td.filename a.name");
 		}
 		if (active) {
 			link.off('click.connectivity');
