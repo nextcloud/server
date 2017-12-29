@@ -59,7 +59,6 @@ return array(
     'OCA\\DAV\\CardDAV\\ImageExportPlugin' => $baseDir . '/../lib/CardDAV/ImageExportPlugin.php',
     'OCA\\DAV\\CardDAV\\PhotoCache' => $baseDir . '/../lib/CardDAV/PhotoCache.php',
     'OCA\\DAV\\CardDAV\\Plugin' => $baseDir . '/../lib/CardDAV/Plugin.php',
-    'OCA\\DAV\\CardDAV\\SyncJob' => $baseDir . '/../lib/CardDAV/SyncJob.php',
     'OCA\\DAV\\CardDAV\\SyncService' => $baseDir . '/../lib/CardDAV/SyncService.php',
     'OCA\\DAV\\CardDAV\\UserAddressBooks' => $baseDir . '/../lib/CardDAV/UserAddressBooks.php',
     'OCA\\DAV\\CardDAV\\Xml\\Groups' => $baseDir . '/../lib/CardDAV/Xml/Groups.php',
