@@ -803,8 +803,8 @@ OC.Settings.Apps = OC.Settings.Apps || {
 				if (!_.isUndefined(app.author['@attributes']['homepage'])) {
 					authors.push(app.author['@attributes']['homepage']);
 				}
-				if (!_.isUndefined(app.author['@attributes']['email'])) {
-					authors.push(app.author['@attributes']['email']);
+				if (!_.isUndefined(app.author['@attributes']['mail'])) {
+					authors.push(app.author['@attributes']['mail']);
 				}
 				return OC.Settings.Apps._search(authors.join(' '), query);
 			}
