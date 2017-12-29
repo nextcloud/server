@@ -50,6 +50,7 @@ OC.Lostpassword = {
 		event.preventDefault();
 
 		$('#lost-password').hide();
+		$('.wrongPasswordMsg').hide();
 		$('#lost-password-back').slideDown().fadeIn();
 		$('.remember-login-container').slideUp().fadeOut();
 		$('#submit-wrapper').slideUp().fadeOut();

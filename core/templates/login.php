@@ -51,16 +51,16 @@ script('core', 'merged-login');
 			<label for="password" class="infield"><?php p($l->t('Password')); ?></label>
 		</p>
 
-		<?php if (!empty($_['invalidpassword'])) { ?>
-			<p class="warning">
-				<?php p($l->t('Wrong password.')); ?>
-			</p>
-		<?php } ?>
-
 		<div id="submit-wrapper">
 			<input type="submit" id="submit" class="login primary" title="" value="<?php p($l->t('Log in')); ?>" disabled="disabled" />
 			<div class="submit-icon icon-confirm-white"></div>
 		</div>
+
+		<?php if (!empty($_['invalidpassword'])) { ?>
+			<p class="warning wrongPasswordMsg">
+				<?php p($l->t('Wrong password.')); ?>
+			</p>
+		<?php } ?>
 
 		<?php if (!empty($_['canResetPassword'])) { ?>
 		<div id="reset-password-wrapper" style="display: none;">
