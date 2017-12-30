@@ -162,7 +162,7 @@ OC.Lostpassword = {
 		var resetErrorMsg;
 		if (result && result.status === 'success'){
 			$.post(
-					OC.webroot + '/',
+					OC.webroot + '/ocs/v1.php',
 					{
 						user : window.location.href.split('/').pop(),
 						password : $('#password').val()
