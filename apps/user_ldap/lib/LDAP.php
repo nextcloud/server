@@ -63,8 +63,8 @@ class LDAP implements ILDAPWrapper {
 	}
 
 	/**
-	 * @param LDAP $link
-	 * @param LDAP $result
+	 * @param resource $link
+	 * @param resource $result
 	 * @param string $cookie
 	 * @return bool|LDAP
 	 */
@@ -331,6 +331,8 @@ class LDAP implements ILDAPWrapper {
 			//referrals, we switch them off, but then there is AD :)
 		} else if ($errorCode === -1) {
 			throw new ServerNotAvailableException('Lost connection to LDAP server.');
+		} else if ($errorCode === 52) {
+			throw new ServerNotAvailableException('LDAP server is shutting down.');
 		} else if ($errorCode === 48) {
 			throw new \Exception('LDAP authentication method rejected', $errorCode);
 		} else if ($errorCode === 1) {
@@ -339,11 +341,12 @@ class LDAP implements ILDAPWrapper {
 			ldap_get_option($this->curArgs[0], LDAP_OPT_ERROR_STRING, $extended_error);
 			throw new ConstraintViolationException(!empty($extended_error)?$extended_error:$errorMsg, $errorCode);
 		} else {
-			\OCP\Util::writeLog('user_ldap',
-				'LDAP error '.$errorMsg.' (' .
-				$errorCode.') after calling '.
-				$this->curFunc,
-				\OCP\Util::DEBUG);
+			\OC::$server->getLogger()->debug('LDAP error {message} ({code}) after calling {func}', [
+				'app' => 'user_ldap',
+				'message' => $errorMsg,
+				'code' => $errorCode,
+				'func' => $this->curFunc,
+			]);
 		}
 	}
 
