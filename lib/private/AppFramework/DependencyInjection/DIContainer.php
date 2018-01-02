@@ -54,6 +54,7 @@ use OCP\AppFramework\Http\IOutput;
 use OCP\AppFramework\IApi;
 use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\QueryException;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\Folder;
 use OCP\Files\IAppData;
 use OCP\GlobalScale\IConfig;
@@ -227,17 +228,26 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 				$server->getNavigationManager(),
 				$server->getURLGenerator(),
 				$server->getLogger(),
-				$server->getSession(),
 				$c['AppName'],
 				$app->isLoggedIn(),
 				$app->isAdminUser(),
 				$server->getContentSecurityPolicyManager(),
 				$server->getCsrfTokenManager(),
 				$server->getContentSecurityPolicyNonceManager(),
-				$server->getAppManager(),
-				$server->getUserSession()
+				$server->getAppManager()
 			);
+		});
 
+		$this->registerService(OC\AppFramework\Middleware\Security\PasswordConfirmationMiddleware::class, function ($c) use ($app) {
+			/** @var \OC\Server $server */
+			$server = $app->getServer();
+
+			return new OC\AppFramework\Middleware\Security\PasswordConfirmationMiddleware(
+				$c['ControllerMethodReflector'],
+				$server->getSession(),
+				$server->getUserSession(),
+				$server->query(ITimeFactory::class)
+			);
 		});
 
 		$this->registerService('BruteForceMiddleware', function($c) use ($app) {
@@ -310,6 +320,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			$dispatcher->registerMiddleware($c['CORSMiddleware']);
 			$dispatcher->registerMiddleware($c['OCSMiddleware']);
 			$dispatcher->registerMiddleware($c['SecurityMiddleware']);
+			$dispatcher->registerMiddleware($c[OC\AppFramework\Middleware\Security\PasswordConfirmationMiddleware::class]);
 			$dispatcher->registerMiddleware($c['TwoFactorMiddleware']);
 			$dispatcher->registerMiddleware($c['BruteForceMiddleware']);
 			$dispatcher->registerMiddleware($c['RateLimitingMiddleware']);

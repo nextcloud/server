@@ -365,6 +365,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\AppFramework\\Middleware\\Security\\Exceptions\\NotLoggedInException' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Middleware/Security/Exceptions/NotLoggedInException.php',
         'OC\\AppFramework\\Middleware\\Security\\Exceptions\\SecurityException' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Middleware/Security/Exceptions/SecurityException.php',
         'OC\\AppFramework\\Middleware\\Security\\Exceptions\\StrictCookieMissingException' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Middleware/Security/Exceptions/StrictCookieMissingException.php',
+        'OC\\AppFramework\\Middleware\\Security\\PasswordConfirmationMiddleware' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Middleware/Security/PasswordConfirmationMiddleware.php',
         'OC\\AppFramework\\Middleware\\Security\\RateLimitingMiddleware' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Middleware/Security/RateLimitingMiddleware.php',
         'OC\\AppFramework\\Middleware\\Security\\SameSiteCookieMiddleware' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Middleware/Security/SameSiteCookieMiddleware.php',
         'OC\\AppFramework\\Middleware\\Security\\SecurityMiddleware' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Middleware/Security/SecurityMiddleware.php',

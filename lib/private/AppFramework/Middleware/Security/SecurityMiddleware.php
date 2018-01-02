@@ -33,7 +33,6 @@ namespace OC\AppFramework\Middleware\Security;
 use OC\AppFramework\Middleware\Security\Exceptions\AppNotEnabledException;
 use OC\AppFramework\Middleware\Security\Exceptions\CrossSiteRequestForgeryException;
 use OC\AppFramework\Middleware\Security\Exceptions\NotAdminException;
-use OC\AppFramework\Middleware\Security\Exceptions\NotConfirmedException;
 use OC\AppFramework\Middleware\Security\Exceptions\NotLoggedInException;
 use OC\AppFramework\Middleware\Security\Exceptions\StrictCookieMissingException;
 use OC\AppFramework\Utility\ControllerMethodReflector;
@@ -50,12 +49,10 @@ use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\OCSController;
 use OCP\INavigationManager;
-use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IRequest;
 use OCP\ILogger;
 use OCP\AppFramework\Controller;
-use OCP\IUserSession;
 use OCP\Util;
 use OC\AppFramework\Middleware\Security\Exceptions\SecurityException;
 
@@ -78,8 +75,6 @@ class SecurityMiddleware extends Middleware {
 	private $urlGenerator;
 	/** @var ILogger */
 	private $logger;
-	/** @var ISession */
-	private $session;
 	/** @var bool */
 	private $isLoggedIn;
 	/** @var bool */
@@ -92,8 +87,6 @@ class SecurityMiddleware extends Middleware {
 	private $cspNonceManager;
 	/** @var IAppManager */
 	private $appManager;
-	/** @var IUserSession */
-	private $userSession;
 
 	/**
 	 * @param IRequest $request
@@ -101,7 +94,6 @@ class SecurityMiddleware extends Middleware {
 	 * @param INavigationManager $navigationManager
 	 * @param IURLGenerator $urlGenerator
 	 * @param ILogger $logger
-	 * @param ISession $session
 	 * @param string $appName
 	 * @param bool $isLoggedIn
 	 * @param bool $isAdminUser
@@ -109,22 +101,19 @@ class SecurityMiddleware extends Middleware {
 	 * @param CSRFTokenManager $csrfTokenManager
 	 * @param ContentSecurityPolicyNonceManager $cspNonceManager
 	 * @param IAppManager $appManager
-	 * @param IUserSession $userSession
 	 */
 	public function __construct(IRequest $request,
 								ControllerMethodReflector $reflector,
 								INavigationManager $navigationManager,
 								IURLGenerator $urlGenerator,
 								ILogger $logger,
-								ISession $session,
 								$appName,
 								$isLoggedIn,
 								$isAdminUser,
 								ContentSecurityPolicyManager $contentSecurityPolicyManager,
 								CsrfTokenManager $csrfTokenManager,
 								ContentSecurityPolicyNonceManager $cspNonceManager,
-								IAppManager $appManager,
-								IUserSession $userSession
+								IAppManager $appManager
 	) {
 		$this->navigationManager = $navigationManager;
 		$this->request = $request;
@@ -132,14 +121,12 @@ class SecurityMiddleware extends Middleware {
 		$this->appName = $appName;
 		$this->urlGenerator = $urlGenerator;
 		$this->logger = $logger;
-		$this->session = $session;
 		$this->isLoggedIn = $isLoggedIn;
 		$this->isAdminUser = $isAdminUser;
 		$this->contentSecurityPolicyManager = $contentSecurityPolicyManager;
 		$this->csrfTokenManager = $csrfTokenManager;
 		$this->cspNonceManager = $cspNonceManager;
 		$this->appManager = $appManager;
-		$this->userSession = $userSession;
 	}
 
 	/**
@@ -167,20 +154,6 @@ class SecurityMiddleware extends Middleware {
 				if(!$this->isAdminUser) {
 					throw new NotAdminException();
 				}
-			}
-		}
-
-		if ($this->reflector->hasAnnotation('PasswordConfirmationRequired')) {
-			$user = $this->userSession->getUser();
-			$backendClassName = '';
-			if ($user !== null) {
-				$backendClassName = $user->getBackendClassName();
-			}
-
-			$lastConfirm = (int) $this->session->get('last-password-confirm');
-			// we can't check the password against a SAML backend, so skip password confirmation in this case
-			if ($backendClassName !== 'user_saml' && $lastConfirm < (time() - (30 * 60 + 15))) { // allow 15 seconds delay
-				throw new NotConfirmedException();
 			}
 		}
 

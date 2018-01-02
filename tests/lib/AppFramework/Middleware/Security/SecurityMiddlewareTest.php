@@ -64,8 +64,6 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 	private $secException;
 	/** @var SecurityException */
 	private $secAjaxException;
-	/** @var ISession|\PHPUnit_Framework_MockObject_MockObject */
-	private $session;
 	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
 	private $request;
 	/** @var ControllerMethodReflector */
@@ -95,7 +93,6 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		$this->logger = $this->createMock(ILogger::class);
 		$this->navigationManager = $this->createMock(INavigationManager::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
-		$this->session = $this->createMock(ISession::class);
 		$this->request = $this->createMock(IRequest::class);
 		$this->contentSecurityPolicyManager = $this->createMock(ContentSecurityPolicyManager::class);
 		$this->csrfTokenManager = $this->createMock(CsrfTokenManager::class);
@@ -104,10 +101,6 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		$this->appManager->expects($this->any())
 			->method('isEnabledForUser')
 			->willReturn(true);
-		$this->userSession = $this->createMock(IUserSession::class);
-		$user = $this->createMock(IUser::class);
-		$user->expects($this->any())->method('getBackendClassName')->willReturn('user_ldap');
-		$this->userSession->expects($this->any())->method('getUser')->willReturn($user);
 		$this->middleware = $this->getMiddleware(true, true);
 		$this->secException = new SecurityException('hey', false);
 		$this->secAjaxException = new SecurityException('hey', true);
@@ -125,15 +118,13 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			$this->navigationManager,
 			$this->urlGenerator,
 			$this->logger,
-			$this->session,
 			'files',
 			$isLoggedIn,
 			$isAdminUser,
 			$this->contentSecurityPolicyManager,
 			$this->csrfTokenManager,
 			$this->cspNonceManager,
-			$this->appManager,
-			$this->userSession
+			$this->appManager
 		);
 	}
 
