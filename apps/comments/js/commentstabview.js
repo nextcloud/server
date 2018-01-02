@@ -512,7 +512,7 @@
 
 		_onTypeComment: function(ev) {
 			var $field = $(ev.target);
-			var len = $field.val().length;
+			var len = $field.text().length;
 			var $submitButton = $field.data('submitButtonEl');
 			if (!$submitButton) {
 				$submitButton = $field.closest('form').find('.submit');
