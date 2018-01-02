@@ -62,6 +62,10 @@ a {
 	}
 }
 
+a.external {
+	text-decoration: underline;
+}
+
 input {
 	cursor: pointer;
 	* {
