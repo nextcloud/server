@@ -125,6 +125,16 @@ class Message implements IMessage {
     public function setFrom(array $addresses, array $fingerprints = []) {
         $addresses = $this->convertAddresses($addresses);
         $this->fromFingerprints = $fingerprints;
+        if (count($fingerprints) === 1 && count($addresses) === 1 ){
+        	$from = key($addresses);
+        	if (is_numeric($from)){
+        		$from = $addresses[$from];
+			}
+			$gpg = \OC::$server->getGpg();
+        	$keydata = str_replace('-----END PGP PUBLIC KEY BLOCK-----','',str_replace('-----BEGIN PGP PUBLIC KEY BLOCK-----', '', $gpg->export($fingerprints[0])));
+        	$keydata = trim($keydata);
+			$this->swiftMessage->getHeaders()->addParameterizedHeader('Autocrypt', '' ,['addr' => $from, 'prefer-encrypt' => 'mutual', 'keydata' => $keydata] );
+		}
         $this->swiftMessage->setFrom($addresses);
         return $this;
     }
