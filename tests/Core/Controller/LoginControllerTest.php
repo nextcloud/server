@@ -182,10 +182,41 @@ class LoginControllerTest extends TestCase {
 				'alt_login' => [],
 				'rememberLoginState' => 0,
 				'resetPasswordLink' => null,
+				'hideRemeberLoginState' => false,
 			],
 			'guest'
 		);
 		$this->assertEquals($expectedResponse, $this->loginController->showLoginForm('', '', ''));
+	}
+
+	public function testShowLoginFormForFlowAuth() {
+		$this->userSession
+			->expects($this->once())
+			->method('isLoggedIn')
+			->willReturn(false);
+		$this->session
+			->expects($this->once())
+			->method('exists')
+			->with('client.flow.state.token')
+			->willReturn(true);
+
+		$expectedResponse = new TemplateResponse(
+			'core',
+			'login',
+			[
+				'messages' => [],
+				'redirect_url' => 'login/flow',
+				'loginName' => '',
+				'user_autofocus' => true,
+				'canResetPassword' => true,
+				'alt_login' => [],
+				'rememberLoginState' => 0,
+				'resetPasswordLink' => null,
+				'hideRemeberLoginState' => true,
+			],
+			'guest'
+		);
+		$this->assertEquals($expectedResponse, $this->loginController->showLoginForm('', 'login/flow', ''));
 	}
 
 	/**
@@ -240,6 +271,7 @@ class LoginControllerTest extends TestCase {
 				'alt_login' => [],
 				'rememberLoginState' => 0,
 				'resetPasswordLink' => false,
+				'hideRemeberLoginState' => false,
 			],
 			'guest'
 		);
@@ -278,6 +310,7 @@ class LoginControllerTest extends TestCase {
 				'alt_login' => [],
 				'rememberLoginState' => 0,
 				'resetPasswordLink' => false,
+				'hideRemeberLoginState' => false,
 			],
 			'guest'
 		);

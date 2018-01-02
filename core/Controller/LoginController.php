@@ -179,6 +179,7 @@ class LoginController extends Controller {
 
 		$parameters['alt_login'] = OC_App::getAlternativeLogIns();
 		$parameters['rememberLoginState'] = !empty($remember_login) ? $remember_login : 0;
+		$parameters['hideRemeberLoginState'] = !empty($redirect_url) && $this->session->exists('client.flow.state.token');
 
 		if (!is_null($user) && $user !== '') {
 			$parameters['loginName'] = $user;
