@@ -36,6 +36,7 @@ use OCP\Files\NotFoundException;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\ILogger;
+use OCP\Util;
 
 abstract class Fetcher {
 	const INVALIDATE_AFTER_SECONDS = 300;
@@ -170,7 +171,7 @@ abstract class Fetcher {
 			$file->putContent(json_encode($responseJson));
 			return json_decode($file->getContent(), true)['data'];
 		} catch (ConnectException $e) {
-			$this->logger->info('Could not connect to appstore', ['app' => 'appstoreFetcher']);
+			$this->logger->logException($e, ['app' => 'appstoreFetcher', 'level' => Util::INFO, 'message' => 'Could not connect to appstore']);
 			return [];
 		} catch (\Exception $e) {
 			return [];
