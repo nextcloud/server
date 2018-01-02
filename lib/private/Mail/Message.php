@@ -131,10 +131,15 @@ class Message implements IMessage {
         		$from = $addresses[$from];
 			}
 			$gpg = \OC::$server->getGpg();
-        	$keydata = str_replace('-----END PGP PUBLIC KEY BLOCK-----','',str_replace('-----BEGIN PGP PUBLIC KEY BLOCK-----', '', $gpg->export($fingerprints[0])));
+        	$keydataRaw = $gpg->export($fingerprints[0]);
+        	$keydata = str_replace('-----END PGP PUBLIC KEY BLOCK-----','',str_replace('-----BEGIN PGP PUBLIC KEY BLOCK-----', '', $keydataRaw));
         	$keydata = trim($keydata);
 			$this->swiftMessage->getHeaders()->addParameterizedHeader('Autocrypt', '' ,['addr' => $from, 'prefer-encrypt' => 'mutual', 'keydata' => $keydata] );
-		}
+
+
+			$keyattach = \OC::$server->getMailer()->createAttachment($keydataRaw,"public.asc");
+			$this->attach($keyattach);
+        }
         $this->swiftMessage->setFrom($addresses);
         return $this;
     }

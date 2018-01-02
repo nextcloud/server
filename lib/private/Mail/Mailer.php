@@ -318,7 +318,7 @@ class Mailer implements IMailer {
 					foreach ($encrypt_fingerprints as $encrypt_fingerprint) {
 						$encrypt_fingerprints_text = $encrypt_fingerprints_text . "," . $encrypt_fingerprint;
 					}
-					$this->logger->debug("GPG Mail encrypt and sign Message:\"".$message->getPlainBody()."\" with encrypt Keys:".$encrypt_fingerprints_text." and sign Keys:".$sign_fingerprints_text, ['app' => 'core']);
+					$this->logger->debug("GPG Mail encrypt and sign Message with encrypt Keys:".$encrypt_fingerprints_text." and sign Keys:".$sign_fingerprints_text, ['app' => 'core']);
 				}
                 $message->encryptsign();
 				/* FIXME add encryption of Attachments */
@@ -328,14 +328,20 @@ class Mailer implements IMailer {
 					foreach ($encrypt_fingerprints as $encrypt_fingerprint) {
 						$encrypt_fingerprints_text = $encrypt_fingerprints_text . "," . $encrypt_fingerprint;
 					}
-					$this->logger->debug("GPG Mail encrypt Message:\"".$message->getPlainBody()."\" with encrypt Keys:".$encrypt_fingerprints_text, ['app' => 'core']);
+					$this->logger->debug("GPG Mail encrypt Message with encrypt Keys:".$encrypt_fingerprints_text, ['app' => 'core']);
 				}
                 $message->encrypt();
 				/* FIXME add encryption of Attachments */
 			}
 		}  else {
 			if($this->countValidFingerprint($sign_fingerprints) > 0) {
+				$sign_fingerprints_text = '';
+				foreach ($sign_fingerprints as $sign_fingerprint) {
+					$sign_fingerprints_text = $sign_fingerprints_text.",".$sign_fingerprint;
+				}
 				$message->sign();
+				$this->logger->debug("GPG Mail sign Message with sign Keys:".$sign_fingerprints_text, ['app' => 'core']);
+
 			} else {
 				if($debugMode) {
 					$this->logger->debug("GPG Mail no encryption and sign keys avalible keeping plain message:\"".$message->getPlainBody()."\"", ['app' => 'core']);
