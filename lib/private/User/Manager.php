@@ -152,16 +152,6 @@ class Manager extends PublicEmitter implements IUserManager {
 			return $this->cachedUsers[$uid];
 		}
 
-		if (method_exists($backend, 'loginName2UserName')) {
-			$loginName = $backend->loginName2UserName($uid);
-			if ($loginName !== false) {
-				$uid = $loginName;
-			}
-			if (isset($this->cachedUsers[$uid])) {
-				return $this->cachedUsers[$uid];
-			}
-		}
-
 		$user = new User($uid, $backend, $this, $this->config);
 		if ($cacheUser) {
 			$this->cachedUsers[$uid] = $user;
