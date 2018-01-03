@@ -972,6 +972,7 @@ $(document).ready(function () {
 
 	$(document.body).click(function () {
 		$('#userlist tr.active').removeClass('active');
+		$('#userlist .popovermenu.open').removeClass('open');
 	});
 
 	$userListBody.on('click', '.action-togglestate', function (event) {
