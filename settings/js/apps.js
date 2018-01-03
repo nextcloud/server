@@ -247,8 +247,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 
 		var page = $('#app-' + app.id);
 
-		// image loading kung-fu (IE doesn't properly scale SVGs, so disable app icons)
-		if (app.preview && !OC.Util.isIE()) {
+		if (app.preview) {
 			var currentImage = new Image();
 			currentImage.src = app.preview;
 
@@ -300,8 +299,10 @@ OC.Settings.Apps = OC.Settings.Apps || {
 			img = '<svg viewBox="0 0 72 72">';
 			img += '<image x="0" y="0" width="72" height="72" preserveAspectRatio="xMinYMin meet" xlink:href="' + url  + '"  class="app-icon" /></svg>';
 		} else {
+			var rnd = Math.floor((Math.random() * 100 )) + new Date().getSeconds() + new Date().getMilliseconds();
 			img = '<svg width="32" height="32" viewBox="0 0 32 32">';
-			img += '<image x="0" y="0" width="32" height="32" preserveAspectRatio="xMinYMin meet" filter="url(#invertIcon)" xlink:href="' + url + '?v=' + oc_config.version + '" class="app-icon"></image></svg>';
+			img += '<defs><filter id="invertIconApps-' + rnd + '"><feColorMatrix in="SourceGraphic" type="matrix" values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0"></feColorMatrix></filter></defs>'
+			img += '<image x="0" y="0" width="32" height="32" preserveAspectRatio="xMinYMin meet" filter="url(#invertIconApps-' + rnd + ')" xlink:href="' + url + '?v=' + oc_config.version + '" class="app-icon"></image></svg>';
 		}
 		return img;
 	},
@@ -652,24 +653,29 @@ OC.Settings.Apps = OC.Settings.Apps || {
 					}
 
 					if ($('#appmenu').children('li[data-id="' + entry.id + '"]').length === 0) {
-							var li = $('<li></li>');
-							li.attr('data-id', entry.id);
-							var img = '<img src="' + entry.icon + '" class="app-icon">';
-							var a = $('<a></a>').attr('href', entry.href);
-							var filename = $('<span></span>');
-							var loading = $('<div class="icon-loading-dark"></div>').css('display', 'none');
-							filename.text(entry.name);
-							a.prepend(filename);
-							a.prepend(loading);
-							a.prepend(img);
-							li.append(a);
-							$('#appmenu li[data-id='+ previousEntry.id+']').after(li);
-							if(addedApps[entry.id]) {
-								li.animate({opacity: 0.5})
-									.animate({opacity: 1})
-									.animate({opacity: 0.5})
-									.animate({opacity: 1});
-							}
+						var li = $('<li></li>');
+						li.attr('data-id', entry.id);
+						var img = '<img src="' + entry.icon + '" class="app-icon">';
+						if (OCA.Theming && OCA.Theming.inverted) {
+							img = '<svg width="20" height="20" viewBox="0 0 20 20">';
+							img += '<defs><filter id="invert"><feColorMatrix in="SourceGraphic" type="matrix" values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0" /></filter></defs>';
+							img += '<image x="0" y="0" width="20" height="20" preserveAspectRatio="xMinYMin meet" filter="url(#invert)" xlink:href="' + entry.icon + '"  class="app-icon" /></svg>';
+						}
+						var a = $('<a></a>').attr('href', entry.href);
+						var filename = $('<span></span>');
+						var loading = $('<div class="icon-loading-dark"></div>').css('display', 'none');
+						filename.text(entry.name);
+						a.prepend(filename);
+						a.prepend(loading);
+						a.prepend(img);
+						li.append(a);
+						$('#appmenu li[data-id='+ previousEntry.id+']').after(li);
+						if(addedApps[entry.id]) {
+							li.animate({opacity: 0.5})
+								.animate({opacity: 1})
+								.animate({opacity: 0.5})
+								.animate({opacity: 1});
+						}
 					}
 					previousEntry = entry;
 				}
