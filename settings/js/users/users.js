@@ -970,7 +970,7 @@ $(document).ready(function () {
 		$tr.addClass('active');
 	});
 
-	$(document.body).click(function () {
+	$(document).on('mouseup', function () {
 		$('#userlist tr.active').removeClass('active');
 		$('#userlist .popovermenu.open').removeClass('open');
 	});
