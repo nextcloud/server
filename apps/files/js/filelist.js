@@ -1802,6 +1802,10 @@
 			OCA.Files.Files.updateStorageStatistics(this.getCurrentDirectory(), force);
 		},
 
+		updateStorageQuotas: function() {
+			OCA.Files.Files.updateStorageQuotas(this.getCurrentDirectory());
+		},
+
 		/**
 		 * @deprecated do not use nor override
 		 */
@@ -3075,6 +3079,8 @@
 				self.showFileBusyState(uploadText.closest('tr'), false);
 				uploadText.fadeOut();
 				uploadText.attr('currentUploads', 0);
+
+				self.updateStorageQuotas(true);
 			});
 			uploader.on('createdfolder', function(fullPath) {
 				self.addAndFetchFileInfo(OC.basename(fullPath), OC.dirname(fullPath));
