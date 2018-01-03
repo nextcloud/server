@@ -59,7 +59,6 @@
 			else {
 				Files._updateStorageStatisticsDebounced(dir);
 			}
-			//Files.updateStorageQuotas();
 		},
 
 		updateMaxUploadFilesize:function(response) {
