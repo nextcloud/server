@@ -1682,7 +1682,8 @@ OC.PasswordConfirmation = {
 
 	requiresPasswordConfirmation: function() {
 		var timeSinceLogin = moment.now() - (nc_lastLogin * 1000);
-		return timeSinceLogin > 30 * 60 * 1000; // 30 minutes
+		// if timeSinceLogin > 30 minutes and user backend allows password confirmation
+		return (backendAllowsPasswordConfirmation && timeSinceLogin > 30 * 60 * 1000);
 	},
 
 	/**
