@@ -11,11 +11,11 @@
 	</p>
 	<p style="text-align:center;">
 		<a href="<?php
-				if (\OC::$server->getConfig()->getSystemValue('overwrite.cli.url') == '') {
+				if (\OC::$server->getConfig()->getSystemValue('overwrite.cli.url') === '') {
 					print_unescaped(\OC::$server->getURLGenerator()->linkToRouteAbsolute('settings.AdminSettings.index', $arguments = [trustDomain => $_['domain'], ]));
 				} else {
 					$link = substr(\OC::$server->getURLGenerator()->linkToRoute('settings.AdminSettings.index',$arguments = [trustDomain => $_['domain']]),strlen(\OC::$WEBROOT));
-					$separator = $link[0] == '/' ? '' : '/';
+					$separator = $link[0] === '/' ? '' : '/';
 					print_unescaped(\OC::$server->getConfig()->getSystemValue('overwrite.cli.url').$separator.$link);
 				}?>" class="button">
 			<?php p($l->t('Add "%s" as trusted domain', array($_['domain']))); ?>
