@@ -542,6 +542,10 @@ a.action > img {
 	vertical-align: text-bottom;
 	margin-bottom: -1px;
 }
+/* hide the delete icon in name column normal resolutions */
+table th#headerName .selectedActions .delete-selected {
+	display: none;
+}
 
 #fileList td a {
 	a.action {
