@@ -29,6 +29,7 @@ namespace OCA\DAV\Connector\Sabre;
 use OCA\DAV\Connector\Sabre\Exception\PasswordLoginForbidden;
 use OCP\Files\StorageNotAvailableException;
 use OCP\ILogger;
+use Sabre\DAV\Exception\Conflict;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\InvalidSyncToken;
 use Sabre\DAV\Exception\NotAuthenticated;
@@ -61,6 +62,9 @@ class ExceptionLoggerPlugin extends \Sabre\DAV\ServerPlugin {
 		// happens if some a client uses the wrong method for a given URL
 		// the error message itself is visible on the client side anyways
 		NotImplemented::class => true,
+		// happens when the parent directory is not present (for example when a
+		// move is done to a non-existent directory)
+		Conflict::class => true,
 	];
 
 	/** @var string */
