@@ -3080,7 +3080,7 @@
 				uploadText.fadeOut();
 				uploadText.attr('currentUploads', 0);
 
-				self.updateStorageQuotas(true);
+				self.updateStorageQuotas();
 			});
 			uploader.on('createdfolder', function(fullPath) {
 				self.addAndFetchFileInfo(OC.basename(fullPath), OC.dirname(fullPath));
