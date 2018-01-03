@@ -78,6 +78,9 @@ class FileTest extends \Test\TestCase {
 		parent::tearDown();
 	}
 
+	/**
+	 * @return \PHPUnit_Framework_MockObject_MockObject | Storage
+	 */
 	private function getMockStorage() {
 		$storage = $this->getMockBuilder(Storage::class)
 			->disableOriginalConstructor()
@@ -165,6 +168,7 @@ class FileTest extends \Test\TestCase {
 			->setConstructorArgs([['datadir' => \OC::$server->getTempManager()->getTemporaryFolder()]])
 			->getMock();
 		\OC\Files\Filesystem::mount($storage, [], $this->user . '/');
+		/** @var View | \PHPUnit_Framework_MockObject_MockObject $view */
 		$view = $this->getMockBuilder(View::class)
 			->setMethods(['getRelativePath', 'resolvePath'])
 			->getMock();
