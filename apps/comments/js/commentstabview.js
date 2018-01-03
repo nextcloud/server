@@ -422,7 +422,7 @@
 		 * Convert a message to be displayed in HTML,
 		 * converts newlines to <br> tags.
 		 */
-		_formatMessage: function(message, mentions) {
+		_formatMessage: function(message, mentions, editMode) {
 			message = escapeHTML(message).replace(/\n/g, '<br/>');
 
 			for(var i in mentions) {
@@ -444,6 +444,9 @@
 						return p1+displayName;
 					}
 				);
+			}
+			if(editMode !== true) {
+				message = OCP.Comments.plainToRich(message);
 			}
 			return message;
 		},
@@ -495,7 +498,7 @@
 
 			var $message = $formRow.find('.message');
 			$message
-				.html(this._formatMessage(commentToEdit.get('message'), commentToEdit.get('mentions')))
+				.html(this._formatMessage(commentToEdit.get('message'), commentToEdit.get('mentions'), true))
 				.find('.avatar')
 				.each(function () { $(this).avatar(); });
 			var editionMode = true;
@@ -620,13 +623,14 @@
 				$inserted.html('@' + $this.find('.avatar').data('username'));
 			});
 
+			$comment.html(OCP.Comments.richToPlain($comment.html()));
+
 			var oldHtml;
 			var html = $comment.html();
 			do {
 				// replace works one by one
 				oldHtml = html;
 				html = oldHtml.replace("<br>", "\n");	// preserve line breaks
-				console.warn(html)
 			} while(oldHtml !== html);
 			$comment.html(html);
 
