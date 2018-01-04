@@ -1803,7 +1803,7 @@
 		},
 
 		updateStorageQuotas: function() {
-			OCA.Files.Files.updateStorageQuotas(this.getCurrentDirectory());
+			OCA.Files.Files.updateStorageQuotas();
 		},
 
 		/**
@@ -2636,6 +2636,7 @@
 				self.updateSelectionSummary();
 				// FIXME: don't repeat this, do it once all files are done
 				self.updateStorageStatistics();
+				self.updateStorageQuotas();
 			}
 
 			_.each(files, function(file) {

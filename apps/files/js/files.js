@@ -29,23 +29,12 @@
 				state.dir = null;
 				state.call = null;
 				Files.updateMaxUploadFilesize(response);
-				Files.updateQuota(response);
 			});
 		},
 		// update quota
-		updateStorageQuotas: function(currentDir) {
-			var state = Files.updateStorageStatistics;
-			if (state.dir){
-				if (state.dir === currentDir) {
-					return;
-				}
-				// cancel previous call, as it was for another dir
-				state.call.abort();
-			}
-			state.dir = currentDir;
-			state.call = $.getJSON(OC.filePath('files','ajax','getstoragestats.php') + '?dir=' + encodeURIComponent(currentDir),function(response) {
-				state.dir = null;
-				state.call = null;
+		updateStorageQuotas: function() {
+			var state = Files.updateStorageQuotas;
+			state.call = $.getJSON(OC.filePath('files','ajax','getstoragestats.php'),function(response) {
 				Files.updateQuota(response);
 			});
 		},
