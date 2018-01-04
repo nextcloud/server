@@ -20,6 +20,10 @@
 }
 
 @if (luma($color-primary) > 0.6) {
+	#appmenu img,
+	#appmenu image {
+		filter: invert(1);
+	}
 	.searchbox input[type="search"] {
 		background: transparent url('../../../core/img/actions/search.svg') no-repeat 6px center;
 	}
@@ -62,6 +66,11 @@
 			background-color: nc-darken($color-primary-element, 30%) !important;
 		}
 	}
+} @else {
+	  #appmenu img,
+	  #appmenu image {
+		  filter: none;
+	  }
 }
 
 /* Colorized svg images */
