@@ -6,11 +6,8 @@ namespace Composer\Autoload;
 
 class ComposerStaticInitFiles_Versions
 {
-    public static $prefixLengthsPsr4 = array (
-        'O' => 
-        array (
-            'OCA\\Files_Versions\\' => 19,
-        ),
+    public static $firstCharsPsr4 = array (
+        'O' => true,
     );
 
     public static $prefixDirsPsr4 = array (
@@ -37,7 +34,7 @@ class ComposerStaticInitFiles_Versions
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitFiles_Versions::$prefixLengthsPsr4;
+            $loader->firstCharsPsr4 = ComposerStaticInitFiles_Versions::$firstCharsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitFiles_Versions::$prefixDirsPsr4;
             $loader->classMap = ComposerStaticInitFiles_Versions::$classMap;
 

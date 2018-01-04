@@ -6,11 +6,8 @@ namespace Composer\Autoload;
 
 class ComposerStaticInitFederation
 {
-    public static $prefixLengthsPsr4 = array (
-        'O' => 
-        array (
-            'OCA\\Federation\\' => 15,
-        ),
+    public static $firstCharsPsr4 = array (
+        'O' => true,
     );
 
     public static $prefixDirsPsr4 = array (
@@ -40,7 +37,7 @@ class ComposerStaticInitFederation
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitFederation::$prefixLengthsPsr4;
+            $loader->firstCharsPsr4 = ComposerStaticInitFederation::$firstCharsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitFederation::$prefixDirsPsr4;
             $loader->classMap = ComposerStaticInitFederation::$classMap;
 

@@ -6,11 +6,8 @@ namespace Composer\Autoload;
 
 class ComposerStaticInitProvisioning_API
 {
-    public static $prefixLengthsPsr4 = array (
-        'O' => 
-        array (
-            'OCA\\Provisioning_API\\' => 21,
-        ),
+    public static $firstCharsPsr4 = array (
+        'O' => true,
     );
 
     public static $prefixDirsPsr4 = array (
@@ -33,7 +30,7 @@ class ComposerStaticInitProvisioning_API
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitProvisioning_API::$prefixLengthsPsr4;
+            $loader->firstCharsPsr4 = ComposerStaticInitProvisioning_API::$firstCharsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitProvisioning_API::$prefixDirsPsr4;
             $loader->classMap = ComposerStaticInitProvisioning_API::$classMap;
 

@@ -6,11 +6,8 @@ namespace Composer\Autoload;
 
 class ComposerStaticInitLookupServerConnector
 {
-    public static $prefixLengthsPsr4 = array (
-        'O' => 
-        array (
-            'OCA\\LookupServerConnector\\' => 26,
-        ),
+    public static $firstCharsPsr4 = array (
+        'O' => true,
     );
 
     public static $prefixDirsPsr4 = array (
@@ -28,7 +25,7 @@ class ComposerStaticInitLookupServerConnector
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitLookupServerConnector::$prefixLengthsPsr4;
+            $loader->firstCharsPsr4 = ComposerStaticInitLookupServerConnector::$firstCharsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitLookupServerConnector::$prefixDirsPsr4;
             $loader->classMap = ComposerStaticInitLookupServerConnector::$classMap;
 

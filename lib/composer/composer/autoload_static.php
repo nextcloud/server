@@ -6,14 +6,8 @@ namespace Composer\Autoload;
 
 class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
 {
-    public static $prefixLengthsPsr4 = array (
-        'O' => 
-        array (
-            'OC\\Settings\\' => 12,
-            'OC\\Core\\' => 8,
-            'OC\\' => 3,
-            'OCP\\' => 4,
-        ),
+    public static $firstCharsPsr4 = array (
+        'O' => true,
     );
 
     public static $prefixDirsPsr4 = array (
@@ -680,6 +674,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Files\\ObjectStore\\S3' => __DIR__ . '/../../..' . '/lib/private/Files/ObjectStore/S3.php',
         'OC\\Files\\ObjectStore\\S3ConnectionTrait' => __DIR__ . '/../../..' . '/lib/private/Files/ObjectStore/S3ConnectionTrait.php',
         'OC\\Files\\ObjectStore\\S3ObjectTrait' => __DIR__ . '/../../..' . '/lib/private/Files/ObjectStore/S3ObjectTrait.php',
+        'OC\\Files\\ObjectStore\\S3Signature' => __DIR__ . '/../../..' . '/lib/private/Files/ObjectStore/S3Signature.php',
         'OC\\Files\\ObjectStore\\StorageObjectStore' => __DIR__ . '/../../..' . '/lib/private/Files/ObjectStore/StorageObjectStore.php',
         'OC\\Files\\ObjectStore\\Swift' => __DIR__ . '/../../..' . '/lib/private/Files/ObjectStore/Swift.php',
         'OC\\Files\\Search\\SearchBinaryOperator' => __DIR__ . '/../../..' . '/lib/private/Files/Search/SearchBinaryOperator.php',
@@ -989,7 +984,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c::$prefixLengthsPsr4;
+            $loader->firstCharsPsr4 = ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c::$firstCharsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c::$prefixDirsPsr4;
             $loader->classMap = ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c::$classMap;
 
