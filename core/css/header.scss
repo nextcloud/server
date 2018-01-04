@@ -440,7 +440,6 @@ nav {
 	display: inline-block;
 	width: auto;
 	clear: both;
-	height: 44px;
 
 	li {
 		float: left;
@@ -462,7 +461,7 @@ nav {
 		}
 	}
 	.app-loading .icon-loading-small-dark {
-		top:12px;
+		top: 12px;
 		width: 20px;
 		height: 20px;
 	}
@@ -495,10 +494,11 @@ nav {
 		color: rgba($color-main-text, .7);
 		width: auto;
 		left: 50%;
-		top: 45px;
+		top: 100%;
 		transform: translateX(-50%);
 		padding: 4px 10px;
 		filter: drop-shadow(0 1px 10px $color-box-shadow);
+		z-index: 100;
 	}
 
 	li:hover span {
@@ -519,13 +519,19 @@ nav {
 		transform: translateX(-50%);
 		left: 50%;
 		bottom: 0;
-		z-index: 100;
 		display: none;
 	}
 	li a.active:before,
 	li:hover a:before,
 	li:hover a.active:before {
 		display: block;
+	}
+	li a.active:before {
+		z-index: 99;
+	}
+	li:hover a:before,
+	li a.active:hover:before {
+		z-index: 101;
 	}
 	&.menu-open li:hover a:before,
 	&.menu-open li a.active:before,
