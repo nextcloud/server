@@ -161,14 +161,7 @@ OC.Lostpassword = {
 	resetDone : function(result){
 		var resetErrorMsg;
 		if (result && result.status === 'success'){
-			$.post(
-					OC.webroot + '/ocs/v1.php',
-					{
-						user : window.location.href.split('/').pop(),
-						password : $('#password').val()
-					},
-					OC.Lostpassword.redirect
-			);
+			OC.Lostpassword.redirect();
 		} else {
 			if (result && result.msg){
 				resetErrorMsg = result.msg;
