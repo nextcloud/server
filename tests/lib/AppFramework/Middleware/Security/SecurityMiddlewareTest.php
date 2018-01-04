@@ -50,6 +50,8 @@ use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
+use OCP\IUser;
+use OCP\IUserSession;
 use OCP\Security\ISecureRandom;
 
 class SecurityMiddlewareTest extends \Test\TestCase {
@@ -62,8 +64,6 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 	private $secException;
 	/** @var SecurityException */
 	private $secAjaxException;
-	/** @var ISession|\PHPUnit_Framework_MockObject_MockObject */
-	private $session;
 	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
 	private $request;
 	/** @var ControllerMethodReflector */
@@ -82,6 +82,8 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 	private $cspNonceManager;
 	/** @var IAppManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $appManager;
+	/** @var IUserSession|\PHPUnit_Framework_MockObject_MockObject */
+	private $userSession;
 
 	protected function setUp() {
 		parent::setUp();
@@ -91,7 +93,6 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		$this->logger = $this->createMock(ILogger::class);
 		$this->navigationManager = $this->createMock(INavigationManager::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
-		$this->session = $this->createMock(ISession::class);
 		$this->request = $this->createMock(IRequest::class);
 		$this->contentSecurityPolicyManager = $this->createMock(ContentSecurityPolicyManager::class);
 		$this->csrfTokenManager = $this->createMock(CsrfTokenManager::class);
@@ -117,7 +118,6 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			$this->navigationManager,
 			$this->urlGenerator,
 			$this->logger,
-			$this->session,
 			'files',
 			$isLoggedIn,
 			$isAdminUser,

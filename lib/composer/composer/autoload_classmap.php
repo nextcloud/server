@@ -335,6 +335,7 @@ return array(
     'OC\\AppFramework\\Middleware\\Security\\Exceptions\\NotLoggedInException' => $baseDir . '/lib/private/AppFramework/Middleware/Security/Exceptions/NotLoggedInException.php',
     'OC\\AppFramework\\Middleware\\Security\\Exceptions\\SecurityException' => $baseDir . '/lib/private/AppFramework/Middleware/Security/Exceptions/SecurityException.php',
     'OC\\AppFramework\\Middleware\\Security\\Exceptions\\StrictCookieMissingException' => $baseDir . '/lib/private/AppFramework/Middleware/Security/Exceptions/StrictCookieMissingException.php',
+    'OC\\AppFramework\\Middleware\\Security\\PasswordConfirmationMiddleware' => $baseDir . '/lib/private/AppFramework/Middleware/Security/PasswordConfirmationMiddleware.php',
     'OC\\AppFramework\\Middleware\\Security\\RateLimitingMiddleware' => $baseDir . '/lib/private/AppFramework/Middleware/Security/RateLimitingMiddleware.php',
     'OC\\AppFramework\\Middleware\\Security\\SameSiteCookieMiddleware' => $baseDir . '/lib/private/AppFramework/Middleware/Security/SameSiteCookieMiddleware.php',
     'OC\\AppFramework\\Middleware\\Security\\SecurityMiddleware' => $baseDir . '/lib/private/AppFramework/Middleware/Security/SecurityMiddleware.php',

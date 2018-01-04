@@ -411,7 +411,7 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 				expect($message.hasClass('error')).toEqual(false);
 			});
 			it('displays tooltip when limit is almost reached', function() {
-				$message.val(createMessageWithLength(view._commentMaxLength - 2));
+				$message.text(createMessageWithLength(view._commentMaxLength - 2));
 				$message.trigger('change');
 
 				expect(tooltipStub.calledWith('show')).toEqual(true);
@@ -419,7 +419,7 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 				expect($message.hasClass('error')).toEqual(false);
 			});
 			it('displays tooltip and disabled button when limit is exceeded', function() {
-				$message.val(createMessageWithLength(view._commentMaxLength + 2));
+				$message.text(createMessageWithLength(view._commentMaxLength + 2));
 				$message.trigger('change');
 
 				expect(tooltipStub.calledWith('show')).toEqual(true);

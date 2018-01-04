@@ -102,8 +102,7 @@ class SCSSCacher {
 		$fileNameCSS = $this->prependBaseurlPrefix(str_replace('.scss', '.css', $fileNameSCSS));
 
 		$path = implode('/', $path);
-
-		$webDir = substr($path, strlen($this->serverRoot)+1);
+		$webDir = $this->getWebDir($path, $app, $this->serverRoot, \OC::$WEBROOT);
 
 		try {
 			$folder = $this->appData->getFolder($app);
@@ -188,7 +187,7 @@ class SCSSCacher {
 		$scss = new Compiler();
 		$scss->setImportPaths([
 			$path,
-			\OC::$SERVERROOT . '/core/css/',
+			$this->serverRoot . '/core/css/',
 		]);
 		// Continue after throw
 		$scss->setIgnoreErrors(true);
@@ -283,12 +282,7 @@ class SCSSCacher {
 	 */
 	private function rebaseUrls($css, $webDir) {
 		$re = '/url\([\'"]([\.\w?=\/-]*)[\'"]\)/x';
-		// OC\Route\Router:75
-		if(($this->config->getSystemValue('htaccess.IgnoreFrontController', false) === true || getenv('front_controller_active') === 'true')) {
-			$subst = 'url(\'../../'.$webDir.'/$1\')';
-		} else {
-			$subst = 'url(\'../../../'.$webDir.'/$1\')';
-		}
+		$subst = 'url(\''.$webDir.'/$1\')';
 		return preg_replace($re, $subst, $css);
 	}
 
@@ -314,5 +308,24 @@ class SCSSCacher {
 	private function prependBaseurlPrefix($cssFile) {
 		$frontendController = ($this->config->getSystemValue('htaccess.IgnoreFrontController', false) === true || getenv('front_controller_active') === 'true');
 		return substr(md5($this->urlGenerator->getBaseUrl() . $frontendController), 0, 8) . '-' . $cssFile;
+	}
+
+	/**
+	 * Get WebDir root
+	 * @param string $path the css file path
+	 * @param string $appName the app name
+	 * @param string $serverRoot the server root path
+	 * @param string $webRoot the nextcloud installation root path
+	 * @return string the webDir
+	 */
+	private function getWebDir($path, $appName, $serverRoot, $webRoot) {
+		// Detect if path is within server root AND if path is within an app path
+		if ( strpos($path, $serverRoot) === false && $appWebPath = \OC_App::getAppWebPath($appName)) {
+			// Get the file path within the app directory
+			$appDirectoryPath = explode($appName, $path)[1];
+			// Remove the webroot
+			return str_replace($webRoot, '', $appWebPath.$appDirectoryPath);
+		}
+		return $webRoot.substr($path, strlen($serverRoot));
 	}
 }

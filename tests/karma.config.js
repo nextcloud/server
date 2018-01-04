@@ -237,7 +237,7 @@ module.exports = function(config) {
 		basePath: '..',
 
 		// frameworks to use
-		frameworks: ['jasmine', 'jasmine-sinon'],
+		frameworks: ['jasmine', 'jasmine-sinon', 'viewport'],
 
 		// list of files / patterns to load in the browser
 		files: files,

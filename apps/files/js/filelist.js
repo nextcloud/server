@@ -683,11 +683,14 @@
 					// the details to be shown.
 					event.preventDefault();
 					var filename = $tr.attr('data-file');
+					this.fileActions.currentFile = $tr.find('td');
 					var mime = this.fileActions.getCurrentMimeType();
 					var type = this.fileActions.getCurrentType();
 					var permissions = this.fileActions.getCurrentPermissions();
 					var action = this.fileActions.get(mime, type, permissions)['Details'];
 					if (action) {
+						// also set on global object for legacy apps
+						window.FileActions.currentFile = this.fileActions.currentFile;
 						action(filename, {
 							$file: $tr,
 							fileList: this,
@@ -1799,6 +1802,10 @@
 			OCA.Files.Files.updateStorageStatistics(this.getCurrentDirectory(), force);
 		},
 
+		updateStorageQuotas: function() {
+			OCA.Files.Files.updateStorageQuotas();
+		},
+
 		/**
 		 * @deprecated do not use nor override
 		 */
@@ -2629,6 +2636,7 @@
 				self.updateSelectionSummary();
 				// FIXME: don't repeat this, do it once all files are done
 				self.updateStorageStatistics();
+				self.updateStorageQuotas();
 			}
 
 			_.each(files, function(file) {
@@ -3072,6 +3080,8 @@
 				self.showFileBusyState(uploadText.closest('tr'), false);
 				uploadText.fadeOut();
 				uploadText.attr('currentUploads', 0);
+
+				self.updateStorageQuotas();
 			});
 			uploader.on('createdfolder', function(fullPath) {
 				self.addAndFetchFileInfo(OC.basename(fullPath), OC.dirname(fullPath));

@@ -45,6 +45,7 @@
 		"eventsource.js",
 		"config.js",
 		"public/appconfig.js",
+		"public/comments.js",
 		"multiselect.js",
 		"oc-requesttoken.js",
 		"setupchecks.js",

@@ -1,6 +1,7 @@
 <?php
 	/** @var $_ array */
 	/** @var $l \OCP\IL10N */
+	style('core', 'guest');
 	style('files_sharing', 'authenticate');
 	script('files_sharing', 'authenticate'); 
 ?>

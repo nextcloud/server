@@ -6704,9 +6704,13 @@ dav.Client.prototype = {
 
         /**
          * Disables Snap.js events
+         * @param {Boolean} endCurrentDrag Whether to end the current drag (if any) or not.
          */
-        disable: function() {
+        disable: function(endCurrentDrag) {
             utils.dispatchEvent('disable');
+            if (endCurrentDrag) {
+                this.action.drag.endDrag();
+            }
             this.action.drag.stopListening();
         },
 

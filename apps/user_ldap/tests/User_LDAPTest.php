@@ -1343,10 +1343,6 @@ class User_LDAPTest extends TestCase {
 					}
 					return true;
 			   }));
-
-		$access->userManager->expects($this->atLeastOnce())
-			->method('get')
-			->willReturn($this->createMock(User::class));
 	}
 
 	/**
@@ -1357,6 +1353,9 @@ class User_LDAPTest extends TestCase {
 		$access = $this->getAccessMock();
 
 		$this->prepareAccessForSetPassword($access);
+		$access->userManager->expects($this->atLeastOnce())
+			->method('get')
+			->willReturn($this->createMock(User::class));
 		$backend = new UserLDAP($access, $this->createMock(IConfig::class), $this->createMock(INotificationManager::class), $this->createMock(Session::class), $this->getDefaultPluginManagerMock());
 		\OC_User::useBackend($backend);
 

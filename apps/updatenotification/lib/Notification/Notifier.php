@@ -126,7 +126,7 @@ class Notifier implements INotifier {
 				]);
 
 			if ($this->isAdmin()) {
-				$notification->setLink($this->url->linkToRouteAbsolute('settings.AppSettings.viewApps') . '#app-' . $notification->getObjectType());
+				$notification->setLink($this->url->linkToRouteAbsolute('settings.AppSettings.viewApps', ['category' => 'updates']) . '#app-' . $notification->getObjectType());
 			}
 		}
 

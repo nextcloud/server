@@ -352,19 +352,10 @@ class SCSSCacherTest extends \Test\TestCase {
 	}
 
 	public function testRebaseUrls() {
-		$webDir = 'apps/files/css';
+		$webDir = '/apps/files/css';
 		$css = '#id { background-image: url(\'../img/image.jpg\'); }';
 		$actual = self::invokePrivate($this->scssCacher, 'rebaseUrls', [$css, $webDir]);
-		$expected = '#id { background-image: url(\'../../../apps/files/css/../img/image.jpg\'); }';
-		$this->assertEquals($expected, $actual);
-	}
-
-	public function testRebaseUrlsIgnoreFrontendController() {
-		$this->config->expects($this->once())->method('getSystemValue')->with('htaccess.IgnoreFrontController', false)->willReturn(true);
-		$webDir = 'apps/files/css';
-		$css = '#id { background-image: url(\'../img/image.jpg\'); }';
-		$actual = self::invokePrivate($this->scssCacher, 'rebaseUrls', [$css, $webDir]);
-		$expected = '#id { background-image: url(\'../../apps/files/css/../img/image.jpg\'); }';
+		$expected = '#id { background-image: url(\'/apps/files/css/../img/image.jpg\'); }';
 		$this->assertEquals($expected, $actual);
 	}
 
@@ -391,6 +382,57 @@ class SCSSCacherTest extends \Test\TestCase {
 			->willReturn(\OC::$WEBROOT . $result);
 		$actual = $this->scssCacher->getCachedSCSS($appName, $fileName);
 		$this->assertEquals(substr($result, 1), $actual);
+	}
+
+	private function randomString() {
+		return sha1(uniqid(mt_rand(), true));
+	}
+
+	private function rrmdir($directory) {
+		$files = array_diff(scandir($directory), array('.','..'));
+		foreach ($files as $file) {
+			if (is_dir($directory . '/' . $file)) {
+				$this->rrmdir($directory . '/' . $file);
+			} else {
+				unlink($directory . '/' . $file);
+			}
+		}
+		return rmdir($directory);
+	}
+
+	public function dataGetWebDir() {
+		return [
+			// Root installation
+			['/http/core/css', 		'core', '', '/http', '/core/css'],
+			['/http/apps/scss/css', 'scss', '', '/http', '/apps/scss/css'],
+			['/srv/apps2/scss/css', 'scss', '', '/http', '/apps2/scss/css'],
+			// Sub directory install
+			['/http/nextcloud/core/css', 	  'core', 	'/nextcloud', '/http/nextcloud', '/nextcloud/core/css'],
+			['/http/nextcloud/apps/scss/css', 'scss', 	'/nextcloud', '/http/nextcloud', '/nextcloud/apps/scss/css'],
+			['/srv/apps2/scss/css', 		  'scss', 	'/nextcloud', '/http/nextcloud', '/apps2/scss/css']
+		];
+	}
+
+	/**
+	 * @param $path
+	 * @param $appName
+	 * @param $webRoot
+	 * @param $serverRoot
+	 * @dataProvider dataGetWebDir
+	 */
+	public function testgetWebDir($path, $appName, $webRoot, $serverRoot, $correctWebDir) {
+		$tmpDir = sys_get_temp_dir().'/'.$this->randomString();
+		// Adding fake apps folder and create fake app install
+		\OC::$APPSROOTS[] = [
+			'path' => $tmpDir.'/srv/apps2',
+			'url' => '/apps2',
+			'writable' => false
+		];
+		mkdir($tmpDir.$path, 0777, true);
+		$actual = self::invokePrivate($this->scssCacher, 'getWebDir', [$tmpDir.$path, $appName, $tmpDir.$serverRoot, $webRoot]);
+		$this->assertEquals($correctWebDir, $actual);
+		array_pop(\OC::$APPSROOTS);
+		$this->rrmdir($tmpDir.$path);
 	}
 
 }

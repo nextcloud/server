@@ -6,6 +6,7 @@
   "octemplate.js",
   "eventsource.js",
   "public/appconfig.js",
+  "public/comments.js",
   "config.js",
   "oc-requesttoken.js",
   "apps.js",

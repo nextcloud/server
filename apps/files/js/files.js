@@ -29,6 +29,12 @@
 				state.dir = null;
 				state.call = null;
 				Files.updateMaxUploadFilesize(response);
+			});
+		},
+		// update quota
+		updateStorageQuotas: function() {
+			var state = Files.updateStorageQuotas;
+			state.call = $.getJSON(OC.filePath('files','ajax','getstoragestats.php'),function(response) {
 				Files.updateQuota(response);
 			});
 		},
@@ -128,6 +134,8 @@
 				throw t('files', '"{name}" is an invalid file name.', {name: name});
 			} else if (trimmedName.length === 0) {
 				throw t('files', 'File name cannot be empty.');
+			} else if (trimmedName.indexOf('/') !== -1) {
+				throw t('files', '"/" is not allowed inside a file name.');
 			} else if (OC.fileIsBlacklisted(trimmedName)) {
 				throw t('files', '"{name}" is not an allowed filetype', {name: name});
 			}

@@ -87,7 +87,7 @@ class SecurityProviderTest extends TestCase {
 			->willReturn('security');
 		$this->l10n->expects($this->once())
 			->method('get')
-			->with('core', $lang)
+			->with('settings', $lang)
 			->willReturn($l);
 		$this->urlGenerator->expects($this->once())
 			->method('imagePath')
@@ -119,7 +119,7 @@ class SecurityProviderTest extends TestCase {
 			->willReturn('security');
 		$this->l10n->expects($this->once())
 			->method('get')
-			->with('core', $lang)
+			->with('settings', $lang)
 			->willReturn($l);
 		$event->expects($this->once())
 			->method('getSubject')

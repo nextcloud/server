@@ -101,8 +101,10 @@ class JSConfigHelper {
 
 		if ($this->currentUser !== null) {
 			$uid = $this->currentUser->getUID();
+			$userBackend = $this->currentUser->getBackendClassName();
 		} else {
 			$uid = null;
+			$userBackend = '';
 		}
 
 		// Get the config
@@ -147,6 +149,7 @@ class JSConfigHelper {
 		$array = [
 			"oc_debug" => $this->config->getSystemValue('debug', false) ? 'true' : 'false',
 			"oc_isadmin" => $this->groupManager->isAdmin($uid) ? 'true' : 'false',
+			"backendAllowsPasswordConfirmation" => $userBackend === 'user_saml'? 'false' : 'true',
 			"oc_dataURL" => is_string($dataLocation) ? "\"".$dataLocation."\"" : 'false',
 			"oc_webroot" => "\"".\OC::$WEBROOT."\"",
 			"oc_appswebroots" =>  str_replace('\\/', '/', json_encode($apps_paths)), // Ugly unescape slashes waiting for better solution

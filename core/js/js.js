@@ -1612,12 +1612,47 @@ function initCore() {
 			snapper.close();
 		});
 
+		var navigationBarSlideGestureEnabled = false;
+		var navigationBarSlideGestureAllowed = true;
+		var navigationBarSlideGestureEnablePending = false;
+
+		OC.allowNavigationBarSlideGesture = function() {
+			navigationBarSlideGestureAllowed = true;
+
+			if (navigationBarSlideGestureEnablePending) {
+				snapper.enable();
+
+				navigationBarSlideGestureEnabled = true;
+				navigationBarSlideGestureEnablePending = false;
+			}
+		};
+
+		OC.disallowNavigationBarSlideGesture = function() {
+			navigationBarSlideGestureAllowed = false;
+
+			if (navigationBarSlideGestureEnabled) {
+				var endCurrentDrag = true;
+				snapper.disable(endCurrentDrag);
+
+				navigationBarSlideGestureEnabled = false;
+				navigationBarSlideGestureEnablePending = true;
+			}
+		};
+
 		var toggleSnapperOnSize = function() {
 			if($(window).width() > 768) {
 				snapper.close();
 				snapper.disable();
-			} else {
+
+				navigationBarSlideGestureEnabled = false;
+				navigationBarSlideGestureEnablePending = false;
+			} else if (navigationBarSlideGestureAllowed) {
 				snapper.enable();
+
+				navigationBarSlideGestureEnabled = true;
+				navigationBarSlideGestureEnablePending = false;
+			} else {
+				navigationBarSlideGestureEnablePending = true;
 			}
 		};
 
@@ -1647,7 +1682,8 @@ OC.PasswordConfirmation = {
 
 	requiresPasswordConfirmation: function() {
 		var timeSinceLogin = moment.now() - (nc_lastLogin * 1000);
-		return timeSinceLogin > 30 * 60 * 1000; // 30 minutes
+		// if timeSinceLogin > 30 minutes and user backend allows password confirmation
+		return (backendAllowsPasswordConfirmation && timeSinceLogin > 30 * 60 * 1000);
 	},
 
 	/**

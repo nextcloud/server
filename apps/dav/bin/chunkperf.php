@@ -73,5 +73,7 @@ while(!feof($stream)) {
 $destination = pathinfo($file, PATHINFO_BASENAME);
 //echo "Moving $uploadUrl/.file to it's final destination $baseUri/files/$userName/$destination" . PHP_EOL;
 request($client, 'MOVE', "$uploadUrl/.file", null, [
-	'Destination' => "$baseUri/files/$userName/$destination"
+	'Destination' => "$baseUri/files/$userName/$destination",
+	'OC-Total-Length' => filesize($file),
+	'X-OC-MTime' => filemtime($file)
 ]);
