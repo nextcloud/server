@@ -305,6 +305,24 @@ class OC_Image implements \OCP\IImage {
 	}
 
 	/**
+	 * @return null|string Returns the mimetype of the data
+	 */
+	public function dataMimeType() {
+		if (!$this->valid()) {
+			return null;
+		}
+
+		switch ($this->mimeType) {
+			case 'image/png':
+			case 'image/jpeg':
+			case 'image/gif':
+				return $this->mimeType;
+			default:
+				return 'image/png';
+		}
+	}
+
+	/**
 	 * @return null|string Returns the raw image data.
 	 */
 	public function data() {

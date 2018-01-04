@@ -128,7 +128,7 @@ class Generator {
 
 		// Try to get a cached preview. Else generate (and store) one
 		try {
-			$file = $this->getCachedPreview($previewFolder, $width, $height, $crop);
+			$file = $this->getCachedPreview($previewFolder, $width, $height, $crop, $maxPreview->getMimeType());
 		} catch (NotFoundException $e) {
 			$file = $this->generatePreview($previewFolder, $maxPreview, $width, $height, $crop, $maxWidth, $maxHeight);
 		}
@@ -173,7 +173,8 @@ class Generator {
 					continue;
 				}
 
-				$path = (string)$preview->width() . '-' . (string)$preview->height() . '-max.png';
+				$ext = $this->getExtention($preview->dataMimeType());
+				$path = (string)$preview->width() . '-' . (string)$preview->height() . '-max.' . $ext;
 				try {
 					$file = $previewFolder->newFile($path);
 					$file->putContent($preview->data());
@@ -201,14 +202,17 @@ class Generator {
 	 * @param int $width
 	 * @param int $height
 	 * @param bool $crop
+	 * @param string $mimeType
 	 * @return string
 	 */
-	private function generatePath($width, $height, $crop) {
+	private function generatePath($width, $height, $crop, $mimeType) {
 		$path = (string)$width . '-' . (string)$height;
 		if ($crop) {
 			$path .= '-crop';
 		}
-		$path .= '.png';
+
+		$ext = $this->getExtention($mimeType);
+		$path .= '.' . $ext;
 		return $path;
 	}
 
@@ -340,7 +344,7 @@ class Generator {
 		}
 
 
-		$path = $this->generatePath($width, $height, $crop);
+		$path = $this->generatePath($width, $height, $crop, $preview->dataMimeType());
 		try {
 			$file = $previewFolder->newFile($path);
 			$file->putContent($preview->data());
@@ -356,12 +360,13 @@ class Generator {
 	 * @param int $width
 	 * @param int $height
 	 * @param bool $crop
+	 * @param string $mimeType
 	 * @return ISimpleFile
 	 *
 	 * @throws NotFoundException
 	 */
-	private function getCachedPreview(ISimpleFolder $previewFolder, $width, $height, $crop) {
-		$path = $this->generatePath($width, $height, $crop);
+	private function getCachedPreview(ISimpleFolder $previewFolder, $width, $height, $crop, $mimeType) {
+		$path = $this->generatePath($width, $height, $crop, $mimeType);
 
 		return $previewFolder->getFile($path);
 	}
@@ -380,5 +385,22 @@ class Generator {
 		}
 
 		return $folder;
+	}
+
+	/**
+	 * @param string $mimeType
+	 * @return null|string
+	 */
+	private function getExtention($mimeType) {
+		switch ($mimeType) {
+			case 'image/png':
+				return 'png';
+			case 'image/jpeg':
+				return 'jpg';
+			case 'image/gif':
+				return 'gif';
+			default:
+				return null;
+		}
 	}
 }
