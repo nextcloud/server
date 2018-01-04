@@ -135,6 +135,9 @@ class SCSSCacher {
 	 * @return boolean
 	 */
 	private function isCached($fileNameCSS, ISimpleFolder $folder) {
+		if ($this->variablesChanged()) {
+			return false;
+		}
 		try {
 			$cachedFile = $folder->getFile($fileNameCSS);
 			if ($cachedFile->getSize() > 0) {
