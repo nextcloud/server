@@ -319,6 +319,9 @@ class ClientFlowLoginController extends Controller {
 			$redirectUri = 'nc://login/server:' . $serverPath . '&user:' . urlencode($loginName) . '&password:' . urlencode($token);
 		}
 
+		// Clear the token from the login here
+		$this->tokenProvider->invalidateToken($sessionId);
+
 		return new Http\RedirectResponse($redirectUri);
 	}
 }
