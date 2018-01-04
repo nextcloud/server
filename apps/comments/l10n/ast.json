@@ -1,6 +1,5 @@
 { "translations": {
     "Comments" : "Comentarios",
-    "Unknown user" : "Usuariu desconocíu",
     "New comment …" : "Comentariu nuevu...",
     "Delete comment" : "Desaniciar comentariu",
     "Post" : "Espublizar",
@@ -26,6 +25,7 @@
     "<strong>Comments</strong> for files" : "<strong>Comentarios</strong> pa ficheros",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s mentóte nun comentariu de «%2$s»",
     "{user} mentioned you in a comment on “{file}”" : "{user} mentóte nun comentariu de «{file}»",
+    "Unknown user" : "Usuariu desconocíu",
     "A (now) deleted user mentioned you in a comment on “%s”" : "Un usuariu (agora) desaniciáu mentóte nun comentariu de «%s»",
     "A (now) deleted user mentioned you in a comment on “{file}”" : "Un usuariu (agora) desaniciáu mentóte nun comentariu de «{file}»"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

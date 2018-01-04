@@ -1,10 +1,10 @@
 { "translations": {
     "Federated sharing" : "Общий доступ из федеративного хранилища",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Вы хотите добавить удалённый общий каталог {name} из {owner}@{remote}?",
-    "Remote share" : "Удалённый общий ресурс",
-    "Remote share password" : "Пароль для удалённого общего ресурса",
+    "Remote share" : "Общий ресурс другого сервера",
+    "Remote share password" : "Пароль общего ресурса другого сервера",
     "Cancel" : "Отмена",
-    "Add remote share" : "Добавить удалённый общий ресурс",
+    "Add remote share" : "Добавить общий ресурс другого сервера",
     "Copy" : "Копировать",
     "Copied!" : "Скопировано!",
     "Not supported!" : "Не поддерживается!",

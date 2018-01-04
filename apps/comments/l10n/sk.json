@@ -1,6 +1,5 @@
 { "translations": {
     "Comments" : "Komentáre",
-    "Unknown user" : "Neznámy používateľ",
     "New comment …" : "Nový komentár ...",
     "Delete comment" : "Zmazať komentár",
     "Post" : "Odoslať",
@@ -26,6 +25,7 @@
     "<strong>Comments</strong> for files" : "<strong>Komentáre</strong> pre súbory",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s vás spomenul v komentári k \"%2$s\"",
     "{user} mentioned you in a comment on “{file}”" : "{user} vás spomenul v komentári k “{file}”",
+    "Unknown user" : "Neznámy používateľ",
     "A (now) deleted user mentioned you in a comment on “%s”" : "Teraz už odstránený používateľ vás spomenul v komentári k \"%s\"",
     "A (now) deleted user mentioned you in a comment on “{file}”" : "Teraz už odstránený používateľ vás spomenul v komentári k \"{file}\""
 },"pluralForm" :"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;"

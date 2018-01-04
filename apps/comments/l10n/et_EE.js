@@ -2,7 +2,6 @@ OC.L10N.register(
     "comments",
     {
     "Comments" : "Kommentaarid",
-    "Unknown user" : "Tundmatu kasutaja",
     "New comment …" : "Uus kommentaar",
     "Delete comment" : "Kustuta kommentaar",
     "Post" : "Postita",
@@ -30,6 +29,7 @@ OC.L10N.register(
     "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Sind mainiti \"{file}\", kommentaaris kasutataja poolt, mis on praeguseks kustutatud",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s mainis sind \"%2$s\" kommentaaris",
     "{user} mentioned you in a comment on “{file}”" : "{user} mainis sind faili “{file}” kommentaaris",
+    "Unknown user" : "Tundmatu kasutaja",
     "A (now) deleted user mentioned you in a comment on “%s”" : "Kustutatud kasutaja mainis sind \"%s\" kommentaaris",
     "A (now) deleted user mentioned you in a comment on “{file}”" : "Kustutatud kasutaja mainis sind faili \"{file}\" kommentaaris"
 },

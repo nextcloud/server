@@ -2,7 +2,6 @@ OC.L10N.register(
     "comments",
     {
     "Comments" : "Yorumlar",
-    "Unknown user" : "Bilinmeyen kullanıcı",
     "New comment …" : "Yorum ekle ...",
     "Delete comment" : "Yorumu sil",
     "Post" : "Gönder",
@@ -30,6 +29,7 @@ OC.L10N.register(
     "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "“{file}” hakkında bir yorumda silinmiş bir kullanıcı tarafından anıldınız",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s, “%2$s” hakkındaki bir yorumda sizden bahsetti",
     "{user} mentioned you in a comment on “{file}”" : "{user}, “{file}” hakkındaki bir yorumda sizden bahsetti",
+    "Unknown user" : "Bilinmeyen kullanıcı",
     "A (now) deleted user mentioned you in a comment on “%s”" : "Bir (artık) silinmiş kullanıcı “%s” hakkındaki bir yorumda sizden bahsetti",
     "A (now) deleted user mentioned you in a comment on “{file}”" : "Bir (artık) silinmiş kullanıcı “{file}” hakkındaki bir yorumda sizden bahsetti"
 },

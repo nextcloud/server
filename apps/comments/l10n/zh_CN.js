@@ -2,7 +2,6 @@ OC.L10N.register(
     "comments",
     {
     "Comments" : "评论",
-    "Unknown user" : "未知用户",
     "New comment …" : "新评论 ...",
     "Delete comment" : "删除评论",
     "Post" : "发布",
@@ -28,6 +27,7 @@ OC.L10N.register(
     "<strong>Comments</strong> for files" : "文件的<strong>评论</strong>",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s 在 “%2$s” 的评论中提到了您",
     "{user} mentioned you in a comment on “{file}”" : "{user} 在 “{file}” 的评论中提到了您",
+    "Unknown user" : "未知用户",
     "A (now) deleted user mentioned you in a comment on “%s”" : "一个(已)被删除的用户在 “%s” 的评论中提到了您",
     "A (now) deleted user mentioned you in a comment on “{file}”" : "一个(已)被删除的用户在 “{file}” 的评论中提到了您"
 },

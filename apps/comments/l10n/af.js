@@ -2,7 +2,6 @@ OC.L10N.register(
     "comments",
     {
     "Comments" : "Kommentare",
-    "Unknown user" : "Onbekende gebruiker",
     "New comment …" : "Nuwe kommentaar…",
     "Delete comment" : "Skrap kommentaar",
     "Post" : "Plaas",
@@ -28,6 +27,7 @@ OC.L10N.register(
     "<strong>Comments</strong> for files" : "<strong>Kommentare</strong> vir lêers",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s het u in ’n kommentaar op “%2$s” genoem",
     "{user} mentioned you in a comment on “{file}”" : "{gebruiker} het u in ’n kommentaar oor “{lêer}” genoem",
+    "Unknown user" : "Onbekende gebruiker",
     "A (now) deleted user mentioned you in a comment on “%s”" : "’n (Nou) geskrapte gebruiker het u in ’n kommentaar op “%s” genoem",
     "A (now) deleted user mentioned you in a comment on “{file}”" : "’n (Nou) geskrapte gebruiker het u in ’n kommentaar op “{lêer}” genoem"
 },

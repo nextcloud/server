@@ -2,7 +2,6 @@ OC.L10N.register(
     "comments",
     {
     "Comments" : "Comentaris",
-    "Unknown user" : "Usuari desconegut",
     "New comment …" : "Nou comentari...",
     "Delete comment" : "Esborrar comentari",
     "Post" : "Publica",
@@ -28,6 +27,7 @@ OC.L10N.register(
     "<strong>Comments</strong> for files" : "<strong>Comentaris</strong> per arxius",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s us ha nomenat en un comentari a “%2$s”",
     "{user} mentioned you in a comment on “{file}”" : "{user} us ha nomenat en un comentari de “{file}”",
+    "Unknown user" : "Usuari desconegut",
     "A (now) deleted user mentioned you in a comment on “%s”" : "Un usuari (ara) esborrat us ha nomenat en un comentari a “%s”",
     "A (now) deleted user mentioned you in a comment on “{file}”" : "Un usuari (ara) esborrat us ha nomenat en un comentari de “{file}”"
 },

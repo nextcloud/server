@@ -2,7 +2,6 @@ OC.L10N.register(
     "comments",
     {
     "Comments" : "අදහස් දැක්වීම්",
-    "Unknown user" : "හදුනානොගත් සේවාදායකයා",
     "New comment …" : "අලුත් අදහස් දැක්වීමක් ...",
     "Delete comment" : "අදහස් දැක්වීම මකන්න",
     "Post" : "ලිපියක්",
@@ -27,6 +26,7 @@ OC.L10N.register(
     "<strong>Comments</strong> for files" : "ගොනු සදහා <strong>අදහස් </strong>",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s ඔබව %2$s හි අදහසක මතක් කර ඇත",
     "{user} mentioned you in a comment on “{file}”" : "{user} ඔබව {file} තුලදී මතක් කර ඇත",
+    "Unknown user" : "හදුනානොගත් සේවාදායකයා",
     "A (now) deleted user mentioned you in a comment on “%s”" : "මකන ලද සේවාදායකයෙක් (now) ඔබව %s අදහස තුල මතක් කර ඇත",
     "A (now) deleted user mentioned you in a comment on “{file}”" : "{file} තුල අදහස් දැක්වීමකදී, (now) ඉවත්කරන ලද සේවාදායකයෙක් ඔබව මතක් කර ඇත"
 },

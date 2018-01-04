@@ -2,7 +2,6 @@ OC.L10N.register(
     "comments",
     {
     "Comments" : "Comentarii",
-    "Unknown user" : "Utilizator necunoscut",
     "New comment …" : "Comentariu nou...",
     "Delete comment" : "Șterge comentariul",
     "Post" : "Postează",
@@ -28,6 +27,7 @@ OC.L10N.register(
     "<strong>Comments</strong> for files" : "<strong>Comentarii</strong> la fișiere",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s te-a menționat într-un comentariu la ”%2$s”",
     "{user} mentioned you in a comment on “{file}”" : "{user} te-a menționat într-un comentariu la ”{file}”",
+    "Unknown user" : "Utilizator necunoscut",
     "A (now) deleted user mentioned you in a comment on “%s”" : "Un utilizator (momentan) șters te-a menționat într-un comentariu la ”%s”",
     "A (now) deleted user mentioned you in a comment on “{file}”" : "Un utilizator (momentan) șters te-a menționat într-un comentariu la ”{file}”"
 },

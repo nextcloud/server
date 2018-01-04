@@ -64,7 +64,7 @@ OC.L10N.register(
     "New" : "新增",
     "\"{name}\" is an invalid file name." : "{name} 是無效的檔名",
     "File name cannot be empty." : "檔名不能為空",
-    "\"{name}\" is not an allowed filetype" : "\"{name}\" 並不是經允許的檔案類型",
+    "\"{name}\" is not an allowed filetype" : "\"{name}\" 是不允許的檔案類型",
     "Storage of {owner} is full, files can not be updated or synced anymore!" : "{owner} 的儲存空間已滿，沒有辦法再更新或是同步檔案！",
     "Your storage is full, files can not be updated or synced anymore!" : "您的儲存空間已滿，沒有辦法再更新或是同步檔案！",
     "Storage of {owner} is almost full ({usedSpacePercent}%)" : "{owner} 的儲存空間快要滿了 ({usedSpacePercent}%)",

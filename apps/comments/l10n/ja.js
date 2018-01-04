@@ -2,7 +2,6 @@ OC.L10N.register(
     "comments",
     {
     "Comments" : "コメント",
-    "Unknown user" : "不明なユーザー",
     "New comment …" : "新しいコメント...",
     "Delete comment" : "コメントを削除",
     "Post" : "追加",
@@ -28,6 +27,7 @@ OC.L10N.register(
     "<strong>Comments</strong> for files" : "ファイルへの<strong>コメント</ strong>",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s さんが “%2$s” のコメントであなたについて言及しました。",
     "{user} mentioned you in a comment on “{file}”" : "{user} さんが ““{file}” のコメントであなたについて言及しました。",
+    "Unknown user" : "不明なユーザー",
     "A (now) deleted user mentioned you in a comment on “%s”" : "(現在)削除されたユーザーが \"%s\" のコメントであなたのことについて言及しました",
     "A (now) deleted user mentioned you in a comment on “{file}”" : "(現在)削除されたユーザーが \"{file}\" のコメントであなたのことについて言及しました"
 },
