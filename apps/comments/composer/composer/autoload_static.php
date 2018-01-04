@@ -6,11 +6,8 @@ namespace Composer\Autoload;
 
 class ComposerStaticInitComments
 {
-    public static $prefixLengthsPsr4 = array (
-        'O' => 
-        array (
-            'OCA\\Comments\\' => 13,
-        ),
+    public static $firstCharsPsr4 = array (
+        'O' => true,
     );
 
     public static $prefixDirsPsr4 = array (
@@ -37,7 +34,7 @@ class ComposerStaticInitComments
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitComments::$prefixLengthsPsr4;
+            $loader->firstCharsPsr4 = ComposerStaticInitComments::$firstCharsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitComments::$prefixDirsPsr4;
             $loader->classMap = ComposerStaticInitComments::$classMap;
 
