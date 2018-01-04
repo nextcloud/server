@@ -6,11 +6,8 @@ namespace Composer\Autoload;
 
 class ComposerStaticInitShareByMail
 {
-    public static $prefixLengthsPsr4 = array (
-        'O' => 
-        array (
-            'OCA\\ShareByMail\\' => 16,
-        ),
+    public static $firstCharsPsr4 = array (
+        'O' => true,
     );
 
     public static $prefixDirsPsr4 = array (
@@ -33,7 +30,7 @@ class ComposerStaticInitShareByMail
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitShareByMail::$prefixLengthsPsr4;
+            $loader->firstCharsPsr4 = ComposerStaticInitShareByMail::$firstCharsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitShareByMail::$prefixDirsPsr4;
             $loader->classMap = ComposerStaticInitShareByMail::$classMap;
 

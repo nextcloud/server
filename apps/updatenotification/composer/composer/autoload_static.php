@@ -6,11 +6,8 @@ namespace Composer\Autoload;
 
 class ComposerStaticInitUpdateNotification
 {
-    public static $prefixLengthsPsr4 = array (
-        'O' => 
-        array (
-            'OCA\\UpdateNotification\\' => 23,
-        ),
+    public static $firstCharsPsr4 = array (
+        'O' => true,
     );
 
     public static $prefixDirsPsr4 = array (
@@ -32,7 +29,7 @@ class ComposerStaticInitUpdateNotification
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitUpdateNotification::$prefixLengthsPsr4;
+            $loader->firstCharsPsr4 = ComposerStaticInitUpdateNotification::$firstCharsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitUpdateNotification::$prefixDirsPsr4;
             $loader->classMap = ComposerStaticInitUpdateNotification::$classMap;
 

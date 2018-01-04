@@ -6,11 +6,8 @@ namespace Composer\Autoload;
 
 class ComposerStaticInitFiles_Sharing
 {
-    public static $prefixLengthsPsr4 = array (
-        'O' => 
-        array (
-            'OCA\\Files_Sharing\\' => 18,
-        ),
+    public static $firstCharsPsr4 = array (
+        'O' => true,
     );
 
     public static $prefixDirsPsr4 = array (
@@ -74,7 +71,7 @@ class ComposerStaticInitFiles_Sharing
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitFiles_Sharing::$prefixLengthsPsr4;
+            $loader->firstCharsPsr4 = ComposerStaticInitFiles_Sharing::$firstCharsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitFiles_Sharing::$prefixDirsPsr4;
             $loader->classMap = ComposerStaticInitFiles_Sharing::$classMap;
 

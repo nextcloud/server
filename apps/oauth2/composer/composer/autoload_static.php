@@ -6,11 +6,8 @@ namespace Composer\Autoload;
 
 class ComposerStaticInitOAuth2
 {
-    public static $prefixLengthsPsr4 = array (
-        'O' => 
-        array (
-            'OCA\\OAuth2\\' => 11,
-        ),
+    public static $firstCharsPsr4 = array (
+        'O' => true,
     );
 
     public static $prefixDirsPsr4 = array (
@@ -36,7 +33,7 @@ class ComposerStaticInitOAuth2
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitOAuth2::$prefixLengthsPsr4;
+            $loader->firstCharsPsr4 = ComposerStaticInitOAuth2::$firstCharsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitOAuth2::$prefixDirsPsr4;
             $loader->classMap = ComposerStaticInitOAuth2::$classMap;
 
