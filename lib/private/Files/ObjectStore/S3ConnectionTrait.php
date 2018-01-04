@@ -24,6 +24,7 @@
 
 namespace OC\Files\ObjectStore;
 
+use Aws\ClientResolver;
 use Aws\S3\Exception\S3Exception;
 use Aws\S3\S3Client;
 
@@ -86,10 +87,14 @@ trait S3ConnectionTrait {
 			],
 			'endpoint' => $base_url,
 			'region' => $this->params['region'],
-			'use_path_style_endpoint' => isset($this->params['use_path_style']) ? $this->params['use_path_style'] : false
+			'use_path_style_endpoint' => isset($this->params['use_path_style']) ? $this->params['use_path_style'] : false,
+			'signature_provider' => \Aws\or_chain([self::class, 'legacySignatureProvider'], ClientResolver::_default_signature_provider())
 		];
 		if (isset($this->params['proxy'])) {
 			$options['request.options'] = ['proxy' => $this->params['proxy']];
+		}
+		if (isset($this->params['legacy_auth']) && $this->params['legacy_auth']) {
+			$options['signature_version'] = 'v2';
 		}
 		$this->connection = new S3Client($options);
 
@@ -118,6 +123,16 @@ trait S3ConnectionTrait {
 	private function testTimeout() {
 		if ($this->test) {
 			sleep($this->timeout);
+		}
+	}
+
+	public static function legacySignatureProvider($version, $service, $region) {
+		switch ($version) {
+			case 'v2':
+			case 's3':
+				return new S3Signature();
+			default:
+				return null;
 		}
 	}
 }
