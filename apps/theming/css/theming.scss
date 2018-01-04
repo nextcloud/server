@@ -1,3 +1,12 @@
+/** Calculate luma as it is also used in OCA\Theming\Util::calculateLuma */
+@function luma($c) {
+	$-local-red: red(rgba($c, 1.0));
+	$-local-green: green(rgba($c, 1.0));
+	$-local-blue: blue(rgba($c, 1.0));
+
+	@return (0.2126 * $-local-red  + 0.7152 * $-local-green + 0.0722 * $-local-blue) / 255;
+}
+
 .nc-theming-main-background {
 	background-color: $color-primary;
 }
@@ -10,7 +19,7 @@
 	color: $color-primary-text;
 }
 
-@if (lightness($color-primary) > 55) {
+@if (luma($color-primary) > 0.6) {
 	.searchbox input[type="search"] {
 		background: transparent url('../../../core/img/actions/search.svg') no-repeat 6px center;
 	}
@@ -90,8 +99,8 @@ input.primary,
 	color: $color-primary-text;
 }
 
-@if (lightness($color-primary) > 50) {
-	#body-login #submit-icon.icon-confirm-white {
+@if (luma($color-primary) > 0.6) {
+	#body-login #submit-wrapper .icon-confirm-white {
 		background-image: url('../../../core/img/actions/confirm.svg');
 	}
 }
