@@ -6,11 +6,8 @@ namespace Composer\Autoload;
 
 class ComposerStaticInitAdminAudit
 {
-    public static $prefixLengthsPsr4 = array (
-        'O' => 
-        array (
-            'OCA\\AdminAudit\\' => 15,
-        ),
+    public static $firstCharsPsr4 = array (
+        'O' => true,
     );
 
     public static $prefixDirsPsr4 = array (
@@ -37,7 +34,7 @@ class ComposerStaticInitAdminAudit
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitAdminAudit::$prefixLengthsPsr4;
+            $loader->firstCharsPsr4 = ComposerStaticInitAdminAudit::$firstCharsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitAdminAudit::$prefixDirsPsr4;
             $loader->classMap = ComposerStaticInitAdminAudit::$classMap;
 
