@@ -148,10 +148,11 @@ class BirthdayService {
 	/**
 	 * @param string $cardData
 	 * @param string $dateField
+	 * @param string $postfix
 	 * @param string $summarySymbol
 	 * @return null|VCalendar
 	 */
-	public function buildDateFromContact($cardData, $dateField, $summarySymbol) {
+	public function buildDateFromContact($cardData, $dateField, $postfix, $summarySymbol) {
 		if (empty($cardData)) {
 			return null;
 		}
@@ -221,7 +222,7 @@ class BirthdayService {
 			$date
 		);
 		$vEvent->DTEND['VALUE'] = 'DATE';
-		$vEvent->{'UID'} = $doc->UID;
+		$vEvent->{'UID'} = $doc->UID . $postfix;
 		$vEvent->{'RRULE'} = 'FREQ=YEARLY';
 		$vEvent->{'SUMMARY'} = $summary;
 		$vEvent->{'TRANSP'} = 'TRANSPARENT';
@@ -297,7 +298,7 @@ class BirthdayService {
 	 */
 	private function updateCalendar($cardUri, $cardData, $book, $calendarId, $type) {
 		$objectUri = $book['uri'] . '-' . $cardUri . $type['postfix'] . '.ics';
-		$calendarData = $this->buildDateFromContact($cardData, $type['field'], $type['symbol']);
+		$calendarData = $this->buildDateFromContact($cardData, $type['field'], $type['postfix'], $type['symbol']);
 		$existing = $this->calDavBackEnd->getCalendarObject($calendarId, $objectUri);
 		if (is_null($calendarData)) {
 			if (!is_null($existing)) {
