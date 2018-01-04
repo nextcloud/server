@@ -111,10 +111,6 @@ class SCSSCacher {
 			$folder = $this->appData->newFolder($app);
 		}
 
-
-		if(!$this->variablesChanged() && $this->isCached($fileNameCSS, $folder)) {
-			return true;
-		}
 		return $this->cache($path, $fileNameCSS, $fileNameSCSS, $folder, $webDir);
 	}
 
