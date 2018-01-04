@@ -136,14 +136,14 @@
     "Disable Main Server" : "Deactiveren hoofdserver",
     "Only connect to the replica server." : "Maak alleen een verbinding met de replica server.",
     "Turn off SSL certificate validation." : "Schakel SSL certificaat validatie uit.",
-    "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." : "Niet aanbevolen, gebruik dit alleen om te testen! Als de verbinding alleen werkt met deze optie, importeer dan het SSL-certificaat van de LDAP-server naar jouw %s server.",
+    "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." : "Niet aanbevolen, gebruik dit alleen om te testen! Als de verbinding alleen werkt met deze optie, importeer dan het SSL-certificaat van de LDAP-server naar je %s server.",
     "Cache Time-To-Live" : "Cache time-to-live",
     "in seconds. A change empties the cache." : "in seconden. Een verandering maakt de cache leeg.",
     "Directory Settings" : "Mapinstellingen",
     "User Display Name Field" : "Veld gebruikers weergavenaam",
     "The LDAP attribute to use to generate the user's display name." : "Het te gebruiken LDAP attribuut voor het genereren van de weergavenaam voor de gebruiker.",
     "2nd User Display Name Field" : "2e gebruiker weergavenaam veld",
-    "Optional. An LDAP attribute to be added to the display name in brackets. Results in e.g. »John Doe (john.doe@example.org)«." : "Optioneel. Een LDAP attribuut wat word toegevoegd aan de weergave neem tussen haakjes. Bijvoorbeeld »John Doe (john.doe@example.org)«.",
+    "Optional. An LDAP attribute to be added to the display name in brackets. Results in e.g. »John Doe (john.doe@example.org)«." : "Optioneel. Een LDAP attribuut wat word toegevoegd aan de weergave neem tussen haakjes. Bijvoorbeeld \"John Doe (john.doe@voorbeeld.org)\".",
     "Base User Tree" : "Basis Gebruikers Structuur",
     "One User Base DN per line" : "Een User Base DN per regel",
     "User Search Attributes" : "Attributen voor gebruikerszoekopdrachten",
@@ -190,7 +190,7 @@
     "Add a new and blank configuration" : "Toevoegen nieuwe, blanco configuratie",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "Je kunt het protocol weglaten, tenzij je SSL vereist. Start in dat geval met ldaps://",
     "LDAP" : "LDAP",
-    "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Waarschuwing:</b> De Apps user_ldap en user_webdavauth zijn incompatible. Je kunt onverwacht gedrag ervaren. Vraag je beheerder om een van beide apps de deactiveren.",
+    "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Waarschuwing:</b> De Apps user_ldap en user_webdavauth zijn incompatibel. Je kunt onverwacht gedrag ervaren. Vraag je beheerder om een van beide apps de deactiveren.",
     "in bytes" : "in bytes"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

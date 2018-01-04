@@ -2,7 +2,6 @@ OC.L10N.register(
     "comments",
     {
     "Comments" : "Kommentarer",
-    "Unknown user" : "Okänd användare",
     "New comment …" : "Ny kommentar ...",
     "Delete comment" : "Radera kommentar",
     "Post" : "Skicka",
@@ -28,6 +27,7 @@ OC.L10N.register(
     "<strong>Comments</strong> for files" : "<strong>Kommentarer</strong> för filer",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s nämnde dig i en kommentar på “%2$s”",
     "{user} mentioned you in a comment on “{file}”" : "{user} nämnde dig i en kommentar på \"{file}\"",
+    "Unknown user" : "Okänd användare",
     "A (now) deleted user mentioned you in a comment on “%s”" : "En (nu) raderad användare nämnde dig i en kommentar på \"%s\"",
     "A (now) deleted user mentioned you in a comment on “{file}”" : "En (nu) raderad användare nämnde dig i en kommentar på \"{file}\""
 },

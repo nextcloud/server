@@ -152,7 +152,7 @@ OC.L10N.register(
     "Upload" : "Lähetä",
     "A new file or folder has been <strong>deleted</strong>" : "Uusi tiedosto tai kansio on <strong>poistettu</strong>",
     "A new file or folder has been <strong>restored</strong>" : "Uusi tiedosto tai kansio on <strong>palautettu</strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Käytä tätä osoitetta <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">päästäksesi tiedostoihisi WebDAV-liittymän kautta</a>",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Tällä osoitteella <a href=\"%s\" target=\"_blank\">käytät tiedostojasi WebDAV:n yli</a>",
     "No favorites" : "Ei suosikkeja"
 },
 "nplurals=2; plural=(n != 1);");

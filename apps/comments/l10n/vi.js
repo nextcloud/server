@@ -2,7 +2,6 @@ OC.L10N.register(
     "comments",
     {
     "Comments" : "Các bình luận",
-    "Unknown user" : "Người dùng không tồn tại",
     "New comment …" : "Tạo bình luận mới",
     "Delete comment" : "Xóa bình luận",
     "Post" : "Đăng",
@@ -28,6 +27,7 @@ OC.L10N.register(
     "<strong>Comments</strong> for files" : "<strong>bình luận</strong> đối với các tệp tin",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s đề cập tới bạn trong một bình luận về “%2$s”",
     "{user} mentioned you in a comment on “{file}”" : "{user} đề cập tới bạn trong một bình luận về “{file}”",
+    "Unknown user" : "Người dùng không tồn tại",
     "A (now) deleted user mentioned you in a comment on “%s”" : "Có một người sử dụng (now) bị xóa đã đề cập tới bạn trong một bình luận về “%s”",
     "A (now) deleted user mentioned you in a comment on “{file}”" : "Có một người sử dụng (now) bị xóa đã đề cập tới bạn trong một bình luận về “{file}”"
 },

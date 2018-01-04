@@ -2,7 +2,6 @@ OC.L10N.register(
     "comments",
     {
     "Comments" : "Komentáre",
-    "Unknown user" : "Neznámy používateľ",
     "New comment …" : "Nový komentár ...",
     "Delete comment" : "Zmazať komentár",
     "Post" : "Odoslať",
@@ -28,6 +27,7 @@ OC.L10N.register(
     "<strong>Comments</strong> for files" : "<strong>Komentáre</strong> pre súbory",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s vás spomenul v komentári k \"%2$s\"",
     "{user} mentioned you in a comment on “{file}”" : "{user} vás spomenul v komentári k “{file}”",
+    "Unknown user" : "Neznámy používateľ",
     "A (now) deleted user mentioned you in a comment on “%s”" : "Teraz už odstránený používateľ vás spomenul v komentári k \"%s\"",
     "A (now) deleted user mentioned you in a comment on “{file}”" : "Teraz už odstránený používateľ vás spomenul v komentári k \"{file}\""
 },

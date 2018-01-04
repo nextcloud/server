@@ -260,6 +260,7 @@ OC.L10N.register(
     "Wrong password." : "Rangt lykilorð.",
     "Log in" : "Skrá inn",
     "Stay logged in" : "Haldast skráður inn",
+    "Forgot password?" : "Gleymdirðu lykilorði?",
     "Alternative Logins" : "Aðrar innskráningar",
     "Account access" : "Aðgangur að notandaaðgangi",
     "You are about to grant %s access to your %s account." : "Þú ert að fara að leyfa %s aðgang að %s notandaaðgangnum þínum.",

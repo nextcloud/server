@@ -2,7 +2,6 @@ OC.L10N.register(
     "comments",
     {
     "Comments" : "Iruzkinak",
-    "Unknown user" : "Erabiltzaile ezezaguna",
     "New comment …" : "Iruzkin berria...",
     "Delete comment" : "Ezabatu iruzkina",
     "Post" : "Bidali",
@@ -28,6 +27,7 @@ OC.L10N.register(
     "<strong>Comments</strong> for files" : "Fitxategientzako <strong>iruzkinak",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s-(e)k aipatu zaitu iruzkinean “%2$s”",
     "{user} mentioned you in a comment on “{file}”" : "{user}-(e)k aipatu zaitu iruzkinean “{file}”",
+    "Unknown user" : "Erabiltzaile ezezaguna",
     "A (now) deleted user mentioned you in a comment on “%s”" : "(Orain) ezabatutako erabiltzaile batek aipatu zaitu iruzkinean \"%s\"",
     "A (now) deleted user mentioned you in a comment on “{file}”" : "(Orain) ezabatutako erabiltzaile batek aipatu zaitu iruzkinean “{file}”"
 },

@@ -2,7 +2,6 @@ OC.L10N.register(
     "comments",
     {
     "Comments" : "Commentarios",
-    "Unknown user" : "Usator incognite",
     "New comment …" : "Nove commentario ...",
     "Delete comment" : "Deler commentario",
     "Post" : "Publicar",
@@ -28,6 +27,7 @@ OC.L10N.register(
     "<strong>Comments</strong> for files" : "<strong>Commentarios</strong> pro files",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s mentionava tu in un commentario in “%2$s”",
     "{user} mentioned you in a comment on “{file}”" : "{user} mentionava tu in un commentario in “{file}”",
+    "Unknown user" : "Usator incognite",
     "A (now) deleted user mentioned you in a comment on “%s”" : "Un (ora) delite usator mentionava tu in un commentario in “%s”",
     "A (now) deleted user mentioned you in a comment on “{file}”" : "Un (ora) delite usator mentionava tu in un commentario in “{file}”"
 },

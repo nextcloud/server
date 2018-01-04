@@ -1,6 +1,5 @@
 { "translations": {
     "Comments" : "კომენტარები",
-    "Unknown user" : "უცნობი მომხმარებელი",
     "New comment …" : "ახალი კომენტარი ...",
     "Delete comment" : "კომენტარის გაუქმება",
     "Post" : "პოსტი",
@@ -28,6 +27,7 @@
     "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "თქვენ მოგიხსენიეს “{file}”-ში, ახლა უკვე გაუქმებული მომხმარებლის კომენტარში",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s გახსენათ  “%2$s”-ზე გაკეთებულ კომენტარში",
     "{user} mentioned you in a comment on “{file}”" : "{user} გახსენათ “{file}” ფაილზე გაკეტებულ კომენტარში",
+    "Unknown user" : "უცნობი მომხმარებელი",
     "A (now) deleted user mentioned you in a comment on “%s”" : "(ახლა) წაშლილმა მოხმარებელმა მოგიხსენიათ კომენტარში “%s”-ზე",
     "A (now) deleted user mentioned you in a comment on “{file}”" : "(ახლა) წაშლილმა მოხმარებელმა მოგიხსენიათ კომენტარში ფაილზე \"{file}\""
 },"pluralForm" :"nplurals=1; plural=0;"

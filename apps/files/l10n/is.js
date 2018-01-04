@@ -19,6 +19,8 @@ OC.L10N.register(
     "Uploading …" : "Sendi inn …",
     "…" : "…",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} af {totalSize} ({bitrate})",
+    "Target folder does not exist any more" : "Markmappan er ekki lengur til",
+    "Error when assembling chunks, status code {status}" : "Villa við að setja búta saman, stöðukóði {status}",
     "Actions" : "Aðgerðir",
     "Download" : "Niðurhal",
     "Rename" : "Endurnefna",

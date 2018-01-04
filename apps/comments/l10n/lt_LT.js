@@ -2,7 +2,6 @@ OC.L10N.register(
     "comments",
     {
     "Comments" : "Komentarai",
-    "Unknown user" : "Nežinomas naudotojas",
     "New comment …" : "Naujas komentaras …",
     "Delete comment" : "Ištrinti komentarą",
     "Post" : "Įrašas",
@@ -28,6 +27,7 @@ OC.L10N.register(
     "<strong>Comments</strong> for files" : "<strong>Failų komentarai</strong>",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s paminėjo jus komentare \"%2$s\"",
     "{user} mentioned you in a comment on “{file}”" : "{user} paminėjo jus komentare “{file}”",
+    "Unknown user" : "Nežinomas naudotojas",
     "A (now) deleted user mentioned you in a comment on “%s”" : "Ištrintas vartotojas paminėjo jus komentare \"%s\"",
     "A (now) deleted user mentioned you in a comment on “{file}”" : "Ištrintas vartotojas paminėjo jus komentare \"{file}\""
 },
