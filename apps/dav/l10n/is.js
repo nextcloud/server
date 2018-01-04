@@ -41,6 +41,7 @@ OC.L10N.register(
     "A calendar <strong>event</strong> was modified" : "<strong>Atburði</strong> dagatals var breytt",
     "A calendar <strong>todo</strong> was modified" : "<strong>Verkefnalista</strong> dagatals var breytt",
     "Contact birthdays" : "Afmælisdagar tengiliðar",
+    "%s via %s" : "%s með %s",
     "Invitation canceled" : "Hætt við boð",
     "Hello %s," : "Halló %s,",
     "The meeting »%s« with %s was canceled." : "Hætt var við fundinn »%s« með %s.",

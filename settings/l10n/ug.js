@@ -7,8 +7,6 @@ OC.L10N.register(
     "All" : "ھەممىسى",
     "Disable" : "چەكلە",
     "Enable" : "قوزغات",
-    "Updating...." : "يېڭىلاۋاتىدۇ…",
-    "Error while updating app" : "ئەپنى يېڭىلاۋاتقاندا خاتالىق كۆرۈلدى",
     "Updated" : "يېڭىلاندى",
     "Delete" : "ئۆچۈر",
     "Groups" : "گۇرۇپپا",
@@ -43,6 +41,8 @@ OC.L10N.register(
     "Admins can't remove themself from the admin group" : "باشقۇرغۇچى ئۆزىنى باشقۇرۇش گۇرۇپپىسىدىن چىقىرىۋېتەلمەيدۇ",
     "Unable to add user to group %s" : "ئىشلەتكۈچىنى %s گۇرۇپپىغا قوشالمايدۇ",
     "Unable to remove user from group %s" : "ئىشلەتكۈچىنى %s گۇرۇپپىدىن چىقىرىۋېتەلمەيدۇ",
+    "Updating...." : "يېڭىلاۋاتىدۇ…",
+    "Error while updating app" : "ئەپنى يېڭىلاۋاتقاندا خاتالىق كۆرۈلدى",
     "__language_name__" : "ئۇيغۇرچە",
     "Name" : "ئاتى"
 },

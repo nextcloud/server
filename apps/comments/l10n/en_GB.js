@@ -2,7 +2,6 @@ OC.L10N.register(
     "comments",
     {
     "Comments" : "Comments",
-    "Unknown user" : "Unknown user",
     "New comment …" : "New comment …",
     "Delete comment" : "Delete comment",
     "Post" : "Post",
@@ -30,6 +29,7 @@ OC.L10N.register(
     "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "You were mentioned on “{file}”, in a comment by a user that has since been deleted",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s mentioned you in a comment on “%2$s”",
     "{user} mentioned you in a comment on “{file}”" : "{user} mentioned you in a comment on “{file}”",
+    "Unknown user" : "Unknown user",
     "A (now) deleted user mentioned you in a comment on “%s”" : "A (now) deleted user mentioned you in a comment on “%s”",
     "A (now) deleted user mentioned you in a comment on “{file}”" : "A (now) deleted user mentioned you in a comment on “{file}”"
 },

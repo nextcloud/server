@@ -71,6 +71,8 @@ OC.L10N.register(
     "Favorite" : "Улюблений",
     "New folder" : "Нова тека",
     "Upload file" : "Вивантажити файл",
+    "Remove from favorites" : "Видалено з улюбленого",
+    "Add to favorites" : "Додати до улюбленого",
     "An error occurred while trying to update the tags" : "Виникла помилка при спробі оновити мітки",
     "Added to favorites" : "Додано до улюбленого",
     "Removed from favorites" : "Видалено з улюбленого",

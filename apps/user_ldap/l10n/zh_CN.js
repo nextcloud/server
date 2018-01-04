@@ -99,6 +99,7 @@ OC.L10N.register(
     "The DN of the client user with which the bind shall be done, e.g. uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password empty." : "客户端使用的DN必须与绑定的相同，比如uid=agent,dc=example,dc=com\n如需匿名访问，将DN和密码保留为空",
     "Password" : "密码",
     "For anonymous access, leave DN and Password empty." : "启用匿名访问，将DN和密码保留为空",
+    "Save Credentials" : "保存凭据",
     "One Base DN per line" : "每行一个基本判别名",
     "You can specify Base DN for users and groups in the Advanced tab" : "您可以在高级选项卡里为用户和组指定Base DN",
     "Detect Base DN" : "检测基础DN",

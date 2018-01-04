@@ -1,7 +1,7 @@
 OC.L10N.register(
     "federation",
     {
-    "Added to the list of trusted servers" : "Sarakstam pievieno uzticamo serveri",
+    "Added to the list of trusted servers" : "Pievienots uzticamo serveru sarakstam",
     "Server is already in the list of trusted servers." : "Serveris jau ir uzticamo serveru sarakstā .",
     "No server to federate with found" : "Nav atrasts neviens serveris",
     "Could not add server" : "Nevarēja pievienot serveri",

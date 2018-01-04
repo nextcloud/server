@@ -2,7 +2,6 @@ OC.L10N.register(
     "comments",
     {
     "Comments" : "Kommentarer",
-    "Unknown user" : "Ukendt bruger",
     "New comment …" : "Ny kommentar ...",
     "Delete comment" : "Slet kommentar",
     "Post" : "Indlæg",
@@ -30,6 +29,7 @@ OC.L10N.register(
     "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Du blev nævnt i \"{file}”, I en kommentar af en bruger der siden er blevet slettet",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s nævnte dig i en kommentarer på “%2$s”",
     "{user} mentioned you in a comment on “{file}”" : "{user} nævnte dig i en kommentarer på \"{file}\"",
+    "Unknown user" : "Ukendt bruger",
     "A (now) deleted user mentioned you in a comment on “%s”" : "En (nu) slettet bruger nævnte dig i en kommentarer på “%s”",
     "A (now) deleted user mentioned you in a comment on “{file}”" : "En (nu) slettet bruger nævnte dig i en kommentarer på \"{file}\""
 },

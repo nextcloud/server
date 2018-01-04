@@ -2,7 +2,6 @@ OC.L10N.register(
     "comments",
     {
     "Comments" : "Athugasemdir",
-    "Unknown user" : "Óþekktur notandi",
     "New comment …" : "Ný athugasemd ...",
     "Delete comment" : "Eyða athugasemd",
     "Post" : "Senda",
@@ -28,6 +27,7 @@ OC.L10N.register(
     "<strong>Comments</strong> for files" : "<strong>Athugasemdir</strong> við skrár",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s minntist á þig í athugasemd við “%2$s”",
     "{user} mentioned you in a comment on “{file}”" : "{user} minntist á þig í athugasemd við “{file}”",
+    "Unknown user" : "Óþekktur notandi",
     "A (now) deleted user mentioned you in a comment on “%s”" : "Notandi (sem nú er búið að eyða) minntist á þig í athugasemd við “%s”",
     "A (now) deleted user mentioned you in a comment on “{file}”" : "Notandi (sem nú er búið að eyða) minntist á þig í athugasemd við “{file}”"
 },

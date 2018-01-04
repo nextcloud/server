@@ -12,6 +12,8 @@
     "(group)" : "(그룹)",
     "Compatibility with Mac NFD encoding (slow)" : "Mac NFD 인코딩 호환성 사용(느림)",
     "Admin defined" : "관리자 지정",
+    "Are you sure you want to delete this external storage" : "이 외부 저장소를 삭제하시겠습니까",
+    "Delete storage?" : "저장소를 삭제하시겠습니까?",
     "Saved" : "저장됨",
     "Saving..." : "저장 중...",
     "Save" : "저장",

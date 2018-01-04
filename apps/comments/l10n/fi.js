@@ -2,7 +2,6 @@ OC.L10N.register(
     "comments",
     {
     "Comments" : "Kommentit",
-    "Unknown user" : "Tuntematon käyttäjä",
     "New comment …" : "Uusi kommentti…",
     "Delete comment" : "Poista kommentti",
     "Post" : "Lähetä",
@@ -28,6 +27,7 @@ OC.L10N.register(
     "<strong>Comments</strong> for files" : "Tiedostojen <strong>kommentit</strong>",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s mainitsi sinut kommentissa “%2$s”",
     "{user} mentioned you in a comment on “{file}”" : "{user} mainitsi sinut tiedoston \"{file}\" kommentissa",
+    "Unknown user" : "Tuntematon käyttäjä",
     "A (now) deleted user mentioned you in a comment on “%s”" : "Poistettu käyttäjä mainitsi sinut kommentissa \"%s\"",
     "A (now) deleted user mentioned you in a comment on “{file}”" : "Poistettu käyttäjä mainitsi sinut tiedoston \"{file}\" kommentissa"
 },

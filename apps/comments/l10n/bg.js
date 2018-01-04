@@ -2,7 +2,6 @@ OC.L10N.register(
     "comments",
     {
     "Comments" : "Коментари",
-    "Unknown user" : "Непознат потребител",
     "New comment …" : "Нов коментар...",
     "Delete comment" : "Изтрий коментар",
     "Post" : "Публикация",
@@ -28,6 +27,7 @@ OC.L10N.register(
     "<strong>Comments</strong> for files" : "<strong>Коментари</strong> за файлове",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s те спомена в коментар за “%2$s”",
     "{user} mentioned you in a comment on “{file}”" : "{user} те спомена в коментар за “{file}”",
+    "Unknown user" : "Непознат потребител",
     "A (now) deleted user mentioned you in a comment on “%s”" : "(Токущо) изтрит потребител те коментира в “%s”",
     "A (now) deleted user mentioned you in a comment on “{file}”" : "(Токущо) изтрит потребител те спомена в коментар за “{file}”"
 },

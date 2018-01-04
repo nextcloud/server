@@ -2,7 +2,6 @@ OC.L10N.register(
     "comments",
     {
     "Comments" : "Сэтгэгдэл",
-    "Unknown user" : "  хэрэглэгч",
     "New comment …" : "Шинэ сэтгэгдэл",
     "Delete comment" : "Сэтгэгдэл устгах",
     "Post" : "Нийтлэл",
@@ -27,6 +26,7 @@ OC.L10N.register(
     "<strong>Comments</strong> for files" : "Файлууд дахь<strong>Сэтгэгдэлүүд</strong>",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s нь таныг “%2$s”-ы сэтгэгдэлд дурдсан",
     "{user} mentioned you in a comment on “{file}”" : "{user} нь таныг “{file}”-ын сэтгэгдэлд дурдсан",
+    "Unknown user" : "  хэрэглэгч",
     "A (now) deleted user mentioned you in a comment on “%s”" : "A (now) deleted user mentioned you in a comment on “%s”"
 },
 "nplurals=2; plural=(n != 1);");

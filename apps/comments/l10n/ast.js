@@ -2,7 +2,6 @@ OC.L10N.register(
     "comments",
     {
     "Comments" : "Comentarios",
-    "Unknown user" : "Usuariu desconocíu",
     "New comment …" : "Comentariu nuevu...",
     "Delete comment" : "Desaniciar comentariu",
     "Post" : "Espublizar",
@@ -28,6 +27,7 @@ OC.L10N.register(
     "<strong>Comments</strong> for files" : "<strong>Comentarios</strong> pa ficheros",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s mentóte nun comentariu de «%2$s»",
     "{user} mentioned you in a comment on “{file}”" : "{user} mentóte nun comentariu de «{file}»",
+    "Unknown user" : "Usuariu desconocíu",
     "A (now) deleted user mentioned you in a comment on “%s”" : "Un usuariu (agora) desaniciáu mentóte nun comentariu de «%s»",
     "A (now) deleted user mentioned you in a comment on “{file}”" : "Un usuariu (agora) desaniciáu mentóte nun comentariu de «{file}»"
 },

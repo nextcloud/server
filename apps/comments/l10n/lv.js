@@ -2,7 +2,6 @@ OC.L10N.register(
     "comments",
     {
     "Comments" : "Komentāri",
-    "Unknown user" : "Nezināms lietotājs",
     "New comment …" : "Jauns komentārs...",
     "Delete comment" : "Dzēst komentāru",
     "Post" : "Pievienot",
@@ -27,6 +26,7 @@ OC.L10N.register(
     "{author} commented on {file}" : "{author} komentārs {file}",
     "<strong>Comments</strong> for files" : "<strong>Komentāri</strong> datnēm",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s minēja jūs komentārā “%2$s”",
-    "{user} mentioned you in a comment on “{file}”" : "{user} minēja jūs komentārā “{file}”"
+    "{user} mentioned you in a comment on “{file}”" : "{user} minēja jūs komentārā “{file}”",
+    "Unknown user" : "Nezināms lietotājs"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

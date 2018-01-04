@@ -117,7 +117,7 @@ OC.L10N.register(
     "Save" : "保存",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "对于 PHP-FPM 这个值改变后可能需要 5 分钟才会生效.",
     "Missing permissions to edit from here." : "没有权限编辑",
-    "%s of %s used" : "%s 的 %s 已使用",
+    "%s of %s used" : " %s 的%s 已使用",
     "%s used" : "%s 已使用",
     "Settings" : "设置",
     "Show hidden files" : "显示隐藏文件",
