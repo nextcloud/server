@@ -1145,7 +1145,7 @@ OC.Notification={
 	 *
 	 * @param {string} html Message to display
 	 * @param {Object} [options] options
-	 * @param {string] [options.type] notification type
+	 * @param {string} [options.type] notification type
 	 * @param {int} [options.timeout=0] timeout value, defaults to 0 (permanent)
 	 * @return {jQuery} jQuery element for notification row
 	 */
