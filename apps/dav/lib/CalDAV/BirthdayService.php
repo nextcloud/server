@@ -188,7 +188,9 @@ class BirthdayService {
 		} catch (InvalidDataException $e) {
 			return null;
 		}
-
+		
+		$actyear = date('Y', time());
+		$age = (int)$actyear - (int)substr((string)$birthday, 0, 4);
 		$unknownYear = false;
 		if (!$dateParts['year']) {
 			$birthday = '1900-' . $dateParts['month'] . '-' . $dateParts['date'];
@@ -205,7 +207,7 @@ class BirthdayService {
 			$summary = $doc->FN->getValue() . ' ' . $summarySymbol;
 		} else {
 			$year = (int)$date->format('Y');
-			$summary = $doc->FN->getValue() . " ($summarySymbol$year)";
+			$summary = $doc->FN->getValue() . " ($summarySymbol$year) [$age]";
 		}
 		$vCal = new VCalendar();
 		$vCal->VERSION = '2.0';
