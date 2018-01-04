@@ -23,6 +23,7 @@
 
 namespace OC\DB;
 
+use Doctrine\DBAL\Schema\SchemaException;
 use OC\IntegrityCheck\Helpers\AppLocator;
 use OC\Migration\SimpleOutput;
 use OCP\AppFramework\App;
@@ -96,9 +97,41 @@ class MigrationService {
 			return false;
 		}
 
-		if ($this->connection->tableExists('migrations')) {
-			$this->migrationTableCreated = true;
-			return false;
+		$schema = new SchemaWrapper($this->connection);
+
+		/**
+		 * We drop the table when it has different columns or the definition does not
+		 * match. E.g. ownCloud uses a length of 177 for app and 14 for version.
+		 */
+		try {
+			$table = $schema->getTable('migrations');
+			$columns = $table->getColumns();
+
+			if (count($columns) === 2) {
+				try {
+					$column = $table->getColumn('app');
+					$schemaMismatch = $column->getLength() !== 255;
+
+					if (!$schemaMismatch) {
+						$column = $table->getColumn('version');
+						$schemaMismatch = $column->getLength() !== 255;
+					}
+				} catch (SchemaException $e) {
+					// One of the columns is missing
+					$schemaMismatch = true;
+				}
+
+				if (!$schemaMismatch) {
+					// Table exists and schema matches: return back!
+					$this->migrationTableCreated = true;
+					return false;
+				}
+			}
+
+			// Drop the table, when it didn't match our expectations.
+			$this->connection->dropTable($this->connection->getPrefix() . 'migrations');
+		} catch (SchemaException $e) {
+			// Table not found, no need to panic, we will create it.
 		}
 
 		$tableName = $this->connection->getPrefix() . 'migrations';
