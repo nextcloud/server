@@ -162,24 +162,22 @@ class ManagerTest extends TestCase {
 					'twofactor_backupcodes',
 		]));
 
-		$this->appManager->expects($this->exactly(2))
+		$this->appManager->expects($this->at(1))
 			->method('getAppInfo')
-			->will($this->returnValueMap([
-					[
-						'mycustom2faapp',
-						['two-factor-providers' => [
+			->with('mycustom2faapp')
+			->will($this->returnValue(['two-factor-providers' => [
 								'\OCA\MyCustom2faApp\FakeProvider',
 							]
-						]
-					],
-					[
-						'twofactor_backupcodes',
-						['two-factor-providers' => [
-								'\OCA\TwoFactorBackupCodes\Provider\FakeBackupCodesProvider',
-							]
-						]
-					],
-		]));
+						]));
+
+		$this->appManager->expects($this->at(2))
+			->method('getAppInfo')
+			->with('twofactor_backupcodes')
+			->will($this->returnValue(['two-factor-providers' => [
+				'\OCA\TwoFactorBackupCodes\Provider\FakeBackupCodesProvider',
+			]
+			]));
+
 
 		$this->manager->expects($this->exactly(2))
 			->method('loadTwoFactorApp');
