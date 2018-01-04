@@ -282,7 +282,7 @@ class SCSSCacher {
 	 */
 	private function rebaseUrls($css, $webDir) {
 		$re = '/url\([\'"]([\.\w?=\/-]*)[\'"]\)/x';
-		$subst = 'url(\''.$webDir.'/$1\')';
+		$subst = 'url('.$webDir.'/$1)';
 		return preg_replace($re, $subst, $css);
 	}
 
