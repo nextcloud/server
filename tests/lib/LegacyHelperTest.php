@@ -12,6 +12,17 @@ use OC\Files\View;
 use OC_Helper;
 
 class LegacyHelperTest extends \Test\TestCase {
+	/** @var string */
+	private $originalWebRoot;
+
+	public function setUp() {
+		$this->originalWebRoot = \OC::$WEBROOT;
+	}
+
+	public function tearDown() {
+		// Reset webRoot
+		\OC::$WEBROOT = $this->originalWebRoot;
+	}
 
 	/**
 	 * @dataProvider humanFileSizeProvider

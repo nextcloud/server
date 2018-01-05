@@ -204,7 +204,7 @@ class CSSResourceLocatorTest extends \Test\TestCase {
 		$webRoot = $resource[1];
 		$file = $resource[2];
 
-		$expectedRoot = '/';
+		$expectedRoot = '';
 		$expectedWebRoot = '';
 		$expectedFile = 'test-file';
 
