@@ -384,6 +384,7 @@ $(document).ready(function () {
 			t('settings', 'Strong password')
 		],
 		drawTitles: true,
+		$addAfter: $('input[name="newpassword-clone"]'),
 	});
 
 	// Load the big avatar
