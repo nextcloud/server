@@ -1035,15 +1035,6 @@ code {
 			background-color: inherit;
 		}
 		td {
-			> * {
-				border-radius: 50%;
-				text-align: center;
-				font-weight: normal;
-				color: $color-main-text;
-				padding: 6px;
-				line-height: 12px;
-			}
-
 			&.ui-datepicker-today a:not(.ui-state-hover) {
 				background-color: nc-lighten($color-main-text, 86%);
 			}
@@ -1056,7 +1047,7 @@ code {
 				font-weight: bold;
 			}
 
-			&.ui-datepicker-week-end :not(.ui-state-hover),
+			&.ui-datepicker-week-end:not(.ui-state-disabled) :not(.ui-state-hover),
 			.ui-priority-secondary:not(.ui-state-hover) {
 				color: nc-lighten($color-main-text, 33%);
 				opacity: .8;
@@ -1099,26 +1090,25 @@ code {
 			font-weight: 300;
 		}
 	}
+	/* AM/PM fix */
+	table.ui-timepicker tr .ui-timepicker-hour-cell:first-child {
+		margin-left: 30px;
+	}
 	.ui-timepicker-table {
 		th {
 			font-weight: normal;
 			color: nc-lighten($color-main-text, 33%);
 			opacity: .8;
+			&.periods {
+				padding: 0;
+				width: 30px;
+				line-height: 30px;
+			}
 		}
 		tr:hover {
 			background-color: inherit;
 		}
 		td {
-			> * {
-				border-radius: 50%;
-				text-align: center;
-				font-weight: normal;
-				color: $color-main-text;
-				padding: 8px 7px;
-				font-size: .9em;
-				line-height: 12px;
-			}
-
 			&.ui-timepicker-hour-cell a.ui-state-active,
 			&.ui-timepicker-minute-cell a.ui-state-active,
 			.ui-state-hover,
@@ -1134,6 +1124,37 @@ code {
 
 			&.ui-timepicker-hours {
 				border-right: 1px solid $color-border;
+			}
+		}
+	}
+}
+
+/* ---- jQuery UI datepicker & timepicker global rules ---- */
+.ui-widget.ui-datepicker .ui-datepicker-calendar,
+.ui-widget.ui-timepicker table.ui-timepicker {
+	tr {
+		display: flex;
+		flex-wrap: nowrap;
+		justify-content: space-between;
+		td {
+			display: block;
+			flex: 1 1;
+			margin: 0;
+			padding: 2px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			> * {
+				border-radius: 50%;
+				text-align: center;
+				font-weight: normal;
+				color: $color-main-text;
+				display: block;
+				line-height: 18px;
+				width: 18px;
+				height: 18px;
+				padding: 3px;
+				font-size: .9em;
 			}
 		}
 	}
