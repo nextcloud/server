@@ -23,6 +23,10 @@
 
 namespace OCA\User_LDAP\Tests\Jobs;
 
+use OCA\User_LDAP\Access;
+use OCA\User_LDAP\AccessFactory;
+use OCA\User_LDAP\Connection;
+use OCA\User_LDAP\ConnectionFactory;
 use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\Jobs\Sync;
 use OCA\User_LDAP\LDAP;
@@ -59,6 +63,10 @@ class SyncTest extends TestCase {
 	protected $ncUserManager;
 	/** @var  IManager|\PHPUnit_Framework_MockObject_MockObject */
 	protected $notificationManager;
+	/** @var ConnectionFactory|\PHPUnit_Framework_MockObject_MockObject */
+	protected $connectionFactory;
+	/** @var AccessFactory|\PHPUnit_Framework_MockObject_MockObject */
+	protected $accessFactory;
 
 	public function setUp() {
 		parent::setUp();
@@ -72,6 +80,8 @@ class SyncTest extends TestCase {
 		$this->dbc = $this->createMock(IDBConnection::class);
 		$this->ncUserManager = $this->createMock(IUserManager::class);
 		$this->notificationManager = $this->createMock(IManager::class);
+		$this->connectionFactory = $this->createMock(ConnectionFactory::class);
+		$this->accessFactory = $this->createMock(AccessFactory::class);
 
 		$this->arguments = [
 			'helper' => $this->helper,
@@ -83,6 +93,8 @@ class SyncTest extends TestCase {
 			'dbc' => $this->dbc,
 			'ncUserManager' => $this->ncUserManager,
 			'notificationManager' => $this->notificationManager,
+			'connectionFactory' => $this->connectionFactory,
+			'accessFactory' => $this->accessFactory,
 		];
 
 		$this->sync = new Sync();
@@ -139,6 +151,49 @@ class SyncTest extends TestCase {
 
 		$this->sync->setArgument($this->arguments);
 		$this->sync->updateInterval();
+	}
+
+	public function moreResultsProvider() {
+		return [
+			[ 3, 3, true ],
+			[ 3, 5, true ],
+			[ 3, 2, false]
+		];
+	}
+
+	/**
+	 * @dataProvider moreResultsProvider
+	 */
+	public function testMoreResults($pagingSize, $results, $expected) {
+		$connection = $this->createMock(Connection::class);
+		$this->connectionFactory->expects($this->any())
+			->method('get')
+			->willReturn($connection);
+		$connection->expects($this->any())
+			->method('__get')
+			->willReturnCallback(function ($key) use ($pagingSize) {
+				if($key === 'ldapPagingSize') {
+					return $pagingSize;
+				}
+				return null;
+			});
+
+		/** @var Access|\PHPUnit_Framework_MockObject_MockObject $access */
+		$access = $this->createMock(Access::class);
+		$this->accessFactory->expects($this->any())
+			->method('get')
+			->with($connection)
+			->willReturn($access);
+
+		$access->expects($this->once())
+			->method('fetchListOfUsers')
+			->willReturn(array_pad([], $results, 'someUser'));
+		$access->connection = $connection;
+		$access->userManager = $this->userManager;
+
+		$this->sync->setArgument($this->arguments);
+		$hasMoreResults = $this->sync->runCycle(['prefix' => 's01', 'offset' => 100]);
+		$this->assertSame($expected, $hasMoreResults);
 	}
 
 }
