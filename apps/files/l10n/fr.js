@@ -62,6 +62,7 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "Vous n'avez pas la permission d'envoyer ou de créer des fichiers ici",
     "_Uploading %n file_::_Uploading %n files_" : ["Téléversement de %n fichier","Téléversement de %n fichiers"],
     "New" : "Nouveau",
+    "{used} used" : "{used} utilisé",
     "\"{name}\" is an invalid file name." : "\"{name}\" n'est pas un nom de fichier valide.",
     "File name cannot be empty." : "Le nom de fichier ne peut être vide.",
     "\"{name}\" is not an allowed filetype" : "\"{name}\" n'est pas un nom de fichier autorisé.",
