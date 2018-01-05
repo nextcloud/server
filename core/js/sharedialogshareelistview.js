@@ -116,7 +116,7 @@
 						'<label for="expireDate-{{cid}}-{{shareId}}">{{expireDateLabel}}</label>' +
 						'<div class="expirationDateContainer-{{cid}}-{{shareId}} {{#unless hasExpireDate}}hidden{{/unless}}">' +
 						'    <label for="expirationDatePicker-{{cid}}-{{shareId}}" class="hidden-visually" value="{{expirationDate}}">{{expirationLabel}}</label>' +
-						'    <input id="expirationDatePicker-{{cid}}-{{shareId}}" class="datepicker" type="text" placeholder="{{expirationDatePlaceholder}}" value="{{expireDate}}" />' +
+						'    <input id="expirationDatePicker-{{cid}}-{{shareId}}" class="datepicker" type="text" placeholder="{{expirationDatePlaceholder}}" value="{{#if hasExpireDate}}{{expireDate}}{{else}}{{defaultExpireDate}}{{/if}}" />' +
 						'</div>' +
 					'</span>' +
 				'</li>' +
@@ -266,6 +266,8 @@
 				expireDateLabel: t('core', 'Set expiration date'),
 				passwordLabel: t('core', 'Password protect'),
 				crudsLabel: t('core', 'Access control'),
+				expirationDatePlaceholder: t('core', 'Expiration date'),
+				defaultExpireDate: moment().add(1, 'day').format('DD-MM-YYYY'), // Can't expire today
 				triangleSImage: OC.imagePath('core', 'actions/triangle-s'),
 				isResharingAllowed: this.configModel.get('isResharingAllowed'),
 				isPasswordForMailSharesRequired: this.configModel.get('isPasswordForMailSharesRequired'),
