@@ -146,7 +146,7 @@ class TemplateLayout extends \OC_Template {
 		if ($this->config->getSystemValue('installed', false) && $renderAs != 'error') {
 			if (\OC::$server->getContentSecurityPolicyNonceManager()->browserSupportsCspV3()) {
 				$jsConfigHelper = new JSConfigHelper(
-					\OC::$server->getL10N('core'),
+					\OC::$server->getL10N('lib'),
 					\OC::$server->query(Defaults::class),
 					\OC::$server->getAppManager(),
 					\OC::$server->getSession(),
