@@ -75,6 +75,7 @@ OC.L10N.register(
     "Region" : "Регија",
     "Enable SSL" : "Омогући ССЛ",
     "Enable Path Style" : "Омогући стил путање",
+    "Legacy (v2) authentication" : "Стара (v2) провера идентитета",
     "WebDAV" : "ВебДАВ",
     "URL" : "УРЛ",
     "Remote subfolder" : "Удаљена потфасцикла",

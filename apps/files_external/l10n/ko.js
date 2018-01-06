@@ -75,6 +75,7 @@ OC.L10N.register(
     "Region" : "지역",
     "Enable SSL" : "SSL 사용",
     "Enable Path Style" : "경로 스타일 사용",
+    "Legacy (v2) authentication" : "레거시(v2) 인증",
     "WebDAV" : "WebDAV",
     "URL" : "URL",
     "Remote subfolder" : "원격 하위 폴더",

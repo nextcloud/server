@@ -75,6 +75,7 @@ OC.L10N.register(
     "Region" : "რეგიონი",
     "Enable SSL" : "SSL-ის ამოქმედება",
     "Enable Path Style" : "ბილიკის სტილის ამოქმედება",
+    "Legacy (v2) authentication" : "ლეგატი (ვ2) აუტენტიფიკაცია",
     "WebDAV" : "WebDAV-ი",
     "URL" : "URL",
     "Remote subfolder" : "დისტანციური ქვე-დირექტორია",
