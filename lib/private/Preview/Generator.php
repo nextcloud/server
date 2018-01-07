@@ -128,9 +128,13 @@ class Generator {
 
 		// Try to get a cached preview. Else generate (and store) one
 		try {
-			$file = $this->getCachedPreview($previewFolder, $width, $height, $crop, $maxPreview->getMimeType());
-		} catch (NotFoundException $e) {
-			$file = $this->generatePreview($previewFolder, $maxPreview, $width, $height, $crop, $maxWidth, $maxHeight);
+			try {
+				$file = $this->getCachedPreview($previewFolder, $width, $height, $crop, $maxPreview->getMimeType());
+			} catch (NotFoundException $e) {
+				$file = $this->generatePreview($previewFolder, $maxPreview, $width, $height, $crop, $maxWidth, $maxHeight);
+			}
+		} catch (\InvalidArgumentException $e) {
+			throw new NotFoundException();
 		}
 
 		return $file;
@@ -173,7 +177,14 @@ class Generator {
 					continue;
 				}
 
-				$ext = $this->getExtention($preview->dataMimeType());
+				// Try to get the extention.
+				try {
+					$ext = $this->getExtention($preview->dataMimeType());
+				} catch (\InvalidArgumentException $e) {
+					// Just continue to the next iteration if this preview doesn't have a valid mimetype
+					continue;
+				}
+
 				$path = (string)$preview->width() . '-' . (string)$preview->height() . '-max.' . $ext;
 				try {
 					$file = $previewFolder->newFile($path);
@@ -390,6 +401,7 @@ class Generator {
 	/**
 	 * @param string $mimeType
 	 * @return null|string
+	 * @throws \InvalidArgumentException
 	 */
 	private function getExtention($mimeType) {
 		switch ($mimeType) {
@@ -400,7 +412,7 @@ class Generator {
 			case 'image/gif':
 				return 'gif';
 			default:
-				return null;
+				throw new \InvalidArgumentException('Not a valid mimetype');
 		}
 	}
 }

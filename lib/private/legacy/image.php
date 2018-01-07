@@ -305,11 +305,12 @@ class OC_Image implements \OCP\IImage {
 	}
 
 	/**
-	 * @return null|string Returns the mimetype of the data
+	 * @return string Returns the mimetype of the data. Returns the empty string
+	 * if the data is not valid.
 	 */
 	public function dataMimeType() {
 		if (!$this->valid()) {
-			return null;
+			return '';
 		}
 
 		switch ($this->mimeType) {
