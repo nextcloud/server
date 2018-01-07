@@ -75,6 +75,7 @@ OC.L10N.register(
     "Region" : "Megye",
     "Enable SSL" : "SSL engedélyezése",
     "Enable Path Style" : "Útvonal stílus engedélyezés",
+    "Legacy (v2) authentication" : "Elavult (v2) authetikáció",
     "WebDAV" : "WebDAV",
     "URL" : "URL",
     "Remote subfolder" : "Távoli almappa",
