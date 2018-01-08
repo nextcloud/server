@@ -1035,9 +1035,11 @@ class User_LDAPTest extends TestCase {
 			   ->will($this->returnValue('roland'));
 
 		$access->expects($this->any())
-			   ->method('stringResemblesDN')
-			   ->with($this->equalTo('dnOfRoland,dc=test'))
-			   ->will($this->returnValue(true));
+			->method('stringResemblesDN')
+			->will($this->returnCallback(function($string) {
+				// very simplified
+				return strpos($string, ',') !== false;
+			}));
 			   
 		$access->expects($this->any())
 			   ->method('setPassword')
