@@ -202,8 +202,6 @@ describe('jquery.avatar tests', function() {
 			expect(window.Image().height).toEqual(32);
 			expect(window.Image().width).toEqual(32);
 			expect(window.Image().src).toEqual('http://localhost/index.php/avatar/foo/32');
-
-			expect($div.css('display')).toEqual('block');
 		});
 
 		it('callback called', function() {
