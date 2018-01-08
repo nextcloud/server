@@ -196,4 +196,45 @@ class SyncTest extends TestCase {
 		$this->assertSame($expected, $hasMoreResults);
 	}
 
+	public function cycleDataProvider() {
+		$cycle1 = ['prefix' => 's01', 'offset' => 1000];
+		return [
+			[ null, ['s01'], ['prefix' => 's01', 'offset' => 0] ],
+			[ $cycle1, ['s01', 's02'], ['prefix' => 's02', 'offset' => 0] ],
+			[ $cycle1, [], null ],
+		];
+	}
+
+	/**
+	 * @dataProvider cycleDataProvider
+	 */
+	public function testDetermineNextCycle($cycleData, $prefixes, $expectedCycle) {
+		$this->helper->expects($this->any())
+			->method('getServerConfigurationPrefixes')
+			->with(true)
+			->willReturn($prefixes);
+
+		if(is_array($expectedCycle)) {
+			$this->config->expects($this->exactly(2))
+				->method('setAppValue')
+				->withConsecutive(
+					['user_ldap', 'background_sync_prefix', $expectedCycle['prefix']],
+					['user_ldap', 'background_sync_offset', $expectedCycle['offset']]
+				);
+		} else {
+			$this->config->expects($this->never())
+				->method('setAppValue');
+		}
+
+		$this->sync->setArgument($this->arguments);
+		$nextCycle = $this->sync->determineNextCycle($cycleData);
+
+		if($expectedCycle === null) {
+			$this->assertNull($nextCycle);
+		} else {
+			$this->assertSame($expectedCycle['prefix'], $nextCycle['prefix']);
+			$this->assertSame($expectedCycle['offset'], $nextCycle['offset']);
+		}
+	}
+
 }
