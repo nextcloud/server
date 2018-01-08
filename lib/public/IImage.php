@@ -103,6 +103,12 @@ interface IImage {
 	public function resource();
 
 	/**
+	 * @return string Returns the raw data mimetype
+	 * @since 13.0.0
+	 */
+	public function dataMimeType();
+
+	/**
 	 * @return string Returns the raw image data.
 	 * @since 8.1.0
 	 */
