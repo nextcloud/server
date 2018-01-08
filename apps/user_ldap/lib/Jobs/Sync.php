@@ -146,11 +146,11 @@ class Sync extends TimedJob {
 			if ($expectMoreResults) {
 				$this->increaseOffset($cycleData);
 			} else {
-				$this->determineNextCycle();
+				$this->determineNextCycle($cycleData);
 			}
 			$this->updateInterval();
 		} catch (ServerNotAvailableException $e) {
-			$this->determineNextCycle();
+			$this->determineNextCycle($cycleData);
 		}
 	}
 
