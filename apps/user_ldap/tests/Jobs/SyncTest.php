@@ -197,11 +197,15 @@ class SyncTest extends TestCase {
 	}
 
 	public function cycleDataProvider() {
-		$cycle1 = ['prefix' => 's01', 'offset' => 1000];
+		$lastCycle = ['prefix' => 's01', 'offset' => 1000];
+		$lastCycle2 = ['prefix' => '', 'offset' => 1000];
 		return [
 			[ null, ['s01'], ['prefix' => 's01', 'offset' => 0] ],
-			[ $cycle1, ['s01', 's02'], ['prefix' => 's02', 'offset' => 0] ],
-			[ $cycle1, [], null ],
+			[ null, [''], ['prefix' => '', 'offset' => 0] ],
+			[ $lastCycle, ['s01', 's02'], ['prefix' => 's02', 'offset' => 0] ],
+			[ $lastCycle, [''], ['prefix' => '', 'offset' => 0] ],
+			[ $lastCycle2, ['', 's01'], ['prefix' => 's01', 'offset' => 0] ],
+			[ $lastCycle, [], null ],
 		];
 	}
 
@@ -235,6 +239,18 @@ class SyncTest extends TestCase {
 			$this->assertSame($expectedCycle['prefix'], $nextCycle['prefix']);
 			$this->assertSame($expectedCycle['offset'], $nextCycle['offset']);
 		}
+	}
+
+	public function testQualifiesToRun() {
+		$cycleData = ['prefix' => 's01'];
+
+		$this->config->expects($this->exactly(2))
+			->method('getAppValue')
+			->willReturnOnConsecutiveCalls(time() - 60*40, time() - 60*20);
+
+		$this->sync->setArgument($this->arguments);
+		$this->assertTrue($this->sync->qualifiesToRun($cycleData));
+		$this->assertFalse($this->sync->qualifiesToRun($cycleData));
 	}
 
 }

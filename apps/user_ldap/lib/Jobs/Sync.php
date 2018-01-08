@@ -118,7 +118,7 @@ class Sync extends TimedJob {
 	/**
 	 * @param array $argument
 	 */
-	protected function run($argument) {
+	public function run($argument) {
 		$this->setArgument($argument);
 
 		$isBackgroundJobModeAjax = $this->config
@@ -252,7 +252,7 @@ class Sync extends TimedJob {
 	 * @param $cycleData
 	 * @return bool
 	 */
-	protected function qualifiesToRun($cycleData) {
+	public function qualifiesToRun($cycleData) {
 		$lastChange = $this->config->getAppValue('user_ldap', $cycleData['prefix'] . '_lastChange', 0);
 		if((time() - $lastChange) > 60 * 30) {
 			return true;
