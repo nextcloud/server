@@ -265,13 +265,22 @@ class SyncTest extends TestCase {
 				'expectedNextCycle' => ['prefix' => '', 'offset' => '0'],
 				'mappedUsers' => 123,
 			]],
-			#0 - 2 LDAP servers, next prefix
+			#1 - 2 LDAP servers, next prefix
 			[[
 				'prefixes' => ['', 's01'],
 				'scheduledCycle' => ['prefix' => '', 'offset' => '4500'],
 				'pagingSize' => 500,
 				'usersThisCycle' => 0,
 				'expectedNextCycle' => ['prefix' => 's01', 'offset' => '0'],
+				'mappedUsers' => 123,
+			]],
+			#2 - 2 LDAP servers, rotate prefix
+			[[
+				'prefixes' => ['', 's01'],
+				'scheduledCycle' => ['prefix' => 's01', 'offset' => '4500'],
+				'pagingSize' => 500,
+				'usersThisCycle' => 0,
+				'expectedNextCycle' => ['prefix' => '', 'offset' => '0'],
 				'mappedUsers' => 123,
 			]],
 		];
