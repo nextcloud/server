@@ -53,14 +53,20 @@ class UtilTest extends TestCase {
 		$this->util = new Util($this->config, $this->appManager, $this->appData);
 	}
 
-	public function testInvertTextColorLight() {
-		$invert = $this->util->invertTextColor('#ffffff');
-		$this->assertEquals(true, $invert);
+	public function dataInvertTextColor() {
+		return [
+			['#ffffff', true],
+			['#000000', false],
+			['#0082C9', false],
+			['#ffff00', true],
+		];
 	}
-
-	public function testInvertTextColorDark() {
-		$invert = $this->util->invertTextColor('#000000');
-		$this->assertEquals(false, $invert);
+	/**
+	 * @dataProvider dataInvertTextColor
+	 */
+	public function testInvertTextColor($color, $expected) {
+		$invert = $this->util->invertTextColor($color);
+		$this->assertEquals($expected, $invert);
 	}
 
 	public function testCalculateLuminanceLight() {
