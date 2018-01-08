@@ -43,7 +43,7 @@ namespace Composer\Autoload;
 class ClassLoader
 {
     // PSR-4
-    private $firstCharsPsr4 = array();
+    private $prefixLengthsPsr4 = array();
     private $prefixDirsPsr4 = array();
     private $fallbackDirsPsr4 = array();
 
@@ -170,10 +170,11 @@ class ClassLoader
             }
         } elseif (!isset($this->prefixDirsPsr4[$prefix])) {
             // Register directories for a new namespace.
-            if ('\\' !== substr($prefix, -1)) {
+            $length = strlen($prefix);
+            if ('\\' !== $prefix[$length - 1]) {
                 throw new \InvalidArgumentException("A non-empty PSR-4 prefix must end with a namespace separator.");
             }
-            $this->firstCharsPsr4[$prefix[0]] = true;
+            $this->prefixLengthsPsr4[$prefix[0]][$prefix] = $length;
             $this->prefixDirsPsr4[$prefix] = (array) $paths;
         } elseif ($prepend) {
             // Prepend directories for an already registered namespace.
@@ -220,10 +221,11 @@ class ClassLoader
         if (!$prefix) {
             $this->fallbackDirsPsr4 = (array) $paths;
         } else {
-            if ('\\' !== substr($prefix, -1)) {
+            $length = strlen($prefix);
+            if ('\\' !== $prefix[$length - 1]) {
                 throw new \InvalidArgumentException("A non-empty PSR-4 prefix must end with a namespace separator.");
             }
-            $this->firstCharsPsr4[$prefix[0]] = true;
+            $this->prefixLengthsPsr4[$prefix[0]][$prefix] = $length;
             $this->prefixDirsPsr4[$prefix] = (array) $paths;
         }
     }
@@ -371,15 +373,15 @@ class ClassLoader
         $logicalPathPsr4 = strtr($class, '\\', DIRECTORY_SEPARATOR) . $ext;
 
         $first = $class[0];
-        if (isset($this->firstCharsPsr4[$first])) {
+        if (isset($this->prefixLengthsPsr4[$first])) {
             $subPath = $class;
             while (false !== $lastPos = strrpos($subPath, '\\')) {
                 $subPath = substr($subPath, 0, $lastPos);
                 $search = $subPath.'\\';
                 if (isset($this->prefixDirsPsr4[$search])) {
-                    $pathEnd = substr($logicalPathPsr4, $lastPos + 1);
+                    $pathEnd = DIRECTORY_SEPARATOR . substr($logicalPathPsr4, $lastPos + 1);
                     foreach ($this->prefixDirsPsr4[$search] as $dir) {
-                        if (file_exists($file = $dir . DIRECTORY_SEPARATOR . $pathEnd)) {
+                        if (file_exists($file = $dir . $pathEnd)) {
                             return $file;
                         }
                     }
