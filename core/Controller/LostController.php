@@ -206,6 +206,12 @@ class LostController extends Controller {
 	 * @return array
 	 */
 	public function email($user){
+		\OCP\Util::emitHook(
+			'\OCA\Files_Sharing\API\Server2Server',
+			'preLoginNameUsedAsUserName',
+			['uid' => &$user]
+		);
+
 		// FIXME: use HTTP error codes
 		try {
 			$this->sendEmail($user);

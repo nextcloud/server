@@ -184,6 +184,8 @@ class ManagerTest extends TestCase {
 			->method('userExists')
 			->with($this->equalTo('foo'))
 			->will($this->returnValue(true));
+		$backend->expects($this->never())
+			->method('loginName2UserName');
 
 		$manager = new \OC\User\Manager($this->config);
 		$manager->registerBackend($backend);
@@ -207,6 +209,24 @@ class ManagerTest extends TestCase {
 		$this->assertEquals(null, $manager->get('foo'));
 	}
 
+	public function testGetOneBackendDoNotTranslateLoginNames() {
+		/**
+		 * @var \Test\Util\User\Dummy | \PHPUnit_Framework_MockObject_MockObject $backend
+		 */
+		$backend = $this->createMock(\Test\Util\User\Dummy::class);
+		$backend->expects($this->once())
+			->method('userExists')
+			->with($this->equalTo('bLeNdEr'))
+			->will($this->returnValue(true));
+		$backend->expects($this->never())
+			->method('loginName2UserName');
+
+		$manager = new \OC\User\Manager($this->config);
+		$manager->registerBackend($backend);
+
+		$this->assertEquals('bLeNdEr', $manager->get('bLeNdEr')->getUID());
+	}
+
 	public function testSearchOneBackend() {
 		/**
 		 * @var \Test\Util\User\Dummy | \PHPUnit_Framework_MockObject_MockObject $backend
@@ -216,6 +236,8 @@ class ManagerTest extends TestCase {
 			->method('getUsers')
 			->with($this->equalTo('fo'))
 			->will($this->returnValue(array('foo', 'afoo')));
+		$backend->expects($this->never())
+			->method('loginName2UserName');
 
 		$manager = new \OC\User\Manager($this->config);
 		$manager->registerBackend($backend);
@@ -235,6 +257,8 @@ class ManagerTest extends TestCase {
 			->method('getUsers')
 			->with($this->equalTo('fo'), $this->equalTo(3), $this->equalTo(1))
 			->will($this->returnValue(array('foo1', 'foo2')));
+		$backend1->expects($this->never())
+			->method('loginName2UserName');
 
 		/**
 		 * @var \Test\Util\User\Dummy | \PHPUnit_Framework_MockObject_MockObject $backend2
@@ -244,6 +268,8 @@ class ManagerTest extends TestCase {
 			->method('getUsers')
 			->with($this->equalTo('fo'), $this->equalTo(3), $this->equalTo(1))
 			->will($this->returnValue(array('foo3')));
+		$backend2->expects($this->never())
+			->method('loginName2UserName');
 
 		$manager = new \OC\User\Manager($this->config);
 		$manager->registerBackend($backend1);
@@ -316,6 +342,8 @@ class ManagerTest extends TestCase {
 			->method('userExists')
 			->with($this->equalTo('foo'))
 			->will($this->returnValue(false));
+		$backend->expects($this->never())
+			->method('loginName2UserName');
 
 		$manager = new \OC\User\Manager($this->config);
 		$manager->registerBackend($backend);
