@@ -116,10 +116,8 @@ OCA.Sharing.PublicApp = {
 			scalingup: 0
 		};
 
-		var imgcontainer = $('<a href="' + $('#previewURL').val()
-			+ '" target="_blank"><img class="publicpreview" alt=""></a>');
-		var img = imgcontainer.find('.publicpreview');
-		img.css({
+		var imgcontainer = $('<img class="publicpreview" alt="">');
+		imgcontainer.css({
 			'max-width': previewWidth,
 			'max-height': previewHeight
 		});
@@ -129,7 +127,7 @@ OCA.Sharing.PublicApp = {
 
 		if (mimetype === 'image/gif' &&
 			(maxGifSize === -1 || fileSize <= (maxGifSize * 1024 * 1024))) {
-			img.attr('src', $('#downloadURL').val());
+			imgcontainer.attr('src', $('#downloadURL').val());
 			imgcontainer.appendTo('#imgframe');
 		} else if (mimetype.substr(0, mimetype.indexOf('/')) === 'text' && window.btoa) {
 			// Undocumented Url to public WebDAV endpoint
@@ -146,11 +144,11 @@ OCA.Sharing.PublicApp = {
 		} else if ((previewSupported === 'true' && mimetype.substr(0, mimetype.indexOf('/')) !== 'video') ||
 			mimetype.substr(0, mimetype.indexOf('/')) === 'image' &&
 			mimetype !== 'image/svg+xml') {
-			img.attr('src', OC.filePath('files_sharing', 'ajax', 'publicpreview.php') + '?' + OC.buildQueryString(params));
+			imgcontainer.attr('src', OC.filePath('files_sharing', 'ajax', 'publicpreview.php') + '?' + OC.buildQueryString(params));
 			imgcontainer.appendTo('#imgframe');
 		} else if (mimetype.substr(0, mimetype.indexOf('/')) !== 'video') {
-			img.attr('src', OC.Util.replaceSVGIcon(mimetypeIcon));
-			img.attr('width', 128);
+			imgcontainer.attr('src', OC.Util.replaceSVGIcon(mimetypeIcon));
+			imgcontainer.attr('width', 128);
 			imgcontainer.appendTo('#imgframe');
 		}
 		else if (previewSupported === 'true') {
