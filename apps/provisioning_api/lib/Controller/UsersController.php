@@ -302,11 +302,12 @@ class UsersController extends OCSController {
 	 * @param string $userId
 	 * @param string $key
 	 * @param string $value
+	 * @param string $recoveryPassword
 	 * @return DataResponse
 	 * @throws OCSException
 	 * @throws OCSForbiddenException
 	 */
-	public function editUser($userId, $key, $value) {
+	public function editUser($userId, $key, $value, $recoveryPassword = null) {
 		$currentLoggedInUser = $this->userSession->getUser();
 
 		$targetUser = $this->userManager->get($userId);
@@ -397,7 +398,7 @@ class UsersController extends OCSController {
 				$targetUser->setQuota($quota);
 				break;
 			case 'password':
-				$targetUser->setPassword($value);
+				$targetUser->setPassword($value, $recoveryPassword);
 				break;
 			case 'language':
 				$languagesCodes = $this->l10nFactory->findAvailableLanguages();
