@@ -75,6 +75,7 @@ OC.L10N.register(
     "Region" : "Regione",
     "Enable SSL" : "Abilita SSL",
     "Enable Path Style" : "Abilita stile percorsi",
+    "Legacy (v2) authentication" : "Autenticazione tradizionale (v2)",
     "WebDAV" : "WebDAV",
     "URL" : "URL",
     "Remote subfolder" : "Sottocartella remota",
