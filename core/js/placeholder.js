@@ -156,6 +156,7 @@
 		this.css('text-align', '');
 		this.css('line-height', '');
 		this.css('font-size', '');
+		this.html('');
 		this.removeClass('icon-loading');
 	};
 }(jQuery));

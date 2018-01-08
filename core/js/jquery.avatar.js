@@ -110,9 +110,8 @@
 
 		// If the new image loads successfully set it.
 		img.onload = function() {
-			$div.text('');
-			$div.append(img);
 			$div.clearimageplaceholder();
+			$div.append(img);
 
 			if(typeof callback === 'function') {
 				callback();
@@ -127,7 +126,6 @@
 				$div.imageplaceholder(user, displayname);
 			} else {
 				setAvatarForUnknownUser($div);
-				$div.removeClass('icon-loading');
 			}
 
 			if(typeof callback === 'function') {
@@ -136,7 +134,6 @@
 		};
 
 		$div.addClass('icon-loading');
-		$div.show();
 		img.width = size;
 		img.height = size;
 		img.src = url;
