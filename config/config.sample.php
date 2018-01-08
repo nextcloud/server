@@ -849,16 +849,16 @@ $CONFIG = array(
  * The maximum width, in pixels, of a preview. A value of ``null`` means there
  * is no limit.
  *
- * Defaults to ``2048``
+ * Defaults to ``4096``
  */
-'preview_max_x' => 2048,
+'preview_max_x' => 4096,
 /**
  * The maximum height, in pixels, of a preview. A value of ``null`` means there
  * is no limit.
  *
- * Defaults to ``2048``
+ * Defaults to ``4096``
  */
-'preview_max_y' => 2048,
+'preview_max_y' => 4096,
 
 /**
  * max file size for generating image previews with imagegd (default behavior)

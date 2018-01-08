@@ -164,8 +164,8 @@ class Generator {
 					continue;
 				}
 
-				$maxWidth = (int)$this->config->getSystemValue('preview_max_x', 2048);
-				$maxHeight = (int)$this->config->getSystemValue('preview_max_y', 2048);
+				$maxWidth = (int)$this->config->getSystemValue('preview_max_x', 4096);
+				$maxHeight = (int)$this->config->getSystemValue('preview_max_y', 4096);
 
 				$preview = $this->helper->getThumbnail($provider, $file, $maxWidth, $maxHeight);
 
