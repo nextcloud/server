@@ -324,7 +324,7 @@ class ThemingController extends Controller {
 	public function undo($setting) {
 		$value = $this->themingDefaults->undo($setting);
 		// reprocess server scss for preview
-		$cssCached = $this->scssCacher->process(\OC::$SERVERROOT, '/core/css/server.scss', 'core');
+		$cssCached = $this->scssCacher->process(\OC::$SERVERROOT, 'core/css/server.scss', 'core');
 
 		if($setting === 'logoMime') {
 			try {
