@@ -63,8 +63,8 @@ class Util {
 	 * @return bool
 	 */
 	public function invertTextColor($color) {
-		$l = $this->calculateLuminance($color);
-		if($l>0.55) {
+		$l = $this->calculateLuma($color);
+		if($l>0.6) {
 			return true;
 		} else {
 			return false;
@@ -90,6 +90,26 @@ class Util {
 	 * @return float
 	 */
 	public function calculateLuminance($color) {
+		list($red, $green, $blue) = $this->hexToRGB($color);
+		$compiler = new Compiler();
+		$hsl = $compiler->toHSL($red, $green, $blue);
+		return $hsl[3]/100;
+	}
+
+	/**
+	 * @param string $color rgb color value
+	 * @return float
+	 */
+	public function calculateLuma($color) {
+		list($red, $green, $blue) = $this->hexToRGB($color);
+		return (0.2126 * $red  + 0.7152 * $green + 0.0722 * $blue) / 255;
+	}
+
+	/**
+	 * @param string $color rgb color value
+	 * @return int[]
+	 */
+	public function hexToRGB($color) {
 		$hex = preg_replace("/[^0-9A-Fa-f]/", '', $color);
 		if (strlen($hex) === 3) {
 			$hex = $hex{0} . $hex{0} . $hex{1} . $hex{1} . $hex{2} . $hex{2};
@@ -97,12 +117,11 @@ class Util {
 		if (strlen($hex) !== 6) {
 			return 0;
 		}
-		$red = hexdec(substr($hex, 0, 2));
-		$green = hexdec(substr($hex, 2, 2));
-		$blue = hexdec(substr($hex, 4, 2));
-		$compiler = new Compiler();
-		$hsl = $compiler->toHSL($red, $green, $blue);
-		return $hsl[3]/100;
+		return [
+			hexdec(substr($hex, 0, 2)),
+			hexdec(substr($hex, 2, 2)),
+			hexdec(substr($hex, 4, 2))
+		];
 	}
 
 	/**
