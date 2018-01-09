@@ -81,6 +81,8 @@ class Capabilities implements IPublicCapability {
 				'background' => $backgroundLogo === 'backgroundColor' ?
 					$this->theming->getColorPrimary() :
 					$this->url->getAbsoluteURL($this->theming->getBackground()),
+				'background-plain' => $backgroundLogo === 'backgroundColor',
+				'background-default' => !$this->util->isBackgroundThemed(),
 			],
 		];
 	}

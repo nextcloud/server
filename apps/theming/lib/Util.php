@@ -235,4 +235,16 @@ class Util {
 		return false;
 	}
 
+	public function isBackgroundThemed() {
+		$backgroundLogo = $this->config->getAppValue('theming', 'backgroundMime',false);
+
+		$backgroundExists = true;
+		try {
+			$this->appData->getFolder('images')->getFile('background');
+		} catch (\Exception $e) {
+			$backgroundExists = false;
+		}
+		return $backgroundLogo && $backgroundLogo !== 'backgroundColor' && $backgroundExists;
+	}
+
 }
