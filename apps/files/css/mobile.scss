@@ -85,4 +85,9 @@ table td.filename .nametext .innernametext {
 	display: block !important;
 }
 
+/* ensure that it is visible over #app-content */
+table.dragshadow {
+	z-index: 1000;
+}
+
 }
