@@ -66,8 +66,14 @@
 							<a href="<?php print_unescaped($entry['href']); ?>"
 							   tabindex="3"
 								<?php if ($entry['active']): ?> class="active"<?php endif; ?>>
-								<img src="<?php print_unescaped($entry['icon'] . '?v=' . $_['versionHash']); ?>"
-									 class="app-icon"/>
+								<?php if ($_['themingInvertMenu']) { ?>
+									<svg width="20" height="20" viewBox="0 0 20 20">
+									<defs><filter id="invertMenuMain-<?php p($entry['id']); ?>"><feColorMatrix in="SourceGraphic" type="matrix" values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0" /></filter></defs>
+									<image x="0" y="0" width="20" height="20" preserveAspectRatio="xMinYMin meet" filter="url(#invertMenuMain-<?php p($entry['id']); ?>)" xlink:href="<?php print_unescaped($entry['icon'] . '?v=' . $_['versionHash']); ?>"  class="app-icon" /></svg>
+								<?php } else { ?>
+									<img src="<?php print_unescaped($entry['icon'] . '?v=' . $_['versionHash']); ?>"
+										 class="app-icon" alt="<?php p($entry['name']); ?>" />
+								<?php } ?>
 								<div class="icon-loading-small-dark"
 									 style="display:none;"></div>
 							</a>
@@ -94,8 +100,8 @@
 									<a href="<?php print_unescaped($entry['href']); ?>" tabindex="3"
 										<?php if( $entry['active'] ): ?> class="active"<?php endif; ?>>
 										<svg width="16" height="16" viewBox="0 0 16 16">
-											<defs><filter id="invert-<?php p($entry['id']); ?>"><feColorMatrix in="SourceGraphic" type="matrix" values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0"></feColorMatrix></filter></defs>
-											<image x="0" y="0" width="16" height="16" preserveAspectRatio="xMinYMin meet" filter="url(#invert-<?php p($entry['id']); ?>)" xlink:href="<?php print_unescaped($entry['icon'] . '?v=' . $_['versionHash']); ?>"  class="app-icon"></image>
+											<defs><filter id="invertMenuMore-<?php p($entry['id']); ?>"><feColorMatrix in="SourceGraphic" type="matrix" values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0"></feColorMatrix></filter></defs>
+											<image x="0" y="0" width="16" height="16" preserveAspectRatio="xMinYMin meet" filter="url(#invertMenuMore-<?php p($entry['id']); ?>)" xlink:href="<?php print_unescaped($entry['icon'] . '?v=' . $_['versionHash']); ?>"  class="app-icon"></image>
 										</svg>
 										<div class="icon-loading-small-dark" style="display:none;"></div>
 										<span><?php p($entry['name']); ?></span>

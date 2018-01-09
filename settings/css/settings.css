@@ -1050,6 +1050,7 @@ form.section {
 
 #apps-list.installed .app-image {
 	width: 44px;
+	height: auto;
 	text-align: right;
 }
 
