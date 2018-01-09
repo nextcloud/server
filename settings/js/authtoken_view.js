@@ -28,7 +28,7 @@
 	var TEMPLATE_TOKEN =
 		'<tr data-id="{{id}}">'
 		+ '<td class="client">'
-		+ '<img src="{{icon}}" />'
+		+ '<div class="{{icon}}" />'
 		+ '</td>'
 		+ '<td class="has-tooltip" title="{{title}}">'
 		+ '<span class="token-name">{{name}}</span>'
@@ -150,19 +150,19 @@
 			};
 
 			var iconMap = {
-				ie: 'ie.svg',
-				edge: 'edge.svg',
-				firefox: 'firefox.svg',
-				chrome: 'chrome.svg',
-				safari: 'apple.svg',
-				androidChrome: 'chrome.svg',
-				iphone: 'iphone.svg',
-				ipad: 'ipad.svg',
-				iosClient: 'apple.svg',
-				androidClient: 'android.svg',
-				davDroid: 'android.svg',
-				webPirate: 'globe.svg',
-				sailfishBrowser: 'globe.svg'
+				ie: 'icon-client-ie',
+				edge: 'icon-client-edge',
+				firefox: 'icon-client-firefox',
+				chrome: 'icon-client-chrome',
+				safari: 'icon-client-safari',
+				androidChrome: 'icon-client-chrome',
+				iphone: 'icon-client-iphone',
+				ipad: 'icon-client-ipad',
+				iosClient: 'icon-client-apple',
+				androidClient: 'icon-client-android',
+				davDroid: 'icon-client-android',
+				webPirate: 'icon-link',
+				sailfishBrowser: 'icon-link'
 			};
 
 			if (matches) {
@@ -184,7 +184,7 @@
 					// update title - for easier view
 					viewData.title = viewData.name;
 
-					viewData.icon = '/settings/img/clients/' + iconMap[client];
+					viewData.icon = iconMap[client];
 				}
 			}
 			if (viewData.current) {

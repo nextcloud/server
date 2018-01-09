@@ -340,7 +340,7 @@ table.nostyle {
 		&.client {
 			@extend %icon;
 
-			img {
+			div {
 				opacity: 0.57;
 				width: inherit;
 			}
