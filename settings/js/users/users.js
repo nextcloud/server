@@ -32,7 +32,13 @@ var UserList = {
 		// initially the list might already contain user entries (not fully ajaxified yet)
 		// initialize these entries
 		this.$el.find('.quota-user').singleSelect().on('change', this.onQuotaSelect);
-		OC.registerMenu($('.app-navigation-new > button'), $('#newuser'))
+		OC.registerMenu(
+			$('#new-user-button'),
+			$('#newuserHeader'),
+			function() {
+				$('#newusername').focus();
+			}
+		);
 	},
 
 	/**
@@ -1136,24 +1142,6 @@ $(document).ready(function () {
 		}
 	});
 
-	if ($('#CheckboxEmailAddress').is(':checked')) {
-		$("#userlist .mailAddress").show();
-	}
-	// Option to display/hide the "Mail Address" column
-	$('#CheckboxEmailAddress').click(function () {
-		if ($('#CheckboxEmailAddress').is(':checked')) {
-			$("#userlist .mailAddress").show();
-			if (OC.isUserAdmin()) {
-				OCP.AppConfig.setValue('core', 'umgmt_show_email', 'true');
-			}
-		} else {
-			$("#userlist .mailAddress").hide();
-			if (OC.isUserAdmin()) {
-				OCP.AppConfig.setValue('core', 'umgmt_show_email', 'false');
-			}
-		}
-	});
-
 	if ($('#CheckboxUserBackend').is(':checked')) {
 		$("#userlist .userBackend").show();
 	}
@@ -1168,24 +1156,6 @@ $(document).ready(function () {
 			$("#userlist .userBackend").hide();
 			if (OC.isUserAdmin()) {
 				OCP.AppConfig.setValue('core', 'umgmt_show_backend', 'false');
-			}
-		}
-	});
-
-	if ($('#CheckboxMailOnUserCreate').is(':checked')) {
-		$("#newemail").show();
-	}
-	// Option to display/hide the "E-Mail" input field
-	$('#CheckboxMailOnUserCreate').click(function () {
-		if ($('#CheckboxMailOnUserCreate').is(':checked')) {
-			$("#newemail").show();
-			if (OC.isUserAdmin()) {
-				OCP.AppConfig.setValue('core', 'umgmt_send_email', 'true');
-			}
-		} else {
-			$("#newemail").hide();
-			if (OC.isUserAdmin()) {
-				OCP.AppConfig.setValue('core', 'umgmt_send_email', 'false');
 			}
 		}
 	});

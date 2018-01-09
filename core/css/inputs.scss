@@ -149,6 +149,11 @@ input[type='reset'] {
 	cursor: pointer;
 	box-sizing: border-box;
 	background-color: nc-darken($color-main-background, 3%);
+	&.icon-confirm:not(:empty),
+	&.icon-confirm[value]:not([value=""]) {
+		background-position: calc(100% - 6px) center;
+		padding-right: 30px;
+	}
 }
 
 /* Buttons */

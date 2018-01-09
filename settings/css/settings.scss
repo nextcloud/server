@@ -491,9 +491,12 @@ table.grid {
 	}
 }
 
-td {
+td, th {
 	&.name {
 		padding-left: .8em;
+		width: 10em;
+		min-width: 10em;
+		max-width: 10em;
 	}
 	&.password {
 		padding-left: .8em;
@@ -504,8 +507,12 @@ td {
 	&.displayName > img {
 		visibility: hidden;
 	}
-	&.password, &.displayName {
+	&.password,
+	&.displayName,
+	&.mailAddress {
 		width: 12em;
+		min-width: 12em;
+		max-width: 12em;
 		cursor: pointer;
 	}
 	&.mailAddress {
@@ -524,7 +531,7 @@ span.usersLastLoginTooltip {
 /* dropdowns will be relative to this element */
 #userlist {
 	position: relative;
-	.mailAddress, .storageLocation, .userBackend, .lastLogin {
+	.storageLocation, .userBackend, .lastLogin {
 		display: none;
 	}
 	th.name {
@@ -545,17 +552,7 @@ span.usersLastLoginTooltip {
 	}
 }
 
-/* because of accessibility the name cell is <th> - therefore we enforce the black color */
-/* use same height as in files app */
 #newuser {
-	/* positioning fixes */
-	margin: 2px 0;
-	display: flex;
-	flex-direction: column;
-
-	.groups {
-		display: inline;
-	}
 	.groupsListContainer.hidden {
 		display: none;
 	}
@@ -564,18 +561,8 @@ span.usersLastLoginTooltip {
 		position: relative;
 		top: -1px;
 	}
-	input:not([type='submit']) {
+	#newuserHeader input:not([type="submit"]) {
 		width: 100%;
-		margin: 2px 0;
-	}
-	input[type='submit'] {
-		flex-grow: 2;
-	}
-	> div {
-		display: inline-flex;
-		label {
-			display: block;
-		}
 	}
 }
 
