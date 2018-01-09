@@ -27,6 +27,9 @@
 
 	var TEMPLATE_TOKEN =
 		'<tr data-id="{{id}}">'
+		+ '<td class="client">'
+		+ '<img src="{{icon}}" />'
+		+ '</td>'
 		+ '<td class="has-tooltip" title="{{title}}">'
 		+ '<span class="token-name">{{name}}</span>'
 		+ '</td>'
@@ -146,6 +149,22 @@
 				sailfishBrowser: 'SailfishBrowser'
 			};
 
+			var iconMap = {
+				ie: 'ie.svg',
+				edge: 'edge.svg',
+				firefox: 'firefox.svg',
+				chrome: 'chrome.svg',
+				safari: 'apple.svg',
+				androidChrome: 'chrome.svg',
+				iphone: 'iphone.svg',
+				ipad: 'ipad.svg',
+				iosClient: 'apple.svg',
+				androidClient: 'android.svg',
+				davDroid: 'android.svg',
+				webPirate: 'globe.svg',
+				sailfishBrowser: 'globe.svg'
+			};
+
 			if (matches) {
 				viewData.name = t('settings', 'Sync client - {os}', {
 					os: matches[1],
@@ -161,6 +180,11 @@
 					} else {
 						viewData.name = nameMap[client];
 					}
+
+					// update title - for easier view
+					viewData.title = viewData.name;
+
+					viewData.icon = '/settings/img/clients/' + iconMap[client];
 				}
 			}
 			if (viewData.current) {
