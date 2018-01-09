@@ -46,7 +46,7 @@ use OC\ServerNotAvailableException;
  * @property boolean turnOnPasswordChange
  * @property boolean hasPagedResultSupport
  * @property string[] ldapBaseUsers
- * @property int|string ldapPagingSize holds an integer
+ * @property int|null ldapPagingSize holds an integer
  * @property bool|mixed|void ldapGroupMemberAssocAttr
  * @property string ldapUuidUserAttribute
  * @property string ldapUuidGroupAttribute
