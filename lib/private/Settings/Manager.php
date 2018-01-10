@@ -47,6 +47,7 @@ use OCP\Lock\ILockingProvider;
 use OCP\Settings\ISettings;
 use OCP\Settings\IManager;
 use OCP\Settings\ISection;
+use OCP\Util;
 
 class Manager implements IManager {
 	/** @var ILogger */
@@ -344,7 +345,7 @@ class Manager implements IManager {
 		try {
 			return \OC::$server->query($className);
 		} catch (QueryException $e) {
-			$this->log->logException($e);
+			$this->log->logException($e, ['level' => Util::INFO]);
 			throw $e;
 		}
 	}
