@@ -66,7 +66,8 @@ class UploadHome implements ICollection {
 	}
 
 	function getName() {
-		return 'uploads';
+		list(,$name) = \Sabre\Uri\split($this->principalInfo['uri']);
+		return $name;
 	}
 
 	function setName($name) {
