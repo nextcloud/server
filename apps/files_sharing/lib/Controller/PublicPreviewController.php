@@ -94,7 +94,7 @@ class PublicPreviewController extends Controller {
 				$file = $node;
 			}
 
-			$f = $this->previewManager->getPreview($file, $x, $y, !$a);
+			$f = $this->previewManager->getPreview($file, $x, $y, !$a, IPreview::MODE_COVER);
 			return new FileDisplayResponse($f, Http::STATUS_OK, ['Content-Type' => $f->getMimeType()]);
 		} catch (NotFoundException $e) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
