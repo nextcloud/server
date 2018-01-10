@@ -1552,7 +1552,7 @@ describe('Core base tests', function() {
 			stubJsPageLoadTime.restore();
 		});
 
-		it('should not show the password confirmation dialog', function () {
+		it('should not show the password confirmation dialog when server time is earlier than local time', function () {
 			// add server variables
 			window.nc_pageLoad = parseInt(new Date(2018, 0, 3, 1, 15, 0).getTime() / 1000);
 			window.nc_lastLogin = parseInt(new Date(2018, 0, 3, 1, 0, 0).getTime() / 1000);
@@ -1564,10 +1564,34 @@ describe('Core base tests', function() {
 			expect(OC.PasswordConfirmation.requiresPasswordConfirmation()).toBeFalsy();
 		});
 
-		it('should show the password confirmation dialog', function () {
+		it('should show the password confirmation dialog when server time is earlier than local time', function () {
 			// add server variables
 			window.nc_pageLoad = parseInt(new Date(2018, 0, 3, 1, 15, 0).getTime() / 1000);
 			window.nc_lastLogin = parseInt(new Date(2018, 0, 3, 1, 0, 0).getTime() / 1000);
+			window.backendAllowsPasswordConfirmation = true;
+
+			stubJsPageLoadTime = sinon.stub(OC.PasswordConfirmation, 'pageLoadTime').value(new Date(2018, 0, 3, 12, 15, 0).getTime());
+			stubMomentNow = sinon.stub(moment, 'now').returns(new Date(2018, 0, 3, 12, 31, 0).getTime());
+
+			expect(OC.PasswordConfirmation.requiresPasswordConfirmation()).toBeTruthy();
+		});
+
+		it('should not show the password confirmation dialog when server time is later than local time', function () {
+			// add server variables
+			window.nc_pageLoad = parseInt(new Date(2018, 0, 3, 23, 15, 0).getTime() / 1000);
+			window.nc_lastLogin = parseInt(new Date(2018, 0, 3, 23, 0, 0).getTime() / 1000);
+			window.backendAllowsPasswordConfirmation = true;
+
+			stubJsPageLoadTime = sinon.stub(OC.PasswordConfirmation, 'pageLoadTime').value(new Date(2018, 0, 3, 12, 15, 0).getTime());
+			stubMomentNow = sinon.stub(moment, 'now').returns(new Date(2018, 0, 3, 12, 20, 0).getTime());
+
+			expect(OC.PasswordConfirmation.requiresPasswordConfirmation()).toBeFalsy();
+		});
+
+		it('should show the password confirmation dialog when server time is later than local time', function () {
+			// add server variables
+			window.nc_pageLoad = parseInt(new Date(2018, 0, 3, 23, 15, 0).getTime() / 1000);
+			window.nc_lastLogin = parseInt(new Date(2018, 0, 3, 23, 0, 0).getTime() / 1000);
 			window.backendAllowsPasswordConfirmation = true;
 
 			stubJsPageLoadTime = sinon.stub(OC.PasswordConfirmation, 'pageLoadTime').value(new Date(2018, 0, 3, 12, 15, 0).getTime());
