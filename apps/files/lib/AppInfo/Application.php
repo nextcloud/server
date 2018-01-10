@@ -81,13 +81,14 @@ class Application extends App {
 		$container->registerService('Tagger', function(IContainer $c)  {
 			return $c->query('ServerContainer')->getTagManager()->load('files');
 		});
-		$container->registerService('TagService', function(IContainer $c)  {
+		$container->registerService('TagService', function(IContainer $c) use ($server) {
 			$homeFolder = $c->query('ServerContainer')->getUserFolder();
 			return new TagService(
 				$c->query('ServerContainer')->getUserSession(),
 				$c->query('ServerContainer')->getActivityManager(),
 				$c->query('Tagger'),
-				$homeFolder
+				$homeFolder,
+				$server->getEventDispatcher()
 			);
 		});
 
