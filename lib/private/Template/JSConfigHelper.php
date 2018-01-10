@@ -155,6 +155,7 @@ class JSConfigHelper {
 			"oc_appswebroots" =>  str_replace('\\/', '/', json_encode($apps_paths)), // Ugly unescape slashes waiting for better solution
 			"datepickerFormatDate" => json_encode($this->l->l('jsdate', null)),
 			'nc_lastLogin' => $lastConfirmTimestamp,
+			'nc_pageLoad' => time(),
 			"dayNames" =>  json_encode([
 				(string)$this->l->t('Sunday'),
 				(string)$this->l->t('Monday'),
