@@ -49,6 +49,7 @@ $expectedFiles = [
 	'build',
 	'buildjsdocs.sh',
 	'CHANGELOG.md',
+	'CODE_OF_CONDUCT.md',
 	'composer.json',
 	'config',
 	'console.php',
