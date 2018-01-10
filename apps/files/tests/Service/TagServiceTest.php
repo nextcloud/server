@@ -28,6 +28,7 @@ use OC\Tags;
 use OCA\Files\Service\TagService;
 use OCP\Activity\IManager;
 use OCP\IUserSession;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Class TagServiceTest
@@ -54,6 +55,9 @@ class TagServiceTest extends \Test\TestCase {
 	 */
 	private $root;
 
+	/** @var EventDispatcherInterface|\PHPUnit_Framework_MockObject_MockObject */
+	private $dispatcher;
+
 	/**
 	 * @var \OCA\Files\Service\TagService|\PHPUnit_Framework_MockObject_MockObject
 	 */
@@ -66,7 +70,7 @@ class TagServiceTest extends \Test\TestCase {
 
 	protected function setUp() {
 		parent::setUp();
-		$this->user = $this->getUniqueID('user');
+		$this->user = static::getUniqueID('user');
 		$this->activityManager = $this->createMock(IManager::class);
 		\OC::$server->getUserManager()->createUser($this->user, 'test');
 		\OC_User::setUserId($this->user);
@@ -83,6 +87,7 @@ class TagServiceTest extends \Test\TestCase {
 			->will($this->returnValue($user));
 
 		$this->root = \OC::$server->getUserFolder();
+		$this->dispatcher = $this->createMock(EventDispatcherInterface::class);
 
 		$this->tagger = \OC::$server->getTagManager()->load('files');
 		$this->tagService = $this->getTagService(['addActivity']);
@@ -99,6 +104,7 @@ class TagServiceTest extends \Test\TestCase {
 				$this->activityManager,
 				$this->tagger,
 				$this->root,
+				$this->dispatcher,
 			])
 			->setMethods($methods)
 			->getMock();
