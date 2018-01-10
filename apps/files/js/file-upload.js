@@ -235,7 +235,7 @@ OC.FileUpload.prototype = {
 		) {
 			data.isChunked = true;
 			chunkFolderPromise = this.uploader.davClient.createDirectory(
-				'uploads/' + encodeURIComponent(OC.getCurrentUser().uid) + '/' + encodeURIComponent(this.getId())
+				'uploads/' + OC.getCurrentUser().uid + '/' + this.getId()
 			);
 			// TODO: if fails, it means same id already existed, need to retry
 		} else {
@@ -272,8 +272,8 @@ OC.FileUpload.prototype = {
 		}
 
 		return this.uploader.davClient.move(
-			'uploads/' + encodeURIComponent(uid) + '/' + encodeURIComponent(this.getId()) + '/.file',
-			'files/' + encodeURIComponent(uid) + '/' + OC.joinPaths(this.getFullPath(), this.getFileName()),
+			'uploads/' + uid + '/' + this.getId() + '/.file',
+			'files/' + uid + '/' + OC.joinPaths(this.getFullPath(), this.getFileName()),
 			true,
 			headers
 		);
@@ -282,7 +282,7 @@ OC.FileUpload.prototype = {
 	_deleteChunkFolder: function() {
 		// delete transfer directory for this upload
 		this.uploader.davClient.remove(
-			'uploads/' + encodeURIComponent(OC.getCurrentUser().uid) + '/' + encodeURIComponent(this.getId())
+			'uploads/' + OC.getCurrentUser().uid + '/' + this.getId()
 		);
 	},
 
@@ -1166,9 +1166,9 @@ OC.Uploader.prototype = _.extend({
 					var chunkId = range.split('/')[0].split('-')[0];
 					data.url = OC.getRootPath() +
 						'/remote.php/dav/uploads' +
-						'/' + encodeURIComponent(OC.getCurrentUser().uid) +
-						'/' + encodeURIComponent(upload.getId()) +
-						'/' + encodeURIComponent(chunkId);
+						'/' + OC.getCurrentUser().uid +
+						'/' + upload.getId() +
+						'/' + chunkId;
 					delete data.contentRange;
 					delete data.headers['Content-Range'];
 				});
