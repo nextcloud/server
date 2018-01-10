@@ -30,6 +30,7 @@ class Parser {
 	// todo replace with static once <5.6 support is dropped
 	// see error.h
 	private static $exceptionMap = [
+		ErrorCodes::LogonFailure      => '\Icewind\SMB\Exception\AuthenticationException',
 		ErrorCodes::PathNotFound      => '\Icewind\SMB\Exception\NotFoundException',
 		ErrorCodes::ObjectNotFound    => '\Icewind\SMB\Exception\NotFoundException',
 		ErrorCodes::NoSuchFile        => '\Icewind\SMB\Exception\NotFoundException',
@@ -38,7 +39,8 @@ class Parser {
 		ErrorCodes::DirectoryNotEmpty => '\Icewind\SMB\Exception\NotEmptyException',
 		ErrorCodes::FileIsADirectory  => '\Icewind\SMB\Exception\InvalidTypeException',
 		ErrorCodes::NotADirectory     => '\Icewind\SMB\Exception\InvalidTypeException',
-		ErrorCodes::SharingViolation  => '\Icewind\SMB\Exception\FileInUseException'
+		ErrorCodes::SharingViolation  => '\Icewind\SMB\Exception\FileInUseException',
+		ErrorCodes::InvalidParameter  => '\Icewind\SMB\Exception\InvalidParameterException'
 	];
 
 	/**

@@ -9,6 +9,8 @@
 namespace Icewind\SMB;
 
 
+use Icewind\SMB\Exception\Exception;
+
 class NotifyHandler implements INotifyHandler {
 	/**
 	 * @var Connection
@@ -21,6 +23,12 @@ class NotifyHandler implements INotifyHandler {
 	private $path;
 
 	private $listening = true;
+
+	// todo replace with static once <5.6 support is dropped
+	// see error.h
+	private static $exceptionMap = [
+		ErrorCodes::RevisionMismatch => '\Icewind\SMB\Exception\RevisionMismatchException',
+	];
 
 	/**
 	 * @param Connection $connection
@@ -43,6 +51,7 @@ class NotifyHandler implements INotifyHandler {
 		stream_set_blocking($this->connection->getOutputStream(), 0);
 		$lines = [];
 		while (($line = $this->connection->readLine())) {
+			$this->checkForError($line);
 			$lines[] = $line;
 		}
 		stream_set_blocking($this->connection->getOutputStream(), 1);
@@ -59,6 +68,7 @@ class NotifyHandler implements INotifyHandler {
 	public function listen($callback) {
 		if ($this->listening) {
 			$this->connection->read(function ($line) use ($callback) {
+				$this->checkForError($line);
 				$change = $this->parseChangeLine($line);
 				if ($change) {
 					return $callback($change);
@@ -77,6 +87,13 @@ class NotifyHandler implements INotifyHandler {
 			return new Change($code, $subPath);
 		} else {
 			return new Change($code, $this->path . '/' . $subPath);
+		}
+	}
+
+	private function checkForError($line) {
+		if (substr($line, 0, 16) === 'notify returned ') {
+			$error = substr($line, 16);
+			throw Exception::fromMap(self::$exceptionMap, $error, 'Notify is not supported with the used smb version');
 		}
 	}
 
