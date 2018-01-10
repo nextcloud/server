@@ -75,6 +75,7 @@ OC.L10N.register(
     "Region" : "Bölge",
     "Enable SSL" : "SSL Kullanılsın",
     "Enable Path Style" : "Yol Stili Kullanılsın",
+    "Legacy (v2) authentication" : "Eski (v2) kimlik doğrulama",
     "WebDAV" : "WebDAV",
     "URL" : "Adres",
     "Remote subfolder" : "Uzak alt klasör",
