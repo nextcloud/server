@@ -41,19 +41,17 @@
 					</div>
 				</a>
 
-				<ul id="appmenu">
+				<ul id="appmenu" <?php if ($_['themingInvertMenu']) { ?>class="inverted"<?php } ?>>
 					<?php foreach ($_['navigation'] as $entry): ?>
 						<li data-id="<?php p($entry['id']); ?>" class="hidden">
 							<a href="<?php print_unescaped($entry['href']); ?>"
 								<?php if ($entry['active']): ?> class="active"<?php endif; ?>>
-								<?php if ($_['themingInvertMenu']) { ?>
 									<svg width="20" height="20" viewBox="0 0 20 20">
-									<defs><filter id="invertMenuMain-<?php p($entry['id']); ?>"><feColorMatrix in="SourceGraphic" type="matrix" values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0" /></filter></defs>
-									<image x="0" y="0" width="20" height="20" preserveAspectRatio="xMinYMin meet" filter="url(#invertMenuMain-<?php p($entry['id']); ?>)" xlink:href="<?php print_unescaped($entry['icon'] . '?v=' . $_['versionHash']); ?>"  class="app-icon" /></svg>
-								<?php } else { ?>
-									<img src="<?php print_unescaped($entry['icon'] . '?v=' . $_['versionHash']); ?>"
-										 class="app-icon" alt="<?php p($entry['name']); ?>" />
-								<?php } ?>
+										<?php if ($_['themingInvertMenu']) { ?>
+										<defs><filter id="invertMenuMain-<?php p($entry['id']); ?>"><feColorMatrix in="SourceGraphic" type="matrix" values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0" /></filter></defs>
+										<?php } ?>
+										<image x="0" y="0" width="20" height="20" preserveAspectRatio="xMinYMin meet"<?php if ($_['themingInvertMenu']) { ?> filter="url(#invertMenuMain-<?php p($entry['id']); ?>)"<?php } ?> xlink:href="<?php print_unescaped($entry['icon'] . '?v=' . $_['versionHash']); ?>"  class="app-icon" />
+									</svg>
 								<div class="icon-loading-small-dark"
 									 style="display:none;"></div>
 							</a>
