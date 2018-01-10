@@ -31,6 +31,7 @@ class NativeState {
 		17  => '\Icewind\SMB\Exception\AlreadyExistsException',
 		20  => '\Icewind\SMB\Exception\InvalidTypeException',
 		21  => '\Icewind\SMB\Exception\InvalidTypeException',
+		28  => '\Icewind\SMB\Exception\OutOfSpaceException',
 		39  => '\Icewind\SMB\Exception\NotEmptyException',
 		110 => '\Icewind\SMB\Exception\TimedOutException',
 		111 => '\Icewind\SMB\Exception\ConnectionRefusedException',

@@ -6,14 +6,8 @@ namespace Composer\Autoload;
 
 class ComposerStaticInit98fe9b281934250b3a93f69a5ce843b3
 {
-    public static $prefixLengthsPsr4 = array (
-        'I' => 
-        array (
-            'Icewind\\Streams\\Tests\\' => 22,
-            'Icewind\\Streams\\' => 16,
-            'Icewind\\SMB\\Test\\' => 17,
-            'Icewind\\SMB\\' => 12,
-        ),
+    public static $firstCharsPsr4 = array (
+        'I' => true,
     );
 
     public static $prefixDirsPsr4 = array (
@@ -52,6 +46,7 @@ class ComposerStaticInit98fe9b281934250b3a93f69a5ce843b3
         'Icewind\\SMB\\Exception\\ForbiddenException' => __DIR__ . '/..' . '/icewind/smb/src/Exception/ForbiddenException.php',
         'Icewind\\SMB\\Exception\\HostDownException' => __DIR__ . '/..' . '/icewind/smb/src/Exception/HostDownException.php',
         'Icewind\\SMB\\Exception\\InvalidHostException' => __DIR__ . '/..' . '/icewind/smb/src/Exception/InvalidHostException.php',
+        'Icewind\\SMB\\Exception\\InvalidParameterException' => __DIR__ . '/..' . '/icewind/smb/src/Exception/InvalidParameterException.php',
         'Icewind\\SMB\\Exception\\InvalidPathException' => __DIR__ . '/..' . '/icewind/smb/src/Exception/InvalidPathException.php',
         'Icewind\\SMB\\Exception\\InvalidRequestException' => __DIR__ . '/..' . '/icewind/smb/src/Exception/InvalidRequestException.php',
         'Icewind\\SMB\\Exception\\InvalidResourceException' => __DIR__ . '/..' . '/icewind/smb/src/Exception/InvalidResourceException.php',
@@ -60,6 +55,8 @@ class ComposerStaticInit98fe9b281934250b3a93f69a5ce843b3
         'Icewind\\SMB\\Exception\\NoRouteToHostException' => __DIR__ . '/..' . '/icewind/smb/src/Exception/NoRouteToHostException.php',
         'Icewind\\SMB\\Exception\\NotEmptyException' => __DIR__ . '/..' . '/icewind/smb/src/Exception/NotEmptyException.php',
         'Icewind\\SMB\\Exception\\NotFoundException' => __DIR__ . '/..' . '/icewind/smb/src/Exception/NotFoundException.php',
+        'Icewind\\SMB\\Exception\\OutOfSpaceException' => __DIR__ . '/..' . '/icewind/smb/src/Exception/OutOfSpaceException.php',
+        'Icewind\\SMB\\Exception\\RevisionMismatchException' => __DIR__ . '/..' . '/icewind/smb/src/Exception/RevisionMismatchException.php',
         'Icewind\\SMB\\Exception\\TimedOutException' => __DIR__ . '/..' . '/icewind/smb/src/Exception/TimedOutException.php',
         'Icewind\\SMB\\FileInfo' => __DIR__ . '/..' . '/icewind/smb/src/FileInfo.php',
         'Icewind\\SMB\\IFileInfo' => __DIR__ . '/..' . '/icewind/smb/src/IFileInfo.php',
@@ -120,7 +117,7 @@ class ComposerStaticInit98fe9b281934250b3a93f69a5ce843b3
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit98fe9b281934250b3a93f69a5ce843b3::$prefixLengthsPsr4;
+            $loader->firstCharsPsr4 = ComposerStaticInit98fe9b281934250b3a93f69a5ce843b3::$firstCharsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit98fe9b281934250b3a93f69a5ce843b3::$prefixDirsPsr4;
             $loader->classMap = ComposerStaticInit98fe9b281934250b3a93f69a5ce843b3::$classMap;
 

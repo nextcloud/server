@@ -134,6 +134,7 @@ class Server {
 		);
 		$connection = new RawConnection($command);
 		$connection->writeAuthentication($this->getUser(), $this->getPassword());
+		$connection->connect();
 		$output = $connection->readAll();
 		$parser = new Parser($this->timezoneProvider);
 
