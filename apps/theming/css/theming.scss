@@ -20,9 +20,11 @@
 }
 
 @if (luma($color-primary) > 0.6) {
-	#appmenu img,
-	#appmenu image {
+	#appmenu:not(.inverted) svg {
 		filter: invert(1);
+	}
+	#appmenu.inverted svg {
+		filter: none;
 	}
 	.searchbox input[type="search"] {
 		background: transparent url('../../../core/img/actions/search.svg') no-repeat 6px center;
@@ -67,10 +69,12 @@
 		}
 	}
 } @else {
-	  #appmenu img,
-	  #appmenu image {
-		  filter: none;
-	  }
+	#appmenu:not(.inverted) svg {
+		filter: none;
+	}
+	#appmenu.inverted svg {
+		filter: invert(1);
+	}
 }
 
 /* Colorized svg images */
