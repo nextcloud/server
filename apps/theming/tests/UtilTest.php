@@ -189,7 +189,6 @@ class UtilTest extends TestCase {
 	}
 
 	public function testIsAlreadyThemedFalse() {
-		$theme = $this->config->getSystemValue('theme', '');
 		$this->config->expects($this->once())
 			->method('getSystemValue')
 			->with('theme', '')
@@ -199,13 +198,43 @@ class UtilTest extends TestCase {
 	}
 
 	public function testIsAlreadyThemedTrue() {
-		$theme = $this->config->getSystemValue('theme', '');
 		$this->config->expects($this->once())
 			->method('getSystemValue')
 			->with('theme', '')
 			->willReturn('example');
 		$actual = $this->util->isAlreadyThemed();
 		$this->assertTrue($actual);
+	}
+
+	public function dataIsBackgroundThemed() {
+		return [
+			[false, false, false],
+			['png', true, true],
+			['backgroundColor', false, false],
+		];
+	}
+	/**
+	 * @dataProvider dataIsBackgroundThemed
+	 */
+	public function testIsBackgroundThemed($backgroundMime, $fileFound, $expected) {
+		$this->config->expects($this->once())
+			->method('getAppValue')
+			->with('theming', 'backgroundMime', false)
+			->willReturn($backgroundMime);
+		$folder = $this->createMock(ISimpleFolder::class);
+		if ($fileFound) {
+			$folder->expects($this->once())
+				->method('getFile')
+				->willReturn($this->createMock(ISimpleFile::class));
+		} else {
+			$folder->expects($this->once())
+				->method('getFile')
+				->willThrowException(new NotFoundException());
+		}
+		$this->appData->expects($this->once())
+			->method('getFolder')
+			->willReturn($folder);
+		$this->assertEquals($expected, $this->util->isBackgroundThemed());
 	}
 
 }

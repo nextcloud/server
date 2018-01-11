@@ -196,22 +196,13 @@ class ThemingDefaults extends \OC_Defaults {
 	 * @return string
 	 */
 	public function getBackground() {
-		$backgroundLogo = $this->config->getAppValue('theming', 'backgroundMime',false);
-
-		$backgroundExists = true;
-		try {
-			$this->appData->getFolder('images')->getFile('background');
-		} catch (\Exception $e) {
-			$backgroundExists = false;
-		}
-
 		$cacheBusterCounter = $this->config->getAppValue('theming', 'cachebuster', '0');
 
-		if(!$backgroundLogo || !$backgroundExists) {
-			return $this->urlGenerator->imagePath('core','background.png') . '?v=' . $cacheBusterCounter;
+		if($this->util->isBackgroundThemed()) {
+			return $this->urlGenerator->linkToRoute('theming.Theming.getLoginBackground') . '?v=' . $cacheBusterCounter;
 		}
 
-		return $this->urlGenerator->linkToRoute('theming.Theming.getLoginBackground') . '?v=' . $cacheBusterCounter;
+		return $this->urlGenerator->imagePath('core','background.png') . '?v=' . $cacheBusterCounter;
 	}
 
 	/**
