@@ -68,4 +68,14 @@ class Mount extends MountPoint implements MoveableMount {
 	public function removeMount() {
 		return $this->manager->removeShare($this->mountPoint);
 	}
+
+	/**
+	 * Get the type of mount point, used to distinguish things like shares and external storages
+	 * in the web interface
+	 *
+	 * @return string
+	 */
+	public function getMountType() {
+		return 'shared';
+	}
 }
