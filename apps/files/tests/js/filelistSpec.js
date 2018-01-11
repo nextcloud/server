@@ -674,6 +674,36 @@ describe('OCA.Files.FileList tests', function() {
 
 			expect(notificationStub.calledOnce).toEqual(true);
 		});
+		it('Shows renamed file details if rename ajax call suceeded', function() {
+			fileList.showDetailsView('One.txt');
+
+			expect($('#app-sidebar').hasClass('disappear')).toEqual(false);
+			expect(fileList._detailsView.getFileInfo().get('id')).toEqual(1);
+			expect(fileList._detailsView.getFileInfo().get('name')).toEqual('One.txt');
+
+			doRename();
+
+			deferredRename.resolve(201);
+
+			expect($('#app-sidebar').hasClass('disappear')).toEqual(false);
+			expect(fileList._detailsView.getFileInfo().get('id')).toEqual(1);
+			expect(fileList._detailsView.getFileInfo().get('name')).toEqual('Tu_after_three.txt');
+		});
+		it('Shows again file details if rename ajax call failed', function() {
+			fileList.showDetailsView('One.txt');
+
+			expect($('#app-sidebar').hasClass('disappear')).toEqual(false);
+			expect(fileList._detailsView.getFileInfo().get('id')).toEqual(1);
+			expect(fileList._detailsView.getFileInfo().get('name')).toEqual('One.txt');
+
+			doRename();
+
+			deferredRename.reject(403);
+
+			expect($('#app-sidebar').hasClass('disappear')).toEqual(false);
+			expect(fileList._detailsView.getFileInfo().get('id')).toEqual(1);
+			expect(fileList._detailsView.getFileInfo().get('name')).toEqual('One.txt');
+		});
 		it('Correctly updates file link after rename', function() {
 			var $tr;
 			doRename();
