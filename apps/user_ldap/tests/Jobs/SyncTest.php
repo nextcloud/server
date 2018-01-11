@@ -159,7 +159,8 @@ class SyncTest extends TestCase {
 			[ 3, 3, true ],
 			[ 3, 5, true ],
 			[ 3, 2, false],
-			[ 0, 4, false]
+			[ 0, 4, false],
+			[ null, 4, false]
 		];
 	}
 

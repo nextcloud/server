@@ -176,10 +176,10 @@ class Sync extends TimedJob {
 			true
 		);
 
-		if($connection->ldapPagingSize === 0) {
+		if((int)$connection->ldapPagingSize === 0) {
 			return false;
 		}
-		return count($results) >= $connection->ldapPagingSize;
+		return count($results) >= (int)$connection->ldapPagingSize;
 	}
 
 	/**
