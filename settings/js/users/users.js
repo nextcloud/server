@@ -101,16 +101,9 @@ var UserList = {
 		$tdSubadmins.find('.action').tooltip({placement: 'top'});
 
 		/**
-		 * user actions menu
+		 * hide user actions menu for current user
 		 */
-		if ($tr.find('td.userActions > span > img').length === 0 && OC.currentUser !== user.name) {
-			var menuImage = $('<img class="svg action">').attr({
-				src: OC.imagePath('core', 'actions/more')
-			});
-			var menuLink = $('<span class="toggleUserActions"></span>')
-				.append(menuImage);
-			$tr.find('td.userActions > span').replaceWith(menuLink);
-		} else if (OC.currentUser === user.name) {
+		if (OC.currentUser === user.name) {
 			$tr.find('td.userActions').empty();
 		}
 

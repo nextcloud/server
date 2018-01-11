@@ -347,7 +347,7 @@ table.nostyle {
 	}
 	.token-list {
 		td > a.icon {
-			opacity: 0;
+
 			transition: opacity 0.5s;
 		}
 		a.icon {
@@ -563,34 +563,24 @@ tr:hover > td {
 }
 
 td.userActions {
-	width: 25px;
-	text-align: center;
-	position: relative;
-	.action {
-		position: relative;
-		top: 3px;
-	}
+	width: 44px;
 	.toggleUserActions {
-		border: none;
-		background-color: rgba(0, 0, 0, 0);
-		width: 34px;
-		height: 34px;
-		margin: 0;
-		opacity: 0.5;
-		&:hover,
-		&:focus {
-			background-color: transparent;
-			opacity: 1;
+		width: 44px;
+		height: 44px;
+		position: relative;
+		.action {
+			display: block;
+			padding: 14px;
+			opacity: 0.5;
+			.icon-more {
+				display: inline-block;
+			}
+			&:hover,
+			&:focus {
+				opacity: 1;
+			}
 		}
 	}
-}
-
-tr.active td.userActions .action {
-	opacity: 1;
-}
-
-td.userActions .action:hover {
-	cursor: pointer;
 }
 
 div.recoveryPassword {

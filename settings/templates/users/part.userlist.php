@@ -1,4 +1,4 @@
-<table id="userlist" class="hascontrols grid" data-groups="<?php p($_['allGroups']);?>">
+<table id="userlist" class="grid" data-groups="<?php p($_['allGroups']);?>">
 	<thead>
 		<tr>
 			<th id="headerAvatar" scope="col"></th>
@@ -64,19 +64,22 @@
 			<td class="storageLocation"></td>
 			<td class="userBackend"></td>
 			<td class="lastLogin"></td>
-			<td class="userActions"><span></span>
-				<div class="popovermenu bubble menu">
-					<ul class="userActionsMenu">
-						<li>
-							<a href="#" class="menuitem action-togglestate permanent" data-action="togglestate"></a>
-						</li>
-						<li>
-							<a href="#" class="menuitem action-remove permanent" data-action="remove">
-								<span class="icon icon-delete"></span>
-								<span><?php p($l->t('Delete')); ?></span>
-							</a>
-						</li>
-					</ul>
+			<td class="userActions">
+				<div class="toggleUserActions">
+					<a class="action"><span class="icon-more"></span></a>
+					<div class="popovermenu bubble menu">
+						<ul class="userActionsMenu">
+							<li>
+								<a href="#" class="menuitem action-togglestate permanent" data-action="togglestate"></a>
+							</li>
+							<li>
+								<a href="#" class="menuitem action-remove permanent" data-action="remove">
+									<span class="icon icon-delete"></span>
+									<span><?php p($l->t('Delete')); ?></span>
+								</a>
+							</li>
+						</ul>
+					</div>
 				</div>
 			</td>
 		</tr>
