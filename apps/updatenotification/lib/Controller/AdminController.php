@@ -25,6 +25,7 @@
 
 namespace OCA\UpdateNotification\Controller;
 
+use OCA\UpdateNotification\ResetTokenBackgroundJob;
 use OCA\UpdateNotification\UpdateChecker;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
@@ -37,6 +38,7 @@ use OCP\IL10N;
 use OCP\IRequest;
 use OCP\Security\ISecureRandom;
 use OCP\Settings\ISettings;
+use OCP\Util;
 
 class AdminController extends Controller implements ISettings {
 	/** @var IJobList */
@@ -87,7 +89,7 @@ class AdminController extends Controller implements ISettings {
 	/**
 	 * @return TemplateResponse
 	 */
-	public function displayPanel() {
+	public function getForm() {
 		$lastUpdateCheckTimestamp = $this->config->getAppValue('core', 'lastupdatedat');
 		$lastUpdateCheck = $this->dateTimeFormatter->formatDateTime($lastUpdateCheckTimestamp);
 
@@ -97,7 +99,7 @@ class AdminController extends Controller implements ISettings {
 			'stable',
 			'production',
 		];
-		$currentChannel = \OCP\Util::getChannel();
+		$currentChannel = Util::getChannel();
 
 		// Remove the currently used channel from the channels list
 		if(($key = array_search($currentChannel, $channels)) !== false) {
@@ -128,13 +130,11 @@ class AdminController extends Controller implements ISettings {
 	}
 
 	/**
-	 * @UseSession
-	 *
 	 * @param string $channel
 	 * @return DataResponse
 	 */
 	public function setChannel($channel) {
-		\OCP\Util::setChannel($channel);
+		Util::setChannel($channel);
 		$this->config->setAppValue('core', 'lastupdatedat', 0);
 		return new DataResponse(['status' => 'success', 'data' => ['message' => $this->l10n->t('Channel updated')]]);
 	}
@@ -144,7 +144,7 @@ class AdminController extends Controller implements ISettings {
 	 */
 	public function createCredentials() {
 		// Create a new job and store the creation date
-		$this->jobList->add('OCA\UpdateNotification\ResetTokenBackgroundJob');
+		$this->jobList->add(ResetTokenBackgroundJob::class);
 		$this->config->setAppValue('core', 'updater.secret.created', $this->timeFactory->getTime());
 
 		// Create a new token
@@ -152,13 +152,6 @@ class AdminController extends Controller implements ISettings {
 		$this->config->setSystemValue('updater.secret', password_hash($newToken, PASSWORD_DEFAULT));
 
 		return new DataResponse($newToken);
-	}
-
-	/**
-	 * @return TemplateResponse returns the instance with all parameters set, ready to be rendered
-	 */
-	public function getForm() {
-		return $this->displayPanel();
 	}
 
 	/**

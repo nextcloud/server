@@ -25,6 +25,7 @@
 namespace OCA\UpdateNotification\Tests\Controller;
 
 use OCA\UpdateNotification\Controller\AdminController;
+use OCA\UpdateNotification\ResetTokenBackgroundJob;
 use OCA\UpdateNotification\UpdateChecker;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -35,40 +36,40 @@ use OCP\IDateTimeFormatter;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\Security\ISecureRandom;
+use OCP\Util;
 use Test\TestCase;
 
 class AdminControllerTest extends TestCase {
-	/** @var IRequest */
+	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
 	private $request;
-	/** @var IJobList */
+	/** @var IJobList|\PHPUnit_Framework_MockObject_MockObject */
 	private $jobList;
-	/** @var ISecureRandom */
+	/** @var ISecureRandom|\PHPUnit_Framework_MockObject_MockObject */
 	private $secureRandom;
-	/** @var IConfig */
+	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
 	private $config;
 	/** @var AdminController */
 	private $adminController;
-	/** @var ITimeFactory */
+	/** @var ITimeFactory|\PHPUnit_Framework_MockObject_MockObject */
 	private $timeFactory;
-	/** @var IL10N */
+	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
 	private $l10n;
-	/** @var UpdateChecker */
+	/** @var UpdateChecker|\PHPUnit_Framework_MockObject_MockObject */
 	private $updateChecker;
-	/** @var IDateTimeFormatter */
+	/** @var IDateTimeFormatter|\PHPUnit_Framework_MockObject_MockObject */
 	private $dateTimeFormatter;
 
 	public function setUp() {
 		parent::setUp();
 
-		$this->request = $this->getMockBuilder('\\OCP\\IRequest')->getMock();
-		$this->jobList = $this->getMockBuilder('\\OCP\\BackgroundJob\\IJobList')->getMock();
-		$this->secureRandom = $this->getMockBuilder('\\OCP\\Security\\ISecureRandom')->getMock();
-		$this->config = $this->getMockBuilder('\\OCP\\IConfig')->getMock();
-		$this->timeFactory = $this->getMockBuilder('\\OCP\\AppFramework\\Utility\\ITimeFactory')->getMock();
-		$this->l10n = $this->getMockBuilder('\\OCP\\IL10N')->getMock();
-		$this->updateChecker = $this->getMockBuilder('\\OCA\\UpdateNotification\\UpdateChecker')
-			->disableOriginalConstructor()->getMock();
-		$this->dateTimeFormatter = $this->getMockBuilder('\\OCP\\IDateTimeFormatter')->getMock();
+		$this->request = $this->createMock(IRequest::class);
+		$this->jobList = $this->createMock(IJobList::class);
+		$this->secureRandom = $this->createMock(ISecureRandom::class);
+		$this->config = $this->createMock(IConfig::class);
+		$this->timeFactory = $this->createMock(ITimeFactory::class);
+		$this->l10n = $this->createMock(IL10N::class);
+		$this->updateChecker = $this->createMock(UpdateChecker::class);
+		$this->dateTimeFormatter = $this->createMock(IDateTimeFormatter::class);
 
 		$this->adminController = new AdminController(
 			'updatenotification',
@@ -83,17 +84,17 @@ class AdminControllerTest extends TestCase {
 		);
 	}
 
-	public function testDisplayPanelWithUpdate() {
+	public function testGetFormWithUpdate() {
 		$channels = [
 			'daily',
 			'beta',
 			'stable',
 			'production',
 		];
-		$currentChannel = \OCP\Util::getChannel();
+		$currentChannel = Util::getChannel();
 
 		// Remove the currently used channel from the channels list
-		if(($key = array_search($currentChannel, $channels)) !== false) {
+		if(($key = array_search($currentChannel, $channels, true)) !== false) {
 			unset($channels[$key]);
 		}
 
@@ -128,7 +129,7 @@ class AdminControllerTest extends TestCase {
 			'isNewVersionAvailable' => true,
 			'isUpdateChecked' => true,
 			'lastChecked' => 'LastCheckedReturnValue',
-			'currentChannel' => \OCP\Util::getChannel(),
+			'currentChannel' => Util::getChannel(),
 			'channels' => $channels,
 			'newVersionString' => '8.1.2',
 			'downloadLink' => 'https://downloads.nextcloud.org/server',
@@ -139,20 +140,20 @@ class AdminControllerTest extends TestCase {
 		];
 
 		$expected = new TemplateResponse('updatenotification', 'admin', $params, '');
-		$this->assertEquals($expected, $this->adminController->displayPanel());
+		$this->assertEquals($expected, $this->adminController->getForm());
 	}
 
-	public function testDisplayPanelWithoutUpdate() {
+	public function testGetFormWithoutUpdate() {
 		$channels = [
 			'daily',
 			'beta',
 			'stable',
 			'production',
 		];
-		$currentChannel = \OCP\Util::getChannel();
+		$currentChannel = Util::getChannel();
 
 		// Remove the currently used channel from the channels list
-		if(($key = array_search($currentChannel, $channels)) !== false) {
+		if(($key = array_search($currentChannel, $channels, true)) !== false) {
 			unset($channels[$key]);
 		}
 
@@ -182,7 +183,7 @@ class AdminControllerTest extends TestCase {
 			'isNewVersionAvailable' => false,
 			'isUpdateChecked' => true,
 			'lastChecked' => 'LastCheckedReturnValue',
-			'currentChannel' => \OCP\Util::getChannel(),
+			'currentChannel' => Util::getChannel(),
 			'channels' => $channels,
 			'newVersionString' => '',
 			'downloadLink' => '',
@@ -193,7 +194,7 @@ class AdminControllerTest extends TestCase {
 		];
 
 		$expected = new TemplateResponse('updatenotification', 'admin', $params, '');
-		$this->assertEquals($expected, $this->adminController->displayPanel());
+		$this->assertEquals($expected, $this->adminController->getForm());
 	}
 
 
@@ -201,7 +202,7 @@ class AdminControllerTest extends TestCase {
 		$this->jobList
 			->expects($this->once())
 			->method('add')
-			->with('OCA\UpdateNotification\ResetTokenBackgroundJob');
+			->with(ResetTokenBackgroundJob::class);
 		$this->secureRandom
 			->expects($this->once())
 			->method('generate')
