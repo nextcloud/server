@@ -52,6 +52,7 @@ use OCA\User_LDAP\Mapping\AbstractMapping;
 
 use OC\ServerNotAvailableException;
 use OCP\IConfig;
+use OCP\Util;
 
 /**
  * Class Access
@@ -1937,9 +1938,8 @@ class Access extends LDAPUtility implements IUserTools {
 					}
 					\OCP\Util::writeLog('user_ldap', 'Ready for a paged search', \OCP\Util::DEBUG);
 				} else {
-					\OCP\Util::writeLog('user_ldap',
-						'No paged search for us, Cpt., Limit '.$limit.' Offset '.$offset,
-						\OCP\Util::INFO);
+					$e = new \Exception('No paged search possible, Limit '.$limit.' Offset '.$offset);
+					\OC::$server->getLogger()->logException($e, ['level' => Util::DEBUG]);
 				}
 
 			}
