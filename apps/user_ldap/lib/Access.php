@@ -1914,11 +1914,8 @@ class Access extends LDAPUtility implements IUserTools {
 					// no cookie known from a potential previous search. We need
 					// to start from 0 to come to the desired page. cookie value
 					// of '0' is valid, because 389ds
-					$reOffset = 0;
-					while($reOffset < $offset) {
-						$this->search($filter, array($base), $attr, $limit, $reOffset, true);
-						$reOffset += $limit;
-					}
+					$reOffset = ($offset - $limit) < 0 ? 0 : $offset - $limit;
+					$this->search($filter, array($base), $attr, $limit, $reOffset, true);
 					$cookie = $this->getPagedResultCookie($base, $filter, $limit, $offset);
 					//still no cookie? obviously, the server does not like us. Let's skip paging efforts.
 					// '0' is valid, because 389ds
