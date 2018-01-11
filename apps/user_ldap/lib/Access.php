@@ -52,6 +52,7 @@ use OCA\User_LDAP\Mapping\AbstractMapping;
 
 use OC\ServerNotAvailableException;
 use OCP\IConfig;
+use OCP\Util;
 
 /**
  * Class Access
@@ -1913,11 +1914,8 @@ class Access extends LDAPUtility implements IUserTools {
 					// no cookie known from a potential previous search. We need
 					// to start from 0 to come to the desired page. cookie value
 					// of '0' is valid, because 389ds
-					$reOffset = 0;
-					while($reOffset < $offset) {
-						$this->search($filter, array($base), $attr, $limit, $reOffset, true);
-						$reOffset += $limit;
-					}
+					$reOffset = ($offset - $limit) < 0 ? 0 : $offset - $limit;
+					$this->search($filter, array($base), $attr, $limit, $reOffset, true);
 					$cookie = $this->getPagedResultCookie($base, $filter, $limit, $offset);
 					//still no cookie? obviously, the server does not like us. Let's skip paging efforts.
 					// '0' is valid, because 389ds
@@ -1937,9 +1935,8 @@ class Access extends LDAPUtility implements IUserTools {
 					}
 					\OCP\Util::writeLog('user_ldap', 'Ready for a paged search', \OCP\Util::DEBUG);
 				} else {
-					\OCP\Util::writeLog('user_ldap',
-						'No paged search for us, Cpt., Limit '.$limit.' Offset '.$offset,
-						\OCP\Util::INFO);
+					$e = new \Exception('No paged search possible, Limit '.$limit.' Offset '.$offset);
+					\OC::$server->getLogger()->logException($e, ['level' => Util::DEBUG]);
 				}
 
 			}
