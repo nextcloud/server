@@ -612,6 +612,12 @@ describe('OCA.Files.FileList tests', function() {
 		beforeEach(function() {
 			deferredRename = $.Deferred();
 			renameStub = sinon.stub(filesClient, 'move').returns(deferredRename.promise());
+
+			for (var i = 0; i < testFiles.length; i++) {
+				var file = testFiles[i];
+				file.path = '/some/subdir';
+				fileList.add(file, {silent: true});
+			}
 		});
 		afterEach(function() {
 			renameStub.restore();
@@ -619,9 +625,6 @@ describe('OCA.Files.FileList tests', function() {
 
 		function doCancelRename() {
 			var $input;
-			for (var i = 0; i < testFiles.length; i++) {
-				fileList.add(testFiles[i]);
-			}
 
 			// trigger rename prompt
 			fileList.rename('One.txt');
@@ -635,12 +638,6 @@ describe('OCA.Files.FileList tests', function() {
 		}
 		function doRename() {
 			var $input;
-
-			for (var i = 0; i < testFiles.length; i++) {
-				var file = testFiles[i];
-				file.path = '/some/subdir';
-				fileList.add(file, {silent: true});
-			}
 
 			// trigger rename prompt
 			fileList.rename('One.txt');
@@ -730,10 +727,6 @@ describe('OCA.Files.FileList tests', function() {
 		});
 		it('Validates the file name', function() {
 			var $input, $tr;
-
-			for (var i = 0; i < testFiles.length; i++) {
-				fileList.add(testFiles[i], {silent: true});
-			}
 
 			$tr = fileList.findFileEl('One.txt');
 			expect($tr.find('a.name').css('display')).not.toEqual('none');
