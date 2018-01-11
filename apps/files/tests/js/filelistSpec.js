@@ -589,6 +589,12 @@ describe('OCA.Files.FileList tests', function() {
 		beforeEach(function() {
 			deferredRename = $.Deferred();
 			renameStub = sinon.stub(filesClient, 'move').returns(deferredRename.promise());
+
+			for (var i = 0; i < testFiles.length; i++) {
+				var file = testFiles[i];
+				file.path = '/some/subdir';
+				fileList.add(file, {silent: true});
+			}
 		});
 		afterEach(function() {
 			renameStub.restore();
@@ -596,9 +602,6 @@ describe('OCA.Files.FileList tests', function() {
 
 		function doCancelRename() {
 			var $input;
-			for (var i = 0; i < testFiles.length; i++) {
-				fileList.add(testFiles[i]);
-			}
 
 			// trigger rename prompt
 			fileList.rename('One.txt');
@@ -612,12 +615,6 @@ describe('OCA.Files.FileList tests', function() {
 		}
 		function doRename() {
 			var $input;
-
-			for (var i = 0; i < testFiles.length; i++) {
-				var file = testFiles[i];
-				file.path = '/some/subdir';
-				fileList.add(file, {silent: true});
-			}
 
 			// trigger rename prompt
 			fileList.rename('One.txt');
@@ -653,6 +650,36 @@ describe('OCA.Files.FileList tests', function() {
 			expect(fileList.findFileEl('Tu_after_three.txt').length).toEqual(0);
 
 			expect(notificationStub.calledOnce).toEqual(true);
+		});
+		it('Shows renamed file details if rename ajax call suceeded', function() {
+			fileList.showDetailsView('One.txt');
+
+			expect($('#app-sidebar').hasClass('disappear')).toEqual(false);
+			expect(fileList._detailsView.getFileInfo().get('id')).toEqual(1);
+			expect(fileList._detailsView.getFileInfo().get('name')).toEqual('One.txt');
+
+			doRename();
+
+			deferredRename.resolve(201);
+
+			expect($('#app-sidebar').hasClass('disappear')).toEqual(false);
+			expect(fileList._detailsView.getFileInfo().get('id')).toEqual(1);
+			expect(fileList._detailsView.getFileInfo().get('name')).toEqual('Tu_after_three.txt');
+		});
+		it('Shows again file details if rename ajax call failed', function() {
+			fileList.showDetailsView('One.txt');
+
+			expect($('#app-sidebar').hasClass('disappear')).toEqual(false);
+			expect(fileList._detailsView.getFileInfo().get('id')).toEqual(1);
+			expect(fileList._detailsView.getFileInfo().get('name')).toEqual('One.txt');
+
+			doRename();
+
+			deferredRename.reject(403);
+
+			expect($('#app-sidebar').hasClass('disappear')).toEqual(false);
+			expect(fileList._detailsView.getFileInfo().get('id')).toEqual(1);
+			expect(fileList._detailsView.getFileInfo().get('name')).toEqual('One.txt');
 		});
 		it('Correctly updates file link after rename', function() {
 			var $tr;
@@ -707,10 +734,6 @@ describe('OCA.Files.FileList tests', function() {
 		});
 		it('Validates the file name', function() {
 			var $input, $tr;
-
-			for (var i = 0; i < testFiles.length; i++) {
-				fileList.add(testFiles[i], {silent: true});
-			}
 
 			// trigger rename prompt
 			fileList.rename('One.txt');
