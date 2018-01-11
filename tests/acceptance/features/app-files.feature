@@ -23,6 +23,13 @@ Feature: app-files
     When I open the details view for "welcome.txt"
     Then I see that the details view for "All files" section is open
 
+  Scenario: rename a file with the details view open
+    Given I am logged in
+    And I open the details view for "welcome.txt"
+    When I rename "welcome.txt" to "farewell.txt"
+    Then I see that the file list contains a file named "farewell.txt"
+    And I see that the file name shown in the details view is "farewell.txt"
+
   Scenario: open the menu in a public shared link
     Given I act as John
     And I am logged in
