@@ -80,6 +80,15 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
+	public static function fileNameInCurrentSectionDetailsView() {
+		return Locator::forThe()->css(".fileName")->
+				descendantOf(self::currentSectionDetailsView())->
+				describedAs("File name in current section details view in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
 	public static function fileDetailsInCurrentSectionDetailsViewWithText($fileDetailsText) {
 		return Locator::forThe()->xpath("//span[normalize-space() = '$fileDetailsText']")->
 				descendantOf(self::fileDetailsInCurrentSectionDetailsView())->
@@ -259,6 +268,14 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
+	public static function renameInputForFile($fileName) {
+		return Locator::forThe()->css("input.filename")->descendantOf(self::rowForFile($fileName))->
+				describedAs("Rename input for file $fileName in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
 	public static function shareActionForFile($fileName) {
 		return Locator::forThe()->css(".action-share")->descendantOf(self::rowForFile($fileName))->
 				describedAs("Share action for file $fileName in Files app");
@@ -285,6 +302,13 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 */
 	public static function detailsMenuItem() {
 		return self::fileActionsMenuItemFor("Details");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function renameMenuItem() {
+		return self::fileActionsMenuItemFor("Rename");
 	}
 
 	/**
@@ -324,6 +348,17 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 */
 	public function iOpenTheTabInTheDetailsView($tabName) {
 		$this->actor->find(self::tabHeaderInCurrentSectionDetailsViewNamed($tabName), 10)->click();
+	}
+
+	/**
+	 * @Given I rename :fileName1 to :fileName2
+	 */
+	public function iRenameTo($fileName1, $fileName2) {
+		$this->actor->find(self::fileActionsMenuButtonForFile($fileName1), 10)->click();
+
+		$this->actor->find(self::renameMenuItem(), 2)->click();
+
+		$this->actor->find(self::renameInputForFile($fileName1), 10)->setValue($fileName2 . "\r");
 	}
 
 	/**
@@ -437,10 +472,25 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	}
 
 	/**
+	 * @Then I see that the file list contains a file named :fileName
+	 */
+	public function iSeeThatTheFileListContainsAFileNamed($fileName) {
+		PHPUnit_Framework_Assert::assertNotNull($this->actor->find(self::rowForFile($fileName), 10));
+	}
+
+	/**
 	 * @Then I see that :fileName is marked as favorite
 	 */
 	public function iSeeThatIsMarkedAsFavorite($fileName) {
 		PHPUnit_Framework_Assert::assertNotNull($this->actor->find(self::favoritedStateIconForFile($fileName), 10));
+	}
+
+	/**
+	 * @Then I see that the file name shown in the details view is :fileName
+	 */
+	public function iSeeThatTheFileNameShownInTheDetailsViewIs($fileName) {
+		PHPUnit_Framework_Assert::assertEquals(
+				$this->actor->find(self::fileNameInCurrentSectionDetailsView(), 10)->getText(), $fileName);
 	}
 
 	/**
