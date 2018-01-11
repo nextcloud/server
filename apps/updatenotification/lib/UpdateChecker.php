@@ -64,7 +64,7 @@ class UpdateChecker {
 	/**
 	 * @param array $data
 	 */
-	public function getJavaScript(array $data) {
+	public function populateJavaScriptVariables(array $data) {
 		$data['array']['oc_updateState'] =  json_encode([
 			'updateAvailable' => true,
 			'updateVersion' => $this->getUpdateState()['updateVersion'],

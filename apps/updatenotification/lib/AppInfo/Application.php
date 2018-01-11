@@ -23,10 +23,61 @@
 
 namespace OCA\UpdateNotification\AppInfo;
 
+use OCA\UpdateNotification\Notification\Notifier;
+use OCA\UpdateNotification\UpdateChecker;
 use OCP\AppFramework\App;
+use OCP\AppFramework\QueryException;
+use OCP\IUser;
+use OCP\Util;
 
 class Application extends App {
 	public function __construct() {
 		parent::__construct('updatenotification', []);
+	}
+
+	public function register() {
+		$server = $this->getContainer()->getServer();
+
+		if ($server->getConfig()->getSystemValue('updatechecker', true) !== true) {
+			// Updater check is disabled
+			return;
+		}
+
+		$user = $server->getUserSession()->getUser();
+		if (!$user instanceof IUser) {
+			// Nothing to do for guests
+			return;
+		}
+
+		if ($server->getAppManager()->isEnabledForUser('notifications')) {
+			// Notifications app is available, so we register.
+			// Since notifications also work for non-admins we don't check this here.
+			$this->registerNotifier();
+		} else if ($server->getGroupManager()->isAdmin($user->getUID())) {
+			try {
+				$updateChecker = $this->getContainer()->query(UpdateChecker::class);
+			} catch (QueryException $e) {
+				$server->getLogger()->logException($e);
+				return;
+			}
+
+			if ($updateChecker->getUpdateState() !== []) {
+				Util::addScript('updatenotification', 'notification');
+				\OC_Hook::connect('\OCP\Config', 'js', $updateChecker, 'populateJavaScriptVariables');
+			}
+		}
+	}
+
+	public function registerNotifier() {
+		$notificationsManager = $this->getContainer()->getServer()->getNotificationManager();
+		$notificationsManager->registerNotifier(function() {
+			return  $this->getContainer()->query(Notifier::class);
+		}, function() {
+			$l = $this->getContainer()->getServer()->getL10N('updatenotification');
+			return [
+				'id' => 'updatenotification',
+				'name' => $l->t('Update notifications'),
+			];
+		});
 	}
 }
