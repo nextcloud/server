@@ -112,15 +112,15 @@ class QueryBuilder implements IQueryBuilder {
 	 */
 	public function expr() {
 		if ($this->connection instanceof OracleConnection) {
-			return new OCIExpressionBuilder($this->connection);
+			return new OCIExpressionBuilder($this->connection, $this);
 		} else if ($this->connection->getDatabasePlatform() instanceof PostgreSqlPlatform) {
-			return new PgSqlExpressionBuilder($this->connection);
+			return new PgSqlExpressionBuilder($this->connection, $this);
 		} else if ($this->connection->getDatabasePlatform() instanceof MySqlPlatform) {
-			return new MySqlExpressionBuilder($this->connection);
+			return new MySqlExpressionBuilder($this->connection, $this);
 		} else if ($this->connection->getDatabasePlatform() instanceof SqlitePlatform) {
-			return new SqliteExpressionBuilder($this->connection);
+			return new SqliteExpressionBuilder($this->connection, $this);
 		} else {
-			return new ExpressionBuilder($this->connection);
+			return new ExpressionBuilder($this->connection, $this);
 		}
 	}
 

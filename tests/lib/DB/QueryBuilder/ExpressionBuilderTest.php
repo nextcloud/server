@@ -48,7 +48,9 @@ class ExpressionBuilderTest extends TestCase {
 
 		$this->connection = \OC::$server->getDatabaseConnection();
 
-		$this->expressionBuilder = new ExpressionBuilder($this->connection);
+		$queryBuilder = $this->createMock(IQueryBuilder::class);
+
+		$this->expressionBuilder = new ExpressionBuilder($this->connection, $queryBuilder);
 
 		$this->doctrineExpressionBuilder = new DoctrineExpressionBuilder($this->connection);
 	}

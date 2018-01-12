@@ -52,13 +52,14 @@ class ExpressionBuilder implements IExpressionBuilder {
 	/**
 	 * Initializes a new <tt>ExpressionBuilder</tt>.
 	 *
-	 * @param \OCP\IDBConnection $connection
+	 * @param IDBConnection $connection
+	 * @param IQueryBuilder $queryBuilder
 	 */
-	public function __construct(IDBConnection $connection) {
+	public function __construct(IDBConnection $connection, IQueryBuilder $queryBuilder) {
 		$this->connection = $connection;
 		$this->helper = new QuoteHelper();
 		$this->expressionBuilder = new DoctrineExpressionBuilder($connection);
-		$this->functionBuilder = $connection->getQueryBuilder()->func();
+		$this->functionBuilder = $queryBuilder->func();
 	}
 
 	/**
