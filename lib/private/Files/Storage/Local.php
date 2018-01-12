@@ -180,7 +180,7 @@ class Local extends \OC\Files\Storage\Common {
 
 	public function filemtime($path) {
 		$fullPath = $this->getSourcePath($path);
-		clearstatcache($fullPath);
+		clearstatcache(true, $fullPath);
 		if (!$this->file_exists($path)) {
 			return false;
 		}
