@@ -339,7 +339,6 @@ EFF
 	 * @return $this
 	 */
 	public function setUser(string $uid) {
-		// TODO: Implement setUser() method.
 		$this->uid = $uid;
 		$home = \OC::$server->getUserManager()->get($uid)->getHome();
 		if ($home === null ) {
