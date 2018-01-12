@@ -43,7 +43,7 @@ class HookManager {
 	private $syncService;
 
 	/** @var IUser[] */
-	private $usersToDelete;
+	private $usersToDelete = [];
 
 	/** @var CalDavBackend */
 	private $calDav;
@@ -52,10 +52,10 @@ class HookManager {
 	private $cardDav;
 
 	/** @var array */
-	private $calendarsToDelete;
+	private $calendarsToDelete = [];
 
 	/** @var array */
-	private $addressBooksToDelete;
+	private $addressBooksToDelete = [];
 
 	/** @var EventDispatcher */
 	private $eventDispatcher;
