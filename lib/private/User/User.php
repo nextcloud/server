@@ -181,7 +181,14 @@ class User implements IUser {
 		if($fingerprint === '') {
 			$this->config->deleteUserValue($this->uid, 'settings', 'pubkey');
 		} else {
-			$this->config->setUserValue($this->uid, 'settings', 'pubkey', $fingerprint);
+			$gpg = \OC::$server->getGpg();
+			$keys = $gpg->keyinfo($fingerprint);
+			if(!sizeof($keys)> 0) {
+				$key = $gpg->setUser($this->uid)->export($fingerprint);
+				$this->addDefaultPublicKey($key);
+			} else {
+				$this->config->setUserValue($this->uid, 'settings', 'pubkey', $fingerprint);
+			}
 		}
 	}
 
