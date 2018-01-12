@@ -6,8 +6,11 @@ namespace Composer\Autoload;
 
 class ComposerStaticInitDAV
 {
-    public static $firstCharsPsr4 = array (
-        'O' => true,
+    public static $prefixLengthsPsr4 = array (
+        'O' => 
+        array (
+            'OCA\\DAV\\' => 8,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -166,7 +169,7 @@ class ComposerStaticInitDAV
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->firstCharsPsr4 = ComposerStaticInitDAV::$firstCharsPsr4;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitDAV::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitDAV::$prefixDirsPsr4;
             $loader->classMap = ComposerStaticInitDAV::$classMap;
 

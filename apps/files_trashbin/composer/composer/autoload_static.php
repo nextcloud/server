@@ -6,8 +6,11 @@ namespace Composer\Autoload;
 
 class ComposerStaticInitFiles_Trashbin
 {
-    public static $firstCharsPsr4 = array (
-        'O' => true,
+    public static $prefixLengthsPsr4 = array (
+        'O' => 
+        array (
+            'OCA\\Files_Trashbin\\' => 19,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -37,7 +40,7 @@ class ComposerStaticInitFiles_Trashbin
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->firstCharsPsr4 = ComposerStaticInitFiles_Trashbin::$firstCharsPsr4;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitFiles_Trashbin::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitFiles_Trashbin::$prefixDirsPsr4;
             $loader->classMap = ComposerStaticInitFiles_Trashbin::$classMap;
 
