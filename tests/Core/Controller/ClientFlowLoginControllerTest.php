@@ -431,6 +431,10 @@ class ClientFlowLoginControllerTest extends TestCase {
 			->expects($this->once())
 			->method('getServerHost')
 			->willReturn('example.com');
+		$this->request
+			->expects($this->any())
+			->method('getHeader')
+			->willReturn('');
 
 		$expected = new Http\RedirectResponse('nc://login/server:http://example.com&user:MyLoginName&password:MyGeneratedToken');
 		$this->assertEquals($expected, $this->clientFlowLoginController->generateAppPassword('MyStateToken'));
@@ -583,6 +587,10 @@ class ClientFlowLoginControllerTest extends TestCase {
 			->expects($this->once())
 			->method('getServerHost')
 			->willReturn('example.com');
+		$this->request
+			->expects($this->any())
+			->method('getHeader')
+			->willReturn('');
 
 		$expected = new Http\RedirectResponse('nc://login/server:http://example.com&user:MyLoginName&password:MyGeneratedToken');
 		$this->assertEquals($expected, $this->clientFlowLoginController->generateAppPassword('MyStateToken'));
@@ -594,6 +602,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 				[
 					['X-Forwarded-Proto', 'http'],
 					['X-Forwarded-Ssl', 'off'],
+					['USER_AGENT', ''],
 				],
 				'http',
 				'http',
@@ -602,6 +611,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 				[
 					['X-Forwarded-Proto', 'http'],
 					['X-Forwarded-Ssl', 'off'],
+					['USER_AGENT', ''],
 				],
 				'https',
 				'https',
@@ -610,6 +620,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 				[
 					['X-Forwarded-Proto', 'https'],
 					['X-Forwarded-Ssl', 'off'],
+					['USER_AGENT', ''],
 				],
 				'http',
 				'https',
@@ -618,6 +629,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 				[
 					['X-Forwarded-Proto', 'https'],
 					['X-Forwarded-Ssl', 'on'],
+					['USER_AGENT', ''],
 				],
 				'http',
 				'https',
@@ -626,6 +638,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 				[
 					['X-Forwarded-Proto', 'http'],
 					['X-Forwarded-Ssl', 'on'],
+					['USER_AGENT', ''],
 				],
 				'http',
 				'https',

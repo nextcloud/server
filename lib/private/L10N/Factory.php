@@ -247,7 +247,7 @@ class Factory implements IFactory {
 	 */
 	private function getLanguageFromRequest($app) {
 		$header = $this->request->getHeader('ACCEPT_LANGUAGE');
-		if ($header) {
+		if ($header !== '') {
 			$available = $this->findAvailableLanguages($app);
 
 			// E.g. make sure that 'de' is before 'de_DE'.
