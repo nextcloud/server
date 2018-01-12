@@ -186,7 +186,7 @@ class MigrationService {
 
 	protected function findMigrations() {
 		$directory = realpath($this->migrationsPath);
-		if (!file_exists($directory) || !is_dir($directory)) {
+		if ($directory === false || !file_exists($directory) || !is_dir($directory)) {
 			return [];
 		}
 
