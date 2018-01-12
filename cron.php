@@ -158,7 +158,7 @@ try {
 	exit();
 
 } catch (Exception $ex) {
-	\OCP\Util::writeLog('cron', $ex->getMessage(), \OCP\Util::FATAL);
+	\OC::$server->getLogger()->logException($ex, ['app' => 'cron']);
 } catch (Error $ex) {
-	\OCP\Util::writeLog('cron', $ex->getMessage(), \OCP\Util::FATAL);
+	\OC::$server->getLogger()->logException($ex, ['app' => 'cron']);
 }
