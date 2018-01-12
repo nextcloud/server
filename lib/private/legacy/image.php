@@ -550,6 +550,16 @@ class OC_Image implements \OCP\IImage {
 	 * @return bool|resource An image resource or false on error
 	 */
 	public function loadFromFile($imagePath = false) {
+		try {
+			// detect if it is a path or maybe the images as string
+			// needed because the constructor iterates over all load* methods
+			$result = @realpath($imagePath);
+			if ($result === false) {
+				return false;
+			}
+		} catch (Error $e) {
+			return false;
+		}
 		// exif_imagetype throws "read error!" if file is less than 12 byte
 		if (!@is_file($imagePath) || !file_exists($imagePath) || filesize($imagePath) < 12 || !is_readable($imagePath)) {
 			return false;
@@ -873,7 +883,7 @@ class OC_Image implements \OCP\IImage {
 			$newHeight = $maxSize;
 		}
 
-		$this->preciseResize(round($newWidth), round($newHeight));
+		$this->preciseResize((int)round($newWidth), (int)round($newHeight));
 		return true;
 	}
 
@@ -882,7 +892,7 @@ class OC_Image implements \OCP\IImage {
 	 * @param int $height
 	 * @return bool
 	 */
-	public function preciseResize($width, $height) {
+	public function preciseResize(int $width, int $height): bool {
 		if (!$this->valid()) {
 			$this->logger->error(__METHOD__ . '(): No image loaded', array('app' => 'core'));
 			return false;
@@ -982,7 +992,7 @@ class OC_Image implements \OCP\IImage {
 	 * @param int $h Height
 	 * @return bool for success or failure
 	 */
-	public function crop($x, $y, $w, $h) {
+	public function crop(int $x, int $y, int $w, int $h): bool {
 		if (!$this->valid()) {
 			$this->logger->error(__METHOD__ . '(): No image loaded', array('app' => 'core'));
 			return false;
@@ -1033,7 +1043,7 @@ class OC_Image implements \OCP\IImage {
 		$newWidth = min($maxWidth, $ratio * $maxHeight);
 		$newHeight = min($maxHeight, $maxWidth / $ratio);
 
-		$this->preciseResize(round($newWidth), round($newHeight));
+		$this->preciseResize((int)round($newWidth), (int)round($newHeight));
 		return true;
 	}
 
