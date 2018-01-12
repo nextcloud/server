@@ -671,7 +671,7 @@ class OC_App {
 	public static function getCurrentApp() {
 		$request = \OC::$server->getRequest();
 		$script = substr($request->getScriptName(), strlen(OC::$WEBROOT) + 1);
-		$topFolder = substr($script, 0, strpos($script, '/'));
+		$topFolder = substr($script, 0, strpos($script, '/') ?: 0);
 		if (empty($topFolder)) {
 			$path_info = $request->getPathInfo();
 			if ($path_info) {
