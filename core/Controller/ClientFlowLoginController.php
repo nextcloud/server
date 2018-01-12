@@ -315,7 +315,18 @@ class ClientFlowLoginController extends Controller {
 				$serverPostfix = substr($this->request->getRequestUri(), 0, strpos($this->request->getRequestUri(), '/login/flow'));
 			}
 
-			$serverPath = $this->request->getServerProtocol() . "://" . $this->request->getServerHost() . $serverPostfix;
+			$protocol = $this->request->getServerProtocol();
+
+			if ($protocol !== "https") {
+				$xForwardedProto = $this->request->getHeader('X-Forwarded-Proto');
+				$xForwardedSSL = $this->request->getHeader('X-Forwarded-Ssl');
+				if ($xForwardedProto === 'https' || $xForwardedSSL === 'on') {
+					$protocol = 'https';
+				}
+			}
+
+
+			$serverPath = $protocol . "://" . $this->request->getServerHost() . $serverPostfix;
 			$redirectUri = 'nc://login/server:' . $serverPath . '&user:' . urlencode($loginName) . '&password:' . urlencode($token);
 		}
 
