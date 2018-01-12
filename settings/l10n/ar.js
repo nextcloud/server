@@ -1,6 +1,8 @@
 OC.L10N.register(
     "settings",
     {
+    "Your apps" : "تطبيقاتك",
+    "Updates" : "التحديثات",
     "Wrong password" : "كلمة مرور خاطئة",
     "Saved" : "حفظ",
     "No user supplied" : "لم يتم توفير مستخدم ",
@@ -11,6 +13,7 @@ OC.L10N.register(
     "Your full name has been changed." : "اسمك الكامل تم تغييره.",
     "Email saved" : "تم حفظ البريد الإلكتروني",
     "Couldn't update app." : "تعذر تحديث التطبيق.",
+    "Add trusted domain" : "أضافة نطاق موثوق فيه",
     "Email sent" : "تم ارسال البريد الالكتروني",
     "All" : "الكل",
     "Error while disabling app" : "خطا عند تعطيل البرنامج",
@@ -18,6 +21,7 @@ OC.L10N.register(
     "Enable" : "تفعيل",
     "Error while enabling app" : "خطا عند تفعيل البرنامج ",
     "Updated" : "تم التحديث بنجاح",
+    "Copy" : "نسخ",
     "Delete" : "إلغاء",
     "Select a profile picture" : "اختر صورة الملف الشخصي ",
     "Very weak password" : "كلمة السر ضعيفة جدا",
