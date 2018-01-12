@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 // Show warning if a PHP version below 7.0 is used, this has to happen here
 // because base.php will already use 7.0 syntax.
