@@ -61,5 +61,5 @@ interface ICrypto {
 	 * @throws \Exception If the HMAC does not match
 	 * @since 8.0.0
 	 */
-	public function decrypt($authenticatedCiphertext, $password = '');
+	public function decrypt(string $authenticatedCiphertext, string $password = ''): string;
 }

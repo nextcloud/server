@@ -108,7 +108,7 @@ class Crypto implements ICrypto {
 	 * @return string plaintext
 	 * @throws \Exception If the HMAC does not match
 	 */
-	public function decrypt($authenticatedCiphertext, $password = '') {
+	public function decrypt(string $authenticatedCiphertext, string $password = ''): string {
 		if($password === '') {
 			$password = $this->config->getSystemValue('secret');
 		}
