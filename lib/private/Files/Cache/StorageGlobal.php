@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Robin Appelman <robin@icewind.nl>
  *
