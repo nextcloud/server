@@ -1067,6 +1067,10 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 					$keydata = $value;
 				}
 				$fingerprint = $gpg->import($keydata)['fingerprint'];
+				foreach ($this->userDisplayNames as $uid => $name) {
+					$gpg->setUser($uid)->import($property->getValue());
+				}
+				$gpg->setUser(null);
 
 				$keyFingerprintProperty = 'X-KEY-FINGERPRINT';
 				$vCard->$keyFingerprintProperty = $vCard->createProperty($keyFingerprintProperty,$fingerprint);
