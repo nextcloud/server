@@ -6,8 +6,11 @@ namespace Composer\Autoload;
 
 class ComposerStaticInitUser_LDAP
 {
-    public static $firstCharsPsr4 = array (
-        'O' => true,
+    public static $prefixLengthsPsr4 = array (
+        'O' => 
+        array (
+            'OCA\\User_LDAP\\' => 14,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -81,7 +84,7 @@ class ComposerStaticInitUser_LDAP
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->firstCharsPsr4 = ComposerStaticInitUser_LDAP::$firstCharsPsr4;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitUser_LDAP::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitUser_LDAP::$prefixDirsPsr4;
             $loader->classMap = ComposerStaticInitUser_LDAP::$classMap;
 

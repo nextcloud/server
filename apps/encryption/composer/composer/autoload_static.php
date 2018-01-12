@@ -6,8 +6,11 @@ namespace Composer\Autoload;
 
 class ComposerStaticInitEncryption
 {
-    public static $firstCharsPsr4 = array (
-        'O' => true,
+    public static $prefixLengthsPsr4 = array (
+        'O' => 
+        array (
+            'OCA\\Encryption\\' => 15,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -50,7 +53,7 @@ class ComposerStaticInitEncryption
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->firstCharsPsr4 = ComposerStaticInitEncryption::$firstCharsPsr4;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitEncryption::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitEncryption::$prefixDirsPsr4;
             $loader->classMap = ComposerStaticInitEncryption::$classMap;
 

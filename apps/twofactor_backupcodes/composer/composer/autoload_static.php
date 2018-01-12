@@ -6,8 +6,11 @@ namespace Composer\Autoload;
 
 class ComposerStaticInitTwoFactorBackupCodes
 {
-    public static $firstCharsPsr4 = array (
-        'O' => true,
+    public static $prefixLengthsPsr4 = array (
+        'O' => 
+        array (
+            'OCA\\TwoFactorBackupCodes\\' => 25,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -35,7 +38,7 @@ class ComposerStaticInitTwoFactorBackupCodes
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->firstCharsPsr4 = ComposerStaticInitTwoFactorBackupCodes::$firstCharsPsr4;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitTwoFactorBackupCodes::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitTwoFactorBackupCodes::$prefixDirsPsr4;
             $loader->classMap = ComposerStaticInitTwoFactorBackupCodes::$classMap;
 
