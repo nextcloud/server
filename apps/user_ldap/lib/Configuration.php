@@ -372,7 +372,7 @@ class Configuration {
 		if(is_null($defaults)) {
 			$defaults = $this->getDefaults();
 		}
-		return \OCP\Config::getAppValue('user_ldap',
+		return \OC::$server->getConfig()->getAppValue('user_ldap',
 										$this->configPrefix.$varName,
 										$defaults[$varName]);
 	}

@@ -763,7 +763,7 @@ class Share extends Constants {
 			// initialize max date with share time
 			$maxDate = new \DateTime();
 			$maxDate->setTimestamp($shareTime);
-			$maxDays = \OCP\Config::getAppValue('core', 'shareapi_expire_after_n_days', '7');
+			$maxDays = \OC::$server->getConfig()->getAppValue('core', 'shareapi_expire_after_n_days', '7');
 			$maxDate->add(new \DateInterval('P' . $maxDays . 'D'));
 			if ($date > $maxDate) {
 				$warning = 'Cannot set expiration date. Shares cannot expire later than ' . $maxDays . ' after they have been shared';
@@ -2152,7 +2152,7 @@ class Share extends Constants {
 	 * @return bool
 	 */
 	public static function isDefaultExpireDateEnabled() {
-		$defaultExpireDateEnabled = \OCP\Config::getAppValue('core', 'shareapi_default_expire_date', 'no');
+		$defaultExpireDateEnabled = \OC::$server->getConfig()->getAppValue('core', 'shareapi_default_expire_date', 'no');
 		return ($defaultExpireDateEnabled === "yes") ? true : false;
 	}
 
@@ -2160,7 +2160,7 @@ class Share extends Constants {
 	 * @return bool
 	 */
 	public static function enforceDefaultExpireDate() {
-		$enforceDefaultExpireDate = \OCP\Config::getAppValue('core', 'shareapi_enforce_expire_date', 'no');
+		$enforceDefaultExpireDate = \OC::$server->getConfig()->getAppValue('core', 'shareapi_enforce_expire_date', 'no');
 		return ($enforceDefaultExpireDate === "yes") ? true : false;
 	}
 
@@ -2168,7 +2168,7 @@ class Share extends Constants {
 	 * @return int
 	 */
 	public static function getExpireInterval() {
-		return (int)\OCP\Config::getAppValue('core', 'shareapi_expire_after_n_days', '7');
+		return (int)\OC::$server->getConfig()->getAppValue('core', 'shareapi_expire_after_n_days', '7');
 	}
 
 	/**

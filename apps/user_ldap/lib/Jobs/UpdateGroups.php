@@ -85,7 +85,7 @@ class UpdateGroups extends \OC\BackgroundJob\TimedJob {
 	 */
 	static private function getRefreshInterval() {
 		//defaults to every hour
-		return \OCP\Config::getAppValue('user_ldap', 'bgjRefreshInterval', 3600);
+		return \OC::$server->getConfig()->getAppValue('user_ldap', 'bgjRefreshInterval', 3600);
 	}
 
 	/**
