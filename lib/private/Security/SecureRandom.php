@@ -21,6 +21,8 @@
  *
  */
 
+declare(strict_types=1);
+
 namespace OC\Security;
 
 use OCP\Security\ISecureRandom;
@@ -70,9 +72,9 @@ class SecureRandom implements ISecureRandom {
 	 * 							specified all valid base64 characters are used.
 	 * @return string
 	 */
-	public function generate($length,
-							 $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/') {
-		$maxCharIndex = strlen($characters) - 1;
+	public function generate(int $length,
+							 string $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'): string {
+		$maxCharIndex = \strlen($characters) - 1;
 		$randomString = '';
 
 		while($length > 0) {
