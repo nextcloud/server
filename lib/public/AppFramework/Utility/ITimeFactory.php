@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -21,7 +22,6 @@
  *
  */
 
-
 namespace OCP\AppFramework\Utility;
 
 
@@ -35,6 +35,6 @@ interface ITimeFactory {
 	 * @return int the result of a call to time()
 	 * @since 8.0.0
 	 */
-	public function getTime();
+	public function getTime() : int;
 
 }
