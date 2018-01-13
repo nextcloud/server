@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -29,6 +30,7 @@ namespace OC;
 
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
+use OCP\IAvatar;
 use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\ILogger;
@@ -85,9 +87,9 @@ class AvatarManager implements IAvatarManager {
 	 * @throws \Exception In case the username is potentially dangerous
 	 * @throws NotFoundException In case there is no user folder yet
 	 */
-	public function getAvatar($userId) {
+	public function getAvatar(string $userId) : IAvatar {
 		$user = $this->userManager->get($userId);
-		if (is_null($user)) {
+		if ($user === null) {
 			throw new \Exception('user does not exist');
 		}
 
