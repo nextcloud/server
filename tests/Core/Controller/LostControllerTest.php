@@ -653,14 +653,14 @@ class LostControllerTest extends \Test\TestCase {
 	public function testIsSetPasswordWithoutTokenFailing() {
 		$this->config->method('getUserValue')
 			->with('ValidTokenUser', 'core', 'lostpassword', null)
-			->will($this->returnValue(null));
+			->willReturn('aValidtoken');
 		$this->userManager->method('get')
 			->with('ValidTokenUser')
 			->willReturn($this->existingUser);
 
 		$this->crypto->method('decrypt')
 			->with(
-				$this->equalTo(''),
+				$this->equalTo('aValidtoken'),
 				$this->equalTo('test@example.comSECRET')
 			)->willThrowException(new \Exception());
 
