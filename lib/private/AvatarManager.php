@@ -28,13 +28,13 @@ declare(strict_types=1);
 
 namespace OC;
 
+use OC\User\Manager;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\IAvatar;
 use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\ILogger;
-use OCP\IUserManager;
 use OCP\IL10N;
 
 /**
@@ -42,7 +42,7 @@ use OCP\IL10N;
  */
 class AvatarManager implements IAvatarManager {
 
-	/** @var  IUserManager */
+	/** @var Manager */
 	private $userManager;
 
 	/** @var IAppData */
@@ -60,14 +60,14 @@ class AvatarManager implements IAvatarManager {
 	/**
 	 * AvatarManager constructor.
 	 *
-	 * @param IUserManager $userManager
+	 * @param Manager $userManager
 	 * @param IAppData $appData
 	 * @param IL10N $l
 	 * @param ILogger $logger
 	 * @param IConfig $config
 	 */
 	public function __construct(
-			IUserManager $userManager,
+			Manager $userManager,
 			IAppData $appData,
 			IL10N $l,
 			ILogger $logger,
