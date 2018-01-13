@@ -23,6 +23,7 @@ namespace Tests\Core\Controller;
 
 use OC\Authentication\TwoFactorAuth\Manager;
 use OC\Core\Controller\LoginController;
+use OC\Security\Bruteforce\Throttler;
 use OC\User\Session;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -57,6 +58,8 @@ class LoginControllerTest extends TestCase {
 	private $twoFactorManager;
 	/** @var Defaults|\PHPUnit_Framework_MockObject_MockObject */
 	private $defaults;
+	/** @var Throttler|\PHPUnit_Framework_MockObject_MockObject */
+	private $throttler;
 
 	public function setUp() {
 		parent::setUp();
@@ -69,6 +72,15 @@ class LoginControllerTest extends TestCase {
 		$this->logger = $this->createMock(ILogger::class);
 		$this->twoFactorManager = $this->createMock(Manager::class);
 		$this->defaults = $this->createMock(Defaults::class);
+		$this->throttler = $this->createMock(Throttler::class);
+
+		$this->request->method('getRemoteAddress')
+			->willReturn('1.2.3.4');
+		$this->throttler->method('getDelay')
+			->with(
+				$this->equalTo('1.2.3.4'),
+				$this->equalTo('')
+			)->willReturn(1000);
 
 		$this->loginController = new LoginController(
 			'core',
@@ -80,7 +92,8 @@ class LoginControllerTest extends TestCase {
 			$this->urlGenerator,
 			$this->logger,
 			$this->twoFactorManager,
-			$this->defaults
+			$this->defaults,
+			$this->throttler
 		);
 	}
 
@@ -183,6 +196,7 @@ class LoginControllerTest extends TestCase {
 				'rememberLoginState' => 0,
 				'resetPasswordLink' => null,
 				'hideRemeberLoginState' => false,
+				'throttle_delay' => 1000,
 			],
 			'guest'
 		);
@@ -213,6 +227,7 @@ class LoginControllerTest extends TestCase {
 				'rememberLoginState' => 0,
 				'resetPasswordLink' => null,
 				'hideRemeberLoginState' => true,
+				'throttle_delay' => 1000,
 			],
 			'guest'
 		);
@@ -272,6 +287,7 @@ class LoginControllerTest extends TestCase {
 				'rememberLoginState' => 0,
 				'resetPasswordLink' => false,
 				'hideRemeberLoginState' => false,
+				'throttle_delay' => 1000,
 			],
 			'guest'
 		);
@@ -311,6 +327,7 @@ class LoginControllerTest extends TestCase {
 				'rememberLoginState' => 0,
 				'resetPasswordLink' => false,
 				'hideRemeberLoginState' => false,
+				'throttle_delay' => 1000,
 			],
 			'guest'
 		);
