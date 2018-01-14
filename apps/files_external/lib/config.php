@@ -361,7 +361,7 @@ class OC_Mount_Config {
 	 */
 	private static function encryptPassword($password) {
 		$cipher = self::getCipher();
-		$iv = \OCP\Util::generateRandomBytes(16);
+		$iv = \OC::$server->getSecureRandom()->generate(16);
 		$cipher->setIV($iv);
 		return base64_encode($iv . $cipher->encrypt($password));
 	}

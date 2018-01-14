@@ -245,21 +245,6 @@ class Util {
 	}
 
 	/**
-	 * formats a timestamp in the "right" way
-	 * @param int $timestamp $timestamp
-	 * @param bool $dateOnly option to omit time from the result
-	 * @param DateTimeZone|string $timeZone where the given timestamp shall be converted to
-	 * @return string timestamp
-	 *
-	 * @deprecated 8.0.0 Use \OC::$server->query('DateTimeFormatter') instead
-	 * @since 4.0.0
-	 * @suppress PhanDeprecatedFunction
-	 */
-	public static function formatDate($timestamp, $dateOnly=false, $timeZone = null) {
-		return \OC_Util::formatDate($timestamp, $dateOnly, $timeZone);
-	}
-
-	/**
 	 * check if some encrypted files are stored
 	 * @return bool
 	 *
@@ -654,17 +639,6 @@ class Util {
 	 */
 	public static function isValidFileName($file) {
 		return \OC_Util::isValidFileName($file);
-	}
-
-	/**
-	 * Generates a cryptographic secure pseudo-random string
-	 * @param int $length of the random string
-	 * @return string
-	 * @deprecated 8.0.0 Use \OC::$server->getSecureRandom()->getMediumStrengthGenerator()->generate($length); instead
-	 * @since 7.0.0
-	 */
-	public static function generateRandomBytes($length = 30) {
-		return \OC::$server->getSecureRandom()->generate($length, \OCP\Security\ISecureRandom::CHAR_LOWER.\OCP\Security\ISecureRandom::CHAR_DIGITS);
 	}
 
 	/**

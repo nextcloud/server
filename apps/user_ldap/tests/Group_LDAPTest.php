@@ -150,7 +150,7 @@ class Group_LDAPTest extends \Test\TestCase {
 		$access->expects($this->any())
 			->method('dn2username')
 			->will($this->returnCallback(function() {
-				return 'foobar' . \OCP\Util::generateRandomBytes(7);
+				return 'foobar' . \OC::$server->getSecureRandom()->generate(7);
 			}));
 
 		$groupBackend = new GroupLDAP($access,$pluginManager);
