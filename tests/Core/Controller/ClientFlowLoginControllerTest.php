@@ -587,4 +587,127 @@ class ClientFlowLoginControllerTest extends TestCase {
 		$expected = new Http\RedirectResponse('nc://login/server:http://example.com&user:MyLoginName&password:MyGeneratedToken');
 		$this->assertEquals($expected, $this->clientFlowLoginController->generateAppPassword('MyStateToken'));
 	}
+
+	public function dataGeneratePasswordWithHttpsProxy() {
+		return [
+			[
+				[
+					['X-Forwarded-Proto', 'http'],
+					['X-Forwarded-Ssl', 'off'],
+				],
+				'http',
+				'http',
+			],
+			[
+				[
+					['X-Forwarded-Proto', 'http'],
+					['X-Forwarded-Ssl', 'off'],
+				],
+				'https',
+				'https',
+			],
+			[
+				[
+					['X-Forwarded-Proto', 'https'],
+					['X-Forwarded-Ssl', 'off'],
+				],
+				'http',
+				'https',
+			],
+			[
+				[
+					['X-Forwarded-Proto', 'https'],
+					['X-Forwarded-Ssl', 'on'],
+				],
+				'http',
+				'https',
+			],
+			[
+				[
+					['X-Forwarded-Proto', 'http'],
+					['X-Forwarded-Ssl', 'on'],
+				],
+				'http',
+				'https',
+			],
+		];
+	}
+
+	/**
+	 * @dataProvider dataGeneratePasswordWithHttpsProxy
+	 * @param array $headers
+	 * @param string $protocol
+	 * @param string $expected
+	 */
+	public function testGeneratePasswordWithHttpsProxy(array $headers, $protocol, $expected) {
+		$this->session
+			->expects($this->once())
+			->method('get')
+			->with('client.flow.state.token')
+			->willReturn('MyStateToken');
+		$this->session
+			->expects($this->once())
+			->method('remove')
+			->with('client.flow.state.token');
+		$this->session
+			->expects($this->once())
+			->method('getId')
+			->willReturn('SessionId');
+		$myToken = $this->createMock(IToken::class);
+		$myToken
+			->expects($this->once())
+			->method('getLoginName')
+			->willReturn('MyLoginName');
+		$this->tokenProvider
+			->expects($this->once())
+			->method('getToken')
+			->with('SessionId')
+			->willReturn($myToken);
+		$this->tokenProvider
+			->expects($this->once())
+			->method('getPassword')
+			->with($myToken, 'SessionId')
+			->willReturn('MyPassword');
+		$this->random
+			->expects($this->once())
+			->method('generate')
+			->with(72)
+			->willReturn('MyGeneratedToken');
+		$user = $this->createMock(IUser::class);
+		$user
+			->expects($this->once())
+			->method('getUID')
+			->willReturn('MyUid');
+		$this->userSession
+			->expects($this->once())
+			->method('getUser')
+			->willReturn($user);
+		$this->tokenProvider
+			->expects($this->once())
+			->method('generateToken')
+			->with(
+				'MyGeneratedToken',
+				'MyUid',
+				'MyLoginName',
+				'MyPassword',
+				'unknown',
+				IToken::PERMANENT_TOKEN,
+				IToken::DO_NOT_REMEMBER
+			);
+		$this->request
+			->expects($this->once())
+			->method('getServerProtocol')
+			->willReturn($protocol);
+		$this->request
+			->expects($this->once())
+			->method('getServerHost')
+			->willReturn('example.com');
+		$this->request
+			->expects($this->atLeastOnce())
+			->method('getHeader')
+			->willReturnMap($headers);
+
+		$expected = new Http\RedirectResponse('nc://login/server:' . $expected . '://example.com&user:MyLoginName&password:MyGeneratedToken');
+		$this->assertEquals($expected, $this->clientFlowLoginController->generateAppPassword('MyStateToken'));
+	}
 }
