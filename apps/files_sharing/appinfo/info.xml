@@ -11,12 +11,12 @@ Turning the feature off removes shared files and folders on the server for all s
 	<author>Michael Gapczynski</author>
 	<author>Bjoern Schiessle</author>
 	<default_enable/>
-	<version>1.5.0</version>
+	<version>1.6.0</version>
 	<types>
 		<filesystem/>
 	</types>
 	<dependencies>
-		<nextcloud min-version="13" max-version="13" />
+		<nextcloud min-version="14" max-version="14" />
 	</dependencies>
 	<public>
 		<files>public.php</files>

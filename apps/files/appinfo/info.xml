@@ -7,12 +7,12 @@
 	<author>Robin Appelman</author>
 	<author>Vincent Petry</author>
 	<default_enable/>
-	<version>1.8.0</version>
+	<version>1.9.0</version>
 	<types>
 		<filesystem/>
 	</types>
 	<dependencies>
-		<nextcloud min-version="13" max-version="13" />
+		<nextcloud min-version="14" max-version="14" />
 	</dependencies>
 	<documentation>
 		<user>user-files</user>
