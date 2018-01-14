@@ -20,8 +20,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-namespace OC;
 
+declare(strict_types=1);
+
+namespace OC;
 
 use OCP\AppFramework\QueryException;
 use OCP\Capabilities\ICapability;
@@ -47,7 +49,7 @@ class CapabilitiesManager {
 	 * @throws \InvalidArgumentException
 	 * @return array
 	 */
-	public function getCapabilities($public = false) {
+	public function getCapabilities(bool $public = false) : array {
 		$capabilities = [];
 		foreach($this->capabilities as $capability) {
 			try {
@@ -78,6 +80,6 @@ class CapabilitiesManager {
 	 * @param \Closure $callable
 	 */
 	public function registerCapability(\Closure $callable) {
-		array_push($this->capabilities, $callable);
+		$this->capabilities[] = $callable;
 	}
 }
