@@ -66,6 +66,7 @@ OC.L10N.register(
     "{used} used" : "{used} brukt",
     "\"{name}\" is an invalid file name." : "\"{name}\" er et uglydig filnavn.",
     "File name cannot be empty." : "Filnavn kan ikke være tomt.",
+    "\"/\" is not allowed inside a file name." : "\"/\" tillates ikke i et filnavn.",
     "\"{name}\" is not an allowed filetype" : "\"{name}\" er ikke en tillatt filtype",
     "Storage of {owner} is full, files can not be updated or synced anymore!" : "Lagringsplass for {owner} er full, filer kan ikke oppdateres eller synkroniseres lenger!",
     "Your storage is full, files can not be updated or synced anymore!" : "Lagringsplass er oppbrukt, filer kan ikke lenger oppdateres eller synkroniseres!",
