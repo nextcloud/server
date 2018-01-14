@@ -55,9 +55,9 @@ class TokenHandlerTest extends \Test\TestCase {
 				$this->expectedTokenLength,
 				ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_DIGITS
 			)
-			->willReturn(true);
+			->willReturn('mytoken');
 
-		$this->assertTrue($this->tokenHandler->generateToken());
+		$this->assertSame('mytoken', $this->tokenHandler->generateToken());
 
 	}
 
