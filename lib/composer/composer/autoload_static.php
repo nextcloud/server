@@ -117,7 +117,6 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\Comments\\IllegalIDChangeException' => __DIR__ . '/../../..' . '/lib/public/Comments/IllegalIDChangeException.php',
         'OCP\\Comments\\MessageTooLongException' => __DIR__ . '/../../..' . '/lib/public/Comments/MessageTooLongException.php',
         'OCP\\Comments\\NotFoundException' => __DIR__ . '/../../..' . '/lib/public/Comments/NotFoundException.php',
-        'OCP\\Config' => __DIR__ . '/../../..' . '/lib/public/Config.php',
         'OCP\\Console\\ConsoleEvent' => __DIR__ . '/../../..' . '/lib/public/Console/ConsoleEvent.php',
         'OCP\\Constants' => __DIR__ . '/../../..' . '/lib/public/Constants.php',
         'OCP\\Contacts' => __DIR__ . '/../../..' . '/lib/public/Contacts.php',

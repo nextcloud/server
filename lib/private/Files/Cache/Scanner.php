@@ -36,7 +36,6 @@ namespace OC\Files\Cache;
 
 use OC\Files\Filesystem;
 use OC\Hooks\BasicEmitter;
-use OCP\Config;
 use OCP\Files\Cache\IScanner;
 use OCP\Files\ForbiddenException;
 use OCP\Lock\ILockingProvider;

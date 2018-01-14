@@ -341,10 +341,10 @@ class OC_Util {
 	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function isDefaultExpireDateEnforced() {
-		$isDefaultExpireDateEnabled = \OCP\Config::getAppValue('core', 'shareapi_default_expire_date', 'no');
+		$isDefaultExpireDateEnabled = \OC::$server->getConfig()->getAppValue('core', 'shareapi_default_expire_date', 'no');
 		$enforceDefaultExpireDate = false;
 		if ($isDefaultExpireDateEnabled === 'yes') {
-			$value = \OCP\Config::getAppValue('core', 'shareapi_enforce_expire_date', 'no');
+			$value = \OC::$server->getConfig()->getAppValue('core', 'shareapi_enforce_expire_date', 'no');
 			$enforceDefaultExpireDate = ($value === 'yes') ? true : false;
 		}
 

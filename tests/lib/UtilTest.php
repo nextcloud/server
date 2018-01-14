@@ -304,12 +304,12 @@ class UtilTest extends \Test\TestCase {
 
 		// need to set a user id to make sure enabled apps are read from cache
 		\OC_User::setUserId($this->getUniqueID());
-		\OCP\Config::setSystemValue('defaultapp', $defaultAppConfig);
+		\OC::$server->getConfig()->setSystemValue('defaultapp', $defaultAppConfig);
 		$this->assertEquals('http://localhost/' . $expectedPath, Dummy_OC_Util::getDefaultPageUrl());
 
 		// restore old state
 		\OC::$WEBROOT = $oldWebRoot;
-		\OCP\Config::setSystemValue('defaultapp', $oldDefaultApps);
+		\OC::$server->getConfig()->setSystemValue('defaultapp', $oldDefaultApps);
 		\OC_User::setUserId(null);
 	}
 

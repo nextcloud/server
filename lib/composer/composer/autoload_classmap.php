@@ -87,7 +87,6 @@ return array(
     'OCP\\Comments\\IllegalIDChangeException' => $baseDir . '/lib/public/Comments/IllegalIDChangeException.php',
     'OCP\\Comments\\MessageTooLongException' => $baseDir . '/lib/public/Comments/MessageTooLongException.php',
     'OCP\\Comments\\NotFoundException' => $baseDir . '/lib/public/Comments/NotFoundException.php',
-    'OCP\\Config' => $baseDir . '/lib/public/Config.php',
     'OCP\\Console\\ConsoleEvent' => $baseDir . '/lib/public/Console/ConsoleEvent.php',
     'OCP\\Constants' => $baseDir . '/lib/public/Constants.php',
     'OCP\\Contacts' => $baseDir . '/lib/public/Contacts.php',
