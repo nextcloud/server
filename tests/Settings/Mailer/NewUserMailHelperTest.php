@@ -60,6 +60,8 @@ class NewUserMailHelperTest extends TestCase {
 		parent::setUp();
 
 		$this->defaults = $this->createMock(Defaults::class);
+		$this->defaults->method('getLogo')
+			->willReturn('myLogo');
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->mailer = $this->createMock(IMailer::class);
