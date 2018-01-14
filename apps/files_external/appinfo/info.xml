@@ -14,7 +14,7 @@ External storage can be configured using the GUI or at the command line. This se
 	<documentation>
 		<admin>admin-external-storage</admin>
 	</documentation>
-	<version>1.4.1</version>
+	<version>1.5.0</version>
 	<types>
 		<filesystem/>
 	</types>
@@ -23,7 +23,7 @@ External storage can be configured using the GUI or at the command line. This se
 	<namespace>Files_External</namespace>
 
 	<dependencies>
-		<nextcloud min-version="13" max-version="13" />
+		<nextcloud min-version="14" max-version="14" />
 	</dependencies>
 
 	<settings>

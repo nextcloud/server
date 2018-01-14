@@ -6,11 +6,11 @@
     <licence>AGPL</licence>
     <author>Bjoern Schiessle</author>
     <author>Roeland Jago Douma</author>
-    <version>1.3.1</version>
+    <version>1.4.0</version>
     <namespace>FederatedFileSharing</namespace>
     <category>other</category>
     <dependencies>
-        <nextcloud min-version="13" max-version="13" />
+        <nextcloud min-version="14" max-version="14" />
     </dependencies>
     <settings>
         <admin>OCA\FederatedFileSharing\Settings\Admin</admin>
