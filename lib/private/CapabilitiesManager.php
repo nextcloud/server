@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -21,7 +22,6 @@
  *
  */
 
-declare(strict_types=1);
 
 namespace OC;
 
