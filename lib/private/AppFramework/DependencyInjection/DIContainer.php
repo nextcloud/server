@@ -36,7 +36,6 @@
 namespace OC\AppFramework\DependencyInjection;
 
 use OC;
-use OC\AppFramework\Core\API;
 use OC\AppFramework\Http;
 use OC\AppFramework\Http\Dispatcher;
 use OC\AppFramework\Http\Output;
@@ -51,7 +50,6 @@ use OC\Core\Middleware\TwoFactorMiddleware;
 use OC\RichObjectStrings\Validator;
 use OC\ServerContainer;
 use OCP\AppFramework\Http\IOutput;
-use OCP\AppFramework\IApi;
 use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\QueryException;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -178,17 +176,6 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 				$this->getServer()->getCrypto(),
 				$this->getServer()->getConfig()
 			);
-		});
-
-		/**
-		 * App Framework APIs
-		 */
-		$this->registerService('API', function($c){
-			$c->query('OCP\\ILogger')->debug(
-				'Accessing the API class is deprecated! Use the appropriate ' .
-				'services instead!'
-			);
-			return new API($c['AppName']);
 		});
 
 		$this->registerService('Protocol', function($c){
@@ -333,16 +320,6 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return $dispatcher;
 		});
 
-	}
-
-
-	/**
-	 * @deprecated implements only deprecated methods
-	 * @return IApi
-	 */
-	public function getCoreApi()
-	{
-		return $this->query('API');
 	}
 
 	/**
