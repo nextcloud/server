@@ -64,7 +64,7 @@ script('core', 'merged-login');
 
 		<?php if ($_['throttle_delay'] > 5000) { ?>
 			<p class="warning throttledMsg">
-				<?php p($l->t('We have detected multiple invalid login attempts from your ip. Because of this we throttle your connection. Login can take up to 30 seconds.')); ?>
+				<?php p($l->t('We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds.')); ?>
 			</p>
 		<?php } ?>
 
