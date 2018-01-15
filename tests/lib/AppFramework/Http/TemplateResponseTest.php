@@ -35,29 +35,16 @@ class TemplateResponseTest extends \Test\TestCase {
 	 */
 	private $tpl;
 
-	/**
-	 * @var \OCP\AppFramework\IApi
-	 */
-	private $api;
-
 	protected function setUp() {
 		parent::setUp();
 
-		$this->api = $this->getMockBuilder('OC\AppFramework\Core\API')
-			->setMethods(['getAppName'])
-			->setConstructorArgs(['test'])
-			->getMock();
-		$this->api->expects($this->any())
-				->method('getAppName')
-				->will($this->returnValue('app'));
-
-		$this->tpl = new TemplateResponse($this->api, 'home');
+		$this->tpl = new TemplateResponse('app', 'home');
 	}
 
 
 	public function testSetParamsConstructor(){
 		$params = array('hi' => 'yo');
-		$this->tpl = new TemplateResponse($this->api, 'home', $params);
+		$this->tpl = new TemplateResponse('app', 'home', $params);
 
 		$this->assertEquals(array('hi' => 'yo'), $this->tpl->getParams());
 	}
@@ -65,7 +52,7 @@ class TemplateResponseTest extends \Test\TestCase {
 
 	public function testSetRenderAsConstructor(){
 		$renderAs = 'myrender';
-		$this->tpl = new TemplateResponse($this->api, 'home', array(), $renderAs);
+		$this->tpl = new TemplateResponse('app', 'home', array(), $renderAs);
 
 		$this->assertEquals($renderAs, $this->tpl->getRenderAs());
 	}
