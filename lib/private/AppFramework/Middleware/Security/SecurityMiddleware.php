@@ -170,10 +170,16 @@ class SecurityMiddleware extends Middleware {
 			 * Only allow the CSRF check to fail on OCS Requests. This kind of
 			 * hacks around that we have no full token auth in place yet and we
 			 * do want to offer CSRF checks for web requests.
+			 *
+			 * Additionally we allow Bearer authenticated requests to pass on OCS routes.
+			 * This allows oauth apps (e.g. moodle) to use the OCS endpoints
 			 */
 			if(!$this->request->passesCSRFCheck() && !(
-					$controller instanceof OCSController &&
-					$this->request->getHeader('OCS-APIREQUEST') === 'true')) {
+					$controller instanceof OCSController && (
+						$this->request->getHeader('OCS-APIREQUEST') === 'true' ||
+						strpos($this->request->getHeader('Authorization'), 'Bearer ') === 0
+					)
+				)) {
 				throw new CrossSiteRequestForgeryException();
 			}
 		}
