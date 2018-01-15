@@ -449,7 +449,7 @@ describe('OC.SetupChecks tests', function() {
 			});
 		});
 
-		it('should return an info if server has no freetype support', function(done) {
+		it('should return an info if server has no FreeType support', function(done) {
 			var async = OC.SetupChecks.checkSetup();
 
 			suite.server.requests[0].respond(
@@ -474,7 +474,7 @@ describe('OC.SetupChecks tests', function() {
 
 			async.done(function( data, s, x ){
 				expect(data).toEqual([{
-					msg: 'Your PHP does not have freetype support. This will result in broken profile pictures and settings interface.',
+					msg: 'Your PHP does not have FreeType support, resulting in breakage of profile pictures and the settings interface.',
 					type: OC.SetupChecks.MESSAGE_TYPE_INFO
 				}]);
 				done();
