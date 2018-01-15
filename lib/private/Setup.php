@@ -437,6 +437,9 @@ class Setup {
 				return false;
 			}
 			$webRoot = parse_url($webRoot, PHP_URL_PATH);
+			if ($webRoot === null) {
+				return false;
+			}
 			$webRoot = rtrim($webRoot, '/');
 		} else {
 			$webRoot = !empty(\OC::$WEBROOT) ? \OC::$WEBROOT : '/';

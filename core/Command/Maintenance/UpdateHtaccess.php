@@ -43,7 +43,7 @@ class UpdateHtaccess extends Command {
 			$output->writeln('.htaccess has been updated');
 			return 0;
 		} else {
-			$output->writeln('<error>Error updating .htaccess file, not enough permissions?</error>');
+			$output->writeln('<error>Error updating .htaccess file, not enough permissions or "overwrite.cli.url" set to an invalid URL?</error>');
 			return 1;
 		}
 	}
