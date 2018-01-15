@@ -54,10 +54,6 @@ class AdminControllerTest extends TestCase {
 	private $timeFactory;
 	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
 	private $l10n;
-	/** @var UpdateChecker|\PHPUnit_Framework_MockObject_MockObject */
-	private $updateChecker;
-	/** @var IDateTimeFormatter|\PHPUnit_Framework_MockObject_MockObject */
-	private $dateTimeFormatter;
 
 	public function setUp() {
 		parent::setUp();
@@ -68,8 +64,6 @@ class AdminControllerTest extends TestCase {
 		$this->config = $this->createMock(IConfig::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->l10n = $this->createMock(IL10N::class);
-		$this->updateChecker = $this->createMock(UpdateChecker::class);
-		$this->dateTimeFormatter = $this->createMock(IDateTimeFormatter::class);
 
 		$this->adminController = new AdminController(
 			'updatenotification',
@@ -78,125 +72,9 @@ class AdminControllerTest extends TestCase {
 			$this->secureRandom,
 			$this->config,
 			$this->timeFactory,
-			$this->l10n,
-			$this->updateChecker,
-			$this->dateTimeFormatter
+			$this->l10n
 		);
 	}
-
-	public function testGetFormWithUpdate() {
-		$channels = [
-			'daily',
-			'beta',
-			'stable',
-			'production',
-		];
-		$currentChannel = Util::getChannel();
-
-		// Remove the currently used channel from the channels list
-		if(($key = array_search($currentChannel, $channels, true)) !== false) {
-			unset($channels[$key]);
-		}
-
-		$this->config
-			->expects($this->exactly(2))
-			->method('getAppValue')
-			->willReturnMap([
-				['core', 'lastupdatedat', '', '12345'],
-				['updatenotification', 'notify_groups', '["admin"]', '["admin"]'],
-			]);
-		$this->config
-			->expects($this->once())
-			->method('getSystemValue')
-			->with('updater.server.url', 'https://updates.nextcloud.com/server/')
-			->willReturn('https://updates.nextcloud.com/server/');
-		$this->dateTimeFormatter
-			->expects($this->once())
-			->method('formatDateTime')
-			->with('12345')
-			->willReturn('LastCheckedReturnValue');
-		$this->updateChecker
-			->expects($this->once())
-			->method('getUpdateState')
-			->willReturn([
-				'updateAvailable' => true,
-				'updateVersion' => '8.1.2',
-				'downloadLink' => 'https://downloads.nextcloud.org/server',
-				'updaterEnabled' => true,
-			]);
-
-		$params = [
-			'isNewVersionAvailable' => true,
-			'isUpdateChecked' => true,
-			'lastChecked' => 'LastCheckedReturnValue',
-			'currentChannel' => Util::getChannel(),
-			'channels' => $channels,
-			'newVersionString' => '8.1.2',
-			'downloadLink' => 'https://downloads.nextcloud.org/server',
-			'updaterEnabled' => true,
-			'isDefaultUpdateServerURL' => true,
-			'updateServerURL' => 'https://updates.nextcloud.com/server/',
-			'notify_groups' => 'admin',
-		];
-
-		$expected = new TemplateResponse('updatenotification', 'admin', $params, '');
-		$this->assertEquals($expected, $this->adminController->getForm());
-	}
-
-	public function testGetFormWithoutUpdate() {
-		$channels = [
-			'daily',
-			'beta',
-			'stable',
-			'production',
-		];
-		$currentChannel = Util::getChannel();
-
-		// Remove the currently used channel from the channels list
-		if(($key = array_search($currentChannel, $channels, true)) !== false) {
-			unset($channels[$key]);
-		}
-
-		$this->config
-			->expects($this->exactly(2))
-			->method('getAppValue')
-			->willReturnMap([
-				['core', 'lastupdatedat', '', '12345'],
-				['updatenotification', 'notify_groups', '["admin"]', '["admin"]'],
-			]);
-		$this->config
-			->expects($this->once())
-			->method('getSystemValue')
-			->with('updater.server.url', 'https://updates.nextcloud.com/server/')
-			->willReturn('https://updates.nextcloud.com/server/');
-		$this->dateTimeFormatter
-			->expects($this->once())
-			->method('formatDateTime')
-			->with('12345')
-			->willReturn('LastCheckedReturnValue');
-		$this->updateChecker
-			->expects($this->once())
-			->method('getUpdateState')
-			->willReturn([]);
-
-		$params = [
-			'isNewVersionAvailable' => false,
-			'isUpdateChecked' => true,
-			'lastChecked' => 'LastCheckedReturnValue',
-			'currentChannel' => Util::getChannel(),
-			'channels' => $channels,
-			'newVersionString' => '',
-			'downloadLink' => '',
-			'updaterEnabled' => 0,
-			'isDefaultUpdateServerURL' => true,
-			'updateServerURL' => 'https://updates.nextcloud.com/server/',
-			'notify_groups' => 'admin',
-		];
-
-		$expected = new TemplateResponse('updatenotification', 'admin', $params, '');
-		$this->assertEquals($expected, $this->adminController->getForm());
-	}
-
 
 	public function testCreateCredentials() {
 		$this->jobList
@@ -225,11 +103,4 @@ class AdminControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->adminController->createCredentials());
 	}
 
-	public function testGetSection() {
-		$this->assertSame('server', $this->adminController->getSection());
-	}
-
-	public function testGetPriority() {
-		$this->assertSame(1, $this->adminController->getPriority());
-	}
 }

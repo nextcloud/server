@@ -5,7 +5,7 @@
 	<description>Displays update notifications for Nextcloud and provides the SSO for the updater.</description>
 	<licence>AGPL</licence>
 	<author>Lukas Reschke</author>
-	<version>1.4.0</version>
+	<version>1.4.1</version>
 	<namespace>UpdateNotification</namespace>
 	<default_enable/>
 	<dependencies>
@@ -17,6 +17,6 @@
 	</background-jobs>
 
 	<settings>
-		<admin>OCA\UpdateNotification\Controller\AdminController</admin>
+		<admin>OCA\UpdateNotification\Settings\Admin</admin>
 	</settings>
 </info>
