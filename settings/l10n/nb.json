@@ -109,6 +109,7 @@
     "Removing …" : "Fjerner…",
     "Could not remove app" : "Kunne ikke fjerne program",
     "Remove" : "Fjern",
+    "The app has been enabled but needs to be upgraded. You will be redirected to the upgrade page in 5 seconds." : "Programmet er aktivert men må oppdateres. Du vil bli videresendt til oppgraderingssiden om 5 sekunder.",
     "App upgrade" : "Programoppgradering",
     "Approved" : "Godkjent",
     "Experimental" : "Eksperimentell",

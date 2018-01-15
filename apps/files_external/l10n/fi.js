@@ -75,6 +75,7 @@ OC.L10N.register(
     "Region" : "Alue",
     "Enable SSL" : "Käytä SSL:ää",
     "Enable Path Style" : "Aktivoi polun tyyli",
+    "Legacy (v2) authentication" : "Vanha (v2) tunnistautuminen",
     "WebDAV" : "WebDAV",
     "URL" : "Verkko-osoite",
     "Remote subfolder" : "Etäalikansio",
