@@ -107,6 +107,8 @@
     "So-so password" : "Kohtalainen salasana",
     "Good password" : "Hyvä salasana",
     "Strong password" : "Vahva salasana",
+    "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "HTTP-palvelintasi ei ole määritetty oikein tiedostojen synkronointia varten, koska WebDAV-liitäntä vaikuttaa olevan rikki.",
+    "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "PHP:ssäsi ei ole freetype-tukea. Tämä johtaa rikkinäisiin profiilikuviin ja rikkinäiseen asetuskäyttöliittymään.",
     "Error occurred while checking server setup" : "Virhe palvelimen määrityksiä tarkistaessa",
     "Shared" : "Jaettu",
     "Shared with" : "Jaettu",
