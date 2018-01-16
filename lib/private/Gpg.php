@@ -335,13 +335,14 @@ EFF
 	 * Change the GPG home from nextcloud-data/.gnupg to user-home/.gnugp
 	 * Takes an empty string to reset it to nextcloud-data
 	 *
-	 * @param string $uid
+	 * @param string|none $uid
 	 * @return $this
 	 */
 	public function setUser(string $uid) {
 		$this->uid = $uid;
-		$home = \OC::$server->getUserManager()->get($uid)->getHome();
-		if ($home === null ) {
+		if ($this->uid !== null ) {
+			$home = \OC::$server->getUserManager()->get($uid)->getHome();
+		} else {
 			$home = $this->config->getSystemValue("datadirectory");
 		}
 		putenv('GNUPGHOME='.$home.'.gnupg');
