@@ -122,7 +122,6 @@ OC.L10N.register(
     "Some files have not passed the integrity check. Further information on how to resolve this issue can be found in the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>. (<a href=\"{codeIntegrityDownloadEndpoint}\">List of invalid files…</a> / <a href=\"{rescanEndpoint}\">Rescan…</a>)" : "Pár fájl nem ment át az integritás ellenőrzésen. További információk a helyzet megoldására a <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">dokumentációban </a> található. (<a href=\"{codeIntegrityDownloadEndpoint}\">Érvénytelen fájlok listája…</a> / <a href=\"{rescanEndpoint}\">Újraellenőrzés…</a>)",
     "The PHP OPcache is not properly configured. <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">For better performance it is recommended</a> to use the following settings in the <code>php.ini</code>:" : "A PHP OPcache nincs megfelelően beállítva. <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">A jobb teljesítményért</a> használd az alábbi beállításokat a <code>php.ini</code>-ben:",
     "The PHP function \"set_time_limit\" is not available. This could result in scripts being halted mid-execution, breaking your installation. Enabling this function is strongly recommended." : "A \"set_time_limit\" beállítás nem elérhető. Így egy script megszakadhat futás kötzben, a telepítésed megbénítását okozhatva. Erősen javasoljuk a beállítás engedélyezését.",
-    "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "A PHP-ból hiányzik a freetype támogatás. Ez a beállítási felület és a profilképek hibás megjelenítését okozhatja.",
     "Error occurred while checking server setup" : "Hiba történt a szerver beállítások ellenőrzése közben",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Az adatmappád és fájljaid elérhetők az interneten. A .htaccess fájlod nem működik. Erősen javasolt, hogy a webszerveredet úgy állítsd be, hogy a mappa tartalma ne legyen közvetlenül elérhető, vagy mozgasd át a mappát a kiszolgálási területen kívülre.",
     "The \"{header}\" HTTP header is not set to \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "A \"{header}\" HTTP fejléc nincs beállítva, hogy megegyezzen az elvárttal \"{expected}\". Ez egy potenciális biztonsági és adatvédelmi kockázat. Kérjük, hogy változtassa meg a beállításokat.",
@@ -275,8 +274,8 @@ OC.L10N.register(
     "An internal error occurred." : "Belső hiba történt.",
     "Please try again or contact your administrator." : "Kérjük, próbálja meg újra, vagy vegye fel a kapcsolatot a rendszergazdával.",
     "Username or email" : "Felhasználói név vagy e-mail cím",
-    "Wrong password." : "Hibás jelszó.",
     "Log in" : "Bejelentkezés",
+    "Wrong password." : "Hibás jelszó.",
     "Stay logged in" : "Maradjon bejelentkezve",
     "Forgot password?" : "Elfelejtett jelszó?",
     "Back to log in" : "Vissza a bejelentkezéshez",
@@ -377,6 +376,7 @@ OC.L10N.register(
     "The PHP OPcache is not properly configured. <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">For better performance we recommend</a> to use following settings in the <code>php.ini</code>:" : "A PHP OPcache nincs megfelelően beállítva. <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">A jobb teljesítmény érdekében</a> használd az alábbi beállításokat a <code>php.ini</code>-ben:",
     "The PHP function \"set_time_limit\" is not available. This could result in scripts being halted mid-execution, breaking your installation. We strongly recommend enabling this function." : "A \"set_time_limit\" beállítás nem elérhető. Így egy script megszakadhat, a telepítésed megbénítását okozhatva. Erősen javasoljuk a beállítás engedélyezését.",
     "Your data directory and your files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server in a way that the data directory is no longer accessible or you move the data directory outside the web server document root." : "Az adatmappád és fájljaid elérhetők az interneten. A .htaccess fájlod nem működik. Erősen javasolt, hogy a webszerveredet úgy állítsd be, hogy a mappa tartalma ne legyen közvetlenül elérhető, vagy mozgasd át a mappát a kiszolgálási területen kívülre.",
-    "You are about to grant \"%s\" access to your %s account." : "\"%s\" hozzáférést készülsz adni a(z) %s fiókodnak."
+    "You are about to grant \"%s\" access to your %s account." : "\"%s\" hozzáférést készülsz adni a(z) %s fiókodnak.",
+    "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "A PHP-ból hiányzik a freetype támogatás. Ez a beállítási felület és a profilképek hibás megjelenítését okozhatja."
 },
 "nplurals=2; plural=(n != 1);");

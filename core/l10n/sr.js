@@ -122,7 +122,6 @@ OC.L10N.register(
     "Some files have not passed the integrity check. Further information on how to resolve this issue can be found in the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>. (<a href=\"{codeIntegrityDownloadEndpoint}\">List of invalid files…</a> / <a href=\"{rescanEndpoint}\">Rescan…</a>)" : "Неки фајлови нису прошли проверу интегритета. Даљње информације о томе како да решите овај проблем се могу наћи у <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">документацији</a>. (<a href=\"{codeIntegrityDownloadEndpoint}\">Списак неисправних фајлова</a>/<a href=\"{rescanEndpoint}\">Скенирај поново…</a>)",
     "The PHP OPcache is not properly configured. <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">For better performance it is recommended</a> to use the following settings in the <code>php.ini</code>:" : "PHP OPcache није подешен исправно. <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">За боље перформансе предлаже се</a> да користите следећа подешавања у <code>php.ini</code> фајлу:",
     "The PHP function \"set_time_limit\" is not available. This could result in scripts being halted mid-execution, breaking your installation. Enabling this function is strongly recommended." : "PHP функција \"set_time_limit\" није доступна. Ово може да узрокује да се скрипте закоче у сред извршавања, и тако покваре инсталацију. Препоручује се да омогућите ову функцију.",
-    "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "Ваша PHP инсталација нема подршку за freetype. Ово ће довести до неисправних профилних слика и неисправног интерфејса за подешавања.",
     "Error occurred while checking server setup" : "Дошло је до грешке при провери поставки сервера",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Ваша фасцикла са подацима и фајлови су вероватно доступни са интернета. .htaccess фајл не ради. Препоручујемо да подесите Ваш веб сервер тако да је фасцикла са подацима ван фасцикле кореног документа веб сервера.",
     "The \"{header}\" HTTP header is not set to \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "HTTP заглавље „{header}“ није подешено као „{expected}“. Ово потенцијално угрожава безбедност и приватност и препоручује се да подесите ову поставку.",
@@ -275,8 +274,8 @@ OC.L10N.register(
     "An internal error occurred." : "Догодила се унутрашња грешка. ",
     "Please try again or contact your administrator." : "Покушајте поново или контактирајте вашег администратора.",
     "Username or email" : "Корисничко име или адреса е-поште",
-    "Wrong password." : "Погрешна лозинка.",
     "Log in" : "Пријава",
+    "Wrong password." : "Погрешна лозинка.",
     "Stay logged in" : "Останите пријављени",
     "Forgot password?" : "Заборавили сте лозинку?",
     "Back to log in" : "Назад на пријаву",
@@ -377,6 +376,7 @@ OC.L10N.register(
     "The PHP OPcache is not properly configured. <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">For better performance we recommend</a> to use following settings in the <code>php.ini</code>:" : "PHP OPcache није подешен исправно. <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">За боље перформанце предлажемо</a> да користите следећа подешавања у <code>php.ini</code> датотеци:",
     "The PHP function \"set_time_limit\" is not available. This could result in scripts being halted mid-execution, breaking your installation. We strongly recommend enabling this function." : "PHP функција \"set_time_limit\" није доступна. Ово може да узрокује да се скрипте закоче у сред извршавања, и тако покваре инсталацију. Препоручујемо да омогућите ову функцију.",
     "Your data directory and your files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server in a way that the data directory is no longer accessible or you move the data directory outside the web server document root." : "Ваша фасцикла са подацима и Ваши фајлови су вероватно доступни са интернета. .htaccess фајл не ради. Препоручујемо да подесите Ваш веб сервер тако да је фасцикла са подацима ван фасцикле кореног документа веб сервера.",
-    "You are about to grant \"%s\" access to your %s account." : "Управо ћете одобрити \"%s\" приступ Вашем %s налогу."
+    "You are about to grant \"%s\" access to your %s account." : "Управо ћете одобрити \"%s\" приступ Вашем %s налогу.",
+    "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "Ваша PHP инсталација нема подршку за freetype. Ово ће довести до неисправних профилних слика и неисправног интерфејса за подешавања."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");
