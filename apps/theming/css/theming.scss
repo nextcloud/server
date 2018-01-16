@@ -11,6 +11,12 @@
 }
 
 @if (lightness($color-primary) > 50) {
+	#appmenu:not(.inverted) svg {
+		filter: invert(1);
+	}
+	#appmenu.inverted svg {
+		filter: none;
+	}
 	.searchbox input[type="search"] {
 		background: transparent url('../../../core/img/actions/search.svg') no-repeat 6px center;
 	}
@@ -47,6 +53,13 @@
 			background-image: url('../../../core/img/actions/checkbox-mark.svg');
 			background-color: nc-darken($color-primary-element, 30%) !important;
 		}
+	}
+} @else {
+	#appmenu:not(.inverted) svg {
+		filter: none;
+	}
+	#appmenu.inverted svg {
+		filter: invert(1);
 	}
 }
 
