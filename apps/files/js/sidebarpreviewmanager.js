@@ -92,6 +92,7 @@
 			};
 
 			this._fileList.lazyLoadPreview({
+				fileId: model.get('id'),
 				path: model.getFullPath(),
 				mime: model.get('mimetype'),
 				etag: model.get('etag'),

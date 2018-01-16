@@ -1511,6 +1511,7 @@
 				// the typeof check ensures that the default value of animate is true
 				if (typeof(options.animate) === 'undefined' || !!options.animate) {
 					this.lazyLoadPreview({
+						fileId: fileData.id,
 						path: path + '/' + fileData.name,
 						mime: mime,
 						etag: fileData.etag,
@@ -1856,7 +1857,15 @@
 			urlSpec.x = Math.ceil(urlSpec.x);
 			urlSpec.y = Math.ceil(urlSpec.y);
 			urlSpec.forceIcon = 0;
-			return OC.generateUrl('/core/preview.png?') + $.param(urlSpec);
+
+			if (typeof urlSpec.fileId !== 'undefined') {
+				delete urlSpec.file;
+				return OC.generateUrl('/core/preview?') + $.param(urlSpec);
+			} else {
+				delete urlSpec.fileId;
+				return OC.generateUrl('/core/preview.png?') + $.param(urlSpec);
+			}
+
 		},
 
 		/**
@@ -1869,6 +1878,7 @@
 		 */
 		lazyLoadPreview : function(options) {
 			var self = this;
+			var fileId = options.fileId;
 			var path = options.path;
 			var mime = options.mime;
 			var ready = options.callback;
@@ -1880,6 +1890,7 @@
 				urlSpec = {};
 			ready(iconURL); // set mimeicon URL
 
+			urlSpec.fileId = fileId;
 			urlSpec.file = OCA.Files.Files.fixPath(path);
 			if (options.x) {
 				urlSpec.x = options.x;
