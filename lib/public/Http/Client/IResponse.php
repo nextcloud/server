@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -41,18 +42,18 @@ interface IResponse {
 	 * @return int
 	 * @since 8.1.0
 	 */
-	public function getStatusCode();
+	public function getStatusCode(): int;
 
 	/**
-	 * @param $key
+	 * @param string $key
 	 * @return string
 	 * @since 8.1.0
 	 */
-	public function getHeader($key);
+	public function getHeader(string $key): string;
 
 	/**
 	 * @return array
 	 * @since 8.1.0
 	 */
-	public function getHeaders();
+	public function getHeaders(): array;
 }
