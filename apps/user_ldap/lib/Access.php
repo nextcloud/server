@@ -588,7 +588,7 @@ class Access extends LDAPUtility implements IUserTools {
 		// outside of core user management will still cache the user as non-existing.
 		$originalTTL = $this->connection->ldapCacheTTL;
 		$this->connection->setConfiguration(array('ldapCacheTTL' => 0));
-		if(($isUser && $intName !== '' && !\OCP\User::userExists($intName))
+		if(($isUser && $intName !== '' && !\OC::$server->getUserManager()->userExists($intName))
 			|| (!$isUser && !\OC::$server->getGroupManager()->groupExists($intName))) {
 			if($mapper->map($fdn, $intName, $uuid)) {
 				$this->connection->setConfiguration(array('ldapCacheTTL' => $originalTTL));
@@ -721,7 +721,7 @@ class Access extends LDAPUtility implements IUserTools {
 		//20 attempts, something else is very wrong. Avoids infinite loop.
 		while($attempts < 20){
 			$altName = $name . '_' . rand(1000,9999);
-			if(!\OCP\User::userExists($altName)) {
+			if(!\OC::$server->getUserManager()->userExists($altName)) {
 				return $altName;
 			}
 			$attempts++;

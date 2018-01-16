@@ -439,7 +439,7 @@ class Share extends Constants {
 				\OCP\Util::writeLog('OCP\Share', sprintf($message, $itemSourceName), \OCP\Util::DEBUG);
 				throw new \Exception($message_t);
 			}
-			if (!\OC_User::userExists($shareWith)) {
+			if (!\OC::$server->getUserManager()->userExists($shareWith)) {
 				$message = 'Sharing %s failed, because the user %s does not exist';
 				$message_t = $l->t('Sharing %s failed, because the user %s does not exist', array($itemSourceName, $shareWith));
 				\OCP\Util::writeLog('OCP\Share', sprintf($message, $itemSourceName, $shareWith), \OCP\Util::DEBUG);

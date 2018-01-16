@@ -275,7 +275,11 @@ class User_LDAPTest extends TestCase {
 		$backend = new UserLDAP($access, $this->createMock(IConfig::class), $this->createMock(INotificationManager::class), $this->createMock(Session::class), $this->getDefaultPluginManagerMock());
 		\OC_User::useBackend($backend);
 
-		$result = \OCP\User::checkPassword('roland', 'dt19');
+		$user = \OC::$server->getUserManager()->checkPassword('roland', 'dt19');
+		$result = false;
+		if ($user !== false) {
+			$result = $user->getUID();
+		}
 		$this->assertEquals('gunslinger', $result);
 	}
 
@@ -285,7 +289,11 @@ class User_LDAPTest extends TestCase {
 		$backend = new UserLDAP($access, $this->createMock(IConfig::class), $this->createMock(INotificationManager::class), $this->createMock(Session::class), $this->getDefaultPluginManagerMock());
 		\OC_User::useBackend($backend);
 
-		$result = \OCP\User::checkPassword('roland', 'wrong');
+		$user = \OC::$server->getUserManager()->checkPassword('roland', 'wrong');
+		$result = false;
+		if ($user !== false) {
+			$result = $user->getUID();
+		}
 		$this->assertFalse($result);
 	}
 
@@ -295,7 +303,11 @@ class User_LDAPTest extends TestCase {
 		$backend = new UserLDAP($access, $this->createMock(IConfig::class), $this->createMock(INotificationManager::class), $this->createMock(Session::class), $this->getDefaultPluginManagerMock());
 		\OC_User::useBackend($backend);
 
-		$result = \OCP\User::checkPassword('mallory', 'evil');
+		$user = \OC::$server->getUserManager()->checkPassword('mallory', 'evil');
+		$result = false;
+		if ($user !== false) {
+			$result = $user->getUID();
+		}
 		$this->assertFalse($result);
 	}
 
@@ -629,7 +641,7 @@ class User_LDAPTest extends TestCase {
 			->willReturn($this->createMock(UserMapping::class));
 
 		//test for existing user
-		$result = \OCP\User::userExists('gunslinger');
+		$result = \OC::$server->getUserManager()->userExists('gunslinger');
 		$this->assertTrue($result);
 	}
 
@@ -656,7 +668,7 @@ class User_LDAPTest extends TestCase {
 			->willReturn($this->createMock(User::class));
 
 		//test for deleted user
-		\OCP\User::userExists('formerUser');
+		\OC::$server->getUserManager()->userExists('formerUser');
 	}
 
 	public function testUserExistsPublicAPIForNeverExisting() {
@@ -675,7 +687,7 @@ class User_LDAPTest extends TestCase {
 			}));
 
 		//test for never-existing user
-		$result = \OCP\User::userExists('mallory');
+		$result = \OC::$server->getUserManager()->userExists('mallory');
 		$this->assertFalse($result);
 	}
 
