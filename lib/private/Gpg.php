@@ -30,6 +30,7 @@ use OCP\ILogger;
 use OCP\IGpg;
 use OCP\IURLGenerator;
 use OCP\IL10N;
+use OCP\IUserManager;
 use OCP\Util;
 
 use gnupg;
@@ -37,7 +38,7 @@ use gnupg;
 
 class Gpg implements IGpg{
 	/** @var gnupg */
-	private $gpg = null;
+	private $gpg;
 	/** @var IConfig */
 	private $config;
 	/** @var ILogger */
@@ -48,8 +49,9 @@ class Gpg implements IGpg{
 	private $urlGenerator;
 	/** @var IL10N */
 	private $l10n;
-	/** string $uid */
-	private $uid = '';
+	/** @var IUserManager */
+	private $userManager;
+
 	/**
 	 * Gpg constructor.
 	 *
@@ -58,28 +60,27 @@ class Gpg implements IGpg{
 	 * @param Defaults $defaults
 	 * @param IURLGenerator $urlGenerator
 	 * @param IL10N $l10n
-	 * @param string $uid = ''
+	 * @param IUserManager $userManager;
 	 */
 	public function __construct(IConfig $config,
 								ILogger $logger,
 								Defaults $defaults,
 								IURLGenerator $urlGenerator,
-								IL10N $l10n) {
+								IL10N $l10n,
+								IUserManager $userManager) {
 		$this->config = $config;
 		$this->logger = $logger;
 		$this->defaults = $defaults;
 		$this->urlGenerator = $urlGenerator;
+		$this->userManager = $userManager;
 		$this->l10n = $l10n;
-		$home = $this->config->getSystemValue("datadirectory");
-
-		putenv('GNUPGHOME='.$home.'.gnupg');
-
+		$this->loadUser(null);
 		$this->gpg = new gnupg();
 		$this->gpg -> setarmor(1);
-		$this->gpg->setsignmode(gnupg::SIG_MODE_DETACH);
+		$this->gpg -> setsignmode(gnupg::SIG_MODE_DETACH);
 		$debugMode = $this->config->getSystemValue('debug', false);
 		if ($debugMode) {
-			$this->gpg->seterrormode(gnupg::ERROR_WARNING);
+			$this->gpg ->seterrormode(gnupg::ERROR_WARNING);
 		}
 	}
 
@@ -88,15 +89,19 @@ class Gpg implements IGpg{
 	 *
 	 * @param string $plaintext
 	 * @param array $fingerprints fingerprints of the encryption keys
+	 * @param string $uid = null
 	 * @return string
 	 */
-	public function encrypt(array $fingerprints,  $plaintext ) {
+	public function encrypt(array $fingerprints,  $plaintext, $uid = null ) {
+		$this->loadUser($uid);
+		$gpg = $this->gpg;
 		$debugMode = $this->config->getSystemValue('debug', false);
+
 		foreach ($fingerprints as $fingerprint){
-			$this->gpg->addencryptkey($fingerprint);
+			$gpg->addencryptkey($fingerprint);
 		}
-		$gpg_text = $this->gpg->encrypt($plaintext);
-		$this->gpg->clearencryptkeys();
+		$gpg_text = $gpg->encrypt($plaintext);
+		$gpg->clearencryptkeys();
 		if($debugMode) {
 			$encrypt_fingerprints_text = '';
 			foreach ($fingerprints as $encrypt_fingerprint) {
@@ -114,19 +119,22 @@ class Gpg implements IGpg{
 	 * @param string $plaintext
 	 * @param array $encrypt_fingerprints fingerprints of the encryption keys
 	 * @param array $sign_fingerprints fingerprints of the sign keys
+	 * @param $uid = null
 	 * @return string
 	 */
-	public function encryptsign(array $encrypt_fingerprints, array $sign_fingerprints,  $plaintext){
+	public function encryptsign(array $encrypt_fingerprints, array $sign_fingerprints,  $plaintext, $uid = null ) {
+		$this->loadUser($uid);
+		$gpg = $this->gpg;
 		$debugMode = $this->config->getSystemValue('debug', false);
 		foreach ($encrypt_fingerprints as $fingerprint){
-			$this->gpg->addencryptkey($fingerprint);
+			$gpg->addencryptkey($fingerprint);
 		}
 		foreach ($sign_fingerprints as $fingerprint){
-			$this->gpg->addsignkey($fingerprint);
+			$gpg->addsignkey($fingerprint);
 		}
-		$gpg_text = $this->gpg->encryptsign($plaintext);
-		$this->gpg->clearencryptkeys();
-		$this->gpg->clearsignkeys();
+		$gpg_text = $gpg->encryptsign($plaintext);
+		$gpg->clearencryptkeys();
+		$gpg->clearsignkeys();
 
 
 		if($debugMode) {
@@ -149,16 +157,19 @@ class Gpg implements IGpg{
 	 *
 	 * @param string $plaintext
 	 * @param array $fingerprints fingerprints of the sign keys
+	 * @param $uid = null
 	 * @return string
 	 */
-	public function sign(array $fingerprints,  $plaintext){
+	public function sign(array $fingerprints,  $plaintext, $uid = null ) {
+		$this->loadUser($uid);
+		$gpg = $this->gpg;
 		$debugMode = $this->config->getSystemValue('debug', false);
 		foreach ($fingerprints as $fingerprint){
-			$this->gpg->addsignkey($fingerprint);
+			$gpg->addsignkey($fingerprint);
 		}
-		$gpg_text = $this->gpg->sign($plaintext);
+		$gpg_text = $gpg->sign($plaintext);
 
-		$this->gpg->clearsignkeys();
+		$gpg->clearsignkeys();
 		$sign_fingerprints_text = '';
 		if ($debugMode) {
 			foreach ($fingerprints as $sign_fingerprint) {
@@ -177,8 +188,10 @@ class Gpg implements IGpg{
 	 * @param string $keydata
 	 * @return array
 	 */
-	public function import($keydata) {
-		return $this->gpg->import($keydata);
+	public function import($keydata, $uid = null ) {
+		$this->loadUser($uid);
+		$gpg = $this->gpg;
+		return $gpg->import($keydata);
 	}
 
 	/**
@@ -188,8 +201,10 @@ class Gpg implements IGpg{
 	 * @param string $fingerprint
 	 * @return string
 	 */
-	public function export($fingerprint) {
-		return $this->gpg->export($fingerprint);
+	public function export($fingerprint, $uid = null ) {
+		$this->loadUser($uid);
+		$gpg = $this->gpg;
+		return $gpg->export($fingerprint);
 	}
 
 
@@ -199,8 +214,10 @@ class Gpg implements IGpg{
 	 * @param string $pattern
 	 * @return array
 	 */
-	public function keyinfo($pattern) {
-		return $this->gpg->keyinfo($pattern);
+	public function keyinfo($pattern, $uid = null ) {
+		$this->loadUser($uid);
+		$gpg = $this->gpg;
+		return $gpg->keyinfo($pattern);
 	}
 
 	/**
@@ -212,8 +229,10 @@ class Gpg implements IGpg{
 	 * @param bool $allowsecret
 	 * @return bool
 	 */
-	public function deletekey($fingerprint, $allowsecret=FALSE  ){
-		return $this->gpg->deletekey($fingerprint,$allowsecret);
+	public function deletekey($fingerprint, $allowsecret=FALSE  , $uid = null ) {
+		$this->loadUser($uid);
+		$gpg = $this->gpg;
+		return $gpg->deletekey($fingerprint,$allowsecret);
 	}
 
 	/**
@@ -222,9 +241,11 @@ class Gpg implements IGpg{
 	 * @param string $email
 	 * @return string
 	 */
-	public function getPublicKeyFromEmail($email){
+	public function getPublicKeyFromEmail($email, $uid = null ) {
+		$this->loadUser($uid);
+		$gpg = $this->gpg;
 		$fingerprint = '';
-		$keys = $this->gpg->keyinfo($email);
+		$keys = $gpg->keyinfo($email);
 		if(sizeof($keys)> 0) {
 			foreach($keys as $key){
 				if (!$key['disabled'] and !$key['expired'] and !$key['revoked']) {
@@ -241,9 +262,11 @@ class Gpg implements IGpg{
 	 * @param string $email
 	 * @return string
 	 */
-	public function getPrivatKeyFromEmail($email){
+	public function getPrivatKeyFromEmail($email, $uid = null ) {
+		$this->loadUser($uid);
+		$gpg = $this->gpg;
 		$fingerprint = '';
-		$keys = $this->gpg->keyinfo($email);
+		$keys = $gpg->keyinfo($email);
 		if(sizeof($keys)> 0) {
 			foreach($keys as $key){
 				if (!$key['disabled'] and !$key['expired'] and !$key['revoked'] and $key['is_secret']) {
@@ -261,7 +284,9 @@ class Gpg implements IGpg{
 	 * @param string $name = ''
 	 * @param string $commend = ''
 	 */
-	public function generateKey($email = '', $name = '', $commend = ''){
+	public function generateKey($email = '', $name = '', $commend = '', $uid = null ) {
+		$this->loadUser($uid);
+		$gpg = $this->gpg;
 		$debugMode = $this->config->getSystemValue('debug', false);
 		if ($email === '') {
 			/* otherwise setUser(X); generateKey(); Would generate a server key for User X); */
@@ -273,7 +298,12 @@ class Gpg implements IGpg{
 		}
 
 
-		$home = $this->config->getSystemValue("datadirectory");
+		if ($this->uid !== null && $this->uid !=='' ) {
+			$home = $this->UserManager->get($uid)->getHome();
+		} else {
+			$home = $this->config->getSystemValue("datadirectory");
+		}
+
 
 		if ($debugMode) {
 			$this->logger->debug("Generate server key for email:".$email, ['app' => 'core']);
@@ -309,7 +339,7 @@ EFF
 
 
 
-		$keys = $this->gpg->keyinfo($email);
+		$keys = $gpg->keyinfo($email);
 		$fingerprint = "";
 		foreach ($keys as $key) {
 			if ($key["subkeys"][0]["timestamp"] >= $timestamp_before AND $key["subkeys"][0]["timestamp"] <= $timestamp_after) {
@@ -331,29 +361,24 @@ EFF
 		$this->config->setSystemValue("GpgServerKey",$fingerprint);
 	}
 
+
+
+
+
 	/**
 	 * Change the GPG home from nextcloud-data/.gnupg to user-home/.gnugp
 	 * Takes an empty string to reset it to nextcloud-data
 	 *
-	 * @param string|none $uid
+	 * @param $uid
 	 * @return $this
 	 */
-	public function setUser(string $uid) {
-		$this->uid = $uid;
-		if ($this->uid !== null ) {
-			$home = \OC::$server->getUserManager()->get($uid)->getHome();
-		} else {
+	private function loadUser($uid) {
+		if ($uid === null) {
 			$home = $this->config->getSystemValue("datadirectory");
+		} else {
+			$home =  $this->userManager->get($uid)->getHome();
 		}
 		putenv('GNUPGHOME='.$home.'.gnupg');
-		$this->gpg = new gnupg();
-		$this->gpg->setarmor(1);
-		$this->gpg->setsignmode(gnupg::SIG_MODE_DETACH);
-		$debugMode = $this->config->getSystemValue('debug', false);
-		if ($debugMode) {
-			$this->gpg->seterrormode(gnupg::ERROR_WARNING);
-			$this->logger->debug("All gpg keys:" . print_r($this->gpg->keyinfo(""),TRUE ), ['app' => 'core']);
-		}
 		return $this;
 	}
 }
