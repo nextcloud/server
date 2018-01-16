@@ -34,6 +34,7 @@
 namespace OC\Core\Controller;
 
 use OC\Authentication\TwoFactorAuth\Manager;
+use OC\Security\Bruteforce\Throttler;
 use OC\User\Session;
 use OC_App;
 use OC_Util;
@@ -72,6 +73,8 @@ class LoginController extends Controller {
 	private $twoFactorManager;
 	/** @var Defaults */
 	private $defaults;
+	/** @var Throttler */
+	private $throttler;
 
 	/**
 	 * @param string $appName
@@ -84,6 +87,7 @@ class LoginController extends Controller {
 	 * @param ILogger $logger
 	 * @param Manager $twoFactorManager
 	 * @param Defaults $defaults
+	 * @param Throttler $throttler
 	 */
 	public function __construct($appName,
 								IRequest $request,
@@ -94,7 +98,8 @@ class LoginController extends Controller {
 								IURLGenerator $urlGenerator,
 								ILogger $logger,
 								Manager $twoFactorManager,
-								Defaults $defaults) {
+								Defaults $defaults,
+								Throttler $throttler) {
 		parent::__construct($appName, $request);
 		$this->userManager = $userManager;
 		$this->config = $config;
@@ -104,6 +109,7 @@ class LoginController extends Controller {
 		$this->logger = $logger;
 		$this->twoFactorManager = $twoFactorManager;
 		$this->defaults = $defaults;
+		$this->throttler = $throttler;
 	}
 
 	/**
@@ -153,7 +159,7 @@ class LoginController extends Controller {
 		}
 
 		$parameters['messages'] = $messages;
-		if (!is_null($user) && $user !== '') {
+		if ($user !== null && $user !== '') {
 			$parameters['loginName'] = $user;
 			$parameters['user_autofocus'] = false;
 		} else {
@@ -167,7 +173,7 @@ class LoginController extends Controller {
 		$parameters['canResetPassword'] = true;
 		$parameters['resetPasswordLink'] = $this->config->getSystemValue('lost_password_link', '');
 		if (!$parameters['resetPasswordLink']) {
-			if (!is_null($user) && $user !== '') {
+			if ($user !== null && $user !== '') {
 				$userObj = $this->userManager->get($user);
 				if ($userObj instanceof IUser) {
 					$parameters['canResetPassword'] = $userObj->canChangePassword();
@@ -181,13 +187,15 @@ class LoginController extends Controller {
 		$parameters['rememberLoginState'] = !empty($remember_login) ? $remember_login : 0;
 		$parameters['hideRemeberLoginState'] = !empty($redirect_url) && $this->session->exists('client.flow.state.token');
 
-		if (!is_null($user) && $user !== '') {
+		if ($user !== null && $user !== '') {
 			$parameters['loginName'] = $user;
 			$parameters['user_autofocus'] = false;
 		} else {
 			$parameters['loginName'] = '';
 			$parameters['user_autofocus'] = true;
 		}
+
+		$parameters['throttle_delay'] = $this->throttler->getDelay($this->request->getRemoteAddress());
 
 		// OpenGraph Support: http://ogp.me/
 		Util::addHeader('meta', ['property' => 'og:title', 'content' => Util::sanitizeHTML($this->defaults->getName())]);

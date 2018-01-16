@@ -62,6 +62,12 @@ script('core', 'merged-login');
 			</p>
 		<?php } ?>
 
+		<?php if ($_['throttle_delay'] > 5000) { ?>
+			<p class="warning throttledMsg">
+				<?php p($l->t('We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds.')); ?>
+			</p>
+		<?php } ?>
+
 		<?php if (!empty($_['canResetPassword'])) { ?>
 		<div id="reset-password-wrapper" style="display: none;">
 			<input type="submit" id="reset-password-submit" class="login primary" title="" value="<?php p($l->t('Reset password')); ?>" disabled="disabled" />
