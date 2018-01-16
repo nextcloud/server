@@ -44,6 +44,7 @@ class DeprecationCheck extends AbstractCheck implements ICheck {
 			'OCP\JSON' => '8.1.0',
 			'OCP\Response' => '8.1.0',
 			'OCP\AppFramework\IApi' => '8.0.0',
+			'OCP\User' => '13.0.0',
 		];
 	}
 
@@ -141,6 +142,9 @@ class DeprecationCheck extends AbstractCheck implements ICheck {
 			'OCP\User::userExists' => '8.1.0',
 			'OCP\User::logout' => '8.1.0',
 			'OCP\User::checkPassword' => '8.1.0',
+			'OCP\User::isLoggedIn' => '13.0.0',
+			'OCP\User::checkAdminUser' => '13.0.0',
+			'OCP\User::checkLoggedIn' => '13.0.0',
 
 			'OCP\Util::encryptedFiles' => '8.1.0',
 			'OCP\Util::formatDate' => '8.0.0',
