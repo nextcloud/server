@@ -65,7 +65,10 @@ class DiscoveryService implements IDiscoveryService {
 		// Check the cache first
 		$cacheData = $this->cache->get($remote . '#' . $service);
 		if($cacheData) {
-			return json_decode($cacheData, true);
+			$data = json_decode($cacheData, true);
+			if (\is_array($data)) {
+				return $data;
+			}
 		}
 
 		$discoveredServices = [];
