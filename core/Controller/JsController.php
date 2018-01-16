@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright 2017, Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -29,6 +30,7 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
+use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
@@ -44,12 +46,6 @@ class JsController extends Controller {
 	/** @var ITimeFactory */
 	protected $timeFactory;
 
-	/**
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param Factory $appDataFactory
-	 * @param ITimeFactory $timeFactory
-	 */
 	public function __construct($appName, IRequest $request, Factory $appDataFactory, ITimeFactory $timeFactory) {
 		parent::__construct($appName, $request);
 
@@ -65,7 +61,7 @@ class JsController extends Controller {
 	 * @param string $appName css folder name
 	 * @return FileDisplayResponse|NotFoundResponse
 	 */
-	public function getJs($fileName, $appName) {
+	public function getJs(string $fileName, string $appName): Response {
 		try {
 			$folder = $this->appData->getFolder($appName);
 			$gzip = false;
@@ -78,10 +74,13 @@ class JsController extends Controller {
 		if ($gzip) {
 			$response->addHeader('Content-Encoding', 'gzip');
 		}
-		$response->cacheFor(86400);
+
+		$ttl = 31536000;
+		$response->addHeader('Cache-Control', 'max-age='.$ttl.', immutable');
+
 		$expires = new \DateTime();
 		$expires->setTimestamp($this->timeFactory->getTime());
-		$expires->add(new \DateInterval('PT24H'));
+		$expires->add(new \DateInterval('PT'.$ttl.'S'));
 		$response->addHeader('Expires', $expires->format(\DateTime::RFC1123));
 		$response->addHeader('Pragma', 'cache');
 		return $response;
@@ -92,8 +91,10 @@ class JsController extends Controller {
 	 * @param string $fileName
 	 * @param bool $gzip is set to true if we use the gzip file
 	 * @return ISimpleFile
+	 *
+	 * @throws NotFoundException
 	 */
-	private function getFile(ISimpleFolder $folder, $fileName, &$gzip) {
+	private function getFile(ISimpleFolder $folder, string $fileName, bool &$gzip): ISimpleFile {
 		$encoding = $this->request->getHeader('Accept-Encoding');
 
 		if (strpos($encoding, 'gzip') !== false) {
