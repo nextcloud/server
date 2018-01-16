@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -31,6 +32,7 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\Files\IRootFolder;
+use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\IPreview;
 use OCP\IRequest;
@@ -57,12 +59,13 @@ class PreviewController extends Controller {
 	 * @param IPreview $preview
 	 * @param IRootFolder $root
 	 * @param string $userId
+	 * @param ITimeFactory $timeFactory
 	 */
-	public function __construct($appName,
+	public function __construct(string $appName,
 								IRequest $request,
 								IPreview $preview,
 								IRootFolder $root,
-								$userId,
+								string $userId,
 								ITimeFactory $timeFactory
 	) {
 		parent::__construct($appName, $request);
@@ -83,15 +86,15 @@ class PreviewController extends Controller {
 	 * @param bool $a
 	 * @param bool $forceIcon
 	 * @param string $mode
-	 * @return DataResponse|Http\FileDisplayResponse
+	 * @return DataResponse|FileDisplayResponse
 	 */
-	public function getPreview(
-		$file = '',
-		$x = 32,
-		$y = 32,
-		$a = false,
-		$forceIcon = true,
-		$mode = 'fill') {
+	public function getPreview (
+		string $file = '',
+		int $x = 32,
+		int $y = 32,
+		bool $a = false,
+		bool $forceIcon = true,
+		string $mode = 'fill'): Http\Response {
 
 		if ($file === '' || $x === 0 || $y === 0) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
@@ -99,19 +102,77 @@ class PreviewController extends Controller {
 
 		try {
 			$userFolder = $this->root->getUserFolder($this->userId);
-			$file = $userFolder->get($file);
+			$node = $userFolder->get($file);
 		} catch (NotFoundException $e) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
 
-		if (!($file instanceof File) || (!$forceIcon && !$this->preview->isAvailable($file))) {
+		return $this->fetchPreview($node, $x, $y, $a, $forceIcon, $mode);
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 *
+	 * @param int $fileId
+	 * @param int $x
+	 * @param int $y
+	 * @param bool $a
+	 * @param bool $forceIcon
+	 * @param string $mode
+	 *
+	 * @return DataResponse|FileDisplayResponse
+	 */
+	public function getPreviewByFileId(
+		int $fileId = -1,
+		int $x = 32,
+		int $y = 32,
+		bool $a = false,
+		bool $forceIcon = true,
+		string $mode = 'fill') {
+
+		if ($fileId === -1 || $x === 0 || $y === 0) {
+			return new DataResponse([], Http::STATUS_BAD_REQUEST);
+		}
+
+		$userFolder = $this->root->getUserFolder($this->userId);
+		$nodes = $userFolder->getById($fileId);
+
+		if (\count($nodes) === 0) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
-		} else if (!$file->isReadable()) {
+		}
+
+		$node = array_pop($nodes);
+
+		return $this->fetchPreview($node, $x, $y, $a, $forceIcon, $mode);
+	}
+
+	/**
+	 * @param Node $node
+	 * @param int $x
+	 * @param int $y
+	 * @param bool $a
+	 * @param bool $forceIcon
+	 * @param string $mode
+	 * @return DataResponse|FileDisplayResponse
+	 */
+	private function fetchPreview(
+		Node $node,
+		int $x,
+		int $y,
+		bool $a = false,
+		bool $forceIcon = true,
+		string $mode) : Http\Response {
+
+		if (!($node instanceof File) || (!$forceIcon && !$this->preview->isAvailable($node))) {
+			return new DataResponse([], Http::STATUS_NOT_FOUND);
+		}
+		if (!$node->isReadable()) {
 			return new DataResponse([], Http::STATUS_FORBIDDEN);
 		}
 
 		try {
-			$f = $this->preview->getPreview($file, $x, $y, !$a, $mode);
+			$f = $this->preview->getPreview($node, $x, $y, !$a, $mode);
 			$response = new FileDisplayResponse($f, Http::STATUS_OK, ['Content-Type' => $f->getMimeType()]);
 
 			// Let cache this!
