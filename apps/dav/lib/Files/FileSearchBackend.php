@@ -183,9 +183,9 @@ class FileSearchBackend implements ISearchBackend {
 	 * @return ISearchQuery
 	 */
 	private function transformQuery(BasicSearch $query) {
-		// TODO offset, limit
+		$limit = $query->limit;
 		$orders = array_map([$this, 'mapSearchOrder'], $query->orderBy);
-		return new SearchQuery($this->transformSearchOperation($query->where), 0, 0, $orders, $this->user);
+		return new SearchQuery($this->transformSearchOperation($query->where), $limit->maxResults, $limit->firstResult, $orders, $this->user);
 	}
 
 	/**
