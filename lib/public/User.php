@@ -44,6 +44,7 @@ namespace OCP;
  * This class provides access to the user management. You can get information
  * about the currently logged in user and the permissions for example
  * @since 5.0.0
+ * @deprecated 13.0.0
  */
 class User {
 	/**
@@ -99,6 +100,7 @@ class User {
 	 * Check if the user is logged in
 	 * @return boolean
 	 * @since 5.0.0
+	 * @deprecated 13.0.0 Use annotation based ACLs from the AppFramework instead
 	 */
 	public static function isLoggedIn() {
 		return \OC::$server->getUserSession()->isLoggedIn();
@@ -142,6 +144,7 @@ class User {
 	/**
 	 * Check if the user is a admin, redirects to home if not
 	 * @since 5.0.0
+	 * @deprecated 13.0.0 Use annotation based ACLs from the AppFramework instead
 	 */
 	public static function checkAdminUser() {
 		\OC_Util::checkAdminUser();
@@ -151,6 +154,7 @@ class User {
 	 * Check if the user is logged in, redirects to home if not. With
 	 * redirect URL parameter to the request URI.
 	 * @since 5.0.0
+	 * @deprecated 13.0.0 Use annotation based ACLs from the AppFramework instead
 	 */
 	public static function checkLoggedIn() {
 		\OC_Util::checkLoggedIn();
