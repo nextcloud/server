@@ -839,7 +839,8 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getLogger(),
 				$c->query(Defaults::class),
 				$c->getURLGenerator(),
-				$c->getL10N('lib')
+				$c->getL10N('lib'),
+				$c->getUserManager()
 			);
 		});
 		$this->registerAlias('Gpg', \OCP\IGpg::class);

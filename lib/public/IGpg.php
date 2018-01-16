@@ -34,9 +34,10 @@ interface IGpg {
 	 *
 	 * @param string $plaintext
 	 * @param array $fingerprints fingerprints of the encryption keys
+	 * @param $uid = null
 	 * @return string
 	 */
-	public function encrypt(array $fingerprints,  $plaintext );
+	public function encrypt(array $fingerprints,  $plaintext, $uid = null);
 
 
 	/**
@@ -45,18 +46,20 @@ interface IGpg {
 	 * @param string $plaintext
 	 * @param array $encrypt_fingerprints fingerprints of the encryption keys
 	 * @param array $sign_fingerprints fingerprints of the sign keys
+	 * @param $uid = null
 	 * @return string
 	 */
-	public function encryptsign(array $encrypt_fingerprints, array $sign_fingerprints,  $plaintext);
+	public function encryptsign(array $encrypt_fingerprints, array $sign_fingerprints,  $plaintext, $uid = null);
 
 	/**
 	 * Combination of gnupg_addsignkey and gnupg_sign
 	 *
 	 * @param string $plaintext
 	 * @param array $fingerprints fingerprints of the sign keys
+	 * @param $uid = null
 	 * @return string
 	 */
-	public function sign(array $fingerprints,  $plaintext);
+	public function sign(array $fingerprints,  $plaintext, $uid = null);
 
 
 	/**
@@ -64,27 +67,30 @@ interface IGpg {
 	 * with expect that only one key per email can be added.
 	 *
 	 * @param string $keydata
+	 * @param $uid = null
 	 * @return array
 	 */
-	public function import($keydata);
+	public function import($keydata, $uid = null);
 
 	/**
 	 * Mapper for gnupg_export,
 	 * exports the public key for finterprint.
 	 *
 	 * @param string $fingerprint
+	 * @param $uid = null
 	 * @return string
 	 */
-	public function export($fingerprint);
+	public function export($fingerprint, $uid = null);
 
 
 	/**
 	 * Mapper for gnupg_keyinfo
 	 *
 	 * @param string $pattern
+	 * @param $uid = null
 	 * @return array
 	 */
-	public function keyinfo($pattern);
+	public function keyinfo($pattern, $uid = null);
 
 	/**
 	 * Mapper for gnupg_deletekey
@@ -93,25 +99,28 @@ interface IGpg {
 
 	 * @param string $fingerprint of the key
 	 * @param bool $allowsecret
+	 * @param $uid = null
 	 * @return bool
 	 */
-	public function deletekey($fingerprint, $allowsecret=FALSE  );
+	public function deletekey($fingerprint, $allowsecret=FALSE, $uid = null);
 
 	/**
 	 * Returns the fingerprint of the first public key matching the email.
 	 *
 	 * @param string $email
+	 * @param $uid = null
 	 * @return string
 	 */
-	public function getPublicKeyFromEmail($email);
+	public function getPublicKeyFromEmail($email, $uid = null);
 
 	/**
 	 * Returns the fingerprint of the first privat key matching the email.
 	 *
 	 * @param string $email
+	 * @param $uid = null
 	 * @return string
 	 */
-	public function getPrivatKeyFromEmail($email);
+	public function getPrivatKeyFromEmail($email, $uid = null);
 
 	/**
 	 * generate a new Key Pair, if no parameter given the key is for the server is generated
@@ -119,18 +128,11 @@ interface IGpg {
 	 * @param string $email = ''
 	 * @param string $name = ''
 	 * @param string $commend = ''
+	 * @param $uid = null
 	 */
-	public function generateKey($email = '', $name = '', $commend = '');
+	public function generateKey($email = '', $name = '', $commend = '', $uid = null);
 
 
-	/**
-	 * Change the GPG home from nextcloud-data/.gnupg to user-home/.gnugp
-	 * Takes an empty string to reset it to nextcloud-data
-	 *
-	 * @param string $uid
-	 * @return $this
-	 */
-	public function setUser(string $uid);
 
 
 }
