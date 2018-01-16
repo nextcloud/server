@@ -490,6 +490,9 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		$this->addressHandler->expects($this->at(1))->method('splitUserRemote')
 			->willReturn(['user2', 'server.com']);
 
+		$this->addressHandler->method('generateRemoteURL')
+			->willReturn('remoteurl.com');
+
 		$this->tokenHandler->method('generateToken')->willReturn('token');
 		$this->notifications
 			->method('sendRemoteShare')
@@ -532,6 +535,9 @@ class FederatedShareProviderTest extends \Test\TestCase {
 
 		$this->rootFolder->expects($this->never())->method($this->anything());
 
+		$this->addressHandler->method('generateRemoteURL')
+			->willReturn('remoteurl.com');
+
 		$share = $this->shareManager->newShare();
 		$share->setSharedWith('user@server.com')
 			->setSharedBy('sharedBy')
@@ -569,6 +575,9 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			->willReturn(true);
 
 		$this->rootFolder->expects($this->never())->method($this->anything());
+
+		$this->addressHandler->method('generateRemoteURL')
+			->willReturn('remoteurl.com');
 
 		$share = $this->shareManager->newShare();
 		$share->setSharedWith('user@server.com')
@@ -610,6 +619,9 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			->willReturn(true);
 
 		$this->rootFolder->expects($this->never())->method($this->anything());
+
+		$this->addressHandler->method('generateRemoteURL')
+			->willReturn('remoteurl.com');
 
 		$share = $this->shareManager->newShare();
 		$share->setSharedWith('user@server.com')
@@ -806,6 +818,9 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			->method('sendRemoteShare')
 			->willReturn(true);
 
+		$this->addressHandler->method('generateRemoteURL')
+			->willReturn('remoteurl.com');
+
 		$share1 = $this->shareManager->newShare();
 		$share1->setSharedWith('user@server.com')
 			->setSharedBy($u1->getUID())
@@ -856,6 +871,9 @@ class FederatedShareProviderTest extends \Test\TestCase {
 
 		$result = $this->provider->getAccessList([$file1], false);
 		$this->assertEquals(['remote' => false], $result);
+
+		$this->addressHandler->method('generateRemoteURL')
+			->willReturn('remoteurl.com');
 
 		$share1 = $this->shareManager->newShare();
 		$share1->setSharedWith('user@server.com')
