@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2017, Robin Appelman <robin@icewind.nl>
  *
@@ -35,7 +36,7 @@ interface ICloudId {
 	 * @return string
 	 * @since 12.0.0
 	 */
-	public function getId();
+	public function getId(): string;
 
 	/**
 	 * Get a clean representation of the cloud id for display
@@ -43,7 +44,7 @@ interface ICloudId {
 	 * @return string
 	 * @since 12.0.0
 	 */
-	public function getDisplayId();
+	public function getDisplayId(): string;
 
 	/**
 	 * The username on the remote server
@@ -51,7 +52,7 @@ interface ICloudId {
 	 * @return string
 	 * @since 12.0.0
 	 */
-	public function getUser();
+	public function getUser(): string;
 
 	/**
 	 * The base address of the remote server
@@ -59,5 +60,5 @@ interface ICloudId {
 	 * @return string
 	 * @since 12.0.0
 	 */
-	public function getRemote();
+	public function getRemote(): string;
 }
