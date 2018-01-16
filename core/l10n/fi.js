@@ -110,7 +110,6 @@ OC.L10N.register(
     "Good password" : "Hyvä salasana",
     "Strong password" : "Vahva salasana",
     "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "HTTP-palvelintasi ei ole määritetty oikein tiedostojen synkronointia varten, koska WebDAV-liitäntä vaikuttaa olevan rikki.",
-    "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "PHP:ssäsi ei ole freetype-tukea. Tämä johtaa rikkinäisiin profiilikuviin ja rikkinäiseen asetuskäyttöliittymään.",
     "Error occurred while checking server setup" : "Virhe palvelimen määrityksiä tarkistaessa",
     "Shared" : "Jaettu",
     "Shared with" : "Jaettu",
@@ -350,6 +349,7 @@ OC.L10N.register(
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Apua saat <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">dokumentaatiosta</a>.",
     "The PHP function \"set_time_limit\" is not available. This could result in scripts being halted mid-execution, breaking your installation. We strongly recommend enabling this function." : "PHP-funktio \"set_time_limit\" ei ole saatavilla. Tämä saattaa johtaa siihen, että skriptien suoritus jää puolitiehen, ja seurauksena on Nextcloud-asennuksen rikkoutuminen. Suosittelemme ottamaan kyseisen funktion käyttöön.",
     "Your data directory and your files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server in a way that the data directory is no longer accessible or you move the data directory outside the web server document root." : "Data-hakemistosi ja tiedostosi ovat luultavasti käytettävissä suoraan Internetistä. .htaccess-tiedosto ei toimi oikein. Suosittelemme määrittämään HTTP-palvelimen asetukset siten, ettei data-hakemisto ole suoraan käytettävissä Internetistä tai siirtämään data-hakemiston HTTP-palvelimen juurihakemiston ulkopuolelle.",
-    "You are about to grant \"%s\" access to your %s account." : "Olet antamassa \"%s\" pääsyn %s tilillesi."
+    "You are about to grant \"%s\" access to your %s account." : "Olet antamassa \"%s\" pääsyn %s tilillesi.",
+    "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "PHP:ssäsi ei ole freetype-tukea. Tämä johtaa rikkinäisiin profiilikuviin ja rikkinäiseen asetuskäyttöliittymään."
 },
 "nplurals=2; plural=(n != 1);");
