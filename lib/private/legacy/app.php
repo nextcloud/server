@@ -209,8 +209,8 @@ class OC_App {
 			require_once $app . '/appinfo/app.php';
 		} catch (Error $ex) {
 			\OC::$server->getLogger()->logException($ex);
-			$blacklist = \OC::$server->getAppManager()->getAlwaysEnabledApps();
-			if (!in_array($app, $blacklist)) {
+			if (!\OC::$server->getAppManager()->isShipped($app)) {
+				// Only disable apps which are not shipped
 				self::disable($app);
 			}
 		}
