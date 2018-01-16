@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -34,5 +35,5 @@ interface IClientService {
 	 * @return IClient
 	 * @since 8.1.0
 	 */
-	public function newClient();
+	public function newClient(): IClient;
 }

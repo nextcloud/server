@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -25,6 +26,7 @@ namespace OC\Http\Client;
 
 use GuzzleHttp\Client as GuzzleClient;
 use OCP\Http\Client\IClient;
+use OCP\Http\Client\IResponse;
 use OCP\ICertificateManager;
 use OCP\IConfig;
 
@@ -89,7 +91,7 @@ class Client implements IClient {
 	 *
 	 * @return string
 	 */
-	private function getProxyUri() {
+	private function getProxyUri(): string {
 		$proxyHost = $this->config->getSystemValue('proxy', null);
 		$proxyUserPwd = $this->config->getSystemValue('proxyuserpwd', null);
 		$proxyUri = '';
@@ -130,10 +132,10 @@ class Client implements IClient {
 	 *              'verify' => true, // bool or string to CA file
 	 *              'debug' => true,
 	 *              'timeout' => 5,
-	 * @return Response
+	 * @return IResponse
 	 * @throws \Exception If the request could not get completed
 	 */
-	public function get($uri, array $options = []) {
+	public function get(string $uri, array $options = []): IResponse {
 		$this->setDefaultOptions();
 		$response = $this->client->get($uri, $options);
 		$isStream = isset($options['stream']) && $options['stream'];
@@ -161,10 +163,10 @@ class Client implements IClient {
 	 *              'verify' => true, // bool or string to CA file
 	 *              'debug' => true,
 	 *              'timeout' => 5,
-	 * @return Response
+	 * @return IResponse
 	 * @throws \Exception If the request could not get completed
 	 */
-	public function head($uri, $options = []) {
+	public function head(string $uri, array $options = []): IResponse {
 		$this->setDefaultOptions();
 		$response = $this->client->head($uri, $options);
 		return new Response($response);
@@ -196,10 +198,10 @@ class Client implements IClient {
 	 *              'verify' => true, // bool or string to CA file
 	 *              'debug' => true,
 	 *              'timeout' => 5,
-	 * @return Response
+	 * @return IResponse
 	 * @throws \Exception If the request could not get completed
 	 */
-	public function post($uri, array $options = []) {
+	public function post(string $uri, array $options = []): IResponse {
 		$this->setDefaultOptions();
 		$response = $this->client->post($uri, $options);
 		return new Response($response);
@@ -231,10 +233,10 @@ class Client implements IClient {
 	 *              'verify' => true, // bool or string to CA file
 	 *              'debug' => true,
 	 *              'timeout' => 5,
-	 * @return Response
+	 * @return IResponse
 	 * @throws \Exception If the request could not get completed
 	 */
-	public function put($uri, array $options = []) {
+	public function put(string $uri, array $options = []): IResponse {
 		$this->setDefaultOptions();
 		$response = $this->client->put($uri, $options);
 		return new Response($response);
@@ -266,10 +268,10 @@ class Client implements IClient {
 	 *              'verify' => true, // bool or string to CA file
 	 *              'debug' => true,
 	 *              'timeout' => 5,
-	 * @return Response
+	 * @return IResponse
 	 * @throws \Exception If the request could not get completed
 	 */
-	public function delete($uri, array $options = []) {
+	public function delete(string $uri, array $options = []): IResponse {
 		$this->setDefaultOptions();
 		$response = $this->client->delete($uri, $options);
 		return new Response($response);
@@ -302,10 +304,10 @@ class Client implements IClient {
 	 *              'verify' => true, // bool or string to CA file
 	 *              'debug' => true,
 	 *              'timeout' => 5,
-	 * @return Response
+	 * @return IResponse
 	 * @throws \Exception If the request could not get completed
 	 */
-	public function options($uri, array $options = []) {
+	public function options(string $uri, array $options = []): IResponse {
 		$this->setDefaultOptions();
 		$response = $this->client->options($uri, $options);
 		return new Response($response);

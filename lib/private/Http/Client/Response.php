@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -24,7 +25,7 @@
 namespace OC\Http\Client;
 
 use OCP\Http\Client\IResponse;
-use GuzzleHttp\Message\Response as GuzzleResponse;
+use GuzzleHttp\Message\ResponseInterface as GuzzleResponse;
 
 /**
  * Class Response
@@ -61,22 +62,22 @@ class Response implements IResponse {
 	/**
 	 * @return int
 	 */
-	public function getStatusCode() {
+	public function getStatusCode(): int {
 		return $this->response->getStatusCode();
 	}
 
 	/**
-	 * @param $key
+	 * @param string $key
 	 * @return string
 	 */
-	public function getHeader($key) {
+	public function getHeader(string $key): string {
 		return $this->response->getHeader($key);
 	}
 
 	/**
 	 * @return array
 	 */
-	public function getHeaders() {
+	public function getHeaders(): array {
 		return $this->response->getHeaders();
 	}
 }
