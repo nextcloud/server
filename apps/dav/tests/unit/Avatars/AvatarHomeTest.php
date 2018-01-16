@@ -86,11 +86,10 @@ class AvatarHomeTest extends TestCase {
 		if ($expectedException !== null) {
 			$this->expectException($expectedException);
 		}
-		$avatar = null;
-		if ($hasAvatar) {
-			$avatar = $this->createMock(IAvatar::class);
-			$avatar->expects($this->once())->method('exists')->willReturn(true);
-		}
+
+		$avatar = $this->createMock(IAvatar::class);
+		$avatar->method('exists')->willReturn($hasAvatar);
+
 		$this->avatarManager->expects($this->any())->method('getAvatar')->with('admin')->willReturn($avatar);
 		$avatarNode = $this->home->getChild($path);
 		$this->assertInstanceOf(AvatarNode::class, $avatarNode);
@@ -111,11 +110,9 @@ class AvatarHomeTest extends TestCase {
 	 * @dataProvider providesTestGetChild
 	 */
 	public function testChildExists($expectedException, $hasAvatar, $path) {
-		$avatar = null;
-		if ($hasAvatar) {
-			$avatar = $this->createMock(IAvatar::class);
-			$avatar->expects($this->once())->method('exists')->willReturn(true);
-		}
+		$avatar = $this->createMock(IAvatar::class);
+		$avatar->method('exists')->willReturn($hasAvatar);
+
 		$this->avatarManager->expects($this->any())->method('getAvatar')->with('admin')->willReturn($avatar);
 		$childExists = $this->home->childExists($path);
 		$this->assertEquals($hasAvatar, $childExists);
