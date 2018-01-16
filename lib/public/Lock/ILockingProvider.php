@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -45,7 +46,7 @@ interface ILockingProvider {
 	 * @return bool
 	 * @since 8.1.0
 	 */
-	public function isLocked($path, $type);
+	public function isLocked(string $path, int $type): bool;
 
 	/**
 	 * @param string $path
@@ -53,14 +54,14 @@ interface ILockingProvider {
 	 * @throws \OCP\Lock\LockedException
 	 * @since 8.1.0
 	 */
-	public function acquireLock($path, $type);
+	public function acquireLock(string $path, int $type);
 
 	/**
 	 * @param string $path
 	 * @param int $type self::LOCK_SHARED or self::LOCK_EXCLUSIVE
 	 * @since 8.1.0
 	 */
-	public function releaseLock($path, $type);
+	public function releaseLock(string $path, int $type);
 
 	/**
 	 * Change the type of an existing lock
@@ -70,7 +71,7 @@ interface ILockingProvider {
 	 * @throws \OCP\Lock\LockedException
 	 * @since 8.1.0
 	 */
-	public function changeLock($path, $targetType);
+	public function changeLock(string $path, int $targetType);
 
 	/**
 	 * release all lock acquired by this instance
