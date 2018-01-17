@@ -83,6 +83,8 @@ class UserPlugin implements ISearchPlugin {
 			}
 		}
 
+		$this->takeOutCurrentUser($users);
+
 		if (!$this->shareeEnumeration || sizeof($users) < $limit) {
 			$hasMoreResults = true;
 		}
@@ -145,5 +147,14 @@ class UserPlugin implements ISearchPlugin {
 		$searchResult->addResultSet($type, $result['wide'], $result['exact']);
 
 		return $hasMoreResults;
+	}
+
+	public function takeOutCurrentUser(array &$users) {
+		$currentUser = $this->userSession->getUser();
+		if(!is_null($currentUser)) {
+			if (isset($users[$currentUser->getUID()])) {
+				unset($users[$currentUser->getUID()]);
+			}
+		}
 	}
 }
