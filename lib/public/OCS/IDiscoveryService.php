@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2017 Bjoern Schiessle <bjoern@schiessle.org>
  *
@@ -45,6 +46,6 @@ interface IDiscoveryService {
 	 * @param string $service the service you want to discover
 	 * @return array
 	 */
-	public function discover($remote, $service);
+	public function discover(string $remote, string $service): array;
 
 }
