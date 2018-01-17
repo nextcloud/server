@@ -664,6 +664,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	function updateCard($addressBookId, $cardUri, $cardData) {
 
 		$etag = md5($cardData);
+		$cardData = $this->updateProperties($addressBookId, $cardUri, $cardData);
 		$query = $this->db->getQueryBuilder();
 		$query->update('cards')
 			->set('carddata', $query->createNamedParameter($cardData, IQueryBuilder::PARAM_LOB))
@@ -674,7 +675,6 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			->andWhere($query->expr()->eq('addressbookid', $query->createNamedParameter($addressBookId)))
 			->execute();
 
-		$cardData = $this->updateProperties($addressBookId, $cardUri, $cardData);
 		$this->addChange($addressBookId, $cardUri, 2);
 
 		$this->dispatcher->dispatch('\OCA\DAV\CardDAV\CardDavBackend::updateCard',
@@ -1052,25 +1052,20 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 					}
 				}
 				if(!$local){
-					$logger = \OC::$server->getLogger();
-					$logger->debug("Downloading Keydata from:".$value);
 					$keydata = file_get_contents($property->getValue(),$maxlen = 35000000);
 					$keystart = strpos($keydata,"-----BEGIN PGP PUBLIC KEY BLOCK-----");
 					$keyend = strpos($keydata, "-----END PGP PUBLIC KEY BLOCK-----");
 					if ($keystart !== FALSE && $keyend !== FALSE) {
 						$keydata = substr($keydata,$keystart ,($keyend - $keystart + 34));
-						$logger->debug("Downloaded Keydata");
-					} else {
-						$logger->debug("Failed to Download Keydata got:".$keydata);
 					}
 				} else {
 					$keydata = $value;
 				}
 				$fingerprint = $gpg->import($keydata)['fingerprint'];
+				/*//FIXME Get all useres how can read this Card and import the gpg key
 				foreach ($this->userDisplayNames as $uid => $name) {
-					$gpg->setUser($uid)->import($property->getValue());
-				}
-				$gpg->setUser(null);
+					$gpg->import($property->getValue(), $uid);
+				}*/
 
 				$keyFingerprintProperty = 'X-KEY-FINGERPRINT';
 				$vCard->$keyFingerprintProperty = $vCard->createProperty($keyFingerprintProperty,$fingerprint);
