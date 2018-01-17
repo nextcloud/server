@@ -147,7 +147,7 @@ interface IImage {
 	 * @return bool
 	 * @since 8.1.0
 	 */
-	public function preciseResize($width, $height);
+	public function preciseResize(int $width, int $height): bool;
 
 	/**
 	 * Crops the image to the middle square. If the image is already square it just returns.
@@ -168,7 +168,7 @@ interface IImage {
 	 * @return bool for success or failure
 	 * @since 8.1.0
 	 */
-	public function crop($x, $y, $w, $h);
+	public function crop(int $x, int $y, int $w, int $h): bool;
 
 	/**
 	 * Resizes the image to fit within a boundary while preserving ratio.
