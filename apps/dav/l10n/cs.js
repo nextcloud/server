@@ -10,6 +10,8 @@ OC.L10N.register(
     "You deleted calendar {calendar}" : "Smazal(a) jste kalendář {calendar}",
     "{actor} updated calendar {calendar}" : "{actor} aktualizoval(a) kalendář {calendar}",
     "You updated calendar {calendar}" : "Aktualizoval(a) jste kalendář {calendar}",
+    "You shared calendar {calendar} as public link" : "Sdílel(a) jste kalendář {calendar} jako veřejný odkaz",
+    "You removed public link for calendar {calendar}" : "Odstranil(a) jste veřejný odkaz pro kalendář {calendar} ",
     "{actor} shared calendar {calendar} with you" : "{actor} s vámi nasdílel(a) kalendář {calendar}",
     "You shared calendar {calendar} with {user}" : "S uživatelem {user} jste začal(a) sdílet kalendář {calendar}",
     "{actor} shared calendar {calendar} with {user}" : "{actor} začal sdílet kalendář {calendar} s uživatelem {user}",
