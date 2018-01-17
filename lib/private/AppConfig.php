@@ -162,7 +162,6 @@ class AppConfig implements IAppConfig {
 	 * @param string $key key
 	 * @param string|float|int $value value
 	 * @return bool True if the value was inserted or updated, false if the value was the same
-	 * @deprecated 8.0.0 use method setAppValue of \OCP\IConfig
 	 */
 	public function setValue($app, $key, $value) {
 		if (!$this->hasKey($app, $key)) {

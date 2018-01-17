@@ -60,19 +60,6 @@ interface IAppConfig {
 	public function getFilteredValues($app);
 
 	/**
-	 * sets a value in the appconfig
-	 * @param string $app app
-	 * @param string $key key
-	 * @param string|float|int $value value
-	 * @deprecated 8.0.0 use method setAppValue of \OCP\IConfig
-	 *
-	 * Sets a value. If the key did not exist before it will be created.
-	 * @return void
-	 * @since 7.0.0
-	 */
-	public function setValue($app, $key, $value);
-
-	/**
 	 * Get all apps using the config
 	 * @return array an array of app ids
 	 *

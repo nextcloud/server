@@ -62,8 +62,8 @@ class ApiTest extends TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		\OC::$server->getAppConfig()->setValue('core', 'shareapi_exclude_groups', 'no');
-		\OC::$server->getAppConfig()->setValue('core', 'shareapi_expire_after_n_days', '7');
+		\OC::$server->getConfig()->setAppValue('core', 'shareapi_exclude_groups', 'no');
+		\OC::$server->getConfig()->setAppValue('core', 'shareapi_expire_after_n_days', '7');
 
 		$this->folder = self::TEST_FOLDER_NAME;
 		$this->subfolder  = '/subfolder_share_api_test';
@@ -239,8 +239,8 @@ class ApiTest extends TestCase {
 	function testEnfoceLinkPassword() {
 
 		$password = md5(time());
-		$appConfig = \OC::$server->getAppConfig();
-		$appConfig->setValue('core', 'shareapi_enforce_links_password', 'yes');
+		$config = \OC::$server->getConfig();
+		$config->setAppValue('core', 'shareapi_enforce_links_password', 'yes');
 
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
 		try {
@@ -287,7 +287,7 @@ class ApiTest extends TestCase {
 		$ocs->deleteShare($data['id']);
 		$ocs->cleanup();
 
-		$appConfig->setValue('core', 'shareapi_enforce_links_password', 'no');
+		$config->setAppValue('core', 'shareapi_enforce_links_password', 'no');
 	}
 
 	/**
@@ -296,7 +296,7 @@ class ApiTest extends TestCase {
 	function testSharePermissions() {
 		// sharing file to a user should work if shareapi_exclude_groups is set
 		// to no
-		\OC::$server->getAppConfig()->setValue('core', 'shareapi_exclude_groups', 'no');
+		\OC::$server->getConfig()->setAppValue('core', 'shareapi_exclude_groups', 'no');
 
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
 		$result = $ocs->createShare($this->filename, \OCP\Constants::PERMISSION_ALL, \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER2);
@@ -311,8 +311,8 @@ class ApiTest extends TestCase {
 		$ocs->cleanup();
 
 		// exclude groups, but not the group the user belongs to. Sharing should still work
-		\OC::$server->getAppConfig()->setValue('core', 'shareapi_exclude_groups', 'yes');
-		\OC::$server->getAppConfig()->setValue('core', 'shareapi_exclude_groups_list', 'admin,group1,group2');
+		\OC::$server->getConfig()->setAppValue('core', 'shareapi_exclude_groups', 'yes');
+		\OC::$server->getConfig()->setAppValue('core', 'shareapi_exclude_groups_list', 'admin,group1,group2');
 
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
 		$result = $ocs->createShare($this->filename, \OCP\Constants::PERMISSION_ALL, \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER2);
@@ -327,15 +327,15 @@ class ApiTest extends TestCase {
 		$ocs->cleanup();
 
 		// now we exclude the group the user belongs to ('group'), sharing should fail now
-		\OC::$server->getAppConfig()->setValue('core', 'shareapi_exclude_groups_list', 'admin,group');
+		\OC::$server->getConfig()->setAppValue('core', 'shareapi_exclude_groups_list', 'admin,group');
 
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
 		$ocs->createShare($this->filename, \OCP\Constants::PERMISSION_ALL, \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER2);
 		$ocs->cleanup();
 
 		// cleanup
-		\OC::$server->getAppConfig()->setValue('core', 'shareapi_exclude_groups', 'no');
-		\OC::$server->getAppConfig()->setValue('core', 'shareapi_exclude_groups_list', '');
+		\OC::$server->getConfig()->setAppValue('core', 'shareapi_exclude_groups', 'no');
+		\OC::$server->getConfig()->setAppValue('core', 'shareapi_exclude_groups_list', '');
 	}
 
 

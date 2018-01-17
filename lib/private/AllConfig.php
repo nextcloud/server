@@ -163,7 +163,7 @@ class AllConfig implements \OCP\IConfig {
 	 * @param string|float|int $value the value that should be stored
 	 */
 	public function setAppValue($appName, $key, $value) {
-		\OC::$server->getAppConfig()->setValue($appName, $key, $value);
+		\OC::$server->query(\OC\AppConfig::class)->setValue($appName, $key, $value);
 	}
 
 	/**
