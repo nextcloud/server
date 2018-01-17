@@ -91,8 +91,9 @@ class TXT extends Provider {
 			}
 		}
 
-		$image = new \OC_Image($image);
+		$imageObject = new \OC_Image();
+		$imageObject->setResource($image);
 
-		return $image->valid() ? $image : false;
+		return $imageObject->valid() ? $imageObject : false;
 	}
 }
