@@ -118,7 +118,7 @@ class OC_JSON{
 	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function checkUserExists($user) {
-		if (!OCP\User::userExists($user)) {
+		if (!\OC::$server->getUserManager()->userExists($user)) {
 			$l = \OC::$server->getL10N('lib');
 			OCP\JSON::error(array('data' => array('message' => $l->t('Unknown user'), 'error' => 'unknown_user' )));
 			exit;

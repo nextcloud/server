@@ -58,13 +58,6 @@
  */
 class OC_User {
 
-	/**
-	 * @return \OC\User\Session
-	 */
-	public static function getUserSession() {
-		return OC::$server->getUserSession();
-	}
-
 	private static $_usedBackends = array();
 
 	private static $_setupedBackends = array();
@@ -176,7 +169,7 @@ class OC_User {
 		if ($uid) {
 			if (self::getUser() !== $uid) {
 				self::setUserId($uid);
-				$userSession = self::getUserSession();
+				$userSession = \OC::$server->getUserSession();
 				$userSession->setLoginName($uid);
 				$request = OC::$server->getRequest();
 				$userSession->createSessionToken($request, $uid, $uid);
@@ -210,7 +203,7 @@ class OC_User {
 
 			//setup extra user backends
 			self::setupBackends();
-			self::getUserSession()->unsetMagicInCookie();
+			\OC::$server->getUserSession()->unsetMagicInCookie();
 
 			return self::loginWithApache($backend);
 		}
@@ -231,25 +224,6 @@ class OC_User {
 			$userSession->setUser($user);
 		} else {
 			\OC::$server->getSession()->set('user_id', $uid);
-		}
-	}
-
-	/**
-	 * Sets user display name for session
-	 *
-	 * @param string $uid
-	 * @param string $displayName
-	 * @return bool Whether the display name could get set
-	 */
-	public static function setDisplayName($uid, $displayName = null) {
-		if (is_null($displayName)) {
-			$displayName = $uid;
-		}
-		$user = \OC::$server->getUserManager()->get($uid);
-		if ($user) {
-			return $user->setDisplayName($displayName);
-		} else {
-			return false;
 		}
 	}
 
@@ -348,7 +322,7 @@ class OC_User {
 				return $uid;
 			}
 		} else {
-			$user = self::getUserSession()->getUser();
+			$user = \OC::$server->getUserSession()->getUser();
 			if ($user) {
 				return $user->getDisplayName();
 			} else {
@@ -374,25 +348,6 @@ class OC_User {
 		} else {
 			return false;
 		}
-	}
-
-	/**
-	 * Check if the password is correct
-	 *
-	 * @param string $uid The username
-	 * @param string $password The password
-	 * @return string|false user id a string on success, false otherwise
-	 *
-	 * Check if the password is correct without logging in the user
-	 * returns the user id or false
-	 */
-	public static function checkPassword($uid, $password) {
-		$manager = \OC::$server->getUserManager();
-		$username = $manager->checkPassword($uid, $password);
-		if ($username !== false) {
-			return $username->getUID();
-		}
-		return false;
 	}
 
 	/**
@@ -448,31 +403,6 @@ class OC_User {
 			$displayNames[$user->getUID()] = $user->getDisplayName();
 		}
 		return $displayNames;
-	}
-
-	/**
-	 * check if a user exists
-	 *
-	 * @param string $uid the username
-	 * @return boolean
-	 */
-	public static function userExists($uid) {
-		return \OC::$server->getUserManager()->userExists($uid);
-	}
-
-	/**
-	 * checks if a user is enabled
-	 *
-	 * @param string $uid
-	 * @return bool
-	 */
-	public static function isEnabled($uid) {
-		$user = \OC::$server->getUserManager()->get($uid);
-		if ($user) {
-			return $user->isEnabled();
-		} else {
-			return false;
-		}
 	}
 
 	/**

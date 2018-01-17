@@ -274,7 +274,7 @@ class OC_Util {
 			self::initLocalStorageRootFS();
 		}
 
-		if ($user != '' && !OCP\User::userExists($user)) {
+		if ($user != '' && !\OC::$server->getUserManager()->userExists($user)) {
 			\OC::$server->getEventLogger()->end('setup_fs');
 			return false;
 		}

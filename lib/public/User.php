@@ -115,30 +115,7 @@ class User {
 	 * @since 5.0.0
 	 */
 	public static function userExists($uid, $excludingBackend = null) {
-		return \OC_User::userExists($uid);
-	}
-	/**
-	 * Logs the user out including all the session data
-	 * Logout, destroys session
-	 * @deprecated 8.0.0 Use \OC::$server->getUserSession()->logout();
-	 * @since 5.0.0
-	 */
-	public static function logout() {
-		\OC::$server->getUserSession()->logout();
-	}
-
-	/**
-	 * Check if the password is correct
-	 * @param string $uid The username
-	 * @param string $password The password
-	 * @return string|false username on success, false otherwise
-	 *
-	 * Check if the password is correct without logging in the user
-	 * @deprecated 8.0.0 Use \OC::$server->getUserManager()->checkPassword();
-	 * @since 5.0.0
-	 */
-	public static function checkPassword( $uid, $password ) {
-		return \OC_User::checkPassword( $uid, $password );
+		return \OC::$server->getUserManager()->userExists($uid);
 	}
 
 	/**
