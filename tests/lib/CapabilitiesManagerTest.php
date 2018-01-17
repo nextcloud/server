@@ -148,7 +148,7 @@ class CapabilitiesManagerTest extends TestCase {
 		});
 
 		$this->logger->expects($this->once())
-			->method('error');
+			->method('logException');
 
 		$res = $this->manager->getCapabilities();
 

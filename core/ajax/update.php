@@ -207,6 +207,10 @@ if (OC::checkUpgrade(false)) {
 	try {
 		$updater->upgrade();
 	} catch (\Exception $e) {
+		\OC::$server->getLogger()->logException($e, [
+			'level' => \OCP\Util::ERROR,
+			'app' => 'update',
+		]);
 		$eventSource->send('failure', get_class($e) . ': ' . $e->getMessage());
 		$eventSource->close();
 		exit();

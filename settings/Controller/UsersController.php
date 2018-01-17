@@ -487,7 +487,11 @@ class UsersController extends Controller {
 					$emailTemplate = $this->newUserMailHelper->generateTemplate($user, $generatePasswordResetToken);
 					$this->newUserMailHelper->sendMail($user, $emailTemplate);
 				} catch (\Exception $e) {
-					$this->log->error("Can't send new user mail to $email: " . $e->getMessage(), ['app' => 'settings']);
+					$this->log->logException($e, [
+						'message' => "Can't send new user mail to $email",
+						'level' => \OCP\Util::ERROR,
+						'app' => 'settings',
+					]);
 				}
 			}
 			// fetch users groups

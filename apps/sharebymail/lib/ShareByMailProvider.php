@@ -351,11 +351,19 @@ class ShareByMailProvider implements IShareProvider {
 				$share->getExpirationDate()
 			);
 		} catch (HintException $hintException) {
-			$this->logger->error('Failed to send share by mail: ' . $hintException->getMessage());
+			$this->logger->logException($hintException, [
+				'message' => 'Failed to send share by mail.',
+				'level' => \OCP\Util::ERROR,
+				'app' => 'sharebymail',
+			]);
 			$this->removeShareFromTable($shareId);
 			throw $hintException;
 		} catch (\Exception $e) {
-			$this->logger->error('Failed to send share by email: ' . $e->getMessage());
+			$this->logger->logException($e, [
+				'message' => 'Failed to send share by mail.',
+				'level' => \OCP\Util::ERROR,
+				'app' => 'sharebymail',
+			]);
 			$this->removeShareFromTable($shareId);
 			throw new HintException('Failed to send share by mail',
 				$this->l->t('Failed to send share by email'));

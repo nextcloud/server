@@ -195,7 +195,10 @@ class Installer {
 			try {
 				$this->downloadApp($appId);
 			} catch (\Exception $e) {
-				$this->logger->error($e->getMessage(), ['app' => 'core']);
+				$this->logger->logException($e, [
+					'level' => \OCP\Util::ERROR,
+					'app' => 'core',
+				]);
 				return false;
 			}
 			return OC_App::updateApp($appId);

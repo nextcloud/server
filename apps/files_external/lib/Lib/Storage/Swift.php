@@ -138,7 +138,10 @@ class Swift extends \OC\Files\Storage\Common {
 		} catch (ClientErrorResponseException $e) {
 			// Expected response is "404 Not Found", so only log if it isn't
 			if ($e->getResponse()->getStatusCode() !== 404) {
-				\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
+				\OC::$server->getLogger()->logException($e, [
+					'level' => \OCP\Util::ERROR,
+					'app' => 'files_external',
+				]);
 			}
 			return false;
 		}
@@ -206,7 +209,10 @@ class Swift extends \OC\Files\Storage\Common {
 			// with all properties
 			$this->objectCache->remove($path);
 		} catch (Exceptions\CreateUpdateError $e) {
-			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
+			\OC::$server->getLogger()->logException($e, [
+				'level' => \OCP\Util::ERROR,
+				'app' => 'files_external',
+			]);
 			return false;
 		}
 
@@ -247,7 +253,10 @@ class Swift extends \OC\Files\Storage\Common {
 			$this->getContainer()->dataObject()->setName($path . '/')->delete();
 			$this->objectCache->remove($path . '/');
 		} catch (Exceptions\DeleteError $e) {
-			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
+			\OC::$server->getLogger()->logException($e, [
+				'level' => \OCP\Util::ERROR,
+				'app' => 'files_external',
+			]);
 			return false;
 		}
 
@@ -283,7 +292,10 @@ class Swift extends \OC\Files\Storage\Common {
 
 			return IteratorDirectory::wrap($files);
 		} catch (\Exception $e) {
-			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
+			\OC::$server->getLogger()->logException($e, [
+				'level' => \OCP\Util::ERROR,
+				'app' => 'files_external',
+			]);
 			return false;
 		}
 
@@ -305,7 +317,10 @@ class Swift extends \OC\Files\Storage\Common {
 				return false;
 			}
 		} catch (ClientErrorResponseException $e) {
-			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
+			\OC::$server->getLogger()->logException($e, [
+				'level' => \OCP\Util::ERROR,
+				'app' => 'files_external',
+			]);
 			return false;
 		}
 
@@ -361,7 +376,10 @@ class Swift extends \OC\Files\Storage\Common {
 			$this->objectCache->remove($path . '/');
 		} catch (ClientErrorResponseException $e) {
 			if ($e->getResponse()->getStatusCode() !== 404) {
-				\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
+				\OC::$server->getLogger()->logException($e, [
+					'level' => \OCP\Util::ERROR,
+					'app' => 'files_external',
+				]);
 			}
 			return false;
 		}
@@ -394,7 +412,10 @@ class Swift extends \OC\Files\Storage\Common {
 					}
 					return false;
 				} catch (\Guzzle\Http\Exception\BadResponseException $e) {
-					\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
+					\OC::$server->getLogger()->logException($e, [
+						'level' => \OCP\Util::ERROR,
+						'app' => 'files_external',
+					]);
 					return false;
 				}
 			case 'w':
@@ -474,7 +495,10 @@ class Swift extends \OC\Files\Storage\Common {
 				$this->objectCache->remove($path2);
 				$this->objectCache->remove($path2 . '/');
 			} catch (ClientErrorResponseException $e) {
-				\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
+				\OC::$server->getLogger()->logException($e, [
+					'level' => \OCP\Util::ERROR,
+					'app' => 'files_external',
+				]);
 				return false;
 			}
 
@@ -490,7 +514,10 @@ class Swift extends \OC\Files\Storage\Common {
 				$this->objectCache->remove($path2);
 				$this->objectCache->remove($path2 . '/');
 			} catch (ClientErrorResponseException $e) {
-				\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
+				\OC::$server->getLogger()->logException($e, [
+					'level' => \OCP\Util::ERROR,
+					'app' => 'files_external',
+				]);
 				return false;
 			}
 

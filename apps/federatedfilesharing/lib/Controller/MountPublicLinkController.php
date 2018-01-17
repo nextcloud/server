@@ -164,6 +164,10 @@ class MountPublicLinkController extends Controller {
 		try {
 			$this->federatedShareProvider->create($share);
 		} catch (\Exception $e) {
+			\OC::$server->getLogger()->logException($e, [
+				'level' => \OCP\Util::WARN,
+				'app' => 'federatedfilesharing',
+			]);
 			return new JSONResponse(['message' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
 
@@ -286,18 +290,18 @@ class MountPublicLinkController extends Controller {
 			$storage->checkStorageAvailability();
 		} catch (StorageInvalidException $e) {
 			// note: checkStorageAvailability will already remove the invalid share
-			Util::writeLog(
-				'federatedfilesharing',
-				'Invalid remote storage: ' . get_class($e) . ': ' . $e->getMessage(),
-				Util::DEBUG
-			);
+			\OC::$server->getLogger()->logException($e, [
+				'message' => 'Invalid remote storage.',
+				'level' => \OCP\Util::DEBUG,
+				'app' => 'federatedfilesharing'
+			]);
 			return new JSONResponse(['message' => $this->l->t('Could not authenticate to remote share, password might be wrong')], Http::STATUS_BAD_REQUEST);
 		} catch (\Exception $e) {
-			Util::writeLog(
-				'federatedfilesharing',
-				'Invalid remote storage: ' . get_class($e) . ': ' . $e->getMessage(),
-				Util::DEBUG
-			);
+			\OC::$server->getLogger()->logException($e, [
+				'message' => 'Invalid remote storage.',
+				'level' => \OCP\Util::DEBUG,
+				'app' => 'federatedfilesharing'
+			]);
 			$externalManager->removeShare($mount->getMountPoint());
 			return new JSONResponse(['message' => $this->l->t('Storage not valid')], Http::STATUS_BAD_REQUEST);
 		}
@@ -312,18 +316,18 @@ class MountPublicLinkController extends Controller {
 					]
 				);
 			} catch (StorageInvalidException $e) {
-				Util::writeLog(
-					'federatedfilesharing',
-					'Invalid remote storage: ' . get_class($e) . ': ' . $e->getMessage(),
-					Util::DEBUG
-				);
+				\OC::$server->getLogger()->logException($e, [
+					'message' => 'Invalid remote storage.',
+					'level' => \OCP\Util::DEBUG,
+					'app' => 'federatedfilesharing'
+				]);
 				return new JSONResponse(['message' => $this->l->t('Storage not valid')], Http::STATUS_BAD_REQUEST);
 			} catch (\Exception $e) {
-				Util::writeLog(
-					'federatedfilesharing',
-					'Invalid remote storage: ' . get_class($e) . ': ' . $e->getMessage(),
-					Util::DEBUG
-				);
+				\OC::$server->getLogger()->logException($e, [
+					'message' => 'Invalid remote storage.',
+					'level' => \OCP\Util::DEBUG,
+					'app' => 'federatedfilesharing'
+				]);
 				return new JSONResponse(['message' => $this->l->t('Couldn\'t add remote share')], Http::STATUS_BAD_REQUEST);
 			}
 		} else {

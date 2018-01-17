@@ -831,7 +831,11 @@ class OC {
 				} catch (\Exception $e) {
 					// a GC exception should not prevent users from using OC,
 					// so log the exception
-					\OC::$server->getLogger()->warning('Exception when running cache gc: ' . $e->getMessage(), array('app' => 'core'));
+					\OC::$server->getLogger()->logException($e, [
+						'message' => 'Exception when running cache gc.',
+						'level' => \OCP\Util::WARN,
+						'app' => 'core',
+					]);
 				}
 			});
 		}

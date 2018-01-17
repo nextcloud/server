@@ -414,6 +414,7 @@ class UsersControllerTest extends TestCase {
 	 * @expectedExceptionMessage Bad request
 	 */
 	public function testAddUserUnsuccessful() {
+		$exception = new Exception('User backend not found.');
 		$this->userManager
 			->expects($this->once())
 			->method('userExists')
@@ -423,11 +424,15 @@ class UsersControllerTest extends TestCase {
 			->expects($this->once())
 			->method('createUser')
 			->with('NewUser', 'PasswordOfTheNewUser')
-			->will($this->throwException(new Exception('User backend not found.')));
+			->will($this->throwException($exception));
 		$this->logger
 			->expects($this->once())
-			->method('error')
-			->with('Failed addUser attempt with exception: User backend not found.', ['app' => 'ocs_api']);
+			->method('logException')
+			->with($exception, [
+				'message' => 'Failed addUser attempt with exception.',
+				'level' => \OCP\Util::ERROR,
+				'app' => 'ocs_api',
+			]);
 		$loggedInUser = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
 			->getMock();

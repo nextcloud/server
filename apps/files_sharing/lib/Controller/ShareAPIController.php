@@ -482,7 +482,7 @@ class ShareAPIController extends OCSController {
 			$code = $e->getCode() === 0 ? 403 : $e->getCode();
 			throw new OCSException($e->getHint(), $code);
 		} catch (\Exception $e) {
-			throw new OCSForbiddenException($e->getMessage());
+			throw new OCSForbiddenException($e->getMessage(), $e);
 		}
 
 		$output = $this->formatShare($share);
@@ -749,7 +749,7 @@ class ShareAPIController extends OCSController {
 				try {
 					$expireDate = $this->parseDate($expireDate);
 				} catch (\Exception $e) {
-					throw new OCSBadRequestException($e->getMessage());
+					throw new OCSBadRequestException($e->getMessage(), $e);
 				}
 				$share->setExpirationDate($expireDate);
 			}
@@ -780,7 +780,7 @@ class ShareAPIController extends OCSController {
 				try {
 					$expireDate = $this->parseDate($expireDate);
 				} catch (\Exception $e) {
-					throw new OCSBadRequestException($e->getMessage());
+					throw new OCSBadRequestException($e->getMessage(), $e);
 				}
 				$share->setExpirationDate($expireDate);
 			}
@@ -809,7 +809,7 @@ class ShareAPIController extends OCSController {
 		try {
 			$share = $this->shareManager->updateShare($share);
 		} catch (\Exception $e) {
-			throw new OCSBadRequestException($e->getMessage());
+			throw new OCSBadRequestException($e->getMessage(), $e);
 		}
 
 		return new DataResponse($this->formatShare($share));

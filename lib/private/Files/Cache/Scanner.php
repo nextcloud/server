@@ -452,7 +452,11 @@ class Scanner extends BasicEmitter implements IScanner {
 					\OC::$server->getDatabaseConnection()->rollback();
 					\OC::$server->getDatabaseConnection()->beginTransaction();
 				}
-				\OCP\Util::writeLog('core', 'Exception while scanning file "' . $child . '": ' . $ex->getMessage(), \OCP\Util::DEBUG);
+				\OC::$server->getLogger()->logException($ex, [
+					'message' => 'Exception while scanning file "' . $child . '"',
+					'level' => \OCP\Util::DEBUG,
+					'app' => 'core',
+				]);
 				$exceptionOccurred = true;
 			} catch (\OCP\Lock\LockedException $e) {
 				if ($this->useTransactions) {

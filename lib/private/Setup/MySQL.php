@@ -68,9 +68,10 @@ class MySQL extends AbstractDatabase {
 			$query = "CREATE DATABASE IF NOT EXISTS `$name` CHARACTER SET $characterSet COLLATE ${characterSet}_bin;";
 			$connection->executeUpdate($query);
 		} catch (\Exception $ex) {
-			$this->logger->error('Database creation failed: {error}', [
+			$this->logger->logException($ex, [
+				'message' => 'Database creation failed.',
+				'level' => \OCP\Util::ERROR,
 				'app' => 'mysql.setup',
-				'error' => $ex->getMessage()
 			]);
 			return;
 		}
@@ -80,9 +81,10 @@ class MySQL extends AbstractDatabase {
 			$query="GRANT ALL PRIVILEGES ON `$name` . * TO '$user'";
 			$connection->executeUpdate($query);
 		} catch (\Exception $ex) {
-			$this->logger->debug('Could not automatically grant privileges, this can be ignored if database user already had privileges: {error}', [
+			$this->logger->logException($ex, [
+				'message' => 'Could not automatically grant privileges, this can be ignored if database user already had privileges.',
+				'level' => \OCP\Util::DEBUG,
 				'app' => 'mysql.setup',
-				'error' => $ex->getMessage()
 			]);
 		}
 	}
@@ -103,10 +105,11 @@ class MySQL extends AbstractDatabase {
 			$connection->executeUpdate($query);
 		}
 		catch (\Exception $ex){
-			$this->logger->error('Database User creation failed: {error}', [
-                                'app' => 'mysql.setup',
-                                'error' => $ex->getMessage()
-                        ]);
+			$this->logger->logException($ex, [
+				'message' => 'Database user creation failed.',
+				'level' => \OCP\Util::ERROR,
+				'app' => 'mysql.setup',
+			]);
 		}
 	}
 
@@ -157,9 +160,10 @@ class MySQL extends AbstractDatabase {
 				};
 			}
 		} catch (\Exception $ex) {
-			$this->logger->info('Can not create a new MySQL user, will continue with the provided user: {error}', [
+			$this->logger->logException($ex, [
+				'message' => 'Can not create a new MySQL user, will continue with the provided user.',
+				'level' => \OCP\Util::INFO,
 				'app' => 'mysql.setup',
-				'error' => $ex->getMessage()
 			]);
 		}
 

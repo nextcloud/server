@@ -130,8 +130,11 @@ class Storage extends Wrapper {
 			}
 		} catch (\Exception $e) {
 			// do nothing, in this case we just disable the trashbin and continue
-			$logger = \OC::$server->getLogger();
-			$logger->debug('Trashbin storage could not check if a file was moved out of a shared folder: ' . $e->getMessage());
+			\OC::$server->getLogger()->logException($e, [
+				'message' => 'Trashbin storage could not check if a file was moved out of a shared folder.',
+				'level' => \OCP\Util::DEBUG,
+				'app' => 'files_trashbin',
+			]);
 		}
 
 		if($fileMovedOutOfSharedFolder) {

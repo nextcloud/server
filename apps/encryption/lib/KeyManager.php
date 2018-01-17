@@ -372,11 +372,11 @@ class KeyManager {
 		} catch (DecryptionFailedException $e) {
 			return false;
 		} catch (\Exception $e) {
-			$this->log->warning(
-				'Could not decrypt the private key from user "' . $uid . '"" during login. ' .
-				'Assume password change on the user back-end. Error message: '
-				. $e->getMessage()
-			);
+			$this->log->logException($e, [
+				'message' => 'Could not decrypt the private key from user "' . $uid . '"" during login. Assume password change on the user back-end.',
+				'level' => \OCP\Util::WARN,
+				'app' => 'encryption',
+			]);
 			return false;
 		}
 
