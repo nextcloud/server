@@ -235,6 +235,10 @@ class Manager {
 			$this->publishEvent($user, 'twofactor_failed', [
 				'provider' => $provider->getDisplayName(),
 			]);
+			/**
+			* Add 2FA failure to logfile
+			*/
+			$this->logger->warning('Two-factor Authentication Failure', ['app' => 'core']);
 		}
 		return $passed;
 	}
