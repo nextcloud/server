@@ -91,7 +91,7 @@ class GenerateFromSchemaFileCommand extends GenerateCommand {
 	 */
 	protected function schemaToMigration(Schema $schema) {
 		$content = <<<'EOT'
-		/** @var Schema $schema */
+		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 
 EOT;

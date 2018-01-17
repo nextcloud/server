@@ -39,7 +39,7 @@ class GenerateCommand extends Command {
 		'<?php
 namespace {{namespace}};
 
-use Doctrine\DBAL\Schema\Schema;
+use OCP\DB\ISchemaWrapper;
 use OCP\Migration\SimpleMigrationStep;
 use OCP\Migration\IOutput;
 
@@ -50,7 +50,7 @@ class {{classname}} extends SimpleMigrationStep {
 
 	/**
 	 * @param IOutput $output
-	 * @param \Closure $schemaClosure The `\Closure` returns a `Schema`
+	 * @param \Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
 	 * @param array $options
 	 * @since 13.0.0
 	 */
@@ -59,9 +59,9 @@ class {{classname}} extends SimpleMigrationStep {
 
 	/**
 	 * @param IOutput $output
-	 * @param \Closure $schemaClosure The `\Closure` returns a `Schema`
+	 * @param \Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
 	 * @param array $options
-	 * @return null|Schema
+	 * @return null|ISchemaWrapper
 	 * @since 13.0.0
 	 */
 	public function changeSchema(IOutput $output, \Closure $schemaClosure, array $options) {
@@ -70,7 +70,7 @@ class {{classname}} extends SimpleMigrationStep {
 
 	/**
 	 * @param IOutput $output
-	 * @param \Closure $schemaClosure The `\Closure` returns a `Schema`
+	 * @param \Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
 	 * @param array $options
 	 * @since 13.0.0
 	 */
