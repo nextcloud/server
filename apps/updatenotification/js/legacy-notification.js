@@ -11,7 +11,7 @@
  */
 
 /**
- * this gets only loaded if an update is available and then shows a temporary notification
+ * This only gets loaded if an update is available and the notifications app is not enabled for the user.
  */
 $(document).ready(function(){
 	var text = t('core', '{version} is available. Get more information on how to update.', {version: oc_updateState.updateVersion}),

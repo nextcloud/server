@@ -63,7 +63,7 @@ class Application extends App {
 			}
 
 			if ($updateChecker->getUpdateState() !== []) {
-				Util::addScript('updatenotification', 'notification');
+				Util::addScript('updatenotification', 'legacy-notification');
 				\OC_Hook::connect('\OCP\Config', 'js', $updateChecker, 'populateJavaScriptVariables');
 			}
 		}
