@@ -55,28 +55,6 @@ interface IAppConfig {
 	public function getValue($app, $key, $default = null);
 
 	/**
-	 * Deletes a key
-	 * @param string $app app
-	 * @param string $key key
-	 * @return bool
-	 * @deprecated 8.0.0 use method deleteAppValue of \OCP\IConfig
-	 * @since 7.0.0
-	 */
-	public function deleteKey($app, $key);
-
-	/**
-	 * Get the available keys for an app
-	 * @param string $app the app we are looking for
-	 * @return array an array of key names
-	 * @deprecated 8.0.0 use method getAppKeys of \OCP\IConfig
-	 *
-	 * This function gets all keys of an app. Please note that the values are
-	 * not returned.
-	 * @since 7.0.0
-	 */
-	public function getKeys($app);
-
-	/**
 	 * get multiply values, either the app or key can be used as wildcard by setting it to false
 	 *
 	 * @param string|false $key
@@ -117,15 +95,4 @@ interface IAppConfig {
 	 * @since 7.0.0
 	 */
 	public function getApps();
-
-	/**
-	 * Remove app from appconfig
-	 * @param string $app app
-	 * @return bool
-	 * @deprecated 8.0.0 use method deleteAppValue of \OCP\IConfig
-	 *
-	 * Removes all keys in appconfig belonging to the app.
-	 * @since 7.0.0
-	 */
-	public function deleteApp($app);
 }

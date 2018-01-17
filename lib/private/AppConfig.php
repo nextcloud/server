@@ -101,7 +101,6 @@ class AppConfig implements IAppConfig {
 	 *
 	 * @param string $app the app we are looking for
 	 * @return array an array of key names
-	 * @deprecated 8.0.0 use method getAppKeys of \OCP\IConfig
 	 *
 	 * This function gets all keys of an app. Please note that the values are
 	 * not returned.
@@ -220,7 +219,6 @@ class AppConfig implements IAppConfig {
 	 * @param string $app app
 	 * @param string $key key
 	 * @return boolean
-	 * @deprecated 8.0.0 use method deleteAppValue of \OCP\IConfig
 	 */
 	public function deleteKey($app, $key) {
 		$this->loadConfigValues();
@@ -242,7 +240,6 @@ class AppConfig implements IAppConfig {
 	 *
 	 * @param string $app app
 	 * @return boolean
-	 * @deprecated 8.0.0 use method deleteAppValue of \OCP\IConfig
 	 *
 	 * Removes all keys in appconfig belonging to the app.
 	 */

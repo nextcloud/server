@@ -152,7 +152,7 @@ class AllConfig implements \OCP\IConfig {
 	 * @return string[] the keys stored for the app
 	 */
 	public function getAppKeys($appName) {
-		return \OC::$server->getAppConfig()->getKeys($appName);
+		\OC::$server->query(\OC\AppConfig::class)->getKeys($appName);
 	}
 
 	/**
@@ -185,7 +185,7 @@ class AllConfig implements \OCP\IConfig {
 	 * @param string $key the key of the value, under which it was saved
 	 */
 	public function deleteAppValue($appName, $key) {
-		\OC::$server->getAppConfig()->deleteKey($appName, $key);
+		\OC::$server->query(\OC\AppConfig::class)->deleteKey($appName, $key);
 	}
 
 	/**
@@ -194,7 +194,7 @@ class AllConfig implements \OCP\IConfig {
 	 * @param string $appName the appName the configs are stored under
 	 */
 	public function deleteAppValues($appName) {
-		\OC::$server->getAppConfig()->deleteApp($appName);
+		\OC::$server->query(\OC\AppConfig::class)->deleteApp($appName);
 	}
 
 
