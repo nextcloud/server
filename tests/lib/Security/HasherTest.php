@@ -35,10 +35,6 @@ class HasherTest extends \Test\TestCase {
 	public function allHashProviders()
 	{
 		return array(
-			// Bogus values
-			array(null, 'asf32äà$$a.|3', false),
-			array(null, false, false),
-
 			// Valid SHA1 strings
 			array('password', '5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8', true),
 			array('owncloud.com', '27a4643e43046c3569e33b68c1a4b15d31306d29', true),
