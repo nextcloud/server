@@ -103,13 +103,13 @@ class FileSize implements ICheck {
 		}
 
 		$size = $this->request->getHeader('OC-Total-Length');
-		if ($size === null) {
+		if ($size === '') {
 			if (in_array($this->request->getMethod(), ['POST', 'PUT'])) {
 				$size = $this->request->getHeader('Content-Length');
 			}
 		}
 
-		if ($size === null) {
+		if ($size === '') {
 			$size = false;
 		}
 
