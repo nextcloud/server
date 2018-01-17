@@ -70,7 +70,7 @@ class AvatarHome implements ICollection {
 			throw new MethodNotAllowed('Invalid image size');
 		}
 		$avatar = $this->avatarManager->getAvatar($this->getName());
-		if ($avatar === null || !$avatar->exists()) {
+		if (!$avatar->exists()) {
 			throw new NotFound();
 		}
 		return new AvatarNode($size, $ext, $avatar);

@@ -284,11 +284,12 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerAlias('LazyRootFolder', \OCP\Files\IRootFolder::class);
 
-		$this->registerService(\OCP\IUserManager::class, function (Server $c) {
+		$this->registerService(\OC\User\Manager::class, function (Server $c) {
 			$config = $c->getConfig();
 			return new \OC\User\Manager($config);
 		});
-		$this->registerAlias('UserManager', \OCP\IUserManager::class);
+		$this->registerAlias('UserManager', \OC\User\Manager::class);
+		$this->registerAlias(\OCP\IUserManager::class, \OC\User\Manager::class);
 
 		$this->registerService(\OCP\IGroupManager::class, function (Server $c) {
 			$groupManager = new \OC\Group\Manager($this->getUserManager(), $this->getLogger());
@@ -523,7 +524,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerService(\OCP\IAvatarManager::class, function (Server $c) {
 			return new AvatarManager(
-				$c->getUserManager(),
+				$c->query(\OC\User\Manager::class),
 				$c->getAppDataDir('avatar'),
 				$c->getL10N('lib'),
 				$c->getLogger(),
