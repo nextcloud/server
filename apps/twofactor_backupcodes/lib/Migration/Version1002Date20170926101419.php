@@ -1,10 +1,7 @@
 <?php
 namespace OCA\TwoFactorBackupCodes\Migration;
 
-use Doctrine\DBAL\Schema\Schema;
 use OCP\Migration\BigIntMigration;
-use OCP\Migration\SimpleMigrationStep;
-use OCP\Migration\IOutput;
 
 /**
  * Auto-generated migration step: Please modify to your needs!
