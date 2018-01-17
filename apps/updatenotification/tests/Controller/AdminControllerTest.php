@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -26,17 +27,13 @@ namespace OCA\UpdateNotification\Tests\Controller;
 
 use OCA\UpdateNotification\Controller\AdminController;
 use OCA\UpdateNotification\ResetTokenBackgroundJob;
-use OCA\UpdateNotification\UpdateChecker;
 use OCP\AppFramework\Http\DataResponse;
-use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\IConfig;
-use OCP\IDateTimeFormatter;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\Security\ISecureRandom;
-use OCP\Util;
 use Test\TestCase;
 
 class AdminControllerTest extends TestCase {

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -76,7 +77,7 @@ class AdminController extends Controller {
 	 * @param string $channel
 	 * @return DataResponse
 	 */
-	public function setChannel($channel) {
+	public function setChannel(string $channel): DataResponse {
 		Util::setChannel($channel);
 		$this->config->setAppValue('core', 'lastupdatedat', 0);
 		return new DataResponse(['status' => 'success', 'data' => ['message' => $this->l10n->t('Channel updated')]]);
@@ -85,7 +86,7 @@ class AdminController extends Controller {
 	/**
 	 * @return DataResponse
 	 */
-	public function createCredentials() {
+	public function createCredentials(): DataResponse {
 		// Create a new job and store the creation date
 		$this->jobList->add(ResetTokenBackgroundJob::class);
 		$this->config->setAppValue('core', 'updater.secret.created', $this->timeFactory->getTime());
