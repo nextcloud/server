@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -32,24 +33,24 @@ use OCP\Lock\ILockingProvider;
  */
 class NoopLockingProvider implements ILockingProvider {
 
-    /**
-     * {@inheritdoc}
-     */
-	public function isLocked($path, $type) {
+	/**
+	 * {@inheritdoc}
+	 */
+	public function isLocked(string $path, int $type): bool {
 		return false;
 	}
 
-    /**
-     * {@inheritdoc}
-     */
-	public function acquireLock($path, $type) {
+	/**
+	 * {@inheritdoc}
+	 */
+	public function acquireLock(string $path, int $type) {
 		// do nothing
 	}
 
 	/**
-     * {@inheritdoc}
+	 * {@inheritdoc}
 	 */
-	public function releaseLock($path, $type) {
+	public function releaseLock(string $path, int $type) {
 		// do nothing
 	}
 
@@ -63,7 +64,7 @@ class NoopLockingProvider implements ILockingProvider {
 	/**
 	 * {@inheritdoc}
 	 */
-	public function changeLock($path, $targetType) {
+	public function changeLock(string $path, int $targetType) {
 		// do nothing
 	}
 }
