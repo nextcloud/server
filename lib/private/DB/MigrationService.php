@@ -129,7 +129,7 @@ class MigrationService {
 			}
 
 			// Drop the table, when it didn't match our expectations.
-			$this->connection->dropTable($this->connection->getPrefix() . 'migrations');
+			$this->connection->dropTable('migrations');
 		} catch (SchemaException $e) {
 			// Table not found, no need to panic, we will create it.
 		}
