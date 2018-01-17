@@ -41,11 +41,11 @@ class Search implements ISearch {
 	}
 
 	/**
-	 * @param $search
+	 * @param string $search
 	 * @param array $shareTypes
-	 * @param $lookup
-	 * @param $limit
-	 * @param $offset
+	 * @param bool $lookup
+	 * @param int|null $limit
+	 * @param int|null $offset
 	 * @return array
 	 * @throws \OCP\AppFramework\QueryException
 	 */
