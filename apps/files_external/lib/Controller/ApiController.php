@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -26,9 +27,25 @@
  *
  */
 
-namespace OCA\Files_External\Lib;
+namespace OCA\Files_External\Controller;
 
-class Api {
+use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\OCSController;
+use OCP\IRequest;
+use OCP\IUserSession;
+
+class ApiController extends OCSController {
+
+	/** @var IUserSession */
+	private $userSession;
+
+	public function __construct(string $appName,
+								IRequest $request,
+								IUserSession $userSession) {
+		parent::__construct($appName, $request);
+
+		$this->userSession = $userSession;
+	}
 
 	/**
 	 * Formats the given mount config to a mount entry.
@@ -38,13 +55,13 @@ class Api {
 	 *
 	 * @return array entry
 	 */
-	private static function formatMount($mountPoint, $mountConfig) {
+	private function formatMount(string $mountPoint, array $mountConfig): array {
 		// strip "/$user/files" from mount point
 		$mountPoint = explode('/', trim($mountPoint, '/'), 3);
-		$mountPoint = isset($mountPoint[2]) ? $mountPoint[2] : '';
+		$mountPoint = $mountPoint[2] ?? '';
 
 		// split path from mount point
-		$path = dirname($mountPoint);
+		$path = \dirname($mountPoint);
 		if ($path === '.') {
 			$path = '';
 		}
@@ -62,7 +79,7 @@ class Api {
 			'path' => $path,
 			'type' => 'dir',
 			'backend' => $mountConfig['backend'],
-			'scope' => ( $isSystemMount ? 'system' : 'personal' ),
+			'scope' => $isSystemMount ? 'system' : 'personal',
 			'permissions' => $permissions,
 			'id' => $mountConfig['id'],
 			'class' => $mountConfig['class']
@@ -71,20 +88,21 @@ class Api {
 	}
 
 	/**
+	 * @NoAdminRequired
+	 *
 	 * Returns the mount points visible for this user.
 	 *
-	 * @param array $params
-	 * @return \OC\OCS\Result share information
+	 * @return DataResponse share information
 	 */
-	public static function getUserMounts($params) {
-		$entries = array();
-		$user = \OC::$server->getUserSession()->getUser()->getUID();
+	public function getUserMounts(): DataResponse {
+		$entries = [];
+		$user = $this->userSession->getUser()->getUID();
 
 		$mounts = \OC_Mount_Config::getAbsoluteMountPoints($user);
 		foreach($mounts as $mountPoint => $mount) {
-			$entries[] = self::formatMount($mountPoint, $mount);
+			$entries[] = $this->formatMount($mountPoint, $mount);
 		}
 
-		return new \OC\OCS\Result($entries);
+		return new DataResponse($entries);
 	}
 }
