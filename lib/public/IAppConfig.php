@@ -41,20 +41,6 @@ interface IAppConfig {
 	public function hasKey($app, $key);
 
 	/**
-	 * Gets the config value
-	 * @param string $app app
-	 * @param string $key key
-	 * @param string $default = null, default value if the key does not exist
-	 * @return string the value or $default
-	 * @deprecated 8.0.0 use method getAppValue of \OCP\IConfig
-	 *
-	 * This function gets a value from the appconfig table. If the key does
-	 * not exist the default value will be returned
-	 * @since 7.0.0
-	 */
-	public function getValue($app, $key, $default = null);
-
-	/**
 	 * get multiply values, either the app or key can be used as wildcard by setting it to false
 	 *
 	 * @param string|false $key

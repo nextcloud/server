@@ -152,7 +152,7 @@ class AllConfig implements \OCP\IConfig {
 	 * @return string[] the keys stored for the app
 	 */
 	public function getAppKeys($appName) {
-		\OC::$server->query(\OC\AppConfig::class)->getKeys($appName);
+		return \OC::$server->query(\OC\AppConfig::class)->getKeys($appName);
 	}
 
 	/**
@@ -175,7 +175,7 @@ class AllConfig implements \OCP\IConfig {
 	 * @return string the saved value
 	 */
 	public function getAppValue($appName, $key, $default = '') {
-		return \OC::$server->getAppConfig()->getValue($appName, $key, $default);
+		return \OC::$server->query(\OC\AppConfig::class)->getValue($appName, $key, $default);
 	}
 
 	/**

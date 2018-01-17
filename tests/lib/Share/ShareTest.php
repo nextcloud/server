@@ -103,7 +103,7 @@ class ShareTest extends \Test\TestCase {
 		\OC\Share\Share::registerBackend('test', 'Test\Share\Backend');
 		\OC_Hook::clear('OCP\\Share');
 		\OC::registerShareHooks();
-		$this->resharing = \OC::$server->getAppConfig()->getValue('core', 'shareapi_allow_resharing', 'yes');
+		$this->resharing = \OC::$server->getConfig()->getAppValue('core', 'shareapi_allow_resharing', 'yes');
 		\OC::$server->getAppConfig()->setValue('core', 'shareapi_allow_resharing', 'yes');
 
 		// 20 Minutes in the past, 20 minutes in the future.

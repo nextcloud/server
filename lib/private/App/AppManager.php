@@ -32,10 +32,10 @@
 
 namespace OC\App;
 
+use OC\AppConfig;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\App\ManagerEvent;
-use OCP\IAppConfig;
 use OCP\ICacheFactory;
 use OCP\IGroupManager;
 use OCP\IUser;
@@ -59,7 +59,7 @@ class AppManager implements IAppManager {
 	/** @var IUserSession */
 	private $userSession;
 
-	/** @var IAppConfig */
+	/** @var AppConfig */
 	private $appConfig;
 
 	/** @var IGroupManager */
@@ -82,13 +82,13 @@ class AppManager implements IAppManager {
 
 	/**
 	 * @param IUserSession $userSession
-	 * @param IAppConfig $appConfig
+	 * @param AppConfig $appConfig
 	 * @param IGroupManager $groupManager
 	 * @param ICacheFactory $memCacheFactory
 	 * @param EventDispatcherInterface $dispatcher
 	 */
 	public function __construct(IUserSession $userSession,
-								IAppConfig $appConfig,
+								AppConfig $appConfig,
 								IGroupManager $groupManager,
 								ICacheFactory $memCacheFactory,
 								EventDispatcherInterface $dispatcher) {

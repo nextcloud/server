@@ -81,7 +81,7 @@ class Share extends Constants {
 	 * @return boolean true if backend is registered or false if error
 	 */
 	public static function registerBackend($itemType, $class, $collectionOf = null, $supportedFileExtensions = null) {
-		if (\OC::$server->getAppConfig()->getValue('core', 'shareapi_enabled', 'yes') == 'yes') {
+		if (\OC::$server->getConfig()->getAppValue('core', 'shareapi_enabled', 'yes') == 'yes') {
 			if (!isset(self::$backendTypes[$itemType])) {
 				self::$backendTypes[$itemType] = array(
 					'class' => $class,
@@ -540,7 +540,7 @@ class Share extends Constants {
 			$shareWith['users'] = array_diff($userIds, array($uidOwner));
 		} else if ($shareType === self::SHARE_TYPE_LINK) {
 			$updateExistingShare = false;
-			if (\OC::$server->getAppConfig()->getValue('core', 'shareapi_allow_links', 'yes') == 'yes') {
+			if (\OC::$server->getConfig()->getAppValue('core', 'shareapi_allow_links', 'yes') == 'yes') {
 
 				// IF the password is changed via the old ajax endpoint verify it before deleting the old share
 				if ($passwordChanged === true) {
@@ -977,7 +977,7 @@ class Share extends Constants {
 	 */
 	public static function isResharingAllowed() {
 		if (!isset(self::$isResharingAllowed)) {
-			if (\OC::$server->getAppConfig()->getValue('core', 'shareapi_allow_resharing', 'yes') == 'yes') {
+			if (\OC::$server->getConfig()->getAppValue('core', 'shareapi_allow_resharing', 'yes') == 'yes') {
 				self::$isResharingAllowed = true;
 			} else {
 				self::$isResharingAllowed = false;
@@ -1082,7 +1082,7 @@ class Share extends Constants {
 	public static function getItems($itemType, $item = null, $shareType = null, $shareWith = null,
 									$uidOwner = null, $format = self::FORMAT_NONE, $parameters = null, $limit = -1,
 									$includeCollections = false, $itemShareWithBySource = false, $checkExpireDate  = true) {
-		if (\OC::$server->getAppConfig()->getValue('core', 'shareapi_enabled', 'yes') != 'yes') {
+		if (\OC::$server->getConfig()->getAppValue('core', 'shareapi_enabled', 'yes') != 'yes') {
 			return array();
 		}
 		$backend = self::getBackend($itemType);
@@ -1121,7 +1121,7 @@ class Share extends Constants {
 				$queryArgs = array($itemType);
 			}
 		}
-		if (\OC::$server->getAppConfig()->getValue('core', 'shareapi_allow_links', 'yes') !== 'yes') {
+		if (\OC::$server->getConfig()->getAppValue('core', 'shareapi_allow_links', 'yes') !== 'yes') {
 			$where .= ' AND `share_type` != ?';
 			$queryArgs[] = self::SHARE_TYPE_LINK;
 		}
@@ -2144,7 +2144,7 @@ class Share extends Constants {
 	 * @return bool
 	 */
 	public static function shareWithGroupMembersOnly() {
-		$value = \OC::$server->getAppConfig()->getValue('core', 'shareapi_only_share_with_group_members', 'no');
+		$value = \OC::$server->getConfig()->getAppValue('core', 'shareapi_only_share_with_group_members', 'no');
 		return ($value === 'yes') ? true : false;
 	}
 

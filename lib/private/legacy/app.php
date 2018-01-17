@@ -301,7 +301,7 @@ class OC_App {
 		\OC::$server->getAppConfig()->setValue($app, 'types', $appTypes);
 
 		if (\OC::$server->getAppManager()->hasProtectedAppType($appData['types'])) {
-			$enabled = \OC::$server->getAppConfig()->getValue($app, 'enabled', 'yes');
+			$enabled = \OC::$server->getConfig()->getAppValue($app, 'enabled', 'yes');
 			if ($enabled !== 'yes' && $enabled !== 'no') {
 				\OC::$server->getAppConfig()->setValue($app, 'enabled', 'yes');
 			}
@@ -803,7 +803,7 @@ class OC_App {
 					continue;
 				}
 
-				$enabled = \OC::$server->getAppConfig()->getValue($app, 'enabled', 'no');
+				$enabled = \OC::$server->getConfig()->getAppValue($app, 'enabled', 'no');
 				$info['groups'] = null;
 				if ($enabled === 'yes') {
 					$active = true;
