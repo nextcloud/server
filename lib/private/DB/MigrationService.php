@@ -423,7 +423,7 @@ class MigrationService {
 		}
 
 		$instance->preSchemaChange($this->output, function() {
-			return $this->connection->createSchema();
+			return new SchemaWrapper($this->connection);
 		}, ['tablePrefix' => $this->connection->getPrefix()]);
 
 		$toSchema = $instance->changeSchema($this->output, function() {
@@ -436,7 +436,7 @@ class MigrationService {
 		}
 
 		$instance->postSchemaChange($this->output, function() {
-			return $this->connection->createSchema();
+			return new SchemaWrapper($this->connection);
 		}, ['tablePrefix' => $this->connection->getPrefix()]);
 
 		$this->markAsExecuted($version);
