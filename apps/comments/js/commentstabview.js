@@ -21,7 +21,7 @@
 		'<div class="loading hidden" style="height: 50px"></div>';
 
 	var EDIT_COMMENT_TEMPLATE =
-		'<div class="newCommentRow comment" data-id="{{id}}">' +
+		'<{{tag}} class="newCommentRow comment" data-id="{{id}}">' +
 		'    <div class="authorRow">' +
 		'        <div class="avatar currentUser" data-username="{{actorId}}"></div>' +
 		'        <div class="author currentUser">{{actorDisplayName}}</div>' +
@@ -38,7 +38,7 @@
 		'{{/if}}' +
 		'        <div class="submitLoading icon-loading-small hidden"></div>'+
 		'    </form>' +
-		'</div>';
+		'</{{tag}}>';
 
 	var COMMENT_TEMPLATE =
 		'<li class="comment{{#if isUnread}} unread{{/if}}{{#if isLong}} collapsed{{/if}}" data-id="{{id}}">' +
@@ -116,7 +116,8 @@
 				newMessagePlaceholder: t('comments', 'New comment …'),
 				deleteTooltip: t('comments', 'Delete comment'),
 				submitText: t('comments', 'Post'),
-				cancelText: t('comments', 'Cancel')
+				cancelText: t('comments', 'Cancel'),
+				tag: 'li'
 			}, params));
 		},
 
@@ -166,7 +167,7 @@
 				emptyResultLabel: t('comments', 'No comments yet, start the conversation!'),
 				moreLabel: t('comments', 'More comments …')
 			}));
-			this.$el.find('.comments').before(this.editCommentTemplate({}));
+			this.$el.find('.comments').before(this.editCommentTemplate({ tag: 'div'}));
 			this.$el.find('.has-tooltip').tooltip();
 			this.$container = this.$el.find('ul.comments');
 			this.$el.find('.avatar').avatar(OC.getCurrentUser().uid, 32);
