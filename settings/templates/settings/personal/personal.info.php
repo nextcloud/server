@@ -318,25 +318,6 @@ vendor_style('jcrop/css/jquery.Jcrop');
 				</form>
 			</div>
 		<?php } ?>
-		<?php if (!empty($_['pubkeys'])) { ?>
-			<div class="personal-settings-setting-box">
-				<form id="pubkeysform" class="section">
-					<h2>
-						<label for="pubkeys"><?php p($l->t('Public keys')); ?></label>
-						<span class="icon-federation-menu icon-password">
-						<span class="icon-triangle-s"></span>
-					</span>
-					</h2>
-					<textarea id="pubkeys" name="pubkeys"
-							  placeholder="<?php p($l->t('Your public key fingerprints')); ?>"
-							  autocomplete="off" ><?php foreach	($_['pubkeys'] as $key) {p($key."\n");}?></textarea>
-					<span class="icon-checkmark hidden"></span>
-					<?php if($_['lookupServerUploadEnabled']) { ?>
-						<input type="hidden" id="pubkeysscope" value="<?php p($_['pubkeysScope']) ?>">
-					<?php } ?>
-				</form>
-			</div>
-		<?php } ?>
 	</div>
 
 	<div class="clear"></div>
