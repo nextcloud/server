@@ -13,49 +13,40 @@
 }
 
 #commentsTabView .newCommentForm {
-	position: relative;
-	margin-bottom: 20px;
+	margin-left: 36px;
 }
 
 #commentsTabView .newCommentForm .message {
-	width: calc(100% - 81px); /* 36 (left margin) + 30 (right padding) + 15 (right padding of surrounding box) */
-	margin-left: 36px;
-	padding-right: 30px;
-	display: block;
+	/* width = 100% - (width of submit button (44px) + margin (3px) + inline-block gap) */
+	width: calc(100% - 52px);
+	display: inline-block;
 }
 
 #commentsTabView .newCommentForm .submit {
-	position: absolute;
-	bottom: 0px;
-	right: 8px;
-	width: 30px;
+	width: 44px;
 	margin: 0;
-	padding: 7px 9px;
+	padding: 13px;
 	background-color: transparent;
 	border: none;
 	opacity: .3;
+	vertical-align: bottom;
 }
+
+#commentsTabView .deleteLoading {
+	float: right;
+	padding: 14px;
+	vertical-align: middle;
+}
+
+#commentsTabView .submitLoading {
+	vertical-align: bottom;
+	display: inline-block;
+	padding: 14px;
+}
+
 #commentsTabView .newCommentForm .submit:not(:disabled):hover,
 #commentsTabView .newCommentForm .submit:not(:disabled):focus {
 	opacity: 1;
-}
-
-#commentsTabView .newCommentForm .submitLoading {
-	background-position: left;
-
-	/* Match rules for '#commentsTabView .newCommentForm .submit' to place the
-	   loading icon at the same position as the confirm icon */
-	position: absolute;
-	bottom: 0px;
-	right: 8px;
-	width: 30px;
-	margin: 0;
-	padding: 7px 9px;
-
-	/* Match rules for 'input[type="submit"]' to place the loading icon at the
-	   same position as the confirm icon */
-	min-height: 34px;
-	box-sizing: border-box;
 }
 
 #commentsTabView .newCommentForm .cancel {
@@ -73,7 +64,8 @@
 
 #commentsTabView .comment {
 	position: relative;
-	margin-bottom: 30px;
+	/** padding bottom is little more so that the top and bottom gap look uniform **/
+	padding: 10px 0px 15px;
 	word-wrap: break-word;
 	overflow-wrap: break-word;
 }
@@ -123,19 +115,22 @@
 	background: -o-linear-gradient(rgba(255,255,255,0), rgba(255,255,255,1));
 	background: -ms-linear-gradient(rgba(255,255,255,0), rgba(255,255,255,1));
 	background: linear-gradient(rgba(255,255,255,0), rgba(255,255,255,1));
-	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#00FFFFFF', endColorstr='#FFFFFFFF');
 	background-repeat: no-repeat;
 }
 
-#commentsTabView .authorRow>div:not(.contactsmenu-popover) {
-	display: inline-block;
-	vertical-align: middle;
-}
-
-#commentsTabView .authorRow>div.hidden {
+#commentsTabView .hidden {
 	display: none !important;
 }
 
+/** set min-height as 44px to ensure that it fits the button sizes. **/
+#commentsTabView .comment .authorRow {
+	min-height: 44px;
+}
+#commentsTabView .comment .authorRow .tooltip {
+	/** because of the padding on the element, the tooltip appear too far up,
+	 adding this brings them closer to the element**/
+	margin-top: 5px;
+}
 #commentsTabView .comments li .message .avatar-name-wrapper,
 .atwho-view-ul * .avatar-name-wrapper,
 #commentsTabView .comment .authorRow {
@@ -171,32 +166,32 @@
 }
 #commentsTabView .comment .date {
 	margin-left: auto;
+	/** this is to fix the tooltip being too close due to the margin-top applied
+	 to bring the tooltip closer for the action icons **/
+	padding: 10px 0px;
 }
 
-#commentsTabView .comments li .message {
+#commentsTabView .comments > li:not(.newCommentRow) .message {
 	padding-left: 40px;
-	display: inline-flex;
-	flex-wrap: wrap;
-	align-items: center;
 }
 
 #commentsTabView .comment .action {
-	opacity: 0;
-	padding: 5px;
-}
-
-#commentsTabView .comment:hover .action {
 	opacity: 0.3;
+	padding: 14px;
+	display: inline-block;
+	vertical-align: middle;
 }
 
-#commentsTabView .comment .action:hover {
+#commentsTabView .comment .action:hover,
+#commentsTabView .comment .action:focus {
 	opacity: 1;
 }
 
-#commentsTabView .comment .action.delete,
-#commentsTabView .comment .deleteLoading {
-	position: absolute;
-	right: 0;
+#commentsTabView .newCommentRow .action-container {
+	margin-left: auto;
+	/** setting minimum width so as to avoid these two buttons from appearing on top of
+		each other when author name is long. width = icon-width * 2 + (inline-block gap) **/
+	min-width: 92px;
 }
 
 #commentsTabView .comment.disabled {
@@ -204,7 +199,7 @@
 }
 
 #commentsTabView .comment.disabled .action {
-	visibility: hidden;
+	display: none;
 }
 
 #commentsTabView .message.error {

@@ -26,16 +26,16 @@
 		'        <div class="avatar currentUser" data-username="{{actorId}}"></div>' +
 		'        <div class="author currentUser">{{actorDisplayName}}</div>' +
 		'{{#if isEditMode}}' +
-		'        <a href="#" class="action delete icon icon-delete has-tooltip" title="{{deleteTooltip}}"></a>' +
-		'        <div class="deleteLoading icon-loading-small hidden"></div>'+
+		'        <div class="action-container">' +
+		'            <a href="#" class="action delete icon icon-delete has-tooltip" title="{{deleteTooltip}}"></a>' +
+		'            <a href="#" class="action cancel icon icon-close has-tooltip" title="{{cancelText}}"></a>' +
+		'            <div class="deleteLoading icon-loading-small hidden"></div>'+
+		'        </div>' +
 		'{{/if}}' +
 		'    </div>' +
 		'    <form class="newCommentForm">' +
 		'        <div contentEditable="true" class="message" data-placeholder="{{newMessagePlaceholder}}">{{message}}</div>' +
 		'        <input class="submit icon-confirm" type="submit" value="" />' +
-		'{{#if isEditMode}}' +
-		'        <input class="cancel pull-right" type="button" value="{{cancelText}}" />' +
-		'{{/if}}' +
 		'        <div class="submitLoading icon-loading-small hidden"></div>'+
 		'    </form>' +
 		'</{{tag}}>';
