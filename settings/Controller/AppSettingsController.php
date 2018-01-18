@@ -38,11 +38,14 @@ use OC\App\AppStore\Version\VersionParser;
 use OC\App\DependencyAnalyzer;
 use OC\App\Platform;
 use OC\Installer;
+use OC_App;
 use OCP\App\IAppManager;
 use \OCP\AppFramework\Controller;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\ILogger;
 use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\IL10N;
@@ -80,6 +83,8 @@ class AppSettingsController extends Controller {
 	private $installer;
 	/** @var IURLGenerator */
 	private $urlGenerator;
+	/** @var ILogger */
+	private $logger;
 
 	/**
 	 * @param string $appName
@@ -94,6 +99,7 @@ class AppSettingsController extends Controller {
 	 * @param BundleFetcher $bundleFetcher
 	 * @param Installer $installer
 	 * @param IURLGenerator $urlGenerator
+	 * @param ILogger $logger
 	 */
 	public function __construct(string $appName,
 								IRequest $request,
@@ -106,7 +112,8 @@ class AppSettingsController extends Controller {
 								IFactory $l10nFactory,
 								BundleFetcher $bundleFetcher,
 								Installer $installer,
-								IURLGenerator $urlGenerator) {
+								IURLGenerator $urlGenerator,
+								ILogger $logger) {
 		parent::__construct($appName, $request);
 		$this->l10n = $l10n;
 		$this->config = $config;
@@ -118,6 +125,7 @@ class AppSettingsController extends Controller {
 		$this->bundleFetcher = $bundleFetcher;
 		$this->installer = $installer;
 		$this->urlGenerator = $urlGenerator;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -280,6 +288,7 @@ class AppSettingsController extends Controller {
 				'needsDownload' => !$existsLocally,
 				'groups' => $groups,
 				'fromAppStore' => true,
+				'appstoreData' => $app
 			];
 
 
@@ -295,10 +304,13 @@ class AppSettingsController extends Controller {
 	private function getAppsWithUpdates() {
 		$appClass = new \OC_App();
 		$apps = $appClass->listAllApps();
+		/** @var \OC\App\AppStore\Manager $manager */
+		$manager = \OC::$server->query(\OC\App\AppStore\Manager::class);
 		foreach($apps as $key => $app) {
 			$newVersion = $this->installer->isUpdateAvailable($app['id']);
 			if($newVersion !== false) {
 				$apps[$key]['update'] = $newVersion;
+				$apps[$key]['appstoreData'] = $manager->getApp($app['id']);
 			} else {
 				unset($apps[$key]);
 			}
@@ -470,5 +482,126 @@ class AppSettingsController extends Controller {
 		}, $apps);
 
 		return new JSONResponse(['apps' => $apps, 'status' => 'success']);
+	}
+
+	private function getGroupList(array $groups) {
+		$groupManager = \OC::$server->getGroupManager();
+		$groupsList = [];
+		foreach ($groups as $group) {
+			$groupItem = $groupManager->get($group);
+			if ($groupItem instanceof \OCP\IGroup) {
+				$groupsList[] = $groupManager->get($group);
+			}
+		}
+		return $groupsList;
+	}
+
+	/**
+	 * @PasswordConfirmationRequired
+	 *
+	 * @param string $appId
+	 * @return JSONResponse
+	 */
+	public function enableApp(string $appId, array $groups): JSONResponse {
+		return $this->enableApps([$appId], $groups);
+	}
+
+	/**
+	 * Enable one or more apps
+	 *
+	 * apps will be enabled for specific groups only if $groups is defined
+	 *
+	 * @PasswordConfirmationRequired
+	 * @param array $appIds
+	 * @param array $groups
+	 * @return JSONResponse
+	 */
+	public function enableApps(array $appIds, array $groups = []): JSONResponse {
+		try {
+			$updateRequired = false;
+
+			foreach ($appIds as $appId) {
+				$appId = OC_App::cleanAppId($appId);
+				if (count($groups) > 0) {
+					$this->appManager->enableAppForGroups($appId, $this->getGroupList($groups));
+				} else {
+					$this->appManager->enableApp($appId);
+				}
+				if (\OC_App::shouldUpgrade($appId)) {
+					$updateRequired = true;
+				}
+			}
+			return new JSONResponse(['data' => ['update_required' => $updateRequired]]);
+
+		} catch (\Exception $e) {
+			$this->logger->logException($e);
+			return new JSONResponse(['data' => ['message' => $e->getMessage()]], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	/**
+	 * @PasswordConfirmationRequired
+	 *
+	 * @param string $appId
+	 * @return JSONResponse
+	 */
+	public function disableApp(string $appId): JSONResponse {
+		return $this->disableApps([$appId]);
+	}
+
+	/**
+	 * @PasswordConfirmationRequired
+	 *
+	 * @param array $appIds
+	 * @return JSONResponse
+	 */
+	public function disableApps(array $appIds): JSONResponse {
+		try {
+			foreach ($appIds as $appId) {
+				$appId = OC_App::cleanAppId($appId);
+				$this->appManager->disableApp($appId);
+			}
+			return new JSONResponse([]);
+		} catch (\Exception $e) {
+			$this->logger->logException($e);
+			return new JSONResponse(['data' => ['message' => $e->getMessage()]], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	/**
+	 * @PasswordConfirmationRequired
+	 *
+	 * @param string $appId
+	 * @return JSONResponse
+	 */
+	public function uninstallApp(string $appId): JSONResponse {
+		$appId = OC_App::cleanAppId($appId);
+		$result = OC_App::removeApp($appId);
+		if($result !== false) {
+			// FIXME: Clear the cache - move that into some sane helper method
+			\OC::$server->getMemCacheFactory()->createDistributed('settings')->remove('listApps-0');
+			\OC::$server->getMemCacheFactory()->createDistributed('settings')->remove('listApps-1');
+			return new JSONResponse(['data' => ['appid' => $appId]]);
+		}
+		return new JSONResponse(['data' => ['message' => $this->l10n->t('Couldn\'t remove app.')]], Http::STATUS_INTERNAL_SERVER_ERROR);
+	}
+
+	public function updateApp(string $appId) {
+		$appId = OC_App::cleanAppId($appId);
+
+		$this->config->setSystemValue('maintenance', true);
+		try {
+			$installer = \OC::$server->query(\OC\Installer::class);
+			$result = $installer->updateAppstoreApp($appId);
+			$this->config->setSystemValue('maintenance', false);
+		} catch (\Exception $ex) {
+			$this->config->setSystemValue('maintenance', false);
+			return new JSONResponse(['data' => ['message' => $ex->getMessage()]], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+
+		if ($result !== false) {
+			return new JSONResponse(['data' => ['appid' => $appId]]);
+		}
+		return new JSONResponse(['data' => ['message' => $this->l10n->t('Couldn\'t update app.')]], Http::STATUS_INTERNAL_SERVER_ERROR);
 	}
 }

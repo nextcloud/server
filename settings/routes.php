@@ -49,6 +49,14 @@ $application->registerRoutes($this, [
 		['name' => 'AppSettings#listCategories', 'url' => '/settings/apps/categories', 'verb' => 'GET'],
 		['name' => 'AppSettings#viewApps', 'url' => '/settings/apps', 'verb' => 'GET'],
 		['name' => 'AppSettings#listApps', 'url' => '/settings/apps/list', 'verb' => 'GET'],
+		['name' => 'AppSettings#enableApp', 'url' => '/settings/apps/enable/{appId}', 'verb' => 'GET'],
+		['name' => 'AppSettings#enableApps', 'url' => '/settings/apps/enable', 'verb' => 'POST'],
+		['name' => 'AppSettings#disableApp', 'url' => '/settings/apps/disable/{appId}', 'verb' => 'GET'],
+		['name' => 'AppSettings#disableApps', 'url' => '/settings/apps/disable', 'verb' => 'POST'],
+		['name' => 'AppSettings#updateApp', 'url' => '/settings/apps/update/{appId}', 'verb' => 'GET'],
+		['name' => 'AppSettings#uninstallApp', 'url' => '/settings/apps/uninstall/{appId}', 'verb' => 'GET'],
+		['name' => 'Users#setDisplayName', 'url' => '/settings/users/{username}/displayName', 'verb' => 'POST'],
+		['name' => 'Users#setEMailAddress', 'url' => '/settings/users/{id}/mailAddress', 'verb' => 'PUT'],
 		['name' => 'Users#setUserSettings', 'url' => '/settings/users/{username}/settings', 'verb' => 'PUT'],
 		['name' => 'Users#getVerificationCode', 'url' => '/settings/users/{account}/verify', 'verb' => 'GET'],
 		['name' => 'Users#usersList', 'url' => '/settings/users', 'verb' => 'GET'],
@@ -76,13 +84,4 @@ $application->registerRoutes($this, [
 // Settings pages
 $this->create('settings_help', '/settings/help')
 	->actionInclude('settings/help.php');
-// Settings ajax actions
-// apps
-$this->create('settings_ajax_enableapp', '/settings/ajax/enableapp.php')
-	->actionInclude('settings/ajax/enableapp.php');
-$this->create('settings_ajax_disableapp', '/settings/ajax/disableapp.php')
-	->actionInclude('settings/ajax/disableapp.php');
-$this->create('settings_ajax_updateapp', '/settings/ajax/updateapp.php')
-	->actionInclude('settings/ajax/updateapp.php');
-$this->create('settings_ajax_uninstallapp', '/settings/ajax/uninstallapp.php')
-	->actionInclude('settings/ajax/uninstallapp.php');
+

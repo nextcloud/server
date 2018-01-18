@@ -100,6 +100,7 @@ interface IAppManager {
 	 *
 	 * @param string $appId
 	 * @param \OCP\IGroup[] $groups
+	 * @throws \Exception
 	 * @since 8.0.0
 	 */
 	public function enableAppForGroups($appId, $groups);
