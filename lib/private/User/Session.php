@@ -740,6 +740,7 @@ class Session implements IUserSession, Emitter {
 			}
 		} else {
 			$token = substr($authHeader, 7);
+			$loginWithHeader = true;
 		}
 
 		if (!$this->loginWithToken($token)) {
@@ -747,6 +748,10 @@ class Session implements IUserSession, Emitter {
 		}
 		if(!$this->validateToken($token)) {
 			return false;
+		}
+		
+		if($loginWithHeader) {
+			$this->session->set('last-password-confirm', $this->timeFactory->getTime());
 		}
 		return true;
 	}
