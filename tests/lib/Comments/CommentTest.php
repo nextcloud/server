@@ -8,6 +8,9 @@ use Test\TestCase;
 
 class CommentTest extends TestCase {
 
+	/**
+	 * @throws \OCP\Comments\IllegalIDChangeException
+	 */
 	public function testSettersValidInput() {
 		$comment = new Comment();
 
@@ -58,6 +61,9 @@ class CommentTest extends TestCase {
 		$comment->setId('c17');
 	}
 
+	/**
+	 * @throws \OCP\Comments\IllegalIDChangeException
+	 */
 	public function testResetId() {
 		$comment = new Comment();
 		$comment->setId('c23');
@@ -133,7 +139,7 @@ class CommentTest extends TestCase {
 				'@alice @bob look look, a duplication @alice test @bob!', ['alice', 'bob']
 			],
 			[
-				'@alice is the author, but notify @bob!', ['bob'], 'alice'
+				'@alice is the author, notify @bob, nevertheless mention her!', ['alice', 'bob'], 'alice'
 			],
 			[
 				'@foobar and @barfoo you should know, @foo@bar.com is valid' .
@@ -159,7 +165,6 @@ class CommentTest extends TestCase {
 			$uid = array_shift($expectedUids);
 			$this->assertSame('user', $mention['type']);
 			$this->assertSame($uid, $mention['id']);
-			$this->assertNotSame($author, $mention['id']);
 		}
 		$this->assertEmpty($mentions);
 		$this->assertEmpty($expectedUids);
