@@ -277,6 +277,7 @@ OC.L10N.register(
     "Username or email" : "Nome de usuário ou e-mail",
     "Log in" : "Entrar",
     "Wrong password." : "Senha errada",
+    "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Detectamos várias tentativas de login inválidas de seu IP. Portanto, seu próximo login será desacelerado em até 30 segundos.",
     "Stay logged in" : "Permaneça logado",
     "Forgot password?" : "Esqueceu a senha?",
     "Back to log in" : "Voltar ao login",

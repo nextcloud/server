@@ -277,6 +277,7 @@ OC.L10N.register(
     "Username or email" : "Nome utente o email",
     "Log in" : "Accedi",
     "Wrong password." : "Password errata.",
+    "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Abbiamo rilevato molti tentativi di autenticazione falliti dal tuo indirizzo IP. Di conseguenza il prossimo tentativo è ritardato di 30 secondi.",
     "Stay logged in" : "Rimani collegato",
     "Forgot password?" : "Hai dimenticato la password?",
     "Back to log in" : "Torna alla schermata di accesso",

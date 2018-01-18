@@ -275,6 +275,7 @@
     "Username or email" : "მომხმარებლის სახელი ან ელ-ფოსტა",
     "Log in" : "შესვლა",
     "Wrong password." : "არასწორი პაროლი.",
+    "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "თქვენი IP მისამართით შევნიშნეთ არაერთი წარუმატებელი ავტორიზაციის მცდელობა. აქედან გამომდინარე თქვენი შემდეგი ავტორიზაციის მცდელობა შეიზღუდება დაახლოებით 30 წამით.",
     "Stay logged in" : "ავტორიზებულად დარჩენა",
     "Forgot password?" : "დაგავიწყდათ პაროლი?",
     "Back to log in" : "უკან ავტორიზაციისკენ",
