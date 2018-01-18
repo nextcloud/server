@@ -300,8 +300,7 @@ class OC_Util {
 	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function isPublicLinkPasswordRequired() {
-		$appConfig = \OC::$server->getAppConfig();
-		$enforcePassword = $appConfig->getValue('core', 'shareapi_enforce_links_password', 'no');
+		$enforcePassword = \OC::$server->getConfig()->getAppValue('core', 'shareapi_enforce_links_password', 'no');
 		return ($enforcePassword === 'yes') ? true : false;
 	}
 
@@ -1116,7 +1115,7 @@ class OC_Util {
 		if (isset($_REQUEST['redirect_url']) && strpos($_REQUEST['redirect_url'], '@') === false) {
 			$location = $urlGenerator->getAbsoluteURL(urldecode($_REQUEST['redirect_url']));
 		} else {
-			$defaultPage = \OC::$server->getAppConfig()->getValue('core', 'defaultpage');
+			$defaultPage = \OC::$server->getConfig()->getAppValue('core', 'defaultpage');
 			if ($defaultPage) {
 				$location = $urlGenerator->getAbsoluteURL($defaultPage);
 			} else {

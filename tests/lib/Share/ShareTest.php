@@ -103,8 +103,8 @@ class ShareTest extends \Test\TestCase {
 		\OC\Share\Share::registerBackend('test', 'Test\Share\Backend');
 		\OC_Hook::clear('OCP\\Share');
 		\OC::registerShareHooks();
-		$this->resharing = \OC::$server->getAppConfig()->getValue('core', 'shareapi_allow_resharing', 'yes');
-		\OC::$server->getAppConfig()->setValue('core', 'shareapi_allow_resharing', 'yes');
+		$this->resharing = \OC::$server->getConfig()->getAppValue('core', 'shareapi_allow_resharing', 'yes');
+		\OC::$server->getConfig()->setAppValue('core', 'shareapi_allow_resharing', 'yes');
 
 		// 20 Minutes in the past, 20 minutes in the future.
 		$now = time();
@@ -116,7 +116,7 @@ class ShareTest extends \Test\TestCase {
 	protected function tearDown() {
 		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*share` WHERE `item_type` = ?');
 		$query->execute(array('test'));
-		\OC::$server->getAppConfig()->setValue('core', 'shareapi_allow_resharing', $this->resharing);
+		\OC::$server->getConfig()->setAppValue('core', 'shareapi_allow_resharing', $this->resharing);
 
 		$this->user1->delete();
 		$this->user2->delete();

@@ -298,12 +298,12 @@ class OC_App {
 			$appData['types'] = [];
 		}
 
-		\OC::$server->getAppConfig()->setValue($app, 'types', $appTypes);
+		\OC::$server->getConfig()->setAppValue($app, 'types', $appTypes);
 
 		if (\OC::$server->getAppManager()->hasProtectedAppType($appData['types'])) {
-			$enabled = \OC::$server->getAppConfig()->getValue($app, 'enabled', 'yes');
+			$enabled = \OC::$server->getConfig()->getAppValue($app, 'enabled', 'yes');
 			if ($enabled !== 'yes' && $enabled !== 'no') {
-				\OC::$server->getAppConfig()->setValue($app, 'enabled', 'yes');
+				\OC::$server->getConfig()->setAppValue($app, 'enabled', 'yes');
 			}
 		}
 	}
@@ -803,7 +803,7 @@ class OC_App {
 					continue;
 				}
 
-				$enabled = \OC::$server->getAppConfig()->getValue($app, 'enabled', 'no');
+				$enabled = \OC::$server->getConfig()->getAppValue($app, 'enabled', 'no');
 				$info['groups'] = null;
 				if ($enabled === 'yes') {
 					$active = true;
@@ -1075,7 +1075,7 @@ class OC_App {
 		self::setAppTypes($appId);
 
 		$version = \OC_App::getAppVersion($appId);
-		\OC::$server->getAppConfig()->setValue($appId, 'installed_version', $version);
+		\OC::$server->getConfig()->setAppValue($appId, 'installed_version', $version);
 
 		\OC::$server->getEventDispatcher()->dispatch(ManagerEvent::EVENT_APP_UPDATE, new ManagerEvent(
 			ManagerEvent::EVENT_APP_UPDATE, $appId

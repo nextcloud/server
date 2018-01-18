@@ -71,7 +71,7 @@ if($username) {
 	if($quota === 'default') {//'default' as default quota makes no sense
 		$quota='none';
 	}
-	\OC::$server->getAppConfig()->setValue('files', 'default_quota', $quota);
+	\OC::$server->getConfig()->setAppValue('files', 'default_quota', $quota);
 }
 OC_JSON::success(array("data" => array( "username" => $username , 'quota' => $quota)));
 

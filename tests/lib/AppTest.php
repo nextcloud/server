@@ -542,7 +542,7 @@ class AppTest extends \Test\TestCase {
 	 *
 	 * @param IAppConfig $appConfig app config mock
 	 */
-	private function registerAppConfig(IAppConfig $appConfig) {
+	private function registerAppConfig(AppConfig $appConfig) {
 		$this->overwriteService('AppConfig', $appConfig);
 		$this->overwriteService('AppManager', new \OC\App\AppManager(
 			\OC::$server->getUserSession(),
