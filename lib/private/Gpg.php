@@ -359,6 +359,7 @@ EFF
 			$this->logger->debug("Saved server key fingerprint:".$fingerprint." to system config", ['app' => 'core']);
 		}
 		$this->config->setSystemValue("GpgServerKey",$fingerprint);
+		return $fingerprint;
 	}
 
 
