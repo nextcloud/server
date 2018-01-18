@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 	script('updatenotification', 'admin');
 	style('updatenotification', 'admin');
 
@@ -40,7 +41,7 @@
 		<?php if (!$isDefaultUpdateServerURL) { ?>
 			<br />
 			<em>
-				<?php p($l->t("A non-default update server is in use to be checked for updates:")); ?>
+				<?php p($l->t('A non-default update server is in use to be checked for updates:')); ?>
 				<code><?php p($updateServerURL); ?></code>
 			</em>
 		<?php } ?>
@@ -65,10 +66,10 @@
 	<p id="oca_updatenotification_groups">
 		<?php p($l->t('Notify members of the following groups about available updates:')); ?>
 		<input name="oca_updatenotification_groups_list" type="hidden" id="oca_updatenotification_groups_list" value="<?php p($_['notify_groups']) ?>" style="width: 400px"><br />
-		<em class="<?php if (!in_array($currentChannel, ['daily', 'git'])) p('hidden'); ?>">
+		<em class="<?php if (!\in_array($currentChannel, ['daily', 'git'], true)) { p('hidden'); } ?>">
 			<?php p($l->t('Only notification for app updates are available.')); ?>
-			<?php if ($currentChannel === 'daily') p($l->t('The selected update channel makes dedicated notifications for the server obsolete.')); ?>
-			<?php if ($currentChannel === 'git') p($l->t('The selected update channel does not support updates of the server.')); ?>
+			<?php if ($currentChannel === 'daily') { p($l->t('The selected update channel makes dedicated notifications for the server obsolete.')); } ?>
+			<?php if ($currentChannel === 'git') { p($l->t('The selected update channel does not support updates of the server.')); } ?>
 		</em>
 	</p>
 </form>
