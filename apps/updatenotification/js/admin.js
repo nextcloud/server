@@ -1,84 +1,48 @@
 /**
- * Copyright (c) 2016 ownCloud Inc
+ * @copyright (c) 2018 Joas Schilling <coding@schilljs.com>
  *
- * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Joas Schilling <coding@schilljs.com>
  *
- * This file is licensed under the Affero General Public License version 3
- * or later.
- *
- * See the COPYING-README file.
- *
+ * This file is licensed under the Affero General Public License version 3 or
+ * later. See the COPYING file.
  */
 
-/**
- * Creates a new authentication token and loads the updater URL
- */
-var loginToken = '';
-$(document).ready(function(){
-	$('#oca_updatenotification_button').click(function() {
-		// Load the new token
-		$.ajax({
-			url: OC.generateUrl('/apps/updatenotification/credentials')
-		}).success(function(data) {
-			loginToken = data;
-			$.ajax({
-				url: OC.webroot+'/updater/',
-				headers: {
-					'X-Updater-Auth': loginToken
-				},
-				method: 'POST',
-				success: function(data){
-					if(data !== 'false') {
-						var body = $('body');
-						$('head').remove();
-						body.html(data);
+(function(OC, OCA, Vue, $) {
+	"use strict";
 
-						// Eval the script elements in the response
-						var dom = $(data);
-						dom.filter('script').each(function() {
-							eval(this.text || this.textContent || this.innerHTML || '');
-						});
+	OCA.UpdateNotification = OCA.UpdateNotification || {};
 
-						body.removeAttr('id');
-						body.attr('id', 'body-settings');
-					}
-				},
-				error: function(){
-					OC.Notification.showTemporary(t('updatenotification', 'Could not start updater, please try the manual update'));
-					$('#oca_updatenotification_button').addClass('hidden');
-					$('#oca_updatenotification_section .button').removeClass('hidden');
-				}
-			});
-		});
-	});
+	OCA.UpdateNotification.App = {
 
-	$('#release-channel').change(function() {
-		var newChannel = $('#release-channel').find(":selected").val();
 
-		if (newChannel === 'git' || newChannel === 'daily') {
-			$('#oca_updatenotification_groups em').removeClass('hidden');
-		} else {
-			$('#oca_updatenotification_groups em').addClass('hidden');
+		/** @type {number|null} */
+		interval: null,
+
+		/** @type {Vue|null} */
+		vm: null,
+
+		/**
+		 * Initialise the app
+		 */
+		initialise: function() {
+			var data = JSON.parse($('#updatenotification').attr('data-json'));
+			this.vm = new Vue(OCA.UpdateNotification.Components.Root);
+
+			this.vm.newVersionString = data.newVersionString;
+			this.vm.lastCheckedDate = data.lastChecked;
+			this.vm.isUpdateChecked = data.isUpdateChecked;
+			this.vm.updaterEnabled = data.updaterEnabled;
+			this.vm.downloadLink = data.downloadLink;
+			this.vm.isNewVersionAvailable = data.isNewVersionAvailable;
+			this.vm.updateServerURL = data.updateServerURL;
+			this.vm.currentChannel = data.currentChannel;
+			this.vm.channels = data.channels;
+			this.vm.notifyGroups = data.notifyGroups;
+			this.vm.isDefaultUpdateServerURL = data.isDefaultUpdateServerURL;
 		}
+	};
+})(OC, OCA, Vue, $);
 
-		$.post(
-			OC.generateUrl('/apps/updatenotification/channel'),
-			{
-				'channel': newChannel
-			},
-			function(data){
-				OC.msg.finishedAction('#channel_save_msg', data);
-			}
-		);
-	});
-
-	var $notificationTargetGroups = $('#oca_updatenotification_groups_list');
-	OC.Settings.setupGroupsSelect($notificationTargetGroups);
-	$notificationTargetGroups.change(function(ev) {
-		var groups = ev.val || [];
-		groups = JSON.stringify(groups);
-		OCP.AppConfig.setValue('updatenotification', 'notify_groups', groups);
-	});
-
-	$('#oca_updatenotification_section .icon-info').tooltip({placement: 'right'});
+$(document).ready(function () {
+	OCA.UpdateNotification.App.initialise();
 });

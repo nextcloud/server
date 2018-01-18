@@ -68,11 +68,10 @@ class Admin implements ISettings {
 			'production',
 		];
 		$currentChannel = Util::getChannel();
-
-		// Remove the currently used channel from the channels list
-		if(($key = array_search($currentChannel, $channels, true)) !== false) {
-			unset($channels[$key]);
+		if ($currentChannel === 'git') {
+			$channels[] = 'git';
 		}
+
 		$updateState = $this->updateChecker->getUpdateState();
 
 		$notifyGroups = json_decode($this->config->getAppValue('updatenotification', 'notify_groups', '["admin"]'), true);
@@ -91,7 +90,11 @@ class Admin implements ISettings {
 			'updaterEnabled' => empty($updateState['updaterEnabled']) ? false : $updateState['updaterEnabled'],
 			'isDefaultUpdateServerURL' => $updateServerURL === $defaultUpdateServerURL,
 			'updateServerURL' => $updateServerURL,
-			'notify_groups' => implode('|', $notifyGroups),
+			'notifyGroups' => implode('|', $notifyGroups),
+		];
+
+		$params = [
+			'json' => json_encode($params),
 		];
 
 		return new TemplateResponse('updatenotification', 'admin', $params, '');

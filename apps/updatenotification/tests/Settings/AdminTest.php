@@ -65,10 +65,8 @@ class AdminTest extends TestCase {
 			'production',
 		];
 		$currentChannel = Util::getChannel();
-
-		// Remove the currently used channel from the channels list
-		if(($key = array_search($currentChannel, $channels, true)) !== false) {
-			unset($channels[$key]);
+		if ($currentChannel === 'git') {
+			$channels[] = 'git';
 		}
 
 		$this->config
@@ -99,17 +97,19 @@ class AdminTest extends TestCase {
 			]);
 
 		$params = [
-			'isNewVersionAvailable' => true,
-			'isUpdateChecked' => true,
-			'lastChecked' => 'LastCheckedReturnValue',
-			'currentChannel' => Util::getChannel(),
-			'channels' => $channels,
-			'newVersionString' => '8.1.2',
-			'downloadLink' => 'https://downloads.nextcloud.org/server',
-			'updaterEnabled' => true,
-			'isDefaultUpdateServerURL' => true,
-			'updateServerURL' => 'https://updates.nextcloud.com/updater_server/',
-			'notify_groups' => 'admin',
+			'json' => json_encode([
+				'isNewVersionAvailable' => true,
+				'isUpdateChecked' => true,
+				'lastChecked' => 'LastCheckedReturnValue',
+				'currentChannel' => Util::getChannel(),
+				'channels' => $channels,
+				'newVersionString' => '8.1.2',
+				'downloadLink' => 'https://downloads.nextcloud.org/server',
+				'updaterEnabled' => true,
+				'isDefaultUpdateServerURL' => true,
+				'updateServerURL' => 'https://updates.nextcloud.com/updater_server/',
+				'notify_groups' => 'admin',
+			]),
 		];
 
 		$expected = new TemplateResponse('updatenotification', 'admin', $params, '');
