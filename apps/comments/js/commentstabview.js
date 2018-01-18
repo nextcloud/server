@@ -668,6 +668,12 @@
 				}, {
 					success: function(model) {
 						self._onSubmitSuccess(model, $form);
+						if(model.get('message').trim() === model.previous('message').trim()) {
+							// model change event doesn't trigger, manually remove the row.
+							var $row = $form.closest('.comment');
+							$row.data('commentEl').removeClass('hidden');
+							$row.remove();
+						}
 					},
 					error: function() {
 						self._onSubmitError($form, commentId);
