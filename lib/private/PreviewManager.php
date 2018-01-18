@@ -166,7 +166,9 @@ class PreviewManager implements IPreview {
 			return new \OC_Image();
 		}
 
-		return new \OC_Image($preview->getContent());
+		$previewImage = new \OC_Image();
+		$previewImage->loadFromData($preview->getContent());
+		return $previewImage;
 	}
 
 	/**

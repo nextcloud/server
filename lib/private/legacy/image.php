@@ -69,6 +69,7 @@ class OC_Image implements \OCP\IImage {
 	 * an imagecreate* function.
 	 * @param \OCP\ILogger $logger
 	 * @param \OCP\IConfig $config
+	 * @throws \InvalidArgumentException in case the $imageRef parameter is not null
 	 */
 	public function __construct($imageRef = null, \OCP\ILogger $logger = null, \OCP\IConfig $config = null) {
 		$this->logger = $logger;
@@ -85,7 +86,7 @@ class OC_Image implements \OCP\IImage {
 		}
 
 		if ($imageRef !== null) {
-			$this->load($imageRef);
+			throw new \InvalidArgumentException('The first parameter in the constructor is not supported anymore. Please use any of the load* methods of the image object to load an image.');
 		}
 	}
 
@@ -298,6 +299,18 @@ class OC_Image implements \OCP\IImage {
 	}
 
 	/**
+	 * @param resource Returns the image resource in any.
+	 * @throws \InvalidArgumentException in case the supplied resource does not have the type "gd"
+	 */
+	public function setResource($resource) {
+		if (get_resource_type($resource) === 'gd') {
+			$this->resource = $resource;
+			return;
+		}
+		throw new \InvalidArgumentException('Supplied resource is not of type "gd".');
+	}
+
+	/**
 	 * @return resource Returns the image resource in any.
 	 */
 	public function resource() {
@@ -504,31 +517,6 @@ class OC_Image implements \OCP\IImage {
 	}
 
 	/**
-	 * Loads an image from a local file, a base64 encoded string or a resource created by an imagecreate* function.
-	 *
-	 * @param resource|string $imageRef The path to a local file, a base64 encoded string or a resource created by an imagecreate* function or a file resource (file handle    ).
-	 * @return resource|false An image resource or false on error
-	 */
-	public function load($imageRef) {
-		if (is_resource($imageRef)) {
-			if (get_resource_type($imageRef) === 'gd') {
-				$this->resource = $imageRef;
-				return $this->resource;
-			} elseif (in_array(get_resource_type($imageRef), array('file', 'stream'))) {
-				return $this->loadFromFileHandle($imageRef);
-			}
-		} elseif ($this->loadFromBase64($imageRef) !== false) {
-			return $this->resource;
-		} elseif ($this->loadFromFile($imageRef) !== false) {
-			return $this->resource;
-		} elseif ($this->loadFromData($imageRef) !== false) {
-			return $this->resource;
-		}
-		$this->logger->debug(__METHOD__ . '(): could not load anything. Giving up!', array('app' => 'core'));
-		return false;
-	}
-
-	/**
 	 * Loads an image from an open file handle.
 	 * It is the responsibility of the caller to position the pointer at the correct place and to close the handle again.
 	 *
@@ -550,16 +538,6 @@ class OC_Image implements \OCP\IImage {
 	 * @return bool|resource An image resource or false on error
 	 */
 	public function loadFromFile($imagePath = false) {
-		try {
-			// detect if it is a path or maybe the images as string
-			// needed because the constructor iterates over all load* methods
-			$result = @realpath($imagePath);
-			if ($result === false) {
-				return false;
-			}
-		} catch (Error $e) {
-			return false;
-		}
 		// exif_imagetype throws "read error!" if file is less than 12 byte
 		if (!@is_file($imagePath) || !file_exists($imagePath) || filesize($imagePath) < 12 || !is_readable($imagePath)) {
 			return false;

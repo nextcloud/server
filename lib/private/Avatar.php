@@ -117,7 +117,24 @@ class Avatar implements IAvatar {
 			$img = $data;
 			$data = $img->data();
 		} else {
-			$img = new OC_Image($data);
+			$img = new OC_Image();
+			if (is_resource($data) && get_resource_type($data) === "gd") {
+				$img->setResource($data);
+			} elseif(is_resource($data)) {
+				$img->loadFromFileHandle($data);
+			} else {
+				try {
+					// detect if it is a path or maybe the images as string
+					$result = @realpath($data);
+					if ($result === false || $result === null) {
+						$img->loadFromData($data);
+					} else {
+						$img->loadFromFile($data);
+					}
+				} catch (\Error $e) {
+					$img->loadFromData($data);
+				}
+			}
 		}
 		$type = substr($img->mimeType(), -3);
 		if ($type === 'peg') {
