@@ -560,9 +560,6 @@ OCA.External.StatusManager.Utils = {
 			case 'windows_network_drive':
 				icon = OC.imagePath('windows_network_drive', 'folder-windows');
 				break;
-			case 'sharepoint':
-				icon = OC.imagePath('sharepoint', 'folder-sharepoint');
-				break;
 		}
 
 		return icon;
