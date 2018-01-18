@@ -37,6 +37,7 @@ use OC\Repair\Collation;
 use OC\Repair\MoveUpdaterStepFile;
 use OC\Repair\NC11\FixMountStorages;
 use OC\Repair\NC13\AddLogRotateJob;
+use OC\Repair\NC14\CreateGpgServerKeys;
 use OC\Repair\OldGroupMembershipShares;
 use OC\Repair\Owncloud\DropAccountTermsTable;
 use OC\Repair\Owncloud\SaveAccountsTableData;
@@ -131,6 +132,7 @@ class Repair implements IOutput{
 			new FixMountStorages(\OC::$server->getDatabaseConnection()),
 			new RepairInvalidPaths(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig()),
 			new AddLogRotateJob(\OC::$server->getJobList()),
+			new CreateGpgServerKeys(\OC::$server->getConfig(),\OC::$server->getLogger(),\OC::$server->getGpg())
 		];
 	}
 
