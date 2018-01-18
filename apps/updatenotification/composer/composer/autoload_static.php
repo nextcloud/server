@@ -26,6 +26,7 @@ class ComposerStaticInitUpdateNotification
         'OCA\\UpdateNotification\\Notification\\BackgroundJob' => __DIR__ . '/..' . '/../lib/Notification/BackgroundJob.php',
         'OCA\\UpdateNotification\\Notification\\Notifier' => __DIR__ . '/..' . '/../lib/Notification/Notifier.php',
         'OCA\\UpdateNotification\\ResetTokenBackgroundJob' => __DIR__ . '/..' . '/../lib/ResetTokenBackgroundJob.php',
+        'OCA\\UpdateNotification\\Settings\\Admin' => __DIR__ . '/..' . '/../lib/Settings/Admin.php',
         'OCA\\UpdateNotification\\UpdateChecker' => __DIR__ . '/..' . '/../lib/UpdateChecker.php',
     );
 
