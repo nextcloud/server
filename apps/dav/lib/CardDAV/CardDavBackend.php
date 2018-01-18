@@ -885,9 +885,10 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @param int $addressBookId
 	 * @param string $pattern which should match within the $searchProperties
 	 * @param array $searchProperties defines the properties within the query pattern should match
+	 * @param array $options = array() 'no-escape-_%' - to not escape wildcards _ and % - for future use. One should always have options!
 	 * @return array an array of contacts which are arrays of key-value-pairs
 	 */
-	public function search($addressBookId, $pattern, $searchProperties) {
+	public function search($addressBookId, $pattern, $searchProperties, $options = array()) {
 		$query = $this->db->getQueryBuilder();
 		$query2 = $this->db->getQueryBuilder();
 
@@ -901,7 +902,11 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 		// No need for like when the pattern is empty
 		if ('' !== $pattern) {
-			$query2->andWhere($query2->expr()->ilike('cp.value', $query->createNamedParameter('%' . $this->db->escapeLikeParameter($pattern) . '%')));
+			if(!in_array('no-escape-_%',$options)) {
+				$query2->andWhere($query2->expr()->ilike('cp.value', $query->createNamedParameter('%' . $this->db->escapeLikeParameter($pattern) . '%')));
+			} else {
+				$query2->andWhere($query2->expr()->ilike('cp.value', $query->createNamedParameter($pattern)));
+			}
 		}
 
 		$query->select('c.carddata', 'c.uri')->from($this->dbCardsTable, 'c')
