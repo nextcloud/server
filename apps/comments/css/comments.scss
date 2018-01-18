@@ -70,6 +70,10 @@
 	overflow-wrap: break-word;
 }
 
+#commentsTabView .comments .comment {
+	border-top: 1px solid $color-border;
+}
+
 #commentsTabView .comment .avatar,
 .atwho-view-ul * .avatar{
 	width: 32px;
