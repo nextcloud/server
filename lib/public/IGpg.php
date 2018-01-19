@@ -45,7 +45,7 @@ interface IGpg {
 	 *
 	 * @param string $plaintext
 	 * @param array $encrypt_fingerprints fingerprints of the encryption keys
-	 * @param array $sign_fingerprints fingerprints of the sign keys
+	 * @param array $sign_fingerprints passphrase can be passed as $sign_fingerprint => $passphrase fingerprints of the sign keys
 	 * @param $uid = null
 	 * @return string
 	 */
@@ -55,7 +55,7 @@ interface IGpg {
 	 * Combination of gnupg_addsignkey and gnupg_sign
 	 *
 	 * @param string $plaintext
-	 * @param array $fingerprints fingerprints of the sign keys
+	 * @param array $fingerprints passphrase can be passed as $fingerprint => $passphrase fingerprints of the sign keys
 	 * @param $uid = null
 	 * @return string
 	 */
@@ -98,11 +98,11 @@ interface IGpg {
 	 * Deletes the key from the keyring. If allowsecret is not set or FALSE it will fail on deleting secret keys.
 
 	 * @param string $fingerprint of the key
-	 * @param bool $allowsecret
 	 * @param $uid = null
+	 * @param bool $allowsecret
 	 * @return bool
 	 */
-	public function deletekey($fingerprint, $allowsecret=FALSE, $uid = null);
+	public function deletekey($fingerprint, $uid = null, $allowsecret = FALSE );
 
 	/**
 	 * Returns the fingerprint of the first public key matching the email.

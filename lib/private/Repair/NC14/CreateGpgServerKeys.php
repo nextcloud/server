@@ -1,8 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2017 Lukas Reschke <lukas@statuscode.ch>
+ * @copyright Copyright (c) 2018 Arne Hamann <kontakt+github@arne.email>
  *
- * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Arne Hamann <kontakt+github@arne.email>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -63,7 +63,20 @@ class CreateGpgServerKeys implements IRepairStep {
 	 * {@inheritdoc}
 	 */
 	public function run(IOutput $output) {
-		$fingerprint = $this->gpg->generateKey();
-		$this->logger->info("Created server gpg key pair ".$fingerprint, ['app' => 'core']);
+		$fingerprint = $this->config->getSystemValue('GpgServerKey','');
+		if($fingerprint === ''){
+			$fingerprint = $this->gpg->generateKey();
+			$this->logger->info("Created server gpg key pair ".$fingerprint, ['app' => 'core']);
+		} else {
+			$keys = $this->gpg->keyinfo($fingerprint);
+			if ($keys === FALSE || $keys === []) {
+				$fingerprint = $this->gpg->generateKey();
+				$this->logger->info("Created server gpg key pair ".$fingerprint, ['app' => 'core']);
+			}
+		}
+		$keys = $this->gpg->keyinfo($fingerprint);
+		if ($keys === FALSE || $keys === []) {
+			$this->logger->error("Creating Server GPG Key pair failed. Emails are not going to be signed, expect keys are server keys imported manually");
+		}
 	}
 }

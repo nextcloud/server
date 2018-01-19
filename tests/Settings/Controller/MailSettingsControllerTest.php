@@ -5,6 +5,7 @@
  *
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Arne Hamann <contact+github@arne.email>
  *
  * This file is licensed under the Affero General Public License version 3 or
  * later.
