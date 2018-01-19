@@ -129,8 +129,12 @@ class Gpg implements IGpg{
 		foreach ($encrypt_fingerprints as $fingerprint){
 			$gpg->addencryptkey($fingerprint);
 		}
-		foreach ($sign_fingerprints as $fingerprint){
-			$gpg->addsignkey($fingerprint);
+		foreach ($sign_fingerprints as $key => $fingerprint){
+			if (is_numeric($key)){
+				$gpg->addsignkey($fingerprint);
+			} else {
+				$gpg->addsignkey($key, $fingerprint);
+			}
 		}
 		$gpg_text = $gpg->encryptsign($plaintext);
 		$gpg->clearencryptkeys();
@@ -139,8 +143,13 @@ class Gpg implements IGpg{
 
 		if($debugMode) {
 			$sign_fingerprints_text = '';
-			foreach ($sign_fingerprints as $sign_fingerprint) {
-				$sign_fingerprints_text = $sign_fingerprints_text.",".$sign_fingerprint;
+			foreach ($sign_fingerprints as $key => $sign_fingerprint) {
+				if (is_numeric($key)){
+					$sign_fingerprints_text = $sign_fingerprints_text . "," . $sign_fingerprint;
+				} else {
+					$sign_fingerprints_text = $sign_fingerprints_text . "," . $key;
+				}
+
 			}
 			$encrypt_fingerprints_text = '';
 			foreach ($encrypt_fingerprints as $encrypt_fingerprint) {
@@ -164,16 +173,25 @@ class Gpg implements IGpg{
 		$this->loadUser($uid);
 		$gpg = $this->gpg;
 		$debugMode = $this->config->getSystemValue('debug', false);
-		foreach ($fingerprints as $fingerprint){
-			$gpg->addsignkey($fingerprint);
+		foreach ($fingerprints as $key => $fingerprint){
+			if (is_numeric($key)){
+				$gpg->addsignkey($fingerprint);
+			} else {
+				$gpg->addsignkey($key, $fingerprint);
+			}
 		}
-		$gpg_text = $gpg->sign($plaintext);
 
+		$gpg_text = $gpg->sign($plaintext);
 		$gpg->clearsignkeys();
 		$sign_fingerprints_text = '';
 		if ($debugMode) {
-			foreach ($fingerprints as $sign_fingerprint) {
-				$sign_fingerprints_text = $sign_fingerprints_text . "," . $sign_fingerprint;
+			foreach ($fingerprints as $key => $sign_fingerprint) {
+				if (is_numeric($key)){
+					$sign_fingerprints_text = $sign_fingerprints_text . "," . $sign_fingerprint;
+				} else {
+					$sign_fingerprints_text = $sign_fingerprints_text . "," . $key;
+				}
+
 			}
 			$this->logger->debug("GPG signed plain message: with sign keys:" . $sign_fingerprints_text, ['app' => 'core']);
 		}
@@ -226,10 +244,11 @@ class Gpg implements IGpg{
 	 * Deletes the key from the keyring. If allowsecret is not set or FALSE it will fail on deleting secret keys.
 
 	 * @param string $fingerprint of the key
+	 * @param string|null $uid
 	 * @param bool $allowsecret
 	 * @return bool
 	 */
-	public function deletekey($fingerprint, $allowsecret=FALSE  , $uid = null ) {
+	public function deletekey($fingerprint, $uid = null, $allowsecret = FALSE ) {
 		$this->loadUser($uid);
 		$gpg = $this->gpg;
 		return $gpg->deletekey($fingerprint,$allowsecret);
@@ -283,23 +302,27 @@ class Gpg implements IGpg{
 	 * @param string $email = ''
 	 * @param string $name = ''
 	 * @param string $commend = ''
+	 * @return string $fingerprint
 	 */
 	public function generateKey($email = '', $name = '', $commend = '', $uid = null ) {
 		$this->loadUser($uid);
 		$gpg = $this->gpg;
 		$debugMode = $this->config->getSystemValue('debug', false);
-		if ($email === '') {
+		if ($email === '' || $name === '') {
 			/* otherwise setUser(X); generateKey(); Would generate a server key for User X); */
-			if ($this->uid === '') {
+			if ($uid === '' || $uid === null) {
 				$email = \OCP\Util::getDefaultEmailAddress($this->defaults->getName());
 				$name = $this->defaults->getName();
 				$commend = $this->defaults->getSlogan();
+			} else {
+				$this->logger->info("Creating Key without email or name is not possible");
+				return "";
 			}
 		}
 
 
-		if ($this->uid !== null && $this->uid !=='' ) {
-			$home = $this->UserManager->get($uid)->getHome();
+		if ($uid !== null && $uid !=='' ) {
+			$home = $this->userManager->get($uid)->getHome();
 		} else {
 			$home = $this->config->getSystemValue("datadirectory");
 		}
@@ -358,7 +381,10 @@ EFF
 		if ($debugMode){
 			$this->logger->debug("Saved server key fingerprint:".$fingerprint." to system config", ['app' => 'core']);
 		}
-		$this->config->setSystemValue("GpgServerKey",$fingerprint);
+		if ($uid === null || $uid ==='' ) {
+			$this->config->setSystemValue("GpgServerKey",$fingerprint);
+		}
+
 		return $fingerprint;
 	}
 
@@ -380,6 +406,18 @@ EFF
 			$home =  $this->userManager->get($uid)->getHome();
 		}
 		putenv('GNUPGHOME='.$home.'.gnupg');
+		if(!is_dir($home.'.gnupg')){
+			mkdir($home.'.gnupg');
+			chmod($home.'.gnupg',0700);
+		}
+		if(!file_exists($home.'.gnupg/gpg-agent.conf')){
+			file_put_contents($home.'.gnupg/gpg-agent.conf', "allow-loopback-pinentry");
+			chmod($home.'.gnupg/gpg-agent.conf',0600);
+		}
+		if(!file_exists($home.'.gnupg/gpg.conf')){
+			file_put_contents($home.'.gnupg/gpg.conf', "pinentry-mode loopback");
+			chmod($home.'.gnupg/gpg.conf',0600);
+		}
 		return $this;
 	}
 }
