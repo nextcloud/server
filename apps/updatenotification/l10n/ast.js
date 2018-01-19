@@ -1,9 +1,9 @@
 OC.L10N.register(
     "updatenotification",
     {
-    "Update notifications" : "Avisos d'anovamientu",
     "Could not start updater, please try the manual update" : "Nun pudo aniciase l'anovador, por favor prueba l'anovamientu manual",
     "{version} is available. Get more information on how to update." : "Ta disponible {version}. Consigui más infromación tocante a cómo anovar.",
+    "Update notifications" : "Avisos d'anovamientu",
     "Channel updated" : "Anovóse la canal",
     "The update server could not be reached since %d days to check for new updates." : "Nun pudo algamase'l sirvidor d'anovamientu dende hai %d díes pa comprobar anovamientos.",
     "Please check the Nextcloud and server log files for errors." : "Comprueba los fallos de los ficheros de rexistru del sirvidor y Nextcloud, por favor.",

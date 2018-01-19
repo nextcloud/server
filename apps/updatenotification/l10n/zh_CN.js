@@ -1,9 +1,9 @@
 OC.L10N.register(
     "updatenotification",
     {
-    "Update notifications" : "升级通知",
     "Could not start updater, please try the manual update" : "无法启动自动更新，请尝试手动更新",
     "{version} is available. Get more information on how to update." : "新版本 {version} 已可以使用。获取更多升级相关信息。",
+    "Update notifications" : "升级通知",
     "Channel updated" : "更新通道",
     "The update server could not be reached since %d days to check for new updates." : "更新服务器自 1%d 天前起无法访问以检查更新。",
     "Please check the Nextcloud and server log files for errors." : "请检查 nextcloud 和服务器的日志中的错误。",
