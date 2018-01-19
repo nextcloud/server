@@ -537,9 +537,10 @@ class CardDavBackendTest extends TestCase {
 	 *
 	 * @param string $pattern
 	 * @param array $properties
+	 * @param array $options
 	 * @param array $expected
 	 */
-	public function testSearch($pattern, $properties, $expected) {
+	public function testSearch($pattern, $properties, $options, $expected) {
 		/** @var VCard $vCards */
 		$vCards = [];
 		$vCards[0] = new VCard();
@@ -549,10 +550,14 @@ class CardDavBackendTest extends TestCase {
 		$vCards[1] = new VCard();
 		$vCards[1]->add(new Text($vCards[1], 'UID', 'uid'));
 		$vCards[1]->add(new Text($vCards[1], 'FN', 'John M. Doe'));
+		$vCards[2] = new VCard();
+		$vCards[2]->add(new Text($vCards[2], 'UID', 'uid'));
+		$vCards[2]->add(new Text($vCards[2], 'FN', 'find without options'));
+		$vCards[2]->add(new Text($vCards[2], 'CLOUD', 'peter_pan@owncloud.org'));
 
 		$vCardIds = [];
 		$query = $this->db->getQueryBuilder();
-		for($i=0; $i<2; $i++) {
+		for($i=0; $i < 3; $i++) {
 			$query->insert($this->dbCardsTable)
 					->values(
 							[
@@ -601,8 +606,30 @@ class CardDavBackendTest extends TestCase {
 				]
 			);
 		$query->execute();
+		$query->insert($this->dbCardsPropertiesTable)
+			->values(
+				[
+					'addressbookid' => $query->createNamedParameter(0),
+					'cardid' => $query->createNamedParameter($vCardIds[2]),
+					'name' => $query->createNamedParameter('FN'),
+					'value' => $query->createNamedParameter('find without options'),
+					'preferred' => $query->createNamedParameter(0)
+				]
+			);
+		$query->execute();
+		$query->insert($this->dbCardsPropertiesTable)
+			->values(
+				[
+					'addressbookid' => $query->createNamedParameter(0),
+					'cardid' => $query->createNamedParameter($vCardIds[2]),
+					'name' => $query->createNamedParameter('CLOUD'),
+					'value' => $query->createNamedParameter('peter_pan@owncloud.org'),
+					'preferred' => $query->createNamedParameter(0)
+				]
+			);
+		$query->execute();
 
-		$result = $this->backend->search(0, $pattern, $properties);
+		$result = $this->backend->search(0, $pattern, $properties, $options);
 
 		// check result
 		$this->assertSame(count($expected), count($result));
@@ -621,11 +648,13 @@ class CardDavBackendTest extends TestCase {
 
 	public function dataTestSearch() {
 		return [
-				['John', ['FN'], [['uri0', 'John Doe'], ['uri1', 'John M. Doe']]],
-				['M. Doe', ['FN'], [['uri1', 'John M. Doe']]],
-				['Do', ['FN'], [['uri0', 'John Doe'], ['uri1', 'John M. Doe']]],
-				'check if duplicates are handled correctly' => ['John', ['FN', 'CLOUD'], [['uri0', 'John Doe'], ['uri1', 'John M. Doe']]],
-				'case insensitive' => ['john', ['FN'], [['uri0', 'John Doe'], ['uri1', 'John M. Doe']]]
+				['John', ['FN'], [], [['uri0', 'John Doe'], ['uri1', 'John M. Doe']]],
+				['M. Doe', ['FN'], [], [['uri1', 'John M. Doe']]],
+				['Do', ['FN'], [], [['uri0', 'John Doe'], ['uri1', 'John M. Doe']]],
+				'check if duplicates are handled correctly' => ['John', ['FN', 'CLOUD'], [], [['uri0', 'John Doe'], ['uri1', 'John M. Doe']]],
+				'case insensitive' => ['john', ['FN'], [], [['uri0', 'John Doe'], ['uri1', 'John M. Doe']]],
+				'find "_" escaped' => ['_', ['CLOUD'], [], [['uri2', 'find without options']]],
+				'find not empty ClOUD' => ['_%', ['CLOUD'], ['no-escape-_%'], [['uri0', 'John Doe'], ['uri2', 'find without options']]],
 		];
 	}
 
