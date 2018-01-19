@@ -66,9 +66,6 @@ class Updater extends BasicEmitter {
 	/** @var Installer */
 	private $installer;
 
-	/** @var bool */
-	private $skip3rdPartyAppsDisable;
-
 	private $logLevelNames = [
 		0 => 'Debug',
 		1 => 'Info',
@@ -91,22 +88,6 @@ class Updater extends BasicEmitter {
 		$this->config = $config;
 		$this->checker = $checker;
 		$this->installer = $installer;
-
-		// If at least PHP 7.0.0 is used we don't need to disable apps as we catch
-		// fatal errors and exceptions and disable the app just instead.
-		if(version_compare(phpversion(), '7.0.0', '>=')) {
-			$this->skip3rdPartyAppsDisable = true;
-		}
-	}
-
-	/**
-	 * Sets whether the update disables 3rd party apps.
-	 * This can be set to true to skip the disable.
-	 *
-	 * @param bool $flag false to not disable, true otherwise
-	 */
-	public function setSkip3rdPartyAppsDisable($flag) {
-		$this->skip3rdPartyAppsDisable = $flag;
 	}
 
 	/**
@@ -437,13 +418,6 @@ class Updater extends BasicEmitter {
 			if (OC_App::isType($app, ['session', 'authentication'])) {
 				continue;
 			}
-
-			// disable any other 3rd party apps if not overriden
-			if(!$this->skip3rdPartyAppsDisable) {
-				\OC_App::disable($app);
-				$disabledApps[]= $app;
-				$this->emit('\OC\Updater', 'thirdPartyAppDisabled', array($app));
-			};
 		}
 		return $disabledApps;
 	}
@@ -596,9 +570,6 @@ class Updater extends BasicEmitter {
 		});
 		$this->listen('\OC\Updater', 'incompatibleAppDisabled', function ($app) use($log) {
 			$log->info('\OC\Updater::incompatibleAppDisabled: Disabled incompatible app: ' . $app, ['app' => 'updater']);
-		});
-		$this->listen('\OC\Updater', 'thirdPartyAppDisabled', function ($app) use ($log) {
-			$log->info('\OC\Updater::thirdPartyAppDisabled: Disabled 3rd-party app: ' . $app, ['app' => 'updater']);
 		});
 		$this->listen('\OC\Updater', 'checkAppStoreAppBefore', function ($app) use($log) {
 			$log->info('\OC\Updater::checkAppStoreAppBefore: Checking for update of app "' . $app . '" in appstore', ['app' => 'updater']);
