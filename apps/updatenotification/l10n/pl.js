@@ -1,9 +1,9 @@
 OC.L10N.register(
     "updatenotification",
     {
-    "Update notifications" : "Powiadomienia o aktualizacji",
     "Could not start updater, please try the manual update" : "Nie można uruchomić aktualizacji, spróbuj z aktualizować ręcznie",
     "{version} is available. Get more information on how to update." : "Wersja {version} jest dostępna. Dowiedz się jak zaktualizować.",
+    "Update notifications" : "Powiadomienia o aktualizacji",
     "Channel updated" : "Kanał zaktualizowany",
     "The update server could not be reached since %d days to check for new updates." : "Połączenie z serwerem z aktualizacjami w celu sprawdzenia nowych aktualizacji nie powiodło się od %d dni.",
     "Please check the Nextcloud and server log files for errors." : "Proszę sprawdzić pliki z logami Nextcloud i serwera w celu znalezienia błędów.",

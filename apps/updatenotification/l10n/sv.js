@@ -1,9 +1,9 @@
 OC.L10N.register(
     "updatenotification",
     {
-    "Update notifications" : "Uppdateringsnotifikationer",
     "Could not start updater, please try the manual update" : "Kunde inte starta uppdateraren, vänligen försök uppdatera manuellt",
     "{version} is available. Get more information on how to update." : "{version} är tillgänglig. Få mer information om hur du uppdaterar.",
+    "Update notifications" : "Uppdateringsnotifikationer",
     "Channel updated" : "Uppdateringskanal uppdaterad",
     "The update server could not be reached since %d days to check for new updates." : "Uppdateringsservern kunde inte nås. Senaste kontakt för %d dagar sedan.",
     "Please check the Nextcloud and server log files for errors." : "Vänligen kontrollera ditt moln och dess serverloggar för felmeddelanden.",

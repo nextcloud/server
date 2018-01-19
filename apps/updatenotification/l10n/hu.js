@@ -1,9 +1,9 @@
 OC.L10N.register(
     "updatenotification",
     {
-    "Update notifications" : "Frissítési értesítés",
     "Could not start updater, please try the manual update" : "Nem sikerült elindítani a frissítőt, kérlek próbáld a manuális frissítést",
     "{version} is available. Get more information on how to update." : "{version} rendelkezésre áll. További információ a frissítéshez.",
+    "Update notifications" : "Frissítési értesítés",
     "Channel updated" : "Csatorna frissítve",
     "The update server could not be reached since %d days to check for new updates." : "A frissítési szerver  %d napja nem elérhető a frissítések kereséséhez.",
     "Please check the Nextcloud and server log files for errors." : "Kérlek nézd meg a Nextcloud és a szervernaplókat a hibák miatt.",

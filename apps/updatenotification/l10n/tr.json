@@ -1,7 +1,7 @@
 { "translations": {
-    "Update notifications" : "Güncelleme bildirimleri",
     "Could not start updater, please try the manual update" : "Güncelleyici başlatılamadı lütfen el ile güncellemeyi deneyin",
     "{version} is available. Get more information on how to update." : "{version} sürümü yayınlanmış. Güncelleme hakkında ayrıntılı bilgi alın.",
+    "Update notifications" : "Güncelleme bildirimleri",
     "Channel updated" : "Kanal güncellendi",
     "The update server could not be reached since %d days to check for new updates." : "%d gündür güncellemeleri denetlemek için güncelleme sunucusuna bağlanılamadı.",
     "Please check the Nextcloud and server log files for errors." : "Lütfen sorunu bulmak için Nextcloud ve sunucu günlük dosyalarına bakın.",

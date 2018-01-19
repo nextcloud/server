@@ -1,9 +1,9 @@
 OC.L10N.register(
     "updatenotification",
     {
-    "Update notifications" : "Известия за обновления",
     "Could not start updater, please try the manual update" : "Актуализиращата програма не беше стартирана. Моля, опитайте ръчно обновление",
     "{version} is available. Get more information on how to update." : "{version} е налична. Намерете повече информация за това как да актуализирате.",
+    "Update notifications" : "Известия за обновления",
     "Channel updated" : "Канала е променен",
     "Update to %1$s is available." : "Обновление към %1$s е налично.",
     "Update for %1$s to version %2$s is available." : "Обновление за %1$s към версия %2$s е налично.",

@@ -1,7 +1,7 @@
 { "translations": {
-    "Update notifications" : "Aktualizovat upozornění",
     "Could not start updater, please try the manual update" : "Nepodařilo se spustit aktualizátor, zkuste ruční aktualizaci",
     "{version} is available. Get more information on how to update." : "Je dostupná {version}. Přečtěte si více informací jak aktualizovat.",
+    "Update notifications" : "Aktualizovat upozornění",
     "Channel updated" : "Kanál aktualizován",
     "The update server could not be reached since %d days to check for new updates." : "Aktualizační server nebyl dosažen %d dní pro kontrolu aktualizací.",
     "Please check the Nextcloud and server log files for errors." : "Po chybách se podívejte v protokolech Nextcloudu a webového serveru.",
