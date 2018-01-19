@@ -1,7 +1,7 @@
 { "translations": {
-    "Update notifications" : "Perbarui pemberitahuan",
     "Could not start updater, please try the manual update" : "Tidak dapat menjalankan updater, harap coba perbarui manual",
     "{version} is available. Get more information on how to update." : "{version} tersedia. Dapatkan informasi lebih lanjut cara memperbaruinya.",
+    "Update notifications" : "Perbarui pemberitahuan",
     "Channel updated" : "Kanal diperbarui",
     "Update to %1$s is available." : "Pembaruan untuk %1$s tersedia.",
     "Update for %1$s to version %2$s is available." : "Pembaruan untuk %1$s ke versi %2$s tersedia.",

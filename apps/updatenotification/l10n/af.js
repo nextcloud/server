@@ -1,9 +1,9 @@
 OC.L10N.register(
     "updatenotification",
     {
-    "Update notifications" : "Werk kennisgewings by",
     "Could not start updater, please try the manual update" : "Bywerker kon nie begin nie, probeer handmatig bywerk",
     "{version} is available. Get more information on how to update." : "{version} is beskikbaar. Kry meer inligting oor hoe om by te werk.",
+    "Update notifications" : "Werk kennisgewings by",
     "Channel updated" : "Kanaal bygewerk",
     "The update server could not be reached since %d days to check for new updates." : "Die bywerkingsbediener kan al vir %d dae nie bereik word om nuwe bywerkings te soek nie.",
     "Please check the Nextcloud and server log files for errors." : "Gaan die Nextcloud- en bedienerloglêers na vir foute.",

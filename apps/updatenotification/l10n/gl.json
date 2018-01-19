@@ -1,7 +1,7 @@
 { "translations": {
-    "Update notifications" : "Actualizar as notificacións",
     "Could not start updater, please try the manual update" : "Non foi posíbel iniciar o actualizador, por favor tente a actualización manual",
     "{version} is available. Get more information on how to update." : "{version} está dispoñíbel. Obteña máis información sobre como actualizar.",
+    "Update notifications" : "Actualizar as notificacións",
     "Channel updated" : "Canle actualizada",
     "The update server could not be reached since %d days to check for new updates." : "Non foi posíbel conectar co servidor de actualizacións dende vai %d días para comprobar se hai novas actualizacións.",
     "Please check the Nextcloud and server log files for errors." : "Por favor comprobe os ficheiros de rexistro de Nextcloud e do servidor na procura de erros.",

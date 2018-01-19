@@ -1,9 +1,9 @@
 OC.L10N.register(
     "updatenotification",
     {
-    "Update notifications" : "更新通知",
     "Could not start updater, please try the manual update" : "無法啟動更新程式，請嘗試手動更新",
     "{version} is available. Get more information on how to update." : "{version} 釋出了，可以更新",
+    "Update notifications" : "更新通知",
     "Channel updated" : "頻道已更新",
     "The update server could not be reached since %d days to check for new updates." : "更新伺服器在%d天前已經無法連線檢查更新",
     "Please check the Nextcloud and server log files for errors." : "請確認伺服器log檔以查看錯誤。",

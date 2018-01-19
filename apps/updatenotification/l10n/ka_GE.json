@@ -1,7 +1,7 @@
 { "translations": {
-    "Update notifications" : "განახლების შეტყობინებები",
     "Could not start updater, please try the manual update" : "განმანახმებლის გაშვება ვერ მოხერხდა, გთხოვთ სცადოთ განახლება მექანიკურ რეჯიმში",
     "{version} is available. Get more information on how to update." : "{version} ხელმისაწვდომია. მოიპოვეთ მეტი ინფორმაცია იმაზე, თუ როგორ განაახლოთ.",
+    "Update notifications" : "განახლების შეტყობინებები",
     "Channel updated" : "განახლების შეჩერება",
     "The update server could not be reached since %d days to check for new updates." : "განახლების სერვერი გალახლებების შესამოწმებლად %d დღე მიუწვდომელია.",
     "Please check the Nextcloud and server log files for errors." : "შეცდომებისთვის გთხოვთ შეამოწმოთ Nextcloud-ი სერვერის ლოგები.",

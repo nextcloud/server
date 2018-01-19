@@ -1,9 +1,9 @@
 OC.L10N.register(
     "updatenotification",
     {
-    "Update notifications" : "Actualisar notificationes",
     "Could not start updater, please try the manual update" : "Impossibile initiar le actualisator, per favor tenta le actualisation manual",
     "{version} is available. Get more information on how to update." : "{version} es disponibile. Obtene plus informationes super como actualisar.",
+    "Update notifications" : "Actualisar notificationes",
     "Channel updated" : "Canal actualisate",
     "Update to %1$s is available." : "Un actualisation a %1$s es disponibile.",
     "Update for %1$s to version %2$s is available." : "Un actualisation de %1$s al version %2$s es disponibile.",
