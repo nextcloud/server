@@ -1,9 +1,9 @@
 OC.L10N.register(
     "updatenotification",
     {
-    "Update notifications" : "Atjauninājumu paziņojumi",
     "Could not start updater, please try the manual update" : "Nevar sākt atjauninājumu, lūdzu, mēģiniet manuālo atjauninājumu",
     "{version} is available. Get more information on how to update." : "{version} ir pieejama. Iegūstiet vairāk informācijas par to, kā atjaunināt.",
+    "Update notifications" : "Atjauninājumu paziņojumi",
     "Channel updated" : "Kanāls atjaunots",
     "Update to %1$s is available." : "Atjauninājums uz %1$s ir pieejams.",
     "Update for %1$s to version %2$s is available." : "Atjauninājums %1$s uz versiju %2$s ir pieejams.",

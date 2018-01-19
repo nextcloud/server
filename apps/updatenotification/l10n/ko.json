@@ -1,7 +1,7 @@
 { "translations": {
-    "Update notifications" : "업데이트 알림",
     "Could not start updater, please try the manual update" : "업데이트를 시작할 수 없습니다. 수동 업데이트를 시도하십시오.",
     "{version} is available. Get more information on how to update." : "{version}을(를) 사용할 수 있습니다. 업데이트하는 방법에 대해서 알아보십시오.",
+    "Update notifications" : "업데이트 알림",
     "Channel updated" : "채널 업데이트됨",
     "The update server could not be reached since %d days to check for new updates." : "업데이트 서버에 %d일 동안 접근할 수 없어서 새 업데이트를 확인할 수 없습니다.",
     "Please check the Nextcloud and server log files for errors." : "Nextcloud 및 서버 로그에서 오류 정보를 확인하십시오.",

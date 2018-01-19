@@ -1,9 +1,9 @@
 OC.L10N.register(
     "updatenotification",
     {
-    "Update notifications" : "Ειδοποιήσεις ενημέρωσης",
     "Could not start updater, please try the manual update" : "Δεν μπορεί να εκκινήσει η εφαρμογή ενημέρωσης, παρακαλώ δοκιμάστε την χειροκίνητη ενημέρωση",
     "{version} is available. Get more information on how to update." : "Η έκδοση {version} είναι διαθέσιμη. Δείτε περισσότερες πληροφορίες για το πως να κάνετε την ενημέρωση.",
+    "Update notifications" : "Ειδοποιήσεις ενημέρωσης",
     "Channel updated" : "Ενημερωμένο κανάλι",
     "The update server could not be reached since %d days to check for new updates." : "Ο διακομιστής ενημέρωσης δεν ήταν προσβάσιμος από %dημέρες για να ελέγξει για νέες ενημερώσεις. ",
     "Please check the Nextcloud and server log files for errors." : "Παρακαλούμε ελέγξτε για σφάλματα στα αρχεία ιστορικού του Nextcloud και του διακομιστή σας.",

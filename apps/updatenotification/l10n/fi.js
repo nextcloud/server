@@ -1,9 +1,9 @@
 OC.L10N.register(
     "updatenotification",
     {
-    "Update notifications" : "Päivitysilmoitukset",
     "Could not start updater, please try the manual update" : "Ei voitu aloittaa päivitystä, kokeile päivittämistä manuaalisesti",
     "{version} is available. Get more information on how to update." : "{version} on saatavilla. Tarjolla on lisätietoja päivittämisestä.",
+    "Update notifications" : "Päivitysilmoitukset",
     "Channel updated" : "Päivityskanava päivitetty",
     "The update server could not be reached since %d days to check for new updates." : "Päivityspalvelinta ei ole tavoitettu %d päivään; uusia päivityksiä ei voida tarkistaa.",
     "Please check the Nextcloud and server log files for errors." : "Tarkista Nextcloud- ja palvelinlokitiedostot virheiden osalta.",
