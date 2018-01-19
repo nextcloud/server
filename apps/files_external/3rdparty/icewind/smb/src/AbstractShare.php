@@ -23,4 +23,8 @@ abstract class AbstractShare implements IShare {
 			}
 		}
 	}
+
+	public function setForbiddenChars(array $charList) {
+		$this->forbiddenCharacters = $charList;
+	}
 }

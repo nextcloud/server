@@ -10,7 +10,7 @@ namespace Icewind\SMB;
 use Icewind\SMB\Exception\Exception;
 
 /**
- * Low level wrapper for libsmbclient-php for error handling
+ * Low level wrapper for libsmbclient-php with error handling
  */
 class NativeState {
 	/**
@@ -28,9 +28,11 @@ class NativeState {
 		1   => '\Icewind\SMB\Exception\ForbiddenException',
 		2   => '\Icewind\SMB\Exception\NotFoundException',
 		13  => '\Icewind\SMB\Exception\ForbiddenException',
+		16  => '\Icewind\SMB\Exception\FileInUseException',
 		17  => '\Icewind\SMB\Exception\AlreadyExistsException',
 		20  => '\Icewind\SMB\Exception\InvalidTypeException',
 		21  => '\Icewind\SMB\Exception\InvalidTypeException',
+		22  => '\Icewind\SMB\Exception\InvalidArgumentException',
 		28  => '\Icewind\SMB\Exception\OutOfSpaceException',
 		39  => '\Icewind\SMB\Exception\NotEmptyException',
 		110 => '\Icewind\SMB\Exception\TimedOutException',
@@ -71,6 +73,7 @@ class NativeState {
 			return true;
 		}
 		$this->state = smbclient_state_new();
+		smbclient_option_set($this->state, SMBCLIENT_OPT_AUTO_ANONYMOUS_LOGIN, false);
 		$result = @smbclient_state_init($this->state, $workGroup, $user, $password);
 
 		$this->testResult($result, '');
