@@ -219,7 +219,6 @@ kbd {
 				background-position: 14px center;
 				background-repeat: no-repeat;
 				display: block;
-				justify-content: space-between;
 				line-height: 44px;
 				min-height: 44px;
 				padding: 0 12px;
@@ -246,6 +245,13 @@ kbd {
 					.app-navigation-entry-utils-counter {
 						padding-right: 0 !important;
 					}
+				}
+				img {
+					align-self: center;
+				}
+				span {
+					overflow: hidden;
+					text-overflow: ellipsis;
 				}
 			}
 			/* Bullet icon */
@@ -523,6 +529,16 @@ kbd {
 		list-style-type: none;
 	}
 }
+
+/* patch to fix overflow in the Settings page */
+.app-settings {
+	#app-navigation {
+		a {
+			display: flex;
+		}
+	}
+}
+
 
 /* APP-CONTENT ---------------------------------------------------------------*/
 /* Part where the content will be loaded into */
