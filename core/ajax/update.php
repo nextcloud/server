@@ -120,7 +120,6 @@ if (OC::checkUpgrade(false)) {
 			\OC::$server->query(\OC\Installer::class)
 	);
 	$incompatibleApps = [];
-	$disabledThirdPartyApps = [];
 
 	$dispatcher = \OC::$server->getEventDispatcher();
 	$dispatcher->addListener('\OC\DB\Migrator::executeSql', function($event) use ($eventSource, $l) {
@@ -187,9 +186,6 @@ if (OC::checkUpgrade(false)) {
 	$updater->listen('\OC\Updater', 'incompatibleAppDisabled', function ($app) use (&$incompatibleApps) {
 		$incompatibleApps[]= $app;
 	});
-	$updater->listen('\OC\Updater', 'thirdPartyAppDisabled', function ($app) use (&$disabledThirdPartyApps) {
-		$disabledThirdPartyApps[]= $app;
-	});
 	$updater->listen('\OC\Updater', 'failure', function ($message) use ($eventSource, $config) {
 		$eventSource->send('failure', $message);
 		$eventSource->close();
@@ -217,9 +213,6 @@ if (OC::checkUpgrade(false)) {
 	}
 
 	$disabledApps = [];
-	foreach ($disabledThirdPartyApps as $app) {
-		$disabledApps[$app] = (string) $l->t('%s (3rdparty)', [$app]);
-	}
 	foreach ($incompatibleApps as $app) {
 		$disabledApps[$app] = (string) $l->t('%s (incompatible)', [$app]);
 	}
