@@ -150,17 +150,17 @@
 			};
 
 			var iconMap = {
-				ie: 'icon-client-ie',
-				edge: 'icon-client-edge',
-				firefox: 'icon-client-firefox',
-				chrome: 'icon-client-chrome',
-				safari: 'icon-client-safari',
-				androidChrome: 'icon-client-chrome',
-				iphone: 'icon-client-iphone',
-				ipad: 'icon-client-ipad',
-				iosClient: 'icon-client-apple',
-				androidClient: 'icon-client-android',
-				davDroid: 'icon-client-android',
+				ie: 'icon-desktop',
+				edge: 'icon-desktop',
+				firefox: 'icon-desktop',
+				chrome: 'icon-desktop',
+				safari: 'icon-desktop',
+				androidChrome: 'icon-phone',
+				iphone: 'icon-phone',
+				ipad: 'icon-tablet',
+				iosClient: 'icon-phone',
+				androidClient: 'icon-phone',
+				davDroid: 'icon-phone',
 				webPirate: 'icon-link',
 				sailfishBrowser: 'icon-link'
 			};
