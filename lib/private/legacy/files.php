@@ -144,10 +144,20 @@ class OC_Files {
 				}
 			}
 
-			$streamer = new Streamer();
-			OC_Util::obEnd();
-
 			self::lockFiles($view, $dir, $files);
+
+			/* Calculate filesize */
+			if ($getType === self::ZIP_FILES) {
+				$fileSize = 0;
+				foreach ($files as $file) {
+					$fileSize += \OC\Files\Filesystem::getFileInfo($dir . '/' . $file)->getSize();
+				}
+			} elseif ($getType === self::ZIP_DIR) {
+				$fileSize = \OC\Files\Filesystem::getFileInfo($dir . '/' . $files)->getSize();
+			}
+
+			$streamer = new Streamer(\OC::$server->getRequest(), $fileSize);
+			OC_Util::obEnd();
 
 			$streamer->sendHeaders($name);
 			$executionTime = (int)OC::$server->getIniWrapper()->getNumeric('max_execution_time');
@@ -155,6 +165,7 @@ class OC_Files {
 				@set_time_limit(0);
 			}
 			ignore_user_abort(true);
+
 			if ($getType === self::ZIP_FILES) {
 				foreach ($files as $file) {
 					$file = $dir . '/' . $file;

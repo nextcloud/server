@@ -24,6 +24,7 @@
 
 namespace OC;
 
+use OCP\IRequest;
 use ownCloud\TarStreamer\TarStreamer;
 use ZipStreamer\ZipStreamer;
 
@@ -33,12 +34,22 @@ class Streamer {
 
 	// streamer instance
 	private $streamerInstance;
-	
-	public function __construct(){
-		/** @var \OCP\IRequest */
-		$request = \OC::$server->getRequest();
-		
-		if ($request->isUserAgent($this->preferTarFor)) {
+
+	/**
+	 * Streamer constructor.
+	 *
+	 * @param IRequest $request
+	 * @param int $size The size of the files in bytes
+	 */
+	public function __construct(IRequest $request, int $size){
+
+		/**
+		 * If the size if below 4GB always use zip32
+		 * Use 4*1000*1000*1000 so we have a buffer for all the extra zip data
+		 */
+		if ($size < 4 * 1000 * 1000 * 1000) {
+			$this->streamerInstance = new ZipStreamer(['zip64' => false]);
+		} else if ($request->isUserAgent($this->preferTarFor)) {
 			$this->streamerInstance = new TarStreamer();
 		} else {
 			$this->streamerInstance = new ZipStreamer(['zip64' => PHP_INT_SIZE !== 4]);
