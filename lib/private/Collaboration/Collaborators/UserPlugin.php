@@ -69,9 +69,9 @@ class UserPlugin implements ISearchPlugin {
 			// Search in all the groups this user is part of
 			$userGroups = $this->groupManager->getUserGroupIds($this->userSession->getUser());
 			foreach ($userGroups as $userGroup) {
-				$usersTmp = $this->groupManager->displayNamesInGroup($userGroup, $search, $limit, $offset);
-				foreach ($usersTmp as $uid => $userDisplayName) {
-					$users[$uid] = $userDisplayName;
+				$usersTmp = $this->groupManager->usersInGroup($userGroup, $search, $limit, $offset);
+				foreach ($usersTmp as $uid => $user) {
+					$users[$uid] = $user;
 				}
 			}
 		} else {
@@ -79,7 +79,7 @@ class UserPlugin implements ISearchPlugin {
 			$usersTmp = $this->userManager->searchDisplayName($search, $limit, $offset);
 
 			foreach ($usersTmp as $user) {
-				$users[$user->getUID()] = $user->getDisplayName();
+				$users[$user->getUID()] = $user;
 			}
 		}
 
@@ -91,26 +91,34 @@ class UserPlugin implements ISearchPlugin {
 
 		$foundUserById = false;
 		$lowerSearch = strtolower($search);
-		foreach ($users as $uid => $userDisplayName) {
-			if (strtolower($uid) === $lowerSearch || strtolower($userDisplayName) === $lowerSearch) {
+		foreach ($users as $uid => $user) {
+			if (strtolower($uid) === $lowerSearch || strtolower($user->getDisplayName()) === $lowerSearch) {
 				if (strtolower($uid) === $lowerSearch) {
 					$foundUserById = true;
 				}
-				$result['exact'][] = [
-					'label' => $userDisplayName,
+				$userData = [
+					'label' => $user->getDisplayName(),
 					'value' => [
 						'shareType' => Share::SHARE_TYPE_USER,
 						'shareWith' => $uid,
 					],
 				];
+				if ($user->getEMailAddress()) {
+					$userData['value']['hasEmailAddress'] = true;
+				}
+				$result['exact'][] = $userData;
 			} else {
-				$result['wide'][] = [
-					'label' => $userDisplayName,
+				$userData = [
+					'label' => $user->getDisplayName(),
 					'value' => [
 						'shareType' => Share::SHARE_TYPE_USER,
 						'shareWith' => $uid,
 					],
 				];
+				if ($user->getEMailAddress()) {
+					$userData['value']['hasEmailAddress'] = true;
+				}
+				$result['wide'][] = $userData;
 			}
 		}
 
@@ -128,13 +136,17 @@ class UserPlugin implements ISearchPlugin {
 				}
 
 				if ($addUser) {
-					array_push($result['exact'], [
+					$userData = [
 						'label' => $user->getDisplayName(),
 						'value' => [
 							'shareType' => Share::SHARE_TYPE_USER,
 							'shareWith' => $user->getUID(),
 						],
-					]);
+					];
+					if ($user->getEMailAddress()) {
+						$userData['value']['hasEmailAddress'] = true;
+					}
+					$result['exact'][] = $userData;
 				}
 			}
 		}

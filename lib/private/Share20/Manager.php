@@ -701,6 +701,43 @@ class Manager implements IManager {
 	}
 
 	/**
+	 * Sends again the e-mail notification for a share
+	 *
+	 * @param \OCP\Share\IShare $share
+	 * @return \OCP\Share\IShare the share object
+	 * @throws \InvalidArgumentException if share type does not support mail
+	 *         notifications or the sharee has no known e-mail address
+	 * @throws \Exception if mail could not be sent
+	 */
+	public function resendMailNotification(\OCP\Share\IShare $share) {
+		$this->canShare($share);
+
+		if ($share->getShareType() !== \OCP\Share::SHARE_TYPE_USER) {
+			throw new \InvalidArgumentException("Share mail notification can be sent only for user shares");
+		}
+
+		$user = $this->userManager->get($share->getSharedWith());
+		$emailAddress = $user->getEMailAddress();
+
+		if ($emailAddress === null || $emailAddress === '') {
+			throw new \InvalidArgumentException("Share mail notification can not be sent to a user without a mail");
+		}
+
+		$userLang = $this->config->getUserValue($share->getSharedWith(), 'core', 'lang', null);
+		$l = $this->l10nFactory->get('lib', $userLang);
+
+		$this->sendMailNotification(
+			$l,
+			$share->getNode()->getName(),
+			$this->urlGenerator->linkToRouteAbsolute('files.viewcontroller.showFile', [ 'fileid' => $share->getNode()->getId() ]),
+			$share->getSharedBy(),
+			$emailAddress
+		);
+
+		return $share;
+	}
+
+	/**
 	 * @param IL10N $l Language of the recipient
 	 * @param string $filename file/folder name
 	 * @param string $link link to the file/folder

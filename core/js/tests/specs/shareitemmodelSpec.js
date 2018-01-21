@@ -924,6 +924,51 @@ describe('OC.Share.ShareItemModel', function() {
 			expect(errorStub.lastCall.args[1]).toEqual('Some error message');
 		});
 	});
+	describe('resending share notification', function() {
+		it('sends POST method to endpoint with passed values', function() {
+			model.resendMailNotification(42);
+
+			expect(fakeServer.requests.length).toEqual(1);
+			expect(fakeServer.requests[0].method).toEqual('POST');
+			expect(fakeServer.requests[0].url).toEqual(
+				OC.linkToOCS('apps/files_sharing/api/v1', 2) +
+				'shares/42/resendMailNotification?format=json'
+			);
+			expect(fakeServer.requests[0].requestBody).toBeNull();
+		});
+		it('calls success callback on success', function() {
+			fakeServer.respondImmediately = true;
+
+			fakeServer.respondWith([
+				200,
+				{},
+				''
+			]);
+
+			var successCallback = sinon.spy();
+			var errorCallback = sinon.spy();
+			model.resendMailNotification(42, {success: successCallback, error: errorCallback});
+
+			expect(successCallback.calledOnce).toBeTruthy();
+			expect(errorCallback.called).toBeFalsy();
+		});
+		it('calls error callback on fail', function() {
+			fakeServer.respondImmediately = true;
+
+			fakeServer.respondWith([
+				404,
+				{},
+				''
+			]);
+
+			var successCallback = sinon.spy();
+			var errorCallback = sinon.spy();
+			model.resendMailNotification(42, {success: successCallback, error: errorCallback});
+
+			expect(errorCallback.calledOnce).toBeTruthy();
+			expect(successCallback.called).toBeFalsy();
+		});
+	});
 
 	describe('getShareTypes', function() {
 

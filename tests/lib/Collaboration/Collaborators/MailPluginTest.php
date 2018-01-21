@@ -337,9 +337,24 @@ class MailPluginTest extends TestCase {
 					]
 				],
 				false,
-				['users' => [], 'exact' => ['users' => [['label' => 'User (test@example.com)','value' => ['shareType' => 0, 'shareWith' => 'test'],]]]],
+				['users' => [], 'exact' => ['users' => [['label' => 'User (test@example.com)','value' => ['shareType' => 0, 'shareWith' => 'test', 'hasEmailAddress' => true],]]]],
 				true,
 				false,
+			],
+			[
+				'test@ex',
+				[
+					[
+						'FN' => 'User',
+						'EMAIL' => ['test@example.com'],
+						'CLOUD' => ['test@localhost'],
+						'isLocalSystemBook' => true,
+					]
+				],
+				true,
+				['users' => [['label' => 'User (test@example.com)','value' => ['shareType' => 0, 'shareWith' => 'test', 'hasEmailAddress' => true],]], 'emails' => [], 'exact' => ['users' => [], 'emails' => []]],
+				false,
+				true,
 			]
 		];
 	}

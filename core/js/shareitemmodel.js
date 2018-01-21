@@ -263,6 +263,38 @@
 		},
 
 		/**
+		 * Sends again the e-mail notification for a share
+		 *
+		 * @param {int} shareId the share ID
+		 * @param {object} options an object with optional callbacks for success
+		 *        and error
+		 * @return {jqXHR}
+		 */
+		resendMailNotification: function(shareId, options) {
+			return $.ajax({
+				type: 'POST',
+				url: this._getUrl('shares/' + encodeURIComponent(shareId) + "/resendMailNotification"),
+				dataType: 'json'
+			}).done(function() {
+				if (_.isFunction(options.success)) {
+					options.success(t('core', 'E-mail notification sent again'));
+				}
+			}).fail(function(xhr) {
+				var msg = t('core', 'Error');
+				var result = xhr.responseJSON;
+				if (result && result.ocs && result.ocs.meta) {
+					msg = result.ocs.meta.message;
+				}
+
+				if (_.isFunction(options.error)) {
+					options.error(self, msg);
+				} else {
+					OC.dialogs.alert(msg, t('core', 'Error when sending again the e-mail notification'));
+				}
+			});
+		},
+
+		/**
 		 * @returns {boolean}
 		 */
 		isPublicUploadAllowed: function() {
