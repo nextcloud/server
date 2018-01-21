@@ -59,6 +59,7 @@
     "Encryption" : "Encripción",
     "Additional settings" : "Configuraciones adicionales",
     "Tips & tricks" : "Consejos y trucos",
+    "__language_name__" : "Español (Argentina)",
     "%s enter the database username and name." : "%s ingrese el nombre del usuario y nombre de la base de datos",
     "%s enter the database username." : "%s ingresar el nombre de usuario de la base de datos.",
     "%s enter the database name." : "%s ingresar el nombre de la base de datos",
