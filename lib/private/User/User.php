@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Arne Hamann <kontakt+github@arne.email>
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Björn Schießle <bjoern@schiessle.org>
@@ -74,14 +75,18 @@ class User implements IUser {
 	/** @var IURLGenerator */
 	private $urlGenerator;
 
+	/** @var IGpg */
+	private $gpg;
+
 	/**
 	 * @param string $uid
 	 * @param UserInterface $backend
 	 * @param \OC\Hooks\Emitter $emitter
 	 * @param IConfig|null $config
 	 * @param IURLGenerator $urlGenerator
+	 * @param IGpg|null $gpg
 	 */
-	public function __construct($uid, $backend, $emitter = null, IConfig $config = null, $urlGenerator = null) {
+	public function __construct($uid, $backend, $emitter = null, IConfig $config = null, $urlGenerator = null, $gpg = null) {
 		$this->uid = $uid;
 		$this->backend = $backend;
 		$this->emitter = $emitter;
@@ -96,6 +101,12 @@ class User implements IUser {
 		if (is_null($this->urlGenerator)) {
 			$this->urlGenerator = \OC::$server->getURLGenerator();
 		}
+		//If it is a havy function it could be moved to the places where Gpg is needed
+		if (is_null($gpg)) {
+			$gpg = \OC::$server->getGpg();
+		}
+		$this->gpg = $gpg;
+
 	}
 
 	/**
@@ -181,10 +192,10 @@ class User implements IUser {
 		if($fingerprint === '') {
 			$this->config->deleteUserValue($this->uid, 'settings', 'pubkey');
 		} else {
-			$gpg = \OC::$server->getGpg();
+			$gpg = $this->gpg;
 			$keys = $gpg->keyinfo($fingerprint);
 			if(!sizeof($keys)> 0) {
-				$key = $gpg->setUser($this->uid)->export($fingerprint);
+				$key = $gpg->export($fingerprint,$this->uid);
 				$this->addDefaultPublicKey($key);
 			} else {
 				$this->config->setUserValue($this->uid, 'settings', 'pubkey', $fingerprint);
@@ -198,7 +209,7 @@ class User implements IUser {
 	 * @throws \OCP\PreConditionNotMetException
 	 */
 	public function addPublicKey($key){
-		$gpg = \OC::$server->getGpg();
+		$gpg = $this->gpg;
 		$fingerprint = $gpg->import($key)['fingerprint'];
 		if ($fingerprint !== NULL) {
 			$fingerprints = json_decode($this->config->getUserValue($this->uid, 'settings', 'pubkeys'));
@@ -213,9 +224,7 @@ class User implements IUser {
 			}
 			$fingerprints = json_encode($fingerprints);
 			$this->config->setUserValue($this->uid, 'settings', 'pubkeys', $fingerprints);
-		} /*else {
-			FIXME: Throw import error
-		}*/
+		}
 		return $fingerprint;
 	}
 
@@ -439,7 +448,7 @@ class User implements IUser {
 		if ($fingerprint) {
 			return $keys;
 		} else {
-			$gpg = \OC::$server->getGpg();
+			$gpg = $this->gpg;
 			$export = array();
 			foreach ($keys as $key) {
 				$export[] = $gpg->export($key);
@@ -458,7 +467,7 @@ class User implements IUser {
 		if ($fingerprint) {
 			return $this->config->getUserValue($this->uid, 'settings', 'pubkey', null);
 		} else {
-			$gpg = \OC::$server->getGpg();
+			$gpg = $this->gpg;
 			return $gpg->export($this->config->getUserValue($this->uid, 'settings', 'pubkey', null));
 		}
 	}
