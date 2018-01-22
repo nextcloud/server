@@ -89,9 +89,12 @@ class Response {
 	 * Disable browser caching
 	 * @see enableCaching with cache_time = 0
 	 * @since 4.0.0
+	 * @deprecated 14.0.0 just set the headers
 	 */
 	static public function disableCaching() {
-		\OC_Response::disableCaching();
+		header('Pragma: public');// enable caching in IE
+		header('Expires: 0');
+		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 	}
 
 	/**
