@@ -299,6 +299,38 @@ class UsersController extends OCSController {
 	/**
 	 * @NoAdminRequired
 	 * @NoSubAdminRequired
+	 */
+	public function getEditableField() {
+		$permittedFields = [];
+
+		// Editing self (display, email)
+		if ($this->config->getSystemValue('allow_user_to_change_display_name', true) !== false) {
+			$permittedFields[] = AccountManager::PROPERTY_DISPLAYNAME;
+			$permittedFields[] = AccountManager::PROPERTY_EMAIL;
+		}
+
+		$permittedFields[] = 'password';
+		if ($this->config->getSystemValue('force_language', false) === false) {
+			$permittedFields[] = 'language';
+		}
+
+		if ($this->appManager->isEnabledForUser('federatedfilesharing')) {
+			$federatedFileSharing = new \OCA\FederatedFileSharing\AppInfo\Application();
+			$shareProvider = $federatedFileSharing->getFederatedShareProvider();
+			if ($shareProvider->isLookupServerUploadEnabled()) {
+				$permittedFields[] = AccountManager::PROPERTY_PHONE;
+				$permittedFields[] = AccountManager::PROPERTY_ADDRESS;
+				$permittedFields[] = AccountManager::PROPERTY_WEBSITE;
+				$permittedFields[] = AccountManager::PROPERTY_TWITTER;
+			}
+		}
+
+		return new DataResponse($permittedFields);
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoSubAdminRequired
 	 * @PasswordConfirmationRequired
 	 *
 	 * edit users
