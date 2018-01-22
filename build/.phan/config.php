@@ -165,6 +165,7 @@ return [
 	// to this black-list to inhibit them from being reported.
 	'suppress_issue_types' => [
 		// 'PhanUndeclaredMethod',
+		'PhanUndeclaredClassConstant',
 	],
 
 	// If empty, no filter against issues types will be applied.
