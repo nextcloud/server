@@ -39,14 +39,9 @@
 }
 
 
-#imgframe img,
-#imgframe video {
+#imgframe img {
 	max-height: 100% !important;
 	max-width: 100% !important;
-}
-#imgframe video {
-	width: 854px;
-	height: 480px;
 }
 
 #imgframe .text-preview {
