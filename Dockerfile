@@ -15,4 +15,4 @@ RUN apt-get install -y \
        simplexml \
        zip
 
-RUN ln -s /nextcloud /var/www/html/nextcloud
+WORKDIR /var/www/html

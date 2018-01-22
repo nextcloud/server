@@ -4,7 +4,7 @@ services:
     build:
       context: .
     volumes:
-      - .:/nextcloud
+      - .:/var/www/html
     ports:
       - "8000:80"
     container_name: 'nextcloud-server'
