@@ -39,6 +39,7 @@ use OC\Installer;
 use OC\Updater;
 use OCP\IConfig;
 use OCP\ILogger;
+use OCP\Util;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
@@ -87,7 +88,7 @@ class Upgrade extends Command {
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output) {
 
-		if(\OC::checkUpgrade(false)) {
+		if(Util::needUpgrade()) {
 			if (OutputInterface::VERBOSITY_NORMAL < $output->getVerbosity()) {
 				// Prepend each line with a little timestamp
 				$timestampFormatter = new TimestampFormatter($this->config, $output->getFormatter());

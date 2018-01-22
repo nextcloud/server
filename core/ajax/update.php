@@ -98,7 +98,7 @@ class FeedBackHandler {
 	}
 }
 
-if (OC::checkUpgrade(false)) {
+if (\OCP\Util::needUpgrade()) {
 
 	$config = \OC::$server->getSystemConfig();
 	if ($config->getValue('upgrade.disable-web', false)) {
