@@ -110,6 +110,11 @@ class Generator {
 
 		// Get the max preview and infer the max preview sizes from that
 		$maxPreview = $this->getMaxPreview($previewFolder, $file, $mimeType);
+		if ($maxPreview->getSize() === 0) {
+			$maxPreview->delete();
+			throw new NotFoundException('Max preview size 0, invalid!');
+		}
+
 		list($maxWidth, $maxHeight) = $this->getPreviewSize($maxPreview);
 
 		// If both width and heigth are -1 we just want the max preview
@@ -129,15 +134,20 @@ class Generator {
 		// Try to get a cached preview. Else generate (and store) one
 		try {
 			try {
-				$file = $this->getCachedPreview($previewFolder, $width, $height, $crop, $maxPreview->getMimeType());
+				$preview = $this->getCachedPreview($previewFolder, $width, $height, $crop, $maxPreview->getMimeType());
 			} catch (NotFoundException $e) {
-				$file = $this->generatePreview($previewFolder, $maxPreview, $width, $height, $crop, $maxWidth, $maxHeight);
+				$preview = $this->generatePreview($previewFolder, $maxPreview, $width, $height, $crop, $maxWidth, $maxHeight);
 			}
 		} catch (\InvalidArgumentException $e) {
 			throw new NotFoundException();
 		}
 
-		return $file;
+		if ($preview->getSize() === 0) {
+			$preview->delete();
+			throw new NotFoundException('Cached preview size 0, invalid!');
+		}
+
+		return $preview;
 	}
 
 	/**
