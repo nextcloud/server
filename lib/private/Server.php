@@ -92,7 +92,6 @@ use OC\Notification\Manager;
 use OC\OCS\DiscoveryService;
 use OC\Remote\Api\ApiFactory;
 use OC\Remote\InstanceFactory;
-use OC\Repair\NC11\CleanPreviewsBackgroundJob;
 use OC\RichObjectStrings\Validator;
 use OC\Security\Bruteforce\Throttler;
 use OC\Security\CertificateManager;

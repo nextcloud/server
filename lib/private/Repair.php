@@ -35,12 +35,7 @@ use OC\Files\AppData\Factory;
 use OC\Repair\CleanTags;
 use OC\Repair\Collation;
 use OC\Repair\MoveUpdaterStepFile;
-use OC\Repair\NC11\CleanPreviews;
 use OC\Repair\NC11\FixMountStorages;
-use OC\Repair\NC11\MoveAvatars;
-use OC\Repair\NC12\InstallCoreBundle;
-use OC\Repair\NC12\UpdateLanguageCodes;
-use OC\Repair\NC12\RepairIdentityProofKeyFolders;
 use OC\Repair\NC13\AddLogRotateJob;
 use OC\Repair\OldGroupMembershipShares;
 use OC\Repair\Owncloud\DropAccountTermsTable;
@@ -133,24 +128,8 @@ class Repair implements IOutput{
 			new RepairInvalidShares(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection()),
 			new RemoveRootShares(\OC::$server->getDatabaseConnection(), \OC::$server->getUserManager(), \OC::$server->getLazyRootFolder()),
 			new MoveUpdaterStepFile(\OC::$server->getConfig()),
-			new MoveAvatars(
-				\OC::$server->getJobList(),
-				\OC::$server->getConfig()
-			),
-			new CleanPreviews(
-				\OC::$server->getJobList(),
-				\OC::$server->getUserManager(),
-				\OC::$server->getConfig()
-			),
 			new FixMountStorages(\OC::$server->getDatabaseConnection()),
-			new UpdateLanguageCodes(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig()),
-			new InstallCoreBundle(
-				\OC::$server->query(BundleFetcher::class),
-				\OC::$server->getConfig(),
-				\OC::$server->query(Installer::class)
-			),
 			new RepairInvalidPaths(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig()),
-			new RepairIdentityProofKeyFolders(\OC::$server->getConfig(), \OC::$server->query(Factory::class), \OC::$server->getRootFolder()),
 			new AddLogRotateJob(\OC::$server->getJobList()),
 		];
 	}
