@@ -779,8 +779,16 @@ class OC {
 				$isScssRequest = true;
 			}
 
+			if(substr($request->getRequestUri(), -11) === '/status.php') {
+				OC_Response::setStatus(\OC_Response::STATUS_BAD_REQUEST);
+				header('Status: 400 Bad Request');
+				header('Content-Type: application/json');
+				echo '{"error": "Trusted domain error.", "code": 15}';
+				exit();
+			}
+
 			if (!$isScssRequest) {
-				header('HTTP/1.1 400 Bad Request');
+				OC_Response::setStatus(\OC_Response::STATUS_BAD_REQUEST);
 				header('Status: 400 Bad Request');
 
 				\OC::$server->getLogger()->warning(
