@@ -784,81 +784,6 @@ class Share extends Constants {
 	}
 
 	/**
-	 * Retrieve the owner of a connection
-	 *
-	 * @param IDBConnection $connection
-	 * @param int $shareId
-	 * @throws \Exception
-	 * @return string uid of share owner
-	 */
-	private static function getShareOwner(IDBConnection $connection, $shareId) {
-		$qb = $connection->getQueryBuilder();
-
-		$qb->select('uid_owner')
-			->from('share')
-			->where($qb->expr()->eq('id', $qb->createParameter('shareId')))
-			->setParameter(':shareId', $shareId);
-		$dbResult = $qb->execute();
-		$result = $dbResult->fetch();
-		$dbResult->closeCursor();
-
-		if (empty($result)) {
-			throw new \Exception('Share not found');
-		}
-
-		return $result['uid_owner'];
-	}
-
-	/**
-	 * Set password for a public link share
-	 *
-	 * @param IUserSession $userSession
-	 * @param IDBConnection $connection
-	 * @param IConfig $config
-	 * @param int $shareId
-	 * @param string $password
-	 * @throws \Exception
-	 * @return boolean
-	 */
-	public static function setPassword(IUserSession $userSession,
-	                                   IDBConnection $connection,
-	                                   IConfig $config,
-	                                   $shareId, $password) {
-		$user = $userSession->getUser();
-		if (is_null($user)) {
-			throw new \Exception("User not logged in");
-		}
-
-		$uid = self::getShareOwner($connection, $shareId);
-
-		if ($uid !== $user->getUID()) {
-			throw new \Exception('Cannot update share of a different user');
-		}
-
-		if ($password === '') {
-			$password = null;
-		}
-
-		//If passwords are enforced the password can't be null
-		if (self::enforcePassword($config) && is_null($password)) {
-			throw new \Exception('Cannot remove password');
-		}
-
-		self::verifyPassword($password);
-
-		$qb = $connection->getQueryBuilder();
-		$qb->update('share')
-			->set('share_with', $qb->createParameter('pass'))
-			->where($qb->expr()->eq('id', $qb->createParameter('shareId')))
-			->setParameter(':pass', is_null($password) ? null : \OC::$server->getHasher()->hash($password))
-			->setParameter(':shareId', $shareId);
-
-		$qb->execute();
-
-		return true;
-	}
-
-	/**
 	 * Checks whether a share has expired, calls unshareItem() if yes.
 	 * @param array $item Share data (usually database row)
 	 * @return boolean True if item was expired, false otherwise.
@@ -2157,14 +2082,6 @@ class Share extends Constants {
 	}
 
 	/**
-	 * @return bool
-	 */
-	public static function enforceDefaultExpireDate() {
-		$enforceDefaultExpireDate = \OC::$server->getConfig()->getAppValue('core', 'shareapi_enforce_expire_date', 'no');
-		return ($enforceDefaultExpireDate === "yes") ? true : false;
-	}
-
-	/**
 	 * @return int
 	 */
 	public static function getExpireInterval() {
@@ -2203,30 +2120,6 @@ class Share extends Constants {
 	public static function enforcePassword(IConfig $config) {
 		$enforcePassword = $config->getAppValue('core', 'shareapi_enforce_links_password', 'no');
 		return ($enforcePassword === "yes") ? true : false;
-	}
-
-	/**
-	 * Get all share entries, including non-unique group items
-	 *
-	 * @param string $owner
-	 * @return array
-	 */
-	public static function getAllSharesForOwner($owner) {
-		$query = 'SELECT * FROM `*PREFIX*share` WHERE `uid_owner` = ?';
-		$result = \OC::$server->getDatabaseConnection()->executeQuery($query, [$owner]);
-		return $result->fetchAll();
-	}
-
-	/**
-	 * Get all share entries, including non-unique group items for a file
-	 *
-	 * @param int $id
-	 * @return array
-	 */
-	public static function getAllSharesForFileId($id) {
-		$query = 'SELECT * FROM `*PREFIX*share` WHERE `file_source` = ?';
-		$result = \OC::$server->getDatabaseConnection()->executeQuery($query, [$id]);
-		return $result->fetchAll();
 	}
 
 	/**
