@@ -441,8 +441,11 @@ class Encryption extends Wrapper {
 					}
 				}
 			} catch (ModuleDoesNotExistsException $e) {
-				$this->logger->warning('Encryption module "' . $encryptionModuleId .
-					'" not found, file will be stored unencrypted (' . $e->getMessage() . ')');
+				$this->logger->logException($e, [
+					'message' => 'Encryption module "' . $encryptionModuleId . '" not found, file will be stored unencrypted',
+					'level' => \OCP\Util::WARN,
+					'app' => 'core',
+				]);
 			}
 
 			// encryption disabled on write of new file and write to existing unencrypted file -> don't encrypt

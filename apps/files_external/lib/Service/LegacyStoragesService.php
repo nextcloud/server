@@ -192,11 +192,11 @@ abstract class LegacyStoragesService {
 						}
 					} catch (\UnexpectedValueException $e) {
 						// don't die if a storage backend doesn't exist
-						\OCP\Util::writeLog(
-							'files_external',
-							'Could not load storage: "' . $e->getMessage() . '"',
-							\OCP\Util::ERROR
-						);
+						\OC::$server->getLogger()->logException($e, [
+							'message' => 'Could not load storage.',
+							'level' => \OCP\Util::ERROR,
+							'app' => 'files_external',
+						]);
 					}
 				}
 			}

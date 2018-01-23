@@ -50,6 +50,9 @@ try {
 
 	OC_JSON::success(['data' => ['update_required' => $updateRequired]]);
 } catch (Exception $e) {
-	\OCP\Util::writeLog('core', $e->getMessage(), \OCP\Util::ERROR);
+	\OC::$server->getLogger()->logException($e, [
+		'level' => \OCP\Util::DEBUG,
+		'app' => 'core',
+	]);
 	OC_JSON::error(array("data" => array("message" => $e->getMessage()) ));
 }

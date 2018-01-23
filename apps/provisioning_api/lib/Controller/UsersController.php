@@ -197,7 +197,11 @@ class UsersController extends OCSController {
 			}
 			return new DataResponse();
 		} catch (\Exception $e) {
-			$this->logger->error('Failed addUser attempt with exception: '.$e->getMessage(), ['app' => 'ocs_api']);
+			$this->logger->logException($e, [
+				'message' => 'Failed addUser attempt with exception.',
+				'level' => \OCP\Util::ERROR,
+				'app' => 'ocs_api',
+			]);
 			throw new OCSException('Bad request', 101);
 		}
 	}
@@ -826,7 +830,11 @@ class UsersController extends OCSController {
 			$emailTemplate = $this->newUserMailHelper->generateTemplate($targetUser, false);
 			$this->newUserMailHelper->sendMail($targetUser, $emailTemplate);
 		} catch(\Exception $e) {
-			$this->logger->error("Can't send new user mail to $email: " . $e->getMessage(), array('app' => 'settings'));
+			$this->logger->logException($e, [
+				'message' => "Can't send new user mail to $email",
+				'level' => \OCP\Util::ERROR,
+				'app' => 'settings',
+			]);
 			throw new OCSException('Sending email failed', 102);
 		}
 

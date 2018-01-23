@@ -109,7 +109,11 @@ trait S3ConnectionTrait {
 				));
 				$this->testTimeout();
 			} catch (S3Exception $e) {
-				\OCP\Util::logException('files_external', $e);
+				\OC::$server->getLogger()->logException($e, [
+					'message' => 'Invalid remote storage.',
+					'level' => \OCP\Util::DEBUG,
+					'app' => 'files_external',
+				]);
 				throw new \Exception('Creation of bucket failed. ' . $e->getMessage());
 			}
 		}

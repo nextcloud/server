@@ -264,7 +264,11 @@ class FederatedShareProvider implements IShareProvider {
 				$failure = true;
 			}
 		} catch (\Exception $e) {
-			$this->logger->error('Failed to notify remote server of federated share, removing share (' . $e->getMessage() . ')');
+			$this->logger->logException($e, [
+				'message' => 'Failed to notify remote server of federated share, removing share.',
+				'level' => \OCP\Util::ERROR,
+				'app' => 'federatedfilesharing',
+			]);
 			$failure = true;
 		}
 

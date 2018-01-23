@@ -830,8 +830,7 @@ class DAV extends Common {
 	 * which might be temporary
 	 */
 	protected function convertException(Exception $e, $path = '') {
-		\OC::$server->getLogger()->logException($e);
-		Util::writeLog('files_external', $e->getMessage(), Util::ERROR);
+		\OC::$server->getLogger()->logException($e, ['app' => 'files_external']);
 		if ($e instanceof ClientHttpException) {
 			if ($e->getHttpStatus() === Http::STATUS_LOCKED) {
 				throw new \OCP\Lock\LockedException($path);

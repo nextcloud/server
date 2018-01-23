@@ -252,7 +252,10 @@ class SecurityMiddleware extends Middleware {
 				}
 			}
 
-			$this->logger->debug($exception->getMessage());
+			$this->logger->logException($exception, [
+				'level' => \OCP\Util::DEBUG,
+				'app' => 'core',
+			]);
 			return $response;
 		}
 

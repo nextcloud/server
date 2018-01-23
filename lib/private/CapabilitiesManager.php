@@ -55,7 +55,11 @@ class CapabilitiesManager {
 			try {
 				$c = $capability();
 			} catch (QueryException $e) {
-				$this->logger->error('CapabilitiesManager: {message}', ['app' => 'core', 'message' => $e->getMessage()]);
+				$this->logger->logException($e, [
+					'message' => 'CapabilitiesManager',
+					'level' => \OCP\Util::ERROR,
+					'app' => 'core',
+				]);
 				continue;
 			}
 

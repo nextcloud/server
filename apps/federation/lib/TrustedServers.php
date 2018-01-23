@@ -241,7 +241,11 @@ class TrustedServers {
 
 			}
 		} catch (\Exception $e) {
-			$this->logger->debug('No Nextcloud server: ' . $e->getMessage());
+			\OC::$server->getLogger()->logException($e, [
+				'message' => 'No Nextcloud server.',
+				'level' => \OCP\Util::DEBUG,
+				'app' => 'federation',
+			]);
 			return false;
 		}
 
