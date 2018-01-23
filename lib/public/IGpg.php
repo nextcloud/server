@@ -27,6 +27,7 @@ namespace OCP;
  * Interface IGpg
  *
  * @package OCP
+ * @since 14.0.0
  */
 interface IGpg {
 	/**

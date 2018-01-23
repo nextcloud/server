@@ -60,7 +60,7 @@ class Gpg implements IGpg{
 	 * @param Defaults $defaults
 	 * @param IURLGenerator $urlGenerator
 	 * @param IL10N $l10n
-	 * @param IUserManager $userManager;
+	 * @param IUserManager $userManager
 	 */
 	public function __construct(IConfig $config,
 								ILogger $logger,
@@ -267,7 +267,7 @@ class Gpg implements IGpg{
 		$keys = $gpg->keyinfo($email);
 		if(sizeof($keys)> 0) {
 			foreach($keys as $key){
-				if (!$key['disabled'] and !$key['expired'] and !$key['revoked']) {
+				if (!$key['disabled'] && !$key['expired'] && !$key['revoked']) {
 					return $key['subkeys'][0]['fingerprint'];
 				}
 			}
@@ -288,7 +288,7 @@ class Gpg implements IGpg{
 		$keys = $gpg->keyinfo($email);
 		if(sizeof($keys)> 0) {
 			foreach($keys as $key){
-				if (!$key['disabled'] and !$key['expired'] and !$key['revoked'] and $key['is_secret']) {
+				if (!$key['disabled'] && !$key['expired'] && !$key['revoked'] && $key['is_secret']) {
 					return $key['subkeys'][0]['fingerprint'];
 				}
 			}
@@ -365,7 +365,7 @@ EFF
 		$keys = $gpg->keyinfo($email);
 		$fingerprint = "";
 		foreach ($keys as $key) {
-			if ($key["subkeys"][0]["timestamp"] >= $timestamp_before AND $key["subkeys"][0]["timestamp"] <= $timestamp_after) {
+			if ($key["subkeys"][0]["timestamp"] >= $timestamp_before && $key["subkeys"][0]["timestamp"] <= $timestamp_after) {
 				if ($debugMode){
 					$this->logger->debug("Found new server key:" .$key["subkeys"][0]["fingerprint"], ['app' => 'core']);
 				}
