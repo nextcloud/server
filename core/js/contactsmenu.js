@@ -47,7 +47,7 @@
 	var ERROR_TEMPLATE = ''
 			+ '<div class="emptycontent">'
 			+ '    <div class="icon-search"></div>'
-			+ '    <h2>' + t('core', 'There was an error loading your contacts') + '</h2>'
+			+ '    <h2>' + t('core', 'Could not load your contacts') + '</h2>'
 			+ '</div>';
 	var CONTACT_TEMPLATE = ''
 			+ '{{#if contact.avatar}}'
