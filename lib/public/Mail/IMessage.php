@@ -44,7 +44,7 @@ interface IMessage {
 	 * If no "From" address is used \OC\Mail\Mailer will use mail_from_address and mail_domain from config.php
 	 *
 	 * @param array $addresses Example: array('sender@domain.org', 'other@domain.org' => 'A name')
-	 * @param array $fingerprints, empty if know keys Provided, '' if only a set of keys is unknown,
+	 * @param array $fingerprints empty if know keys Provided, '' if only a set of keys is unknown,
 	 * @return $this
 	 * @since 13.0.0
 	 */
@@ -63,7 +63,7 @@ interface IMessage {
 	 * Set the to addresses of this message.
 	 *
 	 * @param array $recipients Example: array('recipient@domain.org', 'other@domain.org' => 'A name')
-	 * @param array $fingerprints, empty if know keys Provided, '' if only a set of keys is unknown,
+	 * @param array $fingerprints empty if know keys Provided, '' if only a set of keys is unknown,
 	 * @return $this
 	 * @since 13.0.0
 	 */
@@ -73,7 +73,7 @@ interface IMessage {
 	 * Set the CC recipients of this message.
 	 *
 	 * @param array $recipients Example: array('recipient@domain.org', 'other@domain.org' => 'A name')
-	 * @param array $fingerprints, empty if know keys Provided, '' if only a set of keys is unknown,
+	 * @param array $fingerprints empty if know keys Provided, '' if only a set of keys is unknown,
 	 * @return $this
 	 * @since 13.0.0
 	 */
@@ -83,7 +83,7 @@ interface IMessage {
 	 * Set the BCC recipients of this message.
 	 *
 	 * @param array $recipients Example: array('recipient@domain.org', 'other@domain.org' => 'A name')
-	 * @param array $fingerprints, empty if know keys Provided, '' if only a set of keys is unknown,
+	 * @param array $fingerprints empty if know keys Provided, '' if only a set of keys is unknown,
 	 * @return $this
 	 * @since 13.0.0
 	 */

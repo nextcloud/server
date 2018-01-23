@@ -303,7 +303,6 @@ class Mailer implements IMailer {
 		$debugMode = $this->config->getSystemValue('debug', false);
 		$encrypt_fingerprints = $message->getToFingerprints() + $message->getCCFingerprints() + $message->getBccFingerprints();
 		$sign_fingerprints = $message->getFromFingerprints();
-		$gpg = \OC::$server->getGpg();
 
 
 
@@ -321,7 +320,6 @@ class Mailer implements IMailer {
 					$this->logger->debug("GPG Mail encrypt and sign Message with encrypt Keys:".$encrypt_fingerprints_text." and sign Keys:".$sign_fingerprints_text, ['app' => 'core']);
 				}
                 $message->encryptsign();
-				/* FIXME add encryption of Attachments */
 			} else {
 				if($debugMode) {
 					$encrypt_fingerprints_text = '';
@@ -331,7 +329,6 @@ class Mailer implements IMailer {
 					$this->logger->debug("GPG Mail encrypt Message with encrypt Keys:".$encrypt_fingerprints_text, ['app' => 'core']);
 				}
                 $message->encrypt();
-				/* FIXME add encryption of Attachments */
 			}
 		}  else {
 			if($this->countValidFingerprint($sign_fingerprints) > 0) {
@@ -346,7 +343,6 @@ class Mailer implements IMailer {
 				if($debugMode) {
 					$this->logger->debug("GPG Mail no encryption and sign keys avalible keeping plain message:\"".$message->getPlainBody()."\"", ['app' => 'core']);
 				}
-				/* FIXME add encryption of Attachments */
 			}
 		}
 		return $message;

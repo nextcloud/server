@@ -52,12 +52,6 @@ class Message implements IMessage {
     /** @var array */
     private $fromFingerprints = array();
 
-    /** @var string */
-    private $htmlBody = "";
-
-    /** @var array */
-    private $attachments = array();
-
     /** @var bool */
     private $signed;
 
@@ -376,7 +370,8 @@ class Message implements IMessage {
 		$messageString = $originalMessage->toString();
 
 		$lines = preg_split('/(\r\n|\r|\n)/',trim($messageString));
-		for ($i=0; $i<count($lines); $i++) {
+		$lines_count = count($lines);
+		for ($i=0; $i < $lines_count; $i++) {
 			$lines[$i] = rtrim($lines[$i])."\r\n";
 		}
 		// Remove excess trailing newlines (RFC3156 section 5.4)
