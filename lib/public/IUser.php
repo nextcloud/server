@@ -162,6 +162,7 @@ interface IUser {
 	 *
 	 * @param bool $fingerprint = TRUE
 	 * @return array
+	 * @since 14.0.0
 	 */
 	public function getPublicKeys($fingerprint = TRUE);
 
@@ -170,6 +171,7 @@ interface IUser {
 	*
 	* @param bool $fingerprint
 	* @return string
+	 * @since 14.0.0
 	*/
 	public function getDefaultPublicKey($fingerprint = TRUE);
 
@@ -205,18 +207,19 @@ interface IUser {
 	 *
 	 * @param string|null $key
 	 * @return void
+	 * @since 14.0.0
 	 */
 	public function setDefaultPublicKey($key);
 	/**
 	 * @param $key
 	 * @return array
-	 * @throws \OCP\PreConditionNotMetException
+	 * @since 14.0.0
 	 */
 	public function addPublicKey($key);
 
 	/**
 	 * @param $key
-	 * @throws \OCP\PreConditionNotMetException
+	 * @since 14.0.0
 	 */
 	public function addDefaultPublicKey($key);
 

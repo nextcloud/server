@@ -36,6 +36,7 @@ interface IGpg {
 	 * @param array $fingerprints fingerprints of the encryption keys
 	 * @param $uid = null
 	 * @return string
+	 * @since 14.0.0
 	 */
 	public function encrypt(array $fingerprints,  $plaintext, $uid = null);
 
@@ -48,6 +49,7 @@ interface IGpg {
 	 * @param array $sign_fingerprints passphrase can be passed as $sign_fingerprint => $passphrase fingerprints of the sign keys
 	 * @param $uid = null
 	 * @return string
+	 * @since 14.0.0
 	 */
 	public function encryptsign(array $encrypt_fingerprints, array $sign_fingerprints,  $plaintext, $uid = null);
 
@@ -58,6 +60,7 @@ interface IGpg {
 	 * @param array $fingerprints passphrase can be passed as $fingerprint => $passphrase fingerprints of the sign keys
 	 * @param $uid = null
 	 * @return string
+	 * @since 14.0.0
 	 */
 	public function sign(array $fingerprints,  $plaintext, $uid = null);
 
@@ -69,6 +72,7 @@ interface IGpg {
 	 * @param string $keydata
 	 * @param $uid = null
 	 * @return array
+	 * @since 14.0.0
 	 */
 	public function import($keydata, $uid = null);
 
@@ -79,6 +83,7 @@ interface IGpg {
 	 * @param string $fingerprint
 	 * @param $uid = null
 	 * @return string
+	 * @since 14.0.0
 	 */
 	public function export($fingerprint, $uid = null);
 
@@ -89,6 +94,7 @@ interface IGpg {
 	 * @param string $pattern
 	 * @param $uid = null
 	 * @return array
+	 * @since 14.0.0
 	 */
 	public function keyinfo($pattern, $uid = null);
 
@@ -101,6 +107,7 @@ interface IGpg {
 	 * @param $uid = null
 	 * @param bool $allowsecret
 	 * @return bool
+	 * @since 14.0.0
 	 */
 	public function deletekey($fingerprint, $uid = null, $allowsecret = FALSE );
 
@@ -110,6 +117,7 @@ interface IGpg {
 	 * @param string $email
 	 * @param $uid = null
 	 * @return string
+	 * @since 14.0.0
 	 */
 	public function getPublicKeyFromEmail($email, $uid = null);
 
@@ -119,6 +127,7 @@ interface IGpg {
 	 * @param string $email
 	 * @param $uid = null
 	 * @return string
+	 * @since 14.0.0
 	 */
 	public function getPrivatKeyFromEmail($email, $uid = null);
 
@@ -129,6 +138,7 @@ interface IGpg {
 	 * @param string $name = ''
 	 * @param string $commend = ''
 	 * @param $uid = null
+	 * @since 14.0.0
 	 */
 	public function generateKey($email = '', $name = '', $commend = '', $uid = null);
 
