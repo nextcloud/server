@@ -84,7 +84,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  */
 class Session implements IUserSession, Emitter {
 
-	/** @var IUserManager|PublicEmitter $manager */
+	/** @var Manager|PublicEmitter $manager */
 	private $manager;
 
 	/** @var ISession $session */
@@ -112,7 +112,7 @@ class Session implements IUserSession, Emitter {
 	private $logger;
 
 	/**
-	 * @param IUserManager $manager
+	 * @param Manager $manager
 	 * @param ISession $session
 	 * @param ITimeFactory $timeFactory
 	 * @param IProvider $tokenProvider
@@ -121,7 +121,7 @@ class Session implements IUserSession, Emitter {
 	 * @param ILockdownManager $lockdownManager
 	 * @param ILogger $logger
 	 */
-	public function __construct(IUserManager $manager,
+	public function __construct(Manager $manager,
 								ISession $session,
 								ITimeFactory $timeFactory,
 								$tokenProvider,
