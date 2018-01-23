@@ -100,13 +100,15 @@ interface IMessage {
      * GPG sign the Message
      *
      * @return $this
-     */
+	 * @since 14.0.0
+	 */
     public function sign();
 
     /**
      * GPG encrypt the Message
      *
      * @return $this
+	 * @since 14.0.0
      */
     public function encrypt();
 
@@ -114,6 +116,7 @@ interface IMessage {
      * GPG encrypt and sign the Message
      *
      * @return $this
+	 * @since 14.0.0
      */
     public function encryptsign();
 }
