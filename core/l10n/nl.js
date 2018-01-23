@@ -276,6 +276,7 @@ OC.L10N.register(
     "Username or email" : "Gebruikersnaam of email",
     "Log in" : "Inloggen",
     "Wrong password." : "Onjuist wachtwoord.",
+    "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "We hebben meerdere foutieve inlogverzoeken van jouw IP gedetecteerd. Hierdoor wordt je volgende inlogverzoek 30 seconden uitgesteld.",
     "Stay logged in" : "Ingelogd blijven",
     "Forgot password?" : "Wachtwoord vergeten?",
     "Back to log in" : "Terug naar inloggen",
