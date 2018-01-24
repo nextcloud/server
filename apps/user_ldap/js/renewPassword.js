@@ -46,5 +46,6 @@ $(document).ready(function() {
 			t('core', 'Strong password')
 		],
 		drawTitles: true,
+		$addAfter: $('input[name="newPassword-clone"]'),
 	});
 });
