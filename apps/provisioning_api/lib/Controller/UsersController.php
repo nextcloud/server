@@ -223,6 +223,7 @@ class UsersController extends OCSController {
 
 	/**
 	 * @NoAdminRequired
+	 * @NoCSRFRequired
 	 * @NoSubAdminRequired
 	 *
 	 * gets user info from the currently logged in user
