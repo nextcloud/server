@@ -70,6 +70,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\AppFramework\\Http\\Response' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/Response.php',
         'OCP\\AppFramework\\Http\\StreamResponse' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/StreamResponse.php',
         'OCP\\AppFramework\\Http\\TemplateResponse' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/TemplateResponse.php',
+        'OCP\\AppFramework\\Http\\ZipResponse' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/ZipResponse.php',
         'OCP\\AppFramework\\IAppContainer' => __DIR__ . '/../../..' . '/lib/public/AppFramework/IAppContainer.php',
         'OCP\\AppFramework\\Middleware' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Middleware.php',
         'OCP\\AppFramework\\OCSController' => __DIR__ . '/../../..' . '/lib/public/AppFramework/OCSController.php',

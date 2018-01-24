@@ -40,6 +40,7 @@ return array(
     'OCP\\AppFramework\\Http\\Response' => $baseDir . '/lib/public/AppFramework/Http/Response.php',
     'OCP\\AppFramework\\Http\\StreamResponse' => $baseDir . '/lib/public/AppFramework/Http/StreamResponse.php',
     'OCP\\AppFramework\\Http\\TemplateResponse' => $baseDir . '/lib/public/AppFramework/Http/TemplateResponse.php',
+    'OCP\\AppFramework\\Http\\ZipResponse' => $baseDir . '/lib/public/AppFramework/Http/ZipResponse.php',
     'OCP\\AppFramework\\IAppContainer' => $baseDir . '/lib/public/AppFramework/IAppContainer.php',
     'OCP\\AppFramework\\Middleware' => $baseDir . '/lib/public/AppFramework/Middleware.php',
     'OCP\\AppFramework\\OCSController' => $baseDir . '/lib/public/AppFramework/OCSController.php',
