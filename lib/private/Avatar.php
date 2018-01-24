@@ -217,6 +217,11 @@ class Avatar implements IAvatar {
 
 		}
 
+		if($this->config->getUserValue($this->user->getUID(), 'avatar', 'generated', null) === null) {
+			$generated = $this->folder->fileExists('generated') ? 'true' : 'false';
+			$this->config->setUserValue($this->user->getUID(), 'avatar', 'generated', $generated);
+		}
+
 		return $file;
 	}
 
