@@ -54,7 +54,6 @@ OC.L10N.register(
     "Search contacts …" : "Pesquisar contactos ...",
     "No contacts found" : "Não foram encontrados contactos",
     "Show all contacts …" : "Mostrar todos os contactos ...",
-    "There was an error loading your contacts" : "Erro ao carregar os seus contactos",
     "Loading your contacts …" : "A carregar os seus contactos",
     "<a href=\"{docUrl}\">There were problems with the code integrity check. More information…</a>" : "<a href=\"{docUrl}\">Existiram alguns problemas com a verificação de integridade do código. Mais informação…</a>",
     "Settings" : "Configurações",
@@ -336,6 +335,7 @@ OC.L10N.register(
     "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "Dependendo da sua configuração, como um administrador também pode conseguir utilizar o botão abaixo para confiar neste domínio.",
     "Please use the command line updater because you have a big instance." : "Por favor, utilize o atualizador de linha de comando porque a sua instância é grande.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Para obter ajuda, consulte a <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentação</a>.",
+    "There was an error loading your contacts" : "Erro ao carregar os seus contactos",
     "The PHP function \"set_time_limit\" is not available. This could result in scripts being halted mid-execution, breaking your installation. We strongly recommend enabling this function." : "A função PHP \"set_time_limit\" não está disponível. Isso pode resultar na paragem dos scripts a meio da execução, impedindo a instalação. Recomenda-se vivamente activar esta função.",
     "Your data directory and your files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server in a way that the data directory is no longer accessible or you move the data directory outside the web server document root." : "A pasta de dados e os respetivos ficheiros estão provavelmente acessíveis a partir da Internet. O ficheiro .htaccess não funciona. É altamente recomendado que configure o seu servidor web de forma a que a pasta de dados deixe de estar acessível ou mova a pasta de dados para fora da raiz do servidor web."
 },

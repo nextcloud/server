@@ -56,7 +56,6 @@ OC.L10N.register(
     "Search contacts …" : "Meklēt kontaktpersonu",
     "No contacts found" : "Nav atrasta ne viena kontaktpersona",
     "Show all contacts …" : "Rādīt visas kontaktpersonas",
-    "There was an error loading your contacts" : "Notikusi kļūda ielādējot kontaktpersonu sarakstu",
     "Loading your contacts …" : "Notiek kontaktpersonu ielāde...",
     "Looking for {term} …" : "Meklē {term} …",
     "<a href=\"{docUrl}\">There were problems with the code integrity check. More information…</a>" : "<a href=\"{docUrl}\">Programmatūras koda pārbaude atgrieza kļūdas. Sīkāk…</a>",
@@ -312,6 +311,7 @@ OC.L10N.register(
     "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domains\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "Lūdzu sazinieties ar jūsu administrātoru. Ja jūs esat šīs instances administrātors, konfigurējiet \"trusted_domains\" iestatījumu config/config.php failā. Piemēra konfigurācija ir pieejama config/config.sample.php failā.",
     "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "Atkarīgi no jūsu konfigurācijas, kā administrātors jūs varētu izmantot zemāk redzamo pogu lai uzticētos šim domēnam.",
     "Please use the command line updater because you have a big instance." : "Lūdzu, izmantojiet komandrindas atjauninātāju, jo jums ir liels datu apjoms.",
-    "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Lai saņemtu palīdzību, skatiet  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">dokumentāciju</a>."
+    "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Lai saņemtu palīdzību, skatiet  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">dokumentāciju</a>.",
+    "There was an error loading your contacts" : "Notikusi kļūda ielādējot kontaktpersonu sarakstu"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");
