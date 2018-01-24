@@ -302,7 +302,9 @@ class UsersController extends Controller {
 
 			// Batch all groups the user is subadmin of when a group is specified
 			$batch = [];
-			if($gid === '') {
+			if ($gid !== '' && $gid !== '_disabledUsers' && $gid !== '_everyone') {
+				$batch = $this->groupManager->displayNamesInGroup($gid, $pattern, $limit, $offset);
+			} else {
 				foreach($subAdminOfGroups as $group) {
 					$groupUsers = $this->groupManager->displayNamesInGroup($group, $pattern, $limit, $offset);
 
@@ -310,8 +312,6 @@ class UsersController extends Controller {
 						$batch[$uid] = $displayName;
 					}
 				}
-			} else {
-				$batch = $this->groupManager->displayNamesInGroup($gid, $pattern, $limit, $offset);
 			}
 			$batch = $this->getUsersForUID($batch);
 
