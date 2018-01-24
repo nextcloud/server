@@ -138,3 +138,17 @@ input.primary {
 		border: 1px solid #ebebeb;
 	}
 }
+
+/* jquery ui fixes */
+.ui-widget-header {
+	border: 1px solid $color-primary;
+	background: $color-primary;
+	color: $color-primary-text;
+}
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
+	border: 1px solid $color-primary;
+	color: $color-main-text;
+}
+.ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited {
+	color: $color-main-text;
+}
