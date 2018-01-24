@@ -51,6 +51,7 @@ use OCA\DAV\Connector\Sabre\Auth;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\NotPermittedException;
 use OCP\IConfig;
+use OCP\ILogger;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUser;
@@ -83,7 +84,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  */
 class Session implements IUserSession, Emitter {
 
-	/** @var IUserManager|PublicEmitter $manager */
+	/** @var Manager|PublicEmitter $manager */
 	private $manager;
 
 	/** @var ISession $session */
@@ -107,23 +108,27 @@ class Session implements IUserSession, Emitter {
 	/** @var ILockdownManager  */
 	private $lockdownManager;
 
+	/** @var ILogger */
+	private $logger;
+
 	/**
-	 * @param IUserManager $manager
+	 * @param Manager $manager
 	 * @param ISession $session
 	 * @param ITimeFactory $timeFactory
 	 * @param IProvider $tokenProvider
 	 * @param IConfig $config
 	 * @param ISecureRandom $random
 	 * @param ILockdownManager $lockdownManager
+	 * @param ILogger $logger
 	 */
-	public function __construct(IUserManager $manager,
+	public function __construct(Manager $manager,
 								ISession $session,
 								ITimeFactory $timeFactory,
 								$tokenProvider,
 								IConfig $config,
 								ISecureRandom $random,
-								ILockdownManager $lockdownManager
-	) {
+								ILockdownManager $lockdownManager,
+								ILogger $logger) {
 		$this->manager = $manager;
 		$this->session = $session;
 		$this->timeFactory = $timeFactory;
@@ -131,6 +136,7 @@ class Session implements IUserSession, Emitter {
 		$this->config = $config;
 		$this->random = $random;
 		$this->lockdownManager = $lockdownManager;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -400,17 +406,22 @@ class Session implements IUserSession, Emitter {
 		if (!$isTokenPassword && $this->isTwoFactorEnforced($user)) {
 			throw new PasswordLoginForbiddenException();
 		}
-		if (!$this->login($user, $password) ) {
-			$users = $this->manager->getByEmail($user);
-			if (count($users) === 1) {
-				return $this->login($users[0]->getUID(), $password);
-			}
 
-			$throttler->registerAttempt('login', $request->getRemoteAddress(), ['uid' => $user]);
-			if($currentDelay === 0) {
-				$throttler->sleepDelay($request->getRemoteAddress(), 'login');
+		// Try to login with this username and password
+		if (!$this->login($user, $password) ) {
+
+			// Failed, maybe the user used their email address
+			$users = $this->manager->getByEmail($user);
+			if (!(\count($users) === 1 && $this->login($users[0]->getUID(), $password))) {
+
+				$this->logger->warning('Login failed: \'' . $user . '\' (Remote IP: \'' . \OC::$server->getRequest()->getRemoteAddress() . '\')', ['app' => 'core']);
+
+				$throttler->registerAttempt('login', $request->getRemoteAddress(), ['uid' => $user]);
+				if ($currentDelay === 0) {
+					$throttler->sleepDelay($request->getRemoteAddress(), 'login');
+				}
+				return false;
 			}
-			return false;
 		}
 
 		if ($isTokenPassword) {
@@ -544,7 +555,7 @@ class Session implements IUserSession, Emitter {
 	 * @throws LoginException if an app canceld the login process or the user is not enabled
 	 */
 	private function loginWithPassword($uid, $password) {
-		$user = $this->manager->checkPassword($uid, $password);
+		$user = $this->manager->checkPasswordNoLogging($uid, $password);
 		if ($user === false) {
 			// Password check failed
 			return false;
