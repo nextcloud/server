@@ -54,7 +54,6 @@
     "Search contacts …" : "جستجو مخاطبین ...",
     "No contacts found" : "مخاطبین یافت نشد",
     "Show all contacts …" : "نمایش همه مخاطبین ...",
-    "There was an error loading your contacts" : "هنگام بارگیری مخاطبین شما خطایی روی داد",
     "Loading your contacts …" : "بارگیری مخاطبین شما ...",
     "Looking for {term} …" : "به دنبال {term} …",
     "<a href=\"{docUrl}\">There were problems with the code integrity check. More information…</a>" : "<a href=\"{docUrl}\">There were problems with the code integrity check. More information…</a>",
@@ -305,6 +304,7 @@
     "This action requires you to confirm your password:" : "این اقدام نیاز به تایید رمز عبور شما دارد",
     "Wrong password. Reset it?" : "رمز اشتباه. آیا میخواهید آن را مجدد تنظیم کنید؟",
     "Use the following link to reset your password: {link}" : "از لینک زیر جهت دوباره سازی پسورد استفاده کنید :\n{link}",
+    "There was an error loading your contacts" : "هنگام بارگیری مخاطبین شما خطایی روی داد",
     "The PHP OPcache is not properly configured. <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">For better performance we recommend</a> to use following settings in the <code>php.ini</code>:" : "The PHP OPcache is not properly configured. <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">For better performance we recommend</a> to use following settings in the <code>php.ini</code>:",
     "The PHP function \"set_time_limit\" is not available. This could result in scripts being halted mid-execution, breaking your installation. We strongly recommend enabling this function." : "The PHP function \"set_time_limit\" is not available. This could result in scripts being halted mid-execution, breaking your installation. We strongly recommend enabling this function.",
     "Your data directory and your files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server in a way that the data directory is no longer accessible or you move the data directory outside the web server document root." : "Your data directory and your files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server in a way that the data directory is no longer accessible or you move the data directory outside the web server document root.dd"

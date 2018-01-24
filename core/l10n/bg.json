@@ -49,7 +49,6 @@
     "Search contacts …" : "Търсене на контакти ...",
     "No contacts found" : "Няма намерени контакти",
     "Show all contacts …" : "Покажи всички контакти ...",
-    "There was an error loading your contacts" : "Възникна грешка по време на зареждането на вашите контакти",
     "Loading your contacts …" : "Зареждане на вашите контакти ...",
     "<a href=\"{docUrl}\">There were problems with the code integrity check. More information…</a>" : "<a href=\"{docUrl}\">Има проблем с проверката за цялостта на кода. Повече информация…</a>",
     "Settings" : "Настройки",
@@ -307,6 +306,7 @@
     "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "В зависимост от конфигурацията, като администратор натискайки долния бутон можете да маркирате домейна като сигурен.",
     "Please use the command line updater because you have a big instance." : "Моля използвайте съветникът за обновяване в команден ред, защото инстанцията ви е голяма.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "За помощ, вижте  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">документацията</a>.",
+    "There was an error loading your contacts" : "Възникна грешка по време на зареждането на вашите контакти",
     "The PHP OPcache is not properly configured. <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">For better performance we recommend</a> to use following settings in the <code>php.ini</code>:" : "PHP OPcache не е правилно конфигуриран. <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">За по-добри резултати препоръчваме</a> да използвате следните настройки в <code>php.ini</code>:",
     "Your data directory and your files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server in a way that the data directory is no longer accessible or you move the data directory outside the web server document root." : "Най-вероятно вашите данни и файлове са достъпни от интернет. .htaccess файлът не функционира. Силно препоръчваме да настроите уеб сървъра по такъв начин, че директорията за данни да не бъде достъпна или я преместете извън директорията на уеб сървъра.",
     "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "PHP не поддържа FreeType. Това ще доведе до неправилното показване на профилните снимки и настройките на интерфейса"
