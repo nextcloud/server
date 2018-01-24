@@ -53,7 +53,6 @@ OC.L10N.register(
     "Search contacts …" : "Iščem stike...",
     "No contacts found" : "Ne najdem stikov",
     "Show all contacts …" : "Prikaži vse kontakte",
-    "There was an error loading your contacts" : "Prišlo je do napake pri nalaganju tvojih stikov",
     "Loading your contacts …" : "Nalagam tvoje stike...",
     "Looking for {term} …" : "Iščem {term} …",
     "<a href=\"{docUrl}\">There were problems with the code integrity check. More information…</a>" : "<a href=\"{docUrl}\">Med preverjanjem celovitosti kode je prišlo do napak. Več podrobnosti …</a>",
@@ -316,6 +315,7 @@ OC.L10N.register(
     "You are accessing the server from an untrusted domain." : "Trenutno je vzpostavljena povezava s strežnikom preko ne-varne domene.",
     "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "Glede na nastavitve bi lahko kot skrbnik uporabili spodnji gumb in domeno ročno določili kot varno.",
     "Please use the command line updater because you have a big instance." : "Posodobitev večjih namestitev je priporočljivo izvesti prek ukazne vrstice.",
-    "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Za več podrobnosti si oglejte <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">dokumentacijo</a>."
+    "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Za več podrobnosti si oglejte <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">dokumentacijo</a>.",
+    "There was an error loading your contacts" : "Prišlo je do napake pri nalaganju tvojih stikov"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

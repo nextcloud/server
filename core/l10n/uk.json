@@ -53,7 +53,6 @@
     "Search contacts …" : "Пошук контактів...",
     "No contacts found" : "Контактів не знайдено",
     "Show all contacts …" : "Показати всі контакти ...",
-    "There was an error loading your contacts" : "Виникла помилка під час завантаження ваших контактів",
     "Loading your contacts …" : "Завантаження ваших контактів ...",
     "Looking for {term} …" : "Шукаєте {term}",
     "<a href=\"{docUrl}\">There were problems with the code integrity check. More information…</a>" : "<a href=\"{docUrl}\">Були проблеми з перевіркою цілісності коду. Більше інформації…</a>",
@@ -302,6 +301,7 @@
     "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "Залежно від конфігурації Ви як адміністратор можете додати цей домен у список довірених, використовуйте кнопку нижче.",
     "Please use the command line updater because you have a big instance." : "Просимо запустити процес оновлення з командного рядка, оскільки ви маєте багато даних.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "За допомогою зверніться до <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">документації</a>.",
+    "There was an error loading your contacts" : "Виникла помилка під час завантаження ваших контактів",
     "The PHP function \"set_time_limit\" is not available. This could result in scripts being halted mid-execution, breaking your installation. We strongly recommend enabling this function." : "Функція PHP \"set_time_limit\" не доступна. Це може бути спричинено помилкою перериванням встановлення. Ми наполегливо увімкнути цю функцію.",
     "Your data directory and your files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server in a way that the data directory is no longer accessible or you move the data directory outside the web server document root." : "Ваш каталог даних і ваші файли можливо доступні з інтернету. .htaccess файл не працює. Ми наполегливо рекомендуємо вам налаштувати ваш веб сервер таким чином, щоб каталог даних більше не був доступний або перемістіть каталог даних за межі кореня веб сервера."
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
