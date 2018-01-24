@@ -267,7 +267,7 @@ class DispatcherTest extends \Test\TestCase {
 		$responseHeaders = array('hell' => 'yeah');
 		$this->setMiddlewareExpectations($out, $httpHeaders, $responseHeaders, true, false);
 
-		$this->setExpectedException('\Exception');
+		$this->expectException(\Exception::class);
 		$response = $this->dispatcher->dispatch($this->controller,
 			$this->controllerMethod);
 

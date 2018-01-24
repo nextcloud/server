@@ -263,7 +263,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		$sec = $this->getMiddleware($isLoggedIn, $isAdminUser);
 
 		if($shouldFail) {
-			$this->setExpectedException('\OC\AppFramework\Middleware\Security\Exceptions\SecurityException');
+			$this->expectException(SecurityException::class);
 		} else {
 			$this->assertTrue(true);
 		}
@@ -454,7 +454,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 
 	public function testAfterExceptionNotCaughtThrowsItAgain(){
 		$ex = new \Exception();
-		$this->setExpectedException('\Exception');
+		$this->expectException(\Exception::class);
 		$this->middleware->afterException($this->controller, 'test', $ex);
 	}
 

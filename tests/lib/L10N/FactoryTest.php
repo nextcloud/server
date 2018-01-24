@@ -392,7 +392,7 @@ class FactoryTest extends TestCase {
 			->willReturn($header);
 
 		if ($expected instanceof LanguageNotFoundException) {
-			$this->setExpectedException(LanguageNotFoundException::class);
+			$this->expectException(LanguageNotFoundException::class);
 			self::invokePrivate($factory, 'getLanguageFromRequest', [$app]);
 		} else {
 			$this->assertSame($expected, self::invokePrivate($factory, 'getLanguageFromRequest', [$app]), 'Asserting returned language');

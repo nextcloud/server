@@ -24,6 +24,7 @@
 namespace Test\Template;
 
 use OC\Files\AppData\Factory;
+use OCP\Files\IAppData;
 use OCP\ILogger;
 use OCP\IURLGenerator;
 use OCP\IConfig;
@@ -37,7 +38,7 @@ class CSSResourceLocatorTest extends \Test\TestCase {
 	protected $appData;
 	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
 	protected $urlGenerator;
-	/** @var SystemConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
 	protected $config;
 	/** @var ThemingDefaults|\PHPUnit_Framework_MockObject_MockObject */
 	protected $themingDefaults;
