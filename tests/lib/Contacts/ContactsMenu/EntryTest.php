@@ -26,10 +26,9 @@ namespace Tests\Contacts\ContactsMenu;
 
 use OC\Contacts\ContactsMenu\Actions\LinkAction;
 use OC\Contacts\ContactsMenu\Entry;
-use OCP\Contacts\ContactsMenu\IAction;
 use Test\TestCase;
 
-class EntryTest extends \PHPUnit_Framework_TestCase {
+class EntryTest extends TestCase {
 
 	/** @var Entry */
 	private $entry;
