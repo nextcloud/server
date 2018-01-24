@@ -50,7 +50,7 @@
 
 	<!--List of Groups-->
 	<?php foreach($_["groups"] as $group): ?>
-		<li data-gid="<?php p($group['name']) ?>" data-usercount="<?php p($group['usercount']) ?>" class="isgroup">
+		<li data-gid="<?php p($group['id']) ?>" data-usercount="<?php p($group['usercount']) ?>" class="isgroup">
 			<a href="#" class="dorename">
 				<span class="groupname"><?php p($group['name']); ?></span>
 			</a>
