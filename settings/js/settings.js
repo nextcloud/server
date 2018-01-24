@@ -73,12 +73,10 @@ OC.Settings = _.extend(OC.Settings, {
 					return element.id;
 				},
 				initSelection: function(element, callback) {
-					var selection =
-						_.map(($(element).val() || []).split('|').sort(),
-							function(groupName) {
+					var selection = _.map(($(element).val() || []).split('|').sort(), function(groupId) {
 						return {
-							id: groupName,
-							displayname: groupName
+							id: groupId,
+							displayname: groupId + 'FIXME' // FIXME
 						};
 					});
 					callback(selection);

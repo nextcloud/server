@@ -64,11 +64,11 @@
 
 						// add admin groups
 						$.each(response.data.adminGroups, function(id, group) {
-							results.push({ id: group.id });
+							results.push({ id: group.id, displayname: group.name });
 						});
 						// add groups
 						$.each(response.data.groups, function(id, group) {
-							results.push({ id: group.id });
+							results.push({ id: group.id, displayname: group.name });
 						});
 
 						// TODO once limit and offset is implemented for groups we should paginate the search results
@@ -79,13 +79,21 @@
 					}
 				},
 				initSelection: function (element, callback) {
-					callback({id: element.val()});
+					var groupId = element.val();
+					if (groupId) {
+						callback({
+							id: groupId,
+							displayname: groupId + 'FIXME' // FIXME
+						});
+					} else {
+						callback();
+					}
 				},
 				formatResult: function (element) {
-					return '<span>' + escapeHTML(element.id) + '</span>';
+					return '<span>' + escapeHTML(element.displayname) + '</span>';
 				},
 				formatSelection: function (element) {
-					return '<span title="'+escapeHTML(element.id)+'">'+escapeHTML(element.id)+'</span>';
+					return '<span title="'+escapeHTML(element.id)+'">'+escapeHTML(element.displayname)+'</span>';
 				}
 			});
 		}
