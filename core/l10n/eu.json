@@ -54,7 +54,6 @@
     "Search contacts …" : "Bilatu kontaktuak ...",
     "No contacts found" : "Ez da kontakturik aurkitu",
     "Show all contacts …" : "Erakutsi kontaktu guztiak",
-    "There was an error loading your contacts" : "Errore bat gertatu da zure kontaktuak kargatzean",
     "Loading your contacts …" : "Zure kontaktuak kargatzen...",
     "Looking for {term} …" : "{term} bilatzen...",
     "<a href=\"{docUrl}\">There were problems with the code integrity check. More information…</a>" : "<a href=\"{docUrl}\">Kodearen integritate egiaztapenarekin arazoak egon dira. Informazio gehiago…</a>",
@@ -346,6 +345,7 @@
     "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "Zure ezarpenen gorabehera, administratzaile bezala posible duzu ere azpiko botoia erabiltzea fidatzeko domeinu horrekin.",
     "Please use the command line updater because you have a big instance." : "Mesedez, erabili komando lerroa eguneratzeko, instantzia handi duzulako.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Laguntza lortzeko, ikusi <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">dokumentazioa</a>.",
+    "There was an error loading your contacts" : "Errore bat gertatu da zure kontaktuak kargatzean",
     "The PHP OPcache is not properly configured. <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">For better performance we recommend</a> to use following settings in the <code>php.ini</code>:" : "PHP OPcache ez dago era egokian ezarrita. Hobe funtzionatzeko gomendatzen dugu hurrengo ezarpenak erabiltzea php.ini fitxategian:",
     "Your data directory and your files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server in a way that the data directory is no longer accessible or you move the data directory outside the web server document root." : "Zure datu karpeta eta zure fitxategiak Internetetik atzigarri daude. .htaccess fitxategia ez dabil. Bereziki gomendatzen da zure web zerbitzariazure datu karpeta atzigarri ez egoteko konfiguratzea, edo datu-karpeta ateratzeaweb zerbitzariaren errotik"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

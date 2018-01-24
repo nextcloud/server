@@ -54,7 +54,6 @@ OC.L10N.register(
     "Search contacts …" : "Otsi kontakte",
     "No contacts found" : "Kontakte ei leitud",
     "Show all contacts …" : "Näita kõiki kontakte",
-    "There was an error loading your contacts" : "Kontaktide laadimisel tekkis tõrge",
     "Loading your contacts …" : "Sinu kontaktide laadimine ...",
     "Looking for {term} …" : "Otsin {term} …",
     "<a href=\"{docUrl}\">There were problems with the code integrity check. More information…</a>" : "<a href=\"{docUrl}\">Koodi terviklikkuse kontrollis ilmnes viga. Rohkem infot …</a>",
@@ -334,6 +333,7 @@ OC.L10N.register(
     "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domains\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "Palun võtke ühendust administraatoriga. Kui te olete administraator, siis seadistage \"trusted_domains\" failis config/config.php. Näidisseadistus on olemas failis config/config.sample.php.",
     "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "Sõltuvalt sinu seadetest võib ka administraator kasutada allolevat nuppu, et seda domeeni usaldusväärseks märkida.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Abiinfo saamiseks vaata  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">dokumentatsiooni</a>.",
+    "There was an error loading your contacts" : "Kontaktide laadimisel tekkis tõrge",
     "You are about to grant \"%s\" access to your %s account." : "Sa oled andmas \"%s\" ligipääsu oma %s kontole."
 },
 "nplurals=2; plural=(n != 1);");
