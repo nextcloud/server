@@ -157,7 +157,8 @@ class FileSearchBackend implements ISearchBackend {
 		/** @var Folder $folder $results */
 		$results = $folder->search($query);
 
-		return array_map(function (Node $node) {
+		/** @var SearchResult[] $nodes */
+		$nodes = array_map(function (Node $node) {
 			if ($node instanceof Folder) {
 				$davNode = new \OCA\DAV\Connector\Sabre\Directory($this->view, $node, $this->tree, $this->shareManager);
 			} else {
@@ -167,6 +168,99 @@ class FileSearchBackend implements ISearchBackend {
 			$this->tree->cacheNode($davNode, $path);
 			return new SearchResult($davNode, $path);
 		}, $results);
+
+		// Sort again, since the result from multiple storages is appended and not sorted
+		usort($nodes, function(SearchResult $a, SearchResult $b) use ($search) {
+			return $this->sort($a, $b, $search->orderBy);
+		});
+
+		// If a limit is provided use only return that number of files
+		if ($search->limit->maxResults !== 0) {
+			$nodes = \array_slice($nodes, 0, $search->limit->maxResults);
+		}
+
+		return $nodes;
+	}
+
+	private function sort(SearchResult $a, SearchResult $b, array $orders) {
+		/** @var Order $oder */
+		foreach ($orders as $order) {
+			$v1 = $this->getSearchResultProperty($a, $order->property);
+			$v2 = $this->getSearchResultProperty($b, $order->property);
+
+
+			if ($v1 === null && $v2 === null) {
+				continue;
+			}
+			if ($v1 === null) {
+				return $order->order === Order::ASC ? 1 : -1;
+			}
+			if ($v2 === null) {
+				return $order->order === Order::ASC ? -1 : 1;
+			}
+
+			$s = $this->compareProperties($v1, $v2, $order);
+			if ($s === 0) {
+				continue;
+			}
+
+			if ($order->order === Order::DESC) {
+				$s = -$s;
+			}
+			return $s;
+		}
+
+		return 0;
+	}
+
+	private function compareProperties($a, $b, $order) {
+		$allProps = $this->getPropertyDefinitionsForScope('', '');
+
+		foreach ($allProps as $prop) {
+			if ($prop->name === $order->property) {
+				$dataType = $prop->dataType;
+				switch ($dataType) {
+					case SearchPropertyDefinition::DATATYPE_STRING:
+						return strcmp($a, $b);
+					case SearchPropertyDefinition::DATATYPE_BOOLEAN:
+						if ($a === $b) {
+							return 0;
+						}
+						if ($a === false) {
+							return -1;
+						}
+						return 1;
+					default:
+						if ($a === $b) {
+							return 0;
+						}
+						if ($a < $b) {
+							return -1;
+						}
+						if ($a > $b) {
+							return 1;
+						}
+				}
+			}
+		}
+	}
+
+	private function getSearchResultProperty(SearchResult $result, $propertyName) {
+		/** @var \OCA\DAV\Connector\Sabre\Node $node */
+		$node = $result->node;
+
+		switch ($propertyName) {
+			case '{DAV:}displayname':
+				return $node->getName();
+			case '{DAV:}getlastmodified':
+				return $node->getLastModified();
+			case FilesPlugin::SIZE_PROPERTYNAME:
+				return $node->getSize();
+			case FilesPlugin::INTERNAL_FILEID_PROPERTYNAME:
+				return $node->getInternalFileId();
+			default:
+				return null;
+		}
 	}
 
 	/**
@@ -183,9 +277,10 @@ class FileSearchBackend implements ISearchBackend {
 	 * @return ISearchQuery
 	 */
 	private function transformQuery(BasicSearch $query) {
-		// TODO offset, limit
+		// TODO offset
+		$limit = $query->limit;
 		$orders = array_map([$this, 'mapSearchOrder'], $query->orderBy);
-		return new SearchQuery($this->transformSearchOperation($query->where), 0, 0, $orders, $this->user);
+		return new SearchQuery($this->transformSearchOperation($query->where), $limit->maxResults, 0, $orders, $this->user);
 	}
 
 	/**
