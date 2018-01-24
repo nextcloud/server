@@ -35,6 +35,7 @@ use OCP\IConfig;
 use OCP\ILogger;
 use OCP\ISession;
 use OCP\IUser;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 
 class ManagerTest extends TestCase {
@@ -72,6 +73,9 @@ class ManagerTest extends TestCase {
 	/** @var ITimeFactory|\PHPUnit_Framework_MockObject_MockObject */
 	private $timeFactory;
 
+	/** @var EventDispatcherInterface|\PHPUnit_Framework_MockObject_MockObject */
+	private $eventDispatcher;
+
 	protected function setUp() {
 		parent::setUp();
 
@@ -83,6 +87,7 @@ class ManagerTest extends TestCase {
 		$this->logger = $this->createMock(ILogger::class);
 		$this->tokenProvider = $this->createMock(TokenProvider::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
+		$this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
 
 		$this->manager = $this->getMockBuilder(Manager::class)
 			->setConstructorArgs([
@@ -92,7 +97,8 @@ class ManagerTest extends TestCase {
 				$this->activityManager,
 				$this->logger,
 				$this->tokenProvider,
-				$this->timeFactory
+				$this->timeFactory,
+				$this->eventDispatcher
 			])
 			->setMethods(['loadTwoFactorApp']) // Do not actually load the apps
 			->getMock();
@@ -301,7 +307,7 @@ class ManagerTest extends TestCase {
 			->method('setAffectedUser')
 			->with($this->equalTo('jos'))
 			->willReturnSelf();
-		$this->fakeProvider->expects($this->once())
+		$this->fakeProvider
 			->method('getDisplayName')
 			->willReturn('Fake 2FA');
 		$event->expects($this->once())
@@ -371,7 +377,7 @@ class ManagerTest extends TestCase {
 			->method('setAffectedUser')
 			->with($this->equalTo('jos'))
 			->willReturnSelf();
-		$this->fakeProvider->expects($this->once())
+		$this->fakeProvider
 			->method('getDisplayName')
 			->willReturn('Fake 2FA');
 		$event->expects($this->once())
@@ -424,7 +430,8 @@ class ManagerTest extends TestCase {
 				$this->activityManager,
 				$this->logger,
 				$this->tokenProvider,
-				$this->timeFactory
+				$this->timeFactory,
+				$this->eventDispatcher
 			])
 			->setMethods(['loadTwoFactorApp','isTwoFactorAuthenticated']) // Do not actually load the apps
 			->getMock();
