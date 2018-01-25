@@ -54,6 +54,7 @@
     "Search contacts …" : "მოძებნეთ კონტაქტები ...",
     "No contacts found" : "კომენტარები ვერ იქნა ნაპოვნი.",
     "Show all contacts …" : "ყველა კონტაქტის ჩვენება ...",
+    "Could not load your contacts" : "თქვენი კონტაქტების ჩატვირთვა ვერ მოხერხდა",
     "Loading your contacts …" : "იტვირთება კონტაქტები ...",
     "Looking for {term} …" : "ვეძებთ {term}-ს …",
     "<a href=\"{docUrl}\">There were problems with the code integrity check. More information…</a>" : "<a href=\"{docUrl}\">კოდის მთლიანობის შემოწმებასთან წარმოიქმა შეცდომები. მეტი ინფორმაცია…</a>",
