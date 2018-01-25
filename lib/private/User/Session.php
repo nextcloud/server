@@ -295,15 +295,15 @@ class Session implements IUserSession, Emitter {
 	public function getLoginName() {
 		if ($this->activeUser) {
 			return $this->session->get('loginname');
-		} else {
-			$uid = $this->session->get('user_id');
-			if ($uid) {
-				$this->activeUser = $this->manager->get($uid);
-				return $this->session->get('loginname');
-			} else {
-				return null;
-			}
 		}
+
+		$uid = $this->session->get('user_id');
+		if ($uid) {
+			$this->activeUser = $this->manager->get($uid);
+			return $this->session->get('loginname');
+		}
+
+		return null;
 	}
 
 	/**
@@ -369,10 +369,10 @@ class Session implements IUserSession, Emitter {
 		if($this->isLoggedIn()) {
 			$this->prepareUserLogin($firstTimeLogin, $regenerateSessionId);
 			return true;
-		} else {
-			$message = \OC::$server->getL10N('lib')->t('Login canceled by app');
-			throw new LoginException($message);
 		}
+
+		$message = \OC::$server->getL10N('lib')->t('Login canceled by app');
+		throw new LoginException($message);
 	}
 
 	/**
