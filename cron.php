@@ -63,7 +63,7 @@ try {
 	$logger = \OC::$server->getLogger();
 	$config = \OC::$server->getConfig();
 
-	// Don't do anything if ownCloud has not been installed
+	// Don't do anything if Nextcloud has not been installed
 	if (!$config->getSystemValue('installed', false)) {
 		exit(0);
 	}
@@ -71,8 +71,8 @@ try {
 	\OC::$server->getTempManager()->cleanOld();
 
 	// Exit if background jobs are disabled!
-	$appMode = \OCP\BackgroundJob::getExecutionType();
-	if ($appMode == 'none') {
+	$appMode = $config->getAppValue('core', 'backgroundjobs_mode', 'ajax');
+	if ($appMode === 'none') {
 		if (OC::$CLI) {
 			echo 'Background Jobs are disabled!' . PHP_EOL;
 		} else {
@@ -101,9 +101,9 @@ try {
 			exit(1);
 		}
 
-		// We call ownCloud from the CLI (aka cron)
-		if ($appMode != 'cron') {
-			\OCP\BackgroundJob::setExecutionType('cron');
+		// We call Nextcloud from the CLI (aka cron)
+		if ($appMode !== 'cron') {
+			$config->setAppValue('core', 'backgroundjobs_mode', 'cron');
 		}
 
 		// Work
