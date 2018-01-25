@@ -168,7 +168,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		// add assertion if everything should work fine otherwise phpunit will
 		// complain
 		if ($status === 0) {
-			$this->assertTrue(true);
+			$this->addToAssertionCount(1);
 		}
 	}
 
@@ -265,7 +265,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		if($shouldFail) {
 			$this->expectException(SecurityException::class);
 		} else {
-			$this->assertTrue(true);
+			$this->addToAssertionCount(1);
 		}
 
 		$this->reader->reflect(__CLASS__, $method);

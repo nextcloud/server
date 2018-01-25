@@ -43,7 +43,7 @@ class MySqlMigrationTest extends \Test\TestCase {
 		$manager = new \OC\DB\MDB2SchemaManager($this->connection);
 		$manager->updateDbFromStructure(__DIR__ . '/testschema.xml');
 
-		$this->assertTrue(true);
+		$this->addToAssertionCount(1);
 	}
 
 }

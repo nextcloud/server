@@ -89,7 +89,7 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 
 	/**
 	 * @PasswordConfirmationRequired
-	 * @dataProvider testProvider
+	 * @dataProvider dataProvider
 	 */
 	public function testAnnotation($backend, $lastConfirm, $currentTime, $exception) {
 		$this->reflector->reflect(__CLASS__, __FUNCTION__);
@@ -116,7 +116,7 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 		$this->assertSame($exception, $thrown);
 	}
 
-	public function testProvider() {
+	public function dataProvider() {
 		return [
 			['foo', 2000, 4000, true],
 			['foo', 2000, 3000, false],

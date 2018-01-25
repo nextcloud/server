@@ -304,66 +304,66 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 
 	public function testGetStoragesBackendNotVisible() {
 		// we don't test this here
-		$this->assertTrue(true);
+		$this->addToAssertionCount(1);
 	}
 
 	public function testGetStoragesAuthMechanismNotVisible() {
 		// we don't test this here
-		$this->assertTrue(true);
+		$this->addToAssertionCount(1);
 	}
 
 	public function testHooksAddStorage($a = null, $b = null, $c = null) {
 		// we don't test this here
-		$this->assertTrue(true);
+		$this->addToAssertionCount(1);
 	}
 
 	public function testHooksUpdateStorage($a = null, $b = null, $c = null, $d = null, $e = null) {
 		// we don't test this here
-		$this->assertTrue(true);
+		$this->addToAssertionCount(1);
 	}
 
 	public function testHooksRenameMountPoint() {
 		// we don't test this here
-		$this->assertTrue(true);
+		$this->addToAssertionCount(1);
 	}
 
 	public function testHooksDeleteStorage($a = null, $b = null, $c = null) {
 		// we don't test this here
-		$this->assertTrue(true);
+		$this->addToAssertionCount(1);
 	}
 
 	public function testLegacyConfigConversionApplicableAll() {
 		// we don't test this here
-		$this->assertTrue(true);
+		$this->addToAssertionCount(1);
 	}
 
 	public function testLegacyConfigConversionApplicableUserAndGroup() {
 		// we don't test this here
-		$this->assertTrue(true);
+		$this->addToAssertionCount(1);
 	}
 
 	public function testReadLegacyConfigAndGenerateConfigId() {
 		// we don't test this here
-		$this->assertTrue(true);
+		$this->addToAssertionCount(1);
 	}
 
 	public function testReadLegacyConfigNoAuthMechanism() {
 		// we don't test this here
-		$this->assertTrue(true);
+		$this->addToAssertionCount(1);
 	}
 
 	public function testReadLegacyConfigClass() {
 		// we don't test this here
-		$this->assertTrue(true);
+		$this->addToAssertionCount(1);
 	}
 
 	public function testReadEmptyMountPoint() {
 		// we don't test this here
-		$this->assertTrue(true);
+		$this->addToAssertionCount(1);
 	}
 
 	public function testUpdateStorageMountPoint() {
 		// we don't test this here
-		$this->assertTrue(true);
+		$this->addToAssertionCount(1);
 	}
 }

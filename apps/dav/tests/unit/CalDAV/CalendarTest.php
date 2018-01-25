@@ -183,7 +183,7 @@ class CalendarTest extends TestCase {
 				->with(666, $propPatch);
 		}
 		$c->propPatch($propPatch);
-		$this->assertTrue(true);
+		$this->addToAssertionCount(1);
 	}
 
 	/**

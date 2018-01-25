@@ -41,6 +41,7 @@ class EntryTest extends TestCase {
 
 	public function testSetId() {
 		$this->entry->setId(123);
+		$this->addToAssertionCount(1);
 	}
 
 	public function testSetGetFullName() {

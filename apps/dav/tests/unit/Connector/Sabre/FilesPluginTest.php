@@ -383,6 +383,8 @@ class FilesPluginTest extends TestCase {
 			$propFind,
 			$node
 		);
+
+		$this->addToAssertionCount(1);
 	}
 
 	public function testUpdateProps() {

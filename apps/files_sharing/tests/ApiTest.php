@@ -236,7 +236,7 @@ class ApiTest extends TestCase {
 		$ocs->cleanup();
 	}
 
-	function testEnfoceLinkPassword() {
+	function testEnforceLinkPassword() {
 
 		$password = md5(time());
 		$config = \OC::$server->getConfig();
@@ -288,6 +288,7 @@ class ApiTest extends TestCase {
 		$ocs->cleanup();
 
 		$config->setAppValue('core', 'shareapi_enforce_links_password', 'no');
+		$this->addToAssertionCount(1);
 	}
 
 	/**
@@ -336,6 +337,8 @@ class ApiTest extends TestCase {
 		// cleanup
 		\OC::$server->getConfig()->setAppValue('core', 'shareapi_exclude_groups', 'no');
 		\OC::$server->getConfig()->setAppValue('core', 'shareapi_exclude_groups_list', '');
+
+		$this->addToAssertionCount(1);
 	}
 
 
@@ -1102,6 +1105,7 @@ class ApiTest extends TestCase {
 		$ocs->cleanup();
 
 		$this->shareManager->deleteShare($share1);
+		$this->addToAssertionCount(1);
 	}
 
 	/**
