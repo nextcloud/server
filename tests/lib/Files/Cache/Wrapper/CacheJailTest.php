@@ -79,7 +79,7 @@ class CacheJailTest extends CacheTest {
 
 	function testGetIncomplete() {
 		//not supported
-		$this->assertTrue(true);
+		$this->addToAssertionCount(1);
 	}
 
 	function testMoveFromJail() {

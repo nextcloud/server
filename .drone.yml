@@ -15,14 +15,14 @@ pipeline:
       matrix:
         TESTS: jsunit
   checkers:
-    image: nextcloudci/php7.0:php7.0-16
+    image: nextcloudci/php7.0:php7.0-19
     commands:
       - ./autotest-checkers.sh
     when:
       matrix:
         TESTS: checkers
   syntax-php7.0:
-    image: nextcloudci/php7.0:php7.0-16
+    image: nextcloudci/php7.0:php7.0-19
     commands:
       - composer install
       - ./lib/composer/bin/parallel-lint --exclude lib/composer/jakub-onderka/ --exclude 3rdparty/symfony/polyfill-php70/Resources/stubs/ --exclude 3rdparty/patchwork/utf8/src/Patchwork/Utf8/Bootup/ --exclude 3rdparty/paragonie/random_compat/lib/ --exclude lib/composer/composer/autoload_static.php --exclude 3rdparty/composer/autoload_static.php .
@@ -30,7 +30,7 @@ pipeline:
       matrix:
         TESTS: syntax-php7.0
   syntax-php7.1:
-    image: nextcloudci/php7.1:php7.1-15
+    image: nextcloudci/php7.1:php7.1-16
     commands:
       - composer install
       - ./lib/composer/bin/parallel-lint --exclude lib/composer/jakub-onderka/ --exclude 3rdparty/symfony/polyfill-php70/Resources/stubs/ --exclude 3rdparty/patchwork/utf8/src/Patchwork/Utf8/Bootup/ --exclude 3rdparty/paragonie/random_compat/lib/ --exclude lib/composer/composer/autoload_static.php --exclude 3rdparty/composer/autoload_static.php .
@@ -38,7 +38,7 @@ pipeline:
       matrix:
         TESTS: syntax-php7.1
   phan:
-    image: nextcloudci/php7.1:php7.1-15
+    image: nextcloudci/php7.1:php7.1-16
     commands:
       - composer install
       - composer require --dev "phan/phan:dev-master"
@@ -139,7 +139,7 @@ pipeline:
       matrix:
         TESTS: sqlite-php7.0-webdav-apache
   nodb-php7.0:
-    image: nextcloudci/php7.0:php7.0-16
+    image: nextcloudci/php7.0:php7.0-19
     commands:
       - NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
     when:
@@ -147,7 +147,7 @@ pipeline:
         DB: NODB
         PHP: "7.0"
   nodb-php7.1:
-    image: nextcloudci/php7.1:php7.1-15
+    image: nextcloudci/php7.1:php7.1-16
     commands:
       - NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
     when:
@@ -155,7 +155,7 @@ pipeline:
         DB: NODB
         PHP: 7.1
   nodb-php7.2:
-    image: nextcloudci/php7.2:php7.2-9
+    image: nextcloudci/php7.2:php7.2-10
     commands:
       - NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
     when:
@@ -163,7 +163,7 @@ pipeline:
         DB: NODB
         PHP: 7.2
   sqlite-php7.0:
-    image: nextcloudci/php7.0:php7.0-16
+    image: nextcloudci/php7.0:php7.0-19
     commands:
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
     when:
@@ -171,7 +171,7 @@ pipeline:
         DB: sqlite
         PHP: "7.0"
   sqlite-php7.1:
-    image: nextcloudci/php7.1:php7.1-15
+    image: nextcloudci/php7.1:php7.1-16
     commands:
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
     when:
@@ -179,7 +179,7 @@ pipeline:
         DB: sqlite
         PHP: 7.1
   sqlite-php7.2:
-    image: nextcloudci/php7.2:php7.2-9
+    image: nextcloudci/php7.2:php7.2-10
     commands:
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
     when:
@@ -187,7 +187,7 @@ pipeline:
         DB: sqlite
         PHP: 7.2
   mysql-php7.0:
-    image: nextcloudci/php7.0:php7.0-16
+    image: nextcloudci/php7.0:php7.0-19
     commands:
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
     when:
@@ -195,7 +195,7 @@ pipeline:
         DB: mysql
         PHP: "7.0"
   mysql-php7.1:
-    image: nextcloudci/php7.1:php7.1-15
+    image: nextcloudci/php7.1:php7.1-16
     commands:
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
     when:
@@ -203,7 +203,7 @@ pipeline:
         DB: mysql
         PHP: 7.1
   mysql-php7.2:
-    image: nextcloudci/php7.2:php7.2-9
+    image: nextcloudci/php7.2:php7.2-10
     commands:
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
     when:
@@ -211,7 +211,7 @@ pipeline:
         DB: mysql
         PHP: 7.2
   mysql5.6-php7.0:
-    image: nextcloudci/php7.0:php7.0-16
+    image: nextcloudci/php7.0:php7.0-19
     commands:
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
     when:
@@ -219,7 +219,7 @@ pipeline:
         DB: mysql5.6
         PHP: "7.0"
   mysql5.6-php7.1:
-    image: nextcloudci/php7.1:php7.1-15
+    image: nextcloudci/php7.1:php7.1-16
     commands:
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
     when:
@@ -227,7 +227,7 @@ pipeline:
         DB: mysql5.6
         PHP: 7.1
   mysql5.5-php7.0:
-    image: nextcloudci/php7.0:php7.0-16
+    image: nextcloudci/php7.0:php7.0-19
     commands:
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
     when:
@@ -235,7 +235,7 @@ pipeline:
         DB: mysql5.5
         PHP: "7.0"
   mysql5.5-php7.1:
-    image: nextcloudci/php7.1:php7.1-15
+    image: nextcloudci/php7.1:php7.1-16
     commands:
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
     when:
@@ -243,7 +243,7 @@ pipeline:
         DB: mysql5.5
         PHP: 7.1
   postgres-php7.0:
-    image: nextcloudci/php7.0:php7.0-16
+    image: nextcloudci/php7.0:php7.0-19
     commands:
       - sleep 10 # gives the database enough time to initialize
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh pgsql
@@ -252,7 +252,7 @@ pipeline:
         DB: postgres
         PHP: "7.0"
   postgres-php7.1:
-    image: nextcloudci/php7.1:php7.1-15
+    image: nextcloudci/php7.1:php7.1-16
     commands:
       - sleep 10 # gives the database enough time to initialize
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh pgsql
@@ -261,7 +261,7 @@ pipeline:
         DB: postgres
         PHP: 7.1
   mysqlmb4-php7.0:
-    image: nextcloudci/php7.0:php7.0-16
+    image: nextcloudci/php7.0:php7.0-19
     commands:
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysqlmb4
     when:
@@ -269,7 +269,7 @@ pipeline:
         DB: mysqlmb4
         PHP: "7.0"
   mysqlmb4-php7.1:
-    image: nextcloudci/php7.1:php7.1-15
+    image: nextcloudci/php7.1:php7.1-16
     commands:
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysqlmb4
     when:
@@ -277,7 +277,7 @@ pipeline:
         DB: mysqlmb4
         PHP: 7.1
   mysqlmb4-php7.2:
-    image: nextcloudci/php7.2:php7.2-9
+    image: nextcloudci/php7.2:php7.2-10
     commands:
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysqlmb4
     when:
@@ -571,7 +571,7 @@ pipeline:
         matrix:
           TESTS-ACCEPTANCE: login
   nodb-codecov:
-    image: nextcloudci/php7.0:php7.0-16
+    image: nextcloudci/php7.0:php7.0-19
     commands:
       - phpenmod xdebug
       - TEST_SELECTION=NODB ./autotest.sh sqlite
@@ -582,7 +582,7 @@ pipeline:
       matrix:
         TESTS: nodb-codecov
   db-codecov:
-    image: nextcloudci/php7.0:php7.0-16
+    image: nextcloudci/php7.0:php7.0-19
     commands:
       - phpenmod xdebug
       - TEST_SELECTION=QUICKDB ./autotest.sh sqlite
@@ -593,7 +593,7 @@ pipeline:
       matrix:
         TESTS: db-codecov
   object-store:
-      image: nextcloudci/php7.0:php7.0-16
+      image: nextcloudci/php7.0:php7.0-19
       commands:
         - phpenmod xdebug
         - TEST_SELECTION=PRIMARY-${OBJECT_STORE} ./autotest.sh sqlite
@@ -604,7 +604,7 @@ pipeline:
         matrix:
           TESTS: object-store
   memcache-memcached:
-    image: nextcloudci/php7.0-memcached:php7.0-memcached-8
+    image: nextcloudci/php7.0-memcached:php7.0-memcached-9
     commands:
       - phpenmod xdebug
       - service memcached restart
@@ -616,7 +616,7 @@ pipeline:
       matrix:
         TEST: memcache-memcached
   memcache-redis-cluster:
-    image: nextcloudci/php7.0:php7.0-17
+    image: nextcloudci/php7.0:php7.0-19
     commands:
       - phpenmod xdebug
       - sleep 20

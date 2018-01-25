@@ -55,6 +55,7 @@ class SameSiteCookieMiddlewareTest extends TestCase {
 			->willReturn('/ocs/v2.php');
 
 		$this->middleware->beforeController($this->createMock(Controller::class), 'foo');
+		$this->addToAssertionCount(1);
 	}
 
 	public function testBeforeControllerIndexHasAnnotation() {
@@ -66,6 +67,7 @@ class SameSiteCookieMiddlewareTest extends TestCase {
 			->willReturn(true);
 
 		$this->middleware->beforeController($this->createMock(Controller::class), 'foo');
+		$this->addToAssertionCount(1);
 	}
 
 	public function testBeforeControllerIndexNoAnnotationPassingCheck() {
@@ -80,6 +82,7 @@ class SameSiteCookieMiddlewareTest extends TestCase {
 			->willReturn(true);
 
 		$this->middleware->beforeController($this->createMock(Controller::class), 'foo');
+		$this->addToAssertionCount(1);
 	}
 
 	public function testBeforeControllerIndexNoAnnotationFailingCheck() {

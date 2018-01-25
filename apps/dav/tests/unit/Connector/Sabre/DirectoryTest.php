@@ -345,7 +345,7 @@ class DirectoryTest extends \Test\TestCase {
 	 */
 	public function testMoveSuccess($source, $destination, $updatables, $deletables) {
 		$this->moveTest($source, $destination, $updatables, $deletables);
-		$this->assertTrue(true);
+		$this->addToAssertionCount(1);
 	}
 
 	/**

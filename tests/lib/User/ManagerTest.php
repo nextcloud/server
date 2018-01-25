@@ -329,7 +329,7 @@ class ManagerTest extends TestCase {
 		$manager = new \OC\User\Manager($this->config);
 		$manager->registerBackend($backend);
 
-		$this->setExpectedException(\InvalidArgumentException::class, $exception);
+		$this->expectException(\InvalidArgumentException::class, $exception);
 		$manager->createUser($uid, $password);
 	}
 

@@ -168,7 +168,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		// add assertion if everything should work fine otherwise phpunit will
 		// complain
 		if ($status === 0) {
-			$this->assertTrue(true);
+			$this->addToAssertionCount(1);
 		}
 	}
 
@@ -263,9 +263,9 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		$sec = $this->getMiddleware($isLoggedIn, $isAdminUser);
 
 		if($shouldFail) {
-			$this->setExpectedException('\OC\AppFramework\Middleware\Security\Exceptions\SecurityException');
+			$this->expectException(SecurityException::class);
 		} else {
-			$this->assertTrue(true);
+			$this->addToAssertionCount(1);
 		}
 
 		$this->reader->reflect(__CLASS__, $method);
@@ -454,7 +454,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 
 	public function testAfterExceptionNotCaughtThrowsItAgain(){
 		$ex = new \Exception();
-		$this->setExpectedException('\Exception');
+		$this->expectException(\Exception::class);
 		$this->middleware->afterException($this->controller, 'test', $ex);
 	}
 

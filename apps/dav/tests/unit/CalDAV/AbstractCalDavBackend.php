@@ -176,7 +176,7 @@ EOD;
 	protected function assertAcl($principal, $privilege, $acl) {
 		foreach($acl as $a) {
 			if ($a['principal'] === $principal && $a['privilege'] === $privilege) {
-				$this->assertTrue(true);
+				$this->addToAssertionCount(1);
 				return;
 			}
 		}
@@ -190,7 +190,7 @@ EOD;
 				return;
 			}
 		}
-		$this->assertTrue(true);
+		$this->addToAssertionCount(1);
 	}
 
 	protected function assertAccess($shouldHaveAcl, $principal, $privilege, $acl) {
