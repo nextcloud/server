@@ -690,7 +690,6 @@ class ShareByMailProvider implements IShareProvider {
 	 */
 	public function deleteFromSelf(IShare $share, $recipient) {
 		// nothing to do here, mail shares are only outgoing shares
-		return;
 	}
 
 	/**
@@ -981,7 +980,6 @@ class ShareByMailProvider implements IShareProvider {
 	 * @param string $gid
 	 */
 	public function groupDeleted($gid) {
-		return;
 	}
 
 	/**
@@ -991,7 +989,6 @@ class ShareByMailProvider implements IShareProvider {
 	 * @param string $gid
 	 */
 	public function userDeletedFromGroup($uid, $gid) {
-		return;
 	}
 
 	/**
