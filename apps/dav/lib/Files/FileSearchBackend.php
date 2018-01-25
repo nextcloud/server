@@ -45,10 +45,10 @@ use Sabre\DAV\Exception\NotFound;
 use SearchDAV\Backend\ISearchBackend;
 use SearchDAV\Backend\SearchPropertyDefinition;
 use SearchDAV\Backend\SearchResult;
-use SearchDAV\XML\BasicSearch;
-use SearchDAV\XML\Literal;
-use SearchDAV\XML\Operator;
-use SearchDAV\XML\Order;
+use SearchDAV\Query\Query;
+use SearchDAV\Query\Literal;
+use SearchDAV\Query\Operator;
+use SearchDAV\Query\Order;
 
 class FileSearchBackend implements ISearchBackend {
 	/** @var CachingTree */
@@ -135,10 +135,10 @@ class FileSearchBackend implements ISearchBackend {
 	}
 
 	/**
-	 * @param BasicSearch $search
+	 * @param Query $search
 	 * @return SearchResult[]
 	 */
-	public function search(BasicSearch $search) {
+	public function search(Query $search) {
 		if (count($search->from) !== 1) {
 			throw new \InvalidArgumentException('Searching more than one folder is not supported');
 		}
@@ -170,7 +170,7 @@ class FileSearchBackend implements ISearchBackend {
 		}, $results);
 
 		// Sort again, since the result from multiple storages is appended and not sorted
-		usort($nodes, function(SearchResult $a, SearchResult $b) use ($search) {
+		usort($nodes, function (SearchResult $a, SearchResult $b) use ($search) {
 			return $this->sort($a, $b, $search->orderBy);
 		});
 
@@ -183,7 +183,7 @@ class FileSearchBackend implements ISearchBackend {
 	}
 
 	private function sort(SearchResult $a, SearchResult $b, array $orders) {
-		/** @var Order $oder */
+		/** @var Order $order */
 		foreach ($orders as $order) {
 			$v1 = $this->getSearchResultProperty($a, $order->property);
 			$v2 = $this->getSearchResultProperty($b, $order->property);
@@ -213,43 +213,34 @@ class FileSearchBackend implements ISearchBackend {
 		return 0;
 	}
 
-	private function compareProperties($a, $b, $order) {
-		$allProps = $this->getPropertyDefinitionsForScope('', '');
-
-		foreach ($allProps as $prop) {
-			if ($prop->name === $order->property) {
-				$dataType = $prop->dataType;
-				switch ($dataType) {
-					case SearchPropertyDefinition::DATATYPE_STRING:
-						return strcmp($a, $b);
-					case SearchPropertyDefinition::DATATYPE_BOOLEAN:
-						if ($a === $b) {
-							return 0;
-						}
-						if ($a === false) {
-							return -1;
-						}
-						return 1;
-					default:
-						if ($a === $b) {
-							return 0;
-						}
-						if ($a < $b) {
-							return -1;
-						}
-						if ($a > $b) {
-							return 1;
-						}
+	private function compareProperties($a, $b, Order $order) {
+		switch ($order->property->dataType) {
+			case SearchPropertyDefinition::DATATYPE_STRING:
+				return strcmp($a, $b);
+			case SearchPropertyDefinition::DATATYPE_BOOLEAN:
+				if ($a === $b) {
+					return 0;
 				}
-			}
+				if ($a === false) {
+					return -1;
+				}
+				return 1;
+			default:
+				if ($a === $b) {
+					return 0;
+				}
+				if ($a < $b) {
+					return -1;
+				}
+				return 1;
 		}
 	}
 
-	private function getSearchResultProperty(SearchResult $result, $propertyName) {
+	private function getSearchResultProperty(SearchResult $result, SearchPropertyDefinition $property) {
 		/** @var \OCA\DAV\Connector\Sabre\Node $node */
 		$node = $result->node;
 
-		switch ($propertyName) {
+		switch ($property->name) {
 			case '{DAV:}displayname':
 				return $node->getName();
 			case '{DAV:}getlastmodified':
@@ -273,10 +264,10 @@ class FileSearchBackend implements ISearchBackend {
 	}
 
 	/**
-	 * @param BasicSearch $query
+	 * @param Query $query
 	 * @return ISearchQuery
 	 */
-	private function transformQuery(BasicSearch $query) {
+	private function transformQuery(Query $query) {
 		// TODO offset
 		$limit = $query->limit;
 		$orders = array_map([$this, 'mapSearchOrder'], $query->orderBy);
@@ -312,7 +303,7 @@ class FileSearchBackend implements ISearchBackend {
 				if (count($operator->arguments) !== 2) {
 					throw new \InvalidArgumentException('Invalid number of arguments for ' . $trimmedType . ' operation');
 				}
-				if (!is_string($operator->arguments[0])) {
+				if (!($operator->arguments[0] instanceof SearchPropertyDefinition)) {
 					throw new \InvalidArgumentException('Invalid argument 1 for ' . $trimmedType . ' operation, expected property');
 				}
 				if (!($operator->arguments[1] instanceof Literal)) {
@@ -327,11 +318,11 @@ class FileSearchBackend implements ISearchBackend {
 	}
 
 	/**
-	 * @param string $propertyName
+	 * @param SearchPropertyDefinition $property
 	 * @return string
 	 */
-	private function mapPropertyNameToColumn($propertyName) {
-		switch ($propertyName) {
+	private function mapPropertyNameToColumn(SearchPropertyDefinition $property) {
+		switch ($property->name) {
 			case '{DAV:}displayname':
 				return 'name';
 			case '{DAV:}getcontenttype':
@@ -347,33 +338,26 @@ class FileSearchBackend implements ISearchBackend {
 			case FilesPlugin::INTERNAL_FILEID_PROPERTYNAME:
 				return 'fileid';
 			default:
-				throw new \InvalidArgumentException('Unsupported property for search or order: ' . $propertyName);
+				throw new \InvalidArgumentException('Unsupported property for search or order: ' . $property->name);
 		}
 	}
 
-	private function castValue($propertyName, $value) {
-		$allProps = $this->getPropertyDefinitionsForScope('', '');
-		foreach ($allProps as $prop) {
-			if ($prop->name === $propertyName) {
-				$dataType = $prop->dataType;
-				switch ($dataType) {
-					case SearchPropertyDefinition::DATATYPE_BOOLEAN:
-						return $value === 'yes';
-					case SearchPropertyDefinition::DATATYPE_DECIMAL:
-					case SearchPropertyDefinition::DATATYPE_INTEGER:
-					case SearchPropertyDefinition::DATATYPE_NONNEGATIVE_INTEGER:
-						return 0 + $value;
-					case SearchPropertyDefinition::DATATYPE_DATETIME:
-						if (is_numeric($value)) {
-							return 0 + $value;
-						}
-						$date = \DateTime::createFromFormat(\DateTime::ATOM, $value);
-						return ($date instanceof \DateTime) ? $date->getTimestamp() : 0;
-					default:
-						return $value;
+	private function castValue(SearchPropertyDefinition $property, $value) {
+		switch ($property->dataType) {
+			case SearchPropertyDefinition::DATATYPE_BOOLEAN:
+				return $value === 'yes';
+			case SearchPropertyDefinition::DATATYPE_DECIMAL:
+			case SearchPropertyDefinition::DATATYPE_INTEGER:
+			case SearchPropertyDefinition::DATATYPE_NONNEGATIVE_INTEGER:
+				return 0 + $value;
+			case SearchPropertyDefinition::DATATYPE_DATETIME:
+				if (is_numeric($value)) {
+					return 0 + $value;
 				}
-			}
+				$date = \DateTime::createFromFormat(\DateTime::ATOM, $value);
+				return ($date instanceof \DateTime) ? $date->getTimestamp() : 0;
+			default:
+				return $value;
 		}
-		return $value;
 	}
 }
