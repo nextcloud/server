@@ -94,7 +94,6 @@ class Platform {
 
 	public function getLibraryVersion($name) {
 		$repo = new PlatformRepository();
-		$lib = $repo->findLibrary($name);
-		return $lib;
+		return $repo->findLibrary($name);
 	}
 }

@@ -426,8 +426,7 @@ class View {
 				flush();
 			}
 			fclose($handle);
-			$size = $this->filesize($path);
-			return $size;
+			return $this->filesize($path);
 		}
 		return false;
 	}
@@ -476,8 +475,7 @@ class View {
 					echo fread($handle, $len);
 					flush();
 				}
-				$size = ftell($handle) - $from;
-				return $size;
+				return ftell($handle) - $from;
 			}
 
 			throw new \OCP\Files\UnseekableException('fseek error');
@@ -1083,8 +1081,7 @@ class View {
 			}
 			list($storage, $internalPath) = Filesystem::resolvePath($absolutePath . $postFix);
 			if ($storage) {
-				$result = $storage->hash($type, $internalPath, $raw);
-				return $result;
+				return $storage->hash($type, $internalPath, $raw);
 			}
 		}
 		return null;

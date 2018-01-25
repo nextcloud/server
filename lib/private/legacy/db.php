@@ -170,8 +170,7 @@ class OC_DB {
 	 */
 	public static function createDbFromStructure( $file ) {
 		$schemaManager = self::getMDB2SchemaManager();
-		$result = $schemaManager->createDbFromStructure($file);
-		return $result;
+		return $schemaManager->createDbFromStructure($file);
 	}
 
 	/**
