@@ -50,7 +50,7 @@ class LargeFileHelper {
 	*                           PHP platform.
 	*/
 	public function __construct() {
-		$pow_2_53 = floatval(self::POW_2_53_MINUS_1) + 1.0;
+		$pow_2_53 = (float)self::POW_2_53_MINUS_1 + 1.0;
 		if ($this->formatUnsignedInteger($pow_2_53) !== self::POW_2_53) {
 			throw new \RuntimeException(
 				'This class assumes floats to be double precision or "better".'
