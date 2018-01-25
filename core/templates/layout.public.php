@@ -33,10 +33,10 @@
 			<span id="nextcloud">
 				<div class="logo logo-icon svg"></div>
 				<h1 class="header-appname">
-					Public <?php p($template->getHeaderTitle()); ?>
+					<?php p($template->getHeaderTitle()); ?>
 				</h1>
 				<div class="header-shared-by">
-					Public <?php p($template->getHeaderDetails()) ?>
+					<?php p($template->getHeaderDetails()) ?>
 				</div>
 			</span>
 		</div>
@@ -55,7 +55,7 @@
 			</span>
 			<?php if($template->getActionCount()>1) { ?>
 			<span class="menutoggle icon-more-white"></span>
-			<div id="share-menu" class="menu">
+			<div id="share-menu" class="popovermenu menu">
 				<ul>
 					<?php
 						/** @var \OCP\AppFramework\Http\Template\IMenuAction $action */
