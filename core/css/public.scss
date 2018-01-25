@@ -1,0 +1,22 @@
+#body-public {
+  .header-right {
+
+    span:not(.popovermenu) a {
+      color: $color-primary-text;
+    }
+
+    .menutoggle,
+    #header-primary-action[class^='icon-'] {
+      padding: 14px;
+      padding-right: 40px;
+      background-position: right 15px center;
+      color: $color-primary-text;
+      cursor: pointer;
+    }
+
+    .menutoggle {
+      padding-right: 10px;
+    }
+
+  }
+}
