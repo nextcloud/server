@@ -2261,7 +2261,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 					$query->execute();
 				}
 
-				if (in_array($property->name, array_keys(self::$indexParameters))) {
+				if (array_key_exists($property->name, self::$indexParameters)) {
 					$parameters = $property->parameters();
 					$indexedParametersForProperty = self::$indexParameters[$property->name];
 
