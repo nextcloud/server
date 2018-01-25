@@ -118,13 +118,9 @@ class DAV extends Common {
 					$this->certPath = $certPath;
 				}
 			}
-			$this->root = isset($params['root']) ? $params['root'] : '/';
-			if (!$this->root || $this->root[0] != '/') {
-				$this->root = '/' . $this->root;
-			}
-			if (substr($this->root, -1, 1) != '/') {
-				$this->root .= '/';
-			}
+			$this->root = $params['root'] ?? '/';
+			$this->root = '/' . ltrim($this->root, '/');
+			$this->root = rtrim($this->root, '/') . '/';
 		} else {
 			throw new \Exception('Invalid webdav storage configuration');
 		}

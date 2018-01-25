@@ -698,7 +698,7 @@ class View {
 			// do not allow deleting the root
 			return false;
 		}
-		$postFix = (substr($path, -1, 1) === '/') ? '/' : '';
+		$postFix = (substr($path, -1) === '/') ? '/' : '';
 		$absolutePath = Filesystem::normalizePath($this->getAbsolutePath($path));
 		$mount = Filesystem::getMountManager()->find($absolutePath . $postFix);
 		if ($mount and $mount->getInternalPath($absolutePath) === '') {
@@ -1067,7 +1067,7 @@ class View {
 	 * @return bool|null|string
 	 */
 	public function hash($type, $path, $raw = false) {
-		$postFix = (substr($path, -1, 1) === '/') ? '/' : '';
+		$postFix = (substr($path, -1) === '/') ? '/' : '';
 		$absolutePath = Filesystem::normalizePath($this->getAbsolutePath($path));
 		if (Filesystem::isValidPath($path)) {
 			$path = $this->getRelativePath($absolutePath);
@@ -1119,7 +1119,7 @@ class View {
 	 * \OC\Files\Storage\Storage for delegation to a storage backend for execution
 	 */
 	private function basicOperation($operation, $path, $hooks = [], $extraParam = null) {
-		$postFix = (substr($path, -1, 1) === '/') ? '/' : '';
+		$postFix = (substr($path, -1) === '/') ? '/' : '';
 		$absolutePath = Filesystem::normalizePath($this->getAbsolutePath($path));
 		if (Filesystem::isValidPath($path)
 			and !Filesystem::isFileBlacklisted($path)
