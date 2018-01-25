@@ -167,7 +167,7 @@ class Storage {
 		// to get the right target
 		$ext = pathinfo($filename, PATHINFO_EXTENSION);
 		if ($ext === 'part') {
-			$filename = substr($filename, 0, strlen($filename) - 5);
+			$filename = substr($filename, 0, -5);
 		}
 
 		// we only handle existing files

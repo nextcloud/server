@@ -132,7 +132,7 @@ class OC_Template extends \OC\Template\Base {
 					foreach(array_reverse($coreDependencies['vendor']) as $vendorLibrary) {
 						//remove trailing ".js" as addVendorScript will append it
 						OC_Util::addVendorScript(
-							substr($vendorLibrary, 0, strlen($vendorLibrary) - 3),null,true);
+							substr($vendorLibrary, 0, -3),null,true);
 						}
  				} else {
 					throw new \Exception('Cannot read core/js/core.json');
