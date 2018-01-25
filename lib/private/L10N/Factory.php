@@ -407,7 +407,8 @@ class Factory implements IFactory {
 			$body .= ';';
 			$res = '';
 			$p = 0;
-			for($i = 0; $i < strlen($body); $i++) {
+			$length = strlen($body);
+			for($i = 0; $i < $length; $i++) {
 				$ch = $body[$i];
 				switch ( $ch ) {
 					case '?':
