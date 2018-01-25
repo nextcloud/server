@@ -387,11 +387,15 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			->getMock();
 
 		return [
-			[$controller, false, true],
-			[$controller, true,  true],
+			[$controller, false, false, true],
+			[$controller, false,  true, true],
+			[$controller,  true, false, true],
+			[$controller,  true,  true, true],
 
-			[$ocsController, false, true],
-			[$ocsController, true,  false],
+			[$ocsController, false, false,  true],
+			[$ocsController, false,  true, false],
+			[$ocsController,  true, false, false],
+			[$ocsController,  true,  true, false],
 		];
 	}
 
@@ -399,13 +403,21 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 	 * @dataProvider dataCsrfOcsController
 	 * @param Controller $controller
 	 * @param bool $hasOcsApiHeader
+	 * @param bool $hasBearerAuth
 	 * @param bool $exception
 	 */
-	public function testCsrfOcsController(Controller $controller, $hasOcsApiHeader, $exception) {
+	public function testCsrfOcsController(Controller $controller, $hasOcsApiHeader, $hasBearerAuth, $exception) {
 		$this->request
 			->method('getHeader')
-			->with('OCS-APIREQUEST')
-			->willReturn($hasOcsApiHeader ? 'true' : null);
+			->will(self::returnCallback(function ($header) use ($hasOcsApiHeader, $hasBearerAuth) {
+				if ($header === 'OCS-APIREQUEST' && $hasOcsApiHeader) {
+					return 'true';
+				}
+				if ($header === 'Authorization' && $hasBearerAuth) {
+					return 'Bearer TOKEN!';
+				}
+				return '';
+			}));
 		$this->request->expects($this->once())
 			->method('passesStrictCookieCheck')
 			->willReturn(true);
