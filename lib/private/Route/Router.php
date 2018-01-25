@@ -272,18 +272,22 @@ class Router implements IRouter {
 		try {
 			$parameters = $matcher->match($url);
 		} catch (ResourceNotFoundException $e) {
-			if (substr($url, -1) !== '/') {
-				// We allow links to apps/files? for backwards compatibility reasons
-				// However, since Symfony does not allow empty route names, the route
-				// we need to match is '/', so we need to append the '/' here.
-				try {
-					$parameters = $matcher->match($url . '/');
-				} catch (ResourceNotFoundException $newException) {
-					// If we still didn't match a route, we throw the original exception
+			try {
+				$parameters = $matcher->match(rtrim($url,'/'));
+			} catch (ResourceNotFoundException $newException) {
+				if (substr($url, -1) !== '/') {
+					// We allow links to apps/files? for backwards compatibility reasons
+					// However, since Symfony does not allow empty route names, the route
+					// we need to match is '/', so we need to append the '/' here.
+					try {
+						$parameters = $matcher->match($url . '/');
+					} catch (ResourceNotFoundException $newException) {
+						// If we still didn't match a route, we throw the original exception
+						throw $e;
+					}
+				} else {
 					throw $e;
 				}
-			} else {
-				throw $e;
 			}
 		}
 
