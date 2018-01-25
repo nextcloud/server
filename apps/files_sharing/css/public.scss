@@ -3,14 +3,6 @@
 	min-height: calc(100vh - 160px);
 }
 
-#header .menutoggle {
-	padding: 14px;
-	padding-right: 40px;
-	background-position: right 15px center;
-	color: $color-primary-text;
-	cursor: pointer;
-}
-
 /* force layout to make sure the content element's height matches its contents' height */
 .ie #content {
 	display: inline-block;
