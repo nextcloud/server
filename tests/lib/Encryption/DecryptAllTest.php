@@ -301,8 +301,11 @@ class DecryptAllTest extends TestCase {
 			->method('decryptFile')
 			->with('/user1/files/foo/subfile');
 
-		$progressBar = $this->getMockBuilder(ProgressBar::class)
-			->disableOriginalConstructor()->getMock();
+		$output = $this->createMock(OutputInterface::class);
+		$output->expects($this->any())
+			->method('getFormatter')
+			->willReturn($this->createMock(OutputFormatterInterface::class));
+		$progressBar = new ProgressBar($output);
 
 		$this->invokePrivate($instance, 'decryptUsersFiles', ['user1', $progressBar, '']);
 
