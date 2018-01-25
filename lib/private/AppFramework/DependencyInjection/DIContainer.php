@@ -335,7 +335,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 * @return boolean|null
 	 */
 	public function registerMiddleWare($middleWare) {
-		array_push($this->middleWares, $middleWare);
+		$this->middleWares[] = $middleWare;
 	}
 
 	/**

@@ -102,13 +102,13 @@ class GroupPlugin implements ISearchPlugin {
 			// user id and if so, we add that to the exact match list
 			$group = $this->groupManager->get($search);
 			if ($group instanceof IGroup && (!$this->shareWithGroupOnly || in_array($group->getGID(), $userGroups))) {
-				array_push($result['exact'], [
+				$result['exact'][] = [
 					'label' => $group->getDisplayName(),
 					'value' => [
 						'shareType' => Share::SHARE_TYPE_GROUP,
 						'shareWith' => $group->getGID(),
 					],
-				]);
+				];
 			}
 		}
 
