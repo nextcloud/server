@@ -37,7 +37,7 @@ class RequestTime extends Controller {
 
 		if ($search !== '') {
 			$timezones = array_filter($timezones, function ($timezone) use ($search) {
-				return strpos(strtolower($timezone), strtolower($search)) !== false;
+				return stripos($timezone, $search) !== false;
 			});
 		}
 
