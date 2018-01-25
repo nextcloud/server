@@ -24,11 +24,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
+use OC\Search\Provider\File;
+
 // required for translation purpose
 // t('Files')
 $l = \OC::$server->getL10N('files');
 
-\OC::$server->getSearch()->registerProvider('OC\Search\Provider\File', array('apps' => array('files')));
+\OC::$server->getSearch()->registerProvider(File::class, array('apps' => array('files')));
 
 $templateManager = \OC_Helper::getFileTemplateManager();
 $templateManager->registerTemplate('text/html', 'core/templates/filetemplates/template.html');

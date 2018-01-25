@@ -33,6 +33,8 @@ use OC\AppFramework\DependencyInjection\DIContainer;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\QueryException;
 use OCP\AppFramework\Http\ICallbackResponse;
+use OCP\AppFramework\Http\IOutput;
+use OCP\IRequest;
 
 /**
  * Entry point for every request in your app. You can consider this as your
@@ -81,9 +83,9 @@ class App {
 	 */
 	public static function main($controllerName, $methodName, DIContainer $container, array $urlParams = null) {
 		if (!is_null($urlParams)) {
-			$container['OCP\\IRequest']->setUrlParameters($urlParams);
+			$container[IRequest::class]->setUrlParameters($urlParams);
 		} else if (isset($container['urlParams']) && !is_null($container['urlParams'])) {
-			$container['OCP\\IRequest']->setUrlParameters($container['urlParams']);
+			$container[IRequest::class]->setUrlParameters($container['urlParams']);
 		}
 		$appName = $container['AppName'];
 
@@ -114,7 +116,7 @@ class App {
 			$response
 		) = $dispatcher->dispatch($controller, $methodName);
 
-		$io = $container['OCP\\AppFramework\\Http\\IOutput'];
+		$io = $container[IOutput::class];
 
 		if(!is_null($httpHeaders)) {
 			$io->setHeader($httpHeaders);

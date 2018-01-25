@@ -102,7 +102,7 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 	 */
 	public function initialize(\Sabre\DAV\Server $server) {
 		$server->xml->namespacesMap[self::NS_OWNCLOUD] = 'oc';
-		$server->xml->elementMap[self::SHARETYPES_PROPERTYNAME] = 'OCA\\DAV\\Connector\\Sabre\\ShareTypeList';
+		$server->xml->elementMap[self::SHARETYPES_PROPERTYNAME] = ShareTypeList::class;
 		$server->protectedProperties[] = self::SHARETYPES_PROPERTYNAME;
 
 		$this->server = $server;

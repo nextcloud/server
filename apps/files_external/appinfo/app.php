@@ -26,6 +26,8 @@
  *
  */
 
+use OCA\Files_External\Config\ConfigAdapter;
+
 OC::$CLASSPATH['OC_Mount_Config'] = 'files_external/lib/config.php';
 
 require_once __DIR__ . '/../3rdparty/autoload.php';
@@ -45,5 +47,5 @@ $appContainer = \OC_Mount_Config::$app->getContainer();
 	];
 });
 
-$mountProvider = $appContainer->query('OCA\Files_External\Config\ConfigAdapter');
+$mountProvider = $appContainer->query(ConfigAdapter::class);
 \OC::$server->getMountProviderCollection()->registerProvider($mountProvider);

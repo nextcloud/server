@@ -38,6 +38,9 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use OC\App\CodeChecker\StrongComparisonCheck;
+use OC\App\CodeChecker\DeprecationCheck;
+use OC\App\CodeChecker\PrivateCheck;
 
 class CheckCode extends Command implements CompletionAwareInterface  {
 
@@ -45,9 +48,9 @@ class CheckCode extends Command implements CompletionAwareInterface  {
 	private $infoParser;
 
 	protected $checkers = [
-		'private' => '\OC\App\CodeChecker\PrivateCheck',
-		'deprecation' => '\OC\App\CodeChecker\DeprecationCheck',
-		'strong-comparison' => '\OC\App\CodeChecker\StrongComparisonCheck',
+		'private' => PrivateCheck::class,
+		'deprecation' => DeprecationCheck::class,
+		'strong-comparison' => StrongComparisonCheck::class,
 	];
 
 	public function __construct(InfoParser $infoParser) {

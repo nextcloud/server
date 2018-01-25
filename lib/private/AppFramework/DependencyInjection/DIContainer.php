@@ -62,6 +62,8 @@ use OCP\IServerContainer;
 use OCP\IUserSession;
 use OCP\RichObjectStrings\IValidator;
 use OCP\Util;
+use OCP\Encryption\IManager;
+use OCA\WorkflowEngine\Manager;
 
 class DIContainer extends SimpleContainer implements IAppContainer {
 
@@ -134,7 +136,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		$this->registerAlias('ServerContainer', IServerContainer::class);
 
 		$this->registerService(\OCP\WorkflowEngine\IManager::class, function ($c) {
-			return $c->query('OCA\WorkflowEngine\Manager');
+			return $c->query(Manager::class);
 		});
 
 		$this->registerService(\OCP\AppFramework\IAppContainer::class, function ($c) {
@@ -143,7 +145,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 
 		// commonly used attributes
 		$this->registerService('UserId', function ($c) {
-			return $c->query('OCP\\IUserSession')->getSession()->get('user_id');
+			return $c->query(IUserSession::class)->getSession()->get('user_id');
 		});
 
 		$this->registerService('WebRoot', function ($c) {
@@ -158,7 +160,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return $c->getServer()->getThemingDefaults();
 		});
 
-		$this->registerService('OCP\Encryption\IManager', function ($c) {
+		$this->registerService(IManager::class, function ($c) {
 			return $this->getServer()->getEncryptionManager();
 		});
 

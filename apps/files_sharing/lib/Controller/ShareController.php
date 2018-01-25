@@ -244,7 +244,7 @@ class ShareController extends Controller {
 				$exception = $e;
 			}
 		}
-		\OC_Hook::emit('OCP\Share', 'share_link_access', [
+		\OC_Hook::emit(Share::class, 'share_link_access', [
 			'itemType' => $itemType,
 			'itemSource' => $itemSource,
 			'uidOwner' => $uidOwner,

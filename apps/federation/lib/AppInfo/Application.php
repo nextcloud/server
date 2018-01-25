@@ -32,6 +32,7 @@ use OCP\SabrePluginEvent;
 use OCP\Util;
 use Sabre\DAV\Auth\Plugin;
 use Sabre\DAV\Server;
+use OCP\Share;
 
 class Application extends App {
 
@@ -59,7 +60,7 @@ class Application extends App {
 		$hooksManager = $container->query(Hooks::class);
 
 		Util::connectHook(
-				'OCP\Share',
+				Share::class,
 				'federated_share_added',
 				$hooksManager,
 				'addServerHook'

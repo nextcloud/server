@@ -26,6 +26,7 @@ namespace OCA\ShareByMail\AppInfo;
 use OCA\ShareByMail\Settings;
 use OCP\AppFramework\App;
 use OCP\Util;
+use OCA\ShareByMail\Capabilities;
 
 class Application extends App {
 
@@ -37,7 +38,7 @@ class Application extends App {
 
 		/** register capabilities */
 		$container = $this->getContainer();
-		$container->registerCapability('OCA\ShareByMail\Capabilities');
+		$container->registerCapability(Capabilities::class);
 
 		/** register hooks */
 		Util::connectHook('\OCP\Config', 'js', $settings, 'announceShareProvider');
