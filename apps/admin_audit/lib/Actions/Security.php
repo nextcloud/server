@@ -45,7 +45,7 @@ class Security extends Action {
 			'Failed two factor attempt by user %s (%s) with provider %s',
 			$params,
 			[
-				'displayname',
+				'displayName',
 				'uid',
 				'provider',
 			]
@@ -66,7 +66,7 @@ class Security extends Action {
 			'Successful two factor attempt by user %s (%s) with provider %s',
 			$params,
 			[
-				'displayname',
+				'displayName',
 				'uid',
 				'provider',
 			]
