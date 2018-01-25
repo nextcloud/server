@@ -33,12 +33,14 @@ use OCA\AdminAudit\Actions\Auth;
 use OCA\AdminAudit\Actions\Console;
 use OCA\AdminAudit\Actions\Files;
 use OCA\AdminAudit\Actions\GroupManagement;
+use OCA\AdminAudit\Actions\Security;
 use OCA\AdminAudit\Actions\Sharing;
 use OCA\AdminAudit\Actions\Trashbin;
 use OCA\AdminAudit\Actions\UserManagement;
 use OCA\AdminAudit\Actions\Versions;
 use OCP\App\ManagerEvent;
 use OCP\AppFramework\App;
+use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\Console\ConsoleEvent;
 use OCP\IGroupManager;
 use OCP\ILogger;
@@ -75,6 +77,8 @@ class Application extends App {
 		$this->fileHooks($logger);
 		$this->trashbinHooks($logger);
 		$this->versionsHooks($logger);
+
+		$this->securityHooks($logger);
 	}
 
 	protected function userManagementHooks(ILogger $logger) {
@@ -217,5 +221,17 @@ class Application extends App {
 		$trashActions = new Trashbin($logger);
 		Util::connectHook('\OCP\Trashbin', 'preDelete', $trashActions, 'delete');
 		Util::connectHook('\OCA\Files_Trashbin\Trashbin', 'post_restore', $trashActions, 'restore');
+	}
+
+	protected function securityHooks(ILogger $logger) {
+		$eventDispatcher = $this->getContainer()->getServer()->getEventDispatcher();
+		$eventDispatcher->addListener(IProvider::EVENT_SUCCESS, function(GenericEvent $event) use ($logger) {
+			$security = new Security($logger);
+			$security->twofactorSuccess($event->getSubject(), $event->getArguments());
+		});
+		$eventDispatcher->addListener(IProvider::EVENT_FAILED, function(GenericEvent $event) use ($logger) {
+			$security = new Security($logger);
+			$security->twofactorFailed($event->getSubject(), $event->getArguments());
+		});
 	}
 }

@@ -31,6 +31,12 @@ use OCP\Template;
 interface IProvider {
 
 	/**
+	 * @since 14.0.0
+	 */
+	const EVENT_SUCCESS = self::class . '::success';
+	const EVENT_FAILED  = self::class . '::failed';
+
+	/**
 	 * Get unique identifier of this 2FA provider
 	 *
 	 * @since 9.1.0

@@ -420,7 +420,8 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getActivityManager(),
 				$c->getLogger(),
 				$c->query(\OC\Authentication\Token\IProvider::class),
-				$c->query(ITimeFactory::class)
+				$c->query(ITimeFactory::class),
+				$c->query(EventDispatcherInterface::class)
 			);
 		});
 
