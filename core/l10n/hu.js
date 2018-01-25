@@ -56,6 +56,7 @@ OC.L10N.register(
     "Search contacts …" : "Névjegyek keresése...",
     "No contacts found" : "Nem találhatók névejegyek",
     "Show all contacts …" : "Minden névjegy megjelenítése...",
+    "Could not load your contacts" : "Nem lehet betölteni a névjegyeidet",
     "Loading your contacts …" : "Névjegyek betöltése...",
     "Looking for {term} …" : "{term} keresése …",
     "<a href=\"{docUrl}\">There were problems with the code integrity check. More information…</a>" : "<a href=\"{docUrl}\">Problémák vannak a kódintegritás ellenőrzéssel. Bővebb információ…</a>",
