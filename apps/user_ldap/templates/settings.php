@@ -71,10 +71,10 @@ style('user_ldap', 'settings');
 		print_unescaped('<p class="ldapwarning">'.$l->t('<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it.').'</p>');
 	}
 	?>
-	<?php require_once(__DIR__ . '/part.wizard-server.php'); ?>
-	<?php require_once(__DIR__ . '/part.wizard-userfilter.php'); ?>
-	<?php require_once(__DIR__ . '/part.wizard-loginfilter.php'); ?>
-	<?php require_once(__DIR__ . '/part.wizard-groupfilter.php'); ?>
+	<?php require_once __DIR__ . '/part.wizard-server.php'; ?>
+	<?php require_once __DIR__ . '/part.wizard-userfilter.php'; ?>
+	<?php require_once __DIR__ . '/part.wizard-loginfilter.php'; ?>
+	<?php require_once __DIR__ . '/part.wizard-groupfilter.php'; ?>
 	<fieldset id="ldapSettings-1">
 		<div id="ldapAdvancedAccordion">
 			<h3><?php p($l->t('Connection Settings'));?></h3>

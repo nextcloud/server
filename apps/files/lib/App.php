@@ -57,7 +57,7 @@ class App {
 	public static function extendJsConfig($settings) {
 		$appConfig = json_decode($settings['array']['oc_appconfig'], true);
 
-		$maxChunkSize = (int)(\OC::$server->getConfig()->getAppValue('files', 'max_chunk_size', (10 * 1024 * 1024)));
+		$maxChunkSize = (int)\OC::$server->getConfig()->getAppValue('files', 'max_chunk_size', 10 * 1024 * 1024);
 		$appConfig['files'] = [
 			'max_chunk_size' => $maxChunkSize
 		];

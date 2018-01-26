@@ -17,7 +17,7 @@
 		<?php print_unescaped($_['headers']); ?>
 	</head>
 	<body id="body-public">
-		<?php include('layout.noscript.warning.php'); ?>
+		<?php include 'layout.noscript.warning.php'; ?>
 		<?php print_unescaped($_['content']); ?>
 	</body>
 </html>

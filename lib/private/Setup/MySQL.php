@@ -157,7 +157,7 @@ class MySQL extends AbstractDatabase {
 					} else {
 						break;
 					}
-				};
+				}
 			}
 		} catch (\Exception $ex) {
 			$this->logger->logException($ex, [

@@ -147,7 +147,7 @@ class SystemTagsObjectMappingCollection implements ICollection {
 
 	function childExists($tagId) {
 		try {
-			$result = ($this->tagMapper->haveTag([$this->objectId], $this->objectType, $tagId, true));
+			$result = $this->tagMapper->haveTag([$this->objectId], $this->objectType, $tagId, true);
 
 			if ($result) {
 				$tags = $this->tagManager->getTagsByIds([$tagId]);

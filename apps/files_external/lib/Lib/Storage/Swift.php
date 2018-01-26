@@ -170,7 +170,7 @@ class Swift extends \OC\Files\Storage\Common {
 
 		$bucketUrl = Url::factory($params['bucket']);
 		if ($bucketUrl->isAbsolute()) {
-			$this->bucket = end(($bucketUrl->getPathSegments()));
+			$this->bucket = end($bucketUrl->getPathSegments());
 			$params['endpoint_url'] = $bucketUrl->addPath('..')->normalizePath();
 		} else {
 			$this->bucket = $params['bucket'];

@@ -682,7 +682,7 @@ class View {
 				return false;
 			}
 		} else {
-			$hooks = ($this->file_exists($path)) ? array('update', 'write') : array('create', 'write');
+			$hooks = $this->file_exists($path) ? array('update', 'write') : array('create', 'write');
 			return $this->basicOperation('file_put_contents', $path, $hooks, $data);
 		}
 	}
@@ -1245,7 +1245,7 @@ class View {
 	private function runHooks($hooks, $path, $post = false) {
 		$relativePath = $path;
 		$path = $this->getHookPath($path);
-		$prefix = ($post) ? 'post_' : '';
+		$prefix = $post ? 'post_' : '';
 		$run = true;
 		if ($this->shouldEmitHooks($relativePath)) {
 			foreach ($hooks as $hook) {

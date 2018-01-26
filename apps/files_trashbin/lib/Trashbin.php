@@ -873,10 +873,10 @@ class Trashbin {
 			foreach ($matches as $ma) {
 				if ($timestamp) {
 					$parts = explode('.v', substr($ma['path'], 0, $offset));
-					$versions[] = (end($parts));
+					$versions[] = end($parts);
 				} else {
 					$parts = explode('.v', $ma);
-					$versions[] = (end($parts));
+					$versions[] = end($parts);
 				}
 			}
 		}

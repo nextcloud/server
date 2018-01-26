@@ -352,7 +352,7 @@ class User implements IUser {
 	public function setEnabled($enabled) {
 		$oldStatus = $this->isEnabled();
 		$this->enabled = $enabled;
-		$enabled = ($enabled) ? 'true' : 'false';
+		$enabled = $enabled ? 'true' : 'false';
 		if ($oldStatus !== $this->enabled) {
 			$this->triggerChange('enabled', $enabled);
 			$this->config->setUserValue($this->uid, 'core', 'enabled', $enabled);

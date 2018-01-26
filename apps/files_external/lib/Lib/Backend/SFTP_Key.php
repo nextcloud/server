@@ -38,7 +38,7 @@ class SFTP_Key extends Backend {
 			->setStorageClass('\OCA\Files_External\Lib\Storage\SFTP')
 			->setText($l->t('SFTP with secret key login'))
 			->addParameters([
-				(new DefinitionParameter('host', $l->t('Host'))),
+				new DefinitionParameter('host', $l->t('Host')),
 				(new DefinitionParameter('root', $l->t('Remote subfolder')))
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 			])

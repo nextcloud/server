@@ -113,7 +113,7 @@ class Connection extends LDAPUtility {
 	public function __destruct() {
 		if(!$this->dontDestruct && $this->ldap->isResource($this->ldapConnectionRes)) {
 			@$this->ldap->unbind($this->ldapConnectionRes);
-		};
+		}
 	}
 
 	/**

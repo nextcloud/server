@@ -101,7 +101,7 @@ class MailSettingsController extends Controller {
 		$params = get_defined_vars();
 		$configs = [];
 		foreach($params as $key => $value) {
-			$configs[$key] = (empty($value)) ? null : $value;
+			$configs[$key] = empty($value) ? null : $value;
 		}
 
 		// Delete passwords from config in case no auth is specified

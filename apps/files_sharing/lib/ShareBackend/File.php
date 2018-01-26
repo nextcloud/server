@@ -117,7 +117,7 @@ class File implements \OCP\Share_Backend_File_Dependent {
 			}
 		}
 
-		$excludeList = (is_array($exclude)) ? $exclude : array();
+		$excludeList = is_array($exclude) ? $exclude : array();
 
 		return \OCA\Files_Sharing\Helper::generateUniqueTarget($target, $excludeList, $view);
 	}
