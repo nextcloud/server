@@ -63,6 +63,9 @@ class SCSSCacher {
 	/** @var ICache */
 	protected $depsCache;
 
+	/** @var null|string */
+	protected $injectedVariables = null;
+
 	/**
 	 * @param ILogger $logger
 	 * @param Factory $appDataFactory
@@ -268,10 +271,22 @@ class SCSSCacher {
 	 * @return string SCSS code for variables from OC_Defaults
 	 */
 	private function getInjectedVariables() {
+		if ($this->injectedVariables !== null)
+			return $this->injectedVariables;
 		$variables = '';
 		foreach ($this->defaults->getScssVariables() as $key => $value) {
 			$variables .= '$' . $key . ': ' . $value . ';';
 		}
+
+		// check for valid variables / otherwise fall back to defaults
+		try {
+			$scss = new Compiler();
+			$scss->compile($variables);
+			$this->injectedVariables = $variables;
+		} catch (ParserException $e) {
+			$this->logger->error($e, ['app' => 'core']);
+		}
+
 		return $variables;
 	}
 
