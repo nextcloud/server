@@ -33,6 +33,7 @@ namespace OC;
 use OC\App\AppStore\Bundles\BundleFetcher;
 use OC\Files\AppData\Factory;
 use OC\Repair\CleanTags;
+use OC\Repair\ClearFrontendCaches;
 use OC\Repair\Collation;
 use OC\Repair\MoveUpdaterStepFile;
 use OC\Repair\NC11\CleanPreviews;
@@ -50,6 +51,8 @@ use OC\Repair\NC13\RepairInvalidPaths;
 use OC\Repair\SqliteAutoincrement;
 use OC\Repair\RepairMimeTypes;
 use OC\Repair\RepairInvalidShares;
+use OC\Template\JSCombiner;
+use OC\Template\SCSSCacher;
 use OCP\AppFramework\QueryException;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
@@ -152,6 +155,7 @@ class Repair implements IOutput{
 			new RepairInvalidPaths(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig()),
 			new RepairIdentityProofKeyFolders(\OC::$server->getConfig(), \OC::$server->query(Factory::class), \OC::$server->getRootFolder()),
 			new AddLogRotateJob(\OC::$server->getJobList()),
+			new ClearFrontendCaches(\OC::$server->getMemCacheFactory(), \OC::$server->query(SCSSCacher::class), \OC::$server->query(JSCombiner::class))
 		];
 	}
 
