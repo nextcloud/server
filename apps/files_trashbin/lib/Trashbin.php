@@ -635,8 +635,6 @@ class Trashbin {
 
 		if ($timestamp) {
 			$filename = $filename . '.d' . $timestamp;
-		} else {
-			$filename = $filename;
 		}
 
 		$target = Filesystem::normalizePath('files_trashbin/files/' . $filename);

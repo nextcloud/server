@@ -194,9 +194,8 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 						'message' => 'Could not delete object ' . $this->getURN($stat['fileid']) . ' for ' . $path,
 					]);
 					return false;
-				} else {
-					//removing from cache is ok as it does not exist in the objectstore anyway
 				}
+				//removing from cache is ok as it does not exist in the objectstore anyway
 			}
 			$this->getCache()->remove($path);
 			return true;
