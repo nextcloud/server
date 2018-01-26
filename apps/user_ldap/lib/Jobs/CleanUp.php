@@ -156,7 +156,7 @@ class CleanUp extends TimedJob {
 	 * @return bool
 	 */
 	public function isOffsetResetNecessary($resultCount) {
-		return ($resultCount < $this->limit) ? true : false;
+		return $resultCount < $this->limit;
 	}
 
 	/**

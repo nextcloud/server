@@ -348,7 +348,7 @@ class ShareController extends Controller {
 				$freeSpace = (INF > 0) ? INF: PHP_INT_MAX; // work around https://bugs.php.net/bug.php?id=69188
 			}
 
-			$hideFileList = $share->getPermissions() & \OCP\Constants::PERMISSION_READ ? false : true;
+			$hideFileList = !($share->getPermissions() & \OCP\Constants::PERMISSION_READ);
 			$maxUploadFilesize = $freeSpace;
 
 			$folder = new Template('files', 'list', '');
