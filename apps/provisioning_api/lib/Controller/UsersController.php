@@ -33,6 +33,7 @@ namespace OCA\Provisioning_API\Controller;
 use OC\Accounts\AccountManager;
 use OC\Settings\Mailer\NewUserMailHelper;
 use OC_Helper;
+use OCA\Provisioning_API\FederatedFileSharingFactory;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSException;
@@ -68,6 +69,8 @@ class UsersController extends OCSController {
 	private $l10nFactory;
 	/** @var NewUserMailHelper */
 	private $newUserMailHelper;
+	/** @var FederatedFileSharingFactory */
+	private $federatedFileSharingFactory;
 
 	/**
 	 * @param string $appName
@@ -81,6 +84,7 @@ class UsersController extends OCSController {
 	 * @param ILogger $logger
 	 * @param IFactory $l10nFactory
 	 * @param NewUserMailHelper $newUserMailHelper
+	 * @param FederatedFileSharingFactory $federatedFileSharingFactory
 	 */
 	public function __construct($appName,
 								IRequest $request,
@@ -92,7 +96,8 @@ class UsersController extends OCSController {
 								AccountManager $accountManager,
 								ILogger $logger,
 								IFactory $l10nFactory,
-								NewUserMailHelper $newUserMailHelper) {
+								NewUserMailHelper $newUserMailHelper,
+								FederatedFileSharingFactory $federatedFileSharingFactory) {
 		parent::__construct($appName, $request);
 
 		$this->userManager = $userManager;
@@ -104,6 +109,7 @@ class UsersController extends OCSController {
 		$this->logger = $logger;
 		$this->l10nFactory = $l10nFactory;
 		$this->newUserMailHelper = $newUserMailHelper;
+		$this->federatedFileSharingFactory = $federatedFileSharingFactory;
 	}
 
 	/**
@@ -300,7 +306,7 @@ class UsersController extends OCSController {
 	 * @NoAdminRequired
 	 * @NoSubAdminRequired
 	 */
-	public function getEditableField() {
+	public function getEditableFields() {
 		$permittedFields = [];
 
 		// Editing self (display, email)
@@ -310,7 +316,7 @@ class UsersController extends OCSController {
 		}
 
 		if ($this->appManager->isEnabledForUser('federatedfilesharing')) {
-			$federatedFileSharing = new \OCA\FederatedFileSharing\AppInfo\Application();
+			$federatedFileSharing = $this->federatedFileSharingFactory->get();
 			$shareProvider = $federatedFileSharing->getFederatedShareProvider();
 			if ($shareProvider->isLookupServerUploadEnabled()) {
 				$permittedFields[] = AccountManager::PROPERTY_PHONE;
