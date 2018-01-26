@@ -36,8 +36,6 @@ class Plugin extends \Sabre\CalDAV\Plugin {
 			list(, $principalId) = \Sabre\Uri\split($principalUrl);
 			return self::CALENDAR_ROOT .'/' . $principalId;
 		}
-
-		return;
 	}
 
 }
