@@ -153,8 +153,9 @@ class SCSSCacher {
 						return false;
 					}
 				}
+				return true;
 			}
-			return true;
+			return false;
 		} catch(NotFoundException $e) {
 			return false;
 		}
