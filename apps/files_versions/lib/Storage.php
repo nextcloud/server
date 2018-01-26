@@ -566,7 +566,7 @@ class Storage {
 				$fileData = $file->getData();
 				$filePath = $dir . '/' . $fileData['name'];
 				if ($file['type'] === 'dir') {
-					array_push($dirs, $filePath);
+					$dirs[] = $filePath;
 				} else {
 					$versionsBegin = strrpos($filePath, '.v');
 					$relPathStart = strlen(self::VERSIONS_ROOT);

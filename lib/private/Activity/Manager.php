@@ -231,7 +231,7 @@ class Manager implements IManager {
 	 * @param \Closure $callable
 	 */
 	public function registerConsumer(\Closure $callable) {
-		array_push($this->consumersClosures, $callable);
+		$this->consumersClosures[] = $callable;
 		$this->consumers = [];
 	}
 
@@ -244,7 +244,7 @@ class Manager implements IManager {
 	 * @param \Closure $callable
 	 */
 	public function registerExtension(\Closure $callable) {
-		array_push($this->extensionsClosures, $callable);
+		$this->extensionsClosures[] = $callable;
 		$this->extensions = [];
 	}
 

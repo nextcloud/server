@@ -128,13 +128,13 @@ class UserPlugin implements ISearchPlugin {
 				}
 
 				if ($addUser) {
-					array_push($result['exact'], [
+					$result['exact'][] = [
 						'label' => $user->getDisplayName(),
 						'value' => [
 							'shareType' => Share::SHARE_TYPE_USER,
 							'shareWith' => $user->getUID(),
 						],
-					]);
+					];
 				}
 			}
 		}

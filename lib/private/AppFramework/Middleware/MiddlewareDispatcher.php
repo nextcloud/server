@@ -63,7 +63,7 @@ class MiddlewareDispatcher {
 	 * @param Middleware $middleWare the middleware which will be added
 	 */
 	public function registerMiddleware(Middleware $middleWare){
-		array_push($this->middlewares, $middleWare);
+		$this->middlewares[] = $middleWare;
 	}
 
 
