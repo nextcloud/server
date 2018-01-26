@@ -35,6 +35,7 @@
 
 namespace OCA\User_LDAP;
 
+use OC\ServerNotAvailableException;
 use OC\User\Backend;
 use OC\User\NoUserException;
 use OCA\User_LDAP\Exceptions\NotOnLDAP;
@@ -302,16 +303,18 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 
 			try {
 				$uuid = $this->access->getUserMapper()->getUUIDByDN($dn);
-				if(!$uuid) {
+				if (!$uuid) {
 					return false;
 				}
 				$newDn = $this->access->getUserDnByUuid($uuid);
 				//check if renamed user is still valid by reapplying the ldap filter
-				if(!is_array($this->access->readAttribute($newDn, '', $this->access->connection->ldapUserFilter))) {
+				if (!is_array($this->access->readAttribute($newDn, '', $this->access->connection->ldapUserFilter))) {
 					return false;
 				}
 				$this->access->getUserMapper()->setDNbyUUID($newDn, $uuid);
 				return true;
+			} catch (ServerNotAvailableException $e) {
+				throw $e;
 			} catch (\Exception $e) {
 				return false;
 			}
