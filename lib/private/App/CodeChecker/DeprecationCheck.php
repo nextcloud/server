@@ -45,6 +45,7 @@ class DeprecationCheck extends AbstractCheck {
 			'OCP\Response' => '8.1.0',
 			'OCP\AppFramework\IApi' => '8.0.0',
 			'OCP\User' => '13.0.0',
+			'OCP\BackgroundJob' => '14.0.0',
 		];
 	}
 
@@ -116,6 +117,8 @@ class DeprecationCheck extends AbstractCheck {
 			'OCP\AppFramework\IAppContainer::log' => '8.0.0',
 
 			'OCP\BackgroundJob::registerJob' => '8.1.0',
+			'OCP\BackgroundJob::getExecutionType' => '14.0.0',
+			'OCP\BackgroundJob::setExecutionType' => '14.0.0',
 
 			'OCP\Files::tmpFile' => '8.1.0',
 			'OCP\Files::tmpFolder' => '8.1.0',
