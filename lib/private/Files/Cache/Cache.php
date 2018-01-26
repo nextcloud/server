@@ -208,9 +208,8 @@ class Cache implements ICache {
 			return array_map(function (array $data) {
 				return self::cacheEntryFromData($data, $this->mimetypeLoader);;
 			}, $files);
-		} else {
-			return array();
 		}
+		return [];
 	}
 
 	/**

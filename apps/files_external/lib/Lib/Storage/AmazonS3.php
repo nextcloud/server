@@ -232,7 +232,6 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		} catch (\Exception $e) {
 			return $this->batchDelete();
 		}
-		return false;
 	}
 
 	private function batchDelete($path = null) {
