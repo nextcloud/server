@@ -155,12 +155,14 @@ class Access extends LDAPUtility implements IUserTools {
 
 	/**
 	 * reads a given attribute for an LDAP record identified by a DN
+	 *
 	 * @param string $dn the record in question
 	 * @param string $attr the attribute that shall be retrieved
 	 *        if empty, just check the record's existence
 	 * @param string $filter
 	 * @return array|false an array of values on success or an empty
 	 *          array if $attr is empty, false otherwise
+	 * @throws ServerNotAvailableException
 	 */
 	public function readAttribute($dn, $attr, $filter = 'objectClass=*') {
 		if(!$this->checkConnection()) {
