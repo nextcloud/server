@@ -327,7 +327,7 @@ class Database extends \OC\Group\Backend {
 		$result = $stmt->execute($parameters);
 		$count = $result->fetchOne();
 		if($count !== false) {
-			$count = intval($count);
+			$count = (int)$count;
 		}
 		return $count;
 	}

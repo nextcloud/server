@@ -690,7 +690,7 @@ class Wizard extends LDAPUtility {
 			if ($settingsFound === true) {
 				$config = array(
 					'ldapPort' => $p,
-					'ldapTLS' => intval($t)
+					'ldapTLS' => (int)$t
 				);
 				$this->configuration->setConfiguration($config);
 				\OCP\Util::writeLog('user_ldap', 'Wiz: detected Port ' . $p, \OCP\Util::DEBUG);
@@ -1069,7 +1069,7 @@ class Wizard extends LDAPUtility {
 
 		if($login === true) {
 			$this->ldap->unbind($cr);
-			\OCP\Util::writeLog('user_ldap', 'Wiz: Bind successful to Port '. $port . ' TLS ' . intval($tls), \OCP\Util::DEBUG);
+			\OCP\Util::writeLog('user_ldap', 'Wiz: Bind successful to Port '. $port . ' TLS ' . (int)$tls, \OCP\Util::DEBUG);
 			return true;
 		}
 
@@ -1326,7 +1326,7 @@ class Wizard extends LDAPUtility {
 		//636 ← LDAPS / SSL
 		//7xxx ← UCS. need to be checked first, because both ports may be open
 		$host = $this->configuration->ldapHost;
-		$port = intval($this->configuration->ldapPort);
+		$port = (int)$this->configuration->ldapPort;
 		$portSettings = array();
 
 		//In case the port is already provided, we will check this first
