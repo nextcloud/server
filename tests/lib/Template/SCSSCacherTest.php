@@ -351,11 +351,21 @@ class SCSSCacherTest extends \Test\TestCase {
 		$this->assertFalse($actual);
 	}
 
-	public function testRebaseUrls() {
+	public function dataRebaseUrls() {
+		return [
+			['#id { background-image: url(\'../img/image.jpg\'); }','#id { background-image: url(\'/apps/files/css/../img/image.jpg\'); }'],
+			['#id { background-image: url("../img/image.jpg"); }','#id { background-image: url(\'/apps/files/css/../img/image.jpg\'); }'],
+			['#id { background-image: url(\'/img/image.jpg\'); }','#id { background-image: url(\'/img/image.jpg\'); }'],
+			['#id { background-image: url("http://example.com/test.jpg"); }','#id { background-image: url("http://example.com/test.jpg"); }'],
+		];
+	}
+
+	/**
+	 * @dataProvider dataRebaseUrls
+	 */
+	public function testRebaseUrls($scss, $expected) {
 		$webDir = '/apps/files/css';
-		$css = '#id { background-image: url(\'../img/image.jpg\'); }';
-		$actual = self::invokePrivate($this->scssCacher, 'rebaseUrls', [$css, $webDir]);
-		$expected = '#id { background-image: url(\'/apps/files/css/../img/image.jpg\'); }';
+		$actual = self::invokePrivate($this->scssCacher, 'rebaseUrls', [$scss, $webDir]);
 		$this->assertEquals($expected, $actual);
 	}
 
