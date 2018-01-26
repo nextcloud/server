@@ -254,8 +254,7 @@ class Storage extends Wrapper {
 	 * @return MoveToTrashEvent
 	 */
 	protected function createMoveToTrashEvent(Node $node) {
-		$event = new MoveToTrashEvent($node);
-		return $event;
+		return new MoveToTrashEvent($node);
 	}
 
 	/**

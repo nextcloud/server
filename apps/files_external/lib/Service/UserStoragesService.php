@@ -112,8 +112,7 @@ class UserStoragesService extends StoragesService {
 	 */
 	public function addStorage(StorageConfig $newStorage) {
 		$newStorage->setApplicableUsers([$this->getUser()->getUID()]);
-		$config = parent::addStorage($newStorage);
-		return $config;
+		return parent::addStorage($newStorage);
 	}
 
 	/**

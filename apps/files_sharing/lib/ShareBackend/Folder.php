@@ -73,9 +73,7 @@ class Folder extends File implements \OCP\Share_Backend_Collection {
 		$query = \OCP\DB::prepare('SELECT `parent` FROM `*PREFIX*filecache` WHERE `fileid` = ?');
 		$result = $query->execute(array($child));
 		$row = $result->fetchRow();
-		$parent = $row ? $row['parent'] : null;
-
-		return $parent;
+		return $row ? $row['parent'] : null;
 	}
 
 	public function getChildren($itemSource) {

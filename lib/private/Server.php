@@ -243,9 +243,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService('SystemTagManagerFactory', function (Server $c) {
 			$config = $c->getConfig();
 			$factoryClass = $config->getSystemValue('systemtags.managerFactory', '\OC\SystemTag\ManagerFactory');
-			/** @var \OC\SystemTag\ManagerFactory $factory */
-			$factory = new $factoryClass($this);
-			return $factory;
+			return new $factoryClass($this);
 		});
 		$this->registerService(\OCP\SystemTag\ISystemTagManager::class, function (Server $c) {
 			return $c->query('SystemTagManagerFactory')->getManager();

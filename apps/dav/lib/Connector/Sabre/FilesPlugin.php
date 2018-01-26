@@ -340,8 +340,7 @@ class FilesPlugin extends ServerPlugin {
 			});
 
 			$propFind->handle(self::IS_ENCRYPTED_PROPERTYNAME, function() use ($node) {
-				$result = $node->getFileInfo()->isEncrypted() ? '1' : '0';
-				return $result;
+				return $node->getFileInfo()->isEncrypted() ? '1' : '0';
 			});
 
 			$propFind->handle(self::HAS_PREVIEW_PROPERTYNAME, function () use ($node) {

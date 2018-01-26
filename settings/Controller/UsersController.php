@@ -723,9 +723,7 @@ class UsersController extends Controller {
 	protected function signMessage(IUser $user, $message) {
 		$privateKey = $this->keyManager->getKey($user)->getPrivate();
 		openssl_sign(json_encode($message), $signature, $privateKey, OPENSSL_ALGO_SHA512);
-		$signatureBase64 = base64_encode($signature);
-
-		return $signatureBase64;
+		return base64_encode($signature);
 	}
 
 	/**
