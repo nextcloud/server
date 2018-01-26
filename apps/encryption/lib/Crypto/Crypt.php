@@ -560,7 +560,7 @@ class Crypt {
 		$signaturePosition = strpos($meta, '00sig00');
 
 		// enforce signature for the new 'CTR' ciphers
-		if ($signaturePosition === false && strpos(strtolower($cipher), 'ctr') !== false) {
+		if ($signaturePosition === false && stripos($cipher, 'ctr') !== false) {
 			throw new GenericEncryptionException('Missing Signature', $this->l->t('Missing Signature'));
 		}
 
