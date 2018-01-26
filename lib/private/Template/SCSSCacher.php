@@ -254,6 +254,7 @@ class SCSSCacher {
 	 * We need to regenerate all files when variables change
 	 */
 	private function resetCache() {
+		$this->injectedVariables = null;
 		$appDirectory = $this->appData->getDirectoryListing();
 		if(empty($appDirectory)){
 			return;
