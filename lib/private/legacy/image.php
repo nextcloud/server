@@ -784,16 +784,16 @@ class OC_Image implements \OCP\IImage {
 						$color[1] = (($color[1] & 0xf800) >> 8) * 65536 + (($color[1] & 0x07e0) >> 3) * 256 + (($color[1] & 0x001f) << 3);
 						break;
 					case 8:
-						$color = @unpack('n', $vide . substr($data, $p, 1));
+						$color = @unpack('n', $vide . ($data[$p] ?? ''));
 						$color[1] = (isset($palette[$color[1] + 1])) ? $palette[$color[1] + 1] : $palette[1];
 						break;
 					case 4:
-						$color = @unpack('n', $vide . substr($data, floor($p), 1));
+						$color = @unpack('n', $vide . ($data[floor($p)] ?? ''));
 						$color[1] = ($p * 2) % 2 == 0 ? $color[1] >> 4 : $color[1] & 0x0F;
 						$color[1] = (isset($palette[$color[1] + 1])) ? $palette[$color[1] + 1] : $palette[1];
 						break;
 					case 1:
-						$color = @unpack('n', $vide . substr($data, floor($p), 1));
+						$color = @unpack('n', $vide . ($data[floor($p)] ?? ''));
 						switch (($p * 8) % 8) {
 							case 0:
 								$color[1] = $color[1] >> 7;

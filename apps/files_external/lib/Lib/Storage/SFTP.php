@@ -103,13 +103,8 @@ class SFTP extends \OC\Files\Storage\Common {
 		$this->root
 			= isset($params['root']) ? $this->cleanPath($params['root']) : '/';
 
-		if ($this->root[0] !== '/') {
-			 $this->root = '/' . $this->root;
-		}
-
-		if (substr($this->root, -1, 1) !== '/') {
-			$this->root .= '/';
-		}
+		$this->root = '/' . ltrim($this->root, '/');
+		$this->root = rtrim($this->root, '/') . '/';
 	}
 
 	/**

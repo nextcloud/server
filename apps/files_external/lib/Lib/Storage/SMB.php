@@ -84,13 +84,9 @@ class SMB extends Common implements INotifyStorage {
 			}
 			$this->share = $this->server->getShare(trim($params['share'], '/'));
 
-			$this->root = isset($params['root']) ? $params['root'] : '/';
-			if (!$this->root || $this->root[0] !== '/') {
-				$this->root = '/' . $this->root;
-			}
-			if (substr($this->root, -1, 1) !== '/') {
-				$this->root .= '/';
-			}
+			$this->root = $params['root'] ?? '/';
+			$this->root = '/' . ltrim($this->root, '/');
+			$this->root = rtrim($this->root, '/') . '/';
 		} else {
 			throw new \Exception('Invalid configuration');
 		}
