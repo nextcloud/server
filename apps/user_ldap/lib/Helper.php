@@ -122,7 +122,7 @@ class Helper {
 
 		sort($serverConnections);
 		$lastKey = array_pop($serverConnections);
-		$lastNumber = intval(str_replace('s', '', $lastKey));
+		$lastNumber = (int)str_replace('s', '', $lastKey);
 		return 's' . str_pad($lastNumber + 1, 2, '0', STR_PAD_LEFT);
 	}
 

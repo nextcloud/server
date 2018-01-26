@@ -106,7 +106,7 @@ class Connection extends LDAPUtility {
 		$this->doNotValidate = !in_array($this->configPrefix,
 			$helper->getServerConfigurationPrefixes());
 		$this->hasPagedResultSupport =
-			intval($this->configuration->ldapPagingSize) !== 0
+			(int)$this->configuration->ldapPagingSize !== 0
 			|| $this->ldap->hasPagedResultSupport();
 	}
 
@@ -368,7 +368,7 @@ class Connection extends LDAPUtility {
 			}
 		}
 
-		$backupPort = intval($this->configuration->ldapBackupPort);
+		$backupPort = (int)$this->configuration->ldapBackupPort;
 		if ($backupPort <= 0) {
 			$this->configuration->backupPort = $this->configuration->ldapPort;
 		}
@@ -399,7 +399,7 @@ class Connection extends LDAPUtility {
 	private function doCriticalValidation() {
 		$configurationOK = true;
 		$errorStr = 'Configuration Error (prefix '.
-					strval($this->configPrefix).'): ';
+			(string)$this->configPrefix .'): ';
 
 		//options that shall not be empty
 		$options = array('ldapHost', 'ldapPort', 'ldapUserDisplayName',

@@ -369,7 +369,7 @@ abstract class Node implements \Sabre\DAV\INode {
 			throw new \InvalidArgumentException('X-OC-MTime header must be an integer (unix timestamp).');
 		}
 
-		return intval($mtimeFromRequest);
+		return (int)$mtimeFromRequest;
 	}
 
 }

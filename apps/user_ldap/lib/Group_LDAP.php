@@ -266,7 +266,7 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 		$groups = $this->access->groupsMatchFilter($groups);
 		$allGroups =  $groups;
 		$nestedGroups = $this->access->connection->ldapNestedGroups;
-		if (intval($nestedGroups) === 1) {
+		if ((int)$nestedGroups === 1) {
 			foreach ($groups as $group) {
 				$subGroups = $this->_getGroupDNsFromMemberOf($group, $seen);
 				$allGroups = array_merge($allGroups, $subGroups);
@@ -667,8 +667,8 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 		// if possible, read out membership via memberOf. It's far faster than
 		// performing a search, which still is a fallback later.
 		// memberof doesn't support memberuid, so skip it here.
-		if(intval($this->access->connection->hasMemberOfFilterSupport) === 1
-			&& intval($this->access->connection->useMemberOfToDetectMembership) === 1
+		if((int)$this->access->connection->hasMemberOfFilterSupport === 1
+			&& (int)$this->access->connection->useMemberOfToDetectMembership === 1
 		    && strtolower($this->access->connection->ldapGroupMemberAssocAttr) !== 'memberuid'
 		    ) {
 			$groupDNs = $this->_getGroupDNsFromMemberOf($userDN);

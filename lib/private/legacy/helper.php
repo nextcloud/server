@@ -141,7 +141,7 @@ class OC_Helper {
 	public static function computerFileSize($str) {
 		$str = strtolower($str);
 		if (is_numeric($str)) {
-			return floatval($str);
+			return (float)$str;
 		}
 
 		$bytes_array = array(
@@ -158,7 +158,7 @@ class OC_Helper {
 			'p' => 1024 * 1024 * 1024 * 1024 * 1024,
 		);
 
-		$bytes = floatval($str);
+		$bytes = (float)$str;
 
 		if (preg_match('#([kmgtp]?b?)$#si', $str, $matches) && !empty($bytes_array[$matches[1]])) {
 			$bytes *= $bytes_array[$matches[1]];

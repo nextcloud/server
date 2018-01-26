@@ -133,7 +133,7 @@ class Parser {
 		return [
 			'mtime' => strtotime($data['write_time']),
 			'mode'  => hexdec(substr($data['attributes'], strpos($data['attributes'], '('), -1)),
-			'size'  => isset($data['stream']) ? intval(explode(' ', $data['stream'])[1]) : 0
+			'size'  => isset($data['stream']) ? (int)explode(' ', $data['stream'])[1] : 0
 		];
 	}
 

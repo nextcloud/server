@@ -503,7 +503,7 @@ class Storage {
 
 		$toDelete = [];
 		foreach (array_reverse($versions['all']) as $key => $version) {
-			if (intval($version['version'])<$threshold) {
+			if ((int)$version['version'] <$threshold) {
 				$toDelete[$key] = $version;
 			} else {
 				//Versions are sorted by time - nothing mo to iterate.
