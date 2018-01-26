@@ -249,9 +249,10 @@ class SCSSCacher {
 			$depFile->putContent($deps);
 			$this->depsCache->set($folder->getName() . '-' . $depFileName, $deps);
 			$gzipFile->putContent(gzencode($data, 9));
-			$this->logger->debug($webDir.'/'.$fileNameSCSS.' compiled and successfully cached', ['app' => 'core']);
+			$this->logger->debug('SCSSCacher: '.$webDir.'/'.$fileNameSCSS.' compiled and successfully cached', ['app' => 'core']);
 			return true;
 		} catch(NotPermittedException $e) {
+			$this->logger->error('SCSSCacher: unable to cache: ' . $fileNameSCSS);
 			return false;
 		}
 	}
@@ -260,7 +261,7 @@ class SCSSCacher {
 	 * Reset scss cache by deleting all generated css files
 	 * We need to regenerate all files when variables change
 	 */
-	private function resetCache() {
+	public function resetCache() {
 		$this->injectedVariables = null;
 		$appDirectory = $this->appData->getDirectoryListing();
 		if(empty($appDirectory)){
@@ -268,9 +269,7 @@ class SCSSCacher {
 		}
 		foreach ($appDirectory as $folder) {
 			foreach ($folder->getDirectoryListing() as $file) {
-				if (substr($file->getName(), -3) === 'css' || substr($file->getName(), -4) === 'deps') {
-					$file->delete();
-				}
+				$file->delete();
 			}
 		}
 	}

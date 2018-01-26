@@ -184,9 +184,10 @@ class JSCombiner {
 			$depFile->putContent($deps);
 			$this->depsCache->set($folder->getName() . '-' . $depFileName, $deps);
 			$gzipFile->putContent(gzencode($res, 9));
-
+			$this->logger->debug('JSCombiner: successfully cached: ' . $fileName);
 			return true;
 		} catch (NotPermittedException $e) {
+			$this->logger->error('JSCombiner: unable to cache: ' . $fileName);
 			return false;
 		}
 	}
@@ -226,5 +227,23 @@ class JSCombiner {
 		}
 
 		return $result;
+	}
+
+
+	/**
+	 * Clear cache with combined javascript files
+	 *
+	 * @throws NotFoundException
+	 */
+	public function resetCache() {
+		$appDirectory = $this->appData->getDirectoryListing();
+		if(empty($appDirectory)){
+			return;
+		}
+		foreach ($appDirectory as $folder) {
+			foreach ($folder->getDirectoryListing() as $file) {
+				$file->delete();
+			}
+		}
 	}
 }
