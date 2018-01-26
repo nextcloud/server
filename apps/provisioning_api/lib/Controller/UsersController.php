@@ -309,11 +309,6 @@ class UsersController extends OCSController {
 			$permittedFields[] = AccountManager::PROPERTY_EMAIL;
 		}
 
-		$permittedFields[] = 'password';
-		if ($this->config->getSystemValue('force_language', false) === false) {
-			$permittedFields[] = 'language';
-		}
-
 		if ($this->appManager->isEnabledForUser('federatedfilesharing')) {
 			$federatedFileSharing = new \OCA\FederatedFileSharing\AppInfo\Application();
 			$shareProvider = $federatedFileSharing->getFederatedShareProvider();
