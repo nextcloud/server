@@ -23,10 +23,4 @@
 		<admin>OCA\Theming\Settings\Admin</admin>
 		<admin-section>OCA\Theming\Settings\Section</admin-section>
 	</settings>
-
-    <repair-steps>
-        <post-migration>
-            <step>OCA\Theming\Migration\ThemingImages</step>
-        </post-migration>
-	</repair-steps>
 </info>
