@@ -379,7 +379,7 @@ class Encryption extends Wrapper {
 		$shouldEncrypt = false;
 		$encryptionModule = null;
 		$header = $this->getHeader($path);
-		$signed = (isset($header['signed']) && $header['signed'] === 'true') ? true : false;
+		$signed = isset($header['signed']) && $header['signed'] === 'true';
 		$fullPath = $this->getFullPath($path);
 		$encryptionModuleId = $this->util->getEncryptionModuleId($header);
 
@@ -544,7 +544,7 @@ class Encryption extends Wrapper {
 			return 0;
 		}
 
-		$signed = (isset($header['signed']) && $header['signed'] === 'true') ? true : false;
+		$signed = isset($header['signed']) && $header['signed'] === 'true';
 		$unencryptedBlockSize = $encryptionModule->getUnencryptedBlockSize($signed);
 
 		// calculate last chunk nr

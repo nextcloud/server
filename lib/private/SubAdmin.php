@@ -230,9 +230,7 @@ class SubAdmin extends PublicEmitter {
 		$isSubAdmin = $result->fetch();
 		$result->closeCursor();
 
-		$result = $isSubAdmin === false ? false : true;
-
-		return $result;
+		return $isSubAdmin !== false;
 	}
 
 	/**

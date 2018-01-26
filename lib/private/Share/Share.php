@@ -1416,7 +1416,7 @@ class Share extends Constants {
 	 */
 	protected static function groupItems($items, $itemType) {
 
-		$fileSharing = ($itemType === 'file' || $itemType === 'folder') ? true : false;
+		$fileSharing = $itemType === 'file' || $itemType === 'folder';
 
 		$result = array();
 
@@ -2070,7 +2070,7 @@ class Share extends Constants {
 	 */
 	public static function shareWithGroupMembersOnly() {
 		$value = \OC::$server->getConfig()->getAppValue('core', 'shareapi_only_share_with_group_members', 'no');
-		return ($value === 'yes') ? true : false;
+		return $value === 'yes';
 	}
 
 	/**
@@ -2078,7 +2078,7 @@ class Share extends Constants {
 	 */
 	public static function isDefaultExpireDateEnabled() {
 		$defaultExpireDateEnabled = \OC::$server->getConfig()->getAppValue('core', 'shareapi_default_expire_date', 'no');
-		return ($defaultExpireDateEnabled === "yes") ? true : false;
+		return $defaultExpireDateEnabled === 'yes';
 	}
 
 	/**
@@ -2119,7 +2119,7 @@ class Share extends Constants {
 	 */
 	public static function enforcePassword(IConfig $config) {
 		$enforcePassword = $config->getAppValue('core', 'shareapi_enforce_links_password', 'no');
-		return ($enforcePassword === "yes") ? true : false;
+		return $enforcePassword === 'yes';
 	}
 
 	/**

@@ -169,7 +169,7 @@ class Helper extends \OC\Share\Constants {
 			$enforceExpireDate = $config->getAppValue('core', 'shareapi_enforce_expire_date', 'no');
 			$defaultExpireSettings['defaultExpireDateSet'] = true;
 			$defaultExpireSettings['expireAfterDays'] = (int)($config->getAppValue('core', 'shareapi_expire_after_n_days', '7'));
-			$defaultExpireSettings['enforceExpireDate'] = $enforceExpireDate === 'yes' ? true : false;
+			$defaultExpireSettings['enforceExpireDate'] = $enforceExpireDate === 'yes';
 		}
 
 		return $defaultExpireSettings;

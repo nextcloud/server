@@ -384,7 +384,7 @@ class Util {
 	public function recoveryEnabled($uid) {
 		$enabled = $this->config->getUserValue($uid, 'encryption', 'recovery_enabled', '0');
 
-		return ($enabled === '1') ? true : false;
+		return $enabled === '1';
 	}
 
 	/**

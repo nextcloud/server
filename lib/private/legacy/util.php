@@ -301,7 +301,7 @@ class OC_Util {
 	 */
 	public static function isPublicLinkPasswordRequired() {
 		$enforcePassword = \OC::$server->getConfig()->getAppValue('core', 'shareapi_enforce_links_password', 'no');
-		return ($enforcePassword === 'yes') ? true : false;
+		return $enforcePassword === 'yes';
 	}
 
 	/**
@@ -344,7 +344,7 @@ class OC_Util {
 		$enforceDefaultExpireDate = false;
 		if ($isDefaultExpireDateEnabled === 'yes') {
 			$value = \OC::$server->getConfig()->getAppValue('core', 'shareapi_enforce_expire_date', 'no');
-			$enforceDefaultExpireDate = ($value === 'yes') ? true : false;
+			$enforceDefaultExpireDate = $value === 'yes';
 		}
 
 		return $enforceDefaultExpireDate;

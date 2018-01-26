@@ -205,7 +205,7 @@ class AppSettingsController extends Controller {
 				$nextCloudVersionDependencies['nextcloud']['@attributes']['max-version'] = $nextCloudVersion->getMaximumVersion();
 			}
 			$phpVersion = $versionParser->getVersion($app['releases'][0]['rawPhpVersionSpec']);
-			$existsLocally = (\OC_App::getAppPath($app['id']) !== false) ? true : false;
+			$existsLocally = \OC_App::getAppPath($app['id']) !== false;
 			$phpDependencies = [];
 			if($phpVersion->getMinimumVersion() !== '') {
 				$phpDependencies['php']['@attributes']['min-version'] = $phpVersion->getMinimumVersion();

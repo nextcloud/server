@@ -122,7 +122,7 @@ class JSConfigHelper {
 
 
 		$enableLinkPasswordByDefault = $this->config->getAppValue('core', 'shareapi_enable_link_password_by_default', 'no');
-		$enableLinkPasswordByDefault = ($enableLinkPasswordByDefault === 'yes') ? true : false;
+		$enableLinkPasswordByDefault = $enableLinkPasswordByDefault === 'yes';
 		$defaultExpireDateEnabled = $this->config->getAppValue('core', 'shareapi_default_expire_date', 'no') === 'yes';
 		$defaultExpireDate = $enforceDefaultExpireDate = null;
 		if ($defaultExpireDateEnabled) {
