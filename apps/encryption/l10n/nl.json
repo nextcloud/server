@@ -36,7 +36,7 @@
     "Default encryption module" : "Standaard cryptomodule",
     "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "Crypto app is ingeschakeld, maar je sleutels werden niet geïnitialiseerd. Log uit en log daarna opnieuw in.",
     "Encrypt the home storage" : "Versleutel de eigen serveropslag",
-    "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Het inschakelen van deze optie zorgt voor versleutelen van alle bestanden op do hoofdopslag, anders worden alleen bestanden op externe opslag versleuteld",
+    "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Het inschakelen van deze optie zorgt voor versleutelen van alle bestanden op de hoofdopslag, anders worden alleen bestanden op externe opslag versleuteld",
     "Enable recovery key" : "Activeer herstelsleutel",
     "Disable recovery key" : "Deactiveer herstelsleutel",
     "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "De herstelsleutel is een extra cryptografische sleutel die wordt gebruikt om bestanden te versleutelen. Die maakt het mogelijk bestanden te herstellen als de gebruiker zijn of haar wachtwoord vergeet.",

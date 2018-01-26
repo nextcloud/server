@@ -54,6 +54,7 @@
     "Search contacts …" : "Kişi arama...",
     "No contacts found" : "Herhangi bir kişi bulunamadı",
     "Show all contacts …" : "Tüm kişileri görüntüle...",
+    "Could not load your contacts" : "Kişileriniz yüklenemedi",
     "Loading your contacts …" : "Kişileriniz yükleniyor...",
     "Looking for {term} …" : "{term} ifadesi aranıyor...",
     "<a href=\"{docUrl}\">There were problems with the code integrity check. More information…</a>" : "<a href=\"{docUrl}\">Kod bütünlük sınamasında sorunlar çıktı. Ayrıntılı bilgi…</a>",
