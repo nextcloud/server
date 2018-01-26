@@ -195,7 +195,7 @@ class Access extends LDAPUtility implements IUserTools {
 		$this->abandonPagedSearch();
 		// openLDAP requires that we init a new Paged Search. Not needed by AD,
 		// but does not hurt either.
-		$pagingSize = intval($this->connection->ldapPagingSize);
+		$pagingSize = (int)$this->connection->ldapPagingSize;
 		// 0 won't result in replies, small numbers may leave out groups
 		// (cf. #12306), 500 is default for paging and should work everywhere.
 		$maxResults = $pagingSize > 20 ? $pagingSize : 500;
@@ -352,7 +352,7 @@ class Access extends LDAPUtility implements IUserTools {
 	 * @throws \Exception
 	 */
 	public function setPassword($userDN, $password) {
-		if(intval($this->connection->turnOnPasswordChange) !== 1) {
+		if((int)$this->connection->turnOnPasswordChange !== 1) {
 			throw new \Exception('LDAP password changes are disabled.');
 		}
 		$cr = $this->connection->getConnectionResource();
@@ -573,7 +573,7 @@ class Access extends LDAPUtility implements IUserTools {
 		}
 
 		if($isUser) {
-			$usernameAttribute = strval($this->connection->ldapExpertUsernameAttr);
+			$usernameAttribute = (string)$this->connection->ldapExpertUsernameAttr;
 			if ($usernameAttribute !== '') {
 				$username = $this->readAttribute($fdn, $usernameAttribute);
 				$username = $username[0];
@@ -751,9 +751,9 @@ class Access extends LDAPUtility implements IUserTools {
 		} else {
 			natsort($usedNames);
 			$lastName = array_pop($usedNames);
-			$lastNo = intval(substr($lastName, strrpos($lastName, '_') + 1));
+			$lastNo = (int)substr($lastName, strrpos($lastName, '_') + 1);
 		}
-		$altName = $name.'_'.strval($lastNo+1);
+		$altName = $name.'_'. (string)($lastNo+1);
 		unset($usedNames);
 
 		$attempts = 1;
@@ -1051,7 +1051,7 @@ class Access extends LDAPUtility implements IUserTools {
 		}
 
 		//check whether paged search should be attempted
-		$pagedSearchOK = $this->initPagedSearch($filter, $base, $attr, intval($limit), $offset);
+		$pagedSearchOK = $this->initPagedSearch($filter, $base, $attr, (int)$limit, $offset);
 
 		$linkResources = array_pad(array(), count($base), $cr);
 		$sr = $this->invokeLDAPMethod('search', $linkResources, $base, $filter, $attr);
@@ -1099,7 +1099,7 @@ class Access extends LDAPUtility implements IUserTools {
 				$this->pagedSearchedSuccessful = true;
 			}
 		} else {
-			if(!is_null($limit) && intval($this->connection->ldapPagingSize) !== 0) {
+			if(!is_null($limit) && (int)$this->connection->ldapPagingSize !== 0) {
 				\OC::$server->getLogger()->debug(
 					'Paged search was not available',
 					[ 'app' => 'user_ldap' ]
@@ -1131,7 +1131,7 @@ class Access extends LDAPUtility implements IUserTools {
 	private function count($filter, $base, $attr = null, $limit = null, $offset = null, $skipHandling = false) {
 		\OCP\Util::writeLog('user_ldap', 'Count filter:  '.print_r($filter, true), \OCP\Util::DEBUG);
 
-		$limitPerPage = intval($this->connection->ldapPagingSize);
+		$limitPerPage = (int)$this->connection->ldapPagingSize;
 		if(!is_null($limit) && $limit < $limitPerPage && $limit > 0) {
 			$limitPerPage = $limit;
 		}
@@ -1174,7 +1174,7 @@ class Access extends LDAPUtility implements IUserTools {
 		$counter = 0;
 
 		foreach($searchResults as $res) {
-			$count = intval($this->invokeLDAPMethod('countEntries', $this->connection->getConnectionResource(), $res));
+			$count = (int)$this->invokeLDAPMethod('countEntries', $this->connection->getConnectionResource(), $res);
 			$counter += $count;
 		}
 
@@ -1194,7 +1194,7 @@ class Access extends LDAPUtility implements IUserTools {
 	 * @throws ServerNotAvailableException
 	 */
 	public function search($filter, $base, $attr = null, $limit = null, $offset = null, $skipHandling = false) {
-		$limitPerPage = intval($this->connection->ldapPagingSize);
+		$limitPerPage = (int)$this->connection->ldapPagingSize;
 		if(!is_null($limit) && $limit < $limitPerPage && $limit > 0) {
 			$limitPerPage = $limit;
 		}
@@ -1287,7 +1287,7 @@ class Access extends LDAPUtility implements IUserTools {
 				&& !is_null($limit)
 			)
 		) {
-			$findings = array_slice($findings, intval($offset), $limit);
+			$findings = array_slice($findings, (int)$offset, $limit);
 		}
 		return $findings;
 	}
@@ -1829,7 +1829,7 @@ class Access extends LDAPUtility implements IUserTools {
 		}
 		$offset -= $limit;
 		//we work with cache here
-		$cacheKey = 'lc' . crc32($base) . '-' . crc32($filter) . '-' . intval($limit) . '-' . intval($offset);
+		$cacheKey = 'lc' . crc32($base) . '-' . crc32($filter) . '-' . (int)$limit . '-' . (int)$offset;
 		$cookie = '';
 		if(isset($this->cookies[$cacheKey])) {
 			$cookie = $this->cookies[$cacheKey];
@@ -1876,7 +1876,7 @@ class Access extends LDAPUtility implements IUserTools {
 	private function setPagedResultCookie($base, $filter, $limit, $offset, $cookie) {
 		// allow '0' for 389ds
 		if(!empty($cookie) || $cookie === '0') {
-			$cacheKey = 'lc' . crc32($base) . '-' . crc32($filter) . '-' .intval($limit) . '-' . intval($offset);
+			$cacheKey = 'lc' . crc32($base) . '-' . crc32($filter) . '-' . (int)$limit . '-' . (int)$offset;
 			$this->cookies[$cacheKey] = $cookie;
 			$this->lastCookie = $cookie;
 		}
@@ -1904,7 +1904,7 @@ class Access extends LDAPUtility implements IUserTools {
 	private function initPagedSearch($filter, $bases, $attr, $limit, $offset) {
 		$pagedSearchOK = false;
 		if($this->connection->hasPagedResultSupport && ($limit !== 0)) {
-			$offset = intval($offset); //can be null
+			$offset = (int)$offset; //can be null
 			\OCP\Util::writeLog('user_ldap',
 				'initializing paged search for  Filter '.$filter.' base '.print_r($bases, true)
 				.' attr '.print_r($attr, true). ' limit ' .$limit.' offset '.$offset,
@@ -1956,7 +1956,7 @@ class Access extends LDAPUtility implements IUserTools {
 			$this->abandonPagedSearch();
 			// in case someone set it to 0 … use 500, otherwise no results will
 			// be returned.
-			$pageSize = intval($this->connection->ldapPagingSize) > 0 ? intval($this->connection->ldapPagingSize) : 500;
+			$pageSize = (int)$this->connection->ldapPagingSize > 0 ? (int)$this->connection->ldapPagingSize : 500;
 			$pagedSearchOK = $this->invokeLDAPMethod('controlPagedResult',
 				$this->connection->getConnectionResource(),
 				$pageSize, false, '');

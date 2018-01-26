@@ -232,7 +232,7 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 		if($user->getUsername() !== false && $this->access->setPassword($user->getDN(), $password)) {
 			$ldapDefaultPPolicyDN = $this->access->connection->ldapDefaultPPolicyDN;
 			$turnOnPasswordChange = $this->access->connection->turnOnPasswordChange;
-			if (!empty($ldapDefaultPPolicyDN) && (intval($turnOnPasswordChange) === 1)) {
+			if (!empty($ldapDefaultPPolicyDN) && ((int)$turnOnPasswordChange === 1)) {
 				//remove last password expiry warning if any
 				$notification = $this->notificationManager->createNotification();
 				$notification->setApp('user_ldap')
@@ -387,7 +387,7 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 		}
 
 		$marked = $this->ocConfig->getUserValue($uid, 'user_ldap', 'isDeleted', 0);
-		if(intval($marked) === 0) {
+		if((int)$marked === 0) {
 			\OC::$server->getLogger()->notice(
 				'User '.$uid . ' is not marked as deleted, not cleaning up.',
 				array('app' => 'user_ldap'));
@@ -549,7 +549,7 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 			| Backend::GET_DISPLAYNAME
 			| Backend::PROVIDE_AVATAR
 			| Backend::COUNT_USERS
-			| ((intval($this->access->connection->turnOnPasswordChange) === 1)?(Backend::SET_PASSWORD):0)
+			| (((int)$this->access->connection->turnOnPasswordChange === 1)?(Backend::SET_PASSWORD):0)
 			| $this->userPluginManager->getImplementedActions())
 			& $actions);
 	}
