@@ -19,7 +19,7 @@
 		<?php print_unescaped($_['headers']); ?>
 	</head>
 	<body id="<?php p($_['bodyid']);?>">
-		<?php include('layout.noscript.warning.php'); ?>
+		<?php include 'layout.noscript.warning.php'; ?>
 		<div class="wrapper">
 			<div class="v-align">
 				<?php if ($_['bodyid'] === 'body-login' ): ?>

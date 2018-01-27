@@ -329,7 +329,7 @@ class Encryption extends Wrapper {
 			$resultFseek = $this->parentStreamSeek($positionInFile);
 
 			// only allow writes on seekable streams, or at the end of the encrypted stream
-			if (!($this->readOnly) && ($resultFseek || $positionInFile === $this->size)) {
+			if (!$this->readOnly && ($resultFseek || $positionInFile === $this->size)) {
 
 				// switch the writeFlag so flush() will write the block
 				$this->writeFlag = true;

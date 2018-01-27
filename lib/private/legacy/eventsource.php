@@ -81,7 +81,7 @@ class OC_EventSource implements \OCP\IEventSource {
 			header('Location: '.\OC::$WEBROOT);
 			exit();
 		}
-		if (!(\OC::$server->getRequest()->passesCSRFCheck())) {
+		if (!\OC::$server->getRequest()->passesCSRFCheck()) {
 			$this->send('error', 'Possible CSRF attack. Connection will be closed.');
 			$this->close();
 			exit();

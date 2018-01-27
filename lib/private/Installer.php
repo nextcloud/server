@@ -149,7 +149,7 @@ class Installer {
 		}
 
 		//run appinfo/install.php
-		if((!isset($data['noinstall']) or $data['noinstall']==false)) {
+		if(!isset($data['noinstall']) or $data['noinstall']==false) {
 			self::includeAppScript($basedir . '/appinfo/install.php');
 		}
 

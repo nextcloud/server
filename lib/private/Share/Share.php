@@ -1546,8 +1546,8 @@ class Share extends Constants {
 			'error' => &$error
 		);
 
-		$preHookData['itemTarget'] = ($isGroupShare) ? $groupItemTarget : $itemTarget;
-		$preHookData['shareWith'] = ($isGroupShare) ? $shareWith['group'] : $shareWith;
+		$preHookData['itemTarget'] = $isGroupShare ? $groupItemTarget : $itemTarget;
+		$preHookData['shareWith'] = $isGroupShare ? $shareWith['group'] : $shareWith;
 
 		\OC_Hook::emit('OCP\Share', 'pre_shared', $preHookData);
 
@@ -1559,7 +1559,7 @@ class Share extends Constants {
 			$sourceId = ($itemType === 'file' || $itemType === 'folder') ? $fileSource : $itemSource;
 			$sourceExists = self::getItemSharedWithBySource($itemType, $sourceId, self::FORMAT_NONE, null, true, $user);
 
-			$userShareType = ($isGroupShare) ? self::$shareTypeGroupUserUnique : $shareType;
+			$userShareType = $isGroupShare ? self::$shareTypeGroupUserUnique : $shareType;
 
 			if ($sourceExists && $sourceExists['item_source'] === $itemSource) {
 				$fileTarget = $sourceExists['file_target'];
@@ -1659,9 +1659,9 @@ class Share extends Constants {
 			'expirationDate' => $expirationDate,
 		);
 
-		$postHookData['shareWith'] = ($isGroupShare) ? $shareWith['group'] : $shareWith;
-		$postHookData['itemTarget'] = ($isGroupShare) ? $groupItemTarget : $itemTarget;
-		$postHookData['fileTarget'] = ($isGroupShare) ? $groupFileTarget : $fileTarget;
+		$postHookData['shareWith'] = $isGroupShare ? $shareWith['group'] : $shareWith;
+		$postHookData['itemTarget'] = $isGroupShare ? $groupItemTarget : $itemTarget;
+		$postHookData['fileTarget'] = $isGroupShare ? $groupFileTarget : $fileTarget;
 
 		\OC_Hook::emit('OCP\Share', 'post_shared', $postHookData);
 

@@ -245,7 +245,7 @@ class Wizard extends LDAPUtility {
 				$this->applyFind('ldap_display_name', $attr);
 				return $this->result;
 			}
-		};
+		}
 
 		throw new \Exception(self::$l->t('Could not detect user display name attribute. Please specify it yourself in advanced LDAP settings.'));
 	}

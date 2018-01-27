@@ -428,7 +428,7 @@ class Scanner extends BasicEmitter implements IScanner {
 		$exceptionOccurred = false;
 		$childQueue = [];
 		foreach ($newChildren as $file) {
-			$child = ($path) ? $path . '/' . $file : $file;
+			$child = $path ? $path . '/' . $file : $file;
 			try {
 				$existingData = isset($existingChildren[$file]) ? $existingChildren[$file] : null;
 				$data = $this->scanFile($child, $reuse, $folderId, $existingData, $lock);
@@ -467,7 +467,7 @@ class Scanner extends BasicEmitter implements IScanner {
 		}
 		$removedChildren = \array_diff(array_keys($existingChildren), $newChildren);
 		foreach ($removedChildren as $childName) {
-			$child = ($path) ? $path . '/' . $childName : $childName;
+			$child = $path ? $path . '/' . $childName : $childName;
 			$this->removeFromCache($child);
 		}
 		if ($this->useTransactions) {

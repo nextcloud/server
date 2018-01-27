@@ -42,7 +42,7 @@ class DAV extends Backend {
 			->setStorageClass('\OC\Files\Storage\DAV')
 			->setText($l->t('WebDAV'))
 			->addParameters([
-				(new DefinitionParameter('host', $l->t('URL'))),
+				new DefinitionParameter('host', $l->t('URL')),
 				(new DefinitionParameter('root', $l->t('Remote subfolder')))
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 				(new DefinitionParameter('secure', $l->t('Secure https://')))

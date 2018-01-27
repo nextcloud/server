@@ -536,7 +536,7 @@ class Manager implements IManager {
 				/** @var \OCA\Files_Sharing\SharedStorage $storage */
 				$share->setParent($storage->getShareId());
 			}
-		};
+		}
 	}
 
 	/**

@@ -352,7 +352,7 @@ class OC {
 		$currentVersion = implode('.', \OCP\Util::getVersion());
 
 		// if not a core upgrade, then it's apps upgrade
-		$isAppsOnlyUpgrade = (version_compare($currentVersion, $installedVersion, '='));
+		$isAppsOnlyUpgrade = version_compare($currentVersion, $installedVersion, '=');
 
 		$oldTheme = $systemConfig->getValue('theme');
 		$systemConfig->setValue('theme', '');
@@ -603,7 +603,7 @@ class OC {
 
 		if(!date_default_timezone_set('UTC')) {
 			throw new \RuntimeException('Could not set timezone to UTC');
-		};
+		}
 
 		//try to configure php to enable big file uploads.
 		//this doesn´t work always depending on the webserver and php configuration.
@@ -837,7 +837,7 @@ class OC {
 			/** @var \OCP\App\ManagerEvent $event */
 			$jobList = \OC::$server->getJobList();
 			$job = 'OC\\Settings\\RemoveOrphaned';
-			if(!($jobList->has($job, null))) {
+			if(!$jobList->has($job, null)) {
 				$jobList->add($job);
 			}
 		});

@@ -746,7 +746,7 @@ class Access extends LDAPUtility implements IUserTools {
 	 */
 	private function _createAltInternalOwnCloudNameForGroups($name) {
 		$usedNames = $this->groupMapper->getNamesBySearch($name, "", '_%');
-		if(!($usedNames) || count($usedNames) === 0) {
+		if(!$usedNames || count($usedNames) === 0) {
 			$lastNo = 1; //will become name_2
 		} else {
 			natsort($usedNames);
@@ -842,7 +842,7 @@ class Access extends LDAPUtility implements IUserTools {
 			});
 		}
 		$this->batchApplyUserAttributes($recordsToUpdate);
-		return $this->fetchList($ldapRecords, (count($attr) > 1));
+		return $this->fetchList($ldapRecords, count($attr) > 1);
 	}
 
 	/**
@@ -886,7 +886,7 @@ class Access extends LDAPUtility implements IUserTools {
 	 * @return array
 	 */
 	public function fetchListOfGroups($filter, $attr, $limit = null, $offset = null) {
-		return $this->fetchList($this->searchGroups($filter, $attr, $limit, $offset), (count($attr) > 1));
+		return $this->fetchList($this->searchGroups($filter, $attr, $limit, $offset), count($attr) > 1);
 	}
 
 	/**

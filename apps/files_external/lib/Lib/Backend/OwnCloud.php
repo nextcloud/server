@@ -40,7 +40,7 @@ class OwnCloud extends Backend {
 			->setStorageClass('\OCA\Files_External\Lib\Storage\OwnCloud')
 			->setText($l->t('Nextcloud'))
 			->addParameters([
-				(new DefinitionParameter('host', $l->t('URL'))),
+				new DefinitionParameter('host', $l->t('URL')),
 				(new DefinitionParameter('root', $l->t('Remote subfolder')))
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 				(new DefinitionParameter('secure', $l->t('Secure https://')))

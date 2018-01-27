@@ -42,7 +42,7 @@ class FTP extends Backend {
 			->setStorageClass('\OCA\Files_External\Lib\Storage\FTP')
 			->setText($l->t('FTP'))
 			->addParameters([
-				(new DefinitionParameter('host', $l->t('Host'))),
+				new DefinitionParameter('host', $l->t('Host')),
 				(new DefinitionParameter('root', $l->t('Remote subfolder')))
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 				(new DefinitionParameter('secure', $l->t('Secure ftps://')))

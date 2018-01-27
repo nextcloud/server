@@ -44,8 +44,8 @@ class SMB extends Backend {
 			->setStorageClass('\OCA\Files_External\Lib\Storage\SMB')
 			->setText($l->t('SMB / CIFS'))
 			->addParameters([
-				(new DefinitionParameter('host', $l->t('Host'))),
-				(new DefinitionParameter('share', $l->t('Share'))),
+				new DefinitionParameter('host', $l->t('Host')),
+				new DefinitionParameter('share', $l->t('Share')),
 				(new DefinitionParameter('root', $l->t('Remote subfolder')))
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 				(new DefinitionParameter('domain', $l->t('Domain')))

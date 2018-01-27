@@ -91,7 +91,7 @@ class OC_JSON{
 			exit();
 		}
 
-		if( !(\OC::$server->getRequest()->passesCSRFCheck())) {
+		if( !\OC::$server->getRequest()->passesCSRFCheck()) {
 			$l = \OC::$server->getL10N('lib');
 			self::error(array( 'data' => array( 'message' => $l->t('Token expired. Please reload page.'), 'error' => 'token_expired' )));
 			exit();

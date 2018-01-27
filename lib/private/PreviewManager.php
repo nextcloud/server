@@ -411,7 +411,7 @@ class PreviewManager implements IPreview {
 		// Video requires avconv or ffmpeg
 		if (in_array('OC\Preview\Movie', $this->getEnabledDefaultProvider())) {
 			$avconvBinary = \OC_Helper::findBinaryPath('avconv');
-			$ffmpegBinary = ($avconvBinary) ? null : \OC_Helper::findBinaryPath('ffmpeg');
+			$ffmpegBinary = $avconvBinary ? null : \OC_Helper::findBinaryPath('ffmpeg');
 
 			if ($avconvBinary || $ffmpegBinary) {
 				// FIXME // a bit hacky but didn't want to use subclasses

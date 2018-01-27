@@ -549,7 +549,7 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 			| Backend::GET_DISPLAYNAME
 			| Backend::PROVIDE_AVATAR
 			| Backend::COUNT_USERS
-			| (((int)$this->access->connection->turnOnPasswordChange === 1)?(Backend::SET_PASSWORD):0)
+			| (((int)$this->access->connection->turnOnPasswordChange === 1)? Backend::SET_PASSWORD :0)
 			| $this->userPluginManager->getImplementedActions())
 			& $actions);
 	}

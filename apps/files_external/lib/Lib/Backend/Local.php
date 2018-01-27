@@ -38,7 +38,7 @@ class Local extends Backend {
 			->setStorageClass('\OC\Files\Storage\Local')
 			->setText($l->t('Local'))
 			->addParameters([
-				(new DefinitionParameter('datadir', $l->t('Location'))),
+				new DefinitionParameter('datadir', $l->t('Location')),
 			])
 			->setAllowedVisibility(BackendService::VISIBILITY_ADMIN)
 			->setPriority(BackendService::PRIORITY_DEFAULT + 50)

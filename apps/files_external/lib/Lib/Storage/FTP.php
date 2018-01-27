@@ -150,7 +150,7 @@ class FTP extends StreamWrapper{
 	 */
 	public static function checkDependencies() {
 		if (function_exists('ftp_login')) {
-			return(true);
+			return true;
 		} else {
 			return array('ftp');
 		}

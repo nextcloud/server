@@ -206,7 +206,7 @@ class Cache implements ICache {
 			$result = $this->connection->executeQuery($sql, [$fileId]);
 			$files = $result->fetchAll();
 			return array_map(function (array $data) {
-				return self::cacheEntryFromData($data, $this->mimetypeLoader);;
+				return self::cacheEntryFromData($data, $this->mimetypeLoader);
 			}, $files);
 		}
 		return [];

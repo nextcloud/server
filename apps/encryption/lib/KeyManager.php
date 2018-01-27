@@ -211,7 +211,7 @@ class KeyManager {
 	 */
 	public function recoveryKeyExists() {
 		$key = $this->getRecoveryKey();
-		return (!empty($key));
+		return !empty($key);
 	}
 
 	/**
