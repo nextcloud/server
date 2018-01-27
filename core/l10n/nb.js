@@ -56,6 +56,7 @@ OC.L10N.register(
     "Search contacts …" : "Søk etter kontakter…",
     "No contacts found" : "Fant ingen kontakter",
     "Show all contacts …" : "Vis alle kontakter…",
+    "Could not load your contacts" : "Kunne ikke laste inn kontaktene dine",
     "Loading your contacts …" : "Laster inn kontaktene dine…",
     "Looking for {term} …" : "Ser etter {term}…",
     "<a href=\"{docUrl}\">There were problems with the code integrity check. More information…</a>" : "<a href=\"{docUrl}\">Det oppstod problemer med sjekk av kode-integritet. Mer informasjon…</a>",
