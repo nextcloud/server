@@ -28,6 +28,7 @@ use OCP\Migration\IRepairStep;
 use OCP\ILogger;
 use OCP\IConfig;
 use OCP\IGpg;
+use OC\GpgDummy;
 
 class CreateGpgServerKeys implements IRepairStep {
 	/** @var IConfig */
@@ -63,6 +64,10 @@ class CreateGpgServerKeys implements IRepairStep {
 	 * {@inheritdoc}
 	 */
 	public function run(IOutput $output) {
+		if($this->gpg instanceof GpgDummy) {
+			$this->logger->warning("gnupg not installed, no gpg functions avalible");
+			return;
+		}
 		$fingerprint = $this->config->getSystemValue('GpgServerKey','');
 		if($fingerprint === ''){
 			$fingerprint = $this->gpg->generateKey();

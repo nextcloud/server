@@ -835,13 +835,18 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias('Mailer', \OCP\Mail\IMailer::class);
 
 		$this->registerService(\OCP\IGpg::class, function (Server $c) {
-			return new Gpg(
-				$c->getConfig(),
-				$c->getLogger(),
-				$c->query(Defaults::class),
-				$c->getURLGenerator(),
-				$c->getUserManager()
-			);
+			if (extension_loaded('gnupg')){
+				return new Gpg(
+					$c->getConfig(),
+					$c->getLogger(),
+					$c->query(Defaults::class),
+					$c->getURLGenerator(),
+					$c->getUserManager()
+				);
+			} else {
+				return new GpgDummy();
+			}
+
 		});
 		$this->registerAlias('Gpg', \OCP\IGpg::class);
 

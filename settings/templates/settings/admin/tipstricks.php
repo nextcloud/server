@@ -40,6 +40,15 @@
 				<?php print_unescaped($l->t('To migrate to another database use the command line tool: \'occ db:convert-type\', or see the <a target="_blank" rel="noreferrer noopener" href="%s">documentation ↗</a>.', link_to_docs('admin-db-conversion') )); ?>
 			</li>
 		<?php } ?>
+		<?php
+		// No Gpg Backend
+		if ($_['noGpg']) {
+		?>
+		<li>
+			<?php p($l->t('No php_gnupg installation found.')); ?><br>
+			<?php print_unescaped($l->t('If you want nextcloud to send encrypted emails please install it. More information see the <a target="_blank" rel="noreferrer noopener" href="%s">documentation ↗</a>.', link_to_docs('install-gnupg') )); ?>
+		</li>
+		<?php } ?>
 		<li><a target="_blank" rel="noreferrer noopener" href="<?php p(link_to_docs('admin-backup')); ?>"><?php p($l->t('How to do backups'));?> ↗</a></li>
 		<li><a target="_blank" rel="noreferrer noopener" href="<?php p(link_to_docs('admin-monitoring')); ?>"><?php p($l->t('Advanced monitoring'));?> ↗</a></li>
 		<li><a target="_blank" rel="noreferrer noopener" href="<?php p(link_to_docs('admin-performance')); ?>"><?php p($l->t('Performance tuning'));?> ↗</a></li>
