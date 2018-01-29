@@ -47,8 +47,6 @@ class Gpg implements IGpg{
 	private $defaults;
 	/** @var IURLGenerator */
 	private $urlGenerator;
-	/** @var IL10N */
-	private $l10n;
 	/** @var IUserManager */
 	private $userManager;
 
@@ -59,21 +57,18 @@ class Gpg implements IGpg{
 	 * @param ILogger $logger
 	 * @param Defaults $defaults
 	 * @param IURLGenerator $urlGenerator
-	 * @param IL10N $l10n
 	 * @param IUserManager $userManager
 	 */
 	public function __construct(IConfig $config,
 								ILogger $logger,
 								Defaults $defaults,
 								IURLGenerator $urlGenerator,
-								IL10N $l10n,
 								IUserManager $userManager) {
 		$this->config = $config;
 		$this->logger = $logger;
 		$this->defaults = $defaults;
 		$this->urlGenerator = $urlGenerator;
 		$this->userManager = $userManager;
-		$this->l10n = $l10n;
 		$this->loadUser(null);
 		$this->gpg = new gnupg();
 		$this->gpg -> setarmor(1);

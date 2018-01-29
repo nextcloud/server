@@ -101,10 +101,6 @@ class User implements IUser {
 		if (is_null($this->urlGenerator)) {
 			$this->urlGenerator = \OC::$server->getURLGenerator();
 		}
-		//If it is a havy function it could be moved to the places where Gpg is needed
-		if (is_null($gpg)) {
-			$gpg = \OC::$server->getGpg();
-		}
 		$this->gpg = $gpg;
 
 	}
@@ -192,6 +188,10 @@ class User implements IUser {
 		if($fingerprint === '') {
 			$this->config->deleteUserValue($this->uid, 'settings', 'pubkey');
 		} else {
+			//Load Gpg only on usse
+			if (is_null($this->gpg)) {
+				$this->gpg = \OC::$server->getGpg();
+			}
 			$gpg = $this->gpg;
 			$keys = $gpg->keyinfo($fingerprint);
 			if(!sizeof($keys)> 0) {
@@ -209,6 +209,10 @@ class User implements IUser {
 	 * @throws \OCP\PreConditionNotMetException
 	 */
 	public function addPublicKey($key){
+		//Load Gpg only on usse
+		if (is_null($this->gpg)) {
+			$this->gpg = \OC::$server->getGpg();
+		}
 		$gpg = $this->gpg;
 		$fingerprint = $gpg->import($key)['fingerprint'];
 		if ($fingerprint !== NULL) {
@@ -467,6 +471,10 @@ class User implements IUser {
 		if ($fingerprint) {
 			return $this->config->getUserValue($this->uid, 'settings', 'pubkey', null);
 		} else {
+			//Load Gpg only on usse
+			if (is_null($this->gpg)) {
+				$this->gpg = \OC::$server->getGpg();
+			}
 			$gpg = $this->gpg;
 			return $gpg->export($this->config->getUserValue($this->uid, 'settings', 'pubkey', null));
 		}
