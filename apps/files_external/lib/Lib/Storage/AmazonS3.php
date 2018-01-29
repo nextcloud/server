@@ -101,7 +101,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		$keys = array_keys($this->objectCache->getData());
 		$keyLength = strlen($key);
 		foreach ($keys as $existingKey) {
-			if (substr($existingKey, 0, $keyLength) === $keys) {
+			if (substr($existingKey, 0, $keyLength) === $key) {
 				unset($this->objectCache[$existingKey]);
 			}
 		}
