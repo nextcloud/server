@@ -75,7 +75,7 @@ class User implements IUser {
 	/** @var IURLGenerator */
 	private $urlGenerator;
 
-	/** @var IGpg */
+	/** @var \OCP\IGpg $gpg */
 	private $gpg;
 
 	/**
@@ -448,10 +448,13 @@ class User implements IUser {
 	 * @return array
 	 */
 	public function getPublicKeys($fingerprint = TRUE){
-		$keys = json_decode($this->config->getUserValue($this->uid, 'settings', 'pubkeys', null));
+		$keys = json_decode($this->config->getUserValue($this->uid, 'settings', 'pubkeys', json_encode(array())));
 		if ($fingerprint) {
 			return $keys;
 		} else {
+			if (is_null($this->gpg)) {
+				$this->gpg = \OC::$server->getGpg();
+			}
 			$gpg = $this->gpg;
 			$export = array();
 			foreach ($keys as $key) {

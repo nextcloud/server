@@ -131,8 +131,7 @@ class Repair implements IOutput{
 			new MoveUpdaterStepFile(\OC::$server->getConfig()),
 			new FixMountStorages(\OC::$server->getDatabaseConnection()),
 			new RepairInvalidPaths(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig()),
-			new AddLogRotateJob(\OC::$server->getJobList()),
-			new CreateGpgServerKeys(\OC::$server->getConfig(),\OC::$server->getLogger(),\OC::$server->getGpg())
+			new AddLogRotateJob(\OC::$server->getJobList())
 		];
 	}
 
@@ -144,7 +143,8 @@ class Repair implements IOutput{
 	 */
 	public static function getExpensiveRepairSteps() {
 		return [
-			new OldGroupMembershipShares(\OC::$server->getDatabaseConnection(), \OC::$server->getGroupManager())
+			new OldGroupMembershipShares(\OC::$server->getDatabaseConnection(), \OC::$server->getGroupManager()),
+			new CreateGpgServerKeys(\OC::$server->getConfig(),\OC::$server->getLogger(),\OC::$server->getGpg())
 		];
 	}
 
