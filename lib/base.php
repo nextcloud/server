@@ -54,7 +54,6 @@
  *
  */
 
-use OC\Settings\RemoveOrphaned;
 use OCP\Share;
 use OC\Encryption\HookManager;
 use OC\Files\Filesystem;
@@ -721,7 +720,6 @@ class OC {
 		self::registerEncryptionWrapper();
 		self::registerEncryptionHooks();
 		self::registerAccountHooks();
-		self::registerSettingsHooks();
 
 		$settings = new \OC\Settings\Application();
 		$settings->register();
@@ -831,22 +829,6 @@ class OC {
 				}
 			});
 		}
-	}
-
-	public static function registerSettingsHooks() {
-		$dispatcher = \OC::$server->getEventDispatcher();
-		$dispatcher->addListener(OCP\App\ManagerEvent::EVENT_APP_DISABLE, function($event) {
-			/** @var \OCP\App\ManagerEvent $event */
-			\OC::$server->getSettingsManager()->onAppDisabled($event->getAppID());
-		});
-		$dispatcher->addListener(OCP\App\ManagerEvent::EVENT_APP_UPDATE, function($event) {
-			/** @var \OCP\App\ManagerEvent $event */
-			$jobList = \OC::$server->getJobList();
-			$job = RemoveOrphaned::class;
-			if(!$jobList->has($job, null)) {
-				$jobList->add($job);
-			}
-		});
 	}
 
 	private static function registerEncryptionWrapper() {

@@ -176,6 +176,28 @@ class OC_App {
 				\OC::$server->getActivityManager()->registerProvider($provider);
 			}
 		}
+
+		if (!empty($info['settings']['admin'])) {
+			foreach ($info['settings']['admin'] as $setting) {
+				\OC::$server->getSettingsManager()->registerSetting('admin', $setting);
+			}
+		}
+		if (!empty($info['settings']['admin-section'])) {
+			foreach ($info['settings']['admin-section'] as $section) {
+				\OC::$server->getSettingsManager()->registerSection('admin', $section);
+			}
+		}
+		if (!empty($info['settings']['personal'])) {
+			foreach ($info['settings']['personal'] as $setting) {
+				\OC::$server->getSettingsManager()->registerSetting('personal', $setting);
+			}
+		}
+		if (!empty($info['settings']['personal-section'])) {
+			foreach ($info['settings']['personal-section'] as $section) {
+				\OC::$server->getSettingsManager()->registerSection('personal', $section);
+			}
+		}
+
 		if (!empty($info['collaboration']['plugins'])) {
 			// deal with one or many plugin entries
 			$plugins = isset($info['collaboration']['plugins']['plugin']['@value']) ?
@@ -1007,7 +1029,6 @@ class OC_App {
 			if(isset($info['settings']) && is_array($info['settings'])) {
 				$appPath = self::getAppPath($app);
 				self::registerAutoloading($app, $appPath);
-				\OC::$server->getSettingsManager()->setupSettings($info['settings']);
 			}
 
 			\OC_Hook::emit('OC_App', 'post_enable', array('app' => $app));
@@ -1055,9 +1076,6 @@ class OC_App {
 			include $appPath . '/appinfo/update.php';
 		}
 		self::setupBackgroundJobs($appData['background-jobs']);
-		if(isset($appData['settings']) && is_array($appData['settings'])) {
-			\OC::$server->getSettingsManager()->setupSettings($appData['settings']);
-		}
 
 		//set remote/public handlers
 		if (array_key_exists('ocsid', $appData)) {
