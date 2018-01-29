@@ -114,6 +114,7 @@ class App {
 	 * @param string $app id of the app or the path of the info.xml file
 	 * @param boolean $path (optional)
 	 * @return array|null
+	 * @deprecated 14.0.0 ise \OC::$server->getAppManager()->getAppInfo($appId)
 	 * @since 4.0.0
 	*/
 	public static function getAppInfo( $app, $path=false ) {
@@ -148,8 +149,9 @@ class App {
 	 * @param string $app
 	 * @return string
 	 * @since 4.0.0
+	 * @deprecated 14.0.0 use \OC::$server->getAppManager()->getAppVersion($appId)
 	 */
 	public static function getAppVersion( $app ) {
-		return \OC_App::getAppVersion( $app );
+		return \OC::$server->getAppManager()->getAppVersion($app);
 	}
 }

@@ -50,7 +50,6 @@
  *
  */
 use OC\App\DependencyAnalyzer;
-use OC\App\InfoParser;
 use OC\App\Platform;
 use OC\DB\MigrationService;
 use OC\Installer;
@@ -63,10 +62,8 @@ use OCP\App\ManagerEvent;
  * upgrading and removing apps.
  */
 class OC_App {
-	static private $appVersion = [];
 	static private $adminForms = array();
 	static private $personalForms = array();
-	static private $appInfo = array();
 	static private $appTypes = array();
 	static private $loadedApps = array();
 	static private $altLogin = array();
@@ -590,15 +587,10 @@ class OC_App {
 	 * @param string $appId
 	 * @param bool $useCache
 	 * @return string
+	 * @deprecated 14.0.0 use \OC::$server->getAppManager()->getAppVersion()
 	 */
 	public static function getAppVersion($appId, $useCache = true) {
-		if($useCache && isset(self::$appVersion[$appId])) {
-			return self::$appVersion[$appId];
-		}
-
-		$file = self::getAppPath($appId);
-		self::$appVersion[$appId] = ($file !== false) ? self::getAppVersionByPath($file) : '0';
-		return self::$appVersion[$appId];
+		return \OC::$server->getAppManager()->getAppVersion($appId, $useCache);
 	}
 
 	/**
@@ -609,7 +601,7 @@ class OC_App {
 	 */
 	public static function getAppVersionByPath($path) {
 		$infoFile = $path . '/appinfo/info.xml';
-		$appData = self::getAppInfo($infoFile, true);
+		$appData = \OC::$server->getAppManager()->getAppInfo($infoFile, true);
 		return isset($appData['version']) ? $appData['version'] : '';
 	}
 
@@ -622,39 +614,10 @@ class OC_App {
 	 * @param string $lang
 	 * @return array|null
 	 * @note all data is read from info.xml, not just pre-defined fields
+	 * @deprecated 14.0.0 use \OC::$server->getAppManager()->getAppInfo()
 	 */
 	public static function getAppInfo($appId, $path = false, $lang = null) {
-		if ($path) {
-			$file = $appId;
-		} else {
-			if ($lang === null && isset(self::$appInfo[$appId])) {
-				return self::$appInfo[$appId];
-			}
-			$appPath = self::getAppPath($appId);
-			if($appPath === false) {
-				return null;
-			}
-			$file = $appPath . '/appinfo/info.xml';
-		}
-
-		$parser = new InfoParser(\OC::$server->getMemCacheFactory()->createLocal('core.appinfo'));
-		$data = $parser->parse($file);
-
-		if (is_array($data)) {
-			$data = OC_App::parseAppInfo($data, $lang);
-		}
-		if(isset($data['ocsid'])) {
-			$storedId = \OC::$server->getConfig()->getAppValue($appId, 'ocsid');
-			if($storedId !== '' && $storedId !== $data['ocsid']) {
-				$data['ocsid'] = $storedId;
-			}
-		}
-
-		if ($lang === null) {
-			self::$appInfo[$appId] = $data;
-		}
-
-		return $data;
+		return \OC::$server->getAppManager()->getAppInfo($appId, $path, $lang);
 	}
 
 	/**
@@ -1068,7 +1031,8 @@ class OC_App {
 
 		self::executeRepairSteps($appId, $appData['repair-steps']['post-migration']);
 		self::setupLiveMigrations($appId, $appData['repair-steps']['live-migration']);
-		unset(self::$appVersion[$appId]);
+		// update appversion in app manager
+		\OC::$server->getAppManager()->getAppVersion($appId, false);
 
 		// run upgrade code
 		if (file_exists($appPath . '/appinfo/update.php')) {

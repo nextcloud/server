@@ -36,6 +36,26 @@ use OCP\IUser;
  * @since 8.0.0
  */
 interface IAppManager {
+
+	/**
+	 * Returns the app information from "appinfo/info.xml".
+	 *
+	 * @param string $appId
+	 * @return mixed
+	 * @since 14.0.0
+	 */
+	public function getAppInfo(string $appId, bool $path = false, $lang = null);
+
+	/**
+	 * Returns the app information from "appinfo/info.xml".
+	 *
+	 * @param string $appId
+	 * @param bool $useCache
+	 * @return mixed
+	 * @since 14.0.0
+	 */
+	public function getAppVersion(string $appId, bool $useCache = true);
+
 	/**
 	 * Check if an app is enabled for user
 	 *
