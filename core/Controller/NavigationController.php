@@ -32,8 +32,8 @@ class NavigationController extends Controller {
 	/** @var INavigationManager */
 	private $navigationManager;
 
-	public function __construct(IRequest $request, INavigationManager $navigationManager) {
-		parent::__construct('core', $request);
+	public function __construct(string $appName, IRequest $request, INavigationManager $navigationManager) {
+		parent::__construct($appName, $request);
 		$this->navigationManager = $navigationManager;
 	}
 
