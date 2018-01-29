@@ -950,63 +950,6 @@ class OC_App {
 	}
 
 	/**
-	 * @param string $app
-	 * @param \OCP\IConfig $config
-	 * @param \OCP\IL10N $l
-	 * @return bool
-	 *
-	 * @throws Exception if app is not compatible with this version of ownCloud
-	 * @throws Exception if no app-name was specified
-	 */
-	public function installApp($app,
-							   \OCP\IConfig $config,
-							   \OCP\IL10N $l) {
-		if ($app !== false) {
-			// check if the app is compatible with this version of ownCloud
-			$info = self::getAppInfo($app);
-			if(!is_array($info)) {
-				throw new \Exception(
-					$l->t('App "%s" cannot be installed because appinfo file cannot be read.',
-						[$info['name']]
-					)
-				);
-			}
-
-			$version = \OCP\Util::getVersion();
-			if (!self::isAppCompatible($version, $info)) {
-				throw new \Exception(
-					$l->t('App "%s" cannot be installed because it is not compatible with this version of the server.',
-						array($info['name'])
-					)
-				);
-			}
-
-			// check for required dependencies
-			self::checkAppDependencies($config, $l, $info);
-
-			$config->setAppValue($app, 'enabled', 'yes');
-			if (isset($appData['id'])) {
-				$config->setAppValue($app, 'ocsid', $appData['id']);
-			}
-
-			if(isset($info['settings']) && is_array($info['settings'])) {
-				$appPath = self::getAppPath($app);
-				self::registerAutoloading($app, $appPath);
-			}
-
-			\OC_Hook::emit('OC_App', 'post_enable', array('app' => $app));
-		} else {
-			if(empty($appName) ) {
-				throw new \Exception($l->t("No app name specified"));
-			} else {
-				throw new \Exception($l->t("App '%s' could not be installed!", $appName));
-			}
-		}
-
-		return $app;
-	}
-
-	/**
 	 * update the database for the app and call the update script
 	 *
 	 * @param string $appId
