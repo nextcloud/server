@@ -108,7 +108,7 @@ class NavigationManager implements INavigationManager {
 	 * @param string $type
 	 * @return array an array of the added entries
 	 */
-	public function getAll($type = 'link') {
+	public function getAll(string $type = 'link'): array {
 		$this->init();
 		foreach ($this->closureEntries as $c) {
 			$this->add($c());

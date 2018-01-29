@@ -57,4 +57,13 @@ interface INavigationManager {
 	 * @since 6.0.0
 	 */
 	public function setActiveEntry($appId);
+
+	/**
+	 * Get a list of navigation entries
+	 *
+	 * @param bool $absolute set to true if links to navigation entries should be converted to absolute urls
+	 * @return array
+	 * @since 14.0.0
+	 */
+	public function getAll(string $type = 'link'): array;
 }
