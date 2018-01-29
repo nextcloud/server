@@ -244,17 +244,22 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			$params['Prefix'] = $path . '/';
 		}
 		try {
+			$connection = $this->getConnection();
 			// Since there are no real directories on S3, we need
 			// to delete all objects prefixed with the path.
 			do {
 				// instead of the iterator, manually loop over the list ...
-				$objects = $this->getConnection()->listObjects($params);
+				$objects = $connection->listObjects($params);
 				// ... so we can delete the files in batches
-				$this->getConnection()->deleteObjects(array(
-					'Bucket' => $this->bucket,
-					'Objects' => $objects['Contents']
-				));
-				$this->testTimeout();
+				if (isset($objects['Contents'])) {
+					$connection->deleteObjects([
+						'Bucket' => $this->bucket,
+						'Delete' => [
+							'Objects' => $objects['Contents']
+						]
+					]);
+					$this->testTimeout();
+				}
 				// we reached the end when the list is no longer truncated
 			} while ($objects['IsTruncated']);
 		} catch (S3Exception $e) {
