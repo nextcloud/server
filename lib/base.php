@@ -723,8 +723,11 @@ class OC {
 		self::registerAccountHooks();
 		self::registerSettingsHooks();
 
-		$settings = new \OC\Settings\Application();
-		$settings->register();
+		// Make sure that the application class is not loaded before the database is setup
+		if ($systemConfig->getValue("installed", false)) {
+			$settings = new \OC\Settings\Application();
+			$settings->register();
+		}
 
 		//make sure temporary files are cleaned up
 		$tmpManager = \OC::$server->getTempManager();
