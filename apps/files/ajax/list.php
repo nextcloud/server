@@ -23,6 +23,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
+use OCP\Files\StorageNotAvailableException;
+use OCP\Files\StorageInvalidException;
+
 OCP\JSON::checkLoggedIn();
 \OC::$server->getSession()->close();
 $l = \OC::$server->getL10N('files');
@@ -80,7 +84,7 @@ try {
 	\OCP\Util::logException('files', $e);
 	OCP\JSON::error([
 		'data' => [
-			'exception' => '\OCP\Files\StorageNotAvailableException',
+			'exception' => StorageNotAvailableException::class,
 			'message' => $l->t('Storage is temporarily not available')
 		]
 	]);
@@ -88,7 +92,7 @@ try {
 	\OCP\Util::logException('files', $e);
 	OCP\JSON::error(array(
 		'data' => array(
-			'exception' => '\OCP\Files\StorageInvalidException',
+			'exception' => StorageInvalidException::class,
 			'message' => $l->t('Storage invalid')
 		)
 	));
@@ -96,7 +100,7 @@ try {
 	\OCP\Util::logException('files', $e);
 	OCP\JSON::error(array(
 		'data' => array(
-			'exception' => '\Exception',
+			'exception' => \Exception::class,
 			'message' => $l->t('Unknown error')
 		)
 	));

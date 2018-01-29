@@ -54,6 +54,12 @@
  *
  */
 
+use OC\Settings\RemoveOrphaned;
+use OCP\Share;
+use OC\Encryption\HookManager;
+use OC\Files\Filesystem;
+use OC\Share20\Hooks;
+
 require_once 'public/Constants.php';
 
 /**
@@ -836,7 +842,7 @@ class OC {
 		$dispatcher->addListener(OCP\App\ManagerEvent::EVENT_APP_UPDATE, function($event) {
 			/** @var \OCP\App\ManagerEvent $event */
 			$jobList = \OC::$server->getJobList();
-			$job = 'OC\\Settings\\RemoveOrphaned';
+			$job = RemoveOrphaned::class;
 			if(!$jobList->has($job, null)) {
 				$jobList->add($job);
 			}
@@ -851,10 +857,10 @@ class OC {
 	private static function registerEncryptionHooks() {
 		$enabled = self::$server->getEncryptionManager()->isEnabled();
 		if ($enabled) {
-			\OCP\Util::connectHook('OCP\Share', 'post_shared', 'OC\Encryption\HookManager', 'postShared');
-			\OCP\Util::connectHook('OCP\Share', 'post_unshare', 'OC\Encryption\HookManager', 'postUnshared');
-			\OCP\Util::connectHook('OC_Filesystem', 'post_rename', 'OC\Encryption\HookManager', 'postRename');
-			\OCP\Util::connectHook('\OCA\Files_Trashbin\Trashbin', 'post_restore', 'OC\Encryption\HookManager', 'postRestore');
+			\OCP\Util::connectHook(Share::class, 'post_shared', HookManager::class, 'postShared');
+			\OCP\Util::connectHook(Share::class, 'post_unshare', HookManager::class, 'postUnshared');
+			\OCP\Util::connectHook('OC_Filesystem', 'post_rename', HookManager::class, 'postRename');
+			\OCP\Util::connectHook('\OCA\Files_Trashbin\Trashbin', 'post_restore', HookManager::class, 'postRestore');
 		}
 	}
 
@@ -868,8 +874,8 @@ class OC {
 	 */
 	public static function registerFilesystemHooks() {
 		// Check for blacklisted files
-		OC_Hook::connect('OC_Filesystem', 'write', 'OC\Files\Filesystem', 'isBlacklisted');
-		OC_Hook::connect('OC_Filesystem', 'rename', 'OC\Files\Filesystem', 'isBlacklisted');
+		OC_Hook::connect('OC_Filesystem', 'write', Filesystem::class, 'isBlacklisted');
+		OC_Hook::connect('OC_Filesystem', 'rename', Filesystem::class, 'isBlacklisted');
 	}
 
 	/**
@@ -877,9 +883,9 @@ class OC {
 	 */
 	public static function registerShareHooks() {
 		if (\OC::$server->getSystemConfig()->getValue('installed')) {
-			OC_Hook::connect('OC_User', 'post_deleteUser', 'OC\Share20\Hooks', 'post_deleteUser');
-			OC_Hook::connect('OC_User', 'post_removeFromGroup', 'OC\Share20\Hooks', 'post_removeFromGroup');
-			OC_Hook::connect('OC_User', 'post_deleteGroup', 'OC\Share20\Hooks', 'post_deleteGroup');
+			OC_Hook::connect('OC_User', 'post_deleteUser', Hooks::class, 'post_deleteUser');
+			OC_Hook::connect('OC_User', 'post_removeFromGroup', Hooks::class, 'post_removeFromGroup');
+			OC_Hook::connect('OC_User', 'post_deleteGroup', Hooks::class, 'post_deleteGroup');
 		}
 	}
 

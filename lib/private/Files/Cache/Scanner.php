@@ -110,7 +110,7 @@ class Scanner extends BasicEmitter implements IScanner {
 	protected function getData($path) {
 		$data = $this->storage->getMetaData($path);
 		if (is_null($data)) {
-			\OCP\Util::writeLog('OC\Files\Cache\Scanner', "!!! Path '$path' is not accessible or present !!!", \OCP\Util::DEBUG);
+			\OCP\Util::writeLog(Scanner::class, "!!! Path '$path' is not accessible or present !!!", \OCP\Util::DEBUG);
 		}
 		return $data;
 	}

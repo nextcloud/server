@@ -64,6 +64,7 @@ use OCP\IAvatarManager;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 use OCP\Util;
+use OC\Settings\BackgroundJobs\VerifyUserData;
 
 /**
  * @package OC\Settings\Controller
@@ -688,7 +689,7 @@ class UsersController extends Controller {
 		if ($onlyVerificationCode === false) {
 			$this->accountManager->updateUser($user, $accountData);
 
-			$this->jobList->add('OC\Settings\BackgroundJobs\VerifyUserData',
+			$this->jobList->add(VerifyUserData::class,
 				[
 					'verificationCode' => $code,
 					'data' => $data,

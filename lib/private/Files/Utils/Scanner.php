@@ -38,6 +38,7 @@ use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\StorageNotAvailableException;
 use OCP\ILogger;
+use OC\Files\Storage\FailedStorage;
 
 /**
  * Class Scanner
@@ -146,7 +147,7 @@ class Scanner extends PublicEmitter {
 			}
 
 			// don't bother scanning failed storages (shortcut for same result)
-			if ($storage->instanceOfStorage('OC\Files\Storage\FailedStorage')) {
+			if ($storage->instanceOfStorage(FailedStorage::class)) {
 				continue;
 			}
 
@@ -196,7 +197,7 @@ class Scanner extends PublicEmitter {
 			}
 
 			// don't bother scanning failed storages (shortcut for same result)
-			if ($storage->instanceOfStorage('OC\Files\Storage\FailedStorage')) {
+			if ($storage->instanceOfStorage(FailedStorage::class)) {
 				continue;
 			}
 

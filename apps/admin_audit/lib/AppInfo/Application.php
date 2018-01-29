@@ -48,6 +48,7 @@ use OCP\IPreview;
 use OCP\IUserSession;
 use OCP\Util;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use OCP\Share;
 
 class Application extends App {
 
@@ -107,12 +108,12 @@ class Application extends App {
 	protected function sharingHooks(ILogger $logger) {
 		$shareActions = new Sharing($logger);
 
-		Util::connectHook('OCP\Share', 'post_shared', $shareActions, 'shared');
-		Util::connectHook('OCP\Share', 'post_unshare', $shareActions, 'unshare');
-		Util::connectHook('OCP\Share', 'post_update_permissions', $shareActions, 'updatePermissions');
-		Util::connectHook('OCP\Share', 'post_update_password', $shareActions, 'updatePassword');
-		Util::connectHook('OCP\Share', 'post_set_expiration_date', $shareActions, 'updateExpirationDate');
-		Util::connectHook('OCP\Share', 'share_link_access', $shareActions, 'shareAccessed');
+		Util::connectHook(Share::class, 'post_shared', $shareActions, 'shared');
+		Util::connectHook(Share::class, 'post_unshare', $shareActions, 'unshare');
+		Util::connectHook(Share::class, 'post_update_permissions', $shareActions, 'updatePermissions');
+		Util::connectHook(Share::class, 'post_update_password', $shareActions, 'updatePassword');
+		Util::connectHook(Share::class, 'post_set_expiration_date', $shareActions, 'updateExpirationDate');
+		Util::connectHook(Share::class, 'share_link_access', $shareActions, 'shareAccessed');
 	}
 
 	protected function authHooks(ILogger $logger) {

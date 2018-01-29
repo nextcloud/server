@@ -31,6 +31,7 @@ use OCP\IDBConnection;
 use OCP\IUser;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use OC\Settings\BackgroundJobs\VerifyUserData;
 
 /**
  * Class AccountManager
@@ -167,7 +168,7 @@ class AccountManager {
 	 */
 	protected function checkEmailVerification($oldData, $newData, IUser $user) {
 		if ($oldData[self::PROPERTY_EMAIL]['value'] !== $newData[self::PROPERTY_EMAIL]['value']) {
-			$this->jobList->add('OC\Settings\BackgroundJobs\VerifyUserData',
+			$this->jobList->add(VerifyUserData::class,
 				[
 					'verificationCode' => '',
 					'data' => $newData[self::PROPERTY_EMAIL]['value'],

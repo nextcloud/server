@@ -157,7 +157,7 @@ class Encryption extends Wrapper {
 								$unencryptedSize,
 								$headerSize,
 								$signed,
-								$wrapper =  'OC\Files\Stream\Encryption') {
+								$wrapper = Encryption::class) {
 
 		$context = stream_context_create(array(
 			'ocencryption' => array(

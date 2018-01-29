@@ -849,11 +849,11 @@ class Share extends Constants {
 			$hookParams['fileTarget'] = $item['file_target'];
 		}
 
-		\OC_Hook::emit('OCP\Share', 'pre_unshare', $hookParams);
+		\OC_Hook::emit(\OCP\Share::class, 'pre_unshare', $hookParams);
 		$deletedShares = Helper::delete($item['id'], false, null, $newParent);
 		$deletedShares[] = $hookParams;
 		$hookParams['deletedShares'] = $deletedShares;
-		\OC_Hook::emit('OCP\Share', 'post_unshare', $hookParams);
+		\OC_Hook::emit(\OCP\Share::class, 'post_unshare', $hookParams);
 		if ((int)$item['share_type'] === \OCP\Share::SHARE_TYPE_REMOTE && \OC::$server->getUserSession()->getUser()) {
 			list(, $remote) = Helper::splitUserRemote($item['share_with']);
 			self::sendRemoteUnshare($remote, $item['id'], $item['token']);
@@ -1549,7 +1549,7 @@ class Share extends Constants {
 		$preHookData['itemTarget'] = $isGroupShare ? $groupItemTarget : $itemTarget;
 		$preHookData['shareWith'] = $isGroupShare ? $shareWith['group'] : $shareWith;
 
-		\OC_Hook::emit('OCP\Share', 'pre_shared', $preHookData);
+		\OC_Hook::emit(\OCP\Share::class, 'pre_shared', $preHookData);
 
 		if ($run === false) {
 			throw new \Exception($error);
@@ -1663,7 +1663,7 @@ class Share extends Constants {
 		$postHookData['itemTarget'] = $isGroupShare ? $groupItemTarget : $itemTarget;
 		$postHookData['fileTarget'] = $isGroupShare ? $groupFileTarget : $fileTarget;
 
-		\OC_Hook::emit('OCP\Share', 'post_shared', $postHookData);
+		\OC_Hook::emit(\OCP\Share::class, 'post_shared', $postHookData);
 
 
 		return $id ? $id : false;
@@ -2037,7 +2037,7 @@ class Share extends Constants {
 			$status = json_decode($result['result'], true);
 
 			if ($result['success'] && ($status['ocs']['meta']['statuscode'] === 100 || $status['ocs']['meta']['statuscode'] === 200)) {
-				\OC_Hook::emit('OCP\Share', 'federated_share_added', ['server' => $remote]);
+				\OC_Hook::emit(\OCP\Share::class, 'federated_share_added', ['server' => $remote]);
 				return true;
 			}
 
