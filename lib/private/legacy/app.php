@@ -420,19 +420,6 @@ class OC_App {
 	}
 
 	/**
-	 * @param string $app
-	 * @return bool
-	 */
-	public static function removeApp($app) {
-		if (\OC::$server->getAppManager()->isShipped($app)) {
-			return false;
-		}
-
-		$installer = \OC::$server->query(Installer::class);
-		return $installer->removeApp($app);
-	}
-
-	/**
 	 * This function set an app as disabled in appconfig.
 	 *
 	 * @param string $app app
