@@ -443,31 +443,6 @@ class OC_App {
 		$appManager->disableApp($app);
 	}
 
-	// This is private as well. It simply works, so don't ask for more details
-	private static function proceedNavigation($list) {
-		usort($list, function($a, $b) {
-			if (isset($a['order']) && isset($b['order'])) {
-				return ($a['order'] < $b['order']) ? -1 : 1;
-			} else if (isset($a['order']) || isset($b['order'])) {
-				return isset($a['order']) ? -1 : 1;
-			} else {
-				return ($a['name'] < $b['name']) ? -1 : 1;
-			}
-		});
-
-		$activeApp = OC::$server->getNavigationManager()->getActiveEntry();
-		foreach ($list as $index => &$navEntry) {
-			if ($navEntry['id'] == $activeApp) {
-				$navEntry['active'] = true;
-			} else {
-				$navEntry['active'] = false;
-			}
-		}
-		unset($navEntry);
-
-		return $list;
-	}
-
 	/**
 	 * Get the path where to install apps
 	 *
@@ -618,8 +593,7 @@ class OC_App {
 	 *   - active: boolean, signals if the user is on this navigation entry
 	 */
 	public static function getNavigation() {
-		$entries = OC::$server->getNavigationManager()->getAll();
-		return self::proceedNavigation($entries);
+		return OC::$server->getNavigationManager()->getAll();
 	}
 
 	/**
@@ -631,8 +605,7 @@ class OC_App {
 	 * entries are sorted by the key 'order' ascending.
 	 */
 	public static function getSettingsNavigation() {
-		$entries = OC::$server->getNavigationManager()->getAll('settings');
-		return self::proceedNavigation($entries);
+		return OC::$server->getNavigationManager()->getAll('settings');
 	}
 
 	/**

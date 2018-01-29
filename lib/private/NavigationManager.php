@@ -115,14 +115,48 @@ class NavigationManager implements INavigationManager {
 		}
 		$this->closureEntries = array();
 
-		if ($type === 'all') {
-			return $this->entries;
+		$result = $this->entries;
+		if ($type !== 'all') {
+			$result = array_filter($this->entries, function($entry) use ($type) {
+				return $entry['type'] === $type;
+			});
 		}
 
-		return array_filter($this->entries, function($entry) use ($type) {
-			return $entry['type'] === $type;
-		});
+		return $this->proceedNavigation($result);
 	}
+
+	/**
+	 * Sort navigation entries by order, name and set active flag
+	 *
+	 * @param $list
+	 * @return mixed
+	 */
+	private function proceedNavigation($list) {
+		usort($list, function($a, $b) {
+			if (isset($a['order']) && isset($b['order'])) {
+				return ($a['order'] < $b['order']) ? -1 : 1;
+			} else if (isset($a['order']) || isset($b['order'])) {
+				return isset($a['order']) ? -1 : 1;
+			} else {
+				return ($a['name'] < $b['name']) ? -1 : 1;
+			}
+		});
+
+		$activeApp = $this->getActiveEntry();
+		if ($activeApp !== null) {
+			foreach ($list as $index => &$navEntry) {
+				if ($navEntry['id'] == $activeApp) {
+					$navEntry['active'] = true;
+				} else {
+					$navEntry['active'] = false;
+				}
+			}
+			unset($navEntry);
+		}
+
+		return $list;
+	}
+
 
 	/**
 	 * removes all the entries
