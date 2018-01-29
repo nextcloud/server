@@ -115,6 +115,7 @@ OC.L10N.register(
     "Settings" : "Rregullime",
     "Show hidden files" : "Shfaq kartela të fshehura",
     "WebDAV" : "WebDAV",
+    "Cancel upload" : "Anulo ngarkimin",
     "No files in here" : "S’ka kartela këtu",
     "Upload some content or sync with your devices!" : "Ngarkoni ca lëndë ose bëni njëkohësim me pajisjet tuaja!",
     "No entries found in this folder" : "Në këtë dosje s’u gjetën zëra",
