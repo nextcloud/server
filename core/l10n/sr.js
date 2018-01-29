@@ -56,6 +56,7 @@ OC.L10N.register(
     "Search contacts …" : "Претражи контакте ...",
     "No contacts found" : "Контакти нису нађени",
     "Show all contacts …" : "Прикажи све контакте ...",
+    "Could not load your contacts" : "Не могу да учитам Ваше контакте",
     "Loading your contacts …" : "Учитавам контакте ...",
     "Looking for {term} …" : "Тражим {term} …",
     "<a href=\"{docUrl}\">There were problems with the code integrity check. More information…</a>" : "<a href=\"{docUrl}\">Догодила се грешка приликом провере интегритета кода. Више информација...</a>",
