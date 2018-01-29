@@ -26,6 +26,7 @@ use OC\Core\Controller\NavigationController;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\INavigationManager;
 use OCP\IRequest;
+use OCP\IURLGenerator;
 use Test\TestCase;
 
 class NavigationControllerTest extends TestCase {
@@ -36,20 +37,24 @@ class NavigationControllerTest extends TestCase {
 	/** @var INavigationManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $navigationManager;
 
+	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
+	private $urlGenerator;
+
 	/** @var NavigationController */
 	private $controller;
 
 	public function setUp() {
 		parent::setUp();
 
-
 		$this->request = $this->createMock(IRequest::class);
 		$this->navigationManager = $this->createMock(INavigationManager::class);
+		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 
 		$this->controller = new NavigationController(
 			'core',
 			$this->request,
-			$this->navigationManager
+			$this->navigationManager,
+			$this->urlGenerator
 		);
 	}
 
@@ -62,16 +67,48 @@ class NavigationControllerTest extends TestCase {
 	public function testGetAppNavigation($absolute) {
 		$this->navigationManager->expects($this->once())
 			->method('getAll')
-			->with('link', $absolute);
-		$this->assertInstanceOf(JSONResponse::class, $this->controller->getAppsNavigation($absolute));
+			->with('link')
+			->willReturn([ ['id' => 'files', 'href' => '/index.php/apps/files'] ]);
+		if ($absolute) {
+			$this->urlGenerator->expects($this->any())
+				->method('getBaseURL')
+				->willReturn('http://localhost/');
+			$this->urlGenerator->expects($this->once())
+				->method('getAbsoluteURL')
+				->with('/index.php/apps/files')
+				->willReturn('http://localhost/index.php/apps/files');
+			$actual = $this->controller->getAppsNavigation($absolute);
+			$this->assertInstanceOf(JSONResponse::class, $actual);
+			$this->assertEquals('http://localhost/index.php/apps/files', $actual->getData()[0]['href']);
+		} else {
+			$actual = $this->controller->getAppsNavigation($absolute);
+			$this->assertInstanceOf(JSONResponse::class, $actual);
+			$this->assertEquals('/index.php/apps/files', $actual->getData()[0]['href']);
+		}
 	}
 
 	/** @dataProvider dataGetNavigation */
 	public function testGetSettingsNavigation($absolute) {
 		$this->navigationManager->expects($this->once())
 			->method('getAll')
-			->with('settings', $absolute);
-		$this->assertInstanceOf(JSONResponse::class, $this->controller->getSettingsNavigation($absolute));
+			->with('settings')
+			->willReturn([ ['id' => 'settings', 'href' => '/index.php/settings/user'] ]);
+		if ($absolute) {
+			$this->urlGenerator->expects($this->any())
+				->method('getBaseURL')
+				->willReturn('http://localhost/');
+			$this->urlGenerator->expects($this->once())
+				->method('getAbsoluteURL')
+				->with('/index.php/settings/user')
+				->willReturn('http://localhost/index.php/settings/user');
+			$actual = $this->controller->getSettingsNavigation($absolute);
+			$this->assertInstanceOf(JSONResponse::class, $actual);
+			$this->assertEquals('http://localhost/index.php/settings/user', $actual->getData()[0]['href']);
+		} else {
+			$actual = $this->controller->getSettingsNavigation($absolute);
+			$this->assertInstanceOf(JSONResponse::class, $actual);
+			$this->assertEquals('/index.php/settings/user', $actual->getData()[0]['href']);
+		}
 	}
 
 }

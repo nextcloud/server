@@ -26,34 +26,62 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\INavigationManager;
 use OCP\IRequest;
+use OCP\IURLGenerator;
 
 class NavigationController extends Controller {
 
 	/** @var INavigationManager */
 	private $navigationManager;
 
-	public function __construct(string $appName, IRequest $request, INavigationManager $navigationManager) {
+	/** @var IURLGenerator */
+	private $urlGenerator;
+
+	public function __construct(string $appName, IRequest $request, INavigationManager $navigationManager, IURLGenerator $urlGenerator) {
 		parent::__construct($appName, $request);
 		$this->navigationManager = $navigationManager;
+		$this->urlGenerator = $urlGenerator;
 	}
 
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 *
+	 * @param bool $absolute
 	 * @return JSONResponse
 	 */
-	public function getAppsNavigation($absolute = false) {
-		return new JSONResponse($this->navigationManager->getAll('link', $absolute));
+	public function getAppsNavigation(bool $absolute = false) {
+		$navigation = $this->navigationManager->getAll('link');
+		if ($absolute) {
+			$this->rewriteToAbsoluteUrls($navigation);
+		}
+		return new JSONResponse($navigation);
 	}
 
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 *
+	 * @param bool $absolute
 	 * @return JSONResponse
 	 */
-	public function getSettingsNavigation($absolute = false) {
-		return new JSONResponse($this->navigationManager->getAll('settings', $absolute));
+	public function getSettingsNavigation(bool $absolute = false) {
+		$navigation = $this->navigationManager->getAll('settings');
+		if ($absolute) {
+			$this->rewriteToAbsoluteUrls($navigation);
+		}
+		return new JSONResponse($navigation);
+	}
+
+	/**
+	 * Rewrite href attribute of navigation entries to an absolute URL
+	 *
+	 * @param array $navigation
+	 */
+	private function rewriteToAbsoluteUrls(array &$navigation) {
+		foreach ($navigation as &$entry) {
+			if (substr($entry['href'], 0, strlen($this->urlGenerator->getBaseUrl())) !== $this->urlGenerator->getBaseUrl()) {
+				$entry['href'] = $this->urlGenerator->getAbsoluteURL($entry['href']);
+			}
+		}
 	}
 }
