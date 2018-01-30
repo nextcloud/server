@@ -285,7 +285,7 @@ class UsersController extends OCSController {
 		$data['id'] = $targetUserObject->getUID();
 		$data['quota'] = $this->fillStorageInfo($targetUserObject->getUID());
 		$data[AccountManager::PROPERTY_EMAIL] = $targetUserObject->getEMailAddress();
-		$data[AccountManager::PROPERTY_PUBLICKEY] = $targetUserObject->getDefaultPublicKey()();
+		$data[AccountManager::PROPERTY_PUBLICKEY] = $targetUserObject->getDefaultPublicKey();
 		$data[AccountManager::PROPERTY_PUBLICKEYS] = $targetUserObject->getPublicKeys();
 		$data[AccountManager::PROPERTY_DISPLAYNAME] = $targetUserObject->getDisplayName();
 		$data[AccountManager::PROPERTY_PHONE] = $userAccount[AccountManager::PROPERTY_PHONE]['value'];

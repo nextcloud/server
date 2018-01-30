@@ -84,7 +84,7 @@ class User implements IUser {
 	 * @param \OC\Hooks\Emitter $emitter
 	 * @param IConfig|null $config
 	 * @param IURLGenerator $urlGenerator
-	 * @param IGpg|null $gpg
+	 * @param \OCP\IGpg|null $gpg
 	 */
 	public function __construct($uid, $backend, $emitter = null, IConfig $config = null, $urlGenerator = null, $gpg = null) {
 		$this->uid = $uid;
