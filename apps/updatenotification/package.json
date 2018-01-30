@@ -1,0 +1,36 @@
+{
+  "name": "notifications",
+  "version": "2.2.0",
+  "description": "This app provides a backend and frontend for the notification API available in Nextcloud.",
+  "main": "init.js",
+  "directories": {
+    "lib": "lib",
+    "test": "tests"
+  },
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development webpack --progress --hot --config js-src/webpack.config.js --watch",
+    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules --config js-src/webpack.config.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nextcloud/notifications.git"
+  },
+  "author": "Joas Schilling",
+  "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/nextcloud/notifications/issues"
+  },
+  "homepage": "https://github.com/nextcloud/notifications#readme",
+  "dependencies": {
+    "vue": "^2.5.13"
+  },
+  "devDependencies": {
+    "cross-env": "^5.1.3",
+    "css-loader": "^0.28.8",
+    "file-loader": "^1.1.6",
+    "vue-loader": "^13.7.0",
+    "vue-template-compiler": "^2.5.13",
+    "webpack": "^3.6.0"
+  }
+}

@@ -8,15 +8,7 @@ declare(strict_types=1);
  * This file is licensed under the Affero General Public License version 3 or
  * later. See the COPYING file.
  */
-if (\OC::$server->getConfig()->getSystemValue('debug', false)) {
-	script('updatenotification', 'vue');
-} else {
-	script('updatenotification', 'vue.min');
-}
-script('updatenotification', [
-	'components/root',
-	'admin',
-]);
+script('updatenotification', 'merged');
 style('updatenotification', 'admin');
 /** @var array $_ */
 ?>

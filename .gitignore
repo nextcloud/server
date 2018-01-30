@@ -32,6 +32,8 @@
 !/apps/testing
 !/apps/admin_audit
 !/apps/updatenotification
+/apps/updatenotification/js/merged.js
+/apps/updatenotification/node_modules
 !/apps/theming
 !/apps/twofactor_backupcodes
 !/apps/workflowengine

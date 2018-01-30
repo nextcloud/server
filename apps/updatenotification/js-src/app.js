@@ -7,12 +7,12 @@
  * later. See the COPYING file.
  */
 
-(function(OC, OCA, Vue, $) {
+/* global $, define */
+
+define(function (require) {
 	"use strict";
 
-	OCA.UpdateNotification = OCA.UpdateNotification || {};
-
-	OCA.UpdateNotification.App = {
+	return {
 
 
 		/** @type {number|null} */
@@ -26,7 +26,8 @@
 		 */
 		initialise: function() {
 			var data = JSON.parse($('#updatenotification').attr('data-json'));
-			this.vm = new Vue(OCA.UpdateNotification.Components.Root);
+			var Vue = require('vue');
+			this.vm = new Vue(require('./components/root.vue'));
 
 			this.vm.newVersionString = data.newVersionString;
 			this.vm.lastCheckedDate = data.lastChecked;
@@ -41,8 +42,4 @@
 			this.vm.isDefaultUpdateServerURL = data.isDefaultUpdateServerURL;
 		}
 	};
-})(OC, OCA, Vue, $);
-
-$(document).ready(function () {
-	OCA.UpdateNotification.App.initialise();
 });
