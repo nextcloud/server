@@ -339,10 +339,6 @@ class FilesPlugin extends ServerPlugin {
 				}
 			});
 
-			$propFind->handle(self::IS_ENCRYPTED_PROPERTYNAME, function() use ($node) {
-				return $node->getFileInfo()->isEncrypted() ? '1' : '0';
-			});
-
 			$propFind->handle(self::HAS_PREVIEW_PROPERTYNAME, function () use ($node) {
 				return json_encode($this->previewManager->isAvailable($node->getFileInfo()));
 			});
@@ -390,6 +386,10 @@ class FilesPlugin extends ServerPlugin {
 		if ($node instanceof \OCA\DAV\Connector\Sabre\Directory) {
 			$propFind->handle(self::SIZE_PROPERTYNAME, function() use ($node) {
 				return $node->getSize();
+			});
+
+			$propFind->handle(self::IS_ENCRYPTED_PROPERTYNAME, function() use ($node) {
+				return $node->getFileInfo()->isEncrypted() ? '1' : '0';
 			});
 		}
 	}
