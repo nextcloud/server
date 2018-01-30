@@ -665,6 +665,12 @@ class UsersControllerTest extends TestCase {
 		$targetUser->expects($this->once())
 			->method('getEMailAddress')
 			->willReturn('demo@owncloud.org');
+		$targetUser->expects($this->once())
+			->method('getDefaultPublicKey')
+			->willReturn('abcdefghijklmnop');
+		$targetUser->expects($this->once())
+			->method('getPublicKeys')
+			->willReturn(['abcdefghijklmnop', 'zyxwvutsrqponmlkjihg']);
 		$this->userSession
 			->expects($this->once())
 			->method('getUser')
@@ -731,6 +737,8 @@ class UsersControllerTest extends TestCase {
 			'enabled' => 'true',
 			'quota' => ['DummyValue'],
 			'email' => 'demo@owncloud.org',
+			'pubkey' => 'abcdefghijklmnop',
+			'pubkeys' => ['abcdefghijklmnop', 'zyxwvutsrqponmlkjihg'],
 			'displayname' => 'Demo User',
 			'phone' => 'phone',
 			'address' => 'address',
@@ -753,10 +761,15 @@ class UsersControllerTest extends TestCase {
 		$targetUser = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$targetUser
-				->expects($this->once())
-				->method('getEMailAddress')
-				->willReturn('demo@owncloud.org');
+		$targetUser->expects($this->once())
+			->method('getEMailAddress')
+			->willReturn('demo@owncloud.org');
+		$targetUser->expects($this->once())
+			->method('getDefaultPublicKey')
+			->willReturn('abcdefghijklmnop');
+		$targetUser->expects($this->once())
+			->method('getPublicKeys')
+			->willReturn(['abcdefghijklmnop', 'zyxwvutsrqponmlkjihg']);
 		$this->userSession
 			->expects($this->once())
 			->method('getUser')
@@ -826,6 +839,8 @@ class UsersControllerTest extends TestCase {
 			'enabled' => 'true',
 			'quota' => ['DummyValue'],
 			'email' => 'demo@owncloud.org',
+			'pubkey' => 'abcdefghijklmnop',
+			'pubkeys' => ['abcdefghijklmnop', 'zyxwvutsrqponmlkjihg'],
 			'displayname' => 'Demo User',
 			'phone' => 'phone',
 			'address' => 'address',
@@ -937,6 +952,12 @@ class UsersControllerTest extends TestCase {
 			->expects($this->once())
 			->method('getEMailAddress')
 			->will($this->returnValue('subadmin@owncloud.org'));
+		$targetUser->expects($this->once())
+			->method('getDefaultPublicKey')
+			->willReturn('abcdefghijklmnop');
+		$targetUser->expects($this->once())
+			->method('getPublicKeys')
+			->willReturn(['abcdefghijklmnop', 'zyxwvutsrqponmlkjihg']);
 		$targetUser
 			->expects($this->exactly(4))
 			->method('getUID')
@@ -961,6 +982,8 @@ class UsersControllerTest extends TestCase {
 			'id' => 'UID',
 			'quota' => ['DummyValue'],
 			'email' => 'subadmin@owncloud.org',
+			'pubkey' => 'abcdefghijklmnop',
+			'pubkeys' => ['abcdefghijklmnop', 'zyxwvutsrqponmlkjihg'],
 			'displayname' => 'Subadmin User',
 			'phone' => 'phone',
 			'address' => 'address',
