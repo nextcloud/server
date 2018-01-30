@@ -72,8 +72,8 @@ class PluginManagerTest extends TestCase {
 
 		$appManager->method('getAppInfo')
 			->will($this->returnValueMap([
-				['adavapp', $appInfo1],
-				['adavapp2', $appInfo2],
+				['adavapp', false, null, $appInfo1],
+				['adavapp2', false, null, $appInfo2],
 			]));
 
 		$pluginManager = new PluginManager($server, $appManager);

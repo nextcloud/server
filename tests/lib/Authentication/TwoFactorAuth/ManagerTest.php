@@ -172,14 +172,14 @@ class ManagerTest extends TestCase {
 			->method('getAppInfo')
 			->will($this->returnValueMap([
 					[
-						'mycustom2faapp',
+						'mycustom2faapp', false, null,
 						['two-factor-providers' => [
 								'\OCA\MyCustom2faApp\FakeProvider',
 							]
 						]
 					],
 					[
-						'twofactor_backupcodes',
+						'twofactor_backupcodes', false, null,
 						['two-factor-providers' => [
 								'\OCA\TwoFactorBackupCodes\Provider\FakeBackupCodesProvider',
 							]
