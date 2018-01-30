@@ -306,7 +306,7 @@ class Mailer implements IMailer {
 
 
 
-		if ($this->countValidFingerprint($encrypt_fingerprints) == sizeof($message->getTo()) + sizeof($message->getCc()) + sizeof($message->getBcc())){
+		if ($this->countValidFingerprint($encrypt_fingerprints) === sizeof($message->getTo()) + sizeof($message->getCc()) + sizeof($message->getBcc())){
 			if($this->countValidFingerprint($sign_fingerprints) > 0) {
 				if($debugMode) {
 					$sign_fingerprints_text = '';

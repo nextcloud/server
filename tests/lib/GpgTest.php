@@ -37,19 +37,17 @@ use OCP\IUser;
 
 
 class GpgTest extends TestCase {
-	/** @var IGpg*/
+	/** @var IGpg|\PHPUnit_Framework_MockObject_MockObject*/
 	private $gpg;
-	/** @var IConfig */
+	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
 	private $config;
-	/** @var ILogger */
+	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
 	private $logger;
-	/** @var Defaults */
+	/** @var Defaults|\PHPUnit_Framework_MockObject_MockObject */
 	private $defaults;
-	/** @var IURLGenerator */
+	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
 	private $urlGenerator;
-	/** @var IL10N */
-	private $l10n;
-	/** @var IUserManager */
+	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $userManager;
 	private $testDir ='./testData/';
 
@@ -696,6 +694,12 @@ yj9h5BgI+X6PFeEPGRoUJUW5zMjIGcCDnFV2IjY4B2om/4ms0o4dTQtg5ye9Tata
 
 
 	protected function setUp() {
+		if (!extension_loaded('gnupg')) {
+			$this->markTestSkipped(
+				'The gnupg extension is not available.'
+			);
+		}
+
 		parent::setUp();
 		if(is_dir($this->testDir)){
 			$this->deleteDir($this->testDir);
@@ -728,7 +732,6 @@ yj9h5BgI+X6PFeEPGRoUJUW5zMjIGcCDnFV2IjY4B2om/4ms0o4dTQtg5ye9Tata
 
 
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
-		$this->l10n = $this->createMock(IL10N::class);
 
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->any())
@@ -745,7 +748,6 @@ yj9h5BgI+X6PFeEPGRoUJUW5zMjIGcCDnFV2IjY4B2om/4ms0o4dTQtg5ye9Tata
 			$this->logger,
 			$this->defaults,
 			$this->urlGenerator,
-			$this->l10n,
 			$this->userManager);
 	}
 

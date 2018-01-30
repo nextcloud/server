@@ -63,8 +63,14 @@ class Message implements IMessage {
      */
     public function __construct(Swift_Message $swiftMessage) {
         $this->swiftMessage = $swiftMessage;
+        $this->toFingerprints = array();
+        $this->ccFingerprints = array();
+        $this->bccFingerprints = array();
+        $this->fromFingerprints = array();
+
         $this->encrypted = FALSE;
         $this->signed = FALSE;
+
 
     }
 

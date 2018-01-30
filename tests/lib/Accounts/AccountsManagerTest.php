@@ -221,6 +221,8 @@ class AccountsManagerTest extends TestCase {
 		$expected = [
 			'key1' => ['value' => 'value1', 'verified' => '0'],
 			'key2' => ['value' => 'value1', 'verified' => '0'],
+			$accountManager::PROPERTY_PUBLICKEY => ['value' => null, 'scope' => 'private', 'verified' => '0'],
+			$accountManager::PROPERTY_PUBLICKEYS => ['value' => '[]', 'scope' => 'private', 'verified' => '0'],
 		];
 
 		$result = $this->invokePrivate($accountManager, 'addMissingDefaultValues', [$input]);

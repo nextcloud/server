@@ -2134,6 +2134,18 @@ class UsersControllerTest extends \Test\TestCase {
 							'scope' => AccountManager::VISIBILITY_PRIVATE,
 							'verified' => AccountManager::NOT_VERIFIED,
 						],
+					AccountManager::PROPERTY_PUBLICKEY =>
+						[
+							'value' => '',
+							'scope' => AccountManager::VISIBILITY_PRIVATE,
+							'verified' => AccountManager::NOT_VERIFIED,
+						],
+					AccountManager::PROPERTY_PUBLICKEYS =>
+						[
+							'value' => json_encode(array()),
+							'scope' => AccountManager::VISIBILITY_PRIVATE,
+							'verified' => AccountManager::NOT_VERIFIED,
+						],
 				]);
 
 			$controller->expects($this->once())->method('saveUserSettings');
@@ -2148,6 +2160,8 @@ class UsersControllerTest extends \Test\TestCase {
 			'47658468',
 			AccountManager::VISIBILITY_CONTACTS_ONLY,
 			$email,
+			AccountManager::VISIBILITY_CONTACTS_ONLY,
+			"Public Key String",
 			AccountManager::VISIBILITY_CONTACTS_ONLY,
 			'nextcloud.com',
 			AccountManager::VISIBILITY_CONTACTS_ONLY,
