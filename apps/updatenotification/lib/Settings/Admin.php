@@ -30,6 +30,7 @@ use OCA\UpdateNotification\UpdateChecker;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use OCP\IDateTimeFormatter;
+use OCP\IGroupManager;
 use OCP\Settings\ISettings;
 use OCP\Util;
 
@@ -38,19 +39,24 @@ class Admin implements ISettings {
 	private $config;
 	/** @var UpdateChecker */
 	private $updateChecker;
+	/** @var IGroupManager */
+	private $groupManager;
 	/** @var IDateTimeFormatter */
 	private $dateTimeFormatter;
 
 	/**
 	 * @param IConfig $config
 	 * @param UpdateChecker $updateChecker
+	 * @param IGroupManager $groupManager
 	 * @param IDateTimeFormatter $dateTimeFormatter
 	 */
 	public function __construct(IConfig $config,
 								UpdateChecker $updateChecker,
+								IGroupManager $groupManager,
 								IDateTimeFormatter $dateTimeFormatter) {
 		$this->config = $config;
 		$this->updateChecker = $updateChecker;
+		$this->groupManager = $groupManager;
 		$this->dateTimeFormatter = $dateTimeFormatter;
 	}
 
@@ -90,7 +96,7 @@ class Admin implements ISettings {
 			'updaterEnabled' => empty($updateState['updaterEnabled']) ? false : $updateState['updaterEnabled'],
 			'isDefaultUpdateServerURL' => $updateServerURL === $defaultUpdateServerURL,
 			'updateServerURL' => $updateServerURL,
-			'notifyGroups' => implode('|', $notifyGroups),
+			'notifyGroups' => $this->getSelectedGroups($notifyGroups),
 		];
 
 		$params = [
@@ -98,6 +104,25 @@ class Admin implements ISettings {
 		];
 
 		return new TemplateResponse('updatenotification', 'admin', $params, '');
+	}
+
+	/**
+	 * @param array $groupIds
+	 * @return array
+	 */
+	protected function getSelectedGroups(array $groupIds): array {
+		$result = [];
+		foreach ($groupIds as $groupId) {
+			$group = $this->groupManager->get($groupId);
+
+			if ($group === null) {
+				continue;
+			}
+
+			$result[] = ['value' => $group->getGID(), 'label' => $group->getDisplayName()];
+		}
+
+		return $result;
 	}
 
 	/**

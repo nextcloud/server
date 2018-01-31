@@ -14,10 +14,6 @@ define(function (require) {
 
 	return {
 
-
-		/** @type {number|null} */
-		interval: null,
-
 		/** @type {Vue|null} */
 		vm: null,
 
@@ -27,6 +23,8 @@ define(function (require) {
 		initialise: function() {
 			var data = JSON.parse($('#updatenotification').attr('data-json'));
 			var Vue = require('vue');
+			var vSelect = require('vue-select');
+			Vue.component('v-select', vSelect.VueSelect);
 			this.vm = new Vue(require('./components/root.vue'));
 
 			this.vm.newVersionString = data.newVersionString;

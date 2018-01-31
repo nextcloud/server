@@ -24,6 +24,7 @@ module.exports = {
 	},
 	resolve: {
 		alias: {
+			'vue-select': 'vue-select/dist/vue-select.js',
 			'vue': process.env.NODE_ENV === 'production' ? 'vue/dist/vue.min.js' : 'vue/dist/vue.js'
 		}
 	},

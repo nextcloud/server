@@ -30,7 +30,7 @@
 
 		<p id="oca_updatenotification_groups">
 			{{l_notify_groups}}
-			<input name="oca_updatenotification_groups_list" type="hidden" id="oca_updatenotification_groups_list" @change="saveNotifyGroups" :value="notifyGroups" style="width: 400px"><br />
+			<v-select multiple :value="notifyGroups" :options="availableGroups"></v-select><br />
 			<em v-if="currentChannel === 'daily' || currentChannel === 'git'">{{l_only_app_updates}}</em>
 			<em v-if="currentChannel === 'daily'">{{l_update_channel_daily}}</em>
 			<em v-if="currentChannel === 'git'">{{l_update_channel_git}}</em>
@@ -56,13 +56,30 @@
 				currentChannel: '',
 				channels: [],
 				notifyGroups: '',
-				isDefaultUpdateServerURL: true
+				availableGroups: [],
+				isDefaultUpdateServerURL: true,
+				enableChangeWatcher: false
 			};
 		},
 
 		_$el: null,
 		_$releaseChannel: null,
 		_$notifyGroups: null,
+
+		watch: {
+			notifyGroups: function(selectedOptions) {
+				if (!this.enableChangeWatcher) {
+					return;
+				}
+
+				var selectedGroups = [];
+				_.each(selectedOptions, function(group) {
+					selectedGroups.push(group.value);
+				});
+
+				OCP.AppConfig.setValue('updatenotification', 'notify_groups', JSON.stringify(selectedGroups));
+			}
+		},
 
 		computed: {
 			l_check_in_progress: function() {
@@ -163,11 +180,6 @@
 						OC.msg.finishedAction('#channel_save_msg', data);
 					}
 				});
-			},
-			saveNotifyGroups: function(e) {
-				var groups = e.val || [];
-				groups = JSON.stringify(groups);
-				OCP.AppConfig.setValue('updatenotification', 'notify_groups', groups);
 			}
 		},
 
@@ -178,10 +190,26 @@
 			this._$notifyGroups.on('change', function () {
 				this.$emit('input');
 			}.bind(this));
+
+			$.ajax({
+				url: OC.generateUrl('/settings/users/groups'),
+				dataType: 'json',
+				success: function(data) {
+					var results = [];
+					$.each(data.data.adminGroups, function(i, group) {
+						results.push({value: group.id, label: group.name});
+					});
+					$.each(data.data.groups, function(i, group) {
+						results.push({value: group.id, label: group.name});
+					});
+
+					this.availableGroups = results;
+					this.enableChangeWatcher = true;
+				}.bind(this)
+			});
 		},
 
 		updated: function () {
-			OC.Settings.setupGroupsSelect(this._$notifyGroups);
 			this._$el.find('.icon-info').tooltip({placement: 'right'});
 		}
 	}
