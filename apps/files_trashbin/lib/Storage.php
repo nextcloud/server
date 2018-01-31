@@ -268,7 +268,7 @@ class Storage extends Wrapper {
 	 */
 	private function doDelete($path, $method, $ownerOnly = false) {
 		if (self::$disableTrash
-			|| !\OC_App::isEnabled('files_trashbin')
+			|| !\OC::$server->getAppManager()->isEnabledForUser('files_trashbin')
 			|| (pathinfo($path, PATHINFO_EXTENSION) === 'part')
 			|| $this->shouldMoveToTrash($path) === false
 		) {

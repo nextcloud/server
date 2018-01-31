@@ -50,7 +50,6 @@
  *
  */
 use OC\App\DependencyAnalyzer;
-use OC\App\InfoParser;
 use OC\App\Platform;
 use OC\DB\MigrationService;
 use OC\Installer;
@@ -63,10 +62,8 @@ use OCP\App\ManagerEvent;
  * upgrading and removing apps.
  */
 class OC_App {
-	static private $appVersion = [];
 	static private $adminForms = array();
 	static private $personalForms = array();
-	static private $appInfo = array();
 	static private $appTypes = array();
 	static private $loadedApps = array();
 	static private $altLogin = array();
@@ -423,19 +420,6 @@ class OC_App {
 	}
 
 	/**
-	 * @param string $app
-	 * @return bool
-	 */
-	public static function removeApp($app) {
-		if (\OC::$server->getAppManager()->isShipped($app)) {
-			return false;
-		}
-
-		$installer = \OC::$server->query(Installer::class);
-		return $installer->removeApp($app);
-	}
-
-	/**
 	 * This function set an app as disabled in appconfig.
 	 *
 	 * @param string $app app
@@ -590,15 +574,10 @@ class OC_App {
 	 * @param string $appId
 	 * @param bool $useCache
 	 * @return string
+	 * @deprecated 14.0.0 use \OC::$server->getAppManager()->getAppVersion()
 	 */
 	public static function getAppVersion($appId, $useCache = true) {
-		if($useCache && isset(self::$appVersion[$appId])) {
-			return self::$appVersion[$appId];
-		}
-
-		$file = self::getAppPath($appId);
-		self::$appVersion[$appId] = ($file !== false) ? self::getAppVersionByPath($file) : '0';
-		return self::$appVersion[$appId];
+		return \OC::$server->getAppManager()->getAppVersion($appId, $useCache);
 	}
 
 	/**
@@ -609,7 +588,7 @@ class OC_App {
 	 */
 	public static function getAppVersionByPath($path) {
 		$infoFile = $path . '/appinfo/info.xml';
-		$appData = self::getAppInfo($infoFile, true);
+		$appData = \OC::$server->getAppManager()->getAppInfo($infoFile, true);
 		return isset($appData['version']) ? $appData['version'] : '';
 	}
 
@@ -622,39 +601,10 @@ class OC_App {
 	 * @param string $lang
 	 * @return array|null
 	 * @note all data is read from info.xml, not just pre-defined fields
+	 * @deprecated 14.0.0 use \OC::$server->getAppManager()->getAppInfo()
 	 */
 	public static function getAppInfo($appId, $path = false, $lang = null) {
-		if ($path) {
-			$file = $appId;
-		} else {
-			if ($lang === null && isset(self::$appInfo[$appId])) {
-				return self::$appInfo[$appId];
-			}
-			$appPath = self::getAppPath($appId);
-			if($appPath === false) {
-				return null;
-			}
-			$file = $appPath . '/appinfo/info.xml';
-		}
-
-		$parser = new InfoParser(\OC::$server->getMemCacheFactory()->createLocal('core.appinfo'));
-		$data = $parser->parse($file);
-
-		if (is_array($data)) {
-			$data = OC_App::parseAppInfo($data, $lang);
-		}
-		if(isset($data['ocsid'])) {
-			$storedId = \OC::$server->getConfig()->getAppValue($appId, 'ocsid');
-			if($storedId !== '' && $storedId !== $data['ocsid']) {
-				$data['ocsid'] = $storedId;
-			}
-		}
-
-		if ($lang === null) {
-			self::$appInfo[$appId] = $data;
-		}
-
-		return $data;
+		return \OC::$server->getAppManager()->getAppInfo($appId, $path, $lang);
 	}
 
 	/**
@@ -987,63 +937,6 @@ class OC_App {
 	}
 
 	/**
-	 * @param string $app
-	 * @param \OCP\IConfig $config
-	 * @param \OCP\IL10N $l
-	 * @return bool
-	 *
-	 * @throws Exception if app is not compatible with this version of ownCloud
-	 * @throws Exception if no app-name was specified
-	 */
-	public function installApp($app,
-							   \OCP\IConfig $config,
-							   \OCP\IL10N $l) {
-		if ($app !== false) {
-			// check if the app is compatible with this version of ownCloud
-			$info = self::getAppInfo($app);
-			if(!is_array($info)) {
-				throw new \Exception(
-					$l->t('App "%s" cannot be installed because appinfo file cannot be read.',
-						[$info['name']]
-					)
-				);
-			}
-
-			$version = \OCP\Util::getVersion();
-			if (!self::isAppCompatible($version, $info)) {
-				throw new \Exception(
-					$l->t('App "%s" cannot be installed because it is not compatible with this version of the server.',
-						array($info['name'])
-					)
-				);
-			}
-
-			// check for required dependencies
-			self::checkAppDependencies($config, $l, $info);
-
-			$config->setAppValue($app, 'enabled', 'yes');
-			if (isset($appData['id'])) {
-				$config->setAppValue($app, 'ocsid', $appData['id']);
-			}
-
-			if(isset($info['settings']) && is_array($info['settings'])) {
-				$appPath = self::getAppPath($app);
-				self::registerAutoloading($app, $appPath);
-			}
-
-			\OC_Hook::emit('OC_App', 'post_enable', array('app' => $app));
-		} else {
-			if(empty($appName) ) {
-				throw new \Exception($l->t("No app name specified"));
-			} else {
-				throw new \Exception($l->t("App '%s' could not be installed!", $appName));
-			}
-		}
-
-		return $app;
-	}
-
-	/**
 	 * update the database for the app and call the update script
 	 *
 	 * @param string $appId
@@ -1068,7 +961,8 @@ class OC_App {
 
 		self::executeRepairSteps($appId, $appData['repair-steps']['post-migration']);
 		self::setupLiveMigrations($appId, $appData['repair-steps']['live-migration']);
-		unset(self::$appVersion[$appId]);
+		// update appversion in app manager
+		\OC::$server->getAppManager()->getAppVersion($appId, false);
 
 		// run upgrade code
 		if (file_exists($appPath . '/appinfo/update.php')) {

@@ -80,6 +80,12 @@ class AppManager implements IAppManager {
 	/** @var string[] */
 	private $alwaysEnabled;
 
+	/** @var array */
+	private $appInfos = [];
+
+	/** @var array */
+	private $appVersions = [];
+
 	/**
 	 * @param IUserSession $userSession
 	 * @param AppConfig $appConfig
@@ -341,17 +347,45 @@ class AppManager implements IAppManager {
 	 *
 	 * @param string $appId app id
 	 *
+	 * @param bool $path
+	 * @param null $lang
 	 * @return array app info
-	 *
-	 * @internal
 	 */
-	public function getAppInfo($appId) {
-		$appInfo = \OC_App::getAppInfo($appId);
-		if (!isset($appInfo['version'])) {
-			// read version from separate file
-			$appInfo['version'] = \OC_App::getAppVersion($appId);
+	public function getAppInfo(string $appId, bool $path = false, $lang = null) {
+		if ($path) {
+			$file = $appId;
+		} else {
+			if ($lang === null && isset($this->appInfos[$appId])) {
+				return $this->appInfos[$appId];
+			}
+			try {
+				$appPath = $this->getAppPath($appId);
+			} catch (AppPathNotFoundException $e) {
+				return null;
+			}
+			$file = $appPath . '/appinfo/info.xml';
 		}
-		return $appInfo;
+
+		$parser = new InfoParser($this->memCacheFactory->createLocal('core.appinfo'));
+		$data = $parser->parse($file);
+
+		if (is_array($data)) {
+			$data = \OC_App::parseAppInfo($data, $lang);
+		}
+
+		if ($lang === null) {
+			$this->appInfos[$appId] = $data;
+		}
+
+		return $data;
+	}
+
+	public function getAppVersion(string $appId, bool $useCache = true) {
+		if(!$useCache || !isset($this->appVersions[$appId])) {
+			$appInfo = \OC::$server->getAppManager()->getAppInfo($appId);
+			$this->appVersions[$appId] = ($appInfo !== null) ? $appInfo['version'] : '0';
+		}
+		return $this->appVersions[$appId];
 	}
 
 	/**

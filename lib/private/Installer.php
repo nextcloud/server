@@ -471,6 +471,9 @@ class Installer {
 	 */
 	public function removeApp($appId) {
 		if($this->isDownloaded( $appId )) {
+			if (\OC::$server->getAppManager()->isShipped($appId)) {
+				return false;
+			}
 			$appDir = OC_App::getInstallPath() . '/' . $appId;
 			OC_Helper::rmdirr($appDir);
 			return true;
