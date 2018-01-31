@@ -96,6 +96,7 @@ OC.L10N.register(
     "Saving" : "Ukladá sa",
     "Back" : "Späť",
     "Continue" : "Pokračovať",
+    "An internal error occurred." : "Nastala interná chyba.",
     "New password" : "Nové heslo",
     "Wrong password." : "Nesprávne heslo.",
     "Cancel" : "Zrušiť",
