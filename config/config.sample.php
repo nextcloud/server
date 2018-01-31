@@ -1595,4 +1595,14 @@ $CONFIG = array(
  */
 'gs.federation' => 'internal',
 
+/**
+ * List of incompatible user agents opted out from Same Site Cookie Protection.
+ * Some user agents are notorious and don't really properly follow HTTP
+ * specifications. For those, have an opt-out.
+ */
+'csrf.optout' => array(
+	'/^WebDAVFS/', // OS X Finder
+	'/^Microsoft-WebDAV-MiniRedir/', // Windows webdav drive
+),
+
 );
