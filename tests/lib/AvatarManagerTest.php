@@ -27,19 +27,21 @@ namespace Test;
 use OC\Avatar;
 use OC\AvatarManager;
 use OC\Files\AppData\AppData;
+use OC\User\Manager as UserManager;
+use OC\User\User;
 use OCP\Files\IAppData;
 use OCP\Files\SimpleFS\ISimpleFolder;
+use OCP\IAvatar;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IUser;
-use OCP\IUserManager;
 
 /**
  * Class AvatarManagerTest
  */
 class AvatarManagerTest extends \Test\TestCase {
-	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var UserManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $userManager;
 	/** @var IAppData|\PHPUnit_Framework_MockObject_MockObject */
 	private $appData;
@@ -49,17 +51,32 @@ class AvatarManagerTest extends \Test\TestCase {
 	private $logger;
 	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
 	private $config;
+	/** @var callable **/
+	private $changeUserCallback;
 	/** @var AvatarManager | \PHPUnit_Framework_MockObject_MockObject */
 	private $avatarManager;
 
 	public function setUp() {
 		parent::setUp();
 
-		$this->userManager = $this->createMock(IUserManager::class);
+		$this->userManager = $this->createMock(UserManager::class);
 		$this->appData = $this->createMock(IAppData::class);
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->logger = $this->createMock(ILogger::class);
 		$this->config = $this->createMock(IConfig::class);
+
+		$this->userManager
+			->expects($this->any())
+			->method('listen')
+			->with(
+				'\OC\User',
+				'changeUser',
+				$this->callback(function($changeUserCallback) {
+					$this->changeUserCallback = $changeUserCallback;
+
+					return true;
+				})
+			);
 
 		$this->avatarManager = new AvatarManager(
 			$this->userManager,
@@ -126,5 +143,96 @@ class AvatarManagerTest extends \Test\TestCase {
 
 		$expected = new Avatar($folder, $this->l10n, $user, $this->logger, $this->config);
 		$this->assertEquals($expected, $this->avatarManager->getAvatar('vaLid-USER'));
+	}
+
+	public function testUpdateAvatarVersionOnDisplayNameChange() {
+		$this->avatarManager =
+			$this->getMockBuilder(AvatarManager::class)
+				->setMethods(['getAvatar'])
+				->setConstructorArgs([
+					$this->userManager,
+					$this->appData,
+					$this->l10n,
+					$this->logger,
+					$this->config
+				])->getMock();
+
+		$user = $this->createMock(User::class);
+
+		$user->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue(42));
+
+		$avatar = $this->createMock(IAvatar::class);
+
+		$this->avatarManager
+			->expects($this->once())
+			->method('getAvatar')
+			->with(42)
+			->will($this->returnValue($avatar));
+
+		$avatar->expects($this->once())
+			->method('exists')
+			->will($this->returnValue(false));
+
+		$this->config
+			->expects($this->once())
+			->method('getUserValue')
+			->with(42, 'avatar', 'version', 0)
+			->will($this->returnValue(15));
+
+		$this->config
+			->expects($this->once())
+			->method('setUserValue')
+			->with(42, 'avatar', 'version', 16);
+
+		call_user_func($this->changeUserCallback, $user, 'displayName', 'newValue', 'oldValue');
+	}
+
+	public function testUpdateAvatarVersionOnDisplayNameChangeUserWithAvatar() {
+		$this->avatarManager =
+			$this->getMockBuilder(AvatarManager::class)
+				->setMethods(['getAvatar'])
+				->setConstructorArgs([
+					$this->userManager,
+					$this->appData,
+					$this->l10n,
+					$this->logger,
+					$this->config
+				])->getMock();
+
+		$user = $this->createMock(User::class);
+
+		$user->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue(42));
+
+		$avatar = $this->createMock(IAvatar::class);
+
+		$this->avatarManager
+			->expects($this->once())
+			->method('getAvatar')
+			->with(42)
+			->will($this->returnValue($avatar));
+
+		$avatar->expects($this->once())
+			->method('exists')
+			->will($this->returnValue(true));
+
+		$this->config
+			->expects($this->never())
+			->method('setUserValue');
+
+		call_user_func($this->changeUserCallback, $user, 'displayName', 'newValue', 'oldValue');
+	}
+
+	public function testUpdateAvatarVersionOnDisplayNameChangeDifferentChangedAttribute() {
+		$user = $this->createMock(User::class);
+
+		$this->config
+			->expects($this->never())
+			->method('setUserValue');
+
+		call_user_func($this->changeUserCallback, $user, 'otherAttribute', 'newValue', 'oldValue');
 	}
 }

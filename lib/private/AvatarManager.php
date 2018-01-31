@@ -75,6 +75,12 @@ class AvatarManager implements IAvatarManager {
 		$this->l = $l;
 		$this->logger = $logger;
 		$this->config = $config;
+
+		$this->userManager->listen('\OC\User', 'changeUser', function ($user, $feature, $value, $oldValue) {
+			if ($feature === 'displayName') {
+				$this->updateAvatarVersionOnDisplayNameChange($user);
+			}
+		});
 	}
 
 	/**
@@ -101,5 +107,23 @@ class AvatarManager implements IAvatarManager {
 		}
 
 		return new Avatar($folder, $this->l, $user, $this->logger, $this->config);
+	}
+
+	/**
+	 * Increases the avatar version if needed.
+	 *
+	 * When a user has no avatar set the avatar is generated in the client based
+	 * on the display name, so in that case a display name change acts like an
+	 * avatar change and its version has to be increased.
+	 *
+	 * @param \OC\User\User $user the user whose display name has changed
+	 */
+	private function updateAvatarVersionOnDisplayNameChange(\OC\User\User $user) {
+		$avatar = $this->getAvatar($user->getUID());
+
+		if (!$avatar->exists()) {
+			$this->config->setUserValue($user->getUID(), 'avatar', 'version',
+				(int)$this->config->getUserValue($user->getUID(), 'avatar', 'version', 0) + 1);
+		}
 	}
 }
