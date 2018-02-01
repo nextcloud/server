@@ -38,13 +38,6 @@ OC.L10N.register(
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Kullanıcıların bir e-posta adresi yazarak bir dosya ya da klasör için kişisel bir bağlantı paylaşmasını sağlar.",
     "Send password by mail" : "Parolayı e-posta ile gönder",
     "Enforce password protection" : "Parola koruması dayatılsın",
-    "Failed to send share by E-mail" : "Paylaşım e-postası gönderilemedi",
-    "%s shared »%s« with you on behalf of %s" : "%s sizinle »%s« ögesini %s adına paylaştı",
-    "Failed to create the E-mail" : "E-posta oluşturulamadı",
-    "Hey there,\n\n%s shared »%s« with you on behalf of %s.\n\n%s\n\n" : "Merhaba,\n\n%s sizinle »%s« ögesini %s adına paylaştı.\n\n%s\n\n",
-    "Hey there,\n\n%s shared »%s« with you.\n\n%s\n\n" : "Merhaba,\n\n%s sizinle »%s« ögesini paylaştı.\n\n%s\n\n",
-    "Cheers!" : "Hoşça kalın!",
-    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you on behalf of %s.<br><br>" : "Merhaba,<br><br>%s sizinle <a href=\"%s\">%s</a> ögesini %s adına paylaştı.<br><br>",
-    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you.<br><br>" : "Merhaba,<br><br>%s sizinle <a href=\"%s\">%s</a> ögesini paylaştı.<br><br>"
+    "Failed to send share by E-mail" : "Paylaşım e-postası gönderilemedi"
 },
 "nplurals=2; plural=(n > 1);");

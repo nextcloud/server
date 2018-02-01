@@ -32,7 +32,6 @@
     "Upload new login background" : "새 로그인 배경 업로드",
     "Remove background image" : "배경 그림 삭제",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "업로드한 로고와 색으로부터 자동으로 파비콘을 생성하려면 PHP Imagemagick 확장 기능 및 SVG 형식 그림 지원을 설치하십시오.",
-    "reset to default" : "기본값으로 초기화",
-    "Log in image" : "로그인 그림"
+    "reset to default" : "기본값으로 초기화"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

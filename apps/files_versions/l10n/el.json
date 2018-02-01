@@ -5,8 +5,6 @@
     "_%n byte_::_%n bytes_" : ["%n bytes","%n bytes"],
     "Restore" : "Επαναφορά",
     "No earlier versions available" : "Δεν είναι διαθέριμες νεότερες εκδόσεις",
-    "More versions …" : "Περισσότερες εκδόσεις ...",
-    "No versions available" : "Δεν υπάρχουν εκδόσεις διαθέσιμες",
-    "More versions..." : "Περισσότερες εκδόσεις..."
+    "More versions …" : "Περισσότερες εκδόσεις ..."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

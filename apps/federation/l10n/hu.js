@@ -10,7 +10,6 @@ OC.L10N.register(
     "Add server automatically once a federated share was created successfully" : "Szerver automatikus hozzáadása, ha az egyesített megosztás létrehozása sikeres",
     "+ Add trusted server" : "+ Megbízható szerver hozzáadása",
     "Trusted server" : "Megbízható szerver",
-    "Add" : "Hozzáadás",
-    "Federation" : "Egyesítés"
+    "Add" : "Hozzáadás"
 },
 "nplurals=2; plural=(n != 1);");

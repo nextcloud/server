@@ -52,7 +52,6 @@ OC.L10N.register(
     "Add to your website" : "Legg på nettsiden din",
     "Share with me via Nextcloud" : "Del med meg via Nextcloud",
     "HTML Code:" : "HTML-kode:",
-    "Search global and public address book for users and let local users publish their data" : "Søk i verdensomspennende og offentlig adressebok etter brukere og la lokale brukere offentliggjøre deres data",
-    "Share it:" : "Del den:"
+    "Search global and public address book for users and let local users publish their data" : "Søk i verdensomspennende og offentlig adressebok etter brukere og la lokale brukere offentliggjøre deres data"
 },
 "nplurals=2; plural=(n != 1);");

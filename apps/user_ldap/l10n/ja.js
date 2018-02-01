@@ -187,12 +187,7 @@ OC.L10N.register(
     "Usernames are used to store and assign (meta) data. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "ユーザー名は(メタ)データの保存と割り当てに使用されます。ユーザーを正確に識別して認識するために、個々のLDAPユーザは内部ユーザ名を持っています。これは、ユーザー名からLDAPユーザーへのマッピングが必要であることを意味しています。この生成されたユーザ名は、LDAPユーザのUUIDにマッピングされます。加えて、DNがLDAPとのインタラクションを削減するためにキャッシュされますが、識別には利用されません。DNが変わった場合は、変更が検出されます。内部ユーザ名は全体に亘って利用されます。マッピングをクリアすると、いたるところに使われないままの物が残るでしょう。マッピングのクリアは設定に敏感ではありませんが、すべてのLDAPの設定に影響を与えます！本番の環境では決してマッピングをクリアしないでください。テストもしくは実験の段階でのみマッピングのクリアを行なってください。",
     "Clear Username-LDAP User Mapping" : "ユーザー名とLDAPユーザーのマッピングをクリアする",
     "Clear Groupname-LDAP Group Mapping" : "グループ名とLDAPグループのマッピングをクリアする",
-    "The %uid placeholder is missing. It will be replaced with the login name when querying LDAP / AD." : "%uid のプレースフォルダがありません。プレースフォルダでは、LDAP /ADで問合せするときにログイン名で置き換えられます。",
-    "Verify settings and count groups" : "設定を検証し、グループを数える",
-    "Add a new and blank configuration" : "空欄の新しい設定を追加",
-    "You can omit the protocol, except you require SSL. Then start with ldaps://" : "SSL通信しない場合には、プロトコル名を省略することができます。そうでない場合には、ldaps:// から始めてください。",
     "LDAP" : "LDAP",
-    "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>警告:</b> user_ldap と user_webdavauth のアプリには互換性がありません。予期せぬ動作をする可能性があります。システム管理者にどちらかを無効にするよう問い合わせてください。",
-    "in bytes" : "バイト"
+    "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>警告:</b> user_ldap と user_webdavauth のアプリには互換性がありません。予期せぬ動作をする可能性があります。システム管理者にどちらかを無効にするよう問い合わせてください。"
 },
 "nplurals=1; plural=0;");

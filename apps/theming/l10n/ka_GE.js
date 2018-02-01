@@ -34,7 +34,6 @@ OC.L10N.register(
     "Upload new login background" : "ლოგინის ახალი ფონის ატვირთვა",
     "Remove background image" : "ფონური სურათის მოშორება",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "SVG სურთების მხარდაჭერის მქონე Imagemagick PHP გაფართოების დაყენება ფავიკონებს  ატვირთული ლოგოსა და ფერის მიხევით დააგენერირებს ავტომატურად.",
-    "reset to default" : "დაბრუნება საწყისზე",
-    "Log in image" : "ლოგინის სურათი"
+    "reset to default" : "დაბრუნება საწყისზე"
 },
 "nplurals=1; plural=0;");

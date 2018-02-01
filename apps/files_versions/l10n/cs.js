@@ -7,8 +7,6 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["%n bajt","%n bajty","%n bajtů"],
     "Restore" : "Obnovit",
     "No earlier versions available" : "Nejsou dostupné dřívější verze",
-    "More versions …" : "Víc verzí …",
-    "No versions available" : "Nejsou dostupné žádné verze",
-    "More versions..." : "Více verzí..."
+    "More versions …" : "Víc verzí …"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

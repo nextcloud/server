@@ -10,7 +10,6 @@ OC.L10N.register(
     "Add server automatically once a federated share was created successfully" : "Legg til tjener automatisk når en sammenknyttet deling har blitt opprettet",
     "+ Add trusted server" : "+ Legg til klarert tjener",
     "Trusted server" : "Klarert tjener",
-    "Add" : "Legg til",
-    "Federation" : "Sammenknytting"
+    "Add" : "Legg til"
 },
 "nplurals=2; plural=(n != 1);");

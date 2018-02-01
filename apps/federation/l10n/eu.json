@@ -8,7 +8,6 @@
     "Add server automatically once a federated share was created successfully" : "Zerbitzaria automatikoki gehitu federatutako partekatze bat ondo sortzen denean",
     "+ Add trusted server" : "+ Zerbitzari fidagarria gehitu",
     "Trusted server" : "Zerbitzari fidagarria",
-    "Add" : "Gehitu",
-    "Federation" : "Federazioa"
+    "Add" : "Gehitu"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

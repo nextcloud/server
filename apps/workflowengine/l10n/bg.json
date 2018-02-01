@@ -64,8 +64,6 @@
     "Reset" : "Възстанови",
     "Save" : "Запази",
     "Saving…" : "Запазване...",
-    "Loading…" : "Зареждане...",
-    "Successfully saved" : "Успешно запазен",
-    "File mime type" : "Разширения"
+    "Loading…" : "Зареждане..."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

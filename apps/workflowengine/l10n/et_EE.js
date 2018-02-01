@@ -61,8 +61,6 @@ OC.L10N.register(
     "Reset" : "Lähtesta",
     "Save" : "Salvesta",
     "Saving…" : "Salvestamine...",
-    "Loading…" : "Laadimine...",
-    "Successfully saved" : "Edukalt salvestatud",
-    "File mime type" : "Faili MIME tüüp"
+    "Loading…" : "Laadimine..."
 },
 "nplurals=2; plural=(n != 1);");

@@ -10,7 +10,6 @@ OC.L10N.register(
     "Add server automatically once a federated share was created successfully" : "一旦联合共享创建成功自动添加服务器",
     "+ Add trusted server" : "+ 添加可信任服务器",
     "Trusted server" : "可信任服务器",
-    "Add" : "添加",
-    "Federation" : "联合"
+    "Add" : "添加"
 },
 "nplurals=1; plural=0;");

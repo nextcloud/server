@@ -52,7 +52,6 @@ OC.L10N.register(
     "Add to your website" : "Lisa oma veebisaidile",
     "Share with me via Nextcloud" : "Jaga minuga läbi Nextclouddiga",
     "HTML Code:" : "HTML kood:",
-    "Search global and public address book for users and let local users publish their data" : "Otsi kasutajaid globaalsest ja avalikust aadressiraamatust ja luba kohalikel kasutajatel avaldada oma andmeid",
-    "Share it:" : "Jaga seda:"
+    "Search global and public address book for users and let local users publish their data" : "Otsi kasutajaid globaalsest ja avalikust aadressiraamatust ja luba kohalikel kasutajatel avaldada oma andmeid"
 },
 "nplurals=2; plural=(n != 1);");

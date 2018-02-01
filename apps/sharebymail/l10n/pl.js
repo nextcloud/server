@@ -38,13 +38,6 @@ OC.L10N.register(
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Umożliwia współdzielenie spersonalizowanego linku do pliku lub folderu, umieszczając go w wiadomości e-mail.",
     "Send password by mail" : "Wyślij hasło e-mailem",
     "Enforce password protection" : "Wymuś zabezpieczenie hasłem",
-    "Failed to send share by E-mail" : "Nie udało się wysłać współdzielenia przez e-maila",
-    "%s shared »%s« with you on behalf of %s" : "%s współdzieli »%s« z Tobą w imieniu %s",
-    "Failed to create the E-mail" : "Nie udało się utworzyć e-maila",
-    "Hey there,\n\n%s shared »%s« with you on behalf of %s.\n\n%s\n\n" : "Hej,\n\n%s współdzieli »%s« z Tobą w imieniu %s.\n\n%s\n\n",
-    "Hey there,\n\n%s shared »%s« with you.\n\n%s\n\n" : "Hej,\n\n%s współdzieli »%s« z Tobą.\n\n%s\n\n",
-    "Cheers!" : "Zdrówko!",
-    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you on behalf of %s.<br><br>" : "Hej,<br><br>%s współdzieli <a href=\"%s\">%s</a> z Tobą w imieniu %s.<br><br>",
-    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you.<br><br>" : "Hej,<br><br>%s współdzieli <a href=\"%s\">%s</a> z Tobą.<br><br>"
+    "Failed to send share by E-mail" : "Nie udało się wysłać współdzielenia przez e-maila"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

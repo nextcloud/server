@@ -10,7 +10,6 @@ OC.L10N.register(
     "Add server automatically once a federated share was created successfully" : "Le functionalitate de adder un servitor automaticamente un vice que un compartimento federate es associate esseva create con successo",
     "+ Add trusted server" : "+ Adder servitor fiduciari",
     "Trusted server" : "Servitor fiduciari",
-    "Add" : "Adder",
-    "Federation" : "Federation"
+    "Add" : "Adder"
 },
 "nplurals=2; plural=(n != 1);");
