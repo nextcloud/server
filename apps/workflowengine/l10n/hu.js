@@ -66,8 +66,6 @@ OC.L10N.register(
     "Reset" : "Visszaállítás",
     "Save" : "Mentés",
     "Saving…" : "Mentés...",
-    "Loading…" : "Betöltés...",
-    "Successfully saved" : "Sikeresen mentve",
-    "File mime type" : "Fájl mime típus"
+    "Loading…" : "Betöltés..."
 },
 "nplurals=2; plural=(n != 1);");

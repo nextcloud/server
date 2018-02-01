@@ -31,7 +31,6 @@ OC.L10N.register(
     "Login image" : "ログイン画像",
     "Upload new login background" : "新しいログイン背景画像をアップロード",
     "Remove background image" : "背景画像を削除",
-    "reset to default" : "デフォルトに戻す",
-    "Log in image" : "ログイン画像"
+    "reset to default" : "デフォルトに戻す"
 },
 "nplurals=1; plural=0;");

@@ -64,8 +64,6 @@
     "Reset" : "Reset",
     "Save" : "Opslaan",
     "Saving…" : "Opslaan...",
-    "Loading…" : "Laden...",
-    "Successfully saved" : "Succesvol opgeslagen",
-    "File mime type" : "Bestand mime type"
+    "Loading…" : "Laden..."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

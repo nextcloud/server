@@ -64,8 +64,6 @@
     "Reset" : "Επαναφορά",
     "Save" : "Αποθήκευση",
     "Saving…" : "Αποθηκεύεται...",
-    "Loading…" : "Φορτώνει...",
-    "Successfully saved" : "Επιτυχημένη αποθήκευση",
-    "File mime type" : "Αρχεία τύπου mime"
+    "Loading…" : "Φορτώνει..."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

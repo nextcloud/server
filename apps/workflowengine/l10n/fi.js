@@ -58,8 +58,6 @@ OC.L10N.register(
     "Reset" : "Palauta",
     "Save" : "Tallenna",
     "Saving…" : "Tallennetaan...",
-    "Loading…" : "Ladataan…",
-    "Successfully saved" : "Tallennettu onnistuneesti",
-    "File mime type" : "Tiedoston mediatyyppi"
+    "Loading…" : "Ladataan…"
 },
 "nplurals=2; plural=(n != 1);");

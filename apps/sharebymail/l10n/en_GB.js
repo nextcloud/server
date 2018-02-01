@@ -38,13 +38,6 @@ OC.L10N.register(
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Allows users to share a personalised link to a file or folder by putting in an email address.",
     "Send password by mail" : "Send password by mail",
     "Enforce password protection" : "Enforce password protection",
-    "Failed to send share by E-mail" : "Failed to send share by E-mail",
-    "%s shared »%s« with you on behalf of %s" : "%s shared »%s« with you on behalf of %s",
-    "Failed to create the E-mail" : "Failed to create the E-mail",
-    "Hey there,\n\n%s shared »%s« with you on behalf of %s.\n\n%s\n\n" : "Hey there,\n\n%s shared »%s« with you on behalf of %s.\n\n%s\n\n",
-    "Hey there,\n\n%s shared »%s« with you.\n\n%s\n\n" : "Hey there,\n\n%s shared »%s« with you.\n\n%s\n\n",
-    "Cheers!" : "Cheers!",
-    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you on behalf of %s.<br><br>" : "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you on behalf of %s.<br><br>",
-    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you.<br><br>" : "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you.<br><br>"
+    "Failed to send share by E-mail" : "Failed to send share by E-mail"
 },
 "nplurals=2; plural=(n != 1);");

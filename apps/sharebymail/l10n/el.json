@@ -36,13 +36,6 @@
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Να επιτρέπεται οι χρήστες να στέλνουν εξατομικευμένο σύνδεσμο σε ένα αρχείο ή φάκελο μέσω mail.",
     "Send password by mail" : "Αποστολή συνθηματικου με ηλεκτρονική αλληλογραφία",
     "Enforce password protection" : "Επιβάλετε προστασία συνθηματικού",
-    "Failed to send share by E-mail" : "Αποτυχία αποστολής συνδέσμου διαμοιρασμού μέσω Ηλ.ταχυδρομείου",
-    "%s shared »%s« with you on behalf of %s" : "%s διαμοιράστηκε »%s« με εσάς από μέρους του %s",
-    "Failed to create the E-mail" : "Αποτυχία δημιουργίας του Ηλ.ταχυδρομείου",
-    "Hey there,\n\n%s shared »%s« with you on behalf of %s.\n\n%s\n\n" : "Γεια σας,\n\n%s διαμοιράστηκε »%s« με εσάς από μέρους του %s.\n\n%s\n\n",
-    "Hey there,\n\n%s shared »%s« with you.\n\n%s\n\n" : "Γεια σας,\n\n%s διαμοιράστηκε »%s« με εσάς.\n\n%s\n",
-    "Cheers!" : "Με εκτίμηση!",
-    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you on behalf of %s.<br><br>" : "Γεια σας,<br><br>%s διαμοιράστηκε <a href=\"%s\">%s</a> με εσάς από μέρους του %s.<br><br>",
-    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you.<br><br>" : "Γεια σας,<br><br>%s διαμοιράστηκε <a href=\"%s\">%s</a> με εσάς.<br><br>"
+    "Failed to send share by E-mail" : "Αποτυχία αποστολής συνδέσμου διαμοιρασμού μέσω Ηλ.ταχυδρομείου"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

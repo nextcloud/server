@@ -38,13 +38,6 @@ OC.L10N.register(
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Ermöglicht Benutzern eine personalisierte Verknüpfung zu einer Datei oder einem Ordner durch Eingabe einer E-Mail-Adresse zu teilen.",
     "Send password by mail" : "Passwort per Mail senden",
     "Enforce password protection" : "Passwortschutz erzwingen",
-    "Failed to send share by E-mail" : "Fehler beim Senden der Freigabe per E-Mail",
-    "%s shared »%s« with you on behalf of %s" : "%s hat »%s«  im Auftrag von %s mit Ihnen geteilt",
-    "Failed to create the E-mail" : "Erstellen der E-Mail fehlgeschlagen",
-    "Hey there,\n\n%s shared »%s« with you on behalf of %s.\n\n%s\n\n" : "Hallo,\n\n%s hat »%s« im Auftrag von %s mit Ihnen geteilt.\n\n%s\n",
-    "Hey there,\n\n%s shared »%s« with you.\n\n%s\n\n" : "Hallo,\n\n%s hat »%s« mit Ihnen geteilt.\n\n%s\n",
-    "Cheers!" : "Einen schönen Tag noch!",
-    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you on behalf of %s.<br><br>" : "Hallo,<br><br>%s hat <a href=\"%s\">%s</a> im Auftrag von %s mit Ihnen geteilt.<br><br>",
-    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you.<br><br>" : "Hallo,<br><br>%s hat <a href=\"%s\">%s</a> mit Ihnen geteilt.<br><br>"
+    "Failed to send share by E-mail" : "Fehler beim Senden der Freigabe per E-Mail"
 },
 "nplurals=2; plural=(n != 1);");

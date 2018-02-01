@@ -36,13 +36,6 @@
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Tillad brugere at dele et personligt link til en fil eller folder ved at skrive en email ind.",
     "Send password by mail" : "Send kodeord på mail",
     "Enforce password protection" : "Tving kodeords beskyttelse",
-    "Failed to send share by E-mail" : "Kunne ikke dele via e-mail",
-    "%s shared »%s« with you on behalf of %s" : "%s delte »%s« med dig for %s",
-    "Failed to create the E-mail" : "Oprettelse af e-mail mislykkedes",
-    "Hey there,\n\n%s shared »%s« with you on behalf of %s.\n\n%s\n\n" : "Hej,\n\n%s delte »%s« med dig, for %s.\n\n%s\n\n",
-    "Hey there,\n\n%s shared »%s« with you.\n\n%s\n\n" : "Hey there,\n\n%s delte »%s« med dig.\n\n%s\n\n",
-    "Cheers!" : "Hej!",
-    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you on behalf of %s.<br><br>" : "Hej,<br><br>%s delte <a href=\"%s\">%s</a> med dig, for %s.<br><br>",
-    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you.<br><br>" : "Hej,<br><br>%s delte <a href=\"%s\">%s</a> med dig.<br><br>"
+    "Failed to send share by E-mail" : "Kunne ikke dele via e-mail"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -44,7 +44,6 @@ OC.L10N.register(
     "Your Federated Cloud ID:" : "Federated Cloud ID Anda:",
     "Add to your website" : "Tambahkan pada situs web Anda",
     "Share with me via Nextcloud" : "Dibagikan pada saya via Nextcloud",
-    "HTML Code:" : "Kode HTML:",
-    "Share it:" : "Bagikan:"
+    "HTML Code:" : "Kode HTML:"
 },
 "nplurals=1; plural=0;");

@@ -66,8 +66,6 @@ OC.L10N.register(
     "Reset" : "Възстанови",
     "Save" : "Запази",
     "Saving…" : "Запазване...",
-    "Loading…" : "Зареждане...",
-    "Successfully saved" : "Успешно запазен",
-    "File mime type" : "Разширения"
+    "Loading…" : "Зареждане..."
 },
 "nplurals=2; plural=(n != 1);");

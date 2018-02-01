@@ -66,8 +66,6 @@ OC.L10N.register(
     "Reset" : "Sıfırla",
     "Save" : "Kaydet",
     "Saving…" : "Kaydediliyor...",
-    "Loading…" : "Yükleniyor...",
-    "Successfully saved" : "Kaydedildi",
-    "File mime type" : "Dosya MIME türü"
+    "Loading…" : "Yükleniyor..."
 },
 "nplurals=2; plural=(n > 1);");

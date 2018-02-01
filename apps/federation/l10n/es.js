@@ -10,7 +10,6 @@ OC.L10N.register(
     "Add server automatically once a federated share was created successfully" : "Añadir el servidor automáticamente una vez que un compartido federado se haya creado exitosamente",
     "+ Add trusted server" : "+ Añadir servidor de confianza",
     "Trusted server" : "Servidor de confianza",
-    "Add" : "Añadir",
-    "Federation" : "Federación"
+    "Add" : "Añadir"
 },
 "nplurals=2; plural=(n != 1);");

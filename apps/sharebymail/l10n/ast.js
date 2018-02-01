@@ -31,10 +31,6 @@ OC.L10N.register(
     "Could not find share" : "Nun pudo alcontrase la compartición",
     "Share by mail" : "Unviar per corréu",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Permite a los usuarios compartir un enllaz personalizáu a un ficheru o carpeta poniendo una direición de corréu.",
-    "Failed to send share by E-mail" : "Fallu al unviar la compartición per corréu",
-    "Failed to create the E-mail" : "Fallu al crear el corréu",
-    "Cheers!" : "¡Salú!",
-    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you on behalf of %s.<br><br>" : "Hola bones,<br><br>%scompartió<a href=\"%s\">%s</a> contigo nel nome de %s.<br><br>",
-    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you.<br><br>" : "Hola bones,<br><br>%s compartió <a href=\"%s\">%s</a> contigo.<br><br>"
+    "Failed to send share by E-mail" : "Fallu al unviar la compartición per corréu"
 },
 "nplurals=2; plural=(n != 1);");
