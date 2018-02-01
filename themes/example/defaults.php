@@ -41,7 +41,7 @@ class OC_Theme {
 	 * @return string URL
 	 */
 	public function getiOSClientUrl() {
-		return 'https://itunes.apple.com/us/app/nextcloud/id1125420102?mt=8';
+		return 'https://geo.itunes.apple.com/us/app/nextcloud/id1125420102?mt=8';
 	}
 
 	/**
