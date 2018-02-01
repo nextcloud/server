@@ -240,7 +240,7 @@ vendor_style('jcrop/css/jquery.Jcrop');
 					</div>
 				</div>
 				<?php } ?>
-				<input type="text" name="website" id="website" value="<?php p($_['website']); ?>"
+				<input type="url" name="website" id="website" value="<?php p($_['website']); ?>"
 				       placeholder="<?php p($l->t('Link https://…')); ?>"
 				       autocomplete="on" autocapitalize="none" autocorrect="off"
 					   <?php if(!$_['lookupServerUploadEnabled']) print_unescaped('disabled="1"');  ?>
