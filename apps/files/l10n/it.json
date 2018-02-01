@@ -144,25 +144,6 @@
     "Tags" : "Etichette",
     "Deleted files" : "File eliminati",
     "Text file" : "File di testo",
-    "New text file.txt" : "Nuovo file di testo.txt",
-    "Uploading..." : "Caricamento in corso...",
-    "..." : "...",
-    "_{hours}:{minutes}:{seconds} hour left_::_{hours}:{minutes}:{seconds} hours left_" : ["{hours}:{minutes}:{seconds} ora rimanente","{hours}:{minutes}:{seconds} ore rimanenti"],
-    "{hours}:{minutes}h" : "{hours}:{minutes}h",
-    "_{minutes}:{seconds} minute left_::_{minutes}:{seconds} minutes left_" : ["{minutes}:{seconds} minuto rimanente","{minutes}:{seconds} minuti rimanenti"],
-    "{minutes}:{seconds}m" : "{minutes}:{seconds}m",
-    "_{seconds} second left_::_{seconds} seconds left_" : ["{seconds} secondo rimanente","{seconds} secondi rimanenti"],
-    "{seconds}s" : "{seconds}s",
-    "Any moment now..." : "Da un momento all'altro...",
-    "Soon..." : "Presto...",
-    "File upload is in progress. Leaving the page now will cancel the upload." : "Caricamento del file in corso. La chiusura della pagina annullerà il caricamento.",
-    "Move" : "Sposta",
-    "Copy local link" : "Copia collegamento locale",
-    "Folder" : "Cartella",
-    "Upload" : "Carica",
-    "A new file or folder has been <strong>deleted</strong>" : "Un nuovo file o cartella è stato <strong>eliminato</strong>",
-    "A new file or folder has been <strong>restored</strong>" : "Un nuovo file o una cartella è stato <strong>ripristinato</strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Utilizza questo indirizzo per <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">accedere ai tuoi file con WebDAV</a>",
-    "No favorites" : "Nessun preferito"
+    "New text file.txt" : "Nuovo file di testo.txt"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

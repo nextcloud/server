@@ -118,16 +118,6 @@
     "Advanced settings" : "Haladó beállítások",
     "Delete" : "Törlés",
     "Allow users to mount external storage" : "Külső tárolók csatolásának  engedélyezése a felhasználók részére",
-    "Allow users to mount the following external storage" : "A felhasználók számára engedélyezett külső tárolók csatolása:",
-    "Fetching request tokens failed. Verify that your app key and secret are correct." : "Nem sikerült a kérési tokenek letöltése. Ellenőrizd, hogy az alkalmazás kulcs és titok megfelelő-e!",
-    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Nem sikerült a hozzáférési tokenek letöltése. Ellenőrizd, hogy az alkalmazás kulcs és titok megfelelő-e!",
-    "Step 1 failed. Exception: %s" : "1. lépés sikertelen. Kivétel: %s",
-    "Step 2 failed. Exception: %s" : "2. lépés sikertelen. Kivétel: %s",
-    "Dropbox App Configuration" : "Dropbox alkalmazás beállítás",
-    "Google Drive App Configuration" : "Google Drive alkalmazás beállítás",
-    "Storage with id \"%i\" not found" : "A következő azonosítójú tároló nem található: \"%i\"",
-    "Storage with id \"%i\" is not user editable" : "A következő azonosítójú tároló a felhasználó számára nem szerkeszthető: \"%i\"",
-    "Dropbox" : "Dropbox",
-    "Google Drive" : "Google Drive"
+    "Allow users to mount the following external storage" : "A felhasználók számára engedélyezett külső tárolók csatolása:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

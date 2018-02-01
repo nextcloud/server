@@ -141,25 +141,6 @@
     "Tags" : "Značky",
     "Deleted files" : "Odstraněné soubory",
     "Text file" : "Textový soubor",
-    "New text file.txt" : "Nový textový soubor.txt",
-    "Uploading..." : "Odesílám...",
-    "..." : "...",
-    "_{hours}:{minutes}:{seconds} hour left_::_{hours}:{minutes}:{seconds} hours left_" : ["zbývá {hours}:{minutes}:{seconds} hodina","zbývají {hours}:{minutes}:{seconds} hodiny","zbývá {hours}:{minutes}:{seconds} hodin"],
-    "{hours}:{minutes}h" : "{hours}:{minutes}h",
-    "_{minutes}:{seconds} minute left_::_{minutes}:{seconds} minutes left_" : ["zbývá {minutes}:{seconds} minuta","zbývají {minutes}:{seconds} minuty","zbývá {minutes}:{seconds} minut"],
-    "{minutes}:{seconds}m" : "{minutes}:{seconds}m",
-    "_{seconds} second left_::_{seconds} seconds left_" : ["zbývá {seconds} sekunda","zbývají {seconds} sekundy","zbývá {seconds} sekund"],
-    "{seconds}s" : "{seconds}s",
-    "Any moment now..." : "Každou chvíli...",
-    "Soon..." : "Brzy...",
-    "File upload is in progress. Leaving the page now will cancel the upload." : "Probíhá odesílání souboru. Opuštění stránky způsobí zrušení nahrávání.",
-    "Move" : "Přesunout",
-    "Copy local link" : "Kopírovat místní odkaz",
-    "Folder" : "Adresář",
-    "Upload" : "Odeslat",
-    "A new file or folder has been <strong>deleted</strong>" : "Nový soubor nebo adresář byl <strong>smazán</strong>",
-    "A new file or folder has been <strong>restored</strong>" : "Nový soubor nebo adresář byl <strong>obnoven</strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Použijte tuto adresu pro <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">přístup ke svým Souborům přes WebDAV</a>",
-    "No favorites" : "Žádné oblíbené"
+    "New text file.txt" : "Nový textový soubor.txt"
 },"pluralForm" :"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;"
 }

@@ -59,7 +59,6 @@ OC.L10N.register(
     "Enable password recovery:" : "Ενεργοποιήστε την ανάκτηση κωδικού πρόσβασης",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Η ενεργοποίηση αυτής της επιλογής θα σας επιτρέψει να επανακτήσετε πρόσβαση στα κρυπτογραφημένα σας αρχεία σε περίπτωση απώλειας του κωδικού σας",
     "Enabled" : "Ενεργοποιημένο",
-    "Disabled" : "Απενεργοποιημένο",
-    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Η εφαρμογή κρυπτογράφησης είναι ενεργοποιημένη αλλά τα κλειδιά σας δεν έχουν καταγραφεί, παρακαλώ αποσυνδεθείτε και επανασυνδεθείτε."
+    "Disabled" : "Απενεργοποιημένο"
 },
 "nplurals=2; plural=(n != 1);");

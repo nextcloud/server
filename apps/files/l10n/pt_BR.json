@@ -144,25 +144,6 @@
     "Tags" : "Etiquetas",
     "Deleted files" : "Arquivos excluídos",
     "Text file" : "Arquivo texto",
-    "New text file.txt" : "Novo texto file.txt",
-    "Uploading..." : "Enviando...",
-    "..." : "...",
-    "_{hours}:{minutes}:{seconds} hour left_::_{hours}:{minutes}:{seconds} hours left_" : ["{hours}:{minutes}:{seconds} hora restante","{hours}:{minutes}:{seconds} horas restantes"],
-    "{hours}:{minutes}h" : "{hours}:{minutes}h",
-    "_{minutes}:{seconds} minute left_::_{minutes}:{seconds} minutes left_" : ["{minutes}:{seconds} minutos retantes","{minutes}:{seconds} minutos restantes"],
-    "{minutes}:{seconds}m" : "{minutes}:{seconds}m",
-    "_{seconds} second left_::_{seconds} seconds left_" : ["{seconds} segundos restantes","{seconds} segundos restantes"],
-    "{seconds}s" : "{seconds}s",
-    "Any moment now..." : "A qualquer momento...",
-    "Soon..." : "Logo...",
-    "File upload is in progress. Leaving the page now will cancel the upload." : "Envio de arquivo em andamento. Sair da página agora cancelará o envio.",
-    "Move" : "Mover",
-    "Copy local link" : "Copiar link local",
-    "Folder" : "Pasta",
-    "Upload" : "Enviar",
-    "A new file or folder has been <strong>deleted</strong>" : "Um novo arquivo ou pasta foi <strong> excluído </strong>",
-    "A new file or folder has been <strong>restored</strong>" : "Um novo arquivo ou pasta foi <strong> recuperado </strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Use este endereço <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">para  acessar seus arquivos via WebDAV</a>",
-    "No favorites" : "Sem favoritos"
+    "New text file.txt" : "Novo texto file.txt"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

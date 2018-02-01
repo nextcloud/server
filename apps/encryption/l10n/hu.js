@@ -59,7 +59,6 @@ OC.L10N.register(
     "Enable password recovery:" : "Jelszó-visszaállítás bekapcsolása",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Ez az opció lehetővé teszi, hogy a titkosított fájlok tartalmát visszanyerjük abban az esetben, ha elfelejti a jelszavát",
     "Enabled" : "Bekapcsolva",
-    "Disabled" : "Kikapcsolva",
-    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "A fájlok titkosítása engedélyezve van, de az Ön titkos kulcsai nincsenek beállítva. Ezért kérlek, hogy jelentkezz ki, és lépj be újra!"
+    "Disabled" : "Kikapcsolva"
 },
 "nplurals=2; plural=(n != 1);");

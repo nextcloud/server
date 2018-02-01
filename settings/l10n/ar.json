@@ -77,26 +77,6 @@
     "Quota" : "حصه",
     "change full name" : "تغيير اسمك الكامل",
     "set new password" : "اعداد كلمة مرور جديدة",
-    "Default" : "افتراضي",
-    "Enabled" : "مفعلة",
-    "Please provide an admin recovery password, otherwise all user data will be lost" : "يرجى توفير كلمة مرور المسؤول المستردة, وإلا سيتم فقد جميع بيانات المستخدم ",
-    "test email settings" : "فحص إعدادات البريد الإلكتروني",
-    "Invalid request" : "طلب غير مفهوم",
-    "Admins can't remove themself from the admin group" : "لا يستطيع المدير إزالة حسابه من مجموعة المديرين",
-    "Unable to add user to group %s" : "فشل إضافة المستخدم الى المجموعة %s",
-    "Unable to remove user from group %s" : "فشل إزالة المستخدم من المجموعة %s",
-    "Sending..." : "جاري الارسال ...",
-    "Updating...." : "جاري التحديث ...",
-    "Error while updating app" : "حصل خطأ أثناء تحديث التطبيق",
-    "Uninstalling ...." : "جاري إلغاء التثبيت ...",
-    "Uninstall" : "ألغاء التثبيت",
-    "__language_name__" : "اللغة العربية",
-    "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "موديل  'fileinfo' الخاص بالـPHP  مفقود . نوصي بتفعيل هذا الموديل للحصول على أفضل النتائج مع خاصية التحقق ",
-    "This means that there might be problems with certain characters in file names." : "هذا يعني انه من الممكن ان يكون هناك مشكلة في بعض الاحرف في اسم الملف.",
-    "Cron" : "مجدول",
-    "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "الملف cron.php تم تسجيله فى خدمه webcron  لاستدعاء الملف cron.php كل  15 دقيقه",
-    "Get the apps to sync your files" : "احصل على التطبيقات لمزامنة ملفاتك",
-    "Show First Run Wizard again" : "ابدأ خطوات بداية التشغيل من جديد",
-    "Name" : "الاسم"
+    "Default" : "افتراضي"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

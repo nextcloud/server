@@ -141,25 +141,6 @@
     "Tags" : "Tagi",
     "Deleted files" : "Usunięte pliki",
     "Text file" : "Plik tekstowy",
-    "New text file.txt" : "Nowy plik tekstowy.txt",
-    "Uploading..." : "Wysyłanie....",
-    "..." : "...",
-    "_{hours}:{minutes}:{seconds} hour left_::_{hours}:{minutes}:{seconds} hours left_" : ["Pozostała {hours}:{minutes}:{seconds} godzina","Pozostało {hours}:{minutes}:{seconds} godzin","Pozostało {hours}:{minutes}:{seconds} godzin"],
-    "{hours}:{minutes}h" : "{hours}h:{minutes}m",
-    "_{minutes}:{seconds} minute left_::_{minutes}:{seconds} minutes left_" : ["Pozostała {minutes}:{seconds} minuta","Pozostało {minutes}:{seconds} minut","Pozostało {minutes}:{seconds} minut"],
-    "{minutes}:{seconds}m" : "{minutes}:{seconds}min.",
-    "_{seconds} second left_::_{seconds} seconds left_" : ["Pozostała {seconds} sekunda","Pozostało {seconds} sekund","Pozostało {seconds} sekund"],
-    "{seconds}s" : "{seconds} s",
-    "Any moment now..." : "Jeszcze chwilę...",
-    "Soon..." : "Wkrótce...",
-    "File upload is in progress. Leaving the page now will cancel the upload." : "Wysyłanie pliku jest w toku. Jeśli opuścisz tę stronę, wysyłanie zostanie przerwane.",
-    "Move" : "Przenieś",
-    "Copy local link" : "Skopiuj link lokalny",
-    "Folder" : "Folder",
-    "Upload" : "Wyślij",
-    "A new file or folder has been <strong>deleted</strong>" : "Nowy plik lub folder został <strong>usunięty </strong>",
-    "A new file or folder has been <strong>restored</strong>" : "Nowy plik lub folder został <strong>przywrócony</strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Użyj tego adresu aby uzyskać <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">dostęp do swoich plików poprzez WebDAV</a>",
-    "No favorites" : "Brak ulubionych"
+    "New text file.txt" : "Nowy plik tekstowy.txt"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

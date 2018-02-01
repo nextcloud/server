@@ -109,7 +109,6 @@ OC.L10N.register(
     "Upload files to %s" : "Téléversement des fichiers vers %s",
     "Select or drop files" : "Sélectionner ou glisser-déposer vos fichiers",
     "Uploading files…" : "Téléversement des fichiers...",
-    "Uploaded files:" : "Fichiers téléversés :",
-    "%s is publicly shared" : "%s a été partagé publiquement"
+    "Uploaded files:" : "Fichiers téléversés :"
 },
 "nplurals=2; plural=(n > 1);");

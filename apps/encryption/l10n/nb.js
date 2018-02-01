@@ -59,7 +59,6 @@ OC.L10N.register(
     "Enable password recovery:" : "Aktiver gjenoppretting av passord:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Aktivering av dette valget tillater deg å gjenerobre tilgang til dine krypterte filer i tilfelle du mister passordet ditt.",
     "Enabled" : "Aktiv",
-    "Disabled" : "Inaktiv",
-    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Program for kryptering er aktivert men nøklene dine er ikke satt opp. Logg ut og inn igjen."
+    "Disabled" : "Inaktiv"
 },
 "nplurals=2; plural=(n != 1);");

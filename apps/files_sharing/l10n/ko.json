@@ -107,7 +107,6 @@
     "Upload files to %s" : "%s에 파일 업로드",
     "Select or drop files" : "파일을 선택하거나 끌어다 놓기",
     "Uploading files…" : "파일 업로드 중…",
-    "Uploaded files:" : "업로드한 파일:",
-    "%s is publicly shared" : "%s이(가) 공개 공유됨"
+    "Uploaded files:" : "업로드한 파일:"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
