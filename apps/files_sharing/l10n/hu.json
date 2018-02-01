@@ -107,7 +107,6 @@
     "Upload files to %s" : "Fájlok felöltése ide: %s",
     "Select or drop files" : "Válassz ki vagy dobj ide fájlokat",
     "Uploading files…" : "Fájlok feltöltése...",
-    "Uploaded files:" : "Felöltött fájlok:",
-    "%s is publicly shared" : "%s nyilvánosan megosztva"
+    "Uploaded files:" : "Felöltött fájlok:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

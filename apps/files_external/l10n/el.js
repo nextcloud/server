@@ -117,16 +117,6 @@ OC.L10N.register(
     "Advanced settings" : "Ρυθμίσεις για προχωρημένους",
     "Delete" : "Διαγραφή",
     "Allow users to mount external storage" : "Να επιτρέπεται στους χρήστες η σύνδεση εξωτερικού χώρου",
-    "Allow users to mount the following external storage" : "Χορήγηση άδειας στους χρήστες να συνδέσουν τα παρακάτω εξωτερικά μέσα αποθήκευσης",
-    "Fetching request tokens failed. Verify that your app key and secret are correct." : "Η λήψη των τεκμηρίων αιτήματος απέτυχε. Βεβαιώστε ότι το κλειδί εφαρμογής και το μυστικό είναι ορθά.",
-    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Η λήψη των τεκμηρίων πρόσβασης απέτυχε. Βεβαιώστε ότι το κλειδί εφαρμογής και το μυστικό είναι ορθά.",
-    "Step 1 failed. Exception: %s" : "Το βήμα 1 απέτυχε. Εξαίρεση: %s",
-    "Step 2 failed. Exception: %s" : "Το βήμα 2 απέτυχε. Εξαίρεση: %s",
-    "Dropbox App Configuration" : "Ρυθμίσεις εφαρμογής Dropbox",
-    "Google Drive App Configuration" : "Ρυθμίσεις εφαρμογής Google Drive",
-    "Storage with id \"%i\" not found" : "Αποθήκευση με id \"%i\" δεν βρέθηκε",
-    "Storage with id \"%i\" is not user editable" : "Αποθηκευτικός χώρος με ID \"%i\" δεν είναι επεξεργάσιμος από τον χρήστη ",
-    "Dropbox" : "Dropbox",
-    "Google Drive" : "Google Drive"
+    "Allow users to mount the following external storage" : "Χορήγηση άδειας στους χρήστες να συνδέσουν τα παρακάτω εξωτερικά μέσα αποθήκευσης"
 },
 "nplurals=2; plural=(n != 1);");

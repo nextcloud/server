@@ -59,7 +59,6 @@ OC.L10N.register(
     "Enable password recovery:" : "აამოქმედეთ პაროლის აღდგენა:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "ამ არჩევნის ამოქმედება, პაროლის დაკარგვის შემთხვევაში, საშუალებას მოგცემთ ახლიდან მოიპოვოთ წვდომა თქვენს დაშიფრულ ფაილებზე",
     "Enabled" : "მოქმედია",
-    "Disabled" : "არაა მოქმედი",
-    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "შიფრაციის აპლიკაცია მოქმედია, თუმცა თქვენი გასაღებები არაა ინიციალიზირებული, გთხოვთ გახვიდეთ და ახლიდან გაიაროთ ავტორიზაცია."
+    "Disabled" : "არაა მოქმედი"
 },
 "nplurals=1; plural=0;");

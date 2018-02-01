@@ -52,7 +52,6 @@ OC.L10N.register(
     "Enable password recovery:" : "เปิดใช้งานการกู้คืนรหัสผ่าน:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "การเปิดใช้งานตัวเลือกนี้จะช่วยให้คุณได้รับการเข้าถึงไฟล์ที่มีการเข้ารหัสของคุณในกรณีที่คุณลืมรหัสผ่าน",
     "Enabled" : "เปิดการใช้งาน",
-    "Disabled" : "ปิดการใช้งาน",
-    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "การเข้ารหัสแอพฯ ถูกเปิดใช้งานแต่รหัสของคุณยังไม่ได้เริ่มต้นใช้ โปรดออกและเข้าสู่ระบบอีกครั้ง"
+    "Disabled" : "ปิดการใช้งาน"
 },
 "nplurals=1; plural=0;");

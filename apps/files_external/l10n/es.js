@@ -120,16 +120,6 @@ OC.L10N.register(
     "Advanced settings" : "Configuración avanzada",
     "Delete" : "Eliminar",
     "Allow users to mount external storage" : "Permitir a los usuarios montar un almacenamiento externo",
-    "Allow users to mount the following external storage" : "Permitir a los usuarios montar el siguiente almacenamiento externo",
-    "Fetching request tokens failed. Verify that your app key and secret are correct." : "Falló al acceder a los tokens solicitados. Verifique que su clave de app y la clave secreta sean correctas.",
-    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Falló al acceder a los tokens solicitados. Verifique que su clave de app y la clave secreta sean correctas.",
-    "Step 1 failed. Exception: %s" : "El paso 1 falló. Excepción: %s",
-    "Step 2 failed. Exception: %s" : "El paso 2 falló. Excepción: %s",
-    "Dropbox App Configuration" : "Configuración de la app de Dropbox",
-    "Google Drive App Configuration" : "Configuración de la app de Google Drive",
-    "Storage with id \"%i\" not found" : "No se ha encontrado almacenamiento con id \"%i\"",
-    "Storage with id \"%i\" is not user editable" : "El almacenamiento con id \"%i\" no es editable por usuarios",
-    "Dropbox" : "Dropbox",
-    "Google Drive" : "Google Drive"
+    "Allow users to mount the following external storage" : "Permitir a los usuarios montar el siguiente almacenamiento externo"
 },
 "nplurals=2; plural=(n != 1);");

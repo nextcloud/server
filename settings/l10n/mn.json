@@ -92,21 +92,6 @@
     "Other" : "Бусад",
     "Last login" : "Сүүлд нэвтэрсэн огноо",
     "set new password" : "шинэ нууц үг тохируулах",
-    "change email address" : "цахим шуудангийн хаягийг өөрчлөх",
-    "Enabled" : "Идэвхижүүлэх",
-    "Not enabled" : "Идэвхижүүлээгүй",
-    "Admins can't remove themself from the admin group" : "Админууд өөрсдийгөө бүлгээс хасах боломжгүй",
-    "Unable to add user to group %s" : "%s бүлэгт хэрэглэгч нэмэх боломжгүй",
-    "Unable to remove user from group %s" : "%s бүлгээс хэрэглэгч хасах боломжгүй",
-    "Sending..." : "Илгээж байна ...",
-    "Uninstall" : "Устгах",
-    "Personal info" : "Хувийн мэдээлэл",
-    "Sessions" : "Холболтууд",
-    "App passwords" : "Аппликэйшны нууц үг",
-    "Uninstall app" : "Аппликэйшныг устгах",
-    "Your website" : "Таны цахим хуудас",
-    "Name" : "Нэр",
-    "Show last log in" : "Хамгийн сүүлд нэвтэрсэн огноог харуулах",
-    "Group name" : "Бүлгийн нэр"
+    "change email address" : "цахим шуудангийн хаягийг өөрчлөх"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

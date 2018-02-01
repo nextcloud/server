@@ -52,7 +52,6 @@ OC.L10N.register(
     "Enable password recovery:" : "Omogoči obnovitev gesla:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Nastavitev te možnosti omogoča ponovno pridobitev dostopa do šifriranih datotek, v primeru, da boste geslo pozabili.",
     "Enabled" : "Omogočeno",
-    "Disabled" : "Onemogočeno",
-    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Program za šifriranje je omogočen, vendar ni začet. Odjavite se in nato ponovno prijavite."
+    "Disabled" : "Onemogočeno"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

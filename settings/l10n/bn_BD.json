@@ -55,19 +55,6 @@
     "Quota" : "কোটা",
     "change full name" : "পুরোনাম পরিবর্তন করুন",
     "set new password" : "নতুন কূটশব্দ নির্ধারণ করুন",
-    "Default" : "পূর্বনির্ধারিত",
-    "Enabled" : "কার্যকর",
-    "test email settings" : "ইমেইল নিয়ামকসমূহ পরীক্ষা করুন",
-    "Invalid request" : "অনুরোধটি সঠিক নয়",
-    "Admins can't remove themself from the admin group" : "প্রশাসকবৃন্দ তাদেরকে প্রশাসক গোষ্ঠী থেকে মুছে ফেলতে পারবেন না",
-    "Unable to add user to group %s" : " %s গোষ্ঠীতে ব্যবহারকারী যোগ করা সম্ভব হলো না ",
-    "Unable to remove user from group %s" : "%s গোষ্ঠী থেকে ব্যবহারকারীকে অপসারণ করা সম্ভব হলো না",
-    "Updating...." : "নবায়ন করা হচ্ছে....",
-    "Error while updating app" : "অ্যাপ নবায়ন করতে সমস্যা দেখা দিয়েছে  ",
-    "__language_name__" : "বাংলা ভাষা",
-    "Cheers!" : "শুভেচ্ছা!",
-    "Get the apps to sync your files" : "আপনার ফাইলসমূহ সিংক করতে অ্যাপস নিন",
-    "Show First Run Wizard again" : "প্রথমবার চালানোর যাদুকর পূনরায় প্রদর্শন কর",
-    "Name" : "নাম"
+    "Default" : "পূর্বনির্ধারিত"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

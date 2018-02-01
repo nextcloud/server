@@ -117,16 +117,6 @@
     "Advanced settings" : "Rozšírené nastavenia",
     "Delete" : "Zmazať",
     "Allow users to mount external storage" : "Povoliť používateľom pripojiť externé úložiská",
-    "Allow users to mount the following external storage" : "Povoliť používateľom pripojiť tieto externé úložiská",
-    "Fetching request tokens failed. Verify that your app key and secret are correct." : "Sťahovanie tokenov požiadavky zlyhalo. Overte prosím, či je aplikačný kľúč a heslo (secret) zadané správne.",
-    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Sťahovanie prístupových tokenov zlyhalo. Overte prosím, či je aplikačný kľúč a heslo (secret) zadané správne.",
-    "Step 1 failed. Exception: %s" : "Krok 1 zlyhal. Výnimka: %s",
-    "Step 2 failed. Exception: %s" : "Krok 2 zlyhal. Výnimka: %s",
-    "Dropbox App Configuration" : "Nastavenie Dropbox aplikácie",
-    "Google Drive App Configuration" : "Nastavenie Google Drive aplikácie",
-    "Storage with id \"%i\" not found" : "Úložisko s ID \"%i\" sa nenašlo",
-    "Storage with id \"%i\" is not user editable" : "Úložisko s id \"%i\" používatelia nemôžu upravovať",
-    "Dropbox" : "Dropbox",
-    "Google Drive" : "Google Drive"
+    "Allow users to mount the following external storage" : "Povoliť používateľom pripojiť tieto externé úložiská"
 },"pluralForm" :"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;"
 }

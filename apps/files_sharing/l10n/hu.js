@@ -109,7 +109,6 @@ OC.L10N.register(
     "Upload files to %s" : "Fájlok felöltése ide: %s",
     "Select or drop files" : "Válassz ki vagy dobj ide fájlokat",
     "Uploading files…" : "Fájlok feltöltése...",
-    "Uploaded files:" : "Felöltött fájlok:",
-    "%s is publicly shared" : "%s nyilvánosan megosztva"
+    "Uploaded files:" : "Felöltött fájlok:"
 },
 "nplurals=2; plural=(n != 1);");

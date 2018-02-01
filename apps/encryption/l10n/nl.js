@@ -59,7 +59,6 @@ OC.L10N.register(
     "Enable password recovery:" : "Activeren wachtwoord herstel:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Het activeren van deze optie maakt het mogelijk om je versleutelde bestanden te benaderen als je wachtwoord kwijt is",
     "Enabled" : "Ingeschakeld",
-    "Disabled" : "Uitgeschakeld",
-    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Crypto app is ingeschakeld, maar je sleutels werden niet geïnitialiseerd. Log uit en log daarna opnieuw in."
+    "Disabled" : "Uitgeschakeld"
 },
 "nplurals=2; plural=(n != 1);");

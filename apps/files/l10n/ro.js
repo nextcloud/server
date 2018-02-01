@@ -133,21 +133,6 @@ OC.L10N.register(
     "Tags" : "Etichete",
     "Deleted files" : "Fișiere șterse",
     "Text file" : "Fișier text",
-    "New text file.txt" : "New text file.txt",
-    "Uploading..." : "Încărcare",
-    "..." : "...",
-    "{hours}:{minutes}h" : "{hours}:{minutes}h",
-    "{minutes}:{seconds}m" : "{minutes}:{seconds}m",
-    "{seconds}s" : "{seconds}s",
-    "Any moment now..." : "În orice moment...",
-    "Soon..." : "În curând...",
-    "File upload is in progress. Leaving the page now will cancel the upload." : "Fișierul este în curs de încărcare. Părăsirea paginii va întrerupe încărcarea.",
-    "Move" : "Mută",
-    "Folder" : "Dosar",
-    "Upload" : "Încărcă",
-    "A new file or folder has been <strong>deleted</strong>" : "Un nou fișier sau director a fost <strong>șters</strong>",
-    "A new file or folder has been <strong>restored</strong>" : "Un fișier sau director a fost <strong>restaurat</strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Folosește această adresă <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">pentru a accesa Fișierele prin WebDAV</a>",
-    "No favorites" : "Fără favorite"
+    "New text file.txt" : "New text file.txt"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

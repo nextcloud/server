@@ -119,16 +119,6 @@ OC.L10N.register(
     "Advanced settings" : "Pokročilá nastavení",
     "Delete" : "Smazat",
     "Allow users to mount external storage" : "Povolit uživatelům připojení externího úložiště",
-    "Allow users to mount the following external storage" : "Povolit uživatelů připojit následující externí úložiště",
-    "Fetching request tokens failed. Verify that your app key and secret are correct." : "Získání přístupových tokenů selhalo. Ověřte že klíč aplikace a tajné heslo jsou správné.",
-    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Získání přístupových tokenů selhalo. Ověřte že klíč aplikace a tajné heslo jsou správné.",
-    "Step 1 failed. Exception: %s" : "Selhal krok 1. Výjimka: %s",
-    "Step 2 failed. Exception: %s" : "Selhal krok 2. Výjimka: %s",
-    "Dropbox App Configuration" : "Nastavení aplikace Dropbox",
-    "Google Drive App Configuration" : "Nastavení aplikace Disk Google",
-    "Storage with id \"%i\" not found" : "Úložiště s id \"%i\" nebylo nalezeno",
-    "Storage with id \"%i\" is not user editable" : "Úložiště s id \"%i\" uživatelé nemohou upravovat",
-    "Dropbox" : "Dropbox",
-    "Google Drive" : "Google Drive"
+    "Allow users to mount the following external storage" : "Povolit uživatelů připojit následující externí úložiště"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

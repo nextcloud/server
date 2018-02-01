@@ -109,7 +109,6 @@ OC.L10N.register(
     "Upload files to %s" : "Carrega fitxers a %s",
     "Select or drop files" : "Selecciona o deixa anar els fitxers",
     "Uploading files…" : "Pujant arxius...",
-    "Uploaded files:" : "Arxius pujats:",
-    "%s is publicly shared" : "%s es publica públicament"
+    "Uploaded files:" : "Arxius pujats:"
 },
 "nplurals=2; plural=(n != 1);");
