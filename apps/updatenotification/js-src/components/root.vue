@@ -3,37 +3,37 @@
 		<p>
 			<template v-if="isNewVersionAvailable">
 				<strong>{{newVersionAvailableString}}</strong>
-				<input v-if="updaterEnabled" type="button" @click="clickUpdaterButton" id="oca_updatenotification_button" :value="l_open_updater">
-				<a v-if="downloadLink" :href="downloadLink" class="button" :class="{ hidden: !updaterEnabled }">{{l_download_now}}</a>
+				<input v-if="updaterEnabled" type="button" @click="clickUpdaterButton" id="oca_updatenotification_button" :value="t('updatenotification', 'Open updater')">
+				<a v-if="downloadLink" :href="downloadLink" class="button" :class="{ hidden: !updaterEnabled }">{{ t('updatenotification', 'Download now') }}</a>
 			</template>
-			<template v-else-if="!isUpdateChecked">{{l_check_in_progress}}</template>
+			<template v-else-if="!isUpdateChecked">{{ t('updatenotification', 'The update check is not yet finished. Please refresh the page.') }}</template>
 			<template v-else>
-				{{l_up_to_date}}
+				{{ t('updatenotification', 'Your version is up to date.') }}
 				<span class="icon-info svg" :title="lastCheckedOnString"></span>
 			</template>
 
 			<template v-if="!isDefaultUpdateServerURL">
 				<br />
-				<em>{{l_non_default_updater}} <code>{{updateServerURL}}</code></em>
+				<em>{{ t('updatenotification', 'A non-default update server is in use to be checked for updates:') }} <code>{{updateServerURL}}</code></em>
 			</template>
 		</p>
 
 		<p>
-			<label for="release-channel">{{l_update_channel}}</label>
+			<label for="release-channel">{{ t('updatenotification', 'Update channel:') }}</label>
 			<select id="release-channel" v-model="currentChannel" @change="changeReleaseChannel">
 				<option v-for="channel in channels" :value="channel">{{channel}}</option>
 			</select>
 			<span id="channel_save_msg" class="msg"></span><br />
-			<em>{{l_update_channel_newer}}</em><br />
-			<em>{{l_update_channel_delay}}</em>
+			<em>{{ t('updatenotification', 'You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel.') }}</em><br />
+			<em>{{ t('updatenotification', 'Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found.') }}</em>
 		</p>
 
 		<p id="oca_updatenotification_groups">
-			{{l_notify_groups}}
+			{{ t('updatenotification', 'Notify members of the following groups about available updates:') }}
 			<v-select multiple :value="notifyGroups" :options="availableGroups"></v-select><br />
-			<em v-if="currentChannel === 'daily' || currentChannel === 'git'">{{l_only_app_updates}}</em>
-			<em v-if="currentChannel === 'daily'">{{l_update_channel_daily}}</em>
-			<em v-if="currentChannel === 'git'">{{l_update_channel_git}}</em>
+			<em v-if="currentChannel === 'daily' || currentChannel === 'git'">{{ t('updatenotification', 'Only notification for app updates are available.') }}</em>
+			<em v-if="currentChannel === 'daily'">{{ t('updatenotification', 'The selected update channel makes dedicated notifications for the server obsolete.') }}</em>
+			<em v-if="currentChannel === 'git'">{{ t('updatenotification', 'The selected update channel does not support updates of the server.') }}</em>
 		</p>
 	</div>
 </template>
@@ -82,42 +82,6 @@
 		},
 
 		computed: {
-			l_check_in_progress: function() {
-				return t('updatenotification', 'The update check is not yet finished. Please refresh the page.');
-			},
-			l_download_now: function() {
-				return t('updatenotification', 'Download now');
-			},
-			l_non_default_updater: function() {
-				return t('updatenotification', 'A non-default update server is in use to be checked for updates:');
-			},
-			l_notify_groups: function() {
-				return t('updatenotification', 'Notify members of the following groups about available updates:');
-			},
-			l_only_app_updates: function() {
-				return t('updatenotification', 'Only notification for app updates are available.');
-			},
-			l_open_updater: function() {
-				return t('updatenotification', 'Open updater');
-			},
-			l_up_to_date: function() {
-				return t('updatenotification', 'Your version is up to date.');
-			},
-			l_update_channel: function() {
-				return t('updatenotification', 'Update channel:');
-			},
-			l_update_channel_daily: function() {
-				return t('updatenotification', 'The selected update channel makes dedicated notifications for the server obsolete.');
-			},
-			l_update_channel_git: function() {
-				return t('updatenotification', 'The selected update channel does not support updates of the server.');
-			},
-			l_update_channel_newer: function() {
-				return t('updatenotification', 'You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel.');
-			},
-			l_update_channel_delay: function() {
-				return t('updatenotification', 'Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found.');
-			},
 			newVersionAvailableString: function() {
 				return t('updatenotification', 'A new version is available: {newVersionString}', {
 					newVersionString: this.newVersionString
