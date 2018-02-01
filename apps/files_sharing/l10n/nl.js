@@ -109,7 +109,6 @@ OC.L10N.register(
     "Upload files to %s" : "Upload bestanden naar %s",
     "Select or drop files" : "Selecteer bestanden of sleep ze naar dit venster",
     "Uploading files…" : "Uploaden bestanden...",
-    "Uploaded files:" : "Geüploade bestanden",
-    "%s is publicly shared" : "%s is openbaar gedeeld"
+    "Uploaded files:" : "Geüploade bestanden"
 },
 "nplurals=2; plural=(n != 1);");

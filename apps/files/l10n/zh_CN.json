@@ -142,25 +142,6 @@
     "Tags" : "标签",
     "Deleted files" : "已删除的文件",
     "Text file" : "文本文件",
-    "New text file.txt" : "创建文本文件 .txt",
-    "Uploading..." : "正在上传...",
-    "..." : "...",
-    "_{hours}:{minutes}:{seconds} hour left_::_{hours}:{minutes}:{seconds} hours left_" : ["剩余 {hours}:{minutes}:{seconds} 小时"],
-    "{hours}:{minutes}h" : "{hours}:{minutes}",
-    "_{minutes}:{seconds} minute left_::_{minutes}:{seconds} minutes left_" : ["剩余 {minutes}:{seconds} 分钟"],
-    "{minutes}:{seconds}m" : "{minutes}:{seconds}",
-    "_{seconds} second left_::_{seconds} seconds left_" : ["剩余 {seconds} 秒"],
-    "{seconds}s" : "{seconds}s",
-    "Any moment now..." : "现在任何时候...",
-    "Soon..." : "很快...",
-    "File upload is in progress. Leaving the page now will cancel the upload." : "文件正在上传中. 离开此页将会取消上传.",
-    "Move" : "移动",
-    "Copy local link" : "复制本地链接",
-    "Folder" : "文件夹",
-    "Upload" : "上传",
-    "A new file or folder has been <strong>deleted</strong>" : "新的文件/文件夹已经 <strong>删除</strong>",
-    "A new file or folder has been <strong>restored</strong>" : "新的文件/文件夹已经<strong>恢复</strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "使用这个地址 <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">通过 WebDAV 访问您的文件</a>",
-    "No favorites" : "无收藏"
+    "New text file.txt" : "创建文本文件 .txt"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

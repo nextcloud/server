@@ -120,16 +120,6 @@ OC.L10N.register(
     "Advanced settings" : "Paramètres avancés",
     "Delete" : "Supprimer",
     "Allow users to mount external storage" : "Autoriser les utilisateurs à monter des espaces de stockage externes",
-    "Allow users to mount the following external storage" : "Autoriser les utilisateurs à monter les stockages externes suivants",
-    "Fetching request tokens failed. Verify that your app key and secret are correct." : "L'obtention des jetons de requête a échoué. Vérifiez que votre clé d'application et votre mot de passe sont corrects.",
-    "Fetching access tokens failed. Verify that your app key and secret are correct." : "L'obtention des jetons d'accès a échoué. Vérifiez que votre clé d'application et votre mot de passe sont corrects.",
-    "Step 1 failed. Exception: %s" : "L’étape 1 a échoué. Erreur : %s",
-    "Step 2 failed. Exception: %s" : "L’étape 2 a échoué. Erreur : %s",
-    "Dropbox App Configuration" : "Configuration de l'application Dropbox",
-    "Google Drive App Configuration" : "Configuration de l'application Google Drive",
-    "Storage with id \"%i\" not found" : "Stockage avec l'id \"%i\" non trouvé",
-    "Storage with id \"%i\" is not user editable" : "Le support de stockage d'id \"%i\" n'est pas modifiable par les utilisateurs",
-    "Dropbox" : "Dropbox",
-    "Google Drive" : "Google Drive"
+    "Allow users to mount the following external storage" : "Autoriser les utilisateurs à monter les stockages externes suivants"
 },
 "nplurals=2; plural=(n > 1);");

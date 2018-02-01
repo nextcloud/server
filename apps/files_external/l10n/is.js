@@ -119,16 +119,6 @@ OC.L10N.register(
     "Advanced settings" : "Ítarlegri valkostir",
     "Delete" : "Eyða",
     "Allow users to mount external storage" : "Leyfa notendum að tengja ytri gagnageymslur í skráakerfi",
-    "Allow users to mount the following external storage" : "Leyfa notendum að tengja eftirfarandi ytri gagnageymslu í skráakerfi",
-    "Fetching request tokens failed. Verify that your app key and secret are correct." : "Mistókst að ná í beiðniteikn (request token). Gakktu úr skugga um að forritslykill og leynilykill séu réttir.",
-    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Mistókst að ná í aðgangsteikn (access token). Gakktu úr skugga um að forritslykill og leynilykill séu réttir.",
-    "Step 1 failed. Exception: %s" : "Skref 1 mistókst. Undantekning: %s",
-    "Step 2 failed. Exception: %s" : "Skref 2 mistókst. Undantekning: %s",
-    "Dropbox App Configuration" : "Uppsetning Dropbox forrits",
-    "Google Drive App Configuration" : "Uppsetning Google Drive forrits",
-    "Storage with id \"%i\" not found" : "Geymsla með auðkennið '%i' fannst ekki",
-    "Storage with id \"%i\" is not user editable" : "Geymslan með auðkennið '%s' er ekki breytanleg af notanda",
-    "Dropbox" : "Dropbox",
-    "Google Drive" : "Google Drive"
+    "Allow users to mount the following external storage" : "Leyfa notendum að tengja eftirfarandi ytri gagnageymslu í skráakerfi"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

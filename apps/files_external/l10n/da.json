@@ -117,16 +117,6 @@
     "Advanced settings" : "Avancerede indstillinger",
     "Delete" : "Slet",
     "Allow users to mount external storage" : "Tillad brugere at montere eksternt lager",
-    "Allow users to mount the following external storage" : "Tillad brugere at montere følgende som eksternt lager",
-    "Fetching request tokens failed. Verify that your app key and secret are correct." : "Tokener til anmodning om hentning mislykkedes. Verificér at dine app-nøgle og -hemmelighed er korrekte.",
-    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Tokener for adgang til hentning fejlede. Verificér at dine app-nøgle og -hemmelighed er korrekte.",
-    "Step 1 failed. Exception: %s" : "Trin 1 mislykkedes. Undtagelse: %s",
-    "Step 2 failed. Exception: %s" : "Trin 2 mislykkedes. Undtagelse: %s",
-    "Dropbox App Configuration" : "Dropbox App konfiguration",
-    "Google Drive App Configuration" : "Google Drive App konfiguration",
-    "Storage with id \"%i\" not found" : "Lager med ID'et \"%i% er ikke fundet",
-    "Storage with id \"%i\" is not user editable" : "Lageret med id \"%i\" kan ikke redigeres af bruger",
-    "Dropbox" : "Dropbox",
-    "Google Drive" : "Google Drev"
+    "Allow users to mount the following external storage" : "Tillad brugere at montere følgende som eksternt lager"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

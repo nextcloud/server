@@ -59,7 +59,6 @@ OC.L10N.register(
     "Enable password recovery:" : "Povolit obnovu hesla:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Zapnutí této volby vám umožní znovu získat přístup k vašim zašifrovaným souborům pokud ztratíte heslo",
     "Enabled" : "Povoleno",
-    "Disabled" : "Zakázáno",
-    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Aplikace pro šifrování je zapnuta, ale vaše klíče nejsou inicializované. Prosím odhlaste se a znovu přihlaste"
+    "Disabled" : "Zakázáno"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

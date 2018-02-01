@@ -57,7 +57,6 @@
     "Enable password recovery:" : "Die Passwort-Wiederherstellung aktivieren:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Durch die Aktivierung dieser Option hast Du die Möglichkeit, wieder auf Deine verschlüsselten Dateien zugreifen zu können, wenn Du Dein Passwort verloren hast.",
     "Enabled" : "Aktiviert",
-    "Disabled" : "Deaktiviert",
-    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Die Verschlüsselungs-App ist aktiviert, aber deine Schlüssel sind nicht initialisiert. Bitte erneut ab- und wieder anmelden."
+    "Disabled" : "Deaktiviert"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

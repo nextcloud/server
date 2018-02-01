@@ -59,7 +59,6 @@ OC.L10N.register(
     "Enable password recovery:" : "启用密码恢复：",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "启用该项将允许你在密码丢失后取回您的加密文件",
     "Enabled" : "开启",
-    "Disabled" : "禁用",
-    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "加密应用被启用了，但是你的加密密钥没有初始化，请重新登出登录系统一次。"
+    "Disabled" : "禁用"
 },
 "nplurals=1; plural=0;");

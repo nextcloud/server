@@ -109,7 +109,6 @@ OC.L10N.register(
     "Upload files to %s" : "Dosyaları %s konumuna yükle",
     "Select or drop files" : "Dosyaları seçin ya da sürükleyip bırakın",
     "Uploading files…" : "Dosyalar yükleniyor...",
-    "Uploaded files:" : "Yüklenmiş dosyalar:",
-    "%s is publicly shared" : "%s herkese açık olarak paylaşıldı"
+    "Uploaded files:" : "Yüklenmiş dosyalar:"
 },
 "nplurals=2; plural=(n > 1);");

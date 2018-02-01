@@ -39,18 +39,6 @@ OC.L10N.register(
     "E-Mail" : "E-Mail",
     "Create" : "Erstellen",
     "Other" : "Aner",
-    "Quota" : "Quota",
-    "Enabled" : "Aktivéiert",
-    "Invalid request" : "Ongülteg Requête",
-    "Admins can't remove themself from the admin group" : "Admins kennen sech selwer net aus enger Admin Group läschen.",
-    "Unable to add user to group %s" : "Onmeiglech User an Grupp ze sätzen %s",
-    "Error while uninstalling app" : "Fehler beim Deinstalléieren vun der App",
-    "__language_name__" : "Lëtzebuergesch",
-    "Cron" : "Cron",
-    "Cheers!" : "Prost!",
-    "Desktop client" : "Desktop-Programm",
-    "Android app" : "Android-App",
-    "iOS app" : "iOS-App",
-    "Name" : "Numm"
+    "Quota" : "Quota"
 },
 "nplurals=2; plural=(n != 1);");

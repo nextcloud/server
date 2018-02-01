@@ -59,7 +59,6 @@ OC.L10N.register(
     "Enable password recovery:" : "Ota salasanan palautus käyttöön:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Tämän valinnan käyttäminen mahdollistaa pääsyn salattuihin tiedostoihisi, jos salasana unohtuu",
     "Enabled" : "Käytössä",
-    "Disabled" : "Ei käytössä",
-    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Salaussovellus on käytössä, mutta salausavaimia ei ole alustettu. Ole hyvä ja kirjaudu sisään uudelleen."
+    "Disabled" : "Ei käytössä"
 },
 "nplurals=2; plural=(n != 1);");

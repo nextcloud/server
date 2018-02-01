@@ -59,7 +59,6 @@ OC.L10N.register(
     "Enable password recovery:" : "Enable password recovery:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss",
     "Enabled" : "Enabled",
-    "Disabled" : "Disabled",
-    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Encryption App is enabled but your keys are not initialised, please log-out and log-in again"
+    "Disabled" : "Disabled"
 },
 "nplurals=2; plural=(n != 1);");

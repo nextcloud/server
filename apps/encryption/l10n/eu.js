@@ -59,7 +59,6 @@ OC.L10N.register(
     "Enable password recovery:" : "Gaitu pasahitzaren berreskuratzea:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Aukera hau gaituz zure enkriptatutako fitxategiak berreskuratu ahal izango dituzu pasahitza galtzekotan",
     "Enabled" : "Gaitua",
-    "Disabled" : "Ez-gaitua",
-    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Enkriptazio aplikazioa gaituta dago baina zure gakoak ez daude konfiguratuta, mesedez saioa bukatu eta berriro hasi"
+    "Disabled" : "Ez-gaitua"
 },
 "nplurals=2; plural=(n != 1);");

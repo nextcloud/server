@@ -109,7 +109,6 @@ OC.L10N.register(
     "Upload files to %s" : "Senda inn skrár á %s",
     "Select or drop files" : "Veldu eða slepptu skrám",
     "Uploading files…" : "Sendi inn skrár…",
-    "Uploaded files:" : "Innsendar skrár:",
-    "%s is publicly shared" : "%s er deilt opinberlega"
+    "Uploaded files:" : "Innsendar skrár:"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");
