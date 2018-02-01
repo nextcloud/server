@@ -23,7 +23,7 @@
 namespace Tests\Core\Controller;
 
 use OC\Core\Controller\NavigationController;
-use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\Http\DataResponse;
 use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\IURLGenerator;
@@ -78,11 +78,11 @@ class NavigationControllerTest extends TestCase {
 				->with('/index.php/apps/files')
 				->willReturn('http://localhost/index.php/apps/files');
 			$actual = $this->controller->getAppsNavigation($absolute);
-			$this->assertInstanceOf(JSONResponse::class, $actual);
+			$this->assertInstanceOf(DataResponse::class, $actual);
 			$this->assertEquals('http://localhost/index.php/apps/files', $actual->getData()[0]['href']);
 		} else {
 			$actual = $this->controller->getAppsNavigation($absolute);
-			$this->assertInstanceOf(JSONResponse::class, $actual);
+			$this->assertInstanceOf(DataResponse::class, $actual);
 			$this->assertEquals('/index.php/apps/files', $actual->getData()[0]['href']);
 		}
 	}
@@ -102,11 +102,11 @@ class NavigationControllerTest extends TestCase {
 				->with('/index.php/settings/user')
 				->willReturn('http://localhost/index.php/settings/user');
 			$actual = $this->controller->getSettingsNavigation($absolute);
-			$this->assertInstanceOf(JSONResponse::class, $actual);
+			$this->assertInstanceOf(DataResponse::class, $actual);
 			$this->assertEquals('http://localhost/index.php/settings/user', $actual->getData()[0]['href']);
 		} else {
 			$actual = $this->controller->getSettingsNavigation($absolute);
-			$this->assertInstanceOf(JSONResponse::class, $actual);
+			$this->assertInstanceOf(DataResponse::class, $actual);
 			$this->assertEquals('/index.php/settings/user', $actual->getData()[0]['href']);
 		}
 	}
