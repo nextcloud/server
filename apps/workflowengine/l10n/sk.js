@@ -66,8 +66,6 @@ OC.L10N.register(
     "Reset" : "Vynulovať",
     "Save" : "Uložiť",
     "Saving…" : "Ukladá sa...",
-    "Loading…" : "Načítava sa...",
-    "Successfully saved" : "Úspešne uložené",
-    "File mime type" : "Mime typ súboru"
+    "Loading…" : "Načítava sa..."
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

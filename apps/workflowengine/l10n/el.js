@@ -66,8 +66,6 @@ OC.L10N.register(
     "Reset" : "Επαναφορά",
     "Save" : "Αποθήκευση",
     "Saving…" : "Αποθηκεύεται...",
-    "Loading…" : "Φορτώνει...",
-    "Successfully saved" : "Επιτυχημένη αποθήκευση",
-    "File mime type" : "Αρχεία τύπου mime"
+    "Loading…" : "Φορτώνει..."
 },
 "nplurals=2; plural=(n != 1);");

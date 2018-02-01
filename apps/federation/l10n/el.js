@@ -10,7 +10,6 @@ OC.L10N.register(
     "Add server automatically once a federated share was created successfully" : "Προσθέστε αυτόματα το διακομιστή μόλις δημιουργηθεί με επιτυχία μια faderated κοινή χρήση",
     "+ Add trusted server" : "+Προσθήκη έμπιστων διακομιστών",
     "Trusted server" : "Έμπιστοι διακομιστές",
-    "Add" : "Προσθήκη",
-    "Federation" : "Federation"
+    "Add" : "Προσθήκη"
 },
 "nplurals=2; plural=(n != 1);");

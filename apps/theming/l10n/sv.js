@@ -33,7 +33,6 @@ OC.L10N.register(
     "Login image" : "Inloggningsbild",
     "Upload new login background" : "Ladda upp ny bakgrundsbild",
     "Remove background image" : "Ta bort bakgrundsbild",
-    "reset to default" : "Återställ till standard",
-    "Log in image" : "Inloggningsbild"
+    "reset to default" : "Återställ till standard"
 },
 "nplurals=2; plural=(n != 1);");

@@ -32,7 +32,6 @@ OC.L10N.register(
     "Login image" : "Kirjautumissivun kuva",
     "Upload new login background" : "Lähetä uusi kirjautumissivun taustakuva",
     "Remove background image" : "Poista taustakuva",
-    "reset to default" : "palauta oletukseksi",
-    "Log in image" : "Kirjautumissivun kuva"
+    "reset to default" : "palauta oletukseksi"
 },
 "nplurals=2; plural=(n != 1);");

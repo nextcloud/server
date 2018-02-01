@@ -52,7 +52,6 @@ OC.L10N.register(
     "Add to your website" : "Pridať na svoju webstránku",
     "Share with me via Nextcloud" : "Sprístupnené cez Nextcloud",
     "HTML Code:" : "HTML kód:",
-    "Search global and public address book for users and let local users publish their data" : "Vyhľadávať používateľog v globálnom a verejnom adresári a umožniť miestnym používateľom publikovať ich dáta",
-    "Share it:" : "Sprístupniť:"
+    "Search global and public address book for users and let local users publish their data" : "Vyhľadávať používateľog v globálnom a verejnom adresári a umožniť miestnym používateľom publikovať ich dáta"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

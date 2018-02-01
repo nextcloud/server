@@ -66,8 +66,6 @@ OC.L10N.register(
     "Reset" : "საწყის მდოგმარეობაში დაბრუნება",
     "Save" : "შენახვა",
     "Saving…" : "მიმდინარეობს დამახსოვრება...",
-    "Loading…" : "იტვირთება...",
-    "Successfully saved" : "წარმატებით დამახსოვრდა",
-    "File mime type" : "ფაილის mime სახეობა"
+    "Loading…" : "იტვირთება..."
 },
 "nplurals=1; plural=0;");

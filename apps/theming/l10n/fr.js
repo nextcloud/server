@@ -34,7 +34,6 @@ OC.L10N.register(
     "Upload new login background" : "Téléverser un nouvel arrière-plan de connexion",
     "Remove background image" : "Supprimer l'image en arrière-plan",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installez l'extension PHP Imagemagick avec le support pour les images SVG afin de générer automatiquement les favicons sur base du logo téléversé et de la couleur.",
-    "reset to default" : "Restaurer les valeurs par défaut",
-    "Log in image" : "Image de connexion"
+    "reset to default" : "Restaurer les valeurs par défaut"
 },
 "nplurals=2; plural=(n > 1);");

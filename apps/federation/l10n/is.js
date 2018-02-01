@@ -10,7 +10,6 @@ OC.L10N.register(
     "Add server automatically once a federated share was created successfully" : "Bæta þjóni við sjálfkrafa, hafi tekist að búa til sambandssameign",
     "+ Add trusted server" : "+ Bæta við treystum þjóni",
     "Trusted server" : "Treystur þjónn",
-    "Add" : "Bæta við",
-    "Federation" : "Samband"
+    "Add" : "Bæta við"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

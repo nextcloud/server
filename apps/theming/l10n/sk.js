@@ -34,7 +34,6 @@ OC.L10N.register(
     "Upload new login background" : "Nahrať nové prihlasovacie pozadie",
     "Remove background image" : "Odstrániť obrázok pozadia",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Ak chcete automaticky generovať favikony na základe nahraného loga a farby, nainštalujte rozšírenie Imagemagick PHP s podporou pre SVG obrázky.",
-    "reset to default" : "nastaviť predvolené",
-    "Log in image" : "Prihlasovací obrázok"
+    "reset to default" : "nastaviť predvolené"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

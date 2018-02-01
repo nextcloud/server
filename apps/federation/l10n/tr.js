@@ -10,7 +10,6 @@ OC.L10N.register(
     "Add server automatically once a federated share was created successfully" : "Bir birleşmiş paylaşım eklendiğinde sunucu otomatik olarak eklensin",
     "+ Add trusted server" : "+ Güvenilir sunucu ekle",
     "Trusted server" : "Güvenilen sunucu",
-    "Add" : "Ekle",
-    "Federation" : "Birleşim"
+    "Add" : "Ekle"
 },
 "nplurals=2; plural=(n > 1);");

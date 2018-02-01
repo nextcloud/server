@@ -10,7 +10,6 @@ OC.L10N.register(
     "Add server automatically once a federated share was created successfully" : "연합 공유를 생성했을 때 자동으로 서버 추가",
     "+ Add trusted server" : "+ 신뢰할 수 있는 서버 추가",
     "Trusted server" : "신뢰할 수 있는 서버",
-    "Add" : "추가",
-    "Federation" : "연합"
+    "Add" : "추가"
 },
 "nplurals=1; plural=0;");

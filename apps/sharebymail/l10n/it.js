@@ -38,13 +38,6 @@ OC.L10N.register(
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Consente agli utenti di condividere un collegamento personalizzato a un file o a una cartella inserendo un indirizzo di posta elettronica.",
     "Send password by mail" : "Invia password tramite posta",
     "Enforce password protection" : "Imponi la protezione con password",
-    "Failed to send share by E-mail" : "Invio non riuscito della condivisione tramite email",
-    "%s shared »%s« with you on behalf of %s" : "%s ha condiviso «%s» con te per conto di %s",
-    "Failed to create the E-mail" : "Creazione dell'email non riuscita",
-    "Hey there,\n\n%s shared »%s« with you on behalf of %s.\n\n%s\n\n" : "Ciao,\n\n%s ha condiviso «%s» con te per conto di %s.\n\n%s\n\n",
-    "Hey there,\n\n%s shared »%s« with you.\n\n%s\n\n" : "Ciao,\n\n%s ha condiviso «%s» con te.\n\n%s\n\n",
-    "Cheers!" : "Saluti!",
-    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you on behalf of %s.<br><br>" : "Ciao, <br><br>%s ha condiviso <a href=\"%s\">%s</a> con te per conto di %s.<br><br>",
-    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you.<br><br>" : "Ciao, <br><br>%s ha condiviso <a href=\"%s\">%s</a> con te.<br><br>"
+    "Failed to send share by E-mail" : "Invio non riuscito della condivisione tramite email"
 },
 "nplurals=2; plural=(n != 1);");

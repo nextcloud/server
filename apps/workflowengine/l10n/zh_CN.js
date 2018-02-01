@@ -66,8 +66,6 @@ OC.L10N.register(
     "Reset" : "重置",
     "Save" : "保存",
     "Saving…" : "保存中...",
-    "Loading…" : "加载中",
-    "Successfully saved" : "保存成功",
-    "File mime type" : "文件MIME类型"
+    "Loading…" : "加载中"
 },
 "nplurals=1; plural=0;");

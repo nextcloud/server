@@ -32,7 +32,6 @@
     "Upload new login background" : "Last opp ny innloggingsbakgrunn",
     "Remove background image" : "Fjern bakgrunnsbilde",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installer PHP-utvidelsen Imagemagick med støtte for SVG-bilder for å opprette favikoner automatisk basert på opplastet logo og farge.",
-    "reset to default" : "tilbakestill til forvalg",
-    "Log in image" : "Innloggingsbilde"
+    "reset to default" : "tilbakestill til forvalg"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

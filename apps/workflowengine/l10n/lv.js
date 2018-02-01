@@ -66,8 +66,6 @@ OC.L10N.register(
     "Reset" : "Atiestatīt",
     "Save" : "Saglabāt",
     "Saving…" : "Saglabā...",
-    "Loading…" : "Ielādē …",
-    "Successfully saved" : "Veiksmīgi saglabāts",
-    "File mime type" : "Faila MIME tips"
+    "Loading…" : "Ielādē …"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

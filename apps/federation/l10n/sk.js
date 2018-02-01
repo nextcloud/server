@@ -10,7 +10,6 @@ OC.L10N.register(
     "Add server automatically once a federated share was created successfully" : "Pridať server automaticky akonáhle je úspešne vytvorené združené zdieľanie",
     "+ Add trusted server" : "Pridať dôveryhodný server",
     "Trusted server" : "Dôveryhodný server",
-    "Add" : "Pridať",
-    "Federation" : "Združovanie"
+    "Add" : "Pridať"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

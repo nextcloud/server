@@ -66,8 +66,6 @@ OC.L10N.register(
     "Reset" : "Zurücksetzen",
     "Save" : "Speichern",
     "Saving…" : "Speichern…",
-    "Loading…" : "Laden…",
-    "Successfully saved" : "Erfolgreich gespeichert",
-    "File mime type" : "Datei MIME-Typ"
+    "Loading…" : "Laden…"
 },
 "nplurals=2; plural=(n != 1);");

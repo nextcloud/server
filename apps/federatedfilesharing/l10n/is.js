@@ -52,7 +52,6 @@ OC.L10N.register(
     "Add to your website" : "Bæta við vefsvæðið þitt",
     "Share with me via Nextcloud" : "Deila með mér í gegnum Nextcloud",
     "HTML Code:" : "HTML-kóði:",
-    "Search global and public address book for users and let local users publish their data" : "Leita að notendum í víðværri og opinberri vistfangaskrá og leyfa staðværum notendum að birta gögnin sín",
-    "Share it:" : "Deila því:"
+    "Search global and public address book for users and let local users publish their data" : "Leita að notendum í víðværri og opinberri vistfangaskrá og leyfa staðværum notendum að birta gögnin sín"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");
