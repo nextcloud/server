@@ -107,7 +107,7 @@ class AdminController extends Controller implements ISettings {
 
 		$notifyGroups = json_decode($this->config->getAppValue('updatenotification', 'notify_groups', '["admin"]'), true);
 
-		$defaultUpdateServerURL = 'https://updates.nextcloud.com/server/';
+		$defaultUpdateServerURL = 'https://updates.nextcloud.com/updater_server/';
 		$updateServerURL = $this->config->getSystemValue('updater.server.url', $defaultUpdateServerURL);
 
 		$params = [
