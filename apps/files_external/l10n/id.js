@@ -113,16 +113,6 @@ OC.L10N.register(
     "Advanced settings" : "Pengaturan Lanjutan",
     "Delete" : "Hapus",
     "Allow users to mount external storage" : "Izinkan pengguna untuk mengaitkan penyimpanan eksternal",
-    "Allow users to mount the following external storage" : "Izinkan pengguna untuk mengaitkan penyimpanan eksternal berikut",
-    "Fetching request tokens failed. Verify that your app key and secret are correct." : "Permintaan pengambilan token gagal. Pastikan kunci dan kerahasiaan aplikasi Anda sudah benar.",
-    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Akses pengambilan token gagal. Pastikan kunci dan kerahasiaan aplikasi Anda sudah benar.",
-    "Step 1 failed. Exception: %s" : "Langkah 1 gagal. Kecuali: %s",
-    "Step 2 failed. Exception: %s" : "Langkah 2 gagal. Kecuali: %s",
-    "Dropbox App Configuration" : "Konfigurasi Aplikasi Dropbox",
-    "Google Drive App Configuration" : "Konfigurasi Aplikasi Google Drive",
-    "Storage with id \"%i\" not found" : "Penyimpanan dengan id \"%i\" tidak ditemukan",
-    "Storage with id \"%i\" is not user editable" : "Penyimpanan dengan id \"%i\" tidak bisa diubah pengguna",
-    "Dropbox" : "Dropbox",
-    "Google Drive" : "Google Drive"
+    "Allow users to mount the following external storage" : "Izinkan pengguna untuk mengaitkan penyimpanan eksternal berikut"
 },
 "nplurals=1; plural=0;");

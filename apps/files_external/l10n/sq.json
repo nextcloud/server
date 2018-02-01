@@ -115,16 +115,6 @@
     "Advanced settings" : "Rregullime të mëtejshme",
     "Delete" : "Fshije",
     "Allow users to mount external storage" : "Lejoju përdoruesve të montojnë depozita të jashtme",
-    "Allow users to mount the following external storage" : "Lejoju përdoruesve të montojnë depozitën e jashtme vijuese",
-    "Fetching request tokens failed. Verify that your app key and secret are correct." : "Dhënia e elementëve të kërkuar dështoi. Verifikoni që kyçi dhe e fshehta juaj për aplikacionin janë të sakta.",
-    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Dhënia e elementëve të hyrjes dështoi. Verifikoni që kyçi dhe e fshehta juaj për aplikacionin janë të sakta.",
-    "Step 1 failed. Exception: %s" : "Hapi 1 dështoi. Përjashtim: %s",
-    "Step 2 failed. Exception: %s" : "Hapi 2 dështoi. Përjashtim: %s",
-    "Dropbox App Configuration" : "Formësim i Aplikacionit Dropbox",
-    "Google Drive App Configuration" : "Formësim i Aplikacionit Google Drive",
-    "Storage with id \"%i\" not found" : "S’u gjet depozitë me id \"%i\"",
-    "Storage with id \"%i\" is not user editable" : "Depozita me id \"%i\" s’është e përpunueshme nga përdoruesi",
-    "Dropbox" : "Dropbox",
-    "Google Drive" : "Google Drive"
+    "Allow users to mount the following external storage" : "Lejoju përdoruesve të montojnë depozitën e jashtme vijuese"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

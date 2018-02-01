@@ -139,25 +139,6 @@
     "Tags" : "Ετικέτες",
     "Deleted files" : "Διεγραμμένα αρχεία",
     "Text file" : "Αρχείο κειμένου",
-    "New text file.txt" : "Νέο αρχείο κειμένου.txt",
-    "Uploading..." : "Μεταφόρτωση...",
-    "..." : "...",
-    "_{hours}:{minutes}:{seconds} hour left_::_{hours}:{minutes}:{seconds} hours left_" : ["{hours}:{minutes}:{seconds} ώρα απομένει","{hours}:{minutes}:{seconds} ώρες απομένουν"],
-    "{hours}:{minutes}h" : "{hours}:{minutes}ω",
-    "_{minutes}:{seconds} minute left_::_{minutes}:{seconds} minutes left_" : ["{minutes}:{seconds} λεπτό απομένει","{minutes}:{seconds} λεπτά απομένουν"],
-    "{minutes}:{seconds}m" : "{minutes}:{seconds}λ",
-    "_{seconds} second left_::_{seconds} seconds left_" : ["{seconds} δευτερόλεπτο απομένει","{seconds} δευτερόλεπτα απομένουν"],
-    "{seconds}s" : "{seconds}δ",
-    "Any moment now..." : "Από στιγμή σε στιγμή",
-    "Soon..." : "Σύντομα...",
-    "File upload is in progress. Leaving the page now will cancel the upload." : "Η αποστολή του αρχείου βρίσκεται σε εξέλιξη. Το κλείσιμο της σελίδας θα ακυρώσει την αποστολή.",
-    "Move" : "Μετακίνηση",
-    "Copy local link" : "Αντιγραφή τοπικού συνδέσμου",
-    "Folder" : "Φάκελος",
-    "Upload" : "Μεταφόρτωση",
-    "A new file or folder has been <strong>deleted</strong>" : "Ένα νέο αρχείο ή φάκελος έχει <strong>διαγραφεί</strong>",
-    "A new file or folder has been <strong>restored</strong>" : "Ένα νέο αρχείο ή φάκελος έχει <strong>επαναφερθεί</strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Χρησιμοποιήστε αυτή τη διεύθυνση για να έχετε <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">πρόσβαση στα Αρχεία σας μέσω WebDAV</a>",
-    "No favorites" : "Δεν υπάρχουν αγαπημένα"
+    "New text file.txt" : "Νέο αρχείο κειμένου.txt"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

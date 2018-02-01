@@ -144,25 +144,6 @@
     "Tags" : "Tags",
     "Deleted files" : "Gelöschte Dateien",
     "Text file" : "Textdatei",
-    "New text file.txt" : "Neue Textdatei file.txt",
-    "Uploading..." : "Hochladen…",
-    "..." : "…",
-    "_{hours}:{minutes}:{seconds} hour left_::_{hours}:{minutes}:{seconds} hours left_" : ["{hours}:{minutes}:{seconds} Stunde verbleibend","Noch {hours}:{minutes}:{seconds} Stunden"],
-    "{hours}:{minutes}h" : "{hours}:{minutes} Std.",
-    "_{minutes}:{seconds} minute left_::_{minutes}:{seconds} minutes left_" : ["{minutes}:{seconds} Minute verbleibend","Noch {minutes}:{seconds} Minuten"],
-    "{minutes}:{seconds}m" : "{minutes}:{seconds}m",
-    "_{seconds} second left_::_{seconds} seconds left_" : ["{seconds} Sekunde verbleibend","Noch {seconds} Sekunden"],
-    "{seconds}s" : "{seconds}s",
-    "Any moment now..." : "Gleich fertig…",
-    "Soon..." : "Bald…",
-    "File upload is in progress. Leaving the page now will cancel the upload." : "Dateiupload läuft. Wenn die Seite jetzt verlassen wird, bricht der Upload ab.",
-    "Move" : "Verschieben",
-    "Copy local link" : "Lokalen Link kopieren",
-    "Folder" : "Ordner",
-    "Upload" : "Hochladen",
-    "A new file or folder has been <strong>deleted</strong>" : "Eine neue Datei oder Ordner wurde  <strong>gelöscht</strong>",
-    "A new file or folder has been <strong>restored</strong>" : "Neue Datei oder Ordner wurde <strong>wiederhergestellt</strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Diese Adresse benutzen, um <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">über WebDAV auf Deine Dateien zuzugreifen</a>",
-    "No favorites" : "Keine Favoriten"
+    "New text file.txt" : "Neue Textdatei file.txt"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

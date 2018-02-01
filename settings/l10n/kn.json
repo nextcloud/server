@@ -87,22 +87,6 @@
     "change full name" : "﻿ಪೂರ್ಣ ಹೆಸರು ಬದಲಾಯಿಸಬಹುದು",
     "set new password" : "﻿ಹೊಸ ಗುಪ್ತಪದವನ್ನು ಹೊಂದಿಸಿ",
     "change email address" : "﻿ಇ-ಅಂಚೆ ವಿಳಾಸ ಬದಲಾಯಿಸಿ",
-    "Default" : "ಆರಂಭದ ಪ್ರತಿ",
-    "Enabled" : "ಸಕ್ರಿಯಗೊಳಿಸಿದೆ",
-    "Not enabled" : "﻿ಸಕ್ರಿಯಗೊಳಿಸಿಲ್ಲ",
-    "test email settings" : "ಪರೀರ್ಕ್ಷಾತ ﻿ಇ-ಅಂಚೆಯ ಆಯ್ಕೇ",
-    "Invalid request" : "﻿ಅಮಾನ್ಯ ಕೋರಿಕೆ",
-    "Admins can't remove themself from the admin group" : "﻿ನಿರ್ವಾಹಕರು ನಿರ್ವಹಣೆ ಗುಂಪಿನಿಂದ ತಮ್ಮನ್ನೇ ತಾವು ತೆಗೆದುಹಾಕಿಕೊಳ್ಳಲು ಸಾಧ್ಯವಿಲ್ಲ",
-    "Unable to add user to group %s" : "%s ಗುಂಪಿಗೆ ಹೂಸ ಬಳಕೆದಾರನನ್ನು ಸೇರಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ",
-    "Unable to remove user from group %s" : "%s ಗುಂಪು ಬಳಕೆದಾರ ತೆಗೆದುಹಾಕಲು ಸಾಧ್ಯವಾಗುತ್ತಿಲ್ಲ",
-    "Sending..." : "﻿ಕಳುಹಿಸಲಾಗುತ್ತಿದೆ ...",
-    "Updating...." : "ಆಧುನೀಕರಿಸುಲಾಗುತ್ತಿದೇ ....",
-    "Error while updating app" : "ಕಾರ್ಯಕ್ರಮವನ್ನು  ನವೀಕರಿಸುವಾಗ ಏನೊ ಲೋಪವಾಗಿದೆ",
-    "Uninstalling ...." : "ಅಳಿಸಿಹಾಕುವುದು ...",
-    "Error while uninstalling app" : "ಅಳಿಸುವಾಗ ಏನೊ ಲೋಪವಾಗಿದೆ",
-    "Uninstall" : "ಅಳಿಸಿ",
-    "__language_name__" : "ಕನ್ನಡ",
-    "Cheers!" : "ಆನಂದಿಸಿ !",
-    "Name" : "﻿ಹೆಸರು"
+    "Default" : "ಆರಂಭದ ಪ್ರತಿ"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -59,7 +59,6 @@ OC.L10N.register(
     "Enable password recovery:" : "Укључи опоравак лозинке:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Укључивање ове опције омогућиће поновно добијање приступа вашим шифрованим фајловима у случају губитка лозинке",
     "Enabled" : "укључено",
-    "Disabled" : "искључено",
-    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Апликација шифровања је укључена али ваши кључеви нису иницијализовани. Одјавите се и поново се пријавите."
+    "Disabled" : "искључено"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

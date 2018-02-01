@@ -109,7 +109,6 @@ OC.L10N.register(
     "Upload files to %s" : "Carica file su %s",
     "Select or drop files" : "Seleziona o deseleziona file",
     "Uploading files…" : "Caricamento file in corso...",
-    "Uploaded files:" : "File caricati:",
-    "%s is publicly shared" : "%s è condiviso pubblicamente"
+    "Uploaded files:" : "File caricati:"
 },
 "nplurals=2; plural=(n != 1);");

@@ -144,25 +144,6 @@
     "Tags" : "태그",
     "Deleted files" : "삭제된 파일",
     "Text file" : "텍스트 파일",
-    "New text file.txt" : "새 텍스트 파일.txt",
-    "Uploading..." : "업로드 중...",
-    "..." : "...",
-    "_{hours}:{minutes}:{seconds} hour left_::_{hours}:{minutes}:{seconds} hours left_" : ["{hours}:{minutes}:{seconds}시간 남음"],
-    "{hours}:{minutes}h" : "{hours}:{minutes}시간",
-    "_{minutes}:{seconds} minute left_::_{minutes}:{seconds} minutes left_" : ["{minutes}:{seconds}분 남음"],
-    "{minutes}:{seconds}m" : "{minutes}:{seconds}분",
-    "_{seconds} second left_::_{seconds} seconds left_" : ["{seconds}초 남음"],
-    "{seconds}s" : "{seconds}초",
-    "Any moment now..." : "조금 남음...",
-    "Soon..." : "곧...",
-    "File upload is in progress. Leaving the page now will cancel the upload." : "파일 업로드가 진행 중입니다. 이 페이지를 벗어나면 업로드가 취소됩니다.",
-    "Move" : "이동",
-    "Copy local link" : "로컬 링크 복사",
-    "Folder" : "폴더",
-    "Upload" : "업로드",
-    "A new file or folder has been <strong>deleted</strong>" : "새 파일이나 폴더가 <strong>삭제됨</strong>",
-    "A new file or folder has been <strong>restored</strong>" : "새 파일이나 폴더가 <strong>복원됨</strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "이 주소를 사용하여 <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">WebDAV를 통해 파일에 접근할 수 있습니다</a>",
-    "No favorites" : "즐겨찾는 항목 없음"
+    "New text file.txt" : "새 텍스트 파일.txt"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

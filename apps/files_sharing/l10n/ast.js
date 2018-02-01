@@ -83,7 +83,6 @@ OC.L10N.register(
     "Download %s" : "Descargar %s",
     "Select or drop files" : "Esbilla o suelta ficheros",
     "Uploading files…" : "Xubiendo ficheros...",
-    "Uploaded files:" : "Ficheros xubíos:",
-    "%s is publicly shared" : "%s compartióse públicamente"
+    "Uploaded files:" : "Ficheros xubíos:"
 },
 "nplurals=2; plural=(n != 1);");

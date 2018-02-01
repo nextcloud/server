@@ -144,25 +144,6 @@
     "Tags" : "ტეგები",
     "Deleted files" : "გაუქმებული ფაილები",
     "Text file" : "ტექსტური ფაილი",
-    "New text file.txt" : "ახალი ტექსტი file.txt",
-    "Uploading..." : "მიმდინარეობს ატვირთვა...",
-    "..." : "...",
-    "_{hours}:{minutes}:{seconds} hour left_::_{hours}:{minutes}:{seconds} hours left_" : ["დარჩა {hours}:{minutes}:{seconds} საათი"],
-    "{hours}:{minutes}h" : "{hours}:{minutes}სთ",
-    "_{minutes}:{seconds} minute left_::_{minutes}:{seconds} minutes left_" : ["დარჩა {minutes}:{seconds} წუთი"],
-    "{minutes}:{seconds}m" : "{minutes}:{seconds}წთ",
-    "_{seconds} second left_::_{seconds} seconds left_" : ["დარჩა {seconds} წამი"],
-    "{seconds}s" : "{seconds}წმ",
-    "Any moment now..." : "ნებისმიერ მომენტში...",
-    "Soon..." : "მალე...",
-    "File upload is in progress. Leaving the page now will cancel the upload." : "მიმდინარეობს ფაილის ატვირთვა. სხვა გვერდზე გადასვლა გამოიწვევს ატვირთვის შეჩერებას",
-    "Move" : "გადატანა",
-    "Copy local link" : "ლოკალური ბმულის კოპირება",
-    "Folder" : "დირექტორია",
-    "Upload" : "ატვირთვა",
-    "A new file or folder has been <strong>deleted</strong>" : "ახალი ფაილი ან დირექტორია <strong>გაუქმდა</strong>",
-    "A new file or folder has been <strong>restored</strong>" : "ახალი ფაილი ან დირექტორია <strong>აღდგენილ იქნა</strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "გამოიყენეთ ეს მისამართი რომ <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">წვდომა იქოინოთ თქვენს ფაილებთან WebDAV-ით</a>",
-    "No favorites" : "რჩეულები არაა"
+    "New text file.txt" : "ახალი ტექსტი file.txt"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

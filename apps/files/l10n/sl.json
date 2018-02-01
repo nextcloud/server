@@ -130,25 +130,6 @@
     "Tags" : "Oznake",
     "Deleted files" : "Izbrisane datoteke",
     "Text file" : "Besedilna datoteka",
-    "New text file.txt" : "Nova datoteka.txt",
-    "Uploading..." : "Poteka pošiljanje ...",
-    "..." : "...",
-    "_{hours}:{minutes}:{seconds} hour left_::_{hours}:{minutes}:{seconds} hours left_" : ["{hours}:{minutes}:{seconds} ura še","{hours}:{minutes}:{seconds} uri še","{hours}:{minutes}:{seconds} ure še","{hours}:{minutes}:{seconds} ur še"],
-    "{hours}:{minutes}h" : "{hours}:{minutes}h",
-    "_{minutes}:{seconds} minute left_::_{minutes}:{seconds} minutes left_" : ["{minutes}:{seconds} minuta še","{minutes}:{seconds} minuti še","{minutes}:{seconds} minute še","{minutes}:{seconds} minut še"],
-    "{minutes}:{seconds}m" : "{minutes}:{seconds}min",
-    "_{seconds} second left_::_{seconds} seconds left_" : ["{seconds} sekund še","{seconds} sekundi še","{seconds} sekunde še","{seconds} sekund še"],
-    "{seconds}s" : "{seconds}s",
-    "Any moment now..." : "Vsak trenutek ...",
-    "Soon..." : "Kmalu",
-    "File upload is in progress. Leaving the page now will cancel the upload." : "V teku je pošiljanje datoteke. Če zapustite to stran zdaj, bo pošiljanje preklicano.",
-    "Move" : "Premakni",
-    "Copy local link" : "Kopiraj lokalno povezavo",
-    "Folder" : "Mapa",
-    "Upload" : "Pošlji",
-    "A new file or folder has been <strong>deleted</strong>" : "Nova datoteka ali mapa je bila <strong>pobrisana</strong>",
-    "A new file or folder has been <strong>restored</strong>" : "Nova datoteka ali mapa je bila <strong>obnovljena</strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Uporabite naslov <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\"> za dostop do datotek prek sistema WebDAV</a>.",
-    "No favorites" : "Ni priljubljenih predmetov"
+    "New text file.txt" : "Nova datoteka.txt"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

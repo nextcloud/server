@@ -144,25 +144,6 @@
     "Tags" : "Ознаке",
     "Deleted files" : "Обрисани фајлови",
     "Text file" : "Tекстуални фајл",
-    "New text file.txt" : "Нов текстуални фајл.txt",
-    "Uploading..." : "Отпремам…",
-    "..." : "...",
-    "_{hours}:{minutes}:{seconds} hour left_::_{hours}:{minutes}:{seconds} hours left_" : ["{hours}:{minutes}:{seconds} сат преостао","{hours}:{minutes}:{seconds} сата преостала","{hours}:{minutes}:{seconds} сати преостало"],
-    "{hours}:{minutes}h" : "{hours}:{minutes}h",
-    "_{minutes}:{seconds} minute left_::_{minutes}:{seconds} minutes left_" : ["{minutes}:{seconds} минут преостало","{minutes}:{seconds} минута преостало","{minutes}:{seconds} минута преостало "],
-    "{minutes}:{seconds}m" : "{minutes}:{seconds}m",
-    "_{seconds} second left_::_{seconds} seconds left_" : ["{seconds} секунда преостала","{seconds} секунде преостало","{seconds} секунди преостало"],
-    "{seconds}s" : "{seconds}s",
-    "Any moment now..." : "Сваког тренутка...",
-    "Soon..." : "Ускоро...",
-    "File upload is in progress. Leaving the page now will cancel the upload." : "Отпремање фајла је у току. Ако сада напустите страницу, отказаћете отпремање.",
-    "Move" : "Премести",
-    "Copy local link" : "Копирај локалну везу",
-    "Folder" : "Фасцикла",
-    "Upload" : "Отпреми",
-    "A new file or folder has been <strong>deleted</strong>" : "Нови фајл или фасцикла су <strong>обрисани</strong>",
-    "A new file or folder has been <strong>restored</strong>" : "Нови фајл или фасцикла су <strong>враћени</strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Користи ову адресу да <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">приступате Вашим фајловима преко ВебДАВа</a>",
-    "No favorites" : "Нема омиљених"
+    "New text file.txt" : "Нов текстуални фајл.txt"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

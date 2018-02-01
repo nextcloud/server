@@ -118,16 +118,6 @@
     "Advanced settings" : "დამატებითი პარამეტრები",
     "Delete" : "წაშლა",
     "Allow users to mount external storage" : "მივცეთ მომხმარებლებს გარე საცავის მონტაჟის უფლება",
-    "Allow users to mount the following external storage" : "მივცეთ მომხმარებლებს შემდეგი გარე საცავების მონტაჟის უფლება",
-    "Fetching request tokens failed. Verify that your app key and secret are correct." : "მოთხოვნის ტოკენების მიღება ვერ მოხერხდა. დარწმუნდით რომ თქვენი აპლიკაციის გასაღები საიდუმლოა და სწორია.",
-    "Fetching access tokens failed. Verify that your app key and secret are correct." : "მოთხოვნის ტოკენების მიღება ვერ მოხერხდა. დარწმუნდით რომ თქვენი აპლიკაციის გასაღები საიდუმლოა და სწორია.",
-    "Step 1 failed. Exception: %s" : "ნაბიჯი 1 ჩაიშალა. გამონაკლისი: %s",
-    "Step 2 failed. Exception: %s" : "ნაბიჯი 2 ჩაიშალა. გამონაკლისი: %s",
-    "Dropbox App Configuration" : "Dropbox აპლიკაციის კონფიგურაცია",
-    "Google Drive App Configuration" : "Google Drive აპლიკაციის კონფიგურაცია",
-    "Storage with id \"%i\" not found" : "საცავი ID-ით \"%i\" ვერ იქნა ნაპოვნი",
-    "Storage with id \"%i\" is not user editable" : "საცავი ID-ით \"%i\" არაა მომხმარებლისთვის შეცვლადი",
-    "Dropbox" : "Dropbox-ი",
-    "Google Drive" : "Google Drive-ი"
+    "Allow users to mount the following external storage" : "მივცეთ მომხმარებლებს შემდეგი გარე საცავების მონტაჟის უფლება"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

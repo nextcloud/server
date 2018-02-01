@@ -144,25 +144,6 @@
     "Tags" : "Merkelapper",
     "Deleted files" : "Slettede filer",
     "Text file" : "Tekstfil",
-    "New text file.txt" : "Ny tekstfil.txt",
-    "Uploading..." : "Laster opp…",
-    "..." : "…",
-    "_{hours}:{minutes}:{seconds} hour left_::_{hours}:{minutes}:{seconds} hours left_" : ["{hours}:{minutes}:{seconds} time igjen","{hours}:{minutes}:{seconds} timer igjen"],
-    "{hours}:{minutes}h" : "{hours}:{minutes}h",
-    "_{minutes}:{seconds} minute left_::_{minutes}:{seconds} minutes left_" : ["{minutes}:{seconds} minutt igjen","{minutes}:{seconds} minutter igjen"],
-    "{minutes}:{seconds}m" : "{minutes}:{seconds}m",
-    "_{seconds} second left_::_{seconds} seconds left_" : ["{seconds} sekund igjen","{seconds} sekunder igjen"],
-    "{seconds}s" : "{seconds}er",
-    "Any moment now..." : "Hvert øyeblikk nå…",
-    "Soon..." : "Snart…",
-    "File upload is in progress. Leaving the page now will cancel the upload." : "Filopplasting pågår. Forlater du siden nå avbrytes opplastingen.",
-    "Move" : "Flytt",
-    "Copy local link" : "Kopier lokal lenke",
-    "Folder" : "Mappe",
-    "Upload" : "Last opp",
-    "A new file or folder has been <strong>deleted</strong>" : "En ny fil eller mappe har blitt <strong>slettet</strong>",
-    "A new file or folder has been <strong>restored</strong>" : "En ny fil eller mappe har blitt <strong>gjenopprettet</strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Bruk adressen <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">for å få tilgang til WebDAV</a>",
-    "No favorites" : "Ingen favoritter"
+    "New text file.txt" : "Ny tekstfil.txt"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

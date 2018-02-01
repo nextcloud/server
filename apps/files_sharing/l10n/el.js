@@ -109,7 +109,6 @@ OC.L10N.register(
     "Upload files to %s" : "Αποστολή αρχείων σε %s",
     "Select or drop files" : "Επιλέξτε ή ρίξτε αρχεία",
     "Uploading files…" : "Αποστολή αρχείων ...",
-    "Uploaded files:" : "Αποστολή αρχείων:",
-    "%s is publicly shared" : "%s είναι δημόσια διαμοιρασμένο"
+    "Uploaded files:" : "Αποστολή αρχείων:"
 },
 "nplurals=2; plural=(n != 1);");
