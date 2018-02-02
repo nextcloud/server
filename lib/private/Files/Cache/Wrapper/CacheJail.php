@@ -312,6 +312,10 @@ class CacheJail extends CacheWrapper {
 	 */
 	public function getPathById($id) {
 		$path = $this->getCache()->getPathById($id);
+		if ($path === null) {
+			return null;
+		}
+
 		return $this->getJailedPath($path);
 	}
 
