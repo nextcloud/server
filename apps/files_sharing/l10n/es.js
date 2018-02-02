@@ -109,6 +109,7 @@ OC.L10N.register(
     "Upload files to %s" : "Subir archivos a %s",
     "Select or drop files" : "Seleccione o arrastre y suelte archivos",
     "Uploading files…" : "Subiendo archivos...",
-    "Uploaded files:" : "Archivos subidos:"
+    "Uploaded files:" : "Archivos subidos:",
+    "%s is publicly shared" : "%s ha sido compartido"
 },
 "nplurals=2; plural=(n != 1);");

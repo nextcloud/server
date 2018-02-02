@@ -109,6 +109,7 @@ OC.L10N.register(
     "Upload files to %s" : "上传文件到 %s",
     "Select or drop files" : "选择或删除文件",
     "Uploading files…" : "上传文件 … ",
-    "Uploaded files:" : "上传的文件： "
+    "Uploaded files:" : "上传的文件： ",
+    "%s is publicly shared" : "%s 是公开共享"
 },
 "nplurals=1; plural=0;");

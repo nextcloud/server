@@ -59,6 +59,7 @@ OC.L10N.register(
     "Enable password recovery:" : "Parola kurtarmayı etkinleştir:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Bu seçenek etkinleştirildiğinde, parolayı unutursanız şifrelenmiş dosyalarınıza yeniden erişim izni elde edebilirsiniz",
     "Enabled" : "Etkin",
-    "Disabled" : "Devre Dışı"
+    "Disabled" : "Devre Dışı",
+    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Şifreleme Uygulaması etkin ancak anahtarlarınız hazırlanmamış. Lütfen oturumunuzu kapatıp yeniden açın"
 },
 "nplurals=2; plural=(n > 1);");

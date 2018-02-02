@@ -23,6 +23,9 @@ OC.L10N.register(
     "Username" : "Nama pengguna",
     "Create" : "Buat",
     "Other" : "Lain",
-    "Quota" : "Kuota"
+    "Quota" : "Kuota",
+    "Invalid request" : "Permintaan tidak sah",
+    "__language_name__" : "Bahasa Melayu",
+    "Name" : "Nama"
 },
 "nplurals=1; plural=0;");

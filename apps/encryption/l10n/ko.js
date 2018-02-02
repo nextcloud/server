@@ -59,6 +59,7 @@ OC.L10N.register(
     "Enable password recovery:" : "암호 복구 사용:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "이 옵션을 사용하면 암호를 잊었을 때 암호화된 파일에 다시 접근할 수 있습니다",
     "Enabled" : "활성화",
-    "Disabled" : "비활성화"
+    "Disabled" : "비활성화",
+    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "암호화 앱이 활성화되어 있지만 키가 초기화되지 않았습니다. 로그아웃한 후 다시 로그인하십시오"
 },
 "nplurals=1; plural=0;");

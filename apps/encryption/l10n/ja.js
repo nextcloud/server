@@ -59,6 +59,7 @@ OC.L10N.register(
     "Enable password recovery:" : "パスワードリカバリを有効に:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "このオプションを有効にすると、パスワードを紛失した場合も、暗号化されたファイルに再度アクセスすることができるようになります。",
     "Enabled" : "有効",
-    "Disabled" : "無効"
+    "Disabled" : "無効",
+    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "暗号化アプリは有効ですが、あなたの暗号化キーは初期化されていません。ログアウトした後に、再度ログインしてください"
 },
 "nplurals=1; plural=0;");

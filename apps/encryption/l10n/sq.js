@@ -59,6 +59,7 @@ OC.L10N.register(
     "Enable password recovery:" : "Aktivizo rimarrje fjalëkalimesh:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Aktivizimi i kësaj mundësie do t’ju lejojë të rifitoni hyrje te kartelat tuaja të fshehtëzuara në rast humbjeje fjalëkalimi",
     "Enabled" : "E aktivizuar",
-    "Disabled" : "E çaktivizuar"
+    "Disabled" : "E çaktivizuar",
+    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Aplikacioni i fshehtëzimeve është i aktivizuar, por kyçet tuaj s’janë vënë në punë, ju lutemi, dilni dhe ribëni hyrjen"
 },
 "nplurals=2; plural=(n != 1);");

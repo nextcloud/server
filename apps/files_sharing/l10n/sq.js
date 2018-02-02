@@ -109,6 +109,7 @@ OC.L10N.register(
     "Upload files to %s" : "Ngrako skedarët tek %s",
     "Select or drop files" : "Përzgjidh ose hiq skedarët",
     "Uploading files…" : "Skedarët po ngarkohen...",
-    "Uploaded files:" : "Skedarët e ngarkuar:"
+    "Uploaded files:" : "Skedarët e ngarkuar:",
+    "%s is publicly shared" : "%s është ndarë publikisht"
 },
 "nplurals=2; plural=(n != 1);");

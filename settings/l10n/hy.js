@@ -21,6 +21,7 @@ OC.L10N.register(
     "New password" : "Նոր գաղտնաբառ",
     "Change password" : "Փոխել գաղտնաբառը",
     "Username" : "Օգտանուն",
-    "Other" : "Այլ"
+    "Other" : "Այլ",
+    "Name" : "Անուն"
 },
 "nplurals=2; plural=(n != 1);");

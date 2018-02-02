@@ -10,6 +10,10 @@
     "Password" : "پاسورڈ",
     "New password" : "نیا پاسورڈ",
     "Username" : "یوزر نیم",
-    "Other" : "دیگر"
+    "Other" : "دیگر",
+    "Invalid request" : "غلط درخواست",
+    "__language_name__" : "اردو",
+    "Cheers!" : "واہ!",
+    "Name" : "اسم"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

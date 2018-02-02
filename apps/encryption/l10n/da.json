@@ -57,6 +57,7 @@
     "Enable password recovery:" : "Aktiver kodeord gendannelse:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Aktivering af denne valgmulighed tillader dig at generhverve adgang til dine krypterede filer i tilfælde af tab af kodeord",
     "Enabled" : "Aktiveret",
-    "Disabled" : "Deaktiveret"
+    "Disabled" : "Deaktiveret",
+    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Krypteringsprogrammet er aktiveret, men din nøgler er ikke igangsat. Log venligst ud og ind igen."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -109,6 +109,7 @@ OC.L10N.register(
     "Upload files to %s" : "Lähetä tiedostoja käyttäjälle %s",
     "Select or drop files" : "Valitse tai pudota tiedostoja",
     "Uploading files…" : "Lähetetään tiedostoja…",
-    "Uploaded files:" : "Lähetetyt tiedostot:"
+    "Uploaded files:" : "Lähetetyt tiedostot:",
+    "%s is publicly shared" : "%s on julkisesti jaettu"
 },
 "nplurals=2; plural=(n != 1);");

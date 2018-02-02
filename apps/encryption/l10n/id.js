@@ -58,6 +58,7 @@ OC.L10N.register(
     "Enable password recovery:" : "Aktifkan kata sandi pemulihan:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Mengaktifkan opsi ini memungkinkan Anda untuk mendapatkan kembali akses ke berkas terenkripsi Anda dalam kasus kehilangan kata sandi",
     "Enabled" : "Diaktifkan",
-    "Disabled" : "Dinonaktifkan"
+    "Disabled" : "Dinonaktifkan",
+    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Aplikasi Enskripsi telah diaktifkan tetapi kunci tidak diinisialisasi, silakan log-out dan log-in lagi"
 },
 "nplurals=1; plural=0;");

@@ -57,6 +57,7 @@
     "Enable password recovery:" : "Povoliť obnovu hesla:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Povolenie Vám umožní znovu získať prístup k Vašim zašifrovaným súborom, ak stratíte heslo",
     "Enabled" : "Povolené",
-    "Disabled" : "Zakázané"
+    "Disabled" : "Zakázané",
+    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Aplikácia na šifrovanie je zapnutá, ale vaše kľúče nie sú inicializované. Odhláste sa a znovu sa prihláste."
 },"pluralForm" :"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;"
 }

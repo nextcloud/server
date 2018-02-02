@@ -109,6 +109,7 @@ OC.L10N.register(
     "Upload files to %s" : "Ladda upp filer till %s",
     "Select or drop files" : "Välj eller dra filer hit",
     "Uploading files…" : "Laddar upp filer...",
-    "Uploaded files:" : "Uppladdade filer:"
+    "Uploaded files:" : "Uppladdade filer:",
+    "%s is publicly shared" : "%s är offentligt delad"
 },
 "nplurals=2; plural=(n != 1);");

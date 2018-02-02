@@ -109,6 +109,7 @@ OC.L10N.register(
     "Upload files to %s" : "%s にファイルをアップロード",
     "Select or drop files" : "ファイルを選択するか、ドラッグ&ドロップしてください",
     "Uploading files…" : "ファイルをアップロード中...",
-    "Uploaded files:" : "アップロード済ファイル:"
+    "Uploaded files:" : "アップロード済ファイル:",
+    "%s is publicly shared" : "%s が公開共有されました"
 },
 "nplurals=1; plural=0;");

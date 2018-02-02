@@ -55,6 +55,7 @@
     "Enable password recovery:" : "Habilita la recuperació de contrasenya:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Activar aquesta opció us permetrà obtenir de nou accés als vostres fitxers encriptats en cas de perdre la contrasenya",
     "Enabled" : "Activat",
-    "Disabled" : "Desactivat"
+    "Disabled" : "Desactivat",
+    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "L'aplicació d'encriptació està activada però les claus no estan inicialitzades, sortiu i acrediteu-vos de nou."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
