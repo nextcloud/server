@@ -96,7 +96,11 @@ class GpgDummy implements IGpg{
 	 */
 	public function import($keydata, $uid = null ) {
 		return [
-			 'fingerprint' => '',
+			'imported' => 0,
+			'unchanged' => 0,
+			'secretimported' => 0,
+			'skippedkeys' => 0,
+			'fingerprint' => ''
 		];
 	}
 
