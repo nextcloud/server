@@ -315,6 +315,8 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "Questa istanza di %s è attualmente in manutenzione, potrebbe richiedere del tempo.",
     "This page will refresh itself when the %s instance is available again." : "Questa pagina si aggiornerà quando l'istanza di %s sarà nuovamente disponibile.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contatta il tuo amministratore di sistema se questo messaggio persiste o appare inaspettatamente.",
-    "Thank you for your patience." : "Grazie per la pazienza."
+    "Thank you for your patience." : "Grazie per la pazienza.",
+    "%s (3rdparty)" : "%s (terze parti)",
+    "There was an error loading your contacts" : "Si è verificato un errore durante il caricamento dei tuoi contatti"
 },
 "nplurals=2; plural=(n != 1);");

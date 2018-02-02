@@ -313,6 +313,8 @@
     "This %s instance is currently in maintenance mode, which may take a while." : "Cette instance de %s est en cours de maintenance, cela peut prendre du temps.",
     "This page will refresh itself when the %s instance is available again." : "Cette page se rafraîchira d'elle-même lorsque l'instance %s sera à nouveau disponible.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Veuillez contacter votre administrateur système si ce message persiste ou apparaît de façon inattendue.",
-    "Thank you for your patience." : "Merci de votre patience."
+    "Thank you for your patience." : "Merci de votre patience.",
+    "%s (3rdparty)" : "%s (origine tierce)",
+    "There was an error loading your contacts" : "Il y a eu une erreur lors du chargement de vos contacts"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

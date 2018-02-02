@@ -225,6 +225,17 @@
     "Storage incomplete configuration. %s" : "Configurazione dell'archiviazione incompleta.%s",
     "Storage connection error. %s" : "Errore di connessione all'archiviazione. %s",
     "Storage is temporarily not available" : "L'archiviazione è temporaneamente non disponibile",
-    "Storage connection timeout. %s" : "Timeout di connessione all'archiviazione. %s"
+    "Storage connection timeout. %s" : "Timeout di connessione all'archiviazione. %s",
+    "Personal" : "Personale",
+    "DB Error: \"%s\"" : "Errore DB: \"%s\"",
+    "Offending command was: \"%s\"" : "Il comando non consentito era: \"%s\"",
+    "Offending command was: \"%s\", name: %s, password: %s" : "Il comando non consentito era: \"%s\", nome: %s, password: %s",
+    "Setting permissions for %s failed, because the permissions exceed permissions granted to %s" : "Impostazione permessi per %s non riuscita, poiché i permessi superano i permessi accordati a %s",
+    "Cannot increase permissions of %s" : "Impossibile aumentare i permessi di %s",
+    "Files can't be shared with delete permissions" : "I file non possono essere condivisi con permessi di eliminazione",
+    "Files can't be shared with create permissions" : "I file non possono essere condivisi con permessi di creazione",
+    "Cannot set expiration date more than %s days in the future" : "Impossibile impostare la data di scadenza a più di %s giorni nel futuro",
+    "No app name specified" : "Il nome dell'applicazione non è specificato",
+    "App '%s' could not be installed!" : "L'applicazione '%s' non può essere installata!"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
