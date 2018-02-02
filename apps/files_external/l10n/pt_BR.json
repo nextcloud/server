@@ -118,6 +118,14 @@
     "Advanced settings" : "Configurações avançadas",
     "Delete" : "Excluir",
     "Allow users to mount external storage" : "Permitir que usuários montem armazenamento externo",
-    "Allow users to mount the following external storage" : "Permitir que usuários montem o seguinte armazenamento externo"
+    "Allow users to mount the following external storage" : "Permitir que usuários montem o seguinte armazenamento externo",
+    "Fetching request tokens failed. Verify that your app key and secret are correct." : "A busca pelos tokens solicitados falharam. Verifique se a chave e o segredo da sua aplicação estão corretos.",
+    "Fetching access tokens failed. Verify that your app key and secret are correct." : "O acesso aos tokens solicitados falharam. Verifique se a chave e o segredo da sua aplicação estão corretos.",
+    "Step 1 failed. Exception: %s" : "Passo 1 falhou. Erro: %s",
+    "Step 2 failed. Exception: %s" : "Passo 2 falhou. Erro: %s",
+    "Dropbox App Configuration" : "Configuração do Aplicativo Dropbox",
+    "Google Drive App Configuration" : "Configuração do aplicativo Google Drive",
+    "Dropbox" : "Dropbox",
+    "Google Drive" : "Google Drive"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }
