@@ -363,8 +363,12 @@ class Message implements IMessage {
         return $this;
     }
 
-    private function messageContentToString($message) {
-		$originalMessage = clone $message;
+	/**
+	 *
+	 * @return string
+	 */
+	private function messageContentToString() {
+		$originalMessage = clone $this->swiftMessage;
 		$originalMessage->getHeaders()->remove('Message-ID');
 		$originalMessage->getHeaders()->remove('Date');
 		$originalMessage->getHeaders()->remove('Subject');
@@ -387,10 +391,10 @@ class Message implements IMessage {
 
     /**
      * GPG sign the Message
-     *
+     * @param IGpg $gpg
      * @return $this
      */
-    public function sign() {
+    public function sign($gpg = null) {
         if ($this->signed) {
             return $this;
         }
@@ -399,10 +403,11 @@ class Message implements IMessage {
             return $this;
         }
         $sign_fingerprints = $this->getFromFingerprints();
-        $gpg = \OC::$server->getGpg();
+        if($gpg === null){
+			$gpg = \OC::$server->getGpg();
+		}
 
-
-		$signedBody = $this->messageContentToString($this->swiftMessage);
+		$signedBody = $this->messageContentToString();
 		$signature = $gpg->sign($sign_fingerprints,$signedBody);
 
         $this->swiftMessage->setEncoder(new \Swift_Mime_ContentEncoder_RawContentEncoder);
@@ -444,7 +449,7 @@ EOT;
      *
      * @return $this
      */
-    public function encrypt() {
+    public function encrypt($gpg = null) {
         if ($this->signed) {
             return $this;
         }
@@ -452,11 +457,13 @@ EOT;
             /* encrypted Messages cannot be signed*/
             return $this;
         }
-        $gpg = \OC::$server->getGpg();
+		if($gpg === null){
+			$gpg = \OC::$server->getGpg();
+		}
         $encrypt_fingerprints = $this->getToFingerprints() + $this->getCCFingerprints() + $this->getBccFingerprints();
 
 
-		$encryptedBody = $this->messageContentToString($this->swiftMessage);
+		$encryptedBody = $this->messageContentToString();
 		$encryptedBody = $gpg->encrypt($encrypt_fingerprints,$encryptedBody);
 
 		$this->swiftMessage->setChildren(array());
@@ -499,7 +506,7 @@ EOT;
      *
      * @return $this
      */
-    public function encryptsign() {
+    public function encryptsign($gpg = null) {
         if ($this->signed) {
             return $this;
         }
@@ -507,11 +514,13 @@ EOT;
             /* encrypted Messages cannot be signed*/
             return $this;
         }
-        $gpg = \OC::$server->getGpg();
+		if($gpg === null){
+			$gpg = \OC::$server->getGpg();
+		}
         $sign_fingerprints = $this->getFromFingerprints();
         $encrypt_fingerprints = $this->getToFingerprints() + $this->getCCFingerprints() + $this->getBccFingerprints();
 
-		$signedBody = $this->messageContentToString($this->swiftMessage);
+		$signedBody = $this->messageContentToString();
 		$signature = $gpg->sign($sign_fingerprints,$signedBody);
 
         $this->swiftMessage->setEncoder(new \Swift_Mime_ContentEncoder_RawContentEncoder);

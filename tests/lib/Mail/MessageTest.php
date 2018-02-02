@@ -10,13 +10,19 @@ namespace Test\Mail;
 
 use OC\Mail\Message;
 use Swift_Message;
+use Swift_Mime_HeaderSet;
+use Swift_Mime_Headers_UnstructuredHeader;
+use Swift_Mime_Headers_ParameterizedHeader;
 use Test\TestCase;
+use OCP\IGpg;
 
 class MessageTest extends TestCase {
 	/** @var Swift_Message */
 	private $swiftMessage;
 	/** @var Message */
 	private $message;
+	/** @var IGpg|\PHPUnit_Framework_MockObject_MockObject*/
+	private $gpg;
 
 	/**
 	 * @return array
@@ -34,7 +40,10 @@ class MessageTest extends TestCase {
 		parent::setUp();
 
 		$this->swiftMessage = $this->getMockBuilder('\Swift_Message')
+			->disableOriginalClone()
 			->disableOriginalConstructor()->getMock();
+
+		$this->gpg = $this->createMock(IGpg::class);
 
 		$this->message = new Message($this->swiftMessage);
 	}
@@ -56,6 +65,40 @@ class MessageTest extends TestCase {
 			->method('setFrom')
 			->with(array('lukas@owncloud.com'));
 		$this->message->setFrom(array('lukas@owncloud.com'));
+	}
+
+	public function testSetFromWithFingerprint() {
+		$this->swiftMessage
+			->expects($this->once())
+			->method('setFrom')
+			->with(array('lukas@owncloud.com'));
+		$fingerprints = ["abcdefghijklmnopqrstuvwxyz","zyxwvutsrpqonmlkjihgfedcba"];
+		$this->message->setFrom(array('lukas@owncloud.com'), $fingerprints);
+		$this->assertEquals($fingerprints, $this->message->getFromFingerprints());
+	}
+
+	public function testSetFromAutocryptHeader() {
+		$this->swiftMessage
+			->expects($this->once())
+			->method('setFrom')
+			->with(array('lukas@owncloud.com'));
+		$fingerprints = ["abcdefghijklmnopqrstuvwxyz","zyxwvutsrpqonmlkjihgfedcba"];
+
+		$headers = $this->createMock("\Swift_Mime_HeaderSet");
+		$headers->expects($this->once())
+			->method("addParameterizedHeader");
+
+		$this->swiftMessage
+			->expects($this->once())
+			->method("getHeaders")
+			->willReturn($headers);
+
+		$this->swiftMessage
+			->expects($this->once())
+			->method("attach");
+
+		$this->message->setFrom(array('lukas@owncloud.com'), [$fingerprints[0]]);
+		$this->assertEquals([$fingerprints[0]], $this->message->getFromFingerprints());
 	}
 
 	public function testGetFrom() {
@@ -92,6 +135,16 @@ class MessageTest extends TestCase {
 		$this->message->setTo(array('lukas@owncloud.com'));
 	}
 
+	public function testSetToWithFingerprint() {
+		$this->swiftMessage
+			->expects($this->once())
+			->method('setTo')
+			->with(array('lukas@owncloud.com'));
+		$fingerprints = ["abcdefghijklmnopqrstuvwxyz","zyxwvutsrpqonmlkjihgfedcba"];
+		$this->message->setTo(array('lukas@owncloud.com'), $fingerprints);
+		$this->assertEquals($fingerprints, $this->message->getToFingerprints());
+	}
+
 	public function testGetTo() {
 		$this->swiftMessage
 			->expects($this->once())
@@ -109,6 +162,16 @@ class MessageTest extends TestCase {
 		$this->message->setCc(array('lukas@owncloud.com'));
 	}
 
+	public function testSetCcWithFingerprint() {
+		$this->swiftMessage
+			->expects($this->once())
+			->method('setCc')
+			->with(array('lukas@owncloud.com'));
+		$fingerprints = ["abcdefghijklmnopqrstuvwxyz","zyxwvutsrpqonmlkjihgfedcba"];
+		$this->message->setCc(array('lukas@owncloud.com'), $fingerprints);
+		$this->assertEquals($fingerprints, $this->message->getCcFingerprints());
+	}
+
 	public function testGetCc() {
 		$this->swiftMessage
 			->expects($this->once())
@@ -124,6 +187,16 @@ class MessageTest extends TestCase {
 			->method('setBcc')
 			->with(array('lukas@owncloud.com'));
 		$this->message->setBcc(array('lukas@owncloud.com'));
+	}
+
+	public function testSetBccWithFingerprint() {
+		$this->swiftMessage
+			->expects($this->once())
+			->method('setBcc')
+			->with(array('lukas@owncloud.com'));
+		$fingerprints = ["abcdefghijklmnopqrstuvwxyz","zyxwvutsrpqonmlkjihgfedcba"];
+		$this->message->setBcc(array('lukas@owncloud.com'), $fingerprints);
+		$this->assertEquals($fingerprints, $this->message->getBccFingerprints());
 	}
 
 	public function testGetBcc() {
@@ -180,4 +253,164 @@ class MessageTest extends TestCase {
 		$this->message->setHtmlBody('<blink>Fancy Body</blink>');
 	}
 
+	public function testMessageContentToString(){
+		$messageString = "\n This is a Test Message \r Conntent with Multiple \r\n Lines\n and \r\n differnt \n Line \r endings and \n\n\n multiple new lines \r at the end \n\n\n\n";
+		$finalString = "This is a Test Message\r\n Conntent with Multiple\r\n Lines\r\n and\r\n differnt\r\n Line\r\n endings and\r\n\r\n\r\n multiple new lines\r\n at the end\r\n";
+
+		$headers = $this->createMock("\Swift_Mime_HeaderSet");
+		$headers->expects($this->exactly(8))
+			->method("remove");
+
+		$this->swiftMessage
+			->expects($this->exactly(8))
+			->method('getHeaders')
+			->willReturn($headers);
+		$this->swiftMessage
+			->expects($this->once())
+			->method("toString")
+			->willReturn($messageString);
+
+		$this->assertEquals($finalString, $this->invokePrivate($this->message, "messageContentToString"));
+	}
+
+	public function testSign() {
+		$fingerprints = ["abcdefghijklmnopqrstuvwxyz","zyxwvutsrpqonmlkjihgfedcba"];
+		$this->message->setFrom(array('lukas@owncloud.com'), $fingerprints);
+
+
+		$header = $this->createMock("\Swift_Mime_Headers_ParameterizedHeader");
+		$header->expects($this->once())
+			->method("setParameters");
+		$header->expects($this->once())
+			->method("setValue")
+			->with("multipart/signed");
+
+		$headers = $this->createMock("\Swift_Mime_HeaderSet");
+		$headers->expects($this->once())
+			->method("removeAll")
+			->with("Content-Transfer-Encoding");
+		$headers->expects($this->any())
+			->method("get")
+			->willReturn($header);
+
+		$this->swiftMessage
+			->expects($this->once())
+			->method("setEncoder")
+			->with(new \Swift_Mime_ContentEncoder_RawContentEncoder);
+		$this->swiftMessage
+			->expects($this->once())
+			->method("setChildren")
+			->with([]);
+		$this->swiftMessage
+			->expects($this->once())
+			->method("setBoundary");
+		$this->swiftMessage
+			->expects($this->once())
+			->method("setBody");
+		$this->swiftMessage
+			->expects($this->any())
+			->method("getHeaders")
+			->willReturn($headers);
+
+
+		$this->gpg
+			->expects($this->once())
+			->method("sign");
+		$this->message->sign($this->gpg);
+	}
+
+	public function testEncrypt() {
+		$fingerprints = ["abcdefghijklmnopqrstuvwxyz","zyxwvutsrpqonmlkjihgfedcba"];
+		$this->message->setTo(array('lukas@owncloud.com', 'test@invalid.email'), $fingerprints);
+
+
+		$header = $this->createMock("\Swift_Mime_Headers_ParameterizedHeader");
+		$header->expects($this->once())
+			->method("setParameters");
+		$header->expects($this->once())
+			->method("setValue")
+			->with("multipart/encrypted");
+
+		$headers = $this->createMock("\Swift_Mime_HeaderSet");
+		$headers->expects($this->once())
+			->method("removeAll")
+			->with("Content-Transfer-Encoding");
+		$headers->expects($this->any())
+			->method("get")
+			->willReturn($header);
+
+		$this->swiftMessage
+			->expects($this->once())
+			->method("setEncoder")
+			->with(new \Swift_Mime_ContentEncoder_RawContentEncoder);
+		$this->swiftMessage
+			->expects($this->once())
+			->method("setChildren")
+			->with([]);
+		$this->swiftMessage
+			->expects($this->once())
+			->method("setBoundary");
+		$this->swiftMessage
+			->expects($this->once())
+			->method("setBody");
+		$this->swiftMessage
+			->expects($this->any())
+			->method("getHeaders")
+			->willReturn($headers);
+
+
+		$this->gpg
+			->expects($this->once())
+			->method("encrypt");
+		$this->message->encrypt($this->gpg);
+	}
+
+	public function testEncryptSign() {
+		$fingerprints = ["abcdefghijklmnopqrstuvwxyz","zyxwvutsrpqonmlkjihgfedcba"];
+		$this->message->setTo(array('lukas@owncloud.com'), [$fingerprints[0]]);
+		$this->message->setFrom(array('test@bla.invalid'), [$fingerprints[1],$fingerprints[0]]);
+
+
+		$header = $this->createMock("\Swift_Mime_Headers_ParameterizedHeader");
+		$header->expects($this->exactly(2))
+			->method("setParameters");
+		$header->expects($this->exactly(2))
+			->method("setValue");
+
+		$headers = $this->createMock("\Swift_Mime_HeaderSet");
+		$headers->expects($this->exactly(2))
+			->method("removeAll")
+			->with("Content-Transfer-Encoding");
+		$headers->expects($this->any())
+			->method("get")
+			->willReturn($header);
+
+		$this->swiftMessage
+			->expects($this->once())
+			->method("setEncoder")
+			->with(new \Swift_Mime_ContentEncoder_RawContentEncoder);
+		$this->swiftMessage
+			->expects($this->once())
+			->method("setChildren")
+			->with([]);
+		$this->swiftMessage
+			->expects($this->once())
+			->method("setBoundary");
+		$this->swiftMessage
+			->expects($this->once())
+			->method("setBody");
+		$this->swiftMessage
+			->expects($this->any())
+			->method("getHeaders")
+			->willReturn($headers);
+
+
+		$this->gpg
+			->expects($this->once())
+			->method("encrypt");
+		$this->gpg
+			->expects($this->once())
+			->method("sign");
+		$this->message->encryptsign($this->gpg);
+	}
 }
