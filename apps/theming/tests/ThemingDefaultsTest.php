@@ -556,20 +556,20 @@ class ThemingDefaultsTest extends TestCase {
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
-			->with('theming', 'iOSClientUrl', 'https://itunes.apple.com/us/app/nextcloud/id1125420102?mt=8')
-			->willReturn('https://itunes.apple.com/us/app/nextcloud/id1125420102?mt=8');
+			->with('theming', 'iOSClientUrl', 'https://geo.itunes.apple.com/us/app/nextcloud/id1125420102?mt=8')
+			->willReturn('https://geo.itunes.apple.com/us/app/nextcloud/id1125420102?mt=8');
 
-		$this->assertEquals('https://itunes.apple.com/us/app/nextcloud/id1125420102?mt=8', $this->template->getiOSClientUrl());
+		$this->assertEquals('https://geo.itunes.apple.com/us/app/nextcloud/id1125420102?mt=8', $this->template->getiOSClientUrl());
 	}
 
 	public function testGetCustomiOSURL() {
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
-			->with('theming', 'iOSClientUrl', 'https://itunes.apple.com/us/app/nextcloud/id1125420102?mt=8')
-			->willReturn('https://itunes.apple.com/us/app/nextcloud/id1234567890?mt=8');
+			->with('theming', 'iOSClientUrl', 'https://geo.itunes.apple.com/us/app/nextcloud/id1125420102?mt=8')
+			->willReturn('https://geo.itunes.apple.com/us/app/nextcloud/id1234567890?mt=8');
 
-		$this->assertEquals('https://itunes.apple.com/us/app/nextcloud/id1234567890?mt=8', $this->template->getiOSClientUrl());
+		$this->assertEquals('https://geo.itunes.apple.com/us/app/nextcloud/id1234567890?mt=8', $this->template->getiOSClientUrl());
 	}
 
 	public function testGetDefaultiTunesAppId() {
