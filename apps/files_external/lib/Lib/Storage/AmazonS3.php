@@ -566,13 +566,10 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	}
 
 	public function test() {
-		$test = $this->getConnection()->getBucketAcl(array(
-			'Bucket' => $this->bucket,
-		));
-		if (isset($test) && !is_null($test->getPath('Owner/ID'))) {
-			return true;
-		}
-		return false;
+		$this->getConnection()->headBucket([
+			'Bucket' => $this->bucket
+		]);
+		return true;
 	}
 
 	public function getId() {
