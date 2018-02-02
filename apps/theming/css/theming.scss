@@ -96,6 +96,9 @@
 		background-image: url(#{$image-logo});
 		background-size: contain;
 	}
+	#body-login #header .logo {
+		margin-bottom: 22px;
+	}
 }
 
 @if variable_exists('theming-background-mime') and $theming-background-mime != ''  {
