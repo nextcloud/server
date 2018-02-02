@@ -60,7 +60,7 @@ class OC_Defaults {
 		$this->defaultTitle = 'Nextcloud'; /* can be a longer name, for titles */
 		$this->defaultBaseUrl = 'https://nextcloud.com';
 		$this->defaultSyncClientUrl = 'https://nextcloud.com/install/#install-clients';
-		$this->defaultiOSClientUrl = 'https://geo.itunes.apple.com/us/app/nextcloud/id1125420102?mt=8';
+		$this->defaultiOSClientUrl = 'https://itunes.apple.com/us/app/nextcloud/id1125420102?mt=8';
 		$this->defaultiTunesAppId = '1125420102';
 		$this->defaultAndroidClientUrl = 'https://play.google.com/store/apps/details?id=com.nextcloud.client';
 		$this->defaultDocBaseUrl = 'https://docs.nextcloud.com';
