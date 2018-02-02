@@ -29,7 +29,7 @@ use Test\TestCase;
 
 
 
-class GpgTest extends TestCase {
+class GpgDummyTest extends TestCase {
 	/** @var IGpg|\PHPUnit_Framework_MockObject_MockObject*/
 	private $gpg;
 
@@ -969,7 +969,7 @@ yj9h5BgI+X6PFeEPGRoUJUW5zMjIGcCDnFV2IjY4B2om/4ms0o4dTQtg5ye9Tata
 			[[$this->testKeys[0]['pubkey'],$this->testKeys[1]['pubkey'],$this->testKeys[2]['pubkey']], $this->testKeys[2]['email1'], null],
 		];
 	}
-	
+
 
 	/**
 	 * @dataProvider dataGenerateKey
