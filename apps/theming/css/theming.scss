@@ -91,14 +91,14 @@
 }
 
 /* override styles for login screen in guest.css */
-@if variable_exists('theming-logo-mime') {
+@if variable_exists('theming-logo-mime') and $theming-logo-mime != '' {
 	#header .logo {
 		background-image: url(#{$image-logo});
 		background-size: contain;
 	}
 }
 
-@if variable_exists('theming-background-mime') {
+@if variable_exists('theming-background-mime') and $theming-background-mime != ''  {
 	#body-login,
 	#firstrunwizard .firstrunwizard-header,
 	#theming-preview {
