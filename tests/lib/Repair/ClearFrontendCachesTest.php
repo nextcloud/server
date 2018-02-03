@@ -63,14 +63,6 @@ class ClearFrontendCachesTest extends \Test\TestCase {
 		$imagePathCache->expects($this->once())
 			->method('clear')
 			->with('');
-		$jsCache = $this->createMock(ICache::class);
-		$jsCache->expects($this->once())
-			->method('clear')
-			->with('');
-		$cssCache = $this->createMock(ICache::class);
-		$cssCache->expects($this->once())
-			->method('clear')
-			->with('');
 		$this->jsCombiner->expects($this->once())
 			->method('resetCache');
 		$this->scssCacher->expects($this->once())
@@ -79,14 +71,6 @@ class ClearFrontendCachesTest extends \Test\TestCase {
 			->method('createDistributed')
 			->with('imagePath')
 			->willReturn($imagePathCache);
-		$this->cacheFactory->expects($this->at(1))
-			->method('createDistributed')
-			->with('SCSS')
-			->willReturn($cssCache);
-		$this->cacheFactory->expects($this->at(2))
-			->method('createDistributed')
-			->with('JS')
-			->willReturn($jsCache);
 
 		$this->repair->run($this->outputMock);
 		$this->assertTrue(true);

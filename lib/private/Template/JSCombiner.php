@@ -236,10 +236,8 @@ class JSCombiner {
 	 * @throws NotFoundException
 	 */
 	public function resetCache() {
+		$this->depsCache->clear();
 		$appDirectory = $this->appData->getDirectoryListing();
-		if(empty($appDirectory)){
-			return;
-		}
 		foreach ($appDirectory as $folder) {
 			foreach ($folder->getDirectoryListing() as $file) {
 				$file->delete();

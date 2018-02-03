@@ -23,15 +23,11 @@
 
 namespace OC\Repair;
 
-use OC\Core\Command\Maintenance\ClearCacheJSCSS;
 use OC\Template\JSCombiner;
 use OC\Template\SCSSCacher;
-use OCP\AppFramework\QueryException;
 use OCP\ICacheFactory;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
-use Symfony\Component\Console\Input\StringInput;
-use Symfony\Component\Console\Output\BufferedOutput;
 
 class ClearFrontendCaches implements IRepairStep {
 
@@ -59,17 +55,13 @@ class ClearFrontendCaches implements IRepairStep {
 	public function run(IOutput $output) {
 		try {
 			$c = $this->cacheFactory->createDistributed('imagePath');
-			$c->clear('');
+			$c->clear();
 			$output->info('Image cache cleared');
 
 			$this->scssCacher->resetCache();
-			$c = $this->cacheFactory->createDistributed('SCSS');
-			$c->clear('');
 			$output->info('SCSS cache cleared');
 
 			$this->jsCombiner->resetCache();
-			$c = $this->cacheFactory->createDistributed('JS');
-			$c->clear('');
 			$output->info('JS cache cleared');
 		} catch (\Exception $e) {
 			$output->warning('Unable to clear the frontend cache');
