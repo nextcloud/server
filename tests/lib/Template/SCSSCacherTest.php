@@ -85,6 +85,7 @@ class SCSSCacherTest extends \Test\TestCase {
 
 		$this->appData->expects($this->once())->method('getFolder')->with('core')->willThrowException(new NotFoundException());
 		$this->appData->expects($this->once())->method('newFolder')->with('core')->willReturn($folder);
+		$this->appData->method('getDirectoryListing')->willReturn([]);
 
 		$fileDeps = $this->createMock(ISimpleFile::class);
 		$gzfile = $this->createMock(ISimpleFile::class);
@@ -118,6 +119,7 @@ class SCSSCacherTest extends \Test\TestCase {
 	public function testProcessUncachedFile() {
 		$folder = $this->createMock(ISimpleFolder::class);
 		$this->appData->expects($this->once())->method('getFolder')->with('core')->willReturn($folder);
+		$this->appData->method('getDirectoryListing')->willReturn([]);
 		$file = $this->createMock(ISimpleFile::class);
 		$file->expects($this->any())->method('getSize')->willReturn(1);
 		$fileDeps = $this->createMock(ISimpleFile::class);
@@ -148,6 +150,7 @@ class SCSSCacherTest extends \Test\TestCase {
 	public function testProcessCachedFile() {
 		$folder = $this->createMock(ISimpleFolder::class);
 		$this->appData->expects($this->once())->method('getFolder')->with('core')->willReturn($folder);
+		$this->appData->method('getDirectoryListing')->willReturn([]);
 		$file = $this->createMock(ISimpleFile::class);
 		$fileDeps = $this->createMock(ISimpleFile::class);
 		$fileDeps->expects($this->any())->method('getSize')->willReturn(1);
@@ -178,6 +181,7 @@ class SCSSCacherTest extends \Test\TestCase {
 			->willReturn($folder);
 		$folder->method('getName')
 			->willReturn('core');
+		$this->appData->method('getDirectoryListing')->willReturn([]);
 
 		$file = $this->createMock(ISimpleFile::class);
 
