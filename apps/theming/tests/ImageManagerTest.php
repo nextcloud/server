@@ -23,6 +23,7 @@
  */
 namespace OCA\Theming\Tests;
 
+use OCA\Theming\ImageManager;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IConfig;
 use Test\TestCase;
@@ -30,7 +31,7 @@ use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 
-class ImageManager extends TestCase {
+class ImageManagerTest extends TestCase {
 
 	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
 	protected $config;
@@ -86,12 +87,15 @@ class ImageManager extends TestCase {
 
 	public function testGetCachedImage() {
 		$folder = $this->setupCacheFolder();
+
+		$file = $this->createMock(ISimpleFile::class);
+
 		$folder->expects($this->once())
 			->method('getFile')
 			->with('filename')
-			->willReturn('filecontent');
-		$expected = 'filecontent';
-		$this->assertEquals($expected, $this->imageManager->getCachedImage('filename'));
+			->willReturn($file);
+
+		$this->assertEquals($file, $this->imageManager->getCachedImage('filename'));
 	}
 
 	/**
@@ -103,7 +107,7 @@ class ImageManager extends TestCase {
 			->method('getFile')
 			->with('filename')
 			->will($this->throwException(new \OCP\Files\NotFoundException()));
-		$image = $this->imageManager->getCachedImage('filename');
+		$this->imageManager->getCachedImage('filename');
 	}
 
 	public function testSetCachedImage() {
