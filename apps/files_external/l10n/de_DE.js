@@ -120,6 +120,14 @@ OC.L10N.register(
     "Advanced settings" : "Erweiterte Einstellungen",
     "Delete" : "Löschen",
     "Allow users to mount external storage" : "Benutzern erlauben, externen Speicher einzubinden",
-    "Allow users to mount the following external storage" : "Benutzern erlauben, den folgenden externen Speicher einzubinden:"
+    "Allow users to mount the following external storage" : "Benutzern erlauben, den folgenden externen Speicher einzubinden:",
+    "Fetching request tokens failed. Verify that your app key and secret are correct." : "Abrufen des Anfrage-Tokens fehlgeschlagen. Bitte sicherstellen, dass der Anwendungsschlüssel und Sicherheitsschlüssel korrekt sind.",
+    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Abrufen des Zugriff-Tokens fehlgeschlagen. Bitte sicherstellen, dass der Anwendungsschlüssel und Sicherheitsschlüssel korrekt sind.",
+    "Step 1 failed. Exception: %s" : "Schritt 1 fehlgeschlagen. Fehlermeldung: %s",
+    "Step 2 failed. Exception: %s" : "Schritt 2 fehlgeschlagen. Fehlermeldung: %s",
+    "Dropbox App Configuration" : "Dropbox-App Konfiguration",
+    "Google Drive App Configuration" : "Google Drive-App Konfiguration",
+    "Dropbox" : "Dropbox",
+    "Google Drive" : "Google Drive"
 },
 "nplurals=2; plural=(n != 1);");
