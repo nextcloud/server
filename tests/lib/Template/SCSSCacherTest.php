@@ -445,4 +445,25 @@ class SCSSCacherTest extends \Test\TestCase {
 		$this->rrmdir($tmpDir.$path);
 	}
 
+	public function testResetCache() {
+		$file = $this->createMock(ISimpleFile::class);
+		$file->expects($this->once())
+			->method('delete');
+
+		$folder = $this->createMock(ISimpleFolder::class);
+		$folder->expects($this->once())
+			->method('getDirectoryListing')
+			->willReturn([$file]);
+
+		$this->depsCache->expects($this->once())
+			->method('clear')
+			->with('');
+		$this->appData->expects($this->once())
+			->method('getDirectoryListing')
+			->willReturn([$folder]);
+
+		$this->scssCacher->resetCache();
+	}
+
+
 }
