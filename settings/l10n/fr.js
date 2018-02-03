@@ -394,13 +394,19 @@ OC.L10N.register(
     "Verifying" : "Vérification en cours",
     "Personal info" : "Informations personnelles",
     "Sync clients" : "Clients de synchronisation",
+    "If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwrite.cli.url\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" : "Si votre installation n'a pas été effectuée à la racine du domaine et qu'elle utilise le cron du système, il peut y avoir des problèmes avec la génération d'URL. Pour les éviter, veuillez configurer l'option \"overwrite.cli.url\" de votre fichier config.php avec le chemin de la racine de votre installation (suggéré : \"%s\")",
+    "It was not possible to execute the cronjob via CLI. The following technical errors have appeared:" : "La tâche cron n'a pu s'exécuter via CLI. Ces erreurs techniques sont apparues :",
+    "Please double check the <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%s\">log</a>." : "Merci de consulter les <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">guides d'installation ↗</a> et de vérifier les erreurs ou avertissements dans les <a href=\"%s\">journaux</a>.",
+    "To run this you need the PHP posix extension. See {linkstart}PHP documentation{linkend} for more details." : "Pour l'exécuter, vous devez avoir l'extension PHP posix. Regarder la {linkstart}documentation PHP{linkend} pour plus de détails.",
     "Desktop client" : "Client de bureau",
     "Android app" : "Application Android",
     "iOS app" : "Application iOS",
+    "Here you can generate individual passwords for apps so you don’t have to give out your password. You can revoke them individually too." : "Ici vous pouvez générer des mots de passe individuels pour les applications pour éviter de communiquer votre mot de passe. Vous pouvez aussi les révoquer individuellement.",
     "Follow us on Google+!" : "Suivez-nous sur Google+ !",
     "Like our facebook page!" : "Aimez notre page Facebook !",
     "Follow us on Twitter!" : "Suivez-nous sur Twitter !",
     "Check out our blog!" : "Découvrez notre blog !",
-    "Subscribe to our newsletter!" : "Abonnez-vous à notre newsletter!"
+    "Subscribe to our newsletter!" : "Abonnez-vous à notre newsletter!",
+    "Group name" : "Nom du groupe"
 },
 "nplurals=2; plural=(n > 1);");

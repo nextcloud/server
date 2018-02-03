@@ -109,6 +109,7 @@ OC.L10N.register(
     "Upload files to %s" : "ფაილების ატვირთვა %s-ში",
     "Select or drop files" : "აირჩიეთ ან გადმოიტანეთ ფაილები",
     "Uploading files…" : "ფაილების ატვირთვა...",
-    "Uploaded files:" : "ფაილების ატვირთვა:"
+    "Uploaded files:" : "ფაილების ატვირთვა:",
+    "%s is publicly shared" : "%s საზოგადოდ გაზიარებულია"
 },
 "nplurals=1; plural=0;");

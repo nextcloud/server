@@ -146,6 +146,10 @@ OC.L10N.register(
     "Tags" : "ტეგები",
     "Deleted files" : "გაუქმებული ფაილები",
     "Text file" : "ტექსტური ფაილი",
-    "New text file.txt" : "ახალი ტექსტი file.txt"
+    "New text file.txt" : "ახალი ტექსტი file.txt",
+    "Move" : "გადატანა",
+    "A new file or folder has been <strong>deleted</strong>" : "ახალი ფაილი ან დირექტორია <strong>გაუქმდა</strong>",
+    "A new file or folder has been <strong>restored</strong>" : "ახალი ფაილი ან დირექტორია <strong>აღდგენილ იქნა</strong>",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "გამოიყენეთ ეს მისამართი რომ <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">წვდომა იქოინოთ თქვენს ფაილებთან WebDAV-ით</a>"
 },
 "nplurals=1; plural=0;");

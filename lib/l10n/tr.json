@@ -225,6 +225,20 @@
     "Storage incomplete configuration. %s" : "Depolama yapılandırması tamamlanmamış. %s",
     "Storage connection error. %s" : "Depolama bağlantısı sorunu. %s",
     "Storage is temporarily not available" : "Depolama geçici olarak kullanılamıyor",
-    "Storage connection timeout. %s" : "Depolama bağlantısı zaman aşımı. %s"
+    "Storage connection timeout. %s" : "Depolama bağlantısı zaman aşımı. %s",
+    "Personal" : "Kişisel",
+    "Admin" : "Yönetici",
+    "DB Error: \"%s\"" : "Veritabanı Sorunu: \"%s\"",
+    "Offending command was: \"%s\"" : "Saldırgan komut: \"%s\"",
+    "Offending command was: \"%s\", name: %s, password: %s" : "Saldırgan komut: \"%s\", kullanıcı adı: %s, parola: %s",
+    "Setting permissions for %s failed, because the permissions exceed permissions granted to %s" : "%s için izinler ayarlanamadı. İzinler %s için verilmiş izin düzeyini aşıyor",
+    "Setting permissions for %s failed, because the item was not found" : "%s için izinler ayarlanamadı. Öge bulunamadı",
+    "Cannot clear expiration date. Shares are required to have an expiration date." : "Son kullanım tarihi temizlenemiyor. Paylaşımların bir son kullanma tarihi olmalıdır.",
+    "Cannot increase permissions of %s" : "%s izinleri yükseltilemiyor",
+    "Files can't be shared with delete permissions" : "Dosyalar silme izniyle paylaşılamaz",
+    "Files can't be shared with create permissions" : "Dosyalar oluşturma izniyle paylaşılamaz",
+    "Cannot set expiration date more than %s days in the future" : "Paylaşımların son kullanım süreleri, gelecekte %s günden fazla olamaz",
+    "No app name specified" : "Uygulama adı belirtilmemiş",
+    "App '%s' could not be installed!" : "'%s' uygulaması kurulamadı!"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }
