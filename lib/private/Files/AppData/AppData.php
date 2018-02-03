@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright 2016 Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -31,6 +32,7 @@ use OC\SystemConfig;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
+use OCP\Files\SimpleFS\ISimpleFolder;
 
 class AppData implements IAppData {
 
@@ -55,7 +57,7 @@ class AppData implements IAppData {
 	 */
 	public function __construct(IRootFolder $rootFolder,
 								SystemConfig $systemConfig,
-								$appId) {
+								string $appId) {
 
 		$this->rootFolder = $rootFolder;
 		$this->config = $systemConfig;
@@ -66,7 +68,7 @@ class AppData implements IAppData {
 	 * @return Folder
 	 * @throws \RuntimeException
 	 */
-	private function getAppDataFolder() {
+	private function getAppDataFolder(): Folder {
 		if ($this->folder === null) {
 			$instanceId = $this->config->getValue('instanceid', null);
 			if ($instanceId === null) {
@@ -101,20 +103,20 @@ class AppData implements IAppData {
 		return $this->folder;
 	}
 
-	public function getFolder($name) {
+	public function getFolder(string $name): ISimpleFolder {
 		$node = $this->getAppDataFolder()->get($name);
 
 		/** @var Folder $node */
 		return new SimpleFolder($node);
 	}
 
-	public function newFolder($name) {
+	public function newFolder(string $name): ISimpleFolder {
 		$folder = $this->getAppDataFolder()->newFolder($name);
 
 		return new SimpleFolder($folder);
 	}
 
-	public function getDirectoryListing() {
+	public function getDirectoryListing(): array {
 		$listing = $this->getAppDataFolder()->getDirectoryListing();
 
 		$fileListing = array_map(function(Node $folder) {

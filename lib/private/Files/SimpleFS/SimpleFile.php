@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright 2016 Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -45,7 +46,7 @@ class SimpleFile implements ISimpleFile  {
 	 *
 	 * @return string
 	 */
-	public function getName() {
+	public function getName(): string {
 		return $this->file->getName();
 	}
 
@@ -54,7 +55,7 @@ class SimpleFile implements ISimpleFile  {
 	 *
 	 * @return int
 	 */
-	public function getSize() {
+	public function getSize(): int {
 		return $this->file->getSize();
 	}
 
@@ -63,7 +64,7 @@ class SimpleFile implements ISimpleFile  {
 	 *
 	 * @return string
 	 */
-	public function getETag() {
+	public function getETag(): string {
 		return $this->file->getEtag();
 	}
 
@@ -72,7 +73,7 @@ class SimpleFile implements ISimpleFile  {
 	 *
 	 * @return int
 	 */
-	public function getMTime() {
+	public function getMTime(): int {
 		return $this->file->getMTime();
 	}
 
@@ -81,7 +82,7 @@ class SimpleFile implements ISimpleFile  {
 	 *
 	 * @return string
 	 */
-	public function getContent() {
+	public function getContent(): string {
 		return $this->file->getContent();
 	}
 
@@ -91,7 +92,7 @@ class SimpleFile implements ISimpleFile  {
 	 * @param string $data
 	 * @throws NotPermittedException
 	 */
-	public function putContent($data) {
+	public function putContent(string $data) {
 		$this->file->putContent($data);
 	}
 
@@ -109,7 +110,7 @@ class SimpleFile implements ISimpleFile  {
 	 *
 	 * @return string
 	 */
-	public function getMimeType() {
+	public function getMimeType(): string {
 		return $this->file->getMimeType();
 	}
 }

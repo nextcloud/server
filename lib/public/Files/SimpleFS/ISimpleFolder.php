@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016 Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -38,7 +39,7 @@ interface ISimpleFolder {
 	 * @return ISimpleFile[]
 	 * @since 11.0.0
 	 */
-	public function getDirectoryListing();
+	public function getDirectoryListing(): array;
 
 	/**
 	 * Check if a file with $name exists
@@ -47,7 +48,7 @@ interface ISimpleFolder {
 	 * @return bool
 	 * @since 11.0.0
 	 */
-	public function fileExists($name);
+	public function fileExists(string $name): bool;
 
 	/**
 	 * Get the file named $name from the folder
@@ -57,7 +58,7 @@ interface ISimpleFolder {
 	 * @throws NotFoundException
 	 * @since 11.0.0
 	 */
-	public function getFile($name);
+	public function getFile(string $name): ISimpleFile;
 
 	/**
 	 * Creates a new file with $name in the folder
@@ -67,7 +68,7 @@ interface ISimpleFolder {
 	 * @throws NotPermittedException
 	 * @since 11.0.0
 	 */
-	public function newFile($name);
+	public function newFile(string $name): ISimpleFile;
 
 	/**
 	 * Remove the folder and all the files in it
@@ -83,5 +84,5 @@ interface ISimpleFolder {
 	 * @return string
 	 * @since 11.0.0
 	 */
-	public function getName();
+	public function getName(): string;
 }
