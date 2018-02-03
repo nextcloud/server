@@ -27,9 +27,7 @@
 		'        <div class="author currentUser">{{actorDisplayName}}</div>' +
 		'{{#if isEditMode}}' +
 		'        <div class="action-container">' +
-		'            <a href="#" class="action delete icon icon-delete has-tooltip" title="{{deleteTooltip}}"></a>' +
 		'            <a href="#" class="action cancel icon icon-close has-tooltip" title="{{cancelText}}"></a>' +
-		'            <div class="deleteLoading icon-loading-small hidden"></div>'+
 		'        </div>' +
 		'{{/if}}' +
 		'    </div>' +
@@ -46,7 +44,8 @@
 		'        <div class="avatar{{#if isUserAuthor}} currentUser{{/if}}" {{#if actorId}}data-username="{{actorId}}"{{/if}}> </div>' +
 		'        <div class="author{{#if isUserAuthor}} currentUser{{/if}}">{{actorDisplayName}}</div>' +
 		'{{#if isUserAuthor}}' +
-		'        <a href="#" class="action edit icon icon-rename has-tooltip" title="{{editTooltip}}"></a>' +
+		'        <a href="#" class="action more icon icon-more has-tooltip"></a>' +
+		'        <div class="deleteLoading icon-loading-small hidden"></div>' +
 		'{{/if}}' +
 		'        <div class="date has-tooltip live-relative-timestamp" data-timestamp="{{timestamp}}" title="{{altDate}}">{{date}}</div>' +
 		'    </div>' +
@@ -64,12 +63,11 @@
 		id: 'commentsTabView',
 		className: 'tab commentsTabView',
 		_autoCompleteData: undefined,
+		_commentsModifyMenu: undefined,
 
 		events: {
 			'submit .newCommentForm': '_onSubmitComment',
 			'click .showMore': '_onClickShowMore',
-			'click .action.edit': '_onClickEditComment',
-			'click .action.delete': '_onClickDeleteComment',
 			'click .cancel': '_onClickCloseComment',
 			'click .comment': '_onClickComment',
 			'keyup div.message': '_onTextChange',
@@ -114,7 +112,6 @@
 				actorId: currentUser.uid,
 				actorDisplayName: currentUser.displayName,
 				newMessagePlaceholder: t('comments', 'New comment …'),
-				deleteTooltip: t('comments', 'Delete comment'),
 				submitText: t('comments', 'Post'),
 				cancelText: t('comments', 'Cancel'),
 				tag: 'li'
@@ -402,6 +399,24 @@
 				// it is the case when writing a comment and mentioning a person
 				$message = $el;
 			}
+
+
+			if (!editionMode) {
+				var self = this;
+				// add the dropdown menu to display the edit and delete option
+				var modifyCommentMenu = new OCA.Comments.CommentsModifyMenu();
+				$el.find('.authorRow').append(modifyCommentMenu.$el);
+				$el.find('.more').on('click', _.bind(modifyCommentMenu.show, modifyCommentMenu));
+
+				self.listenTo(modifyCommentMenu, 'select:menu-item-clicked', function(ev, action) {
+					if (action === 'edit') {
+						self._onClickEditComment(ev);
+					} else if (action === 'delete') {
+						self._onClickDeleteComment(ev);
+					}
+				});
+			}
+
 			this._postRenderMessage($message, editionMode);
 		},
 
@@ -568,15 +583,13 @@
 			var $comment = $(ev.target).closest('.comment');
 			var commentId = $comment.data('id');
 			var $loading = $comment.find('.deleteLoading');
-			var $commentField = $comment.find('.message');
-			var $submit = $comment.find('.submit');
-			var $cancel = $comment.find('.cancel');
+			var $moreIcon = $comment.find('.more');
 
-			$commentField.prop('contenteditable', false);
-			$submit.prop('disabled', true);
-			$cancel.prop('disabled', true);
 			$comment.addClass('disabled');
 			$loading.removeClass('hidden');
+			$moreIcon.addClass('hidden');
+
+			$comment.data('commentEl', $comment);
 
 			this.collection.get(commentId).destroy({
 				success: function() {
@@ -585,10 +598,8 @@
 				},
 				error: function() {
 					$loading.addClass('hidden');
+					$moreIcon.removeClass('hidden');
 					$comment.removeClass('disabled');
-					$commentField.prop('contenteditable', true);
-					$submit.prop('disabled', false);
-					$cancel.prop('disabled', false);
 
 					OC.Notification.showTemporary(t('comments', 'Error occurred while retrieving comment with ID {id}', {id: commentId}));
 				}

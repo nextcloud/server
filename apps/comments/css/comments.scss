@@ -49,10 +49,6 @@
 	opacity: 1;
 }
 
-#commentsTabView .newCommentForm .cancel {
-	margin-right: 6px;
-}
-
 #commentsTabView .newCommentForm div.message {
 	resize: none;
 }
@@ -182,8 +178,7 @@
 #commentsTabView .comment .action {
 	opacity: 0.3;
 	padding: 14px;
-	display: inline-block;
-	vertical-align: middle;
+	display: block;
 }
 
 #commentsTabView .comment .action:hover,
@@ -193,9 +188,6 @@
 
 #commentsTabView .newCommentRow .action-container {
 	margin-left: auto;
-	/** setting minimum width so as to avoid these two buttons from appearing on top of
-		each other when author name is long. width = icon-width * 2 + (inline-block gap) **/
-	min-width: 92px;
 }
 
 #commentsTabView .comment.disabled {
