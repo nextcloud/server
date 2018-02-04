@@ -5,6 +5,7 @@
  *
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Arne Hamann <contact+github@arne.email>
  *
  * This file is licensed under the Affero General Public License version 3 or
  * later.
@@ -23,6 +24,7 @@ use OCP\IUserSession;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OC\User\User;
+use OCP\Mail\IMessage;
 
 /**
  * @package Tests\Settings\Controller
@@ -130,7 +132,12 @@ class MailSettingsControllerTest extends \Test\TestCase {
 		$this->assertSame(Http::STATUS_OK, $response->getStatus());
 	}
 
-	public function testSendTestMail() {
+	/**
+	 * @dataProvider dataSendTestMail
+	 *
+	 * @param string $fingerprint
+	 */
+	public function testSendTestMail($fingerprint) {
 		$user = $this->createMock(User::class);
 		$user->expects($this->any())
 			->method('getUID')
@@ -154,21 +161,40 @@ class MailSettingsControllerTest extends \Test\TestCase {
 		$this->assertSame(Http::STATUS_BAD_REQUEST, $response->getStatus());
 		$this->assertSame('You need to set your user email before being able to send test emails.', $response->getData());
 
-		// If no exception is thrown it should work
+		// If no exception is thrown it should work and without fingerprints no encryption should be done
 		$this->config
-			->expects($this->any())
+			->expects($this->at(0))
 			->method('getUserValue')
+			->with('Werner','settings','email','')
 			->will($this->returnValue('mail@example.invalid'));
-		$this->mailer->expects($this->once())
-			->method('createMessage')
-			->willReturn($this->createMock(Message::class));
+		$this->config
+			->expects($this->at(1))
+			->method('getUserValue')
+			->with('Werner','settings','pubkey','')
+			->will($this->returnValue($fingerprint));
 		$emailTemplate = $this->createMock(IEMailTemplate::class);
 		$this->mailer
 			->expects($this->once())
 			->method('createEMailTemplate')
 			->willReturn($emailTemplate);
+		$message1 = $this->createMock(IMessage::class);
+		$message1->expects($this->once())
+			->method('setTo')
+			->with(['mail@example.invalid' => 'Werner Brösel'],[$fingerprint]);
+		$message1->expects($this->once())
+			->method('useTemplate');
+		$this->mailer->expects($this->once())
+			->method('createMessage')
+			->willReturn($message1);
 		$response = $this->mailController->sendTestMail();
 		$this->assertSame(Http::STATUS_OK, $response->getStatus(), $response->getData());
+	}
+
+	public function dataSendTestMail() {
+		return [
+			[''],
+			['abcdefghijklmnopqrstuvwxyz']
+		];
 	}
 
 }

@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Arne Hamann <kontakt+github@arne.email>
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Björn Schießle <bjoern@schiessle.org>
@@ -74,14 +75,18 @@ class User implements IUser {
 	/** @var IURLGenerator */
 	private $urlGenerator;
 
+	/** @var IGpg */
+	private $gpg;
+
 	/**
 	 * @param string $uid
 	 * @param UserInterface $backend
 	 * @param \OC\Hooks\Emitter $emitter
 	 * @param IConfig|null $config
 	 * @param IURLGenerator $urlGenerator
+	 * @param IGpg|null $gpg
 	 */
-	public function __construct($uid, $backend, $emitter = null, IConfig $config = null, $urlGenerator = null) {
+	public function __construct($uid, $backend, $emitter = null, IConfig $config = null, $urlGenerator = null, $gpg = null) {
 		$this->uid = $uid;
 		$this->backend = $backend;
 		$this->emitter = $emitter;
@@ -96,6 +101,12 @@ class User implements IUser {
 		if (is_null($this->urlGenerator)) {
 			$this->urlGenerator = \OC::$server->getURLGenerator();
 		}
+		//If it is a havy function it could be moved to the places where Gpg is needed
+		if (is_null($gpg)) {
+			$gpg = \OC::$server->getGpg();
+		}
+		$this->gpg = $gpg;
+
 	}
 
 	/**
@@ -171,6 +182,61 @@ class User implements IUser {
 		}
 	}
 
+	/**
+	 * set the default public Key of the user
+	 *
+	 * @param string|null $fingerprint
+	 * @return void
+	 */
+	public function setDefaultPublicKey($fingerprint){
+		if($fingerprint === '') {
+			$this->config->deleteUserValue($this->uid, 'settings', 'pubkey');
+		} else {
+			$gpg = $this->gpg;
+			$keys = $gpg->keyinfo($fingerprint);
+			if(!sizeof($keys)> 0) {
+				$key = $gpg->export($fingerprint,$this->uid);
+				$this->addDefaultPublicKey($key);
+			} else {
+				$this->config->setUserValue($this->uid, 'settings', 'pubkey', $fingerprint);
+			}
+		}
+	}
+
+	/**
+	 * @param $key
+	 * @return string
+	 * @throws \OCP\PreConditionNotMetException
+	 */
+	public function addPublicKey($key){
+		$gpg = $this->gpg;
+		$fingerprint = $gpg->import($key)['fingerprint'];
+		if ($fingerprint !== NULL) {
+			$fingerprints = json_decode($this->config->getUserValue($this->uid, 'settings', 'pubkeys'));
+			if (!in_array($fingerprint,$fingerprints)){
+				$fingerprints[] = $fingerprint;
+			}
+			foreach ($fingerprints as $i => $fingerprint) {
+				if ($fingerprint === '' ||
+					$fingerprint === NULL) {
+					array_splice($fingerprints,$i,1);
+				}
+			}
+			$fingerprints = json_encode($fingerprints);
+			$this->config->setUserValue($this->uid, 'settings', 'pubkeys', $fingerprints);
+		}
+		return $fingerprint;
+	}
+
+	/**
+	 * @param $key
+	 * @throws \OCP\PreConditionNotMetException
+	 */
+	public function addDefaultPublicKey($key) {
+		$fingerprint = $this->addPublicKey($key);
+		$fingerprint = $fingerprint ?? '';
+		$this->setDefaultPublicKey($fingerprint);
+	}
 	/**
 	 * returns the timestamp of the user's last login or 0 if the user did never
 	 * login
@@ -367,6 +433,43 @@ class User implements IUser {
 	 */
 	public function getEMailAddress() {
 		return $this->config->getUserValue($this->uid, 'settings', 'email', null);
+	}
+
+
+	/**
+	 * get the default public key fingerprint of the user. Defaults it returns only the fingerprint with $fingerprint = FALSE it returns the key.
+	 *
+	 *
+	 * @param bool $fingerprint = TRUE
+	 * @return array
+	 */
+	public function getPublicKeys($fingerprint = TRUE){
+		$keys = json_decode($this->config->getUserValue($this->uid, 'settings', 'pubkeys', null));
+		if ($fingerprint) {
+			return $keys;
+		} else {
+			$gpg = $this->gpg;
+			$export = array();
+			foreach ($keys as $key) {
+				$export[] = $gpg->export($key);
+			}
+			return $export;
+		}
+	}
+
+	/**
+	 * returns the default public key of the user. Defaults it returns only the fingerprint with $fingerprint = FALSE it returns the key.
+	 *
+	 * @param bool $fingerprint
+	 * @return string
+	 */
+	public function getDefaultPublicKey($fingerprint = TRUE){
+		if ($fingerprint) {
+			return $this->config->getUserValue($this->uid, 'settings', 'pubkey', null);
+		} else {
+			$gpg = $this->gpg;
+			return $gpg->export($this->config->getUserValue($this->uid, 'settings', 'pubkey', null));
+		}
 	}
 
 	/**

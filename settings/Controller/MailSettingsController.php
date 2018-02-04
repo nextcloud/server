@@ -143,6 +143,8 @@ class MailSettingsController extends Controller {
 	 */
 	public function sendTestMail() {
 		$email = $this->config->getUserValue($this->userSession->getUser()->getUID(), $this->appName, 'email', '');
+		$pubkey = $this->config->getUserValue($this->userSession->getUser()->getUID(), $this->appName, 'pubkey', '');
+
 		if (!empty($email)) {
 			try {
 				$displayName = $this->userSession->getUser()->getDisplayName();
@@ -158,7 +160,7 @@ class MailSettingsController extends Controller {
 				$template->addFooter();
 
 				$message = $this->mailer->createMessage();
-				$message->setTo([$email => $displayName]);
+				$message->setTo([$email => $displayName],[$pubkey]);
 				$message->useTemplate($template);
 				$errors = $this->mailer->send($message);
 				if (!empty($errors)) {

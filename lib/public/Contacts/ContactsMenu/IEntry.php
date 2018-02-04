@@ -43,6 +43,24 @@ interface IEntry extends JsonSerializable {
 	public function getEMailAddresses();
 
 	/**
+	 * @param string $key
+	 */
+	public function addPublicKey($key);
+
+	/**
+	 * @return string[]
+	 */
+	public function getPublicKeyFingerprints();
+
+	/**
+	 * Takes an Array of key fingerprints and returns an array of key info's like php_gnupg_keyinfo.
+	 *
+	 * @param $keys
+	 * @return array
+	 */
+	public function getPublicKeyInfo($keys);
+
+	/**
 	 * @since 12.0
 	 * @return string|null image URI
 	 */

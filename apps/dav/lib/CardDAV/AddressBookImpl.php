@@ -122,6 +122,31 @@ class AddressBookImpl implements IAddressBook {
 		}
 
 		foreach ($properties as $key => $value) {
+			if(strtolower($key) === 'key' ||
+				strtolower($key) === 'key;pgp;encoding=base64' ||
+				strtolower($key) === strtolower('KEY;TYPE=PGP;ENCODING=B') ||
+				strtolower($key) === strtolower('KEY:data:application/pgp-keys;base64') ||
+				strtolower($key) === strtolower('KEY;TYPE=PGP') ||
+				strtolower($key) === strtolower('KEY;PGP') ||
+				strtolower($key) === strtolower('KEY;MEDIATYPE=application/pgp-keys')) {
+					$gpg = \OC::$server->getGpg();
+					$logger = \OC::$server->getLogger();
+					$logger->debug("Public Key found in Contact");
+					$fingerprint = $gpg->import($value)['fingerprint'];
+					$logger->debug("Public Key found in Contact fingerprint ".$fingerprint." imported.");
+					$keyFingerprint = 'X-KEY-FINGERPRINT';
+					$vCard->$keyFingerprint = $vCard->createProperty('X-KEY-FINGERPRINT',$fingerprint);
+			}/*
+			if($key === 'KEY;TYPE=PGP' ||
+				$key === 'KEY;PGP' ||
+				$key === 'KEY;MEDIATYPE=application/pgp-keys'){
+					$gpg = \OC::$server->getGpg();
+					/*FIXME $keyValue = download($value)
+					$fingerprint = $gpg->import($keyValue)['fingerprint'];
+					$keyFingerprint = 'X-KEY-FINGERPRINT';
+					$vCard->$keyFingerprint = $vCard->createProperty('X-KEY-FINGERPRINT',$fingerprint);/
+
+			}*/
 			$vCard->$key = $vCard->createProperty($key, $value);
 		}
 
@@ -250,7 +275,7 @@ class AddressBookImpl implements IAddressBook {
 				}
 
 			// The following properties can be set multiple times
-			} else if (in_array($property->name, ['CLOUD', 'EMAIL', 'IMPP', 'TEL', 'URL'])) {
+			} else if (in_array($property->name, ['CLOUD', 'EMAIL', 'KEY', 'X-KEY-FINGERPRINT', 'IMPP', 'TEL', 'URL'])) {
 				if (!isset($result[$property->name])) {
 					$result[$property->name] = [];
 				}

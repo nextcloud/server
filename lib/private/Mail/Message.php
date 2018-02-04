@@ -6,6 +6,7 @@
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @copyright Copyright (c) 2017, Arne Hamann (<kontakt-github@arne.email>)
  *
  * @license AGPL-3.0
  *
@@ -36,245 +37,539 @@ use Swift_Message;
  * @package OC\Mail
  */
 class Message implements IMessage {
-	/** @var Swift_Message */
-	private $swiftMessage;
+    /** @var Swift_Message */
+    private $swiftMessage;
 
-	/**
-	 * @param Swift_Message $swiftMessage
-	 */
-	public function __construct(Swift_Message $swiftMessage) {
-		$this->swiftMessage = $swiftMessage;
-	}
+    /** @var array */
+    private $toFingerprints = array();
 
-	/**
-	 * @param IAttachment $attachment
-	 * @return $this
-	 * @since 13.0.0
-	 */
-	public function attach(IAttachment $attachment) {
-		/** @var Attachment $attachment */
-		$this->swiftMessage->attach($attachment->getSwiftAttachment());
-		return $this;
-	}
+    /** @var array */
+    private $ccFingerprints = array();
 
-	/**
-	 * SwiftMailer does currently not work with IDN domains, this function therefore converts the domains
-	 * FIXME: Remove this once SwiftMailer supports IDN
-	 *
-	 * @param array $addresses Array of mail addresses, key will get converted
-	 * @return array Converted addresses if `idn_to_ascii` exists
-	 */
-	protected function convertAddresses($addresses) {
-		if (!function_exists('idn_to_ascii')) {
-			return $addresses;
-		}
+    /** @var array */
+    private $bccFingerprints = array();
 
-		$convertedAddresses = array();
+    /** @var array */
+    private $fromFingerprints = array();
 
-		foreach($addresses as $email => $readableName) {
-			if(!is_numeric($email)) {
-				list($name, $domain) = explode('@', $email, 2);
-				$domain = idn_to_ascii($domain, 0, INTL_IDNA_VARIANT_UTS46);
-				$convertedAddresses[$name.'@'.$domain] = $readableName;
-			} else {
-				list($name, $domain) = explode('@', $readableName, 2);
-				$domain = idn_to_ascii($domain, 0, INTL_IDNA_VARIANT_UTS46);
-				$convertedAddresses[$email] = $name.'@'.$domain;
+    /** @var bool */
+    private $signed;
+
+    /** @var bool */
+    private $encrypted;
+
+    /**
+     * @param Swift_Message $swiftMessage
+     */
+    public function __construct(Swift_Message $swiftMessage) {
+        $this->swiftMessage = $swiftMessage;
+        $this->encrypted = FALSE;
+        $this->signed = FALSE;
+
+    }
+
+    /**
+     * @param IAttachment $attachment
+     * @return $this
+     * @since 13.0.0
+     */
+    public function attach(IAttachment $attachment) {
+        /** @var Attachment $attachment */
+        $this->swiftMessage->attach($attachment->getSwiftAttachment());
+        return $this;
+    }
+
+    /**
+     * SwiftMailer does currently not work with IDN domains, this function therefore converts the domains
+     * FIXME: Remove this once SwiftMailer supports IDN
+     *
+     * @param array $addresses Array of mail addresses, key will get converted
+     * @return array Converted addresses if `idn_to_ascii` exists
+     */
+    protected function convertAddresses($addresses) {
+        if (!function_exists('idn_to_ascii')) {
+            return $addresses;
+        }
+
+        $convertedAddresses = array();
+
+        foreach ($addresses as $email => $readableName) {
+            if (!is_numeric($email)) {
+                list($name, $domain) = explode('@', $email, 2);
+                $domain = idn_to_ascii($domain, 0, INTL_IDNA_VARIANT_UTS46);
+                $convertedAddresses[$name . '@' . $domain] = $readableName;
+            } else {
+                list($name, $domain) = explode('@', $readableName, 2);
+                $domain = idn_to_ascii($domain, 0, INTL_IDNA_VARIANT_UTS46);
+                $convertedAddresses[$email] = $name . '@' . $domain;
+            }
+        }
+
+        return $convertedAddresses;
+    }
+
+    /**
+     * Set the from address of this message.
+     *
+     * If no "From" address is used \OC\Mail\Mailer will use mail_from_address and mail_domain from config.php
+     *
+     * @param array $addresses Example: array('sender@domain.org', 'other@domain.org' => 'A name')
+     * @return $this
+     */
+    public function setFrom(array $addresses, array $fingerprints = []) {
+        $addresses = $this->convertAddresses($addresses);
+        $this->fromFingerprints = $fingerprints;
+        if (count($fingerprints) === 1 && count($addresses) === 1 ){
+        	$from = key($addresses);
+        	if (is_numeric($from)){
+        		$from = $addresses[$from];
 			}
+			$gpg = \OC::$server->getGpg();
+        	$keydataRaw = $gpg->export($fingerprints[0]);
+        	$keydata = str_replace('-----END PGP PUBLIC KEY BLOCK-----','',str_replace('-----BEGIN PGP PUBLIC KEY BLOCK-----', '', $keydataRaw));
+        	$keydata = trim($keydata);
+			$this->swiftMessage->getHeaders()->addParameterizedHeader('Autocrypt', '' ,['addr' => $from, 'prefer-encrypt' => 'mutual', 'keydata' => $keydata] );
+
+
+			$keyattach = \OC::$server->getMailer()->createAttachment($keydataRaw,"public.asc");
+			$this->attach($keyattach);
+        }
+        $this->swiftMessage->setFrom($addresses);
+        return $this;
+    }
+
+    /**
+     * Get the from address of this message.
+     *
+     * @return array
+     */
+    public function getFrom() {
+        return $this->swiftMessage->getFrom();
+    }
+
+    /**
+     * Get the from fingerprints of this message.
+     *
+     * @return array
+     */
+    public function getFromFingerprints() {
+        return $this->fromFingerprints;
+    }
+
+
+    /**
+     * Set the Reply-To address of this message
+     *
+     * @param array $addresses
+     * @return $this
+     */
+    public function setReplyTo(array $addresses) {
+        $addresses = $this->convertAddresses($addresses);
+
+        $this->swiftMessage->setReplyTo($addresses);
+        return $this;
+    }
+
+    /**
+     * Returns the Reply-To address of this message
+     *
+     * @return array
+     */
+    public function getReplyTo() {
+        return $this->swiftMessage->getReplyTo();
+    }
+
+    /**
+     * Set the to addresses of this message.
+     *
+     * @param array $recipients Example: array('recipient@domain.org', 'other@domain.org' => 'A name')
+     * @return $this
+     */
+    public function setTo(array $recipients, array $fingerprints = []) {
+        $recipients = $this->convertAddresses($recipients);
+
+        $this->swiftMessage->setTo($recipients);
+        $this->toFingerprints = $fingerprints;
+        return $this;
+    }
+
+    /**
+     * Get the to address of this message.
+     *
+     * @return array
+     */
+    public function getTo() {
+        return $this->swiftMessage->getTo();
+    }
+
+    /**
+     * Get the to Fingerprints of this message.
+     *
+     * @return array
+     */
+    public function getToFingerprints() {
+        return $this->toFingerprints;
+    }
+
+    /**
+     * Set the CC recipients of this message.
+     *
+     * @param array $recipients Example: array('recipient@domain.org', 'other@domain.org' => 'A name')
+     * @return $this
+     */
+    public function setCc(array $recipients, array $fingerprints = []) {
+        $recipients = $this->convertAddresses($recipients);
+
+        $this->swiftMessage->setCc($recipients);
+        $this->ccFingerprints = $fingerprints;
+        return $this;
+    }
+
+    /**
+     * Get the cc address of this message.
+     *
+     * @return array
+     */
+    public function getCc() {
+        return $this->swiftMessage->getCc();
+    }
+
+    /**
+     * Get the cc Fingerprints of this message.
+     *
+     * @return array
+     */
+    public function getCCFingerprints() {
+        return $this->ccFingerprints;
+    }
+
+    /**
+     * Set the BCC recipients of this message.
+     *
+     * @param array $recipients Example: array('recipient@domain.org', 'other@domain.org' => 'A name')
+     * @return $this
+     */
+    public function setBcc(array $recipients, array $fingerprints = []) {
+        $recipients = $this->convertAddresses($recipients);
+
+        $this->swiftMessage->setBcc($recipients);
+        $this->bccFingerprints = $fingerprints;
+        return $this;
+    }
+
+    /**
+     * Get the Bcc address of this message.
+     *
+     * @return array
+     */
+    public function getBcc() {
+        return $this->swiftMessage->getBcc();
+    }
+
+    /**
+     * Get the Bcc Fingerprints of this message.
+     *
+     * @return array
+     */
+    public function getBccFingerprints() {
+        return $this->bccFingerprints;
+    }
+
+    /**
+     * Set the subject of this message.
+     *
+     * @param $subject
+     * @return $this
+     */
+    public function setSubject($subject) {
+        $this->swiftMessage->setSubject($subject);
+        return $this;
+    }
+
+    /**
+     * Get the from subject of this message.
+     *
+     * @return string
+     */
+    public function getSubject() {
+        return $this->swiftMessage->getSubject();
+    }
+
+    /**
+     * Set the plain-text body of this message.
+     *
+     * @param string $body
+     * @return $this
+     */
+    public function setPlainBody($body) {
+        $this->swiftMessage->setBody($body);
+        return $this;
+    }
+
+    /**
+     * Get the plain body of this message.
+     *
+     * @return string
+     */
+    public function getPlainBody() {
+        return $this->swiftMessage->getBody();
+    }
+
+    /**
+     * Set the HTML body of this message. Consider also sending a plain-text body instead of only an HTML one.
+     *
+     * @param string $body
+     * @return $this
+     */
+    public function setHtmlBody($body) {
+        $this->swiftMessage->addPart($body, 'text/html');
+        return $this;
+    }
+
+
+    /**
+     * Get's the underlying SwiftMessage
+     *
+     * @return Swift_Message
+     */
+    public function getSwiftMessage() {
+        return $this->swiftMessage;
+    }
+
+    /**
+     * @param string $body
+     * @param string $contentType
+     * @return $this
+     */
+    public function setBody($body, $contentType) {
+        $this->swiftMessage->setBody($body, $contentType);
+        return $this;
+    }
+
+    /**
+     * @param IEMailTemplate $emailTemplate
+     * @return $this
+     */
+    public function useTemplate(IEMailTemplate $emailTemplate) {
+        $this->setSubject($emailTemplate->renderSubject());
+        $this->setPlainBody($emailTemplate->renderText());
+        $this->setHtmlBody($emailTemplate->renderHtml());
+        return $this;
+    }
+
+    private function messageContentToString($message) {
+		$originalMessage = clone $message;
+		$originalMessage->getHeaders()->remove('Message-ID');
+		$originalMessage->getHeaders()->remove('Date');
+		$originalMessage->getHeaders()->remove('Subject');
+		$originalMessage->getHeaders()->remove('MIME-Version');
+		$originalMessage->getHeaders()->remove('To');
+		$originalMessage->getHeaders()->remove('From');
+		$originalMessage->getHeaders()->remove('CC');
+		$originalMessage->getHeaders()->remove('Bcc');
+		$messageString = $originalMessage->toString();
+
+		$lines = preg_split('/(\r\n|\r|\n)/',trim($messageString));
+		$lines_count = count($lines);
+		for ($i=0; $i < $lines_count; $i++) {
+			$lines[$i] = rtrim($lines[$i])."\r\n";
 		}
+		// Remove excess trailing newlines (RFC3156 section 5.4)
+		return rtrim(implode('',$lines))."\r\n";
 
-		return $convertedAddresses;
 	}
 
-	/**
-	 * Set the from address of this message.
-	 *
-	 * If no "From" address is used \OC\Mail\Mailer will use mail_from_address and mail_domain from config.php
-	 *
-	 * @param array $addresses Example: array('sender@domain.org', 'other@domain.org' => 'A name')
-	 * @return $this
-	 */
-	public function setFrom(array $addresses) {
-		$addresses = $this->convertAddresses($addresses);
+    /**
+     * GPG sign the Message
+     *
+     * @return $this
+     */
+    public function sign() {
+        if ($this->signed) {
+            return $this;
+        }
+        if ($this->encrypted) {
+            /* encrypted Messages cannot be signed*/
+            return $this;
+        }
+        $sign_fingerprints = $this->getFromFingerprints();
+        $gpg = \OC::$server->getGpg();
 
-		$this->swiftMessage->setFrom($addresses);
-		return $this;
-	}
 
-	/**
-	 * Get the from address of this message.
-	 *
-	 * @return array
-	 */
-	public function getFrom() {
-		return $this->swiftMessage->getFrom();
-	}
+		$signedBody = $this->messageContentToString($this->swiftMessage);
+		$signature = $gpg->sign($sign_fingerprints,$signedBody);
 
-	/**
-	 * Set the Reply-To address of this message
-	 *
-	 * @param array $addresses
-	 * @return $this
-	 */
-	public function setReplyTo(array $addresses) {
-		$addresses = $this->convertAddresses($addresses);
+        $this->swiftMessage->setEncoder(new \Swift_Mime_ContentEncoder_RawContentEncoder);
+        $this->swiftMessage->setChildren(array());
+		$this->swiftMessage->setBoundary('_=_swift_v4_'.time().'_'.md5(getmypid().mt_rand().uniqid('', true)).'_=_');
 
-		$this->swiftMessage->setReplyTo($addresses);
-		return $this;
-	}
+		$this->swiftMessage->getHeaders()->get('Content-Type')->setValue('multipart/signed');
+        $this->swiftMessage->getHeaders()->get('Content-Type')->setParameters(array(
+            'micalg' => "pgp-sha256",
+            'protocol' => 'application/pgp-signature',
+            'boundary' => $this->swiftMessage->getBoundary(),
+        ));
 
-	/**
-	 * Returns the Reply-To address of this message
-	 *
-	 * @return array
-	 */
-	public function getReplyTo() {
-		return $this->swiftMessage->getReplyTo();
-	}
+        //Swiftmailer is automatically changing content type and this is the hack to prevent it
+        $body = <<<EOT
 
-	/**
-	 * Set the to addresses of this message.
-	 *
-	 * @param array $recipients Example: array('recipient@domain.org', 'other@domain.org' => 'A name')
-	 * @return $this
-	 */
-	public function setTo(array $recipients) {
-		$recipients = $this->convertAddresses($recipients);
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
 
-		$this->swiftMessage->setTo($recipients);
-		return $this;
-	}
+--{$this->swiftMessage->getBoundary()}
+$signedBody
+--{$this->swiftMessage->getBoundary()}
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
-	/**
-	 * Get the to address of this message.
-	 *
-	 * @return array
-	 */
-	public function getTo() {
-		return $this->swiftMessage->getTo();
-	}
+$signature
 
-	/**
-	 * Set the CC recipients of this message.
-	 *
-	 * @param array $recipients Example: array('recipient@domain.org', 'other@domain.org' => 'A name')
-	 * @return $this
-	 */
-	public function setCc(array $recipients) {
-		$recipients = $this->convertAddresses($recipients);
+--{$this->swiftMessage->getBoundary()}--
+EOT;
+        $this->swiftMessage->setBody($body);
+		$this->swiftMessage->getHeaders()->removeAll('Content-Transfer-Encoding');
 
-		$this->swiftMessage->setCc($recipients);
-		return $this;
-	}
+        $this->signed = TRUE;
+        return $this;
+    }
 
-	/**
-	 * Get the cc address of this message.
-	 *
-	 * @return array
-	 */
-	public function getCc() {
-		return $this->swiftMessage->getCc();
-	}
+    /**
+     * GPG encrypt the Message
+     *
+     * @return $this
+     */
+    public function encrypt() {
+        if ($this->signed) {
+            return $this;
+        }
+        if ($this->encrypted) {
+            /* encrypted Messages cannot be signed*/
+            return $this;
+        }
+        $gpg = \OC::$server->getGpg();
+        $encrypt_fingerprints = $this->getToFingerprints() + $this->getCCFingerprints() + $this->getBccFingerprints();
 
-	/**
-	 * Set the BCC recipients of this message.
-	 *
-	 * @param array $recipients Example: array('recipient@domain.org', 'other@domain.org' => 'A name')
-	 * @return $this
-	 */
-	public function setBcc(array $recipients) {
-		$recipients = $this->convertAddresses($recipients);
 
-		$this->swiftMessage->setBcc($recipients);
-		return $this;
-	}
+		$encryptedBody = $this->messageContentToString($this->swiftMessage);
+		$encryptedBody = $gpg->encrypt($encrypt_fingerprints,$encryptedBody);
 
-	/**
-	 * Get the Bcc address of this message.
-	 *
-	 * @return array
-	 */
-	public function getBcc() {
-		return $this->swiftMessage->getBcc();
-	}
+		$this->swiftMessage->setChildren(array());
+		$this->swiftMessage->setBoundary('_=_swift_v4_'.time().'_'.md5(getmypid().mt_rand().uniqid('', true)).'_=_');
 
-	/**
-	 * Set the subject of this message.
-	 *
-	 * @param $subject
-	 * @return $this
-	 */
-	public function setSubject($subject) {
-		$this->swiftMessage->setSubject($subject);
-		return $this;
-	}
+		$this->swiftMessage->setEncoder(new \Swift_Mime_ContentEncoder_RawContentEncoder);
+        $this->swiftMessage->getHeaders()->get('Content-Type')->setValue('multipart/encrypted');
+        $this->swiftMessage->getHeaders()->get('Content-Type')->setParameters(array(
+            'protocol' => 'application/pgp-encrypted',
+            'boundary' => $this->swiftMessage->getBoundary(),
+        ));
 
-	/**
-	 * Get the from subject of this message.
-	 *
-	 * @return string
-	 */
-	public function getSubject() {
-		return $this->swiftMessage->getSubject();
-	}
 
-	/**
-	 * Set the plain-text body of this message.
-	 *
-	 * @param string $body
-	 * @return $this
-	 */
-	public function setPlainBody($body) {
-		$this->swiftMessage->setBody($body);
-		return $this;
-	}
+        $body = <<<EOT
+This is an OpenPGP/MIME encrypted message (RFC 4880 and 3156)
+--{$this->swiftMessage->getBoundary()}
+Content-Type: application/pgp-encrypted
+Content-Description: PGP/MIME version identification
 
-	/**
-	 * Get the plain body of this message.
-	 *
-	 * @return string
-	 */
-	public function getPlainBody() {
-		return $this->swiftMessage->getBody();
-	}
+Version: 1
 
-	/**
-	 * Set the HTML body of this message. Consider also sending a plain-text body instead of only an HTML one.
-	 *
-	 * @param string $body
-	 * @return $this
-	 */
-	public function setHtmlBody($body) {
-		$this->swiftMessage->addPart($body, 'text/html');
-		return $this;
-	}
+--{$this->swiftMessage->getBoundary()}
+Content-Type: application/octet-stream; name="encrypted.asc"
+Content-Description: OpenPGP encrypted message
+Content-ID: <0>
+Content-Disposition: inline; filename="encrypted.asc"
 
-	/**
-	 * Get's the underlying SwiftMessage
-	 * @return Swift_Message
-	 */
-	public function getSwiftMessage() {
-		return $this->swiftMessage;
-	}
+$encryptedBody
 
-	/**
-	 * @param string $body
-	 * @param string $contentType
-	 * @return $this
-	 */
-	public function setBody($body, $contentType) {
-		$this->swiftMessage->setBody($body, $contentType);
-		return $this;
-	}
+--{$this->swiftMessage->getBoundary()}--
+EOT;
+        $this->swiftMessage->setBody($body);
+        $this->swiftMessage->getHeaders()->removeAll('Content-Transfer-Encoding');
+        $this->encrypted = TRUE;
+        return $this;
+    }
 
-	/**
-	 * @param IEMailTemplate $emailTemplate
-	 * @return $this
-	 */
-	public function useTemplate(IEMailTemplate $emailTemplate) {
-		$this->setSubject($emailTemplate->renderSubject());
-		$this->setPlainBody($emailTemplate->renderText());
-		$this->setHtmlBody($emailTemplate->renderHtml());
-		return $this;
-	}
+    /**
+     * GPG encrypt and sign the Message
+     *
+     * @return $this
+     */
+    public function encryptsign() {
+        if ($this->signed) {
+            return $this;
+        }
+        if ($this->encrypted) {
+            /* encrypted Messages cannot be signed*/
+            return $this;
+        }
+        $gpg = \OC::$server->getGpg();
+        $sign_fingerprints = $this->getFromFingerprints();
+        $encrypt_fingerprints = $this->getToFingerprints() + $this->getCCFingerprints() + $this->getBccFingerprints();
+
+		$signedBody = $this->messageContentToString($this->swiftMessage);
+		$signature = $gpg->sign($sign_fingerprints,$signedBody);
+
+        $this->swiftMessage->setEncoder(new \Swift_Mime_ContentEncoder_RawContentEncoder);
+        $this->swiftMessage->setChildren(array());
+		$this->swiftMessage->setBoundary('_=_swift_v4_'.time().'_'.md5(getmypid().mt_rand().uniqid('', true)).'_=_');
+		$this->swiftMessage->getHeaders()->get('Content-Type')->setValue('multipart/signed');
+        $this->swiftMessage->getHeaders()->get('Content-Type')->setParameters(array(
+            'micalg' => "pgp-sha256",
+            'protocol' => 'application/pgp-signature',
+            'boundary' => $this->swiftMessage->getBoundary(),
+        ));
+
+
+
+        //Swiftmailer is automatically changing content type and this is the hack to prevent it
+        $body = <<<EOT
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--{$this->swiftMessage->getBoundary()}
+$signedBody
+--{$this->swiftMessage->getBoundary()}
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+$signature
+
+--{$this->swiftMessage->getBoundary()}--
+EOT;
+
+
+        $this->swiftMessage->getHeaders()->removeAll('Content-Transfer-Encoding');
+
+        $this->signed = TRUE;
+        $signed = sprintf("%s%s",$this->swiftMessage->getHeaders()->get('Content-Type')->toString(),$body);
+        $encryptedBody = $gpg->encrypt($encrypt_fingerprints,$signed);
+
+        $this->swiftMessage->getHeaders()->get('Content-Type')->setValue('multipart/encrypted');
+        $this->swiftMessage->getHeaders()->get('Content-Type')->setParameters(array(
+            'protocol' => 'application/pgp-encrypted',
+            'boundary' => $this->swiftMessage->getBoundary()
+        ));
+
+        $body = <<<EOT
+This is an OpenPGP/MIME encrypted message (RFC 4880 and 3156)
+--{$this->swiftMessage->getBoundary()}
+Content-Type: application/pgp-encrypted
+Content-Description: PGP/MIME version identification
+
+Version: 1
+
+--{$this->swiftMessage->getBoundary()}
+Content-Type: application/octet-stream; name="encrypted.asc"
+Content-Description: OpenPGP encrypted message
+Content-ID: <0>
+Content-Disposition: inline; filename="encrypted.asc"
+
+$encryptedBody
+
+--{$this->swiftMessage->getBoundary()}--
+EOT;
+        $this->swiftMessage->setBody($body);
+        $this->swiftMessage->getHeaders()->removeAll('Content-Transfer-Encoding');
+        $this->encrypted = TRUE;
+        return $this;
+    }
 }

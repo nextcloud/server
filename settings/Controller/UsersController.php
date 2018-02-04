@@ -54,6 +54,7 @@ use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\ILogger;
+use OCP\IGpg;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUser;
@@ -737,6 +738,8 @@ class UsersController extends Controller {
 	 * @param string $displaynameScope
 	 * @param string $phone
 	 * @param string $phoneScope
+	 * @param string $pubkey
+	 * @param string $pubkeyScope
 	 * @param string $email
 	 * @param string $emailScope
 	 * @param string $website
@@ -754,6 +757,8 @@ class UsersController extends Controller {
 									$phoneScope,
 									$email,
 									$emailScope,
+									$pubkey,
+									$pubkeyScope,
 									$website,
 									$websiteScope,
 									$address,
@@ -782,6 +787,11 @@ class UsersController extends Controller {
 		if ($this->config->getSystemValue('allow_user_to_change_display_name', true) !== false) {
 			$data[AccountManager::PROPERTY_DISPLAYNAME] = ['value' => $displayname, 'scope' => $displaynameScope];
 			$data[AccountManager::PROPERTY_EMAIL] = ['value' => $email, 'scope' => $emailScope];
+			$data[AccountManager::PROPERTY_PUBLICKEY] = ['value' => $pubkey,'scope' => $pubkeyScope ];
+			$pubkeys = $user->getPublicKeys();
+			$pubkeys[] = $pubkey;
+			$pubkeys = json_encode($pubkeys);
+			$data[AccountManager::PROPERTY_PUBLICKEYS] = ['value' => $pubkeys,'scope' => $pubkeyScope ];
 		}
 
 		if ($this->appManager->isEnabledForUser('federatedfilesharing')) {
@@ -805,8 +815,11 @@ class UsersController extends Controller {
 						'avatarScope' => $data[AccountManager::PROPERTY_AVATAR]['scope'],
 						'displayname' => $data[AccountManager::PROPERTY_DISPLAYNAME]['value'],
 						'displaynameScope' => $data[AccountManager::PROPERTY_DISPLAYNAME]['scope'],
-						'email' => $data[AccountManager::PROPERTY_EMAIL]['value'],
 						'emailScope' => $data[AccountManager::PROPERTY_EMAIL]['scope'],
+						'pubkey' => $user->getDefaultPublicKey($fingerprint = FALSE),
+						'pubkeyScope' => $data[AccountManager::PROPERTY_PUBLICKEY]['scope'],
+						'pubkeys' => json_decode($data[AccountManager::PROPERTY_PUBLICKEYS]['value']),
+						'pubkeysScope' => $data[AccountManager::PROPERTY_PUBLICKEYS]['scope'],
 						'website' => $data[AccountManager::PROPERTY_WEBSITE]['value'],
 						'websiteScope' => $data[AccountManager::PROPERTY_WEBSITE]['scope'],
 						'address' => $data[AccountManager::PROPERTY_ADDRESS]['value'],
@@ -861,6 +874,14 @@ class UsersController extends Controller {
 				throw new ForbiddenException($this->l10n->t('Unable to change email address'));
 			}
 			$user->setEMailAddress($data[AccountManager::PROPERTY_EMAIL]['value']);
+		}
+
+		if (isset($data[AccountManager::PROPERTY_PUBLICKEY]['value'])){
+			if (!$user->canChangeDisplayName()) {
+				throw new ForbiddenException($this->l10n->t('Unable to change public key  address'));
+			}
+			$user->addDefaultPublicKey($data[AccountManager::PROPERTY_PUBLICKEY]['value']);
+			$data[AccountManager::PROPERTY_PUBLICKEY]['value'] = $user->getDefaultPublicKey();
 		}
 
 		$this->accountManager->updateUser($user, $data);

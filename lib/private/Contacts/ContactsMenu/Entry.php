@@ -37,6 +37,9 @@ class Entry implements IEntry {
 	/** @var string[] */
 	private $emailAddresses = [];
 
+	/** @var string[] */
+	private $publicKeys = [];
+
 	/** @var string|null */
 	private $avatar;
 
@@ -75,10 +78,40 @@ class Entry implements IEntry {
 	}
 
 	/**
-	 * @return string
+	 * @return string[]
 	 */
 	public function getEMailAddresses() {
 		return $this->emailAddresses;
+	}
+
+	/**
+	 * @param string $key
+	 */
+	public function addPublicKey($key) {
+		$gpg = \OC::$server->getGpg();
+		$this->publicKeys[] = $gpg->import($key)['fingerprint'];
+	}
+
+	/**
+	 * @return string[]
+	 */
+	public function getPublicKeyFingerprints() {
+		return $this->publicKeys;
+	}
+
+	/**
+	 * Takes an Array of key fingerprints and returns an array of key info's like php_gnupg_keyinfo.
+	 *
+	 * @param $keys
+	 * @return array
+	 */
+	public function getPublicKeyInfo($keys) {
+		$gpg = \OC::$server->getGpg();
+		$keyInfo = array();
+		foreach ($keys as $key) {
+			$keyInfo[] = $gpg->keyinfo($key);
+		}
+		return $keyInfo;
 	}
 
 	/**
@@ -89,7 +122,7 @@ class Entry implements IEntry {
 	}
 
 	/**
-	 * @return string
+	 * @return string,
 	 */
 	public function getAvatar() {
 		return $this->avatar;

@@ -75,7 +75,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	/** @var array properties to index */
 	public static $indexProperties = array(
 			'BDAY', 'UID', 'N', 'FN', 'TITLE', 'ROLE', 'NOTE', 'NICKNAME',
-			'ORG', 'CATEGORIES', 'EMAIL', 'TEL', 'IMPP', 'ADR', 'URL', 'GEO', 'CLOUD');
+			'ORG', 'CATEGORIES', 'EMAIL', 'TEL', 'IMPP', 'ADR', 'URL', 'GEO', 'CLOUD', 'X-KEY-FINGERPRINT');
 
 	/**
 	 * @var string[] Map of uid => display name
@@ -623,8 +623,9 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			])
 			->execute();
 
+
+		$cardData = $this->updateProperties($addressBookId, $cardUri, $cardData);
 		$this->addChange($addressBookId, $cardUri, 1);
-		$this->updateProperties($addressBookId, $cardUri, $cardData);
 
 		$this->dispatcher->dispatch('\OCA\DAV\CardDAV\CardDavBackend::createCard',
 			new GenericEvent(null, [
@@ -663,6 +664,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	function updateCard($addressBookId, $cardUri, $cardData) {
 
 		$etag = md5($cardData);
+		$cardData = $this->updateProperties($addressBookId, $cardUri, $cardData);
 		$query = $this->db->getQueryBuilder();
 		$query->update('cards')
 			->set('carddata', $query->createNamedParameter($cardData, IQueryBuilder::PARAM_LOB))
@@ -674,7 +676,6 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			->execute();
 
 		$this->addChange($addressBookId, $cardUri, 2);
-		$this->updateProperties($addressBookId, $cardUri, $cardData);
 
 		$this->dispatcher->dispatch('\OCA\DAV\CardDAV\CardDavBackend::updateCard',
 			new GenericEvent(null, [
@@ -1026,9 +1027,10 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			);
 
 		foreach ($vCard->children() as $property) {
-			if(!in_array($property->name, self::$indexProperties)) {
+			if(!in_array($property->name, self::$indexProperties) && strtolower($property->name) !== 'key') {
 				continue;
 			}
+
 			$preferred = 0;
 			foreach($property->parameters as $parameter) {
 				if ($parameter->name === 'TYPE' && strtoupper($parameter->getValue()) === 'PREF') {
@@ -1036,11 +1038,50 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 					break;
 				}
 			}
+
+			if(strtolower($property->name) === 'key') {
+				/*FIXME check if URL or DATA is provided TYPE=GPG and ENCODING=B for DATA*/
+				$gpg = \OC::$server->getGpg();
+				$gpgremoteprotocols = ['http://','https://','ftp://','ftps://'];
+				$value = $property->getValue();
+				$local = true;
+				foreach ($gpgremoteprotocols as $protocol) {
+					if(strtolower(substr($value,0,strlen($protocol))) === $protocol) {
+						$local = false;
+						break;
+					}
+				}
+				if(!$local){
+					$keydata = file_get_contents($property->getValue(),$maxlen = 35000000);
+					$keystart = strpos($keydata,"-----BEGIN PGP PUBLIC KEY BLOCK-----");
+					$keyend = strpos($keydata, "-----END PGP PUBLIC KEY BLOCK-----");
+					if ($keystart !== FALSE && $keyend !== FALSE) {
+						$keydata = substr($keydata,$keystart ,($keyend - $keystart + 34));
+					}
+				} else {
+					$keydata = $value;
+				}
+				$fingerprint = $gpg->import($keydata)['fingerprint'];
+				/*//FIXME Get all useres how can read this Card and import the gpg key
+				foreach ($this->userDisplayNames as $uid => $name) {
+					$gpg->import($property->getValue(), $uid);
+				}*/
+
+				$keyFingerprintProperty = 'X-KEY-FINGERPRINT';
+				$vCard->$keyFingerprintProperty = $vCard->createProperty($keyFingerprintProperty,$fingerprint);
+
+				$query->setParameter('name', 'X-KEY-FINGERPRINT');
+				$query->setParameter('value', substr($fingerprint, 0, 254));
+				$query->setParameter('preferred', $preferred);
+				$query->execute();
+				continue;
+			}
 			$query->setParameter('name', $property->name);
 			$query->setParameter('value', substr($property->getValue(), 0, 254));
 			$query->setParameter('preferred', $preferred);
 			$query->execute();
 		}
+		return $vCard->serialize();
 	}
 
 	/**
