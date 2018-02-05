@@ -473,7 +473,7 @@ class Setup {
 			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/robots.txt";
 			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/updater/";
 			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/ocs-provider/";
-			$content .= "\n  RewriteCond %{REQUEST_URI} !^/.well-known/acme-challenge/.*";
+			$content .= "\n  RewriteCond %{REQUEST_URI} !^/.well-known/(acme-challenge|pki-validation)/.*";
 			$content .= "\n  RewriteRule . index.php [PT,E=PATH_INFO:$1]";
 			$content .= "\n  RewriteBase " . $rewriteBase;
 			$content .= "\n  <IfModule mod_env.c>";
