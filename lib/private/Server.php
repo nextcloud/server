@@ -112,6 +112,7 @@ use OC\Share20\ProviderFactory;
 use OC\Share20\ShareHelper;
 use OC\SystemTag\ManagerFactory as SystemTagManagerFactory;
 use OC\Tagging\TagMapper;
+use OC\Template\JSCombiner;
 use OC\Template\SCSSCacher;
 use OCA\Theming\ThemingDefaults;
 
@@ -965,6 +966,17 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getThemingDefaults(),
 				\OC::$SERVERROOT,
 				$cacheFactory->createDistributed('SCSS')
+			);
+		});
+		$this->registerService(JSCombiner::class, function (Server $c) {
+			/** @var Factory $cacheFactory */
+			$cacheFactory = $c->query(Factory::class);
+			return new JSCombiner(
+				$c->getAppDataDir('js'),
+				$c->getURLGenerator(),
+				$cacheFactory->createDistributed('JS'),
+				$c->getSystemConfig(),
+				$c->getLogger()
 			);
 		});
 		$this->registerService(EventDispatcher::class, function () {

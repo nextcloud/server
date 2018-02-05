@@ -832,6 +832,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Repair' => __DIR__ . '/../../..' . '/lib/private/Repair.php',
         'OC\\RepairException' => __DIR__ . '/../../..' . '/lib/private/RepairException.php',
         'OC\\Repair\\CleanTags' => __DIR__ . '/../../..' . '/lib/private/Repair/CleanTags.php',
+        'OC\\Repair\\ClearFrontendCaches' => __DIR__ . '/../../..' . '/lib/private/Repair/ClearFrontendCaches.php',
         'OC\\Repair\\Collation' => __DIR__ . '/../../..' . '/lib/private/Repair/Collation.php',
         'OC\\Repair\\MoveUpdaterStepFile' => __DIR__ . '/../../..' . '/lib/private/Repair/MoveUpdaterStepFile.php',
         'OC\\Repair\\NC11\\FixMountStorages' => __DIR__ . '/../../..' . '/lib/private/Repair/NC11/FixMountStorages.php',
