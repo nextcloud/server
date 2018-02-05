@@ -2,6 +2,7 @@
 
 /**
  * Copyright (c) 2013 Robin Appelman <icewind@owncloud.com>
+ * @copyright Copyright (c) 2017, Arne Hamann <kontakt+github@arne.email>
  * This file is licensed under the Affero General Public License version 3 or
  * later.
  * See the COPYING-README file.
@@ -13,6 +14,7 @@ use OC\Hooks\PublicEmitter;
 use OC\User\User;
 use OCP\Comments\ICommentsManager;
 use OCP\IConfig;
+use OCP\IGpg;
 use OCP\IUser;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\Notification\INotification;
@@ -42,7 +44,9 @@ class UserTest extends TestCase {
 			->with($this->equalTo(\OC\User\Backend::GET_DISPLAYNAME))
 			->will($this->returnValue(true));
 
-		$user = new User('foo', $backend);
+		$gpg = $this->createMock(IGpg::class);
+
+		$user = new User('foo', $backend, null, null, $gpg);
 		$this->assertEquals('Foo', $user->getDisplayName());
 	}
 
@@ -64,7 +68,9 @@ class UserTest extends TestCase {
 			->with($this->equalTo(\OC\User\Backend::GET_DISPLAYNAME))
 			->will($this->returnValue(true));
 
-		$user = new User('foo', $backend);
+		$gpg = $this->createMock(IGpg::class);
+
+		$user = new User('foo', $backend, null, null, $gpg);
 		$this->assertEquals('foo', $user->getDisplayName());
 	}
 
@@ -287,7 +293,9 @@ class UserTest extends TestCase {
 			->with($this->equalTo('datadirectory'))
 			->will($this->returnValue('arbitrary/path'));
 
-		$user = new User('foo', $backend, null, $allConfig);
+		$gpg = $this->createMock(IGpg::class);
+
+		$user = new User('foo', $backend, null, $allConfig, $gpg);
 		$this->assertEquals('arbitrary/path/foo', $user->getHome());
 	}
 
@@ -462,7 +470,9 @@ class UserTest extends TestCase {
 				}
 			}));
 
-		$user = new User('foo', $backend, $emitter);
+		$gpg = $this->createMock(IGpg::class);
+
+		$user = new User('foo', $backend, $emitter, null, $gpg);
 
 		$user->setPassword('bar','');
 		$this->assertEquals(2, $hooksCalled);
@@ -492,7 +502,10 @@ class UserTest extends TestCase {
 			->method('deleteUser')
 			->willReturn($result);
 		$emitter = new PublicEmitter();
-		$user = new User('foo', $backend, $emitter);
+
+		$gpg = $this->createMock(IGpg::class);
+
+		$user = new User('foo', $backend, $emitter, null, $gpg);
 
 		/**
 		 * @param User $user
@@ -573,7 +586,9 @@ class UserTest extends TestCase {
 				->method('getAbsoluteURL')
 				->withAnyParameters()
 				->willReturn('http://localhost:8888/owncloud');
-		$user = new User('foo', $backend, null, null, $urlGenerator);
+		$gpg = $this->createMock(IGpg::class);
+
+		$user = new User('foo', $backend, null, null, $urlGenerator, $gpg);
 		$this->assertEquals('foo@localhost:8888/owncloud', $user->getCloudId());
 	}
 
@@ -673,9 +688,185 @@ class UserTest extends TestCase {
 				'email',
 				'foo@bar.com'
 			);
+		$gpg = $this->createMock(IGpg::class);
 
-		$user = new User('foo', $backend, $emitter, $config);
+		$user = new User('foo', $backend, $emitter, $config, null, $gpg);
 		$user->setEMailAddress('foo@bar.com');
+	}
+
+	public function testSetDefaultPublicKeyExistingInServerGpg(){
+		$gpg = $this->createMock(IGpg::class);
+		$gpg->expects($this->any())
+			->method("keyinfo")
+			->willReturn(['KEY_INFO_ARRAY']);
+
+		$backend = $this->createMock(\Test\Util\User\Dummy::class);
+		$config = $this->createMock(IConfig::class);
+		$config->expects($this->once())
+			->method("setUserValue")
+			->with('foo', 'settings', 'pubkey', "abcdefghijklmnop");
+
+
+		$user = new User('foo', $backend, null, $config, null, $gpg);
+		$user->setDefaultPublicKey("abcdefghijklmnop");
+	}
+
+	public function testSetDefaultPublicKeyEmpty(){
+		$gpg = $this->createMock(IGpg::class);
+
+		$backend = $this->createMock(\Test\Util\User\Dummy::class);
+		$config = $this->createMock(IConfig::class);
+		$config->expects($this->once())
+			->method("deleteUserValue")
+			->with('foo', 'settings', 'pubkey');
+
+		$user = new User('foo', $backend, null, $config, null, $gpg);
+		$user->setDefaultPublicKey("");
+	}
+
+	public function testSetDefaultPublicKeyNotInServerGpg(){
+		$gpg = $this->createMock(IGpg::class);
+		$gpg->expects($this->at(0))
+			->method("keyinfo")
+			->willReturn([]);
+		$gpg->expects($this->at(1))
+			->method("export")
+			->with($this->identicalTo("abcdefghijklmnop"),$this->identicalTo( 'foo'))
+			->willReturn("keystring1");
+		$gpg->expects($this->at(2))
+			->method("import")
+			->with($this->identicalTo("keystring1"))
+			->willReturn(['fingerprint' => "abcdefghijklmnop"]);
+		$gpg->expects($this->at(3))
+			->method("keyinfo")
+			->willReturn(["KEYARRAY1"]);
+
+		$backend = $this->createMock(\Test\Util\User\Dummy::class);
+		$config = $this->createMock(IConfig::class);
+		$config->expects($this->at(2))
+			->method("getUserValue")
+			->willReturn(json_encode(["key1", "key2"]));
+		$config->expects($this->at(3))
+			->method("setUserValue")
+			->with($this->identicalTo('foo'),
+				$this->identicalTo('settings'),
+				$this->identicalTo('pubkeys'),
+				$this->identicalTo(json_encode(["key1", "key2", "abcdefghijklmnop"])))
+			->willReturn(True);
+		$config->expects($this->at(4))
+			->method("setUserValue")
+			->with($this->identicalTo('foo'),
+				$this->identicalTo('settings'),
+				$this->identicalTo('pubkey'),
+				$this->identicalTo("abcdefghijklmnop"))
+			->willReturn(True);
+
+
+		$user = new User('foo', $backend, null, $config, null, $gpg);
+		$user->setDefaultPublicKey("abcdefghijklmnop");
+	}
+
+	public function testAddPublicKey(){
+		$gpg = $this->createMock(IGpg::class);
+		$gpg->expects($this->once())
+			->method("import")
+			->with($this->identicalTo("keystring1"))
+			->willReturn(['fingerprint' => "abcdefghijklmnop"]);
+
+
+		$backend = $this->createMock(\Test\Util\User\Dummy::class);
+		$config = $this->createMock(IConfig::class);
+		$config->expects($this->at(2))
+			->method("getUserValue")
+			->willReturn(json_encode(["key1", "key2"]));
+		$config->expects($this->once())
+			->method("setUserValue")
+			->with($this->identicalTo('foo'),
+				$this->identicalTo('settings'),
+				$this->identicalTo('pubkeys'),
+				$this->identicalTo(json_encode(["key1", "key2", "abcdefghijklmnop"])))
+			->willReturn(True);
+
+
+		$user = new User('foo', $backend, null, $config, null, $gpg);
+		$user->addPublicKey("keystring1");
+	}
+
+	public function testAddDefaultPublicKey(){
+		$gpg = $this->createMock(IGpg::class);
+		$gpg->expects($this->once())
+			->method("import")
+			->with($this->identicalTo("keystring1"))
+			->willReturn(['fingerprint' => "abcdefghijklmnop"]);
+		$gpg->expects($this->once())
+			->method("keyinfo")
+			->willReturn(["KEYARRAY1"]);
+
+		$backend = $this->createMock(\Test\Util\User\Dummy::class);
+		$config = $this->createMock(IConfig::class);
+		$config->expects($this->at(2))
+			->method("getUserValue")
+			->willReturn(json_encode(["key1", "key2"]));
+		$config->expects($this->at(3))
+			->method("setUserValue")
+			->with($this->identicalTo('foo'),
+				$this->identicalTo('settings'),
+				$this->identicalTo('pubkeys'),
+				$this->identicalTo(json_encode(["key1", "key2", "abcdefghijklmnop"])))
+			->willReturn(True);
+		$config->expects($this->at(4))
+			->method("setUserValue")
+			->with($this->identicalTo('foo'),
+				$this->identicalTo('settings'),
+				$this->identicalTo('pubkey'),
+				$this->identicalTo("abcdefghijklmnop"))
+			->willReturn(True);
+
+
+		$user = new User('foo', $backend, null, $config, null, $gpg);
+		$user->addDefaultPublicKey("keystring1");
+	}
+
+	public function testGetDefaultPublicKey(){
+		$gpg = $this->createMock(IGpg::class);
+		$gpg->expects($this->any())
+			->method("export")
+			->will($this->returnValueMap([
+				["key1", null, "keystring1"],
+				["key2", null, "keystring2"]
+			]));
+
+		$backend = $this->createMock(\Test\Util\User\Dummy::class);
+		$config = $this->createMock(IConfig::class);
+		$config->expects($this->any())
+			->method('getUserValue')
+			->willReturn("key1");
+		$user = new User('foo', $backend, null, $config, null, $gpg);
+		$this->assertEquals("key1", $user->getDefaultPublicKey());
+
+		$user = new User('foo', $backend, null, $config, null, $gpg);
+		$this->assertEquals("keystring1", $user->getDefaultPublicKey(False));
+	}
+
+	public function testGetPublicKeys(){
+		$gpg = $this->createMock(IGpg::class);
+		$gpg->expects($this->any())
+			->method("export")
+			->will($this->returnValueMap([
+				["key1", null, "keystring1"],
+				["key2", null, "keystring2"]
+			]));
+
+		$backend = $this->createMock(\Test\Util\User\Dummy::class);
+		$config = $this->createMock(IConfig::class);
+		$config->expects($this->any())
+			->method('getUserValue')
+			->willReturn(json_encode(["key1","key2"]));
+		$user = new User('foo', $backend, null, $config, null, $gpg);
+		$this->assertEquals(["key1","key2"], $user->getPublicKeys());
+
+		$user = new User('foo', $backend, null, $config, null, $gpg);
+		$this->assertEquals(["keystring1","keystring2"], $user->getPublicKeys(False));
 	}
 
 	public function testSetQuota() {
@@ -711,7 +902,9 @@ class UserTest extends TestCase {
 				'23 TB'
 			);
 
-		$user = new User('foo', $backend, $emitter, $config);
+		$gpg = $this->createMock(IGpg::class);
+
+		$user = new User('foo', $backend, $emitter, $config, null, $gpg);
 		$user->setQuota('23 TB');
 	}
 
@@ -739,7 +932,9 @@ class UserTest extends TestCase {
 				'23 TB'
 			);
 
-		$user = new User('foo', $backend, $emitter, $config);
+		$gpg = $this->createMock(IGpg::class);
+
+		$user = new User('foo', $backend, $emitter, $config, null, $gpg);
 		$user->setQuota('23 TB');
 	}
 
@@ -759,7 +954,9 @@ class UserTest extends TestCase {
 				}
 			}));
 
-		$user = new User('foo', $backend, null, $config);
+		$gpg = $this->createMock(IGpg::class);
+
+		$user = new User('foo', $backend, null, $config, null, $gpg);
 		$this->assertSame(42, $user->getLastLogin());
 	}
 
@@ -779,7 +976,9 @@ class UserTest extends TestCase {
 				'true'
 			);
 
-		$user = new User('foo', $backend, null, $config);
+		$gpg = $this->createMock(IGpg::class);
+
+		$user = new User('foo', $backend, null, $config, null, $gpg);
 		$user->setEnabled(true);
 	}
 
@@ -867,7 +1066,9 @@ class UserTest extends TestCase {
 				}
 			}));
 
-		$user = new User('foo', $backend, null, $config);
+		$gpg = $this->createMock(IGpg::class);
+
+		$user = new User('foo', $backend, null, $config, null, $gpg);
 		$this->assertSame('foo@bar.com', $user->getEMailAddress());
 	}
 }

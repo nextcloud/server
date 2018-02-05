@@ -6,6 +6,7 @@
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @copyright Copyright (c) 2017, Arne Hamann (<kontakt-github@arne.email>)
  *
  * @license AGPL-3.0
  *
@@ -34,6 +35,7 @@ use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OCP\ILogger;
 use OCP\Mail\IMessage;
+
 
 /**
  * Class Mailer provides some basic functions to create a mail message that can be used in combination with
@@ -160,8 +162,8 @@ class Mailer implements IMailer {
 		$debugMode = $this->config->getSystemValue('mail_smtpdebug', false);
 
 		if (empty($message->getFrom())) {
-			$message->setFrom([\OCP\Util::getDefaultEmailAddress($this->defaults->getName()) => $this->defaults->getName()]);
-		}
+			$message->setFrom([\OCP\Util::getDefaultEmailAddress($this->defaults->getName()) => $this->defaults->getName()],[$this->config->getSystemValue('GpgServerKey', '')]);
+			}
 
 		$failedRecipients = [];
 
@@ -173,6 +175,7 @@ class Mailer implements IMailer {
 			$mailer->registerPlugin(new \Swift_Plugins_LoggerPlugin($mailLogger));
 		}
 
+		$message = $this->convertGpgMessage($message);
 		$mailer->send($message->getSwiftMessage(), $failedRecipients);
 
 		// Debugging logging
@@ -290,5 +293,74 @@ class Mailer implements IMailer {
 	protected function getMailInstance() {
 		return \Swift_MailTransport::newInstance();
 	}
+
+	/**
+	 * Encrypt or sign the specified message.
+	 * @param IMessage|Message $message Message to send
+	 * @return IMessage|Message
+	 */
+	private function convertGpgMessage(IMessage $message) {
+		$debugMode = $this->config->getSystemValue('debug', false);
+		$encrypt_fingerprints = $message->getToFingerprints() + $message->getCCFingerprints() + $message->getBccFingerprints();
+		$sign_fingerprints = $message->getFromFingerprints();
+
+
+
+		if ($this->countValidFingerprint($encrypt_fingerprints) === sizeof($message->getTo()) + sizeof($message->getCc()) + sizeof($message->getBcc())){
+			if($this->countValidFingerprint($sign_fingerprints) > 0) {
+				if($debugMode) {
+					$sign_fingerprints_text = '';
+					foreach ($sign_fingerprints as $sign_fingerprint) {
+						$sign_fingerprints_text = $sign_fingerprints_text.",".$sign_fingerprint;
+					}
+					$encrypt_fingerprints_text = '';
+					foreach ($encrypt_fingerprints as $encrypt_fingerprint) {
+						$encrypt_fingerprints_text = $encrypt_fingerprints_text . "," . $encrypt_fingerprint;
+					}
+					$this->logger->debug("GPG Mail encrypt and sign Message with encrypt Keys:".$encrypt_fingerprints_text." and sign Keys:".$sign_fingerprints_text, ['app' => 'core']);
+				}
+                $message->encryptsign();
+			} else {
+				if($debugMode) {
+					$encrypt_fingerprints_text = '';
+					foreach ($encrypt_fingerprints as $encrypt_fingerprint) {
+						$encrypt_fingerprints_text = $encrypt_fingerprints_text . "," . $encrypt_fingerprint;
+					}
+					$this->logger->debug("GPG Mail encrypt Message with encrypt Keys:".$encrypt_fingerprints_text, ['app' => 'core']);
+				}
+                $message->encrypt();
+			}
+		}  else {
+			if($this->countValidFingerprint($sign_fingerprints) > 0) {
+				$sign_fingerprints_text = '';
+				foreach ($sign_fingerprints as $sign_fingerprint) {
+					$sign_fingerprints_text = $sign_fingerprints_text.",".$sign_fingerprint;
+				}
+				$message->sign();
+				$this->logger->debug("GPG Mail sign Message with sign Keys:".$sign_fingerprints_text, ['app' => 'core']);
+
+			} else {
+				if($debugMode) {
+					$this->logger->debug("GPG Mail no encryption and sign keys avalible keeping plain message:\"".$message->getPlainBody()."\"", ['app' => 'core']);
+				}
+			}
+		}
+		return $message;
+	}
+
+	private function countValidFingerprint(array $fingerprints) {
+		$int = 0;
+		foreach ($fingerprints as $f) {
+			if ($this->validFingerprint($f)) {
+				$int++;
+			}
+		}
+		return $int;
+	}
+
+	private function validFingerprint(string $fingerprint) {
+		return $fingerprint != '';
+	}
+
 
 }

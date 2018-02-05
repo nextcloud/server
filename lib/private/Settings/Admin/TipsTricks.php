@@ -44,9 +44,10 @@ class TipsTricks implements ISettings {
 	 */
 	public function getForm() {
 		$databaseOverload = (strpos($this->config->getSystemValue('dbtype'), 'sqlite') !== false);
-
+		$gnupg = extension_loaded('gnupg');
 		$parameters = [
 			'databaseOverload' => $databaseOverload,
+			'noGpg' => !$gnupg,
 		];
 
 		return new TemplateResponse('settings', 'settings/admin/tipstricks', $parameters, '');

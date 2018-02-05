@@ -49,15 +49,28 @@ class TipsTrickTest extends TestCase {
 			->method('getSystemValue')
 			->with('dbtype')
 			->willReturn('sqlite');
+		if(extension_loaded('gnupg')) {
+			$expected = new TemplateResponse(
+				'settings',
+				'settings/admin/tipstricks',
+				[
+					'databaseOverload' => true,
+					'noGpg' => false,
+				],
+				''
+			);
+		} else {
+			$expected = new TemplateResponse(
+				'settings',
+				'settings/admin/tipstricks',
+				[
+					'databaseOverload' => true,
+					'noGpg' => true,
+				],
+				''
+			);
+		}
 
-		$expected = new TemplateResponse(
-			'settings',
-			'settings/admin/tipstricks',
-			[
-				'databaseOverload' => true,
-			],
-			''
-		);
 
 		$this->assertEquals($expected, $this->admin->getForm());
 	}
@@ -69,14 +82,27 @@ class TipsTrickTest extends TestCase {
 			->with('dbtype')
 			->willReturn('mysql');
 
-		$expected = new TemplateResponse(
-			'settings',
-			'settings/admin/tipstricks',
-			[
-				'databaseOverload' => false,
-			],
-			''
-		);
+		if(extension_loaded('gnupg')) {
+			$expected = new TemplateResponse(
+				'settings',
+				'settings/admin/tipstricks',
+				[
+					'databaseOverload' => false,
+					'noGpg' => false,
+				],
+				''
+			);
+		} else {
+			$expected = new TemplateResponse(
+				'settings',
+				'settings/admin/tipstricks',
+				[
+					'databaseOverload' => false,
+					'noGpg' => true,
+				],
+				''
+			);
+		}
 
 		$this->assertEquals($expected, $this->admin->getForm());
 	}

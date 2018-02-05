@@ -31,6 +31,8 @@
 				'email',
 				'website',
 				'twitter',
+				'pubkey',
+				'pubkeys',
 				'address',
 				'avatar'
 			];

@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @copyright Copyright (c) 2016, Lukas Reschke <lukas@statuscode.ch>
  *
+ * @author Arne Hamann <kontakt+github@arne.email>
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
@@ -78,6 +79,7 @@ use OC\Files\Node\HookConnector;
 use OC\Files\Node\LazyRoot;
 use OC\Files\Node\Root;
 use OC\Files\View;
+use OC\Gpg;
 use OC\Http\Client\ClientService;
 use OC\IntegrityCheck\Checker;
 use OC\IntegrityCheck\Helpers\AppLocator;
@@ -834,6 +836,22 @@ class Server extends ServerContainer implements IServerContainer {
 			);
 		});
 		$this->registerAlias('Mailer', \OCP\Mail\IMailer::class);
+
+		$this->registerService(\OCP\IGpg::class, function (Server $c) {
+			if (extension_loaded('gnupg')){
+				return new Gpg(
+					$c->getConfig(),
+					$c->getLogger(),
+					$c->query(Defaults::class),
+					$c->getURLGenerator(),
+					$c->getUserManager()
+				);
+			} else {
+				return new GpgDummy();
+			}
+
+		});
+		$this->registerAlias('Gpg', \OCP\IGpg::class);
 
 		$this->registerService('LDAPProvider', function (Server $c) {
 			$config = $c->getConfig();
@@ -1679,6 +1697,15 @@ class Server extends ServerContainer implements IServerContainer {
 	 */
 	public function getMailer() {
 		return $this->query('Mailer');
+	}
+
+	/**
+	 * Creates a new Ggp
+	 *
+	 * @return \OCP\IGpg
+	 */
+	public function getGpg() {
+		return $this->query('Gpg');
 	}
 
 	/**

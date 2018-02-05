@@ -107,8 +107,148 @@ class MailerTest extends TestCase {
 		$message->expects($this->once())
 			->method('getSwiftMessage')
 			->will($this->returnValue(new \Swift_Message()));
+		$message->expects($this->once())
+			->method('getToFingerprints')
+			->willReturn(array());
+		$message->expects($this->once())
+			->method('getCCFingerprints')
+			->willReturn(array());
+		$message->expects($this->once())
+			->method('getBccFingerprints')
+			->willReturn(array());
+		$message->expects($this->once())
+			->method('getFromFingerprints')
+			->willReturn(array());
+
+		$message->expects($this->once())
+			->method('getTo')
+			->willReturn(array());
+		$message->expects($this->once())
+			->method('getCc')
+			->willReturn(array());
+		$message->expects($this->once())
+			->method('getBcc')
+			->willReturn(array());
+		$message->expects($this->once())
+			->method('getFrom')
+			->willReturn(array());
 
 		$this->mailer->send($message);
+	}
+
+	/**
+	 * @dataProvider dataConvertGpgMessage
+	 */
+	public function testConvertGpgMessage($to, $cc, $bcc, $from, $to_fingerprints, $cc_fingerprints, $bcc_fingerprints, $from_fingerprints, $expect_encrypt, $expect_sign) {
+		$message = $this->getMockBuilder('\OC\Mail\Message')
+			->disableOriginalConstructor()->getMock();
+		$message->expects($this->once())
+			->method('getToFingerprints')
+			->willReturn($to_fingerprints);
+		$message->expects($this->once())
+			->method('getTo')
+			->willReturn($to);
+
+		$message->expects($this->once())
+			->method('getCCFingerprints')
+			->willReturn($cc_fingerprints);
+		$message->expects($this->once())
+			->method('getCc')
+			->willReturn($cc);
+
+		$message->expects($this->once())
+			->method('getBccFingerprints')
+			->willReturn($bcc_fingerprints);
+		$message->expects($this->once())
+			->method('getBcc')
+			->willReturn($bcc);
+
+		$message->expects($this->once())
+			->method('getFromFingerprints')
+			->willReturn($from_fingerprints);
+		$message->expects($this->any())
+			->method('getFrom')
+			->willReturn($from);
+
+		if($expect_encrypt && $expect_sign) {
+			$message->expects($this->once())
+				->method('encryptsign');
+			$message->expects($this->never())
+				->method('encrypt');
+			$message->expects($this->never())
+				->method('sign');
+		}
+
+		if($expect_encrypt && !$expect_sign) {
+			$message->expects($this->never())
+				->method('encryptsign');
+			$message->expects($this->once())
+				->method('encrypt');
+			$message->expects($this->never())
+				->method('sign');
+		}
+
+		if(!$expect_encrypt && $expect_sign) {
+			$message->expects($this->never())
+				->method('encryptsign');
+			$message->expects($this->never())
+				->method('encrypt');
+			$message->expects($this->once())
+				->method('sign');
+		}
+
+		if(!$expect_encrypt && !$expect_sign) {
+			$message->expects($this->never())
+				->method('encryptsign');
+			$message->expects($this->never())
+				->method('encrypt');
+			$message->expects($this->never())
+				->method('sign');
+		}
+
+		$this->assertInstanceOf('\OC\Mail\Message', self::invokePrivate($this->mailer, 'convertGpgMessage', [$message]));
+
+	}
+
+	public function dataConvertGpgMessage(){
+
+		return [
+			'encryptsign' => [
+				['test@nextcloud.invalid'], [], [], ['nextcloud@test.invalid'],
+				['abcdefghijklmnop'], [], [], ['abdefglasdlfkhöi'],
+				true,
+				true
+			],
+
+			'sign' => [
+				['test@nextcloud.invalid'], [], [], ['nextcloud@test.invalid'],
+				[], [], [], ['abdefglasdlfkhöi'],
+				false,
+				true
+			],
+
+			'encrypt' => [
+				['test@nextcloud.invalid'], [], [], ['nextcloud@test.invalid'],
+				['abcdefghijklmnop'], [], [], [],
+				true,
+				false
+			],
+
+			'none' => [
+				['test@nextcloud.invalid'], [], [], ['nextcloud@test.invalid'],
+				[], [], [], [],
+				false,
+				false
+			],
+
+			'more resivers than keys' => [
+				['test@nextcloud.invalid'], ['test2@nextcloud.invalid'], [], ['nextcloud@test.invalid'],
+				['abcdefghijklmnop'], [], [], ['asödkflnasdvölsd'],
+				false,
+				true
+			],
+
+		];
 	}
 
 	/**
