@@ -178,7 +178,9 @@ class TemplateLayout extends \OC_Template {
 		if(\OC::$server->getSystemConfig()->getValue('installed', false)
 			&& !\OCP\Util::needUpgrade()
 			&& $pathInfo !== ''
-			&& !preg_match('/^\/login/', $pathInfo)) {
+			&& !preg_match('/^\/login/', $pathInfo)
+			&& $renderAs !== 'error' && $renderAs !== 'guest'
+		) {
 			$cssFiles = self::findStylesheetFiles(\OC_Util::$styles);
 		} else {
 			// If we ignore the scss compiler,
