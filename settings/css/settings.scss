@@ -137,7 +137,7 @@ input {
 }
 
 .personal-settings-setting-box input {
-	&[type="text"], &[type="email"], &[type="tel"] {
+	&[type="text"], &[type="email"], &[type="tel"], &[type="url"] {
 		width: 100%;
 	}
 }
