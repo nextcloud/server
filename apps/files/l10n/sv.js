@@ -20,6 +20,7 @@ OC.L10N.register(
     "…" : "...",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} av {totalSize} ({bitrate})",
     "Target folder does not exist any more" : "Målmapp existerar inte längre",
+    "Error when assembling chunks, status code {status}" : "Fel vid ihopsättning av bitarna: statuskod:  {status}",
     "Actions" : "Åtgärder",
     "Download" : "Ladda ned",
     "Rename" : "Byt namn",

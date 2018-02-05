@@ -54,6 +54,7 @@
     "Search contacts …" : "Zoek contacten ...",
     "No contacts found" : "Geen contacten gevonden",
     "Show all contacts …" : "Alle contacten weergeven",
+    "Could not load your contacts" : "Kon uw contacten niet laden",
     "Loading your contacts …" : "Je contacten wordt geladen ...",
     "Looking for {term} …" : "Kijken voor {term} …",
     "<a href=\"{docUrl}\">There were problems with the code integrity check. More information…</a>" : "<a href=\"{docUrl}\">Er traden problemen op tijdens de code betrouwbaarheidscontrole. Meer informatie…</a>",
@@ -312,6 +313,18 @@
     "This %s instance is currently in maintenance mode, which may take a while." : "Deze %s staat momenteel in de onderhoudsstand, dat kan enige tijd duren.",
     "This page will refresh itself when the %s instance is available again." : "Deze pagina wordt ververst als de %s-installatie weer beschikbaar is.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Neem contact op met je systeembeheerder als deze melding aanhoudt of onverwacht verscheen.",
-    "Thank you for your patience." : "Bedankt voor je geduld."
+    "Thank you for your patience." : "Bedankt voor je geduld.",
+    "There was an error loading your contacts" : "Er is een fout opgetreden tijdens het laden van uw contacten",
+    "Your web server is not yet set up properly to allow file synchronization because the WebDAV interface seems to be broken." : "Uw webserver is nog niet juist ingesteld voor het synchroniseren van bestanden omdat de WebDAV-interface niet naar behoren werkt.",
+    "This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. We suggest to enable Internet connection for this server if you want to have all features." : "Deze server heeft geen werkende internetverbinding: Meerdere (eind)punten konden niet bereikt worden. Dit betekent dat sommige onderdelen, zoals het koppelen van externe opslag, het ontvangen van notificaties over updates of de installatie van third-party apps, niet zullen werken. Ook het benaderen van bestanden op afstand en het verzenden van notificatie via e-mail werkt mogelijk niet. Als je alle onderdelen wil gebruiken, moet je de internetverbinding van deze server aanzetten.",
+    "The PHP function \"set_time_limit\" is not available. This could result in scripts being halted mid-execution, breaking your installation. We strongly recommend enabling this function." : "De PHP functie \"set_time_limit\" is niet beschikbaar. Dit kan er voor zorgen dat scripts gestopt worden tijdens de uitvoeren ervan, wat resulteert in een defecte installatie. We raden sterk aan deze functie aan te zetten.",
+    "Your data directory and your files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server in a way that the data directory is no longer accessible or you move the data directory outside the web server document root." : "De datafolder en bestanden zijn waarschijnlijk te benaderen via het internet. Het .htaccess bestand werkt niet. Het is sterk aangeraden om de webserver in te stellen dat de datafolder niet meer te benaderen is, of dat je de datafolder verplaatst naar een locatie buiten de hoofdmap voor documenten van de webserver.",
+    "The \"{header}\" HTTP header is not configured to equal to \"{expected}\". This is a potential security or privacy risk and we recommend adjusting this setting." : "De \"{header}\" HTTP header is niet ingesteld om gelijk te zijn aan \"{expected}\". Dit is een mogelijk beveiligings- of privacyrisico en we raden je aan deze instellingen aan te passen.",
+    "Shared with {recipients}" : "Delen met {recipients}",
+    "The server encountered an internal error and was unable to complete your request." : "Er is een interne fout opgetreden op de server en kon daarom je verzoek niet verwerken.",
+    "Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report." : "Neem alstublieft contact op met de serverbeheerder als deze foutmelding meerdere keren terugkomt, en neem onderstaande technische details hierin op. ",
+    "This action requires you to confirm your password:" : "Deze actie moet je met je wachtwoord bevestigen:",
+    "Wrong password. Reset it?" : "Onjuist wachtwoord. Wachtwoord resetten?",
+    "You are accessing the server from an untrusted domain." : "Je benadert de server van een niet-vertrouwd domein."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
