@@ -40,14 +40,34 @@ class Streamer {
 	 *
 	 * @param IRequest $request
 	 * @param int $size The size of the files in bytes
+	 * @param int $numberOfFiles The number of files (and directories) that will
+	 *        be included in the streamed file
 	 */
-	public function __construct(IRequest $request, int $size){
+	public function __construct(IRequest $request, int $size, int $numberOfFiles){
 
 		/**
-		 * If the size if below 4GB always use zip32
-		 * Use 4*1000*1000*1000 so we have a buffer for all the extra zip data
+		 * zip32 constraints for a basic (without compression, volumes nor
+		 * encryption) zip file according to the Zip specification:
+		 * - No file size is larger than 4 bytes (file size < 4294967296); see
+		 *   4.4.9 uncompressed size
+		 * - The size of all files plus their local headers is not larger than
+		 *   4 bytes; see 4.4.16 relative offset of local header and 4.4.24
+		 *   offset of start of central directory with respect to the starting
+		 *   disk number
+		 * - The total number of entries (files and directories) in the zip file
+		 *   is not larger than 2 bytes (number of entries < 65536); see 4.4.22
+		 *   total number of entries in the central dir
+		 * - The size of the central directory is not larger than 4 bytes; see
+		 *   4.4.23 size of the central directory
+		 *
+		 * Due to all that, zip32 is used if the size is below 4GB and there are
+		 * less than 65536 files; the margin between 4*1000^3 and 4*1024^3
+		 * should give enough room for the extra zip metadata. Technically, it
+		 * would still be possible to create an invalid zip32 file (for example,
+		 * a zip file from files smaller than 4GB with a central directory
+		 * larger than 4GiB), but it should not happen in the real world.
 		 */
-		if ($size < 4 * 1000 * 1000 * 1000) {
+		if ($size < 4 * 1000 * 1000 * 1000 && $numberOfFiles < 65536) {
 			$this->streamerInstance = new ZipStreamer(['zip64' => false]);
 		} else if ($request->isUserAgent($this->preferTarFor)) {
 			$this->streamerInstance = new TarStreamer();

@@ -146,17 +146,23 @@ class OC_Files {
 
 			self::lockFiles($view, $dir, $files);
 
-			/* Calculate filesize */
+			/* Calculate filesize and number of files */
 			if ($getType === self::ZIP_FILES) {
+				$fileInfos = array();
 				$fileSize = 0;
 				foreach ($files as $file) {
-					$fileSize += \OC\Files\Filesystem::getFileInfo($dir . '/' . $file)->getSize();
+					$fileInfo = \OC\Files\Filesystem::getFileInfo($dir . '/' . $file);
+					$fileSize += $fileInfo->getSize();
+					$fileInfos[] = $fileInfo;
 				}
+				$numberOfFiles = self::getNumberOfFiles($fileInfos);
 			} elseif ($getType === self::ZIP_DIR) {
-				$fileSize = \OC\Files\Filesystem::getFileInfo($dir . '/' . $files)->getSize();
+				$fileInfo = \OC\Files\Filesystem::getFileInfo($dir . '/' . $files);
+				$fileSize = $fileInfo->getSize();
+				$numberOfFiles = self::getNumberOfFiles(array($fileInfo));
 			}
 
-			$streamer = new Streamer(\OC::$server->getRequest(), $fileSize);
+			$streamer = new Streamer(\OC::$server->getRequest(), $fileSize, $numberOfFiles);
 			OC_Util::obEnd();
 
 			$streamer->sendHeaders($name);
@@ -322,6 +328,29 @@ class OC_Files {
 		else {
 		    $view->readfile($filename);
 		}
+	}
+
+	/**
+	 * Returns the total (recursive) number of files and folders in the given
+	 * FileInfos.
+	 *
+	 * @param \OCP\Files\FileInfo[] $fileInfos the FileInfos to count
+	 * @return int the total number of files and folders
+	 */
+	private static function getNumberOfFiles($fileInfos) {
+		$numberOfFiles = 0;
+
+		$view = new View();
+
+		while ($fileInfo = array_pop($fileInfos)) {
+			$numberOfFiles++;
+
+			if ($fileInfo->getType() === \OCP\Files\FileInfo::TYPE_FOLDER) {
+				$fileInfos = array_merge($fileInfos, $view->getDirectoryContent($fileInfo->getPath()));
+			}
+		}
+
+		return $numberOfFiles;
 	}
 
 	/**
