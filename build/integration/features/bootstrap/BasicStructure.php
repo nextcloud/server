@@ -39,6 +39,7 @@ require __DIR__ . '/../../vendor/autoload.php';
 trait BasicStructure {
 
 	use Auth;
+	use Download;
 	use Trashbin;
 
 	/** @var string */
@@ -379,6 +380,18 @@ trait BasicStructure {
 		proc_close($process);
 
 		return trim($lastStdOut);
+	}
+
+	/**
+	 * @Given file :filename is created :times times in :user user data
+	 * @param string $filename
+	 * @param string $times
+	 * @param string $user
+	 */
+	public function fileIsCreatedTimesInUserData($filename, $times, $user) {
+		for ($i = 0; $i < $times; $i++) {
+			file_put_contents($this->getDataDirectory() . "/$user/files" . "$filename-$i", "content-$i");
+		}
 	}
 
 	public function createFileSpecificSize($name, $size) {
