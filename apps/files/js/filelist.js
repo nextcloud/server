@@ -798,6 +798,7 @@
 				OCA.Files.FileActions.updateFileActionSpinner(moveFileAction, false);
 			};
 
+			var actions = this.isSelectedMovable() ? OC.dialogs.FILEPICKER_TYPE_COPY_MOVE : OC.dialogs.FILEPICKER_TYPE_COPY;
 			OC.dialogs.filepicker(t('files', 'Target folder'), function(targetPath, type) {
 				if (type === OC.dialogs.FILEPICKER_TYPE_COPY) {
 					self.copy(files, targetPath, disableLoadingState);
@@ -805,7 +806,7 @@
 				if (type === OC.dialogs.FILEPICKER_TYPE_MOVE) {
 					self.move(files, targetPath, disableLoadingState);
 				}
-			}, false, "httpd/unix-directory", true, OC.dialogs.FILEPICKER_TYPE_COPY_MOVE);
+			}, false, "httpd/unix-directory", true, actions);
 			return false;
 		},
 
@@ -2871,18 +2872,39 @@
 				this.$el.find('#headerName a.name>span:first').text(selection);
 				this.$el.find('#modified a>span:first').text('');
 				this.$el.find('table').addClass('multiselect');
-				this.$el.find('.selectedActions .copy-move').toggleClass('hidden', !this.isSelectedCopiableOrMovable());
 				this.$el.find('.selectedActions .download').toggleClass('hidden', !this.isSelectedDownloadable());
 				this.$el.find('.delete-selected').toggleClass('hidden', !this.isSelectedDeletable());
+
+				var $copyMove = this.$el.find('.selectedActions .copy-move');
+				if (this.isSelectedCopiable()) {
+					$copyMove.toggleClass('hidden', false);
+					if (this.isSelectedMovable()) {
+						$copyMove.find('.label').text(t('files', 'Move or copy'));
+					} else {
+						$copyMove.find('.label').text(t('files', 'Copy'));
+					}
+				} else {
+					$copyMove.toggleClass('hidden', true);
+				}
 			}
 		},
 
 		/**
-		 * Check whether all selected files are copiable or movable
+		 * Check whether all selected files are copiable
 		 */
-		isSelectedCopiableOrMovable: function() {
-			return _.reduce(this.getSelectedFiles(), function(copiableOrMovable, file) {
-				return copiableOrMovable && (file.permissions & OC.PERMISSION_UPDATE);
+		isSelectedCopiable: function() {
+			return _.reduce(this.getSelectedFiles(), function(copiable, file) {
+				var requiredPermission = $('#isPublic').val() ? OC.PERMISSION_UPDATE : OC.PERMISSION_READ;
+				return copiable && (file.permissions & requiredPermission);
+			}, true);
+		},
+
+		/**
+		 * Check whether all selected files are movable
+		 */
+		isSelectedMovable: function() {
+			return _.reduce(this.getSelectedFiles(), function(movable, file) {
+				return movable && (file.permissions & OC.PERMISSION_UPDATE);
 			}, true);
 		},
 
