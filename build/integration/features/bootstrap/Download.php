@@ -70,6 +70,18 @@ trait Download {
 	}
 
 	/**
+	 * @Then the downloaded zip file is a zip64 file
+	 */
+	public function theDownloadedZipFileIsAZip64File() {
+		// assertNotContains is not used to prevent the whole file from being
+		// printed in case of error.
+		PHPUnit_Framework_Assert::assertTrue(
+			strpos($this->downloadedFile, "\x50\x4B\x06\x06") !== false,
+			"File does not contain the zip64 end of central dir signature"
+		);
+	}
+
+	/**
 	 * @Then the downloaded zip file contains a file named :fileName with the contents of :sourceFileName from :user data
 	 */
 	public function theDownloadedZipFileContainsAFileNamedWithTheContentsOfFromData($fileName, $sourceFileName, $user) {

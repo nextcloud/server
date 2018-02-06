@@ -142,3 +142,153 @@ Feature: download
 		And the downloaded zip file contains a file named "sparseFolder/welcome.txt" with the contents of "/baseFolder/sparseFolder/welcome.txt" from "user0" data
 		And the downloaded zip file contains a folder named "sparseFolder/subFolder/"
 		And the downloaded zip file contains a folder named "sparseFolder/subFolder/emptySubSubFolder/"
+
+	@large
+	Scenario: downloading small file and dir with 65524 small files and 9 nested directories returns a zip32
+		Given using new dav path
+		And user "user0" exists
+		And user "user0" created a folder "/crowdedFolder"
+		And user "user0" created a folder "/crowdedFolder/subFolder1"
+		And file "/crowdedFolder/subFolder1/test.txt" is created "10000" times in "user0" user data
+		And invoking occ with "files:scan --path /user0/files/crowdedFolder/subFolder1"
+		And user "user0" created a folder "/crowdedFolder/subFolder2"
+		And file "/crowdedFolder/subFolder2/test.txt" is created "10000" times in "user0" user data
+		And invoking occ with "files:scan --path /user0/files/crowdedFolder/subFolder2"
+		And user "user0" created a folder "/crowdedFolder/subFolder3"
+		And file "/crowdedFolder/subFolder3/test.txt" is created "10000" times in "user0" user data
+		And invoking occ with "files:scan --path /user0/files/crowdedFolder/subFolder3"
+		And user "user0" created a folder "/crowdedFolder/subFolder4"
+		And file "/crowdedFolder/subFolder4/test.txt" is created "10000" times in "user0" user data
+		And invoking occ with "files:scan --path /user0/files/crowdedFolder/subFolder4"
+		And user "user0" created a folder "/crowdedFolder/subFolder5"
+		And file "/crowdedFolder/subFolder5/test.txt" is created "10000" times in "user0" user data
+		And invoking occ with "files:scan --path /user0/files/crowdedFolder/subFolder5"
+		And user "user0" created a folder "/crowdedFolder/subFolder6"
+		And file "/crowdedFolder/subFolder6/test.txt" is created "10000" times in "user0" user data
+		And invoking occ with "files:scan --path /user0/files/crowdedFolder/subFolder6"
+		And user "user0" created a folder "/crowdedFolder/subFolder7"
+		And file "/crowdedFolder/subFolder7/test.txt" is created "5524" times in "user0" user data
+		And invoking occ with "files:scan --path /user0/files/crowdedFolder/subFolder7"
+		And user "user0" created a folder "/crowdedFolder/subFolder7/subSubFolder"
+		And user "user0" created a folder "/crowdedFolder/subFolder7/subSubFolder/emptySubSubSubFolder"
+		When user "user0" downloads zip file for entries '"welcome.txt","crowdedFolder"' in folder "/"
+		Then the downloaded zip file is a zip32 file
+		And the downloaded zip file contains a file named "welcome.txt" with the contents of "/welcome.txt" from "user0" data
+		And the downloaded zip file contains a folder named "crowdedFolder/"
+		And the downloaded zip file contains a folder named "crowdedFolder/subFolder1/"
+		And the downloaded zip file contains a file named "crowdedFolder/subFolder1/test.txt-0" with the contents of "/crowdedFolder/subFolder1/test.txt-0" from "user0" data
+		And the downloaded zip file contains a file named "crowdedFolder/subFolder7/test.txt-5523" with the contents of "/crowdedFolder/subFolder7/test.txt-5523" from "user0" data
+		And the downloaded zip file contains a folder named "crowdedFolder/subFolder7/subSubFolder/emptySubSubSubFolder/"
+
+	@large
+	Scenario: downloading dir with 65525 small files and 9 nested directories returns a zip32
+		Given using new dav path
+		And user "user0" exists
+		And user "user0" created a folder "/crowdedFolder"
+		And user "user0" created a folder "/crowdedFolder/subFolder1"
+		And file "/crowdedFolder/subFolder1/test.txt" is created "10000" times in "user0" user data
+		And invoking occ with "files:scan --path /user0/files/crowdedFolder/subFolder1"
+		And user "user0" created a folder "/crowdedFolder/subFolder2"
+		And file "/crowdedFolder/subFolder2/test.txt" is created "10000" times in "user0" user data
+		And invoking occ with "files:scan --path /user0/files/crowdedFolder/subFolder2"
+		And user "user0" created a folder "/crowdedFolder/subFolder3"
+		And file "/crowdedFolder/subFolder3/test.txt" is created "10000" times in "user0" user data
+		And invoking occ with "files:scan --path /user0/files/crowdedFolder/subFolder3"
+		And user "user0" created a folder "/crowdedFolder/subFolder4"
+		And file "/crowdedFolder/subFolder4/test.txt" is created "10000" times in "user0" user data
+		And invoking occ with "files:scan --path /user0/files/crowdedFolder/subFolder4"
+		And user "user0" created a folder "/crowdedFolder/subFolder5"
+		And file "/crowdedFolder/subFolder5/test.txt" is created "10000" times in "user0" user data
+		And invoking occ with "files:scan --path /user0/files/crowdedFolder/subFolder5"
+		And user "user0" created a folder "/crowdedFolder/subFolder6"
+		And file "/crowdedFolder/subFolder6/test.txt" is created "10000" times in "user0" user data
+		And invoking occ with "files:scan --path /user0/files/crowdedFolder/subFolder6"
+		And user "user0" created a folder "/crowdedFolder/subFolder7"
+		And file "/crowdedFolder/subFolder7/test.txt" is created "5525" times in "user0" user data
+		And invoking occ with "files:scan --path /user0/files/crowdedFolder/subFolder7"
+		And user "user0" created a folder "/crowdedFolder/subFolder7/subSubFolder"
+		And user "user0" created a folder "/crowdedFolder/subFolder7/subSubFolder/emptySubSubSubFolder"
+		When user "user0" downloads zip file for entries '"crowdedFolder"' in folder "/"
+		Then the downloaded zip file is a zip32 file
+		And the downloaded zip file contains a folder named "crowdedFolder/"
+		And the downloaded zip file contains a folder named "crowdedFolder/subFolder1/"
+		And the downloaded zip file contains a file named "crowdedFolder/subFolder1/test.txt-0" with the contents of "/crowdedFolder/subFolder1/test.txt-0" from "user0" data
+		And the downloaded zip file contains a file named "crowdedFolder/subFolder7/test.txt-5524" with the contents of "/crowdedFolder/subFolder7/test.txt-5524" from "user0" data
+		And the downloaded zip file contains a folder named "crowdedFolder/subFolder7/subSubFolder/emptySubSubSubFolder/"
+
+	@large
+	Scenario: downloading small file and dir with 65524 small files and 10 nested directories returns a zip64
+		Given using new dav path
+		And user "user0" exists
+		And user "user0" created a folder "/crowdedFolder"
+		And user "user0" created a folder "/crowdedFolder/subFolder1"
+		And file "/crowdedFolder/subFolder1/test.txt" is created "10000" times in "user0" user data
+		And invoking occ with "files:scan --path /user0/files/crowdedFolder/subFolder1"
+		And user "user0" created a folder "/crowdedFolder/subFolder2"
+		And file "/crowdedFolder/subFolder2/test.txt" is created "10000" times in "user0" user data
+		And invoking occ with "files:scan --path /user0/files/crowdedFolder/subFolder2"
+		And user "user0" created a folder "/crowdedFolder/subFolder3"
+		And file "/crowdedFolder/subFolder3/test.txt" is created "10000" times in "user0" user data
+		And invoking occ with "files:scan --path /user0/files/crowdedFolder/subFolder3"
+		And user "user0" created a folder "/crowdedFolder/subFolder4"
+		And file "/crowdedFolder/subFolder4/test.txt" is created "10000" times in "user0" user data
+		And invoking occ with "files:scan --path /user0/files/crowdedFolder/subFolder4"
+		And user "user0" created a folder "/crowdedFolder/subFolder5"
+		And file "/crowdedFolder/subFolder5/test.txt" is created "10000" times in "user0" user data
+		And invoking occ with "files:scan --path /user0/files/crowdedFolder/subFolder5"
+		And user "user0" created a folder "/crowdedFolder/subFolder6"
+		And file "/crowdedFolder/subFolder6/test.txt" is created "10000" times in "user0" user data
+		And invoking occ with "files:scan --path /user0/files/crowdedFolder/subFolder6"
+		And user "user0" created a folder "/crowdedFolder/subFolder7"
+		And file "/crowdedFolder/subFolder7/test.txt" is created "5524" times in "user0" user data
+		And invoking occ with "files:scan --path /user0/files/crowdedFolder/subFolder7"
+		And user "user0" created a folder "/crowdedFolder/subFolder7/subSubFolder"
+		And user "user0" created a folder "/crowdedFolder/subFolder7/subSubFolder/emptySubSubSubFolder"
+		And user "user0" created a folder "/crowdedFolder/subFolder7/emptySubSubFolder"
+		When user "user0" downloads zip file for entries '"welcome.txt","crowdedFolder"' in folder "/"
+		Then the downloaded zip file is a zip64 file
+		And the downloaded zip file contains a file named "welcome.txt" with the contents of "/welcome.txt" from "user0" data
+		And the downloaded zip file contains a folder named "crowdedFolder/"
+		And the downloaded zip file contains a folder named "crowdedFolder/subFolder1/"
+		And the downloaded zip file contains a file named "crowdedFolder/subFolder1/test.txt-0" with the contents of "/crowdedFolder/subFolder1/test.txt-0" from "user0" data
+		And the downloaded zip file contains a file named "crowdedFolder/subFolder7/test.txt-5523" with the contents of "/crowdedFolder/subFolder7/test.txt-5523" from "user0" data
+		And the downloaded zip file contains a folder named "crowdedFolder/subFolder7/subSubFolder/emptySubSubSubFolder/"
+		And the downloaded zip file contains a folder named "crowdedFolder/subFolder7/emptySubSubFolder/"
+
+	@large
+	Scenario: downloading dir with 65525 small files and 10 nested directories returns a zip64
+		Given using new dav path
+		And user "user0" exists
+		And user "user0" created a folder "/crowdedFolder"
+		And user "user0" created a folder "/crowdedFolder/subFolder1"
+		And file "/crowdedFolder/subFolder1/test.txt" is created "10000" times in "user0" user data
+		And invoking occ with "files:scan --path /user0/files/crowdedFolder/subFolder1"
+		And user "user0" created a folder "/crowdedFolder/subFolder2"
+		And file "/crowdedFolder/subFolder2/test.txt" is created "10000" times in "user0" user data
+		And invoking occ with "files:scan --path /user0/files/crowdedFolder/subFolder2"
+		And user "user0" created a folder "/crowdedFolder/subFolder3"
+		And file "/crowdedFolder/subFolder3/test.txt" is created "10000" times in "user0" user data
+		And invoking occ with "files:scan --path /user0/files/crowdedFolder/subFolder3"
+		And user "user0" created a folder "/crowdedFolder/subFolder4"
+		And file "/crowdedFolder/subFolder4/test.txt" is created "10000" times in "user0" user data
+		And invoking occ with "files:scan --path /user0/files/crowdedFolder/subFolder4"
+		And user "user0" created a folder "/crowdedFolder/subFolder5"
+		And file "/crowdedFolder/subFolder5/test.txt" is created "10000" times in "user0" user data
+		And invoking occ with "files:scan --path /user0/files/crowdedFolder/subFolder5"
+		And user "user0" created a folder "/crowdedFolder/subFolder6"
+		And file "/crowdedFolder/subFolder6/test.txt" is created "10000" times in "user0" user data
+		And invoking occ with "files:scan --path /user0/files/crowdedFolder/subFolder6"
+		And user "user0" created a folder "/crowdedFolder/subFolder7"
+		And file "/crowdedFolder/subFolder7/test.txt" is created "5525" times in "user0" user data
+		And invoking occ with "files:scan --path /user0/files/crowdedFolder/subFolder7"
+		And user "user0" created a folder "/crowdedFolder/subFolder7/subSubFolder"
+		And user "user0" created a folder "/crowdedFolder/subFolder7/subSubFolder/emptySubSubSubFolder"
+		And user "user0" created a folder "/crowdedFolder/subFolder7/emptySubSubFolder"
+		When user "user0" downloads zip file for entries '"crowdedFolder"' in folder "/"
+		Then the downloaded zip file is a zip64 file
+		And the downloaded zip file contains a folder named "crowdedFolder/"
+		And the downloaded zip file contains a folder named "crowdedFolder/subFolder1/"
+		And the downloaded zip file contains a file named "crowdedFolder/subFolder1/test.txt-0" with the contents of "/crowdedFolder/subFolder1/test.txt-0" from "user0" data
+		And the downloaded zip file contains a file named "crowdedFolder/subFolder7/test.txt-5524" with the contents of "/crowdedFolder/subFolder7/test.txt-5524" from "user0" data
+		And the downloaded zip file contains a folder named "crowdedFolder/subFolder7/subSubFolder/emptySubSubSubFolder/"
+		And the downloaded zip file contains a folder named "crowdedFolder/subFolder7/emptySubSubFolder/"
