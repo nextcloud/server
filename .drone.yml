@@ -46,10 +46,10 @@ pipeline:
       matrix:
         TESTS: syntax-php7.1
   phan:
-    image: nextcloudci/php7.1:php7.1-15
+    image: nextcloudci/php7.2:php7.2-11
     commands:
       - composer install
-      - composer require --dev "phan/phan:dev-master"
+      - composer require --dev "phan/phan:0.11.1"
       - ./lib/composer/phan/phan/phan -k build/.phan/config.php
       - php ./build/.phan/plugin-checker.php
     when:
