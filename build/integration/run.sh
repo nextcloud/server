@@ -2,6 +2,12 @@
 
 OC_PATH=../../
 OCC=${OC_PATH}occ
+TAGS=""
+if [ "$1" = "--tags" ]; then
+	TAGS="--tags=$2"
+
+	shift 2
+fi
 SCENARIO_TO_RUN=$1
 HIDE_OC_LOGS=$2
 
@@ -52,7 +58,7 @@ if [ "$INSTALLED" == "true" ]; then
 
 fi
 
-vendor/bin/behat --strict -f junit -f pretty $SCENARIO_TO_RUN
+vendor/bin/behat --strict -f junit -f pretty $TAGS $SCENARIO_TO_RUN
 RESULT=$?
 
 kill $PHPPID
