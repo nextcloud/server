@@ -288,9 +288,11 @@ class AppConfig implements IAppConfig {
 	public function getFilteredValues($app) {
 		$values = $this->getValues($app, false);
 
-		foreach ($this->sensitiveValues[$app] as $sensitiveKey) {
-			if (isset($values[$sensitiveKey])) {
-				$values[$sensitiveKey] = IConfig::SENSITIVE_VALUE;
+		if (isset($this->sensitiveValues[$app])) {
+			foreach ($this->sensitiveValues[$app] as $sensitiveKey) {
+				if (isset($values[$sensitiveKey])) {
+					$values[$sensitiveKey] = IConfig::SENSITIVE_VALUE;
+				}
 			}
 		}
 
