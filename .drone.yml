@@ -547,7 +547,7 @@ pipeline:
     commands:
       - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
-      - ./run.sh features/download.feature
+      - ./run.sh --tags ~@large features/download.feature
     when:
       matrix:
         TESTS: integration-download
