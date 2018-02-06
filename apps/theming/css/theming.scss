@@ -91,18 +91,20 @@
 }
 
 /* override styles for login screen in guest.css */
-#header .logo {
-	background-image: url(#{$image-logo});
-	@if $theming-logo-mime != '' {
+@if variable_exists('theming-logo-mime') {
+	#header .logo {
+		background-image: url(#{$image-logo});
 		background-size: contain;
 	}
 }
 
-#body-login,
-#firstrunwizard .firstrunwizard-header,
-#theming-preview {
-	background-image: url(#{$image-login-background});
-	background-color: $color-primary;
+@if variable_exists('theming-background-mime') {
+	#body-login,
+	#firstrunwizard .firstrunwizard-header,
+	#theming-preview {
+		background-image: url(#{$image-login-background});
+		background-color: $color-primary;
+	}
 }
 
 input.primary,
