@@ -1077,7 +1077,7 @@ class OC_App {
 		}
 
 		foreach ($options as $option) {
-			if (is_array($option)) {
+			if (is_array($option) && isset($option['@value'])) {
 				if ($fallback === false) {
 					$fallback = $option['@value'];
 				}
