@@ -178,11 +178,19 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 		}
 
 		$dynamicMembers = array();
-		$memberURLs = $this->access->readAttribute(
-			$dnGroup,
-			$dynamicGroupMemberURL,
-			$this->access->connection->ldapGroupFilter
-		);
+		if (strpos($dynamicGroupMemberURL, '(') === 0) {
+			// This is the filter URL itself. Replace %gid with the group's DN
+			$memberURLs = array(
+				preg_replace('/%gid(?=\b)/', $dnGroup, $dynamicGroupMemberURL)
+			);
+		} else {
+			// This is an LDAP attribute where the URL can be found in
+			$memberURLs = $this->access->readAttribute(
+				$dnGroup,
+				$dynamicGroupMemberURL,
+				$this->access->connection->ldapGroupFilter
+			);
+		}
 		if ($memberURLs !== false) {
 			// this group has the 'memberURL' attribute so this is a dynamic group
 			// example 1: ldap:///cn=users,cn=accounts,dc=dcsubbase,dc=dcbase??one?(o=HeadOffice)
@@ -632,34 +640,50 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 
 		if (!empty($dynamicGroupMemberURL)) {
 			// look through dynamic groups to add them to the result array if needed
-			$groupsToMatch = $this->access->fetchListOfGroups(
-				$this->access->connection->ldapGroupFilter,array('dn',$dynamicGroupMemberURL));
+			if (strpos($dynamicGroupMemberURL, '(') === 0) {
+				// This is a query filter. '%gid' will be replaced by the group's DN
+				$urlIsFilter = true;
+				$groupsToMatch = $this->access->fetchListOfGroups(
+					$this->access->connection->ldapGroupFilter, array('dn'));
+			} else {
+				// This is the attribute name where the filter can be found
+				$urlIsFilter = false;
+				$groupsToMatch = $this->access->fetchListOfGroups(
+					$this->access->connection->ldapGroupFilter, array('dn',$dynamicGroupMemberURL));
+			}
 			foreach($groupsToMatch as $dynamicGroup) {
-				if (!array_key_exists($dynamicGroupMemberURL, $dynamicGroup)) {
-					continue;
-				}
-				$pos = strpos($dynamicGroup[$dynamicGroupMemberURL][0], '(');
-				if ($pos !== false) {
-					$memberUrlFilter = substr($dynamicGroup[$dynamicGroupMemberURL][0],$pos);
-					// apply filter via ldap search to see if this user is in this
-					// dynamic group
-					$userMatch = $this->access->readAttribute(
-						$userDN,
-						$this->access->connection->ldapUserDisplayName,
-						$memberUrlFilter
-					);
-					if ($userMatch !== false) {
-						// match found so this user is in this group
-						$groupName = $this->access->dn2groupname($dynamicGroup['dn'][0]);
-						if(is_string($groupName)) {
-							// be sure to never return false if the dn could not be
-							// resolved to a name, for whatever reason.
-							$groups[] = $groupName;
-						}
-					}
+				if ($urlIsFilter) {
+					// Replace '%gid' with the group's DN
+					$memberUrlFilter = preg_replace('/%gid(?=\b)/', $dynamicGroup['dn'][0], $dynamicGroupMemberURL);
 				} else {
-					\OCP\Util::writeLog('user_ldap', 'No search filter found on member url '.
-						'of group ' . print_r($dynamicGroup, true), \OCP\Util::DEBUG);
+					// Resolve filter from given attribute
+					if (!array_key_exists($dynamicGroupMemberURL, $dynamicGroup)) {
+						continue;
+					}
+					$pos = strpos($dynamicGroup[$dynamicGroupMemberURL][0], '(');
+					if ($pos === false) {
+						\OCP\Util::writeLog('user_ldap', 'No search filter found on member url '.
+							'of group ' . print_r($dynamicGroup, true), \OCP\Util::DEBUG);
+						continue;
+					}
+					$memberUrlFilter = substr($dynamicGroup[$dynamicGroupMemberURL][0],$pos);
+				}
+
+				// apply filter via ldap search to see if this user is in this
+				// dynamic group
+				$userMatch = $this->access->readAttribute(
+					$userDN,
+					$this->access->connection->ldapUserDisplayName,
+					$memberUrlFilter
+				);
+				if ($userMatch !== false) {
+					// match found so this user is in this group
+					$groupName = $this->access->dn2groupname($dynamicGroup['dn'][0]);
+					if(is_string($groupName)) {
+						// be sure to never return false if the dn could not be
+						// resolved to a name, for whatever reason.
+						$groups[] = $groupName;
+					}
 				}
 			}
 		}
