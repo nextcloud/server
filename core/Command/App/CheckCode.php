@@ -44,19 +44,11 @@ use OC\App\CodeChecker\PrivateCheck;
 
 class CheckCode extends Command implements CompletionAwareInterface  {
 
-	/** @var InfoParser */
-	private $infoParser;
-
 	protected $checkers = [
 		'private' => PrivateCheck::class,
 		'deprecation' => DeprecationCheck::class,
 		'strong-comparison' => StrongComparisonCheck::class,
 	];
-
-	public function __construct(InfoParser $infoParser) {
-		parent::__construct();
-		$this->infoParser = $infoParser;
-	}
 
 	protected function configure() {
 		$this
@@ -134,49 +126,11 @@ class CheckCode extends Command implements CompletionAwareInterface  {
 		}
 
 		if(!$input->getOption('skip-validate-info')) {
-			$infoChecker = new InfoChecker($this->infoParser);
-
-			$infoChecker->listen('InfoChecker', 'mandatoryFieldMissing', function($key) use ($output) {
-				$output->writeln("<error>Mandatory field missing: $key</error>");
+			// Can not inject because of circular dependency
+			$infoChecker = new InfoChecker(\OC::$server->getAppManager());
+			$infoChecker->listen('InfoChecker', 'parseError', function($error) use ($output) {
+				$output->writeln("<error>Invalid appinfo.xml file found: $error</error>");
 			});
-
-			$infoChecker->listen('InfoChecker', 'deprecatedFieldFound', function($key, $value) use ($output) {
-				if($value === [] || is_null($value) || $value === '') {
-					$output->writeln("<info>Deprecated field available: $key</info>");
-				} else {
-					$output->writeln("<info>Deprecated field available: $key => $value</info>");
-				}
-			});
-
-			$infoChecker->listen('InfoChecker', 'missingRequirement', function($minMax) use ($output) {
-				$output->writeln("<error>Nextcloud $minMax version requirement missing</error>");
-			});
-
-			$infoChecker->listen('InfoChecker', 'differentVersions', function($versionFile, $infoXML) use ($output) {
-				$output->writeln("<error>Different versions provided (appinfo/version: $versionFile - appinfo/info.xml: $infoXML)</error>");
-			});
-
-			$infoChecker->listen('InfoChecker', 'sameVersions', function($path) use ($output) {
-				$output->writeln("<info>Version file isn't needed anymore and can be safely removed ($path)</info>");
-			});
-
-			$infoChecker->listen('InfoChecker', 'migrateVersion', function($version) use ($output) {
-				$output->writeln("<error>Migrate the app version to appinfo/info.xml (add <version>$version</version> to appinfo/info.xml and remove appinfo/version)</error>");
-			});
-
-			if(OutputInterface::VERBOSITY_VERBOSE <= $output->getVerbosity()) {
-				$infoChecker->listen('InfoChecker', 'mandatoryFieldFound', function($key, $value) use ($output) {
-					$output->writeln("<info>Mandatory field available: $key => $value</info>");
-				});
-
-				$infoChecker->listen('InfoChecker', 'optionalFieldFound', function($key, $value) use ($output) {
-					$output->writeln("<info>Optional field available: $key => $value</info>");
-				});
-
-				$infoChecker->listen('InfoChecker', 'unusedFieldFound', function($key, $value) use ($output) {
-					$output->writeln("<info>Unused field available: $key => $value</info>");
-				});
-			}
 
 			$infoErrors = $infoChecker->analyse($appId);
 

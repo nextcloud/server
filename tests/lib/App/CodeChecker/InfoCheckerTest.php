@@ -44,19 +44,21 @@ class InfoCheckerTest extends TestCase {
 
 	protected function setUp() {
 		parent::setUp();
-		$this->infoChecker = new InfoChecker(new InfoParser());
+		$this->infoChecker = new InfoChecker(\OC::$server->getAppManager());
 	}
 
 	public function appInfoData() {
 		return [
-			['testapp-infoxml', []],
-			['testapp-version', [['type' => 'mandatoryFieldMissing', 'field' => 'version']]],
-			['testapp-dependency-missing', [
-				['type' => 'missingRequirement', 'field' => 'min'],
-				['type' => 'missingRequirement', 'field' => 'max'],
-				['type' => 'mandatoryFieldMissing', 'field' => 'dependencies'],
+			['testapp_infoxml', []],
+			['testapp_version', [
+				['type' => 'parseError', 'field' => 'Element \'licence\': This element is not expected. Expected is one of ( description, version ).' . "\n"],
 			]],
-			['testapp-name-missing', [['type' => 'mandatoryFieldMissing', 'field' => 'name']]],
+			['testapp_dependency_missing', [
+				['type' => 'parseError', 'field' => 'Element \'info\': Missing child element(s). Expected is one of ( repository, screenshot, dependencies ).' . "\n"],
+			]],
+			['testapp_name_missing', [
+				['type' => 'parseError', 'field' => 'Element \'summary\': This element is not expected. Expected is ( name ).' . "\n"],
+			]],
 		];
 	}
 
@@ -68,6 +70,7 @@ class InfoCheckerTest extends TestCase {
 	 */
 	public function testApps($appId, $expectedErrors) {
 		$errors = $this->infoChecker->analyse($appId);
+		libxml_clear_errors();
 
 		$this->assertEquals($expectedErrors, $errors);
 	}

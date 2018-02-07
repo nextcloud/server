@@ -411,6 +411,7 @@ class AppManager implements IAppManager {
 
 	/**
 	 * @inheritdoc
+	 * In case you change this method, also change \OC\App\CodeChecker\InfoChecker::isShipped()
 	 */
 	public function isShipped($appId) {
 		$this->loadShippedJson();
@@ -422,6 +423,10 @@ class AppManager implements IAppManager {
 		return in_array($appId, $alwaysEnabled, true);
 	}
 
+	/**
+	 * In case you change this method, also change \OC\App\CodeChecker\InfoChecker::loadShippedJson()
+	 * @throws \Exception
+	 */
 	private function loadShippedJson() {
 		if ($this->shippedApps === null) {
 			$shippedJson = \OC::$SERVERROOT . '/core/shipped.json';
