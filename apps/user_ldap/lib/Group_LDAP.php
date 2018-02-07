@@ -58,6 +58,11 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 	 */
 	protected $cachedGroupsByMember;
 
+	/**
+	 * @var string[] $cachedNestedGroups array of groups with gid (DN) as key
+	 */
+	protected $cachedNestedGroups;
+
 	/** @var GroupPluginManager */
 	protected $groupPluginManager;
 
@@ -71,6 +76,7 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 
 		$this->cachedGroupMembers = new CappedMemoryCache();
 		$this->cachedGroupsByMember = new CappedMemoryCache();
+		$this->cachedNestedGroups = new CappedMemoryCache();
 		$this->groupPluginManager = $groupPluginManager;
 	}
 
@@ -257,8 +263,8 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 		if (!is_array($groups)) {
 			return array();
 		}
-		$nestedGroups = $this->access->connection->ldapNestedGroups;
-		if ((int)$nestedGroups === 1) {
+		$nestedGroups = (int) $this->access->connection->ldapNestedGroups;
+		if ($nestedGroups === 1) {
 			$seen = array();
 			while ($group = array_pop($groups)) {
 				if ($group === $DN || array_key_exists($group, $seen)) {
@@ -268,11 +274,17 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 				$seen[$group] = 1;
 
 				// Resolve nested groups
-				$nestedGroups = $this->access->readAttribute($group, 'memberOf');
-				if (is_array($nestedGroups)) {
-					foreach ($nestedGroups as $nestedGroup) {
-						array_push($groups, $nestedGroup);
+				if (isset($cachedNestedGroups[$group])) {
+					$nestedGroups = $cachedNestedGroups[$group];
+				} else {
+					$nestedGroups = $this->access->readAttribute($group, 'memberOf');
+					if (!is_array($nestedGroups)) {
+						$nestedGroups = [];
 					}
+					$cachedNestedGroups[$group] = $nestedGroups;
+				}
+				foreach ($nestedGroups as $nestedGroup) {
+					array_push($groups, $nestedGroup);
 				}
 			}
 			// Get unique group DN's from those we have visited in the loop
