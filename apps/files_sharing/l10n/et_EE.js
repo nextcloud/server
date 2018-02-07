@@ -109,6 +109,7 @@ OC.L10N.register(
     "Upload files to %s" : "Laadi failid %s",
     "Select or drop files" : "Vali või lohista failid",
     "Uploading files…" : "Failide üleslaadimine...",
-    "Uploaded files:" : "Üleslaetud failid:"
+    "Uploaded files:" : "Üleslaetud failid:",
+    "%s is publicly shared" : "%s on avalikult jagatud"
 },
 "nplurals=2; plural=(n != 1);");

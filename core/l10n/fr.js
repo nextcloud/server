@@ -336,7 +336,9 @@ OC.L10N.register(
     "This action requires you to confirm your password:" : "Cette action nécessite que vous confirmiez votre mot de passe :",
     "Wrong password. Reset it?" : "Mot de passe incorrect. Réinitialiser ?",
     "You are about to grant \"%s\" access to your %s account." : "Vous êtes sur le point d'accorder à \"%s\" l'accès à votre compte \"%s\".",
+    "You are accessing the server from an untrusted domain." : "Vous accédez au serveur à partir d'un domaine non approuvé.",
     "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domains\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "Veuillez contacter votre administrateur. Si vous êtes un administrateur de cette instance, configurez la variable \"trusted_domains\" dans le fichier config/config.php. Un exemple de configuration est fournit dans le fichier config/config.sample.php.",
+    "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "En fonction de votre configuration, en tant qu'administrateur vous pouvez également utiliser le bouton ci-dessous pour approuver ce domaine.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Pour obtenir de l'aide, lisez la <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>."
 },
 "nplurals=2; plural=(n > 1);");
