@@ -150,11 +150,11 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node
 			$node->acquireLock(ILockingProvider::LOCK_SHARED);
 			return $node->put($data);
 		} catch (\OCP\Files\StorageNotAvailableException $e) {
-			throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage());
+			throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage(), $e->getCode(), $e);
 		} catch (InvalidPathException $ex) {
-			throw new InvalidPath($ex->getMessage());
+			throw new InvalidPath($ex->getMessage(), false, $ex);
 		} catch (ForbiddenException $ex) {
-			throw new Forbidden($ex->getMessage(), $ex->getRetry());
+			throw new Forbidden($ex->getMessage(), $ex->getRetry(), $ex);
 		} catch (LockedException $e) {
 			throw new FileLocked($e->getMessage(), $e->getCode(), $e);
 		}
