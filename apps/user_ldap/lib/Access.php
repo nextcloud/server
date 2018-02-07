@@ -565,7 +565,11 @@ class Access extends LDAPUtility implements IUserTools {
 		}
 
 		if(is_null($ldapName)) {
-			$ldapName = $this->readAttribute($fdn, $nameAttribute);
+			if ($isUser) {
+				$ldapName = $this->readAttribute($fdn, $nameAttribute, $this->connection->ldapUserFilter);
+			} else {
+				$ldapName = $this->readAttribute($fdn, $nameAttribute);
+			}
 			if(!isset($ldapName[0]) && empty($ldapName[0])) {
 				\OCP\Util::writeLog('user_ldap', 'No or empty name for '.$fdn.'.', \OCP\Util::INFO);
 				return false;
