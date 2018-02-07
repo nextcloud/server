@@ -378,6 +378,18 @@
     "change full name" : "更改全名",
     "set new password" : "设置新密码",
     "change email address" : "修改电子邮箱地址",
-    "Default" : "默认"
+    "Default" : "默认",
+    "Sync clients" : "同步客户端",
+    "Get the apps to sync your files" : "安装应用进行文件同步",
+    "Desktop client" : "桌面客户端",
+    "Android app" : "安卓应用",
+    "iOS app" : "iOS 应用",
+    "App passwords" : "应用密码",
+    "Follow us on Google+!" : "在 Google+ 上关注我们!",
+    "Like our facebook page!" : "点赞我们 facebook 页面!",
+    "Follow us on Twitter!" : "在 Twitter 上关注我们!",
+    "Check out our blog!" : "浏览我们的博客！",
+    "Subscribe to our newsletter!" : "订阅我们的最新消息!",
+    "Group name" : "分组名称"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
