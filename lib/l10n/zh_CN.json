@@ -225,6 +225,7 @@
     "Storage incomplete configuration. %s" : "存储未完成配置. %s",
     "Storage connection error. %s" : "存储连接错误. %s",
     "Storage is temporarily not available" : "存储暂时不可用",
-    "Storage connection timeout. %s" : "存储连接超时. %s"
+    "Storage connection timeout. %s" : "存储连接超时. %s",
+    "Personal" : "个人"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

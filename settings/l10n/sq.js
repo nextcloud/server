@@ -368,6 +368,7 @@ OC.L10N.register(
     "change full name" : "ndryshoni emrin e plotë",
     "set new password" : "caktoni fjalëkalim të ri",
     "change email address" : "ndryshoni adresën email",
-    "Default" : "Parazgjedhje"
+    "Default" : "Parazgjedhje",
+    "__language_name__" : "Shqip"
 },
 "nplurals=2; plural=(n != 1);");
