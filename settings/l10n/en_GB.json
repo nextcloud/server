@@ -382,6 +382,7 @@
     "change full name" : "change full name",
     "set new password" : "set new password",
     "change email address" : "change email address",
-    "Default" : "Default"
+    "Default" : "Default",
+    "__language_name__" : "English (British English)"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -384,6 +384,7 @@ OC.L10N.register(
     "change full name" : "change full name",
     "set new password" : "set new password",
     "change email address" : "change email address",
-    "Default" : "Default"
+    "Default" : "Default",
+    "__language_name__" : "English (British English)"
 },
 "nplurals=2; plural=(n != 1);");

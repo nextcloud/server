@@ -373,6 +373,7 @@ OC.L10N.register(
     "change full name" : "ändra namn",
     "set new password" : "ange nytt lösenord",
     "change email address" : "ändra e-postadress",
-    "Default" : "Förvald"
+    "Default" : "Förvald",
+    "__language_name__" : "Svenska"
 },
 "nplurals=2; plural=(n != 1);");

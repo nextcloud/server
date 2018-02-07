@@ -391,7 +391,7 @@ OC.L10N.register(
     "Error while removing app" : "Erro ao excluir aplicativo",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "O aplicativo foi ativado, mas precisa ser atualizado. Você será redirecionado para a página de atualização em 5 segundos.",
     "App update" : "Atualizar aplicativo",
-    "__language_name__" : "__language_name__",
+    "__language_name__" : "Português Brasileiro",
     "Verifying" : "Verificando",
     "Personal info" : "Informação pessoal",
     "Sync clients" : "Sincronizar clientes",
