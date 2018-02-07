@@ -146,6 +146,10 @@ OC.L10N.register(
     "Tags" : "Címkék",
     "Deleted files" : "Törölt fájlok",
     "Text file" : "Szövegfájl",
-    "New text file.txt" : "Új szöveges fájl.txt"
+    "New text file.txt" : "Új szöveges fájl.txt",
+    "Move" : "Áthelyezés",
+    "A new file or folder has been <strong>deleted</strong>" : "Egy új fájl vagy mappa <strong>törölve</strong>",
+    "A new file or folder has been <strong>restored</strong>" : "Egy új fájl vagy mappa <strong>visszaállítva</strong>",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Használja ezt a címet <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">a Fájlok eléréséhez WebDAV-on keresztül</a>."
 },
 "nplurals=2; plural=(n != 1);");
