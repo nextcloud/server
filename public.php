@@ -27,6 +27,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
+
+// Show warning if a PHP version below 5.6.0 is used, this has to happen here
+// because base.php will already use 5.6 syntax.
+if (version_compare(PHP_VERSION, '5.6.0') === -1) {
+	echo 'This version of Nextcloud requires at least PHP 5.6.0<br/>';
+	echo 'You are currently running ' . PHP_VERSION . '. Please update your PHP version.';
+	return;
+}
+
+// Show warning if PHP 7.2 is used as Nextcloud is not compatible with PHP 7.2 for now
+// @see https://github.com/nextcloud/server/pull/5791
+if (version_compare(PHP_VERSION, '7.2.0') !== -1) {
+	echo 'This version of Nextcloud is not compatible with PHP 7.2.<br/>';
+	echo 'You are currently running ' . PHP_VERSION . '.';
+	return;
+}
+
+
 try {
 
 	require_once __DIR__ . '/lib/base.php';
