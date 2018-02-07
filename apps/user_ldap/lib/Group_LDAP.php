@@ -263,7 +263,6 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 		if (!is_array($groups)) {
 			return array();
 		}
-		$groups = $this->access->groupsMatchFilter($groups);
 		$allGroups =  $groups;
 		$nestedGroups = $this->access->connection->ldapNestedGroups;
 		if ((int)$nestedGroups === 1) {
@@ -272,7 +271,7 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 				$allGroups = array_merge($allGroups, $subGroups);
 			}
 		}
-		return $allGroups;
+		return $this->access->groupsMatchFilter($allGroups);
 	}
 
 	/**
