@@ -1,23 +1,25 @@
 <?xml version="1.0"?>
-<info>
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
 	<id>theming</id>
 	<name>Theming</name>
+	<summary>Adjust the Nextcloud theme</summary>
 	<description>Adjust the Nextcloud theme</description>
-	<licence>AGPL</licence>
-	<author>Nextcloud</author>
 	<version>1.5.0</version>
+	<licence>agpl</licence>
+	<author>Nextcloud</author>
 	<namespace>Theming</namespace>
-	<category>other</category>
-
-	<dependencies>
-		<nextcloud min-version="14" max-version="14" />
-	</dependencies>
+	<default_enable/>
 
 	<types>
 		<logging/>
 	</types>
 
-	<default_enable/>
+	<category>customization</category>
+	<bugs>https://github.com/nextcloud/server/issues</bugs>
+	<dependencies>
+		<nextcloud min-version="14" max-version="14" />
+	</dependencies>
 
 	<settings>
 		<admin>OCA\Theming\Settings\Admin</admin>
