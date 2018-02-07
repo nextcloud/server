@@ -252,28 +252,33 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 	 * @param array|null &$seen
 	 * @return array
 	 */
-	private function _getGroupDNsFromMemberOf($DN, &$seen = null) {
-		if ($seen === null) {
-			$seen = array();
-		}
-		if (array_key_exists($DN, $seen)) {
-			// avoid loops
-			return array();
-		}
-		$seen[$DN] = 1;
+	private function _getGroupDNsFromMemberOf($DN) {
 		$groups = $this->access->readAttribute($DN, 'memberOf');
 		if (!is_array($groups)) {
 			return array();
 		}
-		$allGroups =  $groups;
 		$nestedGroups = $this->access->connection->ldapNestedGroups;
 		if ((int)$nestedGroups === 1) {
-			foreach ($groups as $group) {
-				$subGroups = $this->_getGroupDNsFromMemberOf($group, $seen);
-				$allGroups = array_merge($allGroups, $subGroups);
+			$seen = array();
+			while ($group = array_pop($groups)) {
+				if ($group === $DN || array_key_exists($group, $seen)) {
+					// Prevent loops
+					continue;
+				}
+				$seen[$group] = 1;
+
+				// Resolve nested groups
+				$nestedGroups = $this->access->readAttribute($group, 'memberOf');
+				if (is_array($nestedGroups)) {
+					foreach ($nestedGroups as $nestedGroup) {
+						array_push($groups, $nestedGroup);
+					}
+				}
 			}
+			// Get unique group DN's from those we have visited in the loop
+			$groups = array_keys($seen);
 		}
-		return $this->access->groupsMatchFilter($allGroups);
+		return $this->access->groupsMatchFilter($groups);
 	}
 
 	/**
