@@ -117,6 +117,10 @@ class Swift implements IObjectStore {
 		/** @var Catalog $catalog */
 		$catalog = $this->client->getCatalog();
 
+		if (count($catalog->getItems()) === 0) {
+			throw new StorageAuthException('Keystone did not provide a valid catalog, verify the credentials');
+		}
+
 		if (isset($this->params['serviceName'])) {
 			$serviceName = $this->params['serviceName'];
 		} else {
