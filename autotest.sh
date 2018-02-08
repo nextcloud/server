@@ -369,6 +369,9 @@ function execute_tests {
 	if [ "$TEST_SELECTION" == "PRIMARY-s3" ]; then
 		GROUP='--group PRIMARY-s3'
 	fi
+	if [ "$TEST_SELECTION" == "PRIMARY-swift" ]; then
+		GROUP='--group PRIMARY-swift'
+	fi
 
 	COVER=''
 	if [ -z "$NOCOVERAGE" ]; then

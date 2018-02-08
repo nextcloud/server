@@ -596,6 +596,7 @@ pipeline:
       image: nextcloudci/php7.0:php7.0-19
       commands:
         - phpenmod xdebug
+        - ./tests/drone-wait-objectstore.sh
         - TEST_SELECTION=PRIMARY-${OBJECT_STORE} ./autotest.sh sqlite
         - wget https://codecov.io/bash -O codecov.sh
         - sh -c "if [ '$DRONE_BUILD_EVENT' = 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -P $DRONE_PULL_REQUEST -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-clover-sqlite.xml; fi"
@@ -743,6 +744,8 @@ matrix:
     - TESTS: carddavtester-old-endpoint
     - TESTS: object-store
       OBJECT_STORE: s3
+    - TESTS: object-store
+      OBJECT_STORE: swift
     - TESTS: sqlite-php7.0-samba-native
     - TESTS: sqlite-php7.0-samba-non-native
     - TEST: memcache-memcached
@@ -838,6 +841,14 @@ services:
       when:
         matrix:
           OBJECT_STORE: s3
+  dockswift:
+      image: icewind1991/dockswift
+      environment:
+      - INITIALIZE=yes
+      - IPADDRESS=dockswift
+      when:
+        matrix:
+          OBJECT_STORE: swift
   selenium:
     image: selenium/standalone-firefox:2.53.1-beryllium
     environment:

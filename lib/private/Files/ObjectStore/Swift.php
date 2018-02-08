@@ -26,6 +26,7 @@
 namespace OC\Files\ObjectStore;
 
 use Guzzle\Http\Exception\ClientErrorResponseException;
+use Guzzle\Http\Exception\CurlException;
 use Icewind\Streams\RetryWrapper;
 use OCP\Files\ObjectStore\IObjectStore;
 use OCP\Files\StorageAuthException;
@@ -87,6 +88,9 @@ class Swift implements IObjectStore {
 		$this->params = $params;
 	}
 
+	/**
+	 * @suppress PhanNonClassMethodCall
+	 */
 	protected function init() {
 		if ($this->container) {
 			return;
@@ -116,6 +120,10 @@ class Swift implements IObjectStore {
 
 		/** @var Catalog $catalog */
 		$catalog = $this->client->getCatalog();
+
+		if (count($catalog->getItems()) === 0) {
+			throw new StorageAuthException('Keystone did not provide a valid catalog, verify the credentials');
+		}
 
 		if (isset($this->params['serviceName'])) {
 			$serviceName = $this->params['serviceName'];
@@ -153,6 +161,13 @@ class Swift implements IObjectStore {
 			} else {
 				throw $ex;
 			}
+		} catch (CurlException $e) {
+			if ($e->getErrorNo() === 7) {
+				$host = $e->getCurlHandle()->getUrl()->getHost() . ':' . $e->getCurlHandle()->getUrl()->getPort();
+				\OC::$server->getLogger()->error("Can't connect to object storage server at $host");
+				throw new StorageNotAvailableException("Can't connect to object storage server at $host", StorageNotAvailableException::STATUS_ERROR, $e);
+			}
+			throw $e;
 		}
 	}
 
@@ -176,7 +191,7 @@ class Swift implements IObjectStore {
 				$itemClass = new \stdClass();
 				$itemClass->name = $item['name'];
 				$itemClass->endpoints = array_map(function (array $endpoint) {
-					return (object) $endpoint;
+					return (object)$endpoint;
 				}, $item['endpoints']);
 				$itemClass->type = $item['type'];
 

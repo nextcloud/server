@@ -369,7 +369,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 					'app' => 'objectstore',
 					'message' => 'Could not create object for ' . $path,
 				]);
-				return false;
+				throw $ex;
 			}
 		}
 		return true;
