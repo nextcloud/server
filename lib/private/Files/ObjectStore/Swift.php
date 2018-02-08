@@ -88,6 +88,9 @@ class Swift implements IObjectStore {
 		$this->params = $params;
 	}
 
+	/**
+	 * @suppress PhanNonClassMethodCall
+	 */
 	protected function init() {
 		if ($this->container) {
 			return;
