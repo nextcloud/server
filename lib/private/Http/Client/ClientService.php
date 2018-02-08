@@ -23,6 +23,7 @@
 namespace OC\Http\Client;
 
 use GuzzleHttp\Client as GuzzleClient;
+use GuzzleHttp\HandlerStack;
 use OCP\Http\Client\IClientService;
 use OCP\ICertificateManager;
 use OCP\IConfig;
@@ -52,6 +53,6 @@ class ClientService implements IClientService {
 	 * @return Client
 	 */
 	public function newClient() {
-		return new Client($this->config, $this->certificateManager, new GuzzleClient());
+		return new Client($this->config, $this->certificateManager, new GuzzleClient(), HandlerStack::create());
 	}
 }

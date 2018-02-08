@@ -24,9 +24,12 @@
 namespace OC\Http\Client;
 
 use GuzzleHttp\Client as GuzzleClient;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Middleware;
 use OCP\Http\Client\IClient;
 use OCP\ICertificateManager;
 use OCP\IConfig;
+use Psr\Http\Message\RequestInterface;
 
 /**
  * Class Client
@@ -41,17 +44,23 @@ class Client implements IClient {
 	/** @var ICertificateManager */
 	private $certificateManager;
 	private $configured = false;
+	/** @var HandlerStack */
+	private $stack;
 
 	/**
 	 * @param IConfig $config
 	 * @param ICertificateManager $certificateManager
 	 * @param GuzzleClient $client
 	 */
-	public function __construct(IConfig $config,
-								ICertificateManager $certificateManager,
-								GuzzleClient $client) {
+	public function __construct(
+		IConfig $config,
+		ICertificateManager $certificateManager,
+		GuzzleClient $client,
+		HandlerStack $stack
+	) {
 		$this->config = $config;
 		$this->client = $client;
+		$this->stack = $stack;
 		$this->certificateManager = $certificateManager;
 	}
 
@@ -63,24 +72,36 @@ class Client implements IClient {
 			return;
 		}
 		$this->configured = true;
-		// Either use user bundle or the system bundle if nothing is specified
+
+		$this->stack->push(Middleware::mapRequest(function (RequestInterface $request) {
+			return $request
+				->withHeader('User-Agent', 'Nextcloud Server Crawler');
+		}));
+	}
+
+	private function getRequestOptions() {
+		$options = [
+			'verify' => $this->getCertBundle(),
+		];
+		$proxyUri = $this->getProxyUri();
+		if ($proxyUri !== '') {
+			$options['proxy'] = $proxyUri;
+		}
+		return $options;
+	}
+
+	private function getCertBundle() {
 		if ($this->certificateManager->listCertificates() !== []) {
-			$this->client->setDefaultOption('verify', $this->certificateManager->getAbsoluteBundlePath());
+			return $this->certificateManager->getAbsoluteBundlePath();
 		} else {
 			// If the instance is not yet setup we need to use the static path as
 			// $this->certificateManager->getAbsoluteBundlePath() tries to instantiiate
 			// a view
 			if ($this->config->getSystemValue('installed', false)) {
-				$this->client->setDefaultOption('verify', $this->certificateManager->getAbsoluteBundlePath(null));
+				return $this->certificateManager->getAbsoluteBundlePath(null);
 			} else {
-				$this->client->setDefaultOption('verify', \OC::$SERVERROOT . '/resources/config/ca-bundle.crt');
+				return \OC::$SERVERROOT . '/resources/config/ca-bundle.crt';
 			}
-		}
-
-		$this->client->setDefaultOption('headers/User-Agent', 'Nextcloud Server Crawler');
-		$proxyUri = $this->getProxyUri();
-		if ($proxyUri !== '') {
-			$this->client->setDefaultOption('proxy', $proxyUri);
 		}
 	}
 
@@ -135,7 +156,7 @@ class Client implements IClient {
 	 */
 	public function get($uri, array $options = []) {
 		$this->setDefaultOptions();
-		$response = $this->client->get($uri, $options);
+		$response = $this->client->request('get', $uri, array_merge($options, $this->getRequestOptions()));
 		$isStream = isset($options['stream']) && $options['stream'];
 		return new Response($response, $isStream);
 	}
@@ -166,7 +187,7 @@ class Client implements IClient {
 	 */
 	public function head($uri, $options = []) {
 		$this->setDefaultOptions();
-		$response = $this->client->head($uri, $options);
+		$response = $this->client->request('head', $uri, array_merge($options, $this->getRequestOptions()));
 		return new Response($response);
 	}
 
@@ -201,7 +222,7 @@ class Client implements IClient {
 	 */
 	public function post($uri, array $options = []) {
 		$this->setDefaultOptions();
-		$response = $this->client->post($uri, $options);
+		$response = $this->client->request('post', $uri, array_merge($options, $this->getRequestOptions()));
 		return new Response($response);
 	}
 
@@ -236,7 +257,7 @@ class Client implements IClient {
 	 */
 	public function put($uri, array $options = []) {
 		$this->setDefaultOptions();
-		$response = $this->client->put($uri, $options);
+		$response = $this->client->request('put', $uri, array_merge($options, $this->getRequestOptions()));
 		return new Response($response);
 	}
 
@@ -271,7 +292,7 @@ class Client implements IClient {
 	 */
 	public function delete($uri, array $options = []) {
 		$this->setDefaultOptions();
-		$response = $this->client->delete($uri, $options);
+		$response = $this->client->request('delete', $uri, array_merge($options, $this->getRequestOptions()));
 		return new Response($response);
 	}
 
@@ -307,7 +328,7 @@ class Client implements IClient {
 	 */
 	public function options($uri, array $options = []) {
 		$this->setDefaultOptions();
-		$response = $this->client->options($uri, $options);
+		$response = $this->client->request('options', $uri, array_merge($options, $this->getRequestOptions()));
 		return new Response($response);
 	}
 }
