@@ -6,5 +6,5 @@ if [ "$OBJECT_STORE" == "swift" ]; then
     do
         sleep 2
     done
-    sleep 30
+    sleep 60
 fi
