@@ -41,7 +41,6 @@
 			</li>
 		<?php } ?>
 		<li><a target="_blank" rel="noreferrer noopener" href="<?php p(link_to_docs('admin-backup')); ?>"><?php p($l->t('How to do backups'));?> ↗</a></li>
-		<li><a target="_blank" rel="noreferrer noopener" href="<?php p(link_to_docs('admin-monitoring')); ?>"><?php p($l->t('Advanced monitoring'));?> ↗</a></li>
 		<li><a target="_blank" rel="noreferrer noopener" href="<?php p(link_to_docs('admin-performance')); ?>"><?php p($l->t('Performance tuning'));?> ↗</a></li>
 		<li><a target="_blank" rel="noreferrer noopener" href="<?php p(link_to_docs('admin-config')); ?>"><?php p($l->t('Improving the config.php'));?> ↗</a></li>
 		<li><a target="_blank" rel="noreferrer noopener" href="<?php p(link_to_docs('developer-theming')); ?>"><?php p($l->t('Theming'));?> ↗</a></li>
