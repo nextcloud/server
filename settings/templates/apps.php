@@ -29,7 +29,7 @@ script(
 
 <?php if($_['appstoreEnabled']): ?>
 	<li>
-		<a class="app-external icon-info" target="_blank" rel="noreferrer noopener" href="https://docs.nextcloud.org/server/12/developer_manual/"><?php p($l->t('Developer documentation'));?> ↗</a>
+		<a class="app-external icon-info" target="_blank" rel="noreferrer noopener" href="https://docs.nextcloud.org/server/13/developer_manual/"><?php p($l->t('Developer documentation'));?> ↗</a>
 	</li>
 <?php endif; ?>
 </script>
