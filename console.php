@@ -25,27 +25,13 @@
  *
  */
 
+require_once __DIR__ . '/lib/versioncheck.php';
+
 use OC\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
 define('OC_CONSOLE', 1);
-
-// Show warning if a PHP version below 5.6.0 is used, this has to happen here
-// because base.php will already use 5.6 syntax.
-if (version_compare(PHP_VERSION, '5.6.0') === -1) {
-	echo 'This version of Nextcloud requires at least PHP 5.6.0'.PHP_EOL;
-	echo 'You are currently running ' . PHP_VERSION . '. Please update your PHP version.'.PHP_EOL;
-	return;
-}
-
-// Show warning if PHP 7.2 is used as Nextcloud is not compatible with PHP 7.2 for now
-// @see https://github.com/nextcloud/server/pull/5791
-if (version_compare(PHP_VERSION, '7.2.0') !== -1) {
-	echo 'This version of Nextcloud is not compatible with PHP 7.2.<br/>';
-	echo 'You are currently running ' . PHP_VERSION . '.';
-	return;
-}
 
 function exceptionHandler($exception) {
 	echo "An unhandled exception has been thrown:" . PHP_EOL;

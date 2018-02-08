@@ -27,6 +27,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
+require_once __DIR__ . '/lib/versioncheck.php';
+
 try {
 
 	require_once __DIR__ . '/lib/base.php';

@@ -27,6 +27,8 @@
  *
  */
 
+require_once __DIR__ . '/lib/versioncheck.php';
+
 try {
 
 	require_once __DIR__ . '/lib/base.php';
