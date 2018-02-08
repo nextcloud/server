@@ -625,7 +625,7 @@ class Group_LDAPTest extends TestCase {
 			->method('dn2groupname')
 			->will($this->returnArgument(0));
 
-		$access->expects($this->exactly(3))
+		$access->expects($this->exactly(1))
 			->method('groupsMatchFilter')
 			->will($this->returnArgument(0));
 
