@@ -654,6 +654,11 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 			foreach($groupsToMatch as $dynamicGroup) {
 				if ($urlIsFilter) {
 					// Replace '%gid' with the group's DN
+					if (is_string($dynamicGroup)) {
+						// fetchListOfGroups returns an array of strings when called
+						// with a single attribute to fetch. Make this compatible.
+						$dynamicGroup = array('dn' => array($dynamicGroup));
+					}
 					$memberUrlFilter = preg_replace('/%gid(?=\b)/', $dynamicGroup['dn'][0], $dynamicGroupMemberURL);
 				} else {
 					// Resolve filter from given attribute
