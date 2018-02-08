@@ -21,6 +21,7 @@
 
 namespace Tests\Settings\Controller;
 
+use Guzzle\Http\Message\Response;
 use OC\Settings\Controller\CheckSetupController;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataDisplayResponse;
@@ -460,7 +461,7 @@ class CheckSetupControllerTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 		$exception = $this->getMockBuilder('\GuzzleHttp\Exception\ClientException')
 			->disableOriginalConstructor()->getMock();
-		$response = $this->getMockBuilder('\GuzzleHttp\Message\ResponseInterface')
+		$response = $this->getMockBuilder(Response::class)
 			->disableOriginalConstructor()->getMock();
 		$response->expects($this->once())
 			->method('getStatusCode')
@@ -494,7 +495,7 @@ class CheckSetupControllerTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 		$exception = $this->getMockBuilder('\GuzzleHttp\Exception\ClientException')
 			->disableOriginalConstructor()->getMock();
-		$response = $this->getMockBuilder('\GuzzleHttp\Message\ResponseInterface')
+		$response = $this->getMockBuilder(Response::class)
 			->disableOriginalConstructor()->getMock();
 		$response->expects($this->once())
 			->method('getStatusCode')
