@@ -521,6 +521,7 @@ return array(
     'OC\\Core\\Controller\\JsController' => $baseDir . '/core/Controller/JsController.php',
     'OC\\Core\\Controller\\LoginController' => $baseDir . '/core/Controller/LoginController.php',
     'OC\\Core\\Controller\\LostController' => $baseDir . '/core/Controller/LostController.php',
+    'OC\\Core\\Controller\\NavigationController' => $baseDir . '/core/Controller/NavigationController.php',
     'OC\\Core\\Controller\\OCJSController' => $baseDir . '/core/Controller/OCJSController.php',
     'OC\\Core\\Controller\\OCSController' => $baseDir . '/core/Controller/OCSController.php',
     'OC\\Core\\Controller\\PreviewController' => $baseDir . '/core/Controller/PreviewController.php',
