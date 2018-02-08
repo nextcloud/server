@@ -264,7 +264,7 @@ class Swift implements IObjectStore {
 		// save the object content in the context of the stream to prevent it being gc'd until the stream is closed
 		stream_context_set_option($stream, 'swift', 'content', $objectContent);
 
-		RetryWrapper::wrap($stream);
+		return RetryWrapper::wrap($stream);
 	}
 
 	/**
