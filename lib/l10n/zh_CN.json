@@ -226,6 +226,7 @@
     "Storage connection error. %s" : "存储连接错误. %s",
     "Storage is temporarily not available" : "存储暂时不可用",
     "Storage connection timeout. %s" : "存储连接超时. %s",
-    "Personal" : "个人"
+    "Personal" : "个人",
+    "No app name specified" : "没有指定的 App 名称"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
