@@ -166,8 +166,8 @@ class SimpleMenuAction implements IMenuAction {
 	public function render(): string {
 		$detailContent = ($this->detail !== '') ? '&nbsp;<span class="download-size">(' . Util::sanitizeHTML($this->detail) . ')</span>' : '';
 		return sprintf(
-			'<li><a href="%s"><span class="icon %s"></span>%s %s</a></li>',
-			Util::sanitizeHTML($this->link), Util::sanitizeHTML($this->icon), Util::sanitizeHTML($this->label), Util::sanitizeHTML($detailContent)
+			'<li id="%s"><a href="%s"><span class="icon %s"></span>%s %s</a></li>',
+			Util::sanitizeHTML($this->id), Util::sanitizeHTML($this->link), Util::sanitizeHTML($this->icon), Util::sanitizeHTML($this->label), $detailContent
 		);
 	}
 
