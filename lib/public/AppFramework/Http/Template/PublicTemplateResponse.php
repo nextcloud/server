@@ -25,33 +25,67 @@ namespace OCP\AppFramework\Http\Template;
 
 use OCP\AppFramework\Http\TemplateResponse;
 
+/**
+ * Class PublicTemplateResponse
+ *
+ * @package OCP\AppFramework\Http\Template
+ * @since 14.0.0
+ */
 class PublicTemplateResponse extends TemplateResponse {
 
 	private $headerTitle = '';
 	private $headerDetails = '';
 	private $headerActions = [];
 
+	/**
+	 * PublicTemplateResponse constructor.
+	 *
+	 * @param string $appName
+	 * @param string $templateName
+	 * @param array $params
+	 * @since 14.0.0
+	 */
 	public function __construct(string $appName, string $templateName, array $params = array()) {
 		parent::__construct($appName, $templateName, $params, 'public');
 		\OC_Util::addScript('core', 'public/publicpage');
 	}
 
+	/**
+	 * @param string $title
+	 * @since 14.0.0
+	 */
 	public function setHeaderTitle(string $title) {
 		$this->headerTitle = $title;
 	}
 
+	/**
+	 * @return string
+	 * @since 14.0.0
+	 */
 	public function getHeaderTitle(): string {
 		return $this->headerTitle;
 	}
 
+	/**
+	 * @param string $details
+	 * @since 14.0.0
+	 */
 	public function setHeaderDetails(string $details) {
 		$this->headerDetails = $details;
 	}
 
+	/**
+	 * @return string
+	 * @since 14.0.0
+	 */
 	public function getHeaderDetails(): string {
 		return $this->headerDetails;
 	}
 
+	/**
+	 * @param array $actions
+	 * @since 14.0.0
+	 */
 	public function setHeaderActions(array $actions) {
 		foreach ($actions as $action) {
 			if ($actions instanceof IMenuAction) {
@@ -61,10 +95,18 @@ class PublicTemplateResponse extends TemplateResponse {
 		}
 	}
 
+	/**
+	 * @param IMenuAction $action
+	 * @since 14.0.0
+	 */
 	public function addAction(IMenuAction $action) {
 		$this->headerActions[] = $action;
 	}
 
+	/**
+	 * @return IMenuAction
+	 * @since 14.0.0
+	 */
 	public function getPrimaryAction(): IMenuAction {
 		$lowest = null;
 		foreach ($this->headerActions as $action) {
@@ -75,12 +117,17 @@ class PublicTemplateResponse extends TemplateResponse {
 		return $lowest;
 	}
 
+	/**
+	 * @return int
+	 * @since 14.0.0
+	 */
 	public function getActionCount(): int {
 		return count($this->headerActions);
 	}
 
 	/**
 	 * @return IMenuAction[]
+	 * @since 14.0.0
 	 */
 	public function getOtherActions(): array {
 		$list = [];
@@ -93,7 +140,10 @@ class PublicTemplateResponse extends TemplateResponse {
 		return $list;
 	}
 
-
+	/**
+	 * @return string
+	 * @since 14.0.0
+	 */
 	public function render() {
 		$params = array_merge($this->getParams(), [
 			'template' => $this,

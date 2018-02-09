@@ -29,6 +29,7 @@ use OCP\Util;
  * Class SimpleMenuAction
  *
  * @package OCP\AppFramework\Http\Template
+ * @since 14.0.0
  */
 class SimpleMenuAction implements IMenuAction {
 
@@ -59,6 +60,7 @@ class SimpleMenuAction implements IMenuAction {
 	 * @param string $link
 	 * @param int $priority
 	 * @param string $detail
+	 * @since 14.0.0
 	 */
 	public function __construct(string $id, string $label, string $icon, string $link = '', int $priority = 100, string $detail = '') {
 		$this->id = $id;
@@ -71,6 +73,7 @@ class SimpleMenuAction implements IMenuAction {
 
 	/**
 	 * @param string $id
+	 * @since 14.0.0
 	 */
 	public function setId(string $id) {
 		$this->id = $id;
@@ -78,6 +81,7 @@ class SimpleMenuAction implements IMenuAction {
 
 	/**
 	 * @param string $label
+	 * @since 14.0.0
 	 */
 	public function setLabel(string $label) {
 		$this->label = $label;
@@ -85,6 +89,7 @@ class SimpleMenuAction implements IMenuAction {
 
 	/**
 	 * @param string $detail
+	 * @since 14.0.0
 	 */
 	public function setDetail(string $detail) {
 		$this->detail = $detail;
@@ -92,6 +97,7 @@ class SimpleMenuAction implements IMenuAction {
 
 	/**
 	 * @param string $icon
+	 * @since 14.0.0
 	 */
 	public function setIcon(string $icon) {
 		$this->icon = $icon;
@@ -99,6 +105,7 @@ class SimpleMenuAction implements IMenuAction {
 
 	/**
 	 * @param string $link
+	 * @since 14.0.0
 	 */
 	public function setLink(string $link) {
 		$this->link = $link;
@@ -106,6 +113,7 @@ class SimpleMenuAction implements IMenuAction {
 
 	/**
 	 * @param int $priority
+	 * @since 14.0.0
 	 */
 	public function setPriority(int $priority) {
 		$this->priority = $priority;
@@ -113,6 +121,7 @@ class SimpleMenuAction implements IMenuAction {
 
 	/**
 	 * @return string
+	 * @since 14.0.0
 	 */
 	public function getId(): string {
 		return $this->id;
@@ -120,6 +129,7 @@ class SimpleMenuAction implements IMenuAction {
 
 	/**
 	 * @return string
+	 * @since 14.0.0
 	 */
 	public function getLabel(): string {
 		return $this->label;
@@ -127,6 +137,7 @@ class SimpleMenuAction implements IMenuAction {
 
 	/**
 	 * @return string
+	 * @since 14.0.0
 	 */
 	public function getIcon(): string {
 		return $this->icon;
@@ -134,6 +145,7 @@ class SimpleMenuAction implements IMenuAction {
 
 	/**
 	 * @return string
+	 * @since 14.0.0
 	 */
 	public function getLink(): string {
 		return $this->link;
@@ -141,6 +153,7 @@ class SimpleMenuAction implements IMenuAction {
 
 	/**
 	 * @return int
+	 * @since 14.0.0
 	 */
 	public function getPriority(): int {
 		return $this->priority;
@@ -148,6 +161,7 @@ class SimpleMenuAction implements IMenuAction {
 
 	/**
 	 * @return string
+	 * @since 14.0.0
 	 */
 	public function render(): string {
 		$detailContent = ($this->detail !== '') ? '&nbsp;<span class="download-size">(' . Util::sanitizeHTML($this->detail) . ')</span>' : '';
