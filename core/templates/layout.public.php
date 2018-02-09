@@ -54,7 +54,7 @@
 				</a>
 			</span>
 			<?php if($template->getActionCount()>1) { ?>
-			<span class="menutoggle icon-more-white"></span>
+			<span id="header-actions-toggle" class="menutoggle icon-more-white"></span>
 			<div id="share-menu" class="popovermenu menu">
 				<ul>
 					<?php
