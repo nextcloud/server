@@ -22,6 +22,7 @@
  */
 namespace OCP\Files\SimpleFS;
 
+use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 
 /**
@@ -67,6 +68,8 @@ interface ISimpleFile {
 	/**
 	 * Get the content
 	 *
+	 * @throws NotPermittedException
+	 * @throws NotFoundException
 	 * @return string
 	 * @since 11.0.0
 	 */
