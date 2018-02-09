@@ -156,7 +156,13 @@ class SMB extends Common implements INotifyStorage {
 				$this->statCache[$path . '/' . $file->getName()] = $file;
 			}
 			return array_filter($files, function (IFileInfo $file) {
-				return !$file->isHidden();
+				try {
+					return !$file->isHidden();
+				} catch (ForbiddenException $e) {
+					return false;
+				} catch (NotFoundException $e) {
+					return false;
+				}
 			});
 		} catch (ConnectException $e) {
 			throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
@@ -230,8 +236,12 @@ class SMB extends Common implements INotifyStorage {
 		$highestMTime = 0;
 		$files = $this->share->dir($this->root);
 		foreach ($files as $fileInfo) {
-			if ($fileInfo->getMTime() > $highestMTime) {
-				$highestMTime = $fileInfo->getMTime();
+			try {
+				if ($fileInfo->getMTime() > $highestMTime) {
+					$highestMTime = $fileInfo->getMTime();
+				}
+			} catch (NotFoundException $e) {
+				// Ignore this, can happen on unavailable DFS shares
 			}
 		}
 		return $highestMTime;
