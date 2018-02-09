@@ -146,6 +146,7 @@ OC.L10N.register(
     "Tags" : "Merkelapper",
     "Deleted files" : "Slettede filer",
     "Text file" : "Tekstfil",
-    "New text file.txt" : "Ny tekstfil.txt"
+    "New text file.txt" : "Ny tekstfil.txt",
+    "Move" : "Flytt"
 },
 "nplurals=2; plural=(n != 1);");

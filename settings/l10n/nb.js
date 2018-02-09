@@ -383,6 +383,10 @@ OC.L10N.register(
     "change full name" : "endre fullt navn",
     "set new password" : "sett nytt passord",
     "change email address" : "endre e-postadresse",
-    "Default" : "Forvalg"
+    "Default" : "Forvalg",
+    "Desktop client" : "Skrivebordsklient",
+    "Android app" : "Android-program",
+    "iOS app" : "iOS-program",
+    "Group name" : "Gruppenavn"
 },
 "nplurals=2; plural=(n != 1);");

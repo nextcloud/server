@@ -1,0 +1,24 @@
+{ "translations": {
+    "Cannot write into \"config\" directory!" : "\"config\" ডিরেক্টরিতে লেখা যায়না!",
+    "This can usually be fixed by giving the webserver write access to the config directory" : "সাধারণতঃ ওয়বসার্ভারকে কনফিগ ডিরেক্টরিতে লেখার অধিকার দিয়ে এই সমস্যা সমাধান করা যায়",
+    "See %s" : "%s দেখ",
+    "Sample configuration detected" : "নমুনা কনফিগারেশন পাওয়া গেছে",
+    "Unknown filetype" : "অজানা প্রকৃতির ফাইল",
+    "Invalid image" : "অবৈধ চিত্র",
+    "today" : "আজ",
+    "yesterday" : "গতকাল",
+    "last month" : "গত মাস",
+    "last year" : "গত বছর",
+    "seconds ago" : "সেকেন্ড পূর্বে",
+    "Apps" : "অ্যাপ",
+    "Users" : "ব্যবহারকারী",
+    "Unknown user" : "অপরিচিত ব্যবহারকারী",
+    "__language_name__" : "বাংলা ভাষা",
+    "Sharing %s failed, because the file does not exist" : "%s ভাগাভাগি ব্যার্থ, কারণ ফাইলটি নেই",
+    "You are not allowed to share %s" : "আপনি %s ভাগাভাগি করতে পারবেননা",
+    "%s shared »%s« with you" : "%s আপনার সাথে »%s« ভাগাভাগি করেছে",
+    "Application is not enabled" : "অ্যাপ্লিকেসনটি সক্রিয় নয়",
+    "Authentication error" : "অনুমোদন ঘটিত সমস্যা",
+    "Token expired. Please reload page." : "টোকেন মেয়াদোত্তীর্ণ। দয়া করে পৃষ্ঠাটি পূনরায় লোড করুন।"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

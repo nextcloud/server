@@ -10,6 +10,7 @@ OC.L10N.register(
     "Security" : "Seguretat",
     "Your <strong>password</strong> or <strong>email</strong> was modified" : "La teva <strong>contrasenya</strong> o <strong>email</strong> s'ha modificat",
     "Your apps" : "Les teves apps",
+    "Updates" : "Actualitzacions",
     "Enabled apps" : "Apps activades",
     "Disabled apps" : "Apps desactivades",
     "App bundles" : "Paquets d'apps",

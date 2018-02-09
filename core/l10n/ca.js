@@ -280,7 +280,7 @@ OC.L10N.register(
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Per evitar que s'esgoti el temps d'espera en instalacions grans, pots en el seu lloc fer córrer la següent comanda en el directori d'instalació:",
     "Detailed logs" : "Registres detallats",
     "Update needed" : "Actualització necessaria",
-    "Please use the command line updater because you have a big instance with more than 50 users." : "Utilitzeu l'updater de línia de comandes perquè tens un gran instància amb més de 50 usuàries.",
+    "Please use the command line updater because you have a big instance with more than 50 users." : "Utilitzeu l'actualitzador de línia de comandes perquè teniu una gran instància amb més de 50 usuàries.",
     "I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure." : "Sé que si continuo fent l'actualització mitjançant l’interfície d’usuari web té el risc que la sol·licitud esgoti un temps d'espera, que podria causa pèrdua de dades, però tinc una còpia de seguretat i se com restaurar la meva instància en cas de fallada.",
     "Upgrade via web on my own risk" : "Actualitza via web sota la teva responsabilitat",
     "This %s instance is currently in maintenance mode, which may take a while." : "Aquesta instància %s està actualment en manteniment i podria trigar una estona.",
