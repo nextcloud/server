@@ -301,7 +301,6 @@
     "This is particularly recommended when using the desktop client for file synchronisation." : "Ez különösen asztali kliens szinkronizáció használata esetén javasolt.",
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation ↗</a>." : "Más adatbázisra való migráláshoz használd a parancssori eszközt: 'occ db:convert-type', vagy nézd meg a <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">dokumentációt ↗</a>.",
     "How to do backups" : "Hogyan csináljunk biztonsági mentéseket",
-    "Advanced monitoring" : "Haladó monitorozás",
     "Performance tuning" : "Teljesítmény hangolás",
     "Improving the config.php" : "config.php javítása",
     "Theming" : "Témázás",

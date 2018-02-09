@@ -303,7 +303,6 @@ OC.L10N.register(
     "This is particularly recommended when using the desktop client for file synchronisation." : "특히 파일 동기화를 위해 데스크톱 클라이언트를 사용할 예정인 경우 권장됩니다.",
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation ↗</a>." : "다른 데이터베이스로 마이그레이션하려면 'occ db:convert-type' 명령행 도구를 사용하거나 <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">사용 설명서 ↗</a>를 참고하십시오.",
     "How to do backups" : "백업 방법",
-    "Advanced monitoring" : "고급 모니터링",
     "Performance tuning" : "성능 튜닝",
     "Improving the config.php" : "config.php 개선",
     "Theming" : "테마 꾸미기",

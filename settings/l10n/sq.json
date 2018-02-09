@@ -287,7 +287,6 @@
     "SQLite is currently being used as the backend database. For larger installations we recommend that you switch to a different database backend." : "SQLite po përdoret si bazë të dhënash e programit klient. Për instalime më të ngarkuara, këshillojmë të kalohet në një program tjetër klient baze të dhënash.",
     "This is particularly recommended when using the desktop client for file synchronisation." : "Kjo është veçanërisht e rekomanduar gjatë  përdorimit  të desktopit të klientit për sinkronizimin skedari. ",
     "How to do backups" : "Si të bëhen kopjeruajtje",
-    "Advanced monitoring" : "Mbikëqyrje e mëtejshme",
     "Performance tuning" : "Përimtime performance",
     "Improving the config.php" : "Si të përmirësohet config.php",
     "Theming" : "Ndryshim teme grafike",

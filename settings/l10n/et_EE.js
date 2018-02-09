@@ -221,7 +221,6 @@ OC.L10N.register(
     "This text will be shown on the public link upload page when the file list is hidden." : "Seda teksti näidatakse avaliku lingiga üleslaadimise lehel kui failide loend on peidetud.",
     "Tips & tricks" : "Nõuanded ja trikid",
     "How to do backups" : "Kuidas teha varukoopiaid",
-    "Advanced monitoring" : "Täpsem monitooring",
     "Performance tuning" : "Kiiruse seadistamine",
     "Improving the config.php" : "config.php faili täiendamine",
     "Theming" : "Teemad",

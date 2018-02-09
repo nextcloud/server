@@ -281,7 +281,6 @@ OC.L10N.register(
     "This is particularly recommended when using the desktop client for file synchronisation." : "若您使用桌面客戶端來同步，尤其建議您更換",
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation ↗</a>." : "若要遷移至另一個資料庫，請使用命令列工具： 'occ db:convert-type' ，或是查閱<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">說明文件</a>。",
     "How to do backups" : "如何備份",
-    "Advanced monitoring" : "進階監控",
     "Performance tuning" : "效能調校",
     "Improving the config.php" : "改進 config.php",
     "Theming" : "佈景主題",

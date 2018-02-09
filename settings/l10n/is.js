@@ -297,7 +297,6 @@ OC.L10N.register(
     "This is particularly recommended when using the desktop client for file synchronisation." : "Mælt er sérstaklega með þessu þegar skjáborðsforritið er notað til að samstilla skrár.",
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation ↗</a>." : "Til að yfirfæra í annan gagnagrunn skaltu nota skipanalínutólið: 'occ db:convert-type', eða lesa <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">hjálparskjölin ↗</a>.",
     "How to do backups" : "Hvernig á að taka öryggisafrit",
-    "Advanced monitoring" : "Ítarleg vöktun",
     "Performance tuning" : "Fínstilling afkasta",
     "Improving the config.php" : "Bæting á config.php skránni",
     "Theming" : "Þemu",

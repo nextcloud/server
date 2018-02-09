@@ -134,7 +134,6 @@
     "These groups will still be able to receive shares, but not to initiate them." : "Ці групи зможуть отримувати спільні файли, але не зможуть відправляти їх.",
     "Tips & tricks" : "Поради і трюки",
     "How to do backups" : "Як робити резервне копіювання",
-    "Advanced monitoring" : "Розширений моніторинг",
     "Performance tuning" : "Налаштування продуктивності",
     "Improving the config.php" : "Покращення  config.php",
     "Theming" : "Оформлення",

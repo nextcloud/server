@@ -303,7 +303,6 @@ OC.L10N.register(
     "This is particularly recommended when using the desktop client for file synchronisation." : "Özellikle dosya eşitleme için masaüstü istemcisi kullanılırken SQLite kullanımı önerilmez.",
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation ↗</a>." : "Başka bir veritabanına geçmek için komut satırı aracını kullanın: 'occ db:convert-type' ya da <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">belgelere ↗</a> bakın.",
     "How to do backups" : "Nasıl yedek alınır",
-    "Advanced monitoring" : "Gelişmiş izleme",
     "Performance tuning" : "Başarım ayarlama",
     "Improving the config.php" : "config.php iyileştirme",
     "Theming" : "Tema uygulama",
