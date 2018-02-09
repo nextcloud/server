@@ -13,7 +13,7 @@ OC.L10N.register(
     "You can upload into this folder" : "Pode enviar para esta pasta",
     "No compatible server found at {remote}" : "Nenhum servidor compatível encontrado em {remote}",
     "Invalid server URL" : "URL de servidor inválido",
-    "Failed to add the public link to your Nextcloud" : "Falha ao adicionar hiperligação pública ao seu Nextcloud",
+    "Failed to add the public link to your Nextcloud" : "Falha a adicionar hiperligação pública ao seu Nextcloud",
     "Share" : "Partilhar",
     "No expiration date set" : "Data de expiração não definida",
     "Shared by" : "Partilhado por",
