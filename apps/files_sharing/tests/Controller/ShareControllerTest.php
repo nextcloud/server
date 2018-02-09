@@ -34,7 +34,11 @@ namespace OCA\Files_Sharing\Tests\Controllers;
 use OC\Files\Filesystem;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Files_Sharing\Controller\ShareController;
+use OCA\Files_Sharing\Template\ExternalShareMenuAction;
+use OCA\Files_Sharing\Template\LinkMenuAction;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Http\Template\PublicTemplateResponse;
+use OCP\AppFramework\Http\Template\SimpleMenuAction;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\ILogger;
@@ -84,6 +88,8 @@ class ShareControllerTest extends \Test\TestCase {
 	private $federatedShareProvider;
 	/** @var EventDispatcherInterface | \PHPUnit_Framework_MockObject_MockObject */
 	private $eventDispatcher;
+	/** @var IL10N */
+	private $l10n;
 
 	protected function setUp() {
 		parent::setUp();
@@ -102,6 +108,7 @@ class ShareControllerTest extends \Test\TestCase {
 		$this->federatedShareProvider->expects($this->any())
 			->method('isIncomingServer2serverShareEnabled')->willReturn(true);
 		$this->eventDispatcher = $this->getMockBuilder('Symfony\Component\EventDispatcher\EventDispatcherInterface')->getMock();
+		$this->l10n = $this->createMock(IL10N::class);
 
 		$this->shareController = new \OCA\Files_Sharing\Controller\ShareController(
 			$this->appName,
@@ -117,7 +124,7 @@ class ShareControllerTest extends \Test\TestCase {
 			$this->getMockBuilder('\OCP\Files\IRootFolder')->getMock(),
 			$this->federatedShareProvider,
 			$this->eventDispatcher,
-			$this->getMockBuilder(IL10N::class)->getMock(),
+			$this->l10n,
 			$this->getMockBuilder('\OCP\Defaults')->getMock()
 		);
 
@@ -348,6 +355,11 @@ class ShareControllerTest extends \Test\TestCase {
 		$this->session->method('exists')->with('public_link_authenticated')->willReturn(true);
 		$this->session->method('get')->with('public_link_authenticated')->willReturn('42');
 
+		$this->urlGenerator->expects($this->at(0))
+			->method('linkToRouteAbsolute')
+			->with('files_sharing.sharecontroller.downloadShare', ['token' => 'token'])
+			->willReturn('downloadURL');
+
 		$this->previewManager->method('isMimeSupported')->with('text/plain')->willReturn(true);
 
 		$this->config->method('getSystemValue')
@@ -379,6 +391,12 @@ class ShareControllerTest extends \Test\TestCase {
 			->method('dispatch')
 			->with('OCA\Files_Sharing::loadAdditionalScripts');
 
+		$this->l10n->expects($this->any())
+			->method('t')
+			->will($this->returnCallback(function($text, $parameters) {
+				return vsprintf($text, $parameters);
+			}));
+
 		$response = $this->shareController->showShare('token');
 		$sharedTmplParams = array(
 			'displayName' => 'ownerDisplay',
@@ -391,7 +409,7 @@ class ShareControllerTest extends \Test\TestCase {
 			'server2serversharing' => true,
 			'protected' => 'true',
 			'dir' => '',
-			'downloadURL' => null,
+			'downloadURL' => 'downloadURL',
 			'fileSize' => '33 B',
 			'nonHumanFileSize' => 33,
 			'maxSizeAnimateGif' => 10,
@@ -404,13 +422,21 @@ class ShareControllerTest extends \Test\TestCase {
 			'disclaimer' => 'My disclaimer text',
 			'shareUrl' => null,
 			'previewImage' => null,
-			'previewURL' => null,
+			'previewURL' => 'downloadURL',
 		);
 
 		$csp = new \OCP\AppFramework\Http\ContentSecurityPolicy();
 		$csp->addAllowedFrameDomain('\'self\'');
-		$expectedResponse = new TemplateResponse($this->appName, 'public', $sharedTmplParams, 'base');
+		$expectedResponse = new PublicTemplateResponse($this->appName, 'public', $sharedTmplParams);
 		$expectedResponse->setContentSecurityPolicy($csp);
+		$expectedResponse->setHeaderTitle($sharedTmplParams['filename']);
+		$expectedResponse->setHeaderDetails('shared by ' . $sharedTmplParams['displayName']);
+		$expectedResponse->setHeaderActions([
+			new SimpleMenuAction('download', $this->l10n->t('Download'), 'icon-download-white', $sharedTmplParams['downloadURL'], 0),
+			new SimpleMenuAction('download', $this->l10n->t('Download'), 'icon-download', $sharedTmplParams['downloadURL'], 10, $sharedTmplParams['fileSize']),
+			new LinkMenuAction($this->l10n->t('Direct link'), 'icon-public', $sharedTmplParams['previewURL']),
+			new ExternalShareMenuAction($this->l10n->t('Add to your Nextcloud'), 'icon-external', $sharedTmplParams['owner'], $sharedTmplParams['displayName'], $sharedTmplParams['filename']),
+		]);
 
 		$this->assertEquals($expectedResponse, $response);
 	}

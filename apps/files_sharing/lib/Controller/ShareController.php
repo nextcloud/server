@@ -441,7 +441,7 @@ class ShareController extends Controller {
 		$csp->addAllowedFrameDomain('\'self\'');
 
 		$response = new PublicTemplateResponse($this->appName, 'public', $shareTmpl);
-		$response->setHeaderTitle($share->getNode()->getName());
+		$response->setHeaderTitle($shareTmpl['filename']);
 		$response->setHeaderDetails($this->l10n->t('shared by %s', [$shareTmpl['displayName']]));
 		$response->setHeaderActions([
 			new SimpleMenuAction('download', $this->l10n->t('Download'), 'icon-download-white', $shareTmpl['downloadURL'], 0),
