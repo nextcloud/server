@@ -586,6 +586,7 @@ class OC_App {
 	 * Returns the navigation
 	 *
 	 * @return array
+	 * @deprecated 14.0.0 use \OC::$server->getNavigationManager()->getAll()
 	 *
 	 * This function returns an array containing all entries added. The
 	 * entries are sorted by the key 'order' ascending. Additional to the keys
@@ -600,6 +601,7 @@ class OC_App {
 	 * Returns the Settings Navigation
 	 *
 	 * @return string[]
+	 * @deprecated 14.0.0 use \OC::$server->getNavigationManager()->getAll('settings')
 	 *
 	 * This function returns an array containing all settings pages added. The
 	 * entries are sorted by the key 'order' ascending.
