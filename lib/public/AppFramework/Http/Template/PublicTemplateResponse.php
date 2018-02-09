@@ -23,6 +23,7 @@
 
 namespace OCP\AppFramework\Http\Template;
 
+use InvalidArgumentException;
 use OCP\AppFramework\Http\TemplateResponse;
 
 /**
@@ -85,36 +86,30 @@ class PublicTemplateResponse extends TemplateResponse {
 	/**
 	 * @param array $actions
 	 * @since 14.0.0
+	 * @throws InvalidArgumentException
 	 */
 	public function setHeaderActions(array $actions) {
 		foreach ($actions as $action) {
 			if ($actions instanceof IMenuAction) {
-				throw new \InvalidArgumentException('Actions must be of type IMenuAction');
+				throw new InvalidArgumentException('Actions must be of type IMenuAction');
 			}
 			$this->headerActions[] = $action;
 		}
-	}
-
-	/**
-	 * @param IMenuAction $action
-	 * @since 14.0.0
-	 */
-	public function addAction(IMenuAction $action) {
-		$this->headerActions[] = $action;
+		usort($this->headerActions, function(IMenuAction $a, IMenuAction $b) {
+			return $a->getPriority() > $b->getPriority();
+		});
 	}
 
 	/**
 	 * @return IMenuAction
 	 * @since 14.0.0
+	 * @throws \Exception
 	 */
 	public function getPrimaryAction(): IMenuAction {
-		$lowest = null;
-		foreach ($this->headerActions as $action) {
-			if($lowest === null || $action->getPriority() < $lowest->getPriority()) {
-				$lowest = $action;
-			}
+		if ($this->getActionCount() > 0) {
+			return $this->headerActions[0];
 		}
-		return $lowest;
+		throw new \Exception('No header actions have been set');
 	}
 
 	/**
@@ -130,24 +125,14 @@ class PublicTemplateResponse extends TemplateResponse {
 	 * @since 14.0.0
 	 */
 	public function getOtherActions(): array {
-		$list = [];
-		$primary = $this->getPrimaryAction();
-		foreach ($this->headerActions as $action) {
-			if($primary !== $action) {
-				$list[] = $action;
-			}
-		}
-		usort($list, function(IMenuAction $a, IMenuAction $b) {
-			return $a->getPriority() > $b->getPriority();
-		});
-		return $list;
+		return array_slice($this->headerActions, 1);
 	}
 
 	/**
 	 * @return string
 	 * @since 14.0.0
 	 */
-	public function render() {
+	public function render(): string {
 		$params = array_merge($this->getParams(), [
 			'template' => $this,
 		]);
