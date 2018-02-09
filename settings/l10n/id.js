@@ -194,7 +194,6 @@ OC.L10N.register(
     "These groups will still be able to receive shares, but not to initiate them." : "Grup ini akan tetap dapat menerima berbagi, tatapi tidak dapat membagikan.",
     "Tips & tricks" : "Tips & trik",
     "How to do backups" : "Bagaimana cara membuat cadangan",
-    "Advanced monitoring" : "Pemantauan tingkat lanjut",
     "Performance tuning" : "Pemeliharaan performa",
     "Improving the config.php" : "Memperbaiki config.php",
     "Theming" : "Tema",

@@ -176,7 +176,6 @@ OC.L10N.register(
     "Exclude groups from sharing" : "Exclude grupuri de la partajare",
     "Tips & tricks" : "Tips & tricks",
     "How to do backups" : "Cum să faci copii de rezervă",
-    "Advanced monitoring" : "Monitorizare avansată",
     "Profile picture" : "Imagine de profil",
     "Upload new" : "Încarcă una nouă",
     "Select from Files" : "Selectează din fișiere",

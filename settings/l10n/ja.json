@@ -281,7 +281,6 @@
     "SQLite is currently being used as the backend database. For larger installations we recommend that you switch to a different database backend." : "SQLiteがデータベースとして使用されています。大規模な運用では別のデータベースに切り替えることをお勧めします。",
     "This is particularly recommended when using the desktop client for file synchronisation." : "これは、ファイル同期にデスクトップクライアントを使用する場合に特に推奨されます。",
     "How to do backups" : "バックアップ方法",
-    "Advanced monitoring" : "詳細モニタリング",
     "Performance tuning" : "パフォーマンスチューニング",
     "Improving the config.php" : "config.phpの改善",
     "Theming" : "テーマ",

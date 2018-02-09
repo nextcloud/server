@@ -148,7 +148,6 @@ OC.L10N.register(
     "These groups will still be able to receive shares, but not to initiate them." : "กลุ่มนี้จะยังคงสามารถได้รับการแชร์ แต่พวกเขาจะไม่รู้จักมัน",
     "Tips & tricks" : "เคล็ดลับและเทคนิค",
     "How to do backups" : "วิธีการสำรองข้อมูล",
-    "Advanced monitoring" : "การตรวจสอบขั้นสูง",
     "Performance tuning" : "การปรับแต่งประสิทธิภาพ",
     "Improving the config.php" : "ปรับปรุงไฟล์ config.php",
     "Theming" : "ชุดรูปแบบ",

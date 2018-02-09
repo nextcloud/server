@@ -106,7 +106,6 @@ OC.L10N.register(
     "Exclude groups from sharing" : "Qrupları paylaşımdan ayır",
     "These groups will still be able to receive shares, but not to initiate them." : "Bu qruplar paylaşımları hələdə ala biləcəklər ancaq, yarada bilməyəcəklər",
     "How to do backups" : "Rezerv nüsxələr neçə edilisin",
-    "Advanced monitoring" : "İrəliləmiş monitoring",
     "Profile picture" : "Profil şəkli",
     "Upload new" : "Yenisini yüklə",
     "Remove image" : "Şəkili sil",

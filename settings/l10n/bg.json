@@ -139,7 +139,6 @@
     "These groups will still be able to receive shares, but not to initiate them." : "Тези групи ще могат да получават споделения, но няма да могат самите те да споделят.",
     "This is particularly recommended when using the desktop client for file synchronisation." : "Препоръчително, особено ако ползвате клиента за настолен компютър.",
     "How to do backups" : "Как се правят резервни копия",
-    "Advanced monitoring" : "Разширено наблюдение",
     "Performance tuning" : "Настройване на производителност",
     "Improving the config.php" : "Подобряване на config.php",
     "Theming" : "Промяна на облика",

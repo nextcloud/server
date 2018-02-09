@@ -303,7 +303,6 @@ OC.L10N.register(
     "This is particularly recommended when using the desktop client for file synchronisation." : "ეს კერძოდ რეკომედირებულია განსაკუთრებით მაშინ, როდესაც ფაილების სინქრონიზაციისთვის იყენებთ დესკტოპ-კლიენტს.",
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation ↗</a>." : "სხვა მონაცემთა ბაზის მიგრაციისთვის გამოიყენეთ command line ხელსაწყო: 'occ db:convert-type', ან იხილეთ <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">დოუმენტაცია ↗</a>.",
     "How to do backups" : "როგორ შევქმნათ რეზერვები",
-    "Advanced monitoring" : "პროგრესიული მონიტორინგი",
     "Performance tuning" : "მოქმედების რეგულირება",
     "Improving the config.php" : "config.php-ს გაუმჯობესება",
     "Theming" : "ვიზუალური თემები",

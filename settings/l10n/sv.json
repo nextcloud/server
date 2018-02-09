@@ -290,7 +290,6 @@
     "SQLite is currently being used as the backend database. For larger installations we recommend that you switch to a different database backend." : "SQLite används som databas. För större installationer så rekommenderar vi ett byte till en annan databasbackend.",
     "This is particularly recommended when using the desktop client for file synchronisation." : "Detta rekommenderas speciellt när skrivbordsklienten används för att synkronisera filer.",
     "How to do backups" : "Hur man skapar säkerhetskopior",
-    "Advanced monitoring" : "Avancerad bevakning",
     "Performance tuning" : "Prestandainställningar",
     "Improving the config.php" : "Förbättra config.php",
     "Theming" : "Teman",

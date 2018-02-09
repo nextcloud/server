@@ -301,7 +301,6 @@
     "This is particularly recommended when using the desktop client for file synchronisation." : "Consigliato particolarmente quando si utilizza il client desktop per la sincronizzazione dei file.",
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation ↗</a>." : "Per migrare a un altro database, usa lo strumento da riga di comando: 'occ db:convert-type', o leggi la <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentazione ↗</a>.",
     "How to do backups" : "Come creare delle copie di sicurezza",
-    "Advanced monitoring" : "Monitoraggio avanzato",
     "Performance tuning" : "Ottimizzazione delle prestazioni",
     "Improving the config.php" : "Ottimizzare il config.php",
     "Theming" : "Temi",

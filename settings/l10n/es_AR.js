@@ -275,7 +275,6 @@ OC.L10N.register(
     "SQLite is currently being used as the backend database. For larger installations we recommend that you switch to a different database backend." : "Actualmente está usando SQLite como el backend de base de datos. Para instalaciones más grandes le recomendamos cambiar a un backend de base de datos diferente.",
     "This is particularly recommended when using the desktop client for file synchronisation." : "Esto es particularmente recomendado cuando se usa el cliente de escritorio para sincronización de archivos. ",
     "How to do backups" : "Cómo hacer respaldos",
-    "Advanced monitoring" : "Monitoreo avanzado",
     "Performance tuning" : "Optimización de rendimiento",
     "Improving the config.php" : "Mejorando la config.php",
     "Theming" : "Tematizar",

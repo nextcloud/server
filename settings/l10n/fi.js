@@ -278,7 +278,6 @@ OC.L10N.register(
     "Tips & tricks" : "Vinkit",
     "This is particularly recommended when using the desktop client for file synchronisation." : "Tämä on suositeltavaa erityisesti silloin, kun työpöytäsovellusta käytetään tiedostojen synkronointiin.",
     "How to do backups" : "Kuinka tehdä varmuuskopioita",
-    "Advanced monitoring" : "Edistynyt valvonta",
     "Performance tuning" : "Suorituskyvyn hienosäätö",
     "Improving the config.php" : "Config.php-tiedoston parantaminen",
     "Theming" : "Teemojen käyttö",

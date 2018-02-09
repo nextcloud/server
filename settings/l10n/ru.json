@@ -301,7 +301,6 @@
     "This is particularly recommended when using the desktop client for file synchronisation." : "Рекомендуется при синхронизации файлов с использованием клиента для ПК.",
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation ↗</a>." : "Для перехода на другую базу данных используйте команду: «occ db:convert-type» или обратитесь к <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">документации ↗</a>. ",
     "How to do backups" : "Как сделать резервные копии",
-    "Advanced monitoring" : "Расширенный мониторинг",
     "Performance tuning" : "Настройка производительности",
     "Improving the config.php" : "Улучшение config.php",
     "Theming" : "Темы оформления",

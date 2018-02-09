@@ -265,7 +265,6 @@ OC.L10N.register(
     "This text will be shown on the public link upload page when the file list is hidden." : "Αυτό το κείμενο θα ",
     "Tips & tricks" : "Συμβουλές & τεχνάσματα",
     "How to do backups" : "Πώς να κάνετε αντίγραφα ασφαλείας",
-    "Advanced monitoring" : "Παρακολούθηση για προχωρημένους",
     "Performance tuning" : "Ρύθμιση βελτίωσης της απόδοσης",
     "Improving the config.php" : "Βελτίωση του  config.php",
     "Theming" : "Θέματα",
