@@ -120,6 +120,8 @@ OC.L10N.register(
     "Advanced settings" : "Avanserte innstillinger",
     "Delete" : "Slett",
     "Allow users to mount external storage" : "Tillat at brukere kobler opp eksterne lagre",
-    "Allow users to mount the following external storage" : "Tillat brukere å koble opp følgende eksterne lagring"
+    "Allow users to mount the following external storage" : "Tillat brukere å koble opp følgende eksterne lagring",
+    "Dropbox" : "Dropbox",
+    "Google Drive" : "Google Drive"
 },
 "nplurals=2; plural=(n != 1);");
