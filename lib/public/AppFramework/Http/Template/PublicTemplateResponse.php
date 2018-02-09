@@ -137,6 +137,9 @@ class PublicTemplateResponse extends TemplateResponse {
 				$list[] = $action;
 			}
 		}
+		usort($list, function(IMenuAction $a, IMenuAction $b) {
+			return $a->getPriority() > $b->getPriority();
+		});
 		return $list;
 	}
 
