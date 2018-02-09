@@ -8,6 +8,8 @@
 /apps/inc.php
 /assets
 /.htaccess
+/translationfiles
+/translationtool.phar
 
 # ignore all apps except core ones
 /apps*/*
