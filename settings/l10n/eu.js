@@ -283,7 +283,6 @@ OC.L10N.register(
     "These groups will still be able to receive shares, but not to initiate them." : "Talde hauek oraindik jaso ahal izango dute partekatzeak, baina ezingo dute partekatu",
     "Tips & tricks" : "Aholkuak eta trikimailuak",
     "How to do backups" : "Nola egin babes kopiak",
-    "Advanced monitoring" : "Monitorizazio aurreratua",
     "Performance tuning" : "Errendimendu ezarpenak",
     "Improving the config.php" : "config.php hobetzen",
     "Theming" : "Itxura",

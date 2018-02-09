@@ -303,7 +303,6 @@ OC.L10N.register(
     "This is particularly recommended when using the desktop client for file synchronisation." : "Dit wordt vooral aanbevolen als de desktop client wordt gebruikt voor bestandssynchronisatie.",
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation ↗</a>." : "Om te migreren naar een andere database moet je de commandoregel tool gebruiken: 'occ db:convert-type'; <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">zie de documentatie ↗</a>.",
     "How to do backups" : "Hoe maak je back-ups",
-    "Advanced monitoring" : "Geavanceerde monitoring",
     "Performance tuning" : "Prestatie afstelling",
     "Improving the config.php" : "config.php verbeteren",
     "Theming" : "Thema's",

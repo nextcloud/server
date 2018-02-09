@@ -258,7 +258,6 @@ OC.L10N.register(
     "Tips & tricks" : "Consells i trucs",
     "This is particularly recommended when using the desktop client for file synchronisation." : "Això es recomana especialment quan s'utilitza el client d'escriptori per a sincronització d'arxius.",
     "How to do backups" : "Com fer còpies de seguretat",
-    "Advanced monitoring" : "Supervisió avançada",
     "Performance tuning" : "Ajust del rendiment",
     "Improving the config.php" : "Millorant el config.php",
     "Theming" : "Tematització",

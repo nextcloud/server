@@ -107,7 +107,6 @@ OC.L10N.register(
     "Exclude groups from sharing" : "Исклучи групи од споделување",
     "Tips & tricks" : "Совети и трикови",
     "How to do backups" : "Како да правам резервни копии",
-    "Advanced monitoring" : "Напредно мониторирање",
     "Performance tuning" : "Нагодување на перформансите",
     "Improving the config.php" : "Подобруваер на config.php",
     "Theming" : "Поставување на тема",

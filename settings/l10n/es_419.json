@@ -295,7 +295,6 @@
     "This is particularly recommended when using the desktop client for file synchronisation." : "Esto es particularmente recomendado cuando se usa el cliente de escritorio para sincronización de archivos. ",
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation ↗</a>." : "Para migrar a otra base de datos usa la herramienta de línea de comandos;  'occ db:convert-type', o bien consulta la <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentación ↗ </a>.",
     "How to do backups" : "Cómo hacer respaldos",
-    "Advanced monitoring" : "Monitoreo avanzado",
     "Performance tuning" : "Optimización de rendimiento",
     "Improving the config.php" : "Mejorando la config.php",
     "Theming" : "Tematizar",

@@ -283,7 +283,6 @@ OC.L10N.register(
     "SQLite is currently being used as the backend database. For larger installations we recommend that you switch to a different database backend." : "Ako databáza je použitá SQLite. Pre veľké inštalácie odporúčame prejsť na inú databázu.",
     "This is particularly recommended when using the desktop client for file synchronisation." : "Toto odporúčame najmä pri používaní klientských aplikácií na synchronizáciu s desktopom.",
     "How to do backups" : "Ako vytvárať zálohy",
-    "Advanced monitoring" : "Pokročilé sledovanie",
     "Performance tuning" : "Ladenie výkonu",
     "Improving the config.php" : "Zlepšenie config.php",
     "Theming" : "Vzhľady tém",

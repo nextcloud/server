@@ -149,7 +149,6 @@
     "These groups will still be able to receive shares, but not to initiate them." : "Te skupine lahko sprejemajo mape v souporabo, ne morejo pa souporabe dovoliti",
     "Tips & tricks" : "Nasveti in triki",
     "How to do backups" : "Kako ustvariti varnostne kopije",
-    "Advanced monitoring" : "Napredno sledenje",
     "Performance tuning" : "Prilagajanje delovanja",
     "Improving the config.php" : "Izboljšave v config.php",
     "Theming" : "Teme",

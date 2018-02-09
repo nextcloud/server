@@ -254,7 +254,6 @@ OC.L10N.register(
     "Tips & tricks" : "Conseyos y trucos",
     "This is particularly recommended when using the desktop client for file synchronisation." : "Esto aconséyase particularmente al usar el veceru d'escritoriu pa la sincronización de ficheros.",
     "How to do backups" : "Cómo facer respaldos",
-    "Advanced monitoring" : "Advanced monitoring",
     "Performance tuning" : "Afinamientu de rindimientu",
     "Improving the config.php" : "Ameyorando'l config.php",
     "Theming" : "Aspeutu",

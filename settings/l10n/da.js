@@ -236,7 +236,6 @@ OC.L10N.register(
     "These groups will still be able to receive shares, but not to initiate them." : "Disse grupper vil stadig kunne modtage delefiler, men ikke skabe dem.",
     "Tips & tricks" : "Tips & tricks",
     "How to do backups" : "Hvordan man laver sikkerhedskopier",
-    "Advanced monitoring" : "Avancerede monitorering",
     "Performance tuning" : "Ydelses optimering",
     "Improving the config.php" : "Forbedring af config.php",
     "Theming" : "Temaer",
