@@ -7,7 +7,7 @@
 			type="password" id="newuserpassword"
 			placeholder="<?php p($l->t('Password'))?>"
 			autocomplete="off" autocapitalize="none" autocorrect="off" />
-		<input id="newemail" type="text" style="display:none"
+		<input id="newemail" type="email" style="display:none"
 			   placeholder="<?php p($l->t('E-Mail'))?>"
 			   autocomplete="off" autocapitalize="none" autocorrect="off" />
 		<div class="groups"><div class="groupsListContainer multiselect button" data-placeholder="<?php p($l->t('Groups'))?>"><span class="title groupsList"></span><span class="icon-triangle-s"></span></div></div>
