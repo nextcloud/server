@@ -24,23 +24,30 @@
 namespace OCA\Files_Sharing\Template;
 
 use OCP\AppFramework\Http\Template\SimpleMenuAction;
+use OCP\Util;
 
 class LinkMenuAction extends SimpleMenuAction {
 
-	public function __construct($label, $icon, $link) {
+	/**
+	 * LinkMenuAction constructor.
+	 *
+	 * @param string $label
+	 * @param string $icon
+	 * @param string $link
+	 */
+	public function __construct(string $label, string $icon, string $link) {
 		parent::__construct('directLink-container', $label, $icon, $link);
 	}
 
 	/**
-	 * @since 14.0.0
 	 * @return string
 	 */
 	public function render(): string {
 		return '<li>' .
 			'<a id="directLink-container">' .
-			'<span class="icon ' . $this->getIcon() . '"></span>' .
-			'<label for="directLink">' . $this->getLabel() . '</label>' .
-			'<input id="directLink" type="text" readonly="" value="' . $this->getLink() . '">' .
+			'<span class="icon ' . Util::sanitizeHTML($this->getIcon()) . '"></span>' .
+			'<label for="directLink">' . Util::sanitizeHTML($this->getLabel()) . '</label>' .
+			'<input id="directLink" type="text" readonly="" value="' . Util::sanitizeHTML($this->getLink()) . '">' .
 			'</a>' .
 			'</li>';
 	}

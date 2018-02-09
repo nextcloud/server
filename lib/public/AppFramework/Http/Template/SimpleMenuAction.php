@@ -23,18 +23,43 @@
 
 namespace OCP\AppFramework\Http\Template;
 
-use OCP\AppFramework\Http\Template\IMenuAction;
-use Twig_Environment;
+use OCP\Util;
 
+/**
+ * Class SimpleMenuAction
+ *
+ * @package OCP\AppFramework\Http\Template
+ */
 class SimpleMenuAction implements IMenuAction {
 
+	/** @var string */
 	private $id;
+
+	/** @var string */
 	private $label;
+
+	/** @var string */
 	private $icon;
+
+	/** @var string */
 	private $link;
-	private $priority = 100;
+
+	/** @var int */
+	private $priority;
+
+	/** @var string */
 	private $detail;
 
+	/**
+	 * SimpleMenuAction constructor.
+	 *
+	 * @param string $id
+	 * @param string $label
+	 * @param string $icon
+	 * @param string $link
+	 * @param int $priority
+	 * @param string $detail
+	 */
 	public function __construct(string $id, string $label, string $icon, string $link = '', int $priority = 100, string $detail = '') {
 		$this->id = $id;
 		$this->label = $label;
@@ -44,53 +69,92 @@ class SimpleMenuAction implements IMenuAction {
 		$this->detail = $detail;
 	}
 
+	/**
+	 * @param string $id
+	 */
 	public function setId(string $id) {
 		$this->id = $id;
 	}
 
+	/**
+	 * @param string $label
+	 */
 	public function setLabel(string $label) {
 		$this->label = $label;
 	}
 
+	/**
+	 * @param string $detail
+	 */
 	public function setDetail(string $detail) {
 		$this->detail = $detail;
 	}
 
+	/**
+	 * @param string $icon
+	 */
 	public function setIcon(string $icon) {
 		$this->icon = $icon;
 	}
 
+	/**
+	 * @param string $link
+	 */
 	public function setLink(string $link) {
 		$this->link = $link;
 	}
 
+	/**
+	 * @param int $priority
+	 */
 	public function setPriority(int $priority) {
 		$this->priority = $priority;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getId(): string {
 		return $this->id;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getLabel(): string {
 		return $this->label;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getIcon(): string {
 		return $this->icon;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getLink(): string {
 		return $this->link;
 	}
 
+	/**
+	 * @return int
+	 */
 	public function getPriority(): int {
 		return $this->priority;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function render(): string {
-		$detailContent = ($this->detail !== '') ? '&nbsp;<span class="download-size">(' . $this->detail . ')</span>' : '';
-		return sprintf('<li><a href="%s"><span class="icon %s"></span>%s %s</a></li>', $this->link, $this->icon, $this->label, $detailContent);
+		$detailContent = ($this->detail !== '') ? '&nbsp;<span class="download-size">(' . Util::sanitizeHTML($this->detail) . ')</span>' : '';
+		return sprintf(
+			'<li><a href="%s"><span class="icon %s"></span>%s %s</a></li>',
+			Util::sanitizeHTML($this->link), Util::sanitizeHTML($this->icon), Util::sanitizeHTML($this->label), Util::sanitizeHTML($detailContent)
+		);
 	}
 
 }

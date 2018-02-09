@@ -28,11 +28,25 @@ use OCP\Util;
 
 class ExternalShareMenuAction extends SimpleMenuAction {
 
+	/** @var string */
 	private $owner;
+
+	/** @var string */
 	private $displayname;
+
+	/** @var string */
 	private $shareName;
 
-	public function __construct($label, $icon, $owner, $displayname, $shareName) {
+	/**
+	 * ExternalShareMenuAction constructor.
+	 *
+	 * @param string $label
+	 * @param string $icon
+	 * @param string $owner
+	 * @param string $displayname
+	 * @param string $shareName
+	 */
+	public function __construct(string $label, string $icon, string $owner, string $displayname, string $shareName) {
 		parent::__construct('save', $label, $icon);
 		$this->owner = $owner;
 		$this->displayname = $displayname;
