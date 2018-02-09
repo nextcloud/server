@@ -32,7 +32,7 @@
 use GuzzleHttp\Client;
 use GuzzleHttp\Cookie\CookieJar;
 use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Message\ResponseInterface;
+use Psr\Http\Message\ResponseInterface;
 
 require __DIR__ . '/../../vendor/autoload.php';
 
@@ -97,7 +97,7 @@ trait BasicStructure {
 	 * @param string $version
 	 */
 	public function usingApiVersion($version) {
-		$this->apiVersion = (int) $version;
+		$this->apiVersion = (int)$version;
 	}
 
 	/**
@@ -115,7 +115,7 @@ trait BasicStructure {
 	 */
 	public function usingServer($server) {
 		$previousServer = $this->currentServer;
-		if ($server === 'LOCAL'){
+		if ($server === 'LOCAL') {
 			$this->baseUrl = $this->localBaseUrl;
 			$this->currentServer = 'LOCAL';
 			return $previousServer;
@@ -138,20 +138,24 @@ trait BasicStructure {
 	/**
 	 * Parses the xml answer to get ocs response which doesn't match with
 	 * http one in v1 of the api.
+	 *
 	 * @param ResponseInterface $response
 	 * @return string
 	 */
 	public function getOCSResponse($response) {
-		return $response->xml()->meta[0]->statuscode;
+		return simplexml_load_string($response->getBody())->meta[0]->statuscode;
 	}
 
 	/**
 	 * This function is needed to use a vertical fashion in the gherkin tables.
+	 *
 	 * @param array $arrayOfArrays
 	 * @return array
 	 */
-	public function simplifyArray($arrayOfArrays){
-		$a = array_map(function($subArray) { return $subArray[0]; }, $arrayOfArrays);
+	public function simplifyArray($arrayOfArrays) {
+		$a = array_map(function ($subArray) {
+			return $subArray[0];
+		}, $arrayOfArrays);
 		return $a;
 	}
 
@@ -175,18 +179,18 @@ trait BasicStructure {
 		];
 		if ($body instanceof \Behat\Gherkin\Node\TableNode) {
 			$fd = $body->getRowsHash();
-			$options['body'] = $fd;
+			$options['form_params'] = $fd;
 		}
 
 		// TODO: Fix this hack!
 		if ($verb === 'PUT' && $body === null) {
-			$options['body'] = [
+			$options['form_params'] = [
 				'foo' => 'bar',
 			];
 		}
 
 		try {
-			$this->response = $client->send($client->createRequest($verb, $fullUrl, $options));
+			$this->response = $client->request($verb, $fullUrl, $options);
 		} catch (ClientException $ex) {
 			$this->response = $ex->getResponse();
 		}
@@ -212,20 +216,20 @@ trait BasicStructure {
 		}
 		if ($body instanceof \Behat\Gherkin\Node\TableNode) {
 			$fd = $body->getRowsHash();
-			$options['body'] = $fd;
+			$options['form_params'] = $fd;
 		}
 
 		try {
-			$this->response = $client->send($client->createRequest($verb, $fullUrl, $options));
+			$this->response = $client->request($verb, $fullUrl, $options);
 		} catch (ClientException $ex) {
 			$this->response = $ex->getResponse();
 		}
 	}
 
-	public function isExpectedUrl($possibleUrl, $finalPart){
+	public function isExpectedUrl($possibleUrl, $finalPart) {
 		$baseUrlChopped = substr($this->baseUrl, 0, -4);
 		$endCharacter = strlen($baseUrlChopped) + strlen($finalPart);
-		return (substr($possibleUrl,0,$endCharacter) == "$baseUrlChopped" . "$finalPart");
+		return (substr($possibleUrl, 0, $endCharacter) == "$baseUrlChopped" . "$finalPart");
 	}
 
 	/**
@@ -249,13 +253,13 @@ trait BasicStructure {
 	 * @param string $contentType
 	 */
 	public function theContentTypeShouldbe($contentType) {
-		PHPUnit_Framework_Assert::assertEquals($contentType, $this->response->getHeader('Content-Type'));
+		PHPUnit_Framework_Assert::assertEquals($contentType, $this->response->getHeader('Content-Type')[0]);
 	}
 
 	/**
 	 * @param ResponseInterface $response
 	 */
-	private function extracRequestTokenFromResponse(ResponseInterface $response) {
+	private function extracRequestTokenFromResponse(\Psr\Http\Message\ResponseInterface $response) {
 		$this->requestToken = substr(preg_replace('/(.*)data-requesttoken="(.*)">(.*)/sm', '\2', $response->getBody()->getContents()), 0, 89);
 	}
 
@@ -281,7 +285,7 @@ trait BasicStructure {
 		$response = $client->post(
 			$loginUrl,
 			[
-				'body' => [
+				'form_params' => [
 					'user' => $user,
 					'password' => $password,
 					'requesttoken' => $this->requestToken,
@@ -301,16 +305,17 @@ trait BasicStructure {
 		$baseUrl = substr($this->baseUrl, 0, -5);
 
 		$client = new Client();
-		$request = $client->createRequest(
-			$method,
-			$baseUrl . $url,
-			[
-				'cookies' => $this->cookieJar,
-			]
-		);
-		$request->addHeader('requesttoken', $this->requestToken);
 		try {
-			$this->response = $client->send($request);
+			$this->response = $client->request(
+				$method,
+				$baseUrl . $url,
+				[
+					'cookies' => $this->cookieJar,
+					'headers' => [
+						'requesttoken' => $this->requestToken
+					]
+				]
+			);
 		} catch (ClientException $e) {
 			$this->response = $e->getResponse();
 		}
@@ -325,21 +330,20 @@ trait BasicStructure {
 		$baseUrl = substr($this->baseUrl, 0, -5);
 
 		$client = new Client();
-		$request = $client->createRequest(
-			$method,
-			$baseUrl . $url,
-			[
-				'cookies' => $this->cookieJar,
-			]
-		);
 		try {
-			$this->response = $client->send($request);
+			$this->response = $client->request(
+				$method,
+				$baseUrl . $url,
+				[
+					'cookies' => $this->cookieJar
+				]
+			);
 		} catch (ClientException $e) {
 			$this->response = $e->getResponse();
 		}
 	}
 
-	public static function removeFile($path, $filename){
+	public static function removeFile($path, $filename) {
 		if (file_exists("$path" . "$filename")) {
 			unlink("$path" . "$filename");
 		}
@@ -358,12 +362,12 @@ trait BasicStructure {
 
 	public function createFileSpecificSize($name, $size) {
 		$file = fopen("work/" . "$name", 'w');
-		fseek($file, $size - 1 ,SEEK_CUR);
-		fwrite($file,'a'); // write a dummy char at SIZE position
+		fseek($file, $size - 1, SEEK_CUR);
+		fwrite($file, 'a'); // write a dummy char at SIZE position
 		fclose($file);
 	}
 
-	public function createFileWithText($name, $text){
+	public function createFileWithText($name, $text) {
 		$file = fopen("work/" . "$name", 'w');
 		fwrite($file, $text);
 		fclose($file);
@@ -398,8 +402,8 @@ trait BasicStructure {
 	/**
 	 * @BeforeSuite
 	 */
-	public static function addFilesToSkeleton(){
-		for ($i=0; $i<5; $i++){
+	public static function addFilesToSkeleton() {
+		for ($i = 0; $i < 5; $i++) {
 			file_put_contents("../../core/skeleton/" . "textfile" . "$i" . ".txt", "Nextcloud test text file\n");
 		}
 		if (!file_exists("../../core/skeleton/FOLDER")) {
@@ -418,8 +422,8 @@ trait BasicStructure {
 	/**
 	 * @AfterSuite
 	 */
-	public static function removeFilesFromSkeleton(){
-		for ($i=0; $i<5; $i++){
+	public static function removeFilesFromSkeleton() {
+		for ($i = 0; $i < 5; $i++) {
 			self::removeFile("../../core/skeleton/", "textfile" . "$i" . ".txt");
 		}
 		if (is_dir("../../core/skeleton/FOLDER")) {
@@ -438,24 +442,24 @@ trait BasicStructure {
 	/**
 	 * @BeforeScenario @local_storage
 	 */
-	public static function removeFilesFromLocalStorageBefore(){
+	public static function removeFilesFromLocalStorageBefore() {
 		$dir = "./work/local_storage/";
 		$di = new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS);
 		$ri = new RecursiveIteratorIterator($di, RecursiveIteratorIterator::CHILD_FIRST);
-		foreach ( $ri as $file ) {
-			$file->isDir() ?  rmdir($file) : unlink($file);
+		foreach ($ri as $file) {
+			$file->isDir() ? rmdir($file) : unlink($file);
 		}
 	}
 
 	/**
 	 * @AfterScenario @local_storage
 	 */
-	public static function removeFilesFromLocalStorageAfter(){
+	public static function removeFilesFromLocalStorageAfter() {
 		$dir = "./work/local_storage/";
 		$di = new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS);
 		$ri = new RecursiveIteratorIterator($di, RecursiveIteratorIterator::CHILD_FIRST);
-		foreach ( $ri as $file ) {
-			$file->isDir() ?  rmdir($file) : unlink($file);
+		foreach ($ri as $file) {
+			$file->isDir() ? rmdir($file) : unlink($file);
 		}
 	}
 }
