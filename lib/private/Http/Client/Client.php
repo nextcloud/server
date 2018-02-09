@@ -222,6 +222,10 @@ class Client implements IClient {
 	 */
 	public function post($uri, array $options = []) {
 		$this->setDefaultOptions();
+		if (isset($options['body']) && is_array($options['body'])) {
+			$options['form_params'] = $options['body'];
+			unset($options['body']);
+		}
 		$response = $this->client->request('post', $uri, array_merge($options, $this->getRequestOptions()));
 		return new Response($response);
 	}
