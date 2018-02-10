@@ -28,6 +28,10 @@ use OCP\Activity\IEvent;
 use OCP\Activity\IEventMerger;
 use OCP\Activity\IManager;
 use OCP\Activity\IProvider;
+use OCP\Files\Folder;
+use OCP\Files\IRootFolder;
+use OCP\Files\Node;
+use OCP\Files\NotFoundException;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUser;
@@ -53,24 +57,31 @@ class Provider implements IProvider {
 	/** @var IUserManager */
 	protected $userManager;
 
+	/** @var IRootFolder */
+	protected $rootFolder;
+
 	/** @var IEventMerger */
 	protected $eventMerger;
 
 	/** @var string[] cached displayNames - key is the UID and value the displayname */
 	protected $displayNames = [];
 
+	protected $fileIsEncrypted = false;
+
 	/**
 	 * @param IFactory $languageFactory
 	 * @param IURLGenerator $url
 	 * @param IManager $activityManager
 	 * @param IUserManager $userManager
+	 * @param IRootFolder $rootFolder
 	 * @param IEventMerger $eventMerger
 	 */
-	public function __construct(IFactory $languageFactory, IURLGenerator $url, IManager $activityManager, IUserManager $userManager, IEventMerger $eventMerger) {
+	public function __construct(IFactory $languageFactory, IURLGenerator $url, IManager $activityManager, IUserManager $userManager, IRootFolder $rootFolder, IEventMerger $eventMerger) {
 		$this->languageFactory = $languageFactory;
 		$this->url = $url;
 		$this->activityManager = $activityManager;
 		$this->userManager = $userManager;
+		$this->rootFolder = $rootFolder;
 		$this->eventMerger = $eventMerger;
 	}
 
@@ -158,28 +169,47 @@ class Provider implements IProvider {
 	 * @since 11.0.0
 	 */
 	public function parseLongVersion(IEvent $event, IEvent $previousEvent = null) {
+		$this->fileIsEncrypted = false;
 		$parsedParameters = $this->getParameters($event);
 
 		if ($event->getSubject() === 'created_self') {
 			$subject = $this->l->t('You created {file}');
+			if ($this->fileIsEncrypted) {
+				$subject = $this->l->t('You created an encrypted file in {file}');
+			}
 			$this->setIcon($event, 'add-color');
 		} else if ($event->getSubject() === 'created_by') {
 			$subject = $this->l->t('{user} created {file}');
+			if ($this->fileIsEncrypted) {
+				$subject = $this->l->t('{user} created an encrypted file in {file}');
+			}
 			$this->setIcon($event, 'add-color');
 		} else if ($event->getSubject() === 'created_public') {
 			$subject = $this->l->t('{file} was created in a public folder');
 			$this->setIcon($event, 'add-color');
 		} else if ($event->getSubject() === 'changed_self') {
 			$subject = $this->l->t('You changed {file}');
+			if ($this->fileIsEncrypted) {
+				$subject = $this->l->t('You changed an encrypted file in {file}');
+			}
 			$this->setIcon($event, 'change');
 		} else if ($event->getSubject() === 'changed_by') {
 			$subject = $this->l->t('{user} changed {file}');
+			if ($this->fileIsEncrypted) {
+				$subject = $this->l->t('{user} changed an encrypted file in {file}');
+			}
 			$this->setIcon($event, 'change');
 		} else if ($event->getSubject() === 'deleted_self') {
 			$subject = $this->l->t('You deleted {file}');
+			if ($this->fileIsEncrypted) {
+				$subject = $this->l->t('You deleted an encrypted file in {file}');
+			}
 			$this->setIcon($event, 'delete-color');
 		} else if ($event->getSubject() === 'deleted_by') {
 			$subject = $this->l->t('{user} deleted {file}');
+			if ($this->fileIsEncrypted) {
+				$subject = $this->l->t('{user} deleted an encrypted file in {file}');
+			}
 			$this->setIcon($event, 'delete-color');
 		} else if ($event->getSubject() === 'restored_self') {
 			$subject = $this->l->t('You restored {file}');
@@ -199,6 +229,10 @@ class Provider implements IProvider {
 			$this->setIcon($event, 'change');
 		} else {
 			throw new \InvalidArgumentException();
+		}
+
+		if ($this->fileIsEncrypted) {
+			$event->setSubject($event->getSubject() . '_enc', $event->getSubjectParameters());
 		}
 
 		if (!isset($parsedParameters['user'])) {
@@ -305,6 +339,18 @@ class Provider implements IProvider {
 			throw new \InvalidArgumentException('Could not generate file parameter');
 		}
 
+		$encryptionContainer = $this->getEndToEndEncryptionContainer($id, basename($path));
+		if ($encryptionContainer instanceof Folder) {
+			$this->fileIsEncrypted = true;
+			return [
+				'type' => 'file',
+				'id' => $encryptionContainer->getId(),
+				'name' => $encryptionContainer->getName(),
+				'path' => trim($encryptionContainer->getPath(), '/'), // FIXME remove /user/files/...
+				'link' => $this->url->linkToRouteAbsolute('files.viewcontroller.showFile', ['fileid' => $encryptionContainer->getId()]),
+			];
+		}
+
 		return [
 			'type' => 'file',
 			'id' => $id,
@@ -312,6 +358,67 @@ class Provider implements IProvider {
 			'path' => trim($path, '/'),
 			'link' => $this->url->linkToRouteAbsolute('files.viewcontroller.showFile', ['fileid' => $id]),
 		];
+	}
+
+	protected $fileEncrypted = [];
+
+	/**
+	 * Check if a file is end2end encrypted
+	 * @param int $fileId
+	 * @param string $fileName
+	 * @return bool
+	 */
+	protected function getEndToEndEncryptionContainer($fileId, $fileName) {
+		if (isset($this->fileEncrypted[$fileId])) {
+			return $this->fileEncrypted[$fileId];
+		}
+
+		if (!preg_match('/^[0-9a-fA-F]{32}$/', $fileName)) {
+			$this->fileEncrypted[$fileId] = false;
+			return $this->fileEncrypted[$fileId];
+		}
+
+		$userFolder = $this->rootFolder->getUserFolder($this->activityManager->getCurrentUserId());
+		$files = $userFolder->getById($fileId);
+		if (empty($files)) {
+			return null;
+		}
+
+		$file = array_shift($files);
+		if ($file instanceof Folder && $file->isEncrypted()) {
+			// If the folder is encrypted, it is the Container,
+			// but can be the name is just fine.
+			$this->fileEncrypted[$fileId] = true;
+			return null;
+		}
+
+		$this->fileEncrypted[$fileId] = $this->getParentEndToEndEncryptionContainer($userFolder, $file);
+		return $this->fileEncrypted[$fileId];
+	}
+
+	/**
+	 * Check all parents until the user's root folder if one is encrypted
+	 *
+	 * @param Folder $userFolder
+	 * @param Node $file
+	 * @return Node|null
+	 */
+	protected function getParentEndToEndEncryptionContainer(Folder $userFolder, Node $file) {
+		try {
+			$parent = $file->getParent();
+
+			if ($userFolder->getId() === $parent->getId()) {
+				return null;
+			}
+		} catch (\Exception $e) {
+			return null;
+		}
+
+		if ($parent->isEncrypted()) {
+			return $parent;
+		}
+
+		return $this->getParentEndToEndEncryptionContainer($userFolder, $file);
 	}
 
 	/**
