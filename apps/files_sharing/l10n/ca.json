@@ -86,6 +86,7 @@
     "Can't change permissions for public share links" : "No es poden canviar els permisos per als enllaços compartits públics",
     "Cannot increase permissions" : "No es poden augmentar els permisos",
     "Share API is disabled" : "L'API compartida està desactivada",
+    "File sharing" : "Compartir arxius",
     "This share is password-protected" : "Aquest compartit està protegit amb contrasenya",
     "The password is wrong. Try again." : "la contrasenya és incorrecta. Intenteu-ho de nou.",
     "Password" : "Contrasenya",
@@ -107,6 +108,7 @@
     "Upload files to %s" : "Carrega fitxers a %s",
     "Select or drop files" : "Selecciona o deixa anar els fitxers",
     "Uploading files…" : "Pujant arxius...",
-    "Uploaded files:" : "Arxius pujats:"
+    "Uploaded files:" : "Arxius pujats:",
+    "%s is publicly shared" : "%s està compartit de forma pública"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

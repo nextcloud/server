@@ -86,6 +86,7 @@
     "Can't change permissions for public share links" : "Berechtigungen für öffentlich freigegebene Links konnten nicht geändert werden",
     "Cannot increase permissions" : "Berechtigungen können nicht erhöht werden",
     "Share API is disabled" : "Teilen-API ist deaktivert",
+    "File sharing" : "Dateifreigabe",
     "This share is password-protected" : "Freigabe ist passwortgeschützt",
     "The password is wrong. Try again." : "Das Passwort ist falsch. Versuche es erneut.",
     "Password" : "Passwort",

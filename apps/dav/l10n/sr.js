@@ -55,6 +55,7 @@ OC.L10N.register(
     "Description:" : "Опис:",
     "Link:" : "Веза:",
     "Contacts" : "Контакти",
+    "WebDAV" : "ВебДАВ",
     "Technical details" : "Технички детаљи",
     "Remote Address: %s" : "Удаљена адреса: %s",
     "Request ID: %s" : "ИД захтева: %s",

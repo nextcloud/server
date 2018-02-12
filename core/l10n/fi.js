@@ -55,6 +55,7 @@ OC.L10N.register(
     "Search contacts …" : "Etsi yhteystietoja…",
     "No contacts found" : "Yhteystietoja ei löytynyt",
     "Show all contacts …" : "Näytä kaikki yhteystiedot…",
+    "Could not load your contacts" : "Yhteystietojasi ei voitu ladata",
     "Loading your contacts …" : "Ladataan yhteystietojasi…",
     "Looking for {term} …" : "Etsii {term} …",
     "<a href=\"{docUrl}\">There were problems with the code integrity check. More information…</a>" : "<a href=\"{docUrl}\">Eheystarkistus tuotti ongelmia. Lisätietoja…</a>",
@@ -261,6 +262,7 @@ OC.L10N.register(
     "Back to log in" : "Palaa kirjautumiseen",
     "Alternative Logins" : "Vaihtoehtoiset kirjautumistavat",
     "Account access" : "Tilin käyttö",
+    "Grant access" : "Myönnä pääsy",
     "App token" : "Sovellusvaltuutus",
     "Alternative login using app token" : "Vaihtoehtoinen kirjautuminen käyttäen sovellusvaltuutusta",
     "Redirecting …" : "Ohjataan uudelleen…",
@@ -287,6 +289,8 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "Tämä %s-instanssi on parhaillaan huoltotilassa, huollossa saattaa kestää hetki.",
     "This page will refresh itself when the %s instance is available again." : "Tämä sivu päivittää itsensä, kun %s on jälleen käytettävissä.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Ota yhteys järjestelmän ylläpitäjään, jos tämä viesti ilmenee uudelleen tai odottamatta.",
-    "Thank you for your patience." : "Kiitos kärsivällisyydestäsi."
+    "Thank you for your patience." : "Kiitos kärsivällisyydestäsi.",
+    "There was an error loading your contacts" : "Virhe yhteystietojasi ladattaessa",
+    "This action requires you to confirm your password:" : "Tämä toiminto vaatii, että vahvistat salasanasi:"
 },
 "nplurals=2; plural=(n != 1);");

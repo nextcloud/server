@@ -146,6 +146,10 @@ OC.L10N.register(
     "Tags" : "Tags",
     "Deleted files" : "Deleted files",
     "Text file" : "Text file",
-    "New text file.txt" : "New text file.txt"
+    "New text file.txt" : "New text file.txt",
+    "Move" : "Move",
+    "A new file or folder has been <strong>deleted</strong>" : "A new file or folder has been <strong>deleted</strong>",
+    "A new file or folder has been <strong>restored</strong>" : "A new file or folder has been <strong>restored</strong>",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>"
 },
 "nplurals=2; plural=(n != 1);");

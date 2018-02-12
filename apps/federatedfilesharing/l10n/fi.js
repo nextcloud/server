@@ -38,6 +38,7 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Jaa kanssani käyttäen #Nextcloud ja federoitua pilvitunnistetta, katso %s",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Jaa kanssani käyttäen #Nextcloud ja federoitua pilvitunnistetta",
     "Sharing" : "Jakaminen",
+    "Federated file sharing" : "Federoitu tiedostojako",
     "Federated Cloud Sharing" : "Federoitu pilvijakaminen",
     "Open documentation" : "Avaa dokumentaatio",
     "Adjust how people can share between servers." : "Mukauta kuinka ihmiset voivat jakaa palvelinten välillä.",
