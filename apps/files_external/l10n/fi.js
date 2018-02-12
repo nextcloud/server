@@ -100,6 +100,7 @@ OC.L10N.register(
     "The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "cULR tuki PHPsta ei ole aktivoitu tai asennettu. Kohteen %s liittäminen ei ole mahdollista. Ota yhteyttä järjestelmänvalvojaan asentaaksesi puuttuvan osan.",
     "The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "FTP tuki PHPsta ei ole aktivoitu tai asennettu. Kohteen %s liittäminen ei ole mahdollista. Ota yhteyttä järjestelmänvalvojaan asentaaksesi puuttuvan osan.",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" ei ole asennettu. Kohteen %s liittäminen ei ole mahdollista. Pyydä järjestelmän ylläpitäjää asentamaan puuttuva kohde.",
+    "External storage support" : "Erillisen tallennustilan tuki",
     "No external storage configured" : "Erillistä tallennustilaa ei ole määritetty",
     "You can add external storages in the personal settings" : "Voit lisätä erillisiä tallennustiloja henkilökohtaisista asetuksistasi",
     "Name" : "Nimi",
@@ -120,6 +121,10 @@ OC.L10N.register(
     "Advanced settings" : "Lisäasetukset",
     "Delete" : "Poista",
     "Allow users to mount external storage" : "Salli käyttäjien liittää erillisiä tallennustiloja",
-    "Allow users to mount the following external storage" : "Salli käyttäjien liittää seuraavat erilliset tallennusvälineet"
+    "Allow users to mount the following external storage" : "Salli käyttäjien liittää seuraavat erilliset tallennusvälineet",
+    "Dropbox App Configuration" : "Dropbox-sovelluksen määritykset",
+    "Google Drive App Configuration" : "Google Drive -sovelluksen määritykset",
+    "Dropbox" : "Dropbox",
+    "Google Drive" : "Google Drive"
 },
 "nplurals=2; plural=(n != 1);");

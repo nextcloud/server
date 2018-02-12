@@ -10,6 +10,8 @@ OC.L10N.register(
     "You deleted calendar {calendar}" : "您删除的日历 {calendar}",
     "{actor} updated calendar {calendar}" : "{actor} 更新了日历 {calendar}",
     "You updated calendar {calendar}" : "您更新了日历 {calendar}",
+    "You shared calendar {calendar} as public link" : "您已将日历{calendar}共享为公开链接",
+    "You removed public link for calendar {calendar}" : "您移除了日历{calendar}的公开链接",
     "{actor} shared calendar {calendar} with you" : "{actor} 收到的日历分享 {calendar}",
     "You shared calendar {calendar} with {user}" : "您与 {user} 分享了日历 {calendar}",
     "{actor} shared calendar {calendar} with {user}" : "{actor} 与 {user} 分享了日历 {calendar}",

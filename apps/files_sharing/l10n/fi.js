@@ -88,6 +88,7 @@ OC.L10N.register(
     "Can't change permissions for public share links" : "Julkisten jakolinkkien käyttöoikeuksia ei voi muuttaa",
     "Cannot increase permissions" : "Oikeuksien lisääminen ei onnistu",
     "Share API is disabled" : "Jakamisrajapinta on poistettu käytöstä",
+    "File sharing" : "Tiedostonjako",
     "This share is password-protected" : "Tämä jako on suojattu salasanalla",
     "The password is wrong. Try again." : "Väärä salasana. Yritä uudelleen.",
     "Password" : "Salasana",
@@ -109,6 +110,7 @@ OC.L10N.register(
     "Upload files to %s" : "Lähetä tiedostoja käyttäjälle %s",
     "Select or drop files" : "Valitse tai pudota tiedostoja",
     "Uploading files…" : "Lähetetään tiedostoja…",
-    "Uploaded files:" : "Lähetetyt tiedostot:"
+    "Uploaded files:" : "Lähetetyt tiedostot:",
+    "%s is publicly shared" : "%s on jaettu julkisesti"
 },
 "nplurals=2; plural=(n != 1);");

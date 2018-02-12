@@ -10,6 +10,7 @@ OC.L10N.register(
     "Update to %1$s is available." : "Kohteen %1$s päivitys on saatavilla.",
     "Update for %1$s to version %2$s is available." : "Kohteen %1$s päivitys versioon %2$s on saatavilla.",
     "Update for {app} to version %s is available." : "Sovelluksen {app} päivitys versioon %s on saatavilla.",
+    "Update notification" : "Päivitysilmoitus",
     "A new version is available: %s" : "Uusi versio on saatavilla: %s",
     "Open updater" : "Avaa päivittäjä",
     "Download now" : "Lataa heti",

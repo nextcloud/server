@@ -100,6 +100,7 @@ OC.L10N.register(
     "The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it.",
     "The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it.",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it.",
+    "External storage support" : "External storage support",
     "No external storage configured" : "No external storage configured",
     "You can add external storages in the personal settings" : "You can add external storages in the personal settings",
     "Name" : "Name",
@@ -120,6 +121,14 @@ OC.L10N.register(
     "Advanced settings" : "Advanced settings",
     "Delete" : "Delete",
     "Allow users to mount external storage" : "Allow users to mount external storage",
-    "Allow users to mount the following external storage" : "Allow users to mount the following external storage"
+    "Allow users to mount the following external storage" : "Allow users to mount the following external storage",
+    "Fetching request tokens failed. Verify that your app key and secret are correct." : "Fetching request tokens failed. Verify that your app key and secret are correct.",
+    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Fetching access tokens failed. Verify that your app key and secret are correct.",
+    "Step 1 failed. Exception: %s" : "Step 1 failed. Exception: %s",
+    "Step 2 failed. Exception: %s" : "Step 2 failed. Exception: %s",
+    "Dropbox App Configuration" : "Dropbox App Configuration",
+    "Google Drive App Configuration" : "Google Drive App Configuration",
+    "Dropbox" : "Dropbox",
+    "Google Drive" : "Google Drive"
 },
 "nplurals=2; plural=(n != 1);");

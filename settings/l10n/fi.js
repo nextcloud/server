@@ -358,6 +358,17 @@ OC.L10N.register(
     "change full name" : "muuta koko nimi",
     "set new password" : "aseta uusi salasana",
     "change email address" : "vaihda sähköpostiosoite",
-    "Default" : "Oletus"
+    "Default" : "Oletus",
+    "Updating...." : "Päivitetään....",
+    "Desktop client" : "Työpöytäsovellus",
+    "Android app" : "Android-sovellus",
+    "iOS app" : "iOS-sovellus",
+    "App passwords" : "Sovellussalasanat",
+    "Follow us on Google+!" : "Seuraa meitä Google+:ssa!",
+    "Like our facebook page!" : "Tykkää Facebook-sivustamme!",
+    "Follow us on Twitter!" : "Seuraa meitä Twitterissä!",
+    "Check out our blog!" : "Tutustu blogiimme!",
+    "Subscribe to our newsletter!" : "Tilaa uutiskirjeemme!",
+    "Group name" : "Ryhmän nimi"
 },
 "nplurals=2; plural=(n != 1);");

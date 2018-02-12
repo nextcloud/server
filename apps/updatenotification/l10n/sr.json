@@ -8,6 +8,7 @@
     "Update to %1$s is available." : "Доступно је ажурирање на %1$s. ",
     "Update for %1$s to version %2$s is available." : "Доступно је ажурирање апликације %1$s на верзију %2$s.",
     "Update for {app} to version %s is available." : "Доступно је ажурирање апликације {app} на верзију %s.",
+    "Update notification" : "Обавештење о ажурирању",
     "A new version is available: %s" : "Доступна је нова верзија: %s",
     "Open updater" : "Отвори програм за ажурирање",
     "Download now" : "Скини сада",

@@ -57,6 +57,7 @@
     "Check %s is invalid" : "Проверите да ли је %s исправно",
     "Check #%s does not exist" : "Проверите да ли #%s постоји",
     "Workflow" : "Процес рада",
+    "Files workflow engine" : "Датотеке за мотор процеса рада",
     "Open documentation" : "Отвори документацију",
     "Add rule group" : "Додај групу правила",
     "Short rule description" : "Кратки опис правила",

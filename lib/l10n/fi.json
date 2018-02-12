@@ -24,14 +24,23 @@
     "Invalid image" : "Virheellinen kuva",
     "Avatar image is not square" : "Avatar-kuva ei ole neliö",
     "today" : "tänään",
+    "tomorrow" : "huomenna",
     "yesterday" : "eilen",
+    "_in %n day_::_in %n days_" : ["%n päivän päästä","%n päivän päästä"],
     "_%n day ago_::_%n days ago_" : ["%n päivä sitten","%n päivää sitten"],
+    "next month" : "ensi kuussa",
     "last month" : "viime kuussa",
+    "_in %n month_::_in %n months_" : ["%n kuukauden päästä","%n kuukauden päästä"],
     "_%n month ago_::_%n months ago_" : ["%n kuukausi sitten","%n kuukautta sitten"],
+    "next year" : "ensi vuonna",
     "last year" : "viime vuonna",
+    "_in %n year_::_in %n years_" : ["%n vuoden päästä","%n vuoden päästä"],
     "_%n year ago_::_%n years ago_" : ["%n vuosi sitten","%n vuotta sitten"],
+    "_in %n hour_::_in %n hours_" : ["%n tunnin päästä","%n tunnin päästä"],
     "_%n hour ago_::_%n hours ago_" : ["%n tunti sitten","%n tuntia sitten"],
+    "_in %n minute_::_in %n minutes_" : ["%n minuutin päästä","%n minuutin päästä"],
     "_%n minute ago_::_%n minutes ago_" : ["%n minuutti sitten","%n minuuttia sitten"],
+    "in a few seconds" : "muutaman sekunnin päästä",
     "seconds ago" : "sekunteja sitten",
     "File name is a reserved word" : "Tiedoston nimi on varattu sana",
     "File name contains at least one invalid character" : "Tiedoston nimi sisältää ainakin yhden virheellisen merkin",
@@ -192,6 +201,8 @@
     "Storage incomplete configuration. %s" : "Tallennustilan puutteellinen määritys. %s",
     "Storage connection error. %s" : "Tallennustilan yhteysvirhe. %s",
     "Storage is temporarily not available" : "Tallennustila on tilapäisesti pois käytöstä",
-    "Storage connection timeout. %s" : "Tallennustilan yhteyden aikakatkaisu. %s"
+    "Storage connection timeout. %s" : "Tallennustilan yhteyden aikakatkaisu. %s",
+    "DB Error: \"%s\"" : "Tietokantavirhe: \"%s\"",
+    "App '%s' could not be installed!" : "Sovellusta '%s' ei voitu asentaa!"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

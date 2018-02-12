@@ -1,0 +1,26 @@
+OC.L10N.register(
+    "settings",
+    {
+    "Wrong password" : "Սխալ գաղտնաբառ",
+    "Saved" : "Պահված",
+    "Unable to change password" : "Չկարողացա փոխել գաղտնաբառը",
+    "Delete" : "Ջնջել",
+    "Very weak password" : "Շատ թույլ գաղտնաբառ",
+    "Weak password" : "Թույլ գաղտնաբառ",
+    "So-so password" : "Միջինոտ գաղտնաբառ",
+    "Good password" : "Լավ գաղտնաբառ",
+    "Strong password" : "Ուժեղ գաղտնաբառ",
+    "Groups" : "Խմբեր",
+    "never" : "երբեք",
+    "days" : "օր",
+    "Cancel" : "Չեղարկել",
+    "Email" : "Էլ. հասցե",
+    "Language" : "Լեզու",
+    "Help translate" : "Օգնել թարգմանել",
+    "Password" : "Գաղտնաբառ",
+    "New password" : "Նոր գաղտնաբառ",
+    "Change password" : "Փոխել գաղտնաբառը",
+    "Username" : "Օգտանուն",
+    "Other" : "Այլ"
+},
+"nplurals=2; plural=(n != 1);");

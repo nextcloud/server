@@ -225,6 +225,9 @@
     "Storage incomplete configuration. %s" : "Incomplete opslag configuratie. %s",
     "Storage connection error. %s" : "Opslag verbindingsfout. %s",
     "Storage is temporarily not available" : "Opslag is tijdelijk niet beschikbaar",
-    "Storage connection timeout. %s" : "Opslag verbinding time-out. %s"
+    "Storage connection timeout. %s" : "Opslag verbinding time-out. %s",
+    "Personal" : "Persoonlijk",
+    "Admin" : "Beheerder",
+    "DB Error: \"%s\"" : "DB Fout: \"%s\""
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
