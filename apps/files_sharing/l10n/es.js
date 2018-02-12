@@ -88,6 +88,7 @@ OC.L10N.register(
     "Can't change permissions for public share links" : "No se pueden cambiar los permisos para los enlaces de recursos compartidos públicos",
     "Cannot increase permissions" : "No es posible aumentar permisos",
     "Share API is disabled" : "El API de compartir está deshabilitado",
+    "File sharing" : "Compartir archivos",
     "This share is password-protected" : "Este elemento compartido está protegido por contraseña",
     "The password is wrong. Try again." : "La contraseña introducida es errónea. Inténtelo de nuevo.",
     "Password" : "Contraseña",
@@ -109,6 +110,7 @@ OC.L10N.register(
     "Upload files to %s" : "Subir archivos a %s",
     "Select or drop files" : "Seleccione o arrastre y suelte archivos",
     "Uploading files…" : "Subiendo archivos...",
-    "Uploaded files:" : "Archivos subidos:"
+    "Uploaded files:" : "Archivos subidos:",
+    "%s is publicly shared" : "%s está compartido públicamente"
 },
 "nplurals=2; plural=(n != 1);");

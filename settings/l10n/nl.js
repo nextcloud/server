@@ -383,6 +383,15 @@ OC.L10N.register(
     "change full name" : "wijzigen volledige naam",
     "set new password" : "Instellen nieuw wachtwoord",
     "change email address" : "wijzig e-mailadres",
-    "Default" : "Standaard"
+    "Default" : "Standaard",
+    "Updating...." : "Bijwerken....",
+    "iOS app" : "iOS app",
+    "App passwords" : "App wachtwoorden",
+    "Follow us on Google+!" : "Volg ons op Google+!",
+    "Like our facebook page!" : "Vind onze Facebook pagina leuk!",
+    "Follow us on Twitter!" : "Volg ons op Twitter!",
+    "Check out our blog!" : "Lees ons blog!",
+    "Subscribe to our newsletter!" : "Abonneer jezelf op onze nieuwsbrief!",
+    "Group name" : "Groepsnaam"
 },
 "nplurals=2; plural=(n != 1);");

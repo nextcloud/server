@@ -55,6 +55,7 @@ OC.L10N.register(
     "Description:" : "Description:",
     "Link:" : "Link:",
     "Contacts" : "Contacts",
+    "WebDAV" : "WebDAV",
     "Technical details" : "Technical details",
     "Remote Address: %s" : "Remote Address: %s",
     "Request ID: %s" : "Request ID: %s",

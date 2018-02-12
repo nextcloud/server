@@ -38,6 +38,7 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Дели са мном преко мог #Некстклауд Здруженог облака, види %s",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Дели са мном преко мог #Некстклауд Здруженог облака",
     "Sharing" : "Дељење",
+    "Federated file sharing" : "Здружено дељење фајлова",
     "Federated Cloud Sharing" : "Здружено дељење у облаку",
     "Open documentation" : "Отвори документацију",
     "Adjust how people can share between servers." : "Подеси како људи деле фајлове између сервера.",

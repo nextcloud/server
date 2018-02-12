@@ -120,6 +120,8 @@ OC.L10N.register(
     "Advanced settings" : "Geavanceerde instellingen",
     "Delete" : "Verwijder",
     "Allow users to mount external storage" : "Sta gebruikers toe om een externe opslag aan te koppelen",
-    "Allow users to mount the following external storage" : "Sta gebruikers toe de volgende externe opslag aan te koppelen"
+    "Allow users to mount the following external storage" : "Sta gebruikers toe de volgende externe opslag aan te koppelen",
+    "Dropbox" : "Dropbox",
+    "Google Drive" : "Google Drive"
 },
 "nplurals=2; plural=(n != 1);");

@@ -142,6 +142,10 @@ OC.L10N.register(
     "Tags" : "Tunnisteet",
     "Deleted files" : "Poistetut tiedostot",
     "Text file" : "Tekstitiedosto",
-    "New text file.txt" : "Uusi tekstitiedosto.txt"
+    "New text file.txt" : "Uusi tekstitiedosto.txt",
+    "Move" : "Siirrä",
+    "A new file or folder has been <strong>deleted</strong>" : "Uusi tiedosto tai kansio on <strong>poistettu</strong>",
+    "A new file or folder has been <strong>restored</strong>" : "Uusi tiedosto tai kansio on <strong>palautettu</strong>",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Käytä tätä osoitetetta <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">käyttääksesi tiedostojasi WebDAV:in välityksellä</a>"
 },
 "nplurals=2; plural=(n != 1);");

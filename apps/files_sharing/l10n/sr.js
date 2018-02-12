@@ -88,6 +88,7 @@ OC.L10N.register(
     "Can't change permissions for public share links" : "Не могу се променити привилегије за јавно доступне везе",
     "Cannot increase permissions" : "Не могу да повећам привилегије",
     "Share API is disabled" : "API за дељене је искључен",
+    "File sharing" : "Дељења фајлова",
     "This share is password-protected" : "Дељење је заштићено лозинком",
     "The password is wrong. Try again." : "Лозинка је погрешна. Покушајте поново.",
     "Password" : "Лозинка",
