@@ -29,6 +29,7 @@ use OCP\Activity\IEventMerger;
 use OCP\Activity\IManager;
 use OCP\Activity\IProvider;
 use OCP\Files\Folder;
+use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
@@ -342,13 +343,25 @@ class Provider implements IProvider {
 		$encryptionContainer = $this->getEndToEndEncryptionContainer($id, basename($path));
 		if ($encryptionContainer instanceof Folder) {
 			$this->fileIsEncrypted = true;
-			return [
-				'type' => 'file',
-				'id' => $encryptionContainer->getId(),
-				'name' => $encryptionContainer->getName(),
-				'path' => trim($encryptionContainer->getPath(), '/'), // FIXME remove /user/files/...
-				'link' => $this->url->linkToRouteAbsolute('files.viewcontroller.showFile', ['fileid' => $encryptionContainer->getId()]),
-			];
+			try {
+				$fullPath = rtrim($encryptionContainer->getPath(), '/');
+				// Remove /user/files/...
+				list(,,, $path) = explode('/', $fullPath, 4);
+				if (!$path) {
+					throw new InvalidPathException('Path could not be split correctly');
+				}
+
+				return [
+					'type' => 'file',
+					'id' => $encryptionContainer->getId(),
+					'name' => $encryptionContainer->getName(),
+					'path' => $path,
+					'link' => $this->url->linkToRouteAbsolute('files.viewcontroller.showFile', ['fileid' => $encryptionContainer->getId()]),
+				];
+			} catch (\Exception $e) {
+				// fall back to the normal one
+				$this->fileIsEncrypted = false;
+			}
 		}
 
 		return [
