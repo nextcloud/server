@@ -68,22 +68,31 @@ class NavigationControllerTest extends TestCase {
 		$this->navigationManager->expects($this->once())
 			->method('getAll')
 			->with('link')
-			->willReturn([ ['id' => 'files', 'href' => '/index.php/apps/files'] ]);
+			->willReturn([ ['id' => 'files', 'href' => '/index.php/apps/files', 'icon' => 'icon' ] ]);
 		if ($absolute) {
 			$this->urlGenerator->expects($this->any())
 				->method('getBaseURL')
 				->willReturn('http://localhost/');
-			$this->urlGenerator->expects($this->once())
+			$this->urlGenerator->expects($this->at(1))
 				->method('getAbsoluteURL')
 				->with('/index.php/apps/files')
 				->willReturn('http://localhost/index.php/apps/files');
+			$this->urlGenerator->expects($this->at(3))
+				->method('getAbsoluteURL')
+				->with('icon')
+				->willReturn('http://localhost/icon');
 			$actual = $this->controller->getAppsNavigation($absolute);
 			$this->assertInstanceOf(DataResponse::class, $actual);
 			$this->assertEquals('http://localhost/index.php/apps/files', $actual->getData()[0]['href']);
+			$this->assertEquals('http://localhost/icon', $actual->getData()[0]['icon']);
+
+
 		} else {
 			$actual = $this->controller->getAppsNavigation($absolute);
 			$this->assertInstanceOf(DataResponse::class, $actual);
 			$this->assertEquals('/index.php/apps/files', $actual->getData()[0]['href']);
+			$this->assertEquals('icon', $actual->getData()[0]['icon']);
+
 		}
 	}
 
@@ -92,22 +101,28 @@ class NavigationControllerTest extends TestCase {
 		$this->navigationManager->expects($this->once())
 			->method('getAll')
 			->with('settings')
-			->willReturn([ ['id' => 'settings', 'href' => '/index.php/settings/user'] ]);
+			->willReturn([ ['id' => 'settings', 'href' => '/index.php/settings/user', 'icon' => '/core/img/settings.svg'] ]);
 		if ($absolute) {
 			$this->urlGenerator->expects($this->any())
 				->method('getBaseURL')
 				->willReturn('http://localhost/');
-			$this->urlGenerator->expects($this->once())
+			$this->urlGenerator->expects($this->at(1))
 				->method('getAbsoluteURL')
 				->with('/index.php/settings/user')
 				->willReturn('http://localhost/index.php/settings/user');
+			$this->urlGenerator->expects($this->at(3))
+				->method('getAbsoluteURL')
+				->with('/core/img/settings.svg')
+				->willReturn('http://localhost/core/img/settings.svg');
 			$actual = $this->controller->getSettingsNavigation($absolute);
 			$this->assertInstanceOf(DataResponse::class, $actual);
 			$this->assertEquals('http://localhost/index.php/settings/user', $actual->getData()[0]['href']);
+			$this->assertEquals('http://localhost/core/img/settings.svg', $actual->getData()[0]['icon']);
 		} else {
 			$actual = $this->controller->getSettingsNavigation($absolute);
 			$this->assertInstanceOf(DataResponse::class, $actual);
 			$this->assertEquals('/index.php/settings/user', $actual->getData()[0]['href']);
+			$this->assertEquals('/core/img/settings.svg', $actual->getData()[0]['icon']);
 		}
 	}
 

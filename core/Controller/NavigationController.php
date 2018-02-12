@@ -83,6 +83,9 @@ class NavigationController extends OCSController {
 			if (0 !== strpos($entry['href'], $this->urlGenerator->getBaseUrl())) {
 				$entry['href'] = $this->urlGenerator->getAbsoluteURL($entry['href']);
 			}
+			if (0 !== strpos($entry['icon'], $this->urlGenerator->getBaseUrl())) {
+				$entry['icon'] = $this->urlGenerator->getAbsoluteURL($entry['icon']);
+			}
 		}
 		return $navigation;
 	}
