@@ -385,7 +385,18 @@ class ShareController extends Controller {
 			// We just have direct previews for image files
 			if ($share->getNode()->getMimePart() === 'image') {
 				$shareTmpl['previewURL'] = $this->urlGenerator->linkToRouteAbsolute('files_sharing.publicpreview.directLink', ['token' => $token]);
+
 				$ogPreview = $shareTmpl['previewURL'];
+
+				//Whatapp is kind of picky about their size requirements
+				if ($this->request->isUserAgent(['/^WhatsApp/'])) {
+					$ogPreview = $this->urlGenerator->linkToRouteAbsolute('files_sharing.PublicPreview.getPreview', [
+						't' => $token,
+						'x' => 256,
+						'y' => 256,
+						'a' => true,
+					]);
+				}
 			}
 		} else {
 			$shareTmpl['previewImage'] = $this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'favicon-fb.png'));
