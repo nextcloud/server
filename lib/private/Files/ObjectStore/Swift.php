@@ -59,31 +59,11 @@ class Swift implements IObjectStore {
 	 */
 	private $container;
 
-	private $memcache;
+	/** @var SwiftFactory */
+	private $swiftFactory;
 
-	public function __construct($params) {
-		if (isset($params['bucket'])) {
-			$params['container'] = $params['bucket'];
-		}
-		if (!isset($params['container'])) {
-			$params['container'] = 'owncloud';
-		}
-		if (!isset($params['autocreate'])) {
-			// should only be true for tests
-			$params['autocreate'] = false;
-		}
-
-		if (isset($params['apiKey'])) {
-			$this->client = new Rackspace($params['url'], $params);
-			$cacheKey = $params['username'] . '@' . $params['url'] . '/' . $params['bucket'];
-		} else {
-			$this->client = new OpenStack($params['url'], $params);
-			$cacheKey = $params['username'] . '@' . $params['url'] . '/' . $params['bucket'];
-		}
-
-		$cacheFactory = \OC::$server->getMemCacheFactory();
-		$this->memcache = $cacheFactory->createDistributed('swift::' . $cacheKey);
-
+	public function __construct($params, SwiftFactory $connectionFactory = null) {
+		$this->swiftFactory = $connectionFactory ?: new SwiftFactory(\OC::$server->getMemCacheFactory()->createDistributed('swift::'), $params);
 		$this->params = $params;
 	}
 
@@ -191,42 +171,12 @@ class Swift implements IObjectStore {
 	}
 
 	/**
-	 * @param Catalog $catalog
-	 * @param $name
-	 * @return null|CatalogItem
+	 * @return \OpenStack\ObjectStore\v1\Models\Container
+	 * @throws StorageAuthException
+	 * @throws \OCP\Files\StorageNotAvailableException
 	 */
-	private function getCatalogForService(Catalog $catalog, $name) {
-		foreach ($catalog->getItems() as $item) {
-			/** @var CatalogItem $item */
-			if ($item->hasType(Service::DEFAULT_TYPE) && $item->hasName($name)) {
-				return $item;
-			}
-		}
-
-		return null;
-	}
-
-	private function validateRegion(CatalogItem $item, $region) {
-		$endPoints = $item->getEndpoints();
-		foreach ($endPoints as $endPoint) {
-			if ($endPoint->region === $region) {
-				return;
-			}
-		}
-
-		$availableRegions = implode(', ', array_map(function ($endpoint) {
-			return $endpoint->region;
-		}, $endPoints));
-
-		throw new StorageNotAvailableException("Invalid region '$region', available regions: $availableRegions");
-	}
-
-	private function getAvailableServiceNames(Catalog $catalog) {
-		return array_map(function (CatalogItem $item) {
-			return $item->getName();
-		}, array_filter($catalog->getItems(), function (CatalogItem $item) {
-			return $item->hasType(Service::DEFAULT_TYPE);
-		}));
+	private function getContainer() {
+		return $this->swiftFactory->getContainer();
 	}
 
 	/**
