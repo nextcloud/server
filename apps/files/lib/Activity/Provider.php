@@ -340,7 +340,7 @@ class Provider implements IProvider {
 			throw new \InvalidArgumentException('Could not generate file parameter');
 		}
 
-		$encryptionContainer = $this->getEndToEndEncryptionContainer($id, basename($path));
+		$encryptionContainer = $this->getEndToEndEncryptionContainer($id, $path);
 		if ($encryptionContainer instanceof Folder) {
 			$this->fileIsEncrypted = true;
 			try {
@@ -378,14 +378,15 @@ class Provider implements IProvider {
 	/**
 	 * Check if a file is end2end encrypted
 	 * @param int $fileId
-	 * @param string $fileName
-	 * @return bool
+	 * @param string $path
+	 * @return Folder|null
 	 */
-	protected function getEndToEndEncryptionContainer($fileId, $fileName) {
+	protected function getEndToEndEncryptionContainer($fileId, $path) {
 		if (isset($this->fileEncrypted[$fileId])) {
 			return $this->fileEncrypted[$fileId];
 		}
 
+		$fileName = basename($path);
 		if (!preg_match('/^[0-9a-fA-F]{32}$/', $fileName)) {
 			$this->fileEncrypted[$fileId] = false;
 			return $this->fileEncrypted[$fileId];
@@ -394,10 +395,18 @@ class Provider implements IProvider {
 		$userFolder = $this->rootFolder->getUserFolder($this->activityManager->getCurrentUserId());
 		$files = $userFolder->getById($fileId);
 		if (empty($files)) {
-			return null;
+			// Deleted, try with parent
+			$file = $userFolder->get(dirname($path));
+			if (!$file instanceof Folder || !$file->isEncrypted()) {
+				return null;
+			}
+
+			$this->fileEncrypted[$fileId] = $file;
+			return $file;
 		}
 
 		$file = array_shift($files);
+
 		if ($file instanceof Folder && $file->isEncrypted()) {
 			// If the folder is encrypted, it is the Container,
 			// but can be the name is just fine.
