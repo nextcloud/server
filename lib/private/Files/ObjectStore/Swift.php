@@ -41,24 +41,21 @@ class Swift implements IObjectStore {
 	 */
 	private $container = null;
 
-	/** @var SwiftConnectionFactory */
+	/** @var SwiftFactory */
 	private $swiftFactory;
 
-	public function __construct($params) {
-		$this->swiftFactory = new SwiftConnectionFactory(\OC::$server->getMemCacheFactory()->createDistributed('swift::'));
+	public function __construct($params, SwiftFactory $connectionFactory = null) {
+		$this->swiftFactory = $connectionFactory ?: new SwiftFactory(\OC::$server->getMemCacheFactory()->createDistributed('swift::'), $params);
 		$this->params = $params;
 	}
 
 	/**
 	 * @return \OpenStack\ObjectStore\v1\Models\Container
 	 * @throws StorageAuthException
-	 * @throws \Exception
+	 * @throws \OCP\Files\StorageNotAvailableException
 	 */
 	private function getContainer() {
-		if (is_null($this->container)) {
-			$this->container = $this->swiftFactory->getContainer($this->params);
-		}
-		return $this->container;
+		return $this->swiftFactory->getContainer();
 	}
 
 	/**

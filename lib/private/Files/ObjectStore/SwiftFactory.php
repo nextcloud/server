@@ -36,12 +36,17 @@ use OpenStack\Identity\v2\Service;
 use OpenStack\OpenStack;
 use OpenStack\Common\Transport\Utils as TransportUtils;
 use Psr\Http\Message\RequestInterface;
+use OpenStack\ObjectStore\v1\Models\Container;
 
-class SwiftConnectionFactory {
+class SwiftFactory {
 	private $cache;
+	private $params;
+	/** @var Container|null */
+	private $container = null;
 
-	public function __construct(ICache $cache) {
+	public function __construct(ICache $cache, array $params) {
 		$this->cache = $cache;
+		$this->params = $params;
 	}
 
 	private function getCachedToken(string $cacheKey) {
@@ -58,42 +63,46 @@ class SwiftConnectionFactory {
 	}
 
 	/**
-	 * @param array $params
 	 * @return OpenStack
 	 * @throws StorageAuthException
-	 * @throws \Exception
 	 */
-	private function getClient(array &$params) {
-		if (isset($params['bucket'])) {
-			$params['container'] = $params['bucket'];
+	private function getClient() {
+		if (isset($this->params['bucket'])) {
+			$this->params['container'] = $this->params['bucket'];
 		}
-		if (!isset($params['container'])) {
-			$params['container'] = 'owncloud';
+		if (!isset($this->params['container'])) {
+			$this->params['container'] = 'owncloud';
 		}
-		if (!isset($params['autocreate'])) {
+		if (!isset($this->params['autocreate'])) {
 			// should only be true for tests
-			$params['autocreate'] = false;
+			$this->params['autocreate'] = false;
+		}
+		if (!isset($this->params['username']) && isset($this->params['user'])) {
+			$this->params['username'] = $this->params['user'];
+		}
+		if (!isset($this->params['tenantName']) && isset($this->params['tenant'])) {
+			$this->params['tenantName'] = $this->params['tenant'];
 		}
 
-		$cacheKey = $params['username'] . '@' . $params['url'] . '/' . $params['bucket'];
+		$cacheKey = $this->params['username'] . '@' . $this->params['url'] . '/' . $this->params['bucket'];
 		$token = $this->getCachedToken($cacheKey);
 		$hasToken = is_array($token) && (new \DateTimeImmutable($token['expires_at'])) > (new \DateTimeImmutable('now'));
 		if ($hasToken) {
-			$params['cachedToken'] = $token;
+			$this->params['cachedToken'] = $token;
 		}
 		$httpClient = new Client([
-			'base_uri' => TransportUtils::normalizeUrl($params['url']),
+			'base_uri' => TransportUtils::normalizeUrl($this->params['url']),
 			'handler' => HandlerStack::create()
 		]);
 
 		$authService = Service::factory($httpClient);
-		$params['identityService'] = $authService;
-		$params['authUrl'] = $params['url'];
-		$client = new OpenStack($params);
+		$this->params['identityService'] = $authService;
+		$this->params['authUrl'] = $this->params['url'];
+		$client = new OpenStack($this->params);
 
 		if (!$hasToken) {
 			try {
-				$token = $authService->generateToken($params);
+				$token = $authService->generateToken($this->params);
 				$this->cacheToken($token, $cacheKey);
 			} catch (ConnectException $e) {
 				throw new StorageAuthException('Failed to connect to keystone, verify the keystone url', $e);
@@ -117,19 +126,30 @@ class SwiftConnectionFactory {
 	}
 
 	/**
-	 * @param array $params
 	 * @return \OpenStack\ObjectStore\v1\Models\Container
 	 * @throws StorageAuthException
-	 * @throws \Exception
+	 * @throws StorageNotAvailableException
 	 */
-	public function getContainer(array $params) {
+	public function getContainer() {
+		if (is_null($this->container)) {
+			$this->container = $this->createContainer();
+		}
 
-		$client = $this->getClient($params);
+		return $this->container;
+	}
+
+	/**
+	 * @return \OpenStack\ObjectStore\v1\Models\Container
+	 * @throws StorageAuthException
+	 * @throws StorageNotAvailableException
+	 */
+	private function createContainer() {
+		$client = $this->getClient();
 		$objectStoreService = $client->objectStoreV1();
 
-		$autoCreate = isset($params['autocreate']) && $params['autocreate'] === true;
+		$autoCreate = isset($this->params['autocreate']) && $this->params['autocreate'] === true;
 		try {
-			$container = $objectStoreService->getContainer($params['container']);
+			$container = $objectStoreService->getContainer($this->params['container']);
 			if ($autoCreate) {
 				$container->getMetadata();
 			}
@@ -138,10 +158,10 @@ class SwiftConnectionFactory {
 			// if the container does not exist and autocreate is true try to create the container on the fly
 			if ($ex->getResponse()->getStatusCode() === 404 && $autoCreate) {
 				return $objectStoreService->createContainer([
-					'name' => $params['container']
+					'name' => $this->params['container']
 				]);
 			} else {
-				throw $ex;
+				throw new StorageNotAvailableException('Invalid response while trying to get container info', StorageNotAvailableException::STATUS_ERROR, $e);
 			}
 		} catch (ConnectException $e) {
 			/** @var RequestInterface $request */
