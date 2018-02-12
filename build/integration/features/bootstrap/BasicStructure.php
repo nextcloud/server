@@ -259,7 +259,7 @@ trait BasicStructure {
 	/**
 	 * @param ResponseInterface $response
 	 */
-	private function extracRequestTokenFromResponse(\Psr\Http\Message\ResponseInterface $response) {
+	private function extracRequestTokenFromResponse(ResponseInterface $response) {
 		$this->requestToken = substr(preg_replace('/(.*)data-requesttoken="(.*)">(.*)/sm', '\2', $response->getBody()->getContents()), 0, 89);
 	}
 
