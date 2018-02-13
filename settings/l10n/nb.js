@@ -384,9 +384,14 @@ OC.L10N.register(
     "set new password" : "sett nytt passord",
     "change email address" : "endre e-postadresse",
     "Default" : "Forvalg",
+    "Error while removing app" : "Feil under fjerning av program",
+    "__language_name__" : "Norsk bokmål",
+    "Verifying" : "Bekrefter",
+    "Personal info" : "Personlig informasjon",
     "Desktop client" : "Skrivebordsklient",
     "Android app" : "Android-program",
     "iOS app" : "iOS-program",
+    "App passwords" : "Programpassord",
     "Group name" : "Gruppenavn"
 },
 "nplurals=2; plural=(n != 1);");

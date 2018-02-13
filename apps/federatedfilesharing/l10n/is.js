@@ -38,6 +38,7 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Deila með mér í gegnum víðværa skýjasambandsauðkennið mitt #Nextcloud Federated Cloud ID, sjá %s",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Deila með mér í gegnum víðværa skýjasambandsauðkennið mitt #Nextcloud Federated Cloud ID",
     "Sharing" : "Deiling",
+    "Federated file sharing" : "Deiling skráa milli þjóna (skýjasambandssameign)",
     "Federated Cloud Sharing" : "Deiling með skýjasambandi",
     "Open documentation" : "Opna hjálparskjöl",
     "Adjust how people can share between servers." : "Stilltu hvernig fólk getur deilt á milli þjóna.",

@@ -25,7 +25,6 @@ OC.L10N.register(
     "Login image" : "Imazhi i hyrjes",
     "Upload new login background" : "Ngarko background të ri hyrjeje",
     "Remove background image" : "Hiqni imazhin në sfond",
-    "reset to default" : "rivendos tek të paracaktuarat",
-    "Log in image" : "Imazhi i identifikimit"
+    "reset to default" : "rivendos tek të paracaktuarat"
 },
 "nplurals=2; plural=(n != 1);");

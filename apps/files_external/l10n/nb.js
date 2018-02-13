@@ -121,6 +121,8 @@ OC.L10N.register(
     "Delete" : "Slett",
     "Allow users to mount external storage" : "Tillat at brukere kobler opp eksterne lagre",
     "Allow users to mount the following external storage" : "Tillat brukere å koble opp følgende eksterne lagring",
+    "Step 1 failed. Exception: %s" : "Steg 1 mislyktes. Unntak: %s",
+    "Step 2 failed. Exception: %s" : "Steg 2 mislyktes. Unntak: %s",
     "Dropbox" : "Dropbox",
     "Google Drive" : "Google Drive"
 },
