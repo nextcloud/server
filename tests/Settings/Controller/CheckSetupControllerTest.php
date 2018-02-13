@@ -21,7 +21,6 @@
 
 namespace Tests\Settings\Controller;
 
-use Guzzle\Http\Message\Response;
 use OC\Settings\Controller\CheckSetupController;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataDisplayResponse;
@@ -34,6 +33,7 @@ use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OC_Util;
+use Psr\Http\Message\ResponseInterface;
 use Test\TestCase;
 use OC\IntegrityCheck\Checker;
 
@@ -461,7 +461,7 @@ class CheckSetupControllerTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 		$exception = $this->getMockBuilder('\GuzzleHttp\Exception\ClientException')
 			->disableOriginalConstructor()->getMock();
-		$response = $this->getMockBuilder(Response::class)
+		$response = $this->getMockBuilder(ResponseInterface::class)
 			->disableOriginalConstructor()->getMock();
 		$response->expects($this->once())
 			->method('getStatusCode')
@@ -495,7 +495,7 @@ class CheckSetupControllerTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 		$exception = $this->getMockBuilder('\GuzzleHttp\Exception\ClientException')
 			->disableOriginalConstructor()->getMock();
-		$response = $this->getMockBuilder(Response::class)
+		$response = $this->getMockBuilder(ResponseInterface::class)
 			->disableOriginalConstructor()->getMock();
 		$response->expects($this->once())
 			->method('getStatusCode')
