@@ -683,6 +683,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Files\\ObjectStore\\S3Signature' => __DIR__ . '/../../..' . '/lib/private/Files/ObjectStore/S3Signature.php',
         'OC\\Files\\ObjectStore\\StorageObjectStore' => __DIR__ . '/../../..' . '/lib/private/Files/ObjectStore/StorageObjectStore.php',
         'OC\\Files\\ObjectStore\\Swift' => __DIR__ . '/../../..' . '/lib/private/Files/ObjectStore/Swift.php',
+        'OC\\Files\\ObjectStore\\SwiftFactory' => __DIR__ . '/../../..' . '/lib/private/Files/ObjectStore/SwiftFactory.php',
         'OC\\Files\\Search\\SearchBinaryOperator' => __DIR__ . '/../../..' . '/lib/private/Files/Search/SearchBinaryOperator.php',
         'OC\\Files\\Search\\SearchComparison' => __DIR__ . '/../../..' . '/lib/private/Files/Search/SearchComparison.php',
         'OC\\Files\\Search\\SearchOrder' => __DIR__ . '/../../..' . '/lib/private/Files/Search/SearchOrder.php',
