@@ -5,8 +5,6 @@ OC.L10N.register(
     "Versions" : "גרסאות",
     "Failed to revert {file} to revision {timestamp}." : "נכשל אחזור {file} לגרסה {timestamp}.",
     "_%n byte_::_%n bytes_" : ["%n בייט","%n בייטים"],
-    "Restore" : "שחזור",
-    "No versions available" : "אין גרסאות זמינות",
-    "More versions..." : "גרסאות נוספות..."
+    "Restore" : "שחזור"
 },
 "nplurals=2; plural=(n != 1);");

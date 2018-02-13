@@ -24,7 +24,6 @@ OC.L10N.register(
     "Login image" : "Нэвтрэх зураг",
     "Upload new login background" : "Нэвтрэх ханын зураг байршуулах",
     "Remove background image" : "Ханын зургийг хасах",
-    "reset to default" : "анхныхаар сэргээх",
-    "Log in image" : "Нэвтрэх зураг"
+    "reset to default" : "анхныхаар сэргээх"
 },
 "nplurals=2; plural=(n != 1);");

@@ -1,9 +1,9 @@
 OC.L10N.register(
     "updatenotification",
     {
-    "Update notifications" : "Posodobi obvestila",
     "Could not start updater, please try the manual update" : "Ne morem zagnati samodejne posodobitve, poskusi ročno",
     "{version} is available. Get more information on how to update." : "Na voljo je nova različica {version}. Na voljo je več podrobnosti o nadgradnji.",
+    "Update notifications" : "Posodobi obvestila",
     "Channel updated" : "Kanal posodobljen",
     "Update to %1$s is available." : "Posodobitev na  %1$s je na voljo.",
     "Update for %1$s to version %2$s is available." : "Posodobitev %1$s na različico %2$s je na voljo.",

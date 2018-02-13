@@ -33,6 +33,7 @@ OC.L10N.register(
     "Login image" : "Innskráningarmynd",
     "Upload new login background" : "Senda inn nýjan bakgrunn innskráningar",
     "Remove background image" : "Fjarlægja bakgrunnsmynd",
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Settu inn Imagemagick PHP forritsviðaukann með stuðningi við SVG-myndir til að útbúa sjálfvirkt veftáknmyndir byggðar á innsendu táknmerki og lit.",
     "reset to default" : "endurstilla á sjálfgefið"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

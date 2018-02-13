@@ -25,7 +25,6 @@ OC.L10N.register(
     "Login image" : "Hình ảnh trang đăng nhập",
     "Upload new login background" : "Tải lên ảnh nền trang đăng nhập mới",
     "Remove background image" : "Xóa bỏ ảnh nền",
-    "reset to default" : "đặt lại về mặc định",
-    "Log in image" : "Ảnh đăng nhập"
+    "reset to default" : "đặt lại về mặc định"
 },
 "nplurals=1; plural=0;");

@@ -35,7 +35,6 @@ OC.L10N.register(
     "New recovery key password" : "Parola nouă a cheii de recuperare",
     "Repeat new recovery key password" : "Repetă parola nouă a cheii de recuperare",
     "Change Password" : "Schimbă parola",
-    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Aplicația de criptare este activată dar cheile nu sunt inițializate, te rugăm reautentifică-te",
     "Your private key password no longer matches your log-in password." : "Parola cheii tale private nu se mai potrivește cu parola pentru autentificare.",
     "Old log-in password" : "Parola veche pentru autentificare",
     "Current log-in password" : "Parola curentă pentru autentificare",

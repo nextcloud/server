@@ -1,7 +1,7 @@
 { "translations": {
-    "Update notifications" : "Cập nhật thông báo",
     "Could not start updater, please try the manual update" : "Không thể bắt đầu cập nhật, vui lòng thử cập nhật thủ công",
     "{version} is available. Get more information on how to update." : "{version} có sẵn. Tìm hiểu thêm thông tin về cách cập nhật.",
+    "Update notifications" : "Cập nhật thông báo",
     "Channel updated" : "Đã cập nhật kênh",
     "Update to %1$s is available." : "Cập nhật lên %1$s có sẵn.",
     "Update for %1$s to version %2$s is available." : "Cập nhật %1$s lên phiên bản %2$s có sẵn.",
