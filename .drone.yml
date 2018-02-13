@@ -851,9 +851,8 @@ services:
         matrix:
           OBJECT_STORE: s3
   dockswift:
-      image: icewind1991/dockswift
+      image: icewind1991/dockswift:nextcloud-ci
       environment:
-      - INITIALIZE=yes
       - IPADDRESS=dockswift
       when:
         matrix:
