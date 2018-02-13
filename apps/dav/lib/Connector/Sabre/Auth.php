@@ -152,8 +152,7 @@ class Auth extends AbstractBasic {
 	 */
 	function check(RequestInterface $request, ResponseInterface $response) {
 		try {
-			$result = $this->auth($request, $response);
-			return $result;
+			return $this->auth($request, $response);
 		} catch (NotAuthenticated $e) {
 			throw $e;
 		} catch (Exception $e) {

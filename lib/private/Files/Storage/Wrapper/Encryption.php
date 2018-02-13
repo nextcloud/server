@@ -351,9 +351,7 @@ class Encryption extends Wrapper {
 		// need to stream copy file by file in case we copy between a encrypted
 		// and a unencrypted storage
 		$this->unlink($path2);
-		$result = $this->copyFromStorage($this, $path1, $path2);
-
-		return $result;
+		return $this->copyFromStorage($this, $path1, $path2);
 	}
 
 	/**

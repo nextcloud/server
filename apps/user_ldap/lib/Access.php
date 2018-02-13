@@ -419,8 +419,7 @@ class Access extends LDAPUtility implements IUserTools {
 				$domainParts[] = $part;
 			}
 		}
-		$domainDN = implode(',', $domainParts);
-		return $domainDN;
+		return implode(',', $domainParts);
 	}
 
 	/**
@@ -800,8 +799,7 @@ class Access extends LDAPUtility implements IUserTools {
 	public function fetchUsersByLoginName($loginName, $attributes = array('dn')) {
 		$loginName = $this->escapeFilterPart($loginName);
 		$filter = str_replace('%uid', $loginName, $this->connection->ldapLoginFilter);
-		$users = $this->fetchListOfUsers($filter, $attributes);
-		return $users;
+		return $this->fetchListOfUsers($filter, $attributes);
 	}
 
 	/**
@@ -814,8 +812,7 @@ class Access extends LDAPUtility implements IUserTools {
 	public function countUsersByLoginName($loginName) {
 		$loginName = $this->escapeFilterPart($loginName);
 		$filter = str_replace('%uid', $loginName, $this->connection->ldapLoginFilter);
-		$users = $this->countUsers($filter);
-		return $users;
+		return $this->countUsers($filter);
 	}
 
 	/**
