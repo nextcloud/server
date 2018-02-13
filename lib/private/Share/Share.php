@@ -1038,7 +1038,7 @@ class Share extends Constants {
 				} else {
 					$itemTypes = $collectionTypes;
 				}
-				$placeholders = join(',', array_fill(0, count($itemTypes), '?'));
+				$placeholders = implode(',', array_fill(0, count($itemTypes), '?'));
 				$where = ' WHERE `item_type` IN ('.$placeholders.'))';
 				$queryArgs = $itemTypes;
 			} else {
@@ -1064,7 +1064,7 @@ class Share extends Constants {
 					$groups = \OC::$server->getGroupManager()->getUserGroupIds($user);
 				}
 				if (!empty($groups)) {
-					$placeholders = join(',', array_fill(0, count($groups), '?'));
+					$placeholders = implode(',', array_fill(0, count($groups), '?'));
 					$where .= ' OR (`share_type` = ? AND `share_with` IN ('.$placeholders.')) ';
 					$queryArgs[] = self::SHARE_TYPE_GROUP;
 					$queryArgs = array_merge($queryArgs, $groups);
@@ -1129,7 +1129,7 @@ class Share extends Constants {
 			}
 			$queryArgs[] = $item;
 			if ($includeCollections && $collectionTypes && !in_array('folder', $collectionTypes)) {
-				$placeholders = join(',', array_fill(0, count($collectionTypes), '?'));
+				$placeholders = implode(',', array_fill(0, count($collectionTypes), '?'));
 				$where .= ' OR `item_type` IN ('.$placeholders.'))';
 				$queryArgs = array_merge($queryArgs, $collectionTypes);
 			}
