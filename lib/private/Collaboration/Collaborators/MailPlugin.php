@@ -28,9 +28,11 @@ use OCP\Collaboration\Collaborators\ISearchPlugin;
 use OCP\Collaboration\Collaborators\ISearchResult;
 use OCP\Collaboration\Collaborators\SearchResultType;
 use OCP\Contacts\IManager;
+use OCP\Federation\ICloudId;
 use OCP\Federation\ICloudIdManager;
 use OCP\IConfig;
 use OCP\IGroupManager;
+use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Share;
 
@@ -112,7 +114,7 @@ class MailPlugin implements ISearchPlugin {
 								continue;
 							}
 
-							if (!$searchResult->hasResult($userType, $cloud->getUser())) {
+							if (!$this->isCurrentUser($cloud) && !$searchResult->hasResult($userType, $cloud->getUser())) {
 								$singleResult = [[
 									'label' => $contact['FN'] . " ($emailAddress)",
 									'value' => [
@@ -133,7 +135,7 @@ class MailPlugin implements ISearchPlugin {
 								continue;
 							}
 
-							if (!$searchResult->hasResult($userType, $cloud->getUser())) {
+							if (!$this->isCurrentUser($cloud) && !$searchResult->hasResult($userType, $cloud->getUser())) {
 								$singleResult = [[
 									'label' => $contact['FN'] . " ($emailAddress)",
 									'value' => [
@@ -190,5 +192,10 @@ class MailPlugin implements ISearchPlugin {
 		$searchResult->addResultSet($emailType, $result['wide'], $result['exact']);
 
 		return true;
+	}
+
+	public function isCurrentUser(ICloudId $cloud): bool {
+		$currentUser = $this->userSession->getUser();
+		return $currentUser instanceof IUser ? $currentUser->getUID() === $cloud->getUser() : false;
 	}
 }
