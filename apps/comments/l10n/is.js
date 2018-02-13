@@ -25,6 +25,8 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s setti inn athugasemd um %2$s",
     "{author} commented on {file}" : "{author} setti inn athugasemd við {file}",
     "<strong>Comments</strong> for files" : "<strong>Athugasemdir</strong> við skrár",
+    "You were mentioned on “%s”, in a comment by a user that has since been deleted" : "Minnst var á þig í “%s”, í athugasemd frá notanda sem síðan þá hefur verið eytt",
+    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Minnst var á þig í “{file}”, í athugasemd frá notanda sem síðan þá hefur verið eytt",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s minntist á þig í athugasemd við “%2$s”",
     "{user} mentioned you in a comment on “{file}”" : "{user} minntist á þig í athugasemd við “{file}”",
     "Unknown user" : "Óþekktur notandi",

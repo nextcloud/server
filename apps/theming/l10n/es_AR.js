@@ -25,7 +25,6 @@ OC.L10N.register(
     "Login image" : "Imágen de inicio de sesión",
     "Upload new login background" : "Cargar nueva imagen de fondo para inicio de sesión",
     "Remove background image" : "Eliminar imagen de fondo",
-    "reset to default" : "restaurar a predeterminado",
-    "Log in image" : "Imagen de inicio de sesión"
+    "reset to default" : "restaurar a predeterminado"
 },
 "nplurals=2; plural=(n != 1);");

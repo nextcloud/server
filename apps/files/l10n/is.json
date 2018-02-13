@@ -60,8 +60,11 @@
     "You don’t have permission to upload or create files here" : "Þú hefur ekki heimild til að hlaða inn eða búa til skjöl hér",
     "_Uploading %n file_::_Uploading %n files_" : ["Sendi inn %n skrá","Sendi inn %n skrár"],
     "New" : "Nýtt",
+    "{used} of {quota} used" : "{used} af {quota} notað",
+    "{used} used" : "{used} notað",
     "\"{name}\" is an invalid file name." : "\"{name}\" er ógilt skráarheiti.",
     "File name cannot be empty." : "Heiti skráar má ekki vera tómt",
+    "\"/\" is not allowed inside a file name." : "\"/\" er er ekki leyfilegt innan í skráarheiti.",
     "\"{name}\" is not an allowed filetype" : "\"{name}\" er ógild skráartegund",
     "Storage of {owner} is full, files can not be updated or synced anymore!" : "Geymslupláss {owner} er fullt, ekki er lengur hægt að uppfæra eða samstilla skrár!",
     "Your storage is full, files can not be updated or synced anymore!" : "Geymsluplássið þitt er fullt, ekki er lengur hægt að uppfæra eða samstilla skrár!",
@@ -141,6 +144,10 @@
     "Tags" : "Merki",
     "Deleted files" : "Eyddar skrár",
     "Text file" : "Textaskrá",
-    "New text file.txt" : "Ný textaskrá.txt"
+    "New text file.txt" : "Ný textaskrá.txt",
+    "Move" : "Færa",
+    "A new file or folder has been <strong>deleted</strong>" : "Nýrri skrá eða möppu hefur verið  <strong>eytt</strong>",
+    "A new file or folder has been <strong>restored</strong>" : "Ný skrá eða mappa hefur verið <strong>endurheimt</strong>",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Notaðu þetta vistfang til að <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">nálgast skrárnar þínar með WebDAV</a>"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

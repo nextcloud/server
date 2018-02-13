@@ -49,8 +49,6 @@ OC.L10N.register(
     "Add rule" : "Amestar regla",
     "Save" : "Guardar",
     "Saving…" : "Guardando...",
-    "Loading…" : "Cargando...",
-    "Successfully saved" : "Guardóse con ésitu",
-    "File mime type" : "Triba MIME de ficheru"
+    "Loading…" : "Cargando..."
 },
 "nplurals=2; plural=(n != 1);");

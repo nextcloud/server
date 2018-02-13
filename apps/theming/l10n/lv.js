@@ -25,7 +25,6 @@ OC.L10N.register(
     "Login image" : "Pieslēgšanās fona attēls",
     "Upload new login background" : "Augšupielādēt jaunu pieslēgšanās fona attēlu",
     "Remove background image" : "Noņemt fona attēlu",
-    "reset to default" : "Atiestatīt",
-    "Log in image" : "Pieslēgšanas fona attēls"
+    "reset to default" : "Atiestatīt"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");
