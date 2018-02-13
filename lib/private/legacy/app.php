@@ -154,7 +154,7 @@ class OC_App {
 				\OC::$server->getLogger()->logException($ex);
 				if (!\OC::$server->getAppManager()->isShipped($app)) {
 					// Only disable apps which are not shipped
-					self::disable($app);
+					\OC::$server->getAppManager()->disableApp($app);
 				}
 			}
 			if (self::isType($app, array('authentication'))) {
@@ -419,20 +419,6 @@ class OC_App {
 		} else {
 			$appManager->enableApp($appId);
 		}
-	}
-
-	/**
-	 * This function set an app as disabled in appconfig.
-	 *
-	 * @param string $app app
-	 * @throws Exception
-	 */
-	public static function disable(string $app) {
-		// flush
-		self::$enabledAppsCache = [];
-
-		$appManager = \OC::$server->getAppManager();
-		$appManager->disableApp($app);
 	}
 
 	/**

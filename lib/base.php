@@ -949,7 +949,7 @@ class OC {
 			$appIds = (array)$request->getParam('appid');
 			foreach($appIds as $appId) {
 				$appId = \OC_App::cleanAppId($appId);
-				\OC_App::disable($appId);
+				\OC::$server->getAppManager()->disableApp($appId);
 			}
 			\OC_JSON::success();
 			exit();
