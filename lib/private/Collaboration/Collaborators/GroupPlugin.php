@@ -59,7 +59,7 @@ class GroupPlugin implements ISearchPlugin {
 		$groups = $this->groupManager->search($search, $limit, $offset);
 		$groupIds = array_map(function (IGroup $group) { return $group->getGID(); }, $groups);
 
-		if (!$this->shareeEnumeration || sizeof($groups) < $limit) {
+		if (!$this->shareeEnumeration || count($groups) < $limit) {
 			$hasMoreResults = true;
 		}
 

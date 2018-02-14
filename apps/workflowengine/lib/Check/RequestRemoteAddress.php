@@ -83,7 +83,7 @@ class RequestRemoteAddress implements ICheck {
 		}
 
 		$decodedValue = explode('/', $value);
-		if (sizeof($decodedValue) !== 2) {
+		if (count($decodedValue) !== 2) {
 			throw new \UnexpectedValueException($this->l->t('The given IP range is invalid'), 2);
 		}
 

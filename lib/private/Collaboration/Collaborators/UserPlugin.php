@@ -85,7 +85,7 @@ class UserPlugin implements ISearchPlugin {
 
 		$this->takeOutCurrentUser($users);
 
-		if (!$this->shareeEnumeration || sizeof($users) < $limit) {
+		if (!$this->shareeEnumeration || count($users) < $limit) {
 			$hasMoreResults = true;
 		}
 
