@@ -29,13 +29,13 @@ use \OCA\Files_External\Lib\Auth\AuthMechanism;
 /**
  * OpenStack Keystone authentication
  */
-class OpenStack extends AuthMechanism {
+class OpenStackV2 extends AuthMechanism {
 
 	public function __construct(IL10N $l) {
 		$this
 			->setIdentifier('openstack::openstack')
 			->setScheme(self::SCHEME_OPENSTACK)
-			->setText($l->t('OpenStack'))
+			->setText($l->t('OpenStack v2'))
 			->addParameters([
 				new DefinitionParameter('user', $l->t('Username')),
 				(new DefinitionParameter('password', $l->t('Password')))
