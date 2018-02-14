@@ -25,7 +25,7 @@ declare(strict_types=1);
 namespace OC\Http\Client;
 
 use OCP\Http\Client\IResponse;
-use GuzzleHttp\Message\ResponseInterface as GuzzleResponse;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class Response
@@ -33,7 +33,7 @@ use GuzzleHttp\Message\ResponseInterface as GuzzleResponse;
  * @package OC\Http
  */
 class Response implements IResponse {
-	/** @var GuzzleResponse */
+	/** @var ResponseInterface */
 	private $response;
 
 	/**
@@ -42,10 +42,10 @@ class Response implements IResponse {
 	private $stream;
 
 	/**
-	 * @param GuzzleResponse $response
+	 * @param ResponseInterface $response
 	 * @param bool $stream
 	 */
-	public function __construct(GuzzleResponse $response, $stream = false) {
+	public function __construct(ResponseInterface $response, $stream = false) {
 		$this->response = $response;
 		$this->stream = $stream;
 	}
@@ -71,7 +71,7 @@ class Response implements IResponse {
 	 * @return string
 	 */
 	public function getHeader(string $key): string {
-		return $this->response->getHeader($key);
+		return $this->response->getHeader($key)[0];
 	}
 
 	/**
