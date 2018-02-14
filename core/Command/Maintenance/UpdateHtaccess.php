@@ -22,12 +22,8 @@
  */
 namespace OC\Core\Command\Maintenance;
 
-use InvalidArgumentException;
-use OC\Setup;
-use OCP\IConfig;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class UpdateHtaccess extends Command {

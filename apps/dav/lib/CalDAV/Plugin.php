@@ -23,8 +23,6 @@
 
 namespace OCA\DAV\CalDAV;
 
-use Sabre\HTTP\URLUtil;
-
 class Plugin extends \Sabre\CalDAV\Plugin {
 
 	/**

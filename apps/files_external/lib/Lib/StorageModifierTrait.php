@@ -24,8 +24,6 @@ namespace OCA\Files_External\Lib;
 
 use \OCP\IUser;
 use \OCP\Files\Storage;
-use \OCA\Files_External\Lib\StorageConfig;
-use \OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
 use \OCP\Files\StorageNotAvailableException;
 
 /**

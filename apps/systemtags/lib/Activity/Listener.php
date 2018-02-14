@@ -34,7 +34,6 @@ use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
-use OCP\Share;
 use OCP\Share\IShareHelper;
 use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;

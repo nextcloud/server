@@ -25,10 +25,8 @@ namespace OCA\User_LDAP\Jobs;
 
 use OC\BackgroundJob\TimedJob;
 use OC\ServerNotAvailableException;
-use OCA\User_LDAP\Access;
 use OCA\User_LDAP\AccessFactory;
 use OCA\User_LDAP\Configuration;
-use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\ConnectionFactory;
 use OCA\User_LDAP\FilesystemHelper;
 use OCA\User_LDAP\Helper;

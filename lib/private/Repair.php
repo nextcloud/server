@@ -30,8 +30,6 @@
 
 namespace OC;
 
-use OC\App\AppStore\Bundles\BundleFetcher;
-use OC\Files\AppData\Factory;
 use OC\Repair\CleanTags;
 use OC\Repair\ClearFrontendCaches;
 use OC\Repair\Collation;

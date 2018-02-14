@@ -22,8 +22,6 @@
 
 namespace OCA\DAV\Upload;
 
-
-use OCA\DAV\Connector\Sabre\File;
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;

@@ -32,7 +32,6 @@ namespace OCA\Federation\BackgroundJob;
 
 
 use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Ring\Exception\RingException;
 use OC\BackgroundJob\JobList;

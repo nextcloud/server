@@ -26,15 +26,12 @@
  *
  */
 namespace OCA\DAV\Connector\Sabre;
-use OCA\DAV\Files\FilesHome;
 use OCA\DAV\Upload\FutureFile;
-use OCA\DAV\Upload\UploadFolder;
 use OCP\Files\FileInfo;
 use OCP\Files\StorageNotAvailableException;
 use Sabre\DAV\Exception\InsufficientStorage;
 use Sabre\DAV\Exception\ServiceUnavailable;
 use Sabre\DAV\INode;
-use Sabre\HTTP\URLUtil;
 
 /**
  * This plugin check user quota and deny creating files when they exceeds the quota.

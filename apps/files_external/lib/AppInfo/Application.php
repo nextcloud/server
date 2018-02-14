@@ -31,7 +31,6 @@ namespace OCA\Files_External\AppInfo;
 
 use \OCP\AppFramework\App;
 use OCP\AppFramework\IAppContainer;
-use \OCP\IContainer;
 use \OCA\Files_External\Service\BackendService;
 use \OCA\Files_External\Lib\Config\IBackendProvider;
 use \OCA\Files_External\Lib\Config\IAuthMechanismProvider;

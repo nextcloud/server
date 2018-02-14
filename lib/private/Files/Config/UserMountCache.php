@@ -25,7 +25,6 @@
 
 namespace OC\Files\Config;
 
-use OC\DB\QueryBuilder\Literal;
 use OCA\Files_Sharing\SharedMount;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Config\ICachedMountFileInfo;
