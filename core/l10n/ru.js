@@ -315,6 +315,14 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "Этот сервер %s находится в режиме технического обслуживания, которое может занять некоторое время.",
     "This page will refresh itself when the %s instance is available again." : "Эта страница обновится автоматически когда сервер %s снова станет доступен.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Обратитесь к вашему системному администратору если это сообщение не исчезает или появляется неожиданно.",
-    "Thank you for your patience." : "Спасибо за терпение."
+    "Thank you for your patience." : "Спасибо за терпение.",
+    "%s (3rdparty)" : "%s (стороннее)",
+    "There was an error loading your contacts" : "При загрузке контактов произошла ошибка",
+    "Your web server is not yet set up properly to allow file synchronization because the WebDAV interface seems to be broken." : "Ваш веб-сервер ещё не настроен должным образом для синхронизации файлов — интерфейс WebDAV, кажется, испорчен.",
+    "Shared with {recipients}" : "Вы поделились с {recipients}",
+    "Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report." : "Пожалуйста, свяжитесь с администратором сервера если эта ошибка будет повторяться. Прикрепите указанную ниже техническую информацию к своему сообщению.",
+    "This action requires you to confirm your password:" : "Это действие требует подтверждения вашего пароля:",
+    "Wrong password. Reset it?" : "Неверный пароль. Сбросить его?",
+    "You are accessing the server from an untrusted domain." : "Вы пытаетесь получить доступ к серверу с недоверенного домена."
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

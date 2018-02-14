@@ -52,6 +52,7 @@
     "You don’t have permission to upload or create files here" : "Jūs neturite leidimo čia įkelti arba kurti failus",
     "_Uploading %n file_::_Uploading %n files_" : ["Įkeliamas %n failas","Įkeliami %n failai","Įkeliama %n failų"],
     "New" : "Naujas",
+    "{used} of {quota} used" : "panaudota {used} iš {quota}",
     "\"{name}\" is an invalid file name." : "„{name}“ yra netinkamas bylos pavadinimas.",
     "File name cannot be empty." : "Failo pavadinimas negali būti tuščias.",
     "\"{name}\" is not an allowed filetype" : "\"{name}\" nėra leidžiamas failo tipas",

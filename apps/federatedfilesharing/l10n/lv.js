@@ -19,7 +19,7 @@ OC.L10N.register(
     "Invalid or untrusted SSL certificate" : "Nederīgs vai neuzticams SSL sertifikāts",
     "Storage not valid" : "Nederīga krātuve",
     "Couldn't add remote share" : "Nevarēja pievienot attālināto koplietotni",
-    "File is already shared with %s" : "Fails ir jau koplietots ar %s",
+    "File is already shared with %s" : "Datne ir jau koplietota ar %s",
     "Could not find share" : "Nevarēja atrast koplietojumu",
     "Accept" : "Akceptēt",
     "Decline" : "Noraidīt",

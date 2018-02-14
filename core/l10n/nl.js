@@ -328,6 +328,7 @@ OC.L10N.register(
     "Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report." : "Neem alstublieft contact op met de serverbeheerder als deze foutmelding meerdere keren terugkomt, en neem onderstaande technische details hierin op. ",
     "This action requires you to confirm your password:" : "Deze actie moet je met je wachtwoord bevestigen:",
     "Wrong password. Reset it?" : "Onjuist wachtwoord. Wachtwoord resetten?",
-    "You are accessing the server from an untrusted domain." : "Je benadert de server van een niet-vertrouwd domein."
+    "You are accessing the server from an untrusted domain." : "Je benadert de server van een niet-vertrouwd domein.",
+    "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Voor hulp, zie de <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentatie</a>."
 },
 "nplurals=2; plural=(n != 1);");
