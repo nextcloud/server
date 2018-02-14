@@ -30,8 +30,6 @@ namespace OCA\Files_External\Controller;
 
 use OCA\Files_External\Lib\Auth\Password\GlobalAuth;
 use OCP\AppFramework\Controller;
-use OCP\AppFramework\Http;
-use OCP\AppFramework\Http\Response;
 use OCP\IGroupManager;
 use OCP\IRequest;
 use OCP\AppFramework\Http\JSONResponse;

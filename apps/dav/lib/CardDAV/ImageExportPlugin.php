@@ -24,7 +24,6 @@
 namespace OCA\DAV\CardDAV;
 
 use OCP\Files\NotFoundException;
-use OCP\ILogger;
 use Sabre\CardDAV\Card;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;

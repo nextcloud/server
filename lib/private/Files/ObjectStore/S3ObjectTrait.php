@@ -23,10 +23,7 @@
 
 namespace OC\Files\ObjectStore;
 
-use Aws\Exception\MultipartUploadException;
-use Aws\S3\MultipartUploader;
 use Aws\S3\S3Client;
-use Psr\Http\Message\StreamInterface;
 
 const S3_UPLOAD_PART_SIZE = 524288000; // 500MB
 

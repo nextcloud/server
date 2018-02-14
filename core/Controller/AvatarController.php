@@ -34,7 +34,6 @@ use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
-use OCP\Files\NotFoundException;
 use OCP\IAvatarManager;
 use OCP\ICache;
 use OCP\ILogger;

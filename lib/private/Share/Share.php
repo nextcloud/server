@@ -39,12 +39,7 @@
 
 namespace OC\Share;
 
-use OC\Files\Filesystem;
 use OCP\DB\QueryBuilder\IQueryBuilder;
-use OCP\ILogger;
-use OCP\IUserManager;
-use OCP\IUserSession;
-use OCP\IDBConnection;
 use OCP\IConfig;
 use OCP\Util;
 

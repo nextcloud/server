@@ -43,7 +43,6 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IRequest;
-use OC_Util;
 use OCP\IURLGenerator;
 
 /**

@@ -24,13 +24,10 @@ namespace OCA\Files_External\Lib\Auth\Password;
 
 use \OCP\IL10N;
 use \OCP\IUser;
-use \OCA\Files_External\Lib\DefinitionParameter;
 use \OCA\Files_External\Lib\Auth\AuthMechanism;
 use \OCA\Files_External\Lib\StorageConfig;
 use \OCP\ISession;
 use \OCP\Security\ICredentialsManager;
-use \OCP\Files\Storage;
-use \OCA\Files_External\Lib\SessionStorageWrapper;
 use \OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
 
 /**

@@ -34,7 +34,6 @@ use OCA\Encryption\Hooks\Contracts\IHook;
 use OCA\Encryption\KeyManager;
 use OCA\Encryption\Crypto\Crypt;
 use OCA\Encryption\Users\Setup;
-use OCP\App;
 use OCP\ILogger;
 use OCP\IUserSession;
 use OCA\Encryption\Util;

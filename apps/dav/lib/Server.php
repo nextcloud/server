@@ -32,9 +32,7 @@
  */
 namespace OCA\DAV;
 
-use OC\AppFramework\Utility\TimeFactory;
 use OCA\DAV\CalDAV\BirthdayService;
-use OCA\DAV\CalDAV\Schedule\IMipPlugin;
 use OCA\DAV\CardDAV\ImageExportPlugin;
 use OCA\DAV\CardDAV\PhotoCache;
 use OCA\DAV\Comments\CommentsPlugin;

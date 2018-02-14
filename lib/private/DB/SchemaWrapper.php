@@ -23,7 +23,6 @@
 
 namespace OC\DB;
 
-use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Schema\Schema;
 use OCP\DB\ISchemaWrapper;
 use OCP\IDBConnection;

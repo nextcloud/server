@@ -49,7 +49,6 @@ use OpenCloud\Common\Exceptions;
 use OpenCloud\OpenStack;
 use OpenCloud\Rackspace;
 use OpenCloud\ObjectStore\Resource\DataObject;
-use OpenCloud\ObjectStore\Exception;
 
 class Swift extends \OC\Files\Storage\Common {
 

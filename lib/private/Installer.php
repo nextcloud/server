@@ -36,17 +36,12 @@
 namespace OC;
 
 use Doctrine\DBAL\Exception\TableExistsException;
-use OC\App\AppManager;
 use OC\App\AppStore\Bundles\Bundle;
 use OC\App\AppStore\Fetcher\AppFetcher;
-use OC\App\CodeChecker\CodeChecker;
-use OC\App\CodeChecker\EmptyCheck;
-use OC\App\CodeChecker\PrivateCheck;
 use OC\Archive\TAR;
 use OC_App;
 use OC_DB;
 use OC_Helper;
-use OCP\App\IAppManager;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\ILogger;

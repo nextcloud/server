@@ -30,7 +30,6 @@
 namespace OC\Share20;
 
 use OC\Files\Cache\Cache;
-use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Share\IShareProvider;
 use OC\Share20\Exception\InvalidShare;

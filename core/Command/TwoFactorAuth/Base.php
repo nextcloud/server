@@ -25,7 +25,6 @@ namespace OC\Core\Command\TwoFactorAuth;
 
 use OCP\IUserManager;
 use OCP\IUser;
-use Stecman\Component\Symfony\Console\BashCompletion\Completion\CompletionAwareInterface;
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 
 class Base extends \OC\Core\Command\Base {

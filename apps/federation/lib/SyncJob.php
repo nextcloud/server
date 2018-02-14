@@ -24,7 +24,6 @@
 namespace OCA\Federation;
 
 use OC\BackgroundJob\TimedJob;
-use OCA\Federation\AppInfo\Application;
 use OCP\ILogger;
 
 class SyncJob extends TimedJob {
