@@ -90,7 +90,6 @@ class UploadHome implements ICollection {
 		}
 		$view = new View('/' . $user->getUID() . '/uploads');
 		$rootInfo = $view->getFileInfo('');
-		$impl = new Directory($view, $rootInfo);
-		return $impl;
+		return new Directory($view, $rootInfo);
 	}
 }

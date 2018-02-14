@@ -172,9 +172,7 @@ class CleanUp extends TimedJob {
 			return false;
 		}
 
-		$enabled = $this->isCleanUpEnabled();
-
-		return $enabled;
+		return $this->isCleanUpEnabled();
 	}
 
 	/**

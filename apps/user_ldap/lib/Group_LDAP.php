@@ -370,9 +370,7 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 		}
 		$filterParts[] = $this->access->connection->ldapGidNumber .'=' . $groupID;
 
-		$filter = $this->access->combineFilterWithAnd($filterParts);
-
-		return $filter;
+		return $this->access->combineFilterWithAnd($filterParts);
 	}
 
 	/**
@@ -534,9 +532,7 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 		}
 		$filterParts[] = 'primaryGroupID=' . $groupID;
 
-		$filter = $this->access->combineFilterWithAnd($filterParts);
-
-		return $filter;
+		return $this->access->combineFilterWithAnd($filterParts);
 	}
 
 	/**

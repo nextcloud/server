@@ -210,9 +210,7 @@ class Helper {
 		}
 
 		$sliced = array_slice($split, 2);
-		$relPath = implode('/', $sliced);
-
-		return $relPath;
+		return implode('/', $sliced);
 	}
 
 	/**
