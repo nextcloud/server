@@ -98,6 +98,7 @@
     "The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "Curl ondersteuning in PHP is niet ingeschakeld of geïnstalleerd. Mounten van %s is niet mogelijk. Vraag je systeembeheerder dit te installeren.",
     "The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "FTP ondersteuning in PHP is niet ingeschakeld of geïnstalleerd. Mounten van %s is niet mogelijk. Vraag je beheerder dit te installeren.",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" is niet geïnstalleerd. Mounten van %s is niet mogelijk. Vraag je beheerder om dit te installeren.",
+    "External storage support" : "Externe opslag ondersteuning",
     "No external storage configured" : "Geen externe opslag geconfigureerd",
     "You can add external storages in the personal settings" : "Je kunt externe opslag toevoegen in persoonlijke instellingen",
     "Name" : "Naam",
@@ -119,6 +120,12 @@
     "Delete" : "Verwijder",
     "Allow users to mount external storage" : "Sta gebruikers toe om een externe opslag aan te koppelen",
     "Allow users to mount the following external storage" : "Sta gebruikers toe de volgende externe opslag aan te koppelen",
+    "Fetching request tokens failed. Verify that your app key and secret are correct." : "Binnenhalen van de aanvraag token is mislukt. Controleer dat je app sleutel en geheim correct zijn.",
+    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Binnenhalen van de toegangstoken is mislukt. Controleer dat je app sleutel en geheim correct zijn.",
+    "Step 1 failed. Exception: %s" : "Stap 1 mislukt. Uitzondering: %s",
+    "Step 2 failed. Exception: %s" : "Stap 2 mislukt. Uitzondering: %s",
+    "Dropbox App Configuration" : "Dropbox App Configuratie",
+    "Google Drive App Configuration" : "Google Drive App Configuratie",
     "Dropbox" : "Dropbox",
     "Google Drive" : "Google Drive"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

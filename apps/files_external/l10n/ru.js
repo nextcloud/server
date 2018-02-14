@@ -100,6 +100,7 @@ OC.L10N.register(
     "The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "Поддержка cURL в PHP не включена и/или не установлена, монтирование %s невозможно. Обратитесь к вашему системному администратору.",
     "The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "Поддержка FTP в PHP не включена и/или не установлена, монтирование %s невозможно. Обратитесь к вашему системному администратору.",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "«%s» не установлен, монтирование %s невозможно. Обратитесь к вашему системному администратору.",
+    "External storage support" : "Поддержка внешних хранилищ",
     "No external storage configured" : "Внешние хранилища не настроены",
     "You can add external storages in the personal settings" : "Вы можете добавить внешние хранилища в личных настройках",
     "Name" : "Имя",
@@ -120,6 +121,11 @@ OC.L10N.register(
     "Advanced settings" : "Расширенные настройки",
     "Delete" : "Удалить",
     "Allow users to mount external storage" : "Разрешить пользователями монтировать внешние накопители",
-    "Allow users to mount the following external storage" : "Разрешить пользователям монтировать следующие сервисы хранения данных"
+    "Allow users to mount the following external storage" : "Разрешить пользователям монтировать следующие сервисы хранения данных",
+    "Fetching request tokens failed. Verify that your app key and secret are correct." : "Ошибка получения токенов запроса. Проверьте корректность ключа и секрета приложения.",
+    "Dropbox App Configuration" : "Настройка приложения Dropbox",
+    "Google Drive App Configuration" : "Настройка приложения Google Drive",
+    "Dropbox" : "Dropbox",
+    "Google Drive" : "Google Drive"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

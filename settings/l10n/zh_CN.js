@@ -104,7 +104,7 @@ OC.L10N.register(
     "Error: Could not disable broken app" : "错误: 无法禁用损坏的应用",
     "Error while disabling broken app" : "禁用损坏的应用时出错",
     "App up to date" : "已是最新应用",
-    "Upgrading …" : "正在更新。。。",
+    "Upgrading …" : "正在更新...",
     "Could not upgrade app" : "无法更新应用",
     "Updated" : "已更新",
     "Removing …" : "正在移除...",

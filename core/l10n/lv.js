@@ -1,10 +1,10 @@
 OC.L10N.register(
     "core",
     {
-    "Please select a file." : "Lūdzu izvēlies failu.",
+    "Please select a file." : "Lūdzu izvēlies datni.",
     "File is too big" : "Datne ir par lielu",
-    "The selected file is not an image." : "Atlasītais fails nav attēls.",
-    "The selected file cannot be read." : "Atlasīto failu nevar nolasīt.",
+    "The selected file is not an image." : "Atlasītā datne nav attēls.",
+    "The selected file cannot be read." : "Atlasīto datni nevar nolasīt.",
     "Invalid file provided" : "Norādīta nederīga datne",
     "No image or file provided" : "Nav norādīts attēls vai datne",
     "Unknown filetype" : "Nezināms datnes tips",
