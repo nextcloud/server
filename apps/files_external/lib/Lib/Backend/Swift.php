@@ -27,7 +27,7 @@ use \OCA\Files_External\Lib\Backend\Backend;
 use \OCA\Files_External\Lib\DefinitionParameter;
 use \OCA\Files_External\Lib\Auth\AuthMechanism;
 use \OCA\Files_External\Service\BackendService;
-use \OCA\Files_External\Lib\Auth\OpenStack\OpenStack;
+use \OCA\Files_External\Lib\Auth\OpenStack\OpenStackV2;
 use \OCA\Files_External\Lib\Auth\OpenStack\Rackspace;
 use \OCA\Files_External\Lib\LegacyDependencyCheckPolyfill;
 
@@ -35,7 +35,7 @@ class Swift extends Backend {
 
 	use LegacyDependencyCheckPolyfill;
 
-	public function __construct(IL10N $l, OpenStack $openstackAuth, Rackspace $rackspaceAuth) {
+	public function __construct(IL10N $l, OpenStackV2 $openstackAuth, Rackspace $rackspaceAuth) {
 		$this
 			->setIdentifier('swift')
 			->addIdentifierAlias('\OC\Files\Storage\Swift') // legacy compat

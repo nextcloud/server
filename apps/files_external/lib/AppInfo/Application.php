@@ -31,10 +31,12 @@ namespace OCA\Files_External\AppInfo;
 
 use \OCP\AppFramework\App;
 use OCP\AppFramework\IAppContainer;
-use \OCP\IContainer;
-use \OCA\Files_External\Service\BackendService;
 use \OCA\Files_External\Lib\Config\IBackendProvider;
 use \OCA\Files_External\Lib\Config\IAuthMechanismProvider;
+use OCA\Files_External\Lib\Auth\OpenStack\Rackspace;
+use OCA\Files_External\Lib\Auth\OpenStack\OpenStackV2;
+use OCA\Files_External\Lib\Auth\OpenStack\OpenStackV3;
+use OCA\Files_External\Lib\Backend\Swift;
 
 /**
  * @package OCA\Files_External\AppInfo
@@ -116,8 +118,9 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 			$container->query('OCA\Files_External\Lib\Auth\PublicKey\RSA'),
 
 			// AuthMechanism::SCHEME_OPENSTACK mechanisms
-			$container->query('OCA\Files_External\Lib\Auth\OpenStack\OpenStack'),
-			$container->query('OCA\Files_External\Lib\Auth\OpenStack\Rackspace'),
+			$container->query(OpenStackV2::class),
+			$container->query(OpenStackV3::class),
+			$container->query(Rackspace::class),
 
 			// Specialized mechanisms
 			$container->query('OCA\Files_External\Lib\Auth\AmazonS3\AccessKey'),

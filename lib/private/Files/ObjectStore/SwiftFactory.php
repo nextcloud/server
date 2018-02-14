@@ -31,8 +31,9 @@ use OCP\Files\StorageAuthException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\ICache;
 use OpenStack\Common\Error\BadResponseError;
-use OpenStack\Identity\v2\Models\Token;
-use OpenStack\Identity\v2\Service;
+use OpenStack\Common\Auth\Token;
+use OpenStack\Identity\v2\Service as IdentityV2Service;
+use OpenStack\Identity\v3\Service as IdentityV3Service;
 use OpenStack\OpenStack;
 use OpenStack\Common\Transport\Utils as TransportUtils;
 use Psr\Http\Message\RequestInterface;
@@ -77,30 +78,49 @@ class SwiftFactory {
 			// should only be true for tests
 			$this->params['autocreate'] = false;
 		}
-		if (!isset($this->params['username']) && isset($this->params['user'])) {
-			$this->params['username'] = $this->params['user'];
+		if (isset($this->params['user']) && is_array($this->params['user'])) {
+			$userName = $this->params['user']['id'];
+		} else {
+			if (!isset($this->params['username']) && isset($this->params['user'])) {
+				$this->params['username'] = $this->params['user'];
+			}
+			$userName = $this->params['username'];
 		}
 		if (!isset($this->params['tenantName']) && isset($this->params['tenant'])) {
 			$this->params['tenantName'] = $this->params['tenant'];
 		}
 
-		$cacheKey = $this->params['username'] . '@' . $this->params['url'] . '/' . $this->params['bucket'];
+		$cacheKey = $userName . '@' . $this->params['url'] . '/' . $this->params['bucket'];
 		$token = $this->getCachedToken($cacheKey);
 		$hasToken = is_array($token) && (new \DateTimeImmutable($token['expires_at'])) > (new \DateTimeImmutable('now'));
 		if ($hasToken) {
 			$this->params['cachedToken'] = $token;
 		}
+
 		$httpClient = new Client([
 			'base_uri' => TransportUtils::normalizeUrl($this->params['url']),
 			'handler' => HandlerStack::create()
 		]);
 
-		$authService = Service::factory($httpClient);
+		if (isset($this->params['user']) && isset($this->params['user']['id'])) {
+			return $this->auth(IdentityV3Service::factory($httpClient), $cacheKey);
+		} else {
+			return $this->auth(IdentityV2Service::factory($httpClient), $cacheKey);
+		}
+	}
+
+	/**
+	 * @param IdentityV2Service|IdentityV3Service $authService
+	 * @param string $cacheKey
+	 * @return OpenStack
+	 * @throws StorageAuthException
+	 */
+	private function auth($authService, string $cacheKey) {
 		$this->params['identityService'] = $authService;
 		$this->params['authUrl'] = $this->params['url'];
 		$client = new OpenStack($this->params);
 
-		if (!$hasToken) {
+		if (!isset($this->params['cachedToken'])) {
 			try {
 				$token = $authService->generateToken($this->params);
 				$this->cacheToken($token, $cacheKey);
