@@ -109,6 +109,8 @@ OC.L10N.register(
     "Good password" : "Hyvä salasana",
     "Strong password" : "Vahva salasana",
     "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "HTTP-palvelintasi ei ole määritetty oikein tiedostojen synkronointia varten, koska WebDAV-liitäntä vaikuttaa olevan rikki.",
+    "The PHP function \"set_time_limit\" is not available. This could result in scripts being halted mid-execution, breaking your installation. Enabling this function is strongly recommended." : "PHP-funktio \"set_time_limit\" ei ole käytettävissä. Tämä saattaa johtaa siihen, että skriptien suoritus päättyy ennenaikaisesti ja Nextcloud-asennus rikkoutuu. Suosittelemme kovasti ottamaan tämän funktion käyttöön.",
+    "Your PHP does not have FreeType support, resulting in breakage of profile pictures and the settings interface." : "PHP-asennuksessasi ei ole FreeType-tukea, ja siitä aiheutuu profiilikuvien sekä asetuskäyttöliittymän rikkoutuminen.",
     "Error occurred while checking server setup" : "Virhe palvelimen määrityksiä tarkistaessa",
     "Shared" : "Jaettu",
     "Shared with" : "Jaettu",
@@ -291,6 +293,10 @@ OC.L10N.register(
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Ota yhteys järjestelmän ylläpitäjään, jos tämä viesti ilmenee uudelleen tai odottamatta.",
     "Thank you for your patience." : "Kiitos kärsivällisyydestäsi.",
     "There was an error loading your contacts" : "Virhe yhteystietojasi ladattaessa",
-    "This action requires you to confirm your password:" : "Tämä toiminto vaatii, että vahvistat salasanasi:"
+    "Your web server is not yet set up properly to allow file synchronization because the WebDAV interface seems to be broken." : "Web-palvelintasi ei ole määritetty oikein tiedostojen synkronoinnin sallimiseksi, koska WebDAV-liitäntä vaikuttaa olevan rikki.",
+    "The server encountered an internal error and was unable to complete your request." : "Palvelimella tapahtui sisäinen virhe, eikä pyyntöäsi voitu käsitellä.",
+    "Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report." : "Ota yhteys palvelimen ylläpitäjään, jos tämä virhe ilmenee useita kertoja. Sisällytä alla olevat tekniset tiedot ilmoitukseesi.",
+    "This action requires you to confirm your password:" : "Tämä toiminto vaatii, että vahvistat salasanasi:",
+    "Wrong password. Reset it?" : "Väärä salasana. Nollataanko se?"
 },
 "nplurals=2; plural=(n != 1);");
