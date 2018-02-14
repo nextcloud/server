@@ -185,7 +185,7 @@ class Listener {
 				/** @var Node $node */
 				$node = array_shift($nodes);
 				$al = $this->shareHelper->getPathsForAccessList($node);
-				$users = array_merge($users, $al['users']);
+				$users += $al['users'];
 			}
 		}
 
@@ -203,6 +203,7 @@ class Listener {
 			->setObject($event->getObjectType(), (int) $event->getObjectId());
 
 		foreach ($users as $user => $path) {
+			$user = (string)$user; // numerical ids could be ints which are not accepted everywhere
 			$activity->setAffectedUser($user);
 
 			foreach ($tags as $tag) {
