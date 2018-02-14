@@ -139,6 +139,9 @@ Vagrantfile
 /tests/autotest*
 /tests/data/lorem-copy.txt
 /tests/data/testimage-copy.png
+/tests/ui-regression/out/
+/tests/ui-regression/node_modules/
+/tests/ui-regression/package-lock.json
 /config/config-autotest-backup.php
 /config/autoconfig.php
 clover.xml

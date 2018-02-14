@@ -703,6 +703,32 @@ pipeline:
     when:
       matrix:
         TEST: memcache-redis-cluster
+  ui-regression:
+    image: nextcloudci/ui-regression:ui-regression-1
+    commands:
+      - cd tests/ui-regression
+      - npm install
+      - chown -R pptruser out node_modules
+      - bash -c "until curl -s http://ui-regression-php-master > /dev/null && curl -s http://ui-regression-php > /dev/null; do sleep 2; done"
+      - sudo -u pptruser node runTests.js || true
+      - echo "The result can be found at https://s3.bitgrid.net/nextcloud-ui-regression/nextcloud/server/${DRONE_PULL_REQUEST}/index.html"
+    shm_size: '1gb'
+    when:
+      matrix:
+        TESTS: ui-regression
+  publish-s3:
+    image: plugins/s3
+    endpoint: https://s3.bitgrid.net/
+    bucket: nextcloud-ui-regression
+    path_style: true
+    source: tests/ui-regression/out/**/*
+    strip_prefix: tests/ui-regression/out/
+    acl: public-read
+    target: ${DRONE_REPO_OWNER}/${DRONE_REPO_NAME}/${DRONE_PULL_REQUEST}
+    secrets: [ aws_access_key_id, aws_secret_access_key ]
+    when:
+      matrix:
+        TESTS: ui-regression
 matrix:
   include:
     - TESTS: checkers
@@ -848,6 +874,7 @@ matrix:
       ENABLE_REDIS_CLUSTER: true
     - TESTS: sqlite-php7.0-webdav-apache
       ENABLE_REDIS: true
+    - TESTS: ui-regression
 
 services:
   cache:
@@ -855,6 +882,27 @@ services:
     when:
       matrix:
        ENABLE_REDIS: true
+  ui-regression-php:
+    image: nextcloudci/server:server-1
+    commands:
+      - . /etc/apache2/envvars
+      - rm -fr /var/www/html
+      - mkdir /var/www/html && cp -rT . /var/www/html && chown -R www-data:www-data /var/www/html
+      - rm -fr /var/www/html/config/config.php /var/www/html/data/*
+      - apache2 -DFOREGROUND
+    when:
+      matrix:
+        TESTS: ui-regression
+  ui-regression-php-master:
+    image: nextcloudci/server:server-1
+    commands:
+      - . /etc/apache2/envvars
+      - rm -fr /var/www/html/config/config.php /var/www/html/data/*
+      - su www-data -c "cd /var/www/html/ && git checkout $DRONE_REPO_BRANCH && git pull && git submodule update"
+      - apache2 -DFOREGROUND 
+    when:
+      matrix:
+        TESTS: ui-regression
   cache-cluster:
     image: morrisjobke/redis-cluster
     when:
