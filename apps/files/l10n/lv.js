@@ -24,7 +24,7 @@ OC.L10N.register(
     "Delete" : "Dzēst",
     "Disconnect storage" : "Atvienot glabātuvi",
     "Unshare" : "Pārtraukt koplietošanu",
-    "Could not load info for file \"{file}\"" : "Nevar ielādēt informāciju par failu \"{file}\"",
+    "Could not load info for file \"{file}\"" : "Nevar ielādēt informāciju par datni \"{file}\"",
     "Files" : "Datnes",
     "Details" : "Detaļas",
     "Select" : "Norādīt",
