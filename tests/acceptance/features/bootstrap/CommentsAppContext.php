@@ -57,8 +57,8 @@ class CommentsAppContext implements Context, ActorAwareInterface {
 	 * @When /^I create a new comment with "([^"]*)" as message$/
 	 */
 	public function iCreateANewCommentWithAsMessage($commentText) {
-		$this->actor->find(self::newCommentField(), 2)->setValue($commentText);
-		$this->actor->find(self::submitNewCommentButton(), 2)->click();
+		$this->actor->find(self::newCommentField(), 10)->setValue($commentText);
+		$this->actor->find(self::submitNewCommentButton())->click();
 	}
 
 	/**
