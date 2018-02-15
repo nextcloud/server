@@ -80,9 +80,9 @@ class TemplateLayout extends \OC_Template {
 			// Add navigation entry
 			$this->assign( 'application', '');
 			$this->assign( 'appid', $appId );
-			$navigation = \OC_App::getNavigation();
+			$navigation = \OC::$server->getNavigationManager()->getAll();
 			$this->assign( 'navigation', $navigation);
-			$settingsNavigation = \OC_App::getSettingsNavigation();
+			$settingsNavigation = \OC::$server->getNavigationManager()->getAll('settings');
 			$this->assign( 'settingsnavigation', $settingsNavigation);
 			foreach($navigation as $entry) {
 				if ($entry['active']) {
