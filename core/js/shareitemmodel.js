@@ -567,12 +567,26 @@
 		},
 
 		/**
-		 * @returns {boolean}
+		 * @returns {string}
+		 *     The state that the 'can edit' permission checkbox should have.
+		 *     Possible values:
+		 *     - empty string: no permission
+		 *     - 'checked': all applicable permissions
+		 *     - 'indeterminate': some but not all permissions
 		 */
-		hasEditPermission: function(shareIndex) {
-			return    this.hasCreatePermission(shareIndex)
-				   || this.hasUpdatePermission(shareIndex)
-				   || this.hasDeletePermission(shareIndex);
+		editPermissionState: function(shareIndex) {
+			var hcp = this.hasCreatePermission(shareIndex);
+			var hup = this.hasUpdatePermission(shareIndex);
+			var hdp = this.hasDeletePermission(shareIndex);
+			if (!hcp && !hup && !hdp) {
+				return '';
+			}
+			if (   (this.createPermissionPossible() && !hcp)
+				|| (this.updatePermissionPossible() && !hup)
+				|| (this.deletePermissionPossible() && !hdp)   ) {
+				return 'indeterminate';
+			}
+			return 'checked';
 		},
 
 		/**

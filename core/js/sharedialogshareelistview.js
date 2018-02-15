@@ -30,7 +30,7 @@
 					'<span class="sharingOptionsGroup">' +
 						'{{#if editPermissionPossible}}' +
 						'<span class="shareOption">' +
-							'<input id="canEdit-{{cid}}-{{shareWith}}" type="checkbox" name="edit" class="permissions checkbox" {{#if hasEditPermission}}checked="checked"{{/if}} />' +
+							'<input id="canEdit-{{cid}}-{{shareWith}}" type="checkbox" name="edit" class="permissions checkbox" {{#if editPermissionState}}{{editPermissionState}}="{{editPermissionState}}"{{/if}} />' +
 							'<label for="canEdit-{{cid}}-{{shareWith}}">{{canEditLabel}}</label>' +
 						'</span>' +
 						'{{/if}}' +
@@ -232,7 +232,7 @@
 			return _.extend(hasPermissionOverride, {
 				cid: this.cid,
 				hasSharePermission: this.model.hasSharePermission(shareIndex),
-				hasEditPermission: this.model.hasEditPermission(shareIndex),
+				editPermissionState: this.model.editPermissionState(shareIndex),
 				hasCreatePermission: this.model.hasCreatePermission(shareIndex),
 				hasUpdatePermission: this.model.hasUpdatePermission(shareIndex),
 				hasDeletePermission: this.model.hasDeletePermission(shareIndex),
@@ -384,7 +384,8 @@
 				checkBoxId = '#' + checkBoxId.replace( /(:|\.|\[|\]|,|=|@)/g, "\\$1");
 				var $edit = $li.parent().find(checkBoxId);
 				if($edit.length === 1) {
-					$edit.prop('checked', sharee.hasEditPermission);
+					$edit.prop('checked', sharee.editPermissionState === 'checked');
+					$edit.prop('indeterminate', sharee.editPermissionState === 'indeterminate');
 				}
 			}
 
