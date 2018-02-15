@@ -72,54 +72,6 @@ class SimpleMenuAction implements IMenuAction {
 	}
 
 	/**
-	 * @param string $id
-	 * @since 14.0.0
-	 */
-	public function setId(string $id) {
-		$this->id = $id;
-	}
-
-	/**
-	 * @param string $label
-	 * @since 14.0.0
-	 */
-	public function setLabel(string $label) {
-		$this->label = $label;
-	}
-
-	/**
-	 * @param string $detail
-	 * @since 14.0.0
-	 */
-	public function setDetail(string $detail) {
-		$this->detail = $detail;
-	}
-
-	/**
-	 * @param string $icon
-	 * @since 14.0.0
-	 */
-	public function setIcon(string $icon) {
-		$this->icon = $icon;
-	}
-
-	/**
-	 * @param string $link
-	 * @since 14.0.0
-	 */
-	public function setLink(string $link) {
-		$this->link = $link;
-	}
-
-	/**
-	 * @param int $priority
-	 * @since 14.0.0
-	 */
-	public function setPriority(int $priority) {
-		$this->priority = $priority;
-	}
-
-	/**
 	 * @return string
 	 * @since 14.0.0
 	 */
