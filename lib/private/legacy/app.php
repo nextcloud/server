@@ -136,6 +136,7 @@ class OC_App {
 	 * load a single app
 	 *
 	 * @param string $app
+	 * @throws Exception
 	 */
 	public static function loadApp($app) {
 		self::$loadedApps[] = $app;
@@ -149,7 +150,15 @@ class OC_App {
 
 		if (is_file($appPath . '/appinfo/app.php')) {
 			\OC::$server->getEventLogger()->start('load_app_' . $app, 'Load app: ' . $app);
-			self::requireAppFile($app);
+			try {
+				self::requireAppFile($app);
+			} catch (Error $ex) {
+				\OC::$server->getLogger()->logException($ex);
+				if (!\OC::$server->getAppManager()->isShipped($app)) {
+					// Only disable apps which are not shipped
+					self::disable($app);
+				}
+			}
 			if (self::isType($app, array('authentication'))) {
 				// since authentication apps affect the "is app enabled for group" check,
 				// the enabled apps cache needs to be cleared to make sure that the
@@ -231,16 +240,8 @@ class OC_App {
 	 * @param string $app app name
 	 */
 	private static function requireAppFile($app) {
-		try {
-			// encapsulated here to avoid variable scope conflicts
-			require_once $app . '/appinfo/app.php';
-		} catch (Error $ex) {
-			\OC::$server->getLogger()->logException($ex);
-			if (!\OC::$server->getAppManager()->isShipped($app)) {
-				// Only disable apps which are not shipped
-				self::disable($app);
-			}
-		}
+		// encapsulated here to avoid variable scope conflicts
+		require_once $app . '/appinfo/app.php';
 	}
 
 	/**
