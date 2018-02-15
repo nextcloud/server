@@ -30,7 +30,7 @@
 					'<span class="sharingOptionsGroup">' +
 						'{{#if editPermissionPossible}}' +
 						'<span class="shareOption">' +
-							'<input id="canEdit-{{cid}}-{{shareWith}}" type="checkbox" name="edit" class="permissions checkbox" {{#if editPermissionState}}{{editPermissionState}}="{{editPermissionState}}"{{/if}} />' +
+							'<input id="canEdit-{{cid}}-{{shareWith}}" type="checkbox" name="edit" class="permissions checkbox" />' +
 							'<label for="canEdit-{{cid}}-{{shareWith}}">{{canEditLabel}}</label>' +
 						'</span>' +
 						'{{/if}}' +
@@ -379,17 +379,18 @@
 				$.extend(sharee, this.getShareProperties());
 				var $li = this.$('li[data-share-id=' + permissionChangeShareId + ']');
 				$li.find('.sharingOptionsGroup .popovermenu').replaceWith(this.popoverMenuTemplate(sharee));
+			}
 
-				var checkBoxId = 'canEdit-' + this.cid + '-' + sharee.shareWith;
+			var _this = this;
+			this.getShareeList().forEach(function(sharee) {
+				var checkBoxId = 'canEdit-' + _this.cid + '-' + sharee.shareWith;
 				checkBoxId = '#' + checkBoxId.replace( /(:|\.|\[|\]|,|=|@)/g, "\\$1");
-				var $edit = $li.parent().find(checkBoxId);
+				var $edit = _this.$(checkBoxId);
 				if($edit.length === 1) {
 					$edit.prop('checked', sharee.editPermissionState === 'checked');
 					$edit.prop('indeterminate', sharee.editPermissionState === 'indeterminate');
 				}
-			}
-
-			var _this = this;
+			});
 			this.$('.popovermenu').on('afterHide', function() {
 				_this._menuOpen = false;
 			});
@@ -628,8 +629,10 @@
 					}
 				} else {
 					var numberChecked = $checkboxes.filter(':checked').length;
-					checked = numberChecked > 0;
-					$('input[name="edit"]', $li).prop('checked', checked);
+					checked = numberChecked === $checkboxes.length;
+					var $editCb = $('input[name="edit"]', $li);
+					$editCb.prop('checked', checked);
+					$editCb.prop('indeterminate', !checked && numberChecked > 0);
 				}
 			} else {
 				if ($element.attr('name') === 'edit' && $element.is(':checked')) {
