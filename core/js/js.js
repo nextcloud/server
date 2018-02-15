@@ -321,7 +321,7 @@ var OCP = {},
 	 *
 	 * @return {array} capabilities
 	 *
-	 * @since 13.0
+	 * @since 14.0
 	 */
 	getCapabilities: function() {
 		return OC._capabilities;
