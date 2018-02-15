@@ -95,7 +95,7 @@ class CheckSetupController extends Controller {
 	}
 
 	/**
-	 * Checks if the ownCloud server can connect to the internet using HTTPS and HTTP
+	 * Checks if the server can connect to the internet using HTTPS and HTTP
 	 * @return bool
 	 */
 	private function isInternetConnectionWorking() {
