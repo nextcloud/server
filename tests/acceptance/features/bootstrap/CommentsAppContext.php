@@ -26,6 +26,32 @@ use Behat\Behat\Context\Context;
 class CommentsAppContext implements Context, ActorAwareInterface {
 	use ActorAware;
 
+	/**
+	 * @return Locator
+	 */
+	public static function newCommentField() {
+		return Locator::forThe()->css("div.newCommentRow .message")->
+				descendantOf(FilesAppContext::currentSectionDetailsView())->
+				describedAs("New comment field in current section details view in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function submitNewCommentButton() {
+		return Locator::forThe()->css("div.newCommentRow .submit")->
+				descendantOf(FilesAppContext::currentSectionDetailsView())->
+				describedAs("Submit new comment button in current section details view in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function commentFields() {
+		return Locator::forThe()->css(".comments .comment .message")->
+				descendantOf(FilesAppContext::currentSectionDetailsView())->
+				describedAs("Comment fields in current section details view in Files app");
+	}
 
 	/**
 	 * @When /^I create a new comment with "([^"]*)" as message$/
@@ -57,26 +83,5 @@ class CommentsAppContext implements Context, ActorAwareInterface {
 			return false;
 		}
 		return true;
-	}
-
-	/**
-	 * @return Locator
-	 */
-	public static function newCommentField() {
-		return Locator::forThe()->css("div.newCommentRow .message")->descendantOf(FilesAppContext::currentSectionDetailsView())->
-		describedAs("New comment field in the details view in Files app");
-	}
-
-	public static function commentFields() {
-		return Locator::forThe()->css(".comments .comment .message")->descendantOf(FilesAppContext::currentSectionDetailsView())->
-		describedAs("Comment fields in the details view in Files app");
-	}
-
-	/**
-	 * @return Locator
-	 */
-	public static function submitNewCommentButton() {
-		return Locator::forThe()->css("div.newCommentRow .submit")->descendantOf(FilesAppContext::currentSectionDetailsView())->
-		describedAs("Submit new comment button in the details view in Files app");
 	}
 }
