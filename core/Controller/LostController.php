@@ -321,12 +321,12 @@ class LostController extends Controller {
 		$emailTemplate->addHeading($this->l10n->t('Password reset'));
 
 		$emailTemplate->addBodyText(
-			$this->l10n->t('Click the following button to reset your password. If you have not requested the password reset, then ignore this email.'),
+			htmlspecialchars($this->l10n->t('Click the following button to reset your password. If you have not requested the password reset, then ignore this email.')),
 			$this->l10n->t('Click the following link to reset your password. If you have not requested the password reset, then ignore this email.')
 		);
 
 		$emailTemplate->addBodyButton(
-			$this->l10n->t('Reset your password'),
+			htmlspecialchars($this->l10n->t('Reset your password')),
 			$link,
 			false
 		);

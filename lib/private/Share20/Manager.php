@@ -735,7 +735,7 @@ class Manager implements IManager {
 		$text = $l->t('%s shared »%s« with you.', [$initiatorDisplayName, $filename]);
 
 		$emailTemplate->addBodyText(
-			$text . ' ' . $l->t('Click the button below to open it.'),
+			htmlspecialchars($text . ' ' . $l->t('Click the button below to open it.')),
 			$text
 		);
 		$emailTemplate->addBodyButton(
