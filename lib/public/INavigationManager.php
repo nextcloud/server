@@ -61,7 +61,7 @@ interface INavigationManager {
 	/**
 	 * Get a list of navigation entries
 	 *
-	 * @param bool $absolute set to true if links to navigation entries should be converted to absolute urls
+	 * @param string $type type of the navigation entries
 	 * @return array
 	 * @since 14.0.0
 	 */

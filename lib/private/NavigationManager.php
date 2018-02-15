@@ -104,9 +104,10 @@ class NavigationManager implements INavigationManager {
 	}
 
 	/**
-	 * returns all the added Menu entries
-	 * @param string $type
-	 * @return array an array of the added entries
+	 * Get a list of navigation entries
+	 *
+	 * @param string $type type of the navigation entries
+	 * @return array
 	 */
 	public function getAll(string $type = 'link'): array {
 		$this->init();
@@ -128,10 +129,10 @@ class NavigationManager implements INavigationManager {
 	/**
 	 * Sort navigation entries by order, name and set active flag
 	 *
-	 * @param $list
-	 * @return mixed
+	 * @param array $list
+	 * @return array
 	 */
-	private function proceedNavigation($list) {
+	private function proceedNavigation(array $list): array {
 		usort($list, function($a, $b) {
 			if (isset($a['order']) && isset($b['order'])) {
 				return ($a['order'] < $b['order']) ? -1 : 1;
