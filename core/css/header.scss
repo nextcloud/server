@@ -74,13 +74,16 @@
 #header {
 	/* Header menu */
 	.menu {
-		top: 45px;
 		background-color: $color-main-background;
 		filter: drop-shadow(0 1px 10px $color-box-shadow);
 		border-radius: 0 0 3px 3px;
 		box-sizing: border-box;
 		z-index: 2000;
 		position: absolute;
+		max-width: 350px;
+		max-height: 280px;
+		right: 0;
+		top: 44px;
 
 		&:not(.popovermenu) {
 			display: none;
@@ -96,6 +99,7 @@
 			width: 0;
 			position: absolute;
 			pointer-events: none;
+			right: 13px;
 		}
 	}
 	.logo {
@@ -150,6 +154,25 @@
 
 	#header-right, .header-right {
 		justify-content: flex-end;
+	}
+
+	/* Right header standard */
+	.header-right {
+		> div,
+		> form {
+			position: relative;
+			> .menutoggle {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				width: 44px;
+				height: 44px;
+				cursor: pointer;
+				opacity: 0.6;
+				padding: 0;
+				margin: 0;
+			}
+		}
 	}
 }
 
@@ -335,57 +358,52 @@ nav {
 	display: inline-block;
 	color: rgba($color-primary-text, 0.7);
 	cursor: pointer;
+	margin-right: 13px;
+	flex: 0 0 auto;
+
 	.icon-loading-small-dark {
 		display: inline-block;
 		margin-bottom: -3px;
 		margin-right: 6px;
 		background-size: 16px 16px;
 	}
-	flex: 0 0 auto;
-}
 
-/* User menu on the right */
-#expand {
-	position: relative;
-	display: flex;
-	align-items: center;
-	padding: 7px 20px 6px 10px;
-	cursor: pointer;
-	* {
-		cursor: pointer;
-	}
-	img {
-		opacity: .7;
-		margin-bottom: -2px;
-	}
-	&:hover,
-	&:focus,
-	&:active {
-		color: $color-primary-text;
-		img,
-		#expandDisplayName {
-			opacity: 1;
-		}
-	}
-
-	/* Profile picture in header */
-	.avatardiv {
-		cursor: pointer;
-		height: 32px;
-		width: 32px;
+	/* User menu on the right */
+	#expand {
+		opacity: 1; /* override icon opacity */
 		img {
-			opacity: 1;
-			cursor: pointer;
+			opacity: .7;
+			margin-bottom: -2px;
 		}
-		/* do not show display name when profile picture is present */
-		&.avatardiv-shown + #expandDisplayName {
-			display: none;
+		&:hover,
+		&:focus,
+		&:active {
+			color: $color-primary-text;
+			img,
+			#expandDisplayName {
+				opacity: 1;
+			}
 		}
-	}
 
-	#expandDisplayName {
-		padding: 8px;
-		opacity: .6;
+		/* Profile picture in header */
+		.avatardiv {
+			cursor: pointer;
+			height: 32px;
+			width: 32px;
+			img {
+				opacity: 1;
+				cursor: pointer;
+			}
+			/* do not show display name when profile picture is present */
+			&.avatardiv-shown + #expandDisplayName {
+				display: none;
+			}
+		}
+
+		#expandDisplayName {
+			padding: 8px;
+			opacity: .6;
+		}
 	}
 }
 
@@ -412,22 +430,18 @@ nav {
 }
 
 #expanddiv {
-	right: 13px;
-	background: $color-main-background;
-	&:after {
-		/* position of dropdown arrow */
-		right: 13px;
-	}
 	a {
-		display: block;
+		display: inline-flex;
+		align-items: center;
 		height: 40px;
 		color: $color-main-text;
-		padding: 10px 12px 0;
+		padding: 12px;
 		box-sizing: border-box;
 		opacity: .7;
 		img {
-			margin-bottom: -3px;
-			margin-right: 6px;
+			margin-right: 9px;
+			height: 16px;
+			width: 16px;
 		}
 		&:hover,
 		&:focus,
