@@ -211,6 +211,7 @@ class OC_App {
 	 * Load app.php from the given app
 	 *
 	 * @param string $app app name
+	 * @throws Error
 	 */
 	private static function requireAppFile($app) {
 		// encapsulated here to avoid variable scope conflicts
