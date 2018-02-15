@@ -47,10 +47,19 @@ class CommentsAppContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
-	public static function commentFields() {
-		return Locator::forThe()->css(".comments .comment .message")->
+	public static function commentList() {
+		return Locator::forThe()->css("ul.comments")->
 				descendantOf(FilesAppContext::currentSectionDetailsView())->
-				describedAs("Comment fields in current section details view in Files app");
+				describedAs("Comment list in current section details view in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function commentWithText($text) {
+		return Locator::forThe()->xpath("//div[normalize-space() = '$text']/ancestor::li")->
+				descendantOf(self::commentList())->
+				describedAs("Comment with text \"$text\" in current section details view in Files app");
 	}
 
 	/**
@@ -62,26 +71,10 @@ class CommentsAppContext implements Context, ActorAwareInterface {
 	}
 
 	/**
-	 * @Then /^I see that a comment was added$/
+	 * @Then /^I see a comment with "([^"]*)" as message$/
 	 */
-	public function iSeeThatACommentWasAdded() {
-		$self = $this;
-
-		$result = Utils::waitFor(function () use ($self) {
-			return $self->isCommentAdded();
-		}, 5, 0.5);
-
-		PHPUnit_Framework_Assert::assertTrue($result);
-	}
-
-	public function isCommentAdded() {
-		try {
-				$locator = self::commentFields();
-			$comments = $this->actor->getSession()->getPage()->findAll($locator->getSelector(), $locator->getLocator());
-			PHPUnit_Framework_Assert::assertSame(1, count($comments));
-		} catch (PHPUnit_Framework_ExpectationFailedException $e) {
-			return false;
-		}
-		return true;
+	public function iSeeACommentWithAsMessage($commentText) {
+		PHPUnit_Framework_Assert::assertTrue(
+				$this->actor->find(self::commentWithText($commentText), 10)->isVisible());
 	}
 }
