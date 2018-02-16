@@ -16,7 +16,6 @@
 .actions .button a:active {
 	color: #333;
 }
-.actions.hidden { display: none; }
 
 .actions.creatable {
 	position: relative;
@@ -25,6 +24,10 @@
 	.button:not(:last-child) {
 		margin-right: 3px;
 	}
+}
+
+.actions.hidden {
+	display: none;
 }
 
 #trash {
