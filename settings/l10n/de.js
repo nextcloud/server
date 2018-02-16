@@ -74,7 +74,7 @@ OC.L10N.register(
     "Welcome aboard %s" : "Willkommen an Bord %s",
     "Welcome to your %s account, you can add, protect, and share your data." : "Willkommen zu Deinem %s-Konto. Du kannst Deine Daten hinzufügen, schützen und teilen.",
     "Your username is: %s" : "Dein Benutzername lautet: %s",
-    "Set your password" : "Vergebe Dein Passwort",
+    "Set your password" : "Setze Dein Kennwort",
     "Go to %s" : "Gehe zu %s",
     "Install Client" : "Installiere den Client",
     "Password confirmation is required" : "Passwortbestätigung erforderlich",
