@@ -316,7 +316,7 @@ OC.L10N.register(
     "This page will refresh itself when the %s instance is available again." : "Denne siden vil bli lastet på nytt når %s-instansen er tilgjengelig igjen.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Kontakt systemadministratoren hvis denne meldingen var uventet eller ikke forsvinner.",
     "Thank you for your patience." : "Takk for din tålmodighet.",
-    "%s (3rdparty)" : "%s (3dje-part)",
+    "%s (3rdparty)" : "%s (tredjepart)",
     "There was an error loading your contacts" : "Feil ved innlasting av kontaktene dine",
     "Your web server is not yet set up properly to allow file synchronization because the WebDAV interface seems to be broken." : "Vev-tjeneren din er ikke satt opp til å tillate synkronisering av filer ennå, fordi WebDAV-grensesnittet ikke ser ut til å virke.",
     "Your web server is not set up properly to resolve \"{url}\". Further information can be found in our <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">documentation</a>." : "Din vevtjener er ikke satt opp korrekt for å hente \"{url}\". Mer informasjon finner du i vår <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">dokumentasjon</a>.",
