@@ -126,8 +126,7 @@ class CheckCode extends Command implements CompletionAwareInterface  {
 		}
 
 		if(!$input->getOption('skip-validate-info')) {
-			// Can not inject because of circular dependency
-			$infoChecker = new InfoChecker(\OC::$server->getAppManager());
+			$infoChecker = new InfoChecker();
 			$infoChecker->listen('InfoChecker', 'parseError', function($error) use ($output) {
 				$output->writeln("<error>Invalid appinfo.xml file found: $error</error>");
 			});
