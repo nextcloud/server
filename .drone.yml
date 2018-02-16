@@ -734,7 +734,7 @@ matrix:
     - TESTS: acceptance
       TESTS-ACCEPTANCE: access-levels
     - TESTS: acceptance
-      TESTS-ACCEPTANCE: access-comments
+      TESTS-ACCEPTANCE: app-comments
     - TESTS: acceptance
       TESTS-ACCEPTANCE: app-files
     - TESTS: acceptance
