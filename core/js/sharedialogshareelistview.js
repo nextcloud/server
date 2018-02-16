@@ -384,7 +384,7 @@
 			var _this = this;
 			this.getShareeList().forEach(function(sharee) {
 				var checkBoxId = 'canEdit-' + _this.cid + '-' + sharee.shareWith;
-				checkBoxId = '#' + checkBoxId.replace( /(:|\.|\[|\]|,|=|@)/g, "\\$1");
+				checkBoxId = '#' + checkBoxId.replace( /(:|\.|\[|\]|,|=|@|\/)/g, "\\$1");
 				var $edit = _this.$(checkBoxId);
 				if($edit.length === 1) {
 					$edit.prop('checked', sharee.editPermissionState === 'checked');
