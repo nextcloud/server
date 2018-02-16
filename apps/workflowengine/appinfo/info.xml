@@ -1,21 +1,23 @@
 <?xml version="1.0"?>
-<info>
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
 	<id>workflowengine</id>
 	<name>Files workflow engine</name>
-	<description></description>
-	<licence>AGPL</licence>
-	<author>Morris Jobke</author>
+	<summary>Files workflow engine</summary>
+	<description>Files workflow engine</description>
 	<version>1.4.0</version>
+	<licence>agpl</licence>
+	<author>Morris Jobke</author>
 	<namespace>WorkflowEngine</namespace>
-
-	<category>other</category>
-	<website>https://github.com/nextcloud/server</website>
-	<bugs>https://github.com/nextcloud/server/issues</bugs>
-	<repository type="git">https://github.com/nextcloud/server.git</repository>
 
 	<types>
 		<filesystem/>
 	</types>
+
+	<category>files</category>
+	<website>https://github.com/nextcloud/server</website>
+	<bugs>https://github.com/nextcloud/server/issues</bugs>
+	<repository>https://github.com/nextcloud/server.git</repository>
 
 	<dependencies>
 		<nextcloud min-version="14" max-version="14" />

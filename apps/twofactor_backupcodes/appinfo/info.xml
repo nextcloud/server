@@ -1,29 +1,32 @@
 <?xml version="1.0"?>
-<info>
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
 	<id>twofactor_backupcodes</id>
 	<name>Two factor backup codes</name>
+	<summary>A two-factor auth backup codes provider</summary>
 	<description>A two-factor auth backup codes provider</description>
+	<version>1.3.0</version>
 	<licence>agpl</licence>
 	<author>Christoph Wurst</author>
-	<version>1.3.0</version>
 	<namespace>TwoFactorBackupCodes</namespace>
-	<category>other</category>
+	<category>integration</category>
+	<category>security</category>
+	<bugs>https://github.com/nextcloud/server/issues</bugs>
+	<dependencies>
+		<nextcloud min-version="14" max-version="14" />
+	</dependencies>
 
 	<two-factor-providers>
 		<provider>OCA\TwoFactorBackupCodes\Provider\BackupCodesProvider</provider>
 	</two-factor-providers>
 
-	<dependencies>
-		<nextcloud min-version="14" max-version="14" />
-	</dependencies>
+	<settings>
+		<personal>OCA\TwoFactorBackupCodes\Settings\Personal</personal>
+	</settings>
 
 	<activity>
 		<providers>
 			<provider>OCA\TwoFactorBackupCodes\Activity\Provider</provider>
 		</providers>
 	</activity>
-
-	<settings>
-		<personal>OCA\TwoFactorBackupCodes\Settings\Personal</personal>
-	</settings>
 </info>
