@@ -64,7 +64,7 @@
     "%1$s changed your email address on %2$s." : "%1$s cambió tu dirección de correo electrónico el %2$s.",
     "Your email address on %s was changed." : "Tu dirección de correo electrónico en %s fue cambiada. ",
     "Your email address on %s was changed by an administrator." : "Tu dirección de correo electrónico en %s fue cambiada por un adminsitrador. ",
-    "Email address for %1$s changed on %2$s" : "La dirección de correo electrónico para %1$s fue cambiada el %2$s",
+    "Email address for %1$s changed on %2$s" : "La dirección de correo  %1$s en %2$s ha cambiado",
     "Email address changed for %s" : "La dirección de correo electrónico fue cambiada para %s",
     "The new email address is %s" : "La nueva dirección de correo electrónico es %s",
     "Your %s account was created" : "Tu cuenta %s ha sido creada",
