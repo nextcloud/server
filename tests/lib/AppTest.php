@@ -310,19 +310,6 @@ class AppTest extends \Test\TestCase {
 	}
 
 	/**
-	 * Test that the isAppCompatible method also supports passing an array
-	 * as $ocVersion
-	 */
-	public function testIsAppCompatibleWithArray() {
-		$ocVersion = array(6);
-		$appInfo = array(
-			'requiremin' => '6',
-			'requiremax' => '6',
-		);
-		$this->assertTrue(\OC_App::isAppCompatible($ocVersion, $appInfo));
-	}
-
-	/**
 	 * Tests that the app order is correct
 	 */
 	public function testGetEnabledAppsIsSorted() {

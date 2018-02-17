@@ -112,7 +112,7 @@ class Installer {
 			);
 		}
 
-		$version = \OCP\Util::getVersion();
+		$version = implode('.', \OCP\Util::getVersion());
 		if (!\OC_App::isAppCompatible($version, $info)) {
 			throw new \Exception(
 				// TODO $l

@@ -34,7 +34,7 @@ if ($lastConfirm < (time() - 30 * 60 + 15)) { // allow 15 seconds delay
 	exit();
 }
 
-$groups = isset($_POST['groups']) ? (array)$_POST['groups'] : null;
+$groups = isset($_POST['groups']) ? (array)$_POST['groups'] : [];
 $appIds = isset($_POST['appIds']) ? (array)$_POST['appIds'] : [];
 
 try {
