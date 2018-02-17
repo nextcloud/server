@@ -23,6 +23,7 @@
     "Invalid image" : "Imaxe inválida",
     "Avatar image is not square" : "La imaxe del avatar nun ye cuadrada",
     "today" : "güei",
+    "tomorrow" : "mañana",
     "yesterday" : "ayeri",
     "_%n day ago_::_%n days ago_" : ["hai %n día","hai %n díes"],
     "last month" : "mes caberu",

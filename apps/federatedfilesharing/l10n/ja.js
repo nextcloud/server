@@ -38,6 +38,7 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "#Nextcloud の「クラウド共有ID」で私と共有できます。こちらを見てください。%s",
     "Share with me through my #Nextcloud Federated Cloud ID" : "#Nextcloud の「クラウド共有ID」で私と共有できます。",
     "Sharing" : "共有中",
+    "Federated file sharing" : "連携共有",
     "Federated Cloud Sharing" : "統合されたクラウド共有",
     "Open documentation" : "ドキュメントを開く",
     "Adjust how people can share between servers." : "サーバー間でどうやって共有するかを調整する",
