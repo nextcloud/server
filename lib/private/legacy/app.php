@@ -62,11 +62,11 @@ use OCP\App\ManagerEvent;
  * upgrading and removing apps.
  */
 class OC_App {
-	static private $adminForms = array();
-	static private $personalForms = array();
-	static private $appTypes = array();
-	static private $loadedApps = array();
-	static private $altLogin = array();
+	static private $adminForms = [];
+	static private $personalForms = [];
+	static private $appTypes = [];
+	static private $loadedApps = [];
+	static private $altLogin = [];
 	static private $alreadyRegistered = [];
 	const officialApp = 200;
 
@@ -161,7 +161,7 @@ class OC_App {
 				// the enabled apps cache needs to be cleared to make sure that the
 				// next time getEnableApps() is called it will also include apps that were
 				// enabled for groups
-				self::$enabledAppsCache = array();
+				self::$enabledAppsCache = [];
 			}
 			\OC::$server->getEventLogger()->end('load_app_' . $app);
 		}
@@ -298,9 +298,9 @@ class OC_App {
 
 		if (isset(self::$appTypes[$app])) {
 			return explode(',', self::$appTypes[$app]);
-		} else {
-			return array();
 		}
+
+		return [];
 	}
 
 	/**
@@ -332,7 +332,7 @@ class OC_App {
 	/**
 	 * get all enabled apps
 	 */
-	protected static $enabledAppsCache = array();
+	protected static $enabledAppsCache = [];
 
 	/**
 	 * Returns apps enabled for the current user.
@@ -344,7 +344,7 @@ class OC_App {
 	 */
 	public static function getEnabledApps($forceRefresh = false, $all = false) {
 		if (!\OC::$server->getSystemConfig()->getValue('installed', false)) {
-			return array();
+			return [];
 		}
 		// in incognito mode or when logged out, $user will be false,
 		// which is also the case during an upgrade
@@ -429,7 +429,7 @@ class OC_App {
 	 */
 	public static function disable($app) {
 		// flush
-		self::$enabledAppsCache = array();
+		self::$enabledAppsCache = [];
 
 		// run uninstall steps
 		$appData = OC_App::getAppInfo($app);
@@ -477,13 +477,13 @@ class OC_App {
 		if($sanitizedAppId !== $appId) {
 			return false;
 		}
-		static $app_dir = array();
+		static $app_dir = [];
 
 		if (isset($app_dir[$appId])) {
 			return $app_dir[$appId];
 		}
 
-		$possibleApps = array();
+		$possibleApps = [];
 		foreach (OC::$APPSROOTS as $dir) {
 			if (file_exists($dir['path'] . '/' . $appId)) {
 				$possibleApps[] = $dir;
@@ -497,7 +497,7 @@ class OC_App {
 			$app_dir[$appId] = $dir;
 			return $dir;
 		} else {
-			$versionToLoad = array();
+			$versionToLoad = [];
 			foreach ($possibleApps as $possibleApp) {
 				$version = self::getAppVersionByPath($possibleApp['path']);
 				if (empty($versionToLoad) || version_compare($version, $versionToLoad['version'], '>')) {
@@ -640,7 +640,7 @@ class OC_App {
 	 * @return array
 	 */
 	public static function getForms($type) {
-		$forms = array();
+		$forms = [];
 		switch ($type) {
 			case 'admin':
 				$source = self::$adminForms;
@@ -649,7 +649,7 @@ class OC_App {
 				$source = self::$personalForms;
 				break;
 			default:
-				return array();
+				return [];
 		}
 		foreach ($source as $form) {
 			$forms[] = include $form;
@@ -698,7 +698,7 @@ class OC_App {
 	 */
 	public static function getAllApps() {
 
-		$apps = array();
+		$apps = [];
 
 		foreach (OC::$APPSROOTS as $apps_dir) {
 			if (!is_readable($apps_dir['path'])) {
@@ -734,7 +734,7 @@ class OC_App {
 		$appManager = \OC::$server->getAppManager();
 		//we don't want to show configuration for these
 		$blacklist = $appManager->getAlwaysEnabledApps();
-		$appList = array();
+		$appList = [];
 		$langCode = \OC::$server->getL10N('core')->getLanguageCode();
 		$urlGenerator = \OC::$server->getURLGenerator();
 
