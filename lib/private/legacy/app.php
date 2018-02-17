@@ -856,7 +856,7 @@ class OC_App {
 	 *
 	 * @return boolean true if compatible, otherwise false
 	 */
-	public static function isAppCompatible($ocVersion, $appInfo) {
+	public static function isAppCompatible(string $ocVersion, array $appInfo): bool {
 		$requireMin = '';
 		$requireMax = '';
 		if (isset($appInfo['dependencies']['nextcloud']['@attributes']['min-version'])) {
@@ -875,10 +875,6 @@ class OC_App {
 			$requireMax = $appInfo['dependencies']['owncloud']['@attributes']['max-version'];
 		} else if (isset($appInfo['requiremax'])) {
 			$requireMax = $appInfo['requiremax'];
-		}
-
-		if (is_array($ocVersion)) {
-			$ocVersion = implode('.', $ocVersion);
 		}
 
 		if (!empty($requireMin)

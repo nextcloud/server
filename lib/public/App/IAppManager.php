@@ -51,10 +51,10 @@ interface IAppManager {
 	 *
 	 * @param string $appId
 	 * @param bool $useCache
-	 * @return mixed
+	 * @return string
 	 * @since 14.0.0
 	 */
-	public function getAppVersion(string $appId, bool $useCache = true);
+	public function getAppVersion(string $appId, bool $useCache = true): string;
 
 	/**
 	 * Check if an app is enabled for user
