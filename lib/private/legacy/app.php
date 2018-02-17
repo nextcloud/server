@@ -303,8 +303,9 @@ class OC_App {
 	/**
 	 * read app types from info.xml and cache them in the database
 	 */
-	public static function setAppTypes($app) {
-		$appData = self::getAppInfo($app);
+	public static function setAppTypes(string $app) {
+		$appManager = \OC::$server->getAppManager();
+		$appData = $appManager->getAppInfo($app);
 		if(!is_array($appData)) {
 			return;
 		}
@@ -316,12 +317,13 @@ class OC_App {
 			$appData['types'] = [];
 		}
 
-		\OC::$server->getConfig()->setAppValue($app, 'types', $appTypes);
+		$config = \OC::$server->getConfig();
+		$config->setAppValue($app, 'types', $appTypes);
 
-		if (\OC::$server->getAppManager()->hasProtectedAppType($appData['types'])) {
-			$enabled = \OC::$server->getConfig()->getAppValue($app, 'enabled', 'yes');
+		if ($appManager->hasProtectedAppType($appData['types'])) {
+			$enabled = $config->getAppValue($app, 'enabled', 'yes');
 			if ($enabled !== 'yes' && $enabled !== 'no') {
-				\OC::$server->getConfig()->setAppValue($app, 'enabled', 'yes');
+				$config->setAppValue($app, 'enabled', 'yes');
 			}
 		}
 	}
