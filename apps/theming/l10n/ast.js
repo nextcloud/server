@@ -8,6 +8,8 @@ OC.L10N.register(
     "The given web address is too long" : "La direición web dada ye perllarga",
     "The given slogan is too long" : "La conseña dada ye perllarga",
     "The given color is invalid" : "El color dau ye perllargu",
+    "No file was uploaded" : "Nun se xubieron fichjeros",
+    "Failed to write file to disk." : "Fallu al escribir el ficheru nel discu",
     "No file uploaded" : "Nun se xubieron ficheros",
     "Unsupported image type" : "Triba non sofitada d'imaxe",
     "You are already using a custom theme" : "Yá tas usando un tema personalizáu",

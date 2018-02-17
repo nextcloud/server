@@ -11,6 +11,7 @@ OC.L10N.register(
     "Error generating key pair" : "Fallu xenerando'l par de claves",
     "All users. Type to select user or group." : "Tolos usuarios. Escribe pa seleccionar usuariu o grupu.",
     "(group)" : "(grupu)",
+    "Delete storage?" : "¿Desaniciar almacenamientu?",
     "Saved" : "Guardáu",
     "Saving..." : "Guardando...",
     "Save" : "Guardar",
