@@ -616,7 +616,7 @@ class OC_App {
 	 *
 	 * @return string
 	 */
-	public static function getCurrentApp() {
+	public static function getCurrentApp(): string {
 		$request = \OC::$server->getRequest();
 		$script = substr($request->getScriptName(), strlen(OC::$WEBROOT) + 1);
 		$topFolder = substr($script, 0, strpos($script, '/') ?: 0);
@@ -628,7 +628,7 @@ class OC_App {
 		}
 		if ($topFolder == 'apps') {
 			$length = strlen($topFolder);
-			return substr($script, $length + 1, strpos($script, '/', $length + 1) - $length - 1);
+			return substr($script, $length + 1, strpos($script, '/', $length + 1) - $length - 1) ?: '';
 		} else {
 			return $topFolder;
 		}
