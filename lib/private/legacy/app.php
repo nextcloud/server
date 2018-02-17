@@ -390,8 +390,8 @@ class OC_App {
 	 *
 	 * This function set an app as enabled in appconfig.
 	 */
-	public function enable($appId,
-						   $groups = null) {
+	public function enable(string $appId,
+						   array $groups = []) {
 		self::$enabledAppsCache = []; // flush
 
 		// Check if app is already downloaded
@@ -405,7 +405,7 @@ class OC_App {
 		$installer->installApp($appId);
 
 		$appManager = \OC::$server->getAppManager();
-		if (!is_null($groups)) {
+		if ($groups !== []) {
 			$groupManager = \OC::$server->getGroupManager();
 			$groupsList = [];
 			foreach ($groups as $group) {
