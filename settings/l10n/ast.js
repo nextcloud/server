@@ -12,6 +12,7 @@ OC.L10N.register(
     "A login attempt using two-factor authentication failed (%1$s)" : "Falló un intentu d'aniciu de sesión usando l'autenticación en dos pasos (%1$s)",
     "Your <strong>password</strong> or <strong>email</strong> was modified" : "Modificóse la to <strong>contraseña</strong> o <strong>corréu</strong>",
     "Your apps" : "Les tos aplicaciones",
+    "Updates" : "Anovamientos",
     "Enabled apps" : "Aplicaciones habilitaes",
     "Disabled apps" : "Aplicaciones deshabilitaes",
     "App bundles" : "Llotes d'aplicaciones",
