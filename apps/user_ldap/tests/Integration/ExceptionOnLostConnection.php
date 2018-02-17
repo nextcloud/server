@@ -96,7 +96,7 @@ class ExceptionOnLostConnection {
 	 */
 	public function setUp() {
 		require_once __DIR__  . '/../../../../lib/base.php';
-		\OC_App::loadApps('user_ldap');
+		\OC_App::loadApps(['user_ldap']);
 
 		$ch = $this->getCurl();
 		$proxyInfoJson = curl_exec($ch);

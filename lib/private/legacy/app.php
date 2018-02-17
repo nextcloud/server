@@ -93,16 +93,16 @@ class OC_App {
 	/**
 	 * loads all apps
 	 *
-	 * @param string[] | string | null $types
+	 * @param string[] $types
 	 * @return bool
 	 *
 	 * This function walks through the ownCloud directory and loads all apps
 	 * it can find. A directory contains an app if the file /appinfo/info.xml
 	 * exists.
 	 *
-	 * if $types is set, only apps of those types will be loaded
+	 * if $types is set to non-empty array, only apps of those types will be loaded
 	 */
-	public static function loadApps($types = null) {
+	public static function loadApps(array $types = []): bool {
 		if (\OC::$server->getSystemConfig()->getValue('maintenance', false)) {
 			return false;
 		}
@@ -120,7 +120,7 @@ class OC_App {
 		// prevent app.php from printing output
 		ob_start();
 		foreach ($apps as $app) {
-			if ((is_null($types) or self::isType($app, $types)) && !in_array($app, self::$loadedApps)) {
+			if (($types === [] or self::isType($app, $types)) && !in_array($app, self::$loadedApps)) {
 				self::loadApp($app);
 			}
 		}
@@ -268,13 +268,10 @@ class OC_App {
 	 * check if an app is of a specific type
 	 *
 	 * @param string $app
-	 * @param string|array $types
+	 * @param array $types
 	 * @return bool
 	 */
-	public static function isType($app, $types) {
-		if (is_string($types)) {
-			$types = array($types);
-		}
+	public static function isType(string $app, array $types): bool {
 		$appTypes = self::getAppTypes($app);
 		foreach ($types as $type) {
 			if (array_search($type, $appTypes) !== false) {
