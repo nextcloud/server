@@ -12,6 +12,7 @@ default:
         - AppNavigationContext
         - CommentsAppContext
         - FeatureContext
+        - FileListContext
         - FilesAppContext
         - FilesSharingAppContext
         - LoginPageContext
