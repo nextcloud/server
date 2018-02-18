@@ -940,7 +940,7 @@ $(document).ready(function () {
 		UserList._triggerGroupEdit($td, isSubadminSelect);
 	});
 
-	$userListBody.on('click', '.toggleUserActions', function (event) {
+	$userListBody.on('click', '.toggleUserActions > .action', function (event) {
 		event.stopPropagation();
 		var $td = $(this).closest('td');
 		var $tr = $($td).closest('tr');
@@ -963,9 +963,11 @@ $(document).ready(function () {
 		$tr.addClass('active');
 	});
 
-	$(document).on('mouseup', function () {
-		$('#userlist tr.active').removeClass('active');
-		$('#userlist .popovermenu.open').removeClass('open');
+	$(document).on('mouseup', function (event) {
+		if (!$(event.target).closest('.toggleUserActions').length) {
+			$('#userlist tr.active').removeClass('active');
+			$('#userlist .popovermenu.open').removeClass('open');
+		}
 	});
 
 	$userListBody.on('click', '.action-togglestate', function (event) {
