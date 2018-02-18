@@ -88,6 +88,7 @@ OC.L10N.register(
     "Can't change permissions for public share links" : "Nem lehet módosítani a nyilvános megosztási hivatkozások jogosultságait",
     "Cannot increase permissions" : "Nem lehet növelni az engedélyeket",
     "Share API is disabled" : "Megosztás API letiltva",
+    "File sharing" : "Fájlmegosztás",
     "This share is password-protected" : "Ez egy jelszóval védett megosztás",
     "The password is wrong. Try again." : "A megadott jelszó nem megfelelő. Próbálja újra!",
     "Password" : "Jelszó",

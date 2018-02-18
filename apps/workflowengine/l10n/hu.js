@@ -59,6 +59,7 @@ OC.L10N.register(
     "Check %s is invalid" : "%s érvénytelen, ellenőrizd",
     "Check #%s does not exist" : "#%s nem létezik, ellenőrizd",
     "Workflow" : "Munkafolyamat",
+    "Files workflow engine" : "Fájl munkafolyamat motor",
     "Open documentation" : "Dokumentáció megnyitása",
     "Add rule group" : "Szabály csoport hozzáadás",
     "Short rule description" : "A szabály rövid leírása",
