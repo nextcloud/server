@@ -67,7 +67,7 @@
 			<td class="userActions">
 				<div class="toggleUserActions">
 					<a class="action"><span class="icon-more"></span></a>
-					<div class="popovermenu bubble menu">
+					<div class="popovermenu">
 						<ul class="userActionsMenu">
 							<li>
 								<a href="#" class="menuitem action-togglestate permanent" data-action="togglestate"></a>
