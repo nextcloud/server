@@ -233,110 +233,6 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	}
 
 	/**
-	 * @return Locator
-	 */
-	public static function rowForFile($fileName) {
-		return Locator::forThe()->xpath("//*[@id = 'fileList']//span[contains(concat(' ', normalize-space(@class), ' '), ' nametext ') and normalize-space() = '$fileName']/ancestor::tr")->
-				descendantOf(self::currentSectionMainView())->
-				describedAs("Row for file $fileName in Files app");
-	}
-
-	/**
-	 * @return Locator
-	 */
-	public static function favoriteActionForFile($fileName) {
-		return Locator::forThe()->css(".action-favorite")->descendantOf(self::rowForFile($fileName))->
-				describedAs("Favorite action for file $fileName in Files app");
-	}
-
-	/**
-	 * @return Locator
-	 */
-	public static function favoritedStateIconForFile($fileName) {
-		return Locator::forThe()->css(".icon-starred")->descendantOf(self::favoriteActionForFile($fileName))->
-				describedAs("Favorited state icon for file $fileName in Files app");
-	}
-
-	/**
-	 * @return Locator
-	 */
-	public static function mainLinkForFile($fileName) {
-		return Locator::forThe()->css(".name")->descendantOf(self::rowForFile($fileName))->
-				describedAs("Main link for file $fileName in Files app");
-	}
-
-	/**
-	 * @return Locator
-	 */
-	public static function renameInputForFile($fileName) {
-		return Locator::forThe()->css("input.filename")->descendantOf(self::rowForFile($fileName))->
-				describedAs("Rename input for file $fileName in Files app");
-	}
-
-	/**
-	 * @return Locator
-	 */
-	public static function shareActionForFile($fileName) {
-		return Locator::forThe()->css(".action-share")->descendantOf(self::rowForFile($fileName))->
-				describedAs("Share action for file $fileName in Files app");
-	}
-
-	/**
-	 * @return Locator
-	 */
-	public static function fileActionsMenuButtonForFile($fileName) {
-		return Locator::forThe()->css(".action-menu")->descendantOf(self::rowForFile($fileName))->
-				describedAs("File actions menu button for file $fileName in Files app");
-	}
-
-	/**
-	 * @return Locator
-	 */
-	public static function fileActionsMenu() {
-		return Locator::forThe()->css(".fileActionsMenu")->
-				describedAs("File actions menu in Files app");
-	}
-
-	/**
-	 * @return Locator
-	 */
-	public static function detailsMenuItem() {
-		return self::fileActionsMenuItemFor("Details");
-	}
-
-	/**
-	 * @return Locator
-	 */
-	public static function renameMenuItem() {
-		return self::fileActionsMenuItemFor("Rename");
-	}
-
-	/**
-	 * @return Locator
-	 */
-	public static function viewFileInFolderMenuItem() {
-		return self::fileActionsMenuItemFor("View in folder");
-	}
-
-	/**
-	 * @return Locator
-	 */
-	private static function fileActionsMenuItemFor($itemText) {
-		return Locator::forThe()->xpath("//a[normalize-space() = '$itemText']")->
-				descendantOf(self::fileActionsMenu())->
-				describedAs($itemText . " item in file actions menu in Files app");
-	}
-
-	/**
-	 * @Given I open the details view for :fileName
-	 */
-	public function iOpenTheDetailsViewFor($fileName) {
-		$this->actor->find(self::fileActionsMenuButtonForFile($fileName), 10)->click();
-
-		$this->actor->find(self::detailsMenuItem(), 2)->click();
-	}
-
-	/**
 	 * @Given I open the input field for tags in the details view
 	 */
 	public function iOpenTheInputFieldForTagsInTheDetailsView() {
@@ -351,28 +247,10 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	}
 
 	/**
-	 * @Given I rename :fileName1 to :fileName2
-	 */
-	public function iRenameTo($fileName1, $fileName2) {
-		$this->actor->find(self::fileActionsMenuButtonForFile($fileName1), 10)->click();
-
-		$this->actor->find(self::renameMenuItem(), 2)->click();
-
-		$this->actor->find(self::renameInputForFile($fileName1), 10)->setValue($fileName2 . "\r");
-	}
-
-	/**
-	 * @Given I mark :fileName as favorite
-	 */
-	public function iMarkAsFavorite($fileName) {
-		$this->actor->find(self::favoriteActionForFile($fileName), 10)->click();
-	}
-
-	/**
 	 * @Given I share the link for :fileName
 	 */
 	public function iShareTheLinkFor($fileName) {
-		$this->actor->find(self::shareActionForFile($fileName), 10)->click();
+		$this->actor->find(FileListContext::shareActionForFile($fileName), 10)->click();
 
 		$this->actor->find(self::shareLinkCheckbox(), 5)->click();
 	}
@@ -391,15 +269,6 @@ class FilesAppContext implements Context, ActorAwareInterface {
 		}
 
 		$this->actor->getSharedNotebook()["shared link"] = $this->actor->find(self::shareLinkField())->getValue();
-	}
-
-	/**
-	 * @When I view :fileName in folder
-	 */
-	public function iViewInFolder($fileName) {
-		$this->actor->find(self::fileActionsMenuButtonForFile($fileName), 10)->click();
-
-		$this->actor->find(self::viewFileInFolderMenuItem(), 2)->click();
 	}
 
 	/**
@@ -469,20 +338,6 @@ class FilesAppContext implements Context, ActorAwareInterface {
 			} catch (NoSuchElementException $exception) {
 			}
 		}
-	}
-
-	/**
-	 * @Then I see that the file list contains a file named :fileName
-	 */
-	public function iSeeThatTheFileListContainsAFileNamed($fileName) {
-		PHPUnit_Framework_Assert::assertNotNull($this->actor->find(self::rowForFile($fileName), 10));
-	}
-
-	/**
-	 * @Then I see that :fileName is marked as favorite
-	 */
-	public function iSeeThatIsMarkedAsFavorite($fileName) {
-		PHPUnit_Framework_Assert::assertNotNull($this->actor->find(self::favoritedStateIconForFile($fileName), 10));
 	}
 
 	/**
