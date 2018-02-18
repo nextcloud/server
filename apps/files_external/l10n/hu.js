@@ -100,6 +100,7 @@ OC.L10N.register(
     "The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "A cURL támogatás, a PHP-ban nincs engedélyezve vagy telepítve. %s csatolása lehetetlen. Kérd meg a rendszergazdádat, hogy telepítse.",
     "The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "Az FTP támogatás, a PHP-ban nincs engedélyezve vagy telepítve. %s csatolása lehetetlen. Kérd meg a rendszergazdádat, hogy telepítse.",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "%s nincs telepítve. %s csatolása lehetetlen. Kérd meg a rendszergazdádat, hogy telepítse.",
+    "External storage support" : "Külső tároló támogatás",
     "No external storage configured" : "Nincs külső tároló beállítva.",
     "You can add external storages in the personal settings" : "Hozzáadhatsz külső tárolókat a személyes beállítások közt.",
     "Name" : "Név",
