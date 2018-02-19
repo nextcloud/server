@@ -81,6 +81,15 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
+	public static function closeDetailsViewButton() {
+		return Locator::forThe()->css(".icon-close")->
+				descendantOf(self::currentSectionDetailsView())->
+				describedAs("Close current section details view in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
 	public static function fileNameInCurrentSectionDetailsView() {
 		return Locator::forThe()->css(".fileName")->
 				descendantOf(self::currentSectionDetailsView())->
@@ -208,6 +217,18 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
+	public static function allowUploadAndEditingRadioButton() {
+		// forThe()->radio("Allow upload and editing") can not be used here;
+		// that would return the radio button itself, but the element that the
+		// user interacts with is the label.
+		return Locator::forThe()->xpath("//label[normalize-space() = 'Allow upload and editing']")->
+				descendantOf(self::currentSectionDetailsView())->
+				describedAs("Allow upload and editing radio button in the details view in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
 	public static function passwordProtectCheckbox() {
 		// forThe()->checkbox("Password protect") can not be used here; that
 		// would return the checkbox itself, but the element that the user
@@ -231,6 +252,13 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	public static function passwordProtectWorkingIcon() {
 		return Locator::forThe()->css(".linkPass .icon-loading-small")->descendantOf(self::currentSectionDetailsView())->
 				describedAs("Password protect working icon in the details view in Files app");
+	}
+
+	/**
+	 * @Given I close the details view
+	 */
+	public function iCloseTheDetailsView() {
+		$this->actor->find(self::closeDetailsViewButton(), 10)->click();
 	}
 
 	/**
@@ -289,6 +317,13 @@ class FilesAppContext implements Context, ActorAwareInterface {
 		$this->iSeeThatTheTagInTheDropdownForTagsInTheDetailsViewIsChecked($tag);
 
 		$this->actor->find(self::itemInDropdownForTag($tag), 10)->click();
+	}
+
+	/**
+	 * @When I set the shared link as editable
+	 */
+	public function iSetTheSharedLinkAsEditable() {
+		$this->actor->find(self::allowUploadAndEditingRadioButton(), 10)->click();
 	}
 
 	/**
