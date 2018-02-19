@@ -28,118 +28,130 @@ class FileListContext implements Context, ActorAwareInterface {
 	use ActorAware;
 
 	/**
+	 * @var Locator
+	 */
+	private $fileListAncestor;
+
+	/**
+	 * @BeforeScenario
+	 */
+	public function initializeFileListAncestor() {
+		$this->fileListAncestor = FilesAppContext::currentSectionMainView();
+	}
+
+	/**
 	 * @return Locator
 	 */
-	public static function createMenuButton() {
+	public static function createMenuButton($fileListAncestor) {
 		return Locator::forThe()->css("#controls .button.new")->
-				descendantOf(FilesAppContext::currentSectionMainView())->
-				describedAs("Create menu button in Files app");
+				descendantOf($fileListAncestor)->
+				describedAs("Create menu button in file list");
 	}
 
 	/**
 	 * @return Locator
 	 */
-	private static function createMenuItemFor($newType) {
+	private static function createMenuItemFor($fileListAncestor, $newType) {
 		return Locator::forThe()->xpath("//div[contains(concat(' ', normalize-space(@class), ' '), ' newFileMenu ')]//span[normalize-space() = '$newType']/ancestor::li")->
-				descendantOf(FilesAppContext::currentSectionMainView())->
-				describedAs("Create $newType menu item in Files app");
+				descendantOf($fileListAncestor)->
+				describedAs("Create $newType menu item in file list");
 	}
 
 	/**
 	 * @return Locator
 	 */
-	public static function createNewFolderMenuItem() {
-		return self::createMenuItemFor("New folder");
+	public static function createNewFolderMenuItem($fileListAncestor) {
+		return self::createMenuItemFor($fileListAncestor, "New folder");
 	}
 
 	/**
 	 * @return Locator
 	 */
-	public static function createNewFolderMenuItemNameInput() {
+	public static function createNewFolderMenuItemNameInput($fileListAncestor) {
 		return Locator::forThe()->css(".filenameform input")->
-				descendantOf(self::createNewFolderMenuItem())->
-				describedAs("Name input in create new folder menu item in Files app");
+				descendantOf(self::createNewFolderMenuItem($fileListAncestor))->
+				describedAs("Name input in create new folder menu item in file list");
 	}
 
 	/**
 	 * @return Locator
 	 */
-	public static function rowForFile($fileName) {
+	public static function rowForFile($fileListAncestor, $fileName) {
 		return Locator::forThe()->xpath("//*[@id = 'fileList']//span[contains(concat(' ', normalize-space(@class), ' '), ' nametext ') and normalize-space() = '$fileName']/ancestor::tr")->
-				descendantOf(FilesAppContext::currentSectionMainView())->
-				describedAs("Row for file $fileName in Files app");
+				descendantOf($fileListAncestor)->
+				describedAs("Row for file $fileName in file list");
 	}
 
 	/**
 	 * @return Locator
 	 */
-	public static function rowForFilePreceding($fileName1, $fileName2) {
+	public static function rowForFilePreceding($fileListAncestor, $fileName1, $fileName2) {
 		return Locator::forThe()->xpath("//preceding-sibling::tr//span[contains(concat(' ', normalize-space(@class), ' '), ' nametext ') and normalize-space() = '$fileName1']/ancestor::tr")->
-				descendantOf(self::rowForFile($fileName2))->
-				describedAs("Row for file $fileName1 preceding $fileName2 in Files app");
+				descendantOf(self::rowForFile($fileListAncestor, $fileName2))->
+				describedAs("Row for file $fileName1 preceding $fileName2 in file list");
 	}
 
 	/**
 	 * @return Locator
 	 */
-	public static function favoriteMarkForFile($fileName) {
+	public static function favoriteMarkForFile($fileListAncestor, $fileName) {
 		return Locator::forThe()->css(".favorite-mark")->
-				descendantOf(self::rowForFile($fileName))->
-				describedAs("Favorite mark for file $fileName in Files app");
+				descendantOf(self::rowForFile($fileListAncestor, $fileName))->
+				describedAs("Favorite mark for file $fileName in file list");
 	}
 
 	/**
 	 * @return Locator
 	 */
-	public static function notFavoritedStateIconForFile($fileName) {
+	public static function notFavoritedStateIconForFile($fileListAncestor, $fileName) {
 		return Locator::forThe()->css(".icon-star")->
-				descendantOf(self::favoriteMarkForFile($fileName))->
-				describedAs("Not favorited state icon for file $fileName in Files app");
+				descendantOf(self::favoriteMarkForFile($fileListAncestor, $fileName))->
+				describedAs("Not favorited state icon for file $fileName in file list");
 	}
 
 	/**
 	 * @return Locator
 	 */
-	public static function favoritedStateIconForFile($fileName) {
+	public static function favoritedStateIconForFile($fileListAncestor, $fileName) {
 		return Locator::forThe()->css(".icon-starred")->
-				descendantOf(self::favoriteMarkForFile($fileName))->
-				describedAs("Favorited state icon for file $fileName in Files app");
+				descendantOf(self::favoriteMarkForFile($fileListAncestor, $fileName))->
+				describedAs("Favorited state icon for file $fileName in file list");
 	}
 
 	/**
 	 * @return Locator
 	 */
-	public static function mainLinkForFile($fileName) {
+	public static function mainLinkForFile($fileListAncestor, $fileName) {
 		return Locator::forThe()->css(".name")->
-				descendantOf(self::rowForFile($fileName))->
-				describedAs("Main link for file $fileName in Files app");
+				descendantOf(self::rowForFile($fileListAncestor, $fileName))->
+				describedAs("Main link for file $fileName in file list");
 	}
 
 	/**
 	 * @return Locator
 	 */
-	public static function renameInputForFile($fileName) {
+	public static function renameInputForFile($fileListAncestor, $fileName) {
 		return Locator::forThe()->css("input.filename")->
-				descendantOf(self::rowForFile($fileName))->
-				describedAs("Rename input for file $fileName in Files app");
+				descendantOf(self::rowForFile($fileListAncestor, $fileName))->
+				describedAs("Rename input for file $fileName in file list");
 	}
 
 	/**
 	 * @return Locator
 	 */
-	public static function shareActionForFile($fileName) {
+	public static function shareActionForFile($fileListAncestor, $fileName) {
 		return Locator::forThe()->css(".action-share")->
-				descendantOf(self::rowForFile($fileName))->
-				describedAs("Share action for file $fileName in Files app");
+				descendantOf(self::rowForFile($fileListAncestor, $fileName))->
+				describedAs("Share action for file $fileName in file list");
 	}
 
 	/**
 	 * @return Locator
 	 */
-	public static function fileActionsMenuButtonForFile($fileName) {
+	public static function fileActionsMenuButtonForFile($fileListAncestor, $fileName) {
 		return Locator::forThe()->css(".action-menu")->
-				descendantOf(self::rowForFile($fileName))->
-				describedAs("File actions menu button for file $fileName in Files app");
+				descendantOf(self::rowForFile($fileListAncestor, $fileName))->
+				describedAs("File actions menu button for file $fileName in file list");
 	}
 
 	/**
@@ -147,7 +159,7 @@ class FileListContext implements Context, ActorAwareInterface {
 	 */
 	public static function fileActionsMenu() {
 		return Locator::forThe()->css(".fileActionsMenu")->
-				describedAs("File actions menu in Files app");
+				describedAs("File actions menu in file list");
 	}
 
 	/**
@@ -156,7 +168,7 @@ class FileListContext implements Context, ActorAwareInterface {
 	private static function fileActionsMenuItemFor($itemText) {
 		return Locator::forThe()->xpath("//a[normalize-space() = '$itemText']")->
 				descendantOf(self::fileActionsMenu())->
-				describedAs($itemText . " item in file actions menu in Files app");
+				describedAs($itemText . " item in file actions menu in file list");
 	}
 
 	/**
@@ -198,17 +210,17 @@ class FileListContext implements Context, ActorAwareInterface {
 	 * @Given I create a new folder named :folderName
 	 */
 	public function iCreateANewFolderNamed($folderName) {
-		$this->actor->find(self::createMenuButton(), 10)->click();
+		$this->actor->find(self::createMenuButton($this->fileListAncestor), 10)->click();
 
-		$this->actor->find(self::createNewFolderMenuItem(), 2)->click();
-		$this->actor->find(self::createNewFolderMenuItemNameInput(), 2)->setValue($folderName . "\r");
+		$this->actor->find(self::createNewFolderMenuItem($this->fileListAncestor), 2)->click();
+		$this->actor->find(self::createNewFolderMenuItemNameInput($this->fileListAncestor), 2)->setValue($folderName . "\r");
 	}
 
 	/**
 	 * @Given I open the details view for :fileName
 	 */
 	public function iOpenTheDetailsViewFor($fileName) {
-		$this->actor->find(self::fileActionsMenuButtonForFile($fileName), 10)->click();
+		$this->actor->find(self::fileActionsMenuButtonForFile($this->fileListAncestor, $fileName), 10)->click();
 
 		$this->actor->find(self::detailsMenuItem(), 2)->click();
 	}
@@ -217,11 +229,11 @@ class FileListContext implements Context, ActorAwareInterface {
 	 * @Given I rename :fileName1 to :fileName2
 	 */
 	public function iRenameTo($fileName1, $fileName2) {
-		$this->actor->find(self::fileActionsMenuButtonForFile($fileName1), 10)->click();
+		$this->actor->find(self::fileActionsMenuButtonForFile($this->fileListAncestor, $fileName1), 10)->click();
 
 		$this->actor->find(self::renameMenuItem(), 2)->click();
 
-		$this->actor->find(self::renameInputForFile($fileName1), 10)->setValue($fileName2 . "\r");
+		$this->actor->find(self::renameInputForFile($this->fileListAncestor, $fileName1), 10)->setValue($fileName2 . "\r");
 	}
 
 	/**
@@ -230,7 +242,7 @@ class FileListContext implements Context, ActorAwareInterface {
 	public function iMarkAsFavorite($fileName) {
 		$this->iSeeThatIsNotMarkedAsFavorite($fileName);
 
-		$this->actor->find(self::fileActionsMenuButtonForFile($fileName), 10)->click();
+		$this->actor->find(self::fileActionsMenuButtonForFile($this->fileListAncestor, $fileName), 10)->click();
 
 		$this->actor->find(self::addToFavoritesMenuItem(), 2)->click();
 	}
@@ -241,7 +253,7 @@ class FileListContext implements Context, ActorAwareInterface {
 	public function iUnmarkAsFavorite($fileName) {
 		$this->iSeeThatIsMarkedAsFavorite($fileName);
 
-		$this->actor->find(self::fileActionsMenuButtonForFile($fileName), 10)->click();
+		$this->actor->find(self::fileActionsMenuButtonForFile($this->fileListAncestor, $fileName), 10)->click();
 
 		$this->actor->find(self::removeFromFavoritesMenuItem(), 2)->click();
 	}
@@ -250,7 +262,7 @@ class FileListContext implements Context, ActorAwareInterface {
 	 * @When I view :fileName in folder
 	 */
 	public function iViewInFolder($fileName) {
-		$this->actor->find(self::fileActionsMenuButtonForFile($fileName), 10)->click();
+		$this->actor->find(self::fileActionsMenuButtonForFile($this->fileListAncestor, $fileName), 10)->click();
 
 		$this->actor->find(self::viewFileInFolderMenuItem(), 2)->click();
 	}
@@ -259,28 +271,28 @@ class FileListContext implements Context, ActorAwareInterface {
 	 * @Then I see that the file list contains a file named :fileName
 	 */
 	public function iSeeThatTheFileListContainsAFileNamed($fileName) {
-		PHPUnit_Framework_Assert::assertNotNull($this->actor->find(self::rowForFile($fileName), 10));
+		PHPUnit_Framework_Assert::assertNotNull($this->actor->find(self::rowForFile($this->fileListAncestor, $fileName), 10));
 	}
 
 	/**
 	 * @Then I see that :fileName1 precedes :fileName2 in the file list
 	 */
 	public function iSeeThatPrecedesInTheFileList($fileName1, $fileName2) {
-		PHPUnit_Framework_Assert::assertNotNull($this->actor->find(self::rowForFilePreceding($fileName1, $fileName2), 10));
+		PHPUnit_Framework_Assert::assertNotNull($this->actor->find(self::rowForFilePreceding($this->fileListAncestor, $fileName1, $fileName2), 10));
 	}
 
 	/**
 	 * @Then I see that :fileName is marked as favorite
 	 */
 	public function iSeeThatIsMarkedAsFavorite($fileName) {
-		PHPUnit_Framework_Assert::assertNotNull($this->actor->find(self::favoritedStateIconForFile($fileName), 10));
+		PHPUnit_Framework_Assert::assertNotNull($this->actor->find(self::favoritedStateIconForFile($this->fileListAncestor, $fileName), 10));
 	}
 
 	/**
 	 * @Then I see that :fileName is not marked as favorite
 	 */
 	public function iSeeThatIsNotMarkedAsFavorite($fileName) {
-		PHPUnit_Framework_Assert::assertNotNull($this->actor->find(self::notFavoritedStateIconForFile($fileName), 10));
+		PHPUnit_Framework_Assert::assertNotNull($this->actor->find(self::notFavoritedStateIconForFile($this->fileListAncestor, $fileName), 10));
 	}
 
 }

@@ -266,7 +266,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @Given I share the link for :fileName
 	 */
 	public function iShareTheLinkFor($fileName) {
-		$this->actor->find(FileListContext::shareActionForFile($fileName), 10)->click();
+		$this->actor->find(FileListContext::shareActionForFile(self::currentSectionMainView(), $fileName), 10)->click();
 
 		$this->actor->find(self::shareLinkCheckbox(), 5)->click();
 	}
