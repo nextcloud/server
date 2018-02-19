@@ -316,18 +316,18 @@
 				return;
 			}
 
-			this.usedWidth = this.$el.parent().width() - this.$el.parent().find('.actions.creatable').width();
+			var availableWidth = this.$el.parent().width() - this.$el.parent().find('.actions.creatable').width();
 
 			// If container is smaller than content
 			// AND if there are crumbs left to hide
-			while (this.getTotalWidth() > this.usedWidth
+			while (this.getTotalWidth() > availableWidth
 				&& this.$el.find(this.crumbSelector).length > 0) {
 				this._hideCrumb();
 			}
 			// If container is bigger than content + element to be shown
 			// AND if there is at least one hidden crumb
 			while (this.$el.find('.crumb.hidden').length > 0
-				&& this.getTotalWidth() + this._getCrumbElement().width() < this.usedWidth) {
+				&& this.getTotalWidth() + this._getCrumbElement().width() < availableWidth) {
 				this._showCrumb();
 			}
 
