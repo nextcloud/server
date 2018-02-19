@@ -1237,7 +1237,6 @@ OC.Notification={
 	 * @param {string} [options.type] notification type
 	 */
 	showTemporary: function(text, options) {
-		var self = this;
 		var defaults = {
 			isHTML: false,
 			timeout: 7
