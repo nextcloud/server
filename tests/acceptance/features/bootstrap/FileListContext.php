@@ -81,6 +81,15 @@ class FileListContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
+	public static function mainWorkingIcon($fileListAncestor) {
+		return Locator::forThe()->css(".mask.icon-loading")->
+				descendantOf($fileListAncestor)->
+				describedAs("Main working icon in file list");
+	}
+
+	/**
+	 * @return Locator
+	 */
 	public static function createMenuButton($fileListAncestor) {
 		return Locator::forThe()->css("#controls .button.new")->
 				descendantOf($fileListAncestor)->
@@ -256,6 +265,13 @@ class FileListContext implements Context, ActorAwareInterface {
 	}
 
 	/**
+	 * @Given I enter in the folder named :folderName
+	 */
+	public function iEnterInTheFolderNamed($folderName) {
+		$this->actor->find(self::mainLinkForFile($this->fileListAncestor, $folderName), 10)->click();
+	}
+
+	/**
 	 * @Given I open the details view for :fileName
 	 */
 	public function iOpenTheDetailsViewFor($fileName) {
@@ -304,6 +320,27 @@ class FileListContext implements Context, ActorAwareInterface {
 		$this->actor->find(self::fileActionsMenuButtonForFile($this->fileListAncestor, $fileName), 10)->click();
 
 		$this->actor->find(self::viewFileInFolderMenuItem(), 2)->click();
+	}
+
+	/**
+	 * @Then I see that the file list is eventually loaded
+	 */
+	public function iSeeThatTheFileListIsEventuallyLoaded() {
+		if (!WaitFor::elementToBeEventuallyNotShown(
+				$this->actor,
+				self::mainWorkingIcon($this->fileListAncestor),
+				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
+			PHPUnit_Framework_Assert::fail("The main working icon for the file list is still shown after $timeout seconds");
+		}
+	}
+
+	/**
+	 * @Then I see that it is not possible to create new files
+	 */
+	public function iSeeThatItIsNotPossibleToCreateNewFiles() {
+		// Once a file list is loaded the "Create" menu button is always in the
+		// DOM, so it is checked if it is visible or not.
+		PHPUnit_Framework_Assert::assertFalse($this->actor->find(self::createMenuButton($this->fileListAncestor))->isVisible());
 	}
 
 	/**
