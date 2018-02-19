@@ -322,12 +322,34 @@ describe('OCA.Files.BreadCrumb tests', function() {
 			expect($crumbs.eq(6).hasClass('hidden')).toEqual(false);
 			expect($crumbs.eq(7).hasClass('hidden')).toEqual(false);
 
+			// Visible sibling widths add up to 200px
+			var $previousSibling = $('<div class="otherSibling"></div>');
+			// Set both the width and the min-width to even differences in width
+			// handling in the browsers used to run the tests.
+			$previousSibling.css('width', '50px');
+			$previousSibling.css('min-width', '50px');
+			$('#controls').prepend($previousSibling);
+
 			var $creatableActions = $('<div class="actions creatable"></div>');
 			// Set both the width and the min-width to even differences in width
 			// handling in the browsers used to run the tests.
-			$creatableActions.css('width', '200px');
-			$creatableActions.css('min-width', '200px');
+			$creatableActions.css('width', '100px');
+			$creatableActions.css('min-width', '100px');
 			$('#controls').append($creatableActions);
+
+			var $nextHiddenSibling = $('<div class="otherSibling hidden"></div>');
+			// Set both the width and the min-width to even differences in width
+			// handling in the browsers used to run the tests.
+			$nextHiddenSibling.css('width', '200px');
+			$nextHiddenSibling.css('min-width', '200px');
+			$('#controls').append($nextHiddenSibling);
+
+			var $nextSibling = $('<div class="otherSibling"></div>');
+			// Set both the width and the min-width to even differences in width
+			// handling in the browsers used to run the tests.
+			$nextSibling.css('width', '50px');
+			$nextSibling.css('min-width', '50px');
+			$('#controls').append($nextSibling);
 
 			bc._resize();
 
@@ -362,14 +384,38 @@ describe('OCA.Files.BreadCrumb tests', function() {
 			expect($crumbs.eq(6).hasClass('hidden')).toEqual(false);
 			expect($crumbs.eq(7).hasClass('hidden')).toEqual(false);
 
+			// Visible sibling widths add up to 200px
+			var $previousSibling = $('<div class="otherSibling"></div>');
+			// Set both the width and the min-width to even differences in width
+			// handling in the browsers used to run the tests.
+			$previousSibling.css('width', '10px');
+			$previousSibling.css('min-width', '10px');
+			$previousSibling.css('margin', '20px');
+			$('#controls').prepend($previousSibling);
+
 			var $creatableActions = $('<div class="actions creatable"></div>');
 			// Set both the width and the min-width to even differences in width
 			// handling in the browsers used to run the tests.
 			$creatableActions.css('width', '20px');
 			$creatableActions.css('min-width', '20px');
-			$creatableActions.css('margin-left', '90px');
-			$creatableActions.css('padding-right', '90px');
+			$creatableActions.css('margin-left', '40px');
+			$creatableActions.css('padding-right', '40px');
 			$('#controls').append($creatableActions);
+
+			var $nextHiddenSibling = $('<div class="otherSibling hidden"></div>');
+			// Set both the width and the min-width to even differences in width
+			// handling in the browsers used to run the tests.
+			$nextHiddenSibling.css('width', '200px');
+			$nextHiddenSibling.css('min-width', '200px');
+			$('#controls').append($nextHiddenSibling);
+
+			var $nextSibling = $('<div class="otherSibling"></div>');
+			// Set both the width and the min-width to even differences in width
+			// handling in the browsers used to run the tests.
+			$nextSibling.css('width', '10px');
+			$nextSibling.css('min-width', '10px');
+			$nextSibling.css('padding', '20px');
+			$('#controls').append($nextSibling);
 
 			bc._resize();
 

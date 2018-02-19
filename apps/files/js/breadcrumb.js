@@ -316,7 +316,15 @@
 				return;
 			}
 
-			var availableWidth = this.$el.parent().width() - this.$el.parent().find('.actions.creatable').outerWidth(true);
+			var siblingsWidth = 0;
+			this.$el.prevAll(':visible').each(function () {
+				siblingsWidth += $(this).outerWidth(true);
+			});
+			this.$el.nextAll(':visible').each(function () {
+				siblingsWidth += $(this).outerWidth(true);
+			});
+
+			var availableWidth = this.$el.parent().width() - siblingsWidth;
 
 			// If container is smaller than content
 			// AND if there are crumbs left to hide
