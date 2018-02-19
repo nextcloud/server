@@ -30,7 +30,7 @@ if [ "$OBJECT_STORE" == "swift" ]; then
 
     sleep 2
 
-    curl curl -s -X PUT -H "X-Auth-Token: $SWIFT_TOKEN" "$SWIFT_ENDPOINT/nextcloud"
+    curl -s -X PUT -H "X-Auth-Token: $SWIFT_TOKEN" "$SWIFT_ENDPOINT/nextcloud"
 
     sleep 2
 fi
