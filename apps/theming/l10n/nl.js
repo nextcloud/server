@@ -20,7 +20,7 @@ OC.L10N.register(
     "No file uploaded" : "Geen bestand geüpload",
     "Unsupported image type" : "Afbeeldingstype wordt niet ondersteund",
     "You are already using a custom theme" : "Je gebruikt al een maatwerkthema",
-    "Theming" : "Thema's",
+    "Theming" : "Uiterlijk",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Thematiseren maakt het mogelijk om uiterlijk en gevoel van je systeem en ondersteunde clients aan te passen. Dit wordt zichtbaar voor alle gebruikers.",
     "Name" : "Naam",
     "Reset to default" : "Herstellen naar standaard",

@@ -88,6 +88,7 @@ OC.L10N.register(
     "Can't change permissions for public share links" : "Kan rechten voor openbaar gedeelde links niet wijzigen",
     "Cannot increase permissions" : "Kan de rechten niet verruimen",
     "Share API is disabled" : "Delen API is uitgeschakeld",
+    "File sharing" : "Bestand delen",
     "This share is password-protected" : "Deze gedeelde folder is met een wachtwoord beveiligd",
     "The password is wrong. Try again." : "Wachtwoord ongeldig. Probeer het nogmaals.",
     "Password" : "Wachtwoord",
@@ -109,6 +110,7 @@ OC.L10N.register(
     "Upload files to %s" : "Upload bestanden naar %s",
     "Select or drop files" : "Selecteer bestanden of sleep ze naar dit venster",
     "Uploading files…" : "Uploaden bestanden...",
-    "Uploaded files:" : "Geüploade bestanden"
+    "Uploaded files:" : "Geüploade bestanden",
+    "%s is publicly shared" : "%s is openbaar gedeeld"
 },
 "nplurals=2; plural=(n != 1);");
