@@ -55,7 +55,7 @@ class OC_Response {
 				header('Cache-Control: max-age='.$cache_time.', must-revalidate');
 			}
 			else {
-				self::setExpiresHeader(0);
+				header('Expires: 0');
 				header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 			}
 		}
@@ -64,14 +64,6 @@ class OC_Response {
 			header('Pragma: cache');
 		}
 
-	}
-
-	/**
-	* disable browser caching
-	* @see enableCaching with cache_time = 0
-	*/
-	static public function disableCaching() {
-		self::enableCaching(0);
 	}
 
 	/**

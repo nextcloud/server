@@ -146,6 +146,8 @@ class DeprecationCheck extends AbstractCheck {
 			'OCP\IServerContainer::getDb' => '8.1.0',
 			'OCP\IServerContainer::getHTTPHelper' => '8.1.0',
 
+			'OCP\Response::disableCaching' => '14.0.0',
+
 			'OCP\User::getUser' => '8.0.0',
 			'OCP\User::getUsers' => '8.1.0',
 			'OCP\User::getDisplayName' => '8.1.0',
