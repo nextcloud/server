@@ -316,7 +316,7 @@
 				return;
 			}
 
-			var availableWidth = this.$el.parent().width() - this.$el.parent().find('.actions.creatable').width();
+			var availableWidth = this.$el.parent().width() - this.$el.parent().find('.actions.creatable').outerWidth(true);
 
 			// If container is smaller than content
 			// AND if there are crumbs left to hide
