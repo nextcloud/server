@@ -30,7 +30,32 @@ if [ "$OBJECT_STORE" == "swift" ]; then
 
     sleep 2
 
-    curl curl -s -X PUT -H "X-Auth-Token: $SWIFT_TOKEN" "$SWIFT_ENDPOINT/nextcloud"
+    while [ 1 ]
+    do
+        sleep 2
 
-    sleep 2
+        respCode=$(curl -s -o /dev/null -w "%{http_code}" -X PUT -H "X-Auth-Token: $SWIFT_TOKEN" "$SWIFT_ENDPOINT/nextcloud")
+
+        if [ "$respCode" == "201" ]
+        then
+            break
+        fi
+    done
+
+    echo "creating test file"
+
+    while [ 1 ]
+    do
+        sleep 2
+
+        respCode=$(curl -s -o /dev/null -w "%{http_code}" -X PUT -H "X-Auth-Token: $SWIFT_TOKEN" -H "Content-Type: text/html; charset=UTF-8" -d "Hello world" "$SWIFT_ENDPOINT/nextcloud/helloworld.txt")
+
+        if [ "$respCode" == "201" ]
+        then
+            break
+        fi
+    done
+
+    echo "deleting test file"
+    curl -s -o /dev/null -w "%{http_code}\n" -X DELETE -H "X-Auth-Token: $SWIFT_TOKEN" "$SWIFT_ENDPOINT/nextcloud/helloworld.txt"
 fi
