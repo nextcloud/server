@@ -915,7 +915,7 @@ class OC_App {
 	 * @param string $appId
 	 * @return bool
 	 */
-	public static function updateApp(sstring $appId): bool {
+	public static function updateApp(string $appId): bool {
 		$appPath = self::getAppPath($appId);
 		if($appPath === false) {
 			return false;
