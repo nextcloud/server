@@ -303,6 +303,88 @@ describe('OCA.Files.BreadCrumb tests', function() {
 			expect($crumbs.eq(6).hasClass('hidden')).toEqual(false);
 			expect($crumbs.eq(7).hasClass('hidden')).toEqual(false);
 		});
+		it('Hides breadcrumbs to fit available width left by siblings', function() {
+			var $crumbs;
+
+			$('#controls').width(700);
+			bc._resize();
+
+			$crumbs = bc.$el.find('.crumb');
+
+			// Third and fourth crumb are hidden and everything else is visible
+			expect($crumbs.eq(0).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(1).hasClass('hidden')).toEqual(false);
+
+			expect($crumbs.eq(2).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(3).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(4).hasClass('hidden')).toEqual(true);
+			expect($crumbs.eq(5).hasClass('hidden')).toEqual(true);
+			expect($crumbs.eq(6).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(7).hasClass('hidden')).toEqual(false);
+
+			var $creatableActions = $('<div class="actions creatable"></div>');
+			// Set both the width and the min-width to even differences in width
+			// handling in the browsers used to run the tests.
+			$creatableActions.css('width', '200px');
+			$creatableActions.css('min-width', '200px');
+			$('#controls').append($creatableActions);
+
+			bc._resize();
+
+			// Second, third, fourth and fifth crumb are hidden and everything
+			// else is visible
+			expect($crumbs.eq(0).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(1).hasClass('hidden')).toEqual(false);
+
+			expect($crumbs.eq(2).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(3).hasClass('hidden')).toEqual(true);
+			expect($crumbs.eq(4).hasClass('hidden')).toEqual(true);
+			expect($crumbs.eq(5).hasClass('hidden')).toEqual(true);
+			expect($crumbs.eq(6).hasClass('hidden')).toEqual(true);
+			expect($crumbs.eq(7).hasClass('hidden')).toEqual(false);
+		});
+		it('Hides breadcrumbs to fit available width left by siblings with paddings and margins', function() {
+			var $crumbs;
+
+			$('#controls').width(700);
+			bc._resize();
+
+			$crumbs = bc.$el.find('.crumb');
+
+			// Third and fourth crumb are hidden and everything else is visible
+			expect($crumbs.eq(0).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(1).hasClass('hidden')).toEqual(false);
+
+			expect($crumbs.eq(2).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(3).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(4).hasClass('hidden')).toEqual(true);
+			expect($crumbs.eq(5).hasClass('hidden')).toEqual(true);
+			expect($crumbs.eq(6).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(7).hasClass('hidden')).toEqual(false);
+
+			var $creatableActions = $('<div class="actions creatable"></div>');
+			// Set both the width and the min-width to even differences in width
+			// handling in the browsers used to run the tests.
+			$creatableActions.css('width', '20px');
+			$creatableActions.css('min-width', '20px');
+			$creatableActions.css('margin-left', '90px');
+			$creatableActions.css('padding-right', '90px');
+			$('#controls').append($creatableActions);
+
+			bc._resize();
+
+			// Second, third, fourth and fifth crumb are hidden and everything
+			// else is visible
+			expect($crumbs.eq(0).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(1).hasClass('hidden')).toEqual(false);
+
+			expect($crumbs.eq(2).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(3).hasClass('hidden')).toEqual(true);
+			expect($crumbs.eq(4).hasClass('hidden')).toEqual(true);
+			expect($crumbs.eq(5).hasClass('hidden')).toEqual(true);
+			expect($crumbs.eq(6).hasClass('hidden')).toEqual(true);
+			expect($crumbs.eq(7).hasClass('hidden')).toEqual(false);
+		});
 		it('Updates the breadcrumbs when reducing available width', function() {
 			var $crumbs;
 
