@@ -385,7 +385,7 @@ class Updater extends BasicEmitter {
 	private function checkAppsRequirements() {
 		$isCoreUpgrade = $this->isCodeUpgrade();
 		$apps = OC_App::getEnabledApps();
-		$version = Util::getVersion();
+		$version = implode('.', Util::getVersion());
 		$disabledApps = [];
 		$appManager = \OC::$server->getAppManager();
 		foreach ($apps as $app) {
