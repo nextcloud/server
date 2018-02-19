@@ -936,6 +936,13 @@ services:
       when:
         matrix:
           OBJECT_STORE: s3
+  dockswift:
+      image: icewind1991/dockswift:nextcloud-ci
+      environment:
+      - IPADDRESS=dockswift
+      when:
+        matrix:
+          OBJECT_STORE: swift
   selenium:
     image: selenium/standalone-firefox:2.53.1-beryllium
     environment:
