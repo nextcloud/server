@@ -653,6 +653,7 @@ return array(
     'OC\\Files\\ObjectStore\\S3Signature' => $baseDir . '/lib/private/Files/ObjectStore/S3Signature.php',
     'OC\\Files\\ObjectStore\\StorageObjectStore' => $baseDir . '/lib/private/Files/ObjectStore/StorageObjectStore.php',
     'OC\\Files\\ObjectStore\\Swift' => $baseDir . '/lib/private/Files/ObjectStore/Swift.php',
+    'OC\\Files\\ObjectStore\\SwiftFactory' => $baseDir . '/lib/private/Files/ObjectStore/SwiftFactory.php',
     'OC\\Files\\Search\\SearchBinaryOperator' => $baseDir . '/lib/private/Files/Search/SearchBinaryOperator.php',
     'OC\\Files\\Search\\SearchComparison' => $baseDir . '/lib/private/Files/Search/SearchComparison.php',
     'OC\\Files\\Search\\SearchOrder' => $baseDir . '/lib/private/Files/Search/SearchOrder.php',
