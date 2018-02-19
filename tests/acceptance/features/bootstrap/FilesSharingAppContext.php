@@ -26,6 +26,7 @@ use Behat\Behat\Context\Context;
 class FilesSharingAppContext implements Context, ActorAwareInterface {
 
 	use ActorAware;
+	use FileListAncestorSetter;
 
 	/**
 	 * @return Locator
@@ -140,6 +141,8 @@ class FilesSharingAppContext implements Context, ActorAwareInterface {
 		PHPUnit_Framework_Assert::assertEquals(
 				$this->actor->getSharedNotebook()["shared link"],
 				$this->actor->getSession()->getCurrentUrl());
+
+		$this->setFileListAncestorForActor(null, $this->actor);
 	}
 
 	/**
