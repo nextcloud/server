@@ -25,7 +25,15 @@ use Behat\Behat\Context\Context;
 
 class FileListContext implements Context, ActorAwareInterface {
 
-	use ActorAware;
+	/**
+	 * @var Actor
+	 */
+	private $actor;
+
+	/**
+	 * @var array
+	 */
+	private $fileListAncestorsByActor;
 
 	/**
 	 * @var Locator
@@ -35,8 +43,39 @@ class FileListContext implements Context, ActorAwareInterface {
 	/**
 	 * @BeforeScenario
 	 */
-	public function initializeFileListAncestor() {
-		$this->fileListAncestor = FilesAppContext::currentSectionMainView();
+	public function initializeFileListAncestors() {
+		$this->fileListAncestorsByActor = array();
+		$this->fileListAncestor = null;
+	}
+
+	/**
+	 * @param Actor $actor
+	 */
+	public function setCurrentActor(Actor $actor) {
+		$this->actor = $actor;
+
+		if (array_key_exists($actor->getName(), $this->fileListAncestorsByActor)) {
+			$this->fileListAncestor = $this->fileListAncestorsByActor[$actor->getName()];
+		} else {
+			$this->fileListAncestor = null;
+		}
+	}
+
+	/**
+	 * Sets the file list ancestor to be used in the steps performed by the
+	 * given actor from that point on (until changed again).
+	 *
+	 * This is meant to be called from other contexts, for example, when the
+	 * Files app or the public page for a shared folder are opened.
+	 *
+	 * The FileListAncestorSetter trait can be used to reduce the boilerplate
+	 * needed to set the file list ancestor from other contexts.
+	 *
+	 * @param null|Locator $fileListAncestor the file list ancestor
+	 * @param Actor $actor the actor
+	 */
+	public function setFileListAncestorForActor($fileListAncestor, Actor $actor) {
+		$this->fileListAncestorsByActor[$actor->getName()] = $fileListAncestor;
 	}
 
 	/**
