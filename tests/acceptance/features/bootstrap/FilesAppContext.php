@@ -26,6 +26,7 @@ use Behat\Behat\Context\Context;
 class FilesAppContext implements Context, ActorAwareInterface {
 
 	use ActorAware;
+	use FileListAncestorSetter;
 
 	/**
 	 * @return array
@@ -321,6 +322,8 @@ class FilesAppContext implements Context, ActorAwareInterface {
 		PHPUnit_Framework_Assert::assertStringStartsWith(
 				$this->actor->locatePath("/apps/files/"),
 				$this->actor->getSession()->getCurrentUrl());
+
+		$this->setFileListAncestorForActor(self::currentSectionMainView(), $this->actor);
 	}
 
 	/**
