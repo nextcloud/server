@@ -239,19 +239,6 @@
 		},
 
 		/**
-		 * Show/hide breadcrumbs to fit the given width
-		 * Mostly used by tests
-		 *
-		 * @param {int} availableWidth available width
-		 */
-		setMaxWidth: function (availableWidth) {
-			if (this.availableWidth !== availableWidth) {
-				this.availableWidth = availableWidth;
-				this._resize();
-			}
-		},
-
-		/**
 		 * Calculate real width based on individual crumbs
 		 * More accurate and works with tests
 		 *
@@ -329,12 +316,7 @@
 				return;
 			}
 
-			// Used for testing since this.$el.parent fails
-			if (!this.availableWidth) {
-				this.usedWidth = this.$el.parent().width() - this.$el.parent().find('.actions.creatable').width();
-			} else {
-				this.usedWidth = this.availableWidth;
-			}
+			this.usedWidth = this.$el.parent().width() - this.$el.parent().find('.actions.creatable').width();
 
 			// If container is smaller than content
 			// AND if there are crumbs left to hide
