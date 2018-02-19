@@ -315,9 +315,6 @@ describe('OCA.Files.BreadCrumb tests', function() {
 			// Menu is hidden
 			expect($crumbs.eq(0).hasClass('hidden')).toEqual(true);
 
-			// triggers resize implicitly
-			bc.setDirectory(dummyDir);
-
 			// simulate decrease
 			$('#controls').width(950);
 			bc._resize();
