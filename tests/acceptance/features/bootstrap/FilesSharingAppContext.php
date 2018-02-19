@@ -160,8 +160,8 @@ class FilesSharingAppContext implements Context, ActorAwareInterface {
 		// Unlike other menus, the Share menu is always present in the DOM, so
 		// the element could be found when it was no made visible yet due to the
 		// command not having been processed by the browser.
-		if (!$this->waitForElementToBeEventuallyShown(
-				self::shareMenu(), $timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
+		if (!WaitFor::elementToBeEventuallyShown(
+				$this->actor, self::shareMenu(), $timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
 			PHPUnit_Framework_Assert::fail("The Share menu is not visible yet after $timeout seconds");
 		}
 
@@ -178,20 +178,6 @@ class FilesSharingAppContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheSharedFilePreviewShowsTheText($text) {
 		PHPUnit_Framework_Assert::assertContains($text, $this->actor->find(self::textPreview(), 10)->getText());
-	}
-
-	private function waitForElementToBeEventuallyShown($elementLocator, $timeout = 10, $timeoutStep = 1) {
-		$actor = $this->actor;
-
-		$elementShownCallback = function() use ($actor, $elementLocator) {
-			try {
-				return $actor->find($elementLocator)->isVisible();
-			} catch (NoSuchElementException $exception) {
-				return false;
-			}
-		};
-
-		return Utils::waitFor($elementShownCallback, $timeout, $timeoutStep);
 	}
 
 }
