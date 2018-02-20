@@ -230,6 +230,11 @@
     "Admin" : "Администратор",
     "DB Error: \"%s\"" : "Ошибка БД: «%s»",
     "Cannot clear expiration date. Shares are required to have an expiration date." : "Невозможно очистить дату истечения срока действия. Общие ресурсы должны иметь срок действия.",
-    "No app name specified" : "Не указано имя приложения"
+    "Cannot increase permissions of %s" : "Невозможно повысить права доступа %s",
+    "Files can't be shared with delete permissions" : "Права на удаление файлов не позволяют открывать общий доступ к ним",
+    "Files can't be shared with create permissions" : "Права на создание файлов не позволяют открывать общий доступ к ним",
+    "Cannot set expiration date more than %s days in the future" : "Срок окончания не может быть более %s дней (дня)",
+    "No app name specified" : "Не указано имя приложения",
+    "App '%s' could not be installed!" : "Приложение «%s» не может быть установлено!"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

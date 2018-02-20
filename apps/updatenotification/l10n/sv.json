@@ -8,6 +8,7 @@
     "Update to %1$s is available." : "Uppdatering till %1$s är tillgänglig.",
     "Update for %1$s to version %2$s is available." : "Uppdatering för %1$s till version %2$s är tillgänglig.",
     "Update for {app} to version %s is available." : "Uppdatering för {app} till version %s är tillgänglig.",
+    "Update notification" : "Uppdatera notifikation",
     "A new version is available: %s" : "En ny version är tillgänglig: %s",
     "Open updater" : "Öppna uppdateraren",
     "Download now" : "Ladda ned nu",
