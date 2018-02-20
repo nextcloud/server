@@ -103,7 +103,7 @@ class MailPluginTest extends TestCase {
 			->with($searchTerm, ['EMAIL', 'FN'])
 			->willReturn($contacts);
 
-		$moreResults = $this->plugin->search($searchTerm, 0, 0, $this->searchResult);
+		$moreResults = $this->plugin->search($searchTerm, 2, 0, $this->searchResult);
 		$result = $this->searchResult->asArray();
 
 		$this->assertSame($exactIdMatch, $this->searchResult->hasExactIdMatch(new SearchResultType('emails')));
@@ -398,7 +398,7 @@ class MailPluginTest extends TestCase {
 				return in_array($group, $userToGroupMapping[$userId]);
 			});
 
-		$moreResults = $this->plugin->search($searchTerm, 0, 0, $this->searchResult);
+		$moreResults = $this->plugin->search($searchTerm, 2, 0, $this->searchResult);
 		$result = $this->searchResult->asArray();
 
 		$this->assertSame($exactIdMatch, $this->searchResult->hasExactIdMatch(new SearchResultType('emails')));
