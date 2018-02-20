@@ -173,6 +173,8 @@ class MailPlugin implements ISearchPlugin {
 
 		if (!$this->shareeEnumeration) {
 			$result['wide'] = [];
+		} else {
+			$result['wide'] = array_slice($result['wide'], $offset, $limit);
 		}
 
 		if (!$searchResult->hasExactIdMatch($emailType) && filter_var($search, FILTER_VALIDATE_EMAIL)) {
