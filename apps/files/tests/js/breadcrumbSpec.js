@@ -238,6 +238,10 @@ describe('OCA.Files.BreadCrumb tests', function() {
 	describe('Resizing', function() {
 		var bc, dummyDir, widths;
 
+		// cit() will skip tests if running on PhantomJS because it does not
+		// have proper support for flexboxes.
+		var cit = window.isPhantom?xit:it;
+
 		beforeEach(function() {
 			dummyDir = '/short name/longer name/looooooooooooonger/' +
 				'even longer long long long longer long/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/last one';
@@ -448,6 +452,89 @@ describe('OCA.Files.BreadCrumb tests', function() {
 			bc._resize();
 
 			// Menu and home are always visible
+			expect($crumbs.eq(0).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(1).hasClass('hidden')).toEqual(false);
+
+			expect($crumbs.eq(2).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(3).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(4).hasClass('hidden')).toEqual(true);
+			expect($crumbs.eq(5).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(6).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(7).hasClass('hidden')).toEqual(false);
+		});
+		it('Updates the breadcrumbs when increasing available width', function() {
+			var $crumbs;
+
+			// limited space
+			$('#controls').width(850);
+			bc._resize();
+
+			$crumbs = bc.$el.find('.crumb');
+
+			// Third and fourth crumb are hidden and everything else is visible
+			expect($crumbs.eq(0).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(1).hasClass('hidden')).toEqual(false);
+
+			expect($crumbs.eq(2).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(3).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(4).hasClass('hidden')).toEqual(true);
+			expect($crumbs.eq(5).hasClass('hidden')).toEqual(true);
+			expect($crumbs.eq(6).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(7).hasClass('hidden')).toEqual(false);
+
+			// simulate increase
+			$('#controls').width(1000);
+			bc._resize();
+
+			// Third crumb is hidden and everything else is visible
+			expect($crumbs.eq(0).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(1).hasClass('hidden')).toEqual(false);
+
+			expect($crumbs.eq(2).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(3).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(4).hasClass('hidden')).toEqual(true);
+			expect($crumbs.eq(5).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(6).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(7).hasClass('hidden')).toEqual(false);
+		});
+		cit('Updates the breadcrumbs when increasing available width with an expanding sibling', function() {
+			var $crumbs;
+
+			// The sibling expands to fill all the width left by the breadcrumbs
+			var $nextSibling = $('<div class="sibling"></div>');
+			// Set both the width and the min-width to even differences in width
+			// handling in the browsers used to run the tests.
+			$nextSibling.css('width', '10px');
+			$nextSibling.css('min-width', '10px');
+			$nextSibling.css('display', 'flex');
+			$nextSibling.css('flex', '1 1');
+			var $nextSiblingChild = $('<div class="siblingChild"></div>');
+			$nextSiblingChild.css('margin-left', 'auto');
+			$nextSibling.append($nextSiblingChild);
+			$('#controls').append($nextSibling);
+
+			// limited space
+			$('#controls').width(850);
+			bc._resize();
+
+			$crumbs = bc.$el.find('.crumb');
+
+			// Third and fourth crumb are hidden and everything else is visible
+			expect($crumbs.eq(0).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(1).hasClass('hidden')).toEqual(false);
+
+			expect($crumbs.eq(2).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(3).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(4).hasClass('hidden')).toEqual(true);
+			expect($crumbs.eq(5).hasClass('hidden')).toEqual(true);
+			expect($crumbs.eq(6).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(7).hasClass('hidden')).toEqual(false);
+
+			// simulate increase
+			$('#controls').width(1000);
+			bc._resize();
+
+			// Third crumb is hidden and everything else is visible
 			expect($crumbs.eq(0).hasClass('hidden')).toEqual(false);
 			expect($crumbs.eq(1).hasClass('hidden')).toEqual(false);
 

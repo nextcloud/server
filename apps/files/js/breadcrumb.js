@@ -316,6 +316,15 @@
 				return;
 			}
 
+			// Show the crumbs to compress the siblings before hidding again the
+			// crumbs. This is needed when the siblings expand to fill all the
+			// available width, as in that case their old width would limit the
+			// available width for the crumbs.
+			while (this.$el.find('.crumb.hidden').length > 0
+				&& this.getTotalWidth() < this.$el.parent().width()) {
+				this._showCrumb();
+			}
+
 			var siblingsWidth = 0;
 			this.$el.prevAll(':visible').each(function () {
 				siblingsWidth += $(this).outerWidth(true);
