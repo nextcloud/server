@@ -19,7 +19,6 @@ use OC\SubAdmin;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
-use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Encryption\IEncryptionModule;
@@ -38,7 +37,6 @@ use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
-use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 use OC\User\User;
 use Test\Util\User\Dummy;
@@ -74,12 +72,8 @@ class UsersControllerTest extends \Test\TestCase {
 	private $accountManager;
 	/** @var ISecureRandom | \PHPUnit_Framework_MockObject_MockObject  */
 	private $secureRandom;
-	/** @var ITimeFactory | \PHPUnit_Framework_MockObject_MockObject */
-	private $timeFactory;
 	/** @var NewUserMailHelper|\PHPUnit_Framework_MockObject_MockObject */
 	private $newUserMailHelper;
-	/** @var ICrypto | \PHPUnit_Framework_MockObject_MockObject */
-	private $crypto;
 	/** @var  IJobList | \PHPUnit_Framework_MockObject_MockObject */
 	private $jobList;
 	/** @var \OC\Security\IdentityProof\Manager |\PHPUnit_Framework_MockObject_MockObject  */
@@ -105,11 +99,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$this->avatarManager = $this->createMock(IAvatarManager::class);
 		$this->accountManager = $this->createMock(AccountManager::class);
 		$this->secureRandom = $this->createMock(ISecureRandom::class);
-		$this->timeFactory = $this->createMock(ITimeFactory::class);
-		$this->crypto = $this->createMock(ICrypto::class);
 		$this->newUserMailHelper = $this->createMock(NewUserMailHelper::class);
-		$this->timeFactory = $this->createMock(ITimeFactory::class);
-		$this->crypto = $this->createMock(ICrypto::class);
 		$this->securityManager = $this->getMockBuilder(\OC\Security\IdentityProof\Manager::class)->disableOriginalConstructor()->getMock();
 		$this->jobList = $this->createMock(IJobList::class);
 		$this->encryptionManager = $this->createMock(IManager::class);
@@ -163,8 +153,6 @@ class UsersControllerTest extends \Test\TestCase {
 				$this->accountManager,
 				$this->secureRandom,
 				$this->newUserMailHelper,
-				$this->timeFactory,
-				$this->crypto,
 				$this->securityManager,
 				$this->jobList,
 				$this->userMountCache,
@@ -190,8 +178,6 @@ class UsersControllerTest extends \Test\TestCase {
 						$this->accountManager,
 						$this->secureRandom,
 						$this->newUserMailHelper,
-						$this->timeFactory,
-						$this->crypto,
 						$this->securityManager,
 						$this->jobList,
 						$this->userMountCache,
