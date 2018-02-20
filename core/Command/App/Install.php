@@ -41,10 +41,10 @@ class Install extends Command {
 				'install the specified app'
 			)
 			->addOption(
-				'enable',
+				'keep-disabled',
 				null,
 				InputOption::VALUE_NONE,
-				'enable the app afterwards'
+				'don\'t enable the app afterwards'
 			)
 		;
 	}
@@ -73,7 +73,7 @@ class Install extends Command {
 
 		$output->writeln($appId . ' installed');
 
-		if ($input->getOption('enable')) {
+		if (!$input->getOption('keep-disabled')) {
 			$appClass = new \OC_App();
 			$appClass->enable($appId);
 			$output->writeln($appId . ' enabled');
