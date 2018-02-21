@@ -1,7 +1,7 @@
 OC.L10N.register(
     "user_ldap",
     {
-    "Failed to clear the mappings." : "Ocurrió un fallo al borrar las asignaciones.",
+    "Failed to clear the mappings." : "Se ha producido un fallo al borrar las asignaciones.",
     "Failed to delete the server configuration" : "No se pudo borrar la configuración del servidor",
     "Invalid configuration: Anonymous binding is not allowed." : "Configuración no válida: No se permite enlazado anónimo.",
     "Valid configuration, connection established!" : "Configuración válida. ¡Conexión establecida!",

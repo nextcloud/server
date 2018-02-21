@@ -296,6 +296,8 @@ OC.L10N.register(
     "This page will refresh itself when the %s instance is available again." : "Šis puslapis bus įkeltas iš naujo, kai %s egzempliorius bus ir vėl prieinamas.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Susisiekite su savo sistemos administratoriumi jei šis pranešimas nedingsta arba jei jis pasirodė netikėtai.",
     "Thank you for your patience." : "Dėkojame už jūsų kantrumą.",
+    "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">documentation</a>." : "Išsamesnei informacijai apie tai kaip tinkamai sukonfigūruoti savo serverį, žiūrėkite <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">dokumentaciją</a>.",
+    "This action requires you to confirm your password:" : "Šis veiksmas reikalauja, kad patvirtintumėte savo slaptažodį:",
     "Wrong password. Reset it?" : "Neteisingas slaptažodis. Atstatyti jį?",
     "You are about to grant \"%s\" access to your %s account." : "Ketinate suteikti \"%s\" prieigą prie savo %s paskyros."
 },
