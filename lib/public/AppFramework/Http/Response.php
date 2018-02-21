@@ -232,11 +232,11 @@ class Response {
 
 	/**
 	 * By default renders no output
-	 * @return string|null
+	 * @return string
 	 * @since 6.0.0
 	 */
 	public function render() {
-		return null;
+		return '';
 	}
 
 
