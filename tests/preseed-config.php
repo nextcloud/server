@@ -34,3 +34,20 @@ if (getenv('OBJECT_STORE') === 's3') {
 		)
 	];
 }
+if (getenv('OBJECT_STORE') === 'swift') {
+	$swiftHost = getenv('DRONE') === 'true' ? 'dockswift' : 'localhost';
+	$auth = getenv('SWIFT-AUTH') === '' ? '2.0' : getenv('SWIFT-AUTH');
+	$CONFIG['objectstore'] = [
+		'class' => 'OC\\Files\\ObjectStore\\Swift',
+		'arguments' => array(
+			'autocreate' => true,
+			'username' => 'swift',
+			'tenantName' => 'service',
+			'password' => 'swift',
+			'serviceName' => 'swift',
+			'region' => 'regionOne',
+			'url' => "http://$swiftHost:5000/$auth",
+			'bucket' => 'nextcloud'
+		)
+	];
+}
