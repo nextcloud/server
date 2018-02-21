@@ -85,7 +85,7 @@ class MiddlewareDispatcher {
 	 * @param string $methodName the name of the method that will be called on
 	 *                           the controller
 	 */
-	public function beforeController(Controller $controller, $methodName){
+	public function beforeController(Controller $controller, string $methodName){
 		// we need to count so that we know which middlewares we have to ask in
 		// case there is an exception
 		$middlewareCount = \count($this->middlewares);
