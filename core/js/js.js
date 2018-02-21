@@ -678,10 +678,10 @@ var OCP = {},
 	 * @param {jQuery} $toggle
 	 * @param {jQuery} $menuEl
 	 * @param {function|undefined} toggle callback invoked everytime the menu is opened
+	 * @param {boolean} headerMenu is this a top right header menu?
 	 * @returns {undefined}
 	 */
-	registerMenu: function($toggle, $menuEl, toggle) {
-		console.trace();
+	registerMenu: function($toggle, $menuEl, toggle, headerMenu) {
 		var self = this;
 		$menuEl.addClass('menu');
 		$toggle.on('click.menu', function(event) {
@@ -698,7 +698,9 @@ var OCP = {},
 				self.hideMenus();
 			}
 
-			$(event.currentTarget).addClass('openedMenu');
+			if (headerMenu === true) {
+				$(event.currentTarget).parent().addClass('openedMenu');
+			}
 
 			$menuEl.slideToggle(OC.menuSpeed, toggle);
 			OC._currentMenu = $menuEl;
@@ -1401,7 +1403,7 @@ function initCore() {
 		initSessionHeartBeat();
 	}
 
-	OC.registerMenu($('#expand'), $('#expanddiv'));
+	OC.registerMenu($('#expand'), $('#expanddiv'), false, true);
 
 	// toggle for menus
 	$(document).on('mouseup.closemenus', function(event) {
