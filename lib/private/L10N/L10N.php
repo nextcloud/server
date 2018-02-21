@@ -159,6 +159,7 @@ class L10N implements IL10N {
 			$data = strtotime($data);
 			$value->setTimestamp($data);
 		} else if ($data !== null) {
+			$data = (int)$data;
 			$value->setTimestamp($data);
 		}
 
