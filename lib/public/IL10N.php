@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -51,7 +52,7 @@ interface IL10N {
 	 * returned.
 	 * @since 6.0.0
 	 */
-	public function t($text, $parameters = array());
+	public function t(string $text, array $parameters = []): string;
 
 	/**
 	 * Translating
@@ -69,7 +70,7 @@ interface IL10N {
 	 * @since 6.0.0
 	 *
 	 */
-	public function n($text_singular, $text_plural, $count, $parameters = array());
+	public function n(string $text_singular, string $text_plural, int $count, array $parameters = []): string;
 
 	/**
 	 * Localization
@@ -96,7 +97,7 @@ interface IL10N {
 	 *    - params: timestamp (int/string)
 	 * @since 6.0.0 - parameter $options was added in 8.0.0
 	 */
-	public function l($type, $data, $options = array());
+	public function l(string $type, $data, array $options = []);
 
 
 	/**
@@ -105,5 +106,5 @@ interface IL10N {
 	 * @return string language
 	 * @since 7.0.0
 	 */
-	public function getLanguageCode();
+	public function getLanguageCode(): string ;
 }
