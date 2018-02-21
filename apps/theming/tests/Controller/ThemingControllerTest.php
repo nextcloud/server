@@ -829,6 +829,40 @@ class ThemingControllerTest extends TestCase {
 		$this->assertEquals($response, $actual);
 	}
 
+	public function testGetStylesheetOutsideServerroot() {
+		$this->themingController = new ThemingController(
+			'theming',
+			$this->request,
+			$this->config,
+			$this->themingDefaults,
+			$this->util,
+			$this->timeFactory,
+			$this->l10n,
+			$this->tempManager,
+			$this->appData,
+			$this->scssCacher,
+			$this->urlGenerator,
+			$this->appManager
+		);
+		$this->appManager->expects($this->once())->method('getAppPath')->with('theming')->willReturn('/outside/serverroot/theming');
+		$file = $this->createMock(ISimpleFile::class);
+		$file->expects($this->any())->method('getName')->willReturn('theming.css');
+		$file->expects($this->any())->method('getContent')->willReturn('compiled');
+		$this->scssCacher->expects($this->once())->method('process')->with('/outside/serverroot/theming', 'css/theming.scss', 'theming')->willReturn(true);
+		$this->scssCacher->expects($this->once())->method('getCachedCSS')->willReturn($file);
+
+		$response = new Http\FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => 'text/css']);
+		$response->cacheFor(86400);
+		$expires = new \DateTime();
+		$expires->setTimestamp($this->timeFactory->getTime());
+		$expires->add(new \DateInterval('PT24H'));
+		$response->addHeader('Expires', $expires->format(\DateTime::RFC1123));
+		$response->addHeader('Pragma', 'cache');
+
+		$actual = $this->themingController->getStylesheet();
+		$this->assertEquals($response, $actual);
+	}
+
 	public function testGetJavascript() {
 		$this->themingDefaults
 			->expects($this->at(0))
