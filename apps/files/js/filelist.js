@@ -2379,7 +2379,11 @@
 				event.preventDefault();
 			});
 			input.blur(function() {
-				form.trigger('submit');
+				if(input.hasClass('error')) {
+					restore();
+				} else { 
+					form.trigger('submit');
+				}
 			});
 		},
 
