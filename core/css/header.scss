@@ -99,7 +99,7 @@
 			width: 0;
 			position: absolute;
 			pointer-events: none;
-			right: 13px;
+			right: 12px;
 		}
 	}
 	.logo {
@@ -257,21 +257,6 @@ nav {
 	}
 }
 
-/* arrow look */
-#expanddiv:after {
-	bottom: 100%;
-	border: solid transparent;
-	content: ' ';
-	height: 0;
-	width: 0;
-	position: absolute;
-	pointer-events: none;
-	border-color: transparent;
-	border-bottom-color: $color-main-background;
-	border-width: 10px;
-	margin-left: -10px;
-}
-
 #navigation {
 	box-sizing: border-box;
 	* {
@@ -361,16 +346,10 @@ nav {
 	margin-right: 13px;
 	flex: 0 0 auto;
 
-	.icon-loading-small-dark {
-		display: inline-block;
-		margin-bottom: -3px;
-		margin-right: 6px;
-		background-size: 16px 16px;
-	}
-
 	/* User menu on the right */
 	#expand {
 		opacity: 1; /* override icon opacity */
+
 		img {
 			opacity: .7;
 			margin-bottom: -2px;
@@ -379,8 +358,8 @@ nav {
 		&:focus,
 		&:active {
 			color: $color-primary-text;
-			img,
-			#expandDisplayName {
+
+			img, #expandDisplayName {
 				opacity: 1;
 			}
 		}
@@ -390,6 +369,7 @@ nav {
 			cursor: pointer;
 			height: 32px;
 			width: 32px;
+
 			img {
 				opacity: 1;
 				cursor: pointer;
@@ -403,30 +383,28 @@ nav {
 		#expandDisplayName {
 			padding: 8px;
 			opacity: .6;
+
+			/* full opacity for gear icon if active */
+			#body-settings & {
+				opacity: 1;
+			}
+		}
+
+		/* show triangle below user menu if active */
+		#body-settings &:before {
+			content: ' ';
+			height: 0;
+			width: 0;
+			position: absolute;
+			pointer-events: none;
+			border: 0 solid transparent;
+			border-bottom-color: $color-main-background;
+			border-width: 10px;
+			bottom: 0;
+			z-index: 100;
+			display: block;
 		}
 	}
-}
-
-/* full opacity for gear icon if active */
-#body-settings #expandDisplayName {
-	opacity: 1;
-}
-
-/* show triangle below user menu if active */
-#body-settings #expand:before {
-	content: ' ';
-	height: 0;
-	width: 0;
-	position: absolute;
-	pointer-events: none;
-	border: 0 solid transparent;
-	border-bottom-color: $color-main-background;
-	border-width: 10px;
-	transform: translateX(-50%);
-	left: 26px;
-	bottom: 0;
-	z-index: 100;
-	display: block;
 }
 
 #expanddiv {
@@ -438,6 +416,12 @@ nav {
 		padding: 12px;
 		box-sizing: border-box;
 		opacity: .7;
+		white-space: nowrap;
+
+		.icon-loading-small {
+			margin-right: 9px;
+			background-size: 16px 16px;
+		}
 		img {
 			margin-right: 9px;
 			height: 16px;
@@ -477,7 +461,7 @@ nav {
 			opacity: .6;
 		}
 	}
-	.app-loading .icon-loading-small-dark {
+	.app-loading .icon-loading-small {
 		top: 12px;
 		width: 20px;
 		height: 20px;
