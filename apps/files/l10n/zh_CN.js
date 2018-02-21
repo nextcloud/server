@@ -17,7 +17,7 @@ OC.L10N.register(
     "Target folder \"{dir}\" does not exist any more" : "目标目录 \"{dir}\" 不存在",
     "Not enough free space" : "可用空间不足",
     "Uploading …" : "上传中…",
-    "…" : "undefined",
+    "…" : "…",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} / {totalSize} ({bitrate})",
     "Target folder does not exist any more" : "目标文件夹不存在",
     "Actions" : "操作",
@@ -124,7 +124,7 @@ OC.L10N.register(
     "Save" : "保存",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "对于 PHP-FPM 这个值改变后可能需要 5 分钟才会生效.",
     "Missing permissions to edit from here." : "没有权限编辑",
-    "%s of %s used" : " %s 的%s 已使用",
+    "%s of %s used" : "%s 已使用 (共 %s)",
     "%s used" : "%s 已使用",
     "Settings" : "设置",
     "Show hidden files" : "显示隐藏文件",
@@ -144,6 +144,7 @@ OC.L10N.register(
     "Tags" : "标签",
     "Deleted files" : "已删除的文件",
     "Text file" : "文本文件",
-    "New text file.txt" : "创建文本文件 .txt"
+    "New text file.txt" : "新建文本文件.txt",
+    "Move" : "移动"
 },
 "nplurals=1; plural=0;");

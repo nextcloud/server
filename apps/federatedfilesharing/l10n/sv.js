@@ -38,6 +38,7 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Dela med mig genom mitt #Nextcloud Federerade Moln-ID, se %s",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Dela med mig genom mitt #Nextcloud Federerade Moln-ID",
     "Sharing" : "Delar",
+    "Federated file sharing" : "Federerad fildelning",
     "Federated Cloud Sharing" : "Federerad Moln-delning",
     "Open documentation" : "Öppna dokumentation",
     "Adjust how people can share between servers." : "Justera hur användare kan dela genom servrar.",

@@ -5,6 +5,7 @@ OC.L10N.register(
     "Server is already in the list of trusted servers." : "Сервер уже есть в списке доверенных серверов.",
     "No server to federate with found" : "Сервер для объединения не найден",
     "Could not add server" : "Не удалось добавить сервер",
+    "Federation" : "Федерация",
     "Trusted servers" : "Доверенные серверы",
     "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Федерация серверов позволит Вам подключиться к другим доверенным серверам для обмена каталогами пользователей. Это будет использовано, например, для автодополнения имён пользователей при открытии федеративного общего доступа.",
     "Add server automatically once a federated share was created successfully" : "Добавить сервер автоматически после успешного создания  федеративного ресурса общего доступа",
