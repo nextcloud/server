@@ -47,27 +47,29 @@ class ControllerMethodReflector implements IControllerMethodReflector {
 		$reflection = new \ReflectionMethod($object, $method);
 		$docs = $reflection->getDocComment();
 
-		// extract everything prefixed by @ and first letter uppercase
-		preg_match_all('/^\h+\*\h+@(?P<annotation>[A-Z]\w+)((?P<parameter>.*))?$/m', $docs, $matches);
-		foreach($matches['annotation'] as $key => $annontation) {
-			$annotationValue = $matches['parameter'][$key];
-			if(isset($annotationValue[0]) && $annotationValue[0] === '(' && $annotationValue[\strlen($annotationValue) - 1] === ')') {
-				$cutString = substr($annotationValue, 1, -1);
-				$cutString = str_replace(' ', '', $cutString);
-				$splittedArray = explode(',', $cutString);
-				foreach($splittedArray as $annotationValues) {
-					list($key, $value) = explode('=', $annotationValues);
-					$this->annotations[$annontation][$key] = $value;
+		if ($docs !== false) {
+			// extract everything prefixed by @ and first letter uppercase
+			preg_match_all('/^\h+\*\h+@(?P<annotation>[A-Z]\w+)((?P<parameter>.*))?$/m', $docs, $matches);
+			foreach ($matches['annotation'] as $key => $annontation) {
+				$annotationValue = $matches['parameter'][$key];
+				if (isset($annotationValue[0]) && $annotationValue[0] === '(' && $annotationValue[\strlen($annotationValue) - 1] === ')') {
+					$cutString = substr($annotationValue, 1, -1);
+					$cutString = str_replace(' ', '', $cutString);
+					$splittedArray = explode(',', $cutString);
+					foreach ($splittedArray as $annotationValues) {
+						list($key, $value) = explode('=', $annotationValues);
+						$this->annotations[$annontation][$key] = $value;
+					}
+					continue;
 				}
-				continue;
+
+				$this->annotations[$annontation] = [$annotationValue];
 			}
 
-			$this->annotations[$annontation] = [$annotationValue];
+			// extract type parameter information
+			preg_match_all('/@param\h+(?P<type>\w+)\h+\$(?P<var>\w+)/', $docs, $matches);
+			$this->types = array_combine($matches['var'], $matches['type']);
 		}
-
-		// extract type parameter information
-		preg_match_all('/@param\h+(?P<type>\w+)\h+\$(?P<var>\w+)/', $docs, $matches);
-		$this->types = array_combine($matches['var'], $matches['type']);
 
 		foreach ($reflection->getParameters() as $param) {
 			// extract type information from PHP 7 scalar types and prefer them
