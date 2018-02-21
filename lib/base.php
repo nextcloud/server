@@ -373,6 +373,7 @@ class OC {
 
 		// get third party apps
 		$ocVersion = \OCP\Util::getVersion();
+		$ocVersion = implode('.', $ocVersion);
 		$incompatibleApps = $appManager->getIncompatibleApps($ocVersion);
 		$incompatibleShippedApps = [];
 		foreach ($incompatibleApps as $appInfo) {
