@@ -333,7 +333,12 @@ class Checker {
 			return [];
 		}
 
-		$signatureData = json_decode($this->fileAccessHelper->file_get_contents($signaturePath), true);
+		$content = $this->fileAccessHelper->file_get_contents($signaturePath);
+		$signatureData = null;
+
+		if (\is_string($content)) {
+			$signatureData = json_decode($content, true);
+		}
 		if(!\is_array($signatureData)) {
 			throw new InvalidSignatureException('Signature data not found.');
 		}
