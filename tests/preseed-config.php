@@ -57,10 +57,13 @@ if (getenv('OBJECT_STORE') === 'swift') {
 			'arguments' => array(
 				'autocreate' => true,
 				'user' => [
-					'id' => 'swift',
+					'name' => 'swift',
+					'password' => 'swift',
+					'domain' => [
+						'name' => 'default',
+					]
 				],
 				'tenantName' => 'service',
-				'password' => 'swift',
 				'serviceName' => 'swift',
 				'region' => 'regionOne',
 				'url' => "http://$swiftHost:5000/v3",
