@@ -283,6 +283,8 @@ class MiddlewareDispatcherTest extends \Test\TestCase {
 				->method('beforeController');
 		$m3->expects($this->never())
 				->method('afterController');
+		$m3->method('beforeOutput')
+			->will($this->returnArgument(2));
 
 		$this->dispatcher->registerMiddleware($m3);
 

@@ -105,9 +105,6 @@ class Dispatcher {
 		} catch(\Exception $exception){
 			$response = $this->middlewareDispatcher->afterException(
 				$controller, $methodName, $exception);
-			if ($response === null) {
-				throw $exception;
-			}
 		}
 
 		$response = $this->middlewareDispatcher->afterController(
