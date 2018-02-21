@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -36,7 +37,7 @@ interface ISystemTag {
 	 *
 	 * @since 9.0.0
 	 */
-	public function getId();
+	public function getId(): string;
 
 	/**
 	 * Returns the tag display name
@@ -45,7 +46,7 @@ interface ISystemTag {
 	 *
 	 * @since 9.0.0
 	 */
-	public function getName();
+	public function getName(): string;
 
 	/**
 	 * Returns whether the tag is visible for regular users
@@ -54,7 +55,7 @@ interface ISystemTag {
 	 *
 	 * @since 9.0.0
 	 */
-	public function isUserVisible();
+	public function isUserVisible(): bool;
 
 	/**
 	 * Returns whether the tag can be assigned to objects by regular users
@@ -63,7 +64,7 @@ interface ISystemTag {
 	 *
 	 * @since 9.0.0
 	 */
-	public function isUserAssignable();
+	public function isUserAssignable(): bool;
 
 }
 
