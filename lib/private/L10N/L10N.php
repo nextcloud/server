@@ -192,9 +192,9 @@ class L10N implements IL10N {
 	 * Returnsed function accepts the argument $n
 	 *
 	 * Called by \OC_L10N_String
-	 * @return string the plural form function
+	 * @return \Closure the plural form function
 	 */
-	public function getPluralFormFunction(): string {
+	public function getPluralFormFunction(): \Closure {
 		if (\is_null($this->pluralFormFunction)) {
 			$lang = $this->getLanguageCode();
 			$this->pluralFormFunction = function($n) use ($lang) {
