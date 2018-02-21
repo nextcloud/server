@@ -1986,7 +1986,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$query->insert('schedulingobjects')
 			->values([
 				'principaluri' => $query->createNamedParameter($principalUri),
-				'calendardata' => $query->createNamedParameter($objectData),
+				'calendardata' => $query->createNamedParameter($objectData, IQueryBuilder::PARAM_LOB),
 				'uri' => $query->createNamedParameter($objectUri),
 				'lastmodified' => $query->createNamedParameter(time()),
 				'etag' => $query->createNamedParameter(md5($objectData)),
