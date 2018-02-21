@@ -369,6 +369,9 @@ class ShareesAPIController extends OCSController {
 
 		if (!$this->shareeEnumeration) {
 			$result['results'] = [];
+		} else {
+			// Limit the number of search results to the given size
+			$result['results'] = array_slice($result['results'], $this->offset, $this->limit);
 		}
 
 		if (!$result['exactIdMatch'] && $this->cloudIdManager->isValidCloudId($search) && $this->offset === 0) {
@@ -695,6 +698,9 @@ class ShareesAPIController extends OCSController {
 
 		if (!$this->shareeEnumeration) {
 			$result['results'] = [];
+		} else {
+			// Limit the number of search results to the given size
+			$result['results'] = array_slice($result['results'], $this->offset, $this->limit);
 		}
 
 		if (!$result['exactIdMatch'] && filter_var($search, FILTER_VALIDATE_EMAIL)) {
