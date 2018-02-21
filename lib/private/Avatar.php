@@ -263,7 +263,7 @@ class Avatar implements IAvatar {
 	 * @return string
 	 */
 	private function generateAvatar($userDisplayName, $size) {
-		$text = strtoupper($userDisplayName[0]);
+		$text = mb_strtoupper(mb_substr($userDisplayName, 0, 1), 'UTF-8');
 		$backgroundColor = $this->avatarBackgroundColor($userDisplayName);
 
 		$im = imagecreatetruecolor($size, $size);
