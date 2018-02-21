@@ -48,6 +48,7 @@ use OCP\IRequest;
 use OCA\Theming\Util;
 use OCP\ITempManager;
 use OCP\IURLGenerator;
+use OCP\App\IAppManager;
 
 /**
  * Class ThemingController
@@ -75,6 +76,8 @@ class ThemingController extends Controller {
 	private $scssCacher;
 	/** @var IURLGenerator */
 	private $urlGenerator;
+	/** @var IAppManager */
+	private $appManager;
 
 	/**
 	 * ThemingController constructor.
@@ -90,6 +93,7 @@ class ThemingController extends Controller {
 	 * @param IAppData $appData
 	 * @param SCSSCacher $scssCacher
 	 * @param IURLGenerator $urlGenerator
+	 * @param IAppManager $appManager
 	 */
 	public function __construct(
 		$appName,
@@ -102,7 +106,8 @@ class ThemingController extends Controller {
 		ITempManager $tempManager,
 		IAppData $appData,
 		SCSSCacher $scssCacher,
-		IURLGenerator $urlGenerator
+		IURLGenerator $urlGenerator,
+		IAppManager $appManager
 	) {
 		parent::__construct($appName, $request);
 
@@ -115,6 +120,7 @@ class ThemingController extends Controller {
 		$this->appData = $appData;
 		$this->scssCacher = $scssCacher;
 		$this->urlGenerator = $urlGenerator;
+		$this->appManager = $appManager;
 	}
 
 	/**
@@ -374,12 +380,13 @@ class ThemingController extends Controller {
 	 * @return FileDisplayResponse|NotFoundResponse
 	 */
 	public function getStylesheet() {
-		$appPath = substr(\OC::$server->getAppManager()->getAppPath('theming'), strlen(\OC::$SERVERROOT) + 1);
+		$appPath = $this->appManager->getAppPath('theming');
+
 		/* SCSSCacher is required here
 		 * We cannot rely on automatic caching done by \OC_Util::addStyle,
 		 * since we need to add the cacheBuster value to the url
 		 */
-		$cssCached = $this->scssCacher->process(\OC::$SERVERROOT, $appPath . '/css/theming.scss', 'theming');
+		$cssCached = $this->scssCacher->process($appPath, 'css/theming.scss', 'theming');
 		if(!$cssCached) {
 			return new NotFoundResponse();
 		}
