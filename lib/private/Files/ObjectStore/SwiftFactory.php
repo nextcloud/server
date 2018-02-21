@@ -79,7 +79,7 @@ class SwiftFactory {
 			$this->params['autocreate'] = false;
 		}
 		if (isset($this->params['user']) && is_array($this->params['user'])) {
-			$userName = $this->params['user']['id'];
+			$userName = $this->params['user']['name'];
 		} else {
 			if (!isset($this->params['username']) && isset($this->params['user'])) {
 				$this->params['username'] = $this->params['user'];
@@ -102,7 +102,7 @@ class SwiftFactory {
 			'handler' => HandlerStack::create()
 		]);
 
-		if (isset($this->params['user']) && isset($this->params['user']['id'])) {
+		if (isset($this->params['user']) && isset($this->params['user']['name'])) {
 			return $this->auth(IdentityV3Service::factory($httpClient), $cacheKey);
 		} else {
 			return $this->auth(IdentityV2Service::factory($httpClient), $cacheKey);
