@@ -110,7 +110,7 @@ class Listener {
 		$activity->setApp('systemtags')
 			->setType('systemtags')
 			->setAuthor($actor)
-			->setObject('systemtag', $tag->getId(), $tag->getName());
+			->setObject('systemtag', (int)$tag->getId(), $tag->getName());
 		if ($event->getEvent() === ManagerEvent::EVENT_CREATE) {
 			$activity->setSubject(Provider::CREATE_TAG, [
 				$actor,

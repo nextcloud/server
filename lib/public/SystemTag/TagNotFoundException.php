@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -43,7 +44,7 @@ class TagNotFoundException extends \RuntimeException {
 	 * @param string[] $tags
 	 * @since 9.0.0
 	 */
-	public function __construct($message = '', $code = 0, \Exception $previous = null, array $tags = []) {
+	public function __construct(string $message = '', int $code = 0, \Exception $previous = null, array $tags = []) {
 		parent::__construct($message, $code, $previous);
 		$this->tags = $tags;
 	}
@@ -52,7 +53,7 @@ class TagNotFoundException extends \RuntimeException {
 	 * @return string[]
 	 * @since 9.0.0
 	 */
-	public function getMissingTags() {
+	public function getMissingTags(): array {
 		return $this->tags;
 	}
 }
