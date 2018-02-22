@@ -683,9 +683,10 @@ kbd {
 
 /* DROPDOWN ----------------------------------------------------------------- */
 .dropdown {
-	background: $color-main-background;
-	border-radius: 0 0 $border-radius $border-radius;
-	filter: drop-shadow(0 1px 3px $color-box-shadow);
+	background: nc-darken($color-main-background, 8%);
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	box-shadow: 0 1px 1px $color-box-shadow;
 	display: block;
 	margin-right: 0;
 	position: absolute;
