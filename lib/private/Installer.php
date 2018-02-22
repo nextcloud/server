@@ -112,7 +112,7 @@ class Installer {
 		if(!is_array($info)) {
 			throw new \Exception(
 				$l->t('App "%s" cannot be installed because appinfo file cannot be read.',
-					[$info['name']]
+					[$appId]
 				)
 			);
 		}
