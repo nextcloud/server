@@ -58,6 +58,9 @@ class CheckerTest extends TestCase {
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->appManager = $this->createMock(IAppManager::class);
 
+		$this->config->method('getAppValue')
+			->will($this->returnArgument(2));
+
 		$this->cacheFactory
 			->expects($this->any())
 			->method('createDistributed')
