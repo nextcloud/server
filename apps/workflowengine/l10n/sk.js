@@ -59,6 +59,7 @@ OC.L10N.register(
     "Check %s is invalid" : "Kontrola %s je neplatná",
     "Check #%s does not exist" : "Kontrola #%s neexistuje",
     "Workflow" : "Systém práce",
+    "Files workflow engine" : "Typ spôsobu práce súborov",
     "Open documentation" : "Otvoriť dokumentáciu",
     "Add rule group" : "Pridať skupinu pravidiel",
     "Short rule description" : "Zobraziť popis pravidla",

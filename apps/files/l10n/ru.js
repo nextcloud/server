@@ -81,7 +81,7 @@ OC.L10N.register(
     "Favorited" : "Избранное",
     "Favorite" : "Добавить в избранное",
     "New folder" : "Новый каталог",
-    "Upload file" : "Зарузить файл",
+    "Upload file" : "Загрузить файл",
     "Not favorited" : "Не избранное",
     "Remove from favorites" : "Удалить из избранных",
     "Add to favorites" : "Добавить в избранное",

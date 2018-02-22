@@ -38,6 +38,7 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Sprístupnite mi obsah prostredníctvom môjho #Nextcloud Federated Cloud ID, viac na %s",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Sprístupnite mi obsah prostredníctvom môjho #Nextcloud Federated Cloud ID",
     "Sharing" : "Sprístupnenie",
+    "Federated file sharing" : "Združené sprístupňovanie súborov",
     "Federated Cloud Sharing" : "Sprístupnenie prostredníctvom Federated Cloud",
     "Open documentation" : "Otvoriť dokumentáciu",
     "Adjust how people can share between servers." : "Nastavte ako môžu ľudia medzi sebou zdieľať servery.",
