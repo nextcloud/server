@@ -33,7 +33,7 @@ var MOUNT_OPTIONS_DROPDOWN_TEMPLATE =
 	'			</span>'+
 	'		</li>'+
 	'		<li>'+
-	'			<span class="menuitem">'+
+	'			<span class="menuitem icon-search">'+
 	'				<label for="mountOptionsFilesystemCheck">{{t "files_external" "Check for changes"}}</label>'+
 	'				<select id="mountOptionsFilesystemCheck" name="filesystem_check_changes" data-type="int">'+
 	'					<option value="0">{{t "files_external" "Never"}}</option>'+

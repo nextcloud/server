@@ -860,6 +860,10 @@ kbd {
 				line-height: 1.6em;
 				padding: 8px 0;
 			}
+			> select {
+				margin: 0;
+				margin-left: 6px;
+			}
 			/* Add padding if contains icon+text */
 			&:not(:empty) {
 				padding-right: 10px !important;
