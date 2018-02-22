@@ -90,7 +90,7 @@
 <div id="emptycontent" class="hidden">
 	<div class="icon-external"></div>
 	<h2><?php p($l->t('No external storage configured')); ?></h2>
-	<p><a href="<?php p(link_to('', 'index.php/settings/personal#files_external' )); ?>"><?php p($l->t('You can add external storages in the personal settings')); ?></a></p>
+	<p><a href="<?php p(link_to('', 'index.php/settings/admin/externalstorages' )); ?>"><?php p($l->t('You can add external storages in the personal settings')); ?></a></p>
 </div>
 
 <form data-can-create="<?php echo $canCreateMounts?'true':'false' ?>" id="files_external" class="section" data-encryption-enabled="<?php echo $_['encryptionEnabled']?'true': 'false'; ?>">
