@@ -177,7 +177,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @return int
 	 */
 	public function count(): int {
-		return \count(array_keys($this->items['parameters']));
+		return \count($this->items['parameters']);
 	}
 
 	/**
@@ -313,7 +313,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 */
 	public function getHeader(string $name): string {
 
-		$name = strtoupper(str_replace(['-'], ['_'],$name));
+		$name = strtoupper(str_replace('-', '_',$name));
 		if (isset($this->server['HTTP_' . $name])) {
 			return $this->server['HTTP_' . $name];
 		}
