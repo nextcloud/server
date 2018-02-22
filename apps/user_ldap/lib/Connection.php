@@ -86,6 +86,8 @@ class Connection extends LDAPUtility {
 
 	protected $ignoreValidation = false;
 
+	protected $bindResult = [];
+
 	/**
 	 * Constructor
 	 * @param ILDAPWrapper $ldap
@@ -113,6 +115,7 @@ class Connection extends LDAPUtility {
 	public function __destruct() {
 		if(!$this->dontDestruct && $this->ldap->isResource($this->ldapConnectionRes)) {
 			@$this->ldap->unbind($this->ldapConnectionRes);
+			$this->bindResult = [];
 		}
 	}
 
@@ -202,6 +205,7 @@ class Connection extends LDAPUtility {
 		if(!is_null($this->ldapConnectionRes)) {
 			@$this->ldap->unbind($this->ldapConnectionRes);
 			$this->ldapConnectionRes = null;
+			$this->bindResult = [];
 		}
 	}
 
@@ -560,6 +564,7 @@ class Connection extends LDAPUtility {
 			if($isBackupHost && ($error !== 0 || $isOverrideMainServer)) {
 				$this->doConnect($this->configuration->ldapBackupHost,
 								 $this->configuration->ldapBackupPort);
+				$this->bindResult = [];
 				$bindStatus = $this->bind();
 				$error = $this->ldap->isResource($this->ldapConnectionRes) ?
 					$this->ldap->errno($this->ldapConnectionRes) : -1;
@@ -612,13 +617,35 @@ class Connection extends LDAPUtility {
 		if(!$this->configuration->ldapConfigurationActive) {
 			return false;
 		}
-		$cr = $this->getConnectionResource();
+		$cr = $this->ldapConnectionRes;
 		if(!$this->ldap->isResource($cr)) {
-			return false;
+			$cr = $this->getConnectionResource();
 		}
+
+		if(
+			count($this->bindResult) !== 0
+			&& $this->bindResult['dn'] === $this->configuration->ldapAgentName
+			&& \OC::$server->getHasher()->verify(
+				$this->configPrefix . $this->configuration->ldapAgentPassword,
+				$this->bindResult['hash']
+			)
+		) {
+			// don't attempt to bind again with the same data as before
+			// bind might have been invoked via getConnectionResource(),
+			// but we need results specifically for e.g. user login
+			return $this->bindResult['result'];
+		}
+
 		$ldapLogin = @$this->ldap->bind($cr,
 										$this->configuration->ldapAgentName,
 										$this->configuration->ldapAgentPassword);
+
+		$this->bindResult = [
+			'dn' => $this->configuration->ldapAgentName,
+			'hash' => \OC::$server->getHasher()->hash($this->configPrefix . $this->configuration->ldapAgentPassword),
+			'result' => $ldapLogin,
+		];
+
 		if(!$ldapLogin) {
 			$errno = $this->ldap->errno($cr);
 
