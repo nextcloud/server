@@ -483,6 +483,82 @@ input {
 	}
 }
 
+/* Vue v-select */
+.v-select {
+	margin: 3px 3px 3px 0;
+	display: inline-block;
+	.dropdown-toggle {
+		display: flex !important;
+		flex-wrap: wrap;
+		.selected-tag {
+			line-height: 20px;
+			padding-left: 5px;
+			background-image: none;
+			background-color: $color-main-background;
+			color: nc-lighten($color-main-text, 33%);
+			border: 1px solid nc-darken($color-main-background, 14%);
+			display: inline-flex;
+			align-items: center;
+			.close {
+				margin-left: 3px;
+			}
+		}
+	}
+	.dropdown-menu {
+		padding: 0;
+		li {
+			padding: 5px;
+			position: relative;
+			display: list-item;
+			background-color: transparent;
+			cursor: pointer;
+			color: nc-lighten($color-main-text, 33%);
+			a {
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				height: 25px;
+				padding: 3px 7px 4px 2px;
+				margin: 0;
+				cursor: pointer;
+				min-height: 1em;
+				-webkit-touch-callout: none;
+				-webkit-user-select: none;
+				-moz-user-select: none;
+				-ms-user-select: none;
+				user-select: none;
+				display: inline-flex;
+				align-items: center;
+				background-color: transparent !important;
+				color: inherit !important;
+				margin-left: 17px;
+				&::before {
+					content: ' ';
+					background-image: url('../img/actions/checkmark.svg?v=1');
+					background-repeat: no-repeat;
+					background-position: center;
+					min-width: 16px;
+					min-height: 16px;
+					display: block;
+					opacity: 0.5;
+					margin-right: 5px;
+					visibility: hidden;
+				}
+			}
+			&.highlight {
+				color: $color-main-text;
+			}
+			&.active > a {
+				background-color: nc-darken($color-main-background, 3%);
+				color: $color-main-text;
+				&::before {
+					visibility: visible;
+				}
+			}
+		}
+	}
+}
+
 /* Progressbar */
 progress {
 	display: block;
