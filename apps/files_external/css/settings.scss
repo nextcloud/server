@@ -65,9 +65,9 @@ td.mountPoint, td.backend { width:160px; }
 }
 
 #externalStorage td.configuration label {
-	min-width: 144px; /* 130px plus 2x7px padding */
-	display: inline-block;
-	margin-right: 6px;
+	width: 100%;
+	display: inline-flex;
+	align-items: center;
 }
 
 #externalStorage td.configuration input.disabled-success {
