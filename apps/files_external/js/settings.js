@@ -1230,22 +1230,23 @@ MountConfigListView.prototype = _.extend({
 	 */
 	updateStatus: function($tr, status, message) {
 		var $statusSpan = $tr.find('.status span');
-		$statusSpan.removeClass('loading-small success indeterminate error');
+		$statusSpan.removeClass();
+		console.log($tr, status, message);
 		switch (status) {
 			case null:
 				// remove status
 				break;
 			case StorageConfig.Status.IN_PROGRESS:
-				$statusSpan.addClass('loading-small');
+				$statusSpan.attr('class', 'icon-loading-small');
 				break;
 			case StorageConfig.Status.SUCCESS:
-				$statusSpan.addClass('success');
+				$statusSpan.attr('class', 'success icon-checkmark-white');
 				break;
 			case StorageConfig.Status.INDETERMINATE:
-				$statusSpan.addClass('indeterminate');
+				$statusSpan.attr('class', 'indeterminate icon-info-white');
 				break;
 			default:
-				$statusSpan.addClass('error');
+				$statusSpan.attr('class', 'error icon-error-white');
 		}
 		$statusSpan.attr('data-original-title', (typeof message === 'string') ? message : '');
 	},

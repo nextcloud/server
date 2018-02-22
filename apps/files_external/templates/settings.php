@@ -110,7 +110,7 @@
 			<?php endif; ?>
 			>
 				<td class="status">
-					<span></span>
+					<span title="<?php p($l->t('Click to recheck the configuration')); ?>"></span>
 				</td>
 				<td class="mountPoint"><input type="text" name="mountPoint" value=""
 					placeholder="<?php p($l->t('Folder name')); ?>">

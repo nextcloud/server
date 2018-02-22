@@ -18,9 +18,11 @@
 
 #externalStorage td.status > span {
 	display: inline-block;
-	height: 16px;
-	width: 16px;
+	height: 28px;
+	width: 28px;
 	vertical-align: text-bottom;
+	border-radius: 50%;
+	cursor: pointer;
 }
 
 td.mountPoint, td.backend { width:160px; }
@@ -76,10 +78,6 @@ td.mountPoint, td.backend { width:160px; }
 #externalStorage td.applicable div.chzn-container {
 	position: relative;
 	top: 3px;
-}
-
-#externalStorage td.status .success {
-	border-radius: 50%;
 }
 
 #userMountingBackends {
