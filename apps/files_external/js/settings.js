@@ -1230,8 +1230,6 @@ MountConfigListView.prototype = _.extend({
 	 */
 	updateStatus: function($tr, status, message) {
 		var $statusSpan = $tr.find('.status span');
-		$statusSpan.removeClass();
-		console.log($tr, status, message);
 		switch (status) {
 			case null:
 				// remove status
