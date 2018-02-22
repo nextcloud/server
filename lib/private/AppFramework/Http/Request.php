@@ -678,7 +678,11 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @return string HTTP protocol. HTTP/2, HTTP/1.1 or HTTP/1.0.
 	 */
 	public function getHttpProtocol(): string {
-		$claimedProtocol = strtoupper($this->server['SERVER_PROTOCOL']);
+		$claimedProtocol = $this->server['SERVER_PROTOCOL'];
+
+		if (\is_string($claimedProtocol)) {
+			$claimedProtocol = strtoupper($claimedProtocol);
+		}
 
 		$validProtocols = [
 			'HTTP/1.0',
@@ -738,10 +742,14 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 				throw new \Exception("The requested uri($requestUri) cannot be processed by the script '$scriptName')");
 			}
 		}
+		if ($name === null) {
+			$name = '';
+		}
+
 		if (strpos($pathInfo, '/'.$name) === 0) {
 			$pathInfo = substr($pathInfo, \strlen($name) + 1);
 		}
-		if (strpos($pathInfo, $name) === 0) {
+		if ($name !== '' && strpos($pathInfo, $name) === 0) {
 			$pathInfo = substr($pathInfo, \strlen($name));
 		}
 		if($pathInfo === false || $pathInfo === '/'){

@@ -814,7 +814,7 @@ class Server extends ServerContainer implements IServerContainer {
 					'cookies' => $_COOKIE,
 					'method' => (isset($_SERVER) && isset($_SERVER['REQUEST_METHOD']))
 						? $_SERVER['REQUEST_METHOD']
-						: null,
+						: '',
 					'urlParams' => $urlParams,
 				],
 				$this->getSecureRandom(),
