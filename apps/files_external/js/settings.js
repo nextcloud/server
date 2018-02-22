@@ -1246,7 +1246,12 @@ MountConfigListView.prototype = _.extend({
 			default:
 				$statusSpan.attr('class', 'error icon-error-white');
 		}
-		$statusSpan.attr('data-original-title', (typeof message === 'string') ? message : '');
+		if (typeof message === 'string') {
+			$statusSpan.attr('title', message);
+			$statusSpan.tooltip();
+		} else {
+			$statusSpan.tooltip('destroy');
+		}
 	},
 
 	/**
