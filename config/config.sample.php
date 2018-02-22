@@ -1214,6 +1214,28 @@ $CONFIG = array(
 	],
 ],
 
+/**
+ * To use swift V3
+ */
+'objectstore' => [
+	'class' => 'OC\\Files\\ObjectStore\\Swift',
+	'arguments' => [
+		'autocreate' => true,
+		'user' => [
+			'name' => 'swift',
+			'password' => 'swift',
+			'domain' => [
+				'name' => 'default',
+			]
+		],
+		'tenantName' => 'service',
+		'serviceName' => 'swift',
+		'region' => 'regionOne',
+		'url' => "http://yourswifthost:5000/v3",
+		'bucket' => 'nextcloud'
+	],
+],
+
 
 /**
  * Sharing
