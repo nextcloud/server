@@ -166,17 +166,6 @@ class Installer {
 	}
 
 	/**
-	 * @brief checks whether or not an app is installed
-	 * @param string $app app
-	 * @returns bool
-	 *
-	 * Checks whether or not an app is installed, i.e. registered in apps table.
-	 */
-	public static function isInstalled( $app ) {
-		return (\OC::$server->getConfig()->getAppValue($app, "installed_version", null) !== null);
-	}
-
-	/**
 	 * Updates the specified app from the appstore
 	 *
 	 * @param string $appId
@@ -510,17 +499,19 @@ class Installer {
 	 * @return array Array of error messages (appid => Exception)
 	 */
 	public static function installShippedApps($softErrors = false) {
+		$appManager = \OC::$server->getAppManager();
+		$config = \OC::$server->getConfig();
 		$errors = [];
 		foreach(\OC::$APPSROOTS as $app_dir) {
 			if($dir = opendir( $app_dir['path'] )) {
 				while( false !== ( $filename = readdir( $dir ))) {
 					if( $filename[0] !== '.' and is_dir($app_dir['path']."/$filename") ) {
 						if( file_exists( $app_dir['path']."/$filename/appinfo/info.xml" )) {
-							if(!Installer::isInstalled($filename)) {
+							if($config->getAppValue($filename, "installed_version", null) === null) {
 								$info=OC_App::getAppInfo($filename);
 								$enabled = isset($info['default_enable']);
-								if (($enabled || in_array($filename, \OC::$server->getAppManager()->getAlwaysEnabledApps()))
-									  && \OC::$server->getConfig()->getAppValue($filename, 'enabled') !== 'no') {
+								if (($enabled || in_array($filename, $appManager->getAlwaysEnabledApps()))
+									  && $config->getAppValue($filename, 'enabled') !== 'no') {
 									if ($softErrors) {
 										try {
 											Installer::installShippedApp($filename);
@@ -534,7 +525,7 @@ class Installer {
 									} else {
 										Installer::installShippedApp($filename);
 									}
-									\OC::$server->getConfig()->setAppValue($filename, 'enabled', 'yes');
+									$config->setAppValue($filename, 'enabled', 'yes');
 								}
 							}
 						}
