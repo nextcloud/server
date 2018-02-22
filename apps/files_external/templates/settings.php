@@ -143,11 +143,7 @@
 					</td>
 				<?php endif; ?>
 				<td class="mountOptionsToggle hidden">
-					<img class="svg"
-						title="<?php p($l->t('Advanced settings')); ?>"
-						alt="<?php p($l->t('Advanced settings')); ?>"
-						src="<?php print_unescaped(image_path('core', 'actions/settings.svg')); ?>"
-					/>
+					<div class="icon-settings" title="<?php p($l->t('Advanced settings')); ?>"></div>
 					<input type="hidden" class="mountOptions" value="" />
 				</td>
 				<td class="remove hidden">

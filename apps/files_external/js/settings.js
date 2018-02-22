@@ -12,31 +12,42 @@
 
 // TODO: move to a separate file
 var MOUNT_OPTIONS_DROPDOWN_TEMPLATE =
-	'<div class="drop dropdown mountOptionsDropdown">' +
-	// FIXME: options are hard-coded for now
-	'	<div class="optionRow">' +
-	'		<input id="mountOptionsEncrypt" name="encrypt" type="checkbox" value="true" checked="checked"/>' +
-	'		<label for="mountOptionsEncrypt">{{t "files_external" "Enable encryption"}}</label>' +
-	'	</div>' +
-	'	<div class="optionRow">' +
-	'		<input id="mountOptionsPreviews" name="previews" type="checkbox" value="true" checked="checked"/>' +
-	'		<label for="mountOptionsPreviews">{{t "files_external" "Enable previews"}}</label>' +
-	'	</div>' +
-	'	<div class="optionRow">' +
-	'		<input id="mountOptionsSharing" name="enable_sharing" type="checkbox" value="true"/>' +
-	'		<label for="mountOptionsSharing">{{t "files_external" "Enable sharing"}}</label>' +
-	'	</div>' +
-	'	<div class="optionRow">' +
-	'		<label for="mountOptionsFilesystemCheck">{{t "files_external" "Check for changes"}}</label>' +
-	'		<select id="mountOptionsFilesystemCheck" name="filesystem_check_changes" data-type="int">' +
-	'			<option value="0">{{t "files_external" "Never"}}</option>' +
-	'			<option value="1" selected="selected">{{t "files_external" "Once every direct access"}}</option>' +
-	'		</select>' +
-	'	</div>' +
-	'	<div class="optionRow">' +
-	'		<input id="mountOptionsEncoding" name="encoding_compatibility" type="checkbox" value="true"/>' +
-	'		<label for="mountOptionsEncoding">{{mountOptionsEncodingLabel}}</label>' +
-	'	</div>' +
+	'<div class="popovermenu open">'+
+	'	<ul>'+
+	'		<li>'+
+	'			<span class="menuitem">'+
+	'				<input id="mountOptionsEncrypt" class="checkbox" name="encrypt" type="checkbox" value="true" checked="checked"/>'+
+	'				<label for="mountOptionsEncrypt">{{t "files_external" "Enable encryption"}}</label>'+
+	'			</span>'+
+	'		</li>'+
+	'		<li>'+
+	'			<span class="menuitem">'+
+	'				<input id="mountOptionsPreviews" class="checkbox" name="previews" type="checkbox" value="true" checked="checked"/>'+
+	'				<label for="mountOptionsPreviews">{{t "files_external" "Enable previews"}}</label>'+
+	'			</span>'+
+	'		</li>'+
+	'		<li>'+
+	'			<span class="menuitem">'+
+	'				<input id="mountOptionsSharing" class="checkbox" name="enable_sharing" type="checkbox" value="true"/>'+
+	'				<label for="mountOptionsSharing">{{t "files_external" "Enable sharing"}}</label>'+
+	'			</span>'+
+	'		</li>'+
+	'		<li>'+
+	'			<span class="menuitem">'+
+	'				<label for="mountOptionsFilesystemCheck">{{t "files_external" "Check for changes"}}</label>'+
+	'				<select id="mountOptionsFilesystemCheck" name="filesystem_check_changes" data-type="int">'+
+	'					<option value="0">{{t "files_external" "Never"}}</option>'+
+	'					<option value="1" selected="selected">{{t "files_external" "Once every direct access"}}</option>'+
+	'				</select>'+
+	'			</span>'+
+	'		</li>'+
+	'		<li>'+
+	'			<span class="menuitem">'+
+	'				<input id="mountOptionsEncoding" class="checkbox" name="encoding_compatibility" type="checkbox" value="true"/>'+
+	'				<label for="mountOptionsEncoding">{{mountOptionsEncodingLabel}}</label>'+
+	'			</span>'+
+	'		</li>'+
+	'	</ul>'+
 	'</div>';
 
 /**
@@ -724,7 +735,7 @@ MountConfigListView.prototype = _.extend({
 			self.saveStorageConfig($(this).closest('tr'));
 		});
 
-		this.$el.on('click', 'td.mountOptionsToggle>img', function() {
+		this.$el.on('click', 'td.mountOptionsToggle>.icon-settings', function() {
 			self._showMountOptionsDropdown($(this).closest('tr'));
 		});
 
@@ -1278,11 +1289,6 @@ MountConfigListView.prototype = _.extend({
 	 * @param {Object} $tr configuration row
 	 */
 	_showMountOptionsDropdown: function($tr) {
-		if (this._preventNextDropdown) {
-			// prevented because the click was on the toggle
-			this._preventNextDropdown = false;
-			return;
-		}
 		var self = this;
 		var storage = this.getStorageConfig($tr);
 		var $toggle = $tr.find('.mountOptionsToggle');
@@ -1299,15 +1305,7 @@ MountConfigListView.prototype = _.extend({
 		dropDown.show($toggle, storage.mountOptions || [], visibleOptions);
 		$('body').on('mouseup.mountOptionsDropdown', function(event) {
 			var $target = $(event.target);
-			if ($toggle.has($target).length) {
-				// why is it always so hard to make dropdowns behave ?
-				// this prevents the click on the toggle to cause
-				// the dropdown to reopen itself
-				// (preventDefault doesn't work here because the click
-				// event is already in the queue and cannot be cancelled)
-				self._preventNextDropdown = true;
-			}
-			if ($target.closest('.dropdown').length) {
+			if ($target.closest('.popovermenu').length) {
 				return;
 			}
 			dropDown.hide();
