@@ -30,6 +30,7 @@
 namespace OCA\Provisioning_API\Controller;
 
 use OC\Accounts\AccountManager;
+use OC\HintException;
 use OC\Settings\Mailer\NewUserMailHelper;
 use OC_Helper;
 use OCP\App\IAppManager;
@@ -186,15 +187,22 @@ class UsersController extends OCSController {
 
 		try {
 			$newUser = $this->userManager->createUser($userid, $password);
-			$this->logger->info('Successful addUser call with userid: '.$userid, ['app' => 'ocs_api']);
+			$this->logger->info('Successful addUser call with userid: ' . $userid, ['app' => 'ocs_api']);
 
 			if (is_array($groups)) {
 				foreach ($groups as $group) {
 					$this->groupManager->get($group)->addUser($newUser);
-					$this->logger->info('Added userid '.$userid.' to group '.$group, ['app' => 'ocs_api']);
+					$this->logger->info('Added userid ' . $userid . ' to group ' . $group, ['app' => 'ocs_api']);
 				}
 			}
 			return new DataResponse();
+		} catch (HintException $e ) {
+			$this->logger->logException($e, [
+				'message' => 'Failed addUser attempt with hint exception.',
+				'level' => \OCP\Util::WARN,
+				'app' => 'ocs_api',
+			]);
+			throw new OCSException($e->getHint(), 107);
 		} catch (\Exception $e) {
 			$this->logger->error('Failed addUser attempt with exception: '.$e->getMessage(), ['app' => 'ocs_api']);
 			throw new OCSException('Bad request', 101);
