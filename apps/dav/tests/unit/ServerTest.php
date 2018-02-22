@@ -41,6 +41,8 @@ class ServerTest extends \Test\TestCase {
 	public function test() {
 		/** @var IRequest $r */
 		$r = $this->createMock(IRequest::class);
+		$r->method('getRequestUri')
+			->willReturn('/');
 		$s = new Server($r, '/');
 		$this->assertInstanceOf('OCA\DAV\Server', $s);
 	}
