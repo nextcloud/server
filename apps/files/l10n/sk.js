@@ -20,6 +20,7 @@ OC.L10N.register(
     "…" : "...",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} z {totalSize} ({bitrate})",
     "Target folder does not exist any more" : "Cieľový priečinok už neexistuje",
+    "Error when assembling chunks, status code {status}" : "Chyba pri zostavovaní kusov, kód chyby {status}",
     "Actions" : "Akcie",
     "Download" : "Sťahovanie",
     "Rename" : "Premenovať",
@@ -65,6 +66,7 @@ OC.L10N.register(
     "{used} used" : "{used} použitých",
     "\"{name}\" is an invalid file name." : "\"{name}\" je neplatné meno súboru.",
     "File name cannot be empty." : "Meno súboru nemôže byť prázdne",
+    "\"/\" is not allowed inside a file name." : "Znak \"/\" nie je povolený v názve súboru.",
     "\"{name}\" is not an allowed filetype" : "\"{name}\" nie je povolený typ súboru",
     "Storage of {owner} is full, files can not be updated or synced anymore!" : "Úložisko používateľa {owner} je plné, súbory sa viac nedajú aktualizovať ani synchronizovať.",
     "Your storage is full, files can not be updated or synced anymore!" : "Vaše úložisko je plné. Súbory nemožno aktualizovať ani synchronizovať!",
@@ -144,6 +146,10 @@ OC.L10N.register(
     "Tags" : "Štítky",
     "Deleted files" : "Zmazané súbory",
     "Text file" : "Textový súbor",
-    "New text file.txt" : "Nový text file.txt"
+    "New text file.txt" : "Nový text file.txt",
+    "Move" : "Presunúť",
+    "A new file or folder has been <strong>deleted</strong>" : "Nový súbor alebo priečinok bol <strong>zmazaný</strong>",
+    "A new file or folder has been <strong>restored</strong>" : "Nový súbor alebo priečinok bol<strong>obnovený</strong>",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Použi túto adresu pre <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">prístup ku svojím súborom cez WebDAV</a>"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");
