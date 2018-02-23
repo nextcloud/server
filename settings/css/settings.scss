@@ -561,15 +561,18 @@ span.usersLastLoginTooltip {
 		position: relative;
 		top: -1px;
 	}
-	#newuserHeader input{
+	input {
 		&:not([type='submit']),
 		&:not([type='reset']) {
 			width: 100%;
 		}
-		&[type='submit'],
-		&[type='reset'] {
-			width: 50%;
-		}
+	}
+	.userActions input {
+		border: none;
+		background-color: initial;
+		opacity: .5;
+		width: 44px;
+		height: 44px;
 	}
 }
 
@@ -585,7 +588,6 @@ tr:hover > td {
 }
 
 td.userActions {
-	width: 44px;
 	.toggleUserActions {
 		width: 44px;
 		height: 44px;
