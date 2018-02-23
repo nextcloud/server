@@ -7,7 +7,7 @@
     "Recovery key successfully disabled" : "Clave de recuperación deshabilitada",
     "Could not disable recovery key. Please check your recovery key password!" : "No se pudo deshabilitar la clave de recuperación. Por favor, ¡compruebe su contraseña!",
     "Missing parameters" : "Faltan parámetros",
-    "Please provide the old recovery password" : "Por favor, ingrese su antigua contraseña de recuperación",
+    "Please provide the old recovery password" : "Por favor, introduzca su antigua contraseña de recuperación",
     "Please provide a new recovery password" : "Por favor, provea una nueva contraseña de recuperación",
     "Please repeat the new recovery password" : "Por favor, repita su nueva contraseña de recuperación",
     "Password successfully changed." : "Su contraseña ha sido cambiada",

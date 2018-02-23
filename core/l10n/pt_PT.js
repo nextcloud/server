@@ -316,6 +316,7 @@ OC.L10N.register(
     "This page will refresh itself when the %s instance is available again." : "Esta página irá ser atualizada quando a instância %s ficar novamente disponível.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contacte o seu administrador do sistema se esta mensagem persistir ou apareceu inesperadamente.",
     "Thank you for your patience." : "Obrigado pela sua paciência.",
+    "%s (3rdparty)" : "%s (terceiros)",
     "There was an error loading your contacts" : "Ocorreu um erro ao carregar os seus contactos",
     "Your web server is not yet set up properly to allow file synchronization because the WebDAV interface seems to be broken." : "O seu servidor web ainda não está devidamente configurado para permitir sincronização de ficheiros porque a interface WebDAV não está a funcionar correctamente.",
     "Your web server is not set up properly to resolve \"{url}\". Further information can be found in our <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">documentation</a>." : "O seu servidor web ainda não está devidamente configurado para traduzir \"{url}\". Mais informações podem ser obtidas na nossa <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">documentação</a>.",
