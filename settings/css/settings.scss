@@ -137,7 +137,7 @@ input {
 }
 
 .personal-settings-setting-box input {
-	&[type="text"], &[type="email"], &[type="tel"], &[type="url"] {
+	&[type='text'], &[type='email'], &[type='tel'], &[type='url'] {
 		width: 100%;
 	}
 }
@@ -183,7 +183,7 @@ input {
 			}
 		}
 		> form span {
-			&[class^="icon-checkmark"], &[class^="icon-error"] {
+			&[class^='icon-checkmark'], &[class^='icon-error'] {
 				position: relative;
 				right: 8px;
 				top: -28px;
@@ -561,8 +561,15 @@ span.usersLastLoginTooltip {
 		position: relative;
 		top: -1px;
 	}
-	#newuserHeader input:not([type="submit"]) {
-		width: 100%;
+	#newuserHeader input{
+		&:not([type='submit']),
+		&:not([type='reset']) {
+			width: 100%;
+		}
+		&[type='submit'],
+		&[type='reset'] {
+			width: 50%;
+		}
 	}
 }
 
@@ -837,7 +844,7 @@ span.version {
 	margin-bottom: 18px;
 }
 
-/* capitalize "Other" category */
+/* capitalize 'Other' category */
 
 #app-category-925 {
 	text-transform: capitalize;

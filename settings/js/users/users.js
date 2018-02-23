@@ -32,13 +32,17 @@ var UserList = {
 		// initially the list might already contain user entries (not fully ajaxified yet)
 		// initialize these entries
 		this.$el.find('.quota-user').singleSelect().on('change', this.onQuotaSelect);
-		OC.registerMenu(
-			$('#new-user-button'),
-			$('#newuserHeader'),
-			function() {
-				$('#newusername').focus();
-			}
-		);
+		$('#new-user-button').on('click', function(event) {
+			event.preventDefault();
+			$('#newuserHeader').slideToggle(OC.menuSpeed);
+			$('#newusername').focus();
+		});
+		$('#newreset').on('click', function(event) {
+			$('#newuserHeader').slideToggle(OC.menuSpeed);
+		});
+		$('.has-tooltip').tooltip({
+			placement: 'bottom'
+		});
 	},
 
 	/**
