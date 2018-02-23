@@ -293,7 +293,7 @@ OC.L10N.register(
     "Enhanced security is enabled for your account. Please authenticate using a second factor." : "La seguridad mejorada se ha habilitado para tu cuenta. Por favor, autenticar utilizando un segundo factor.",
     "Cancel log in" : "Cancelar inicio de sesión",
     "Use backup code" : "Usar código de respaldo",
-    "Error while validating your second factor" : "Error mientras validaba su factor segundo",
+    "Error while validating your second factor" : "Error al validar su segundo factor",
     "Access through untrusted domain" : "Acceso a través de un dominio en el que no se confía",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Por favor, ponte en contacto con tu administrador. Si eres un administrador, edita la configuración \"trusted_domains\" en config/config.php como el ejemplo que aparece en config.sample.php.",
     "Depending on your configuration, this button could also work to trust the domain:" : "Dependiendo de tu configuración, este botón también podría servir para confiar en el dominio:",
