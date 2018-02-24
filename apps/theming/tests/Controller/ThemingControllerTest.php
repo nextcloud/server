@@ -106,7 +106,8 @@ class ThemingControllerTest extends TestCase {
 			$this->tempManager,
 			$this->appData,
 			$this->scssCacher,
-			$this->urlGenerator
+			$this->urlGenerator,
+			$this->appManager
 		);
 
 		return parent::setUp();
@@ -798,7 +799,7 @@ class ThemingControllerTest extends TestCase {
 
 
 	public function testGetStylesheet() {
-
+		$this->appManager->expects($this->once())->method('getAppPath')->with('theming')->willReturn(\OC::$SERVERROOT . '/theming');
 		$file = $this->createMock(ISimpleFile::class);
 		$file->expects($this->any())->method('getName')->willReturn('theming.css');
 		$file->expects($this->any())->method('getContent')->willReturn('compiled');
@@ -818,6 +819,7 @@ class ThemingControllerTest extends TestCase {
 	}
 
 	public function testGetStylesheetFails() {
+		$this->appManager->expects($this->once())->method('getAppPath')->with('theming')->willReturn(\OC::$SERVERROOT . '/theming');
 		$file = $this->createMock(ISimpleFile::class);
 		$file->expects($this->any())->method('getName')->willReturn('theming.css');
 		$file->expects($this->any())->method('getContent')->willReturn('compiled');
@@ -830,20 +832,6 @@ class ThemingControllerTest extends TestCase {
 	}
 
 	public function testGetStylesheetOutsideServerroot() {
-		$this->themingController = new ThemingController(
-			'theming',
-			$this->request,
-			$this->config,
-			$this->themingDefaults,
-			$this->util,
-			$this->timeFactory,
-			$this->l10n,
-			$this->tempManager,
-			$this->appData,
-			$this->scssCacher,
-			$this->urlGenerator,
-			$this->appManager
-		);
 		$this->appManager->expects($this->once())->method('getAppPath')->with('theming')->willReturn('/outside/serverroot/theming');
 		$file = $this->createMock(ISimpleFile::class);
 		$file->expects($this->any())->method('getName')->willReturn('theming.css');
