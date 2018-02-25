@@ -110,7 +110,7 @@ class ThemingController extends Controller {
 		IAppData $appData,
 		SCSSCacher $scssCacher,
 		IURLGenerator $urlGenerator,
-		IAppManager $appManager = NULL
+		IAppManager $appManager
 	) {
 		parent::__construct($appName, $request);
 
@@ -123,12 +123,7 @@ class ThemingController extends Controller {
 		$this->appData = $appData;
 		$this->scssCacher = $scssCacher;
 		$this->urlGenerator = $urlGenerator;
-
-		if (!is_null($appManager)) {
-			$this->appManager = $appManager;
-		} else {
-			$this->appManager = \OC::$server->getAppManager();
-		}
+		$this->appManager = $appManager;
 	}
 
 	/**
