@@ -159,10 +159,15 @@
 .atwho-view-ul * .avatar-name-wrapper {
 	white-space: nowrap;
 }
-
 #commentsTabView .comment .author,
 #commentsTabView .comment .date {
 	opacity: .5;
+}
+#commentsTabView .comment .author {
+	max-width: 210px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
 }
 #commentsTabView .comment .date {
 	margin-left: auto;
