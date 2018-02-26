@@ -92,13 +92,13 @@ $CONFIG = array(
  * ``supportedDatabases``
  *
  * Available:
- * 	- sqlite (SQLite3)
+ * 	- sqlite3 (SQLite3)
  * 	- mysql (MySQL/MariaDB)
  * 	- pgsql (PostgreSQL)
  *
- * Defaults to ``sqlite``
+ * Defaults to ``sqlite3``
  */
-'dbtype' => 'sqlite',
+'dbtype' => 'sqlite3',
 
 /**
  * Your host server name, for example ``localhost``, ``hostname``,
