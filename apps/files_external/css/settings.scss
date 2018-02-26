@@ -33,6 +33,7 @@ td.mountPoint, td.backend { width:160px; }
 #addMountPoint>td.hidden { visibility:hidden; }
 
 #externalStorage td {
+	height: 50px;
 	&.mountOptionsToggle,
 	&.remove,
 	&.save {
