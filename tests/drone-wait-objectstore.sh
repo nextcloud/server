@@ -44,6 +44,7 @@ if [ "$OBJECT_STORE" == "swift" ]; then
 
     echo "creating test file"
 
+    i=0
     while [ 1 ]
     do
         sleep 2
@@ -53,6 +54,12 @@ if [ "$OBJECT_STORE" == "swift" ]; then
         if [ "$respCode" == "201" ]
         then
             break
+        fi
+
+        i=$((i + 1))
+        if [ "$i" == "20" ]
+        then
+            exit -1
         fi
     done
 

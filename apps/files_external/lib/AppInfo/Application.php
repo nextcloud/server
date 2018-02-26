@@ -36,7 +36,8 @@ use \OCA\Files_External\Lib\Config\IBackendProvider;
 use \OCA\Files_External\Lib\Config\IAuthMechanismProvider;
 use OCA\Files_External\Lib\Auth\AmazonS3\AccessKey;
 use OCA\Files_External\Lib\Auth\OpenStack\Rackspace;
-use OCA\Files_External\Lib\Auth\OpenStack\OpenStack;
+use OCA\Files_External\Lib\Auth\OpenStack\OpenStackV2;
+use OCA\Files_External\Lib\Auth\OpenStack\OpenStackV3;
 use OCA\Files_External\Lib\Auth\PublicKey\RSA;
 use OCA\Files_External\Lib\Auth\OAuth2\OAuth2;
 use OCA\Files_External\Lib\Auth\OAuth1\OAuth1;
@@ -139,7 +140,8 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 			$container->query(RSA::class),
 
 			// AuthMechanism::SCHEME_OPENSTACK mechanisms
-			$container->query(OpenStack::class),
+			$container->query(OpenStackV2::class),
+			$container->query(OpenStackV3::class),
 			$container->query(Rackspace::class),
 
 			// Specialized mechanisms

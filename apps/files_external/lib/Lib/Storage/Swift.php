@@ -156,13 +156,14 @@ class Swift extends \OC\Files\Storage\Common {
 
 	public function __construct($params) {
 		if ((empty($params['key']) and empty($params['password']))
-			or empty($params['user']) or empty($params['bucket'])
+			or (empty($params['user']) && empty($params['userid'])) or empty($params['bucket'])
 			or empty($params['region'])
 		) {
 			throw new StorageBadConfigException("API Key or password, Username, Bucket and Region have to be configured.");
 		}
 
-		$this->id = 'swift::' . $params['user'] . md5($params['bucket']);
+		$user = $params['user'];
+		$this->id = 'swift::' . $user . md5($params['bucket']);
 
 		$bucketUrl = new Uri($params['bucket']);
 		if ($bucketUrl->getHost()) {
@@ -179,6 +180,16 @@ class Swift extends \OC\Files\Storage\Common {
 		}
 
 		$params['autocreate'] = true;
+
+		if (isset($params['domain'])) {
+			$params['user'] = [
+				'name' => $params['user'],
+				'password' => $params['password'],
+				'domain' => [
+					'name' => $params['domain'],
+				]
+			];
+		}
 
 		$this->params = $params;
 		// FIXME: private class...
