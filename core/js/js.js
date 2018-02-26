@@ -1366,34 +1366,29 @@ function initCore() {
 	});
 
 	/**
-	 * Calls the server periodically to ensure that session doesn't
-	 * time out
+	 * Calls the server periodically to ensure that session and CSRF
+	 * token doesn't expire
 	 */
-	function initSessionHeartBeat(){
-		// max interval in seconds set to 24 hours
-		var maxInterval = 24 * 3600;
+	function initSessionHeartBeat() {
 		// interval in seconds
 		var interval = 900;
 		if (oc_config.session_lifetime) {
 			interval = Math.floor(oc_config.session_lifetime / 2);
 		}
 		// minimum one minute
-		if (interval < 60) {
-			interval = 60;
-		}
-		if (interval > maxInterval) {
-			interval = maxInterval;
-		}
-		var url = OC.generateUrl('/heartbeat');
-		var heartBeatTimeout = null;
-		var heartBeat = function() {
-			clearInterval(heartBeatTimeout);
-			heartBeatTimeout = setInterval(function() {
-				$.post(url);
-			}, interval * 1000);
-		};
-		$(document).ajaxComplete(heartBeat);
-		heartBeat();
+		interval = Math.max(60, interval);
+		// max interval in seconds set to 24 hours
+		interval = Math.min(24 * 3600, interval);
+
+		var url = OC.generateUrl('/csrftoken');
+		setInterval(function() {
+			$.ajax(url).then(function(resp) {
+				oc_requesttoken = resp.token;
+				OC.requestToken = resp.token;
+			}).fail(function(e) {
+				console.error('session heartbeat failed', e);
+			});
+		}, interval * 1000);
 	}
 
 	// session heartbeat (defaults to enabled)
