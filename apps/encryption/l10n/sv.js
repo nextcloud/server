@@ -31,11 +31,11 @@ OC.L10N.register(
     "one-time password for server-side-encryption" : "engångslösenord för kryptering på serversidan",
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Kan ej dekryptera denna fil, förmodligen är det en delad fil. Be ägaren av filen att dela den med dig.",
     "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Filen kan inte läsas, troligtvis är det en delad fil. Be ägaren av filen att dela den med dig igen.",
+    "Default encryption module" : "Krypteringsfunktion",
     "Hey there,\n\nthe admin enabled server-side-encryption. Your files were encrypted using the password '%s'.\n\nPlease login to the web interface, go to the section 'basic encryption module' of your personal settings and update your encryption password by entering this password into the 'old log-in password' field and your current login-password.\n\n" : "Hallå där, \n\nAdministratören aktiverade serverkryptering. Alla dina filer har blivit krypterade med lösenordet: %s\n\nGå till i din profil för att ändra krypteringslösenordet till ditt egna lösenord. Ange lösenordet ovan som \"Gammalt lösenord\" och ange sedan ditt egna lösenord.\n\n",
     "The share will expire on %s." : "Utdelningen kommer att upphöra %s.",
     "Cheers!" : "Ha de fint!",
     "Hey there,<br><br>the admin enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>Please login to the web interface, go to the section \"basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"old log-in password\" field and your current login-password.<br><br>" : "Hallå där, <br> Administratören aktiverade serverkryptering. Alla dina filer har blivit krypterade med lösenordet: <strong>%s</ strong>. <br> Gå till i din profil för att ändra krypteringslösenordet till ditt egna lösenord. Ange lösenordet ovan som \"Gammalt lösenord\" och ange sedan ditt egna lösenord.<br>",
-    "Default encryption module" : "Krypteringsfunktion",
     "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "Krypteringsappen är aktiverad men dina krypteringsnycklar har inte aktiverats, logga ut och logga in igen.",
     "Encrypt the home storage" : "Kryptera alla filer i molnet",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Aktivering av det här alternativet krypterar alla filer som är lagrade på huvudlagringsplatsen, annars kommer bara filer på extern lagringsplats att krypteras",
@@ -59,7 +59,6 @@ OC.L10N.register(
     "Enable password recovery:" : "Aktivera lösenordsåterställning:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Genom att aktivera detta alternativ kommer du kunna återfå tillgång till dina krypterade filer om du skulle förlora/glömma ditt lösenord",
     "Enabled" : "Aktiverad",
-    "Disabled" : "Inaktiverad",
-    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Krypteringsprogrammet är aktiverat men dina nycklar är inte initierade. Vänligen logga ut och  in igen"
+    "Disabled" : "Inaktiverad"
 },
 "nplurals=2; plural=(n != 1);");

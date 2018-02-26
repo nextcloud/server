@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -37,7 +38,7 @@ class AppLocator {
 	 * @return string
 	 * @throws \Exception If the app cannot be found
 	 */
-	public function getAppPath($appId) {
+	public function getAppPath(string $appId): string {
 		$path = \OC_App::getAppPath($appId);
 		if($path === false) {
 
@@ -51,7 +52,7 @@ class AppLocator {
 	 *
 	 * @return array
 	 */
-	public function getAllApps() {
+	public function getAllApps(): array {
 		return \OC_App::getAllApps();
 	}
 }

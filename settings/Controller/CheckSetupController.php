@@ -43,7 +43,6 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IRequest;
-use OC_Util;
 use OCP\IURLGenerator;
 
 /**
@@ -96,7 +95,7 @@ class CheckSetupController extends Controller {
 	}
 
 	/**
-	 * Checks if the ownCloud server can connect to the internet using HTTPS and HTTP
+	 * Checks if the server can connect to the internet using HTTPS and HTTP
 	 * @return bool
 	 */
 	private function isInternetConnectionWorking() {

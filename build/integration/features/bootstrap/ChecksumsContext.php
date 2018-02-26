@@ -78,7 +78,7 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 	 */
 	public function userUploadsFileToWithChecksum($user, $source, $destination, $checksum)
 	{
-		$file = \GuzzleHttp\Stream\Stream::factory(fopen($source, 'r'));
+		$file = \GuzzleHttp\Psr7\stream_for(fopen($source, 'r'));
 		try {
 			$this->response = $this->client->put(
 				$this->baseUrl . '/remote.php/webdav' . $destination,
@@ -117,7 +117,7 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 	 */
 	public function userRequestTheChecksumOfViaPropfind($user, $path)
 	{
-		$request = $this->client->createRequest(
+		$this->response = $this->client->request(
 			'PROPFIND',
 			$this->baseUrl . '/remote.php/webdav' . $path,
 			[
@@ -133,7 +133,6 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 				]
 			]
 		);
-		$this->response = $this->client->send($request);
 	}
 
 	/**
@@ -182,8 +181,8 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 	 */
 	public function theHeaderChecksumShouldMatch($checksum)
 	{
-		if ($this->response->getHeader('OC-Checksum') !== $checksum) {
-			throw new \Exception("Expected $checksum, got ".$this->response->getHeader('OC-Checksum'));
+		if ($this->response->getHeader('OC-Checksum')[0] !== $checksum) {
+			throw new \Exception("Expected $checksum, got ".$this->response->getHeader('OC-Checksum')[0]);
 		}
 	}
 
@@ -195,7 +194,7 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 	 */
 	public function userCopiedFileTo($user, $source, $destination)
 	{
-		$request = $this->client->createRequest(
+		$this->response = $this->client->request(
 			'MOVE',
 			$this->baseUrl . '/remote.php/webdav' . $source,
 			[
@@ -208,7 +207,6 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 				],
 			]
 		);
-		$this->response = $this->client->send($request);
 	}
 
 	/**
@@ -236,7 +234,7 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 	public function theOcChecksumHeaderShouldNotBeThere()
 	{
 		if ($this->response->hasHeader('OC-Checksum')) {
-			throw new \Exception("Expected no checksum header but got ".$this->response->getHeader('OC-Checksum'));
+			throw new \Exception("Expected no checksum header but got ".$this->response->getHeader('OC-Checksum')[0]);
 		}
 	}
 

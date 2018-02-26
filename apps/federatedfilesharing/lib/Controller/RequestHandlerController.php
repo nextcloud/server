@@ -209,7 +209,11 @@ class RequestHandlerController extends OCSController {
 
 				return new Http\DataResponse();
 			} catch (\Exception $e) {
-				\OCP\Util::writeLog('files_sharing', 'server can not add remote share, ' . $e->getMessage(), \OCP\Util::ERROR);
+				\OC::$server->getLogger()->logException($e, [
+					'message' => 'Server can not add remote share.',
+					'level' => \OCP\Util::ERROR,
+					'app' => 'files_sharing'
+				]);
 				throw new OCSException('internal server error, was not able to add share from ' . $remote, 500);
 			}
 		}

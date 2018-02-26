@@ -26,57 +26,55 @@ use Behat\Behat\Context\Context;
 class CommentsAppContext implements Context, ActorAwareInterface {
 	use ActorAware;
 
-
-	/**
-	 * @When /^I create a new comment with "([^"]*)" as message$/
-	 */
-	public function iCreateANewCommentWithAsMessage($commentText) {
-		$this->actor->find(self::newCommentField(), 2)->setValue($commentText);
-		$this->actor->find(self::submitNewCommentButton(), 2)->click();
-	}
-
-	/**
-	 * @Then /^I see that a comment was added$/
-	 */
-	public function iSeeThatACommentWasAdded() {
-		$self = $this;
-
-		$result = Utils::waitFor(function () use ($self) {
-			return $self->isCommentAdded();
-		}, 5, 0.5);
-
-		PHPUnit_Framework_Assert::assertTrue($result);
-	}
-
-	public function isCommentAdded() {
-		try {
-				$locator = self::commentFields();
-			$comments = $this->actor->getSession()->getPage()->findAll($locator->getSelector(), $locator->getLocator());
-			PHPUnit_Framework_Assert::assertSame(1, count($comments));
-		} catch (PHPUnit_Framework_ExpectationFailedException $e) {
-			return false;
-		}
-		return true;
-	}
-
 	/**
 	 * @return Locator
 	 */
 	public static function newCommentField() {
-		return Locator::forThe()->css("div.newCommentRow .message")->descendantOf(FilesAppContext::currentSectionDetailsView())->
-		describedAs("New comment field in the details view in Files app");
-	}
-
-	public static function commentFields() {
-		return Locator::forThe()->css(".comments .comment .message")->descendantOf(FilesAppContext::currentSectionDetailsView())->
-		describedAs("Comment fields in the details view in Files app");
+		return Locator::forThe()->css("div.newCommentRow .message")->
+				descendantOf(FilesAppContext::currentSectionDetailsView())->
+				describedAs("New comment field in current section details view in Files app");
 	}
 
 	/**
 	 * @return Locator
 	 */
 	public static function submitNewCommentButton() {
-		return Locator::forThe()->css("div.newCommentRow .submit")->descendantOf(FilesAppContext::currentSectionDetailsView())->
-		describedAs("Submit new comment button in the details view in Files app");
+		return Locator::forThe()->css("div.newCommentRow .submit")->
+				descendantOf(FilesAppContext::currentSectionDetailsView())->
+				describedAs("Submit new comment button in current section details view in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function commentList() {
+		return Locator::forThe()->css("ul.comments")->
+				descendantOf(FilesAppContext::currentSectionDetailsView())->
+				describedAs("Comment list in current section details view in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function commentWithText($text) {
+		return Locator::forThe()->xpath("//div[normalize-space() = '$text']/ancestor::li")->
+				descendantOf(self::commentList())->
+				describedAs("Comment with text \"$text\" in current section details view in Files app");
+	}
+
+	/**
+	 * @When /^I create a new comment with "([^"]*)" as message$/
+	 */
+	public function iCreateANewCommentWithAsMessage($commentText) {
+		$this->actor->find(self::newCommentField(), 10)->setValue($commentText);
+		$this->actor->find(self::submitNewCommentButton())->click();
+	}
+
+	/**
+	 * @Then /^I see a comment with "([^"]*)" as message$/
+	 */
+	public function iSeeACommentWithAsMessage($commentText) {
+		PHPUnit_Framework_Assert::assertTrue(
+				$this->actor->find(self::commentWithText($commentText), 10)->isVisible());
 	}
 }

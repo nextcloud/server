@@ -85,6 +85,7 @@ class SCSSCacherTest extends \Test\TestCase {
 
 		$this->appData->expects($this->once())->method('getFolder')->with('core')->willThrowException(new NotFoundException());
 		$this->appData->expects($this->once())->method('newFolder')->with('core')->willReturn($folder);
+		$this->appData->method('getDirectoryListing')->willReturn([]);
 
 		$fileDeps = $this->createMock(ISimpleFile::class);
 		$gzfile = $this->createMock(ISimpleFile::class);
@@ -118,6 +119,7 @@ class SCSSCacherTest extends \Test\TestCase {
 	public function testProcessUncachedFile() {
 		$folder = $this->createMock(ISimpleFolder::class);
 		$this->appData->expects($this->once())->method('getFolder')->with('core')->willReturn($folder);
+		$this->appData->method('getDirectoryListing')->willReturn([]);
 		$file = $this->createMock(ISimpleFile::class);
 		$file->expects($this->any())->method('getSize')->willReturn(1);
 		$fileDeps = $this->createMock(ISimpleFile::class);
@@ -148,6 +150,7 @@ class SCSSCacherTest extends \Test\TestCase {
 	public function testProcessCachedFile() {
 		$folder = $this->createMock(ISimpleFolder::class);
 		$this->appData->expects($this->once())->method('getFolder')->with('core')->willReturn($folder);
+		$this->appData->method('getDirectoryListing')->willReturn([]);
 		$file = $this->createMock(ISimpleFile::class);
 		$fileDeps = $this->createMock(ISimpleFile::class);
 		$fileDeps->expects($this->any())->method('getSize')->willReturn(1);
@@ -178,6 +181,7 @@ class SCSSCacherTest extends \Test\TestCase {
 			->willReturn($folder);
 		$folder->method('getName')
 			->willReturn('core');
+		$this->appData->method('getDirectoryListing')->willReturn([]);
 
 		$file = $this->createMock(ISimpleFile::class);
 
@@ -351,11 +355,21 @@ class SCSSCacherTest extends \Test\TestCase {
 		$this->assertFalse($actual);
 	}
 
-	public function testRebaseUrls() {
+	public function dataRebaseUrls() {
+		return [
+			['#id { background-image: url(\'../img/image.jpg\'); }','#id { background-image: url(\'/apps/files/css/../img/image.jpg\'); }'],
+			['#id { background-image: url("../img/image.jpg"); }','#id { background-image: url(\'/apps/files/css/../img/image.jpg\'); }'],
+			['#id { background-image: url(\'/img/image.jpg\'); }','#id { background-image: url(\'/img/image.jpg\'); }'],
+			['#id { background-image: url("http://example.com/test.jpg"); }','#id { background-image: url("http://example.com/test.jpg"); }'],
+		];
+	}
+
+	/**
+	 * @dataProvider dataRebaseUrls
+	 */
+	public function testRebaseUrls($scss, $expected) {
 		$webDir = '/apps/files/css';
-		$css = '#id { background-image: url(\'../img/image.jpg\'); }';
-		$actual = self::invokePrivate($this->scssCacher, 'rebaseUrls', [$css, $webDir]);
-		$expected = '#id { background-image: url(\'/apps/files/css/../img/image.jpg\'); }';
+		$actual = self::invokePrivate($this->scssCacher, 'rebaseUrls', [$scss, $webDir]);
 		$this->assertEquals($expected, $actual);
 	}
 
@@ -434,5 +448,26 @@ class SCSSCacherTest extends \Test\TestCase {
 		array_pop(\OC::$APPSROOTS);
 		$this->rrmdir($tmpDir.$path);
 	}
+
+	public function testResetCache() {
+		$file = $this->createMock(ISimpleFile::class);
+		$file->expects($this->once())
+			->method('delete');
+
+		$folder = $this->createMock(ISimpleFolder::class);
+		$folder->expects($this->once())
+			->method('getDirectoryListing')
+			->willReturn([$file]);
+
+		$this->depsCache->expects($this->once())
+			->method('clear')
+			->with('');
+		$this->appData->expects($this->once())
+			->method('getDirectoryListing')
+			->willReturn([$folder]);
+
+		$this->scssCacher->resetCache();
+	}
+
 
 }

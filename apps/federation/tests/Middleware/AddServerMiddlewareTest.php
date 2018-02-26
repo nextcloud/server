@@ -68,13 +68,11 @@ class AddServerMiddlewareTest extends TestCase {
 	 * @dataProvider dataTestAfterException
 	 *
 	 * @param \Exception $exception
-	 * @param string $message
 	 * @param string $hint
 	 */
-	public function testAfterException($exception, $message, $hint) {
+	public function testAfterException($exception, $hint) {
 
-		$this->logger->expects($this->once())->method('error')
-			->with($message, ['app' => 'AddServerMiddlewareTest']);
+		$this->logger->expects($this->once())->method('logException');
 
 		$this->l10n->expects($this->any())->method('t')
 			->willReturnCallback(
@@ -98,8 +96,8 @@ class AddServerMiddlewareTest extends TestCase {
 
 	public function dataTestAfterException() {
 		return [
-			[new HintException('message', 'hint'), 'message', 'hint'],
-			[new \Exception('message'), 'message', 'message'],
+			[new HintException('message', 'hint'), 'hint'],
+			[new \Exception('message'), 'message'],
 		];
 	}
 

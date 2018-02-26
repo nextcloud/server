@@ -23,7 +23,7 @@
  */
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
-use GuzzleHttp\Message\ResponseInterface;
+use Psr\Http\Message\ResponseInterface;
 
 require __DIR__ . '/../../vendor/autoload.php';
 
@@ -72,7 +72,7 @@ class ShareesContext implements Context, SnippetAcceptingContext {
 	}
 
 	public function getArrayOfShareesResponded(ResponseInterface $response, $shareeType) {
-		$elements = $response->xml()->data;
+		$elements = simplexml_load_string($response->getBody())->data;
 		$elements = json_decode(json_encode($elements), 1);
 		if (strpos($shareeType, 'exact ') === 0) {
 			$elements = $elements['exact'];

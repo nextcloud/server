@@ -47,19 +47,6 @@ OC.L10N.register(
     "Quota" : "Hạn ngạch",
     "change full name" : "Đổi họ và t",
     "set new password" : "đặt mật khẩu mới",
-    "Default" : "Mặc định",
-    "Enabled" : "Bật",
-    "Invalid request" : "Yêu cầu không hợp lệ",
-    "Admins can't remove themself from the admin group" : "Quản trị viên không thể loại bỏ chính họ khỏi nhóm quản lý",
-    "Unable to add user to group %s" : "Không thể thêm người dùng vào nhóm %s",
-    "Unable to remove user from group %s" : "Không thể xóa người dùng từ nhóm %s",
-    "Updating...." : "Đang cập nhật...",
-    "Error while updating app" : "Lỗi khi cập nhật ứng dụng",
-    "__language_name__" : "Tiếng Việt",
-    "Cron" : "Cron",
-    "Cheers!" : "Chúc mừng!",
-    "Get the apps to sync your files" : "Nhận ứng dụng để đồng bộ file của bạn",
-    "Show First Run Wizard again" : "Hiện lại việc chạy đồ thuật khởi đầu",
-    "Name" : "Tên"
+    "Default" : "Mặc định"
 },
 "nplurals=1; plural=0;");

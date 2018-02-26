@@ -36,6 +36,7 @@ use OCP\IL10N;
 use Sabre\DAV\PropPatch;
 use Sabre\DAV\Xml\Property\Href;
 use Sabre\DAVACL\IACL;
+use Sabre\DAV\Exception\NotFound;
 
 /**
  * Class CalDavBackendTest
@@ -526,7 +527,7 @@ EOD;
 		$calendar->setPublishStatus(false);
 		$this->assertEquals(false, $calendar->getPublishStatus());
 
-		$this->setExpectedException('Sabre\DAV\Exception\NotFound');
+		$this->expectException(NotFound::class);
 		$this->backend->getPublicCalendar($publicCalendarURI);
 	}
 

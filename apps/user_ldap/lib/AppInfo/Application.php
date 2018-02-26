@@ -26,6 +26,7 @@ namespace OCA\User_LDAP\AppInfo;
 use OCA\User_LDAP\Controller\RenewPasswordController;
 use OCP\AppFramework\App;
 use OCP\AppFramework\IAppContainer;
+use OCP\IL10N;
 
 class Application extends App {
 	public function __construct () {
@@ -44,7 +45,7 @@ class Application extends App {
 				$server->getRequest(),
 				$c->query('UserManager'),
 				$server->getConfig(),
-				$c->query('OCP\IL10N'),
+				$c->query(IL10N::class),
 				$c->query('Session'),
 				$server->getURLGenerator()
 			);

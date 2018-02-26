@@ -55,7 +55,7 @@ trait S3ConnectionTrait {
 
 		$this->test = isset($params['test']);
 		$this->bucket = $params['bucket'];
-		$this->timeout = (!isset($params['timeout'])) ? 15 : $params['timeout'];
+		$this->timeout = !isset($params['timeout']) ? 15 : $params['timeout'];
 		$params['region'] = empty($params['region']) ? 'eu-west-1' : $params['region'];
 		$params['hostname'] = empty($params['hostname']) ? 's3.' . $params['region'] . '.amazonaws.com' : $params['hostname'];
 		if (!isset($params['port']) || $params['port'] === '') {
@@ -109,7 +109,11 @@ trait S3ConnectionTrait {
 				));
 				$this->testTimeout();
 			} catch (S3Exception $e) {
-				\OCP\Util::logException('files_external', $e);
+				\OC::$server->getLogger()->logException($e, [
+					'message' => 'Invalid remote storage.',
+					'level' => \OCP\Util::DEBUG,
+					'app' => 'files_external',
+				]);
 				throw new \Exception('Creation of bucket failed. ' . $e->getMessage());
 			}
 		}

@@ -27,6 +27,7 @@ use Sabre\CalDAV\Principal\User;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\INode;
 use \Sabre\DAV\PropFind;
+use OCA\DAV\CardDAV\AddressBook;
 
 /**
  * Class DavAclPlugin is a wrapper around \Sabre\DAVACL\Plugin that returns 404
@@ -49,7 +50,7 @@ class DavAclPlugin extends \Sabre\DAVACL\Plugin {
 			$node = $this->server->tree->getNodeForPath($uri);
 
 			switch(get_class($node)) {
-				case 'OCA\DAV\CardDAV\AddressBook':
+				case AddressBook::class:
 					$type = 'Addressbook';
 					break;
 				default:

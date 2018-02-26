@@ -34,6 +34,9 @@ namespace OCA\Provisioning_API\Tests\Controller;
 use Exception;
 use OC\Accounts\AccountManager;
 use OC\Group\Manager;
+use OCA\FederatedFileSharing\AppInfo\Application;
+use OCA\FederatedFileSharing\FederatedShareProvider;
+use OCA\Provisioning_API\FederatedFileSharingFactory;
 use OCP\App\IAppManager;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\Mail\IEMailTemplate;
@@ -80,6 +83,8 @@ class UsersControllerTest extends TestCase {
 	private $l10nFactory;
 	/** @var NewUserMailHelper|PHPUnit_Framework_MockObject_MockObject */
 	private $newUserMailHelper;
+	/** @var FederatedFileSharingFactory|\PHPUnit_Framework_MockObject_MockObject */
+	private $federatedFileSharingFactory;
 
 	protected function setUp() {
 		parent::setUp();
@@ -94,6 +99,7 @@ class UsersControllerTest extends TestCase {
 		$this->accountManager = $this->createMock(AccountManager::class);
 		$this->l10nFactory = $this->createMock(IFactory::class);
 		$this->newUserMailHelper = $this->createMock(NewUserMailHelper::class);
+		$this->federatedFileSharingFactory = $this->createMock(FederatedFileSharingFactory::class);
 
 		$this->api = $this->getMockBuilder(UsersController::class)
 			->setConstructorArgs([
@@ -107,7 +113,8 @@ class UsersControllerTest extends TestCase {
 				$this->accountManager,
 				$this->logger,
 				$this->l10nFactory,
-				$this->newUserMailHelper
+				$this->newUserMailHelper,
+				$this->federatedFileSharingFactory
 			])
 			->setMethods(['fillStorageInfo'])
 			->getMock();
@@ -414,6 +421,7 @@ class UsersControllerTest extends TestCase {
 	 * @expectedExceptionMessage Bad request
 	 */
 	public function testAddUserUnsuccessful() {
+		$exception = new Exception('User backend not found.');
 		$this->userManager
 			->expects($this->once())
 			->method('userExists')
@@ -423,11 +431,15 @@ class UsersControllerTest extends TestCase {
 			->expects($this->once())
 			->method('createUser')
 			->with('NewUser', 'PasswordOfTheNewUser')
-			->will($this->throwException(new Exception('User backend not found.')));
+			->will($this->throwException($exception));
 		$this->logger
 			->expects($this->once())
-			->method('error')
-			->with('Failed addUser attempt with exception: User backend not found.', ['app' => 'ocs_api']);
+			->method('logException')
+			->with($exception, [
+				'message' => 'Failed addUser attempt with exception.',
+				'level' => \OCP\Util::ERROR,
+				'app' => 'ocs_api',
+			]);
 		$loggedInUser = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -2872,7 +2884,8 @@ class UsersControllerTest extends TestCase {
 				$this->accountManager,
 				$this->logger,
 				$this->l10nFactory,
-				$this->newUserMailHelper
+				$this->newUserMailHelper,
+				$this->federatedFileSharingFactory
 			])
 			->setMethods(['getUserData'])
 			->getMock();
@@ -2933,7 +2946,8 @@ class UsersControllerTest extends TestCase {
 				$this->accountManager,
 				$this->logger,
 				$this->l10nFactory,
-				$this->newUserMailHelper
+				$this->newUserMailHelper,
+				$this->federatedFileSharingFactory
 			])
 			->setMethods(['getUserData'])
 			->getMock();
@@ -3312,5 +3326,65 @@ class UsersControllerTest extends TestCase {
 			->willThrowException(new \Exception());
 
 		$this->api->resendWelcomeMessage('UserToGet');
+	}
+
+
+	public function dataGetEditableFields() {
+		return [
+			[false, false, []],
+			[false,  true, [
+				AccountManager::PROPERTY_PHONE,
+				AccountManager::PROPERTY_ADDRESS,
+				AccountManager::PROPERTY_WEBSITE,
+				AccountManager::PROPERTY_TWITTER,
+			]],
+			[ true, false, [
+				AccountManager::PROPERTY_DISPLAYNAME,
+				AccountManager::PROPERTY_EMAIL,
+			]],
+			[ true,  true ,[
+				AccountManager::PROPERTY_DISPLAYNAME,
+				AccountManager::PROPERTY_EMAIL,
+				AccountManager::PROPERTY_PHONE,
+				AccountManager::PROPERTY_ADDRESS,
+				AccountManager::PROPERTY_WEBSITE,
+				AccountManager::PROPERTY_TWITTER,
+			]]
+		];
+	}
+
+	/**
+	 * @dataProvider dataGetEditableFields
+	 *
+	 * @param bool $allowedToChangeDisplayName
+	 * @param bool $federatedSharingEnabled
+	 * @param array $expected
+	 */
+	public function testGetEditableFields(bool $allowedToChangeDisplayName, bool $federatedSharingEnabled, array $expected) {
+		$this->config
+			->method('getSystemValue')
+			->with(
+				$this->equalTo('allow_user_to_change_display_name'),
+				$this->anything()
+			)->willReturn($allowedToChangeDisplayName);
+		$this->appManager
+			->method('isEnabledForUser')
+			->with($this->equalTo('federatedfilesharing'))
+			->willReturn($federatedSharingEnabled);
+
+		$shareprovider = $this->createMock(FederatedShareProvider::class);
+		$shareprovider->method('isLookupServerUploadEnabled')->willReturn(true);
+
+		$federatedFileSharing = $this->createMock(Application::class);
+		$federatedFileSharing
+			->method('getFederatedShareProvider')
+			->willReturn($shareprovider);
+
+		$this->federatedFileSharingFactory
+			->method('get')
+			->willReturn($federatedFileSharing);
+
+		$expectedResp = new DataResponse($expected);
+		$this->assertEquals($expectedResp, $this->api->getEditableFields());
 	}
 }

@@ -59,6 +59,7 @@ OC.L10N.register(
     "Check %s is invalid" : "Sjekk %s er ugyldig",
     "Check #%s does not exist" : "Sjekk #%s finnes ikke",
     "Workflow" : "Arbeidsflyt",
+    "Files workflow engine" : "Arbeidsflytmotor for filer",
     "Open documentation" : "Åpne dokumentasjonen",
     "Add rule group" : "Legg til regelgruppe",
     "Short rule description" : "Kort beskrivelse av regel",
@@ -66,8 +67,6 @@ OC.L10N.register(
     "Reset" : "Tilbakestill",
     "Save" : "Lagre",
     "Saving…" : "Lagrer…",
-    "Loading…" : "Laster…",
-    "Successfully saved" : "Lagret",
-    "File mime type" : "Filens MIME-type"
+    "Loading…" : "Laster…"
 },
 "nplurals=2; plural=(n != 1);");

@@ -127,8 +127,6 @@ OC.L10N.register(
     "Step 2 failed. Exception: %s" : "2단계 실패. 예외: %s",
     "Dropbox App Configuration" : "Dropbox 앱 설정",
     "Google Drive App Configuration" : "Google 드라이브 앱 설정",
-    "Storage with id \"%i\" not found" : "ID가 \"%i\"인 저장소를 찾을 수 없음",
-    "Storage with id \"%i\" is not user editable" : "저장소 ID \"%i\"을(를) 사용자가 편집할 수 없음",
     "Dropbox" : "Dropbox",
     "Google Drive" : "Google 드라이브"
 },

@@ -31,6 +31,7 @@ use OCP\AppFramework\App;
 use \OCA\Files\Service\TagService;
 use \OCP\IContainer;
 use OCA\Files\Controller\ViewController;
+use OCA\Files\Capabilities;
 
 class Application extends App {
 	public function __construct(array $urlParams=array()) {
@@ -95,6 +96,6 @@ class Application extends App {
 		/*
 		 * Register capabilities
 		 */
-		$container->registerCapability('OCA\Files\Capabilities');
+		$container->registerCapability(Capabilities::class);
 	}
 }

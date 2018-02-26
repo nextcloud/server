@@ -31,8 +31,6 @@ use OCP\AppFramework\QueryException;
 use OCP\IDBConnection;
 use OCP\Migration\IMigrationStep;
 use OCP\Migration\IOutput;
-use Doctrine\DBAL\Schema\Column;
-use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Types\Type;
 
 class MigrationService {
@@ -130,22 +128,20 @@ class MigrationService {
 
 			// Drop the table, when it didn't match our expectations.
 			$this->connection->dropTable('migrations');
+
+			// Recreate the schema after the table was dropped.
+			$schema = new SchemaWrapper($this->connection);
+
 		} catch (SchemaException $e) {
 			// Table not found, no need to panic, we will create it.
 		}
 
-		$tableName = $this->connection->getPrefix() . 'migrations';
-		$tableName = $this->connection->getDatabasePlatform()->quoteIdentifier($tableName);
+		$table = $schema->createTable('migrations');
+		$table->addColumn('app', Type::STRING, ['length' => 255]);
+		$table->addColumn('version', Type::STRING, ['length' => 255]);
+		$table->setPrimaryKey(['app', 'version']);
 
-		$columns = [
-			'app' => new Column($this->connection->getDatabasePlatform()->quoteIdentifier('app'), Type::getType('string'), ['length' => 255]),
-			'version' => new Column($this->connection->getDatabasePlatform()->quoteIdentifier('version'), Type::getType('string'), ['length' => 255]),
-		];
-		$table = new Table($tableName, $columns);
-		$table->setPrimaryKey([
-			$this->connection->getDatabasePlatform()->quoteIdentifier('app'),
-			$this->connection->getDatabasePlatform()->quoteIdentifier('version')]);
-		$this->connection->getSchemaManager()->createTable($table);
+		$this->connection->migrateToSchema($schema->getWrappedSchema());
 
 		$this->migrationTableCreated = true;
 

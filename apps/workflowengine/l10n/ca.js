@@ -59,6 +59,7 @@ OC.L10N.register(
     "Check %s is invalid" : "Comprovació %s no és vàlid",
     "Check #%s does not exist" : "Comprovació #%s no existeix",
     "Workflow" : "Flux de treball",
+    "Files workflow engine" : "Fitxers del motor de flux de treball",
     "Open documentation" : "Obrir documentació",
     "Add rule group" : "Afegeix una regla de grup",
     "Short rule description" : "Descripció breu de regla",
@@ -66,8 +67,6 @@ OC.L10N.register(
     "Reset" : "Resetejar",
     "Save" : "Desa",
     "Saving…" : "Desant...",
-    "Loading…" : "Carregant...",
-    "Successfully saved" : "S\\'ha desat correctament",
-    "File mime type" : "Tipus mime de l\\'arxiu"
+    "Loading…" : "Carregant..."
 },
 "nplurals=2; plural=(n != 1);");

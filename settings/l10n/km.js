@@ -56,21 +56,6 @@ OC.L10N.register(
     "Unlimited" : "មិន​កំណត់",
     "Other" : "ផ្សេងៗ",
     "set new password" : "កំណត់​ពាក្យ​សម្ងាត់​ថ្មី",
-    "Default" : "លំនាំ​ដើម",
-    "Enabled" : "បាន​បើក",
-    "test email settings" : "សាក​ល្បង​ការ​កំណត់​អ៊ីមែល",
-    "Invalid request" : "សំណើ​មិន​ត្រឹម​ត្រូវ",
-    "Admins can't remove themself from the admin group" : "អ្នក​គ្រប់​គ្រង​មិន​អាច​លុប​ខ្លួន​ឯង​ចេញ​ពី​ក្រុម​អ្នក​គ្រប់​គ្រង​ឡើយ",
-    "Unable to add user to group %s" : "មិន​អាច​បន្ថែម​អ្នក​ប្រើ​ទៅ​ក្រុម %s",
-    "Unable to remove user from group %s" : "មិន​អាច​ដក​អ្នក​ប្រើ​ចេញ​ពី​ក្រុម​ %s",
-    "Sending..." : "កំពុង​ផ្ញើ...",
-    "Updating...." : "កំពុង​ធ្វើ​បច្ចុប្បន្នភាព....",
-    "Error while updating app" : "មាន​កំហុស​ពេល​ធ្វើ​បច្ចុប្បន្នភាព​កម្មវិធី",
-    "__language_name__" : "ភាសាខ្មែរ",
-    "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "ខ្វះ​ម៉ូឌុល 'fileinfo' ។ យើង​សូម​ណែនាំ​ឲ្យ​បើក​ម៉ូឌុល​នេះ ដើម្បី​ទទួល​បាន​លទ្ធផល​ល្អ​នៃ​ការ​សម្គាល់​ប្រភេទ mime ។",
-    "Cron" : "Cron",
-    "Get the apps to sync your files" : "ដាក់​អោយកម្មវិធីផ្សេងៗ ​ធ្វើសមកាលកម្ម​ឯកសារ​អ្នក",
-    "Show First Run Wizard again" : "បង្ហាញ First Run Wizard ម្តង​ទៀត",
-    "Name" : "ឈ្មោះ"
+    "Default" : "លំនាំ​ដើម"
 },
 "nplurals=1; plural=0;");

@@ -12,6 +12,7 @@
 
 	_.extend(OC.Files.Client, {
 		PROPERTY_SHARE_TYPES:	'{' + OC.Files.Client.NS_OWNCLOUD + '}share-types',
+		PROPERTY_OWNER_ID:	'{' + OC.Files.Client.NS_OWNCLOUD + '}owner-id',
 		PROPERTY_OWNER_DISPLAY_NAME:	'{' + OC.Files.Client.NS_OWNCLOUD + '}owner-display-name'
 	});
 
@@ -66,6 +67,7 @@
 				var fileInfo = oldElementToFile.apply(this, arguments);
 				fileInfo.sharePermissions = $el.attr('data-share-permissions') || undefined;
 				fileInfo.shareOwner = $el.attr('data-share-owner') || undefined;
+				fileInfo.shareOwnerId = $el.attr('data-share-owner-id') || undefined;
 
 				if( $el.attr('data-share-types')){
 					fileInfo.shareTypes = $el.attr('data-share-types').split(',');
@@ -83,6 +85,7 @@
 			var oldGetWebdavProperties = fileList._getWebdavProperties;
 			fileList._getWebdavProperties = function() {
 				var props = oldGetWebdavProperties.apply(this, arguments);
+				props.push(OC.Files.Client.PROPERTY_OWNER_ID);
 				props.push(OC.Files.Client.PROPERTY_OWNER_DISPLAY_NAME);
 				props.push(OC.Files.Client.PROPERTY_SHARE_TYPES);
 				return props;
@@ -95,6 +98,7 @@
 
 				if (permissionsProp && permissionsProp.indexOf('S') >= 0) {
 					data.shareOwner = props[OC.Files.Client.PROPERTY_OWNER_DISPLAY_NAME];
+					data.shareOwnerId = props[OC.Files.Client.PROPERTY_OWNER_ID];
 				}
 
 				var shareTypesProp = props[OC.Files.Client.PROPERTY_SHARE_TYPES];

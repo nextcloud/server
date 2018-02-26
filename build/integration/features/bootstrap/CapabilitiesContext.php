@@ -44,7 +44,7 @@ class CapabilitiesContext implements Context, SnippetAcceptingContext {
 	 * @param \Behat\Gherkin\Node\TableNode|null $formData
 	 */
 	public function checkCapabilitiesResponse(\Behat\Gherkin\Node\TableNode $formData){
-		$capabilitiesXML = $this->response->xml()->data->capabilities;
+		$capabilitiesXML = simplexml_load_string($this->response->getBody())->data->capabilities;
 
 		foreach ($formData->getHash() as $row) {
 			$path_to_element = explode('@@@', $row['path_to_element']);

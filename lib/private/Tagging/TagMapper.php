@@ -39,7 +39,7 @@ class TagMapper extends Mapper {
 	* @param IDBConnection $db Instance of the Db abstraction layer.
 	*/
 	public function __construct(IDBConnection $db) {
-		parent::__construct($db, 'vcategory', 'OC\Tagging\Tag');
+		parent::__construct($db, 'vcategory', Tag::class);
 	}
 
 	/**

@@ -66,8 +66,6 @@ OC.L10N.register(
     "Reset" : "Setel ulang",
     "Save" : "Simpan",
     "Saving…" : "Menyimpan...",
-    "Loading…" : "Memuat...",
-    "Successfully saved" : "Berhasil disimpan",
-    "File mime type" : "Tipe MIME berkas"
+    "Loading…" : "Memuat..."
 },
 "nplurals=1; plural=0;");

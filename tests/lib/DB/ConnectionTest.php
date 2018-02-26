@@ -58,7 +58,7 @@ class ConnectionTest extends \Test\TestCase {
 	public function assertTableExist($table) {
 		if ($this->connection->getDatabasePlatform() instanceof SqlitePlatform) {
 			// sqlite removes the tables after closing the DB
-			$this->assertTrue(true);
+			$this->addToAssertionCount(1);
 		} else {
 			$this->assertTrue($this->connection->tableExists($table), 'Table ' . $table . ' exists.');
 		}
@@ -70,7 +70,7 @@ class ConnectionTest extends \Test\TestCase {
 	public function assertTableNotExist($table) {
 		if ($this->connection->getDatabasePlatform() instanceof SqlitePlatform) {
 			// sqlite removes the tables after closing the DB
-			$this->assertTrue(true);
+			$this->addToAssertionCount(1);
 		} else {
 			$this->assertFalse($this->connection->tableExists($table), 'Table ' . $table . " doesn't exist.");
 		}
@@ -195,5 +195,7 @@ class ConnectionTest extends \Test\TestCase {
 		], [
 			'textfield' => 'foo'
 		]);
+
+		$this->addToAssertionCount(1);
 	}
 }

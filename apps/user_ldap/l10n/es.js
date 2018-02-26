@@ -1,7 +1,7 @@
 OC.L10N.register(
     "user_ldap",
     {
-    "Failed to clear the mappings." : "Ocurrió un fallo al borrar las asignaciones.",
+    "Failed to clear the mappings." : "Se ha producido un fallo al borrar las asignaciones.",
     "Failed to delete the server configuration" : "No se pudo borrar la configuración del servidor",
     "Invalid configuration: Anonymous binding is not allowed." : "Configuración no válida: No se permite enlazado anónimo.",
     "Valid configuration, connection established!" : "Configuración válida. ¡Conexión establecida!",
@@ -105,7 +105,7 @@ OC.L10N.register(
     "Detect Base DN" : "Detectar Base DN",
     "Test Base DN" : "Probar Base DN",
     "Avoids automatic LDAP requests. Better for bigger setups, but requires some LDAP knowledge." : "Evita peticiones automáticas al LDAP. Mejor para grandes configuraciones, pero requiere cierto conocimiento de LDAP.",
-    "Manually enter LDAP filters (recommended for large directories)" : "Ingrese manualmente los filtros LDAP (Recomendado para grandes directorios)",
+    "Manually enter LDAP filters (recommended for large directories)" : "Introduzca manualmente los filtros LDAP (recomendado para directorios grandes)",
     "Listing and searching for users is constrained by these criteria:" : "El listado y la búsqueda de usuarios es restringido por estos criterios:",
     "The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin." : "Los objetos de clases más comunes para los usuarios son organizationalPerson, persona, usuario y inetOrgPerson. Si no está seguro de qué objeto de clase seleccionar, por favor, consulte con su administrador de directorio. ",
     "The filter specifies which LDAP users shall have access to the %s instance." : "El filtro especifica que usuarios LDAP pueden tener acceso a %s.",
@@ -187,12 +187,7 @@ OC.L10N.register(
     "Usernames are used to store and assign (meta) data. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "Los usuarios son usados para almacenar y asignar (meta) datos. Con el fin de identificar de forma precisa y reconocer usuarios, cada usuario de LDAP tendrá un nombre de usuario interno. Esto requiere un mapeo entre el nombre de usuario y el usuario del LDAP. El nombre de usuario creado es mapeado respecto al UUID del usuario en el LDAP. De forma adicional, el DN es cacheado para reducir la interacción entre el LDAP, pero no es usado para identificar. Si el DN cambia, los cambios serán aplicados. El nombre de usuario interno es usado por encima de todo. Limpiar los mapeos dejará restos por todas partes, no es sensible a configuración, ¡afecta a todas las configuraciones del LDAP! Nunca limpies los mapeos en un entorno de producción, únicamente en una fase de desarrollo o experimental.",
     "Clear Username-LDAP User Mapping" : "Borrar la asignación de los Nombres de usuario de los usuarios LDAP",
     "Clear Groupname-LDAP Group Mapping" : "Borrar la asignación de los Nombres de grupo de los grupos de LDAP",
-    "The %uid placeholder is missing. It will be replaced with the login name when querying LDAP / AD." : "El marcador de posición %uid no está presente. Será reemplazado con el nombre de inicio de sesión cuando se consulte LDAP / AD.",
-    "Verify settings and count groups" : "Verificar configuraciones y contar grupos",
-    "Add a new and blank configuration" : "Agregar una configuración nueva y en blanco",
-    "You can omit the protocol, except you require SSL. Then start with ldaps://" : "Puede omitir el protocolo, excepto si requiere SSL. En ese caso, empiece con ldaps://",
     "LDAP" : "LDAP",
-    "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Advertencia:</b> Las apps user_ldap y user_webdavauth son incompatibles. Puede que experimente un comportamiento inesperado. Pídale a su administrador del sistema que desactive uno de ellos.",
-    "in bytes" : "en bytes"
+    "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Advertencia:</b> Las apps user_ldap y user_webdavauth son incompatibles. Puede que experimente un comportamiento inesperado. Pídale a su administrador del sistema que desactive uno de ellos."
 },
 "nplurals=2; plural=(n != 1);");

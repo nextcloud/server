@@ -35,7 +35,6 @@
 
 namespace OCA\Files_Sharing\Controller;
 
-use OC\Files\Node\Folder;
 use OC_Files;
 use OC_Util;
 use OCA\FederatedFileSharing\FederatedShareProvider;
@@ -244,7 +243,7 @@ class ShareController extends Controller {
 				$exception = $e;
 			}
 		}
-		\OC_Hook::emit('OCP\Share', 'share_link_access', [
+		\OC_Hook::emit(Share::class, 'share_link_access', [
 			'itemType' => $itemType,
 			'itemSource' => $itemSource,
 			'uidOwner' => $uidOwner,
@@ -348,7 +347,7 @@ class ShareController extends Controller {
 				$freeSpace = (INF > 0) ? INF: PHP_INT_MAX; // work around https://bugs.php.net/bug.php?id=69188
 			}
 
-			$hideFileList = $share->getPermissions() & \OCP\Constants::PERMISSION_READ ? false : true;
+			$hideFileList = !($share->getPermissions() & \OCP\Constants::PERMISSION_READ);
 			$maxUploadFilesize = $freeSpace;
 
 			$folder = new Template('files', 'list', '');
@@ -385,7 +384,18 @@ class ShareController extends Controller {
 			// We just have direct previews for image files
 			if ($share->getNode()->getMimePart() === 'image') {
 				$shareTmpl['previewURL'] = $this->urlGenerator->linkToRouteAbsolute('files_sharing.publicpreview.directLink', ['token' => $token]);
+
 				$ogPreview = $shareTmpl['previewURL'];
+
+				//Whatapp is kind of picky about their size requirements
+				if ($this->request->isUserAgent(['/^WhatsApp/'])) {
+					$ogPreview = $this->urlGenerator->linkToRouteAbsolute('files_sharing.PublicPreview.getPreview', [
+						't' => $token,
+						'x' => 256,
+						'y' => 256,
+						'a' => true,
+					]);
+				}
 			}
 		} else {
 			$shareTmpl['previewImage'] = $this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'favicon-fb.png'));

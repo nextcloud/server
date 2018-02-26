@@ -75,7 +75,9 @@ class OC_Files {
 	private static function sendHeaders($filename, $name, array $rangeArray) {
 		OC_Response::setContentDispositionHeader($name, 'attachment');
 		header('Content-Transfer-Encoding: binary', true);
-		OC_Response::disableCaching();
+		header('Pragma: public');// enable caching in IE
+		header('Expires: 0');
+		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 		$fileSize = \OC\Files\Filesystem::filesize($filename);
 		$type = \OC::$server->getMimeTypeDetector()->getSecureMimeType(\OC\Files\Filesystem::getMimeType($filename));
 		if ($fileSize > -1) {
@@ -148,7 +150,7 @@ class OC_Files {
 			self::lockFiles($view, $dir, $files);
 
 			$streamer->sendHeaders($name);
-			$executionTime = intval(OC::$server->getIniWrapper()->getNumeric('max_execution_time'));
+			$executionTime = (int)OC::$server->getIniWrapper()->getNumeric('max_execution_time');
 			if (strpos(@ini_get('disable_functions'), 'set_time_limit') === false) {
 				@set_time_limit(0);
 			}
@@ -344,7 +346,7 @@ class OC_Files {
 	 */
 	public static function setUploadLimit($size, $files = []) {
 		//don't allow user to break his config
-		$size = intval($size);
+		$size = (int)$size;
 		if ($size < self::UPLOAD_MIN_LIMIT_BYTES) {
 			return false;
 		}

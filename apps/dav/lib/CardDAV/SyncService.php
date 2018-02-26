@@ -236,9 +236,7 @@ class SyncService {
 		$root->appendChild($sync);
 		$root->appendChild($prop);
 		$dom->appendChild($root);
-		$body = $dom->saveXML();
-
-		return $body;
+		return $dom->saveXML();
 	}
 
 	/**

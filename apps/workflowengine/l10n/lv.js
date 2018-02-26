@@ -3,13 +3,13 @@ OC.L10N.register(
     {
     "Saved" : "Saglabāts",
     "Saving failed:" : "Saglabāšana neizdevās:",
-    "File MIME type" : "Faila MIME tips",
+    "File MIME type" : "Datnes MIME tips",
     "is" : "ir",
     "is not" : "nav",
     "matches" : "atbilst",
     "does not match" : "neatbilst",
     "Example: {placeholder}" : "Piemērs: {placeholder}",
-    "File size (upload)" : "Faila lielums (augšupielādēt)",
+    "File size (upload)" : "Datnes lielums (augšupielādēt)",
     "less" : "mazāk",
     "less or equals" : "mazāks vai vienāds ar",
     "greater or equals" : "lielāks vai vienāds ar",
@@ -31,7 +31,7 @@ OC.L10N.register(
     "Select timezone…" : "Izvēlieties laika joslu...",
     "Request URL" : "Pieprasījuma URL",
     "Predefined URLs" : "Standarta URLs",
-    "Files WebDAV" : "WebDAV faili",
+    "Files WebDAV" : "WebDAV datnes",
     "Request user agent" : "Nepieciešams lietotāja aģents",
     "Sync clients" : "Sync klients",
     "Android client" : "Android klients",
@@ -66,8 +66,6 @@ OC.L10N.register(
     "Reset" : "Atiestatīt",
     "Save" : "Saglabāt",
     "Saving…" : "Saglabā...",
-    "Loading…" : "Ielādē …",
-    "Successfully saved" : "Veiksmīgi saglabāts",
-    "File mime type" : "Faila MIME tips"
+    "Loading…" : "Ielādē …"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

@@ -129,6 +129,7 @@ class RequestTimeTest extends \Test\TestCase {
 	public function testValidateCheck($operator, $value) {
 		$check = new \OCA\WorkflowEngine\Check\RequestTime($this->getL10NMock(), $this->timeFactory);
 		$check->validateCheck($operator, $value);
+		$this->addToAssertionCount(1);
 	}
 
 	public function dataValidateCheckInvalid() {

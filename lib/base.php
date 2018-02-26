@@ -54,6 +54,11 @@
  *
  */
 
+use OCP\Share;
+use OC\Encryption\HookManager;
+use OC\Files\Filesystem;
+use OC\Share20\Hooks;
+
 require_once 'public/Constants.php';
 
 /**
@@ -236,7 +241,7 @@ class OC {
 		// Check if config is writable
 		$configFileWritable = is_writable($configFilePath);
 		if (!$configFileWritable && !OC_Helper::isReadOnlyConfigEnabled()
-			|| !$configFileWritable && self::checkUpgrade(false)) {
+			|| !$configFileWritable && \OCP\Util::needUpgrade()) {
 
 			$urlGenerator = \OC::$server->getURLGenerator();
 
@@ -290,37 +295,15 @@ class OC {
 	}
 
 	/**
-	 * Checks if the version requires an update and shows
-	 * @param bool $showTemplate Whether an update screen should get shown
-	 * @return bool|void
-	 */
-	public static function checkUpgrade($showTemplate = true) {
-		if (\OCP\Util::needUpgrade()) {
-			if (function_exists('opcache_reset')) {
-				opcache_reset();
-			}
-			$systemConfig = \OC::$server->getSystemConfig();
-			if ($showTemplate && !$systemConfig->getValue('maintenance', false)) {
-				self::printUpgradePage();
-				exit();
-			} else {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	/**
 	 * Prints the upgrade page
+	 *
+	 * @param \OC\SystemConfig $systemConfig
 	 */
-	private static function printUpgradePage() {
-		$systemConfig = \OC::$server->getSystemConfig();
-
+	private static function printUpgradePage(\OC\SystemConfig $systemConfig) {
 		$disableWebUpdater = $systemConfig->getValue('upgrade.disable-web', false);
 		$tooBig = false;
 		if (!$disableWebUpdater) {
 			$apps = \OC::$server->getAppManager();
-			$tooBig = false;
 			if ($apps->isInstalled('user_ldap')) {
 				$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
 
@@ -374,7 +357,7 @@ class OC {
 		$currentVersion = implode('.', \OCP\Util::getVersion());
 
 		// if not a core upgrade, then it's apps upgrade
-		$isAppsOnlyUpgrade = (version_compare($currentVersion, $installedVersion, '='));
+		$isAppsOnlyUpgrade = version_compare($currentVersion, $installedVersion, '=');
 
 		$oldTheme = $systemConfig->getValue('theme');
 		$systemConfig->setValue('theme', '');
@@ -390,6 +373,7 @@ class OC {
 
 		// get third party apps
 		$ocVersion = \OCP\Util::getVersion();
+		$ocVersion = implode('.', $ocVersion);
 		$incompatibleApps = $appManager->getIncompatibleApps($ocVersion);
 		$incompatibleShippedApps = [];
 		foreach ($incompatibleApps as $appInfo) {
@@ -625,7 +609,7 @@ class OC {
 
 		if(!date_default_timezone_set('UTC')) {
 			throw new \RuntimeException('Could not set timezone to UTC');
-		};
+		}
 
 		//try to configure php to enable big file uploads.
 		//this doesn´t work always depending on the webserver and php configuration.
@@ -724,7 +708,7 @@ class OC {
 		);
 
 		//setup extra user backends
-		if (!self::checkUpgrade(false)) {
+		if (!\OCP\Util::needUpgrade()) {
 			OC_User::setupBackends();
 		} else {
 			// Run upgrades in incognito mode
@@ -737,10 +721,12 @@ class OC {
 		self::registerEncryptionWrapper();
 		self::registerEncryptionHooks();
 		self::registerAccountHooks();
-		self::registerSettingsHooks();
 
-		$settings = new \OC\Settings\Application();
-		$settings->register();
+		// Make sure that the application class is not loaded before the database is setup
+		if ($systemConfig->getValue("installed", false)) {
+			$settings = new \OC\Settings\Application();
+			$settings->register();
+		}
 
 		//make sure temporary files are cleaned up
 		$tmpManager = \OC::$server->getTempManager();
@@ -779,8 +765,16 @@ class OC {
 				$isScssRequest = true;
 			}
 
+			if(substr($request->getRequestUri(), -11) === '/status.php') {
+				OC_Response::setStatus(\OC_Response::STATUS_BAD_REQUEST);
+				header('Status: 400 Bad Request');
+				header('Content-Type: application/json');
+				echo '{"error": "Trusted domain error.", "code": 15}';
+				exit();
+			}
+
 			if (!$isScssRequest) {
-				header('HTTP/1.1 400 Bad Request');
+				OC_Response::setStatus(\OC_Response::STATUS_BAD_REQUEST);
 				header('Status: 400 Bad Request');
 
 				\OC::$server->getLogger()->warning(
@@ -807,7 +801,7 @@ class OC {
 	 */
 	public static function registerCleanupHooks() {
 		//don't try to do this before we are properly setup
-		if (\OC::$server->getSystemConfig()->getValue('installed', false) && !self::checkUpgrade(false)) {
+		if (\OC::$server->getSystemConfig()->getValue('installed', false) && !\OCP\Util::needUpgrade()) {
 
 			// NOTE: This will be replaced to use OCP
 			$userSession = self::$server->getUserSession();
@@ -831,26 +825,14 @@ class OC {
 				} catch (\Exception $e) {
 					// a GC exception should not prevent users from using OC,
 					// so log the exception
-					\OC::$server->getLogger()->warning('Exception when running cache gc: ' . $e->getMessage(), array('app' => 'core'));
+					\OC::$server->getLogger()->logException($e, [
+						'message' => 'Exception when running cache gc.',
+						'level' => \OCP\Util::WARN,
+						'app' => 'core',
+					]);
 				}
 			});
 		}
-	}
-
-	public static function registerSettingsHooks() {
-		$dispatcher = \OC::$server->getEventDispatcher();
-		$dispatcher->addListener(OCP\App\ManagerEvent::EVENT_APP_DISABLE, function($event) {
-			/** @var \OCP\App\ManagerEvent $event */
-			\OC::$server->getSettingsManager()->onAppDisabled($event->getAppID());
-		});
-		$dispatcher->addListener(OCP\App\ManagerEvent::EVENT_APP_UPDATE, function($event) {
-			/** @var \OCP\App\ManagerEvent $event */
-			$jobList = \OC::$server->getJobList();
-			$job = 'OC\\Settings\\RemoveOrphaned';
-			if(!($jobList->has($job, null))) {
-				$jobList->add($job);
-			}
-		});
 	}
 
 	private static function registerEncryptionWrapper() {
@@ -861,10 +843,10 @@ class OC {
 	private static function registerEncryptionHooks() {
 		$enabled = self::$server->getEncryptionManager()->isEnabled();
 		if ($enabled) {
-			\OCP\Util::connectHook('OCP\Share', 'post_shared', 'OC\Encryption\HookManager', 'postShared');
-			\OCP\Util::connectHook('OCP\Share', 'post_unshare', 'OC\Encryption\HookManager', 'postUnshared');
-			\OCP\Util::connectHook('OC_Filesystem', 'post_rename', 'OC\Encryption\HookManager', 'postRename');
-			\OCP\Util::connectHook('\OCA\Files_Trashbin\Trashbin', 'post_restore', 'OC\Encryption\HookManager', 'postRestore');
+			\OCP\Util::connectHook(Share::class, 'post_shared', HookManager::class, 'postShared');
+			\OCP\Util::connectHook(Share::class, 'post_unshare', HookManager::class, 'postUnshared');
+			\OCP\Util::connectHook('OC_Filesystem', 'post_rename', HookManager::class, 'postRename');
+			\OCP\Util::connectHook('\OCA\Files_Trashbin\Trashbin', 'post_restore', HookManager::class, 'postRestore');
 		}
 	}
 
@@ -878,8 +860,8 @@ class OC {
 	 */
 	public static function registerFilesystemHooks() {
 		// Check for blacklisted files
-		OC_Hook::connect('OC_Filesystem', 'write', 'OC\Files\Filesystem', 'isBlacklisted');
-		OC_Hook::connect('OC_Filesystem', 'rename', 'OC\Files\Filesystem', 'isBlacklisted');
+		OC_Hook::connect('OC_Filesystem', 'write', Filesystem::class, 'isBlacklisted');
+		OC_Hook::connect('OC_Filesystem', 'rename', Filesystem::class, 'isBlacklisted');
 	}
 
 	/**
@@ -887,9 +869,9 @@ class OC {
 	 */
 	public static function registerShareHooks() {
 		if (\OC::$server->getSystemConfig()->getValue('installed')) {
-			OC_Hook::connect('OC_User', 'post_deleteUser', 'OC\Share20\Hooks', 'post_deleteUser');
-			OC_Hook::connect('OC_User', 'post_removeFromGroup', 'OC\Share20\Hooks', 'post_removeFromGroup');
-			OC_Hook::connect('OC_User', 'post_deleteGroup', 'OC\Share20\Hooks', 'post_deleteGroup');
+			OC_Hook::connect('OC_User', 'post_deleteUser', Hooks::class, 'post_deleteUser');
+			OC_Hook::connect('OC_User', 'post_removeFromGroup', Hooks::class, 'post_removeFromGroup');
+			OC_Hook::connect('OC_User', 'post_deleteGroup', Hooks::class, 'post_deleteGroup');
 		}
 	}
 
@@ -925,7 +907,7 @@ class OC {
 		if (!$systemConfig->getValue('installed', false)) {
 			\OC::$server->getSession()->clear();
 			$setupHelper = new OC\Setup(
-				\OC::$server->getSystemConfig(),
+				$systemConfig,
 				\OC::$server->getIniWrapper(),
 				\OC::$server->getL10N('lib'),
 				\OC::$server->query(\OCP\Defaults::class),
@@ -945,7 +927,16 @@ class OC {
 		}
 		if (substr($requestPath, -3) !== '.js') { // we need these files during the upgrade
 			self::checkMaintenanceMode();
-			self::checkUpgrade();
+
+			if (\OCP\Util::needUpgrade()) {
+				if (function_exists('opcache_reset')) {
+					opcache_reset();
+				}
+				if (!$systemConfig->getValue('maintenance', false)) {
+					self::printUpgradePage($systemConfig);
+					exit();
+				}
+			}
 		}
 
 		// emergency app disabling
@@ -968,7 +959,7 @@ class OC {
 		OC_App::loadApps(['authentication']);
 
 		// Load minimum set of apps
-		if (!self::checkUpgrade(false)
+		if (!\OCP\Util::needUpgrade()
 			&& !$systemConfig->getValue('maintenance', false)) {
 			// For logged-in users: Load everything
 			if(\OC::$server->getUserSession()->isLoggedIn()) {
@@ -982,7 +973,7 @@ class OC {
 
 		if (!self::$CLI) {
 			try {
-				if (!$systemConfig->getValue('maintenance', false) && !self::checkUpgrade(false)) {
+				if (!$systemConfig->getValue('maintenance', false) && !\OCP\Util::needUpgrade()) {
 					OC_App::loadApps(array('filesystem', 'logging'));
 					OC_App::loadApps();
 				}

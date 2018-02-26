@@ -24,8 +24,6 @@
 
 namespace OCA\Files_External\Lib;
 
-use \OCA\Files_External\Lib\DefinitionParameter;
-use \OCA\Files_External\Lib\StorageConfig;
 
 /**
  * Trait for objects that have a frontend representation

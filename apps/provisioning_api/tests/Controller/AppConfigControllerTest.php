@@ -318,7 +318,7 @@ class AppConfigControllerTest extends TestCase {
 	public function testVerifyAppId() {
 		$api = $this->getInstance();
 		$this->invokePrivate($api, 'verifyAppId', ['activity']);
-		$this->assertTrue(true);
+		$this->addToAssertionCount(1);
 	}
 
 	public function dataVerifyAppIdThrows() {
@@ -356,7 +356,7 @@ class AppConfigControllerTest extends TestCase {
 	public function testVerifyConfigKey($app, $key) {
 		$api = $this->getInstance();
 		$this->invokePrivate($api, 'verifyConfigKey', [$app, $key]);
-		$this->assertTrue(true);
+		$this->addToAssertionCount(1);
 	}
 
 	public function dataVerifyConfigKeyThrows() {

@@ -31,11 +31,11 @@ OC.L10N.register(
     "one-time password for server-side-encryption" : "jednorázové heslo pro šifrování na straně serveru",
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Tento soubor se nepodařilo dešifrovat, pravděpodobně je sdílený. Požádejte prosím majitele souboru, aby jej s vámi znovu sdílel.",
     "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Soubor nelze načíst, pravděpodobně se jedná o sdílený soubor. Požádejte prosím vlastníka souboru, aby vám jej znovu sdílel.",
+    "Default encryption module" : "Výchozí šifrovací modul",
     "Hey there,\n\nthe admin enabled server-side-encryption. Your files were encrypted using the password '%s'.\n\nPlease login to the web interface, go to the section 'basic encryption module' of your personal settings and update your encryption password by entering this password into the 'old log-in password' field and your current login-password.\n\n" : "Ahoj!\n\nAdministrátor povolil šifrování dat na serveru. Vaše soubory byly zašifrovány za použití hesla '%s'.\n\nPřihlašte se do webového rozhraní, přejděte do nastavení 'základního šifrovacího modulu' a aktualizujte šifrovací heslo zadáním hesla výše do pole 'původní přihlašovací heslo' a svého aktuálního přihlašovacího hesla.\n\n",
     "The share will expire on %s." : "Sdílení vyprší %s.",
     "Cheers!" : "Ať slouží!",
     "Hey there,<br><br>the admin enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>Please login to the web interface, go to the section \"basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"old log-in password\" field and your current login-password.<br><br>" : "Ahoj!<br><br>Administrátor povolil šifrování dat na serveru. Vaše soubory byly zašifrovány za použití hesla <strong>%s<strong>.<br><br>Přihlašte se do webového rozhraní, přejděte do nastavení \"základního šifrovacího modulu\" a aktualizujte šifrovací heslo zadáním hesla výše do pole \"původní přihlašovací heslo\" a svého aktuálního přihlašovacího hesla.<br><br>",
-    "Default encryption module" : "Výchozí šifrovací modul",
     "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "Aplikace pro šifrování je zapnuta, ale šifrovací klíče ještě nejsou inicializované. Prosím odhlaste se a znovu se přihlaste",
     "Encrypt the home storage" : "Zašifrovat domovské úložiště",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Povolení tohoto nastavení zašifruje všechny soubory uložené v hlavním úložišti, jinak budou šifrovány pouze soubory na externích úložištích.",
@@ -59,7 +59,6 @@ OC.L10N.register(
     "Enable password recovery:" : "Povolit obnovu hesla:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Zapnutí této volby vám umožní znovu získat přístup k vašim zašifrovaným souborům pokud ztratíte heslo",
     "Enabled" : "Povoleno",
-    "Disabled" : "Zakázáno",
-    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Aplikace pro šifrování je zapnuta, ale vaše klíče nejsou inicializované. Prosím odhlaste se a znovu přihlaste"
+    "Disabled" : "Zakázáno"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

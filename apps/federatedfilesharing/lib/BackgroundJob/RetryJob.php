@@ -120,7 +120,7 @@ class RetryJob extends Job {
 	 * @param array $argument
 	 */
 	protected function reAddJob(IJobList $jobList, array $argument) {
-		$jobList->add('OCA\FederatedFileSharing\BackgroundJob\RetryJob',
+		$jobList->add(RetryJob::class,
 			[
 				'remote' => $argument['remote'],
 				'remoteId' => $argument['remoteId'],

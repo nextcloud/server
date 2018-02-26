@@ -32,7 +32,6 @@
 
 namespace OCA\Theming\Controller;
 
-use OC\Files\AppData\Factory;
 use OC\Template\SCSSCacher;
 use OCA\Theming\ThemingDefaults;
 use OCP\AppFramework\Controller;
@@ -48,7 +47,6 @@ use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\IConfig;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IRequest;
 use OCA\Theming\Util;
 use OCP\ITempManager;
@@ -288,12 +286,10 @@ class ThemingController extends Controller {
 			// Optimize the image since some people may upload images that will be
 			// either to big or are not progressive rendering.
 			$tmpFile = $this->tempManager->getTemporaryFile();
-			if (function_exists('imagescale')) {
-				// FIXME: Once PHP 5.5.0 is a requirement the above check can be removed
-				// Workaround for https://bugs.php.net/bug.php?id=65171
-				$newHeight = imagesy($image) / (imagesx($image) / 1920);
-				$image = imagescale($image, 1920, $newHeight);
-			}
+			$newWidth = imagesx($image) < 4096 ? imagesx($image) : 4096;
+			$newHeight = imagesy($image) / (imagesx($image) / $newWidth);
+			$image = imagescale($image, $newWidth, $newHeight);
+
 			imageinterlace($image, 1);
 			imagejpeg($image, $tmpFile, 75);
 			imagedestroy($image);

@@ -59,6 +59,7 @@ OC.L10N.register(
     "Check %s is invalid" : "Check %s is invalid",
     "Check #%s does not exist" : "Check #%s does not exist",
     "Workflow" : "Workflow",
+    "Files workflow engine" : "Files workflow engine",
     "Open documentation" : "Open documentation",
     "Add rule group" : "Add rule group",
     "Short rule description" : "Short rule description",
@@ -66,8 +67,6 @@ OC.L10N.register(
     "Reset" : "Reset",
     "Save" : "Save",
     "Saving…" : "Saving…",
-    "Loading…" : "Loading…",
-    "Successfully saved" : "Successfully saved",
-    "File mime type" : "File mime type"
+    "Loading…" : "Loading…"
 },
 "nplurals=2; plural=(n != 1);");

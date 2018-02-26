@@ -25,9 +25,7 @@ namespace OC\Core\Command\User;
 
 use OC\Core\Command\Base;
 use OCP\IGroupManager;
-use OCP\IUser;
 use OCP\IUserManager;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -76,7 +74,7 @@ class Info extends Base {
 		$data = [
 			'user_id' => $user->getUID(),
 			'display_name' => $user->getDisplayName(),
-			'email' => ($user->getEMailAddress()) ? $user->getEMailAddress() : '',
+			'email' => $user->getEMailAddress() ? $user->getEMailAddress() : '',
 			'cloud_id' => $user->getCloudId(),
 			'enabled' => $user->isEnabled(),
 			'groups' => $groups,

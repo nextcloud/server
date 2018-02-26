@@ -31,11 +31,11 @@ OC.L10N.register(
     "one-time password for server-side-encryption" : "Engangs password for kryptering på serverdelen",
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Kan ikke kryptere denne fil, sandsynligvis fordi filen er delt. Bed venligst filens ejer om at dele den med dig på ny.",
     "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Kan ikke læse denne fil, sandsynligvis fordi det er en delt fil. Bed venligst ejeren af filen om at dele filen med dig på ny.",
+    "Default encryption module" : "Standard krypterings modul",
     "Hey there,\n\nthe admin enabled server-side-encryption. Your files were encrypted using the password '%s'.\n\nPlease login to the web interface, go to the section 'basic encryption module' of your personal settings and update your encryption password by entering this password into the 'old log-in password' field and your current login-password.\n\n" : "Hej,\n\nAdministrator aktiveret kryptering på serverdelen. '%s'.\n\nVenligst log på web brugerfladen, gå til sektionen \"grundlæggende krypterings modul\" for din personlige opsætninger og opdater dine krypterings kodeord ved at indtaste dette kodeord i \"gamle kodeord log\" feltet samt dit nuværende kodeord.\n\n",
     "The share will expire on %s." : "Delingen vil udløbe om %s.",
     "Cheers!" : "Hej!",
     "Hey there,<br><br>the admin enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>Please login to the web interface, go to the section \"basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"old log-in password\" field and your current login-password.<br><br>" : "Hej,<br><br>administrator aktiveret kryptering på serverdelen. Dine file er blevet krypteret med kodeordet <strong>%s</strong>.<br><br>Venligst log på web brugerfladen, gå til sektionen \"grundlæggende krypterings modul\" for din personlige opsætninger og opdater dine krypterings kodeord ved at indtaste dette kodeord i \"gamle kodeord log\" feltet samt dit nuværende kodeord.<br><br>",
-    "Default encryption module" : "Standard krypterings modul",
     "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "Krypteringsprogrammet er aktiveret men dine nøgler er ikke indlæst, log venligst ud og ind igen",
     "Encrypt the home storage" : "Krypter hjemmelageret",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Ved at slå denne valgmulighed til krypteres alle filer i hovedlageret, ellers vil kun filer på eksternt lager blive krypteret",
@@ -59,7 +59,6 @@ OC.L10N.register(
     "Enable password recovery:" : "Aktiver kodeord gendannelse:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Aktivering af denne valgmulighed tillader dig at generhverve adgang til dine krypterede filer i tilfælde af tab af kodeord",
     "Enabled" : "Aktiveret",
-    "Disabled" : "Deaktiveret",
-    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Krypteringsprogrammet er aktiveret, men din nøgler er ikke igangsat. Log venligst ud og ind igen."
+    "Disabled" : "Deaktiveret"
 },
 "nplurals=2; plural=(n != 1);");

@@ -57,6 +57,7 @@
     "Check %s is invalid" : "Sjekk %s er ugyldig",
     "Check #%s does not exist" : "Sjekk #%s finnes ikke",
     "Workflow" : "Arbeidsflyt",
+    "Files workflow engine" : "Arbeidsflytmotor for filer",
     "Open documentation" : "Åpne dokumentasjonen",
     "Add rule group" : "Legg til regelgruppe",
     "Short rule description" : "Kort beskrivelse av regel",
@@ -64,8 +65,6 @@
     "Reset" : "Tilbakestill",
     "Save" : "Lagre",
     "Saving…" : "Lagrer…",
-    "Loading…" : "Laster…",
-    "Successfully saved" : "Lagret",
-    "File mime type" : "Filens MIME-type"
+    "Loading…" : "Laster…"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

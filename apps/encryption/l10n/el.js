@@ -31,11 +31,11 @@ OC.L10N.register(
     "one-time password for server-side-encryption" : "κωδικός μιας χρήσης για κρυπτογράφηση στο διακομιστή",
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Δεν ήταν δυνατό να αποκρυπτογραφηθεί αυτό το αρχείο, πιθανόν πρόκειται για κοινόχρηστο αρχείο. Παρακαλώ ζητήστε από τον ιδιοκτήτη του αρχείου να το ξαναμοιραστεί μαζί σας.",
     "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Αδυναμία ανάγνωσης αυτού του αρχείου, πιθανό να είναι διαμοιραζόμενο αρχείο. Παρακαλώ ρωτήστε τον κάτοχο του αρχείου να το διαμοιράσει ξανά μαζί σας.",
+    "Default encryption module" : "Προεπιλεγμένη μονάδα κρυπτογράφησης",
     "Hey there,\n\nthe admin enabled server-side-encryption. Your files were encrypted using the password '%s'.\n\nPlease login to the web interface, go to the section 'basic encryption module' of your personal settings and update your encryption password by entering this password into the 'old log-in password' field and your current login-password.\n\n" : "Χαίρετε,\n\nο διαχειριστής ενεργοποίηση την κρυπτογράφηση στο διακομιστή. Τα αρχεία σας κρυπτογραφήθηκαν με τον κωδικό '%s'.\n\nΠαρακαλούμε συνδεθείτε στη διεπαφή ιστού, πηγαίνετε στην ενότητα 'μονάδα βασικής κρυπτογράφησης' στις προσωπικές σας ρυθμίσεις και ενημερώστε τον κωδικό κρυπτογράφησης εισάγοντας αυτό τον κωδικό στο πεδίο 'παλιός κωδικός σύνδεσης' και τον τωρινό σας κωδικό σύνδεσης.\n",
     "The share will expire on %s." : "Ο διαμοιρασμός θα λήξει σε %s.",
     "Cheers!" : "Χαιρετισμούς!",
     "Hey there,<br><br>the admin enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>Please login to the web interface, go to the section \"basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"old log-in password\" field and your current login-password.<br><br>" : "Χαίρετε,<br><br>ο διαχειριστής ενεργοποίησε την κρυπτογράφηση στο διακομιστή. Τα αρχεία σας κρυπτογραφήθηκαν με τον κωδικό <strong>%s</strong>.<br><br>Παρακαλούμε συνδεθείτε στη διεπαφή ιστού, πηγαίνετε στην ενότητα \"μονάδα βασικής κρυπτογράφησης\" τωνπ ροσωπικών σας ρυθμίσεων και ενημερώστε τον κωδικό κρυπτογράφησης εισάγοντας αυτό τον κωδικό στο πεδίο \"παλιός κωδικός σύνδεσης\" και τον τωρινό σας κωδικό σύνδεσης.",
-    "Default encryption module" : "Προεπιλεγμένη μονάδα κρυπτογράφησης",
     "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "Η εφαρμογή κρυπτογράφησης είναι ενεργοποιημένη αλλά τα κλειδιά σας δεν έχουν καταγραφεί, παρακαλώ αποσυνδεθείτε και επανασυνδεθείτε.",
     "Encrypt the home storage" : "Κρυπτογράφηση του κεντρικού χώρου αποθήκευσης",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Η ενεργοποίηση αυτή της επιλογής κρυπτογραφεί όλα τα αρχεία που βρίσκονται στον κύριο αποθηκευτικό χώρο, αλλιώς μόνο τα αρχεία σε εξωτερικούς αποθηκευτικούς χώρους θα κρυπτογραφηθούν.",
@@ -59,7 +59,6 @@ OC.L10N.register(
     "Enable password recovery:" : "Ενεργοποιήστε την ανάκτηση κωδικού πρόσβασης",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Η ενεργοποίηση αυτής της επιλογής θα σας επιτρέψει να επανακτήσετε πρόσβαση στα κρυπτογραφημένα σας αρχεία σε περίπτωση απώλειας του κωδικού σας",
     "Enabled" : "Ενεργοποιημένο",
-    "Disabled" : "Απενεργοποιημένο",
-    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Η εφαρμογή κρυπτογράφησης είναι ενεργοποιημένη αλλά τα κλειδιά σας δεν έχουν καταγραφεί, παρακαλώ αποσυνδεθείτε και επανασυνδεθείτε."
+    "Disabled" : "Απενεργοποιημένο"
 },
 "nplurals=2; plural=(n != 1);");

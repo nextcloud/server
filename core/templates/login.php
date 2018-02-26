@@ -10,7 +10,7 @@ script('core', 'merged-login');
 	<?php if (!empty($_['redirect_url'])) {
 		print_unescaped('<input type="hidden" name="redirect_url" value="' . \OCP\Util::sanitizeHTML($_['redirect_url']) . '">');
 	} ?>
-		<?php if (isset($_['apacheauthfailed']) && ($_['apacheauthfailed'])): ?>
+		<?php if (isset($_['apacheauthfailed']) && $_['apacheauthfailed']): ?>
 			<div class="warning">
 				<?php p($l->t('Server side authentication failed!')); ?><br>
 				<small><?php p($l->t('Please contact your administrator.')); ?></small>
@@ -21,7 +21,7 @@ script('core', 'merged-login');
 				<?php p($message); ?><br>
 			</div>
 		<?php endforeach; ?>
-		<?php if (isset($_['internalexception']) && ($_['internalexception'])): ?>
+		<?php if (isset($_['internalexception']) && $_['internalexception']): ?>
 			<div class="warning">
 				<?php p($l->t('An internal error occurred.')); ?><br>
 				<small><?php p($l->t('Please try again or contact your administrator.')); ?></small>

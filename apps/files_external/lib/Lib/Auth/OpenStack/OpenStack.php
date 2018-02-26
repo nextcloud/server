@@ -37,11 +37,11 @@ class OpenStack extends AuthMechanism {
 			->setScheme(self::SCHEME_OPENSTACK)
 			->setText($l->t('OpenStack'))
 			->addParameters([
-				(new DefinitionParameter('user', $l->t('Username'))),
+				new DefinitionParameter('user', $l->t('Username')),
 				(new DefinitionParameter('password', $l->t('Password')))
 					->setType(DefinitionParameter::VALUE_PASSWORD),
-				(new DefinitionParameter('tenant', $l->t('Tenant name'))),
-				(new DefinitionParameter('url', $l->t('Identity endpoint URL'))),
+				new DefinitionParameter('tenant', $l->t('Tenant name')),
+				new DefinitionParameter('url', $l->t('Identity endpoint URL')),
 			])
 		;
 	}

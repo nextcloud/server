@@ -31,11 +31,11 @@ OC.L10N.register(
     "one-time password for server-side-encryption" : "sunucu tarafında şifreleme için tek kullanımlık parola",
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Bu dosya büyük olasılıkla paylaşılıyor olduğundan şifresi çözülemiyor. Lütfen dosya sahibi ile görüşerek sizinle yeniden paylaşmasını isteyin.",
     "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Bu dosya büyük olasılıkla paylaşılıyor olduğundan okunamıyor. Lütfen dosya sahibi ile görüşerek sizinle yeniden paylaşmasını isteyin.",
+    "Default encryption module" : "Varsayılan şifreleme modülü",
     "Hey there,\n\nthe admin enabled server-side-encryption. Your files were encrypted using the password '%s'.\n\nPlease login to the web interface, go to the section 'basic encryption module' of your personal settings and update your encryption password by entering this password into the 'old log-in password' field and your current login-password.\n\n" : "Selam,\n\nSistem yöneticisi sunucu tarafında şifrelemeyi etkinleştirdi. Dosyalarınız '%s' parolası kullanılarak şifrelendi.\n\nLütfen web arayüzünde oturum açın ve kişisel ayarlarınızdan 'temel şifreleme modülü'ne giderek 'eski oturum açma parolası' alanına bu parolayı ve geçerli oturum açma parolanızı yazarak şifreleme parolanızı güncelleyin.\n\n",
     "The share will expire on %s." : "Bu paylaşım %s tarihinde sona erecek.",
     "Cheers!" : "Hoşçakalın!",
     "Hey there,<br><br>the admin enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>Please login to the web interface, go to the section \"basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"old log-in password\" field and your current login-password.<br><br>" : "Selam,<br><br>Sistem yöneticisi sunucu tarafında şifrelemeyi etkinleştirdi. Dosyalarınız <strong>%s</strong> parolası kullanılarak şifrelendi.<br><br>Lütfen web arayüzünde oturum açın ve kişisel ayarlarınızdan 'temel şifreleme modülü'ne giderek 'eski oturum açma parolası' alanına bu parolayı ve geçerli oturum açma parolanızı yazarak şifreleme parolanızı güncelleyin.<br><br>",
-    "Default encryption module" : "Varsayılan şifreleme modülü",
     "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "Şifreleme uygulaması etkin ancak anahtarlarınız hazırlanmamış. Lütfen oturumunuzu kapatıp yeniden açın.",
     "Encrypt the home storage" : "Ana depolama şifrelensin",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Bu seçenek etkinleştirildiğinde, ana depolama alanındaki tüm dosyalar şifrelenir. Devre dışı bırakıldığında yalnız dış depolama alanındaki dosyalar şifrelenir",
@@ -59,7 +59,6 @@ OC.L10N.register(
     "Enable password recovery:" : "Parola kurtarmayı etkinleştir:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Bu seçenek etkinleştirildiğinde, parolayı unutursanız şifrelenmiş dosyalarınıza yeniden erişim izni elde edebilirsiniz",
     "Enabled" : "Etkin",
-    "Disabled" : "Devre Dışı",
-    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Şifreleme Uygulaması etkin ancak anahtarlarınız hazırlanmamış. Lütfen oturumunuzu kapatıp yeniden açın"
+    "Disabled" : "Devre Dışı"
 },
 "nplurals=2; plural=(n > 1);");

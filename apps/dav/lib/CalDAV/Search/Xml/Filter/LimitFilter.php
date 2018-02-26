@@ -40,6 +40,6 @@ class LimitFilter implements XmlDeserializable {
 			throw new BadRequest('The {' . SearchPlugin::NS_Nextcloud . '}limit has illegal value');
 		}
 
-		return intval($value);
+		return (int)$value;
 	}
 }

@@ -36,17 +36,12 @@
 namespace OC;
 
 use Doctrine\DBAL\Exception\TableExistsException;
-use OC\App\AppManager;
 use OC\App\AppStore\Bundles\Bundle;
 use OC\App\AppStore\Fetcher\AppFetcher;
-use OC\App\CodeChecker\CodeChecker;
-use OC\App\CodeChecker\EmptyCheck;
-use OC\App\CodeChecker\PrivateCheck;
 use OC\Archive\TAR;
 use OC_App;
 use OC_DB;
 use OC_Helper;
-use OCP\App\IAppManager;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\ILogger;
@@ -117,7 +112,7 @@ class Installer {
 			);
 		}
 
-		$version = \OCP\Util::getVersion();
+		$version = implode('.', \OCP\Util::getVersion());
 		if (!\OC_App::isAppCompatible($version, $info)) {
 			throw new \Exception(
 				// TODO $l
@@ -144,12 +139,9 @@ class Installer {
 		}
 
 		\OC_App::setupBackgroundJobs($info['background-jobs']);
-		if(isset($info['settings']) && is_array($info['settings'])) {
-			\OC::$server->getSettingsManager()->setupSettings($info['settings']);
-		}
 
 		//run appinfo/install.php
-		if((!isset($data['noinstall']) or $data['noinstall']==false)) {
+		if(!isset($data['noinstall']) or $data['noinstall']==false) {
 			self::includeAppScript($basedir . '/appinfo/install.php');
 		}
 
@@ -195,7 +187,10 @@ class Installer {
 			try {
 				$this->downloadApp($appId);
 			} catch (\Exception $e) {
-				$this->logger->error($e->getMessage(), ['app' => 'core']);
+				$this->logger->logException($e, [
+					'level' => \OCP\Util::ERROR,
+					'app' => 'core',
+				]);
 				return false;
 			}
 			return OC_App::updateApp($appId);
@@ -471,6 +466,9 @@ class Installer {
 	 */
 	public function removeApp($appId) {
 		if($this->isDownloaded( $appId )) {
+			if (\OC::$server->getAppManager()->isShipped($appId)) {
+				return false;
+			}
 			$appDir = OC_App::getInstallPath() . '/' . $appId;
 			OC_Helper::rmdirr($appDir);
 			return true;
@@ -516,7 +514,7 @@ class Installer {
 		foreach(\OC::$APPSROOTS as $app_dir) {
 			if($dir = opendir( $app_dir['path'] )) {
 				while( false !== ( $filename = readdir( $dir ))) {
-					if( substr( $filename, 0, 1 ) != '.' and is_dir($app_dir['path']."/$filename") ) {
+					if( $filename[0] !== '.' and is_dir($app_dir['path']."/$filename") ) {
 						if( file_exists( $app_dir['path']."/$filename/appinfo/info.xml" )) {
 							if(!Installer::isInstalled($filename)) {
 								$info=OC_App::getAppInfo($filename);
@@ -601,12 +599,6 @@ class Installer {
 		}
 
 		OC_App::setAppTypes($info['id']);
-
-		if(isset($info['settings']) && is_array($info['settings'])) {
-			// requires that autoloading was registered for the app,
-			// as happens before running the install.php some lines above
-			\OC::$server->getSettingsManager()->setupSettings($info['settings']);
-		}
 
 		return $info['id'];
 	}

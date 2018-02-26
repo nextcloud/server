@@ -38,6 +38,7 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Ossza meg velem az #Nextcloud Egyesített Felhő Azonosító segítségével, lásd %s",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Ossza meg velem az #Nextcloud Egyesített Felhő Azonosító segítségével ",
     "Sharing" : "Megosztás",
+    "Federated file sharing" : "Egyesített fájlmegosztás",
     "Federated Cloud Sharing" : "Megosztás Egyesített Felhőben",
     "Open documentation" : "Dokumentáció megnyitása",
     "Adjust how people can share between servers." : "A szerverek közti megosztási lehetőségek beállítása",
@@ -52,7 +53,6 @@ OC.L10N.register(
     "Add to your website" : "Adja hozzá saját weboldalához",
     "Share with me via Nextcloud" : "Ossza meg velem Nextcloud-on keresztül",
     "HTML Code:" : "HTML kód:",
-    "Search global and public address book for users and let local users publish their data" : "A központi és nyilvános névjegyzék keresése a felhasználóknak és a helyi felhasználók is hozzáadhatnak",
-    "Share it:" : "Oszd meg:"
+    "Search global and public address book for users and let local users publish their data" : "A központi és nyilvános névjegyzék keresése a felhasználóknak és a helyi felhasználók is hozzáadhatnak"
 },
 "nplurals=2; plural=(n != 1);");

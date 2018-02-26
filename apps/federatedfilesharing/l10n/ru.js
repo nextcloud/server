@@ -38,6 +38,7 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Поделитесь со мной через мой #Nextcloud ID в федерации облачных хранилищ, смотрите %s",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Поделитесь со мной через мой #Nextcloud ID в федерации облачных хранилищ",
     "Sharing" : "Общий доступ",
+    "Federated file sharing" : "Федеративный обмен файлами",
     "Federated Cloud Sharing" : "Федерация облачных хранилищ",
     "Open documentation" : "Открыть документацию",
     "Adjust how people can share between servers." : "Настройте общий доступ между серверами.",
@@ -52,7 +53,6 @@ OC.L10N.register(
     "Add to your website" : "Добавить к себе на сайт",
     "Share with me via Nextcloud" : "Поделитесь со мной через Nextcloud",
     "HTML Code:" : "HTML код:",
-    "Search global and public address book for users and let local users publish their data" : "Поиск пользователей в глобальной и общедоступной адресной книге и разрешение публикации своих данных локальным пользователям ",
-    "Share it:" : "Поделиться:"
+    "Search global and public address book for users and let local users publish their data" : "Поиск пользователей в глобальной и общедоступной адресной книге и разрешение публикации своих данных локальным пользователям "
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

@@ -90,7 +90,7 @@ class UUIDFixInsert implements IRepairStep {
 					$offset += $batchSize;
 				} catch (\InvalidArgumentException $e) {
 					if(strpos($e->getMessage(), 'Background job arguments can\'t exceed 4000') !== false) {
-						$batchSize = intval(floor(count($records) * 0.8));
+						$batchSize = (int)floor(count($records) * 0.8);
 						$retry = true;
 					}
 				}

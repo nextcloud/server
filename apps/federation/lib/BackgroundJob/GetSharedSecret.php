@@ -31,7 +31,6 @@
 namespace OCA\Federation\BackgroundJob;
 
 use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Ring\Exception\RingException;
 use OC\BackgroundJob\JobList;
@@ -201,10 +200,18 @@ class GetSharedSecret extends Job {
 			}
 		} catch (RequestException $e) {
 			$status = -1; // There is no status code if we could not connect
-			$this->logger->info('Could not connect to ' . $target, ['app' => 'federation']);
+			$this->logger->logException($e, [
+				'message' => 'Could not connect to ' . $target,
+				'level' => \OCP\Util::INFO,
+				'app' => 'federation',
+			]);
 		} catch (RingException $e) {
 			$status = -1; // There is no status code if we could not connect
-			$this->logger->info('Could not connect to ' . $target, ['app' => 'federation']);
+			$this->logger->logException($e, [
+				'message' => 'Could not connect to ' . $target,
+				'level' => \OCP\Util::INFO,
+				'app' => 'federation',
+			]);
 		} catch (\Exception $e) {
 			$status = Http::STATUS_INTERNAL_SERVER_ERROR;
 			$this->logger->logException($e, ['app' => 'federation']);

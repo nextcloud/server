@@ -29,6 +29,19 @@ namespace OCP\BackgroundJob;
 /**
  * Interface IJobList
  *
+ * This interface provides functions to register background jobs
+ *
+ * To create a new background job create a new class that inherits from either
+ * \OC\BackgroundJob\Job, \OC\BackgroundJob\QueuedJob or
+ * \OC\BackgroundJob\TimedJob and register it using ->add($job, $argument),
+ * $argument will be passed to the run() function of the job when the job is
+ * executed.
+ *
+ * A regular job will be executed every time cron.php is run, a QueuedJob will
+ * only run once and a TimedJob will only run at a specific interval which is to
+ * be specified in the constructor of the job by calling
+ * $this->setInterval($interval) with $interval in seconds.
+ *
  * @package OCP\BackgroundJob
  * @since 7.0.0
  */

@@ -23,10 +23,8 @@
 namespace OCA\Files_External\Lib\Backend;
 
 use \OCP\IL10N;
-use \OCA\Files_External\Lib\Backend\Backend;
 use \OCA\Files_External\Lib\DefinitionParameter;
 use \OCA\Files_External\Lib\Auth\AuthMechanism;
-use \OCA\Files_External\Service\BackendService;
 use \OCA\Files_External\Lib\Auth\OpenStack\OpenStack;
 use \OCA\Files_External\Lib\Auth\OpenStack\Rackspace;
 use \OCA\Files_External\Lib\LegacyDependencyCheckPolyfill;
@@ -46,7 +44,7 @@ class Swift extends Backend {
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 				(new DefinitionParameter('region', $l->t('Region')))
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
-				(new DefinitionParameter('bucket', $l->t('Bucket'))),
+				new DefinitionParameter('bucket', $l->t('Bucket')),
 				(new DefinitionParameter('timeout', $l->t('Request timeout (seconds)')))
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 			])

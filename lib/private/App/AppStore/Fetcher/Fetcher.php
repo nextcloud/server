@@ -174,6 +174,7 @@ abstract class Fetcher {
 			$this->logger->logException($e, ['app' => 'appstoreFetcher', 'level' => Util::INFO, 'message' => 'Could not connect to appstore']);
 			return [];
 		} catch (\Exception $e) {
+			$this->logger->logException($e, ['app' => 'appstoreFetcher', 'level' => Util::INFO]);
 			return [];
 		}
 	}

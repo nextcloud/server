@@ -52,7 +52,6 @@ OC.L10N.register(
     "Add to your website" : "საიტზე დამატება",
     "Share with me via Nextcloud" : "გამიზიარე Nextcloud-ის მეშვეობით",
     "HTML Code:" : "HTML კოდი:",
-    "Search global and public address book for users and let local users publish their data" : "მოიძიეთ გლობალური და ღია მისამართების წიგნები მომხმარებლებისთვის და მიეცით უფლება ლოკალურ მომხმარებლებს გააზიარონ საკუთარი მონაცემები",
-    "Share it:" : "გააზიარე ეს:"
+    "Search global and public address book for users and let local users publish their data" : "მოიძიეთ გლობალური და ღია მისამართების წიგნები მომხმარებლებისთვის და მიეცით უფლება ლოკალურ მომხმარებლებს გააზიარონ საკუთარი მონაცემები"
 },
 "nplurals=1; plural=0;");

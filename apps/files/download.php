@@ -41,7 +41,9 @@ $ftype=\OC::$server->getMimeTypeDetector()->getSecureMimeType(\OC\Files\Filesyst
 
 header('Content-Type:'.$ftype);
 OCP\Response::setContentDispositionHeader(basename($filename), 'attachment');
-OCP\Response::disableCaching();
+header('Pragma: public');// enable caching in IE
+header('Expires: 0');
+header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 OCP\Response::setContentLengthHeader(\OC\Files\Filesystem::filesize($filename));
 
 OC_Util::obEnd();

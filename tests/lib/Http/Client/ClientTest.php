@@ -8,7 +8,8 @@
 
 namespace Test\Http\Client;
 
-use GuzzleHttp\Message\Response;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Psr7\Response;
 use OC\Http\Client\Client;
 use OC\Security\CertificateManager;
 use OCP\ICertificateManager;
@@ -37,7 +38,8 @@ class ClientTest extends \Test\TestCase {
 		$this->client = new Client(
 			$this->config,
 			$this->certificateManager,
-			$this->guzzleClient
+			$this->guzzleClient,
+			HandlerStack::create()
 		);
 	}
 
@@ -84,37 +86,37 @@ class ClientTest extends \Test\TestCase {
 	}
 
 	public function testGet() {
-		$this->guzzleClient->method('get')
+		$this->guzzleClient->method('request')
 			->willReturn(new Response(1337));
 		$this->assertEquals(1337, $this->client->get('http://localhost/', [])->getStatusCode());
 	}
 
 	public function testPost() {
-		$this->guzzleClient->method('post')
+		$this->guzzleClient->method('request')
 			->willReturn(new Response(1337));
 		$this->assertEquals(1337, $this->client->post('http://localhost/', [])->getStatusCode());
 	}
 
 	public function testPut() {
-		$this->guzzleClient->method('put')
+		$this->guzzleClient->method('request')
 			->willReturn(new Response(1337));
 		$this->assertEquals(1337, $this->client->put('http://localhost/', [])->getStatusCode());
 	}
 
 	public function testDelete() {
-		$this->guzzleClient->method('delete')
+		$this->guzzleClient->method('request')
 			->willReturn(new Response(1337));
 		$this->assertEquals(1337, $this->client->delete('http://localhost/', [])->getStatusCode());
 	}
 
 	public function testOptions() {
-		$this->guzzleClient->method('options')
+		$this->guzzleClient->method('request')
 			->willReturn(new Response(1337));
 		$this->assertEquals(1337, $this->client->options('http://localhost/', [])->getStatusCode());
 	}
 
 	public function testHead() {
-		$this->guzzleClient->method('head')
+		$this->guzzleClient->method('request')
 			->willReturn(new Response(1337));
 		$this->assertEquals(1337, $this->client->head('http://localhost/', [])->getStatusCode());
 	}
@@ -129,16 +131,10 @@ class ClientTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('listCertificates')
 			->willReturn([]);
-		$this->guzzleClient
-			->expects($this->at(0))
-			->method('setDefaultOption')
-			->with('verify', \OC::$SERVERROOT . '/resources/config/ca-bundle.crt');
-		$this->guzzleClient
-			->expects($this->at(1))
-			->method('setDefaultOption')
-			->with('headers/User-Agent', 'Nextcloud Server Crawler');
 
-		self::invokePrivate($this->client, 'setDefaultOptions');
+		$this->assertEquals([
+			'verify' => \OC::$SERVERROOT . '/resources/config/ca-bundle.crt'
+		], self::invokePrivate($this->client, 'getRequestOptions'));
 	}
 
 	public function testSetDefaultOptionsWithProxy() {
@@ -157,19 +153,10 @@ class ClientTest extends \Test\TestCase {
 			->method('getAbsoluteBundlePath')
 			->with(null)
 			->willReturn('/my/path.crt');
-		$this->guzzleClient
-			->expects($this->at(0))
-			->method('setDefaultOption')
-			->with('verify', '/my/path.crt');
-		$this->guzzleClient
-			->expects($this->at(1))
-			->method('setDefaultOption')
-			->with('headers/User-Agent', 'Nextcloud Server Crawler');
-		$this->guzzleClient
-			->expects($this->at(2))
-			->method('setDefaultOption')
-			->with('proxy', 'foo');
 
-		self::invokePrivate($this->client, 'setDefaultOptions');
+		$this->assertEquals([
+			'verify' => '/my/path.crt',
+			'proxy' => 'foo'
+		], self::invokePrivate($this->client, 'getRequestOptions'));
 	}
 }

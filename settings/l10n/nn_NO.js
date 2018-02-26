@@ -57,19 +57,6 @@ OC.L10N.register(
     "Other" : "Anna",
     "Quota" : "Kvote",
     "set new password" : "lag nytt passord",
-    "Default" : "Standard",
-    "Please provide an admin recovery password, otherwise all user data will be lost" : "Ver venleg og gje eit admingjenopprettingspassord, elles vil all brukardata gå tapt.",
-    "Invalid request" : "Ugyldig førespurnad",
-    "Admins can't remove themself from the admin group" : "Administratorar kan ikkje fjerna seg sjølve frå admin-gruppa",
-    "Unable to add user to group %s" : "Klarte ikkje leggja til brukaren til gruppa %s",
-    "Unable to remove user from group %s" : "Klarte ikkje fjerna brukaren frå gruppa %s",
-    "Updating...." : "Oppdaterer …",
-    "Error while updating app" : "Feil ved oppdatering av app",
-    "__language_name__" : "Nynorsk",
-    "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "PHP-modulen «fileinfo» manglar. Me rår sterkt til å slå på denne modulen for å best mogleg oppdaga MIME-typar.",
-    "Cron" : "Cron",
-    "Get the apps to sync your files" : "Få app-ar som kan synkronisera filene dine",
-    "Show First Run Wizard again" : "Vis Oppstartvegvisaren igjen",
-    "Name" : "Namn"
+    "Default" : "Standard"
 },
 "nplurals=2; plural=(n != 1);");

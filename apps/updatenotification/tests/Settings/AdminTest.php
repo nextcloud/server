@@ -81,8 +81,8 @@ class AdminTest extends TestCase {
 		$this->config
 			->expects($this->once())
 			->method('getSystemValue')
-			->with('updater.server.url', 'https://updates.nextcloud.com/server/')
-			->willReturn('https://updates.nextcloud.com/server/');
+			->with('updater.server.url', 'https://updates.nextcloud.com/updater_server/')
+			->willReturn('https://updates.nextcloud.com/updater_server/');
 		$this->dateTimeFormatter
 			->expects($this->once())
 			->method('formatDateTime')
@@ -108,7 +108,7 @@ class AdminTest extends TestCase {
 			'downloadLink' => 'https://downloads.nextcloud.org/server',
 			'updaterEnabled' => true,
 			'isDefaultUpdateServerURL' => true,
-			'updateServerURL' => 'https://updates.nextcloud.com/server/',
+			'updateServerURL' => 'https://updates.nextcloud.com/updater_server/',
 			'notify_groups' => 'admin',
 		];
 

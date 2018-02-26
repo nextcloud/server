@@ -59,6 +59,7 @@ OC.L10N.register(
     "Check %s is invalid" : "チェック %s は無効です",
     "Check #%s does not exist" : "チェック #%s は存在しません",
     "Workflow" : "ワークフロー",
+    "Files workflow engine" : "ファイルワークフローエンジン",
     "Open documentation" : "ドキュメントを開く",
     "Add rule group" : "ルールグループを追加する",
     "Short rule description" : "ルールの簡潔な説明",
@@ -66,8 +67,6 @@ OC.L10N.register(
     "Reset" : "リセット",
     "Save" : "保存",
     "Saving…" : "保存中...",
-    "Loading…" : "読み込み中...",
-    "Successfully saved" : "保存しました",
-    "File mime type" : "ファイルMIMEタイプ"
+    "Loading…" : "読み込み中..."
 },
 "nplurals=1; plural=0;");

@@ -27,10 +27,13 @@
  *
  */
 
+use OCA\Files_Sharing\ShareBackend\File;
+use OCA\Files_Sharing\ShareBackend\Folder;
+
 \OCA\Files_Sharing\Helper::registerHooks();
 
-\OC\Share\Share::registerBackend('file', 'OCA\Files_Sharing\ShareBackend\File');
-\OC\Share\Share::registerBackend('folder', 'OCA\Files_Sharing\ShareBackend\Folder', 'file');
+\OC\Share\Share::registerBackend('file', File::class);
+\OC\Share\Share::registerBackend('folder', Folder::class, 'file');
 
 $application = new \OCA\Files_Sharing\AppInfo\Application();
 $application->registerMountProviders();

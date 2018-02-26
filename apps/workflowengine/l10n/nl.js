@@ -58,7 +58,8 @@ OC.L10N.register(
     "Check %s does not exist" : "Controleer: %s bestaat niet",
     "Check %s is invalid" : "Controleer: %s is ongeldig",
     "Check #%s does not exist" : "Controleer: #%s bestaat niet",
-    "Workflow" : "Workflow",
+    "Workflow" : "Workflows",
+    "Files workflow engine" : "Betanden workflow engine",
     "Open documentation" : "Open documentatie",
     "Add rule group" : "Groepsrol toevoegen",
     "Short rule description" : "Korte rolbeschrijving",
@@ -66,8 +67,6 @@ OC.L10N.register(
     "Reset" : "Reset",
     "Save" : "Opslaan",
     "Saving…" : "Opslaan...",
-    "Loading…" : "Laden...",
-    "Successfully saved" : "Succesvol opgeslagen",
-    "File mime type" : "Bestand mime type"
+    "Loading…" : "Laden..."
 },
 "nplurals=2; plural=(n != 1);");

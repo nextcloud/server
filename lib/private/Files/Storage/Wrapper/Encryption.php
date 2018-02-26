@@ -351,9 +351,7 @@ class Encryption extends Wrapper {
 		// need to stream copy file by file in case we copy between a encrypted
 		// and a unencrypted storage
 		$this->unlink($path2);
-		$result = $this->copyFromStorage($this, $path1, $path2);
-
-		return $result;
+		return $this->copyFromStorage($this, $path1, $path2);
 	}
 
 	/**
@@ -379,7 +377,7 @@ class Encryption extends Wrapper {
 		$shouldEncrypt = false;
 		$encryptionModule = null;
 		$header = $this->getHeader($path);
-		$signed = (isset($header['signed']) && $header['signed'] === 'true') ? true : false;
+		$signed = isset($header['signed']) && $header['signed'] === 'true';
 		$fullPath = $this->getFullPath($path);
 		$encryptionModuleId = $this->util->getEncryptionModuleId($header);
 
@@ -441,8 +439,11 @@ class Encryption extends Wrapper {
 					}
 				}
 			} catch (ModuleDoesNotExistsException $e) {
-				$this->logger->warning('Encryption module "' . $encryptionModuleId .
-					'" not found, file will be stored unencrypted (' . $e->getMessage() . ')');
+				$this->logger->logException($e, [
+					'message' => 'Encryption module "' . $encryptionModuleId . '" not found, file will be stored unencrypted',
+					'level' => \OCP\Util::WARN,
+					'app' => 'core',
+				]);
 			}
 
 			// encryption disabled on write of new file and write to existing unencrypted file -> don't encrypt
@@ -541,7 +542,7 @@ class Encryption extends Wrapper {
 			return 0;
 		}
 
-		$signed = (isset($header['signed']) && $header['signed'] === 'true') ? true : false;
+		$signed = isset($header['signed']) && $header['signed'] === 'true';
 		$unencryptedBlockSize = $encryptionModule->getUnencryptedBlockSize($signed);
 
 		// calculate last chunk nr

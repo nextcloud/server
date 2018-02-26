@@ -251,7 +251,7 @@ class SystemTagNodeTest extends \Test\TestCase {
 			->method('deleteTags')
 			->with('1');
 		if (!$isAdmin) {
-			$this->setExpectedException(Forbidden::class);
+			$this->expectException(Forbidden::class);
 		}
 		$this->getTagNode($isAdmin, $tag)->delete();
 	}
@@ -282,7 +282,7 @@ class SystemTagNodeTest extends \Test\TestCase {
 		$this->tagManager->expects($this->never())
 			->method('deleteTags');
 
-		$this->setExpectedException($expectedException);
+		$this->expectException($expectedException);
 		$this->getTagNode(false, $tag)->delete();
 	}
 

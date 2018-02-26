@@ -109,7 +109,6 @@ OC.L10N.register(
     "Upload files to %s" : "Nahrát soubory do %s",
     "Select or drop files" : "Vyberte nebo přetáhněte soubory",
     "Uploading files…" : "Probíhá nahrávání souborů...",
-    "Uploaded files:" : "Nahrané soubory:",
-    "%s is publicly shared" : "%s je veřejně sdílen"
+    "Uploaded files:" : "Nahrané soubory:"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

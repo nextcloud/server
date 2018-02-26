@@ -122,9 +122,8 @@ class Helper {
 
 		sort($serverConnections);
 		$lastKey = array_pop($serverConnections);
-		$lastNumber = intval(str_replace('s', '', $lastKey));
-		$nextPrefix = 's' . str_pad($lastNumber + 1, 2, '0', STR_PAD_LEFT);
-		return $nextPrefix;
+		$lastNumber = (int)str_replace('s', '', $lastKey);
+		return 's' . str_pad($lastNumber + 1, 2, '0', STR_PAD_LEFT);
 	}
 
 	private function getServersConfig($value) {
@@ -222,7 +221,7 @@ class Helper {
 	public function setLDAPProvider() {
 		$current = \OC::$server->getConfig()->getSystemValue('ldapProviderFactory', null);
 		if(is_null($current)) {
-			\OC::$server->getConfig()->setSystemValue('ldapProviderFactory', '\\OCA\\User_LDAP\\LDAPProviderFactory');
+			\OC::$server->getConfig()->setSystemValue('ldapProviderFactory', LDAPProviderFactory::class);
 		}
 	}
 	

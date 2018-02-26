@@ -38,6 +38,7 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Dela med mig genom mitt #Nextcloud Federerade Moln-ID, se %s",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Dela med mig genom mitt #Nextcloud Federerade Moln-ID",
     "Sharing" : "Delar",
+    "Federated file sharing" : "Federerad fildelning",
     "Federated Cloud Sharing" : "Federerad Moln-delning",
     "Open documentation" : "Öppna dokumentation",
     "Adjust how people can share between servers." : "Justera hur användare kan dela genom servrar.",
@@ -52,7 +53,6 @@ OC.L10N.register(
     "Add to your website" : "Lägg till på din hemsida",
     "Share with me via Nextcloud" : "Dela med mig via Nextcloud",
     "HTML Code:" : "HTML Kod:",
-    "Search global and public address book for users and let local users publish their data" : "Sök global och publik adressbok för användare och låt lokala användare publicera sina data",
-    "Share it:" : "Dela detta:"
+    "Search global and public address book for users and let local users publish their data" : "Sök global och publik adressbok för användare och låt lokala användare publicera sina data"
 },
 "nplurals=2; plural=(n != 1);");

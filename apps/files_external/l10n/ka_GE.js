@@ -127,8 +127,6 @@ OC.L10N.register(
     "Step 2 failed. Exception: %s" : "ნაბიჯი 2 ჩაიშალა. გამონაკლისი: %s",
     "Dropbox App Configuration" : "Dropbox აპლიკაციის კონფიგურაცია",
     "Google Drive App Configuration" : "Google Drive აპლიკაციის კონფიგურაცია",
-    "Storage with id \"%i\" not found" : "საცავი ID-ით \"%i\" ვერ იქნა ნაპოვნი",
-    "Storage with id \"%i\" is not user editable" : "საცავი ID-ით \"%i\" არაა მომხმარებლისთვის შეცვლადი",
     "Dropbox" : "Dropbox-ი",
     "Google Drive" : "Google Drive-ი"
 },

@@ -34,7 +34,7 @@ if ($lastConfirm < (time() - 30 * 60 + 15)) { // allow 15 seconds delay
 	exit();
 }
 
-$groups = isset($_POST['groups']) ? (array)$_POST['groups'] : null;
+$groups = isset($_POST['groups']) ? (array)$_POST['groups'] : [];
 $appIds = isset($_POST['appIds']) ? (array)$_POST['appIds'] : [];
 
 try {
@@ -50,6 +50,9 @@ try {
 
 	OC_JSON::success(['data' => ['update_required' => $updateRequired]]);
 } catch (Exception $e) {
-	\OCP\Util::writeLog('core', $e->getMessage(), \OCP\Util::ERROR);
+	\OC::$server->getLogger()->logException($e, [
+		'level' => \OCP\Util::DEBUG,
+		'app' => 'core',
+	]);
 	OC_JSON::error(array("data" => array("message" => $e->getMessage()) ));
 }

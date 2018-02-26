@@ -242,8 +242,11 @@ class Tags implements \OCP\ITags {
 				}
 			}
 		} catch(\Exception $e) {
-			\OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(),
-				\OCP\Util::ERROR);
+			\OC::$server->getLogger()->logException($e, [
+				'message' => __METHOD__,
+				'level' => \OCP\Util::ERROR,
+				'app' => 'core',
+			]);
 			return false;
 		}
 
@@ -292,8 +295,11 @@ class Tags implements \OCP\ITags {
 				return false;
 			}
 		} catch(\Exception $e) {
-			\OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(),
-				\OCP\Util::ERROR);
+			\OC::$server->getLogger()->logException($e, [
+				'message' => __METHOD__,
+				'level' => \OCP\Util::ERROR,
+				'app' => 'core',
+			]);
 			return false;
 		}
 
@@ -366,8 +372,11 @@ class Tags implements \OCP\ITags {
 			$tag = $this->mapper->insert($tag);
 			$this->tags[] = $tag;
 		} catch(\Exception $e) {
-			\OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(),
-				\OCP\Util::ERROR);
+			\OC::$server->getLogger()->logException($e, [
+				'message' => __METHOD__,
+				'level' => \OCP\Util::ERROR,
+				'app' => 'core',
+			]);
 			return false;
 		}
 		\OCP\Util::writeLog('core', __METHOD__.', id: ' . $tag->getId(), \OCP\Util::DEBUG);
@@ -410,8 +419,11 @@ class Tags implements \OCP\ITags {
 			$tag->setName($to);
 			$this->tags[$key] = $this->mapper->update($tag);
 		} catch(\Exception $e) {
-			\OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(),
-				\OCP\Util::ERROR);
+			\OC::$server->getLogger()->logException($e, [
+				'message' => __METHOD__,
+				'level' => \OCP\Util::ERROR,
+				'app' => 'core',
+			]);
 			return false;
 		}
 		return true;
@@ -462,8 +474,11 @@ class Tags implements \OCP\ITags {
 						$this->mapper->insert($tag);
 					}
 				} catch(\Exception $e) {
-					\OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(),
-						\OCP\Util::ERROR);
+					\OC::$server->getLogger()->logException($e, [
+						'message' => __METHOD__,
+						'level' => \OCP\Util::ERROR,
+						'app' => 'core',
+					]);
 				}
 			}
 
@@ -488,8 +503,11 @@ class Tags implements \OCP\ITags {
 								'type' => $this->type,
 								));
 					} catch(\Exception $e) {
-						\OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(),
-							\OCP\Util::ERROR);
+						\OC::$server->getLogger()->logException($e, [
+							'message' => __METHOD__,
+							'level' => \OCP\Util::ERROR,
+							'app' => 'core',
+						]);
 					}
 				}
 			}
@@ -518,8 +536,11 @@ class Tags implements \OCP\ITags {
 				\OCP\Util::writeLog('core', __METHOD__. 'DB error: ' . \OCP\DB::getErrorMessage(), \OCP\Util::ERROR);
 			}
 		} catch(\Exception $e) {
-			\OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(),
-				\OCP\Util::ERROR);
+			\OC::$server->getLogger()->logException($e, [
+				'message' => __METHOD__,
+				'level' => \OCP\Util::ERROR,
+				'app' => 'core',
+			]);
 		}
 
 		if(!is_null($result)) {
@@ -530,13 +551,19 @@ class Tags implements \OCP\ITags {
 					try {
 						$stmt->execute(array($row['id']));
 					} catch(\Exception $e) {
-						\OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(),
-							\OCP\Util::ERROR);
+						\OC::$server->getLogger()->logException($e, [
+							'message' => __METHOD__,
+							'level' => \OCP\Util::ERROR,
+							'app' => 'core',
+						]);
 					}
 				}
 			} catch(\Exception $e) {
-				\OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(),
-					\OCP\Util::ERROR);
+				\OC::$server->getLogger()->logException($e, [
+					'message' => __METHOD__,
+					'level' => \OCP\Util::ERROR,
+					'app' => 'core',
+				]);
 			}
 		}
 		try {
@@ -547,8 +574,11 @@ class Tags implements \OCP\ITags {
 				\OCP\Util::writeLog('core', __METHOD__. ', DB error: ' . \OCP\DB::getErrorMessage(), \OCP\Util::ERROR);
 			}
 		} catch(\Exception $e) {
-			\OCP\Util::writeLog('core', __METHOD__ . ', exception: '
-				. $e->getMessage(), \OCP\Util::ERROR);
+			\OC::$server->getLogger()->logException($e, [
+				'message' => __METHOD__,
+				'level' => \OCP\Util::ERROR,
+				'app' => 'core',
+			]);
 		}
 	}
 
@@ -576,8 +606,11 @@ class Tags implements \OCP\ITags {
 				return false;
 			}
 		} catch(\Exception $e) {
-			\OCP\Util::writeLog('core', __METHOD__.', exception: ' . $e->getMessage(),
-				\OCP\Util::ERROR);
+			\OC::$server->getLogger()->logException($e, [
+				'message' => __METHOD__,
+				'level' => \OCP\Util::ERROR,
+				'app' => 'core',
+			]);
 			return false;
 		}
 		return true;
@@ -592,8 +625,11 @@ class Tags implements \OCP\ITags {
 		try {
 			return $this->getIdsForTag(self::TAG_FAVORITE);
 		} catch(\Exception $e) {
-			\OCP\Util::writeLog('core', __METHOD__.', exception: ' . $e->getMessage(),
-				\OCP\Util::DEBUG);
+			\OC::$server->getLogger()->logException($e, [
+				'message' => __METHOD__,
+				'level' => \OCP\Util::ERROR,
+				'app' => 'core',
+			]);
 			return array();
 		}
 	}
@@ -650,8 +686,11 @@ class Tags implements \OCP\ITags {
 					'type' => $this->type,
 				));
 		} catch(\Exception $e) {
-			\OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(),
-				\OCP\Util::ERROR);
+			\OC::$server->getLogger()->logException($e, [
+				'message' => __METHOD__,
+				'level' => \OCP\Util::ERROR,
+				'app' => 'core',
+			]);
 			return false;
 		}
 		return true;
@@ -682,8 +721,11 @@ class Tags implements \OCP\ITags {
 			$stmt = \OCP\DB::prepare($sql);
 			$stmt->execute(array($objid, $tagId, $this->type));
 		} catch(\Exception $e) {
-			\OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(),
-				\OCP\Util::ERROR);
+			\OC::$server->getLogger()->logException($e, [
+				'message' => __METHOD__,
+				'level' => \OCP\Util::ERROR,
+				'app' => 'core',
+			]);
 			return false;
 		}
 		return true;
@@ -735,8 +777,11 @@ class Tags implements \OCP\ITags {
 						return false;
 					}
 				} catch(\Exception $e) {
-					\OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(),
-						\OCP\Util::ERROR);
+					\OC::$server->getLogger()->logException($e, [
+						'message' => __METHOD__,
+						'level' => \OCP\Util::ERROR,
+						'app' => 'core',
+					]);
 					return false;
 				}
 			}

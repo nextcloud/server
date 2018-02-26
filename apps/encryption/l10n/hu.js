@@ -31,11 +31,11 @@ OC.L10N.register(
     "one-time password for server-side-encryption" : "szerver-oldali titkosítás egyszer használható jelszava",
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "A fájlt nem sikerült visszafejteni, valószínűleg ez egy megosztott fájl. Kérje meg a fájl tulajdonosát, hogy újra ossza meg veled ezt az állományt!",
     "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Ez a fájl nem olvasható, valószínűleg ez egy megosztott fájl. Kérd meg a tulajdonosát, hogy ossza meg veled újra ezt a fájlt.",
+    "Default encryption module" : "Alapértelmezett titkosítási modul",
     "Hey there,\n\nthe admin enabled server-side-encryption. Your files were encrypted using the password '%s'.\n\nPlease login to the web interface, go to the section 'basic encryption module' of your personal settings and update your encryption password by entering this password into the 'old log-in password' field and your current login-password.\n\n" : "Szia!\n\nAz adminisztrátor bekapcsolta a szerver-oldali titkosítást. A fájljaid ezzel a jelszóval lettek titkosítva: '%s'.\n\nKérlek jelentkezz be a webes felületre és a személyes beállítások 'alap titkosítási modul' szekcióban frissítsd a titkosítási jelszavad, úgy hogy megadod a 'régi bejelentkezési jelszó' mezőben ezt a jelszót, majd az aktuális bejelentkezési jelszavad.\n\n",
     "The share will expire on %s." : "A megosztás lejár ekkor %s",
     "Cheers!" : "Üdv.",
     "Hey there,<br><br>the admin enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>Please login to the web interface, go to the section \"basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"old log-in password\" field and your current login-password.<br><br>" : "Szia!<br><br>Az adminisztrátor bekapcsolta a szerver-oldali titkosítást. A fájljaid ezzel a jelszóval lettek titkosítva: <strong>%s</strong>.<br><br>Kérlek jelentkezz be a webes felületre és a személyes beállítások 'alap titkosítási modul' szekcióban frissítsd a titkosítási jelszavad, úgy hogy megadod a 'régi bejelentkezési jelszó' mezőben ezt a jelszót, majd az aktuális bejelentkezési jelszavad.<br><br>",
-    "Default encryption module" : "Alapértelmezett titkosítási modul",
     "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "A titkosító alkalmazás engedélyezve van, de a kulcsaid még nincsenek inicializálva. Kérlek lépj ki, majd lépj be újra",
     "Encrypt the home storage" : "Helyi tároló titkosítása",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "A lehetőség engedélyezésekor minden fájlt titkosít a fő tárolóban, egyébként csak a külső tárolókon lévő fájlok lesznek titkosítva",
@@ -59,7 +59,6 @@ OC.L10N.register(
     "Enable password recovery:" : "Jelszó-visszaállítás bekapcsolása",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Ez az opció lehetővé teszi, hogy a titkosított fájlok tartalmát visszanyerjük abban az esetben, ha elfelejti a jelszavát",
     "Enabled" : "Bekapcsolva",
-    "Disabled" : "Kikapcsolva",
-    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "A fájlok titkosítása engedélyezve van, de az Ön titkos kulcsai nincsenek beállítva. Ezért kérlek, hogy jelentkezz ki, és lépj be újra!"
+    "Disabled" : "Kikapcsolva"
 },
 "nplurals=2; plural=(n != 1);");

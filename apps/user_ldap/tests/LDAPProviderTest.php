@@ -429,7 +429,7 @@ class LDAPProviderTest extends \Test\TestCase {
 			
 		$ldapProvider = $this->getLDAPProvider($server);
 		$ldapProvider->clearCache('existing_user');
-		$this->assertTrue(TRUE);
+		$this->addToAssertionCount(1);
 	}
 
 	/**
@@ -474,7 +474,7 @@ class LDAPProviderTest extends \Test\TestCase {
 
 		$ldapProvider = $this->getLDAPProvider($server);
 		$ldapProvider->clearGroupCache('existing_group');
-		$this->assertTrue(TRUE);
+		$this->addToAssertionCount(1);
 	}
 	
 	public function testDnExists() {
@@ -502,7 +502,7 @@ class LDAPProviderTest extends \Test\TestCase {
 			
 		$ldapProvider = $this->getLDAPProvider($server);
 		$ldapProvider->flagRecord('existing_user');
-		$this->assertTrue(TRUE);
+		$this->addToAssertionCount(1);
 	}
 	
 	public function testUnflagRecord() {
@@ -515,7 +515,7 @@ class LDAPProviderTest extends \Test\TestCase {
 			
 		$ldapProvider = $this->getLDAPProvider($server);
 		$ldapProvider->unflagRecord('existing_user');
-		$this->assertTrue(TRUE);
+		$this->addToAssertionCount(1);
 	}
 
 	/**

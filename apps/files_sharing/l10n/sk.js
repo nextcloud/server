@@ -110,6 +110,6 @@ OC.L10N.register(
     "Select or drop files" : "Vyberte alebo položte súbory",
     "Uploading files…" : "Nahrávanie súborov...",
     "Uploaded files:" : "Nahrané súbory...",
-    "%s is publicly shared" : "%s je sprístupnené verejne"
+    "%s is publicly shared" : "%s je verejne zdieľaný"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

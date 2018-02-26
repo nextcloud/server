@@ -23,7 +23,6 @@
 namespace OCA\Files_External\Lib\Backend;
 
 use \OCP\IL10N;
-use \OCA\Files_External\Lib\Backend\Backend;
 use \OCA\Files_External\Lib\DefinitionParameter;
 use \OCA\Files_External\Lib\Auth\AuthMechanism;
 use \OCA\Files_External\Service\BackendService;
@@ -38,7 +37,7 @@ class Local extends Backend {
 			->setStorageClass('\OC\Files\Storage\Local')
 			->setText($l->t('Local'))
 			->addParameters([
-				(new DefinitionParameter('datadir', $l->t('Location'))),
+				new DefinitionParameter('datadir', $l->t('Location')),
 			])
 			->setAllowedVisibility(BackendService::VISIBILITY_ADMIN)
 			->setPriority(BackendService::PRIORITY_DEFAULT + 50)

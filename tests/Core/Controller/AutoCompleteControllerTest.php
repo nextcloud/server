@@ -23,11 +23,9 @@
 
 namespace Tests\Core\Controller;
 
-
 use OC\Core\Controller\AutoCompleteController;
 use OCP\Collaboration\AutoComplete\IManager;
 use OCP\Collaboration\Collaborators\ISearch;
-use OCP\IConfig;
 use OCP\IRequest;
 use Test\TestCase;
 
@@ -36,8 +34,6 @@ class AutoCompleteControllerTest extends TestCase {
 	protected $collaboratorSearch;
 	/** @var  IManager|\PHPUnit_Framework_MockObject_MockObject */
 	protected $autoCompleteManager;
-	/** @var  IConfig|\PHPUnit_Framework_MockObject_MockObject */
-	protected $config;
 	/** @var  AutoCompleteController */
 	protected $controller;
 
@@ -48,14 +44,12 @@ class AutoCompleteControllerTest extends TestCase {
 		$request = $this->createMock(IRequest::class);
 		$this->collaboratorSearch = $this->createMock(ISearch::class);
 		$this->autoCompleteManager = $this->createMock(IManager::class);
-		$this->config = $this->createMock(IConfig::class);
 
 		$this->controller = new AutoCompleteController(
 			'core',
 			$request,
 			$this->collaboratorSearch,
-			$this->autoCompleteManager,
-			$this->config
+			$this->autoCompleteManager
 		);
 	}
 

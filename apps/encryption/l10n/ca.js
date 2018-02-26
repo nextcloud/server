@@ -31,9 +31,9 @@ OC.L10N.register(
     "one-time password for server-side-encryption" : "contrasenya única per al xifrat del costat del servidor",
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "No es pot desencriptar aquest fitxer, probablement és un fitxer compartit. Demaneu al propietari del fitxer que el comparteixi de nou amb vós.",
     "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "No es pot llegir aquest fitxer, probablement aquest sigui un fitxer compartit. Demana al propietari del fitxer que torni a compartir el fitxer amb tu.",
+    "Default encryption module" : "Mòdul de xifrat per defecte",
     "The share will expire on %s." : "La compartició venç el %s.",
     "Cheers!" : "Salut!",
-    "Default encryption module" : "Mòdul de xifrat per defecte",
     "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "L'aplicació d'encriptació està activada però les claus no estan inicialitzades, sortiu i acrediteu-vos de nou.",
     "Encrypt the home storage" : "Xifra l'emmagatzematge de casa",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Si activeu aquesta opció xifra tots els fitxers emmagatzemats a l'emmagatzematge principal, en cas contrari, només es codificaran els fitxers en emmagatzematge extern",
@@ -57,7 +57,6 @@ OC.L10N.register(
     "Enable password recovery:" : "Habilita la recuperació de contrasenya:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Activar aquesta opció us permetrà obtenir de nou accés als vostres fitxers encriptats en cas de perdre la contrasenya",
     "Enabled" : "Activat",
-    "Disabled" : "Desactivat",
-    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "L'aplicació d'encriptació està activada però les claus no estan inicialitzades, sortiu i acrediteu-vos de nou."
+    "Disabled" : "Desactivat"
 },
 "nplurals=2; plural=(n != 1);");

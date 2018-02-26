@@ -100,6 +100,7 @@ OC.L10N.register(
     "The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "Il supporto cURL di PHP non è abilitato o installato. Impossibile montare %s. Chiedi al tuo amministratore di sistema di installarlo.",
     "The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "Il supporto FTP in PHP non è abilitato o installato. Impossibile montare %s. Chiedi al tuo amministratore di sistema di installarlo.",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" non è installato. Impossibile montare %s. Chiedi al tuo amministratore di sistema di installarlo.",
+    "External storage support" : "Supporto archiviazioni esterne",
     "No external storage configured" : "Nessuna archiviazione esterna configurata",
     "You can add external storages in the personal settings" : "Puoi aggiungere archiviazioni esterne nelle impostazioni personali",
     "Name" : "Nome",
@@ -127,8 +128,6 @@ OC.L10N.register(
     "Step 2 failed. Exception: %s" : "Fase 2 non riuscita. Eccezione: %s",
     "Dropbox App Configuration" : "Configurazione applicazione Dropbox",
     "Google Drive App Configuration" : "Configurazione applicazione Google Drive",
-    "Storage with id \"%i\" not found" : "Archiviazione con ID \"%i\" non trovata",
-    "Storage with id \"%i\" is not user editable" : "L'archiviazione con ID \"%i\" non è modificabile dall'utente",
     "Dropbox" : "Dropbox",
     "Google Drive" : "Google Drive"
 },

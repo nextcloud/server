@@ -29,7 +29,6 @@ OC.L10N.register(
     "Login image" : "Aantekenbeeld",
     "Upload new login background" : "Laai nuwe aantekenagtergrond op",
     "Remove background image" : "Verwyder agtergrondbeeld",
-    "reset to default" : "herstel na verstek",
-    "Log in image" : "Aantekenbeeld"
+    "reset to default" : "herstel na verstek"
 },
 "nplurals=2; plural=(n != 1);");

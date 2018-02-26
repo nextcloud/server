@@ -38,6 +38,7 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Del med meg gjennom min #Nextcloud-ID for sammenknyttet sky, se %s",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Del med meg gjennom min #Nextcloud-ID for sammenknyttet sky",
     "Sharing" : "Deling",
+    "Federated file sharing" : "Sammenknyttet fildeling",
     "Federated Cloud Sharing" : "Sammenknyttet skydeling",
     "Open documentation" : "Åpne dokumentasjonen",
     "Adjust how people can share between servers." : "Juster hvordan folk kan dele mellom tjenere.",
@@ -52,7 +53,6 @@ OC.L10N.register(
     "Add to your website" : "Legg på nettsiden din",
     "Share with me via Nextcloud" : "Del med meg via Nextcloud",
     "HTML Code:" : "HTML-kode:",
-    "Search global and public address book for users and let local users publish their data" : "Søk i verdensomspennende og offentlig adressebok etter brukere og la lokale brukere offentliggjøre deres data",
-    "Share it:" : "Del den:"
+    "Search global and public address book for users and let local users publish their data" : "Søk i verdensomspennende og offentlig adressebok etter brukere og la lokale brukere offentliggjøre deres data"
 },
 "nplurals=2; plural=(n != 1);");

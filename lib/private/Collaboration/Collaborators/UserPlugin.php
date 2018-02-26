@@ -85,7 +85,7 @@ class UserPlugin implements ISearchPlugin {
 
 		$this->takeOutCurrentUser($users);
 
-		if (!$this->shareeEnumeration || sizeof($users) < $limit) {
+		if (!$this->shareeEnumeration || count($users) < $limit) {
 			$hasMoreResults = true;
 		}
 
@@ -128,13 +128,13 @@ class UserPlugin implements ISearchPlugin {
 				}
 
 				if ($addUser) {
-					array_push($result['exact'], [
+					$result['exact'][] = [
 						'label' => $user->getDisplayName(),
 						'value' => [
 							'shareType' => Share::SHARE_TYPE_USER,
 							'shareWith' => $user->getUID(),
 						],
-					]);
+					];
 				}
 			}
 		}

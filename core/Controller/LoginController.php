@@ -264,13 +264,15 @@ class LoginController extends Controller {
 			$users = $this->userManager->getByEmail($user);
 			// we only allow login by email if unique
 			if (count($users) === 1) {
+				$previousUser = $user;
 				$user = $users[0]->getUID();
-				$loginResult = $this->userManager->checkPassword($user, $password);
-			} else {
-				$this->logger->warning('Login failed: \''. $user .'\' (Remote IP: \''. $this->request->getRemoteAddress(). '\')', ['app' => 'core']);
+				if($user !== $previousUser) {
+					$loginResult = $this->userManager->checkPassword($user, $password);
+				}
 			}
 		}
 		if ($loginResult === false) {
+			$this->logger->warning('Login failed: \''. $user .'\' (Remote IP: \''. $this->request->getRemoteAddress(). '\')', ['app' => 'core']);
 			// Read current user and append if possible - we need to return the unmodified user otherwise we will leak the login name
 			$args = !is_null($user) ? ['user' => $originalUser] : [];
 			if (!is_null($redirect_url)) {

@@ -167,7 +167,7 @@ class Storage {
 		// to get the right target
 		$ext = pathinfo($filename, PATHINFO_EXTENSION);
 		if ($ext === 'part') {
-			$filename = substr($filename, 0, strlen($filename) - 5);
+			$filename = substr($filename, 0, -5);
 		}
 
 		// we only handle existing files
@@ -503,7 +503,7 @@ class Storage {
 
 		$toDelete = [];
 		foreach (array_reverse($versions['all']) as $key => $version) {
-			if (intval($version['version'])<$threshold) {
+			if ((int)$version['version'] <$threshold) {
 				$toDelete[$key] = $version;
 			} else {
 				//Versions are sorted by time - nothing mo to iterate.
@@ -566,7 +566,7 @@ class Storage {
 				$fileData = $file->getData();
 				$filePath = $dir . '/' . $fileData['name'];
 				if ($file['type'] === 'dir') {
-					array_push($dirs, $filePath);
+					$dirs[] = $filePath;
 				} else {
 					$versionsBegin = strrpos($filePath, '.v');
 					$relPathStart = strlen(self::VERSIONS_ROOT);

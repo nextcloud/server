@@ -90,8 +90,7 @@ class BackupCodesProvider implements IProvider {
 	 * @return Template
 	 */
 	public function getTemplate(IUser $user) {
-		$tmpl = new Template('twofactor_backupcodes', 'challenge');
-		return $tmpl;
+		return new Template('twofactor_backupcodes', 'challenge');
 	}
 
 	/**

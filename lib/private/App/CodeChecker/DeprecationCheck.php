@@ -23,7 +23,7 @@
 
 namespace OC\App\CodeChecker;
 
-class DeprecationCheck extends AbstractCheck implements ICheck {
+class DeprecationCheck extends AbstractCheck {
 	/**
 	 * @return string
 	 */
@@ -45,6 +45,8 @@ class DeprecationCheck extends AbstractCheck implements ICheck {
 			'OCP\Response' => '8.1.0',
 			'OCP\AppFramework\IApi' => '8.0.0',
 			'OCP\User' => '13.0.0',
+			'OCP\BackgroundJob' => '14.0.0',
+			'OCP\App' => '14.0.0',
 		];
 	}
 
@@ -101,6 +103,13 @@ class DeprecationCheck extends AbstractCheck implements ICheck {
 			'OCP\App::addNavigationEntry' => '8.1.0',
 			'OCP\App::getActiveNavigationEntry' => '8.2.0',
 			'OCP\App::setActiveNavigationEntry' => '8.1.0',
+			'OCP\App::registerPersonal' => '14.0.0',
+			'OCP\App::registerAdmin' => '14.0.0',
+			'OC_App::getAppInfo' => '14.0.0',
+			'OCP\App::getAppInfo' => '14.0.0',
+			'OC_App::getAppVersion' => '14.0.0',
+			'OCP\App::getAppVersion' => '14.0.0',
+			'OCP\App::registerPersonal' => '14.0.0',
 
 			'OCP\AppFramework\Controller::params' => '7.0.0',
 			'OCP\AppFramework\Controller::getParams' => '7.0.0',
@@ -116,6 +125,8 @@ class DeprecationCheck extends AbstractCheck implements ICheck {
 			'OCP\AppFramework\IAppContainer::log' => '8.0.0',
 
 			'OCP\BackgroundJob::registerJob' => '8.1.0',
+			'OCP\BackgroundJob::getExecutionType' => '14.0.0',
+			'OCP\BackgroundJob::setExecutionType' => '14.0.0',
 
 			'OCP\Files::tmpFile' => '8.1.0',
 			'OCP\Files::tmpFolder' => '8.1.0',
@@ -134,6 +145,8 @@ class DeprecationCheck extends AbstractCheck implements ICheck {
 			'OCP\IServerContainer::getCache' => '8.2.0',
 			'OCP\IServerContainer::getDb' => '8.1.0',
 			'OCP\IServerContainer::getHTTPHelper' => '8.1.0',
+
+			'OCP\Response::disableCaching' => '14.0.0',
 
 			'OCP\User::getUser' => '8.0.0',
 			'OCP\User::getUsers' => '8.1.0',

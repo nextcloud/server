@@ -1,0 +1,27 @@
+{ "translations": {
+    "Cannot write into \"config\" directory!" : "Keng Schreiwreschter op d' 'config' Verzeechnis!",
+    "See %s" : "%s kucken",
+    "Sample configuration detected" : "Beispill-Konfiguratioun erkannt",
+    "PHP %s or higher is required." : "PHP %s oder méi nei ass néideg.",
+    "PHP with a version lower than %s is required." : "PHP mat enger Versioun %s oder méi kleng ass néideg.",
+    "Following databases are supported: %s" : "Dës Datebanke ginn ënnerstëtzt: %s",
+    "Unknown filetype" : "Onbekannten Fichier Typ",
+    "Invalid image" : "Ongülteg d'Bild",
+    "today" : "haut",
+    "yesterday" : "gëschter",
+    "_%n day ago_::_%n days ago_" : ["%n Dag hier","%n Deeg hier"],
+    "last month" : "Läschte Mount",
+    "_%n month ago_::_%n months ago_" : ["%n Mount hier","%n Méint hier"],
+    "last year" : "Läscht Joer",
+    "_%n year ago_::_%n years ago_" : ["%n Joer hier","%n Joer hier"],
+    "_%n hour ago_::_%n hours ago_" : ["%n Stonn hier","%n Stonnen hier"],
+    "seconds ago" : "Sekonnen hir",
+    "Apps" : "Applikatiounen",
+    "Users" : "Benotzer",
+    "Tips & tricks" : "Tipps an Tricks",
+    "__language_name__" : "Lëtzebuergesch",
+    "Set an admin password." : "Admin Passwuert setzen",
+    "%s shared »%s« with you" : "Den/D' %s huet »%s« mat dir gedeelt",
+    "Authentication error" : "Authentifikatioun's Fehler"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

@@ -48,7 +48,6 @@ OC.L10N.register(
     "Add to your website" : "Προσθήκη στην ιστοσελίδα σας",
     "Share with me via Nextcloud" : "Διαμοιραστείτε με εμένα μέσω του Nextcloud",
     "HTML Code:" : "Κώδικας HTML:",
-    "Search global and public address book for users and let local users publish their data" : "Αναζήτηση σε γενικό και δημόσιο βιβλίο διευθύνσεων για χρήστες και επιτρέψτε τους τοπικούς χρήστες να δημοσιεύουν τα δεδομένα τους",
-    "Share it:" : "Μοιραστείτε το:"
+    "Search global and public address book for users and let local users publish their data" : "Αναζήτηση σε γενικό και δημόσιο βιβλίο διευθύνσεων για χρήστες και επιτρέψτε τους τοπικούς χρήστες να δημοσιεύουν τα δεδομένα τους"
 },
 "nplurals=2; plural=(n != 1);");

@@ -121,7 +121,7 @@ class Base extends Command implements CompletionAwareInterface {
 		} else if ($value === true) {
 			return 'true';
 		} else if ($value === null) {
-			return ($returnNull) ? null : 'null';
+			return $returnNull ? null : 'null';
 		} else {
 			return $value;
 		}

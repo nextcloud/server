@@ -25,7 +25,6 @@ namespace OCA\Files_External\Settings;
 
 use OCA\Files_External\Lib\Auth\Password\GlobalAuth;
 use OCA\Files_External\Service\BackendService;
-use OCA\Files_External\Service\GlobalStoragesService;
 use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Encryption\IManager;

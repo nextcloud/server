@@ -137,7 +137,7 @@ input {
 }
 
 .personal-settings-setting-box input {
-	&[type="text"], &[type="email"], &[type="tel"] {
+	&[type="text"], &[type="email"], &[type="tel"], &[type="url"] {
 		width: 100%;
 	}
 }
@@ -329,10 +329,22 @@ table.nostyle {
 		}
 	}
 	.token-list td {
-		&.more {
+		&%icon {
 			overflow: visible;
 			position: relative;
 			width: 16px;
+		}
+		&.more {
+			@extend %icon;
+		}
+		&.client {
+			@extend %icon;
+
+			div {
+				opacity: 0.57;
+				width: inherit;
+				padding-top: 5px;
+			}
 		}
 		border-top: 1px solid #DDD;
 		text-overflow: ellipsis;
@@ -342,7 +354,7 @@ table.nostyle {
 		vertical-align: top;
 		position: relative;
 	}
-	tr > *:nth-child(2) {
+	tr > *:nth-child(3) {
 		text-align: right;
 	}
 	.token-list {

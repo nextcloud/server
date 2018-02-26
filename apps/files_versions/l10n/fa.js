@@ -4,8 +4,9 @@ OC.L10N.register(
     "Could not revert: %s" : "بازگردانی امکان ناپذیر است: %s",
     "Versions" : "نسخه ها",
     "Failed to revert {file} to revision {timestamp}." : "برگرداندن {file} به نسخه {timestamp} با شکست روبرو شد",
+    "_%n byte_::_%n bytes_" : ["%n بایت"],
     "Restore" : "بازیابی",
-    "More versions..." : "نسخه های بیشتر",
-    "No other versions available" : "نسخه ی دیگری در دسترس نیست"
+    "No earlier versions available" : "هیچ نسخه قدیمی تری در دسترس نیست",
+    "More versions …" : "نسخه های بیشتر ..."
 },
 "nplurals=1; plural=0;");

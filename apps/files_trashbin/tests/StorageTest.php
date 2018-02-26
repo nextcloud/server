@@ -593,6 +593,7 @@ class StorageTest extends \Test\TestCase {
 			$this->markTestSkipped('Skipping since the current home storage backend requires the user to logged in');
 		} else {
 			$this->userView->unlink('test.txt');
+			$this->addToAssertionCount(1);
 		}
 	}
 }

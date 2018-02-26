@@ -32,7 +32,7 @@ $helper = new \OCA\User_LDAP\Helper(\OC::$server->getConfig());
 $serverConnections = $helper->getServerConfigurationPrefixes();
 sort($serverConnections);
 $lk = array_pop($serverConnections);
-$ln = intval(str_replace('s', '', $lk));
+$ln = (int)str_replace('s', '', $lk);
 $nk = 's'.str_pad($ln+1, 2, '0', STR_PAD_LEFT);
 
 $resultData = array('configPrefix' => $nk);

@@ -39,12 +39,7 @@
 
 namespace OC\Share;
 
-use OC\Files\Filesystem;
 use OCP\DB\QueryBuilder\IQueryBuilder;
-use OCP\ILogger;
-use OCP\IUserManager;
-use OCP\IUserSession;
-use OCP\IDBConnection;
 use OCP\IConfig;
 use OCP\Util;
 
@@ -784,81 +779,6 @@ class Share extends Constants {
 	}
 
 	/**
-	 * Retrieve the owner of a connection
-	 *
-	 * @param IDBConnection $connection
-	 * @param int $shareId
-	 * @throws \Exception
-	 * @return string uid of share owner
-	 */
-	private static function getShareOwner(IDBConnection $connection, $shareId) {
-		$qb = $connection->getQueryBuilder();
-
-		$qb->select('uid_owner')
-			->from('share')
-			->where($qb->expr()->eq('id', $qb->createParameter('shareId')))
-			->setParameter(':shareId', $shareId);
-		$dbResult = $qb->execute();
-		$result = $dbResult->fetch();
-		$dbResult->closeCursor();
-
-		if (empty($result)) {
-			throw new \Exception('Share not found');
-		}
-
-		return $result['uid_owner'];
-	}
-
-	/**
-	 * Set password for a public link share
-	 *
-	 * @param IUserSession $userSession
-	 * @param IDBConnection $connection
-	 * @param IConfig $config
-	 * @param int $shareId
-	 * @param string $password
-	 * @throws \Exception
-	 * @return boolean
-	 */
-	public static function setPassword(IUserSession $userSession,
-	                                   IDBConnection $connection,
-	                                   IConfig $config,
-	                                   $shareId, $password) {
-		$user = $userSession->getUser();
-		if (is_null($user)) {
-			throw new \Exception("User not logged in");
-		}
-
-		$uid = self::getShareOwner($connection, $shareId);
-
-		if ($uid !== $user->getUID()) {
-			throw new \Exception('Cannot update share of a different user');
-		}
-
-		if ($password === '') {
-			$password = null;
-		}
-
-		//If passwords are enforced the password can't be null
-		if (self::enforcePassword($config) && is_null($password)) {
-			throw new \Exception('Cannot remove password');
-		}
-
-		self::verifyPassword($password);
-
-		$qb = $connection->getQueryBuilder();
-		$qb->update('share')
-			->set('share_with', $qb->createParameter('pass'))
-			->where($qb->expr()->eq('id', $qb->createParameter('shareId')))
-			->setParameter(':pass', is_null($password) ? null : \OC::$server->getHasher()->hash($password))
-			->setParameter(':shareId', $shareId);
-
-		$qb->execute();
-
-		return true;
-	}
-
-	/**
 	 * Checks whether a share has expired, calls unshareItem() if yes.
 	 * @param array $item Share data (usually database row)
 	 * @return boolean True if item was expired, false otherwise.
@@ -924,11 +844,11 @@ class Share extends Constants {
 			$hookParams['fileTarget'] = $item['file_target'];
 		}
 
-		\OC_Hook::emit('OCP\Share', 'pre_unshare', $hookParams);
+		\OC_Hook::emit(\OCP\Share::class, 'pre_unshare', $hookParams);
 		$deletedShares = Helper::delete($item['id'], false, null, $newParent);
 		$deletedShares[] = $hookParams;
 		$hookParams['deletedShares'] = $deletedShares;
-		\OC_Hook::emit('OCP\Share', 'post_unshare', $hookParams);
+		\OC_Hook::emit(\OCP\Share::class, 'post_unshare', $hookParams);
 		if ((int)$item['share_type'] === \OCP\Share::SHARE_TYPE_REMOTE && \OC::$server->getUserSession()->getUser()) {
 			list(, $remote) = Helper::splitUserRemote($item['share_with']);
 			self::sendRemoteUnshare($remote, $item['id'], $item['token']);
@@ -1113,7 +1033,7 @@ class Share extends Constants {
 				} else {
 					$itemTypes = $collectionTypes;
 				}
-				$placeholders = join(',', array_fill(0, count($itemTypes), '?'));
+				$placeholders = implode(',', array_fill(0, count($itemTypes), '?'));
 				$where = ' WHERE `item_type` IN ('.$placeholders.'))';
 				$queryArgs = $itemTypes;
 			} else {
@@ -1139,7 +1059,7 @@ class Share extends Constants {
 					$groups = \OC::$server->getGroupManager()->getUserGroupIds($user);
 				}
 				if (!empty($groups)) {
-					$placeholders = join(',', array_fill(0, count($groups), '?'));
+					$placeholders = implode(',', array_fill(0, count($groups), '?'));
 					$where .= ' OR (`share_type` = ? AND `share_with` IN ('.$placeholders.')) ';
 					$queryArgs[] = self::SHARE_TYPE_GROUP;
 					$queryArgs = array_merge($queryArgs, $groups);
@@ -1204,7 +1124,7 @@ class Share extends Constants {
 			}
 			$queryArgs[] = $item;
 			if ($includeCollections && $collectionTypes && !in_array('folder', $collectionTypes)) {
-				$placeholders = join(',', array_fill(0, count($collectionTypes), '?'));
+				$placeholders = implode(',', array_fill(0, count($collectionTypes), '?'));
 				$where .= ' OR `item_type` IN ('.$placeholders.'))';
 				$queryArgs = array_merge($queryArgs, $collectionTypes);
 			}
@@ -1491,7 +1411,7 @@ class Share extends Constants {
 	 */
 	protected static function groupItems($items, $itemType) {
 
-		$fileSharing = ($itemType === 'file' || $itemType === 'folder') ? true : false;
+		$fileSharing = $itemType === 'file' || $itemType === 'folder';
 
 		$result = array();
 
@@ -1621,10 +1541,10 @@ class Share extends Constants {
 			'error' => &$error
 		);
 
-		$preHookData['itemTarget'] = ($isGroupShare) ? $groupItemTarget : $itemTarget;
-		$preHookData['shareWith'] = ($isGroupShare) ? $shareWith['group'] : $shareWith;
+		$preHookData['itemTarget'] = $isGroupShare ? $groupItemTarget : $itemTarget;
+		$preHookData['shareWith'] = $isGroupShare ? $shareWith['group'] : $shareWith;
 
-		\OC_Hook::emit('OCP\Share', 'pre_shared', $preHookData);
+		\OC_Hook::emit(\OCP\Share::class, 'pre_shared', $preHookData);
 
 		if ($run === false) {
 			throw new \Exception($error);
@@ -1634,7 +1554,7 @@ class Share extends Constants {
 			$sourceId = ($itemType === 'file' || $itemType === 'folder') ? $fileSource : $itemSource;
 			$sourceExists = self::getItemSharedWithBySource($itemType, $sourceId, self::FORMAT_NONE, null, true, $user);
 
-			$userShareType = ($isGroupShare) ? self::$shareTypeGroupUserUnique : $shareType;
+			$userShareType = $isGroupShare ? self::$shareTypeGroupUserUnique : $shareType;
 
 			if ($sourceExists && $sourceExists['item_source'] === $itemSource) {
 				$fileTarget = $sourceExists['file_target'];
@@ -1734,11 +1654,11 @@ class Share extends Constants {
 			'expirationDate' => $expirationDate,
 		);
 
-		$postHookData['shareWith'] = ($isGroupShare) ? $shareWith['group'] : $shareWith;
-		$postHookData['itemTarget'] = ($isGroupShare) ? $groupItemTarget : $itemTarget;
-		$postHookData['fileTarget'] = ($isGroupShare) ? $groupFileTarget : $fileTarget;
+		$postHookData['shareWith'] = $isGroupShare ? $shareWith['group'] : $shareWith;
+		$postHookData['itemTarget'] = $isGroupShare ? $groupItemTarget : $itemTarget;
+		$postHookData['fileTarget'] = $isGroupShare ? $groupFileTarget : $fileTarget;
 
-		\OC_Hook::emit('OCP\Share', 'post_shared', $postHookData);
+		\OC_Hook::emit(\OCP\Share::class, 'post_shared', $postHookData);
 
 
 		return $id ? $id : false;
@@ -2112,7 +2032,7 @@ class Share extends Constants {
 			$status = json_decode($result['result'], true);
 
 			if ($result['success'] && ($status['ocs']['meta']['statuscode'] === 100 || $status['ocs']['meta']['statuscode'] === 200)) {
-				\OC_Hook::emit('OCP\Share', 'federated_share_added', ['server' => $remote]);
+				\OC_Hook::emit(\OCP\Share::class, 'federated_share_added', ['server' => $remote]);
 				return true;
 			}
 
@@ -2145,7 +2065,7 @@ class Share extends Constants {
 	 */
 	public static function shareWithGroupMembersOnly() {
 		$value = \OC::$server->getConfig()->getAppValue('core', 'shareapi_only_share_with_group_members', 'no');
-		return ($value === 'yes') ? true : false;
+		return $value === 'yes';
 	}
 
 	/**
@@ -2153,15 +2073,7 @@ class Share extends Constants {
 	 */
 	public static function isDefaultExpireDateEnabled() {
 		$defaultExpireDateEnabled = \OC::$server->getConfig()->getAppValue('core', 'shareapi_default_expire_date', 'no');
-		return ($defaultExpireDateEnabled === "yes") ? true : false;
-	}
-
-	/**
-	 * @return bool
-	 */
-	public static function enforceDefaultExpireDate() {
-		$enforceDefaultExpireDate = \OC::$server->getConfig()->getAppValue('core', 'shareapi_enforce_expire_date', 'no');
-		return ($enforceDefaultExpireDate === "yes") ? true : false;
+		return $defaultExpireDateEnabled === 'yes';
 	}
 
 	/**
@@ -2202,31 +2114,7 @@ class Share extends Constants {
 	 */
 	public static function enforcePassword(IConfig $config) {
 		$enforcePassword = $config->getAppValue('core', 'shareapi_enforce_links_password', 'no');
-		return ($enforcePassword === "yes") ? true : false;
-	}
-
-	/**
-	 * Get all share entries, including non-unique group items
-	 *
-	 * @param string $owner
-	 * @return array
-	 */
-	public static function getAllSharesForOwner($owner) {
-		$query = 'SELECT * FROM `*PREFIX*share` WHERE `uid_owner` = ?';
-		$result = \OC::$server->getDatabaseConnection()->executeQuery($query, [$owner]);
-		return $result->fetchAll();
-	}
-
-	/**
-	 * Get all share entries, including non-unique group items for a file
-	 *
-	 * @param int $id
-	 * @return array
-	 */
-	public static function getAllSharesForFileId($id) {
-		$query = 'SELECT * FROM `*PREFIX*share` WHERE `file_source` = ?';
-		$result = \OC::$server->getDatabaseConnection()->executeQuery($query, [$id]);
-		return $result->fetchAll();
+		return $enforcePassword === 'yes';
 	}
 
 	/**

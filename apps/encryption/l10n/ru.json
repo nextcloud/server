@@ -29,11 +29,11 @@
     "one-time password for server-side-encryption" : "одноразовый пароль для шифрования на стороне сервера",
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Не удалось расшифровать файл, возможно это опубликованный файл. Попросите владельца файла повторно открыть к нему доступ.",
     "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Не удается прочитать файл, возможно это публичный файл. Пожалуйста попросите владельца открыть доступ снова.",
+    "Default encryption module" : "Модуль шифрования по-умолчанию",
     "Hey there,\n\nthe admin enabled server-side-encryption. Your files were encrypted using the password '%s'.\n\nPlease login to the web interface, go to the section 'basic encryption module' of your personal settings and update your encryption password by entering this password into the 'old log-in password' field and your current login-password.\n\n" : "Привет,\n\nадминистратор включил шифрование на стороне сервера. Ваши файлы были зашифрованы с использованием пароля «%s».\n\nПожалуйста войдите в веб-приложение, в разделе «простой модуль шифрования» в личных настройках вам нужно обновить пароль шифрования, указав этот пароль в поле \"старый пароль\".\n",
     "The share will expire on %s." : "Доступ будет закрыт %s",
     "Cheers!" : "Всего наилучшего!",
     "Hey there,<br><br>the admin enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>Please login to the web interface, go to the section \"basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"old log-in password\" field and your current login-password.<br><br>" : "Привет,<br><br>администратор включил шифрование на стороне сервера. Ваши файлы были зашифрованы с помощью пароля <strong>%s</strong>.<br><br>Пожалуйста войдите в веб-приложение, в разделе «простой модуль шифрования» в личных настройках вам нужно обновить пароль шифрования, указав этот пароль в поле \"старый пароль\".<br><br>",
-    "Default encryption module" : "Модуль шифрования по-умолчанию",
     "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "Приложение шифрования активно, но ваши ключи не инициализированы, выйдите из системы и войдите заново",
     "Encrypt the home storage" : "Шифровать домашнюю директорию",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "При включении данного параметра будут зашифрованы все файлы, хранящиеся в основном хранилище. В противном случае шифруются только файлы на внешних хранилищах.",
@@ -57,7 +57,6 @@
     "Enable password recovery:" : "Включить восстановление пароля:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Включение этой опции позволит вам получить доступ к своим зашифрованным файлам в случае утери пароля",
     "Enabled" : "Включено",
-    "Disabled" : "Отключено",
-    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Приложение шифрования активно, но ваши ключи не инициализированы. Выйдите из системы и войдите заново"
+    "Disabled" : "Отключено"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

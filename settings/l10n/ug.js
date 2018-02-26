@@ -36,14 +36,6 @@ OC.L10N.register(
     "Unlimited" : "چەكسىز",
     "Other" : "باشقا",
     "set new password" : "يېڭى ئىم تەڭشە",
-    "Default" : "كۆڭۈلدىكى",
-    "Invalid request" : "ئىناۋەتسىز ئىلتىماس",
-    "Admins can't remove themself from the admin group" : "باشقۇرغۇچى ئۆزىنى باشقۇرۇش گۇرۇپپىسىدىن چىقىرىۋېتەلمەيدۇ",
-    "Unable to add user to group %s" : "ئىشلەتكۈچىنى %s گۇرۇپپىغا قوشالمايدۇ",
-    "Unable to remove user from group %s" : "ئىشلەتكۈچىنى %s گۇرۇپپىدىن چىقىرىۋېتەلمەيدۇ",
-    "Updating...." : "يېڭىلاۋاتىدۇ…",
-    "Error while updating app" : "ئەپنى يېڭىلاۋاتقاندا خاتالىق كۆرۈلدى",
-    "__language_name__" : "ئۇيغۇرچە",
-    "Name" : "ئاتى"
+    "Default" : "كۆڭۈلدىكى"
 },
 "nplurals=1; plural=0;");

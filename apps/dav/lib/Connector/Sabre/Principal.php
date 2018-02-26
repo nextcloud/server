@@ -39,7 +39,6 @@ use OCP\Share\IManager as IShareManager;
 use Sabre\DAV\Exception;
 use \Sabre\DAV\PropPatch;
 use Sabre\DAVACL\PrincipalBackend\BackendInterface;
-use Sabre\HTTP\URLUtil;
 
 class Principal implements BackendInterface {
 

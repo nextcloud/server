@@ -210,9 +210,7 @@ class Helper {
 		}
 
 		$sliced = array_slice($split, 2);
-		$relPath = implode('/', $sliced);
-
-		return $relPath;
+		return implode('/', $sliced);
 	}
 
 	/**
@@ -225,7 +223,7 @@ class Helper {
 	 */
 	public static function generateUniqueTarget($path, $excludeList, $view) {
 		$pathinfo = pathinfo($path);
-		$ext = (isset($pathinfo['extension'])) ? '.'.$pathinfo['extension'] : '';
+		$ext = isset($pathinfo['extension']) ? '.'.$pathinfo['extension'] : '';
 		$name = $pathinfo['filename'];
 		$dir = $pathinfo['dirname'];
 		$i = 2;

@@ -261,7 +261,7 @@ class Helper {
 		} else if ($sortAttribute === 'size') {
 			$sortFunc = 'compareSize';
 		}
-		usort($files, array('\OCA\Files\Helper', $sortFunc));
+		usort($files, array(Helper::class, $sortFunc));
 		if ($sortDescending) {
 			$files = array_reverse($files);
 		}

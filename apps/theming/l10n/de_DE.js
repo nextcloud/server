@@ -34,7 +34,6 @@ OC.L10N.register(
     "Upload new login background" : "Neuen Anmelde-Hintergrund hochladen",
     "Remove background image" : "Entferne Hintergrundbild",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installieren Sie die Imagemagick PHP-Erweiterung mit Unterstützung für SVG-Bilder, um automatisch Favoriten-Icons auf Basis des hochgeladenen Icons und der Farbe zu erstellen.",
-    "reset to default" : "Auf Standard zurücksetzen",
-    "Log in image" : "Anmelde-Bild"
+    "reset to default" : "Auf Standard zurücksetzen"
 },
 "nplurals=2; plural=(n != 1);");

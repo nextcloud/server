@@ -31,8 +31,10 @@
 namespace OCA\Provisioning_API\Controller;
 
 use OC\Accounts\AccountManager;
+use OC\HintException;
 use OC\Settings\Mailer\NewUserMailHelper;
 use OC_Helper;
+use OCA\Provisioning_API\FederatedFileSharingFactory;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSException;
@@ -68,6 +70,8 @@ class UsersController extends OCSController {
 	private $l10nFactory;
 	/** @var NewUserMailHelper */
 	private $newUserMailHelper;
+	/** @var FederatedFileSharingFactory */
+	private $federatedFileSharingFactory;
 
 	/**
 	 * @param string $appName
@@ -81,6 +85,7 @@ class UsersController extends OCSController {
 	 * @param ILogger $logger
 	 * @param IFactory $l10nFactory
 	 * @param NewUserMailHelper $newUserMailHelper
+	 * @param FederatedFileSharingFactory $federatedFileSharingFactory
 	 */
 	public function __construct($appName,
 								IRequest $request,
@@ -92,7 +97,8 @@ class UsersController extends OCSController {
 								AccountManager $accountManager,
 								ILogger $logger,
 								IFactory $l10nFactory,
-								NewUserMailHelper $newUserMailHelper) {
+								NewUserMailHelper $newUserMailHelper,
+								FederatedFileSharingFactory $federatedFileSharingFactory) {
 		parent::__construct($appName, $request);
 
 		$this->userManager = $userManager;
@@ -104,6 +110,7 @@ class UsersController extends OCSController {
 		$this->logger = $logger;
 		$this->l10nFactory = $l10nFactory;
 		$this->newUserMailHelper = $newUserMailHelper;
+		$this->federatedFileSharingFactory = $federatedFileSharingFactory;
 	}
 
 	/**
@@ -187,17 +194,28 @@ class UsersController extends OCSController {
 
 		try {
 			$newUser = $this->userManager->createUser($userid, $password);
-			$this->logger->info('Successful addUser call with userid: '.$userid, ['app' => 'ocs_api']);
+			$this->logger->info('Successful addUser call with userid: ' . $userid, ['app' => 'ocs_api']);
 
 			if (is_array($groups)) {
 				foreach ($groups as $group) {
 					$this->groupManager->get($group)->addUser($newUser);
-					$this->logger->info('Added userid '.$userid.' to group '.$group, ['app' => 'ocs_api']);
+					$this->logger->info('Added userid ' . $userid . ' to group ' . $group, ['app' => 'ocs_api']);
 				}
 			}
 			return new DataResponse();
+		} catch (HintException $e ) {
+			$this->logger->logException($e, [
+				'message' => 'Failed addUser attempt with hint exception.',
+				'level' => \OCP\Util::WARN,
+				'app' => 'ocs_api',
+			]);
+			throw new OCSException($e->getHint(), 107);
 		} catch (\Exception $e) {
-			$this->logger->error('Failed addUser attempt with exception: '.$e->getMessage(), ['app' => 'ocs_api']);
+			$this->logger->logException($e, [
+				'message' => 'Failed addUser attempt with exception.',
+				'level' => \OCP\Util::ERROR,
+				'app' => 'ocs_api',
+			]);
 			throw new OCSException('Bad request', 101);
 		}
 	}
@@ -290,6 +308,33 @@ class UsersController extends OCSController {
 		$data['language'] = $this->config->getUserValue($targetUserObject->getUID(), 'core', 'lang');
 
 		return $data;
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoSubAdminRequired
+	 */
+	public function getEditableFields() {
+		$permittedFields = [];
+
+		// Editing self (display, email)
+		if ($this->config->getSystemValue('allow_user_to_change_display_name', true) !== false) {
+			$permittedFields[] = AccountManager::PROPERTY_DISPLAYNAME;
+			$permittedFields[] = AccountManager::PROPERTY_EMAIL;
+		}
+
+		if ($this->appManager->isEnabledForUser('federatedfilesharing')) {
+			$federatedFileSharing = $this->federatedFileSharingFactory->get();
+			$shareProvider = $federatedFileSharing->getFederatedShareProvider();
+			if ($shareProvider->isLookupServerUploadEnabled()) {
+				$permittedFields[] = AccountManager::PROPERTY_PHONE;
+				$permittedFields[] = AccountManager::PROPERTY_ADDRESS;
+				$permittedFields[] = AccountManager::PROPERTY_WEBSITE;
+				$permittedFields[] = AccountManager::PROPERTY_TWITTER;
+			}
+		}
+
+		return new DataResponse($permittedFields);
 	}
 
 	/**
@@ -826,7 +871,11 @@ class UsersController extends OCSController {
 			$emailTemplate = $this->newUserMailHelper->generateTemplate($targetUser, false);
 			$this->newUserMailHelper->sendMail($targetUser, $emailTemplate);
 		} catch(\Exception $e) {
-			$this->logger->error("Can't send new user mail to $email: " . $e->getMessage(), array('app' => 'settings'));
+			$this->logger->logException($e, [
+				'message' => "Can't send new user mail to $email",
+				'level' => \OCP\Util::ERROR,
+				'app' => 'settings',
+			]);
 			throw new OCSException('Sending email failed', 102);
 		}
 

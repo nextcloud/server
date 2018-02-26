@@ -88,6 +88,7 @@ OC.L10N.register(
     "Can't change permissions for public share links" : "Kan ikke endre rettigheter for offentlige lenker",
     "Cannot increase permissions" : "Kan ikke øke tillatelser",
     "Share API is disabled" : "Deling API er deaktivert",
+    "File sharing" : "Fildeling",
     "This share is password-protected" : "Denne delingen er passordbeskyttet",
     "The password is wrong. Try again." : "Passordet er feil. Prøv på nytt.",
     "Password" : "Passord",

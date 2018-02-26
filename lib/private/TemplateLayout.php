@@ -80,9 +80,9 @@ class TemplateLayout extends \OC_Template {
 			// Add navigation entry
 			$this->assign( 'application', '');
 			$this->assign( 'appid', $appId );
-			$navigation = \OC_App::getNavigation();
+			$navigation = \OC::$server->getNavigationManager()->getAll();
 			$this->assign( 'navigation', $navigation);
-			$settingsNavigation = \OC_App::getSettingsNavigation();
+			$settingsNavigation = \OC::$server->getNavigationManager()->getAll('settings');
 			$this->assign( 'settingsnavigation', $settingsNavigation);
 			foreach($navigation as $entry) {
 				if ($entry['active']) {
@@ -128,7 +128,9 @@ class TemplateLayout extends \OC_Template {
 
 		}
 		// Send the language to our layouts
-		$this->assign('language', \OC::$server->getL10NFactory()->findLanguage());
+		$lang = \OC::$server->getL10NFactory()->findLanguage();
+		$lang = str_replace('_', '-', $lang);
+		$this->assign('language', $lang);
 
 		if(\OC::$server->getSystemConfig()->getValue('installed', false)) {
 			if (empty(self::$versionHash)) {
@@ -178,7 +180,9 @@ class TemplateLayout extends \OC_Template {
 		if(\OC::$server->getSystemConfig()->getValue('installed', false)
 			&& !\OCP\Util::needUpgrade()
 			&& $pathInfo !== ''
-			&& !preg_match('/^\/login/', $pathInfo)) {
+			&& !preg_match('/^\/login/', $pathInfo)
+			&& $renderAs !== 'error' && $renderAs !== 'guest'
+		) {
 			$cssFiles = self::findStylesheetFiles(\OC_Util::$styles);
 		} else {
 			// If we ignore the scss compiler,

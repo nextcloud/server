@@ -86,7 +86,7 @@ class BackupCodeStorage {
 			$dbCode->setUsed(0);
 			$this->mapper->insert($dbCode);
 
-			array_push($result, $code);
+			$result[] = $code;
 		}
 
 		$this->publishEvent($user, 'codes_generated');

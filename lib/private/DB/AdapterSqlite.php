@@ -79,7 +79,7 @@ class AdapterSqlite extends Adapter {
 				$query .= ' = ? AND ';
 			}
 		}
-		$query = substr($query, 0, strlen($query) - 5);
+		$query = substr($query, 0, -5);
 		$query .= ')';
 
 		return $this->conn->executeUpdate($query, $inserts);

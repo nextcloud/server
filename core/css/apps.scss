@@ -118,7 +118,6 @@ kbd {
 				}
 			}
 
-			> a,
 			> .app-navigation-entry-deleted {
 				/* Ugly hack for overriding the main entry link */
 				padding-left: 44px !important;
@@ -161,13 +160,14 @@ kbd {
 
 			/* Second level nesting for lists */
 			> ul {
-				flex: 1 0 100%;
-				padding-left: 62px;
-				width: inherit;
+				flex: 0 1 auto;
+				padding-left: 44px;
+				width: 100%;
 				transition: max-height 2000ms ease-in-out,
 							opacity 250ms ease-in-out;
 				max-height: 9999px;
 				opacity: 1;
+				position: relative;
 				> li {
 					display: inline-flex;
 					flex-wrap: wrap;
@@ -183,19 +183,7 @@ kbd {
 
 					/* align loader */
 					&.icon-loading-small:after {
-						left: -10px;
-					}
-
-					/* Submenu fix for icon */
-					> a[class*='icon-'],
-					> a[style*='background-image'],
-					.app-navigation-entry-bullet {
-						margin-left: -32px; /* 44px padding - 12px padding */
-					}
-
-					/* Submenu fix for bullet */
-					> .app-navigation-entry-bullet {
-						left: -32px;/* 44px padding - 12px padding */
+						left: 22px; /* 44px / 2 */
 					}
 				}
 			}
@@ -210,6 +198,7 @@ kbd {
 			&.icon-loading-small {
 				> a,
 				> .app-navigation-entry-bullet {
+					/* hide icon or bullet if loading state*/
 					background: none !important;
 				}
 			}
@@ -221,7 +210,7 @@ kbd {
 				display: block;
 				line-height: 44px;
 				min-height: 44px;
-				padding: 0 12px;
+				padding: 0 12px 0 44px;
 				overflow: hidden;
 				box-sizing: border-box;
 				white-space: nowrap;
@@ -229,7 +218,7 @@ kbd {
 				color: $color-main-text;
 				opacity: .57;
 				flex: 1 1 0;
-				z-index: 100; /* above the bullet */
+				z-index: 100; /* above the bullet to allow click*/
 				/* TODO: forbid using img as icon in menu? */
 				&:first-child img {
 				    margin-right: 11px;
@@ -264,12 +253,6 @@ kbd {
 				border: none;
 				border-radius: 50%;
 				cursor: pointer;
-			}
-
-			/* padding in case of icon or bullet */
-			> a[class*='icon-'],
-			> a[style*='background-image'] {
-				padding-left: 44px;
 			}
 
 			/* popover fix the flex positionning of the li parent */
@@ -473,7 +456,7 @@ kbd {
 	 */
 	.app-navigation-entry-deleted {
 		display: inline-flex;
-		padding-left: 12px;
+		padding-left: 44px;
 		transform: translateX(250px);
 		.app-navigation-entry-deleted-description {
 			position: relative;

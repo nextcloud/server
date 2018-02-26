@@ -88,6 +88,7 @@ OC.L10N.register(
     "Can't change permissions for public share links" : "URLリンク共有のパーミッションを変更できません",
     "Cannot increase permissions" : "パーミッションを追加できません",
     "Share API is disabled" : "共有APIが無効です。",
+    "File sharing" : "ファイル共有",
     "This share is password-protected" : "この共有はパスワードで保護されています",
     "The password is wrong. Try again." : "パスワードが間違っています。再試行してください。",
     "Password" : "パスワード",

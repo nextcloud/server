@@ -64,8 +64,6 @@
     "Reset" : "Återställ",
     "Save" : "Spara",
     "Saving…" : "Sparar...",
-    "Loading…" : "Laddar...",
-    "Successfully saved" : "Sparades framgångsrikt",
-    "File mime type" : "Filens \"mime\" typ"
+    "Loading…" : "Laddar..."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

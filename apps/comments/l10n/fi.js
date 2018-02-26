@@ -25,6 +25,7 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s kommentoi kohdetta %2$s",
     "{author} commented on {file}" : "{author} kommentoi tiedostoa {file}",
     "<strong>Comments</strong> for files" : "Tiedostojen <strong>kommentit</strong>",
+    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Sinut mainittiin tiedoston “{file}” kommentissa käyttäjän toimesta, joka on sittemmin poistettu",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s mainitsi sinut kommentissa “%2$s”",
     "{user} mentioned you in a comment on “{file}”" : "{user} mainitsi sinut tiedoston \"{file}\" kommentissa",
     "Unknown user" : "Tuntematon käyttäjä",

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -44,9 +45,16 @@ use OCP\IRequest;
  */
 class Dispatcher {
 
+	/** @var MiddlewareDispatcher */
 	private $middlewareDispatcher;
+
+	/** @var Http */
 	private $protocol;
+
+	/** @var ControllerMethodReflector */
 	private $reflector;
+
+	/** @var IRequest */
 	private $request;
 
 	/**
@@ -78,8 +86,8 @@ class Dispatcher {
 	 * the response output
 	 * @throws \Exception
 	 */
-	public function dispatch(Controller $controller, $methodName) {
-		$out = array(null, array(), null);
+	public function dispatch(Controller $controller, string $methodName): array {
+		$out = [null, [], null];
 
 		try {
 			// prefill reflector with everything thats needed for the
@@ -97,9 +105,6 @@ class Dispatcher {
 		} catch(\Exception $exception){
 			$response = $this->middlewareDispatcher->afterException(
 				$controller, $methodName, $exception);
-			if (is_null($response)) {
-				throw $exception;
-			}
 		}
 
 		$response = $this->middlewareDispatcher->afterController(
@@ -126,11 +131,11 @@ class Dispatcher {
 	 * @param string $methodName the method on the controller that should be executed
 	 * @return Response
 	 */
-	private function executeController($controller, $methodName) {
-		$arguments = array();
+	private function executeController(Controller $controller, string $methodName): Response {
+		$arguments = [];
 
 		// valid types that will be casted
-		$types = array('int', 'integer', 'bool', 'boolean', 'float');
+		$types = ['int', 'integer', 'bool', 'boolean', 'float'];
 
 		foreach($this->reflector->getParameters() as $param => $default) {
 
@@ -151,14 +156,14 @@ class Dispatcher {
 			) {
 				$value = false;
 
-			} elseif($value !== null && in_array($type, $types)) {
+			} elseif($value !== null && \in_array($type, $types, true)) {
 				settype($value, $type);
 			}
 
 			$arguments[] = $value;
 		}
 
-		$response = call_user_func_array(array($controller, $methodName), $arguments);
+		$response = \call_user_func_array([$controller, $methodName], $arguments);
 
 		// format response
 		if($response instanceof DataResponse || !($response instanceof Response)) {

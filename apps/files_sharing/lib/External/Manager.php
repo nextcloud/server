@@ -39,6 +39,7 @@ use OCP\Http\Client\IClientService;
 use OCP\IDBConnection;
 use OCP\Notification\IManager;
 use OCP\OCS\IDiscoveryService;
+use OCP\Share;
 
 class Manager {
 	const STORAGE = '\OCA\Files_Sharing\External\Storage';
@@ -217,7 +218,7 @@ class Manager {
 			$updated = $acceptShare->execute(array(1, $mountPoint, $hash, $id, $this->uid));
 			if ($updated === true) {
 				$this->sendFeedbackToRemote($share['remote'], $share['share_token'], $share['remote_id'], 'accept');
-				\OC_Hook::emit('OCP\Share', 'federated_share_added', ['server' => $share['remote']]);
+				\OC_Hook::emit(Share::class, 'federated_share_added', ['server' => $share['remote']]);
 				$result = true;
 			}
 		}

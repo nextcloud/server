@@ -36,13 +36,6 @@
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Permite a los usuarios compartir un enlace personalizado a un archivo o carpeta enviándolo a una dirección de correo electrónico",
     "Send password by mail" : "Enviar contraseñas por email",
     "Enforce password protection" : "Imponer la protección de contraseña",
-    "Failed to send share by E-mail" : "Falló enviar recurso compartido por correo electrónico",
-    "%s shared »%s« with you on behalf of %s" : "%s compartió »%s« con usted a nombre de %s",
-    "Failed to create the E-mail" : "Falló crear el correo electrónico",
-    "Hey there,\n\n%s shared »%s« with you on behalf of %s.\n\n%s\n\n" : "¡Hola!,\n\n%s compartió »%s« con usted a nombre de %s.\n\n%s\n\n",
-    "Hey there,\n\n%s shared »%s« with you.\n\n%s\n\n" : "Hola,\n\n%s compartió »%s« con usted.\n\n%s\n\n",
-    "Cheers!" : "¡Saludos!",
-    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you on behalf of %s.<br><br>" : "Hola,<br><br>%s compartió <a href=\"%s\">%s</a> con usted a nombre de %s.<br><br>",
-    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you.<br><br>" : "Hola,<br><br>%s compartió <a href=\"%s\">%s</a> con usted.<br><br>"
+    "Failed to send share by E-mail" : "Falló enviar recurso compartido por correo electrónico"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

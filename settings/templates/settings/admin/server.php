@@ -132,7 +132,7 @@
 				<ol>
 					<?php foreach(json_decode($_['cronErrors']) as $error) { if(isset($error->error)) {?>
 						<li><?php p($error->error) ?> <?php p($error->hint) ?></li>
-					<?php }};?>
+					<?php }} ?>
 				</ol>
 			</li>
 			<?php

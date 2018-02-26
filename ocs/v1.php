@@ -56,6 +56,10 @@ try {
 	OC_App::loadApps();
 
 	OC::$server->getRouter()->match('/ocs'.\OC::$server->getRequest()->getRawPathInfo());
+
+	sleep(1);
+	OC::$server->getLogger()->info('This uses an old OCP\API::register construct. This will be removed in a future version of Nextcloud. Please migrate to the OCSController');
+
 	return;
 } catch (ResourceNotFoundException $e) {
 	// Fall through the not found

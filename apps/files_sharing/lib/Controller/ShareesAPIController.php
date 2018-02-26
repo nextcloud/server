@@ -230,9 +230,7 @@ class ShareesAPIController extends OCSController {
 			$url = $this->urlGenerator->getAbsoluteURL('/ocs/v1.php/apps/files_sharing/api/v1/sharees') . '?';
 		}
 		$params['page'] = $page + 1;
-		$link = '<' . $url . http_build_query($params) . '>; rel="next"';
-
-		return $link;
+		return '<' . $url . http_build_query($params) . '>; rel="next"';
 	}
 
 	/**

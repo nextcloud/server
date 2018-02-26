@@ -193,7 +193,7 @@ class Backend {
 				'href' => "principal:${row['principaluri']}",
 				'commonName' => isset($p['{DAV:}displayname']) ? $p['{DAV:}displayname'] : '',
 				'status' => 1,
-				'readOnly' => ((int) $row['access'] === self::ACCESS_READ),
+				'readOnly' => (int) $row['access'] === self::ACCESS_READ,
 				'{http://owncloud.org/ns}principal' => $row['principaluri'],
 				'{http://owncloud.org/ns}group-share' => is_null($p)
 			];

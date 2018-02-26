@@ -75,6 +75,7 @@ OC.L10N.register(
     "Region" : "Region",
     "Enable SSL" : "Włącz SSL",
     "Enable Path Style" : "Włącz styl ścieżki",
+    "Legacy (v2) authentication" : "Stara wersja autoryzacji (V2)",
     "WebDAV" : "WebDAV",
     "URL" : "URL",
     "Remote subfolder" : "Zdalny podfolder",
@@ -126,8 +127,6 @@ OC.L10N.register(
     "Step 2 failed. Exception: %s" : "Krok 2 błędny. Błąd: %s",
     "Dropbox App Configuration" : "Konfiguracja aplikacji Dropbox",
     "Google Drive App Configuration" : "Konfiguracja aplikacji Google Drive",
-    "Storage with id \"%i\" not found" : "Magazyn o ID \"%i\" nie został znaleziony",
-    "Storage with id \"%i\" is not user editable" : "Magazyn o ID \"%i\" nie może być edytowany przez użytkowników",
     "Dropbox" : "Dropbox",
     "Google Drive" : "Dysk Google"
 },

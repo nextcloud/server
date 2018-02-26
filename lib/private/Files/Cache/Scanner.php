@@ -110,7 +110,7 @@ class Scanner extends BasicEmitter implements IScanner {
 	protected function getData($path) {
 		$data = $this->storage->getMetaData($path);
 		if (is_null($data)) {
-			\OCP\Util::writeLog('OC\Files\Cache\Scanner', "!!! Path '$path' is not accessible or present !!!", \OCP\Util::DEBUG);
+			\OCP\Util::writeLog(Scanner::class, "!!! Path '$path' is not accessible or present !!!", \OCP\Util::DEBUG);
 		}
 		return $data;
 	}
@@ -428,7 +428,7 @@ class Scanner extends BasicEmitter implements IScanner {
 		$exceptionOccurred = false;
 		$childQueue = [];
 		foreach ($newChildren as $file) {
-			$child = ($path) ? $path . '/' . $file : $file;
+			$child = $path ? $path . '/' . $file : $file;
 			try {
 				$existingData = isset($existingChildren[$file]) ? $existingChildren[$file] : null;
 				$data = $this->scanFile($child, $reuse, $folderId, $existingData, $lock);
@@ -452,7 +452,11 @@ class Scanner extends BasicEmitter implements IScanner {
 					\OC::$server->getDatabaseConnection()->rollback();
 					\OC::$server->getDatabaseConnection()->beginTransaction();
 				}
-				\OCP\Util::writeLog('core', 'Exception while scanning file "' . $child . '": ' . $ex->getMessage(), \OCP\Util::DEBUG);
+				\OC::$server->getLogger()->logException($ex, [
+					'message' => 'Exception while scanning file "' . $child . '"',
+					'level' => \OCP\Util::DEBUG,
+					'app' => 'core',
+				]);
 				$exceptionOccurred = true;
 			} catch (\OCP\Lock\LockedException $e) {
 				if ($this->useTransactions) {
@@ -463,7 +467,7 @@ class Scanner extends BasicEmitter implements IScanner {
 		}
 		$removedChildren = \array_diff(array_keys($existingChildren), $newChildren);
 		foreach ($removedChildren as $childName) {
-			$child = ($path) ? $path . '/' . $childName : $childName;
+			$child = $path ? $path . '/' . $childName : $childName;
 			$this->removeFromCache($child);
 		}
 		if ($this->useTransactions) {

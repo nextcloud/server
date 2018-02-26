@@ -2,7 +2,7 @@ OC.L10N.register(
     "workflowengine",
     {
     "Saved" : "Guardado",
-    "Saving failed:" : "Guardado fallido:",
+    "Saving failed:" : "Fallo al guardar:",
     "File MIME type" : "Tipo MIME del archivo",
     "is" : "es/esta",
     "is not" : "no es/esta",
@@ -59,6 +59,7 @@ OC.L10N.register(
     "Check %s is invalid" : "Chequeo %s no es valido",
     "Check #%s does not exist" : "El chequeo #%s no existe",
     "Workflow" : "Flujo de trabajo",
+    "Files workflow engine" : "Motor de flujo de trabajo de archivos",
     "Open documentation" : "Documentación abierta",
     "Add rule group" : "Añadir regla al grupo",
     "Short rule description" : "Descripción de la regla corta",
@@ -66,8 +67,6 @@ OC.L10N.register(
     "Reset" : "Reiniciar",
     "Save" : "Guardar",
     "Saving…" : "Guardando...",
-    "Loading…" : "Cargando...",
-    "Successfully saved" : "Guardado con éxito",
-    "File mime type" : "Tipo MIME del archivo"
+    "Loading…" : "Cargando..."
 },
 "nplurals=2; plural=(n != 1);");

@@ -32,8 +32,6 @@ use \OC\Files\Filesystem;
 
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\NotFoundException;
-use \OCA\Files_External\Service\BackendService;
-use \OCA\Files_External\Service\UserTrait;
 
 /**
  * Service class to manage user external storages
@@ -112,8 +110,7 @@ class UserStoragesService extends StoragesService {
 	 */
 	public function addStorage(StorageConfig $newStorage) {
 		$newStorage->setApplicableUsers([$this->getUser()->getUID()]);
-		$config = parent::addStorage($newStorage);
-		return $config;
+		return parent::addStorage($newStorage);
 	}
 
 	/**

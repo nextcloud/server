@@ -57,6 +57,7 @@
     "Check %s is invalid" : "Verifique se %s é inválido",
     "Check #%s does not exist" : "Verifique se %s não existe",
     "Workflow" : "Fluxo de trabalho",
+    "Files workflow engine" : "Sistema de fluxo de trabalho de arquivos",
     "Open documentation" : "Abrir documentação",
     "Add rule group" : "Adicionar regra do grupo",
     "Short rule description" : "Descrição curta da regra",
@@ -64,8 +65,6 @@
     "Reset" : "Redefinir",
     "Save" : "Salvar",
     "Saving…" : "Salvando...",
-    "Loading…" : "Carregando...",
-    "Successfully saved" : "Salvo",
-    "File mime type" : "Tipo de arquivo mime"
+    "Loading…" : "Carregando..."
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

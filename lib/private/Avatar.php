@@ -234,6 +234,11 @@ class Avatar implements IAvatar {
 
 		}
 
+		if($this->config->getUserValue($this->user->getUID(), 'avatar', 'generated', null) === null) {
+			$generated = $this->folder->fileExists('generated') ? 'true' : 'false';
+			$this->config->setUserValue($this->user->getUID(), 'avatar', 'generated', $generated);
+		}
+
 		return $file;
 	}
 
@@ -258,7 +263,7 @@ class Avatar implements IAvatar {
 	 * @return string
 	 */
 	private function generateAvatar($userDisplayName, $size) {
-		$text = strtoupper(substr($userDisplayName, 0, 1));
+		$text = mb_strtoupper(mb_substr($userDisplayName, 0, 1), 'UTF-8');
 		$backgroundColor = $this->avatarBackgroundColor($userDisplayName);
 
 		$im = imagecreatetruecolor($size, $size);
@@ -266,7 +271,7 @@ class Avatar implements IAvatar {
 		$white = imagecolorallocate($im, 255, 255, 255);
 		imagefilledrectangle($im, 0, 0, $size, $size, $background);
 
-		$font = __DIR__ . '/../../core/fonts/OpenSans-Semibold.woff';
+		$font = __DIR__ . '/../../core/fonts/OpenSans-Semibold.ttf';
 
 		$fontSize = $size * 0.4;
 		$box = imagettfbbox($fontSize, 0, $font, $text);

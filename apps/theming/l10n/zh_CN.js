@@ -34,7 +34,6 @@ OC.L10N.register(
     "Upload new login background" : "上传新登录背景",
     "Remove background image" : "删除背景图片",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "安装支持SVG图像的PHP扩展Imagemagick，根据上传的logo和颜色自动生成收藏图标。",
-    "reset to default" : "重置默认",
-    "Log in image" : "登录图片"
+    "reset to default" : "重置默认"
 },
 "nplurals=1; plural=0;");

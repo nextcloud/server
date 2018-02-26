@@ -207,7 +207,7 @@ class Manager {
 	public function isDeletedUser($id) {
 		$isDeleted = $this->ocConfig->getUserValue(
 			$id, 'user_ldap', 'isDeleted', 0);
-		return intval($isDeleted) === 1;
+		return (int)$isDeleted === 1;
 	}
 
 	/**

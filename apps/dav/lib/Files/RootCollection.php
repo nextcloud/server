@@ -25,7 +25,6 @@ namespace OCA\DAV\Files;
 
 use Sabre\DAV\INode;
 use Sabre\DAVACL\AbstractPrincipalCollection;
-use Sabre\HTTP\URLUtil;
 use Sabre\DAV\SimpleCollection;
 
 class RootCollection extends AbstractPrincipalCollection {

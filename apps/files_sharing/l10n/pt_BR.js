@@ -88,6 +88,7 @@ OC.L10N.register(
     "Can't change permissions for public share links" : "Não foi possível alterar as permissões para links de compartilhamento público",
     "Cannot increase permissions" : "Não foi possível aumentar as permissões",
     "Share API is disabled" : "O compartilhamento de API está desabilitado.",
+    "File sharing" : "Compartilhamento de arquivos",
     "This share is password-protected" : "Este compartilhamento é protegido por senha",
     "The password is wrong. Try again." : "Senha incorreta. Tente novamente.",
     "Password" : "Senha",

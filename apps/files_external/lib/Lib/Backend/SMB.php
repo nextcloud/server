@@ -23,10 +23,8 @@
 namespace OCA\Files_External\Lib\Backend;
 
 use \OCP\IL10N;
-use \OCA\Files_External\Lib\Backend\Backend;
 use \OCA\Files_External\Lib\DefinitionParameter;
 use \OCA\Files_External\Lib\Auth\AuthMechanism;
-use \OCA\Files_External\Service\BackendService;
 use \OCA\Files_External\Lib\StorageConfig;
 use \OCA\Files_External\Lib\LegacyDependencyCheckPolyfill;
 
@@ -44,8 +42,8 @@ class SMB extends Backend {
 			->setStorageClass('\OCA\Files_External\Lib\Storage\SMB')
 			->setText($l->t('SMB / CIFS'))
 			->addParameters([
-				(new DefinitionParameter('host', $l->t('Host'))),
-				(new DefinitionParameter('share', $l->t('Share'))),
+				new DefinitionParameter('host', $l->t('Host')),
+				new DefinitionParameter('share', $l->t('Share')),
 				(new DefinitionParameter('root', $l->t('Remote subfolder')))
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 				(new DefinitionParameter('domain', $l->t('Domain')))

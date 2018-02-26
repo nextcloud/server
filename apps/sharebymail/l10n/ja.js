@@ -38,13 +38,6 @@ OC.L10N.register(
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "ユーザーがメールアドレスを使ってファイルやフォルダーを個別に共有",
     "Send password by mail" : "メールでパスワード送信",
     "Enforce password protection" : "常にパスワード保護を有効にする",
-    "Failed to send share by E-mail" : "メールで共有の送信に失敗しました",
-    "%s shared »%s« with you on behalf of %s" : "%s があなたと »%s« を  %s のために共有しました",
-    "Failed to create the E-mail" : "メールの作成に失敗しました",
-    "Hey there,\n\n%s shared »%s« with you on behalf of %s.\n\n%s\n\n" : "こんにちは。\n\n%s が »%s« をあなたと %s のために共有しました。\n\n%s\n",
-    "Hey there,\n\n%s shared »%s« with you.\n\n%s\n\n" : "こんにちは。\n\n%s が »%s« をあなたと共有しました。\n\n%s\n",
-    "Cheers!" : "それでは！",
-    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you on behalf of %s.<br><br>" : "こんにちは。<br><br>%s が <a href=\"%s\">%s</a> をあなたと %s のために共有しました。<br><br>",
-    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you.<br><br>" : "こんにちは。<br><br>%s が <a href=\"%s\">%s</a> をあなたと共有しました。<br><br>"
+    "Failed to send share by E-mail" : "メールで共有の送信に失敗しました"
 },
 "nplurals=1; plural=0;");

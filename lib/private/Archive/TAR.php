@@ -91,9 +91,7 @@ class TAR extends Archive {
 	 */
 	public function addFolder($path) {
 		$tmpBase = \OC::$server->getTempManager()->getTemporaryFolder();
-		if (substr($path, -1, 1) != '/') {
-			$path .= '/';
-		}
+		$path = rtrim($path, '/') . '/';
 		if ($this->fileExists($path)) {
 			return false;
 		}
@@ -297,10 +295,7 @@ class TAR extends Archive {
 		if ((array_search($path, $files) !== false) or (array_search($path . '/', $files) !== false)) {
 			return true;
 		} else {
-			$folderPath = $path;
-			if (substr($folderPath, -1, 1) != '/') {
-				$folderPath .= '/';
-			}
+			$folderPath = rtrim($path, '/') . '/';
 			$pathLength = strlen($folderPath);
 			foreach ($files as $file) {
 				if (strlen($file) > $pathLength and substr($file, 0, $pathLength) == $folderPath) {

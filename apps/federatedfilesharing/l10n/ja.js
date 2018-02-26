@@ -38,6 +38,7 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "#Nextcloud の「クラウド共有ID」で私と共有できます。こちらを見てください。%s",
     "Share with me through my #Nextcloud Federated Cloud ID" : "#Nextcloud の「クラウド共有ID」で私と共有できます。",
     "Sharing" : "共有中",
+    "Federated file sharing" : "連携共有",
     "Federated Cloud Sharing" : "統合されたクラウド共有",
     "Open documentation" : "ドキュメントを開く",
     "Adjust how people can share between servers." : "サーバー間でどうやって共有するかを調整する",
@@ -52,7 +53,6 @@ OC.L10N.register(
     "Add to your website" : "ウェブサイトに追加",
     "Share with me via Nextcloud" : "Nextcloud 経由で共有",
     "HTML Code:" : "HTMLコード:",
-    "Search global and public address book for users and let local users publish their data" : "グローバルまたはユーザーの公開アドレス帳を検索し、ローカルユーザーのデータを公開する",
-    "Share it:" : "共有先:"
+    "Search global and public address book for users and let local users publish their data" : "グローバルまたはユーザーの公開アドレス帳を検索し、ローカルユーザーのデータを公開する"
 },
 "nplurals=1; plural=0;");

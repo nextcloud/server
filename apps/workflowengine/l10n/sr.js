@@ -59,6 +59,7 @@ OC.L10N.register(
     "Check %s is invalid" : "Проверите да ли је %s исправно",
     "Check #%s does not exist" : "Проверите да ли #%s постоји",
     "Workflow" : "Процес рада",
+    "Files workflow engine" : "Датотеке за мотор процеса рада",
     "Open documentation" : "Отвори документацију",
     "Add rule group" : "Додај групу правила",
     "Short rule description" : "Кратки опис правила",
@@ -66,8 +67,6 @@ OC.L10N.register(
     "Reset" : "Ресетуј",
     "Save" : "Сачувај",
     "Saving…" : "Чувам…",
-    "Loading…" : "Учитавање…",
-    "Successfully saved" : "Успешно сачувано",
-    "File mime type" : "MIME тип фајла"
+    "Loading…" : "Учитавање…"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

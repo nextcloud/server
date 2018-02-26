@@ -45,7 +45,6 @@ use OC\Security\IdentityProof\Manager;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
-use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Encryption\IEncryptionModule;
@@ -61,9 +60,9 @@ use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Mail\IMailer;
 use OCP\IAvatarManager;
-use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 use OCP\Util;
+use OC\Settings\BackgroundJobs\VerifyUserData;
 
 /**
  * @package OC\Settings\Controller
@@ -99,10 +98,6 @@ class UsersController extends Controller {
 	private $secureRandom;
 	/** @var NewUserMailHelper */
 	private $newUserMailHelper;
-	/** @var ITimeFactory */
-	private $timeFactory;
-	/** @var ICrypto */
-	private $crypto;
 	/** @var Manager */
 	private $keyManager;
 	/** @var IJobList */
@@ -132,8 +127,6 @@ class UsersController extends Controller {
 	 * @param AccountManager $accountManager
 	 * @param ISecureRandom $secureRandom
 	 * @param NewUserMailHelper $newUserMailHelper
-	 * @param ITimeFactory $timeFactory
-	 * @param ICrypto $crypto
 	 * @param Manager $keyManager
 	 * @param IJobList $jobList
 	 * @param IUserMountCache $userMountCache
@@ -155,8 +148,6 @@ class UsersController extends Controller {
 								AccountManager $accountManager,
 								ISecureRandom $secureRandom,
 								NewUserMailHelper $newUserMailHelper,
-								ITimeFactory $timeFactory,
-								ICrypto $crypto,
 								Manager $keyManager,
 								IJobList $jobList,
 								IUserMountCache $userMountCache,
@@ -175,8 +166,6 @@ class UsersController extends Controller {
 		$this->accountManager = $accountManager;
 		$this->secureRandom = $secureRandom;
 		$this->newUserMailHelper = $newUserMailHelper;
-		$this->timeFactory = $timeFactory;
-		$this->crypto = $crypto;
 		$this->keyManager = $keyManager;
 		$this->jobList = $jobList;
 		$this->userMountCache = $userMountCache;
@@ -254,7 +243,7 @@ class UsersController extends Controller {
 		return [
 			'name' => $user->getUID(),
 			'displayname' => $user->getDisplayName(),
-			'groups' => (empty($userGroups)) ? $this->groupManager->getUserGroupIds($user) : $userGroups,
+			'groups' => empty($userGroups) ? $this->groupManager->getUserGroupIds($user) : $userGroups,
 			'subadmin' => $subAdminGroups,
 			'quota' => $user->getQuota(),
 			'quota_bytes' => Util::computerFileSize($user->getQuota()),
@@ -487,7 +476,11 @@ class UsersController extends Controller {
 					$emailTemplate = $this->newUserMailHelper->generateTemplate($user, $generatePasswordResetToken);
 					$this->newUserMailHelper->sendMail($user, $emailTemplate);
 				} catch (\Exception $e) {
-					$this->log->error("Can't send new user mail to $email: " . $e->getMessage(), ['app' => 'settings']);
+					$this->log->logException($e, [
+						'message' => "Can't send new user mail to $email",
+						'level' => \OCP\Util::ERROR,
+						'app' => 'settings',
+					]);
 				}
 			}
 			// fetch users groups
@@ -684,7 +677,7 @@ class UsersController extends Controller {
 		if ($onlyVerificationCode === false) {
 			$this->accountManager->updateUser($user, $accountData);
 
-			$this->jobList->add('OC\Settings\BackgroundJobs\VerifyUserData',
+			$this->jobList->add(VerifyUserData::class,
 				[
 					'verificationCode' => $code,
 					'data' => $data,
@@ -719,9 +712,7 @@ class UsersController extends Controller {
 	protected function signMessage(IUser $user, $message) {
 		$privateKey = $this->keyManager->getKey($user)->getPrivate();
 		openssl_sign(json_encode($message), $signature, $privateKey, OPENSSL_ALGO_SHA512);
-		$signatureBase64 = base64_encode($signature);
-
-		return $signatureBase64;
+		return base64_encode($signature);
 	}
 
 	/**

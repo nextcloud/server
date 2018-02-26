@@ -177,7 +177,7 @@ class MiddlewareDispatcherTest extends \Test\TestCase {
 		$this->dispatcher->registerMiddleware($m1);
 		$this->dispatcher->registerMiddleware($m2);
 
-		$this->setExpectedException('\Exception');
+		$this->expectException(\Exception::class);
 		$this->dispatcher->beforeController($this->controller, $this->method);
 		$this->dispatcher->afterException($this->controller, $this->method, $this->exception);
 	}
@@ -206,7 +206,7 @@ class MiddlewareDispatcherTest extends \Test\TestCase {
 	public function testAfterExceptionCorrectArguments(){
 		$m1 = $this->getMiddleware();
 
-		$this->setExpectedException('\Exception');
+		$this->expectException(\Exception::class);
 
 		$this->dispatcher->beforeController($this->controller, $this->method);
 		$this->dispatcher->afterException($this->controller, $this->method, $this->exception);
@@ -253,7 +253,7 @@ class MiddlewareDispatcherTest extends \Test\TestCase {
 		$m1 = $this->getMiddleware();
 		$m2 = $this->getMiddleware();
 
-		$this->setExpectedException('\Exception');
+		$this->expectException(\Exception::class);
 		$this->dispatcher->beforeController($this->controller, $this->method);
 		$this->dispatcher->afterException($this->controller, $this->method, $this->exception);
 
@@ -283,6 +283,8 @@ class MiddlewareDispatcherTest extends \Test\TestCase {
 				->method('beforeController');
 		$m3->expects($this->never())
 				->method('afterController');
+		$m3->method('beforeOutput')
+			->will($this->returnArgument(2));
 
 		$this->dispatcher->registerMiddleware($m3);
 

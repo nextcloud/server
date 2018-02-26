@@ -38,6 +38,7 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Дели са мном преко мог #Некстклауд Здруженог облака, види %s",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Дели са мном преко мог #Некстклауд Здруженог облака",
     "Sharing" : "Дељење",
+    "Federated file sharing" : "Здружено дељење фајлова",
     "Federated Cloud Sharing" : "Здружено дељење у облаку",
     "Open documentation" : "Отвори документацију",
     "Adjust how people can share between servers." : "Подеси како људи деле фајлове између сервера.",
@@ -52,7 +53,6 @@ OC.L10N.register(
     "Add to your website" : "Додај на свој веб сајт",
     "Share with me via Nextcloud" : "Дели са мном преко Некстклауда",
     "HTML Code:" : "ХТМЛ кôд:",
-    "Search global and public address book for users and let local users publish their data" : "Претражи кориснике у глобалним и јавним именицима и дозволи да локални корисници објављују њихове податке",
-    "Share it:" : "Дели:"
+    "Search global and public address book for users and let local users publish their data" : "Претражи кориснике у глобалним и јавним именицима и дозволи да локални корисници објављују њихове податке"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

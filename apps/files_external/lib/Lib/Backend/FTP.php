@@ -23,12 +23,9 @@
 namespace OCA\Files_External\Lib\Backend;
 
 use \OCP\IL10N;
-use \OCA\Files_External\Lib\Backend\Backend;
 use \OCA\Files_External\Lib\DefinitionParameter;
 use \OCA\Files_External\Lib\Auth\AuthMechanism;
-use \OCA\Files_External\Service\BackendService;
 use \OCA\Files_External\Lib\LegacyDependencyCheckPolyfill;
-
 use \OCA\Files_External\Lib\Auth\Password\Password;
 
 class FTP extends Backend {
@@ -42,7 +39,7 @@ class FTP extends Backend {
 			->setStorageClass('\OCA\Files_External\Lib\Storage\FTP')
 			->setText($l->t('FTP'))
 			->addParameters([
-				(new DefinitionParameter('host', $l->t('Host'))),
+				new DefinitionParameter('host', $l->t('Host')),
 				(new DefinitionParameter('root', $l->t('Remote subfolder')))
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 				(new DefinitionParameter('secure', $l->t('Secure ftps://')))

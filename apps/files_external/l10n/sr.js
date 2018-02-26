@@ -100,6 +100,7 @@ OC.L10N.register(
     "The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "cURL подршка за PHP није омогућена или инсталирана. Монтирање %s није могуће. Затражите од вашег администратора система да је инсталира.",
     "The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "FTP подршка за PHP није омогућена или инсталирана. Монтирање %s није могуће. Затражите од вашег администратора система да је инсталира.",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "„%s“ није инсталиран. Монтирање %s није могуће. Затражите од вашег администратора система да га инсталира.",
+    "External storage support" : "Подршка за спољашње складиште",
     "No external storage configured" : "Нема подешеног спољашњег складишта",
     "You can add external storages in the personal settings" : "Можете додати спољашња складишта у вашим личним подешавањима",
     "Name" : "Назив",
@@ -127,8 +128,6 @@ OC.L10N.register(
     "Step 2 failed. Exception: %s" : "Корак 2 није успео. Грешка: %s",
     "Dropbox App Configuration" : "Dropbox конфигурација апликације",
     "Google Drive App Configuration" : "Google Drive конфигурација апликације",
-    "Storage with id \"%i\" not found" : "Складиште са идентификацијом \"%i\" није пронађено",
-    "Storage with id \"%i\" is not user editable" : "Корисници не могу да мењају складиште са идентификацијом \"%i\"",
     "Dropbox" : "Dropbox",
     "Google Drive" : "Google Drive"
 },

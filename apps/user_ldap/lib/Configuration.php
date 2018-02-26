@@ -531,6 +531,7 @@ class Configuration {
 			'ldap_experienced_admin'            => 'ldapExperiencedAdmin',
 			'ldap_dynamic_group_member_url'     => 'ldapDynamicGroupMemberURL',
 			'ldap_default_ppolicy_dn'           => 'ldapDefaultPPolicyDN',
+			'ldapIgnoreNamingRules'             => 'ldapIgnoreNamingRules',	// sysconfig
 		);
 		return $array;
 	}

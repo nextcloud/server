@@ -38,6 +38,7 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Sprístupnite mi obsah prostredníctvom môjho #Nextcloud Federated Cloud ID, viac na %s",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Sprístupnite mi obsah prostredníctvom môjho #Nextcloud Federated Cloud ID",
     "Sharing" : "Sprístupnenie",
+    "Federated file sharing" : "Združené sprístupňovanie súborov",
     "Federated Cloud Sharing" : "Sprístupnenie prostredníctvom Federated Cloud",
     "Open documentation" : "Otvoriť dokumentáciu",
     "Adjust how people can share between servers." : "Nastavte ako môžu ľudia medzi sebou zdieľať servery.",
@@ -52,7 +53,6 @@ OC.L10N.register(
     "Add to your website" : "Pridať na svoju webstránku",
     "Share with me via Nextcloud" : "Sprístupnené cez Nextcloud",
     "HTML Code:" : "HTML kód:",
-    "Search global and public address book for users and let local users publish their data" : "Vyhľadávať používateľog v globálnom a verejnom adresári a umožniť miestnym používateľom publikovať ich dáta",
-    "Share it:" : "Sprístupniť:"
+    "Search global and public address book for users and let local users publish their data" : "Vyhľadávať používateľog v globálnom a verejnom adresári a umožniť miestnym používateľom publikovať ich dáta"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

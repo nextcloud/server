@@ -46,7 +46,7 @@ class MDB2SchemaManagerTest extends \Test\TestCase {
 		$connection->executeUpdate('insert into `*PREFIX*table` values (?)', array('123'));
 		$manager->updateDbFromStructure(__DIR__ . '/ts-autoincrement-after.xml');
 
-		$this->assertTrue(true);
+		$this->addToAssertionCount(1);
 	}
 
 }

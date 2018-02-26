@@ -71,7 +71,10 @@ class AddServerMiddleware extends Middleware {
 		if (($controller instanceof SettingsController) === false) {
 			throw $exception;
 		}
-		$this->logger->error($exception->getMessage(), ['app' => $this->appName]);
+		$this->logger->logException($exception, [
+			'level' => \OCP\Util::ERROR,
+			'app' => $this->appName,
+		]);
 		if ($exception instanceof HintException) {
 			$message = $exception->getHint();
 		} else {

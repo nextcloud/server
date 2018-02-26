@@ -51,10 +51,8 @@ use Sabre\DAV;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\PropPatch;
-use Sabre\HTTP\URLUtil;
 use Sabre\VObject\Component;
 use Sabre\VObject\Component\VCalendar;
-use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\Component\VTimeZone;
 use Sabre\VObject\DateTimeParser;
 use Sabre\VObject\InvalidDataException;
@@ -2261,7 +2259,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 					$query->execute();
 				}
 
-				if (in_array($property->name, array_keys(self::$indexParameters))) {
+				if (array_key_exists($property->name, self::$indexParameters)) {
 					$parameters = $property->parameters();
 					$indexedParametersForProperty = self::$indexParameters[$property->name];
 

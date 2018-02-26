@@ -37,7 +37,7 @@ use OCP\ILogger;
 use OCP\IMemcache;
 
 class Factory implements ICacheFactory {
-	const NULL_CACHE = '\\OC\\Memcache\\NullCache';
+	const NULL_CACHE = NullCache::class;
 
 	/**
 	 * @var string $globalPrefix

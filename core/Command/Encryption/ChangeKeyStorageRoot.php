@@ -118,7 +118,7 @@ class ChangeKeyStorageRoot extends Command {
 
 		$output->writeln("Start to move keys:");
 
-		if ($this->rootView->is_dir(($oldRoot)) === false) {
+		if ($this->rootView->is_dir($oldRoot) === false) {
 			$output->writeln("No old keys found: Nothing needs to be moved");
 			return false;
 		}

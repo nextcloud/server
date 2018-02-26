@@ -227,7 +227,7 @@ class Wizard extends LDAPUtility {
 		if ($attr !== '' && $attr !== 'displayName') {
 			// most likely not the default value with upper case N,
 			// verify it still produces a result
-			$count = intval($this->countUsersWithAttribute($attr, true));
+			$count = (int)$this->countUsersWithAttribute($attr, true);
 			if($count > 0) {
 				//no change, but we sent it back to make sure the user interface
 				//is still correct, even if the ajax call was cancelled meanwhile
@@ -239,13 +239,13 @@ class Wizard extends LDAPUtility {
 		// first attribute that has at least one result wins
 		$displayNameAttrs = array('displayname', 'cn');
 		foreach ($displayNameAttrs as $attr) {
-			$count = intval($this->countUsersWithAttribute($attr, true));
+			$count = (int)$this->countUsersWithAttribute($attr, true);
 
 			if($count > 0) {
 				$this->applyFind('ldap_display_name', $attr);
 				return $this->result;
 			}
-		};
+		}
 
 		throw new \Exception(self::$l->t('Could not detect user display name attribute. Please specify it yourself in advanced LDAP settings.'));
 	}
@@ -267,7 +267,7 @@ class Wizard extends LDAPUtility {
 
 		$attr = $this->configuration->ldapEmailAttribute;
 		if ($attr !== '') {
-			$count = intval($this->countUsersWithAttribute($attr, true));
+			$count = (int)$this->countUsersWithAttribute($attr, true);
 			if($count > 0) {
 				return false;
 			}
@@ -690,7 +690,7 @@ class Wizard extends LDAPUtility {
 			if ($settingsFound === true) {
 				$config = array(
 					'ldapPort' => $p,
-					'ldapTLS' => intval($t)
+					'ldapTLS' => (int)$t
 				);
 				$this->configuration->setConfiguration($config);
 				\OCP\Util::writeLog('user_ldap', 'Wiz: detected Port ' . $p, \OCP\Util::DEBUG);
@@ -1069,7 +1069,7 @@ class Wizard extends LDAPUtility {
 
 		if($login === true) {
 			$this->ldap->unbind($cr);
-			\OCP\Util::writeLog('user_ldap', 'Wiz: Bind successful to Port '. $port . ' TLS ' . intval($tls), \OCP\Util::DEBUG);
+			\OCP\Util::writeLog('user_ldap', 'Wiz: Bind successful to Port '. $port . ' TLS ' . (int)$tls, \OCP\Util::DEBUG);
 			return true;
 		}
 
@@ -1326,7 +1326,7 @@ class Wizard extends LDAPUtility {
 		//636 ← LDAPS / SSL
 		//7xxx ← UCS. need to be checked first, because both ports may be open
 		$host = $this->configuration->ldapHost;
-		$port = intval($this->configuration->ldapPort);
+		$port = (int)$this->configuration->ldapPort;
 		$portSettings = array();
 
 		//In case the port is already provided, we will check this first

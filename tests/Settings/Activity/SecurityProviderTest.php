@@ -62,7 +62,7 @@ class SecurityProviderTest extends TestCase {
 		$event->expects($this->once())
 			->method('getType')
 			->willReturn('comments');
-		$this->setExpectedException(InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		$this->provider->parse($lang, $event);
 	}
