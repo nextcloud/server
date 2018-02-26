@@ -30,7 +30,7 @@
 					'<span class="sharingOptionsGroup">' +
 						'{{#if editPermissionPossible}}' +
 						'<span class="shareOption">' +
-							'<input id="canEdit-{{cid}}-{{shareWith}}" type="checkbox" name="edit" class="permissions checkbox" {{#if hasEditPermission}}checked="checked"{{/if}} />' +
+							'<input id="canEdit-{{cid}}-{{shareWith}}" type="checkbox" name="edit" class="permissions checkbox" />' +
 							'<label for="canEdit-{{cid}}-{{shareWith}}">{{canEditLabel}}</label>' +
 						'</span>' +
 						'{{/if}}' +
@@ -232,7 +232,7 @@
 			return _.extend(hasPermissionOverride, {
 				cid: this.cid,
 				hasSharePermission: this.model.hasSharePermission(shareIndex),
-				hasEditPermission: this.model.hasEditPermission(shareIndex),
+				editPermissionState: this.model.editPermissionState(shareIndex),
 				hasCreatePermission: this.model.hasCreatePermission(shareIndex),
 				hasUpdatePermission: this.model.hasUpdatePermission(shareIndex),
 				hasDeletePermission: this.model.hasDeletePermission(shareIndex),
@@ -379,16 +379,18 @@
 				$.extend(sharee, this.getShareProperties());
 				var $li = this.$('li[data-share-id=' + permissionChangeShareId + ']');
 				$li.find('.sharingOptionsGroup .popovermenu').replaceWith(this.popoverMenuTemplate(sharee));
-
-				var checkBoxId = 'canEdit-' + this.cid + '-' + sharee.shareWith;
-				checkBoxId = '#' + checkBoxId.replace( /(:|\.|\[|\]|,|=|@)/g, "\\$1");
-				var $edit = $li.parent().find(checkBoxId);
-				if($edit.length === 1) {
-					$edit.prop('checked', sharee.hasEditPermission);
-				}
 			}
 
 			var _this = this;
+			this.getShareeList().forEach(function(sharee) {
+				var checkBoxId = 'canEdit-' + _this.cid + '-' + sharee.shareWith;
+				checkBoxId = '#' + checkBoxId.replace( /(:|\.|\[|\]|,|=|@|\/)/g, "\\$1");
+				var $edit = _this.$(checkBoxId);
+				if($edit.length === 1) {
+					$edit.prop('checked', sharee.editPermissionState === 'checked');
+					$edit.prop('indeterminate', sharee.editPermissionState === 'indeterminate');
+				}
+			});
 			this.$('.popovermenu').on('afterHide', function() {
 				_this._menuOpen = false;
 			});
@@ -627,8 +629,10 @@
 					}
 				} else {
 					var numberChecked = $checkboxes.filter(':checked').length;
-					checked = numberChecked > 0;
-					$('input[name="edit"]', $li).prop('checked', checked);
+					checked = numberChecked === $checkboxes.length;
+					var $editCb = $('input[name="edit"]', $li);
+					$editCb.prop('checked', checked);
+					$editCb.prop('indeterminate', !checked && numberChecked > 0);
 				}
 			} else {
 				if ($element.attr('name') === 'edit' && $element.is(':checked')) {
