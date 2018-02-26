@@ -222,9 +222,6 @@ $(document).ready(function () {
 				var input = document.getElementById('theming-'+setting);
 				input.value = response.data.value;
 			}
-			if (image) {
-				$form.find('.image-preview').css('background-image','none');
-			}
 			preview(setting, response.data.value, response.data.serverCssUrl);
 		});
 	});
