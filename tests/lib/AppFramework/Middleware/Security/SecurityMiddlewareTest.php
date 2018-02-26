@@ -45,13 +45,11 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
+use OCP\IL10N;
 use OCP\ILogger;
 use OCP\INavigationManager;
 use OCP\IRequest;
-use OCP\ISession;
 use OCP\IURLGenerator;
-use OCP\IUser;
-use OCP\IUserSession;
 use OCP\Security\ISecureRandom;
 
 class SecurityMiddlewareTest extends \Test\TestCase {
@@ -82,8 +80,8 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 	private $cspNonceManager;
 	/** @var IAppManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $appManager;
-	/** @var IUserSession|\PHPUnit_Framework_MockObject_MockObject */
-	private $userSession;
+	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
+	private $l10n;
 
 	protected function setUp() {
 		parent::setUp();
@@ -98,6 +96,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		$this->csrfTokenManager = $this->createMock(CsrfTokenManager::class);
 		$this->cspNonceManager = $this->createMock(ContentSecurityPolicyNonceManager::class);
 		$this->appManager = $this->createMock(IAppManager::class);
+		$this->l10n = $this->createMock(IL10N::class);
 		$this->appManager->expects($this->any())
 			->method('isEnabledForUser')
 			->willReturn(true);
@@ -124,7 +123,8 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			$this->contentSecurityPolicyManager,
 			$this->csrfTokenManager,
 			$this->cspNonceManager,
-			$this->appManager
+			$this->appManager,
+			$this->l10n
 		);
 	}
 
@@ -541,7 +541,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 				new CrossSiteRequestForgeryException(),
 			],
 			[
-				new NotAdminException(),
+				new NotAdminException(''),
 			],
 		];
 	}
