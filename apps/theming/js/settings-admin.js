@@ -173,46 +173,42 @@ $(document).ready(function () {
 
 	$('#theming-name').change(function(e) {
 		var el = $(this);
-		if(checkName()){
-			$.when(el.focusout()).then(function() {
-				setThemingValue('name', $(this).val());
-			});
-			if (e.keyCode == 13) {
-				setThemingValue('name', $(this).val());
-			} 
-		}
 	});
 
-	$('#theming-url').change(function(e) {
+	$('#theming input[type=text]').change(function(e) {
 		var el = $(this);
+		var setting = el.parent().find('div[data-setting]').data('setting');
+		var value = $(this).val();
+
+		if(setting === 'color') {
+			if (value.indexOf('#') !== 0) {
+				value = '#' + value;
+			}
+		}
+		if(setting === 'name') {
+      if(checkName()){
+        $.when(el.focusout()).then(function() {
+          setThemingValue('name', value);
+        });
+        if (e.keyCode == 13) {
+          setThemingValue('name', value);
+        } 
+      }
+		}
+
 		$.when(el.focusout()).then(function() {
-			setThemingValue('url', $(this).val());
+			setThemingValue(setting, value);
 		});
 		if (e.keyCode == 13) {
-			setThemingValue('url', $(this).val());
+			setThemingValue(setting, value);
 		}
-	});
-
-	$('#theming-slogan').change(function(e) {
-		var el = $(this);
-		$.when(el.focusout()).then(function() {
-			setThemingValue('slogan', $(this).val());
-		});
-		if (e.keyCode == 13) {
-			setThemingValue('slogan', $(this).val());
-		}
-	});
-
-	$('#theming-color').change(function (e) {
-		var color = $(this).val();
-		if (color.indexOf('#') !== 0) {
-			color = '#' + color;
-		}
-		setThemingValue('color', color);
 	});
 
 	$('.theme-undo').click(function (e) {
 		var setting = $(this).data('setting');
+		var $form = $(this).closest('form');
+		var image = $form.data('image-key');
+
 		startLoading();
 		$('.theme-undo[data-setting=' + setting + ']').hide();
 		$.post(
@@ -222,9 +218,12 @@ $(document).ready(function () {
 				var colorPicker = document.getElementById('theming-color');
 				colorPicker.style.backgroundColor = response.data.value;
 				colorPicker.value = response.data.value.slice(1).toUpperCase();
-			} else if (setting !== 'logoMime' && setting !== 'backgroundMime') {
+			} else if (!image) {
 				var input = document.getElementById('theming-'+setting);
 				input.value = response.data.value;
+			}
+			if (image) {
+				$form.find('.image-preview').css('background-image','none');
 			}
 			preview(setting, response.data.value, response.data.serverCssUrl);
 		});
