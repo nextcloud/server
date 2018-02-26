@@ -32,15 +32,24 @@ td.mountPoint, td.backend { width:160px; }
 #addMountPoint>td.applicable { visibility:hidden; }
 #addMountPoint>td.hidden { visibility:hidden; }
 
-#externalStorage td.mountOptionsToggle {
-	position: relative;
-	padding: 0 !important;
-	width: 44px;
-}
-#externalStorage .icon-settings {
-	padding: 14px;
-	vertical-align: text-bottom;
-	cursor: pointer;
+#externalStorage td {
+	&.mountOptionsToggle,
+	&.remove,
+	&.save {
+		position: relative;
+		padding: 0 !important;
+		width: 44px;
+		opacity: 0.5;
+		&:hover {
+			opacity: 1;
+		}
+		[class^='icon-'],
+		[class*=' icon-'] {
+			padding: 14px;
+			vertical-align: text-bottom;
+			cursor: pointer;
+		}
+	}
 }
 
 #selectBackend {
