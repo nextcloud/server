@@ -404,7 +404,7 @@ class ShareByMailProvider implements IShareProvider {
 		$text = $this->l->t('%s shared »%s« with you.', [$initiatorDisplayName, $filename]);
 
 		$emailTemplate->addBodyText(
-			$text . ' ' . $this->l->t('Click the button below to open it.'),
+			htmlspecialchars($text . ' ' . $this->l->t('Click the button below to open it.')),
 			$text
 		);
 		$emailTemplate->addBodyButton(
@@ -476,7 +476,7 @@ class ShareByMailProvider implements IShareProvider {
 		$emailTemplate->setSubject($this->l->t('Password to access »%s« shared to you by %s', [$filename, $initiatorDisplayName]));
 		$emailTemplate->addHeader();
 		$emailTemplate->addHeading($this->l->t('Password to access »%s«', [$filename]), false);
-		$emailTemplate->addBodyText($htmlBodyPart, $plainBodyPart);
+		$emailTemplate->addBodyText(htmlspecialchars($htmlBodyPart), $plainBodyPart);
 		$emailTemplate->addBodyText($this->l->t('It is protected with the following password: %s', [$password]));
 
 		// The "From" contains the sharers name

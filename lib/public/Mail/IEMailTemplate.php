@@ -85,7 +85,7 @@ interface IEMailTemplate {
 	/**
 	 * Adds a paragraph to the body of the email
 	 *
-	 * @param string $text
+	 * @param string $text; Note: When $plainText falls back to this, HTML is automatically escaped in the HTML email
 	 * @param string|bool $plainText Text that is used in the plain text email
 	 *   if empty the $text is used, if false none will be used
 	 *
@@ -96,8 +96,8 @@ interface IEMailTemplate {
 	/**
 	 * Adds a list item to the body of the email
 	 *
-	 * @param string $text
-	 * @param string $metaInfo
+	 * @param string $text; Note: When $plainText falls back to this, HTML is automatically escaped in the HTML email
+	 * @param string $metaInfo; Note: When $plainMetaInfo falls back to this, HTML is automatically escaped in the HTML email
 	 * @param string $icon Absolute path, must be 16*16 pixels
 	 * @param string $plainText Text that is used in the plain text email
 	 *   if empty the $text is used, if false none will be used
@@ -110,9 +110,9 @@ interface IEMailTemplate {
 	/**
 	 * Adds a button group of two buttons to the body of the email
 	 *
-	 * @param string $textLeft Text of left button
+	 * @param string $textLeft Text of left button; Note: When $plainTextLeft falls back to this, HTML is automatically escaped in the HTML email
 	 * @param string $urlLeft URL of left button
-	 * @param string $textRight Text of right button
+	 * @param string $textRight Text of right button; Note: When $plainTextRight falls back to this, HTML is automatically escaped in the HTML email
 	 * @param string $urlRight URL of right button
 	 * @param string $plainTextLeft Text of left button that is used in the plain text version - if empty the $textLeft is used
 	 * @param string $plainTextRight Text of right button that is used in the plain text version - if empty the $textRight is used
@@ -124,7 +124,7 @@ interface IEMailTemplate {
 	/**
 	 * Adds a button to the body of the email
 	 *
-	 * @param string $text Text of button
+	 * @param string $text Text of button; Note: When $plainText falls back to this, HTML is automatically escaped in the HTML email
 	 * @param string $url URL of button
 	 * @param string $plainText Text of button in plain text version
 	 * 		if empty the $text is used, if false none will be used

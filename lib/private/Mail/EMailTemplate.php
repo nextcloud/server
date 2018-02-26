@@ -420,7 +420,7 @@ EOF;
 	/**
 	 * Adds a paragraph to the body of the email
 	 *
-	 * @param string $text
+	 * @param string $text Note: When $plainText falls back to this, HTML is automatically escaped in the HTML email
 	 * @param string|bool $plainText Text that is used in the plain text email
 	 *   if empty the $text is used, if false none will be used
 	 */
@@ -430,11 +430,12 @@ EOF;
 		}
 		if ($plainText === '') {
 			$plainText = $text;
+			$text = htmlspecialchars($text);
 		}
 
 		$this->ensureBodyIsOpened();
 
-		$this->htmlBody .= vsprintf($this->bodyText, [htmlspecialchars($text)]);
+		$this->htmlBody .= vsprintf($this->bodyText, [$text]);
 		if ($plainText !== false) {
 			$this->plainBody .= $plainText . PHP_EOL . PHP_EOL;
 		}
@@ -443,8 +444,8 @@ EOF;
 	/**
 	 * Adds a list item to the body of the email
 	 *
-	 * @param string $text
-	 * @param string $metaInfo
+	 * @param string $text Note: When $plainText falls back to this, HTML is automatically escaped in the HTML email
+	 * @param string $metaInfo Note: When $plainMetaInfo falls back to this, HTML is automatically escaped in the HTML email
 	 * @param string $icon Absolute path, must be 16*16 pixels
 	 * @param string $plainText Text that is used in the plain text email
 	 *   if empty the $text is used, if false none will be used
@@ -457,14 +458,16 @@ EOF;
 
 		if ($plainText === '') {
 			$plainText = $text;
+			$text = htmlspecialchars($text);
 		}
 		if ($plainMetaInfo === '') {
 			$plainMetaInfo = $metaInfo;
+			$metaInfo = htmlspecialchars($metaInfo);
 		}
 
-		$htmlText = htmlspecialchars($text);
+		$htmlText = $text;
 		if ($metaInfo) {
-			$htmlText = '<em style="color:#777;">' . htmlspecialchars($metaInfo) . '</em><br>' . $htmlText;
+			$htmlText = '<em style="color:#777;">' . $metaInfo . '</em><br>' . $htmlText;
 		}
 		if ($icon !== '') {
 			$icon = '<img src="' . htmlspecialchars($icon) . '" alt="&bull;">';
@@ -503,9 +506,9 @@ EOF;
 	/**
 	 * Adds a button group of two buttons to the body of the email
 	 *
-	 * @param string $textLeft Text of left button
+	 * @param string $textLeft Text of left button; Note: When $plainTextLeft falls back to this, HTML is automatically escaped in the HTML email
 	 * @param string $urlLeft URL of left button
-	 * @param string $textRight Text of right button
+	 * @param string $textRight Text of right button; Note: When $plainTextRight falls back to this, HTML is automatically escaped in the HTML email
 	 * @param string $urlRight URL of right button
 	 * @param string $plainTextLeft Text of left button that is used in the plain text version - if unset the $textLeft is used
 	 * @param string $plainTextRight Text of right button that is used in the plain text version - if unset the $textRight is used
@@ -521,10 +524,12 @@ EOF;
 		}
 		if ($plainTextLeft === '') {
 			$plainTextLeft = $textLeft;
+			$textLeft = htmlspecialchars($textLeft);
 		}
 
 		if ($plainTextRight === '') {
 			$plainTextRight = $textRight;
+			$textRight = htmlspecialchars($textRight);
 		}
 
 		$this->ensureBodyIsOpened();
@@ -533,7 +538,7 @@ EOF;
 		$color = $this->themingDefaults->getColorPrimary();
 		$textColor = $this->themingDefaults->getTextColorPrimary();
 
-		$this->htmlBody .= vsprintf($this->buttonGroup, [$color, $color, $urlLeft, $color, $textColor, $textColor, htmlspecialchars($textLeft), $urlRight, htmlspecialchars($textRight)]);
+		$this->htmlBody .= vsprintf($this->buttonGroup, [$color, $color, $urlLeft, $color, $textColor, $textColor, $textLeft, $urlRight, $textRight]);
 		$this->plainBody .= $plainTextLeft . ': ' . $urlLeft . PHP_EOL;
 		$this->plainBody .= $plainTextRight . ': ' . $urlRight . PHP_EOL . PHP_EOL;
 
@@ -542,7 +547,7 @@ EOF;
 	/**
 	 * Adds a button to the body of the email
 	 *
-	 * @param string $text Text of button
+	 * @param string $text Text of button; Note: When $plainText falls back to this, HTML is automatically escaped in the HTML email
 	 * @param string $url URL of button
 	 * @param string $plainText Text of button in plain text version
 	 * 		if empty the $text is used, if false none will be used
@@ -559,11 +564,12 @@ EOF;
 
 		if ($plainText === '') {
 			$plainText = $text;
+			$text = htmlspecialchars($text);
 		}
 
 		$color = $this->themingDefaults->getColorPrimary();
 		$textColor = $this->themingDefaults->getTextColorPrimary();
-		$this->htmlBody .= vsprintf($this->button, [$color, $color, $url, $color, $textColor, $textColor, htmlspecialchars($text)]);
+		$this->htmlBody .= vsprintf($this->button, [$color, $color, $url, $color, $textColor, $textColor, $text]);
 
 		if ($plainText !== false) {
 			$this->plainBody .= $plainText . ': ';
