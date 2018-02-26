@@ -29,6 +29,7 @@
 
 namespace OCA\Theming\Settings;
 
+use OCA\Theming\ImageManager;
 use OCA\Theming\ThemingDefaults;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
@@ -45,23 +46,25 @@ class Admin implements ISettings {
 	private $themingDefaults;
 	/** @var IURLGenerator */
 	private $urlGenerator;
+	/** @var ImageManager */
+	private $imageManager;
 
 	public function __construct(IConfig $config,
 								IL10N $l,
 								ThemingDefaults $themingDefaults,
-								IURLGenerator $urlGenerator) {
+								IURLGenerator $urlGenerator,
+								ImageManager $imageManager) {
 		$this->config = $config;
 		$this->l = $l;
 		$this->themingDefaults = $themingDefaults;
 		$this->urlGenerator = $urlGenerator;
+		$this->imageManager = $imageManager;
 	}
 
 	/**
 	 * @return TemplateResponse
 	 */
-	public function getForm() {
-		$path = $this->urlGenerator->linkToRoute('theming.Theming.updateLogo');
-
+	public function getForm(): TemplateResponse {
 		$themable = true;
 		$errorMessage = '';
 		$theme = $this->config->getSystemValue('theme', '');
@@ -77,13 +80,10 @@ class Admin implements ISettings {
 			'url'             => $this->themingDefaults->getBaseUrl(),
 			'slogan'          => $this->themingDefaults->getSlogan(),
 			'color'           => $this->themingDefaults->getColorPrimary(),
-			'logo'            => $this->themingDefaults->getLogo(),
-			'logoMime'        => $this->config->getAppValue('theming', 'logoMime', ''),
-			'background'      => $this->themingDefaults->getBackground(),
-			'backgroundMime'  => $this->config->getAppValue('theming', 'backgroundMime', ''),
-			'uploadLogoRoute' => $path,
+			'uploadLogoRoute' => $this->urlGenerator->linkToRoute('theming.Theming.uploadImage'),
 			'canThemeIcons'   => $this->themingDefaults->shouldReplaceIcons(),
-			'iconDocs'        => $this->urlGenerator->linkToDocs('admin-theming-icons')
+			'iconDocs'        => $this->urlGenerator->linkToDocs('admin-theming-icons'),
+			'images'		  => $this->imageManager->getCustomImages(),
 		];
 
 		return new TemplateResponse('theming', 'settings-admin', $parameters, '');
@@ -92,7 +92,7 @@ class Admin implements ISettings {
 	/**
 	 * @return string the section ID, e.g. 'sharing'
 	 */
-	public function getSection() {
+	public function getSection(): string {
 		return 'theming';
 	}
 
@@ -103,7 +103,7 @@ class Admin implements ISettings {
 	 *
 	 * E.g.: 70
 	 */
-	public function getPriority() {
+	public function getPriority(): int {
 		return 5;
 	}
 

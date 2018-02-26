@@ -114,6 +114,7 @@ use OC\SystemTag\ManagerFactory as SystemTagManagerFactory;
 use OC\Tagging\TagMapper;
 use OC\Template\JSCombiner;
 use OC\Template\SCSSCacher;
+use OCA\Theming\ImageManager;
 use OCA\Theming\ThemingDefaults;
 
 use OCP\App\IAppManager;
@@ -943,10 +944,10 @@ class Server extends ServerContainer implements IServerContainer {
 					$c->getConfig(),
 					$c->getL10N('theming'),
 					$c->getURLGenerator(),
-					$c->getAppDataDir('theming'),
 					$c->getMemCacheFactory(),
-					new Util($c->getConfig(), $this->getAppManager(), $this->getAppDataDir('theming')),
-					$this->getAppManager()
+					new Util($c->getConfig(), $this->getAppManager(), $c->getAppDataDir('theming')),
+					new ImageManager($c->getConfig(), $c->getAppDataDir('theming'), $c->getURLGenerator()),
+					$c->getAppManager()
 				);
 			}
 			return new \OC_Defaults();
