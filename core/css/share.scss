@@ -170,10 +170,9 @@
 	overflow-x: hidden;
 }
 
-.notCreatable {
-	padding-left: 12px;
-	padding-top: 12px;
+#controls .notCreatable {
 	color: rgba($color-main-text, .4);
+	opacity: 0.8;
 }
 
 .contactsmenu-popover {

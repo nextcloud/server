@@ -230,7 +230,7 @@ body {
 	box-sizing: border-box;
 	position: -webkit-sticky;
 	position: sticky;
-	height: 44px;
+	min-height: 44px;
 	padding: 0;
 	margin: 0;
 	background-color: rgba($color-main-background, 0.95);
@@ -1466,6 +1466,7 @@ div.crumb {
 		white-space: nowrap;
 		overflow: hidden;
 		flex: 0 0 auto;
+		font-weight: normal;
 		&.icon-home {
 			// Hide home text
 			text-indent: -9999px;
