@@ -625,12 +625,23 @@
 
 			this.registerAction({
 				name: 'MoveCopy',
-				displayName: t('files', 'Move or copy'),
+				displayName: function(context) {
+					var permissions = context.fileInfoModel.attributes.permissions;
+					if (permissions & OC.PERMISSION_UPDATE) {
+						return t('files', 'Move or copy');
+					}
+					return t('files', 'Copy');
+				},
 				mime: 'all',
 				order: -25,
-				permissions: OC.PERMISSION_UPDATE,
+				permissions: $('#isPublic').val() ? OC.PERMISSION_UPDATE : OC.PERMISSION_READ,
 				iconClass: 'icon-external',
 				actionHandler: function (filename, context) {
+					var permissions = context.fileInfoModel.attributes.permissions;
+					var actions = OC.dialogs.FILEPICKER_TYPE_COPY;
+					if (permissions & OC.PERMISSION_UPDATE) {
+						actions = OC.dialogs.FILEPICKER_TYPE_COPY_MOVE;
+					}
 					OC.dialogs.filepicker(t('files', 'Target folder'), function(targetPath, type) {
 						if (type === OC.dialogs.FILEPICKER_TYPE_COPY) {
 							context.fileList.copy(filename, targetPath);
@@ -638,7 +649,7 @@
 						if (type === OC.dialogs.FILEPICKER_TYPE_MOVE) {
 							context.fileList.move(filename, targetPath);
 						}
-					}, false, "httpd/unix-directory", true, OC.dialogs.FILEPICKER_TYPE_COPY_MOVE);
+					}, false, "httpd/unix-directory", true, actions);
 				}
 			});
 

@@ -271,6 +271,7 @@ describe('OCA.Files.FileActionsMenu tests', function() {
 				$file: $tr,
 				fileList: fileList,
 				fileActions: fileActions,
+				fileInfoModel: new OCA.Files.FileInfoModel(fileData),
 				dir: fileList.getCurrentDirectory()
 			};
 			menu = new OCA.Files.FileActionsMenu();
@@ -304,6 +305,7 @@ describe('OCA.Files.FileActionsMenu tests', function() {
 				$file: $tr,
 				fileList: fileList,
 				fileActions: fileActions,
+				fileInfoModel: new OCA.Files.FileInfoModel(fileData),
 				dir: '/anotherpath/there'
 			};
 			menu = new OCA.Files.FileActionsMenu();
@@ -336,6 +338,7 @@ describe('OCA.Files.FileActionsMenu tests', function() {
 				$file: $tr,
 				fileList: fileList,
 				fileActions: fileActions,
+				fileInfoModel: new OCA.Files.FileInfoModel(fileData),
 				dir: '/somepath/dir'
 			};
 			menu = new OCA.Files.FileActionsMenu();

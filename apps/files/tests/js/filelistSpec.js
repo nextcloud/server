@@ -94,7 +94,7 @@ describe('OCA.Files.FileList tests', function() {
 			'<input type="checkbox" id="select_all_files" class="select-all checkbox">' +
 			'<a class="name columntitle" data-sort="name"><span>Name</span><span class="sort-indicator"></span></a>' +
 			'<span id="selectedActionsList" class="selectedActions hidden">' +
-			'<a href class="copy-move">Move or copy</a>' +
+			'<a href class="copy-move"><span class="label">Move or copy</span></a>' +
 			'<a href class="download"><img src="actions/download.svg">Download</a>' +
 			'<a href class="delete-selected">Delete</a></span>' +
 			'</th>' +
@@ -2101,7 +2101,14 @@ describe('OCA.Files.FileList tests', function() {
 				$('#permissions').val(OC.PERMISSION_READ | OC.PERMISSION_UPDATE);
 				$('.select-all').click();
 				expect(fileList.$el.find('.selectedActions .copy-move').hasClass('hidden')).toEqual(false);
+				expect(fileList.$el.find('.selectedActions .copy-move .label').text()).toEqual('Move or copy');
 				testFiles[0].permissions = OC.PERMISSION_READ;
+				$('.select-all').click();
+				fileList.setFiles(testFiles);
+				$('.select-all').click();
+				expect(fileList.$el.find('.selectedActions .copy-move').hasClass('hidden')).toEqual(false);
+				expect(fileList.$el.find('.selectedActions .copy-move .label').text()).toEqual('Copy');
+				testFiles[0].permissions = OC.PERMISSION_NONE;
 				$('.select-all').click();
 				fileList.setFiles(testFiles);
 				$('.select-all').click();
