@@ -199,6 +199,7 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface {
 	 * @param string $dnGroup
 	 * @param array|null &$seen
 	 * @return array|mixed|null
+	 * @throws \OC\ServerNotAvailableException
 	 */
 	private function _groupMembers($dnGroup, &$seen = null) {
 		if ($seen === null) {
@@ -212,26 +213,26 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface {
 		// used extensively in cron job, caching makes sense for nested groups
 		$cacheKey = '_groupMembers'.$dnGroup;
 		$groupMembers = $this->access->connection->getFromCache($cacheKey);
-		if(!is_null($groupMembers)) {
+		if($groupMembers !== null) {
 			return $groupMembers;
 		}
 		$seen[$dnGroup] = 1;
 		$members = $this->access->readAttribute($dnGroup, $this->access->connection->ldapGroupMemberAssocAttr,
 												$this->access->connection->ldapGroupFilter);
 		if (is_array($members)) {
-			foreach ($members as $memberDN) {
-				$allMembers[$memberDN] = 1;
+			foreach ($members as $member) {
+				$allMembers[$member] = 1;
 				$nestedGroups = $this->access->connection->ldapNestedGroups;
 				if (!empty($nestedGroups)) {
-					$subMembers = $this->_groupMembers($memberDN, $seen);
+					$subMembers = $this->_groupMembers($member, $seen);
 					if ($subMembers) {
-						$allMembers = array_merge($allMembers, $subMembers);
+						$allMembers += $subMembers;
 					}
 				}
 			}
 		}
 
-		$allMembers = array_merge($allMembers, $this->getDynamicGroupMembers($dnGroup));
+		$allMembers += $this->getDynamicGroupMembers($dnGroup);
 
 		$this->access->connection->writeToCache($cacheKey, $allMembers);
 		return $allMembers;
