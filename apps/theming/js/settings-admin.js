@@ -35,7 +35,6 @@ function setThemingValue(setting, value) {
 		OC.msg.finishedSaving('#theming_settings_msg', response);
 		$('#theming_settings_loading').hide();
 	});
-
 }
 
 function preview(setting, value, serverCssUrl) {
@@ -68,17 +67,6 @@ function preview(setting, value, serverCssUrl) {
 		reloadStylesheets(serverCssUrl);
 	}
 	reloadStylesheets(OC.generateUrl('/apps/theming/styles'));
-
-	// Preview images
-	var timestamp = new Date().getTime();
-	if (setting === 'logoMime') {
-		var previewImageLogo = document.getElementById('theming-preview-logo');
-		if (value !== '') {
-			previewImageLogo.src = OC.generateUrl('/apps/theming/logo') + "?v" + timestamp;
-		} else {
-			previewImageLogo.src = OC.getRootPath() + '/core/img/logo.svg?v' + timestamp;
-		}
-	}
 
 	if (setting === 'name') {
 		window.document.title = t('core', 'Admin') + " - " + value;
@@ -119,53 +107,36 @@ $(document).ready(function () {
 	$('#theming .theme-undo').each(function() {
 		var setting = $(this).data('setting');
 		var value = $('#theming-'+setting).val();
-		if(setting === 'logoMime' || setting === 'backgroundMime') {
-			var value = $('#current-'+setting).val();
-		}
 		hideUndoButton(setting, value);
 	});
 
-	var uploadParamsLogo = {
+	$('.fileupload').fileupload({
 		pasteZone: null,
 		dropZone: null,
 		done: function (e, response) {
-			preview('logoMime', response.result.data.name);
-			OC.msg.finishedSaving('#theming_settings_msg', response.result);
-			$('label#uploadlogo').addClass('icon-upload').removeClass('icon-loading-small');
-			$('.theme-undo[data-setting=logoMime]').show();
-		},
-		submit: function(e, response) {
-			startLoading();
-			$('label#uploadlogo').removeClass('icon-upload').addClass('icon-loading-small');
-		},
-		fail: function (e, response){
-			OC.msg.finishedError('#theming_settings_msg', response._response.jqXHR.responseJSON.data.message);
-			$('label#uploadlogo').addClass('icon-upload').removeClass('icon-loading-small');
-			$('#theming_settings_loading').hide();
-		}
-	};
-	var uploadParamsLogin = {
-		pasteZone: null,
-		dropZone: null,
-		done: function (e, response) {
-			preview('backgroundMime', response.result.data.name);
-			OC.msg.finishedSaving('#theming_settings_msg', response.result);
-			$('label#upload-login-background').addClass('icon-upload').removeClass('icon-loading-small');
-			$('.theme-undo[data-setting=backgroundMime]').show();
-		},
-		submit: function(e, response) {
-			startLoading();
-			$('label#upload-login-background').removeClass('icon-upload').addClass('icon-loading-small');
-		},
-		fail: function (e, response){
-			$('label#upload-login-background').removeClass('icon-loading-small').addClass('icon-upload');
-			OC.msg.finishedError('#theming_settings_msg', response._response.jqXHR.responseJSON.data.message);
-			$('#theming_settings_loading').hide();
-		}
-	};
+			var $form = $(e.target).closest('form');
+			var key = $form.data('image-key');
 
-	$('#uploadlogo').fileupload(uploadParamsLogo);
-	$('#upload-login-background').fileupload(uploadParamsLogin);
+			preview(key + 'Mime', response.result.data.name, response.result.data.serverCssUrl);
+			$form.find('.image-preview').css('backgroundImage', response.result.data.url + '?v=' + new Date().getTime());
+			OC.msg.finishedSaving('#theming_settings_msg', response.result);
+			$form.find('label.button').addClass('icon-upload').removeClass('icon-loading-small');
+			$form.find('.theme-undo').show();
+		},
+		submit: function(e, response) {
+			var $form = $(e.target).closest('form');
+			var key = $form.data('image-key');
+			startLoading();
+			$form.find('label.button').removeClass('icon-upload').addClass('icon-loading-small');
+		},
+		fail: function (e, response){
+			var $form = $(e.target).closest('form');
+			OC.msg.finishedError('#theming_settings_msg', response._response.jqXHR.responseJSON.data.message);
+			$form.find('label.button').addClass('icon-upload').removeClass('icon-loading-small');
+			$('#theming_settings_loading').hide();
+		}
+	});
+
 	// clicking preview should also trigger file upload dialog
 	$('#theming-preview-logo').on('click', function(e) {
 		e.stopPropagation();
@@ -262,11 +233,12 @@ $(document).ready(function () {
 	$('.theme-remove-bg').click(function() {
 		startLoading();
 		$.post(
-			OC.generateUrl('/apps/theming/ajax/updateLogo'), {'backgroundColor' : true}
+			OC.generateUrl('/apps/theming/ajax/updateStylesheet'), {'setting' : 'backgroundMime', 'value' : 'backgroundColor'}
 		).done(function(response) {
-			preview('backgroundMime', 'backgroundColor');
+			preview('backgroundMime', 'backgroundColor', response.data.serverCssUrl);
 		}).fail(function(response) {
 			OC.msg.finishedSaving('#theming_settings_msg', response);
+			$('#theming_settings_loading').hide();
 		});
 	});
 
