@@ -681,21 +681,6 @@ kbd {
 	}
 }
 
-/* DROPDOWN ----------------------------------------------------------------- */
-.dropdown {
-	background: nc-darken($color-main-background, 8%);
-	border-bottom-left-radius: 5px;
-	border-bottom-right-radius: 5px;
-	box-shadow: 0 1px 1px $color-box-shadow;
-	display: block;
-	margin-right: 0;
-	position: absolute;
-	right: 0;
-	width: 420px;
-	z-index: 500;
-	padding: 16px;
-}
-
 /* TABS --------------------------------------------------------------------- */
 .tabHeaders {
 	display: inline-block;

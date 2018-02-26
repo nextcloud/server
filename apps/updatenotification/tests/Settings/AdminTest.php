@@ -30,6 +30,8 @@ use OCA\UpdateNotification\UpdateChecker;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use OCP\IDateTimeFormatter;
+use OCP\IGroup;
+use OCP\IGroupManager;
 use OCP\Util;
 use Test\TestCase;
 
@@ -40,6 +42,8 @@ class AdminTest extends TestCase {
 	private $config;
 	/** @var UpdateChecker|\PHPUnit_Framework_MockObject_MockObject */
 	private $updateChecker;
+	/** @var IGroupManager|\PHPUnit_Framework_MockObject_MockObject */
+	private $groupManager;
 	/** @var IDateTimeFormatter|\PHPUnit_Framework_MockObject_MockObject */
 	private $dateTimeFormatter;
 
@@ -48,11 +52,13 @@ class AdminTest extends TestCase {
 
 		$this->config = $this->createMock(IConfig::class);
 		$this->updateChecker = $this->createMock(UpdateChecker::class);
+		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->dateTimeFormatter = $this->createMock(IDateTimeFormatter::class);
 
 		$this->admin = new Admin(
 			$this->config,
 			$this->updateChecker,
+			$this->groupManager,
 			$this->dateTimeFormatter
 		);
 	}
@@ -65,10 +71,8 @@ class AdminTest extends TestCase {
 			'production',
 		];
 		$currentChannel = Util::getChannel();
-
-		// Remove the currently used channel from the channels list
-		if(($key = array_search($currentChannel, $channels, true)) !== false) {
-			unset($channels[$key]);
+		if ($currentChannel === 'git') {
+			$channels[] = 'git';
 		}
 
 		$this->config
@@ -98,18 +102,34 @@ class AdminTest extends TestCase {
 				'updaterEnabled' => true,
 			]);
 
+		$group = $this->createMock(IGroup::class);
+		$group->expects($this->any())
+			->method('getDisplayName')
+			->willReturn('Administrators');
+		$group->expects($this->any())
+			->method('getGID')
+			->willReturn('admin');
+		$this->groupManager->expects($this->once())
+			->method('get')
+			->with('admin')
+			->willReturn($group);
+
 		$params = [
-			'isNewVersionAvailable' => true,
-			'isUpdateChecked' => true,
-			'lastChecked' => 'LastCheckedReturnValue',
-			'currentChannel' => Util::getChannel(),
-			'channels' => $channels,
-			'newVersionString' => '8.1.2',
-			'downloadLink' => 'https://downloads.nextcloud.org/server',
-			'updaterEnabled' => true,
-			'isDefaultUpdateServerURL' => true,
-			'updateServerURL' => 'https://updates.nextcloud.com/updater_server/',
-			'notify_groups' => 'admin',
+			'json' => json_encode([
+				'isNewVersionAvailable' => true,
+				'isUpdateChecked' => true,
+				'lastChecked' => 'LastCheckedReturnValue',
+				'currentChannel' => Util::getChannel(),
+				'channels' => $channels,
+				'newVersionString' => '8.1.2',
+				'downloadLink' => 'https://downloads.nextcloud.org/server',
+				'updaterEnabled' => true,
+				'isDefaultUpdateServerURL' => true,
+				'updateServerURL' => 'https://updates.nextcloud.com/updater_server/',
+				'notifyGroups' => [
+					['value' => 'admin', 'label' => 'Administrators'],
+				],
+			]),
 		];
 
 		$expected = new TemplateResponse('updatenotification', 'admin', $params, '');
