@@ -114,14 +114,14 @@ Feature: tags
 
   Scenario: Assigning a normal tag to a file shared by someone else as regular user should work
     Given user "user0" exists
-    Given user "user1" exists
+    Given user "12345" exists
     Given "admin" creates a "normal" tag with name "MySuperAwesomeTagName"
     Given user "user0" uploads file "data/textfile.txt" to "/myFileToTag.txt"
     Given As "user0" sending "POST" to "/apps/files_sharing/api/v1/shares" with
       | path | myFileToTag.txt |
-      | shareWith | user1 |
+      | shareWith | 12345 |
       | shareType | 0 |
-    When "user1" adds the tag "MySuperAwesomeTagName" to "/myFileToTag.txt" shared by "user0"
+    When "12345" adds the tag "MySuperAwesomeTagName" to "/myFileToTag.txt" shared by "user0"
     Then The response should have a status code "201"
     And "/myFileToTag.txt" shared by "user0" has the following tags
       |MySuperAwesomeTagName|
