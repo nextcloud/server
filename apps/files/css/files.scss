@@ -754,8 +754,16 @@ table.dragshadow td.size {
 	background-color: transparent;
 	z-index:1;
 
-	.quota-container {
-		height: 5px;
+	p {
+		line-height: 30px;
+	}
+
+	a {
+		flex-direction: column;
+	}
+
+	progress {
+		max-height: 5px;
 		border-radius: $border-radius;
 
 		div {
@@ -763,10 +771,4 @@ table.dragshadow td.size {
 			background-color: $color-primary;
 		}
 	}
-}
-
-#quotatext {
-	padding: 0;
-	height: 30px;
-	line-height: 30px;
 }

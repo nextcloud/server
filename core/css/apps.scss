@@ -207,7 +207,7 @@ kbd {
 				background-size: 16px 16px;
 				background-position: 14px center;
 				background-repeat: no-repeat;
-				display: block;
+				display: flex;
 				line-height: 44px;
 				min-height: 44px;
 				padding: 0 12px 0 44px;
@@ -512,16 +512,6 @@ kbd {
 		list-style-type: none;
 	}
 }
-
-/* patch to fix overflow in the Settings page */
-.app-settings {
-	#app-navigation {
-		a {
-			display: flex;
-		}
-	}
-}
-
 
 /* APP-CONTENT ---------------------------------------------------------------*/
 /* Part where the content will be loaded into */
