@@ -1,4 +1,4 @@
-app_name=notifications
+app_name=updatenotification
 
 project_dir=$(CURDIR)/../$(app_name)
 build_dir=$(CURDIR)/build
