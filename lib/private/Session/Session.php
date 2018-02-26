@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -38,13 +39,13 @@ abstract class Session implements \ArrayAccess, ISession {
 	 *
 	 * @param string $name
 	 */
-	abstract public function __construct($name);
+	abstract public function __construct(string $name);
 
 	/**
 	 * @param mixed $offset
 	 * @return bool
 	 */
-	public function offsetExists($offset) {
+	public function offsetExists($offset): bool {
 		return $this->exists($offset);
 	}
 
