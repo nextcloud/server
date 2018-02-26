@@ -960,6 +960,7 @@ MountConfigListView.prototype = _.extend({
 					if (result.length === 0 && mainForm.attr('data-can-create') === 'false') {
 						mainForm.hide();
 						$('a[href="#external-storage"]').parent().hide();
+						$('#emptycontent').show();
 					}
 					onCompletion.resolve();
 				}
