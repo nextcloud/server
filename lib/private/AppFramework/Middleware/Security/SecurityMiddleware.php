@@ -48,6 +48,7 @@ use OCP\AppFramework\Middleware;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\OCSController;
+use OCP\IL10N;
 use OCP\INavigationManager;
 use OCP\IURLGenerator;
 use OCP\IRequest;
@@ -87,6 +88,8 @@ class SecurityMiddleware extends Middleware {
 	private $cspNonceManager;
 	/** @var IAppManager */
 	private $appManager;
+	/** @var IL10N */
+	private $l10n;
 
 	/**
 	 * @param IRequest $request
@@ -101,6 +104,7 @@ class SecurityMiddleware extends Middleware {
 	 * @param CSRFTokenManager $csrfTokenManager
 	 * @param ContentSecurityPolicyNonceManager $cspNonceManager
 	 * @param IAppManager $appManager
+	 * @param IL10N $l10n
 	 */
 	public function __construct(IRequest $request,
 								ControllerMethodReflector $reflector,
@@ -113,7 +117,8 @@ class SecurityMiddleware extends Middleware {
 								ContentSecurityPolicyManager $contentSecurityPolicyManager,
 								CsrfTokenManager $csrfTokenManager,
 								ContentSecurityPolicyNonceManager $cspNonceManager,
-								IAppManager $appManager
+								IAppManager $appManager,
+								IL10N $l10n
 	) {
 		$this->navigationManager = $navigationManager;
 		$this->request = $request;
@@ -127,6 +132,7 @@ class SecurityMiddleware extends Middleware {
 		$this->csrfTokenManager = $csrfTokenManager;
 		$this->cspNonceManager = $cspNonceManager;
 		$this->appManager = $appManager;
+		$this->l10n = $l10n;
 	}
 
 	/**
@@ -152,7 +158,7 @@ class SecurityMiddleware extends Middleware {
 
 			if(!$this->reflector->hasAnnotation('NoAdminRequired')) {
 				if(!$this->isAdminUser) {
-					throw new NotAdminException();
+					throw new NotAdminException($this->l10n->t('Logged in user must be an admin'));
 				}
 			}
 		}

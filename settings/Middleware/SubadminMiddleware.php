@@ -30,6 +30,7 @@ use OC\AppFramework\Utility\ControllerMethodReflector;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Middleware;
+use OCP\IL10N;
 
 /**
  * Verifies whether an user has at least subadmin rights.
@@ -42,15 +43,20 @@ class SubadminMiddleware extends Middleware {
 	protected $isSubAdmin;
 	/** @var ControllerMethodReflector */
 	protected $reflector;
+	/** @var IL10N */
+	private $l10n;
 
 	/**
 	 * @param ControllerMethodReflector $reflector
 	 * @param bool $isSubAdmin
+	 * @param IL10N $l10n
 	 */
 	public function __construct(ControllerMethodReflector $reflector,
-								$isSubAdmin) {
+								$isSubAdmin,
+								IL10N $l10n) {
 		$this->reflector = $reflector;
 		$this->isSubAdmin = $isSubAdmin;
+		$this->l10n = $l10n;
 	}
 
 	/**
@@ -62,7 +68,7 @@ class SubadminMiddleware extends Middleware {
 	public function beforeController($controller, $methodName) {
 		if(!$this->reflector->hasAnnotation('NoSubadminRequired')) {
 			if(!$this->isSubAdmin) {
-				throw new NotAdminException('Logged in user must be a subadmin');
+				throw new NotAdminException($this->l10n->t('Logged in user must be a subadmin'));
 			}
 		}
 	}
