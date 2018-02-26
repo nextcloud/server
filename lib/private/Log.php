@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -129,7 +130,7 @@ class Log implements ILogger {
 		if($logger === null) {
 			$logType = $this->config->getValue('log_type', 'file');
 			$this->logger = static::getLogClass($logType);
-			call_user_func(array($this->logger, 'init'));
+			call_user_func([$this->logger, 'init']);
 		} else {
 			$this->logger = $logger;
 		}
@@ -148,7 +149,7 @@ class Log implements ILogger {
 	 * @param array $context
 	 * @return void
 	 */
-	public function emergency($message, array $context = array()) {
+	public function emergency(string $message, array $context = []) {
 		$this->log(Util::FATAL, $message, $context);
 	}
 
@@ -162,7 +163,7 @@ class Log implements ILogger {
 	 * @param array $context
 	 * @return void
 	 */
-	public function alert($message, array $context = array()) {
+	public function alert(string $message, array $context = []) {
 		$this->log(Util::ERROR, $message, $context);
 	}
 
@@ -175,7 +176,7 @@ class Log implements ILogger {
 	 * @param array $context
 	 * @return void
 	 */
-	public function critical($message, array $context = array()) {
+	public function critical(string $message, array $context = []) {
 		$this->log(Util::ERROR, $message, $context);
 	}
 
@@ -187,7 +188,7 @@ class Log implements ILogger {
 	 * @param array $context
 	 * @return void
 	 */
-	public function error($message, array $context = array()) {
+	public function error(string $message, array $context = []) {
 		$this->log(Util::ERROR, $message, $context);
 	}
 
@@ -201,7 +202,7 @@ class Log implements ILogger {
 	 * @param array $context
 	 * @return void
 	 */
-	public function warning($message, array $context = array()) {
+	public function warning(string $message, array $context = []) {
 		$this->log(Util::WARN, $message, $context);
 	}
 
@@ -212,7 +213,7 @@ class Log implements ILogger {
 	 * @param array $context
 	 * @return void
 	 */
-	public function notice($message, array $context = array()) {
+	public function notice(string $message, array $context = []) {
 		$this->log(Util::INFO, $message, $context);
 	}
 
@@ -225,7 +226,7 @@ class Log implements ILogger {
 	 * @param array $context
 	 * @return void
 	 */
-	public function info($message, array $context = array()) {
+	public function info(string $message, array $context = []) {
 		$this->log(Util::INFO, $message, $context);
 	}
 
@@ -236,7 +237,7 @@ class Log implements ILogger {
 	 * @param array $context
 	 * @return void
 	 */
-	public function debug($message, array $context = array()) {
+	public function debug(string $message, array $context = []) {
 		$this->log(Util::DEBUG, $message, $context);
 	}
 
@@ -249,7 +250,7 @@ class Log implements ILogger {
 	 * @param array $context
 	 * @return void
 	 */
-	public function log($level, $message, array $context = array()) {
+	public function log($level, string $message, array $context = []) {
 		$minLevel = min($this->config->getValue('loglevel', Util::WARN), Util::FATAL);
 		$logCondition = $this->config->getValue('log.condition', []);
 
@@ -272,7 +273,7 @@ class Log implements ILogger {
 			$app = 'no app in context';
 		}
 		// interpolate $message as defined in PSR-3
-		$replace = array();
+		$replace = [];
 		foreach ($context as $key => $val) {
 			$replace['{' . $key . '}'] = $val;
 		}
@@ -318,7 +319,7 @@ class Log implements ILogger {
 
 		if ($level >= $minLevel) {
 			$logger = $this->logger;
-			call_user_func(array($logger, 'write'), $app, $message, $level);
+			call_user_func([$logger, 'write'], $app, $message, $level);
 		}
 	}
 
@@ -330,20 +331,20 @@ class Log implements ILogger {
 	 * @return void
 	 * @since 8.2.0
 	 */
-	public function logException($exception, array $context = array()) {
+	public function logException($exception, array $context = []) {
 		$level = Util::ERROR;
 		if (isset($context['level'])) {
 			$level = $context['level'];
 			unset($context['level']);
 		}
-		$data = array(
+		$data = [
 			'Exception' => get_class($exception),
 			'Message' => $exception->getMessage(),
 			'Code' => $exception->getCode(),
 			'Trace' => $exception->getTraceAsString(),
 			'File' => $exception->getFile(),
 			'Line' => $exception->getLine(),
-		);
+		];
 		$data['Trace'] = preg_replace('!(' . implode('|', $this->methodsWithSensitiveParameters) . ')\(.*\)!', '$1(*** sensitive parameters replaced ***)', $data['Trace']);
 		if ($exception instanceof HintException) {
 			$data['Hint'] = $exception->getHint();
@@ -362,7 +363,7 @@ class Log implements ILogger {
 	 * @return string
 	 * @internal
 	 */
-	public static function getLogClass($logType) {
+	public static function getLogClass(string $logType): string {
 		switch (strtolower($logType)) {
 			case 'errorlog':
 				return \OC\Log\Errorlog::class;

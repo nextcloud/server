@@ -17,7 +17,7 @@ class NullLogger extends Log {
 		//disable original constructor
 	}
 
-	public function log($level, $message, array $context = array()) {
+	public function log($level, string $message, array $context = array()) {
 		//noop
 	}
 }

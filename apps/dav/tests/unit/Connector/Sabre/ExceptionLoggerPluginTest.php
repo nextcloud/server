@@ -41,7 +41,7 @@ class TestLogger extends Log {
 		//disable original constructor
 	}
 
-	public function log($level, $message, array $context = array()) {
+	public function log($level, string $message, array $context = array()) {
 		$this->level = $level;
 		$this->message = $message;
 	}
