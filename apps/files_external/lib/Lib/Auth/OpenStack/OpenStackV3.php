@@ -37,7 +37,8 @@ class OpenStackV3 extends AuthMechanism {
 			->setScheme(self::SCHEME_OPENSTACK)
 			->setText($l->t('OpenStack v3'))
 			->addParameters([
-				new DefinitionParameter('userid', $l->t('User Id')),
+				new DefinitionParameter('user', $l->t('Username')),
+				new DefinitionParameter('domain', $l->t('Domain')),
 				(new DefinitionParameter('password', $l->t('Password')))
 					->setType(DefinitionParameter::VALUE_PASSWORD),
 				new DefinitionParameter('url', $l->t('Identity endpoint URL'))

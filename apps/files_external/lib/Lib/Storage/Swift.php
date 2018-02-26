@@ -162,7 +162,7 @@ class Swift extends \OC\Files\Storage\Common {
 			throw new StorageBadConfigException("API Key or password, Username, Bucket and Region have to be configured.");
 		}
 
-		$user = isset($params['user']) ? $params['user'] : $params['userid'];
+		$user = $params['user'];
 		$this->id = 'swift::' . $user . md5($params['bucket']);
 
 		$bucketUrl = new Uri($params['bucket']);
@@ -181,10 +181,13 @@ class Swift extends \OC\Files\Storage\Common {
 
 		$params['autocreate'] = true;
 
-		if (isset($params['userid'])) {
+		if (isset($params['domain'])) {
 			$params['user'] = [
-				'id' => $params['userid'],
-				'password' => $params['password']
+				'name' => $params['user'],
+				'password' => $params['password'],
+				'domain' => [
+					'name' => $params['domain'],
+				]
 			];
 		}
 
