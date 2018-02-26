@@ -147,6 +147,13 @@
 					$image.attr('alt', part.alt);
 					$link.append($image);
 				}
+				// last crumb
+				if (i+1 === parts.length) {
+					var $notCreatable = $('<span class="notCreatable notPublic hidden"></span>');
+					$notCreatable.text(t('files', 'You don\'t have permission to upload or create files here'));
+					$crumb.append($notCreatable);
+				}
+
 				this.breadcrumbs.push($crumb);
 				this.$el.append($crumb);
 				// Only add feedback if not menu
