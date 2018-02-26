@@ -92,20 +92,53 @@
 
 /* override styles for login screen in guest.css */
 @if variable_exists('theming-logo-mime') and $theming-logo-mime != '' {
-	#header .logo {
+    #theming-preview-logo,
+    #header .logo {
 		background-image: url(#{$image-logo});
 		background-size: contain;
 	}
 	#body-login #header .logo {
 		margin-bottom: 22px;
 	}
+} @else {
+  #theming-preview-logo {
+    background-image: url(#{$image-logo});
+  }
 }
 
-#body-login,
-#firstrunwizard .firstrunwizard-header,
-#theming-preview {
-	background-image: url(#{$image-login-background});
-	background-color: $color-primary;
+@if variable_exists('theming-background-mime') and $theming-background-mime != ''  {
+	#body-login,
+	#firstrunwizard .firstrunwizard-header,
+	#theming-preview {
+		background-image: url(#{$image-login-background});
+		background-color: $color-primary;
+	}
+} @else {
+	  #theming-preview {
+		  background-image: url(#{$image-login-background});
+		  background-color: $color-primary;
+	  }
+}
+
+@if variable_exists('theming-logoheader-mime') and $theming-logoheader-mime != '' {
+	#theming .advanced-option-logoheader .image-preview,
+	body:not(#body-login) #header .logo {
+		background-image: url(#{$image-logoheader});
+	}
+} @else {
+	#theming .advanced-option-favicon .image-preview {
+		background-image: none;
+	}
+}
+
+@if variable_exists('theming-favicon-mime') and $theming-favicon-mime != '' {
+	#theming .advanced-option-favicon .image-preview {
+		background-image: url(#{$image-favicon});
+	}
+} @else {
+	#theming .advanced-option-favicon .image-preview {
+		background-image: none;
+	}
 }
 
 input.primary,
