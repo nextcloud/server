@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -95,7 +96,7 @@ interface IRequest {
 	 * @return string
 	 * @since 6.0.0
 	 */
-	public function getHeader($name);
+	public function getHeader(string $name): string;
 
 	/**
 	 * Lets you access post and get parameters by the index
@@ -111,7 +112,7 @@ interface IRequest {
 	 * @return mixed the content of the array
 	 * @since 6.0.0
 	 */
-	public function getParam($key, $default = null);
+	public function getParam(string $key, $default = null);
 
 
 	/**
@@ -122,7 +123,7 @@ interface IRequest {
 	 * @return array the array with all parameters
 	 * @since 6.0.0
 	 */
-	public function getParams();
+	public function getParams(): array;
 
 	/**
 	 * Returns the method of the request
@@ -130,7 +131,7 @@ interface IRequest {
 	 * @return string the method of the request (POST, GET, etc)
 	 * @since 6.0.0
 	 */
-	public function getMethod();
+	public function getMethod(): string;
 
 	/**
 	 * Shortcut for accessing an uploaded file through the $_FILES array
@@ -139,7 +140,7 @@ interface IRequest {
 	 * @return array the file in the $_FILES element
 	 * @since 6.0.0
 	 */
-	public function getUploadedFile($key);
+	public function getUploadedFile(string $key);
 
 
 	/**
@@ -149,7 +150,7 @@ interface IRequest {
 	 * @return array the value in the $_ENV element
 	 * @since 6.0.0
 	 */
-	public function getEnv($key);
+	public function getEnv(string $key);
 
 
 	/**
@@ -159,7 +160,7 @@ interface IRequest {
 	 * @return string|null the value in the $_COOKIE element
 	 * @since 6.0.0
 	 */
-	public function getCookie($key);
+	public function getCookie(string $key);
 
 
 	/**
@@ -168,7 +169,7 @@ interface IRequest {
 	 * @return bool true if CSRF check passed
 	 * @since 6.0.0
 	 */
-	public function passesCSRFCheck();
+	public function passesCSRFCheck(): bool;
 
 	/**
 	 * Checks if the strict cookie has been sent with the request if the request
@@ -177,7 +178,7 @@ interface IRequest {
 	 * @return bool
 	 * @since 9.0.0
 	 */
-	public function passesStrictCookieCheck();
+	public function passesStrictCookieCheck(): bool;
 
 	/**
 	 * Checks if the lax cookie has been sent with the request if the request
@@ -186,7 +187,7 @@ interface IRequest {
 	 * @return bool
 	 * @since 9.0.0
 	 */
-	public function passesLaxCookieCheck();
+	public function passesLaxCookieCheck(): bool;
 
 	/**
 	 * Returns an ID for the request, value is not guaranteed to be unique and is mostly meant for logging
@@ -195,7 +196,7 @@ interface IRequest {
 	 * @return string
 	 * @since 8.1.0
 	 */
-	public function getId();
+	public function getId(): string;
 
 	/**
 	 * Returns the remote address, if the connection came from a trusted proxy
@@ -206,7 +207,7 @@ interface IRequest {
 	 * @return string IP address
 	 * @since 8.1.0
 	 */
-	public function getRemoteAddress();
+	public function getRemoteAddress(): string;
 
 	/**
 	 * Returns the server protocol. It respects reverse proxy servers and load
@@ -215,7 +216,7 @@ interface IRequest {
 	 * @return string Server protocol (http or https)
 	 * @since 8.1.0
 	 */
-	public function getServerProtocol();
+	public function getServerProtocol(): string;
 
 	/**
 	 * Returns the used HTTP protocol.
@@ -223,7 +224,7 @@ interface IRequest {
 	 * @return string HTTP protocol. HTTP/2, HTTP/1.1 or HTTP/1.0.
 	 * @since 8.2.0
 	 */
-	public function getHttpProtocol();
+	public function getHttpProtocol(): string;
 
 	/**
 	 * Returns the request uri, even if the website uses one or more
@@ -232,7 +233,7 @@ interface IRequest {
 	 * @return string
 	 * @since 8.1.0
 	 */
-	public function getRequestUri();
+	public function getRequestUri(): string;
 
 	/**
 	 * Get raw PathInfo from request (not urldecoded)
@@ -241,7 +242,7 @@ interface IRequest {
 	 * @return string Path info
 	 * @since 8.1.0
 	 */
-	public function getRawPathInfo();
+	public function getRawPathInfo(): string;
 
 	/**
 	 * Get PathInfo from request
@@ -259,7 +260,7 @@ interface IRequest {
 	 * @return string the script name
 	 * @since 8.1.0
 	 */
-	public function getScriptName();
+	public function getScriptName(): string;
 
 	/**
 	 * Checks whether the user agent matches a given regex
@@ -268,7 +269,7 @@ interface IRequest {
 	 * @return bool true if at least one of the given agent matches, false otherwise
 	 * @since 8.1.0
 	 */
-	public function isUserAgent(array $agent);
+	public function isUserAgent(array $agent): bool;
 
 	/**
 	 * Returns the unverified server host from the headers without checking
@@ -277,7 +278,7 @@ interface IRequest {
 	 * @return string Server host
 	 * @since 8.1.0
 	 */
-	public function getInsecureServerHost();
+	public function getInsecureServerHost(): string;
 
 	/**
 	 * Returns the server host from the headers, or the first configured
@@ -286,5 +287,5 @@ interface IRequest {
 	 * @return string Server host
 	 * @since 8.1.0
 	 */
-	public function getServerHost();
+	public function getServerHost(): string;
 }

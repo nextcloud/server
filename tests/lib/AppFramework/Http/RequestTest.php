@@ -307,7 +307,7 @@ class RequestTest extends \Test\TestCase {
 			'method' => 'PUT',
 			'server' => [
 				'CONTENT_TYPE' => 'image/png',
-				'CONTENT_LENGTH' => strlen($data)
+				'CONTENT_LENGTH' => (string)strlen($data)
 			],
 		);
 
