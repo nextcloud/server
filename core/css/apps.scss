@@ -845,6 +845,10 @@ kbd {
 				line-height: 1.6em;
 				padding: 8px 0;
 			}
+			> select {
+				margin: 0;
+				margin-left: 6px;
+			}
 			/* Add padding if contains icon+text */
 			&:not(:empty) {
 				padding-right: 10px !important;
@@ -853,17 +857,17 @@ kbd {
 				width: 16px;
 				padding: 0 10px;
 			}
+			/* checkbox/radio fixes */
+			> input.radio + label,
 			> input.checkbox + label {
 				padding: 0 !important;
-				&::before {
-					margin: -2px 12px 0;
-				}
+				width: 100%;
 			}
-			> input.radio + label {
-				padding: 0 !important;
-				&::before {
-					margin: -2px 11px 0;
-				}
+			> input.checkbox + label::before {
+				margin: -2px 12px 0;
+			}
+			> input.radio + label::before {
+				margin: -2px 11px 0;
 			}
 		}
 		> button {

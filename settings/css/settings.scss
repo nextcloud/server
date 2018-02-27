@@ -1112,14 +1112,14 @@ table.grid td.date {
 
 span {
 	&.success {
-		background: #37ce02;
+		background-color: $color-success;
 		border-radius: $border-radius;
 	}
 	&.error {
-		background: #ce3702;
+		background-color: $color-error;
 	}
 	&.indeterminate {
-		background: #e6db00;
+		background-color: $color-warning;
 		border-radius: 40% 0;
 	}
 }

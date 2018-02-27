@@ -18,9 +18,11 @@
 
 #externalStorage td.status > span {
 	display: inline-block;
-	height: 16px;
-	width: 16px;
+	height: 28px;
+	width: 28px;
 	vertical-align: text-bottom;
+	border-radius: 50%;
+	cursor: pointer;
 }
 
 td.mountPoint, td.backend { width:160px; }
@@ -30,9 +32,25 @@ td.mountPoint, td.backend { width:160px; }
 #addMountPoint>td.applicable { visibility:hidden; }
 #addMountPoint>td.hidden { visibility:hidden; }
 
-#externalStorage .icon-settings {
-	padding: 11px 20px;
-	vertical-align: text-bottom;
+#externalStorage td {
+	height: 50px;
+	&.mountOptionsToggle,
+	&.remove,
+	&.save {
+		position: relative;
+		padding: 0 !important;
+		width: 44px;
+		[class^='icon-'],
+		[class*=' icon-'] {
+			opacity: 0.5;
+			padding: 14px;
+			vertical-align: text-bottom;
+			cursor: pointer;
+			&:hover {
+				opacity: 1;
+			}
+		}
+	}
 }
 
 #selectBackend {
@@ -57,9 +75,9 @@ td.mountPoint, td.backend { width:160px; }
 }
 
 #externalStorage td.configuration label {
-	min-width: 144px; /* 130px plus 2x7px padding */
-	display: inline-block;
-	margin-right: 6px;
+	width: 100%;
+	display: inline-flex;
+	align-items: center;
 }
 
 #externalStorage td.configuration input.disabled-success {
@@ -70,10 +88,6 @@ td.mountPoint, td.backend { width:160px; }
 #externalStorage td.applicable div.chzn-container {
 	position: relative;
 	top: 3px;
-}
-
-#externalStorage td.status .success {
-	border-radius: 50%;
 }
 
 #userMountingBackends {
@@ -109,10 +123,6 @@ td.mountPoint, td.backend { width:160px; }
 
 #externalStorage .mountOptionsToggle .dropdown {
 	width: auto;
-}
-
-#externalStorage .mountOptionsDropdown {
-	margin-right: 40px;
 }
 
 .nav-icon-external-storage {
