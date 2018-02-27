@@ -335,7 +335,7 @@ class ShareByMailProvider implements IShareProvider {
 			$share->getSharedWith(),
 			$share->getSharedBy(),
 			$share->getShareOwner(),
-			$share->getPermissions(),
+			$share->getPermissions() & 1,
 			$share->getToken(),
 			$share->getPassword()
 		);
