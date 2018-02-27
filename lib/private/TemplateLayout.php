@@ -123,6 +123,10 @@ class TemplateLayout extends \OC_Template {
 		} else if ($renderAs == 'guest') {
 			parent::__construct('core', 'layout.guest');
 			$this->assign('bodyid', 'body-login');
+		} else if ($renderAs == 'public') {
+			parent::__construct('core', 'layout.public');
+			$this->assign( 'appid', $appId );
+			$this->assign('bodyid', 'body-public');
 		} else {
 			parent::__construct('core', 'layout.base');
 

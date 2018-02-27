@@ -68,6 +68,8 @@ class ComposerStaticInitFiles_Sharing
         'OCA\\Files_Sharing\\ShareBackend\\Folder' => __DIR__ . '/..' . '/../lib/ShareBackend/Folder.php',
         'OCA\\Files_Sharing\\SharedMount' => __DIR__ . '/..' . '/../lib/SharedMount.php',
         'OCA\\Files_Sharing\\SharedStorage' => __DIR__ . '/..' . '/../lib/SharedStorage.php',
+        'OCA\\Files_Sharing\\Template\\ExternalShareMenuAction' => __DIR__ . '/..' . '/../lib/Template/ExternalShareMenuAction.php',
+        'OCA\\Files_Sharing\\Template\\LinkMenuAction' => __DIR__ . '/..' . '/../lib/Template/LinkMenuAction.php',
         'OCA\\Files_Sharing\\Updater' => __DIR__ . '/..' . '/../lib/Updater.php',
     );
 

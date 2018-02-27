@@ -38,6 +38,10 @@ namespace OCA\Files_Sharing\Controller;
 use OC_Files;
 use OC_Util;
 use OCA\FederatedFileSharing\FederatedShareProvider;
+use OCA\Files_Sharing\Template\ExternalShareMenuAction;
+use OCA\Files_Sharing\Template\LinkMenuAction;
+use OCP\AppFramework\Http\Template\SimpleMenuAction;
+use OCP\AppFramework\Http\Template\PublicTemplateResponse;
 use OCP\Defaults;
 use OCP\IL10N;
 use OCP\Template;
@@ -435,7 +439,17 @@ class ShareController extends Controller {
 
 		$csp = new \OCP\AppFramework\Http\ContentSecurityPolicy();
 		$csp->addAllowedFrameDomain('\'self\'');
-		$response = new TemplateResponse($this->appName, 'public', $shareTmpl, 'base');
+
+		$response = new PublicTemplateResponse($this->appName, 'public', $shareTmpl);
+		$response->setHeaderTitle($shareTmpl['filename']);
+		$response->setHeaderDetails($this->l10n->t('shared by %s', [$shareTmpl['displayName']]));
+		$response->setHeaderActions([
+			new SimpleMenuAction('download', $this->l10n->t('Download'), 'icon-download-white', $shareTmpl['downloadURL'], 0),
+			new SimpleMenuAction('download', $this->l10n->t('Download'), 'icon-download', $shareTmpl['downloadURL'], 10, $shareTmpl['fileSize']),
+			new LinkMenuAction($this->l10n->t('Direct link'), 'icon-public', $shareTmpl['previewURL']),
+			new ExternalShareMenuAction($this->l10n->t('Add to your Nextcloud'), 'icon-external', $shareTmpl['owner'], $shareTmpl['displayName'], $shareTmpl['filename']),
+		]);
+
 		$response->setContentSecurityPolicy($csp);
 
 		$this->emitAccessShareHook($share);

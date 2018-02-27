@@ -53,5 +53,7 @@ return array(
     'OCA\\Files_Sharing\\ShareBackend\\Folder' => $baseDir . '/../lib/ShareBackend/Folder.php',
     'OCA\\Files_Sharing\\SharedMount' => $baseDir . '/../lib/SharedMount.php',
     'OCA\\Files_Sharing\\SharedStorage' => $baseDir . '/../lib/SharedStorage.php',
+    'OCA\\Files_Sharing\\Template\\ExternalShareMenuAction' => $baseDir . '/../lib/Template/ExternalShareMenuAction.php',
+    'OCA\\Files_Sharing\\Template\\LinkMenuAction' => $baseDir . '/../lib/Template/LinkMenuAction.php',
     'OCA\\Files_Sharing\\Updater' => $baseDir . '/../lib/Updater.php',
 );
