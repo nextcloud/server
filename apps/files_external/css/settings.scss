@@ -40,15 +40,15 @@ td.mountPoint, td.backend { width:160px; }
 		position: relative;
 		padding: 0 !important;
 		width: 44px;
-		opacity: 0.5;
-		&:hover {
-			opacity: 1;
-		}
 		[class^='icon-'],
 		[class*=' icon-'] {
+			opacity: 0.5;
 			padding: 14px;
 			vertical-align: text-bottom;
 			cursor: pointer;
+			&:hover {
+				opacity: 1;
+			}
 		}
 	}
 }

@@ -727,15 +727,15 @@ MountConfigListView.prototype = _.extend({
 			self.recheckStorageConfig($(this).closest('tr'));
 		});
 
-		this.$el.on('click', 'td.remove>img', function() {
+		this.$el.on('click', 'td.remove>.icon-delete', function() {
 			self.deleteStorageConfig($(this).closest('tr'));
 		});
 
-		this.$el.on('click', 'td.save>img', function () {
+		this.$el.on('click', 'td.save>.icon-checkmark', function () {
 			self.saveStorageConfig($(this).closest('tr'));
 		});
 
-		this.$el.on('click', 'td.mountOptionsToggle>.icon-settings', function() {
+		this.$el.on('click', 'td.mountOptionsToggle>.icon-settings-dark', function() {
 			self._showMountOptionsDropdown($(this).closest('tr'));
 		});
 
