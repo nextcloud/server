@@ -2,7 +2,7 @@
  * ownCloud
  *
  * @author John Molakvoæ
- * @copyright 2016-2017 John Molakvoæ <skjnldsv@protonmail.com>
+ * @copyright 2016-2018 John Molakvoæ <skjnldsv@protonmail.com>
  * @author Morris Jobke
  * @copyright 2013 Morris Jobke <morris.jobke@gmail.com>
  *
@@ -36,7 +36,7 @@
  *
  * Which will result in:
  *
- * <div id="albumart" style="background-color: hsl(123, 90%, 65%); ... ">T</div>
+ * <div id="albumart" style="background-color: rgb(121, 90, 171); ... ">T</div>
  *
  * You may also call it like this, to have a different background, than the seed:
  *
@@ -44,18 +44,18 @@
  *
  * Resulting in:
  *
- * <div id="albumart" style="background-color: hsl(123, 90%, 65%); ... ">A</div>
+ * <div id="albumart" style="background-color: rgb(121, 90, 171); ... ">A</div>
  *
  */
 
  /*
- * Alternatively, you can use the prototype function to convert your string to hsl colors:
+ * Alternatively, you can use the prototype function to convert your string to rgb colors:
  *
- * "a6741a86aded5611a8e46ce16f2ad646".toHsl()
+ * "a6741a86aded5611a8e46ce16f2ad646".toRgb()
  *
- * Will return the hsl parameters within an array:
+ * Will return the rgb parameters within the following object:
  *
- * [290, 60, 68]
+ * Color {r: 208, g: 158, b: 109}
  *
  */
 
