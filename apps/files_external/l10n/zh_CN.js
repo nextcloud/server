@@ -56,9 +56,9 @@ OC.L10N.register(
     "OAuth2" : "OAuth2",
     "Client ID" : "Client ID",
     "Client secret" : "客户端密钥",
-    "OpenStack" : "OpenStack",
     "Tenant name" : "租户名称",
     "Identity endpoint URL" : "身份识别 URL",
+    "Domain" : "域名",
     "Rackspace" : "Rackspace",
     "API key" : "API密匙",
     "Global credentials" : "全局凭据",
@@ -90,7 +90,6 @@ OC.L10N.register(
     "SFTP with secret key login" : "包含 secret key 的SFTP",
     "SMB / CIFS" : "SMB / CIFS",
     "Share" : "共享",
-    "Domain" : "域名",
     "SMB / CIFS using OC login" : "SMB / CIFS 使用 OC 登录信息",
     "Username as share" : "以用户名作为共享名",
     "OpenStack Object Storage" : "OpenStack 对象存储",
@@ -99,8 +98,6 @@ OC.L10N.register(
     "The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "没有安装或启用 PHP 中的 cURL 支持. 无法挂载 %s. 请联系您的系统管理员安装.",
     "The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "没有安装或启用 PHP 中的 FTP 支持. 无法挂载 %s. 请联系您的系统管理员安装.",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "没有安装 \"%s\". 无法挂载 %s. 请联系您的系统管理员安装.",
-    "No external storage configured" : "没有配置外部存储",
-    "You can add external storages in the personal settings" : "您可以在个人设置中添加外部存储",
     "Name" : "名称",
     "Storage type" : "存储类型",
     "Scope" : "适用范围",
@@ -119,6 +116,9 @@ OC.L10N.register(
     "Advanced settings" : "高级选项",
     "Delete" : "删除",
     "Allow users to mount external storage" : "允许用户挂载外部存储",
-    "Allow users to mount the following external storage" : "允许用户挂载以下外部存储"
+    "Allow users to mount the following external storage" : "允许用户挂载以下外部存储",
+    "OpenStack" : "OpenStack",
+    "No external storage configured" : "没有配置外部存储",
+    "You can add external storages in the personal settings" : "您可以在个人设置中添加外部存储"
 },
 "nplurals=1; plural=0;");

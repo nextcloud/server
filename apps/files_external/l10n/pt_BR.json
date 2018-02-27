@@ -54,9 +54,9 @@
     "OAuth2" : "OAuth2",
     "Client ID" : "ID do Cliente",
     "Client secret" : "Segredo do cliente",
-    "OpenStack" : "OpenStack",
     "Tenant name" : "Nome do inquilino",
     "Identity endpoint URL" : "URL do destino da identidade",
+    "Domain" : "Domínio",
     "Rackspace" : "Espaço no rack",
     "API key" : "Chave API",
     "Global credentials" : "Credenciais globais",
@@ -89,7 +89,6 @@
     "SFTP with secret key login" : "SFTP com login de chave secreta",
     "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Compartilhar",
-    "Domain" : "Domínio",
     "SMB / CIFS using OC login" : "SMB / CIFS usando OC login",
     "Username as share" : "Nome de usuário como compartilhamento",
     "OpenStack Object Storage" : "Armazenamento de Objetos OpenStack",
@@ -99,8 +98,6 @@
     "The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "O suporte FTP no PHP não está habilitado ou instalado. A montagem de %s não foi possível. Por favor, solicite a instalação ao administrador do sistema.",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" não está instalado. A montagem de %s não foi possível. Por favor, solicite a instalação ao administrador do sistema.",
     "External storage support" : "Suporte a armazenamento externo",
-    "No external storage configured" : "Nenhum armazendo externo foi configurado",
-    "You can add external storages in the personal settings" : "Você pode adicionar armazenamentos externos nas configurações pessoais",
     "Name" : "Nome",
     "Storage type" : "Tipo de armazenamento",
     "Scope" : "Alcance",
@@ -126,7 +123,10 @@
     "Step 2 failed. Exception: %s" : "Passo 2 falhou. Erro: %s",
     "Dropbox App Configuration" : "Configuração do Aplicativo Dropbox",
     "Google Drive App Configuration" : "Configuração do aplicativo Google Drive",
+    "OpenStack" : "OpenStack",
     "Dropbox" : "Dropbox",
-    "Google Drive" : "Google Drive"
+    "Google Drive" : "Google Drive",
+    "No external storage configured" : "Nenhum armazendo externo foi configurado",
+    "You can add external storages in the personal settings" : "Você pode adicionar armazenamentos externos nas configurações pessoais"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

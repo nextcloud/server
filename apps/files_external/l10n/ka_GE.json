@@ -54,9 +54,9 @@
     "OAuth2" : "OAuth2",
     "Client ID" : "კლიენტის ID",
     "Client secret" : "კლიენტის საიდუმლო",
-    "OpenStack" : "OpenStack",
     "Tenant name" : "მოიჯარის სახელი",
     "Identity endpoint URL" : "იდენტობის საბოლოო-წერტილის URL",
+    "Domain" : "დომენი",
     "Rackspace" : "Rackspace-ი",
     "API key" : "API გასაღები",
     "Global credentials" : "გლობალური მონაცემები",
@@ -89,7 +89,6 @@
     "SFTP with secret key login" : "SFTP საიდუმლო გასაღების ლოგინით",
     "SMB / CIFS" : "SMB / CIFS",
     "Share" : "გაზიარება",
-    "Domain" : "დომენი",
     "SMB / CIFS using OC login" : "SMB / CIFS OC ლოგინით",
     "Username as share" : "მომხმარებლის სახელი გაზიარებად",
     "OpenStack Object Storage" : "OpenStack ობიექტ საცავი",
@@ -98,8 +97,6 @@
     "The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "cURL-ის მხარდაჭერა PHP-ში არაა მოქდენი ან დაყენებული. %s-ის მონტაჟი ვერ ხერხდება. გთხოვთ სთხოვოთ თქვენი სისტემის ადმინისტრატორს მისი დაყენება.",
     "The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "FTP-ს მხარდაჭერა PHP-ში არაა მოქმედი ან დაყენებული. %s-ის მონტაჟი ვერ ხერხდება. გთხოვთ სთხოვოთ თქვენი სისტემის ადმინისტრატორს მისი დაყენება.",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" არაა დაყენებული. %s-ის მონტაჟი ვერ ხერხდება. გთხოვთ სთხოვოთ თქვენი სისტემის ადმინისტრატორს მისი დაყენება.",
-    "No external storage configured" : "გარე საცავი არაა კონფიგურირებული",
-    "You can add external storages in the personal settings" : "გარე საცავები შეგიძლიათ დაამატოთ პირად პარამეტრებში",
     "Name" : "სახელი",
     "Storage type" : "საცავის სახეობა",
     "Scope" : "ფარგლები",
@@ -125,7 +122,10 @@
     "Step 2 failed. Exception: %s" : "ნაბიჯი 2 ჩაიშალა. გამონაკლისი: %s",
     "Dropbox App Configuration" : "Dropbox აპლიკაციის კონფიგურაცია",
     "Google Drive App Configuration" : "Google Drive აპლიკაციის კონფიგურაცია",
+    "OpenStack" : "OpenStack",
     "Dropbox" : "Dropbox-ი",
-    "Google Drive" : "Google Drive-ი"
+    "Google Drive" : "Google Drive-ი",
+    "No external storage configured" : "გარე საცავი არაა კონფიგურირებული",
+    "You can add external storages in the personal settings" : "გარე საცავები შეგიძლიათ დაამატოთ პირად პარამეტრებში"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

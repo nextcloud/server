@@ -202,6 +202,7 @@ OC.L10N.register(
     "Log in" : "Kirish",
     "Wrong password." : "Noto'g'ri parol.",
     "Stay logged in" : "Kirishni unutmang",
+    "Back to log in" : "Kirish uchun qaytib boring",
     "Alternative Logins" : "Shu bilan bir qatorda kirishlar",
     "Account access" : "Hisobga kirish"
 },

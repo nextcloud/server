@@ -33,8 +33,8 @@ OC.L10N.register(
     "OAuth2" : "OAuth2",
     "Client ID" : "ID client",
     "Client secret" : "Secret client",
-    "OpenStack" : "OpenStack",
     "Tenant name" : "Nume titular",
+    "Domain" : "Domeniu",
     "API key" : "Cheie API",
     "Username and password" : "Nume de utilizator și parolă",
     "RSA public key" : "Cheie publică RSA",
@@ -57,7 +57,6 @@ OC.L10N.register(
     "SFTP with secret key login" : "SFTP cu cheie secretă de autentificare",
     "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Partajează",
-    "Domain" : "Domeniu",
     "SMB / CIFS using OC login" : "SMB / CIFS folosind autentificare OC",
     "Service name" : "Nume serviciu",
     "Name" : "Nume",
@@ -77,6 +76,7 @@ OC.L10N.register(
     "Add storage" : "Adauga stocare",
     "Advanced settings" : "Setări avansate",
     "Delete" : "Șterge",
-    "Allow users to mount the following external storage" : "Permite utilizatorilor să monteze următoarea unitate de stocare"
+    "Allow users to mount the following external storage" : "Permite utilizatorilor să monteze următoarea unitate de stocare",
+    "OpenStack" : "OpenStack"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

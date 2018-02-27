@@ -54,9 +54,9 @@ OC.L10N.register(
     "OAuth2" : "OAuth2",
     "Client ID" : "ID πελάτη",
     "Client secret" : "Μυστικό πελάτη",
-    "OpenStack" : "OpenStack",
     "Tenant name" : "Όνομα \"ένοικου\"",
     "Identity endpoint URL" : "URL τελικού σημείου ταυτοποίησης",
+    "Domain" : "Τομέας",
     "Rackspace" : "Rackspace",
     "API key" : "Κλειδί API",
     "Global credentials" : "Παγκόσμια διαπιστευτήρια",
@@ -88,7 +88,6 @@ OC.L10N.register(
     "SFTP with secret key login" : "SFTP με σύνδεση με κρυφό κλειδί",
     "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Διαμοιράστε",
-    "Domain" : "Τομέας",
     "SMB / CIFS using OC login" : "SMB / CIFS χρησιμοποιώντας λογαριασμό OC",
     "Username as share" : "Όνομα χρήστη ως διαμοιραζόμενος φάκελος",
     "OpenStack Object Storage" : "Αποθήκη αντικειμένων OpenStack",
@@ -97,8 +96,6 @@ OC.L10N.register(
     "The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "Η cURL υποστήριξη στην PHP δεν είναι ενεργοποιημένη. Η προσάρτηση του %s δεν είναι δυνατή. Παρακαλούμε ζητήστε από τον διαχειριστή του συστήματός σας να το εγκαταστήσει. ",
     "The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "Η FTP υποστήριξη στην PHP δεν είναι ενεργοποιημένη ή εγκατεστημένη. Η προσάρτηση του %s δεν είναι δυνατή. Παρακαλούμε ζητήστε τον διαχειριστή του συστήματός σας να το εγκατασταστήσει. ",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" δεν είναι εγκατεστημένο. Η προσάρτηση του %s δεν είναι δυνατή. Παρακαλούμε ζητήστε τον διαχειριστή του συστήματός σας να το εγκαταστήσει. ",
-    "No external storage configured" : "Δεν έχει ρυθμιστεί κανένα εξωτερικό μέσο αποθήκευσης",
-    "You can add external storages in the personal settings" : "Μπορείτε να προσθέσετε εξωτερικά μέσα αποθήκευσης στις προσωπικές ρυθμίσεις",
     "Name" : "Όνομα",
     "Storage type" : "Τύπος αποθηκευτικού χώρου",
     "Scope" : "Εύρος",
@@ -117,6 +114,9 @@ OC.L10N.register(
     "Advanced settings" : "Ρυθμίσεις για προχωρημένους",
     "Delete" : "Διαγραφή",
     "Allow users to mount external storage" : "Να επιτρέπεται στους χρήστες η σύνδεση εξωτερικού χώρου",
-    "Allow users to mount the following external storage" : "Χορήγηση άδειας στους χρήστες να συνδέσουν τα παρακάτω εξωτερικά μέσα αποθήκευσης"
+    "Allow users to mount the following external storage" : "Χορήγηση άδειας στους χρήστες να συνδέσουν τα παρακάτω εξωτερικά μέσα αποθήκευσης",
+    "OpenStack" : "OpenStack",
+    "No external storage configured" : "Δεν έχει ρυθμιστεί κανένα εξωτερικό μέσο αποθήκευσης",
+    "You can add external storages in the personal settings" : "Μπορείτε να προσθέσετε εξωτερικά μέσα αποθήκευσης στις προσωπικές ρυθμίσεις"
 },
 "nplurals=2; plural=(n != 1);");

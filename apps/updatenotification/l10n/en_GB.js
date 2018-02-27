@@ -1,8 +1,16 @@
 OC.L10N.register(
     "updatenotification",
     {
-    "Could not start updater, please try the manual update" : "Could not start updater, please try the manual update",
     "{version} is available. Get more information on how to update." : "{version} is available. Get more information on how to update.",
+    "Your version is up to date." : "Your version is up to date.",
+    "A non-default update server is in use to be checked for updates:" : "A non-default update server is in use to be checked for updates:",
+    "Update channel:" : "Update channel:",
+    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel.",
+    "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found.",
+    "Notify members of the following groups about available updates:" : "Notify members of the following groups about available updates:",
+    "Only notification for app updates are available." : "Only notification for app updates are available.",
+    "The selected update channel does not support updates of the server." : "The selected update channel does not support updates of the server.",
+    "Could not start updater, please try the manual update" : "Could not start updater, please try the manual update",
     "Update notifications" : "Update notifications",
     "Channel updated" : "Channel updated",
     "The update server could not be reached since %d days to check for new updates." : "The update server could not be reached since %d days to check for new updates.",
@@ -14,16 +22,8 @@ OC.L10N.register(
     "A new version is available: %s" : "A new version is available: %s",
     "Open updater" : "Open updater",
     "Download now" : "Download now",
-    "The update check is not yet finished. Please refresh the page." : "The update check is not yet finished. Please refresh the page.",
-    "Your version is up to date." : "Your version is up to date.",
     "Checked on %s" : "Checked on %s",
-    "A non-default update server is in use to be checked for updates:" : "A non-default update server is in use to be checked for updates:",
-    "Update channel:" : "Update channel:",
-    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel.",
-    "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found.",
-    "Notify members of the following groups about available updates:" : "Notify members of the following groups about available updates:",
-    "Only notification for app updates are available." : "Only notification for app updates are available.",
     "The selected update channel makes dedicated notifications for the server obsolete." : "The selected update channel makes dedicated notifications for the server obsolete.",
-    "The selected update channel does not support updates of the server." : "The selected update channel does not support updates of the server."
+    "The update check is not yet finished. Please refresh the page." : "The update check is not yet finished. Please refresh the page."
 },
 "nplurals=2; plural=(n != 1);");

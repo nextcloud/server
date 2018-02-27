@@ -27,6 +27,7 @@ OC.L10N.register(
     "App secret" : "Secret de l'aplicació",
     "Client ID" : "Client ID",
     "Client secret" : "Secret del client",
+    "Domain" : "Domini",
     "API key" : "codi API",
     "Username and password" : "Nom d'usuari i contrasenya",
     "Public key" : "Clau pública",
@@ -52,13 +53,10 @@ OC.L10N.register(
     "SFTP with secret key login" : "Inici de sessió SFTP amb clau secreta",
     "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Comparteix",
-    "Domain" : "Domini",
     "SMB / CIFS using OC login" : "SMB / CIFS usant acreditació OC",
     "Username as share" : "Nom d'usuari per compartir",
     "OpenStack Object Storage" : "OpenStack Object Storage",
     "Service name" : "Nom del servei",
-    "No external storage configured" : "Sense emmagatzematge extern configurat",
-    "You can add external storages in the personal settings" : "Pot agregar emmagatzematges externs en la configuració personal",
     "Name" : "Nom",
     "Storage type" : "Tipus d'emmagatzemament",
     "Scope" : "Abast",
@@ -76,6 +74,8 @@ OC.L10N.register(
     "Add storage" : "Afegeix emmagatzemament",
     "Advanced settings" : "Configuració avançada",
     "Delete" : "Esborra",
-    "Allow users to mount the following external storage" : "Permet als usuaris muntar els dispositius externs següents"
+    "Allow users to mount the following external storage" : "Permet als usuaris muntar els dispositius externs següents",
+    "No external storage configured" : "Sense emmagatzematge extern configurat",
+    "You can add external storages in the personal settings" : "Pot agregar emmagatzematges externs en la configuració personal"
 },
 "nplurals=2; plural=(n != 1);");

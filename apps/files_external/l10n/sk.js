@@ -56,9 +56,9 @@ OC.L10N.register(
     "OAuth2" : "OAuth2",
     "Client ID" : "Client ID",
     "Client secret" : "Heslo klienta",
-    "OpenStack" : "OpenStack",
     "Tenant name" : "Meno nájomcu",
     "Identity endpoint URL" : "Endpoint URL identita",
+    "Domain" : "Doména",
     "Rackspace" : "Rackspace",
     "API key" : "API kľúč",
     "Global credentials" : "Globálne oprávnenia",
@@ -90,7 +90,6 @@ OC.L10N.register(
     "SFTP with secret key login" : "SFTP prihlásenie s tajným kľúčom",
     "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Sprístupniť",
-    "Domain" : "Doména",
     "SMB / CIFS using OC login" : "SMB / CIFS s použitím OC prihlásenia",
     "Username as share" : "Používateľské meno ako sprístupnený priečinok",
     "OpenStack Object Storage" : "OpenStack Object Storage",
@@ -99,8 +98,6 @@ OC.L10N.register(
     "The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "Nie je povolená alebo nainštalovaná cURL podpora v PHP. Pripojenie %s nie je možné. Požiadajte svojho správcu, aby doplnil podporu.",
     "The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "Nie je povolená alebo nainštalovaná FTP podpora v PHP. Pripojenie %s nie je možné. Požiadajte svojho správcu, aby doplnil podporu.",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "Nie je nainštalované \"%s\". Pripojenie %s nie je možné. Požiadajte svojho správcu o inštaláciu.",
-    "No external storage configured" : "Žiadne externé úložisko nie je nakonfigurované",
-    "You can add external storages in the personal settings" : "Externé úložisko je možné pridať v osobných nastaveniach",
     "Name" : "Názov",
     "Storage type" : "Typ úložiska",
     "Scope" : "Rozsah",
@@ -119,6 +116,9 @@ OC.L10N.register(
     "Advanced settings" : "Rozšírené nastavenia",
     "Delete" : "Zmazať",
     "Allow users to mount external storage" : "Povoliť používateľom pripojiť externé úložiská",
-    "Allow users to mount the following external storage" : "Povoliť používateľom pripojiť tieto externé úložiská"
+    "Allow users to mount the following external storage" : "Povoliť používateľom pripojiť tieto externé úložiská",
+    "OpenStack" : "OpenStack",
+    "No external storage configured" : "Žiadne externé úložisko nie je nakonfigurované",
+    "You can add external storages in the personal settings" : "Externé úložisko je možné pridať v osobných nastaveniach"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");
