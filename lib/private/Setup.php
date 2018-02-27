@@ -325,15 +325,20 @@ class Setup {
 		$secret = $this->random->generate(48);
 
 		//write the config file
-		$this->config->setValues([
+		$newConfigValues = [
 			'passwordsalt'		=> $salt,
 			'secret'			=> $secret,
 			'trusted_domains'	=> $trustedDomains,
 			'datadirectory'		=> $dataDir,
-			'overwrite.cli.url'	=> $request->getServerProtocol() . '://' . $request->getInsecureServerHost() . \OC::$WEBROOT,
 			'dbtype'			=> $dbType,
 			'version'			=> implode('.', \OCP\Util::getVersion()),
-		]);
+		];
+
+		if ($this->config->getValue('overwrite.cli.url', null) === null) {
+			$newConfigValues['overwrite.cli.url'] = $request->getServerProtocol() . '://' . $request->getInsecureServerHost() . \OC::$WEBROOT;
+		}
+
+		$this->config->setValues($newConfigValues);
 
 		try {
 			$dbSetup->initialize($options);
