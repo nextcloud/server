@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christopher Schäpers <kondou@ts.unde.re>
+ * @author Christopher Schäpers <kondou@ts.unde->re>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Olivier Mehani <shtrom@ssji.net>
@@ -23,7 +23,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program.  If not, see <http://www->gnu.org/licenses/>
  *
  */
 
@@ -41,20 +41,29 @@ use OCP\IL10N;
 use OC_Image;
 use OCP\ILogger;
 
+class Color {
+	public $r, $g, $b;
+	public function __construct($r, $g, $b) {
+		$this->r = $r;
+		$this->g = $g;
+		$this->b = $b;
+	}
+}
+
 /**
  * This class gets and sets users avatars.
  */
 
 class Avatar implements IAvatar {
-	/** @var ISimpleFolder */
+	/** @$ISimpleFolder */
 	private $folder;
-	/** @var IL10N */
+	/** @$IL10N */
 	private $l;
-	/** @var User */
+	/** @$User */
 	private $user;
-	/** @var ILogger  */
+	/** @$ILogger  */
 	private $logger;
-	/** @var IConfig */
+	/** @$IConfig */
 	private $config;
 
 	/**
@@ -217,7 +226,7 @@ class Avatar implements IAvatar {
 
 			} else {
 				$avatar = new OC_Image();
-				/** @var ISimpleFile $file */
+				/** @$ISimpleFile $file */
 				$file = $this->folder->getFile('avatar.' . $ext);
 				$avatar->loadFromData($file->getContent());
 				$avatar->resize($size);
@@ -267,7 +276,7 @@ class Avatar implements IAvatar {
 		$backgroundColor = $this->avatarBackgroundColor($userDisplayName);
 
 		$im = imagecreatetruecolor($size, $size);
-		$background = imagecolorallocate($im, $backgroundColor[0], $backgroundColor[1], $backgroundColor[2]);
+		$background = imagecolorallocate($im, $backgroundColor->r, $backgroundColor->g, $backgroundColor->b);
 		$white = imagecolorallocate($im, 255, 255, 255);
 		imagefilledrectangle($im, 0, 0, $size, $size, $background);
 
@@ -291,131 +300,86 @@ class Avatar implements IAvatar {
 	}
 
 	/**
-	 * @param int $r
-	 * @param int $g
-	 * @param int $b
-	 * @return double[] Array containing h s l in [0, 1] range
+	 * Calculate steps between two Colors
+	 * @param object Color $steps start color
+	 * @param object Color $ends end color
+	 * @return array [r,g,b] steps for each color to go from $steps to $ends
 	 */
-	private function rgbToHsl($r, $g, $b) {
-		$r /= 255.0;
-		$g /= 255.0;
-		$b /= 255.0;
-
-		$max = max($r, $g, $b);
-		$min = min($r, $g, $b);
-
-
-		$h = ($max + $min) / 2.0;
-		$l = ($max + $min) / 2.0;
-
-		if($max === $min) {
-			$h = $s = 0; // Achromatic
-		} else {
-			$d = $max - $min;
-			$s = $l > 0.5 ? $d / (2 - $max - $min) : $d / ($max + $min);
-			switch($max) {
-				case $r:
-					$h = ($g - $b) / $d + ($g < $b ? 6 : 0);
-					break;
-				case $g:
-					$h = ($b - $r) / $d + 2.0;
-					break;
-				case $b:
-					$h = ($r - $g) / $d + 4.0;
-					break;
-			}
-			$h /= 6.0;
-		}
-		return [$h, $s, $l];
-
+	private function stepCalc($steps, $ends) {
+		$step = array();
+		$step[0] = ($ends[1]->r - $ends[0]->r) / $steps;
+		$step[1] = ($ends[1]->g - $ends[0]->g) / $steps;
+		$step[2] = ($ends[1]->b - $ends[0]->b) / $steps;
+		return $step;
 	}
+	/**
+	 * Convert a string to an integer evenly
+	 * @param string $hash the text to parse
+	 * @param int $maximum the maximum range
+	 * @return int between 0 and $maximum
+	 */
+	private function mixPalette($steps, $color1, $color2) {
+		$count = $steps + 1;
+		$palette = array($color1);
+		$step = $this->stepCalc($steps, [$color1, $color2]);
+		for ($i = 1; $i < $steps; $i++) {
+			$r = intval($color1->r + ($step[0] * $i));
+			$g = intval($color1->g + ($step[1] * $i));
+			$b = intval($color1->b + ($step[2] * $i));
+				$palette[] = new Color($r, $g, $b);
+		}
+		return $palette;
+	}
+
+
+	/**
+	 * Convert a string to an integer evenly
+	 * @param string $hash the text to parse
+	 * @param int $maximum the maximum range
+	 * @return int between 0 and $maximum
+	 */
+	private function hashToInt($hash, $maximum) {
+		$final = 0;
+		$result = array();
+
+		// Splitting evenly the string
+		for ($i=0; $i< strlen($hash); $i++) {
+			// chars in md5 goes up to f, hex:16
+			$result[] = intval(substr($hash, $i, 1), 16) % 16;
+		}
+		// Adds up all results
+		foreach ($result as $value) {
+			$final += $value;
+		}
+		// chars in md5 goes up to f, hex:16
+		return intval($final % $maximum);
+	}
+
 
 	/**
 	 * @param string $text
-	 * @return int[] Array containting r g b in the range [0, 255]
+	 * @return Color Object containting r g b int in the range [0, 255]
 	 */
-	private function avatarBackgroundColor($text) {
+	function avatarBackgroundColor($text) {
 		$hash = preg_replace('/[^0-9a-f]+/', '', $text);
 
 		$hash = md5($hash);
 		$hashChars = str_split($hash);
 
+		$red = new Color(182, 70, 157);
+		$yellow = new Color(221, 203, 85);
+		$blue = new Color(0, 130, 201); // Nextcloud blue
+		// Number of steps to go from a color to another
+		// 3 colors * 6 will result in 18 generated colors
+		$steps = 6;
 
-		// Init vars
-		$result = ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'];
-		$rgb = [0, 0, 0];
-		$sat = 0.70;
-		$lum = 0.68;
-		$modulo = 16;
+		$palette1 = $this->mixPalette($steps, $red, $yellow);
+		$palette2 = $this->mixPalette($steps, $yellow, $blue);
+		$palette3 = $this->mixPalette($steps, $blue, $red);
 
+		$finalPalette = array_merge($palette1, $palette2, $palette3);
 
-		// Splitting evenly the string
-		foreach($hashChars as  $i => $char) {
-			$result[$i % $modulo] .= intval($char, 16);
-		}
-
-		// Converting our data into a usable rgb format
-		// Start at 1 because 16%3=1 but 15%3=0 and makes the repartition even
-		for($count = 1; $count < $modulo; $count++) {
-			$rgb[$count%3] += (int)$result[$count];
-		}
-
-		// Reduce values bigger than rgb requirements
-		$rgb[0] %= 255;
-		$rgb[1] %= 255;
-		$rgb[2] %= 255;
-
-		$hsl = $this->rgbToHsl($rgb[0], $rgb[1], $rgb[2]);
-
-		// Classic formula to check the brightness for our eye
-		// If too bright, lower the sat
-		$bright = sqrt(0.299 * ($rgb[0] ** 2) + 0.587 * ($rgb[1] ** 2) + 0.114 * ($rgb[2] ** 2));
-		if ($bright >= 200) {
-			$sat = 0.60;
-		}
-
-		return $this->hslToRgb($hsl[0], $sat, $lum);
-	}
-
-	/**
-	 * @param double $h Hue in range [0, 1]
-	 * @param double $s Saturation in range [0, 1]
-	 * @param double $l Lightness in range [0, 1]
-	 * @return int[] Array containing r g b in the range [0, 255]
-	 */
-	private function hslToRgb($h, $s, $l){
-		$hue2rgb = function ($p, $q, $t){
-			if($t < 0) {
-				$t += 1;
-			}
-			if($t > 1) {
-				$t -= 1;
-			}
-			if($t < 1/6) {
-				return $p + ($q - $p) * 6 * $t;
-			}
-			if($t < 1/2) {
-				return $q;
-			}
-			if($t < 2/3) {
-				return $p + ($q - $p) * (2/3 - $t) * 6;
-			}
-			return $p;
-		};
-
-		if($s === 0){
-			$r = $l;
-			$g = $l;
-			$b = $l; // achromatic
-		}else{
-			$q = $l < 0.5 ? $l * (1 + $s) : $l + $s - $l * $s;
-			$p = 2 * $l - $q;
-			$r = $hue2rgb($p, $q, $h + 1/3);
-			$g = $hue2rgb($p, $q, $h);
-			$b = $hue2rgb($p, $q, $h - 1/3);
-		}
-
-		return array(round($r * 255), round($g * 255), round($b * 255));
+		return $finalPalette[$this->hashToInt($hash, $steps * 3 )];
 	}
 
 	public function userChanged($feature, $oldValue, $newValue) {
