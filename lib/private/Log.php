@@ -245,12 +245,12 @@ class Log implements ILogger {
 	/**
 	 * Logs with an arbitrary level.
 	 *
-	 * @param mixed $level
+	 * @param int $level
 	 * @param string $message
 	 * @param array $context
 	 * @return void
 	 */
-	public function log($level, string $message, array $context = []) {
+	public function log(int $level, string $message, array $context = []) {
 		$minLevel = min($this->config->getValue('loglevel', Util::WARN), Util::FATAL);
 		$logCondition = $this->config->getValue('log.condition', []);
 

@@ -120,13 +120,13 @@ interface ILogger {
 	/**
 	 * Logs with an arbitrary level.
 	 *
-	 * @param mixed $level
+	 * @param int $level
 	 * @param string $message
 	 * @param array $context
 	 * @return mixed
 	 * @since 7.0.0
 	 */
-	public function log($level, string $message, array $context = []);
+	public function log(int $level, string $message, array $context = []);
 
 	/**
 	 * Logs an exception very detailed
