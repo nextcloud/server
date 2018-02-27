@@ -144,5 +144,5 @@ interface ILogger {
 	 * @return void
 	 * @since 8.2.0
 	 */
-	public function logException($exception, array $context = []);
+	public function logException(\Throwable $exception, array $context = []);
 }
