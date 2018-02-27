@@ -568,11 +568,16 @@ span.usersLastLoginTooltip {
 		}
 	}
 	.userActions input {
-		border: none;
-		background-color: initial;
-		opacity: .5;
 		width: 44px;
 		height: 44px;
+		&.icon-close {
+			border: none;
+			background-color: initial;
+			opacity: .5;
+		}
+		&:hover {
+			opacity: 1;
+		}
 	}
 }
 

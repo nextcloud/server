@@ -65,7 +65,7 @@
 				<td class="userBackend" scope="col"></td>
 				<td class="lastLogin" scope="col"></td>
 				<td class="userActions">
-					<input type="submit" id="newsubmit" class="button icon-checkmark has-tooltip" value="" title="<?php p($l->t('Add user'))?>" />
+					<input type="submit" id="newsubmit" class="button primary icon-checkmark-white has-tooltip" value="" title="<?php p($l->t('Add user'))?>" />
 					<input type="reset" id="newreset" class="button icon-close has-tooltip" value="" title="<?php p($l->t('Cancel'))?>" />
 				</td>
 			</tr>
