@@ -538,7 +538,7 @@ span.usersLastLoginTooltip {
 		color: #000;
 	}
 	tr {
-		height: 51px;
+		height: 50px;
 	}
 	.mailAddress .loading-small {
 		width: 16px;
@@ -549,6 +549,13 @@ span.usersLastLoginTooltip {
 	}
 	.groupsListContainer.hidden {
 		display: none;
+	}
+	thead th {
+		z-index: 100;
+		background-color: $color-main-background;
+		position: sticky;
+		// positional attribute is required for position to take affect.
+		top: 0;
 	}
 }
 
