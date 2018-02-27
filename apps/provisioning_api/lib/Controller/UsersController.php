@@ -168,7 +168,7 @@ class UsersController extends OCSController {
 	 * @return DataResponse
 	 * @throws OCSException
 	 */
-	public function addUser(string $userid, string $password, $groups = null): DataResponse {
+	public function addUser(string $userid, string $password, array $groups = []): DataResponse {
 		$user = $this->userSession->getUser();
 		$isAdmin = $this->groupManager->isAdmin($user->getUID());
 		$subAdminManager = $this->groupManager->getSubAdmin();
@@ -178,7 +178,7 @@ class UsersController extends OCSController {
 			throw new OCSException('User already exists', 102);
 		}
 
-		if(is_array($groups)) {
+		if($groups !== []) {
 			foreach ($groups as $group) {
 				if(!$this->groupManager->groupExists($group)) {
 					throw new OCSException('group '.$group.' does not exist', 104);
@@ -197,12 +197,11 @@ class UsersController extends OCSController {
 			$newUser = $this->userManager->createUser($userid, $password);
 			$this->logger->info('Successful addUser call with userid: ' . $userid, ['app' => 'ocs_api']);
 
-			if (is_array($groups)) {
-				foreach ($groups as $group) {
-					$this->groupManager->get($group)->addUser($newUser);
-					$this->logger->info('Added userid ' . $userid . ' to group ' . $group, ['app' => 'ocs_api']);
-				}
+			foreach ($groups as $group) {
+				$this->groupManager->get($group)->addUser($newUser);
+				$this->logger->info('Added userid ' . $userid . ' to group ' . $group, ['app' => 'ocs_api']);
 			}
+
 			return new DataResponse();
 		} catch (HintException $e ) {
 			$this->logger->logException($e, [
