@@ -13,26 +13,27 @@
 // TODO: move to a separate file
 var MOUNT_OPTIONS_DROPDOWN_TEMPLATE =
 	'<div class="popovermenu open">'+
+	// FIXME: options are hard-coded for now
 	'	<ul>'+
-	'		<li>'+
+	'		<li class="optionRow">'+
 	'			<span class="menuitem">'+
 	'				<input id="mountOptionsEncrypt" class="checkbox" name="encrypt" type="checkbox" value="true" checked="checked"/>'+
 	'				<label for="mountOptionsEncrypt">{{t "files_external" "Enable encryption"}}</label>'+
 	'			</span>'+
 	'		</li>'+
-	'		<li>'+
+	'		<li class="optionRow">'+
 	'			<span class="menuitem">'+
 	'				<input id="mountOptionsPreviews" class="checkbox" name="previews" type="checkbox" value="true" checked="checked"/>'+
 	'				<label for="mountOptionsPreviews">{{t "files_external" "Enable previews"}}</label>'+
 	'			</span>'+
 	'		</li>'+
-	'		<li>'+
+	'		<li class="optionRow">'+
 	'			<span class="menuitem">'+
 	'				<input id="mountOptionsSharing" class="checkbox" name="enable_sharing" type="checkbox" value="true"/>'+
 	'				<label for="mountOptionsSharing">{{t "files_external" "Enable sharing"}}</label>'+
 	'			</span>'+
 	'		</li>'+
-	'		<li>'+
+	'		<li class="optionRow">'+
 	'			<span class="menuitem icon-search">'+
 	'				<label for="mountOptionsFilesystemCheck">{{t "files_external" "Check for changes"}}</label>'+
 	'				<select id="mountOptionsFilesystemCheck" name="filesystem_check_changes" data-type="int">'+
@@ -41,7 +42,7 @@ var MOUNT_OPTIONS_DROPDOWN_TEMPLATE =
 	'				</select>'+
 	'			</span>'+
 	'		</li>'+
-	'		<li>'+
+	'		<li class="optionRow">'+
 	'			<span class="menuitem">'+
 	'				<input id="mountOptionsEncoding" class="checkbox" name="encoding_compatibility" type="checkbox" value="true"/>'+
 	'				<label for="mountOptionsEncoding">{{mountOptionsEncodingLabel}}</label>'+
@@ -1303,9 +1304,9 @@ MountConfigListView.prototype = _.extend({
 			'enable_sharing',
 			'encoding_compatibility'
 		];
-		if (this._encryptionEnabled) {
-			visibleOptions.push('encrypt');
-		}
+		// if (this._encryptionEnabled) {
+		// 	visibleOptions.push('encrypt');
+		// }
 		dropDown.show($toggle, storage.mountOptions || [], visibleOptions);
 		$('body').on('mouseup.mountOptionsDropdown', function(event) {
 			var $target = $(event.target);

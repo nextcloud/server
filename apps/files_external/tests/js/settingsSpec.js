@@ -213,7 +213,7 @@ describe('OCA.External.Settings tests', function() {
 				expect($mountOptionsField.length).toEqual(1);
 				$mountOptionsField.val(JSON.stringify({previews:true}));
 
-				var $saveButton = $tr.find('td.save .icon-save');
+				var $saveButton = $tr.find('td.save .icon-checkmark');
 				$saveButton.click();
 
 				expect(fakeServer.requests.length).toEqual(1);
