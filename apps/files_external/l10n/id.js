@@ -50,9 +50,9 @@ OC.L10N.register(
     "OAuth2" : "OAuth2",
     "Client ID" : "ID Klien",
     "Client secret" : "Rahasia klien",
-    "OpenStack" : "OpenStack",
     "Tenant name" : "Nama tenant",
     "Identity endpoint URL" : "Identitas URL akhir",
+    "Domain" : "Domain",
     "Rackspace" : "Rackspace",
     "API key" : "Kunci API",
     "Global credentials" : "Kata sandi Global",
@@ -84,7 +84,6 @@ OC.L10N.register(
     "SFTP with secret key login" : "SFTP dengan kunci rahasia masuk",
     "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Bagikan",
-    "Domain" : "Domain",
     "SMB / CIFS using OC login" : "SMB / CIFS menggunakan OC login",
     "Username as share" : "Nama pengguna berbagi",
     "OpenStack Object Storage" : "OpenStack Object Storage",
@@ -93,8 +92,6 @@ OC.L10N.register(
     "The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "Dukungan cURL di PHP tidak diaktifkan atau terpasang. Mengaitkan %s tidak memungkinkan. Harap tanyakan administrator sistem anda untuk memasangnya.",
     "The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "Dukungan FTP di PHP tidak diaktifkan atau terpasang. Mengaitkan %s tidak memungkinkan. Harap tanya administrator sistem anda untuk memasangnya.",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" tidak terpasang. Mengaitkan %s tidak memungkinkan. Harap tanya administrator sistem anda untuk memasangnya.",
-    "No external storage configured" : "Penyimpanan eksternal tidak dikonfigurasi",
-    "You can add external storages in the personal settings" : "Anda dapat menambahkan penyimpanan eksternal di pengaturan pribadi",
     "Name" : "Nama",
     "Storage type" : "Tipe penyimpanan",
     "Scope" : "Skop",
@@ -113,6 +110,9 @@ OC.L10N.register(
     "Advanced settings" : "Pengaturan Lanjutan",
     "Delete" : "Hapus",
     "Allow users to mount external storage" : "Izinkan pengguna untuk mengaitkan penyimpanan eksternal",
-    "Allow users to mount the following external storage" : "Izinkan pengguna untuk mengaitkan penyimpanan eksternal berikut"
+    "Allow users to mount the following external storage" : "Izinkan pengguna untuk mengaitkan penyimpanan eksternal berikut",
+    "OpenStack" : "OpenStack",
+    "No external storage configured" : "Penyimpanan eksternal tidak dikonfigurasi",
+    "You can add external storages in the personal settings" : "Anda dapat menambahkan penyimpanan eksternal di pengaturan pribadi"
 },
 "nplurals=1; plural=0;");

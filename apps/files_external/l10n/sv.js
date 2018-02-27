@@ -56,9 +56,9 @@ OC.L10N.register(
     "OAuth2" : "OAuth2",
     "Client ID" : "Klient ID",
     "Client secret" : "Klienthemlighet",
-    "OpenStack" : "OpenStack",
     "Tenant name" : "Namn på arrendator",
     "Identity endpoint URL" : "Identitet endpoint URL",
+    "Domain" : "Domän",
     "Rackspace" : "Rackutrymme",
     "API key" : "API-nyckel",
     "Global credentials" : "Globala uppgifter",
@@ -90,7 +90,6 @@ OC.L10N.register(
     "SFTP with secret key login" : "SFTP-inloggning med hemlig nyckel",
     "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Dela",
-    "Domain" : "Domän",
     "SMB / CIFS using OC login" : "SMB / CIFS använder OC-inloggning",
     "Username as share" : "Användarnamn till utdelning",
     "OpenStack Object Storage" : "OpenStack Object Storage",
@@ -99,8 +98,6 @@ OC.L10N.register(
     "The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "cURL-stöd i PHP är inte aktiverat eller har inte installerats. Montering av %s är inte möjlig. Be din systemadministratör om installation.",
     "The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "FTP-stöd i PHP är inte aktiverat eller har inte installerats. Montering av %s är inte möjlig. Be din systemadministratör om installation.",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" är inte installerad. Montering av %s är inte möjlig. Be din systemadministratör om installation.",
-    "No external storage configured" : "Ingen extern lagring konfigurerad",
-    "You can add external storages in the personal settings" : "Du kan lägga till externa lagringar i de personliga inställningarna",
     "Name" : "Namn",
     "Storage type" : "Lagringstyp",
     "Scope" : "Sammanhang",
@@ -119,6 +116,9 @@ OC.L10N.register(
     "Advanced settings" : "Avancerade inställningar",
     "Delete" : "Radera",
     "Allow users to mount external storage" : "Tillåt användare att montera extern lagring",
-    "Allow users to mount the following external storage" : "Tillåt användare att montera följande extern lagring"
+    "Allow users to mount the following external storage" : "Tillåt användare att montera följande extern lagring",
+    "OpenStack" : "OpenStack",
+    "No external storage configured" : "Ingen extern lagring konfigurerad",
+    "You can add external storages in the personal settings" : "Du kan lägga till externa lagringar i de personliga inställningarna"
 },
 "nplurals=2; plural=(n != 1);");

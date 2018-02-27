@@ -54,9 +54,9 @@
     "OAuth2" : "OAuth2",
     "Client ID" : "Client ID",
     "Client secret" : "Client secret",
-    "OpenStack" : "OpenStack",
     "Tenant name" : "Tenant name",
     "Identity endpoint URL" : "Identity endpoint URL",
+    "Domain" : "Domain",
     "Rackspace" : "Rackspace",
     "API key" : "API key",
     "Global credentials" : "Global credentials",
@@ -89,7 +89,6 @@
     "SFTP with secret key login" : "SFTP with secret key login",
     "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Share",
-    "Domain" : "Domain",
     "SMB / CIFS using OC login" : "SMB / CIFS using OC login",
     "Username as share" : "Username as share",
     "OpenStack Object Storage" : "OpenStack Object Storage",
@@ -99,8 +98,6 @@
     "The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it.",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it.",
     "External storage support" : "External storage support",
-    "No external storage configured" : "No external storage configured",
-    "You can add external storages in the personal settings" : "You can add external storages in the personal settings",
     "Name" : "Name",
     "Storage type" : "Storage type",
     "Scope" : "Scope",
@@ -126,7 +123,10 @@
     "Step 2 failed. Exception: %s" : "Step 2 failed. Exception: %s",
     "Dropbox App Configuration" : "Dropbox App Configuration",
     "Google Drive App Configuration" : "Google Drive App Configuration",
+    "OpenStack" : "OpenStack",
     "Dropbox" : "Dropbox",
-    "Google Drive" : "Google Drive"
+    "Google Drive" : "Google Drive",
+    "No external storage configured" : "No external storage configured",
+    "You can add external storages in the personal settings" : "You can add external storages in the personal settings"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
