@@ -529,6 +529,45 @@ describe('OCA.Files.BreadCrumb tests', function() {
 			expect($crumbs.eq(6).hasClass('hidden')).toEqual(false);
 			expect($crumbs.eq(7).hasClass('hidden')).toEqual(false);
 		});
+		it('Updates the breadcrumbs when reducing available width taking into account the menu width', function() {
+			var $crumbs;
+
+			// enough space
+			$('#controls').width(1800);
+			bc._resize();
+
+			$crumbs = bc.$el.find('.crumb');
+
+			// Menu is hidden
+			expect($crumbs.eq(0).hasClass('hidden')).toEqual(true);
+			expect($crumbs.eq(1).hasClass('hidden')).toEqual(false);
+
+			expect($crumbs.eq(2).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(3).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(4).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(5).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(6).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(7).hasClass('hidden')).toEqual(false);
+
+			// simulate decrease
+			// 650 is enough for all the crumbs except the third and fourth
+			// ones, but not enough for the menu and all the crumbs except the
+			// third and fourth ones; the second one has to be hidden too.
+			$('#controls').width(650);
+			bc._resize();
+
+			// Second, third and fourth crumb are hidden and everything else is
+			// visible
+			expect($crumbs.eq(0).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(1).hasClass('hidden')).toEqual(false);
+
+			expect($crumbs.eq(2).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(3).hasClass('hidden')).toEqual(true);
+			expect($crumbs.eq(4).hasClass('hidden')).toEqual(true);
+			expect($crumbs.eq(5).hasClass('hidden')).toEqual(true);
+			expect($crumbs.eq(6).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(7).hasClass('hidden')).toEqual(false);
+		});
 		it('Updates the breadcrumbs when increasing available width', function() {
 			var $crumbs;
 
@@ -560,6 +599,42 @@ describe('OCA.Files.BreadCrumb tests', function() {
 			expect($crumbs.eq(2).hasClass('hidden')).toEqual(false);
 			expect($crumbs.eq(3).hasClass('hidden')).toEqual(false);
 			expect($crumbs.eq(4).hasClass('hidden')).toEqual(true);
+			expect($crumbs.eq(5).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(6).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(7).hasClass('hidden')).toEqual(false);
+		});
+		it('Updates the breadcrumbs when increasing available width taking into account the menu width', function() {
+			var $crumbs;
+
+			// limited space
+			$('#controls').width(850);
+			bc._resize();
+
+			$crumbs = bc.$el.find('.crumb');
+
+			// Third and fourth crumb are hidden and everything else is visible
+			expect($crumbs.eq(0).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(1).hasClass('hidden')).toEqual(false);
+
+			expect($crumbs.eq(2).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(3).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(4).hasClass('hidden')).toEqual(true);
+			expect($crumbs.eq(5).hasClass('hidden')).toEqual(true);
+			expect($crumbs.eq(6).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(7).hasClass('hidden')).toEqual(false);
+
+			// simulate increase
+			// 1030 is enough for all the crumbs if the menu is hidden.
+			$('#controls').width(1030);
+			bc._resize();
+
+			// Menu is hidden and everything else is visible
+			expect($crumbs.eq(0).hasClass('hidden')).toEqual(true);
+			expect($crumbs.eq(1).hasClass('hidden')).toEqual(false);
+
+			expect($crumbs.eq(2).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(3).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(4).hasClass('hidden')).toEqual(false);
 			expect($crumbs.eq(5).hasClass('hidden')).toEqual(false);
 			expect($crumbs.eq(6).hasClass('hidden')).toEqual(false);
 			expect($crumbs.eq(7).hasClass('hidden')).toEqual(false);
