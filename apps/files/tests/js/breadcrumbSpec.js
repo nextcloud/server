@@ -313,6 +313,60 @@ describe('OCA.Files.BreadCrumb tests', function() {
 			expect($crumbs.eq(6).hasClass('hidden')).toEqual(false);
 			expect($crumbs.eq(7).hasClass('hidden')).toEqual(false);
 		});
+		it('Hides breadcrumbs to fit available width taking paddings into account', function() {
+			var $crumbs;
+
+			// Each element is 20px wider
+			paddings = [10, 10, 10, 10, 10, 10, 10, 10];
+
+			$('div.crumb').each(function(index){
+				$(this).css('padding', paddings[index]);
+			});
+
+			$('#controls').width(700);
+			bc._resize();
+
+			$crumbs = bc.$el.find('.crumb');
+
+			// Second, third and fourth crumb are hidden and everything else is
+			// visible
+			expect($crumbs.eq(0).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(1).hasClass('hidden')).toEqual(false);
+
+			expect($crumbs.eq(2).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(3).hasClass('hidden')).toEqual(true);
+			expect($crumbs.eq(4).hasClass('hidden')).toEqual(true);
+			expect($crumbs.eq(5).hasClass('hidden')).toEqual(true);
+			expect($crumbs.eq(6).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(7).hasClass('hidden')).toEqual(false);
+		});
+		it('Hides breadcrumbs to fit available width taking margins into account', function() {
+			var $crumbs;
+
+			// Each element is 20px wider
+			margins = [10, 10, 10, 10, 10, 10, 10, 10];
+
+			$('div.crumb').each(function(index){
+				$(this).css('margin', margins[index]);
+			});
+
+			$('#controls').width(700);
+			bc._resize();
+
+			$crumbs = bc.$el.find('.crumb');
+
+			// Second, third and fourth crumb are hidden and everything else is
+			// visible
+			expect($crumbs.eq(0).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(1).hasClass('hidden')).toEqual(false);
+
+			expect($crumbs.eq(2).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(3).hasClass('hidden')).toEqual(true);
+			expect($crumbs.eq(4).hasClass('hidden')).toEqual(true);
+			expect($crumbs.eq(5).hasClass('hidden')).toEqual(true);
+			expect($crumbs.eq(6).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(7).hasClass('hidden')).toEqual(false);
+		});
 		it('Hides breadcrumbs to fit available width left by siblings', function() {
 			var $crumbs;
 

@@ -249,7 +249,7 @@
 			for (var i = 0; i < this.breadcrumbs.length; i++ ) {
 				var $crumb = $(this.breadcrumbs[i]);
 				if(!$crumb.hasClass('hidden') || ignoreHidden === true) {
-					totalWidth += $crumb.outerWidth();
+					totalWidth += $crumb.outerWidth(true);
 				}
 			}
 			return totalWidth;
@@ -344,7 +344,7 @@
 			// If container is bigger than content + element to be shown
 			// AND if there is at least one hidden crumb
 			while (this.$el.find('.crumb.hidden').length > 0
-				&& this.getTotalWidth() + this._getCrumbElement().width() < availableWidth) {
+				&& this.getTotalWidth() + this._getCrumbElement().outerWidth(true) < availableWidth) {
 				this._showCrumb();
 			}
 
