@@ -91,6 +91,16 @@ interface IRequest {
 	const USER_AGENT_TALK_IOS = '/^Mozilla\/5\.0 \(iOS\) Nextcloud\-Talk v.*$/';
 
 	/**
+	 * @since 13.0.1
+	 */
+	const USER_AGENT_OUTLOOK_ADDON = '/^Mozilla\/5\.0 \([A-Za-z ]+\) Nextcloud\-Outlook v.*$/';
+
+	/**
+	 * @since 13.0.1
+	 */
+	const USER_AGENT_THUNDERBIRD_ADDON = '/^Mozilla\/5\.0 \([A-Za-z ]+\) Nextcloud\-Thunderbird v.*$/';
+
+	/**
 	 * @param string $name
 	 *
 	 * @return string
