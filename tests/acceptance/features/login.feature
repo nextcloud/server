@@ -35,6 +35,8 @@ Feature: login
     When I act as Jane
     And I am logged in as the admin
     And I open the User settings
+    And I click the New user button
+    And I see that the new user form is shown
     And I create user unknownUser with password 123456acb
     And I see that the list of users contains the user unknownUser
     And I act as John
