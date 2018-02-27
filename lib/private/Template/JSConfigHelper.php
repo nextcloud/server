@@ -28,6 +28,7 @@
 namespace OC\Template;
 
 use bantu\IniGetWrapper\IniGetWrapper;
+use OC\CapabilitiesManager;
 use OCP\App\IAppManager;
 use OCP\Defaults;
 use OCP\IConfig;
@@ -66,6 +67,9 @@ class JSConfigHelper {
 	/** @var IURLGenerator */
 	private $urlGenerator;
 
+	/** @var CapabilitiesManager */
+	private $capabilitiesManager;
+
 	/**
 	 * @param IL10N $l
 	 * @param Defaults $defaults
@@ -76,6 +80,7 @@ class JSConfigHelper {
 	 * @param IGroupManager $groupManager
 	 * @param IniGetWrapper $iniWrapper
 	 * @param IURLGenerator $urlGenerator
+	 * @param CapabilitiesManager $capabilitiesManager
 	 */
 	public function __construct(IL10N $l,
 								Defaults $defaults,
@@ -85,7 +90,8 @@ class JSConfigHelper {
 								IConfig $config,
 								IGroupManager $groupManager,
 								IniGetWrapper $iniWrapper,
-								IURLGenerator $urlGenerator) {
+								IURLGenerator $urlGenerator,
+								CapabilitiesManager $capabilitiesManager) {
 		$this->l = $l;
 		$this->defaults = $defaults;
 		$this->appManager = $appManager;
@@ -95,6 +101,7 @@ class JSConfigHelper {
 		$this->groupManager = $groupManager;
 		$this->iniWrapper = $iniWrapper;
 		$this->urlGenerator = $urlGenerator;
+		$this->capabilitiesManager = $capabilitiesManager;
 	}
 
 	public function getConfig() {
@@ -145,6 +152,8 @@ class JSConfigHelper {
 		} else {
 			$lastConfirmTimestamp = 0;
 		}
+
+		$capabilities = $this->capabilitiesManager->getCapabilities();
 
 		$array = [
 			"oc_debug" => $this->config->getSystemValue('debug', false) ? 'true' : 'false',
@@ -252,6 +261,7 @@ class JSConfigHelper {
 				'longFooter' => $this->defaults->getLongFooter(),
 				'folder' => \OC_Util::getTheme(),
 			]),
+			"oc_capabilities" => json_encode($capabilities),
 		];
 
 		if ($this->currentUser !== null) {

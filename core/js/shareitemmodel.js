@@ -158,23 +158,24 @@
 			var shareType = attributes.shareType;
 			attributes = _.extend({}, attributes);
 
-			// Default permissions are Edit (CRUD) and Share
-			// Check if these permissions are possible
-			var permissions = OC.PERMISSION_READ;
+			// get default permissions
+			var defaultPermissions = OC.getCapabilities()['files_sharing']['default_permissions'] || OC.PERMISSION_ALL;
+			var possiblePermissions = OC.PERMISSION_READ;
+
 			if (this.updatePermissionPossible()) {
-				permissions = permissions | OC.PERMISSION_UPDATE;
+				possiblePermissions = possiblePermissions | OC.PERMISSION_UPDATE;
 			}
 			if (this.createPermissionPossible()) {
-				permissions = permissions | OC.PERMISSION_CREATE;
+				possiblePermissions = possiblePermissions | OC.PERMISSION_CREATE;
 			}
 			if (this.deletePermissionPossible()) {
-				permissions = permissions | OC.PERMISSION_DELETE;
+				possiblePermissions = possiblePermissions | OC.PERMISSION_DELETE;
 			}
 			if (this.configModel.get('isResharingAllowed') && (this.sharePermissionPossible())) {
-				permissions = permissions | OC.PERMISSION_SHARE;
+				possiblePermissions = possiblePermissions | OC.PERMISSION_SHARE;
 			}
 
-			attributes.permissions = permissions;
+			attributes.permissions = defaultPermissions & possiblePermissions;
 			if (_.isUndefined(attributes.path)) {
 				attributes.path = this.fileInfoModel.getFullPath();
 			}

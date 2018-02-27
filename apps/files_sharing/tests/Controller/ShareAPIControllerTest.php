@@ -31,6 +31,7 @@ use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\Storage;
+use OCP\IConfig;
 use OCP\IL10N;
 use OCA\Files_Sharing\Controller\ShareAPIController;
 use OCP\Files\NotFoundException;
@@ -84,6 +85,9 @@ class ShareAPIControllerTest extends TestCase {
 	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
 	private $l;
 
+	/** @var  IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	private $config;
+
 	protected function setUp() {
 		$this->shareManager = $this->createMock(IManager::class);
 		$this->shareManager
@@ -102,6 +106,7 @@ class ShareAPIControllerTest extends TestCase {
 			->will($this->returnCallback(function($text, $parameters = []) {
 				return vsprintf($text, $parameters);
 			}));
+		$this->config = $this->createMock(IConfig::class);
 
 		$this->ocs = new ShareAPIController(
 			$this->appName,
@@ -112,7 +117,8 @@ class ShareAPIControllerTest extends TestCase {
 			$this->rootFolder,
 			$this->urlGenerator,
 			$this->currentUser,
-			$this->l
+			$this->l,
+			$this->config
 		);
 	}
 
@@ -131,6 +137,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->urlGenerator,
 				$this->currentUser,
 				$this->l,
+				$this->config
 			])->setMethods(['formatShare'])
 			->getMock();
 	}
@@ -439,6 +446,7 @@ class ShareAPIControllerTest extends TestCase {
 					$this->urlGenerator,
 					$this->currentUser,
 					$this->l,
+					$this->config
 				])->setMethods(['canAccessShare'])
 				->getMock();
 
@@ -707,6 +715,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->urlGenerator,
 				$this->currentUser,
 				$this->l,
+				$this->config
 			])->setMethods(['formatShare'])
 			->getMock();
 
@@ -804,6 +813,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->urlGenerator,
 				$this->currentUser,
 				$this->l,
+				$this->config
 			])->setMethods(['formatShare'])
 			->getMock();
 
@@ -1119,6 +1129,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->urlGenerator,
 				$this->currentUser,
 				$this->l,
+				$this->config
 			])->setMethods(['formatShare'])
 			->getMock();
 
