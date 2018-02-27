@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -87,7 +88,7 @@ class UsersController extends OCSController {
 	 * @param NewUserMailHelper $newUserMailHelper
 	 * @param FederatedFileSharingFactory $federatedFileSharingFactory
 	 */
-	public function __construct($appName,
+	public function __construct(string $appName,
 								IRequest $request,
 								IUserManager $userManager,
 								IConfig $config,
@@ -123,7 +124,7 @@ class UsersController extends OCSController {
 	 * @param int $offset
 	 * @return DataResponse
 	 */
-	public function getUsers($search = '', $limit = null, $offset = null) {
+	public function getUsers(string $search = '', $limit = null, $offset = null): DataResponse {
 		$user = $this->userSession->getUser();
 		$users = [];
 
@@ -167,7 +168,7 @@ class UsersController extends OCSController {
 	 * @return DataResponse
 	 * @throws OCSException
 	 */
-	public function addUser($userid, $password, $groups = null) {
+	public function addUser(string $userid, string $password, $groups = null): DataResponse {
 		$user = $this->userSession->getUser();
 		$isAdmin = $this->groupManager->isAdmin($user->getUID());
 		$subAdminManager = $this->groupManager->getSubAdmin();
@@ -230,7 +231,7 @@ class UsersController extends OCSController {
 	 * @return DataResponse
 	 * @throws OCSException
 	 */
-	public function getUser($userId) {
+	public function getUser(string $userId): DataResponse {
 		$data = $this->getUserData($userId);
 		return new DataResponse($data);
 	}
@@ -244,7 +245,7 @@ class UsersController extends OCSController {
 	 * @return DataResponse
 	 * @throws OCSException
 	 */
-	public function getCurrentUser() {
+	public function getCurrentUser(): DataResponse {
 		$user = $this->userSession->getUser();
 		if ($user) {
 			$data =  $this->getUserData($user->getUID());
@@ -266,7 +267,7 @@ class UsersController extends OCSController {
 	 * @return array
 	 * @throws OCSException
 	 */
-	protected function getUserData($userId) {
+	protected function getUserData(string $userId): array {
 		$currentLoggedInUser = $this->userSession->getUser();
 
 		$data = [];
@@ -314,7 +315,7 @@ class UsersController extends OCSController {
 	 * @NoAdminRequired
 	 * @NoSubAdminRequired
 	 */
-	public function getEditableFields() {
+	public function getEditableFields(): DataResponse {
 		$permittedFields = [];
 
 		// Editing self (display, email)
@@ -349,9 +350,8 @@ class UsersController extends OCSController {
 	 * @param string $value
 	 * @return DataResponse
 	 * @throws OCSException
-	 * @throws OCSForbiddenException
 	 */
-	public function editUser($userId, $key, $value) {
+	public function editUser(string $userId, string $key, string $value): DataResponse {
 		$currentLoggedInUser = $this->userSession->getUser();
 
 		$targetUser = $this->userManager->get($userId);
@@ -481,9 +481,8 @@ class UsersController extends OCSController {
 	 * @param string $userId
 	 * @return DataResponse
 	 * @throws OCSException
-	 * @throws OCSForbiddenException
 	 */
-	public function deleteUser($userId) {
+	public function deleteUser(string $userId): DataResponse {
 		$currentLoggedInUser = $this->userSession->getUser();
 
 		$targetUser = $this->userManager->get($userId);
@@ -515,7 +514,7 @@ class UsersController extends OCSController {
 	 * @throws OCSException
 	 * @throws OCSForbiddenException
 	 */
-	public function disableUser($userId) {
+	public function disableUser(string $userId): DataResponse {
 		return $this->setEnabled($userId, false);
 	}
 
@@ -528,7 +527,7 @@ class UsersController extends OCSController {
 	 * @throws OCSException
 	 * @throws OCSForbiddenException
 	 */
-	public function enableUser($userId) {
+	public function enableUser(string $userId): DataResponse {
 		return $this->setEnabled($userId, true);
 	}
 
@@ -537,9 +536,8 @@ class UsersController extends OCSController {
 	 * @param bool $value
 	 * @return DataResponse
 	 * @throws OCSException
-	 * @throws OCSForbiddenException
 	 */
-	private function setEnabled($userId, $value) {
+	private function setEnabled(string $userId, bool $value): DataResponse {
 		$currentLoggedInUser = $this->userSession->getUser();
 
 		$targetUser = $this->userManager->get($userId);
@@ -566,7 +564,7 @@ class UsersController extends OCSController {
 	 * @return DataResponse
 	 * @throws OCSException
 	 */
-	public function getUsersGroups($userId) {
+	public function getUsersGroups(string $userId): DataResponse {
 		$loggedInUser = $this->userSession->getUser();
 
 		$targetUser = $this->userManager->get($userId);
@@ -612,7 +610,7 @@ class UsersController extends OCSController {
 	 * @return DataResponse
 	 * @throws OCSException
 	 */
-	public function addToGroup($userId, $groupid = '') {
+	public function addToGroup(string $userId, string $groupid = ''): DataResponse {
 		if($groupid === '') {
 			throw new OCSException('', 101);
 		}
@@ -647,7 +645,7 @@ class UsersController extends OCSController {
 	 * @return DataResponse
 	 * @throws OCSException
 	 */
-	public function removeFromGroup($userId, $groupid) {
+	public function removeFromGroup(string $userId, string $groupid): DataResponse {
 		$loggedInUser = $this->userSession->getUser();
 
 		if($groupid === null || trim($groupid) === '') {
@@ -711,7 +709,7 @@ class UsersController extends OCSController {
 	 * @return DataResponse
 	 * @throws OCSException
 	 */
-	public function addSubAdmin($userId, $groupid) {
+	public function addSubAdmin(string $userId, string $groupid): DataResponse {
 		$group = $this->groupManager->get($groupid);
 		$user = $this->userManager->get($userId);
 
@@ -752,7 +750,7 @@ class UsersController extends OCSController {
 	 * @return DataResponse
 	 * @throws OCSException
 	 */
-	public function removeSubAdmin($userId, $groupid) {
+	public function removeSubAdmin(string $userId, string $groupid): DataResponse {
 		$group = $this->groupManager->get($groupid);
 		$user = $this->userManager->get($userId);
 		$subAdminManager = $this->groupManager->getSubAdmin();
@@ -785,7 +783,7 @@ class UsersController extends OCSController {
 	 * @return DataResponse
 	 * @throws OCSException
 	 */
-	public function getUserSubAdminGroups($userId) {
+	public function getUserSubAdminGroups(string $userId): DataResponse {
 		$user = $this->userManager->get($userId);
 		// Check if the user exists
 		if($user === null) {
@@ -810,7 +808,7 @@ class UsersController extends OCSController {
 	 * @return array
 	 * @throws \OCP\Files\NotFoundException
 	 */
-	protected function fillStorageInfo($userId) {
+	protected function fillStorageInfo(string $userId): array {
 		try {
 			\OC_Util::tearDownFS();
 			\OC_Util::setupFS($userId);
@@ -838,7 +836,7 @@ class UsersController extends OCSController {
 	 * @return DataResponse
 	 * @throws OCSException
 	 */
-	public function resendWelcomeMessage($userId) {
+	public function resendWelcomeMessage(string $userId): DataResponse {
 		$currentLoggedInUser = $this->userSession->getUser();
 
 		$targetUser = $this->userManager->get($userId);

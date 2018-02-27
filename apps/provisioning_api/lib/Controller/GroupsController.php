@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -56,7 +57,7 @@ class GroupsController extends OCSController {
 	 * @param ILogger $logger
 	 */
 	public function __construct(
-			$appName,
+			string $appName,
 			IRequest $request,
 			IGroupManager $groupManager,
 			IUserSession $userSession,
@@ -78,7 +79,7 @@ class GroupsController extends OCSController {
 	 * @param int $offset
 	 * @return DataResponse
 	 */
-	public function getGroups($search = '', $limit = null, $offset = null) {
+	public function getGroups(string $search = '', $limit = null, $offset = null): DataResponse {
 		if ($limit !== null) {
 			$limit = (int)$limit;
 		}
@@ -104,7 +105,7 @@ class GroupsController extends OCSController {
 	 * @return DataResponse
 	 * @throws OCSException
 	 */
-	public function getGroup($groupId) {
+	public function getGroup(string $groupId): DataResponse {
 		$user = $this->userSession->getUser();
 
 		// Check the group exists
@@ -142,7 +143,7 @@ class GroupsController extends OCSController {
 	 * @return DataResponse
 	 * @throws OCSException
 	 */
-	public function addGroup($groupid) {
+	public function addGroup(string $groupid): DataResponse {
 		// Validate name
 		if(empty($groupid)) {
 			$this->logger->error('Group name not supplied', ['app' => 'provisioning_api']);
@@ -163,7 +164,7 @@ class GroupsController extends OCSController {
 	 * @return DataResponse
 	 * @throws OCSException
 	 */
-	public function deleteGroup($groupId) {
+	public function deleteGroup(string $groupId): DataResponse {
 		// Check it exists
 		if(!$this->groupManager->groupExists($groupId)){
 			throw new OCSException('', 101);
@@ -180,7 +181,7 @@ class GroupsController extends OCSController {
 	 * @return DataResponse
 	 * @throws OCSException
 	 */
-	public function getSubAdminsOfGroup($groupId) {
+	public function getSubAdminsOfGroup(string $groupId): DataResponse {
 		// Check group exists
 		$targetGroup = $this->groupManager->get($groupId);
 		if($targetGroup === null) {
