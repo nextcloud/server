@@ -236,7 +236,7 @@ describe('OCA.Files.BreadCrumb tests', function() {
 	});
 
 	describe('Resizing', function() {
-		var bc, dummyDir, widths;
+		var bc, dummyDir, widths, paddings, margins;
 
 		// cit() will skip tests if running on PhantomJS because it does not
 		// have proper support for flexboxes.
@@ -261,9 +261,15 @@ describe('OCA.Files.BreadCrumb tests', function() {
 			// results on different browsers due to font engine differences
 			// 51px is default size for menu and home
 			widths = [51, 51, 106, 112, 160, 257, 251, 91];
+			// using hard-coded paddings and margins to avoid depending on the
+			// current CSS values used in the server
+			paddings = [0, 0, 0, 0, 0, 0, 0, 0];
+			margins = [0, 0, 0, 0, 0, 0, 0, 0];
 
 			$('div.crumb').each(function(index){
 				$(this).css('width', widths[index]);
+				$(this).css('padding', paddings[index]);
+				$(this).css('margin', margins[index]);
 			});
 		});
 		afterEach(function() {
