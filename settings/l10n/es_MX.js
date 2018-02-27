@@ -383,6 +383,15 @@ OC.L10N.register(
     "change full name" : "cambiar el nombre completo",
     "set new password" : "establecer nueva contraseña",
     "change email address" : "cambiar la dirección de correo electrónico",
-    "Default" : "Predeterminado"
+    "Default" : "Predeterminado",
+    "Get the apps to sync your files" : "Obten las aplicaciones para sincronizar tus archivos",
+    "Desktop client" : "Cliente de escritorio",
+    "Android app" : "Aplicación Android",
+    "iOS app" : "Aplicación iOS",
+    "Follow us on Google+!" : "¡Síguenos en Google+!",
+    "Follow us on Twitter!" : "¡Síguenos en Twitter!",
+    "Check out our blog!" : "¡Visita nuestro blog!",
+    "Subscribe to our newsletter!" : "¡Suscribete a nuestro newsletter!",
+    "Group name" : "Nombre del grupo"
 },
 "nplurals=2; plural=(n != 1);");

@@ -31,7 +31,7 @@ OC.L10N.register(
     "OAuth2" : "OAuth2",
     "Client ID" : "ID de veceru",
     "Client secret" : "Veceru secretu",
-    "OpenStack" : "OpenStack",
+    "Domain" : "Dominiu",
     "API key" : "clave API",
     "Global credentials" : "Credenciales global",
     "Username and password" : "Nome d'usuariu y contraseña",
@@ -55,13 +55,10 @@ OC.L10N.register(
     "Root" : "Raíz",
     "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Compartir",
-    "Domain" : "Dominiu",
     "SMB / CIFS using OC login" : "SMB / CIFS usando accesu OC",
     "Username as share" : "Nome d'usuariu como Compartición",
     "OpenStack Object Storage" : "OpenStack Object Storage",
     "Service name" : "Nome del serviciu",
-    "No external storage configured" : "Nun se configuraron almacenamientos esternos",
-    "You can add external storages in the personal settings" : "Pues amestar almacenamientos enternos nos axustes personales",
     "Name" : "Nome",
     "Storage type" : "Triba d'almacenamientu",
     "Scope" : "Ámbitu",
@@ -75,6 +72,9 @@ OC.L10N.register(
     "Add storage" : "Amestar almacenamientu",
     "Advanced settings" : "Axustes avanzaos",
     "Delete" : "Desaniciar",
-    "Allow users to mount the following external storage" : "Permitir a los usuarios montar el siguiente almacenamientu esternu"
+    "Allow users to mount the following external storage" : "Permitir a los usuarios montar el siguiente almacenamientu esternu",
+    "OpenStack" : "OpenStack",
+    "No external storage configured" : "Nun se configuraron almacenamientos esternos",
+    "You can add external storages in the personal settings" : "Pues amestar almacenamientos enternos nos axustes personales"
 },
 "nplurals=2; plural=(n != 1);");

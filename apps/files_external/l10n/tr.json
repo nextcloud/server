@@ -54,9 +54,9 @@
     "OAuth2" : "OAuth2",
     "Client ID" : "İstemci kimliği",
     "Client secret" : "İstemci parolası",
-    "OpenStack" : "OpenStack",
     "Tenant name" : "Kiracı adı",
     "Identity endpoint URL" : "Kimlik arka uç noktası adresi",
+    "Domain" : "Etki alanı",
     "Rackspace" : "Rackspace",
     "API key" : "API anahtarı",
     "Global credentials" : "Genel kimlik doğrulama bilgileri",
@@ -89,7 +89,6 @@
     "SFTP with secret key login" : "Gizli oturum açma anahtarı ile SFTP",
     "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Paylaş",
-    "Domain" : "Etki alanı",
     "SMB / CIFS using OC login" : "OC oturum açma ile SMB / CIFS",
     "Username as share" : "Paylaşım olarak kullanıcı adı",
     "OpenStack Object Storage" : "OpenStack Nesne Depolama",
@@ -99,8 +98,6 @@
     "The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "PHP FTP desteği kuurlmamış ya da etkinleştirilmemiş. %s bağlanamaz. Lütfen kurulum için sistem yöneticinizle görüşün.",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "%s kurulmamış. %s bağlanamaz. Lütfen kurulum için sistem yöneticinizle görüşün.",
     "External storage support" : "Dış depolama desteği",
-    "No external storage configured" : "Herhangi bir dış depolama yapılandırılmamış",
-    "You can add external storages in the personal settings" : "Kişisel ayarlar bölümünden dış depolamaları ekleyebilirsiniz",
     "Name" : "Ad",
     "Storage type" : "Depolama türü",
     "Scope" : "Kapsam",
@@ -126,7 +123,10 @@
     "Step 2 failed. Exception: %s" : "2. Adım tamamlanamadı. Sorun: %s",
     "Dropbox App Configuration" : "Dropbox Uygulaması Yapılandırması",
     "Google Drive App Configuration" : "Google Drive Uygulaması Yapılandırması",
+    "OpenStack" : "OpenStack",
     "Dropbox" : "Dropbox",
-    "Google Drive" : "Google Drive"
+    "Google Drive" : "Google Drive",
+    "No external storage configured" : "Herhangi bir dış depolama yapılandırılmamış",
+    "You can add external storages in the personal settings" : "Kişisel ayarlar bölümünden dış depolamaları ekleyebilirsiniz"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

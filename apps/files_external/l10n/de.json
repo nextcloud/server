@@ -54,9 +54,9 @@
     "OAuth2" : "OAuth2",
     "Client ID" : "Client-ID",
     "Client secret" : "Geheime Zeichenkette des Client",
-    "OpenStack" : "OpenStack",
     "Tenant name" : "Name des Mieters",
     "Identity endpoint URL" : "Identität Endpunkt-URL",
+    "Domain" : "Domain",
     "Rackspace" : "Rackspace",
     "API key" : "API-Schlüssel",
     "Global credentials" : "Globale Anmeldeinformationen",
@@ -89,7 +89,6 @@
     "SFTP with secret key login" : "SFTP mit der Anmeldung über einen geheimen Schlüssel",
     "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Share",
-    "Domain" : "Domain",
     "SMB / CIFS using OC login" : "SMB / CIFS mit OC-Anmeldung",
     "Username as share" : "Benutzername als Freigabe",
     "OpenStack Object Storage" : "Openstack-Objektspeicher",
@@ -99,8 +98,6 @@
     "The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "Die FTP-Unterstützung von PHP ist deaktiviert oder nicht installiert. Das Hinzufügen von %s ist nicht möglich. Bitte wende Dich zur Installation an den Systemadministrator.",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" ist nicht installiert. Das Hinzufügen von %s ist nicht möglich. Bitte wende Dich zur Installation an den Administrator.",
     "External storage support" : "Unterstützung für externen Speicher",
-    "No external storage configured" : "Kein externer Speicher konfiguriert",
-    "You can add external storages in the personal settings" : "Externe Speicher können in den persönlichen Einstellungen hinzugefügt werden",
     "Name" : "Name",
     "Storage type" : "Speichertyp",
     "Scope" : "Anwendungsbereich",
@@ -126,7 +123,10 @@
     "Step 2 failed. Exception: %s" : "Schritt 2 fehlgeschlagen. Fehlermeldung: %s",
     "Dropbox App Configuration" : "Dropbox-App Konfiguration",
     "Google Drive App Configuration" : "Google Drive-App Konfiguration",
+    "OpenStack" : "OpenStack",
     "Dropbox" : "Dropbox",
-    "Google Drive" : "Google Drive"
+    "Google Drive" : "Google Drive",
+    "No external storage configured" : "Kein externer Speicher konfiguriert",
+    "You can add external storages in the personal settings" : "Externe Speicher können in den persönlichen Einstellungen hinzugefügt werden"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

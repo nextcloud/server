@@ -56,9 +56,9 @@ OC.L10N.register(
     "OAuth2" : "OAuth2",
     "Client ID" : "Klient-ID",
     "Client secret" : "Klient hemmelighed",
-    "OpenStack" : "OpenStack",
     "Tenant name" : "Lejernavn",
     "Identity endpoint URL" : "Identificer afslutnings URL",
+    "Domain" : "Domæne",
     "Rackspace" : "Hyldeplads",
     "API key" : "API nøgle",
     "Global credentials" : "Globale brugeroplysninger",
@@ -90,7 +90,6 @@ OC.L10N.register(
     "SFTP with secret key login" : "SFTP med hemmelig nøglelogin",
     "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Del",
-    "Domain" : "Domæne",
     "SMB / CIFS using OC login" : "SMB / CIFS med OC-login",
     "Username as share" : "Brugernavn som deling",
     "OpenStack Object Storage" : "OpenStack Object Storage",
@@ -99,8 +98,6 @@ OC.L10N.register(
     "The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "cURL-understøttelsen i PHP er enten ikke aktiveret eller installeret. Monteringen af %s er ikke mulig. Anmod din systemadministrator om at installere det.",
     "The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "FTP understøttelsen i PHP er enten ikke aktiveret eller installeret. Montering af %s er ikke muligt. Anmod din systemadministrator om at installere det.",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" er ikke installeret. Monteringen af %s er ikke mulig. Anmod din systemadministrator om at installere det.",
-    "No external storage configured" : "Der er ingen konfigurerede eksterne lagre",
-    "You can add external storages in the personal settings" : "Du kan tilføje eksterne lagerenheder i de personlige indstillinger",
     "Name" : "Navn",
     "Storage type" : "Lagertype",
     "Scope" : "Anvendelsesområde",
@@ -119,6 +116,9 @@ OC.L10N.register(
     "Advanced settings" : "Avancerede indstillinger",
     "Delete" : "Slet",
     "Allow users to mount external storage" : "Tillad brugere at montere eksternt lager",
-    "Allow users to mount the following external storage" : "Tillad brugere at montere følgende som eksternt lager"
+    "Allow users to mount the following external storage" : "Tillad brugere at montere følgende som eksternt lager",
+    "OpenStack" : "OpenStack",
+    "No external storage configured" : "Der er ingen konfigurerede eksterne lagre",
+    "You can add external storages in the personal settings" : "Du kan tilføje eksterne lagerenheder i de personlige indstillinger"
 },
 "nplurals=2; plural=(n != 1);");

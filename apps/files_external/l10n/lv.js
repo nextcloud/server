@@ -33,7 +33,7 @@ OC.L10N.register(
     "App key" : "Programmas atslēga",
     "OAuth2" : "OAuth2",
     "Client ID" : "Klienta ID",
-    "OpenStack" : "OpenStack",
+    "Domain" : "Domain",
     "API key" : "API atslēga",
     "Username and password" : "Lietotājvārds un parole",
     "RSA public key" : "RSA publiskā atslēga",
@@ -58,11 +58,9 @@ OC.L10N.register(
     "SFTP with secret key login" : "SFTP pieteikšanās ar slepeno atslēgu",
     "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Koplietot",
-    "Domain" : "Domain",
     "SMB / CIFS using OC login" : "SMB / CIFS lietojot OC lietotāju",
     "OpenStack Object Storage" : "OpenStack Object krātuve",
     "Service name" : "Servisa nosaukums",
-    "No external storage configured" : "Nav konfigurēta ārējā krātuve",
     "Name" : "Nosaukums",
     "Storage type" : "Krātuves tips",
     "Scope" : "Darbības joma",
@@ -79,6 +77,8 @@ OC.L10N.register(
     "Add storage" : "Pievienot krātuvi",
     "Advanced settings" : "Paplašināti iestatījumi",
     "Delete" : "Dzēst",
-    "Allow users to mount external storage" : "Atļaut lietotājiem uzstādīt ārējās krātuves"
+    "Allow users to mount external storage" : "Atļaut lietotājiem uzstādīt ārējās krātuves",
+    "OpenStack" : "OpenStack",
+    "No external storage configured" : "Nav konfigurēta ārējā krātuve"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

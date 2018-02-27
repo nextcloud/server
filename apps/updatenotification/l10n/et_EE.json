@@ -1,6 +1,10 @@
 { "translations": {
-    "Could not start updater, please try the manual update" : "Uuendajat ei saanud käivitad, proovige käsitsi uuendada",
     "{version} is available. Get more information on how to update." : "{version} on saadaval. Vaata lisainfot uuendamise kohta.",
+    "Your version is up to date." : "Su versioon on ajakohane.",
+    "Update channel:" : "Uuenduste kanal:",
+    "Notify members of the following groups about available updates:" : "Teavita jägmiste gruppide liikmeid saadaval olevatest uuendustest:",
+    "Only notification for app updates are available." : "Saadaval on ainult rakenduste uuenduste kohta käivad teated.",
+    "Could not start updater, please try the manual update" : "Uuendajat ei saanud käivitad, proovige käsitsi uuendada",
     "Update notifications" : "Uuendusmärguanded",
     "Channel updated" : "Kanal värskendatud",
     "Update to %1$s is available." : "Uuendus versioonile %1$s on saadaval.",
@@ -9,11 +13,7 @@
     "A new version is available: %s" : "Saadaval on uus versioon: %s",
     "Open updater" : "Ava uuendaja",
     "Download now" : "Lae kohe alla",
-    "The update check is not yet finished. Please refresh the page." : "Uuenduste kontrollimine pole veel lõppenud. Palun värskendage lehte.",
-    "Your version is up to date." : "Su versioon on ajakohane.",
     "Checked on %s" : "Kontrollitud %s",
-    "Update channel:" : "Uuenduste kanal:",
-    "Notify members of the following groups about available updates:" : "Teavita jägmiste gruppide liikmeid saadaval olevatest uuendustest:",
-    "Only notification for app updates are available." : "Saadaval on ainult rakenduste uuenduste kohta käivad teated."
+    "The update check is not yet finished. Please refresh the page." : "Uuenduste kontrollimine pole veel lõppenud. Palun värskendage lehte."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

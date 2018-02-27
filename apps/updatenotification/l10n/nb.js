@@ -1,8 +1,16 @@
 OC.L10N.register(
     "updatenotification",
     {
-    "Could not start updater, please try the manual update" : "Kunne ikke starte oppdateringen, prøv å oppdatere manuelt",
     "{version} is available. Get more information on how to update." : "{version} er tilgjengelig. Få mer informasjon om å oppdatere.",
+    "Your version is up to date." : "Du har nyeste versjon.",
+    "A non-default update server is in use to be checked for updates:" : "En ikke-forvalgt oppdateringstjener brukes for å se etter oppdateringer:",
+    "Update channel:" : "Oppdateringskanal:",
+    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Du kan alltid oppdatere til en nyere versjon / eksperimentell kanal. Men du kan aldri nedgradere til en mer stabil kanal.",
+    "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Vær oppmerksom på at etter en ny utgivelse kan det ta noe tid før den vises her. Vi ruller ut nye versjonen spredt utover tid til våre brukere, og av og til hoppes det over en versjon når problemer dukker opp.",
+    "Notify members of the following groups about available updates:" : "Informer medlemmene i følgende grupper om tilgjengelig oppdateringer:",
+    "Only notification for app updates are available." : "Kun varsler for app oppdateringer er tilgjengelig.",
+    "The selected update channel does not support updates of the server." : "Den valgte oppdateringskanalen tilbyr ikke oppdateringer av tjeneren.",
+    "Could not start updater, please try the manual update" : "Kunne ikke starte oppdateringen, prøv å oppdatere manuelt",
     "Update notifications" : "Oppdateringsvarsel",
     "Channel updated" : "Kanal oppdatert",
     "The update server could not be reached since %d days to check for new updates." : "Har ikke oppnådd kontakt med oppdateringstjeneren på %d dager for å se etter nye oppdateringer.",
@@ -14,16 +22,8 @@ OC.L10N.register(
     "A new version is available: %s" : "En ny versjon er tilgjengelig: %s",
     "Open updater" : "Åpne oppdaterer",
     "Download now" : "Last ned nå",
-    "The update check is not yet finished. Please refresh the page." : "Oppdateringssjekken er ikke ferdig, vennligst oppdater siden.",
-    "Your version is up to date." : "Du har nyeste versjon.",
     "Checked on %s" : "Sjekket %s",
-    "A non-default update server is in use to be checked for updates:" : "En ikke-forvalgt oppdateringstjener brukes for å se etter oppdateringer:",
-    "Update channel:" : "Oppdateringskanal:",
-    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Du kan alltid oppdatere til en nyere versjon / eksperimentell kanal. Men du kan aldri nedgradere til en mer stabil kanal.",
-    "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Vær oppmerksom på at etter en ny utgivelse kan det ta noe tid før den vises her. Vi ruller ut nye versjonen spredt utover tid til våre brukere, og av og til hoppes det over en versjon når problemer dukker opp.",
-    "Notify members of the following groups about available updates:" : "Informer medlemmene i følgende grupper om tilgjengelig oppdateringer:",
-    "Only notification for app updates are available." : "Kun varsler for app oppdateringer er tilgjengelig.",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Den valgte oppdateringskanalen gjør dedikerte varsler til denne tjeneren utdatert.",
-    "The selected update channel does not support updates of the server." : "Den valgte oppdateringskanalen tilbyr ikke oppdateringer av tjeneren."
+    "The update check is not yet finished. Please refresh the page." : "Oppdateringssjekken er ikke ferdig, vennligst oppdater siden."
 },
 "nplurals=2; plural=(n != 1);");

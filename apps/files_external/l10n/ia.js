@@ -31,7 +31,7 @@ OC.L10N.register(
     "App key" : "Clave del Application",
     "App secret" : "Secreto del Application",
     "OAuth2" : "OAuth2",
-    "OpenStack" : "OpenStack",
+    "Domain" : "Dominio",
     "API key" : "Clave API",
     "Global credentials" : "Datos de authentication global",
     "Username and password" : "Nomine de usator e contrasigno",
@@ -56,7 +56,6 @@ OC.L10N.register(
     "SFTP" : "SFTP",
     "Root" : "Root",
     "SMB / CIFS" : "SMB / CIFS",
-    "Domain" : "Dominio",
     "Service name" : "Nomine del servicio",
     "Name" : "Nomine",
     "Storage type" : "Typo de immagazinage",
@@ -75,6 +74,7 @@ OC.L10N.register(
     "Advanced settings" : "Configurationes avantiate",
     "Delete" : "Deler",
     "Allow users to mount external storage" : "Permitter usatores montar immagazinage externe",
-    "Allow users to mount the following external storage" : "Permitter usatores montar le sequente immagazinage externe"
+    "Allow users to mount the following external storage" : "Permitter usatores montar le sequente immagazinage externe",
+    "OpenStack" : "OpenStack"
 },
 "nplurals=2; plural=(n != 1);");

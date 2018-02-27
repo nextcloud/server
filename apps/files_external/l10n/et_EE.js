@@ -38,7 +38,7 @@ OC.L10N.register(
     "OAuth2" : "OAuth2",
     "Client ID" : "Kliendi ID",
     "Client secret" : "Kliendi salasõna",
-    "OpenStack" : "OpenStack",
+    "Domain" : "Domeen",
     "API key" : "API võti",
     "RSA public key" : "RSA avalik võti",
     "Public key" : "Avalik võti",
@@ -63,13 +63,10 @@ OC.L10N.register(
     "SFTP with secret key login" : "SFTP koos salajase võtmega logimisega",
     "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Jaga",
-    "Domain" : "Domeen",
     "SMB / CIFS using OC login" : "SMB / CIFS kasutades OC logimist",
     "Username as share" : "Kasutajanimi kui jagamine",
     "OpenStack Object Storage" : "OpenStack Object Storage",
     "Service name" : "Teenuse nimi",
-    "No external storage configured" : "Välist salvestuskohta pole seadistatud",
-    "You can add external storages in the personal settings" : "Sa võid lisada välise salvestuskoha isiklikes seadetes",
     "Name" : "Nimi",
     "Storage type" : "Andmehoidla tüüp",
     "Scope" : "Skoop",
@@ -87,6 +84,9 @@ OC.L10N.register(
     "Add storage" : "Lisa andmehoidla",
     "Advanced settings" : "Lisavalikud",
     "Delete" : "Kustuta",
-    "Allow users to mount the following external storage" : "Võimalda kasutajatel ühendada järgmist välist andmehoidlat"
+    "Allow users to mount the following external storage" : "Võimalda kasutajatel ühendada järgmist välist andmehoidlat",
+    "OpenStack" : "OpenStack",
+    "No external storage configured" : "Välist salvestuskohta pole seadistatud",
+    "You can add external storages in the personal settings" : "Sa võid lisada välise salvestuskoha isiklikes seadetes"
 },
 "nplurals=2; plural=(n != 1);");

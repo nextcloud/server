@@ -1,8 +1,14 @@
 OC.L10N.register(
     "updatenotification",
     {
-    "Could not start updater, please try the manual update" : "Bywerker kon nie begin nie, probeer handmatig bywerk",
     "{version} is available. Get more information on how to update." : "{version} is beskikbaar. Kry meer inligting oor hoe om by te werk.",
+    "Your version is up to date." : "U weergawe is op datum.",
+    "Update channel:" : "Werk kanaal by:",
+    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "U kan altyd na ’n nuwer weergawe / eksperimentele kanaal bywerk. U kan egter nooit na ’n stabieler kanaal afgradeer nie.",
+    "Notify members of the following groups about available updates:" : "Stel lede van die volgende groepe in kennis van beskikbare bywerkings:",
+    "Only notification for app updates are available." : "Slegs kennisgewing vir toepbywerking is beskikbaar.",
+    "The selected update channel does not support updates of the server." : "Die gekose bywerkkanaal ondersteun nie bedienerbywerkings nie.",
+    "Could not start updater, please try the manual update" : "Bywerker kon nie begin nie, probeer handmatig bywerk",
     "Update notifications" : "Werk kennisgewings by",
     "Channel updated" : "Kanaal bygewerk",
     "The update server could not be reached since %d days to check for new updates." : "Die bywerkingsbediener kan al vir %d dae nie bereik word om nuwe bywerkings te soek nie.",
@@ -13,13 +19,7 @@ OC.L10N.register(
     "A new version is available: %s" : "’n nuwe weergawe is beskikbaar: %s",
     "Open updater" : "Open bywerker",
     "Download now" : "Laai nou af",
-    "Your version is up to date." : "U weergawe is op datum.",
     "Checked on %s" : "Gekyk op %s",
-    "Update channel:" : "Werk kanaal by:",
-    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "U kan altyd na ’n nuwer weergawe / eksperimentele kanaal bywerk. U kan egter nooit na ’n stabieler kanaal afgradeer nie.",
-    "Notify members of the following groups about available updates:" : "Stel lede van die volgende groepe in kennis van beskikbare bywerkings:",
-    "Only notification for app updates are available." : "Slegs kennisgewing vir toepbywerking is beskikbaar.",
-    "The selected update channel makes dedicated notifications for the server obsolete." : "Die gekose bywerkingskanaal maak toegewyde bedienerkennisgewings oorbodig.",
-    "The selected update channel does not support updates of the server." : "Die gekose bywerkkanaal ondersteun nie bedienerbywerkings nie."
+    "The selected update channel makes dedicated notifications for the server obsolete." : "Die gekose bywerkingskanaal maak toegewyde bedienerkennisgewings oorbodig."
 },
 "nplurals=2; plural=(n != 1);");

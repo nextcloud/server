@@ -1,8 +1,16 @@
 OC.L10N.register(
     "updatenotification",
     {
-    "Could not start updater, please try the manual update" : "Impossible de démarrer le système de mise à jour, veuillez essayer de mettre à jour manuellement",
     "{version} is available. Get more information on how to update." : "La version {version} est disponible. Cliquez ici pour plus d'informations sur comment mettre à jour.",
+    "Your version is up to date." : "Votre version est à jour.",
+    "A non-default update server is in use to be checked for updates:" : "Un serveur spécifique est actuellement configuré pour la vérification des mises-à-jour :",
+    "Update channel:" : "Canal de mise à jour :",
+    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Vous pouvez à tout moment mettre à jour votre instance Nextcloud vers une version plus récente ou un canal expérimental. Vous ne pourrez cependant jamais revenir à une version antérieure en sélectionnant un canal plus stable.",
+    "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Veuillez noter qu'il peut s'écouler un certain temps entre la sortie d'une nouvelle version et sa disponibilité pour téléchargement et mise-à-jour ici, sur votre instance. Nous répartissons le déploiement des nouvelles versions Nextcloud dans le temps à l'ensemble de nos utilisateurs. Certaines versions mineures, présentant des bugs problématiques, peuvent être sautées.",
+    "Notify members of the following groups about available updates:" : "Notifier les membres des groupes suivants des mises à jours disponibles :",
+    "Only notification for app updates are available." : "Seules les notifications pour les mises à jour d'applications sont diponibles.",
+    "The selected update channel does not support updates of the server." : "Le canal de mises à jour sélectionné ne supporte pas les mises à jour du serveur.",
+    "Could not start updater, please try the manual update" : "Impossible de démarrer le système de mise à jour, veuillez essayer de mettre à jour manuellement",
     "Update notifications" : "Notifications de mises à jour",
     "Channel updated" : "Canal de mise à jour modifié",
     "The update server could not be reached since %d days to check for new updates." : "Le serveur de mise à jour n'a pas pu être atteint depuis %d jours pour vérifier les nouvelles mises à jour.",
@@ -14,16 +22,8 @@ OC.L10N.register(
     "A new version is available: %s" : "Une nouvelle version est disponible : %s",
     "Open updater" : "Ouvrir le système de mise à jour",
     "Download now" : "Télécharger maintenant",
-    "The update check is not yet finished. Please refresh the page." : "La vérification de la mise-à-jour n'est pas encore terminée. Veuillez rafraîchir la page.",
-    "Your version is up to date." : "Votre version est à jour.",
     "Checked on %s" : "Vérifié le %s",
-    "A non-default update server is in use to be checked for updates:" : "Un serveur spécifique est actuellement configuré pour la vérification des mises-à-jour :",
-    "Update channel:" : "Canal de mise à jour :",
-    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Vous pouvez à tout moment mettre à jour votre instance Nextcloud vers une version plus récente ou un canal expérimental. Vous ne pourrez cependant jamais revenir à une version antérieure en sélectionnant un canal plus stable.",
-    "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Veuillez noter qu'il peut s'écouler un certain temps entre la sortie d'une nouvelle version et sa disponibilité pour téléchargement et mise-à-jour ici, sur votre instance. Nous répartissons le déploiement des nouvelles versions Nextcloud dans le temps à l'ensemble de nos utilisateurs. Certaines versions mineures, présentant des bugs problématiques, peuvent être sautées.",
-    "Notify members of the following groups about available updates:" : "Notifier les membres des groupes suivants des mises à jours disponibles :",
-    "Only notification for app updates are available." : "Seules les notifications pour les mises à jour d'applications sont diponibles.",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Le canal de mise à jour sélectionné rend obsolètes les notifications dédiées au serveur.",
-    "The selected update channel does not support updates of the server." : "Le canal de mises à jour sélectionné ne supporte pas les mises à jour du serveur."
+    "The update check is not yet finished. Please refresh the page." : "La vérification de la mise-à-jour n'est pas encore terminée. Veuillez rafraîchir la page."
 },
 "nplurals=2; plural=(n > 1);");

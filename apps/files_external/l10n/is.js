@@ -56,9 +56,9 @@ OC.L10N.register(
     "OAuth2" : "OAuth2",
     "Client ID" : "Biðlaraauðkenni",
     "Client secret" : "Leynilykill biðlara",
-    "OpenStack" : "OpenStack",
     "Tenant name" : "Nafn handhafa (tenant)",
     "Identity endpoint URL" : "Endapunktur auðkennisslóðar (identity endpoint URL)",
+    "Domain" : "Lén",
     "Rackspace" : "Rackspace",
     "API key" : "API-lykill",
     "Global credentials" : "Víðvær innskráningarauðkenni",
@@ -90,7 +90,6 @@ OC.L10N.register(
     "SFTP with secret key login" : "SFTP innskráning með leynilykli",
     "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Deila",
-    "Domain" : "Lén",
     "SMB / CIFS using OC login" : "SMB / CIFS með OC-innskráningu",
     "Username as share" : "Notandanafn sem sameign",
     "OpenStack Object Storage" : "OpenStack Object Storage",
@@ -99,8 +98,6 @@ OC.L10N.register(
     "The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "Stuðningur við cURL í PHP er ekki virkjaður eða ekki uppsettur. Tenging %s í skráakerfi er ekki möguleg. Biddu kerfisstjórann þinn um að setja þetta upp.",
     "The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "Stuðningur við FTP í PHP er ekki virkjaður eða ekki uppsettur. Tenging %s í skráakerfi er ekki möguleg. Biddu kerfisstjórann þinn um að setja þetta upp.",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" er ekki uppsett. Tenging %s í skráakerfi er ekki möguleg. Biddu kerfisstjórann þinn um að setja þetta upp.",
-    "No external storage configured" : "Engin ytri-gagnageymsla stillt",
-    "You can add external storages in the personal settings" : "Þú getur bætt við ytri gagnageymslum í einkastillingunum þínum",
     "Name" : "Nafn",
     "Storage type" : "Tegund gagnageymslu",
     "Scope" : "Umfang",
@@ -119,6 +116,9 @@ OC.L10N.register(
     "Advanced settings" : "Ítarlegri valkostir",
     "Delete" : "Eyða",
     "Allow users to mount external storage" : "Leyfa notendum að tengja ytri gagnageymslur í skráakerfi",
-    "Allow users to mount the following external storage" : "Leyfa notendum að tengja eftirfarandi ytri gagnageymslu í skráakerfi"
+    "Allow users to mount the following external storage" : "Leyfa notendum að tengja eftirfarandi ytri gagnageymslu í skráakerfi",
+    "OpenStack" : "OpenStack",
+    "No external storage configured" : "Engin ytri-gagnageymsla stillt",
+    "You can add external storages in the personal settings" : "Þú getur bætt við ytri gagnageymslum í einkastillingunum þínum"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

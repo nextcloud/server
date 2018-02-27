@@ -54,9 +54,9 @@
     "OAuth2" : "OAuth2",
     "Client ID" : "Client ID",
     "Client secret" : "Client secret",
-    "OpenStack" : "OpenStack",
     "Tenant name" : "Naam tenant",
     "Identity endpoint URL" : "Identiteiten endpoint URL",
+    "Domain" : "Domein",
     "Rackspace" : "Rackspace",
     "API key" : "API sleutel",
     "Global credentials" : "Algemene inloggegevens",
@@ -89,7 +89,6 @@
     "SFTP with secret key login" : "SFTP met geheime sleutel inlog",
     "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Share",
-    "Domain" : "Domein",
     "SMB / CIFS using OC login" : "SMB / CIFS via OC inlog",
     "Username as share" : "Gebruikersnaam als share",
     "OpenStack Object Storage" : "OpenStack Object Storage",
@@ -99,8 +98,6 @@
     "The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "FTP ondersteuning in PHP is niet ingeschakeld of geïnstalleerd. Mounten van %s is niet mogelijk. Vraag je beheerder dit te installeren.",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" is niet geïnstalleerd. Mounten van %s is niet mogelijk. Vraag je beheerder om dit te installeren.",
     "External storage support" : "Externe opslag ondersteuning",
-    "No external storage configured" : "Geen externe opslag geconfigureerd",
-    "You can add external storages in the personal settings" : "Je kunt externe opslag toevoegen in persoonlijke instellingen",
     "Name" : "Naam",
     "Storage type" : "Opslagtype",
     "Scope" : "Scope",
@@ -126,7 +123,10 @@
     "Step 2 failed. Exception: %s" : "Stap 2 mislukt. Uitzondering: %s",
     "Dropbox App Configuration" : "Dropbox App Configuratie",
     "Google Drive App Configuration" : "Google Drive App Configuratie",
+    "OpenStack" : "OpenStack",
     "Dropbox" : "Dropbox",
-    "Google Drive" : "Google Drive"
+    "Google Drive" : "Google Drive",
+    "No external storage configured" : "Geen externe opslag geconfigureerd",
+    "You can add external storages in the personal settings" : "Je kunt externe opslag toevoegen in persoonlijke instellingen"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
