@@ -245,7 +245,7 @@ class Log implements ILogger {
 	 * Logs with an arbitrary level.
 	 *
 	 * @param mixed $level
-	 * @param string $message
+	 * @param string|array $message
 	 * @param array $context
 	 * @return void
 	 */
@@ -271,14 +271,16 @@ class Log implements ILogger {
 		} else {
 			$app = 'no app in context';
 		}
-		// interpolate $message as defined in PSR-3
-		$replace = array();
-		foreach ($context as $key => $val) {
-			$replace['{' . $key . '}'] = $val;
-		}
+		if (is_string($message)) {
+			// interpolate $message as defined in PSR-3
+			$replace = array();
+			foreach ($context as $key => $val) {
+				$replace['{' . $key . '}'] = $val;
+			}
 
-		// interpolate replacement values into the message and return
-		$message = strtr($message, $replace);
+			// interpolate replacement values into the message and return
+			$message = strtr($message, $replace);
+		}
 
 		/**
 		 * check for a special log condition - this enables an increased log on
@@ -337,6 +339,7 @@ class Log implements ILogger {
 			unset($context['level']);
 		}
 		$data = array(
+			'CustomMessage' => isset($context['message']) ? $context['message'] : '--',
 			'Exception' => get_class($exception),
 			'Message' => $exception->getMessage(),
 			'Code' => $exception->getCode(),
@@ -345,12 +348,11 @@ class Log implements ILogger {
 			'Line' => $exception->getLine(),
 		);
 		$data['Trace'] = preg_replace('!(' . implode('|', $this->methodsWithSensitiveParameters) . ')\(.*\)!', '$1(*** sensitive parameters replaced ***)', $data['Trace']);
+		$data['Trace'] = explode("\n", $data['Trace']);
 		if ($exception instanceof HintException) {
 			$data['Hint'] = $exception->getHint();
 		}
-		$msg = isset($context['message']) ? $context['message'] : 'Exception';
-		$msg .= ': ' . json_encode($data);
-		$this->log($level, $msg, $context);
+		$this->log($level, $data, $context);
 		$context['level'] = $level;
 		if (!is_null($this->crashReporters)) {
 			$this->crashReporters->delegateReport($exception, $context);
