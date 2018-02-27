@@ -75,6 +75,11 @@ class SMB extends Common implements INotifyStorage {
 	 */
 	protected $statCache;
 
+	/**
+	 * @var boolean
+	 **/
+	protected $readOnly;
+
 	public function __construct($params) {
 		if (isset($params['host']) && isset($params['user']) && isset($params['password']) && isset($params['share'])) {
 			if (Server::NativeAvailable()) {
@@ -87,6 +92,10 @@ class SMB extends Common implements INotifyStorage {
 			$this->root = $params['root'] ?? '/';
 			$this->root = '/' . ltrim($this->root, '/');
 			$this->root = rtrim($this->root, '/') . '/';
+
+			if (isset($params['readonly'])) {
+				$this->readOnly = $params['readonly'];
+			}
 		} else {
 			throw new \Exception('Invalid configuration');
 		}
@@ -102,6 +111,14 @@ class SMB extends Common implements INotifyStorage {
 		// failure to do so will lead to creation of a new storage id and
 		// loss of shares from the storage
 		return 'smb::' . $this->server->getUser() . '@' . $this->server->getHost() . '//' . $this->share->getName() . '/' . $this->root;
+	}
+
+	/**
+	 * Returns true if the 'read only' parameter has been enabled.
+	 * @return bool
+	 **/
+	public function isReadOnly() {
+		return $this->readOnly;
 	}
 
 	/**
@@ -190,7 +207,7 @@ class SMB extends Common implements INotifyStorage {
 	 * @return bool true if the rename is successful, false otherwise
 	 */
 	public function rename($source, $target) {
-		if ($this->isRootDir($source) || $this->isRootDir($target)) {
+		if ($this->isRootDir($source) || $this->isRootDir($target) || $this->isReadOnly()) {
 			return false;
 		}
 
@@ -267,7 +284,7 @@ class SMB extends Common implements INotifyStorage {
 	 * @return bool
 	 */
 	public function unlink($path) {
-		if ($this->isRootDir($path)) {
+		if ($this->isRootDir($path) || $this->isReadOnly()) {
 			return false;
 		}
 
@@ -374,7 +391,7 @@ class SMB extends Common implements INotifyStorage {
 	}
 
 	public function rmdir($path) {
-		if ($this->isRootDir($path)) {
+		if ($this->isRootDir($path) || $this->isReadOnly()) {
 			return false;
 		}
 
@@ -400,6 +417,10 @@ class SMB extends Common implements INotifyStorage {
 	}
 
 	public function touch($path, $time = null) {
+		if ($this->isReadOnly()) {
+			return false;
+		}
+
 		try {
 			if (!$this->file_exists($path)) {
 				$fh = $this->share->write($this->buildPath($path));
@@ -438,6 +459,10 @@ class SMB extends Common implements INotifyStorage {
 	}
 
 	public function mkdir($path) {
+		if ($this->isReadOnly()) {
+			return false;
+		}
+
 		$path = $this->buildPath($path);
 		try {
 			$this->share->mkdir($path);
@@ -478,7 +503,7 @@ class SMB extends Common implements INotifyStorage {
 			$info = $this->getFileInfo($path);
 			// following windows behaviour for read-only folders: they can be written into
 			// (https://support.microsoft.com/en-us/kb/326549 - "cause" section)
-			return !$info->isHidden() && (!$info->isReadOnly() || $this->is_dir($path));
+			return !$this->isReadOnly() && !$info->isHidden() && (!$info->isReadOnly() || $this->is_dir($path));
 		} catch (NotFoundException $e) {
 			return false;
 		} catch (ForbiddenException $e) {
@@ -489,7 +514,7 @@ class SMB extends Common implements INotifyStorage {
 	public function isDeletable($path) {
 		try {
 			$info = $this->getFileInfo($path);
-			return !$info->isHidden() && !$info->isReadOnly();
+			return !$this->isReadOnly() && !$info->isHidden() && !$info->isReadOnly();
 		} catch (NotFoundException $e) {
 			return false;
 		} catch (ForbiddenException $e) {

@@ -48,6 +48,8 @@ class SMB extends Backend {
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 				(new DefinitionParameter('domain', $l->t('Domain')))
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
+				(new DefinitionParameter('readonly', $l->t('Read only')))
+					->setType(DefinitionParameter::VALUE_BOOLEAN),
 			])
 			->addAuthScheme(AuthMechanism::SCHEME_PASSWORD)
 			->setLegacyAuthMechanism($legacyAuth)
