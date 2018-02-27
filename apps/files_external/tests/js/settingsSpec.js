@@ -45,9 +45,16 @@ describe('OCA.External.Settings tests', function() {
 			'<td class="applicable">' +
 			'<input type="hidden" class="applicableUsers">' +
 			'</td>' +
-			'<td class="mountOptionsToggle"><input type="hidden" class="mountOptions"/><img class="svg action"/></td>' +
-			'<td class="remove"><img alt="Delete" title="Delete" class="svg action"/></td>' +
-			'<td class="save"><img alt="Save" title="Save" class="svg action"/></td>' +
+			'<td class="mountOptionsToggle">'+
+			'<div class="icon-settings-dark" title="Advanced settings" deluminate_imagetype="unknown"></div>'+
+			'<input type="hidden" class="mountOptions"/>'+
+			'</td>'+
+			'<td class="remove">'+
+			'<div class="icon-delete" title="Delete" deluminate_imagetype="unknown"></div>'+
+			'</td>'+
+			'<td class="save">'+
+			'<div class="icon-checkmark" title="Save" deluminate_imagetype="unknown"></div>'+
+			'</td>'+
 			'</tr>' +
 			'</tbody>' +
 			'</table>'
