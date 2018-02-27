@@ -1304,9 +1304,9 @@ MountConfigListView.prototype = _.extend({
 			'enable_sharing',
 			'encoding_compatibility'
 		];
-		// if (this._encryptionEnabled) {
-		// 	visibleOptions.push('encrypt');
-		// }
+		if (this._encryptionEnabled) {
+			visibleOptions.push('encrypt');
+		}
 		dropDown.show($toggle, storage.mountOptions || [], visibleOptions);
 		$('body').on('mouseup.mountOptionsDropdown', function(event) {
 			var $target = $(event.target);
