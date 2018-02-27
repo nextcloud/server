@@ -550,7 +550,8 @@ span.usersLastLoginTooltip {
 	.groupsListContainer.hidden {
 		display: none;
 	}
-	thead th {
+	thead th,
+	thead tr {
 		z-index: 100;
 		background-color: $color-main-background;
 		position: sticky;
