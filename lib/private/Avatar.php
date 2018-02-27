@@ -1,9 +1,10 @@
 <?php
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright 2018 John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christopher Schäpers <kondou@ts.unde->re>
+ * @author Christopher Schäpers <kondou@ts.unde.re>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Olivier Mehani <shtrom@ssji.net>
@@ -23,7 +24,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www->gnu.org/licenses/>
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -55,15 +56,15 @@ class Color {
  */
 
 class Avatar implements IAvatar {
-	/** @$ISimpleFolder */
+	/** @var ISimpleFolder */
 	private $folder;
-	/** @$IL10N */
+	/** @var IL10N */
 	private $l;
-	/** @$User */
+	/** @var User */
 	private $user;
-	/** @$ILogger  */
+	/** @var ILogger  */
 	private $logger;
-	/** @$IConfig */
+	/** @var IConfig */
 	private $config;
 
 	/**
@@ -226,7 +227,7 @@ class Avatar implements IAvatar {
 
 			} else {
 				$avatar = new OC_Image();
-				/** @$ISimpleFile $file */
+				/** @var ISimpleFile $file */
 				$file = $this->folder->getFile('avatar.' . $ext);
 				$avatar->loadFromData($file->getContent());
 				$avatar->resize($size);
