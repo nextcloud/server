@@ -395,8 +395,13 @@ class Provider implements IProvider {
 		$userFolder = $this->rootFolder->getUserFolder($this->activityManager->getCurrentUserId());
 		$files = $userFolder->getById($fileId);
 		if (empty($files)) {
-			// Deleted, try with parent
-			$file = $userFolder->get(dirname($path));
+			try {
+				// Deleted, try with parent
+				$file = $this->findExistingParent($userFolder, dirname($path));
+			} catch (NotFoundException $e) {
+				return null;
+			}
+
 			if (!$file instanceof Folder || !$file->isEncrypted()) {
 				return null;
 			}
@@ -416,6 +421,26 @@ class Provider implements IProvider {
 
 		$this->fileEncrypted[$fileId] = $this->getParentEndToEndEncryptionContainer($userFolder, $file);
 		return $this->fileEncrypted[$fileId];
+	}
+
+	/**
+	 * @param Folder $userFolder
+	 * @param string $path
+	 * @return Folder
+	 * @throws NotFoundException
+	 */
+	protected function findExistingParent(Folder $userFolder, $path) {
+		if ($path === '/') {
+			throw new NotFoundException('Reached the root');
+		}
+
+		try {
+			$folder = $userFolder->get(dirname($path));
+		} catch (NotFoundException $e) {
+			return $this->findExistingParent($userFolder, dirname($path));
+		}
+
+		return $folder;
 	}
 
 	/**
