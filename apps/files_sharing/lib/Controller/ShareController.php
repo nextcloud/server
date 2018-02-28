@@ -185,10 +185,17 @@ class ShareController extends Controller {
 
 		$authenticate = $this->linkShareAuth($share, $password);
 
+		// if download was requested before auth, redirect to download
 		if ($authenticate === true && $redirect === 'download') {
-			return new RedirectResponse($this->urlGenerator->linkToRoute('files_sharing.sharecontroller.downloadShare', array('token' => $token)));
+			return new RedirectResponse($this->urlGenerator->linkToRoute(
+				'files_sharing.sharecontroller.downloadShare',
+				array('token' => $token))
+			);
 		} else if ($authenticate === true) {
-			return new RedirectResponse($this->urlGenerator->linkToRoute('files_sharing.sharecontroller.showShare', array('token' => $token)));
+			return new RedirectResponse($this->urlGenerator->linkToRoute(
+				'files_sharing.sharecontroller.showShare',
+				array('token' => $token))
+			);
 		}
 
 		$response = new TemplateResponse($this->appName, 'authenticate', array('wrongpw' => true), 'guest');
