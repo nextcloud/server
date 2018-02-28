@@ -175,10 +175,6 @@ describe('OCA.Files.BreadCrumb tests', function() {
 		beforeEach(function() {
 			dummyDir = '/one/two/three/four/five'
 
-			$('div.crumb').each(function(index){
-				$(this).css('width', 50);
-			});
-
 			bc = new BreadCrumb();
 			// append dummy navigation and controls
 			// as they are currently used for measurements
@@ -187,11 +183,22 @@ describe('OCA.Files.BreadCrumb tests', function() {
 			);
 			$('#controls').append(bc.$el);
 
+			bc.setDirectory(dummyDir);
+
+			$('div.crumb').each(function(index){
+				$(this).css('width', 50);
+				$(this).css('padding', 0);
+				$(this).css('margin', 0);
+			});
+			$('div.crumbhome').css('width', 51);
+			$('div.crumbmenu').css('width', 51);
+
+			$('#controls').width(1000);
+			bc._resize();
+
 			// Shrink to show popovermenu
 			$('#controls').width(300);
-
-			// triggers resize implicitly
-			bc.setDirectory(dummyDir);
+			bc._resize();
 
 			$crumbmenuLink = bc.$el.find('.crumbmenu > a');
 			$popovermenu = $crumbmenuLink.next('.popovermenu');
