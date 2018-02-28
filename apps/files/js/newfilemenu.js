@@ -28,6 +28,7 @@
 		'<form class="filenameform">' +
 		'<label class="hidden-visually" for="{{cid}}-input-{{fileType}}">{{fileName}}</label>' +
 		'<input id="{{cid}}-input-{{fileType}}" type="text" value="{{fileName}}" autocomplete="off" autocapitalize="off">' +
+		'<input type="submit" value=" " class="primary icon-checkmark-white" />'
 		'</form>';
 
 	/**
@@ -116,7 +117,7 @@
 			}
 
 			if ($target.find('form').length) {
-				$target.find('input').focus();
+				$target.find('input[type=\'text\']').focus();
 				return;
 			}
 
@@ -138,7 +139,8 @@
 			$target.append($form);
 
 			// here comes the OLD code
-			var $input = $form.find('input');
+			var $input = $form.find('input[type=\'text\']');
+			var $submit = $form.find('input[type=\'submit\']');
 
 			var lastPos;
 			var checkInput = function () {
@@ -169,6 +171,10 @@
 					$input.tooltip('hide');
 					$input.removeClass('error');
 				}
+			});
+
+			$submit.click(function(){
+				$form.submit();
 			});
 
 			$input.focus();

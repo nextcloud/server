@@ -811,10 +811,9 @@ kbd {
 		flex: 0 0 auto;
 		> button,
 		> a,
-		> .menuitem,
-		> label {
+		> .menuitem {
 			cursor: pointer;
-			line-height: 36px;
+			line-height: 38px;
 			border: 0;
 			background-color: transparent;
 			display: flex;
@@ -827,8 +826,8 @@ kbd {
 			color: $color-main-text;
 			/* Override the app-navigation li opacity */
 			opacity: .7 !important;
-			[class^='icon-'],
-			[class*=' icon-'],
+			span[class^='icon-'],
+			span[class*=' icon-'],
 			&[class^='icon-'],
 			&[class*=' icon-'] {
 				min-width: 0; /* Overwrite icons*/
@@ -836,8 +835,8 @@ kbd {
 				background-position: 10px center;
 				background-size: 16px;
 			}
-			[class^='icon-'],
-			[class*=' icon-'] {
+			span[class^='icon-'],
+			span[class*=' icon-'] {
 				/* Keep padding to define the width to
 				 assure correct position of a possible text */
 				padding: 18px 0 18px 36px;
@@ -888,6 +887,14 @@ kbd {
 			}
 			> input:not([type=radio]):not([type=checkbox]):not([type=image]) {
 				width: 150px;
+			}
+			input {
+				min-width: 34px;
+				max-height: 34px;
+				margin: 2px 0;
+				~ input {
+					margin-left: 5px;
+				}
 			}
 		}
 		> button {
