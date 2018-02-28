@@ -2,6 +2,7 @@
  * Copyright (c) 2014, Arthur Schiwon <blizzz@owncloud.com>
  * Copyright (c) 2014, Raghu Nayyar <beingminimal@gmail.com>
  * Copyright (c) 2011, Robin Appelman <icewind1991@gmail.com>
+ * Copyright (c) 2017, John Molakvoæ <skjnldsv@protonmail.com>
  * This file is licensed under the Affero General Public License version 3 or later.
  * See the COPYING-README file.
  */
@@ -31,6 +32,17 @@ var UserList = {
 		// initially the list might already contain user entries (not fully ajaxified yet)
 		// initialize these entries
 		this.$el.find('.quota-user').singleSelect().on('change', this.onQuotaSelect);
+		$('#new-user-button').on('click', function(event) {
+			event.preventDefault();
+			$('#newuserHeader').slideToggle(OC.menuSpeed);
+			$('#newusername').focus();
+		});
+		$('#newreset').on('click', function(event) {
+			$('#newuserHeader').slideToggle(OC.menuSpeed);
+		});
+		$('.has-tooltip').tooltip({
+			placement: 'bottom'
+		});
 	},
 
 	/**
@@ -508,7 +520,7 @@ var UserList = {
 			checked: checked,
 			oncheck: addUserToGroup,
 			onuncheck: removeUserFromGroup,
-			minWidth: 100
+			minWidth: 150
 		});
 	},
 
@@ -542,7 +554,7 @@ var UserList = {
 			checked: checked,
 			oncheck: checkHandler,
 			onuncheck: checkHandler,
-			minWidth: 100
+			minWidth: 150
 		});
 	},
 
@@ -1134,24 +1146,6 @@ $(document).ready(function () {
 		}
 	});
 
-	if ($('#CheckboxEmailAddress').is(':checked')) {
-		$("#userlist .mailAddress").show();
-	}
-	// Option to display/hide the "Mail Address" column
-	$('#CheckboxEmailAddress').click(function () {
-		if ($('#CheckboxEmailAddress').is(':checked')) {
-			$("#userlist .mailAddress").show();
-			if (OC.isUserAdmin()) {
-				OCP.AppConfig.setValue('core', 'umgmt_show_email', 'true');
-			}
-		} else {
-			$("#userlist .mailAddress").hide();
-			if (OC.isUserAdmin()) {
-				OCP.AppConfig.setValue('core', 'umgmt_show_email', 'false');
-			}
-		}
-	});
-
 	if ($('#CheckboxUserBackend').is(':checked')) {
 		$("#userlist .userBackend").show();
 	}
@@ -1166,24 +1160,6 @@ $(document).ready(function () {
 			$("#userlist .userBackend").hide();
 			if (OC.isUserAdmin()) {
 				OCP.AppConfig.setValue('core', 'umgmt_show_backend', 'false');
-			}
-		}
-	});
-
-	if ($('#CheckboxMailOnUserCreate').is(':checked')) {
-		$("#newemail").show();
-	}
-	// Option to display/hide the "E-Mail" input field
-	$('#CheckboxMailOnUserCreate').click(function () {
-		if ($('#CheckboxMailOnUserCreate').is(':checked')) {
-			$("#newemail").show();
-			if (OC.isUserAdmin()) {
-				OCP.AppConfig.setValue('core', 'umgmt_send_email', 'true');
-			}
-		} else {
-			$("#newemail").hide();
-			if (OC.isUserAdmin()) {
-				OCP.AppConfig.setValue('core', 'umgmt_send_email', 'false');
 			}
 		}
 	});

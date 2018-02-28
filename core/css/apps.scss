@@ -92,6 +92,22 @@ kbd {
 	border-right: 1px solid $color-border;
 	display: flex;
 	flex-direction: column;
+
+	/* 'New' button */
+	.app-navigation-new {
+		display: block;
+		padding: 10px;
+		button {
+			display: inline-block;
+			width: 100%;
+			padding: 10px;
+			padding-left: 34px;
+			background-position: 10px center;
+			text-align: left;
+			margin: 0;
+		}
+	}
+
 	li {
 		position: relative;
 	}
@@ -794,14 +810,14 @@ kbd {
 		flex: 0 0 auto;
 		> button,
 		> a,
-		> .menuitem {
+		> .menuitem,
+		> label {
 			cursor: pointer;
 			line-height: 36px;
 			border: 0;
 			background-color: transparent;
 			display: flex;
 			align-items: center;
-			width: auto;
 			height: auto;
 			margin: 0;
 			font-weight: 300;
@@ -869,6 +885,9 @@ kbd {
 			> input.radio + label::before {
 				margin: -2px 11px 0;
 			}
+			> input:not([type=radio]):not([type=checkbox]):not([type=image]) {
+				width: 150px;
+			}
 		}
 		> button {
 			padding: 0;
@@ -880,7 +899,7 @@ kbd {
 	}
 }
 
-
+/* CONTENT WRAPPER  --------------------------------------------------------- */
 #app-content-wrapper {
 	display: flex;
 	position: relative;
@@ -895,6 +914,8 @@ kbd {
 		overflow-y: auto;
 	}
 }
+
+/* CONTENT LIST ------------------------------------------------------------- */
 .app-content-list {
 	width: 300px;
 	border-right: 1px solid nc-darken($color-main-background, 8%);
@@ -1040,7 +1061,8 @@ kbd {
 		}
 	}
 }
-/* App content */
+
+/* CONTENT ------------------------------------------------------------------ */
 .app-content-detail {
 	/* grow full width */
 	flex-grow: 1;
@@ -1050,6 +1072,7 @@ kbd {
 	}
 }
 
+/* MOBILE ------------------------------------------------------------------- */
 /* Mobile width < 768px */
 @media only screen and (max-width: 768px) {
 

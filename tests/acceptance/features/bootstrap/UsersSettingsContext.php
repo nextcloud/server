@@ -30,6 +30,14 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
+	public static function newUserForm() {
+		return Locator::forThe()->id("newuserHeader")->
+				describedAs("New user form in Users Settings");
+	}
+
+	/**
+	 * @return Locator
+	 */
 	public static function userNameFieldForNewUser() {
 		return Locator::forThe()->field("newusername")->
 				describedAs("User name field for new user in Users Settings");
@@ -46,6 +54,14 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
+	public static function newUserButton() {
+		return Locator::forThe()->id("new-user-button")->
+				describedAs("New user button in Users Settings");
+	}
+
+	/**
+	 * @return Locator
+	 */
 	public static function createNewUserButton() {
 		return Locator::forThe()->xpath("//form[@id = 'newuser']//input[@type = 'submit']")->
 				describedAs("Create user button in Users Settings");
@@ -55,7 +71,7 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function rowForUser($user) {
-		return Locator::forThe()->xpath("//table[@id = 'userlist']//th[normalize-space() = '$user']/..")->
+		return Locator::forThe()->xpath("//table[@id = 'userlist']//td[normalize-space() = '$user']/..")->
 				describedAs("Row for user $user in Users Settings");
 	}
 
@@ -73,6 +89,13 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	public static function passwordInputForUser($user) {
 		return Locator::forThe()->css("input")->descendantOf(self::passwordCellForUser($user))->
 				describedAs("Password input for user $user in Users Settings");
+	}
+
+	/**
+	 * @When I click the New user button
+	 */
+	public function iClickTheNewUserButton() {
+		$this->actor->find(self::newUserButton())->click();
 	}
 
 	/**
@@ -97,6 +120,14 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheListOfUsersContainsTheUser($user) {
 		PHPUnit_Framework_Assert::assertNotNull($this->actor->find(self::rowForUser($user), 10));
+	}
+
+	/**
+	 * @Then I see that the new user form is shown
+	 */
+	public function iSeeThatTheNewUserFormIsShown() {
+		PHPUnit_Framework_Assert::assertTrue(
+				$this->actor->find(self::newUserForm(), 10)->isVisible());
 	}
 
 }
