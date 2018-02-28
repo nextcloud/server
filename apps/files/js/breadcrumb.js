@@ -356,12 +356,6 @@
 				this.$el.find('.crumbmenu').removeClass('hidden');
 				this._hideCrumb();
 			}
-			// If container is bigger than content + element to be shown
-			// AND if there is at least one hidden crumb
-			while (this.$el.find(this.hiddenCrumbSelector).length > 0
-				&& this.getTotalWidth() + this._getCrumbElement().outerWidth(true) < availableWidth) {
-				this._showCrumb();
-			}
 
 			this._updateMenu();
 		}
