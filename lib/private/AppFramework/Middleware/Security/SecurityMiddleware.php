@@ -195,8 +195,9 @@ class SecurityMiddleware extends Middleware {
 		 * Checks if app is enabled (also includes a check whether user is allowed to access the resource)
 		 * The getAppPath() check is here since components such as settings also use the AppFramework and
 		 * therefore won't pass this check.
+		 * If page is public, app does not need to be enabled for current user/visitor
 		 */
-		if(\OC_App::getAppPath($this->appName) !== false && !$this->appManager->isEnabledForUser($this->appName)) {
+		if(\OC_App::getAppPath($this->appName) !== false && !$isPublicPage && !$this->appManager->isEnabledForUser($this->appName)) {
 			throw new AppNotEnabledException();
 		}
 
