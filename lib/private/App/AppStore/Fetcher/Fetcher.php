@@ -194,7 +194,7 @@ abstract class Fetcher {
 	 * Set the current Nextcloud version
 	 * @param string $version
 	 */
-	public function setVersion($version) {
+	public function setVersion(string $version) {
 		$this->version = $version;
 	}
 }
