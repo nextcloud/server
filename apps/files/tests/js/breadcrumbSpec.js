@@ -290,7 +290,8 @@ describe('OCA.Files.BreadCrumb tests', function() {
 
 			$crumbs = bc.$el.find('.crumb');
 
-			// Menu and home are always visible
+			// Second, third, fourth and fifth crumb are hidden and everything
+			// else is visible
 			expect($crumbs.eq(0).hasClass('hidden')).toEqual(false);
 			expect($crumbs.eq(1).hasClass('hidden')).toEqual(false);
 
@@ -309,7 +310,7 @@ describe('OCA.Files.BreadCrumb tests', function() {
 
 			$crumbs = bc.$el.find('.crumb');
 
-			// Menu and home are always visible
+			// Third and fourth crumb are hidden and everything else is visible
 			expect($crumbs.eq(0).hasClass('hidden')).toEqual(false);
 			expect($crumbs.eq(1).hasClass('hidden')).toEqual(false);
 
@@ -518,7 +519,7 @@ describe('OCA.Files.BreadCrumb tests', function() {
 			$('#controls').width(950);
 			bc._resize();
 
-			// Menu and home are always visible
+			// Third crumb is hidden and everything else is visible
 			expect($crumbs.eq(0).hasClass('hidden')).toEqual(false);
 			expect($crumbs.eq(1).hasClass('hidden')).toEqual(false);
 
