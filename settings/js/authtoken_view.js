@@ -170,6 +170,7 @@
 					os: matches[1],
 					version: matches[2]
 				});
+				viewData.icon = 'icon-desktop';
 			}
 			for (var client in userAgentMap) {
 				if (matches = viewData.title.match(userAgentMap[client])) {
