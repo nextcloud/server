@@ -440,7 +440,7 @@ class Provider implements IProvider {
 			return $parent;
 		}
 
-		return $this->getParentEndToEndEncryptionContainer($userFolder, $file);
+		return $this->getParentEndToEndEncryptionContainer($userFolder, $parent);
 	}
 
 	/**
