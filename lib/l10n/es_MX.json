@@ -226,6 +226,19 @@
     "Storage connection error. %s" : "Se presentó un error con la conexión al almacenamiento. %s",
     "Storage is temporarily not available" : "El almacenamieto se encuentra temporalmente no disponible",
     "Storage connection timeout. %s" : "El tiempo de la conexión del almacenamiento se agotó. %s",
-    "Personal" : "Personal"
+    "Personal" : "Personal",
+    "Admin" : "Admin",
+    "DB Error: \"%s\"" : "DB Error: \"%s\"",
+    "Offending command was: \"%s\"" : "El comando infractor fue: \"%s\"",
+    "Offending command was: \"%s\", name: %s, password: %s" : "El comando infractor fue: \"%s\", nombre:%s, contraseña:%s",
+    "Setting permissions for %s failed, because the permissions exceed permissions granted to %s" : "Se presentó una falla al establecer los permisos de %s, porque los permisos excenden los permisos otorgados a  %s",
+    "Setting permissions for %s failed, because the item was not found" : "Se presentó una falla al establecer los permisos de %s, porque no se encontró el elemento",
+    "Cannot clear expiration date. Shares are required to have an expiration date." : "No se puede limpíar la fecha de expiración. Se requiere que los elementos compartidos tengan una fecha de expiración.",
+    "Cannot increase permissions of %s" : "No se pueden incrementar los permisos de %s",
+    "Files can't be shared with delete permissions" : "No se pueden compartir archivos con privilegios para borrar",
+    "Files can't be shared with create permissions" : "No se pueden compartir archivos con privilegios para crear",
+    "Cannot set expiration date more than %s days in the future" : "No se puede establecer la fecha de expiración más alla de %s días en el futuro",
+    "No app name specified" : "No se especificó el nombre de la aplicación",
+    "App '%s' could not be installed!" : "¡No se pudo instalar la aplciación '%s'!"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

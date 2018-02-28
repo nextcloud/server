@@ -10,6 +10,8 @@ OC.L10N.register(
     "Notify members of the following groups about available updates:" : "Informiere die Mitglieder der folgenden Gruppen über verfügbare Updates:",
     "Only notification for app updates are available." : "Benachrichtigungen sind nur für Aktualisierungen von Apps verfügbar.",
     "The selected update channel does not support updates of the server." : "Der gewählte Aktualisierungskanal unterstützt keine Aktualisierungen für Server.",
+    "A new version is available: {newVersionString}" : "Eine neue Version ist verfügbar: {newVersionString}",
+    "Checked on {lastCheckedDate}" : "Geprüft am {lastCheckedDate}",
     "Could not start updater, please try the manual update" : "Der Updater konnte nicht gestartet werden, bitte versuche ein manuelles Update",
     "Update notifications" : "Update-Benachrichtigungen",
     "Channel updated" : "Kanal aktualisiert",

@@ -25,6 +25,7 @@
     "Following platforms are supported: %s" : "Following platforms are supported: %s",
     "Server version %s or higher is required." : "Server version %s or higher is required.",
     "Server version %s or lower is required." : "Server version %s or lower is required.",
+    "Logged in user must be an admin" : "Logged in user must be an admin",
     "Unknown filetype" : "Unknown filetype",
     "Invalid image" : "Invalid image",
     "Avatar image is not square" : "Avatar image is not square",

@@ -75,6 +75,7 @@
     "Set your password" : "Imposta la tua password",
     "Go to %s" : "Vai a %s",
     "Install Client" : "Installa client",
+    "Logged in user must be a subadmin" : "L'utente che ha eseguito l'accesso deve essere un sotto-amministratore ",
     "Password confirmation is required" : "La conferma della password è richiesta",
     "Couldn't remove app." : "Impossibile rimuovere l'applicazione.",
     "Couldn't update app." : "Impossibile aggiornate l'applicazione.",
