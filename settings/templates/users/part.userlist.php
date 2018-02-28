@@ -33,7 +33,7 @@
 						autocomplete="off" autocapitalize="none" autocorrect="off" />
 				</td>
 				<td class="password">
-					<input id="newuserpassword" type="password" required
+					<input id="newuserpassword" type="password"
 						   placeholder="<?php p($l->t('Password'))?>" name="password"
 						   autocomplete="new-password" autocapitalize="none" autocorrect="off" />
 				</td>
