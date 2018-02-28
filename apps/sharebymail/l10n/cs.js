@@ -18,7 +18,7 @@ OC.L10N.register(
     "Password to access {file} was sent to you" : "Heslo pro přístupu k {file} vám bylo zasláno",
     "Sharing %s failed, this item is already shared with %s" : "Sdílení %s selhalo, tato položka je již s %s sdílena",
     "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Nemůžeme vám zaslat automaticky vygenerované heslo. Nastavte si v osobním nastavení platnou e-mailovou adresu a zkuste to znovu.",
-    "Failed to send share by email" : "Sdílení emailem se nezdařilo",
+    "Failed to send share by email" : "Sdílení e-mailem se nezdařilo",
     "%s shared »%s« with you" : "%s s vámi sdílel(a) »%s»",
     "%s shared »%s« with you." : "%s s vámi nasdílel(a) »%s«.",
     "Click the button below to open it." : "Pro otevření kliknětena tlačítko níže.",
@@ -38,6 +38,6 @@ OC.L10N.register(
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Dovoluje uživatelům odeslat personalizovaný odkaz na soubor nebo složku po zadání e-mailové adresy.",
     "Send password by mail" : "Odeslat heslo e-mailem",
     "Enforce password protection" : "Vynutit ochranu hesla",
-    "Failed to send share by E-mail" : "Odeslání sdílení E-mailem se nezdařilo"
+    "Failed to send share by E-mail" : "Odeslání sdílení e-mailem se nezdařilo"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

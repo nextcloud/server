@@ -25,6 +25,7 @@
     "Following platforms are supported: %s" : "Les plateformes suivantes sont prises en charge : %s",
     "Server version %s or higher is required." : "Un serveur de version %s ou supérieure est requis.",
     "Server version %s or lower is required." : "Un serveur de version %s ou inférieure est requis.",
+    "Logged in user must be an admin" : "L'utilisateur connecté doit être un administrateur",
     "Unknown filetype" : "Type de fichier inconnu",
     "Invalid image" : "Image non valable",
     "Avatar image is not square" : "L'image d'avatar n'est pas carré",

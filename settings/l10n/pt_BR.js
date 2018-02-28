@@ -77,6 +77,7 @@ OC.L10N.register(
     "Set your password" : "Defina sua senha",
     "Go to %s" : "Ir para 1 %s",
     "Install Client" : "Instalar Cliente",
+    "Logged in user must be a subadmin" : "O usuário conectado deve ser um subadministrador",
     "Password confirmation is required" : "A confirmação da senha é necessária",
     "Couldn't remove app." : "Não foi possível excluir aplicativos.",
     "Couldn't update app." : "Não foi possível atualizar o aplicativo",

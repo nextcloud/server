@@ -8,6 +8,8 @@
     "Notify members of the following groups about available updates:" : "Notificar a los miembros de los siguientes grupos de las actualizaciones disponibles:",
     "Only notification for app updates are available." : "Sólo se tienen disponibles notificaciones de actualizaciones de la aplicación.",
     "The selected update channel does not support updates of the server." : "El canal de actualización seleccionado no soporta actualizaciones del servidor. ",
+    "A new version is available: {newVersionString}" : "Una nueva versión está disponible: {newVersionString}",
+    "Checked on {lastCheckedDate}" : "Verificado el {lastCheckedDate}",
     "Could not start updater, please try the manual update" : "No fue posible iniciar el actualizador, por favor intenta la actualización manual",
     "Update notifications" : "Actualizar notificaciones",
     "Channel updated" : "Canal actualizado",

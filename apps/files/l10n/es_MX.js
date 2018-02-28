@@ -147,6 +147,7 @@ OC.L10N.register(
     "Tags" : "Etiquetas",
     "Deleted files" : "Archivos borrados",
     "Text file" : "Archivo de texto",
-    "New text file.txt" : "Nuevo ArchivoDeTexto.txt"
+    "New text file.txt" : "Nuevo ArchivoDeTexto.txt",
+    "Move" : "Mover"
 },
 "nplurals=2; plural=(n != 1);");
