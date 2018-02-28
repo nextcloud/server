@@ -254,6 +254,37 @@ class ShareControllerTest extends \Test\TestCase {
 		$this->assertEquals($expectedResponse, $response);
 	}
 
+	public function testAuthenticateValidPasswordAndDownload() {
+		$share = \OC::$server->getShareManager()->newShare();
+		$share->setId(42);
+
+		$this->shareManager
+			->expects($this->once())
+			->method('getShareByToken')
+			->with('token')
+			->willReturn($share);
+
+		$this->shareManager
+			->expects($this->once())
+			->method('checkPassword')
+			->with($share, 'validpassword')
+			->willReturn(true);
+
+		$this->session
+			->expects($this->once())
+			->method('set')
+			->with('public_link_authenticated', '42');
+
+		$this->urlGenerator->expects($this->once())
+			->method('linkToRoute')
+			->with('files_sharing.sharecontroller.downloadShare', ['token'=>'token'])
+			->willReturn('redirect');
+
+		$response = $this->shareController->authenticate('token', 'download', 'validpassword');
+		$expectedResponse =  new RedirectResponse('redirect');
+		$this->assertEquals($expectedResponse, $response);
+	}
+
 	public function testAuthenticateInvalidPassword() {
 		$share = \OC::$server->getShareManager()->newShare();
 		$share->setNodeId(100)
@@ -510,7 +541,7 @@ class ShareControllerTest extends \Test\TestCase {
 
 		// Test with a password protected share and no authentication
 		$response = $this->shareController->downloadShare('validtoken');
-		$expectedResponse = new RedirectResponse('redirect', '');
+		$expectedResponse = new RedirectResponse('redirect');
 		$this->assertEquals($expectedResponse, $response);
 	}
 
@@ -533,5 +564,4 @@ class ShareControllerTest extends \Test\TestCase {
 		$expectedResponse = new DataResponse('Share is read-only');
 		$this->assertEquals($expectedResponse, $response);
 	}
-
 }
