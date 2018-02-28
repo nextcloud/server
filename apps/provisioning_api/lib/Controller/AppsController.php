@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -44,7 +45,7 @@ class AppsController extends OCSController {
 	 * @param IAppManager $appManager
 	 */
 	public function __construct(
-		$appName,
+		string $appName,
 		IRequest $request,
 		IAppManager $appManager
 	) {
@@ -58,7 +59,7 @@ class AppsController extends OCSController {
 	 * @return DataResponse
 	 * @throws OCSException
 	 */
-	public function getApps($filter = null) {
+	public function getApps(string $filter = null): DataResponse {
 		$apps = (new OC_App())->listAllApps();
 		$list = [];
 		foreach($apps as $app) {
@@ -88,7 +89,7 @@ class AppsController extends OCSController {
 	 * @return DataResponse
 	 * @throws OCSException
 	 */
-	public function getAppInfo($app) {
+	public function getAppInfo(string $app): DataResponse {
 		$info = \OCP\App::getAppInfo($app);
 		if(!is_null($info)) {
 			return new DataResponse(OC_App::getAppInfo($app));
@@ -103,7 +104,7 @@ class AppsController extends OCSController {
 	 * @return DataResponse
 	 * @throws OCSException
 	 */
-	public function enable($app) {
+	public function enable(string $app): DataResponse {
 		try {
 			$this->appManager->enableApp($app);
 		} catch (AppPathNotFoundException $e) {
@@ -117,7 +118,7 @@ class AppsController extends OCSController {
 	 * @param string $app
 	 * @return DataResponse
 	 */
-	public function disable($app) {
+	public function disable(string $app): DataResponse {
 		$this->appManager->disableApp($app);
 		return new DataResponse();
 	}

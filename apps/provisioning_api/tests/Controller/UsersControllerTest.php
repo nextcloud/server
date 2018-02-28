@@ -242,7 +242,7 @@ class UsersControllerTest extends TestCase {
 			->with('adminUser')
 			->willReturn(true);
 
-		$this->api->addUser('AlreadyExistingUser', null, null);
+		$this->api->addUser('AlreadyExistingUser', 'password', []);
 	}
 
 	/**
@@ -490,7 +490,7 @@ class UsersControllerTest extends TestCase {
 			->with()
 			->willReturn($subAdminManager);
 
-		$this->api->addUser('NewUser', 'PasswordOfTheNewUser', null);
+		$this->api->addUser('NewUser', 'PasswordOfTheNewUser', []);
 	}
 
 	/**
@@ -2128,7 +2128,7 @@ class UsersControllerTest extends TestCase {
 			->method('getUser')
 			->will($this->returnValue($loggedInUser));
 
-		$this->api->removeFromGroup('TargetUser', null);
+		$this->api->removeFromGroup('TargetUser', '');
 	}
 
 	/**
@@ -2450,7 +2450,7 @@ class UsersControllerTest extends TestCase {
 			->with('NotExistingUser')
 			->will($this->returnValue(null));
 
-		$this->api->addSubAdmin('NotExistingUser', null);
+		$this->api->addSubAdmin('NotExistingUser', '');
 	}
 
 	/**
