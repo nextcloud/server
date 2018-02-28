@@ -888,10 +888,16 @@ kbd {
 			> input:not([type=radio]):not([type=checkbox]):not([type=image]) {
 				width: 150px;
 			}
+			form {
+				display: flex;
+				flex: 1 1 auto;
+			}
+			/* Inputs inside popover supports text, submit & reset */
 			input {
 				min-width: 34px;
 				max-height: 34px;
 				margin: 2px 0;
+				flex: 1 1 auto;
 				~ input {
 					margin-left: 5px;
 				}
