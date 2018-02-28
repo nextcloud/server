@@ -25,6 +25,7 @@ OC.L10N.register(
     "Download" : "Baixar",
     "Rename" : "Renomear",
     "Move or copy" : "Mover ou copiar",
+    "Copy" : "Copiar",
     "Target folder" : "Pasta destino",
     "Delete" : "Excluir",
     "Disconnect storage" : "Desconectar armazenamento",

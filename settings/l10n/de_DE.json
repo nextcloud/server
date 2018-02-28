@@ -75,6 +75,7 @@
     "Set your password" : "Setzen Sie Ihr Passwort",
     "Go to %s" : "Gehe zu %s",
     "Install Client" : "Installiere den Client",
+    "Logged in user must be a subadmin" : "Der angemeldete Benutzer muss ein Administrator sein",
     "Password confirmation is required" : "Passwortbestätigung erforderlich",
     "Couldn't remove app." : "Die App konnte nicht entfernt werden.",
     "Couldn't update app." : "Die App konnte nicht aktualisiert werden.",
