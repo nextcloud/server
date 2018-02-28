@@ -116,7 +116,7 @@ $this->create('files_sharing.sharecontroller.showShare', '/s/{token}')->action(f
 		throw new \OC\HintException('App file sharing is not enabled');
 	}
 });
-$this->create('files_sharing.sharecontroller.authenticate', '/s/{token}/authenticate')->post()->action(function($urlParams) {
+$this->create('files_sharing.sharecontroller.authenticate', '/s/{token}/authenticate/{redirect}')->post()->action(function($urlParams) {
 	if (class_exists(\OCA\Files_Sharing\AppInfo\Application::class, false)) {
 		$app = new \OCA\Files_Sharing\AppInfo\Application($urlParams);
 		$app->dispatch('ShareController', 'authenticate');
@@ -124,7 +124,7 @@ $this->create('files_sharing.sharecontroller.authenticate', '/s/{token}/authenti
 		throw new \OC\HintException('App file sharing is not enabled');
 	}
 });
-$this->create('files_sharing.sharecontroller.showAuthenticate', '/s/{token}/authenticate')->get()->action(function($urlParams) {
+$this->create('files_sharing.sharecontroller.showAuthenticate', '/s/{token}/authenticate/{redirect}')->get()->action(function($urlParams) {
 	if (class_exists(\OCA\Files_Sharing\AppInfo\Application::class, false)) {
 		$app = new \OCA\Files_Sharing\AppInfo\Application($urlParams);
 		$app->dispatch('ShareController', 'showAuthenticate');
