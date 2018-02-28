@@ -999,6 +999,8 @@ kbd {
 			object-fit: cover;
 			user-select: none;
 			cursor: pointer;
+			top: 50%;
+			margin-top: -20px;
 		}
 
 		.app-content-list-item-line-one,
@@ -1017,7 +1019,8 @@ kbd {
 		.app-content-list-item-line-two {
 			opacity: .5;
 			order: 3;
-			flex: 1 0 calc(100% - 24px);
+			flex: 1 0;
+			flex-basis: calc(100% - 24px);
 		}
 
 		.app-content-list-item-details {
