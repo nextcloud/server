@@ -21,10 +21,12 @@
  *
  */
 
-use OCA\UpdateNotification\AppInfo\Application;
-
-$application = new Application();
-$application->registerRoutes($this, ['routes' => [
-	['name' => 'Admin#createCredentials', 'url' => '/credentials', 'verb' => 'GET'],
-	['name' => 'Admin#setChannel', 'url' => '/channel', 'verb' => 'POST'],
-]]);
+return [
+	'routes' => [
+		['name' => 'Admin#createCredentials', 'url' => '/credentials', 'verb' => 'GET'],
+		['name' => 'Admin#setChannel', 'url' => '/channel', 'verb' => 'POST'],
+	],
+	'ocs' => [
+		['name' => 'API#getAppList', 'url' => '/api/{apiVersion}/applist/{newVersion}', 'verb' => 'GET', 'requirements' => ['apiVersion' => 'v1']],
+	],
+];
