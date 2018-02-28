@@ -104,7 +104,7 @@
 							'<label for="password-{{cid}}-{{shareId}}">{{passwordLabel}}</label>' +
 							'<div class="passwordContainer-{{cid}}-{{shareId}} {{#unless isPasswordSet}}hidden{{/unless}}">' +
 							'    <label for="passwordField-{{cid}}-{{shareId}}" class="hidden-visually" value="{{password}}">{{passwordLabel}}</label>' +
-							'    <input id="passwordField-{{cid}}-{{shareId}}" class="passwordField" type="password" placeholder="{{passwordPlaceholder}}" value="{{passwordValue}}" />' +
+							'    <input id="passwordField-{{cid}}-{{shareId}}" class="passwordField" type="password" placeholder="{{passwordPlaceholder}}" value="{{passwordValue}}" autocomplete="new-password" />' +
 							'    <span class="icon-loading-small hidden"></span>' +
 							'</div>' +
 						'</span>' +
