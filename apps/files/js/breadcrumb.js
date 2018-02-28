@@ -241,11 +241,14 @@
 
 		/**
 		 * Calculate real width based on individual crumbs
-		 * More accurate and works with tests
 		 *
 		 * @param {boolean} ignoreHidden ignore hidden crumbs
 		 */
 		getTotalWidth: function(ignoreHidden) {
+			// The width has to be calculated by adding up the width of all the
+			// crumbs; getting the width of the breadcrumb element is not a
+			// valid approach, as the returned value could be clamped to its
+			// parent width.
 			var totalWidth = 0;
 			for (var i = 0; i < this.breadcrumbs.length; i++ ) {
 				var $crumb = $(this.breadcrumbs[i]);
