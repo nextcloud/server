@@ -249,7 +249,7 @@ class ShareControllerTest extends \Test\TestCase {
 			->with('files_sharing.sharecontroller.showShare', ['token'=>'token'])
 			->willReturn('redirect');
 
-		$response = $this->shareController->authenticate('token', 'validpassword');
+		$response = $this->shareController->authenticate('token', 'preview', 'validpassword');
 		$expectedResponse =  new RedirectResponse('redirect');
 		$this->assertEquals($expectedResponse, $response);
 	}
@@ -292,7 +292,7 @@ class ShareControllerTest extends \Test\TestCase {
 					$data['errorMessage'] === 'Wrong password';
 			}));
 
-		$response = $this->shareController->authenticate('token', 'invalidpassword');
+		$response = $this->shareController->authenticate('token', 'preview', 'invalidpassword');
 		$expectedResponse =  new TemplateResponse($this->appName, 'authenticate', array('wrongpw' => true), 'guest');
 		$expectedResponse->throttle();
 		$this->assertEquals($expectedResponse, $response);
@@ -323,7 +323,7 @@ class ShareControllerTest extends \Test\TestCase {
 
 		$this->urlGenerator->expects($this->once())
 			->method('linkToRoute')
-			->with('files_sharing.sharecontroller.authenticate', ['token' => 'validtoken'])
+			->with('files_sharing.sharecontroller.authenticate', ['token' => 'validtoken', 'redirect' => 'preview'])
 			->willReturn('redirect');
 
 		// Test without a not existing token
@@ -505,12 +505,12 @@ class ShareControllerTest extends \Test\TestCase {
 
 		$this->urlGenerator->expects($this->once())
 			->method('linkToRoute')
-			->with('files_sharing.sharecontroller.authenticate', ['token' => 'validtoken'])
+			->with('files_sharing.sharecontroller.authenticate', ['token' => 'validtoken', 'redirect' => 'download'])
 			->willReturn('redirect');
 
 		// Test with a password protected share and no authentication
 		$response = $this->shareController->downloadShare('validtoken');
-		$expectedResponse = new RedirectResponse('redirect');
+		$expectedResponse = new RedirectResponse('redirect', '');
 		$this->assertEquals($expectedResponse, $response);
 	}
 

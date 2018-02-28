@@ -174,7 +174,7 @@ class ShareController extends Controller {
 	 * @param string $password
 	 * @return RedirectResponse|TemplateResponse|NotFoundResponse
 	 */
-	public function authenticate($token, $redirect, $password = '') {
+	public function authenticate($token, $redirect = 'preview', $password = '') {
 
 		// Check whether share exists
 		try {
