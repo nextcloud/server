@@ -359,13 +359,7 @@
     "Show storage location" : "საცავის ადგილმდებარეობის ჩვენება",
     "Show user backend" : "მომხმარებლის ბექენდის ჩვენება",
     "Show last login" : "ბოლო ავტორიზაციის ჩვენება",
-    "Show email address" : "მოხმარებლის ელ-ფოსტის მისამართის ჩვენება",
-    "Send email to new user" : "გაუგზავნეთ ელ-წერილი ახალ მომხმარებელს",
     "When the password of a new user is left empty, an activation email with a link to set the password is sent." : "როდესაც ახალი მომხმარებლის პაროლი არაა მითითებული, მომხმარებელს ელ-ფოსტაზე ეგზავნება აქტივაციის წერილი პროლის დაყენების ბმულით.",
-    "E-Mail" : "ელ-ფოსტა",
-    "Create" : "შექმნა",
-    "Admin Recovery Password" : "ადმინისტრატორის პაროლის განახლება",
-    "Enter the recovery password in order to recover the users files during password change" : "მოხმარებლების პაროლის შეცვლის შემდეგ მათი ფაილების აღსადგენად შეიყვანეთ აღსადგენი პაროლი",
     "Everyone" : "ყველა",
     "Admins" : "ადმინისტრატორები",
     "Disabled" : "გათიშული",
@@ -378,6 +372,9 @@
     "Storage location" : "საცავის ადგილმდებარეობა",
     "User backend" : "მომხმარებელის ბექენდი",
     "Last login" : "ბოლო ავტორიზაცია",
+    "E-Mail" : "ელ-ფოსტა",
+    "Admin Recovery Password" : "ადმინისტრატორის პაროლის განახლება",
+    "Enter the recovery password in order to recover the users files during password change" : "მოხმარებლების პაროლის შეცვლის შემდეგ მათი ფაილების აღსადგენად შეიყვანეთ აღსადგენი პაროლი",
     "change full name" : "სრული სახელის ცვლილება",
     "set new password" : "დააყენეთ ახალი პაროლი",
     "change email address" : "ელ-ფოსტის მისამართის ცვლილება",
@@ -421,6 +418,9 @@
     "Follow us on Twitter!" : "გამოგვყევით Twitter-ზე!",
     "Check out our blog!" : "იხილეთ ჩვენი ბლოგი!",
     "Subscribe to our newsletter!" : "გამოიწერეთ ჩვენი სიახლეები!",
+    "Show email address" : "მოხმარებლის ელ-ფოსტის მისამართის ჩვენება",
+    "Send email to new user" : "გაუგზავნეთ ელ-წერილი ახალ მომხმარებელს",
+    "Create" : "შექმნა",
     "Group name" : "ჯგუფის სახელი"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -5,6 +5,7 @@ OC.L10N.register(
     "Saved" : "Enregistré",
     "Admin" : "Administration",
     "a safe home for all your data" : "un endroit sûr pour toutes vos données",
+    "Name cannot be empty" : "Le nom ne peut pas être vide",
     "The given name is too long" : "Le nom donné est trop long",
     "The given web address is too long" : "L'adresse web donnée est trop longue",
     "The given slogan is too long" : "Le slogan donné est trop long",

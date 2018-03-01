@@ -196,16 +196,14 @@ OC.L10N.register(
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Sukurta {communityopen}Nextcloud bendruomenės{linkclose}, {githubopen}pirminis kodas{linkclose} yra licencijuotas pagal {licenseopen}AGPL{linkclose}.",
     "Settings" : "Nustatymai",
     "Show last login" : "Rodyti paskutinį prisijungimą",
-    "Show email address" : "Rodyti el. pašto adresą",
-    "Create" : "Sukurti",
-    "Admin Recovery Password" : "Administracinis atkūrimo slaptažodis",
-    "Enter the recovery password in order to recover the users files during password change" : "Įveskite atkūrimo slaptažodį, kad atkurtumėte naudotojo failus keičiant slaptažodį",
     "Disabled" : "Išjungta",
     "Default quota" : "Numatytasis leidžiamas duomenų kiekis",
     "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")" : "Įveskite saugyklos leidžiamą duomenų kiekį (pvz.: \"512 MB\" ar \"12 GB\")",
     "Unlimited" : "Neribotai",
     "Other" : "Kita",
     "Quota" : "Limitas",
+    "Admin Recovery Password" : "Administracinis atkūrimo slaptažodis",
+    "Enter the recovery password in order to recover the users files during password change" : "Įveskite atkūrimo slaptažodį, kad atkurtumėte naudotojo failus keičiant slaptažodį",
     "change full name" : "keisti pilną vardą",
     "set new password" : "nustatyti naują slaptažodį",
     "Default" : "Numatytasis",
@@ -216,6 +214,8 @@ OC.L10N.register(
     "Show First Run Wizard again" : "Dar kartą rodyti pirmojo paleidimo vediklį",
     "Follow us on Google+!" : "Sekite mus Google+!",
     "Follow us on Twitter!" : "Sekite mus Twitter!",
-    "Subscribe to our newsletter!" : "Prenumeruokite mūsų naujienlaiškį!"
+    "Subscribe to our newsletter!" : "Prenumeruokite mūsų naujienlaiškį!",
+    "Show email address" : "Rodyti el. pašto adresą",
+    "Create" : "Sukurti"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);");

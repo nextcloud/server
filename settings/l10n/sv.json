@@ -351,13 +351,7 @@
     "Show storage location" : "Visa lagringsplats",
     "Show user backend" : "Visa användar-backend",
     "Show last login" : "Visa senaste inloggning",
-    "Show email address" : "Visa e-postadress",
-    "Send email to new user" : "Skicka e-post till ny användare",
     "When the password of a new user is left empty, an activation email with a link to set the password is sent." : "När lösenordet för en ny användare lämnas tomt så skickas ett aktiveringsmejl med en länk för att välja ett lösenord.",
-    "E-Mail" : "E-post",
-    "Create" : "Skapa",
-    "Admin Recovery Password" : "Återställningslösen för admin",
-    "Enter the recovery password in order to recover the users files during password change" : "Ange återställningslösenordet för att återställa användarnas filer vid lösenordsbyte",
     "Everyone" : "Alla",
     "Admins" : "Administratörer",
     "Disabled" : "Inaktiverad",
@@ -370,10 +364,16 @@
     "Storage location" : "Lagringsplats",
     "User backend" : "Användarbackend",
     "Last login" : "Senaste inloggning",
+    "E-Mail" : "E-post",
+    "Admin Recovery Password" : "Återställningslösen för admin",
+    "Enter the recovery password in order to recover the users files during password change" : "Ange återställningslösenordet för att återställa användarnas filer vid lösenordsbyte",
     "change full name" : "ändra namn",
     "set new password" : "ange nytt lösenord",
     "change email address" : "ändra e-postadress",
     "Default" : "Förvald",
-    "__language_name__" : "Svenska"
+    "__language_name__" : "Svenska",
+    "Show email address" : "Visa e-postadress",
+    "Send email to new user" : "Skicka e-post till ny användare",
+    "Create" : "Skapa"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

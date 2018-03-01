@@ -138,21 +138,21 @@
     "Change password" : "تغییر گذر واژه",
     "Username" : "نام کاربری",
     "Show storage location" : "نمایش محل ذخیره‌سازی",
-    "Show email address" : "نمایش پست الکترونیکی",
-    "Send email to new user" : "ارسال ایمیل به کاربر جدید",
-    "E-Mail" : "ایمیل",
-    "Create" : "ایجاد کردن",
-    "Admin Recovery Password" : "مدیریت بازیابی رمز عبور",
-    "Enter the recovery password in order to recover the users files during password change" : "در حین تغییر رمز عبور به منظور بازیابی فایل های کاربران، رمز عبور بازیابی را وارد کنید",
     "Everyone" : "همه",
     "Admins" : "مدیران",
     "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")" : "لطفا سهمیه ذخیره سازی را وارد کنید (به عنوان مثال: \" 512MB\" یا \"12GB\")",
     "Unlimited" : "نامحدود",
     "Other" : "دیگر",
     "Quota" : "سهم",
+    "E-Mail" : "ایمیل",
+    "Admin Recovery Password" : "مدیریت بازیابی رمز عبور",
+    "Enter the recovery password in order to recover the users files during password change" : "در حین تغییر رمز عبور به منظور بازیابی فایل های کاربران، رمز عبور بازیابی را وارد کنید",
     "change full name" : "تغییر نام کامل",
     "set new password" : "تنظیم کلمه عبور جدید",
     "change email address" : "تغییر آدرس ایمیل ",
-    "Default" : "پیش فرض"
+    "Default" : "پیش فرض",
+    "Show email address" : "نمایش پست الکترونیکی",
+    "Send email to new user" : "ارسال ایمیل به کاربر جدید",
+    "Create" : "ایجاد کردن"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

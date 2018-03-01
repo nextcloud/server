@@ -25,6 +25,7 @@ OC.L10N.register(
     "Download" : "Преузми",
     "Rename" : "Преименуј",
     "Move or copy" : "Помери или копирај",
+    "Copy" : "Копирај",
     "Target folder" : "Одредишна фасцикла",
     "Delete" : "Обриши",
     "Disconnect storage" : "Искључи складиште",

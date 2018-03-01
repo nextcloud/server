@@ -32,10 +32,10 @@ OC.L10N.register(
     "New password" : "新密碼",
     "Change password" : "更改密碼",
     "Username" : "用戶名稱",
-    "Create" : "新增",
     "Everyone" : "所有人",
     "Unlimited" : "無限",
     "Other" : "其他",
-    "Default" : "預設"
+    "Default" : "預設",
+    "Create" : "新增"
 },
 "nplurals=1; plural=0;");

@@ -307,12 +307,6 @@
     "Show storage location" : "Mostra la ubicació del magatzem",
     "Show user backend" : "Mostrar backend d'usuari",
     "Show last login" : "Mostra darrera entrada",
-    "Show email address" : "Mostrar l'adreça de correu electrònic",
-    "Send email to new user" : "Enviar correu electrònic al nou usuari",
-    "E-Mail" : "E-mail",
-    "Create" : "Crea",
-    "Admin Recovery Password" : "Recuperació de contrasenya d'administrador",
-    "Enter the recovery password in order to recover the users files during password change" : "Escriviu la contrasenya de recuperació per a poder recuperar els fitxers dels usuaris en canviar la contrasenya",
     "Everyone" : "Tothom",
     "Admins" : "Administradors",
     "Disabled" : "Desactivat",
@@ -325,10 +319,16 @@
     "Storage location" : "Ubicació de l'emmagatzemament",
     "User backend" : "Backend d'usuari",
     "Last login" : "Últim accés",
+    "E-Mail" : "E-mail",
+    "Admin Recovery Password" : "Recuperació de contrasenya d'administrador",
+    "Enter the recovery password in order to recover the users files during password change" : "Escriviu la contrasenya de recuperació per a poder recuperar els fitxers dels usuaris en canviar la contrasenya",
     "change full name" : "canvia el nom complet",
     "set new password" : "estableix nova contrasenya",
     "change email address" : "canvi d'adreça de correu electrònic",
     "Default" : "Per defecte",
-    "Android app" : "Aplicació d'Android"
+    "Android app" : "Aplicació d'Android",
+    "Show email address" : "Mostrar l'adreça de correu electrònic",
+    "Send email to new user" : "Enviar correu electrònic al nou usuari",
+    "Create" : "Crea"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

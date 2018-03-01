@@ -10,6 +10,8 @@ OC.L10N.register(
     "Notify members of the following groups about available updates:" : "Tilkynna meðlimum eftirfarandi hópa um tiltækar uppfærslur:",
     "Only notification for app updates are available." : "Eingöngu eru eru tiltækar tilkynningar fyrir uppfærslur forrita.",
     "The selected update channel does not support updates of the server." : "Valda uppfærslurásin styður ekki uppfærslur fyrir vefþjóninn.",
+    "A new version is available: {newVersionString}" : "Ný útgáfa er tiltæk: {newVersionString}",
+    "Checked on {lastCheckedDate}" : "Athugað þann {lastCheckedDate}",
     "Could not start updater, please try the manual update" : "Gat ekki ræst uppfærslustýringu, prófaðu að uppfæra handvirkt",
     "Update notifications" : "Tilkynningar um uppfærslu",
     "Channel updated" : "Rás uppfærð",

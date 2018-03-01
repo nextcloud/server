@@ -201,19 +201,19 @@
     "App name" : "Numele aplicației",
     "Username" : "Nume utilizator",
     "Settings" : "Setări",
-    "E-Mail" : "Email",
-    "Create" : "Crează",
-    "Admin Recovery Password" : "Parolă de recuperare a Administratorului",
-    "Enter the recovery password in order to recover the users files during password change" : "Introdu parola de recuperare pentru a recupera fișierele utilizatorilor în timpul schimbării parolei",
     "Everyone" : "Toți",
     "Admins" : "Administratori",
     "Disabled" : "Dezactivați",
     "Unlimited" : "Nelimitată",
     "Other" : "Altele",
     "Quota" : "Cotă",
+    "E-Mail" : "Email",
+    "Admin Recovery Password" : "Parolă de recuperare a Administratorului",
+    "Enter the recovery password in order to recover the users files during password change" : "Introdu parola de recuperare pentru a recupera fișierele utilizatorilor în timpul schimbării parolei",
     "change full name" : "schimbă numele complet",
     "set new password" : "setează parolă nouă",
     "change email address" : "schimbă adresa email",
-    "Default" : "Implicită"
+    "Default" : "Implicită",
+    "Create" : "Crează"
 },"pluralForm" :"nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));"
 }
