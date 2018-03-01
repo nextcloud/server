@@ -115,7 +115,7 @@
 		 */
 		render: function() {
 			// Menu is destroyed on every change, we need to init it
-			OC.unregisterMenu($('.crumbmenu'), $('.crumbmenu > .popovermenu'));
+			OC.unregisterMenu($('.crumbmenu > .icon-more'), $('.crumbmenu > .popovermenu'));
 
 			var parts = this._makeCrumbs(this.dir || '/');
 			var $crumb;
@@ -195,7 +195,7 @@
 			}
 
 			// Menu is destroyed on every change, we need to init it
-			OC.registerMenu($('.crumbmenu'), $('.crumbmenu > .popovermenu'));
+			OC.registerMenu($('.crumbmenu > .icon-more'), $('.crumbmenu > .popovermenu'));
 
 			this._resize();
 		},
@@ -218,7 +218,7 @@
 			// menu part
 			crumbs.push({
 				class: 'crumbmenu hidden',
-				linkclass: 'icon-more'
+				linkclass: 'icon-more menutoggle'
 			});
 			// root part
 			crumbs.push({
