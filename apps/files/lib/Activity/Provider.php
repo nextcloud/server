@@ -28,6 +28,11 @@ use OCP\Activity\IEvent;
 use OCP\Activity\IEventMerger;
 use OCP\Activity\IManager;
 use OCP\Activity\IProvider;
+use OCP\Files\Folder;
+use OCP\Files\InvalidPathException;
+use OCP\Files\IRootFolder;
+use OCP\Files\Node;
+use OCP\Files\NotFoundException;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUser;
@@ -53,24 +58,31 @@ class Provider implements IProvider {
 	/** @var IUserManager */
 	protected $userManager;
 
+	/** @var IRootFolder */
+	protected $rootFolder;
+
 	/** @var IEventMerger */
 	protected $eventMerger;
 
 	/** @var string[] cached displayNames - key is the UID and value the displayname */
 	protected $displayNames = [];
 
+	protected $fileIsEncrypted = false;
+
 	/**
 	 * @param IFactory $languageFactory
 	 * @param IURLGenerator $url
 	 * @param IManager $activityManager
 	 * @param IUserManager $userManager
+	 * @param IRootFolder $rootFolder
 	 * @param IEventMerger $eventMerger
 	 */
-	public function __construct(IFactory $languageFactory, IURLGenerator $url, IManager $activityManager, IUserManager $userManager, IEventMerger $eventMerger) {
+	public function __construct(IFactory $languageFactory, IURLGenerator $url, IManager $activityManager, IUserManager $userManager, IRootFolder $rootFolder, IEventMerger $eventMerger) {
 		$this->languageFactory = $languageFactory;
 		$this->url = $url;
 		$this->activityManager = $activityManager;
 		$this->userManager = $userManager;
+		$this->rootFolder = $rootFolder;
 		$this->eventMerger = $eventMerger;
 	}
 
@@ -101,6 +113,14 @@ class Provider implements IProvider {
 		return $this->parseLongVersion($event, $previousEvent);
 	}
 
+	protected function setIcon(IEvent $event, $icon) {
+		if ($this->activityManager->getRequirePNG()) {
+			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', $icon . '.png')));
+		} else {
+			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', $icon . '.svg')));
+		}
+	}
+
 	/**
 	 * @param IEvent $event
 	 * @param IEvent|null $previousEvent
@@ -113,41 +133,21 @@ class Provider implements IProvider {
 
 		if ($event->getSubject() === 'created_by') {
 			$subject = $this->l->t('Created by {user}');
-			if ($this->activityManager->getRequirePNG()) {
-				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'add-color.png')));
-			} else {
-				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'add-color.svg')));
-			}
+			$this->setIcon($event, 'add-color');
 		} else if ($event->getSubject() === 'changed_by') {
 			$subject = $this->l->t('Changed by {user}');
-			if ($this->activityManager->getRequirePNG()) {
-				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'change.png')));
-			} else {
-				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'change.svg')));
-			}
+			$this->setIcon($event, 'change');
 		} else if ($event->getSubject() === 'deleted_by') {
 			$subject = $this->l->t('Deleted by {user}');
-			if ($this->activityManager->getRequirePNG()) {
-				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'delete-color.png')));
-			} else {
-				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'delete-color.svg')));
-			}
+			$this->setIcon($event, 'delete-color');
 		} else if ($event->getSubject() === 'restored_by') {
 			$subject = $this->l->t('Restored by {user}');
 		} else if ($event->getSubject() === 'renamed_by') {
 			$subject = $this->l->t('Renamed by {user}');
-			if ($this->activityManager->getRequirePNG()) {
-				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'change.png')));
-			} else {
-				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'change.svg')));
-			}
+			$this->setIcon($event, 'change');
 		} else if ($event->getSubject() === 'moved_by') {
 			$subject = $this->l->t('Moved by {user}');
-			if ($this->activityManager->getRequirePNG()) {
-				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'change.png')));
-			} else {
-				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'change.svg')));
-			}
+			$this->setIcon($event, 'change');
 		} else {
 			throw new \InvalidArgumentException();
 		}
@@ -170,91 +170,70 @@ class Provider implements IProvider {
 	 * @since 11.0.0
 	 */
 	public function parseLongVersion(IEvent $event, IEvent $previousEvent = null) {
+		$this->fileIsEncrypted = false;
 		$parsedParameters = $this->getParameters($event);
 
 		if ($event->getSubject() === 'created_self') {
 			$subject = $this->l->t('You created {file}');
-			if ($this->activityManager->getRequirePNG()) {
-				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'add-color.png')));
-			} else {
-				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'add-color.svg')));
+			if ($this->fileIsEncrypted) {
+				$subject = $this->l->t('You created an encrypted file in {file}');
 			}
+			$this->setIcon($event, 'add-color');
 		} else if ($event->getSubject() === 'created_by') {
 			$subject = $this->l->t('{user} created {file}');
-			if ($this->activityManager->getRequirePNG()) {
-				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'add-color.png')));
-			} else {
-				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'add-color.svg')));
+			if ($this->fileIsEncrypted) {
+				$subject = $this->l->t('{user} created an encrypted file in {file}');
 			}
+			$this->setIcon($event, 'add-color');
 		} else if ($event->getSubject() === 'created_public') {
 			$subject = $this->l->t('{file} was created in a public folder');
-			if ($this->activityManager->getRequirePNG()) {
-				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'add-color.png')));
-			} else {
-				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'add-color.svg')));
-			}
+			$this->setIcon($event, 'add-color');
 		} else if ($event->getSubject() === 'changed_self') {
 			$subject = $this->l->t('You changed {file}');
-			if ($this->activityManager->getRequirePNG()) {
-				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'change.png')));
-			} else {
-				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'change.svg')));
+			if ($this->fileIsEncrypted) {
+				$subject = $this->l->t('You changed an encrypted file in {file}');
 			}
+			$this->setIcon($event, 'change');
 		} else if ($event->getSubject() === 'changed_by') {
 			$subject = $this->l->t('{user} changed {file}');
-			if ($this->activityManager->getRequirePNG()) {
-				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'change.png')));
-			} else {
-				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'change.svg')));
+			if ($this->fileIsEncrypted) {
+				$subject = $this->l->t('{user} changed an encrypted file in {file}');
 			}
+			$this->setIcon($event, 'change');
 		} else if ($event->getSubject() === 'deleted_self') {
 			$subject = $this->l->t('You deleted {file}');
-			if ($this->activityManager->getRequirePNG()) {
-				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'delete-color.png')));
-			} else {
-				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'delete-color.svg')));
+			if ($this->fileIsEncrypted) {
+				$subject = $this->l->t('You deleted an encrypted file in {file}');
 			}
+			$this->setIcon($event, 'delete-color');
 		} else if ($event->getSubject() === 'deleted_by') {
 			$subject = $this->l->t('{user} deleted {file}');
-			if ($this->activityManager->getRequirePNG()) {
-				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'delete-color.png')));
-			} else {
-				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'delete-color.svg')));
+			if ($this->fileIsEncrypted) {
+				$subject = $this->l->t('{user} deleted an encrypted file in {file}');
 			}
+			$this->setIcon($event, 'delete-color');
 		} else if ($event->getSubject() === 'restored_self') {
 			$subject = $this->l->t('You restored {file}');
 		} else if ($event->getSubject() === 'restored_by') {
 			$subject = $this->l->t('{user} restored {file}');
 		} else if ($event->getSubject() === 'renamed_self') {
 			$subject = $this->l->t('You renamed {oldfile} to {newfile}');
-			if ($this->activityManager->getRequirePNG()) {
-				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'change.png')));
-			} else {
-				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'change.svg')));
-			}
+			$this->setIcon($event, 'change');
 		} else if ($event->getSubject() === 'renamed_by') {
 			$subject = $this->l->t('{user} renamed {oldfile} to {newfile}');
-			if ($this->activityManager->getRequirePNG()) {
-				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'change.png')));
-			} else {
-				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'change.svg')));
-			}
+			$this->setIcon($event, 'change');
 		} else if ($event->getSubject() === 'moved_self') {
 			$subject = $this->l->t('You moved {oldfile} to {newfile}');
-			if ($this->activityManager->getRequirePNG()) {
-				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'change.png')));
-			} else {
-				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'change.svg')));
-			}
+			$this->setIcon($event, 'change');
 		} else if ($event->getSubject() === 'moved_by') {
 			$subject = $this->l->t('{user} moved {oldfile} to {newfile}');
-			if ($this->activityManager->getRequirePNG()) {
-				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'change.png')));
-			} else {
-				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', 'change.svg')));
-			}
+			$this->setIcon($event, 'change');
 		} else {
 			throw new \InvalidArgumentException();
+		}
+
+		if ($this->fileIsEncrypted) {
+			$event->setSubject($event->getSubject() . '_enc', $event->getSubjectParameters());
 		}
 
 		if (!isset($parsedParameters['user'])) {
@@ -361,6 +340,30 @@ class Provider implements IProvider {
 			throw new \InvalidArgumentException('Could not generate file parameter');
 		}
 
+		$encryptionContainer = $this->getEndToEndEncryptionContainer($id, $path);
+		if ($encryptionContainer instanceof Folder) {
+			$this->fileIsEncrypted = true;
+			try {
+				$fullPath = rtrim($encryptionContainer->getPath(), '/');
+				// Remove /user/files/...
+				list(,,, $path) = explode('/', $fullPath, 4);
+				if (!$path) {
+					throw new InvalidPathException('Path could not be split correctly');
+				}
+
+				return [
+					'type' => 'file',
+					'id' => $encryptionContainer->getId(),
+					'name' => $encryptionContainer->getName(),
+					'path' => $path,
+					'link' => $this->url->linkToRouteAbsolute('files.viewcontroller.showFile', ['fileid' => $encryptionContainer->getId()]),
+				];
+			} catch (\Exception $e) {
+				// fall back to the normal one
+				$this->fileIsEncrypted = false;
+			}
+		}
+
 		return [
 			'type' => 'file',
 			'id' => $id,
@@ -368,6 +371,101 @@ class Provider implements IProvider {
 			'path' => trim($path, '/'),
 			'link' => $this->url->linkToRouteAbsolute('files.viewcontroller.showFile', ['fileid' => $id]),
 		];
+	}
+
+	protected $fileEncrypted = [];
+
+	/**
+	 * Check if a file is end2end encrypted
+	 * @param int $fileId
+	 * @param string $path
+	 * @return Folder|null
+	 */
+	protected function getEndToEndEncryptionContainer($fileId, $path) {
+		if (isset($this->fileEncrypted[$fileId])) {
+			return $this->fileEncrypted[$fileId];
+		}
+
+		$fileName = basename($path);
+		if (!preg_match('/^[0-9a-fA-F]{32}$/', $fileName)) {
+			$this->fileEncrypted[$fileId] = false;
+			return $this->fileEncrypted[$fileId];
+		}
+
+		$userFolder = $this->rootFolder->getUserFolder($this->activityManager->getCurrentUserId());
+		$files = $userFolder->getById($fileId);
+		if (empty($files)) {
+			try {
+				// Deleted, try with parent
+				$file = $this->findExistingParent($userFolder, dirname($path));
+			} catch (NotFoundException $e) {
+				return null;
+			}
+
+			if (!$file instanceof Folder || !$file->isEncrypted()) {
+				return null;
+			}
+
+			$this->fileEncrypted[$fileId] = $file;
+			return $file;
+		}
+
+		$file = array_shift($files);
+
+		if ($file instanceof Folder && $file->isEncrypted()) {
+			// If the folder is encrypted, it is the Container,
+			// but can be the name is just fine.
+			$this->fileEncrypted[$fileId] = true;
+			return null;
+		}
+
+		$this->fileEncrypted[$fileId] = $this->getParentEndToEndEncryptionContainer($userFolder, $file);
+		return $this->fileEncrypted[$fileId];
+	}
+
+	/**
+	 * @param Folder $userFolder
+	 * @param string $path
+	 * @return Folder
+	 * @throws NotFoundException
+	 */
+	protected function findExistingParent(Folder $userFolder, $path) {
+		if ($path === '/') {
+			throw new NotFoundException('Reached the root');
+		}
+
+		try {
+			$folder = $userFolder->get(dirname($path));
+		} catch (NotFoundException $e) {
+			return $this->findExistingParent($userFolder, dirname($path));
+		}
+
+		return $folder;
+	}
+
+	/**
+	 * Check all parents until the user's root folder if one is encrypted
+	 *
+	 * @param Folder $userFolder
+	 * @param Node $file
+	 * @return Node|null
+	 */
+	protected function getParentEndToEndEncryptionContainer(Folder $userFolder, Node $file) {
+		try {
+			$parent = $file->getParent();
+
+			if ($userFolder->getId() === $parent->getId()) {
+				return null;
+			}
+		} catch (\Exception $e) {
+			return null;
+		}
+
+		if ($parent->isEncrypted()) {
+			return $parent;
+		}
+
+		return $this->getParentEndToEndEncryptionContainer($userFolder, $parent);
 	}
 
 	/**
