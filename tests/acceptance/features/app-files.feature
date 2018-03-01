@@ -80,7 +80,8 @@ Feature: app-files
     And I visit the direct download shared link I wrote down
     And I see that the current page is the Authenticate page for the direct download shared link I wrote down
     And I authenticate with password "abcdef"
-    Then I see that the current page is the direct download shared link I wrote down
+    # download starts no page redirection
+    And I see that the current page is the Authenticate page for the direct download shared link I wrote down
 
   Scenario: show the input field for tags in the details view
     Given I am logged in
