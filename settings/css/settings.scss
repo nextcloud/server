@@ -494,9 +494,10 @@ table.grid {
 td, th {
 	&.name {
 		padding-left: .8em;
-		width: 10em;
-		min-width: 10em;
-		max-width: 10em;
+		min-width: 5em;
+		max-width: 12em;
+		text-overflow: ellipsis;
+		overflow: hidden;
 	}
 	&.password {
 		padding-left: .8em;
@@ -510,10 +511,15 @@ td, th {
 	&.password,
 	&.displayName,
 	&.mailAddress {
-		width: 12em;
-		min-width: 12em;
+		min-width: 5em;
 		max-width: 12em;
 		cursor: pointer;
+		span {
+			width: 90%;
+			display: inline-block;
+			text-overflow: ellipsis;
+			overflow: hidden;
+		}
 	}
 	&.mailAddress {
 		cursor: pointer;
