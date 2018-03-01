@@ -1048,21 +1048,6 @@ $(document).ready(function () {
 			}));
 			return false;
 		}
-		if ($.trim(password) === '' && !$('#CheckboxMailOnUserCreate').is(':checked')) {
-			OC.Notification.showTemporary(t('settings', 'Error creating user: {message}', {
-				message: t('settings', 'A valid password must be provided')
-			}));
-			return false;
-		}
-		if (!$('#CheckboxMailOnUserCreate').is(':checked')) {
-			email = '';
-		}
-		if ($('#CheckboxMailOnUserCreate').is(':checked') && $.trim(email) === '') {
-			OC.Notification.showTemporary(t('settings', 'Error creating user: {message}', {
-				message: t('settings', 'A valid email must be provided')
-			}));
-			return false;
-		}
 
 		var promise;
 		if (UserDeleteHandler) {
