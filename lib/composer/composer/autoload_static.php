@@ -913,7 +913,6 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Settings\\Controller\\ChangePasswordController' => __DIR__ . '/../../..' . '/settings/Controller/ChangePasswordController.php',
         'OC\\Settings\\Controller\\CheckSetupController' => __DIR__ . '/../../..' . '/settings/Controller/CheckSetupController.php',
         'OC\\Settings\\Controller\\CommonSettingsTrait' => __DIR__ . '/../../..' . '/settings/Controller/CommonSettingsTrait.php',
-        'OC\\Settings\\Controller\\EncryptionController' => __DIR__ . '/../../..' . '/settings/Controller/EncryptionController.php',
         'OC\\Settings\\Controller\\GroupsController' => __DIR__ . '/../../..' . '/settings/Controller/GroupsController.php',
         'OC\\Settings\\Controller\\LogSettingsController' => __DIR__ . '/../../..' . '/settings/Controller/LogSettingsController.php',
         'OC\\Settings\\Controller\\MailSettingsController' => __DIR__ . '/../../..' . '/settings/Controller/MailSettingsController.php',

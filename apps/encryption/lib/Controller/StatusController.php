@@ -73,12 +73,6 @@ class StatusController extends Controller {
 		$status = 'error';
 		$message = 'no valid init status';
 		switch( $this->session->getStatus()) {
-			case Session::RUN_MIGRATION:
-				$status = 'interactionNeeded';
-				$message = (string)$this->l->t(
-					'You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run \'occ encryption:migrate\' or contact your administrator'
-				);
-				break;
 			case Session::INIT_EXECUTED:
 				$status = 'interactionNeeded';
 				$message = (string)$this->l->t(

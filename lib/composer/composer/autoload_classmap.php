@@ -883,7 +883,6 @@ return array(
     'OC\\Settings\\Controller\\ChangePasswordController' => $baseDir . '/settings/Controller/ChangePasswordController.php',
     'OC\\Settings\\Controller\\CheckSetupController' => $baseDir . '/settings/Controller/CheckSetupController.php',
     'OC\\Settings\\Controller\\CommonSettingsTrait' => $baseDir . '/settings/Controller/CommonSettingsTrait.php',
-    'OC\\Settings\\Controller\\EncryptionController' => $baseDir . '/settings/Controller/EncryptionController.php',
     'OC\\Settings\\Controller\\GroupsController' => $baseDir . '/settings/Controller/GroupsController.php',
     'OC\\Settings\\Controller\\LogSettingsController' => $baseDir . '/settings/Controller/LogSettingsController.php',
     'OC\\Settings\\Controller\\MailSettingsController' => $baseDir . '/settings/Controller/MailSettingsController.php',
