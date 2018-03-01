@@ -95,11 +95,13 @@ class GeneratorTest extends \Test\TestCase {
 			->willReturn('1000-1000-max.png');
 		$maxPreview->method('getMimeType')
 			->willReturn('image/png');
+		$maxPreview->method('getSize')->willReturn(42);
 
 		$previewFolder->method('getDirectoryListing')
 			->willReturn([$maxPreview]);
 
 		$previewFile = $this->createMock(ISimpleFile::class);
+		$previewFile->method('getSize')->willReturn(101);
 
 		$previewFolder->method('getFile')
 			->with($this->equalTo('128-128.png'))
@@ -207,6 +209,7 @@ class GeneratorTest extends \Test\TestCase {
 		$maxPreview->expects($this->once())
 			->method('putContent')
 			->with($this->equalTo('my data'));
+		$maxPreview->method('getSize')->willReturn(42);
 
 		$previewFolder->method('getFile')
 			->with($this->equalTo('128-128.png'))
@@ -228,6 +231,7 @@ class GeneratorTest extends \Test\TestCase {
 		$previewFile->expects($this->once())
 			->method('putContent')
 			->with('my resized data');
+		$previewFile->method('getSize')->willReturn(101);
 
 		$this->eventDispatcher->expects($this->once())
 			->method('dispatch')
@@ -369,6 +373,7 @@ class GeneratorTest extends \Test\TestCase {
 			->willReturn($maxX . '-' . $maxY . '-max.png');
 		$maxPreview->method('getMimeType')
 			->willReturn('image/png');
+		$maxPreview->method('getSize')->willReturn(42);
 
 		$previewFolder->method('getDirectoryListing')
 			->willReturn([$maxPreview]);
@@ -390,8 +395,10 @@ class GeneratorTest extends \Test\TestCase {
 		$image->method('width')->willReturn($maxX);
 		$image->method('valid')->willReturn(true);
 		$image->method('dataMimeType')->willReturn('image/png');
+		$image->method('data')->willReturn('my image data');
 
 		$preview = $this->createMock(ISimpleFile::class);
+		$preview->method('getSize')->willReturn(101);
 		$previewFolder->method('newFile')
 			->with($this->equalTo($filename))
 			->willReturn($preview);

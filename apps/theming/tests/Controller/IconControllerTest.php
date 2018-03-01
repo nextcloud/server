@@ -98,9 +98,10 @@ class IconControllerTest extends TestCase {
 
 	private function iconFileMock($filename, $data) {
 		$icon = $this->getMockBuilder('OCP\Files\File')->getMock();
-		$icon->expects($this->any())->method('getContent')->willReturn($data);
-		$icon->expects($this->any())->method('getMimeType')->willReturn('image type');
-		$icon->expects($this->any())->method('getEtag')->willReturn('my etag');
+		$icon->method('getContent')->willReturn($data);
+		$icon->method('getMimeType')->willReturn('image type');
+		$icon->method('getEtag')->willReturn('my etag');
+		$icon->method('getMTime')->willReturn(42);
 		$icon->method('getName')->willReturn($filename);
 		return new SimpleFile($icon);
 	}

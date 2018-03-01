@@ -41,7 +41,7 @@ class IconBuilderTest extends TestCase {
 
 	/** @var IConfig */
 	protected $config;
-	/** @var IAppData */
+	/** @var IAppData|\PHPUnit_Framework_MockObject_MockObject */
 	protected $appData;
 	/** @var ThemingDefaults */
 	protected $themingDefaults;
@@ -127,6 +127,9 @@ class IconBuilderTest extends TestCase {
 		$this->themingDefaults->expects($this->once())
 			->method('getColorPrimary')
 			->willReturn($color);
+		$this->appData->method('getFolder')
+			->with('images')
+			->willThrowException(new NotFoundException);
 
 		$expectedIcon = new \Imagick(realpath(dirname(__FILE__)). "/data/" . $file);
 		$icon = new \Imagick();
@@ -156,6 +159,10 @@ class IconBuilderTest extends TestCase {
 		$this->themingDefaults->expects($this->once())
 			->method('getColorPrimary')
 			->willReturn($color);
+
+		$this->appData->method('getFolder')
+			->with('images')
+			->willThrowException(new NotFoundException);
 
 		$expectedIcon = new \Imagick(realpath(dirname(__FILE__)). "/data/" . $file);
 		$actualIcon = $this->iconBuilder->getFavicon($app);

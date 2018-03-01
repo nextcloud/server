@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016 Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -38,7 +39,7 @@ interface ISimpleFile {
 	 * @return string
 	 * @since 11.0.0
 	 */
-	public function getName();
+	public function getName(): string ;
 
 	/**
 	 * Get the size in bytes
@@ -46,7 +47,7 @@ interface ISimpleFile {
 	 * @return int
 	 * @since 11.0.0
 	 */
-	public function getSize();
+	public function getSize(): int;
 
 	/**
 	 * Get the ETag
@@ -54,7 +55,7 @@ interface ISimpleFile {
 	 * @return string
 	 * @since 11.0.0
 	 */
-	public function getETag();
+	public function getETag(): string;
 
 	/**
 	 * Get the last modification time
@@ -62,7 +63,7 @@ interface ISimpleFile {
 	 * @return int
 	 * @since 11.0.0
 	 */
-	public function getMTime();
+	public function getMTime(): int;
 
 	/**
 	 * Get the content
@@ -70,7 +71,7 @@ interface ISimpleFile {
 	 * @return string
 	 * @since 11.0.0
 	 */
-	public function getContent();
+	public function getContent(): string;
 
 	/**
 	 * Overwrite the file
@@ -79,7 +80,7 @@ interface ISimpleFile {
 	 * @throws NotPermittedException
 	 * @since 11.0.0
 	 */
-	public function putContent($data);
+	public function putContent(string $data);
 
 	/**
 	 * Delete the file
@@ -95,5 +96,5 @@ interface ISimpleFile {
 	 * @return string
 	 * @since 11.0.0
 	 */
-	public function getMimeType();
+	public function getMimeType(): string;
 }
