@@ -90,16 +90,16 @@ OC.L10N.register(
     "Username" : "Uzantonomo",
     "Done" : "Farita",
     "Show user backend" : "Montri uzantomotoron",
-    "E-Mail" : "Retpoŝtadreso",
-    "Create" : "Krei",
     "Everyone" : "Ĉiuj",
     "Admins" : "Administrantoj",
     "Unlimited" : "Senlima",
     "Other" : "Alia",
     "Quota" : "Kvoto",
+    "E-Mail" : "Retpoŝtadreso",
     "change full name" : "ŝanĝi plenan nomon",
     "set new password" : "agordi novan pasvorton",
     "change email address" : "ŝanĝi retpoŝtadreson",
-    "Default" : "Defaŭlta"
+    "Default" : "Defaŭlta",
+    "Create" : "Krei"
 },
 "nplurals=2; plural=(n != 1);");

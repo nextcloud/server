@@ -48,15 +48,15 @@ OC.L10N.register(
     "Change password" : "কূটশব্দ পরিবর্তন করুন",
     "Username" : "ব্যবহারকারী",
     "Done" : "শেষ হলো",
-    "Create" : "তৈরী কর",
-    "Admin Recovery Password" : "প্রশাসক পূণরূদ্ধার কুটশব্দ",
     "Everyone" : "সকলে",
     "Admins" : "প্রশাসন",
     "Unlimited" : "অসীম",
     "Other" : "অন্যান্য",
     "Quota" : "কোটা",
+    "Admin Recovery Password" : "প্রশাসক পূণরূদ্ধার কুটশব্দ",
     "change full name" : "পুরোনাম পরিবর্তন করুন",
     "set new password" : "নতুন কূটশব্দ নির্ধারণ করুন",
-    "Default" : "পূর্বনির্ধারিত"
+    "Default" : "পূর্বনির্ধারিত",
+    "Create" : "তৈরী কর"
 },
 "nplurals=2; plural=(n != 1);");

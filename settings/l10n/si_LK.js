@@ -27,8 +27,8 @@ OC.L10N.register(
     "New password" : "නව මුරපදය",
     "Change password" : "මුරපදය වෙනස් කිරීම",
     "Username" : "පරිශීලක නම",
-    "Create" : "තනන්න",
     "Other" : "වෙනත්",
-    "Quota" : "සලාකය"
+    "Quota" : "සලාකය",
+    "Create" : "තනන්න"
 },
 "nplurals=2; plural=(n != 1);");

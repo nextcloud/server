@@ -8,6 +8,8 @@
     "Notify members of the following groups about available updates:" : "Обавести чланове следећих група о доступности нових верзија:",
     "Only notification for app updates are available." : "Доступна су само обавештења о новим верзијама апликација.",
     "The selected update channel does not support updates of the server." : "Означени канал за ажурирање не подржава обавештења о новим верзијама.",
+    "A new version is available: {newVersionString}" : "Доступна је нова верзија: {newVersionString}",
+    "Checked on {lastCheckedDate}" : "Проверено {lastCheckedDate}",
     "Could not start updater, please try the manual update" : "Не могу да покренем програм за ажурирање, покушајте ручно ажурирање",
     "Update notifications" : "Обавештења о ажурирању",
     "Channel updated" : "Канал ажуриран",

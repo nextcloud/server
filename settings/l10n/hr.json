@@ -91,17 +91,17 @@
     "Change password" : "Promijenite lozinku",
     "Username" : "Korisničko ime",
     "Show storage location" : "Prikaži mjesto pohrane",
-    "Create" : "Kreirajte",
-    "Admin Recovery Password" : "Admin lozinka za oporavak",
-    "Enter the recovery password in order to recover the users files during password change" : "Unesite lozinku za oporavak da biste oporavili korisničke datoteke tijekom promjene lozinke",
     "Everyone" : "Svi",
     "Admins" : "Admins",
     "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")" : "Molimo unesite kvotu za spremanje (npr: \"512 MB\" ili \"12 GB\")",
     "Unlimited" : "Neograničeno",
     "Other" : "Ostalo",
     "Quota" : "Kvota",
+    "Admin Recovery Password" : "Admin lozinka za oporavak",
+    "Enter the recovery password in order to recover the users files during password change" : "Unesite lozinku za oporavak da biste oporavili korisničke datoteke tijekom promjene lozinke",
     "change full name" : "promijenite puno ime",
     "set new password" : "postavite novu lozinku",
-    "Default" : "Zadano"
+    "Default" : "Zadano",
+    "Create" : "Kreirajte"
 },"pluralForm" :"nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;"
 }

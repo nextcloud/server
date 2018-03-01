@@ -41,12 +41,12 @@ OC.L10N.register(
     "New password" : "Mật khẩu mới",
     "Change password" : "Đổi mật khẩu",
     "Username" : "Tên đăng nhập",
-    "Create" : "Tạo",
     "Unlimited" : "Không giới hạn",
     "Other" : "Khác",
     "Quota" : "Hạn ngạch",
     "change full name" : "Đổi họ và t",
     "set new password" : "đặt mật khẩu mới",
-    "Default" : "Mặc định"
+    "Default" : "Mặc định",
+    "Create" : "Tạo"
 },
 "nplurals=1; plural=0;");

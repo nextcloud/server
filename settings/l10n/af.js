@@ -66,10 +66,6 @@ OC.L10N.register(
     "Create new app password" : "Skep nuwe toepwagwoord",
     "Username" : "Gebruikersnaam",
     "Settings" : "Instellings",
-    "Show email address" : "Toon e-posadres",
-    "Send email to new user" : "Stuur e-pos aan nuwe gebruiker",
-    "E-Mail" : "E-pos",
-    "Create" : "Skep",
     "Everyone" : "Almal",
     "Default quota" : "Verstekkwota",
     "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")" : "Voer asb. ’n verstekkwota in (bv.: “512 MB” of “12 GB”)",
@@ -77,9 +73,13 @@ OC.L10N.register(
     "Group admin for" : "Groepadmin vir",
     "Quota" : "Kwota",
     "Last login" : "Laaste aantekening",
+    "E-Mail" : "E-pos",
     "change full name" : "verander volle naam",
     "set new password" : "stel nuwe wagwoord",
     "change email address" : "verander e-posadres",
-    "Default" : "Verstek"
+    "Default" : "Verstek",
+    "Show email address" : "Toon e-posadres",
+    "Send email to new user" : "Stuur e-pos aan nuwe gebruiker",
+    "Create" : "Skep"
 },
 "nplurals=2; plural=(n != 1);");

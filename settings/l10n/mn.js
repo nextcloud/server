@@ -84,16 +84,16 @@ OC.L10N.register(
     "Username" : "Хэрэглэгчийн нэр",
     "Done" : "Дууссан",
     "Settings" : "Тохиргоо",
-    "Show email address" : "Цахим шуудангийн хаягийг харуулах",
-    "Send email to new user" : "Шинэ хэрэглэгч рүү цахим шуудан илгээх",
-    "E-Mail" : "Цахим шуудангийн хаяг",
-    "Create" : "Шинээр үүсгэх",
     "Everyone" : "Бүх хэрэглэгчид",
     "Admins" : "Админууд",
     "Disabled" : "Идэвхигүй",
     "Other" : "Бусад",
     "Last login" : "Сүүлд нэвтэрсэн огноо",
+    "E-Mail" : "Цахим шуудангийн хаяг",
     "set new password" : "шинэ нууц үг тохируулах",
-    "change email address" : "цахим шуудангийн хаягийг өөрчлөх"
+    "change email address" : "цахим шуудангийн хаягийг өөрчлөх",
+    "Show email address" : "Цахим шуудангийн хаягийг харуулах",
+    "Send email to new user" : "Шинэ хэрэглэгч рүү цахим шуудан илгээх",
+    "Create" : "Шинээр үүсгэх"
 },
 "nplurals=2; plural=(n != 1);");

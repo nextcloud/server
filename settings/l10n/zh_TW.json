@@ -336,12 +336,6 @@
     "Show storage location" : "顯示儲存位置",
     "Show user backend" : "顯示使用者資料後端",
     "Show last login" : "顯示上次登入時間",
-    "Show email address" : "顯示電子郵件信箱",
-    "Send email to new user" : "寄送郵件給新用戶",
-    "E-Mail" : "電子郵件",
-    "Create" : "建立",
-    "Admin Recovery Password" : "管理者復原密碼",
-    "Enter the recovery password in order to recover the users files during password change" : "為了修改密碼時能夠取回使用者資料，請輸入另一組還原用密碼",
     "Everyone" : "所有人",
     "Admins" : "管理者",
     "Disabled" : "已停用",
@@ -353,10 +347,16 @@
     "Quota" : "容量限制",
     "Storage location" : "儲存位址",
     "User backend" : "使用者資料後端",
+    "E-Mail" : "電子郵件",
+    "Admin Recovery Password" : "管理者復原密碼",
+    "Enter the recovery password in order to recover the users files during password change" : "為了修改密碼時能夠取回使用者資料，請輸入另一組還原用密碼",
     "change full name" : "變更全名",
     "set new password" : "設定新密碼",
     "change email address" : "更改電子郵件地址",
     "Default" : "預設",
-    "__language_name__" : "正體中文（臺灣）"
+    "__language_name__" : "正體中文（臺灣）",
+    "Show email address" : "顯示電子郵件信箱",
+    "Send email to new user" : "寄送郵件給新用戶",
+    "Create" : "建立"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -25,6 +25,7 @@ OC.L10N.register(
     "Download" : "Niðurhal",
     "Rename" : "Endurnefna",
     "Move or copy" : "Færa eða afrita",
+    "Copy" : "Afrita",
     "Target folder" : "Markmappa",
     "Delete" : "Eyða",
     "Disconnect storage" : "Aftengja geymslu",

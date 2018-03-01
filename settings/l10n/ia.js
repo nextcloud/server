@@ -202,17 +202,17 @@ OC.L10N.register(
     "Username" : "Nomine de usator",
     "Done" : "Preste",
     "Show storage location" : "Monstrar loco de immagazinage",
-    "Show email address" : "Monstrar adresse de e-posta",
-    "Send email to new user" : "Inviar message de e-posta a nove usator",
-    "E-Mail" : "E-posta",
-    "Create" : "Crear",
-    "Admin Recovery Password" : "Recuperation de Contrasigno del Administrator",
     "Everyone" : "Totos",
     "Admins" : "Administratores",
     "Default quota" : "Quota predefinite",
     "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")" : "Per favor, scribe le quota de immagazinage (p.ex. \"512 MB\" o \"12 GB\")",
     "Unlimited" : "Ilimitate",
     "Other" : "Altere",
-    "Quota" : "Quota"
+    "Quota" : "Quota",
+    "E-Mail" : "E-posta",
+    "Admin Recovery Password" : "Recuperation de Contrasigno del Administrator",
+    "Show email address" : "Monstrar adresse de e-posta",
+    "Send email to new user" : "Inviar message de e-posta a nove usator",
+    "Create" : "Crear"
 },
 "nplurals=2; plural=(n != 1);");

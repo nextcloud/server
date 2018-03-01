@@ -301,12 +301,6 @@
     "Show storage location" : "Amosar allugamientu d'almacenamientu",
     "Show user backend" : "Amosar backend d'usuarios",
     "Show last login" : "Amosar aniciu de sesión caberu",
-    "Show email address" : "Amosar direición de corréu",
-    "Send email to new user" : "Unviar corréu al usuariu nuevu",
-    "E-Mail" : "Corréu",
-    "Create" : "Crear",
-    "Admin Recovery Password" : "Recuperación de la contraseña d'alministración",
-    "Enter the recovery password in order to recover the users files during password change" : "Introduz la contraseña de recuperación col envís de recuperar los ficheros de los usuarios mientres el cambéu de contraseña.",
     "Everyone" : "Toos",
     "Admins" : "Almins",
     "Default quota" : "Cuota por defeutu",
@@ -317,9 +311,15 @@
     "Storage location" : "Allugamientu d'almacenamientu",
     "User backend" : "Backend d'usuarios",
     "Last login" : "Aniciu de sesión caberu",
+    "E-Mail" : "Corréu",
+    "Admin Recovery Password" : "Recuperación de la contraseña d'alministración",
+    "Enter the recovery password in order to recover the users files during password change" : "Introduz la contraseña de recuperación col envís de recuperar los ficheros de los usuarios mientres el cambéu de contraseña.",
     "change full name" : "camudar el nome completu",
     "set new password" : "afitar nueva contraseña",
     "change email address" : "camudar direición de corréu",
-    "Default" : "Predetermináu"
+    "Default" : "Predetermináu",
+    "Show email address" : "Amosar direición de corréu",
+    "Send email to new user" : "Unviar corréu al usuariu nuevu",
+    "Create" : "Crear"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

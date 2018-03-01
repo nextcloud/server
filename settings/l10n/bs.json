@@ -107,21 +107,21 @@
     "Username" : "Korisničko ime",
     "Show storage location" : "Prikaži mjesto pohrane",
     "Show user backend" : "Prikaži korisničku pozadinu (backend)",
-    "Show email address" : "Prikaži adresu e-pošte",
-    "Send email to new user" : "Pošalji e-poštu novom korisniku",
-    "E-Mail" : "E-pošta",
-    "Create" : "Kreiraj",
-    "Admin Recovery Password" : "Admin lozinka za oporavak",
-    "Enter the recovery password in order to recover the users files during password change" : "Unesite lozinku za oporavak da biste oporavili korisničke datoteke tokom promjene lozinke",
     "Everyone" : "Svi",
     "Admins" : "Administratori",
     "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")" : "Molim unesite kvotu za spremanje (npr: \"512 MB\" ili \"12 GB\")",
     "Unlimited" : "Neograničeno",
     "Other" : "Ostali",
     "Quota" : "Kvota",
+    "E-Mail" : "E-pošta",
+    "Admin Recovery Password" : "Admin lozinka za oporavak",
+    "Enter the recovery password in order to recover the users files during password change" : "Unesite lozinku za oporavak da biste oporavili korisničke datoteke tokom promjene lozinke",
     "change full name" : "promijeni puno ime",
     "set new password" : "postavi novu lozinku",
     "change email address" : "promjeni adresu e-pošte",
-    "Default" : "Zadano"
+    "Default" : "Zadano",
+    "Show email address" : "Prikaži adresu e-pošte",
+    "Send email to new user" : "Pošalji e-poštu novom korisniku",
+    "Create" : "Kreiraj"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }
