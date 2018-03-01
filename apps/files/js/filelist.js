@@ -1433,6 +1433,12 @@
 				$tr.addClass('appear transparent');
 				window.setTimeout(function() {
 					$tr.removeClass('transparent');
+					$("#fileList tr").each(function(index) {
+						if ($(this).hasClass("mouseOver")) {
+							$(this).removeClass("mouseOver");
+						}
+					});
+					$tr.addClass('mouseOver');
 				});
 			}
 
