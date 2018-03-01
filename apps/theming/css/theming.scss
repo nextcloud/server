@@ -101,13 +101,11 @@
 	}
 }
 
-@if variable_exists('theming-background-mime') and $theming-background-mime != ''  {
-	#body-login,
-	#firstrunwizard .firstrunwizard-header,
-	#theming-preview {
-		background-image: url(#{$image-login-background});
-		background-color: $color-primary;
-	}
+#body-login,
+#firstrunwizard .firstrunwizard-header,
+#theming-preview {
+	background-image: url(#{$image-login-background});
+	background-color: $color-primary;
 }
 
 input.primary,
