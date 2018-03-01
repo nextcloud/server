@@ -218,7 +218,7 @@ class ShareControllerTest extends \Test\TestCase {
 			->with('token')
 			->will($this->throwException(new \OCP\Share\Exceptions\ShareNotFound()));
 
-		$response = $this->shareController->authenticate('token');
+		$response = $this->shareController->authenticate('token', 'preview');
 		$expectedResponse =  new NotFoundResponse();
 		$this->assertEquals($expectedResponse, $response);
 	}
