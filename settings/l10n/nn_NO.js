@@ -50,13 +50,13 @@ OC.L10N.register(
     "New password" : "Nytt passord",
     "Change password" : "Endra passord",
     "Username" : "Brukarnamn",
-    "Create" : "Lag",
-    "Admin Recovery Password" : "Gjenopprettingspassord for administrator",
-    "Enter the recovery password in order to recover the users files during password change" : "Skriv inn gjenopprettingspassordet brukt for å gjenoppretta brukarfilene ved passordendring",
     "Unlimited" : "Ubegrensa",
     "Other" : "Anna",
     "Quota" : "Kvote",
+    "Admin Recovery Password" : "Gjenopprettingspassord for administrator",
+    "Enter the recovery password in order to recover the users files during password change" : "Skriv inn gjenopprettingspassordet brukt for å gjenoppretta brukarfilene ved passordendring",
     "set new password" : "lag nytt passord",
-    "Default" : "Standard"
+    "Default" : "Standard",
+    "Create" : "Lag"
 },
 "nplurals=2; plural=(n != 1);");

@@ -345,13 +345,7 @@
     "Show storage location" : "Mostrar a localização do armazenamento",
     "Show user backend" : "Mostrar interface do utilizador",
     "Show last login" : "Mostrar último login",
-    "Show email address" : "Mostrar endereço de email",
-    "Send email to new user" : "Enviar email ao novo utilizador",
     "When the password of a new user is left empty, an activation email with a link to set the password is sent." : "Quando a palavra-passe de um novo utilizador é deixada em branco, é-lhe enviado um e-mail com uma ligação para definir a nova palavra-passe.",
-    "E-Mail" : "Correio Eletrónico",
-    "Create" : "Criar",
-    "Admin Recovery Password" : "Recuperação da Palavra-passe de Administrador",
-    "Enter the recovery password in order to recover the users files during password change" : "Digite a senha de recuperação, a fim de recuperar os ficheiros dos utilizadores durante a mudança da palavra-passe",
     "Everyone" : "Para todos",
     "Admins" : "Administrador",
     "Disabled" : "Desactivado",
@@ -364,6 +358,9 @@
     "Storage location" : "Localização do armazenamento",
     "User backend" : "Backend do utilizador",
     "Last login" : "Último início de sessão",
+    "E-Mail" : "Correio Eletrónico",
+    "Admin Recovery Password" : "Recuperação da Palavra-passe de Administrador",
+    "Enter the recovery password in order to recover the users files during password change" : "Digite a senha de recuperação, a fim de recuperar os ficheiros dos utilizadores durante a mudança da palavra-passe",
     "change full name" : "alterar nome completo",
     "set new password" : "definir nova palavra-passe",
     "change email address" : "alterar endereço do correio eletrónico",
@@ -400,6 +397,9 @@
     "Follow us on Twitter!" : "Siga-nos no Twitter!",
     "Check out our blog!" : "Veja o nosso blog!",
     "Subscribe to our newsletter!" : "Subscreva as nossas notícias!",
+    "Show email address" : "Mostrar endereço de email",
+    "Send email to new user" : "Enviar email ao novo utilizador",
+    "Create" : "Criar",
     "Group name" : "Nome do grupo"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

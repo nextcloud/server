@@ -360,13 +360,7 @@
     "Show storage location" : "Mostra posizione di archiviazione",
     "Show user backend" : "Mostra il motore utente",
     "Show last login" : "Mostra ultimo accesso",
-    "Show email address" : "Mostra l'indirizzo email",
-    "Send email to new user" : "Invia email al nuovo utente",
     "When the password of a new user is left empty, an activation email with a link to set the password is sent." : "Quando la password del nuovo utente è lasciata vuota, un'email di attivazione con un collegamento per impostare la password è inviata all'utente.",
-    "E-Mail" : "Posta elettronica",
-    "Create" : "Crea",
-    "Admin Recovery Password" : "Password di ripristino amministrativa",
-    "Enter the recovery password in order to recover the users files during password change" : "Digita la password di ripristino per recuperare i file degli utenti durante la modifica della password.",
     "Everyone" : "Chiunque",
     "Admins" : "Amministratori",
     "Disabled" : "Disabilitati",
@@ -379,6 +373,9 @@
     "Storage location" : "Posizione di archiviazione",
     "User backend" : "Motore utente",
     "Last login" : "Ultimo accesso",
+    "E-Mail" : "Posta elettronica",
+    "Admin Recovery Password" : "Password di ripristino amministrativa",
+    "Enter the recovery password in order to recover the users files during password change" : "Digita la password di ripristino per recuperare i file degli utenti durante la modifica della password.",
     "change full name" : "modica nome completo",
     "set new password" : "imposta una nuova password",
     "change email address" : "cambia l'indirizzo email",
@@ -422,6 +419,9 @@
     "Follow us on Twitter!" : "Seguici su Twitter!",
     "Check out our blog!" : "Leggi il nostro blog!",
     "Subscribe to our newsletter!" : "Iscriviti alla nostra newsletter!",
+    "Show email address" : "Mostra l'indirizzo email",
+    "Send email to new user" : "Invia email al nuovo utente",
+    "Create" : "Crea",
     "Group name" : "Nome del gruppo"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

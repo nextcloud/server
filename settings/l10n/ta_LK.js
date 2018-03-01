@@ -26,8 +26,8 @@ OC.L10N.register(
     "New password" : "புதிய கடவுச்சொல்",
     "Change password" : "கடவுச்சொல்லை மாற்றுக",
     "Username" : "பயனாளர் பெயர்",
-    "Create" : "உருவாக்குக",
     "Other" : "மற்றவை",
-    "Quota" : "பங்கு"
+    "Quota" : "பங்கு",
+    "Create" : "உருவாக்குக"
 },
 "nplurals=2; plural=(n != 1);");

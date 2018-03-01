@@ -124,16 +124,16 @@ OC.L10N.register(
     "New password" : "Нова лозинка",
     "Change password" : "Смени лозинка",
     "Username" : "Корисничко име",
-    "Create" : "Создај",
-    "Admin Recovery Password" : "Обновување на Admin лозинката",
     "Everyone" : "Секој",
     "Admins" : "Администратори",
     "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")" : "Ве молам внесете квота за просторот (нпр: \"512 MB\" или \"12 GB\")",
     "Unlimited" : "Неограничено",
     "Other" : "Останато",
     "Quota" : "Квота",
+    "Admin Recovery Password" : "Обновување на Admin лозинката",
     "change full name" : "промена на целото име",
     "set new password" : "постави нова лозинка",
-    "Default" : "Предефиниран"
+    "Default" : "Предефиниран",
+    "Create" : "Создај"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

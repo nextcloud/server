@@ -359,13 +359,7 @@
     "Show storage location" : "Toon opslaglocatie",
     "Show user backend" : "Toon backend gebruiker",
     "Show last login" : "Toon laatste inlog",
-    "Show email address" : "Toon e-mailadres",
-    "Send email to new user" : "Verstuur e-mail aan nieuwe gebruiker",
     "When the password of a new user is left empty, an activation email with a link to set the password is sent." : "Als het wachtwoord van de nieuwe gebruiker blanco blijft wordt een activeringsmailt met link naar de gebruiker gestuurd om het wachtwoord in te stellen.",
-    "E-Mail" : "E-mail",
-    "Create" : "Aanmaken",
-    "Admin Recovery Password" : "Beheer herstel wachtwoord",
-    "Enter the recovery password in order to recover the users files during password change" : "Voer het herstel wachtwoord in om de gebruikersbestanden terug te halen bij wachtwoordwijziging",
     "Everyone" : "Iedereen",
     "Admins" : "Beheerders",
     "Disabled" : "Uitgeschakeld",
@@ -378,6 +372,9 @@
     "Storage location" : "Opslag locatie",
     "User backend" : "Backend gebruiker",
     "Last login" : "Laatste login",
+    "E-Mail" : "E-mail",
+    "Admin Recovery Password" : "Beheer herstel wachtwoord",
+    "Enter the recovery password in order to recover the users files during password change" : "Voer het herstel wachtwoord in om de gebruikersbestanden terug te halen bij wachtwoordwijziging",
     "change full name" : "wijzigen volledige naam",
     "set new password" : "Instellen nieuw wachtwoord",
     "change email address" : "wijzig e-mailadres",
@@ -421,6 +418,9 @@
     "Follow us on Twitter!" : "Volg ons op Twitter!",
     "Check out our blog!" : "Lees ons blog!",
     "Subscribe to our newsletter!" : "Abonneer jezelf op onze nieuwsbrief!",
+    "Show email address" : "Toon e-mailadres",
+    "Send email to new user" : "Verstuur e-mail aan nieuwe gebruiker",
+    "Create" : "Aanmaken",
     "Group name" : "Groepsnaam"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

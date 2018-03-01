@@ -34,9 +34,9 @@
     "New password" : "Neit Passwuert",
     "Change password" : "Passwuert änneren",
     "Username" : "Benotzernumm",
-    "E-Mail" : "E-Mail",
-    "Create" : "Erstellen",
     "Other" : "Aner",
-    "Quota" : "Quota"
+    "Quota" : "Quota",
+    "E-Mail" : "E-Mail",
+    "Create" : "Erstellen"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -32,10 +32,10 @@ OC.L10N.register(
     "New password" : "يېڭى ئىم",
     "Change password" : "ئىم ئۆزگەرت",
     "Username" : "ئىشلەتكۈچى ئاتى",
-    "Create" : "قۇر",
     "Unlimited" : "چەكسىز",
     "Other" : "باشقا",
     "set new password" : "يېڭى ئىم تەڭشە",
-    "Default" : "كۆڭۈلدىكى"
+    "Default" : "كۆڭۈلدىكى",
+    "Create" : "قۇر"
 },
 "nplurals=1; plural=0;");

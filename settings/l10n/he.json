@@ -184,21 +184,21 @@
     "Done" : "הסתיים",
     "Show storage location" : "הצגת מיקום אחסון",
     "Show user backend" : "הצגת צד אחורי למשתמש",
-    "Show email address" : "הצגת כתובת דואר אלקטרוני",
-    "Send email to new user" : "שליחת דואר אלקטרוני למשתמש חדש",
-    "E-Mail" : "דואר אלקטרוני",
-    "Create" : "יצירה",
-    "Admin Recovery Password" : "סיסמת השחזור של המנהל",
-    "Enter the recovery password in order to recover the users files during password change" : "יש להכניס את סיסמת השחזור לצורך שחזור של קבצי המשתמש במהלך החלפת סיסמא",
     "Everyone" : "כולם",
     "Admins" : "מנהלים",
     "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")" : "יש להכניס מכסת אחסון (לדוגמא: \"512 MB\" or \"12 GB\")",
     "Unlimited" : "ללא הגבלה",
     "Other" : "אחר",
     "Quota" : "מכסה",
+    "E-Mail" : "דואר אלקטרוני",
+    "Admin Recovery Password" : "סיסמת השחזור של המנהל",
+    "Enter the recovery password in order to recover the users files during password change" : "יש להכניס את סיסמת השחזור לצורך שחזור של קבצי המשתמש במהלך החלפת סיסמא",
     "change full name" : "שינוי שם מלא",
     "set new password" : "הגדרת סיסמא חדשה",
     "change email address" : "שינוי כתובת דואר אלקטרוני",
-    "Default" : "ברירת מחדל"
+    "Default" : "ברירת מחדל",
+    "Show email address" : "הצגת כתובת דואר אלקטרוני",
+    "Send email to new user" : "שליחת דואר אלקטרוני למשתמש חדש",
+    "Create" : "יצירה"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

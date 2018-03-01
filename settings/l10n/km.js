@@ -51,11 +51,11 @@ OC.L10N.register(
     "New password" : "ពាក្យ​សម្ងាត់​ថ្មី",
     "Change password" : "ប្តូរ​ពាក្យសម្ងាត់",
     "Username" : "ឈ្មោះ​អ្នកប្រើ",
-    "Create" : "បង្កើត",
-    "Admin Recovery Password" : "ការ​ស្វែង​រក​ពាក្យ​សម្ងាត់របស់ប្រធាន​វេបសាយ",
     "Unlimited" : "មិន​កំណត់",
     "Other" : "ផ្សេងៗ",
+    "Admin Recovery Password" : "ការ​ស្វែង​រក​ពាក្យ​សម្ងាត់របស់ប្រធាន​វេបសាយ",
     "set new password" : "កំណត់​ពាក្យ​សម្ងាត់​ថ្មី",
-    "Default" : "លំនាំ​ដើម"
+    "Default" : "លំនាំ​ដើម",
+    "Create" : "បង្កើត"
 },
 "nplurals=1; plural=0;");

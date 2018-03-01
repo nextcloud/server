@@ -5,6 +5,7 @@ OC.L10N.register(
     "Saved" : "Сачувано",
     "Admin" : "Администрација",
     "a safe home for all your data" : "сигурно место за све Ваше податке",
+    "Name cannot be empty" : "Име не може бити празно",
     "The given name is too long" : "Име је предугачко",
     "The given web address is too long" : "Адреса је предугачка",
     "The given slogan is too long" : "Слоган је предугачак",

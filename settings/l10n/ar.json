@@ -200,10 +200,6 @@
     "Follow us on Google+" : "تابعنا على Google+",
     "Like our Facebook page" : "قم بالإعجاب بصفحتنا على الفايسبوك",
     "Settings" : "الإعدادات",
-    "E-Mail" : "بريد إلكتروني",
-    "Create" : "انشئ",
-    "Admin Recovery Password" : "استعادة كلمة المرور للمسؤول",
-    "Enter the recovery password in order to recover the users files during password change" : "ادخل كلمة المرور المستعادة من اجل استرداد ملفات المستخدمين اثناء تغيير كلمة المرور",
     "Everyone" : "الجميع",
     "Admins" : "المدراء",
     "Disabled" : "معطّل",
@@ -211,6 +207,9 @@
     "Unlimited" : "غير محدود",
     "Other" : "شيء آخر",
     "Quota" : "حصه",
+    "E-Mail" : "بريد إلكتروني",
+    "Admin Recovery Password" : "استعادة كلمة المرور للمسؤول",
+    "Enter the recovery password in order to recover the users files during password change" : "ادخل كلمة المرور المستعادة من اجل استرداد ملفات المستخدمين اثناء تغيير كلمة المرور",
     "change full name" : "تغيير اسمك الكامل",
     "set new password" : "اعداد كلمة مرور جديدة",
     "Default" : "افتراضي",
@@ -224,6 +223,7 @@
     "Like our facebook page!" : "قم بالإعجاب بصفحتنا على الفايسبوك !",
     "Follow us on Twitter!" : "تابعنا على تويتر !",
     "Check out our blog!" : "إلقي نظرة على مدوّنتنا !",
+    "Create" : "انشئ",
     "Group name" : "إسم الفريق"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }
