@@ -1030,6 +1030,8 @@ code {
 			font-weight: normal;
 			color: nc-lighten($color-main-text, 33%);
 			opacity: .8;
+			width: 26px;
+			padding: 2px;
 		}
 		tr:hover {
 			background-color: inherit;
@@ -1137,10 +1139,11 @@ code {
 		flex-wrap: nowrap;
 		justify-content: space-between;
 		td {
-			display: block;
-			flex: 1 1;
+			flex: 1 1 auto;
 			margin: 0;
 			padding: 2px;
+			height: 26px;
+			width: 26px;
 			display: flex;
 			align-items: center;
 			justify-content: center;
