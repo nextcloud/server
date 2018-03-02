@@ -286,7 +286,7 @@ OCA = OCA || {};
 					} else if(objectsFound > 1000) {
 						message = t('user_ldap', 'More than 1,000 directory entries available.');
 					} else {
-						message = t('user_ldap', objectsFound + ' entries available within the provided Base DN');
+						message = t('user_ldap', objectsFound + 'Entries available within the provided Base DN');
 					}
 				} else {
 					message = view.overrideErrorMessage(payload.data.message);
