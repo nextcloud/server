@@ -1143,7 +1143,7 @@ MountConfigListView.prototype = _.extend({
 		}
 		var storage = new this._storageConfigClass(configId);
 
-		OC.dialogs.confirm(t('files_external', 'Are you sure you want to delete this external storage', {
+		OC.dialogs.confirm(t('files_external', 'Are you sure you want to delete this external storage?', {
 				storage: this.mountPoint
 			}), t('files_external', 'Delete storage?'), function(confirm) {
 			if (confirm) {
