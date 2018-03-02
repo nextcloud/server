@@ -586,7 +586,7 @@
 					$submit.prop('disabled', false);
 					$cancel.prop('disabled', false);
 
-					OC.Notification.showTemporary(t('comments', 'Error occurred while retrieving comment with id {id}', {id: commentId}));
+					OC.Notification.showTemporary(t('comments', 'Error occurred while retrieving comment with ID {id}', {id: commentId}));
 				}
 			});
 
