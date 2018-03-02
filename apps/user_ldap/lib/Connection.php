@@ -218,7 +218,7 @@ class Connection extends LDAPUtility {
 		if(is_null($key)) {
 			return $prefix;
 		}
-		return $prefix.md5($key);
+		return $prefix.hash('sha256', $key);
 	}
 
 	/**
