@@ -13,7 +13,6 @@ OC.L10N.register(
     "undo" : "يېنىۋال",
     "never" : "ھەرگىز",
     "A valid username must be provided" : "چوقۇم ئىناۋەتلىك ئىشلەتكۈچى ئىسمىدىن بىرنى تەمىنلەش كېرەك",
-    "A valid password must be provided" : "چوقۇم ئىناۋەتلىك ئىم تەمىنلەش كېرەك",
     "Forum" : "مۇنبەر",
     "None" : "يوق",
     "Login" : "تىزىمغا كىرىڭ",
@@ -36,6 +35,7 @@ OC.L10N.register(
     "Other" : "باشقا",
     "set new password" : "يېڭى ئىم تەڭشە",
     "Default" : "كۆڭۈلدىكى",
+    "A valid password must be provided" : "چوقۇم ئىناۋەتلىك ئىم تەمىنلەش كېرەك",
     "Create" : "قۇر"
 },
 "nplurals=1; plural=0;");

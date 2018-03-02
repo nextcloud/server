@@ -24,7 +24,6 @@ OC.L10N.register(
     "undo" : "មិន​ធ្វើ​វិញ",
     "never" : "មិនដែរ",
     "A valid username must be provided" : "ត្រូវ​ផ្ដល់​ឈ្មោះ​អ្នក​ប្រើ​ឲ្យ​បាន​ត្រឹម​ត្រូវ",
-    "A valid password must be provided" : "ត្រូវ​ផ្ដល់​ពាក្យ​សម្ងាត់​ឲ្យ​បាន​ត្រឹម​ត្រូវ",
     "Forum" : "វេទិកាពិភាក្សា",
     "None" : "គ្មាន",
     "Login" : "ចូល",
@@ -56,6 +55,7 @@ OC.L10N.register(
     "Admin Recovery Password" : "ការ​ស្វែង​រក​ពាក្យ​សម្ងាត់របស់ប្រធាន​វេបសាយ",
     "set new password" : "កំណត់​ពាក្យ​សម្ងាត់​ថ្មី",
     "Default" : "លំនាំ​ដើម",
+    "A valid password must be provided" : "ត្រូវ​ផ្ដល់​ពាក្យ​សម្ងាត់​ឲ្យ​បាន​ត្រឹម​ត្រូវ",
     "Create" : "បង្កើត"
 },
 "nplurals=1; plural=0;");

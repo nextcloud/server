@@ -69,8 +69,6 @@ OC.L10N.register(
     "deleted {userName}" : "видалено {userName}",
     "Changing the password will result in data loss, because data recovery is not available for this user" : "Зміна пароля призведе до втрати даних, тому що відновлення даних не доступно для цього користувача",
     "A valid username must be provided" : "Потрібно задати вірне ім'я користувача",
-    "A valid password must be provided" : "Потрібно задати вірний пароль",
-    "A valid email must be provided" : "Вкажіть дійсний email",
     "Developer documentation" : "Документація для розробників",
     "Documentation:" : "Документація:",
     "User documentation" : "Користувацька документація",
@@ -178,6 +176,8 @@ OC.L10N.register(
     "set new password" : "встановити новий пароль",
     "change email address" : "Змінити адресу електронної пошти",
     "Default" : "За замовчуванням",
+    "A valid password must be provided" : "Потрібно задати вірний пароль",
+    "A valid email must be provided" : "Вкажіть дійсний email",
     "Show email address" : "Показати адресу електронної пошти",
     "Send email to new user" : "Надіслати email новому користувачу",
     "Create" : "Створити"

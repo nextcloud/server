@@ -5,6 +5,7 @@ OC.L10N.register(
     "Saved" : "Kaydedildi",
     "Admin" : "Yönetici",
     "a safe home for all your data" : "verileriniz için güvenli bir barınak",
+    "Name cannot be empty" : "Ad boş olamaz",
     "The given name is too long" : "Belirtilen ad çok uzun",
     "The given web address is too long" : "Belirtilen web adresi çok uzun",
     "The given slogan is too long" : "Belirtilen slogan çok uzun",

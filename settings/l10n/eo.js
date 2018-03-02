@@ -31,7 +31,6 @@ OC.L10N.register(
     "never" : "neniam",
     "deleted {userName}" : "{userName} foriĝis",
     "A valid username must be provided" : "Valida uzantonomo devas proviziĝi",
-    "A valid password must be provided" : "Valida pasvorto devas proviziĝi",
     "by %s" : "de %s",
     "%s-licensed" : "%s-permesila",
     "Documentation:" : "Dokumentaro:",
@@ -100,6 +99,7 @@ OC.L10N.register(
     "set new password" : "agordi novan pasvorton",
     "change email address" : "ŝanĝi retpoŝtadreson",
     "Default" : "Defaŭlta",
+    "A valid password must be provided" : "Valida pasvorto devas proviziĝi",
     "Create" : "Krei"
 },
 "nplurals=2; plural=(n != 1);");

@@ -171,8 +171,6 @@ OC.L10N.register(
     "Error while changing status of {user}" : "{user} のステータスを変更する際にエラーが発生",
     "A valid username must be provided" : "有効なユーザー名を指定する必要があります",
     "Error creating user: {message}" : "ユーザ作成エラー {message}",
-    "A valid password must be provided" : "有効なパスワードを指定する必要があります",
-    "A valid email must be provided" : "有効なメールアドレスを指定する必要があります",
     "Developer documentation" : "開発者ドキュメント",
     "View in store" : "ストア内で表示",
     "Limit to groups" : "次のグループに制限",
@@ -358,6 +356,8 @@ OC.L10N.register(
     "set new password" : "新しいパスワードを設定",
     "change email address" : "メールアドレスを変更",
     "Default" : "デフォルト",
+    "A valid password must be provided" : "有効なパスワードを指定する必要があります",
+    "A valid email must be provided" : "有効なメールアドレスを指定する必要があります",
     "Show email address" : "メールアドレスを表示",
     "Send email to new user" : "新規ユーザーにメールを送信",
     "Create" : "作成"

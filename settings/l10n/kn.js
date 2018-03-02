@@ -45,8 +45,6 @@ OC.L10N.register(
     "never" : "﻿ಎಂದಿಗೂ",
     "deleted {userName}" : "{userName} ಬಳಕೆಯ ಹೆಸರುನ್ನು  ﻿ಅಳಿಸಲಾಗಿದೆ ﻿",
     "A valid username must be provided" : "﻿ಮಾನ್ಯ ಬಳಕೆದಾರ ಹೆಸರು ಒದಗಿಸಬೇಕಾಗುತ್ತದೆ",
-    "A valid password must be provided" : "ಸರಿಯಾದ ಬಳಕೆದಾರ ಗುಪ್ತಪದ ಒದಗಿಸಬೇಕಾಗಿದೆ",
-    "A valid email must be provided" : "﻿ಮಾನ್ಯ ಬಳಕೆದಾರ ಇ-ಅಂಚೆಯನ್ನು ಒದಗಿಸಬೇಕಾಗುತ್ತದೆ",
     "Documentation:" : "﻿ದಾಖಲೆ:",
     "Enable only for specific groups" : "﻿ಕೇವಲ ನಿರ್ದಿಷ್ಟ ಗುಂಪುಗಳಿಗೆ ಸಕ್ರಿಯಗೊಳಿಸಿ",
     "Forum" : "﻿ವೇದಿಕೆ",
@@ -89,6 +87,8 @@ OC.L10N.register(
     "set new password" : "﻿ಹೊಸ ಗುಪ್ತಪದವನ್ನು ಹೊಂದಿಸಿ",
     "change email address" : "﻿ಇ-ಅಂಚೆ ವಿಳಾಸ ಬದಲಾಯಿಸಿ",
     "Default" : "ಆರಂಭದ ಪ್ರತಿ",
+    "A valid password must be provided" : "ಸರಿಯಾದ ಬಳಕೆದಾರ ಗುಪ್ತಪದ ಒದಗಿಸಬೇಕಾಗಿದೆ",
+    "A valid email must be provided" : "﻿ಮಾನ್ಯ ಬಳಕೆದಾರ ಇ-ಅಂಚೆಯನ್ನು ಒದಗಿಸಬೇಕಾಗುತ್ತದೆ",
     "Create" : "ಸೃಷ್ಟಿಸಿ"
 },
 "nplurals=1; plural=0;");

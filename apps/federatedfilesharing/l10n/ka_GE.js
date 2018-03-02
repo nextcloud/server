@@ -38,6 +38,7 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "გააზიარეთ ჩემთან ჩემი #Nextcloud-ის ფედერალური ქლაუდ ID-ის მეშვეობით, იხილეთ %s",
     "Share with me through my #Nextcloud Federated Cloud ID" : "გააზიარეთ ჩემთან ჩემი #Nextcloud-ის ფედერალური ქლაუდ ID-ის მეშვეობით",
     "Sharing" : "გაზიარება",
+    "Federated file sharing" : "ფედერალური ფაილების გაზიარება",
     "Federated Cloud Sharing" : "ფედერალური ქლაუდ გაზიარება",
     "Open documentation" : "ღია დოკუმენტაცია",
     "Adjust how people can share between servers." : "განაგეთ თუ როგორ შეუძლიათ ადამიანებს სერვერებს შორის მოახდინონ გაზიარება.",

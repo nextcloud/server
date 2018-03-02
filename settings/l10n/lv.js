@@ -104,8 +104,6 @@ OC.L10N.register(
     "Could not change the users email" : "Nevarēja mainīt lietotāja e-pasta adrese",
     "A valid username must be provided" : "Jānorāda derīgs lietotājvārds",
     "Error creating user: {message}" : "Kļūda, veidojot lietotāju: {message}",
-    "A valid password must be provided" : "Jānorāda derīga parole",
-    "A valid email must be provided" : "Jānorāda derīga e-pasta adrese",
     "Developer documentation" : "Izstrādātāja dokumentācija",
     "%s-licensed" : "%s-licencēts",
     "Documentation:" : "Dokumentācija:",
@@ -237,6 +235,8 @@ OC.L10N.register(
     "set new password" : "iestatīt jaunu paroli",
     "change email address" : "mainīt e-pasta adresi",
     "Default" : "Noklusējuma",
+    "A valid password must be provided" : "Jānorāda derīga parole",
+    "A valid email must be provided" : "Jānorāda derīga e-pasta adrese",
     "Show email address" : "Rādīt e-pasta adreses",
     "Send email to new user" : "Sūtīt e-pastu jaunajam lietotājam",
     "Create" : "Izveidot"
