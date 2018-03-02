@@ -52,8 +52,8 @@ var UserList = {
 	 *            {
 	 * 				'name': 			'username',
 	 * 				'displayname': 		'Users display name',
-	 * 				'groups': 			['group1', 'group2'],
-	 * 				'subadmin': 		['group4', 'group5'],
+	 * 				'groups': 			{group1: {displayName: 'Group 1'}, group2: {displayName: 'Group 2'}}
+	 * 				'subadmin': 		{group5: {displayName: 'Group 5'}, group6: {displayName: 'Group 6'}}
 	 *				'quota': 			'10 GB',
 	 *				'quota_bytes':		'10737418240',
 	 *				'storageLocation':	'/srv/www/owncloud/data/username',
@@ -455,10 +455,10 @@ var UserList = {
 					return false;
 				}
 
-				if (add && OC.isUserAdmin() && UserList.availableGroups.indexOf(group) === -1) {
+				if (add && OC.isUserAdmin() && _.isUndefined(UserList.availableGroups[group])) {
 					GroupList.createGroup(group);
-					if (UserList.availableGroups.indexOf(group) === -1) {
-						UserList.availableGroups.push(group);
+					if (_.isUndefined(UserList.availableGroups[group])) {
+						UserList.availableGroups[group] = {displayName: group};
 					}
 				}
 
@@ -473,8 +473,8 @@ var UserList = {
 					},
 					success: function () {
 						GroupList.update();
-						if (add && UserList.availableGroups.indexOf(group) === -1) {
-							UserList.availableGroups.push(group);
+						if (add && _.isUndefined(UserList.availableGroups[group])) {
+							UserList.availableGroups[group] = {displayName: group};
 						}
 
 						if (add) {
@@ -647,11 +647,12 @@ var UserList = {
 	 * Creates a temporary jquery.multiselect selector on the given group field
 	 */
 	_triggerGroupEdit: function ($td, isSubadminSelect) {
+		var self = this;
 		var $groupsListContainer = $td.find('.groupsListContainer');
-		var placeholder = $groupsListContainer.attr('data-placeholder') || t('settings', 'no group');
+		var placeholder = $groupsListContainer.data('placeholder') || t('settings', 'no group');
 		var user = UserList.getUID($td);
-		var checked = $td.data('groups') || [];
-		var extraGroups = [].concat(checked);
+		var checked = $td.data('groups') || {};
+		var extraGroups = Object.assign({}, checked);
 
 		$td.find('.multiselectoptions').remove();
 
@@ -663,22 +664,21 @@ var UserList = {
 			$groupsSelect = $('<select multiple="multiple" class="subadminsselect multiselect button" title="' + placeholder + '"></select>')
 		}
 
-		function createItem (group) {
-			if (isSubadminSelect && group === 'admin') {
+		function createItem (gid, group) {
+			if (isSubadminSelect && group.displayName === 'admin') {
 				// can't become subadmin of "admin" group
 				return;
 			}
-			$groupsSelect.append($('<option value="' + escapeHTML(group) + '">' + escapeHTML(group) + '</option>'));
+			$groupsSelect.append($('<option value="' + escapeHTML(gid) + '">' + escapeHTML(group.displayName) + '</option>'));
 		}
 
-		$.each(this.availableGroups, function (i, group) {
+		$.each(this.availableGroups, function (gid, group) {
 			// some new groups might be selected but not in the available groups list yet
-			var extraIndex = extraGroups.indexOf(group);
-			if (extraIndex >= 0) {
+			if (extraGroups[gid] !== undefined) {
 				// remove extra group as it was found
-				extraGroups.splice(extraIndex, 1);
+				delete extraGroups[gid];
 			}
-			createItem(group);
+			createItem(gid, group);
 		});
 		$.each(extraGroups, function (i, group) {
 			createItem(group);
@@ -686,10 +686,13 @@ var UserList = {
 
 		$td.append($groupsSelect);
 
+		var checkedIds = Object.keys(checked).map(function(group, gid) {
+			return checked[group].displayName;
+		});
 		if (isSubadminSelect) {
-			UserList.applySubadminSelect($groupsSelect, user, checked);
+			UserList.applySubadminSelect($groupsSelect, user, checkedIds);
 		} else {
-			UserList.applyGroupSelect($groupsSelect, user, checked);
+			UserList.applyGroupSelect($groupsSelect, user, checkedIds);
 		}
 
 		$groupsListContainer.addClass('hidden');
@@ -699,7 +702,15 @@ var UserList = {
 			$td.find('.multiselect:not(.groupsListContainer)').parent().remove();
 			$td.find('.multiselectoptions').remove();
 			$groupsListContainer.removeClass('hidden');
-			UserList._updateGroupListLabel($td, e.checked);
+			// Pull all checked groups from this.availableGroups
+			var checked = Object.keys(self.availableGroups).reduce(function (previous, key) {
+				if(e.checked.indexOf(key) >= 0) {
+					return Object.assign(previous, {[key]:self.availableGroups[key]});
+				} else {
+					return previous;
+				}
+			}, {});
+			UserList._updateGroupListLabel($td, checked);
 		});
 	},
 
@@ -707,9 +718,12 @@ var UserList = {
 	 * Updates the groups list td with the given groups selection
 	 */
 	_updateGroupListLabel: function ($td, groups) {
-		var placeholder = $td.find('.groupsListContainer').attr('data-placeholder');
+		var placeholder = $td.find('.groupsListContainer').data('placeholder');
 		var $groupsEl = $td.find('.groupsList');
-		$groupsEl.text(groups.join(', ') || placeholder || t('settings', 'no group'));
+		var grouptext = Object.keys(groups).map(function(group, gid) {
+			return groups[group].displayName;
+		});
+		$groupsEl.text(grouptext.join(', ') || placeholder || t('settings', 'no group'));
 		$td.data('groups', groups);
 	}
 };
@@ -1029,7 +1043,7 @@ $(document).ready(function () {
 		OC.Search.clear();
 	});
 
-	UserList._updateGroupListLabel($('#newuser .groups'), []);
+	UserList._updateGroupListLabel($('#newuser .groups'), {});
 	var _submitNewUserForm = function (event) {
 		event.preventDefault();
 		if (OC.PasswordConfirmation.requiresPasswordConfirmation()) {
@@ -1057,7 +1071,7 @@ $(document).ready(function () {
 		}
 
 		promise.then(function () {
-			var groups = $('#newuser .groups').data('groups') || [];
+			var groups = $('#newuser .groups').data('groups') || {};
 			$.post(
 				OC.generateUrl('/settings/users/users'),
 				{
@@ -1070,8 +1084,8 @@ $(document).ready(function () {
 					if (result.groups) {
 						for (var i in result.groups) {
 							var gid = result.groups[i];
-							if (UserList.availableGroups.indexOf(gid) === -1) {
-								UserList.availableGroups.push(gid);
+							if (_.isUndefined(UserList.availableGroups[gid])) {
+								UserList.availableGroups[gid] = {displayName: gid};
 							}
 							var $li = GroupList.getGroupLI(gid);
 							var userCount = GroupList.getUserCount($li);

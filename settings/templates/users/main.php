@@ -21,10 +21,10 @@ style('settings', 'settings');
 $userlistParams = array();
 $allGroups=array();
 foreach($_["adminGroup"] as $group) {
-	$allGroups[] = $group['name'];
+	$allGroups[$group['id']] = array('displayName' => $group['name']);
 }
 foreach($_["groups"] as $group) {
-	$allGroups[] = $group['name'];
+	$allGroups[$group['id']] = array('displayName' => $group['name']);
 }
 $userlistParams['subadmingroups'] = $allGroups;
 $userlistParams['allGroups'] = json_encode($allGroups);

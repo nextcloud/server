@@ -142,7 +142,7 @@ GroupList = {
 			function (result) {
 				if (result.groupname) {
 					var addedGroup = result.groupname;
-					UserList.availableGroups = $.unique($.merge(UserList.availableGroups, [addedGroup]));
+					UserList.availableGroups[result.id] = {displayName: result.groupName};
 					GroupList.addGroup(groupid, result.groupname);
 				}
 				GroupList.toggleAddGroup();
