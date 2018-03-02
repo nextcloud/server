@@ -632,5 +632,36 @@ class AccessTest extends TestCase {
 		$this->assertSame($expected, $list);
 	}
 
+	public function intUsernameProvider() {
+		// system dependent :-/
+		$translitExpected = @iconv('UTF-8', 'ASCII//TRANSLIT', 'fränk') ? 'frank' : 'frnk';
+
+		return [
+			['alice', 'alice'],
+			['b/ob', 'bob'],
+			['charly🐬', 'charly'],
+			['debo rah', 'debo_rah'],
+			['epost@poste.test', 'epost@poste.test'],
+			['fränk', $translitExpected],
+			[' gerda ', 'gerda'],
+			['🕱🐵🐘🐑', null]
+		];
+	}
+
+	/**
+	 * @dataProvider intUsernameProvider
+	 *
+	 * @param $name
+	 * @param $expected
+	 */
+	public function testSanitizeUsername($name, $expected) {
+		if($expected === null) {
+			$this->expectException(\InvalidArgumentException::class);
+		}
+		$sanitizedName = $this->access->sanitizeUsername($name);
+		$this->assertSame($expected, $sanitizedName);
+	}
+
+
 
 }
