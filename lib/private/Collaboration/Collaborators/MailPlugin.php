@@ -191,8 +191,10 @@ class MailPlugin implements ISearchPlugin {
 			];
 		}
 
+		if (!empty($userResults['wide'])) {
+			$searchResult->addResultSet($userType, $userResults['wide'], []);
+		}
 		$searchResult->addResultSet($emailType, $result['wide'], $result['exact']);
-		$searchResult->addResultSet($userType, [], $userResults['wide']);
 
 		return true;
 	}
