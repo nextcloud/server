@@ -34,7 +34,7 @@
 				]
 			};
 		},
-		render: function(element, check) {
+		render: function(element, check, groups) {
 			if (check['class'] !== 'OCA\\WorkflowEngine\\Check\\UserGroupMembership') {
 				return;
 			}
@@ -42,48 +42,18 @@
 			$(element).css('width', '400px');
 
 			$(element).select2({
-				ajax: {
-					url: OC.generateUrl('settings/users/groups'),
-					dataType: 'json',
-					quietMillis: 100,
-					data: function (term) {
-						return {
-							pattern: term, //search term
-							filterGroups: true,
-							sortGroups: 2 // by groupname
-						};
-					},
-					results: function (response) {
-						// TODO improve error case
-						if (response.data === undefined) {
-							console.error('Failure happened', response);
-							return;
-						}
-
-						var results = [];
-
-						// add admin groups
-						$.each(response.data.adminGroups, function(id, group) {
-							results.push({ id: group.id, displayname: group.name });
-						});
-						// add groups
-						$.each(response.data.groups, function(id, group) {
-							results.push({ id: group.id, displayname: group.name });
-						});
-
-						// TODO once limit and offset is implemented for groups we should paginate the search results
-						return {
-							results: results,
-							more: false
-						};
-					}
-				},
+				data: groups,
 				initSelection: function (element, callback) {
 					var groupId = element.val();
-					if (groupId) {
+					if (groupId && groups.length > 0) {
 						callback({
 							id: groupId,
-							displayname: groupId + 'FIXME' // FIXME
+							displayname: groups.find(group =>group.id === groupId).displayname
+						});
+					} else if (groupId) {
+						callback({
+							id: groupId,
+							displayname: groupId
 						});
 					} else {
 						callback();
