@@ -30,7 +30,6 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\IUser;
 use OCP\IUserSession;
-use OCP\Share;
 use OCP\Share\IShareHelper;
 
 class Listener {
@@ -98,7 +97,7 @@ class Listener {
 				/** @var Node $node */
 				$node = array_shift($nodes);
 				$al = $this->shareHelper->getPathsForAccessList($node);
-				$users = array_merge($users, $al['users']);
+				$users += $al['users'];
 			}
 		}
 
@@ -119,7 +118,9 @@ class Listener {
 			]);
 
 		foreach ($users as $user => $path) {
-			$activity->setAffectedUser($user);
+			// numerical user ids end up as integers from array keys, but string
+			// is required
+			$activity->setAffectedUser((string)$user);
 
 			$activity->setSubject('add_comment_subject', [
 				'actor' => $actor,
