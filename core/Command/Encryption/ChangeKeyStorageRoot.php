@@ -143,11 +143,11 @@ class ChangeKeyStorageRoot extends Command {
 
 		$result = $this->rootView->file_put_contents(
 			$newRoot . '/' . Storage::KEY_STORAGE_MARKER,
-			'ownCloud will detect this folder as key storage root only if this file exists'
+			'Nextcloud will detect this folder as key storage root only if this file exists'
 		);
 
-		if ($result === false) {
-			throw new \Exception("Can't write to new root folder. Please check the permissions and try again");
+		if (!$result) {
+			throw new \Exception("Can't access the new root folder. Please check the permissions and make sure that the folder is in your data folder");
 		}
 
 	}
