@@ -74,8 +74,6 @@ OC.L10N.register(
     "Changing the password will result in data loss, because data recovery is not available for this user" : "Sprememba gesla bo povzročila izgubo podatkov, ker obnova podatkov za tega uporabnika ni na voljo.",
     "A valid username must be provided" : "Navedeno mora biti veljavno uporabniško ime",
     "Error creating user: {message}" : "Napaka ustvarjanja uporabnika: {message}",
-    "A valid password must be provided" : "Navedeno mora biti veljavno geslo",
-    "A valid email must be provided" : "Naveden mora biti veljaven naslov elektronske pošte.",
     "Developer documentation" : "Dokumentacija za razvijalce",
     "%s-licensed" : "dovoljenje-%s",
     "Documentation:" : "Dokumentacija:",
@@ -195,6 +193,8 @@ OC.L10N.register(
     "set new password" : "nastavi novo geslo",
     "change email address" : "spremeni naslov elektronske pošte",
     "Default" : "Privzeto",
+    "A valid password must be provided" : "Navedeno mora biti veljavno geslo",
+    "A valid email must be provided" : "Naveden mora biti veljaven naslov elektronske pošte.",
     "Show email address" : "Pokaži naslov elektronske pošte",
     "Send email to new user" : "Pošlji sporočilo novemu uporabniku",
     "Create" : "Ustvari"

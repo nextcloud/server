@@ -108,8 +108,6 @@ OC.L10N.register(
     "Could not change the users email" : "Impossibile cambiar le adresse de e-posta de usatores",
     "A valid username must be provided" : "Un nomine de usator valide debe esser providite",
     "Error creating user: {message}" : "Error durante creation de usator: {message}",
-    "A valid password must be provided" : "Un contrasigno valide debe esser providite",
-    "A valid email must be provided" : "Un adresse de e-posta valide debe esser providite",
     "Developer documentation" : "Documentation de disveloppator",
     "by %s" : "per %s",
     "%s-licensed" : "Licentiate como %s",
@@ -211,6 +209,8 @@ OC.L10N.register(
     "Quota" : "Quota",
     "E-Mail" : "E-posta",
     "Admin Recovery Password" : "Recuperation de Contrasigno del Administrator",
+    "A valid password must be provided" : "Un contrasigno valide debe esser providite",
+    "A valid email must be provided" : "Un adresse de e-posta valide debe esser providite",
     "Show email address" : "Monstrar adresse de e-posta",
     "Send email to new user" : "Inviar message de e-posta a nove usator",
     "Create" : "Crear"

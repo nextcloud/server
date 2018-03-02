@@ -164,8 +164,6 @@ OC.L10N.register(
     "Error while changing status of {user}" : "Fallu entrín se camudaba l'estáu de {usuariu}",
     "A valid username must be provided" : "Tien d'apurrise un nome d'usuariu válidu",
     "Error creating user: {message}" : "Fallu creando l'usuariu: {message}",
-    "A valid password must be provided" : "Tien d'apurrise una contraseña válida",
-    "A valid email must be provided" : "Ha apurrise un corréu válidu",
     "Developer documentation" : "Documentación de desendolcaores",
     "View in store" : "Ver na tienda",
     "Limit to groups" : "Llendar a grupos",
@@ -320,6 +318,8 @@ OC.L10N.register(
     "set new password" : "afitar nueva contraseña",
     "change email address" : "camudar direición de corréu",
     "Default" : "Predetermináu",
+    "A valid password must be provided" : "Tien d'apurrise una contraseña válida",
+    "A valid email must be provided" : "Ha apurrise un corréu válidu",
     "Show email address" : "Amosar direición de corréu",
     "Send email to new user" : "Unviar corréu al usuariu nuevu",
     "Create" : "Crear"

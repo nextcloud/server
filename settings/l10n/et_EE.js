@@ -142,8 +142,6 @@ OC.L10N.register(
     "Error while changing status of {user}" : "Kasutaja {user} staatuse muutmine ebaõnnestus",
     "A valid username must be provided" : "Sisesta nõuetele vastav kasutajatunnus",
     "Error creating user: {message}" : "Kasutaja loomine ebaõnnestus: {message}",
-    "A valid password must be provided" : "Sisesta nõuetele vastav parool",
-    "A valid email must be provided" : "Sisesta kehtiv e-posti aadress",
     "Developer documentation" : "Arendaja dokumentatsioon",
     "Limit to groups" : "Luba gruppidele",
     "Documentation:" : "Dokumentatsioon:",
@@ -282,6 +280,8 @@ OC.L10N.register(
     "set new password" : "määra uus parool",
     "change email address" : "muuda e-posti aadressi",
     "Default" : "Vaikeväärtus",
+    "A valid password must be provided" : "Sisesta nõuetele vastav parool",
+    "A valid email must be provided" : "Sisesta kehtiv e-posti aadress",
     "Show email address" : "Näita e-posti aadressi",
     "Send email to new user" : "Saada uuele kasutajale e-kiri",
     "Create" : "Lisa"

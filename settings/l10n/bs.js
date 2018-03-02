@@ -48,8 +48,6 @@ OC.L10N.register(
     "never" : "nikad",
     "deleted {userName}" : "izbrisan {userName}",
     "A valid username must be provided" : "Nužno je navesti valjano korisničko ime",
-    "A valid password must be provided" : "Nužno je navesti valjanu lozinku",
-    "A valid email must be provided" : "Nužno je navesti valjanu adresu e-pošte",
     "Documentation:" : "Dokumentacija:",
     "This app cannot be installed because the following dependencies are not fulfilled:" : "Ova aplikacija se ne može instalirati zbog slijedećih neispunjenih ovisnosti:",
     "Enable only for specific groups" : "Omogućite samo za specifične grupe",
@@ -122,6 +120,8 @@ OC.L10N.register(
     "set new password" : "postavi novu lozinku",
     "change email address" : "promjeni adresu e-pošte",
     "Default" : "Zadano",
+    "A valid password must be provided" : "Nužno je navesti valjanu lozinku",
+    "A valid email must be provided" : "Nužno je navesti valjanu adresu e-pošte",
     "Show email address" : "Prikaži adresu e-pošte",
     "Send email to new user" : "Pošalji e-poštu novom korisniku",
     "Create" : "Kreiraj"

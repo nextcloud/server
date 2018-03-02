@@ -106,8 +106,6 @@ OC.L10N.register(
     "Changing the password will result in data loss, because data recovery is not available for this user" : "Schimbarea parolei va rezulta în pierderea datelor deoarece recuperarea acestora nu este disponibilă pentru acest utilizator",
     "A valid username must be provided" : "Trebuie să furnizaţi un nume de utilizator valid",
     "Error creating user: {message}" : "Eroare la crearea utilizatorului: {message}",
-    "A valid password must be provided" : "Trebuie să furnizaţi o parolă validă",
-    "A valid email must be provided" : "Trebuie furnizată o adresă email validă",
     "Developer documentation" : "Documentație pentru dezvoltatori",
     "by %s" : "de %s",
     "%s-licensed" : "%s-licențiat",
@@ -216,6 +214,8 @@ OC.L10N.register(
     "set new password" : "setează parolă nouă",
     "change email address" : "schimbă adresa email",
     "Default" : "Implicită",
+    "A valid password must be provided" : "Trebuie să furnizaţi o parolă validă",
+    "A valid email must be provided" : "Trebuie furnizată o adresă email validă",
     "Create" : "Crează"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

@@ -59,8 +59,6 @@ OC.L10N.register(
     "deleted {userName}" : "избришан {userName}",
     "A valid username must be provided" : "Мора да се обезбеди валидно корисничко име ",
     "Error creating user: {message}" : "Грешка при креирање на корисник: {message}",
-    "A valid password must be provided" : "Мора да се обезбеди валидна лозинка",
-    "A valid email must be provided" : "Мора да се обезбеди валидна електронска пошта",
     "Developer documentation" : "Документација за програмери",
     "Documentation:" : "Документација:",
     "Enable only for specific groups" : "Овозможи само на специфицирани групи",
@@ -134,6 +132,8 @@ OC.L10N.register(
     "change full name" : "промена на целото име",
     "set new password" : "постави нова лозинка",
     "Default" : "Предефиниран",
+    "A valid password must be provided" : "Мора да се обезбеди валидна лозинка",
+    "A valid email must be provided" : "Мора да се обезбеди валидна електронска пошта",
     "Create" : "Создај"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

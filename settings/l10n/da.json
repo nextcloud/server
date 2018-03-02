@@ -158,8 +158,6 @@
     "no group" : "ingen gruppe",
     "Changing the password will result in data loss, because data recovery is not available for this user" : "Ændring af kodeordet vil føre til datatab, fordi datagendannelse ikke er tilgængelig for denne bruger",
     "A valid username must be provided" : "Et gyldigt brugernavn skal angives",
-    "A valid password must be provided" : "En gyldig adgangskode skal angives",
-    "A valid email must be provided" : "Der skal angives en gyldig e-mail",
     "Developer documentation" : "Dokumentation for udviklere",
     "by %s" : "af %s",
     "Documentation:" : "Dokumentation:",
@@ -304,6 +302,8 @@
     "set new password" : "skift kodeord",
     "change email address" : "skift e-mailadresse",
     "Default" : "Standard",
+    "A valid password must be provided" : "En gyldig adgangskode skal angives",
+    "A valid email must be provided" : "Der skal angives en gyldig e-mail",
     "Show email address" : "Vis e-mailadresse",
     "Send email to new user" : "Send e-mail til ny bruger",
     "Create" : "Ny"

@@ -174,8 +174,6 @@ OC.L10N.register(
     "Error while changing status of {user}" : "Errorea gertatu da {user}-en egoera aldatzean",
     "A valid username must be provided" : "Baliozko erabiltzaile izena eman behar da",
     "Error creating user: {message}" : "Akatsa erabiltzailea sortzerakoan: {message}",
-    "A valid password must be provided" : "Baliozko pasahitza eman behar da",
-    "A valid email must be provided" : "Baliozko posta elektronikoa eman behar da",
     "Developer documentation" : "Garatzailearen dokumentazioa",
     "View in store" : "Dendan ikusi",
     "Limit to groups" : "Taldeetara mugatu",
@@ -357,6 +355,8 @@ OC.L10N.register(
     "set new password" : "ezarri pasahitz berria",
     "change email address" : "aldatu eposta helbidea",
     "Default" : "Lehenetsia",
+    "A valid password must be provided" : "Baliozko pasahitza eman behar da",
+    "A valid email must be provided" : "Baliozko posta elektronikoa eman behar da",
     "Show email address" : "Bistaratu eposta helbidea",
     "Send email to new user" : "Bidali eposta erabiltzaile berriari",
     "Create" : "Sortu"

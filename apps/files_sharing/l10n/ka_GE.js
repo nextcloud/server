@@ -92,6 +92,7 @@ OC.L10N.register(
     "Direct link" : "პირდაპირი ბმული",
     "Add to your Nextcloud" : "თქვენს Nextcloud-ში დამატება",
     "Share API is disabled" : "გაზიარების API არაა მოქმედი",
+    "File sharing" : "ფაილების გაზიარება",
     "This share is password-protected" : "ეს გაზიარება დაცულია პაროლით",
     "The password is wrong. Try again." : "პაროლი არასწორია. სცადეთ ახლიდან",
     "Password" : "პაროლი",

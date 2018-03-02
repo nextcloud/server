@@ -70,8 +70,6 @@ OC.L10N.register(
     "Changing the password will result in data loss, because data recovery is not available for this user" : "การเปลี่ยนรหัสผ่านจะส่งผลให้เกิดการสูญเสียข้อมูลเพราะการกู้คืนข้อมูลจะไม่สามารถใช้ได้สำหรับผู้ใช้นี้",
     "A valid username must be provided" : "จะต้องระบุชื่อผู้ใช้ที่ถูกต้อง",
     "Error creating user: {message}" : "ข้อผิดพลาดในการสร้างผู้ใช้: {message}",
-    "A valid password must be provided" : "จะต้องระบุรหัสผ่านที่ถูกต้อง",
-    "A valid email must be provided" : "จะต้องระบุอีเมลที่ถูกต้อง",
     "Developer documentation" : "เอกสารสำหรับนักพัฒนา",
     "by %s" : "โดย %s",
     "%s-licensed" : "%s ได้รับใบอนุญาต",
@@ -190,6 +188,8 @@ OC.L10N.register(
     "set new password" : "ตั้งค่ารหัสผ่านใหม่",
     "change email address" : "เปลี่ยนแปลงที่อยู่อีเมล",
     "Default" : "ค่าเริ่มต้น",
+    "A valid password must be provided" : "จะต้องระบุรหัสผ่านที่ถูกต้อง",
+    "A valid email must be provided" : "จะต้องระบุอีเมลที่ถูกต้อง",
     "Show email address" : "แสดงที่อยู่อีเมล",
     "Send email to new user" : "ส่งอีเมลไปยังผู้ใช้ใหม่",
     "Create" : "สร้าง"
