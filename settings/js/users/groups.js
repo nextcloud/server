@@ -18,6 +18,9 @@ GroupList = {
 	filterGroups: false,
 
 	addGroup: function (gid, displayName, usercount) {
+		if (_.isUndefined(displayName)) {
+			displayName = gid;
+		}
 		var $li = $userGroupList.find('.isgroup:last-child').clone();
 		$li
 			.data('gid', gid)
@@ -142,7 +145,7 @@ GroupList = {
 			function (result) {
 				if (result.groupname) {
 					var addedGroup = result.groupname;
-					UserList.availableGroups[result.id] = {displayName: result.groupName};
+					UserList.availableGroups[groupid] = {displayName: result.groupname};
 					GroupList.addGroup(groupid, result.groupname);
 				}
 				GroupList.toggleAddGroup();

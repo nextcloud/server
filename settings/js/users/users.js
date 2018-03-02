@@ -66,7 +66,7 @@ var UserList = {
 	 * 			}
 	 */
 	add: function (user) {
-		if (this.currentGid && this.currentGid !== '_everyone' && this.currentGid !== '_disabledUsers' && _.indexOf(user.groups, this.currentGid) < 0) {
+		if (this.currentGid && this.currentGid !== '_everyone' && this.currentGid !== '_disabledUsers' && Object.keys(user.groups).indexOf(this.currentGid) < 0) {
 			return false;
 		}
 
@@ -454,7 +454,6 @@ var UserList = {
 				if (!OC.isUserAdmin() && checked.length === 1 && checked[0] === group) {
 					return false;
 				}
-
 				if (add && OC.isUserAdmin() && _.isUndefined(UserList.availableGroups[group])) {
 					GroupList.createGroup(group);
 					if (_.isUndefined(UserList.availableGroups[group])) {
