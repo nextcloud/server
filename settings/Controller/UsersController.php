@@ -341,7 +341,7 @@ class UsersController extends Controller {
 			foreach ($batch as $user) {
 				// Only add the groups, this user is a subadmin of
 				$userGroups = array_values(array_intersect(
-					$this->groupManager->getUserGroupNames($user),
+					$this->groupManager->getUserGroupIds($user),
 					$subAdminOfGroups
 				));
 				if (($gid !== '_disabledUsers' && $user->isEnabled()) ||
