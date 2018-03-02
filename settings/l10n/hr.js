@@ -37,7 +37,6 @@ OC.L10N.register(
     "never" : "nikad",
     "deleted {userName}" : "izbrisano {userName}",
     "A valid username must be provided" : "Nužno je navesti valjano korisničko ime",
-    "A valid password must be provided" : "Nužno je navesti valjanu lozinku",
     "Documentation:" : "Dokumentacija:",
     "Enable only for specific groups" : "Omogućite samo za specifične grupe",
     "Common Name" : "Common Name",
@@ -104,6 +103,7 @@ OC.L10N.register(
     "change full name" : "promijenite puno ime",
     "set new password" : "postavite novu lozinku",
     "Default" : "Zadano",
+    "A valid password must be provided" : "Nužno je navesti valjanu lozinku",
     "Create" : "Kreirajte"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

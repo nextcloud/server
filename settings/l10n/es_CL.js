@@ -175,8 +175,6 @@ OC.L10N.register(
     "Error while changing status of {user}" : "Se presentó un error al cambiar el estatus del usuario {user}",
     "A valid username must be provided" : "Se debe proporcionar un nombre de usuario válido",
     "Error creating user: {message}" : "Se presentó un error al crear el usuario: {message}",
-    "A valid password must be provided" : "Se debe proporcionar una contraseña válida",
-    "A valid email must be provided" : "Se debe proporcionar un correo electrónico válido",
     "Developer documentation" : "Documentación del desarrollador",
     "View in store" : "Ver en la tienda",
     "Limit to groups" : "Limitar a grupos",
@@ -375,6 +373,8 @@ OC.L10N.register(
     "set new password" : "establecer nueva contraseña",
     "change email address" : "cambiar la dirección de correo electrónico",
     "Default" : "Predeterminado",
+    "A valid password must be provided" : "Se debe proporcionar una contraseña válida",
+    "A valid email must be provided" : "Se debe proporcionar un correo electrónico válido",
     "Show email address" : "Mostrar dirección de correo electrónico",
     "Send email to new user" : "Enviar un correo electrónico al usuario nuevo",
     "Create" : "Crear"

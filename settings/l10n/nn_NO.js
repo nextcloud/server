@@ -26,7 +26,6 @@ OC.L10N.register(
     "undo" : "angra",
     "never" : "aldri",
     "A valid username must be provided" : "Du må oppgje eit gyldig brukarnamn",
-    "A valid password must be provided" : "Du må oppgje eit gyldig passord",
     "Forum" : "Forum",
     "Login" : "Logg inn",
     "Encryption" : "Kryptering",
@@ -57,6 +56,7 @@ OC.L10N.register(
     "Enter the recovery password in order to recover the users files during password change" : "Skriv inn gjenopprettingspassordet brukt for å gjenoppretta brukarfilene ved passordendring",
     "set new password" : "lag nytt passord",
     "Default" : "Standard",
+    "A valid password must be provided" : "Du må oppgje eit gyldig passord",
     "Create" : "Lag"
 },
 "nplurals=2; plural=(n != 1);");

@@ -25,6 +25,7 @@ OC.L10N.register(
     "Download" : "İndir",
     "Rename" : "Yeniden Adlandır",
     "Move or copy" : "Taşı ya da kopyala",
+    "Copy" : "Kopyala",
     "Target folder" : "Hedef klasör",
     "Delete" : "Sil",
     "Disconnect storage" : "Depolama bağlantısını kes",

@@ -181,8 +181,6 @@ OC.L10N.register(
     "Error while changing status of {user}" : "Chyba při změně stavu {user}",
     "A valid username must be provided" : "Musíte zadat platné uživatelské jméno",
     "Error creating user: {message}" : "Chyba vytvoření uživatele: {message}",
-    "A valid password must be provided" : "Musíte zadat platné heslo",
-    "A valid email must be provided" : "Musíte zadat platný e-mail",
     "Developer documentation" : "Vývojářská dokumentace",
     "View in store" : "Zobrazit v obchodě",
     "Limit to groups" : "Omezit na skupiny",
@@ -381,6 +379,8 @@ OC.L10N.register(
     "set new password" : "nastavit nové heslo",
     "change email address" : "změnit e-mailovou adresu",
     "Default" : "Výchozí",
+    "A valid password must be provided" : "Musíte zadat platné heslo",
+    "A valid email must be provided" : "Musíte zadat platný e-mail",
     "Show email address" : "Zobrazit e-mailové adresy",
     "Send email to new user" : "Poslat e-mail novému uživateli",
     "Create" : "Vytvořit"

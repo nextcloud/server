@@ -55,6 +55,7 @@ OC.L10N.register(
     "Description:" : "აღწერა:",
     "Link:" : "ბმული:",
     "Contacts" : "კონტაქტები",
+    "WebDAV" : "WebDAV",
     "Technical details" : "ტექნიკური დეტალები",
     "Remote Address: %s" : "დისტანციური მისამართი: %s",
     "Request ID: %s" : "მოთხოვნის ID: %s",

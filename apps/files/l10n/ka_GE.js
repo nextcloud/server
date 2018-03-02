@@ -25,6 +25,7 @@ OC.L10N.register(
     "Download" : "ჩამოტვირთვა",
     "Rename" : "გადარქმევა",
     "Move or copy" : "გადაიტანეთ ან დააკოპირეთ",
+    "Copy" : "კოპირება",
     "Target folder" : "დანიშნულების დირექტორია",
     "Delete" : "წაშლა",
     "Disconnect storage" : "საცავის გათიშვა",

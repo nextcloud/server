@@ -55,8 +55,6 @@ OC.L10N.register(
     "deleted {userName}" : "کاربر {userName} حذف شد",
     "Changing the password will result in data loss, because data recovery is not available for this user" : "با توجه به عدم دستیابی به بازگردانی اطلاعات برای کاربر، تغییر رمز عبور باعث از بین رفتن اطلاعات خواهد شد",
     "A valid username must be provided" : "نام کاربری صحیح باید وارد شود",
-    "A valid password must be provided" : "رمز عبور صحیح باید وارد شود",
-    "A valid email must be provided" : "یک ایمیل معتبر باید وارد شود",
     "Developer documentation" : "مستندات توسعه‌دهندگان",
     "Documentation:" : "مستند سازی:",
     "User documentation" : "مستندات کاربر",
@@ -153,6 +151,8 @@ OC.L10N.register(
     "set new password" : "تنظیم کلمه عبور جدید",
     "change email address" : "تغییر آدرس ایمیل ",
     "Default" : "پیش فرض",
+    "A valid password must be provided" : "رمز عبور صحیح باید وارد شود",
+    "A valid email must be provided" : "یک ایمیل معتبر باید وارد شود",
     "Show email address" : "نمایش پست الکترونیکی",
     "Send email to new user" : "ارسال ایمیل به کاربر جدید",
     "Create" : "ایجاد کردن"

@@ -117,6 +117,7 @@ OC.L10N.register(
     "Authentication" : "Autenticazione",
     "Configuration" : "Configurazione",
     "Available for" : "Disponibile per",
+    "Click to recheck the configuration" : "Clic per controllare di nuovo la configurazione",
     "Add storage" : "Aggiungi archiviazione",
     "Advanced settings" : "Impostazioni avanzate",
     "Delete" : "Elimina",

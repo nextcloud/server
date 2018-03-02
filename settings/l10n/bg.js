@@ -77,8 +77,6 @@ OC.L10N.register(
     "deleted {userName}" : "{userName}  е изтрит",
     "Changing the password will result in data loss, because data recovery is not available for this user" : "Промяна на паролата ще доведе до загуба на данни, защото не е налично възстановяване за този потребител.",
     "A valid username must be provided" : "Трябва да бъде зададено валидно потребителско име",
-    "A valid password must be provided" : "Трябва да бъде зададена валидна парола",
-    "A valid email must be provided" : "Трябва да бъде зададена валидна електронна поща",
     "Developer documentation" : "Документация за разработчици",
     "by %s" : "от %s",
     "Documentation:" : "Документация:",
@@ -192,6 +190,8 @@ OC.L10N.register(
     "set new password" : "сложи нова парола",
     "change email address" : "Смени адреса на елетронната поща",
     "Default" : "Стандарт",
+    "A valid password must be provided" : "Трябва да бъде зададена валидна парола",
+    "A valid email must be provided" : "Трябва да бъде зададена валидна електронна поща",
     "Show email address" : "Покажи адреса на електронната поща",
     "Send email to new user" : "Изпращай писмо към нов потребител",
     "Create" : "Създаване"

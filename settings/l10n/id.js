@@ -109,8 +109,6 @@ OC.L10N.register(
     "Changing the password will result in data loss, because data recovery is not available for this user" : "Pengubahan kata sandi akan ditampilkan di data kehilangan, karena data pemulihan tidak tersedia bagi pengguna ini",
     "A valid username must be provided" : "Harus memberikan nama pengguna yang benar",
     "Error creating user: {message}" : "Gagal membuat pengguna: {message}",
-    "A valid password must be provided" : "Harus memberikan kata sandi yang benar",
-    "A valid email must be provided" : "Email yang benar harus diberikan",
     "Developer documentation" : "Dokumentasi pengembang",
     "by %s" : "oleh %s",
     "%s-licensed" : "dilisensikan %s",
@@ -249,6 +247,8 @@ OC.L10N.register(
     "set new password" : "setel kata sandi baru",
     "change email address" : "ubah alamat email",
     "Default" : "Default",
+    "A valid password must be provided" : "Harus memberikan kata sandi yang benar",
+    "A valid email must be provided" : "Email yang benar harus diberikan",
     "Show email address" : "Tampilkan alamat email",
     "Send email to new user" : "Kirim email kepada pengguna baru",
     "Create" : "Buat"

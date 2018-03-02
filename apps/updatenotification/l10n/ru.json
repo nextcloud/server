@@ -8,6 +8,8 @@
     "Notify members of the following groups about available updates:" : "Уведомить членов следующих групп о наличии доступных обновлений:",
     "Only notification for app updates are available." : "Только уведомления об обновлении приложений доступны.",
     "The selected update channel does not support updates of the server." : "Выбранный канал обновлений не поддерживает обновление сервера.",
+    "A new version is available: {newVersionString}" : "Доступна новая версия: {newVersionString}",
+    "Checked on {lastCheckedDate}" : "Проверялось {lastCheckedDate}",
     "Could not start updater, please try the manual update" : "Не удалось обновить. Выполните обновление вручную.",
     "Update notifications" : "Уведомления об обновлениях",
     "Channel updated" : "Канал обновлен.",

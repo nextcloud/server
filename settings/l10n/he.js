@@ -74,8 +74,6 @@ OC.L10N.register(
     "Changing the password will result in data loss, because data recovery is not available for this user" : "שינוי הסיסמא יגרום איבוד מידע, וזאת בגלל ששחזור מידע אינו זמין למשתמש זה",
     "A valid username must be provided" : "יש לספק שם משתמש תקני",
     "Error creating user: {message}" : "שגיאה ביצירת משתמש: {message}",
-    "A valid password must be provided" : "יש לספק סיסמא תקנית",
-    "A valid email must be provided" : "יש לספק כתובת דואר אלקטרוני תקנית",
     "Developer documentation" : "תיעוד מפתח",
     "by %s" : "על ידי %s",
     "%s-licensed" : "%s-בעל רישיון",
@@ -199,6 +197,8 @@ OC.L10N.register(
     "set new password" : "הגדרת סיסמא חדשה",
     "change email address" : "שינוי כתובת דואר אלקטרוני",
     "Default" : "ברירת מחדל",
+    "A valid password must be provided" : "יש לספק סיסמא תקנית",
+    "A valid email must be provided" : "יש לספק כתובת דואר אלקטרוני תקנית",
     "Show email address" : "הצגת כתובת דואר אלקטרוני",
     "Send email to new user" : "שליחת דואר אלקטרוני למשתמש חדש",
     "Create" : "יצירה"

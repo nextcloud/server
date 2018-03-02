@@ -5,6 +5,7 @@ OC.L10N.register(
     "Saved" : "შენახულია",
     "Admin" : "ადმინისტრაცია",
     "a safe home for all your data" : "უსაფრთხო სახლი მთელი თქვენი მონაცემებისათვის",
+    "Name cannot be empty" : "სახელი ვერ იქნება ცარიელი",
     "The given name is too long" : "მოცემული სახელი ძალიან გრძელია",
     "The given web address is too long" : "მოცემული ვებ-მისამართი ძალიან გრძელია",
     "The given slogan is too long" : "მოცემული ლოზუნგი ძალიან გრძელია",
