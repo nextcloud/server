@@ -555,7 +555,7 @@ EOF;
 	 *
 	 * @since 12.0.0
 	 */
-	public function addBodyButton(string $text, string $url, string $plainText = '') {
+	public function addBodyButton(string $text, string $url, $plainText = '') {
 		if ($this->footerAdded) {
 			return;
 		}

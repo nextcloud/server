@@ -30,7 +30,7 @@ class MessageTest extends TestCase {
 		);
 	}
 
-	function setUp() {
+	public function setUp() {
 		parent::setUp();
 
 		$this->swiftMessage = $this->getMockBuilder('\Swift_Message')
@@ -79,9 +79,9 @@ class MessageTest extends TestCase {
 		$this->swiftMessage
 			->expects($this->once())
 			->method('getReplyTo')
-			->will($this->returnValue(['lukas@owncloud.com']));
+			->willReturn('lukas@owncloud.com');
 
-		$this->assertSame(['lukas@owncloud.com'], $this->message->getReplyTo());
+		$this->assertSame('lukas@owncloud.com', $this->message->getReplyTo());
 	}
 
 	public function testSetTo() {
