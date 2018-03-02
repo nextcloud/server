@@ -1159,8 +1159,11 @@ span {
 #passwordform .strengthify-wrapper {
 	position: absolute;
 	left: 0;
-	width: 130px;
+	width: 100%;
+	border-radius: 0 0 2px 2px;
 	margin-top: -6px;
+	overflow: hidden;
+	height: 3px;
 }
 
 /* OPERA hack for strengthify*/

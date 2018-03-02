@@ -448,9 +448,12 @@ body {
 	.strengthify-wrapper {
 		display: inline-block;
 		position: relative;
-		left: 15px;
-		top: -23px;
-		width: 250px;
+		left: 5px;
+		top: -20px;
+		width: 269px;
+		border-radius: 0 0 2px 2px;
+		overflow: hidden;
+		height: 3px;
 	}
 	input {
 		&[type='text'], &[type='password'], &[type='email'] {
