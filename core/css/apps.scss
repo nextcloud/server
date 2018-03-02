@@ -218,7 +218,7 @@ kbd {
 				text-overflow: ellipsis;
 				color: $color-main-text;
 				opacity: .57;
-				flex: 1 1 0;
+				flex: 1 1 0px;
 				z-index: 100; /* above the bullet to allow click*/
 				/* TODO: forbid using img as icon in menu? */
 				&:first-child img {
@@ -457,7 +457,7 @@ kbd {
 			white-space: nowrap;
 			text-overflow: ellipsis;
 			overflow: hidden;
-			flex: 1 1 0;
+			flex: 1 1 0px;
 			line-height: 44px;
 		}
 		.app-navigation-entry-deleted-button {
@@ -481,6 +481,7 @@ kbd {
 					opacity 250ms ease-in-out,
 					z-index 250ms ease-in-out;
 		position: absolute;
+		left: 0;
 		background-color: $color-main-background;
 		box-sizing: border-box;
 	}
@@ -1009,6 +1010,8 @@ kbd {
 			object-fit: cover;
 			user-select: none;
 			cursor: pointer;
+			top: 50%;
+			margin-top: -20px;
 		}
 
 		.app-content-list-item-line-one,
@@ -1019,7 +1022,7 @@ kbd {
 			overflow: hidden;
 			text-overflow: ellipsis;
 			order: 1;
-			flex: 1 1 0;
+			flex: 1 1 0px;
 			padding-right: 10px;
 			cursor: pointer;
 		}
@@ -1027,7 +1030,8 @@ kbd {
 		.app-content-list-item-line-two {
 			opacity: .5;
 			order: 3;
-			flex: 1 0 calc(100% - 24px);
+			flex: 1 0;
+			flex-basis: calc(100% - 24px);
 		}
 
 		.app-content-list-item-details {
