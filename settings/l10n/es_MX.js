@@ -369,6 +369,7 @@ OC.L10N.register(
     "Unlimited" : "Ilimitado",
     "Other" : "Otro",
     "Group admin for" : "Administrador del grupo para",
+    "Recovery password" : "Recuperación de contraseña",
     "Quota" : "Cuota",
     "Storage location" : "Úbicación del almacenamiento",
     "User backend" : "Backend del usuario",

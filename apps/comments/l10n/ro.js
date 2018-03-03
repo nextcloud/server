@@ -12,7 +12,6 @@ OC.L10N.register(
     "More comments …" : "Mai multe comentarii...",
     "Save" : "Salvează",
     "Allowed characters {count} of {max}" : "Caractere admise {count} din {max}",
-    "Error occurred while retrieving comment with id {id}" : "Eroare la returnarea comentariului cu id-ul {id}",
     "Error occurred while updating comment with id {id}" : "Eroare la actualizarea comentariului cu id-ul {id}",
     "Error occurred while posting comment" : "Eroare la postarea comentariului",
     "_%n unread comment_::_%n unread comments_" : ["%n comentariu necitit","%n comentarii necitite","%n comentarii necitite"],

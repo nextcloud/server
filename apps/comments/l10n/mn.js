@@ -12,7 +12,6 @@ OC.L10N.register(
     "More comments …" : "Дараагийн сэтгэгдэлүүд",
     "Save" : "Хадгалах",
     "Allowed characters {count} of {max}" : "{max} боломжойгоос {count} тэмдэгт орсон байна",
-    "Error occurred while retrieving comment with id {id}" : "{id} дугаартай сэтгэгдлийг авахад алдаа гарлаа",
     "Error occurred while updating comment with id {id}" : "{id} дугаартай сэтгэгдлийг шинэчилэхэд алдаа гарлаа",
     "Error occurred while posting comment" : "Сэтгэгдлийг хадгалахад алдаа гарлаа",
     "Comment" : "Сэтгэгдэл",

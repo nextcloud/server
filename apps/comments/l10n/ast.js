@@ -12,7 +12,6 @@ OC.L10N.register(
     "More comments …" : "Más comentarios...",
     "Save" : "Guardar",
     "Allowed characters {count} of {max}" : "{count} caráuteres almitíos de {max}",
-    "Error occurred while retrieving comment with id {id}" : "Asocedió un fallu entrín se recibía'l comentariu cola ID {id}",
     "Error occurred while updating comment with id {id}" : "Asocedió un fallu entrín s'anovaba'l comentariu cola ID {id}",
     "Error occurred while posting comment" : "Asocedieron fallos entrín s'espublizaba'l comentariu",
     "_%n unread comment_::_%n unread comments_" : ["%n comentariu ensin lleer","%n comentarios ensin lleer"],

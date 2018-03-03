@@ -12,7 +12,6 @@ OC.L10N.register(
     "More comments …" : "Diğer yorumlar ...",
     "Save" : "Kaydet",
     "Allowed characters {count} of {max}" : "Yazılabilecek karakter sayısı {count}/{max}",
-    "Error occurred while retrieving comment with id {id}" : "{id} kodlu yorum alınırken sorun çıktı",
     "Error occurred while updating comment with id {id}" : "{id} kodlu yorum güncellenirken sorun çıktı",
     "Error occurred while posting comment" : "Yorum gönderilirken sorun çıktı",
     "_%n unread comment_::_%n unread comments_" : ["%n okunmamış yorum","%n okunmamış yorum"],

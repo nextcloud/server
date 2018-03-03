@@ -12,7 +12,6 @@ OC.L10N.register(
     "More comments …" : "Més comentaris...",
     "Save" : "Desa",
     "Allowed characters {count} of {max}" : "{count} caràcters permesos de {max}",
-    "Error occurred while retrieving comment with id {id}" : "Hi ha hagut un error en extraure el comentari amb id {id}",
     "Error occurred while updating comment with id {id}" : "Hi ha hagut un error en actualitzar el comentari amb id {id}",
     "Error occurred while posting comment" : "Hi ha hagut un error en publicar el comentari",
     "_%n unread comment_::_%n unread comments_" : ["%n comentari no llegit","%n comentaris no llegits"],

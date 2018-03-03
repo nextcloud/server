@@ -12,7 +12,6 @@ OC.L10N.register(
     "More comments …" : "Flere kommentarer...",
     "Save" : "Gem",
     "Allowed characters {count} of {max}" : "Tilladte tegn {count} af {max}",
-    "Error occurred while retrieving comment with id {id}" : "Der opstod fejl under hentning af kommentar med id {id}",
     "Error occurred while updating comment with id {id}" : "Der opstod fejl under opdatering af kommentar med id {id}",
     "Error occurred while posting comment" : "Der opstod fejl under indsendelse af kommentar",
     "_%n unread comment_::_%n unread comments_" : ["%n ulæst kommentar","%n ulæste kommentarer"],
