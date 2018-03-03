@@ -12,7 +12,6 @@ OC.L10N.register(
     "More comments …" : "Ďalšie komentáre ...",
     "Save" : "Uložiť",
     "Allowed characters {count} of {max}" : "Počet povolených znakov {count} z {max}",
-    "Error occurred while retrieving comment with id {id}" : "Pri načítavaní komentára s id {id} nastala chyba",
     "Error occurred while updating comment with id {id}" : "Pri aktualizovaní komentára s id {id} nastala chyba",
     "Error occurred while posting comment" : "Pri odosielaní komentára nastala chyba",
     "_%n unread comment_::_%n unread comments_" : ["%n neprečítaný komentár","%n neprečítaných komentárov","%n neprečítaných komentárov"],

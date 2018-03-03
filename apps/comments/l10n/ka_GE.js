@@ -12,7 +12,6 @@ OC.L10N.register(
     "More comments …" : "მეტი კომენტარი ...",
     "Save" : "შენახვა",
     "Allowed characters {count} of {max}" : "დაშვებული სიმბოლოები {count} {max}-იდან",
-    "Error occurred while retrieving comment with id {id}" : "კომენტარის id-ით  {id}-ის მიღებისას წარმოიშვა შეცდომა",
     "Error occurred while updating comment with id {id}" : "კომენტარის id-იდ {id}-ის ცვლილებისას წარმოიშვა შეცდომა",
     "Error occurred while posting comment" : "კომენტარის გამოქვეყნებისას წარმოიშვა შეცდომა",
     "_%n unread comment_::_%n unread comments_" : ["%n წაუკუთხავი კომენტარი"],

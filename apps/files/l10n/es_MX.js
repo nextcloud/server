@@ -148,6 +148,8 @@ OC.L10N.register(
     "Deleted files" : "Archivos borrados",
     "Text file" : "Archivo de texto",
     "New text file.txt" : "Nuevo ArchivoDeTexto.txt",
-    "Move" : "Mover"
+    "Move" : "Mover",
+    "A new file or folder has been <strong>deleted</strong>" : "Un nuevo archivo o carpeta ha sido <strong>borrado</strong>",
+    "A new file or folder has been <strong>restored</strong>" : "Un nuevo archivo o carpeta ha sido <strong>restaurado</strong>"
 },
 "nplurals=2; plural=(n != 1);");

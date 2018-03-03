@@ -12,7 +12,6 @@ OC.L10N.register(
     "More comments …" : "Daugiau komentarų …",
     "Save" : "Įrašyti",
     "Allowed characters {count} of {max}" : "Leidžiama simbolių {count} iš {max}",
-    "Error occurred while retrieving comment with id {id}" : "Klaida bandant parodyti komentarą pagal identifikavimo numerį {id}",
     "Error occurred while updating comment with id {id}" : "Klaida bandant pataisyti komentarą pagal identifikavimo numerį {id}",
     "Error occurred while posting comment" : "Skelbiant komentarą, įvyko klaida",
     "_%n unread comment_::_%n unread comments_" : ["%n neskaitytas komentaras","%n neskaityti komentarai","%n neskaitytų komentarų"],

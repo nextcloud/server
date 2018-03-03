@@ -10,7 +10,6 @@
     "More comments …" : "Nog kommentare …",
     "Save" : "Bewaar",
     "Allowed characters {count} of {max}" : "Toegelate karakters {telling} van {maks}",
-    "Error occurred while retrieving comment with id {id}" : "’n Fout het voorgekom toe kommentaar met id {id} opgehaal is",
     "Error occurred while updating comment with id {id}" : "’n Fout het voorgekom toe kommentaar met id {id} bygewerk is",
     "Error occurred while posting comment" : "’n Fout het voorgekom toe kommentaar geplaas is",
     "_%n unread comment_::_%n unread comments_" : ["%n ongeleesde kommentaar","%n ongeleeste kommentare"],

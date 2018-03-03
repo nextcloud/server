@@ -12,7 +12,6 @@ OC.L10N.register(
     "More comments …" : "Več komentarjev ....",
     "Save" : "Shrani",
     "Allowed characters {count} of {max}" : "Dovoljeni znaki: {count} od {max}",
-    "Error occurred while retrieving comment with id {id}" : "Napaka se je zgodila med prenosom komentarja z oznako {id}",
     "Error occurred while updating comment with id {id}" : "Napaka se je zgodila med posodabljanjem komentarja z oznako {id}",
     "Error occurred while posting comment" : "Napaka se je zgodila med predajo komentarja",
     "Comment" : "Opomba",

@@ -12,7 +12,6 @@ OC.L10N.register(
     "More comments …" : "Xem thêm các bình luận...",
     "Save" : "Lưu",
     "Allowed characters {count} of {max}" : "Số  ký tự được còn lại là {count} trong tổng số {max}",
-    "Error occurred while retrieving comment with id {id}" : "Có lỗi xảy ra khi truy xuất bình luận có id {id}",
     "Error occurred while updating comment with id {id}" : "Có lỗi xảy ra khi cập nhật bình luận có id {id}",
     "Error occurred while posting comment" : "Có lỗi xảy ra khi đăng bình luận",
     "_%n unread comment_::_%n unread comments_" : ["%n bình luận chưa đọc"],

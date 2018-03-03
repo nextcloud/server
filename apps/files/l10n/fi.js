@@ -24,6 +24,7 @@ OC.L10N.register(
     "Download" : "Lataa",
     "Rename" : "Nimeä uudelleen",
     "Move or copy" : "Siirrä tai kopioi",
+    "Copy" : "Kopioi",
     "Target folder" : "Kohdekansio",
     "Delete" : "Poista",
     "Disconnect storage" : "Katkaise yhteys tallennustilaan",

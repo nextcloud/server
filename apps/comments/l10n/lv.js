@@ -12,7 +12,6 @@ OC.L10N.register(
     "More comments …" : "Vairāk komentāri...",
     "Save" : "Saglabāt",
     "Allowed characters {count} of {max}" : "Atļautās zīmes {count} no {max}",
-    "Error occurred while retrieving comment with id {id}" : "Notika kļūda saņemot komentāru ar id {id}",
     "Error occurred while updating comment with id {id}" : "Kļūda atjauninot komentāru ar id {id}",
     "Error occurred while posting comment" : "Notika kļūda pievienojot komentāru",
     "_%n unread comment_::_%n unread comments_" : ["%n nelasīti komentāri","%n nelasīti komentāri","%n nelasīti komentāri"],

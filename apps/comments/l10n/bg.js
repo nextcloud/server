@@ -12,7 +12,6 @@ OC.L10N.register(
     "More comments …" : "Още коментари...",
     "Save" : "Запазване",
     "Allowed characters {count} of {max}" : "Позволени символи {count} от {max}",
-    "Error occurred while retrieving comment with id {id}" : "Възникна грешка по време на извличане на коментар с код {id}",
     "Error occurred while updating comment with id {id}" : "Възникна грешка по време на обновяване на коментар с код {id}",
     "Error occurred while posting comment" : "Възникна грешка по време на изпращане на коментар",
     "_%n unread comment_::_%n unread comments_" : ["%n непрочетен коментар","%n непрочетени коментари"],
