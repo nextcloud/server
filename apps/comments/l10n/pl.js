@@ -12,7 +12,6 @@ OC.L10N.register(
     "More comments …" : "Więcej komentarzy ...",
     "Save" : "Zapisz",
     "Allowed characters {count} of {max}" : "Dozwolone znaki {count} z {max}",
-    "Error occurred while retrieving comment with id {id}" : "W trakcie pobierania komentarza o identyfikatorze {id} wystąpił błąd.",
     "Error occurred while updating comment with id {id}" : "W trakcie aktualizacji komentarza o identyfikatorze {id} wystąpił błąd.",
     "Error occurred while posting comment" : "Podczas wysyłania komentarza wystąpił błąd",
     "_%n unread comment_::_%n unread comments_" : ["%n nieprzeczytany komentarz","%n nieprzeczytane komentarze","%n nieprzeczytanych komentarzy","%n nieprzeczytanych komentarzy"],

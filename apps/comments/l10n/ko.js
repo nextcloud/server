@@ -12,7 +12,6 @@ OC.L10N.register(
     "More comments …" : "더 많은 댓글 …",
     "Save" : "저장",
     "Allowed characters {count} of {max}" : "{count}/{max} 글자 사용 가능",
-    "Error occurred while retrieving comment with id {id}" : "댓글 ID {id}을(를) 가져오는 중 오류가 발생했습니다",
     "Error occurred while updating comment with id {id}" : "댓글 ID {id}을(를) 업데이트하는 동안 오류가 발생했습니다 ",
     "Error occurred while posting comment" : "댓글을 게시하는 중 오류가 발생했습니다",
     "_%n unread comment_::_%n unread comments_" : ["읽지 않은 댓글 %n개"],

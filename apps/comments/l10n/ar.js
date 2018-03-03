@@ -12,7 +12,6 @@ OC.L10N.register(
     "More comments …" : "مزيد من التعليقات...",
     "Save" : "حفظ",
     "Allowed characters {count} of {max}" : "عدد الأحرف المسموح بها {count} من {max}",
-    "Error occurred while retrieving comment with id {id}" : "حصل خطأ أثناء عرض التعليق رقم {id}",
     "Error occurred while updating comment with id {id}" : "حصل خطأ أثناء تعديل التعليق رقم {id}",
     "Error occurred while posting comment" : "حصل خطأ أثناء إرسال التعليق",
     "Comment" : "تعليق",

@@ -12,7 +12,6 @@ OC.L10N.register(
     "More comments …" : "Më shumë komente ...",
     "Save" : "Ruaje",
     "Allowed characters {count} of {max}" : "Shenja të lejuara {count} nga {max}",
-    "Error occurred while retrieving comment with id {id}" : "Ndodhi një gabim teksa merrej komenti me id{id}",
     "Error occurred while updating comment with id {id}" : "Ndodhi një gabim teksa përditësohej komenti me id {id}",
     "Error occurred while posting comment" : "Ndodhi një gabim teksa postohej komenti",
     "_%n unread comment_::_%n unread comments_" : ["%n komente të palexuara","%n komente të palexuara "],

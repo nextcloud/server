@@ -12,7 +12,6 @@ OC.L10N.register(
     "More comments …" : "Plus de commentaires ...",
     "Save" : "Enregistrer",
     "Allowed characters {count} of {max}" : "{count} sur {max} caractères autorisés",
-    "Error occurred while retrieving comment with id {id}" : "Une erreur est survenue lors de la récupération du commentaire avec l'id {id}",
     "Error occurred while updating comment with id {id}" : "Une erreur est survenue lors de la mise à jour du commentaire avec l'id {id}",
     "Error occurred while posting comment" : "Une erreur est survenue lors de l'envoi du commentaire",
     "_%n unread comment_::_%n unread comments_" : ["%n commentaire non lu","%n commentaires non lus"],

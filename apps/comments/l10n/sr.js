@@ -12,7 +12,6 @@ OC.L10N.register(
     "More comments …" : "Преостали коментари …",
     "Save" : "Сачувај",
     "Allowed characters {count} of {max}" : "Дозвољених {count} знакова од {max}",
-    "Error occurred while retrieving comment with id {id}" : "Дошло је до грешке при прегледу коментара ознаке {id}",
     "Error occurred while updating comment with id {id}" : "Дошло је до грешке при преправци коментара ознаке {id}",
     "Error occurred while posting comment" : "Дошло је до грешке при објави коментара",
     "_%n unread comment_::_%n unread comments_" : ["%nнепрочитани коментар","%nнепрочитана коментара ","%n непрочитаних коментара"],

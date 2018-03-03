@@ -10,7 +10,6 @@
     "More comments …" : "ความคิดเห็นอื่นๆ ...",
     "Save" : "บันทึก",
     "Allowed characters {count} of {max}" : "อนุญาตให้ใช้ {count} จากทั้งหมด {max} ตัวอักษร",
-    "Error occurred while retrieving comment with id {id}" : "เกิดข้อผิดพลาดขณะดึงความเห็น {id}",
     "Error occurred while updating comment with id {id}" : "เกิดข้อผิดพลาดขณะปรับปรุงความเห็น {id}",
     "Error occurred while posting comment" : "เกิดข้อผิดพลาดขณะส่งความเห็น {id}",
     "_%n unread comment_::_%n unread comments_" : ["%nความเห็นยังไม่อ่าน"],
