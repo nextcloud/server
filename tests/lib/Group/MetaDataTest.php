@@ -53,12 +53,19 @@ class MetaDataTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$group->expects($this->exactly(9))
+		$group->expects($this->exactly(6))
 			->method('getGID')
 			->will($this->onConsecutiveCalls(
 				'admin', 'admin', 'admin',
 				'g2', 'g2', 'g2',
 				'g3', 'g3', 'g3'));
+
+		$group->expects($this->exactly(3))
+			->method('getDisplayName')
+			->will($this->onConsecutiveCalls(
+				'admin',
+				'g2',
+				'g3'));
 
 		$group->expects($this->exactly($countCallCount))
 			->method('count')
