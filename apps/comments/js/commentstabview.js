@@ -33,7 +33,7 @@
 		'    </div>' +
 		'    <form class="newCommentForm">' +
 		'        <div contentEditable="true" class="message" data-placeholder="{{newMessagePlaceholder}}">{{message}}</div>' +
-		'        <input class="submit icon-confirm" type="submit" value="" />' +
+		'        <input class="submit icon-confirm has-tooltip" type="submit" value="" title="{{submitText}}"/>' +
 		'        <div class="submitLoading icon-loading-small hidden"></div>'+
 		'    </form>' +
 		'</{{tag}}>';

@@ -63,9 +63,9 @@
 				$target = $target.closest('.menuitem');
 			}
 
-			this.trigger('select:menu-item-clicked', event, $target.data('action'));
-
 			OC.hideMenus();
+			
+			this.trigger('select:menu-item-clicked', event, $target.data('action'));
 		},
 
 		/**
