@@ -268,10 +268,10 @@ nav[role='navigation'] {
 	}
 	a {
 		position: relative;
-		display: block;
+		display: inline-flex;
 		padding: 10px 12px;
-		height:40px;
-		vertical-align: text-bottom;
+		height: 40px;
+		align-items: center;
 		span {
 			display: inline-block;
 			padding-bottom: 0;
@@ -285,9 +285,6 @@ nav[role='navigation'] {
 		svg,
 		span {
 			opacity: .7;
-		}
-		svg {
-			margin-bottom: 2px;
 		}
 		&:hover svg,
 		&:focus svg,
@@ -308,20 +305,20 @@ nav[role='navigation'] {
 		max-width: 32px;
 	}
 
-}
+	/* loading feedback for apps */
+	.app-loading {
+		.icon-loading-small {
+			display: inline !important;
+			position: absolute;
+			left: 12px;
+			width: 16px;
+			height: 16px;
+		}
+		.app-icon {
+			opacity: 0;
+		}
+	}
 
-/* loading feedback for apps */
-.app-loading {
-	.icon-loading-small-dark {
-		display: inline !important;
-		position: absolute;
-		left: 12px;
-		width: 16px;
-		height: 16px;
-	}
-	.app-icon {
-		opacity: 0;
-	}
 }
 
 /* Apps management */
@@ -462,10 +459,15 @@ nav[role='navigation'] {
 			opacity: .6;
 		}
 	}
-	.app-loading .icon-loading-small-dark {
-		top: 12px;
-		width: 20px;
-		height: 20px;
+	.app-loading {
+		> svg {
+			display: none;
+		}
+		.icon-loading-small-dark {
+			width: 20px;
+			height: 20px;
+			display: block !important;
+		}
 	}
 
 
