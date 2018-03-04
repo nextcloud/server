@@ -427,7 +427,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 		return $this->userDisplayNames[$uid];
 	}
-	
+
 	/**
 	 * @return array
 	 */
@@ -976,7 +976,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$q->select($q->createFunction('COUNT(*)'))
 			->from('calendarobjects')
 			->where($q->expr()->eq('calendarid', $q->createNamedParameter($calendarId)))
-			->andWhere($q->expr()->eq('uid', $q->createNamedParameter($extraData['uid'])));
+			->andWhere($q->expr()->eq('uid', $q->createNamedParameter($objectUri)));
 
 		$result = $q->execute();
 		$count = (int) $result->fetchColumn();
@@ -999,7 +999,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				'firstoccurence' => $query->createNamedParameter($extraData['firstOccurence']),
 				'lastoccurence' => $query->createNamedParameter($extraData['lastOccurence']),
 				'classification' => $query->createNamedParameter($extraData['classification']),
-				'uid' => $query->createNamedParameter($extraData['uid']),
+				'uid' => $query->createNamedParameter($objectUri),
 			])
 			->execute();
 
