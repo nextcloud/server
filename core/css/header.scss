@@ -222,17 +222,17 @@
 }
 
 /* NAVIGATION --------------------------------------------------------------- */
-nav {
+nav[role='navigation'] {
 	display: inline-block;
 	width: 44px;
 	height: 44px;
 	margin-left: -44px;
-	position: relative;
 }
 
 .header-left #navigation {
 	position: relative;
-	left: -100%;
+	left: 22px; /* half the togglemenu */
+	transform: translateX(-50%);
 	width: 160px;
 }
 
@@ -243,7 +243,7 @@ nav {
 	filter: drop-shadow(0 1px 10px $color-box-shadow);
 	&:after {
 		/* position of dropdown arrow */
-		left: 47%;
+		left: 50%;
 		bottom: 100%;
 		border: solid transparent;
 		content: ' ';
@@ -253,8 +253,8 @@ nav {
 		pointer-events: none;
 		border-color: rgba(0, 0, 0, 0);
 		border-bottom-color: $color-main-background;
-		border-width: 9px;
-		margin-left: -9px;
+		border-width: 10px;
+		margin-left: -10px; /* border width */
 	}
 }
 
