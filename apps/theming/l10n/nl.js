@@ -5,6 +5,7 @@ OC.L10N.register(
     "Saved" : "Opgeslagen",
     "Admin" : "Beheer",
     "a safe home for all your data" : "een veilige plek voor al je gegevens",
+    "Name cannot be empty" : "Naam mag niet leeg zijn",
     "The given name is too long" : "De opgegeven naam is te lang",
     "The given web address is too long" : "Het opgegeven internetadres is te lang",
     "The given slogan is too long" : "De opgegeven slagzin is te lang",

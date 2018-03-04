@@ -24,7 +24,7 @@ OC.L10N.register(
     "Storage not valid" : "Almacenamiento inválido",
     "Federated share added" : "Recurso compartido federado añadido",
     "Couldn't add remote share" : "No se puede añadir un compartido remoto",
-    "Sharing %s failed, because this item is already shared with %s" : "Se falló al compartir %s, ya que este elemento ya está compartido con %s",
+    "Sharing %s failed, because this item is already shared with %s" : "Fallo al compartir %s, ya que este elemento ya está compartido con %s",
     "Not allowed to create a federated share with the same user" : "No se permite crear un recurso compartido federado con el mismo usuario",
     "File is already shared with %s" : "El Archivo ya está siendo compartido con %s",
     "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Error al compartir %s No se pudo hallar %s, quizás haya un problema de conexión con el servidor.",

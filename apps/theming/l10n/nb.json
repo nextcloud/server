@@ -3,6 +3,7 @@
     "Saved" : "Lagret",
     "Admin" : "Admin",
     "a safe home for all your data" : "et trygt hjem for alle dine data",
+    "Name cannot be empty" : "Navn kan ikke være tom",
     "The given name is too long" : "Navnet er for langt",
     "The given web address is too long" : "Nettadressen er for lang",
     "The given slogan is too long" : "Slagordet er for langt",

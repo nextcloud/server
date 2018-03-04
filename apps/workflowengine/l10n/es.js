@@ -64,7 +64,7 @@ OC.L10N.register(
     "Add rule group" : "Añadir regla al grupo",
     "Short rule description" : "Descripción de la regla corta",
     "Add rule" : "Añadir regla",
-    "Reset" : "Reiniciar",
+    "Reset" : "Restablecer",
     "Save" : "Guardar",
     "Saving…" : "Guardando...",
     "Loading…" : "Cargando..."
