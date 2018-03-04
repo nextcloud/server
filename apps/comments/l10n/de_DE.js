@@ -12,6 +12,7 @@ OC.L10N.register(
     "More comments …" : "Weitere Kommentare …",
     "Save" : "Speichern",
     "Allowed characters {count} of {max}" : "{count} von {max} Zeichen benutzt",
+    "Error occurred while retrieving comment with ID {id}" : "Es ist ein Fehler beim Empfangen des Kommentars mit der ID {id} aufgetreten",
     "Error occurred while updating comment with id {id}" : "Es ist ein Fehler beim Aktualisieren des Kommentars mit der ID {id} aufgetreten",
     "Error occurred while posting comment" : "Es ist ein Fehler beim Veröffentlichen des Kommentars aufgetreten",
     "_%n unread comment_::_%n unread comments_" : ["%n ungelesener Kommentar","%n ungelesene Kommentare"],

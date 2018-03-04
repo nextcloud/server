@@ -338,6 +338,7 @@ OC.L10N.register(
     "Show user backend" : "Näytä käyttäjätaustaosa",
     "Show last login" : "Näytä viimeisin sisäänkirjautuminen",
     "When the password of a new user is left empty, an activation email with a link to set the password is sent." : "Kun uuden käyttäjän salasana jätetään tyhjäksi, hänelle lähetetään aktivointisähköpostiviesti, joka sisältää linkin salasanan luomiseksi.",
+    "Add user" : "Lisää käyttäjä",
     "Everyone" : "Kaikki",
     "Admins" : "Ylläpitäjät",
     "Disabled" : "Poistettu käytöstä",

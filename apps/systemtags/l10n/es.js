@@ -49,7 +49,7 @@ OC.L10N.register(
     "Public" : "Público",
     "Restricted" : "Restringido",
     "Invisible" : "Invisible",
-    "Reset" : "Reiniciar",
+    "Reset" : "Restablecer",
     "No files in here" : "Aquí no hay archivos",
     "No entries found in this folder" : "No hay entradas en esta carpeta",
     "Size" : "Tamaño",

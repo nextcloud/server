@@ -5,6 +5,7 @@ OC.L10N.register(
     "Saved" : "Uloženo",
     "Admin" : "Administrace",
     "a safe home for all your data" : "bezpečný domov pro všechna vaše data",
+    "Name cannot be empty" : "Název nemůže být prázdný",
     "The given name is too long" : "Zadaný název je příliš dlouhý",
     "The given web address is too long" : "Zadaná webová adresa je příliš dlouhá",
     "The given slogan is too long" : "Zadaný slogan je příliš dlouhý",
