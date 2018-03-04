@@ -5,6 +5,7 @@ OC.L10N.register(
     "Saved" : "Mentve!",
     "Admin" : "Adminisztrátor",
     "a safe home for all your data" : "biztonságos hely az adataid számára",
+    "Name cannot be empty" : "A név nem lehet üres",
     "The given name is too long" : "A bevitt név túl hosszú",
     "The given web address is too long" : "A bevitt webcím túl hosszú",
     "The given slogan is too long" : "A bevitt szlogen túl hosszú",

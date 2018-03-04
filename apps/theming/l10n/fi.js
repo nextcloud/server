@@ -5,6 +5,7 @@ OC.L10N.register(
     "Saved" : "Tallennettu",
     "Admin" : "Ylläpito",
     "a safe home for all your data" : "turvallinen koti kaikille tiedostoillesi",
+    "Name cannot be empty" : "Nimi ei voi olla tyhjä",
     "The given name is too long" : "Nimi on liian pitkä",
     "The given web address is too long" : "Verkko-osoite on liian pitkä",
     "The given slogan is too long" : "Slogani on liian pitkä",
