@@ -8,6 +8,8 @@
     "Notify members of the following groups about available updates:" : "A következő csoport tagjainak értesítése az elérhető frissítésekről:",
     "Only notification for app updates are available." : "Csak az értesítő alkalmazás frissítései érhetők el.",
     "The selected update channel does not support updates of the server." : "A kiválasztott frissítése csatorna nem támogatja a szerver frissítéseit.",
+    "A new version is available: {newVersionString}" : "Új verzió érhető el: {newVersionString}",
+    "Checked on {lastCheckedDate}" : "Ellenőrizve ekkor: {lastCheckedDate}",
     "Could not start updater, please try the manual update" : "Nem sikerült elindítani a frissítőt, kérlek próbáld a manuális frissítést",
     "Update notifications" : "Frissítési értesítés",
     "Channel updated" : "Csatorna frissítve",
