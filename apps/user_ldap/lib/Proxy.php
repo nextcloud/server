@@ -163,7 +163,7 @@ abstract class Proxy {
 		if($key === null) {
 			return $prefix;
 		}
-		return $prefix.md5($key);
+		return $prefix.hash('sha256', $key);
 	}
 
 	/**
