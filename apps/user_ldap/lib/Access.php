@@ -579,7 +579,19 @@ class Access extends LDAPUtility implements IUserTools {
 			} else {
 				$username = $uuid;
 			}
-			$intName = $this->sanitizeUsername($username);
+			try {
+				$intName = $this->sanitizeUsername($username);
+			} catch (\InvalidArgumentException $e) {
+				\OC::$server->getLogger()->logException($e, [
+					'app' => 'user_ldap',
+					'level' => Util::WARN,
+				]);
+				// we don't attempt to set a username here. We can go for
+				// for an alternative 4 digit random number as we would append
+				// otherwise, however it's likely not enough space in bigger
+				// setups, and most importantly: this is not intended.
+				return false;
+			}
 		} else {
 			$intName = $ldapName;
 		}
@@ -1291,22 +1303,32 @@ class Access extends LDAPUtility implements IUserTools {
 
 	/**
 	 * @param string $name
-	 * @return bool|mixed|string
+	 * @return string
+	 * @throws \InvalidArgumentException
 	 */
 	public function sanitizeUsername($name) {
+		$name = trim($name);
+
 		if($this->connection->ldapIgnoreNamingRules) {
-			return trim($name);
+			return $name;
 		}
 
-		// Transliteration
-		// latin characters to ASCII
-		$name = iconv('UTF-8', 'ASCII//TRANSLIT', $name);
+		// Transliteration to ASCII
+		$transliterated = @iconv('UTF-8', 'ASCII//TRANSLIT', $name);
+		if($transliterated !== false) {
+			// depending on system config iconv can work or not
+			$name = $transliterated;
+		}
 
 		// Replacements
 		$name = str_replace(' ', '_', $name);
 
 		// Every remaining disallowed characters will be removed
 		$name = preg_replace('/[^a-zA-Z0-9_.@-]/u', '', $name);
+
+		if($name === '') {
+			throw new \InvalidArgumentException('provided name template for username does not contain any allowed characters');
+		}
 
 		return $name;
 	}
