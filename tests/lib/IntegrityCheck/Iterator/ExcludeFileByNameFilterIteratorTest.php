@@ -43,8 +43,8 @@ class ExcludeFileByNameFilterIteratorTest extends TestCase {
 			['Thumbs.db', false],
 			['another file', true],
 			['.directory', false],
-			['.webapp-owncloud-obee', false],
-			['wx.webapp-owncloud-obee', true],
+			['.webapp-netxcloud-12.0.5', false],
+			['wx.webapp-nextcloud-obee', true],
 		];
 	}
 
