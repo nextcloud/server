@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -41,7 +42,7 @@ class ContentSecurityPolicyManager implements IContentSecurityPolicyManager {
 	 *
 	 * @return ContentSecurityPolicy
 	 */
-	public function getDefaultPolicy() {
+	public function getDefaultPolicy(): ContentSecurityPolicy {
 		$defaultPolicy = new \OC\Security\CSP\ContentSecurityPolicy();
 		foreach($this->policies as $policy) {
 			$defaultPolicy = $this->mergePolicies($defaultPolicy, $policy);
@@ -57,14 +58,14 @@ class ContentSecurityPolicyManager implements IContentSecurityPolicyManager {
 	 * @return ContentSecurityPolicy
 	 */
 	public function mergePolicies(ContentSecurityPolicy $defaultPolicy,
-								  EmptyContentSecurityPolicy $originalPolicy) {
+								  EmptyContentSecurityPolicy $originalPolicy): ContentSecurityPolicy {
 		foreach((object)(array)$originalPolicy as $name => $value) {
 			$setter = 'set'.ucfirst($name);
-			if(is_array($value)) {
+			if(\is_array($value)) {
 				$getter = 'get'.ucfirst($name);
-				$currentValues = is_array($defaultPolicy->$getter()) ? $defaultPolicy->$getter() : [];
+				$currentValues = \is_array($defaultPolicy->$getter()) ? $defaultPolicy->$getter() : [];
 				$defaultPolicy->$setter(array_values(array_unique(array_merge($currentValues, $value))));
-			} elseif (is_bool($value)) {
+			} elseif (\is_bool($value)) {
 				$defaultPolicy->$setter($value);
 			}
 		}
