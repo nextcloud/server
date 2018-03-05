@@ -1071,6 +1071,7 @@ $(document).ready(function () {
 
 		promise.then(function () {
 			var groups = $('#newuser .groups').data('groups') || {};
+			groups = Object.keys(groups);
 			$.post(
 				OC.generateUrl('/settings/users/users'),
 				{
