@@ -202,10 +202,10 @@ class Message implements IMessage {
 	/**
 	 * Set the subject of this message.
 	 *
-	 * @param $subject
-	 * @return $this
+	 * @param string $subject
+	 * @return IMessage
 	 */
-	public function setSubject($subject): IMessage {
+	public function setSubject(string $subject): IMessage {
 		$this->swiftMessage->setSubject($subject);
 		return $this;
 	}
