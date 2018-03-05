@@ -40,8 +40,6 @@ OC.Settings = _.extend(OC.Settings, {
 					$.each(data.data.groups, function(i, group) {
 						results.push({id:group.id, displayname:group.name});
 					});
-				},
-				always: function() {
 					// note: settings are saved through a "change" event registered
 					// on all input fields
 					$elements.select2(_.extend({
