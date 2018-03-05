@@ -23,7 +23,7 @@ OC.L10N.register(
     "Couldn't access. Please log out and in again to activate this mount point" : "No se ha podido acceder. Por favor, sal de la cuenta y vuelve a entrar para activar este punto de montaje",
     "Couldn't get the information from the remote server: {code} {type}" : "No se pudo obtener la información del servidor remoto: {code} {type}",
     "Couldn't get the list of external mount points: {type}" : "No se puede obtener la lista de los puntos de montaje externos: {type}",
-    "There was an error with message: " : "Hubo un error con el mensaje:",
+    "There was an error with message: " : "Ha habido un error con el mensaje:",
     "External mount error" : "Error de montaje externo",
     "external-storage" : "almacenamiento-externo",
     "Couldn't fetch list of Windows network drive mount points: Empty response from server" : "No se ha podido recuperar la lista de puntos de montaje de las unidades de red de Windows: respuesta vacía del servidor",
