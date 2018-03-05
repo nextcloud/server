@@ -17,7 +17,7 @@ OC.L10N.register(
     "Channel updated" : "Canal actualizado",
     "The update server could not be reached since %d days to check for new updates." : "No se ha podido contactar con el servidor de actualizaciones desde hace %d días para comprobar nuevas actualizaciones.",
     "Please check the Nextcloud and server log files for errors." : "Por favor, revisa que no haya errores en Nextcloud y en los archivos de registro.",
-    "Update to %1$s is available." : "Actualización a %1$s esta disponible.",
+    "Update to %1$s is available." : "La actualización a %1$s está disponible.",
     "Update for %1$s to version %2$s is available." : "La actualización de %1$s a la versión %2$s está disponible.",
     "Update for {app} to version %s is available." : "Actualización de {app} a la versión %s disponible.",
     "Update notification" : "Notificación de actualización",
