@@ -36,6 +36,7 @@
 		this.$menu = $('<div class="popovermenu menu-center"><ul></ul></div>');
 
 		this.crumbSelector = '.crumb:not(.hidden):not(.crumbhome):not(.crumbmenu)';
+		this.hiddenCrumbSelector = '.crumb.hidden:not(.crumbhome):not(.crumbmenu)';
 		options = options || {};
 		if (options.onClick) {
 			this.onClick = options.onClick;
@@ -239,30 +240,20 @@
 		},
 
 		/**
-		 * Show/hide breadcrumbs to fit the given width
-		 * Mostly used by tests
-		 *
-		 * @param {int} availableWidth available width
-		 */
-		setMaxWidth: function (availableWidth) {
-			if (this.availableWidth !== availableWidth) {
-				this.availableWidth = availableWidth;
-				this._resize();
-			}
-		},
-
-		/**
 		 * Calculate real width based on individual crumbs
-		 * More accurate and works with tests
 		 *
 		 * @param {boolean} ignoreHidden ignore hidden crumbs
 		 */
 		getTotalWidth: function(ignoreHidden) {
+			// The width has to be calculated by adding up the width of all the
+			// crumbs; getting the width of the breadcrumb element is not a
+			// valid approach, as the returned value could be clamped to its
+			// parent width.
 			var totalWidth = 0;
 			for (var i = 0; i < this.breadcrumbs.length; i++ ) {
 				var $crumb = $(this.breadcrumbs[i]);
 				if(!$crumb.hasClass('hidden') || ignoreHidden === true) {
-					totalWidth += $crumb.outerWidth();
+					totalWidth += $crumb.outerWidth(true);
 				}
 			}
 			return totalWidth;
@@ -282,19 +273,19 @@
  		 * Get the crumb to show
  		 */
  		_getCrumbElement: function() {
-			var hidden = this.$el.find('.crumb.hidden').length;
+			var hidden = this.$el.find(this.hiddenCrumbSelector).length;
 			var shown = this.$el.find(this.crumbSelector).length;
 			// Get the outer one with priority to the highest
 			var elmt = (1 - shown % 2) * (hidden - 1);
-			return this.$el.find('.crumb.hidden:eq('+elmt+')');
+			return this.$el.find(this.hiddenCrumbSelector + ':eq('+elmt+')');
 		},
 
  		/**
  		 * Show the middle crumb
  		 */
  		_showCrumb: function() {
-			if(this.$el.find('.crumb.hidden').length === 1) {
-				this.$el.find('.crumb.hidden').removeClass('hidden');
+			if(this.$el.find(this.hiddenCrumbSelector).length === 1) {
+				this.$el.find(this.hiddenCrumbSelector).removeClass('hidden');
 			}
 			this._getCrumbElement().removeClass('hidden');
  		},
@@ -311,9 +302,7 @@
 		 * Update the popovermenu
 		 */
 		_updateMenu: function() {
-			var menuItems = this.$el.find('.crumb.hidden');
-			// Hide the crumb menu if no elements
-			this.$el.find('.crumbmenu').toggleClass('hidden', menuItems.length === 0);
+			var menuItems = this.$el.find(this.hiddenCrumbSelector);
 
 			this.$menu.find('li').addClass('in-breadcrumb');
 			for (var i = 0; i < menuItems.length; i++) {
@@ -329,24 +318,46 @@
 				return;
 			}
 
-			// Used for testing since this.$el.parent fails
-			if (!this.availableWidth) {
-				this.usedWidth = this.$el.parent().width() - this.$el.parent().find('.actions.creatable').width();
-			} else {
-				this.usedWidth = this.availableWidth;
+			// Always hide the menu to ensure that it does not interfere with
+			// the width calculations; otherwise, the result could be different
+			// depending on whether the menu was previously being shown or not.
+			this.$el.find('.crumbmenu').addClass('hidden');
+
+			// Show the crumbs to compress the siblings before hidding again the
+			// crumbs. This is needed when the siblings expand to fill all the
+			// available width, as in that case their old width would limit the
+			// available width for the crumbs.
+			// Note that the crumbs shown always overflow the parent width
+			// (except, of course, when they all fit in).
+			while (this.$el.find(this.hiddenCrumbSelector).length > 0
+				&& this.getTotalWidth() <= this.$el.parent().width()) {
+				this._showCrumb();
 			}
+
+			var siblingsWidth = 0;
+			this.$el.prevAll(':visible').each(function () {
+				siblingsWidth += $(this).outerWidth(true);
+			});
+			this.$el.nextAll(':visible').each(function () {
+				siblingsWidth += $(this).outerWidth(true);
+			});
+
+			var availableWidth = this.$el.parent().width() - siblingsWidth;
 
 			// If container is smaller than content
 			// AND if there are crumbs left to hide
-			while (this.getTotalWidth() > this.usedWidth
+			while (this.getTotalWidth() > availableWidth
 				&& this.$el.find(this.crumbSelector).length > 0) {
+				// As soon as one of the crumbs is hidden the menu will be
+				// shown. This is needed for proper results in further width
+				// checks.
+				// Note that the menu is not shown only when all the crumbs were
+				// being shown and they all fit the available space; if any of
+				// the crumbs was not being shown then those shown would
+				// overflow the available width, so at least one will be hidden
+				// and thus the menu will be shown.
+				this.$el.find('.crumbmenu').removeClass('hidden');
 				this._hideCrumb();
-			}
-			// If container is bigger than content + element to be shown
-			// AND if there is at least one hidden crumb
-			while (this.$el.find('.crumb.hidden').length > 0
-				&& this.getTotalWidth() + this._getCrumbElement().width() < this.usedWidth) {
-				this._showCrumb();
 			}
 
 			this._updateMenu();
