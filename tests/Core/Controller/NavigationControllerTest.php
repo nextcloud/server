@@ -132,7 +132,7 @@ class NavigationControllerTest extends TestCase {
 		$this->request->expects($this->once())
 			->method('getHeader')
 			->with('If-None-Match')
-			->willReturn(md5(json_encode($navigation)));
+			->willReturn(md5(json_encode(['files'])));
 		$this->navigationManager->expects($this->once())
 			->method('getAll')
 			->with('link')
@@ -143,11 +143,11 @@ class NavigationControllerTest extends TestCase {
 	}
 
 	public function testGetSettingsNavigationEtagMatch() {
-		$navigation = [ ['id' => 'files', 'href' => '/index.php/apps/files', 'icon' => 'icon' ] ];
+		$navigation = [ ['id' => 'logout', 'href' => '/index.php/apps/files', 'icon' => 'icon' ] ];
 		$this->request->expects($this->once())
 			->method('getHeader')
 			->with('If-None-Match')
-			->willReturn(md5(json_encode($navigation)));
+			->willReturn(md5(json_encode([ ['id' => 'logout', 'href' => 'logout', 'icon' => 'icon' ] ])));
 		$this->navigationManager->expects($this->once())
 			->method('getAll')
 			->with('settings')

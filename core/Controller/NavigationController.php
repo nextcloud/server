@@ -56,12 +56,12 @@ class NavigationController extends OCSController {
 			$navigation = $this->rewriteToAbsoluteUrls($navigation);
 		}
 
-		$etag = md5(json_encode($navigation));
+		$etag = $this->generateETag($navigation);
 		if ($this->request->getHeader('If-None-Match') === $etag) {
 			return new DataResponse([], Http::STATUS_NOT_MODIFIED);
 		}
 		$response = new DataResponse($navigation);
-		$response->setEtag($etag);
+		$response->setETag($etag);
 		return $response;
 	}
 
@@ -77,13 +77,28 @@ class NavigationController extends OCSController {
 		if ($absolute) {
 			$navigation = $this->rewriteToAbsoluteUrls($navigation);
 		}
-		$etag = md5(json_encode($navigation));
+		$etag = $this->generateETag($navigation);
 		if ($this->request->getHeader('If-None-Match') === $etag) {
 			return new DataResponse([], Http::STATUS_NOT_MODIFIED);
 		}
 		$response = new DataResponse($navigation);
-		$response->setEtag($etag);
+		$response->setETag($etag);
 		return $response;
+	}
+
+	/**
+	 * Generate an ETag for a list of navigation entries
+	 *
+	 * @param array $navigation
+	 * @return string
+	 */
+	private function generateETag(array $navigation): string {
+		foreach ($navigation as &$nav) {
+			if ($nav['id'] === 'logout') {
+				$nav['href'] = 'logout';
+			}
+		}
+		return md5(json_encode($navigation));
 	}
 
 	/**
