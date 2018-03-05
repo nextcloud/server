@@ -43,7 +43,6 @@
 	<commands>
 		<command>OCA\Encryption\Command\EnableMasterKey</command>
 		<command>OCA\Encryption\Command\DisableMasterKey</command>
-		<command>OCA\Encryption\Command\MigrateKeys</command>
 	</commands>
 
 	<settings>

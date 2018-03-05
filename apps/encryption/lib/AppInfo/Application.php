@@ -55,19 +55,12 @@ class Application extends \OCP\AppFramework\App {
 
 	/**
 	 * @param array $urlParams
-	 * @param bool $encryptionSystemReady
 	 */
-	public function __construct($urlParams = array(), $encryptionSystemReady = true) {
+	public function __construct($urlParams = array()) {
 		parent::__construct('encryption', $urlParams);
 		$this->encryptionManager = \OC::$server->getEncryptionManager();
 		$this->config = \OC::$server->getConfig();
 		$this->registerServices();
-		if($encryptionSystemReady === false) {
-			/** @var Session $session */
-			$session = $this->getContainer()->query('Session');
-			$session->setStatus(Session::RUN_MIGRATION);
-		}
-
 	}
 
 	public function setUp() {
