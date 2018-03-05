@@ -205,7 +205,7 @@ class PersonalInfo implements ISettings {
 		$languages = [];
 
 		foreach($languageCodes as $lang) {
-			$l = \OC::$server->getL10N('settings', $lang);
+			$l = \OC::$server->getL10N('lib', $lang);
 			// TRANSLATORS this is the language name for the language switcher in the personal settings and should be the localized version
 			$potentialName = (string) $l->t('__language_name__');
 			if($l->getLanguageCode() === $lang && substr($potentialName, 0, 1) !== '_') {//first check if the language name is in the translation file
