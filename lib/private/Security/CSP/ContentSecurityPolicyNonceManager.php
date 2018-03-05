@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
  *
@@ -55,7 +56,7 @@ class ContentSecurityPolicyNonceManager {
 	 *
 	 * @return string
 	 */
-	public function getNonce() {
+	public function getNonce(): string {
 		if($this->nonce === '') {
 			$this->nonce = base64_encode($this->csrfTokenManager->getToken()->getEncryptedValue());
 		}
@@ -68,7 +69,7 @@ class ContentSecurityPolicyNonceManager {
 	 *
 	 * @return bool
 	 */
-	public function browserSupportsCspV3() {
+	public function browserSupportsCspV3(): bool {
 		$browserWhitelist = [
 			Request::USER_AGENT_CHROME,
 			// Firefox 45+

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -33,147 +34,147 @@ class ContentSecurityPolicy extends \OCP\AppFramework\Http\ContentSecurityPolicy
 	/**
 	 * @return boolean
 	 */
-	public function isInlineScriptAllowed() {
+	public function isInlineScriptAllowed(): bool {
 		return $this->inlineScriptAllowed;
 	}
 
 	/**
 	 * @param boolean $inlineScriptAllowed
 	 */
-	public function setInlineScriptAllowed($inlineScriptAllowed) {
+	public function setInlineScriptAllowed(bool $inlineScriptAllowed) {
 		$this->inlineScriptAllowed = $inlineScriptAllowed;
 	}
 
 	/**
 	 * @return boolean
 	 */
-	public function isEvalScriptAllowed() {
+	public function isEvalScriptAllowed(): bool {
 		return $this->evalScriptAllowed;
 	}
 
 	/**
 	 * @param boolean $evalScriptAllowed
 	 */
-	public function setEvalScriptAllowed($evalScriptAllowed) {
+	public function setEvalScriptAllowed(bool $evalScriptAllowed) {
 		$this->evalScriptAllowed = $evalScriptAllowed;
 	}
 
 	/**
 	 * @return array
 	 */
-	public function getAllowedScriptDomains() {
+	public function getAllowedScriptDomains(): array {
 		return $this->allowedScriptDomains;
 	}
 
 	/**
 	 * @param array $allowedScriptDomains
 	 */
-	public function setAllowedScriptDomains($allowedScriptDomains) {
+	public function setAllowedScriptDomains(array $allowedScriptDomains) {
 		$this->allowedScriptDomains = $allowedScriptDomains;
 	}
 
 	/**
 	 * @return boolean
 	 */
-	public function isInlineStyleAllowed() {
+	public function isInlineStyleAllowed(): bool {
 		return $this->inlineStyleAllowed;
 	}
 
 	/**
 	 * @param boolean $inlineStyleAllowed
 	 */
-	public function setInlineStyleAllowed($inlineStyleAllowed) {
+	public function setInlineStyleAllowed(bool $inlineStyleAllowed) {
 		$this->inlineStyleAllowed = $inlineStyleAllowed;
 	}
 
 	/**
 	 * @return array
 	 */
-	public function getAllowedStyleDomains() {
+	public function getAllowedStyleDomains(): array {
 		return $this->allowedStyleDomains;
 	}
 
 	/**
 	 * @param array $allowedStyleDomains
 	 */
-	public function setAllowedStyleDomains($allowedStyleDomains) {
+	public function setAllowedStyleDomains(array $allowedStyleDomains) {
 		$this->allowedStyleDomains = $allowedStyleDomains;
 	}
 
 	/**
 	 * @return array
 	 */
-	public function getAllowedImageDomains() {
+	public function getAllowedImageDomains(): array {
 		return $this->allowedImageDomains;
 	}
 
 	/**
 	 * @param array $allowedImageDomains
 	 */
-	public function setAllowedImageDomains($allowedImageDomains) {
+	public function setAllowedImageDomains(array $allowedImageDomains) {
 		$this->allowedImageDomains = $allowedImageDomains;
 	}
 
 	/**
 	 * @return array
 	 */
-	public function getAllowedConnectDomains() {
+	public function getAllowedConnectDomains(): array {
 		return $this->allowedConnectDomains;
 	}
 
 	/**
 	 * @param array $allowedConnectDomains
 	 */
-	public function setAllowedConnectDomains($allowedConnectDomains) {
+	public function setAllowedConnectDomains(array $allowedConnectDomains) {
 		$this->allowedConnectDomains = $allowedConnectDomains;
 	}
 
 	/**
 	 * @return array
 	 */
-	public function getAllowedMediaDomains() {
+	public function getAllowedMediaDomains(): array {
 		return $this->allowedMediaDomains;
 	}
 
 	/**
 	 * @param array $allowedMediaDomains
 	 */
-	public function setAllowedMediaDomains($allowedMediaDomains) {
+	public function setAllowedMediaDomains(array $allowedMediaDomains) {
 		$this->allowedMediaDomains = $allowedMediaDomains;
 	}
 
 	/**
 	 * @return array
 	 */
-	public function getAllowedObjectDomains() {
+	public function getAllowedObjectDomains(): array {
 		return $this->allowedObjectDomains;
 	}
 
 	/**
 	 * @param array $allowedObjectDomains
 	 */
-	public function setAllowedObjectDomains($allowedObjectDomains) {
+	public function setAllowedObjectDomains(array $allowedObjectDomains) {
 		$this->allowedObjectDomains = $allowedObjectDomains;
 	}
 
 	/**
 	 * @return array
 	 */
-	public function getAllowedFrameDomains() {
+	public function getAllowedFrameDomains(): array {
 		return $this->allowedFrameDomains;
 	}
 
 	/**
 	 * @param array $allowedFrameDomains
 	 */
-	public function setAllowedFrameDomains($allowedFrameDomains) {
+	public function setAllowedFrameDomains(array $allowedFrameDomains) {
 		$this->allowedFrameDomains = $allowedFrameDomains;
 	}
 
 	/**
 	 * @return array
 	 */
-	public function getAllowedFontDomains() {
+	public function getAllowedFontDomains(): array {
 		return $this->allowedFontDomains;
 	}
 
@@ -187,7 +188,7 @@ class ContentSecurityPolicy extends \OCP\AppFramework\Http\ContentSecurityPolicy
 	/**
 	 * @return array
 	 */
-	public function getAllowedChildSrcDomains() {
+	public function getAllowedChildSrcDomains(): array {
 		return $this->allowedChildSrcDomains;
 	}
 
@@ -201,7 +202,7 @@ class ContentSecurityPolicy extends \OCP\AppFramework\Http\ContentSecurityPolicy
 	/**
 	 * @return array
 	 */
-	public function getAllowedFrameAncestors() {
+	public function getAllowedFrameAncestors(): array {
 		return $this->allowedFrameAncestors;
 	}
 
