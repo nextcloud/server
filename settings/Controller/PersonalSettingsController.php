@@ -34,9 +34,6 @@ use OCP\Template;
 class PersonalSettingsController extends Controller {
 	use CommonSettingsTrait;
 
-	/** @var INavigationManager */
-	private $navigationManager;
-
 	public function __construct(
 		$appName,
 		IRequest $request,
@@ -57,7 +54,6 @@ class PersonalSettingsController extends Controller {
 	 * @NoSubadminRequired
 	 */
 	public function index($section) {
-		$this->navigationManager->setActiveEntry('personal');
 		return $this->getIndexResponse('personal', $section);
 
 	}
