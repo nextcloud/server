@@ -110,6 +110,13 @@ class FilesSharingAppContext implements Context, ActorAwareInterface {
 	}
 
 	/**
+	 * @When I visit the direct download shared link I wrote down
+	 */
+	public function iVisitTheDirectDownloadSharedLinkIWroteDown() {
+		$this->actor->getSession()->visit($this->actor->getSharedNotebook()["shared link"] . "/download");
+	}
+
+	/**
 	 * @When I authenticate with password :password
 	 */
 	public function iAuthenticateWithPassword($password) {
@@ -129,7 +136,16 @@ class FilesSharingAppContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheCurrentPageIsTheAuthenticatePageForTheSharedLinkIWroteDown() {
 		PHPUnit_Framework_Assert::assertEquals(
-				$this->actor->getSharedNotebook()["shared link"] . "/authenticate",
+				$this->actor->getSharedNotebook()["shared link"] . "/authenticate/preview",
+				$this->actor->getSession()->getCurrentUrl());
+	}
+
+	/**
+	 * @Then I see that the current page is the Authenticate page for the direct download shared link I wrote down
+	 */
+	public function iSeeThatTheCurrentPageIsTheAuthenticatePageForTheDirectDownloadSharedLinkIWroteDown() {
+		PHPUnit_Framework_Assert::assertEquals(
+				$this->actor->getSharedNotebook()["shared link"] . "/authenticate/download",
 				$this->actor->getSession()->getCurrentUrl());
 	}
 
@@ -139,6 +155,15 @@ class FilesSharingAppContext implements Context, ActorAwareInterface {
 	public function iSeeThatTheCurrentPageIsTheSharedLinkIWroteDown() {
 		PHPUnit_Framework_Assert::assertEquals(
 				$this->actor->getSharedNotebook()["shared link"],
+				$this->actor->getSession()->getCurrentUrl());
+	}
+
+	/**
+	 * @Then I see that the current page is the direct download shared link I wrote down
+	 */
+	public function iSeeThatTheCurrentPageIsTheDirectDownloadSharedLinkIWroteDown() {
+		PHPUnit_Framework_Assert::assertEquals(
+				$this->actor->getSharedNotebook()["shared link"] . "/download",
 				$this->actor->getSession()->getCurrentUrl());
 	}
 

@@ -218,7 +218,7 @@ class ShareControllerTest extends \Test\TestCase {
 			->with('token')
 			->will($this->throwException(new \OCP\Share\Exceptions\ShareNotFound()));
 
-		$response = $this->shareController->authenticate('token');
+		$response = $this->shareController->authenticate('token', 'preview');
 		$expectedResponse =  new NotFoundResponse();
 		$this->assertEquals($expectedResponse, $response);
 	}
@@ -249,7 +249,38 @@ class ShareControllerTest extends \Test\TestCase {
 			->with('files_sharing.sharecontroller.showShare', ['token'=>'token'])
 			->willReturn('redirect');
 
-		$response = $this->shareController->authenticate('token', 'validpassword');
+		$response = $this->shareController->authenticate('token', 'preview', 'validpassword');
+		$expectedResponse =  new RedirectResponse('redirect');
+		$this->assertEquals($expectedResponse, $response);
+	}
+
+	public function testAuthenticateValidPasswordAndDownload() {
+		$share = \OC::$server->getShareManager()->newShare();
+		$share->setId(42);
+
+		$this->shareManager
+			->expects($this->once())
+			->method('getShareByToken')
+			->with('token')
+			->willReturn($share);
+
+		$this->shareManager
+			->expects($this->once())
+			->method('checkPassword')
+			->with($share, 'validpassword')
+			->willReturn(true);
+
+		$this->session
+			->expects($this->once())
+			->method('set')
+			->with('public_link_authenticated', '42');
+
+		$this->urlGenerator->expects($this->once())
+			->method('linkToRoute')
+			->with('files_sharing.sharecontroller.downloadShare', ['token'=>'token'])
+			->willReturn('redirect');
+
+		$response = $this->shareController->authenticate('token', 'download', 'validpassword');
 		$expectedResponse =  new RedirectResponse('redirect');
 		$this->assertEquals($expectedResponse, $response);
 	}
@@ -292,7 +323,7 @@ class ShareControllerTest extends \Test\TestCase {
 					$data['errorMessage'] === 'Wrong password';
 			}));
 
-		$response = $this->shareController->authenticate('token', 'invalidpassword');
+		$response = $this->shareController->authenticate('token', 'preview', 'invalidpassword');
 		$expectedResponse =  new TemplateResponse($this->appName, 'authenticate', array('wrongpw' => true), 'guest');
 		$expectedResponse->throttle();
 		$this->assertEquals($expectedResponse, $response);
@@ -323,7 +354,7 @@ class ShareControllerTest extends \Test\TestCase {
 
 		$this->urlGenerator->expects($this->once())
 			->method('linkToRoute')
-			->with('files_sharing.sharecontroller.authenticate', ['token' => 'validtoken'])
+			->with('files_sharing.sharecontroller.authenticate', ['token' => 'validtoken', 'redirect' => 'preview'])
 			->willReturn('redirect');
 
 		// Test without a not existing token
@@ -505,7 +536,7 @@ class ShareControllerTest extends \Test\TestCase {
 
 		$this->urlGenerator->expects($this->once())
 			->method('linkToRoute')
-			->with('files_sharing.sharecontroller.authenticate', ['token' => 'validtoken'])
+			->with('files_sharing.sharecontroller.authenticate', ['token' => 'validtoken', 'redirect' => 'download'])
 			->willReturn('redirect');
 
 		// Test with a password protected share and no authentication
@@ -533,5 +564,4 @@ class ShareControllerTest extends \Test\TestCase {
 		$expectedResponse = new DataResponse('Share is read-only');
 		$this->assertEquals($expectedResponse, $response);
 	}
-
 }

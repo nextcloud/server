@@ -170,10 +170,11 @@ class ShareController extends Controller {
 	 *
 	 * Authenticates against password-protected shares
 	 * @param string $token
+	 * @param string $redirect
 	 * @param string $password
 	 * @return RedirectResponse|TemplateResponse|NotFoundResponse
 	 */
-	public function authenticate($token, $password = '') {
+	public function authenticate($token, $redirect, $password = '') {
 
 		// Check whether share exists
 		try {
@@ -184,8 +185,17 @@ class ShareController extends Controller {
 
 		$authenticate = $this->linkShareAuth($share, $password);
 
-		if($authenticate === true) {
-			return new RedirectResponse($this->urlGenerator->linkToRoute('files_sharing.sharecontroller.showShare', array('token' => $token)));
+		// if download was requested before auth, redirect to download
+		if ($authenticate === true && $redirect === 'download') {
+			return new RedirectResponse($this->urlGenerator->linkToRoute(
+				'files_sharing.sharecontroller.downloadShare',
+				array('token' => $token))
+			);
+		} else if ($authenticate === true) {
+			return new RedirectResponse($this->urlGenerator->linkToRoute(
+				'files_sharing.sharecontroller.showShare',
+				array('token' => $token))
+			);
 		}
 
 		$response = new TemplateResponse($this->appName, 'authenticate', array('wrongpw' => true), 'guest');
@@ -294,7 +304,7 @@ class ShareController extends Controller {
 		// Share is password protected - check whether the user is permitted to access the share
 		if ($share->getPassword() !== null && !$this->linkShareAuth($share)) {
 			return new RedirectResponse($this->urlGenerator->linkToRoute('files_sharing.sharecontroller.authenticate',
-				array('token' => $token)));
+				array('token' => $token, 'redirect' => 'preview')));
 		}
 
 		if (!$this->validateShare($share)) {
@@ -480,7 +490,7 @@ class ShareController extends Controller {
 		// Share is password protected - check whether the user is permitted to access the share
 		if ($share->getPassword() !== null && !$this->linkShareAuth($share)) {
 			return new RedirectResponse($this->urlGenerator->linkToRoute('files_sharing.sharecontroller.authenticate',
-				['token' => $token]));
+				['token' => $token, 'redirect' => 'download']));
 		}
 
 		$files_list = null;

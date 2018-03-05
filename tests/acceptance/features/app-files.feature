@@ -71,6 +71,18 @@ Feature: app-files
     Then I see that the current page is the Authenticate page for the shared link I wrote down
     And I see that a wrong password for the shared file message is shown
 
+  Scenario: access a direct download shared link protected by password with a valid password
+    Given I act as John
+    And I am logged in
+    And I share the link for "welcome.txt" protected by the password "abcdef"
+    And I write down the shared link
+    When I act as Jane
+    And I visit the direct download shared link I wrote down
+    And I see that the current page is the Authenticate page for the direct download shared link I wrote down
+    And I authenticate with password "abcdef"
+    # download starts no page redirection
+    And I see that the current page is the Authenticate page for the direct download shared link I wrote down
+
   Scenario: show the input field for tags in the details view
     Given I am logged in
     And I open the details view for "welcome.txt"
