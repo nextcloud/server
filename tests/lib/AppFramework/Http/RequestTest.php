@@ -1846,7 +1846,6 @@ class RequestTest extends \Test\TestCase {
 		return [
 			['InvalidSentToken'],
 			['InvalidSentToken:InvalidSecret'],
-			[null],
 			[''],
 		];
 	}
