@@ -170,11 +170,11 @@
 				}).done(function(response) {
 					// add admin groups
 					$.each(response.data.adminGroups, function(id, group) {
-						self.groups.push({ id: group.id, displayname: group.name+'FIXME' });
+						self.groups.push({ id: group.id, displayname: group.name });
 					});
 					// add groups
 					$.each(response.data.groups, function(id, group) {
-						self.groups.push({ id: group.id, displayname: group.name+'FIXME' });
+						self.groups.push({ id: group.id, displayname: group.name });
 					});
 					self.render();
 				}).fail(function(response) {
