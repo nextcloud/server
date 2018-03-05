@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright 2017, Morris Jobke <hey@morrisjobke.de>
  * @copyright 2017, Lukas Reschke <lukas@statuscode.ch>
@@ -367,7 +368,7 @@ EOF;
 	 *
 	 * @param string $subject
 	 */
-	public function setSubject($subject) {
+	public function setSubject(string $subject) {
 		$this->subject = $subject;
 	}
 
@@ -391,7 +392,7 @@ EOF;
 	 * @param string|bool $plainTitle Title that is used in the plain text email
 	 *   if empty the $title is used, if false none will be used
 	 */
-	public function addHeading($title, $plainTitle = '') {
+	public function addHeading(string $title, $plainTitle = '') {
 		if ($this->footerAdded) {
 			return;
 		}
@@ -424,7 +425,7 @@ EOF;
 	 * @param string|bool $plainText Text that is used in the plain text email
 	 *   if empty the $text is used, if false none will be used
 	 */
-	public function addBodyText($text, $plainText = '') {
+	public function addBodyText(string $text, $plainText = '') {
 		if ($this->footerAdded) {
 			return;
 		}
@@ -447,13 +448,13 @@ EOF;
 	 * @param string $text Note: When $plainText falls back to this, HTML is automatically escaped in the HTML email
 	 * @param string $metaInfo Note: When $plainMetaInfo falls back to this, HTML is automatically escaped in the HTML email
 	 * @param string $icon Absolute path, must be 16*16 pixels
-	 * @param string $plainText Text that is used in the plain text email
+	 * @param string|bool $plainText Text that is used in the plain text email
 	 *   if empty the $text is used, if false none will be used
-	 * @param string $plainMetaInfo Meta info that is used in the plain text email
+	 * @param string|bool $plainMetaInfo Meta info that is used in the plain text email
 	 *   if empty the $metaInfo is used, if false none will be used
 	 * @since 12.0.0
 	 */
-	public function addBodyListItem($text, $metaInfo = '', $icon = '', $plainText = '', $plainMetaInfo = '') {
+	public function addBodyListItem(string $text, string $metaInfo = '', string $icon = '', $plainText = '', $plainMetaInfo = '') {
 		$this->ensureBodyListOpened();
 
 		if ($plainText === '') {
@@ -513,12 +514,12 @@ EOF;
 	 * @param string $plainTextLeft Text of left button that is used in the plain text version - if unset the $textLeft is used
 	 * @param string $plainTextRight Text of right button that is used in the plain text version - if unset the $textRight is used
 	 */
-	public function addBodyButtonGroup($textLeft,
-									   $urlLeft,
-									   $textRight,
-									   $urlRight,
-									   $plainTextLeft = '',
-									   $plainTextRight = '') {
+	public function addBodyButtonGroup(string $textLeft,
+									   string $urlLeft,
+									   string $textRight,
+									   string $urlRight,
+									   string $plainTextLeft = '',
+									   string $plainTextRight = '') {
 		if ($this->footerAdded) {
 			return;
 		}
@@ -554,7 +555,7 @@ EOF;
 	 *
 	 * @since 12.0.0
 	 */
-	public function addBodyButton($text, $url, $plainText = '') {
+	public function addBodyButton(string $text, string $url, $plainText = '') {
 		if ($this->footerAdded) {
 			return;
 		}
@@ -598,7 +599,7 @@ EOF;
 	 *
 	 * @param string $text If the text is empty the default "Name - Slogan<br>This is an automatically sent email" will be used
 	 */
-	public function addFooter($text = '') {
+	public function addFooter(string $text = '') {
 		if($text === '') {
 			$text = $this->themingDefaults->getName() . ' - ' . $this->themingDefaults->getSlogan() . '<br>' . $this->l10n->t('This is an automatically sent email, please do not reply.');
 		}
@@ -621,7 +622,7 @@ EOF;
 	 *
 	 * @return string
 	 */
-	public function renderSubject() {
+	public function renderSubject(): string {
 		return $this->subject;
 	}
 
@@ -630,7 +631,7 @@ EOF;
 	 *
 	 * @return string
 	 */
-	public function renderHtml() {
+	public function renderHtml(): string {
 		if (!$this->footerAdded) {
 			$this->footerAdded = true;
 			$this->ensureBodyIsClosed();
@@ -644,7 +645,7 @@ EOF;
 	 *
 	 * @return string
 	 */
-	public function renderText() {
+	public function renderText(): string {
 		if (!$this->footerAdded) {
 			$this->footerAdded = true;
 			$this->ensureBodyIsClosed();
