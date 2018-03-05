@@ -42,7 +42,7 @@
 			$(element).css('width', '400px');
 
 			$(element).select2({
-				data: groups,
+				data: { results: groups, text: 'displayname' },
 				initSelection: function (element, callback) {
 					var groupId = element.val();
 					if (groupId && groups.length > 0) {

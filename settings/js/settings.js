@@ -24,75 +24,70 @@ OC.Settings = _.extend(OC.Settings, {
 		var self = this;
 		options = options || {};
 		if ($elements.length > 0) {
-			// note: settings are saved through a "change" event registered
-			// on all input fields
-			$elements.select2(_.extend({
-				placeholder: t('core', 'Groups'),
-				allowClear: true,
-				multiple: true,
-				toggleSelect: true,
-				separator: '|',
-				query: _.debounce(function(query) {
-					var queryData = {};
-					if (self._cachedGroups && query.term === '') {
-						query.callback({results: self._cachedGroups});
-						return;
-					}
-					if (query.term !== '') {
-						queryData = {
-							pattern: query.term,
-							filterGroups: 1
-						};
-					}
-					$.ajax({
-						url: OC.generateUrl('/settings/users/groups'),
-						data: queryData,
-						dataType: 'json',
-						success: function(data) {
-							var results = [];
+			// Let's load the data and THEN init our select
+			$.ajax({
+				url: OC.generateUrl('/settings/users/groups'),
+				dataType: 'json',
+				success: function(data) {
+					var results = [];
 
-							// add groups
-							if (!options.excludeAdmins) {
-								$.each(data.data.adminGroups, function(i, group) {
-									results.push({id:group.id, displayname:group.name});
+					// add groups
+					if (!options.excludeAdmins) {
+						$.each(data.data.adminGroups, function(i, group) {
+							results.push({id:group.id, displayname:group.name});
+						});
+					}
+					$.each(data.data.groups, function(i, group) {
+						results.push({id:group.id, displayname:group.name});
+					});
+				},
+				always: function() {
+					// note: settings are saved through a "change" event registered
+					// on all input fields
+					$elements.select2(_.extend({
+						placeholder: t('core', 'Groups'),
+						allowClear: true,
+						multiple: true,
+						toggleSelect: true,
+						separator: '|',
+						data: { results: results, text: 'displayname' },
+						initSelection: function(element, callback) {
+							var groups = $(element).val();
+							var selection;
+							if (groups && results.length > 0) {
+								selection = _.map((groups || []).split('|').sort(), function(groupId) {
+									return {
+										id: groupId,
+										displayname: results.find(group =>group.id === groupId).displayname
+									};
+								});
+							} else if (groups) {
+								selection = _.map((groups || []).split('|').sort(), function(groupId) {
+									return {
+										id: groupId,
+										displayname: groupId
+									};
 								});
 							}
-							$.each(data.data.groups, function(i, group) {
-								results.push({id:group.id, displayname:group.name});
-							});
-
-							if (query.term === '') {
-								// cache full list
-								self._cachedGroups = results;
-							}
-							query.callback({results: results});
+							callback(selection);
+						},
+						formatResult: function (element) {
+							return escapeHTML(element.displayname);
+						},
+						formatSelection: function (element) {
+							return escapeHTML(element.displayname);
+						},
+						escapeMarkup: function(m) {
+							// prevent double markup escape
+							return m;
 						}
-					});
-				}, 100, true),
-				id: function(element) {
-					return element.id;
+					}, extraOptions || {}));
 				},
-				initSelection: function(element, callback) {
-					var selection = _.map(($(element).val() || []).split('|').sort(), function(groupId) {
-						return {
-							id: groupId,
-							displayname: groupId + 'FIXME' // FIXME
-						};
-					});
-					callback(selection);
-				},
-				formatResult: function (element) {
-					return escapeHTML(element.displayname);
-				},
-				formatSelection: function (element) {
-					return escapeHTML(element.displayname);
-				},
-				escapeMarkup: function(m) {
-					// prevent double markup escape
-					return m;
+				error : function(data) {
+					OC.Notification.show(t('settings', 'Unable to retrieve the group list'), {type: 'error'});
+					console.log(data);
 				}
-			}, extraOptions || {}));
+			});
 		}
 	}
 });
-

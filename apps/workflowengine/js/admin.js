@@ -167,7 +167,7 @@
 					url: OC.generateUrl('settings/users/groups'),
 					dataType: 'json',
 					quietMillis: 100,
-				}).done(function(response) {
+				}).success(function(response) {
 					// add admin groups
 					$.each(response.data.adminGroups, function(id, group) {
 						self.groups.push({ id: group.id, displayname: group.name });
@@ -177,8 +177,9 @@
 						self.groups.push({ id: group.id, displayname: group.name });
 					});
 					self.render();
-				}).fail(function(response) {
-					console.error('Failure happened', response);
+				}).error(function(data) {
+					OC.Notification.error(t('workflowengine', 'Unable to retrieve the group list'), {type: 'error'});
+					console.log(data);
 				});
 			},
 			delete: function() {
