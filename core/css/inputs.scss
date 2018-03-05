@@ -212,6 +212,41 @@ select {
 	padding-right: 24px !important;
 }
 
+/* Confirm inputs */
+input {
+	&[type='text'],
+	&[type='password'],
+	&[type='email'] {
+		+ .icon-confirm {
+			margin-left: -8px !important;
+			border-left-color: transparent !important;
+			border-radius: 0 $border-radius $border-radius 0 !important;
+			background-clip: padding-box; /* Avoid background under border */
+		}
+		/* only show confirm borders if input is not focused */
+		&:not(:active):not(:hover):not(:focus){
+			+ .icon-confirm {
+				&:active,
+				&:hover,
+				&:focus {
+					border-left-color: $color-primary-element !important;
+					border-radius: $border-radius !important;
+				}
+			}
+		}
+		&:active,
+		&:hover,
+		&:focus {
+			+ .icon-confirm {
+				border-color: $color-primary-element !important;
+				border-left-color: transparent !important;
+			}
+		}
+	}
+
+}
+
+
 /* Various Fixes */
 button img,
 .button img {

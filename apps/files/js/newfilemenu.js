@@ -28,7 +28,7 @@
 		'<form class="filenameform">' +
 		'<label class="hidden-visually" for="{{cid}}-input-{{fileType}}">{{fileName}}</label>' +
 		'<input id="{{cid}}-input-{{fileType}}" type="text" value="{{fileName}}" autocomplete="off" autocapitalize="off">' +
-		'<input type="submit" value=" " class="primary icon-checkmark-white" />'
+		'<input type="submit" value=" " class="icon-confirm" />'
 		'</form>';
 
 	/**
