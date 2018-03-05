@@ -23,6 +23,7 @@
 namespace Tests\Core\Controller;
 
 use OC\Core\Controller\NavigationController;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\INavigationManager;
 use OCP\IRequest;
@@ -124,6 +125,36 @@ class NavigationControllerTest extends TestCase {
 			$this->assertEquals('/index.php/settings/user', $actual->getData()[0]['href']);
 			$this->assertEquals('/core/img/settings.svg', $actual->getData()[0]['icon']);
 		}
+	}
+
+	public function testGetAppNavigationEtagMatch() {
+		$navigation = [ ['id' => 'files', 'href' => '/index.php/apps/files', 'icon' => 'icon' ] ];
+		$this->request->expects($this->once())
+			->method('getHeader')
+			->with('If-None-Match')
+			->willReturn(md5(json_encode($navigation)));
+		$this->navigationManager->expects($this->once())
+			->method('getAll')
+			->with('link')
+			->willReturn($navigation);
+			$actual = $this->controller->getAppsNavigation();
+			$this->assertInstanceOf(DataResponse::class, $actual);
+			$this->assertEquals(Http::STATUS_NOT_MODIFIED, $actual->getStatus());
+	}
+
+	public function testGetSettingsNavigationEtagMatch() {
+		$navigation = [ ['id' => 'files', 'href' => '/index.php/apps/files', 'icon' => 'icon' ] ];
+		$this->request->expects($this->once())
+			->method('getHeader')
+			->with('If-None-Match')
+			->willReturn(md5(json_encode($navigation)));
+		$this->navigationManager->expects($this->once())
+			->method('getAll')
+			->with('settings')
+			->willReturn($navigation);
+		$actual = $this->controller->getSettingsNavigation();
+		$this->assertInstanceOf(DataResponse::class, $actual);
+		$this->assertEquals(Http::STATUS_NOT_MODIFIED, $actual->getStatus());
 	}
 
 }

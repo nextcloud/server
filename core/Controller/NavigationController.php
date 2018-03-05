@@ -22,6 +22,7 @@
  */
 namespace OC\Core\Controller;
 
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 use OCP\INavigationManager;
@@ -54,7 +55,14 @@ class NavigationController extends OCSController {
 		if ($absolute) {
 			$navigation = $this->rewriteToAbsoluteUrls($navigation);
 		}
-		return new DataResponse($navigation);
+
+		$etag = md5(json_encode($navigation));
+		if ($this->request->getHeader('If-None-Match') === $etag) {
+			return new DataResponse([], Http::STATUS_NOT_MODIFIED);
+		}
+		$response = new DataResponse($navigation);
+		$response->setEtag($etag);
+		return $response;
 	}
 
 	/**
@@ -69,7 +77,13 @@ class NavigationController extends OCSController {
 		if ($absolute) {
 			$navigation = $this->rewriteToAbsoluteUrls($navigation);
 		}
-		return new DataResponse($navigation);
+		$etag = md5(json_encode($navigation));
+		if ($this->request->getHeader('If-None-Match') === $etag) {
+			return new DataResponse([], Http::STATUS_NOT_MODIFIED);
+		}
+		$response = new DataResponse($navigation);
+		$response->setEtag($etag);
+		return $response;
 	}
 
 	/**
