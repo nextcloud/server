@@ -587,7 +587,7 @@ class Access extends LDAPUtility implements IUserTools {
 					'level' => Util::WARN,
 				]);
 				// we don't attempt to set a username here. We can go for
-				// for an alternativ 4 digit random number as we would append
+				// for an alternative 4 digit random number as we would append
 				// otherwise, however it's likely not enough space in bigger
 				// setups, and most importantly: this is not intended.
 				return false;
@@ -1304,6 +1304,7 @@ class Access extends LDAPUtility implements IUserTools {
 	/**
 	 * @param string $name
 	 * @return string
+	 * @throws \InvalidArgumentException
 	 */
 	public function sanitizeUsername($name) {
 		if($this->connection->ldapIgnoreNamingRules) {
