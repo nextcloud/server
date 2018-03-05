@@ -1307,13 +1307,18 @@ class Access extends LDAPUtility implements IUserTools {
 	 * @throws \InvalidArgumentException
 	 */
 	public function sanitizeUsername($name) {
+		$name = trim($name);
+
 		if($this->connection->ldapIgnoreNamingRules) {
-			return trim($name);
+			return $name;
 		}
 
-		// Transliteration
-		// latin characters to ASCII
-		$name = iconv('UTF-8', 'ASCII//TRANSLIT', trim($name));
+		// Transliteration to ASCII
+		$transliterated = @iconv('UTF-8', 'ASCII//TRANSLIT', $name);
+		if($transliterated !== false) {
+			// depending on system config iconv can work or not
+			$name = $transliterated;
+		}
 
 		// Replacements
 		$name = str_replace(' ', '_', $name);

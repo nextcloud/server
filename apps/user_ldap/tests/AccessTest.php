@@ -633,13 +633,16 @@ class AccessTest extends TestCase {
 	}
 
 	public function intUsernameProvider() {
+		// system dependent :-/
+		$translitExpected = @iconv('UTF-8', 'ASCII//TRANSLIT', 'fränk') ? 'frank' : 'frnk';
+
 		return [
 			['alice', 'alice'],
 			['b/ob', 'bob'],
 			['charly🐬', 'charly'],
 			['debo rah', 'debo_rah'],
 			['epost@poste.test', 'epost@poste.test'],
-			['fränk', 'frank'],
+			['fränk', $translitExpected],
 			[' gerda ', 'gerda'],
 			['🕱🐵🐘🐑', null]
 		];
