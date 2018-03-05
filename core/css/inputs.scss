@@ -222,6 +222,7 @@ input {
 			border-left-color: transparent !important;
 			border-radius: 0 $border-radius $border-radius 0 !important;
 			background-clip: padding-box; /* Avoid background under border */
+			background-color: $color-main-background !important;
 		}
 		/* only show confirm borders if input is not focused */
 		&:not(:active):not(:hover):not(:focus){

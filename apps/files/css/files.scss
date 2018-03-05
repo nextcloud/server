@@ -38,10 +38,11 @@
 	font-weight: normal;
 }
 
-.newFileMenu .error, #fileList .error {
+.newFileMenu .error,
+.newFileMenu .error + .icon-confirm,
+#fileList .error {
 	color: $color-error;
 	border-color: $color-error;
-	box-shadow: 0 0 6px #f8b9b7;
 }
 
 /* FILE TABLE */
