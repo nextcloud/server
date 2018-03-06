@@ -22,6 +22,7 @@ class ComposerStaticInitUpdateNotification
 
     public static $classMap = array (
         'OCA\\UpdateNotification\\AppInfo\\Application' => __DIR__ . '/..' . '/../lib/AppInfo/Application.php',
+        'OCA\\UpdateNotification\\Controller\\APIController' => __DIR__ . '/..' . '/../lib/Controller/APIController.php',
         'OCA\\UpdateNotification\\Controller\\AdminController' => __DIR__ . '/..' . '/../lib/Controller/AdminController.php',
         'OCA\\UpdateNotification\\Notification\\BackgroundJob' => __DIR__ . '/..' . '/../lib/Notification/BackgroundJob.php',
         'OCA\\UpdateNotification\\Notification\\Notifier' => __DIR__ . '/..' . '/../lib/Notification/Notifier.php',

@@ -1,9 +1,36 @@
 <template>
 	<div id="updatenotification" class="followupsection">
-		<p>
+		<div class="update">
 			<template v-if="isNewVersionAvailable">
-				<strong>{{newVersionAvailableString}}</strong>
-				<input v-if="updaterEnabled" type="button" @click="clickUpdaterButton" id="oca_updatenotification_button" :value="t('updatenotification', 'Open updater')">
+				<p>
+					<span v-html="newVersionAvailableString"></span><br>
+					<span v-if="!isListFetched" class="icon icon-loading-small"></span>
+					<span v-html="statusText"></span>
+				</p>
+
+				<template v-if="missingAppUpdates.length">
+					<h3 @click="toggleHideMissingUpdates">
+						{{ t('updatenotification', 'Apps missing updates') }}
+						<span v-if="!hideMissingUpdates" class="icon icon-triangle-n"></span>
+						<span v-if="hideMissingUpdates" class="icon icon-triangle-s"></span>
+					</h3>
+					<ul class="applist" v-if="!hideMissingUpdates">
+						<li v-for="app in missingAppUpdates"><a :href="'https://apps.nextcloud.com/apps/' + app.appId" :title="t('settings', 'View in store')">{{app.appName}} ↗</a></li>
+					</ul>
+				</template>
+
+				<template v-if="availableAppUpdates.length">
+					<h3 @click="toggleHideAvailableUpdates">
+						{{ t('updatenotification', 'Apps with available updates') }}
+						<span v-if="!hideAvailableUpdates" class="icon icon-triangle-n"></span>
+						<span v-if="hideAvailableUpdates" class="icon icon-triangle-s"></span>
+					</h3>
+					<ul class="applist">
+						<li v-for="app in availableAppUpdates" v-if="!hideAvailableUpdates"><a :href="'https://apps.nextcloud.com/apps/' + app.appId" :title="t('settings', 'View in store')">{{app.appName}} ↗</a></li>
+					</ul>
+				</template>
+
+				<a v-if="updaterEnabled" href="#" class="button" @click="clickUpdaterButton">{{ t('updatenotification', 'Open updater') }}</a>
 				<a v-if="downloadLink" :href="downloadLink" class="button" :class="{ hidden: !updaterEnabled }">{{ t('updatenotification', 'Download now') }}</a>
 			</template>
 			<template v-else-if="!isUpdateChecked">{{ t('updatenotification', 'The update check is not yet finished. Please refresh the page.') }}</template>
@@ -16,7 +43,7 @@
 				<br />
 				<em>{{ t('updatenotification', 'A non-default update server is in use to be checked for updates:') }} <code>{{updateServerURL}}</code></em>
 			</template>
-		</p>
+		</div>
 
 		<p>
 			<label for="release-channel">{{ t('updatenotification', 'Update channel:') }}</label>
@@ -58,7 +85,15 @@
 				notifyGroups: '',
 				availableGroups: [],
 				isDefaultUpdateServerURL: true,
-				enableChangeWatcher: false
+				enableChangeWatcher: false,
+
+				availableAppUpdates: [],
+				missingAppUpdates: [],
+				appStoreFailed: false,
+				appStoreDisabled: false,
+				isListFetched: false,
+				hideMissingUpdates: false,
+				hideAvailableUpdates: true
 			};
 		},
 
@@ -78,19 +113,67 @@
 				});
 
 				OCP.AppConfig.setValue('updatenotification', 'notify_groups', JSON.stringify(selectedGroups));
+			},
+			isNewVersionAvailable: function() {
+				if (!this.isNewVersionAvailable) {
+					return;
+				}
+
+				$.ajax({
+					url: OC.linkToOCS('apps/updatenotification/api/v1/applist', 2) + this.newVersionString,
+					type: 'GET',
+					beforeSend: function (request) {
+						request.setRequestHeader('Accept', 'application/json');
+					},
+					success: function(response) {
+						this.availableAppUpdates = response.ocs.data.available;
+						this.missingAppUpdates = response.ocs.data.missing;
+						this.isListFetched = true;
+						this.appStoreFailed = false;
+					}.bind(this),
+					error: function(xhr) {
+						this.availableAppUpdates = [];
+						this.missingAppUpdates = [];
+						this.appStoreDisabled = xhr.responseJSON.ocs.data.appstore_disabled;
+						this.isListFetched = true;
+						this.appStoreFailed = true;
+					}.bind(this)
+				});
 			}
 		},
 
 		computed: {
 			newVersionAvailableString: function() {
-				return t('updatenotification', 'A new version is available: {newVersionString}', {
+				return t('updatenotification', 'A new version is available: <strong>{newVersionString}</strong>', {
 					newVersionString: this.newVersionString
 				});
 			},
+
 			lastCheckedOnString: function() {
 				return t('updatenotification', 'Checked on {lastCheckedDate}', {
 					lastCheckedDate: this.lastCheckedDate
 				});
+			},
+
+			statusText: function() {
+				if (!this.isListFetched) {
+					return t('updatenotification', 'Checking apps for compatible updates');
+				}
+
+				if (this.appstoreDisabled) {
+					return t('updatenotification', 'Please make sure your config.php does not set <samp>appstoreenabled</samp> to false.');
+				}
+
+				if (this.appstoreFailed) {
+					return t('updatenotification', 'Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore.');
+				}
+
+				return this.missingAppUpdates.length === 0 ? t('updatenotification', '<strong>All</strong> apps have an update for this version available', this) : n('updatenotification',
+					'<strong>%n</strong> app has no update for this version available',
+					'<strong>%n</strong> apps have no update for this version available',
+					this.missingAppUpdates.length, {
+						version: this.newVersionString
+					});
 			}
 		},
 
@@ -144,6 +227,12 @@
 						OC.msg.finishedAction('#channel_save_msg', data);
 					}
 				});
+			},
+			toggleHideMissingUpdates: function() {
+				this.hideMissingUpdates = !this.hideMissingUpdates;
+			},
+			toggleHideAvailableUpdates: function() {
+				this.hideAvailableUpdates = !this.hideAvailableUpdates;
 			}
 		},
 

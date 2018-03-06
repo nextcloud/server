@@ -34,6 +34,7 @@
 !/apps/updatenotification
 /apps/updatenotification/js/merged.js
 /apps/updatenotification/js/merged.js.map
+/apps/updatenotification/js/*.hot-update.*
 /apps/updatenotification/node_modules
 !/apps/theming
 !/apps/twofactor_backupcodes

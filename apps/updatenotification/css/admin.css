@@ -1,4 +1,33 @@
-#updatenotification p,
-#oca_updatenotification_section p {
-	margin: 25px 0;
+#updatenotification {
+	margin-top: -25px;
+}
+
+#updatenotification div.update,
+#updatenotification ul,
+#updatenotification p:not(.inlineblock) {
+	margin-bottom: 25px;
+}
+
+
+#updatenotification h2.inlineblock {
+	margin-top: 25px;
+}
+
+#updatenotification h3,
+#updatenotification h3 .icon {
+	cursor: pointer;
+}
+
+#updatenotification h3:first-of-type {
+	margin-top: 0;
+}
+
+#updatenotification .icon {
+	display: inline-block;
+	margin-bottom: -3px;
+}
+
+#updatenotification .icon-triangle-s,
+#updatenotification .icon-triangle-n {
+	opacity: 0.5;
 }

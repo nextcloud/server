@@ -7,6 +7,7 @@ $baseDir = $vendorDir;
 
 return array(
     'OCA\\UpdateNotification\\AppInfo\\Application' => $baseDir . '/../lib/AppInfo/Application.php',
+    'OCA\\UpdateNotification\\Controller\\APIController' => $baseDir . '/../lib/Controller/APIController.php',
     'OCA\\UpdateNotification\\Controller\\AdminController' => $baseDir . '/../lib/Controller/AdminController.php',
     'OCA\\UpdateNotification\\Notification\\BackgroundJob' => $baseDir . '/../lib/Notification/BackgroundJob.php',
     'OCA\\UpdateNotification\\Notification\\Notifier' => $baseDir . '/../lib/Notification/Notifier.php',
