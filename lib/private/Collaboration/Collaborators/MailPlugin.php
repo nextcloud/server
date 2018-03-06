@@ -194,7 +194,7 @@ class MailPlugin implements ISearchPlugin {
 		return true;
 	}
 
-	public function isCurrentUser(ICloudId $cloud): bool {
+	public function isCurrentUser(ICloudId $cloud) {
 		$currentUser = $this->userSession->getUser();
 		return $currentUser instanceof IUser ? $currentUser->getUID() === $cloud->getUser() : false;
 	}
