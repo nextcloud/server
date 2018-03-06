@@ -19,7 +19,6 @@
     "The old password was not correct, please try again." : "Staré heslo nebolo zadané správne, prosím skúste to ešte raz.",
     "The current log-in password was not correct, please try again." : "Toto heslo nebolo správne, prosím skúste to ešte raz.",
     "Private key password successfully updated." : "Heslo súkromného kľúča je úspešne aktualizované.",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Musíte migrovať vaše šifrovacie kľúče zo starého šifrovania (ownCloud <= 8,0) na nové. Spustite „occ encryption:migrate“ alebo sa obráťte na správcu",
     "Invalid private key for encryption app. Please update your private key password in your personal settings to recover access to your encrypted files." : "Neplatný súkromný kľúč pre šifrovanie. Aktualizujte prosím heslo vášho súkromného kľúča v osobných nastaveniach pre obnovenie prístupu k vaším šifrovaným súborom.",
     "Encryption App is enabled, but your keys are not initialized. Please log-out and log-in again." : "Aplikácia na šifrovanie je povolená, ale vaše kľúče nie sú inicializované. Odhláste sa a prihláste sa znova.",
     "Please enable server side encryption in the admin settings in order to use the encryption module." : "Ak chcete použiť šifrovací modul, povoľte šifrovanie na strane servera v nastaveniach administrátora.",
@@ -57,6 +56,7 @@
     "Enable password recovery:" : "Povoliť obnovu hesla:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Povolenie Vám umožní znovu získať prístup k Vašim zašifrovaným súborom, ak stratíte heslo",
     "Enabled" : "Povolené",
-    "Disabled" : "Zakázané"
+    "Disabled" : "Zakázané",
+    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Musíte migrovať vaše šifrovacie kľúče zo starého šifrovania (ownCloud <= 8,0) na nové. Spustite „occ encryption:migrate“ alebo sa obráťte na správcu"
 },"pluralForm" :"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;"
 }

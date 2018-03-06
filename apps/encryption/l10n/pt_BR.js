@@ -21,7 +21,6 @@ OC.L10N.register(
     "The old password was not correct, please try again." : "A senha antiga não estava correta, por favor tente novamente.",
     "The current log-in password was not correct, please try again." : "A senha atual de acesso não estava correta, por favor tente novamente.",
     "Private key password successfully updated." : "Senha de chave privada atualizada com sucesso.",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Você precisa migrar suas chaves de criptografia a partir da antiga criptografia (ownCloud <= 8,0) para a nova. Por favor, execute 'occ encryption:migrate' ou contate o administrador",
     "Invalid private key for encryption app. Please update your private key password in your personal settings to recover access to your encrypted files." : "Chave privada inválida para o aplicativo de criptografia. Atualize a senha da sua chave privada nas configurações pessoais para recuperar o acesso aos seus arquivos criptografados.",
     "Encryption App is enabled, but your keys are not initialized. Please log-out and log-in again." : "O aplicativo de criptografia está habilitado mas suas chaves não foram inicializadas. Por favor, saia e entre novamente.",
     "Please enable server side encryption in the admin settings in order to use the encryption module." : "Habilite a criptografia do lado do servidor em configurações administrativas a fim de usar o módulo de criptografia.",
@@ -59,6 +58,7 @@ OC.L10N.register(
     "Enable password recovery:" : "Habilitar recuperação de senha:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Ativar essa opção vai permitir que você obtenha novamente acesso aos seus arquivos criptografados em caso de perda de senha",
     "Enabled" : "Habilitado",
-    "Disabled" : "Desabilitado"
+    "Disabled" : "Desabilitado",
+    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Você precisa migrar suas chaves de criptografia a partir da antiga criptografia (ownCloud <= 8,0) para a nova. Por favor, execute 'occ encryption:migrate' ou contate o administrador"
 },
 "nplurals=2; plural=(n > 1);");

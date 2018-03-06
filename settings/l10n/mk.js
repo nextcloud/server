@@ -8,8 +8,6 @@ OC.L10N.register(
     "Authentication error" : "Грешка во автентикација",
     "Wrong admin recovery password. Please check the password and try again." : "Погрешна лозинка за поврат на администраторот. Ве молам проверете ја лозинката и пробајте повторно.",
     "Federated Cloud Sharing" : "Федерирано клауд споделување",
-    "A problem occurred, please check your log files (Error: %s)" : "Се случи грешка, ве молам проверете ги вашите датотеки за логови (Грешка: %s)",
-    "Migration Completed" : "Миграцијата заврши",
     "Group already exists." : "Групата веќе постои.",
     "Unable to add group." : "Не можам да додадам група.",
     "Unable to delete group." : "Не можам да избришам група.",
@@ -132,6 +130,8 @@ OC.L10N.register(
     "change full name" : "промена на целото име",
     "set new password" : "постави нова лозинка",
     "Default" : "Предефиниран",
+    "A problem occurred, please check your log files (Error: %s)" : "Се случи грешка, ве молам проверете ги вашите датотеки за логови (Грешка: %s)",
+    "Migration Completed" : "Миграцијата заврши",
     "A valid password must be provided" : "Мора да се обезбеди валидна лозинка",
     "A valid email must be provided" : "Мора да се обезбеди валидна електронска пошта",
     "Create" : "Создај"

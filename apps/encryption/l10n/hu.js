@@ -21,7 +21,6 @@ OC.L10N.register(
     "The old password was not correct, please try again." : "A régi jelszó nem volt helyes, kérlek próbáld újra.",
     "The current log-in password was not correct, please try again." : "Az aktuális bejelentkezési jelszó nem volt helyes, kérlek próbáld újra.",
     "Private key password successfully updated." : "A személyes kulcsának jelszava frissítésre került.",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Migrálni kell a titkosítási kulcsaidat a rég titkosításról (ownCloud <= 8.0) az újra. Kérlek futtasd az 'occ encryption:migrate' parancsot, vagy lépj kapcsolatba az adminisztrátorral",
     "Invalid private key for encryption app. Please update your private key password in your personal settings to recover access to your encrypted files." : "A titkosító alkalmazás privát kulcsa érvénytelen. A titkosított fájljaidhoz való hozzáféréshez frissítsd a privát kulcsod jelszavát a személyes beállításoknál.",
     "Encryption App is enabled, but your keys are not initialized. Please log-out and log-in again." : "A fájlok titkosítása engedélyezve van, de az Ön titkos kulcsai nincsenek beállítva. Ezért kérlek, hogy jelentkezz ki, és lépj be újra!",
     "Please enable server side encryption in the admin settings in order to use the encryption module." : "Kérem engedélyezze a szerver oldali titkosítást az adminisztrátor beállítasokban ahhoz, hogy a titkosítás modult tudja használni.",
@@ -59,6 +58,7 @@ OC.L10N.register(
     "Enable password recovery:" : "Jelszó-visszaállítás bekapcsolása",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Ez az opció lehetővé teszi, hogy a titkosított fájlok tartalmát visszanyerjük abban az esetben, ha elfelejti a jelszavát",
     "Enabled" : "Bekapcsolva",
-    "Disabled" : "Kikapcsolva"
+    "Disabled" : "Kikapcsolva",
+    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Migrálni kell a titkosítási kulcsaidat a rég titkosításról (ownCloud <= 8.0) az újra. Kérlek futtasd az 'occ encryption:migrate' parancsot, vagy lépj kapcsolatba az adminisztrátorral"
 },
 "nplurals=2; plural=(n != 1);");

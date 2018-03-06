@@ -21,7 +21,6 @@ OC.L10N.register(
     "The old password was not correct, please try again." : "Det gamle kodeord var ikke korrekt, prøv venligst igen.",
     "The current log-in password was not correct, please try again." : "Det nuværende kodeord til log-in var ikke korrekt, prøv venligst igen.",
     "Private key password successfully updated." : "Privat nøgle kodeord succesfuldt opdateret.",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Du skal overflytte dine krypteringsnøgler fra den gamle kryptering (ownCloud <= 8.0) til den nye af slagsen. Kør venligst \"occ encryption:migrate\" eller kontakt din administrator.",
     "Invalid private key for encryption app. Please update your private key password in your personal settings to recover access to your encrypted files." : "Ugyldig privat nøgle til Krypteringsprogrammet. Venligst opdater din kode til privat nøgle i dine personlige indstillinger for at gendanne adgang til dine krypterede filer.",
     "Encryption App is enabled, but your keys are not initialized. Please log-out and log-in again." : "Krypteringsprogrammet er aktiveret, men dine nøgler er ikke indlæst. Log venligst ud og ind igen.",
     "Please enable server side encryption in the admin settings in order to use the encryption module." : "Venligst aktiver Server kryptering under administrationen hvis du vil anvende krypterings modulet.",
@@ -59,6 +58,7 @@ OC.L10N.register(
     "Enable password recovery:" : "Aktiver kodeord gendannelse:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Aktivering af denne valgmulighed tillader dig at generhverve adgang til dine krypterede filer i tilfælde af tab af kodeord",
     "Enabled" : "Aktiveret",
-    "Disabled" : "Deaktiveret"
+    "Disabled" : "Deaktiveret",
+    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Du skal overflytte dine krypteringsnøgler fra den gamle kryptering (ownCloud <= 8.0) til den nye af slagsen. Kør venligst \"occ encryption:migrate\" eller kontakt din administrator."
 },
 "nplurals=2; plural=(n != 1);");

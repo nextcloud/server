@@ -16,7 +16,6 @@ OC.L10N.register(
     "Authentication error" : "Eroare la autentificare",
     "Wrong admin recovery password. Please check the password and try again." : "Parolă administrativă de recuperare greșită. Verifică parola și încearcă din nou.",
     "Federated Cloud Sharing" : "Partajare federalizata cloud",
-    "Migration Completed" : "Migrare încheiată",
     "Group already exists." : "Grupul există deja.",
     "Unable to add group." : "Nu se poate adăuga grupul.",
     "Unable to delete group." : "Nu se poate șterge grupul.",
@@ -214,6 +213,7 @@ OC.L10N.register(
     "set new password" : "setează parolă nouă",
     "change email address" : "schimbă adresa email",
     "Default" : "Implicită",
+    "Migration Completed" : "Migrare încheiată",
     "A valid password must be provided" : "Trebuie să furnizaţi o parolă validă",
     "A valid email must be provided" : "Trebuie furnizată o adresă email validă",
     "Create" : "Crează"
