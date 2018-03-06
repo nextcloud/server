@@ -13,7 +13,8 @@
 	margin-top: 25px;
 }
 
-#updatenotification h3 {
+#updatenotification h3,
+#updatenotification h3 .icon {
 	cursor: pointer;
 }
 
