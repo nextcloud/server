@@ -46,6 +46,7 @@ class SimpleContainer extends Container implements IContainer {
 	/**
 	 * @param ReflectionClass $class the class to instantiate
 	 * @return \stdClass the created class
+	 * @suppress PhanUndeclaredClassInstanceof
 	 */
 	private function buildClass(ReflectionClass $class) {
 		$constructor = $class->getConstructor();
