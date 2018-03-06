@@ -395,7 +395,7 @@ class Updater extends BasicEmitter {
 				if ($appManager->isShipped($app)) {
 					throw new \UnexpectedValueException('The files of the app "' . $app . '" were not correctly replaced before running the update');
 				}
-				OC_App::disable($app);
+				\OC::$server->getAppManager()->disableApp($app);
 				$this->emit('\OC\Updater', 'incompatibleAppDisabled', array($app));
 			}
 			// no need to disable any app in case this is a non-core upgrade

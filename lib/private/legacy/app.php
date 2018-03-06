@@ -154,15 +154,8 @@ class OC_App {
 				\OC::$server->getLogger()->logException($ex);
 				if (!\OC::$server->getAppManager()->isShipped($app)) {
 					// Only disable apps which are not shipped
-					self::disable($app);
+					\OC::$server->getAppManager()->disableApp($app);
 				}
-			}
-			if (self::isType($app, array('authentication'))) {
-				// since authentication apps affect the "is app enabled for group" check,
-				// the enabled apps cache needs to be cleared to make sure that the
-				// next time getEnableApps() is called it will also include apps that were
-				// enabled for groups
-				self::$enabledAppsCache = [];
 			}
 			\OC::$server->getEventLogger()->end('load_app_' . $app);
 		}
@@ -330,11 +323,6 @@ class OC_App {
 	}
 
 	/**
-	 * get all enabled apps
-	 */
-	protected static $enabledAppsCache = [];
-
-	/**
 	 * Returns apps enabled for the current user.
 	 *
 	 * @param bool $forceRefresh whether to refresh the cache
@@ -393,7 +381,6 @@ class OC_App {
 	 */
 	public function enable(string $appId,
 						   array $groups = []) {
-		self::$enabledAppsCache = []; // flush
 
 		// Check if app is already downloaded
 		$installer = \OC::$server->query(Installer::class);
@@ -419,30 +406,6 @@ class OC_App {
 		} else {
 			$appManager->enableApp($appId);
 		}
-	}
-
-	/**
-	 * This function set an app as disabled in appconfig.
-	 *
-	 * @param string $app app
-	 * @throws Exception
-	 */
-	public static function disable(string $app) {
-		// flush
-		self::$enabledAppsCache = [];
-
-		// run uninstall steps
-		$appData = OC_App::getAppInfo($app);
-		if (!is_null($appData)) {
-			OC_App::executeRepairSteps($app, $appData['repair-steps']['uninstall']);
-		}
-
-		// emit disable hook - needed anymore ?
-		\OC_Hook::emit('OC_App', 'pre_disable', array('app' => $app));
-
-		// finally disable it
-		$appManager = \OC::$server->getAppManager();
-		$appManager->disableApp($app);
 	}
 
 	/**
