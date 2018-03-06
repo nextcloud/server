@@ -35,6 +35,7 @@
 namespace OC;
 
 
+use OCA\Theming\ThemingDefaults;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IRequest;
@@ -170,7 +171,10 @@ class URLGenerator implements IURLGenerator {
 		$themingEnabled = $this->config->getSystemValue('installed', false) && \OCP\App::isEnabled('theming') && \OC_App::isAppLoaded('theming');
 		$themingImagePath = false;
 		if($themingEnabled) {
-			$themingImagePath = \OC::$server->getThemingDefaults()->replaceImagePath($app, $image);
+			$themingDefaults = \OC::$server->getThemingDefaults();
+			if ($themingDefaults instanceof ThemingDefaults) {
+				$themingImagePath = $themingDefaults->replaceImagePath($app, $image);
+			}
 		}
 
 		if (file_exists(\OC::$SERVERROOT . "/themes/$theme/apps/$app/img/$image")) {
