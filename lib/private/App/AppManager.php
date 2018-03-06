@@ -294,9 +294,6 @@ class AppManager implements IAppManager {
 			\OC_App::executeRepairSteps($appId, $appData['repair-steps']['uninstall']);
 		}
 
-		// emit disable hook - needed anymore ?
-		\OC_Hook::emit('OC_App', 'pre_disable', array('app' => $appId));
-
 		$this->dispatcher->dispatch(ManagerEvent::EVENT_APP_DISABLE, new ManagerEvent(
 			ManagerEvent::EVENT_APP_DISABLE, $appId
 		));
