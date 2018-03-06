@@ -19,7 +19,6 @@
     "The old password was not correct, please try again." : "Neteisingas senas slaptažodis, prašome bandyti dar kartą.",
     "The current log-in password was not correct, please try again." : "Esamas prisijungimo slaptažodis buvo neteisingas, prašome bandyti dar kartą.",
     "Private key password successfully updated." : "Privataus rakto slaptažodis sėkmingai atnaujintas.",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Jūs turite atlikti savo šifravimo raktų perkėlimą iš senojo šifravimo (ownCloud <= 8.0) į naująjį. Prašome terminale įvykdyti \"occ encryption:migrate\" arba susisiekti su sistemos administratoriumi",
     "Invalid private key for encryption app. Please update your private key password in your personal settings to recover access to your encrypted files." : "Šifravimo įskiepis neatpažįsta privataus rakto. Atnaujinkite slaptažodį skirtą privačiam raktui naudoti, kurį rasite asmeninių nustatymų skiltyje, skirtoje atstatyti prieigą prie šifruotų failų.",
     "Encryption App is enabled, but your keys are not initialized. Please log-out and log-in again." : "Šifravimo įskiepis veikia, tačiau privatus ir atkūrimo raktas nebuvo panaudotas. Pabandykite prisijungti iš naujo.",
     "Please enable server side encryption in the admin settings in order to use the encryption module." : "Administratoriaus nustatymuose įgalinkite šifravimą, jei norite naudoti šifravimo modulį.",
@@ -57,6 +56,7 @@
     "Enable password recovery:" : "Įjungti slaptažodžio atkūrimą:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Šios parinkties įjungimas leis jums iš naujo gauti prieigą prie savo užšifruotų duomenų tuo atveju, jei prarasite slaptažodį",
     "Enabled" : "Įjungta",
-    "Disabled" : "Išjungta"
+    "Disabled" : "Išjungta",
+    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Jūs turite atlikti savo šifravimo raktų perkėlimą iš senojo šifravimo (ownCloud <= 8.0) į naująjį. Prašome terminale įvykdyti \"occ encryption:migrate\" arba susisiekti su sistemos administratoriumi"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

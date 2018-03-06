@@ -21,7 +21,6 @@ OC.L10N.register(
     "The old password was not correct, please try again." : "이전 암호가 잘못되었습니다. 다시 시도하십시오.",
     "The current log-in password was not correct, please try again." : "현재 로그인 암호가 잘못되었습니다. 다시 시도하십시오.",
     "Private key password successfully updated." : "개인 키 암호가 성공적으로 업데이트 되었습니다.",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "과거에 사용하였던(ownCloud <= 8.0) 암호화된 데이터에서 키를 이전해야 합니다. 'occ encryption:migrate'를 실행하거나 시스템 관리자에게 연락하십시오 ",
     "Invalid private key for encryption app. Please update your private key password in your personal settings to recover access to your encrypted files." : "암호화 앱의 개인 키가 잘못되었습니다. 암호화된 파일에 다시 접근하려면 개인 설정에서 개인 키 암호를 업데이트해야 합니다.",
     "Encryption App is enabled, but your keys are not initialized. Please log-out and log-in again." : "암호화 앱이 활성화되었으나 키가 초기화되지 않았습니다. 로그아웃한 후 다시 로그인하십시오.",
     "Please enable server side encryption in the admin settings in order to use the encryption module." : "암호화 모듈을 사용하기 위해 관리자 설정에서 서버 측 암호화 기능을 활성화 시켜주세요",
@@ -59,6 +58,7 @@ OC.L10N.register(
     "Enable password recovery:" : "암호 복구 사용:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "이 옵션을 사용하면 암호를 잊었을 때 암호화된 파일에 다시 접근할 수 있습니다",
     "Enabled" : "활성화",
-    "Disabled" : "비활성화"
+    "Disabled" : "비활성화",
+    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "과거에 사용하였던(ownCloud <= 8.0) 암호화된 데이터에서 키를 이전해야 합니다. 'occ encryption:migrate'를 실행하거나 시스템 관리자에게 연락하십시오 "
 },
 "nplurals=1; plural=0;");

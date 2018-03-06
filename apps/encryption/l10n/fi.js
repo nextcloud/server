@@ -21,7 +21,6 @@ OC.L10N.register(
     "The old password was not correct, please try again." : "Vanha salasana oli väärin, yritä uudelleen.",
     "The current log-in password was not correct, please try again." : "Nykyinen kirjautumiseen käytettävä salasana oli väärin, yritä uudelleen.",
     "Private key password successfully updated." : "Yksityisen avaimen salasana päivitettiin onnistuneesti.",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Salausavaimet tulee siirtää vanhasta salaustavasta (ownCloud <= 8.0) uuteen salaustapaan. Suorita 'occ encryption:migrate' tai ota yhteys ylläpitoon",
     "Invalid private key for encryption app. Please update your private key password in your personal settings to recover access to your encrypted files." : "Salaussovelluksen salausavain on virheellinen. Ole hyvä ja päivitä salausavain henkilökohtaisissa asetuksissasi jotta voit taas avata salauskirjoitetut tiedostosi.",
     "Encryption App is enabled, but your keys are not initialized. Please log-out and log-in again." : "Salaussovellus on käytössä, mutta salausavaimia ei ole alustettu. Ole hyvä ja kirjaudu sisään uudelleen.",
     "Please enable server side encryption in the admin settings in order to use the encryption module." : "Ota käyttöön palvelinpuolen salaus ylläpidon asetuksista, jotta salausmoduuli on jatkossa käytettävissä.",
@@ -59,6 +58,7 @@ OC.L10N.register(
     "Enable password recovery:" : "Ota salasanan palautus käyttöön:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Tämän valinnan käyttäminen mahdollistaa pääsyn salattuihin tiedostoihisi, jos salasana unohtuu",
     "Enabled" : "Käytössä",
-    "Disabled" : "Ei käytössä"
+    "Disabled" : "Ei käytössä",
+    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Salausavaimet tulee siirtää vanhasta salaustavasta (ownCloud <= 8.0) uuteen salaustapaan. Suorita 'occ encryption:migrate' tai ota yhteys ylläpitoon"
 },
 "nplurals=2; plural=(n != 1);");

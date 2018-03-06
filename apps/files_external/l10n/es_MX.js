@@ -123,6 +123,7 @@ OC.L10N.register(
     "Delete" : "Borrar",
     "Allow users to mount external storage" : "Permitir a los usuarios montar almacenamiento externo",
     "Allow users to mount the following external storage" : "Permitir a los usuarios montar el siguiente almacenamiento externo",
+    "Fetching request tokens failed. Verify that your app key and secret are correct." : "Se presentó una falla al buscar las fichas de solicitud. Por favor verifica que tu llave de aplicación y tu secreto sean correctos. ",
     "Fetching access tokens failed. Verify that your app key and secret are correct." : "Se presentó una falla al buscar las fichas de acceso. Por favor verifica que tu llave de aplicación y tu secreto sean correctos. ",
     "Step 1 failed. Exception: %s" : "Paso 1 falló. Excepción: %s",
     "Step 2 failed. Exception: %s" : "Paso 2 falló. Excepción: %s",

@@ -21,7 +21,6 @@ OC.L10N.register(
     "The old password was not correct, please try again." : "La antigua contraseña no es correcta, por favor inténtelo de nuevo.",
     "The current log-in password was not correct, please try again." : "La contraseña de inicio de sesión actual no es correcta, por favor inténtelo de nuevo.",
     "Private key password successfully updated." : "Contraseña de clave privada actualizada con éxito.",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Necesita migrar sus claves de cifrado desde el antiguo modelo de cifrado (ownCloud <= 8.0) al nuevo. Por favor ejecute 'occ encryption:migrate'  o contáctese con su administrador.",
     "Invalid private key for encryption app. Please update your private key password in your personal settings to recover access to your encrypted files." : "La clave privada no es válida para la app de cifrado. Por favor, actualice la contraseña de su clave privada en sus ajustes personales para recuperar el acceso a sus archivos cifrados.",
     "Encryption App is enabled, but your keys are not initialized. Please log-out and log-in again." : "La aplicación de cifrado esta activada, pero sus credenciales no han sido iniciadas. Por favor cierre sesión e inicie sesión nuevamente.",
     "Please enable server side encryption in the admin settings in order to use the encryption module." : "Por favor active el cifrado en el lado del servidor en los ajustes de administración para poder usar el módulo de cifrado.",
@@ -29,8 +28,8 @@ OC.L10N.register(
     "Bad Signature" : "Firma errónea",
     "Missing Signature" : "No se encuentra la firma",
     "one-time password for server-side-encryption" : "Contraseña de un solo uso para el cifrado en el lado servidor",
-    "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "No fue posible descifrar este archivo, probablemente se trate de un archivo compartido. Solicite al propietario del mismo que vuelva a compartirlo con usted.",
-    "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "No se puede leer este archivo, probablemente sea un archivo compartido. Consulte con el propietario del mismo y que lo vuelva a compartir con usted.",
+    "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "No ha sido posible descifrar este archivo - probablemente se trate de un archivo compartido. Solicita al propietario del mismo que vuelva a compartirlo contigo.",
+    "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "No se puede leer este archivo, probablemente sea un archivo compartido. Pida al propietario del mismo que lo vuelva a compartir contigo.",
     "Default encryption module" : "Módulo de cifrado por defecto",
     "Hey there,\n\nthe admin enabled server-side-encryption. Your files were encrypted using the password '%s'.\n\nPlease login to the web interface, go to the section 'basic encryption module' of your personal settings and update your encryption password by entering this password into the 'old log-in password' field and your current login-password.\n\n" : "Hola,\n\nel administrador ha activado el cifrado de datos en servidor. Tus archivos han sido cifrados usando la contraseña '%s'.\n\nPor favor, inicia tu sesión desde la interfaz web, ves a la sección 'módulo de cifrado básico' de tu área de ajustes personales y actualiza la contraseña de cifrado. Para ello, deberás introducir esta contraseña en el campo 'contraseña de acceso antigua' junto con tu actual contraseña de acceso.\n\n",
     "The share will expire on %s." : "El objeto dejará de ser compartido el %s.",
@@ -59,6 +58,7 @@ OC.L10N.register(
     "Enable password recovery:" : "Habilitar la recuperación de contraseña:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Habilitar esta opción le permitirá volver a tener acceso a sus archivos cifrados en caso de pérdida de contraseña",
     "Enabled" : "Habilitar",
-    "Disabled" : "Deshabilitado"
+    "Disabled" : "Deshabilitado",
+    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Necesita migrar sus claves de cifrado desde el antiguo modelo de cifrado (ownCloud <= 8.0) al nuevo. Por favor ejecute 'occ encryption:migrate'  o contáctese con su administrador."
 },
 "nplurals=2; plural=(n != 1);");

@@ -21,7 +21,6 @@ OC.L10N.register(
     "The old password was not correct, please try again." : "Das alte Passwort war falsch, bitte versuche es erneut.",
     "The current log-in password was not correct, please try again." : "Das aktuelle Anmeldepasswort war nicht korrekt, bitte versuche es noch einmal.",
     "Private key password successfully updated." : "Das Passwort des privaten Schlüssels wurde aktualisiert.",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Verschlüsselungsschlüssel müssen von der alten Verschlüsselung (ownCloud <= 8.0) zur neuen migriert werden. Bitte 'occ encryption:migrate' ausführen oder Deinen Administrator kontaktieren.",
     "Invalid private key for encryption app. Please update your private key password in your personal settings to recover access to your encrypted files." : "Falscher privater Schlüssel für die Verschlüsselungs-App. Bitte aktualisiere Deinen privaten Schlüssel in Deinen persönlichen Einstellungen um wieder Zugriff auf die verschlüsselten Dateien zu erhalten.",
     "Encryption App is enabled, but your keys are not initialized. Please log-out and log-in again." : "Verschlüsselung-App ist aktiviert, aber Deine Schlüssel sind nicht initialisiert. Bitte melde Dich ab und wieder an.",
     "Please enable server side encryption in the admin settings in order to use the encryption module." : "Bitte aktiviere server-seitige Verschlüsselung in den Administrator-Einstellungen um das Verschlüsselungsmodul nutzen zu können",
@@ -59,6 +58,7 @@ OC.L10N.register(
     "Enable password recovery:" : "Die Passwort-Wiederherstellung aktivieren:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Durch die Aktivierung dieser Option hast Du die Möglichkeit, wieder auf Deine verschlüsselten Dateien zugreifen zu können, wenn Du Dein Passwort verloren hast.",
     "Enabled" : "Aktiviert",
-    "Disabled" : "Deaktiviert"
+    "Disabled" : "Deaktiviert",
+    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Verschlüsselungsschlüssel müssen von der alten Verschlüsselung (ownCloud <= 8.0) zur neuen migriert werden. Bitte 'occ encryption:migrate' ausführen oder Deinen Administrator kontaktieren."
 },
 "nplurals=2; plural=(n != 1);");

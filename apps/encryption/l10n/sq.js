@@ -21,7 +21,6 @@ OC.L10N.register(
     "The old password was not correct, please try again." : "Fjalëkalimi i vjetër s’qe i saktë, ju lutemi, riprovoni.",
     "The current log-in password was not correct, please try again." : "Fjalëkalimi i tanishëm i hyrjeve s’qe i saktë, ju lutemi, riprovoni.",
     "Private key password successfully updated." : "Fjalëkalimi për kyçin privat u përditësua me sukses.",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Lypset të kaloni kyçet tuaj të fshehtëzimeve nga versioni i vjetër i fshehtëzimeve (ownCloud <= 8.0) te i riu. Ju lutemi, ekzekutoni run 'occ encryption:migrate' ose lidhuni me përgjegjësin tuaj",
     "Invalid private key for encryption app. Please update your private key password in your personal settings to recover access to your encrypted files." : "Kyç privat i pavlefshëm për aplikacionin e fshehtëzimeve. Ju lutemi, përditësoni fjalëkalimin tuaj të kyçit privat te rregullimet tuaja personale që të rimerrni hyrje te kartelat tuaja të fshehtëzuara.",
     "Encryption App is enabled, but your keys are not initialized. Please log-out and log-in again." : "Aplikacioni i Enkriptimit është i aktivizuar, por kyçet tuaj s’janë vënë në punë, ju lutemi, dilni dhe rihyni përsëri",
     "Please enable server side encryption in the admin settings in order to use the encryption module." : "Ju lutem aktivizoni ekriptimin në anën e serverit në konfigurimet e administratorit në mënyrë që të përdorni modulin e enkriptimit.",
@@ -59,6 +58,7 @@ OC.L10N.register(
     "Enable password recovery:" : "Aktivizo rimarrje fjalëkalimesh:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Aktivizimi i kësaj mundësie do t’ju lejojë të rifitoni hyrje te kartelat tuaja të fshehtëzuara në rast humbjeje fjalëkalimi",
     "Enabled" : "E aktivizuar",
-    "Disabled" : "E çaktivizuar"
+    "Disabled" : "E çaktivizuar",
+    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Lypset të kaloni kyçet tuaj të fshehtëzimeve nga versioni i vjetër i fshehtëzimeve (ownCloud <= 8.0) te i riu. Ju lutemi, ekzekutoni run 'occ encryption:migrate' ose lidhuni me përgjegjësin tuaj"
 },
 "nplurals=2; plural=(n != 1);");
