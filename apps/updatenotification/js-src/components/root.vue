@@ -9,14 +9,22 @@
 				</p>
 
 				<template v-if="missingAppUpdates.length">
-					<h3 @click="toggleHideMissingUpdates">{{ t('updatenotification', 'Apps missing updates') }}</h3>
+					<h3 @click="toggleHideMissingUpdates">
+						{{ t('updatenotification', 'Apps missing updates') }}
+						<span v-if="!hideMissingUpdates" class="icon icon-triangle-n"></span>
+						<span v-if="hideMissingUpdates" class="icon icon-triangle-s"></span>
+					</h3>
 					<ul class="applist" v-if="!hideMissingUpdates">
 						<li v-for="app in missingAppUpdates"><a :href="'https://apps.nextcloud.com/apps/' + app.appId" :title="t('settings', 'View in store')">{{app.appName}} ↗</a></li>
 					</ul>
 				</template>
 
 				<template v-if="availableAppUpdates.length">
-					<h3 @click="toggleHideAvailableUpdates">{{ t('updatenotification', 'Apps with available updates') }}</h3>
+					<h3 @click="toggleHideAvailableUpdates">
+						{{ t('updatenotification', 'Apps with available updates') }}
+						<span v-if="!hideAvailableUpdates" class="icon icon-triangle-n"></span>
+						<span v-if="hideAvailableUpdates" class="icon icon-triangle-s"></span>
+					</h3>
 					<ul class="applist">
 						<li v-for="app in availableAppUpdates" v-if="!hideAvailableUpdates"><a :href="'https://apps.nextcloud.com/apps/' + app.appId" :title="t('settings', 'View in store')">{{app.appName}} ↗</a></li>
 					</ul>

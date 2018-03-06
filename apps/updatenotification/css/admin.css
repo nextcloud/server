@@ -21,7 +21,12 @@
 	margin-top: 0;
 }
 
-#updatenotification .icon-loading-small {
+#updatenotification .icon {
 	display: inline-block;
 	margin-bottom: -3px;
+}
+
+#updatenotification .icon-triangle-s,
+#updatenotification .icon-triangle-n {
+	opacity: 0.5;
 }
