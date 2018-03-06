@@ -19,7 +19,6 @@
     "The old password was not correct, please try again." : "La contraseña anterior no es correcta, favor de intentar de nuevo. ",
     "The current log-in password was not correct, please try again." : "La contraseña actual para iniciar sesión fue incorrecta, favor de volverlo a intentar. ",
     "Private key password successfully updated." : "Contraseña de llave privada actualizada exitosamente.",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Usted necesita migrar sus llaves de la encripción anterior (ownCloud <=8.0) a la nueva. Favor de ejecutar 'occ encryption:migrate' o contacte a su adminstrador",
     "Invalid private key for encryption app. Please update your private key password in your personal settings to recover access to your encrypted files." : "La llave de encriptación privada es inválida para la aplicación de encriptación. Favor de actualizar la contraseña de su llave privada en sus configuraciones personales para recuperar el acceso a sus archivos encriptados. ",
     "Encryption App is enabled, but your keys are not initialized. Please log-out and log-in again." : "La aplicación de encripción está habilitada, pero sus llaves no han sido inicializadas. Favor de cerrar sesión e iniciar sesión de nuevo. ",
     "Encryption app is enabled and ready" : "La aplicación de encripción se cuentra habilitada y lista",
@@ -56,6 +55,7 @@
     "Enable password recovery:" : "Habilitar la recuperación de contraseña:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Habilitar esta opción le permitirá volver a tener acceso a sus archivos encriptados en caso de perder la contraseña",
     "Enabled" : "Habilitado",
-    "Disabled" : "Deshabilitado"
+    "Disabled" : "Deshabilitado",
+    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Usted necesita migrar sus llaves de la encripción anterior (ownCloud <=8.0) a la nueva. Favor de ejecutar 'occ encryption:migrate' o contacte a su adminstrador"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

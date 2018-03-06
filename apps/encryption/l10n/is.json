@@ -19,7 +19,6 @@
     "The old password was not correct, please try again." : "Gamla lykilorðið var ekki rétt, reyndu aftur.",
     "The current log-in password was not correct, please try again." : "Núgildandi innskráningarlykilorð var ekki rétt, reyndu aftur.",
     "Private key password successfully updated." : "Tókst að uppfæra lykilorð einkalykils.",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Þú verður að yfirfæra dulritunarlyklana þína úr gömlu dulrituninni (ownCloud <= 8.0) yfir í þá nýju. Keyrðu 'occ encryption:migrate' eða hafðu samband við kerfisstjórann þinn",
     "Invalid private key for encryption app. Please update your private key password in your personal settings to recover access to your encrypted files." : "Ógildur einkalykill fyrir dulritunarforrit. Uppfærðu einkalykilorðið í stillingunum þínum til að fá aftur aðgang að dulrituðu skránum þínum.",
     "Encryption App is enabled, but your keys are not initialized. Please log-out and log-in again." : "Dulritunarforritið er virkt en dulritunarlyklarnir þínir eru ekki tilbúnir til notkunar, skráðu þig út og svo aftur inn.",
     "Please enable server side encryption in the admin settings in order to use the encryption module." : "Virkjaðu dulritun á vefþjóninum í kerfisstjórnunarstillingunum svo hægt sé að nota dulritunareininguna.",
@@ -57,6 +56,7 @@
     "Enable password recovery:" : "Virkja endurheimtingu lykilorðs:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Ef þessi kostur er virkur gerir það þér kleift að endurheimta aðgang að skránum þínum ef þú tapar lykilorðinu",
     "Enabled" : "Virkt",
-    "Disabled" : "Óvirkt"
+    "Disabled" : "Óvirkt",
+    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Þú verður að yfirfæra dulritunarlyklana þína úr gömlu dulrituninni (ownCloud <= 8.0) yfir í þá nýju. Keyrðu 'occ encryption:migrate' eða hafðu samband við kerfisstjórann þinn"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

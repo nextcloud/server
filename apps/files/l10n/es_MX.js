@@ -100,12 +100,18 @@ OC.L10N.register(
     "Moved by {user}" : "Movido por {user}",
     "\"remote user\"" : "\"usuario remoto\"",
     "You created {file}" : "Creaste {file}",
+    "You created an encrypted file in {file}" : "Creaste un archivo encriptado en {file}",
     "{user} created {file}" : "{user} creó {file}",
+    "{user} created an encrypted file in {file}" : "{user} creó un archivo encriptado en {file}",
     "{file} was created in a public folder" : "{file} fue creado en una carpeta pública",
     "You changed {file}" : "Cambiaste {file}",
+    "You changed an encrypted file in {file}" : "Cambiaste un archivo encriptado en {file}",
     "{user} changed {file}" : "{user} cambió {file}",
+    "{user} changed an encrypted file in {file}" : "{user} cambió un archivo encriptado en {file}",
     "You deleted {file}" : "Borraste {file}",
+    "You deleted an encrypted file in {file}" : "Borraste un archivo encriptado en {file}",
     "{user} deleted {file}" : "{user} borró {file}",
+    "{user} deleted an encrypted file in {file}" : "{user} borró un archivo encriptado en {file}",
     "You restored {file}" : "Restauraste {file}",
     "{user} restored {file}" : "{user} restauró {file}",
     "You renamed {oldfile} to {newfile}" : "Renombraste {oldfile} como {newfile}",
@@ -150,6 +156,7 @@ OC.L10N.register(
     "New text file.txt" : "Nuevo ArchivoDeTexto.txt",
     "Move" : "Mover",
     "A new file or folder has been <strong>deleted</strong>" : "Un nuevo archivo o carpeta ha sido <strong>borrado</strong>",
-    "A new file or folder has been <strong>restored</strong>" : "Un nuevo archivo o carpeta ha sido <strong>restaurado</strong>"
+    "A new file or folder has been <strong>restored</strong>" : "Un nuevo archivo o carpeta ha sido <strong>restaurado</strong>",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Usa esta dirección para <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">acceder tus Archivos vía WebDAV</a>"
 },
 "nplurals=2; plural=(n != 1);");

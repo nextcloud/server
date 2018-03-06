@@ -19,7 +19,6 @@
     "The old password was not correct, please try again." : "The old password was not correct, please try again.",
     "The current log-in password was not correct, please try again." : "The current log-in password was not correct, please try again.",
     "Private key password successfully updated." : "Private key password updated successfully.",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator",
     "Invalid private key for encryption app. Please update your private key password in your personal settings to recover access to your encrypted files." : "Invalid private key for encryption app. Please update your private key password in your personal settings to recover access to your encrypted files.",
     "Encryption App is enabled, but your keys are not initialized. Please log-out and log-in again." : "Encryption App is enabled, but your keys are not initialized. Please log-out and log-in again.",
     "Please enable server side encryption in the admin settings in order to use the encryption module." : "Please enable server side encryption in the admin settings in order to use the encryption module.",
@@ -57,6 +56,7 @@
     "Enable password recovery:" : "Enable password recovery:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss",
     "Enabled" : "Enabled",
-    "Disabled" : "Disabled"
+    "Disabled" : "Disabled",
+    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

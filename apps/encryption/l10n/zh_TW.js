@@ -21,7 +21,6 @@ OC.L10N.register(
     "The old password was not correct, please try again." : "舊密碼不正確，請再試一次",
     "The current log-in password was not correct, please try again." : "目前登入的密碼不正確，請再試一次",
     "Private key password successfully updated." : "私人金鑰密碼已成功更新。",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "您需要搬移您的加密鑰匙從舊版的加密 (ownCloud <= 8.0) 到新版，請執行 'occ encryption:migrate' 或是聯絡系統管理員",
     "Invalid private key for encryption app. Please update your private key password in your personal settings to recover access to your encrypted files." : "無效的加密應用程序私鑰。請在您的個人設定中更新您的私鑰密碼，以恢復對加密文件的訪問。",
     "Encryption App is enabled, but your keys are not initialized. Please log-out and log-in again." : "已啟用加密應用，但是你的加密密鑰沒有初始化。請重新登出並登入系統一次。",
     "Please enable server side encryption in the admin settings in order to use the encryption module." : "請啟用管理員設定中的伺服器端加密，以使用加密模組。",
@@ -59,6 +58,7 @@ OC.L10N.register(
     "Enable password recovery:" : "啟用密碼還原:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "啟用這個選項將會允許您因忘記密碼但需要存取您的加密檔案",
     "Enabled" : "已啓用",
-    "Disabled" : "已停用"
+    "Disabled" : "已停用",
+    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "您需要搬移您的加密鑰匙從舊版的加密 (ownCloud <= 8.0) 到新版，請執行 'occ encryption:migrate' 或是聯絡系統管理員"
 },
 "nplurals=1; plural=0;");
