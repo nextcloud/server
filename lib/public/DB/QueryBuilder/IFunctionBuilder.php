@@ -77,7 +77,7 @@ interface IFunctionBuilder {
 	 *
 	 * @param mixed $field
 	 * @return IQueryFunction
-	 * @since 13.0.0
+	 * @since 14.0.0
 	 */
 	public function lower($field);
 }
