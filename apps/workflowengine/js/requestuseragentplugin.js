@@ -70,7 +70,8 @@
 						children: [
 							{id: 'android', text: t('workflowengine', 'Android client')},
 							{id: 'ios', text: t('workflowengine', 'iOS client')},
-							{id: 'desktop', text: t('workflowengine', 'Desktop client')}
+							{id: 'desktop', text: t('workflowengine', 'Desktop client')},
+							{id: 'mail', text: t('workflowengine', 'Thunderbird & Outlook addons')}
 						]
 					}
 				];
