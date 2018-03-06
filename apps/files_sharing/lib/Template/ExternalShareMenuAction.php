@@ -60,7 +60,7 @@ class ExternalShareMenuAction extends SimpleMenuAction {
 			'<span id="save-button">' . Util::sanitizeHTML($this->getLabel()) . '</span>' .
 			'<form class="save-form hidden" action="#">' .
 			'<input type="text" id="remote_address" placeholder="user@yourNextcloud.org">' .
-			'<button id="save-button-confirm" class="icon-confirm svg" disabled=""></button>' .
+			'<input type="submit" value=" " id="save-button-confirm" class="icon-confirm" disabled="disabled"></button>' .
 			'</form>' .
 			'</a>' .
 			'</li>';
