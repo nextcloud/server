@@ -20,3 +20,8 @@
 #updatenotification h3:first-of-type {
 	margin-top: 0;
 }
+
+#updatenotification .icon-loading-small {
+	display: inline-block;
+	margin-bottom: -3px;
+}

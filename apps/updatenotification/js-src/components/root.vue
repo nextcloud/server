@@ -4,6 +4,7 @@
 			<template v-if="isNewVersionAvailable">
 				<p>
 					<span v-html="newVersionAvailableString"></span><br>
+					<span v-if="!isListFetched" class="icon icon-loading-small"></span>
 					<span v-html="statusText"></span>
 				</p>
 
@@ -149,7 +150,7 @@
 
 			statusText: function() {
 				if (!this.isListFetched) {
-					return '';
+					return t('updatenotification', 'Checking apps for compatible updates');
 				}
 
 				if (this.appstoreDisabled) {
