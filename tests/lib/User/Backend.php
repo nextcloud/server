@@ -103,15 +103,23 @@ abstract class Backend extends \Test\TestCase {
 		$name1 = 'foobarbaz';
 		$name2 = 'bazbarfoo';
 		$name3 = 'notme';
+		$name4 = 'under_score';
 
 		$this->backend->createUser($name1, 'pass1');
 		$this->backend->createUser($name2, 'pass2');
 		$this->backend->createUser($name3, 'pass3');
+		$this->backend->createUser($name4, 'pass4');
 
 		$result = $this->backend->getUsers('bar');
-		$this->assertSame(2, count($result));
+		$this->assertCount(2, $result);
 
 		$result = $this->backend->getDisplayNames('bar');
-		$this->assertSame(2, count($result));
+		$this->assertCount(2, $result);
+
+		$result = $this->backend->getUsers('under_');
+		$this->assertCount(1, $result);
+
+		$result = $this->backend->getUsers('not_');
+		$this->assertCount(0, $result);
 	}
 }

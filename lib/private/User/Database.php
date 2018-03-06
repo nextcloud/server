@@ -40,6 +40,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 /*
  *
  * The following SQL statement is just a help for developers and will not be
@@ -56,6 +57,7 @@
 namespace OC\User;
 
 use OC\Cache\CappedMemoryCache;
+use OC\DB\QueryBuilder\Literal;
 use OCP\IUserBackend;
 use OCP\Util;
 use Symfony\Component\EventDispatcher\EventDispatcher;
@@ -83,6 +85,7 @@ class Database extends Backend implements IUserBackend {
 
 	/**
 	 * Create a new user
+	 *
 	 * @param string $uid The username of the user to create
 	 * @param string $password The password of the new user
 	 * @return bool
@@ -112,6 +115,7 @@ class Database extends Backend implements IUserBackend {
 
 	/**
 	 * delete a user
+	 *
 	 * @param string $uid The username of the user to delete
 	 * @return bool
 	 *
@@ -131,6 +135,7 @@ class Database extends Backend implements IUserBackend {
 
 	/**
 	 * Set password
+	 *
 	 * @param string $uid The username
 	 * @param string $password The new password
 	 * @return bool
@@ -152,6 +157,7 @@ class Database extends Backend implements IUserBackend {
 
 	/**
 	 * Set display name
+	 *
 	 * @param string $uid The username
 	 * @param string $displayName The new display name
 	 * @return bool
@@ -172,6 +178,7 @@ class Database extends Backend implements IUserBackend {
 
 	/**
 	 * get display name of the user
+	 *
 	 * @param string $uid user ID of the user
 	 * @return string display name
 	 */
@@ -189,20 +196,29 @@ class Database extends Backend implements IUserBackend {
 	 * @return array an array of all displayNames (value) and the corresponding uids (key)
 	 */
 	public function getDisplayNames($search = '', $limit = null, $offset = null) {
-		$parameters = [];
-		$searchLike = '';
-		if ($search !== '') {
-			$parameters[] = '%' . \OC::$server->getDatabaseConnection()->escapeLikeParameter($search) . '%';
-			$parameters[] = '%' . \OC::$server->getDatabaseConnection()->escapeLikeParameter($search) . '%';
-			$searchLike = ' WHERE LOWER(`displayname`) LIKE LOWER(?) OR '
-				. 'LOWER(`uid`) LIKE LOWER(?)';
-		}
+		$connection = \OC::$server->getDatabaseConnection();
 
-		$displayNames = array();
-		$query = \OC_DB::prepare('SELECT `uid`, `displayname` FROM `*PREFIX*users`'
-			. $searchLike .' ORDER BY LOWER(`displayname`), LOWER(`uid`) ASC', $limit, $offset);
-		$result = $query->execute($parameters);
-		while ($row = $result->fetchRow()) {
+		$query = $connection->getQueryBuilder();
+
+		$query->select('uid', 'displayname')
+			->from('users', 'u')
+			->leftJoin('u', 'preferences', 'p', $query->expr()->andX(
+				$query->expr()->eq('userid', 'uid')),
+				$query->expr()->eq('appid', new Literal('settings')),
+				$query->expr()->eq('configkey', new Literal('email'))
+			)
+			// sqlite doesn't like re-using a single named parameter here
+			->where($query->expr()->iLike('uid', $query->createPositionalParameter('%' . $connection->escapeLikeParameter($search) . '%')))
+			->orWhere($query->expr()->iLike('displayname', $query->createPositionalParameter('%' . $connection->escapeLikeParameter($search) . '%')))
+			->orWhere($query->expr()->iLike('configvalue', $query->createPositionalParameter('%' . $connection->escapeLikeParameter($search) . '%')))
+			->orderBy($query->func()->lower('displayname'), 'ASC')
+			->orderBy($query->func()->lower('uid'), 'ASC')
+			->setMaxResults($limit)
+			->setFirstResult($offset);
+
+		$result = $query->execute();
+		$displayNames = [];
+		while ($row = $result->fetch()) {
 			$displayNames[$row['uid']] = $row['displayname'];
 		}
 
@@ -211,6 +227,7 @@ class Database extends Backend implements IUserBackend {
 
 	/**
 	 * Check if the password is correct
+	 *
 	 * @param string $uid The username
 	 * @param string $password The password
 	 * @return string
@@ -226,8 +243,8 @@ class Database extends Backend implements IUserBackend {
 		if ($row) {
 			$storedHash = $row['password'];
 			$newHash = '';
-			if(\OC::$server->getHasher()->verify($password, $storedHash, $newHash)) {
-				if(!empty($newHash)) {
+			if (\OC::$server->getHasher()->verify($password, $storedHash, $newHash)) {
+				if (!empty($newHash)) {
 					$this->setPassword($uid, $password);
 				}
 				return $row['uid'];
@@ -240,15 +257,16 @@ class Database extends Backend implements IUserBackend {
 
 	/**
 	 * Load an user in the cache
+	 *
 	 * @param string $uid the username
 	 * @return boolean true if user was found, false otherwise
 	 */
 	private function loadUser($uid) {
-		$uid = (string) $uid;
+		$uid = (string)$uid;
 		if (!isset($this->cache[$uid])) {
 			//guests $uid could be NULL or ''
 			if ($uid === '') {
-				$this->cache[$uid]=false;
+				$this->cache[$uid] = false;
 				return true;
 			}
 
@@ -285,26 +303,15 @@ class Database extends Backend implements IUserBackend {
 	 * @return string[] an array of all uids
 	 */
 	public function getUsers($search = '', $limit = null, $offset = null) {
-		$parameters = [];
-		$searchLike = '';
-		if ($search !== '') {
-			$parameters[] = '%' . \OC::$server->getDatabaseConnection()->escapeLikeParameter($search) . '%';
-			$searchLike = ' WHERE LOWER(`uid`) LIKE LOWER(?)';
-			$parameters[] = '%' . \OC::$server->getDatabaseConnection()->escapeLikeParameter($search) . '%';
-			$searchLike .= ' OR LOWER(`displayname`) LIKE LOWER(?)';
-		}
-
-		$query = \OC_DB::prepare('SELECT `uid` FROM `*PREFIX*users`' . $searchLike . ' ORDER BY LOWER(`uid`) ASC', $limit, $offset);
-		$result = $query->execute($parameters);
-		$users = array();
-		while ($row = $result->fetchRow()) {
-			$users[] = $row['uid'];
-		}
-		return $users;
+		$users = $this->getDisplayNames($search, $limit, $offset);
+		$userIds = array_keys($users);
+		sort($userIds, SORT_STRING | SORT_FLAG_CASE);
+		return $userIds;
 	}
 
 	/**
 	 * check if a user exists
+	 *
 	 * @param string $uid the username
 	 * @return boolean
 	 */
@@ -315,6 +322,7 @@ class Database extends Backend implements IUserBackend {
 
 	/**
 	 * get the user's home directory
+	 *
 	 * @param string $uid the username
 	 * @return string|false
 	 */
@@ -364,14 +372,15 @@ class Database extends Backend implements IUserBackend {
 
 	/**
 	 * Backend name to be shown in user management
+	 *
 	 * @return string the name of the backend to be shown
 	 */
-	public function getBackendName(){
+	public function getBackendName() {
 		return 'Database';
 	}
 
 	public static function preLoginNameUsedAsUserName($param) {
-		if(!isset($param['uid'])) {
+		if (!isset($param['uid'])) {
 			throw new \Exception('key uid is expected to be set in $param');
 		}
 

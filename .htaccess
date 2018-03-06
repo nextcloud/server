@@ -23,7 +23,7 @@
   <FilesMatch "\.(css|js|svg|gif)$">
     Header set Cache-Control "max-age=15778463"
   </FilesMatch>
-  
+
   # Let browsers cache WOFF files for a week
   <FilesMatch "\.woff$">
     Header set Cache-Control "max-age=604800"

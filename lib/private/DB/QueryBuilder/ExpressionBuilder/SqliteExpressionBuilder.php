@@ -31,4 +31,8 @@ class SqliteExpressionBuilder extends ExpressionBuilder {
 	public function like($x, $y, $type = null) {
 		return parent::like($x, $y, $type) . " ESCAPE '\\'";
 	}
+
+	public function iLike($x, $y, $type = null) {
+		return $this->like($this->functionBuilder->lower($x), $this->functionBuilder->lower($y), $type);
+	}
 }
