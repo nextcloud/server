@@ -5,6 +5,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Robin Müller <robin.mueller@1und1.de>
  *
  * @license AGPL-3.0
  *
@@ -123,7 +124,7 @@ class Collation implements IRepairStep {
 			"	FROM INFORMATION_SCHEMA . COLUMNS" .
 			"	WHERE TABLE_SCHEMA = ?" .
 			"	AND (COLLATION_NAME <> '" . $characterSet . "_bin' OR CHARACTER_SET_NAME <> '" . $characterSet . "')" .
-			"	AND TABLE_NAME LIKE \"*PREFIX*%\"",
+			"	AND TABLE_NAME LIKE '*PREFIX*%'",
 			array($dbName)
 		);
 		$rows = $statement->fetchAll();
@@ -138,7 +139,7 @@ class Collation implements IRepairStep {
 			"	FROM INFORMATION_SCHEMA . TABLES" .
 			"	WHERE TABLE_SCHEMA = ?" .
 			"	AND TABLE_COLLATION <> '" . $characterSet . "_bin'" .
-			"	AND TABLE_NAME LIKE \"*PREFIX*%\"",
+			"	AND TABLE_NAME LIKE '*PREFIX*%'",
 			[$dbName]
 		);
 		$rows = $statement->fetchAll();
