@@ -120,7 +120,6 @@
 					success: function(response) {
 						this.availableAppUpdates = response.ocs.data.available;
 						this.missingAppUpdates = response.ocs.data.missing;
-						this.availableAppUpdates = response.ocs.data.missing;
 						this.isListFetched = true;
 						this.appStoreFailed = false;
 					}.bind(this),
