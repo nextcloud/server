@@ -28,6 +28,7 @@ use OCA\Files\Activity\Provider;
 use OCP\Activity\IEvent;
 use OCP\Activity\IEventMerger;
 use OCP\Activity\IManager;
+use OCP\Files\IRootFolder;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -49,6 +50,8 @@ class ProviderTest extends TestCase {
 	protected $activityManager;
 	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
 	protected $userManager;
+	/** @var IRootFolder|\PHPUnit_Framework_MockObject_MockObject */
+	protected $rootFolder;
 	/** @var IEventMerger|\PHPUnit_Framework_MockObject_MockObject */
 	protected $eventMerger;
 
@@ -59,6 +62,7 @@ class ProviderTest extends TestCase {
 		$this->url = $this->createMock(IURLGenerator::class);
 		$this->activityManager = $this->createMock(IManager::class);
 		$this->userManager = $this->createMock(IUserManager::class);
+		$this->rootFolder = $this->createMock(IRootFolder::class);
 		$this->eventMerger = $this->createMock(IEventMerger::class);
 	}
 
@@ -74,6 +78,7 @@ class ProviderTest extends TestCase {
 					$this->url,
 					$this->activityManager,
 					$this->userManager,
+					$this->rootFolder,
 					$this->eventMerger,
 				])
 				->setMethods($methods)
@@ -84,6 +89,7 @@ class ProviderTest extends TestCase {
 			$this->url,
 			$this->activityManager,
 			$this->userManager,
+			$this->rootFolder,
 			$this->eventMerger
 		);
 	}
