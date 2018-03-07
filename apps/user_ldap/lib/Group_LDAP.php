@@ -179,9 +179,9 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 
 		$dynamicMembers = array();
 		if (strpos($dynamicGroupMemberURL, '(') === 0) {
-			// This is the filter URL itself. Replace %gid with the group's DN
+			// This is the filter URL itself. Replace %gdn with the group's DN
 			$memberURLs = array(
-				preg_replace('/%gid(?=\b)/', $dnGroup, $dynamicGroupMemberURL)
+				preg_replace('/%gdn(?=\b)/', $dnGroup, $dynamicGroupMemberURL)
 			);
 		} else {
 			// This is an LDAP attribute where the URL can be found in
@@ -641,7 +641,7 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 		if (!empty($dynamicGroupMemberURL)) {
 			// look through dynamic groups to add them to the result array if needed
 			if (strpos($dynamicGroupMemberURL, '(') === 0) {
-				// This is a query filter. '%gid' will be replaced by the group's DN
+				// This is a query filter. '%gdn' will be replaced by the group's DN
 				$urlIsFilter = true;
 				$groupsToMatch = $this->access->fetchListOfGroups(
 					$this->access->connection->ldapGroupFilter, array('dn'));
@@ -653,13 +653,13 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 			}
 			foreach($groupsToMatch as $dynamicGroup) {
 				if ($urlIsFilter) {
-					// Replace '%gid' with the group's DN
+					// Replace '%gdn' with the group's DN
 					if (is_string($dynamicGroup)) {
 						// fetchListOfGroups returns an array of strings when called
 						// with a single attribute to fetch. Make this compatible.
 						$dynamicGroup = array('dn' => array($dynamicGroup));
 					}
-					$memberUrlFilter = preg_replace('/%gid(?=\b)/', $dynamicGroup['dn'][0], $dynamicGroupMemberURL);
+					$memberUrlFilter = preg_replace('/%gdn(?=\b)/', $dynamicGroup['dn'][0], $dynamicGroupMemberURL);
 				} else {
 					// Resolve filter from given attribute
 					if (!array_key_exists($dynamicGroupMemberURL, $dynamicGroup)) {
