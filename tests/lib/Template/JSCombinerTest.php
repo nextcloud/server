@@ -187,6 +187,10 @@ class JSCombinerTest extends \Test\TestCase {
 
 		$fileDeps->expects($this->once())->method('getContent')->willReturn('{}');
 
+		$folder->method('fileExists')
+			->with('combine.js')
+			->willReturn(true);
+
 		$folder->method('getFile')
 			->will($this->returnCallback(function($path) use ($file, $fileDeps) {
 				if ($path === 'combine.js') {
@@ -196,6 +200,7 @@ class JSCombinerTest extends \Test\TestCase {
 				if ($path === 'combine.js.deps') {
 					return $fileDeps;
 				}
+
 				$this->fail();
 			}));
 
@@ -221,6 +226,9 @@ class JSCombinerTest extends \Test\TestCase {
 			->willReturn($folder);
 		$folder->method('getName')
 			->willReturn('awesomeapp');
+		$folder->method('fileExists')
+			->with('combine.js')
+			->willReturn(true);
 
 		$file = $this->createMock(ISimpleFile::class);
 
@@ -263,6 +271,9 @@ class JSCombinerTest extends \Test\TestCase {
 	public function testIsCachedWithNotExistingFile() {
 		$fileName = 'combine.json';
 		$folder = $this->createMock(ISimpleFolder::class);
+		$folder->method('fileExists')
+			->with('combine.js')
+			->willReturn(true);
 		$file = $this->createMock(ISimpleFile::class);
 		$folder->method('getFile')
 			->with('combine.js.deps')
@@ -278,6 +289,9 @@ class JSCombinerTest extends \Test\TestCase {
 	public function testIsCachedWithOlderMtime() {
 		$fileName = 'combine.json';
 		$folder = $this->createMock(ISimpleFolder::class);
+		$folder->method('fileExists')
+			->with('combine.js')
+			->willReturn(true);
 		$file = $this->createMock(ISimpleFile::class);
 		$folder->method('getFile')
 			->with('combine.js.deps')
@@ -293,6 +307,9 @@ class JSCombinerTest extends \Test\TestCase {
 	public function testIsCachedWithoutContent() {
 		$fileName = 'combine.json';
 		$folder = $this->createMock(ISimpleFolder::class);
+		$folder->method('fileExists')
+			->with('combine.js')
+			->willReturn(true);
 		$file = $this->createMock(ISimpleFile::class);
 		$folder->method('getFile')
 			->with('combine.js.deps')
