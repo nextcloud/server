@@ -57,7 +57,7 @@ class ExternalShareMenuAction extends SimpleMenuAction {
 		return '<li>' .
 			'<a id="save" data-protected="false" data-owner-display-name="' . Util::sanitizeHTML($this->displayname) . '" data-owner="' . Util::sanitizeHTML($this->owner) . '" data-name="' . Util::sanitizeHTML($this->shareName) . '">' .
 			'<span class="icon ' . Util::sanitizeHTML($this->getIcon()) . '"></span>' .
-			'<span id="save-button">' . Util::sanitizeHTML($this->getLabel()) . '</span>' .
+			'<label for="remote_address">' . Util::sanitizeHTML($this->getLabel()) . '</label>' .
 			'</a>' .
 			'</li>' .
 			'<li>' .
