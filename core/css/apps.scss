@@ -841,6 +841,16 @@ kbd {
 				 assure correct position of a possible text */
 				padding: 18px 0 18px 36px;
 			}
+			// If no icons set, force left margin to align
+			&:not([class^='icon-']):not([class*='icon-']) {
+				> span,
+				> input,
+				> form {
+					&:not([class^='icon-']):not([class*='icon-']):first-of-type {
+						margin-left: 36px;
+					}
+				}
+			}
 			&[class^='icon-'],
 			&[class*=' icon-'] {
 				padding: 0 10px 0 36px !important;
