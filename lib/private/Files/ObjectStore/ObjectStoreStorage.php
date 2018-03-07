@@ -261,6 +261,12 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 	public function fopen($path, $mode) {
 		$path = $this->normalizePath($path);
 
+		if (strrpos($path, '.') !== false) {
+			$ext = substr($path, strrpos($path, '.'));
+		} else {
+			$ext = '';
+		}
+
 		switch ($mode) {
 			case 'r':
 			case 'rb':
@@ -280,21 +286,21 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 				}
 			case 'w':
 			case 'wb':
+			case 'w+':
+			case 'wb+':
+				$tmpFile = \OC::$server->getTempManager()->getTemporaryFile($ext);
+				$handle = fopen($tmpFile, $mode);
+				return CallbackWrapper::wrap($handle, null, null, function () use ($path, $tmpFile) {
+					$this->writeBack($tmpFile, $path);
+				});
 			case 'a':
 			case 'ab':
 			case 'r+':
-			case 'w+':
-			case 'wb+':
 			case 'a+':
 			case 'x':
 			case 'x+':
 			case 'c':
 			case 'c+':
-				if (strrpos($path, '.') !== false) {
-					$ext = substr($path, strrpos($path, '.'));
-				} else {
-					$ext = '';
-				}
 				$tmpFile = \OC::$server->getTempManager()->getTemporaryFile($ext);
 				if ($this->file_exists($path)) {
 					$source = $this->fopen($path, 'r');
