@@ -496,7 +496,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$version = implode(',', $v);
 				$instanceId = \OC_Util::getInstanceId();
 				$path = \OC::$SERVERROOT;
-				$prefix = md5($instanceId . '-' . $version . '-' . $path . '-' . $urlGenerator->getBaseUrl());
+				$prefix = md5($instanceId . '-' . $version . '-' . $path);
 				return new \OC\Memcache\Factory($prefix, $c->getLogger(),
 					$config->getSystemValue('memcache.local', null),
 					$config->getSystemValue('memcache.distributed', null),
@@ -963,7 +963,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getConfig(),
 				$c->getThemingDefaults(),
 				\OC::$SERVERROOT,
-				$cacheFactory->createDistributed('SCSS')
+				$cacheFactory->createDistributed('SCSS-' . md5($this->getURLGenerator()->getBaseUrl()))
 			);
 		});
 		$this->registerService(JSCombiner::class, function (Server $c) {
@@ -972,7 +972,7 @@ class Server extends ServerContainer implements IServerContainer {
 			return new JSCombiner(
 				$c->getAppDataDir('js'),
 				$c->getURLGenerator(),
-				$cacheFactory->createDistributed('JS'),
+				$cacheFactory->createDistributed('JS-' . md5($this->getURLGenerator()->getBaseUrl())),
 				$c->getSystemConfig(),
 				$c->getLogger()
 			);
