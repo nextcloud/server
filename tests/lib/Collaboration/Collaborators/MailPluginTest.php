@@ -120,15 +120,15 @@ class MailPluginTest extends TestCase {
 
 	public function dataGetEmail() {
 		return [
-			['test', [], true, ['emails' => [], 'exact' => ['emails' => []]], false, true],
-			['test', [], false, ['emails' => [], 'exact' => ['emails' => []]], false, true],
+			['test', [], true, ['emails' => [], 'exact' => ['emails' => []]], false, false],
+			['test', [], false, ['emails' => [], 'exact' => ['emails' => []]], false, false],
 			[
 				'test@remote.com',
 				[],
 				true,
 				['emails' => [], 'exact' => ['emails' => [['label' => 'test@remote.com', 'value' => ['shareType' => Share::SHARE_TYPE_EMAIL, 'shareWith' => 'test@remote.com']]]]],
 				false,
-				true,
+				false,
 			],
 			[ // no valid email address
 				'test@remote',
@@ -136,7 +136,7 @@ class MailPluginTest extends TestCase {
 				true,
 				['emails' => [], 'exact' => ['emails' => []]],
 				false,
-				true,
+				false,
 			],
 			[
 				'test@remote.com',
@@ -144,7 +144,7 @@ class MailPluginTest extends TestCase {
 				false,
 				['emails' => [], 'exact' => ['emails' => [['label' => 'test@remote.com', 'value' => ['shareType' => Share::SHARE_TYPE_EMAIL, 'shareWith' => 'test@remote.com']]]]],
 				false,
-				true,
+				false,
 			],
 			[
 				'test',
@@ -167,7 +167,7 @@ class MailPluginTest extends TestCase {
 				true,
 				['emails' => [['label' => 'User @ Localhost (username@localhost)', 'value' => ['shareType' => Share::SHARE_TYPE_EMAIL, 'shareWith' => 'username@localhost']]], 'exact' => ['emails' => []]],
 				false,
-				true,
+				false,
 			],
 			[
 				'test',
@@ -190,7 +190,7 @@ class MailPluginTest extends TestCase {
 				false,
 				['emails' => [], 'exact' => ['emails' => []]],
 				false,
-				true,
+				false,
 			],
 			[
 				'test@remote.com',
@@ -213,7 +213,7 @@ class MailPluginTest extends TestCase {
 				true,
 				['emails' => [['label' => 'User @ Localhost (username@localhost)', 'value' => ['shareType' => Share::SHARE_TYPE_EMAIL, 'shareWith' => 'username@localhost']]], 'exact' => ['emails' => [['label' => 'test@remote.com', 'value' => ['shareType' => Share::SHARE_TYPE_EMAIL, 'shareWith' => 'test@remote.com']]]]],
 				false,
-				true,
+				false,
 			],
 			[
 				'test@remote.com',
@@ -236,7 +236,7 @@ class MailPluginTest extends TestCase {
 				false,
 				['emails' => [], 'exact' => ['emails' => [['label' => 'test@remote.com', 'value' => ['shareType' => Share::SHARE_TYPE_EMAIL, 'shareWith' => 'test@remote.com']]]]],
 				false,
-				true,
+				false,
 			],
 			[
 				'username@localhost',
@@ -259,7 +259,7 @@ class MailPluginTest extends TestCase {
 				true,
 				['emails' => [], 'exact' => ['emails' => [['label' => 'User @ Localhost (username@localhost)', 'value' => ['shareType' => Share::SHARE_TYPE_EMAIL, 'shareWith' => 'username@localhost']]]]],
 				true,
-				true,
+				false,
 			],
 			[
 				'username@localhost',
@@ -282,7 +282,7 @@ class MailPluginTest extends TestCase {
 				false,
 				['emails' => [], 'exact' => ['emails' => [['label' => 'User @ Localhost (username@localhost)', 'value' => ['shareType' => Share::SHARE_TYPE_EMAIL, 'shareWith' => 'username@localhost']]]]],
 				true,
-				true,
+				false,
 			],
 			// contact with space
 			[
@@ -306,7 +306,7 @@ class MailPluginTest extends TestCase {
 				false,
 				['emails' => [], 'exact' => ['emails' => [['label' => 'User Name @ Localhost (user name@localhost)', 'value' => ['shareType' => Share::SHARE_TYPE_EMAIL, 'shareWith' => 'user name@localhost']]]]],
 				true,
-				true,
+				false,
 			],
 			// remote with space, no contact
 			[
@@ -330,7 +330,7 @@ class MailPluginTest extends TestCase {
 				false,
 				['emails' => [], 'exact' => ['emails' => []]],
 				false,
-				true,
+				false,
 			],
 			// Local user found by email
 			[
@@ -344,7 +344,7 @@ class MailPluginTest extends TestCase {
 					]
 				],
 				false,
-				['users' => [], 'exact' => ['users' => [['label' => 'User (test@example.com)','value' => ['shareType' => 0, 'shareWith' => 'test'],]]]],
+				['users' => [], 'exact' => ['users' => [['label' => 'User (test@example.com)','value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test'],]]]],
 				true,
 				false,
 			],
@@ -395,8 +395,8 @@ class MailPluginTest extends TestCase {
 				],
 				true,
 				['users' => [
-					['label' => 'User1 (test@example.com)','value' => ['shareType' => 0, 'shareWith' => 'test1']],
-					['label' => 'User2 (test@example.de)','value' => ['shareType' => 0, 'shareWith' => 'test2']],
+					['label' => 'User1 (test@example.com)', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
+					['label' => 'User2 (test@example.de)', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test2']],
 				], 'emails' => [], 'exact' => ['users' => [], 'emails' => []]],
 				false,
 				true,
@@ -515,7 +515,7 @@ class MailPluginTest extends TestCase {
 				],
 				['users' => [['label' => 'User (test@example.com)','value' => ['shareType' => 0, 'shareWith' => 'test'],]], 'emails' => [], 'exact' => ['emails' => [], 'users' => []]],
 				false,
-				true,
+				false,
 				[
 					"currentUser" => ["group1"],
 					"User" => ["group1"]
@@ -535,7 +535,7 @@ class MailPluginTest extends TestCase {
 				],
 				['emails'=> [], 'exact' => ['emails' => []]],
 				false,
-				true,
+				false,
 				[
 					"currentUser" => ["group1"],
 					"User" => ["group2"]
@@ -555,7 +555,7 @@ class MailPluginTest extends TestCase {
 				],
 				['emails' => [], 'exact' => ['emails' => [['label' => 'test@example.com', 'value' => ['shareType' => 4,'shareWith' => 'test@example.com']]]]],
 				false,
-				true,
+				false,
 				[
 					"currentUser" => ["group1"],
 					"User" => ["group2"]
