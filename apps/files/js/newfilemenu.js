@@ -172,7 +172,9 @@
 				}
 			});
 
-			$submit.click(function(){
+			$submit.click(function(event) {
+				event.stopPropagation();
+				event.preventDefault();
 				$form.submit();
 			});
 
