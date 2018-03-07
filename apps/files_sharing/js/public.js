@@ -278,12 +278,6 @@ OCA.Sharing.PublicApp = {
 			}
 		});
 
-		$('#save #save-button').click(function () {
-			$(this).hide();
-			$('.save-form').css('display', 'inline');
-			$('#remote_address').focus();
-		});
-
 		// legacy
 		window.FileList = this.fileList;
 	},

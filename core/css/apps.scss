@@ -737,6 +737,9 @@ kbd {
 }
 
 /* POPOVER MENU ------------------------------------------------------------- */
+$popoveritem-height: 38px;
+$popovericon-size: 16px;
+
 .ie,
 .edge {
 	.bubble, .bubble:after,
@@ -813,11 +816,11 @@ kbd {
 		> a,
 		> .menuitem {
 			cursor: pointer;
-			line-height: 38px;
+			line-height: $popoveritem-height;
 			border: 0;
 			background-color: transparent;
 			display: flex;
-			align-items: center;
+			align-items: flex-start;
 			height: auto;
 			margin: 0;
 			font-weight: 300;
@@ -832,28 +835,28 @@ kbd {
 			&[class*=' icon-'] {
 				min-width: 0; /* Overwrite icons*/
 				min-height: 0;
-				background-position: 10px center;
-				background-size: 16px;
+				background-position: #{($popoveritem-height - $popovericon-size) / 2} center;
+				background-size: $popovericon-size;
 			}
 			span[class^='icon-'],
 			span[class*=' icon-'] {
 				/* Keep padding to define the width to
 				 assure correct position of a possible text */
-				padding: 18px 0 18px 36px;
+				padding: #{$popoveritem-height / 2} 0 #{$popoveritem-height / 2} $popoveritem-height;
 			}
 			// If no icons set, force left margin to align
 			&:not([class^='icon-']):not([class*='icon-']) {
 				> span,
 				> input,
 				> form {
-					&:not([class^='icon-']):not([class*='icon-']):first-of-type {
-						margin-left: 36px;
+					&:not([class^='icon-']):not([class*='icon-']):first-child {
+						margin-left: $popoveritem-height;
 					}
 				}
 			}
 			&[class^='icon-'],
 			&[class*=' icon-'] {
-				padding: 0 10px 0 36px !important;
+				padding: 0 #{($popoveritem-height - $popovericon-size) / 2} 0 $popoveritem-height !important;
 			}
 			&:hover, &:focus, &.active {
 				opacity: 1 !important;
@@ -879,9 +882,11 @@ kbd {
 			&:not(:empty) {
 				padding-right: 10px !important;
 			}
+			/* DEPRECATED! old img in popover fallback
+			 * TODO: to remove */
 			> img {
-				width: 16px;
-				padding: 0 10px;
+				width: $popovericon-size;
+				padding: #{($popoveritem-height - $popovericon-size) / 2};
 			}
 			/* checkbox/radio fixes */
 			> input.radio + label,
@@ -901,25 +906,43 @@ kbd {
 			form {
 				display: flex;
 				flex: 1 1 auto;
+				/* put a small space between text and form
+				   if there is an element before */
+				&:not(:first-child)  {
+					margin-left: 5px;
+				}
+			}
+			/* no margin if hidden span before */
+			> span.hidden + form,
+			> span[style*='display:none'] + form {
+				margin-left: 0;
 			}
 			/* Inputs inside popover supports text, submit & reset */
 			input {
-				min-width: 34px;
-				max-height: 34px;
+				min-width: #{$popoveritem-height - 4px}; /* twice the margin */
+				max-height: #{$popoveritem-height - 4px}; /* twice the margin */
 				margin: 2px 0;
 				flex: 1 1 auto;
-				~ input {
+				&:not(:first-child) {
 					margin-left: 5px;
 				}
 			}
 		}
 		/* css hack, only first not hidden*/
-		&:not(.hidden):not([style*='display: none']) {
-			&:first-of-type input {
-				margin-top: 10px;
+		&:not(.hidden):not([style*='display:none']) {
+			&:first-of-type {
+				> button, > a, > .menuitem {
+					> form, > input {
+						margin-top: 10px;
+					}
+				}
 			}
-			&:last-of-type input {
-				margin-bottom: 10px;
+			&:last-of-type {
+				> button, > a, > .menuitem {
+					> form, > input {
+						margin-bottom: 10px;
+					}
+				}
 			}
 		}
 		> button {
