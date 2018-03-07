@@ -131,3 +131,36 @@ table.multiselect thead {
 
 /* end of media query */
 }
+
+@media only screen and (max-width: 480px) {
+	#header .header-right .menu {
+		max-width: calc(100vw - 26px);
+		position: fixed;
+		right: 13px;
+		top: 45px;
+		&::after {
+			display: none !important;
+		}
+	}
+	/* Arrow directly child of menutoggle */
+	#header .header-right > div {
+		&.openedMenu{
+			&::after {
+				display: block;
+			}
+		}
+		&::after {
+			border: 10px solid transparent;
+			border-bottom-color: $color-main-background;
+			bottom: 0;
+			content: ' ';
+			height: 0;
+			width: 0;
+			position: absolute;
+			pointer-events: none;
+			right: 13px;
+			z-index: 2001;
+			display: none;
+		}
+	}
+}

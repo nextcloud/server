@@ -678,9 +678,10 @@ var OCP = {},
 	 * @param {jQuery} $toggle
 	 * @param {jQuery} $menuEl
 	 * @param {function|undefined} toggle callback invoked everytime the menu is opened
+	 * @param {boolean} headerMenu is this a top right header menu?
 	 * @returns {undefined}
 	 */
-	registerMenu: function($toggle, $menuEl, toggle) {
+	registerMenu: function($toggle, $menuEl, toggle, headerMenu) {
 		var self = this;
 		$menuEl.addClass('menu');
 		$toggle.on('click.menu', function(event) {
@@ -696,6 +697,11 @@ var OCP = {},
 				// close it
 				self.hideMenus();
 			}
+
+			if (headerMenu === true) {
+				$menuEl.parent().addClass('openedMenu');
+			}
+
 			$menuEl.slideToggle(OC.menuSpeed, toggle);
 			OC._currentMenu = $menuEl;
 			OC._currentMenuToggle = $toggle;
@@ -730,6 +736,7 @@ var OCP = {},
 				}
 			});
 		}
+		$('.openedMenu').removeClass('openedMenu');
 		OC._currentMenu = null;
 		OC._currentMenuToggle = null;
 	},
@@ -1396,7 +1403,7 @@ function initCore() {
 		initSessionHeartBeat();
 	}
 
-	OC.registerMenu($('#expand'), $('#expanddiv'));
+	OC.registerMenu($('#expand'), $('#expanddiv'), false, true);
 
 	// toggle for menus
 	$(document).on('mouseup.closemenus', function(event) {
@@ -1480,7 +1487,7 @@ function initCore() {
 			if(event.which === 1 && !event.ctrlKey && !event.metaKey) {
 				$page.find('img').remove();
 				$page.find('div').remove(); // prevent odd double-clicks
-				$page.prepend($('<div/>').addClass('icon-loading-small-dark'));
+				$page.prepend($('<div/>').addClass('icon-loading-small'));
 			} else {
 				// Close navigation when opening menu entry in
 				// a new tab
@@ -1702,7 +1709,7 @@ OC.PasswordConfirmation = {
 	requiresPasswordConfirmation: function() {
 		var serverTimeDiff = this.pageLoadTime - (nc_pageLoad * 1000);
 		var timeSinceLogin = moment.now() - (serverTimeDiff + (nc_lastLogin * 1000));
-		
+
 		// if timeSinceLogin > 30 minutes and user backend allows password confirmation
 		return (backendAllowsPasswordConfirmation && timeSinceLogin > 30 * 60 * 1000);
 	},

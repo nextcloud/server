@@ -464,7 +464,7 @@
 
 			OC.registerMenu(this._$trigger, this.$el, function() {
 				this._toggleVisibility(true);
-			}.bind(this));
+			}.bind(this), true);
 			this.$el.on('beforeHide', function() {
 				this._toggleVisibility(false);
 			}.bind(this));
