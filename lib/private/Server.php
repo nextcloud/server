@@ -965,7 +965,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getConfig(),
 				$c->getThemingDefaults(),
 				\OC::$SERVERROOT,
-				$cacheFactory->createDistributed('SCSS-' . md5($this->getURLGenerator()->getBaseUrl()))
+				$this->getMemCacheFactory()
 			);
 		});
 		$this->registerService(JSCombiner::class, function (Server $c) {
@@ -974,7 +974,7 @@ class Server extends ServerContainer implements IServerContainer {
 			return new JSCombiner(
 				$c->getAppDataDir('js'),
 				$c->getURLGenerator(),
-				$cacheFactory->createDistributed('JS-' . md5($this->getURLGenerator()->getBaseUrl())),
+				$this->getMemCacheFactory(),
 				$c->getSystemConfig(),
 				$c->getLogger()
 			);
