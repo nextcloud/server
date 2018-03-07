@@ -903,6 +903,15 @@ kbd {
 				}
 			}
 		}
+		/* css hack, only first not hidden*/
+		&:not(.hidden):not([style*='display: none']) {
+			&:first-of-type input {
+				margin-top: 10px;
+			}
+			&:last-of-type input {
+				margin-bottom: 10px;
+			}
+		}
 		> button {
 			padding: 0;
 			span {
