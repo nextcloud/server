@@ -30,6 +30,7 @@ use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFolder;
+use OCP\ICacheFactory;
 use OCP\ILogger;
 use OCP\IURLGenerator;
 
@@ -50,21 +51,25 @@ class JSCombiner {
 	/** @var ILogger */
 	protected $logger;
 
+	/** @var ICacheFactory */
+	private $cacheFactory;
+
 	/**
 	 * @param IAppData $appData
 	 * @param IURLGenerator $urlGenerator
-	 * @param ICache $depsCache
+	 * @param ICacheFactory $cacheFactory
 	 * @param SystemConfig $config
 	 * @param ILogger $logger
 	 */
 	public function __construct(IAppData $appData,
 								IURLGenerator $urlGenerator,
-								ICache $depsCache,
+								ICacheFactory $cacheFactory,
 								SystemConfig $config,
 								ILogger $logger) {
 		$this->appData = $appData;
 		$this->urlGenerator = $urlGenerator;
-		$this->depsCache = $depsCache;
+		$this->cacheFactory = $cacheFactory;
+		$this->depsCache = $this->cacheFactory->createDistributed('JS-' . md5($this->urlGenerator->getBaseUrl()));
 		$this->config = $config;
 		$this->logger = $logger;
 	}
@@ -236,7 +241,7 @@ class JSCombiner {
 	 * @throws NotFoundException
 	 */
 	public function resetCache() {
-		$this->depsCache->clear();
+		$this->cacheFactory->createDistributed('JS-')->clear();
 		$appDirectory = $this->appData->getDirectoryListing();
 		foreach ($appDirectory as $folder) {
 			foreach ($folder->getDirectoryListing() as $file) {

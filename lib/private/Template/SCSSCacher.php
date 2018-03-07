@@ -39,6 +39,7 @@ use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\ICache;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IURLGenerator;
@@ -66,6 +67,9 @@ class SCSSCacher {
 	/** @var null|string */
 	protected $injectedVariables = null;
 
+	/** @var ICacheFactory */
+	private $cacheFactory;
+
 	/**
 	 * @param ILogger $logger
 	 * @param Factory $appDataFactory
@@ -73,7 +77,7 @@ class SCSSCacher {
 	 * @param IConfig $config
 	 * @param \OC_Defaults $defaults
 	 * @param string $serverRoot
-	 * @param ICache $depsCache
+	 * @param ICacheFactory $cacheFactory
 	 */
 	public function __construct(ILogger $logger,
 								Factory $appDataFactory,
@@ -81,14 +85,15 @@ class SCSSCacher {
 								IConfig $config,
 								\OC_Defaults $defaults,
 								$serverRoot,
-								ICache $depsCache) {
+								ICacheFactory $cacheFactory) {
 		$this->logger = $logger;
 		$this->appData = $appDataFactory->get('css');
 		$this->urlGenerator = $urlGenerator;
 		$this->config = $config;
 		$this->defaults = $defaults;
 		$this->serverRoot = $serverRoot;
-		$this->depsCache = $depsCache;
+		$this->cacheFactory = $cacheFactory;
+		$this->depsCache = $cacheFactory->createDistributed('SCSS-' . md5($this->urlGenerator->getBaseUrl()));
 	}
 
 	/**
@@ -256,7 +261,7 @@ class SCSSCacher {
 	 */
 	public function resetCache() {
 		$this->injectedVariables = null;
-		$this->depsCache->clear();
+		$this->cacheFactory->createDistributed('SCSS-')->clear();
 		$appDirectory = $this->appData->getDirectoryListing();
 		foreach ($appDirectory as $folder) {
 			foreach ($folder->getDirectoryListing() as $file) {
