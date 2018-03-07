@@ -539,9 +539,11 @@ class Access extends LDAPUtility implements IUserTools {
 		if($isUser) {
 			$mapper = $this->getUserMapper();
 			$nameAttribute = $this->connection->ldapUserDisplayName;
+			$filter = $this->connection->ldapUserFilter;
 		} else {
 			$mapper = $this->getGroupMapper();
 			$nameAttribute = $this->connection->ldapGroupDisplayName;
+			$filter = $this->connection->ldapGroupFilter;
 		}
 
 		//let's try to retrieve the Nextcloud name from the mappings table
@@ -565,13 +567,9 @@ class Access extends LDAPUtility implements IUserTools {
 		}
 
 		if(is_null($ldapName)) {
-			if ($isUser) {
-				$ldapName = $this->readAttribute($fdn, $nameAttribute, $this->connection->ldapUserFilter);
-			} else {
-				$ldapName = $this->readAttribute($fdn, $nameAttribute);
-			}
+			$ldapName = $this->readAttribute($fdn, $nameAttribute, $filter);
 			if(!isset($ldapName[0]) && empty($ldapName[0])) {
-				\OCP\Util::writeLog('user_ldap', 'No or empty name for '.$fdn.'.', \OCP\Util::INFO);
+				\OCP\Util::writeLog('user_ldap', 'No or empty name for '.$fdn.' with filter '.$filter.'.', \OCP\Util::INFO);
 				return false;
 			}
 			$ldapName = $ldapName[0];
