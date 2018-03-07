@@ -104,13 +104,20 @@ class JSCombiner {
 	 * @return bool
 	 */
 	protected function isCached($fileName, ISimpleFolder $folder) {
-		$fileName = str_replace('.json', '.js', $fileName) . '.deps';
+		$fileName = str_replace('.json', '.js', $fileName);
+
+		if (!$folder->fileExists($fileName)) {
+			return false;
+		}
+
+		$fileName = $fileName . '.deps';
 		try {
 			$deps = $this->depsCache->get($folder->getName() . '-' . $fileName);
 			if ($deps === null || $deps === '') {
 				$depFile = $folder->getFile($fileName);
 				$deps = $depFile->getContent();
 			}
+
 			// check again
 			if ($deps === null || $deps === '') {
 				$this->logger->info('JSCombiner: deps file empty: ' . $fileName);
