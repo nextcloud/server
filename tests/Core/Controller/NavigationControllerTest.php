@@ -132,7 +132,7 @@ class NavigationControllerTest extends TestCase {
 		$this->request->expects($this->once())
 			->method('getHeader')
 			->with('If-None-Match')
-			->willReturn(md5(json_encode(['files'])));
+			->willReturn(md5(json_encode($navigation)));
 		$this->navigationManager->expects($this->once())
 			->method('getAll')
 			->with('link')
