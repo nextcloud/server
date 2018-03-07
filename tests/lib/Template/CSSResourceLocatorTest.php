@@ -25,11 +25,11 @@ namespace Test\Template;
 
 use OC\Files\AppData\Factory;
 use OCP\Files\IAppData;
+use OCP\ICacheFactory;
 use OCP\ILogger;
 use OCP\IURLGenerator;
 use OCP\IConfig;
 use OCA\Theming\ThemingDefaults;
-use OCP\ICache;
 use OC\Template\SCSSCacher;
 use OC\Template\CSSResourceLocator;
 
@@ -42,8 +42,8 @@ class CSSResourceLocatorTest extends \Test\TestCase {
 	protected $config;
 	/** @var ThemingDefaults|\PHPUnit_Framework_MockObject_MockObject */
 	protected $themingDefaults;
-	/** @var ICache|\PHPUnit_Framework_MockObject_MockObject */
-	protected $depsCache;
+	/** @var ICacheFactory|\PHPUnit_Framework_MockObject_MockObject */
+	protected $cacheFactory;
 	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
 	protected $logger;
 
@@ -54,7 +54,7 @@ class CSSResourceLocatorTest extends \Test\TestCase {
 		$this->appData = $this->createMock(IAppData::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->config = $this->createMock(IConfig::class);
-		$this->depsCache = $this->createMock(ICache::class);
+		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->themingDefaults = $this->createMock(ThemingDefaults::class);
 	}
 
@@ -69,7 +69,7 @@ class CSSResourceLocatorTest extends \Test\TestCase {
 			$this->config,
 			$this->themingDefaults,
 			\OC::$SERVERROOT,
-			$this->depsCache
+			$this->cacheFactory
 		);
 		return new CSSResourceLocator(
 			$this->logger,
