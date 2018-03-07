@@ -128,6 +128,34 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 			return false;
 		}
 
+		if(strtolower($this->access->connection->ldapGroupMemberAssocAttr) === 'zimbramailforwardingaddress') {
+			// array containing domains
+			$dns = array();
+			// loop througth array members
+			foreach($members as $mailOfMember) {
+								// split the email of each member eg. member_name@zimbra.com
+								// once splitted ['member_name', 'zimbra.com'];
+								$memberEmailParts = explode("@", $mailOfMember);
+								// get the first part of email
+                                $memberEmailName = $memberEmailParts[0];
+				// (&(&(objectclass=zimbraAccount)(!(objectclass=zimbraCalendarResource))(!(zimbraHideInGal=TRUE))(zimbraAccountStatus=active))(|(uid=%uid)(|(mailPrimaryAddress=%uid)(mail=%uid))))
+				// with the query above we need to replace each %uid for our $memberEmailName
+				// once replaced is done, we have this: assuming our $memberEmailName = "johuder"
+				// (&(&(objectclass=zimbraAccount)(!(objectclass=zimbraCalendarResource))(!(zimbraHideInGal=TRUE))(zimbraAccountStatus=active))(|(uid=johuder)(|(mailPrimaryAddress=johuder)(mail=johuder))))
+				$filter = str_replace('%uid', $memberEmailName, $this->access->connection->ldapLoginFilter);
+				// request query to LDAP
+				$ldap_users = $this->access->fetchListOfUsers($filter, 'dn');
+				if(count($ldap_users) < 1) {
+					// if is not found any user, continue to the next user in the foreach loop
+					continue;
+				}
+				// if user were found, we push it into the array result
+				array_push($dns, $ldap_users[0]);
+			}
+			// update the last value in $members with the found users.
+			$members = $dns;
+		}
+
 		//extra work if we don't get back user DNs
 		if(strtolower($this->access->connection->ldapGroupMemberAssocAttr) === 'memberuid') {
 			$dns = array();
@@ -647,7 +675,21 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 					);
 					if ($userMatch !== false) {
 						// match found so this user is in this group
+						$pos = strpos($dynamicGroup['dn'][0], ',');
+						//assuming $dynamicGroup['dn'][0] has: cn=myGroup,ou=people,dc=domain,dc=com
+						// we look for the first , into the string, in the string above
+						// $pos variable will contain 10
+						if ($pos !== false) {
+							$membershipGroup = substr($dynamicGroup['dn'][0], 3, $pos - 3);
+							// we need to extract the group name
+							// so we extracted from cn=myGroup,ou=people,dc=domain,dc=com
+							// we extract from position 3 to 7 in the string above, so we have: myGroup
+							$groups[] = $membershipGroup;
+							// then we add the group found to the array groups
+						}
+						
 						$groupName = $this->access->dn2groupname($dynamicGroup['dn'][0]);
+
 						if(is_string($groupName)) {
 							// be sure to never return false if the dn could not be
 							// resolved to a name, for whatever reason.
@@ -702,6 +744,11 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 					$this->access->connection->ldapHost, \OCP\Util::DEBUG);
 			}
 			$uid = $result[0];
+		} else if(strtolower($this->access->connection->ldapGroupMemberAssocAttr) === 'zimbramailforwardingaddress'){
+			// if ldapGroupMemberAssocAttr match with zimbramailforwardingaddress
+			// we look into the zimbra LDAP
+			$result = $this->access->readAttribute($userDN, 'uid');
+			$uid = $result[0].'@*';
 		} else {
 			// just in case
 			$uid = $userDN;
@@ -819,6 +866,7 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 
 		$groupUsers = array();
 		$isMemberUid = (strtolower($this->access->connection->ldapGroupMemberAssocAttr) === 'memberuid');
+		$isZimbraUid = (strtolower($this->access->connection->ldapGroupMemberAssocAttr) === 'zimbramailforwardingaddress');
 		$attrs = $this->access->userManager->getAttributes(true);
 		foreach($members as $member) {
 			if($isMemberUid) {
@@ -832,6 +880,26 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 					continue;
 				}
 				$groupUsers[] = $this->access->dn2username($ldap_users[0]['dn'][0]);
+			} else if($isZimbraUid) {
+				// if our LDAP config point to zimbra platform
+				$memberParts = explode('@', $member);
+				// extract the first part of email member
+				$member = $memberParts[0];
+
+				// replace all '%uid' with the value of $member and get the filter query
+				$filter = $this->access->combineFilterWidthAnd(array(
+					\OCP\Util::mb_str_replace('%uid', $member,
+					$this->access->connection->ldapLoginFilter, 'UTF-8'),
+					$this->access->getFilterPartForUserSearch($search)
+				));
+				// exec the query we got above
+				$ldap_users = $this->access->fetchListOfUsers($filter, 'dn');
+				// if we not found any user, let's continue
+				if (count($ldap_users) < 1) {
+					continue;
+				}
+				// if we found the user, add it to the array
+				$groupUsers[] = $this->access->dn2username($ldap_users[0]);
 			} else {
 				//we got DNs, check if we need to filter by search or we can give back all of them
 				if ($search !== '') {
