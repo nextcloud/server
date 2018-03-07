@@ -895,10 +895,10 @@ $popovericon-size: 16px;
 				width: 100%;
 			}
 			> input.checkbox + label::before {
-				margin: -2px 12px 0;
+				margin: -2px 13px 0;
 			}
 			> input.radio + label::before {
-				margin: -2px 11px 0;
+				margin: -2px 12px 0;
 			}
 			> input:not([type=radio]):not([type=checkbox]):not([type=image]) {
 				width: 150px;
