@@ -48,7 +48,9 @@
 					if (groupId && groups.length > 0) {
 						callback({
 							id: groupId,
-							displayname: groups.find(group =>group.id === groupId).displayname
+							displayname: groups.find(function (group) {
+								return group.id === groupId;
+							}).displayname
 						});
 					} else if (groupId) {
 						callback({
