@@ -306,13 +306,7 @@ class TemplateLayout extends \OC_Template {
 			$theme,
 			array( \OC::$SERVERROOT => \OC::$WEBROOT ),
 			array( \OC::$SERVERROOT => \OC::$WEBROOT ),
-			new JSCombiner(
-				\OC::$server->getAppDataDir('js'),
-				\OC::$server->getURLGenerator(),
-				\OC::$server->getMemCacheFactory()->createDistributed('JS'),
-				\OC::$server->getSystemConfig(),
-				\OC::$server->getLogger()
-			)
+			\OC::$server->query(JSCombiner::class)
 			);
 		$locator->find($scripts);
 		return $locator->getResources();
