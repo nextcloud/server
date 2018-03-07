@@ -54,16 +54,18 @@
 				</a>
 			</span>
 			<?php if($template->getActionCount()>1) { ?>
-			<span id="header-actions-toggle" class="menutoggle icon-more-white"></span>
-			<div id="share-menu" class="popovermenu menu">
-				<ul>
-					<?php
-						/** @var \OCP\AppFramework\Http\Template\IMenuAction $action */
-						foreach($template->getOtherActions() as $action) {
-							print_unescaped($action->render());
-						}
-					?>
-				</ul>
+			<div id="header-secondary-action">
+				<span id="header-actions-toggle" class="menutoggle icon-more-white"></span>
+				<div id="share-menu" class="popovermenu menu">
+					<ul>
+						<?php
+							/** @var \OCP\AppFramework\Http\Template\IMenuAction $action */
+							foreach($template->getOtherActions() as $action) {
+								print_unescaped($action->render());
+							}
+						?>
+					</ul>
+				</div>
 			</div>
 			<?php } ?>
 		</div>

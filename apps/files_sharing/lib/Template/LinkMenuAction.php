@@ -47,8 +47,12 @@ class LinkMenuAction extends SimpleMenuAction {
 			'<a id="directLink-container">' .
 			'<span class="icon ' . Util::sanitizeHTML($this->getIcon()) . '"></span>' .
 			'<label for="directLink">' . Util::sanitizeHTML($this->getLabel()) . '</label>' .
-			'<input id="directLink" type="text" readonly="" value="' . Util::sanitizeHTML($this->getLink()) . '">' .
 			'</a>' .
+			'</li>' .
+			'<li>' .
+			'<span class="menuitem">' .
+			'<input id="directLink" type="text" readonly="" value="' . Util::sanitizeHTML($this->getLink()) . '">' .
+			'</span>' .
 			'</li>';
 	}
 }
