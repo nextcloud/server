@@ -31,6 +31,7 @@ use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\ICache;
+use OCP\ICacheFactory;
 use OCP\ILogger;
 use OCP\IURLGenerator;
 
@@ -47,6 +48,8 @@ class JSCombinerTest extends \Test\TestCase {
 	protected $jsCombiner;
 	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
 	protected $logger;
+	/** @var ICacheFactory|\PHPUnit_Framework_MockObject_MockObject */
+	protected $cacheFactory;
 
 	protected function setUp() {
 		parent::setUp();
@@ -54,15 +57,20 @@ class JSCombinerTest extends \Test\TestCase {
 		$this->appData = $this->createMock(IAppData::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->config = $this->createMock(SystemConfig::class);
+		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->depsCache = $this->createMock(ICache::class);
+		$this->cacheFactory->expects($this->at(0))
+			->method('createDistributed')
+			->willReturn($this->depsCache);
 		$this->logger = $this->createMock(ILogger::class);
 		$this->jsCombiner = new JSCombiner(
 			$this->appData,
 			$this->urlGenerator,
-			$this->depsCache,
+			$this->cacheFactory,
 			$this->config,
 			$this->logger
 		);
+
 	}
 
 	public function testProcessDebugMode() {
@@ -522,7 +530,11 @@ var b = \'world\';
 			->method('getDirectoryListing')
 			->willReturn([$file]);
 
-		$this->depsCache->expects($this->once())
+		$cache = $this->createMock(ICache::class);
+		$this->cacheFactory->expects($this->once())
+			->method('createDistributed')
+			->willReturn($cache);
+		$cache->expects($this->once())
 			->method('clear')
 			->with('');
 		$this->appData->expects($this->once())
