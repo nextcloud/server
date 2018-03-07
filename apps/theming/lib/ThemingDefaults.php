@@ -298,7 +298,7 @@ class ThemingDefaults extends \OC_Defaults {
 	 * @return bool
 	 */
 	public function shouldReplaceIcons() {
-		$cache = $this->cacheFactory->createDistributed('theming-');
+		$cache = $this->cacheFactory->createDistributed('theming-' . $this->urlGenerator->getBaseUrl());
 		if($value = $cache->get('shouldReplaceIcons')) {
 			return (bool)$value;
 		}
