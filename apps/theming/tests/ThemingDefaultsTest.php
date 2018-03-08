@@ -79,7 +79,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->cacheFactory
 			->expects($this->any())
 			->method('createDistributed')
-			->with('theming')
+			->with('theming-')
 			->willReturn($this->cache);
 		$this->template = new ThemingDefaults(
 			$this->config,
