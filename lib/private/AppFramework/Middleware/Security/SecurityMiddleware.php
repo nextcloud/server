@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -111,9 +112,9 @@ class SecurityMiddleware extends Middleware {
 								INavigationManager $navigationManager,
 								IURLGenerator $urlGenerator,
 								ILogger $logger,
-								$appName,
-								$isLoggedIn,
-								$isAdminUser,
+								string $appName,
+								bool $isLoggedIn,
+								bool $isAdminUser,
 								ContentSecurityPolicyManager $contentSecurityPolicyManager,
 								CsrfTokenManager $csrfTokenManager,
 								ContentSecurityPolicyNonceManager $cspNonceManager,
@@ -156,10 +157,8 @@ class SecurityMiddleware extends Middleware {
 				throw new NotLoggedInException();
 			}
 
-			if(!$this->reflector->hasAnnotation('NoAdminRequired')) {
-				if(!$this->isAdminUser) {
-					throw new NotAdminException($this->l10n->t('Logged in user must be an admin'));
-				}
+			if(!$this->reflector->hasAnnotation('NoAdminRequired') && !$this->isAdminUser) {
+				throw new NotAdminException($this->l10n->t('Logged in user must be an admin'));
 			}
 		}
 
@@ -212,7 +211,7 @@ class SecurityMiddleware extends Middleware {
 	 * @param Response $response
 	 * @return Response
 	 */
-	public function afterController($controller, $methodName, Response $response) {
+	public function afterController($controller, $methodName, Response $response): Response {
 		$policy = !is_null($response->getContentSecurityPolicy()) ? $response->getContentSecurityPolicy() : new ContentSecurityPolicy();
 
 		if (get_class($policy) === EmptyContentSecurityPolicy::class) {
@@ -241,14 +240,14 @@ class SecurityMiddleware extends Middleware {
 	 * @throws \Exception the passed in exception if it can't handle it
 	 * @return Response a Response object or null in case that the exception could not be handled
 	 */
-	public function afterException($controller, $methodName, \Exception $exception) {
+	public function afterException($controller, $methodName, \Exception $exception): Response {
 		if($exception instanceof SecurityException) {
 			if($exception instanceof StrictCookieMissingException) {
 				return new RedirectResponse(\OC::$WEBROOT);
  			}
 			if (stripos($this->request->getHeader('Accept'),'html') === false) {
 				$response = new JSONResponse(
-					array('message' => $exception->getMessage()),
+					['message' => $exception->getMessage()],
 					$exception->getCode()
 				);
 			} else {
