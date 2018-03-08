@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -39,6 +40,7 @@ use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\Security\CSP\ContentSecurityPolicyManager;
 use OC\Security\CSP\ContentSecurityPolicyNonceManager;
 use OC\Security\CSRF\CsrfTokenManager;
+use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\EmptyContentSecurityPolicy;
@@ -91,29 +93,14 @@ class SecurityMiddleware extends Middleware {
 	/** @var IL10N */
 	private $l10n;
 
-	/**
-	 * @param IRequest $request
-	 * @param ControllerMethodReflector $reflector
-	 * @param INavigationManager $navigationManager
-	 * @param IURLGenerator $urlGenerator
-	 * @param ILogger $logger
-	 * @param string $appName
-	 * @param bool $isLoggedIn
-	 * @param bool $isAdminUser
-	 * @param ContentSecurityPolicyManager $contentSecurityPolicyManager
-	 * @param CSRFTokenManager $csrfTokenManager
-	 * @param ContentSecurityPolicyNonceManager $cspNonceManager
-	 * @param IAppManager $appManager
-	 * @param IL10N $l10n
-	 */
 	public function __construct(IRequest $request,
 								ControllerMethodReflector $reflector,
 								INavigationManager $navigationManager,
 								IURLGenerator $urlGenerator,
 								ILogger $logger,
-								$appName,
-								$isLoggedIn,
-								$isAdminUser,
+								string $appName,
+								bool $isLoggedIn,
+								bool $isAdminUser,
 								ContentSecurityPolicyManager $contentSecurityPolicyManager,
 								CsrfTokenManager $csrfTokenManager,
 								ContentSecurityPolicyNonceManager $cspNonceManager,
@@ -156,10 +143,8 @@ class SecurityMiddleware extends Middleware {
 				throw new NotLoggedInException();
 			}
 
-			if(!$this->reflector->hasAnnotation('NoAdminRequired')) {
-				if(!$this->isAdminUser) {
-					throw new NotAdminException($this->l10n->t('Logged in user must be an admin'));
-				}
+			if(!$this->reflector->hasAnnotation('NoAdminRequired') && !$this->isAdminUser) {
+				throw new NotAdminException($this->l10n->t('Logged in user must be an admin'));
 			}
 		}
 
@@ -191,15 +176,20 @@ class SecurityMiddleware extends Middleware {
 		}
 
 		/**
-		 * FIXME: Use DI once available
 		 * Checks if app is enabled (also includes a check whether user is allowed to access the resource)
 		 * The getAppPath() check is here since components such as settings also use the AppFramework and
 		 * therefore won't pass this check.
+		 * If page is public, app does not need to be enabled for current user/visitor
 		 */
-		if(\OC_App::getAppPath($this->appName) !== false && !$this->appManager->isEnabledForUser($this->appName)) {
-			throw new AppNotEnabledException();
+		try {
+			$appPath = $this->appManager->getAppPath($this->appName);
+		} catch (AppPathNotFoundException $e) {
+			$appPath = false;
 		}
 
+		if ($appPath !== false && !$isPublicPage && !$this->appManager->isEnabledForUser($this->appName)) {
+			throw new AppNotEnabledException();
+		}
 	}
 
 	/**
@@ -211,7 +201,7 @@ class SecurityMiddleware extends Middleware {
 	 * @param Response $response
 	 * @return Response
 	 */
-	public function afterController($controller, $methodName, Response $response) {
+	public function afterController($controller, $methodName, Response $response): Response {
 		$policy = !is_null($response->getContentSecurityPolicy()) ? $response->getContentSecurityPolicy() : new ContentSecurityPolicy();
 
 		if (get_class($policy) === EmptyContentSecurityPolicy::class) {
@@ -240,14 +230,14 @@ class SecurityMiddleware extends Middleware {
 	 * @throws \Exception the passed in exception if it can't handle it
 	 * @return Response a Response object or null in case that the exception could not be handled
 	 */
-	public function afterException($controller, $methodName, \Exception $exception) {
+	public function afterException($controller, $methodName, \Exception $exception): Response {
 		if($exception instanceof SecurityException) {
 			if($exception instanceof StrictCookieMissingException) {
 				return new RedirectResponse(\OC::$WEBROOT);
  			}
 			if (stripos($this->request->getHeader('Accept'),'html') === false) {
 				$response = new JSONResponse(
-					array('message' => $exception->getMessage()),
+					['message' => $exception->getMessage()],
 					$exception->getCode()
 				);
 			} else {
