@@ -254,20 +254,7 @@
 		 * @returns {String}
 		 */
 		getSharePermissions: function(fileData) {
-			var sharePermissions = fileData.permissions;
-			if (fileData.mountType && fileData.mountType === "external-root"){
-				// for external storages we can't use the permissions of the mountpoint
-				// instead we show all permissions and only use the share permissions from the mountpoint to handle resharing
-				sharePermissions = sharePermissions | (OC.PERMISSION_ALL & ~OC.PERMISSION_SHARE);
-			}
-			if (fileData.type === 'file') {
-				// files can't be shared with delete permissions
-				sharePermissions = sharePermissions & ~OC.PERMISSION_DELETE;
-
-				// create permissions don't mean anything for files
-				sharePermissions = sharePermissions & ~OC.PERMISSION_CREATE;
-			}
-			return sharePermissions;
+			return fileData.sharePermissions;
 		}
 	};
 })();
