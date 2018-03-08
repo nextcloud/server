@@ -95,22 +95,19 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		$this->contentSecurityPolicyManager = $this->createMock(ContentSecurityPolicyManager::class);
 		$this->csrfTokenManager = $this->createMock(CsrfTokenManager::class);
 		$this->cspNonceManager = $this->createMock(ContentSecurityPolicyNonceManager::class);
-		$this->appManager = $this->createMock(IAppManager::class);
 		$this->l10n = $this->createMock(IL10N::class);
-		$this->appManager->expects($this->any())
-			->method('isEnabledForUser')
-			->willReturn(true);
 		$this->middleware = $this->getMiddleware(true, true);
 		$this->secException = new SecurityException('hey', false);
 		$this->secAjaxException = new SecurityException('hey', true);
 	}
 
-	/**
-	 * @param bool $isLoggedIn
-	 * @param bool $isAdminUser
-	 * @return SecurityMiddleware
-	 */
-	private function getMiddleware($isLoggedIn, $isAdminUser) {
+	private function getMiddleware(bool $isLoggedIn, bool $isAdminUser, bool $isAppEnabledForUser = true): SecurityMiddleware {
+
+		$this->appManager = $this->createMock(IAppManager::class);
+		$this->appManager->expects($this->any())
+			->method('isEnabledForUser')
+			->willReturn($isAppEnabledForUser);
+
 		return new SecurityMiddleware(
 			$this->request,
 			$this->reader,
@@ -666,5 +663,76 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			->with($mergedPolicy);
 
 		$this->assertEquals($response, $this->middleware->afterController($this->controller, 'test', $response));
+	}
+
+	public function dataRestrictedApp() {
+		return [
+			[false, false, false,],
+			[false, false,  true,],
+			[false,  true, false,],
+			[false,  true,  true,],
+			[ true, false, false,],
+			[ true, false,  true,],
+			[ true,  true, false,],
+			[ true,  true,  true,],
+		];
+	}
+
+	/**
+	 * @PublicPage
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 */
+	public function testRestrictedAppLoggedInPublicPage() {
+		$middleware = $this->getMiddleware(true, false);
+		$this->reader->reflect(__CLASS__,__FUNCTION__);
+
+		$this->appManager->method('getAppPath')
+			->with('files')
+			->willReturn('foo');
+
+		$this->appManager->method('isEnabledForUser')
+			->with('files')
+			->willReturn(false);
+
+		$middleware->beforeController($this->controller, __FUNCTION__);
+		$this->addToAssertionCount(1);
+	}
+
+	/**
+	 * @PublicPage
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 */
+	public function testRestrictedAppNotLoggedInPublicPage() {
+		$middleware = $this->getMiddleware(false, false);
+		$this->reader->reflect(__CLASS__,__FUNCTION__);
+
+		$this->appManager->method('getAppPath')
+			->with('files')
+			->willReturn('foo');
+
+		$this->appManager->method('isEnabledForUser')
+			->with('files')
+			->willReturn(false);
+
+		$middleware->beforeController($this->controller, __FUNCTION__);
+		$this->addToAssertionCount(1);
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 */
+	public function testRestrictedAppLoggedIn() {
+		$middleware = $this->getMiddleware(true, false, false);
+		$this->reader->reflect(__CLASS__,__FUNCTION__);
+
+		$this->appManager->method('getAppPath')
+			->with('files')
+			->willReturn('foo');
+
+		$this->expectException(AppNotEnabledException::class);
+		$middleware->beforeController($this->controller, __FUNCTION__);
 	}
 }

@@ -40,6 +40,7 @@ use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\Security\CSP\ContentSecurityPolicyManager;
 use OC\Security\CSP\ContentSecurityPolicyNonceManager;
 use OC\Security\CSRF\CsrfTokenManager;
+use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\EmptyContentSecurityPolicy;
@@ -92,21 +93,6 @@ class SecurityMiddleware extends Middleware {
 	/** @var IL10N */
 	private $l10n;
 
-	/**
-	 * @param IRequest $request
-	 * @param ControllerMethodReflector $reflector
-	 * @param INavigationManager $navigationManager
-	 * @param IURLGenerator $urlGenerator
-	 * @param ILogger $logger
-	 * @param string $appName
-	 * @param bool $isLoggedIn
-	 * @param bool $isAdminUser
-	 * @param ContentSecurityPolicyManager $contentSecurityPolicyManager
-	 * @param CSRFTokenManager $csrfTokenManager
-	 * @param ContentSecurityPolicyNonceManager $cspNonceManager
-	 * @param IAppManager $appManager
-	 * @param IL10N $l10n
-	 */
 	public function __construct(IRequest $request,
 								ControllerMethodReflector $reflector,
 								INavigationManager $navigationManager,
@@ -190,16 +176,20 @@ class SecurityMiddleware extends Middleware {
 		}
 
 		/**
-		 * FIXME: Use DI once available
 		 * Checks if app is enabled (also includes a check whether user is allowed to access the resource)
 		 * The getAppPath() check is here since components such as settings also use the AppFramework and
 		 * therefore won't pass this check.
 		 * If page is public, app does not need to be enabled for current user/visitor
 		 */
-		if(\OC_App::getAppPath($this->appName) !== false && !$isPublicPage && !$this->appManager->isEnabledForUser($this->appName)) {
-			throw new AppNotEnabledException();
+		try {
+			$appPath = $this->appManager->getAppPath($this->appName);
+		} catch (AppPathNotFoundException $e) {
+			$appPath = false;
 		}
 
+		if ($appPath !== false && !$isPublicPage && !$this->appManager->isEnabledForUser($this->appName)) {
+			throw new AppNotEnabledException();
+		}
 	}
 
 	/**
