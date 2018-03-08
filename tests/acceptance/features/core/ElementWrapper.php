@@ -50,11 +50,22 @@
  * exceptions; if the element is not visible it is waited for it to be visible
  * up to the timeout set to find it.
  *
+ * MoveTargetOutOfBounds exceptions are sometimes thrown instead of
+ * ElementNotVisible exceptions. This can happen when the Selenium2 driver for
+ * Mink moves the cursor on an element using the "moveto" method of the
+ * WebDriver session, for example, before clicking on an element. In that case,
+ * if the element is not visible, "moveto" would throw a MoveTargetOutOfBounds
+ * exception instead of an ElementNotVisible exception, so those cases are
+ * handled like ElementNotVisible exceptions.
+ *
  * Despite the automatic handling it is possible for the commands to throw those
  * exceptions when they are executed again; this class does not handle cases
  * like an element becoming stale several times in a row (uncommon) or an
  * element not becoming visible before the timeout expires (which would mean
- * that the timeout is too short or that the test has to, indeed, fail).
+ * that the timeout is too short or that the test has to, indeed, fail). In a
+ * similar way, MoveTargetOutOfBounds exceptions would be thrown again if
+ * originally they were thrown because the element was visible but "out of
+ * reach".
  *
  * If needed, automatically handling failed commands can be disabled calling
  * "doNotHandleFailedCommands()"; as it returns the ElementWrapper it can be
@@ -217,8 +228,9 @@ class ElementWrapper {
 	 *
 	 * If a StaleElementReference exception is thrown the wrapped element is
 	 * found again and, then, the command is executed again. If an
-	 * ElementNotVisible exception is thrown it is waited for the wrapped
-	 * element to be visible and, then, the command is executed again.
+	 * ElementNotVisible or a MoveTargetOutOfBounds exception is thrown it is
+	 * waited for the wrapped element to be visible and, then, the command is
+	 * executed again.
 	 *
 	 * @param \Closure $commandCallback the command to execute.
 	 * @param string $errorMessage an error message that describes the failed
@@ -232,6 +244,8 @@ class ElementWrapper {
 		try {
 			return $this->executeCommand($commandCallback, $errorMessage);
 		} catch (\WebDriver\Exception\ElementNotVisible $exception) {
+			$this->printFailedCommandMessage($exception, $errorMessage);
+		} catch (\WebDriver\Exception\MoveTargetOutOfBounds $exception) {
 			$this->printFailedCommandMessage($exception, $errorMessage);
 		}
 
