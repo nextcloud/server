@@ -429,4 +429,8 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 	public function hasUpdated($path, $time) {
 		return false;
 	}
+
+	public function needsPartFile() {
+		return false;
+	}
 }
