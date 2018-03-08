@@ -149,11 +149,6 @@ input[type='reset'] {
 	cursor: pointer;
 	box-sizing: border-box;
 	background-color: nc-darken($color-main-background, 3%);
-	&.icon-confirm:not(:empty),
-	&.icon-confirm[value]:not([value=""]) {
-		background-position: calc(100% - 6px) center;
-		padding-right: 30px;
-	}
 }
 
 /* Buttons */
@@ -211,6 +206,53 @@ select {
 	outline: 0;
 	padding-right: 24px !important;
 }
+
+/* Confirm inputs */
+input {
+	&[type='text'],
+	&[type='password'],
+	&[type='email'] {
+		+ .icon-confirm {
+			margin-left: -8px !important;
+			border-left-color: transparent !important;
+			border-radius: 0 $border-radius $border-radius 0 !important;
+			background-clip: padding-box; /* Avoid background under border */
+			background-color: $color-main-background !important;
+			opacity: 1;
+			width: 16px;
+			padding: 7px 6px;
+			cursor: pointer;
+			&:disabled {
+				cursor: default;
+				background-image: url('../img/actions/confirm-fade.svg?v=2') !important;
+			}
+		}
+		/* only show confirm borders if input is not focused */
+		&:not(:active):not(:hover):not(:focus){
+			+ .icon-confirm {
+				&:active,
+				&:hover,
+				&:focus {
+					border-color: $color-primary-element !important;
+					border-radius: $border-radius !important;
+					&:disabled {
+						border-color: nc-darken($color-main-background, 14%) !important;
+					}
+				}
+			}
+		}
+		&:active,
+		&:hover,
+		&:focus {
+			+ .icon-confirm {
+				border-color: $color-primary-element !important;
+				border-left-color: transparent !important;
+			}
+		}
+	}
+
+}
+
 
 /* Various Fixes */
 button img,

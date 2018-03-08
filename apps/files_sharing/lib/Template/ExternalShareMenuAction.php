@@ -57,12 +57,16 @@ class ExternalShareMenuAction extends SimpleMenuAction {
 		return '<li>' .
 			'<a id="save" data-protected="false" data-owner-display-name="' . Util::sanitizeHTML($this->displayname) . '" data-owner="' . Util::sanitizeHTML($this->owner) . '" data-name="' . Util::sanitizeHTML($this->shareName) . '">' .
 			'<span class="icon ' . Util::sanitizeHTML($this->getIcon()) . '"></span>' .
-			'<span id="save-button">' . Util::sanitizeHTML($this->getLabel()) . '</span>' .
-			'<form class="save-form hidden" action="#">' .
-			'<input type="text" id="remote_address" placeholder="user@yourNextcloud.org">' .
-			'<button id="save-button-confirm" class="icon-confirm svg" disabled=""></button>' .
-			'</form>' .
+			'<label for="remote_address">' . Util::sanitizeHTML($this->getLabel()) . '</label>' .
 			'</a>' .
+			'</li>' .
+			'<li>' .
+			'<span class="menuitem">' .
+			'<form class="save-form" action="#">' .
+			'<input type="text" id="remote_address" placeholder="user@yourNextcloud.org">' .
+			'<input type="submit" value=" " id="save-button-confirm" class="icon-confirm" disabled="disabled"></button>' .
+			'</form>' .
+			'</span>' .
 			'</li>';
 	}
 }

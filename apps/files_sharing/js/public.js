@@ -271,17 +271,11 @@ OCA.Sharing.PublicApp = {
 		});
 
 		$('#remote_address').on("keyup paste", function() {
-			if ($(this).val() === '') {
+			if ($(this).val() === '' || $('#save > .icon.icon-loading-small').length > 0) {
 				$('#save-button-confirm').prop('disabled', true);
 			} else {
 				$('#save-button-confirm').prop('disabled', false);
 			}
-		});
-
-		$('#save #save-button').click(function () {
-			$(this).hide();
-			$('.save-form').css('display', 'inline');
-			$('#remote_address').focus();
 		});
 
 		// legacy
@@ -329,6 +323,7 @@ OCA.Sharing.PublicApp = {
 	 */
 	_legacyCreateFederatedShare: function (remote, token, owner, ownerDisplayName, name, isProtected) {
 
+		var self = this;
 		var location = window.location.protocol + '//' + window.location.host + OC.webroot;
 
 		if(remote.substr(-1) !== '/') {
@@ -346,6 +341,7 @@ OCA.Sharing.PublicApp = {
 			// this check needs to happen on the server due to the Content Security Policy directive
 			$.get(OC.generateUrl('apps/files_sharing/testremote'), {remote: remote}).then(function (protocol) {
 				if (protocol !== 'http' && protocol !== 'https') {
+					self._toggleLoading();
 					OC.dialogs.alert(t('files_sharing', 'No compatible server found at {remote}', {remote: remote}),
 						t('files_sharing', 'Invalid server URL'));
 				} else {
@@ -355,30 +351,30 @@ OCA.Sharing.PublicApp = {
 		}
 	},
 
+	_toggleLoading: function() {
+		var loading = $('#save > .icon.icon-loading-small').length === 0;
+		if (loading) {
+			$('#save > .icon-external')
+				.removeClass("icon-external")
+				.addClass("icon-loading-small");
+			$('#save #save-button-confirm').prop("disabled", true);
+
+		} else {
+			$('#save > .icon-loading-small')
+				.addClass("icon-external")
+				.removeClass("icon-loading-small");
+			$('#save #save-button-confirm').prop("disabled", false);
+
+		}
+	},
+
 	_createFederatedShare: function (remote, token, owner, ownerDisplayName, name, isProtected) {
+		var self = this;
 
-		var toggleLoading = function() {
-			var iconClass = $('#save-button-confirm').attr('class');
-			var loading = iconClass.indexOf('icon-loading-small') !== -1;
-			if(loading) {
-				$('#save-button-confirm')
-					.removeClass("icon-loading-small")
-					.addClass("icon-confirm");
-
-			}
-			else {
-				$('#save-button-confirm')
-					.removeClass("icon-confirm")
-					.addClass("icon-loading-small");
-
-			}
-		};
-
-		toggleLoading();
+		this._toggleLoading();
 
 		if (remote.indexOf('@') === -1) {
 			this._legacyCreateFederatedShare(remote, token, owner, ownerDisplayName, name, isProtected);
-			toggleLoading();
 			return;
 		}
 
@@ -402,7 +398,7 @@ OCA.Sharing.PublicApp = {
 			function (jqXHR) {
 				OC.dialogs.alert(JSON.parse(jqXHR.responseText).message,
 					t('files_sharing', 'Failed to add the public link to your Nextcloud'));
-				toggleLoading();
+				self._toggleLoading();
 			}
 		);
 	}

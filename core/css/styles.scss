@@ -254,28 +254,17 @@ body {
 }
 
 #controls {
-	.button, button {
-		box-sizing: border-box;
-		display: inline-block;
-		height: 36px;
-		padding: 7px 10px;
-	}
-	input {
-		&[type='submit'], &[type='text'], &[type='password'] {
+	> div,
+	& {
+		> .button, button {
 			box-sizing: border-box;
 			display: inline-block;
 			height: 36px;
 			padding: 7px 10px;
 		}
-	}
-	select {
-		box-sizing: border-box;
-		display: inline-block;
-		height: 36px;
-		padding: 7px 10px;
-	}
-	.button.hidden {
-		display: none;
+		.button.hidden {
+			display: none;
+		}
 	}
 }
 

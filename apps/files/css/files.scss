@@ -38,10 +38,11 @@
 	font-weight: normal;
 }
 
-.newFileMenu .error, #fileList .error {
+.newFileMenu .error,
+.newFileMenu .error + .icon-confirm,
+#fileList .error {
 	color: $color-error;
 	border-color: $color-error;
-	box-shadow: 0 0 6px #f8b9b7;
 }
 
 /* FILE TABLE */
@@ -694,14 +695,6 @@ table.dragshadow td.size {
 	min-width: 100px;
 	margin-left: 7px;
 	z-index: 1001;
-}
-
-.newFileMenu .filenameform {
-	display: inline-block;
-}
-
-.newFileMenu .filenameform input {
-	margin: 2px 0;
 }
 
 #filestable .filename .action .icon,
