@@ -117,6 +117,8 @@ class File extends Node implements IFile {
 		} else {
 			// upload file directly as the final path
 			$partFilePath = $this->path;
+
+			$this->emitPreHooks($exists);
 		}
 
 		// the part file and target file might be on a different storage in case of a single file storage (e.g. single file share)
@@ -161,11 +163,7 @@ class File extends Node implements IFile {
 
 		try {
 			$view = \OC\Files\Filesystem::getView();
-			if ($view) {
-				$run = $this->emitPreHooks($exists);
-			} else {
-				$run = true;
-			}
+			$run = ($view && $needsPartFile) ? $this->emitPreHooks($exists) : true;
 
 			try {
 				$this->changeLock(ILockingProvider::LOCK_EXCLUSIVE);
