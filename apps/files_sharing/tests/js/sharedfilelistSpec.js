@@ -727,7 +727,8 @@ describe('OCA.Sharing.FileList tests', function() {
 				etag: 'abc',
 				shareOwner: 'User One',
 				recipients: 'User Two',
-				mountType: 'external-root'
+				mountType: 'external-root',
+				sharePermissions: OC.PERMISSION_READ,
 			}]);
 			$tr = fileList.$el.find('tr:first');
 
@@ -749,7 +750,8 @@ describe('OCA.Sharing.FileList tests', function() {
 				etag: 'abc',
 				shareOwner: 'User One',
 				recipients: 'User Two',
-				mountType: 'external-root'
+				mountType: 'external-root',
+				sharePermissions: OC.PERMISSION_READ | OC.PERMISSION_SHARE,
 			}]);
 			$tr = fileList.$el.find('tr:first');
 
