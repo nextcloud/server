@@ -46,6 +46,7 @@ $application->registerRoutes($this, [
 		['name' => 'avatar#postCroppedAvatar', 'url' => '/avatar/cropped', 'verb' => 'POST'],
 		['name' => 'avatar#getTmpAvatar', 'url' => '/avatar/tmp', 'verb' => 'GET'],
 		['name' => 'avatar#postAvatar', 'url' => '/avatar/', 'verb' => 'POST'],
+		['name' => 'CSRFToken#index', 'url' => '/csrftoken', 'verb' => 'GET'],
 		['name' => 'login#tryLogin', 'url' => '/login', 'verb' => 'POST'],
 		['name' => 'login#confirmPassword', 'url' => '/login/confirm', 'verb' => 'POST'],
 		['name' => 'login#showLoginForm', 'url' => '/login', 'verb' => 'GET'],
@@ -147,9 +148,4 @@ $this->create('files_sharing.publicpreview.directLink', '/s/{token}/preview')->g
 	} else {
 		throw new \OC\HintException('App file sharing is not enabled');
 	}
-});
-
-// used for heartbeat
-$this->create('heartbeat', '/heartbeat')->action(function(){
-	// do nothing
 });

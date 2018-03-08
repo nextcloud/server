@@ -351,14 +351,14 @@ describe('Core base tests', function() {
 		beforeEach(function() {
 			clock = sinon.useFakeTimers();
 			oldConfig = window.oc_config;
-			routeStub = sinon.stub(OC, 'generateUrl').returns('/heartbeat');
+			routeStub = sinon.stub(OC, 'generateUrl').returns('/csrftoken');
 			counter = 0;
 
 			fakeServer.autoRespond = true;
 			fakeServer.autoRespondAfter = 0;
-			fakeServer.respondWith(/\/heartbeat/, function(xhr) {
+			fakeServer.respondWith(/\/csrftoken/, function(xhr) {
 				counter++;
-				xhr.respond(200, {'Content-Type': 'application/json'}, '{}');
+				xhr.respond(200, {'Content-Type': 'application/json'}, '{"token": "pgBEsb3MzTb1ZPd2mfDZbQ6/0j3OrXHMEZrghHcOkg8=:3khw5PSa+wKQVo4f26exFD3nplud9ECjJ8/Y5zk5/k4="}');
 			});
 			$(document).off('ajaxComplete'); // ignore previously registered heartbeats
 		});
@@ -377,7 +377,7 @@ describe('Core base tests', function() {
 				session_lifetime: 300
 			};
 			window.initCore();
-			expect(routeStub.calledWith('/heartbeat')).toEqual(true);
+			expect(routeStub.calledWith('/csrftoken')).toEqual(true);
 
 			expect(counter).toEqual(0);
 
@@ -502,8 +502,8 @@ describe('Core base tests', function() {
 	});
 	describe('Generate Url', function() {
 		it('returns absolute urls', function() {
-			expect(OC.generateUrl('heartbeat')).toEqual(OC.webroot + '/index.php/heartbeat');
-			expect(OC.generateUrl('/heartbeat')).toEqual(OC.webroot + '/index.php/heartbeat');
+			expect(OC.generateUrl('csrftoken')).toEqual(OC.webroot + '/index.php/csrftoken');
+			expect(OC.generateUrl('/csrftoken')).toEqual(OC.webroot + '/index.php/csrftoken');
 		});
 		it('substitutes parameters which are escaped by default', function() {
 			expect(OC.generateUrl('apps/files/download/{file}', {file: '<">ImAnUnescapedString/!'})).toEqual(OC.webroot + '/index.php/apps/files/download/%3C%22%3EImAnUnescapedString%2F!');
