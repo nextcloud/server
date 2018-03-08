@@ -2539,32 +2539,6 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	}
 
 	/**
-	 * @param string $displayName
-	 * @param string|null $principalUri
-	 * @return array
-	 */
-	public function findCalendarsUrisByDisplayName($displayName, $principalUri = null)
-	{
-		// Ideally $displayName would be sanitized the same way as stringUtility.js does in calendar
-
-		$query = $this->db->getQueryBuilder();
-		$query->select('uri')
-			->from('calendars')
-			->where($query->expr()->iLike('displayname',
-				$query->createNamedParameter('%'.$this->db->escapeLikeParameter($displayName).'%')));
-		if ($principalUri) {
-			$query->andWhere($query->expr()->eq('principaluri', $query->createNamedParameter($principalUri)));
-		}
-		$result = $query->execute();
-
-		$calendarUris = [];
-		while($row = $result->fetch()) {
-			$calendarUris[] = $row['uri'];
-		}
-		return $calendarUris;
-	}
-
-	/**
 	 * read VCalendar data into a VCalendar object
 	 *
 	 * @param string $objectData

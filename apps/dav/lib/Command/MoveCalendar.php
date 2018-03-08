@@ -22,10 +22,13 @@ namespace OCA\DAV\Command;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\Connector\Sabre\Principal;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IUserManager;
+use OCP\IUserSession;
+use OCP\Share\IManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -36,37 +39,45 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class MoveCalendar extends Command {
 
 	/** @var IUserManager */
-	protected $userManager;
+	private $userManager;
 
 	/** @var IGroupManager $groupManager */
 	private $groupManager;
 
-	/** @var \OCP\IDBConnection */
-	protected $dbConnection;
+	/** @var IConfig $config */
+	private $config;
 
 	/** @var IL10N */
-	protected $l10n;
+	private $l10n;
 
 	/** @var SymfonyStyle */
 	private $io;
 
 	/** @var CalDavBackend */
-	private $caldav;
+	private $calDav;
 
 	const URI_USERS = 'principals/users/';
 
 	/**
 	 * @param IUserManager $userManager
 	 * @param IGroupManager $groupManager
-	 * @param IDBConnection $dbConnection
+	 * @param IConfig $config
 	 * @param IL10N $l10n
+	 * @param CalDavBackend $calDav
 	 */
-	function __construct(IUserManager $userManager, IGroupManager $groupManager, IDBConnection $dbConnection, IL10N $l10n) {
+	function __construct(
+		IUserManager $userManager,
+		IGroupManager $groupManager,
+		IConfig $config,
+		IL10N $l10n,
+		CalDavBackend $calDav
+	) {
 		parent::__construct();
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
-		$this->dbConnection = $dbConnection;
+		$this->config = $config;
 		$this->l10n = $l10n;
+		$this->calDav = $calDav;
 	}
 
 	protected function configure() {
@@ -104,35 +115,21 @@ class MoveCalendar extends Command {
 			throw new \InvalidArgumentException("User <$userDestination> is unknown.");
 		}
 
-		$principalBackend = new Principal(
-			$this->userManager,
-			$this->groupManager
-		);
-		$random = \OC::$server->getSecureRandom();
-		$dispatcher = \OC::$server->getEventDispatcher();
-
 		$name = $input->getArgument('name');
-		$this->caldav = new CalDavBackend($this->dbConnection, $principalBackend, $this->userManager, $random, $dispatcher);
 
-		$calendar = $this->caldav->getCalendarByUri(self::URI_USERS . $userOrigin, $name);
+		$calendar = $this->calDav->getCalendarByUri(self::URI_USERS . $userOrigin, $name);
 
 		if (null === $calendar) {
-			/**  If we got no matching calendar with URI, let's try the display names */
-			$suggestedUris = $this->caldav->findCalendarsUrisByDisplayName($name, self::URI_USERS . $userOrigin);
-			if (count($suggestedUris) > 0) {
-				$this->io->note('No calendar with this URI was found, but you may want to try with these?');
-				$this->io->listing($suggestedUris);
-			}
-			throw new \InvalidArgumentException("User <$userOrigin> has no calendar named <$name>.");
+			throw new \InvalidArgumentException("User <$userOrigin> has no calendar named <$name>. You can run occ dav:list-calendars to list calendars URIs for this user.");
 		}
 
-		if (null !== $this->caldav->getCalendarByUri(self::URI_USERS . $userDestination, $name)) {
+		if (null !== $this->calDav->getCalendarByUri(self::URI_USERS . $userDestination, $name)) {
 			throw new \InvalidArgumentException("User <$userDestination> already has a calendar named <$name>.");
 		}
 
 		$this->checkShares($calendar, $userDestination, $input->getOption('force'));
 
-		$this->caldav->moveCalendar($name, self::URI_USERS . $userOrigin, self::URI_USERS . $userDestination);
+		$this->calDav->moveCalendar($name, self::URI_USERS . $userOrigin, self::URI_USERS . $userDestination);
 
 		$this->io->success("Calendar <$name> was moved from user <$userOrigin> to <$userDestination>");
 	}
@@ -147,14 +144,14 @@ class MoveCalendar extends Command {
 	 */
 	private function checkShares($calendar, $userDestination, $force = false)
 	{
-		$shares = $this->caldav->getShares($calendar['id']);
+		$shares = $this->calDav->getShares($calendar['id']);
 		foreach ($shares as $share) {
-			list($prefix, $group) = str_split($share['href'], 28);
-			if ('principal:principals/groups/' === $prefix && !$this->groupManager->isInGroup($userDestination, $group)) {
+			list(, $prefix, $group) = explode('/', $share['href'], 3);
+			if ('groups' === $prefix && !$this->groupManager->isInGroup($userDestination, $group)) {
 				if ($force) {
-					$this->caldav->updateShares(new Calendar($this->caldav, $calendar, $this->l10n), [], ['href' => 'principal:principals/groups/' . $group]);
+					$this->calDav->updateShares(new Calendar($this->calDav, $calendar, $this->l10n, $this->config), [], ['href' => 'principal:principals/groups/' . $group]);
 				} else {
-					throw new \InvalidArgumentException("User <$userDestination> is not part of the group <$group> with which the calendar <" . $calendar['uri'] . "> was shared. You may use -f to move the calendar while deleting this share.");
+					throw new \InvalidArgumentException("User <$userDestination> is not part of the group <$group> with whom the calendar <" . $calendar['uri'] . "> was shared. You may use -f to move the calendar while deleting this share.");
 				}
 			}
 		}

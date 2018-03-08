@@ -21,8 +21,9 @@
 namespace OCA\DAV\Tests\Command;
 
 use InvalidArgumentException;
+use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\Command\MoveCalendar;
-use OCP\IDBConnection;
+use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IUserManager;
@@ -34,7 +35,6 @@ use Test\TestCase;
  * Class MoveCalendarTest
  *
  * @package OCA\DAV\Tests\Command
- * @group DB
  */
 class MoveCalendarTest extends TestCase {
 
@@ -44,11 +44,14 @@ class MoveCalendarTest extends TestCase {
 	/** @var \OCP\IGroupManager|\PHPUnit_Framework_MockObject_MockObject $groupManager */
 	private $groupManager;
 
-	/** @var \OCP\IDBConnection|\PHPUnit_Framework_MockObject_MockObject $dbConnection */
-	private $dbConnection;
+	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject $l10n */
+	private $config;
 
-	/** @var \OCP\IL10N|\PHPUnit_Framework_MockObject_MockObject $l10n */
+	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject $l10n */
 	private $l10n;
+
+	/** @var CalDavBackend|\PHPUnit_Framework_MockObject_MockObject $l10n */
+	private $calDav;
 
 	/** @var MoveCalendar */
 	private $command;
@@ -58,14 +61,16 @@ class MoveCalendarTest extends TestCase {
 
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
-		$this->dbConnection = $this->createMock(IDBConnection::class);
+		$this->config = $this->createMock(IConfig::class);
 		$this->l10n = $this->createMock(IL10N::class);
+		$this->calDav = $this->createMock(CalDavBackend::class);
 
 		$this->command = new MoveCalendar(
 			$this->userManager,
 			$this->groupManager,
-			$this->dbConnection,
-			$this->l10n
+			$this->config,
+			$this->l10n,
+			$this->calDav
 		);
 	}
 
@@ -117,5 +122,230 @@ class MoveCalendarTest extends TestCase {
 			'userorigin' => 'system',
 			'userdestination' => 'user2',
 		]);
+	}
+
+	/**
+	 * @expectedException InvalidArgumentException
+	 * @expectedExceptionMessage User <user> has no calendar named <personal>. You can run occ dav:list-calendars to list calendars URIs for this user.
+	 */
+	public function testMoveWithInexistantCalendar()
+	{
+		$this->userManager->expects($this->at(0))
+			->method('userExists')
+			->with('user')
+			->willReturn(true);
+
+		$this->userManager->expects($this->at(1))
+			->method('userExists')
+			->with('user2')
+			->willReturn(true);
+
+		$this->calDav->expects($this->once())->method('getCalendarByUri')
+			->with('principals/users/user', 'personal')
+			->willReturn(null);
+
+		$commandTester = new CommandTester($this->command);
+		$commandTester->execute([
+			'name' => 'personal',
+			'userorigin' => 'user',
+			'userdestination' => 'user2',
+		]);
+	}
+
+	/**
+	 * @expectedException InvalidArgumentException
+	 * @expectedExceptionMessage User <user2> already has a calendar named <personal>.
+	 */
+	public function testMoveWithExistingDestinationCalendar()
+	{
+		$this->userManager->expects($this->at(0))
+			->method('userExists')
+			->with('user')
+			->willReturn(true);
+
+		$this->userManager->expects($this->at(1))
+			->method('userExists')
+			->with('user2')
+			->willReturn(true);
+
+		$this->calDav->expects($this->at(0))->method('getCalendarByUri')
+			->with('principals/users/user', 'personal')
+			->willReturn([
+				'id' => 1234,
+			]);
+
+			$this->calDav->expects($this->at(1))->method('getCalendarByUri')
+			->with('principals/users/user2', 'personal')
+			->willReturn([
+				'id' => 1234,
+			]);
+
+		$commandTester = new CommandTester($this->command);
+		$commandTester->execute([
+			'name' => 'personal',
+			'userorigin' => 'user',
+			'userdestination' => 'user2',
+		]);
+	}
+
+	public function testMove()
+	{
+		$this->userManager->expects($this->at(0))
+			->method('userExists')
+			->with('user')
+			->willReturn(true);
+
+		$this->userManager->expects($this->at(1))
+			->method('userExists')
+			->with('user2')
+			->willReturn(true);
+
+		$this->calDav->expects($this->at(0))->method('getCalendarByUri')
+			->with('principals/users/user', 'personal')
+			->willReturn([
+				'id' => 1234,
+			]);
+
+		$this->calDav->expects($this->at(1))->method('getCalendarByUri')
+			->with('principals/users/user2', 'personal')
+			->willReturn(null);
+
+		$this->calDav->expects($this->once())->method('getShares')
+			->with(1234)
+			->willReturn([]);
+
+		$commandTester = new CommandTester($this->command);
+		$commandTester->execute([
+			'name' => 'personal',
+			'userorigin' => 'user',
+			'userdestination' => 'user2',
+		]);
+
+		$this->assertContains("[OK] Calendar <personal> was moved from user <user> to <user2>", $commandTester->getDisplay());
+	}
+
+	/**
+	 * @expectedException InvalidArgumentException
+	 * @expectedExceptionMessage User <user2> is not part of the group <nextclouders> with whom the calendar <personal> was shared. You may use -f to move the calendar while deleting this share.
+	 */
+	public function testMoveWithDestinationNotPartOfGroup()
+	{
+		$this->userManager->expects($this->at(0))
+			->method('userExists')
+			->with('user')
+			->willReturn(true);
+
+		$this->userManager->expects($this->at(1))
+			->method('userExists')
+			->with('user2')
+			->willReturn(true);
+
+		$this->calDav->expects($this->at(0))->method('getCalendarByUri')
+			->with('principals/users/user', 'personal')
+			->willReturn([
+				'id' => 1234,
+				'uri' => 'personal'
+			]);
+
+		$this->calDav->expects($this->at(1))->method('getCalendarByUri')
+			->with('principals/users/user2', 'personal')
+			->willReturn(null);
+
+		$this->calDav->expects($this->once())->method('getShares')
+			->with(1234)
+			->willReturn([
+				['href' => 'principal:principals/groups/nextclouders']
+			]);
+
+		$commandTester = new CommandTester($this->command);
+		$commandTester->execute([
+			'name' => 'personal',
+			'userorigin' => 'user',
+			'userdestination' => 'user2',
+		]);
+	}
+
+	public function testMoveWithDestinationPartOfGroup()
+	{
+		$this->userManager->expects($this->at(0))
+			->method('userExists')
+			->with('user')
+			->willReturn(true);
+
+		$this->userManager->expects($this->at(1))
+			->method('userExists')
+			->with('user2')
+			->willReturn(true);
+
+		$this->calDav->expects($this->at(0))->method('getCalendarByUri')
+			->with('principals/users/user', 'personal')
+			->willReturn([
+				'id' => 1234,
+				'uri' => 'personal'
+			]);
+
+		$this->calDav->expects($this->at(1))->method('getCalendarByUri')
+			->with('principals/users/user2', 'personal')
+			->willReturn(null);
+
+		$this->calDav->expects($this->once())->method('getShares')
+			->with(1234)
+			->willReturn([
+				['href' => 'principal:principals/groups/nextclouders']
+			]);
+
+		$this->groupManager->expects($this->once())->method('isInGroup')
+			->with('user2', 'nextclouders')
+			->willReturn(true);
+
+		$commandTester = new CommandTester($this->command);
+		$commandTester->execute([
+			'name' => 'personal',
+			'userorigin' => 'user',
+			'userdestination' => 'user2',
+		]);
+
+		$this->assertContains("[OK] Calendar <personal> was moved from user <user> to <user2>", $commandTester->getDisplay());
+	}
+
+	public function testMoveWithDestinationNotPartOfGroupAndForce()
+	{
+		$this->userManager->expects($this->at(0))
+			->method('userExists')
+			->with('user')
+			->willReturn(true);
+
+		$this->userManager->expects($this->at(1))
+			->method('userExists')
+			->with('user2')
+			->willReturn(true);
+
+		$this->calDav->expects($this->at(0))->method('getCalendarByUri')
+			->with('principals/users/user', 'personal')
+			->willReturn([
+				'id' => 1234,
+				'uri' => 'personal',
+				'{DAV:}displayname' => 'personal'
+			]);
+
+		$this->calDav->expects($this->at(1))->method('getCalendarByUri')
+			->with('principals/users/user2', 'personal')
+			->willReturn(null);
+
+		$this->calDav->expects($this->once())->method('getShares')
+			->with(1234)
+			->willReturn([
+				['href' => 'principal:principals/groups/nextclouders']
+			]);
+
+		$commandTester = new CommandTester($this->command);
+		$commandTester->execute([
+			'name' => 'personal',
+			'userorigin' => 'user',
+			'userdestination' => 'user2',
+			'--force' => true
+		]);
+
+		$this->assertContains("[OK] Calendar <personal> was moved from user <user> to <user2>", $commandTester->getDisplay());
 	}
 }
