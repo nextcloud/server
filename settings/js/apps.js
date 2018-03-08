@@ -641,14 +641,13 @@ OC.Settings.Apps = OC.Settings.Apps || {
 						$('#navigation li[data-id=' + previousEntry.id + ']').after(li);
 
 						// draw attention to the newly added app entry
-						// by flashing it twice
+						// by flashing twice the more apps menu
 						if(addedApps[entry.id]) {
-							$('#header .menutoggle')
+							$('#header #more-apps')
 								.animate({opacity: 0.5})
 								.animate({opacity: 1})
 								.animate({opacity: 0.5})
-								.animate({opacity: 1})
-								.animate({opacity: 0.75});
+								.animate({opacity: 1});
 						}
 					}
 

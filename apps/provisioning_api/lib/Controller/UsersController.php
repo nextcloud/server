@@ -790,9 +790,10 @@ class UsersController extends OCSController {
 		}
 
 		// Get the subadmin groups
-		$groups = $this->groupManager->getSubAdmin()->getSubAdminsGroups($user);
-		foreach ($groups as $key => $group) {
-			$groups[$key] = $group->getGID();
+		$subAdminGroups = $this->groupManager->getSubAdmin()->getSubAdminsGroups($user);
+		$groups = [];
+		foreach ($subAdminGroups as $key => $group) {
+			$groups[] = $group->getGID();
 		}
 
 		if(!$groups) {
