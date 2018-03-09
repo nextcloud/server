@@ -50,7 +50,7 @@ $application->registerRoutes($this, [
 		['name' => 'AppSettings#listCategories', 'url' => '/settings/apps/categories', 'verb' => 'GET'],
 		['name' => 'AppSettings#viewApps', 'url' => '/settings/apps', 'verb' => 'GET'],
 		['name' => 'AppSettings#listApps', 'url' => '/settings/apps/list', 'verb' => 'GET'],
-		['name' => 'Users#setDisplayName', 'url' => '/settings/users/{username}/displayName', 'verb' => 'POST'],
+		['name' => 'Users#setDisplayName', 'url' => '/settings/users/{id}/displayName', 'verb' => 'PUT'],
 		['name' => 'Users#setEMailAddress', 'url' => '/settings/users/{id}/mailAddress', 'verb' => 'PUT'],
 		['name' => 'Users#setUserSettings', 'url' => '/settings/users/{username}/settings', 'verb' => 'PUT'],
 		['name' => 'Users#getVerificationCode', 'url' => '/settings/users/{account}/verify', 'verb' => 'GET'],

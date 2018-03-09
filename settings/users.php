@@ -17,6 +17,7 @@
  * @author Stephan Peijnik <speijnik@anexia-it.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Pulzer <t.pulzer@kniel.de>
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
  *
  * @license AGPL-3.0
  *
@@ -30,7 +31,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -41,12 +42,10 @@ OC_Util::checkSubAdminUser();
 $userManager = \OC::$server->getUserManager();
 $groupManager = \OC::$server->getGroupManager();
 $appManager = \OC::$server->getAppManager();
-
-// Set the sort option: SORT_USERCOUNT or SORT_GROUPNAME
-$sortGroupsBy = \OC\Group\MetaData::SORT_USERCOUNT;
-
 $config = \OC::$server->getConfig();
 
+/* SORT OPTION: SORT_USERCOUNT or SORT_GROUPNAME */
+$sortGroupsBy = \OC\Group\MetaData::SORT_USERCOUNT;
 if ($config->getSystemValue('sort_groups_by_name', false)) {
 	$sortGroupsBy = \OC\Group\MetaData::SORT_GROUPNAME;
 } else {
@@ -62,14 +61,16 @@ if ($config->getSystemValue('sort_groups_by_name', false)) {
 	}
 }
 
-$uid = \OC_User::getUser();
-$isAdmin = OC_User::isAdminUser($uid);
+/* ENCRYPTION CONFIG */
+$isEncryptionEnabled = \OC::$server->getEncryptionManager()->isEnabled();
+$useMasterKey = $config->getAppValue('encryption', 'useMasterKey', true);
+// If masterKey enabled, then you can change password. This is to avoid data loss!
+$canChangePassword = ($isEncryptionEnabled && $useMasterKey) || $useMasterKey;
 
-$isDisabled = true;
-$user = $userManager->get($uid);
-if ($user) {
-	$isDisabled = !$user->isEnabled();
-}
+
+/* GROUPS */
+$uid = \OC_User::getUser();
+$isAdmin = \OC_User::isAdminUser($uid);
 
 $groupsInfo = new \OC\Group\MetaData(
 	$uid,
@@ -81,10 +82,7 @@ $groupsInfo = new \OC\Group\MetaData(
 $groupsInfo->setSorting($sortGroupsBy);
 list($adminGroup, $groups) = $groupsInfo->get();
 
-$recoveryAdminEnabled = $appManager->isEnabledForUser('encryption') &&
-					    $config->getAppValue( 'encryption', 'recoveryAdminEnabled', '0');
-
-if($isAdmin) {
+if ($isAdmin) {
 	$subAdmins = \OC::$server->getGroupManager()->getSubAdmin()->getAllSubAdmins();
 	// New class returns IUser[] so convert back
 	$result = [];
@@ -95,7 +93,7 @@ if($isAdmin) {
 		];
 	}
 	$subAdmins = $result;
-}else{
+} else {
 	/* Retrieve group IDs from $groups array, so we can pass that information into OC_Group::displayNamesInGroups() */
 	$gids = array();
 	foreach($groups as $group) {
@@ -108,42 +106,38 @@ if($isAdmin) {
 
 $disabledUsers = $isLDAPUsed ? 0 : $userManager->countDisabledUsers();
 $disabledUsersGroup = [
-	'id' => '_disabledUsers',
-	'name' => '_disabledUsers',
+	'id' => '_disabled',
+	'name' => 'Disabled users',
 	'usercount' => $disabledUsers
 ];
+$allGroups = array_merge_recursive($adminGroup, $groups);
 
-// load preset quotas
+/* QUOTAS PRESETS */
 $quotaPreset=$config->getAppValue('files', 'quota_preset', '1 GB, 5 GB, 10 GB');
 $quotaPreset=explode(',', $quotaPreset);
 foreach($quotaPreset as &$preset) {
 	$preset=trim($preset);
 }
 $quotaPreset=array_diff($quotaPreset, array('default', 'none'));
-
 $defaultQuota=$config->getAppValue('files', 'default_quota', 'none');
-$defaultQuotaIsUserDefined=array_search($defaultQuota, $quotaPreset)===false
-	&& array_search($defaultQuota, array('none', 'default'))===false;
 
 \OC::$server->getEventDispatcher()->dispatch('OC\Settings\Users::loadAdditionalScripts');
 
-$tmpl = new OC_Template("settings", "users/main", "user");
-$tmpl->assign('groups', $groups);
-$tmpl->assign('sortGroups', $sortGroupsBy);
-$tmpl->assign('adminGroup', $adminGroup);
-$tmpl->assign('disabledUsersGroup', $disabledUsersGroup);
-$tmpl->assign('isAdmin', (int)$isAdmin);
-$tmpl->assign('subadmins', $subAdmins);
-$tmpl->assign('numofgroups', count($groups) + count($adminGroup));
-$tmpl->assign('quota_preset', $quotaPreset);
-$tmpl->assign('default_quota', $defaultQuota);
-$tmpl->assign('defaultQuotaIsUserDefined', $defaultQuotaIsUserDefined);
-$tmpl->assign('recoveryAdminEnabled', $recoveryAdminEnabled);
+/* FINAL DATA */
+$serverData = array();
+// groups
+$serverData['groups'] = array_merge_recursive($adminGroup, [$disabledUsersGroup], $groups);
+$serverData['subadmingroups'] = $groups;
+// Various data
+$serverData['subadmins'] = $subAdmins;
+$serverData['sortGroups'] = $sortGroupsBy;
+$serverData['quotaPreset'] = $quotaPreset;
+$serverData['userCount'] = $userManager->countUsers();
+// Settings
+$serverData['defaultQuota'] = $defaultQuota;
+$serverData['canChangePassword'] = $canChangePassword;
 
-$tmpl->assign('show_storage_location', $config->getAppValue('core', 'umgmt_show_storage_location', 'false'));
-$tmpl->assign('show_last_login', $config->getAppValue('core', 'umgmt_show_last_login', 'false'));
-$tmpl->assign('show_email', $config->getAppValue('core', 'umgmt_show_email', 'false'));
-$tmpl->assign('show_backend', $config->getAppValue('core', 'umgmt_show_backend', 'false'));
-$tmpl->assign('send_email', $config->getAppValue('core', 'umgmt_send_email', 'false'));
-
+// print template + vue + serve data
+$tmpl = new OC_Template('settings', 'settings', 'user');
+$tmpl->assign('serverData', $serverData);
 $tmpl->printPage();
