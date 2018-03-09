@@ -529,6 +529,7 @@ return array(
     'OC\\Core\\Controller\\OCJSController' => $baseDir . '/core/Controller/OCJSController.php',
     'OC\\Core\\Controller\\OCSController' => $baseDir . '/core/Controller/OCSController.php',
     'OC\\Core\\Controller\\PreviewController' => $baseDir . '/core/Controller/PreviewController.php',
+    'OC\\Core\\Controller\\SearchController' => $baseDir . '/core/Controller/SearchController.php',
     'OC\\Core\\Controller\\SetupController' => $baseDir . '/core/Controller/SetupController.php',
     'OC\\Core\\Controller\\TwoFactorChallengeController' => $baseDir . '/core/Controller/TwoFactorChallengeController.php',
     'OC\\Core\\Controller\\UserController' => $baseDir . '/core/Controller/UserController.php',
