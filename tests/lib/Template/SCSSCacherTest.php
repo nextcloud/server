@@ -31,6 +31,7 @@ use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\ICache;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IURLGenerator;
@@ -50,6 +51,8 @@ class SCSSCacherTest extends \Test\TestCase {
 	protected $scssCacher;
 	/** @var ICache|\PHPUnit_Framework_MockObject_MockObject */
 	protected $depsCache;
+	/** @var ICacheFactory|\PHPUnit_Framework_MockObject_MockObject */
+	protected $cacheFactory;
 
 	protected function setUp() {
 		parent::setUp();
@@ -60,7 +63,11 @@ class SCSSCacherTest extends \Test\TestCase {
 		$factory->method('get')->with('css')->willReturn($this->appData);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->config = $this->createMock(IConfig::class);
+		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->depsCache = $this->createMock(ICache::class);
+		$this->cacheFactory
+			->method('createDistributed')
+			->willReturn($this->depsCache);
 		$this->themingDefaults = $this->createMock(ThemingDefaults::class);
 		$this->scssCacher = new SCSSCacher(
 			$this->logger,
@@ -69,7 +76,7 @@ class SCSSCacherTest extends \Test\TestCase {
 			$this->config,
 			$this->themingDefaults,
 			\OC::$SERVERROOT,
-			$this->depsCache
+			$this->cacheFactory
 		);
 		$this->themingDefaults->expects($this->any())->method('getScssVariables')->willReturn([]);
 
