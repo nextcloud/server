@@ -42,7 +42,7 @@
     "Could not copy \"{file}\"" : "Nelze kopírovat \"{file}\"",
     "Copied {origin} inside {destination}" : "{origin} zkopírován do {destination}",
     "Copied {origin} and {nbfiles} other files inside {destination}" : "{origin} a {nbfiles} dalších souborů zkopírováno do {destination}",
-    "{newName} already exists" : "{newName} již existuje",
+    "{newName} already exists" : "{newName} už existuje",
     "Could not rename \"{fileName}\", it does not exist any more" : "Nelze přejmenovat \"{fileName}\", již neexistuje",
     "The name \"{targetName}\" is already used in the folder \"{dir}\". Please choose a different name." : "Jméno \"{targetName}\" je již použito v adresáři \"{dir}\". Vyberte prosím jiné jméno.",
     "Could not rename \"{fileName}\"" : "Nelze přejmenovat \"{fileName}\"",

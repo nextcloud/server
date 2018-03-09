@@ -1,5 +1,6 @@
 { "translations": {
     "{version} is available. Get more information on how to update." : "{version} е налична. Намерете повече информация за това как да актуализирате.",
+    "Open updater" : "Отвори актуализиращата програма",
     "Your version is up to date." : "Вие разполагате с последна версия",
     "Update channel:" : "Канал за обновяване:",
     "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Винаги може да оновите до по-нова версия / експирементален канал. Но неможете вече да върнете до по-стабилен канал..",
@@ -13,7 +14,6 @@
     "Update for %1$s to version %2$s is available." : "Обновление за %1$s към версия %2$s е налично.",
     "Update for {app} to version %s is available." : "Обновление за {app} до версия %s е налично.",
     "A new version is available: %s" : "Налична е нова версия: %s",
-    "Open updater" : "Отвори актуализиращата програма",
     "Download now" : "Изтегляне сега",
     "Checked on %s" : "Проверено за %s",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Избрания канал за обновления прави уведомленията за този сървър остарели."

@@ -2,6 +2,7 @@ OC.L10N.register(
     "updatenotification",
     {
     "{version} is available. Get more information on how to update." : "Je dostupná {version}. Přečtěte si více informací jak aktualizovat.",
+    "Open updater" : "Otevřít aktualizátor",
     "Your version is up to date." : "Používáte nejnovější verzi.",
     "A non-default update server is in use to be checked for updates:" : "Pro kontrolu aktualizací se používá jiný než výchozí server:",
     "Update channel:" : "Aktualizovat kanál:",
@@ -10,7 +11,6 @@ OC.L10N.register(
     "Notify members of the following groups about available updates:" : "Upozorňovat členy následujících skupin na dostupné aktualizace:",
     "Only notification for app updates are available." : "Je možné pouze upozornění na dostupné aktualizace aplikací.",
     "The selected update channel does not support updates of the server." : "Vybraný kanál aktualizací nepodporuje aktualizace serveru.",
-    "A new version is available: {newVersionString}" : "Je dostupná nová verze: {newVersionString}",
     "Checked on {lastCheckedDate}" : "Zkontrolováno {lastCheckedDate}",
     "Could not start updater, please try the manual update" : "Nepodařilo se spustit aktualizátor, zkuste ruční aktualizaci",
     "Update notifications" : "Aktualizovat upozornění",
@@ -22,7 +22,6 @@ OC.L10N.register(
     "Update for {app} to version %s is available." : "Pro {app} je dostupná aktualizace na verzi %s.",
     "Update notification" : "Upozornění na aktualizaci",
     "A new version is available: %s" : "Je dostupná nová verze: %s",
-    "Open updater" : "Otevřít aktualizátor",
     "Download now" : "Stáhnout nyní",
     "Checked on %s" : "Zkontrolováno %s",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Zvolený kanál aktualizací označuje dedikovaná upozornění pro server za zastaralá.",

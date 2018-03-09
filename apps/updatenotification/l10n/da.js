@@ -2,6 +2,7 @@ OC.L10N.register(
     "updatenotification",
     {
     "{version} is available. Get more information on how to update." : "{version} er tilgængelig. Få mere information om hvordan du opdaterer.",
+    "Open updater" : "Åbn for opdatering",
     "Your version is up to date." : "Du har seneste version.",
     "A non-default update server is in use to be checked for updates:" : "En ikke standard opdateringsserver bliver brugt for at tjekke efter opdateringer:",
     "Update channel:" : "Opdatér kanal:",
@@ -19,7 +20,6 @@ OC.L10N.register(
     "Update for %1$s to version %2$s is available." : "Opdatering af %1$s til version %2$s er tilgængelig.",
     "Update for {app} to version %s is available." : "Opdatering af {app} til version %s er tilgængelig.",
     "A new version is available: %s" : "Der er en ny version tligængelig: %s",
-    "Open updater" : "Åbn for opdatering",
     "Download now" : "Hent nu",
     "Checked on %s" : "Tjekket per %s",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Den valgte kanal lave dedikerede notifikationer for serveren ligegyldige.",

@@ -56,6 +56,7 @@ OC.L10N.register(
     "Search contacts …" : "連絡先を検索...",
     "No contacts found" : "連絡先が見つかりません",
     "Show all contacts …" : "全ての連絡先を表示...",
+    "Could not load your contacts" : "連絡先を読み込めませんでした",
     "Loading your contacts …" : "連絡先を読み込み中...",
     "Looking for {term} …" : "{term} を確認中 ...",
     "<a href=\"{docUrl}\">There were problems with the code integrity check. More information…</a>" : "<a href=\"{docUrl}\">コード整合性の確認で問題が発生しました。詳しくはこちら…</a>",

@@ -2,6 +2,7 @@ OC.L10N.register(
     "updatenotification",
     {
     "{version} is available. Get more information on how to update." : "{version} is beskikbaar. Kry meer inligting oor hoe om by te werk.",
+    "Open updater" : "Open bywerker",
     "Your version is up to date." : "U weergawe is op datum.",
     "Update channel:" : "Werk kanaal by:",
     "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "U kan altyd na ’n nuwer weergawe / eksperimentele kanaal bywerk. U kan egter nooit na ’n stabieler kanaal afgradeer nie.",
@@ -17,7 +18,6 @@ OC.L10N.register(
     "Update for %1$s to version %2$s is available." : "Bywerking vir %1$s na weergawe %2$s is beskikbaar.",
     "Update for {app} to version %s is available." : "Bywerking vir {app} na weergawe %s is beskikbaar.",
     "A new version is available: %s" : "’n nuwe weergawe is beskikbaar: %s",
-    "Open updater" : "Open bywerker",
     "Download now" : "Laai nou af",
     "Checked on %s" : "Gekyk op %s",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Die gekose bywerkingskanaal maak toegewyde bedienerkennisgewings oorbodig."

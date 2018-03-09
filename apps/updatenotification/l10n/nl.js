@@ -2,6 +2,7 @@ OC.L10N.register(
     "updatenotification",
     {
     "{version} is available. Get more information on how to update." : "{version} is beschikbaar. Meer informatie over het bijwerken.",
+    "Open updater" : "Open updater",
     "Your version is up to date." : "Je versie is up to date.",
     "A non-default update server is in use to be checked for updates:" : "Een niet-standaard updateserver is in gebruik om te worden gecontroleerd op updates:",
     "Update channel:" : "Bijwerkkanaal:",
@@ -10,7 +11,6 @@ OC.L10N.register(
     "Notify members of the following groups about available updates:" : "Geef een melding over beschikbare updates aan leden van de volgende groepen:",
     "Only notification for app updates are available." : "Er zijn alleen meldingen voor apps beschikbaar.",
     "The selected update channel does not support updates of the server." : "Het geselecteerde updatekanaal ondersteunt geen updates voor de server.",
-    "A new version is available: {newVersionString}" : "Er is een nieuwe versie beschikbaar: {newVersionString}",
     "Checked on {lastCheckedDate}" : "Gecontroleerd op {lastCheckedDate}",
     "Could not start updater, please try the manual update" : "Kon de updater niet starten, probeer alsjeblieft de handmatige update",
     "Update notifications" : "Bijwerken meldingen",
@@ -22,7 +22,6 @@ OC.L10N.register(
     "Update for {app} to version %s is available." : "Update voor {app} naar versie %s is beschikbaar.",
     "Update notification" : "Bijwerkmelding",
     "A new version is available: %s" : "Er is een nieuwe versie beschikbaar: %s",
-    "Open updater" : "Open updater",
     "Download now" : "Download nu",
     "Checked on %s" : "Gecontroleerd op %s",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Het geselecteerde updatekanaal maakt overbodig om serverspecifieke meldingen apart te genereren.",

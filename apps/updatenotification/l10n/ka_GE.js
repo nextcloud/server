@@ -2,6 +2,7 @@ OC.L10N.register(
     "updatenotification",
     {
     "{version} is available. Get more information on how to update." : "{version} ხელმისაწვდომია. მოიპოვეთ მეტი ინფორმაცია იმაზე, თუ როგორ განაახლოთ.",
+    "Open updater" : "განმანახლებლის ჩართვა",
     "Your version is up to date." : "თქვენ იყენბთ ბოლო ვერსიას.",
     "A non-default update server is in use to be checked for updates:" : "განახლებების შესამოწმებლად მოქმედია არა-საწყისი სერვერი:",
     "Update channel:" : "განახლების არხი:",
@@ -10,7 +11,6 @@ OC.L10N.register(
     "Notify members of the following groups about available updates:" : "შემდეგი ჯგუფის წევრებს გაუგზავნეთ შეტყობინება ხელმისაწვდომ განახლებებზე:",
     "Only notification for app updates are available." : "შეტყობინება ხელმისაწვდომია მხოლოდ აპლიკაციების განახლებებზე.",
     "The selected update channel does not support updates of the server." : "არჩეული განახლების არხი არ უჭერს მხარს სერვერის განახლებას.",
-    "A new version is available: {newVersionString}" : "ხელმისაწვდომია ახალი ვერსია: {newVersionString}",
     "Checked on {lastCheckedDate}" : "შემოწმდა {lastCheckedDate}-ზე",
     "Could not start updater, please try the manual update" : "განმანახმებლის გაშვება ვერ მოხერხდა, გთხოვთ სცადოთ განახლება მექანიკურ რეჯიმში",
     "Update notifications" : "განახლების შეტყობინებები",
@@ -22,7 +22,6 @@ OC.L10N.register(
     "Update for {app} to version %s is available." : "განახლება აპლიკაციისთვის {app} ვერსიაზე %s ხელმისაწვდომია.",
     "Update notification" : "შეტყობინების განახლება",
     "A new version is available: %s" : "ხელმისაწვდომია ახალი ვერსია: %s",
-    "Open updater" : "განმანახლებლის ჩართვა",
     "Download now" : "ჩამოტვირთვა",
     "Checked on %s" : "შემოწმდა %s-ზე",
     "The selected update channel makes dedicated notifications for the server obsolete." : "არჩეული განახლების არხი მოძველებული სერვერის შესახებ საჭიროებს გამოყოფილ შეტყობინებებს.",

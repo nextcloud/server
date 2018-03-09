@@ -2,6 +2,7 @@ OC.L10N.register(
     "updatenotification",
     {
     "{version} is available. Get more information on how to update." : "{version} is available. Get more information on how to update.",
+    "Open updater" : "Open updater",
     "Your version is up to date." : "Your version is up to date.",
     "A non-default update server is in use to be checked for updates:" : "A non-default update server is in use to be checked for updates:",
     "Update channel:" : "Update channel:",
@@ -10,7 +11,6 @@ OC.L10N.register(
     "Notify members of the following groups about available updates:" : "Notify members of the following groups about available updates:",
     "Only notification for app updates are available." : "Only notification for app updates are available.",
     "The selected update channel does not support updates of the server." : "The selected update channel does not support updates of the server.",
-    "A new version is available: {newVersionString}" : "A new version is available: {newVersionString}",
     "Checked on {lastCheckedDate}" : "Checked on {lastCheckedDate}",
     "Could not start updater, please try the manual update" : "Could not start updater, please try the manual update",
     "Update notifications" : "Update notifications",
@@ -22,7 +22,6 @@ OC.L10N.register(
     "Update for {app} to version %s is available." : "Update for {app} to version %s is available.",
     "Update notification" : "Update notification",
     "A new version is available: %s" : "A new version is available: %s",
-    "Open updater" : "Open updater",
     "Download now" : "Download now",
     "Checked on %s" : "Checked on %s",
     "The selected update channel makes dedicated notifications for the server obsolete." : "The selected update channel makes dedicated notifications for the server obsolete.",

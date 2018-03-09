@@ -2,6 +2,7 @@ OC.L10N.register(
     "updatenotification",
     {
     "{version} is available. Get more information on how to update." : "{version} es disponibile. Obtene plus informationes super como actualisar.",
+    "Open updater" : "Aperir actualisator",
     "Your version is up to date." : "Tu version es actualisate.",
     "Update channel:" : "Canal de actualisation:",
     "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Tu sempre pote actualisar a un version plus nove o a un canal experimental. Ma tu non potera jammais retrogradar a un canal plus stabile.",
@@ -15,7 +16,6 @@ OC.L10N.register(
     "Update for %1$s to version %2$s is available." : "Un actualisation de %1$s al version %2$s es disponibile.",
     "Update for {app} to version %s is available." : "Un actualisation del {app} al version %s es disponibile.",
     "A new version is available: %s" : "Un nove version es disponibile: %s",
-    "Open updater" : "Aperir actualisator",
     "Download now" : "Discargar ora",
     "Checked on %s" : "Verificate in %s",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Le canal de actualisation selectionate face le notificationes dedicate al servitor esser obsolete."
