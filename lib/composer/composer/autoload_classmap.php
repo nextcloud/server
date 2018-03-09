@@ -518,6 +518,7 @@ return array(
     'OC\\Core\\Command\\User\\Setting' => $baseDir . '/core/Command/User/Setting.php',
     'OC\\Core\\Controller\\AutoCompleteController' => $baseDir . '/core/Controller/AutoCompleteController.php',
     'OC\\Core\\Controller\\AvatarController' => $baseDir . '/core/Controller/AvatarController.php',
+    'OC\\Core\\Controller\\CSRFTokenController' => $baseDir . '/core/Controller/CSRFTokenController.php',
     'OC\\Core\\Controller\\ClientFlowLoginController' => $baseDir . '/core/Controller/ClientFlowLoginController.php',
     'OC\\Core\\Controller\\ContactsMenuController' => $baseDir . '/core/Controller/ContactsMenuController.php',
     'OC\\Core\\Controller\\CssController' => $baseDir . '/core/Controller/CssController.php',
