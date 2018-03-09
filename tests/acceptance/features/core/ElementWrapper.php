@@ -121,7 +121,7 @@ class ElementWrapper {
 	 * @return \Behat\Mink\Element\Element the wrapped element.
 	 */
 	public function getWrappedElement() {
-		return $element;
+		return $this->element;
 	}
 
 	/**

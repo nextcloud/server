@@ -3,6 +3,7 @@
 /**
  *
  * @copyright Copyright (c) 2017, Daniel Calviño Sánchez (danxuliu@gmail.com)
+ * @copyright Copyright (c) 2018, John Molakvoæ (skjnldsv) (skjnldsv@protonmail.com)
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -76,6 +77,14 @@ class SettingsMenuContext implements Context, ActorAwareInterface {
 	}
 
 	/**
+	 * @return array 
+	 */
+	public function menuItems() {
+		return $this->actor->find(self::settingsMenu(), 10)
+					->getWrappedElement()->findAll('xpath', '//a');
+	}
+
+	/**
 	 * @When I open the Settings menu
 	 */
 	public function iOpenTheSettingsMenu() {
@@ -114,6 +123,13 @@ class SettingsMenuContext implements Context, ActorAwareInterface {
 	public function iSeeThatTheSettingsMenuIsShown() {
 		PHPUnit_Framework_Assert::assertTrue(
 				$this->actor->find(self::settingsMenu(), 10)->isVisible());
+	}
+
+	/**
+	 * @Then I see that the Settings menu has only :items items
+	 */
+	public function iSeeThatTheSettingsMenuHasOnlyXItems($items) {
+		PHPUnit_Framework_Assert::assertCount(intval($items), self::menuItems());
 	}
 
 	/**
