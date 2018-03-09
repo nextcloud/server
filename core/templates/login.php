@@ -92,7 +92,7 @@ script('core', 'merged-login');
 					<?php p($l->t('Forgot password?')); ?>
 				</a>
 				<a id="lost-password-back" href="" style="display:none;">
-					<?php p($l->t('Back to log in')); ?>
+					<?php p($l->t('Back to login')); ?>
 				</a>
 			</div>
 			<?php } ?>
