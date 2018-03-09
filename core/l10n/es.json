@@ -277,7 +277,6 @@
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Hemos detectado múltiples intentos inválidos desde tu IP. Por tanto, tu próximo intento se retrasará 30 segundos.",
     "Stay logged in" : "Permanecer autenticado",
     "Forgot password?" : "¿Contraseña olvidada?",
-    "Back to log in" : "Volver al registro",
     "Alternative Logins" : "Inicios de sesión alternativos",
     "Account access" : "Acceso a la cuenta",
     "You are about to grant %s access to your %s account." : "Estás a punto de conceder a %s acceso a tu cuenta de %s",
@@ -342,6 +341,7 @@
     "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domains\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "Por favor, contacta con tu administrador. Si eres un administrador de esta instancia, configura la opción \"trusted_domains\" en config/config.php. Se ofrece una configuración de ejemplo en config/config.sample.php.",
     "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "Dependiendo de tu configuración, como administrador puedes tener la posibilidad de usar el botón a continuación para confiar en este dominio.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Para más ayuda, ver la <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentación</a>.",
-    "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "Tu PHP no tiene sooprte de freetype. Esto dará como resultado imágenes de perfil e interfaz de configuración rotas."
+    "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "Tu PHP no tiene sooprte de freetype. Esto dará como resultado imágenes de perfil e interfaz de configuración rotas.",
+    "Back to log in" : "Volver al registro"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

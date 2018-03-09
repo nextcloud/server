@@ -279,7 +279,6 @@ OC.L10N.register(
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Приметили смо више неисправних покушаја пријава са Ваше IP адресе. Следећа пријава ће бити могућа тек за 30 секунди.",
     "Stay logged in" : "Останите пријављени",
     "Forgot password?" : "Заборавили сте лозинку?",
-    "Back to log in" : "Назад на пријаву",
     "Alternative Logins" : "Алтернативне пријаве",
     "Account access" : "Приступ налогу",
     "You are about to grant %s access to your %s account." : "Управо ћете одобрити %s приступ Вашем %s налогу.",
@@ -344,6 +343,7 @@ OC.L10N.register(
     "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domains\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "Контактирајте Вашег администратора. Ако сте Ви администратор, измените \"trusted_domains\" подешавање у config/config.php. Пример једног подешавања је дат у config/config.sample.php.",
     "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "Зависно од ваших подешавања, као администратор можете употребити дугме испод да потврдите поузданост домена.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "За помоћ, погледајте <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">документацију</a>.",
-    "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "Ваша PHP инсталација нема подршку за freetype. Ово ће довести до неисправних профилних слика и неисправног интерфејса за подешавања."
+    "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "Ваша PHP инсталација нема подршку за freetype. Ово ће довести до неисправних профилних слика и неисправног интерфејса за подешавања.",
+    "Back to log in" : "Назад на пријаву"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

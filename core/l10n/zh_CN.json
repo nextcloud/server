@@ -263,7 +263,6 @@
     "Wrong password." : "密码错误",
     "Stay logged in" : "保持登录",
     "Forgot password?" : "忘记密码？",
-    "Back to log in" : "返回登录",
     "Alternative Logins" : "其他登录方式",
     "Account access" : "账户访问",
     "You are about to grant %s access to your %s account." : "你将分配 %s 访问权限给你的 %s 账户。",
@@ -305,6 +304,7 @@
     "You are about to grant \"%s\" access to your %s account." : "你将分配 \"%s\" 访问权限给你的 %s 账户。",
     "You are accessing the server from an untrusted domain." : "您正在访问来自不信任域名的服务器.",
     "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domains\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "请联系您的系统管理员. 如果您是系统管理员, 在 config/config.php 文件中设置 \"trusted_domain\". 可以在 config/config.sample.php 文件中找到例子.",
-    "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "获取更多帮助, 请查看 <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">文档</a>."
+    "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "获取更多帮助, 请查看 <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">文档</a>.",
+    "Back to log in" : "返回登录"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

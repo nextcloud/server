@@ -277,7 +277,6 @@
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Hemos detectado múltiples intentos de inicio de sesión desde tu IP. Por lo tanto tu siguiente incio de sesión se retrasará hasta 30 segundos. ",
     "Stay logged in" : "Mantener la sesión abierta",
     "Forgot password?" : "¿Olvidaste tu contraseña?",
-    "Back to log in" : "Regresar al inicio de sesión",
     "Alternative Logins" : "Accesos Alternativos",
     "Account access" : "Acceo de cuenta",
     "You are about to grant %s access to your %s account." : "Estas a punto de otorgar acceso de %s a tu cuenta %s.",
@@ -342,6 +341,7 @@
     "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domains\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "Por favor contacta a tu administrador. Si eres el administrador de esta instancia, configura la opción \"trusted_domains\" en config/config.php. Un ejemplo de configuración se proporciona en config/config.sample.php. ",
     "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "Dependiendo de tu configuración, como adminsitrador podrías llegar a usar el botón inferior para confiar en este dominio. ",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Para más ayuda, consulta la <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentación</a>.",
-    "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "Tu PHP no cuenta con siporte de freetype. Esto producirá imagenes rotas en el perfil e interfaz de configuraciones. "
+    "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "Tu PHP no cuenta con siporte de freetype. Esto producirá imagenes rotas en el perfil e interfaz de configuraciones. ",
+    "Back to log in" : "Regresar al inicio de sesión"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -260,7 +260,6 @@ OC.L10N.register(
     "Wrong password." : "Neteisingas slaptažodis.",
     "Stay logged in" : "Likti prisijungus",
     "Forgot password?" : "Pamiršote slaptažodį?",
-    "Back to log in" : "Grįžti prie prisijungimo",
     "Alternative Logins" : "Alternatyvūs prisijungimai",
     "Account access" : "Paskyros prieiga",
     "You are about to grant %s access to your %s account." : "Jūs ketinate suteikti %s prieigą prie savo %s paskyros.",
@@ -299,6 +298,7 @@ OC.L10N.register(
     "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">documentation</a>." : "Išsamesnei informacijai apie tai kaip tinkamai sukonfigūruoti savo serverį, žiūrėkite <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">dokumentaciją</a>.",
     "This action requires you to confirm your password:" : "Šis veiksmas reikalauja, kad patvirtintumėte savo slaptažodį:",
     "Wrong password. Reset it?" : "Neteisingas slaptažodis. Atstatyti jį?",
-    "You are about to grant \"%s\" access to your %s account." : "Ketinate suteikti \"%s\" prieigą prie savo %s paskyros."
+    "You are about to grant \"%s\" access to your %s account." : "Ketinate suteikti \"%s\" prieigą prie savo %s paskyros.",
+    "Back to log in" : "Grįžti prie prisijungimo"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);");

@@ -275,7 +275,6 @@
     "Wrong password." : "Złe hasło",
     "Stay logged in" : "Pozostań zalogowany",
     "Forgot password?" : "Zapomniano hasła?",
-    "Back to log in" : "Powrót do logowania",
     "Alternative Logins" : "Alternatywne loginy",
     "Account access" : "Dostęp do konta",
     "You are about to grant %s access to your %s account." : "Zamierzasz udzielić %s dostępu do Twojego konta %s.",
@@ -318,6 +317,7 @@
     "This action requires you to confirm your password:" : "Ta akcja wymaga potwierdzenia Twojego hasła:",
     "Wrong password. Reset it?" : "Niepoprawne hasło? Zresetować je?",
     "You are accessing the server from an untrusted domain." : "Uzyskujesz dostęp do serwera z niezaufanej domeny.",
-    "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Aby uzyskać pomoc, zajrzyj do <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">dokumentacji</a>."
+    "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Aby uzyskać pomoc, zajrzyj do <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">dokumentacji</a>.",
+    "Back to log in" : "Powrót do logowania"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

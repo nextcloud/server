@@ -279,7 +279,6 @@ OC.L10N.register(
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Többszöri sikertelen bejelentkezési kísérletet érzékeltünk az IP-dről. A legközelebbi kísérleted így 30 másodperccel késleltetve lesz.",
     "Stay logged in" : "Maradjon bejelentkezve",
     "Forgot password?" : "Elfelejtett jelszó?",
-    "Back to log in" : "Vissza a bejelentkezéshez",
     "Alternative Logins" : "Alternatív bejelentkezés",
     "Account access" : "Fiók hozzáférés",
     "You are about to grant %s access to your %s account." : "Hozzáférést készülsz biztosítani neki: %s ehhez a fiókodhoz: %s.",
@@ -344,6 +343,7 @@ OC.L10N.register(
     "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domains\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "Kérjük keresse fel a rendszergazdát! Ha ennek a telepítésnek Ön a rendszergazdája, akkor állítsa be a config/config.php fájlban a \"trusted_domain\" paramétert! A config/config.sample.php fájlban talál példát a beállításra.",
     "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "A beállításoktól függően, rendszergazdaként lehetséges, hogy az alábbi gombot is használhatja a domain név megbízhatóvá tételéhez.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Segítségért keresse fel a <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">dokumentációt</a>.",
-    "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "A PHP-ból hiányzik a freetype támogatás. Ez a beállítási felület és a profilképek hibás megjelenítését okozhatja."
+    "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "A PHP-ból hiányzik a freetype támogatás. Ez a beállítási felület és a profilképek hibás megjelenítését okozhatja.",
+    "Back to log in" : "Vissza a bejelentkezéshez"
 },
 "nplurals=2; plural=(n != 1);");

@@ -279,7 +279,6 @@ OC.L10N.register(
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "თქვენი IP მისამართით შევნიშნეთ არაერთი წარუმატებელი ავტორიზაციის მცდელობა. აქედან გამომდინარე თქვენი შემდეგი ავტორიზაციის მცდელობა შეიზღუდება დაახლოებით 30 წამით.",
     "Stay logged in" : "ავტორიზებულად დარჩენა",
     "Forgot password?" : "დაგავიწყდათ პაროლი?",
-    "Back to log in" : "უკან ავტორიზაციისკენ",
     "Alternative Logins" : "ალტერნატიული ლოგინები",
     "Account access" : "წვდომა ანგარიშზე",
     "You are about to grant %s access to your %s account." : "თქვენ აპირებთ წვდომის უფლებები მიანიჭოთ %s-ს თქვენს %s ანგარიშზე.",
@@ -344,6 +343,7 @@ OC.L10N.register(
     "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domains\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "გთხოვთ დაუკავშირდეთ თქვენს ადმინისტრატორს. იმ შემთხვევაში თუ ბრძანდებით ადმინისტრატორი, config/config.php-ში შეცვალეთ \"trusted_domains\" პარამეტრი. მაგალითი მოყვანილია config.sample.php.",
     "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "თქვენი კონფიგურაციიდან გამომდინარე, როგორც ადმინისტრატორმა დომენის ნდობისთვის ასევე შეგიძლიათ ისარგებლოთ ქვემოთ არსებული ღილაკითაც.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "დახმარებისთვის იხილეთ <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">დოკუმენტაცია</a>.",
-    "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "თქვენს PHP-ს არ აქვს freetype-ის მხარდაჭერა. ეს გამოწვევს დარღვეულ პროფილის სურათებს და მომხმარებლის ინტერფეისს."
+    "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "თქვენს PHP-ს არ აქვს freetype-ის მხარდაჭერა. ეს გამოწვევს დარღვეულ პროფილის სურათებს და მომხმარებლის ინტერფეისს.",
+    "Back to log in" : "უკან ავტორიზაციისკენ"
 },
 "nplurals=1; plural=0;");
