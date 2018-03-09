@@ -542,14 +542,14 @@ OC.Settings.Apps = OC.Settings.Apps || {
 
 	updateApp:function(appId, element) {
 		var oldButtonText = element.val();
-		element.val(t('settings','Upgrading …'));
+		element.val(t('settings','Updating …'));
 		OC.Settings.Apps.hideErrorMessage(appId);
 		$.post(OC.filePath('settings','ajax','updateapp.php'),{appid:appId},function(result) {
 			if(!result || result.status !== 'success') {
 				if (result.data && result.data.message) {
 					OC.Settings.Apps.showErrorMessage(appId, result.data.message);
 				} else {
-					OC.Settings.Apps.showErrorMessage(appId, t('settings','Could not upgrade app'));
+					OC.Settings.Apps.showErrorMessage(appId, t('settings','Could not update app'));
 				}
 				element.val(oldButtonText);
 			}
@@ -728,9 +728,9 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		OC.dialogs.info(
 			t(
 				'settings',
-				'The app has been enabled but needs to be upgraded. You will be redirected to the upgrade page in 5 seconds.'
+				'The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds.'
 			),
-			t('settings','App upgrade'),
+			t('settings','App update'),
 			function () {
 				window.location.reload();
 			},
