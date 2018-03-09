@@ -466,11 +466,7 @@ class SCSSCacherTest extends \Test\TestCase {
 			->method('getDirectoryListing')
 			->willReturn([$file]);
 
-		$cache = $this->createMock(ICache::class);
-		$this->cacheFactory->expects($this->once())
-			->method('createDistributed')
-			->willReturn($cache);
-		$cache->expects($this->once())
+		$this->depsCache->expects($this->once())
 			->method('clear')
 			->with('');
 		$this->appData->expects($this->once())
