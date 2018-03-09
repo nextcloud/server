@@ -38,6 +38,14 @@
  * the element is stale it is found again using the same parameters to find it
  * in the first place.
  *
+ * NoSuchElement exceptions are sometimes thrown instead of
+ * StaleElementReference exceptions. This can happen when the Selenium2 driver
+ * for Mink performs an action on an element through the WebDriver session
+ * instead of directly through the WebDriver element. In that case, if the
+ * element with the given ID does not exist, a NoSuchElement exception would be
+ * thrown instead of a StaleElementReference exception, so those cases are
+ * handled like StaleElementReference exceptions.
+ *
  * ElementNotVisible exceptions are thrown when the command requires the element
  * to be visible but the element is not. Finding an element only guarantees that
  * (at that time) the element is attached to the DOM, but it does not provide
@@ -50,11 +58,22 @@
  * exceptions; if the element is not visible it is waited for it to be visible
  * up to the timeout set to find it.
  *
+ * MoveTargetOutOfBounds exceptions are sometimes thrown instead of
+ * ElementNotVisible exceptions. This can happen when the Selenium2 driver for
+ * Mink moves the cursor on an element using the "moveto" method of the
+ * WebDriver session, for example, before clicking on an element. In that case,
+ * if the element is not visible, "moveto" would throw a MoveTargetOutOfBounds
+ * exception instead of an ElementNotVisible exception, so those cases are
+ * handled like ElementNotVisible exceptions.
+ *
  * Despite the automatic handling it is possible for the commands to throw those
  * exceptions when they are executed again; this class does not handle cases
  * like an element becoming stale several times in a row (uncommon) or an
  * element not becoming visible before the timeout expires (which would mean
- * that the timeout is too short or that the test has to, indeed, fail).
+ * that the timeout is too short or that the test has to, indeed, fail). In a
+ * similar way, MoveTargetOutOfBounds exceptions would be thrown again if
+ * originally they were thrown because the element was visible but "out of
+ * reach".
  *
  * If needed, automatically handling failed commands can be disabled calling
  * "doNotHandleFailedCommands()"; as it returns the ElementWrapper it can be
@@ -189,8 +208,8 @@ class ElementWrapper {
 	/**
 	 * Executes the given command.
 	 *
-	 * If a StaleElementReference exception is thrown the wrapped element is
-	 * found again and, then, the command is executed again.
+	 * If a StaleElementReference or a NoSuchElement exception is thrown the
+	 * wrapped element is found again and, then, the command is executed again.
 	 *
 	 * @param \Closure $commandCallback the command to execute.
 	 * @param string $errorMessage an error message that describes the failed
@@ -205,6 +224,8 @@ class ElementWrapper {
 			return $commandCallback();
 		} catch (\WebDriver\Exception\StaleElementReference $exception) {
 			$this->printFailedCommandMessage($exception, $errorMessage);
+		} catch (\WebDriver\Exception\NoSuchElement $exception) {
+			$this->printFailedCommandMessage($exception, $errorMessage);
 		}
 
 		$this->element = $this->elementFinder->find();
@@ -215,10 +236,11 @@ class ElementWrapper {
 	/**
 	 * Executes the given command on a visible element.
 	 *
-	 * If a StaleElementReference exception is thrown the wrapped element is
-	 * found again and, then, the command is executed again. If an
-	 * ElementNotVisible exception is thrown it is waited for the wrapped
-	 * element to be visible and, then, the command is executed again.
+	 * If a StaleElementReference or a NoSuchElement exception is thrown the
+	 * wrapped element is found again and, then, the command is executed again.
+	 * If an ElementNotVisible or a MoveTargetOutOfBounds exception is thrown it
+	 * is waited for the wrapped element to be visible and, then, the command is
+	 * executed again.
 	 *
 	 * @param \Closure $commandCallback the command to execute.
 	 * @param string $errorMessage an error message that describes the failed
@@ -232,6 +254,8 @@ class ElementWrapper {
 		try {
 			return $this->executeCommand($commandCallback, $errorMessage);
 		} catch (\WebDriver\Exception\ElementNotVisible $exception) {
+			$this->printFailedCommandMessage($exception, $errorMessage);
+		} catch (\WebDriver\Exception\MoveTargetOutOfBounds $exception) {
 			$this->printFailedCommandMessage($exception, $errorMessage);
 		}
 
