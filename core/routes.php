@@ -66,6 +66,7 @@ $application->registerRoutes($this, [
 		['name' => 'contactsMenu#findOne', 'url' => '/contactsmenu/findOne', 'verb' => 'POST'],
 		['name' => 'AutoComplete#get', 'url' => 'autocomplete/get', 'verb' => 'GET'],
 		['name' => 'WalledGarden#get', 'url' => '/204', 'verb' => 'GET'],
+		['name' => 'Search#search', 'url' => '/core/search', 'verb' => 'GET'],
 	],
 	'ocs' => [
 		['root' => '/cloud', 'name' => 'OCS#getCapabilities', 'url' => '/capabilities', 'verb' => 'GET'],
@@ -81,9 +82,6 @@ $application->registerRoutes($this, [
 
 /** @var $this OCP\Route\IRouter */
 // Core ajax actions
-// Search
-$this->create('search_ajax_search', '/core/search')
-	->actionInclude('core/search/ajax/search.php');
 // Routing
 $this->create('core_ajax_update', '/core/ajax/update.php')
 	->actionInclude('core/ajax/update.php');
