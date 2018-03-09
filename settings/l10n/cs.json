@@ -32,7 +32,7 @@
     "Email setting test" : "Zkouška nastavení e-mailu",
     "Well done, %s!" : "Dobře, %s.",
     "If you received this email, the email configuration seems to be correct." : "Pokud jste obdržel(a) tento e-mail, nastavení e-mailů bude asi správné.",
-    "Email could not be sent. Check your mail server log" : "E-mail se nepodařilo odeslat. Zkontrolujte protokol vašeho e-mailového serveru.",
+    "Email could not be sent. Check your mail server log" : "E-mail se nepodařilo odeslat. Podívejte se do záznamu událostí (log) svého e-mailového serveru.",
     "A problem occurred while sending the email. Please revise your settings. (Error: %s)" : "Při odesílání e-mailu nastala chyba. Překontrolujte prosím svá nastavení. (Error: %s)",
     "You need to set your user email before being able to send test emails." : "Pro možnost odeslání zkušebních e-mailů musíte nejprve nastavit svou e-mailovou adresu.",
     "Invalid mail address" : "Neplatná e-mailová adresa",
@@ -356,6 +356,7 @@
     "Show user backend" : "Zobrazit vedení uživatelů",
     "Show last login" : "Zobrazit poslední přihlášení",
     "When the password of a new user is left empty, an activation email with a link to set the password is sent." : "Pokud je heslo nového uživatele prázdné, je mu odeslán aktivační e-mail s odkazem, kde si ho může nastavit.",
+    "Add user" : "Přidat uživatele",
     "Everyone" : "Všichni",
     "Admins" : "Administrátoři",
     "Disabled" : "Zakázaní",
@@ -379,8 +380,12 @@
     "Migration Completed" : "Migrace dokončena",
     "A valid password must be provided" : "Musíte zadat platné heslo",
     "A valid email must be provided" : "Musíte zadat platný e-mail",
+    "Android app" : "Aplikace pro Android",
+    "iOS app" : "Aplikace pro iOS",
+    "App passwords" : "Hesla aplikace",
     "Show email address" : "Zobrazit e-mailové adresy",
     "Send email to new user" : "Poslat e-mail novému uživateli",
-    "Create" : "Vytvořit"
+    "Create" : "Vytvořit",
+    "Group name" : "Název skupiny"
 },"pluralForm" :"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;"
 }

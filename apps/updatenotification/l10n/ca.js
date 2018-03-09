@@ -2,6 +2,7 @@ OC.L10N.register(
     "updatenotification",
     {
     "{version} is available. Get more information on how to update." : "Hi ha disponible la versió {version}. Obtingueu més informació sobre com actualitzar.",
+    "Open updater" : "Obrir actualitzador",
     "Your version is up to date." : "La teva versió està actualitzada.",
     "A non-default update server is in use to be checked for updates:" : "S'utilitza un servidor d'actualització no predeterminat per comprovar si hi ha actualitzacions:",
     "Update channel:" : "Actualitzar canal:",
@@ -20,7 +21,6 @@ OC.L10N.register(
     "Update for {app} to version %s is available." : "Actualització per {app} a la versió %s està disponible.",
     "Update notification" : "Notificació d'actualització",
     "A new version is available: %s" : "Una nova versió està disponible: %s",
-    "Open updater" : "Obrir actualitzador",
     "Download now" : "Descarrega ara",
     "Checked on %s" : "Comprovat en %s",
     "The selected update channel makes dedicated notifications for the server obsolete." : "El canal d'actualització seleccionat deixa obsoletes les notificacions específiques del servidor.",

@@ -2,6 +2,7 @@ OC.L10N.register(
     "updatenotification",
     {
     "{version} is available. Get more information on how to update." : "{version} tersedia. Dapatkan informasi lebih lanjut cara memperbaruinya.",
+    "Open updater" : "Buka updater",
     "Your version is up to date." : "Versi Anda saat ini adalah yang terbaru.",
     "Update channel:" : "Saluran update:",
     "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Anda dapat memperbarui ke versi yang lebih baru / saluran percobaan. Namun Anda tidak dapat menurunkan ke saluran stabil.",
@@ -15,7 +16,6 @@ OC.L10N.register(
     "Update for %1$s to version %2$s is available." : "Pembaruan untuk %1$s ke versi %2$s tersedia.",
     "Update for {app} to version %s is available." : "Pembaruan untuk {app} ke versi %s tersedia.",
     "A new version is available: %s" : "Versi baru tersedia: %s",
-    "Open updater" : "Buka updater",
     "Download now" : "Unduh sekarang",
     "Checked on %s" : "Dicek pada %s",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Kanal pembaruan yang terpilih membuat pemberitahuan terdedikasi untuk server usang."

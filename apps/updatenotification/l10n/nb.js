@@ -2,6 +2,7 @@ OC.L10N.register(
     "updatenotification",
     {
     "{version} is available. Get more information on how to update." : "{version} er tilgjengelig. Få mer informasjon om å oppdatere.",
+    "Open updater" : "Åpne oppdaterer",
     "Your version is up to date." : "Du har nyeste versjon.",
     "A non-default update server is in use to be checked for updates:" : "En ikke-forvalgt oppdateringstjener brukes for å se etter oppdateringer:",
     "Update channel:" : "Oppdateringskanal:",
@@ -10,7 +11,6 @@ OC.L10N.register(
     "Notify members of the following groups about available updates:" : "Informer medlemmene i følgende grupper om tilgjengelig oppdateringer:",
     "Only notification for app updates are available." : "Kun varsler for app oppdateringer er tilgjengelig.",
     "The selected update channel does not support updates of the server." : "Den valgte oppdateringskanalen tilbyr ikke oppdateringer av tjeneren.",
-    "A new version is available: {newVersionString}" : "En ny versjon er tilgjengelig: {newVersionString}",
     "Checked on {lastCheckedDate}" : "Sist sjekket {lastCheckedDate}",
     "Could not start updater, please try the manual update" : "Kunne ikke starte oppdateringen, prøv å oppdatere manuelt",
     "Update notifications" : "Oppdateringsvarsel",
@@ -22,7 +22,6 @@ OC.L10N.register(
     "Update for {app} to version %s is available." : "Oppdatering for {app} til versjon %s er tilgjengelig.",
     "Update notification" : "Oppdateringsvarsel",
     "A new version is available: %s" : "En ny versjon er tilgjengelig: %s",
-    "Open updater" : "Åpne oppdaterer",
     "Download now" : "Last ned nå",
     "Checked on %s" : "Sjekket %s",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Den valgte oppdateringskanalen gjør dedikerte varsler til denne tjeneren utdatert.",

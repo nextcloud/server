@@ -2,6 +2,7 @@ OC.L10N.register(
     "updatenotification",
     {
     "{version} is available. Get more information on how to update." : "Është gati {version}. Merrni më tepër informacion se si ta përditësoni.",
+    "Open updater" : "Hape përditësuesin",
     "Your version is up to date." : "Versioni juaj është i përditësuar.",
     "Update channel:" : "Kanal përditësimesh:",
     "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Mundeni përherë ta përditësoni me një version të ri / kanal eksperimental. Por nuk mund ta ulni kurrë versionin në një version më të qëndrueshëm.",
@@ -18,7 +19,6 @@ OC.L10N.register(
     "Update for %1$s to version %2$s is available." : "Është gati përditësimi për %1$s në version %2$s.",
     "Update for {app} to version %s is available." : "Përditësimi për {app} në versionin %s është në dispozicion",
     "A new version is available: %s" : "Ka gati një version të ri: %s",
-    "Open updater" : "Hape përditësuesin",
     "Download now" : "Shkarko tani",
     "Checked on %s" : "Kontrolluar më %s",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Kanali i zgjedhur i përditësimit i bën njoftimet për shërbyesin të papërdorshme."

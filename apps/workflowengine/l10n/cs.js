@@ -44,7 +44,7 @@ OC.L10N.register(
     "The given regular expression is invalid" : "Zadaný regulární výraz je neplatný",
     "The given file size is invalid" : "Zadaná velikost souboru je neplatná",
     "The given tag id is invalid" : "Zadané id značky je neplatné",
-    "The given IP range is invalid" : "Zadaný rozsah IP je neplatný",
+    "The given IP range is invalid" : "Zadaný rozsah IP adres není platný",
     "The given IP range is not valid for IPv4" : "Zadaný rozsah IP je pro IPv4 neplatný",
     "The given IP range is not valid for IPv6" : "Zadaný IP rozsah není pro IPv6 platný",
     "The given time span is invalid" : "Zadaný časový rozsah je neplatný",

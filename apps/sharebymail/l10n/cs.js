@@ -33,11 +33,11 @@ OC.L10N.register(
     "Password to access »%s« shared with %s" : "Heslo pro přístup k »%s« sdíleno s %s",
     "This is the password: %s" : "Toto je heslo: %s",
     "You can choose a different password at any time in the share dialog." : "V dialogu sdílení můžete kdykoliv vybrat jiné heslo.",
-    "Could not find share" : "Nelze nalézt sdílení",
+    "Could not find share" : "Sdílení se nedaří nalézt",
     "Share by mail" : "Sdílet e-mailem",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Dovoluje uživatelům odeslat personalizovaný odkaz na soubor nebo složku po zadání e-mailové adresy.",
     "Send password by mail" : "Odeslat heslo e-mailem",
-    "Enforce password protection" : "Vynutit ochranu hesla",
+    "Enforce password protection" : "Vynutit ochranu heslem",
     "Failed to send share by E-mail" : "Odeslání sdílení e-mailem se nezdařilo"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

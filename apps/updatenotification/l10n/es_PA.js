@@ -2,6 +2,7 @@ OC.L10N.register(
     "updatenotification",
     {
     "{version} is available. Get more information on how to update." : "{version} está disponible. Obten más información de cómo actualizar. ",
+    "Open updater" : "Abrir actualizador",
     "Your version is up to date." : "Tu verisón está actualizada.",
     "A non-default update server is in use to be checked for updates:" : "Un servidor de actualizaciones no-predeterminado está en uso para ser verficiado por actualizaciones:",
     "Update channel:" : "Actualizar el canal:",
@@ -19,7 +20,6 @@ OC.L10N.register(
     "Update for %1$s to version %2$s is available." : "La actualización para %1$s a la versión %2$s está disponible.",
     "Update for {app} to version %s is available." : "Actualización para {app} a la versión %s está disponible.",
     "A new version is available: %s" : "Una nueva versión está disponible: %s",
-    "Open updater" : "Abrir actualizador",
     "Download now" : "Descargar ahora",
     "Checked on %s" : "Verificado el %s",
     "The selected update channel makes dedicated notifications for the server obsolete." : "El canal de actualización seleccionado hace que las notificaciones dedicadas al servidor sean obsoletas. ",
