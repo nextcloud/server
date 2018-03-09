@@ -172,10 +172,14 @@ class MailPlugin implements ISearchPlugin {
 			}
 		}
 
+		$reachedEnd = true;
 		if (!$this->shareeEnumeration) {
 			$result['wide'] = [];
 			$userResults['wide'] = [];
 		} else {
+			$reachedEnd = (count($result['wide']) < $offset + $limit) &&
+				(count($userResults['wide']) < $offset + $limit);
+
 			$result['wide'] = array_slice($result['wide'], $offset, $limit);
 			$userResults['wide'] = array_slice($userResults['wide'], $offset, $limit);
 		}
@@ -196,7 +200,7 @@ class MailPlugin implements ISearchPlugin {
 		}
 		$searchResult->addResultSet($emailType, $result['wide'], $result['exact']);
 
-		return true;
+		return !$reachedEnd;
 	}
 
 	public function isCurrentUser(ICloudId $cloud): bool {
