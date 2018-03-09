@@ -73,7 +73,7 @@ class MailPlugin implements ISearchPlugin {
 	 * @since 13.0.0
 	 */
 	public function search($search, $limit, $offset, ISearchResult $searchResult) {
-		$result = ['wide' => [], 'exact' => []];
+		$result = $userResults = ['wide' => [], 'exact' => []];
 		$userType = new SearchResultType('users');
 		$emailType = new SearchResultType('emails');
 
@@ -136,14 +136,13 @@ class MailPlugin implements ISearchPlugin {
 							}
 
 							if (!$this->isCurrentUser($cloud) && !$searchResult->hasResult($userType, $cloud->getUser())) {
-								$singleResult = [[
+								$userResults['wide'][] = [
 									'label' => $contact['FN'] . " ($emailAddress)",
 									'value' => [
 										'shareType' => Share::SHARE_TYPE_USER,
 										'shareWith' => $cloud->getUser(),
-									]],
+									],
 								];
-								$searchResult->addResultSet($userType, $singleResult, []);
 							}
 						}
 						continue;
@@ -173,11 +172,18 @@ class MailPlugin implements ISearchPlugin {
 			}
 		}
 
+		$reachedEnd = true;
 		if (!$this->shareeEnumeration) {
 			$result['wide'] = [];
+			$userResults['wide'] = [];
 		} else {
+			$reachedEnd = (count($result['wide']) < $offset + $limit) &&
+				(count($userResults['wide']) < $offset + $limit);
+
 			$result['wide'] = array_slice($result['wide'], $offset, $limit);
+			$userResults['wide'] = array_slice($userResults['wide'], $offset, $limit);
 		}
+
 
 		if (!$searchResult->hasExactIdMatch($emailType) && filter_var($search, FILTER_VALIDATE_EMAIL)) {
 			$result['exact'][] = [
@@ -189,9 +195,12 @@ class MailPlugin implements ISearchPlugin {
 			];
 		}
 
+		if (!empty($userResults['wide'])) {
+			$searchResult->addResultSet($userType, $userResults['wide'], []);
+		}
 		$searchResult->addResultSet($emailType, $result['wide'], $result['exact']);
 
-		return true;
+		return !$reachedEnd;
 	}
 
 	public function isCurrentUser(ICloudId $cloud) {
