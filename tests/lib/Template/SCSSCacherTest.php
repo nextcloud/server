@@ -65,7 +65,7 @@ class SCSSCacherTest extends \Test\TestCase {
 		$this->config = $this->createMock(IConfig::class);
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->depsCache = $this->createMock(ICache::class);
-		$this->cacheFactory->expects($this->at(0))
+		$this->cacheFactory
 			->method('createDistributed')
 			->willReturn($this->depsCache);
 		$this->themingDefaults = $this->createMock(ThemingDefaults::class);
