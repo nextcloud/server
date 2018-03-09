@@ -548,6 +548,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Core\\Command\\User\\Setting' => __DIR__ . '/../../..' . '/core/Command/User/Setting.php',
         'OC\\Core\\Controller\\AutoCompleteController' => __DIR__ . '/../../..' . '/core/Controller/AutoCompleteController.php',
         'OC\\Core\\Controller\\AvatarController' => __DIR__ . '/../../..' . '/core/Controller/AvatarController.php',
+        'OC\\Core\\Controller\\CSRFTokenController' => __DIR__ . '/../../..' . '/core/Controller/CSRFTokenController.php',
         'OC\\Core\\Controller\\ClientFlowLoginController' => __DIR__ . '/../../..' . '/core/Controller/ClientFlowLoginController.php',
         'OC\\Core\\Controller\\ContactsMenuController' => __DIR__ . '/../../..' . '/core/Controller/ContactsMenuController.php',
         'OC\\Core\\Controller\\CssController' => __DIR__ . '/../../..' . '/core/Controller/CssController.php',
