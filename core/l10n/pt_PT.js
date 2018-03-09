@@ -279,7 +279,6 @@ OC.L10N.register(
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Detectamos múltiplas tentativas falhadas de login do seu IP. Por esse motivo, o seu próximo login será adiado por, até, 30 segundos. ",
     "Stay logged in" : "Manter sessão iniciada",
     "Forgot password?" : "Senha esquecida?",
-    "Back to log in" : "Voltar à entrada",
     "Alternative Logins" : "Contas de Acesso Alternativas",
     "Account access" : "Acesso a conta",
     "You are about to grant %s access to your %s account." : "Está prestes a permitir %s aceder á sua conta %s.",
@@ -344,6 +343,7 @@ OC.L10N.register(
     "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domains\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "Por favor, contacte o seu administrador. Se é um administrador desta instância, configure a definição \"trusted_domains\" em config/config.php. É fornecido um exemplo de configuração em config/config.sample.php.",
     "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "Dependendo da sua configuração, como administrador poderá também conseguir usar o botão que se segue para confiar neste domínio.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Para obter ajuda, consulte a <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentação</a>.",
-    "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "O seu PHP não suporta freetype. Isto irá resultar em fotos de perfil e interface de definições corrompidas."
+    "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "O seu PHP não suporta freetype. Isto irá resultar em fotos de perfil e interface de definições corrompidas.",
+    "Back to log in" : "Voltar à entrada"
 },
 "nplurals=2; plural=(n != 1);");

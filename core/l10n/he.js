@@ -242,7 +242,6 @@ OC.L10N.register(
     "Wrong password." : "סיסמא שגוייה.",
     "Stay logged in" : "השאר מחובר",
     "Forgot password?" : "שכחת ססמה?",
-    "Back to log in" : "חזרה לכניסה",
     "Alternative Logins" : "כניסות אלטרנטיביות",
     "Account access" : "גישה לחשבון",
     "Grant access" : "הענקת גישה",
@@ -275,6 +274,7 @@ OC.L10N.register(
     "Wrong password. Reset it?" : "ססמה שגויה. לאפס אותה?",
     "You are accessing the server from an untrusted domain." : "ניגשת לשרת משם מתחם בלתי מהימן.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "לקבלת עזרה, יש לעיין ב<a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">תיעוד</a>.",
-    "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "ל־PHP שלך אין תמיכה ב־freetype. מצב כזה יגרום לתמונות פרופיל משובשות לצד מנשק הגדרות משובש."
+    "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "ל־PHP שלך אין תמיכה ב־freetype. מצב כזה יגרום לתמונות פרופיל משובשות לצד מנשק הגדרות משובש.",
+    "Back to log in" : "חזרה לכניסה"
 },
 "nplurals=2; plural=(n != 1);");

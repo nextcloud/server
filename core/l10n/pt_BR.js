@@ -279,7 +279,6 @@ OC.L10N.register(
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Detectamos várias tentativas de login inválidas de seu IP. Portanto, seu próximo login será desacelerado em até 30 segundos.",
     "Stay logged in" : "Permaneça logado",
     "Forgot password?" : "Esqueceu a senha?",
-    "Back to log in" : "Voltar ao login",
     "Alternative Logins" : "Logins alternativos",
     "Account access" : "Acesso à conta",
     "You are about to grant %s access to your %s account." : "Você está prestes a conceder acesso a %s à sua conta %s.",
@@ -344,6 +343,7 @@ OC.L10N.register(
     "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domains\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "Entre em contato com o administrador. Se você é o administrador, defina a configuração \"trusted_domains\" em config/config.php. Uma configuração de exemplo é fornecida em config/config.sample.php.",
     "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "Dependendo da configuração, como administrador você também poderá usar o botão abaixo para confiar neste domínio.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Para mais ajuda, veja a <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentação</a>.",
-    "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "Seu PHP não possui suporte a freetype. Isso resultará em imagens erradas no perfil e na interface de configurações."
+    "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "Seu PHP não possui suporte a freetype. Isso resultará em imagens erradas no perfil e na interface de configurações.",
+    "Back to log in" : "Voltar ao login"
 },
 "nplurals=2; plural=(n > 1);");

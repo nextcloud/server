@@ -277,7 +277,6 @@
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Vi har detektert flere ugyldige påloggingsforsøk fra din IP-adresse. Derfor er din neste innlogging forsinket med opptil 30 sekunder.",
     "Stay logged in" : "Forbli innlogget",
     "Forgot password?" : "Glemt passord?",
-    "Back to log in" : "Tilbake til innlogging",
     "Alternative Logins" : "Alternative innlogginger",
     "Account access" : "Kontotilgang",
     "You are about to grant %s access to your %s account." : "Du er i ferd med å gi %s tilgang til din %s konto.",
@@ -342,6 +341,7 @@
     "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domains\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "Kontakt din administrator. Hvis du er administrator for denne instansen, sett opp innstillingen \"trusted_domains\" i config/config.php. Et eksempel på oppsett er gitt i config/config.sample.php.",
     "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "Avhengig av oppsettet kan du, som administrator, kanskje også bruke kanppen nedenfor til å stole på dette domenet.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "For hjelp, se i  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">dokumentasjonen</a>.",
-    "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "Din PHP-installasjon har ikke FreeType-støtte. Dette fører til knekte profilbilder og skadelidende innstillingsgrensesnitt."
+    "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "Din PHP-installasjon har ikke FreeType-støtte. Dette fører til knekte profilbilder og skadelidende innstillingsgrensesnitt.",
+    "Back to log in" : "Tilbake til innlogging"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

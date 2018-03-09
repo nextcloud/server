@@ -279,7 +279,6 @@ OC.L10N.register(
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Við urðum vör við margar misheppnaðar innskráningar í röð frá IP-vistfanginu þínu. Þar með verður næsta innskráning tafin (throttled) um 30 sekúndur.",
     "Stay logged in" : "Haldast skráður inn",
     "Forgot password?" : "Gleymdirðu lykilorði?",
-    "Back to log in" : "Til baka í innskráningu",
     "Alternative Logins" : "Aðrar innskráningar",
     "Account access" : "Aðgangur að notandaaðgangi",
     "You are about to grant %s access to your %s account." : "Þú ert að fara að leyfa %s aðgang að %s notandaaðgangnum þínum.",
@@ -344,6 +343,7 @@ OC.L10N.register(
     "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domains\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "Hafðu samband við kerfisstjóra. Ef þú ert stjórnandi á þessu tilviki, stilltu \"trusted_domains\" setninguna í config/config.php. Dæmi um stillingar má sjá í config/config.sample.php.",
     "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "Það fer eftir stillingum þínum, sem stjórnandi þá gætir þú einnig notað hnappinn hér fyrir neðan til að treysta þessu léni.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Til að fá hjálp er best að skoða fyrst  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">hjálparskjölin</a>.",
-    "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "PHP-uppsetningin er ekki með stuðning við 'freetype'. Þetta mun valda því að notendamyndir og stillingaviðmót virki ekki."
+    "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "PHP-uppsetningin er ekki með stuðning við 'freetype'. Þetta mun valda því að notendamyndir og stillingaviðmót virki ekki.",
+    "Back to log in" : "Til baka í innskráningu"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

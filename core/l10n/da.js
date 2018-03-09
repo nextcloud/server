@@ -258,7 +258,6 @@ OC.L10N.register(
     "Wrong password." : "Forkert kodeord.",
     "Stay logged in" : "Forbliv logget ind",
     "Forgot password?" : "Glemt adgangskode?",
-    "Back to log in" : "Tilbage til log in",
     "Alternative Logins" : "Alternative logins",
     "Account access" : "Konto adgang",
     "You are about to grant %s access to your %s account." : "Du er ved at tildele %s adgang til din %s konto.",
@@ -294,6 +293,7 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "Denne %s-instans befinder sig i vedligeholdelsestilstand for øjeblikket, hvilket kan tage et stykke tid.",
     "This page will refresh itself when the %s instance is available again." : "Denne side vil genopfriske sig selv, når %s-instancen er tilgængelig igen.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Kontakt systemadministratoren, hvis denne meddelelse fortsætter eller optrådte uventet.",
-    "Thank you for your patience." : "Tak for din tålmodighed."
+    "Thank you for your patience." : "Tak for din tålmodighed.",
+    "Back to log in" : "Tilbage til log in"
 },
 "nplurals=2; plural=(n != 1);");

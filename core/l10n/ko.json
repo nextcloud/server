@@ -277,7 +277,6 @@
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "사용 중인 IP에서 여러 번의 잘못된 로그인 시도를 감지했습니다. 30초 후에 다시 로그인할 수 있습니다.",
     "Stay logged in" : "로그인 유지",
     "Forgot password?" : "암호를 잊으셨습니까?",
-    "Back to log in" : "로그인으로 돌아가기",
     "Alternative Logins" : "대체 로그인",
     "Account access" : "계정 접근",
     "You are about to grant %s access to your %s account." : "\"%s\"에 접근하기 위해서 %s 계정을 사용하려고 합니다.",
@@ -342,6 +341,7 @@
     "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domains\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "시스템 관리자에게 연락하십시오. 만약 이 인스턴스의 관리자라면 config/config.php에서 \"trusted_domains\" 설정을 편집하십시오. config/config.sample.php에 있는 예제 설정을 참고하십시오.",
     "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "설정에 따라서 관리자 권한으로 아래 단추를 눌러서 이 도메인을 신뢰하도록 설정할 수 있습니다.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "도움이 필요한 경우 <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">문서</a>를 참조하십시오.",
-    "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "PHP에 freetype 지원이 없습니다. 프로필 사진과 설정 인터페이스가 올바르게 표시되지 않을 수도 있습니다."
+    "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "PHP에 freetype 지원이 없습니다. 프로필 사진과 설정 인터페이스가 올바르게 표시되지 않을 수도 있습니다.",
+    "Back to log in" : "로그인으로 돌아가기"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

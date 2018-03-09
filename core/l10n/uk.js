@@ -239,7 +239,6 @@ OC.L10N.register(
     "Wrong password." : "Невірний пароль.",
     "Stay logged in" : "Залишатись в системі",
     "Forgot password?" : "Забули пароль?",
-    "Back to log in" : "Повернутися до сторінки авторизації",
     "Alternative Logins" : "Альтернативні імена користувача",
     "Account access" : "Доступ до облікового запису",
     "Grant access" : "Дозволити доступ",
@@ -263,6 +262,7 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "Цей %s знаходиться в режимі технічного обслуговування, яке може зайняти деякий час.",
     "This page will refresh itself when the %s instance is available again." : "Ця сторінка автоматично перезавантажиться коли екземпляр %s стане знову доступний.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Зверніться до вашого системного адміністратора якщо це повідомлення не зникає або з'являється несподівано.",
-    "Thank you for your patience." : "Дякуємо за ваше терпіння."
+    "Thank you for your patience." : "Дякуємо за ваше терпіння.",
+    "Back to log in" : "Повернутися до сторінки авторизації"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

@@ -273,7 +273,6 @@ OC.L10N.register(
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "您的 IP 多次嘗試登入無效，下一次登入將會被延時30秒。",
     "Stay logged in" : "保持登入狀態",
     "Forgot password?" : "忘記密碼？",
-    "Back to log in" : "回到登入頁面",
     "Alternative Logins" : "其他登入方法",
     "Account access" : "帳戶存取",
     "You are about to grant %s access to your %s account." : "你已批准%s存取你的%s帳戶。",
@@ -309,6 +308,7 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "這個 %s 安裝目前處於維護模式，需要一段時間恢復。",
     "This page will refresh itself when the %s instance is available again." : "%s 安裝恢復可用之後，本頁會自動重新整理",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "若這個訊息持續出現，請聯絡系統管理員",
-    "Thank you for your patience." : "感謝您的耐心"
+    "Thank you for your patience." : "感謝您的耐心",
+    "Back to log in" : "回到登入頁面"
 },
 "nplurals=1; plural=0;");

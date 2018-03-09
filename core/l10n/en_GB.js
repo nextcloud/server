@@ -279,7 +279,6 @@ OC.L10N.register(
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds.",
     "Stay logged in" : "Stay logged in",
     "Forgot password?" : "Forgot password?",
-    "Back to log in" : "Back to log in",
     "Alternative Logins" : "Alternative Logins",
     "Account access" : "Account access",
     "You are about to grant %s access to your %s account." : "You are about to grant %s access to your %s account.",
@@ -344,6 +343,7 @@ OC.L10N.register(
     "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domains\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domains\" setting in config/config.php. An example configuration is provided in config/config.sample.php.",
     "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>.",
-    "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface."
+    "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface.",
+    "Back to log in" : "Back to log in"
 },
 "nplurals=2; plural=(n != 1);");

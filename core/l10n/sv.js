@@ -260,7 +260,6 @@ OC.L10N.register(
     "Wrong password." : "Fel lösenord.",
     "Stay logged in" : "Fortsätt vara inloggad.",
     "Forgot password?" : "Glömt lösenordet?",
-    "Back to log in" : "Tillbaks till inloggning",
     "Alternative Logins" : "Alternativa inloggningar",
     "Account access" : "Kontoåtkomst",
     "You are about to grant %s access to your %s account." : "Du håller på att ge %s tillgång till ditt %s-konto.",
@@ -296,6 +295,7 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "Denna %s-instans befinner sig för närvarande i underhållsläge, vilket kan ta ett tag.",
     "This page will refresh itself when the %s instance is available again." : "Denna sida uppdaterar sig själv när %s-instansen är tillgänglig igen.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Hör av dig till din systemadministratör om detta meddelande fortsätter eller visas oväntat.",
-    "Thank you for your patience." : "Tack för ditt tålamod."
+    "Thank you for your patience." : "Tack för ditt tålamod.",
+    "Back to log in" : "Tillbaks till inloggning"
 },
 "nplurals=2; plural=(n != 1);");

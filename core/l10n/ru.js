@@ -279,7 +279,6 @@ OC.L10N.register(
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "С этого IP адреса было выполнено множество неудачных попыток входа. Следующую попытку входа в систему можно будет выполнить через 30 секунд.",
     "Stay logged in" : "Оставаться в системе",
     "Forgot password?" : "Забыли пароль?",
-    "Back to log in" : "Авторизоваться повторно",
     "Alternative Logins" : "Альтернативные имена пользователя",
     "Account access" : "Доступ к аккаунту",
     "You are about to grant %s access to your %s account." : "Вы собираетесь предоставить пользователю %s доступ к вашему аккаунту %s.",
@@ -344,6 +343,7 @@ OC.L10N.register(
     "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domains\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "Обратитесь к администратору. Если вы являетесь администратором этого сервера, измените значение параметра «trusted_domains» в файле «config/config.php». Пример настройки можно найти в файле «config/config.sample.php».",
     "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "В зависимости от конфигурации, вы, как администратор, можете также добавить домен в список доверенных при помощи кнопки, расположенной ниже.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Для получения помощи обратитесь к <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">документации</a>.",
-    "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "Установленная версия PHP не поддерживает библиотеку FreeType, что приводит к неверному отображению изображений профиля и интерфейса настроек."
+    "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "Установленная версия PHP не поддерживает библиотеку FreeType, что приводит к неверному отображению изображений профиля и интерфейса настроек.",
+    "Back to log in" : "Авторизоваться повторно"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");
