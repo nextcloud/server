@@ -2,6 +2,7 @@ OC.L10N.register(
     "updatenotification",
     {
     "{version} is available. Get more information on how to update." : "{version}을(를) 사용할 수 있습니다. 업데이트하는 방법에 대해서 알아보십시오.",
+    "Open updater" : "업데이터 열기",
     "Your version is up to date." : "최신 버전을 사용하고 있습니다.",
     "A non-default update server is in use to be checked for updates:" : "기본 업데이트 서버가 아닌 곳에서 업데이트를 확인하고 있음:",
     "Update channel:" : "업데이트 채널:",
@@ -19,7 +20,6 @@ OC.L10N.register(
     "Update for %1$s to version %2$s is available." : "%1$s을(를) 버전 %2$s(으)로 업데이트할 수 있습니다.",
     "Update for {app} to version %s is available." : "{app}을(를) 버전 %s(으)로 업데이트할 수 있습니다.",
     "A new version is available: %s" : "새 버전을 사용할 수 있습니다: %s",
-    "Open updater" : "업데이터 열기",
     "Download now" : "지금 다운로드",
     "Checked on %s" : "%s에 확인함",
     "The selected update channel makes dedicated notifications for the server obsolete." : "선택한 업데이트 채널은 서버 알림을 사용하지 않습니다.",

@@ -2,6 +2,7 @@ OC.L10N.register(
     "updatenotification",
     {
     "{version} is available. Get more information on how to update." : "{version} 釋出了，可以更新",
+    "Open updater" : "打開更新程式",
     "Your version is up to date." : "您的版本是最新版",
     "A non-default update server is in use to be checked for updates:" : "沒有預設的更新伺服器以至於無法檢查更新：",
     "Update channel:" : "更新通道:",
@@ -19,7 +20,6 @@ OC.L10N.register(
     "Update for %1$s to version %2$s is available." : "%1$s 到 %2$s 的更新已經釋出",
     "Update for {app} to version %s is available." : "{app} 已有 %s 版本的更新",
     "A new version is available: %s" : "新版本可用：%s",
-    "Open updater" : "打開更新程式",
     "Download now" : "現在下載",
     "Checked on %s" : "於 %s 檢查過",
     "The selected update channel makes dedicated notifications for the server obsolete." : "選擇的更新管道會導致伺服器專門的通知過期",

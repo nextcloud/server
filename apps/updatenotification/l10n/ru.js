@@ -2,6 +2,7 @@ OC.L10N.register(
     "updatenotification",
     {
     "{version} is available. Get more information on how to update." : "Доступна версия {version}. Получить дополнительную информацию о порядке обновления.",
+    "Open updater" : "Открыть окно обновления",
     "Your version is up to date." : "Версия не требует обновления.",
     "A non-default update server is in use to be checked for updates:" : "Не сервер по умолчанию используется как сервер для проверки обновлений:",
     "Update channel:" : "Канал обновлений:",
@@ -10,7 +11,6 @@ OC.L10N.register(
     "Notify members of the following groups about available updates:" : "Уведомить членов следующих групп о наличии доступных обновлений:",
     "Only notification for app updates are available." : "Только уведомления об обновлении приложений доступны.",
     "The selected update channel does not support updates of the server." : "Выбранный канал обновлений не поддерживает обновление сервера.",
-    "A new version is available: {newVersionString}" : "Доступна новая версия: {newVersionString}",
     "Checked on {lastCheckedDate}" : "Проверялось {lastCheckedDate}",
     "Could not start updater, please try the manual update" : "Не удалось обновить. Выполните обновление вручную.",
     "Update notifications" : "Уведомления об обновлениях",
@@ -22,7 +22,6 @@ OC.L10N.register(
     "Update for {app} to version %s is available." : "Для приложения «{app}» доступно обновление до версии %s.",
     "Update notification" : "Уведомление о новой версии",
     "A new version is available: %s" : "Доступна новая версия: %s",
-    "Open updater" : "Открыть окно обновления",
     "Download now" : "Скачать сейчас",
     "Checked on %s" : "Проверено %s",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Выбранный канал обновлений высылает специальные уведомления, если сервер устарел.",

@@ -2,6 +2,7 @@ OC.L10N.register(
     "updatenotification",
     {
     "{version} is available. Get more information on how to update." : "Ta disponible {version}. Consigui más infromación tocante a cómo anovar.",
+    "Open updater" : "Abrir anovador",
     "Your version is up to date." : "La to versión ta anovada",
     "A non-default update server is in use to be checked for updates:" : "Úsase un sirvidor non predetermináu pa comprobar anovamientos:",
     "Update channel:" : "Canal d'anovamientu:",
@@ -18,7 +19,6 @@ OC.L10N.register(
     "Update for %1$s to version %2$s is available." : "Ta disponible l'anovamientu pa %1$s a la versión %2$s.",
     "Update for {app} to version %s is available." : "Ta disponible l'anovamientu pa {app} a la versión %s.",
     "A new version is available: %s" : "Ta disponible una versión más nueva: %s",
-    "Open updater" : "Abrir anovador",
     "Download now" : "Baxar agora",
     "Checked on %s" : "Comprobóse'l %s",
     "The selected update channel makes dedicated notifications for the server obsolete." : "La canal esbillada d'anovamientu fai avisos dedicaos pa lo obsoleto del sirvidor.",

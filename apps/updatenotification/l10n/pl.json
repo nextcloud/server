@@ -1,5 +1,6 @@
 { "translations": {
     "{version} is available. Get more information on how to update." : "Wersja {version} jest dostępna. Dowiedz się jak zaktualizować.",
+    "Open updater" : "Otwórz aktualizator",
     "Your version is up to date." : "Posiadasz aktualną wersję.",
     "A non-default update server is in use to be checked for updates:" : "Do sprawdzania aktualizacji nie są używane domyślne serwery aktualizacji:",
     "Update channel:" : "Kanał aktualizacji:",
@@ -17,7 +18,6 @@
     "Update for %1$s to version %2$s is available." : "Dostępna jest aktualizacja dla %1$s do wersji %2$s",
     "Update for {app} to version %s is available." : "Aktualizacja dla {app} do wersji %s jest dostępna.",
     "A new version is available: %s" : "Dostępna jest nowa wersja: %s",
-    "Open updater" : "Otwórz aktualizator",
     "Download now" : "Pobierz teraz",
     "Checked on %s" : "Sprawdzono: %s",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Wybrany kanał aktualizacji dla dedykowanych powiadomień dla serwera jest nieaktualny.",

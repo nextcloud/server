@@ -2,6 +2,7 @@ OC.L10N.register(
     "updatenotification",
     {
     "{version} is available. Get more information on how to update." : "{version} sürümü yayınlanmış. Güncelleme hakkında ayrıntılı bilgi alın.",
+    "Open updater" : "Güncelleyici aç",
     "Your version is up to date." : "Sürümünüz güncel.",
     "A non-default update server is in use to be checked for updates:" : "Güncelleme denetimi için varsayılan sunucudan başka bir sunucu kullanılıyor:",
     "Update channel:" : "Güncelleme kanalı:",
@@ -10,7 +11,6 @@ OC.L10N.register(
     "Notify members of the following groups about available updates:" : "Yayınlanan güncellemeler şu grupların üyelerine bildirilsin:",
     "Only notification for app updates are available." : "Yalnız uygulama güncellemeleri kullanılabilir.",
     "The selected update channel does not support updates of the server." : "Seçilmiş güncelleme kanalı sunucunun güncellemelerini desteklemiyor.",
-    "A new version is available: {newVersionString}" : "Yeni bir sürüm yayınlanmış: {newVersionString}",
     "Checked on {lastCheckedDate}" : "Son denetim: {lastCheckedDate}",
     "Could not start updater, please try the manual update" : "Güncelleyici başlatılamadı lütfen el ile güncellemeyi deneyin",
     "Update notifications" : "Güncelleme bildirimleri",
@@ -22,7 +22,6 @@ OC.L10N.register(
     "Update for {app} to version %s is available." : "{app} uygulaması için %s sürümü güncellemesi yayınlanmış.",
     "Update notification" : "Güncelleme bildirimi",
     "A new version is available: %s" : "Yeni bir sürüm yayınlanmış: %s",
-    "Open updater" : "Güncelleyici aç",
     "Download now" : "İndir",
     "Checked on %s" : "Son denetim: %s",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Seçilmiş güncelleme kanalı kullanımdan kalkmış sunucu bildirimleri için kullanılıyor.",

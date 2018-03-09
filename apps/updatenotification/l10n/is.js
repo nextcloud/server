@@ -2,6 +2,7 @@ OC.L10N.register(
     "updatenotification",
     {
     "{version} is available. Get more information on how to update." : "{version} er í boði. Fáðu frekari upplýsingar um hvernig á að uppfæra.",
+    "Open updater" : "Opna uppfærslustýringu",
     "Your version is up to date." : "Útgáfan þín er af nýjustu gerð.",
     "A non-default update server is in use to be checked for updates:" : "Uppfærsluþjónn sem ekki er sjálfgefinn er núna í notkun til að athuga með uppfærslur:",
     "Update channel:" : "Uppfærslurás:",
@@ -10,7 +11,6 @@ OC.L10N.register(
     "Notify members of the following groups about available updates:" : "Tilkynna meðlimum eftirfarandi hópa um tiltækar uppfærslur:",
     "Only notification for app updates are available." : "Eingöngu eru eru tiltækar tilkynningar fyrir uppfærslur forrita.",
     "The selected update channel does not support updates of the server." : "Valda uppfærslurásin styður ekki uppfærslur fyrir vefþjóninn.",
-    "A new version is available: {newVersionString}" : "Ný útgáfa er tiltæk: {newVersionString}",
     "Checked on {lastCheckedDate}" : "Athugað þann {lastCheckedDate}",
     "Could not start updater, please try the manual update" : "Gat ekki ræst uppfærslustýringu, prófaðu að uppfæra handvirkt",
     "Update notifications" : "Tilkynningar um uppfærslu",
@@ -22,7 +22,6 @@ OC.L10N.register(
     "Update for {app} to version %s is available." : "Uppfærsla fyrir {app} í útgáfu %s er tiltæk.",
     "Update notification" : "Tilkynning um uppfærslu",
     "A new version is available: %s" : "Ný útgáfa er tiltæk: %s",
-    "Open updater" : "Opna uppfærslustýringu",
     "Download now" : "Sækja núna",
     "Checked on %s" : "Athugað þann %s",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Valda uppfærslurásin gerir úreltar sértækar tilkynningar fyrir vefþjóninn.",
