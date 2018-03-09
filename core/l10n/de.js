@@ -279,7 +279,6 @@ OC.L10N.register(
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Es wurden mehrere ungültige Anmeldeversuche von Deiner IP-Adresse festgestellt. Daher wird die nächste Anmeldung um 30 Sekunden verzögert.",
     "Stay logged in" : "Angemeldet bleiben",
     "Forgot password?" : "Passwort vergessen?",
-    "Back to log in" : "Zur Anmeldung wechseln",
     "Alternative Logins" : "Alternative Anmeldung",
     "Account access" : "Kontozugriff ",
     "You are about to grant %s access to your %s account." : "Du bist dabei, %s Zugriff auf Dein %s-Konto zu gewähren.",
@@ -344,6 +343,7 @@ OC.L10N.register(
     "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domains\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "Bitte kontaktiere Deinen Administrator. Wenn Du Administrator dieser Instanz bist, konfiguriere die „trusted_domains“-Einstellung in config/config.php. Eine Beispielkonfiguration ist in config/config.sample.php verfügbar.",
     "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "Wenn es Deine Konfiguration zulässt, kannst Du als Administrator die folgende Schaltfläche benutzen, um diese Domain als vertrauenswürdig einzustufen.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Für weitere Hilfen, schaue bitte in die <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">Dokumentation</a>.",
-    "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "Dein PHP unterstützt Freetype nicht. Dies wird defekte Profilbilder und eine defekte Anzeige der Einstellungen verursachen."
+    "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "Dein PHP unterstützt Freetype nicht. Dies wird defekte Profilbilder und eine defekte Anzeige der Einstellungen verursachen.",
+    "Back to log in" : "Zur Anmeldung wechseln"
 },
 "nplurals=2; plural=(n != 1);");

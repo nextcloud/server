@@ -176,7 +176,6 @@ OC.L10N.register(
     "Log in" : "أدخل",
     "Wrong password." : "كلمة السر خاطئة.",
     "Forgot password?" : "هل نسيت كلمة السر ؟",
-    "Back to log in" : "العودة إلى تسجيل الدخول",
     "Alternative Logins" : "اسماء دخول بديلة",
     "Account access" : "حساب النفاذ",
     "Grant access" : "السماح بالنفاذ",
@@ -197,6 +196,7 @@ OC.L10N.register(
     "Shared with {recipients}" : "تمت مشاركته مع {recipients}",
     "This action requires you to confirm your password:" : "يتطلب منك هذا الإجراء تأكيد كلمة المرور :",
     "Wrong password. Reset it?" : "كلمة السر خاطئة. هل تريد إعادة تعيينها ؟",
-    "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "للمساعدة يُرجى الإطلاع على <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">الدليل</a>."
+    "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "للمساعدة يُرجى الإطلاع على <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">الدليل</a>.",
+    "Back to log in" : "العودة إلى تسجيل الدخول"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

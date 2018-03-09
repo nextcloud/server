@@ -279,7 +279,6 @@ OC.L10N.register(
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Abbiamo rilevato molti tentativi di autenticazione falliti dal tuo indirizzo IP. Di conseguenza il prossimo tentativo è ritardato di 30 secondi.",
     "Stay logged in" : "Rimani collegato",
     "Forgot password?" : "Hai dimenticato la password?",
-    "Back to log in" : "Torna alla schermata di accesso",
     "Alternative Logins" : "Accessi alternativi",
     "Account access" : "Accesso account",
     "You are about to grant %s access to your %s account." : "Stai per accordare a \"%s\" l'accesso al tuo account %s.",
@@ -344,6 +343,7 @@ OC.L10N.register(
     "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domains\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "Contatta il tuo amministratore di sistema. Se sei un amministratore di questa istanza, configura l'impostazione \"trusted_domains\" in config/config.php. Una configurazione di esempio è disponibile in config/config.sample.php.",
     "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "In base alla tua configurazione, come amministratore potrai utilizzare anche il pulsante in basso per rendere attendibile questo dominio.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Per la guida, vedi la <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentazione</a>.",
-    "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "La tua versione di PHP non ha il supporto freetype. Ciò causera problemi con le immagini dei profili e con l'interfaccia delle impostazioni."
+    "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "La tua versione di PHP non ha il supporto freetype. Ciò causera problemi con le immagini dei profili e con l'interfaccia delle impostazioni.",
+    "Back to log in" : "Torna alla schermata di accesso"
 },
 "nplurals=2; plural=(n != 1);");

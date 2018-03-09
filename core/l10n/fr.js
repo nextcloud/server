@@ -279,7 +279,6 @@ OC.L10N.register(
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Nous avons détecté plusieurs tentatives de connexion invalide depuis votre adresse IP. C'est pourquoi votre prochaine connexion sera retardée de 30 secondes.",
     "Stay logged in" : "Rester connecté",
     "Forgot password?" : "Mot de passe oublié ?",
-    "Back to log in" : "Retour à la page de connexion",
     "Alternative Logins" : "Identifiants alternatifs",
     "Account access" : "Accès au compte",
     "You are about to grant %s access to your %s account." : "Vous êtes sur le point d'accorder à \"%s\" l'accès à votre compte \"%s\".",
@@ -344,6 +343,7 @@ OC.L10N.register(
     "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domains\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "Veuillez contacter votre administrateur. Si vous êtes un administrateur de cette instance, configurez la variable \"trusted_domains\" dans le fichier config/config.php. Un exemple de configuration est fournit dans le fichier config/config.sample.php.",
     "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "En fonction de votre configuration, en tant qu'administrateur vous pouvez également utiliser le bouton ci-dessous pour approuver ce domaine.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Pour obtenir de l'aide, lisez la <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>.",
-    "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "Votre version de PHP n'est pas prise en charge par freetype. Cela se traduira par des images de profil et une interface des paramètres cassées."
+    "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "Votre version de PHP n'est pas prise en charge par freetype. Cela se traduira par des images de profil et une interface des paramètres cassées.",
+    "Back to log in" : "Retour à la page de connexion"
 },
 "nplurals=2; plural=(n > 1);");

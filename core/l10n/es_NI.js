@@ -276,7 +276,6 @@ OC.L10N.register(
     "Wrong password." : "Contraseña inválida. ",
     "Stay logged in" : "Mantener la sesión abierta",
     "Forgot password?" : "¿Olvidaste tu contraseña?",
-    "Back to log in" : "Regresar al inicio de sesión",
     "Alternative Logins" : "Accesos Alternativos",
     "Account access" : "Acceo de cuenta",
     "You are about to grant %s access to your %s account." : "Estas a punto de otorgar acceso de %s a tu cuenta %s.",
@@ -312,6 +311,7 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "Esta instancia %s se encuentra actualmente en modo mantenimiento, que podría tomar algo de tiempo. ",
     "This page will refresh itself when the %s instance is available again." : "Esta página se actualizará sola cuando la instancia %s esté disponible de nuevo. ",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contacta a tu administrador del sistema si este mensaje persiste o se presentó de manera inesperada.",
-    "Thank you for your patience." : "Gracias por tu paciencia."
+    "Thank you for your patience." : "Gracias por tu paciencia.",
+    "Back to log in" : "Regresar al inicio de sesión"
 },
 "nplurals=2; plural=(n != 1);");

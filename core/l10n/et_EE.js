@@ -256,7 +256,6 @@ OC.L10N.register(
     "Wrong password." : "Vale parool.",
     "Stay logged in" : "Püsi sisselogituna",
     "Forgot password?" : "Unustasid parooli?",
-    "Back to log in" : "Tagasi sisselogimise lehele",
     "Alternative Logins" : "Alternatiivsed sisselogimisviisid",
     "Account access" : "Konto ligipääs",
     "You are about to grant %s access to your %s account." : "Sa oled andmas %s ligipääsu oma %s kontole.",
@@ -288,6 +287,7 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "See %s instants on hetkel haldusrežiimis, mis võib kesta mõnda aega.",
     "This page will refresh itself when the %s instance is available again." : "Se leht laetakse uuesti, kui %s instantsi on uuesti saadaval.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Kontakteeru oma süsteemihalduriga, kui see teade püsib või on tekkinud ootamatult.",
-    "Thank you for your patience." : "Täname kannatlikkuse eest."
+    "Thank you for your patience." : "Täname kannatlikkuse eest.",
+    "Back to log in" : "Tagasi sisselogimise lehele"
 },
 "nplurals=2; plural=(n != 1);");
