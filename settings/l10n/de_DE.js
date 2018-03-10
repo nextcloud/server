@@ -104,6 +104,8 @@ OC.L10N.register(
     "Error: Could not disable broken app" : " Fehler: Die beschädigte Anwendung konnte nicht deaktiviert werden ",
     "Error while disabling broken app" : "Beim Deaktivieren der defekten App ist ein Fehler aufgetreten",
     "App up to date" : "App ist aktuell",
+    "Updating …" : "Aktualisiere…",
+    "Could not update app" : "App konnte nicht aktualisiert werden",
     "Updated" : "Aktualisiert",
     "Removing …" : "Entferne…",
     "Could not remove app" : "App konnte nicht entfernt werden",
