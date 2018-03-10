@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016 Bjoern Schiessle <bjoern@schiessle.org>
  *
@@ -27,13 +28,13 @@ namespace OCA\AdminAudit\Actions;
 
 class Trashbin extends Action {
 
-	public function delete($params) {
+	public function delete(array $params) {
 		$this->log('File "%s" deleted from trash bin.',
 			['path' => $params['path']], ['path']
 		);
 	}
 
-	public function restore($params) {
+	public function restore(array $params) {
 		$this->log('File "%s" restored from trash bin.',
 			['path' => $params['filePath']], ['path']
 		);
