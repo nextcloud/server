@@ -279,6 +279,7 @@ OC.L10N.register(
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "С этого IP адреса было выполнено множество неудачных попыток входа. Следующую попытку входа в систему можно будет выполнить через 30 секунд.",
     "Stay logged in" : "Оставаться в системе",
     "Forgot password?" : "Забыли пароль?",
+    "Back to login" : "Авторизоваться повторно",
     "Alternative Logins" : "Альтернативные имена пользователя",
     "Account access" : "Доступ к аккаунту",
     "You are about to grant %s access to your %s account." : "Вы собираетесь предоставить пользователю %s доступ к вашему аккаунту %s.",

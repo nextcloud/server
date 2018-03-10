@@ -104,6 +104,8 @@ OC.L10N.register(
     "Error: Could not disable broken app" : "Ошибка: невозможно отключить «сломанное» приложение",
     "Error while disabling broken app" : "Ошибка при отключении сломанного приложения",
     "App up to date" : "Приложение не нуждается в обновлении",
+    "Updating …" : "Обновление ...",
+    "Could not update app" : "Не удалось обновить приложение",
     "Updated" : "Обновлено",
     "Removing …" : "Удаление…",
     "Could not remove app" : "Не удалось удалить приложение.",
