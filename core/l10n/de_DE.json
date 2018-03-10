@@ -277,6 +277,7 @@
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Es wurden mehrere ungültige Anmeldeversuche von Ihrer IP-Adresse festgestellt. Daher wird die nächste Anmeldung um 30 Sekunden verzögert.",
     "Stay logged in" : "Angemeldet bleiben",
     "Forgot password?" : "Passwort vergessen?",
+    "Back to login" : "Zur Anmeldung wechseln",
     "Alternative Logins" : "Alternative Anmeldung",
     "Account access" : "Kontozugriff ",
     "You are about to grant %s access to your %s account." : "Sie sind dabei, %s Zugriff auf Ihr %s-Konto zu gewähren.",

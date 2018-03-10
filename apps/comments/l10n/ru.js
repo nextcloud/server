@@ -12,6 +12,7 @@ OC.L10N.register(
     "More comments …" : "Ещё комментарии...",
     "Save" : "Сохранить",
     "Allowed characters {count} of {max}" : "Допустимых символов {count} из {max}",
+    "Error occurred while retrieving comment with ID {id}" : "При получении комментария с ID {id} произошла ошибка",
     "Error occurred while updating comment with id {id}" : "При обновлении комментария с id {id} произошла ошибка",
     "Error occurred while posting comment" : "При сохранении комментария произошла ошибка",
     "_%n unread comment_::_%n unread comments_" : ["%n непрочитанный комментарий","%n непрочитанных комментариев","%n непрочитанных комментариев","%n непрочитанных комментариев"],
