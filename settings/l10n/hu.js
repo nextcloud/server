@@ -104,6 +104,8 @@ OC.L10N.register(
     "Error: Could not disable broken app" : "Hiba: a sérült alkalmazás nem volt letiltható",
     "Error while disabling broken app" : "Hiba történt a megtört alkalmazás tiltása közben",
     "App up to date" : "Az alkalmazás a legfrissebb",
+    "Updating …" : "Frissítés …",
+    "Could not update app" : "Nem sikerült frissíteni az alkalmazás",
     "Updated" : "Frissítve",
     "Removing …" : "Eltávolítás...",
     "Could not remove app" : "Nem lehet eltávolítani az alkalmazást",
