@@ -9,6 +9,7 @@
     "Notify members of the following groups about available updates:" : "Upozorňovať členov nasledujúcich skupín o dostupných aktualizáciach:",
     "Only notification for app updates are available." : "Sú dostupné upozornenia iba pre aktualizácie aplikácií.",
     "The selected update channel does not support updates of the server." : "Vybraný aktualizačný kanál nepodporuje aktualizácie servera.",
+    "A new version is available: <strong>{newVersionString}</strong>" : "Je dostupná nová verzia: <strong>{newVersionString}</strong>",
     "Could not start updater, please try the manual update" : "Nebolo možné spustiť aktualizátor, skúste prosím manuálnu aktualizáciu",
     "Update notifications" : "Aktualizovať hlásenia",
     "Channel updated" : "Kanál bol aktualizovaný",
