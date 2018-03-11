@@ -277,6 +277,7 @@
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Többszöri sikertelen bejelentkezési kísérletet érzékeltünk az IP-dről. A legközelebbi kísérleted így 30 másodperccel késleltetve lesz.",
     "Stay logged in" : "Maradjon bejelentkezve",
     "Forgot password?" : "Elfelejtett jelszó?",
+    "Back to login" : "Vissza a bejelentkezéshez",
     "Alternative Logins" : "Alternatív bejelentkezés",
     "Account access" : "Fiók hozzáférés",
     "You are about to grant %s access to your %s account." : "Hozzáférést készülsz biztosítani neki: %s ehhez a fiókodhoz: %s.",

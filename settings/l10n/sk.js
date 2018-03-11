@@ -342,6 +342,7 @@ OC.L10N.register(
     "Show user backend" : "Zobraziť backend používateľa",
     "Show last login" : "Zobraziť posledné prihlásenie",
     "When the password of a new user is left empty, an activation email with a link to set the password is sent." : "Ak je heslo pre nového používateľa prázdne, odošle sa aktivačný email s linkou na nastavenie hesla.",
+    "Add user" : "Pridať používateľa",
     "Everyone" : "Všetci",
     "Admins" : "Administrátori",
     "Disabled" : "Zakázaný",
