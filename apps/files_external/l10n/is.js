@@ -14,7 +14,6 @@ OC.L10N.register(
     "(group)" : "(hópur)",
     "Compatibility with Mac NFD encoding (slow)" : "Samhæfni við Mac NFD kóðun (hægvirkt)",
     "Admin defined" : "Skilgreindur kerfisstjóri",
-    "Are you sure you want to delete this external storage" : "Ertu viss um að þú viljir eyða þessari ytri geymslu?",
     "Delete storage?" : "Eyða geymslu?",
     "Saved" : "Vistað",
     "Saving..." : "Er að vista ...",
@@ -119,6 +118,7 @@ OC.L10N.register(
     "Allow users to mount the following external storage" : "Leyfa notendum að tengja eftirfarandi ytri gagnageymslu í skráakerfi",
     "OpenStack" : "OpenStack",
     "No external storage configured" : "Engin ytri-gagnageymsla stillt",
-    "You can add external storages in the personal settings" : "Þú getur bætt við ytri gagnageymslum í einkastillingunum þínum"
+    "You can add external storages in the personal settings" : "Þú getur bætt við ytri gagnageymslum í einkastillingunum þínum",
+    "Are you sure you want to delete this external storage" : "Ertu viss um að þú viljir eyða þessari ytri geymslu?"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

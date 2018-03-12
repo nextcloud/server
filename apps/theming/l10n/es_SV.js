@@ -12,7 +12,6 @@ OC.L10N.register(
     "There is no error, the file uploaded with success" : "No hay errores, el archivo se cargó exitosamente",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "El archivo cargado excede el valor establecido en la directiva upload_max_filesize en el archivo php.ini",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "El archivo cargado excede el valor especificado de la directiva MAX_FILE_SIZE en la forma de HTML",
-    "The uploaded file was only partially uploaded" : "La carga del archivo solo se realizó parcialmente",
     "No file was uploaded" : "No se cargó el archivo",
     "Missing a temporary folder" : "Falta una carpeta temporal",
     "Failed to write file to disk." : "Se presentó una falla al escribir el archivo en el disco. ",
@@ -34,6 +33,7 @@ OC.L10N.register(
     "Upload new login background" : "Cargar nueva imagen de fondo para inicio de sesión",
     "Remove background image" : "Eliminar imagen de fondo",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instala la extensión Imagemagick de PHP con soporte a imagenes SVG para generar los favicons en automático con base en el logotipo cargado y el color.",
-    "reset to default" : "restaurar a predeterminado"
+    "reset to default" : "restaurar a predeterminado",
+    "The uploaded file was only partially uploaded" : "La carga del archivo solo se realizó parcialmente"
 },
 "nplurals=2; plural=(n != 1);");

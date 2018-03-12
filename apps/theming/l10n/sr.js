@@ -13,7 +13,6 @@ OC.L10N.register(
     "There is no error, the file uploaded with success" : "Нема грешке, фајл је отпремљен успешно",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "Отпремани фајл превазилази смерницу upload_max_filesize у фајлу php.ini",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "Отпремани фајл превазилази смерницу MAX_FILE_SIZE која је наведена у HTML обрасцу",
-    "The uploaded file was only partially uploaded" : "Отпремани фајл је само делимично отпремљен",
     "No file was uploaded" : "Ниједан фајл није отпремљен",
     "Missing a temporary folder" : "Недостаје привремена фасцикла",
     "Failed to write file to disk." : "Не могу да пишем фајл на диск",
@@ -35,6 +34,7 @@ OC.L10N.register(
     "Upload new login background" : "Отпремите нову позадину на пријави",
     "Remove background image" : "Уклони позадину",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Инсталирајте Imagemagick PHP екстензију која подржава SVG слике, да аутоматски направи иконе од отпремљеног логоа и боје.",
-    "reset to default" : "ресетуј на подразумевано"
+    "reset to default" : "ресетуј на подразумевано",
+    "The uploaded file was only partially uploaded" : "Отпремани фајл је само делимично отпремљен"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

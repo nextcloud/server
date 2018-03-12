@@ -14,7 +14,6 @@ OC.L10N.register(
     "(group)" : "(ჯგუფი)",
     "Compatibility with Mac NFD encoding (slow)" : "Mac NFD-სთან თავსებადობა (ნელი)",
     "Admin defined" : "განსაზღვრულია ადმინისტრატორის მიერ",
-    "Are you sure you want to delete this external storage" : "დარწმუნებული ხართ, რომ გსურთ ამ გარე საცავის გაუქმება?",
     "Delete storage?" : "გავაუქმოთ საცავი?",
     "Saved" : "შენახულია",
     "Saving..." : "ინახება…",
@@ -133,6 +132,7 @@ OC.L10N.register(
     "Dropbox" : "Dropbox-ი",
     "Google Drive" : "Google Drive-ი",
     "No external storage configured" : "გარე საცავი არაა კონფიგურირებული",
-    "You can add external storages in the personal settings" : "გარე საცავები შეგიძლიათ დაამატოთ პირად პარამეტრებში"
+    "You can add external storages in the personal settings" : "გარე საცავები შეგიძლიათ დაამატოთ პირად პარამეტრებში",
+    "Are you sure you want to delete this external storage" : "დარწმუნებული ხართ, რომ გსურთ ამ გარე საცავის გაუქმება?"
 },
 "nplurals=1; plural=0;");

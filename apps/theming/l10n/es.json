@@ -11,7 +11,6 @@
     "There is no error, the file uploaded with success" : "No ha habido errores, el archivo ha subido satisfactoriamente",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "El archivo para subir excede la directiva upload_max_filesize en php.ini",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "El archivo para subir excede la directiva MAX_FILE_SIZE que se especifió en el formulario HTML",
-    "The uploaded file was only partially uploaded" : "El archivo para subir ha sido solo parcialmente subido",
     "No file was uploaded" : "No se ha subido ningún archivo",
     "Missing a temporary folder" : "Falta una carpeta temporal",
     "Failed to write file to disk." : "Fallo al escribir el archivo al disco.",
@@ -33,6 +32,7 @@
     "Upload new login background" : "Subir una nueva imagen de fondo",
     "Remove background image" : "Eliminar imagen de fondo",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instala la extensión de PHP Imagemagick con soporte para imágenes SVG para generar automáticamente faviconos basados en el logo y color subidos.",
-    "reset to default" : "restaurar a configuración inicial"
+    "reset to default" : "restaurar a configuración inicial",
+    "The uploaded file was only partially uploaded" : "El archivo para subir ha sido solo parcialmente subido"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

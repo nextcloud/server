@@ -14,7 +14,6 @@ OC.L10N.register(
     "(group)" : "(grupo)",
     "Compatibility with Mac NFD encoding (slow)" : "Compatibilidad con codificación Mac NFD (lenta)",
     "Admin defined" : "Administrador definido",
-    "Are you sure you want to delete this external storage" : "¿Estás seguro de que quieres borrar este almacenamiento externo?",
     "Delete storage?" : "¿Borrar almacenamiento?",
     "Saved" : "Guardado",
     "Saving..." : "Guardando...",
@@ -119,6 +118,7 @@ OC.L10N.register(
     "Allow users to mount the following external storage" : "Permitir a los usuarios montar el siguiente almacenamiento externo",
     "OpenStack" : "OpenStack",
     "No external storage configured" : "No se ha configurado el almacenamiento externo",
-    "You can add external storages in the personal settings" : "Puedes agregar almacenamiento externo en las configuraciones personales"
+    "You can add external storages in the personal settings" : "Puedes agregar almacenamiento externo en las configuraciones personales",
+    "Are you sure you want to delete this external storage" : "¿Estás seguro de que quieres borrar este almacenamiento externo?"
 },
 "nplurals=2; plural=(n != 1);");

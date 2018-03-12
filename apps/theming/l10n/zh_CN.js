@@ -13,7 +13,6 @@ OC.L10N.register(
     "There is no error, the file uploaded with success" : "没有错误，文件已上传成功",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "上传的文件超过了php.ini中指定的upload_max_filesize指令配置",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "上传的文件超过了HTML表单中指定的MAX_FILE_SIZE指令",
-    "The uploaded file was only partially uploaded" : "上传的文件只有部分已上传",
     "No file was uploaded" : "没有上传文件",
     "Missing a temporary folder" : "缺少临时文件夹",
     "Failed to write file to disk." : "文件写入磁盘失败。",
@@ -35,6 +34,7 @@ OC.L10N.register(
     "Upload new login background" : "上传新登录背景",
     "Remove background image" : "删除背景图片",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "安装支持SVG图像的PHP扩展Imagemagick，根据上传的logo和颜色自动生成收藏图标。",
-    "reset to default" : "重置默认"
+    "reset to default" : "重置默认",
+    "The uploaded file was only partially uploaded" : "上传的文件只有部分已上传"
 },
 "nplurals=1; plural=0;");

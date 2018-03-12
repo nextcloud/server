@@ -14,7 +14,6 @@ OC.L10N.register(
     "(group)" : "(分组)",
     "Compatibility with Mac NFD encoding (slow)" : "兼用 Mac NFD 编码 (慢)",
     "Admin defined" : "管理员定义",
-    "Are you sure you want to delete this external storage" : "是否要删除该外部存储",
     "Delete storage?" : "删除存储？",
     "Saved" : "已保存",
     "Saving..." : "正在保存...",
@@ -119,6 +118,7 @@ OC.L10N.register(
     "Allow users to mount the following external storage" : "允许用户挂载以下外部存储",
     "OpenStack" : "OpenStack",
     "No external storage configured" : "没有配置外部存储",
-    "You can add external storages in the personal settings" : "您可以在个人设置中添加外部存储"
+    "You can add external storages in the personal settings" : "您可以在个人设置中添加外部存储",
+    "Are you sure you want to delete this external storage" : "是否要删除该外部存储"
 },
 "nplurals=1; plural=0;");

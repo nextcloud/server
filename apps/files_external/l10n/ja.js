@@ -14,7 +14,6 @@ OC.L10N.register(
     "(group)" : "(グループ)",
     "Compatibility with Mac NFD encoding (slow)" : "Mac NFD エンコード互換 (遅い)",
     "Admin defined" : "管理者設定済",
-    "Are you sure you want to delete this external storage" : "この外部ストレージを本当に削除しますか?",
     "Delete storage?" : "ストレージを削除しますか?",
     "Saved" : "保存されました",
     "Saving..." : "保存中...",
@@ -129,6 +128,7 @@ OC.L10N.register(
     "Dropbox" : "Dropbox",
     "Google Drive" : "Google Drive",
     "No external storage configured" : "外部ストレージは設定されていません",
-    "You can add external storages in the personal settings" : "個人設定で外部ストレージを設定することができます。"
+    "You can add external storages in the personal settings" : "個人設定で外部ストレージを設定することができます。",
+    "Are you sure you want to delete this external storage" : "この外部ストレージを本当に削除しますか?"
 },
 "nplurals=1; plural=0;");
