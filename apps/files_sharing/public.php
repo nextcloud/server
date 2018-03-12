@@ -28,7 +28,14 @@ $token = isset($_GET['t']) ? $_GET['t'] : '';
 $route = isset($_GET['download']) ? 'files_sharing.sharecontroller.downloadShare' : 'files_sharing.sharecontroller.showShare';
 
 if($token !== '') {
-	OC_Response::redirect($urlGenerator->linkToRoute($route, array('token' => $token)));
+	$protocol = \OC::$server->getRequest()->getHttpProtocol();
+	if ($protocol == 'HTTP/1.1') {
+		$status = '307 Temporary Redirect';
+	} else {
+		$status = '304 Found';
+	}
+	header($protocol.' ' . $status);
+	header('Location: ' . $urlGenerator->linkToRoute($route, array('token' => $token)));
 } else {
 	header('HTTP/1.0 404 Not Found');
 	$tmpl = new OCP\Template('', '404', 'guest');
