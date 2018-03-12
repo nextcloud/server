@@ -40,7 +40,6 @@ class DeprecationCheck extends AbstractCheck {
 
 			'OCP\Contacts' => '8.1.0',
 			'OCP\DB' => '8.1.0',
-			'OCP\IHelper' => '8.1.0',
 			'OCP\JSON' => '8.1.0',
 			'OCP\Response' => '8.1.0',
 			'OCP\AppFramework\IApi' => '8.0.0',

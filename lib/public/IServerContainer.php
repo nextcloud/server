@@ -251,14 +251,6 @@ interface IServerContainer extends IContainer {
 	public function getURLGenerator();
 
 	/**
-	 * Returns the Helper
-	 *
-	 * @return \OCP\IHelper
-	 * @since 6.0.0
-	 */
-	public function getHelper();
-
-	/**
 	 * Returns an ICache instance
 	 *
 	 * @return \OCP\ICache
