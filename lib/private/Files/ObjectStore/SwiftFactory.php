@@ -60,7 +60,12 @@ class SwiftFactory {
 	}
 
 	private function cacheToken(Token $token, string $cacheKey) {
-		$this->cache->set($cacheKey . '/token', json_encode($token));
+		if ($token instanceof \OpenStack\Identity\v3\Models\Token) {
+			$value = json_encode($token->export());
+		} else {
+			$value = json_encode($token);
+		}
+		$this->cache->set($cacheKey . '/token', $value);
 	}
 
 	/**
