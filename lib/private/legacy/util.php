@@ -679,29 +679,6 @@ class OC_Util {
 	}
 
 	/**
-	 * formats a timestamp in the "right" way
-	 *
-	 * @param int $timestamp
-	 * @param bool $dateOnly option to omit time from the result
-	 * @param DateTimeZone|string $timeZone where the given timestamp shall be converted to
-	 * @return string timestamp
-	 *
-	 * @deprecated Use \OC::$server->query('DateTimeFormatter') instead
-	 */
-	public static function formatDate($timestamp, $dateOnly = false, $timeZone = null) {
-		if ($timeZone !== null && !$timeZone instanceof \DateTimeZone) {
-			$timeZone = new \DateTimeZone($timeZone);
-		}
-
-		/** @var \OC\DateTimeFormatter $formatter */
-		$formatter = \OC::$server->query('DateTimeFormatter');
-		if ($dateOnly) {
-			return $formatter->formatDate($timestamp, 'long', $timeZone);
-		}
-		return $formatter->formatDateTime($timestamp, 'long', 'long', $timeZone);
-	}
-
-	/**
 	 * check if the current server configuration is suitable for ownCloud
 	 *
 	 * @param \OC\SystemConfig $config
