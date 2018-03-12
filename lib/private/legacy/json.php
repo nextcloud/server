@@ -37,18 +37,6 @@
  * @deprecated Use a AppFramework JSONResponse instead
  */
 class OC_JSON{
-	static protected $send_content_type_header = false;
-	/**
-	 * set Content-Type header to jsonrequest
-	 * @deprecated Use a AppFramework JSONResponse instead
-	 */
-	public static function setContentTypeHeader($type='application/json') {
-		if (!self::$send_content_type_header) {
-			// We send json data
-			header( 'Content-Type: '.$type . '; charset=utf-8');
-			self::$send_content_type_header = true;
-		}
-	}
 
 	/**
 	 * Check if the app is enabled, send json error msg if not
@@ -137,7 +125,8 @@ class OC_JSON{
 	 */
 	public static function error($data = array()) {
 		$data['status'] = 'error';
-		self::encodedPrint($data);
+		header( 'Content-Type: application/json; charset=utf-8');
+		echo self::encode($data);
 	}
 
 	/**
@@ -147,7 +136,8 @@ class OC_JSON{
 	 */
 	public static function success($data = array()) {
 		$data['status'] = 'success';
-		self::encodedPrint($data);
+		header( 'Content-Type: application/json; charset=utf-8');
+		echo self::encode($data);
 	}
 
 	/**
@@ -157,18 +147,6 @@ class OC_JSON{
 		if ($value instanceof \OC\L10N\L10NString) {
 			$value = (string)$value;
 		}
-	}
-
-	/**
-	 * Encode and print $data in json format
-	 * @deprecated Use a AppFramework JSONResponse instead
-	 * @suppress PhanDeprecatedFunction
-	 */
-	public static function encodedPrint($data, $setContentType=true) {
-		if($setContentType) {
-			self::setContentTypeHeader();
-		}
-		echo self::encode($data);
 	}
 
 	/**

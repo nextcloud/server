@@ -163,15 +163,4 @@ class JSON {
 	public static function checkAdminUser() {
 		\OC_JSON::checkAdminUser();
 	}
-
-	/**
-	 * Encode JSON
-	 * @param array $data
-	 * @return string
-	 * @deprecated 8.1.0 Use a AppFramework JSONResponse instead
-	 * @suppress PhanDeprecatedFunction
-	 */
-	public static function encode($data) {
-		return \OC_JSON::encode($data);
-	}
 }
