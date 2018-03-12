@@ -470,9 +470,6 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerAlias('URLGenerator', \OCP\IURLGenerator::class);
 
-		$this->registerService('AppHelper', function ($c) {
-			return new \OC\AppHelper();
-		});
 		$this->registerAlias('AppFetcher', AppFetcher::class);
 		$this->registerAlias('CategoryFetcher', CategoryFetcher::class);
 
@@ -1456,13 +1453,6 @@ class Server extends ServerContainer implements IServerContainer {
 	 */
 	public function getURLGenerator() {
 		return $this->query('URLGenerator');
-	}
-
-	/**
-	 * @return \OCP\IHelper
-	 */
-	public function getHelper() {
-		return $this->query('AppHelper');
 	}
 
 	/**
