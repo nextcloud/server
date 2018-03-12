@@ -77,7 +77,7 @@ class SwiftFactory {
 			$this->params['container'] = $this->params['bucket'];
 		}
 		if (!isset($this->params['container'])) {
-			$this->params['container'] = 'owncloud';
+			$this->params['container'] = 'nextcloud';
 		}
 		if (!isset($this->params['autocreate'])) {
 			// should only be true for tests
@@ -95,7 +95,7 @@ class SwiftFactory {
 			$this->params['tenantName'] = $this->params['tenant'];
 		}
 
-		$cacheKey = $userName . '@' . $this->params['url'] . '/' . $this->params['bucket'];
+		$cacheKey = $userName . '@' . $this->params['url'] . '/' . $this->params['container'];
 		$token = $this->getCachedToken($cacheKey);
 		$hasToken = is_array($token) && (new \DateTimeImmutable($token['expires_at'])) > (new \DateTimeImmutable('now'));
 		if ($hasToken) {

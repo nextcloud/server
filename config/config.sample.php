@@ -1226,13 +1226,13 @@ $CONFIG = array(
 			'password' => 'swift',
 			'domain' => [
 				'name' => 'default',
-			]
+			],
 		],
 		'tenantName' => 'service',
 		'serviceName' => 'swift',
 		'region' => 'regionOne',
 		'url' => "http://yourswifthost:5000/v3",
-		'bucket' => 'nextcloud'
+		'bucket' => 'nextcloud',
 	],
 ],
 
