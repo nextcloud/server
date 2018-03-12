@@ -1878,29 +1878,6 @@ class UsersControllerTest extends \Test\TestCase {
 		$this->assertEquals($expectedResponse, $response);
 	}
 
-	public function testSetDisplayNameNull() {
-		$user = $this->createMock(IUser::class);
-		$user->method('getUID')->willReturn('userName');
-
-		$this->userSession
-			->expects($this->once())
-			->method('getUser')
-			->willReturn($user);
-
-		$expectedResponse = new DataResponse(
-			[
-				'status' => 'error',
-				'data' => [
-					'message' => 'Authentication error',
-				],
-			]
-		);
-		$controller = $this->getController(true);
-		$response = $controller->setDisplayName(null, 'displayName');
-
-		$this->assertEquals($expectedResponse, $response);
-	}
-
 	public function dataSetDisplayName() {
 		$data = [];
 
