@@ -194,7 +194,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			));
 			$this->testTimeout();
 		} catch (S3Exception $e) {
-			\OCP\Util::logException('files_external', $e);
+			\OC::$server->getLogger()->logException($e, ['app' => 'files_external']);
 			return false;
 		}
 
@@ -261,7 +261,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				// we reached the end when the list is no longer truncated
 			} while ($objects['IsTruncated']);
 		} catch (S3Exception $e) {
-			\OCP\Util::logException('files_external', $e);
+			\OC::$server->getLogger()->logException($e, ['app' => 'files_external']);
 			return false;
 		}
 		return true;
@@ -305,7 +305,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 
 			return IteratorDirectory::wrap($files);
 		} catch (S3Exception $e) {
-			\OCP\Util::logException('files_external', $e);
+			\OC::$server->getLogger()->logException($e, ['app' => 'files_external']);
 			return false;
 		}
 	}
@@ -333,7 +333,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 
 			return $stat;
 		} catch (S3Exception $e) {
-			\OCP\Util::logException('files_external', $e);
+			\OC::$server->getLogger()->logException($e, ['app' => 'files_external']);
 			return false;
 		}
 	}
@@ -343,7 +343,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		try {
 			return $this->isRoot($path) || $this->headObject($path . '/');
 		} catch (S3Exception $e) {
-			\OCP\Util::logException('files_external', $e);
+			\OC::$server->getLogger()->logException($e, ['app' => 'files_external']);
 			return false;
 		}
 	}
@@ -363,7 +363,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				return 'dir';
 			}
 		} catch (S3Exception $e) {
-			\OCP\Util::logException('files_external', $e);
+			\OC::$server->getLogger()->logException($e, ['app' => 'files_external']);
 			return false;
 		}
 
@@ -389,7 +389,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			$this->deleteObject($path);
 			$this->invalidateCache($path);
 		} catch (S3Exception $e) {
-			\OCP\Util::logException('files_external', $e);
+			\OC::$server->getLogger()->logException($e, ['app' => 'files_external']);
 			return false;
 		}
 
@@ -405,7 +405,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				try {
 					return $this->readObject($path);
 				} catch (S3Exception $e) {
-					\OCP\Util::logException('files_external', $e);
+					\OC::$server->getLogger()->logException($e, ['app' => 'files_external']);
 					return false;
 				}
 			case 'w':
@@ -483,7 +483,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				$this->testTimeout();
 			}
 		} catch (S3Exception $e) {
-			\OCP\Util::logException('files_external', $e);
+			\OC::$server->getLogger()->logException($e, ['app' => 'files_external']);
 			return false;
 		}
 
@@ -504,7 +504,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				));
 				$this->testTimeout();
 			} catch (S3Exception $e) {
-				\OCP\Util::logException('files_external', $e);
+				\OC::$server->getLogger()->logException($e, ['app' => 'files_external']);
 				return false;
 			}
 		} else {
@@ -518,7 +518,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				));
 				$this->testTimeout();
 			} catch (S3Exception $e) {
-				\OCP\Util::logException('files_external', $e);
+				\OC::$server->getLogger()->logException($e, ['app' => 'files_external']);
 				return false;
 			}
 
@@ -591,7 +591,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			unlink($tmpFile);
 			return true;
 		} catch (S3Exception $e) {
-			\OCP\Util::logException('files_external', $e);
+			\OC::$server->getLogger()->logException($e, ['app' => 'files_external']);
 			return false;
 		}
 	}
