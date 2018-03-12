@@ -95,56 +95,6 @@ class Util {
 	}
 
 	/**
-	 * send an email
-	 * @param string $toaddress
-	 * @param string $toname
-	 * @param string $subject
-	 * @param string $mailtext
-	 * @param string $fromaddress
-	 * @param string $fromname
-	 * @param int $html
-	 * @param string $altbody
-	 * @param string $ccaddress
-	 * @param string $ccname
-	 * @param string $bcc
-	 * @deprecated 8.1.0 Use \OCP\Mail\IMailer instead
-	 * @since 4.0.0
-	 */
-	public static function sendMail($toaddress, $toname, $subject, $mailtext, $fromaddress, $fromname,
-		$html = 0, $altbody = '', $ccaddress = '', $ccname = '', $bcc = '') {
-		$mailer = \OC::$server->getMailer();
-		$message = $mailer->createMessage();
-		$message->setTo([$toaddress => $toname]);
-		$message->setSubject($subject);
-		$message->setPlainBody($mailtext);
-		$message->setFrom([$fromaddress => $fromname]);
-		if($html === 1) {
-			$message->setHtmlBody($altbody);
-		}
-
-		if($altbody === '') {
-			$message->setHtmlBody($mailtext);
-			$message->setPlainBody('');
-		} else {
-			$message->setHtmlBody($mailtext);
-			$message->setPlainBody($altbody);
-		}
-
-		if(!empty($ccaddress)) {
-			if(!empty($ccname)) {
-				$message->setCc([$ccaddress => $ccname]);
-			} else {
-				$message->setCc([$ccaddress]);
-			}
-		}
-		if(!empty($bcc)) {
-			$message->setBcc([$bcc]);
-		}
-
-		$mailer->send($message);
-	}
-
-	/**
 	 * write a message in the log
 	 * @param string $app
 	 * @param string $message
@@ -244,17 +194,6 @@ class Util {
 	}
 
 	/**
-	 * check if some encrypted files are stored
-	 * @return bool
-	 *
-	 * @deprecated 8.1.0 No longer required
-	 * @since 6.0.0
-	 */
-	public static function encryptedFiles() {
-		return false;
-	}
-
-	/**
 	 * Creates an absolute url to the given app and file.
 	 * @param string $app app
 	 * @param string $file file
@@ -322,16 +261,6 @@ class Util {
 	}
 
 	/**
-	 * Returns the server host, even if the website uses one or more reverse proxy
-	 * @return string the server host
-	 * @deprecated 8.1.0 Use \OCP\IRequest::getServerHost
-	 * @since 4.0.0
-	 */
-	public static function getServerHost() {
-		return \OC::$server->getRequest()->getServerHost();
-	}
-
-	/**
 	 * Returns the server host name without an eventual port number
 	 * @return string the server hostname
 	 * @since 5.0.0
@@ -376,36 +305,6 @@ class Util {
 
 		// in case we cannot build a valid email address from the hostname let's fallback to 'localhost.localdomain'
 		return $user_part.'@localhost.localdomain';
-	}
-
-	/**
-	 * Returns the server protocol. It respects reverse proxy servers and load balancers
-	 * @return string the server protocol
-	 * @deprecated 8.1.0 Use \OCP\IRequest::getServerProtocol
-	 * @since 4.5.0
-	 */
-	public static function getServerProtocol() {
-		return \OC::$server->getRequest()->getServerProtocol();
-	}
-
-	/**
-	 * Returns the request uri, even if the website uses one or more reverse proxies
-	 * @return string the request uri
-	 * @deprecated 8.1.0 Use \OCP\IRequest::getRequestUri
-	 * @since 5.0.0
-	 */
-	public static function getRequestUri() {
-		return \OC::$server->getRequest()->getRequestUri();
-	}
-
-	/**
-	 * Returns the script name, even if the website uses one or more reverse proxies
-	 * @return string the script name
-	 * @deprecated 8.1.0 Use \OCP\IRequest::getScriptName
-	 * @since 5.0.0
-	 */
-	public static function getScriptName() {
-		return \OC::$server->getRequest()->getScriptName();
 	}
 
 	/**
