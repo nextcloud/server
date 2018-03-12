@@ -219,7 +219,7 @@ input {
 			background-clip: padding-box; /* Avoid background under border */
 			background-color: $color-main-background !important;
 			opacity: 1;
-			width: 16px;
+			width: 34px;
 			padding: 7px 6px;
 			cursor: pointer;
 			&:disabled {
@@ -247,6 +247,7 @@ input {
 			+ .icon-confirm {
 				border-color: $color-primary-element !important;
 				border-left-color: transparent !important;
+				z-index: 2; /* above previous input */
 			}
 		}
 	}
