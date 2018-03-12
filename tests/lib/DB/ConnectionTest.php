@@ -198,4 +198,142 @@ class ConnectionTest extends \Test\TestCase {
 
 		$this->addToAssertionCount(1);
 	}
+
+	public function testInsertIfNotExist() {
+		$this->makeTestTable();
+		$categoryEntries = [
+			['user' => 'test', 'category' => 'Family',    'expectedResult' => 1],
+			['user' => 'test', 'category' => 'Friends',   'expectedResult' => 1],
+			['user' => 'test', 'category' => 'Coworkers', 'expectedResult' => 1],
+			['user' => 'test', 'category' => 'Coworkers', 'expectedResult' => 0],
+			['user' => 'test', 'category' => 'School',    'expectedResult' => 1],
+			['user' => 'test2', 'category' => 'Coworkers2', 'expectedResult' => 1],
+			['user' => 'test2', 'category' => 'Coworkers2', 'expectedResult' => 0],
+			['user' => 'test2', 'category' => 'School2',    'expectedResult' => 1],
+			['user' => 'test2', 'category' => 'Coworkers', 'expectedResult' => 1],
+		];
+
+		foreach($categoryEntries as $entry) {
+			$result = $this->connection->insertIfNotExist('*PREFIX*table',
+				[
+					'textfield' => $entry['user'],
+					'clobfield' => $entry['category'],
+				]);
+			$this->assertEquals($entry['expectedResult'], $result);
+		}
+
+		$query = $this->connection->prepare('SELECT * FROM `*PREFIX*table`');
+		$result = $query->execute();
+		$this->assertTrue((bool)$result);
+		$this->assertEquals(7, count($query->fetchAll()));
+	}
+
+	public function testInsertIfNotExistNull() {
+		$this->makeTestTable();
+		$categoryEntries = [
+			['addressbookid' => 123, 'fullname' => null, 'expectedResult' => 1],
+			['addressbookid' => 123, 'fullname' => null, 'expectedResult' => 0],
+			['addressbookid' => 123, 'fullname' => 'test', 'expectedResult' => 1],
+		];
+
+		foreach($categoryEntries as $entry) {
+			$result = $this->connection->insertIfNotExist('*PREFIX*table',
+				[
+					'integerfield_default' => $entry['addressbookid'],
+					'clobfield' => $entry['fullname'],
+				]);
+			$this->assertEquals($entry['expectedResult'], $result);
+		}
+
+		$query = $this->connection->prepare('SELECT * FROM `*PREFIX*table`');
+		$result = $query->execute();
+		$this->assertTrue((bool)$result);
+		$this->assertEquals(2, count($query->fetchAll()));
+	}
+
+	public function testInsertIfNotExistDonTOverwrite() {
+		$this->makeTestTable();
+		$fullName = 'fullname test';
+		$uri = 'uri_1';
+
+		// Normal test to have same known data inserted.
+		$query = $this->connection->prepare('INSERT INTO `*PREFIX*table` (`textfield`, `clobfield`) VALUES (?, ?)');
+		$result = $query->execute([$fullName, $uri]);
+		$this->assertEquals(1, $result);
+		$query = $this->connection->prepare('SELECT `textfield`, `clobfield` FROM `*PREFIX*table` WHERE `clobfield` = ?');
+		$result = $query->execute([$uri]);
+		$this->assertTrue($result);
+		$rowset = $query->fetchAll();
+		$this->assertEquals(1, count($rowset));
+		$this->assertArrayHasKey('textfield', $rowset[0]);
+		$this->assertEquals($fullName, $rowset[0]['textfield']);
+
+		// Try to insert a new row
+		$result = $this->connection->insertIfNotExist('*PREFIX*table',
+			[
+				'textfield' => $fullName,
+				'clobfield' => $uri,
+			]);
+		$this->assertEquals(0, $result);
+
+		$query = $this->connection->prepare('SELECT `textfield`, `clobfield` FROM `*PREFIX*table` WHERE `clobfield` = ?');
+		$result = $query->execute([$uri]);
+		$this->assertTrue($result);
+		// Test that previously inserted data isn't overwritten
+		// And that a new row hasn't been inserted.
+		$rowset = $query->fetchAll();
+		$this->assertEquals(1, count($rowset));
+		$this->assertArrayHasKey('textfield', $rowset[0]);
+		$this->assertEquals($fullName, $rowset[0]['textfield']);
+	}
+
+	public function testInsertIfNotExistsViolating() {
+		$this->makeTestTable();
+		$result = $this->connection->insertIfNotExist('*PREFIX*table',
+			[
+				'textfield' => md5('welcome.txt'),
+				'clobfield' => $this->getUniqueID()
+			]);
+		$this->assertEquals(1, $result);
+
+		$result = $this->connection->insertIfNotExist('*PREFIX*table',
+			[
+				'textfield' => md5('welcome.txt'),
+				'clobfield' => $this->getUniqueID()
+			],['textfield']);
+
+		$this->assertEquals(0, $result);
+	}
+
+	public function insertIfNotExistsViolatingThrows() {
+		return [
+			[null],
+			[['clobfield']],
+		];
+	}
+
+	/**
+	 * @dataProvider insertIfNotExistsViolatingThrows
+	 * @expectedException \Doctrine\DBAL\Exception\UniqueConstraintViolationException
+	 *
+	 * @param array $compareKeys
+	 */
+	public function testInsertIfNotExistsViolatingThrows($compareKeys) {
+		$this->makeTestTable();
+		$result = $this->connection->insertIfNotExist('*PREFIX*table',
+			[
+				'integerfield' => 1,
+				'clobfield' => $this->getUniqueID()
+			]);
+		$this->assertEquals(1, $result);
+
+		$result = $this->connection->insertIfNotExist('*PREFIX*table',
+			[
+				'integerfield' => 1,
+				'clobfield' => $this->getUniqueID()
+			], $compareKeys);
+
+		$this->assertEquals(0, $result);
+	}
+
 }

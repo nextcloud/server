@@ -491,12 +491,13 @@ class Tags implements \OCP\ITags {
 			$tags = $this->tags;
 			// For some reason this is needed or array_search(i) will return 0..?
 			ksort($tags);
+			$dbConnection = \OC::$server->getDatabaseConnection();
 			foreach(self::$relations as $relation) {
 				$tagId = $this->getTagId($relation['tag']);
 				\OCP\Util::writeLog('core', __METHOD__ . 'catid, ' . $relation['tag'] . ' ' . $tagId, \OCP\Util::DEBUG);
 				if($tagId) {
 					try {
-						\OCP\DB::insertIfNotExist(self::RELATION_TABLE,
+						$dbConnection->insertIfNotExist(self::RELATION_TABLE,
 							array(
 								'objid' => $relation['objid'],
 								'categoryid' => $tagId,
@@ -679,7 +680,7 @@ class Tags implements \OCP\ITags {
 			$tagId = $tag;
 		}
 		try {
-			\OCP\DB::insertIfNotExist(self::RELATION_TABLE,
+			\OC::$server->getDatabaseConnection()->insertIfNotExist(self::RELATION_TABLE,
 				array(
 					'objid' => $objid,
 					'categoryid' => $tagId,
