@@ -81,7 +81,7 @@ try {
 
 	OCP\JSON::success(array('data' => $data));
 } catch (\OCP\Files\StorageNotAvailableException $e) {
-	\OCP\Util::logException('files', $e);
+	\OC::$server->getLogger()->logException($e, ['app' => 'files']);
 	OCP\JSON::error([
 		'data' => [
 			'exception' => StorageNotAvailableException::class,
@@ -89,7 +89,7 @@ try {
 		]
 	]);
 } catch (\OCP\Files\StorageInvalidException $e) {
-	\OCP\Util::logException('files', $e);
+	\OC::$server->getLogger()->logException($e, ['app' => 'files']);
 	OCP\JSON::error(array(
 		'data' => array(
 			'exception' => StorageInvalidException::class,
@@ -97,7 +97,7 @@ try {
 		)
 	));
 } catch (\Exception $e) {
-	\OCP\Util::logException('files', $e);
+	\OC::$server->getLogger()->logException($e, ['app' => 'files']);
 	OCP\JSON::error(array(
 		'data' => array(
 			'exception' => \Exception::class,

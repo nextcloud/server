@@ -247,7 +247,7 @@ class OC_Mount_Config {
 					throw $e;
 				}
 			} catch (Exception $exception) {
-				\OCP\Util::logException('files_external', $exception);
+				\OC::$server->getLogger()->logException($exception, ['app' => 'files_external']);
 				throw $exception;
 			}
 		}
