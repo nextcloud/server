@@ -14,7 +14,6 @@ OC.L10N.register(
     "(group)" : "(csoport)",
     "Compatibility with Mac NFD encoding (slow)" : "Kompatibilitás a Mac NFD kódolással (lassú)",
     "Admin defined" : "Adminisztrátor definiálva",
-    "Are you sure you want to delete this external storage" : "Biztosan törlöd ezt a külső tárolót",
     "Delete storage?" : "Tároló törlése?",
     "Saved" : "Elmentve",
     "Saving..." : "Mentés...",
@@ -133,6 +132,7 @@ OC.L10N.register(
     "Dropbox" : "Dropbox",
     "Google Drive" : "Google Drive",
     "No external storage configured" : "Nincs külső tároló beállítva.",
-    "You can add external storages in the personal settings" : "Hozzáadhatsz külső tárolókat a személyes beállítások közt."
+    "You can add external storages in the personal settings" : "Hozzáadhatsz külső tárolókat a személyes beállítások közt.",
+    "Are you sure you want to delete this external storage" : "Biztosan törlöd ezt a külső tárolót"
 },
 "nplurals=2; plural=(n != 1);");

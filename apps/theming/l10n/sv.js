@@ -12,7 +12,6 @@ OC.L10N.register(
     "There is no error, the file uploaded with success" : "Det finns inga fel, uppladdning av filen lyckades ",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "Uppladdningsfilen är för stor (upload_max_filesize i php.ini)",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "Den uppladdade filen överstiger MAX_FILE_SIZE-instruktionen specificerad i HTML-form",
-    "The uploaded file was only partially uploaded" : "Den uppladdade filen laddades bara upp delvis",
     "No file was uploaded" : "Ingen fil laddades up",
     "Missing a temporary folder" : "Saknar en temporär mapp",
     "Failed to write file to disk." : "Misslyckades att skriva till disk",
@@ -33,6 +32,7 @@ OC.L10N.register(
     "Login image" : "Inloggningsbild",
     "Upload new login background" : "Ladda upp ny bakgrundsbild",
     "Remove background image" : "Ta bort bakgrundsbild",
-    "reset to default" : "Återställ till standard"
+    "reset to default" : "Återställ till standard",
+    "The uploaded file was only partially uploaded" : "Den uppladdade filen laddades bara upp delvis"
 },
 "nplurals=2; plural=(n != 1);");

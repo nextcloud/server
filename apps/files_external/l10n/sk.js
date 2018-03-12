@@ -14,7 +14,6 @@ OC.L10N.register(
     "(group)" : "(skupina)",
     "Compatibility with Mac NFD encoding (slow)" : "Kompatibilita s Mac NFD enkódovaním (pomalé)",
     "Admin defined" : "Nastavené správcom",
-    "Are you sure you want to delete this external storage" : "Naozaj chcete zmazať toto externé úložisko?",
     "Delete storage?" : "Zmazať externé úložisko?",
     "Saved" : "Uložené",
     "Saving..." : "Ukladá sa...",
@@ -123,6 +122,7 @@ OC.L10N.register(
     "OpenStack" : "OpenStack",
     "Dropbox" : "Dropbox",
     "No external storage configured" : "Žiadne externé úložisko nie je nakonfigurované",
-    "You can add external storages in the personal settings" : "Externé úložisko je možné pridať v osobných nastaveniach"
+    "You can add external storages in the personal settings" : "Externé úložisko je možné pridať v osobných nastaveniach",
+    "Are you sure you want to delete this external storage" : "Naozaj chcete zmazať toto externé úložisko?"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

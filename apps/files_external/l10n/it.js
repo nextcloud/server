@@ -14,7 +14,6 @@ OC.L10N.register(
     "(group)" : "(gruppo)",
     "Compatibility with Mac NFD encoding (slow)" : "Compatibilità con la codifica Mac NFD (lento)",
     "Admin defined" : "Definito dall'amministratore",
-    "Are you sure you want to delete this external storage" : "Sei sicuro di voler eliminare questa archiviazione esterna?",
     "Delete storage?" : "Vuoi eliminare l'archiviazione?",
     "Saved" : "Salvato",
     "Saving..." : "Salvataggio in corso...",
@@ -133,6 +132,7 @@ OC.L10N.register(
     "Dropbox" : "Dropbox",
     "Google Drive" : "Google Drive",
     "No external storage configured" : "Nessuna archiviazione esterna configurata",
-    "You can add external storages in the personal settings" : "Puoi aggiungere archiviazioni esterne nelle impostazioni personali"
+    "You can add external storages in the personal settings" : "Puoi aggiungere archiviazioni esterne nelle impostazioni personali",
+    "Are you sure you want to delete this external storage" : "Sei sicuro di voler eliminare questa archiviazione esterna?"
 },
 "nplurals=2; plural=(n != 1);");

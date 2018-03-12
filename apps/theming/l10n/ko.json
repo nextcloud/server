@@ -10,7 +10,6 @@
     "There is no error, the file uploaded with success" : "오류 없음, 파일 업로드 성공",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "업로드한 파일의 크기가 php.ini의 upload_max_filesize를 초과함",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "업로드한 파일의 크기가 HTML 폼에 지정한 MAX_FILE_SIZE를 초과함",
-    "The uploaded file was only partially uploaded" : "파일이 일부분만 업로드됨",
     "No file was uploaded" : "업로드한 파일 없음",
     "Missing a temporary folder" : "임시 폴더 없음",
     "Failed to write file to disk." : "디스크에 파일을 기록할 수 없습니다.",
@@ -32,6 +31,7 @@
     "Upload new login background" : "새 로그인 배경 업로드",
     "Remove background image" : "배경 그림 삭제",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "업로드한 로고와 색으로부터 자동으로 파비콘을 생성하려면 PHP Imagemagick 확장 기능 및 SVG 형식 그림 지원을 설치하십시오.",
-    "reset to default" : "기본값으로 초기화"
+    "reset to default" : "기본값으로 초기화",
+    "The uploaded file was only partially uploaded" : "파일이 일부분만 업로드됨"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

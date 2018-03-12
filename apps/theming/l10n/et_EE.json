@@ -10,7 +10,6 @@
     "There is no error, the file uploaded with success" : "Vigu pole, fail laetu edukalt üles",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "Üleslaetud fail on suurem, kui php.ini failis määratud upload_max_filesize",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "Üleslaetud fail on suurem, kui MAX_FILE_SIZE atribuut, mis seadistati HTML vormis",
-    "The uploaded file was only partially uploaded" : "Üleslatud fail laeti üles ainult osaliselt",
     "No file was uploaded" : "Ühtegi faili ei latud üles",
     "Missing a temporary folder" : "Ajutine kausta on puudu",
     "Failed to write file to disk." : "Faili kettale kirjutamine ebaõnnestus.",
@@ -32,6 +31,7 @@
     "Upload new login background" : "Lae üles uus avalehe taustapilt",
     "Remove background image" : "Eemalda taustapilt",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Paigalda Imagemagick PHP laiendus SVG piltide toega, et üleslaetud logo ja värvi põhjal automaatselt faviconid genereerida. ",
-    "reset to default" : "taasta vaikeseaded"
+    "reset to default" : "taasta vaikeseaded",
+    "The uploaded file was only partially uploaded" : "Üleslatud fail laeti üles ainult osaliselt"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

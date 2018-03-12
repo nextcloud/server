@@ -10,7 +10,6 @@
     "There is no error, the file uploaded with success" : "Não ocorreu nenhum erro, o ficheiro foi carregado com sucesso",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "O ficheiro carregado excede a directiva upload_max_filesize no php.ini ",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "O ficheiro carregado excedo a directiva MAX_FILE_SIZE especificada no formulário HTML",
-    "The uploaded file was only partially uploaded" : "O ficheiro escolhido foi apenas parcialmente carregado",
     "No file was uploaded" : "O ficheiro foi carregado",
     "Missing a temporary folder" : "Falta uma pasta temporária",
     "Failed to write file to disk." : "Falhou a escrever o ficheiro no disco.",
@@ -32,6 +31,7 @@
     "Upload new login background" : "Carregar imagem de segundo plano de Login",
     "Remove background image" : "Remover imagem de segundo plano",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instale a extensão PHP Imagemagick com suporte para imagens SVG para gerar automaticamente favicons com base na cor e no logotipo carregado.",
-    "reset to default" : "restaurar valor padrão"
+    "reset to default" : "restaurar valor padrão",
+    "The uploaded file was only partially uploaded" : "O ficheiro escolhido foi apenas parcialmente carregado"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

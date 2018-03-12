@@ -33,7 +33,6 @@ OC.L10N.register(
     "{nthServer}. Server" : "Сервер {nthServer}.",
     "No object found in the given Base DN. Please revise." : "Не найдено объектов в Base DN. Пожалуйста перепроверьте.",
     "More than 1,000 directory entries available." : "В каталоге доступно более 1,000 записей.",
-    " entries available within the provided Base DN" : "элементов доступно в предоставленном базовом DN",
     "An error occurred. Please check the Base DN, as well as connection settings and credentials." : "Произошла ошибка. Пожалуйста проверьте базу поиска DN, а также настройки подключения и учетные данные.",
     "Do you really want to delete the current Server Configuration?" : "Вы действительно хотите удалить существующую конфигурацию сервера?",
     "Confirm Deletion" : "Подтверждение удаления",
@@ -187,6 +186,7 @@ OC.L10N.register(
     "Usernames are used to store and assign (meta) data. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "ownCloud использует имена пользователей для хранения и назначения метаданных. Для точной идентификации и распознавания пользователей, каждый пользователь LDAP будет иметь свое внутреннее имя пользователя. Это требует привязки имени пользователя ownCloud к пользователю LDAP. При создании имя пользователя назначается идентификатору UUID пользователя LDAP. Помимо этого кешируется DN для уменьшения числа обращений к LDAP, однако он не используется для идентификации. Если DN был изменён, то изменения будут найдены. Внутреннее имя ownCloud используется повсеместно в ownCloud. После сброса привязок в базе могут сохраниться остатки старой информации. Сброс привязок не привязан к конфигурации, он повлияет на все LDAP подключения! Ни в коем случае не рекомендуется сбрасывать привязки если система уже находится в эксплуатации, только на этапе тестирования.",
     "Clear Username-LDAP User Mapping" : "Очистить соответствия Имя-Пользователь LDAP",
     "Clear Groupname-LDAP Group Mapping" : "Очистить соответствия Группа-Группа LDAP",
+    " entries available within the provided Base DN" : "элементов доступно в предоставленном базовом DN",
     "LDAP" : "LDAP",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Предупреждение:</b> Приложения user_ldap и user_webdavauth несовместимы. Вы можете наблюдать некорректное поведение. Пожалуйста, попросите вашего системного администратора отключить одно из них."
 },

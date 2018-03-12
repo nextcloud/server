@@ -14,7 +14,6 @@ OC.L10N.register(
     "(group)" : "(skupina)",
     "Compatibility with Mac NFD encoding (slow)" : "Kompatibilita s Mac NFD kódováním (pomalé)",
     "Admin defined" : "Nastaveno administrátorem",
-    "Are you sure you want to delete this external storage" : "Opravdu chcete odstranit toto externí úložiště",
     "Delete storage?" : "Odstranit úložiště?",
     "Saved" : "Uloženo",
     "Saving..." : "Ukládá se...",
@@ -128,6 +127,7 @@ OC.L10N.register(
     "Dropbox" : "Dropbox",
     "Google Drive" : "Disk Google",
     "No external storage configured" : "Není nakonfigurováno žádné externí úložiště",
-    "You can add external storages in the personal settings" : "Externí úložiště můžete přidat v osobních nastaveních"
+    "You can add external storages in the personal settings" : "Externí úložiště můžete přidat v osobních nastaveních",
+    "Are you sure you want to delete this external storage" : "Opravdu chcete odstranit toto externí úložiště"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

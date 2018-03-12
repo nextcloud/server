@@ -33,7 +33,6 @@ OC.L10N.register(
     "{nthServer}. Server" : "{nthServer}. Server",
     "No object found in the given Base DN. Please revise." : "Geen object gevonden in de basis DN. Review instellingen.",
     "More than 1,000 directory entries available." : "Meer dan 1000 directorynamen beschikbaar.",
-    " entries available within the provided Base DN" : "accounts beschikbaar binnen de provider Basis DN",
     "An error occurred. Please check the Base DN, as well as connection settings and credentials." : "Er trad een fout op. Controleer de Basis DN en de verbindingsinstellingen en inloggegevens.",
     "Do you really want to delete the current Server Configuration?" : "Wilt je werkelijk de huidige Serverconfiguratie verwijderen?",
     "Confirm Deletion" : "Bevestig verwijderen",
@@ -187,6 +186,7 @@ OC.L10N.register(
     "Usernames are used to store and assign (meta) data. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "Gebruikersnamen worden gebruikt om (meta) data op te slaan en toe te wijzen. Om gebruikers uniek te identificeren, krijgt elke LDAP-gebruiker ook een interne gebruikersnaam. Dit vereist een koppeling van de gebruikersnaam naar een ​​LDAP-gebruiker. De gecreëerde gebruikersnaam is gekoppeld aan de UUID van de LDAP-gebruiker. Aanvullend wordt ook de 'DN' gecached om het aantal LDAP-interacties te verminderen, maar dit wordt niet gebruikt voor identificatie. Als de DN verandert, zullen de veranderingen worden gevonden. De interne gebruikersnaam wordt overal gebruikt. Het wissen van de koppeling zal overal resten achterlaten. Het wissen van koppelingen is niet configuratiegevoelig, maar het raakt wel alle LDAP instellingen! Zorg ervoor dat deze koppelingen nooit in een productieomgeving gewist worden. Maak ze alleen leeg in een test- of ontwikkelomgeving.",
     "Clear Username-LDAP User Mapping" : "Leegmaken Gebruikersnaam-LDAP gebruikers vertaling",
     "Clear Groupname-LDAP Group Mapping" : "Leegmaken Groepsnaam-LDAP groep vertaling",
+    " entries available within the provided Base DN" : "accounts beschikbaar binnen de provider Basis DN",
     "LDAP" : "LDAP",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Waarschuwing:</b> De Apps user_ldap en user_webdavauth zijn incompatibel. Je kunt onverwacht gedrag ervaren. Vraag je beheerder om een van beide apps de deactiveren."
 },

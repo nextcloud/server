@@ -14,7 +14,6 @@ OC.L10N.register(
     "(group)" : "(그룹)",
     "Compatibility with Mac NFD encoding (slow)" : "Mac NFD 인코딩 호환성 사용(느림)",
     "Admin defined" : "관리자 지정",
-    "Are you sure you want to delete this external storage" : "이 외부 저장소를 삭제하시겠습니까",
     "Delete storage?" : "저장소를 삭제하시겠습니까?",
     "Saved" : "저장됨",
     "Saving..." : "저장 중...",
@@ -128,6 +127,7 @@ OC.L10N.register(
     "Dropbox" : "Dropbox",
     "Google Drive" : "Google 드라이브",
     "No external storage configured" : "외부 저장소가 설정되지 않았음",
-    "You can add external storages in the personal settings" : "개인 설정에서 외부 저장소를 추가할 수 있습니다"
+    "You can add external storages in the personal settings" : "개인 설정에서 외부 저장소를 추가할 수 있습니다",
+    "Are you sure you want to delete this external storage" : "이 외부 저장소를 삭제하시겠습니까"
 },
 "nplurals=1; plural=0;");

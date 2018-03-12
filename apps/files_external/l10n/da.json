@@ -12,7 +12,6 @@
     "(group)" : "(gruppe)",
     "Compatibility with Mac NFD encoding (slow)" : "Kompatibilitet med Mac NFD encoding (langsom)",
     "Admin defined" : "Bestemt af administrator",
-    "Are you sure you want to delete this external storage" : "Er du sikker på at du vil slette denne eksterne lager?",
     "Delete storage?" : "Slet lager?",
     "Saved" : "Gemt",
     "Saving..." : "Gemmer...",
@@ -117,6 +116,7 @@
     "Allow users to mount the following external storage" : "Tillad brugere at montere følgende som eksternt lager",
     "OpenStack" : "OpenStack",
     "No external storage configured" : "Der er ingen konfigurerede eksterne lagre",
-    "You can add external storages in the personal settings" : "Du kan tilføje eksterne lagerenheder i de personlige indstillinger"
+    "You can add external storages in the personal settings" : "Du kan tilføje eksterne lagerenheder i de personlige indstillinger",
+    "Are you sure you want to delete this external storage" : "Er du sikker på at du vil slette denne eksterne lager?"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

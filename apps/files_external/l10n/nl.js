@@ -14,7 +14,6 @@ OC.L10N.register(
     "(group)" : "(groep)",
     "Compatibility with Mac NFD encoding (slow)" : "Compatibiliteit met Mac NFD encoding (traag)",
     "Admin defined" : "Beheerder gedefinieerd",
-    "Are you sure you want to delete this external storage" : "Weet je zeker dat je de externe opslag wilt verwijderen",
     "Delete storage?" : "Opslag verwijderen?",
     "Saved" : "Bewaard",
     "Saving..." : "Bewaren...",
@@ -133,6 +132,7 @@ OC.L10N.register(
     "Dropbox" : "Dropbox",
     "Google Drive" : "Google Drive",
     "No external storage configured" : "Geen externe opslag geconfigureerd",
-    "You can add external storages in the personal settings" : "Je kunt externe opslag toevoegen in persoonlijke instellingen"
+    "You can add external storages in the personal settings" : "Je kunt externe opslag toevoegen in persoonlijke instellingen",
+    "Are you sure you want to delete this external storage" : "Weet je zeker dat je de externe opslag wilt verwijderen"
 },
 "nplurals=2; plural=(n != 1);");

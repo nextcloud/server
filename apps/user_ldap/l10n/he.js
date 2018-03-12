@@ -22,7 +22,6 @@ OC.L10N.register(
     "{nthServer}. Server" : "{nthServer}. שרת",
     "No object found in the given Base DN. Please revise." : "לא אותר אוביקט בבסיס DN שסופק. יש להחליף.",
     "More than 1,000 directory entries available." : "קיימים יותר מ- 1,000 רשומות ספריה.",
-    " entries available within the provided Base DN" : " קיימות רשומות מתוך בסיס ה- DN שסופק",
     "An error occurred. Please check the Base DN, as well as connection settings and credentials." : "אירעה שגיאה. יש לבדוק את בסיס ה- DN, כמו גם את הגדרות החיבור ופרטי הכניסה.",
     "Do you really want to delete the current Server Configuration?" : "האם אכן למחוק את הגדרות השרת הנוכחיות?האם באמת ברצונך למחוק את הגדרות השרת הנוכחיות?",
     "Confirm Deletion" : "אישור המחיקה",
@@ -131,6 +130,7 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "מיפוי שם משתמש LDAP:",
     "Clear Username-LDAP User Mapping" : "ניקוי מיפוי שם משתמש LDAP:",
     "Clear Groupname-LDAP Group Mapping" : "ניקוי מיפוי שם משתמש קבוצה LDAP:",
+    " entries available within the provided Base DN" : " קיימות רשומות מתוך בסיס ה- DN שסופק",
     "LDAP" : "LDAP",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>אזהרה:</b> יישומים user_ldap ו- user_webdavauth אינם תואמים. תופעות לא מוסברות עלולות להתקיים. כדאי לפנות למנהל המערכת כדי שינטרל אחד מהם."
 },

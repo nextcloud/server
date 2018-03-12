@@ -10,7 +10,6 @@
     "There is no error, the file uploaded with success" : "Δεν υπάρχει σφάλμα, το αρχείο μεταφορτώθηκε με επιτυχία",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "Το μεταφορτωμένο αρχείο υπερβαίνει την οδηγία upload_max_filesize στο php.ini",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "Το μεταφορτωμένο αρχείο υπερβαίνει την οδηγία MAX_FILE_SIZE που καθορίστηκε στην φόρμα HTML.",
-    "The uploaded file was only partially uploaded" : "Το μεταφορτωμένο αρχείο μεταφορτώθηκε εν μέρει",
     "No file was uploaded" : "Δεν μεταφορτώθηκε κάποιο αρχείο",
     "Missing a temporary folder" : "Λείπει κάποιος προσωρινός φάκελος",
     "Failed to write file to disk." : "Αποτυχία εγγραφής αρχείου στο δίσκο.",
@@ -32,6 +31,7 @@
     "Upload new login background" : "Μεταφόρτωση νέου παρασκηνίου εισόδου",
     "Remove background image" : "Αφαίρεση εικόνας παρασκηνίου",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Εγκαταστήστε την επέκταση PHP Imagemagick με υποστήριξη SVG εικόνων, για να γίνει αυτόματη δημιουργία favicon βασισμένο πάνω στο μεταφορτωμένο λογότυπο και χρώμα.",
-    "reset to default" : "επαναφορά στα προεπιλεγμένα"
+    "reset to default" : "επαναφορά στα προεπιλεγμένα",
+    "The uploaded file was only partially uploaded" : "Το μεταφορτωμένο αρχείο μεταφορτώθηκε εν μέρει"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

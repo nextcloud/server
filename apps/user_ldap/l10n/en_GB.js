@@ -33,7 +33,6 @@ OC.L10N.register(
     "{nthServer}. Server" : "{nthServer}. Server",
     "No object found in the given Base DN. Please revise." : "No object found in the given Base DN. Please revise.",
     "More than 1,000 directory entries available." : "More than 1,000 directory entries available.",
-    " entries available within the provided Base DN" : " entries available within the provided Base DN",
     "An error occurred. Please check the Base DN, as well as connection settings and credentials." : "An error occurred. Please check the Base DN, as well as connection settings and credentials.",
     "Do you really want to delete the current Server Configuration?" : "Do you really want to delete the current Server Configuration?",
     "Confirm Deletion" : "Confirm Deletion",
@@ -187,6 +186,7 @@ OC.L10N.register(
     "Usernames are used to store and assign (meta) data. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "Usernames are used to store and assign (meta) data. In order to precisely identify and recognise users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage.",
     "Clear Username-LDAP User Mapping" : "Clear Username-LDAP User Mapping",
     "Clear Groupname-LDAP Group Mapping" : "Clear Groupname-LDAP Group Mapping",
+    " entries available within the provided Base DN" : " entries available within the provided Base DN",
     "LDAP" : "LDAP",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them."
 },

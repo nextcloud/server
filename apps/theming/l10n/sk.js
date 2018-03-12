@@ -13,7 +13,6 @@ OC.L10N.register(
     "There is no error, the file uploaded with success" : "Nenastala žiadna chyba, súbor bol úspešne nahraný",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "Nahraný súbor prekročil limit nastavený v upload_max_filesize v súbore php.ini",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "Ukladaný súbor prekračuje nastavenie MAX_FILE_SIZE z volieb HTML formulára.",
-    "The uploaded file was only partially uploaded" : "Ukladaný súbor sa nahral len čiastočne",
     "No file was uploaded" : "Nenahral sa žiadny súbor",
     "Missing a temporary folder" : "Chýba priečinok pre dočasné súbory",
     "Failed to write file to disk." : "Nepodarilo sa zapísať súbor na disk.",
@@ -35,6 +34,7 @@ OC.L10N.register(
     "Upload new login background" : "Nahrať nové prihlasovacie pozadie",
     "Remove background image" : "Odstrániť obrázok pozadia",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Ak chcete automaticky generovať favikony na základe nahraného loga a farby, nainštalujte rozšírenie Imagemagick PHP s podporou pre SVG obrázky.",
-    "reset to default" : "nastaviť predvolené"
+    "reset to default" : "nastaviť predvolené",
+    "The uploaded file was only partially uploaded" : "Ukladaný súbor sa nahral len čiastočne"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

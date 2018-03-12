@@ -12,7 +12,6 @@ OC.L10N.register(
     "The given color is invalid" : "Väri on virheellinen",
     "There is no error, the file uploaded with success" : "Ei virhettä, tiedosto lähetettiin onnistuneesti",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "Lähetetty tiedosto ylittää php.ini-tiedoston upload_max_filesize-tietueen arvon",
-    "The uploaded file was only partially uploaded" : "Lähetetty tiedosto lähetettiin vain osittain",
     "No file was uploaded" : "Tiedostoa ei lähetetty",
     "Missing a temporary folder" : "Väliaikaiskansio puuttuu",
     "Failed to write file to disk." : "Levylle kirjoittaminen epäonnistui.",
@@ -33,6 +32,7 @@ OC.L10N.register(
     "Login image" : "Kirjautumissivun kuva",
     "Upload new login background" : "Lähetä uusi kirjautumissivun taustakuva",
     "Remove background image" : "Poista taustakuva",
-    "reset to default" : "palauta oletukseksi"
+    "reset to default" : "palauta oletukseksi",
+    "The uploaded file was only partially uploaded" : "Lähetetty tiedosto lähetettiin vain osittain"
 },
 "nplurals=2; plural=(n != 1);");

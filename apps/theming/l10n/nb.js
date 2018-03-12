@@ -13,7 +13,6 @@ OC.L10N.register(
     "There is no error, the file uploaded with success" : "Det er ingen feil, filen ble lastet opp",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "Filen er større enn grensen satt i upload_max_filesize i php.ini",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "Filen du prøvde å laste opp er større enn grensen satt i MAX_FILE_SIZE i HTML-skjemaet",
-    "The uploaded file was only partially uploaded" : "Filen ble bare delvis lastet opp",
     "No file was uploaded" : "Ingen filer ble lastet opp",
     "Missing a temporary folder" : "Mangler midlertidig mappe",
     "Failed to write file to disk." : "Klarte ikke å skrive til disk.",
@@ -35,6 +34,7 @@ OC.L10N.register(
     "Upload new login background" : "Last opp ny innloggingsbakgrunn",
     "Remove background image" : "Fjern bakgrunnsbilde",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installer PHP-utvidelsen Imagemagick med støtte for SVG-bilder for å opprette favikoner automatisk basert på opplastet logo og farge.",
-    "reset to default" : "tilbakestill til forvalg"
+    "reset to default" : "tilbakestill til forvalg",
+    "The uploaded file was only partially uploaded" : "Filen ble bare delvis lastet opp"
 },
 "nplurals=2; plural=(n != 1);");

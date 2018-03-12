@@ -22,7 +22,6 @@ OC.L10N.register(
     "{nthServer}. Server" : "{nthServer}. strežnik",
     "No object found in the given Base DN. Please revise." : "Ni najdenega predmeta v osnovnem enoznačnem imenu (DN). Preverite nastavitve.",
     "More than 1,000 directory entries available." : "Na voljo je več kot 1000 vnosov imenika",
-    " entries available within the provided Base DN" : "vnosi, ki so na voljo znotraj razpoložljivega osnovnega enoznačnega imena (Base DN)",
     "An error occurred. Please check the Base DN, as well as connection settings and credentials." : "Prišlo je do napake. Preverite osnovno enoznačno ime, nastavitve povezave in poverila.",
     "Do you really want to delete the current Server Configuration?" : "Ali res želite izbrisati trenutne nastavitve strežnika?",
     "Confirm Deletion" : "Potrdi brisanje",
@@ -137,6 +136,7 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "Uporabniška preslikava uporabniškega imena na LDAP",
     "Clear Username-LDAP User Mapping" : "Izbriši preslikavo uporabniškega imena na LDAP",
     "Clear Groupname-LDAP Group Mapping" : "Izbriši preslikavo skupine na LDAP",
+    " entries available within the provided Base DN" : "vnosi, ki so na voljo znotraj razpoložljivega osnovnega enoznačnega imena (Base DN)",
     "LDAP" : "LDAP",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Opozorilo:</b> določili user_ldap in user_webdavauth sta  neskladni, kar lahko vpliva na delovanje sistema. O napaki pošljite poročilo skrbniku sistema in opozorite, da je treba eno izmed možnosti onemogočiti."
 },

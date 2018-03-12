@@ -279,6 +279,7 @@ OC.L10N.register(
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Við urðum vör við margar misheppnaðar innskráningar í röð frá IP-vistfanginu þínu. Þar með verður næsta innskráning tafin (throttled) um 30 sekúndur.",
     "Stay logged in" : "Haldast skráður inn",
     "Forgot password?" : "Gleymdirðu lykilorði?",
+    "Back to login" : "Til baka í innskráningu",
     "Alternative Logins" : "Aðrar innskráningar",
     "Account access" : "Aðgangur að notandaaðgangi",
     "You are about to grant %s access to your %s account." : "Þú ert að fara að leyfa %s aðgang að %s notandaaðgangnum þínum.",
