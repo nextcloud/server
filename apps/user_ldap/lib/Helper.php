@@ -165,7 +165,7 @@ class Helper {
 		');
 		$delRows = $query->execute(array($prefix.'%'));
 
-		if(\OCP\DB::isError($delRows)) {
+		if($delRows === null) {
 			return false;
 		}
 

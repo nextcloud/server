@@ -79,22 +79,6 @@ class DB {
 	}
 
 	/**
-	 * Gets last value of autoincrement
-	 * @param string $table The optional table name (will replace *PREFIX*) and add sequence suffix
-	 * @return string
-	 *
-	 * \Doctrine\DBAL\Connection lastInsertID()
-	 *
-	 * Call this method right after the insert command or other functions may
-	 * cause trouble!
-	 * @deprecated 8.1.0 use lastInsertId() of \OCP\IDBConnection - \OC::$server->getDatabaseConnection()
-	 * @since 4.5.0
-	 */
-	public static function insertid($table=null) {
-		return (string)\OC::$server->getDatabaseConnection()->lastInsertId($table);
-	}
-
-	/**
 	 * Start a transaction
 	 * @deprecated 8.1.0 use beginTransaction() of \OCP\IDBConnection - \OC::$server->getDatabaseConnection()
 	 * @since 4.5.0
@@ -110,27 +94,6 @@ class DB {
 	 */
 	public static function commit() {
 		\OC::$server->getDatabaseConnection()->commit();
-	}
-
-	/**
-	 * Rollback the database changes done during a transaction that is in progress
-	 * @deprecated 8.1.0 use rollback() of \OCP\IDBConnection - \OC::$server->getDatabaseConnection()
-	 * @since 8.0.0
-	 */
-	public static function rollback() {
-		\OC::$server->getDatabaseConnection()->rollBack();
-	}
-
-	/**
-	 * Check if a result is an error, works with Doctrine
-	 * @param mixed $result
-	 * @return bool
-	 * @deprecated 8.1.0 Doctrine returns false on error (and throws an exception)
-	 * @since 4.5.0
-	 */
-	public static function isError($result) {
-		// Doctrine returns false on error (and throws an exception)
-		return $result === false;
 	}
 
 	/**

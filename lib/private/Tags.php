@@ -236,7 +236,7 @@ class Tags implements \OCP\ITags {
 					}
 					$entries[$objId][] = $row['category'];
 				}
-				if (\OCP\DB::isError($result)) {
+				if ($result === null) {
 					\OCP\Util::writeLog('core', __METHOD__. 'DB error: ' . \OCP\DB::getErrorMessage(), \OCP\Util::ERROR);
 					return false;
 				}
@@ -290,7 +290,7 @@ class Tags implements \OCP\ITags {
 		try {
 			$stmt = \OCP\DB::prepare($sql);
 			$result = $stmt->execute(array($tagId));
-			if (\OCP\DB::isError($result)) {
+			if ($result === null) {
 				\OCP\Util::writeLog('core', __METHOD__. 'DB error: ' . \OCP\DB::getErrorMessage(), \OCP\Util::ERROR);
 				return false;
 			}
@@ -532,7 +532,7 @@ class Tags implements \OCP\ITags {
 			$stmt = \OCP\DB::prepare('SELECT `id` FROM `' . self::TAG_TABLE . '` '
 				. 'WHERE `uid` = ?');
 			$result = $stmt->execute(array($arguments['uid']));
-			if (\OCP\DB::isError($result)) {
+			if ($result === null) {
 				\OCP\Util::writeLog('core', __METHOD__. 'DB error: ' . \OCP\DB::getErrorMessage(), \OCP\Util::ERROR);
 			}
 		} catch(\Exception $e) {
@@ -570,7 +570,7 @@ class Tags implements \OCP\ITags {
 			$stmt = \OCP\DB::prepare('DELETE FROM `' . self::TAG_TABLE . '` '
 				. 'WHERE `uid` = ?');
 			$result = $stmt->execute(array($arguments['uid']));
-			if (\OCP\DB::isError($result)) {
+			if ($result === null) {
 				\OCP\Util::writeLog('core', __METHOD__. ', DB error: ' . \OCP\DB::getErrorMessage(), \OCP\Util::ERROR);
 			}
 		} catch(\Exception $e) {
@@ -601,7 +601,7 @@ class Tags implements \OCP\ITags {
 			$updates[] = $this->type;
 			$stmt = \OCP\DB::prepare($query);
 			$result = $stmt->execute($updates);
-			if (\OCP\DB::isError($result)) {
+			if ($result === null) {
 				\OCP\Util::writeLog('core', __METHOD__. 'DB error: ' . \OCP\DB::getErrorMessage(), \OCP\Util::ERROR);
 				return false;
 			}
@@ -770,7 +770,7 @@ class Tags implements \OCP\ITags {
 							. 'WHERE `categoryid` = ?';
 					$stmt = \OCP\DB::prepare($sql);
 					$result = $stmt->execute(array($id));
-					if (\OCP\DB::isError($result)) {
+					if ($result === null) {
 						\OCP\Util::writeLog('core',
 							__METHOD__. 'DB error: ' . \OCP\DB::getErrorMessage(),
 							\OCP\Util::ERROR);
