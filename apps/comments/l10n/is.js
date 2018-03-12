@@ -12,6 +12,7 @@ OC.L10N.register(
     "More comments …" : "Fleiri athugasemdir ...",
     "Save" : "Vista",
     "Allowed characters {count} of {max}" : "Leyfður stafafjöldi {count} af {max}",
+    "Error occurred while retrieving comment with ID {id}" : "Villa kom upp við að reyna að ná í ummæli með auðkenninu {id}",
     "Error occurred while updating comment with id {id}" : "Villa kom upp við að reyna að uppfæra athugasemd með auðkenninu {id}",
     "Error occurred while posting comment" : "Villa kom upp við að senda inn athugasemd",
     "_%n unread comment_::_%n unread comments_" : ["%n ólesin athugasemd","%n ólesnar athugasemdir"],

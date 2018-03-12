@@ -22,7 +22,6 @@ OC.L10N.register(
     "{nthServer}. Server" : "{nthServer}. Serveris",
     "No object found in the given Base DN. Please revise." : "Neviens objekts nav atrasts konkrētā DN bāzē. Lūdzu pārskatīt.",
     "More than 1,000 directory entries available." : "Vairāk nekā 1,000 kataloga ieraksti ir pieejami.",
-    " entries available within the provided Base DN" : "ieraksti pieejami ar nosacījumu DN bāzē",
     "An error occurred. Please check the Base DN, as well as connection settings and credentials." : "Radās kļūda. Lūdzu, pārbaudiet bāzes DN, kā arī savienojuma iestatījumus vai akreditācijas datus.",
     "Do you really want to delete the current Server Configuration?" : "Vai tiešām vēlaties dzēst pašreizējo servera konfigurāciju?",
     "Confirm Deletion" : "Apstiprināt dzēšanu",
@@ -105,6 +104,7 @@ OC.L10N.register(
     "Override UUID detection" : "Ignorēt UUID noteikšanu",
     "UUID Attribute for Users:" : "UUID atribūti lietotājiem:",
     "UUID Attribute for Groups:" : "UUID atribūti grupām:",
+    " entries available within the provided Base DN" : "ieraksti pieejami ar nosacījumu DN bāzē",
     "LDAP" : "LDAP"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

@@ -10,7 +10,6 @@
     "There is no error, the file uploaded with success" : "Brak błędów, plik wysłano poprawnie.",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "Wgrany plik przekracza wartość upload_max_filesize zdefiniowaną w php.ini",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "Wysłany plik przekracza wielkość dyrektywy MAX_FILE_SIZE określonej w formularzu HTML",
-    "The uploaded file was only partially uploaded" : "Załadowany plik został wysłany tylko częściowo.",
     "No file was uploaded" : "Nie wysłano żadnego pliku",
     "Missing a temporary folder" : "Brak folderu tymczasowego",
     "Failed to write file to disk." : "Błąd zapisu na dysk.",
@@ -32,6 +31,7 @@
     "Upload new login background" : "Wyślij nowe tło ekranu logowania",
     "Remove background image" : "Usuń obraz tła",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Aby wygenerować favicon oparte o wysłane logo i kolor, zainstaluj rozszerzenie PHP Imagemagick z obsługą SVG.",
-    "reset to default" : "przywróć domyślne"
+    "reset to default" : "przywróć domyślne",
+    "The uploaded file was only partially uploaded" : "Załadowany plik został wysłany tylko częściowo."
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

@@ -14,7 +14,6 @@ OC.L10N.register(
     "(group)" : "(gruppe)",
     "Compatibility with Mac NFD encoding (slow)" : "Kompatibelt med Mac NFD koding (treg)",
     "Admin defined" : "Admin-definert",
-    "Are you sure you want to delete this external storage" : "Er du sikker på at du vil slette denne eksterne lagringsplassen?",
     "Delete storage?" : "Slett lagringsplass",
     "Saved" : "Lagret",
     "Saving..." : "Lagrer…",
@@ -129,6 +128,7 @@ OC.L10N.register(
     "Dropbox" : "Dropbox",
     "Google Drive" : "Google Drive",
     "No external storage configured" : "Eksternt lager er ikke konfigurert",
-    "You can add external storages in the personal settings" : "Du kan legge til eksterne lagre i personlige innstillinger"
+    "You can add external storages in the personal settings" : "Du kan legge til eksterne lagre i personlige innstillinger",
+    "Are you sure you want to delete this external storage" : "Er du sikker på at du vil slette denne eksterne lagringsplassen?"
 },
 "nplurals=2; plural=(n != 1);");

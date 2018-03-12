@@ -13,7 +13,6 @@ OC.L10N.register(
     "There is no error, the file uploaded with success" : "Er trad geen fout op, het bestand is succesvol geüpload",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "Het geüploade bestand overschrijdt de upload_max_filesize richtlijn in php.ini:",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "Het bestand overschrijdt de MAX_FILE_SIZE richtlijn die is opgegeven in het HTML formulier",
-    "The uploaded file was only partially uploaded" : "Het bestand is slechts gedeeltelijk geüpload",
     "No file was uploaded" : "Er is geen bestand geüpload",
     "Missing a temporary folder" : "Er ontbreekt een tijdelijke map",
     "Failed to write file to disk." : "Schrijven van het bestand naar schijf mislukte.",
@@ -35,6 +34,7 @@ OC.L10N.register(
     "Upload new login background" : "Uploaden nieuwe inlog achtergrond",
     "Remove background image" : "Achtergrond beeld verwijderen",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installeer de Imagemagick PHP extensie met ondersteuning voor SVG afbeeldingen om automatisch favicons te genereren op basis van het geuploade logo en kleur.",
-    "reset to default" : "herstellen naar standaard"
+    "reset to default" : "herstellen naar standaard",
+    "The uploaded file was only partially uploaded" : "Het bestand is slechts gedeeltelijk geüpload"
 },
 "nplurals=2; plural=(n != 1);");

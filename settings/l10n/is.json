@@ -102,6 +102,8 @@
     "Error: Could not disable broken app" : "Villa: gat ekki gert bilaða forritið óvirkt",
     "Error while disabling broken app" : "Villa við að gera bilaða forritið óvirkt",
     "App up to date" : "Forrit er af nýjustu gerð",
+    "Updating …" : "Uppfæri …",
+    "Could not update app" : "Gat ekki uppfært forrit",
     "Updated" : "Uppfært",
     "Removing …" : "Fjarlægi ...",
     "Could not remove app" : "Gat ekki fjarlægt forrit",

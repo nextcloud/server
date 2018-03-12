@@ -14,7 +14,6 @@ OC.L10N.register(
     "(group)" : "(ryhmä)",
     "Compatibility with Mac NFD encoding (slow)" : "Yhteensopivuus Mac NFD -enkoodauksen kanssa (hidas)",
     "Admin defined" : "Ylläpitäjän määrittämä",
-    "Are you sure you want to delete this external storage" : "Haluatko varmasti poistaa tämän erillisen tallennustilan",
     "Delete storage?" : "Poistetaanko tallennustila?",
     "Saved" : "Tallennettu",
     "Saving..." : "Tallennetaan...",
@@ -125,6 +124,7 @@ OC.L10N.register(
     "Dropbox" : "Dropbox",
     "Google Drive" : "Google Drive",
     "No external storage configured" : "Erillistä tallennustilaa ei ole määritetty",
-    "You can add external storages in the personal settings" : "Voit lisätä erillisiä tallennustiloja henkilökohtaisista asetuksistasi"
+    "You can add external storages in the personal settings" : "Voit lisätä erillisiä tallennustiloja henkilökohtaisista asetuksistasi",
+    "Are you sure you want to delete this external storage" : "Haluatko varmasti poistaa tämän erillisen tallennustilan"
 },
 "nplurals=2; plural=(n != 1);");

@@ -33,7 +33,6 @@ OC.L10N.register(
     "{nthServer}. Server" : "{nthServer}. Servidor",
     "No object found in the given Base DN. Please revise." : "No s'ha trobat cap objecte a la Base DN donada. Reviseu.",
     "More than 1,000 directory entries available." : "Hi ha més de 1.000 entrades de directoris disponibles.",
-    " entries available within the provided Base DN" : "les entrades disponibles a la Base DN proporcionada",
     "An error occurred. Please check the Base DN, as well as connection settings and credentials." : "Hi ha hagut un error. Comproveu la base DN, així com la configuració de connexió i les credencials.",
     "Do you really want to delete the current Server Configuration?" : "Voleu eliminar la configuració actual del servidor?",
     "Confirm Deletion" : "Confirma l'eliminació",
@@ -142,6 +141,7 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "Mapatge d'usuari Nom d'usuari-LDAP",
     "Clear Username-LDAP User Mapping" : "Elimina el mapatge d'usuari Nom d'usuari-LDAP",
     "Clear Groupname-LDAP Group Mapping" : "Elimina el mapatge de grup Nom de grup-LDAP",
+    " entries available within the provided Base DN" : "les entrades disponibles a la Base DN proporcionada",
     "LDAP" : "LDAP",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Avís:</b> Les aplicacions user_ldap i user_webdavauth són incompatibles. Podeu experimentar comportaments inesperats. Demaneu a l'administrador del sistema que en desactivi una."
 },

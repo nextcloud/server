@@ -20,7 +20,6 @@ OC.L10N.register(
     "Select object classes" : "Hautatu objektu klaseak",
     "{nthServer}. Server" : "{nthServer}. Zerbitzaria",
     "More than 1,000 directory entries available." : "1.000 baino direktorio sarrera gehiago daude.",
-    " entries available within the provided Base DN" : "sarrera eskuragarri emandako Oinarrizko DNarekin",
     "Do you really want to delete the current Server Configuration?" : "Ziur zaude Zerbitzariaren Konfigurazioa ezabatu nahi duzula?",
     "Confirm Deletion" : "Baieztatu Ezabatzea",
     "Select attributes" : "Hautatu atributuak",
@@ -117,6 +116,7 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "LDAP-erabiltzaile-izena erabiltzailearen mapeatzea",
     "Clear Username-LDAP User Mapping" : "Garbitu LDAP-erabiltzaile-izenaren erabiltzaile mapaketa",
     "Clear Groupname-LDAP Group Mapping" : "Garbitu LDAP-talde-izenaren talde mapaketa",
+    " entries available within the provided Base DN" : "sarrera eskuragarri emandako Oinarrizko DNarekin",
     "LDAP" : "LDAP",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Abisua:</b> user_ldap eta user_webdavauth aplikazioak bateraezinak dira. Portaera berezia izan dezakezu. Mesedez eskatu zure sistema kudeatzaileari bietako bat desgaitzeko."
 },

@@ -11,7 +11,6 @@
     "There is no error, the file uploaded with success" : "Herhangi bir sorun yok, dosya yüklendi",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "Yüklenen dosya php.ini dosyasındaki yüklenebilecek dosya boyutunu belirten upload_max_filesize değişkeninin değerini aşıyor",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "Yüklenen dosya HTML formundaki yüklenebilecek dosya boyutunu belirten MAX_FILE_SIZE değişkeninin değerini aşıyor",
-    "The uploaded file was only partially uploaded" : "Dosyanın yalnızca bir bölümü yüklenebildi",
     "No file was uploaded" : "Herhangi bir dosya yüklenmedi",
     "Missing a temporary folder" : "Geçici klasör bulunamadı",
     "Failed to write file to disk." : "Dosya diske yazılamadı.",
@@ -33,6 +32,7 @@
     "Upload new login background" : "Yeni oturum açma art alanı yükle",
     "Remove background image" : "Art alan görselini kaldır",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Yüklenen logo ve renge göre otomatik olarak favicon üretilmesi için Imagemagick PHP eklentisini SVG desteği ile kurun.",
-    "reset to default" : "varsayılana dön"
+    "reset to default" : "varsayılana dön",
+    "The uploaded file was only partially uploaded" : "Dosyanın yalnızca bir bölümü yüklenebildi"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }
