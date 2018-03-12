@@ -40,23 +40,25 @@
 
 namespace OC\Group;
 
+use OCP\IDBConnection;
+
 /**
  * Class for group management in a SQL Database (e.g. MySQL, SQLite)
  */
-class Database extends \OC\Group\Backend {
+class Database extends Backend {
 
 	/** @var string[] */
 	private $groupCache = [];
 
-	/** @var \OCP\IDBConnection */
+	/** @var IDBConnection */
 	private $dbConn;
 
 	/**
 	 * \OC\Group\Database constructor.
 	 *
-	 * @param \OCP\IDBConnection|null $dbConn
+	 * @param IDBConnection|null $dbConn
 	 */
-	public function __construct(\OCP\IDBConnection $dbConn = null) {
+	public function __construct(IDBConnection $dbConn = null) {
 		$this->dbConn = $dbConn;
 	}
 
@@ -219,7 +221,7 @@ class Database extends \OC\Group\Backend {
 
 		$groups = [];
 		while( $row = $cursor->fetch()) {
-			$groups[] = $row["gid"];
+			$groups[] = $row['gid'];
 			$this->groupCache[$row['gid']] = $row['gid'];
 		}
 		$cursor->closeCursor();
@@ -237,19 +239,27 @@ class Database extends \OC\Group\Backend {
 	 * Returns a list with all groups
 	 */
 	public function getGroups($search = '', $limit = null, $offset = null) {
-		$parameters = [];
-		$searchLike = '';
+		$query = $this->dbConn->getQueryBuilder();
+		$query->select('gid')
+			->from('groups')
+			->orderBy('gid', 'ASC');
+
 		if ($search !== '') {
-			$parameters[] = '%' . $search . '%';
-			$searchLike = ' WHERE LOWER(`gid`) LIKE LOWER(?)';
+			$query->where($query->expr()->iLike('gid', $query->createNamedParameter(
+				'%' . $this->dbConn->escapeLikeParameter($search) . '%'
+			)));
 		}
 
-		$stmt = \OC_DB::prepare('SELECT `gid` FROM `*PREFIX*groups`' . $searchLike . ' ORDER BY `gid` ASC', $limit, $offset);
-		$result = $stmt->execute($parameters);
-		$groups = array();
-		while ($row = $result->fetchRow()) {
+		$query->setMaxResults($limit)
+			->setFirstResult($offset);
+		$result = $query->execute();
+
+		$groups = [];
+		while ($row = $result->fetch()) {
 			$groups[] = $row['gid'];
 		}
+		$result->closeCursor();
+
 		return $groups;
 	}
 
@@ -290,21 +300,28 @@ class Database extends \OC\Group\Backend {
 	 * @return array an array of user ids
 	 */
 	public function usersInGroup($gid, $search = '', $limit = null, $offset = null) {
-		$parameters = [$gid];
-		$searchLike = '';
+		$query = $this->dbConn->getQueryBuilder();
+		$query->select('uid')
+			->from('group_user')
+			->where($query->expr()->eq('gid', $query->createNamedParameter($gid)))
+			->orderBy('uid', 'ASC');
+
 		if ($search !== '') {
-			$parameters[] = '%' . $this->dbConn->escapeLikeParameter($search) . '%';
-			$searchLike = ' AND `uid` LIKE ?';
+			$query->andWhere($query->expr()->like('uid', $query->createNamedParameter(
+				'%' . $this->dbConn->escapeLikeParameter($search) . '%'
+			)));
 		}
 
-		$stmt = \OC_DB::prepare('SELECT `uid` FROM `*PREFIX*group_user` WHERE `gid` = ?' . $searchLike . ' ORDER BY `uid` ASC',
-			$limit,
-			$offset);
-		$result = $stmt->execute($parameters);
-		$users = array();
-		while ($row = $result->fetchRow()) {
+		$query->setMaxResults($limit)
+			->setFirstResult($offset);
+		$result = $query->execute();
+
+		$users = [];
+		while ($row = $result->fetch()) {
 			$users[] = $row['uid'];
 		}
+		$result->closeCursor();
+
 		return $users;
 	}
 
@@ -313,20 +330,25 @@ class Database extends \OC\Group\Backend {
 	 * @param string $gid
 	 * @param string $search
 	 * @return int|false
-	 * @throws \OC\DatabaseException
 	 */
 	public function countUsersInGroup($gid, $search = '') {
-		$parameters = [$gid];
-		$searchLike = '';
+		$query = $this->dbConn->getQueryBuilder();
+		$query->selectAlias($query->createFunction('COUNT(*)'), 'num_users')
+			->from('group_user')
+			->where($query->expr()->eq('gid', $query->createNamedParameter($gid)))
+			->orderBy('uid', 'ASC');
+
 		if ($search !== '') {
-			$parameters[] = '%' . $this->dbConn->escapeLikeParameter($search) . '%';
-			$searchLike = ' AND `uid` LIKE ?';
+			$query->andWhere($query->expr()->like('uid', $query->createNamedParameter(
+				'%' . $this->dbConn->escapeLikeParameter($search) . '%'
+			)));
 		}
 
-		$stmt = \OC_DB::prepare('SELECT COUNT(`uid`) AS `count` FROM `*PREFIX*group_user` WHERE `gid` = ?' . $searchLike);
-		$result = $stmt->execute($parameters);
-		$count = $result->fetchOne();
-		if($count !== false) {
+		$result = $query->execute();
+		$count = $result->fetchColumn();
+		$result->closeCursor();
+
+		if ($count !== false) {
 			$count = (int)$count;
 		}
 		return $count;
