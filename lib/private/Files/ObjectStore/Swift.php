@@ -62,6 +62,10 @@ class Swift implements IObjectStore {
 	 * @return string the container name where objects are stored
 	 */
 	public function getStorageId() {
+		if (isset($this->params['bucket'])) {
+			return $this->params['bucket'];
+		}
+
 		return $this->params['container'];
 	}
 
