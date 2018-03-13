@@ -627,12 +627,12 @@ interface IQueryBuilder {
 	 *         ->addGroupBy('u.createdAt')
 	 * </code>
 	 *
-	 * @param mixed $groupBy The grouping expression.
+	 * @param mixed ...$groupBy The grouping expression.
 	 *
 	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
-	public function addGroupBy($groupBy);
+	public function addGroupBy(...$groupBy);
 
 	/**
 	 * Sets a value for a column in an insert query.
