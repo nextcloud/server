@@ -81,7 +81,7 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 	<input type="hidden" name="dir" id="dir" value="" />
 	<div class="hiddenuploadfield">
 		<input type="file" id="file_upload_start" class="hiddenuploadfield" name="files[]"
-			   data-url="<?php p(OCP\Util::linkTo('files', 'ajax/upload.php')); ?>" />
+			   data-url="<?php p(\OC::$server->getURLGenerator()->linkTo('files', 'ajax/upload.php')); ?>" />
 	</div>
 <?php endif; ?>
 

@@ -43,7 +43,7 @@ try {
 	}
 
 	$data = array();
-	$baseUrl = OCP\Util::linkTo('files', 'index.php') . '?dir=';
+	$baseUrl = \OC::$server->getURLGenerator()->linkTo('files', 'index.php') . '?dir=';
 
 	$permissions = $dirInfo->getPermissions();
 
