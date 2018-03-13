@@ -630,13 +630,6 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerAlias('DatabaseConnection', IDBConnection::class);
 
-		$this->registerService('HTTPHelper', function (Server $c) {
-			$config = $c->getConfig();
-			return new HTTPHelper(
-				$config,
-				$c->getHTTPClientService()
-			);
-		});
 
 		$this->registerService(\OCP\Http\Client\IClientService::class, function (Server $c) {
 			$user = \OC_User::getUser();
@@ -1580,16 +1573,6 @@ class Server extends ServerContainer implements IServerContainer {
 	 */
 	public function getCredentialsManager() {
 		return $this->query('CredentialsManager');
-	}
-
-	/**
-	 * Returns an instance of the HTTP helper class
-	 *
-	 * @deprecated Use getHTTPClientService()
-	 * @return \OC\HTTPHelper
-	 */
-	public function getHTTPHelper() {
-		return $this->query('HTTPHelper');
 	}
 
 	/**

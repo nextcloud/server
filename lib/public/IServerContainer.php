@@ -348,14 +348,6 @@ interface IServerContainer extends IContainer {
 	public function createEventSource();
 
 	/**
-	 * Returns an instance of the HTTP helper class
-	 * @return \OC\HTTPHelper
-	 * @deprecated 8.1.0 Use \OCP\Http\Client\IClientService
-	 * @since 8.0.0
-	 */
-	public function getHTTPHelper();
-
-	/**
 	 * Returns an instance of the HTTP client service
 	 *
 	 * @return \OCP\Http\Client\IClientService

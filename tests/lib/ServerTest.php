@@ -91,7 +91,6 @@ class ServerTest extends \Test\TestCase {
 
 			['Hasher', '\OC\Security\Hasher'],
 			['Hasher', '\OCP\Security\IHasher'],
-			['HTTPHelper', '\OC\HTTPHelper'],
 			['HttpClientService', '\OC\Http\Client\ClientService'],
 			['HttpClientService', '\OCP\Http\Client\IClientService'],
 

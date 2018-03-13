@@ -696,7 +696,6 @@ return array(
     'OC\\Group\\Group' => $baseDir . '/lib/private/Group/Group.php',
     'OC\\Group\\Manager' => $baseDir . '/lib/private/Group/Manager.php',
     'OC\\Group\\MetaData' => $baseDir . '/lib/private/Group/MetaData.php',
-    'OC\\HTTPHelper' => $baseDir . '/lib/private/HTTPHelper.php',
     'OC\\HintException' => $baseDir . '/lib/private/HintException.php',
     'OC\\Hooks\\BasicEmitter' => $baseDir . '/lib/private/Hooks/BasicEmitter.php',
     'OC\\Hooks\\Emitter' => $baseDir . '/lib/private/Hooks/Emitter.php',
