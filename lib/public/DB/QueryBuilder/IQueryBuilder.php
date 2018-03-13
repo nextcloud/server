@@ -292,12 +292,12 @@ interface IQueryBuilder {
 	 *         ->leftJoin('u', 'phonenumbers', 'p', 'u.id = p.user_id');
 	 * </code>
 	 *
-	 * @param mixed $select The selection expressions.
+	 * @param mixed ...$selects The selection expressions.
 	 *
 	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
-	public function select($select = null);
+	public function select(...$selects);
 
 	/**
 	 * Specifies an item that is to be returned with a different name in the query result.
