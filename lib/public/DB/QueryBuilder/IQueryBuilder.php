@@ -693,12 +693,12 @@ interface IQueryBuilder {
 	 * Adds a restriction over the groups of the query, forming a logical
 	 * conjunction with any existing having restrictions.
 	 *
-	 * @param mixed $having The restriction to append.
+	 * @param mixed ...$having The restriction to append.
 	 *
 	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
-	public function andHaving($having);
+	public function andHaving(...$having);
 
 	/**
 	 * Adds a restriction over the groups of the query, forming a logical

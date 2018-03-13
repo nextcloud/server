@@ -931,14 +931,14 @@ class QueryBuilder implements IQueryBuilder {
 	 * Adds a restriction over the groups of the query, forming a logical
 	 * conjunction with any existing having restrictions.
 	 *
-	 * @param mixed $having The restriction to append.
+	 * @param mixed ...$having The restriction to append.
 	 *
 	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 */
-	public function andHaving($having) {
+	public function andHaving(...$having) {
 		call_user_func_array(
 			[$this->queryBuilder, 'andHaving'],
-			func_get_args()
+			$having
 		);
 
 		return $this;
