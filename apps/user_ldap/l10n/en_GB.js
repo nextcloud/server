@@ -33,6 +33,7 @@ OC.L10N.register(
     "{nthServer}. Server" : "{nthServer}. Server",
     "No object found in the given Base DN. Please revise." : "No object found in the given Base DN. Please revise.",
     "More than 1,000 directory entries available." : "More than 1,000 directory entries available.",
+    "_{objectsFound} entry available within the provided Base DN_::_{objectsFound} entries available within the provided Base DN_" : ["{objectsFound} entry available within the provided Base DN","{objectsFound} entries available within the provided Base DN"],
     "An error occurred. Please check the Base DN, as well as connection settings and credentials." : "An error occurred. Please check the Base DN, as well as connection settings and credentials.",
     "Do you really want to delete the current Server Configuration?" : "Do you really want to delete the current Server Configuration?",
     "Confirm Deletion" : "Confirm Deletion",

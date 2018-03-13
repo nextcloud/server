@@ -279,6 +279,7 @@ OC.L10N.register(
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds.",
     "Stay logged in" : "Stay logged in",
     "Forgot password?" : "Forgot password?",
+    "Back to login" : "Back to login",
     "Alternative Logins" : "Alternative Logins",
     "Account access" : "Account access",
     "You are about to grant %s access to your %s account." : "You are about to grant %s access to your %s account.",

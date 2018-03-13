@@ -104,6 +104,8 @@ OC.L10N.register(
     "Error: Could not disable broken app" : "Error: Could not disable broken app",
     "Error while disabling broken app" : "Error whilst disabling broken app",
     "App up to date" : "App up to date",
+    "Updating …" : "Updating …",
+    "Could not update app" : "Could not update app",
     "Updated" : "Updated",
     "Removing …" : "Removing …",
     "Could not remove app" : "Could not remove app",

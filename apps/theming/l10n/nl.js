@@ -13,6 +13,7 @@ OC.L10N.register(
     "There is no error, the file uploaded with success" : "Er trad geen fout op, het bestand is succesvol geüpload",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "Het geüploade bestand overschrijdt de upload_max_filesize richtlijn in php.ini:",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "Het bestand overschrijdt de MAX_FILE_SIZE richtlijn die is opgegeven in het HTML formulier",
+    "The file was only partially uploaded" : "Het bestand is slechts gedeeltelijk geüpload",
     "No file was uploaded" : "Er is geen bestand geüpload",
     "Missing a temporary folder" : "Er ontbreekt een tijdelijke map",
     "Failed to write file to disk." : "Schrijven van het bestand naar schijf mislukte.",

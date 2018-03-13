@@ -31,6 +31,7 @@
     "{nthServer}. Server" : "{nthServer}. Servidor",
     "No object found in the given Base DN. Please revise." : "No fue posible encontrar ningún objeto en el DN Base dado. Por favor verifica.",
     "More than 1,000 directory entries available." : "Se encuentran disponibles más de 1,000 elementos de directoiros. ",
+    "_{objectsFound} entry available within the provided Base DN_::_{objectsFound} entries available within the provided Base DN_" : ["{objectsFound} registro disponible dentro del DN base proporcionado","{objectsFound} registros disponibles dentro del DN base proporcionado"],
     "An error occurred. Please check the Base DN, as well as connection settings and credentials." : "Se presentó un error. Por favor verifica la DN Base, así como las configuraciones de la conexión y las credenciales.",
     "Do you really want to delete the current Server Configuration?" : "¿Realmente deseas eliminar la configuración actual del servidor?",
     "Confirm Deletion" : "Confirmar el borrado",

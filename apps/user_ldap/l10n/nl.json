@@ -31,6 +31,7 @@
     "{nthServer}. Server" : "{nthServer}. Server",
     "No object found in the given Base DN. Please revise." : "Geen object gevonden in de basis DN. Review instellingen.",
     "More than 1,000 directory entries available." : "Meer dan 1000 directorynamen beschikbaar.",
+    "_{objectsFound} entry available within the provided Base DN_::_{objectsFound} entries available within the provided Base DN_" : ["{objectsFound} account beschikbaar binnen de provider Basis DN","{objectsFound} accounts beschikbaar binnen de provider Basis DN"],
     "An error occurred. Please check the Base DN, as well as connection settings and credentials." : "Er trad een fout op. Controleer de Basis DN en de verbindingsinstellingen en inloggegevens.",
     "Do you really want to delete the current Server Configuration?" : "Wilt je werkelijk de huidige Serverconfiguratie verwijderen?",
     "Confirm Deletion" : "Bevestig verwijderen",

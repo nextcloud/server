@@ -13,6 +13,7 @@ OC.L10N.register(
     "There is no error, the file uploaded with success" : "There is no error, the file uploaded with success",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "The uploaded file exceeds the upload_max_filesize directive in php.ini",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form",
+    "The file was only partially uploaded" : "The file was only partially uploaded",
     "No file was uploaded" : "No file was uploaded",
     "Missing a temporary folder" : "Missing a temporary folder",
     "Failed to write file to disk." : "Failed to write file to disk.",
