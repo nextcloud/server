@@ -5,6 +5,7 @@ OC.L10N.register(
     "Saved" : "已儲存",
     "Admin" : "管理員",
     "a safe home for all your data" : "您資料的安全屋",
+    "Name cannot be empty" : "名稱不能空白",
     "The given name is too long" : "指定的名稱太長",
     "The given web address is too long" : "提供的網址太長",
     "The given slogan is too long" : "指定的標語太長",

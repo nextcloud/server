@@ -31,6 +31,7 @@
     "{nthServer}. Server" : "{nthServer}. Servidor",
     "No object found in the given Base DN. Please revise." : "Nenhum objeto encontrado na Base DN informada. Por favor revise.",
     "More than 1,000 directory entries available." : "Mais de 1.000 entradas de diretório disponíveis.",
+    "_{objectsFound} entry available within the provided Base DN_::_{objectsFound} entries available within the provided Base DN_" : ["{objectsFound} entrada disponível na Base DN fornecida","{objectsFound} entradas disponíveis na Base DN fornecida"],
     "An error occurred. Please check the Base DN, as well as connection settings and credentials." : "Um erro ocorreu. Por favor verifique a Base DN e também as configurações de conexão e credenciais.",
     "Do you really want to delete the current Server Configuration?" : "Você realmente quer excluir as configurações atuais do servidor?",
     "Confirm Deletion" : "Confirmar Exclusão",

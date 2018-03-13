@@ -14,6 +14,7 @@ OC.L10N.register(
     "(group)" : "(groep)",
     "Compatibility with Mac NFD encoding (slow)" : "Compatibiliteit met Mac NFD encoding (traag)",
     "Admin defined" : "Beheerder gedefinieerd",
+    "Are you sure you want to delete this external storage?" : "Weet je zeker dat je deze externe opslag wilt verwijderen",
     "Delete storage?" : "Opslag verwijderen?",
     "Saved" : "Bewaard",
     "Saving..." : "Bewaren...",

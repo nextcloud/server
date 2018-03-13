@@ -102,6 +102,8 @@
     "Error: Could not disable broken app" : "Error: No fue posible deshabilitar la aplicación rota",
     "Error while disabling broken app" : "Se presentó un error al deshabilitar la aplicación rota",
     "App up to date" : "La aplicación está actualizada",
+    "Updating …" : "Actualizando ...",
+    "Could not update app" : "No fue posible actualizar la aplicación",
     "Updated" : "Actualizado",
     "Removing …" : "Eliminando ...",
     "Could not remove app" : "No fue posible eliminar la aplicación",

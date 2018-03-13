@@ -11,6 +11,7 @@
     "There is no error, the file uploaded with success" : "Aucune erreur, le fichier a été téléversé avec succès",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "Le fichier téléversé dépasse la valeur upload_max_filesize située dans le fichier php.ini",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "Le fichier téléversé dépasse la valeur MAX_FILE_SIZE spécifiée dans le formulaire HTML",
+    "The file was only partially uploaded" : "Le fichier n'a été que partiellement envoyé",
     "No file was uploaded" : "Aucun fichier téléversé",
     "Missing a temporary folder" : "Absence de dossier temporaire",
     "Failed to write file to disk." : "Erreur d'écriture du fichier sur le disque.",
