@@ -71,14 +71,13 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 *     // (u.type = ?) AND (u.role = ?)
 	 *     $expr->andX('u.type = ?', 'u.role = ?'));
 	 *
-	 * @param mixed $x Optional clause. Defaults = null, but requires
+	 * @param mixed ...$x Optional clause. Defaults = null, but requires
 	 *                 at least one defined when converting to string.
 	 *
 	 * @return \OCP\DB\QueryBuilder\ICompositeExpression
 	 */
-	public function andX($x = null) {
-		$arguments = func_get_args();
-		$compositeExpression = call_user_func_array([$this->expressionBuilder, 'andX'], $arguments);
+	public function andX(...$x) {
+		$compositeExpression = call_user_func_array([$this->expressionBuilder, 'andX'], $x);
 		return new CompositeExpression($compositeExpression);
 	}
 
@@ -91,14 +90,13 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 *     // (u.type = ?) OR (u.role = ?)
 	 *     $qb->where($qb->expr()->orX('u.type = ?', 'u.role = ?'));
 	 *
-	 * @param mixed $x Optional clause. Defaults = null, but requires
+	 * @param mixed ...$x Optional clause. Defaults = null, but requires
 	 *                 at least one defined when converting to string.
 	 *
 	 * @return \OCP\DB\QueryBuilder\ICompositeExpression
 	 */
-	public function orX($x = null) {
-		$arguments = func_get_args();
-		$compositeExpression = call_user_func_array([$this->expressionBuilder, 'orX'], $arguments);
+	public function orX(...$x) {
+		$compositeExpression = call_user_func_array([$this->expressionBuilder, 'orX'], $x);
 		return new CompositeExpression($compositeExpression);
 	}
 
