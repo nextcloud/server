@@ -554,7 +554,7 @@ interface IQueryBuilder {
 	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
-	public function where($predicates);
+	public function where(...$predicates);
 
 	/**
 	 * Adds one or more restrictions to the query results, forming a logical

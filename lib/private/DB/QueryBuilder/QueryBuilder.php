@@ -729,14 +729,14 @@ class QueryBuilder implements IQueryBuilder {
 	 *         ->where($or);
 	 * </code>
 	 *
-	 * @param mixed $predicates The restriction predicates.
+	 * @param mixed ...$predicates The restriction predicates.
 	 *
 	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 */
-	public function where($predicates) {
+	public function where(...$predicates) {
 		call_user_func_array(
 			[$this->queryBuilder, 'where'],
-			func_get_args()
+			$predicates
 		);
 
 		return $this;
