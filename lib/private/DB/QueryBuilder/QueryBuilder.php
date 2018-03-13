@@ -948,14 +948,14 @@ class QueryBuilder implements IQueryBuilder {
 	 * Adds a restriction over the groups of the query, forming a logical
 	 * disjunction with any existing having restrictions.
 	 *
-	 * @param mixed $having The restriction to add.
+	 * @param mixed ...$having The restriction to add.
 	 *
 	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 */
-	public function orHaving($having) {
+	public function orHaving(...$having) {
 		call_user_func_array(
 			[$this->queryBuilder, 'orHaving'],
-			func_get_args()
+			$having
 		);
 
 		return $this;

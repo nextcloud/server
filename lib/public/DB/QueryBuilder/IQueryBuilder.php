@@ -704,12 +704,12 @@ interface IQueryBuilder {
 	 * Adds a restriction over the groups of the query, forming a logical
 	 * disjunction with any existing having restrictions.
 	 *
-	 * @param mixed $having The restriction to add.
+	 * @param mixed ...$having The restriction to add.
 	 *
 	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
-	public function orHaving($having);
+	public function orHaving(...$having);
 
 	/**
 	 * Specifies an ordering for the query results.
