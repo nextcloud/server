@@ -31,7 +31,7 @@
  */
 
 class OC_Response {
-	const STATUS_FOUND = 304;
+	const STATUS_FOUND = 302;
 	const STATUS_NOT_MODIFIED = 304;
 	const STATUS_TEMPORARY_REDIRECT = 307;
 	const STATUS_BAD_REQUEST = 400;
@@ -51,12 +51,12 @@ class OC_Response {
 				$status = $status . ' Not Modified';
 				break;
 			case self::STATUS_TEMPORARY_REDIRECT:
-				if ($protocol == 'HTTP/1.1') {
-					$status = $status . ' Temporary Redirect';
-					break;
-				} else {
+				if ($protocol == 'HTTP/1.0') {
 					$status = self::STATUS_FOUND;
 					// fallthrough
+				} else {
+					$status = $status . ' Temporary Redirect';
+					break;
 				}
 			case self::STATUS_FOUND;
 				$status = $status . ' Found';

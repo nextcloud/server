@@ -29,10 +29,10 @@ $route = isset($_GET['download']) ? 'files_sharing.sharecontroller.downloadShare
 
 if($token !== '') {
 	$protocol = \OC::$server->getRequest()->getHttpProtocol();
-	if ($protocol == 'HTTP/1.1') {
-		$status = '307 Temporary Redirect';
+	if ($protocol == 'HTTP/1.0') {
+		$status = '302 Found';
 	} else {
-		$status = '304 Found';
+		$status = '307 Temporary Redirect';
 	}
 	header($protocol.' ' . $status);
 	header('Location: ' . $urlGenerator->linkToRoute($route, array('token' => $token)));
