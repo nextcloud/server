@@ -914,14 +914,14 @@ class QueryBuilder implements IQueryBuilder {
 	 * Specifies a restriction over the groups of the query.
 	 * Replaces any previous having restrictions, if any.
 	 *
-	 * @param mixed $having The restriction over the groups.
+	 * @param mixed ...$having The restriction over the groups.
 	 *
 	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 */
-	public function having($having) {
+	public function having(...$having) {
 		call_user_func_array(
 			[$this->queryBuilder, 'having'],
-			func_get_args()
+			$having
 		);
 
 		return $this;

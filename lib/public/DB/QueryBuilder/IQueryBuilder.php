@@ -682,12 +682,12 @@ interface IQueryBuilder {
 	 * Specifies a restriction over the groups of the query.
 	 * Replaces any previous having restrictions, if any.
 	 *
-	 * @param mixed $having The restriction over the groups.
+	 * @param mixed ...$having The restriction over the groups.
 	 *
 	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
-	public function having($having);
+	public function having(...$having);
 
 	/**
 	 * Adds a restriction over the groups of the query, forming a logical
