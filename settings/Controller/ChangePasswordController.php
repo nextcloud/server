@@ -1,5 +1,7 @@
 <?php
-declare(strict_types=1);
+// FIXME: disabled for now to be able to inject IGroupManager and also use
+// getSubAdmin()
+//declare(strict_types=1);
 /**
  *
  *
@@ -27,12 +29,12 @@ declare(strict_types=1);
  */
 namespace OC\Settings\Controller;
 
-use OC\Group\Manager as GroupManager;
 use OC\HintException;
 use OC\User\Session;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IUser;
@@ -50,7 +52,7 @@ class ChangePasswordController extends Controller {
 	/** @var IL10N */
 	private $l;
 
-	/** @var GroupManager */
+	/** @var IGroupManager */
 	private $groupManager;
 
 	/** @var Session */
@@ -64,7 +66,7 @@ class ChangePasswordController extends Controller {
 								string $userId,
 								IUserManager $userManager,
 								IUserSession $userSession,
-								GroupManager $groupManager,
+								IGroupManager $groupManager,
 								IAppManager $appManager,
 								IL10N $l) {
 		parent::__construct($appName, $request);

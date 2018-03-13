@@ -1,5 +1,7 @@
 <?php
-declare(strict_types=1);
+// FIXME: disabled for now to be able to inject IGroupManager and also use
+// getSubAdmin()
+//declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -40,7 +42,6 @@ namespace OC\Settings\Controller;
 use OC\Accounts\AccountManager;
 use OC\AppFramework\Http;
 use OC\ForbiddenException;
-use OC\Group\Manager as GroupManager;
 use OC\HintException;
 use OC\Settings\Mailer\NewUserMailHelper;
 use OC\Security\IdentityProof\Manager;
@@ -52,6 +53,7 @@ use OCP\Files\Config\IUserMountCache;
 use OCP\Encryption\IEncryptionModule;
 use OCP\Encryption\IManager;
 use OCP\IConfig;
+use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IRequest;
@@ -77,7 +79,7 @@ class UsersController extends Controller {
 	private $isAdmin;
 	/** @var IUserManager */
 	private $userManager;
-	/** @var GroupManager */
+	/** @var IGroupManager */
 	private $groupManager;
 	/** @var IConfig */
 	private $config;
@@ -113,7 +115,7 @@ class UsersController extends Controller {
 	public function __construct(string $appName,
 								IRequest $request,
 								IUserManager $userManager,
-								GroupManager $groupManager,
+								IGroupManager $groupManager,
 								IUserSession $userSession,
 								IConfig $config,
 								bool $isAdmin,
