@@ -52,6 +52,14 @@ interface ICacheFactory{
 	public function isAvailable(): bool;
 
 	/**
+	 * Check if a local memory cache backend is available
+	 *
+	 * @return bool
+	 * @since 14.0.0
+	 */
+	public function isLocalCacheAvailable(): bool;
+
+	/**
 	 * create a cache instance for storing locks
 	 *
 	 * @param string $prefix

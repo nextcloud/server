@@ -185,11 +185,11 @@ class Factory implements ICacheFactory {
 	}
 
 	/**
-	 * check local memcache availability
+	 * Check if a local memory cache backend is available
 	 *
 	 * @return bool
 	 */
-	public function isAvailableLowLatency(): bool {
+	public function isLocalCacheAvailable(): bool {
 		return ($this->localCacheClass !== self::NULL_CACHE);
 	}
 }
