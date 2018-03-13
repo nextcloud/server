@@ -567,7 +567,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService(\OCP\Route\IRouter::class, function (Server $c) {
 			$cacheFactory = $c->getMemCacheFactory();
 			$logger = $c->getLogger();
-			if ($cacheFactory->isAvailableLowLatency()) {
+			if ($cacheFactory->isLocalCacheAvailable()) {
 				$router = new \OC\Route\CachingRouter($cacheFactory->createLocal('route'), $logger);
 			} else {
 				$router = new \OC\Route\Router($logger);
@@ -581,7 +581,7 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerAlias('Search', \OCP\ISearch::class);
 
-		$this->registerService(\OC\Security\RateLimiting\Limiter::class, function ($c) {
+		$this->registerService(\OC\Security\RateLimiting\Limiter::class, function (Server $c) {
 			return new \OC\Security\RateLimiting\Limiter(
 				$this->getUserSession(),
 				$this->getRequest(),
