@@ -12,6 +12,7 @@ OC.L10N.register(
     "More comments …" : "Fler kommentarer ...",
     "Save" : "Spara",
     "Allowed characters {count} of {max}" : "Antal tillåtna tecken, {count} av {max}",
+    "Error occurred while retrieving comment with ID {id}" : "Fel uppstod när kommentaren med ID {id} hämtades",
     "Error occurred while updating comment with id {id}" : "Fel inträffade vid uppdatering av kommentar med id {id}",
     "Error occurred while posting comment" : "Fel inträffade vid publicering av kommentar",
     "_%n unread comment_::_%n unread comments_" : ["%n oläst kommentar","%n olästa kommentarer"],
