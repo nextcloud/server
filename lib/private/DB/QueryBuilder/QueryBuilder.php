@@ -807,12 +807,14 @@ class QueryBuilder implements IQueryBuilder {
 	 *         ->groupBy('u.id');
 	 * </code>
 	 *
-	 * @param mixed $groupBy The grouping expression.
+	 * @param mixed ...$groupBys The grouping expression.
 	 *
 	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 */
-	public function groupBy($groupBy) {
-		$groupBys = is_array($groupBy) ? $groupBy : func_get_args();
+	public function groupBy(...$groupBys) {
+		if (count($groupBys) === 1 && is_array($groupBys[0])) {
+			$$groupBys = $groupBys[0];
+		}
 
 		call_user_func_array(
 			[$this->queryBuilder, 'groupBy'],

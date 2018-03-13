@@ -609,12 +609,12 @@ interface IQueryBuilder {
 	 *         ->groupBy('u.id');
 	 * </code>
 	 *
-	 * @param mixed $groupBy The grouping expression.
+	 * @param mixed ...$groupBys The grouping expression.
 	 *
 	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
-	public function groupBy($groupBy);
+	public function groupBy(...$groupBys);
 
 	/**
 	 * Adds a grouping expression to the query.
