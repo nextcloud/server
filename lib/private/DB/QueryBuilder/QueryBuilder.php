@@ -754,16 +754,16 @@ class QueryBuilder implements IQueryBuilder {
 	 *         ->andWhere('u.is_active = 1');
 	 * </code>
 	 *
-	 * @param mixed $where The query restrictions.
+	 * @param mixed ...$where The query restrictions.
 	 *
 	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 *
 	 * @see where()
 	 */
-	public function andWhere($where) {
+	public function andWhere(...$where) {
 		call_user_func_array(
 			[$this->queryBuilder, 'andWhere'],
-			func_get_args()
+			$where
 		);
 
 		return $this;

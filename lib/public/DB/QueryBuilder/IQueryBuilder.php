@@ -575,7 +575,7 @@ interface IQueryBuilder {
 	 * @see where()
 	 * @since 8.2.0
 	 */
-	public function andWhere($where);
+	public function andWhere(...$where);
 
 	/**
 	 * Adds one or more restrictions to the query results, forming a logical
