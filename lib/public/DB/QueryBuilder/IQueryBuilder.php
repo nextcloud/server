@@ -344,12 +344,12 @@ interface IQueryBuilder {
 	 *         ->leftJoin('u', 'phonenumbers', 'u.id = p.user_id');
 	 * </code>
 	 *
-	 * @param mixed $select The selection expression.
+	 * @param mixed ...$select The selection expression.
 	 *
 	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
-	public function addSelect($select = null);
+	public function addSelect(...$select);
 
 	/**
 	 * Turns the query being built into a bulk delete query that ranges over
