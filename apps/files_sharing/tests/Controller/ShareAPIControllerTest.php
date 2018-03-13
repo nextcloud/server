@@ -2068,7 +2068,7 @@ class ShareAPIControllerTest extends TestCase {
 				'file_parent' => 1,
 				'file_target' => 'myTarget',
 				'share_with' => 'user@server.com',
-				'share_with_displayname' => 'user@server.com',
+				'share_with_displayname' => 'foobar',
 				'mail_send' => 0,
 				'mimetype' => 'myFolderMimeType',
 			], $share, [], false
@@ -2126,6 +2126,20 @@ class ShareAPIControllerTest extends TestCase {
 				->with($share->getNode()->getPath())
 				->will($this->returnArgument(0));
 		}
+
+		$cm = $this->createMock(\OCP\Contacts\IManager::class);
+		$this->overwriteService(\OCP\Contacts\IManager::class, $cm);
+
+		$cm->method('search')
+			->with('user@server.com', ['CLOUD'])
+			->willReturn([
+				[
+					'CLOUD' => [
+						'user@server.com',
+					],
+					'FN' => 'foobar',
+				],
+			]);
 
 		try {
 			$result = $this->invokePrivate($this->ocs, 'formatShare', [$share]);
