@@ -568,7 +568,7 @@ interface IQueryBuilder {
 	 *         ->andWhere('u.is_active = 1');
 	 * </code>
 	 *
-	 * @param mixed $where The query restrictions.
+	 * @param mixed ...$where The query restrictions.
 	 *
 	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 *
@@ -589,14 +589,14 @@ interface IQueryBuilder {
 	 *         ->orWhere('u.id = 2');
 	 * </code>
 	 *
-	 * @param mixed $where The WHERE statement.
+	 * @param mixed ...$where The WHERE statement.
 	 *
 	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 *
 	 * @see where()
 	 * @since 8.2.0
 	 */
-	public function orWhere($where);
+	public function orWhere(...$where);
 
 	/**
 	 * Specifies a grouping over the results of the query.

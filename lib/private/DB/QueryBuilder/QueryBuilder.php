@@ -781,16 +781,16 @@ class QueryBuilder implements IQueryBuilder {
 	 *         ->orWhere('u.id = 2');
 	 * </code>
 	 *
-	 * @param mixed $where The WHERE statement.
+	 * @param mixed ...$where The WHERE statement.
 	 *
 	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 *
 	 * @see where()
 	 */
-	public function orWhere($where) {
+	public function orWhere(...$where) {
 		call_user_func_array(
 			[$this->queryBuilder, 'orWhere'],
-			func_get_args()
+			$where
 		);
 
 		return $this;
