@@ -104,6 +104,8 @@ OC.L10N.register(
     "Error: Could not disable broken app" : "Hata: Bozuk uygulama devre dışı bırakılamadı",
     "Error while disabling broken app" : "Bozuk uygulama devre dışı bırakılırken sorun çıktı",
     "App up to date" : "Uygulama güncel",
+    "Updating …" : "Güncelleniyor …",
+    "Could not update app" : "Uygulama güncellenemedi",
     "Updated" : "Güncellendi",
     "Removing …" : "Kaldırılıyor...",
     "Could not remove app" : "Uygulama kaldırılamadı",

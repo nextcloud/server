@@ -22,7 +22,7 @@
     "Invalid private key for encryption app. Please update your private key password in your personal settings to recover access to your encrypted files." : "La clave privada no es válida para la app de cifrado. Por favor, actualice la contraseña de su clave privada en sus ajustes personales para recuperar el acceso a sus archivos cifrados.",
     "Encryption App is enabled, but your keys are not initialized. Please log-out and log-in again." : "La aplicación de cifrado esta activada, pero sus credenciales no han sido iniciadas. Por favor cierre sesión e inicie sesión nuevamente.",
     "Please enable server side encryption in the admin settings in order to use the encryption module." : "Por favor active el cifrado en el lado del servidor en los ajustes de administración para poder usar el módulo de cifrado.",
-    "Encryption app is enabled and ready" : "La app de cifrado esta habilitada y preparada",
+    "Encryption app is enabled and ready" : "La app de cifrado está habilitada y preparada",
     "Bad Signature" : "Firma errónea",
     "Missing Signature" : "No se encuentra la firma",
     "one-time password for server-side-encryption" : "Contraseña de un solo uso para el cifrado en el lado servidor",

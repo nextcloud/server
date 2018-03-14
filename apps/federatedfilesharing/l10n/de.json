@@ -15,13 +15,6 @@
     "Couldn't establish a federated share." : "Federated-Share konnte nicht aufgebaut werden",
     "Couldn't establish a federated share, maybe the password was wrong." : "Federated-Share konnte nicht aufgebaut werden, da eventuell das Passwort falsch ist.",
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Anfrage zum Federated-Share war erfolgreich. Du erhälst eine Einladung. Bitte prüfe deine Benachrichtigungen. ",
-    "The mountpoint name contains invalid characters." : "Der Name des Einhängepunktes enthält ungültige Zeichen.",
-    "Not allowed to create a federated share with the owner." : "Das Erstellen einer Federated Cloud Freigabe mit dem Benutzer ist nicht erlaubt.",
-    "Invalid or untrusted SSL certificate" : "Ungültiges oder nicht vertrauenswürdiges SSL-Zertifikat",
-    "Could not authenticate to remote share, password might be wrong" : "Die Authentifizierung an der entfernten Freigabe konnte nicht erfolgen, das Passwort könnte falsch sein",
-    "Storage not valid" : "Speicher ungültig",
-    "Federated share added" : "Federated-Share hinzugefügt ",
-    "Couldn't add remote share" : "Remotefreigabe konnte nicht hinzu gefügt werden",
     "Sharing %s failed, because this item is already shared with %s" : "Freigabe von %s fehlgeschlagen, da dieses Objekt schon mit %s geteilt wird",
     "Not allowed to create a federated share with the same user" : "Das Erstellen einer Federated Cloud Freigabe mit dem gleichen Benutzer ist nicht erlaubt",
     "File is already shared with %s" : "Datei wird bereits mit %s geteilt",
@@ -51,6 +44,13 @@
     "Add to your website" : "Zu deiner Webseite hinzufügen",
     "Share with me via Nextcloud" : "Teile mit mir über Nextcloud",
     "HTML Code:" : "HTML-Code:",
+    "The mountpoint name contains invalid characters." : "Der Name des Einhängepunktes enthält ungültige Zeichen.",
+    "Not allowed to create a federated share with the owner." : "Das Erstellen einer Federated Cloud Freigabe mit dem Benutzer ist nicht erlaubt.",
+    "Invalid or untrusted SSL certificate" : "Ungültiges oder nicht vertrauenswürdiges SSL-Zertifikat",
+    "Could not authenticate to remote share, password might be wrong" : "Die Authentifizierung an der entfernten Freigabe konnte nicht erfolgen, das Passwort könnte falsch sein",
+    "Storage not valid" : "Speicher ungültig",
+    "Federated share added" : "Federated-Share hinzugefügt ",
+    "Couldn't add remote share" : "Remotefreigabe konnte nicht hinzu gefügt werden",
     "Search global and public address book for users and let local users publish their data" : "Globales und öffentliches Adressbuch nach Benutzern durchsuchen und lokale Benutzer ihre Daten veröffentlichen lassen"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

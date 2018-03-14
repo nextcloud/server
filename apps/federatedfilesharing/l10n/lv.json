@@ -12,11 +12,6 @@
     "Press Ctrl-C to copy." : "Spied Ctrl-C lai kopētu.",
     "Invalid Federated Cloud ID" : "Nederīgs Federated Cloud ID",
     "Server to server sharing is not enabled on this server" : "Koplietošana no servera uz serveri, šajā serverī nav iespējota",
-    "The mountpoint name contains invalid characters." : "Montēšanas punkta nosaukums satur nederīgus simbolus.",
-    "Not allowed to create a federated share with the owner." : "Nav atļauts izveidot ārēju koplietošanu ar īpašnieku.",
-    "Invalid or untrusted SSL certificate" : "Nederīgs vai neuzticams SSL sertifikāts",
-    "Storage not valid" : "Nederīga krātuve",
-    "Couldn't add remote share" : "Nevarēja pievienot attālināto koplietotni",
     "File is already shared with %s" : "Datne ir jau koplietota ar %s",
     "Could not find share" : "Nevarēja atrast koplietojumu",
     "Accept" : "Akceptēt",
@@ -28,6 +23,11 @@
     "Federated Cloud" : "Federated Cloud",
     "Your Federated Cloud ID:" : "Tavs Federated Cloud ID:",
     "Add to your website" : "Pievienojiet savai vietnei",
-    "HTML Code:" : "HTML kods:"
+    "HTML Code:" : "HTML kods:",
+    "The mountpoint name contains invalid characters." : "Montēšanas punkta nosaukums satur nederīgus simbolus.",
+    "Not allowed to create a federated share with the owner." : "Nav atļauts izveidot ārēju koplietošanu ar īpašnieku.",
+    "Invalid or untrusted SSL certificate" : "Nederīgs vai neuzticams SSL sertifikāts",
+    "Storage not valid" : "Nederīga krātuve",
+    "Couldn't add remote share" : "Nevarēja pievienot attālināto koplietotni"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);"
 }
