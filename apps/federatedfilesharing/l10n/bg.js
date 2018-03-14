@@ -16,12 +16,6 @@ OC.L10N.register(
     "Server to server sharing is not enabled on this server" : "Споделяне между сървъри не е разрешено на този сървър.",
     "Couldn't establish a federated share." : "Неуспешно осъществяване на федерално споделяне",
     "Couldn't establish a federated share, maybe the password was wrong." : "Неуспешно осъществяване на федерално споделяне, можеби паролата е грепна.",
-    "The mountpoint name contains invalid characters." : "Името на mountpoint-a съдържа невалидни символи.",
-    "Not allowed to create a federated share with the owner." : "Не е позволено създаване на федерално споделяне със собственика.",
-    "Invalid or untrusted SSL certificate" : "Невалиден или ненадежден SSL сертификат",
-    "Could not authenticate to remote share, password might be wrong" : "Неуспешно удостоверяване на отдалеченото споделяне, възможно е паролата да е грешна",
-    "Storage not valid" : "Невалидно хранилище",
-    "Couldn't add remote share" : "Неуспешно добавяне на отдалечена споделена директория.",
     "Sharing %s failed, because this item is already shared with %s" : "Неуспешно споделяне на %s, защото съдържанието е вече споделено с %s.",
     "Not allowed to create a federated share with the same user" : "Не е позволено създаване на федерално споделяне със същият потребител",
     "File is already shared with %s" : "Файлът е вече споделен с %s",
@@ -29,6 +23,12 @@ OC.L10N.register(
     "Open documentation" : "Отвори документацията",
     "Allow users on this server to send shares to other servers" : "Позволи на потребители от този сървър да споделят папки  с други сървъри",
     "Allow users on this server to receive shares from other servers" : "Позволи на потребители на този сървър да получават споделени папки от други сървъри",
-    "HTML Code:" : "HTML код:"
+    "HTML Code:" : "HTML код:",
+    "The mountpoint name contains invalid characters." : "Името на mountpoint-a съдържа невалидни символи.",
+    "Not allowed to create a federated share with the owner." : "Не е позволено създаване на федерално споделяне със собственика.",
+    "Invalid or untrusted SSL certificate" : "Невалиден или ненадежден SSL сертификат",
+    "Could not authenticate to remote share, password might be wrong" : "Неуспешно удостоверяване на отдалеченото споделяне, възможно е паролата да е грешна",
+    "Storage not valid" : "Невалидно хранилище",
+    "Couldn't add remote share" : "Неуспешно добавяне на отдалечена споделена директория."
 },
 "nplurals=2; plural=(n != 1);");

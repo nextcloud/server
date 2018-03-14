@@ -14,6 +14,7 @@ OC.L10N.register(
     "(group)" : "(grup)",
     "Compatibility with Mac NFD encoding (slow)" : "Mac NFD şifrelemesiyle uyumlu (yavaş)",
     "Admin defined" : "Yönetici ayarlamış",
+    "Are you sure you want to delete this external storage?" : "Bu dış depolamayı silmek istediğinize emin misiniz?",
     "Delete storage?" : "Depolama silinsin mi?",
     "Saved" : "Kaydedildi",
     "Saving..." : "Kaydediliyor...",

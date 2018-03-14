@@ -15,13 +15,6 @@
     "Couldn't establish a federated share." : "No s'ha pogut establir una part federada.",
     "Couldn't establish a federated share, maybe the password was wrong." : "No s'ha pogut establir una acció compartida federada, potser la contrasenya ha estat incorrecta.",
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "S'ha enviat la sol·licitud de participació federada, rebràs una invitació. Comproveu les vostres notificacions.",
-    "The mountpoint name contains invalid characters." : "El nom del punt de muntatge conté caràcters no vàlids.",
-    "Not allowed to create a federated share with the owner." : "No es permet crear una compartida federada amb el propietari.",
-    "Invalid or untrusted SSL certificate" : "El certificat SSL és invàlid o no és fiable",
-    "Could not authenticate to remote share, password might be wrong" : "No s'ha pogut autenticar per compartir de manera remota, la contrasenya podria estar equivocada",
-    "Storage not valid" : "Emmagatzemament no vàlid",
-    "Federated share added" : "S'ha afegit una part federada",
-    "Couldn't add remote share" : "No s'ha pogut afegir una compartició remota",
     "Sharing %s failed, because this item is already shared with %s" : "Ha fallat en compartir %s, perquè l'element ja està compartit amb %s",
     "Not allowed to create a federated share with the same user" : "No està permés crear una compartició federada amb el mateix usuari",
     "File is already shared with %s" : "El fitxer ja està compartit amb %s",
@@ -51,6 +44,13 @@
     "Add to your website" : "Afegeix a la teva pàgina web",
     "Share with me via Nextcloud" : "Comparteix amb mi a través de Nextcloud",
     "HTML Code:" : "Codi HTML:",
+    "The mountpoint name contains invalid characters." : "El nom del punt de muntatge conté caràcters no vàlids.",
+    "Not allowed to create a federated share with the owner." : "No es permet crear una compartida federada amb el propietari.",
+    "Invalid or untrusted SSL certificate" : "El certificat SSL és invàlid o no és fiable",
+    "Could not authenticate to remote share, password might be wrong" : "No s'ha pogut autenticar per compartir de manera remota, la contrasenya podria estar equivocada",
+    "Storage not valid" : "Emmagatzemament no vàlid",
+    "Federated share added" : "S'ha afegit una part federada",
+    "Couldn't add remote share" : "No s'ha pogut afegir una compartició remota",
     "Search global and public address book for users and let local users publish their data" : "Busqueu llibreta d'adreces global i pública per als usuaris i deixeu que els usuaris locals publiquin les seves dades"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
