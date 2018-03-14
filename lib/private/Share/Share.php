@@ -1991,7 +1991,22 @@ class Share extends Constants {
 		while ($result['success'] === false && $try < 2) {
 			$federationEndpoints = $discoveryService->discover($protocol . $remoteDomain, 'FEDERATED_SHARING');
 			$endpoint = isset($federationEndpoints['share']) ? $federationEndpoints['share'] : '/ocs/v2.php/cloud/shares';
-			$result = \OC::$server->getHTTPHelper()->post($protocol . $remoteDomain . $endpoint . $urlSuffix . '?format=' . self::RESPONSE_FORMAT, $fields);
+			$client = \OC::$server->getHTTPClientService()->newClient();
+
+			try {
+				$response = $client->post(
+					$protocol . $remoteDomain . $endpoint . $urlSuffix . '?format=' . self::RESPONSE_FORMAT,
+					[
+						'body' => $fields,
+						'connect_timeout' => 10,
+					]
+				);
+
+				$result = ['success' => true, 'result' => $response->getBody()];
+			} catch (\Exception $e) {
+				$result = ['success' => false, 'result' => $e->getMessage()];
+			}
+
 			$try++;
 			$protocol = 'http://';
 		}

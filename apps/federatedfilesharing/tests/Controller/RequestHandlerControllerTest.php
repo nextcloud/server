@@ -85,13 +85,6 @@ class RequestHandlerControllerTest extends TestCase {
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 		\OC\Share\Share::registerBackend('test', 'Test\Share\Backend');
 
-		$config = $this->getMockBuilder(IConfig::class)
-				->disableOriginalConstructor()->getMock();
-		$clientService = $this->getMockBuilder(IClientService::class)->getMock();
-		$httpHelperMock = $this->getMockBuilder('\OC\HTTPHelper')
-				->setConstructorArgs([$config, $clientService])
-				->getMock();
-		$httpHelperMock->expects($this->any())->method('post')->with($this->anything())->will($this->returnValue(true));
 		$this->share = $this->getMockBuilder(IShare::class)->getMock();
 		$this->federatedShareProvider = $this->getMockBuilder('OCA\FederatedFileSharing\FederatedShareProvider')
 			->disableOriginalConstructor()->getMock();
@@ -109,8 +102,6 @@ class RequestHandlerControllerTest extends TestCase {
 		$this->userManager = $this->getMockBuilder(IUserManager::class)->getMock();
 
 		$this->cloudIdManager = new CloudIdManager();
-
-		$this->registerHttpHelper($httpHelperMock);
 
 		$this->s2s = new RequestHandlerController(
 			'federatedfilesharing',
@@ -134,30 +125,7 @@ class RequestHandlerControllerTest extends TestCase {
 		$query = \OCP\DB::prepare('DELETE FROM `*PREFIX*share`');
 		$query->execute();
 
-		$this->restoreHttpHelper();
-
 		parent::tearDown();
-	}
-
-	/**
-	 * Register an http helper mock for testing purposes.
-	 * @param \OC\HTTPHelper $httpHelper helper mock
-	 */
-	private function registerHttpHelper($httpHelper) {
-		$this->oldHttpHelper = \OC::$server->query('HTTPHelper');
-		\OC::$server->registerService('HTTPHelper', function ($c) use ($httpHelper) {
-			return $httpHelper;
-		});
-	}
-
-	/**
-	 * Restore the original http helper
-	 */
-	private function restoreHttpHelper() {
-		$oldHttpHelper = $this->oldHttpHelper;
-		\OC::$server->registerService('HTTPHelper', function ($c) use ($oldHttpHelper) {
-			return $oldHttpHelper;
-		});
 	}
 
 	/**
