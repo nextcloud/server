@@ -100,6 +100,7 @@ class AdminTest extends TestCase {
 				'updateVersion' => '8.1.2',
 				'downloadLink' => 'https://downloads.nextcloud.org/server',
 				'updaterEnabled' => true,
+				'versionIsEol' => false,
 			]);
 
 		$group = $this->createMock(IGroup::class);
@@ -124,6 +125,7 @@ class AdminTest extends TestCase {
 				'newVersionString' => '8.1.2',
 				'downloadLink' => 'https://downloads.nextcloud.org/server',
 				'updaterEnabled' => true,
+				'versionIsEol' => false,
 				'isDefaultUpdateServerURL' => true,
 				'updateServerURL' => 'https://updates.nextcloud.com/updater_server/',
 				'notifyGroups' => [

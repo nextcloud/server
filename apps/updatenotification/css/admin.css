@@ -40,3 +40,7 @@
 	color: #555;
 	font-weight: normal;
 }
+
+#updatenotification .warning {
+	color: #ce3702;
+}
