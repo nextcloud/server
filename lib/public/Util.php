@@ -234,33 +234,6 @@ class Util {
 	}
 
 	/**
-	 * Creates an url using a defined route
-	 * @param string $route
-	 * @param array $parameters
-	 * @internal param array $args with param=>value, will be appended to the returned url
-	 * @return string the url
-	 * @deprecated 8.1.0 Use \OC::$server->getURLGenerator()->linkToRoute($route, $parameters)
-	 * @since 5.0.0
-	 */
-	public static function linkToRoute( $route, $parameters = array() ) {
-		return \OC::$server->getURLGenerator()->linkToRoute($route, $parameters);
-	}
-
-	/**
-	 * Creates an url to the given app and file
-	 * @param string $app app
-	 * @param string $file file
-	 * @param array $args array with param=>value, will be appended to the returned url
-	 * 	The value of $args will be urlencoded
-	 * @return string the url
-	 * @deprecated 8.1.0 Use \OC::$server->getURLGenerator()->linkTo($app, $file, $args)
-	 * @since 4.0.0 - parameter $args was added in 4.5.0
-	 */
-	public static function linkTo( $app, $file, $args = array() ) {
-		return \OC::$server->getURLGenerator()->linkTo($app, $file, $args);
-	}
-
-	/**
 	 * Returns the server host name without an eventual port number
 	 * @return string the server hostname
 	 * @since 5.0.0
@@ -305,18 +278,6 @@ class Util {
 
 		// in case we cannot build a valid email address from the hostname let's fallback to 'localhost.localdomain'
 		return $user_part.'@localhost.localdomain';
-	}
-
-	/**
-	 * Creates path to an image
-	 * @param string $app app
-	 * @param string $image image name
-	 * @return string the url
-	 * @deprecated 8.1.0 Use \OC::$server->getURLGenerator()->imagePath($app, $image)
-	 * @since 4.0.0
-	 */
-	public static function imagePath( $app, $image ) {
-		return \OC::$server->getURLGenerator()->imagePath($app, $image);
 	}
 
 	/**
