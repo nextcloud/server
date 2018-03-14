@@ -121,7 +121,6 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\Comments\\NotFoundException' => __DIR__ . '/../../..' . '/lib/public/Comments/NotFoundException.php',
         'OCP\\Console\\ConsoleEvent' => __DIR__ . '/../../..' . '/lib/public/Console/ConsoleEvent.php',
         'OCP\\Constants' => __DIR__ . '/../../..' . '/lib/public/Constants.php',
-        'OCP\\Contacts' => __DIR__ . '/../../..' . '/lib/public/Contacts.php',
         'OCP\\Contacts\\ContactsMenu\\IAction' => __DIR__ . '/../../..' . '/lib/public/Contacts/ContactsMenu/IAction.php',
         'OCP\\Contacts\\ContactsMenu\\IActionFactory' => __DIR__ . '/../../..' . '/lib/public/Contacts/ContactsMenu/IActionFactory.php',
         'OCP\\Contacts\\ContactsMenu\\IContactsStore' => __DIR__ . '/../../..' . '/lib/public/Contacts/ContactsMenu/IContactsStore.php',

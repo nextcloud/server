@@ -91,7 +91,6 @@ return array(
     'OCP\\Comments\\NotFoundException' => $baseDir . '/lib/public/Comments/NotFoundException.php',
     'OCP\\Console\\ConsoleEvent' => $baseDir . '/lib/public/Console/ConsoleEvent.php',
     'OCP\\Constants' => $baseDir . '/lib/public/Constants.php',
-    'OCP\\Contacts' => $baseDir . '/lib/public/Contacts.php',
     'OCP\\Contacts\\ContactsMenu\\IAction' => $baseDir . '/lib/public/Contacts/ContactsMenu/IAction.php',
     'OCP\\Contacts\\ContactsMenu\\IActionFactory' => $baseDir . '/lib/public/Contacts/ContactsMenu/IActionFactory.php',
     'OCP\\Contacts\\ContactsMenu\\IContactsStore' => $baseDir . '/lib/public/Contacts/ContactsMenu/IContactsStore.php',
