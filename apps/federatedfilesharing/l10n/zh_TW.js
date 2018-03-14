@@ -16,13 +16,6 @@ OC.L10N.register(
     "Server to server sharing is not enabled on this server" : "伺服器對伺服器共享在這台伺服器上面並未啟用",
     "Couldn't establish a federated share." : "無法建立聯盟式分享",
     "Couldn't establish a federated share, maybe the password was wrong." : "無法建立聯盟式分享，可能是密碼錯誤",
-    "The mountpoint name contains invalid characters." : "掛載點名稱含有不合法的字元",
-    "Not allowed to create a federated share with the owner." : "不允許與所有者建立聯盟式分享",
-    "Invalid or untrusted SSL certificate" : "無效或是不信任的 SSL憑證",
-    "Could not authenticate to remote share, password might be wrong" : "無法驗證遠端分享，可能是密碼錯誤",
-    "Storage not valid" : "儲存空間無效",
-    "Federated share added" : "聯盟分享已新增",
-    "Couldn't add remote share" : "無法加入遠端分享",
     "Sharing %s failed, because this item is already shared with %s" : "分享 %s 失敗，因為此項目目前已經與 %s 分享",
     "Not allowed to create a federated share with the same user" : "不允許與同一個使用者建立聯盟式分享",
     "File is already shared with %s" : "檔案已和 %s 分享",
@@ -40,6 +33,13 @@ OC.L10N.register(
     "Your Federated Cloud ID:" : "您的雲端聯盟 ID：",
     "Add to your website" : "新增至您的網站",
     "Share with me via Nextcloud" : "透過 Nextcloud 與我分享",
-    "HTML Code:" : "HTML Code:"
+    "HTML Code:" : "HTML Code:",
+    "The mountpoint name contains invalid characters." : "掛載點名稱含有不合法的字元",
+    "Not allowed to create a federated share with the owner." : "不允許與所有者建立聯盟式分享",
+    "Invalid or untrusted SSL certificate" : "無效或是不信任的 SSL憑證",
+    "Could not authenticate to remote share, password might be wrong" : "無法驗證遠端分享，可能是密碼錯誤",
+    "Storage not valid" : "儲存空間無效",
+    "Federated share added" : "聯盟分享已新增",
+    "Couldn't add remote share" : "無法加入遠端分享"
 },
 "nplurals=1; plural=0;");

@@ -14,6 +14,7 @@ OC.L10N.register(
     "(group)" : "(група)",
     "Compatibility with Mac NFD encoding (slow)" : "Компатибилност са NFD кодирањем (споро)",
     "Admin defined" : "Дефинисао администратор",
+    "Are you sure you want to delete this external storage?" : "Да ли стварно желите да обришете ово спољашње складиште?",
     "Delete storage?" : "Обриши складиште?",
     "Saved" : "Сачувано",
     "Saving..." : "Чувам...",

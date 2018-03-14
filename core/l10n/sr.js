@@ -279,6 +279,7 @@ OC.L10N.register(
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Приметили смо више неисправних покушаја пријава са Ваше IP адресе. Следећа пријава ће бити могућа тек за 30 секунди.",
     "Stay logged in" : "Останите пријављени",
     "Forgot password?" : "Заборавили сте лозинку?",
+    "Back to login" : "Назад на пријаву",
     "Alternative Logins" : "Алтернативне пријаве",
     "Account access" : "Приступ налогу",
     "You are about to grant %s access to your %s account." : "Управо ћете одобрити %s приступ Вашем %s налогу.",

@@ -88,7 +88,7 @@
     "All" : "Todos",
     "Update to %s" : "Actualizar a %s",
     "No apps found for your version" : "No se han encontrado aplicaciones para su versión",
-    "The app will be downloaded from the app store" : "La app debe ser descargada desde una app store",
+    "The app will be downloaded from the app store" : "La app va a ser descargada de una tienda de aplicaciones",
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Las apps oficiales están desarrolladas por y dentro de la comunidad. Ofrecen una funcionalidad central y están preparadas para uso en producción.",
     "Approved apps are developed by trusted developers and have passed a cursory security check. They are actively maintained in an open code repository and their maintainers deem them to be stable for casual to normal use." : "Las aplicaciones aprobadas las desarrollan desarrolladores de confianza y han pasado un control de seguridad superficial. Estas se mantienen activamente en un repositorio de código abierto y sus encargados las consideran estables para un uso normal.",
     "This app is not checked for security issues and is new or known to be unstable. Install at your own risk." : "No se han verificado los posibles problemas de seguridad de esta app. Es nueva o bien es conocida por ser inestable. Instálela bajo su propio riesgo.",

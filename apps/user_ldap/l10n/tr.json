@@ -31,6 +31,7 @@
     "{nthServer}. Server" : "{nthServer}. Sunucu",
     "No object found in the given Base DN. Please revise." : "Belirtilen Base DN içerisinde herhangi bir nesne bulunamadı. Lütfen gözden geçirin.",
     "More than 1,000 directory entries available." : "Kullanılabilecek 1000'den fazla dizin kaydı var.",
+    "_{objectsFound} entry available within the provided Base DN_::_{objectsFound} entries available within the provided Base DN_" : ["Belirtilen Base DN üzerinde {objectsFound} kayıt var","Belirtilen Base DN üzerinde {objectsFound} kayıt var"],
     "An error occurred. Please check the Base DN, as well as connection settings and credentials." : "Bir sorun çıktı. Lütfen Base DN ile birlikte bağlantı ayarlarını ve kimlik doğrulama bilgilerini denetleyin.",
     "Do you really want to delete the current Server Configuration?" : "Geçerli sunucu yapılandırmasını silmek istediğinizden emin misiniz?",
     "Confirm Deletion" : "Silmeyi Onaylıyorum",

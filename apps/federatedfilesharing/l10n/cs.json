@@ -15,13 +15,6 @@
     "Couldn't establish a federated share." : "Nepodařilo se ustavit spojené sdílení.",
     "Couldn't establish a federated share, maybe the password was wrong." : "Nepodařilo se ustavit propojené sdílení, heslo může být nesprávné.",
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Požadavek na spojené sdílení byl odeslán, obdržíte pozvánku. Zkontrolujte vaše upozornění.",
-    "The mountpoint name contains invalid characters." : "Jméno přípojného bodu obsahuje neplatné znaky.",
-    "Not allowed to create a federated share with the owner." : "ONení povoleno s autorem vytvořit propojené sdílení.",
-    "Invalid or untrusted SSL certificate" : "Neplatný nebo nedůvěryhodný SSL certifikát",
-    "Could not authenticate to remote share, password might be wrong" : "Autentizace ke vzdálenému sdílení selhala, heslo může být nesprávné",
-    "Storage not valid" : "Úložiště není platné",
-    "Federated share added" : "Propojené sdílení bylo přidáno",
-    "Couldn't add remote share" : "Nepodařilo se přidat propojené sdílení",
     "Sharing %s failed, because this item is already shared with %s" : "Sdílení položky %s selhalo, protože položka již je s uživatelem %s sdílena",
     "Not allowed to create a federated share with the same user" : "Není povoleno vytvořit propojené sdílení s tím samým uživatelem",
     "File is already shared with %s" : "Soubor je již sdílen s %s",
@@ -51,6 +44,13 @@
     "Add to your website" : "Přidat na svou webovou stránku",
     "Share with me via Nextcloud" : "Sdíleno se mnou přes Nextcloud",
     "HTML Code:" : "HTML kód:",
+    "The mountpoint name contains invalid characters." : "Jméno přípojného bodu obsahuje neplatné znaky.",
+    "Not allowed to create a federated share with the owner." : "ONení povoleno s autorem vytvořit propojené sdílení.",
+    "Invalid or untrusted SSL certificate" : "Neplatný nebo nedůvěryhodný SSL certifikát",
+    "Could not authenticate to remote share, password might be wrong" : "Autentizace ke vzdálenému sdílení selhala, heslo může být nesprávné",
+    "Storage not valid" : "Úložiště není platné",
+    "Federated share added" : "Propojené sdílení bylo přidáno",
+    "Couldn't add remote share" : "Nepodařilo se přidat propojené sdílení",
     "Search global and public address book for users and let local users publish their data" : "Hledat uživatele v globálním a veřejném adresáři a dovolit místním uživatelům publikovat jejich údaje"
 },"pluralForm" :"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;"
 }

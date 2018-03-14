@@ -11,6 +11,7 @@
     "There is no error, the file uploaded with success" : "Non ci sono errori, il file è stato caricato correttamente",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "Il file caricato supera la direttiva upload_max_filesize in php.ini",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "Il file caricato supera la direttiva MAX_FILE_SIZE specificata nel modulo HTML",
+    "The file was only partially uploaded" : "Il file è  stato caricato solo parzialmente",
     "No file was uploaded" : "Non è stato caricato alcun file",
     "Missing a temporary folder" : "Manca una cartella temporanea",
     "Failed to write file to disk." : "Scrittura su disco non riuscita",

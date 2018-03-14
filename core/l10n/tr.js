@@ -279,6 +279,7 @@ OC.L10N.register(
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "IP adresinizden yapılan birden çok geçersiz oturum açma girişimi algılandı. Bu nedenle oturum açmanız 30 saniye süreyle engellendi.",
     "Stay logged in" : "Bağlı kal",
     "Forgot password?" : "Parolamı unuttum",
+    "Back to login" : "Oturum açmaya geri dön",
     "Alternative Logins" : "Alternatif Oturum Açmalar",
     "Account access" : "Hesap erişimi",
     "You are about to grant %s access to your %s account." : "%s erişim iznini %s hesabınız için vermek üzeresiniz.",
