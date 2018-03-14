@@ -106,7 +106,6 @@ script('core', 'merged-login');
 <?php if (!empty($_['alt_login'])) { ?>
 <form id="alternative-logins">
 	<fieldset>
-		<legend><?php p($l->t('Alternative Logins')) ?></legend>
 		<ul>
 			<?php foreach($_['alt_login'] as $login): ?>
 				<li><a class="button" href="<?php print_unescaped($login['href']); ?>" ><?php p($login['name']); ?></a></li>
