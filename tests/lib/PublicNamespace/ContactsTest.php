@@ -21,19 +21,24 @@
 
 namespace Test\PublicNamespace;
 
+use OCP\IAddressBook;
+
 class ContactsTest extends \Test\TestCase {
 	protected function setUp() {
 		parent::setUp();
-		\OCP\Contacts::clear();
+		\OC::$server->getContactsManager()->clear();
 	}
 
 	public function testDisabledIfEmpty() {
 		// pretty simple
-		$this->assertFalse(\OCP\Contacts::isEnabled());
+		$this->assertFalse(\OC::$server->getContactsManager()->isEnabled());
 	}
 
 	public function testEnabledAfterRegister() {
+		$cm = \OC::$server->getContactsManager();
+
 		// create mock for the addressbook
+		/** @var \PHPUnit_Framework_MockObject_MockObject|IAddressBook $stub */
 		$stub = $this->getMockForAbstractClass("OCP\IAddressBook", array('getKey'));
 
 		// we expect getKey to be called twice:
@@ -43,23 +48,24 @@ class ContactsTest extends \Test\TestCase {
 			->method('getKey');
 
 		// not enabled before register
-		$this->assertFalse(\OCP\Contacts::isEnabled());
+		$this->assertFalse($cm->isEnabled());
 
 		// register the address book
-		\OCP\Contacts::registerAddressBook($stub);
+		$cm->registerAddressBook($stub);
 
 		// contacts api shall be enabled
-		$this->assertTrue(\OCP\Contacts::isEnabled());
+		$this->assertTrue($cm->isEnabled());
 
 		// unregister the address book
-		\OCP\Contacts::unregisterAddressBook($stub);
+		$cm->unregisterAddressBook($stub);
 
 		// not enabled after register
-		$this->assertFalse(\OCP\Contacts::isEnabled());
+		$this->assertFalse($cm->isEnabled());
 	}
 
 	public function testAddressBookEnumeration() {
 		// create mock for the addressbook
+		/** @var \PHPUnit_Framework_MockObject_MockObject|IAddressBook $stub */
 		$stub = $this->getMockForAbstractClass("OCP\IAddressBook", array('getKey', 'getDisplayName'));
 
 		// setup return for method calls
@@ -71,8 +77,9 @@ class ContactsTest extends \Test\TestCase {
 			->will($this->returnValue('A very simple Addressbook'));
 
 		// register the address book
-		\OCP\Contacts::registerAddressBook($stub);
-		$all_books = \OCP\Contacts::getAddressBooks();
+		$cm = \OC::$server->getContactsManager();
+		$cm->registerAddressBook($stub);
+		$all_books = $cm->getAddressBooks();
 
 		$this->assertEquals(1, count($all_books));
 		$this->assertEquals('A very simple Addressbook', $all_books['SIMPLE_ADDRESS_BOOK']);
@@ -80,7 +87,9 @@ class ContactsTest extends \Test\TestCase {
 
 	public function testSearchInAddressBook() {
 		// create mock for the addressbook
+		/** @var \PHPUnit_Framework_MockObject_MockObject|IAddressBook $stub1 */
 		$stub1 = $this->getMockForAbstractClass("OCP\IAddressBook", array('getKey', 'getDisplayName', 'search'));
+		/** @var \PHPUnit_Framework_MockObject_MockObject|IAddressBook $stub2 */
 		$stub2 = $this->getMockForAbstractClass("OCP\IAddressBook", array('getKey', 'getDisplayName', 'search'));
 
 		$searchResult1 = array(
@@ -103,15 +112,16 @@ class ContactsTest extends \Test\TestCase {
 		$stub2->expects($this->any())->method('search')->will($this->returnValue($searchResult2));
 
 		// register the address books
-		\OCP\Contacts::registerAddressBook($stub1);
-		\OCP\Contacts::registerAddressBook($stub2);
-		$all_books = \OCP\Contacts::getAddressBooks();
+		$cm = \OC::$server->getContactsManager();
+		$cm->registerAddressBook($stub1);
+		$cm->registerAddressBook($stub2);
+		$all_books = $cm->getAddressBooks();
 
 		// assert the count - doesn't hurt
 		$this->assertEquals(2, count($all_books));
 
 		// perform the search
-		$result = \OCP\Contacts::search('x', array());
+		$result = $cm->search('x', array());
 
 		// we expect 4 hits
 		$this->assertEquals(4, count($result));
