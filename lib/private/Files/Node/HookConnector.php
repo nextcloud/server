@@ -72,6 +72,8 @@ class HookConnector {
 
 		Util::connectHook('OC_Filesystem', 'touch', $this, 'touch');
 		Util::connectHook('OC_Filesystem', 'post_touch', $this, 'postTouch');
+
+		Util::connectHook('OC_Filesystem', 'read', $this, 'read');
 	}
 
 	public function write($arguments) {
@@ -138,6 +140,11 @@ class HookConnector {
 		$source = $this->getNodeForPath($arguments['oldpath']);
 		$target = $this->getNodeForPath($arguments['newpath']);
 		$this->root->emit('\OC\Files', 'postCopy', [$source, $target]);
+	}
+
+	public function read($arguments) {
+		$node = $this->getNodeForPath($arguments['path']);
+		$this->root->emit('\OC\Files', 'read', [$node]);
 	}
 
 	private function getNodeForPath($path) {
