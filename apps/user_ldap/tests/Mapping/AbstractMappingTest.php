@@ -235,6 +235,29 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 	}
 
 	/**
+	 * tests clear() for successful update.
+	 */
+	public function testClearCb() {
+		list($mapper, $data) = $this->initTest();
+
+		$callbackCalls = 0;
+		$test = $this;
+
+		$callback = function (string $id) use ($test, &$callbackCalls) {
+			$test->assertTrue(trim($id) !== '');
+			$callbackCalls++;
+		};
+
+		$done = $mapper->clearCb($callback, $callback);
+		$this->assertTrue($done);
+		$this->assertSame(count($data) * 2, $callbackCalls);
+		foreach($data as $entry) {
+			$name = $mapper->getNameByUUID($entry['uuid']);
+			$this->assertFalse($name);
+		}
+	}
+
+	/**
 	 * tests getList() method
 	 */
 	public function testList() {

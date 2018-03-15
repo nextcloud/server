@@ -396,7 +396,7 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 		\OC::$server->getLogger()->info('Cleaning up after user ' . $uid,
 			array('app' => 'user_ldap'));
 
-		$this->access->getUserMapper()->unmap($uid);
+		$this->access->getUserMapper()->unmap($uid); // we don't emit revoke signals here, since it is implicit to delete signals fired from core
 		$this->access->userManager->invalidate($uid);
 		return true;
 	}
