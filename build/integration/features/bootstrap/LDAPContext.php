@@ -82,4 +82,26 @@ class LDAPContext implements Context {
 	public function settingTheLDAPConfigurationTo(TableNode $configData) {
 		$this->sendingToWith('PUT', $this->apiUrl . '/' . $this->configID, $configData);
 	}
+
+	/**
+	 * @Given /^having a valid LDAP configuration$/
+	 */
+	public function havingAValidLDAPConfiguration() {
+		$this->asAn('admin');
+		$this->creatingAnLDAPConfigurationAt('/apps/user_ldap/api/v1/config');
+		$data = new TableNode([
+			['configData[ldapHost]', 'openldap'],
+			['configData[ldapPort]', '389'],
+			['configData[ldapBase]', 'dc=nextcloud,dc=ci'],
+			['configData[ldapAgentName]', 'cn=admin,dc=nextcloud,dc=ci'],
+			['configData[ldapAgentPassword]', 'admin'],
+			['configData[ldapUserFilter]', '(&(objectclass=inetorgperson))'],
+			['configData[ldapLoginFilter]', '(&(objectclass=inetorgperson)(uid=%uid))'],
+			['configData[ldapUserDisplayName]', 'displayname'],
+			['configData[ldapEmailAttribute]', 'mail'],
+			['configData[ldapConfigurationActive]', '1'],
+		]);
+		$this->settingTheLDAPConfigurationTo($data);
+		$this->asAn('');
+	}
 }
