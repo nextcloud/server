@@ -51,6 +51,19 @@ class UserManagement extends Action {
 	}
 
 	/**
+	 * Log assignments of users (typically user backends)
+	 *
+	 * @param string $uid
+	 */
+	public function announce(string $uid) {
+		$this->log(
+		'UserID assgined: "%s"',
+			[ 'uid' => $uid ],
+			[ 'uid' ]
+		);
+	}
+
+	/**
 	 * Log deletion of users
 	 *
 	 * @param array $params
@@ -62,6 +75,19 @@ class UserManagement extends Action {
 			[
 				'uid',
 			]
+		);
+	}
+
+	/**
+	 * Log unassignments of users (typically user backends, no data removed)
+	 *
+	 * @param string $uid
+	 */
+	public function revoke(string $uid) {
+		$this->log(
+			'UserID unassigned: "%s"',
+			[ 'uid' => $uid ],
+			[ 'uid' ]
 		);
 	}
 

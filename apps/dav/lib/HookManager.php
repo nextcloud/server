@@ -77,14 +77,22 @@ class HookManager {
 			'post_createUser',
 			$this,
 			'postCreateUser');
+		\OC::$server->getUserManager()->listen('\OC\User', 'announceUser', function ($uid) {
+			$this->postCreateUser(['uid' => $uid]);
+		});
 		Util::connectHook('OC_User',
 			'pre_deleteUser',
 			$this,
 			'preDeleteUser');
+		\OC::$server->getUserManager()->listen('\OC\User', 'preRevokeUser', [$this, 'preRevokeUser']);
 		Util::connectHook('OC_User',
 			'post_deleteUser',
 			$this,
 			'postDeleteUser');
+		\OC::$server->getUserManager()->listen('\OC\User', 'postRevokeUser', function ($uid) {
+			$this->postDeleteUser(['uid' => $uid]);
+		});
+		\OC::$server->getUserManager()->listen('\OC\User', 'postRevokeUser', [$this, 'postRevokeUser']);
 		Util::connectHook('OC_User',
 			'changeUser',
 			$this,
@@ -103,6 +111,10 @@ class HookManager {
 		$this->addressBooksToDelete = $this->cardDav->getUsersOwnAddressBooks('principals/users/' . $uid);
 	}
 
+	public function preRevokeUser($uid) {
+		$this->usersToDelete[$uid] = $this->userManager->get($uid);
+	}
+
 	public function postDeleteUser($params) {
 		$uid = $params['uid'];
 		if (isset($this->usersToDelete[$uid])){
@@ -116,6 +128,12 @@ class HookManager {
 
 		foreach ($this->addressBooksToDelete as $addressBook) {
 			$this->cardDav->deleteAddressBook($addressBook['id']);
+		}
+	}
+
+	public function postRevokeUser($uid) {
+		if (isset($this->usersToDelete[$uid])){
+			$this->syncService->deleteUser($this->usersToDelete[$uid]);
 		}
 	}
 

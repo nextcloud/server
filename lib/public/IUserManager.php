@@ -40,6 +40,9 @@ namespace OCP;
  * - postDelete(\OC\User\User $user)
  * - preCreateUser(string $uid, string $password)
  * - postCreateUser(\OC\User\User $user, string $password)
+ * - announceUser(string $uid)
+ * - preRevokeUser(string $uid)
+ * - postRevokeUser(string $uid)
  *
  * @package OC\User
  * @since 8.0.0
