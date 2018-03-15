@@ -460,6 +460,7 @@ class Access extends LDAPUtility implements IUserTools {
 	 *
 	 * @param string[] $groupDNs
 	 * @return string[]
+	 * @throws ServerNotAvailableException
 	 */
 	public function groupsMatchFilter($groupDNs) {
 		$validGroupDNs = [];
@@ -480,7 +481,7 @@ class Access extends LDAPUtility implements IUserTools {
 				continue;
 			}
 
-			$result = $this->readAttribute($dn, 'cn', $this->connection->ldapGroupFilter);
+			$result = $this->readAttribute($dn, '', $this->connection->ldapGroupFilter);
 			if(is_array($result)) {
 				$this->connection->writeToCache($cacheKey, true);
 				$validGroupDNs[] = $dn;
