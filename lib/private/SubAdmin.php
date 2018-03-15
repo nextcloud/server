@@ -62,7 +62,7 @@ class SubAdmin extends PublicEmitter {
 			$this->post_deleteUser($user);
 		});
 		$this->groupManager->listen('\OC\Group', 'postDelete', function($group) {
-			$this->post_deleteGroup($group);	
+			$this->post_deleteGroup($group);
 		});
 	}
 
@@ -123,12 +123,23 @@ class SubAdmin extends PublicEmitter {
 		while($row = $result->fetch()) {
 			$group = $this->groupManager->get($row['gid']);
 			if(!is_null($group)) {
-				$groups[] = $group;
+				$groups[$group->getGID()] = $group;
 			}
 		}
 		$result->closeCursor();
 
 		return $groups;
+	}
+
+	/**
+	 * get an array of groupid and displayName for a user
+	 * @param IUser $user
+	 * @return array ['displayName' => displayname]
+	 */
+	public function getSubAdminsGroupsName(IUser $user) {
+		return array_map(function($group) {
+			return array('displayName' => $group->getDisplayName());
+		}, $this->getSubAdminsGroups($user));
 	}
 
 	/**
@@ -185,7 +196,7 @@ class SubAdmin extends PublicEmitter {
 
 	/**
 	 * checks if a user is a SubAdmin of a group
-	 * @param IUser $user 
+	 * @param IUser $user
 	 * @param IGroup $group
 	 * @return bool
 	 */
@@ -210,7 +221,7 @@ class SubAdmin extends PublicEmitter {
 
 	/**
 	 * checks if a user is a SubAdmin
-	 * @param IUser $user 
+	 * @param IUser $user
 	 * @return bool
 	 */
 	public function isSubAdmin(IUser $user) {

@@ -26,6 +26,7 @@ namespace OCA\DAV\CalDAV\Activity\Provider;
 use OCP\Activity\IEvent;
 use OCP\Activity\IEventMerger;
 use OCP\Activity\IManager;
+use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
@@ -57,10 +58,11 @@ class Event extends Base {
 	 * @param IURLGenerator $url
 	 * @param IManager $activityManager
 	 * @param IUserManager $userManager
+	 * @param IGroupManager $groupManager
 	 * @param IEventMerger $eventMerger
 	 */
-	public function __construct(IFactory $languageFactory, IURLGenerator $url, IManager $activityManager, IUserManager $userManager, IEventMerger $eventMerger) {
-		parent::__construct($userManager);
+	public function __construct(IFactory $languageFactory, IURLGenerator $url, IManager $activityManager, IUserManager $userManager, IGroupManager $groupManager, IEventMerger $eventMerger) {
+		parent::__construct($userManager, $groupManager);
 		$this->languageFactory = $languageFactory;
 		$this->url = $url;
 		$this->activityManager = $activityManager;

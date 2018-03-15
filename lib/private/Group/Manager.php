@@ -330,6 +330,17 @@ class Manager extends PublicEmitter implements IGroupManager {
 	}
 
 	/**
+	 * get an array of groupid and displayName for a user
+	 * @param IUser $user
+	 * @return array ['displayName' => displayname]
+	 */
+	public function getUserGroupNames(IUser $user) {
+		return array_map(function($group) {
+			return array('displayName' => $group->getDisplayName());
+		}, $this->getUserGroups($user));
+	}
+
+	/**
 	 * get a list of all display names in a group
 	 * @param string $gid
 	 * @param string $search

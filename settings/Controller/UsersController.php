@@ -203,10 +203,7 @@ class UsersController extends Controller {
 			$restorePossible = true;
 		}
 
-		$subAdminGroups = $this->groupManager->getSubAdmin()->getSubAdminsGroups($user);
-		foreach ($subAdminGroups as $key => $subAdminGroup) {
-			$subAdminGroups[$key] = $subAdminGroup->getGID();
-		}
+		$subAdminGroups = $this->groupManager->getSubAdmin()->getSubAdminsGroupsName($user);
 
 		$displayName = $user->getEMailAddress();
 		if (is_null($displayName)) {
@@ -223,7 +220,7 @@ class UsersController extends Controller {
 		return [
 			'name' => $user->getUID(),
 			'displayname' => $user->getDisplayName(),
-			'groups' => empty($userGroups) ? $this->groupManager->getUserGroupIds($user) : $userGroups,
+			'groups' => empty($userGroups) ? $this->groupManager->getUserGroupNames($user) : $userGroups,
 			'subadmin' => $subAdminGroups,
 			'quota' => $user->getQuota(),
 			'quota_bytes' => Util::computerFileSize($user->getQuota()),
@@ -464,7 +461,7 @@ class UsersController extends Controller {
 				}
 			}
 			// fetch users groups
-			$userGroups = $this->groupManager->getUserGroupIds($user);
+			$userGroups = $this->groupManager->getUserGroupNames($user);
 
 			return new DataResponse(
 				$this->formatUserForIndex($user, $userGroups),
