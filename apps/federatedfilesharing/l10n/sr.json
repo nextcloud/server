@@ -15,6 +15,7 @@
     "Couldn't establish a federated share." : "Не могу да успоставим здружено дељење.",
     "Couldn't establish a federated share, maybe the password was wrong." : "Не могу да успоставим здружено дељење, можда лозинка не ваља.",
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Послат захтев за здружено дељење, добићете позивницу. Проверавајте обавештења.",
+    "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "Не могу да успоставим здружено дељење, изгледа да је сервер са којим се треба здружити превише стар (Некстклауд верзија <=9).",
     "Sharing %s failed, because this item is already shared with %s" : "Дељење %s није успело зато што се ова ставка већ дели са %s",
     "Not allowed to create a federated share with the same user" : "Није дозвољено да се направи здружено дељење са истим корисником",
     "File is already shared with %s" : "Фајл је већ дељен са %s",

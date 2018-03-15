@@ -84,7 +84,7 @@
     "Could not lock path" : "Не удалось заблокировать путь",
     "Wrong or no update parameter given" : "Параметр для изменения неправилен или не задан",
     "Can't change permissions for public share links" : "Для общедоступных ссылок изменение прав невозможно",
-    "Cannot increase permissions" : "Нельзя увеличить права",
+    "Cannot increase permissions" : "Не удалось повысить права доступа",
     "shared by %s" : "поделился %s",
     "Download" : "Скачать",
     "Direct link" : "Прямая ссылка",

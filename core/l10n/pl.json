@@ -275,7 +275,6 @@
     "Wrong password." : "Złe hasło",
     "Stay logged in" : "Pozostań zalogowany",
     "Forgot password?" : "Zapomniano hasła?",
-    "Alternative Logins" : "Alternatywne loginy",
     "Account access" : "Dostęp do konta",
     "You are about to grant %s access to your %s account." : "Zamierzasz udzielić %s dostępu do Twojego konta %s.",
     "Grant access" : "Udziel dostępu",
@@ -316,6 +315,7 @@
     "Shared with {recipients}" : "Współdzielony z {recipients}",
     "This action requires you to confirm your password:" : "Ta akcja wymaga potwierdzenia Twojego hasła:",
     "Wrong password. Reset it?" : "Niepoprawne hasło? Zresetować je?",
+    "Alternative Logins" : "Alternatywne loginy",
     "You are accessing the server from an untrusted domain." : "Uzyskujesz dostęp do serwera z niezaufanej domeny.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Aby uzyskać pomoc, zajrzyj do <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">dokumentacji</a>.",
     "Back to log in" : "Powrót do logowania"

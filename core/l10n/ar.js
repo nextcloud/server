@@ -176,7 +176,6 @@ OC.L10N.register(
     "Log in" : "أدخل",
     "Wrong password." : "كلمة السر خاطئة.",
     "Forgot password?" : "هل نسيت كلمة السر ؟",
-    "Alternative Logins" : "اسماء دخول بديلة",
     "Account access" : "حساب النفاذ",
     "Grant access" : "السماح بالنفاذ",
     "Redirecting …" : "عملية التحويل جارية …",
@@ -196,6 +195,7 @@ OC.L10N.register(
     "Shared with {recipients}" : "تمت مشاركته مع {recipients}",
     "This action requires you to confirm your password:" : "يتطلب منك هذا الإجراء تأكيد كلمة المرور :",
     "Wrong password. Reset it?" : "كلمة السر خاطئة. هل تريد إعادة تعيينها ؟",
+    "Alternative Logins" : "اسماء دخول بديلة",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "للمساعدة يُرجى الإطلاع على <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">الدليل</a>.",
     "Back to log in" : "العودة إلى تسجيل الدخول"
 },

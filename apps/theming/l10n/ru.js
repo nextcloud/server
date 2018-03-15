@@ -13,6 +13,7 @@ OC.L10N.register(
     "There is no error, the file uploaded with success" : "Файл загружен успешно. Ошибок нет.",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "Размер загруженного файла превышает установленный предел upload_max_filesize в php.ini:",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "Размер загруженного файла превышает установленный предел MAX_FILE_SIZE в HTML-форме",
+    "The file was only partially uploaded" : "Файл был получен частично",
     "No file was uploaded" : "Не было загружено ни одного файла",
     "Missing a temporary folder" : "Отсутствует временный каталог",
     "Failed to write file to disk." : "Ошибка записи на диск.",

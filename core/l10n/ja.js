@@ -254,7 +254,6 @@ OC.L10N.register(
     "Wrong password." : "パスワードが間違っています。",
     "Stay logged in" : "ログインしたままにする",
     "Forgot password?" : "パスワードをお忘れですか?",
-    "Alternative Logins" : "代替ログイン",
     "Account access" : "アカウントによるアクセス許可",
     "You are about to grant %s access to your %s account." : "%s アカウントに あなたのアカウント %s へのアクセスを許可",
     "App token" : "アプリのトークン",
@@ -284,6 +283,7 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "このサーバー %s は現在メンテナンスモードです。しばらくお待ちください。",
     "This page will refresh itself when the %s instance is available again." : "この画面は、サーバー %s の再起動後に自動的に更新されます。",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "このメッセージが引き続きもしくは予期せず現れる場合は、システム管理者に問い合わせてください。",
-    "Thank you for your patience." : "しばらくお待ちください。"
+    "Thank you for your patience." : "しばらくお待ちください。",
+    "Alternative Logins" : "代替ログイン"
 },
 "nplurals=1; plural=0;");

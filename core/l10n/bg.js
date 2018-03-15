@@ -231,7 +231,6 @@ OC.L10N.register(
     "Wrong password." : "Грешна парола",
     "Stay logged in" : "Остани вписан",
     "Forgot password?" : "Забравена парола?",
-    "Alternative Logins" : "Алтернативни методи на вписване",
     "Redirecting …" : "Пренасочване ...",
     "New password" : "Нова парола",
     "New Password" : "Нова парола",
@@ -258,6 +257,7 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "В момента този %s се обновява, а това може да отнеме време.",
     "This page will refresh itself when the %s instance is available again." : "Страницата ще се зареди автоматично, когато %s е отново на линия.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Свържете се със системния администратор ако това съобщение се задържи твърде дълго или се е появило неочаквано.",
-    "Thank you for your patience." : "Благодарим за търпението."
+    "Thank you for your patience." : "Благодарим за търпението.",
+    "Alternative Logins" : "Алтернативни методи на вписване"
 },
 "nplurals=2; plural=(n != 1);");

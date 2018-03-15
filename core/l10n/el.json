@@ -251,7 +251,6 @@
     "Log in" : "Είσοδος",
     "Wrong password." : "Λάθος συνθηματικό.",
     "Stay logged in" : "Μείνετε συνδεδεμένος",
-    "Alternative Logins" : "Εναλλακτικές είσοδοι",
     "Account access" : "Πρόσβαση λογαριασμού",
     "You are about to grant %s access to your %s account." : "Πρόκειται να δώσετε άδεια πρόσβασης στο \"%s\" στον λογαριασμό σας \" %s\".",
     "Grant access" : "Παροχή άδειας πρόσβασης",
@@ -282,6 +281,7 @@
     "This %s instance is currently in maintenance mode, which may take a while." : "Αυτή %s η εγκατάσταση είναι σε λειτουργία συντήρησης, η οποία μπορεί να διαρκέσει κάποιο χρόνο.",
     "This page will refresh itself when the %s instance is available again." : "Αυτή η σελίδα θα ανανεωθεί από μόνη της όταν η %s εγκατάσταση είναι διαθέσιμη ξανά.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Επικοινωνήστε με το διαχειριστή του συστήματος αν αυτό το μήνυμα συνεχίζει να εμφανίζεται ή εμφανίστηκε απρόσμενα.",
-    "Thank you for your patience." : "Σας ευχαριστούμε για την υπομονή σας."
+    "Thank you for your patience." : "Σας ευχαριστούμε για την υπομονή σας.",
+    "Alternative Logins" : "Εναλλακτικές είσοδοι"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

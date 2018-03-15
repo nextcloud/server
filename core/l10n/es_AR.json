@@ -246,7 +246,6 @@
     "Log in" : "Ingresar",
     "Wrong password." : "Contraseña inválida. ",
     "Stay logged in" : "Mantener la sesión abierta",
-    "Alternative Logins" : "Accesos Alternativos",
     "Account access" : "Acceso a la cuenta",
     "You are about to grant %s access to your %s account." : "Está a punto de concederle a \"%s\" acceso a su cuenta %s.",
     "App token" : "Ficha de la aplicación",
@@ -276,6 +275,7 @@
     "This %s instance is currently in maintenance mode, which may take a while." : "Esta instancia %s se encuentra actualmente en modo mantenimiento, que podría tomar algo de tiempo. ",
     "This page will refresh itself when the %s instance is available again." : "Esta página se actualizará sola cuando la instancia %s esté disponible de nuevo. ",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contacte a su administrador del sistema si este mensaje persiste o se presentó de manera inesperada.",
-    "Thank you for your patience." : "Gracias por su paciencia."
+    "Thank you for your patience." : "Gracias por su paciencia.",
+    "Alternative Logins" : "Accesos Alternativos"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -239,7 +239,6 @@ OC.L10N.register(
     "Log in" : "Ierakstīties",
     "Wrong password." : "Nepareiza parole.",
     "Stay logged in" : "Palikt ierakstītam",
-    "Alternative Logins" : "Alternatīvās pieteikšanās",
     "App token" : "Programmas pilnvara",
     "Alternative login using app token" : "Alternatīvās pieteikšanās izmantojot programmas pilnvaru.",
     "Redirecting …" : "Novirzam ...",
@@ -267,6 +266,7 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "Šis %s serveris pašlaik darbojas uzturēšanas režīmā, tas var ilgt kādu laiku.",
     "This page will refresh itself when the %s instance is available again." : "Lapa tiks atsvaidzināta kad %s instance atkal ir pieejama.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Sazinieties ar sistēmas administratoru, ja šis ziņojums tiek rādīts.. vai parādījās negaidīti",
-    "Thank you for your patience." : "Paldies par jūsu pacietību."
+    "Thank you for your patience." : "Paldies par jūsu pacietību.",
+    "Alternative Logins" : "Alternatīvās pieteikšanās"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

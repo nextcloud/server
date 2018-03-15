@@ -250,7 +250,6 @@
     "Log in" : "Autentificare",
     "Wrong password." : "Parolă greșită.",
     "Stay logged in" : "Rămâi autentificat",
-    "Alternative Logins" : "Conectări alternative",
     "Account access" : "Acces cont",
     "You are about to grant %s access to your %s account." : "Ești pe cale să permiți %s accesul la %s contul tău.",
     "App token" : "Token aplicație",
@@ -283,6 +282,7 @@
     "This %s instance is currently in maintenance mode, which may take a while." : "Instanța %s este acum în modul de mentenanță, ceea ce ar putea dura o vreme.",
     "This page will refresh itself when the %s instance is available again." : "Această pagină se va reîmprospăta atunci când %s instance e disponibil din nou.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contactează-ți administratorul de sistem dacă acest mesaj persistă sau a apărut neașteptat.",
-    "Thank you for your patience." : "Îți mulțumim pentru răbdare."
+    "Thank you for your patience." : "Îți mulțumim pentru răbdare.",
+    "Alternative Logins" : "Conectări alternative"
 },"pluralForm" :"nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));"
 }

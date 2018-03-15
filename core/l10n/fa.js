@@ -251,7 +251,6 @@ OC.L10N.register(
     "Log in" : "ورود",
     "Wrong password." : "گذرواژه اشتباه.",
     "Stay logged in" : "در سیستم بمانید",
-    "Alternative Logins" : "ورود متناوب",
     "Account access" : "دسترسی به حساب",
     "App token" : "App token",
     "New password" : "گذرواژه جدید",
@@ -266,6 +265,7 @@ OC.L10N.register(
     "Start update" : "اغاز به روز رسانی",
     "Detailed logs" : "Detailed logs",
     "Update needed" : "نیاز به روز رسانی دارد",
-    "Thank you for your patience." : "از صبر شما متشکریم"
+    "Thank you for your patience." : "از صبر شما متشکریم",
+    "Alternative Logins" : "ورود متناوب"
 },
 "nplurals=1; plural=0;");

@@ -254,7 +254,6 @@ OC.L10N.register(
     "Log in" : "Đăng nhập",
     "Wrong password." : "Sai mật khẩu.",
     "Stay logged in" : "Lưu trạng thái đăng nhập",
-    "Alternative Logins" : "Đăng nhập khác",
     "Account access" : "Truy cập tài khoản",
     "You are about to grant %s access to your %s account." : "Bạn sắp được phép %s  truy nhập  tới tài khoản %s của bạn.",
     "App token" : "Dấu hiệu ứng dụng",
@@ -287,6 +286,7 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "Bản cài đặt%s hiện tại đang trong chế độ \"bảo trì\", do vậy có thể bạn cần phải đợi thêm chút ít thời gian.",
     "This page will refresh itself when the %s instance is available again." : "Trang này sẽ tự động được làm tươi khi bản cài đặt %s được sẵn sàng.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Liên hệ với người quản trị nếu lỗi này vẫn tồn tại hoặc xuất hiện bất ngờ.",
-    "Thank you for your patience." : "Cảm ơn sự kiên nhẫn của bạn."
+    "Thank you for your patience." : "Cảm ơn sự kiên nhẫn của bạn.",
+    "Alternative Logins" : "Đăng nhập khác"
 },
 "nplurals=1; plural=0;");

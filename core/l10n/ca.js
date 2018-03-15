@@ -253,7 +253,6 @@ OC.L10N.register(
     "Log in" : "Inici de sessió",
     "Wrong password." : "Contrasenya incorrecta.",
     "Stay logged in" : "Mantén la sessió connectada",
-    "Alternative Logins" : "Acreditacions alternatives",
     "Account access" : "Compte d'accés",
     "You are about to grant %s access to your %s account." : "Estàs a punt d'autoritzar a %s a accedir al teu compte %s.",
     "App token" : "Testimoni d'aplicació",
@@ -286,6 +285,7 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "Aquesta instància %s està actualment en manteniment i podria trigar una estona.",
     "This page will refresh itself when the %s instance is available again." : "Aquesta pàgina s'actualitzarà automàticament quan la instància %s estigui disponible de nou.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contacteu amb l'administrador del sistema si aquest missatge persisteix o apareix inesperadament.",
-    "Thank you for your patience." : "Gràcies per la paciència."
+    "Thank you for your patience." : "Gràcies per la paciència.",
+    "Alternative Logins" : "Acreditacions alternatives"
 },
 "nplurals=2; plural=(n != 1);");
