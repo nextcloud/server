@@ -203,9 +203,9 @@ class Database extends Backend implements IUserBackend {
 		$query->select('uid', 'displayname')
 			->from('users', 'u')
 			->leftJoin('u', 'preferences', 'p', $query->expr()->andX(
-				$query->expr()->eq('userid', 'uid')),
-				$query->expr()->eq('appid', new Literal('settings')),
-				$query->expr()->eq('configkey', new Literal('email'))
+				$query->expr()->eq('userid', 'uid'),
+				$query->expr()->eq('appid', $query->expr()->literal('settings')),
+				$query->expr()->eq('configkey', $query->expr()->literal('email')))
 			)
 			// sqlite doesn't like re-using a single named parameter here
 			->where($query->expr()->iLike('uid', $query->createPositionalParameter('%' . $connection->escapeLikeParameter($search) . '%')))
