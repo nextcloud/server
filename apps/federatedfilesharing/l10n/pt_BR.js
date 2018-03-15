@@ -17,6 +17,7 @@ OC.L10N.register(
     "Couldn't establish a federated share." : "Não foi possível estabelecer um compartilhamento federado.",
     "Couldn't establish a federated share, maybe the password was wrong." : "Não foi possível estabelecer um compartilhamento federado, talvez a senha esteja incorreta.",
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Solicitação de Compartilhamento Federado enviada, você receberá um convite. Verifique suas notificações.",
+    "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "Não foi possível estabelecer um compartilhamento federado, parece que o servidor a se federar é muito antigo (Nextcloud <= 9).",
     "Sharing %s failed, because this item is already shared with %s" : "Compartilhamento %s falhou porque este item já está compartilhado com %s",
     "Not allowed to create a federated share with the same user" : "Não é permitido criar um compartilhamento federado com o mesmo usuário",
     "File is already shared with %s" : "O arquivo já é compartilhado com %s",

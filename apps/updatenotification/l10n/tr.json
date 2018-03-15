@@ -16,6 +16,8 @@
     "Checking apps for compatible updates" : "Uyumlu güncellemeler için uygulamalar denetleniyor",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Lütfen config.php dosyasındaki <samp>appstoreenabled</samp> seçeneğinin false olarak ayarlanmadığından emin olun.",
     "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Uygulama mağazasına bağlanılamadı ya da uygulama mağazasında herhangi bir güncelleme yok. Güncellemeleri el ile arayın ya da sunucunuzun İnternet üzerine ve uygulama mağazasına bağlanabildiğinden emin olun.",
+    "<strong>All</strong> apps have an update for this version available" : "<strong>Tüm</strong> uygulamaların bu sürüm için kullanılabilecek bir güncellemesi var",
+    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> uygulamanın bu sürüm için kullanılabilecek bir güncellemesi yok","<strong>%n</strong> uygulamanın bu sürüm için kullanılabilecek bir güncellemesi yok"],
     "Could not start updater, please try the manual update" : "Güncelleyici başlatılamadı lütfen el ile güncellemeyi deneyin",
     "Update notifications" : "Güncelleme bildirimleri",
     "Channel updated" : "Kanal güncellendi",

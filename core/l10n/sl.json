@@ -232,7 +232,6 @@
     "Wrong password." : "Napačno geslo!",
     "Stay logged in" : "Ohrani prijavo",
     "Forgot password?" : "Pozabili geslo?",
-    "Alternative Logins" : "Druge prijavne možnosti",
     "Grant access" : "Odobri dostop",
     "App token" : "Ključ aplikacije",
     "Redirecting …" : "Presumerjam...",
@@ -259,6 +258,7 @@
     "This page will refresh itself when the %s instance is available again." : "Stran bo osvežena ko bo %s spet na voljo.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Stopite v stik s skrbnikom sistema, če se bo sporočilo še naprej nepričakovano prikazovalo.",
     "Thank you for your patience." : "Hvala za potrpežljivost!",
+    "Alternative Logins" : "Druge prijavne možnosti",
     "Back to log in" : "Nazaj na prijavo"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

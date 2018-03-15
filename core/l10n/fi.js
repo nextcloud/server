@@ -261,7 +261,6 @@ OC.L10N.register(
     "Wrong password." : "Väärä salasana.",
     "Stay logged in" : "Pysy sisäänkirjautuneena",
     "Forgot password?" : "Unohditko salasanasi?",
-    "Alternative Logins" : "Vaihtoehtoiset kirjautumistavat",
     "Account access" : "Tilin käyttö",
     "Grant access" : "Myönnä pääsy",
     "App token" : "Sovellusvaltuutus",
@@ -297,6 +296,7 @@ OC.L10N.register(
     "Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report." : "Ota yhteys palvelimen ylläpitäjään, jos tämä virhe ilmenee useita kertoja. Sisällytä alla olevat tekniset tiedot ilmoitukseesi.",
     "This action requires you to confirm your password:" : "Tämä toiminto vaatii, että vahvistat salasanasi:",
     "Wrong password. Reset it?" : "Väärä salasana. Nollataanko se?",
+    "Alternative Logins" : "Vaihtoehtoiset kirjautumistavat",
     "Back to log in" : "Palaa kirjautumiseen"
 },
 "nplurals=2; plural=(n != 1);");
