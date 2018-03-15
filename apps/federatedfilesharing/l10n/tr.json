@@ -15,6 +15,7 @@
     "Couldn't establish a federated share." : "Birleşmiş bir paylaşım oluşturulamadı.",
     "Couldn't establish a federated share, maybe the password was wrong." : "Birleşmiş bir paylaşım oluşturulamadı. Parola yanlış olabilir.",
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Birleşmiş paylaşım isteği gönderildi. Bir çağrı alacaksınız. Bildirimlerinizi denetleyin.",
+    "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "Birleşmiş bir paylaşım oluşturulamadı. Birleşilecek sunucunun sürümü çok eski gibi görünüyor (Nextcloud <= 9).",
     "Sharing %s failed, because this item is already shared with %s" : "%s paylaşılmadı. %s ile zaten paylaşılmış",
     "Not allowed to create a federated share with the same user" : "Aynı kullanıcı ile bir birleşmiş paylaşım oluşturulamaz",
     "File is already shared with %s" : "Dosya %s ile zaten paylaşılmış",

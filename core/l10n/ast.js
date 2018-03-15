@@ -220,7 +220,6 @@ OC.L10N.register(
     "Log in" : "Aniciar sesión",
     "Wrong password." : "Contraseña incorreuta",
     "Stay logged in" : "Caltener sesión",
-    "Alternative Logins" : "Anicios de sesión alternativos",
     "You are about to grant %s access to your %s account." : "Tas a pìques de conceder a %s l'accesu a la to cuenta %s.",
     "App token" : "Pase d'aplicación",
     "Alternative login using app token" : "Aniciu de sesión alternativu usando pase d'aplicación",
@@ -242,6 +241,7 @@ OC.L10N.register(
     "I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure." : "Sé que si sigo faciendo l'anovamientu pela IU web pue escosar el tiempu de la solicitú y causar una perda de datos, pero teo un respaldu y sé cómo restaurar la mio instancia en casu de fallu.",
     "This page will refresh itself when the %s instance is available again." : "Esta páxina refrescaráse sola cuando la instancia %s vuelva tar disponible.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contauta col alministrador si esti problema sigui apaeciendo.",
-    "Thank you for your patience." : "Gracies pola to paciencia."
+    "Thank you for your patience." : "Gracies pola to paciencia.",
+    "Alternative Logins" : "Anicios de sesión alternativos"
 },
 "nplurals=2; plural=(n != 1);");

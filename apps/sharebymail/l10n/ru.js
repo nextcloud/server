@@ -1,9 +1,9 @@
 OC.L10N.register(
     "sharebymail",
     {
-    "Shared with %1$s" : "Предоставлен общий доступ для %1$s",
+    "Shared with %1$s" : "Предоставлен общий доступ %1$s",
     "Shared with {email}" : "Предоставлен общий доступ для {email}",
-    "Shared with %1$s by %2$s" : "%2$s предоставил(а) общий доступ для %1$s",
+    "Shared with %1$s by %2$s" : "%2$s предоставил(а) общий доступ %1$s",
     "Shared with {email} by {actor}" : "{actor} предоставил(а) общий доступ для {email}",
     "Password for mail share sent to %1$s" : "Пароль для доступа по адресу электронной почты был отправлен на адрес %1$s",
     "Password for mail share sent to {email}" : "Пароль для доступа по адресу электронной почты был отправлен на адрес {email}",

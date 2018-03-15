@@ -248,7 +248,6 @@ OC.L10N.register(
     "Log in" : "Hyni",
     "Wrong password." : "Fjalëkalim i gabuar.",
     "Stay logged in" : "Qëndro i futur",
-    "Alternative Logins" : "Hyrje Alternative",
     "App token" : "Çelës identifikues i API-t",
     "Alternative login using app token" : "Hyrje alternative duke perdorur çelësin identifikues  të API-t",
     "Redirecting …" : "Duke ju lidhur...",
@@ -276,6 +275,7 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "Kjo instancë %s hëpërhë gjendet nën mënyrën mirëmbajtje, çka mund të zgjasë ca.",
     "This page will refresh itself when the %s instance is available again." : "Kjo faqe do të rifreskohet vetiu, sapo instanca %s të jetë sërish gati.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Nëse ky mesazh shfaqet vazhdimisht ose u shfaq papritmas, lidhuni me përgjegjësin e sistemit.",
-    "Thank you for your patience." : "Ju faleminderit për durimin."
+    "Thank you for your patience." : "Ju faleminderit për durimin.",
+    "Alternative Logins" : "Hyrje Alternative"
 },
 "nplurals=2; plural=(n != 1);");

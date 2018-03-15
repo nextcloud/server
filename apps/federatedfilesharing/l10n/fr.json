@@ -15,6 +15,7 @@
     "Couldn't establish a federated share." : "Impossible d'établir un partage fédéré.",
     "Couldn't establish a federated share, maybe the password was wrong." : "Impossible d'établir un partage fédéré, peut-être que le mot de passe est incorrect.",
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Demande de partage fédéré envoyée, vous allez recevoir une invitation. Vérifiez vos notifications.",
+    "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "Impossible d'établir un partage fédére, il semble que le serveur avec lequel fédérer est trop vieux (Nextcloud <=9)",
     "Sharing %s failed, because this item is already shared with %s" : "Le partage de %s a échoué car cet élément est déjà partagé avec %s",
     "Not allowed to create a federated share with the same user" : "Non autorisé à créer un partage fédéré avec le même utilisateur",
     "File is already shared with %s" : "Le fichier est déjà partagé avec %s",

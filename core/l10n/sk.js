@@ -260,7 +260,6 @@ OC.L10N.register(
     "Wrong password." : "Nesprávne heslo.",
     "Stay logged in" : "Zostať prihlásený",
     "Forgot password?" : "Zabudli ste heslo?",
-    "Alternative Logins" : "Alternatívne prihlásenie",
     "Account access" : "Prístup k účtu",
     "You are about to grant %s access to your %s account." : "Chystáte sa udeliť %s prístup k svojmu %s účtu.",
     "Grant access" : "Povoliť prístup",
@@ -295,6 +294,7 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "Táto %s inštancia je v súčasnej dobe v režime údržby. Počkajte prosím.",
     "This page will refresh itself when the %s instance is available again." : "Táto stránka sa obnoví sama hneď ako bude %s inštancia znovu dostupná.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Kontaktujte prosím správcu systému, ak sa táto správa objavuje opakovane alebo neočakávane.",
-    "Thank you for your patience." : "Ďakujeme za Vašu trpezlivosť."
+    "Thank you for your patience." : "Ďakujeme za Vašu trpezlivosť.",
+    "Alternative Logins" : "Alternatívne prihlásenie"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

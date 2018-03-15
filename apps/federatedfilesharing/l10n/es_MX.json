@@ -15,6 +15,7 @@
     "Couldn't establish a federated share." : "No fue posible establecer el elemento compartido. ",
     "Couldn't establish a federated share, maybe the password was wrong." : "No fue posible establecer el elemento compartido federado, tal vez la contraseña sea incorrecta. ",
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Solicitud de elemento compartido Federado enviada, recibiras una invitación. Verifica tus notificaciones.",
+    "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "No fue posible establecer el elemento compartido, parece que el servidor es obsoleto (Nextcloud <=9).",
     "Sharing %s failed, because this item is already shared with %s" : "Se presentó una falla al compartir %s, porque este elemento ya se encuentra compartido con  %s",
     "Not allowed to create a federated share with the same user" : "No está permitido crear un elelmento compartido federado con el mismo usuario",
     "File is already shared with %s" : "El archivo ya ha sido compartido con %s",

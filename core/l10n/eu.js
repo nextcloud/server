@@ -254,7 +254,6 @@ OC.L10N.register(
     "Log in" : "Hasi saioa",
     "Wrong password." : "Pasahitz okerra.",
     "Stay logged in" : "Ez amaitu saioa",
-    "Alternative Logins" : "Beste erabiltzaile izenak",
     "Account access" : "Kontuaren sarbidea",
     "You are about to grant %s access to your %s account." : "%s kontuari %sra sarbidea emango diozu",
     "App token" : "Aplikazio-tokena",
@@ -287,6 +286,7 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "Instantzia hau %s mantenu-moduan dago, honek denbora tarte bat iraun dezake.",
     "This page will refresh itself when the %s instance is available again." : "Orri honek bere burua eguneratuko du %s instantzia berriz prest dagoenean.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Jarri harremanetan zure sistema administratzailearekin mezu hau irauten badu edo bat-batean agertu bada.",
-    "Thank you for your patience." : "Milesker zure patzientziagatik."
+    "Thank you for your patience." : "Milesker zure patzientziagatik.",
+    "Alternative Logins" : "Beste erabiltzaile izenak"
 },
 "nplurals=2; plural=(n != 1);");
