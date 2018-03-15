@@ -239,6 +239,8 @@ class Database extends Backend {
 	 * Returns a list with all groups
 	 */
 	public function getGroups($search = '', $limit = null, $offset = null) {
+		$this->fixDI();
+
 		$query = $this->dbConn->getQueryBuilder();
 		$query->select('gid')
 			->from('groups')
@@ -300,6 +302,8 @@ class Database extends Backend {
 	 * @return array an array of user ids
 	 */
 	public function usersInGroup($gid, $search = '', $limit = null, $offset = null) {
+		$this->fixDI();
+
 		$query = $this->dbConn->getQueryBuilder();
 		$query->select('uid')
 			->from('group_user')
@@ -332,6 +336,8 @@ class Database extends Backend {
 	 * @return int|false
 	 */
 	public function countUsersInGroup($gid, $search = '') {
+		$this->fixDI();
+
 		$query = $this->dbConn->getQueryBuilder();
 		$query->selectAlias($query->createFunction('COUNT(*)'), 'num_users')
 			->from('group_user')
