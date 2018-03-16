@@ -134,53 +134,18 @@
 			this.$el.find('.shareWithField').autocomplete("search");
 		},
 
-		autocompleteHandler: function (search, response) {
-			var $shareWithField = $('.shareWithField'),
-				view = this,
-				$loading = this.$el.find('.shareWithLoading'),
-				$confirm = this.$el.find('.shareWithConfirm');
+		_getSuggestions: function(searchTerm, perPage, model) {
+			var deferred = $.Deferred();
 
-			var count = oc_config['sharing.minSearchStringLength'];
-			if (search.term.trim().length < count) {
-				var title = n('core',
-					'At least {count} character is needed for autocompletion',
-					'At least {count} characters are needed for autocompletion',
-					count,
-					{ count: count }
-				);
-				$shareWithField.addClass('error')
-					.attr('data-original-title', title)
-					.tooltip('hide')
-					.tooltip({
-						placement: 'bottom',
-						trigger: 'manual'
-					})
-					.tooltip('fixTitle')
-					.tooltip('show');
-				response();
-				return;
-			}
-
-			$loading.removeClass('hidden');
-			$loading.addClass('inlineblock');
-			$confirm.addClass('hidden');
-
-			$shareWithField.removeClass('error')
-				.tooltip('hide');
-
-			var perPage = 200;
 			$.get(
 				OC.linkToOCS('apps/files_sharing/api/v1') + 'sharees',
 				{
 					format: 'json',
-					search: search.term.trim(),
+					search: searchTerm,
 					perPage: perPage,
-					itemType: view.model.get('itemType')
+					itemType: model.get('itemType')
 				},
 				function (result) {
-					$loading.addClass('hidden');
-					$loading.removeClass('inlineblock');
-					$confirm.removeClass('hidden');
 					if (result.ocs.meta.statuscode === 100) {
 						var users   = result.ocs.data.exact.users.concat(result.ocs.data.users);
 						var groups  = result.ocs.data.exact.groups.concat(result.ocs.data.groups);
@@ -213,17 +178,17 @@
 						}
 
 						// Filter out the owner of the share
-						if (view.model.hasReshare()) {
+						if (model.hasReshare()) {
 							usersLength = users.length;
 							for (i = 0 ; i < usersLength; i++) {
-								if (users[i].value.shareWith === view.model.getReshareOwner()) {
+								if (users[i].value.shareWith === model.getReshareOwner()) {
 									users.splice(i, 1);
 									break;
 								}
 							}
 						}
 
-						var shares = view.model.get('shares');
+						var shares = model.get('shares');
 						var sharesLength = shares.length;
 
 						// Now filter out all sharees that are already shared with
@@ -275,43 +240,97 @@
 
 						var suggestions = users.concat(groups).concat(remotes).concat(emails).concat(circles).concat(lookup);
 
-						if (suggestions.length > 0) {
-							$shareWithField
-								.autocomplete("option", "autoFocus", true);
-
-							response(suggestions);
-
-							// show a notice that the list is truncated
-							// this is the case if one of the search results is at least as long as the max result config option
-							if(oc_config['sharing.maxAutocompleteResults'] > 0 &&
-								Math.min(perPage, oc_config['sharing.maxAutocompleteResults'])
-								<= Math.max(users.length, groups.length, remotes.length, emails.length, lookup.length)) {
-
-								var message = t('core', 'This list is maybe truncated - please refine your search term to see more results.');
-								$('.ui-autocomplete').append('<li class="autocomplete-note">' + message + '</li>');
-							}
-
-						} else {
-							var title = t('core', 'No users or groups found for {search}', {search: $shareWithField.val()});
-							if (!view.configModel.get('allowGroupSharing')) {
-								title = t('core', 'No users found for {search}', {search: $('.shareWithField').val()});
-							}
-							$shareWithField.addClass('error')
-								.attr('data-original-title', title)
-								.tooltip('hide')
-								.tooltip({
-									placement: 'bottom',
-									trigger: 'manual'
-								})
-								.tooltip('fixTitle')
-								.tooltip('show');
-							response();
-						}
+						deferred.resolve(suggestions);
 					} else {
-						response();
+						deferred.resolve(null);
 					}
 				}
 			).fail(function() {
+				deferred.reject();
+			});
+
+			return deferred.promise();
+		},
+
+		autocompleteHandler: function (search, response) {
+			var $shareWithField = $('.shareWithField'),
+				view = this,
+				$loading = this.$el.find('.shareWithLoading'),
+				$confirm = this.$el.find('.shareWithConfirm');
+
+			var count = oc_config['sharing.minSearchStringLength'];
+			if (search.term.trim().length < count) {
+				var title = n('core',
+					'At least {count} character is needed for autocompletion',
+					'At least {count} characters are needed for autocompletion',
+					count,
+					{ count: count }
+				);
+				$shareWithField.addClass('error')
+					.attr('data-original-title', title)
+					.tooltip('hide')
+					.tooltip({
+						placement: 'bottom',
+						trigger: 'manual'
+					})
+					.tooltip('fixTitle')
+					.tooltip('show');
+				response();
+				return;
+			}
+
+			$loading.removeClass('hidden');
+			$loading.addClass('inlineblock');
+			$confirm.addClass('hidden');
+
+			$shareWithField.removeClass('error')
+				.tooltip('hide');
+
+			var perPage = 200;
+			this._getSuggestions(
+				search.term.trim(),
+				perPage,
+				view.model
+			).done(function(suggestions) {
+				$loading.addClass('hidden');
+				$loading.removeClass('inlineblock');
+				$confirm.removeClass('hidden');
+
+				if (suggestions && suggestions.length > 0) {
+					$shareWithField
+						.autocomplete("option", "autoFocus", true);
+
+					response(suggestions);
+
+					// show a notice that the list is truncated
+					// this is the case if one of the search results is at least as long as the max result config option
+					if(oc_config['sharing.maxAutocompleteResults'] > 0 &&
+						Math.min(perPage, oc_config['sharing.maxAutocompleteResults'])
+						<= Math.max(users.length, groups.length, remotes.length, emails.length, lookup.length)) {
+
+						var message = t('core', 'This list is maybe truncated - please refine your search term to see more results.');
+						$('.ui-autocomplete').append('<li class="autocomplete-note">' + message + '</li>');
+					}
+
+				} else if (suggestions) {
+					var title = t('core', 'No users or groups found for {search}', {search: $shareWithField.val()});
+					if (!view.configModel.get('allowGroupSharing')) {
+						title = t('core', 'No users found for {search}', {search: $('.shareWithField').val()});
+					}
+					$shareWithField.addClass('error')
+						.attr('data-original-title', title)
+						.tooltip('hide')
+						.tooltip({
+							placement: 'bottom',
+							trigger: 'manual'
+						})
+						.tooltip('fixTitle')
+						.tooltip('show');
+					response();
+				} else {
+					response();
+				}
+			}).fail(function() {
 				$loading.addClass('hidden');
 				$loading.removeClass('inlineblock');
 				$confirm.removeClass('hidden');
