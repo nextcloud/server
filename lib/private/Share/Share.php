@@ -283,29 +283,6 @@ class Share extends Constants {
 	}
 
 	/**
-	 * resolves reshares down to the last real share
-	 * @param array $linkItem
-	 * @return array file owner
-	 */
-	public static function resolveReShare($linkItem)
-	{
-		if (isset($linkItem['parent'])) {
-			$parent = $linkItem['parent'];
-			while (isset($parent)) {
-				$query = \OC_DB::prepare('SELECT * FROM `*PREFIX*share` WHERE `id` = ?', 1);
-				$item = $query->execute(array($parent))->fetchRow();
-				if (isset($item['parent'])) {
-					$parent = $item['parent'];
-				} else {
-					return $item;
-				}
-			}
-		}
-		return $linkItem;
-	}
-
-
-	/**
 	 * Get the shared items of item type owned by the current user
 	 * @param string $itemType
 	 * @param int $format (optional) Format type must be defined by the backend
