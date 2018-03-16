@@ -473,37 +473,295 @@ describe('OC.Share.ShareDialogView', function() {
 		});
 	});
 	describe('autocompletion of users', function() {
-		it('triggers autocomplete display and focus with data when ajax search succeeds', function () {
-			dialog.render();
-			var response = sinon.stub();
-			dialog.autocompleteHandler({term: 'bob'}, response);
-			var jsonData = JSON.stringify({
-				'ocs' : {
-					'meta' : {
-						'status' : 'success',
-						'statuscode' : 100,
-						'message' : null
-					},
-					'data' : {
-						'exact' : {
-							'users'  : [],
-							'groups' : [],
-							'remotes': []
+		describe('triggers autocomplete display and focus with data when ajax search succeeds', function () {
+			it('users', function () {
+				dialog.render();
+				var response = sinon.stub();
+				dialog.autocompleteHandler({term: 'bob'}, response);
+				var jsonData = JSON.stringify({
+					'ocs': {
+						'meta': {
+							'status': 'success',
+							'statuscode': 100,
+							'message': null
 						},
-						'users'  : [{'label': 'bob', 'value': {'shareType': 0, 'shareWith': 'test'}}],
-						'groups' : [],
-						'remotes': [],
-						'lookup': []
+						'data': {
+							'exact': {
+								'users': [
+									{
+										'label': 'bob',
+										'value': {
+											'shareType': OC.Share.SHARE_TYPE_USER,
+											'shareWith': 'user1'
+										}
+									}
+								],
+								'groups': [],
+								'remotes': []
+							},
+							'users': [
+								{
+									'label': 'bobby',
+									'value': {
+										'shareType': OC.Share.SHARE_TYPE_USER,
+										'shareWith': 'imbob'
+									}
+								}
+							],
+							'groups': [],
+							'remotes': [],
+							'lookup': []
+						}
 					}
-				}
-			});
-			fakeServer.requests[0].respond(
+				});
+				fakeServer.requests[0].respond(
 					200,
 					{'Content-Type': 'application/json'},
 					jsonData
-			);
-			expect(response.calledWithExactly(JSON.parse(jsonData).ocs.data.users)).toEqual(true);
-			expect(autocompleteStub.calledWith("option", "autoFocus", true)).toEqual(true);
+				);
+				expect(response.calledWithExactly([{
+					'label': 'bob',
+					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
+				}, {
+					'label': 'bobby',
+					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'imbob'}
+				}])).toEqual(true);
+				expect(autocompleteStub.calledWith("option", "autoFocus", true)).toEqual(true);
+			});
+
+			it('groups', function () {
+				dialog.render();
+				var response = sinon.stub();
+				dialog.autocompleteHandler({term: 'group'}, response);
+				var jsonData = JSON.stringify({
+					'ocs': {
+						'meta': {
+							'status': 'success',
+							'statuscode': 100,
+							'message': null
+						},
+						'data': {
+							'exact': {
+								'users': [],
+								'groups': [
+									{
+										'label': 'group',
+										'value': {
+											'shareType': OC.Share.SHARE_TYPE_GROUP,
+											'shareWith': 'group'
+										}
+									}
+								],
+								'remotes': []
+							},
+							'users': [],
+							'groups': [
+								{
+									'label': 'group2',
+									'value': {
+										'shareType': OC.Share.SHARE_TYPE_GROUP,
+										'shareWith': 'group2'
+									}
+								}
+							],
+							'remotes': [],
+							'lookup': []
+						}
+					}
+				});
+				fakeServer.requests[0].respond(
+					200,
+					{'Content-Type': 'application/json'},
+					jsonData
+				);
+				expect(response.calledWithExactly([{
+					'label': 'group',
+					'value': {'shareType': OC.Share.SHARE_TYPE_GROUP, 'shareWith': 'group'}
+				}, {
+					'label': 'group2',
+					'value': {'shareType': OC.Share.SHARE_TYPE_GROUP, 'shareWith': 'group2'}
+				}])).toEqual(true);
+				expect(autocompleteStub.calledWith("option", "autoFocus", true)).toEqual(true);
+			});
+
+			it('remotes', function () {
+				dialog.render();
+				var response = sinon.stub();
+				dialog.autocompleteHandler({term: 'foo@bar.com/baz'}, response);
+				var jsonData = JSON.stringify({
+					'ocs': {
+						'meta': {
+							'status': 'success',
+							'statuscode': 100,
+							'message': null
+						},
+						'data': {
+							'exact': {
+								'users': [],
+								'groups': [],
+								'remotes': [
+									{
+										'label': 'foo@bar.com/baz',
+										'value': {
+											'shareType': OC.Share.SHARE_TYPE_REMOTE,
+											'shareWith': 'foo@bar.com/baz'
+										}
+									}
+								]
+							},
+							'users': [],
+							'groups': [],
+							'remotes': [
+								{
+									'label': 'foo@bar.com/baz2',
+									'value': {
+										'shareType': OC.Share.SHARE_TYPE_REMOTE,
+										'shareWith': 'foo@bar.com/baz2'
+									}
+								}
+							],
+							'lookup': []
+						}
+					}
+				});
+				fakeServer.requests[0].respond(
+					200,
+					{'Content-Type': 'application/json'},
+					jsonData
+				);
+				expect(response.calledWithExactly([{
+					'label': 'foo@bar.com/baz',
+					'value': {'shareType': OC.Share.SHARE_TYPE_REMOTE, 'shareWith': 'foo@bar.com/baz'}
+				}, {
+					'label': 'foo@bar.com/baz2',
+					'value': {'shareType': OC.Share.SHARE_TYPE_REMOTE, 'shareWith': 'foo@bar.com/baz2'}
+				}])).toEqual(true);
+				expect(autocompleteStub.calledWith("option", "autoFocus", true)).toEqual(true);
+			});
+
+			it('emails', function () {
+				dialog.render();
+				var response = sinon.stub();
+				dialog.autocompleteHandler({term: 'foo@bar.com'}, response);
+				var jsonData = JSON.stringify({
+					'ocs': {
+						'meta': {
+							'status': 'success',
+							'statuscode': 100,
+							'message': null
+						},
+						'data': {
+							'exact': {
+								'users': [],
+								'groups': [],
+								'remotes': [],
+								'emails': [
+									{
+										'label': 'foo@bar.com',
+										'value': {
+											'shareType': OC.Share.SHARE_TYPE_EMAIL,
+											'shareWith': 'foo@bar.com'
+										}
+									}
+								]
+							},
+							'users': [],
+							'groups': [],
+							'remotes': [],
+							'lookup': [],
+							'emails': [
+								{
+									'label': 'foo@bar.com2',
+									'value': {
+										'shareType': OC.Share.SHARE_TYPE_EMAIL,
+										'shareWith': 'foo@bar.com2'
+									}
+								}
+							]
+						}
+					}
+				});
+				fakeServer.requests[0].respond(
+					200,
+					{'Content-Type': 'application/json'},
+					jsonData
+				);
+				expect(response.calledWithExactly([{
+					'label': 'foo@bar.com',
+					'value': {'shareType': OC.Share.SHARE_TYPE_EMAIL, 'shareWith': 'foo@bar.com'}
+				}, {
+					'label': 'foo@bar.com2',
+					'value': {'shareType': OC.Share.SHARE_TYPE_EMAIL, 'shareWith': 'foo@bar.com2'}
+				}])).toEqual(true);
+				expect(autocompleteStub.calledWith("option", "autoFocus", true)).toEqual(true);
+			});
+
+			it('circles', function () {
+				dialog.render();
+				var response = sinon.stub();
+				dialog.autocompleteHandler({term: 'CircleName'}, response);
+				var jsonData = JSON.stringify({
+					'ocs': {
+						'meta': {
+							'status': 'success',
+							'statuscode': 100,
+							'message': null
+						},
+						'data': {
+							'exact': {
+								'users': [],
+								'groups': [],
+								'remotes': [],
+								'circles': [
+									{
+										'label': 'CircleName (type, owner)',
+										'value': {
+											'shareType': OC.Share.SHARE_TYPE_CIRCLE,
+											'shareWith': 'shortId'
+										}
+									},
+									{
+										'label': 'CircleName (type2, owner)',
+										'value': {
+											'shareType': OC.Share.SHARE_TYPE_CIRCLE,
+											'shareWith': 'shortId2'
+										}
+									}
+								]
+							},
+							'users': [],
+							'groups': [],
+							'remotes': [],
+							'lookup': [],
+							'circles': [
+								{
+									'label': 'CircleName2 (type, owner)',
+									'value': {
+										'shareType': OC.Share.SHARE_TYPE_CIRCLE,
+										'shareWith': 'shortId3'
+									}
+								}
+							]
+						}
+					}
+				});
+				fakeServer.requests[0].respond(
+					200,
+					{'Content-Type': 'application/json'},
+					jsonData
+				);
+				expect(response.calledWithExactly([{
+					'label': 'CircleName (type, owner)',
+					'value': {'shareType': OC.Share.SHARE_TYPE_CIRCLE, 'shareWith': 'shortId'}
+				}, {
+					'label': 'CircleName (type2, owner)',
+					'value': {'shareType': OC.Share.SHARE_TYPE_CIRCLE, 'shareWith': 'shortId2'}
+				}, {
+					'label': 'CircleName2 (type, owner)',
+					'value': {'shareType': OC.Share.SHARE_TYPE_CIRCLE, 'shareWith': 'shortId3'}
+				}])).toEqual(true);
+				expect(autocompleteStub.calledWith("option", "autoFocus", true)).toEqual(true);
+			});
 		});
 
 		describe('filter out', function() {
