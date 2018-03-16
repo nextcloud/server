@@ -159,6 +159,55 @@ class UsersController extends OCSController {
 	}
 
 	/**
+	 * @NoAdminRequired
+	 *
+	 * returns a list of users and their data
+	 *
+	 * @param string $search
+	 * @param int $offset
+	 * @return DataResponse
+	 */
+	public function getUsersDetails(string $search = '', $offset = null): DataResponse {
+		// Limit set to 25 for performance issues 
+		$limit = 25;
+		$user = $this->userSession->getUser();
+		$users = [];
+
+		// Admin? Or SubAdmin?
+		$uid = $user->getUID();
+		$subAdminManager = $this->groupManager->getSubAdmin();
+		if($this->groupManager->isAdmin($uid)){
+			$users = $this->userManager->search($search, $limit, $offset);
+		} else if ($subAdminManager->isSubAdmin($user)) {
+			$subAdminOfGroups = $subAdminManager->getSubAdminsGroups($user);
+			foreach ($subAdminOfGroups as $key => $group) {
+				$subAdminOfGroups[$key] = $group->getGID();
+			}
+
+			if($offset === null) {
+				$offset = 0;
+			}
+
+			$users = [];
+			foreach ($subAdminOfGroups as $group) {
+				$users = array_merge($users, $this->groupManager->displayNamesInGroup($group, $search));
+			}
+
+			$users = array_slice($users, $offset, $limit);
+		}
+
+		$users = array_keys($users);
+		$usersDetails = [];
+		foreach ($users as $key => $userId) {
+			$usersDetails[$userId] = $this->getUserData($userId);
+		}
+
+		return new DataResponse([
+			'users' => $usersDetails
+		]);
+	}
+
+	/**
 	 * @PasswordConfirmationRequired
 	 * @NoAdminRequired
 	 *
@@ -281,6 +330,10 @@ class UsersController extends OCSController {
 		if($this->groupManager->isAdmin($currentLoggedInUser->getUID())
 			|| $this->groupManager->getSubAdmin()->isUserAccessible($currentLoggedInUser, $targetUserObject)) {
 			$data['enabled'] = $this->config->getUserValue($targetUserObject->getUID(), 'core', 'enabled', 'true');
+			$data['storageLocation'] = $targetUserObject->getHome();
+			$data['lastLogin'] = $targetUserObject->getLastLogin() * 1000;
+			$data['backend'] = $targetUserObject->getBackendClassName();
+			$data['subadmins'] = $this->getUserSubAdminGroupsData($targetUserObject->getUID());
 		} else {
 			// Check they are looking up themselves
 			if($currentLoggedInUser->getUID() !== $targetUserObject->getUID()) {
@@ -288,6 +341,7 @@ class UsersController extends OCSController {
 			}
 		}
 
+		// Get groups data
 		$userAccount = $this->accountManager->getUser($targetUserObject);
 		$groups = $this->groupManager->getUserGroups($targetUserObject);
 		$gids = [];
@@ -779,10 +833,10 @@ class UsersController extends OCSController {
 	 * Get the groups a user is a subadmin of
 	 *
 	 * @param string $userId
-	 * @return DataResponse
+	 * @return array
 	 * @throws OCSException
 	 */
-	public function getUserSubAdminGroups(string $userId): DataResponse {
+	protected function getUserSubAdminGroupsData(string $userId): array {
 		$user = $this->userManager->get($userId);
 		// Check if the user exists
 		if($user === null) {
@@ -796,10 +850,23 @@ class UsersController extends OCSController {
 			$groups[] = $group->getGID();
 		}
 
+		return $groups;
+	}
+
+	/**
+	 * Get the groups a user is a subadmin of
+	 *
+	 * @param string $userId
+	 * @return DataResponse
+	 * @throws OCSException
+	 */
+	public function getUserSubAdminGroups(string $userId): DataResponse {
+		$groups = $this->getUserSubAdminGroupsData($userId);
+
 		if(!$groups) {
 			throw new OCSException('Unknown error occurred', 102);
 		} else {
-			return new DataResponse($groups);
+			return $groups;
 		}
 	}
 
