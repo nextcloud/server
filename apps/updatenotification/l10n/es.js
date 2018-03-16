@@ -31,7 +31,7 @@ OC.L10N.register(
     "Update notification" : "Notificación de actualización",
     "A new version is available: %s" : "Hay una nueva versión disponible: %s",
     "Download now" : "Descargar ahora",
-    "Checked on %s" : "Revisado el %s",
+    "Checked on %s" : "Comprobado el %s",
     "The selected update channel makes dedicated notifications for the server obsolete." : "El canal de actualización seleccionado hace obsoletas las notificaciones dedicadas para el servidor.",
     "The update check is not yet finished. Please refresh the page." : "La comprobación de actuliazaciones no ha finalizado aún. Por favor, recarga la página."
 },
