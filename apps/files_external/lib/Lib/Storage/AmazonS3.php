@@ -292,15 +292,17 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 						$files[] = substr(trim($prefix['Prefix'], '/'), strlen($path));
 					}
 				}
-				foreach ($result['Contents'] as $object) {
-					if (isset($object['Key']) && $object['Key'] === $path) {
-						// it's the directory itself, skip
-						continue;
+				if (is_array($result['Contents'])) {
+					foreach ($result['Contents'] as $object) {
+						if (isset($object['Key']) && $object['Key'] === $path) {
+							// it's the directory itself, skip
+							continue;
+						}
+						$file = basename(
+							isset($object['Key']) ? $object['Key'] : $object['Prefix']
+						);
+						$files[] = $file;
 					}
-					$file = basename(
-						isset($object['Key']) ? $object['Key'] : $object['Prefix']
-					);
-					$files[] = $file;
 				}
 			}
 
