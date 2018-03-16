@@ -853,10 +853,10 @@ class UsersController extends OCSController {
 	public function getUserSubAdminGroups(string $userId): DataResponse {
 		$groups = $this->getUserSubAdminGroupsData($userId);
 
-		if(!$groups) {
+		if(is_array($groups)) {
 			throw new OCSException('Unknown error occurred', 102);
 		} else {
-			return new DataResponse($groups);;
+			return new DataResponse($groups);
 		}
 	}
 
