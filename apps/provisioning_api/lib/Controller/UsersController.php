@@ -199,7 +199,7 @@ class UsersController extends OCSController {
 		$users = array_keys($users);
 		$usersDetails = [];
 		foreach ($users as $key => $userId) {
-			$usersDetails[$userId] = $this->getUserData($userId);
+			$usersDetails[$userId] = $this->getUserData($userId, false);
 		}
 
 		return new DataResponse([
@@ -315,7 +315,7 @@ class UsersController extends OCSController {
 	 * @return array
 	 * @throws OCSException
 	 */
-	protected function getUserData(string $userId): array {
+	protected function getUserData(string $userId, bool $throw = true): array {
 		$currentLoggedInUser = $this->userSession->getUser();
 
 		$data = [];
@@ -329,15 +329,15 @@ class UsersController extends OCSController {
 		// Admin? Or SubAdmin?
 		if($this->groupManager->isAdmin($currentLoggedInUser->getUID())
 			|| $this->groupManager->getSubAdmin()->isUserAccessible($currentLoggedInUser, $targetUserObject)) {
+
 			$data['enabled'] = $this->config->getUserValue($targetUserObject->getUID(), 'core', 'enabled', 'true');
-			$data['storageLocation'] = $targetUserObject->getHome();
-			$data['lastLogin'] = $targetUserObject->getLastLogin() * 1000;
-			$data['backend'] = $targetUserObject->getBackendClassName();
-			$data['subadmins'] = $this->getUserSubAdminGroupsData($targetUserObject->getUID());
+
 		} else {
 			// Check they are looking up themselves
-			if($currentLoggedInUser->getUID() !== $targetUserObject->getUID()) {
+			if($currentLoggedInUser->getUID() !== $targetUserObject->getUID() && $throw) {
 				throw new OCSException('', \OCP\API::RESPOND_UNAUTHORISED);
+			} else {
+				return $data;
 			}
 		}
 
@@ -351,6 +351,10 @@ class UsersController extends OCSController {
 
 		// Find the data
 		$data['id'] = $targetUserObject->getUID();
+		$data['storageLocation'] = $targetUserObject->getHome();
+		$data['lastLogin'] = $targetUserObject->getLastLogin() * 1000;
+		$data['backend'] = $targetUserObject->getBackendClassName();
+		$data['subadmins'] = $this->getUserSubAdminGroupsData($targetUserObject->getUID());
 		$data['quota'] = $this->fillStorageInfo($targetUserObject->getUID());
 		$data[AccountManager::PROPERTY_EMAIL] = $targetUserObject->getEMailAddress();
 		$data[AccountManager::PROPERTY_DISPLAYNAME] = $targetUserObject->getDisplayName();
