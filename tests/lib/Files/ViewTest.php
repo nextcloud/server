@@ -1666,7 +1666,17 @@ class ViewTest extends \Test\TestCase {
 
 		$fileId = $view->getFileInfo('shareddir')->getId();
 		$userObject = \OC::$server->getUserManager()->createUser('test2', 'IHateNonMockableStaticClasses');
-		$this->assertTrue(\OC\Share\Share::shareItem('folder', $fileId, Share::SHARE_TYPE_USER, 'test2', Constants::PERMISSION_READ));
+
+		$userFolder = \OC::$server->getUserFolder($this->user);
+		$shareDir = $userFolder->get('shareddir');
+		$shareManager = \OC::$server->getShareManager();
+		$share = $shareManager->newShare();
+		$share->setSharedWith('test2')
+			->setSharedBy($this->user)
+			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setNode($shareDir);
+		$shareManager->createShare($share);
 
 		$this->assertFalse($view->rename('mount1', 'shareddir'), 'Cannot overwrite shared folder');
 		$this->assertFalse($view->rename('mount1', 'shareddir/sub'), 'Cannot move mount point into shared folder');
