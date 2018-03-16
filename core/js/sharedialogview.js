@@ -338,7 +338,7 @@
 			}
 			var insert = $("<div class='share-autocomplete-item'/>");
 			var avatar = $("<div class='avatardiv'></div>").appendTo(insert);
-			if (item.value.shareType === OC.Share.SHARE_TYPE_USER) {
+			if (item.value.shareType === OC.Share.SHARE_TYPE_USER || item.value.shareType === OC.Share.SHARE_TYPE_CIRCLE) {
 				avatar.avatar(item.value.shareWith, 32, undefined, undefined, undefined, item.label);
 			} else {
 				avatar.imageplaceholder(text, undefined, 32);
