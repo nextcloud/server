@@ -765,7 +765,7 @@ class UsersControllerTest extends TestCase {
 			'storageLocation' => '/var/www/newtcloud/data/UID',
 			'lastLogin' => 1521191471000,
 			'backend' => 'Database',
-			'subadmins' => ['group3'],
+			'subadmin' => ['group3'],
 			'quota' => ['DummyValue'],
 			'email' => 'demo@nextcloud.com',
 			'displayname' => 'Demo User',
@@ -880,7 +880,7 @@ class UsersControllerTest extends TestCase {
 			'storageLocation' => '/var/www/newtcloud/data/UID',
 			'lastLogin' => 1521191471000,
 			'backend' => 'Database',
-			'subadmins' => [],
+			'subadmin' => [],
 			'quota' => ['DummyValue'],
 			'email' => 'demo@nextcloud.com',
 			'displayname' => 'Demo User',
@@ -1035,7 +1035,7 @@ class UsersControllerTest extends TestCase {
 			'storageLocation' => '/var/www/newtcloud/data/UID',
 			'lastLogin' => 1521191471000,
 			'backend' => 'Database',
-			'subadmins' => [],
+			'subadmin' => [],
 			'quota' => ['DummyValue'],
 			'email' => 'subadmin@nextcloud.com',
 			'displayname' => 'Subadmin User',
@@ -2851,33 +2851,6 @@ class UsersControllerTest extends TestCase {
 			->will($this->returnValue($subAdminManager));
 
 		$this->assertEquals(['TargetGroup'], $this->api->getUserSubAdminGroups('RequestedUser')->getData());
-	}
-
-	/**
-	 * @expectedException \OCP\AppFramework\OCS\OCSException
-	 * @expectedExceptionCode 102
-	 * @expectedExceptionMessage Unknown error occurred
-	 */
-	public function testGetUserSubAdminGroupsWithoutGroups() {
-		$targetUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
-		$this->userManager
-			->expects($this->once())
-			->method('get')
-			->with('RequestedUser')
-			->will($this->returnValue($targetUser));
-		$subAdminManager = $this->getMockBuilder('OC\SubAdmin')
-			->disableOriginalConstructor()->getMock();
-		$subAdminManager
-			->expects($this->once())
-			->method('getSubAdminsGroups')
-			->with($targetUser)
-			->will($this->returnValue([]));
-		$this->groupManager
-			->expects($this->once())
-			->method('getSubAdmin')
-			->will($this->returnValue($subAdminManager));
-
-		$this->api->getUserSubAdminGroups('RequestedUser');
 	}
 
 	public function testEnableUser() {

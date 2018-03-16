@@ -340,7 +340,7 @@ class UsersController extends OCSController {
 		$data['storageLocation'] = $targetUserObject->getHome();
 		$data['lastLogin'] = $targetUserObject->getLastLogin() * 1000;
 		$data['backend'] = $targetUserObject->getBackendClassName();
-		$data['subadmins'] = $this->getUserSubAdminGroupsData($targetUserObject->getUID());
+		$data['subadmin'] = $this->getUserSubAdminGroupsData($targetUserObject->getUID());
 		$data['quota'] = $this->fillStorageInfo($targetUserObject->getUID());
 		$data[AccountManager::PROPERTY_EMAIL] = $targetUserObject->getEMailAddress();
 		$data[AccountManager::PROPERTY_DISPLAYNAME] = $targetUserObject->getDisplayName();
@@ -852,12 +852,7 @@ class UsersController extends OCSController {
 	 */
 	public function getUserSubAdminGroups(string $userId): DataResponse {
 		$groups = $this->getUserSubAdminGroupsData($userId);
-
-		if(is_array($groups)) {
-			throw new OCSException('Unknown error occurred', 102);
-		} else {
-			return new DataResponse($groups);
-		}
+		return new DataResponse($groups);
 	}
 
 	/**
