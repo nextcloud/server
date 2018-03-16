@@ -30,6 +30,7 @@ use GuzzleHttp\HandlerStack;
 use OCP\Files\StorageAuthException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\ICache;
+use OCP\ILogger;
 use OpenStack\Common\Error\BadResponseError;
 use OpenStack\Common\Auth\Token;
 use OpenStack\Identity\v2\Service as IdentityV2Service;
@@ -44,10 +45,12 @@ class SwiftFactory {
 	private $params;
 	/** @var Container|null */
 	private $container = null;
+	private $logger;
 
-	public function __construct(ICache $cache, array $params) {
+	public function __construct(ICache $cache, array $params, ILogger $logger) {
 		$this->cache = $cache;
 		$this->params = $params;
+		$this->logger = $logger;
 	}
 
 	private function getCachedToken(string $cacheKey) {
@@ -97,10 +100,7 @@ class SwiftFactory {
 
 		$cacheKey = $userName . '@' . $this->params['url'] . '/' . $this->params['container'];
 		$token = $this->getCachedToken($cacheKey);
-		$hasToken = is_array($token) && (new \DateTimeImmutable($token['expires_at'])) > (new \DateTimeImmutable('now'));
-		if ($hasToken) {
-			$this->params['cachedToken'] = $token;
-		}
+		$this->params['cachedToken'] = $token;
 
 		$httpClient = new Client([
 			'base_uri' => TransportUtils::normalizeUrl($this->params['url']),
@@ -125,7 +125,20 @@ class SwiftFactory {
 		$this->params['authUrl'] = $this->params['url'];
 		$client = new OpenStack($this->params);
 
-		if (!isset($this->params['cachedToken'])) {
+		$cachedToken = $this->params['cachedToken'];
+		$hasValidCachedToken = false;
+		if (is_array($cachedToken)) {
+			$token = $authService->generateTokenFromCache($cachedToken);
+			if (is_null($token->catalog)) {
+				$this->logger->warning('Invalid cached token for swift, no catalog set: ' . json_encode($cachedToken));
+			} else if ($token->hasExpired()) {
+				$this->logger->debug('Cached token for swift expired');
+			} else {
+				$hasValidCachedToken = true;
+			}
+		}
+
+		if (!$hasValidCachedToken) {
 			try {
 				$token = $authService->generateToken($this->params);
 				$this->cacheToken($token, $cacheKey);
