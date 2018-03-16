@@ -124,7 +124,7 @@ class UsersController extends OCSController {
 	 * @param int $offset
 	 * @return DataResponse
 	 */
-	public function getUsers(string $search = '', $limit = null, $offset = null): DataResponse {
+	public function getUsers(string $search = '', $limit = null, $offset = 0): DataResponse {
 		$user = $this->userSession->getUser();
 		$users = [];
 
@@ -139,16 +139,10 @@ class UsersController extends OCSController {
 				$subAdminOfGroups[$key] = $group->getGID();
 			}
 
-			if($offset === null) {
-				$offset = 0;
-			}
-
 			$users = [];
 			foreach ($subAdminOfGroups as $group) {
-				$users = array_merge($users, $this->groupManager->displayNamesInGroup($group, $search));
+				$users = array_merge($users, $this->groupManager->displayNamesInGroup($group, $search, $limit, $offset));
 			}
-
-			$users = array_slice($users, $offset, $limit);
 		}
 
 		$users = array_keys($users);
@@ -162,14 +156,8 @@ class UsersController extends OCSController {
 	 * @NoAdminRequired
 	 *
 	 * returns a list of users and their data
-	 *
-	 * @param string $search
-	 * @param int $offset
-	 * @return DataResponse
 	 */
-	public function getUsersDetails(string $search = '', $offset = null): DataResponse {
-		// Limit set to 25 for performance issues 
-		$limit = 25;
+	public function getUsersDetails(string $search = '', $limit = null, $offset = 0): DataResponse {
 		$user = $this->userSession->getUser();
 		$users = [];
 
@@ -184,22 +172,20 @@ class UsersController extends OCSController {
 				$subAdminOfGroups[$key] = $group->getGID();
 			}
 
-			if($offset === null) {
-				$offset = 0;
-			}
-
 			$users = [];
 			foreach ($subAdminOfGroups as $group) {
-				$users = array_merge($users, $this->groupManager->displayNamesInGroup($group, $search));
+				$users = array_merge($users, $this->groupManager->displayNamesInGroup($group, $search, $limit, $offset));
 			}
-
-			$users = array_slice($users, $offset, $limit);
 		}
 
 		$users = array_keys($users);
 		$usersDetails = [];
 		foreach ($users as $key => $userId) {
-			$usersDetails[$userId] = $this->getUserData($userId, false);
+			$userData = $this->getUserData($userId);
+			// Do not insert empty entry
+			if(!empty($userData)) {
+				$usersDetails[$userId] = $userData;
+			}
 		}
 
 		return new DataResponse([
@@ -281,6 +267,10 @@ class UsersController extends OCSController {
 	 */
 	public function getUser(string $userId): DataResponse {
 		$data = $this->getUserData($userId);
+		// getUserData returns empty array if not enough permissions
+		if(empty($data)) {
+			throw new OCSException('', \OCP\API::RESPOND_UNAUTHORISED);
+		}
 		return new DataResponse($data);
 	}
 
@@ -315,7 +305,7 @@ class UsersController extends OCSController {
 	 * @return array
 	 * @throws OCSException
 	 */
-	protected function getUserData(string $userId, bool $throw = true): array {
+	protected function getUserData(string $userId): array {
 		$currentLoggedInUser = $this->userSession->getUser();
 
 		$data = [];
@@ -326,17 +316,13 @@ class UsersController extends OCSController {
 			throw new OCSException('The requested user could not be found', \OCP\API::RESPOND_NOT_FOUND);
 		}
 
-		// Admin? Or SubAdmin?
-		if($this->groupManager->isAdmin($currentLoggedInUser->getUID())
+		// Should be at least Admin Or SubAdmin!
+		if( $this->groupManager->isAdmin($currentLoggedInUser->getUID())
 			|| $this->groupManager->getSubAdmin()->isUserAccessible($currentLoggedInUser, $targetUserObject)) {
-
-			$data['enabled'] = $this->config->getUserValue($targetUserObject->getUID(), 'core', 'enabled', 'true');
-
+				$data['enabled'] = $this->config->getUserValue($targetUserObject->getUID(), 'core', 'enabled', 'true');
 		} else {
 			// Check they are looking up themselves
-			if($currentLoggedInUser->getUID() !== $targetUserObject->getUID() && $throw) {
-				throw new OCSException('', \OCP\API::RESPOND_UNAUTHORISED);
-			} else {
+			if($currentLoggedInUser->getUID() !== $targetUserObject->getUID()) {
 				return $data;
 			}
 		}
@@ -870,7 +856,7 @@ class UsersController extends OCSController {
 		if(!$groups) {
 			throw new OCSException('Unknown error occurred', 102);
 		} else {
-			return $groups;
+			return new DataResponse($groups);;
 		}
 	}
 

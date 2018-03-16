@@ -139,7 +139,7 @@ class UsersControllerTest extends TestCase {
 		$this->userManager
 			->expects($this->once())
 			->method('search')
-			->with('MyCustomSearch', null, null)
+			->with('MyCustomSearch')
 			->will($this->returnValue(['Admin' => [], 'Foo' => [], 'Bar' => []]));
 
 		$expected = ['users' => [
@@ -662,6 +662,9 @@ class UsersControllerTest extends TestCase {
 		$loggedInUser = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
 			->getMock();
+		$subAdminManager = $this->getMockBuilder('OC\SubAdmin')
+			->disableOriginalConstructor()
+			->getMock();
 		$loggedInUser
 			->expects($this->once())
 			->method('getUID')
@@ -671,15 +674,15 @@ class UsersControllerTest extends TestCase {
 			->getMock();
 		$targetUser->expects($this->once())
 			->method('getEMailAddress')
-			->willReturn('demo@owncloud.org');
+			->willReturn('demo@nextcloud.com');
 		$this->userSession
 			->expects($this->once())
 			->method('getUser')
 			->will($this->returnValue($loggedInUser));
 		$this->userManager
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('get')
-			->with('UserToGet')
+			->with('UID')
 			->will($this->returnValue($targetUser));
 		$this->groupManager
 			->expects($this->once())
@@ -690,6 +693,14 @@ class UsersControllerTest extends TestCase {
 			->expects($this->any())
 			->method('getUserGroups')
 			->willReturn([$group, $group, $group]);
+		$this->groupManager
+			->expects($this->once())
+			->method('getSubAdmin')
+			->will($this->returnValue($subAdminManager));
+		$subAdminManager
+			->expects($this->once())
+			->method('getSubAdminsGroups')
+			->willReturn([$group]);
 		$group->expects($this->at(0))
 			->method('getDisplayName')
 			->willReturn('group0');
@@ -699,6 +710,9 @@ class UsersControllerTest extends TestCase {
 		$group->expects($this->at(2))
 			->method('getDisplayName')
 			->willReturn('group2');
+		$group->expects($this->at(3))
+			->method('getGID')
+			->willReturn('group3');
 		$this->accountManager->expects($this->any())->method('getUser')
 			->with($targetUser)
 			->willReturn(
@@ -713,7 +727,7 @@ class UsersControllerTest extends TestCase {
 			->expects($this->at(0))
 			->method('getUserValue')
 			->with('UID', 'core', 'enabled', 'true')
-			->will($this->returnValue('true'));
+			->will($this->returnValue('true'));			
 		$this->config
 			->expects($this->at(1))
 			->method('getUserValue')
@@ -729,15 +743,31 @@ class UsersControllerTest extends TestCase {
 			->method('getDisplayName')
 			->will($this->returnValue('Demo User'));
 		$targetUser
-			->expects($this->exactly(4))
+			->expects($this->once())
+			->method('getHome')
+			->will($this->returnValue('/var/www/newtcloud/data/UID'));
+		$targetUser
+			->expects($this->once())
+			->method('getLastLogin')
+			->will($this->returnValue(1521191471));
+		$targetUser
+			->expects($this->once())
+			->method('getBackendClassName')
+			->will($this->returnValue('Database'));
+		$targetUser
+			->expects($this->exactly(5))
 			->method('getUID')
 			->will($this->returnValue('UID'));
 
 		$expected = [
 			'id' => 'UID',
 			'enabled' => 'true',
+			'storageLocation' => '/var/www/newtcloud/data/UID',
+			'lastLogin' => 1521191471000,
+			'backend' => 'Database',
+			'subadmins' => ['group3'],
 			'quota' => ['DummyValue'],
-			'email' => 'demo@owncloud.org',
+			'email' => 'demo@nextcloud.com',
 			'displayname' => 'Demo User',
 			'phone' => 'phone',
 			'address' => 'address',
@@ -746,7 +776,7 @@ class UsersControllerTest extends TestCase {
 			'groups' => ['group0', 'group1', 'group2'],
 			'language' => 'de',
 		];
-		$this->assertEquals($expected, $this->invokePrivate($this->api, 'getUserData', ['UserToGet']));
+		$this->assertEquals($expected, $this->invokePrivate($this->api, 'getUserData', ['UID']));
 	}
 
 	public function testGetUserDataAsSubAdminAndUserIsAccessible() {
@@ -763,15 +793,15 @@ class UsersControllerTest extends TestCase {
 		$targetUser
 				->expects($this->once())
 				->method('getEMailAddress')
-				->willReturn('demo@owncloud.org');
+				->willReturn('demo@nextcloud.com');
 		$this->userSession
 			->expects($this->once())
 			->method('getUser')
 			->will($this->returnValue($loggedInUser));
 		$this->userManager
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('get')
-			->with('UserToGet')
+			->with('UID')
 			->will($this->returnValue($targetUser));
 		$this->groupManager
 			->expects($this->once())
@@ -790,8 +820,12 @@ class UsersControllerTest extends TestCase {
 			->method('isUserAccessible')
 			->with($loggedInUser, $targetUser)
 			->will($this->returnValue(true));
-		$this->groupManager
+		$subAdminManager
 			->expects($this->once())
+			->method('getSubAdminsGroups')
+			->willReturn([]);
+		$this->groupManager
+			->expects($this->exactly(2))
 			->method('getSubAdmin')
 			->will($this->returnValue($subAdminManager));
 		$this->config
@@ -814,7 +848,19 @@ class UsersControllerTest extends TestCase {
 			->method('getDisplayName')
 			->will($this->returnValue('Demo User'));
 		$targetUser
-			->expects($this->exactly(4))
+			->expects($this->once())
+			->method('getHome')
+			->will($this->returnValue('/var/www/newtcloud/data/UID'));
+		$targetUser
+			->expects($this->once())
+			->method('getLastLogin')
+			->will($this->returnValue(1521191471));
+		$targetUser
+			->expects($this->once())
+			->method('getBackendClassName')
+			->will($this->returnValue('Database'));
+		$targetUser
+			->expects($this->exactly(5))
 			->method('getUID')
 			->will($this->returnValue('UID'));
 		$this->accountManager->expects($this->any())->method('getUser')
@@ -831,8 +877,12 @@ class UsersControllerTest extends TestCase {
 		$expected = [
 			'id' => 'UID',
 			'enabled' => 'true',
+			'storageLocation' => '/var/www/newtcloud/data/UID',
+			'lastLogin' => 1521191471000,
+			'backend' => 'Database',
+			'subadmins' => [],
 			'quota' => ['DummyValue'],
-			'email' => 'demo@owncloud.org',
+			'email' => 'demo@nextcloud.com',
 			'displayname' => 'Demo User',
 			'phone' => 'phone',
 			'address' => 'address',
@@ -841,7 +891,7 @@ class UsersControllerTest extends TestCase {
 			'groups' => [],
 			'language' => 'da',
 		];
-		$this->assertEquals($expected, $this->invokePrivate($this->api, 'getUserData', ['UserToGet']));
+		$this->assertEquals($expected, $this->invokePrivate($this->api, 'getUserData', ['UID']));
 	}
 
 
@@ -887,7 +937,7 @@ class UsersControllerTest extends TestCase {
 			->method('getSubAdmin')
 			->will($this->returnValue($subAdminManager));
 
-		$this->invokePrivate($this->api, 'getUserData', ['UserToGet']);
+		$this->invokePrivate($this->api, 'getUser', ['UserToGet']);
 	}
 
 	public function testGetUserDataAsSubAdminSelfLookup() {
@@ -906,9 +956,9 @@ class UsersControllerTest extends TestCase {
 			->method('getUser')
 			->will($this->returnValue($loggedInUser));
 		$this->userManager
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('get')
-			->with('subadmin')
+			->with('UID')
 			->will($this->returnValue($targetUser));
 		$this->groupManager
 			->expects($this->once())
@@ -923,8 +973,12 @@ class UsersControllerTest extends TestCase {
 			->method('isUserAccessible')
 			->with($loggedInUser, $targetUser)
 			->will($this->returnValue(false));
-		$this->groupManager
+		$subAdminManager
 			->expects($this->once())
+			->method('getSubAdminsGroups')
+			->willReturn([]);
+		$this->groupManager
+			->expects($this->exactly(2))
 			->method('getSubAdmin')
 			->will($this->returnValue($subAdminManager));
 		$this->groupManager
@@ -943,11 +997,23 @@ class UsersControllerTest extends TestCase {
 		$targetUser
 			->expects($this->once())
 			->method('getEMailAddress')
-			->will($this->returnValue('subadmin@owncloud.org'));
+			->will($this->returnValue('subadmin@nextcloud.com'));
 		$targetUser
-			->expects($this->exactly(4))
+			->expects($this->exactly(5))
 			->method('getUID')
 			->will($this->returnValue('UID'));
+		$targetUser
+			->expects($this->once())
+			->method('getHome')
+			->will($this->returnValue('/var/www/newtcloud/data/UID'));
+		$targetUser
+			->expects($this->once())
+			->method('getLastLogin')
+			->will($this->returnValue(1521191471));
+		$targetUser
+			->expects($this->once())
+			->method('getBackendClassName')
+			->will($this->returnValue('Database'));
 		$this->config
 			->expects($this->at(0))
 			->method('getUserValue')
@@ -966,8 +1032,12 @@ class UsersControllerTest extends TestCase {
 
 		$expected = [
 			'id' => 'UID',
+			'storageLocation' => '/var/www/newtcloud/data/UID',
+			'lastLogin' => 1521191471000,
+			'backend' => 'Database',
+			'subadmins' => [],
 			'quota' => ['DummyValue'],
-			'email' => 'subadmin@owncloud.org',
+			'email' => 'subadmin@nextcloud.com',
 			'displayname' => 'Subadmin User',
 			'phone' => 'phone',
 			'address' => 'address',
@@ -976,7 +1046,7 @@ class UsersControllerTest extends TestCase {
 			'groups' => [],
 			'language' => 'ru',
 		];
-		$this->assertEquals($expected, $this->invokePrivate($this->api, 'getUserData', ['subadmin']));
+		$this->assertEquals($expected, $this->invokePrivate($this->api, 'getUserData', ['UID']));
 	}
 
 	public function testEditUserRegularUserSelfEditChangeDisplayName() {
@@ -1034,13 +1104,13 @@ class UsersControllerTest extends TestCase {
 		$targetUser
 			->expects($this->once())
 			->method('setEMailAddress')
-			->with('demo@owncloud.org');
+			->with('demo@nextcloud.com');
 		$targetUser
 			->expects($this->any())
 			->method('getUID')
 			->will($this->returnValue('UID'));
 
-		$this->assertEquals([], $this->api->editUser('UserToEdit', 'email', 'demo@owncloud.org')->getData());
+		$this->assertEquals([], $this->api->editUser('UserToEdit', 'email', 'demo@nextcloud.com')->getData());
 	}
 
 
@@ -2896,7 +2966,7 @@ class UsersControllerTest extends TestCase {
 					'id' => 'UID',
 					'enabled' => 'true',
 					'quota' => ['DummyValue'],
-					'email' => 'demo@owncloud.org',
+					'email' => 'demo@nextcloud.com',
 					'displayname' => 'Demo User',
 					'phone' => 'phone',
 					'address' => 'address',
@@ -2909,7 +2979,7 @@ class UsersControllerTest extends TestCase {
 			'id' => 'UID',
 			'enabled' => 'true',
 			'quota' => ['DummyValue'],
-			'email' => 'demo@owncloud.org',
+			'email' => 'demo@nextcloud.com',
 			'phone' => 'phone',
 			'address' => 'address',
 			'website' => 'website',
@@ -2956,7 +3026,7 @@ class UsersControllerTest extends TestCase {
 			'id' => 'UID',
 			'enabled' => 'true',
 			'quota' => ['DummyValue'],
-			'email' => 'demo@owncloud.org',
+			'email' => 'demo@nextcloud.com',
 			'phone' => 'phone',
 			'address' => 'address',
 			'website' => 'website',
