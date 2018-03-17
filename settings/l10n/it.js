@@ -160,6 +160,7 @@ OC.L10N.register(
     "Good password" : "Password buona",
     "Strong password" : "Password forte",
     "Groups" : "Gruppi",
+    "Unable to retrieve the group list" : "Impossibile recuperare l'elenco dei gruppi",
     "Unable to delete {objName}" : "Impossibile eliminare {objName}",
     "Error creating group: {message}" : "Errore durante la creazione del gruppo: {message}",
     "A valid group name must be provided" : "Deve essere fornito un nome valido per il gruppo",

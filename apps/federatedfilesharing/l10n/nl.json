@@ -15,6 +15,7 @@
     "Couldn't establish a federated share." : "Kon geen gefedereerde share tot stand brengen",
     "Couldn't establish a federated share, maybe the password was wrong." : "Kon geen gefedereerde share tot stand brengen, misschien was het wachtwoord onjuist.",
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "De gefedereerde share aanvraag is verzonden, je ontvangt een uitnodiging. Controleer je meldingen.",
+    "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "Kon geen gefedereerde share tot stand brengen, waarschijnlijk was de federatieserver te oud (Nextcloud <=9).",
     "Sharing %s failed, because this item is already shared with %s" : "Delen van %s is mislukt, omdat het object al wordt gedeeld met %s",
     "Not allowed to create a federated share with the same user" : "Het is niet toegestaan om een gefedereerde share met dezelfde gebruikersserver te maken",
     "File is already shared with %s" : "Bestand is al gedeeld met %s",
