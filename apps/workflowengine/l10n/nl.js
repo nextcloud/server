@@ -1,6 +1,7 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Unable to retrieve the group list" : "Kan groepsoverzicht niet ophalen",
     "Saved" : "Bewaard",
     "Saving failed:" : "Opslaan mislukt:",
     "File MIME type" : "Mimetype bestand",

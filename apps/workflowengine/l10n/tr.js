@@ -1,6 +1,7 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Unable to retrieve the group list" : "Grup listesi alınamadı",
     "Saved" : "Kaydedildi",
     "Saving failed:" : "Kaydedilemedi:",
     "File MIME type" : "Dosya MIME türü",
