@@ -1,6 +1,7 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Unable to retrieve the group list" : "Impossível recuperar a lista do grupo",
     "Saved" : "Salvo",
     "Saving failed:" : "A gravação falhou:",
     "File MIME type" : "Tipo de arquivo MIME",

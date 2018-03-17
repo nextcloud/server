@@ -277,6 +277,7 @@
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "We hebben meerdere foutieve inlogverzoeken van jouw IP gedetecteerd. Hierdoor wordt je volgende inlogverzoek 30 seconden uitgesteld.",
     "Stay logged in" : "Ingelogd blijven",
     "Forgot password?" : "Wachtwoord vergeten?",
+    "Back to login" : "Terug naar inloggen",
     "Account access" : "Account toegang",
     "You are about to grant %s access to your %s account." : "Je staat op het punt om %s toegang te verlenen to je %s account.",
     "Grant access" : "Verleen toegang",

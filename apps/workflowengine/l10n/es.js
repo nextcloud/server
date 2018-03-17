@@ -1,6 +1,7 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Unable to retrieve the group list" : "No es posible recibir la lista de grupos",
     "Saved" : "Guardado",
     "Saving failed:" : "Fallo al guardar:",
     "File MIME type" : "Tipo MIME del archivo",
