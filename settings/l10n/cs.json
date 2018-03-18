@@ -360,7 +360,7 @@
     "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")" : "Zvolte prosím kvótu pro úložiště (např. \"512 MB\" nebo \"12 GB\")",
     "Unlimited" : "Neomezeně",
     "Other" : "Jiný",
-    "Group admin for" : "Seskupit skupiny pro",
+    "Group admin for" : "Administrátor skupiny",
     "Quota" : "Kvóta",
     "Storage location" : "Úložiště dat",
     "User backend" : "Backend uživatelů",

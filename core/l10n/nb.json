@@ -277,6 +277,7 @@
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Vi har detektert flere ugyldige påloggingsforsøk fra din IP-adresse. Derfor er din neste innlogging forsinket med opptil 30 sekunder.",
     "Stay logged in" : "Forbli innlogget",
     "Forgot password?" : "Glemt passord?",
+    "Back to login" : "Tilbake til innlogging",
     "Account access" : "Kontotilgang",
     "You are about to grant %s access to your %s account." : "Du er i ferd med å gi %s tilgang til din %s konto.",
     "Grant access" : "Gi tilgang",
