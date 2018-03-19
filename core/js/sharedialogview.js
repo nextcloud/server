@@ -160,83 +160,87 @@
 							circles = result.ocs.data.exact.circles.concat(result.ocs.data.circles);
 						}
 
-						var usersLength;
-						var groupsLength;
-						var remotesLength;
-						var emailsLength;
-						var circlesLength;
+						var filter = function(users, groups, remotes, emails, circles) {
+							var usersLength;
+							var groupsLength;
+							var remotesLength;
+							var emailsLength;
+							var circlesLength;
 
-						var i, j;
+							var i, j;
 
-						//Filter out the current user
-						usersLength = users.length;
-						for (i = 0; i < usersLength; i++) {
-							if (users[i].value.shareWith === OC.currentUser) {
-								users.splice(i, 1);
-								break;
-							}
-						}
-
-						// Filter out the owner of the share
-						if (model.hasReshare()) {
+							//Filter out the current user
 							usersLength = users.length;
-							for (i = 0 ; i < usersLength; i++) {
-								if (users[i].value.shareWith === model.getReshareOwner()) {
+							for (i = 0; i < usersLength; i++) {
+								if (users[i].value.shareWith === OC.currentUser) {
 									users.splice(i, 1);
 									break;
 								}
 							}
-						}
 
-						var shares = model.get('shares');
-						var sharesLength = shares.length;
-
-						// Now filter out all sharees that are already shared with
-						for (i = 0; i < sharesLength; i++) {
-							var share = shares[i];
-
-							if (share.share_type === OC.Share.SHARE_TYPE_USER) {
+							// Filter out the owner of the share
+							if (model.hasReshare()) {
 								usersLength = users.length;
-								for (j = 0; j < usersLength; j++) {
-									if (users[j].value.shareWith === share.share_with) {
-										users.splice(j, 1);
-										break;
-									}
-								}
-							} else if (share.share_type === OC.Share.SHARE_TYPE_GROUP) {
-								groupsLength = groups.length;
-								for (j = 0; j < groupsLength; j++) {
-									if (groups[j].value.shareWith === share.share_with) {
-										groups.splice(j, 1);
-										break;
-									}
-								}
-							} else if (share.share_type === OC.Share.SHARE_TYPE_REMOTE) {
-								remotesLength = remotes.length;
-								for (j = 0; j < remotesLength; j++) {
-									if (remotes[j].value.shareWith === share.share_with) {
-										remotes.splice(j, 1);
-										break;
-									}
-								}
-							} else if (share.share_type === OC.Share.SHARE_TYPE_EMAIL) {
-								emailsLength = emails.length;
-								for (j = 0; j < emailsLength; j++) {
-									if (emails[j].value.shareWith === share.share_with) {
-										emails.splice(j, 1);
-										break;
-									}
-								}
-							} else if (share.share_type === OC.Share.SHARE_TYPE_CIRCLE) {
-								circlesLength = circles.length;
-								for (j = 0; j < circlesLength; j++) {
-									if (circles[j].value.shareWith === share.share_with) {
-										circles.splice(j, 1);
+								for (i = 0 ; i < usersLength; i++) {
+									if (users[i].value.shareWith === model.getReshareOwner()) {
+										users.splice(i, 1);
 										break;
 									}
 								}
 							}
-						}
+
+							var shares = model.get('shares');
+							var sharesLength = shares.length;
+
+							// Now filter out all sharees that are already shared with
+							for (i = 0; i < sharesLength; i++) {
+								var share = shares[i];
+
+								if (share.share_type === OC.Share.SHARE_TYPE_USER) {
+									usersLength = users.length;
+									for (j = 0; j < usersLength; j++) {
+										if (users[j].value.shareWith === share.share_with) {
+											users.splice(j, 1);
+											break;
+										}
+									}
+								} else if (share.share_type === OC.Share.SHARE_TYPE_GROUP) {
+									groupsLength = groups.length;
+									for (j = 0; j < groupsLength; j++) {
+										if (groups[j].value.shareWith === share.share_with) {
+											groups.splice(j, 1);
+											break;
+										}
+									}
+								} else if (share.share_type === OC.Share.SHARE_TYPE_REMOTE) {
+									remotesLength = remotes.length;
+									for (j = 0; j < remotesLength; j++) {
+										if (remotes[j].value.shareWith === share.share_with) {
+											remotes.splice(j, 1);
+											break;
+										}
+									}
+								} else if (share.share_type === OC.Share.SHARE_TYPE_EMAIL) {
+									emailsLength = emails.length;
+									for (j = 0; j < emailsLength; j++) {
+										if (emails[j].value.shareWith === share.share_with) {
+											emails.splice(j, 1);
+											break;
+										}
+									}
+								} else if (share.share_type === OC.Share.SHARE_TYPE_CIRCLE) {
+									circlesLength = circles.length;
+									for (j = 0; j < circlesLength; j++) {
+										if (circles[j].value.shareWith === share.share_with) {
+											circles.splice(j, 1);
+											break;
+										}
+									}
+								}
+							}
+						};
+
+						filter(users, groups, remotes, emails, circles);
 
 						var suggestions = users.concat(groups).concat(remotes).concat(emails).concat(circles).concat(lookup);
 
