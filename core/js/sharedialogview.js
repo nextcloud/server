@@ -334,8 +334,7 @@
 				$loading.addClass('hidden');
 				$loading.removeClass('inlineblock');
 				$confirm.removeClass('hidden');
-				OC.Notification.show(t('core', 'An error occurred. Please try again'));
-				window.setTimeout(OC.Notification.hide, 5000);
+				OC.Notification.showTemporary(t('core', 'An error occurred. Please try again'));
 			});
 		},
 

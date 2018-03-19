@@ -472,14 +472,14 @@ describe('OC.Share.ShareDialogView', function() {
 		});
 	});
 	describe('autocompletion of users', function() {
-		var showNotificationStub;
+		var showTemporaryNotificationStub;
 
 		beforeEach(function() {
-			showNotificationStub = sinon.stub(OC.Notification, 'show');
+			showTemporaryNotificationStub = sinon.stub(OC.Notification, 'show');
 		});
 
 		afterEach(function() {
-			showNotificationStub.restore();
+			showTemporaryNotificationStub.restore();
 		});
 
 		describe('triggers autocomplete display and focus with data when ajax search succeeds', function () {
@@ -1486,7 +1486,7 @@ describe('OC.Share.ShareDialogView', function() {
 			dialog.render();
 			dialog.autocompleteHandler({term: 'bob'}, sinon.stub());
 			fakeServer.requests[0].respond(500);
-			expect(showNotificationStub.calledOnce).toEqual(true);
+			expect(showTemporaryNotificationStub.calledOnce).toEqual(true);
 		});
 
 		describe('renders the autocomplete elements', function() {
