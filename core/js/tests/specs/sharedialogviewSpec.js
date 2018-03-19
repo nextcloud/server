@@ -30,7 +30,6 @@ describe('OC.Share.ShareDialogView', function() {
 	var saveLinkShareStub;
 
 	var fetchStub;
-	var notificationStub;
 
 	var configModel;
 	var shareModel;
@@ -473,6 +472,16 @@ describe('OC.Share.ShareDialogView', function() {
 		});
 	});
 	describe('autocompletion of users', function() {
+		var showNotificationStub;
+
+		beforeEach(function() {
+			showNotificationStub = sinon.stub(OC.Notification, 'show');
+		});
+
+		afterEach(function() {
+			showNotificationStub.restore();
+		});
+
 		describe('triggers autocomplete display and focus with data when ajax search succeeds', function () {
 			it('users', function () {
 				dialog.render();
@@ -1474,12 +1483,10 @@ describe('OC.Share.ShareDialogView', function() {
 		});
 
 		it('throws a notification when the ajax search lookup fails', function () {
-			notificationStub = sinon.stub(OC.Notification, 'show');
 			dialog.render();
 			dialog.autocompleteHandler({term: 'bob'}, sinon.stub());
 			fakeServer.requests[0].respond(500);
-			expect(notificationStub.calledOnce).toEqual(true);
-			notificationStub.restore();
+			expect(showNotificationStub.calledOnce).toEqual(true);
 		});
 
 		describe('renders the autocomplete elements', function() {
