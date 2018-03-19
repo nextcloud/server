@@ -36,16 +36,15 @@ class Swift implements IObjectStore {
 	 */
 	private $params;
 
-	/**
-	 * @var \OpenStack\ObjectStore\v1\Models\Container|null
-	 */
-	private $container = null;
-
 	/** @var SwiftFactory */
 	private $swiftFactory;
 
 	public function __construct($params, SwiftFactory $connectionFactory = null) {
-		$this->swiftFactory = $connectionFactory ?: new SwiftFactory(\OC::$server->getMemCacheFactory()->createDistributed('swift::'), $params);
+		$this->swiftFactory = $connectionFactory ?: new SwiftFactory(
+			\OC::$server->getMemCacheFactory()->createDistributed('swift::'),
+			$params,
+			\OC::$server->getLogger()
+		);
 		$this->params = $params;
 	}
 
