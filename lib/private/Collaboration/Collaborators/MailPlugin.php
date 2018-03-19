@@ -88,6 +88,10 @@ class MailPlugin implements ISearchPlugin {
 					$emailAddresses = [$emailAddresses];
 				}
 				foreach ($emailAddresses as $emailAddress) {
+					$displayName = $emailAddress;
+					if (isset($contact['FN'])) 	{
+						$displayName = $contact['FN'] . ' (' . $emailAddress . ')';
+					}
 					$exactEmailMatch = strtolower($emailAddress) === $lowerSearch;
 
 					if (isset($contact['isLocalSystemBook'])) {
@@ -116,7 +120,7 @@ class MailPlugin implements ISearchPlugin {
 
 							if (!$this->isCurrentUser($cloud) && !$searchResult->hasResult($userType, $cloud->getUser())) {
 								$singleResult = [[
-									'label' => $contact['FN'] . " ($emailAddress)",
+									'label' => $displayName,
 									'value' => [
 										'shareType' => Share::SHARE_TYPE_USER,
 										'shareWith' => $cloud->getUser(),
@@ -137,7 +141,7 @@ class MailPlugin implements ISearchPlugin {
 
 							if (!$this->isCurrentUser($cloud) && !$searchResult->hasResult($userType, $cloud->getUser())) {
 								$userResults['wide'][] = [
-									'label' => $contact['FN'] . " ($emailAddress)",
+									'label' => $displayName,
 									'value' => [
 										'shareType' => Share::SHARE_TYPE_USER,
 										'shareWith' => $cloud->getUser(),
@@ -148,12 +152,14 @@ class MailPlugin implements ISearchPlugin {
 						continue;
 					}
 
-					if ($exactEmailMatch || strtolower($contact['FN']) === $lowerSearch) {
+					if ($exactEmailMatch
+						|| isset($contact['FN']) && strtolower($contact['FN']) === $lowerSearch)
+					{
 						if ($exactEmailMatch) {
 							$searchResult->markExactIdMatch($emailType);
 						}
 						$result['exact'][] = [
-							'label' => $contact['FN'] . " ($emailAddress)",
+							'label' => $displayName,
 							'value' => [
 								'shareType' => Share::SHARE_TYPE_EMAIL,
 								'shareWith' => $emailAddress,
@@ -161,7 +167,7 @@ class MailPlugin implements ISearchPlugin {
 						];
 					} else {
 						$result['wide'][] = [
-							'label' => $contact['FN'] . " ($emailAddress)",
+							'label' => $displayName,
 							'value' => [
 								'shareType' => Share::SHARE_TYPE_EMAIL,
 								'shareWith' => $emailAddress,
