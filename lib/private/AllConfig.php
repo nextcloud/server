@@ -233,7 +233,7 @@ class AllConfig implements \OCP\IConfig {
 					->andWhere($qb->expr()->eq('configkey', $qb->createNamedParameter($key)));
 				$qb->execute();
 
-				$this->userCache[$userId][$appName][$key] = $value;
+				$this->userCache[$userId][$appName][$key] = (string)$value;
 				return;
 			}
 		}
@@ -258,7 +258,7 @@ class AllConfig implements \OCP\IConfig {
 			if (!isset($this->userCache[$userId][$appName])) {
 				$this->userCache[$userId][$appName] = array();
 			}
-			$this->userCache[$userId][$appName][$key] = $value;
+			$this->userCache[$userId][$appName][$key] = (string)$value;
 		}
 	}
 
