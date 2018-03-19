@@ -93,8 +93,8 @@ class Application extends App {
 		/** @var IUserSession|Session $userSession */
 		$userSession = $this->getContainer()->getServer()->getUserSession();
 		$userSession->listen('\OC\User', 'postSetPassword', [$userActions, 'setPassword']);
-		$userSession->listen('\OC\User', 'announceUser', [$userActions, 'announce']);
-		$userSession->listen('\OC\User', 'postRevokeUser', [$userActions, 'revoke']);
+		$userSession->listen('\OC\User', 'assignedUserId', [$userActions, 'assign']);
+		$userSession->listen('\OC\User', 'postUnassignedUserId', [$userActions, 'unassign']);
 	}
 
 	protected function groupHooks(ILogger $logger)  {

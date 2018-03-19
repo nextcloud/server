@@ -38,10 +38,10 @@ try {
 		$mapping = new UserMapping(\OC::$server->getDatabaseConnection());
 		$result = $mapping->clearCb(
 			function ($uid) {
-				\OC::$server->getUserManager()->emit('\OC\User', 'preRevokeUser', [$uid]);
+				\OC::$server->getUserManager()->emit('\OC\User', 'preUnassignedUserId', [$uid]);
 			},
 			function ($uid) {
-				\OC::$server->getUserManager()->emit('\OC\User', 'postRevokeUser', [$uid]);
+				\OC::$server->getUserManager()->emit('\OC\User', 'postUnassignedUserId', [$uid]);
 			}
 		);
 	} else if($subject === 'group') {

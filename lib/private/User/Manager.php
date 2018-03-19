@@ -50,9 +50,9 @@ use OCP\UserInterface;
  * - preCreateUser(string $uid, string $password)
  * - postCreateUser(\OC\User\User $user, string $password)
  * - change(\OC\User\User $user)
- * - announceUser(string $uid)
- * - preRevokeUser(string $uid)
- * - postRevokeUser(string $uid)
+ * - assignedUserId(string $uid)
+ * - preUnassignedUserId(string $uid)
+ * - postUnassignedUserId(string $uid)
  *
  * @package OC\User
  */

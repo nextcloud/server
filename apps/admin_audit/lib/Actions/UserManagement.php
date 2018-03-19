@@ -55,9 +55,9 @@ class UserManagement extends Action {
 	 *
 	 * @param string $uid
 	 */
-	public function announce(string $uid) {
+	public function assign(string $uid) {
 		$this->log(
-		'UserID assgined: "%s"',
+		'UserID assigned: "%s"',
 			[ 'uid' => $uid ],
 			[ 'uid' ]
 		);
@@ -83,7 +83,7 @@ class UserManagement extends Action {
 	 *
 	 * @param string $uid
 	 */
-	public function revoke(string $uid) {
+	public function unassign(string $uid) {
 		$this->log(
 			'UserID unassigned: "%s"',
 			[ 'uid' => $uid ],
