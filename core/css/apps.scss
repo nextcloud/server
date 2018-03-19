@@ -152,7 +152,7 @@ kbd {
 				&,
 				> a {
 					opacity: 1;
-					box-shadow: inset 2px 0 $color-primary;
+					box-shadow: inset 4px 0 $color-primary;
 				}
 			}
 
@@ -177,7 +177,6 @@ kbd {
 			/* Second level nesting for lists */
 			> ul {
 				flex: 0 1 auto;
-				padding-left: 44px;
 				width: 100%;
 				transition: max-height 2000ms ease-in-out,
 							opacity 250ms ease-in-out;
@@ -187,6 +186,7 @@ kbd {
 				> li {
 					display: inline-flex;
 					flex-wrap: wrap;
+					padding-left: 44px;
 					&:focus,
 					&:hover,
 					&.active,
@@ -197,9 +197,20 @@ kbd {
 						}
 					}
 
+					&.active {
+						box-shadow: inset 4px 0 $color-primary;
+					}
+
 					/* align loader */
 					&.icon-loading-small:after {
 						left: 22px; /* 44px / 2 */
+					}
+
+					> .app-navigation-entry-deleted,
+					> .app-navigation-entry-edit {
+						/* margin to keep active indicator visible */
+						margin-left: 4px;
+						padding-left: 84px;
 					}
 				}
 			}
