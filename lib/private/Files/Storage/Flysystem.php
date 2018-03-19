@@ -206,7 +206,7 @@ abstract class Flysystem extends Common {
 					if (!$this->isCreatable(dirname($path))) {
 						return false;
 					}
-					$tmpFile = \OCP\Files::tmpFile();
+					$tmpFile = \OC::$server->getTempManager()->getTemporaryFile();
 				}
 				$source = fopen($tmpFile, $mode);
 				return CallbackWrapper::wrap($source, null, null, function () use ($tmpFile, $fullPath) {

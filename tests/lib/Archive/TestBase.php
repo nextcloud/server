@@ -58,7 +58,7 @@ abstract class TestBase extends \Test\TestCase {
 		$textFile=$dir.'/lorem.txt';
 		$this->assertEquals(file_get_contents($textFile), $this->instance->getFile('lorem.txt'));
 
-		$tmpFile=\OCP\Files::tmpFile('.txt');
+		$tmpFile = \OC::$server->getTempManager()->getTemporaryFile('.txt');
 		$this->instance->extractFile('lorem.txt', $tmpFile);
 		$this->assertEquals(file_get_contents($textFile), file_get_contents($tmpFile));
 	}

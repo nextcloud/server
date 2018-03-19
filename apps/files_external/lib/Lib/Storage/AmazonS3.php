@@ -410,7 +410,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				}
 			case 'w':
 			case 'wb':
-				$tmpFile = \OCP\Files::tmpFile();
+				$tmpFile = \OC::$server->getTempManager()->getTemporaryFile();
 
 				$handle = fopen($tmpFile, 'w');
 				return CallbackWrapper::wrap($handle, null, null, function () use ($path, $tmpFile) {
@@ -431,7 +431,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				} else {
 					$ext = '';
 				}
-				$tmpFile = \OCP\Files::tmpFile($ext);
+				$tmpFile = \OC::$server->getTempManager()->getTemporaryFile($ext);
 				if ($this->file_exists($path)) {
 					$source = $this->readObject($path);
 					file_put_contents($tmpFile, $source);

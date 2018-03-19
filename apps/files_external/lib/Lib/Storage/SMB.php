@@ -353,7 +353,7 @@ class SMB extends Common implements INotifyStorage {
 						if (!$this->isCreatable(dirname($path))) {
 							return false;
 						}
-						$tmpFile = \OCP\Files::tmpFile($ext);
+						$tmpFile = \OC::$server->getTempManager()->getTemporaryFile($ext);
 					}
 					$source = fopen($tmpFile, $mode);
 					$share = $this->share;

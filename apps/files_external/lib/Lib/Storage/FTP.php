@@ -128,7 +128,7 @@ class FTP extends StreamWrapper{
 				} else {
 					$ext='';
 				}
-				$tmpFile=\OCP\Files::tmpFile($ext);
+				$tmpFile = \OC::$server->getTempManager()->getTemporaryFile();
 				if ($this->file_exists($path)) {
 					$this->getFile($path, $tmpFile);
 				}

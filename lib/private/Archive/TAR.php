@@ -346,7 +346,7 @@ class TAR extends Archive {
 		} else {
 			$ext = '';
 		}
-		$tmpFile = \OCP\Files::tmpFile($ext);
+		$tmpFile = \OC::$server->getTempManager()->getTemporaryFile($ext);
 		if ($this->fileExists($path)) {
 			$this->extractFile($path, $tmpFile);
 		} elseif ($mode == 'r' or $mode == 'rb') {
