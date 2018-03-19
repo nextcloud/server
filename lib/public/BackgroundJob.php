@@ -46,11 +46,4 @@ class BackgroundJob {
 	 */
 	public static function setExecutionType($type) {
 	}
-
-	/**
-	 * @since 6.0.0
-	 * @deprecated 8.1.0 Use \OC::$server->getJobList()->add() instead
-	 */
-	public static function registerJob($job, $argument = null) {
-	}
 }
