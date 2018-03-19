@@ -112,7 +112,7 @@ abstract class TestBase extends \Test\TestCase {
 	public function testExtract() {
 		$dir=\OC::$SERVERROOT.'/tests/data';
 		$this->instance=$this->getExisting();
-		$tmpDir=\OCP\Files::tmpFolder();
+		$tmpDir = \OC::$server->getTempManager()->getTemporaryFolder();
 		$this->instance->extract($tmpDir);
 		$this->assertEquals(true, file_exists($tmpDir.'lorem.txt'));
 		$this->assertEquals(true, file_exists($tmpDir.'dir/lorem.txt'));
