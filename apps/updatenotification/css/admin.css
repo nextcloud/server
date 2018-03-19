@@ -31,3 +31,12 @@
 #updatenotification .icon-triangle-n {
 	opacity: 0.5;
 }
+
+#updatenotification .channel-description span {
+	color: #aaa;
+}
+
+#updatenotification .channel-description span strong {
+	color: #555;
+	font-weight: normal;
+}

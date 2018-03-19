@@ -55,6 +55,12 @@
 			<em>{{ t('updatenotification', 'Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found.') }}</em>
 		</p>
 
+		<p class="channel-description">
+			<span v-html="productionInfoString"></span><br>
+			<span v-html="stableInfoString"></span><br>
+			<span v-html="betaInfoString"></span>
+		</p>
+
 		<p id="oca_updatenotification_groups">
 			{{ t('updatenotification', 'Notify members of the following groups about available updates:') }}
 			<v-select multiple :value="notifyGroups" :options="availableGroups"></v-select><br />
@@ -174,6 +180,18 @@
 					this.missingAppUpdates.length, {
 						version: this.newVersionString
 					});
+			},
+
+			productionInfoString: function() {
+				return t('updatenotification', '<strong>production</strong> will always provide the latest patch level, but not update to the next major release immediately. That update usually happens with the second minor release (x.0.2).');
+			},
+
+			stableInfoString: function() {
+				return t('updatenotification', '<strong>stable</strong> is the most recent stable version. It is suited for production use and will always update to the latest major version.');
+			},
+
+			betaInfoString: function() {
+				return t('updatenotification', '<strong>beta</strong> is a pre-release version only for testing new features, not for production environments.');
 			}
 		},
 

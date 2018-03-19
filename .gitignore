@@ -32,6 +32,7 @@
 !/apps/testing
 !/apps/admin_audit
 !/apps/updatenotification
+/apps/updatenotification/build
 /apps/updatenotification/js/merged.js
 /apps/updatenotification/js/merged.js.map
 /apps/updatenotification/js/*.hot-update.*
