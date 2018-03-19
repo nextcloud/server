@@ -139,7 +139,7 @@ class TAR extends Archive {
 	 */
 	public function rename($source, $dest) {
 		//no proper way to delete, rename entire archive, rename file and remake archive
-		$tmp = \OCP\Files::tmpFolder();
+		$tmp = \OC::$server->getTempManager()->getTemporaryFolder();
 		$this->tar->extract($tmp);
 		rename($tmp . $source, $tmp . $dest);
 		$this->tar = null;
@@ -258,7 +258,7 @@ class TAR extends Archive {
 	 * @return bool
 	 */
 	public function extractFile($path, $dest) {
-		$tmp = \OCP\Files::tmpFolder();
+		$tmp = \OC::$server->getTempManager()->getTemporaryFolder();
 		if (!$this->fileExists($path)) {
 			return false;
 		}
@@ -323,7 +323,7 @@ class TAR extends Archive {
 		$this->fileList = false;
 		$this->cachedHeaders = false;
 		//no proper way to delete, extract entire archive, delete file and remake archive
-		$tmp = \OCP\Files::tmpFolder();
+		$tmp = \OC::$server->getTempManager()->getTemporaryFolder();
 		$this->tar->extract($tmp);
 		\OCP\Files::rmdirr($tmp . $path);
 		$this->tar = null;
@@ -346,7 +346,7 @@ class TAR extends Archive {
 		} else {
 			$ext = '';
 		}
-		$tmpFile = \OCP\Files::tmpFile($ext);
+		$tmpFile = \OC::$server->getTempManager()->getTemporaryFile($ext);
 		if ($this->fileExists($path)) {
 			$this->extractFile($path, $tmpFile);
 		} elseif ($mode == 'r' or $mode == 'rb') {

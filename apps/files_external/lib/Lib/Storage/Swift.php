@@ -428,7 +428,7 @@ class Swift extends \OC\Files\Storage\Common {
 				} else {
 					$ext = '';
 				}
-				$tmpFile = \OCP\Files::tmpFile($ext);
+				$tmpFile = \OC::$server->getTempManager()->getTemporaryFile($ext);
 				// Fetch existing file if required
 				if ($mode[0] !== 'w' && $this->file_exists($path)) {
 					if ($mode[0] === 'x') {

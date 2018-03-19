@@ -18,6 +18,6 @@ class ZIPTest extends TestBase {
 	}
 
 	protected function getNew() {
-		return new ZIP(\OCP\Files::tmpFile('.zip'));
+		return new ZIP(\OC::$server->getTempManager()->getTemporaryFile('.zip'));
 	}
 }

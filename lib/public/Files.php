@@ -89,31 +89,6 @@ class Files {
 	}
 
 	/**
-	 * Create a temporary file with an unique filename
-	 * @param string $postfix
-	 * @return string
-	 *
-	 * temporary files are automatically cleaned up after the script is finished
-	 * @deprecated 8.1.0 use getTemporaryFile() of \OCP\ITempManager - \OC::$server->getTempManager()
-	 * @since 5.0.0
-	 */
-	public static function tmpFile( $postfix='' ) {
-		return \OC::$server->getTempManager()->getTemporaryFile($postfix);
-	}
-
-	/**
-	 * Create a temporary folder with an unique filename
-	 * @return string
-	 *
-	 * temporary files are automatically cleaned up after the script is finished
-	 * @deprecated 8.1.0 use getTemporaryFolder() of \OCP\ITempManager - \OC::$server->getTempManager()
-	 * @since 5.0.0
-	 */
-	public static function tmpFolder() {
-		return \OC::$server->getTempManager()->getTemporaryFolder();
-	}
-
-	/**
 	 * Adds a suffix to the name in case the file exists
 	 * @param string $path
 	 * @param string $filename

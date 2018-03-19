@@ -332,13 +332,13 @@ class UtilTest extends \Test\TestCase {
 	}
 
 	public function testCheckDataDirectoryValidity() {
-		$dataDir = \OCP\Files::tmpFolder();
+		$dataDir = \OC::$server->getTempManager()->getTemporaryFolder();
 		touch($dataDir . '/.ocdata');
 		$errors = \OC_Util::checkDataDirectoryValidity($dataDir);
 		$this->assertEmpty($errors);
 		\OCP\Files::rmdirr($dataDir);
 
-		$dataDir = \OCP\Files::tmpFolder();
+		$dataDir = \OC::$server->getTempManager()->getTemporaryFolder();
 		// no touch
 		$errors = \OC_Util::checkDataDirectoryValidity($dataDir);
 		$this->assertNotEmpty($errors);
