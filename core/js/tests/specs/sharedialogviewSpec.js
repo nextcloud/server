@@ -1836,6 +1836,364 @@ describe('OC.Share.ShareDialogView', function() {
 			addShareStub.restore();
 		});
 	});
+	describe('confirm share', function() {
+		var addShareStub;
+		var tooltipStub;
+		var showTemporaryNotificationStub;
+
+		beforeEach(function() {
+			addShareStub = sinon.stub(shareModel, 'addShare');
+
+			tooltipStub = sinon.stub($.fn, 'tooltip').callsFake(function() {
+				return $('<div></div>');
+			});
+
+			showTemporaryNotificationStub = sinon.stub(OC.Notification, 'showTemporary');
+
+			dialog.render();
+		});
+
+		afterEach(function() {
+			addShareStub.restore();
+			tooltipStub.restore();
+			showTemporaryNotificationStub.restore();
+		});
+
+		it('sets the appropriate UI state while waiting to get the suggestions', function() {
+			expect(dialog.$el.find('.shareWithLoading').hasClass('hidden')).toEqual(true);
+			expect(dialog.$el.find('.shareWithConfirm').hasClass('hidden')).toEqual(false);
+			expect(autocompleteStub.callCount).toEqual(1);
+			expect(typeof autocompleteStub.firstCall.args[0]).toEqual('object');
+			expect(dialog.$el.find('.shareWithField').prop('disabled')).toEqual(false);
+
+			dialog.$el.find('.shareWithField').val('bob');
+
+			dialog._confirmShare();
+
+			expect(dialog.$el.find('.shareWithLoading').hasClass('hidden')).toEqual(false);
+			expect(dialog.$el.find('.shareWithConfirm').hasClass('hidden')).toEqual(true);
+			expect(dialog.$el.find('.shareWithField').prop('disabled')).toEqual(true);
+			expect(dialog.$el.find('.shareWithField').val()).toEqual('bob');
+		});
+
+		it('calls addShare with the only suggestion', function() {
+			dialog.$el.find('.shareWithField').val('bob');
+
+			dialog._confirmShare();
+
+			var jsonData = JSON.stringify({
+				'ocs': {
+					'meta': {
+						'status': 'success',
+						'statuscode': 100,
+						'message': null
+					},
+					'data': {
+						'exact': {
+							'users': [
+								{
+									'label': 'bob',
+									'value': {
+										'shareType': OC.Share.SHARE_TYPE_USER,
+										'shareWith': 'user1'
+									}
+								}
+							],
+							'groups': [],
+							'remotes': []
+						},
+						'users': [],
+						'groups': [],
+						'remotes': [],
+						'lookup': []
+					}
+				}
+			});
+			fakeServer.requests[0].respond(
+				200,
+				{'Content-Type': 'application/json'},
+				jsonData
+			);
+
+			// Ensure that the UI is not restored before adding the share
+			expect(dialog.$el.find('.shareWithLoading').hasClass('hidden')).toEqual(false);
+			expect(dialog.$el.find('.shareWithConfirm').hasClass('hidden')).toEqual(true);
+			expect(dialog.$el.find('.shareWithField').prop('disabled')).toEqual(true);
+			expect(dialog.$el.find('.shareWithField').val()).toEqual('bob');
+
+			expect(addShareStub.calledOnce).toEqual(true);
+			expect(addShareStub.firstCall.args[0]).toEqual({
+				shareType: OC.Share.SHARE_TYPE_USER,
+				shareWith: 'user1'
+			});
+
+			// "yield" and "callArg" from SinonJS can not be used, as the
+			// callback is a property not in the first argument.
+			addShareStub.firstCall.args[1]['success'].apply(shareModel);
+
+			expect(dialog.$el.find('.shareWithLoading').hasClass('hidden')).toEqual(true);
+			expect(dialog.$el.find('.shareWithConfirm').hasClass('hidden')).toEqual(false);
+			expect(dialog.$el.find('.shareWithField').prop('disabled')).toEqual(false);
+			expect(dialog.$el.find('.shareWithField').val()).toEqual('');
+		});
+
+		it('handles a failure to share', function() {
+			expect(showTemporaryNotificationStub.called).toEqual(false);
+
+			dialog.$el.find('.shareWithField').val('bob');
+
+			dialog._confirmShare();
+
+			var jsonData = JSON.stringify({
+				'ocs': {
+					'meta': {
+						'status': 'success',
+						'statuscode': 100,
+						'message': null
+					},
+					'data': {
+						'exact': {
+							'users': [
+								{
+									'label': 'bob',
+									'value': {
+										'shareType': OC.Share.SHARE_TYPE_USER,
+										'shareWith': 'user1'
+									}
+								}
+							],
+							'groups': [],
+							'remotes': []
+						},
+						'users': [],
+						'groups': [],
+						'remotes': [],
+						'lookup': []
+					}
+				}
+			});
+			fakeServer.requests[0].respond(
+				200,
+				{'Content-Type': 'application/json'},
+				jsonData
+			);
+
+			// Ensure that the UI is not restored before adding the share
+			expect(dialog.$el.find('.shareWithLoading').hasClass('hidden')).toEqual(false);
+			expect(dialog.$el.find('.shareWithConfirm').hasClass('hidden')).toEqual(true);
+			expect(dialog.$el.find('.shareWithField').prop('disabled')).toEqual(true);
+			expect(dialog.$el.find('.shareWithField').val()).toEqual('bob');
+
+			expect(addShareStub.calledOnce).toEqual(true);
+			expect(addShareStub.firstCall.args[0]).toEqual({
+				shareType: OC.Share.SHARE_TYPE_USER,
+				shareWith: 'user1'
+			});
+
+			// "yield" and "callArg" from SinonJS can not be used, as the
+			// callback is a property not in the first argument.
+			addShareStub.firstCall.args[1]['error'].apply(shareModel);
+
+			expect(dialog.$el.find('.shareWithLoading').hasClass('hidden')).toEqual(true);
+			expect(dialog.$el.find('.shareWithConfirm').hasClass('hidden')).toEqual(false);
+			expect(dialog.$el.find('.shareWithField').prop('disabled')).toEqual(false);
+			expect(dialog.$el.find('.shareWithField').val()).toEqual('bob');
+
+			expect(showTemporaryNotificationStub.calledOnce).toEqual(true);
+		});
+
+		it('restores UI if there are no matches at all', function() {
+			dialog.$el.find('.shareWithField').val('bob');
+
+			dialog._confirmShare();
+
+			var jsonData = JSON.stringify({
+				'ocs': {
+					'meta': {
+						'status': 'success',
+						'statuscode': 100,
+						'message': null
+					},
+					'data': {
+						'exact': {
+							'users': [],
+							'groups': [],
+							'remotes': []
+						},
+						'users': [],
+						'groups': [],
+						'remotes': [],
+						'lookup': []
+					}
+				}
+			});
+			fakeServer.requests[0].respond(
+				200,
+				{'Content-Type': 'application/json'},
+				jsonData
+			);
+
+			expect(addShareStub.called).toEqual(false);
+
+			expect(dialog.$el.find('.shareWithLoading').hasClass('hidden')).toEqual(true);
+			expect(dialog.$el.find('.shareWithConfirm').hasClass('hidden')).toEqual(false);
+			expect(dialog.$el.find('.shareWithField').prop('disabled')).toEqual(false);
+			expect(dialog.$el.find('.shareWithField').val()).toEqual('bob');
+
+			// No explicit tooltip is shown; it is automatically shown when the
+			// autocomplete is activated again and it finds no matches.
+			expect(tooltipStub.lastCall.args[0]).not.toEqual('show');
+		});
+
+		it('shows tooltip if there are matches but no exact matches', function() {
+			dialog.$el.find('.shareWithField').val('bo');
+
+			dialog._confirmShare();
+
+			var jsonData = JSON.stringify({
+				'ocs': {
+					'meta': {
+						'status': 'success',
+						'statuscode': 100,
+						'message': null
+					},
+					'data': {
+						'exact': {
+							'users': [],
+							'groups': [],
+							'remotes': []
+						},
+						'users': [
+							{
+								'label': 'bob',
+								'value': {
+									'shareType': OC.Share.SHARE_TYPE_USER,
+									'shareWith': 'user1'
+								}
+							}
+						],
+						'groups': [],
+						'remotes': [],
+						'lookup': []
+					}
+				}
+			});
+			fakeServer.requests[0].respond(
+				200,
+				{'Content-Type': 'application/json'},
+				jsonData
+			);
+
+			expect(addShareStub.called).toEqual(false);
+
+			expect(dialog.$el.find('.shareWithLoading').hasClass('hidden')).toEqual(true);
+			expect(dialog.$el.find('.shareWithConfirm').hasClass('hidden')).toEqual(false);
+			expect(dialog.$el.find('.shareWithField').prop('disabled')).toEqual(false);
+			expect(dialog.$el.find('.shareWithField').val()).toEqual('bo');
+		});
+
+		it('shows tooltip if there is more than one exact match', function() {
+			dialog.$el.find('.shareWithField').val('bob');
+
+			dialog._confirmShare();
+
+			var jsonData = JSON.stringify({
+				'ocs': {
+					'meta': {
+						'status': 'success',
+						'statuscode': 100,
+						'message': null
+					},
+					'data': {
+						'exact': {
+							'users': [
+								{
+									'label': 'bob',
+									'value': {
+										'shareType': OC.Share.SHARE_TYPE_USER,
+										'shareWith': 'user1'
+									}
+								}
+							],
+							'groups': [
+								{
+									'label': 'bob',
+									'value': {
+										'shareType': OC.Share.SHARE_TYPE_GROUP,
+										'shareWith': 'group1'
+									}
+								}
+							],
+							'remotes': []
+						},
+						'users': [],
+						'groups': [],
+						'remotes': [],
+						'lookup': []
+					}
+				}
+			});
+			fakeServer.requests[0].respond(
+				200,
+				{'Content-Type': 'application/json'},
+				jsonData
+			);
+
+			expect(addShareStub.called).toEqual(false);
+
+			expect(dialog.$el.find('.shareWithLoading').hasClass('hidden')).toEqual(true);
+			expect(dialog.$el.find('.shareWithConfirm').hasClass('hidden')).toEqual(false);
+			expect(dialog.$el.find('.shareWithField').prop('disabled')).toEqual(false);
+			expect(dialog.$el.find('.shareWithField').val()).toEqual('bob');
+		});
+
+		it('throws a notification for a successful ajax call with failure content', function () {
+			dialog.$el.find('.shareWithField').val('bob');
+
+			dialog._confirmShare();
+
+			var jsonData = JSON.stringify({
+				'ocs' : {
+					'meta' : {
+						'status': 'failure',
+						'statuscode': 400,
+						'message': 'error message'
+					}
+				}
+			});
+			fakeServer.requests[0].respond(
+					200,
+					{'Content-Type': 'application/json'},
+					jsonData
+			);
+
+			expect(addShareStub.called).toEqual(false);
+
+			expect(dialog.$el.find('.shareWithLoading').hasClass('hidden')).toEqual(true);
+			expect(dialog.$el.find('.shareWithConfirm').hasClass('hidden')).toEqual(false);
+			expect(dialog.$el.find('.shareWithField').prop('disabled')).toEqual(false);
+			expect(dialog.$el.find('.shareWithField').val()).toEqual('bob');
+
+			expect(showTemporaryNotificationStub.called).toEqual(false);
+		});
+
+		it('throws a notification when the ajax search lookup fails', function () {
+			dialog.$el.find('.shareWithField').val('bob');
+
+			dialog._confirmShare();
+
+			fakeServer.requests[0].respond(500);
+
+			expect(addShareStub.called).toEqual(false);
+
+			expect(dialog.$el.find('.shareWithLoading').hasClass('hidden')).toEqual(true);
+			expect(dialog.$el.find('.shareWithConfirm').hasClass('hidden')).toEqual(false);
+			expect(dialog.$el.find('.shareWithField').prop('disabled')).toEqual(false);
+			expect(dialog.$el.find('.shareWithField').val()).toEqual('bob');
+
+			expect(showTemporaryNotificationStub.called).toEqual(false);
+		});
+	});
 	describe('reshare permissions', function() {
 		it('does not show sharing options when sharing not allowed', function() {
 			shareModel.set({

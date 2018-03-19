@@ -67,7 +67,8 @@
 
 		events: {
 			'focus .shareWithField': 'onShareWithFieldFocus',
-			'input .shareWithField': 'onShareWithFieldChanged'
+			'input .shareWithField': 'onShareWithFieldChanged',
+			'click .shareWithConfirm': '_confirmShare'
 		},
 
 		initialize: function(options) {
@@ -436,6 +437,93 @@
 					.removeClass('inlineblock');
 				$confirm.removeClass('hidden');
 			}});
+		},
+
+		_confirmShare: function() {
+			var self = this;
+			var $shareWithField = $('.shareWithField');
+			var $loading = this.$el.find('.shareWithLoading');
+			var $confirm = this.$el.find('.shareWithConfirm');
+
+			$loading.removeClass('hidden');
+			$loading.addClass('inlineblock');
+			$confirm.addClass('hidden');
+
+			$shareWithField.prop('disabled', true);
+
+			var perPage = 200;
+			var onlyExactMatches = true;
+			this._getSuggestions(
+				$shareWithField.val(),
+				perPage,
+				this.model,
+				onlyExactMatches
+			).done(function(suggestions, exactMatches) {
+				if (suggestions.length === 0) {
+					$loading.addClass('hidden');
+					$loading.removeClass('inlineblock');
+					$confirm.removeClass('hidden');
+
+					$shareWithField.prop('disabled', false);
+					$shareWithField.focus();
+
+					// There is no need to show an error message here; it will
+					// be automatically shown when the autocomplete is activated
+					// again (due to the focus on the field) and it finds no
+					// matches.
+
+					return;
+				}
+
+				if (exactMatches.length !== 1) {
+					$loading.addClass('hidden');
+					$loading.removeClass('inlineblock');
+					$confirm.removeClass('hidden');
+
+					$shareWithField.prop('disabled', false);
+					$shareWithField.focus();
+
+					return;
+				}
+
+				var actionSuccess = function() {
+					$loading.addClass('hidden');
+					$loading.removeClass('inlineblock');
+					$confirm.removeClass('hidden');
+
+					$shareWithField.val('');
+					$shareWithField.prop('disabled', false);
+					$shareWithField.focus();
+				};
+
+				var actionError = function(obj, msg) {
+					$loading.addClass('hidden');
+					$loading.removeClass('inlineblock');
+					$confirm.removeClass('hidden');
+
+					$shareWithField.prop('disabled', false);
+					$shareWithField.focus();
+
+					OC.Notification.showTemporary(msg);
+				};
+
+				self.model.addShare(exactMatches[0].value, {
+					success: actionSuccess,
+					error: actionError
+				});
+			}).fail(function(message) {
+				$loading.addClass('hidden');
+				$loading.removeClass('inlineblock');
+				$confirm.removeClass('hidden');
+
+				$shareWithField.prop('disabled', false);
+				$shareWithField.focus();
+
+				// There is no need to show an error message here; it will be
+				// automatically shown when the autocomplete is activated again
+				// (due to the focus on the field) and getting the suggestions
+				// fail.
+			});
 		},
 
 		_toggleLoading: function(state) {
