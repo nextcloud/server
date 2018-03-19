@@ -112,21 +112,6 @@ class OC_JSON{
 	}
 
 	/**
-	 * Check is a given user exists - send json error msg if not
-	 * @param string $user
-	 * @deprecated Use a AppFramework JSONResponse instead
-	 * @suppress PhanDeprecatedFunction
-	 */
-	public static function checkUserExists($user) {
-		if (!\OC::$server->getUserManager()->userExists($user)) {
-			$l = \OC::$server->getL10N('lib');
-			OCP\JSON::error(array('data' => array('message' => $l->t('Unknown user'), 'error' => 'unknown_user' )));
-			exit;
-		}
-	}
-
-
-	/**
 	 * Check if the user is a subadmin, send json error msg if not
 	 * @deprecated Use annotation based ACLs from the AppFramework instead
 	 * @suppress PhanDeprecatedFunction
